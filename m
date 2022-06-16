@@ -4,135 +4,134 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0BA8C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jun 2022 10:29:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06801C43334
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jun 2022 12:42:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
 	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
 	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=PeyUtqdx+y3aUFcAHiPZOAT0rWZohdyPt4V0xngM98M=; b=VmDgtOKp7ExGMN
-	0VEuDsxhCTE4oL7gt1QqC6peiNClPaAKOEw04IrnGy0yBW6E2JI85/6N8V83Pcj8HpmBR15MQmdNy
-	uyIivzaMnrVwIyDW343rGXHPF4KNfO79WGlIw1kT0tnOf3LTXABWwDkxElx6Czc0xhpaanIACvo9W
-	xHlY9ditIAI7mqNQCVuujYI7PsRDTbf3mk4tySY4+eIUAXGrK1OR18+yXpyVreEGEaNbLUCq0sa2/
-	/g2D6/4I1A9CKLypJWMsIv4Pa7E4lJ9LtP8rfJL7Bxcmaa398FQnfcwmiuOJsltkCdxYuXAr3Rh0M
-	TQTCP4ns68E/VwjKMbWw==;
+	List-Owner; bh=EKUY+sbN+QPb8jCu1lPBEVQGf66ETF7YiEyh0r6NbGA=; b=VuzNO4bVyid8FW
+	bvkDEtVPs4dN8xHZ+u4/+eu4c/XCTzpIDRl02tU/NkSlIOJIGLm1gJDeSbIAv5aFPktXJLjnKn17U
+	CGo5ZwE1ng/h7YX/NEdCVwi9U9COlhuiEo9axAFuDuQn0xIOKdRTcrYfKNLm5n5/RaG/LWrJfe9Qx
+	OSRJcmDDcV0nv5FgljUenYuGO7q+l4GdD2/IWI7ZlvwZwkJMuXAYbIPeXGzrAng4YtETSDesSnG60
+	KQRAH6oXVsruzaRgJ5dPvTycrT6HDS1e1RBGkhjA7I8zXiqU32puMw5A/QwiVspZbKS7KnZ6ikwKY
+	5Y4e1ZoreJ/SQusZWyfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o1mkH-001sXP-7i; Thu, 16 Jun 2022 10:29:01 +0000
+	id 1o1opj-002K1w-B4; Thu, 16 Jun 2022 12:42:47 +0000
 Received: from mailout2.w1.samsung.com ([210.118.77.12])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o1mkD-001sW8-LO
-	for linux-nvme@lists.infradead.org; Thu, 16 Jun 2022 10:28:59 +0000
+	id 1o1opf-002Jzj-94
+	for linux-nvme@lists.infradead.org; Thu, 16 Jun 2022 12:42:46 +0000
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20220616102854euoutp0231ea7bd7bad412c7255d5147d188b6af~5ExigJooi2067220672euoutp02j
-	for <linux-nvme@lists.infradead.org>; Thu, 16 Jun 2022 10:28:54 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20220616102854euoutp0231ea7bd7bad412c7255d5147d188b6af~5ExigJooi2067220672euoutp02j
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20220616122443euoutp0283d1420db2916a4ee0f5d8270ffafbb3~5GWqE2k1m1581215812euoutp029
+	for <linux-nvme@lists.infradead.org>; Thu, 16 Jun 2022 12:24:43 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20220616122443euoutp0283d1420db2916a4ee0f5d8270ffafbb3~5GWqE2k1m1581215812euoutp029
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1655375334;
-	bh=PeyUtqdx+y3aUFcAHiPZOAT0rWZohdyPt4V0xngM98M=;
+	s=mail20170921; t=1655382283;
+	bh=EKUY+sbN+QPb8jCu1lPBEVQGf66ETF7YiEyh0r6NbGA=;
 	h=Date:Subject:To:CC:From:In-Reply-To:References:From;
-	b=M36uwlQ7b9i14CE3O4o4pnN0UH2w4xAKlP5wuabyFZW847WE8L019Kdbt5boRTVJ1
-	 ACTfZoL4Yr2PyaemwZCdTJcmXw3cF+o4p/lwZddtoZj0qYu3JjoGT+K7g0d53+jiBI
-	 fxZsMMsnivgskWcGnWkXVGz8YDUrjRTe98jBrb24=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+	b=JolLYBxCavfmJJP3a9g833yTGgBJtyu0JRBu1yXDS1cTnAPyLmsts6IGglMCuesM9
+	 NCpBejRZnHmycvDzVtCtByHVSXAF7me20PB23lPNE6CkEpWwgSUmMN51mvSLc3UUe9
+	 3q7/GSkOBGzN8WCcNRdL4RqvPLJAsJiWZ4kmdgL4=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
 	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20220616102854eucas1p28d84911385a41f5d0c5b61050ff913f3~5ExiMhGOf1431814318eucas1p24;
-	Thu, 16 Jun 2022 10:28:54 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges2new.samsung.com (EUCPMTA) with SMTP id 5D.CE.10067.6E50BA26; Thu, 16
-	Jun 2022 11:28:54 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20220616102853eucas1p14f7747a8a646b23d68310ba45e0e4bed~5ExhxAD3R1626416264eucas1p1f;
-	Thu, 16 Jun 2022 10:28:53 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20220616102853eusmtrp2e56ce9309829d1d15872a0fef861251a~5Exhv54v-1339413394eusmtrp2h;
-	Thu, 16 Jun 2022 10:28:53 +0000 (GMT)
-X-AuditID: cbfec7f4-dc1ff70000002753-e7-62ab05e6f479
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-	eusmgms1.samsung.com (EUCPMTA) with SMTP id E3.A8.09095.5E50BA26; Thu, 16
-	Jun 2022 11:28:53 +0100 (BST)
+	20220616122442eucas1p2bbd7a238ca1a7768e7bfd4f18850cbba~5GWplods81908019080eucas1p2O;
+	Thu, 16 Jun 2022 12:24:42 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+	eusmges1new.samsung.com (EUCPMTA) with SMTP id 08.B2.09664.A012BA26; Thu, 16
+	Jun 2022 13:24:42 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20220616122442eucas1p26a573d308772fd7c73d557fa46f91bdd~5GWpB-7160887408874eucas1p2D;
+	Thu, 16 Jun 2022 12:24:42 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20220616122442eusmtrp1ab6bc56c7b66c61af921bd62d07ef4b9~5GWpBKVwp2243722437eusmtrp1I;
+	Thu, 16 Jun 2022 12:24:42 +0000 (GMT)
+X-AuditID: cbfec7f2-d81ff700000025c0-01-62ab210ab293
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms2.samsung.com (EUCPMTA) with SMTP id AB.A4.09038.A012BA26; Thu, 16
+	Jun 2022 13:24:42 +0100 (BST)
 Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20220616102853eusmtip1b59df1eccc24e951d0f3918da805ea15~5Exhk_UlM3259832598eusmtip1O;
-	Thu, 16 Jun 2022 10:28:53 +0000 (GMT)
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20220616122442eusmtip2e36f8489d73ae998c241ba901b2f3d6b~5GWo21PBF2951229512eusmtip2_;
+	Thu, 16 Jun 2022 12:24:42 +0000 (GMT)
 Received: from [192.168.1.12] (106.210.248.244) by CAMSVWEXC01.scsc.local
 	(2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Thu, 16 Jun 2022 11:28:46 +0100
-Message-ID: <92c922ed-cc04-6e55-9c12-81a43332b318@samsung.com>
-Date: Thu, 16 Jun 2022 12:28:44 +0200
+	Thu, 16 Jun 2022 13:24:36 +0100
+Message-ID: <8d8501e8-9e39-8b02-d248-48f778a95d96@samsung.com>
+Date: Thu, 16 Jun 2022 14:24:33 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
 	Thunderbird/91.9.1
-Subject: Re: [PATCH v7 13/13] dm: add non power of 2 zoned target
+Subject: Re: [dm-devel] [PATCH v7 12/13] dm: call dm_zone_endio after the
+ target endio callback for zoned devices
 Content-Language: en-US
-To: Randy Dunlap <rdunlap@infradead.org>, <hch@lst.de>,
-	<snitzer@redhat.com>, <damien.lemoal@opensource.wdc.com>, <axboe@kernel.dk>
-CC: <bvanassche@acm.org>, <linux-kernel@vger.kernel.org>,
-	<jiangbo.365@bytedance.com>, <hare@suse.de>, <pankydev8@gmail.com>,
-	<dm-devel@redhat.com>, <jonathan.derrick@linux.dev>, <gost.dev@samsung.com>,
-	<dsterba@suse.com>, <jaegeuk@kernel.org>, <linux-nvme@lists.infradead.org>,
-	<Johannes.Thumshirn@wdc.com>, <linux-block@vger.kernel.org>, Damien Le Moal
-	<damien.lemoal@wdc.com>
+To: Damien Le Moal <damien.lemoal@opensource.wdc.com>, <hch@lst.de>,
+	<snitzer@redhat.com>, <axboe@kernel.dk>
+CC: <bvanassche@acm.org>, <pankydev8@gmail.com>, <gost.dev@samsung.com>,
+	<jiangbo.365@bytedance.com>, <linux-nvme@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <linux-block@vger.kernel.org>,
+	<dm-devel@redhat.com>, <jonathan.derrick@linux.dev>,
+	<Johannes.Thumshirn@wdc.com>, <dsterba@suse.com>, <jaegeuk@kernel.org>
 From: Pankaj Raghav <p.raghav@samsung.com>
-In-Reply-To: <0480d917-94e5-20ab-514c-bb1374a8d9c4@infradead.org>
+In-Reply-To: <f7b586a3-5370-f3b9-72dc-f9bea0b63f1f@opensource.wdc.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [106.210.248.244]
 X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
 	CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpgk+LIzCtJLcpLzFFi42LZduznOd1nrKuTDC78Z7VYfbefzWLah5/M
-	Fr/Pnme2aG3/xmSx991sVosLPxqZLPYsmsRksXL1USaLJ+tnMVv0HPjAYvG36x5QrOUhs8Xe
-	W9oWl3fNYbOYv+wpu8Wam09ZLN7emc5i0bbxK6ODkMflK94e/06sYfPYOesuu8fmFVoel8+W
-	emxa1cnmsbBhKrPH5iX1HrtvNgDlW++zerzfd5XNY/2Wqywem09Xe3zeJOfRfqCbKYA/issm
-	JTUnsyy1SN8ugSvj46lHzAWNvBVrpz9mamDcx9nFyMkhIWAi8WrLMaYuRi4OIYEVjBI3rlyF
-	cr4wStw8vR7K+cwo8WTrbSCHA6zl10ptiPhyRommL3cQim5tf8EM4exilJh3/i0zSAevgJ3E
-	jcn2IPtYBFQlJj//wgxi8woISpyc+YQFxBYViJBY2fqGBaRcWMBRoulEEkiYWUBc4taT+WDz
-	RQRaGYHqb7CAOMwCLcwSXfsfgs1nE9CSaOxkB2ngBOq91NXFCNGsKdG6/Tc7hC0vsf3tHGaI
-	B5Ql/u1khni/VmLtsTPsEPZMLompTfkQtovErmnnWCFsYYlXx7dA1chI/N8Jcg+IXS3x9MZv
-	sHclBFoYJfp3rmeDmG8t0XcmB6LGUWJVyxNGiDCfxI23ghDX8ElM2jadeQKj6iykgJiF5ONZ
-	SB6YheSBBYwsqxjFU0uLc9NTi43yUsv1ihNzi0vz0vWS83M3MQIT6el/x7/sYFz+6qPeIUYm
-	DsZDjBIczEoivGbBK5OEeFMSK6tSi/Lji0pzUosPMUpzsCiJ8yZnbkgUEkhPLEnNTk0tSC2C
-	yTJxcEo1MBXMO/v1jbl2bt31FxM2rJE9s0jl4VOrSYcvtfEnxIeIyq5h3qW3/F2zvmvslW+/
-	/a5f253skZMo5MlbLVeyWWn+Ee7SQ4cuLraVe1H+aFt+2beTdVMfP3D2Mr044SsDo3i0KO+C
-	228EdJvPsjXHX5y44eX6V6aqUQ4Ptuz3WF12I3Aea2JR5yQtpvubS6vCvHLz+pa+qbMP+OBw
-	YrLGT84Jeb86l6samJXLbzt89lze6XeNie/qPnnqFPFPOVKXsFPpezP7lsXGS8/vydjYs+fl
-	uxJp88XPi/YvzMifbcvDKFczPXP/yqs/72zV/lAyx3LKhe5TP/ddEKk0cuHV1/sgv7BlraDR
-	/blskeeXHbVQYinOSDTUYi4qTgQAWSLBrBMEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrCKsWRmVeSWpSXmKPExsVy+t/xu7pPWVcnGaxdpGax+m4/m8W0Dz+Z
-	LX6fPc9s0dr+jcli77vZrBYXfjQyWexZNInJYuXqo0wWT9bPYrboOfCBxeJv1z2gWMtDZou9
-	t7QtLu+aw2Yxf9lTdos1N5+yWLy9M53Fom3jV0YHIY/LV7w9/p1Yw+axc9Zddo/NK7Q8Lp8t
-	9di0qpPNY2HDVGaPzUvqPXbfbADKt95n9Xi/7yqbx/otV1k8Np+u9vi8Sc6j/UA3UwB/lJ5N
-	UX5pSapCRn5xia1StKGFkZ6hpYWekYmlnqGxeayVkamSvp1NSmpOZllqkb5dgl7Gx1OPmAsa
-	eSvWTn/M1MC4j7OLkYNDQsBE4tdK7S5GLg4hgaWMEhtPnmXrYuQEistIfLrykR3CFpb4c60L
-	LC4k8JFR4s9Bcwh7F6PE7LMFIHN4Bewkbky2BwmzCKhKTH7+hRnE5hUQlDg58wkLiC0qECHx
-	adkEVpByYQFHiaYTSSBhZgFxiVtP5jOBnCAi0Moo8WbbLRYQh1mghVmia/9DZojjvjNKXHyz
-	lQWkm01AS6KxE+w2TqBBl7q6GCEmaUq0bv/NDmHLS2x/O4cZ4kdliX87mSFeqZV4dX834wRG
-	0VlIzpuF5I5ZSCbNQjJpASPLKkaR1NLi3PTcYkO94sTc4tK8dL3k/NxNjMDks+3Yz807GOe9
-	+qh3iJGJg/EQowQHs5IIr1nwyiQh3pTEyqrUovz4otKc1OJDjKbAMJrILCWanA9Mf3kl8YZm
-	BqaGJmaWBqaWZsZK4ryeBR2JQgLpiSWp2ampBalFMH1MHJxSDUwruv15P3nP+Fga9/n0piq5
-	d0yLv9ntkeDIX833rIrZjuGTKJfJPut3r5ju5Ijbn7gqM3Vl7hTm8iXhb+3fsa+xKs4IiWjY
-	fvntrsRLK8zvHJV3WLW28Oiun4/fX98dLn9L6urtJI+e8wbRdtNZN/y4l3ljjdXMGRw69+w3
-	9AaUW28zSPI6oXNJ4O5aofNT4xJqdsvvUH5tPvHhPOEjov4MYl9PB6571rO5ZVvEH6ktZ5Z8
-	PF3+3M6k9gnzDCvDPxMKFt60eR3qKVzA3vTzSNCLTcrNEndCufR3hd9KShHo6r7zYul9/sL/
-	8R9qKyZ9yZtzcNsWDoWXCz/pRQUsW2Tfkz5ZbUffnn5O38U5QYqflFiKMxINtZiLihMBLOYv
-	9McDAAA=
-X-CMS-MailID: 20220616102853eucas1p14f7747a8a646b23d68310ba45e0e4bed
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJKsWRmVeSWpSXmKPExsWy7djP87pciquTDHb/VLdYfbefzWLah5/M
+	Fr/Pnme22PtuNqvFhR+NTBYrVx9lsniyfhazRc+BDywWf7vuAcVaHgKV3NK2uLxrDpvF/GVP
+	2S3W3HzKYtG28SujA7/H5SveHv9OrGHz2DnrLrvH5bOlHptWdbJ5LGyYyuyxeUm9x+6bDUC5
+	1vusHu/3XWXzWL/lKovH501yHu0HupkCeKO4bFJSczLLUov07RK4Mlpm7GMreCFasWeXbwPj
+	ZcEuRk4OCQETiVm7pzB2MXJxCAmsYJS4uPAhE4TzhVFi5+/nUJnPjBKPTpxjgmk5tvEPG0Ri
+	OaPEv4XX2OGqPi/YAtWyi1HiW9NqZpAWXgE7iR19vxlBbBYBVYnOVx+ZIOKCEidnPmEBsUUF
+	IiRWtr4Bs4UFiiV6LkwE62UWEJe49WQ+UD0Hh4hAnsS8f0kg85kFTjFJPD36lh0kziagJdHY
+	yQ5SzingJnHt5Ud2iFZNidbtv6FseYntb+cwg5RLCChL/NvJDPFMrcTaY2fA7pcQeMcp8fTt
+	IiaIGheJV28UIGqEJV4d38IOYctInJ7cwwJhV0s8vfGbGaK3hVGif+d6Nohea4m+MzkQNY4S
+	C0/2Qq3lk7jxVhDiGj6JSdumM09gVJ2FFA6zkPw7C8kDs5A8sICRZRWjeGppcW56arFhXmq5
+	XnFibnFpXrpecn7uJkZgajz97/inHYxzX33UO8TIxMF4iFGCg1lJhNcseGWSEG9KYmVValF+
+	fFFpTmrxIUZpDhYlcd7kzA2JQgLpiSWp2ampBalFMFkmDk6pBiaeb1MnGPTudN2pMO9gSvOq
+	Aq/1y46tCzVrfTe/Iu3nhoY1Hc4hzmXGCYw/f/he/9P9Wqxl+wuZh+a+Dx3//8u6nBl1VlTN
+	KruDse6e739/Aw4W96WKl65avJsS+nHqXLsc5aDFhy5r7awuaJ9pdE7MPm3iH4NjzB62v4p5
+	aiI0I12iwrLnFWU7T1nTJfbt/qWKeGWbePegnUuu82fOebdqSwN/7w3FeQckxOxnch7+GzQp
+	8ZxjqALrhTn2G3dzVd7TLFOesFjF1dB0b3cL06GQ5dFVl+R9pI3/TdzW3eAU+PPWadcnbXdW
+	RiRHhXx5Kx683TxYfXodz6T1YgWbJaKXiK26+JvxJN+Hb1N/v1RiKc5INNRiLipOBABFTMq6
+	/AMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprHKsWRmVeSWpSXmKPExsVy+t/xe7pciquTDN4dZ7NYfbefzWLah5/M
+	Fr/Pnme22PtuNqvFhR+NTBYrVx9lsniyfhazRc+BDywWf7vuAcVaHgKV3NK2uLxrDpvF/GVP
+	2S3W3HzKYtG28SujA7/H5SveHv9OrGHz2DnrLrvH5bOlHptWdbJ5LGyYyuyxeUm9x+6bDUC5
+	1vusHu/3XWXzWL/lKovH501yHu0HupkCeKP0bIryS0tSFTLyi0tslaINLYz0DC0t9IxMLPUM
+	jc1jrYxMlfTtbFJSczLLUov07RL0Mlpm7GMreCFasWeXbwPjZcEuRk4OCQETiWMb/7B1MXJx
+	CAksZZSY136XBSIhI/Hpykd2CFtY4s+1LjYQW0jgI6PEto+GEA27GCWuHj7FBJLgFbCT2NH3
+	mxHEZhFQleh89REqLihxcuYTsKGiAhESn5ZNYAWxhQWKJXouTGQGsZkFxCVuPZkPVM/BISKQ
+	JzHvXxLIfGaBU0wST4++ZYdY9odR4sapaawgRWwCWhKNnWDHcQq4SVx7CXEos4CmROv231C2
+	vMT2t3OYQcolBJQl/u1khvilVuLV/d2MExhFZyG5bhaSK2YhmTQLyaQFjCyrGEVSS4tz03OL
+	jfSKE3OLS/PS9ZLzczcxAhPKtmM/t+xgXPnqo94hRiYOxkOMEhzMSiK8ZsErk4R4UxIrq1KL
+	8uOLSnNSiw8xmgKDaCKzlGhyPjCl5ZXEG5oZmBqamFkamFqaGSuJ83oWdCQKCaQnlqRmp6YW
+	pBbB9DFxcEo1MK2PtohSPKWw8J/fguMHhVXbRIJS/j8Xcqv5ruFy/urqHXIB7iu+PDHer3P2
+	oteSydp/IlqkJLgcIhbYvHp9dlH1Jua+eq/YhWabX4iyL1t/61b5HWdHzoNvDvWvPhtoqj6p
+	qNRN3pn/xaLd1SouaTZmSy+fuG6ltHZpnYHantWz4pQLgv00rurP5nV6av3c5HOck9Pnxeuu
+	a3ldmWF4lYsrIW3+vhbevoOiRRPSvjw7/Fj0dPlFyZSeZiP/HyZS7PWrAy993iRcxn/7WOl3
+	z9QVNWtYTPzeam5XWHYm4XOBwnkOkX82cff2nDLj+CyVuy3/qK5e8YND+TLtk5//PPO7T0nA
+	8jl/Wrus8pruLiWW4oxEQy3mouJEAHE+01yxAwAA
+X-CMS-MailID: 20220616122442eucas1p26a573d308772fd7c73d557fa46f91bdd
 X-Msg-Generator: CA
-X-RootMTR: 20220615102011eucas1p220368db4a186181b1927dea50a79e5d4
+X-RootMTR: 20220615102007eucas1p1106f9520e2a86beb3792107dffd8071b
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20220615102011eucas1p220368db4a186181b1927dea50a79e5d4
+X-CMS-RootMailID: 20220615102007eucas1p1106f9520e2a86beb3792107dffd8071b
 References: <20220615101920.329421-1-p.raghav@samsung.com>
-	<CGME20220615102011eucas1p220368db4a186181b1927dea50a79e5d4@eucas1p2.samsung.com>
-	<20220615101920.329421-14-p.raghav@samsung.com>
-	<0480d917-94e5-20ab-514c-bb1374a8d9c4@infradead.org>
+	<CGME20220615102007eucas1p1106f9520e2a86beb3792107dffd8071b@eucas1p1.samsung.com>
+	<20220615101920.329421-13-p.raghav@samsung.com>
+	<f7b586a3-5370-f3b9-72dc-f9bea0b63f1f@opensource.wdc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220616_032858_175555_F05513CD 
-X-CRM114-Status: GOOD (  16.51  )
+X-CRM114-CacheID: sfid-20220616_054244_597750_07FFE295 
+X-CRM114-Status: GOOD (  23.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -147,60 +146,75 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2022-06-15 21:54, Randy Dunlap wrote:
-> Hi--
-> 
-> On 6/15/22 03:19, Pankaj Raghav wrote:
-> 
->> ---
->>  drivers/md/Kconfig                |   9 +
->>  drivers/md/Makefile               |   2 +
->>  drivers/md/dm-zone.c              |   9 +
->>  drivers/md/dm-zoned-npo2-target.c | 268 ++++++++++++++++++++++++++++++
->>  4 files changed, 288 insertions(+)
->>  create mode 100644 drivers/md/dm-zoned-npo2-target.c
+On 2022-06-15 13:01, Damien Le Moal wrote:
+> On 6/15/22 19:19, Pankaj Raghav wrote:
+>> dm_zone_endio() updates the bi_sector of orig bio for zoned devices that
+>> uses either native append or append emulation and it is called before the
+>> endio of the target. But target endio can still update the clone bio
+>> after dm_zone_endio is called, thereby, the orig bio does not contain
+>> the updated information anymore. Call dm_zone_endio for zoned devices
+>> after calling the target's endio function
 >>
->> diff --git a/drivers/md/Kconfig b/drivers/md/Kconfig
->> index 998a5cfdb..773314536 100644
->> --- a/drivers/md/Kconfig
->> +++ b/drivers/md/Kconfig
->> @@ -518,6 +518,15 @@ config DM_FLAKEY
->>  	help
->>  	 A target that intermittently fails I/O for debugging purposes.
+>> Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+>> ---
+>> @Damien and @Hannes: I couldn't come up with a testcase that uses endio callback and
+>> zone append or append emulation for zoned devices to test for
+>> regression in this change. It would be great if you can suggest
+>> something. This change is required for the npo2 target as we update the
+>> clone bio sector in the endio callback function and the orig bio should
+>> be updated only after the endio callback for zone appends.
+> 
+> Running zonefs tests on top of dm-crypt will exercise DM zone append
+> emulation.
+> 
+Thanks. However, I am facing issues creating a dm-crypt target with a
+zoned device. Steps:
+- cryptsetup luksFormat <zns-device>
+
+is throwing a bunch of IO errors with the following error message:
+Device wipe error, offset 32768.
+Cannot wipe header on device <zns-device>.
+
+I can observe the same behavior in both v5.18 and next-20220615 with
+cryptsetup 2.4.3.The same step is working correctly on a normal NVMe device.
+Am I doing something wrong?
+ZNS info: zsze 128M and zcap 128M with 50 zones
+>>
+>>  drivers/md/dm.c | 8 ++++----
+>>  1 file changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/md/dm.c b/drivers/md/dm.c
+>> index 3f17fe1de..3a74e1038 100644
+>> --- a/drivers/md/dm.c
+>> +++ b/drivers/md/dm.c
+>> @@ -1025,10 +1025,6 @@ static void clone_endio(struct bio *bio)
+>>  			disable_write_zeroes(md);
+>>  	}
 >>  
->> +config DM_ZONED_NPO2
->> +	tristate "Zoned non power of 2 target"
+>> -	if (static_branch_unlikely(&zoned_enabled) &&
+>> -	    unlikely(blk_queue_is_zoned(bdev_get_queue(bio->bi_bdev))))
+>> -		dm_zone_endio(io, bio);
+>> -
+>>  	if (endio) {
+>>  		int r = endio(ti, bio, &error);
+>>  		switch (r) {
+>> @@ -1057,6 +1053,10 @@ static void clone_endio(struct bio *bio)
+>>  		}
+>>  	}
+>>  
+>> +	if (static_branch_unlikely(&zoned_enabled) &&
+>> +	    unlikely(blk_queue_is_zoned(bdev_get_queue(bio->bi_bdev))))
 > 
-> 	         "Zoned non-power-of-2 target"
+> blk_queue_is_zoned(bdev_get_queue(bio->bi_bdev))) ->
+> bdev_is_zoned(bio->bi_bdev)
 > 
->> +	depends on BLK_DEV_DM
->> +	depends on BLK_DEV_ZONED
->> +	help
->> +	A target that converts a zoned device with non power of 2 zone size to
-> 
-> 	                                           non-power-of-2 zone size to
-> 
->> +	be power of 2. This is done by introducing gaps in between the zone
->> +	capacity and the power of 2 zone size.
-> 
-> All help text should be indented with one tab and 2 spaces
-> according to Documentation/process/coding-style.rst.
-> 
+Ok. Even though I just moved the statements, I think this is trivial
+enough to take it along.
+>> +		dm_zone_endio(io, bio);
 >> +
->>  config DM_VERITY
->>  	tristate "Verity target support"
->>  	depends on BLK_DEV_DM
+>>  	if (static_branch_unlikely(&swap_bios_enabled) &&
+>>  	    unlikely(swap_bios_limit(ti, bio)))
+>>  		up(&md->swap_bios_semaphore);
 > 
-> [snip]
 > 
->> +
->> +MODULE_DESCRIPTION(DM_NAME " non power 2 zoned target");
-> 
->                                 non-power-of-2
-> 
->> +MODULE_AUTHOR("Pankaj Raghav <p.raghav@samsung.com>");
->> +MODULE_LICENSE("GPL");
->> +
-> 
-Thanks Randy. Fixed.
 
