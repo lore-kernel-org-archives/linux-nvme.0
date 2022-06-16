@@ -4,62 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5E5ABC433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jun 2022 23:31:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 548ABC43334
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jun 2022 23:34:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3JUll1cokzNoMWjmBVYm6Y8IVuyZM8XJyZI/cVxZcV0=; b=PTJkBLMatBW8v4eDk+0qOn7saR
-	pzs6jkGIErIybg+YOmL4Q9nsvpv6OGiOXMmC8OxCvfvBLbXbM7w9muTBMiXrRXonrqUJX1SwmmrUQ
-	CN5bUhs0L03Gg2KjfiFTzYd4MxteGtjRoz0/fkwDMleacD1IIxgO1MKLrbG3Dd+Ckgw53Z2It9Dcq
-	fuoNZxknt+mDAfcCnRBbMzqYyiI5MXQbPSavc2Dt+e6+4cr9wAukursHmvsVkwm63SXpcbOagBT48
-	FIKaeCa7Buu8yi4bjZhubhDmuu+oypGtOUmXyzLuFEm5sYqbJ5xOQIIu3tPNQvT9hGLqwaivOvA+o
-	dm12cSvQ==;
+	bh=B6pQ04MxGOEoYL74lS9TaHed/5YozFxjIO3/Bq61Jmo=; b=44Av+/5TuBP6q81db5HQDay8Zy
+	RL6O2T+0grw/p9fy2s4y+RhMepBJahQ0s0EQDnCRcu8BDl1O0Vd9OaML2//Pl7H/vqa3G3560/2Fc
+	NlrWE9onjsdxdFhK70tzHXdUAV2nocJinvMU37U9ATloLHTyCre5XhciyEr/IODxBy3JXcqBgluTO
+	+sKK++KHdptOkwsgfLKBmB24u5X0Bjf+19QRmuU61y9G8BHNmaSIfmDvk7G8MRPg8Ety7MSuZTURJ
+	UpbZHkDmpWRsvlzlXFeEr+DA5ElB//S5wT8C76+41E678QeAHSw4W5S2BCqNwKkgI/TX0CePLYvPp
+	TjFK1KQg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o1yx2-004kyO-Te; Thu, 16 Jun 2022 23:31:00 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1o1yzz-004lMr-Bq; Thu, 16 Jun 2022 23:34:03 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o1ywz-004kw3-Gk
-	for linux-nvme@lists.infradead.org; Thu, 16 Jun 2022 23:30:59 +0000
+	id 1o1yzw-004lM1-Lw
+	for linux-nvme@lists.infradead.org; Thu, 16 Jun 2022 23:34:02 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1655422255; x=1686958255;
+  t=1655422439; x=1686958439;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=3JUll1cokzNoMWjmBVYm6Y8IVuyZM8XJyZI/cVxZcV0=;
-  b=XKGnYG5VrwAaT03G9zbNtCm1ZvqsU9DfG9ipBu4CAQzGYdy68Wqsty8l
-   07IPVF/yM2/TaTE2lFXs+jicEq3omPmKGTwrKogCOKH/8wOvDC+B3T/mA
-   V+7iwirEHDnrFslY52XbN63RmVxzf997/rKnQft13EEjLOfEyQ2MTakim
-   QwKNQB8NihChbhrMPsTbuRTmiVI9tKH1jsfFFp/Jr9v12OIrWAgE0E+U9
-   b9H1y55sEBM5Uw4bVbDKTr4V7+hnZg1bqRiTr6+WJsPz4vZWgTREWexFd
-   np+5WlV4a1EVbXi9zMz55BzDctyjSX9/dpZ6m7NK+u/GvPBNAjvyLXLM/
+  bh=miOh0Krt3dHgfQ++Q3+hZ/C+eYxh5MtrLlarE6QmQps=;
+  b=MbOBgmYxcyX10iXCellmmhpKAN5z+dirRteYxv+Fy4avh8pCP21A/1jC
+   sVaJj0IW1mCJyZ4pHvdvpnlNGdCRzBG3b8AvF18LfCh4on/iDKWKZqXWK
+   mulXzFrAWoLUdd2tGREPptBlbHx9dNEdtVKHtbcVs8auSNEgr4RNz/NSO
+   2BWvGJDVhbEfaFbwkRYcfsEZiKIVp6MDly6BwSMdDmZucVSUuHnp23PHp
+   +OWhVmQlpObYObjIOC4Y5L79zEf6h2zqt+xpFhoTnCsYkTC/pS1aB+BnX
+   Sz7TOHWa1zSPNBSrHXqC45Y1gysCgQiM222AkJHD9N8bUmx31w+DeRHjf
    w==;
 X-IronPort-AV: E=Sophos;i="5.92,306,1650902400"; 
-   d="scan'208";a="203374177"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 17 Jun 2022 07:30:51 +0800
-IronPort-SDR: KPfUIM58ey4OwkPeKY8HaRhYUzeG7lTMIrJMlJZcdp8b9B5ig3Wso7hTw7HscCbn3GOIrQ7iUq
- zQH7SFs2Okf1hEBfWIepPTsxBNU6smldQc6aHX22uqMECBpw0JqK3irE0AWKQLKKuLraUnpKHm
- FSNJg7jsV9V50gu9bt4nq1AJCTWycmcE7SZ0SkhzXRHFdkQVAn3iLPhj0PA4YixrtJtgAxGI/p
- A7q7GmT3jcDRfnMfSG3i5Bn4oAD2ainYxdVZZF2gWu6/yuBSnjvIh9Ztl+J3hAoturIyjZ7U9O
- 3rRoZj8Qh8UyoOrcSRjFnM/N
+   d="scan'208";a="208231349"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 17 Jun 2022 07:33:57 +0800
+IronPort-SDR: kAzccEQ1MfuzNBPFz3x8KACfRbyzg8CiWvpOEnl9X4zVbkdwL2tLVa9Q/6TbSqZaVRAHls3wq+
+ uZJq52j2kk2WxtZRnbjW2Gg5LvvpQr6/WUi64b7FogQLhzTy9cXOl15DP8lINawcN3TVFyl8Fw
+ dWg8itGpiYnIW0yxMGzhWgvgTuFZo1BWx0eNslRIXsFvvbnQ/k8LVO57pUWf5E3sFLOuf5sw0U
+ amV2tV0LeS6CNXH3bB5mSEkfTBxravSaLbozI3I3zLxQRhZIHwqNp/hGD8nAvt2REtu8DH7BaZ
+ FGFVREgC7s0BtVL+WmBLL6ZM
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 16 Jun 2022 15:53:28 -0700
-IronPort-SDR: +LkS8xCKfDWY18wYEkQ/QlWqlNL6ruZ0xuGEGeGNTD1UdD9F487mfim5RZhcPaGfPSHPRVzxY0
- 0Vs76JMXJ3ue33sW5dy4RZZ6s1gNxiKxsK5iTKu+az2r1LkqIIdcsFscY3+KpjGmizzl5+R180
- 5wd2LgDk6YH8gDdGQW5xhy55nclxbqLXkH77ktnyg+Wulb0hP04gLkLPOLQKOh1kYo4b5dMfL4
- yDjA7UGU2BsSpPxxTUQ99VJa3S+0UAkT9ebtl7rdIx4MBOa2W6NqoMHU25nuBiJ/KiOeUCPHQP
- NW8=
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 16 Jun 2022 15:56:34 -0700
+IronPort-SDR: YjdAAT4/LdilfCtxSRw7mxIEzkPryzZ9576LI/zGKeH1EwO3gHiBKEBvq1cTWvKvUx591GeWMv
+ OSqdGnQjAmYFfjxLqwmuNq3llfV9hgBW51IPsNZfgghwB33RnLpvs6aSd6AIxeOxIQbeN0dGG3
+ gMRBgcJ8MqMnFuknk35YVrrP/vQkiP3pnM3dxQm919aZF9TlJz5xHshc7AKaJx8NJYj9NwIeNx
+ tKeaA6Mtkw4M/vKeQWooqyqg7upY6p8BUyz94SvvJb9xL/nxrHekgHZwdId2EtLj/Bl71jezV6
+ 6e0=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
-  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 16 Jun 2022 16:30:53 -0700
+  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 16 Jun 2022 16:33:59 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
-	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LPJMH75lFz1SVp9
-	for <linux-nvme@lists.infradead.org>; Thu, 16 Jun 2022 16:30:51 -0700 (PDT)
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LPJQt0PgKz1SVp9
+	for <linux-nvme@lists.infradead.org>; Thu, 16 Jun 2022 16:33:57 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
 	reason="pass (just generated, assumed good)"
 	header.d=opensource.wdc.com
@@ -67,49 +67,49 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
 	opensource.wdc.com; h=content-transfer-encoding:content-type
 	:in-reply-to:organization:from:references:to:content-language
 	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
-	1655422250; x=1658014251; bh=3JUll1cokzNoMWjmBVYm6Y8IVuyZM8XJyZI
-	/cVxZcV0=; b=QrmRAjk+25AzX0pmuPjm21UbJvARRDhpRqZ8MwiHGxi+ExbXMdm
-	KfWGaMfH86r+rqGZFUK3ugIbHq8FopF/CgqfnQjd0OTiUR90tAxXL6VqAHOOhkZI
-	KGSDWUHHy0BNQh8nGkS6W5bM7aRI2w6QGd02G+8eSVrcXCm06MiM+4YsMB/nKjL9
-	Eq6GwkqowHdlry39C7IEa89LanvFqo0WItYGNC0Sj+wKmyYDuQqTESGipfgGpCcD
-	kQQ/njwlbMb6i/SpGKFXo/J5VGgQktL/Fxf9h/1MtXdl4dGOVzCxttSvCxDwQAPU
-	Ob7mFLLGyECGCgsJNZjX0S84j5RQ0W46SKQ==
+	1655422437; x=1658014438; bh=miOh0Krt3dHgfQ++Q3+hZ/C+eYxh5MtrLla
+	rE6QmQps=; b=GNW+HIaCLj8DR3T1xtWhCOnJdyz1RYvuJcv8sV9geJELsRRzJTC
+	vYTiTPl9snDofRWoUWEpiEc+inLDkhZa3DY5hgtXLJSHqZ33bYFOq+f8JqjTSbNp
+	L6JEfP8Ka9SF+BNZotyJRK7IkzIvwSq6UQQvUq0mCa/IEjmFxm79yjI0uwzEWuzN
+	0KFwAcstLRBiP6r29hgcA+11HBs6K1tg2gYUJKxix6v+Icvg0Y4qW1rggo4Cksq4
+	g1NPbP9PsOfuHpq2ZJ/UD+0Zy9CGOgzfrSBCiOgoe4hpTOsVTYWC8MReMIdN3JUw
+	KdSlwqj+UjliYOPpmwe1MCseOC9ihifXY1Q==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
 	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id DBhM0hwyac3v for <linux-nvme@lists.infradead.org>;
-	Thu, 16 Jun 2022 16:30:50 -0700 (PDT)
+	with ESMTP id NkpzO6nVD6yX for <linux-nvme@lists.infradead.org>;
+	Thu, 16 Jun 2022 16:33:57 -0700 (PDT)
 Received: from [10.225.163.84] (unknown [10.225.163.84])
-	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LPJMC59mkz1Rvlc;
-	Thu, 16 Jun 2022 16:30:47 -0700 (PDT)
-Message-ID: <ab75c1ca-986f-c3af-6c8c-c2c5b7e40bbd@opensource.wdc.com>
-Date: Fri, 17 Jun 2022 08:30:46 +0900
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LPJQp1Ntqz1Rvlc;
+	Thu, 16 Jun 2022 16:33:54 -0700 (PDT)
+Message-ID: <8883fed1-cc5a-889d-6668-cb8039fbf09a@opensource.wdc.com>
+Date: Fri, 17 Jun 2022 08:33:53 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [dm-devel] [PATCH v7 02/13] block: allow blk-zoned devices to
- have non-power-of-2 zone size
+Subject: Re: [dm-devel] [PATCH v7 12/13] dm: call dm_zone_endio after the
+ target endio callback for zoned devices
 Content-Language: en-US
-To: Pankaj Raghav <p.raghav@samsung.com>, Bart Van Assche
- <bvanassche@acm.org>, hch@lst.de, snitzer@redhat.com, axboe@kernel.dk
-Cc: pankydev8@gmail.com, gost.dev@samsung.com, jiangbo.365@bytedance.com,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, dm-devel@redhat.com,
- Luis Chamberlain <mcgrof@kernel.org>, jonathan.derrick@linux.dev,
- Johannes.Thumshirn@wdc.com, dsterba@suse.com, jaegeuk@kernel.org
+To: Pankaj Raghav <p.raghav@samsung.com>, hch@lst.de, snitzer@redhat.com,
+ axboe@kernel.dk
+Cc: bvanassche@acm.org, pankydev8@gmail.com, gost.dev@samsung.com,
+ jiangbo.365@bytedance.com, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+ dm-devel@redhat.com, jonathan.derrick@linux.dev, Johannes.Thumshirn@wdc.com,
+ dsterba@suse.com, jaegeuk@kernel.org
 References: <20220615101920.329421-1-p.raghav@samsung.com>
- <CGME20220615101931eucas1p15ed09ae433a2c378b599e9086130d8eb@eucas1p1.samsung.com>
- <20220615101920.329421-3-p.raghav@samsung.com>
- <857c444a-02b9-9cef-0c5b-2ecdb2fd46f6@acm.org>
- <e04db101-5628-2a1d-6b5c-997090484d7d@samsung.com>
+ <CGME20220615102007eucas1p1106f9520e2a86beb3792107dffd8071b@eucas1p1.samsung.com>
+ <20220615101920.329421-13-p.raghav@samsung.com>
+ <f7b586a3-5370-f3b9-72dc-f9bea0b63f1f@opensource.wdc.com>
+ <8d8501e8-9e39-8b02-d248-48f778a95d96@samsung.com>
 From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 Organization: Western Digital Research
-In-Reply-To: <e04db101-5628-2a1d-6b5c-997090484d7d@samsung.com>
+In-Reply-To: <8d8501e8-9e39-8b02-d248-48f778a95d96@samsung.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220616_163057_609453_C556A07A 
-X-CRM114-Status: GOOD (  23.42  )
+X-CRM114-CacheID: sfid-20220616_163400_785536_90ECBC18 
+X-CRM114-Status: GOOD (  25.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,94 +124,85 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/16/22 19:09, Pankaj Raghav wrote:
-> On 2022-06-15 22:28, Bart Van Assche wrote:
-> isk_name, zone->len);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (zone->len =3D=3D 0) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p=
-r_warn("%s: Invalid zone size", disk->disk_name);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 r=
-eturn -ENODEV;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+On 6/16/22 21:24, Pankaj Raghav wrote:
+> On 2022-06-15 13:01, Damien Le Moal wrote:
+>> On 6/15/22 19:19, Pankaj Raghav wrote:
+>>> dm_zone_endio() updates the bi_sector of orig bio for zoned devices that
+>>> uses either native append or append emulation and it is called before the
+>>> endio of the target. But target endio can still update the clone bio
+>>> after dm_zone_endio is called, thereby, the orig bio does not contain
+>>> the updated information anymore. Call dm_zone_endio for zoned devices
+>>> after calling the target's endio function
+>>>
+>>> Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+>>> ---
+>>> @Damien and @Hannes: I couldn't come up with a testcase that uses endio callback and
+>>> zone append or append emulation for zoned devices to test for
+>>> regression in this change. It would be great if you can suggest
+>>> something. This change is required for the npo2 target as we update the
+>>> clone bio sector in the endio callback function and the orig bio should
+>>> be updated only after the endio callback for zone appends.
+>>
+>> Running zonefs tests on top of dm-crypt will exercise DM zone append
+>> emulation.
+>>
+> Thanks. However, I am facing issues creating a dm-crypt target with a
+> zoned device. Steps:
+> - cryptsetup luksFormat <zns-device>
+
+luks format is not supported because cryptsetup does not write the
+metadata sequentially. I am working on fixing that. Use the plain format.
+
+> 
+> is throwing a bunch of IO errors with the following error message:
+> Device wipe error, offset 32768.
+> Cannot wipe header on device <zns-device>.
+> 
+> I can observe the same behavior in both v5.18 and next-20220615 with
+> cryptsetup 2.4.3.The same step is working correctly on a normal NVMe device.
+> Am I doing something wrong?
+> ZNS info: zsze 128M and zcap 128M with 50 zones
+>>>
+>>>  drivers/md/dm.c | 8 ++++----
+>>>  1 file changed, 4 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/md/dm.c b/drivers/md/dm.c
+>>> index 3f17fe1de..3a74e1038 100644
+>>> --- a/drivers/md/dm.c
+>>> +++ b/drivers/md/dm.c
+>>> @@ -1025,10 +1025,6 @@ static void clone_endio(struct bio *bio)
+>>>  			disable_write_zeroes(md);
+>>>  	}
+>>>  
+>>> -	if (static_branch_unlikely(&zoned_enabled) &&
+>>> -	    unlikely(blk_queue_is_zoned(bdev_get_queue(bio->bi_bdev))))
+>>> -		dm_zone_endio(io, bio);
+>>> -
+>>>  	if (endio) {
+>>>  		int r = endio(ti, bio, &error);
+>>>  		switch (r) {
+>>> @@ -1057,6 +1053,10 @@ static void clone_endio(struct bio *bio)
+>>>  		}
+>>>  	}
+>>>  
+>>> +	if (static_branch_unlikely(&zoned_enabled) &&
+>>> +	    unlikely(blk_queue_is_zoned(bdev_get_queue(bio->bi_bdev))))
+>>
+>> blk_queue_is_zoned(bdev_get_queue(bio->bi_bdev))) ->
+>> bdev_is_zoned(bio->bi_bdev)
+>>
+> Ok. Even though I just moved the statements, I think this is trivial
+> enough to take it along.
+>>> +		dm_zone_endio(io, bio);
 >>> +
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Don't allow zoned=
- device with non power_of_2 zone size with
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * zone capacity les=
-s than zone size.
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>>  	if (static_branch_unlikely(&swap_bios_enabled) &&
+>>>  	    unlikely(swap_bios_limit(ti, bio)))
+>>>  		up(&md->swap_bios_semaphore);
 >>
->=20
->> Please change "power_of_2" into "power-of-2".
 >>
-> Ok.
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!is_power_of_2(zone->=
-len) && zone->capacity < zone->len) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p=
-r_warn("%s: Invalid zone capacity for non power of 2
->>> zone size",
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 disk->disk_name);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 return -ENODEV;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>
->> The above check seems wrong to me. I don't see why devices that report=
- a
->> capacity that is less than the zone size should be rejected.
->>
-> This was brought up by Damien during previous reviews. The argument was
-> that the reason to allow non power-of-2 zoned device is to remove the
-> gaps between zone size and zone capacity. Allowing a npo2 zone size wit=
-h
-> a different capacity, even though it is technically possible, it does
-> not make any practical sense. That is why this check was introduced.
-> Does that answer your question?
-
-Add a comment explaining this restriction, clearly mentioning that it is =
-a
-Linux restrictions and not mandated by the specifications.
-
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Division is used =
-to calculate nr_zones for both power_of_2
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * and non power_of_=
-2 zone sizes as it is not in the hot path.
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->>
->> Shouldn't the above comment be moved to the patch description? I'm not
->> sure whether having such a comment in the source code is valuable.
->>
-> Yeah, I will remove it. Maybe it is very obvious at this point.
->>> +static inline sector_t blk_queue_offset_from_zone_start(struct
->>> request_queue *q,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 sector_t sec)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 sector_t zone_sectors =3D blk_queue_zone_sectors(=
-q);
->>> +=C2=A0=C2=A0=C2=A0 u64 remainder =3D 0;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 if (!blk_queue_is_zoned(q))
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return false;
->>
->> "return false" should only occur in functions returning a boolean. Thi=
-s
->> function returns type sector_t.
->>
-> Good catch. It was a copy paste mistake. Fixed it.
->> Thanks,
->>
->> Bart.
->=20
-> --
-> dm-devel mailing list
-> dm-devel@redhat.com
-> https://listman.redhat.com/mailman/listinfo/dm-devel
 
 
---=20
+-- 
 Damien Le Moal
 Western Digital Research
 
