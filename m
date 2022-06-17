@@ -4,38 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F0A1C43334
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jun 2022 08:32:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4081C43334
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jun 2022 09:01:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=BL+J4dVPWV0+dl+w3FqcxeDWe0nUoATye6dRhG4OrFY=; b=Xt4c+sc7vXoKIEElnrzLmq8IaN
-	+3YCV9uExKL4vBVlFOdQQlLQEw/sKb4QEFvB6ugvbiRno/GdnC263vKJWutcv/YIKvXiZaj9g6Ah1
-	tXfo9SIHsBotp4J1V76uDUnGfJmN2rYIdQUy97lKODFde+DZuSwF/zxDjMPhRcngY4ENVny8Sw9D2
-	gpSLEsQsqGBJO2BY0z0gnl1k2BdK7rgFfv3jag1SfNBAPJSlVvzJrTbcOcPlNqWoB1eZkgWqXoy0z
-	9kc+h/dh+md/SmS+BLdZPjCzQjWuEAkPRcp6h1em6bQN2PKXgPTPvhdSCQB2n96tUFPOZKWHtoqtt
-	U7l7poMg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TGuPfqHi82wRfZd1vJmOWb6oBVxR9+w/Uz/OCkA9FdU=; b=WyZ/20HTjXr0u2cse2pyb2gyBO
+	uNe0sc7nphmiSJHwEVwWH/tJYtXRVs2wACHNw9MQG3zJegR05pqO4+uCVwAWhSH2NpS6NVAc4TIkY
+	JF+VY5qhzGNB78WuTmzM8atTRSwDBt9zYAe1nRb8M2FPegkVkx5s575vGJVJ3UcGcbrlSX26kt3aL
+	rz4U9dYx7drJrPXSFA9yEaNyeVTvHCwZaBylFs4a4oSAtiEFqP8OIs8MCnUC/e3Ac5LPua6UuPRK2
+	nNqIcOXbg221WUJ31D+oYwyAjuMIJIL7A2ACU4L1nBzPaKM7MTT7j6nc9HKSsfquNeu/Wj+jptHwn
+	e5LG9RvQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o27Om-006KYd-Jh; Fri, 17 Jun 2022 08:32:12 +0000
-Received: from [2001:4bb8:180:36f6:9c91:42c8:8d10:d7ed] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o27Oi-006KWn-Vf; Fri, 17 Jun 2022 08:32:09 +0000
+	id 1o27qt-006YLQ-7E; Fri, 17 Jun 2022 09:01:15 +0000
+Received: from verein.lst.de ([213.95.11.211])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1o27qq-006YGZ-Rq
+	for linux-nvme@lists.infradead.org; Fri, 17 Jun 2022 09:01:14 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 8636A68AA6; Fri, 17 Jun 2022 11:01:01 +0200 (CEST)
+Date: Fri, 17 Jun 2022 11:01:00 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: kbusch@kernel.org
-Cc: sagi@grimberg.me,
-	monish.kumar.r@intel.com,
-	Jason@zx2c4.com,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme: move the Samsung X5 quirk entry to the core quirks
-Date: Fri, 17 Jun 2022 10:32:06 +0200
-Message-Id: <20220617083206.1146088-1-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
+To: Alan Adamson <alan.adamson@oracle.com>
+Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Klaus Jensen <its@irrelevant.dk>, Sagi Grimberg <sagi@grimberg.me>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH 4/4] nvme: check that EUI/GUID/UUID are globally unique
+Message-ID: <20220617090100.GA7767@lst.de>
+References: <C85067CB-3909-4B62-A86D-467827EBF96E@oracle.com> <20220420073641.GA6859@lst.de> <26796ED5-859F-4844-B1D1-7C2FF5126E40@oracle.com> <20220608075252.GB13027@lst.de> <F8EC1673-8434-4294-ADAF-96238E65A7AE@oracle.com> <YqDy0BIgLbAVRw2u@kbusch-mbp.dhcp.thefacebook.com> <20220609035323.GA31248@lst.de> <6ACB62F8-BFC4-45A3-9886-E05DB45248D5@oracle.com> <YqNRPEpZgT8Xn9Nr@kbusch-mbp.dhcp.thefacebook.com> <B396ED69-5559-40F0-92F3-8B319D90584C@oracle.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <B396ED69-5559-40F0-92F3-8B319D90584C@oracle.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20220617_020113_089177_2D432E8D 
+X-CRM114-Status: GOOD (  15.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -50,57 +60,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This device shares the PCI ID with the Samsung 970 Evo Plus that
-does not need or want the quirks.  Move the the quirk entry to the
-core table based on the model number instead.
+On Wed, Jun 15, 2022 at 08:15:18PM +0000, Alan Adamson wrote:
+> Here are my latest changes.  It includes an interface from nvme-cli to specify
+> to clear the IDs upon connect.
+> 
+> Wasn’t sure the proper way to send a clear_ids argument to the target so I followed
+> what kato did.  Not sure if that is appropriate for this case.
+> 
+> This will require a nvme-cli change and blktests changes.  I tested with both loop and tcp.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/nvme/host/core.c | 14 ++++++++++++++
- drivers/nvme/host/pci.c  |  4 ----
- 2 files changed, 14 insertions(+), 4 deletions(-)
+Well, it changes the nvme over the wire protocol, we can't just do
+that.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 24165daee3c8f0..bfc5568a447a20 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2546,6 +2546,20 @@ static const struct nvme_core_quirk_entry core_quirks[] = {
- 		.vid = 0x1e0f,
- 		.mn = "KCD6XVUL6T40",
- 		.quirks = NVME_QUIRK_NO_APST,
-+	},
-+	{
-+		/*
-+		 * The external Samsung X5 SSD fails initialization without a
-+		 * delay before checking if it is ready and has a whole set of
-+		 * other problems.  To make this even more interesting, it
-+		 * shares the PCI ID with internal Samsung 970 Evo Plus that
-+		 * does not need or want these quirks.
-+		 */
-+		.vid = 0x144d,
-+		.mn = "Samsung Portable SSD X5",
-+		.quirks = NVME_QUIRK_DELAY_BEFORE_CHK_RDY |
-+			  NVME_QUIRK_NO_DEEPEST_PS |
-+			  NVME_QUIRK_IGNORE_DEV_SUBNQN,
- 	}
- };
- 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 48f4f6eb877bcc..d05ee8fb23e084 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3483,10 +3483,6 @@ static const struct pci_device_id nvme_id_table[] = {
- 				NVME_QUIRK_128_BYTES_SQES |
- 				NVME_QUIRK_SHARED_TAGS |
- 				NVME_QUIRK_SKIP_CID_GEN },
--	{ PCI_DEVICE(0x144d, 0xa808),   /* Samsung X5 */
--		.driver_data =  NVME_QUIRK_DELAY_BEFORE_CHK_RDY|
--				NVME_QUIRK_NO_DEEPEST_PS |
--				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
- 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
- 	{ 0, }
- };
--- 
-2.30.2
+And the option really is a target side one, that is we want to configure
+it using configfs on the target, not the fabrics command line options.
 
+That is, add a new clear_ids attribute to nvmet_passthru_attrs, save
+the flag in struct nvmet_subsys, and default to true for loop controllers.
 
