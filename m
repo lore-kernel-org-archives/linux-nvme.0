@@ -4,59 +4,136 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B252C43334
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jun 2022 02:56:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11E16C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jun 2022 05:46:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:CC:To:From:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SRlW4gH8oajQrobakv+Ff1ufbxkPrOHldTDA27mkHww=; b=amcYICzDhcxuPhKm9R3ee1EJk8
-	8OqGfQade+clhOJ0delthWAUwWhzgggl6LS2AgPjTGM3LUsw6YkQ293lPwm1FyZFHO2e8X4q2YBRf
-	UZr8K4WR73IthkLxG4NUdyRVoTsbuuVsma3NIwZ6oRETMF4HkYoFcaSgPAo1pC+Oo/WK2JZamyPIh
-	BPs8Z3HtGpkzf0w4kTadFn/fyqloMCEzwFJIunZNPDFWha+o4qseBPXLXtXgp3oXNijMOrc9Myp5E
-	apyruZTgwwJ7v3RejsI1j5LN8ps2zWtBLdQsV3dWfbV1KCgod3TpPgYaK6ttYGgg7bV1v4jIMl08s
-	5JiePcWA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=oOmLTXxHtiKWvXXbSnbMtWVTLgRX+hcxKS6om3t8zyU=; b=d30osLQstKXEVm
+	Nh/8uKynZ4aslEv0m3gyj2hnfqVFaTx72L9VajIB4wDzyL7FAuDjswQYniSvWZVvzCq2JFBYGm/jw
+	Eueox2ukUoXAPVd1oPQCBvBdsTDmHbRr6I7jCPKiI0HygTEpy5yJsNrDnPzqid3iRN9iAtTVYxcfQ
+	zByIiiycd+sUUZhcKWrpY1/npQheiaMEXRZxAjObEEdul64MbxU+xSpy5ozwGJMfiJNet/D4hSQ8t
+	PUXq+jkzZdVSxJDmSTa585mNxz2BTuGQR9BlkmZMdnvlmYkjVfJVlrWCUcI5IFhtMdhwzwYbypGhs
+	FjmkuuDhkPaWKG45WsJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o22AC-005DUh-JF; Fri, 17 Jun 2022 02:56:48 +0000
-Received: from szxga02-in.huawei.com ([45.249.212.188])
+	id 1o24oC-005clv-Hf; Fri, 17 Jun 2022 05:46:16 +0000
+Received: from mailout2.w1.samsung.com ([210.118.77.12])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o22A9-005DRb-DT
-	for linux-nvme@lists.infradead.org; Fri, 17 Jun 2022 02:56:47 +0000
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LPNrh0vJyzSgvy;
-	Fri, 17 Jun 2022 10:53:08 +0800 (CST)
-Received: from kwepemm600011.china.huawei.com (7.193.23.229) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 17 Jun 2022 10:56:02 +0800
-Received: from [10.169.46.19] (10.169.46.19) by kwepemm600011.china.huawei.com
- (7.193.23.229) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 17 Jun
- 2022 10:56:02 +0800
-Subject: Re: [PATCH] Revert "nvme: remove the .stop_ctrl callout"
-From: liruozhu <liruozhu@huawei.com>
-To: <linux-nvme@lists.infradead.org>
-CC: <sagi@grimberg.me>, <hch@lst.de>
-References: <20220610095637.3714-1-liruozhu@huawei.com>
-Message-ID: <1875365a-b4f9-06c7-9b2d-40b40a7c05be@huawei.com>
-Date: Fri, 17 Jun 2022 10:55:46 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.0.1
+	id 1o24o8-005chw-F7
+	for linux-nvme@lists.infradead.org; Fri, 17 Jun 2022 05:46:15 +0000
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20220617054607euoutp02c527cefb75d7e562af2267679711d63e~5Uj7P-TIm0254802548euoutp02h
+	for <linux-nvme@lists.infradead.org>; Fri, 17 Jun 2022 05:46:07 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20220617054607euoutp02c527cefb75d7e562af2267679711d63e~5Uj7P-TIm0254802548euoutp02h
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1655444767;
+	bh=oOmLTXxHtiKWvXXbSnbMtWVTLgRX+hcxKS6om3t8zyU=;
+	h=Date:Subject:To:CC:From:In-Reply-To:References:From;
+	b=lVl4PN3Mn1GdpPDIkosdavwam+7MLmo+8zlgSP8rg0EkiBbWWFjXYLXVXjeT7bu6J
+	 z+gaTi/522Lqd2Cmr5wtlnLiQQrZ24w2MlBUA/WT5jNTN6h96sTQHU04IL+8L8xEVE
+	 RGhZQFQjk49DUZkjFLuy79YhGDak1JbM9/YOBbyg=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+	20220617054607eucas1p12bf3b149c16d5992795ed6722d414b2f~5Uj65en871628816288eucas1p1F;
+	Fri, 17 Jun 2022 05:46:07 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+	eusmges1new.samsung.com (EUCPMTA) with SMTP id 01.89.09664.F151CA26; Fri, 17
+	Jun 2022 06:46:07 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20220617054606eucas1p23fd49b57f6c12cbb82cf3f700f29ac53~5Uj6djwtL0948609486eucas1p2U;
+	Fri, 17 Jun 2022 05:46:06 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20220617054606eusmtrp1cd5853c6742faf923e59de41ea4d2950~5Uj6b1vD82642226422eusmtrp1x;
+	Fri, 17 Jun 2022 05:46:06 +0000 (GMT)
+X-AuditID: cbfec7f2-d81ff700000025c0-92-62ac151f2e12
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id 04.19.09095.E151CA26; Fri, 17
+	Jun 2022 06:46:06 +0100 (BST)
+Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20220617054606eusmtip17a9761ccee9559d7967ca923bccd96ba~5Uj6N0ubu0452004520eusmtip1i;
+	Fri, 17 Jun 2022 05:46:06 +0000 (GMT)
+Received: from [192.168.1.12] (106.210.248.244) by CAMSVWEXC01.scsc.local
+	(2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+	Fri, 17 Jun 2022 06:46:00 +0100
+Message-ID: <4746a000-2220-211e-1bd6-79c15c18a85c@samsung.com>
+Date: Fri, 17 Jun 2022 07:45:57 +0200
 MIME-Version: 1.0
-In-Reply-To: <20220610095637.3714-1-liruozhu@huawei.com>
-Content-Type: text/plain; charset="gbk"; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+	Thunderbird/91.9.1
+Subject: Re: [PATCH v7 13/13] dm: add non power of 2 zoned target
 Content-Language: en-US
-X-Originating-IP: [10.169.46.19]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemm600011.china.huawei.com (7.193.23.229)
-X-CFilter-Loop: Reflected
+To: Damien Le Moal <damien.lemoal@opensource.wdc.com>, <hch@lst.de>,
+	<snitzer@redhat.com>, <axboe@kernel.dk>
+CC: <bvanassche@acm.org>, <linux-kernel@vger.kernel.org>,
+	<jiangbo.365@bytedance.com>, <hare@suse.de>, <pankydev8@gmail.com>,
+	<dm-devel@redhat.com>, <jonathan.derrick@linux.dev>, <gost.dev@samsung.com>,
+	<dsterba@suse.com>, <jaegeuk@kernel.org>, <linux-nvme@lists.infradead.org>,
+	<Johannes.Thumshirn@wdc.com>, <linux-block@vger.kernel.org>, Damien Le Moal
+	<damien.lemoal@wdc.com>
+From: Pankaj Raghav <p.raghav@samsung.com>
+In-Reply-To: <0c4f30f2-c206-0201-31e3-fbb9edbdf666@opensource.wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [106.210.248.244]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+	CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrKKsWRmVeSWpSXmKPExsWy7djP87ryomuSDC5uF7RYfbefzWLah5/M
+	Fr/Pnme2aG3/xmSx991sVosLPxqZLPYsmsRksXL1USaLJ+tnMVv0HPjAYvG36x5QrOUhs8Xe
+	W9oWl3fNYbOYv+wpu8Wam09ZLNo2fmV0EPS4fMXb49+JNWweO2fdZfe4fLbUY9OqTjaPhQ1T
+	mT02L6n32H2zASjXep/V4/2+q2we67dcZfHYfLra4/MmOY/2A91MAXxRXDYpqTmZZalF+nYJ
+	XBlnHhUU3JapmNTTyNLA2CLRxcjJISFgInHzezMjiC0ksIJRYsIJli5GLiD7C6PE/efzGSGc
+	z4wS81ftZIfpuPz7E1TVckaJ3ecvssFVnXq6FGrWLkaJN7/UQGxeATuJ/fvWMoHYLAKqEu9f
+	dzJBxAUlTs58wgJiiwpESKxsfQNkc3AICzhKNJ1IAgkzC4hL3HoynwkkLCKQJzHvXxLIKmaB
+	FmaJrv0PmUHibAJaEo2dYLdxCrhJvFm0mBWiVVOidftvdghbXmL72zlg5RICyhL/djJDvFIr
+	sfbYGXaQkRICTVwSq5b/h0q4SDR9PA5lC0u8Or4F6ncZidOTe1gg7GqJpzd+M0M0tzBK9O9c
+	zwaxwFqi70wORI2jxKqWJ4wQYT6JG28FIc7hk5i0bTrzBEbVWUjhMAvJw7OQfDALyQcLGFlW
+	MYqnlhbnpqcWG+allusVJ+YWl+al6yXn525iBKbM0/+Of9rBOPfVR71DjEwcjIcYJTiYlUR4
+	zYJXJgnxpiRWVqUW5ccXleakFh9ilOZgURLnTc7ckCgkkJ5YkpqdmlqQWgSTZeLglGpgMrhz
+	VvZErskmz3sx9tdik59zaZ+ZVcPIpBqztYVppnvvlQnyJ+z15G78OB+jbZw6P36pkZKZ785s
+	lq4HwvV77xeKLHfRvxg/e+0lZ/ugTIlgibVaDBrRT/Q992xYXGG95FSNnMYWHYsk26C7zA6e
+	dawXNHd1PPCaG6t8MWbWpk3Rb3eudT0Yu8+ss4hzgVzJ8VmLCyInOooL9ntlPV165Gs+9y/V
+	51IPLmcen9R0Zlv9l+htBt82+Dx8XrCbPeT1AouNO/+sndx4ufVMabScv+rcXu6f9m8MNV69
+	zsv9MT3ndeLOzg0M2h29via9HCwZHaaaGpa7w/b7Zl9hfLT/28Xl4lEWVgXy/HfP/GVRYinO
+	SDTUYi4qTgQAAuD4TAgEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrNKsWRmVeSWpSXmKPExsVy+t/xu7pyomuSDD6t1bNYfbefzWLah5/M
+	Fr/Pnme2aG3/xmSx991sVosLPxqZLPYsmsRksXL1USaLJ+tnMVv0HPjAYvG36x5QrOUhs8Xe
+	W9oWl3fNYbOYv+wpu8Wam09ZLNo2fmV0EPS4fMXb49+JNWweO2fdZfe4fLbUY9OqTjaPhQ1T
+	mT02L6n32H2zASjXep/V4/2+q2we67dcZfHYfLra4/MmOY/2A91MAXxRejZF+aUlqQoZ+cUl
+	tkrRhhZGeoaWFnpGJpZ6hsbmsVZGpkr6djYpqTmZZalF+nYJehlnHhUU3JapmNTTyNLA2CLR
+	xcjJISFgInH59yeWLkYuDiGBpYwSDcf/MEMkZCQ+XfnIDmELS/y51sUGUfSRUeJ72xRGkISQ
+	wC5GidPN/CA2r4CdxP59a5lAbBYBVYn3rzuZIOKCEidnPmEBsUUFIiQ+LZvA2sXIwSEs4CjR
+	dCIJJMwsIC5x68l8JpCwiECexLx/SSCrmAVamCW69j9khtj7lkniw+dTYL1sAloSjZ1gt3EK
+	uEm8WbSYFWKOpkTr9t/sELa8xPa3c5hByiUElCX+7YR6q1bi1f3djBMYRWchOW4WkitmIZk0
+	C8mkBYwsqxhFUkuLc9Nziw31ihNzi0vz0vWS83M3MQJTzbZjPzfvYJz36qPeIUYmDsZDjBIc
+	zEoivGbBK5OEeFMSK6tSi/Lji0pzUosPMZoCQ2gis5Rocj4w2eWVxBuaGZgamphZGphamhkr
+	ifN6FnQkCgmkJ5akZqemFqQWwfQxcXBKNTCFWgbMPMLydHVe6a33+jOXyS07Oru5r1251X9R
+	cO5lHZHjhuIh4vHVCyZvORHV96U+uLd8rfut01/vXWX+63Zw+0PvtXwVH/98WrPPm9838Xzs
+	FAEd3Tr+Er6pv6as+3y8JMug/UIRh9xd+fQ1G/Ps7t0U9voyy45ziWhwZYNtVcFKi8yYZlGd
+	PSuV47ZfudOt1/bZyGm6wRmDfTu7Xl3tXXk6d6GIw/JGO//t706Fc8dFOYbwvJtSxv6j7uCn
+	msDPgosXO9Q+eXg4SYDbI6Z8eqVem4hCq97FUlXhN8Ipoq3Grub37zI3z7lx6Hvt6Z9zpd4m
+	+mqUVPVMqhV785dlmlZUbn6eqEMSCwubrhJLcUaioRZzUXEiALC8MQi+AwAA
+X-CMS-MailID: 20220617054606eucas1p23fd49b57f6c12cbb82cf3f700f29ac53
+X-Msg-Generator: CA
+X-RootMTR: 20220615102011eucas1p220368db4a186181b1927dea50a79e5d4
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220615102011eucas1p220368db4a186181b1927dea50a79e5d4
+References: <20220615101920.329421-1-p.raghav@samsung.com>
+	<CGME20220615102011eucas1p220368db4a186181b1927dea50a79e5d4@eucas1p2.samsung.com>
+	<20220615101920.329421-14-p.raghav@samsung.com>
+	<63b0cfb6-eb24-f058-e502-2637039c5a98@opensource.wdc.com>
+	<0b819562-8b16-37b6-9220-28bf1960bccb@samsung.com>
+	<0c4f30f2-c206-0201-31e3-fbb9edbdf666@opensource.wdc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220616_195645_637510_591183F2 
-X-CRM114-Status: GOOD (  12.91  )
+X-CRM114-CacheID: sfid-20220616_224613_779834_DBBF457D 
+X-CRM114-Status: GOOD (  23.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,43 +148,100 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+On 2022-06-17 01:49, Damien Le Moal wrote:
+>>> Why do you need to change dm_set_zones_restrictions() at all ?
+>>>
+>> When the device mapper is created, the q->limits gets inherited from the
+>> underlying device. The chunk sectors of the target and the device will
+>> be the same but we want the chunk sector of the target to be different
+>> (rounded to po2) compared to the underlying device's chunk sector. This
+>> needs to be done only for the dm-po2z target and not for other targets
+>> that uses npo2 zoned devices (like dm-linear). So to perform this
+>> operation in a target independent way in dm-zone.c, I chose to always
+>> revalidate npo2 zoned device and update the chunk sector and nr_zones in
+>> dm_zone_revalidate_cb based on the zone information from the target.
+>> This allows to set the limits correctly for dm-po2z target.
+> 
+> But DM revalidate will be called for the target AFTER it is setup (after
+> its gendisk is added). So how can DM revalidate see the incorrect zone
+> size ? If that is the case, then the target constructor is broken or
+> missing something. DM revalidate zone is generic and only allocates the
+> zone bitmaps for the target device. There should be not need at all to
+> touch that function.
+> 
+I think this is a cleaner approach using features flag and io_hints
+instead of messing with the revalidate zone function:
 
-Any thoughts on this issue£¿
+diff --git a/drivers/md/dm-table.c b/drivers/md/dm-table.c
+index 135c0cc190fb..c97a71e0473f 100644
+--- a/drivers/md/dm-table.c
++++ b/drivers/md/dm-table.c
+@@ -1618,6 +1618,9 @@ static int device_not_matches_zone_sectors(struct
+dm_target *ti, struct dm_dev *
+ 	if (!blk_queue_is_zoned(q))
+ 		return 0;
 
-thanks,
-Ruozhu
++	if(dm_target_supports_emulated_zone_size(ti->type))
++		return 0;
++
+ 	return blk_queue_zone_sectors(q) != *zone_sectors;
+ }
 
-On 2022/6/10 17:56, Ruozhu Li wrote:
+diff --git a/drivers/md/dm-zoned-npo2-target.c
+b/drivers/md/dm-zoned-npo2-target.c
+index dad135964e09..b203be808f09 100644
+--- a/drivers/md/dm-zoned-npo2-target.c
++++ b/drivers/md/dm-zoned-npo2-target.c
+@@ -187,6 +187,12 @@ static int dmz_npo2_end_io(struct dm_target *ti,
+struct bio *bio,
+ 	return DM_ENDIO_DONE;
+ }
 
-> We encountered a problem that the disconnect command hangs.
-> After analyzing the log and stack, we found that the triggering
-> process is as follows:
-> CPU0                          CPU1
-> 				nvme_rdma_error_recovery_work
->    				  nvme_rdma_teardown_io_queues
-> nvme_do_delete_ctrl                 nvme_stop_queues
->    nvme_remove_namespaces
->    --clear ctrl->namespaces
-> 				    nvme_start_queues
-> 				    --no ns in ctrl->namespaces
->      nvme_ns_remove		    return(because ctrl is deleting)
->        blk_freeze_queue
-> 	blk_mq_freeze_queue_wait
->          --wait for ns to unquiesce to clean infligt IO, hang forever
->
-> This problem was not found in older kernels because we will flush
-> err work in nvme_stop_ctrl before nvme_remove_namespaces.It does not
-> seem to be modified for functional reasons, the patch can be revert
-> to solve the problem.
->
-> Revert commit 794a4cb3d2f7 ("nvme: remove the .stop_ctrl callout")
->
-> Signed-off-by: Ruozhu Li <liruozhu@huawei.com>
-> ---
->   drivers/nvme/host/core.c |  2 ++
->   drivers/nvme/host/nvme.h |  1 +
->   drivers/nvme/host/rdma.c | 12 +++++++++---
->   drivers/nvme/host/tcp.c  | 10 +++++++---
->   4 files changed, 19 insertions(+), 6 deletions(-)
++static void dmz_npo2_io_hints(struct dm_target *ti, struct queue_limits
+*limits)
++{
++	struct dmz_npo2_target *dmh = ti->private;
++	limits->chunk_sectors = dmh->zsze_po2;
++}
++
+ static int dmz_npo2_map(struct dm_target *ti, struct bio *bio)
+ {
+ 	struct dmz_npo2_target *dmh = ti->private;
+@@ -233,12 +239,13 @@ static int dmz_npo2_iterate_devices(struct
+dm_target *ti,
+ static struct target_type dmz_npo2_target = {
+ 	.name = "zoned-npo2",
+ 	.version = { 1, 0, 0 },
+-	.features = DM_TARGET_ZONED_HM,
++	.features = DM_TARGET_ZONED_HM | DM_TARGET_EMULATED_ZONE_SIZE,
+ 	.map = dmz_npo2_map,
+ 	.end_io = dmz_npo2_end_io,
+ 	.report_zones = dmz_npo2_report_zones,
+ 	.iterate_devices = dmz_npo2_iterate_devices,
+ 	.module = THIS_MODULE,
++	.io_hints = dmz_npo2_io_hints,
+ 	.ctr = dmz_npo2_ctr,
+ };
+
+diff --git a/include/linux/device-mapper.h b/include/linux/device-mapper.h
+index c2a3758c4aaa..9f3a4d98a22a 100644
+--- a/include/linux/device-mapper.h
++++ b/include/linux/device-mapper.h
+@@ -283,6 +283,15 @@ struct target_type {
+ #define dm_target_supports_mixed_zoned_model(type) (false)
+ #endif
+
++#ifdef CONFIG_BLK_DEV_ZONED
++#define DM_TARGET_EMULATED_ZONE_SIZE	0x00000400
++#define dm_target_supports_emulated_zone_size(type) \
++	((type)->features & DM_TARGET_EMULATED_ZONE_SIZE)
++#else
++#define DM_TARGET_EMULATED_ZONE_SIZE	0x00000000
++#define dm_target_supports_emulated_zone_size(type) (false)
++#endif
++
+ struct dm_target {
+ 	struct dm_table *table;
+ 	struct target_type *type;
+
 
