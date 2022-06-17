@@ -4,139 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B4A8EC433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jun 2022 08:03:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F0A1C43334
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jun 2022 08:32:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=V56MV+Qvk7y7TAMM/soQkLYo1sKwNGw8wGk0cO7nBts=; b=TGbpbf8kgaQTE2
-	3qE1knn1KbGhDQPpGPJNvZFz8IYDryPI8NQXhAB/1g+qJ9JGm/b+Hl49fFVBYeS/mwoAcdxU0ttH/
-	RoAsgzNyNsUgtgCHWgG29enIeAMm/MXXjXML8ifVNe9tUaTG8cpfoElPBbCmFFBv+8eaFo+64M42q
-	VogMlWDHPHqMBo5c4h7an9Hv1FnbZBUfqfz29b7Kjbeev7F4z8i/RdMBu0Sc6Uj3/y0ADOtM7h0nL
-	2snaW2JMh1Qtdudn+A2Lc9b1T2tEn8nuMUAEF/+eCPJpcaAKF3XDfupfoyG4OS9wk1j+jSKLLKi0E
-	r738HpGAZo92zeTCQ+Qg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=BL+J4dVPWV0+dl+w3FqcxeDWe0nUoATye6dRhG4OrFY=; b=Xt4c+sc7vXoKIEElnrzLmq8IaN
+	+3YCV9uExKL4vBVlFOdQQlLQEw/sKb4QEFvB6ugvbiRno/GdnC263vKJWutcv/YIKvXiZaj9g6Ah1
+	tXfo9SIHsBotp4J1V76uDUnGfJmN2rYIdQUy97lKODFde+DZuSwF/zxDjMPhRcngY4ENVny8Sw9D2
+	gpSLEsQsqGBJO2BY0z0gnl1k2BdK7rgFfv3jag1SfNBAPJSlVvzJrTbcOcPlNqWoB1eZkgWqXoy0z
+	9kc+h/dh+md/SmS+BLdZPjCzQjWuEAkPRcp6h1em6bQN2PKXgPTPvhdSCQB2n96tUFPOZKWHtoqtt
+	U7l7poMg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o26x5-006Cvc-2o; Fri, 17 Jun 2022 08:03:35 +0000
-Received: from mailout1.w1.samsung.com ([210.118.77.11])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o26x1-006Cos-5b
-	for linux-nvme@lists.infradead.org; Fri, 17 Jun 2022 08:03:33 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20220617080319euoutp016da68a20fc2e367d38d9cb83f19066ed~5Wbtpv6mJ2141721417euoutp01G
-	for <linux-nvme@lists.infradead.org>; Fri, 17 Jun 2022 08:03:19 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20220617080319euoutp016da68a20fc2e367d38d9cb83f19066ed~5Wbtpv6mJ2141721417euoutp01G
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1655452999;
-	bh=V56MV+Qvk7y7TAMM/soQkLYo1sKwNGw8wGk0cO7nBts=;
-	h=Date:Subject:To:CC:From:In-Reply-To:References:From;
-	b=msBXOrJKU2HMtwesLG6oLPUPTtV+MhGG8K57beMc0NorDbQIUIfIZfsAslUoUzbJX
-	 p7gRHVNz2B8BppsnNQ8Z/LDzBzNvvtkGnVn9JtQiRzwqkdH0DXJtAyiOJGF3sjRpaE
-	 f9gIw+8RFBU/byI2wlLacwjJ2rd/gA/hT4umzadg=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20220617080319eucas1p1bc4b7ac79368be83ed169769bac13881~5WbtZaKPz2524025240eucas1p1F;
-	Fri, 17 Jun 2022 08:03:19 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges2new.samsung.com (EUCPMTA) with SMTP id 1D.1A.10067.7453CA26; Fri, 17
-	Jun 2022 09:03:19 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20220617080318eucas1p18554421449b17c4a2ad7816dd6584383~5Wbs4YchD3237732377eucas1p1S;
-	Fri, 17 Jun 2022 08:03:18 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20220617080318eusmtrp2b71751d429c288c6d12854d27dd0fcf5~5Wbs3fT1h2980029800eusmtrp2E;
-	Fri, 17 Jun 2022 08:03:18 +0000 (GMT)
-X-AuditID: cbfec7f4-dd7ff70000002753-21-62ac3547daa1
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-	eusmgms1.samsung.com (EUCPMTA) with SMTP id F1.09.09095.6453CA26; Fri, 17
-	Jun 2022 09:03:18 +0100 (BST)
-Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20220617080318eusmtip13a348e9cbb58e5ec3aaf8dfa8d77b2a0~5WbsqjC4S2368423684eusmtip1X;
-	Fri, 17 Jun 2022 08:03:18 +0000 (GMT)
-Received: from [192.168.1.12] (106.210.248.244) by CAMSVWEXC01.scsc.local
-	(2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Fri, 17 Jun 2022 09:03:12 +0100
-Message-ID: <f83eb255-89fe-90dc-3670-79b8684389f1@samsung.com>
-Date: Fri, 17 Jun 2022 10:03:09 +0200
+	id 1o27Om-006KYd-Jh; Fri, 17 Jun 2022 08:32:12 +0000
+Received: from [2001:4bb8:180:36f6:9c91:42c8:8d10:d7ed] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1o27Oi-006KWn-Vf; Fri, 17 Jun 2022 08:32:09 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: kbusch@kernel.org
+Cc: sagi@grimberg.me,
+	monish.kumar.r@intel.com,
+	Jason@zx2c4.com,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH] nvme: move the Samsung X5 quirk entry to the core quirks
+Date: Fri, 17 Jun 2022 10:32:06 +0200
+Message-Id: <20220617083206.1146088-1-hch@lst.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
-	Thunderbird/91.9.1
-Subject: Re: [PATCH v7 13/13] dm: add non power of 2 zoned target
-Content-Language: en-US
-To: Damien Le Moal <damien.lemoal@opensource.wdc.com>, <hch@lst.de>,
-	<snitzer@redhat.com>, <axboe@kernel.dk>
-CC: <bvanassche@acm.org>, <linux-kernel@vger.kernel.org>,
-	<jiangbo.365@bytedance.com>, <hare@suse.de>, <pankydev8@gmail.com>,
-	<dm-devel@redhat.com>, <jonathan.derrick@linux.dev>, <gost.dev@samsung.com>,
-	<dsterba@suse.com>, <jaegeuk@kernel.org>, <linux-nvme@lists.infradead.org>,
-	<Johannes.Thumshirn@wdc.com>, <linux-block@vger.kernel.org>
-From: Pankaj Raghav <p.raghav@samsung.com>
-In-Reply-To: <f4cf6348-dd94-aa82-7519-318248c51151@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [106.210.248.244]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
-	CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrPKsWRmVeSWpSXmKPExsWy7djPc7rupmuSDK59Z7FYfbefzWLah5/M
-	Fr/Pnme22PtuNqvFhR+NTBZ7Fk1isli5+iiTxZP1s5gteg58YLH423UPKNbyEKjulrbF5V1z
-	2CzmL3vKbrHm5lMWi7aNXxkdBDwuX/H2+HdiDZvHzll32T0uny312LSqk81jYcNUZo/NS+o9
-	dt9sAMq13mf1eL/vKpvH+i1XWTw2n672+LxJzqP9QDdTAF8Ul01Kak5mWWqRvl0CV8aqu59Z
-	C/4LVHT8e8PawPiWt4uRg0NCwETix46ELkZODiGBFYwSRy9JQNhfGCWmrhDvYuQCsj8zSqxp
-	ecMKkgCp39fzhwUisZxRYt2FKexwVVNfvoBydjFKLGn+yAjSwitgJ3Hr11wWEJtFQFXi/q3F
-	UHFBiZMzn4DFRQUiJFa2vmEBOUlYwFGi6UQSSJhZQFzi1pP5TCBhEYE8iXn/oMK3mCTuP60D
-	CbMJaEk0drKDhDkF3CTuff7NDlGiKdG6HcaWl9j+dg4zxL/KEv92MkO8Uiux9tgZsIMlBL5x
-	Sux7eosJIuEi8fb4NhYIW1ji1fEt7BC2jMT/nfOhaqolnt74zQzR3MIo0b9zPRvEAmuJvjM5
-	EDWOEqtanjBChPkkbrwVhDiHT2LStunMExhVZyEFwywk/85C8sEsJB8sYGRZxSieWlqcm55a
-	bJSXWq5XnJhbXJqXrpecn7uJEZgmT/87/mUH4/JXH/UOMTJxMB5ilOBgVhLhNQtemSTEm5JY
-	WZValB9fVJqTWnyIUZqDRUmcNzlzQ6KQQHpiSWp2ampBahFMlomDU6qBKet7l0PagYbSmUyc
-	K1ySGjNvZfYwSonOn57Ix2zXnM28y1lURS9V/lbkZpW6t+wZD/f7Bja2+0wLecBgnHqkc/V8
-	U7462aAcz6u/4htO5rjt5dFdpHOHZappR9CSW0UrVSIksvrSd0R17ensm2GuxHN06fvW7r7p
-	E9bMYU2NSrm47re41dIJVo4WXneZfu8pKLXluLvIfJ7X/Mm9F+X0N56ecXtV2Sr1Dfo2NmF2
-	nj6/fZLnzGcTlfrG1GNzYoPbghUl+hsVOFeL2DBaMGWfWfRZqc9Y+pLA8tJVNufnxQTNts/2
-	4Vy9VDg8ZnNDXleA4PkvztMu7/u7brGsco6vQEdyrHbCnN47jkt7ipVYijMSDbWYi4oTAdVN
-	gNACBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrOKsWRmVeSWpSXmKPExsVy+t/xu7pupmuSDPouKVisvtvPZjHtw09m
-	i99nzzNb7H03m9Xiwo9GJos9iyYxWaxcfZTJ4sn6WcwWPQc+sFj87boHFGt5CFR3S9vi8q45
-	bBbzlz1lt1hz8ymLRdvGr4wOAh6Xr3h7/Duxhs1j56y77B6Xz5Z6bFrVyeaxsGEqs8fmJfUe
-	u282AOVa77N6vN93lc1j/ZarLB6bT1d7fN4k59F+oJspgC9Kz6Yov7QkVSEjv7jEVina0MJI
-	z9DSQs/IxFLP0Ng81srIVEnfziYlNSezLLVI3y5BL2PV3c+sBf8FKjr+vWFtYHzL28XIySEh
-	YCKxr+cPSxcjF4eQwFJGiaa5jSwQCRmJT1c+skPYwhJ/rnWxQRR9ZJRY+OIdM4Szi1Hi2YTb
-	TCBVvAJ2Erd+zQXrZhFQlbh/azEjRFxQ4uTMJ2BxUYEIiU/LJrB2MXJwCAs4SjSdSAIJMwuI
-	S9x6Mp8JJCwikCcx7x9U+BaTxP2ndRCrzrNIXD68mR2khk1AS6KxE+w2TgE3iXuff7ND1GtK
-	tG6HseUltr+dwwxSLiGgLPFvJzPEK7USr+7vZpzAKDoLyW2zkBwxC8mkWUgmLWBkWcUoklpa
-	nJueW2yoV5yYW1yal66XnJ+7iRGYYrYd+7l5B+O8Vx/1DjEycTAeYpTgYFYS4TULXpkkxJuS
-	WFmVWpQfX1Sak1p8iNEUGEATmaVEk/OBSS6vJN7QzMDU0MTM0sDU0sxYSZzXs6AjUUggPbEk
-	NTs1tSC1CKaPiYNTqoFJeNO+zT3SdTe6CmSn1c+ae+6E2/0gl8kcEonyM9+yng/4pZzW0fM4
-	b1Pm6lllfmpJbw+Vzr4xfc6bYO9LfwML/t+Zsdp/ouQmz4lZ525J6Xkb7ug+xSJYd8r3r5Q5
-	E9v0+dNWq5i2yU5eMeXk0za29CVW+3y2TWnjNq40iq0tM+a+XN+7jfFTRNJrqXmf2kx//n0/
-	zVLRqWqWB/d+zvIs/rMmujrtDg87K6uPln3YMOf7xcy8nJBnjSK+PyWEcjIs/i2x22J8Y3ba
-	pah6DtlOO20mOynt48kM9+7oFNzaeWHDe7PD9Wuj/5Xsfbh88paIBIXbK/+oVNjo17LnLDK1
-	dT5+3LNieuzrRqEOxa9KLMUZiYZazEXFiQATp8hqugMAAA==
-X-CMS-MailID: 20220617080318eucas1p18554421449b17c4a2ad7816dd6584383
-X-Msg-Generator: CA
-X-RootMTR: 20220615102011eucas1p220368db4a186181b1927dea50a79e5d4
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220615102011eucas1p220368db4a186181b1927dea50a79e5d4
-References: <20220615101920.329421-1-p.raghav@samsung.com>
-	<CGME20220615102011eucas1p220368db4a186181b1927dea50a79e5d4@eucas1p2.samsung.com>
-	<20220615101920.329421-14-p.raghav@samsung.com>
-	<63b0cfb6-eb24-f058-e502-2637039c5a98@opensource.wdc.com>
-	<0b819562-8b16-37b6-9220-28bf1960bccb@samsung.com>
-	<0c4f30f2-c206-0201-31e3-fbb9edbdf666@opensource.wdc.com>
-	<4746a000-2220-211e-1bd6-79c15c18a85c@samsung.com>
-	<e0dc08fd-cd00-240d-edc4-5799d51aa5a8@opensource.wdc.com>
-	<a945def3-ba5a-7539-e96a-43ade0ae674a@samsung.com>
-	<f4cf6348-dd94-aa82-7519-318248c51151@opensource.wdc.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220617_010331_743073_B671BD23 
-X-CRM114-Status: GOOD (  23.31  )
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -151,45 +50,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2022-06-17 08:56, Damien Le Moal wrote:
->>
->> So we call this function device_not_matches_zone_sectors() from
->> validate_hardware_zoned_model() for each target and we let the validate
->> succeed even if the target's zone size is different from the underlying
->> device zone size if this feature flag is set. Let me know if I am
->> missing something and how this can be moved to
->> validate_hardware_zoned_model().
-> 
-> Your change does not match the function name
-> device_not_matches_zone_sectors(), at all. So I think this is wrong.
-> 
-> The fact is that zone support in DM has been built under the following
-> assumptions:
-> 1) A zoned device can be used to create a *zoned* target (e.g. dm-linear,
-> dm-flakey, dm-crypt). For this case, the target *must* use the same zone
-> size as the underlying devices and all devices used for the target must
-> have the same zone size.
-> 2) A zoned device can be used to create a *regular* device target (e.g.
-> dm-zoned). All zoned devices used for the target must have the same zone size.
-> 
-> This new target driver completely breaks (1) and does not fit with (2). I
-> suspect this is why you are seeing problems with dm_revalidate_zones() as
-> that one uses the underlying device instead of the target report zones.
-> 
-> Based on this analysis, validate_hardware_zoned_model() definitely needs
-> to be changed. But device_not_matches_zone_sectors() is to check the
-> assumptions (1) and (2) so changing it for your new case is wrong in my
-> opinion. You need another set of assumptions (3) (define that well please)
-> and modify validate_hardware_zoned_model() so that the defined constraints
-> are checked. Using a target flag to indicate the type of zoned target is
-> fine by me.
-> 
-Got it. Thanks for the explanation. Renaming
-device_not_matches_zone_sectors() function to something meaningful with
-my changes should address what you have pointed out to accommodate all
-three types.
+This device shares the PCI ID with the Samsung 970 Evo Plus that
+does not need or want the quirks.  Move the the quirk entry to the
+core table based on the model number instead.
 
-I see that something similar was done to dm_table_supports_zoned_model()
-to accommodate type 2(dm-zoned) with different underlying zoned models
-even though the initial impl. supported only type 1.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/nvme/host/core.c | 14 ++++++++++++++
+ drivers/nvme/host/pci.c  |  4 ----
+ 2 files changed, 14 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 24165daee3c8f0..bfc5568a447a20 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2546,6 +2546,20 @@ static const struct nvme_core_quirk_entry core_quirks[] = {
+ 		.vid = 0x1e0f,
+ 		.mn = "KCD6XVUL6T40",
+ 		.quirks = NVME_QUIRK_NO_APST,
++	},
++	{
++		/*
++		 * The external Samsung X5 SSD fails initialization without a
++		 * delay before checking if it is ready and has a whole set of
++		 * other problems.  To make this even more interesting, it
++		 * shares the PCI ID with internal Samsung 970 Evo Plus that
++		 * does not need or want these quirks.
++		 */
++		.vid = 0x144d,
++		.mn = "Samsung Portable SSD X5",
++		.quirks = NVME_QUIRK_DELAY_BEFORE_CHK_RDY |
++			  NVME_QUIRK_NO_DEEPEST_PS |
++			  NVME_QUIRK_IGNORE_DEV_SUBNQN,
+ 	}
+ };
+ 
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 48f4f6eb877bcc..d05ee8fb23e084 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3483,10 +3483,6 @@ static const struct pci_device_id nvme_id_table[] = {
+ 				NVME_QUIRK_128_BYTES_SQES |
+ 				NVME_QUIRK_SHARED_TAGS |
+ 				NVME_QUIRK_SKIP_CID_GEN },
+-	{ PCI_DEVICE(0x144d, 0xa808),   /* Samsung X5 */
+-		.driver_data =  NVME_QUIRK_DELAY_BEFORE_CHK_RDY|
+-				NVME_QUIRK_NO_DEEPEST_PS |
+-				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
+ 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
+ 	{ 0, }
+ };
+-- 
+2.30.2
+
 
