@@ -4,62 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D39EEC43334
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jun 2022 15:27:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3FE5C43334
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jun 2022 15:33:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=u0vqinxgI93GxJS6pGeFpD/Z/aGmOBSCrZJIgCSBofk=; b=qbyonCQb7ChE1rHu8CzGt8wHvn
-	slZWcS1EiD3NBn1wSEEXG7sgQqFl7etQYTnUnAvWOTU91l1vKfSn7qwchQUxoGKerxu98x4rh9JHJ
-	bnZq/SHh1UkxWNqRAyzt6kB7TLV527dBoX99JL31kF/kG/M8Q63YszI+fvpm6APqN0/BCLB76lXlA
-	ebQL4DmbULTTqy92C6KgqR8a95wSohAEGAZFXglPfUMUwN6QR7pJbUMagafiRd/F5UcP+Z9x4EsPN
-	24KKZ+eXW8u0naGssUUGC12vvD3wB6l8VohvGF2fcH1CubpKL1i9xl9hwvxYF7NaG80e3YhjcCuQ/
-	Ug4sYUwA==;
+	bh=cTkbArGcpFmU06KIIEvA3hO7zAFZZFkTDvPJIefhxnY=; b=ehThw990fRG1LwlFNHh5AS42Ku
+	gBq+N7oPMN6W00wnEATo5bW6BNiSGjzCo66ewHnX7y1RhR2acvbj/dW67gSp5sCWTP7UcpJ89PYfq
+	74Y8CfTTp9xsp14WlrrBwNuuPHD5jrusZ5LL9jFVSUDs1XHrYw8tC2I6hP6BKGlB45f/Y+cXvOWsh
+	ge34flNW9hILbVfKuURwsKTgx7DkPUzdyQ1rN6LkZkUY8kTsCoL7qyNlxWbvhbxhxvgCpqFlG93zn
+	hArGwy9edkLBobfwh1lKQ40Sca9N9EybWW/IWkE9JC5d5uW69yD3ms2momlaG0kzXU/EHpBIo8pc5
+	G/HGkGhw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3JJV-001FdP-6k; Mon, 20 Jun 2022 15:27:41 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1o3JPL-001GS1-Tk; Mon, 20 Jun 2022 15:33:43 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3JJP-001Fcg-Ib
-	for linux-nvme@lists.infradead.org; Mon, 20 Jun 2022 15:27:36 +0000
+	id 1o3JPJ-001GRc-A4
+	for linux-nvme@lists.infradead.org; Mon, 20 Jun 2022 15:33:42 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 7BD21B8120C;
-	Mon, 20 Jun 2022 15:27:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CACFC3411B;
-	Mon, 20 Jun 2022 15:27:31 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTPS id C3838B80F63;
+	Mon, 20 Jun 2022 15:33:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16D37C341C0;
+	Mon, 20 Jun 2022 15:33:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1655738852;
-	bh=C160ci2Jg/MpBwPywHpQUs6DyohwjJWURvf3+rO7Gk4=;
+	s=k20201202; t=1655739218;
+	bh=hbhAp8mbe8aejEUwyoBwRDrBV0pbR7SwNVAA2pp29Sg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=s1HGH3mQcRoX+mNi/4tHHGxCNMQ1nHYEjBZhMp+Do+RBgGPC8+bAYHo8/U6E3ClmS
-	 SA69tjtH53L5ejhbO4yMOO4CX6o7+fMy9IZlUPoka4dgkstqmWWZWZlO03Kmp1Wyla
-	 +t1ZBl8LLLWsjmtK9K5fQzlyNVkq4NM4Vi4TVnSaOpsjc2zcFm8FCcNSNFTkhaZf3l
-	 smZjMh+TWQwRwy3HSqgwIbne/OvyfMUSZrpoPT2xsOJWBeMNTJoa8r+7MuSxK2w7Rb
-	 rzUszD5a81ct93P5Ax80i2Y/bMoMpbx29RBcOhIHHDwEhlm9ZLhbAzkZJFOfqgB6Tx
-	 9l62jW8mbiO0A==
-Date: Mon, 20 Jun 2022 09:27:28 -0600
+	b=NAJOdMY8Tvr2Y8jufS0EnH/4qhM0uDu/VmV0B3f0x+6t1I7VcRpnjkeuIP+TTilBC
+	 nZcFTGq+2PBjjp5t6Ve6wnZOh+u3ZL3rD35iNqh2o1KeWoy3n4G00h8QW/71TM1HlG
+	 tC9Q4hNTuzjvxKlhVTxf+dRxO/SK7hHr7lq8fe71vyb+W3k9R5Ayc67Mswv0DYiQZR
+	 1wjld5FHcILMP/RFKBhhJBHpjnrWFK+f7+5T05Ln99qlM4oaaOWgs2OpXO0mboq1Sn
+	 YXfHvtLkdYoDY5GE97QDs0w1CnC/BNj5FDcB7PSk8VXYdvvHtH68XlIxM3z2pDOnZ3
+	 BoqkqIZb+nUvQ==
+Date: Mon, 20 Jun 2022 09:33:35 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Leo Savernik <l.savernik@aon.at>,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [bugzilla-daemon@kernel.org: [Bug 216147] New: NVMe quirk needed
- for multiple Micron MTFDKBA2T0TFH SSDs]
-Message-ID: <YrCR4Bjcto09kJyQ@kbusch-mbp.dhcp.thefacebook.com>
-References: <20220619132039.GA1243474@bhelgaas>
+To: Joel Granados <j.granados@samsung.com>
+Cc: hch@lst.de, linux-nvme@lists.infradead.org, joshi.k@samsung.com,
+	gost.dev@samsung.com
+Subject: Re: [PATCH v2] nvme: Fix CRMS masks for TP4084 - Time-to-ready
+Message-ID: <YrCTTzUnBAy0F6zE@kbusch-mbp.dhcp.thefacebook.com>
+References: <CGME20220620121113eucas1p1905756d7a2c84f82b215eaa87544d644@eucas1p1.samsung.com>
+ <20220620120842.829292-1-j.granados@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220619132039.GA1243474@bhelgaas>
+In-Reply-To: <20220620120842.829292-1-j.granados@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220620_082735_801523_45996838 
-X-CRM114-Status: GOOD (  15.48  )
+X-CRM114-CacheID: sfid-20220620_083341_528341_CB919F9C 
+X-CRM114-Status: GOOD (  16.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,23 +72,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Jun 19, 2022 at 08:20:39AM -0500, Bjorn Helgaas wrote:
-> The proposed patch itself (also see attachment):
+On Mon, Jun 20, 2022 at 02:08:42PM +0200, Joel Granados wrote:
+> Adjust the values of NVME_CAP_CRMS_CRIMS and NVME_CAP_CRMS_CRWMS masks as
+> they are different from the ones in TP4084 - Time-to-ready.
 > 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index b925a5f4afc3..2e5c33f3b868 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -3372,5 +3372,7 @@ static const struct pci_device_id nvme_id_table[] = {
-> NVME_QUIRK_128_BYTES_SQES |
->                                 NVME_QUIRK_NO_DEEPEST_PS |
->                                 NVME_QUIRK_IGNORE_DEV_SUBNQN, },
-> +       { PCI_DEVICE(0x1344, 0x5407), /* Micron Technology Inc NVMe SSD */
-> +               .driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN },
->         { PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
->         { 0, }
+> Fixes: 354201c53e61 ("nvme: add support for TP4084 - Time-to-Ready Enhancements").
+> 
+> Signed-off-by: Joel Granados <j.granados@samsung.com>
+> ---
+>  include/linux/nvme.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+> index 29ec3e3481ff..bbe8b03e7452 100644
+> --- a/include/linux/nvme.h
+> +++ b/include/linux/nvme.h
+> @@ -233,8 +233,8 @@ enum {
+>  };
+>  
+>  enum {
+> -	NVME_CAP_CRMS_CRIMS	= 1ULL << 59,
+> -	NVME_CAP_CRMS_CRWMS	= 1ULL << 60,
+> +	NVME_CAP_CRMS_CRIMS	= 1ULL << 60,
+> +	NVME_CAP_CRMS_CRWMS	= 1ULL << 59,
 >  };
 
-Coould you send this as an actual patch to the mailing list so we can include
-it in the next pull request?
+Oops, thanks for the catch. Could you just rearrange them so they appear in
+ascending order?
 
