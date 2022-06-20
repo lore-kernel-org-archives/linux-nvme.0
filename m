@@ -4,67 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF421C43334
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jun 2022 09:16:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B93FCCA479
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jun 2022 09:16:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MwQ4wbJ2J3BpsHA9sanoJTXO4MMQzFNGd9/de0EGoBY=; b=X9zSBWLyOxHVcmjFxXgfLenLkN
-	nCn2c8vjIhyDAz7Kyz0Z36f2ndjgc4gDJb75JJoU+RdtR5MBO752atUekjOYgs4CdQPLmJigsvem7
-	GJdV9MXcuobFIQ+hi5HPzorHCkDdSxKu6brZuhQoqfMscIH2bxvwFXG+9laWQ6ujNQkD8Qcl62qrB
-	Pyd3LM+UE6YaD5sDjuiHmr7/h3ki/RWtdTx2P6ZWxkdDhAwpYugqcF2yTdIoAvASh9iSTX9VFhz80
-	ar4Bl3QgT0gVX1FUVJJM02WpkttvypPYdTpRucZPbj8l6J4YcWOGv/YDioBZTIR0STSNvVV2wiJM4
-	N2/lIrGA==;
+	bh=xkZ/s7WtxAVkUPGyFHjjsumLTjVdh8+OYxSihbuC8vY=; b=NKLNZ41jsRHWNYPRGoiMfWepB6
+	4ArRlQg7tL1/F2btNwusG91dcw+KJMqYeb/ROI8xIbKKoQX+gnwCPMeF1jlQkmnro6l/Xw4FB9zeW
+	UdrhhWE9DnjMU1vfjOletdQqStBUO3t3ToXSj+GtSljoAwTrhudJoyzq9gDtF1acnyLbMAYYWa4PH
+	SdK+5usQvqo7eauCE182NHGb70jXEKVVtQrfXtx5rLdMdGTFH/TchyJ6WnMxvgpUGK9DxXG4+85NF
+	ZhfyQZt+/LJMTMaAHUqnBGEWuSrDOviBXdfvHJO/1JULhalEAcQoiuzy4t1D6fDAz1zVrN5f1qVgN
+	Rx4Da/qg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3DVo-00H5Xf-EQ; Mon, 20 Jun 2022 09:16:00 +0000
+	id 1o3DWF-00H5gc-0V; Mon, 20 Jun 2022 09:16:27 +0000
 Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3DVl-00H5Vx-Pu
-	for linux-nvme@lists.infradead.org; Mon, 20 Jun 2022 09:15:59 +0000
+	id 1o3DWC-00H5fB-2o
+	for linux-nvme@lists.infradead.org; Mon, 20 Jun 2022 09:16:25 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 886301FA93;
-	Mon, 20 Jun 2022 09:15:56 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CF0561FAC7;
+	Mon, 20 Jun 2022 09:16:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1655716556; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1655716582; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MwQ4wbJ2J3BpsHA9sanoJTXO4MMQzFNGd9/de0EGoBY=;
-	b=0evdLip207AMccHMFhzVsCpz9WWDB8kZBWhy46M1Os/TZq8J86x5R1wXT0FMZM5wk1rAKv
-	2hliiqFK/qcQVwYmwSCmlIajWgZKhDzTA6fKL8lgt9C8D8nGJqthRywxi7sAyRrSyde036
-	OUUL7i7k98RUdKjS3owRzEbPwyc4AMc=
+	bh=xkZ/s7WtxAVkUPGyFHjjsumLTjVdh8+OYxSihbuC8vY=;
+	b=AT4AJuShz4HqBI2nlNRveK+IXlQV8HIOKAgtrR2dlMOMs20lwZHTyCbhE5eEk8tI/cG/fj
+	quaiOztyq0SMOWroxPTUcgPBBHEEwj6WJHy+ROUkSs/TpDjBAUgInuK1DliqMkKE/IOTfX
+	BqL6WAPrDjNpcJ7KOac8i/pepCoiIE0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1655716556;
+	s=susede2_ed25519; t=1655716582;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MwQ4wbJ2J3BpsHA9sanoJTXO4MMQzFNGd9/de0EGoBY=;
-	b=cQYqw4WBBdTSCSXGh9NrtwH3roY9H/MFeqRDYT+tT+h2/mPXHCiXbuc1VvoURkrcB4IcV4
-	ZmMmzxRfzzuriWBw==
+	bh=xkZ/s7WtxAVkUPGyFHjjsumLTjVdh8+OYxSihbuC8vY=;
+	b=hQzyTiyG7q8KmJWCAEayXC6ZF4/JTsIl4bU+RsHupP/su5ogfLFj+IAglbIHxtqzPUIhsL
+	feoOPgyoZEA8q6Bg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 63B26134CA;
-	Mon, 20 Jun 2022 09:15:56 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A6ACE134CA;
+	Mon, 20 Jun 2022 09:16:22 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id VWQgGMw6sGJLPgAAMHmgww
-	(envelope-from <hare@suse.de>); Mon, 20 Jun 2022 09:15:56 +0000
-Message-ID: <3a5bed1b-4daf-6f9c-6746-b0592a84d05d@suse.de>
-Date: Mon, 20 Jun 2022 11:15:55 +0200
+	id 3sI0KOY6sGKXPgAAMHmgww
+	(envelope-from <hare@suse.de>); Mon, 20 Jun 2022 09:16:22 +0000
+Message-ID: <97f428d0-8039-709c-f632-db1acc9a4315@suse.de>
+Date: Mon, 20 Jun 2022 11:16:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH 4/5] scsi: fnic: Drop reserved request handling
+Subject: Re: [PATCH 5/5] blk-mq: Drop 'reserved' member of busy_tag_iter_fn
 Content-Language: en-US
 To: John Garry <john.garry@huawei.com>, axboe@kernel.dk,
  damien.lemoal@opensource.wdc.com, bvanassche@acm.org, hch@lst.de,
@@ -76,14 +76,14 @@ Cc: linux-rdma@vger.kernel.org, linux-mmc@vger.kernel.org,
  linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
  nbd@other.debian.org
 References: <1655463320-241202-1-git-send-email-john.garry@huawei.com>
- <1655463320-241202-5-git-send-email-john.garry@huawei.com>
+ <1655463320-241202-6-git-send-email-john.garry@huawei.com>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <1655463320-241202-5-git-send-email-john.garry@huawei.com>
+In-Reply-To: <1655463320-241202-6-git-send-email-john.garry@huawei.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220620_021558_040133_26BD401A 
-X-CRM114-Status: GOOD (  13.20  )
+X-CRM114-CacheID: sfid-20220620_021624_331851_D923C90C 
+X-CRM114-Status: GOOD (  10.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,28 +99,29 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 6/17/22 12:55, John Garry wrote:
-> The SCSI core code does not support reserved requests, so drop the
-> handling in fnic_pending_aborts_iter().
+> We no longer use the 'reserved' member in for any iter function so it
+> may be dropped.
 > 
 > Signed-off-by: John Garry <john.garry@huawei.com>
 > ---
->   drivers/scsi/fnic/fnic_scsi.c | 2 --
->   1 file changed, 2 deletions(-)
+>   block/blk-mq-debugfs.c              |  2 +-
+>   block/blk-mq-tag.c                  | 13 +++++--------
+>   block/blk-mq.c                      | 10 ++++------
+>   drivers/block/mtip32xx/mtip32xx.c   |  6 +++---
+>   drivers/block/nbd.c                 |  2 +-
+>   drivers/infiniband/ulp/srp/ib_srp.c |  3 +--
+>   drivers/nvme/host/core.c            |  2 +-
+>   drivers/nvme/host/fc.c              |  3 +--
+>   drivers/nvme/host/nvme.h            |  2 +-
+>   drivers/scsi/aacraid/comminit.c     |  2 +-
+>   drivers/scsi/aacraid/linit.c        |  2 +-
+>   drivers/scsi/fnic/fnic_scsi.c       | 12 ++++--------
+>   drivers/scsi/hosts.c                | 14 ++++++--------
+>   drivers/scsi/mpi3mr/mpi3mr_os.c     | 16 ++++------------
+>   include/linux/blk-mq.h              |  2 +-
+>   include/scsi/scsi_host.h            |  2 +-
+>   16 files changed, 36 insertions(+), 57 deletions(-)
 > 
-> diff --git a/drivers/scsi/fnic/fnic_scsi.c b/drivers/scsi/fnic/fnic_scsi.c
-> index 3d64877bda8d..e7b7f6d73429 100644
-> --- a/drivers/scsi/fnic/fnic_scsi.c
-> +++ b/drivers/scsi/fnic/fnic_scsi.c
-> @@ -2019,8 +2019,6 @@ static bool fnic_pending_aborts_iter(struct scsi_cmnd *sc,
->   
->   	if (sc == iter_data->lr_sc || sc->device != lun_dev)
->   		return true;
-> -	if (reserved)
-> -		return true;
->   
->   	io_lock = fnic_io_lock_tag(fnic, abt_tag);
->   	spin_lock_irqsave(io_lock, flags);
-
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
 Cheers,
