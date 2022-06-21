@@ -4,70 +4,177 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D72EFC43334
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jun 2022 17:26:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 815B4C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jun 2022 18:42:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DtD6FABLeqGia82ISWf6qcfaE04wM00+t+yAntAHTh4=; b=XTM7TveC4sEpaR6+iHMukRVgjz
-	e5LC8b40A4vOw3txk6AtDRop3oYnyha8IB1RsXCkvCUB6WMrMNn8HpdoulG2wOgbONt6bpge39Mli
-	QTnQ1raG/+JH26yqxaFJNHm5uMei+eHZ6YXl/Yn2j3FgvlDD2dqVHvS0IJiVgOfpqMjFCNP0qqK2q
-	9UGo7tvvK5k6t6st+LcNlLIkD0xtw8PZ+s7h8U1HK1BtoiMNrB3m8NBoYDp1Rjuj6qwnif7F0XfKv
-	POhS8BybzCGh1I5hsRksDkuRLLiFKRn2sMQLg3lUg1RqEWesaSJmMvI5FBd3XIDUJ2Vu1rhxEQ8mi
-	bifUS0eg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=jM7FB+sksR7ubo/keI1t+yqCSInGGT1ls9UkTn5ksdE=; b=dnfMIf3sUybUaOy1F25sfVxAHs
+	IqLsc6/NM5bIXo/mYIfthP0Gxi9AwMcjMRAgzXsiCOte/9wUhMdJXYoVe76G0ESAmLjwya0y20rJs
+	ziptxssNpdLlhDPaB2vS00JOIo4tjJ1pKYt1NXrTeRV14SNuwhDud7vftHQwv+wBrPOPnn5URl1Z2
+	yq89Ne51O+sRhHmks5zSF+h86yJOGAHfOHmjk9hrZ2HDRda66sJuZDX0ah3kOQk/hpxZvPDtnmcB8
+	4gCkZxk0lrnldgrhhyEssCTp8YPNtaV5bWOqJCL5sqrUWF0RR7i5N3R7g/3aBWGfFz2GXIlBJ1Ua6
+	Zp8DEH7Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3hdR-006XkI-SX; Tue, 21 Jun 2022 17:25:53 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1o3ipV-006kQx-D1; Tue, 21 Jun 2022 18:42:25 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3hcB-006XBv-4R
-	for linux-nvme@lists.infradead.org; Tue, 21 Jun 2022 17:24:43 +0000
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id 3E2831F8A8;
-	Tue, 21 Jun 2022 17:24:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1655832271; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DtD6FABLeqGia82ISWf6qcfaE04wM00+t+yAntAHTh4=;
-	b=Awk1Sh8D4eQ9/F/ABXSO0doQfLoFgrHflAQZkRk6YmyLNHbIrSedNnGLb+uCdvm4P9WadY
-	l3x5vNIW/say7+qQ3yAU16beR95ZPp4ixNIwSFhJTPkMY3uRBHFm+2ZQdxm93C/tfssQU7
-	FaIsieueRMkymc74qjkD3Vrzz2U2Wg8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1655832271;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DtD6FABLeqGia82ISWf6qcfaE04wM00+t+yAntAHTh4=;
-	b=7vwicvAL8ndvlQXwxundeaV5Yk0PGURbxRuH/Ie93hW0jNnidKApc5INlQWCzQlVsXxEHV
-	5UMWZ+mWjje7sKBg==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 3076E2C14F;
-	Tue, 21 Jun 2022 17:24:31 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 71C9B5194C82; Tue, 21 Jun 2022 19:24:30 +0200 (CEST)
-From: Hannes Reinecke <hare@suse.de>
+	id 1o3ipQ-006kG1-HZ
+	for linux-nvme@lists.infradead.org; Tue, 21 Jun 2022 18:42:23 +0000
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25LFktAX004714;
+	Tue, 21 Jun 2022 18:40:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=jM7FB+sksR7ubo/keI1t+yqCSInGGT1ls9UkTn5ksdE=;
+ b=emKR4EuZM3YS07r/exv5gN9w56k/q9zZY5dsEVlK1ADvxNhul4lZALJXHBpbc0FDX6N0
+ tDyUvgrbv9qWLDWgESIH6Hq8UkLCCX8NvFEZDF9yItRykZ90LJZMlhUxApmRmN2IGXka
+ gHJ/fn0yBmFMGIMOfMzYQjkjKCUb6hkAO30RigN/M3KZsIYguWq9j5wkvICcCJzN/Hyl
+ PIvX6/Am/XCNibALROliBRXdPnz+ruGDn8rwgVOyqTP+u6b3F3JXJ6vVxRsHB81w0hvm
+ 3jv5tygmmtKDlA1KX2cTdpgNa2qEZ8Zee316wBnIWc30msOwqC56rs+clTkcO5axOKac Zg== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gs54cpcqy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 21 Jun 2022 18:40:52 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25LIaaCV032901;
+	Tue, 21 Jun 2022 18:40:52 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2102.outbound.protection.outlook.com [104.47.58.102])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gtg3vg0ty-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 21 Jun 2022 18:40:51 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lwe4k5fek5Q7NOuMp5OedC9k2Ih+76VRy96ydAJ3Vdme/7Dezo5G2OMi3U41DSPSyioksqloUbbQ1u2IecLglgM6l1evGn4h2OgF07E6cJLUTky0AJAZFZ1m9EIqPI7Sg2K2zDn8SZogYIkVo+xarC1puu50vEyqSUsOlib1uBqAylX9SNxS2zECb23a+jMwVUkHwBRRIqkm8seI+CVjzZlxBdHK5GwUyoxOhNTHA4NaCJnjRIM95DOY+aV5FwGhuPdIGTmvpWb90MiBWfnF4D74Dap+Rx2XcTA0C+YYMhsH3iiUlaoteK14mRDbPuVu/Me1h8m+5XMFpNJ7rUk2hw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jM7FB+sksR7ubo/keI1t+yqCSInGGT1ls9UkTn5ksdE=;
+ b=bzT1b0pCoW+LlfjMvtcXYfm8qQTopqX2g3lz/f2xqlPqcgFVqFUNC6RvQkcDJPsy8HX9P0h9qRsTUiVr8fVuePGMQUL6/w25zmU++AJSFWR74R955AioSneHJYn97KjjkMg7jR0EZzvDAP0ZR+IGe1fgGC2Cp8iQp1LcLXrOm384qKoZ79Iw7Zij1vX6K4RU0bORJjTOGAt7jgRjIGpcgV7MZRYxKGJAyqkZALYmvE3gNx0jbqK3FhHhAp60RiraLX3rDftJGIWXGesfzj+IvAi4RP1Bxu7RS6jXTm3dU68gKYMxur0BJj798ZYKwkuFhxNaWdsh7bFMYKzfTQC2Pg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jM7FB+sksR7ubo/keI1t+yqCSInGGT1ls9UkTn5ksdE=;
+ b=pc28DYsxpWkrBnhWZy5vsJFdGrC37AUnSsxZSHljJoz/i9aMc/sQbHGFd74qUhvq1/iBMg5MoU87d1iFNt4KHckwvx/tU5q3GQ+XlBCuMlZ9bWur9XVSyOAwmXCF1txaPEl7t6vtxbROe2wdr2mZWUZ9l9mcmt7PkLVuu82cFP4=
+Received: from SJ0PR10MB5550.namprd10.prod.outlook.com (2603:10b6:a03:3d3::5)
+ by BYAPR10MB3605.namprd10.prod.outlook.com (2603:10b6:a03:129::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.14; Tue, 21 Jun
+ 2022 18:40:50 +0000
+Received: from SJ0PR10MB5550.namprd10.prod.outlook.com
+ ([fe80::5064:d3d3:558f:63b6]) by SJ0PR10MB5550.namprd10.prod.outlook.com
+ ([fe80::5064:d3d3:558f:63b6%4]) with mapi id 15.20.5353.021; Tue, 21 Jun 2022
+ 18:40:50 +0000
+From: Alan Adamson <alan.adamson@oracle.com>
 To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 06/11] nvme: Implement In-Band authentication
-Date: Tue, 21 Jun 2022 19:24:09 +0200
-Message-Id: <20220621172414.82847-7-hare@suse.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20220621172414.82847-1-hare@suse.de>
-References: <20220621172414.82847-1-hare@suse.de>
+CC: Keith Busch <kbusch@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
+        Klaus Jensen <its@irrelevant.dk>, Sagi Grimberg <sagi@grimberg.me>,
+        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH 4/4] nvme: check that EUI/GUID/UUID are globally unique
+Thread-Topic: [PATCH 4/4] nvme: check that EUI/GUID/UUID are globally unique
+Thread-Index:  AQHYKbXc39T2BoiygkiETee4KuxaGazldeqAgABJzICAAB64AIAAlJYAgAAa2oCAA+JBgIAADcuAgAwnQ4CAAhongIBKtzYAgAJPjACAAKy4gIAADwUAgACTr4CAAVjIAIAA5nIAgAhBGoCAAmhFAIAG61AA
+Date: Tue, 21 Jun 2022 18:40:49 +0000
+Message-ID: <572E6BCA-2B80-46BB-9FBE-F6AA3D7C8FAC@oracle.com>
+References: <C85067CB-3909-4B62-A86D-467827EBF96E@oracle.com>
+ <20220420073641.GA6859@lst.de>
+ <26796ED5-859F-4844-B1D1-7C2FF5126E40@oracle.com>
+ <20220608075252.GB13027@lst.de>
+ <F8EC1673-8434-4294-ADAF-96238E65A7AE@oracle.com>
+ <YqDy0BIgLbAVRw2u@kbusch-mbp.dhcp.thefacebook.com>
+ <20220609035323.GA31248@lst.de>
+ <6ACB62F8-BFC4-45A3-9886-E05DB45248D5@oracle.com>
+ <YqNRPEpZgT8Xn9Nr@kbusch-mbp.dhcp.thefacebook.com>
+ <B396ED69-5559-40F0-92F3-8B319D90584C@oracle.com>
+ <20220617090100.GA7767@lst.de>
+In-Reply-To: <20220617090100.GA7767@lst.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 3a4ff329-194c-4cb8-7aac-08da53b59033
+x-ms-traffictypediagnostic: BYAPR10MB3605:EE_
+x-microsoft-antispam-prvs:  <BYAPR10MB3605C5A8770414F809CEFD44F4B39@BYAPR10MB3605.namprd10.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  HH5lj1Amp2c6sl/zISIK6HAZ10YXs5Wn9cq/EiEJeaARTcVy/V4EWFpllYqVja00C345rka2jgHLdRt8GQUhog47KphHXmGEqD8zbyK229LfnV1EBr+JyW1wN/j44JeQN7MD96oAzE6oyycgv68OquvgEiBnvojDg9042G5EFYYfsHs+afIMdp7FRUL35iPXZsmDzhtifWWisJv2cSOp0FklfC410yP2wG3krYS22BGPDQ/RBP9VxriLrUw8ggWxcyKDEOAwQIjouYCR+opedkDuPKWoArw1fq1V/Qsj/3dBOipe3UEw8AAHe3DmI3zzIcO8wTT8lrMlyiHicEdOy1si+Sv7RhWgYsQsr8paOYXERwmuanlNU7vCGmz08HBINn8vSw3jENB9QTefwwvFjemHsH/NlVV1H0P+R5OZiPn8JorXtYXr+186EAfGyWkVHSOWm82TSK8Lmro4H3T42U7rVYxjP6rhvtIjEs0EPz5mVmgq2ZSAq6iY5h9RE9WHFSyXrsAI1X+dQDc/w6iHeJteYa4vFqoJEwPCOPdDspmZBoijdzMpdJsEXVbArJ5Y5AvPxotSnjpei3ihKmbOqPBMNjGY0CsSYVAGTfNydvplmTGsM6QOw/+HFZcBHPgu7Skrw+AeAAeqKQClIqi50vBOePG2hV4mRL3oVqNy8Pd75+kZNYXa6SQVmu9ozc/rulddro24Yvl4UGggIjMga9furIUWSDmUcphHwssKE/NXWt0S8T/jguRMIyawv4tn
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5550.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(396003)(346002)(376002)(366004)(39860400002)(136003)(6512007)(41300700001)(53546011)(2616005)(44832011)(8936002)(36756003)(33656002)(38100700002)(5660300002)(2906002)(6506007)(8676002)(66946007)(83380400001)(66446008)(86362001)(6486002)(38070700005)(64756008)(4326008)(122000001)(76116006)(478600001)(186003)(66556008)(66476007)(6916009)(54906003)(71200400001)(316002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 2
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?NHR1SnhYRlEyNjB3bzJXTzQ3QmxjMkNZY1pKRlZoZFFQcVY4YWQxWWt1R0Zh?=
+ =?utf-8?B?a2NOSmZ3cWtjRUoybThMVC92YmhZNHVXdHA1eUI1bG90NHZ6ek5CR0VNREhX?=
+ =?utf-8?B?YUlORGNwdmU3eTV6VU1SdHZVck1LZlRBY0h5K2pBSmtlbFR2bjJnUE1oSjls?=
+ =?utf-8?B?NHJKQVlrNHUvYldJVjNNd0FOa1ZhKzdQMndTM2lORTdGS0treEtYcldCSUZz?=
+ =?utf-8?B?SzQreTBiRjlZODZPN3hyTFN2Q3MxSmRxemZ2eE1pMGNvMzl2OVVDZTF4OFZp?=
+ =?utf-8?B?cnB5R2hvdWExWEVBUWxRdlh1QkxEUGNZUldQU1Q3NnZHOEtDbjhxY2JJZXh0?=
+ =?utf-8?B?RlNvNGNxQ3VpY3VEMFdXQlJiR1VzM1k1RjRhdTNYWjB3WnhVNFNJM0cyUnN1?=
+ =?utf-8?B?aVJyUVFzV1hmeStvMXNUWVhRS1JYVEdkWmp0VEhTcnJQRlN3SXV3b1h2MnBG?=
+ =?utf-8?B?Y3BUVnJOYkdvUnhBdnFtNlJhMjFJNWxVWEZjaWZhK0plQnd6R2RseXl4TGJr?=
+ =?utf-8?B?LzltamNMQVp4b3kwcDEySnhYMFlQczBpektVUkc4YnZCdlp6QWJVNC9IMFpH?=
+ =?utf-8?B?T1YweDBpSnd4N2dPZHNMdkxiZ0dqOFVueDFRL1RoZ0VxQW1Rd1RHNmZpSkVa?=
+ =?utf-8?B?bWNleGNUMVI2SlpQcVNFSVcybUJqT2FhcVlkNkFXMGJDUFZGTm9MWlBWUlJ4?=
+ =?utf-8?B?T0Z6UDdKRU1vTVlqYjR6b3VTd1pLbEVsSENoQ1ZHc3hUdDBXemdncXMxRldS?=
+ =?utf-8?B?N1JDcnA1dktFUitYQjdoSGJOM2p2YXFrdjdDcHZhTmVrcFNKTGYwU0VPWHcz?=
+ =?utf-8?B?RGhWNW9hbWx3OUwvclBNOW4za1gyZHZ0N20ySXhCZFlpM0JkTnh2WTBhRGl2?=
+ =?utf-8?B?TWY2ZWVSZXVkcVBFeVZVREt2cGc1T0d4enlVd1lhemlBbEZrSHhxVTM5ZVBI?=
+ =?utf-8?B?aXJ6b0dTa0xpSkJGK0ZkWXBBWldVNFl3d2V1VzhVeFNLMzJCOGVtY1NUUmV5?=
+ =?utf-8?B?S011UzFWNFBEYlFZc3ZjWlk5VHQzZWRBR1ZjYStiRVdCTXZCclp2Tnc2UG5W?=
+ =?utf-8?B?YXpsRWJIV3prb3dqc3FVUER4d1drQzJ5RjJ5dWw4Z2tVNVdyR0o5Zng1RUc3?=
+ =?utf-8?B?c3c3K2p0eWtycGhHQ0daOGdnVHlVNmFwR0FSTmtGenpsaEM4RW5xZnNndklT?=
+ =?utf-8?B?TEMzZlArNkduYS9vOWo1d0F5VlpWRjZOV3RsUzZCNFFUbG5VcE52bC9mYks4?=
+ =?utf-8?B?UFQ2WUdsYWpCTjV1WjFJcnZSUXFET09HajJvZXpzM2FJNWlpVXcrb3kvYy9Q?=
+ =?utf-8?B?Q3JSNHpjbThMQ0psQlhJQlphMEthRVhqSEhCZnRFTHJVbWNqVUJ4eWNscmIx?=
+ =?utf-8?B?N2Q1MWNsUmxOSFNaRCtwdkR5ZGFSNVNESWdWYkhWRnAwR0ZXTFBWemJHSTYw?=
+ =?utf-8?B?aTB0b21mZkZMQkFjS0hjVjFiQ2V1MDEwQ081em4yd2V2NnpQMmVXVFZQaU81?=
+ =?utf-8?B?YTBIbTFrMTZwc3hyS1owbzllQkpUQTRSMlNzR0dRMnlTbjB2bTh6THYwUTZi?=
+ =?utf-8?B?b2ROS21zVTdWZWpKejZEOVRjK1oyYUovNjJaRWNoWjFzd1ZuUVd5ZE5xaisy?=
+ =?utf-8?B?MGUwZWJLR3pYeFp5U2hzRXF2d3NkV1VSL2Vxd0FnMnJ6ZkRPeTVOMmZRTWVo?=
+ =?utf-8?B?c083Y3R0NG9ORDlaVXZvYTVEVEpCNW5DdnRWOFZrTTZhUWkrTklHU0owajd1?=
+ =?utf-8?B?bnV4Um9TYWppeUsxOW9PS05rR2swY3RaQ3NnZEgvUVo2a0tIQnVQdEY0M1p5?=
+ =?utf-8?B?amxKT1NnbHdmMWMxVXJZSW9qUEs0UVBCK1puZzM4cHUwRURUYWF2NG9Gd0Rp?=
+ =?utf-8?B?ZkRhbUFTV3phejlzSnhtbmVveUZEMTJaY3JvdWVYbXNIUUlTZ2pvdTZDaitn?=
+ =?utf-8?B?Nkd2RHB5RWY1RHlkZ2VNaCtqK1JHNGlua2pSUTBVN3lVZlBURkgxQW53dUVa?=
+ =?utf-8?B?KzZWUDA2dURGakVMRE80MTNWS3RJcU5SSzZCcFBkVlZqOEFKU3pBSFZrT3Vw?=
+ =?utf-8?B?T2NqRk1lbitKUWRPMzdXMG1WaG9ad05KQjhlbEVPa0dscFFLa1ltMXpBczQ0?=
+ =?utf-8?B?OFpSR3QrM1o0Ti8vMDkxWUdVVXh4OFhxQjQ5U3hqb2lydU53NUhLMnFTMmpu?=
+ =?utf-8?B?eXJBTmxLUExUNEFHYm9tTHp4cjJaaTR6eWRTa1VseStidmhSME9nVE13c0RC?=
+ =?utf-8?B?OW1SZWUxaFJJVjNabWpIcGJtbGttb1k3R2ZCaVZ6V1EvWTVyZ3RSeEkxY1Fy?=
+ =?utf-8?B?SFYyU3BWbjg4TTQ3T1JkM1pTS3ZkM0k1WkNIQ2MvT2VwejJ4ZTcrOUhFaGRR?=
+ =?utf-8?Q?tLyaFUsTCWzo94iZMRUv/oBdX0VIUxqIdKi89mWT5ofzi?=
+x-ms-exchange-antispam-messagedata-1: JrG24Nwfk76oCA==
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <4756D3F56F258342BC3CC3F67D603E22@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5550.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a4ff329-194c-4cb8-7aac-08da53b59033
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jun 2022 18:40:49.9669
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 8SwlYt/bRet1pakJ3ilvjPmqtpeBV7ucQ84xdW4jdIbRJ96zZ06GkxUNEV9FR3oobcBtgffXpoejZIgCTQNZ6Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3605
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.883
+ definitions=2022-06-21_08:2022-06-21,2022-06-21 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxlogscore=999
+ malwarescore=0 adultscore=0 phishscore=0 bulkscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206210076
+X-Proofpoint-GUID: -H-FMXKZ7q7JdLxz3P2pUiG_ONY-CuwP
+X-Proofpoint-ORIG-GUID: -H-FMXKZ7q7JdLxz3P2pUiG_ONY-CuwP
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220621_102435_708254_81055769 
-X-CRM114-Status: GOOD (  28.55  )
+X-CRM114-CacheID: sfid-20220621_114221_486709_DE121FD0 
+X-CRM114-Status: GOOD (  30.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,1858 +189,107 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Implement NVMe-oF In-Band authentication according to NVMe TPAR 8006.
-This patch adds two new fabric options 'dhchap_secret' to specify the
-pre-shared key (in ASCII respresentation according to NVMe 2.0 section
-8.13.5.8 'Secret representation') and 'dhchap_ctrl_secret' to specify
-the pre-shared controller key for bi-directional authentication of both
-the host and the controller.
-Re-authentication can be triggered by writing the PSK into the new
-controller sysfs attribute 'dhchap_secret' or 'dhchap_ctrl_secret'.
-
-Signed-off-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/Kconfig         |   1 +
- drivers/nvme/Makefile        |   1 +
- drivers/nvme/common/Kconfig  |   4 +
- drivers/nvme/common/Makefile |   7 +
- drivers/nvme/common/auth.c   | 328 ++++++++++++++
- drivers/nvme/host/Kconfig    |  13 +
- drivers/nvme/host/Makefile   |   1 +
- drivers/nvme/host/auth.c     | 813 +++++++++++++++++++++++++++++++++++
- drivers/nvme/host/core.c     | 143 +++++-
- drivers/nvme/host/fabrics.c  |  79 +++-
- drivers/nvme/host/fabrics.h  |   7 +
- drivers/nvme/host/nvme.h     |  30 ++
- drivers/nvme/host/rdma.c     |   1 +
- drivers/nvme/host/tcp.c      |   1 +
- drivers/nvme/host/trace.c    |  32 ++
- include/linux/nvme-auth.h    |  33 ++
- 16 files changed, 1487 insertions(+), 7 deletions(-)
- create mode 100644 drivers/nvme/common/Kconfig
- create mode 100644 drivers/nvme/common/Makefile
- create mode 100644 drivers/nvme/common/auth.c
- create mode 100644 drivers/nvme/host/auth.c
- create mode 100644 include/linux/nvme-auth.h
-
-diff --git a/drivers/nvme/Kconfig b/drivers/nvme/Kconfig
-index 87ae409a32b9..656e46d938da 100644
---- a/drivers/nvme/Kconfig
-+++ b/drivers/nvme/Kconfig
-@@ -1,6 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- menu "NVME Support"
- 
-+source "drivers/nvme/common/Kconfig"
- source "drivers/nvme/host/Kconfig"
- source "drivers/nvme/target/Kconfig"
- 
-diff --git a/drivers/nvme/Makefile b/drivers/nvme/Makefile
-index fb42c44609a8..eedca8c72098 100644
---- a/drivers/nvme/Makefile
-+++ b/drivers/nvme/Makefile
-@@ -1,4 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
-+obj-$(CONFIG_NVME_COMMON)		+= common/
- obj-y		+= host/
- obj-y		+= target/
-diff --git a/drivers/nvme/common/Kconfig b/drivers/nvme/common/Kconfig
-new file mode 100644
-index 000000000000..4514f44362dd
---- /dev/null
-+++ b/drivers/nvme/common/Kconfig
-@@ -0,0 +1,4 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+config NVME_COMMON
-+       tristate
-diff --git a/drivers/nvme/common/Makefile b/drivers/nvme/common/Makefile
-new file mode 100644
-index 000000000000..720c625b8a52
---- /dev/null
-+++ b/drivers/nvme/common/Makefile
-@@ -0,0 +1,7 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+ccflags-y			+= -I$(src)
-+
-+obj-$(CONFIG_NVME_COMMON)	+= nvme-common.o
-+
-+nvme-common-y			+= auth.o
-diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
-new file mode 100644
-index 000000000000..1cccaf6afdd2
---- /dev/null
-+++ b/drivers/nvme/common/auth.c
-@@ -0,0 +1,328 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2020 Hannes Reinecke, SUSE Linux
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/crc32.h>
-+#include <linux/base64.h>
-+#include <linux/prandom.h>
-+#include <linux/scatterlist.h>
-+#include <asm/unaligned.h>
-+#include <crypto/hash.h>
-+#include <crypto/dh.h>
-+#include <linux/nvme.h>
-+#include <linux/nvme-auth.h>
-+
-+static u32 nvme_dhchap_seqnum;
-+static DEFINE_MUTEX(nvme_dhchap_mutex);
-+
-+u32 nvme_auth_get_seqnum(void)
-+{
-+	u32 seqnum;
-+
-+	mutex_lock(&nvme_dhchap_mutex);
-+	if (!nvme_dhchap_seqnum)
-+		nvme_dhchap_seqnum = prandom_u32();
-+	else {
-+		nvme_dhchap_seqnum++;
-+		if (!nvme_dhchap_seqnum)
-+			nvme_dhchap_seqnum++;
-+	}
-+	seqnum = nvme_dhchap_seqnum;
-+	mutex_unlock(&nvme_dhchap_mutex);
-+	return seqnum;
-+}
-+EXPORT_SYMBOL_GPL(nvme_auth_get_seqnum);
-+
-+static struct nvme_auth_dhgroup_map {
-+	const char name[16];
-+	const char kpp[16];
-+} dhgroup_map[] = {
-+	[NVME_AUTH_DHGROUP_NULL] = {
-+		.name = "null", .kpp = "null" },
-+	[NVME_AUTH_DHGROUP_2048] = {
-+		.name = "ffdhe2048", .kpp = "ffdhe2048(dh)" },
-+	[NVME_AUTH_DHGROUP_3072] = {
-+		.name = "ffdhe3072", .kpp = "ffdhe3072(dh)" },
-+	[NVME_AUTH_DHGROUP_4096] = {
-+		.name = "ffdhe4096", .kpp = "ffdhe4096(dh)" },
-+	[NVME_AUTH_DHGROUP_6144] = {
-+		.name = "ffdhe6144", .kpp = "ffdhe6144(dh)" },
-+	[NVME_AUTH_DHGROUP_8192] = {
-+		.name = "ffdhe8192", .kpp = "ffdhe8192(dh)" },
-+};
-+
-+const char *nvme_auth_dhgroup_name(u8 dhgroup_id)
-+{
-+	if ((dhgroup_id > ARRAY_SIZE(dhgroup_map)) ||
-+	    !dhgroup_map[dhgroup_id].name ||
-+	    !strlen(dhgroup_map[dhgroup_id].name))
-+		return NULL;
-+	return dhgroup_map[dhgroup_id].name;
-+}
-+EXPORT_SYMBOL_GPL(nvme_auth_dhgroup_name);
-+
-+const char *nvme_auth_dhgroup_kpp(u8 dhgroup_id)
-+{
-+	if ((dhgroup_id > ARRAY_SIZE(dhgroup_map)) ||
-+	    !dhgroup_map[dhgroup_id].kpp ||
-+	    !strlen(dhgroup_map[dhgroup_id].kpp))
-+		return NULL;
-+	return dhgroup_map[dhgroup_id].kpp;
-+}
-+EXPORT_SYMBOL_GPL(nvme_auth_dhgroup_kpp);
-+
-+u8 nvme_auth_dhgroup_id(const char *dhgroup_name)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(dhgroup_map); i++) {
-+		if (!dhgroup_map[i].name ||
-+		    !strlen(dhgroup_map[i].name))
-+			continue;
-+		if (!strncmp(dhgroup_map[i].name, dhgroup_name,
-+			     strlen(dhgroup_map[i].name)))
-+			return i;
-+	}
-+	return NVME_AUTH_DHGROUP_INVALID;
-+}
-+EXPORT_SYMBOL_GPL(nvme_auth_dhgroup_id);
-+
-+static struct nvme_dhchap_hash_map {
-+	int len;
-+	const char hmac[15];
-+	const char digest[8];
-+} hash_map[] = {
-+	[NVME_AUTH_HASH_SHA256] = {
-+		.len = 32,
-+		.hmac = "hmac(sha256)",
-+		.digest = "sha256",
-+	},
-+	[NVME_AUTH_HASH_SHA384] = {
-+		.len = 48,
-+		.hmac = "hmac(sha384)",
-+		.digest = "sha384",
-+	},
-+	[NVME_AUTH_HASH_SHA512] = {
-+		.len = 64,
-+		.hmac = "hmac(sha512)",
-+		.digest = "sha512",
-+	},
-+};
-+
-+const char *nvme_auth_hmac_name(u8 hmac_id)
-+{
-+	if ((hmac_id > ARRAY_SIZE(hash_map)) ||
-+	    !hash_map[hmac_id].hmac ||
-+	    !strlen(hash_map[hmac_id].hmac))
-+		return NULL;
-+	return hash_map[hmac_id].hmac;
-+}
-+EXPORT_SYMBOL_GPL(nvme_auth_hmac_name);
-+
-+const char *nvme_auth_digest_name(u8 hmac_id)
-+{
-+	if ((hmac_id > ARRAY_SIZE(hash_map)) ||
-+	    !hash_map[hmac_id].digest ||
-+	    !strlen(hash_map[hmac_id].digest))
-+		return NULL;
-+	return hash_map[hmac_id].digest;
-+}
-+EXPORT_SYMBOL_GPL(nvme_auth_digest_name);
-+
-+u8 nvme_auth_hmac_id(const char *hmac_name)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(hash_map); i++) {
-+		if (!hash_map[i].hmac || !strlen(hash_map[i].hmac))
-+			continue;
-+		if (!strncmp(hash_map[i].hmac, hmac_name,
-+			     strlen(hash_map[i].hmac)))
-+			return i;
-+	}
-+	return NVME_AUTH_HASH_INVALID;
-+}
-+EXPORT_SYMBOL_GPL(nvme_auth_hmac_id);
-+
-+size_t nvme_auth_hmac_hash_len(u8 hmac_id)
-+{
-+	if ((hmac_id > ARRAY_SIZE(hash_map)) ||
-+	    !hash_map[hmac_id].hmac ||
-+	    !strlen(hash_map[hmac_id].hmac))
-+		return 0;
-+	return hash_map[hmac_id].len;
-+}
-+EXPORT_SYMBOL_GPL(nvme_auth_hmac_hash_len);
-+
-+struct nvme_dhchap_key *nvme_auth_extract_key(unsigned char *secret,
-+					      u8 key_hash)
-+{
-+	struct nvme_dhchap_key *key;
-+	unsigned char *p;
-+	u32 crc;
-+	int ret, key_len;
-+	size_t allocated_len = strlen(secret);
-+
-+	/* Secret might be affixed with a ':' */
-+	p = strrchr(secret, ':');
-+	if (p)
-+		allocated_len = p - secret;
-+	key = kzalloc(sizeof(*key), GFP_KERNEL);
-+	if (!key)
-+		return ERR_PTR(-ENOMEM);
-+	key->key = kzalloc(allocated_len, GFP_KERNEL);
-+	if (!key->key) {
-+		ret = -ENOMEM;
-+		goto out_free_key;
-+	}
-+
-+	key_len = base64_decode(secret, allocated_len, key->key);
-+	if (key_len < 0) {
-+		pr_debug("base64 key decoding error %d\n",
-+			 key_len);
-+		ret = key_len;
-+		goto out_free_secret;
-+	}
-+
-+	if (key_len != 36 && key_len != 52 &&
-+	    key_len != 68) {
-+		pr_err("Invalid key len %d\n", key_len);
-+		ret = -EINVAL;
-+		goto out_free_secret;
-+	}
-+
-+	if (key_hash > 0 &&
-+	    (key_len - 4) != nvme_auth_hmac_hash_len(key_hash)) {
-+		pr_err("Mismatched key len %d for %s\n", key_len,
-+		       nvme_auth_hmac_name(key_hash));
-+		ret = -EINVAL;
-+		goto out_free_secret;
-+	}
-+
-+	/* The last four bytes is the CRC in little-endian format */
-+	key_len -= 4;
-+	/*
-+	 * The linux implementation doesn't do pre- and post-increments,
-+	 * so we have to do it manually.
-+	 */
-+	crc = ~crc32(~0, key->key, key_len);
-+
-+	if (get_unaligned_le32(key->key + key_len) != crc) {
-+		pr_err("key crc mismatch (key %08x, crc %08x)\n",
-+		       get_unaligned_le32(key->key + key_len), crc);
-+		ret = -EKEYREJECTED;
-+		goto out_free_secret;
-+	}
-+	key->len = key_len;
-+	key->hash = key_hash;
-+	return key;
-+out_free_secret:
-+	kfree_sensitive(key->key);
-+out_free_key:
-+	kfree(key);
-+	return ERR_PTR(ret);
-+}
-+EXPORT_SYMBOL_GPL(nvme_auth_extract_key);
-+
-+void nvme_auth_free_key(struct nvme_dhchap_key *key)
-+{
-+	if (!key)
-+		return;
-+	kfree_sensitive(key->key);
-+	kfree(key);
-+}
-+EXPORT_SYMBOL_GPL(nvme_auth_free_key);
-+
-+u8 *nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn)
-+{
-+	const char *hmac_name = nvme_auth_hmac_name(key->hash);
-+	struct crypto_shash *key_tfm;
-+	struct shash_desc *shash;
-+	u8 *transformed_key;
-+	int ret;
-+
-+	if (key->hash == 0) {
-+		transformed_key = kmemdup(key->key, key->len, GFP_KERNEL);
-+		return transformed_key ? transformed_key : ERR_PTR(-ENOMEM);
-+	}
-+
-+	if (!key || !key->key) {
-+		pr_warn("No key specified\n");
-+		return ERR_PTR(-ENOKEY);
-+	}
-+	if (!hmac_name) {
-+		pr_warn("Invalid key hash id %d\n", key->hash);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	key_tfm = crypto_alloc_shash(hmac_name, 0, 0);
-+	if (IS_ERR(key_tfm))
-+		return (u8 *)key_tfm;
-+
-+	shash = kmalloc(sizeof(struct shash_desc) +
-+			crypto_shash_descsize(key_tfm),
-+			GFP_KERNEL);
-+	if (!shash) {
-+		ret = -ENOMEM;
-+		goto out_free_key;
-+	}
-+
-+	transformed_key = kzalloc(crypto_shash_digestsize(key_tfm), GFP_KERNEL);
-+	if (!transformed_key) {
-+		ret = -ENOMEM;
-+		goto out_free_shash;
-+	}
-+
-+	shash->tfm = key_tfm;
-+	ret = crypto_shash_setkey(key_tfm, key->key, key->len);
-+	if (ret < 0)
-+		goto out_free_shash;
-+	ret = crypto_shash_init(shash);
-+	if (ret < 0)
-+		goto out_free_shash;
-+	ret = crypto_shash_update(shash, nqn, strlen(nqn));
-+	if (ret < 0)
-+		goto out_free_shash;
-+	ret = crypto_shash_update(shash, "NVMe-over-Fabrics", 17);
-+	if (ret < 0)
-+		goto out_free_shash;
-+	ret = crypto_shash_final(shash, transformed_key);
-+out_free_shash:
-+	kfree(shash);
-+out_free_key:
-+	crypto_free_shash(key_tfm);
-+	if (ret < 0) {
-+		kfree_sensitive(transformed_key);
-+		return ERR_PTR(ret);
-+	}
-+	return transformed_key;
-+}
-+EXPORT_SYMBOL_GPL(nvme_auth_transform_key);
-+
-+int nvme_auth_generate_key(u8 *secret, struct nvme_dhchap_key **ret_key)
-+{
-+	struct nvme_dhchap_key *key;
-+	u8 key_hash;
-+
-+	if (!secret) {
-+		*ret_key = NULL;
-+		return 0;
-+	}
-+
-+	if (sscanf(secret, "DHHC-1:%hhd:%*s:", &key_hash) != 1)
-+		return -EINVAL;
-+
-+	/* Pass in the secret without the 'DHHC-1:XX:' prefix */
-+	key = nvme_auth_extract_key(secret + 10, key_hash);
-+	if (IS_ERR(key)) {
-+		return PTR_ERR(key);
-+	}
-+
-+	*ret_key = key;
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(nvme_auth_generate_key);
-+
-+MODULE_LICENSE("GPL v2");
-diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
-index 877d2ec4ea9f..6c503f42f3c6 100644
---- a/drivers/nvme/host/Kconfig
-+++ b/drivers/nvme/host/Kconfig
-@@ -92,6 +92,19 @@ config NVME_TCP
- 
- 	  If unsure, say N.
- 
-+config NVME_AUTH
-+	bool "NVM Express over Fabrics In-Band Authentication"
-+	depends on NVME_CORE
-+	select NVME_COMMON
-+	select CRYPTO
-+	select CRYPTO_HMAC
-+	select CRYPTO_SHA256
-+	select CRYPTO_SHA512
-+	help
-+	  This provides support for NVMe over Fabrics In-Band Authentication.
-+
-+	  If unsure, say N.
-+
- config NVME_APPLE
- 	tristate "Apple ANS2 NVM Express host driver"
- 	depends on OF && BLOCK
-diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
-index a36ae1612059..a3e88f32f560 100644
---- a/drivers/nvme/host/Makefile
-+++ b/drivers/nvme/host/Makefile
-@@ -16,6 +16,7 @@ nvme-core-$(CONFIG_NVME_MULTIPATH)	+= multipath.o
- nvme-core-$(CONFIG_BLK_DEV_ZONED)	+= zns.o
- nvme-core-$(CONFIG_FAULT_INJECTION_DEBUG_FS)	+= fault_inject.o
- nvme-core-$(CONFIG_NVME_HWMON)		+= hwmon.o
-+nvme-core-$(CONFIG_NVME_AUTH)		+= auth.o
- 
- nvme-y					+= pci.o
- 
-diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-new file mode 100644
-index 000000000000..c0353783fe27
---- /dev/null
-+++ b/drivers/nvme/host/auth.c
-@@ -0,0 +1,813 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2020 Hannes Reinecke, SUSE Linux
-+ */
-+
-+#include <linux/crc32.h>
-+#include <linux/base64.h>
-+#include <linux/prandom.h>
-+#include <asm/unaligned.h>
-+#include <crypto/hash.h>
-+#include <crypto/dh.h>
-+#include "nvme.h"
-+#include "fabrics.h"
-+#include <linux/nvme-auth.h>
-+
-+struct nvme_dhchap_queue_context {
-+	struct list_head entry;
-+	struct work_struct auth_work;
-+	struct nvme_ctrl *ctrl;
-+	struct crypto_shash *shash_tfm;
-+	void *buf;
-+	size_t buf_size;
-+	int qid;
-+	int error;
-+	u32 s1;
-+	u32 s2;
-+	u16 transaction;
-+	u8 status;
-+	u8 hash_id;
-+	size_t hash_len;
-+	u8 dhgroup_id;
-+	u8 c1[64];
-+	u8 c2[64];
-+	u8 response[64];
-+	u8 *host_response;
-+};
-+
-+#define nvme_auth_flags_from_qid(qid) \
-+	(qid == 0) ? 0 : BLK_MQ_REQ_NOWAIT | BLK_MQ_REQ_RESERVED
-+#define nvme_auth_queue_from_qid(ctrl, qid) \
-+	(qid == 0) ? (ctrl)->fabrics_q : (ctrl)->connect_q
-+
-+static int nvme_auth_submit(struct nvme_ctrl *ctrl, int qid,
-+			    void *data, size_t data_len, bool auth_send)
-+{
-+	struct nvme_command cmd = {};
-+	blk_mq_req_flags_t flags = nvme_auth_flags_from_qid(qid);
-+	struct request_queue *q = nvme_auth_queue_from_qid(ctrl, qid);
-+	int ret;
-+
-+	cmd.auth_common.opcode = nvme_fabrics_command;
-+	cmd.auth_common.secp = NVME_AUTH_DHCHAP_PROTOCOL_IDENTIFIER;
-+	cmd.auth_common.spsp0 = 0x01;
-+	cmd.auth_common.spsp1 = 0x01;
-+	if (auth_send) {
-+		cmd.auth_send.fctype = nvme_fabrics_type_auth_send;
-+		cmd.auth_send.tl = cpu_to_le32(data_len);
-+	} else {
-+		cmd.auth_receive.fctype = nvme_fabrics_type_auth_receive;
-+		cmd.auth_receive.al = cpu_to_le32(data_len);
-+	}
-+
-+	ret = __nvme_submit_sync_cmd(q, &cmd, NULL, data, data_len,
-+				     qid == 0 ? NVME_QID_ANY : qid,
-+				     0, flags);
-+	if (ret > 0)
-+		dev_warn(ctrl->device,
-+			"qid %d auth_send failed with status %d\n", qid, ret);
-+	else if (ret < 0)
-+		dev_err(ctrl->device,
-+			"qid %d auth_send failed with error %d\n", qid, ret);
-+	return ret;
-+}
-+
-+static int nvme_auth_receive_validate(struct nvme_ctrl *ctrl, int qid,
-+		struct nvmf_auth_dhchap_failure_data *data,
-+		u16 transaction, u8 expected_msg)
-+{
-+	dev_dbg(ctrl->device, "%s: qid %d auth_type %d auth_id %x\n",
-+		__func__, qid, data->auth_type, data->auth_id);
-+
-+	if (data->auth_type == NVME_AUTH_COMMON_MESSAGES &&
-+	    data->auth_id == NVME_AUTH_DHCHAP_MESSAGE_FAILURE1) {
-+		return data->rescode_exp;
-+	}
-+	if (data->auth_type != NVME_AUTH_DHCHAP_MESSAGES ||
-+	    data->auth_id != expected_msg) {
-+		dev_warn(ctrl->device,
-+			 "qid %d invalid message %02x/%02x\n",
-+			 qid, data->auth_type, data->auth_id);
-+		return NVME_AUTH_DHCHAP_FAILURE_INCORRECT_MESSAGE;
-+	}
-+	if (le16_to_cpu(data->t_id) != transaction) {
-+		dev_warn(ctrl->device,
-+			 "qid %d invalid transaction ID %d\n",
-+			 qid, le16_to_cpu(data->t_id));
-+		return NVME_AUTH_DHCHAP_FAILURE_INCORRECT_MESSAGE;
-+	}
-+	return 0;
-+}
-+
-+static int nvme_auth_set_dhchap_negotiate_data(struct nvme_ctrl *ctrl,
-+		struct nvme_dhchap_queue_context *chap)
-+{
-+	struct nvmf_auth_dhchap_negotiate_data *data = chap->buf;
-+	size_t size = sizeof(*data) + sizeof(union nvmf_auth_protocol);
-+
-+	if (chap->buf_size < size) {
-+		chap->status = NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
-+		return -EINVAL;
-+	}
-+	memset((u8 *)chap->buf, 0, size);
-+	data->auth_type = NVME_AUTH_COMMON_MESSAGES;
-+	data->auth_id = NVME_AUTH_DHCHAP_MESSAGE_NEGOTIATE;
-+	data->t_id = cpu_to_le16(chap->transaction);
-+	data->sc_c = 0; /* No secure channel concatenation */
-+	data->napd = 1;
-+	data->auth_protocol[0].dhchap.authid = NVME_AUTH_DHCHAP_AUTH_ID;
-+	data->auth_protocol[0].dhchap.halen = 3;
-+	data->auth_protocol[0].dhchap.dhlen = 6;
-+	data->auth_protocol[0].dhchap.idlist[0] = NVME_AUTH_HASH_SHA256;
-+	data->auth_protocol[0].dhchap.idlist[1] = NVME_AUTH_HASH_SHA384;
-+	data->auth_protocol[0].dhchap.idlist[2] = NVME_AUTH_HASH_SHA512;
-+	data->auth_protocol[0].dhchap.idlist[30] = NVME_AUTH_DHGROUP_NULL;
-+	data->auth_protocol[0].dhchap.idlist[31] = NVME_AUTH_DHGROUP_2048;
-+	data->auth_protocol[0].dhchap.idlist[32] = NVME_AUTH_DHGROUP_3072;
-+	data->auth_protocol[0].dhchap.idlist[33] = NVME_AUTH_DHGROUP_4096;
-+	data->auth_protocol[0].dhchap.idlist[34] = NVME_AUTH_DHGROUP_6144;
-+	data->auth_protocol[0].dhchap.idlist[35] = NVME_AUTH_DHGROUP_8192;
-+
-+	return size;
-+}
-+
-+static int nvme_auth_process_dhchap_challenge(struct nvme_ctrl *ctrl,
-+		struct nvme_dhchap_queue_context *chap)
-+{
-+	struct nvmf_auth_dhchap_challenge_data *data = chap->buf;
-+	u16 dhvlen = le16_to_cpu(data->dhvlen);
-+	size_t size = sizeof(*data) + data->hl + dhvlen;
-+	const char *hmac_name, *kpp_name;
-+
-+	if (chap->buf_size < size) {
-+		chap->status = NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
-+		return NVME_SC_INVALID_FIELD;
-+	}
-+
-+	hmac_name = nvme_auth_hmac_name(data->hashid);
-+	if (!hmac_name) {
-+		dev_warn(ctrl->device,
-+			 "qid %d: invalid HASH ID %d\n",
-+			 chap->qid, data->hashid);
-+		chap->status = NVME_AUTH_DHCHAP_FAILURE_HASH_UNUSABLE;
-+		return NVME_SC_INVALID_FIELD;
-+	}
-+
-+	if (chap->hash_id == data->hashid && chap->shash_tfm &&
-+	    !strcmp(crypto_shash_alg_name(chap->shash_tfm), hmac_name) &&
-+	    crypto_shash_digestsize(chap->shash_tfm) == data->hl) {
-+		dev_dbg(ctrl->device,
-+			"qid %d: reuse existing hash %s\n",
-+			chap->qid, hmac_name);
-+		goto select_kpp;
-+	}
-+
-+	/* Reset if hash cannot be reused */
-+	if (chap->shash_tfm) {
-+		crypto_free_shash(chap->shash_tfm);
-+		chap->hash_id = 0;
-+		chap->hash_len = 0;
-+	}
-+	chap->shash_tfm = crypto_alloc_shash(hmac_name, 0,
-+					     CRYPTO_ALG_ALLOCATES_MEMORY);
-+	if (IS_ERR(chap->shash_tfm)) {
-+		dev_warn(ctrl->device,
-+			 "qid %d: failed to allocate hash %s, error %ld\n",
-+			 chap->qid, hmac_name, PTR_ERR(chap->shash_tfm));
-+		chap->shash_tfm = NULL;
-+		chap->status = NVME_AUTH_DHCHAP_FAILURE_FAILED;
-+		return NVME_SC_AUTH_REQUIRED;
-+	}
-+
-+	if (crypto_shash_digestsize(chap->shash_tfm) != data->hl) {
-+		dev_warn(ctrl->device,
-+			 "qid %d: invalid hash length %d\n",
-+			 chap->qid, data->hl);
-+		crypto_free_shash(chap->shash_tfm);
-+		chap->shash_tfm = NULL;
-+		chap->status = NVME_AUTH_DHCHAP_FAILURE_HASH_UNUSABLE;
-+		return NVME_SC_AUTH_REQUIRED;
-+	}
-+
-+	/* Reset host response if the hash had been changed */
-+	if (chap->hash_id != data->hashid) {
-+		kfree(chap->host_response);
-+		chap->host_response = NULL;
-+	}
-+
-+	chap->hash_id = data->hashid;
-+	chap->hash_len = data->hl;
-+	dev_dbg(ctrl->device, "qid %d: selected hash %s\n",
-+		chap->qid, hmac_name);
-+
-+select_kpp:
-+	kpp_name = nvme_auth_dhgroup_kpp(data->dhgid);
-+	if (!kpp_name) {
-+		dev_warn(ctrl->device,
-+			 "qid %d: invalid DH group id %d\n",
-+			 chap->qid, data->dhgid);
-+		chap->status = NVME_AUTH_DHCHAP_FAILURE_DHGROUP_UNUSABLE;
-+		return NVME_SC_AUTH_REQUIRED;
-+	}
-+
-+	if (data->dhgid != NVME_AUTH_DHGROUP_NULL) {
-+		dev_warn(ctrl->device,
-+			 "qid %d: unsupported DH group %s\n",
-+			 chap->qid, kpp_name);
-+		chap->status = NVME_AUTH_DHCHAP_FAILURE_DHGROUP_UNUSABLE;
-+		return NVME_SC_AUTH_REQUIRED;
-+	} else if (dhvlen != 0) {
-+		dev_warn(ctrl->device,
-+			 "qid %d: invalid DH value for NULL DH\n",
-+			 chap->qid);
-+		chap->status = NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
-+		return NVME_SC_INVALID_FIELD;
-+	}
-+	chap->dhgroup_id = data->dhgid;
-+
-+	chap->s1 = le32_to_cpu(data->seqnum);
-+	memcpy(chap->c1, data->cval, chap->hash_len);
-+
-+	return 0;
-+}
-+
-+static int nvme_auth_set_dhchap_reply_data(struct nvme_ctrl *ctrl,
-+		struct nvme_dhchap_queue_context *chap)
-+{
-+	struct nvmf_auth_dhchap_reply_data *data = chap->buf;
-+	size_t size = sizeof(*data);
-+
-+	size += 2 * chap->hash_len;
-+
-+	if (chap->buf_size < size) {
-+		chap->status = NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
-+		return -EINVAL;
-+	}
-+
-+	memset(chap->buf, 0, size);
-+	data->auth_type = NVME_AUTH_DHCHAP_MESSAGES;
-+	data->auth_id = NVME_AUTH_DHCHAP_MESSAGE_REPLY;
-+	data->t_id = cpu_to_le16(chap->transaction);
-+	data->hl = chap->hash_len;
-+	data->dhvlen = 0;
-+	memcpy(data->rval, chap->response, chap->hash_len);
-+	if (ctrl->opts->dhchap_ctrl_secret) {
-+		get_random_bytes(chap->c2, chap->hash_len);
-+		data->cvalid = 1;
-+		chap->s2 = nvme_auth_get_seqnum();
-+		memcpy(data->rval + chap->hash_len, chap->c2,
-+		       chap->hash_len);
-+		dev_dbg(ctrl->device, "%s: qid %d ctrl challenge %*ph\n",
-+			__func__, chap->qid, (int)chap->hash_len, chap->c2);
-+	} else {
-+		memset(chap->c2, 0, chap->hash_len);
-+		chap->s2 = 0;
-+	}
-+	data->seqnum = cpu_to_le32(chap->s2);
-+	return size;
-+}
-+
-+static int nvme_auth_process_dhchap_success1(struct nvme_ctrl *ctrl,
-+		struct nvme_dhchap_queue_context *chap)
-+{
-+	struct nvmf_auth_dhchap_success1_data *data = chap->buf;
-+	size_t size = sizeof(*data);
-+
-+	if (ctrl->opts->dhchap_ctrl_secret)
-+		size += chap->hash_len;
-+
-+	if (chap->buf_size < size) {
-+		chap->status = NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
-+		return NVME_SC_INVALID_FIELD;
-+	}
-+
-+	if (data->hl != chap->hash_len) {
-+		dev_warn(ctrl->device,
-+			 "qid %d: invalid hash length %u\n",
-+			 chap->qid, data->hl);
-+		chap->status = NVME_AUTH_DHCHAP_FAILURE_HASH_UNUSABLE;
-+		return NVME_SC_INVALID_FIELD;
-+	}
-+
-+	/* Just print out information for the admin queue */
-+	if (chap->qid == 0)
-+		dev_info(ctrl->device,
-+			 "qid 0: authenticated with hash %s dhgroup %s\n",
-+			 nvme_auth_hmac_name(chap->hash_id),
-+			 nvme_auth_dhgroup_name(chap->dhgroup_id));
-+
-+	if (!data->rvalid)
-+		return 0;
-+
-+	/* Validate controller response */
-+	if (memcmp(chap->response, data->rval, data->hl)) {
-+		dev_dbg(ctrl->device, "%s: qid %d ctrl response %*ph\n",
-+			__func__, chap->qid, (int)chap->hash_len, data->rval);
-+		dev_dbg(ctrl->device, "%s: qid %d host response %*ph\n",
-+			__func__, chap->qid, (int)chap->hash_len,
-+			chap->response);
-+		dev_warn(ctrl->device,
-+			 "qid %d: controller authentication failed\n",
-+			 chap->qid);
-+		chap->status = NVME_AUTH_DHCHAP_FAILURE_FAILED;
-+		return NVME_SC_AUTH_REQUIRED;
-+	}
-+
-+	/* Just print out information for the admin queue */
-+	if (chap->qid == 0)
-+		dev_info(ctrl->device,
-+			 "qid 0: controller authenticated\n");
-+	return 0;
-+}
-+
-+static int nvme_auth_set_dhchap_success2_data(struct nvme_ctrl *ctrl,
-+		struct nvme_dhchap_queue_context *chap)
-+{
-+	struct nvmf_auth_dhchap_success2_data *data = chap->buf;
-+	size_t size = sizeof(*data);
-+
-+	memset(chap->buf, 0, size);
-+	data->auth_type = NVME_AUTH_DHCHAP_MESSAGES;
-+	data->auth_id = NVME_AUTH_DHCHAP_MESSAGE_SUCCESS2;
-+	data->t_id = cpu_to_le16(chap->transaction);
-+
-+	return size;
-+}
-+
-+static int nvme_auth_set_dhchap_failure2_data(struct nvme_ctrl *ctrl,
-+		struct nvme_dhchap_queue_context *chap)
-+{
-+	struct nvmf_auth_dhchap_failure_data *data = chap->buf;
-+	size_t size = sizeof(*data);
-+
-+	memset(chap->buf, 0, size);
-+	data->auth_type = NVME_AUTH_COMMON_MESSAGES;
-+	data->auth_id = NVME_AUTH_DHCHAP_MESSAGE_FAILURE2;
-+	data->t_id = cpu_to_le16(chap->transaction);
-+	data->rescode = NVME_AUTH_DHCHAP_FAILURE_REASON_FAILED;
-+	data->rescode_exp = chap->status;
-+
-+	return size;
-+}
-+
-+static int nvme_auth_dhchap_setup_host_response(struct nvme_ctrl *ctrl,
-+		struct nvme_dhchap_queue_context *chap)
-+{
-+	SHASH_DESC_ON_STACK(shash, chap->shash_tfm);
-+	u8 buf[4], *challenge = chap->c1;
-+	int ret;
-+
-+	dev_dbg(ctrl->device, "%s: qid %d host response seq %u transaction %d\n",
-+		__func__, chap->qid, chap->s1, chap->transaction);
-+
-+	if (!chap->host_response) {
-+		chap->host_response = nvme_auth_transform_key(ctrl->host_key,
-+						ctrl->opts->host->nqn);
-+		if (IS_ERR(chap->host_response)) {
-+			ret = PTR_ERR(chap->host_response);
-+			chap->host_response = NULL;
-+			return ret;
-+		}
-+	} else {
-+		dev_dbg(ctrl->device, "%s: qid %d re-using host response\n",
-+			__func__, chap->qid);
-+	}
-+
-+	ret = crypto_shash_setkey(chap->shash_tfm,
-+			chap->host_response, ctrl->host_key->len);
-+	if (ret) {
-+		dev_warn(ctrl->device, "qid %d: failed to set key, error %d\n",
-+			 chap->qid, ret);
-+		goto out;
-+	}
-+
-+	shash->tfm = chap->shash_tfm;
-+	ret = crypto_shash_init(shash);
-+	if (ret)
-+		goto out;
-+	ret = crypto_shash_update(shash, challenge, chap->hash_len);
-+	if (ret)
-+		goto out;
-+	put_unaligned_le32(chap->s1, buf);
-+	ret = crypto_shash_update(shash, buf, 4);
-+	if (ret)
-+		goto out;
-+	put_unaligned_le16(chap->transaction, buf);
-+	ret = crypto_shash_update(shash, buf, 2);
-+	if (ret)
-+		goto out;
-+	memset(buf, 0, sizeof(buf));
-+	ret = crypto_shash_update(shash, buf, 1);
-+	if (ret)
-+		goto out;
-+	ret = crypto_shash_update(shash, "HostHost", 8);
-+	if (ret)
-+		goto out;
-+	ret = crypto_shash_update(shash, ctrl->opts->host->nqn,
-+				  strlen(ctrl->opts->host->nqn));
-+	if (ret)
-+		goto out;
-+	ret = crypto_shash_update(shash, buf, 1);
-+	if (ret)
-+		goto out;
-+	ret = crypto_shash_update(shash, ctrl->opts->subsysnqn,
-+			    strlen(ctrl->opts->subsysnqn));
-+	if (ret)
-+		goto out;
-+	ret = crypto_shash_final(shash, chap->response);
-+out:
-+	if (challenge != chap->c1)
-+		kfree(challenge);
-+	return ret;
-+}
-+
-+static int nvme_auth_dhchap_setup_ctrl_response(struct nvme_ctrl *ctrl,
-+		struct nvme_dhchap_queue_context *chap)
-+{
-+	SHASH_DESC_ON_STACK(shash, chap->shash_tfm);
-+	u8 *ctrl_response;
-+	u8 buf[4], *challenge = chap->c2;
-+	int ret;
-+
-+	ctrl_response = nvme_auth_transform_key(ctrl->ctrl_key,
-+				ctrl->opts->subsysnqn);
-+	if (IS_ERR(ctrl_response)) {
-+		ret = PTR_ERR(ctrl_response);
-+		return ret;
-+	}
-+	ret = crypto_shash_setkey(chap->shash_tfm,
-+			ctrl_response, ctrl->ctrl_key->len);
-+	if (ret) {
-+		dev_warn(ctrl->device, "qid %d: failed to set key, error %d\n",
-+			 chap->qid, ret);
-+		goto out;
-+	}
-+
-+	dev_dbg(ctrl->device, "%s: qid %d ctrl response seq %u transaction %d\n",
-+		__func__, chap->qid, chap->s2, chap->transaction);
-+	dev_dbg(ctrl->device, "%s: qid %d challenge %*ph\n",
-+		__func__, chap->qid, (int)chap->hash_len, challenge);
-+	dev_dbg(ctrl->device, "%s: qid %d subsysnqn %s\n",
-+		__func__, chap->qid, ctrl->opts->subsysnqn);
-+	dev_dbg(ctrl->device, "%s: qid %d hostnqn %s\n",
-+		__func__, chap->qid, ctrl->opts->host->nqn);
-+	shash->tfm = chap->shash_tfm;
-+	ret = crypto_shash_init(shash);
-+	if (ret)
-+		goto out;
-+	ret = crypto_shash_update(shash, challenge, chap->hash_len);
-+	if (ret)
-+		goto out;
-+	put_unaligned_le32(chap->s2, buf);
-+	ret = crypto_shash_update(shash, buf, 4);
-+	if (ret)
-+		goto out;
-+	put_unaligned_le16(chap->transaction, buf);
-+	ret = crypto_shash_update(shash, buf, 2);
-+	if (ret)
-+		goto out;
-+	memset(buf, 0, 4);
-+	ret = crypto_shash_update(shash, buf, 1);
-+	if (ret)
-+		goto out;
-+	ret = crypto_shash_update(shash, "Controller", 10);
-+	if (ret)
-+		goto out;
-+	ret = crypto_shash_update(shash, ctrl->opts->subsysnqn,
-+				  strlen(ctrl->opts->subsysnqn));
-+	if (ret)
-+		goto out;
-+	ret = crypto_shash_update(shash, buf, 1);
-+	if (ret)
-+		goto out;
-+	ret = crypto_shash_update(shash, ctrl->opts->host->nqn,
-+				  strlen(ctrl->opts->host->nqn));
-+	if (ret)
-+		goto out;
-+	ret = crypto_shash_final(shash, chap->response);
-+out:
-+	if (challenge != chap->c2)
-+		kfree(challenge);
-+	return ret;
-+}
-+
-+static void __nvme_auth_reset(struct nvme_dhchap_queue_context *chap)
-+{
-+	chap->status = 0;
-+	chap->error = 0;
-+	chap->s1 = 0;
-+	chap->s2 = 0;
-+	chap->transaction = 0;
-+	memset(chap->c1, 0, sizeof(chap->c1));
-+	memset(chap->c2, 0, sizeof(chap->c2));
-+}
-+
-+static void __nvme_auth_free(struct nvme_dhchap_queue_context *chap)
-+{
-+	__nvme_auth_reset(chap);
-+	if (chap->shash_tfm)
-+		crypto_free_shash(chap->shash_tfm);
-+	kfree_sensitive(chap->host_response);
-+	kfree(chap->buf);
-+	kfree(chap);
-+}
-+
-+static void __nvme_auth_work(struct work_struct *work)
-+{
-+	struct nvme_dhchap_queue_context *chap =
-+		container_of(work, struct nvme_dhchap_queue_context, auth_work);
-+	struct nvme_ctrl *ctrl = chap->ctrl;
-+	size_t tl;
-+	int ret = 0;
-+
-+	chap->transaction = ctrl->transaction++;
-+
-+	/* DH-HMAC-CHAP Step 1: send negotiate */
-+	dev_dbg(ctrl->device, "%s: qid %d send negotiate\n",
-+		__func__, chap->qid);
-+	ret = nvme_auth_set_dhchap_negotiate_data(ctrl, chap);
-+	if (ret < 0) {
-+		chap->error = ret;
-+		return;
-+	}
-+	tl = ret;
-+	ret = nvme_auth_submit(ctrl, chap->qid, chap->buf, tl, true);
-+	if (ret) {
-+		chap->error = ret;
-+		return;
-+	}
-+
-+	/* DH-HMAC-CHAP Step 2: receive challenge */
-+	dev_dbg(ctrl->device, "%s: qid %d receive challenge\n",
-+		__func__, chap->qid);
-+
-+	memset(chap->buf, 0, chap->buf_size);
-+	ret = nvme_auth_submit(ctrl, chap->qid, chap->buf, chap->buf_size, false);
-+	if (ret) {
-+		dev_warn(ctrl->device,
-+			 "qid %d failed to receive challenge, %s %d\n",
-+			 chap->qid, ret < 0 ? "error" : "nvme status", ret);
-+		chap->error = ret;
-+		return;
-+	}
-+	ret = nvme_auth_receive_validate(ctrl, chap->qid, chap->buf, chap->transaction,
-+					 NVME_AUTH_DHCHAP_MESSAGE_CHALLENGE);
-+	if (ret) {
-+		chap->status = ret;
-+		chap->error = NVME_SC_AUTH_REQUIRED;
-+		return;
-+	}
-+
-+	ret = nvme_auth_process_dhchap_challenge(ctrl, chap);
-+	if (ret) {
-+		/* Invalid challenge parameters */
-+		goto fail2;
-+	}
-+
-+	dev_dbg(ctrl->device, "%s: qid %d host response\n",
-+		__func__, chap->qid);
-+	ret = nvme_auth_dhchap_setup_host_response(ctrl, chap);
-+	if (ret)
-+		goto fail2;
-+
-+	/* DH-HMAC-CHAP Step 3: send reply */
-+	dev_dbg(ctrl->device, "%s: qid %d send reply\n",
-+		__func__, chap->qid);
-+	ret = nvme_auth_set_dhchap_reply_data(ctrl, chap);
-+	if (ret < 0)
-+		goto fail2;
-+
-+	tl = ret;
-+	ret = nvme_auth_submit(ctrl, chap->qid, chap->buf, tl, true);
-+	if (ret)
-+		goto fail2;
-+
-+	/* DH-HMAC-CHAP Step 4: receive success1 */
-+	dev_dbg(ctrl->device, "%s: qid %d receive success1\n",
-+		__func__, chap->qid);
-+
-+	memset(chap->buf, 0, chap->buf_size);
-+	ret = nvme_auth_submit(ctrl, chap->qid, chap->buf, chap->buf_size, false);
-+	if (ret) {
-+		dev_warn(ctrl->device,
-+			 "qid %d failed to receive success1, %s %d\n",
-+			 chap->qid, ret < 0 ? "error" : "nvme status", ret);
-+		chap->error = ret;
-+		return;
-+	}
-+	ret = nvme_auth_receive_validate(ctrl, chap->qid,
-+					 chap->buf, chap->transaction,
-+					 NVME_AUTH_DHCHAP_MESSAGE_SUCCESS1);
-+	if (ret) {
-+		chap->status = ret;
-+		chap->error = NVME_SC_AUTH_REQUIRED;
-+		return;
-+	}
-+
-+	if (ctrl->opts->dhchap_ctrl_secret) {
-+		dev_dbg(ctrl->device,
-+			"%s: qid %d controller response\n",
-+			__func__, chap->qid);
-+		ret = nvme_auth_dhchap_setup_ctrl_response(ctrl, chap);
-+		if (ret) {
-+			chap->error = ret;
-+			goto fail2;
-+		}
-+	}
-+
-+	ret = nvme_auth_process_dhchap_success1(ctrl, chap);
-+	if (ret) {
-+		/* Controller authentication failed */
-+		chap->error = NVME_SC_AUTH_REQUIRED;
-+		goto fail2;
-+	}
-+
-+	if (ctrl->opts->dhchap_ctrl_secret) {
-+		/* DH-HMAC-CHAP Step 5: send success2 */
-+		dev_dbg(ctrl->device, "%s: qid %d send success2\n",
-+			__func__, chap->qid);
-+		tl = nvme_auth_set_dhchap_success2_data(ctrl, chap);
-+		ret = nvme_auth_submit(ctrl, chap->qid, chap->buf, tl, true);
-+	}
-+	if (!ret) {
-+		chap->error = 0;
-+		return;
-+	}
-+
-+fail2:
-+	dev_dbg(ctrl->device, "%s: qid %d send failure2, status %x\n",
-+		__func__, chap->qid, chap->status);
-+	tl = nvme_auth_set_dhchap_failure2_data(ctrl, chap);
-+	ret = nvme_auth_submit(ctrl, chap->qid, chap->buf, tl, true);
-+	/*
-+	 * only update error if send failure2 failed and no other
-+	 * error had been set during authentication.
-+	 */
-+	if (ret && !chap->error)
-+		chap->error = ret;
-+}
-+
-+int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid)
-+{
-+	struct nvme_dhchap_queue_context *chap;
-+
-+	if (!ctrl->host_key) {
-+		dev_warn(ctrl->device, "qid %d: no key\n", qid);
-+		return -ENOKEY;
-+	}
-+
-+	mutex_lock(&ctrl->dhchap_auth_mutex);
-+	/* Check if the context is already queued */
-+	list_for_each_entry(chap, &ctrl->dhchap_auth_list, entry) {
-+		WARN_ON(!chap->buf);
-+		if (chap->qid == qid) {
-+			dev_dbg(ctrl->device, "qid %d: re-using context\n", qid);
-+			mutex_unlock(&ctrl->dhchap_auth_mutex);
-+			flush_work(&chap->auth_work);
-+			__nvme_auth_reset(chap);
-+			queue_work(nvme_wq, &chap->auth_work);
-+			return 0;
-+		}
-+	}
-+	chap = kzalloc(sizeof(*chap), GFP_KERNEL);
-+	if (!chap) {
-+		mutex_unlock(&ctrl->dhchap_auth_mutex);
-+		return -ENOMEM;
-+	}
-+	chap->qid = (qid == NVME_QID_ANY) ? 0 : qid;
-+	chap->ctrl = ctrl;
-+
-+	/*
-+	 * Allocate a large enough buffer for the entire negotiation:
-+	 * 4k should be enough to ffdhe8192.
-+	 */
-+	chap->buf_size = 4096;
-+	chap->buf = kzalloc(chap->buf_size, GFP_KERNEL);
-+	if (!chap->buf) {
-+		mutex_unlock(&ctrl->dhchap_auth_mutex);
-+		kfree(chap);
-+		return -ENOMEM;
-+	}
-+
-+	INIT_WORK(&chap->auth_work, __nvme_auth_work);
-+	list_add(&chap->entry, &ctrl->dhchap_auth_list);
-+	mutex_unlock(&ctrl->dhchap_auth_mutex);
-+	queue_work(nvme_wq, &chap->auth_work);
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(nvme_auth_negotiate);
-+
-+int nvme_auth_wait(struct nvme_ctrl *ctrl, int qid)
-+{
-+	struct nvme_dhchap_queue_context *chap;
-+	int ret;
-+
-+	mutex_lock(&ctrl->dhchap_auth_mutex);
-+	list_for_each_entry(chap, &ctrl->dhchap_auth_list, entry) {
-+		if (chap->qid != qid)
-+			continue;
-+		mutex_unlock(&ctrl->dhchap_auth_mutex);
-+		flush_work(&chap->auth_work);
-+		ret = chap->error;
-+		return ret;
-+	}
-+	mutex_unlock(&ctrl->dhchap_auth_mutex);
-+	return -ENXIO;
-+}
-+EXPORT_SYMBOL_GPL(nvme_auth_wait);
-+
-+void nvme_auth_reset(struct nvme_ctrl *ctrl)
-+{
-+	struct nvme_dhchap_queue_context *chap;
-+
-+	mutex_lock(&ctrl->dhchap_auth_mutex);
-+	list_for_each_entry(chap, &ctrl->dhchap_auth_list, entry) {
-+		mutex_unlock(&ctrl->dhchap_auth_mutex);
-+		flush_work(&chap->auth_work);
-+		__nvme_auth_reset(chap);
-+	}
-+	mutex_unlock(&ctrl->dhchap_auth_mutex);
-+}
-+EXPORT_SYMBOL_GPL(nvme_auth_reset);
-+
-+static void nvme_dhchap_auth_work(struct work_struct *work)
-+{
-+	struct nvme_ctrl *ctrl =
-+		container_of(work, struct nvme_ctrl, dhchap_auth_work);
-+	int ret, q;
-+
-+	/* Authenticate admin queue first */
-+	ret = nvme_auth_negotiate(ctrl, 0);
-+	if (ret) {
-+		dev_warn(ctrl->device,
-+			 "qid 0: error %d setting up authentication\n", ret);
-+		return;
-+	}
-+	ret = nvme_auth_wait(ctrl, 0);
-+	if (ret) {
-+		dev_warn(ctrl->device,
-+			 "qid 0: authentication failed\n");
-+		return;
-+	}
-+
-+	for (q = 1; q < ctrl->queue_count; q++) {
-+		ret = nvme_auth_negotiate(ctrl, q);
-+		if (ret) {
-+			dev_warn(ctrl->device,
-+				 "qid %d: error %d setting up authentication\n",
-+				 q, ret);
-+			break;
-+		}
-+	}
-+
-+	/*
-+	 * Failure is a soft-state; credentials remain valid until
-+	 * the controller terminates the connection.
-+	 */
-+}
-+
-+void nvme_auth_init_ctrl(struct nvme_ctrl *ctrl)
-+{
-+	INIT_LIST_HEAD(&ctrl->dhchap_auth_list);
-+	INIT_WORK(&ctrl->dhchap_auth_work, nvme_dhchap_auth_work);
-+	mutex_init(&ctrl->dhchap_auth_mutex);
-+	if (!ctrl->opts)
-+		return;
-+	nvme_auth_generate_key(ctrl->opts->dhchap_secret, &ctrl->host_key);
-+	nvme_auth_generate_key(ctrl->opts->dhchap_ctrl_secret, &ctrl->ctrl_key);
-+}
-+EXPORT_SYMBOL_GPL(nvme_auth_init_ctrl);
-+
-+void nvme_auth_stop(struct nvme_ctrl *ctrl)
-+{
-+	struct nvme_dhchap_queue_context *chap = NULL, *tmp;
-+
-+	cancel_work_sync(&ctrl->dhchap_auth_work);
-+	mutex_lock(&ctrl->dhchap_auth_mutex);
-+	list_for_each_entry_safe(chap, tmp, &ctrl->dhchap_auth_list, entry)
-+		cancel_work_sync(&chap->auth_work);
-+	mutex_unlock(&ctrl->dhchap_auth_mutex);
-+}
-+EXPORT_SYMBOL_GPL(nvme_auth_stop);
-+
-+void nvme_auth_free(struct nvme_ctrl *ctrl)
-+{
-+	struct nvme_dhchap_queue_context *chap = NULL, *tmp;
-+
-+	mutex_lock(&ctrl->dhchap_auth_mutex);
-+	list_for_each_entry_safe(chap, tmp, &ctrl->dhchap_auth_list, entry) {
-+		list_del_init(&chap->entry);
-+		flush_work(&chap->auth_work);
-+		__nvme_auth_free(chap);
-+	}
-+	mutex_unlock(&ctrl->dhchap_auth_mutex);
-+	if (ctrl->host_key) {
-+		nvme_auth_free_key(ctrl->host_key);
-+		ctrl->host_key = NULL;
-+	}
-+	if (ctrl->ctrl_key) {
-+		nvme_auth_free_key(ctrl->ctrl_key);
-+		ctrl->ctrl_key = NULL;
-+	}
-+}
-+EXPORT_SYMBOL_GPL(nvme_auth_free);
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 57480075550c..9071a9798996 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -24,6 +24,7 @@
- 
- #include "nvme.h"
- #include "fabrics.h"
-+#include <linux/nvme-auth.h>
- 
- #define CREATE_TRACE_POINTS
- #include "trace.h"
-@@ -330,6 +331,7 @@ enum nvme_disposition {
- 	COMPLETE,
- 	RETRY,
- 	FAILOVER,
-+	AUTHENTICATE,
- };
- 
- static inline enum nvme_disposition nvme_decide_disposition(struct request *req)
-@@ -337,6 +339,9 @@ static inline enum nvme_disposition nvme_decide_disposition(struct request *req)
- 	if (likely(nvme_req(req)->status == 0))
- 		return COMPLETE;
- 
-+	if ((nvme_req(req)->status & 0x7ff) == NVME_SC_AUTH_REQUIRED)
-+		return AUTHENTICATE;
-+
- 	if (blk_noretry_request(req) ||
- 	    (nvme_req(req)->status & NVME_SC_DNR) ||
- 	    nvme_req(req)->retries >= nvme_max_retries)
-@@ -375,11 +380,13 @@ static inline void nvme_end_req(struct request *req)
- 
- void nvme_complete_rq(struct request *req)
- {
-+	struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
-+
- 	trace_nvme_complete_rq(req);
- 	nvme_cleanup_cmd(req);
- 
--	if (nvme_req(req)->ctrl->kas)
--		nvme_req(req)->ctrl->comp_seen = true;
-+	if (ctrl->kas)
-+		ctrl->comp_seen = true;
- 
- 	switch (nvme_decide_disposition(req)) {
- 	case COMPLETE:
-@@ -391,6 +398,14 @@ void nvme_complete_rq(struct request *req)
- 	case FAILOVER:
- 		nvme_failover_req(req);
- 		return;
-+	case AUTHENTICATE:
-+#ifdef CONFIG_NVME_AUTH
-+		queue_work(nvme_wq, &ctrl->dhchap_auth_work);
-+		nvme_retry_req(req);
-+#else
-+		nvme_end_req(req);
-+#endif
-+		return;
- 	}
- }
- EXPORT_SYMBOL_GPL(nvme_complete_rq);
-@@ -702,7 +717,9 @@ bool __nvme_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
- 		switch (ctrl->state) {
- 		case NVME_CTRL_CONNECTING:
- 			if (blk_rq_is_passthrough(rq) && nvme_is_fabrics(req->cmd) &&
--			    req->cmd->fabrics.fctype == nvme_fabrics_type_connect)
-+			    (req->cmd->fabrics.fctype == nvme_fabrics_type_connect ||
-+			     req->cmd->fabrics.fctype == nvme_fabrics_type_auth_send ||
-+			     req->cmd->fabrics.fctype == nvme_fabrics_type_auth_receive))
- 				return true;
- 			break;
- 		default:
-@@ -3595,6 +3612,108 @@ static ssize_t dctype_show(struct device *dev,
- }
- static DEVICE_ATTR_RO(dctype);
- 
-+#ifdef CONFIG_NVME_AUTH
-+static ssize_t nvme_ctrl_dhchap_secret_show(struct device *dev,
-+		struct device_attribute *attr, char *buf)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+	struct nvmf_ctrl_options *opts = ctrl->opts;
-+
-+	if (!opts->dhchap_secret)
-+		return sysfs_emit(buf, "none\n");
-+	return sysfs_emit(buf, "%s\n", opts->dhchap_secret);
-+}
-+
-+static ssize_t nvme_ctrl_dhchap_secret_store(struct device *dev,
-+		struct device_attribute *attr, const char *buf, size_t count)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+	struct nvmf_ctrl_options *opts = ctrl->opts;
-+	char *dhchap_secret;
-+
-+	if (!ctrl->opts->dhchap_secret)
-+		return -EINVAL;
-+	if (count < 7)
-+		return -EINVAL;
-+	if (memcmp(buf, "DHHC-1:", 7))
-+		return -EINVAL;
-+
-+	dhchap_secret = kzalloc(count + 1, GFP_KERNEL);
-+	if (!dhchap_secret)
-+		return -ENOMEM;
-+	memcpy(dhchap_secret, buf, count);
-+	nvme_auth_stop(ctrl);
-+	if (strcmp(dhchap_secret, opts->dhchap_secret)) {
-+		int ret;
-+
-+		ret = nvme_auth_generate_key(dhchap_secret, &ctrl->host_key);
-+		if (ret)
-+			return ret;
-+		kfree(opts->dhchap_secret);
-+		opts->dhchap_secret = dhchap_secret;
-+		/* Key has changed; re-authentication with new key */
-+		nvme_auth_reset(ctrl);
-+	}
-+	/* Start re-authentication */
-+	dev_info(ctrl->device, "re-authenticating controller\n");
-+	queue_work(nvme_wq, &ctrl->dhchap_auth_work);
-+
-+	return count;
-+}
-+static DEVICE_ATTR(dhchap_secret, S_IRUGO | S_IWUSR,
-+	nvme_ctrl_dhchap_secret_show, nvme_ctrl_dhchap_secret_store);
-+
-+static ssize_t nvme_ctrl_dhchap_ctrl_secret_show(struct device *dev,
-+		struct device_attribute *attr, char *buf)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+	struct nvmf_ctrl_options *opts = ctrl->opts;
-+
-+	if (!opts->dhchap_ctrl_secret)
-+		return sysfs_emit(buf, "none\n");
-+	return sysfs_emit(buf, "%s\n", opts->dhchap_ctrl_secret);
-+}
-+
-+static ssize_t nvme_ctrl_dhchap_ctrl_secret_store(struct device *dev,
-+		struct device_attribute *attr, const char *buf, size_t count)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+	struct nvmf_ctrl_options *opts = ctrl->opts;
-+	char *dhchap_secret;
-+
-+	if (!ctrl->opts->dhchap_ctrl_secret)
-+		return -EINVAL;
-+	if (count < 7)
-+		return -EINVAL;
-+	if (memcmp(buf, "DHHC-1:", 7))
-+		return -EINVAL;
-+
-+	dhchap_secret = kzalloc(count + 1, GFP_KERNEL);
-+	if (!dhchap_secret)
-+		return -ENOMEM;
-+	memcpy(dhchap_secret, buf, count);
-+	nvme_auth_stop(ctrl);
-+	if (strcmp(dhchap_secret, opts->dhchap_ctrl_secret)) {
-+		int ret;
-+
-+		ret = nvme_auth_generate_key(dhchap_secret, &ctrl->ctrl_key);
-+		if (ret)
-+			return ret;
-+		kfree(opts->dhchap_ctrl_secret);
-+		opts->dhchap_ctrl_secret = dhchap_secret;
-+		/* Key has changed; re-authentication with new key */
-+		nvme_auth_reset(ctrl);
-+	}
-+	/* Start re-authentication */
-+	dev_info(ctrl->device, "re-authenticating controller\n");
-+	queue_work(nvme_wq, &ctrl->dhchap_auth_work);
-+
-+	return count;
-+}
-+static DEVICE_ATTR(dhchap_ctrl_secret, S_IRUGO | S_IWUSR,
-+	nvme_ctrl_dhchap_ctrl_secret_show, nvme_ctrl_dhchap_ctrl_secret_store);
-+#endif
-+
- static struct attribute *nvme_dev_attrs[] = {
- 	&dev_attr_reset_controller.attr,
- 	&dev_attr_rescan_controller.attr,
-@@ -3618,6 +3737,10 @@ static struct attribute *nvme_dev_attrs[] = {
- 	&dev_attr_kato.attr,
- 	&dev_attr_cntrltype.attr,
- 	&dev_attr_dctype.attr,
-+#ifdef CONFIG_NVME_AUTH
-+	&dev_attr_dhchap_secret.attr,
-+	&dev_attr_dhchap_ctrl_secret.attr,
-+#endif
- 	NULL
- };
- 
-@@ -3641,6 +3764,12 @@ static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
- 		return 0;
- 	if (a == &dev_attr_fast_io_fail_tmo.attr && !ctrl->opts)
- 		return 0;
-+#ifdef CONFIG_NVME_AUTH
-+	if (a == &dev_attr_dhchap_secret.attr && !ctrl->opts)
-+		return 0;
-+	if (a == &dev_attr_dhchap_ctrl_secret.attr && !ctrl->opts)
-+		return 0;
-+#endif
- 
- 	return a->mode;
- }
-@@ -4535,8 +4664,10 @@ static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
- 		 * recovery actions from interfering with the controller's
- 		 * firmware activation.
- 		 */
--		if (nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-+		if (nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING)) {
-+			nvme_auth_stop(ctrl);
- 			queue_work(nvme_wq, &ctrl->fw_act_work);
-+		}
- 		break;
- #ifdef CONFIG_NVME_MULTIPATH
- 	case NVME_AER_NOTICE_ANA:
-@@ -4600,6 +4731,7 @@ EXPORT_SYMBOL_GPL(nvme_complete_async_event);
- void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
- {
- 	nvme_mpath_stop(ctrl);
-+	nvme_auth_stop(ctrl);
- 	nvme_stop_keep_alive(ctrl);
- 	nvme_stop_failfast_work(ctrl);
- 	flush_work(&ctrl->async_event_work);
-@@ -4657,6 +4789,8 @@ static void nvme_free_ctrl(struct device *dev)
- 
- 	nvme_free_cels(ctrl);
- 	nvme_mpath_uninit(ctrl);
-+	nvme_auth_stop(ctrl);
-+	nvme_auth_free(ctrl);
- 	__free_page(ctrl->discard_page);
- 
- 	if (subsys) {
-@@ -4747,6 +4881,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 
- 	nvme_fault_inject_init(&ctrl->fault_inject, dev_name(ctrl->device));
- 	nvme_mpath_init_ctrl(ctrl);
-+	nvme_auth_init_ctrl(ctrl);
- 
- 	return 0;
- out_free_name:
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index e4b1520862d8..fba777ba719e 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -369,6 +369,7 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
- 	union nvme_result res;
- 	struct nvmf_connect_data *data;
- 	int ret;
-+	u32 result;
- 
- 	cmd.connect.opcode = nvme_fabrics_command;
- 	cmd.connect.fctype = nvme_fabrics_type_connect;
-@@ -401,8 +402,25 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
- 		goto out_free_data;
- 	}
- 
--	ctrl->cntlid = le16_to_cpu(res.u16);
--
-+	result = le32_to_cpu(res.u32);
-+	ctrl->cntlid = result & 0xFFFF;
-+	if ((result >> 16) & 0x3) {
-+		/* Authentication required */
-+		ret = nvme_auth_negotiate(ctrl, 0);
-+		if (ret) {
-+			dev_warn(ctrl->device,
-+				 "qid 0: authentication setup failed\n");
-+			ret = NVME_SC_AUTH_REQUIRED;
-+			goto out_free_data;
-+		}
-+		ret = nvme_auth_wait(ctrl, 0);
-+		if (ret)
-+			dev_warn(ctrl->device,
-+				 "qid 0: authentication failed\n");
-+		else
-+			dev_info(ctrl->device,
-+				 "qid 0: authenticated\n");
-+	}
- out_free_data:
- 	kfree(data);
- 	return ret;
-@@ -435,6 +453,7 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
- 	struct nvmf_connect_data *data;
- 	union nvme_result res;
- 	int ret;
-+	u32 result;
- 
- 	cmd.connect.opcode = nvme_fabrics_command;
- 	cmd.connect.fctype = nvme_fabrics_type_connect;
-@@ -460,6 +479,21 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
- 		nvmf_log_connect_error(ctrl, ret, le32_to_cpu(res.u32),
- 				       &cmd, data);
- 	}
-+	result = le32_to_cpu(res.u32);
-+	if ((result >> 16) & 2) {
-+		/* Authentication required */
-+		ret = nvme_auth_negotiate(ctrl, qid);
-+		if (ret) {
-+			dev_warn(ctrl->device,
-+				 "qid %d: authentication setup failed\n", qid);
-+			ret = NVME_SC_AUTH_REQUIRED;
-+		} else {
-+			ret = nvme_auth_wait(ctrl, qid);
-+			if (ret)
-+				dev_warn(ctrl->device,
-+					 "qid %u: authentication failed\n", qid);
-+		}
-+	}
- 	kfree(data);
- 	return ret;
- }
-@@ -552,6 +586,8 @@ static const match_table_t opt_tokens = {
- 	{ NVMF_OPT_TOS,			"tos=%d"		},
- 	{ NVMF_OPT_FAIL_FAST_TMO,	"fast_io_fail_tmo=%d"	},
- 	{ NVMF_OPT_DISCOVERY,		"discovery"		},
-+	{ NVMF_OPT_DHCHAP_SECRET,	"dhchap_secret=%s"	},
-+	{ NVMF_OPT_DHCHAP_CTRL_SECRET,	"dhchap_ctrl_secret=%s"	},
- 	{ NVMF_OPT_ERR,			NULL			}
- };
- 
-@@ -833,6 +869,34 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 		case NVMF_OPT_DISCOVERY:
- 			opts->discovery_nqn = true;
- 			break;
-+		case NVMF_OPT_DHCHAP_SECRET:
-+			p = match_strdup(args);
-+			if (!p) {
-+				ret = -ENOMEM;
-+				goto out;
-+			}
-+			if (strlen(p) < 11 || strncmp(p, "DHHC-1:", 7)) {
-+				pr_err("Invalid DH-CHAP secret %s\n", p);
-+				ret = -EINVAL;
-+				goto out;
-+			}
-+			kfree(opts->dhchap_secret);
-+			opts->dhchap_secret = p;
-+			break;
-+		case NVMF_OPT_DHCHAP_CTRL_SECRET:
-+			p = match_strdup(args);
-+			if (!p) {
-+				ret = -ENOMEM;
-+				goto out;
-+			}
-+			if (strlen(p) < 11 || strncmp(p, "DHHC-1:", 7)) {
-+				pr_err("Invalid DH-CHAP secret %s\n", p);
-+				ret = -EINVAL;
-+				goto out;
-+			}
-+			kfree(opts->dhchap_ctrl_secret);
-+			opts->dhchap_ctrl_secret = p;
-+			break;
- 		default:
- 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
- 				p);
-@@ -951,6 +1015,7 @@ void nvmf_free_options(struct nvmf_ctrl_options *opts)
- 	kfree(opts->subsysnqn);
- 	kfree(opts->host_traddr);
- 	kfree(opts->host_iface);
-+	kfree(opts->dhchap_secret);
- 	kfree(opts);
- }
- EXPORT_SYMBOL_GPL(nvmf_free_options);
-@@ -960,7 +1025,8 @@ EXPORT_SYMBOL_GPL(nvmf_free_options);
- 				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN | \
- 				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT |\
- 				 NVMF_OPT_DISABLE_SQFLOW | NVMF_OPT_DISCOVERY |\
--				 NVMF_OPT_FAIL_FAST_TMO)
-+				 NVMF_OPT_FAIL_FAST_TMO | NVMF_OPT_DHCHAP_SECRET |\
-+				 NVMF_OPT_DHCHAP_CTRL_SECRET)
- 
- static struct nvme_ctrl *
- nvmf_create_ctrl(struct device *dev, const char *buf)
-@@ -1196,7 +1262,14 @@ static void __exit nvmf_exit(void)
- 	BUILD_BUG_ON(sizeof(struct nvmf_connect_command) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvmf_property_get_command) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvmf_property_set_command) != 64);
-+	BUILD_BUG_ON(sizeof(struct nvmf_auth_send_command) != 64);
-+	BUILD_BUG_ON(sizeof(struct nvmf_auth_receive_command) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvmf_connect_data) != 1024);
-+	BUILD_BUG_ON(sizeof(struct nvmf_auth_dhchap_negotiate_data) != 8);
-+	BUILD_BUG_ON(sizeof(struct nvmf_auth_dhchap_challenge_data) != 16);
-+	BUILD_BUG_ON(sizeof(struct nvmf_auth_dhchap_reply_data) != 16);
-+	BUILD_BUG_ON(sizeof(struct nvmf_auth_dhchap_success1_data) != 16);
-+	BUILD_BUG_ON(sizeof(struct nvmf_auth_dhchap_success2_data) != 16);
- }
- 
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index 46d6e194ac2b..a6e22116e139 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -68,6 +68,8 @@ enum {
- 	NVMF_OPT_FAIL_FAST_TMO	= 1 << 20,
- 	NVMF_OPT_HOST_IFACE	= 1 << 21,
- 	NVMF_OPT_DISCOVERY	= 1 << 22,
-+	NVMF_OPT_DHCHAP_SECRET	= 1 << 23,
-+	NVMF_OPT_DHCHAP_CTRL_SECRET = 1 << 24,
- };
- 
- /**
-@@ -97,6 +99,9 @@ enum {
-  * @max_reconnects: maximum number of allowed reconnect attempts before removing
-  *              the controller, (-1) means reconnect forever, zero means remove
-  *              immediately;
-+ * @dhchap_secret: DH-HMAC-CHAP secret
-+ * @dhchap_ctrl_secret: DH-HMAC-CHAP controller secret for bi-directional
-+ *              authentication
-  * @disable_sqflow: disable controller sq flow control
-  * @hdr_digest: generate/verify header digest (TCP)
-  * @data_digest: generate/verify data digest (TCP)
-@@ -121,6 +126,8 @@ struct nvmf_ctrl_options {
- 	unsigned int		kato;
- 	struct nvmf_host	*host;
- 	int			max_reconnects;
-+	char			*dhchap_secret;
-+	char			*dhchap_ctrl_secret;
- 	bool			disable_sqflow;
- 	bool			hdr_digest;
- 	bool			data_digest;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index e4612dd0b420..e9350bf7b2d1 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -328,6 +328,15 @@ struct nvme_ctrl {
- 	struct work_struct ana_work;
- #endif
- 
-+#ifdef CONFIG_NVME_AUTH
-+	struct work_struct dhchap_auth_work;
-+	struct list_head dhchap_auth_list;
-+	struct mutex dhchap_auth_mutex;
-+	struct nvme_dhchap_key *host_key;
-+	struct nvme_dhchap_key *ctrl_key;
-+	u16 transaction;
-+#endif
-+
- 	/* Power saving configuration */
- 	u64 ps_max_latency_us;
- 	bool apst_enabled;
-@@ -991,6 +1000,27 @@ static inline bool nvme_ctrl_sgl_supported(struct nvme_ctrl *ctrl)
- 	return ctrl->sgls & ((1 << 0) | (1 << 1));
- }
- 
-+#ifdef CONFIG_NVME_AUTH
-+void nvme_auth_init_ctrl(struct nvme_ctrl *ctrl);
-+void nvme_auth_stop(struct nvme_ctrl *ctrl);
-+int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid);
-+int nvme_auth_wait(struct nvme_ctrl *ctrl, int qid);
-+void nvme_auth_reset(struct nvme_ctrl *ctrl);
-+void nvme_auth_free(struct nvme_ctrl *ctrl);
-+#else
-+static inline void nvme_auth_init_ctrl(struct nvme_ctrl *ctrl) {};
-+static inline void nvme_auth_stop(struct nvme_ctrl *ctrl) {};
-+static inline int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid)
-+{
-+	return -EPROTONOSUPPORT;
-+}
-+static inline int nvme_auth_wait(struct nvme_ctrl *ctrl, int qid)
-+{
-+	return NVME_SC_AUTH_REQUIRED;
-+}
-+static inline void nvme_auth_free(struct nvme_ctrl *ctrl) {};
-+#endif
-+
- u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 			 u8 opcode);
- int nvme_execute_passthru_rq(struct request *rq);
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index f2a5e1ea508a..84ce3347d158 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1197,6 +1197,7 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
- 	struct nvme_rdma_ctrl *ctrl = container_of(work,
- 			struct nvme_rdma_ctrl, err_work);
- 
-+	nvme_auth_stop(&ctrl->ctrl);
- 	nvme_stop_keep_alive(&ctrl->ctrl);
- 	flush_work(&ctrl->ctrl.async_event_work);
- 	nvme_rdma_teardown_io_queues(ctrl, false);
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index bb67538d241b..a7848e430a5c 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2174,6 +2174,7 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
- 				struct nvme_tcp_ctrl, err_work);
- 	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
- 
-+	nvme_auth_stop(ctrl);
- 	nvme_stop_keep_alive(ctrl);
- 	flush_work(&ctrl->async_event_work);
- 	nvme_tcp_teardown_io_queues(ctrl, false);
-diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
-index 2a89c5aa0790..1c36fcedea20 100644
---- a/drivers/nvme/host/trace.c
-+++ b/drivers/nvme/host/trace.c
-@@ -287,6 +287,34 @@ static const char *nvme_trace_fabrics_property_get(struct trace_seq *p, u8 *spc)
- 	return ret;
- }
- 
-+static const char *nvme_trace_fabrics_auth_send(struct trace_seq *p, u8 *spc)
-+{
-+	const char *ret = trace_seq_buffer_ptr(p);
-+	u8 spsp0 = spc[1];
-+	u8 spsp1 = spc[2];
-+	u8 secp = spc[3];
-+	u32 tl = get_unaligned_le32(spc + 4);
-+
-+	trace_seq_printf(p, "spsp0=%02x, spsp1=%02x, secp=%02x, tl=%u",
-+			 spsp0, spsp1, secp, tl);
-+	trace_seq_putc(p, 0);
-+	return ret;
-+}
-+
-+static const char *nvme_trace_fabrics_auth_receive(struct trace_seq *p, u8 *spc)
-+{
-+	const char *ret = trace_seq_buffer_ptr(p);
-+	u8 spsp0 = spc[1];
-+	u8 spsp1 = spc[2];
-+	u8 secp = spc[3];
-+	u32 al = get_unaligned_le32(spc + 4);
-+
-+	trace_seq_printf(p, "spsp0=%02x, spsp1=%02x, secp=%02x, al=%u",
-+			 spsp0, spsp1, secp, al);
-+	trace_seq_putc(p, 0);
-+	return ret;
-+}
-+
- static const char *nvme_trace_fabrics_common(struct trace_seq *p, u8 *spc)
- {
- 	const char *ret = trace_seq_buffer_ptr(p);
-@@ -306,6 +334,10 @@ const char *nvme_trace_parse_fabrics_cmd(struct trace_seq *p,
- 		return nvme_trace_fabrics_connect(p, spc);
- 	case nvme_fabrics_type_property_get:
- 		return nvme_trace_fabrics_property_get(p, spc);
-+	case nvme_fabrics_type_auth_send:
-+		return nvme_trace_fabrics_auth_send(p, spc);
-+	case nvme_fabrics_type_auth_receive:
-+		return nvme_trace_fabrics_auth_receive(p, spc);
- 	default:
- 		return nvme_trace_fabrics_common(p, spc);
- 	}
-diff --git a/include/linux/nvme-auth.h b/include/linux/nvme-auth.h
-new file mode 100644
-index 000000000000..354456826221
---- /dev/null
-+++ b/include/linux/nvme-auth.h
-@@ -0,0 +1,33 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2021 Hannes Reinecke, SUSE Software Solutions
-+ */
-+
-+#ifndef _NVME_AUTH_H
-+#define _NVME_AUTH_H
-+
-+#include <crypto/kpp.h>
-+
-+struct nvme_dhchap_key {
-+	u8 *key;
-+	size_t len;
-+	u8 hash;
-+};
-+
-+u32 nvme_auth_get_seqnum(void);
-+const char *nvme_auth_dhgroup_name(u8 dhgroup_id);
-+const char *nvme_auth_dhgroup_kpp(u8 dhgroup_id);
-+u8 nvme_auth_dhgroup_id(const char *dhgroup_name);
-+
-+const char *nvme_auth_hmac_name(u8 hmac_id);
-+const char *nvme_auth_digest_name(u8 hmac_id);
-+size_t nvme_auth_hmac_hash_len(u8 hmac_id);
-+u8 nvme_auth_hmac_id(const char *hmac_name);
-+
-+struct nvme_dhchap_key *nvme_auth_extract_key(unsigned char *secret,
-+					      u8 key_hash);
-+void nvme_auth_free_key(struct nvme_dhchap_key *key);
-+u8 *nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn);
-+int nvme_auth_generate_key(u8 *secret, struct nvme_dhchap_key **ret_key);
-+
-+#endif /* _NVME_AUTH_H */
--- 
-2.29.2
-
+DQoNCj4gT24gSnVuIDE3LCAyMDIyLCBhdCAyOjAxIEFNLCBDaHJpc3RvcGggSGVsbHdpZyA8aGNo
+QGxzdC5kZT4gd3JvdGU6DQo+IA0KPiBPbiBXZWQsIEp1biAxNSwgMjAyMiBhdCAwODoxNToxOFBN
+ICswMDAwLCBBbGFuIEFkYW1zb24gd3JvdGU6DQo+PiBIZXJlIGFyZSBteSBsYXRlc3QgY2hhbmdl
+cy4gIEl0IGluY2x1ZGVzIGFuIGludGVyZmFjZSBmcm9tIG52bWUtY2xpIHRvIHNwZWNpZnkNCj4+
+IHRvIGNsZWFyIHRoZSBJRHMgdXBvbiBjb25uZWN0Lg0KPj4gDQo+PiBXYXNu4oCZdCBzdXJlIHRo
+ZSBwcm9wZXIgd2F5IHRvIHNlbmQgYSBjbGVhcl9pZHMgYXJndW1lbnQgdG8gdGhlIHRhcmdldCBz
+byBJIGZvbGxvd2VkDQo+PiB3aGF0IGthdG8gZGlkLiAgTm90IHN1cmUgaWYgdGhhdCBpcyBhcHBy
+b3ByaWF0ZSBmb3IgdGhpcyBjYXNlLg0KPj4gDQo+PiBUaGlzIHdpbGwgcmVxdWlyZSBhIG52bWUt
+Y2xpIGNoYW5nZSBhbmQgYmxrdGVzdHMgY2hhbmdlcy4gIEkgdGVzdGVkIHdpdGggYm90aCBsb29w
+IGFuZCB0Y3AuDQo+IA0KPiBXZWxsLCBpdCBjaGFuZ2VzIHRoZSBudm1lIG92ZXIgdGhlIHdpcmUg
+cHJvdG9jb2wsIHdlIGNhbid0IGp1c3QgZG8NCj4gdGhhdC4NCj4gDQo+IEFuZCB0aGUgb3B0aW9u
+IHJlYWxseSBpcyBhIHRhcmdldCBzaWRlIG9uZSwgdGhhdCBpcyB3ZSB3YW50IHRvIGNvbmZpZ3Vy
+ZQ0KPiBpdCB1c2luZyBjb25maWdmcyBvbiB0aGUgdGFyZ2V0LCBub3QgdGhlIGZhYnJpY3MgY29t
+bWFuZCBsaW5lIG9wdGlvbnMuDQo+IA0KPiBUaGF0IGlzLCBhZGQgYSBuZXcgY2xlYXJfaWRzIGF0
+dHJpYnV0ZSB0byBudm1ldF9wYXNzdGhydV9hdHRycywgc2F2ZQ0KPiB0aGUgZmxhZyBpbiBzdHJ1
+Y3QgbnZtZXRfc3Vic3lzLCBhbmQgZGVmYXVsdCB0byB0cnVlIGZvciBsb29wIGNvbnRyb2xsZXJz
+Lg0KDQpMYXRlc3QgY2hhbmdlcy4gIEkgbGlrZSB0aGUgaWRlYSBzZXR0aW5nIGNsZWFyX2lkcyB1
+c2luZyBjb25maWdmcy4NCg0KQWxhbg0KDQoNCmRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvdGFy
+Z2V0L2NvbmZpZ2ZzLmMgYi9kcml2ZXJzL252bWUvdGFyZ2V0L2NvbmZpZ2ZzLmMNCmluZGV4IGU0
+NGIyOTg4NzU5ZS4uZmY3N2MzZDIzNTRmIDEwMDY0NA0KLS0tIGEvZHJpdmVycy9udm1lL3Rhcmdl
+dC9jb25maWdmcy5jDQorKysgYi9kcml2ZXJzL252bWUvdGFyZ2V0L2NvbmZpZ2ZzLmMNCkBAIC03
+NzMsMTEgKzc3MywzMSBAQCBzdGF0aWMgc3NpemVfdCBudm1ldF9wYXNzdGhydV9pb190aW1lb3V0
+X3N0b3JlKHN0cnVjdCBjb25maWdfaXRlbSAqaXRlbSwNCiB9DQogQ09ORklHRlNfQVRUUihudm1l
+dF9wYXNzdGhydV8sIGlvX3RpbWVvdXQpOw0KIA0KK3N0YXRpYyBzc2l6ZV90IG52bWV0X3Bhc3N0
+aHJ1X2NsZWFyX2lkc19zaG93KHN0cnVjdCBjb25maWdfaXRlbSAqaXRlbSwNCisJCWNoYXIgKnBh
+Z2UpDQorew0KKwlyZXR1cm4gc3ByaW50ZihwYWdlLCAiJXVcbiIsIHRvX3N1YnN5cyhpdGVtLT5j
+aV9wYXJlbnQpLT5jbGVhcl9pZHMpOw0KK30NCisNCitzdGF0aWMgc3NpemVfdCBudm1ldF9wYXNz
+dGhydV9jbGVhcl9pZHNfc3RvcmUoc3RydWN0IGNvbmZpZ19pdGVtICppdGVtLA0KKwkJY29uc3Qg
+Y2hhciAqcGFnZSwgc2l6ZV90IGNvdW50KQ0KK3sNCisJc3RydWN0IG52bWV0X3N1YnN5cyAqc3Vi
+c3lzID0gdG9fc3Vic3lzKGl0ZW0tPmNpX3BhcmVudCk7DQorCXVuc2lnbmVkIGludCBjbGVhcl9p
+ZHM7DQorDQorCWlmIChrc3RydG91aW50KHBhZ2UsIDAsICZjbGVhcl9pZHMpKQ0KKwkJcmV0dXJu
+IC1FSU5WQUw7DQorCXN1YnN5cy0+Y2xlYXJfaWRzID0gY2xlYXJfaWRzOw0KKwlyZXR1cm4gY291
+bnQ7DQorfQ0KK0NPTkZJR0ZTX0FUVFIobnZtZXRfcGFzc3RocnVfLCBjbGVhcl9pZHMpOw0KKw0K
+IHN0YXRpYyBzdHJ1Y3QgY29uZmlnZnNfYXR0cmlidXRlICpudm1ldF9wYXNzdGhydV9hdHRyc1td
+ID0gew0KIAkmbnZtZXRfcGFzc3RocnVfYXR0cl9kZXZpY2VfcGF0aCwNCiAJJm52bWV0X3Bhc3N0
+aHJ1X2F0dHJfZW5hYmxlLA0KIAkmbnZtZXRfcGFzc3RocnVfYXR0cl9hZG1pbl90aW1lb3V0LA0K
+IAkmbnZtZXRfcGFzc3RocnVfYXR0cl9pb190aW1lb3V0LA0KKwkmbnZtZXRfcGFzc3RocnVfYXR0
+cl9jbGVhcl9pZHMsDQogCU5VTEwsDQogfTsNCiANCmRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUv
+dGFyZ2V0L2NvcmUuYyBiL2RyaXZlcnMvbnZtZS90YXJnZXQvY29yZS5jDQppbmRleCA5MGU3NTMy
+NGRhZTAuLmQ0MjAzZDU4MjM0MyAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvbnZtZS90YXJnZXQvY29y
+ZS5jDQorKysgYi9kcml2ZXJzL252bWUvdGFyZ2V0L2NvcmUuYw0KQEAgLTEzNzQsNiArMTM3NCwx
+MCBAQCB1MTYgbnZtZXRfYWxsb2NfY3RybChjb25zdCBjaGFyICpzdWJzeXNucW4sIGNvbnN0IGNo
+YXIgKmhvc3RucW4sDQogCWN0cmwtPnBvcnQgPSByZXEtPnBvcnQ7DQogCWN0cmwtPm9wcyA9IHJl
+cS0+b3BzOw0KIA0KKwkvKiBCeSBkZWZhdWx0LCBzZXQgbG9vcCB0YXJnZXRzIHRvIGNsZWFyIElE
+UyBieSBkZWZhdWx0ICovDQorCWlmIChjdHJsLT5wb3J0LT5kaXNjX2FkZHIudHJ0eXBlID09IE5W
+TUZfVFJUWVBFX0xPT1ApDQorCQlzdWJzeXMtPmNsZWFyX2lkcyA9IDE7DQorDQogCUlOSVRfV09S
+SygmY3RybC0+YXN5bmNfZXZlbnRfd29yaywgbnZtZXRfYXN5bmNfZXZlbnRfd29yayk7DQogCUlO
+SVRfTElTVF9IRUFEKCZjdHJsLT5hc3luY19ldmVudHMpOw0KIAlJTklUX1JBRElYX1RSRUUoJmN0
+cmwtPnAycF9uc19tYXAsIEdGUF9LRVJORUwpOw0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS90
+YXJnZXQvbnZtZXQuaCBiL2RyaXZlcnMvbnZtZS90YXJnZXQvbnZtZXQuaA0KaW5kZXggNjk4MTg3
+NTJhMzNhLi4yYjNlNTcxOWYyNGUgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL252bWUvdGFyZ2V0L252
+bWV0LmgNCisrKyBiL2RyaXZlcnMvbnZtZS90YXJnZXQvbnZtZXQuaA0KQEAgLTI0OSw2ICsyNDks
+NyBAQCBzdHJ1Y3QgbnZtZXRfc3Vic3lzIHsNCiAJc3RydWN0IGNvbmZpZ19ncm91cAlwYXNzdGhy
+dV9ncm91cDsNCiAJdW5zaWduZWQgaW50CQlhZG1pbl90aW1lb3V0Ow0KIAl1bnNpZ25lZCBpbnQJ
+CWlvX3RpbWVvdXQ7DQorCXVuc2lnbmVkIGludAkJY2xlYXJfaWRzOw0KICNlbmRpZiAvKiBDT05G
+SUdfTlZNRV9UQVJHRVRfUEFTU1RIUlUgKi8NCiANCiAjaWZkZWYgQ09ORklHX0JMS19ERVZfWk9O
+RUQNCmRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvdGFyZ2V0L3Bhc3N0aHJ1LmMgYi9kcml2ZXJz
+L252bWUvdGFyZ2V0L3Bhc3N0aHJ1LmMNCmluZGV4IGIxZjdlZmFiMzkxOC4uZDA1ODdiMTA4OTVj
+IDEwMDY0NA0KLS0tIGEvZHJpdmVycy9udm1lL3RhcmdldC9wYXNzdGhydS5jDQorKysgYi9kcml2
+ZXJzL252bWUvdGFyZ2V0L3Bhc3N0aHJ1LmMNCkBAIC0zMCw2ICszMCw1NiBAQCB2b2lkIG52bWV0
+X3Bhc3N0aHJvdWdoX292ZXJyaWRlX2NhcChzdHJ1Y3QgbnZtZXRfY3RybCAqY3RybCkNCiAJCWN0
+cmwtPmNhcCAmPSB+KDFVTEwgPDwgNDMpOw0KIH0NCiANCitzdGF0aWMgdTE2IG52bWV0X3Bhc3N0
+aHJ1X292ZXJyaWRlX2lkX2Rlc2NzKHN0cnVjdCBudm1ldF9yZXEgKnJlcSkNCit7DQorCXN0cnVj
+dCBudm1ldF9jdHJsICpjdHJsID0gcmVxLT5zcS0+Y3RybDsNCisJdm9pZCAqZGF0YTsNCisJc3Ry
+dWN0IG52bWVfbnNfaWRfZGVzYyAqY3VyOw0KKwl1MTYgc3RhdHVzID0gTlZNRV9TQ19TVUNDRVNT
+Ow0KKwl1OCBjc2k7DQorCWludCBwb3MsIGxlbjsNCisJYm9vbCBjc2lfc2VlbjsNCisNCisJaWYg
+KCFjdHJsLT5zdWJzeXMtPmNsZWFyX2lkcykNCisJCXJldHVybiBzdGF0dXM7DQorDQorCWRhdGEg
+PSBremFsbG9jKE5WTUVfSURFTlRJRllfREFUQV9TSVpFLCBHRlBfS0VSTkVMKTsNCisJaWYgKCFk
+YXRhKQ0KKwkJcmV0dXJuIE5WTUVfU0NfSU5URVJOQUw7DQorDQorCXN0YXR1cyA9IG52bWV0X2Nv
+cHlfZnJvbV9zZ2wocmVxLCAwLCBkYXRhLCBOVk1FX0lERU5USUZZX0RBVEFfU0laRSk7DQorCWlm
+IChzdGF0dXMpDQorCQlnb3RvIG91dF9mcmVlOw0KKw0KKwlmb3IgKHBvcyA9IDA7IHBvcyA8IE5W
+TUVfSURFTlRJRllfREFUQV9TSVpFOyBwb3MgKz0gbGVuKSB7DQorCQljdXIgPSBkYXRhICsgcG9z
+Ow0KKw0KKwkJaWYgKGN1ci0+bmlkbCA9PSAwKQ0KKwkJCWJyZWFrOw0KKwkJbGVuID0gY3VyLT5u
+aWRsOw0KKwkJaWYgKGN1ci0+bmlkdCA9PSBOVk1FX05JRFRfQ1NJKSB7DQorCQkJbWVtY3B5KCZj
+c2ksIGRhdGEgKyBwb3MgKyBzaXplb2Yoc3RydWN0IG52bWVfbnNfaWRfZGVzYyksIE5WTUVfTklE
+VF9DU0lfTEVOKTsNCisJCQljc2lfc2VlbiA9IDE7DQorCQkJYnJlYWs7DQorCQl9DQorCQlsZW4g
+Kz0gc2l6ZW9mKHN0cnVjdCBudm1lX25zX2lkX2Rlc2MpOw0KKwl9DQorCWlmIChjc2lfc2Vlbikg
+ew0KKwkJY3VyID0gZGF0YTsNCisJCWN1ci0+bmlkdCA9IE5WTUVfTklEVF9DU0k7DQorCQljdXIt
+Pm5pZGwgPSBOVk1FX05JRFRfQ1NJX0xFTjsNCisJCW1lbWNweShkYXRhICsgc2l6ZW9mKHN0cnVj
+dCBudm1lX25zX2lkX2Rlc2MpLCAmY3NpLCAgTlZNRV9OSURUX0NTSV9MRU4pOw0KKw0KKwkJY3Vy
+ID0gZGF0YSArIHNpemVvZihzdHJ1Y3QgbnZtZV9uc19pZF9kZXNjKSArIE5WTUVfTklEVF9DU0lf
+TEVOOw0KKwkJY3VyLT5uaWR0ID0gMDsNCisJCWN1ci0+bmlkbCA9IDA7DQorCQlzdGF0dXMgPSBu
+dm1ldF9jb3B5X3RvX3NnbChyZXEsIDAsIGRhdGEsIE5WTUVfSURFTlRJRllfREFUQV9TSVpFKTsN
+CisJfQ0KK291dF9mcmVlOg0KKwlrZnJlZShkYXRhKTsNCisJcmV0dXJuIHN0YXR1czsNCit9DQor
+DQogc3RhdGljIHUxNiBudm1ldF9wYXNzdGhydV9vdmVycmlkZV9pZF9jdHJsKHN0cnVjdCBudm1l
+dF9yZXEgKnJlcSkNCiB7DQogCXN0cnVjdCBudm1ldF9jdHJsICpjdHJsID0gcmVxLT5zcS0+Y3Ry
+bDsNCkBAIC0xMjcsNiArMTc3LDcgQEAgc3RhdGljIHUxNiBudm1ldF9wYXNzdGhydV9vdmVycmlk
+ZV9pZF9jdHJsKHN0cnVjdCBudm1ldF9yZXEgKnJlcSkNCiANCiBzdGF0aWMgdTE2IG52bWV0X3Bh
+c3N0aHJ1X292ZXJyaWRlX2lkX25zKHN0cnVjdCBudm1ldF9yZXEgKnJlcSkNCiB7DQorCXN0cnVj
+dCBudm1ldF9jdHJsICpjdHJsID0gcmVxLT5zcS0+Y3RybDsNCiAJdTE2IHN0YXR1cyA9IE5WTUVf
+U0NfU1VDQ0VTUzsNCiAJc3RydWN0IG52bWVfaWRfbnMgKmlkOw0KIAlpbnQgaTsNCkBAIC0xNTIs
+NiArMjAzLDExIEBAIHN0YXRpYyB1MTYgbnZtZXRfcGFzc3RocnVfb3ZlcnJpZGVfaWRfbnMoc3Ry
+dWN0IG52bWV0X3JlcSAqcmVxKQ0KIAkgKi8NCiAJaWQtPm1jID0gMDsNCiANCisJaWYgKGN0cmwt
+PnN1YnN5cy0+Y2xlYXJfaWRzKSB7DQorCQltZW1zZXQoaWQtPm5ndWlkLCAwLCBOVk1FX05JRFRf
+TkdVSURfTEVOKTsNCisJCW1lbXNldChpZC0+ZXVpNjQsIDAsIE5WTUVfTklEVF9FVUk2NF9MRU4p
+Ow0KKwl9DQorDQogCXN0YXR1cyA9IG52bWV0X2NvcHlfdG9fc2dsKHJlcSwgMCwgaWQsIHNpemVv
+ZigqaWQpKTsNCiANCiBvdXRfZnJlZToNCkBAIC0xNzYsNiArMjMyLDkgQEAgc3RhdGljIHZvaWQg
+bnZtZXRfcGFzc3RocnVfZXhlY3V0ZV9jbWRfd29yayhzdHJ1Y3Qgd29ya19zdHJ1Y3QgKncpDQog
+CQljYXNlIE5WTUVfSURfQ05TX05TOg0KIAkJCW52bWV0X3Bhc3N0aHJ1X292ZXJyaWRlX2lkX25z
+KHJlcSk7DQogCQkJYnJlYWs7DQorCQljYXNlIE5WTUVfSURfQ05TX05TX0RFU0NfTElTVDoNCisJ
+CQludm1ldF9wYXNzdGhydV9vdmVycmlkZV9pZF9kZXNjcyhyZXEpOw0KKwkJCWJyZWFrOw0KIAkJ
+fQ0KIAl9IGVsc2UgaWYgKHN0YXR1cyA8IDApDQogCQlzdGF0dXMgPSBOVk1FX1NDX0lOVEVSTkFM
+Ow==
 
