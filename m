@@ -4,53 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5BF9C43334
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jun 2022 11:06:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC28CC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jun 2022 11:22:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:
-	To:From:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=uUZIMU47P6dJU2wQrlHidzKhjU0X5Ew56yOxpmDv6FA=; b=bbXH+ThJeRkLP6
-	ABXsva7hrdT38Bhs2Ev7DQJJWtZXzM+SWkJSu+L7kI+zRFPh+civLOND4liJu72H0c9E36LNV1cyl
-	DNJbn3rNKtmNE93F1wiqhgKvGZp262tGFJ+ol2rxWxaBKnxMcHMVf6uYfyLVvyYcLnZxkp8ncBT9P
-	DpQiuypfcpWzCm+8s2yMWPH4frdYXIOGj2JVU+MO/8m/a54tSQ19JKp4UCSzZ4NBnRBaEQQg0s54s
-	ilHeHGi2lRyLmgoIzj854d7sVz+i/LJv5KjCXd9Nz1C3kZrQgU/vB0E1ncmsoIQr0RmDpl48FQZdp
-	OVmUimtRcNekj2DPdlGQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:CC:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=tycmKxVKcU9O/iAG9UdP9GRWtyIedZHEa8v6sPek/Ew=; b=VnC1NwOagUG3Gc6zSvkTd7n6a+
+	jPkoychZto545Ki1z1hYsuOekia6pW2glCwuIJYoaqt36LH3/I7RM+Z5Vz4IH65FwbvDTP4mXlCUf
+	R5XVkQVgZAfi22RkyOhqQHrySOJYjvPH9ljVzxsRY886BZkxHeHW9wG2DlcYc+M0mZ4tuyC2ReVvy
+	38JnjSq/VYe9Ti+M7eZan1f9d5BQ/8vdgx6M14A1ktDiOF9JJoL7zFF3GGje6xLHXobJJRQo8JxaY
+	DdM+j0+OofFbTMwMWWi++/8JNAtRwLXRIoA9QIezKMP2O3urVDvYfEwIDyMlfErTDRHdVZRIVoI4P
+	PNaBS5BQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3bi0-0050i2-R1; Tue, 21 Jun 2022 11:06:12 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1o3bxd-0052LU-Qa; Tue, 21 Jun 2022 11:22:21 +0000
+Received: from frasgout.his.huawei.com ([185.176.79.56])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3bhz-0050h3-75
-	for linux-nvme@bombadil.infradead.org; Tue, 21 Jun 2022 11:06:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Sender:Cc:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=uUZIMU47P6dJU2wQrlHidzKhjU0X5Ew56yOxpmDv6FA=; b=nYcIEc9yqxoFaznbpU32THKpoh
-	lMeR66eXxvZc/QwokEo+OFdgRuv6qPVfRu+thJ7TScizNKqcACsgOpBXSr+21XZFmPDO9ialPrwDg
-	B71HYwOSN6ksXhrfF8Of9GOZbmJgVuiwkW6guwcLYK7W2B9Wh6aASHh6uFK75byTUfbSgHdADcDrq
-	Gct4OSWtWeCRhHOourJGkGPs8r4ydsbBiHzijhaIXrd8q7dmzoctHnN1Dw4ohVznPEeKbFqqZVFHt
-	RdjTr0TJtNefVAuqWcjE+CPhiZ9Dag+UYURSgtbNn3U3DBnfzaWNv+1XGgSt113IeJm1ZOvuqb+G6
-	tUHrabNQ==;
-Received: from static.163.53.161.5.clients.your-server.de ([5.161.53.163] helo=quickfundit.com)
-	by desiato.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3bgf-00AJpb-3n
-	for linux-nvme@lists.infradead.org; Tue, 21 Jun 2022 11:05:34 +0000
-From: "Quickfundit" <sales@quickfundit.com>
-To: linux-nvme@lists.infradead.org
-Subject: QUICK LOAN
-Date: 21 Jun 2022 04:04:18 -0700
-Message-ID: <20220621040418.24C0F514DFBB4573@quickfundit.com>
+	id 1o3bxa-0052KM-Gu
+	for linux-nvme@lists.infradead.org; Tue, 21 Jun 2022 11:22:20 +0000
+Received: from fraeml744-chm.china.huawei.com (unknown [172.18.147.226])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LS3xn14Wbz689td;
+	Tue, 21 Jun 2022 19:21:49 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml744-chm.china.huawei.com (10.206.15.225) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 21 Jun 2022 13:22:11 +0200
+Received: from localhost.localdomain (10.69.192.58) by
+ lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 21 Jun 2022 12:22:06 +0100
+From: John Garry <john.garry@huawei.com>
+To: <axboe@kernel.dk>, <damien.lemoal@opensource.wdc.com>,
+	<bvanassche@acm.org>, <hch@lst.de>, <jejb@linux.ibm.com>,
+	<martin.petersen@oracle.com>, <hare@suse.de>, <satishkh@cisco.com>,
+	<sebaddel@cisco.com>, <kartilak@cisco.com>
+CC: <linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+	<linux-mmc@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
+	<linux-s390@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+	<mpi3mr-linuxdrv.pdl@broadcom.com>, <linux-block@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <nbd@other.debian.org>, John Garry
+	<john.garry@huawei.com>
+Subject: [PATCH v2 2/6] blk-mq: Add a flag for reserved requests
+Date: Tue, 21 Jun 2022 19:15:39 +0800
+Message-ID: <1655810143-67784-3-git-send-email-john.garry@huawei.com>
+X-Mailer: git-send-email 2.8.1
+In-Reply-To: <1655810143-67784-1-git-send-email-john.garry@huawei.com>
+References: <1655810143-67784-1-git-send-email-john.garry@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [10.69.192.58]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220621_120503_796037_7131BADA 
-X-CRM114-Status: UNSURE (  -1.16  )
+X-CRM114-CacheID: sfid-20220621_042218_744222_A49326B6 
+X-CRM114-Status: UNSURE (   9.87  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -63,24 +74,70 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: info@quickfundit.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Have you applied for a Loan before and been denied ? Do you need=20
-a Loan to start that dream business ? Then worry no more,=20
-QUICKFUNDIT https://www.quickfundit.com Offers Business loan,=20
-Debt Consolidation Loan, Personal Loan with a 15 years repayment=20
-period at the lowest interest rate of 5% for small and big time=20
-projects/businesses.
+Add a flag for reserved requests so that drivers may know this for any
+special handling.
 
-We offer loans ranging from $10,000 (Ten thousand Dollar's) to=20=20
-$2,000.000 (Two Million Dollars) With six months defer grace=20
-period for Repayment.
+Signed-off-by: John Garry <john.garry@huawei.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+---
+ block/blk-mq.c         | 6 ++++++
+ include/linux/blk-mq.h | 6 ++++++
+ 2 files changed, 12 insertions(+)
 
-We've developed a lending program that makes it easy for us to=20
-meet up with our clients' needs.
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 5aa95964191b..d38c97fe89f5 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -474,6 +474,9 @@ static struct request *__blk_mq_alloc_requests(struct blk_mq_alloc_data *data)
+ 	if (!(data->rq_flags & RQF_ELV))
+ 		blk_mq_tag_busy(data->hctx);
+ 
++	if (data->flags & BLK_MQ_REQ_RESERVED)
++		data->rq_flags |= RQF_RESV;
++
+ 	/*
+ 	 * Try batched alloc if we want more than 1 tag.
+ 	 */
+@@ -588,6 +591,9 @@ struct request *blk_mq_alloc_request_hctx(struct request_queue *q,
+ 	else
+ 		data.rq_flags |= RQF_ELV;
+ 
++	if (flags & BLK_MQ_REQ_RESERVED)
++		data.rq_flags |= RQF_RESV;
++
+ 	ret = -EWOULDBLOCK;
+ 	tag = blk_mq_get_tag(&data);
+ 	if (tag == BLK_MQ_NO_TAG)
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index e2d9daf7e8dd..6d81fe10e850 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -57,6 +57,7 @@ typedef __u32 __bitwise req_flags_t;
+ #define RQF_TIMED_OUT		((__force req_flags_t)(1 << 21))
+ /* queue has elevator attached */
+ #define RQF_ELV			((__force req_flags_t)(1 << 22))
++#define RQF_RESV			((__force req_flags_t)(1 << 23))
+ 
+ /* flags that prevent us from merging requests: */
+ #define RQF_NOMERGE_FLAGS \
+@@ -823,6 +824,11 @@ static inline bool blk_mq_need_time_stamp(struct request *rq)
+ 	return (rq->rq_flags & (RQF_IO_STAT | RQF_STATS | RQF_ELV));
+ }
+ 
++static inline bool blk_mq_is_reserved_rq(struct request *rq)
++{
++	return rq->rq_flags & RQF_RESV;
++}
++
+ /*
+  * Batched completions only work when there is no I/O error and no special
+  * ->end_io handler.
+-- 
+2.25.1
 
-Interested Applicants are advised to contact us via Email for our=20
-application form. info@quickfundit.com
 
