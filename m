@@ -4,117 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2DA36C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jun 2022 07:07:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D14AC43334
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jun 2022 09:03:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=tvvJMi+/XQ2LNp030IYE1axwkY7UG8gjiUdmUScVWUM=; b=JxPqeOe9WTwY0es0jhvlhaC7lI
-	+DqdoJtjP3nyYKWX8ovXHavPshBwXp16KolCJUUp0DoCSkRt1HdF18TkAHNDK5WhIeIC92XAHtn8t
-	HR6zzQ3Fm2fVb4/Dl7V3gocfWvDKXW8Zp8vLEEqRg9d8REHWCwaRBlzj3xPbKX5xreFrAcBMagypB
-	7fl+FUEd6eZWgE94ZcZjl/GvjK1laMMG0ezkxAgyeFeNmlpj7lPZ0mjKHdDFAXYjPHv8nq8cSWM3r
-	ibnVJyEJylcGDm3FEKPqkWRk0qdk5AF4wvKUDZyzfQUdJ/wUvA4eVRjqhTriVZ/ThVZ3kq95lDeqD
-	SfC7Me8A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=oCOIC2aJ4NUBvMb11xnbjMUQc3MqrzlckH7NyVrN8N4=; b=FGXt4DwozQ0ixWpx7oQ8srQA/U
+	yppkr70ZPHqY9TgA/y4LoKZz2Cs/EUB/NjOHHuZLDqGYriGqlQNtkrjkAAObAKcAMHB4QBzWZuXbA
+	5swa03PNBgr3kOm8iDOwgk0qD3wynGpkh/GE18jYrWe1fQ+XekSjYsSA3sBeiCw08pS0Ub7WAd/LX
+	KRutcdgKijF4etOr5juNdatWt3SDgk90t5xYT0mOf/PaEK5S4m3E+MK4T48KWzNHD5PsCpbBJQ6W+
+	cm8afQZmWnGmQJBKBNRjwFYRerRuWJjU6Q4d+VZJKAJsjcWm06N/gKvNDgMpRmLCsctO0Dt5xDeMI
+	XCJDDGCA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3Xz3-003xCb-Kb; Tue, 21 Jun 2022 07:07:33 +0000
-Received: from mailout1.w1.samsung.com ([210.118.77.11])
+	id 1o3Zms-004UdE-IU; Tue, 21 Jun 2022 09:03:06 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3Xz0-003xB3-Py
-	for linux-nvme@lists.infradead.org; Tue, 21 Jun 2022 07:07:32 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20220621070725euoutp010db00db687ee5aabbe010cea1106b913~6kQCr-ZNc2758427584euoutp01L
-	for <linux-nvme@lists.infradead.org>; Tue, 21 Jun 2022 07:07:25 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20220621070725euoutp010db00db687ee5aabbe010cea1106b913~6kQCr-ZNc2758427584euoutp01L
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1655795245;
-	bh=tvvJMi+/XQ2LNp030IYE1axwkY7UG8gjiUdmUScVWUM=;
-	h=From:To:CC:Subject:Date:References:From;
-	b=Ua1vchQSliJ9Z2eWXAZtPVpkj7/NpdndPGGw0iSi4Q6EUzwPhG6qsLmUYovb2mW2R
-	 I7gcOxF9nyhIXaFGHfHDvN0Cv70Stvlv4wNeAZpTbvY4X78Ln9CtD+elLBuW3I3wFy
-	 YYV8cZNNi4a0/Mu35yM7yk+sQP9nVYb83LScHqhc=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20220621070724eucas1p2191850d947eb71742e1366f3f18eaa09~6kQClpvz52818428184eucas1p2z;
-	Tue, 21 Jun 2022 07:07:24 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges3new.samsung.com (EUCPMTA) with SMTP id 10.7F.09580.C2E61B26; Tue, 21
-	Jun 2022 08:07:24 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20220621070724eucas1p186a9c118c37b140e60c2d1f8cacf636a~6kQCT2FPw0726807268eucas1p1s;
-	Tue, 21 Jun 2022 07:07:24 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20220621070724eusmtrp18c1efc43c240b2eb71db1da76639e17e~6kQCTJume3227132271eusmtrp1i;
-	Tue, 21 Jun 2022 07:07:24 +0000 (GMT)
-X-AuditID: cbfec7f5-9adff7000000256c-37-62b16e2cc6e1
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-	eusmgms2.samsung.com (EUCPMTA) with SMTP id 89.E3.09038.C2E61B26; Tue, 21
-	Jun 2022 08:07:24 +0100 (BST)
-Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20220621070724eusmtip1a22349f018b38869d95a3e5a50dedda7~6kQCMcerT2662226622eusmtip1W;
-	Tue, 21 Jun 2022 07:07:24 +0000 (GMT)
-Received: from localhost (106.110.32.33) by CAMSVWEXC02.scsc.local
-	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Tue, 21 Jun 2022 08:07:24 +0100
-From: Joel Granados <j.granados@samsung.com>
-To: <hch@lst.de>, <kbusch@kernel.org>
-CC: <gost.dev@samsung.com>, <linux-nvme@lists.infradead.org>,
-	<joshi.k@samsung.com>, Joel Granados <j.granados@samsung.com>
-Subject: [PATCH v3] nvme: Fix CRMS masks for TP4084 - Time-to-ready
-Date: Tue, 21 Jun 2022 09:05:00 +0200
-Message-ID: <20220621070500.1381155-1-j.granados@samsung.com>
-X-Mailer: git-send-email 2.30.2
+	id 1o3Zmo-004Ua8-NQ
+	for linux-nvme@lists.infradead.org; Tue, 21 Jun 2022 09:03:04 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out1.suse.de (Postfix) with ESMTP id 79ECB21EFA;
+	Tue, 21 Jun 2022 09:03:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1655802181; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oCOIC2aJ4NUBvMb11xnbjMUQc3MqrzlckH7NyVrN8N4=;
+	b=GLFdxvzVqA0rXatoTuX3MmWFjmIZc6TZ6itAmkXZeql9r8EOdmSY2q0CIEoHym/m92Xd8G
+	dRdBTMesxQ+7hMYmolUZQ73f85VzcNpvOBGcix7X833DKzq4TXKXT2RM9UCJANG88/3oOT
+	i9aWWA9b0h4Zcp86Sz9GdVrHc3sHqrc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1655802181;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oCOIC2aJ4NUBvMb11xnbjMUQc3MqrzlckH7NyVrN8N4=;
+	b=5yTN40RFmYvNj90Sl8hJXMAeNcREYmTHz+P7i4VW3DqZBzoiU58YbeXeWbdykIF4UR82iy
+	mN7GCeIJWKekraDA==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+	by relay2.suse.de (Postfix) with ESMTP id 722702C143;
+	Tue, 21 Jun 2022 09:03:01 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+	id 6AA065194C53; Tue, 21 Jun 2022 11:03:01 +0200 (CEST)
+From: Hannes Reinecke <hare@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@suse.de>,
+	Himanshu Madhani <himanshu.madhani@oracle.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH 04/11] nvme: add definitions for NVMe In-Band authentication
+Date: Tue, 21 Jun 2022 11:02:48 +0200
+Message-Id: <20220621090255.69549-5-hare@suse.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20220621090255.69549-1-hare@suse.de>
+References: <20220621090255.69549-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [106.110.32.33]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
-	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrIIsWRmVeSWpSXmKPExsWy7djPc7o6eRuTDE7OsrRYufook8WkQ9cY
-	LeYve8ruwOyxaVUnm8fmJfUeu282sAUwR3HZpKTmZJalFunbJXBlzD/UzlbQxFZx8f4i9gbG
-	HyxdjBwcEgImEqvme3cxcnIICaxglJj7UKyLkQvI/sIoceLTNBYI5zOjxJpV79lBqkAaJn2Z
-	xwqRWM4osezzK1a4qi3PF0O1bGaUODDnKVgLm4COxPk3d5hB9okIqErsa7EFCTML1Eqc2LmB
-	BcQWFnCW2DinhxXEZgEq6Zt7DMzmFbCV2H6gkQlis7xE2/XpjBBxQYmTM5+wQMyRl2jeOpsZ
-	wpaQOPjiBTNEvaLEljnfWSHsWolTW24xgdwmIbCUQ2LSm0VsEP+7SCw8qAJRIyzx6vgWqC9l
-	JE5P7mGBsLMldk7ZBTWzQGLWyalQrdYSfWdyIMKOErvWfYSGKJ/EjbeCENfwSUzaNp0ZIswr
-	0dEmBFGtJrGjaSvjBEblWUh+mYXkl1lIflnAyLyKUTy1tDg3PbXYOC+1XK84Mbe4NC9dLzk/
-	dxMjMFWc/nf86w7GFa8+6h1iZOJgPMQowcGsJMJrw70hSYg3JbGyKrUoP76oNCe1+BCjNAeL
-	kjhvcuaGRCGB9MSS1OzU1ILUIpgsEwenVAOTvOCF62WW7LYlq+8clN8a0Gpg8He1TcWMrKfX
-	f/9eGnIjs7i+qe+9mvW5D5fP3j4/5bzCLpVNTaev9z2wMrmRf4z3QqND9PLlUo5m1n+v/ZQO
-	c+C1yTVqEz23pHGr7tUd/lNa/A4va5l/MlMvzSL/936hta8vbFXxuNb64/ztCZmt5hbBW5dp
-	320zr5hmyNvzpTDHrTRQcU4a67m8sjyW6LvquzrUvHzibK27POIZRDI4VGQcEmOeC7fFzT7z
-	RrI/Z5XZjmmn53E6f0+vmcAut8LjcWLU7dTG/yznYuo0Kj13yjz68Oyxsu66bUpJzOvn/vtq
-	XMWUotL667TgiUo+G4X9nnxtJXpRCy9OSVdiKc5INNRiLipOBAD4x+qghAMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpjkeLIzCtJLcpLzFFi42I5/e/4XV2dvI1JBt1X1CxWrj7KZDHp0DVG
-	i/nLnrI7MHtsWtXJ5rF5Sb3H7psNbAHMUXo2RfmlJakKGfnFJbZK0YYWRnqGlhZ6RiaWeobG
-	5rFWRqZK+nY2Kak5mWWpRfp2CXoZ8w+1sxU0sVVcvL+IvYHxB0sXIyeHhICJxKQv81i7GLk4
-	hASWMkrs3fOJGSIhI/Hpykd2CFtY4s+1LjaIoo+MEnOWP2OEcDYzSixcOQ2sik1AR+L8mztA
-	3RwcIgKqEvtabEHCzAK1Eid2bgDbJizgLLFxTg8riM0CVNI39xiYzStgK7H9QCMTxDJ5ibbr
-	0xkh4oISJ2c+YYGYIy/RvHU2M4QtIXHwxQuoQxUltsz5zgph10p8/vuMcQKj0Cwk7bOQtM9C
-	0r6AkXkVo0hqaXFuem6xkV5xYm5xaV66XnJ+7iZGYIRsO/Zzyw7Gla8+6h1iZOJgPMQowcGs
-	JMJrw70hSYg3JbGyKrUoP76oNCe1+BCjKdA/E5mlRJPzgTGaVxJvaGZgamhiZmlgamlmrCTO
-	61nQkSgkkJ5YkpqdmlqQWgTTx8TBKdXA1NZhrNZwuN324iYL7YbkNfo7lny6fer1C7v5ixZO
-	2PqAYyPTMuG7TFuVVt2R/9gjnixXnvdv/5bVzid2CT+zP2CWWOUjcOzrJw+799OLmRtX1fbX
-	sOuHtGdFLDvP+uDVzPsfVI7ctDF4L5ecOeNcyPoVR9mLv/nXTLhnyLq05zDPdv8UHaELwgHM
-	0yYnWey6++fT/ilbE++sPWFcK/+Hb4O72PM982o7ZQIlLsz6Xfera7M1k+j8s0f1Hu+6pyR4
-	0uj4VOk5R7kqOSzWLbx1hrFo59sQ/TlsXK7nmjKFpzxuF7HkEnxiujLwrPv2q3mpd1d8SOOq
-	WbnU4J1GdHzx8j/LCo+v5z6nz7Ji+rzv3IxKLMUZiYZazEXFiQBb27nUGQMAAA==
-X-CMS-MailID: 20220621070724eucas1p186a9c118c37b140e60c2d1f8cacf636a
-X-Msg-Generator: CA
-X-RootMTR: 20220621070724eucas1p186a9c118c37b140e60c2d1f8cacf636a
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220621070724eucas1p186a9c118c37b140e60c2d1f8cacf636a
-References: <CGME20220621070724eucas1p186a9c118c37b140e60c2d1f8cacf636a@eucas1p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220621_000731_299988_0702868B 
-X-CRM114-Status: GOOD (  12.47  )
+X-CRM114-CacheID: sfid-20220621_020302_956489_BA2573A9 
+X-CRM114-Status: GOOD (  14.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -129,32 +84,273 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Adjust the values of NVME_CAP_CRMS_CRIMS and NVME_CAP_CRMS_CRWMS masks as
-they are different from the ones in TP4084 - Time-to-ready.
+Add new definitions for NVMe In-band authentication as defined in
+the NVMe Base Specification v2.0.
 
-Fixes: 354201c53e61 ("nvme: add support for TP4084 - Time-to-Ready Enhancements").
-
-Signed-off-by: Joel Granados <j.granados@samsung.com>
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 ---
- include/linux/nvme.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/linux/nvme.h | 209 ++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 208 insertions(+), 1 deletion(-)
 
 diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 29ec3e3481ff..e3934003f239 100644
+index 29ec3e3481ff..ed5ee1167a03 100644
 --- a/include/linux/nvme.h
 +++ b/include/linux/nvme.h
-@@ -233,8 +233,8 @@ enum {
+@@ -19,6 +19,7 @@
+ #define NVMF_TRSVCID_SIZE	32
+ #define NVMF_TRADDR_SIZE	256
+ #define NVMF_TSAS_SIZE		256
++#define NVMF_AUTH_HASH_LEN	64
+ 
+ #define NVME_DISC_SUBSYS_NAME	"nqn.2014-08.org.nvmexpress.discovery"
+ 
+@@ -1367,6 +1368,8 @@ enum nvmf_capsule_command {
+ 	nvme_fabrics_type_property_set	= 0x00,
+ 	nvme_fabrics_type_connect	= 0x01,
+ 	nvme_fabrics_type_property_get	= 0x04,
++	nvme_fabrics_type_auth_send	= 0x05,
++	nvme_fabrics_type_auth_receive	= 0x06,
  };
  
- enum {
--	NVME_CAP_CRMS_CRIMS	= 1ULL << 59,
--	NVME_CAP_CRMS_CRWMS	= 1ULL << 60,
-+	NVME_CAP_CRMS_CRWMS	= 1ULL << 59,
-+	NVME_CAP_CRMS_CRIMS	= 1ULL << 60,
+ #define nvme_fabrics_type_name(type)   { type, #type }
+@@ -1374,7 +1377,9 @@ enum nvmf_capsule_command {
+ 	__print_symbolic(type,						\
+ 		nvme_fabrics_type_name(nvme_fabrics_type_property_set),	\
+ 		nvme_fabrics_type_name(nvme_fabrics_type_connect),	\
+-		nvme_fabrics_type_name(nvme_fabrics_type_property_get))
++		nvme_fabrics_type_name(nvme_fabrics_type_property_get), \
++		nvme_fabrics_type_name(nvme_fabrics_type_auth_send),	\
++		nvme_fabrics_type_name(nvme_fabrics_type_auth_receive))
+ 
+ /*
+  * If not fabrics command, fctype will be ignored.
+@@ -1470,6 +1475,11 @@ struct nvmf_connect_command {
+ 	__u8		resv4[12];
  };
  
- struct nvme_id_power_state {
++enum {
++	NVME_CONNECT_AUTHREQ_ASCR	= (1 << 2),
++	NVME_CONNECT_AUTHREQ_ATR	= (1 << 1),
++};
++
+ struct nvmf_connect_data {
+ 	uuid_t		hostid;
+ 	__le16		cntlid;
+@@ -1504,6 +1514,200 @@ struct nvmf_property_get_command {
+ 	__u8		resv4[16];
+ };
+ 
++struct nvmf_auth_common_command {
++	__u8		opcode;
++	__u8		resv1;
++	__u16		command_id;
++	__u8		fctype;
++	__u8		resv2[19];
++	union nvme_data_ptr dptr;
++	__u8		resv3;
++	__u8		spsp0;
++	__u8		spsp1;
++	__u8		secp;
++	__le32		al_tl;
++	__u8		resv4[16];
++};
++
++struct nvmf_auth_send_command {
++	__u8		opcode;
++	__u8		resv1;
++	__u16		command_id;
++	__u8		fctype;
++	__u8		resv2[19];
++	union nvme_data_ptr dptr;
++	__u8		resv3;
++	__u8		spsp0;
++	__u8		spsp1;
++	__u8		secp;
++	__le32		tl;
++	__u8		resv4[16];
++};
++
++struct nvmf_auth_receive_command {
++	__u8		opcode;
++	__u8		resv1;
++	__u16		command_id;
++	__u8		fctype;
++	__u8		resv2[19];
++	union nvme_data_ptr dptr;
++	__u8		resv3;
++	__u8		spsp0;
++	__u8		spsp1;
++	__u8		secp;
++	__le32		al;
++	__u8		resv4[16];
++};
++
++/* Value for secp */
++enum {
++	NVME_AUTH_DHCHAP_PROTOCOL_IDENTIFIER	= 0xe9,
++};
++
++/* Defined value for auth_type */
++enum {
++	NVME_AUTH_COMMON_MESSAGES	= 0x00,
++	NVME_AUTH_DHCHAP_MESSAGES	= 0x01,
++};
++
++/* Defined messages for auth_id */
++enum {
++	NVME_AUTH_DHCHAP_MESSAGE_NEGOTIATE	= 0x00,
++	NVME_AUTH_DHCHAP_MESSAGE_CHALLENGE	= 0x01,
++	NVME_AUTH_DHCHAP_MESSAGE_REPLY		= 0x02,
++	NVME_AUTH_DHCHAP_MESSAGE_SUCCESS1	= 0x03,
++	NVME_AUTH_DHCHAP_MESSAGE_SUCCESS2	= 0x04,
++	NVME_AUTH_DHCHAP_MESSAGE_FAILURE2	= 0xf0,
++	NVME_AUTH_DHCHAP_MESSAGE_FAILURE1	= 0xf1,
++};
++
++struct nvmf_auth_dhchap_protocol_descriptor {
++	__u8		authid;
++	__u8		rsvd;
++	__u8		halen;
++	__u8		dhlen;
++	__u8		idlist[60];
++};
++
++enum {
++	NVME_AUTH_DHCHAP_AUTH_ID	= 0x01,
++};
++
++/* Defined hash functions for DH-HMAC-CHAP authentication */
++enum {
++	NVME_AUTH_HASH_SHA256	= 0x01,
++	NVME_AUTH_HASH_SHA384	= 0x02,
++	NVME_AUTH_HASH_SHA512	= 0x03,
++	NVME_AUTH_HASH_INVALID	= 0xff,
++};
++
++/* Defined Diffie-Hellman group identifiers for DH-HMAC-CHAP authentication */
++enum {
++	NVME_AUTH_DHGROUP_NULL		= 0x00,
++	NVME_AUTH_DHGROUP_2048		= 0x01,
++	NVME_AUTH_DHGROUP_3072		= 0x02,
++	NVME_AUTH_DHGROUP_4096		= 0x03,
++	NVME_AUTH_DHGROUP_6144		= 0x04,
++	NVME_AUTH_DHGROUP_8192		= 0x05,
++	NVME_AUTH_DHGROUP_INVALID	= 0xff,
++};
++
++union nvmf_auth_protocol {
++	struct nvmf_auth_dhchap_protocol_descriptor dhchap;
++};
++
++struct nvmf_auth_dhchap_negotiate_data {
++	__u8		auth_type;
++	__u8		auth_id;
++	__le16		rsvd;
++	__le16		t_id;
++	__u8		sc_c;
++	__u8		napd;
++	union nvmf_auth_protocol auth_protocol[];
++};
++
++struct nvmf_auth_dhchap_challenge_data {
++	__u8		auth_type;
++	__u8		auth_id;
++	__u16		rsvd1;
++	__le16		t_id;
++	__u8		hl;
++	__u8		rsvd2;
++	__u8		hashid;
++	__u8		dhgid;
++	__le16		dhvlen;
++	__le32		seqnum;
++	/* 'hl' bytes of challenge value */
++	__u8		cval[];
++	/* followed by 'dhvlen' bytes of DH value */
++};
++
++struct nvmf_auth_dhchap_reply_data {
++	__u8		auth_type;
++	__u8		auth_id;
++	__le16		rsvd1;
++	__le16		t_id;
++	__u8		hl;
++	__u8		rsvd2;
++	__u8		cvalid;
++	__u8		rsvd3;
++	__le16		dhvlen;
++	__le32		seqnum;
++	/* 'hl' bytes of response data */
++	__u8		rval[];
++	/* followed by 'hl' bytes of Challenge value */
++	/* followed by 'dhvlen' bytes of DH value */
++};
++
++enum {
++	NVME_AUTH_DHCHAP_RESPONSE_VALID	= (1 << 0),
++};
++
++struct nvmf_auth_dhchap_success1_data {
++	__u8		auth_type;
++	__u8		auth_id;
++	__le16		rsvd1;
++	__le16		t_id;
++	__u8		hl;
++	__u8		rsvd2;
++	__u8		rvalid;
++	__u8		rsvd3[7];
++	/* 'hl' bytes of response value if 'rvalid' is set */
++	__u8		rval[];
++};
++
++struct nvmf_auth_dhchap_success2_data {
++	__u8		auth_type;
++	__u8		auth_id;
++	__le16		rsvd1;
++	__le16		t_id;
++	__u8		rsvd2[10];
++};
++
++struct nvmf_auth_dhchap_failure_data {
++	__u8		auth_type;
++	__u8		auth_id;
++	__le16		rsvd1;
++	__le16		t_id;
++	__u8		rescode;
++	__u8		rescode_exp;
++};
++
++enum {
++	NVME_AUTH_DHCHAP_FAILURE_REASON_FAILED	= 0x01,
++};
++
++enum {
++	NVME_AUTH_DHCHAP_FAILURE_FAILED			= 0x01,
++	NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE		= 0x02,
++	NVME_AUTH_DHCHAP_FAILURE_CONCAT_MISMATCH	= 0x03,
++	NVME_AUTH_DHCHAP_FAILURE_HASH_UNUSABLE		= 0x04,
++	NVME_AUTH_DHCHAP_FAILURE_DHGROUP_UNUSABLE	= 0x05,
++	NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD	= 0x06,
++	NVME_AUTH_DHCHAP_FAILURE_INCORRECT_MESSAGE	= 0x07,
++};
++
++
+ struct nvme_dbbuf {
+ 	__u8			opcode;
+ 	__u8			flags;
+@@ -1547,6 +1751,9 @@ struct nvme_command {
+ 		struct nvmf_connect_command connect;
+ 		struct nvmf_property_set_command prop_set;
+ 		struct nvmf_property_get_command prop_get;
++		struct nvmf_auth_common_command auth_common;
++		struct nvmf_auth_send_command auth_send;
++		struct nvmf_auth_receive_command auth_receive;
+ 		struct nvme_dbbuf dbbuf;
+ 		struct nvme_directive_cmd directive;
+ 	};
 -- 
-2.30.2
+2.29.2
 
 
