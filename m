@@ -4,60 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0DB6C43334
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jun 2022 16:01:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6EAF6C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jun 2022 17:24:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=j8Bkn47RORAytZ6W5dw8Xm60Tyr0SvikX9q/vl1dJng=; b=l0nu9Yle6Io4i4klf1m6/Cj5DS
-	Wn5P7L9TeYG0cNZWF1NQSPB+cfrLgXjcPbtNBKzJsTW7P9gBTuOqDbrgqMfSuQ8qI9Lsg+MBwWjLh
-	sFyiQnO2z/A5wTV6OT/MY4S4wp7Il1T39e8D25xI+8JDYpH7Gd1G0nWeL2WilLxowBRNN1AelTyTQ
-	W3KZO3JC7SQQBuerUMJUTXQV/fFQH3nyWTklbII9+qQcyuuuNptVAA06hvrJ+rtiFsLZEbXZF6PBH
-	jNnLGYMSpSw6Y7H3zNEtfrjjGwiJ0+sW3LQKd+crWvD+YAqCvdYFk4qJrg3EOQgwqWBw37PtlFtCO
-	23mddsCw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=5RJ63CLs3oV0ICZ8ISS4uCZZA5d4FnkG5Lgm4OqAftc=; b=NvWTWg0ifPvCSOHEySOT4b/tJE
+	/5Cm9Netj6A9ik+wh2neeCq/MEsI0wkQgnvTlqicIi6TLa4nkwj8UXixr4LO08Csa+xTzLCg16QMH
+	qPJSqrY/TGrFd4t1TnKwCmELKX/YtOl3aJG6l5ePKaO29e0fpSwOGLkcat1U6jydYwi7ykpl7O1gM
+	arvblsldt2vaxdlHXmkxLru4GmAGwEWhOxo57spAXzWF6qqABfryOgihG/tQGr7tZ0CatxCoTB4Tz
+	FuDRODawczgAmOeQIpwhHWtDzxgaBAsipbWDy21fahLkfgJpUx0U8+JYWFeYKncYREn7WEVL5RbyR
+	qkOCm3tA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3gJc-006Hjg-AB; Tue, 21 Jun 2022 16:01:20 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1o3hcD-006XEL-3Z; Tue, 21 Jun 2022 17:24:37 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3gJZ-006Hfp-EW
-	for linux-nvme@lists.infradead.org; Tue, 21 Jun 2022 16:01:18 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by sin.source.kernel.org (Postfix) with ESMTPS id 682DECE1B6D;
-	Tue, 21 Jun 2022 16:01:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D931C341C0;
-	Tue, 21 Jun 2022 16:01:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1655827271;
-	bh=LGiz934hlBHisxFb7PEGhPsxUhsmgRHhamF+gObPS/U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SlJz3DIkcpX84mhSG3iYsycsfekSJ1Ktlax7272SFpp3qYnu36g9aWVImfJf80cdm
-	 mdrH89ZvLaGd1fcw2fkRrbzzU1OYzw1yc1M1YOLDS2Yay84MrLMhWDoHle+ZZ/xdrI
-	 eCWfsjNMVwYtoz/+y4HLXfz0AwXM8g+4UWMfpf3BZ2eRdvgWqn04ycJreQtTP6QuQJ
-	 Mp9BYVf7HV479gNuLLmqgFJ1bSSCLAjQ1gF9IvZevyVQugxOpzyHgbBB2Pv0itzANy
-	 jtGH18p2/yovNAPRC03InG/5jjx1q3JkqySxu3CFpGT40Vct7++wEZ0OQYBC7Xr+x3
-	 JW+X92cKD5vsA==
-Date: Tue, 21 Jun 2022 10:01:09 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Joel Granados <j.granados@samsung.com>
-Cc: hch@lst.de, gost.dev@samsung.com, linux-nvme@lists.infradead.org,
-	joshi.k@samsung.com
-Subject: Re: [PATCH v3] nvme: Fix CRMS masks for TP4084 - Time-to-ready
-Message-ID: <YrHrRUcn5kwu2d9V@kbusch-mbp.dhcp.thefacebook.com>
-References: <CGME20220621070724eucas1p186a9c118c37b140e60c2d1f8cacf636a@eucas1p1.samsung.com>
- <20220621070500.1381155-1-j.granados@samsung.com>
+	id 1o3hcA-006XBw-Jc
+	for linux-nvme@lists.infradead.org; Tue, 21 Jun 2022 17:24:36 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out1.suse.de (Postfix) with ESMTP id 31CC621C08;
+	Tue, 21 Jun 2022 17:24:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1655832271; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5RJ63CLs3oV0ICZ8ISS4uCZZA5d4FnkG5Lgm4OqAftc=;
+	b=0P0ft8Cdg3+hCF/yWs/p2fO/sCqojnh/ecvMSPTh+lNsw7Nu1JRM+YVxWXEg0ek3rXqx6n
+	IuHDS5DCaHXWMHgNmcrVEnMksfgOXzsztwqmmQU6TFnArGYvdkAe/XEOiAnliTwB9y+OX7
+	z5Z5A+ctPi1nSxd3wAZN6OeM07YWZF0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1655832271;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5RJ63CLs3oV0ICZ8ISS4uCZZA5d4FnkG5Lgm4OqAftc=;
+	b=O3/yaadaK5liOQ7T4sTsj4hoWthhgK7ne75wvi6y8g6BcJp3lN3RR6d7hnGm32qBo3Qwco
+	vkk78N2yDJbZqABQ==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+	by relay2.suse.de (Postfix) with ESMTP id 637852C142;
+	Tue, 21 Jun 2022 17:24:30 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+	id 54F5C5194C7A; Tue, 21 Jun 2022 19:24:30 +0200 (CEST)
+From: Hannes Reinecke <hare@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@suse.de>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Himanshu Madhani <himanshu.madhani@oracle.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Subject: [PATCH 02/11] crypto: add crypto_has_kpp()
+Date: Tue, 21 Jun 2022 19:24:05 +0200
+Message-Id: <20220621172414.82847-3-hare@suse.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20220621172414.82847-1-hare@suse.de>
+References: <20220621172414.82847-1-hare@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220621070500.1381155-1-j.granados@samsung.com>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220621_090117_728636_9EBAC718 
-X-CRM114-Status: UNSURE (   9.82  )
+X-CRM114-CacheID: sfid-20220621_102434_832311_403C2342 
+X-CRM114-Status: UNSURE (   9.96  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -73,15 +86,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 21, 2022 at 09:05:00AM +0200, Joel Granados wrote:
-> Adjust the values of NVME_CAP_CRMS_CRIMS and NVME_CAP_CRMS_CRWMS masks as
-> they are different from the ones in TP4084 - Time-to-ready.
-> 
-> Fixes: 354201c53e61 ("nvme: add support for TP4084 - Time-to-Ready Enhancements").
-> 
-> Signed-off-by: Joel Granados <j.granados@samsung.com>
+Add helper function to determine if a given key-agreement protocol
+primitive is supported.
 
-Looks good.
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
+Acked-by: Herbert Xu <herbert@gondor.apana.org.au>
+---
+ crypto/kpp.c         | 6 ++++++
+ include/crypto/kpp.h | 2 ++
+ 2 files changed, 8 insertions(+)
 
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+diff --git a/crypto/kpp.c b/crypto/kpp.c
+index 7aa6ba4b60a4..678e871ce418 100644
+--- a/crypto/kpp.c
++++ b/crypto/kpp.c
+@@ -104,6 +104,12 @@ int crypto_grab_kpp(struct crypto_kpp_spawn *spawn,
+ }
+ EXPORT_SYMBOL_GPL(crypto_grab_kpp);
+ 
++int crypto_has_kpp(const char *alg_name, u32 type, u32 mask)
++{
++	return crypto_type_has_alg(alg_name, &crypto_kpp_type, type, mask);
++}
++EXPORT_SYMBOL_GPL(crypto_has_kpp);
++
+ static void kpp_prepare_alg(struct kpp_alg *alg)
+ {
+ 	struct crypto_alg *base = &alg->base;
+diff --git a/include/crypto/kpp.h b/include/crypto/kpp.h
+index cccceadc164b..24d01e9877c1 100644
+--- a/include/crypto/kpp.h
++++ b/include/crypto/kpp.h
+@@ -104,6 +104,8 @@ struct kpp_alg {
+  */
+ struct crypto_kpp *crypto_alloc_kpp(const char *alg_name, u32 type, u32 mask);
+ 
++int crypto_has_kpp(const char *alg_name, u32 type, u32 mask);
++
+ static inline struct crypto_tfm *crypto_kpp_tfm(struct crypto_kpp *tfm)
+ {
+ 	return &tfm->base;
+-- 
+2.29.2
+
 
