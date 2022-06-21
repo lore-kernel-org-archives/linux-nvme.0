@@ -4,66 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFF28C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jun 2022 21:02:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 371F7C43334
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jun 2022 21:04:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6eXWYXV9KTCPN96DHA+r1QFhvZ+YOPoRa6e8FW7GZo4=; b=0hjxzhnabHujJ8QQeGWS3m77Rb
-	2dvBDpUlMe7p5k8i/FUC7+9drUuXSsIoEPo0AdGs0LROdWPfiMKCLQhMVrjgW7+B22jBhvqvD5FNi
-	M9V8BLN3OZfQfrrkaKsviZ0ZR1SFrFiBRKTIn8UXdBYorEnm11fatU+aLKeJng23yXrFfT1I8PQmc
-	XhehuuOfBM0Nb9enCn1acVx3JG8+nmo9RB+BiEnOUek8jadTIOx94AikjQYNr8s7HgGwWMPm0A9Nq
-	yfH/wpbR3k4m1eXNUw9y+qC6kcTETHPbhnvbYCol/Q7fYT4RnJeT/pEcQoTotPIp+atllR+Mn9RsL
-	FSQpLvEA==;
+	bh=bo117i0IhceI/J2RG8T6BmIoTwkF6CFARS8uX/pTwqo=; b=EpJZilSGMuxbZjIi4yYbiel746
+	8XxKobRsmlQ3CeIut3tA/1kk42+RrHGnwGzQfv+x/6hHLsD3+pWhFzEMGGdovGpx8/2iI323IL9Hw
+	8FopHaPzsY6MEpH9dSNZpSDmIT0hZ123ExcpkG0zvKCI8cyBsPu+CTxWnsnpfbeabiHMWVo9NOT3z
+	c/ULtzdo56/CEXPzuHR5HwSqaVDiE4zsfMo8N35gyqiGuWeOmgWdJNFTf20vp6U76Kjod350Q+eql
+	XptQMTAQU0fwdhG/x/OpwVHR4OPWuyZ7OPxHt4HVlYEslCSv3fXqyXpRknCD/SgqGeq0XwyfsE1o0
+	2sTQvL6w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3l1H-007CPD-NQ; Tue, 21 Jun 2022 21:02:43 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1o3l2g-007D1c-HJ; Tue, 21 Jun 2022 21:04:10 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3kqD-0076wp-0E
-	for linux-nvme@lists.infradead.org; Tue, 21 Jun 2022 20:51:18 +0000
+	id 1o3kqM-00772O-AG
+	for linux-nvme@lists.infradead.org; Tue, 21 Jun 2022 20:51:27 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id A50AAB81B41;
-	Tue, 21 Jun 2022 20:51:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB553C341C4;
-	Tue, 21 Jun 2022 20:51:13 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id E05E8618DF;
+	Tue, 21 Jun 2022 20:51:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A21AC341D5;
+	Tue, 21 Jun 2022 20:51:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1655844674;
-	bh=pnS4lZGvDYSAiT+SmS4wMHR5MMPLdIlUEMpSkyYg3pM=;
+	s=k20201202; t=1655844685;
+	bh=4SvmTqbPB0WkTO/yBHfrQPTCQ7bSChoZSTaFwJbbbi4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VCCD4qqja0Lc324EvVDfu5e8iNDVEhqgQH+Id1EewiUnoFt498vS8XmOArS7ihOeY
-	 Xth45kzf4x++DscFBUVf9TJi2ZI1Wz6K9PL1ql/IhA38FKnpM4IT8FznSRVORgIkEx
-	 JAFef/DSXQkeiL/MzVAoHVZpyuCdil3hkCJ1RUb3zCAMq+TXbkAyyY8NMOphEKmAy0
-	 8ZZwrUjLX2xAn5D31ypM/XfgLoFEt329Dex1HPiughQ+5klBEb3AQPRlqSQWOshxdZ
-	 lzkwmixq5GmDZqMvNduXZghstkFAjZkhRQFNSODeyNvOlsyRBxbpTQkTIDIF+ZAaBA
-	 XgwK3X1HPQpdg==
+	b=XHnRoHhOTuj8YAT1BGbtaiphCQps2eqLS2em2BzVTlYulDTx3ERiMuq+VMrwmWaFK
+	 lIJG1I+CHdzY1sWCRTF2cC5s1QXyxJhxG1ejk9shCCCcwXTbgwMU/rKghKFTuTApfp
+	 mpL5F58hFdfdH6FWFaSvRnJHtcJYR+pBZRx12+EYkUrWLNry1It+MrSB+QeJtm6aUa
+	 9UxeQo9p0aDxDClYlA4W29arDJHoybI6mbsN6r+mbBtEosADoOtEy7/Q95JDnmUQkv
+	 ee+c4V9QdLeEv0acKHpoh3nJSMKvaOI+7p6zVx2Hbfu8TuizWVMZkOEZJ1VGc8BrX8
+	 Kl+GcFKaMdiwg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Keith Busch <kbusch@kernel.org>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
 	Christoph Hellwig <hch@lst.de>,
 	Sasha Levin <sashal@kernel.org>,
 	axboe@fb.com,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.10 07/11] nvme-pci: sk hynix p31 has bogus namespace ids
-Date: Tue, 21 Jun 2022 16:51:01 -0400
-Message-Id: <20220621205105.250640-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 4/7] nvme-pci: add trouble shooting steps for timeouts
+Date: Tue, 21 Jun 2022 16:51:16 -0400
+Message-Id: <20220621205120.250779-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220621205105.250640-1-sashal@kernel.org>
-References: <20220621205105.250640-1-sashal@kernel.org>
+In-Reply-To: <20220621205120.250779-1-sashal@kernel.org>
+References: <20220621205120.250779-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220621_135117_252479_7F8AE44E 
-X-CRM114-Status: GOOD (  12.14  )
+X-CRM114-CacheID: sfid-20220621_135126_452967_921DC615 
+X-CRM114-Status: GOOD (  11.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,31 +81,41 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-[ Upstream commit c4f01a776b28378f4f61b53f8cb0e358f4fa3721 ]
+[ Upstream commit 4641a8e6e145f595059e695f0f8dbbe608134086 ]
 
-Add the quirk.
+Many users have encountered IO timeouts with a CSTS value of 0xffffffff,
+which indicates a failure to read the register. While there are various
+potential causes for this observation, faulty NVMe APST has been the
+culprit quite frequently. Add the recommended troubleshooting steps in
+the error output when this condition occurs.
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=216049
 Signed-off-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/pci.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/nvme/host/pci.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 610cf8c2a6a8..1c9fd718cd8a 100644
+index 10fe7a7a2163..df3b93e190e8 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -3263,6 +3263,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
- 	{ PCI_DEVICE(0x1c5c, 0x1504),   /* SK Hynix PC400 */
- 		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
-+	{ PCI_DEVICE(0x1c5c, 0x174a),   /* SK Hynix P31 SSD */
-+		.driver_data = NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x15b7, 0x2001),   /*  Sandisk Skyhawk */
- 		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
- 	{ PCI_DEVICE(0x2646, 0x2262),   /* KINGSTON SKC2000 NVMe SSD */
+@@ -1266,6 +1266,14 @@ static void nvme_warn_reset(struct nvme_dev *dev, u32 csts)
+ 		dev_warn(dev->ctrl.device,
+ 			 "controller is down; will reset: CSTS=0x%x, PCI_STATUS read failed (%d)\n",
+ 			 csts, result);
++
++	if (csts != ~0)
++		return;
++
++	dev_warn(dev->ctrl.device,
++		 "Does your device have a faulty power saving mode enabled?\n");
++	dev_warn(dev->ctrl.device,
++		 "Try \"nvme_core.default_ps_max_latency_us=0 pcie_aspm=off\" and report a bug\n");
+ }
+ 
+ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
 -- 
 2.35.1
 
