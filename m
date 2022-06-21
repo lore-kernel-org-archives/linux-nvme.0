@@ -4,64 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6A9CCCA473
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jun 2022 11:22:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F332CCA473
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jun 2022 14:24:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:CC:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SbaUww0+uCbucAspLl2X9s3lwDDZOs3w6iMH7m7wD+Y=; b=vWI99XNHmdHhSUFYpLuFKUINKm
-	P0rpadql4JdkbSLipBXNjdrGGDPy8l0KBQNv4j902Idc0ugW1BupUIuAUFeQmrgialbZ//6VzSSz/
-	a9uBfXQo21fxfF1EOlOhWf/J8Tz5EK9+Hy6E57QqkDWmPVj6UnamBn9HSa2MqCi5lgVhyUWDkobzR
-	yXYFGfe0YjaxaymSKJYYr9lllt9PEbd/KLdBUKNxEm7CvQUYUT7MjFoi8EGAdonkvoDsp0yznyJ0l
-	1Ufnrr1pPFVM5jOoZPTdHgebiPR3nDjj5LcVn9IiVJ8/HrFyZ0vNtFI225JgJE4FWkNXDKyEVd4XT
-	Y22JrpkA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=sVZ/M5UnEWLUffzK99X6Uq4sxuTSRmPAM1uZigSmeUk=; b=ESKU7bKfzua4A16qZLKTUtK5GQ
+	L8eC/EcFNNrRcXQgYV1L9G/oHSltBrUAibIM1GvKE5fXhcfjpDpykktR6kqZA91WpdqhhylW7K7jm
+	PyU3hk7DaWjBBtlkL4qgg3qAQLYADv8+VlrXP/KGeQu8C0YcDccACOmLgQzDxf08odQrb3bOOLpbE
+	0GoyM/fOMf5GirwZmjTlc6bLyYR+dg7+thfpTcFOB3vfrNaA9mkDR9vR+95ZMIPlkz2newAMS8wpD
+	KolnvdvpIGb+87Nu053PiH+jxBxzUsiJtuuttbqWpVPRBI6vjP5aSPjJjcgsavaVJc+eQ8s9GNEvg
+	l2KVDJiQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3by6-0052Uu-HT; Tue, 21 Jun 2022 11:22:50 +0000
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+	id 1o3ene-005r7T-C5; Tue, 21 Jun 2022 14:24:14 +0000
+Received: from mail-ej1-f51.google.com ([209.85.218.51])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3bxr-0052OL-0s
-	for linux-nvme@lists.infradead.org; Tue, 21 Jun 2022 11:22:36 +0000
-Received: from fraeml740-chm.china.huawei.com (unknown [172.18.147.207])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LS3wQ0Twwz6H6r5;
-	Tue, 21 Jun 2022 19:20:38 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml740-chm.china.huawei.com (10.206.15.221) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 21 Jun 2022 13:22:33 +0200
-Received: from localhost.localdomain (10.69.192.58) by
- lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 21 Jun 2022 12:22:27 +0100
-From: John Garry <john.garry@huawei.com>
-To: <axboe@kernel.dk>, <damien.lemoal@opensource.wdc.com>,
-	<bvanassche@acm.org>, <hch@lst.de>, <jejb@linux.ibm.com>,
-	<martin.petersen@oracle.com>, <hare@suse.de>, <satishkh@cisco.com>,
-	<sebaddel@cisco.com>, <kartilak@cisco.com>
-CC: <linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-	<linux-mmc@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
-	<linux-s390@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
-	<mpi3mr-linuxdrv.pdl@broadcom.com>, <linux-block@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <nbd@other.debian.org>, John Garry
-	<john.garry@huawei.com>
-Subject: [PATCH v2 6/6] blk-mq: Drop local variable for reserved tag
-Date: Tue, 21 Jun 2022 19:15:43 +0800
-Message-ID: <1655810143-67784-7-git-send-email-john.garry@huawei.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1655810143-67784-1-git-send-email-john.garry@huawei.com>
-References: <1655810143-67784-1-git-send-email-john.garry@huawei.com>
+	id 1o3ena-005r3N-FB
+	for linux-nvme@lists.infradead.org; Tue, 21 Jun 2022 14:24:12 +0000
+Received: by mail-ej1-f51.google.com with SMTP id pk21so4763537ejb.2
+        for <linux-nvme@lists.infradead.org>; Tue, 21 Jun 2022 07:24:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=sVZ/M5UnEWLUffzK99X6Uq4sxuTSRmPAM1uZigSmeUk=;
+        b=KTLg9Dm0CathEr66EUR3aLHjGpkEisO/0EODysYOeea9/xA0QJilLEByL9ieo6yXlN
+         atsm83gKHs4aDnerfJI/CdSCOD+j0gjiquVfqpgUdIa8pmjNDKfFYmnZIoxg0xDvjH1S
+         0Ki7BRsNrOKdteLl+eZVtDbhOJEQXUs/KAldMN48f3jD5yU5w4e0CZixho5rfW7OWHPI
+         aRToZ9g23bWEkS4dFxHoBt4fGdeBx8PP1vDv1usuerDBWgQsSg3+LpCL0Lrt4VQZoOKZ
+         +BfVuJomA4Aj7ccQrHtP0NdnLAVEBVNmPt5rFEAzwwFb0WgSRmBn2NHKPn+gIQvqg7+P
+         HSYA==
+X-Gm-Message-State: AJIora/TxC0+I5NYlxxC2XajtJB8RpNu+c9ht13PFb6m6+gCTjES8DsJ
+	OKAIr4NYOlq/rbyqxrcq1aTI3sZhgtc=
+X-Google-Smtp-Source: AGRyM1s7q7k8VoA+Gqw8Q+KV99DaKi0/P8+FU8k9dsmM0eemmdoyaQmawlbHiP1imkDW+GFBlMsD9w==
+X-Received: by 2002:a17:907:2b05:b0:710:dabf:fde2 with SMTP id gc5-20020a1709072b0500b00710dabffde2mr25166890ejc.114.1655821446895;
+        Tue, 21 Jun 2022 07:24:06 -0700 (PDT)
+Received: from [10.100.102.14] (46-117-125-14.bb.netvision.net.il. [46.117.125.14])
+        by smtp.gmail.com with ESMTPSA id b19-20020a17090630d300b00722c44f9301sm3346368ejb.224.2022.06.21.07.24.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Jun 2022 07:24:06 -0700 (PDT)
+Message-ID: <f8f0a631-6752-096c-4e85-bcde9bb2869e@grimberg.me>
+Date: Tue, 21 Jun 2022 17:24:04 +0300
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.58]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 06/11] nvme: Implement In-Band authentication
+Content-Language: en-US
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20220621090255.69549-1-hare@suse.de>
+ <20220621090255.69549-7-hare@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20220621090255.69549-7-hare@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220621_042235_252512_488450BA 
-X-CRM114-Status: UNSURE (   9.67  )
+X-CRM114-CacheID: sfid-20220621_072410_625795_01FD2201 
+X-CRM114-Status: UNSURE (   6.37  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -77,49 +81,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The local variable is now only referenced once so drop it.
+This one doesn't compile against nvme-5.20.
 
-Signed-off-by: John Garry <john.garry@huawei.com>
----
- block/blk-mq-tag.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+> +	ret = __nvme_submit_sync_cmd(q, &cmd, NULL, data, data_len, 0,
+> +				     qid == 0 ? NVME_QID_ANY : qid,
+> +				     0, flags);
 
-diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
-index 509c35f080a9..b8cc8b41553f 100644
---- a/block/blk-mq-tag.c
-+++ b/block/blk-mq-tag.c
-@@ -266,7 +266,6 @@ static bool bt_iter(struct sbitmap *bitmap, unsigned int bitnr, void *data)
- 	struct blk_mq_hw_ctx *hctx = iter_data->hctx;
- 	struct request_queue *q = iter_data->q;
- 	struct blk_mq_tag_set *set = q->tag_set;
--	bool reserved = iter_data->reserved;
- 	struct blk_mq_tags *tags;
- 	struct request *rq;
- 	bool ret = true;
-@@ -276,7 +275,7 @@ static bool bt_iter(struct sbitmap *bitmap, unsigned int bitnr, void *data)
- 	else
- 		tags = hctx->tags;
- 
--	if (!reserved)
-+	if (!iter_data->reserved)
- 		bitnr += tags->nr_reserved_tags;
- 	/*
- 	 * We can hit rq == NULL here, because the tagging functions
-@@ -337,12 +336,11 @@ static bool bt_tags_iter(struct sbitmap *bitmap, unsigned int bitnr, void *data)
- {
- 	struct bt_tags_iter_data *iter_data = data;
- 	struct blk_mq_tags *tags = iter_data->tags;
--	bool reserved = iter_data->flags & BT_TAG_ITER_RESERVED;
- 	struct request *rq;
- 	bool ret = true;
- 	bool iter_static_rqs = !!(iter_data->flags & BT_TAG_ITER_STATIC_RQS);
- 
--	if (!reserved)
-+	if (!(iter_data->flags & BT_TAG_ITER_RESERVED))
- 		bitnr += tags->nr_reserved_tags;
- 
- 	/*
--- 
-2.25.1
-
+here ^^^^^^^
 
