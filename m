@@ -4,56 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC8B4C43334
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jun 2022 20:50:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32BB0C43334
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jun 2022 20:50:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DM9JoHSbB8x3tRluF72dmAba/wn0tMzdoH3Vo7dQbh0=; b=fYEyUajUa4wK/AsXr51MpM4ZFN
-	dluiqI4jrPUfcuq607aoA1U/7KDjczvLcvKq8PQkUlticB7pKF0mO6f4gVVKFoDRGAhOU8aa7rXsJ
-	9vIKbzx8wsNoknn0nhMUzaPE6PxR06fZix6hn55VNZZoywBXq1bZWuoQlIYG1q2l6qIJ7pekNJmxv
-	6t6a9BGhd/vGKd0YOoamu3DoeWjNCLoNMcQ3BRZPzLSXpSkayMFzA6gsnlyQqiE6Ymnf+Epx1e5Tt
-	HMtgm/VvK2HWBQCDYjxQRXCRRXA9XBz0xNhlDTWunctWZZApZwVm+SXYaonnfMzymf6t8QiSh90XO
-	SK8Z33iw==;
+	bh=Cv4u33FINQsUZrDYQPQi6uxk59zhbgS8omwf0UheM8Q=; b=hy2cd+uyYvcvC/t2ylCHECrh/t
+	HF4E2QenFA9kT7bjMhd2dmW/1aFPGnrAsi0MWtBaEEJpPsu/Rz0/7LUYqudDNL4NB+7FypX0vLWNO
+	Oe7+KnRYaVoxX4uBnIdAzqM+JWOsuWO2qyJ5vpgXAN/tYrZg9uG3HQQ6IdIYbN3/et+bBMjg0kI+U
+	JFhIYmxpa39plO89Zgw843GQF0KcF981xVjaDq+LdzizfUNHGkFfumyXX++KGPAftYuQH3qFhZghD
+	XaW//iIy2q4u8I/0TacXZiIAkbLez51xkSXEQJ0yT2mbhuWpJCv6RjLoPEw2sFK7UCw5cSt8HeKrS
+	5pZ4vbWA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3kpC-0076IL-FC; Tue, 21 Jun 2022 20:50:14 +0000
+	id 1o3kpK-0076Na-7i; Tue, 21 Jun 2022 20:50:22 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3kou-00765l-J0
+	id 1o3kou-007671-J1
 	for linux-nvme@lists.infradead.org; Tue, 21 Jun 2022 20:49:58 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 6990561884;
-	Tue, 21 Jun 2022 20:49:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3826EC3411C;
-	Tue, 21 Jun 2022 20:49:52 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 641636188C;
+	Tue, 21 Jun 2022 20:49:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C27CC341C5;
+	Tue, 21 Jun 2022 20:49:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1655844592;
-	bh=o9ka0BQwNnLsVyQViUO2LojYyCDJ+t64ufBsUO4vjU4=;
+	s=k20201202; t=1655844595;
+	bh=3POKS7eqdY7o25MR6JJowXEP8imSIiQYhNPSKvJWOXI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iCNDO/fB1+zTFYT7N3Zwb18JEXqElw4aASrZrlw/sWjBYaTbtYcD+K9RVLN59+QKE
-	 mIs4GpWhBxlARVU45tdM5WBFZJTTB8gKKY7jNblURcJSUF3I/kygQb3FwGErWSdXHI
-	 9QNq72JjP6L1F6Zh9cCe8pF7JZyd/bCqn5IduvtlaxOUnM/l3R955dRsx8QUqvr5go
-	 SrVtYXX3kyK0GNAsTdKORWFNvDCQobmwBISBuYI15eU4GkxYpGgIc+1vV/bt86uXFG
-	 xG2NlTD6+m+HByvy+oT59UxaEZLGCnzBXQsQtkakoN4B4Cz1gYKHzZ9JYBnkfEwDDC
-	 HBgxJxWWW4AmQ==
+	b=i88MvBhaXVnPg7hyQSEKxEVXnCSpfCzCyqEZ7vDxoAykmoFRQv10cCCWSHN/HZt4t
+	 5NjpXglkH81CkHYp3UR/5G9jovZFnu1xNCfeMoG0eW31FUgBwYIhY+n9fEmoNIlTuS
+	 utprI14GgZE7RpCnoXwxDUK+PbilofXwuzXLNWcb0ULRuPc4XcO6PsMFCrjqSKx6jj
+	 nop9AO6f3/hYBbWGLl3CUwALM8fCqM6bPwqCJWC6ctfa3OxhWQ81jcX8jA6I1wLTeZ
+	 R/ceQbiLdF6JeFmummn9oCyk7n3qwFaitFcSHPlQP05te81ga0KE+KooypNrPoscgV
+	 LqEaD5CzMB7ew==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Keith Busch <kbusch@kernel.org>,
+Cc: Ning Wang <ningwang35@outlook.com>,
 	Christoph Hellwig <hch@lst.de>,
 	Sasha Levin <sashal@kernel.org>,
+	kbusch@kernel.org,
 	axboe@fb.com,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.18 10/22] nvme-pci: smi has bogus namespace ids
-Date: Tue, 21 Jun 2022 16:49:16 -0400
-Message-Id: <20220621204928.249907-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 12/22] nvme-pci: avoid the deepest sleep state on ZHITAI TiPro7000 SSDs
+Date: Tue, 21 Jun 2022 16:49:18 -0400
+Message-Id: <20220621204928.249907-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220621204928.249907-1-sashal@kernel.org>
 References: <20220621204928.249907-1-sashal@kernel.org>
@@ -62,8 +63,8 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220621_134956_728595_E46CF82F 
-X-CRM114-Status: GOOD (  13.17  )
+X-CRM114-CacheID: sfid-20220621_134956_754041_9E64E691 
+X-CRM114-Status: GOOD (  13.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,34 +79,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+From: Ning Wang <ningwang35@outlook.com>
 
-[ Upstream commit c98a879312caf775c9768faed25ce1c013b4df04 ]
+[ Upstream commit 6b961bce50e489186232cef51036ddb8d672bc3b ]
 
-Add the quirk.
+When ZHITAI TiPro7000 SSDs entered deepest power state(ps4)
+it has the same APST sleep problem as Kingston A2000.
+by chance the system crashes and displays the same dmesg info:
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=216096
-Signed-off-by: Keith Busch <kbusch@kernel.org>
+https://bugzilla.kernel.org/show_bug.cgi?id=195039#c65
+
+As the Archlinux wiki suggest (enlat + exlat) < 25000 is fine
+and my testing shows no system crashes ever since.
+Therefore disabling the deepest power state will fix the APST sleep issue.
+
+https://wiki.archlinux.org/title/Solid_state_drive/NVMe
+
+This is the APST data from 'nvme id-ctrl /dev/nvme1'
+
+NVME Identify Controller:
+vid       : 0x1e49
+ssvid     : 0x1e49
+sn        : [...]
+mn        : ZHITAI TiPro7000 1TB
+fr        : ZTA32F3Y
+[...]
+ps    0 : mp:3.50W operational enlat:5 exlat:5 rrt:0 rrl:0
+          rwt:0 rwl:0 idle_power:- active_power:-
+ps    1 : mp:3.30W operational enlat:50 exlat:100 rrt:1 rrl:1
+          rwt:1 rwl:1 idle_power:- active_power:-
+ps    2 : mp:2.80W operational enlat:50 exlat:200 rrt:2 rrl:2
+          rwt:2 rwl:2 idle_power:- active_power:-
+ps    3 : mp:0.1500W non-operational enlat:500 exlat:5000 rrt:3 rrl:3
+          rwt:3 rwl:3 idle_power:- active_power:-
+ps    4 : mp:0.0200W non-operational enlat:2000 exlat:60000 rrt:4 rrl:4
+          rwt:4 rwl:4 idle_power:- active_power:-
+
+Signed-off-by: Ning Wang <ningwang35@outlook.com>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/pci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a14f204b07c1..6c862259b381 100644
+index 6f9672e92b9c..7d5e40f5a993 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -3439,7 +3439,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_VDEVICE(REDHAT, 0x0010),	/* Qemu emulated controller */
+@@ -3486,6 +3486,8 @@ static const struct pci_device_id nvme_id_table[] = {
  		.driver_data = NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x126f, 0x2263),	/* Silicon Motion unidentified */
--		.driver_data = NVME_QUIRK_NO_NS_DESC_LIST, },
-+		.driver_data = NVME_QUIRK_NO_NS_DESC_LIST |
-+				NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x1bb1, 0x0100),   /* Seagate Nytro Flash Storage */
- 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY |
- 				NVME_QUIRK_NO_NS_DESC_LIST, },
+ 	{ PCI_DEVICE(0x1cc1, 0x5350),   /* ADATA XPG GAMMIX S50 */
+ 		.driver_data = NVME_QUIRK_BOGUS_NID, },
++	{ PCI_DEVICE(0x1e49, 0x0041),   /* ZHITAI TiPro7000 NVMe SSD */
++		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_AMAZON, 0x0061),
+ 		.driver_data = NVME_QUIRK_DMA_ADDRESS_BITS_48, },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_AMAZON, 0x0065),
 -- 
 2.35.1
 
