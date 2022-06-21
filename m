@@ -4,67 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 212C2C43334
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jun 2022 21:06:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A07ABCCA47E
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jun 2022 21:22:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gFUvSIXnJ5GBlcsLm99PWfy7VOjtYr5Ho7HOMnqYjJk=; b=Jqkfw5IL74ndIltNKp39mvAFdu
-	G2jwAXuEXlEKiVevOVOzMSXF0vQhej/gv3b/Kz5FwjpdPBn+WXRd/oCfu2KVyXTjIy51H/Q7iJHUG
-	T/E+UWznv6/1ZBX8BC3f0YYjuBtsKMsPBD+rkWL71uC7ydrBvY2D6rPKKhzdxeSxBlS7EVrSv7mQ6
-	w4r7igToKNH0MXFEwvHdipofDRpN0xO4kf4vRxcA1FyJg5wEAHUwtxCcNr8ucQ9uNfp214zFvCrmj
-	tj/879XeF+Lvdd0BIM+bcozxDRnBcW3qeTFugmCdob5uhPLaBcouJUE+bAkGjuiZ0h6AGG54FqCfY
-	q25q74yA==;
+	bh=HDaErepd7MXQL8sjcNVh04oN+eeqScy5EJEm65OASXE=; b=CXAnICFkMV9TY5hZ2/DAwnoUFk
+	9CFExHF0wejz7qjTsLU8JUjAP1QqT6c5Q81R/n82aj4B6jre38aJuGKDlPQB62FrfAmbQZR40KI9p
+	l9IEK7YPPJz8900MUizOyCMViIlqtEr73KPmuAZjAjLLWabnhQpwitdh/TKFfcRo5T7wcxuV6Uocz
+	fHY34iaDlN7fgj1Ky31+USW+0hZmdZ1uVrGDfH8YRKmu1U7OwBeV6TGwGp+1p6wgNoDausf2uuwLo
+	xydskbq8vDUMSZrX70Ahps+4xHMB5aHe8qDqRL9RUzZwrHSGvVqpHpfoJcNqA7vUJrmgmjJCvP4mJ
+	iaTNlsIA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3l4h-007E7R-Tu; Tue, 21 Jun 2022 21:06:15 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1o3lKn-007JLW-18; Tue, 21 Jun 2022 21:22:53 +0000
+Received: from mail-ed1-f49.google.com ([209.85.208.49])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3kqf-0077Cw-HC
-	for linux-nvme@lists.infradead.org; Tue, 21 Jun 2022 20:51:46 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 1D7626188C;
-	Tue, 21 Jun 2022 20:51:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E167C3411C;
-	Tue, 21 Jun 2022 20:51:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1655844704;
-	bh=5RO8nX9FgfFlq+ZpUAoFpO1fZvRG13fHUxCWKqzrDqY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=b/Eja4Qumqm2bBdp5ZVlTxHrgH8RKPcF2ToSwwIlYFDi8Cxrw86POIOSLEHPMA+Oy
-	 Oh3ZM7pViUzZkmzCXgn0Ae+GFqVbnd7/tjkqIn7MRduTdm4p8UXqSJtcsqoHXUdFZV
-	 jMD7KMK631bvHUTTZGVuLzUdik1VMQAO4N5yA9yqllfraxYkvrH7Ehw/yF8Fp2f4QJ
-	 pOZ2/2c+JZmZSxwXiPWrzJUX/4Uu7+B00myBjHc+i6hjQ0OAFX0f5XqDk1Ev/ft1iD
-	 0di5GLJhrdB1c59VwZYAPwAn5iftxrICTMaN81lRQ6G5MWjq34Kin4KWudvySMz3Qn
-	 +09ZGOWSaJo3g==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sasha Levin <sashal@kernel.org>,
-	axboe@fb.com,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 4.14 3/5] nvme-pci: add trouble shooting steps for timeouts
-Date: Tue, 21 Jun 2022 16:51:37 -0400
-Message-Id: <20220621205140.250968-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220621205140.250968-1-sashal@kernel.org>
-References: <20220621205140.250968-1-sashal@kernel.org>
+	id 1o3lKk-007JKj-5G
+	for linux-nvme@lists.infradead.org; Tue, 21 Jun 2022 21:22:51 +0000
+Received: by mail-ed1-f49.google.com with SMTP id z11so14967697edp.9
+        for <linux-nvme@lists.infradead.org>; Tue, 21 Jun 2022 14:22:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=HDaErepd7MXQL8sjcNVh04oN+eeqScy5EJEm65OASXE=;
+        b=oohOrJbbEylYmJi0aXa19s3OFm30+9o11wH51jf18NOlOh3HSVe5VvuwMk19r1Dual
+         b1w4YwUfeeTbgoqxE6FKgkz9Ooc88mzVWCF5qGWZK+5wXK6UvN05Ch0qKcACy+BYe2SW
+         ztRghxmuOgFja6BSnVJRS6fTzhsDKTfsjwygijfJl5mmVL7U5UDY8FI6yn6BIcaKKR0y
+         rjOwnGR8hWkxyNGGjkpXA8N47rwEviS3JDyRRM6I2SQo2Da+zI/XtHXwpcAub2ss7Cel
+         6cFsJdStYUxgyY0/87fnsElv59arq9aljzG9C+flvgqmVS1bEElrUW+eiMxV7tsdD7QV
+         VgAw==
+X-Gm-Message-State: AJIora8PI9ZO6RfZd6TBAkdxKAJjg7Y/8m/AN+eO33zJg+LIVqog969c
+	oDWcRguMlkZJxR4hrvn2/NZ2bCkqUIo=
+X-Google-Smtp-Source: AGRyM1tmH9+I+aRKtQE8yFR8dsEH+HhBGpfU65xR67KzQIvoLcnd1VUI+vQxXzHSMz5YW4ATMEsd/w==
+X-Received: by 2002:a05:6402:40cc:b0:435:912b:257a with SMTP id z12-20020a05640240cc00b00435912b257amr107939edb.380.1655846567494;
+        Tue, 21 Jun 2022 14:22:47 -0700 (PDT)
+Received: from [10.100.102.14] (46-117-125-14.bb.netvision.net.il. [46.117.125.14])
+        by smtp.gmail.com with ESMTPSA id fd18-20020a056402389200b0043570d96d25sm8549550edb.95.2022.06.21.14.22.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Jun 2022 14:22:47 -0700 (PDT)
+Message-ID: <3c375526-a967-0856-0f8b-da08f21c7d80@grimberg.me>
+Date: Wed, 22 Jun 2022 00:22:45 +0300
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCHv16 00/11] nvme: In-band authentication support
+Content-Language: en-US
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20220621172414.82847-1-hare@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20220621172414.82847-1-hare@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220621_135145_643203_D71BC08A 
-X-CRM114-Status: GOOD (  11.90  )
+X-CRM114-CacheID: sfid-20220621_142250_252644_2A24F062 
+X-CRM114-Status: GOOD (  19.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,44 +79,86 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
 
-[ Upstream commit 4641a8e6e145f595059e695f0f8dbbe608134086 ]
+> Hi all,
+> 
+> recent updates to the NVMe spec have added definitions for in-band
+> authentication, and seeing that it provides some real benefit
+> especially for NVMe-TCP here's an attempt to implement it.
+> 
+> Thanks to Nicolai Stange the crypto DH framework has been upgraded
+> to provide us with a FFDHE implementation; I've updated the patchset
+> to use the ephemeral key generation provided there.
+> 
+> Note that this is just for in-band authentication. Secure
+> concatenation (ie starting TLS with the negotiated parameters)
+> requires a TLS handshake, which the in-kernel TLS implementation
+> does not provide. This is being worked on with a different patchset
+> which is still WIP.
+> 
+> The nvme-cli support has already been merged; please use the latest
+> nvme-cli git repository to build the most recent version.
+> 
+> A copy of this patchset can be found at
+> git://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel
+> branch auth.v15
+> 
+> The patchset is being cut against nvme-5.20.
+> 
+> As usual, comments and reviews are welcome.
 
-Many users have encountered IO timeouts with a CSTS value of 0xffffffff,
-which indicates a failure to read the register. While there are various
-potential causes for this observation, faulty NVMe APST has been the
-culprit quite frequently. Add the recommended troubleshooting steps in
-the error output when this condition occurs.
+Hannes, did you see my panic report on a malformed dhchap_ctrl_key?
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/nvme/host/pci.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Also, why does the dhchap_ctrl_key not passed when connecting
+via discovery?
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index de23f2814877..6d352a69a637 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1055,6 +1055,14 @@ static void nvme_warn_reset(struct nvme_dev *dev, u32 csts)
- 		dev_warn(dev->ctrl.device,
- 			 "controller is down; will reset: CSTS=0x%x, PCI_STATUS read failed (%d)\n",
- 			 csts, result);
-+
-+	if (csts != ~0)
-+		return;
-+
-+	dev_warn(dev->ctrl.device,
-+		 "Does your device have a faulty power saving mode enabled?\n");
-+	dev_warn(dev->ctrl.device,
-+		 "Try \"nvme_core.default_ps_max_latency_us=0 pcie_aspm=off\" and report a bug\n");
- }
- 
- static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
--- 
-2.35.1
+I have in the target:
+--
+# grep -r '' /sys/kernel/config/nvmet/hosts/
+/sys/kernel/config/nvmet/hosts/nqn.2014-08.org.nvmexpress:uuid:302ae323-4acd-465d-ace4-3d4102e9d11f/dhchap_dhgroup:null
+/sys/kernel/config/nvmet/hosts/nqn.2014-08.org.nvmexpress:uuid:302ae323-4acd-465d-ace4-3d4102e9d11f/dhchap_hash:hmac(sha256)
+/sys/kernel/config/nvmet/hosts/nqn.2014-08.org.nvmexpress:uuid:302ae323-4acd-465d-ace4-3d4102e9d11f/dhchap_ctrl_key:DHHC-1:00:Jc/My1o0qtLCWRp+sHhAVN6mFaS7YQOMYhk9zSmlatobqB8C:
+/sys/kernel/config/nvmet/hosts/nqn.2014-08.org.nvmexpress:uuid:302ae323-4acd-465d-ace4-3d4102e9d11f/dhchap_key:DHHC-1:00:QpxVGpctx5J+4SeW2MClUI8rfZO3WdP1llImvsPsx7e3TK+I:
+--
 
+Then on the host I have:
+--
+# cat /etc/nvme/config.json
+[
+   {
+     "hostnqn": 
+"nqn.2014-08.org.nvmexpress:uuid:302ae323-4acd-465d-ace4-3d4102e9d11f",
+     "hostid": "14f15c4e-f6cb-434b-90cd-7c1f84f0c194",
+     "dhchap_key": 
+"DHHC-1:00:QpxVGpctx5J+4SeW2MClUI8rfZO3WdP1llImvsPsx7e3TK+I:",
+     "subsystems": [
+       {
+         "nqn": "testnqn1",
+         "ports": [
+           {
+             "transport": "tcp",
+             "traddr": "192.168.123.1",
+             "trsvcid": "8009",
+             "dhchap_key": 
+"DHHC-1:00:Jc/My1o0qtLCWRp+sHhAVN6mFaS7YQOMYhk9zSmlatobqB8C:"
+           }
+         ]
+       }
+     ]
+   }
+]
+--
+
+And when I do connect-all (i.e. connect via the discovery log page:
+--
+# grep -r '' /sys/class/nvme/nvme1/dhchap*
+/sys/class/nvme/nvme1/dhchap_ctrl_secret:none
+/sys/class/nvme/nvme1/dhchap_secret:DHHC-1:00:QpxVGpctx5J+4SeW2MClUI8rfZO3WdP1llImvsPsx7e3TK+I:
+--
+
+This means that I can corrupt the dhchap_ctrl_key entry in the config
+and no one will care (because it is not authenticating the ctrl if
+dhchap_ctrl_key is not passed)
+
+I think this is something wrong with nvme-cli/libnvme though...
 
