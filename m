@@ -4,69 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3270C43334
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jun 2022 22:44:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D317C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jun 2022 22:47:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=XuIxMQit+Zb3WZJNj97d/gLPC2sRV7giOlo3agUcd90=; b=MNuRxXPNmbTedTdnnzGWKdPFBw
-	skfEc2I8hazd2+kqFdV0Tg+d7P6PbU/q0dpSNF5jY4v/HXiE9qWyiAlZGhwr/Bu4UDzX+ufFn+0j0
-	xFsf0Q0qHe26/KikoBDDow2LybSqwkNS9K7NQ+Iiejh9sqPdlrSx1bsg6g5D9GFTVxLuN+Znt6Z+M
-	DOr74T5qvf37QIiEtTs3lraj+5NRXAlaYUnI67K6wkFNagxqEbZAGOdODKkq3aImZanmUKlcJtesd
-	JpnWzEocBztQdBh5sZ5aSlB7kHqsg165wr2IRUNH/Fblng4/Up5wgygIplMtJO57bpzOIXsPoWTPX
-	eueb4Yxw==;
+	bh=QKBHB0Yl26NC6TA5ViY7tN9xRp2XnM1tboGiczSYXL8=; b=GE3QnjDm0qQlz3r559tOvTXCYd
+	75mdS5qj/yPl3XA54AOraPg2b5s0eDOtjcidjxHfQFJKbiX3NSbfd5F4Sr6RE9qKaKCwRlHBUPYg2
+	QlCUHOQFO3z5wd7sj5jUCDPHQ2fMu8d6kqX4q6vF7773dxXc0bQK5NC7xDedYf+71OKUB8McfreOM
+	dac+TIb1/t+lY6jYmI7cROmOCWo2+17PDmrnJIZ85kmi5WEIE3y7WD3/GurIUNfWEijdZZDBwr6Gs
+	0jL6x4JiFqH81OIIiAU7Fdnx8C8UOmXvxEDhfPhvJS2QfUvY7F3MQS1HLjQYoCKScujSbKgf1Zs1S
+	w/B8hbFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o495W-00CRzC-Q5; Wed, 22 Jun 2022 22:44:42 +0000
-Received: from mga01.intel.com ([192.55.52.88])
+	id 1o498a-00CSbf-UW; Wed, 22 Jun 2022 22:47:52 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o495T-00CRyM-QS
-	for linux-nvme@lists.infradead.org; Wed, 22 Jun 2022 22:44:41 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655937879; x=1687473879;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=xg/QKVZjqBe+4JPUm8JYns6sStD7No5zuOS2V2Jy9os=;
-  b=g6eJl7O7VqMh+bdQsHBwLpx5Y81LVGOOwMMVkMGGvBkBVWejL5b/vt+9
-   hWVIgRg+NlnepOpt89d69OH5WthikPczfXPkjvSToOPrP8sA+rA+Jz/7g
-   S2lm8FH8rg9kIuv6eyB9ss6NMLemMW6t8mJe90WgGzWMejtFJPzIl5wSH
-   Ys5FPy5LZDutpgK/nhA25Sw89E02y7Kf9TVan8Z0QA5pMpomiAgGDm+cM
-   Oy7B2QbkcF4Tnyd7bt7se9d0qpLWK+39dBpS1bty1e0a7rPxdm7ia16tm
-   nj9owcCupJUs/hGAlvu4IQV5kLIuVx9pQJRvVVU4UzQ+UOyD6Zth/E2N4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10386"; a="306022620"
-X-IronPort-AV: E=Sophos;i="5.92,215,1650956400"; 
-   d="scan'208";a="306022620"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2022 15:44:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,215,1650956400"; 
-   d="scan'208";a="644427740"
-Received: from lkp-server02.sh.intel.com (HELO a67cc04a5eeb) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 22 Jun 2022 15:44:37 -0700
-Received: from kbuild by a67cc04a5eeb with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1o495Q-0001m5-FA;
-	Wed, 22 Jun 2022 22:44:36 +0000
-Date: Thu, 23 Jun 2022 06:44:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-5.19] BUILD SUCCESS
- 7cb27d4b43168531c51e86e99ab990beb5315f96
-Message-ID: <62b39b3c.AQmgFU9dRiJwpBCr%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+	id 1o498X-00CSZ5-80
+	for linux-nvme@lists.infradead.org; Wed, 22 Jun 2022 22:47:51 +0000
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25MIppR1003244;
+	Wed, 22 Jun 2022 22:47:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2021-07-09; bh=QKBHB0Yl26NC6TA5ViY7tN9xRp2XnM1tboGiczSYXL8=;
+ b=yJVOo8bkL/Ku89RXuj178ZbWdioLAhDFe0K98LhMY67rc111rOFcQd+061AM2GI6WTza
+ PZgfIZrYYMFYg4wWYV+1Q6V0ScESxGLEFL1TEh6Yd4qJdriEWc+6E+JeNIy7uTcHsr0d
+ sbQDGRx2pTBgZUa7uCPyAd+mFJGfXx3D24S7CMNgNOfX0uwObmztV9RC7LekLVC6fW16
+ Tf79HqcqDTPf3V93VHDQB92yHAbzUsOAc3A+prPO/pw+rjv9DCLH30ahH2jyqaYLxzSX
+ DZrxoBp+DfUOBxOWHBxqf0p+W3JK3kbN9y1jWZsvVVlFXorY7a6nW0YzKYyXtpYLgMK2 Rw== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gs78u1nx0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 22 Jun 2022 22:47:42 +0000
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25MMk21G020139;
+	Wed, 22 Jun 2022 22:47:40 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gtkfw3ggc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 22 Jun 2022 22:47:40 +0000
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 25MMlesR022609;
+	Wed, 22 Jun 2022 22:47:40 GMT
+Received: from dhcp-10-159-150-168.vpn.oracle.com (dhcp-10-159-150-168.vpn.oracle.com [10.159.150.168])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gtkfw3ge1-1;
+	Wed, 22 Jun 2022 22:47:40 +0000
+From: Alan Adamson <alan.adamson@oracle.com>
+To: linux-nvme@lists.infradead.org
+Cc: alan.adamson@oracle.com, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me
+Subject: [PATCH] Add new clear_ids attribute for passthru targets
+Date: Wed, 22 Jun 2022 15:47:24 -0700
+Message-Id: <20220622224724.19623-1-alan.adamson@oracle.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: 3QZTX7fJb6lPTPcv3q4_UH0WAxPFT5KF
+X-Proofpoint-ORIG-GUID: 3QZTX7fJb6lPTPcv3q4_UH0WAxPFT5KF
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220622_154439_925284_718ED7D1 
-X-CRM114-Status: UNSURE (   8.10  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220622_154749_502509_0A42D9BB 
+X-CRM114-Status: GOOD (  24.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,124 +81,175 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-5.19
-branch HEAD: 7cb27d4b43168531c51e86e99ab990beb5315f96  nvme: move the Samsung X5 quirk entry to the core quirks
+If the clear_ids attribute is set to true, the EUI/GUID/UUID is
+cleared for the passthru target.  By default, loop targets will
+set clear_ids to true.
 
-elapsed time: 724m
+This resolves an issue where a connect to a passthru target fails
+when using a trtype of 'loop' because EUI/GUID/UUID is not unique.
 
-configs tested: 100
-configs skipped: 2
+Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
+---
+ drivers/nvme/target/configfs.c | 20 ++++++++++++
+ drivers/nvme/target/core.c     |  4 +++
+ drivers/nvme/target/nvmet.h    |  1 +
+ drivers/nvme/target/passthru.c | 58 ++++++++++++++++++++++++++++++++++
+ 4 files changed, 83 insertions(+)
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-i386                          randconfig-c001
-sh                           se7780_defconfig
-powerpc                 mpc8540_ads_defconfig
-powerpc                     mpc83xx_defconfig
-sh                          urquell_defconfig
-sparc                       sparc64_defconfig
-m68k                          multi_defconfig
-alpha                            alldefconfig
-mips                       bmips_be_defconfig
-csky                             alldefconfig
-mips                          rb532_defconfig
-arc                      axs103_smp_defconfig
-arc                              alldefconfig
-sh                           se7343_defconfig
-parisc                generic-32bit_defconfig
-s390                          debug_defconfig
-arm                        oxnas_v6_defconfig
-um                               alldefconfig
-sh                           se7724_defconfig
-arm                        realview_defconfig
-powerpc                     redwood_defconfig
-powerpc                 mpc837x_rdb_defconfig
-powerpc                         wii_defconfig
-sh                          sdk7786_defconfig
-arm                         axm55xx_defconfig
-arc                 nsimosci_hs_smp_defconfig
-sh                   sh7770_generic_defconfig
-sh                             sh03_defconfig
-openrisc                         alldefconfig
-arm                      integrator_defconfig
-xtensa                  nommu_kc705_defconfig
-um                             i386_defconfig
-arm                         vf610m4_defconfig
-powerpc                      pasemi_defconfig
-m68k                            q40_defconfig
-arm                           stm32_defconfig
-sh                          kfr2r09_defconfig
-sparc                               defconfig
-xtensa                           allyesconfig
-csky                                defconfig
-sparc                            allyesconfig
-x86_64                                  kexec
-x86_64                        randconfig-c001
-arm                  randconfig-c002-20220622
-riscv                             allnoconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-powerpc                           allnoconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-sh                               allmodconfig
-i386                             allyesconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-x86_64                        randconfig-a011
-x86_64                        randconfig-a013
-x86_64                        randconfig-a015
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-
-clang tested configs:
-powerpc                 mpc8315_rdb_defconfig
-arm                          ixp4xx_defconfig
-riscv                    nommu_virt_defconfig
-mips                           ip28_defconfig
-riscv                             allnoconfig
-powerpc                 xes_mpc85xx_defconfig
-x86_64                        randconfig-k001
-x86_64                        randconfig-a005
-x86_64                        randconfig-a003
-x86_64                        randconfig-a001
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-hexagon              randconfig-r041-20220622
-s390                 randconfig-r044-20220622
-hexagon              randconfig-r045-20220622
-riscv                randconfig-r042-20220622
-hexagon              randconfig-r041-20220623
-hexagon              randconfig-r045-20220623
-
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index e44b2988759e..ff77c3d2354f 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -773,11 +773,31 @@ static ssize_t nvmet_passthru_io_timeout_store(struct config_item *item,
+ }
+ CONFIGFS_ATTR(nvmet_passthru_, io_timeout);
+ 
++static ssize_t nvmet_passthru_clear_ids_show(struct config_item *item,
++		char *page)
++{
++	return sprintf(page, "%u\n", to_subsys(item->ci_parent)->clear_ids);
++}
++
++static ssize_t nvmet_passthru_clear_ids_store(struct config_item *item,
++		const char *page, size_t count)
++{
++	struct nvmet_subsys *subsys = to_subsys(item->ci_parent);
++	unsigned int clear_ids;
++
++	if (kstrtouint(page, 0, &clear_ids))
++		return -EINVAL;
++	subsys->clear_ids = clear_ids;
++	return count;
++}
++CONFIGFS_ATTR(nvmet_passthru_, clear_ids);
++
+ static struct configfs_attribute *nvmet_passthru_attrs[] = {
+ 	&nvmet_passthru_attr_device_path,
+ 	&nvmet_passthru_attr_enable,
+ 	&nvmet_passthru_attr_admin_timeout,
+ 	&nvmet_passthru_attr_io_timeout,
++	&nvmet_passthru_attr_clear_ids,
+ 	NULL,
+ };
+ 
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 90e75324dae0..d4203d582343 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1374,6 +1374,10 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 	ctrl->port = req->port;
+ 	ctrl->ops = req->ops;
+ 
++	/* By default, set loop targets to clear IDS by default */
++	if (ctrl->port->disc_addr.trtype == NVMF_TRTYPE_LOOP)
++		subsys->clear_ids = 1;
++
+ 	INIT_WORK(&ctrl->async_event_work, nvmet_async_event_work);
+ 	INIT_LIST_HEAD(&ctrl->async_events);
+ 	INIT_RADIX_TREE(&ctrl->p2p_ns_map, GFP_KERNEL);
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 69818752a33a..2b3e5719f24e 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -249,6 +249,7 @@ struct nvmet_subsys {
+ 	struct config_group	passthru_group;
+ 	unsigned int		admin_timeout;
+ 	unsigned int		io_timeout;
++	unsigned int		clear_ids;
+ #endif /* CONFIG_NVME_TARGET_PASSTHRU */
+ 
+ #ifdef CONFIG_BLK_DEV_ZONED
+diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
+index b1f7efab3918..e8c033fbdb5c 100644
+--- a/drivers/nvme/target/passthru.c
++++ b/drivers/nvme/target/passthru.c
+@@ -30,6 +30,55 @@ void nvmet_passthrough_override_cap(struct nvmet_ctrl *ctrl)
+ 		ctrl->cap &= ~(1ULL << 43);
+ }
+ 
++static u16 nvmet_passthru_override_id_descs(struct nvmet_req *req)
++{
++	struct nvmet_ctrl *ctrl = req->sq->ctrl;
++	void *data;
++	struct nvme_ns_id_desc *cur;
++	u16 status = NVME_SC_SUCCESS;
++	u8 csi;
++	int pos, len;
++	bool csi_seen;
++
++	if (!ctrl->subsys->clear_ids)
++		return status;
++
++	data = kzalloc(NVME_IDENTIFY_DATA_SIZE, GFP_KERNEL);
++	if (!data)
++		return NVME_SC_INTERNAL;
++
++	status = nvmet_copy_from_sgl(req, 0, data, NVME_IDENTIFY_DATA_SIZE);
++	if (status)
++		goto out_free;
++
++	for (pos = 0; pos < NVME_IDENTIFY_DATA_SIZE; pos += len) {
++		cur = data + pos;
++
++		if (cur->nidl == 0)
++			break;
++		len = cur->nidl;
++		if (cur->nidt == NVME_NIDT_CSI) {
++			memcpy(&csi, data + pos + sizeof(struct nvme_ns_id_desc),
++			       NVME_NIDT_CSI_LEN);
++			csi_seen = 1;
++			break;
++		}
++		len += sizeof(struct nvme_ns_id_desc);
++	}
++
++	memset(data, 0, NVME_IDENTIFY_DATA_SIZE);
++	if (csi_seen) {
++		cur = data;
++		cur->nidt = NVME_NIDT_CSI;
++		cur->nidl = NVME_NIDT_CSI_LEN;
++		memcpy(data + sizeof(struct nvme_ns_id_desc), &csi,  NVME_NIDT_CSI_LEN);
++	}
++	status = nvmet_copy_to_sgl(req, 0, data, NVME_IDENTIFY_DATA_SIZE);
++out_free:
++	kfree(data);
++	return status;
++}
++
+ static u16 nvmet_passthru_override_id_ctrl(struct nvmet_req *req)
+ {
+ 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+@@ -127,6 +176,7 @@ static u16 nvmet_passthru_override_id_ctrl(struct nvmet_req *req)
+ 
+ static u16 nvmet_passthru_override_id_ns(struct nvmet_req *req)
+ {
++	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+ 	u16 status = NVME_SC_SUCCESS;
+ 	struct nvme_id_ns *id;
+ 	int i;
+@@ -152,6 +202,11 @@ static u16 nvmet_passthru_override_id_ns(struct nvmet_req *req)
+ 	 */
+ 	id->mc = 0;
+ 
++	if (ctrl->subsys->clear_ids) {
++		memset(id->nguid, 0, NVME_NIDT_NGUID_LEN);
++		memset(id->eui64, 0, NVME_NIDT_EUI64_LEN);
++	}
++
+ 	status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
+ 
+ out_free:
+@@ -176,6 +231,9 @@ static void nvmet_passthru_execute_cmd_work(struct work_struct *w)
+ 		case NVME_ID_CNS_NS:
+ 			nvmet_passthru_override_id_ns(req);
+ 			break;
++		case NVME_ID_CNS_NS_DESC_LIST:
++			nvmet_passthru_override_id_descs(req);
++			break;
+ 		}
+ 	} else if (status < 0)
+ 		status = NVME_SC_INTERNAL;
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.31.1
+
 
