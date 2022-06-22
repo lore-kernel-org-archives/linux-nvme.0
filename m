@@ -4,89 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BAF65C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jun 2022 10:26:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6D07BC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jun 2022 10:29:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dMTwDPVjU8iRPIC3WLKX50je76PSl1QgV6IJkCaT0oc=; b=1X80sJ39bot1NBA5Ex3iv2pnuH
-	yVj3iLA/zyQRYsS6o8DiXgtql8kIEkYY6VhJ9ytG+4YKkhYefZOJ0+PwLwS7jKZtAJwTOgSdcof+8
-	iAYr155inEFpOSCqrzejc0SgYwLziB0UwP2yhXSmmvMNCKErp4pVTx3xSAjNoWTkxCx6dLZIpAPuE
-	3df8m2W7bLY9IInXxSC/WmmA3icI6M+nQr8klKOCK+4Gw8F7iSghCz+yFZ5VEiYp4+84nDD6nV6qg
-	dv+1nRDzoDMSQvF8GtxwVb8JIxz02z0cTAdFKEHH0e/oR2TY0041ALWzOi87lV6H2QZ8pPp7R3t56
-	O0tTy8TA==;
+	bh=EsFQb3/xHn5OHtCI1h6v44vSOdb9xpnBde10jfyqZxA=; b=uW2xriLU27BKo5GspYO4VUXKvu
+	wdzvzFRhy3oY1OLCcQQBZc59i5b2B9COxnEeDSx5Ll/YN1pcw7QvHRN8wjHW6lW9fF5XVTISzIfz5
+	cuuFwaS8Neaunzkq7veZ6MVGr+hM38uiyOPXzf6QBf/81+nTqyipet+sbJiIvykTXBNLvUDfJ9a9N
+	4kpJt7ceZL7jfycFyvonIojGXDF7O7ZnJObTvVsyI5yfS/Lt7c/7LS5XC5OCa24V97/bZeTucDcl7
+	mK0BdylIpEZu4JQIyBB6sv6GHhrXdrqIOhSpKUo3lH2bG1P28XydJ0ZKCqjNrBtJ44xrnWcTKh0XS
+	pZAZp8Aw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3xZC-009t0j-0u; Wed, 22 Jun 2022 10:26:34 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1o3xbq-009u9C-De; Wed, 22 Jun 2022 10:29:18 +0000
+Received: from mail-wm1-f51.google.com ([209.85.128.51])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3xYn-009soU-TD
-	for linux-nvme@lists.infradead.org; Wed, 22 Jun 2022 10:26:11 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A7FD621C51;
-	Wed, 22 Jun 2022 10:26:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1655893567; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dMTwDPVjU8iRPIC3WLKX50je76PSl1QgV6IJkCaT0oc=;
-	b=okJ/aIC7SPbRu1h1M5aL5l9+PYBj8LewnfdaIQODUg62m6CaOOORHFPU44B+nXgTzEy5R6
-	yMr9xHcE8oQpM/BpROBxWEHDJ+yn0e+guLnOvRkFF7/Mju/rXOGDCuEHT9BQ+HmwwpZ14P
-	unyVq54uI9LR3yAwYuSMTbxQro3kAoA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1655893567;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dMTwDPVjU8iRPIC3WLKX50je76PSl1QgV6IJkCaT0oc=;
-	b=dHCeDUZa2JIopxMrwOiBk/ax/fAZwxGH9B4GPIYAja67LRbYSZZpPZWk3BYrDgO8zq3aEj
-	IiEc+DPe4ALrXxCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 75EAA13A5D;
-	Wed, 22 Jun 2022 10:26:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id OnyvGT/usmKzSgAAMHmgww
-	(envelope-from <hare@suse.de>); Wed, 22 Jun 2022 10:26:07 +0000
-Message-ID: <7cedadf1-e1ef-f01b-2265-182181b58d18@suse.de>
-Date: Wed, 22 Jun 2022 12:26:07 +0200
+	id 1o3xbg-009u4n-OA
+	for linux-nvme@lists.infradead.org; Wed, 22 Jun 2022 10:29:10 +0000
+Received: by mail-wm1-f51.google.com with SMTP id e5so8973914wma.0
+        for <linux-nvme@lists.infradead.org>; Wed, 22 Jun 2022 03:29:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=EsFQb3/xHn5OHtCI1h6v44vSOdb9xpnBde10jfyqZxA=;
+        b=rG4e26/RD6ucNY8LojsiMJoreQHfr2iC1JSVekW//5KYrMJ735jfBYRsBf5vD0+6hB
+         MEZe6l1mIMWJvrLa6HFWOTNK2BA/vLZbzpk4SCygZPuTWeVxoNvbjMqESlqS+5s+UMsy
+         oP+AIlUgp5UcBfjfcKdD5HjxpYLYBWq/pnQ0DVsvPv1wV/jjklxCF+xGtSshx1OivstY
+         3z+hAPtldBwk3n+JkvdCnIauGeXqtuS7lU/4u3sDdiAt9j/gwza2pIZkjcz1mAaHPxgM
+         1+9K5zKDHkhl4aOoVY+8pnQi4LfVkGAYMdLo8IBVNkX8K+H506cKePJvdwkBlim7MmDI
+         IypQ==
+X-Gm-Message-State: AOAM533zEijiKwQeHzFqBnT1rwgXiGdOkz4KBPyg/jSoQ/+/9VtXzFSx
+	B5sX9mJMTCbGo3rzXOVGubZi1wKZNTs=
+X-Google-Smtp-Source: ABdhPJx6zGiH0M+5pOa30h704SGsjOsKpBYOryMQDXwi5QCKSKyWKTcG0D254WTnzz3udS5h1XVv1Q==
+X-Received: by 2002:a05:600c:500d:b0:39c:5890:7cb3 with SMTP id n13-20020a05600c500d00b0039c58907cb3mr45847517wmr.178.1655893747429;
+        Wed, 22 Jun 2022 03:29:07 -0700 (PDT)
+Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id b9-20020adff909000000b0021b956da1dcsm5770046wrr.113.2022.06.22.03.29.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jun 2022 03:29:07 -0700 (PDT)
+Message-ID: <872b4b59-de37-bf29-44a4-9f01ffb8d226@grimberg.me>
+Date: Wed, 22 Jun 2022 13:29:05 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 06/11] nvme: Implement In-Band authentication
+ Thunderbird/91.9.1
+Subject: Re: [PATCHv16 00/11] nvme: In-band authentication support
 Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20220621090255.69549-1-hare@suse.de>
- <20220621090255.69549-7-hare@suse.de>
- <f8f0a631-6752-096c-4e85-bcde9bb2869e@grimberg.me>
- <22236c51-90cd-1707-05b8-3772ef4c548d@suse.de>
- <ab4aaf2b-444f-2b3c-091a-396de62afbd1@grimberg.me>
- <a32afeac-983c-2ea4-e693-2d46411e7f4a@grimberg.me>
- <3784f492-67f8-c75a-dccf-7f7272e0b4ad@suse.de>
- <b0e6fa33-ed59-eaa7-3629-3d72430b8ad6@grimberg.me>
- <c06b6657-b015-3ff4-6044-8e800aaeae81@suse.de>
- <5c650ecb-1459-d47c-ed9e-ebd552fe5ffc@grimberg.me>
- <2200e5f1-8af0-25bc-72fb-eac8eaaeeb72@suse.de>
- <e5de2ab8-cf63-d882-1e5d-e94f125bbaa3@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <e5de2ab8-cf63-d882-1e5d-e94f125bbaa3@grimberg.me>
+References: <20220621172414.82847-1-hare@suse.de>
+ <3c375526-a967-0856-0f8b-da08f21c7d80@grimberg.me>
+ <05b8a18b-d052-0f06-c43b-939766d5d5df@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <05b8a18b-d052-0f06-c43b-939766d5d5df@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220622_032610_144125_150A2FA9 
-X-CRM114-Status: GOOD (  30.39  )
+X-CRM114-CacheID: sfid-20220622_032908_823126_32724820 
+X-CRM114-Status: GOOD (  21.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,125 +81,114 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/22/22 11:58, Sagi Grimberg wrote:
-> 
-> 
-> On 6/22/22 12:20, Hannes Reinecke wrote:
->> On 6/22/22 11:09, Sagi Grimberg wrote:
->>>
->>>>>>>> Looks like if I pass a malformed ctrl key to nvme connect I am 
->>>>>>>> able to
->>>>>>>> crash the system:
->>>>>>>
->>>>>>> This was what I used in this:
->>>>>>> $ nvme connect -a 192.168.123.1 -t tcp  -s 8009 -n testnqn1 -S 
->>>>>>> "DHHC-1:00:QpxVGpctx5J+4SeW2MClUI8rfZO3WdP1llImvsPsx7e3TK+I:" -C 
->>>>>>> "DHHC-1:00:Jc/My1o0qtLCWRp+sHhAVafdfaS7YQOMYhk9zSmlatobqB8C:"
->>>>>>>
->>>>>>> The dhchap_ctrl_key is the offending string...
->>>>>>>
->>>>>> Right. Should be fixed with the attached patch.
->>>>>> Can you check?
->>>>>
->>>>> Yes, that works.
->>>>
->>>> So, to summarize: With this one and the tentative patch I've sent 
->>>> earlier:
->>>>
->>>> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
->>>> index 53184ac76240..a03f41fa146e 100644
->>>> --- a/drivers/nvme/host/auth.c
->>>> +++ b/drivers/nvme/host/auth.c
->>>> @@ -842,6 +842,10 @@ int nvme_auth_negotiate(struct nvme_ctrl *ctrl, 
->>>> int qid)
->>>>                  dev_warn(ctrl->device, "qid %d: no key\n", qid);
->>>>                  return -ENOKEY;
->>>>          }
->>>> +       if (ctrl->opts->dhchap_ctrl_secret && !ctrl->ctrl_key) {
->>>> +               dev_warn(ctrl->device, "qid %d: invalid ctrl key\n", 
->>>> qid);
->>>> +               return -ENOKEY;
->>>> +       }
->>>>
->>>>          mutex_lock(&ctrl->dhchap_auth_mutex);
->>>>          /* Check if the context is already queued */
->>>>
->>>>
->>>>
->>>> your issues are resolved?
->>>> Just to clarify before I sent another round of patches ...
->>>
->>> No. I don't understand why this patch is needed. As I noted
->>> earlier, when I pass a wrong ctrl key I fail to connect do
->>> to authentication error. Also when I pass a malformed ctrl key.
->>>
->>> So what does this patch fix? Can you give me an example that should
->>> have failed before and only with this patch it fails?
->>>
->> Reasoning is as follows:
->> When an invalid controller key is passed via 
->> 'ctrl->opts->dhchap_ctrl_secret' we'll end up with an empty 
->> 'ctrl->ctrl_key' in nvme_auth_init_ctrl() (which is what caused the 
->> original oops).
->> But the negotiation will still start, and, seeing that 
->> 'ctrl->ctrl_key' is empty, will _not_ attempt controller authentication.
->> But as a controller key is passed from userland we should have 
->> attempted it, and hence an error is in order.
-> 
-> Yes, I see it now.
-> And the patch seems to work.
-> 
->>> And for the other issue, please read it again, I think it is related
->>> to nvme-cli and not this patchset.
+
+
+On 6/22/22 13:03, Hannes Reinecke wrote:
+> On 6/21/22 23:22, Sagi Grimberg wrote:
 >>
->> Hmm. Okay, I'll check, and possibly have to create another blktest for 
->> this ...
+>>> Hi all,
+>>>
+>>> recent updates to the NVMe spec have added definitions for in-band
+>>> authentication, and seeing that it provides some real benefit
+>>> especially for NVMe-TCP here's an attempt to implement it.
+>>>
+>>> Thanks to Nicolai Stange the crypto DH framework has been upgraded
+>>> to provide us with a FFDHE implementation; I've updated the patchset
+>>> to use the ephemeral key generation provided there.
+>>>
+>>> Note that this is just for in-band authentication. Secure
+>>> concatenation (ie starting TLS with the negotiated parameters)
+>>> requires a TLS handshake, which the in-kernel TLS implementation
+>>> does not provide. This is being worked on with a different patchset
+>>> which is still WIP.
+>>>
+>>> The nvme-cli support has already been merged; please use the latest
+>>> nvme-cli git repository to build the most recent version.
+>>>
+>>> A copy of this patchset can be found at
+>>> git://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel
+>>> branch auth.v15
+>>>
+>>> The patchset is being cut against nvme-5.20.
+>>>
+>>> As usual, comments and reviews are welcome.
+>>
+>> Hannes, did you see my panic report on a malformed dhchap_ctrl_key?
+>>
+>> Also, why does the dhchap_ctrl_key not passed when connecting
+>> via discovery?
+>>
+>> I have in the target:
+>> -- 
+>> # grep -r '' /sys/kernel/config/nvmet/hosts/
+>> /sys/kernel/config/nvmet/hosts/nqn.2014-08.org.nvmexpress:uuid:302ae323-4acd-465d-ace4-3d4102e9d11f/dhchap_dhgroup:null 
+>>
+>> /sys/kernel/config/nvmet/hosts/nqn.2014-08.org.nvmexpress:uuid:302ae323-4acd-465d-ace4-3d4102e9d11f/dhchap_hash:hmac(sha256) 
+>>
+>> /sys/kernel/config/nvmet/hosts/nqn.2014-08.org.nvmexpress:uuid:302ae323-4acd-465d-ace4-3d4102e9d11f/dhchap_ctrl_key:DHHC-1:00:Jc/My1o0qtLCWRp+sHhAVN6mFaS7YQOMYhk9zSmlatobqB8C: 
+>>
+>> /sys/kernel/config/nvmet/hosts/nqn.2014-08.org.nvmexpress:uuid:302ae323-4acd-465d-ace4-3d4102e9d11f/dhchap_key:DHHC-1:00:QpxVGpctx5J+4SeW2MClUI8rfZO3WdP1llImvsPsx7e3TK+I: 
+>>
+>> -- 
+>>
+>> Then on the host I have:
+>> -- 
+>> # cat /etc/nvme/config.json
+>> [
+>>    {
+>>      "hostnqn": 
+>> "nqn.2014-08.org.nvmexpress:uuid:302ae323-4acd-465d-ace4-3d4102e9d11f",
+>>      "hostid": "14f15c4e-f6cb-434b-90cd-7c1f84f0c194",
+>>      "dhchap_key": 
+>> "DHHC-1:00:QpxVGpctx5J+4SeW2MClUI8rfZO3WdP1llImvsPsx7e3TK+I:",
+>>      "subsystems": [
+>>        {
+>>          "nqn": "testnqn1",
+>>          "ports": [
+>>            {
+>>              "transport": "tcp",
+>>              "traddr": "192.168.123.1",
+>>              "trsvcid": "8009",
+>>              "dhchap_key": 
+>> "DHHC-1:00:Jc/My1o0qtLCWRp+sHhAVN6mFaS7YQOMYhk9zSmlatobqB8C:"
+>>            }
+>>          ]
+>>        }
+>>      ]
+>>    }
+>> ]
+>> -- 
+>>
+>> And when I do connect-all (i.e. connect via the discovery log page:
+>> -- 
+>> # grep -r '' /sys/class/nvme/nvme1/dhchap*
+>> /sys/class/nvme/nvme1/dhchap_ctrl_secret:none
+>> /sys/class/nvme/nvme1/dhchap_secret:DHHC-1:00:QpxVGpctx5J+4SeW2MClUI8rfZO3WdP1llImvsPsx7e3TK+I: 
+>>
+>> -- 
+>>
+>> This means that I can corrupt the dhchap_ctrl_key entry in the config
+>> and no one will care (because it is not authenticating the ctrl if
+>> dhchap_ctrl_key is not passed)
+>>
+>> I think this is something wrong with nvme-cli/libnvme though...
 > 
-> Looks like a libnvme fix makes the behavior go away:
-> -- 
-> diff --git a/src/nvme/fabrics.c b/src/nvme/fabrics.c
-> index 53199a29e264..2dd863fb8b4c 100644
-> --- a/src/nvme/fabrics.c
-> +++ b/src/nvme/fabrics.c
-> @@ -596,8 +596,11 @@ int nvmf_add_ctrl(nvme_host_t h, nvme_ctrl_t c,
->                                          nvme_ctrl_get_host_iface(c),
->                                          nvme_ctrl_get_trsvcid(c),
->                                          NULL);
-> -               if (fc)
-> +               if (fc) {
->                          cfg = merge_config(c, nvme_ctrl_get_config(fc));
-> +                       if (fc->dhchap_key)
-> +                               nvme_ctrl_set_dhchap_key(c, 
-> fc->dhchap_key);
-> +               }
->          }
+> Using the latest patches (and latest nvme-cli) it works if I specify:
 > 
->          nvme_ctrl_set_discovered(c, true);
-> -- 
-> 
-> Looks like when we scan to see an existing controller in the config,
-> we find it, but merge_config does not touch the ctrl dhchap_key.
-> 
-> Maybe it would be better to just add the dhchap_key to the ctrl cfg
-> and have merge_config merge it as well? Or we can live with dhchap_key
-> merged explicitly?
+> nvme connect-all -t tcp -a 127.0.0.1 -s 4420 \
+>    --hostnqn 
+> nqn.2014-08.org.nvmexpress:uuid:302ae323-4acd-465d-ace4-3d4102e9d11f \
+>    --hostid 14f15c4e-f6cb-434b-90cd-7c1f84f0c194 --config config.json
 
-Hmm. That runs slightly afoul of the merge logic.
-'merge_config' will overwrite any value _not_ being the default.
-Consequently, if a non-default value is already set it won't be overwritten.
-Which means that if the 'cfg' structure already contained a controller 
-secret (which could've been used, say, for discovery) we won't overwrite 
-it in merge_config().
-Hence I fear we have to go with your suggestion.
+No it doesn't, see my patch in the other thread.
 
-Will be preparing a pull request.
+> (You have to specify --config to instruct nvme-cli to use the 
+> configuration file)
 
-Cheers,
+If the config is in the default path you don't need to pass it.
 
-Hannes
--- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
+> We have had some fixes for the config handling recently, so maybe it's 
+> enough to update nvme-cli.
+
+It isn't
 
