@@ -4,121 +4,120 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2DCD9CCA482
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jun 2022 13:59:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F048ECCA481
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jun 2022 13:59:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-ID:Date:Subject:CC
 	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/k8M4M4vMU8bMitVLyTG2WRgLGODmSNhwgbc5E8gDMA=; b=ilw5R3hYrsQEfvLrYNCSgn1ktn
-	uJkcIx4QCHZdBxlCgGEOL6WG8MH6EoWs3dApo863bZOXNfkzNUzzPEqu1qWrCNCX8AG5lknJy8iSz
-	9t5pw1KvNC+ZnL4lH0tx2/yKBPrZTImSY92N/JeQIGb+o/EvP7cN67+KnKfcVZCbyKwNVyXQq4i15
-	gPh9DYFq9TRlFRsefw6vlUKQeX8qOxXjCjEtI/Ujht5BmX3Crf2xTX2fUKe0ylR6i1HnORkP1I3pA
-	7k0vezzZvoTmHZk4CewMDRYo8zW0ffvjimJ33cYpFieleZomM9Ns54QsTLxrjmm8s+BgOC4GczokS
-	cTfw28Cg==;
+	bh=mCXUyp9b0GmA8u2OLbGkD8z7KAc76pVIasvJ7EG3zc8=; b=QEQFQI3GeG3wuOQGcpfqIxLEVk
+	FV3m6TnBJXIS2kADLM3LqK1kWq0oZHCYfNdhWVAs2YCHxWinEnWyhAp+TlbjoR3mizfVReQuYiud6
+	Jy5oq0qT1OY7cC/+hJLJbqgH5xrf1h+9HuN5blJhk+cb+SuVbG5Zy8xTONCnshIa/TQ/HathuH8bI
+	bBwK+NA6Dh/um74gUn4xyG+mP9Oh18rFfoBbd7vYGfSky7hRYOPFin29MC9+hl4bODGJHJXZ2tiO+
+	kypbIaqmy2B6r2HVhUyDL/CF0de2amR9j/YSRaglgEXOM93q0rYegdAIQSkP1rywuwqSjlYZpwEBi
+	eCyZOdog==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o40sv-00AkhX-4C; Wed, 22 Jun 2022 13:59:09 +0000
+	id 1o40sq-00Akgm-SP; Wed, 22 Jun 2022 13:59:04 +0000
 Received: from mailout1.w1.samsung.com ([210.118.77.11])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o40sf-00AkcV-Im
-	for linux-nvme@lists.infradead.org; Wed, 22 Jun 2022 13:58:59 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20220622135845euoutp01960d712335ae158bd38f99a0b667790c~69geeHK4f2215322153euoutp01A
-	for <linux-nvme@lists.infradead.org>; Wed, 22 Jun 2022 13:58:45 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20220622135845euoutp01960d712335ae158bd38f99a0b667790c~69geeHK4f2215322153euoutp01A
+	id 1o40sf-00AkcI-Im
+	for linux-nvme@lists.infradead.org; Wed, 22 Jun 2022 13:58:58 +0000
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20220622135843euoutp01409abcce930c77b0b967f15caf7dfccf~69gcx2Ab62215322153euoutp01-
+	for <linux-nvme@lists.infradead.org>; Wed, 22 Jun 2022 13:58:43 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20220622135843euoutp01409abcce930c77b0b967f15caf7dfccf~69gcx2Ab62215322153euoutp01-
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1655906325;
-	bh=/k8M4M4vMU8bMitVLyTG2WRgLGODmSNhwgbc5E8gDMA=;
+	s=mail20170921; t=1655906323;
+	bh=mCXUyp9b0GmA8u2OLbGkD8z7KAc76pVIasvJ7EG3zc8=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-	b=StH9SF4Tp/6kMdSfc3Ew/FHRn7V+kVI67evaSXQL/RHrzGbzI1CzVEu5B3T50jN44
-	 FBeRQn5UiqPil+z3LI6ltg3t7X5pcpRkQkUqR+xKGj3c76gbv5ayklVdtDRT3ftOX+
-	 obNkEidpu7jDglu6ZYJaZ8uCHs6v+tz40/1fqSHU=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20220622135845eucas1p12e969cc397aefe086c205e4934f00b5e~69geCliZE2417824178eucas1p1U;
-	Wed, 22 Jun 2022 13:58:45 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges3new.samsung.com (EUCPMTA) with SMTP id 41.04.09580.51023B26; Wed, 22
-	Jun 2022 14:58:45 +0100 (BST)
+	b=sle2pzthsYBe2soTuy78X3HqPanvG7YLMB+kbkX+JDkzAdwz8EA6AlUG0GuJDGeCb
+	 3Bl9ZtuITxIea4k/W3BhUXe5aXc3cGuma2cSBJqHK0nY3w01FMzLuD9BQNx3eVXAmM
+	 Fou7hMNTZKzVc/xVgnvSkG4HMplZeAyrRVnhWXq4=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20220622135843eucas1p289be824bfdff00310edfe5bd4d90261c~69gcor3i91880318803eucas1p23;
+	Wed, 22 Jun 2022 13:58:43 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+	eusmges2new.samsung.com (EUCPMTA) with SMTP id 4A.17.10067.31023B26; Wed, 22
+	Jun 2022 14:58:43 +0100 (BST)
 Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20220622135844eucas1p1c224ccf50c43f722cc228c59d8c395a7~69gdwi6SP2417824178eucas1p1T;
-	Wed, 22 Jun 2022 13:58:44 +0000 (GMT)
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20220622135843eucas1p232aacf6f5cbe956cd450936ece4f74b7~69gcXJjh91878518785eucas1p2-;
+	Wed, 22 Jun 2022 13:58:43 +0000 (GMT)
 Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
 	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20220622135844eusmtrp14e79e4f371cfbed890735824b9253a8e~69gdv6r6r2588525885eusmtrp1N;
-	Wed, 22 Jun 2022 13:58:44 +0000 (GMT)
-X-AuditID: cbfec7f5-9c3ff7000000256c-97-62b3201515ae
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-	eusmgms1.samsung.com (EUCPMTA) with SMTP id BF.7C.09095.41023B26; Wed, 22
-	Jun 2022 14:58:44 +0100 (BST)
+	20220622135843eusmtrp14e8672b65a5b89bf5a6b4b29882f0a95~69gcWXfaz2589025890eusmtrp1C;
+	Wed, 22 Jun 2022 13:58:43 +0000 (GMT)
+X-AuditID: cbfec7f4-dd7ff70000002753-88-62b320138cce
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id 2F.7C.09095.31023B26; Wed, 22
+	Jun 2022 14:58:43 +0100 (BST)
 Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20220622135844eusmtip1ddb1d5ad8b12061e034496133b38f5ab~69gdneBqq0250302503eusmtip1E;
-	Wed, 22 Jun 2022 13:58:44 +0000 (GMT)
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20220622135843eusmtip271746533189a8759d5fb30796aca23ea~69gcPH1I03062830628eusmtip2H;
+	Wed, 22 Jun 2022 13:58:43 +0000 (GMT)
 Received: from localhost (106.110.32.33) by CAMSVWEXC02.scsc.local
 	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Wed, 22 Jun 2022 14:58:43 +0100
+	Wed, 22 Jun 2022 14:58:42 +0100
 From: Joel Granados <j.granados@samsung.com>
 To: <hch@lst.de>, <kbusch@kernel.org>
 CC: <linux-nvme@lists.infradead.org>, <joshi.k@samsung.com>,
 	<gost.dev@samsung.com>, <k.jensen@samsung.com>
-Subject: [PATCH v3 2/2] nvme: enable generic interface (/dev/ngXnY) for
- unknown command sets
-Date: Wed, 22 Jun 2022 15:55:56 +0200
-Message-ID: <20220622135556.2185991-3-j.granados@samsung.com>
+Subject: [PATCH v3 1/2] nvme-multipath: refactor nvme_mpath_add_disk
+Date: Wed, 22 Jun 2022 15:55:55 +0200
+Message-ID: <20220622135556.2185991-2-j.granados@samsung.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220622135556.2185991-1-j.granados@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [106.110.32.33]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+X-ClientProxiedBy: CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348) To
 	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrMIsWRmVeSWpSXmKPExsWy7djPc7qiCpuTDJrns1qsXH2UyWLSoWuM
-	FvOXPWV3YPbYtKqTzWPzknqP3Tcb2AKYo7hsUlJzMstSi/TtErgyHv6awFKwy6Li95Iz7A2M
-	LXpdjBwcEgImEnNWyncxcnEICaxglHi77TgThPOFUeLez4/sEM5nRonNFx4zdzFygnV83fgI
-	KrGcUeLznKsIVd1H/kL1b2aU2PelgR2khU1AR+L8mzvMIAtFBFQl9rXYgoSZBXIlGue9AZsq
-	LBAnsf3EdDCbBajkxfpjLCA2r4CtxNQjt1ghNstLtF2fzghicwrYSTzYtYsJokZQ4uTMJywQ
-	M+UlmrfOZoawJSQOvngBdbWixJY536Hm1Eqc2nIL7E4JgQMcEj/WLGWBSLhIPLnxmR3CFpZ4
-	dXwLlC0jcXpyD1RNtsTOKbughhZIzDo5lQ0SkNYSfWdyIMKOEitvPWKCCPNJ3HgrCHEOn8Sk
-	bdOZIcK8Eh1tQhMYVWYheWAWkgdmIXlgASPzKkbx1NLi3PTUYuO81HK94sTc4tK8dL3k/NxN
-	jMB0cfrf8a87GFe8+qh3iJGJg/EQowQHs5IIrw33hiQh3pTEyqrUovz4otKc1OJDjNIcLEri
-	vMmZGxKFBNITS1KzU1MLUotgskwcnFINTAGm695KyObfPtnynPnFS5X3EzyDtG8b/5v4iT13
-	66dtOnwlzKvX7Q3YJCl7u+yf3YHWB3X1ezUPWQm88G8sfX1zsuKC87Ypx8K2XmZ+cUD00rv0
-	wzETxW95m4XzqcXcD+xrPrCp1uyW3q+TL62bVxi7afyV3yvhmlvz9vfDuSm3t1z6E/nE9ldn
-	Pcez0Kz6Xx0HJgSrPnfeMmeL9WRP0f/1UfFvHk9/eyrh8GzWhGvqi350J74QVnsfne67d0vh
-	/Kcqm4xutfTMcNk8PVDRU8Zx6s9zNfkeEb2v5Ew6XjMdfzG5/IPnMnOfxqCG7gdHvonl7Xqz
-	dYZp5NQpa+OU5ka2h3yXCPbevK/6WW7IiQYlluKMREMt5qLiRACpuXQyhgMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprLIsWRmVeSWpSXmKPExsVy+t/xu7oiCpuTDG536VmsXH2UyWLSoWuM
-	FvOXPWV3YPbYtKqTzWPzknqP3Tcb2AKYo/RsivJLS1IVMvKLS2yVog0tjPQMLS30jEws9QyN
-	zWOtjEyV9O1sUlJzMstSi/TtEvQyHv6awFKwy6Li95Iz7A2MLXpdjJwcEgImEl83PmLvYuTi
-	EBJYyigxbWcLG0RCRuLTlY/sELawxJ9rXWBxIYGPjBL/HxZDNGxmlFh+6AYzSIJNQEfi/Js7
-	QDYHh4iAqsS+FluQMLNArkTjvDdgJcICMRLT194Fm8kCVPJi/TEWEJtXwFZi6pFbrBC75CXa
-	rk9nBLE5BewkHuzaxQSx11aicf8mdoh6QYmTM5+wQMyXl2jeOpsZwpaQOPjiBTPEHEWJLXO+
-	Q82slfj89xnjBEaRWUjaZyFpn4WkfQEj8ypGkdTS4tz03GJDveLE3OLSvHS95PzcTYzAeNp2
-	7OfmHYzzXn3UO8TIxMF4iFGCg1lJhNeGe0OSEG9KYmVValF+fFFpTmrxIUZToD8nMkuJJucD
-	IzqvJN7QzMDU0MTM0sDU0sxYSZzXs6AjUUggPbEkNTs1tSC1CKaPiYNTqoFJNfrbnm9CUb/Z
-	vyz1u+lbV9Nfq+z33E5++WfZUKam1YsefKxz4xUrX7KNmVVaevnP2/MS5Hbdea6e31Soxfyp
-	ONry54+2XR8inrBYTvuofOXfmfDdKROto9eal3/3cOay57kVKKc/I+9Z1fqThzTmC7cvuTaP
-	RfrW2WPBfn5vUwLOvCosWRtzc95ul8SYuGchXD8PRl38XRzpqXnw0aelxT9fNLd/8912Quzl
-	fq/U3M3duxb5yPOIHjuz66j5z9Q0GS+mlj2vNq/b3yVfuiQv9ee26Zmp1+xPu7GH3m2WXPhd
-	0/jP5aPHus5O2rr1yLsLiS9rS9TatVxnSL7UzsgU8DrTL7vO8M6yRo/4DQz8SizFGYmGWsxF
-	xYkAAMvc5zADAAA=
-X-CMS-MailID: 20220622135844eucas1p1c224ccf50c43f722cc228c59d8c395a7
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrEIsWRmVeSWpSXmKPExsWy7djP87rCCpuTDHpfKVmsXH2UyWLSoWuM
+	FvOXPWV3YPbYtKqTzWPzknqP3Tcb2AKYo7hsUlJzMstSi/TtErgyeiZdYi94I1bRsuswewPj
+	MeEuRk4OCQETiRcfPrF3MXJxCAmsYJTont3AAuF8YZQ4fOoZG4TzmVHiZMNUVpiWFTvboBLL
+	GSUezbjBDFfVcWY7E4SzmVFi95dGJpAWNgEdifNv7gBVcXCICKhK7GuxBQkzC+RKNM57wwxi
+	Cwu4SJx79J0dxGYBKln55irYNl4BW4kTnc+ZIDbLS7Rdn84IYnMK2Ek82LWLCaJGUOLkzCcs
+	EDPlJZq3zmaGsCUkDr54wQzRqyixZc53qA9qJfY2H2CHsA9wSFy+IA1ymgTQDf1HHCDCwhKv
+	jm+BKpGROD25hwXCzpbYOWUX1MgCiVknp7JBtFpL9J3JgQg7SrQtuMYCEeaTuPFWEOIYPolJ
+	26YzQ4R5JTrahCYwqsxCcv4sJOfPQnL+AkbmVYziqaXFuempxUZ5qeV6xYm5xaV56XrJ+bmb
+	GIHJ4vS/4192MC5/9VHvECMTB+MhRgkOZiURXhvuDUlCvCmJlVWpRfnxRaU5qcWHGKU5WJTE
+	eZMzNyQKCaQnlqRmp6YWpBbBZJk4OKUamOxTeHYVXL6bvrFz18TvzHxTNB1ivt+eod42V/q+
+	9QNZ+RczQk4Z1gk0nbu57t1ymzcBhhs8f6hNSvITfldXXhT2mv2l2L2T/6cozn0f3mj2fet3
+	vyVFP59/fc1lnjR9TqdU9G2+h7zXTqjuNJpYs2muw+HZTmH+Z7atDukMMvw5ce8BedM17Xt1
+	H7n8Fg22vxZodS/sEF/TzjfM7pNXZz//+v3Zki/LjhqdYArrKQz6aC0f3hax693ezR7/Xn94
+	45P+lvGzzORvzErsZq99nm3wlqiOMfmSUduSauVp8WG6DctRmQvzJ8/kZjg5r9RCf7qMc+5/
+	q1s76qQVV2h88Dmm7sOn4R/SpXNXV3vGbx8lluKMREMt5qLiRAAxyeB5hQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprLIsWRmVeSWpSXmKPExsVy+t/xe7rCCpuTDM6sErBYufook8WkQ9cY
+	LeYve8ruwOyxaVUnm8fmJfUeu282sAUwR+nZFOWXlqQqZOQXl9gqRRtaGOkZWlroGZlY6hka
+	m8daGZkq6dvZpKTmZJalFunbJehl9Ey6xF7wRqyiZddh9gbGY8JdjJwcEgImEit2trF1MXJx
+	CAksZZT43rmKHSIhI/HpykcoW1jiz7UuqKKPjBJvGttYQBJCApsZJU5fLQax2QR0JM6/ucPc
+	xcjBISKgKrGvxRYkzCyQK9E47w0ziC0s4CJx7tF3sJksQCUr31xlBbF5BWwlTnQ+Z4LYJS/R
+	dn06I4jNKWAn8WDXLiaIVbYSjfs3sUPUC0qcnPmEBWK+vETz1tnMELaExMEXL5gh5ihKbJnz
+	nRXCrpXofHWabQKjyCwk7bOQtM9C0r6AkXkVo0hqaXFuem6xoV5xYm5xaV66XnJ+7iZGYDxt
+	O/Zz8w7Gea8+6h1iZOJgPMQowcGsJMJrw70hSYg3JbGyKrUoP76oNCe1+BCjKdCfE5mlRJPz
+	gRGdVxJvaGZgamhiZmlgamlmrCTO61nQkSgkkJ5YkpqdmlqQWgTTx8TBKdXAdHiB3H5rTtU1
+	SVvYzf8drwnhXd0smhglxd7FvUA58dXN6Fb2H+sufJluY7Nv2yk9LsH3O207l0XI3Fu1z4dp
+	5pHr85h2P76oIpu7aeYSR77+8t8v2Fh/ukwXLjYzZjnwrU/+1Rr1SIvplbnGMlPTA8xXbTkf
+	yF0ktsnDML/xNFtlM4t0ccir9+6Prr3wXdxSKPHg2ZObOYrX7ou93n/RODh2cu1JthAlxUtv
+	Q/Yab7nL56NSeMRsbqDMoqkLNixfs/Efi/W05OcxDs6ZsuE2K03UlcOq4/7+Fd5vlsplsu/H
+	G3ehBdf+fO073LGuNfmVgpc9+2lDq2g9AZlX256ErKgGmrs29ID/te8v5+oqsRRnJBpqMRcV
+	JwIASXuvDjADAAA=
+X-CMS-MailID: 20220622135843eucas1p232aacf6f5cbe956cd450936ece4f74b7
 X-Msg-Generator: CA
-X-RootMTR: 20220622135844eucas1p1c224ccf50c43f722cc228c59d8c395a7
+X-RootMTR: 20220622135843eucas1p232aacf6f5cbe956cd450936ece4f74b7
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20220622135844eucas1p1c224ccf50c43f722cc228c59d8c395a7
+X-CMS-RootMailID: 20220622135843eucas1p232aacf6f5cbe956cd450936ece4f74b7
 References: <20220622135556.2185991-1-j.granados@samsung.com>
-	<CGME20220622135844eucas1p1c224ccf50c43f722cc228c59d8c395a7@eucas1p1.samsung.com>
+	<CGME20220622135843eucas1p232aacf6f5cbe956cd450936ece4f74b7@eucas1p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220622_065854_309888_C9DEA425 
-X-CRM114-Status: GOOD (  22.59  )
+X-CRM114-CacheID: sfid-20220622_065854_307272_7161DF3A 
+X-CRM114-Status: GOOD (  15.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,247 +132,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Extend nvme_alloc_ns() and nvme_validate_ns() for unknown command-set as
-well. Both are made to use a new helper (nvme_update_ns_info_cs_indep)
-which is similar to nvme_update_ns_info but performs fewer operations
-to get the generic interface up.
+Pass anagrpid as second argument. This is prep patch that allows reusing
+this function for supporting unknown command sets.
 
-Suggested-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Joel Granados <j.granados@samsung.com>
 Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
 ---
- drivers/nvme/host/core.c | 132 +++++++++++++++++++++++++++------------
- 1 file changed, 93 insertions(+), 39 deletions(-)
+ drivers/nvme/host/core.c      | 2 +-
+ drivers/nvme/host/multipath.c | 6 +++---
+ drivers/nvme/host/nvme.h      | 5 ++---
+ 3 files changed, 6 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0fd6127da8d1..03ba3d0f4d3a 100644
+index 57480075550c..0fd6127da8d1 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1908,6 +1908,34 @@ static void nvme_set_chunk_sectors(struct nvme_ns *ns, struct nvme_id_ns *id)
- 	blk_queue_chunk_sectors(ns->queue, iob);
- }
- 
-+static int nvme_update_ns_info_cs_indep(struct nvme_ns *ns,
-+					struct nvme_id_ns_cs_indep *id)
-+{
-+	blk_mq_freeze_queue(ns->disk->queue);
-+	nvme_set_queue_limits(ns->ctrl, ns->queue);
-+	set_disk_ro(ns->disk, (id->nsattr & NVME_NS_ATTR_RO) ||
-+		test_bit(NVME_NS_FORCE_RO, &ns->flags));
-+	blk_mq_unfreeze_queue(ns->disk->queue);
-+
-+	if (nvme_ns_head_multipath(ns->head)) {
-+		blk_mq_freeze_queue(ns->head->disk->queue);
-+		set_disk_ro(ns->head->disk,
-+			    (id->nsattr & NVME_NS_ATTR_RO) ||
-+				    test_bit(NVME_NS_FORCE_RO, &ns->flags));
-+		nvme_mpath_revalidate_paths(ns);
-+		blk_stack_limits(&ns->head->disk->queue->limits,
-+				 &ns->queue->limits, 0);
-+		ns->head->disk->flags |= GENHD_FL_HIDDEN;
-+		blk_mq_unfreeze_queue(ns->head->disk->queue);
-+	}
-+
-+	/* Hide the block-interface for these devices */
-+	ns->disk->flags |= GENHD_FL_HIDDEN;
-+	set_bit(NVME_NS_READY, &ns->flags);
-+
-+	return 0;
-+}
-+
- static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_id_ns *id)
- {
- 	unsigned lbaf = nvme_lbaf_index(id->flbas);
-@@ -3951,15 +3979,29 @@ static void nvme_ns_add_to_ctrl_list(struct nvme_ns *ns)
- }
- 
- static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
--		struct nvme_ns_ids *ids)
-+		struct nvme_ns_ids *ids, struct nvme_id_ns_cs_indep *indep_id)
- {
-+	int ret = 0;
- 	struct nvme_ns *ns;
- 	struct gendisk *disk;
--	struct nvme_id_ns *id;
-+	struct nvme_id_ns *id = NULL;
- 	int node = ctrl->numa_node;
-+	__u8 *nmic;
-+	__le32 *anagrpid;
- 
--	if (nvme_identify_ns(ctrl, nsid, ids, &id))
--		return;
-+	switch (ids->csi) {
-+	case NVME_CSI_NVM:
-+	case NVME_CSI_ZNS:
-+		if (nvme_identify_ns(ctrl, nsid, ids, &id))
-+			return;
-+		nmic = &id->nmic;
-+		anagrpid = &id->anagrpid;
-+		break;
-+	default:
-+		nmic = &indep_id->nmic;
-+		anagrpid = &indep_id->anagrpid;
-+		break;
-+	}
- 
- 	ns = kzalloc_node(sizeof(*ns), GFP_KERNEL, node);
- 	if (!ns)
-@@ -3984,7 +4026,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
- 	ns->ctrl = ctrl;
- 	kref_init(&ns->kref);
- 
--	if (nvme_init_ns_head(ns, nsid, ids, id->nmic & NVME_NS_NMIC_SHARED))
-+	if (nvme_init_ns_head(ns, nsid, ids, *nmic & NVME_NS_NMIC_SHARED))
- 		goto out_cleanup_disk;
- 
- 	/*
-@@ -4010,7 +4052,16 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
- 			ns->head->instance);
- 	}
- 
--	if (nvme_update_ns_info(ns, id))
-+	switch (ids->csi) {
-+	case NVME_CSI_NVM:
-+	case NVME_CSI_ZNS:
-+		ret = nvme_update_ns_info(ns, id);
-+		break;
-+	default:
-+		ret = nvme_update_ns_info_cs_indep(ns, indep_id);
-+		break;
-+	}
-+	if (ret)
- 		goto out_unlink_ns;
- 
- 	down_write(&ctrl->namespaces_rwsem);
-@@ -4024,11 +4075,10 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
+@@ -4024,7 +4024,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
  	if (!nvme_ns_head_multipath(ns->head))
  		nvme_add_ns_cdev(ns);
  
--	nvme_mpath_add_disk(ns, id->anagrpid);
-+	nvme_mpath_add_disk(ns, *anagrpid);
+-	nvme_mpath_add_disk(ns, id);
++	nvme_mpath_add_disk(ns, id->anagrpid);
  	nvme_fault_inject_init(&ns->fault_inject, ns->disk->disk_name);
--	kfree(id);
+ 	kfree(id);
  
--	return;
-+	goto out_free_id;
- 
-  out_cleanup_ns_from_list:
- 	nvme_put_ctrl(ctrl);
-@@ -4106,29 +4156,32 @@ static void nvme_ns_remove_by_nsid(struct nvme_ctrl *ctrl, u32 nsid)
- 	}
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index d3e2440d8abb..94dba4eab4fb 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -800,16 +800,16 @@ static int nvme_lookup_ana_group_desc(struct nvme_ctrl *ctrl,
+ 	return -ENXIO; /* just break out of the loop */
  }
  
--static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_ids *ids)
-+static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_ids *ids,
-+			     struct nvme_id_ns_cs_indep *indep_id)
+-void nvme_mpath_add_disk(struct nvme_ns *ns, struct nvme_id_ns *id)
++void nvme_mpath_add_disk(struct nvme_ns *ns, __le32 anagrpid)
  {
--	struct nvme_id_ns *id;
-+	struct nvme_id_ns *id = NULL;
- 	int ret = NVME_SC_INVALID_NS | NVME_SC_DNR;
+ 	if (nvme_ctrl_use_ana(ns->ctrl)) {
+ 		struct nvme_ana_group_desc desc = {
+-			.grpid = id->anagrpid,
++			.grpid = anagrpid,
+ 			.state = 0,
+ 		};
  
- 	if (test_bit(NVME_NS_DEAD, &ns->flags))
- 		goto out;
- 
--	ret = nvme_identify_ns(ns->ctrl, ns->head->ns_id, ids, &id);
--	if (ret)
--		goto out;
--
--	ret = NVME_SC_INVALID_NS | NVME_SC_DNR;
--	if (!nvme_ns_ids_equal(&ns->head->ids, ids)) {
--		dev_err(ns->ctrl->device,
--			"identifiers changed for nsid %d\n", ns->head->ns_id);
--		goto out_free_id;
-+	switch (ids->csi) {
-+	case NVME_CSI_NVM:
-+	case NVME_CSI_ZNS:
-+		if (nvme_identify_ns(ns->ctrl, ns->head->ns_id, ids, &id))
-+			goto out;
-+		if (!nvme_ns_ids_equal(&ns->head->ids, ids))
-+			dev_err(ns->ctrl->device,
-+				"identifiers changed for nsid %d\n", ns->head->ns_id);
-+		else
-+			ret = nvme_update_ns_info(ns, id);
-+		kfree(id);
-+		break;
-+	default:
-+		ret = nvme_update_ns_info_cs_indep(ns, indep_id);
-+		break;
- 	}
- 
--	ret = nvme_update_ns_info(ns, id);
--
--out_free_id:
--	kfree(id);
- out:
- 	/*
- 	 * Only remove the namespace if we got a fatal error back from the
-@@ -4143,36 +4196,34 @@ static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_ids *ids)
- static void nvme_validate_or_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 		mutex_lock(&ns->ctrl->ana_lock);
+-		ns->ana_grpid = le32_to_cpu(id->anagrpid);
++		ns->ana_grpid = le32_to_cpu(anagrpid);
+ 		nvme_parse_ana_log(ns->ctrl, &desc, nvme_lookup_ana_group_desc);
+ 		mutex_unlock(&ns->ctrl->ana_lock);
+ 		if (desc.state) {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index e4612dd0b420..5dac319f9b7c 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -836,7 +836,7 @@ void nvme_mpath_default_iopolicy(struct nvme_subsystem *subsys);
+ void nvme_failover_req(struct request *req);
+ void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl);
+ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl,struct nvme_ns_head *head);
+-void nvme_mpath_add_disk(struct nvme_ns *ns, struct nvme_id_ns *id);
++void nvme_mpath_add_disk(struct nvme_ns *ns, __le32 anagrpid);
+ void nvme_mpath_remove_disk(struct nvme_ns_head *head);
+ int nvme_mpath_init_identify(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id);
+ void nvme_mpath_init_ctrl(struct nvme_ctrl *ctrl);
+@@ -878,8 +878,7 @@ static inline int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl,
  {
- 	struct nvme_ns_ids ids = { };
--	struct nvme_id_ns_cs_indep *id;
-+	struct nvme_id_ns_cs_indep *id_indep;
- 	struct nvme_ns *ns;
--	bool ready = true;
- 
- 	if (nvme_identify_ns_descs(ctrl, nsid, &ids))
- 		return;
- 
-+	if (nvme_identify_ns_cs_indep(ctrl, nsid, &id_indep))
-+		return;
-+
- 	/*
- 	 * Check if the namespace is ready.  If not ignore it, we will get an
- 	 * AEN once it becomes ready and restart the scan.
- 	 */
--	if ((ctrl->cap & NVME_CAP_CRMS_CRIMS) &&
--	    !nvme_identify_ns_cs_indep(ctrl, nsid, &id)) {
--		ready = id->nstat & NVME_NSTAT_NRDY;
--		kfree(id);
-+	if (ctrl->cap & NVME_CAP_CRMS_CRIMS) {
-+		if (!(id_indep->nstat & NVME_NSTAT_NRDY))
-+			goto free_id_indep;
- 	}
- 
--	if (!ready)
--		return;
--
- 	ns = nvme_find_get_ns(ctrl, nsid);
- 	if (ns) {
--		nvme_validate_ns(ns, &ids);
-+		nvme_validate_ns(ns, &ids, id_indep);
- 		nvme_put_ns(ns);
--		return;
-+		goto free_id_indep;
- 	}
- 
- 	switch (ids.csi) {
- 	case NVME_CSI_NVM:
--		nvme_alloc_ns(ctrl, nsid, &ids);
-+		nvme_alloc_ns(ctrl, nsid, &ids, id_indep);
- 		break;
- 	case NVME_CSI_ZNS:
- 		if (!IS_ENABLED(CONFIG_BLK_DEV_ZONED)) {
-@@ -4187,13 +4238,16 @@ static void nvme_validate_or_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 				nsid);
- 			break;
- 		}
--		nvme_alloc_ns(ctrl, nsid, &ids);
-+		nvme_alloc_ns(ctrl, nsid, &ids, id_indep);
- 		break;
- 	default:
--		dev_warn(ctrl->device, "unknown csi %u for nsid %u\n",
--			ids.csi, nsid);
-+		/* required to enable char-interface for unknown command sets*/
-+		nvme_alloc_ns(ctrl, nsid, &ids, id_indep);
- 		break;
- 	}
-+
-+free_id_indep:
-+	kfree(id_indep);
+ 	return 0;
  }
- 
- static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+-static inline void nvme_mpath_add_disk(struct nvme_ns *ns,
+-		struct nvme_id_ns *id)
++static inline void nvme_mpath_add_disk(struct nvme_ns *ns, __le32 anagrpid)
+ {
+ }
+ static inline void nvme_mpath_remove_disk(struct nvme_ns_head *head)
 -- 
 2.30.2
 
