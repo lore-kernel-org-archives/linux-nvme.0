@@ -4,116 +4,119 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40507C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jun 2022 08:51:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F13A5CCA47D
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jun 2022 08:51:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Transfer-Encoding:MIME-Version:Content-Type:Message-ID:Date:Subject:
-	CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=MmihwmOTyXvlrD0efFf+lxQN3G5RZjx22J4qKk21eUw=; b=vLmcyJDeB2yHkWC7jAvF3QNcPJ
-	UcesAUcslLuqZE2pPGcTNnAmjP1qQOUbKThcCfwx+yY8rFWLpsOWHpclqsEZwr0AkfTNzg59vmojt
-	6PcW/cxIs83lwfMgJQSBj7q5kS+Cb5OzgDgjJ+4pquhggkCU00wqP248vQNk7IkzDkmqBl+IlOeyi
-	M9UgHFbOtGKqwUnGdbsW0RMrrOuC15jObTMYvYEZiBGm/g2NB7B6jioOd9h1JKw0Moksc7oj/GwjZ
-	TWwyEwi2BvzAFzpkgZ2RU8jD+yLWU2S9PkRtiA5YXiW1HRh5TS6F/XB9BIg8xfpEMbwTkLVRtR/YO
-	AIRVNJEg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-ID:Date:Subject:CC
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=qFlyfKRVMdPmSJYFb4HJbjx3JXgjlRCIl94brJ6Ls/0=; b=VkPoITH+3a31vfr5UV4Wbps51c
+	aMLsL0xlSkk182aUrr/ZQ7eKw5YvQBzJmRwKie2RvDrPpdX/LJ0/uACRs1Biteb0P+8xGWCbs4xzp
+	fEA3YPRsfp+oYrO0MJ7RLFY9gpjzSwOfalME3e7CM0iwP50OOzOJPlGnQTQd0ySxAec99utVJoXUH
+	uI0GQZGZbmqCzU6Oaervd6p7l392ubo8u6fE4llQT8bEdwINLQ2DVdkL7P1amwZKcJFD7fA9pRXeA
+	GvxpuqIDlgth19nJxXv5ZbuAnZ349dcLjC6t4E1Nm5OIyjpGOKfMrdMeXENBiYdAmMMxw5lEznNkU
+	MVTr4ITg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3w5D-009MGH-5j; Wed, 22 Jun 2022 08:51:31 +0000
-Received: from mailout1.w1.samsung.com ([210.118.77.11])
+	id 1o3w5J-009MH2-GA; Wed, 22 Jun 2022 08:51:37 +0000
+Received: from mailout2.w1.samsung.com ([210.118.77.12])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o3w59-009MFZ-LU
-	for linux-nvme@lists.infradead.org; Wed, 22 Jun 2022 08:51:29 +0000
+	id 1o3w59-009MFd-RD
+	for linux-nvme@lists.infradead.org; Wed, 22 Jun 2022 08:51:31 +0000
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20220622085123euoutp013f9fab70e1c46fb1de6d677b97b2c3b2~65UHIShl-0657406574euoutp014
-	for <linux-nvme@lists.infradead.org>; Wed, 22 Jun 2022 08:51:23 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20220622085123euoutp013f9fab70e1c46fb1de6d677b97b2c3b2~65UHIShl-0657406574euoutp014
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20220622085124euoutp0209975bb87ab44db75f20fc49cebeb662~65UITCwOZ1813718137euoutp02i
+	for <linux-nvme@lists.infradead.org>; Wed, 22 Jun 2022 08:51:24 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20220622085124euoutp0209975bb87ab44db75f20fc49cebeb662~65UITCwOZ1813718137euoutp02i
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1655887883;
-	bh=MmihwmOTyXvlrD0efFf+lxQN3G5RZjx22J4qKk21eUw=;
-	h=From:To:CC:Subject:Date:References:From;
-	b=qTgLSEwieyHY9d5ZQ30YAphx7fBvZ3RrLyOsHHGF77GkGMg9zRoS15i3J2rRBTXcD
-	 yoPrQsfec6T/C575F4wkzh6KOxgM+kQgPqCk6q+r01SDZJkRZG+nyc3iwH7WDp2x0t
-	 7DGT7e2fybAZ5CmcfvnqeEL+iVek4yrvUJ/ukzro=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20220622085123eucas1p1c211ff5adf02ce5bdac60e5c080311d4~65UG_J6iC2639126391eucas1p1G;
-	Wed, 22 Jun 2022 08:51:23 +0000 (GMT)
+	s=mail20170921; t=1655887885;
+	bh=qFlyfKRVMdPmSJYFb4HJbjx3JXgjlRCIl94brJ6Ls/0=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+	b=WSBSYfPxmpqLyofnmW/ITKjameGXWv1hvpWmW4l20iNpmTCkZTIJ0ZSotzinY3FEO
+	 iuP9O9rqI7+ZHesLNxIHqrnM7YDMOOuklDiE3pbzJlzbyomj2A52S1DjXKLxu/RiZm
+	 0CvdNx7dYp0A/dVjdbbFasvFeLJ1n2EquTZGtEcc=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20220622085124eucas1p2087c64e886bbd0380ec3b9ae6decd1c1~65UIMJiGV2752627526eucas1p27;
+	Wed, 22 Jun 2022 08:51:24 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges2new.samsung.com (EUCPMTA) with SMTP id 17.B8.10067.B08D2B26; Wed, 22
-	Jun 2022 09:51:23 +0100 (BST)
+	eusmges3new.samsung.com (EUCPMTA) with SMTP id 71.06.09580.C08D2B26; Wed, 22
+	Jun 2022 09:51:24 +0100 (BST)
 Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
 	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20220622085123eucas1p25f724850a5397fa90a0e26eb4d5af92f~65UGo01l71041110411eucas1p2y;
-	Wed, 22 Jun 2022 08:51:23 +0000 (GMT)
+	20220622085124eucas1p24243c811046ef1da9d10212077ac8cc0~65UHw1Yhc2763127631eucas1p2Q;
+	Wed, 22 Jun 2022 08:51:24 +0000 (GMT)
 Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
 	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20220622085123eusmtrp2e2c778d8d71f2543e9850eef14f2cadb~65UGoCdqV0824208242eusmtrp2o;
-	Wed, 22 Jun 2022 08:51:23 +0000 (GMT)
-X-AuditID: cbfec7f4-dc1ff70000002753-c4-62b2d80b3413
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-	eusmgms1.samsung.com (EUCPMTA) with SMTP id 3C.A6.09095.B08D2B26; Wed, 22
-	Jun 2022 09:51:23 +0100 (BST)
+	20220622085124eusmtrp2eae605691f9be938ccc5344a3a38dbd8~65UHwFmXB0824208242eusmtrp2q;
+	Wed, 22 Jun 2022 08:51:24 +0000 (GMT)
+X-AuditID: cbfec7f5-9adff7000000256c-9c-62b2d80c1386
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id 4D.A6.09095.C08D2B26; Wed, 22
+	Jun 2022 09:51:24 +0100 (BST)
 Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20220622085123eusmtip27df81f7032ad83b74c7ebcf32c550ab0~65UGfUiqO0387003870eusmtip2G;
-	Wed, 22 Jun 2022 08:51:23 +0000 (GMT)
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20220622085124eusmtip186aac44a4782735f76b50d51c84684e0~65UHnKSf30900009000eusmtip1B;
+	Wed, 22 Jun 2022 08:51:24 +0000 (GMT)
 Received: from localhost (106.110.32.33) by CAMSVWEXC02.scsc.local
 	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Wed, 22 Jun 2022 09:51:22 +0100
+	Wed, 22 Jun 2022 09:51:23 +0100
 From: Joel Granados <j.granados@samsung.com>
 To: <hch@lst.de>, <kbusch@kernel.org>
-CC: <linux-nvme@lists.infradead.org>
-Subject: [PATCH 0/1] nvme: Remove unused enum constants in nvme.h
-Date: Wed, 22 Jun 2022 10:48:58 +0200
-Message-ID: <20220622084859.1937878-1-j.granados@samsung.com>
+CC: <linux-nvme@lists.infradead.org>, Joel Granados <j.granados@samsung.com>
+Subject: [PATCH 1/1] nvme: Remove unused enum constants
+Date: Wed, 22 Jun 2022 10:48:59 +0200
+Message-ID: <20220622084859.1937878-2-j.granados@samsung.com>
 X-Mailer: git-send-email 2.30.2
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20220622084859.1937878-1-j.granados@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [106.110.32.33]
-X-ClientProxiedBy: CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348) To
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
 	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrPIsWRmVeSWpSXmKPExsWy7djPc7rcNzYlGRxslrVYufook8WkQ9cY
-	LeYve8ruwOyxaVUnm8fmJfUeu282sAUwR3HZpKTmZJalFunbJXBldO02LejmqJj//xhLA+Ml
-	ti5GDg4JAROJfw+Nuxi5OIQEVjBKzH12lg3C+cIo0fF4ESOE85lR4tK37cxdjJxgHU/nTYOq
-	Ws4osW3zX3a4qtcnd0NlNjNKLHj6iAmkhU1AR+L8mzvMIAtFBFQl9rXYgoSZBVQktt+4DlYi
-	LOAoselQC9hNLEAlh5p0QcK8ArYSr/7PYoFYLC/Rdn06I0gJs4CmxPpd+hAlghInZz5hgZgo
-	L9G8dTbUnYoSW+Z8Z4WwayX2Nh8AO1NCYCGHRMvCN4wQCReJr1/+sUPYwhKvjm+BsmUk/u+c
-	zwRhZ0vsnLILamiBxKyTU6FBZy3RdyYHIuwosXdtHytEmE/ixltBiHP4JCZtm84MEeaV6GgT
-	gqhWk9jRtJVxAqPyLIRfZiH5ZRaSXxYwMq9iFE8tLc5NTy02ykst1ytOzC0uzUvXS87P3cQI
-	TBOn/x3/soNx+auPeocYmTgYDzFKcDArifDacG9IEuJNSaysSi3Kjy8qzUktPsQozcGiJM6b
-	nLkhUUggPbEkNTs1tSC1CCbLxMEp1cBU+itiW8BMoTXx2+WnfNywbUPe4/zVqkI/mQt4v0/R
-	k5u9sPl+Kec69uNq574eTD/58vmNH5I5tuoWs/5oH935KMvw0i+mOn/dk93Xc89OzeuV93db
-	aH7WStkmTCVgwuafmZtefVy/UWyGtJ+LXRETi+NK2/MZu3s2H9i54q2px46H8z12X/49c5GH
-	Zyx/jcR7fq6/x0Vuq32/93u9Wu/mZc/1lm+sWH7y31Hlfrcn15dmFDIVW852+51/0S+0qjba
-	q5D9u5/ja9/lszukAyRW2+wOFdcNN154cHsD44Mj97a/rKhKeBtZX/3aaIGUb6UUr1x20dGe
-	1lv32qrWshfvivn6i/mt7c3/F2VnzC2wUmIpzkg01GIuKk4EAGZ3Pf6CAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpkkeLIzCtJLcpLzFFi42I5/e/4PV3uG5uSDB4fY7NYufook8WkQ9cY
-	LeYve8ruwOyxaVUnm8fmJfUeu282sAUwR+nZFOWXlqQqZOQXl9gqRRtaGOkZWlroGZlY6hka
-	m8daGZkq6dvZpKTmZJalFunbJehldO02LejmqJj//xhLA+Mlti5GTg4JAROJp/OmgdlCAksZ
-	Je69CISIy0h8uvKRHcIWlvhzrQuohguo5iOjxJ+ta6GczYwSN069YgapYhPQkTj/5g6QzcEh
-	IqAqsa/FFiTMLKAisf3GdSYQW1jAUWLToRY2kBIWoJJDTbogYV4BW4lX/2exQOySl2i7Pp0R
-	pIRZQFNi/S59iBJBiZMzn7BATJSXaN46mxmiXFFiy5zvrBB2rUTnq9NsExiFZiF0z0LSPQtJ
-	9wJG5lWMIqmlxbnpucWGesWJucWleel6yfm5mxiBcbHt2M/NOxjnvfqod4iRiYPxEKMEB7OS
-	CK8N94YkId6UxMqq1KL8+KLSnNTiQ4ymQM9MZJYSTc4HRmZeSbyhmYGpoYmZpYGppZmxkjiv
-	Z0FHopBAemJJanZqakFqEUwfEwenVAOT4iFLZ9kJFTk5lzbc6GdmNPl2WffjwV9FnjdTmaNC
-	dkxx5XpbddZW4VnU8d3KjP8W8vx1/zn3jnAq5+Or2qXmr3v/cOmscp32RK1smuXJ9s973U9W
-	bmX97qfy/6bCX8P1zw9J7A+6dkGvR2H/ZqNKY0aJJ/Ys1TJVfGsP6assPeleUl5uU/otN/Zp
-	uH9QwFwbqzinWPukxh2sjgEljEmnuj8yHPN512dZ5PHvG//7JXc2xEyTrEvYH+e202O7u2Hr
-	8yfaRySmK864YGG4W1vu0/r8BTlHpj+0kKwuLeOsSOH1D5lycYpxyLaKRfVrA19J6Pjrrcwr
-	+RnN+L7Y1CyNR/l70Ndqxh+/r7+w2aLEUpyRaKjFXFScCAB/vhGhFAMAAA==
-X-CMS-MailID: 20220622085123eucas1p25f724850a5397fa90a0e26eb4d5af92f
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrCIsWRmVeSWpSXmKPExsWy7djPc7o8NzYlGbxq1bFYufook8WkQ9cY
+	LeYve8ruwOyxaVUnm8fmJfUeu282sAUwR3HZpKTmZJalFunbJXBl3P56l7XghETF9LtNbA2M
+	J4S7GDk5JARMJM496GDqYuTiEBJYwSix/+QXVgjnC6PEzK9zoZzPjBLdB78xwbScerCcDSKx
+	nFHi0Y3pLHBV27cfYIZwNjNK7G59wA7SwiagI3H+zR2gBAeHiICqxL4WW5Aws4CPxM9ph5lB
+	bGEBc4nlD6cxgtgsQCX3X/WBxXkFbCW62h+yQWyWl2i7Ph2shlPATmL1yh9MEDWCEidnPmGB
+	mCkv0bx1NjOELSFx8MULZoheRYktc76zQti1Eqe23AJ7WkLgAIfE5Ym7oV5zkdjzto0RwhaW
+	eHV8CzuELSPxf+d8qJpsiZ1TdkENLZCYdXIqG8hfEgLWEn1nciDCjhIHzm1jggjzSdx4Kwhx
+	Dp/EpG3TmSHCvBIdbUITGFVmIXlgFpIHZiF5YAEj8ypG8dTS4tz01GLjvNRyveLE3OLSvHS9
+	5PzcTYzAhHH63/GvOxhXvPqod4iRiYPxEKMEB7OSCK8N94YkId6UxMqq1KL8+KLSnNTiQ4zS
+	HCxK4rzJmRsShQTSE0tSs1NTC1KLYLJMHJxSDUxhYd47Jk/TDjvLd6wuynnLnlpVweonOptf
+	3jC3OiOnqlbLYe3w1nPpZIFdvNM7v9ZsP2T09MKCh1VW/mLuBtKM3fEzJLiywr9m/fCcd+3k
+	yj8eJ52rTvSxXQ1kcJPr9e1+WpiU+iB/Yo7mpyl82iKna5dfPaS8YdZarVeFezwX6v/ee+u4
+	r0n+5roTE5T4ivmufjhhvtLS7XzppScr/fYHSzDfe1D0bklLSdHHQDuh8A2lZ03di/cHqocd
+	YvwyW+y4nVt0raP3vwVP9SXWVMuWNAl+mVPHkmhxlTn2buqJwoI6ga61Gp7P0uIj/wteOHPi
+	yn6DW1acTef/Nii2+c40KFsT3LXoA7eX7ZejK5RYijMSDbWYi4oTAUKefWiHAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprHIsWRmVeSWpSXmKPExsVy+t/xu7o8NzYlGTR0ClusXH2UyWLSoWuM
+	FvOXPWV3YPbYtKqTzWPzknqP3Tcb2AKYo/RsivJLS1IVMvKLS2yVog0tjPQMLS30jEws9QyN
+	zWOtjEyV9O1sUlJzMstSi/TtEvQybn+9y1pwQqJi+t0mtgbGE8JdjJwcEgImEqceLGfrYuTi
+	EBJYyijx+v1RNoiEjMSnKx/ZIWxhiT/XuqCKPjJKdDb/ZIdwNjNKdEw6DFbFJqAjcf7NHeYu
+	Rg4OEQFViX0ttiBhZgEfiZ/TDjOD2MIC5hLLH05jBLFZgEruv+oDi/MK2Ep0tT+EWiwv0XZ9
+	OlgNp4CdxOqVP5hAbCGgmjuN+9gg6gUlTs58wgIxX16ieetsZghbQuLgixfMEHMUJbbM+c4K
+	YddKfP77jHECo8gsJO2zkLTPQtK+gJF5FaNIamlxbnpusaFecWJucWleul5yfu4mRmBEbTv2
+	c/MOxnmvPuodYmTiYDzEKMHBrCTCa8O9IUmINyWxsiq1KD++qDQntfgQoynQnxOZpUST84Ex
+	nVcSb2hmYGpoYmZpYGppZqwkzutZ0JEoJJCeWJKanZpakFoE08fEwSnVwDT3BafUGTPmjOOz
+	PBxWSx268+rz/iAv094Feznkfl74FqlinSr9OrpTvchEpfEgm4H7E8PIZ9ZtOuv04u5fOhdy
+	dtP9s9L88xy+xLy9/FpnXkr1xbodYvo5zyVibl3MXrCu38fHdr5X5PUFFUf0627zr+i5cv+F
+	SeK9J8UX5I/1cHfd7zZ1aHz+oveHp/iHuqMsi9quyH8yZVmaWBt91+ns+0D3f3HbjxSr7NpV
+	/X2PvOuliEa9okmCijxnHawvvZVl6i2QeVVYGtn26p3y/grJZe39vA8nvtr1w49PLOZ5i/sV
+	tx3xT5tbNTq9fnLk3nXu+9l9bcqGJ62x2rtn9VyaFPqxqvTmxA0fl505+V+JpTgj0VCLuag4
+	EQDmE8EwMQMAAA==
+X-CMS-MailID: 20220622085124eucas1p24243c811046ef1da9d10212077ac8cc0
 X-Msg-Generator: CA
-X-RootMTR: 20220622085123eucas1p25f724850a5397fa90a0e26eb4d5af92f
+X-RootMTR: 20220622085124eucas1p24243c811046ef1da9d10212077ac8cc0
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20220622085123eucas1p25f724850a5397fa90a0e26eb4d5af92f
-References: <CGME20220622085123eucas1p25f724850a5397fa90a0e26eb4d5af92f@eucas1p2.samsung.com>
+X-CMS-RootMailID: 20220622085124eucas1p24243c811046ef1da9d10212077ac8cc0
+References: <20220622084859.1937878-1-j.granados@samsung.com>
+	<CGME20220622085124eucas1p24243c811046ef1da9d10212077ac8cc0@eucas1p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220622_015128_168419_E4A5EEA1 
-X-CRM114-Status: GOOD (  12.53  )
+X-CRM114-CacheID: sfid-20220622_015128_193187_154CCB8C 
+X-CRM114-Status: GOOD (  11.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -128,32 +131,95 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-While working in include/linux/nvme.h, I noticed that there are enum
-constants that are not being used by the kernel. They are also not included
-in any UAPI directory. These variables were synced to keep up with nvme-cli
-in 48c9e85b2346 ("nvme: resync include/linux/nvme.h with nvmecli"). Since
+These variables were synced to keep up with nvme-cli in
+48c9e85b2346 ("nvme: resync include/linux/nvme.h with nvmecli"). Since
 nvme-cli now uses libnvme which defines all the structures within itself,
 there is no need to synchronize any longer.
 
-There have been discussions to introduce functionality into the kernel that
-use some of these variables like in
-https://lore.kernel.org/all/1558278418-5702-1-git-send-email-akinobu.mita@gmail.com/
-but to my knowledge they have not made it upstream.
-
-This patch removes the enumerations that are not being used within the
-kernel.
-
-Please get back to me if I have missed something and these variables are
-indeed being used.
-
-Best
-
-Joel Granados (1):
-  nvme: Remove unused enum constants
-
+Signed-off-by: Joel Granados <j.granados@samsung.com>
+---
  include/linux/nvme.h | 32 --------------------------------
  1 file changed, 32 deletions(-)
 
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 29ec3e3481ff..71d7d6afc56a 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -129,24 +129,10 @@ enum {
+ 	NVME_REG_ACQ	= 0x0030,	/* Admin CQ Base Address */
+ 	NVME_REG_CMBLOC	= 0x0038,	/* Controller Memory Buffer Location */
+ 	NVME_REG_CMBSZ	= 0x003c,	/* Controller Memory Buffer Size */
+-	NVME_REG_BPINFO	= 0x0040,	/* Boot Partition Information */
+-	NVME_REG_BPRSEL	= 0x0044,	/* Boot Partition Read Select */
+-	NVME_REG_BPMBL	= 0x0048,	/* Boot Partition Memory Buffer
+-					 * Location
+-					 */
+ 	NVME_REG_CMBMSC = 0x0050,	/* Controller Memory Buffer Memory
+ 					 * Space Control
+ 					 */
+ 	NVME_REG_CRTO	= 0x0068,	/* Controller Ready Timeouts */
+-	NVME_REG_PMRCAP	= 0x0e00,	/* Persistent Memory Capabilities */
+-	NVME_REG_PMRCTL	= 0x0e04,	/* Persistent Memory Region Control */
+-	NVME_REG_PMRSTS	= 0x0e08,	/* Persistent Memory Region Status */
+-	NVME_REG_PMREBS	= 0x0e0c,	/* Persistent Memory Region Elasticity
+-					 * Buffer Size
+-					 */
+-	NVME_REG_PMRSWTP = 0x0e10,	/* Persistent Memory Region Sustained
+-					 * Write Throughput
+-					 */
+ 	NVME_REG_DBS	= 0x1000,	/* SQ 0 Tail Doorbell */
+ };
+ 
+@@ -369,14 +355,7 @@ enum {
+ 	NVME_CTRL_OACS_DIRECTIVES		= 1 << 5,
+ 	NVME_CTRL_OACS_DBBUF_SUPP		= 1 << 8,
+ 	NVME_CTRL_LPA_CMD_EFFECTS_LOG		= 1 << 1,
+-	NVME_CTRL_CTRATT_128_ID			= 1 << 0,
+-	NVME_CTRL_CTRATT_NON_OP_PSP		= 1 << 1,
+ 	NVME_CTRL_CTRATT_NVM_SETS		= 1 << 2,
+-	NVME_CTRL_CTRATT_READ_RECV_LVLS		= 1 << 3,
+-	NVME_CTRL_CTRATT_ENDURANCE_GROUPS	= 1 << 4,
+-	NVME_CTRL_CTRATT_PREDICTABLE_LAT	= 1 << 5,
+-	NVME_CTRL_CTRATT_NAMESPACE_GRANULARITY	= 1 << 7,
+-	NVME_CTRL_CTRATT_UUID_LIST		= 1 << 9,
+ };
+ 
+ struct nvme_lbaf {
+@@ -508,9 +487,6 @@ enum {
+ 	NVME_ID_CNS_NS_PRESENT		= 0x11,
+ 	NVME_ID_CNS_CTRL_NS_LIST	= 0x12,
+ 	NVME_ID_CNS_CTRL_LIST		= 0x13,
+-	NVME_ID_CNS_SCNDRY_CTRL_LIST	= 0x15,
+-	NVME_ID_CNS_NS_GRANULARITY	= 0x16,
+-	NVME_ID_CNS_UUID_LIST		= 0x17,
+ };
+ 
+ enum {
+@@ -639,7 +615,6 @@ enum {
+ 	NVME_CMD_EFFECTS_NIC		= 1 << 3,
+ 	NVME_CMD_EFFECTS_CCC		= 1 << 4,
+ 	NVME_CMD_EFFECTS_CSE_MASK	= 3 << 16,
+-	NVME_CMD_EFFECTS_UUID_SEL	= 1 << 19,
+ };
+ 
+ struct nvme_effects_log {
+@@ -1185,16 +1160,9 @@ enum {
+ 	NVME_LOG_FW_SLOT	= 0x03,
+ 	NVME_LOG_CHANGED_NS	= 0x04,
+ 	NVME_LOG_CMD_EFFECTS	= 0x05,
+-	NVME_LOG_DEVICE_SELF_TEST = 0x06,
+-	NVME_LOG_TELEMETRY_HOST = 0x07,
+-	NVME_LOG_TELEMETRY_CTRL = 0x08,
+-	NVME_LOG_ENDURANCE_GROUP = 0x09,
+ 	NVME_LOG_ANA		= 0x0c,
+ 	NVME_LOG_DISC		= 0x70,
+-	NVME_LOG_RESERVATION	= 0x80,
+ 	NVME_FWACT_REPL		= (0 << 3),
+-	NVME_FWACT_REPL_ACTV	= (1 << 3),
+-	NVME_FWACT_ACTV		= (2 << 3),
+ };
+ 
+ /* NVMe Namespace Write Protect State */
 -- 
 2.30.2
 
