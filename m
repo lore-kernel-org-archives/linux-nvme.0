@@ -4,77 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54D97C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jun 2022 12:35:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7FB1C43334
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jun 2022 13:11:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9C2GQ9Ulp1b6YnCrEsaBjrJIIvHLrjIzeIsR+q3+W/4=; b=ahF9bfNHe51QFeIWrd9L9UcCbH
-	9zQ7/PGK81f/qhy+GZ7Hy+bLZ7v7EKlGvM6+nbLsNPJixD/8dzbY7Q8+/cVQnqxIsgqNCeVjHBTAQ
-	UGLRPAi2U6gkVP70qZqE9LLsntiyMJx5uxKu7rUdsD8/ki1ZKNZRvHIwqtWbYXU0RRhKo/7WMdxgp
-	dovyNrZPk8yODNbRlfk9uZew31V+5ybraPI9mwAdzezVnX8zslLYUHXAK1/Tzk/NQefvP5bmUO+dG
-	Vl4z7wcY/fKhcNEdS+cIldPPf5gaNtTqmBfC3iF/uBzx7gi2mNiEnhw8RqXXWEws2mSlPPO87knWo
-	UtlQzfaw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=68nt+J0G/haWsaqcORubs5/O2GXyfdJNdDR4QR4VCKw=; b=0mIlvyK8qnruga78iTTazkejKw
+	HiLWF0qimWk0nm7uXF/bMBQGMAXW4d5ZVCQ/RhJgnm1MtNRrgBi97vbeJVGmRX0nVLIZejbBDuW0R
+	8u+w2i2XBBfYy0Aublb7BuePMqyxxcaNpCirzRh6d8/DW24jI+oSdXp2yrGZIPQpO/78lmi57vdvs
+	R4bYGg0Fu+5HnDHMoipmrX79ZyGp5Evcu+TnRm22yddx8MnsKZE8DUU5RBHBTAQOUiuMrO6LeDaqO
+	gfyAN8mN6gXO4SKYJrY4oNsYYZOnu5/BGgr+zliY+cXJA0rPGpbR4J+tJ6ismYZAppJ8TR2Ye0xhT
+	uaRLjMpg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4M3l-00F1hB-PI; Thu, 23 Jun 2022 12:35:45 +0000
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232])
+	id 1o4Mbz-00FHKK-97; Thu, 23 Jun 2022 13:11:07 +0000
+Received: from mail-pl1-f178.google.com ([209.85.214.178])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4M3i-00F1ft-FX
-	for linux-nvme@lists.infradead.org; Thu, 23 Jun 2022 12:35:44 +0000
-Received: by mail-oi1-x232.google.com with SMTP id l81so25095957oif.9
-        for <linux-nvme@lists.infradead.org>; Thu, 23 Jun 2022 05:35:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9C2GQ9Ulp1b6YnCrEsaBjrJIIvHLrjIzeIsR+q3+W/4=;
-        b=uWwKxXBkCKRdx3iYwLJ/8ZDvrYVoB+1GHBLAzaHcLIFDftA2voxjLWE9fOvlF7hbWf
-         V+RwaoZPlnBsfdKY8Vdj2DVWDnkjakZVkXl3OXUYsLvIyXCIGjxF8xk8sEYHPVbaxvfX
-         eP/6ABzpV+q1emtfZ9G1ACl5C5E3nM3X7Vy6CZaB1Wev1WP22+6Zuf1I/NNfu8WF6nmX
-         qGCLzFghklGXlb7vsEmczfxpG6SLdNpMt1wSiiiP7wCpaJKyb7L7LSbDcecxHU+lr2Hz
-         y4NFkZSVH9FwZ+tfLwliZaH6dNe4puApGNDUTMLT9gRn32wTabaVFBbaBvGWWun6wVi7
-         zkBQ==
+	id 1o4Mbu-00FHIl-4P
+	for linux-nvme@lists.infradead.org; Thu, 23 Jun 2022 13:11:06 +0000
+Received: by mail-pl1-f178.google.com with SMTP id d5so18104619plo.12
+        for <linux-nvme@lists.infradead.org>; Thu, 23 Jun 2022 06:11:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9C2GQ9Ulp1b6YnCrEsaBjrJIIvHLrjIzeIsR+q3+W/4=;
-        b=YUARjEUWtzXsVS6bJzr9KqE5V0gk40vkJfFVP8bru15N1M+BN24h4ATNvzzqBrbqZL
-         NTyPIHlQdLPD9g/tK8a9/P0zO8IMTDEjBap6pLRZZGCRc1kCp2epPDlpVD7ubajEksfy
-         YwZXabvkWO3aEShZq6Dyskb6hodtjwmMhtyqanxatSBckkKXmOET3xXDyWtBe3OKHUff
-         /jg23QTu8uTeFK5OC1j/gvNiyrfJd77DPI3/NYahlqjcrAHgnwEym3DL5EIh50uRpcWY
-         pLjeJqqiFzFH64SkfUyjlK2Cjh8zBYHTb269Vu1+/5wP1ZwtwcJAcmr76iUg/yD0tJcZ
-         qC0Q==
-X-Gm-Message-State: AJIora815SoRb85l8wQh/bn1kTUC4hsIng/zes7bq2/xv4y9c/d3gvmn
-	M4uatGwpS3LwU1+djSDtpp9r7HyrgXd6RJUP5STsRw==
-X-Google-Smtp-Source: AGRyM1secqzIdgl7cxbYNYLOKT6GhxiDbyKH487w1NGSVALpBPVoYlvm20+0dnzElQ/psyzuKl8Fae9I+yA8danUhUU=
-X-Received: by 2002:a05:6808:1a06:b0:32f:1a3b:69d6 with SMTP id
- bk6-20020a0568081a0600b0032f1a3b69d6mr2015631oib.202.1655987737098; Thu, 23
- Jun 2022 05:35:37 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=68nt+J0G/haWsaqcORubs5/O2GXyfdJNdDR4QR4VCKw=;
+        b=YhXIEx4D0ItwCrwgcfWZ6ssdQz1fSNKObnbUqIEm4ZS17tZCsbLTMH3TIPoU3Dau3B
+         IXyztxGfAoBOLvVQUbCQ05yZzSPoVC58vWX3T4ahMigys8PUqc87nUtUIbXp7ybmKfXv
+         TKDTjyfvkhbVheaJIQbjYT7s6vSxQh6tFBCUGVrAA63BiP7rdjduVq/YEpnB12OnQ3sl
+         vWh4kB3cCYV9a8yqFjMQpvfQ0ulHsUiTMx/oXcuM2Dc+GdfJQrSq2hfWpObT6VMXHvbE
+         NNW14PxyEcvsRNiELVivQyrBsqUzzm9vLmv0+32C9EpWPtCgq0iaof4K1/opAqO+Pu7p
+         sLBA==
+X-Gm-Message-State: AJIora9VzuNMWA9r7Wy23llO0TxiOF+jquYpPjr1UQpVezgter+tyrY1
+	gj2AKCtqUX9Yj2APw2SfZsk=
+X-Google-Smtp-Source: AGRyM1ug8aOaBKwK2eQ4pDHsrijU8aBX0RbI1irUvRXGrh/3bVzmBklJ17kBxFIfIHeCUSDk8qqjYg==
+X-Received: by 2002:a17:90b:4c8a:b0:1e3:60f:58c3 with SMTP id my10-20020a17090b4c8a00b001e3060f58c3mr4043995pjb.230.1655989860307;
+        Thu, 23 Jun 2022 06:11:00 -0700 (PDT)
+Received: from ?IPV6:2601:647:4000:d7:feaa:14ff:fe9d:6dbd? ([2601:647:4000:d7:feaa:14ff:fe9d:6dbd])
+        by smtp.gmail.com with ESMTPSA id jf12-20020a170903268c00b0016a0ac06424sm11978240plb.51.2022.06.23.06.10.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Jun 2022 06:10:59 -0700 (PDT)
+Message-ID: <3a2a2d1a-ab52-687d-d521-4a05d7047701@acm.org>
+Date: Thu, 23 Jun 2022 06:10:57 -0700
 MIME-Version: 1.0
-References: <1655810143-67784-1-git-send-email-john.garry@huawei.com> <1655810143-67784-4-git-send-email-john.garry@huawei.com>
-In-Reply-To: <1655810143-67784-4-git-send-email-john.garry@huawei.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Thu, 23 Jun 2022 14:35:00 +0200
-Message-ID: <CAPDyKFqRzOceWJUODP0YEu348S4=OHdQA-3c3tEMAJshCQN+Qg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/6] blk-mq: Drop blk_mq_ops.timeout 'reserved' arg
-To: John Garry <john.garry@huawei.com>
-Cc: axboe@kernel.dk, damien.lemoal@opensource.wdc.com, bvanassche@acm.org, 
-	hch@lst.de, jejb@linux.ibm.com, martin.petersen@oracle.com, hare@suse.de, 
-	satishkh@cisco.com, sebaddel@cisco.com, kartilak@cisco.com, 
-	linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	mpi3mr-linuxdrv.pdl@broadcom.com, linux-block@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, nbd@other.debian.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2 6/6] blk-mq: Drop local variable for reserved tag
+Content-Language: en-US
+To: John Garry <john.garry@huawei.com>, axboe@kernel.dk,
+ damien.lemoal@opensource.wdc.com, hch@lst.de, jejb@linux.ibm.com,
+ martin.petersen@oracle.com, hare@suse.de, satishkh@cisco.com,
+ sebaddel@cisco.com, kartilak@cisco.com
+Cc: linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
+ mpi3mr-linuxdrv.pdl@broadcom.com, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, nbd@other.debian.org
+References: <1655810143-67784-1-git-send-email-john.garry@huawei.com>
+ <1655810143-67784-7-git-send-email-john.garry@huawei.com>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <1655810143-67784-7-git-send-email-john.garry@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220623_053542_569865_AE0C852A 
-X-CRM114-Status: GOOD (  27.37  )
+X-CRM114-CacheID: sfid-20220623_061102_216347_D4ECA99B 
+X-CRM114-Status: UNSURE (   6.89  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,292 +88,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, 21 Jun 2022 at 13:22, John Garry <john.garry@huawei.com> wrote:
->
-> With new API blk_mq_is_reserved_rq() we can tell if a request is from
-> the reserved pool, so stop passing 'reserved' arg. There is actually
-> only a single user of that arg for all the callback implementations, which
-> can use blk_mq_is_reserved_rq() instead.
->
-> This will also allow us to stop passing the same 'reserved' around the
-> blk-mq iter functions next.
->
-> Signed-off-by: John Garry <john.garry@huawei.com>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: Bart Van Assche <bvanassche@acm.org>
-> Reviewed-by: Hannes Reinecke <hare@suse.de>
+On 6/21/22 04:15, John Garry wrote:
+> The local variable is now only referenced once so drop it.
 
-Acked-by: Ulf Hansson <ulf.hansson@linaro.org> # For MMC
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
 
-Kind regards
-Uffe
-
-
-> ---
->  block/blk-mq.c                    | 6 +++---
->  block/bsg-lib.c                   | 2 +-
->  drivers/block/mtip32xx/mtip32xx.c | 5 ++---
->  drivers/block/nbd.c               | 3 +--
->  drivers/block/null_blk/main.c     | 2 +-
->  drivers/mmc/core/queue.c          | 3 +--
->  drivers/nvme/host/apple.c         | 3 +--
->  drivers/nvme/host/fc.c            | 3 +--
->  drivers/nvme/host/pci.c           | 2 +-
->  drivers/nvme/host/rdma.c          | 3 +--
->  drivers/nvme/host/tcp.c           | 3 +--
->  drivers/s390/block/dasd.c         | 2 +-
->  drivers/s390/block/dasd_int.h     | 2 +-
->  drivers/scsi/scsi_error.c         | 3 +--
->  drivers/scsi/scsi_priv.h          | 3 +--
->  include/linux/blk-mq.h            | 2 +-
->  16 files changed, 19 insertions(+), 28 deletions(-)
->
-> diff --git a/block/blk-mq.c b/block/blk-mq.c
-> index d38c97fe89f5..81bd39e36e49 100644
-> --- a/block/blk-mq.c
-> +++ b/block/blk-mq.c
-> @@ -1426,13 +1426,13 @@ bool blk_mq_queue_inflight(struct request_queue *q)
->  }
->  EXPORT_SYMBOL_GPL(blk_mq_queue_inflight);
->
-> -static void blk_mq_rq_timed_out(struct request *req, bool reserved)
-> +static void blk_mq_rq_timed_out(struct request *req)
->  {
->         req->rq_flags |= RQF_TIMED_OUT;
->         if (req->q->mq_ops->timeout) {
->                 enum blk_eh_timer_return ret;
->
-> -               ret = req->q->mq_ops->timeout(req, reserved);
-> +               ret = req->q->mq_ops->timeout(req);
->                 if (ret == BLK_EH_DONE)
->                         return;
->                 WARN_ON_ONCE(ret != BLK_EH_RESET_TIMER);
-> @@ -1481,7 +1481,7 @@ static bool blk_mq_check_expired(struct request *rq, void *priv, bool reserved)
->          * from blk_mq_check_expired().
->          */
->         if (blk_mq_req_expired(rq, next))
-> -               blk_mq_rq_timed_out(rq, reserved);
-> +               blk_mq_rq_timed_out(rq);
->         return true;
->  }
->
-> diff --git a/block/bsg-lib.c b/block/bsg-lib.c
-> index acfe1357bf6c..9570c77b9fe3 100644
-> --- a/block/bsg-lib.c
-> +++ b/block/bsg-lib.c
-> @@ -331,7 +331,7 @@ void bsg_remove_queue(struct request_queue *q)
->  }
->  EXPORT_SYMBOL_GPL(bsg_remove_queue);
->
-> -static enum blk_eh_timer_return bsg_timeout(struct request *rq, bool reserved)
-> +static enum blk_eh_timer_return bsg_timeout(struct request *rq)
->  {
->         struct bsg_set *bset =
->                 container_of(rq->q->tag_set, struct bsg_set, tag_set);
-> diff --git a/drivers/block/mtip32xx/mtip32xx.c b/drivers/block/mtip32xx/mtip32xx.c
-> index 27386a572ba4..d5767215840c 100644
-> --- a/drivers/block/mtip32xx/mtip32xx.c
-> +++ b/drivers/block/mtip32xx/mtip32xx.c
-> @@ -3487,12 +3487,11 @@ static int mtip_init_cmd(struct blk_mq_tag_set *set, struct request *rq,
->         return 0;
->  }
->
-> -static enum blk_eh_timer_return mtip_cmd_timeout(struct request *req,
-> -                                                               bool reserved)
-> +static enum blk_eh_timer_return mtip_cmd_timeout(struct request *req)
->  {
->         struct driver_data *dd = req->q->queuedata;
->
-> -       if (reserved) {
-> +       if (blk_mq_is_reserved_rq(req)) {
->                 struct mtip_cmd *cmd = blk_mq_rq_to_pdu(req);
->
->                 cmd->status = BLK_STS_TIMEOUT;
-> diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
-> index 07f3c139a3d7..166303716560 100644
-> --- a/drivers/block/nbd.c
-> +++ b/drivers/block/nbd.c
-> @@ -393,8 +393,7 @@ static u32 req_to_nbd_cmd_type(struct request *req)
->         }
->  }
->
-> -static enum blk_eh_timer_return nbd_xmit_timeout(struct request *req,
-> -                                                bool reserved)
-> +static enum blk_eh_timer_return nbd_xmit_timeout(struct request *req)
->  {
->         struct nbd_cmd *cmd = blk_mq_rq_to_pdu(req);
->         struct nbd_device *nbd = cmd->nbd;
-> diff --git a/drivers/block/null_blk/main.c b/drivers/block/null_blk/main.c
-> index 6b67088f4ea7..2d815d1eba25 100644
-> --- a/drivers/block/null_blk/main.c
-> +++ b/drivers/block/null_blk/main.c
-> @@ -1578,7 +1578,7 @@ static int null_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
->         return nr;
->  }
->
-> -static enum blk_eh_timer_return null_timeout_rq(struct request *rq, bool res)
-> +static enum blk_eh_timer_return null_timeout_rq(struct request *rq)
->  {
->         struct blk_mq_hw_ctx *hctx = rq->mq_hctx;
->         struct nullb_cmd *cmd = blk_mq_rq_to_pdu(rq);
-> diff --git a/drivers/mmc/core/queue.c b/drivers/mmc/core/queue.c
-> index fa5324ceeebe..17236340dbd2 100644
-> --- a/drivers/mmc/core/queue.c
-> +++ b/drivers/mmc/core/queue.c
-> @@ -116,8 +116,7 @@ static enum blk_eh_timer_return mmc_cqe_timed_out(struct request *req)
->         }
->  }
->
-> -static enum blk_eh_timer_return mmc_mq_timed_out(struct request *req,
-> -                                                bool reserved)
-> +static enum blk_eh_timer_return mmc_mq_timed_out(struct request *req)
->  {
->         struct request_queue *q = req->q;
->         struct mmc_queue *mq = q->queuedata;
-> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-> index d702d7d60235..495118ce958a 100644
-> --- a/drivers/nvme/host/apple.c
-> +++ b/drivers/nvme/host/apple.c
-> @@ -862,8 +862,7 @@ static void apple_nvme_disable(struct apple_nvme *anv, bool shutdown)
->         }
->  }
->
-> -static enum blk_eh_timer_return apple_nvme_timeout(struct request *req,
-> -                                                  bool reserved)
-> +static enum blk_eh_timer_return apple_nvme_timeout(struct request *req)
->  {
->         struct apple_nvme_iod *iod = blk_mq_rq_to_pdu(req);
->         struct apple_nvme_queue *q = iod->q;
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index 3c778bb0c294..a166c0b1cc33 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -2565,8 +2565,7 @@ nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg)
->         nvme_reset_ctrl(&ctrl->ctrl);
->  }
->
-> -static enum blk_eh_timer_return
-> -nvme_fc_timeout(struct request *rq, bool reserved)
-> +static enum blk_eh_timer_return nvme_fc_timeout(struct request *rq)
->  {
->         struct nvme_fc_fcp_op *op = blk_mq_rq_to_pdu(rq);
->         struct nvme_fc_ctrl *ctrl = op->ctrl;
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index c7012e85d035..83b1229a4e36 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1344,7 +1344,7 @@ static void nvme_warn_reset(struct nvme_dev *dev, u32 csts)
->                  "Try \"nvme_core.default_ps_max_latency_us=0 pcie_aspm=off\" and report a bug\n");
->  }
->
-> -static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
-> +static enum blk_eh_timer_return nvme_timeout(struct request *req)
->  {
->         struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
->         struct nvme_queue *nvmeq = iod->nvmeq;
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index f2a5e1ea508a..d2fb8651e49d 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -2013,8 +2013,7 @@ static void nvme_rdma_complete_timed_out(struct request *rq)
->         nvmf_complete_timed_out_request(rq);
->  }
->
-> -static enum blk_eh_timer_return
-> -nvme_rdma_timeout(struct request *rq, bool reserved)
-> +static enum blk_eh_timer_return nvme_rdma_timeout(struct request *rq)
->  {
->         struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
->         struct nvme_rdma_queue *queue = req->queue;
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index bb67538d241b..f21f7b0140f9 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -2321,8 +2321,7 @@ static void nvme_tcp_complete_timed_out(struct request *rq)
->         nvmf_complete_timed_out_request(rq);
->  }
->
-> -static enum blk_eh_timer_return
-> -nvme_tcp_timeout(struct request *rq, bool reserved)
-> +static enum blk_eh_timer_return nvme_tcp_timeout(struct request *rq)
->  {
->         struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
->         struct nvme_ctrl *ctrl = &req->queue->ctrl->ctrl;
-> diff --git a/drivers/s390/block/dasd.c b/drivers/s390/block/dasd.c
-> index ba6d78789660..35d6f62ed515 100644
-> --- a/drivers/s390/block/dasd.c
-> +++ b/drivers/s390/block/dasd.c
-> @@ -3145,7 +3145,7 @@ static blk_status_t do_dasd_request(struct blk_mq_hw_ctx *hctx,
->   * BLK_EH_DONE if the request is handled or terminated
->   *                   by the driver.
->   */
-> -enum blk_eh_timer_return dasd_times_out(struct request *req, bool reserved)
-> +enum blk_eh_timer_return dasd_times_out(struct request *req)
->  {
->         struct dasd_block *block = req->q->queuedata;
->         struct dasd_device *device;
-> diff --git a/drivers/s390/block/dasd_int.h b/drivers/s390/block/dasd_int.h
-> index 83b918b84b4a..333a399f754e 100644
-> --- a/drivers/s390/block/dasd_int.h
-> +++ b/drivers/s390/block/dasd_int.h
-> @@ -795,7 +795,7 @@ void dasd_free_device(struct dasd_device *);
->  struct dasd_block *dasd_alloc_block(void);
->  void dasd_free_block(struct dasd_block *);
->
-> -enum blk_eh_timer_return dasd_times_out(struct request *req, bool reserved);
-> +enum blk_eh_timer_return dasd_times_out(struct request *req);
->
->  void dasd_enable_device(struct dasd_device *);
->  void dasd_set_target_state(struct dasd_device *, int);
-> diff --git a/drivers/scsi/scsi_error.c b/drivers/scsi/scsi_error.c
-> index a8b71b73a5a5..266ce414589c 100644
-> --- a/drivers/scsi/scsi_error.c
-> +++ b/drivers/scsi/scsi_error.c
-> @@ -318,7 +318,6 @@ void scsi_eh_scmd_add(struct scsi_cmnd *scmd)
->  /**
->   * scsi_timeout - Timeout function for normal scsi commands.
->   * @req:       request that is timing out.
-> - * @reserved:  whether the request is a reserved request.
->   *
->   * Notes:
->   *     We do not need to lock this.  There is the potential for a race
-> @@ -326,7 +325,7 @@ void scsi_eh_scmd_add(struct scsi_cmnd *scmd)
->   *     normal completion function determines that the timer has already
->   *     fired, then it mustn't do anything.
->   */
-> -enum blk_eh_timer_return scsi_timeout(struct request *req, bool reserved)
-> +enum blk_eh_timer_return scsi_timeout(struct request *req)
->  {
->         struct scsi_cmnd *scmd = blk_mq_rq_to_pdu(req);
->         enum blk_eh_timer_return rtn = BLK_EH_DONE;
-> diff --git a/drivers/scsi/scsi_priv.h b/drivers/scsi/scsi_priv.h
-> index 695d0c83ffe0..6eeaa0a7f86d 100644
-> --- a/drivers/scsi/scsi_priv.h
-> +++ b/drivers/scsi/scsi_priv.h
-> @@ -72,8 +72,7 @@ extern void scsi_exit_devinfo(void);
->
->  /* scsi_error.c */
->  extern void scmd_eh_abort_handler(struct work_struct *work);
-> -extern enum blk_eh_timer_return scsi_timeout(struct request *req,
-> -                                            bool reserved);
-> +extern enum blk_eh_timer_return scsi_timeout(struct request *req);
->  extern int scsi_error_handler(void *host);
->  extern enum scsi_disposition scsi_decide_disposition(struct scsi_cmnd *cmd);
->  extern void scsi_eh_wakeup(struct Scsi_Host *shost);
-> diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-> index 6d81fe10e850..fbb08bdd4618 100644
-> --- a/include/linux/blk-mq.h
-> +++ b/include/linux/blk-mq.h
-> @@ -575,7 +575,7 @@ struct blk_mq_ops {
->         /**
->          * @timeout: Called on request timeout.
->          */
-> -       enum blk_eh_timer_return (*timeout)(struct request *, bool);
-> +       enum blk_eh_timer_return (*timeout)(struct request *);
->
->         /**
->          * @poll: Called to poll for completion of a specific tag.
-> --
-> 2.25.1
->
 
