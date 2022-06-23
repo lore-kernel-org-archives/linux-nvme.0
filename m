@@ -4,53 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5DF2BC433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jun 2022 06:18:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6215CC43334
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jun 2022 06:18:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5RJ63CLs3oV0ICZ8ISS4uCZZA5d4FnkG5Lgm4OqAftc=; b=RJOurcew6wc+mfFD8xyxL8qjBA
-	D4khvpC/Mlq+w2f6xCW07ci25x23EKhUlMcRmor7bTfepX4sfJrbfgeyyRBKe7qbZz/MnSlq0MLEv
-	FxY7YMQKlkfQQvuP5aRau3G81VG6etouEafc60JMWqNFpGQyo57w5+tYa93bKESShYQT8xxtPUGvR
-	pensCZ89zmHbG0JzSMSuHP9ZShzyy5D4FV2YZ4aP+Th2zqPka99tX5E8/lp96ihqCsVOtvEei187T
-	tTsyPMgDQMvL35XXKjG1w9M3bCbXQgoaZ+liUEHGII/UhvN6o8TzwvNrUb3/5E35zcYIlM1vxifh7
-	m/oPgcrw==;
+	bh=WeFMv24k4lhBdnDvAc7pKc1iADaxm74/8MBrjnx6hiA=; b=WKZl/Nb13P7jPvklBkPTtaBtw0
+	ajfG/sPsT5ZB1oyiC73gNdBPwq7OUyqJaa/dIdLYilIDnaCbHlvdv+h/ld27nSmEU804boLwvqdjU
+	BhGAU5tKreA4fZBN2ZH6YAPteNTIEN9ANFZCqmT0LCHMXO6y0GWfNKcvc/pxmVPpuj6SmLNnmGAbE
+	3fMEa1ebtQ2K7ZgtwJx065y8ytLz2DsCj7wXz1TuSHOAD3Q1VW+DFBEtxvm0Dz/oqEwHNW+JtgQAT
+	Ev7ziZNia8NllaGBK90Oy+EQVbMxAI4Ig+lQSDH2Zd7Z+HL1yz6MPELEWHF4YnfsE8zobAbKN+g13
+	xmyOU42w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4GAb-00DdlD-HP; Thu, 23 Jun 2022 06:18:25 +0000
+	id 1o4GAi-00Ddq2-O6; Thu, 23 Jun 2022 06:18:32 +0000
 Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4G9w-00DdQE-CT
-	for linux-nvme@lists.infradead.org; Thu, 23 Jun 2022 06:17:46 +0000
+	id 1o4G9w-00DdQD-CV
+	for linux-nvme@lists.infradead.org; Thu, 23 Jun 2022 06:17:47 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 7543121C8F;
+	by smtp-out1.suse.de (Postfix) with ESMTP id 7A3C721C91;
 	Thu, 23 Jun 2022 06:17:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1655965056; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5RJ63CLs3oV0ICZ8ISS4uCZZA5d4FnkG5Lgm4OqAftc=;
-	b=uQXV1+rowEfNt5zvZoD60xrUKu6HsmhSXLBzuyiszbMsWcHyOuzyi8a5xECyVN8W3wuaZV
-	WnjV6a0Dff76KqlgiC4PTaLsrY3Vl0TwMPpYQoSYOpQaq8tuJVa4SvpSHhkXdgFYepkg7J
-	duTWNRgQwW7RVurnMrqCfOAG7gY5UNk=
+	bh=WeFMv24k4lhBdnDvAc7pKc1iADaxm74/8MBrjnx6hiA=;
+	b=YwDbZufUdHp/x1JG96gNhx19nGnTszCb6OscfgSpGp8LdbOXSGZd+blQp9W9QBcd/oDT9S
+	Xp8+DHFpRiQnWXqHRaJzDYwKxiBt1XzF+mCx1Grw8+ACDMbJgrFwZgZkF9TQ/YV/SwgRtO
+	f+FO0kiY26K483Bp5F/8K5wElM3YB1s=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1655965056;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5RJ63CLs3oV0ICZ8ISS4uCZZA5d4FnkG5Lgm4OqAftc=;
-	b=RSx/AlpmDXPqJk1S8i6eRmIBgzVOEhChJ+aDqgWLfVcD34XA/jG+5nglPY6iOvEd5U6djW
-	XDjVJslzZ851qtAg==
+	bh=WeFMv24k4lhBdnDvAc7pKc1iADaxm74/8MBrjnx6hiA=;
+	b=5q3rhpIeZtWHcYaT8iV5C6jyeJ15quLLBefpNqaw+/l9waW4T61KHA75n19v3Fgs4p1lQU
+	zDC4xLXjKZEhAxCA==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 6CF9B2C142;
+	by relay2.suse.de (Postfix) with ESMTP id 6D14D2C143;
 	Thu, 23 Jun 2022 06:17:35 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 1159A5194D6C; Thu, 23 Jun 2022 08:17:35 +0200 (CEST)
+	id 0DA775194D6A; Thu, 23 Jun 2022 08:17:35 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -60,17 +60,17 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Himanshu Madhani <himanshu.madhani@oracle.com>,
 	Herbert Xu <herbert@gondor.apana.org.au>
-Subject: [PATCH 02/11] crypto: add crypto_has_kpp()
-Date: Thu, 23 Jun 2022 08:17:21 +0200
-Message-Id: <20220623061730.51490-3-hare@suse.de>
+Subject: [PATCH 01/11] crypto: add crypto_has_shash()
+Date: Thu, 23 Jun 2022 08:17:20 +0200
+Message-Id: <20220623061730.51490-2-hare@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220623061730.51490-1-hare@suse.de>
 References: <20220623061730.51490-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220622_231744_642293_06897811 
-X-CRM114-Status: UNSURE (   9.80  )
+X-CRM114-CacheID: sfid-20220622_231744_670772_614FA5AE 
+X-CRM114-Status: UNSURE (   9.83  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -86,8 +86,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add helper function to determine if a given key-agreement protocol
-primitive is supported.
+Add helper function to determine if a given synchronous hash is supported.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
@@ -95,38 +94,38 @@ Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
 Acked-by: Herbert Xu <herbert@gondor.apana.org.au>
 ---
- crypto/kpp.c         | 6 ++++++
- include/crypto/kpp.h | 2 ++
+ crypto/shash.c        | 6 ++++++
+ include/crypto/hash.h | 2 ++
  2 files changed, 8 insertions(+)
 
-diff --git a/crypto/kpp.c b/crypto/kpp.c
-index 7aa6ba4b60a4..678e871ce418 100644
---- a/crypto/kpp.c
-+++ b/crypto/kpp.c
-@@ -104,6 +104,12 @@ int crypto_grab_kpp(struct crypto_kpp_spawn *spawn,
+diff --git a/crypto/shash.c b/crypto/shash.c
+index 0a0a50cb694f..4c88e63b3350 100644
+--- a/crypto/shash.c
++++ b/crypto/shash.c
+@@ -521,6 +521,12 @@ struct crypto_shash *crypto_alloc_shash(const char *alg_name, u32 type,
  }
- EXPORT_SYMBOL_GPL(crypto_grab_kpp);
+ EXPORT_SYMBOL_GPL(crypto_alloc_shash);
  
-+int crypto_has_kpp(const char *alg_name, u32 type, u32 mask)
++int crypto_has_shash(const char *alg_name, u32 type, u32 mask)
 +{
-+	return crypto_type_has_alg(alg_name, &crypto_kpp_type, type, mask);
++	return crypto_type_has_alg(alg_name, &crypto_shash_type, type, mask);
 +}
-+EXPORT_SYMBOL_GPL(crypto_has_kpp);
++EXPORT_SYMBOL_GPL(crypto_has_shash);
 +
- static void kpp_prepare_alg(struct kpp_alg *alg)
+ static int shash_prepare_alg(struct shash_alg *alg)
  {
  	struct crypto_alg *base = &alg->base;
-diff --git a/include/crypto/kpp.h b/include/crypto/kpp.h
-index cccceadc164b..24d01e9877c1 100644
---- a/include/crypto/kpp.h
-+++ b/include/crypto/kpp.h
-@@ -104,6 +104,8 @@ struct kpp_alg {
-  */
- struct crypto_kpp *crypto_alloc_kpp(const char *alg_name, u32 type, u32 mask);
+diff --git a/include/crypto/hash.h b/include/crypto/hash.h
+index f140e4643949..f5841992dc9b 100644
+--- a/include/crypto/hash.h
++++ b/include/crypto/hash.h
+@@ -718,6 +718,8 @@ static inline void ahash_request_set_crypt(struct ahash_request *req,
+ struct crypto_shash *crypto_alloc_shash(const char *alg_name, u32 type,
+ 					u32 mask);
  
-+int crypto_has_kpp(const char *alg_name, u32 type, u32 mask);
++int crypto_has_shash(const char *alg_name, u32 type, u32 mask);
 +
- static inline struct crypto_tfm *crypto_kpp_tfm(struct crypto_kpp *tfm)
+ static inline struct crypto_tfm *crypto_shash_tfm(struct crypto_shash *tfm)
  {
  	return &tfm->base;
 -- 
