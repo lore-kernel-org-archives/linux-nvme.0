@@ -4,64 +4,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85D9BC433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jun 2022 14:57:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EFE08C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jun 2022 18:29:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
+	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pp16SfCwpoCB4rbkTa8KCcxbDZV5zVHS1qGXD02tC/w=; b=0HxkzOsWSq7ZiIYSBR04EvH+q1
-	xQecebnpEBZgjLRSyWfNmWU71jyNVt5dz8ueOO3vlOc7kyOo3Lj+ydeQBlSTIqS2Pcjc0On0Uopmp
-	mjeui5Cq6piwfCKactUD2OdNqP8mXglNr7vfxcim2IdxeBOwVmSo+Rms2wx4P8sUiB83m/ZsECj0a
-	lHefwRlxMjQe6ipA3a3BNi3jngv2HDHgZaFQRzLLFlAVjt8XRK3OIX+Pryx51T+dRTROyesy2NApR
-	N9vvYLoHGymCRZNSnxVmmYiVzNx8xes3egxhQUJrNedaFO6uNUA99xXfclCOLKXeMGPXtrlbZAIZO
-	hDd3WkTg==;
+	bh=41BPo+whxaghuCkgvaKgW8YwNyHKz3jy5mISTK8L0/w=; b=ScQT9A1twC/cvoIK0mmpRU39YV
+	fF4r41OLFcNV0/tH4/ca22iYy+BKaWdEJqpOn/StW0PTUoTiiCogkHICEMAFTUrxs3zSd7Nqb/8J+
+	i9Nolz7Ds6XK11L7TQIbF2KMjfdzGQS/5u48LtYN8SVpWDZuQx3uNWB+jJmSaQcGuBCk3aJjH3Du8
+	QmmKiuxigMuqf6YAuBVeyQbn8VeUnrwRYjyxNuGDpcazfpQRI88U00mbQ2WdWRzO5Vx1MSeAT+F1Z
+	B1hlbNZioy5DgIu6xhs3BSlcYSMOASy/4/YahYmbJ+W0iEz/9fvPpf+FIlY0b6KydncLU7SbcJXwP
+	Ewm9Zk4w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4OH3-00Fd8Y-99; Thu, 23 Jun 2022 14:57:37 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1o4RaA-00GLNM-Oa; Thu, 23 Jun 2022 18:29:34 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4OH0-00Fd7S-5r
-	for linux-nvme@lists.infradead.org; Thu, 23 Jun 2022 14:57:35 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id B45B361E7A;
-	Thu, 23 Jun 2022 14:57:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 736C3C3411D;
-	Thu, 23 Jun 2022 14:57:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1655996253;
-	bh=s+BjEHBkCbCyThPI0APDniSN+GtItYyxkZNjJqx1lHM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uGCQVXpWIAIL6LnfafNYvnqWW5JSjbiZ7VQYLoiOyL2fafIfk0vkreA0UedzYtFaG
-	 TGqgJaoeUj7dMLyF/+/sznKgS+oa1H1nyTchKf+mY23a/e0cJziSimE0136nnfl++i
-	 dQYKTTiUom2618u86/V4PuEiUtxHMshdIDsjAkYDBBrOW8f8sQDWe/ojl6vfgsSdI9
-	 hHlB0UHkXBlG9j8M+bpmfZXC6H57M9tsGEzBEcEx93R0MZzlPU4TxNIRN/7kKb3N2F
-	 yMYUhN35naa7UgGe1a3p7jKBWVL50KW7aclVuzIsJPoiBLGQWX3Si4yox8ZZ68NVxX
-	 x5LEtxWbNt1Rw==
-Date: Thu, 23 Jun 2022 08:57:29 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Joel Granados <j.granados@samsung.com>
-Cc: hch@lst.de, linux-nvme@lists.infradead.org, joshi.k@samsung.com,
-	gost.dev@samsung.com, k.jensen@samsung.com
-Subject: Re: [PATCH v3 2/2] nvme: enable generic interface (/dev/ngXnY) for
- unknown command sets
-Message-ID: <YrR/Wc/1Wx959Dnu@kbusch-mbp>
-References: <20220622135556.2185991-1-j.granados@samsung.com>
- <CGME20220622135844eucas1p1c224ccf50c43f722cc228c59d8c395a7@eucas1p1.samsung.com>
- <20220622135556.2185991-3-j.granados@samsung.com>
- <YrN5dWNZkUnFpjSH@kbusch-mbp.dhcp.thefacebook.com>
- <20220623083918.kvtkpwyy3ob52sp4@joelS1.panther.com>
+	id 1o4Ra4-00GLMI-Ru
+	for linux-nvme@lists.infradead.org; Thu, 23 Jun 2022 18:29:30 +0000
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NI4QUo031134;
+	Thu, 23 Jun 2022 18:29:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=41BPo+whxaghuCkgvaKgW8YwNyHKz3jy5mISTK8L0/w=;
+ b=ZNiquCoovNJouo8oFYdlDmb0EfxWMBDDXdTtwQREW/G06gGZzez0neqO9ND9+PIqAzen
+ 7i2Tagsen87uVPTGfVqut1LdfFkHW4txN8mS2dr2owS2JjiW0/zrOQ0lI0Rn04+9TQbp
+ AOZI+qC8IXXp1rDsWWkpBk6Iy7aO++0ihZ/uVbddoGA6BRZdIbCNPT33eP16/o+gfcJp
+ SqaN0/GprQ5+L/f7v1itBUxQ9bpX3wDlrebKeMxlBM4GZQdpDOo3si5CWX5kPQUeoyu1
+ xLLUCAShO8PXkEbjzGxQ1f+5DPJKBTXHr9sQucOqD/rHriKfFA34rWojMcZEycwq8Lx+ Xw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gvw4h8qsc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 23 Jun 2022 18:29:20 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25NIILrE013084;
+	Thu, 23 Jun 2022 18:29:19 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gvw4h8qry-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 23 Jun 2022 18:29:19 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+	by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25NIKQer022803;
+	Thu, 23 Jun 2022 18:29:18 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com [9.57.198.26])
+	by ppma01dal.us.ibm.com with ESMTP id 3guk92p4ay-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 23 Jun 2022 18:29:18 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
+	by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 25NITIbD6751036
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 23 Jun 2022 18:29:18 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id EC0E9AC05B;
+	Thu, 23 Jun 2022 18:29:17 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A810CAC05F;
+	Thu, 23 Jun 2022 18:29:14 +0000 (GMT)
+Received: from farman-thinkpad-t470p (unknown [9.211.98.153])
+	by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+	Thu, 23 Jun 2022 18:29:14 +0000 (GMT)
+Message-ID: <ab1bc062b4a1d0ad7f974b6068dc3a6dbf624820.camel@linux.ibm.com>
+Subject: Re: [PATCHv6 11/11] iomap: add support for dma aligned direct-io
+From: Eric Farman <farman@linux.ibm.com>
+To: Keith Busch <kbusch@fb.com>, linux-fsdevel@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+        Christian
+	Borntraeger <borntraeger@linux.ibm.com>
+Cc: axboe@kernel.dk, Kernel Team <Kernel-team@fb.com>, hch@lst.de,
+        bvanassche@acm.org, damien.lemoal@opensource.wdc.com,
+        ebiggers@kernel.org, pankydev8@gmail.com,
+        Keith Busch <kbusch@kernel.org>
+Date: Thu, 23 Jun 2022 14:29:13 -0400
+In-Reply-To: <20220610195830.3574005-12-kbusch@fb.com>
+References: <20220610195830.3574005-1-kbusch@fb.com>
+	 <20220610195830.3574005-12-kbusch@fb.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Fj-OPI6d8hylGrKU8aSR2HKyYGONU-th
+X-Proofpoint-GUID: B26JaMnGrmnTYyG8GbNKjwvtdiIDxuKs
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220623083918.kvtkpwyy3ob52sp4@joelS1.panther.com>
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-06-23_07,2022-06-23_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxlogscore=999
+ clxscore=1011 adultscore=0 suspectscore=0 impostorscore=0 phishscore=0
+ mlxscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206230070
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220623_075734_293702_933FCC9A 
-X-CRM114-Status: GOOD (  23.18  )
+X-CRM114-CacheID: sfid-20220623_112929_070858_FB0E2677 
+X-CRM114-Status: GOOD (  28.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,49 +116,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jun 23, 2022 at 10:39:18AM +0200, Joel Granados wrote:
-> On Wed, Jun 22, 2022 at 02:20:05PM -0600, Keith Busch wrote:
-> > On Wed, Jun 22, 2022 at 03:55:56PM +0200, Joel Granados wrote:
-> > >  static void nvme_validate_or_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
-> > >  {
-> > >  	struct nvme_ns_ids ids = { };
-> > > -	struct nvme_id_ns_cs_indep *id;
-> > > +	struct nvme_id_ns_cs_indep *id_indep;
-> > >  	struct nvme_ns *ns;
-> > > -	bool ready = true;
-> > >  
-> > >  	if (nvme_identify_ns_descs(ctrl, nsid, &ids))
-> > >  		return;
-> > >  
-> > > +	if (nvme_identify_ns_cs_indep(ctrl, nsid, &id_indep))
-> > > +		return;
-> > > +
-> > 
-> > There's no check that the command-set-independent namespace identification is
-> > supported, so an error should be expected for many controllers instead of
-> > abandoning the namespace.
-> good catch. But is the error really necessary?
-> If the controller supports NVM or ZNS then we can continue with the
-> normal (command-set-dependent) namespace identification.
+On Fri, 2022-06-10 at 12:58 -0700, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
 > 
-> I see two situations:
-> 
-> 1. When we are dealing with NVM or ZNS command sets:
-> 1.1 Should bring up a block device regardless of supporting command-set-
->     independent namespace identification
-> 1.2 Time-to-ready will be used only if command-set-independent is
->     supported
-> 
-> 2. When we are dealing with something that is not NVM nor ZNS:
-> 2.1 Should bring up a char device iff the command-set-independent
->     namespace identification is supported.
-> 2.2 Should abandon the namespace with a dev_warn if the
->     command-set-independent namespace identification is not supported.
-> 
-> Am I missing something?
+> Use the address alignment requirements from the block_device for
+> direct
+> io instead of requiring addresses be aligned to the block size.
 
-I think your description sounds like what we want to happen, but that's not
-what the code does. When validating NVM or ZNS namespace, but the controller
-doesn't support CNS 8h, the code returns early instead of allocating the
-namespace.
+Hi Keith,
+
+Our s390 PV guests recently started failing to boot from a -next host,
+and git blame brought me here.
+
+As near as I have been able to tell, we start tripping up on this code
+from patch 9 [1] that gets invoked with this patch:
+
+>	for (k = 0; k < i->nr_segs; k++, skip = 0) {
+>		size_t len = i->iov[k].iov_len - skip;
+>
+>		if (len > size)
+>			len = size;
+>		if (len & len_mask)
+>			return false;
+
+The iovec we're failing on has two segments, one with a len of x200
+(and base of x...000) and another with a len of xe00 (and a base of
+x...200), while len_mask is of course xfff.
+
+So before I go any further on what we might have broken, do you happen
+to have any suggestions what might be going on here, or something I
+should try?
+
+Thanks,
+Eric
+
+[1] https://lore.kernel.org/r/20220610195830.3574005-9-kbusch@fb.com/
+
+> 
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  fs/iomap/direct-io.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
+> index 370c3241618a..5d098adba443 100644
+> --- a/fs/iomap/direct-io.c
+> +++ b/fs/iomap/direct-io.c
+> @@ -242,7 +242,6 @@ static loff_t iomap_dio_bio_iter(const struct
+> iomap_iter *iter,
+>  	struct inode *inode = iter->inode;
+>  	unsigned int blkbits =
+> blksize_bits(bdev_logical_block_size(iomap->bdev));
+>  	unsigned int fs_block_size = i_blocksize(inode), pad;
+> -	unsigned int align = iov_iter_alignment(dio->submit.iter);
+>  	loff_t length = iomap_length(iter);
+>  	loff_t pos = iter->pos;
+>  	unsigned int bio_opf;
+> @@ -253,7 +252,8 @@ static loff_t iomap_dio_bio_iter(const struct
+> iomap_iter *iter,
+>  	size_t copied = 0;
+>  	size_t orig_count;
+>  
+> -	if ((pos | length | align) & ((1 << blkbits) - 1))
+> +	if ((pos | length) & ((1 << blkbits) - 1) ||
+> +	    !bdev_iter_is_aligned(iomap->bdev, dio->submit.iter))
+>  		return -EINVAL;
+>  
+>  	if (iomap->type == IOMAP_UNWRITTEN) {
+
 
