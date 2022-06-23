@@ -4,80 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AAF6EC43334
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jun 2022 13:55:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85D9BC433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jun 2022 14:57:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vyl3MVsTJITPEqW0N8buYuq986ADki9XTkUMF1TuePg=; b=t2xv4HyfIcGY2al0q3TveWzk+b
-	DjgbyXUyajDVvmusZukYp9ll5MtJP6CFddRufdp1osrrJQS6TCTQWyQLVJGwp0dIndKKOGE7fZ4OM
-	NvaPIV/3EiHOjQ0mNdMrkELh6adQAY57z7DtxyIIL44BZsVPDnclzpyF83FhfO+28Vi4M7OV2GXP+
-	EDB69HmpeCdoTha0d+dHTA4eS5yhLSB7Jzzu9++djQ+yT+5OgSl41vZZZmwOVCr2JmVpsYsHrmhU4
-	/dDSuAlsqfsIm9FEZC1zVT++4ld8ZRrQUCdPRZ+JqbC5/7Inuxzlikhofr3BMDAoHCFNvv8OcBIaW
-	HhEQs9GA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pp16SfCwpoCB4rbkTa8KCcxbDZV5zVHS1qGXD02tC/w=; b=0HxkzOsWSq7ZiIYSBR04EvH+q1
+	xQecebnpEBZgjLRSyWfNmWU71jyNVt5dz8ueOO3vlOc7kyOo3Lj+ydeQBlSTIqS2Pcjc0On0Uopmp
+	mjeui5Cq6piwfCKactUD2OdNqP8mXglNr7vfxcim2IdxeBOwVmSo+Rms2wx4P8sUiB83m/ZsECj0a
+	lHefwRlxMjQe6ipA3a3BNi3jngv2HDHgZaFQRzLLFlAVjt8XRK3OIX+Pryx51T+dRTROyesy2NApR
+	N9vvYLoHGymCRZNSnxVmmYiVzNx8xes3egxhQUJrNedaFO6uNUA99xXfclCOLKXeMGPXtrlbZAIZO
+	hDd3WkTg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4NJG-00FR0f-7M; Thu, 23 Jun 2022 13:55:50 +0000
-Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f])
+	id 1o4OH3-00Fd8Y-99; Thu, 23 Jun 2022 14:57:37 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4NJE-00FQzc-0r
-	for linux-nvme@lists.infradead.org; Thu, 23 Jun 2022 13:55:49 +0000
-Received: by mail-io1-xd2f.google.com with SMTP id s17so14726292iob.7
-        for <linux-nvme@lists.infradead.org>; Thu, 23 Jun 2022 06:55:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=vyl3MVsTJITPEqW0N8buYuq986ADki9XTkUMF1TuePg=;
-        b=K8LkDWESjxCVRqHy4/VcSS/W3Z+WD7/Rl5LQ4+OG+U3uPFMNkUGR07RKMq8VfLa0uE
-         tjF6hq25EGBvFVQwesl/WoxZRQXk8PAGrMLcHCoqxFqrtJHlAJT1K0dyw/a5KkguqZ51
-         f827IbMQVA8IrB8mvMxNZVUiRKb6ionrbSUjPx5xjx28jr5Rtp47GtE+BYnGDGOUYiGs
-         KxIxPyPInFtkxF3cRl/93rrkhz5AKQCgPDQh8nBZQclQw5Gw4rm8b01jGmKkdEo8aXGF
-         T+FFZF6/c2ckGR6/bifespv9J8QJ94c0+ChmFE/Jq4MLFNm5DfIDep2761IoRBKTgOtu
-         tryw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=vyl3MVsTJITPEqW0N8buYuq986ADki9XTkUMF1TuePg=;
-        b=UW7s8AhEWOJwtIzPr+U8zvkGobBii5KUqrgZzIGeKhorBI6dGd661UnRI73vdzvkRY
-         bK2jhhxVu050GQbPvuga/HsAIEvadVzYjdd8ypUAsnKRsh/rNpJtvoTU0XC6H6o1E0yW
-         0sb9l2iVC05+jLRb4B29tNciYGgd+Au+4MetlCetQXWj5jCT6A16kNSkFkAlo0ooVY9c
-         JMXAhiP6vb00stS9952J1HPho1WjIs9cB/i6WvH0WlT49ijtcsS/lkYEBEVWmkU2MMcm
-         79dPvDTa5UlWUK/6QCrfUemYHOaTBM+pNp6L7nxTYzkVgVSNXAEh9Tzgi2ts0eS7Wc3+
-         ohgQ==
-X-Gm-Message-State: AJIora/QYAD7vwFwAwkoU9QJm+lM4tE29mmLp33fP6gpQfcJGgwZSi5l
-	NGBSjbtwjls1t+8QudOh+2MkOQ==
-X-Google-Smtp-Source: AGRyM1u59WCPRQ+922XZMwCmGKVmkmNCphLi65/kEOJDsYAMjuXKceUjlnia9MSeMuywd4RIO5XatA==
-X-Received: by 2002:a05:6638:ec9:b0:339:c3a2:b14c with SMTP id q9-20020a0566380ec900b00339c3a2b14cmr5346253jas.128.1655992543649;
-        Thu, 23 Jun 2022 06:55:43 -0700 (PDT)
-Received: from [192.168.1.172] ([207.135.234.126])
-        by smtp.gmail.com with ESMTPSA id t18-20020a92dc12000000b002d909e3d89esm5782494iln.60.2022.06.23.06.55.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Jun 2022 06:55:43 -0700 (PDT)
-Message-ID: <ea17cebe-ea71-db73-2f91-199ddfd051f2@kernel.dk>
-Date: Thu, 23 Jun 2022 07:55:41 -0600
+	id 1o4OH0-00Fd7S-5r
+	for linux-nvme@lists.infradead.org; Thu, 23 Jun 2022 14:57:35 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id B45B361E7A;
+	Thu, 23 Jun 2022 14:57:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 736C3C3411D;
+	Thu, 23 Jun 2022 14:57:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1655996253;
+	bh=s+BjEHBkCbCyThPI0APDniSN+GtItYyxkZNjJqx1lHM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uGCQVXpWIAIL6LnfafNYvnqWW5JSjbiZ7VQYLoiOyL2fafIfk0vkreA0UedzYtFaG
+	 TGqgJaoeUj7dMLyF/+/sznKgS+oa1H1nyTchKf+mY23a/e0cJziSimE0136nnfl++i
+	 dQYKTTiUom2618u86/V4PuEiUtxHMshdIDsjAkYDBBrOW8f8sQDWe/ojl6vfgsSdI9
+	 hHlB0UHkXBlG9j8M+bpmfZXC6H57M9tsGEzBEcEx93R0MZzlPU4TxNIRN/7kKb3N2F
+	 yMYUhN35naa7UgGe1a3p7jKBWVL50KW7aclVuzIsJPoiBLGQWX3Si4yox8ZZ68NVxX
+	 x5LEtxWbNt1Rw==
+Date: Thu, 23 Jun 2022 08:57:29 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Joel Granados <j.granados@samsung.com>
+Cc: hch@lst.de, linux-nvme@lists.infradead.org, joshi.k@samsung.com,
+	gost.dev@samsung.com, k.jensen@samsung.com
+Subject: Re: [PATCH v3 2/2] nvme: enable generic interface (/dev/ngXnY) for
+ unknown command sets
+Message-ID: <YrR/Wc/1Wx959Dnu@kbusch-mbp>
+References: <20220622135556.2185991-1-j.granados@samsung.com>
+ <CGME20220622135844eucas1p1c224ccf50c43f722cc228c59d8c395a7@eucas1p1.samsung.com>
+ <20220622135556.2185991-3-j.granados@samsung.com>
+ <YrN5dWNZkUnFpjSH@kbusch-mbp.dhcp.thefacebook.com>
+ <20220623083918.kvtkpwyy3ob52sp4@joelS1.panther.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [GIT PULL] nvmes fixes for Linux 5.19
-Content-Language: en-US
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-References: <YrRwn7dWdJcI9DSL@infradead.org>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <YrRwn7dWdJcI9DSL@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220623083918.kvtkpwyy3ob52sp4@joelS1.panther.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220623_065548_112240_08E9E625 
-X-CRM114-Status: UNSURE (   8.82  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220623_075734_293702_933FCC9A 
+X-CRM114-Status: GOOD (  23.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,18 +76,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/23/22 7:54 AM, Christoph Hellwig wrote:
-> The following changes since commit 2645672ffe21f0a1c139bfbc05ad30fd4e4f2583:
+On Thu, Jun 23, 2022 at 10:39:18AM +0200, Joel Granados wrote:
+> On Wed, Jun 22, 2022 at 02:20:05PM -0600, Keith Busch wrote:
+> > On Wed, Jun 22, 2022 at 03:55:56PM +0200, Joel Granados wrote:
+> > >  static void nvme_validate_or_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+> > >  {
+> > >  	struct nvme_ns_ids ids = { };
+> > > -	struct nvme_id_ns_cs_indep *id;
+> > > +	struct nvme_id_ns_cs_indep *id_indep;
+> > >  	struct nvme_ns *ns;
+> > > -	bool ready = true;
+> > >  
+> > >  	if (nvme_identify_ns_descs(ctrl, nsid, &ids))
+> > >  		return;
+> > >  
+> > > +	if (nvme_identify_ns_cs_indep(ctrl, nsid, &id_indep))
+> > > +		return;
+> > > +
+> > 
+> > There's no check that the command-set-independent namespace identification is
+> > supported, so an error should be expected for many controllers instead of
+> > abandoning the namespace.
+> good catch. But is the error really necessary?
+> If the controller supports NVM or ZNS then we can continue with the
+> normal (command-set-dependent) namespace identification.
 > 
->   block: pop cached rq before potentially blocking rq_qos_throttle() (2022-06-21 10:59:58 -0600)
+> I see two situations:
 > 
-> are available in the Git repository at:
+> 1. When we are dealing with NVM or ZNS command sets:
+> 1.1 Should bring up a block device regardless of supporting command-set-
+>     independent namespace identification
+> 1.2 Time-to-ready will be used only if command-set-independent is
+>     supported
 > 
->   git://git.infradead.org/nvme.git tags/nvme-5.19-2022-06-23
+> 2. When we are dealing with something that is not NVM nor ZNS:
+> 2.1 Should bring up a char device iff the command-set-independent
+>     namespace identification is supported.
+> 2.2 Should abandon the namespace with a dev_warn if the
+>     command-set-independent namespace identification is not supported.
+> 
+> Am I missing something?
 
-Pulled, thanks.
-
--- 
-Jens Axboe
-
+I think your description sounds like what we want to happen, but that's not
+what the code does. When validating NVM or ZNS namespace, but the controller
+doesn't support CNS 8h, the code returns early instead of allocating the
+namespace.
 
