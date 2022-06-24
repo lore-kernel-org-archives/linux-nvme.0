@@ -4,69 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 349EFC433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jun 2022 02:21:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0AFEC433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jun 2022 10:22:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=cfSO/K0bu3ksmm7qJkxHQfF/pIP+QvmTCWP/Eq9tlmM=; b=30nZrBHgcPb1fQQgR4eLJ1c+tL
-	lgpCHdwY68lNvmjRB4Denl9ijhItTiPiTWsDE/bsRXiapc8MM8FWcmKD1vqIxSgRWgNrac89+kDt9
-	vP4IwzdagAiTzeAEFsbaHA5uMvXlsR1Pr2sfko2JQX/03ShdpVq+xgc7Mcq1zLnPRp1mHP1NorlGs
-	x5udgXxeIIngjW2+3x/vDzfRsiVOqE7uK1l4Gdk99Srvmn7K0GgM/LG0QSssocNPJrzE8Q1J51+Yz
-	xUTDTvwfzTcrZhcS2Ly0HiCJeE3RLT/FFYAZPYEpqTbldTdTBjlJ109UkPKb+JNxT/xZSQCANA2aP
-	esZ/WctA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
+	Content-Type:MIME-Version:Message-ID:Subject:CC:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=w6j763O80htEwrPzIrepIeE/55xh0mEKYNJCmRN8elA=; b=D013UZBAmz78KHsfdMScjQGJ5u
+	0aZVLCbDKJknCCpjeiIuARgZ8i0rlBS4u7laIW3nNFC1AL9HMlUH5owlhApWUToViZT7TaLWgUg5i
+	BNEHubg1uZgvBi9krw5I2RDF04FppeolGXyn5+eCI2xDpc7UfSPiFcjLIhTNCjEAaIUP9N7EQZWYW
+	DFuXyUmr9wx0lu6/hDGc7YtNr5YS+cE21Uvr/C8soycvbg5M4LZugt5ctbRwGLI79yGdxC2ifz09w
+	6kY5YaSDA/1M07/XLpMKuIskrrGnP/r5wpSzXd0bwIDMbQKPGGKB7Ru+SPlOrjRgRcjRk7d6FoeWd
+	Ra2DbCVA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4YwX-00HQv3-6j; Fri, 24 Jun 2022 02:21:09 +0000
-Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
+	id 1o4gS3-001jD5-BA; Fri, 24 Jun 2022 10:22:11 +0000
+Received: from mailout2.w1.samsung.com ([210.118.77.12])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4YwU-00HQuZ-H4
-	for linux-nvme@lists.infradead.org; Fri, 24 Jun 2022 02:21:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656037266; x=1687573266;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=y9o9bluW4J+Z3Ja5cCrZ/D6DL/bNevL4jnXlupzFMf4=;
-  b=KBCe/Y552axIPYOX6XkpHPbhkAFVX9kGZAKhUbsbfW2oYeFB7hHz5d7a
-   FQsbPRT6Na3njikfmk1swhmFC/lE7GbuuBq9/TNhvIHSnjvWFw2YktTG9
-   ulyXwK8a6RYXLJTT71PV+Fn2LLwKA6XZF3J6EjzEEwn8inFsTOYECk5GK
-   zoWyj2kGs9pVq76wjWZgVURr+gkWMPFo+99B96nTCPUWeR/dC/Swq1g60
-   5LYG/eS/MB8xZLCzy9qj55vxPcEW477RT3saquire3JET04a5VEnOGA+e
-   clwxhPj3Hs8eJVbFsSR8mjehigkzi2PTeAQ+FGFxQTavqqxJRiOfBbWud
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10387"; a="342587706"
-X-IronPort-AV: E=Sophos;i="5.92,217,1650956400"; 
-   d="scan'208";a="342587706"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2022 19:18:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,217,1650956400"; 
-   d="scan'208";a="588859859"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 23 Jun 2022 19:18:57 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1o4YuO-0003WM-O0;
-	Fri, 24 Jun 2022 02:18:56 +0000
-Date: Fri, 24 Jun 2022 10:18:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-5.19] BUILD SUCCESS
- e6487833182a8a0187f0292aca542fc163ccd03e
-Message-ID: <62b51ee1.O5jx9Gz93f1qV3qb%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+	id 1o4gRv-001j6W-MS
+	for linux-nvme@lists.infradead.org; Fri, 24 Jun 2022 10:22:06 +0000
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20220624102152euoutp02ff9f8470f39e16d6ad9900b902155b94~7h1rkvS-j1885118851euoutp02A;
+	Fri, 24 Jun 2022 10:21:52 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20220624102152euoutp02ff9f8470f39e16d6ad9900b902155b94~7h1rkvS-j1885118851euoutp02A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1656066112;
+	bh=w6j763O80htEwrPzIrepIeE/55xh0mEKYNJCmRN8elA=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=KGz+tXEd2QprCWwkakhyIhnVbBcBnzyDA6VJBD6yhlIbfF/lWxV+Eq83J4pNNh+Q7
+	 sa0eR252Q02oYbDm6JOpjluqWGuqRw84VNuXWU5llKWnIH6dP52rNL1arfDWCxHLXq
+	 xyXe0S5qmK/WyOlxg0vzmOTnU+EORt8TfKq9kYOM=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+	20220624102152eucas1p1c6f32e48afe46f6fc0a6ec4f9ebd94fd~7h1rV-i700825308253eucas1p1h;
+	Fri, 24 Jun 2022 10:21:52 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+	eusmges3new.samsung.com (EUCPMTA) with SMTP id FB.4D.09580.04095B26; Fri, 24
+	Jun 2022 11:21:52 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20220624102151eucas1p27357e5b3285d1915ed9f7002655987e3~7h1q-mn5g2731127311eucas1p22;
+	Fri, 24 Jun 2022 10:21:51 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20220624102151eusmtrp23c1221511730a2f0f8dd9b05ff35f643~7h1q_-gMP0509305093eusmtrp2W;
+	Fri, 24 Jun 2022 10:21:51 +0000 (GMT)
+X-AuditID: cbfec7f5-9c3ff7000000256c-df-62b590405658
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id 5B.70.09095.F3095B26; Fri, 24
+	Jun 2022 11:21:51 +0100 (BST)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20220624102151eusmtip160027547a4c25d3fe612e1c4da8ef9fe~7h1q0b1li3244832448eusmtip1d;
+	Fri, 24 Jun 2022 10:21:51 +0000 (GMT)
+Received: from localhost (106.110.32.133) by CAMSVWEXC02.scsc.local
+	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+	Fri, 24 Jun 2022 11:21:50 +0100
+Date: Fri, 24 Jun 2022 12:21:48 +0200
+From: Joel Granados <j.granados@samsung.com>
+To: Keith Busch <kbusch@kernel.org>
+CC: <hch@lst.de>, <linux-nvme@lists.infradead.org>, <joshi.k@samsung.com>,
+	<gost.dev@samsung.com>, <k.jensen@samsung.com>
+Subject: Re: [PATCH v3 2/2] nvme: enable generic interface (/dev/ngXnY) for
+ unknown command sets
+Message-ID: <20220624102148.pxty7kurqbxsagtt@localhost>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="yaxr5v3dvg6ujolu"
+Content-Disposition: inline
+In-Reply-To: <YrR/Wc/1Wx959Dnu@kbusch-mbp>
+X-Originating-IP: [106.110.32.133]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDKsWRmVeSWpSXmKPExsWy7djPc7oOE7YmGXyfwmmxcvVRJotJh64x
+	Wsxf9pTdgdlj06pONo/NS+o9dt9sYAtgjuKySUnNySxLLdK3S+DKWLLvFFPBDYmK2yt6mBsY
+	14p0MXJySAiYSHzce4Opi5GLQ0hgBaPEywsnoJwvjBLT/01ngXA+M0o8aJrNBNPypucfG0Ri
+	OaPEvOMHmOCqvs/5ANWyhVGiddFUFpAWFgFVidZPn8Ha2QR0JM6/ucMMYosIKEvcnT+TtYuR
+	g4NZoFri6a8EkLCwQJLEz4Y2dpAwr4C5xNPtISBhXgFBiZMzn4BNZBaokNgw9wtUp7TE8n8c
+	IGFOAS2JX6vaWSDuVJL4+qaXFcKulTi15RbYmRICHzgkVl/7wQyRcJE40vsf6jFhiVfHt7BD
+	2DIS/3fOh4pnS+ycsguqvkBi1smpbCB7JQSsJfrO5ECEHSVW3nrEBBHmk7jxVhDiSj6JSdum
+	M0OEeSU62oQgqtUkdjRtZZzAqDwLyV+zkPw1C+EviLCOxILdn9gwhLUlli18zQxh20qsW/ee
+	ZQEj+ypG8dTS4tz01GLjvNRyveLE3OLSvHS95PzcTYzARHT63/GvOxhXvPqod4iRiYPxEKMK
+	UPOjDasvMEqx5OXnpSqJ8L74vzlJiDclsbIqtSg/vqg0J7X4EKM0B4uSOG9y5oZEIYH0xJLU
+	7NTUgtQimCwTB6dUA5O5cqHQf0P9X65X7A7fFfc25DnbW2/X6M7FuMPy5qqis20TWuyEfZXU
+	xf8f8dv57eE7jakh16odH12Zc/Fa+rtfvQ8Or3DtizcLqfqdrV7jWeSr16ChNM/54+S6U1fM
+	f9WsdFgj9mKp1VRjzQnVuqsnHPESPXByncls5mma335UnfrBcKX4dcuCTWc4D52PNspvLwmT
+	3V6+T9Ve5sh01jMme6VSjtWYblvFd8+DZ96VV6vPf+YomKt03+LT2vYT//Ii9x/Ta157sjlr
+	f+q0exd4v0b8+3y+41+BkY+LoH+BWRffYa6jJ5qd1YwsRO7rcUoFysh23tv9OiAn0mzDLpet
+	P4+c2sO0/OV53qING3WUWIozEg21mIuKEwFY76n6vwMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrFIsWRmVeSWpSXmKPExsVy+t/xu7r2E7YmGey8rmOxcvVRJotJh64x
+	Wsxf9pTdgdlj06pONo/NS+o9dt9sYAtgjtKzKcovLUlVyMgvLrFVija0MNIztLTQMzKx1DM0
+	No+1MjJV0rezSUnNySxLLdK3S9DLmHFgC2PBNYmKJ6vXMjUwrhbpYuTkkBAwkXjT84+ti5GL
+	Q0hgKaPEuUs72CASMhKfrnxkh7CFJf5c64Iq+sgosaj5ByOEs4VR4tCVSUwgVSwCqhKtnz6D
+	2WwCOhLn39xhBrFFBJQl7s6fydrFyMHBLFAt8fRXAkhYWCBJ4mdDGztImFfAXOLp9hCQsJDA
+	RSaJbVeyQWxeAUGJkzOfsIDYzAJlEh0nn7FDTJGWWP6PAyTMKaAl8WtVOwvEmUoSX9/0skLY
+	tRKf/z5jnMAoPAvJpFlIJs1CmAQR1pK48e8lE4awtsSyha+ZIWxbiXXr3rMsYGRfxSiSWlqc
+	m55bbKhXnJhbXJqXrpecn7uJERiR24793LyDcd6rj3qHGJk4GA8xqgB1Ptqw+gKjFEtefl6q
+	kgjvi/+bk4R4UxIrq1KL8uOLSnNSiw8xmgKDcCKzlGhyPjBV5JXEG5oZmBqamFkamFqaGSuJ
+	83oWdCQKCaQnlqRmp6YWpBbB9DFxcEo1MCWGV1hfPG+47Prx6+vveK/8b6tm+O2SN6Nl02OF
+	PS2LL4YYT706ccfva4uYZ19NXrtkchlf8Y40YbYbGuldU1LCeLz2P/nO+1d42iOe8wHXrps5
+	/XlieEOe93i5m4ACu7yjr4nE8kcPEtqijL9Otlu+z+qV8qrosyksz9lcts9aPMs/6vCOPVlP
+	0mc6am565vHWYoF/q/b09Zc2WlSIJdyvW3O1udjm7rWf+hFXt7w86/r/qvMtsTkqhdV6U5eu
+	FGxXCJmny8xyi+3T/ntGS0r8fiV3XfHW+SIlfcZHcOl1x9//PTvsCpalT3G2nNG981KkD4f2
+	0+nOtT8/ZLDrzZQ3d53aoHJu1ZyITXdW2s1RYinOSDTUYi4qTgQA8IhTS10DAAA=
+X-CMS-MailID: 20220624102151eucas1p27357e5b3285d1915ed9f7002655987e3
+X-Msg-Generator: CA
+X-RootMTR: 20220622135844eucas1p1c224ccf50c43f722cc228c59d8c395a7
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220622135844eucas1p1c224ccf50c43f722cc228c59d8c395a7
+References: <20220622135556.2185991-1-j.granados@samsung.com>
+	<CGME20220622135844eucas1p1c224ccf50c43f722cc228c59d8c395a7@eucas1p1.samsung.com>
+	<20220622135556.2185991-3-j.granados@samsung.com>
+	<YrN5dWNZkUnFpjSH@kbusch-mbp.dhcp.thefacebook.com>
+	<20220623083918.kvtkpwyy3ob52sp4@joelS1.panther.com>
+	<YrR/Wc/1Wx959Dnu@kbusch-mbp>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220623_192106_759175_E9030246 
-X-CRM114-Status: UNSURE (   7.41  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220624_032204_251632_8F25EAB8 
+X-CRM114-Status: GOOD (  27.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,112 +138,86 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-5.19
-branch HEAD: e6487833182a8a0187f0292aca542fc163ccd03e  nvme: move the Samsung X5 quirk entry to the core quirks
+--yaxr5v3dvg6ujolu
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-elapsed time: 728m
+On Thu, Jun 23, 2022 at 08:57:29AM -0600, Keith Busch wrote:
+> On Thu, Jun 23, 2022 at 10:39:18AM +0200, Joel Granados wrote:
+> > On Wed, Jun 22, 2022 at 02:20:05PM -0600, Keith Busch wrote:
+> > > On Wed, Jun 22, 2022 at 03:55:56PM +0200, Joel Granados wrote:
+> > > >  static void nvme_validate_or_alloc_ns(struct nvme_ctrl *ctrl, unsi=
+gned nsid)
+> > > >  {
+> > > >  	struct nvme_ns_ids ids =3D { };
+> > > > -	struct nvme_id_ns_cs_indep *id;
+> > > > +	struct nvme_id_ns_cs_indep *id_indep;
+> > > >  	struct nvme_ns *ns;
+> > > > -	bool ready =3D true;
+> > > > =20
+> > > >  	if (nvme_identify_ns_descs(ctrl, nsid, &ids))
+> > > >  		return;
+> > > > =20
+> > > > +	if (nvme_identify_ns_cs_indep(ctrl, nsid, &id_indep))
+> > > > +		return;
+> > > > +
+> > >=20
+> > > There's no check that the command-set-independent namespace identific=
+ation is
+> > > supported, so an error should be expected for many controllers instea=
+d of
+> > > abandoning the namespace.
+> > good catch. But is the error really necessary?
+> > If the controller supports NVM or ZNS then we can continue with the
+> > normal (command-set-dependent) namespace identification.
+> >=20
+> > I see two situations:
+> >=20
+> > 1. When we are dealing with NVM or ZNS command sets:
+> > 1.1 Should bring up a block device regardless of supporting command-set-
+> >     independent namespace identification
+> > 1.2 Time-to-ready will be used only if command-set-independent is
+> >     supported
+> >=20
+> > 2. When we are dealing with something that is not NVM nor ZNS:
+> > 2.1 Should bring up a char device iff the command-set-independent
+> >     namespace identification is supported.
+> > 2.2 Should abandon the namespace with a dev_warn if the
+> >     command-set-independent namespace identification is not supported.
+> >=20
+> > Am I missing something?
+>=20
+> I think your description sounds like what we want to happen, but that's n=
+ot
+> what the code does. When validating NVM or ZNS namespace, but the control=
+ler
+> doesn't support CNS 8h, the code returns early instead of allocating the
+> namespace.
 
-configs tested: 90
-configs skipped: 2
+Will update in V4 so it reflects required behavior. Just wanted to make
+sure that the error was not necessary.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Thx
 
-gcc tested configs:
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-i386                          randconfig-c001
-sh                  sh7785lcr_32bit_defconfig
-ia64                      gensparse_defconfig
-arm                           corgi_defconfig
-nios2                         3c120_defconfig
-sh                        sh7757lcr_defconfig
-arm                          pxa3xx_defconfig
-powerpc                   currituck_defconfig
-arm                      jornada720_defconfig
-arm                             pxa_defconfig
-arm                         s3c6400_defconfig
-m68k                        m5272c3_defconfig
-powerpc                         wii_defconfig
-riscv             nommu_k210_sdcard_defconfig
-parisc64                         alldefconfig
-mips                      maltasmvp_defconfig
-openrisc                  or1klitex_defconfig
-arc                           tb10x_defconfig
-sh                         ap325rxa_defconfig
-arm                          lpd270_defconfig
-s390                             allmodconfig
-arc                          axs103_defconfig
-xtensa                          iss_defconfig
-arm                          simpad_defconfig
-arm                      footbridge_defconfig
-sparc                       sparc64_defconfig
-sh                          rsk7269_defconfig
-openrisc                 simple_smp_defconfig
-ia64                             allmodconfig
-riscv                             allnoconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-powerpc                           allnoconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-sh                               allmodconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-i386                                defconfig
-i386                             allyesconfig
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-x86_64                        randconfig-a011
-x86_64                        randconfig-a013
-x86_64                        randconfig-a015
-i386                          randconfig-a014
-i386                          randconfig-a012
-i386                          randconfig-a016
-arc                  randconfig-r043-20220622
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
 
-clang tested configs:
-powerpc                 mpc8560_ads_defconfig
-x86_64                        randconfig-k001
-x86_64                        randconfig-a005
-x86_64                        randconfig-a003
-x86_64                        randconfig-a001
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-i386                          randconfig-a013
-i386                          randconfig-a015
-i386                          randconfig-a011
-hexagon              randconfig-r041-20220622
-hexagon              randconfig-r045-20220622
-riscv                randconfig-r042-20220622
-s390                 randconfig-r044-20220622
-hexagon              randconfig-r041-20220623
-hexagon              randconfig-r045-20220623
+--yaxr5v3dvg6ujolu
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmK1kDAACgkQupfNUreW
+QU/ZZAv/eG9+61MQo6oA5fEDU6S7rSKsZQq/SHug/cOFGvF9d7+dCNaVP/j/RVwm
+XYEaiMysweYsq5SaFPIOGs+EHmOvTs1HqOLB91P4b/SKvmL8qLQXAoXn/EBXVgc8
+6KxfxlDze+9XwKIfnFdKVh+AWVvj/afqyn+vtACw46sAbJ0778TALC1n9mtSG0Ru
+0pw9NYVhSkJFQ537+S1qWQImiIUG1t4mZ9dGXmYrisDD4kihN6ZAWKBz6brq4XGo
+Ry2HZF2WLXQi76OZEDuDJsRQAjQconSLiLgEWkivk50gKrJneG8JV+2l6XsV1IWU
+KCx8ikicZXUY6py5/NThSN8iupYwPBOJMHzIBp9w6B7kUT6U9HUAeu5NiyJMsiq5
+Bi5+yK9Ofq1UofG8fgR7AJZRtFO5k2pg/2TWdaQDccMXR+f4W6eQ9eDf9Z4tHsjQ
+3xZXb6hSKZf1YdiVQLPIRGs+C/giJOSD5zH1rp1UlopuxOmaBi/o6G+H8aiPApj9
+NWK8JnfB
+=ICoE
+-----END PGP SIGNATURE-----
+
+--yaxr5v3dvg6ujolu--
 
