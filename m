@@ -4,63 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 098DAC43334
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jun 2022 21:50:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 349EFC433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jun 2022 02:21:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=55Ow6rZ0I1kyS2p6lWsXoIBLC2UPKt0ZmhKakVoU6gk=; b=Inz7LHkYdbpQWZi8oByrvv80np
-	LYz6nkAdKWiZwfqQYZMDnAn6uXG8SG8EsUq/5O7Rw9fFMABh9Z0Mxpi4h3aw52++X0m/cSEqn5hAc
-	B3gG0Uco9RStNZZY9ZrafktkIhfYy+R1gz2LdyXdI9a5a1NUxD92Qh826mwRPjuJ9yHEeppGkMbVM
-	/uNIdpzjs15a8pEuGkwCr6bQMk1psRnS+3pa5GzTGS31C7Vm03OgbWshLIgmcOIW6j5Zl3w13puQF
-	c04UguGjUOasD+qBh1OiF095mJ6D+9Adz0l4qWbtzjvUkiiRv/ib3r1qTBTov2jJpV7MHIwIxLVd7
-	bp5AIa0Q==;
+	bh=cfSO/K0bu3ksmm7qJkxHQfF/pIP+QvmTCWP/Eq9tlmM=; b=30nZrBHgcPb1fQQgR4eLJ1c+tL
+	lgpCHdwY68lNvmjRB4Denl9ijhItTiPiTWsDE/bsRXiapc8MM8FWcmKD1vqIxSgRWgNrac89+kDt9
+	vP4IwzdagAiTzeAEFsbaHA5uMvXlsR1Pr2sfko2JQX/03ShdpVq+xgc7Mcq1zLnPRp1mHP1NorlGs
+	x5udgXxeIIngjW2+3x/vDzfRsiVOqE7uK1l4Gdk99Srvmn7K0GgM/LG0QSssocNPJrzE8Q1J51+Yz
+	xUTDTvwfzTcrZhcS2Ly0HiCJeE3RLT/FFYAZPYEpqTbldTdTBjlJ109UkPKb+JNxT/xZSQCANA2aP
+	esZ/WctA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4UiB-00Gtt3-9R; Thu, 23 Jun 2022 21:50:03 +0000
-Received: from mail-wr1-f41.google.com ([209.85.221.41])
+	id 1o4YwX-00HQv3-6j; Fri, 24 Jun 2022 02:21:09 +0000
+Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4Ui8-00GtqT-1L
-	for linux-nvme@lists.infradead.org; Thu, 23 Jun 2022 21:50:01 +0000
-Received: by mail-wr1-f41.google.com with SMTP id k22so608672wrd.6
-        for <linux-nvme@lists.infradead.org>; Thu, 23 Jun 2022 14:49:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=55Ow6rZ0I1kyS2p6lWsXoIBLC2UPKt0ZmhKakVoU6gk=;
-        b=xfr3q+FEh6Kl6Pgo5yPBE3J+JL9wb6WyVBRtXPMxnW8vSQwz/010CBX9yd4L1W1Z7K
-         Hn0t3gjdAakGBljg5nHDlq5hwrwnfwGGWGljmI0AKJe6hqN4wBBqsjnc6H9f3SfDjOwM
-         Z0WeEsuNddkXRPA1wUZLbp/YhcGnRXfORo1bIrL3qlt+vwjCIBkssC3hRyj7PJAYa0dp
-         2UPYTFkNySUW/wUSCwLK14Nu7ajgpRM6FDxxR4yZDT8T7sq5UXf9oQ8VapaKT4Dv2MsG
-         VEpIQ2iIVnxA4ZioO0y/wj7hy4SJ3kQJYxYCAgNkRygfOEWJt3xc4Nwl1K1Nz5FqPZWP
-         FhHQ==
-X-Gm-Message-State: AJIora8Mt07EKmc9NnXBGlY0ds3gsKwQldHxRJ/d7AKuZtUc8BOTMw9P
-	0zUxflk/c6kWTqdMDNDW2MaVs/ZSy6Q=
-X-Google-Smtp-Source: AGRyM1sxnt5tSed4WBoapWmpbGgpAT5Q+IuANEHdDB5ElDbgjH741UdEioTL90IFRBbXOfdfQyx8Jg==
-X-Received: by 2002:a5d:5145:0:b0:21b:940d:45d1 with SMTP id u5-20020a5d5145000000b0021b940d45d1mr10065894wrt.308.1656020995613;
-        Thu, 23 Jun 2022 14:49:55 -0700 (PDT)
-Received: from localhost.localdomain (46-117-125-14.bb.netvision.net.il. [46.117.125.14])
-        by smtp.gmail.com with ESMTPSA id p17-20020a7bcc91000000b0039c4ec6fdacsm505481wma.40.2022.06.23.14.49.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jun 2022 14:49:55 -0700 (PDT)
-From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	Keith Busch <kbusch@kernel.org>
-Subject: [PATCH] nvmet-tcp: fix regression in data_digest calculation
-Date: Fri, 24 Jun 2022 00:49:53 +0300
-Message-Id: <20220623214953.1347335-1-sagi@grimberg.me>
-X-Mailer: git-send-email 2.34.1
+	id 1o4YwU-00HQuZ-H4
+	for linux-nvme@lists.infradead.org; Fri, 24 Jun 2022 02:21:08 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656037266; x=1687573266;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=y9o9bluW4J+Z3Ja5cCrZ/D6DL/bNevL4jnXlupzFMf4=;
+  b=KBCe/Y552axIPYOX6XkpHPbhkAFVX9kGZAKhUbsbfW2oYeFB7hHz5d7a
+   FQsbPRT6Na3njikfmk1swhmFC/lE7GbuuBq9/TNhvIHSnjvWFw2YktTG9
+   ulyXwK8a6RYXLJTT71PV+Fn2LLwKA6XZF3J6EjzEEwn8inFsTOYECk5GK
+   zoWyj2kGs9pVq76wjWZgVURr+gkWMPFo+99B96nTCPUWeR/dC/Swq1g60
+   5LYG/eS/MB8xZLCzy9qj55vxPcEW477RT3saquire3JET04a5VEnOGA+e
+   clwxhPj3Hs8eJVbFsSR8mjehigkzi2PTeAQ+FGFxQTavqqxJRiOfBbWud
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10387"; a="342587706"
+X-IronPort-AV: E=Sophos;i="5.92,217,1650956400"; 
+   d="scan'208";a="342587706"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2022 19:18:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,217,1650956400"; 
+   d="scan'208";a="588859859"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 23 Jun 2022 19:18:57 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1o4YuO-0003WM-O0;
+	Fri, 24 Jun 2022 02:18:56 +0000
+Date: Fri, 24 Jun 2022 10:18:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-5.19] BUILD SUCCESS
+ e6487833182a8a0187f0292aca542fc163ccd03e
+Message-ID: <62b51ee1.O5jx9Gz93f1qV3qb%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220623_145000_116304_E04ACC6D 
-X-CRM114-Status: GOOD (  12.77  )
+X-CRM114-CacheID: sfid-20220623_192106_759175_E9030246 
+X-CRM114-Status: UNSURE (   7.41  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,79 +81,112 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Data digest calculation iterates over command mapped iovec. However
-since commit bac04454ef9f we unmap the iovec before we handle the data
-digest, and since commit 69b85e1f1d1d we clear nr_mapped when we unmap
-the iov.
+tree/branch: git://git.infradead.org/nvme.git nvme-5.19
+branch HEAD: e6487833182a8a0187f0292aca542fc163ccd03e  nvme: move the Samsung X5 quirk entry to the core quirks
 
-Instead of open-coding the command iov traversal, simply call
-crypto_ahash_digest with the command sg that is already allocated (we
-already do that for the send path). Rename nvmet_tcp_send_ddgst to
-nvmet_tcp_calc_ddgst and call it from send and recv paths.
+elapsed time: 728m
 
-Fixes: 69b85e1f1d1d ("nvmet-tcp: add an helper to free the cmd buffers")
-Fixes: bac04454ef9f ("nvmet-tcp: fix kmap leak when data digest in use")
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/target/tcp.c | 23 +++--------------------
- 1 file changed, 3 insertions(+), 20 deletions(-)
+configs tested: 90
+configs skipped: 2
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 2793554e622e..0a9542599ad1 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -405,7 +405,7 @@ static int nvmet_tcp_map_data(struct nvmet_tcp_cmd *cmd)
- 	return NVME_SC_INTERNAL;
- }
- 
--static void nvmet_tcp_send_ddgst(struct ahash_request *hash,
-+static void nvmet_tcp_calc_ddgst(struct ahash_request *hash,
- 		struct nvmet_tcp_cmd *cmd)
- {
- 	ahash_request_set_crypt(hash, cmd->req.sg,
-@@ -413,23 +413,6 @@ static void nvmet_tcp_send_ddgst(struct ahash_request *hash,
- 	crypto_ahash_digest(hash);
- }
- 
--static void nvmet_tcp_recv_ddgst(struct ahash_request *hash,
--		struct nvmet_tcp_cmd *cmd)
--{
--	struct scatterlist sg;
--	struct kvec *iov;
--	int i;
--
--	crypto_ahash_init(hash);
--	for (i = 0, iov = cmd->iov; i < cmd->nr_mapped; i++, iov++) {
--		sg_init_one(&sg, iov->iov_base, iov->iov_len);
--		ahash_request_set_crypt(hash, &sg, NULL, iov->iov_len);
--		crypto_ahash_update(hash);
--	}
--	ahash_request_set_crypt(hash, NULL, (void *)&cmd->exp_ddgst, 0);
--	crypto_ahash_final(hash);
--}
--
- static void nvmet_setup_c2h_data_pdu(struct nvmet_tcp_cmd *cmd)
- {
- 	struct nvme_tcp_data_pdu *pdu = cmd->data_pdu;
-@@ -454,7 +437,7 @@ static void nvmet_setup_c2h_data_pdu(struct nvmet_tcp_cmd *cmd)
- 
- 	if (queue->data_digest) {
- 		pdu->hdr.flags |= NVME_TCP_F_DDGST;
--		nvmet_tcp_send_ddgst(queue->snd_hash, cmd);
-+		nvmet_tcp_calc_ddgst(queue->snd_hash, cmd);
- 	}
- 
- 	if (cmd->queue->hdr_digest) {
-@@ -1137,7 +1120,7 @@ static void nvmet_tcp_prep_recv_ddgst(struct nvmet_tcp_cmd *cmd)
- {
- 	struct nvmet_tcp_queue *queue = cmd->queue;
- 
--	nvmet_tcp_recv_ddgst(queue->rcv_hash, cmd);
-+	nvmet_tcp_calc_ddgst(queue->rcv_hash, cmd);
- 	queue->offset = 0;
- 	queue->left = NVME_TCP_DIGEST_LENGTH;
- 	queue->rcv_state = NVMET_TCP_RECV_DDGST;
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm64                            allyesconfig
+arm                                 defconfig
+arm                              allyesconfig
+i386                          randconfig-c001
+sh                  sh7785lcr_32bit_defconfig
+ia64                      gensparse_defconfig
+arm                           corgi_defconfig
+nios2                         3c120_defconfig
+sh                        sh7757lcr_defconfig
+arm                          pxa3xx_defconfig
+powerpc                   currituck_defconfig
+arm                      jornada720_defconfig
+arm                             pxa_defconfig
+arm                         s3c6400_defconfig
+m68k                        m5272c3_defconfig
+powerpc                         wii_defconfig
+riscv             nommu_k210_sdcard_defconfig
+parisc64                         alldefconfig
+mips                      maltasmvp_defconfig
+openrisc                  or1klitex_defconfig
+arc                           tb10x_defconfig
+sh                         ap325rxa_defconfig
+arm                          lpd270_defconfig
+s390                             allmodconfig
+arc                          axs103_defconfig
+xtensa                          iss_defconfig
+arm                          simpad_defconfig
+arm                      footbridge_defconfig
+sparc                       sparc64_defconfig
+sh                          rsk7269_defconfig
+openrisc                 simple_smp_defconfig
+ia64                             allmodconfig
+riscv                             allnoconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+arc                              allyesconfig
+alpha                            allyesconfig
+powerpc                           allnoconfig
+mips                             allyesconfig
+powerpc                          allmodconfig
+sh                               allmodconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+i386                                defconfig
+i386                             allyesconfig
+x86_64                        randconfig-a006
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+i386                          randconfig-a001
+i386                          randconfig-a003
+i386                          randconfig-a005
+x86_64                        randconfig-a011
+x86_64                        randconfig-a013
+x86_64                        randconfig-a015
+i386                          randconfig-a014
+i386                          randconfig-a012
+i386                          randconfig-a016
+arc                  randconfig-r043-20220622
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                           rhel-8.3-syz
+x86_64                         rhel-8.3-kunit
+
+clang tested configs:
+powerpc                 mpc8560_ads_defconfig
+x86_64                        randconfig-k001
+x86_64                        randconfig-a005
+x86_64                        randconfig-a003
+x86_64                        randconfig-a001
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+i386                          randconfig-a013
+i386                          randconfig-a015
+i386                          randconfig-a011
+hexagon              randconfig-r041-20220622
+hexagon              randconfig-r045-20220622
+riscv                randconfig-r042-20220622
+s390                 randconfig-r044-20220622
+hexagon              randconfig-r041-20220623
+hexagon              randconfig-r045-20220623
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
 
