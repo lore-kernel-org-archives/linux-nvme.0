@@ -4,31 +4,31 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 157AAC43334
-	for <linux-nvme@archiver.kernel.org>; Sat, 25 Jun 2022 12:11:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00A83C43334
+	for <linux-nvme@archiver.kernel.org>; Sat, 25 Jun 2022 12:15:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=TNq/ADQUhhdDnVg0+75xr4EL0cHKTPjPXQtu5zb7BHo=; b=cDL2fS7ZdM1bnD9MlhTlEfPsRW
-	UlBCZ0wanBZqtDx8NqRxcH7Eyx+nq9XTL1xu3sM4JW8b7puSkzPnz7lN8S8CdLyExuG5Ij+Gk1hP5
-	qBHvUiUYTjPbHubttigHpAroi9j/C/cAuhj+OQVn07+Cahcj5j+8FfSlFrPO09+1IWg3ATeud5FvH
-	+nNu6+UwoEprCCJCZSR44U94zUhm8nXU+W9L/4Sqa6iuREYRVBUh9IEDtSm3U1RXdFSJm2u+eevIU
-	+XOVFsCBCdDnV5W0A0s/wx/2EWhrwANFMsSOwtPsaGHPd8gyOU0XC/HxPWI4IRuWJfF6dxQRzOFA8
-	eukpKm+A==;
+	bh=TNq/ADQUhhdDnVg0+75xr4EL0cHKTPjPXQtu5zb7BHo=; b=oFVzD+DBTIswdKtbui7eWM0ggQ
+	4dV1x3I2oZVemiXq+ADZjDXFpsvjfbYVgp4loiDyrcM/hfXfqaEZDmLYTYG5lNrq+4WLD2jLBeXUT
+	qF+qzyKX78tmLqNrmikJ2iJj7UcASkXaIxuZospr6Bex97UMpY3SsKqjkA6YqMw5XbATYEHd9EMr+
+	B9wL0okFYml4ZM+hDfhqxKW0esIJGy5p9jLNolWz8qfLWBjTwzVw9mHay8E8rC0ohwZ2kcy5PKwDq
+	F3xo5M1r7Mrtedbdjv+WroVrWs/NvaZpsCMCkh62/ilP2ZArf/1gwNMJQwktNYuGMZ+wUkzKGprBu
+	tzWhEEzg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o54cq-005wGF-Eh; Sat, 25 Jun 2022 12:10:56 +0000
+	id 1o54h2-005x8p-Ax; Sat, 25 Jun 2022 12:15:16 +0000
 Received: from mail2.sp2max.com.br ([138.185.4.9])
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o54ck-005wDu-DU
-	for linux-nvme@lists.infradead.org; Sat, 25 Jun 2022 12:10:52 +0000
+	id 1o54gz-005x81-NU
+	for linux-nvme@lists.infradead.org; Sat, 25 Jun 2022 12:15:15 +0000
 Received: from fedora.. (unknown [190.245.244.131])
 	(Authenticated sender: pablo@fliagreco.com.ar)
-	by mail2.sp2max.com.br (Postfix) with ESMTPSA id 40ADF7B092A;
-	Sat, 25 Jun 2022 09:10:35 -0300 (-03)
+	by mail2.sp2max.com.br (Postfix) with ESMTPSA id D23157B092A;
+	Sat, 25 Jun 2022 09:15:08 -0300 (-03)
 From: Pablo Greco <pgreco@centosproject.org>
 To: 
 Cc: Pablo Greco <pgreco@centosproject.org>,
@@ -39,22 +39,22 @@ Cc: Pablo Greco <pgreco@centosproject.org>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] nvme-pci: add NVME_QUIRK_BOGUS_NID for ADATA XPG SX6000LNP (AKA XPECTRIX S40G)
-Date: Sat, 25 Jun 2022 09:10:11 -0300
-Message-Id: <20220625121011.8103-1-pgreco@centosproject.org>
+Subject: [PATCH v2] nvme-pci: add NVME_QUIRK_BOGUS_NID for ADATA XPG SX6000LNP (AKA SPECTRIX S40G)
+Date: Sat, 25 Jun 2022 09:15:02 -0300
+Message-Id: <20220625121502.9092-1-pgreco@centosproject.org>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SP2Max-MailScanner-Information: Please contact the ISP for more information
-X-SP2Max-MailScanner-ID: 40ADF7B092A.A2A42
+X-SP2Max-MailScanner-ID: D23157B092A.A1B74
 X-SP2Max-MailScanner: Sem Virus encontrado
-X-SP2Max-MailScanner-SpamCheck: nao spam, SpamAssassin (not cached,
-	escore=-2.91, requerido 6, autolearn=not spam, ALL_TRUSTED -1.00,
-	BAYES_00 -1.90, T_SCC_BODY_TEXT_LINE -0.01)
+X-SP2Max-MailScanner-SpamCheck: nao spam, SpamAssassin (cached, escore=-2.91,
+	requerido 6, autolearn=not spam, ALL_TRUSTED -1.00, BAYES_00 -1.90,
+	T_SCC_BODY_TEXT_LINE -0.01)
 X-SP2Max-MailScanner-From: pgreco@centosproject.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220625_051050_683250_21A46EBF 
-X-CRM114-Status: UNSURE (   9.19  )
+X-CRM114-CacheID: sfid-20220625_051513_988405_52F3DA10 
+X-CRM114-Status: UNSURE (   9.08  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
