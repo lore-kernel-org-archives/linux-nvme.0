@@ -4,74 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F256C43334
-	for <linux-nvme@archiver.kernel.org>; Sun, 26 Jun 2022 14:16:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B841C433EF
+	for <linux-nvme@archiver.kernel.org>; Sun, 26 Jun 2022 14:32:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6zCJCSVlAUXRaGnISCtHsz/5Pjr48JRZxmR0ns3GnNg=; b=Vs9kfelgNufzHGj5XRxANNMxf8
-	VMTJFGEx6WToWj7XJsKuYLDFUstQmRAPTjmqHFkHFlqLg/xEuP1fGsSsOKGcJrLDMIeU//dV2i4yX
-	aVsgfTAGYjzi9GqHcP6z7o1XYwDp1dfWckIVmsgMvzhu4TQE67uk6aUHOZKnSOkxgUuF45nHBFcq+
-	qJ1DiG+dqW5lYTwOmvTYPNCVIXxGzK2w9ZPA8a/8p0TYv6GV1AhynSZXfUvz7eFNo9vnPkj7LlGHb
-	EAkFfXAaSqdgYDj9eEDVQzPD+qFP9RjMMBpHw0C8bVHuFUmTd3AYWiyDgxBba3mZW5SydISXKr5Cb
-	RyiF+Ghw==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=jh+1lxbVAb0EYhpGMmIEcNt2cC5689GfxrEeQtoJZfU=; b=T3LMkxAcHL5wUcb6aj6Yfz/wzK
+	bLxrjksts4A08q/oybAHdW9y+L5Jnuobwa7zB0VRw1m1++p9MsHJhYqfBD72dvDwY4jKCjxUKeQyz
+	i/ztkrVupuIaX2/gDkJgEX7qCaFlZiNbc8YHElsw8MSeqcrsBx01oWKG559X5rw5oIj26cGF8tR2D
+	2sYqL9R245gygYxkOgmz+EmqZ9vWInd4Fh/NOLTFYeeFPuUNYyK//M1TLtP50c8Y/QRK/LLqX9LTl
+	+isOCk1rqvzz2alYbiqnns/9X8i4gdEEU0yYVWFZkttF8xhaGLYzvVucw32w12/luazrswdu+AqXQ
+	GiOhd15w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o5T3i-00C7R5-2l; Sun, 26 Jun 2022 14:16:18 +0000
-Received: from mail-wm1-f46.google.com ([209.85.128.46])
+	id 1o5TJ8-00CBar-Qu; Sun, 26 Jun 2022 14:32:14 +0000
+Received: from mail-wr1-f44.google.com ([209.85.221.44])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o5T3f-00C7PY-Hr
-	for linux-nvme@lists.infradead.org; Sun, 26 Jun 2022 14:16:16 +0000
-Received: by mail-wm1-f46.google.com with SMTP id u12-20020a05600c210c00b003a02b16d2b8so4112939wml.2
-        for <linux-nvme@lists.infradead.org>; Sun, 26 Jun 2022 07:16:11 -0700 (PDT)
+	id 1o5TJ6-00CBaB-76
+	for linux-nvme@lists.infradead.org; Sun, 26 Jun 2022 14:32:13 +0000
+Received: by mail-wr1-f44.google.com with SMTP id n1so9531946wrg.12
+        for <linux-nvme@lists.infradead.org>; Sun, 26 Jun 2022 07:32:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=6zCJCSVlAUXRaGnISCtHsz/5Pjr48JRZxmR0ns3GnNg=;
-        b=aCFhU+OSiG6wgswbtFXpxYHBiuPvYHnCzOQDdcwUYCLVgGiSr9Xn35dObKodSqdc5A
-         wrvL9ke/97ru0Pbd3Y25a8Td+ylUDs0HlQ2d4+3tKNirXsM2RToMs7LT6YzWgRCI65YC
-         1lVvHLP4Ww6LVsGwYt6y3exS8u8zY6YaiaafjpJMwjqwDNA5JsrgKnBHkPteL4KVpRsa
-         A/NdMuiTnQVlm4txLuwvS1Dn/ChqvQBRVKnYx2smhAd/SjDMK7SUrac5P5ZO40GDrqlt
-         qRGRdW2qjhsJ5P9lc3TPLFzQJSk07xE+mkQb+0BFewnPkNhm87xJR18uVoKJrKVZALzp
-         M2wQ==
-X-Gm-Message-State: AJIora+6JW/zlleuumJBfuDX9mTfeTg+E2FP+EdyIJiT6U0wH0eOu+NL
-	y7JfxS6i8tLCF2N2yy4NPPL85ND8wl4=
-X-Google-Smtp-Source: AGRyM1sspwWvVudAHE6sLY9L60sphjiPlvm76BAMYyUot88IugqA5kzn6bsXWcWV02k874t3pUk54A==
-X-Received: by 2002:a7b:cb03:0:b0:39e:e826:ce6d with SMTP id u3-20020a7bcb03000000b0039ee826ce6dmr14601812wmj.102.1656252969976;
-        Sun, 26 Jun 2022 07:16:09 -0700 (PDT)
-Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id z5-20020adfe545000000b0021b81855c1csm9515775wrm.27.2022.06.26.07.16.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Jun 2022 07:16:09 -0700 (PDT)
-Message-ID: <1a253c74-9dd7-60f3-33f4-037d92c179ea@grimberg.me>
-Date: Sun, 26 Jun 2022 17:16:08 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [bug report] kmemleak observed from blktests on latest
- linux-block/for-next
-Content-Language: en-US
-To: Yi Zhang <yi.zhang@redhat.com>, Ming Lei <ming.lei@redhat.com>
-Cc: linux-block <linux-block@vger.kernel.org>,
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
-References: <CAHj4cs8iJPnQ+zGHNTapR9HWMk9nBXUPbhYi5k-vKZf4qRmz_A@mail.gmail.com>
- <YqavC8hwLXwPVnor@T590>
- <CAHj4cs8y5HHYjr0FtWm1AmkEY=ZqOL4OmgzrWBEhbRpu5V8dWA@mail.gmail.com>
- <YqdIWcgnEylFuSci@T590>
- <CAHj4cs-66nWX_8HvN4_j8QmrTKA9tXNrdfejPagaDNOzNTGs_A@mail.gmail.com>
+        bh=jh+1lxbVAb0EYhpGMmIEcNt2cC5689GfxrEeQtoJZfU=;
+        b=3XPFzBzWpxYEavDw/O9fSm0s77B8LvUjRoHGUHw1qHnOAnDaMA+1pqF3MXV0P7apLz
+         vfzZupc7TYGb4kZGe4ev3/YHE9161FGuPsNbMuCD6e4d9sX3g8HW08inv+82Dd9Qs9EB
+         e6XUirp1XzH5cLuZdpi7D0COAOArwvezwvVKYMifUXN6Vg8e/KS/c/koMjuAL+bSjdMz
+         R0/vBK/Zn4OjF3RyTUG5uSsz/TC71WmVdfGtotgZtIrdF6S/BakDk9utAj/rtgKUK4AU
+         VEabDXB0uKwnvOSd+m5/YbfbTb+06M2vLnARyOTw1YH2WED7noVCGzrHuhxQcCLSqBIM
+         tUoA==
+X-Gm-Message-State: AJIora/RfrenEglkmMSR/5nzrjLUIK5Rm39dGNCCHgs51/by+QlrqGlD
+	N1hZis970vLfcRPFacNeAxw=
+X-Google-Smtp-Source: AGRyM1svwDmK90D7tHjhbmXabgbYAhXJNhEKReVhRw5M9YkBCsB6SGskB3p9LE29Tc6l1/79w4kvgw==
+X-Received: by 2002:a05:6000:1844:b0:21b:b06f:a3a1 with SMTP id c4-20020a056000184400b0021bb06fa3a1mr8519159wri.357.1656253930401;
+        Sun, 26 Jun 2022 07:32:10 -0700 (PDT)
+Received: from localhost.localdomain (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id t7-20020a05600001c700b002167efdd549sm7781944wrx.38.2022.06.26.07.32.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Jun 2022 07:32:10 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <CAHj4cs-66nWX_8HvN4_j8QmrTKA9tXNrdfejPagaDNOzNTGs_A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: linux-nvme@lists.infradead.org,
+	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+	Hannes Reinecke <hare@suse.de>,
+	Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>
+Subject: [PATCH] nvme: add optional ipv6 test flavor
+Date: Sun, 26 Jun 2022 17:32:08 +0300
+Message-Id: <20220626143208.84997-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220626_071615_639758_8BAE2130 
-X-CRM114-Status: UNSURE (   9.78  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220626_073212_296082_09BD52F6 
+X-CRM114-Status: GOOD (  12.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,28 +77,86 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Allow Setting nvme_adrfam=[ipv4|ipv6] and running tests on either
+address family. Ignored for non IP transports.
 
->>> Hi Ming
->>>
->>> The kmemleak also can be reproduced on 5.19.0-rc2, pls try to enable
->>> nvme_core multipath and retest.
->>>
->>> # cat /sys/module/nvme_core/parameters/multipath
->>> Y
->>>
->>
->> OK, I can understand the reason now since rqos is only removed for blk-mq queue,
->> then rqos allocated for bio queue is leaked, see disk_release_mq().
->>
->> The following patch should fix it:
-> 
-> Hi Ming
-> The kmemleak was fixed by this change, feel free to add
-> 
-> Tested-by: Yi Zhang <yi.zhang@redhat.com>
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+---
+ common/multipath-over-rdma | 10 ++++++++++
+ tests/nvme/rc              | 31 ++++++++++++++++++++++++++++---
+ 2 files changed, 38 insertions(+), 3 deletions(-)
 
-I just tripped on this myself...
-You can add,
+diff --git a/common/multipath-over-rdma b/common/multipath-over-rdma
+index f9d7b9a236ce..4307ceb4aae1 100644
+--- a/common/multipath-over-rdma
++++ b/common/multipath-over-rdma
+@@ -74,6 +74,16 @@ get_ipv6_addr() {
+ 		sed -n 's/.*[[:blank:]]inet6[[:blank:]]*\([^[:blank:]/]*\).*/\1/p'
+ }
+ 
++# grab only the link local address
++get_ipv6_ll_addr() {
++	if [ ! -e "/sys/class/net/$1" ]; then
++		echo "get_ipv6_addr(): $1 is not a network interface" 1>&2
++	fi
++	ll_addr=$(ip -6 -o addr show dev "$1" | grep "scope link" |
++		sed -n 's/.*[[:blank:]]inet6[[:blank:]]*\([^[:blank:]/]*\).*/\1/p')
++	echo "$ll_addr%$1"
++}
++
+ # Whether or not $1 is a number.
+ is_number() {
+ 	[ "$1" -eq "0$1" ] 2>/dev/null
+diff --git a/tests/nvme/rc b/tests/nvme/rc
+index 998b18164306..b36cc19ec3c1 100644
+--- a/tests/nvme/rc
++++ b/tests/nvme/rc
+@@ -38,6 +38,24 @@ _nvme_requires() {
+ 		SKIP_REASON="unsupported nvme_trtype=${nvme_trtype}"
+ 		return 1
+ 	esac
++
++	if [[ ! -z ${nvme_adrfam} ]]; then
++		case ${nvme_adrfam} in
++		ipv6)
++			def_traddr="::1"
++			def_adrfam="ipv6"
++			;;
++		ipv4)
++			;; # was already set
++		*)
++			# ignore for non ip transports
++			if [[ "${nvme_trtype}" == "tcp" || "${nvme_trtype}" == "rdma" ]]; then
++				SKIP_REASON="unsupported nvme_adrfam=${nvme_adrfam}"
++				return 1
++			fi
++		esac
++	fi
++
+ 	return 0
+ }
+ 
+@@ -148,9 +166,16 @@ _setup_nvmet() {
+ 		start_soft_rdma
+ 		for i in $(rdma_network_interfaces)
+ 		do
+-			ipv4_addr=$(get_ipv4_addr "$i")
+-			if [ -n "${ipv4_addr}" ]; then
+-				def_traddr=${ipv4_addr}
++			if [[ "${nvme_adrfam}" == "ipv6" ]]; then
++				ipv6_addr=$(get_ipv6_ll_addr "$i")
++				if [ -n "${ipv6_addr}" ]; then
++					def_traddr=${ipv6_addr}
++				fi
++			else
++				ipv4_addr=$(get_ipv4_addr "$i")
++				if [ -n "${ipv4_addr}" ]; then
++					def_traddr=${ipv4_addr}
++				fi
+ 			fi
+ 		done
+ 	fi
+-- 
+2.34.1
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
