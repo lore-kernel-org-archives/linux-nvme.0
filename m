@@ -4,75 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F04E4C43334
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Jun 2022 06:48:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52747CCA473
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Jun 2022 08:11:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FH4jSVws9haryRdZSRMDZOzK4AKXTyKxRKHPdjPvt8Q=; b=MQlGY01pbC0ow6Oh2evH6XTp3L
-	3sRb9sBUDT3Hx8emjEjVnsI/+bU4/0R+Y271gTocyqg4iCWaBEJPYwhsXjhH7DYG52FUXbWko5WUg
-	qeVtxWZlGflzg+3X5FwujKYDm8gHXKivXugGfN4ef9dQEtifbj72V40COXjMP6k96v+/pVHT4D6cZ
-	oCgcHIqXcK2BKmBfUUeTuQ9nw85PQoGxugDQMP/ay6qGFhD8LmyqizvNThoBTp+zxQ0UIPMlrkQCP
-	rjzxgYOlrQhBHnPIXg41wY+OEPX4I6X8o2/wCGRalJxwodIP8Wi8tY9/Gj6R9dtlU6HLMfO0hCd6+
-	lpX0q9Lg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=8ZF72YbeF/RJpCQl1RXIbNJ3YhldUZw7Udy9DHT6plI=; b=pOJK2/ZQrE3F7C8mkvRB0DWGLY
+	jW1fhoiJAajqbNpsrEcQU8qyn6ki5ub41Xo/HVVoRZ9AyiHSoLwsJG7BA3XMbHU4+PYQqXvOZ+9Qe
+	jRt41sFs0FD1wTdSa8gVAkzQeEV84DloO/HinYTV7hI7uag5pJPYw9i0SWOEWsPA6YcNr7SdyKXR6
+	cam/cdWBzhGdNgGyHb4XrMyFp/F8z6xZ4qIVXJbS4M1FTq95bOPultryLFsIU3G6FymAKQA6+pXKV
+	pkKgb1HpX19QXQygpYrIf+AHZM6ylQ5JKmLNbpEbun65O/Gawmxm0NleE6WqLCaI/9NHmAkdRvOev
+	X7j4LiDg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o5iY0-00GBEa-Re; Mon, 27 Jun 2022 06:48:36 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1o5jqF-00Gh8d-AQ; Mon, 27 Jun 2022 08:11:31 +0000
+Received: from mail-wr1-f44.google.com ([209.85.221.44])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o5iXx-00GBB0-4S
-	for linux-nvme@lists.infradead.org; Mon, 27 Jun 2022 06:48:34 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2430B21BED;
-	Mon, 27 Jun 2022 06:48:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1656312509; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FH4jSVws9haryRdZSRMDZOzK4AKXTyKxRKHPdjPvt8Q=;
-	b=YxkBit0vRWPuZy3VJPVxyojwXrq7vUH8ihpPECVZb/MnzrKo3tdfXNb1tyg44C+ZffnfGr
-	lRcGEwgQ68wVENe+zJy+pViOqLMfR1nyJ8K/9Z358LJWyhK1M6tklFOuaosX/KjrCsub1A
-	cv/1HYFXF6BI5gBZe4IG2lXSEYCxUlM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1656312509;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FH4jSVws9haryRdZSRMDZOzK4AKXTyKxRKHPdjPvt8Q=;
-	b=1en4jZExnYlsa7z7LMKVpDOko5vXEv35rBP1nQ8m221hZ54UKvFIohIXHOVCJYSbxWVaNI
-	yL/lF2dPZG6V3uCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 167F913456;
-	Mon, 27 Jun 2022 06:48:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id urxeBb1SuWLZYQAAMHmgww
-	(envelope-from <dwagner@suse.de>); Mon, 27 Jun 2022 06:48:29 +0000
-Date: Mon, 27 Jun 2022 08:48:28 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	id 1o5jlh-00GdpQ-JU
+	for linux-nvme@lists.infradead.org; Mon, 27 Jun 2022 08:06:51 +0000
+Received: by mail-wr1-f44.google.com with SMTP id e28so6648724wra.0
+        for <linux-nvme@lists.infradead.org>; Mon, 27 Jun 2022 01:06:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8ZF72YbeF/RJpCQl1RXIbNJ3YhldUZw7Udy9DHT6plI=;
+        b=4O9QR0oeOcT0rXXm2JE2It4XVW29upEm5j9vp3jUEqZ2iXOYU+0muPDYlSzDWoulRi
+         fK9YKxidIp85qsDSLbK0zfwKjWm/4mLEfueQDEYphIQZJw9D5/Z32M16firCmfHDXV3S
+         i78KhAk/Kvjv348ufFZ82xhyxwiYkpu4CFlfkpX1/oO71QaY5PT24ou5kO45L2NgeE+5
+         atfjhZ/QUMSHMjNGvX11H/5+J4IODMLmA3NGSglwQPCMtDHW29i3dqHWIgtetx35cSXr
+         wr0y+5dcgDGfFjCSFsgUfCGJ3EqKWZ7w2xCr3rq/FmjctCzIQpxDvJoajiQTdDXsMaaM
+         jIew==
+X-Gm-Message-State: AJIora8YG+g9MVfB2jmI6CNX/QMhtSFqhIhkbiuQpa21UuHbaisQf5q+
+	oxvXDrxrwNh6l2DoZll3kfawKVmlufc=
+X-Google-Smtp-Source: AGRyM1vq5YPCrzaiab4+LRbQGCDnhGFGtwzUNh8U0IXRpo0S/rYgIKjLLBDAHaa1Op6/XCV/MWrzuA==
+X-Received: by 2002:a5d:5262:0:b0:21b:84a8:8417 with SMTP id l2-20020a5d5262000000b0021b84a88417mr10957245wrc.119.1656317202167;
+        Mon, 27 Jun 2022 01:06:42 -0700 (PDT)
+Received: from localhost.localdomain (46-117-125-14.bb.netvision.net.il. [46.117.125.14])
+        by smtp.gmail.com with ESMTPSA id p13-20020a05600c358d00b003942a244f47sm17515654wmq.32.2022.06.27.01.06.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jun 2022 01:06:41 -0700 (PDT)
+From: Sagi Grimberg <sagi@grimberg.me>
+To: linux-nvme@lists.infradead.org
+Cc: Hannes Reinecke <hare@suse.de>,
+	Daniel Wagner <dwagner@suse.de>,
+	Christoph Hellwig <hch@lst.de>,
 	Keith Busch <kbusch@kernel.org>,
 	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Subject: Re: [PATCH] nvme-tcp: always fail a request when sending it failed
-Message-ID: <20220627064828.7b2dmnwks675mu53@carbon.lan>
-References: <20220626092451.32694-1-sagi@grimberg.me>
+Subject: [PATCH libnvme] fabrics: don't treat host_traddr 'none' as a valid hostname
+Date: Mon, 27 Jun 2022 11:06:39 +0300
+Message-Id: <20220627080639.108828-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220626092451.32694-1-sagi@grimberg.me>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220626_234833_395579_3BD90F98 
-X-CRM114-Status: GOOD (  22.61  )
+X-CRM114-CacheID: sfid-20220627_010649_687619_E15B4969 
+X-CRM114-Status: GOOD (  10.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,48 +77,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Jun 26, 2022 at 12:24:51PM +0300, Sagi Grimberg wrote:
-> queue stoppage and inflight requests cancellation is fully fenced from
-> io_work and thus failing a request from this context. Hence we don't
-> need to try to guess from the socket retcode if this failure is because
-> the queue is about to be torn down or not.
-> 
-> We are perfectly safe to just fail it, the request will not be cancelled
-> later on.
-> 
-> This solves possible very long shutdown delays when the users issues a
-> 'nvme disconnect-all'
-> 
-> Reported-by: Daniel Wagner <dwagner@suse.de>
-> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+We treat 'none' as an escape value for optional arguments, do the same
+for host_traddr.
 
-I've tested the case where we disconnect all controllers in a multipath
-setup. In this scenario we reliable ended up waiting for a register
-read/write in the shutdown path. With this path, the I/O fails
-immediately and we don't wait the extra time out time for the I/O to fail
-eventually.
+This makes prints like the below go away when passing --host-traddr=none:
+sh[3244]: failed to resolve host none info
 
-Tested-by: Daniel Wagner <dwagner@suse.de>
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+---
+ src/nvme/tree.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> ---
->  drivers/nvme/host/tcp.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index bb67538d241b..009c2cf3f106 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -1180,8 +1180,7 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
->  	} else if (ret < 0) {
->  		dev_err(queue->ctrl->ctrl.device,
->  			"failed to send request %d\n", ret);
-> -		if (ret != -EPIPE && ret != -ECONNRESET)
-> -			nvme_tcp_fail_request(queue->request);
-> +		nvme_tcp_fail_request(queue->request);
->  		nvme_tcp_done_send_req(queue);
->  	}
->  	return ret;
-> -- 
-> 2.34.1
-> 
+diff --git a/src/nvme/tree.c b/src/nvme/tree.c
+index d87b25961237..916179180294 100644
+--- a/src/nvme/tree.c
++++ b/src/nvme/tree.c
+@@ -960,6 +960,8 @@ static bool traddr_is_hostname(const char *transport, const char *traddr)
+ 
+ 	if (!traddr || !transport)
+ 		return false;
++	if (!strcmp(traddr, "none"))
++		return false;
+ 	if (strcmp(transport, "tcp") &&
+ 	    strcmp(transport, "rdma"))
+ 		return false;
+-- 
+2.34.1
+
 
