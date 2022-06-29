@@ -4,65 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 84F0BC43334
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 08:54:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A0B1C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 09:06:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=BWPVXiR8YVJWXuEkJWT6y/zuanM8LOc0uQkG15JtwJI=; b=zR3Di+5R0glfu3iUaBi0vqnzKl
-	i1wJeoKtTPd+a1auuJQq5aSBKo1RV3BD///mUWi2hjDCCFJII7phGhcDuh93epnlk8A0CYy9V1JhN
-	wEwZ+JYirfoExNi4yv2lmrZtbfpq4RMmm6j6Mgd0gwbF+EfreINFZhhJtVnLecs/9Opz9ne0+tHfL
-	yF53r2euFPzMo/CugbFwA8/giRqWqxNQDzaTKUk3Qfy7PxpC3vXVP6c/7iDBAe/jq6mxuB2fPrRLx
-	qwityH5CuBc0oDWw/bVicBnJpd1G+mxF8zkwx7y18rU5vIoPQ1r7elk9gvK+ClajiN2HoDJz7TKDt
-	ieFOyDQA==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=e/AX9LcU4en+nJewDe5gXnjNunwfU9eHtMHBKdj4UCI=; b=Thape3LjWQImoGcsLD+tg1vHg+
+	I7JrxaODnelLOC7B0ZV3vWIr6BaQCsd5gxCKuYjHicuhhbMtWKvl+dfnCy+qy1cEJNtbO1oghfU8f
+	i6eDEFkOuWjB3Gjvkq9yQ7VkMEQMXOoVeSEG+49fipx7HszTFVjOuaO6YHNr8F8Cepz2FTnFmKm3K
+	MANjTBipAlMuoLIMH7l+3cxyWDOpywbeR+5RBABZdynVC5TwqNCaRJ890qJoONijIKf/abl90mTxW
+	VfICT+sSnEzfrLhw7htXjp1Fj+eDyCoXeKqqQFThLrdpFkcPINbJxAn0p7eIt6bITeCBmDkJb62fY
+	kaExCVOQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6TSe-00AVoE-Iz; Wed, 29 Jun 2022 08:54:12 +0000
-Received: from mail-wm1-f48.google.com ([209.85.128.48])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6TSb-00AVnP-UH
-	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 08:54:11 +0000
-Received: by mail-wm1-f48.google.com with SMTP id n185so8888931wmn.4
-        for <linux-nvme@lists.infradead.org>; Wed, 29 Jun 2022 01:54:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BWPVXiR8YVJWXuEkJWT6y/zuanM8LOc0uQkG15JtwJI=;
-        b=bz+My/MmDkA4FVSPGWLPfV426hBgpj47WP+fpGJf4Joys+wrEPruUHDUH0AG2xlxW6
-         CztPwWXdWeh8429aMDMt8wp4QeaJFzAF5FBkKqV1VmttO8tQxjwnnDAvKFTkPbjuEyPR
-         nFeOb3xALxDAEMUcDSXhYURROy5puvMJIXKzucJ2ZrfVs/o4MtCP/3MOzKYgxhH93mwv
-         IrwuodbeKmBhYp+Pct1cqPntrDpHj79IetODrdLId33zHIcZTJIs/JuxaoUFhXmTqAAj
-         B+swAVaw514E6wJWzdggu+0oYPxLtYSjTk4Ts1+YiSTFmiahzAMYnEx+mjToji9ajdrz
-         yl/A==
-X-Gm-Message-State: AJIora8wO057MpVdT5l5pPPOGrlSfUqWtzgcF/XWDi3dIjZNJmViWiXV
-	row3TOxEsegNWXXRN99Y6AOU8jrvgwk=
-X-Google-Smtp-Source: AGRyM1tknZr4n47JQiykqP9fbjlT0lHSiAnMeFmqbig3/Oh07BFx1xYutZcJuLC24MhQmpjoWMzMPg==
-X-Received: by 2002:a05:600c:1f07:b0:39c:880f:4456 with SMTP id bd7-20020a05600c1f0700b0039c880f4456mr2400215wmb.79.1656492847251;
-        Wed, 29 Jun 2022 01:54:07 -0700 (PDT)
-Received: from localhost.localdomain (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id e16-20020a5d4e90000000b0021b91d1ddbfsm15574435wru.21.2022.06.29.01.54.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jun 2022 01:54:06 -0700 (PDT)
-From: Sagi Grimberg <sagi@grimberg.me>
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: Hannes Reinecke <hare@suse.de>,
-	linux-nvme@lists.infradead.org,
-	Christoph Hellwig <hch@lst.de>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	Keith Busch <kbusch@kernel.org>
-Subject: [PATCH] nvme: add nvmf reset/disconnect during traffic test
-Date: Wed, 29 Jun 2022 11:54:05 +0300
-Message-Id: <20220629085405.357517-1-sagi@grimberg.me>
-X-Mailer: git-send-email 2.34.1
+	id 1o6Te3-00AZq7-Bc; Wed, 29 Jun 2022 09:05:59 +0000
+Received: from foss.arm.com ([217.140.110.172])
+	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1o6Tdx-00AZlW-JX
+	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 09:05:56 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B53E41477;
+	Wed, 29 Jun 2022 02:05:50 -0700 (PDT)
+Received: from [10.57.85.71] (unknown [10.57.85.71])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BA2B53F792;
+	Wed, 29 Jun 2022 02:05:45 -0700 (PDT)
+Message-ID: <b56d9b93-c59f-5764-e599-d9718edb42d3@arm.com>
+Date: Wed, 29 Jun 2022 10:05:40 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v7 01/21] lib/scatterlist: add flag for indicating P2PDMA
+ segments in an SGL
+Content-Language: en-GB
+To: Logan Gunthorpe <logang@deltatee.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org
+Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
+ Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
+ Matthew Wilcox <willy@infradead.org>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>, Minturn Dave B <dave.b.minturn@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ Ira Weiny <ira.weiny@intel.com>,
+ Martin Oliveira <martin.oliveira@eideticom.com>,
+ Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+ Ralph Campbell <rcampbell@nvidia.com>, Chaitanya Kulkarni <kch@nvidia.com>
+References: <20220615161233.17527-1-logang@deltatee.com>
+ <20220615161233.17527-2-logang@deltatee.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20220615161233.17527-2-logang@deltatee.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220629_015410_014618_9A61503C 
-X-CRM114-Status: GOOD (  14.19  )
+X-CRM114-CacheID: sfid-20220629_020553_820262_31BFF59D 
+X-CRM114-Status: GOOD (  36.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,107 +79,136 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Test traffic controller reset and disconnect during traffic.
+On 2022-06-15 17:12, Logan Gunthorpe wrote:
+> Make use of the third free LSB in scatterlist's page_link on 64bit systems.
+> 
+> The extra bit will be used by dma_[un]map_sg_p2pdma() to determine when a
+> given SGL segments dma_address points to a PCI bus address.
+> dma_unmap_sg_p2pdma() will need to perform different cleanup when a
+> segment is marked as a bus address.
+> 
+> The new bit will only be used when CONFIG_PCI_P2PDMA is set; this means
+> PCI P2PDMA will require CONFIG_64BIT. This should be acceptable as the
+> majority of P2PDMA use cases are restricted to newer root complexes and
+> roughly require the extra address space for memory BARs used in the
+> transactions.
+> 
+> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+> ---
+>   drivers/pci/Kconfig         |  5 +++++
+>   include/linux/scatterlist.h | 44 ++++++++++++++++++++++++++++++++++++-
+>   2 files changed, 48 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
+> index 133c73207782..5cc7cba1941f 100644
+> --- a/drivers/pci/Kconfig
+> +++ b/drivers/pci/Kconfig
+> @@ -164,6 +164,11 @@ config PCI_PASID
+>   config PCI_P2PDMA
+>   	bool "PCI peer-to-peer transfer support"
+>   	depends on ZONE_DEVICE
+> +	#
+> +	# The need for the scatterlist DMA bus address flag means PCI P2PDMA
+> +	# requires 64bit
+> +	#
+> +	depends on 64BIT
+>   	select GENERIC_ALLOCATOR
+>   	help
+>   	  Enableѕ drivers to do PCI peer-to-peer transactions to and from
+> diff --git a/include/linux/scatterlist.h b/include/linux/scatterlist.h
+> index 7ff9d6386c12..6561ca8aead8 100644
+> --- a/include/linux/scatterlist.h
+> +++ b/include/linux/scatterlist.h
+> @@ -64,12 +64,24 @@ struct sg_append_table {
+>   #define SG_CHAIN	0x01UL
+>   #define SG_END		0x02UL
+>   
+> +/*
+> + * bit 2 is the third free bit in the page_link on 64bit systems which
+> + * is used by dma_unmap_sg() to determine if the dma_address is a
+> + * bus address when doing P2PDMA.
+> + */
+> +#ifdef CONFIG_PCI_P2PDMA
+> +#define SG_DMA_BUS_ADDRESS	0x04UL
+> +static_assert(__alignof__(struct page) >= 8);
+> +#else
+> +#define SG_DMA_BUS_ADDRESS	0x00UL
+> +#endif
+> +
+>   /*
+>    * We overload the LSB of the page pointer to indicate whether it's
+>    * a valid sg entry, or whether it points to the start of a new scatterlist.
+>    * Those low bits are there for everyone! (thanks mason :-)
+>    */
+> -#define SG_PAGE_LINK_MASK (SG_CHAIN | SG_END)
+> +#define SG_PAGE_LINK_MASK (SG_CHAIN | SG_END | SG_DMA_BUS_ADDRESS)
+>   
+>   static inline unsigned int __sg_flags(struct scatterlist *sg)
+>   {
+> @@ -91,6 +103,11 @@ static inline bool sg_is_last(struct scatterlist *sg)
+>   	return __sg_flags(sg) & SG_END;
+>   }
+>   
+> +static inline bool sg_is_dma_bus_address(struct scatterlist *sg)
+> +{
+> +	return __sg_flags(sg) & SG_DMA_BUS_ADDRESS;
+> +}
+> +
+>   /**
+>    * sg_assign_page - Assign a given page to an SG entry
+>    * @sg:		    SG entry
+> @@ -245,6 +262,31 @@ static inline void sg_unmark_end(struct scatterlist *sg)
+>   	sg->page_link &= ~SG_END;
+>   }
+>   
+> +/**
+> + * sg_dma_mark_bus address - Mark the scatterlist entry as a bus address
+> + * @sg:		 SG entryScatterlist
 
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
- tests/nvme/040     | 55 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/040.out |  6 +++++
- tests/nvme/rc      |  8 +++++++
- 3 files changed, 69 insertions(+)
- create mode 100755 tests/nvme/040
- create mode 100644 tests/nvme/040.out
+entryScatterlist?
 
-diff --git a/tests/nvme/040 b/tests/nvme/040
-new file mode 100755
-index 000000000000..88d255a8d0e0
---- /dev/null
-+++ b/tests/nvme/040
-@@ -0,0 +1,55 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-3.0+
-+# Copyright (C) 2019 Yi Zhang <yi.zhang@redhat.com>
-+#
-+# Test nvme fabrics controller reset/disconnect/reconnect operation during I/O
-+# This test is somewhat similar to test 032 but for fabrics controllers.
-+
-+. tests/nvme/rc
-+
-+DESCRIPTION="test nvme fabrics controller reset/disconnect operation during I/O"
-+
-+requires() {
-+	_nvme_requires
-+	_have_loop
-+	_have_fio
-+	_require_nvme_trtype_is_fabrics
-+}
-+
-+test() {
-+	local subsys="blktests-subsystem-"
-+	local port
-+	local loop_dev
-+	local nvmedev
-+
-+	echo "Running ${TEST_NAME}"
-+
-+	_setup_nvmet
-+	truncate -s 1G "$TMPDIR/img"
-+	loop_dev="$(losetup -f --show "$TMPDIR/img")"
-+
-+	port="$(_create_nvmet_port "${nvme_trtype}")"
-+	_create_nvmet_subsystem "${subsys}" "${loop_dev}"
-+	_add_nvmet_subsys_to_port "${port}" "${subsys}"
-+	_nvme_connect_subsys "${nvme_trtype}" "${subsys}"
-+	udevadm settle
-+	nvmedev=$(_find_nvme_dev "${subsys}")
-+
-+	# start fio job
-+	echo "starting background fio on ${nvmedev}n1"
-+	_run_fio_rand_io --filename="${nvmedev}n1" --size=1g \
-+		--group_reporting --ramp_time=5  &> /dev/null &
-+	sleep 5
-+
-+	# do reset/remove operation
-+	echo "resetting ${nvmedev}"
-+	_nvme_reset_ctrl ${nvmedev}
-+	sleep 1
-+	echo "deleting ${nvmedev}"
-+	_nvme_delete_ctrl ${nvmedev}
-+
-+	echo "stopping background fio on ${nvmedev}n1"
-+	{ kill $!; wait; } &> /dev/null
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/040.out b/tests/nvme/040.out
-new file mode 100644
-index 000000000000..f14ae8db1ddb
---- /dev/null
-+++ b/tests/nvme/040.out
-@@ -0,0 +1,6 @@
-+Running nvme/040
-+starting background fio on nvme0n1
-+resetting nvme0
-+deleting nvme0
-+stopping background fio on nvme0n1
-+Test complete
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index 4bebbc762cbb..684d56b184e5 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -447,3 +447,11 @@ _nvme_disable_err_inject()
-         echo 0 > /sys/kernel/debug/"$1"/fault_inject/probability
-         echo 0 > /sys/kernel/debug/"$1"/fault_inject/times
- }
-+
-+_nvme_reset_ctrl() {
-+	echo 1 > /sys/class/nvme/$1/reset_controller
-+}
-+
-+_nvme_delete_ctrl() {
-+	echo 1 > /sys/class/nvme/$1/delete_controller
-+}
--- 
-2.34.1
+> + *
+> + * Description:
+> + *   Marks the passed in sg entry to indicate that the dma_address is
+> + *   a bus address and doesn't need to be unmapped.
+> + **/
+> +static inline void sg_dma_mark_bus_address(struct scatterlist *sg)
+> +{
+> +	sg->page_link |= SG_DMA_BUS_ADDRESS;
+> +}
+> +
+> +/**
+> + * sg_unmark_pci_p2pdma - Unmark the scatterlist entry as a bus address
+> + * @sg:		 SG entryScatterlist
+> + *
+> + * Description:
+> + *   Clears the bus address mark.
+> + **/
+> +static inline void sg_dma_unmark_bus_address(struct scatterlist *sg)
+> +{
+> +	sg->page_link &= ~SG_DMA_BUS_ADDRESS;
+> +}
 
+Does this serve any useful purpose? If a page is determined to be device 
+memory, it's not going to suddenly stop being device memory, and if the 
+underlying sg is recycled to point elsewhere then sg_assign_page() will 
+still (correctly) clear this flag anyway. Trying to reason about this 
+beyond superficial API symmetry - i.e. why exactly would a caller need 
+to call it, and what would the implications be of failing to do so - 
+seems to lead straight to confusion.
+
+In fact I'd be inclined to have sg_assign_page() be responsible for 
+setting the flag automatically as well, and thus not need 
+sg_dma_mark_bus_address() either, however I can see the argument for 
+doing it this way round to not entangle the APIs too much, so I don't 
+have any great objection to that.
+
+Thanks,
+Robin.
+
+> +
+>   /**
+>    * sg_phys - Return physical address of an sg entry
+>    * @sg:	     SG entry
 
