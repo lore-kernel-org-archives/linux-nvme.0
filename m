@@ -4,30 +4,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64E25C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 06:43:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17F85C43334
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 06:43:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3tJ8zCEFdDQ/ZxO+K8VnIsQJm5ySP4MPinU1CuFYdn0=; b=j1hfKQQz4pgAt3BcIr2RxuCkJC
-	FFkFwB9wan92Q0WJhZQppeHP+AZO7JbKKPJGwfNTc/dfpEKCMEn3UGArRVZhyAUJNGHoEtnMCmHWp
-	RoVIsVuFvcg85EPxoaFnqDJ3NBfg84Bb8oM4DoTw/ZZjN1L5M2Q6O7b14nU27WHCn5QCNA+iW5uEd
-	2vc0G6EuLyAAKMvyuC7JTksbR8CJ0ASk+wzEOe5qrMCgxYapzFYOlqPhko/EpR0DSi02Bu8Sniehn
-	Lj58BRK5Xl1XWIGbBzN8PQQUYI7ViKbNme1xfA5qw4DGC549b9qw5ErzvFH1s363vmOR05fD+WUOb
-	PIACqepA==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=Lq/sKQ6Od/JRkdq7azCQwE08tY
+	N5iFKu6+yo9biPd8hxT5SzyUhlzWdItudPfpypVrwEiU3IVtr4e5sD38dmw/5LB6VMVCGWEZdeJpb
+	f0XeTTZYmXNDnY1MTdF4KPpFcXXQtOhy8mzpg0pkEINA/85b9A+jVWUqD99DpqyC2zOQwvy0M8Gpm
+	t2QXbifiDCmVf7WbjmquxU9apNkYJ5IF3TtfwHtIBvA2dPgB+/aaJoO615Zz7jyt+mcjf9vuaAm86
+	R7w3i1t5dm9pNdgqO7lyGm0i2hlfffeP27WdNB+hbV4YzdUcfqHvK/3yZ87WAwJtcaD80TnzP42+1
+	7FXV1rAA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6RPb-009qWT-CY; Wed, 29 Jun 2022 06:42:55 +0000
+	id 1o6RQA-009qs3-SK; Wed, 29 Jun 2022 06:43:30 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6RPX-009qTR-GD
-	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 06:42:52 +0000
+	id 1o6RQ7-009qop-9N
+	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 06:43:28 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id A7BE367373; Wed, 29 Jun 2022 08:42:48 +0200 (CEST)
-Date: Wed, 29 Jun 2022 08:42:48 +0200
+	id 721B567373; Wed, 29 Jun 2022 08:43:24 +0200 (CEST)
+Date: Wed, 29 Jun 2022 08:43:24 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Logan Gunthorpe <logang@deltatee.com>
 Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
@@ -49,18 +49,21 @@ Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
 	Martin Oliveira <martin.oliveira@eideticom.com>,
 	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
 	Ralph Campbell <rcampbell@nvidia.com>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v7 12/21] RDMA/rw: drop pci_p2pdma_[un]map_sg()
-Message-ID: <20220629064248.GL17234@lst.de>
-References: <20220615161233.17527-1-logang@deltatee.com> <20220615161233.17527-13-logang@deltatee.com>
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Max Gurtovoy <mgurtovoy@nvidia.com>
+Subject: Re: [PATCH v7 13/21] PCI/P2PDMA: Remove pci_p2pdma_[un]map_sg()
+Message-ID: <20220629064324.GM17234@lst.de>
+References: <20220615161233.17527-1-logang@deltatee.com> <20220615161233.17527-14-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220615161233.17527-13-logang@deltatee.com>
+In-Reply-To: <20220615161233.17527-14-logang@deltatee.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220628_234251_719395_8741DB89 
-X-CRM114-Status: GOOD (  10.86  )
+X-CRM114-CacheID: sfid-20220628_234327_491362_40A0F92B 
+X-CRM114-Status: UNSURE (   8.90  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,11 +77,6 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
-
-On Wed, Jun 15, 2022 at 10:12:24AM -0600, Logan Gunthorpe wrote:
-> dma_map_sg() now supports the use of P2PDMA pages so pci_p2pdma_map_sg()
-> is no longer necessary and may be dropped. This means the
-> rdma_rw_[un]map_sg() helpers are no longer necessary. Remove it all.
 
 Looks good:
 
