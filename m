@@ -4,68 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6BE0C43334
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 17:36:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 033A1C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 17:46:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=BY2JnLUb4Y2YlP2UeSjK4Ih9QfOu6AYQv8OZd6xFr+o=; b=MQ3Hld6Fkzp7D5sTr5jjPEMbC1
-	qgVRJ+ALOaD24uS9mKNRWB3Xl6gHbBHlsLy6YuhKynk8242PlR1Qk749lbvGJtn6BSmDQxewB+Ee3
-	sdlI4yzkMiXU9DOELSfBs24gGUFAPi9TAqe8WLWT77/aPxvmS1owqNABjZ/t9ChSVOEMxyxhmiKjG
-	DMufJ6wJM/mIvRMpE0ueBmVBYh0Omk3e0D97iLcgeqnxE7IlD9kqPhT5KlTmEb4KfO/WnD4r1UjWb
-	7vpnI9X8ecH0QtNW+VFyhr+sL6ciojLIwL5yFeH/sEnRyWnWihNyXD9Y/LLyw6EvVrN/ezhii0Rww
-	H4B8i13g==;
+	bh=uGbPvuZAX9L6u2c2TOBfL6P4ejxxPA7CbvTmYClAGV8=; b=oJfn5oMtKHJ/7L6XCKKTGOanhY
+	Nh7l/xj8k4JXQzjE0XZfie+1kLrFN+F8qtPqQNQyZxTBxPBe+4PShb+rs5kIKIWXKc0U2SW92+B06
+	fgAr5CdnDf/RjLLpA0TaMZJ1I/WzBs8uMBM0gln3sh4uASKX3gtLQiZRgBldxBGn6LndteI/ju07D
+	S1ETKT9VBM4Cb6DTxREIGXULmfSP11XbUASLeEup3C2GaAMDWLd0Yqb2aL+F5QYRYytYBRcTMoFZi
+	Yw+D3bZl84QNZUsRAyH40hYidGjUhsP9fRzCUT2DsmPHbiJ+ogpgEFAeUue86PGQ48GMjUyPkCHDi
+	0/UEXKEg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6bbn-00DDF5-88; Wed, 29 Jun 2022 17:36:11 +0000
-Received: from mga01.intel.com ([192.55.52.88])
+	id 1o6blW-00DEoS-Cb; Wed, 29 Jun 2022 17:46:14 +0000
+Received: from mga05.intel.com ([192.55.52.43])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6bbk-00DDEb-Pq
-	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 17:36:10 +0000
+	id 1o6blS-00DEn2-Ru
+	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 17:46:12 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656524168; x=1688060168;
+  t=1656524770; x=1688060770;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XXAu62jEatM/DLS/QPthI9Wt8xoYta8GWW7CtFTsuAA=;
-  b=dFKAgby2ct26bUUbqF0bDDEe87/39JZsbaxPASKoVzF4kMrGamIXs5IF
-   F423X5Mc5uUSh11YJ7ULsNnEa0+QxLU+3UsASTKHfpzhCcZqQ22lUNulf
-   f3xPoTkpmVj3rsnq5dnswM7Suq+MdNp9S1RBgu4A+4LcTHkv6OfG78m71
-   OcT1gqReWUtDq2asTvV+fAzR35oXMTzWMX2ddAw9zYEJhBuUc8oM5a9SB
-   ZRd5LHNcPz1b4oCfACIq/peW28fK/4SfnPHuVU1uZtjY3NPNOhF0pg33A
-   ZmrnRUjqWf7CDH3SNctVDlm99RMTIe4xE5utoutKXE6giqxoERK1xTjCZ
+  bh=U9HK4ylooK7Tf08M3sTXhqwwWVQ3meqXzDez1Ryq2rc=;
+  b=UV1REQm6pK6Jznt+obQRdpCoA+OHxpCZB7iUT6XRy+jfBhqw3EhYg4mn
+   MlhZ7EnVIOzqX/UbulGfsSTefV2rzZlr2XXIEhlo8st4sozmLPUFOI7yH
+   xpBbHG54KwKb2d9noaw9xzng2YnaTtHSFfgj9lETI0zuGdu6/Smky/lNU
+   clu0CFl8ZFrlkN+Gp0UIsExCk/5kNkvqY20LTI1JpNMWpgY4pADUkP91G
+   r15fifgVPp3WC+Y7Dux9U13Ndvg+RPiekT61e+tHfsQRg35s5s+238mu3
+   DuLwBnhjdmEr0o6B4EIb7uBWhTEuCJa4WNUE5QZrGpg3/a3ho+dFmzziR
    w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10393"; a="307598671"
+X-IronPort-AV: E=McAfee;i="6400,9594,10393"; a="368414789"
 X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; 
-   d="scan'208";a="307598671"
+   d="scan'208";a="368414789"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2022 10:36:07 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2022 10:46:08 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; 
-   d="scan'208";a="595328107"
+   d="scan'208";a="595331945"
 Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 29 Jun 2022 10:36:05 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 29 Jun 2022 10:46:06 -0700
 Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
 	(envelope-from <lkp@intel.com>)
-	id 1o6bbh-000BNa-9B;
-	Wed, 29 Jun 2022 17:36:05 +0000
-Date: Thu, 30 Jun 2022 01:35:38 +0800
+	id 1o6blN-000BNo-F0;
+	Wed, 29 Jun 2022 17:46:05 +0000
+Date: Thu, 30 Jun 2022 01:45:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: Alan Adamson <alan.adamson@oracle.com>
-Cc: kbuild-all@lists.01.org, linux-nvme@lists.infradead.org,
-	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
+	linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
 	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [linux-nvme:nvme-5.19 5/5] drivers/nvme/target/core.c:1379:23:
- error: 'struct nvmet_subsys' has no member named 'clear_ids'
-Message-ID: <202206300139.HO4t1e9v-lkp@intel.com>
+Subject: [linux-nvme:nvme-5.19 5/5] drivers/nvme/target/core.c:1379:11:
+ error: no member named 'clear_ids' in 'struct nvmet_subsys'
+Message-ID: <202206300158.HnaC96OB-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220629_103608_897283_41BCDA1B 
-X-CRM114-Status: GOOD (  13.55  )
+X-CRM114-CacheID: sfid-20220629_104610_961162_1DD8F7A3 
+X-CRM114-Status: GOOD (  12.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,25 +84,27 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 tree:   git://git.infradead.org/nvme.git nvme-5.19
 head:   74138c25fae3f1989bef321bfffa324b1cb19dbc
 commit: 74138c25fae3f1989bef321bfffa324b1cb19dbc [5/5] nvmet: add a clear_ids attribute for passthru targets
-config: i386-randconfig-a003 (https://download.01.org/0day-ci/archive/20220630/202206300139.HO4t1e9v-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+config: x86_64-randconfig-a003 (https://download.01.org/0day-ci/archive/20220630/202206300158.HnaC96OB-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a774ba7f60d1fef403b5507b1b1a7475d3684d71)
 reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         git remote add linux-nvme git://git.infradead.org/nvme.git
         git fetch --no-tags linux-nvme nvme-5.19
         git checkout 74138c25fae3f1989bef321bfffa324b1cb19dbc
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/nvme/target/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/nvme/target/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   drivers/nvme/target/core.c: In function 'nvmet_alloc_ctrl':
->> drivers/nvme/target/core.c:1379:23: error: 'struct nvmet_subsys' has no member named 'clear_ids'
-    1379 |                 subsys->clear_ids = 1;
-         |                       ^~
+>> drivers/nvme/target/core.c:1379:11: error: no member named 'clear_ids' in 'struct nvmet_subsys'
+                   subsys->clear_ids = 1;
+                   ~~~~~~  ^
+   1 error generated.
 
 
 vim +1379 drivers/nvme/target/core.c
