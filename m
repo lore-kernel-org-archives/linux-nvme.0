@@ -4,83 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95B92C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 18:25:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A8FCC43334
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 19:07:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=6f/hfdoWC+PgJWoBH5fqwFGRbVxwuN3ohOs8yiOPg/w=; b=o6H+YaDPV3VvkH
-	Nsimil8h285nVEf3Q/bgps8uS3Nof1RdqFk7+SRGSf6g/poOaVYadvcODdYPcdO2gO9vxwcHJE+Ts
-	uZL/LVbQuixxeIKkyocDHuXpn2lOwSlsj0CjsSlooCoZJSwVR+b7eQ6QR8JOB/btypQfhyxnHrKGX
-	0nahegh4HKTOJagLOQzId3PeqyoM+6H8eHvppY0NrtsyC3dtVydQeNi2v5D3BRpqCbhbuLkNJPCH4
-	rgQFQiSnWV7EBaVj3elAmh5vbzWZtu1Z/DU/YORBcQzEgsZ4bFhHmQlf6+AtJxWRkUr5Gm0zZZ6F7
-	S1ZzWH6Hw6HHeI2ACcKA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HrQF8k93DlDDii+b3s+bZnDUyceFZ6j8snHbctaqWP0=; b=xYDcKb+V4UjwGYDy9jV0nliHVV
+	VxVtIl2uhk49QnSrfEYbBhjBRBA5vmv/nEVlgVGNStjLWarWw63at3ZObV8FaoiZUzQAv9fuxRcLn
+	EUXlUv6LfJOQn2MubvSPG/5M29QkUjE/gszFWfYvo/omchfajODYBMHOIvHAbfykFksdZ54+8lqLT
+	mTlR3kKRRol9jFEYUWwUo6dHCYCn+mcEkbTdk2jVVKSCWxHhd8t1UH6HFHa+Nveww6n/61wZRUfi6
+	ZEStBvwj41ncaHVuXfwHnl4R6ElHCegbyUJwN3q0isedQQYDyAmiZKtzCo3xpSXyvYmSRPw6cF68d
+	TiPzIGbQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6cNi-00DUaJ-9n; Wed, 29 Jun 2022 18:25:42 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1o6d2J-00Dh59-DI; Wed, 29 Jun 2022 19:07:39 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6cMo-00DUCj-5B
-	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 18:24:47 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:content-disposition;
-	bh=6f/hfdoWC+PgJWoBH5fqwFGRbVxwuN3ohOs8yiOPg/w=; b=KqlIdYHpF5kcUd1uj3HgVczqN5
-	+LiC/fe4thV0n4GWyYvjongR/yShAMienfuQ1vSKr2dlutBWKxI1nszo45XAnij64gY60aWl25yKn
-	9yS7YZF5VmQ5saw9wKgfKuTqMswh1/nBQISRAQ25FYKkr6Le3Ih3GarYYS3dES6F4h5ipa5KBXImW
-	+5AYt7ZvYxGywfXkmA46cmlkEvd9ckJZYnEqkIBKI2tycRJV07BzAnX9mR41JUrGOel82aqdx3sqr
-	111sVLF6oie65Xr6Z42l/GsfBOMAbGWd8Y9f26Frw8Cb4XUZDZkK9lUUkK39WvPZjSo78/eCvKrz8
-	ZKirfsHg==;
-Received: from s0106ac1f6bb1ecac.cg.shawcable.net ([70.73.163.230] helo=[192.168.11.155])
-	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.94.2)
-	(envelope-from <logang@deltatee.com>)
-	id 1o6cMk-002URm-20; Wed, 29 Jun 2022 12:24:43 -0600
-Message-ID: <9725fc38-cbe6-f660-8d5f-6ceb983e6976@deltatee.com>
-Date: Wed, 29 Jun 2022 12:24:36 -0600
+	id 1o6d2G-00Dh3G-DR
+	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 19:07:37 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 1EA2FB8269D;
+	Wed, 29 Jun 2022 19:07:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAEFDC34114;
+	Wed, 29 Jun 2022 19:07:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1656529653;
+	bh=EVmLGcSOMyZbJn3lQsCEI4tWG6G9CP45lANhPiqexIs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PN6IwkILdE9D4b5rfCd7+sPyp0Te5/snCHxkYWv+hJFmplxBfAX+PfE92bYs46yAQ
+	 gaoRaAvCpWV8JtAaKNZTZsNzq/k4jd8J6o3/4xo2ERaZ5l1PX+nkUHzCdblOBMVMDd
+	 c9RyY0gNeEwls191RJ+jrcetBkRZig8C5wePqwVqZWelDnx1ObJCeFiJGia/Yh6WeB
+	 mrQldL5FrKr3ObgBdQ6YifTxSXbOSx8+8ZOCF9Lha8uCT0d+GWYoqvKlktX5z+eXsX
+	 RYTHp0916zcCHIizfEVWz3KuDszxoEyteSHIgJ3P4J1qrvKtbnGxhblawsULLLD6Wp
+	 czhA15HzymxGw==
+Date: Wed, 29 Jun 2022 13:07:29 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Eric Farman <farman@linux.ibm.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>, Keith Busch <kbusch@fb.com>,
+	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	Christian Borntraeger <borntraeger@linux.ibm.com>, axboe@kernel.dk,
+	Kernel Team <Kernel-team@fb.com>, hch@lst.de, bvanassche@acm.org,
+	damien.lemoal@opensource.wdc.com, ebiggers@kernel.org,
+	pankydev8@gmail.com
+Subject: Re: [PATCHv6 11/11] iomap: add support for dma aligned direct-io
+Message-ID: <Yryi8VXTjDu1R1Zc@kbusch-mbp>
+References: <YrS6/chZXbHsrAS8@kbusch-mbp>
+ <e2b08a5c452d4b8322566cba4ed33b58080f03fa.camel@linux.ibm.com>
+ <e0038866ac54176beeac944c9116f7a9bdec7019.camel@linux.ibm.com>
+ <c5affe3096fd7b7996cb5fbcb0c41bbf3dde028e.camel@linux.ibm.com>
+ <YrnOmOUPukGe8xCq@kbusch-mbp.dhcp.thefacebook.com>
+ <20220628110024.01fcf84f.pasic@linux.ibm.com>
+ <83e65083890a7ac9c581c5aee0361d1b49e6abd9.camel@linux.ibm.com>
+ <a765fff67679155b749aafa90439b46ab1269a64.camel@linux.ibm.com>
+ <YrvMY7oPnhIka4IF@kbusch-mbp.dhcp.thefacebook.com>
+ <f723b1c013d78cae2f3236eba0d14129837dc7b0.camel@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Content-Language: en-US
-To: Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org
-Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
- Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
- Matthew Wilcox <willy@infradead.org>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, Minturn Dave B <dave.b.minturn@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
- Ira Weiny <ira.weiny@intel.com>,
- Martin Oliveira <martin.oliveira@eideticom.com>,
- Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
- Ralph Campbell <rcampbell@nvidia.com>, Chaitanya Kulkarni <kch@nvidia.com>
-References: <20220615161233.17527-1-logang@deltatee.com>
- <20220615161233.17527-2-logang@deltatee.com>
- <b56d9b93-c59f-5764-e599-d9718edb42d3@arm.com>
- <c42b5ee3-5d4f-7e44-8885-26b8417208ae@deltatee.com>
- <d84a0498-3b7f-3d38-2bfd-9a175db4002a@arm.com>
-From: Logan Gunthorpe <logang@deltatee.com>
-In-Reply-To: <d84a0498-3b7f-3d38-2bfd-9a175db4002a@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 70.73.163.230
-X-SA-Exim-Rcpt-To: robin.murphy@arm.com, linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org, sbates@raithlin.com, hch@lst.de, dan.j.williams@intel.com, jgg@ziepe.ca, christian.koenig@amd.com, jhubbard@nvidia.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, dave.b.minturn@intel.com, jason@jlekstrand.net, dave.hansen@linux.intel.com, jianxin.xiong@intel.com, helgaas@kernel.org, ira.weiny@intel.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, rcampbell@nvidia.com, kch@nvidia.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v7 01/21] lib/scatterlist: add flag for indicating P2PDMA
- segments in an SGL
-X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f723b1c013d78cae2f3236eba0d14129837dc7b0.camel@linux.ibm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220629_112446_247375_E22DC4AE 
-X-CRM114-Status: GOOD (  24.22  )
+X-CRM114-CacheID: sfid-20220629_120736_635144_B316B07F 
+X-CRM114-Status: GOOD (  17.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,55 +85,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 2022-06-29 12:02, Robin Murphy wrote:
-> On 2022-06-29 16:39, Logan Gunthorpe wrote:
->> On 2022-06-29 03:05, Robin Murphy wrote:
->>> On 2022-06-15 17:12, Logan Gunthorpe wrote:
->>> Does this serve any useful purpose? If a page is determined to be device
->>> memory, it's not going to suddenly stop being device memory, and if the
->>> underlying sg is recycled to point elsewhere then sg_assign_page() will
->>> still (correctly) clear this flag anyway. Trying to reason about this
->>> beyond superficial API symmetry - i.e. why exactly would a caller need
->>> to call it, and what would the implications be of failing to do so -
->>> seems to lead straight to confusion.
->>>
->>> In fact I'd be inclined to have sg_assign_page() be responsible for
->>> setting the flag automatically as well, and thus not need
->>> sg_dma_mark_bus_address() either, however I can see the argument for
->>> doing it this way round to not entangle the APIs too much, so I don't
->>> have any great objection to that.
->>
->> Yes, I think you misunderstand what this is for. The SG_DMA_BUS_ADDDRESS
->> flag doesn't mark the segment for the page, but for the dma address. It
->> cannot be set in sg_assign_page() seeing it's not a property of the page
->> but a property of the dma_address in the sgl.
->>
->> It's not meant for use by regular SG users, it's only meant for use
->> inside DMA mapping implementations. The purpose is to know whether a
->> given dma_address in the SGL is a bus address or regular memory because
->> the two different types must be unmapped differently. We can't rely on
->> the page because, as you know, many dma_map_sg() the dma_address entry
->> in the sgl does not map to the same memory as the page. Or to put it
->> another way: is_pci_p2pdma_page(sg->page) does not imply that
->> sg->dma_address points to a bus address.
->>
->> Does that make sense?
+On Wed, Jun 29, 2022 at 02:04:47PM -0400, Eric Farman wrote:
+> s390 dasd
 > 
-> Ah, you're quite right, in trying to take in the whole series at once
-> first thing in the morning I did fail to properly grasp that detail, so
-> indeed the sg_assign_page() thing couldn't possibly work, but as I said
-> that's fine anyway. I still think the lifecycle management is a bit off
-> though - equivalently, a bus address doesn't stop being a bus address,
-> so it would seem appropriate to update this flag appropriately whenever
-> sg_dma_address() is assigned to, and not when it isn't.
+> This made me think to change my rootfs, and of course the problem goes
+> away once on something like a SCSI volume.
+> 
+> So crawling through the dasd (instead of virtio) driver and I finally
+> find the point where a change to dma_alignment (which you mentioned
+> earlier) would actually fit.
+> 
+> Such a change fixes this for me, so I'll run it by our DASD guys.
+> Thanks for your help and patience.
 
-Yes, that's pretty much the way the code is now. The only two places
-sg_dma_mark_bus_address() is called are in the two pci_p2pdma helpers
-that set the dma address to the bus address. The lines before both calls
-set the dma_address and dma_len.
+I'm assuming there's some driver or device requirement that's making this
+necessary. Is the below driver change what you're looking for? If so, I think
+you might want this regardless of this direct-io patch just because other
+interfaces like blk_rq_map_user_iov() and blk_rq_aligned() align to it.
 
-Logan
-
+---
+diff --git a/drivers/s390/block/dasd_fba.c b/drivers/s390/block/dasd_fba.c
+index 60be7f7bf2d1..5c79fb02cded 100644
+--- a/drivers/s390/block/dasd_fba.c
++++ b/drivers/s390/block/dasd_fba.c
+@@ -780,6 +780,7 @@ static void dasd_fba_setup_blk_queue(struct dasd_block *block)
+ 	/* With page sized segments each segment can be translated into one idaw/tidaw */
+ 	blk_queue_max_segment_size(q, PAGE_SIZE);
+ 	blk_queue_segment_boundary(q, PAGE_SIZE - 1);
++	blk_queue_dma_alignment(q, PAGE_SIZE - 1);
+ 
+ 	q->limits.discard_granularity = logical_block_size;
+ 
+--
 
