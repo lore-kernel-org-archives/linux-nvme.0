@@ -4,73 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8F71AC433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 03:52:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 236D6C43334
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 06:33:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=68URICBHNg4KZvf2IdJFowcuR7GWwwSD7fugZeLcYPQ=; b=TNMZPc/NDZ0mmmQBEPqCii1fLO
-	yGq6PNhZ1xcFpZ4JcuUam71FWPw487xwv7E/GHgZP2Pmk45uJEdpSnSLcuvoFTfmUhx1BuRDBnVHy
-	h6B6G3wW8VpoQZ3XuG3oZJSxSQIu+ybvSjipphKosWexLPvMhRCa/pGCzNtK8jOwKkNMjURSruSIr
-	a8pytI/HHu7gHGnpxtX1oexVrruZcbZ+aJbeQvR7n/e8XmUUqPtXQ3XokvLIhLvH2YGD1V8irY91W
-	fUlvWUEzgCmbzBn42rM93xKGYNWdrgqLeZbCVPnIdS+OReHdUtv1m5RmpHH/3j/6/ILKuxvRFacoM
-	WE9Vq8uw==;
+	bh=ijpxmAbTE0vRZn+aZto/IHK42HMSoe2IL8nzCtTckDo=; b=2ATVvJXgqiVk4iaoCbyf8bq67E
+	0gSSJE4pTbwLNuGAwm+UHOThZaNZgqFt5BwXlSUeNcbGSQkUJH6jPtAVDRTU917JpgZUnmuptDy1c
+	ESkBenfxs9yKDWVpD2inVb3xhjnLBNUlGC5hoywdscfpZqz0g0kbUuVyVz9k5CEGxpU+y5YPeN/Cl
+	Djd4nTndPw6nE4PiNQgdcIN7r7ZssV/r2kXh/RIvoon9GcEhcMQpj3Woy0BCjR2rC/FNopWB4hzLU
+	6f0GYXi3XlJfmGfG5X2RfV3DkEA1KTiB0EQXQNOEQnvzIFBi9ecwkEArW1tR+gxDOJYHaXd3pVXAH
+	6L5vLy8w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6OkO-009L1G-L6; Wed, 29 Jun 2022 03:52:12 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1o6RGF-009nn7-Jx; Wed, 29 Jun 2022 06:33:15 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6OkL-009L0V-Ev
-	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 03:52:10 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 6B15B61DD6;
-	Wed, 29 Jun 2022 03:52:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC645C34114;
-	Wed, 29 Jun 2022 03:52:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1656474727;
-	bh=g4zzHulG7GEAulCIuTQXR87g3faKAviePs7vVysrZVY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CU/JyhXgpmfz4YLj08Kz1NhuQAAHT1lu62q+NTk66UWeOLW1EmysLLkGr+PTLWM8T
-	 tNvO+mKZsiPMrRo3ZcC3PCAKkmfJQwsAUINx4frjPs1pz9P42zbm3IHzKF+p88kPhP
-	 Lp095hZbD9frg2rlaIGrJmHHiU4/MpO2S/Kzx7gBhyl8tQVovjqE9iL7cSJ7uORQLV
-	 w4Ttw3mzCDfXzoYWXf+W49fTAk6rwRDqlnWHNEVFmLlOJTnXUvDdjnb4K2mAgEl2vS
-	 58riKEzOHtZOHhWEeegTuuYjztX9JgK1KIrmnx+h9OTxApVzbTLJQ6gwCdwtM7ykKh
-	 eE4ridlaUcK2w==
-Date: Tue, 28 Jun 2022 21:52:03 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Eric Farman <farman@linux.ibm.com>
-Cc: Halil Pasic <pasic@linux.ibm.com>, Keith Busch <kbusch@fb.com>,
-	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	Christian Borntraeger <borntraeger@linux.ibm.com>, axboe@kernel.dk,
-	Kernel Team <Kernel-team@fb.com>, hch@lst.de, bvanassche@acm.org,
-	damien.lemoal@opensource.wdc.com, ebiggers@kernel.org,
-	pankydev8@gmail.com
-Subject: Re: [PATCHv6 11/11] iomap: add support for dma aligned direct-io
-Message-ID: <YrvMY7oPnhIka4IF@kbusch-mbp.dhcp.thefacebook.com>
-References: <ab1bc062b4a1d0ad7f974b6068dc3a6dbf624820.camel@linux.ibm.com>
- <YrS2HLsYOe7vnbPG@kbusch-mbp>
- <YrS6/chZXbHsrAS8@kbusch-mbp>
- <e2b08a5c452d4b8322566cba4ed33b58080f03fa.camel@linux.ibm.com>
- <e0038866ac54176beeac944c9116f7a9bdec7019.camel@linux.ibm.com>
- <c5affe3096fd7b7996cb5fbcb0c41bbf3dde028e.camel@linux.ibm.com>
- <YrnOmOUPukGe8xCq@kbusch-mbp.dhcp.thefacebook.com>
- <20220628110024.01fcf84f.pasic@linux.ibm.com>
- <83e65083890a7ac9c581c5aee0361d1b49e6abd9.camel@linux.ibm.com>
- <a765fff67679155b749aafa90439b46ab1269a64.camel@linux.ibm.com>
+	id 1o6RGD-009nmJ-Be
+	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 06:33:14 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id E206E68AFE; Wed, 29 Jun 2022 08:33:08 +0200 (CEST)
+Date: Wed, 29 Jun 2022 08:33:08 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Logan Gunthorpe <logang@deltatee.com>
+Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-mm@kvack.org, iommu@lists.linux-foundation.org,
+	Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Minturn Dave B <dave.b.minturn@intel.com>,
+	Jason Ekstrand <jason@jlekstrand.net>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Xiong Jianxin <jianxin.xiong@intel.com>,
+	Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Martin Oliveira <martin.oliveira@eideticom.com>,
+	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+	Ralph Campbell <rcampbell@nvidia.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: Re: [PATCH v7 01/21] lib/scatterlist: add flag for indicating
+ P2PDMA segments in an SGL
+Message-ID: <20220629063308.GB17234@lst.de>
+References: <20220615161233.17527-1-logang@deltatee.com> <20220615161233.17527-2-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a765fff67679155b749aafa90439b46ab1269a64.camel@linux.ibm.com>
+In-Reply-To: <20220615161233.17527-2-logang@deltatee.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220628_205209_600008_374E6E23 
-X-CRM114-Status: GOOD (  13.54  )
+X-CRM114-CacheID: sfid-20220628_233313_578379_2E65631A 
+X-CRM114-Status: GOOD (  17.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,32 +76,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 28, 2022 at 11:18:34PM -0400, Eric Farman wrote:
-> Sort of. In the working case, I see a set of iovecs come through with
-> different counts:
+On Wed, Jun 15, 2022 at 10:12:13AM -0600, Logan Gunthorpe wrote:
+> Make use of the third free LSB in scatterlist's page_link on 64bit systems.
 > 
-> base	count
-> 0000	0001
-> 0000	0200
-> 0000	0400
-> 0000	0800
-> 0000	1000
-> 0001	1000
-> 0200	1000 << Change occurs here
-> 0400	1000
-> 0800	1000
-> 1000	1000
+> The extra bit will be used by dma_[un]map_sg_p2pdma() to determine when a
+> given SGL segments dma_address points to a PCI bus address.
+> dma_unmap_sg_p2pdma() will need to perform different cleanup when a
+> segment is marked as a bus address.
 > 
-> EINVAL was being returned for any of these iovecs except the page-
-> aligned ones. Once the x200 request returns 0, the remainder of the
-> above list was skipped and the requests continue elsewhere on the file.
+> The new bit will only be used when CONFIG_PCI_P2PDMA is set; this means
+> PCI P2PDMA will require CONFIG_64BIT. This should be acceptable as the
+> majority of P2PDMA use cases are restricted to newer root complexes and
+> roughly require the extra address space for memory BARs used in the
+> transactions.
 > 
-> Still not sure how our request is getting us into this process. We're
-> simply asking to read a single block, but that's somewhere within an
-> image file.
+> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 
-I thought this was sounding like some kind of corruption. I tested ext4 on
-various qemu devices with 4k logical block sizes, and it all looks okay there.
+Looks good:
 
-What block driver are you observing this with?
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
