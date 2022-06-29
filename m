@@ -4,142 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C0E4C43334
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 11:09:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB157C43334
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 12:13:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TRkwhXTMm03IPLUoSM7D6tuewVzEMjKLlrQ9gUSa0+Q=; b=uqCEYIPjKmDl9L/zX0jc3z3Ecv
-	Rv1rKpLPA/EKdCNQO0iPD36EwiqWSEEerJxm4H9ec6aMSYXvmDIZF0fdJ4JyQzswKnoKgIn5T9UzW
-	/pV78Z9lu+V9ZvMGrsVPzipsBivXdDO/aFeUZc1//igEDW5kZo9ipM45XIsfxvXuXGiRHshnJLGfJ
-	h0HWwI42w+taVzOwpG35aspRZ09/bM5nMAUuSFhmUSuJUfzZj72uOIL8YXffKlvLRKXNsZiTDGV8v
-	XNDfgX3/0TmH+TMGE6VK4ViLLIeK5qouEudYLO8yalh7syh0TYqN7xb83192uqmgW068WvT1+6Nvq
-	/bPywhLA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=z09HyVLVyA7CiFF0G/Q1WBg2DYzrEQ6++I3akWapE/E=; b=fENtzgWwO3dl3BP+d53pwiWyno
+	j/fvYZ70Egee4KaoaIHr+BCn5CwBt4s22/7uLIGYRBWFM+kpfyCSAKULwfQEYnikkscEu8eQTKika
+	jUmFLoROU+Tsy8YhQEhf7PLV8dX5Ppbv7XnIrklXIGdOLX7c+i+gAfNoTRSx326c33s4whF6n6Bfo
+	dDkPfICeQ9u/vNGm+pCkHxT8DxsMSEcequOLeZJtA/tonvBhlh9w6Wreae5SJ2pMAD/yKDA3wq990
+	Fzv43StdDnyBfS9C4qL0BZ/5TXVtutfgtSIKD6XKno3GSkXzWJTMbDGu+CBgbIMOWx5VfE7d5YE9l
+	6Cldoy5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6VZB-00BHJs-2X; Wed, 29 Jun 2022 11:09:05 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6VFn-00B968-VM
-	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 10:49:06 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1656499743; x=1688035743;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=uNknonR1NwSRyF4vc0f9+T3eBJfuKn+MPJFzm3ZTlRQ=;
-  b=iVQkmKIgNp6RWvOqQ97xiNhxX+nhx75xuwlsKJaDGtPV6Lokbww/5ZTZ
-   TUq8awnYQCwwHXw6yEakVAnJ9pFbIGLb6y7pbiHYTx+wIN0z8gdUEovzh
-   kDnH7qd+BoQe4KNk8hxX/5IKUi9PfkOIM0S6IrfqtMJDqYBVDXpBfPxhs
-   Ekp/YCJ/w4Ve711dh+w5IzA9ZIRGtJKzkqJhZrct9SS+fvlTNTkJeGN11
-   7Ta9dTggcn4Ms2IyAB3fFytQqv08mpJC/JOYRitdM+Cfoe2Wfe3zJXnpf
-   J6Op9IrgS1Cx+wMrsTH6Uo75JxC39tp9JjPUwf6WrZGqju3thZTkA3PtZ
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.92,231,1650902400"; 
-   d="scan'208";a="316486786"
-Received: from mail-bn7nam10lp2103.outbound.protection.outlook.com (HELO NAM10-BN7-obe.outbound.protection.outlook.com) ([104.47.70.103])
-  by ob1.hgst.iphmx.com with ESMTP; 29 Jun 2022 18:49:00 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hCpnwA6qMnhDWKilGbXY2g9iJt+IdNwiRdKFI1A54nqIS/hewIrgsOQqhLXFfUXiqGnvrLGj1cEgkPs2LjqBYDHT1A4VKbzFtnN7p3SfbnuLYaLfiI8lBHdDCkkTHzz1jvm3i8ybopPLaKK7inj+Py/3KHgHAmVXUiSd+/uBhRMqQioAnyCOUJaK+SpAwdHio/A6pyssoWgIFygXPcNJp0/bIt74bfXexXVyVWFTePJf6fmB23Ttn/pG6LiebI4VXa664sxJB17OMJs8etZ1p/y3XJBcapTFZY3JPS5MMN2jq2yZQP6tYmAVoTEu/EASIdt/CAHyFh2m+b/jXIoPyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TRkwhXTMm03IPLUoSM7D6tuewVzEMjKLlrQ9gUSa0+Q=;
- b=R4wbLN4mhgdSzQD9RPsJotXWvak8pRV59OmdEdnCNtQQQB+UINWGZh5kqgzmF5Cg3FfXRy3zSC/pThITDL9mcFfIw9YndsS6cHXxbJ2RBjOwwdtrDx+W1PJ8iDshtRRjrypARM9OAsvXwjafnxKejg4V/jYLz9ULolIijh+9Ppj3OgoqEFCxZ1DyVPOYzYTolioemJJfYe6XVtJfq5tn1A7l/dAZ1A8Mft5MPnyWI/u9pPs9JcT/yGuQK5PgyHpmp2ctmPo2kX4mbVNHg/Lssp04DjoYk/nOGbTtnAV5xP6KOSlDz+QoGmhBtlmAw8NCSlhEjmUGssHR3JOIeCgcTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TRkwhXTMm03IPLUoSM7D6tuewVzEMjKLlrQ9gUSa0+Q=;
- b=a6NLZuokp0U4MXFJzcsw4FZdOB1J9qJGtVb4dfjju9tubTQlmQWGtZPrM1j9YleSYSN3nqlEil6c0GhEZKBSw3rzJeAsJ+FKpF7qwmKo0xu++nKkk8tjks+KDkqmgDBeFBV6w3UqVh7uAwN3pGdXRSljBqoQJj7W9KZeUAQP/Wo=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- SN2PR04MB2224.namprd04.prod.outlook.com (2603:10b6:804:f::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5373.17; Wed, 29 Jun 2022 10:48:57 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::39dc:d3d:686a:9e7]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::39dc:d3d:686a:9e7%3]) with mapi id 15.20.5373.018; Wed, 29 Jun 2022
- 10:48:57 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-CC: Hannes Reinecke <hare@suse.de>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, Christoph Hellwig <hch@lst.de>, Chaitanya
- Kulkarni <Chaitanya.Kulkarni@wdc.com>, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH] nvme: add nvmf reset/disconnect during traffic test
-Thread-Topic: [PATCH] nvme: add nvmf reset/disconnect during traffic test
-Thread-Index: AQHYi5XOJnY3UE7bokiGlV/RgM3CEa1mNHyA
-Date: Wed, 29 Jun 2022 10:48:57 +0000
-Message-ID: <20220629104855.7uns5gtk4xlhyxcr@shindev>
-References: <20220629085405.357517-1-sagi@grimberg.me>
-In-Reply-To: <20220629085405.357517-1-sagi@grimberg.me>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e835f41d-6850-4dc5-c95a-08da59bcf7d4
-x-ms-traffictypediagnostic: SN2PR04MB2224:EE_
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  70fb+aElBbzdiKbDLATwdvZ0JyvzCLXZ1GpmjX9yStQ28BVjNJWMS2JxzJdTolx/g7IsUwNGeUVMbxYs4gvzOd5nVOPrinIU15JgNa38ELj8SkWBelgAyl+6jiddZ5ObgOtRhz9BX31KbOyHlgmQzPEX6p1RphDP8SPwRxQX6LczNC0NeeSpd5jFtAb4Chyj+ztJ3ajB4EHjvS09sKu5+h293mcmDYXjC1EHDUxKZ0D8tvycN7xqB20SOr2sID75rWIn8CDxjls/rcQaVom9igut71hDl4+WYtYmsnQJe0K1AzRUn2qzVcxD5s0v412R4j5SUvqCB867uQfJt8w7z9FXCGCemKNSrUIelBhqHx7vmjMXq9N8/3OghUyBG0uF57R92qsZGREO5V4uzEQUVV24Kn/7rXG5bEjs0B5R497vrkztPPfL/bSPQmE/Cyx84HvOYdpr1u6QJU9fEqz3lpRuPs0vWMJR3/Ah4ZZIgnB94Ch/XIpMJ0K6Py+0DA6SKY2l2UXEho4prR/Ut1k1Emc7guZqJwfaW7g+T+3ZYIqDkbuL8ggnN2zjd3DTmtdhhB0+mWK+K3u6qT/esbRqA76iu9Vqlio+n67GyZUHkeQnjuCHURifiXo10DGgN2VTn8xkglSGlWnK//unLGPJ71tdIYZPowpBJ6bYT3Y/bqef+INDofpDnbxxvPU2WPTcA5n2h56vE8uT2z3n9gWKpURC+nI2vhXh/v4oGV/v963/0N8Jj1wXMmdWrc9UIJuwKggsqnsbkmWDBSMVuAFaRalhW3w3VFKlzZptVBy8Mfg=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(4636009)(366004)(39860400002)(346002)(136003)(376002)(396003)(38100700002)(122000001)(54906003)(76116006)(8676002)(4326008)(66556008)(66446008)(64756008)(66946007)(66476007)(91956017)(33716001)(6512007)(26005)(6506007)(316002)(9686003)(6916009)(83380400001)(38070700005)(86362001)(186003)(44832011)(478600001)(8936002)(71200400001)(5660300002)(1076003)(82960400001)(2906002)(6486002)(41300700001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?NM9kMTMpJgK1Kn+ZDvCoJL0hvcL07j5xxhsdIU5m56bXf8pM4WfVbLLN3GzV?=
- =?us-ascii?Q?WLRJHPCxzrn3rJNbZWoDvUtXz4pdFUYzfRIsLU/d7HKUXAN1wrzTkBZcpyfy?=
- =?us-ascii?Q?lm+pj0z/g/JWhtJZtHmZ77sxqiWDmj+hBmybYCkuHS0IfPlWoMM7YGzeRJ0r?=
- =?us-ascii?Q?iPJveFqLK9xSmmxI71QS5/Tq5f9Kv0glzJYnrZClgMgJDcuAcUBAV9I0uZvr?=
- =?us-ascii?Q?St9Sg1v69SAWMShm9PjkwqCrEdXxfQS5fGPKmlZ5yeeCovJMjm9nR0NOF6Cj?=
- =?us-ascii?Q?hMrQbk2ZsayfcDvOpPskRf7xQJaz9nyuBJJiYRCIFksEQvYgPW1WUPm3tvQk?=
- =?us-ascii?Q?uUYt5MwihCXKSPVymo0AoezYB57UFyA3DiVtMf/tN37Z1FIuvsW6cp24p4GS?=
- =?us-ascii?Q?8DXpbLtrjJLiUif4/VGR5tjJ4LDRz2UZmOiNRs6DE0ES065nzn46KpN0b5Ys?=
- =?us-ascii?Q?TFGSZ17PHSTGGBz+5XIInotsYphWfCAtDFikfd2QQFBMI6ZW/aJ3eDeraQia?=
- =?us-ascii?Q?322Z/LYAAQCp63rq2rYgNuVLRjsQo1kw9g/P2mI/hcrBUjumdRf3KK4Uw39R?=
- =?us-ascii?Q?DO+I3cSi4l+BhgIZhNZLLqJOUHyWcXmuaz6Pw8q+n4AqkGkqIqBxDfIl2/xO?=
- =?us-ascii?Q?PaUygkZ3FNG/LTMoqgFu1VVA76W5+7RnL7PEbeRZXu96t+ZeE0nUImwMqYaJ?=
- =?us-ascii?Q?jiNwp/SPT2dO7btZSZs9DgeCIruCdD8ZKjhzEhcrzEITfsKvM87/FlJIPMRP?=
- =?us-ascii?Q?IUGzWAVY/aqCZd8UlCTfNijKChoWhrf59QAj5PrC7WfIw9CnIfCFV//iPi2X?=
- =?us-ascii?Q?5LQiYlRknQWtlUez8CI6ZRHSRgGlWeEmLYbCd+Uu5z/I+L6pZ1OEv4ZGdyeN?=
- =?us-ascii?Q?E81K4b1yckIH7a/zU0Nm57aplDCrjPBFJ40KPPKJCdDaEB+0Zjo/0Ft7/ktE?=
- =?us-ascii?Q?l7hJo77zbceJ6F9pbMeIW4fLjSM3Hvt4NQOfio/FnkN3jbcXsobwHnlcgXB1?=
- =?us-ascii?Q?cEigOGZT9yEvGujU0vCl1aFSCCC6/vajkPWZfwfJ/cmeNs+ktxmgMbAhEdef?=
- =?us-ascii?Q?Rs4ITHXihn8wK12kuQ0LuKT+zl8gatUVb6hBXeCJARbfWQDI0bK4v1FWDliN?=
- =?us-ascii?Q?3AYd0/1NY7mpBNWNU8Xz1JtCTRJA+5wOeb4OeZQmVGeMp446kS2r7CLWurAx?=
- =?us-ascii?Q?usmI/P/TZ+oJREch+G9fgBt897vExrUjqnyfY+Tld3WPo5+Y68mqVqNhrXht?=
- =?us-ascii?Q?Fg+BV5RGmDJRQexSlrB29NW/IgTtAmVZD3Qido1nzyWafm0PUpS2WW9Bzr/m?=
- =?us-ascii?Q?9/+WEIlW/cRSHJem/a2HzLlTfsD2NRTOYBp0WJBiwAX6OG+0k1zR3dp+tb2A?=
- =?us-ascii?Q?rCdHMkBQAt2uJodOtpTNF7IKIbc0VC5yZVLjPvkChyU/oDWXUhA3bDqhTZGb?=
- =?us-ascii?Q?DDJEJ56XKl5whiv2Yr9t5JCKuaeCh1C1XnJvJe6hIlF5HE0Vgc66h8OPkI6U?=
- =?us-ascii?Q?YGSk9yNOdAnJhLEYHDEeOotwqx0NLUxGa50sPq4Zz3cr5KbTGzG31CuAHBuM?=
- =?us-ascii?Q?hvXLMHm8hrQ2ZldtSTlTOwHK71pB3z2wcRhwW+vElTdDbpFJbSPqF0I6slb7?=
- =?us-ascii?Q?mUwtYTzD8ChxHGIPJnfx0Eo=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <BD45442A73FA8245B48C2DAFC063B868@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	id 1o6WZK-00Bhuv-Rx; Wed, 29 Jun 2022 12:13:18 +0000
+Received: from foss.arm.com ([217.140.110.172])
+	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1o6WZG-00Bhqp-6P
+	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 12:13:17 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3497A152B;
+	Wed, 29 Jun 2022 05:13:09 -0700 (PDT)
+Received: from [10.57.85.71] (unknown [10.57.85.71])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BEC103F66F;
+	Wed, 29 Jun 2022 05:10:30 -0700 (PDT)
+Message-ID: <feecc6fe-a16e-11f2-33c8-3de7c96b9ad5@arm.com>
+Date: Wed, 29 Jun 2022 13:07:42 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e835f41d-6850-4dc5-c95a-08da59bcf7d4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2022 10:48:57.2519
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7xh2JI2atx4K1PmRz/38VJ5Dx3BruVUwYIjVyjIw92ypJj8N3gktT7PFKoeRnrJ1mn4b9varYT1FdtutUriBjpq1hVNCj5VWhgw2AxpGRI0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN2PR04MB2224
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v7 08/21] iommu/dma: support PCI P2PDMA pages in dma-iommu
+ map_sg
+Content-Language: en-GB
+To: Logan Gunthorpe <logang@deltatee.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org
+Cc: Minturn Dave B <dave.b.minturn@intel.com>,
+ Martin Oliveira <martin.oliveira@eideticom.com>,
+ Ralph Campbell <rcampbell@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ John Hubbard <jhubbard@nvidia.com>, Dave Hansen
+ <dave.hansen@linux.intel.com>, Matthew Wilcox <willy@infradead.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Chaitanya Kulkarni
+ <ckulkarnilinux@gmail.com>, Jason Ekstrand <jason@jlekstrand.net>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Bjorn Helgaas <helgaas@kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>, Stephen Bates
+ <sbates@raithlin.com>, Ira Weiny <ira.weiny@intel.com>,
+ Christoph Hellwig <hch@lst.de>, Xiong Jianxin <jianxin.xiong@intel.com>
+References: <20220615161233.17527-1-logang@deltatee.com>
+ <20220615161233.17527-9-logang@deltatee.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20220615161233.17527-9-logang@deltatee.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220629_034904_272119_14C82019 
-X-CRM114-Status: GOOD (  28.67  )
+X-CRM114-CacheID: sfid-20220629_051314_401188_A01D78D2 
+X-CRM114-Status: GOOD (  40.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -154,163 +78,211 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Jun 29, 2022 / 11:54, Sagi Grimberg wrote:
-> Test traffic controller reset and disconnect during traffic.
-
-Hi Sagi, thanks for the patch. This test case looks valuable. Is there any
-specific kernel bug or fix which motivated to add this test case? If so, it
-would be useful to note it in this commit message and the header comment of
-the test case.
-
->=20
-> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+On 2022-06-15 17:12, Logan Gunthorpe wrote:
+> When a PCI P2PDMA page is seen, set the IOVA length of the segment
+> to zero so that it is not mapped into the IOVA. Then, in finalise_sg(),
+> apply the appropriate bus address to the segment. The IOVA is not
+> created if the scatterlist only consists of P2PDMA pages.
+> 
+> A P2PDMA page may have three possible outcomes when being mapped:
+>    1) If the data path between the two devices doesn't go through
+>       the root port, then it should be mapped with a PCI bus address
+>    2) If the data path goes through the host bridge, it should be mapped
+>       normally with an IOMMU IOVA.
+>    3) It is not possible for the two devices to communicate and thus
+>       the mapping operation should fail (and it will return -EREMOTEIO).
+> 
+> Similar to dma-direct, the sg_dma_mark_pci_p2pdma() flag is used to
+> indicate bus address segments. On unmap, P2PDMA segments are skipped
+> over when determining the start and end IOVA addresses.
+> 
+> With this change, the flags variable in the dma_map_ops is set to
+> DMA_F_PCI_P2PDMA_SUPPORTED to indicate support for P2PDMA pages.
+> 
+> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 > ---
->  tests/nvme/040     | 55 ++++++++++++++++++++++++++++++++++++++++++++++
->  tests/nvme/040.out |  6 +++++
->  tests/nvme/rc      |  8 +++++++
->  3 files changed, 69 insertions(+)
->  create mode 100755 tests/nvme/040
->  create mode 100644 tests/nvme/040.out
->=20
-> diff --git a/tests/nvme/040 b/tests/nvme/040
-> new file mode 100755
-> index 000000000000..88d255a8d0e0
-> --- /dev/null
-> +++ b/tests/nvme/040
-> @@ -0,0 +1,55 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-3.0+
-> +# Copyright (C) 2019 Yi Zhang <yi.zhang@redhat.com>
+>   drivers/iommu/dma-iommu.c | 68 +++++++++++++++++++++++++++++++++++----
+>   1 file changed, 61 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+> index f90251572a5d..b01ca0c6a7ab 100644
+> --- a/drivers/iommu/dma-iommu.c
+> +++ b/drivers/iommu/dma-iommu.c
+> @@ -21,6 +21,7 @@
+>   #include <linux/iova.h>
+>   #include <linux/irq.h>
+>   #include <linux/list_sort.h>
+> +#include <linux/memremap.h>
+>   #include <linux/mm.h>
+>   #include <linux/mutex.h>
+>   #include <linux/pci.h>
+> @@ -1062,6 +1063,16 @@ static int __finalise_sg(struct device *dev, struct scatterlist *sg, int nents,
+>   		sg_dma_address(s) = DMA_MAPPING_ERROR;
+>   		sg_dma_len(s) = 0;
+>   
+> +		if (is_pci_p2pdma_page(sg_page(s)) && !s_iova_len) {
 
-Was this authored by Yi in 2019?
+Logically, should we not be able to use sg_is_dma_bus_address() here? I 
+think it should be feasible, and simpler, to prepare the p2p segments 
+up-front, such that at this point all we need to do is restore the 
+original length (if even that, see below).
 
-> +#
-> +# Test nvme fabrics controller reset/disconnect/reconnect operation duri=
-ng I/O
-> +# This test is somewhat similar to test 032 but for fabrics controllers.
+> +			if (i > 0)
+> +				cur = sg_next(cur);
+> +
+> +			pci_p2pdma_map_bus_segment(s, cur);
+> +			count++;
+> +			cur_len = 0;
+> +			continue;
+> +		}
+> +
+>   		/*
+>   		 * Now fill in the real DMA data. If...
+>   		 * - there is a valid output segment to append to
+> @@ -1158,6 +1169,8 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
+>   	struct iova_domain *iovad = &cookie->iovad;
+>   	struct scatterlist *s, *prev = NULL;
+>   	int prot = dma_info_to_prot(dir, dev_is_dma_coherent(dev), attrs);
+> +	struct dev_pagemap *pgmap = NULL;
+> +	enum pci_p2pdma_map_type map_type;
+>   	dma_addr_t iova;
+>   	size_t iova_len = 0;
+>   	unsigned long mask = dma_get_seg_boundary(dev);
+> @@ -1193,6 +1206,35 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
+>   		s_length = iova_align(iovad, s_length + s_iova_off);
+>   		s->length = s_length;
+>   
+> +		if (is_pci_p2pdma_page(sg_page(s))) {
+> +			if (sg_page(s)->pgmap != pgmap) {
+> +				pgmap = sg_page(s)->pgmap;
+> +				map_type = pci_p2pdma_map_type(pgmap, dev);
+> +			}
 
-Ah, the copyright was copied from nvme/032, probably.
+There's a definite code smell here, but per above and below I think we 
+*should* actually call the new helper instead of copy-pasting half of it.
 
 > +
-> +. tests/nvme/rc
-> +
-> +DESCRIPTION=3D"test nvme fabrics controller reset/disconnect operation d=
-uring I/O"
-> +
-> +requires() {
-> +	_nvme_requires
-> +	_have_loop
-> +	_have_fio
-> +	_require_nvme_trtype_is_fabrics
-> +}
-> +
-> +test() {
-> +	local subsys=3D"blktests-subsystem-"
+> +			switch (map_type) {
+> +			case PCI_P2PDMA_MAP_BUS_ADDR:
+> +				/*
+> +				 * A zero length will be ignored by
+> +				 * iommu_map_sg() and then can be detected
 
-As for the sub-system name, other test cases have a number after
-"blktests-subsystem-". "blktests-subsystem-1" would be the better for this =
-test
-case also, just for consistency.
+If that is required behaviour then it needs an explicit check in 
+iommu_map_sg() to guarantee (and document) it. It's only by chance that 
+__iommu_map() happens to return success for size == 0 *if* all the other 
+arguments still line up, which is a far cry from a safe no-op.
 
-> +	local port
-> +	local loop_dev
-> +	local nvmedev
-> +
-> +	echo "Running ${TEST_NAME}"
-> +
-> +	_setup_nvmet
-> +	truncate -s 1G "$TMPDIR/img"
-> +	loop_dev=3D"$(losetup -f --show "$TMPDIR/img")"
-> +
-> +	port=3D"$(_create_nvmet_port "${nvme_trtype}")"
-> +	_create_nvmet_subsystem "${subsys}" "${loop_dev}"
-> +	_add_nvmet_subsys_to_port "${port}" "${subsys}"
-> +	_nvme_connect_subsys "${nvme_trtype}" "${subsys}"
-> +	udevadm settle
-> +	nvmedev=3D$(_find_nvme_dev "${subsys}")
-> +
-> +	# start fio job
-> +	echo "starting background fio on ${nvmedev}n1"
-> +	_run_fio_rand_io --filename=3D"${nvmedev}n1" --size=3D1g \
-> +		--group_reporting --ramp_time=3D5  &> /dev/null &
-> +	sleep 5
-> +
-> +	# do reset/remove operation
-> +	echo "resetting ${nvmedev}"
-> +	_nvme_reset_ctrl ${nvmedev}
-> +	sleep 1
-> +	echo "deleting ${nvmedev}"
-> +	_nvme_delete_ctrl ${nvmedev}
-> +
-> +	echo "stopping background fio on ${nvmedev}n1"
-> +	{ kill $!; wait; } &> /dev/null
+However, rather than play yet more silly tricks, I think it would make 
+even more sense to make iommu_map_sg() properly aware and able to skip 
+direct p2p segments on its own. Once it becomes normal to pass mixed 
+scatterlists around, it's only a matter of time until one ends up being 
+handed to a driver which manages its own IOMMU domain, and then what?
 
-It looks like that clean up helper function calls for the port and the
-sybsystem are missing. When I ran this test case, I observed WARNINGS as
-follows, which _cleanup_nvmet() in nvme/rc prints out.
-
-WARNING: Test did not clean up port: 0
-WARNING: Test did not clean up subsystem: blktests-subsystem-
-
+> +				 * in __finalise_sg() to actually map the
+> +				 * bus address.
+> +				 */
+> +				s->length = 0;
+> +				continue;
+> +			case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+> +				/*
+> +				 * Mapping through host bridge should be
+> +				 * mapped with regular IOVAs, thus we
+> +				 * do nothing here and continue below.
+> +				 */
+> +				break;
+> +			default:
+> +				ret = -EREMOTEIO;
+> +				goto out_restore_sg;
+> +			}
+> +		}
 > +
-> +	echo "Test complete"
-> +}
-> diff --git a/tests/nvme/040.out b/tests/nvme/040.out
-> new file mode 100644
-> index 000000000000..f14ae8db1ddb
-> --- /dev/null
-> +++ b/tests/nvme/040.out
-> @@ -0,0 +1,6 @@
-> +Running nvme/040
-> +starting background fio on nvme0n1
-> +resetting nvme0
-> +deleting nvme0
-> +stopping background fio on nvme0n1
-
-The nvme controller name "nvme0" is assumed in the out file. However, when =
-the
-test system has nvme devices, the name of the nvme controller created by th=
-is
-test case is not "nvme0". Then this test case fails. I suggest not to recor=
-d the
-nvme device names in the out file.
-
-> +Test complete
-> diff --git a/tests/nvme/rc b/tests/nvme/rc
-> index 4bebbc762cbb..684d56b184e5 100644
-> --- a/tests/nvme/rc
-> +++ b/tests/nvme/rc
-> @@ -447,3 +447,11 @@ _nvme_disable_err_inject()
->          echo 0 > /sys/kernel/debug/"$1"/fault_inject/probability
->          echo 0 > /sys/kernel/debug/"$1"/fault_inject/times
->  }
+>   		/*
+>   		 * Due to the alignment of our single IOVA allocation, we can
+>   		 * depend on these assumptions about the segment boundary mask:
+> @@ -1215,6 +1257,9 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
+>   		prev = s;
+>   	}
+>   
+> +	if (!iova_len)
+> +		return __finalise_sg(dev, sg, nents, 0);
 > +
-> +_nvme_reset_ctrl() {
-> +	echo 1 > /sys/class/nvme/$1/reset_controller
-> +}
+>   	iova = iommu_dma_alloc_iova(domain, iova_len, dma_get_mask(dev), dev);
+>   	if (!iova) {
+>   		ret = -ENOMEM;
+> @@ -1236,7 +1281,7 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
+>   out_restore_sg:
+>   	__invalidate_sg(sg, nents);
+>   out:
+> -	if (ret != -ENOMEM)
+> +	if (ret != -ENOMEM && ret != -EREMOTEIO)
+>   		return -EINVAL;
+>   	return ret;
+>   }
+> @@ -1244,7 +1289,7 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
+>   static void iommu_dma_unmap_sg(struct device *dev, struct scatterlist *sg,
+>   		int nents, enum dma_data_direction dir, unsigned long attrs)
+>   {
+> -	dma_addr_t start, end;
+> +	dma_addr_t end, start = DMA_MAPPING_ERROR;
+
+There are several things I don't like about this logic, I'd rather have 
+"end = 0" here...
+
+>   	struct scatterlist *tmp;
+>   	int i;
+>   
+> @@ -1260,14 +1305,22 @@ static void iommu_dma_unmap_sg(struct device *dev, struct scatterlist *sg,
+>   	 * The scatterlist segments are mapped into a single
+>   	 * contiguous IOVA allocation, so this is incredibly easy.
+>   	 */
+
+[ This comment rather stops being true :( ]
+
+> -	start = sg_dma_address(sg);
+> -	for_each_sg(sg_next(sg), tmp, nents - 1, i) {
+
+...then generalise the first-element special case here into a dedicated 
+"walk to the first non-p2p element" loop...
+
+> +	for_each_sg(sg, tmp, nents, i) {
+> +		if (sg_is_dma_bus_address(tmp)) {
+> +			sg_dma_unmark_bus_address(tmp);
+
+[ Again I question what this actually achieves ]
+
+> +			continue;
+> +		}
+>   		if (sg_dma_len(tmp) == 0)
+>   			break;
+> -		sg = tmp;
 > +
-> +_nvme_delete_ctrl() {
-> +	echo 1 > /sys/class/nvme/$1/delete_controller
-> +}
-> --=20
-> 2.34.1
->=20
+> +		if (start == DMA_MAPPING_ERROR)
+> +			start = sg_dma_address(tmp);
+> +
+> +		end = sg_dma_address(tmp) + sg_dma_len(tmp);
+>   	}
+> -	end = sg_dma_address(sg) + sg_dma_len(sg);
+> -	__iommu_dma_unmap(dev, start, end - start);
+> +
+> +	if (start != DMA_MAPPING_ERROR)
 
-And shellcheck complains that some variable references lack double quotes.
+...then "if (end)" here.
 
-$ make check
-shellcheck -x -e SC2119 -f gcc check new common/* \
-        tests/*/rc tests/*/[0-9]*[0-9]
-tests/nvme/rc:452:27: note: Double quote to prevent globbing and word split=
-ting. [SC2086]
-tests/nvme/rc:456:27: note: Double quote to prevent globbing and word split=
-ting. [SC2086]
-tests/nvme/040:46:19: note: Double quote to prevent globbing and word split=
-ting. [SC2086]
-tests/nvme/040:49:20: note: Double quote to prevent globbing and word split=
-ting. [SC2086]
-make: *** [Makefile:21: check] Error 1
+Thanks,
+Robin.
 
---=20
-Shin'ichiro Kawasaki=
+> +		__iommu_dma_unmap(dev, start, end - start);
+>   }
+>   
+>   static dma_addr_t iommu_dma_map_resource(struct device *dev, phys_addr_t phys,
+> @@ -1460,6 +1513,7 @@ static unsigned long iommu_dma_get_merge_boundary(struct device *dev)
+>   }
+>   
+>   static const struct dma_map_ops iommu_dma_ops = {
+> +	.flags			= DMA_F_PCI_P2PDMA_SUPPORTED,
+>   	.alloc			= iommu_dma_alloc,
+>   	.free			= iommu_dma_free,
+>   	.alloc_pages		= dma_common_alloc_pages,
 
