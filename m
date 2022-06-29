@@ -4,46 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BC26BC43334
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 14:17:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2EC9DC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 14:17:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Re1RnRUT4FBjDMUBBPk5apu8Mb+b0GtENlE8kQZow4A=; b=OSWZ3hfOZvdLKVhAeVca96/Ve2
-	HpX1CTDj8JZ2UgvlDhXpPBYmDZhzUB8okkZt9JEH99apqPTKWpv856XWava6LOvXonGw5KXvGpEfr
-	1qR5R6dZlfybPbrwgT9vQBlu5drDlWQrYYHkLLaAfmg2Kq+Nhw0qKm9DFss4cmUxqvfZM1w1yInd5
-	QeJ5A5VbB/pqhKsTC3eNEfe3DdHfTNI88qdwtNTBauSUY+3wmJGJBYnIibAaDGxF/Jy3vc8OHwkN9
-	GZ5+76rcuhTzKlm+QqeT3YyPZ3NuuZN1fly1fOrEfzDhWvbAujI2cY3vHOyLDNanhu34ZW2LTevNI
-	s5+DWUiQ==;
+	bh=TTi6mB4rNxOflvBHMkEgoHZKuZJ4Cycm8ARpaMgAuU4=; b=1MbDhWHcs10ldsDgR+wRUuW5UR
+	ZIGFEJwNUpJkkvqv+spa7CT5NvHk0IhX9biPuH92qFYvQSnk3I/pSNMKZuvz6cmZv3SMCcgp6tvKw
+	kKmBhlCAKgUksit9guKdwqtooLgSnpqniVbrQ9qLhxdi7GRyUk/P7MkX/Hzf54F5Ro7sTnLWFnEB0
+	XzIN3rM3GbZD1jxkRRhJgb9mXpHS2USEnOl4yas5+C6NHthC6XAkFo/VgIJ+8QCQ7a+rWJPpKu/xd
+	Lf8NhZdBmIM1D1nDFqVIgACbsKeYTTy04UT8ogGHsTZkyhmAZ7l6nVSNwMrxgLHP+tUCzI9p1Dpwf
+	aAYRsxQg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6YVJ-00CSD2-2V; Wed, 29 Jun 2022 14:17:17 +0000
+	id 1o6YVo-00CSR9-Sk; Wed, 29 Jun 2022 14:17:48 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6YVG-00CSBm-F7
-	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 14:17:15 +0000
+	id 1o6YVh-00CSLy-Lr
+	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 14:17:42 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id B10AD68BFE; Wed, 29 Jun 2022 16:17:11 +0200 (CEST)
-Date: Wed, 29 Jun 2022 16:17:10 +0200
+	id EA28568AA6; Wed, 29 Jun 2022 16:17:38 +0200 (CEST)
+Date: Wed, 29 Jun 2022 16:17:38 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH] nvmet-tcp: fix regression in data_digest calculation
-Message-ID: <20220629141710.GD16855@lst.de>
-References: <20220623214953.1347335-1-sagi@grimberg.me>
+To: Ruozhu Li <liruozhu@huawei.com>
+Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de
+Subject: Re: [PATCH v2] nvme: Fix regression when disconnect a recovering
+ ctrl
+Message-ID: <20220629141738.GE16855@lst.de>
+References: <20220623064539.6142-1-liruozhu@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220623214953.1347335-1-sagi@grimberg.me>
+In-Reply-To: <20220623064539.6142-1-liruozhu@huawei.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220629_071714_670274_AA23153A 
-X-CRM114-Status: UNSURE (   8.79  )
+X-CRM114-CacheID: sfid-20220629_071741_903684_BFD6F912 
+X-CRM114-Status: UNSURE (   7.78  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -61,5 +60,6 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 Thanks,
 
-added to nvme-5.19.
+added to nvme-5.19, although I had to manually apply it due to a
+conflict.
 
