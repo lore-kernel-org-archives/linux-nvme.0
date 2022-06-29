@@ -4,30 +4,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52A60C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 06:45:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 50AF5C43334
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 06:46:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YqUQ2KDTIaFKU+MxD9YdKIWEnhiYnz8AWw/CNrSLTcI=; b=0KjSygQdxjyPiDHGXhTz9DDk1I
-	ProPdC4XRwGFX1P+OUcuBDU0BrCMJuLEv5nqgYS9H0+PhMua0r6O3v6hh7/Oq8cm6WBk3JFav8iZV
-	r0xrVZk/h2tn7oCRNUaen3koQ135vPSNUxYn+XgDi8DKS1r3rJIzJVMv5+rKua8oGHzL8QOclQW0S
-	wJZMBQpvtQeEZb4WYbCvEss3QW91jvwZqqzbHGy0cAKyjg8Y1/1iZbFpB97euoeOttrhh9lwpRPYO
-	I/MpB2U1QeiLYGKyT1HMWqguxGTiNYFLmIg+FYAe6RTifCluD109cSexv2R/hlBaYRKNHe/WS36FF
-	aJCKG39g==;
+	bh=JrjO8tBU/JzWiQQVO/ztz9PRUNAKEwkNcVzGxTEVVNE=; b=rfFhZlhQXd342Rxwmohbb3pm95
+	yExgx8DVSh4jHPeTATX0//EifeSRBCSfQrW2ivMo//+t+Utwc6DSgvrV7+J8n6URLtj5q/2aZpiJ+
+	SUODFhSnpPLQ1rt3YiHoraI1OzCmJK6CSjIfQpOICSJFw2kZtNOfksudXeI2QqbZS7GN8hR7S9YHw
+	yhKUrrzF/X8JEpfWzMQ3AUS5Jpaism8SZj82CyU+ZwaZYylLnL8aGJXKWntsQOG2zTFrrUY4O43lN
+	IZibmuNA/34EMMPa4cmZODj7h/LJtmOJoufM1M0K8mmbr0AGOacMNPHa9ruCzFjAfPwWCdt9+VnXk
+	3L4DA7RQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6RS4-009rpK-Gz; Wed, 29 Jun 2022 06:45:28 +0000
+	id 1o6RTA-009sMN-Fm; Wed, 29 Jun 2022 06:46:36 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6RS0-009rlx-WE
-	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 06:45:26 +0000
+	id 1o6RT6-009sJM-Lk
+	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 06:46:34 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 2799567373; Wed, 29 Jun 2022 08:45:22 +0200 (CEST)
-Date: Wed, 29 Jun 2022 08:45:21 +0200
+	id DA93F67373; Wed, 29 Jun 2022 08:46:29 +0200 (CEST)
+Date: Wed, 29 Jun 2022 08:46:29 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Logan Gunthorpe <logang@deltatee.com>
 Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
@@ -49,19 +49,18 @@ Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
 	Martin Oliveira <martin.oliveira@eideticom.com>,
 	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
 	Ralph Campbell <rcampbell@nvidia.com>
-Subject: Re: [PATCH v7 15/21] iov_iter: introduce
- iov_iter_get_pages_[alloc_]flags()
-Message-ID: <20220629064521.GB17576@lst.de>
-References: <20220615161233.17527-1-logang@deltatee.com> <20220615161233.17527-16-logang@deltatee.com>
+Subject: Re: [PATCH v7 16/21] block: add check when merging zone device
+ pages
+Message-ID: <20220629064629.GC17576@lst.de>
+References: <20220615161233.17527-1-logang@deltatee.com> <20220615161233.17527-17-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220615161233.17527-16-logang@deltatee.com>
+In-Reply-To: <20220615161233.17527-17-logang@deltatee.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220628_234525_210491_2944B690 
-X-CRM114-Status: UNSURE (   8.66  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220628_234632_932538_D45F4880 
+X-CRM114-Status: GOOD (  14.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,6 +75,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I think this is going to have massive conflicts with Al's iov_iter
-support..
+On Wed, Jun 15, 2022 at 10:12:28AM -0600, Logan Gunthorpe wrote:
+> Consecutive zone device pages should not be merged into the same sgl
+> or bvec segment with other types of pages or if they belong to different
+> pgmaps. Otherwise getting the pgmap of a given segment is not possible
+> without scanning the entire segment. This helper returns true either if
+> both pages are not zone device pages or both pages are zone device
+> pages with the same pgmap.
+> 
+> Add a helper to determine if zone device pages are mergeable and use
+> this helper in page_is_mergeable().
+
+Any reason not to simply set REQ_NOMERGE for these requests?  We
+can't merge for passthrough requests anyway, and genrally don't merge
+for direct I/O either, so adding all this overhead seems a bit pointless.
 
