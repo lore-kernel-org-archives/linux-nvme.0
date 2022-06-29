@@ -4,122 +4,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BFD73C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jun 2022 19:13:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80423CCA481
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 03:19:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-ID:Date:Subject:CC
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Mime-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yOqmbYHBO8gpbKtdMH3tdiSGxVZAyj/ZxxBgca9rUUs=; b=M9Wo0MQ2zncVgHxLmXuLyrXmsK
-	NKM4nDNmcaaiZIg/JeZOmTvZR1IJ2wRV8o8Bh96YahqlgCAazFKPUprG0zfiz8hdxljarPRDCqMP8
-	EakLrJeZsIMUIGnDTvZ1NHkLbNT8sXaC5WBKxEFwHV0oEDw/9Erx6BnqVnjrnIw9zudYfB7wX5pdo
-	fSwEedVHbBLlL4m+Fa+Mu/Jsw52V88z6xSVJYFfpLUTmKTCUp/NkUgFWLPJY7IGaLNCzFigwaIJm7
-	37x/PjH0KbInA8RSCeBPWk24RUVKWyWQxPh69kETSyOzQ9rfnRR6MYV6s6Rw2wgpH+XK3XBNOC8SE
-	WhnZAQhA==;
+	bh=od5MFZxEfwYEj4PLpFvbO/tj5BemYL4/bN3mvOWbo6w=; b=sbm+4ahjogqNHbi6e2SLNSnKxY
+	SR3wZy947kJz68MoVqpdUwyGahqtmA3YXKHk8a2mwoPOFtb5YLQGfiYLfu71n0HQ7dXraanZGIrbX
+	Vi7+IKvLfhI9X4CmpXgLB0pgQIG5CIDHJS5Y2ABwxGkI/0E/HJhkFTPxo1zt0a5MtV7mP6UgWGBcF
+	Jv+7ePvmHEtzNvi01VUXOMsOO3AJAMAaFl7i5Utr7mrE0e/sV3D1ZxHfSX6hMCtrYqNH5B7om8NcN
+	yjlc3YDSsM1q8csdlh4SNtelIkmDdh/tMaaZCZdmeSDCnjbwxepgYOXkc0OpqAuXbrvvCSvbtFMnk
+	fOO3uYhw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6GeE-007n29-QL; Tue, 28 Jun 2022 19:13:18 +0000
-Received: from mailout1.w1.samsung.com ([210.118.77.11])
+	id 1o6OE8-009Dw4-Po; Wed, 29 Jun 2022 03:18:52 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5] helo=mx0a-001b2d01.pphosted.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6Ge0-007muA-S2
-	for linux-nvme@lists.infradead.org; Tue, 28 Jun 2022 19:13:10 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20220628191258euoutp010bda090359c6a22f3fe37892e22dcb42~83qiK39J43036130361euoutp01O
-	for <linux-nvme@lists.infradead.org>; Tue, 28 Jun 2022 19:12:58 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20220628191258euoutp010bda090359c6a22f3fe37892e22dcb42~83qiK39J43036130361euoutp01O
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1656443578;
-	bh=yOqmbYHBO8gpbKtdMH3tdiSGxVZAyj/ZxxBgca9rUUs=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-	b=U8RhU9rlkcDbn+Yr62BmIFDy6T2Ofni6hleyV6AqOCTNM8RWsnGnQkeNr2/jIscLX
-	 jaXo2Vi9DFF7i8ctysEQ+NmmlrqVOyd3WfpHmIBFmSHCa7jpRiA+JWunvwhP5mzjFc
-	 X5yGQ3Ku971iVx//5P2e69Ir2ajdMdUuezsXMHEM=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20220628191258eucas1p17539f7bca74f9cd89039a975d938c870~83qh2GNpo2508525085eucas1p19;
-	Tue, 28 Jun 2022 19:12:58 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-	eusmges1new.samsung.com (EUCPMTA) with SMTP id 9C.68.09664.9B25BB26; Tue, 28
-	Jun 2022 20:12:57 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20220628191257eucas1p222ee04ca7e25bb96a7705bb7c07083db~83qhXpiQp2071420714eucas1p2L;
-	Tue, 28 Jun 2022 19:12:57 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20220628191257eusmtrp19a72753b296cc705035abe4f614827ad~83qhXFIE12062620626eusmtrp1h;
-	Tue, 28 Jun 2022 19:12:57 +0000 (GMT)
-X-AuditID: cbfec7f2-d97ff700000025c0-87-62bb52b9a7a0
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-	eusmgms1.samsung.com (EUCPMTA) with SMTP id 35.6F.09095.9B25BB26; Tue, 28
-	Jun 2022 20:12:57 +0100 (BST)
-Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20220628191257eusmtip27adf86f9bf72a04d6f64523ec2f338c4~83qhLCN4r1650616506eusmtip2U;
-	Tue, 28 Jun 2022 19:12:57 +0000 (GMT)
-Received: from localhost (106.110.32.33) by CAMSVWEXC02.scsc.local
-	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Tue, 28 Jun 2022 20:12:56 +0100
-From: Joel Granados <j.granados@samsung.com>
-To: <hch@lst.de>, <sagi@grimberg.me>, <kbusch@kernel.org>
-CC: <joshi.k@samsung.com>, <k.jensen@samsung.com>,
-	<linux-nvme@lists.infradead.org>, <gost.dev@samsung.com>
-Subject: [PATCH v4 2/2] nvme: enable generic interface (/dev/ngXnY) for
- unknown command sets
-Date: Tue, 28 Jun 2022 21:10:16 +0200
-Message-ID: <20220628191016.291935-3-j.granados@samsung.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220628191016.291935-1-j.granados@samsung.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [106.110.32.33]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
-	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrHIsWRmVeSWpSXmKPExsWy7djP87o7g3YnGSzeY2WxcvVRJotJh64x
-	Wsxf9pTdYt3r9ywOLB7n721k8di0qpPNY/OSeo/dNxvYAliiuGxSUnMyy1KL9O0SuDJ2975n
-	LtjmXvHrzhTWBsaJVl2MnBwSAiYSE2b+YO1i5OIQEljBKLFv1k12COcLo8TZSxegMp8ZJX79
-	bGWDabn2YxkTRGI5o8SWhgPMcFWzeudA9W9mlHg99SI7SAubgI7E+Td3mEFsEQFLid4Pt8Bs
-	ZoFcic3bdrCC2MICcRLnti8Ci7MIqEqs/vCCEcTmFbCRaDjZyQSxWl6i7fp0sDingK3E/S2P
-	2SBqBCVOznzCAjFTXqJ562yo+RISB1+8YIboVZTYMuc7K4RdK3Fqyy2omRc4JHb2h0PYLhIb
-	f82CigtLvDq+hR3ClpE4PbmHBcLOltg5ZRfUzAKJWSenAt3AAWRbS/SdyYEIO0o8/zeJCSLM
-	J3HjrSDENXwSk7ZNZ4YI80p0tAlNYFSZheT+WUjun4Xk/gWMzKsYxVNLi3PTU4sN81LL9YoT
-	c4tL89L1kvNzNzECk8jpf8c/7WCc++qj3iFGJg7GQ4wSHMxKIrwLz+xMEuJNSaysSi3Kjy8q
-	zUktPsQozcGiJM6bnLkhUUggPbEkNTs1tSC1CCbLxMEp1cCk37+jbbrrxUKDwDT1mqXPf360
-	PJI179Pt5VV1oSf/JHQ3fj8+5XtjgMyBGg9P2bZtqtdbW15V7zRxdZeP7lspnq/fflRJqCI+
-	sadp/9Lug3/3y9oop7qpxHNsL/r6P/vYQdbDlx99rJkUZaW/e9Wb9b9e/a6OWzmtwur3PusP
-	UVU/LU4FLjcSmKT6jHGR+u5N5UsDe1QbdJeYeG0UmLvQwDrSbtvrn82Pt8Ztf20Q29iReMMx
-	XD3x4z/f9yx38s4u+rSZT4CVJeXC0wcRAhblJ5KTTgSEVvV8iI/dOe1W2/PpRl/YFfft4vhy
-	PVDPk8k7fzvv0wzu3H/LzLSveuQv9bT77Vne5D6DY//U1dlKLMUZiYZazEXFiQAyI9g4kQMA
-	AA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJIsWRmVeSWpSXmKPExsVy+t/xe7o7g3YnGUycK22xcvVRJotJh64x
-	Wsxf9pTdYt3r9ywOLB7n721k8di0qpPNY/OSeo/dNxvYAlii9GyK8ktLUhUy8otLbJWiDS2M
-	9AwtLfSMTCz1DI3NY62MTJX07WxSUnMyy1KL9O0S9DJ2975nLtjmXvHrzhTWBsaJVl2MnBwS
-	AiYS134sY+pi5OIQEljKKPH9221WiISMxKcrH9khbGGJP9e62CCKPjJKdDdvYIFwNjNKbNrZ
-	xwRSxSagI3H+zR1mEFtEwFKi98MtMJtZIFdi87YdYFOFBWIklu24ygJiswioSqz+8IIRxOYV
-	sJFoONnJBLFNXqLt+nSwOKeArcT9LY/ZQGwhoJplm28wQdQLSpyc+YQFYr68RPPW2VC7JCQO
-	vnjBDDFHUWLLnO9Q39RKfP77jHECo8gsJO2zkLTPQtK+gJF5FaNIamlxbnpusaFecWJucWle
-	ul5yfu4mRmCcbTv2c/MOxnmvPuodYmTiYDzEKMHBrCTCu/DMziQh3pTEyqrUovz4otKc1OJD
-	jKZAf05klhJNzgdGel5JvKGZgamhiZmlgamlmbGSOK9nQUeikEB6YklqdmpqQWoRTB8TB6dU
-	A1Pm2dorkvvjVt+7NnnzHg2JL1Mszysu3v6345aKQbjuRPWW729dDnjW7z7Y/dd5demXS84B
-	dSUOzgw3N18VyT40iZfj0I6129cdnOvkyH2KRclb+EW2ouze26FmRnOfxfGeya3a0LV7aWKz
-	jeBR9kDNi7H1DTbrWRxkNyusCWScdFHiTt7DH5m2AseuCjg/lkv1X5LeZ7LvhlGH+BqTRb9b
-	kicWbeUR2bi8V/J8d0L08dmSemU/p07YZOLuKHd844542cg7N24ov591d5k1w5K8hOxalqI9
-	Tt3eMmLaqidy/6yesXNj38UVd/y13myuk1i3vyzhqVJezbHzDBMnpAmJ1EzXZIjUKp+9W99+
-	u6QSS3FGoqEWc1FxIgBkb/9tPAMAAA==
-X-CMS-MailID: 20220628191257eucas1p222ee04ca7e25bb96a7705bb7c07083db
-X-Msg-Generator: CA
-X-RootMTR: 20220628191257eucas1p222ee04ca7e25bb96a7705bb7c07083db
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220628191257eucas1p222ee04ca7e25bb96a7705bb7c07083db
-References: <20220628191016.291935-1-j.granados@samsung.com>
-	<CGME20220628191257eucas1p222ee04ca7e25bb96a7705bb7c07083db@eucas1p2.samsung.com>
+	id 1o6OE5-009DuR-N6
+	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 03:18:51 +0000
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+	by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25T3DafE008652;
+	Wed, 29 Jun 2022 03:18:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=od5MFZxEfwYEj4PLpFvbO/tj5BemYL4/bN3mvOWbo6w=;
+ b=UmhUuvxQTsvGGNhNYpPwaqdbIQKOxF66FOaMdt6tVv6h6Z568SuPDVA6iwSY3fgCsW5q
+ kKiWkNQ6tM+gWa5vWxF0OPksCFZG5f1uwewm4HFAOfsb3SohuGlkUkVBXCcBRpG2XAYX
+ C0sDawltvSmPtMdDnRitw7argrr0sR1DPSms3aCJmFtQxRsNeGwJOGmpM0xMrHH5DyfW
+ yw79435oOR+O9bOECBovaCykKoxtmhNYbxlboh2ZiuJW3thDrOFu7BTjCOFw7BbM2lQN
+ zJt4HzdwVgKkzndzsyzxo6n4TyldfYoE2dOACtioQGzAptc2CXNKOOvI6NWORrVN45OJ BA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h0en282wj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 29 Jun 2022 03:18:41 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25T3Er48015431;
+	Wed, 29 Jun 2022 03:18:40 GMT
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com [169.55.85.253])
+	by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h0en282wb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 29 Jun 2022 03:18:40 +0000
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+	by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25T2p6Eg023703;
+	Wed, 29 Jun 2022 03:18:39 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com [9.57.198.26])
+	by ppma01wdc.us.ibm.com with ESMTP id 3gwt09cb0g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 29 Jun 2022 03:18:39 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
+	by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 25T3IcRa11600306
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 29 Jun 2022 03:18:39 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E3DBEAC059;
+	Wed, 29 Jun 2022 03:18:38 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9FDFAAC05B;
+	Wed, 29 Jun 2022 03:18:35 +0000 (GMT)
+Received: from farman-thinkpad-t470p (unknown [9.163.2.135])
+	by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+	Wed, 29 Jun 2022 03:18:35 +0000 (GMT)
+Message-ID: <a765fff67679155b749aafa90439b46ab1269a64.camel@linux.ibm.com>
+Subject: Re: [PATCHv6 11/11] iomap: add support for dma aligned direct-io
+From: Eric Farman <farman@linux.ibm.com>
+To: Halil Pasic <pasic@linux.ibm.com>, Keith Busch <kbusch@kernel.org>
+Cc: Keith Busch <kbusch@fb.com>, linux-fsdevel@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+        Christian
+ Borntraeger <borntraeger@linux.ibm.com>, axboe@kernel.dk,
+        Kernel Team
+ <Kernel-team@fb.com>, hch@lst.de, bvanassche@acm.org,
+        damien.lemoal@opensource.wdc.com, ebiggers@kernel.org,
+        pankydev8@gmail.com
+Date: Tue, 28 Jun 2022 23:18:34 -0400
+In-Reply-To: <83e65083890a7ac9c581c5aee0361d1b49e6abd9.camel@linux.ibm.com>
+References: <20220610195830.3574005-1-kbusch@fb.com>
+	 <20220610195830.3574005-12-kbusch@fb.com>
+	 <ab1bc062b4a1d0ad7f974b6068dc3a6dbf624820.camel@linux.ibm.com>
+	 <YrS2HLsYOe7vnbPG@kbusch-mbp> <YrS6/chZXbHsrAS8@kbusch-mbp>
+	 <e2b08a5c452d4b8322566cba4ed33b58080f03fa.camel@linux.ibm.com>
+	 <e0038866ac54176beeac944c9116f7a9bdec7019.camel@linux.ibm.com>
+	 <c5affe3096fd7b7996cb5fbcb0c41bbf3dde028e.camel@linux.ibm.com>
+	 <YrnOmOUPukGe8xCq@kbusch-mbp.dhcp.thefacebook.com>
+	 <20220628110024.01fcf84f.pasic@linux.ibm.com>
+	 <83e65083890a7ac9c581c5aee0361d1b49e6abd9.camel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: nDBxkpzP375Uv3nW7kdxyuRz0REl5oyg
+X-Proofpoint-GUID: HQTmH9Dzn0xZt9_WfWNXAAmKQGrbWDd0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-06-28_11,2022-06-28_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
+ phishscore=0 suspectscore=0 priorityscore=1501 clxscore=1015
+ mlxlogscore=999 impostorscore=0 bulkscore=0 adultscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206290010
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220628_121305_376850_1DC5A322 
-X-CRM114-Status: GOOD (  23.52  )
+X-CRM114-CacheID: sfid-20220628_201849_920093_7DAD0860 
+X-CRM114-Status: GOOD (  53.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,312 +124,131 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Extend nvme_alloc_ns() and nvme_validate_ns() for unknown command-set as
-well. Both are made to use a new helper (nvme_update_ns_info_cs_indep)
-which is similar to nvme_update_ns_info but performs fewer operations
-to get the generic interface up.
+On Tue, 2022-06-28 at 11:20 -0400, Eric Farman wrote:
+> On Tue, 2022-06-28 at 11:00 +0200, Halil Pasic wrote:
+> > On Mon, 27 Jun 2022 09:36:56 -0600
+> > Keith Busch <kbusch@kernel.org> wrote:
+> > 
+> > > On Mon, Jun 27, 2022 at 11:21:20AM -0400, Eric Farman wrote:
+> > > > Apologies, it took me an extra day to get back to this, but it
+> > > > is
+> > > > indeed this pass through that's causing our boot failures. I
+> > > > note
+> > > > that
+> > > > the old code (in iomap_dio_bio_iter), did:
+> > > > 
+> > > >         if ((pos | length | align) & ((1 << blkbits) - 1))
+> > > >                 return -EINVAL;
+> > > > 
+> > > > With blkbits equal to 12, the resulting mask was 0x0fff against
+> > > > an
+> > > > align value (from iov_iter_alignment) of x200 kicks us out.
+> > > > 
+> > > > The new code (in iov_iter_aligned_iovec), meanwhile, compares
+> > > > this:
+> > > > 
+> > > >                 if ((unsigned long)(i->iov[k].iov_base + skip)
+> > > > &
+> > > > addr_mask)
+> > > >                         return false;
+> > > > 
+> > > > iov_base (and the output of the old iov_iter_aligned_iovec()
+> > > > routine)
+> > > > is x200, but since addr_mask is x1ff this check provides a
+> > > > different
+> > > > response than it used to.
+> > > > 
+> > > > To check this, I changed the comparator to len_mask (almost
+> > > > certainly
+> > > > not the right answer since addr_mask is then unused, but it was
+> > > > good
+> > > > for a quick test), and our PV guests are able to boot again
+> > > > with
+> > > > -next
+> > > > running in the host.  
+> > > 
+> > > This raises more questions for me. It sounds like your process
+> > > used
+> > > to get an
+> > > EINVAL error, and it wants to continue getting an EINVAL error
+> > > instead of
+> > > letting the direct-io request proceed. Is that correct? 
 
-Suggested-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Joel Granados <j.granados@samsung.com>
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
----
- drivers/nvme/host/core.c | 164 +++++++++++++++++++++++++++------------
- 1 file changed, 115 insertions(+), 49 deletions(-)
+Sort of. In the working case, I see a set of iovecs come through with
+different counts:
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0fd6127da8d1..45ad1bbe0c33 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1425,28 +1425,30 @@ static int nvme_identify_ns(struct nvme_ctrl *ctrl, unsigned nsid,
- }
- 
- static int nvme_identify_ns_cs_indep(struct nvme_ctrl *ctrl, unsigned nsid,
--			struct nvme_id_ns_cs_indep **id)
-+			struct nvme_id_ns_cs_indep **indep_id)
- {
- 	struct nvme_command c = {
- 		.identify.opcode	= nvme_admin_identify,
- 		.identify.nsid		= cpu_to_le32(nsid),
- 		.identify.cns		= NVME_ID_CNS_NS_CS_INDEP,
- 	};
-+	struct nvme_id_ns_cs_indep *id;
- 	int ret;
- 
--	*id = kmalloc(sizeof(**id), GFP_KERNEL);
--	if (!*id)
-+	id = kmalloc(sizeof(**indep_id), GFP_KERNEL);
-+	if (!id)
- 		return -ENOMEM;
- 
--	ret = nvme_submit_sync_cmd(ctrl->admin_q, &c, *id, sizeof(**id));
-+	ret = nvme_submit_sync_cmd(ctrl->admin_q, &c, id, sizeof(**indep_id));
- 	if (ret) {
- 		dev_warn(ctrl->device,
- 			 "Identify namespace (CS independent) failed (%d)\n",
- 			 ret);
--		kfree(*id);
-+		kfree(id);
- 		return ret;
- 	}
- 
-+	*indep_id = id;
- 	return 0;
- }
- 
-@@ -1908,6 +1910,39 @@ static void nvme_set_chunk_sectors(struct nvme_ns *ns, struct nvme_id_ns *id)
- 	blk_queue_chunk_sectors(ns->queue, iob);
- }
- 
-+static void nvme_update_ns_mpath_info_general(struct nvme_ns *ns, __u8 nsattr)
-+{
-+	set_disk_ro(ns->head->disk,
-+		    (nsattr & NVME_NS_ATTR_RO) ||
-+			    test_bit(NVME_NS_FORCE_RO, &ns->flags));
-+	nvme_mpath_revalidate_paths(ns);
-+	blk_stack_limits(&ns->head->disk->queue->limits,
-+			 &ns->queue->limits, 0);
-+}
-+
-+static int nvme_update_ns_info_cs_indep(struct nvme_ns *ns,
-+					struct nvme_id_ns_cs_indep *id)
-+{
-+	blk_mq_freeze_queue(ns->disk->queue);
-+	nvme_set_queue_limits(ns->ctrl, ns->queue);
-+	set_disk_ro(ns->disk, (id->nsattr & NVME_NS_ATTR_RO) ||
-+		test_bit(NVME_NS_FORCE_RO, &ns->flags));
-+	blk_mq_unfreeze_queue(ns->disk->queue);
-+
-+	if (nvme_ns_head_multipath(ns->head)) {
-+		blk_mq_freeze_queue(ns->head->disk->queue);
-+		nvme_update_ns_mpath_info_general(ns, id->nsattr);
-+		ns->head->disk->flags |= GENHD_FL_HIDDEN;
-+		blk_mq_unfreeze_queue(ns->head->disk->queue);
-+	}
-+
-+	/* Hide the block-interface for these devices */
-+	ns->disk->flags |= GENHD_FL_HIDDEN;
-+	set_bit(NVME_NS_READY, &ns->flags);
-+
-+	return 0;
-+}
-+
- static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_id_ns *id)
- {
- 	unsigned lbaf = nvme_lbaf_index(id->flbas);
-@@ -1941,12 +1976,7 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_id_ns *id)
- 	if (nvme_ns_head_multipath(ns->head)) {
- 		blk_mq_freeze_queue(ns->head->disk->queue);
- 		nvme_update_disk_info(ns->head->disk, ns, id);
--		set_disk_ro(ns->head->disk,
--			    (id->nsattr & NVME_NS_ATTR_RO) ||
--				    test_bit(NVME_NS_FORCE_RO, &ns->flags));
--		nvme_mpath_revalidate_paths(ns);
--		blk_stack_limits(&ns->head->disk->queue->limits,
--				 &ns->queue->limits, 0);
-+		nvme_update_ns_mpath_info_general(ns, id->nsattr);
- 		disk_update_readahead(ns->head->disk);
- 		blk_mq_unfreeze_queue(ns->head->disk->queue);
- 	}
-@@ -3951,15 +3981,31 @@ static void nvme_ns_add_to_ctrl_list(struct nvme_ns *ns)
- }
- 
- static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
--		struct nvme_ns_ids *ids)
-+		struct nvme_ns_ids *ids, struct nvme_id_ns_cs_indep *indep_id)
- {
-+	int ret = 0;
- 	struct nvme_ns *ns;
- 	struct gendisk *disk;
--	struct nvme_id_ns *id;
-+	struct nvme_id_ns *id = NULL;
- 	int node = ctrl->numa_node;
-+	__u8 nmic;
-+	__le32 anagrpid;
- 
--	if (nvme_identify_ns(ctrl, nsid, ids, &id))
--		return;
-+	switch (ids->csi) {
-+	case NVME_CSI_NVM:
-+	case NVME_CSI_ZNS:
-+		if (nvme_identify_ns(ctrl, nsid, ids, &id))
-+			return;
-+		nmic = id->nmic;
-+		anagrpid = id->anagrpid;
-+		break;
-+	default:
-+		if (!indep_id)
-+			return;
-+		nmic = indep_id->nmic;
-+		anagrpid = indep_id->anagrpid;
-+		break;
-+	}
- 
- 	ns = kzalloc_node(sizeof(*ns), GFP_KERNEL, node);
- 	if (!ns)
-@@ -3984,7 +4030,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
- 	ns->ctrl = ctrl;
- 	kref_init(&ns->kref);
- 
--	if (nvme_init_ns_head(ns, nsid, ids, id->nmic & NVME_NS_NMIC_SHARED))
-+	if (nvme_init_ns_head(ns, nsid, ids, nmic & NVME_NS_NMIC_SHARED))
- 		goto out_cleanup_disk;
- 
- 	/*
-@@ -4010,7 +4056,16 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
- 			ns->head->instance);
- 	}
- 
--	if (nvme_update_ns_info(ns, id))
-+	switch (ids->csi) {
-+	case NVME_CSI_NVM:
-+	case NVME_CSI_ZNS:
-+		ret = nvme_update_ns_info(ns, id);
-+		break;
-+	default:
-+		ret = nvme_update_ns_info_cs_indep(ns, indep_id);
-+		break;
-+	}
-+	if (ret)
- 		goto out_unlink_ns;
- 
- 	down_write(&ctrl->namespaces_rwsem);
-@@ -4024,11 +4079,10 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
- 	if (!nvme_ns_head_multipath(ns->head))
- 		nvme_add_ns_cdev(ns);
- 
--	nvme_mpath_add_disk(ns, id->anagrpid);
-+	nvme_mpath_add_disk(ns, anagrpid);
- 	nvme_fault_inject_init(&ns->fault_inject, ns->disk->disk_name);
--	kfree(id);
- 
--	return;
-+	goto out_free_id;
- 
-  out_cleanup_ns_from_list:
- 	nvme_put_ctrl(ctrl);
-@@ -4106,29 +4160,34 @@ static void nvme_ns_remove_by_nsid(struct nvme_ctrl *ctrl, u32 nsid)
- 	}
- }
- 
--static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_ids *ids)
-+static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_ids *ids,
-+			     struct nvme_id_ns_cs_indep *indep_id)
- {
--	struct nvme_id_ns *id;
-+	struct nvme_id_ns *id = NULL;
- 	int ret = NVME_SC_INVALID_NS | NVME_SC_DNR;
- 
- 	if (test_bit(NVME_NS_DEAD, &ns->flags))
- 		goto out;
- 
--	ret = nvme_identify_ns(ns->ctrl, ns->head->ns_id, ids, &id);
--	if (ret)
--		goto out;
--
--	ret = NVME_SC_INVALID_NS | NVME_SC_DNR;
--	if (!nvme_ns_ids_equal(&ns->head->ids, ids)) {
--		dev_err(ns->ctrl->device,
--			"identifiers changed for nsid %d\n", ns->head->ns_id);
--		goto out_free_id;
-+	switch (ids->csi) {
-+	case NVME_CSI_NVM:
-+	case NVME_CSI_ZNS:
-+		if (nvme_identify_ns(ns->ctrl, ns->head->ns_id, ids, &id))
-+			goto out;
-+		if (!nvme_ns_ids_equal(&ns->head->ids, ids))
-+			dev_err(ns->ctrl->device,
-+				"identifiers changed for nsid %d\n",
-+				ns->head->ns_id);
-+		else
-+			ret = nvme_update_ns_info(ns, id);
-+		kfree(id);
-+		break;
-+	default:
-+		if (indep_id)
-+			ret = nvme_update_ns_info_cs_indep(ns, indep_id);
-+		break;
- 	}
- 
--	ret = nvme_update_ns_info(ns, id);
--
--out_free_id:
--	kfree(id);
- out:
- 	/*
- 	 * Only remove the namespace if we got a fatal error back from the
-@@ -4143,36 +4202,34 @@ static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_ids *ids)
- static void nvme_validate_or_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- {
- 	struct nvme_ns_ids ids = { };
--	struct nvme_id_ns_cs_indep *id;
-+	struct nvme_id_ns_cs_indep *indep_id = NULL;
- 	struct nvme_ns *ns;
--	bool ready = true;
-+	int ret;
- 
- 	if (nvme_identify_ns_descs(ctrl, nsid, &ids))
- 		return;
- 
-+	ret = nvme_identify_ns_cs_indep(ctrl, nsid, &indep_id);
-+
- 	/*
- 	 * Check if the namespace is ready.  If not ignore it, we will get an
- 	 * AEN once it becomes ready and restart the scan.
- 	 */
--	if ((ctrl->cap & NVME_CAP_CRMS_CRIMS) &&
--	    !nvme_identify_ns_cs_indep(ctrl, nsid, &id)) {
--		ready = id->nstat & NVME_NSTAT_NRDY;
--		kfree(id);
-+	if ((ctrl->cap & NVME_CAP_CRMS_CRIMS) && !ret) {
-+		if (!(indep_id->nstat & NVME_NSTAT_NRDY))
-+			goto free_indep_id;
- 	}
- 
--	if (!ready)
--		return;
--
- 	ns = nvme_find_get_ns(ctrl, nsid);
- 	if (ns) {
--		nvme_validate_ns(ns, &ids);
-+		nvme_validate_ns(ns, &ids, indep_id);
- 		nvme_put_ns(ns);
--		return;
-+		goto free_indep_id;
- 	}
- 
- 	switch (ids.csi) {
- 	case NVME_CSI_NVM:
--		nvme_alloc_ns(ctrl, nsid, &ids);
-+		nvme_alloc_ns(ctrl, nsid, &ids, indep_id);
- 		break;
- 	case NVME_CSI_ZNS:
- 		if (!IS_ENABLED(CONFIG_BLK_DEV_ZONED)) {
-@@ -4187,13 +4244,22 @@ static void nvme_validate_or_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 				nsid);
- 			break;
- 		}
--		nvme_alloc_ns(ctrl, nsid, &ids);
-+		nvme_alloc_ns(ctrl, nsid, &ids, indep_id);
- 		break;
- 	default:
--		dev_warn(ctrl->device, "unknown csi %u for nsid %u\n",
-+		/* enable char-interface for unknown command sets*/
-+		if (!ret) {
-+			nvme_alloc_ns(ctrl, nsid, &ids, indep_id);
-+			break;
-+		}
-+		dev_warn(ctrl->device,
-+			"unknown csi %u for nsid %u not supported\n",
- 			ids.csi, nsid);
- 		break;
- 	}
-+
-+free_indep_id:
-+	kfree(indep_id);
- }
- 
- static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
--- 
-2.30.2
+base	count
+0000	0001
+0000	0200
+0000	0400
+0000	0800
+0000	1000
+0001	1000
+0200	1000 << Change occurs here
+0400	1000
+0800	1000
+1000	1000
+
+EINVAL was being returned for any of these iovecs except the page-
+aligned ones. Once the x200 request returns 0, the remainder of the
+above list was skipped and the requests continue elsewhere on the file.
+
+Still not sure how our request is getting us into this process. We're
+simply asking to read a single block, but that's somewhere within an
+image file.
+
+> > 
+> > Is my understanding as well. But I'm not familiar enough with the
+> > code to
+> > tell where and how that -EINVAL gets handled.
+> > 
+> > BTW let me just point out that the bounce buffering via swiotlb
+> > needed
+> > for PV is not unlikely to mess up the alignment of things. But I'm
+> > not
+> > sure if that is relevant here.
+
+It's true that PV guests were the first to trip over this, but I've
+since been able to reproduce this with a normal guest. So long as the
+image file is connected with cache.direct=true, it's unbootable. That
+should absolve the swiotlb bits from being at fault here.
+
+> > 
+> > Regards,
+> > Halil
+> > 
+> > > If so, could you
+> > > provide more details on what issue occurs with dispatching this
+> > > request?
+> 
+> This error occurs reading the initial boot record for a guest,
+> stating
+> QEMU was unable to read block zero from the device. The code that
+> complains doesn't appear to have anything that says "oh, got EINVAL,
+> try it this other way" but I haven't chased down if/where something
+> in
+> between is expecting that and handling it in some unique way. I
+> -think-
+>  I have an easier reproducer now, so maybe I'd be able to get a
+> better
+> answer to this question.
+> 
+> > > If you really need to restrict address' alignment to the
+> > > storage's
+> > > logical
+> > > block size, I think your storage driver needs to set the
+> > > dma_alignment queue
+> > > limit to that value.
+> 
+> It's possible that there's a problem in the virtio stack here, but
+> the
+> failing configuration is a qcow image on the host rootfs
+
+(on an ext4 filesystem)
+
+> , so it's not
+> using any distinct driver. The bdev request queue that ends up being
+> used is the same allocated out of blk_alloc_queue, so changing
+> dma_alignment there wouldn't work.
 
 
