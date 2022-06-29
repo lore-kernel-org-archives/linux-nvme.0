@@ -4,114 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16F0CC433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 19:29:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D78CC43334
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 22:42:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Mime-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=g/a4Jgmw6y+Ay8b4bW+6mG3vLSHmUMX3S3jDXTVXAVs=; b=cbZfyavIf/A61bkreTR6lHTB12
-	m46zek9J2lQu+WVkcVq2KivKTdDPKkp0LarorizdzABpjnkyWMWnB8O7ekpAtrX4lBVCls5kUhuqb
-	wKoPvxSv54qKL0aUFuzrX+uoU7MgtYThMZhLfKTPzOhZB0Bk3B6GsYfAPzHXS+9qwg+Ch/nblufEv
-	Y5bzUIhKF8wUbToe9Zvatouk7LFZ4I9xClE0/Lqmtt5gvCpvB5wzJNJRFTlQz7rZp+bBcE5Ut9tNk
-	ZJWvorai6nmOzPDqmAqQcIJ0qZ5Mi9umjOJG3Js2njkkgPbEZLqcrccNbpzw1IAB0LiAw5IGZIEzY
-	hm1zBQ7A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=yVJkquctrxAoNz8gXWxalQPFR+kficMZVVuKxSIBo/w=; b=m+gC4K9i6sJL46
+	ArJ49ZwTf3ALO7kXyag9H8L6QAc4iTlYrp0v9M6Ep6mTJPV6lKpMnMnZ5+Flh3Fe7d/Xt21qw+Bp7
+	V+8ZVol6g1ChLIBgsojql+jDy1UQ8iexCfKNu7yVKjaYVVQk+NmmKd9SL0pCOgW43gDnc9GUopwLx
+	z0SaJB3EsHUJERhMexR96gyNIuIBeswiZUubqQiqi/zWog511dfegYWwrRLFjpAuQ6zumCHquQNxm
+	FdjfUPrK8KUvY9361yuoyilWnulxMB1AZQuAHTS7IcjHiuotgC7jUA7s2GIRWds3qzm4Dz+8tSZfz
+	ed/NZNBO0FYfOfDVzyjA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6dNB-00DmPM-Dt; Wed, 29 Jun 2022 19:29:13 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1o6gNg-00EHd0-G2; Wed, 29 Jun 2022 22:41:56 +0000
+Received: from ale.deltatee.com ([204.191.154.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6dN7-00DmOZ-PQ
-	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 19:29:11 +0000
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25TJ3BXS032642;
-	Wed, 29 Jun 2022 19:28:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=g/a4Jgmw6y+Ay8b4bW+6mG3vLSHmUMX3S3jDXTVXAVs=;
- b=UqUmsWyGBBBPA4GPf5EXNgwnKp3uqlTJCAVsa1Gbv8z5Ywzjws86zkHyPSyg73a+oJlA
- kmdnKWw22v7EcYBYsT+3Tj/MytnLXXQkFtHzcPR16lOuUjjBwtOd2nosU4MzX/7Lb72G
- pNvBFF2a1iWXle7hJ7ff2I2+SVNrDMXsipeNCa5m4ciiZCPSy0SnxQ2BOt95TQll1fa0
- 2ZnUPhx/L0oiW4vZGG+81tEqAzA23ziMaV7SaoWGCYh3jnL2CQlZ91QzT6aPRkbfrt8v
- Fj79PTsy1gNFhYKZvy6IJLJ45r2oIJqlGHUYEK2equbgRNKRfNAHAvZROypRNX/CqDfh 6Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h0vjb8r4q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 29 Jun 2022 19:28:59 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25TJ3Tp2033450;
-	Wed, 29 Jun 2022 19:28:58 GMT
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com [169.55.91.170])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h0vjb8r4f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 29 Jun 2022 19:28:58 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
-	by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25TJKp6c010666;
-	Wed, 29 Jun 2022 19:28:57 GMT
-Received: from b03cxnp07027.gho.boulder.ibm.com (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
-	by ppma02wdc.us.ibm.com with ESMTP id 3gwt0a2pcm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 29 Jun 2022 19:28:57 +0000
-Received: from b03ledav003.gho.boulder.ibm.com (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
-	by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 25TJSuh320054424
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 29 Jun 2022 19:28:56 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A9A3B6A054;
-	Wed, 29 Jun 2022 19:28:56 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 46E186A047;
-	Wed, 29 Jun 2022 19:28:55 +0000 (GMT)
-Received: from farman-thinkpad-t470p (unknown [9.163.2.135])
-	by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
-	Wed, 29 Jun 2022 19:28:55 +0000 (GMT)
-Message-ID: <f8c22cd08f8507ae6797edcccd51f902f2bd39df.camel@linux.ibm.com>
-Subject: Re: [PATCHv6 11/11] iomap: add support for dma aligned direct-io
-From: Eric Farman <farman@linux.ibm.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Halil Pasic <pasic@linux.ibm.com>, Keith Busch <kbusch@fb.com>,
-        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-nvme@lists.infradead.org,
-        Christian Borntraeger
- <borntraeger@linux.ibm.com>, axboe@kernel.dk,
-        Kernel Team
- <Kernel-team@fb.com>, hch@lst.de, bvanassche@acm.org,
-        damien.lemoal@opensource.wdc.com, ebiggers@kernel.org,
-        pankydev8@gmail.com
-Date: Wed, 29 Jun 2022 15:28:54 -0400
-In-Reply-To: <Yryi8VXTjDu1R1Zc@kbusch-mbp>
-References: <YrS6/chZXbHsrAS8@kbusch-mbp>
-	 <e2b08a5c452d4b8322566cba4ed33b58080f03fa.camel@linux.ibm.com>
-	 <e0038866ac54176beeac944c9116f7a9bdec7019.camel@linux.ibm.com>
-	 <c5affe3096fd7b7996cb5fbcb0c41bbf3dde028e.camel@linux.ibm.com>
-	 <YrnOmOUPukGe8xCq@kbusch-mbp.dhcp.thefacebook.com>
-	 <20220628110024.01fcf84f.pasic@linux.ibm.com>
-	 <83e65083890a7ac9c581c5aee0361d1b49e6abd9.camel@linux.ibm.com>
-	 <a765fff67679155b749aafa90439b46ab1269a64.camel@linux.ibm.com>
-	 <YrvMY7oPnhIka4IF@kbusch-mbp.dhcp.thefacebook.com>
-	 <f723b1c013d78cae2f3236eba0d14129837dc7b0.camel@linux.ibm.com>
-	 <Yryi8VXTjDu1R1Zc@kbusch-mbp>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: S9nhS05_P_KNA8R7JJlY8krihqwJKS9c
-X-Proofpoint-ORIG-GUID: UD6TsGL3vpI9DihHEkoPXdY6nP4YukbZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-06-29_20,2022-06-28_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 spamscore=0
- impostorscore=0 malwarescore=0 mlxlogscore=999 clxscore=1015 bulkscore=0
- priorityscore=1501 phishscore=0 suspectscore=0 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206290067
+	id 1o6gNd-00EHbf-NU
+	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 22:41:55 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:content-disposition;
+	bh=yVJkquctrxAoNz8gXWxalQPFR+kficMZVVuKxSIBo/w=; b=cX1QqveBfo+xPu7dGHmrnO0J7K
+	qJxZ/4a3qviR2YsYxAl441tnDslX7UZLKVNl7dECkLbDJBrODx24Z1FZZ2YR0gfK4Qx5bFxKsdnV+
+	ayp9miFGsznMYxLuJT8qz8m4U8lbLvb0m6Ihhj5N+dY9xmE7ZIBt8+8ePCpdzZ/dd2H7pg8bVqEIL
+	vOvuRL9kWAgEKZ7udv7uSElDfsGN0ygRfue2iteXV1Evx26BlZvoCj9t2OzZA3JRHuGstDkn2hrBY
+	PycWefQB0v5JZG34eFp4p3I7HwaoFTdQBv3Qpo6sU7xpIDA51IeoXpZk0+KoB2vKszKIczOjopgNy
+	fM05bfoA==;
+Received: from s0106ac1f6bb1ecac.cg.shawcable.net ([70.73.163.230] helo=[192.168.11.155])
+	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.94.2)
+	(envelope-from <logang@deltatee.com>)
+	id 1o6gNZ-002ZYA-Ie; Wed, 29 Jun 2022 16:41:50 -0600
+Message-ID: <626de61d-e85e-bc9f-9e3d-836a408c859f@deltatee.com>
+Date: Wed, 29 Jun 2022 16:41:42 -0600
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Content-Language: en-US
+To: Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org
+Cc: Minturn Dave B <dave.b.minturn@intel.com>,
+ Martin Oliveira <martin.oliveira@eideticom.com>,
+ Ralph Campbell <rcampbell@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ John Hubbard <jhubbard@nvidia.com>, Dave Hansen
+ <dave.hansen@linux.intel.com>, Matthew Wilcox <willy@infradead.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Chaitanya Kulkarni
+ <ckulkarnilinux@gmail.com>, Jason Ekstrand <jason@jlekstrand.net>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Bjorn Helgaas <helgaas@kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>, Stephen Bates
+ <sbates@raithlin.com>, Ira Weiny <ira.weiny@intel.com>,
+ Christoph Hellwig <hch@lst.de>, Xiong Jianxin <jianxin.xiong@intel.com>
+References: <20220615161233.17527-1-logang@deltatee.com>
+ <20220615161233.17527-9-logang@deltatee.com>
+ <feecc6fe-a16e-11f2-33c8-3de7c96b9ad5@arm.com>
+ <f56181fb-7035-a775-22b1-77f97d6ec52c@deltatee.com>
+ <7f0673e1-433b-65fb-1d2b-c3e4adeebf87@arm.com>
+From: Logan Gunthorpe <logang@deltatee.com>
+In-Reply-To: <7f0673e1-433b-65fb-1d2b-c3e4adeebf87@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 70.73.163.230
+X-SA-Exim-Rcpt-To: robin.murphy@arm.com, linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org, dave.b.minturn@intel.com, martin.oliveira@eideticom.com, rcampbell@nvidia.com, jgg@nvidia.com, jhubbard@nvidia.com, dave.hansen@linux.intel.com, willy@infradead.org, christian.koenig@amd.com, jgg@ziepe.ca, ckulkarnilinux@gmail.com, jason@jlekstrand.net, daniel.vetter@ffwll.ch, helgaas@kernel.org, dan.j.williams@intel.com, sbates@raithlin.com, ira.weiny@intel.com, hch@lst.de, jianxin.xiong@intel.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [PATCH v7 08/21] iommu/dma: support PCI P2PDMA pages in dma-iommu
+ map_sg
+X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220629_122910_221949_F85EF82D 
-X-CRM114-Status: GOOD (  31.79  )
+X-CRM114-CacheID: sfid-20220629_154153_842058_1E4C6D41 
+X-CRM114-Status: GOOD (  41.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -126,55 +94,137 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, 2022-06-29 at 13:07 -0600, Keith Busch wrote:
-> On Wed, Jun 29, 2022 at 02:04:47PM -0400, Eric Farman wrote:
-> > s390 dasd
-> > 
-> > This made me think to change my rootfs, and of course the problem
-> > goes
-> > away once on something like a SCSI volume.
-> > 
-> > So crawling through the dasd (instead of virtio) driver and I
-> > finally
-> > find the point where a change to dma_alignment (which you mentioned
-> > earlier) would actually fit.
-> > 
-> > Such a change fixes this for me, so I'll run it by our DASD guys.
-> > Thanks for your help and patience.
+
+
+On 2022-06-29 13:15, Robin Murphy wrote:
+> On 2022-06-29 16:57, Logan Gunthorpe wrote:
+>>
+>>
+>>
+>> On 2022-06-29 06:07, Robin Murphy wrote:
+>>> On 2022-06-15 17:12, Logan Gunthorpe wrote:
+>>>> When a PCI P2PDMA page is seen, set the IOVA length of the segment
+>>>> to zero so that it is not mapped into the IOVA. Then, in finalise_sg(),
+>>>> apply the appropriate bus address to the segment. The IOVA is not
+>>>> created if the scatterlist only consists of P2PDMA pages.
+>>>>
+>>>> A P2PDMA page may have three possible outcomes when being mapped:
+>>>>     1) If the data path between the two devices doesn't go through
+>>>>        the root port, then it should be mapped with a PCI bus address
+>>>>     2) If the data path goes through the host bridge, it should be
+>>>> mapped
+>>>>        normally with an IOMMU IOVA.
+>>>>     3) It is not possible for the two devices to communicate and thus
+>>>>        the mapping operation should fail (and it will return
+>>>> -EREMOTEIO).
+>>>>
+>>>> Similar to dma-direct, the sg_dma_mark_pci_p2pdma() flag is used to
+>>>> indicate bus address segments. On unmap, P2PDMA segments are skipped
+>>>> over when determining the start and end IOVA addresses.
+>>>>
+>>>> With this change, the flags variable in the dma_map_ops is set to
+>>>> DMA_F_PCI_P2PDMA_SUPPORTED to indicate support for P2PDMA pages.
+>>>>
+>>>> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+>>>> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+>>>> ---
+>>>>    drivers/iommu/dma-iommu.c | 68
+>>>> +++++++++++++++++++++++++++++++++++----
+>>>>    1 file changed, 61 insertions(+), 7 deletions(-)
+>>>>
+>>>> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+>>>> index f90251572a5d..b01ca0c6a7ab 100644
+>>>> --- a/drivers/iommu/dma-iommu.c
+>>>> +++ b/drivers/iommu/dma-iommu.c
+>>>> @@ -21,6 +21,7 @@
+>>>>    #include <linux/iova.h>
+>>>>    #include <linux/irq.h>
+>>>>    #include <linux/list_sort.h>
+>>>> +#include <linux/memremap.h>
+>>>>    #include <linux/mm.h>
+>>>>    #include <linux/mutex.h>
+>>>>    #include <linux/pci.h>
+>>>> @@ -1062,6 +1063,16 @@ static int __finalise_sg(struct device *dev,
+>>>> struct scatterlist *sg, int nents,
+>>>>            sg_dma_address(s) = DMA_MAPPING_ERROR;
+>>>>            sg_dma_len(s) = 0;
+>>>>    +        if (is_pci_p2pdma_page(sg_page(s)) && !s_iova_len) {
+>>>
+>>> Logically, should we not be able to use sg_is_dma_bus_address() here? I
+>>> think it should be feasible, and simpler, to prepare the p2p segments
+>>> up-front, such that at this point all we need to do is restore the
+>>> original length (if even that, see below).
+>>
+>> Per my previous email, no, because sg_is_dma_bus_address() is not set
+>> yet and not meant to tell you something about the page. That flag will
+>> be set below by pci_p2pdma_map_bus_segment() and then checkd in
+>> iommu_dma_unmap_sg() to determine if the dma_address in the segment
+>> needs to be unmapped.
 > 
-> I'm assuming there's some driver or device requirement that's making
-> this
-> necessary. Is the below driver change what you're looking for? 
+> I know it's not set yet as-is; I'm suggesting things should be
+> restructured so that it *would be*. In the logical design of this code,
+> the DMA addresses are effectively determined in iommu_dma_map_sg(), and
+> __finalise_sg() merely converts them from a relative to an absolute form
+> (along with undoing the other trickery). Thus the call to
+> pci_p2pdma_map_bus_segment() absolutely belongs in the main
+> iommu_map_sg() loop.
 
-Yup, that's exactly what I have (in dasd_eckd.c) and indeed gets things
-working again. Need to scrounge up some FBA volumes to test that
-configuration and the change there.
+I don't see how that can work: __finalise_sg() does more than convert
+them from relative to absolute, it also figures out which SG entry will
+contain which dma_address segment. Which segment a P2PDMA address needs
+to be programmed into depends on the how 'cur' is calculated which in
+turn depends on things like seg_mask and max_len. This calculation is
+not done in iommu_dma_map_sg() so I don't see how there's any hope of
+assigning the bus address for the P2P segments in that function.
 
-> If so, I think
-> you might want this regardless of this direct-io patch just because
-> other
-> interfaces like blk_rq_map_user_iov() and blk_rq_aligned() align to
-> it.
+If there's a way to restructure things so that's possible that I'm not
+seeing, I'm open to it but it's certainly not immediately obvious.
 
-Good point.
-
+>>>> +
+>>>> +            switch (map_type) {
+>>>> +            case PCI_P2PDMA_MAP_BUS_ADDR:
+>>>> +                /*
+>>>> +                 * A zero length will be ignored by
+>>>> +                 * iommu_map_sg() and then can be detected
+>>>
+>>> If that is required behaviour then it needs an explicit check in
+>>> iommu_map_sg() to guarantee (and document) it. It's only by chance that
+>>> __iommu_map() happens to return success for size == 0 *if* all the other
+>>> arguments still line up, which is a far cry from a safe no-op.
+>>
+>> What should such a check look like? I could certainly add some comments
+>> to iommu_map_sg(), but I don't see what the code would need to check
+>> for...
 > 
-> ---
-> diff --git a/drivers/s390/block/dasd_fba.c
-> b/drivers/s390/block/dasd_fba.c
-> index 60be7f7bf2d1..5c79fb02cded 100644
-> --- a/drivers/s390/block/dasd_fba.c
-> +++ b/drivers/s390/block/dasd_fba.c
-> @@ -780,6 +780,7 @@ static void dasd_fba_setup_blk_queue(struct
-> dasd_block *block)
->  	/* With page sized segments each segment can be translated into
-> one idaw/tidaw */
->  	blk_queue_max_segment_size(q, PAGE_SIZE);
->  	blk_queue_segment_boundary(q, PAGE_SIZE - 1);
-> +	blk_queue_dma_alignment(q, PAGE_SIZE - 1);
->  
->  	q->limits.discard_granularity = logical_block_size;
->  
-> --
+> I'd say a check for zero-length segments would look like "if (sg->length
+> == 0)", most likely with a "continue;" on the following line.
 
+Oh, that's pretty simple to add. Will change.
+
+>>> However, rather than play yet more silly tricks, I think it would make
+>>> even more sense to make iommu_map_sg() properly aware and able to skip
+>>> direct p2p segments on its own. Once it becomes normal to pass mixed
+>>> scatterlists around, it's only a matter of time until one ends up being
+>>> handed to a driver which manages its own IOMMU domain, and then what?
+>>
+>> I suppose we can add another call to is_pci_p2pdma_page() inside
+>> iommu_map_sg() if you think that is cleaner. Seems like more work on the
+>> fast path to me, but I'm not opposed to it.
+> 
+> I was thinking more of sg_is_dma_bus_address() but admittedly under my
+> initial misapprehension of that. I suppose there's still a tenuous
+> argument that even though we're not actually consuming sg_dma_address()
+> at that point, if a segment *has* been earmarked for direct p2p, then
+> skipping it rather than mapping it at the root complex TA that's
+> probably never going to see those transactions might seem the more
+> logical choice.
+> 
+> However it's all a bit hypothetical, and not significantly cleaner than
+> a zero-size special case, so I'm not particularly tied to the idea either.
+
+Yeah, looking at it closer, I can't see how to get rid of the zero size
+special case without doing the whole pci_p2pdma_map_type() calculation
+twice which we really want to avoid.
+
+Logan
 
