@@ -4,30 +4,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 957D8C43334
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 06:45:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52A60C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 06:45:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=a65a54vFn27IP9Hkwts42TIGKxFASTy6sg8ls7Qq+Gs=; b=fG6fh03KRgsiDXz1h2mAwBXsg9
-	UMQf/MRdKN4a94A2roR2m/3nHKFI4Ce90XzudeM8S/5jmIfqX+k3Y+38P/fZQITj6/yZFHjAOjirE
-	9la1IZg4KSOoW1IlndI5fNOnygA3AdJem84POM48UHyzoQmAEpq3ARq2oUs6kD2duRnw3r++lEdSh
-	sUL/QsU8hzivxDOSIpCIefN/gORAKIUqUIyeXY+13wZnLItLnqiZYc7RVx9eBPQiS7vwXIwvlhTUe
-	eZwLrXPqNKf2+hxmbmqowZSr9HlhjrgFrTekh/ZMBpgbCgygDHqImwN7JuJ7v7GjZjzYySEECu0NS
-	CAhin9Eg==;
+	bh=YqUQ2KDTIaFKU+MxD9YdKIWEnhiYnz8AWw/CNrSLTcI=; b=0KjSygQdxjyPiDHGXhTz9DDk1I
+	ProPdC4XRwGFX1P+OUcuBDU0BrCMJuLEv5nqgYS9H0+PhMua0r6O3v6hh7/Oq8cm6WBk3JFav8iZV
+	r0xrVZk/h2tn7oCRNUaen3koQ135vPSNUxYn+XgDi8DKS1r3rJIzJVMv5+rKua8oGHzL8QOclQW0S
+	wJZMBQpvtQeEZb4WYbCvEss3QW91jvwZqqzbHGy0cAKyjg8Y1/1iZbFpB97euoeOttrhh9lwpRPYO
+	I/MpB2U1QeiLYGKyT1HMWqguxGTiNYFLmIg+FYAe6RTifCluD109cSexv2R/hlBaYRKNHe/WS36FF
+	aJCKG39g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6RRk-009re6-KM; Wed, 29 Jun 2022 06:45:08 +0000
+	id 1o6RS4-009rpK-Gz; Wed, 29 Jun 2022 06:45:28 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6RRi-009rbm-A5
-	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 06:45:07 +0000
+	id 1o6RS0-009rlx-WE
+	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 06:45:26 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id D8DF467373; Wed, 29 Jun 2022 08:45:02 +0200 (CEST)
-Date: Wed, 29 Jun 2022 08:45:02 +0200
+	id 2799567373; Wed, 29 Jun 2022 08:45:22 +0200 (CEST)
+Date: Wed, 29 Jun 2022 08:45:21 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Logan Gunthorpe <logang@deltatee.com>
 Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
@@ -49,18 +49,19 @@ Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
 	Martin Oliveira <martin.oliveira@eideticom.com>,
 	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
 	Ralph Campbell <rcampbell@nvidia.com>
-Subject: Re: [PATCH v7 14/21] mm: introduce FOLL_PCI_P2PDMA to gate getting
- PCI P2PDMA pages
-Message-ID: <20220629064502.GA17576@lst.de>
-References: <20220615161233.17527-1-logang@deltatee.com> <20220615161233.17527-15-logang@deltatee.com>
+Subject: Re: [PATCH v7 15/21] iov_iter: introduce
+ iov_iter_get_pages_[alloc_]flags()
+Message-ID: <20220629064521.GB17576@lst.de>
+References: <20220615161233.17527-1-logang@deltatee.com> <20220615161233.17527-16-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220615161233.17527-15-logang@deltatee.com>
+In-Reply-To: <20220615161233.17527-16-logang@deltatee.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220628_234506_543720_263BAF52 
-X-CRM114-Status: GOOD (  11.68  )
+X-CRM114-CacheID: sfid-20220628_234525_210491_2944B690 
+X-CRM114-Status: UNSURE (   8.66  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,14 +76,6 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 15, 2022 at 10:12:26AM -0600, Logan Gunthorpe wrote:
-> GUP Callers that expect PCI P2PDMA pages can now set FOLL_PCI_P2PDMA to
-> allow obtaining P2PDMA pages. If GUP is called without the flag and a
-> P2PDMA page is found, it will return an error.
-> 
-> FOLL_PCI_P2PDMA cannot be set if FOLL_LONGTERM is set.
-
-Looks good:
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+I think this is going to have massive conflicts with Al's iov_iter
+support..
 
