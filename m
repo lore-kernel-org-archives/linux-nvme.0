@@ -4,30 +4,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2E95C43334
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 06:39:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67CDFC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 06:40:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=w/vLdBtPFsY7wQIihCJBEKdAxO
-	MPuW+lzZr2CsbDw1UV4RH6/QgDNLsTBvyp/rJQNDq1sWOfQvLtCO70TA66LI2F5Ikk0X6mua8mxNl
-	WkK9rTOUYrGsMIHcqVQzXzBoDKSdFUCeReNzwDybCE9JKMgb6lhxxoqLZpO0yyFUu0X0W2B9effKQ
-	JG0aC3IlWzDt3k6DIZhdSOUEPOdQjuyLtu3PdmLZw+1UEAjgdzgBYGjaB7U7CErlA7tXPJYWx8n6K
-	Hx/jSF3JmqmU71WTZb8kdfjtIxOGIxnh0aj/CsgEerG39+97NYz9UYNel11lcO4/bqpcJN5gOxPbM
-	/YOZi1Mg==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=b7aK5KKeuLKMSmLuf3br06OKFc
+	4EZCibh+cRZvrpj3GkAH+PNWT0pfJ65g2x4qlQevjwuM5hPB4brlIgPPHm1cz4wnrSjxPxj5M6puC
+	c6tNoSAyCSXIFjIApYOwzRldBPcAW+FzJal6eDBKHB7+pADS+v87eJYBgL2g2n/3b+4SlWqi1EHSw
+	Fw1v8EZqxs5pO7Y2BWkNlXRxeHTUEvdBU9vpkCtN6cE9wvZKIKo4qiXpPXjUxGcisw5EPQwFE0XjL
+	m+Wq76jybb+GxDyeQbrw1wJiNf3osvn6R+KGR3jJXG6ELh1HR+BiOpyru9FvMjKmcJN5GNVD6+Wj/
+	5kMRYYXA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6RMX-009p3G-HB; Wed, 29 Jun 2022 06:39:45 +0000
+	id 1o6RMt-009pC0-VM; Wed, 29 Jun 2022 06:40:07 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6RMU-009p1r-NR
-	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 06:39:43 +0000
+	id 1o6RMr-009pAY-CT
+	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 06:40:06 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id D128967373; Wed, 29 Jun 2022 08:39:39 +0200 (CEST)
-Date: Wed, 29 Jun 2022 08:39:39 +0200
+	id 7988C67373; Wed, 29 Jun 2022 08:40:02 +0200 (CEST)
+Date: Wed, 29 Jun 2022 08:40:01 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Logan Gunthorpe <logang@deltatee.com>
 Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
@@ -49,19 +49,19 @@ Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
 	Martin Oliveira <martin.oliveira@eideticom.com>,
 	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
 	Ralph Campbell <rcampbell@nvidia.com>,
-	Bjorn Helgaas <bhelgaas@google.com>
-Subject: Re: [PATCH v7 04/21] PCI/P2PDMA: Introduce helpers for dma_map_sg
- implementations
-Message-ID: <20220629063939.GE17234@lst.de>
-References: <20220615161233.17527-1-logang@deltatee.com> <20220615161233.17527-5-logang@deltatee.com>
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v7 05/21] dma-mapping: allow EREMOTEIO return code for
+ P2PDMA transfers
+Message-ID: <20220629064001.GF17234@lst.de>
+References: <20220615161233.17527-1-logang@deltatee.com> <20220615161233.17527-6-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220615161233.17527-5-logang@deltatee.com>
+In-Reply-To: <20220615161233.17527-6-logang@deltatee.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220628_233942_940914_4BBABFB1 
-X-CRM114-Status: UNSURE (   8.72  )
+X-CRM114-CacheID: sfid-20220628_234005_615330_3F1D6E22 
+X-CRM114-Status: UNSURE (   8.99  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
