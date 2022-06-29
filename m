@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8043C43334
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 16:02:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 10161C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 16:14:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
 	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
 	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=DB/o3OL3a8p7Pc5UauzdC49YqSJaVUxyZzB2ozvl7YI=; b=UhwMcK6I52JsqJ
-	LnH+Z37UEiVmoADyr93iPfTRvW263qXNykR6mgyA2wqsd37ujLoFlVGczsvQt7PNrQZBc/Xd9j42A
-	7Y6VwLdWvwGbyOKgEIFkOxluouU81jJdVxujy0nFRqwGSY4f/2IdIzd+Pgp6I7CSsekv4XcbP4Y2V
-	W9EapsSvIy2uIAmmrdccG/Z4092pxgFveQnDnsAOMkcFVstbsmQc3HjVBpIuL0MFhKqWxw2seOnk2
-	QWNTGP0jkB4VE6IsKE/5oQ6Xy8rkOZEgIcsqbgRZvbQSYE25g2XtPrM0NLWLdnbMkT3Iuh9Isy5A5
-	/44azO7vXX7x8OwfAJ9w==;
+	List-Owner; bh=7Il3Zmz7S/H0NpQetmZjc06R/zh7uKcDBAajLC9gk7k=; b=G5SNx7xoz6l0/k
+	GghQEzLjrfim0HZjZPERmq24Ov6pdCbnTEJXC2qr8ojgBH98cbQxhEZGr9Zxp4sVREVgADPKqBOy4
+	XCPdktO+e0TQ5liBcAbHFGKp3JFpQVPX5JYs1j1LZbZ0o37RzIwJD+F4tQ3V6rjP6D20lyt4yo6Ll
+	NzD+1MEoAkroUTueETT4MpU5I4Ei+saK6KNSv1HHoLBvvJ6MHL7iG+/4raaNR5jv0bWK89LX5ZTub
+	oEdL64C0PP57scvxNsFKdIaUlrA/8Zyp54aCs4tLtDUhp5Y1vZUv4scXdFK2mhm2WwSZLJK9c+G8n
+	Nnd8kCaIkxPl1LxF81mg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6a9H-00CpnF-RQ; Wed, 29 Jun 2022 16:02:39 +0000
+	id 1o6aKf-00CvsC-3c; Wed, 29 Jun 2022 16:14:25 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6a6u-00CoTI-Ed
-	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 16:00:14 +0000
+	id 1o6aCZ-00Crb0-4U
+	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 16:06:08 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
 	MIME-Version:Date:Message-ID:content-disposition;
-	bh=DB/o3OL3a8p7Pc5UauzdC49YqSJaVUxyZzB2ozvl7YI=; b=iZsQhnlbpW9sXN/GJaS3jAMw+w
-	8mn6izIwy085ybj1EKwF9DeEsOt9qyrlLxTvp+P9EVdEEjbQUwL5dVFTMDhjOaBp5PaGks7Gp0vTL
-	Pz4wv3iQN06W33bmzngimPEHWIwXW/s9XuLr428TJq/t9Jpay97zThl6gUaoJoo9UCQ2zqUNOyzir
-	HCs15GX4eR/A0kDWtJ7SaGXsATfCWkaQvG0flWXjWzNvEQkpGnbcu6afAc4ry10M/XvkH8tpuj6H7
-	pV0F7DMjJNZAL9ALRpJtO4Tl1f8+YWZ+iaFmr74pOp+DJyj7fvd7YDPPvJ3gnFshVDAC+8VlO6cQM
-	jCOY9fhQ==;
+	bh=7Il3Zmz7S/H0NpQetmZjc06R/zh7uKcDBAajLC9gk7k=; b=nQI+rf6typETAhwsXDC03rqH1s
+	V164Y6PeH/wetb3LsK1Agsg11/TBxGJrqtz9PS3ZCkdd8xr4Tq3i6g50Fh8k7KpOVCJf71tRgxbIH
+	njTbD+6wn0OaEcJplIK7kNG6yhTWpzvNbrG4L/3iG+OAOYrLdNmjf+5QpEyqcx7jaj/nE8Z8TguZc
+	jVHgBb1v3Ga3S+jBuSfll3H9aSztuVx1Un8QlkO5yuAX5Saz9FlonIBzN4iJ0dd8BEbHTqvsVvRi1
+	T3g4LOg96bAhr2/nF2mMRWewmYCIhMV+dOlF5CozLQiN2Y1LRjq0qQmuCMGhP54hZ4GTTGSsVNp3Y
+	Ww9rCnag==;
 Received: from s0106a84e3fe8c3f3.cg.shawcable.net ([24.64.144.200] helo=[192.168.0.10])
 	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
 	(Exim 4.94.2)
 	(envelope-from <logang@deltatee.com>)
-	id 1o6a6s-002RzJ-UG; Wed, 29 Jun 2022 10:00:11 -0600
-Message-ID: <99242789-66a6-bbd2-b56a-e47891f4522e@deltatee.com>
-Date: Wed, 29 Jun 2022 10:00:09 -0600
+	id 1o6aCX-002SQa-6C; Wed, 29 Jun 2022 10:06:02 -0600
+Message-ID: <7da06e08-7dd1-f37c-4382-bc59a1b1e819@deltatee.com>
+Date: Wed, 29 Jun 2022 10:06:00 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
@@ -60,22 +60,22 @@ Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>,
  Martin Oliveira <martin.oliveira@eideticom.com>,
  Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
- Ralph Campbell <rcampbell@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>
+ Ralph Campbell <rcampbell@nvidia.com>
 References: <20220615161233.17527-1-logang@deltatee.com>
- <20220615161233.17527-21-logang@deltatee.com> <20220629064854.GD17576@lst.de>
+ <20220615161233.17527-17-logang@deltatee.com> <20220629064629.GC17576@lst.de>
 From: Logan Gunthorpe <logang@deltatee.com>
-In-Reply-To: <20220629064854.GD17576@lst.de>
+In-Reply-To: <20220629064629.GC17576@lst.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 24.64.144.200
-X-SA-Exim-Rcpt-To: hch@lst.de, linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org, sbates@raithlin.com, dan.j.williams@intel.com, jgg@ziepe.ca, christian.koenig@amd.com, jhubbard@nvidia.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, dave.b.minturn@intel.com, jason@jlekstrand.net, dave.hansen@linux.intel.com, jianxin.xiong@intel.com, helgaas@kernel.org, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, rcampbell@nvidia.com, bhelgaas@google.com
+X-SA-Exim-Rcpt-To: hch@lst.de, linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org, sbates@raithlin.com, dan.j.williams@intel.com, jgg@ziepe.ca, christian.koenig@amd.com, jhubbard@nvidia.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, dave.b.minturn@intel.com, jason@jlekstrand.net, dave.hansen@linux.intel.com, jianxin.xiong@intel.com, helgaas@kernel.org, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, rcampbell@nvidia.com
 X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v7 20/21] PCI/P2PDMA: Introduce pci_mmap_p2pmem()
+Subject: Re: [PATCH v7 16/21] block: add check when merging zone device pages
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220629_090012_523317_D1A55772 
-X-CRM114-Status: GOOD (  17.26  )
+X-CRM114-CacheID: sfid-20220629_090603_317620_B0850C6B 
+X-CRM114-Status: GOOD (  14.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,31 +93,27 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 2022-06-29 00:48, Christoph Hellwig wrote:
-> On Wed, Jun 15, 2022 at 10:12:32AM -0600, Logan Gunthorpe wrote:
->> A pseudo mount is used to allocate an inode for each PCI device. The
->> inode's address_space is used in the file doing the mmap so that all
->> VMAs are collected and can be unmapped if the PCI device is unbound.
->> After unmapping, the VMAs are iterated through and their pages are
->> put so the device can continue to be unbound. An active flag is used
->> to signal to VMAs not to allocate any further P2P memory once the
->> removal process starts. The flag is synchronized with concurrent
->> access with an RCU lock.
+On 2022-06-29 00:46, Christoph Hellwig wrote:
+> On Wed, Jun 15, 2022 at 10:12:28AM -0600, Logan Gunthorpe wrote:
+>> Consecutive zone device pages should not be merged into the same sgl
+>> or bvec segment with other types of pages or if they belong to different
+>> pgmaps. Otherwise getting the pgmap of a given segment is not possible
+>> without scanning the entire segment. This helper returns true either if
+>> both pages are not zone device pages or both pages are zone device
+>> pages with the same pgmap.
+>>
+>> Add a helper to determine if zone device pages are mergeable and use
+>> this helper in page_is_mergeable().
 > 
-> Can't we come up with a way of doing this without all the pseudo-fs
-> garbagage?  I really hate all the overhead for that in the next
-> nvme patch as well.
+> Any reason not to simply set REQ_NOMERGE for these requests?  We
+> can't merge for passthrough requests anyway, and genrally don't merge
+> for direct I/O either, so adding all this overhead seems a bit pointless.
 
-I assume you still want to be able to unmap the VMAs on unbind and not
-just hang?
+Hmm, I suppose we could also ensure that REQ_NOMERGE is set in a bio
+before setting FOLL_PCI_P2PDMA in bio_map_user_iov() and
+__bio_iov_iter_get_pages(). Assuming it's always set for any direct I/O.
 
-I'll see if I can come up with something to do the a similar thing using
-vm_private data or some such.
-
-I was not a fan of the extra code for this either, but I was given to
-understand that it was the standard way to collect and cleanup VMAs.
-
-Thanks for the reviews,
+I'll look into it.
 
 Logan
 
