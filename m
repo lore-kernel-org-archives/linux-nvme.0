@@ -4,30 +4,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 50AF5C43334
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 06:46:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 298AAC43334
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jun 2022 06:49:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JrjO8tBU/JzWiQQVO/ztz9PRUNAKEwkNcVzGxTEVVNE=; b=rfFhZlhQXd342Rxwmohbb3pm95
-	yExgx8DVSh4jHPeTATX0//EifeSRBCSfQrW2ivMo//+t+Utwc6DSgvrV7+J8n6URLtj5q/2aZpiJ+
-	SUODFhSnpPLQ1rt3YiHoraI1OzCmJK6CSjIfQpOICSJFw2kZtNOfksudXeI2QqbZS7GN8hR7S9YHw
-	yhKUrrzF/X8JEpfWzMQ3AUS5Jpaism8SZj82CyU+ZwaZYylLnL8aGJXKWntsQOG2zTFrrUY4O43lN
-	IZibmuNA/34EMMPa4cmZODj7h/LJtmOJoufM1M0K8mmbr0AGOacMNPHa9ruCzFjAfPwWCdt9+VnXk
-	3L4DA7RQ==;
+	bh=lN/MIYjKW9MZMK0inIUxxF3vHxyHrlf3M+uqEEBMv4s=; b=jTgAMw7dsWKbH7w8oz88hyXTm1
+	0miCr80IAONmf6xEL0p1rTbC3VjaCwCSMUirqkrNmpElT5e/WMUHMgofBBhb8BFpQ/8umMSogI2+F
+	dhVjfV4xR+Iy4HrgGEqbLL3S3XvCUY8v3vJ5MxSXch01Eo9DwlX+4BUJcrPQHvtXGUJciQSSNvpYO
+	ZjmzKwxR/8BqMzSZNvFJymGnO38CJ7Cs8JVbvPRXBQg0AzXff1I5Jrr8gKVCjzDMrxixEvi/tOQGa
+	q1RCeVmCcmnA8LPQvTLT+2t3qnVils4cGH6XMAtV6rfHD0lMHSqntQEdMOfKDMUchmf03fbqAxie2
+	EUUEKNvg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6RTA-009sMN-Fm; Wed, 29 Jun 2022 06:46:36 +0000
+	id 1o6RVW-009tA1-ID; Wed, 29 Jun 2022 06:49:02 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6RT6-009sJM-Lk
-	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 06:46:34 +0000
+	id 1o6RVT-009t80-Tv
+	for linux-nvme@lists.infradead.org; Wed, 29 Jun 2022 06:49:01 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id DA93F67373; Wed, 29 Jun 2022 08:46:29 +0200 (CEST)
-Date: Wed, 29 Jun 2022 08:46:29 +0200
+	id D89A267373; Wed, 29 Jun 2022 08:48:54 +0200 (CEST)
+Date: Wed, 29 Jun 2022 08:48:54 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Logan Gunthorpe <logang@deltatee.com>
 Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
@@ -48,19 +48,19 @@ Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
 	Robin Murphy <robin.murphy@arm.com>,
 	Martin Oliveira <martin.oliveira@eideticom.com>,
 	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
-	Ralph Campbell <rcampbell@nvidia.com>
-Subject: Re: [PATCH v7 16/21] block: add check when merging zone device
- pages
-Message-ID: <20220629064629.GC17576@lst.de>
-References: <20220615161233.17527-1-logang@deltatee.com> <20220615161233.17527-17-logang@deltatee.com>
+	Ralph Campbell <rcampbell@nvidia.com>,
+	Bjorn Helgaas <bhelgaas@google.com>
+Subject: Re: [PATCH v7 20/21] PCI/P2PDMA: Introduce pci_mmap_p2pmem()
+Message-ID: <20220629064854.GD17576@lst.de>
+References: <20220615161233.17527-1-logang@deltatee.com> <20220615161233.17527-21-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220615161233.17527-17-logang@deltatee.com>
+In-Reply-To: <20220615161233.17527-21-logang@deltatee.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220628_234632_932538_D45F4880 
-X-CRM114-Status: GOOD (  14.31  )
+X-CRM114-CacheID: sfid-20220628_234900_192418_CC5A2740 
+X-CRM114-Status: GOOD (  14.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,18 +75,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 15, 2022 at 10:12:28AM -0600, Logan Gunthorpe wrote:
-> Consecutive zone device pages should not be merged into the same sgl
-> or bvec segment with other types of pages or if they belong to different
-> pgmaps. Otherwise getting the pgmap of a given segment is not possible
-> without scanning the entire segment. This helper returns true either if
-> both pages are not zone device pages or both pages are zone device
-> pages with the same pgmap.
-> 
-> Add a helper to determine if zone device pages are mergeable and use
-> this helper in page_is_mergeable().
+On Wed, Jun 15, 2022 at 10:12:32AM -0600, Logan Gunthorpe wrote:
+> A pseudo mount is used to allocate an inode for each PCI device. The
+> inode's address_space is used in the file doing the mmap so that all
+> VMAs are collected and can be unmapped if the PCI device is unbound.
+> After unmapping, the VMAs are iterated through and their pages are
+> put so the device can continue to be unbound. An active flag is used
+> to signal to VMAs not to allocate any further P2P memory once the
+> removal process starts. The flag is synchronized with concurrent
+> access with an RCU lock.
 
-Any reason not to simply set REQ_NOMERGE for these requests?  We
-can't merge for passthrough requests anyway, and genrally don't merge
-for direct I/O either, so adding all this overhead seems a bit pointless.
+Can't we come up with a way of doing this without all the pseudo-fs
+garbagage?  I really hate all the overhead for that in the next
+nvme patch as well.
 
