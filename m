@@ -4,56 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 544C8C43334
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jun 2022 20:44:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7B8BC433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jun 2022 20:44:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HUKpLb6JXEKmTJ5lKkPoJzYMJoy996fk0USUyFanhJ4=; b=suwpKcVyajj+hu1FBFzM7uIrso
-	Ix1ZUWXBqjqsXgTQhI4Y/7a1KFo9ctPj1Lm5i09n3wD7uw36w5CPPRoXI0YdCTXSWfmqg2tvGssYP
-	niPf+v8TskNVG4qbxHE70TlbjJX6mcUtWOTdULcex4OSHHxOacm4Ff/bu8fYhu+SpYGfqtZoJH+o2
-	TrxFpuCkwZEX1/oncZc3l0srlJ+kLDNJqsrhEACRqMxEtNpk3OYGA4Azjtng82uuFbXqDWrtwUSyF
-	zMnh4554KTH5QYqu+6CimQ9r1VnbucmLV96ASUcA9KdTUX8OXa/e7lbRrWSPFAh0wmYxgmHHssbmL
-	7r7B4FuQ==;
+	bh=3kDhkv8lM7uoBEi94XUYDlI+HwJ5aHLXq4ypfNnnqqQ=; b=CPAi98Vlkh2dt26Kgk6KR1QsxW
+	QaDi8j/EKGWGUhVxGbYp1p4Rkk7EmxUwhcuxjsdphJfrIrSZGBFIYCDJBn+Gn5x+eXyqA2F++HkNY
+	prhjMIjrllNCjo6c1a16YFIrCssqR+TZoYAh8QmjNzDMnp28gEOaRqasZYhG1gqwRdnlOX4K/Ec7j
+	yuFZGf6fMU8fkPI+LKUbhKF9EX1InLV2xWKqRlWn8PY7MyzBuYptoClqdMlBJpXdyzu6bSRpWEC2B
+	TqqG9qIAKUU8r48Qh/fWQiqOoI1Huf7BaXGoV48V+TQxWa/aIux0d7Wm7mf42DgQM/ZfAwjQ/SlTI
+	O4aYgKlA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o711d-001TsE-CV; Thu, 30 Jun 2022 20:44:33 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1o711o-001TyI-Ky; Thu, 30 Jun 2022 20:44:44 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o7103-001T5f-9h
-	for linux-nvme@lists.infradead.org; Thu, 30 Jun 2022 20:42:57 +0000
-Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25UEi8Gq008104
-	for <linux-nvme@lists.infradead.org>; Thu, 30 Jun 2022 13:42:54 -0700
+	id 1o7107-001T8O-CZ
+	for linux-nvme@lists.infradead.org; Thu, 30 Jun 2022 20:43:01 +0000
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+	by m0001303.ppops.net (8.17.1.5/8.17.1.5) with ESMTP id 25UFDOei009461
+	for <linux-nvme@lists.infradead.org>; Thu, 30 Jun 2022 13:42:58 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=facebook;
- bh=HUKpLb6JXEKmTJ5lKkPoJzYMJoy996fk0USUyFanhJ4=;
- b=No9ShFEhPbtaMuDPoG7tj+iRu2Tlj7cZpA+ZuBaA2IurJtG6ueraW1U4GqaAveht1dqe
- SXl0KJE36C4QR9ypmk3tZ9f6ZJM4F6dlR6WJEblESHBCE2XYCB+r8uO+SVrGNojMzP9u
- FfSuCeg49qLwpYIez6V5aMqac0abdPWONUA= 
+ bh=3kDhkv8lM7uoBEi94XUYDlI+HwJ5aHLXq4ypfNnnqqQ=;
+ b=qoOXKOgTY6dzB2fyhIbEUU+7vLAzqnaYpXb6MEGUkt0bafSaQqevZOTbhE5KBv8DEDpO
+ qd5ojcdAYOm8jh8roLlEGcBbsXV6bv4YiETq0Nv5uned1bzlWhLl+3qzVVQPiSQp2vm3
+ vC4rj4DkgkM/VTJyX5wUhYv/A5t5GDnxqQQ= 
 Received: from mail.thefacebook.com ([163.114.132.120])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3h0qgr34bt-1
+	by m0001303.ppops.net (PPS) with ESMTPS id 3h10tfq1ge-9
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Thu, 30 Jun 2022 13:42:54 -0700
-Received: from twshared14577.08.ash8.facebook.com (2620:10d:c085:208::11) by
- mail.thefacebook.com (2620:10d:c085:11d::7) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Thu, 30 Jun 2022 13:42:58 -0700
+Received: from twshared10560.18.frc3.facebook.com (2620:10d:c085:108::8) by
+ mail.thefacebook.com (2620:10d:c085:11d::4) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Thu, 30 Jun 2022 13:42:53 -0700
+ 15.1.2375.28; Thu, 30 Jun 2022 13:42:56 -0700
 Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id 987AC5932DBA; Thu, 30 Jun 2022 13:42:30 -0700 (PDT)
+	id 0E32A5932DC2; Thu, 30 Jun 2022 13:42:30 -0700 (PDT)
 From: Keith Busch <kbusch@fb.com>
 To: <linux-fsdevel@vger.kernel.org>, <linux-block@vger.kernel.org>,
         <linux-nvme@lists.infradead.org>
 CC: <axboe@kernel.dk>, Kernel Team <Kernel-team@fb.com>, <hch@lst.de>,
         <willy@infradead.org>, <sagi@grimberg.me>,
         Keith Busch <kbusch@kernel.org>
-Subject: [PATCH 04/12] iomap: use common blkdev alignment check
-Date: Thu, 30 Jun 2022 13:42:04 -0700
-Message-ID: <20220630204212.1265638-5-kbusch@fb.com>
+Subject: [PATCH 10/12] block: add direct-io partial sector read support
+Date: Thu, 30 Jun 2022 13:42:10 -0700
+Message-ID: <20220630204212.1265638-11-kbusch@fb.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220630204212.1265638-1-kbusch@fb.com>
 References: <20220630204212.1265638-1-kbusch@fb.com>
@@ -61,14 +61,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-GUID: wawNiiUig95CSZ96vyGNE6Hvr4bUGqZk
-X-Proofpoint-ORIG-GUID: wawNiiUig95CSZ96vyGNE6Hvr4bUGqZk
+X-Proofpoint-GUID: Bt2hqkQ1hZ5bYUsPPMr5miEUbolSwGS1
+X-Proofpoint-ORIG-GUID: Bt2hqkQ1hZ5bYUsPPMr5miEUbolSwGS1
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-06-30_14,2022-06-28_01,2022-06-22_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220630_134255_482133_3F7790F7 
-X-CRM114-Status: GOOD (  15.06  )
+X-CRM114-CacheID: sfid-20220630_134259_579804_50811915 
+X-CRM114-Status: GOOD (  19.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,37 +85,201 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-The block layer provides a generic io alignment check, so use that.
+Enable direct io to read partial sectors if the block device supports bit
+buckets.
 
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- fs/iomap/direct-io.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ block/fops.c | 69 ++++++++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 56 insertions(+), 13 deletions(-)
 
-diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-index 40cbf2025386..10a113358365 100644
---- a/fs/iomap/direct-io.c
-+++ b/fs/iomap/direct-io.c
-@@ -241,7 +241,6 @@ static loff_t iomap_dio_bio_iter(const struct iomap_i=
-ter *iter,
- 	const struct iomap *iomap =3D &iter->iomap;
- 	struct inode *inode =3D iter->inode;
- 	struct block_device *bdev =3D iomap->bdev;
--	unsigned int blksz =3D bdev_logical_block_size(bdev);
- 	unsigned int fs_block_size =3D i_blocksize(inode), pad;
- 	loff_t length =3D iomap_length(iter);
- 	loff_t pos =3D iter->pos;
-@@ -253,8 +252,7 @@ static loff_t iomap_dio_bio_iter(const struct iomap_i=
-ter *iter,
- 	size_t copied =3D 0;
- 	size_t orig_count;
+diff --git a/block/fops.c b/block/fops.c
+index f37af5924cef..5eee8cef7ce0 100644
+--- a/block/fops.c
++++ b/block/fops.c
+@@ -46,9 +46,10 @@ static unsigned int dio_bio_write_op(struct kiocb *ioc=
+b)
 =20
--	if ((pos | length) & (blksz - 1) ||
--	    !bdev_iter_is_aligned(bdev, dio->submit.iter))
-+	if (blkdev_dio_unaligned(bdev, pos | length, dio->submit.iter))
- 		return -EINVAL;
+ static ssize_t __blkdev_direct_IO_simple(struct kiocb *iocb,
+ 		struct iov_iter *iter, unsigned int nr_pages,
+-		struct block_device *bdev, loff_t pos)
++		struct block_device *bdev, loff_t pos, u16 skip, u16 trunc)
+ {
+ 	struct bio_vec inline_vecs[DIO_INLINE_BIO_VECS], *vecs;
++	u16 bucket_bytes =3D skip + trunc;
+ 	bool should_dirty =3D false;
+ 	struct bio bio;
+ 	ssize_t ret;
+@@ -72,10 +73,19 @@ static ssize_t __blkdev_direct_IO_simple(struct kiocb=
+ *iocb,
+ 	bio.bi_iter.bi_sector =3D pos >> SECTOR_SHIFT;
+ 	bio.bi_ioprio =3D iocb->ki_ioprio;
 =20
- 	if (iomap->type =3D=3D IOMAP_UNWRITTEN) {
++	if (bucket_bytes) {
++		bio_set_flag(&bio, BIO_BIT_BUCKET);
++		if (skip)
++			blk_add_bb_page(&bio, skip);
++	}
++
+ 	ret =3D bio_iov_iter_get_pages(&bio, iter);
+ 	if (unlikely(ret))
+ 		goto out;
+-	ret =3D bio.bi_iter.bi_size;
++
++	if (trunc)
++		blk_add_bb_page(&bio, trunc);
++	ret =3D bio.bi_iter.bi_size - bucket_bytes;
+=20
+ 	if (iov_iter_rw(iter) =3D=3D WRITE)
+ 		task_io_account_write(ret);
+@@ -157,13 +167,15 @@ static void blkdev_bio_end_io(struct bio *bio)
+ }
+=20
+ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *i=
+ter,
+-		unsigned int nr_pages, struct block_device *bdev, loff_t pos)
++		unsigned int nr_pages, struct block_device *bdev, loff_t pos,
++		u16 skip, u16 trunc)
+ {
+ 	struct blk_plug plug;
+ 	struct blkdev_dio *dio;
+ 	struct bio *bio;
+ 	bool is_read =3D (iov_iter_rw(iter) =3D=3D READ), is_sync;
+ 	unsigned int opf =3D is_read ? REQ_OP_READ : dio_bio_write_op(iocb);
++	u16 bucket_bytes =3D skip + trunc;
+ 	int ret =3D 0;
+=20
+ 	if (iocb->ki_flags & IOCB_ALLOC_CACHE)
+@@ -199,6 +211,14 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb=
+, struct iov_iter *iter,
+ 		bio->bi_end_io =3D blkdev_bio_end_io;
+ 		bio->bi_ioprio =3D iocb->ki_ioprio;
+=20
++		if (bucket_bytes) {
++			bio_set_flag(bio, BIO_BIT_BUCKET);
++			if (skip) {
++				blk_add_bb_page(bio, skip);
++				skip =3D 0;
++			}
++		}
++
+ 		ret =3D bio_iov_iter_get_pages(bio, iter);
+ 		if (unlikely(ret)) {
+ 			bio->bi_status =3D BLK_STS_IOERR;
+@@ -206,6 +226,11 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb=
+, struct iov_iter *iter,
+ 			break;
+ 		}
+=20
++		if (trunc && !iov_iter_count(iter)) {
++			blk_add_bb_page(bio, trunc);
++			trunc =3D 0;
++		}
++
+ 		if (is_read) {
+ 			if (dio->flags & DIO_SHOULD_DIRTY)
+ 				bio_set_pages_dirty(bio);
+@@ -218,7 +243,8 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb,=
+ struct iov_iter *iter,
+ 		dio->size +=3D bio->bi_iter.bi_size;
+ 		pos +=3D bio->bi_iter.bi_size;
+=20
+-		nr_pages =3D bio_iov_vecs_to_alloc(iter, BIO_MAX_VECS);
++		nr_pages =3D bio_iov_vecs_to_alloc_partial(iter, BIO_MAX_VECS, 0,
++							 trunc);
+ 		if (!nr_pages) {
+ 			submit_bio(bio);
+ 			break;
+@@ -244,7 +270,7 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb,=
+ struct iov_iter *iter,
+ 	if (!ret)
+ 		ret =3D blk_status_to_errno(dio->bio.bi_status);
+ 	if (likely(!ret))
+-		ret =3D dio->size;
++		ret =3D dio->size - bucket_bytes;
+=20
+ 	bio_put(&dio->bio);
+ 	return ret;
+@@ -277,10 +303,11 @@ static void blkdev_bio_end_io_async(struct bio *bio=
+)
+=20
+ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
+ 		struct iov_iter *iter, unsigned int nr_pages,
+-		struct block_device *bdev, loff_t pos)
++		struct block_device *bdev, loff_t pos, u16 skip, u16 trunc)
+ {
+ 	bool is_read =3D iov_iter_rw(iter) =3D=3D READ;
+ 	unsigned int opf =3D is_read ? REQ_OP_READ : dio_bio_write_op(iocb);
++	u16 bucket_bytes =3D skip + trunc;
+ 	struct blkdev_dio *dio;
+ 	struct bio *bio;
+ 	int ret =3D 0;
+@@ -296,6 +323,12 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb=
+ *iocb,
+ 	bio->bi_end_io =3D blkdev_bio_end_io_async;
+ 	bio->bi_ioprio =3D iocb->ki_ioprio;
+=20
++	if (bucket_bytes) {
++		bio_set_flag(bio, BIO_BIT_BUCKET);
++		if (skip)
++			blk_add_bb_page(bio, skip);
++	}
++
+ 	if (iov_iter_is_bvec(iter)) {
+ 		/*
+ 		 * Users don't rely on the iterator being in any particular
+@@ -311,7 +344,11 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb=
+ *iocb,
+ 			return ret;
+ 		}
+ 	}
+-	dio->size =3D bio->bi_iter.bi_size;
++
++	if (trunc)
++		blk_add_bb_page(bio, trunc);
++
++	dio->size =3D bio->bi_iter.bi_size - bucket_bytes;
+=20
+ 	if (is_read) {
+ 		if (iter_is_iovec(iter)) {
+@@ -338,23 +375,29 @@ static ssize_t blkdev_direct_IO(struct kiocb *iocb,=
+ struct iov_iter *iter)
+ {
+ 	struct block_device *bdev =3D iocb->ki_filp->private_data;
+ 	loff_t pos =3D iocb->ki_pos;
++	u16 skip =3D 0, trunc =3D 0;
+ 	unsigned int nr_pages;
+=20
+ 	if (!iov_iter_count(iter))
+ 		return 0;
+-	if (blkdev_dio_unaligned(bdev, pos, iter))
+-		return -EINVAL;
++	if (blkdev_dio_unaligned(bdev, pos, iter)) {
++		if (!blkdev_bit_bucket(bdev, pos, iov_iter_count(iter), iter,
++				       &skip, &trunc))
++			return -EINVAL;
++		nr_pages =3D bio_iov_vecs_to_alloc_partial(iter, BIO_MAX_VECS + 1,
++							 skip, trunc);
++	} else
++		nr_pages =3D bio_iov_vecs_to_alloc(iter, BIO_MAX_VECS + 1);
+=20
+-	nr_pages =3D bio_iov_vecs_to_alloc(iter, BIO_MAX_VECS + 1);
+ 	if (likely(nr_pages <=3D BIO_MAX_VECS)) {
+ 		if (is_sync_kiocb(iocb))
+ 			return __blkdev_direct_IO_simple(iocb, iter, nr_pages,
+-							 bdev, pos);
++							 bdev, pos, skip, trunc);
+ 		return __blkdev_direct_IO_async(iocb, iter, nr_pages, bdev,
+-						pos);
++						pos, skip, trunc);
+ 	}
+ 	return __blkdev_direct_IO(iocb, iter, bio_max_segs(nr_pages), bdev,
+-				  pos);
++				  pos, skip, trunc);
+ }
+=20
+ static int blkdev_writepage(struct page *page, struct writeback_control =
+*wbc)
 --=20
 2.30.2
 
