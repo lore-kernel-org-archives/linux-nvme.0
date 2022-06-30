@@ -4,56 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 66186C43334
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jun 2022 20:44:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3BCCC433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jun 2022 20:45:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YJUMx25JnkLSpluSNWzz0LIB6yABqPp0PFY0YwPQEzk=; b=UQObuTNqVMBC+216t0N7XvvTxH
-	s1bJo4THXw8STaUigAFeg1TwvXOw0r7lEzWh4ix20G47LJMabfhK9xV2rFfS9uWufwqLxVLJiE3SL
-	QKZMppY6fDjX+RRk+wbq/BumHGqO2EIAYo6rbbgpIfZ+A6fp8nRQBZc+Tmmr/TZODwaUQr3A2eO08
-	mpuXXlm4RqLD2gLJzVE3JZO7JqVGUKwkD0/Yy/RgZR/Y9Ir/YEirJtPyzloold+AQX/aOf8EsHtws
-	c7auu4irin0MY0X4Y1sL+lECRCn2J6A+do+huhUYzw2SW3p9NBLzyG4u/+gEdKZtu79/kQIIU3pa6
-	3vFrNmXw==;
+	bh=LVMgK7DArspWjjYk5Pf3yLv7JuoIp2oNJy7AUsJ+42M=; b=udu139T6T2kWIhJ5QyU9e0c/nR
+	fqhWlo2wV/dkrQ1SqmUJdiqoihiAo2Y/JsNBb45Nu+0dH0qJHTYT6yG7aXEYBRLkHd0k2K5ntwDPh
+	AfXc4ZIb3UIRIeDVa4r0rM1GeJhRhtm9w6eeQpS6w0FdkMw8XPLelGIRJQDjCcU/DMy6umyTMK+hZ
+	w1SS9iEBH5ce2Sobyv5NgtvOCBvqFc2h2bgfkwR5zUms2OT5yBem6gqN9o1ZdLPh9mgSSRByePHPt
+	/t8VjSZ/s4GZ0g6oC8LbtbODMv56doCwTHxOLVAEsUZZsD93BldBSuOSUXWDxluOlI9xAdfeYla84
+	Vu74Oegw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o711u-001U0Z-Nm; Thu, 30 Jun 2022 20:44:50 +0000
+	id 1o7129-001U7F-1J; Thu, 30 Jun 2022 20:45:05 +0000
 Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o7107-001T8f-O2
-	for linux-nvme@lists.infradead.org; Thu, 30 Jun 2022 20:43:01 +0000
-Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25UEbCcD022527
+	id 1o7108-001T8k-07
+	for linux-nvme@lists.infradead.org; Thu, 30 Jun 2022 20:43:03 +0000
+Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25UHF2YH008879
 	for <linux-nvme@lists.infradead.org>; Thu, 30 Jun 2022 13:42:59 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=facebook;
- bh=YJUMx25JnkLSpluSNWzz0LIB6yABqPp0PFY0YwPQEzk=;
- b=IX8uBGPgUivsyHFY6eDNymaBh9cDdYPcMcC8VQwPUs8cNfTSKMZGMuihbDhhSVsF8zpi
- QapJ7mOX6ABhhJGyp02pUfBMO/7OuRd4FjsPEhMM357xHCYFO48g0r1MoFNKvz6hZzjv
- DqRZ9Ma2xeuFvOljgbIxQ2XYYcuCW54JNZg= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3h0dgqwy3s-1
+ bh=LVMgK7DArspWjjYk5Pf3yLv7JuoIp2oNJy7AUsJ+42M=;
+ b=FoltLSOGm4BNovgtzoBvkP56ruLvhjjiqVjNo8z4CnFZ2ZRbtgI9L/JTsS2aS4k+JZZR
+ LSr1E8ixLDovKqPKh+waGA8L5Z+wtZiqoFFmFAfYlZmI82fH95M0F9FDty3UQudUzB3q
+ 6wScXWNzY/QV/zJ6+z0UPMKIav/Duu0MSVA= 
+Received: from mail.thefacebook.com ([163.114.132.120])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3h17gewyn9-4
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Thu, 30 Jun 2022 13:42:58 -0700
-Received: from twshared35153.14.frc2.facebook.com (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:83::7) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Thu, 30 Jun 2022 13:42:59 -0700
+Received: from twshared10560.18.frc3.facebook.com (2620:10d:c085:208::11) by
+ mail.thefacebook.com (2620:10d:c085:21d::4) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Thu, 30 Jun 2022 13:42:58 -0700
+ 15.1.2375.28; Thu, 30 Jun 2022 13:42:55 -0700
 Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id 185D35932DC3; Thu, 30 Jun 2022 13:42:30 -0700 (PDT)
+	id CD6965932DBE; Thu, 30 Jun 2022 13:42:30 -0700 (PDT)
 From: Keith Busch <kbusch@fb.com>
 To: <linux-fsdevel@vger.kernel.org>, <linux-block@vger.kernel.org>,
         <linux-nvme@lists.infradead.org>
 CC: <axboe@kernel.dk>, Kernel Team <Kernel-team@fb.com>, <hch@lst.de>,
         <willy@infradead.org>, <sagi@grimberg.me>,
         Keith Busch <kbusch@kernel.org>
-Subject: [PATCH 11/12] iomap: add direct-io partial sector read support
-Date: Thu, 30 Jun 2022 13:42:11 -0700
-Message-ID: <20220630204212.1265638-12-kbusch@fb.com>
+Subject: [PATCH 06/12] nvme: add support for bit buckets
+Date: Thu, 30 Jun 2022 13:42:06 -0700
+Message-ID: <20220630204212.1265638-7-kbusch@fb.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220630204212.1265638-1-kbusch@fb.com>
 References: <20220630204212.1265638-1-kbusch@fb.com>
@@ -61,14 +61,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: daMVdjgrYcRjjt-Eixpvpg2hyhvLk_qT
-X-Proofpoint-GUID: daMVdjgrYcRjjt-Eixpvpg2hyhvLk_qT
+X-Proofpoint-ORIG-GUID: hRwxv3ejlCAJgUq_cdV7ff0tMe7wBQIe
+X-Proofpoint-GUID: hRwxv3ejlCAJgUq_cdV7ff0tMe7wBQIe
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-06-30_14,2022-06-28_01,2022-06-22_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220630_134300_028954_AE312444 
-X-CRM114-Status: GOOD (  17.22  )
+X-CRM114-CacheID: sfid-20220630_134300_172232_453AAEEE 
+X-CRM114-Status: GOOD (  23.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,105 +85,131 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-Enable direct io to read partial sectors if the block device supports bit
-buckets.
+Set the queue for bit bucket support if the hardware and driver support
+it. The nvme pci driver will recognize the special bitbucket page for
+read commands and set up an appropriate sg descriptor for it.
 
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- fs/iomap/direct-io.c | 36 ++++++++++++++++++++++++++++--------
- 1 file changed, 28 insertions(+), 8 deletions(-)
+ drivers/nvme/host/core.c |  3 +++
+ drivers/nvme/host/nvme.h |  6 ++++++
+ drivers/nvme/host/pci.c  | 17 +++++++++++++++--
+ include/linux/nvme.h     |  2 ++
+ 4 files changed, 26 insertions(+), 2 deletions(-)
 
-diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-index 10a113358365..212e63b78950 100644
---- a/fs/iomap/direct-io.c
-+++ b/fs/iomap/direct-io.c
-@@ -251,9 +251,12 @@ static loff_t iomap_dio_bio_iter(const struct iomap_=
-iter *iter,
- 	int nr_pages, ret =3D 0;
- 	size_t copied =3D 0;
- 	size_t orig_count;
-+	u16 skip =3D 0, trunc =3D 0;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index b5b24998a5ab..211bc30bb707 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3999,6 +3999,9 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, u=
+nsigned nsid,
+ 	if (ctrl->ops->flags & NVME_F_PCI_P2PDMA)
+ 		blk_queue_flag_set(QUEUE_FLAG_PCI_P2PDMA, ns->queue);
 =20
- 	if (blkdev_dio_unaligned(bdev, pos | length, dio->submit.iter))
--		return -EINVAL;
-+		if (!blkdev_bit_bucket(bdev, pos, length, dio->submit.iter,
-+				       &skip, &trunc))
-+			return -EINVAL;
-=20
- 	if (iomap->type =3D=3D IOMAP_UNWRITTEN) {
- 		dio->flags |=3D IOMAP_DIO_UNWRITTEN;
-@@ -310,9 +313,10 @@ static loff_t iomap_dio_bio_iter(const struct iomap_=
-iter *iter,
- 	 */
- 	bio_opf =3D iomap_dio_bio_opflags(dio, iomap, use_fua);
-=20
--	nr_pages =3D bio_iov_vecs_to_alloc(dio->submit.iter, BIO_MAX_VECS);
-+	nr_pages =3D bio_iov_vecs_to_alloc_partial(dio->submit.iter, BIO_MAX_VE=
-CS,
-+						 skip, trunc);
- 	do {
--		size_t n;
-+		size_t n, bucket_bytes =3D 0;
- 		if (dio->error) {
- 			iov_iter_revert(dio->submit.iter, copied);
- 			copied =3D ret =3D 0;
-@@ -327,6 +331,15 @@ static loff_t iomap_dio_bio_iter(const struct iomap_=
-iter *iter,
- 		bio->bi_private =3D dio;
- 		bio->bi_end_io =3D iomap_dio_bio_end_io;
-=20
-+		if (skip || trunc) {
-+			bio_set_flag(bio, BIO_BIT_BUCKET);
-+			if (skip) {
-+				bucket_bytes +=3D skip;
-+				blk_add_bb_page(bio, skip);
-+				skip =3D 0;
-+			}
-+		}
++	if (nvme_ctrl_sgl_bb_supported(ctrl) && ctrl->ops->flags & NVME_F_BB)
++		blk_queue_flag_set(QUEUE_FLAG_BIT_BUCKET, ns->queue);
 +
- 		ret =3D bio_iov_iter_get_pages(bio, dio->submit.iter);
- 		if (unlikely(ret)) {
- 			/*
-@@ -339,6 +352,12 @@ static loff_t iomap_dio_bio_iter(const struct iomap_=
-iter *iter,
- 			goto zero_tail;
+ 	ns->ctrl =3D ctrl;
+ 	kref_init(&ns->kref);
+=20
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 0da94b233fed..7401f58fe534 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -496,6 +496,7 @@ struct nvme_ctrl_ops {
+ #define NVME_F_FABRICS			(1 << 0)
+ #define NVME_F_METADATA_SUPPORTED	(1 << 1)
+ #define NVME_F_PCI_P2PDMA		(1 << 2)
++#define NVME_F_BB			(1 << 3)
+ 	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val);
+ 	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
+ 	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
+@@ -991,6 +992,11 @@ static inline bool nvme_ctrl_sgl_supported(struct nv=
+me_ctrl *ctrl)
+ 	return ctrl->sgls & ((1 << 0) | (1 << 1));
+ }
+=20
++static inline bool nvme_ctrl_sgl_bb_supported(struct nvme_ctrl *ctrl)
++{
++	return ctrl->sgls & (1 << 16);
++}
++
+ u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 			 u8 opcode);
+ int nvme_execute_passthru_rq(struct request *rq);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 247a74aba336..32894e392142 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -535,6 +535,8 @@ static inline bool nvme_pci_use_sgls(struct nvme_dev =
+*dev, struct request *req)
+=20
+ 	avg_seg_size =3D DIV_ROUND_UP(blk_rq_payload_bytes(req), nseg);
+=20
++	if (req->rq_flags & RQF_BIT_BUCKET)
++		return true;
+ 	if (!nvme_ctrl_sgl_supported(&dev->ctrl))
+ 		return false;
+ 	if (!iod->nvmeq->qid)
+@@ -724,6 +726,13 @@ static void nvme_pci_sgl_set_data(struct nvme_sgl_de=
+sc *sge,
+ 	sge->type =3D NVME_SGL_FMT_DATA_DESC << 4;
+ }
+=20
++static void nvme_pci_sgl_set_bb(struct nvme_sgl_desc *sge,
++				struct scatterlist *sg)
++{
++	sge->length =3D cpu_to_le32(sg_dma_len(sg));
++	sge->type =3D NVME_SGL_FMT_BB_DESC << 4;
++}
++
+ static void nvme_pci_sgl_set_seg(struct nvme_sgl_desc *sge,
+ 		dma_addr_t dma_addr, int entries)
+ {
+@@ -789,7 +798,10 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_=
+dev *dev,
+ 			nvme_pci_sgl_set_seg(link, sgl_dma, entries);
  		}
 =20
-+		if (trunc && !iov_iter_count(dio->submit.iter)) {
-+			blk_add_bb_page(bio, trunc);
-+			bucket_bytes +=3D trunc;
-+			trunc =3D 0;
-+		}
-+
- 		n =3D bio->bi_iter.bi_size;
- 		if (dio->flags & IOMAP_DIO_WRITE) {
- 			task_io_account_write(n);
-@@ -347,18 +366,19 @@ static loff_t iomap_dio_bio_iter(const struct iomap=
-_iter *iter,
- 				bio_set_pages_dirty(bio);
- 		}
+-		nvme_pci_sgl_set_data(&sg_list[i++], sg);
++		if (rq_data_dir(req) =3D=3D READ && blk_is_bit_bucket(sg_page(sg)))
++			nvme_pci_sgl_set_bb(&sg_list[i++], sg);
++		else
++			nvme_pci_sgl_set_data(&sg_list[i++], sg);
+ 		sg =3D sg_next(sg);
+ 	} while (--entries > 0);
 =20
--		dio->size +=3D n;
--		copied +=3D n;
-+		dio->size +=3D n - bucket_bytes;
-+		copied +=3D n - bucket_bytes;
-=20
--		nr_pages =3D bio_iov_vecs_to_alloc(dio->submit.iter,
--						 BIO_MAX_VECS);
-+		nr_pages =3D bio_iov_vecs_to_alloc_partial(dio->submit.iter,
-+							 BIO_MAX_VECS, skip,
-+							 trunc);
- 		/*
- 		 * We can only poll for single bio I/Os.
- 		 */
- 		if (nr_pages)
- 			dio->iocb->ki_flags &=3D ~IOCB_HIPRI;
- 		iomap_dio_submit_bio(iter, dio, bio, pos);
--		pos +=3D n;
-+		pos +=3D n - bucket_bytes;
- 	} while (nr_pages);
-=20
- 	/*
+@@ -3003,7 +3015,8 @@ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops=
+ =3D {
+ 	.name			=3D "pcie",
+ 	.module			=3D THIS_MODULE,
+ 	.flags			=3D NVME_F_METADATA_SUPPORTED |
+-				  NVME_F_PCI_P2PDMA,
++				  NVME_F_PCI_P2PDMA |
++				  NVME_F_BB,
+ 	.reg_read32		=3D nvme_pci_reg_read32,
+ 	.reg_write32		=3D nvme_pci_reg_write32,
+ 	.reg_read64		=3D nvme_pci_reg_read64,
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index e3934003f239..1fae005715fc 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -835,6 +835,7 @@ enum {
+  *
+  * For struct nvme_sgl_desc:
+  *   @NVME_SGL_FMT_DATA_DESC:		data block descriptor
++ *   @NVME_SGL_FMT_BB_DESC:		bit buckect descriptor
+  *   @NVME_SGL_FMT_SEG_DESC:		sgl segment descriptor
+  *   @NVME_SGL_FMT_LAST_SEG_DESC:	last sgl segment descriptor
+  *
+@@ -846,6 +847,7 @@ enum {
+  */
+ enum {
+ 	NVME_SGL_FMT_DATA_DESC		=3D 0x00,
++	NVME_SGL_FMT_BB_DESC		=3D 0x01,
+ 	NVME_SGL_FMT_SEG_DESC		=3D 0x02,
+ 	NVME_SGL_FMT_LAST_SEG_DESC	=3D 0x03,
+ 	NVME_KEY_SGL_FMT_DATA_DESC	=3D 0x04,
 --=20
 2.30.2
 
