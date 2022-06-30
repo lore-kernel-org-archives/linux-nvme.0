@@ -4,45 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09104C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jun 2022 06:24:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F677C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jun 2022 07:52:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=EdY9sSNeQ6fSKtsBW9nFeRY59fbPs9KPNAfeqYvbeXM=; b=FptV6V01wx7HVH
-	+Kb/q7YFDKiZ6gfshzIFD0QDznOPun0BYqi1BKJM3huEolbbrDVOJSIn57ArZZBTebxkYq149r2K1
-	VZTC0w+ofCfA7yTSRUb40B+E3pmulTCmEpXPRVwf0faX+Y1PM0z/6u16RaRY4MdgkKkbv6264eloI
-	2Z1weQpfZ2E+7Ob00ir2Vj20cKfZBgeJOQ5OLwhVu0g5H3m3xJ17xi0zQXXL08cPsV/BqqOSzrUBF
-	fQgbxfxwg/bf2AQY8Be5aE0ebQq4kGHPoBfTWUSXXQOAAHFrSNSUGG4rN8XFZPzNObTGb8PaNPKwG
-	2TxOZwT4r27268nVjxtw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=FDuFY3XQoq0gMX1b2gxgT7Py2p4Sxl0PJZYZ4NVaPho=; b=iTjEWUOsu1Ra3H6DY8b8A4AJHs
+	PM4lAj8mredQtzZK2XZxqCKImRspZQ9gePKVn3dAbQXcXmEDrqtLJf6lUDZOZ1zAsgsmwFawQ+4hJ
+	rsipwZMU/8HijeiDD/JBZzp25oBTXBLEEgiNBj7d4cBxmtzJbk7kz32SxtBh8b26fXya1nk8dqa6g
+	qOskqISv81xLIk5YesgXPolk32fRT1sv6cBJpzeftCak1mZV9HFfAGcuWtv7q8fXPD5Soo9TH2RVx
+	MsIW4raib9IO9MiGOkix/H3L9D5DAFs910CLZDEbvfXw6oNJuivE1zyFyKa+UtwhmEqhIk7nwEFek
+	Lre8nFQA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6nbD-00FVmB-Mu; Thu, 30 Jun 2022 06:24:23 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1o6oyC-00Fq9w-0E; Thu, 30 Jun 2022 07:52:12 +0000
+Received: from mail.olerise.pl ([46.183.184.59])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6nbA-00FVlm-O0
-	for linux-nvme@lists.infradead.org; Thu, 30 Jun 2022 06:24:22 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 67D7168AA6; Thu, 30 Jun 2022 08:24:13 +0200 (CEST)
-Date: Thu, 30 Jun 2022 08:24:13 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: kernel test robot <lkp@intel.com>
-Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
-	Alan Adamson <alan.adamson@oracle.com>
-Subject: Re: [linux-nvme:nvme-5.19] BUILD SUCCESS WITH WARNING
- 4db675888cdb7b24812e289d7f90e7928dd400a3
-Message-ID: <20220630062413.GA6635@lst.de>
+	id 1o6oy9-00Fq8G-DW
+	for linux-nvme@lists.infradead.org; Thu, 30 Jun 2022 07:52:10 +0000
+Received: by mail.olerise.pl (Postfix, from userid 1001)
+	id 621C523C4D; Thu, 30 Jun 2022 09:51:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=olerise.pl; s=mail;
+	t=1656575499; bh=FDuFY3XQoq0gMX1b2gxgT7Py2p4Sxl0PJZYZ4NVaPho=;
+	h=Date:From:To:Subject:From;
+	b=SvFqecbrPgr0YZoZDcSnY4PDFP6WnNlDD9StLs6ujv11kswmpU1Iw4yqvOmnD87pR
+	 1R+9e216aqgOHeuf2lU/YTmQXIgHRRvu2QaWPjxuQCIDJrEVF75X/gtEzKt+f7v0E0
+	 S3B5tCCSgZHPptf/3dT2Pxs8Nd3GlPxi9gRH2Zo+riOPfy3SdLF2e1R3etajpbDMcf
+	 ZIE17Nv8TvnxDN1T+Jugq1O6knLaXNKC+aog1JIXPawEzX6xHjXIPIbnXXrebLdv+g
+	 3BvPAGNG24rCaPdErsLEWIwrMGlKOpWRHVMHDeEJt9zNpalY7RQw3CRKd1nvJ3Uxcf
+	 AgxdS4t7IVSog==
+Received: by mail.olerise.pl for <linux-nvme@lists.infradead.org>; Thu, 30 Jun 2022 07:51:21 GMT
+Message-ID: <20220630084500-0.1.p.bcl2.0.jccmzdb4fe@olerise.pl>
+Date: Thu, 30 Jun 2022 07:51:21 GMT
+From: =?UTF-8?Q?"Przemys=C5=82aw_Wr=C3=B3blewski"?= <przemyslaw.wroblewski@olerise.pl>
+To: <linux-nvme@lists.infradead.org>
+Subject: Wycena paneli fotowoltaicznych
+X-Mailer: mail.olerise.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <62bd3b92.UluA72FI79OFZKgS%lkp@intel.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220629_232420_971145_B49F1036 
-X-CRM114-Status: GOOD (  15.32  )
+X-CRM114-CacheID: sfid-20220630_005209_683825_F06256E6 
+X-CRM114-Status: UNSURE (   1.26  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -57,66 +64,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jun 30, 2022 at 01:58:42PM +0800, kernel test robot wrote:
-> tree/branch: git://git.infradead.org/nvme.git nvme-5.19
-> branch HEAD: 4db675888cdb7b24812e289d7f90e7928dd400a3  nvmet: add a clear_ids attribute for passthru targets
-> 
-> Warning: (recently discovered and may have been fixed)
-> 
-> drivers/nvme/target/passthru.c:54:16: warning: variable 'csi_seen' is used uninitialized whenever 'for' loop exits because its condition is false [-Wsometimes-uninitialized]
-> drivers/nvme/target/passthru.c:57:7: warning: variable 'csi_seen' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+Dzie=C5=84 dobry,
 
-I ended up fixing this with the patch below.  Alan, let me know
-if this works for you:
+dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
+irm=C4=85.
 
-diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index d71ed297ad16b..6f39a29828b12 100644
---- a/drivers/nvme/target/passthru.c
-+++ b/drivers/nvme/target/passthru.c
-@@ -33,10 +33,9 @@ void nvmet_passthrough_override_cap(struct nvmet_ctrl *ctrl)
- static u16 nvmet_passthru_override_id_descs(struct nvmet_req *req)
- {
- 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
--	struct nvme_ns_id_desc *cur;
- 	u16 status = NVME_SC_SUCCESS;
- 	int pos, len;
--	bool csi_seen;
-+	bool csi_seen = false;
- 	void *data;
- 	u8 csi;
- 
-@@ -52,26 +51,25 @@ static u16 nvmet_passthru_override_id_descs(struct nvmet_req *req)
- 		goto out_free;
- 
- 	for (pos = 0; pos < NVME_IDENTIFY_DATA_SIZE; pos += len) {
--		cur = data + pos;
-+		struct nvme_ns_id_desc *cur = data + pos;
- 
- 		if (cur->nidl == 0)
- 			break;
--		len = cur->nidl;
- 		if (cur->nidt == NVME_NIDT_CSI) {
--			memcpy(&csi, data + pos + sizeof(struct nvme_ns_id_desc),
--			       NVME_NIDT_CSI_LEN);
--			csi_seen = 1;
-+			memcpy(&csi, cur + 1, NVME_NIDT_CSI_LEN);
-+			csi_seen = true;
- 			break;
- 		}
--		len += sizeof(struct nvme_ns_id_desc);
-+		len = sizeof(struct nvme_ns_id_desc) + cur->nidl;
- 	}
- 
- 	memset(data, 0, NVME_IDENTIFY_DATA_SIZE);
- 	if (csi_seen) {
--		cur = data;
-+		struct nvme_ns_id_desc *cur = data;
-+
- 		cur->nidt = NVME_NIDT_CSI;
- 		cur->nidl = NVME_NIDT_CSI_LEN;
--		memcpy(data + sizeof(struct nvme_ns_id_desc), &csi,  NVME_NIDT_CSI_LEN);
-+		memcpy(cur + 1, &csi, NVME_NIDT_CSI_LEN);
- 	}
- 	status = nvmet_copy_to_sgl(req, 0, data, NVME_IDENTIFY_DATA_SIZE);
- out_free:
+=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
+ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
+
+Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
+ropozycji?
+
+
+Pozdrawiam,
+Przemys=C5=82aw Wr=C3=B3blewski
 
