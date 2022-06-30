@@ -4,70 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83070C43334
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jun 2022 14:57:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9AFFAC433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jun 2022 15:45:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QrP2DFq9XwKtGF+jJR9LeaqFNJpEALv6wE7oUwj8U4E=; b=te8BkVXtjjMGL822SiFHyfw8OM
-	rstWb/xxy6RpMPEWFMFjFRcXGc3nJ6a8uN5TdPBZEf1Khd6U3G2mTELBL5XUU2Cu4eh6zA0k5t45n
-	N7fWHyDuP9Y29/Pq7yL8SG1fB4AQwHz2gC27gLxFKGppYJ89Z2j9TP3PT/T0z8U369m/PhJPzDd81
-	4FwXpbr6ZT8F8niH6tsd5d/rXDFvQWLxuYYqTMz451yP8g9aJDp/Ogi/DTNTRHFZonhAyOUh2EAui
-	bym3agSfcVNdoiTRYiTDYO03o4HHS5Iqvyl+7K/5mGYoqYnROqeUKFqkaI1/J+dMXeEp8DC2EOXzV
-	HrpHdgBQ==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=4Kb5CWRA5LlqGaoxU2SK5O2kdDtLVm4F1urLHmSvY0o=; b=Gdd4seREr2TSYzKtOP7mpIEdTV
+	AhBC6v7Gkv7va812XfFycZ8F9KQO1wH59aAjFZNCzvLPJn1HxHNYJ+diEnBfRhnMe/Wi3kFXUeYYf
+	vFO2k+Jj3FjJvbgyjoA69hgxY4qcInPmtYXlRlJwDelePUrHvn0gIJQUVdi9fKrDpbX9/jRRs1bft
+	WC7cn1Mi96WCr9uzUqj5gkQLlBjyFECGmlvu4kLHdzaNJxMY9xaLZF4ZzfRqlAm0jjBc3C+oKei8U
+	6LfYgpSFcBCXqy6SwxbAV4BhTM1QNoktN9sRvFyLoXW5eWYRrqTkjLtlWaRlVrVzEBGSkQAgigYui
+	+v2p1NEw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6vba-000CeG-MI; Thu, 30 Jun 2022 14:57:18 +0000
-Received: from foss.arm.com ([217.140.110.172])
-	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6vbX-000CZA-6J
-	for linux-nvme@lists.infradead.org; Thu, 30 Jun 2022 14:57:17 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E7FC61063;
-	Thu, 30 Jun 2022 07:57:05 -0700 (PDT)
-Received: from [10.57.85.25] (unknown [10.57.85.25])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C8C5A3F66F;
-	Thu, 30 Jun 2022 07:57:01 -0700 (PDT)
-Message-ID: <f9c1e41b-d2a8-61fe-0888-4f0f988912a7@arm.com>
-Date: Thu, 30 Jun 2022 15:56:56 +0100
+	id 1o6wLg-000OM6-3P; Thu, 30 Jun 2022 15:44:56 +0000
+Received: from mail-wr1-f49.google.com ([209.85.221.49])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1o6wLa-000OJd-FU
+	for linux-nvme@lists.infradead.org; Thu, 30 Jun 2022 15:44:52 +0000
+Received: by mail-wr1-f49.google.com with SMTP id i1so23419890wrb.11
+        for <linux-nvme@lists.infradead.org>; Thu, 30 Jun 2022 08:44:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4Kb5CWRA5LlqGaoxU2SK5O2kdDtLVm4F1urLHmSvY0o=;
+        b=zafbejGgbKtokiYj5/SQ9Eoyd2JCopfTnji4R9NB93wiZEzVs9XFmExCcmssprhX20
+         gB6jbPD1LgQiZkejpURQD1L1Ioe7BIjX/C7OPLZxXXKuNT2FSLBi//iGCfomBIXNyNcM
+         hC5UI/xPoQH1/PVr4Bgi155jOQD7Pj13fFxngHEzawLZzqioDO1cy6bstWxJzHKxUyYZ
+         B1ss39EP5IxYzkB7YEliheTAGZ3AXREfnsi3kLeE8oASIHqkL2PtpfBATLILjvVg7KQS
+         rQlyXGMZPZFSdEj+3RuGErJxbmZY5ghRT3bq+bvwBCiz+kR0NEixZgsz8NRsoxnuIPo+
+         B2rg==
+X-Gm-Message-State: AJIora/jGzbqMletka53QRzt9lCQ0MnQnMHNqBsUwwtISNJnN0lNc4+f
+	im9HEtgd1ixMO/eUwPXiw9U=
+X-Google-Smtp-Source: AGRyM1sjdOHNnP3ZTVBi1hSHPtM70hKXN7qiGNGJHdsuU25BmDmMgH+Yl/95EFIY9DoFcLAP5qlzjQ==
+X-Received: by 2002:a5d:6481:0:b0:21d:231e:83b4 with SMTP id o1-20020a5d6481000000b0021d231e83b4mr8763918wri.689.1656603886776;
+        Thu, 30 Jun 2022 08:44:46 -0700 (PDT)
+Received: from localhost.localdomain (46-117-125-14.bb.netvision.net.il. [46.117.125.14])
+        by smtp.gmail.com with ESMTPSA id z2-20020a5d44c2000000b0021a3d94c7bdsm19829452wrr.28.2022.06.30.08.44.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jun 2022 08:44:46 -0700 (PDT)
+From: Sagi Grimberg <sagi@grimberg.me>
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: Hannes Reinecke <hare@suse.de>,
+	linux-nvme@lists.infradead.org,
+	Christoph Hellwig <hch@lst.de>,
+	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+	Keith Busch <kbusch@kernel.org>
+Subject: [PATCH blktests v2] nvme: add nvmf reset/disconnect during traffic test
+Date: Thu, 30 Jun 2022 18:44:44 +0300
+Message-Id: <20220630154444.475600-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v7 08/21] iommu/dma: support PCI P2PDMA pages in dma-iommu
- map_sg
-Content-Language: en-GB
-To: Logan Gunthorpe <logang@deltatee.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org
-Cc: Minturn Dave B <dave.b.minturn@intel.com>,
- Martin Oliveira <martin.oliveira@eideticom.com>,
- Ralph Campbell <rcampbell@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- John Hubbard <jhubbard@nvidia.com>, Dave Hansen
- <dave.hansen@linux.intel.com>, Matthew Wilcox <willy@infradead.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Chaitanya Kulkarni
- <ckulkarnilinux@gmail.com>, Jason Ekstrand <jason@jlekstrand.net>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Bjorn Helgaas <helgaas@kernel.org>,
- Dan Williams <dan.j.williams@intel.com>, Stephen Bates
- <sbates@raithlin.com>, Ira Weiny <ira.weiny@intel.com>,
- Christoph Hellwig <hch@lst.de>, Xiong Jianxin <jianxin.xiong@intel.com>
-References: <20220615161233.17527-1-logang@deltatee.com>
- <20220615161233.17527-9-logang@deltatee.com>
- <feecc6fe-a16e-11f2-33c8-3de7c96b9ad5@arm.com>
- <f56181fb-7035-a775-22b1-77f97d6ec52c@deltatee.com>
- <7f0673e1-433b-65fb-1d2b-c3e4adeebf87@arm.com>
- <626de61d-e85e-bc9f-9e3d-836a408c859f@deltatee.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <626de61d-e85e-bc9f-9e3d-836a408c859f@deltatee.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220630_075715_346101_C408E3E1 
-X-CRM114-Status: GOOD (  26.83  )
+X-CRM114-CacheID: sfid-20220630_084450_569972_A95097F4 
+X-CRM114-Status: GOOD (  14.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,104 +77,118 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2022-06-29 23:41, Logan Gunthorpe wrote:
-> 
-> 
-> On 2022-06-29 13:15, Robin Murphy wrote:
->> On 2022-06-29 16:57, Logan Gunthorpe wrote:
->>>
->>>
->>>
->>> On 2022-06-29 06:07, Robin Murphy wrote:
->>>> On 2022-06-15 17:12, Logan Gunthorpe wrote:
->>>>> When a PCI P2PDMA page is seen, set the IOVA length of the segment
->>>>> to zero so that it is not mapped into the IOVA. Then, in finalise_sg(),
->>>>> apply the appropriate bus address to the segment. The IOVA is not
->>>>> created if the scatterlist only consists of P2PDMA pages.
->>>>>
->>>>> A P2PDMA page may have three possible outcomes when being mapped:
->>>>>      1) If the data path between the two devices doesn't go through
->>>>>         the root port, then it should be mapped with a PCI bus address
->>>>>      2) If the data path goes through the host bridge, it should be
->>>>> mapped
->>>>>         normally with an IOMMU IOVA.
->>>>>      3) It is not possible for the two devices to communicate and thus
->>>>>         the mapping operation should fail (and it will return
->>>>> -EREMOTEIO).
->>>>>
->>>>> Similar to dma-direct, the sg_dma_mark_pci_p2pdma() flag is used to
->>>>> indicate bus address segments. On unmap, P2PDMA segments are skipped
->>>>> over when determining the start and end IOVA addresses.
->>>>>
->>>>> With this change, the flags variable in the dma_map_ops is set to
->>>>> DMA_F_PCI_P2PDMA_SUPPORTED to indicate support for P2PDMA pages.
->>>>>
->>>>> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
->>>>> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
->>>>> ---
->>>>>     drivers/iommu/dma-iommu.c | 68
->>>>> +++++++++++++++++++++++++++++++++++----
->>>>>     1 file changed, 61 insertions(+), 7 deletions(-)
->>>>>
->>>>> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
->>>>> index f90251572a5d..b01ca0c6a7ab 100644
->>>>> --- a/drivers/iommu/dma-iommu.c
->>>>> +++ b/drivers/iommu/dma-iommu.c
->>>>> @@ -21,6 +21,7 @@
->>>>>     #include <linux/iova.h>
->>>>>     #include <linux/irq.h>
->>>>>     #include <linux/list_sort.h>
->>>>> +#include <linux/memremap.h>
->>>>>     #include <linux/mm.h>
->>>>>     #include <linux/mutex.h>
->>>>>     #include <linux/pci.h>
->>>>> @@ -1062,6 +1063,16 @@ static int __finalise_sg(struct device *dev,
->>>>> struct scatterlist *sg, int nents,
->>>>>             sg_dma_address(s) = DMA_MAPPING_ERROR;
->>>>>             sg_dma_len(s) = 0;
->>>>>     +        if (is_pci_p2pdma_page(sg_page(s)) && !s_iova_len) {
->>>>
->>>> Logically, should we not be able to use sg_is_dma_bus_address() here? I
->>>> think it should be feasible, and simpler, to prepare the p2p segments
->>>> up-front, such that at this point all we need to do is restore the
->>>> original length (if even that, see below).
->>>
->>> Per my previous email, no, because sg_is_dma_bus_address() is not set
->>> yet and not meant to tell you something about the page. That flag will
->>> be set below by pci_p2pdma_map_bus_segment() and then checkd in
->>> iommu_dma_unmap_sg() to determine if the dma_address in the segment
->>> needs to be unmapped.
->>
->> I know it's not set yet as-is; I'm suggesting things should be
->> restructured so that it *would be*. In the logical design of this code,
->> the DMA addresses are effectively determined in iommu_dma_map_sg(), and
->> __finalise_sg() merely converts them from a relative to an absolute form
->> (along with undoing the other trickery). Thus the call to
->> pci_p2pdma_map_bus_segment() absolutely belongs in the main
->> iommu_map_sg() loop.
-> 
-> I don't see how that can work: __finalise_sg() does more than convert
-> them from relative to absolute, it also figures out which SG entry will
-> contain which dma_address segment. Which segment a P2PDMA address needs
-> to be programmed into depends on the how 'cur' is calculated which in
-> turn depends on things like seg_mask and max_len. This calculation is
-> not done in iommu_dma_map_sg() so I don't see how there's any hope of
-> assigning the bus address for the P2P segments in that function.
-> 
-> If there's a way to restructure things so that's possible that I'm not
-> seeing, I'm open to it but it's certainly not immediately obvious.
+Test traffic controller reset and disconnect during traffic.
 
-Huh? It's still virtually the same thing; iommu_dma_map_sg() calls 
-pci_p2pdma_map_bus_segment(s) and sets s->length to 0 if 
-PCI_P2PDMA_MAP_BUS_ADDR, then __finalise_sg() can use 
-sg_is_dma_bus_address(s) in place of is_pci_p2pdma_page(sg_page(s)), and 
-just propagate the DMA address and original length from s to cur.
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+---
+Changes from v1:
+- fix copyright
+- change subsys name
+- fix test cleanup warnings
+- don't log device names
+- fix shellcheck
 
-Here you've written a patch which looks to correctly interrupt any 
-ongoing concatenation state and convey some data from the given input 
-segment to the appropriate output segment, so I'm baffled by why you'd 
-think you couldn't do what you've already done.
+ tests/nvme/040     | 59 ++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/040.out |  6 +++++
+ tests/nvme/rc      |  8 +++++++
+ 3 files changed, 73 insertions(+)
+ create mode 100755 tests/nvme/040
+ create mode 100644 tests/nvme/040.out
 
-Thanks,
-Robin.
+diff --git a/tests/nvme/040 b/tests/nvme/040
+new file mode 100755
+index 000000000000..d259784698d9
+--- /dev/null
++++ b/tests/nvme/040
+@@ -0,0 +1,59 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-3.0+
++# Copyright (C) 2022 Sagi Grimberg <sagi@grimberg.me>
++#
++# Test nvme fabrics controller reset/disconnect/reconnect operation during I/O
++# This test is somewhat similar to test 032 but for fabrics controllers.
++
++. tests/nvme/rc
++
++DESCRIPTION="test nvme fabrics controller reset/disconnect operation during I/O"
++
++requires() {
++	_nvme_requires
++	_have_loop
++	_have_fio
++	_require_nvme_trtype_is_fabrics
++}
++
++test() {
++	local subsys="blktests-subsystem-1"
++	local port
++	local loop_dev
++	local nvmedev
++
++	echo "Running ${TEST_NAME}"
++
++	_setup_nvmet
++	truncate -s 1G "$TMPDIR/img"
++	loop_dev="$(losetup -f --show "$TMPDIR/img")"
++
++	port="$(_create_nvmet_port "${nvme_trtype}")"
++	_create_nvmet_subsystem "${subsys}" "${loop_dev}"
++	_add_nvmet_subsys_to_port "${port}" "${subsys}"
++	_nvme_connect_subsys "${nvme_trtype}" "${subsys}"
++	udevadm settle
++	nvmedev=$(_find_nvme_dev "${subsys}")
++
++	# start fio job
++	echo "starting background fio"
++	_run_fio_rand_io --filename="${nvmedev}n1" --size=1g \
++		--group_reporting --ramp_time=5  &> /dev/null &
++	sleep 5
++
++	# do reset/remove operation
++	echo "resetting controller"
++	_nvme_reset_ctrl ${nvmedev}
++	sleep 1
++	echo "deleting controller"
++	_nvme_delete_ctrl ${nvmedev}
++
++	echo "stopping background fio"
++	{ kill $!; wait; } &> /dev/null
++
++	_remove_nvmet_subsystem_from_port "${port}" "${subsys}"
++	_remove_nvmet_subsystem "${subsys}"
++	_remove_nvmet_port "${port}"
++
++	echo "Test complete"
++}
+diff --git a/tests/nvme/040.out b/tests/nvme/040.out
+new file mode 100644
+index 000000000000..50d02d4e3cd0
+--- /dev/null
++++ b/tests/nvme/040.out
+@@ -0,0 +1,6 @@
++Running nvme/040
++starting background fio
++resetting controller
++deleting controller
++stopping background fio
++Test complete
+diff --git a/tests/nvme/rc b/tests/nvme/rc
+index 4bebbc762cbb..dfea7f3a0da4 100644
+--- a/tests/nvme/rc
++++ b/tests/nvme/rc
+@@ -447,3 +447,11 @@ _nvme_disable_err_inject()
+         echo 0 > /sys/kernel/debug/"$1"/fault_inject/probability
+         echo 0 > /sys/kernel/debug/"$1"/fault_inject/times
+ }
++
++_nvme_reset_ctrl() {
++	echo 1 > /sys/class/nvme/"$1"/reset_controller
++}
++
++_nvme_delete_ctrl() {
++	echo 1 > /sys/class/nvme/"$1"/delete_controller
++}
+-- 
+2.34.1
+
 
