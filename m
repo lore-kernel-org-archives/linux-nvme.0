@@ -4,68 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97347C43334
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jun 2022 20:43:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82DF1C43334
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jun 2022 20:43:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=0xc3C+DXiwfPrlt4XSU9WIovS0CAm1/2e62U38mNxyc=; b=Ua1ak/tr/Nobg2JIMnLGjL4Z2f
-	noJ0xCiaaYLK0PMRH+gLeCl2B4bseh2TpZQGP8jZA/ZRt4kcAdCSxDj8tDMvQNFjxwJdWpqa1/2Om
-	bD322jQQilR3exSJTTJ+g+2carBqtdL1pxQmbPcp4fb8oLJuWffUUW9Wo2zmAXXLMtP7JS/Gr5+q6
-	NhnjgaRXhqXrg0Md0lfAMb8n8dKa1Ubef7ROXhQtYJjF4AThxEqZpPhcxBPYsWA/0gj3gUVn6RZnB
-	1+kCCdDJjVAu7rFqhlmpLxGaUyevjozYZdW1aPR7KcMouJdqM4OVl2bHjDFscQKe6YyGubnCIWjhM
-	xC0o0GPg==;
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0vQ+SPG7rbLReFzJBCjN1ACRC52yjPlRyenY1f8Evls=; b=pzIexY3V3GWPXM0PclLX9Bhdjf
+	GsXQTXvFoDb+a6J+bWfDlZDrGWXbUuol1DjcX+Dfyp0//sEVBALoIVqd8Y9IC2SNQJruc9HQjaoHB
+	90sl2GhfpyfbMN7sdAkrwldBJ+QXQWeOuTRfe3Je4zoWv1fUI235+pZiHjwqKPBhjqG6Y5wpprLqA
+	e7O3noajcNOZ/epT4aQT+aO0xAv7ofnuOVEfDeRFVT6NwDJ7YywVqy7Chu6rK3g7MpDh/9amrzFTd
+	Y6R+9DrEAmMmsJBGqp0m1baY4Lg8AwKhCQoStXstiICi1lWvHKLus/HQpejeVe5jJoZxQSDFHhhZT
+	uMYNZo+w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o710E-001TEC-Um; Thu, 30 Jun 2022 20:43:06 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1o710M-001THh-Lu; Thu, 30 Jun 2022 20:43:14 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o70zt-001Swk-7U
+	id 1o70zu-001SxC-FK
 	for linux-nvme@lists.infradead.org; Thu, 30 Jun 2022 20:42:47 +0000
-Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25UFTqbZ009946
-	for <linux-nvme@lists.infradead.org>; Thu, 30 Jun 2022 13:42:42 -0700
+Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
+	by m0089730.ppops.net (8.17.1.5/8.17.1.5) with ESMTP id 25UJL89P004868
+	for <linux-nvme@lists.infradead.org>; Thu, 30 Jun 2022 13:42:43 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=facebook; bh=0xc3C+DXiwfPrlt4XSU9WIovS0CAm1/2e62U38mNxyc=;
- b=ZFsXMrTM1X8gcmIiwcWiyqIlNCU3OO7An8JzvXGBgo6qoY9vJ2Ppys7HzRhDjgYR+yWO
- 6jhppSbO0mJgQMbW00nHDiuoGtvZDHizQIrblgYllWZ4C7FY6Cym9lBxA4KPZKpY/V+I
- SWCVmaNgEh0KIx/QGhr+ZfQETEGAZnAX2UU= 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=facebook;
+ bh=0vQ+SPG7rbLReFzJBCjN1ACRC52yjPlRyenY1f8Evls=;
+ b=BwXqJ0IRMhHWVI2XdzdHeXoVR2qu4nIthtzTWuPUslKc79l+2euoanAdUtXj/Ufrrnz0
+ E+PXzA2yPKqxIJiWHuOmL9271VX8lgn3H2SJCgPYf58h93h6CSmZV8r+ObwDwDyAd4CE
+ 1SdoWZWVmTZwR7kamid3ibWolWpcqMPUVxg= 
 Received: from mail.thefacebook.com ([163.114.132.120])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3h0tdshrjc-1
+	by m0089730.ppops.net (PPS) with ESMTPS id 3h195a4pvt-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Thu, 30 Jun 2022 13:42:42 -0700
-Received: from twshared14577.08.ash8.facebook.com (2620:10d:c085:108::4) by
- mail.thefacebook.com (2620:10d:c085:11d::6) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Thu, 30 Jun 2022 13:42:43 -0700
+Received: from twshared14577.08.ash8.facebook.com (2620:10d:c085:208::f) by
+ mail.thefacebook.com (2620:10d:c085:11d::5) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Thu, 30 Jun 2022 13:42:41 -0700
+ 15.1.2375.28; Thu, 30 Jun 2022 13:42:42 -0700
 Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id 1293D5932DB4; Thu, 30 Jun 2022 13:42:29 -0700 (PDT)
+	id 34C505932DB8; Thu, 30 Jun 2022 13:42:30 -0700 (PDT)
 From: Keith Busch <kbusch@fb.com>
 To: <linux-fsdevel@vger.kernel.org>, <linux-block@vger.kernel.org>,
         <linux-nvme@lists.infradead.org>
 CC: <axboe@kernel.dk>, Kernel Team <Kernel-team@fb.com>, <hch@lst.de>,
         <willy@infradead.org>, <sagi@grimberg.me>,
         Keith Busch <kbusch@kernel.org>
-Subject: [PATCH 00/12] block: support for partial sector reads
-Date: Thu, 30 Jun 2022 13:42:00 -0700
-Message-ID: <20220630204212.1265638-1-kbusch@fb.com>
+Subject: [PATCH 02/12] iomap: save copy of bdev for direct io
+Date: Thu, 30 Jun 2022 13:42:02 -0700
+Message-ID: <20220630204212.1265638-3-kbusch@fb.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220630204212.1265638-1-kbusch@fb.com>
+References: <20220630204212.1265638-1-kbusch@fb.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: GgOob8V2_hWBNbwU6Jr0pHRx2vrhkFRE
-X-Proofpoint-GUID: GgOob8V2_hWBNbwU6Jr0pHRx2vrhkFRE
+X-Proofpoint-GUID: atJQNM4FTVaTvkBihf1GdEEBsXQYKMBN
+X-Proofpoint-ORIG-GUID: atJQNM4FTVaTvkBihf1GdEEBsXQYKMBN
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-06-30_14,2022-06-28_01,2022-06-22_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220630_134245_339463_BC0904F4 
-X-CRM114-Status: GOOD (  17.71  )
+X-CRM114-CacheID: sfid-20220630_134246_688785_37F2A9CA 
+X-CRM114-Status: GOOD (  15.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,59 +85,50 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-At LSFMM nearly 2 months ago, I discussed how some storage hardware
-supports the ability to read at granularities smaller than a sector, and
-the nvme protocol feature that enables this capability, "bit buckets".
-This is useful in scenarios where only parts of sectors are used by the
-application, and the primary benefits to support this are:
+The block_device is used three times already, so save a copy instead of
+following the iomap pointer each time.
 
-  * Improved link bandwidth usage
-  * Reduced memory utilization
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ fs/iomap/direct-io.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-This series enables the block layer and nvme to set up bit bucket
-descriptors for read commands, then enables user space direct-io to make
-use of this capability by allowing the user to specify an arbitrary
-offset and length. This allows truncating an arbitrary number of bytes
-off sectors from the front and end of the transfer. =20
-
-There are no current in-kernel users beyond the direct-io cases, but
-this could also be used for to truncate bytes out of the middle of a
-transfer as well. For example, if you wanted to read a page and knew you
-wer going to immediately dirty some number of bytes in the middle, you
-could set up a read request to skip those in the data transfer.
-
-Keith Busch (12):
-  block: move direct io alignment check to common
-  iomap: save copy of bdev for direct io
-  iomap: get logical block size directly
-  iomap: use common blkdev alignment check
-  block: add bit bucket capabilities
-  nvme: add support for bit buckets
-  block: allow copying pre-registered bvecs
-  block: add bio number of vecs helper for partials
-  block: add partial sector parameter helper
-  block: add direct-io partial sector read support
-  iomap: add direct io partial sector read support
-  block: export and document bit_bucket attribute
-
- Documentation/ABI/stable/sysfs-block |  9 +++
- block/bio.c                          | 42 +++++++++++-
- block/blk-core.c                     |  5 ++
- block/blk-merge.c                    |  3 +-
- block/blk-mq.c                       |  2 +
- block/blk-sysfs.c                    |  3 +
- block/fops.c                         | 97 ++++++++++++++++++----------
- drivers/nvme/host/core.c             |  3 +
- drivers/nvme/host/nvme.h             |  6 ++
- drivers/nvme/host/pci.c              | 17 ++++-
- fs/iomap/direct-io.c                 | 43 ++++++++----
- include/linux/bio.h                  | 11 ++++
- include/linux/blk-mq.h               |  2 +
- include/linux/blk_types.h            |  1 +
- include/linux/blkdev.h               | 41 ++++++++++++
- include/linux/nvme.h                 |  2 +
- 16 files changed, 236 insertions(+), 51 deletions(-)
-
+diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
+index 5d098adba443..5d478a95efdf 100644
+--- a/fs/iomap/direct-io.c
++++ b/fs/iomap/direct-io.c
+@@ -240,7 +240,8 @@ static loff_t iomap_dio_bio_iter(const struct iomap_i=
+ter *iter,
+ {
+ 	const struct iomap *iomap =3D &iter->iomap;
+ 	struct inode *inode =3D iter->inode;
+-	unsigned int blkbits =3D blksize_bits(bdev_logical_block_size(iomap->bd=
+ev));
++	struct block_device *bdev =3D iomap->bdev;
++	unsigned int blkbits =3D blksize_bits(bdev_logical_block_size(bdev));
+ 	unsigned int fs_block_size =3D i_blocksize(inode), pad;
+ 	loff_t length =3D iomap_length(iter);
+ 	loff_t pos =3D iter->pos;
+@@ -253,7 +254,7 @@ static loff_t iomap_dio_bio_iter(const struct iomap_i=
+ter *iter,
+ 	size_t orig_count;
+=20
+ 	if ((pos | length) & ((1 << blkbits) - 1) ||
+-	    !bdev_iter_is_aligned(iomap->bdev, dio->submit.iter))
++	    !bdev_iter_is_aligned(bdev, dio->submit.iter))
+ 		return -EINVAL;
+=20
+ 	if (iomap->type =3D=3D IOMAP_UNWRITTEN) {
+@@ -275,7 +276,7 @@ static loff_t iomap_dio_bio_iter(const struct iomap_i=
+ter *iter,
+ 		 * cache flushes on IO completion.
+ 		 */
+ 		if (!(iomap->flags & (IOMAP_F_SHARED|IOMAP_F_DIRTY)) &&
+-		    (dio->flags & IOMAP_DIO_WRITE_FUA) && bdev_fua(iomap->bdev))
++		    (dio->flags & IOMAP_DIO_WRITE_FUA) && bdev_fua(bdev))
+ 			use_fua =3D true;
+ 	}
+=20
 --=20
 2.30.2
 
