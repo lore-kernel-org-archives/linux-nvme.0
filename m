@@ -4,73 +4,115 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E479C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jun 2022 00:31:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97551C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jun 2022 05:45:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=xHLzqhdmSUC5xgvu9G6wjC9oEMAIsHrvQ9mzkeyVhJ0=; b=cul8M83ELlzaItWNWrJMMUY4Yc
-	Woxln92qjxNU/rIICY6WswB5d+Nt66FmDgpOmi3gCpApsy9Rs//+maJr3+TnFovccZC6tvCjXWNkE
-	7NGymXCae/3kZSV8mhUQ48aX2tZ6M9WhVbgdrSDzMMaxcXjSn5yZfDwnh7CR3BVSqT0v0N4hZW51P
-	to/MdF0+hymtF3tOrwrZubtmc2LMSdH2FQRuJIkH9glrIZQS+qp890+IDmJINoW3BLRIHqOaSLQ5c
-	2KVaUVSkxoFEIGW4oOuu/Mie3Rs3ZYFrZCvlqpTwiQayKhvK33lrtWir4SEymm70UtDqkOE9Pp6En
-	9Ek5XDDg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=VoxilQHYTOvtN/3xYTNYRHQYcSVuN2/FdHfQD65sdkE=; b=nzutnP6DG0oWlp72/g/QX6sh8v
+	+dSYBssCCp+iRb1YOBeTgeYsw8GfXSR5a0Cv0VmN2jsRk75FzJPzuQU1RhZ/VKlqeenMNhef0FITT
+	Q8nP62XQG9kR73GXXrFFo45nderpxaRSekRRPcmjs+E+MSe4PPUuaiAjKlTjaA5a6uNGfxb3pYCzr
+	mAngH6MKX0DryanajQgWNF78JPg4UnQ4CHCTX0XJb/sOCKnFEVY0qH4zTKwr0xIq8qXLKZCUKUN3R
+	SJzYpgTGGttj0AV2MKkN1le89osrZqdqM9ITuPUPi8McOj6BWmePh3kWvkqTqkJcveyYdnoStoVw4
+	62aVbsMA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6i5E-00EYKq-Fu; Thu, 30 Jun 2022 00:31:00 +0000
-Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36])
+	id 1o6mzV-00FMFJ-UH; Thu, 30 Jun 2022 05:45:25 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6i5C-00EYKM-5v
-	for linux-nvme@lists.infradead.org; Thu, 30 Jun 2022 00:30:59 +0000
-Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-101b4f9e825so23689920fac.5
-        for <linux-nvme@lists.infradead.org>; Wed, 29 Jun 2022 17:30:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=petrosoftdesign-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version;
-        bh=xHLzqhdmSUC5xgvu9G6wjC9oEMAIsHrvQ9mzkeyVhJ0=;
-        b=V4x/Mm5KjUhgkQmZdK7BsfH6d7MKb1MZxtZEWm6ueyM6bjEs1eFRd6itwRR+fvADJV
-         fKALHmhK7DA1fHRbrrvRe3tZbF30MzG4mOF/+0h3LnNiSaXAIB8tsS3a9aK/IDet6TZV
-         KUsxG0bsVeBXYg7wFse/DJ9lMrZYVnPA5hJtLvU5UqkLGIGZggA4DvhvtPFyO05b+83N
-         UNxc67SPuZkm82oEhCgOou5JVAFPzrT6zIplx+dh+z19nZdV/zlmzir9BYy2hQVJMBt+
-         CPmgvsNqUf9CphbZMFQNwQ85TloB0emHyygnCfdl49u1vYED2wA6I0zkYn0cIDhyFGW/
-         Sjrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version;
-        bh=xHLzqhdmSUC5xgvu9G6wjC9oEMAIsHrvQ9mzkeyVhJ0=;
-        b=HAsckW28BSBsI94N1XMhDQATQSnuh2VgKeShtqQvl2s1WZYy3+R2AQbqsGn+d3TZgo
-         e8WzkU6q5k5iOlLaKgafwGQZCbcJq1QeKyLFe/bRgK4Xk2HpCC5O/2GGbYTg/mIOKzqy
-         f1XoY0Chzzullg/gc5ieAm1I73tBdcql5qujvD6v7mgLgB9dYtAPsqqTQIK95n3vJYO6
-         uvKdGJXpV9SWPqskQuNczCKZeDDB2JPH23HevuCBQG1x8PIk90XSP5y3KOyrhxSLm1z8
-         G9pfgGlUqYbpa+U6DBmmSdgZqXG0R4AEpCSHlXklW48K8/6L1hfsndKW/0FRGjwm0kRu
-         WRzQ==
-X-Gm-Message-State: AJIora9MQVpmY0+chld3MUvZJ2zYcht5nhZcq0cup7ugqH4o4qokwaBg
-	7xSekRXVVetdqDHIrcvCRXydpDREgwFm7Q/T
-X-Google-Smtp-Source: AGRyM1u2TZN/E7EDukx5tWLXoQloiPbaf57XOuS1pfpzdYH5W/9Ar6s0IOmw0X4W4h5xIU4vT9AqHQ==
-X-Received: by 2002:a05:6870:4708:b0:e6:134b:1b04 with SMTP id b8-20020a056870470800b000e6134b1b04mr4670843oaq.85.1656549055720;
-        Wed, 29 Jun 2022 17:30:55 -0700 (PDT)
-Received: from evolucao.localdomain ([177.70.93.142])
-        by smtp.gmail.com with ESMTPSA id o4-20020a9d4104000000b0060bfb4e4033sm10538885ote.9.2022.06.29.17.30.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jun 2022 17:30:55 -0700 (PDT)
-Received: from localhost (evolucao.localdomain [127.0.0.1])
-	by evolucao.localdomain (Postfix) with ESMTP id C2D412FC00C7;
-	Wed, 29 Jun 2022 21:30:53 -0300 (-03)
-Date: Wed, 29 Jun 2022 21:30:53 -0300 (-03)
-From: Lamarque Vieira Souza <lamarque@petrosoftdesign.com>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, 
-    Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-cc: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme-pci: add NVME_QUIRK_BOGUS_NID for ADATA IM2P33F8ABR1
-Message-ID: <d4c05d27-841-fe67-9b1b-7be98799d59f@petrosoftdesign.com>
+	id 1o6mzS-00FMCB-J9
+	for linux-nvme@lists.infradead.org; Thu, 30 Jun 2022 05:45:23 +0000
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25U5j2ke032089;
+	Thu, 30 Jun 2022 05:45:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=VoxilQHYTOvtN/3xYTNYRHQYcSVuN2/FdHfQD65sdkE=;
+ b=d4uMpM+zD8s4sRL+7/tZGukn5sgY+YL9jWAcRI261n4LlTykRbD5zqd222RMcf0cODZC
+ kNMhJpkMMDaSLOtFkBomv8VfLUT+kSk7tJb4/uSv1loQrFlUtR3ji3aBptTAGkq7pPOR
+ xdRQ04wxwz1vf7jWAC1mG3tIKPb3HwFabvZNIMD/40g5JQaUZ6ATyynAwkvQo9HcpLrN
+ 2RwK1LgoV4cQ51xm4OLuIrzSXR+vnrb2YkHcf6yLpZQKKTfpEual9pK6h1KnvCAzUtBt
+ rOh0E/fuDR5LlEtGbVJoZ5QFMWUe/WOYNvqoWwCVFm6u42irhsxV22owQGrXu2uaVN2O qA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h15y60064-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 30 Jun 2022 05:45:12 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25U5jB3w032377;
+	Thu, 30 Jun 2022 05:45:11 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h15y60054-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 30 Jun 2022 05:45:11 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+	by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25U5bH1W018623;
+	Thu, 30 Jun 2022 05:45:09 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+	by ppma06ams.nl.ibm.com with ESMTP id 3gwsmj7js9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 30 Jun 2022 05:45:08 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+	by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 25U5j5R814418258
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 30 Jun 2022 05:45:05 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9C6F34C04A;
+	Thu, 30 Jun 2022 05:45:05 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DF1524C04E;
+	Thu, 30 Jun 2022 05:45:04 +0000 (GMT)
+Received: from [9.171.88.50] (unknown [9.171.88.50])
+	by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+	Thu, 30 Jun 2022 05:45:04 +0000 (GMT)
+Message-ID: <cffe618e-e104-ef55-70aa-efda904a9c21@linux.ibm.com>
+Date: Thu, 30 Jun 2022 07:45:04 +0200
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-224739264-1656549053=:16991"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCHv6 11/11] iomap: add support for dma aligned direct-io
+Content-Language: en-US
+To: Keith Busch <kbusch@kernel.org>, Eric Farman <farman@linux.ibm.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>, Keith Busch <kbusch@fb.com>,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-nvme@lists.infradead.org, axboe@kernel.dk,
+        Kernel Team <Kernel-team@fb.com>, hch@lst.de, bvanassche@acm.org,
+        damien.lemoal@opensource.wdc.com, ebiggers@kernel.org,
+        pankydev8@gmail.com, Stefan Haberland <sth@linux.ibm.com>,
+        =?UTF-8?Q?Jan_H=c3=b6ppner?=
+ <hoeppner@linux.ibm.com>
+References: <YrS6/chZXbHsrAS8@kbusch-mbp>
+ <e2b08a5c452d4b8322566cba4ed33b58080f03fa.camel@linux.ibm.com>
+ <e0038866ac54176beeac944c9116f7a9bdec7019.camel@linux.ibm.com>
+ <c5affe3096fd7b7996cb5fbcb0c41bbf3dde028e.camel@linux.ibm.com>
+ <YrnOmOUPukGe8xCq@kbusch-mbp.dhcp.thefacebook.com>
+ <20220628110024.01fcf84f.pasic@linux.ibm.com>
+ <83e65083890a7ac9c581c5aee0361d1b49e6abd9.camel@linux.ibm.com>
+ <a765fff67679155b749aafa90439b46ab1269a64.camel@linux.ibm.com>
+ <YrvMY7oPnhIka4IF@kbusch-mbp.dhcp.thefacebook.com>
+ <f723b1c013d78cae2f3236eba0d14129837dc7b0.camel@linux.ibm.com>
+ <Yryi8VXTjDu1R1Zc@kbusch-mbp>
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <Yryi8VXTjDu1R1Zc@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: r1VTj3oQr0NpGzaHgrEEIFoeroqGhtRV
+X-Proofpoint-ORIG-GUID: kQnHM4h2VuTXtiCC-vVXCW0L0xPDoJgR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-06-30_02,2022-06-28_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 bulkscore=0 clxscore=1011 mlxscore=0 mlxlogscore=999
+ lowpriorityscore=0 impostorscore=0 adultscore=0 phishscore=0 spamscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206300020
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220629_173058_570699_0C62E1A2 
-X-CRM114-Status: GOOD (  12.47  )
+X-CRM114-CacheID: sfid-20220629_224522_689249_345EFB24 
+X-CRM114-Status: GOOD (  25.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,41 +127,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+CCing Stefan, Jan.
 
---8323328-224739264-1656549053=:16991
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: 8BIT
+Below is necessary (in dasd-eckd.c) to make kvm boot working again (and this seems to be the right thing anyway).
 
-ADATA IM2P33F8ABR1 reports bogus eui64 values that appear to be the same
-across all drives. Quirk them out so they are not marked as "non globally
-unique" duplicates.
-
-Co-developed-by: Felipe de Jesus Araujo da Conceição <felipe.conceicao@petrosoftdesign.com>
-Signed-off-by: Felipe de Jesus Araujo da Conceição <felipe.conceicao@petrosoftdesign.com>
-Signed-off-by: Lamarque V. Souza <lamarque.souza@petrosoftdesign.com>
-
-Cc: stable@vger.kernel.org
----
- drivers/nvme/host/pci.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d7b24ee17285..0c7494ac3ca2 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3469,6 +3469,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_DEVICE(0x1b4b, 0x1092),	/* Lexar 256 GB SSD */
- 		.driver_data = NVME_QUIRK_NO_NS_DESC_LIST |
- 				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
-+	{ PCI_DEVICE(0x1cc1, 0x33f8),   /* ADATA IM2P33F8ABR1 1 TB */
-+		.driver_data = NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x10ec, 0x5762),   /* ADATA SX6000LNP */
- 		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN, },
- 	{ PCI_DEVICE(0x1cc1, 0x8201),   /* ADATA SX8200PNP 512GB */
--- 
-2.31.1
-
---8323328-224739264-1656549053=:16991--
+Am 29.06.22 um 21:07 schrieb Keith Busch:
+> On Wed, Jun 29, 2022 at 02:04:47PM -0400, Eric Farman wrote:
+>> s390 dasd
+>>
+>> This made me think to change my rootfs, and of course the problem goes
+>> away once on something like a SCSI volume.
+>>
+>> So crawling through the dasd (instead of virtio) driver and I finally
+>> find the point where a change to dma_alignment (which you mentioned
+>> earlier) would actually fit.
+>>
+>> Such a change fixes this for me, so I'll run it by our DASD guys.
+>> Thanks for your help and patience.
+> 
+> I'm assuming there's some driver or device requirement that's making this
+> necessary. Is the below driver change what you're looking for? If so, I think
+> you might want this regardless of this direct-io patch just because other
+> interfaces like blk_rq_map_user_iov() and blk_rq_aligned() align to it.
+> 
+> ---
+> diff --git a/drivers/s390/block/dasd_fba.c b/drivers/s390/block/dasd_fba.c
+> index 60be7f7bf2d1..5c79fb02cded 100644
+> --- a/drivers/s390/block/dasd_fba.c
+> +++ b/drivers/s390/block/dasd_fba.c
+> @@ -780,6 +780,7 @@ static void dasd_fba_setup_blk_queue(struct dasd_block *block)
+>   	/* With page sized segments each segment can be translated into one idaw/tidaw */
+>   	blk_queue_max_segment_size(q, PAGE_SIZE);
+>   	blk_queue_segment_boundary(q, PAGE_SIZE - 1);
+> +	blk_queue_dma_alignment(q, PAGE_SIZE - 1);
+>   
+>   	q->limits.discard_granularity = logical_block_size;
+>   
+> --
 
