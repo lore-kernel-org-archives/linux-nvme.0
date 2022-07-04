@@ -4,64 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC751C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jul 2022 06:07:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67A6DC433EF
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jul 2022 11:12:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7bGi9xI4iorkcVbln3g/qStzSU7lPTlpqpORsarXxE8=; b=20D0gZIB/dObqn/hX/x46JWhf8
-	5+5MHrHU34VReOOk2lztS/Bj5uL6R/gaoA4Tfx1iwPvil7/7AlfE+1YnnZmwkGnyjhop2KRKe+k54
-	nQwDaI2PiF1+Eo0D3Hhn7/NsR5lXoqYDVYOk7fIKwx1eEi8YFG8etsI1ux3r9NYhgV/tIYdwpJvMs
-	WujbE88S1Jas4D5etnTOEvTO0a4A1IG6eXyrd9CYUp4z4IXvDeChCy+8SnghBAnL1rk8ZRgnAYXWI
-	SCzPJeYObB1yjMbz5Xe4xEYrTE6P0TFKmQomEzOrDNvZCA3elNr5mvOpuN+V9RhGFW9tYnrkaRLmD
-	QNuyhNAg==;
+	bh=+Y1yU+uyYMoqwzNmnSPdcB4rQIIRze0y46aqscJmlYA=; b=THMqGstBixWNkQaON8gNMo+fFy
+	79gUMviSF9VB45RjbI4qFulLf60ZaHZ0fbrkMxpWHalsk9r0+rmlwPufsCZo7F4wR5ncr88XUVX1C
+	jXUL95RTrZaA4710joFMBVGyvnwTUrR8Bt6/WqDqrXWZvSnhZ7DDsePZvErd7GBr9lH7HskRq+Vrn
+	p0WpU8J6Yn27Mo1b/NYwdQim28Psyo8JDSYNLVD494P77zCl9dZ5L9XervrVLXwPtTQy8uCYOFz3n
+	7gB0LGNvfbLlkCCyUextvjK9poe46hDlGfcfLtOcSf3uAolgWyRREggODqlFRk71IbwZ1j7zPgE+K
+	3NN3HUEQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o8FEm-005GaV-UW; Mon, 04 Jul 2022 06:07:12 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1o8Jzf-007Wa4-Ss; Mon, 04 Jul 2022 11:11:56 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o8FEj-005GVS-QU
-	for linux-nvme@lists.infradead.org; Mon, 04 Jul 2022 06:07:11 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 49FFF68AA6; Mon,  4 Jul 2022 08:07:00 +0200 (CEST)
-Date: Mon, 4 Jul 2022 08:07:00 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Logan Gunthorpe <logang@deltatee.com>
-Cc: Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-mm@kvack.org,
-	iommu@lists.linux-foundation.org,
-	Stephen Bates <sbates@raithlin.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	Minturn Dave B <dave.b.minturn@intel.com>,
-	Jason Ekstrand <jason@jlekstrand.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Xiong Jianxin <jianxin.xiong@intel.com>,
-	Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Martin Oliveira <martin.oliveira@eideticom.com>,
-	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
-	Ralph Campbell <rcampbell@nvidia.com>
-Subject: Re: [PATCH v7 16/21] block: add check when merging zone device
- pages
-Message-ID: <20220704060700.GA28966@lst.de>
-References: <20220615161233.17527-1-logang@deltatee.com> <20220615161233.17527-17-logang@deltatee.com> <20220629064629.GC17576@lst.de> <7da06e08-7dd1-f37c-4382-bc59a1b1e819@deltatee.com> <39bf0071-0acf-12fd-3d3e-06dfd87bb409@deltatee.com>
+	id 1o8JTu-0076AT-0a
+	for linux-nvme@lists.infradead.org; Mon, 04 Jul 2022 10:39:07 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 64C3222CB4;
+	Mon,  4 Jul 2022 10:39:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1656931140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Y1yU+uyYMoqwzNmnSPdcB4rQIIRze0y46aqscJmlYA=;
+	b=og29tcfABqIkZgL3HvS3Kx7DUTsfctiMie6/H6OM8qnk0rBj89MtGYMImnScFiedz2h1VN
+	14dS80iaHdGXNDXY/j8NsgIOJBU/5y+kdz+De1OQYRZ9QV2RdjvC0fbMa5eBSAC47NpCWl
+	VpkrWyRymlHkxOgCTO6cYpY3TTMZUik=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1656931140;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Y1yU+uyYMoqwzNmnSPdcB4rQIIRze0y46aqscJmlYA=;
+	b=LXY2ldkfEZ1EAZIlaFb/bmMygxtkmtPliiwEbtbY5vJ9DZLLxpOkymy2N9pd8NfuBrTEQ1
+	3JAkE7d7FY+s45AQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 562661342C;
+	Mon,  4 Jul 2022 10:39:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 8R4DFUTDwmJeeQAAMHmgww
+	(envelope-from <dwagner@suse.de>); Mon, 04 Jul 2022 10:39:00 +0000
+Date: Mon, 4 Jul 2022 12:38:59 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>,
+	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: Re: [PATCH nvme-cli] udev: re-read the discovery log page when a
+ discovery controller reconnected
+Message-ID: <20220704103859.nb4xoguj3hjeyajq@carbon.lan>
+References: <20220627080650.108936-1-sagi@grimberg.me>
+ <20220627090255.5vpqvzcd7l2vjja2@carbon.lan>
+ <7d8f7f85-9984-14eb-e16b-b3abc15312af@grimberg.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <39bf0071-0acf-12fd-3d3e-06dfd87bb409@deltatee.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <7d8f7f85-9984-14eb-e16b-b3abc15312af@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220703_230710_043171_7B4C231B 
-X-CRM114-Status: GOOD (  17.61  )
+X-CRM114-CacheID: sfid-20220704_033906_253544_05289EF4 
+X-CRM114-Status: GOOD (  13.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,18 +90,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jun 30, 2022 at 03:50:10PM -0600, Logan Gunthorpe wrote:
-> Oh, it turns out this code has nothing to do with REQ_NOMERGE. It's used
-> indirectly in bio_map_user_iov() and __bio_iov_iter_get_pages() when
-> adding pages to the bio via page_is_mergeable(). So it's not about
-> requests being merged it's about pages being merged.
+> > Stupid question, but when we issue the initial 'nvme discover' wouldn't
+> > we run this rule as well? And if so, is this okay?
+> 
+> It will... and it is redundant, but don't think its a big deal because at
+> worst we retrieve the log page and try to connect twice, one of these
+> will see EALREADY...
 
-Oh, true.
-
-> So I'm not sure how we can avoid this, but it only happens when two
-> adjacent pages are added to the same bio in a row, so I don't think it's
-> that common, but the check can probably be moved down so it happens
-> after the same_page check to make it a little less common.
-
-Yes, looks like we have to keep it.
+Sure, but I am already seeing a bug report for the EALREADY. I'll add
+the patch, though don't be surprised if I report a bug sometime in the
+future :)
 
