@@ -4,78 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67A6DC433EF
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jul 2022 11:12:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35850C43334
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jul 2022 11:22:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+Y1yU+uyYMoqwzNmnSPdcB4rQIIRze0y46aqscJmlYA=; b=THMqGstBixWNkQaON8gNMo+fFy
-	79gUMviSF9VB45RjbI4qFulLf60ZaHZ0fbrkMxpWHalsk9r0+rmlwPufsCZo7F4wR5ncr88XUVX1C
-	jXUL95RTrZaA4710joFMBVGyvnwTUrR8Bt6/WqDqrXWZvSnhZ7DDsePZvErd7GBr9lH7HskRq+Vrn
-	p0WpU8J6Yn27Mo1b/NYwdQim28Psyo8JDSYNLVD494P77zCl9dZ5L9XervrVLXwPtTQy8uCYOFz3n
-	7gB0LGNvfbLlkCCyUextvjK9poe46hDlGfcfLtOcSf3uAolgWyRREggODqlFRk71IbwZ1j7zPgE+K
-	3NN3HUEQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2RfejCiqJqDr9zKgrscLiItKu4ykAWEYMNSZ8/fl3go=; b=BKEh5ZJjIuTeltsJGj9bMAIX6i
+	Gb5Yn7zWq+4iEBMYmsO/PP0nfF9awrUUiSU4Pf4KotHdZsouH4y6lSZqM1oJ+qLzbc+gE6iyiWw/9
+	SXQ+fzuq45nSwK3iz449OnaDwkAMa5wyiW9HVHTkeuMEcPEui1yD2xQSM/MvITkMU+hGseMVo199l
+	/eFQfLwDsoZWM9wGxuhYhf3Uo6nSA08Vr8ShobMnpMe2caj5U6NNBB+LtXUh9Wh847Ie1cBRX1acv
+	l3/9ltKcgg52mUXlb4snlHX3EcZtQZWpTb/l383Mc6yKxjZ4BiP06RXrHN7GYFs38ssvE3eJKGind
+	p/6PYzrA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o8Jzf-007Wa4-Ss; Mon, 04 Jul 2022 11:11:56 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1o8K9t-007fCH-HF; Mon, 04 Jul 2022 11:22:29 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o8JTu-0076AT-0a
-	for linux-nvme@lists.infradead.org; Mon, 04 Jul 2022 10:39:07 +0000
+	id 1o8JXr-00793t-2y
+	for linux-nvme@lists.infradead.org; Mon, 04 Jul 2022 10:43:12 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 64C3222CB4;
-	Mon,  4 Jul 2022 10:39:00 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 462F31F984;
+	Mon,  4 Jul 2022 10:43:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1656931140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1656931389; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+Y1yU+uyYMoqwzNmnSPdcB4rQIIRze0y46aqscJmlYA=;
-	b=og29tcfABqIkZgL3HvS3Kx7DUTsfctiMie6/H6OM8qnk0rBj89MtGYMImnScFiedz2h1VN
-	14dS80iaHdGXNDXY/j8NsgIOJBU/5y+kdz+De1OQYRZ9QV2RdjvC0fbMa5eBSAC47NpCWl
-	VpkrWyRymlHkxOgCTO6cYpY3TTMZUik=
+	bh=2RfejCiqJqDr9zKgrscLiItKu4ykAWEYMNSZ8/fl3go=;
+	b=al3t0Ab722Uipa6AlFyTdE087TueyTBY+XF4pL+dfP3liYGDacoyghj24lzdLMLfZRiasa
+	eyKe86Ufsi4I/jJ/aHtaCopeO0H/okxal3bIU4s+JHvNS92NfGRj/dMRx8AqHLRhcQPinJ
+	XmdTqd1x1a+V81dRCtcFwuPyIxgPGz4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1656931140;
+	s=susede2_ed25519; t=1656931389;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+Y1yU+uyYMoqwzNmnSPdcB4rQIIRze0y46aqscJmlYA=;
-	b=LXY2ldkfEZ1EAZIlaFb/bmMygxtkmtPliiwEbtbY5vJ9DZLLxpOkymy2N9pd8NfuBrTEQ1
-	3JAkE7d7FY+s45AQ==
+	bh=2RfejCiqJqDr9zKgrscLiItKu4ykAWEYMNSZ8/fl3go=;
+	b=j3noAsSmfYkkrXi5JqMnNegKFpXfjhTuA+PGoG/Z8RJMNPazCz3KZXQhANSA6h3zHt9eh0
+	4JkymRIaFS2Ge6Bw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 562661342C;
-	Mon,  4 Jul 2022 10:39:00 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 368561342C;
+	Mon,  4 Jul 2022 10:43:09 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 8R4DFUTDwmJeeQAAMHmgww
-	(envelope-from <dwagner@suse.de>); Mon, 04 Jul 2022 10:39:00 +0000
-Date: Mon, 4 Jul 2022 12:38:59 +0200
+	id mg8yDT3EwmIqewAAMHmgww
+	(envelope-from <dwagner@suse.de>); Mon, 04 Jul 2022 10:43:09 +0000
 From: Daniel Wagner <dwagner@suse.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>,
-	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Subject: Re: [PATCH nvme-cli] udev: re-read the discovery log page when a
- discovery controller reconnected
-Message-ID: <20220704103859.nb4xoguj3hjeyajq@carbon.lan>
+To: sagi@grimberg.me,
+	linux-nvme@lists.infradead.org
+Cc: Daniel Wagner <dwagner@suse.de>,
+	hch@lst.de,
+	hare@suse.de,
+	kbusch@kernel.org,
+	Chaitanya.Kulkarni@wdc.com
+Subject: Re: [PATCH nvme-cli] udev: re-read the discovery log page when a discovery controller reconnected
+Date: Mon,  4 Jul 2022 12:43:06 +0200
+Message-Id: <165693137223.19246.2552194181165999373.b4-ty@suse.de>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220627080650.108936-1-sagi@grimberg.me>
 References: <20220627080650.108936-1-sagi@grimberg.me>
- <20220627090255.5vpqvzcd7l2vjja2@carbon.lan>
- <7d8f7f85-9984-14eb-e16b-b3abc15312af@grimberg.me>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7d8f7f85-9984-14eb-e16b-b3abc15312af@grimberg.me>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220704_033906_253544_05289EF4 
-X-CRM114-Status: GOOD (  13.02  )
+X-CRM114-CacheID: sfid-20220704_034311_335367_943FED68 
+X-CRM114-Status: GOOD (  10.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,14 +93,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> > Stupid question, but when we issue the initial 'nvme discover' wouldn't
-> > we run this rule as well? And if so, is this okay?
+On Mon, 27 Jun 2022 11:06:50 +0300, Sagi Grimberg wrote:
+> When using persistent discovery controllers, if the discovery
+> controller loses connectivity and manage to reconnect after a while,
+> we need to retrieve again the discovery log page in order to learn
+> about possible changes that may have occurred during this time as
+> discovery log change events were lost.
 > 
-> It will... and it is redundant, but don't think its a big deal because at
-> worst we retrieve the log page and try to connect twice, one of these
-> will see EALREADY...
+> 
+> [...]
 
-Sure, but I am already seeing a bug report for the EALREADY. I'll add
-the patch, though don't be surprised if I report a bug sometime in the
-future :)
+Applied, thanks!
+
+[1/1] udev: re-read the discovery log page when a discovery controller reconnected
+      commit: f86faaaa2a1ff319bde188dc8988be1ec054d238
+
+Best regards,
+-- 
+Daniel Wagner <dwagner@suse.de>
 
