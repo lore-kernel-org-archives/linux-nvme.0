@@ -4,70 +4,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E422AC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jul 2022 00:49:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 24F29C43334
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jul 2022 02:26:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=i1A0DNvpOU5CiU6rMLgfvUJNzaDDHxbYayOGIRyqRYo=; b=ouyS1JJoxtY6BRNoaAVsJt33mM
-	UHJJz+AAAV9hiPhycpCzDOQYNUWhoL8WkvJ+UGFk/dQ9zJBmEMud81ZwSeCVrkXX3MAsE0/xjVq+M
-	x3Nh51K5d0i1ScAK9nT/hTm7cGLL4YqT9V8JCNCoRsgj8AOicbizi2Mij7LpduoPUTPOWHPWrPB8F
-	46n2sMoY3kLzOHyWfuV8DEA93ptE0F3y2Iz7awLhr+EEY4K6wbbB4z1S16UmtQCea+xJLJh4+sbD0
-	ya5ta4wZEuJ/WIsS50pcNHAJz9SiE/wFej3qtb04lGcloETr8EnT16a2ke2Y56eMopKNNZ0i4VEk3
-	vLBUmcVQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=moIBOWQn7K95Xp9J6EXAkxjnOCYc7eYLgqbPUxSFmeo=; b=abi9IV7qaI1AqyieE/0LP+HP+B
+	OYRPereDdD6fOJHXLEwYs56lSYKTG51Vd+C2ATXq1kXm+tGg72P/fzueYSxy7OFu7cLHAZYwSQHef
+	O56N5ZDQiqxa9/RKXHTSbbQI9x4kK/7TJ6ZkGjBiv6MVdsKydRbasgqIrwR9u6B/HNGzSKw0relLE
+	ezAkK5wB8YDAg/NxTwoC9b5oT5xdtHLEFrggjPUOTIBkU/a4PwvMbMBEGCeTE9CDB2vZ09XehD8U+
+	BZRMz0bYayBJmEvSLvMFN4hyT3npZQfmaxynix9Me13wou1UuM9kvSrG/875iIpvfMcQDmTAO3bEa
+	ObMwbJow==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o8WlF-00DX29-Oj; Tue, 05 Jul 2022 00:49:53 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1o8YGz-00E26T-Jn; Tue, 05 Jul 2022 02:26:45 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o8WlC-00DWwY-TG
-	for linux-nvme@lists.infradead.org; Tue, 05 Jul 2022 00:49:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1656982187;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=i1A0DNvpOU5CiU6rMLgfvUJNzaDDHxbYayOGIRyqRYo=;
-	b=a18yaqKzkzf6q4oVH9vGCY8pUCZmoDdIUkJ78A7IGeFy0aXSvmDqNvp7zRsmaHqtmXosfx
-	qPJePhl6L5FEQRrUHBR4AMM52rgpBMlRP9ylCze2LV4lyjPJnTX2h6ycJcNsdTR+lErvoH
-	ZcryNubhcCg0sPj5KE93FgLR95vAMlY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-558-A1KXb6U8MpGM_fvL501Qjw-1; Mon, 04 Jul 2022 20:49:43 -0400
-X-MC-Unique: A1KXb6U8MpGM_fvL501Qjw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D310185A79C;
-	Tue,  5 Jul 2022 00:49:43 +0000 (UTC)
-Received: from T590 (ovpn-8-22.pek2.redhat.com [10.72.8.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 93DB71415309;
-	Tue,  5 Jul 2022 00:49:39 +0000 (UTC)
-Date: Tue, 5 Jul 2022 08:49:33 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Yi Zhang <yi.zhang@redhat.com>,
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
-	linux-block <linux-block@vger.kernel.org>,
-	Bart Van Assche <bvanassche@acm.org>
-Subject: Re: [bug report] nvme/rdma: nvme connect failed after offline one
- cpu on host side
-Message-ID: <YsOKnb7MWLCeJxBE@T590>
-References: <CAHj4cs9+F5F-v_2m=MYd8B=dXVgTBrtGikTTzfBU8_cX8fb0=g@mail.gmail.com>
- <CAHj4cs_RUuiOw4pzSD+fv70p6izVMZ8z7mc+E0Kv0Rh8zriWCQ@mail.gmail.com>
- <2c42c70a-8eb4-a095-1d2b-139614ebd903@grimberg.me>
+	id 1o8YGv-00E25f-Vt
+	for linux-nvme@lists.infradead.org; Tue, 05 Jul 2022 02:26:44 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1656988001; x=1688524001;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=VEo1U38lZifgVX/C/QfJsivX3yshQFhlwAOpNUkJGpE=;
+  b=At3xcjc8K7UHoZWymtorBXrrjoG5qncv341gCKj0WB/oLMARClMQFAAe
+   YM49Coz2xSzQhTRa3Z4b6lTiDisGG7ICwt6TtTI4/CH+jMVu9ZoZKlK4f
+   EvzcFXZXYG+BkhlFU/2cwjz6i9mDakLsZvr6w5Fq0YyTmd/WDMPe4Bnx5
+   zsooiNseSuxiWorkC5gfb1EleiFV8vL8sOtQ1VuWBQnRjjSygvMP3d2CK
+   XsxD50zeP7KFTcKqlSFY0bm3NW83KXnX6fFrJpLzEFnrXtWmEp3cAAH0g
+   +WzSQi4G7jARk5pkd6jQGMARxU+l3bIsi/hN5UD4z4LH9b3qzLqfkQ+YG
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.92,245,1650902400"; 
+   d="scan'208";a="205518665"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 05 Jul 2022 10:26:36 +0800
+IronPort-SDR: 1XDZQU065z6EB0pgZ+H3Lled1oXCSI/vZ5iTWKvIdbH48ElVNlcfd/KHkMNlGWFLtwTkCnO0Kd
+ n8q8EX3j1rQjG0npDkl8RaTTjLH4scu59OSbN7C16Y/3P66TJNgfp7S9/CeoQ6+f0g9arYx/U1
+ +P1ibpI+vjdqoNkPiEXq4FBs/G/8KUOR2xSN3xdB3CbmQER3Rcer7Z0NSNB6gi7pMf6Y2TwV5I
+ g6wSLb6SYf/MTbWrw3y+c10mzNQRDnh1A2obA1wi2RuNGKCrTuZgASyARypv1XQlspcqJdU4Ki
+ k6eUITlp9i2eohr0FYTot+mH
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 04 Jul 2022 18:48:27 -0700
+IronPort-SDR: RROrZ/BxbBzXypNe7i7AbUf7f9udNf7zKXKWuDynBoXjLkVjytoume2BK+Yu+ToNoUmDIJpJrW
+ 6ilwJfthEnBqc01i4o5Cjhq3xbRX3CV7u1TtPS/dRRhlbw1BAMsnGnmMNon62NTccEYWjPoQcw
+ Wmj33eP4W+3o0HOzANj8pUJA545PA6vjNuahwMumgQ+V+kxWBrsMLNy4Kop5p0IYI/qe+WetD7
+ SFQRTyvpiqtVpf6/VX34BdTyXpNG4eODRtwVB7NpxVTRZ3nV6m0SurPsC+BrNlVG66IofwyJH2
+ 6iM=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 04 Jul 2022 19:26:36 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LcRPl5B3gz1RwqM
+	for <linux-nvme@lists.infradead.org>; Mon,  4 Jul 2022 19:26:35 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+	reason="pass (just generated, assumed good)"
+	header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+	opensource.wdc.com; h=content-transfer-encoding:content-type
+	:in-reply-to:organization:from:references:to:content-language
+	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
+	1656987995; x=1659579996; bh=VEo1U38lZifgVX/C/QfJsivX3yshQFhlwAO
+	pNUkJGpE=; b=QPBNupleFdg5rjY4nn3+iZEtHgP/8ZnS/N3S0RmZFXPhE+gEyfw
+	XtsrovW3DugFQmBhSJYdjn1S/0XmA6JPAea8g3+fv6IvvpheiVktUnJa6cFAbWJl
+	ZWzoMv93zI4QSpBByd3GhMdaBlZVSDqqpmjr1oH8LT9lqpRXeLoS4g06AI6Uc1el
+	9tGHLjFwHii0kNI8suSz38UQ6m2wJtA5vKTjSAmSybgtFfKsbeO0uaTzr75IvmWK
+	tF2yt4WUjm3Fb52tgSb7ZeCItHXhqjS5JWC6i2M9CchBFd1tdTIBruOOdHk0Wnbx
+	1UFF50Zr3DU/AISjUvdI1DmgHnv79Yrg9vg==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id DvNHP5kNfyVH for <linux-nvme@lists.infradead.org>;
+	Mon,  4 Jul 2022 19:26:35 -0700 (PDT)
+Received: from [10.225.163.105] (unknown [10.225.163.105])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LcRPk0fwcz1RtVk;
+	Mon,  4 Jul 2022 19:26:33 -0700 (PDT)
+Message-ID: <cf7b3c89-b820-9b27-b3ed-b9b625e59482@opensource.wdc.com>
+Date: Tue, 5 Jul 2022 11:26:32 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2c42c70a-8eb4-a095-1d2b-139614ebd903@grimberg.me>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 01/17] block: remove a superflous ifdef in blkdev.h
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
+Cc: dm-devel@redhat.com, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org
+References: <20220704124500.155247-1-hch@lst.de>
+ <20220704124500.155247-2-hch@lst.de>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <20220704124500.155247-2-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220704_174951_055927_36367171 
-X-CRM114-Status: GOOD (  20.73  )
+X-CRM114-CacheID: sfid-20220704_192642_139027_D8C72311 
+X-CRM114-Status: GOOD (  24.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,49 +116,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jul 05, 2022 at 02:04:53AM +0300, Sagi Grimberg wrote:
+On 7/4/22 21:44, Christoph Hellwig wrote:
+> It doesn't hurt to lways have the blk_zone_cond_str prototype, and the
+
+s/lways/always
+
+> two inlines can also be defined unconditionally.
 > 
-> > update the subject to better describe the issue:
-> > 
-> > So I tried this issue on one nvme/rdma environment, and it was also
-> > reproducible, here are the steps:
-> > 
-> > # echo 0 >/sys/devices/system/cpu/cpu0/online
-> > # dmesg | tail -10
-> > [  781.577235] smpboot: CPU 0 is now offline
-> > # nvme connect -t rdma -a 172.31.45.202 -s 4420 -n testnqn
-> > Failed to write to /dev/nvme-fabrics: Invalid cross-device link
-> > no controller found: failed to write to nvme-fabrics device
-> > 
-> > # dmesg
-> > [  781.577235] smpboot: CPU 0 is now offline
-> > [  799.471627] nvme nvme0: creating 39 I/O queues.
-> > [  801.053782] nvme nvme0: mapped 39/0/0 default/read/poll queues.
-> > [  801.064149] nvme nvme0: Connect command failed, error wo/DNR bit: -16402
-> > [  801.073059] nvme nvme0: failed to connect queue: 1 ret=-18
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  include/linux/blkdev.h | 3 ---
+>  1 file changed, 3 deletions(-)
 > 
-> This is because of blk_mq_alloc_request_hctx() and was raised before.
-> 
-> IIRC there was reluctance to make it allocate a request for an hctx even
-> if its associated mapped cpu is offline.
-> 
-> The latest attempt was from Ming:
-> [PATCH V7 0/3] blk-mq: fix blk_mq_alloc_request_hctx
-> 
-> Don't know where that went tho...
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index b9a94c53c6cd3..270cd0c552924 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -899,8 +899,6 @@ static inline struct request_queue *bdev_get_queue(struct block_device *bdev)
+>  	return bdev->bd_queue;	/* this is never NULL */
+>  }
+>  
+> -#ifdef CONFIG_BLK_DEV_ZONED
+> -
+>  /* Helper to convert BLK_ZONE_ZONE_XXX to its string format XXX */
+>  const char *blk_zone_cond_str(enum blk_zone_cond zone_cond);
 
-The attempt relies on that the queue for connecting io queue uses
-non-admined irq, unfortunately that can't be true for all drivers,
-so that way can't go.
+This is defined in block/blk-zoned.c and so not compiled if
+CONFIG_BLK_DEV_ZONED is not defined. But I guess this should be fine since
+if there is a user of this function with !CONFIG_BLK_DEV_ZONED, a build
+should fail anyway.
 
-So far, I'd suggest to fix nvme_*_connect_io_queues() to ignore failed
-io queue, then the nvme host still can be setup with less io queues.
+>  
+> @@ -915,7 +913,6 @@ static inline unsigned int bio_zone_is_seq(struct bio *bio)
+>  	return blk_queue_zone_is_seq(bdev_get_queue(bio->bi_bdev),
+>  				     bio->bi_iter.bi_sector);
+>  }
+> -#endif /* CONFIG_BLK_DEV_ZONED */
+>  
+>  /*
+>   * Return how much of the chunk is left to be used for I/O at a given offset.
 
-Otherwise nvme_*_connect_io_queues() could fail easily, especially for
-1:1 mapping.
+Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 
-
-Thanks,
-Ming
-
+-- 
+Damien Le Moal
+Western Digital Research
 
