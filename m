@@ -4,71 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51872C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jul 2022 23:05:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E422AC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jul 2022 00:49:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3iPb1uwa1fPfHppzvLU9rHvh0oUB4hSiMAfifeyLX24=; b=KeiPKkub+SKBKKxgHD06vumM3W
-	yRJuMDCyCwC7rPvec+WfW3iWNUnbe2rEJFxnYxXANgvcWedYVrAUntiEGWd7FzgWzrJb5xf0d2RKS
-	5vxoKRIvH0qO5CnXptQkA+MtaRwrr56hcUKUF3y4bYWjw1yxKZnHnBwj4hnA+w6XikxlgM7xOQHvz
-	0ZewXX24B4nUB6/qdoixxo0nKkswtbN3G6c2xgL8EkR4XhUZ/Q1GrO3mkckxSJHAFh4gTxxk4ONx5
-	7kquGYG4UyZxdlkXIhCX1ZhUXub7xoNwrYy8wECY/gwQF69AqWgixSq2ZR7mWuqZtaHQV5blGFUQR
-	uGoOfBDw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=i1A0DNvpOU5CiU6rMLgfvUJNzaDDHxbYayOGIRyqRYo=; b=ouyS1JJoxtY6BRNoaAVsJt33mM
+	UHJJz+AAAV9hiPhycpCzDOQYNUWhoL8WkvJ+UGFk/dQ9zJBmEMud81ZwSeCVrkXX3MAsE0/xjVq+M
+	x3Nh51K5d0i1ScAK9nT/hTm7cGLL4YqT9V8JCNCoRsgj8AOicbizi2Mij7LpduoPUTPOWHPWrPB8F
+	46n2sMoY3kLzOHyWfuV8DEA93ptE0F3y2Iz7awLhr+EEY4K6wbbB4z1S16UmtQCea+xJLJh4+sbD0
+	ya5ta4wZEuJ/WIsS50pcNHAJz9SiE/wFej3qtb04lGcloETr8EnT16a2ke2Y56eMopKNNZ0i4VEk3
+	vLBUmcVQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o8V7l-00D1kh-7z; Mon, 04 Jul 2022 23:05:01 +0000
-Received: from mail-wr1-f44.google.com ([209.85.221.44])
+	id 1o8WlF-00DX29-Oj; Tue, 05 Jul 2022 00:49:53 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o8V7i-00D1iL-U7
-	for linux-nvme@lists.infradead.org; Mon, 04 Jul 2022 23:05:00 +0000
-Received: by mail-wr1-f44.google.com with SMTP id bk26so80134wrb.11
-        for <linux-nvme@lists.infradead.org>; Mon, 04 Jul 2022 16:04:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=3iPb1uwa1fPfHppzvLU9rHvh0oUB4hSiMAfifeyLX24=;
-        b=aM+VSmHyHUY24UDsE+4KNAVg6w/VMqtsdGbsN62zV2naNExK5c+36wnnotqsi6uFxi
-         PQW1KiehEToi7l/AL7LAoUeGiyEYfAxyLDjNKSofZs5RYsRGx5kHIM8AhAnrwLhO9uu+
-         k7RKFKBg3ibQBe369BN3sxUObYG71KJp8AALZwRifgO0WPz3tHMXWyJ3VdCLugSiHt8K
-         q2qScxgH8mBTzhSO0S/n0+zGpbbFxv/c54C8u5wSFOP4bmnRvVCMH3Vf2WZzqZnavVin
-         rJoYq9ji9CSZTLTtayJiqQTo+gNpNpd8v48pG0eWxNJlmWPNDNaBn3ACOKg5dxw21dqZ
-         LHgQ==
-X-Gm-Message-State: AJIora9Qye8Km2eq0bQEubeflHTC3LLiEJ77Q/1nd3GbbUhJ9MuwgxwQ
-	D9DVD0c/bnYxgoW99mraO7w=
-X-Google-Smtp-Source: AGRyM1vpSmj7Wkc4yoYCw/LOEo7TDl1/XOsTN1ySnSXCzObyaIfDpJxYLCBDixArytk+F9NvaSaC5w==
-X-Received: by 2002:adf:fb49:0:b0:21a:3ccc:fb77 with SMTP id c9-20020adffb49000000b0021a3cccfb77mr28242775wrs.280.1656975895818;
-        Mon, 04 Jul 2022 16:04:55 -0700 (PDT)
-Received: from [10.100.102.14] (46-117-125-14.bb.netvision.net.il. [46.117.125.14])
-        by smtp.gmail.com with ESMTPSA id b6-20020adff906000000b0021d6a23fdf3sm4104231wrr.15.2022.07.04.16.04.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Jul 2022 16:04:55 -0700 (PDT)
-Message-ID: <2c42c70a-8eb4-a095-1d2b-139614ebd903@grimberg.me>
-Date: Tue, 5 Jul 2022 02:04:53 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [bug report] nvme/rdma: nvme connect failed after offline one cpu
- on host side
-Content-Language: en-US
-To: Yi Zhang <yi.zhang@redhat.com>,
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
- linux-block <linux-block@vger.kernel.org>
-Cc: Bart Van Assche <bvanassche@acm.org>, Ming Lei <ming.lei@redhat.com>
+	id 1o8WlC-00DWwY-TG
+	for linux-nvme@lists.infradead.org; Tue, 05 Jul 2022 00:49:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1656982187;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=i1A0DNvpOU5CiU6rMLgfvUJNzaDDHxbYayOGIRyqRYo=;
+	b=a18yaqKzkzf6q4oVH9vGCY8pUCZmoDdIUkJ78A7IGeFy0aXSvmDqNvp7zRsmaHqtmXosfx
+	qPJePhl6L5FEQRrUHBR4AMM52rgpBMlRP9ylCze2LV4lyjPJnTX2h6ycJcNsdTR+lErvoH
+	ZcryNubhcCg0sPj5KE93FgLR95vAMlY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-558-A1KXb6U8MpGM_fvL501Qjw-1; Mon, 04 Jul 2022 20:49:43 -0400
+X-MC-Unique: A1KXb6U8MpGM_fvL501Qjw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D310185A79C;
+	Tue,  5 Jul 2022 00:49:43 +0000 (UTC)
+Received: from T590 (ovpn-8-22.pek2.redhat.com [10.72.8.22])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 93DB71415309;
+	Tue,  5 Jul 2022 00:49:39 +0000 (UTC)
+Date: Tue, 5 Jul 2022 08:49:33 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Yi Zhang <yi.zhang@redhat.com>,
+	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+	linux-block <linux-block@vger.kernel.org>,
+	Bart Van Assche <bvanassche@acm.org>
+Subject: Re: [bug report] nvme/rdma: nvme connect failed after offline one
+ cpu on host side
+Message-ID: <YsOKnb7MWLCeJxBE@T590>
 References: <CAHj4cs9+F5F-v_2m=MYd8B=dXVgTBrtGikTTzfBU8_cX8fb0=g@mail.gmail.com>
  <CAHj4cs_RUuiOw4pzSD+fv70p6izVMZ8z7mc+E0Kv0Rh8zriWCQ@mail.gmail.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <CAHj4cs_RUuiOw4pzSD+fv70p6izVMZ8z7mc+E0Kv0Rh8zriWCQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <2c42c70a-8eb4-a095-1d2b-139614ebd903@grimberg.me>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2c42c70a-8eb4-a095-1d2b-139614ebd903@grimberg.me>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220704_160459_016406_28337938 
-X-CRM114-Status: GOOD (  12.73  )
+X-CRM114-CacheID: sfid-20220704_174951_055927_36367171 
+X-CRM114-Status: GOOD (  20.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,33 +82,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-> update the subject to better describe the issue:
+On Tue, Jul 05, 2022 at 02:04:53AM +0300, Sagi Grimberg wrote:
 > 
-> So I tried this issue on one nvme/rdma environment, and it was also
-> reproducible, here are the steps:
+> > update the subject to better describe the issue:
+> > 
+> > So I tried this issue on one nvme/rdma environment, and it was also
+> > reproducible, here are the steps:
+> > 
+> > # echo 0 >/sys/devices/system/cpu/cpu0/online
+> > # dmesg | tail -10
+> > [  781.577235] smpboot: CPU 0 is now offline
+> > # nvme connect -t rdma -a 172.31.45.202 -s 4420 -n testnqn
+> > Failed to write to /dev/nvme-fabrics: Invalid cross-device link
+> > no controller found: failed to write to nvme-fabrics device
+> > 
+> > # dmesg
+> > [  781.577235] smpboot: CPU 0 is now offline
+> > [  799.471627] nvme nvme0: creating 39 I/O queues.
+> > [  801.053782] nvme nvme0: mapped 39/0/0 default/read/poll queues.
+> > [  801.064149] nvme nvme0: Connect command failed, error wo/DNR bit: -16402
+> > [  801.073059] nvme nvme0: failed to connect queue: 1 ret=-18
 > 
-> # echo 0 >/sys/devices/system/cpu/cpu0/online
-> # dmesg | tail -10
-> [  781.577235] smpboot: CPU 0 is now offline
-> # nvme connect -t rdma -a 172.31.45.202 -s 4420 -n testnqn
-> Failed to write to /dev/nvme-fabrics: Invalid cross-device link
-> no controller found: failed to write to nvme-fabrics device
+> This is because of blk_mq_alloc_request_hctx() and was raised before.
 > 
-> # dmesg
-> [  781.577235] smpboot: CPU 0 is now offline
-> [  799.471627] nvme nvme0: creating 39 I/O queues.
-> [  801.053782] nvme nvme0: mapped 39/0/0 default/read/poll queues.
-> [  801.064149] nvme nvme0: Connect command failed, error wo/DNR bit: -16402
-> [  801.073059] nvme nvme0: failed to connect queue: 1 ret=-18
+> IIRC there was reluctance to make it allocate a request for an hctx even
+> if its associated mapped cpu is offline.
+> 
+> The latest attempt was from Ming:
+> [PATCH V7 0/3] blk-mq: fix blk_mq_alloc_request_hctx
+> 
+> Don't know where that went tho...
 
-This is because of blk_mq_alloc_request_hctx() and was raised before.
+The attempt relies on that the queue for connecting io queue uses
+non-admined irq, unfortunately that can't be true for all drivers,
+so that way can't go.
 
-IIRC there was reluctance to make it allocate a request for an hctx even
-if its associated mapped cpu is offline.
+So far, I'd suggest to fix nvme_*_connect_io_queues() to ignore failed
+io queue, then the nvme host still can be setup with less io queues.
 
-The latest attempt was from Ming:
-[PATCH V7 0/3] blk-mq: fix blk_mq_alloc_request_hctx
+Otherwise nvme_*_connect_io_queues() could fail easily, especially for
+1:1 mapping.
 
-Don't know where that went tho...
+
+Thanks,
+Ming
+
 
