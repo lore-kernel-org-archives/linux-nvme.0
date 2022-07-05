@@ -4,66 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D83DC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jul 2022 17:22:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 584ACC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jul 2022 17:32:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=NdMRQ2rIiAM3qaQcX7l2HneV50gkEOQ321ZBQPWUF1E=; b=3spCug6fJme/nodnrRhySLjXES
-	gK7yYc2X/zSjWyx8HtUoJq1oPwo/icJWuP+wCYa2H44qrzukC6McKtO6CL6+3LtvvS1EUSwBmX/Id
-	NrSgy7cl7j4Bq6WanfjjdkId2Jo/6wKLhGUCLRmUV64iZaGkcGAxZJUb8I8qyIPTfHu72RWeNs9p4
-	yRHOv83qAC6i+VVvDv+lvvVpGUelqI/1N5sHFRWNzYoKfgoWupiuR2vx3r7nrzDnBu0lJHG9fw9gP
-	MiUJAIvU62d+8MF5EipkLHpxtyjWuPQPEjTRySOVKBnaYNwDbSxyM1OHwFst/+1X4jRieoI0DGa1d
-	LHKMnsuQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=uw6gGeGeVAosjqurSltbkcsr3JSl4V4C90uMFqh7wdw=; b=OZVgV5v/tMjzfa
+	fZxPzWEPXUAr2RxCm+JQD2qYBvNttBp8i494vjkdOeagiMN8sdbwXx/8MNpUXUIR4n/WvUZudBKNG
+	csx2eEXXHM28WP4/JeShWBbcsoaBqwwPk4yjdEfBGqvJ2iSPkm8Ry+NSQw1pEYhseBLnNJzOdgkgp
+	3wjGyF8u0To8yWLsAXF9jE6jawGX6ayhPR3EVZ7+QxMcj45NX0GDEZdPpfNG+VxE5sEiJBw9mARgw
+	yN/Md2YYZBBVK5+CHRArPLoKMLC+PzxNtdBdq+GSX9qw5/DxySvmOo9qubpI5l7zyzZRXkIN/1sci
+	M0F3grG/6M4vQbW2KbFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o8mFx-001psO-5X; Tue, 05 Jul 2022 17:22:37 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
+	id 1o8mPY-001tpM-WC; Tue, 05 Jul 2022 17:32:33 +0000
+Received: from ale.deltatee.com ([204.191.154.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o8mFu-001pnq-2N
-	for linux-nvme@lists.infradead.org; Tue, 05 Jul 2022 17:22:35 +0000
-Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
-	by m0001303.ppops.net (8.17.1.5/8.17.1.5) with ESMTP id 265H9cip008288
-	for <linux-nvme@lists.infradead.org>; Tue, 5 Jul 2022 10:22:29 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=facebook; bh=NdMRQ2rIiAM3qaQcX7l2HneV50gkEOQ321ZBQPWUF1E=;
- b=cCh1nyjrIFtjdmMPyJPsSBzirX+4E459eY7BVf7X6Sb9Jcnqm/LcXbTohAbWlLTzolz6
- oa8fqqMpogsnxtxHiSweFPb/2AMddrVKlHFg5T3yQXibNRT+xAo8Oc8tAV8wfbZnJ3+g
- YVOAbFDqUH5rpceGoV9b5wPXWWxY1Pf5umQ= 
-Received: from mail.thefacebook.com ([163.114.132.120])
-	by m0001303.ppops.net (PPS) with ESMTPS id 3h2hpvsaxy-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 05 Jul 2022 10:22:29 -0700
-Received: from twshared25107.07.ash9.facebook.com (2620:10d:c085:108::8) by
- mail.thefacebook.com (2620:10d:c085:11d::5) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Tue, 5 Jul 2022 10:22:28 -0700
-Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id AC8CD5C2BEA2; Tue,  5 Jul 2022 10:22:25 -0700 (PDT)
-From: Keith Busch <kbusch@fb.com>
-To: <linux-nvme@lists.infradead.org>, <hch@lst.de>
-CC: Keith Busch <kbusch@kernel.org>, Chris Egolf <cegolf@ugholf.net>
-Subject: [PATCH] nvme-pci: phison e16 has bogus namespace ids
-Date: Tue, 5 Jul 2022 10:21:02 -0700
-Message-ID: <20220705172102.3522189-1-kbusch@fb.com>
-X-Mailer: git-send-email 2.30.2
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: J8IHez6Oul5MXEONQf9kFOsBZte7c8sw
-X-Proofpoint-ORIG-GUID: J8IHez6Oul5MXEONQf9kFOsBZte7c8sw
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	id 1o8mPW-001tns-08
+	for linux-nvme@lists.infradead.org; Tue, 05 Jul 2022 17:32:31 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:content-disposition;
+	bh=uw6gGeGeVAosjqurSltbkcsr3JSl4V4C90uMFqh7wdw=; b=q0CuZBkFqjIKH3ps9CaMMTOQEI
+	AFNBedKVu35Vl4VPdplPnwqDUonHv29pmmMXiYOLj70GrX4iOmi3UXGiDff/GrP/Jb2a9QSqSrbgj
+	bgm6bBW0bkaIxcnhNc05TklxboL8CrZNcceGFN221zzztTfy3Lw1LCUm51Eyd9n7s5pJSQaRV9qAY
+	F7GTINtcABmprfbWzFkUmDJmRES5weK1ozWd1yJ5ge7F+pmEj4FqLSILhjgO8SZRh1c21eAqLy11s
+	TBYbDHVnG7okSa3WCKZUKMagr1svRYzqSdjS5IuMpapCL/+NesKI5miI0vUl7Q8AE297h6dsLOS+r
+	3LTy9KaQ==;
+Received: from guinness.priv.deltatee.com ([172.16.1.162])
+	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.94.2)
+	(envelope-from <logang@deltatee.com>)
+	id 1o8mPS-007Tma-Ab; Tue, 05 Jul 2022 11:32:27 -0600
+Message-ID: <1bd43ef7-0403-bd25-087c-d54d5af677e4@deltatee.com>
+Date: Tue, 5 Jul 2022 11:32:23 -0600
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-05_14,2022-06-28_01,2022-06-22_01
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-CA
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Christoph Hellwig <hch@lst.de>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org, Stephen Bates <sbates@raithlin.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
+ Matthew Wilcox <willy@infradead.org>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>, Minturn Dave B <dave.b.minturn@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>,
+ Martin Oliveira <martin.oliveira@eideticom.com>,
+ Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+ Ralph Campbell <rcampbell@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>
+References: <20220629064854.GD17576@lst.de>
+ <99242789-66a6-bbd2-b56a-e47891f4522e@deltatee.com>
+ <20220629175906.GU23621@ziepe.ca> <20220705075108.GB17451@lst.de>
+ <20220705135102.GE23621@ziepe.ca> <20220705161240.GB13721@lst.de>
+ <a509b13c-244b-23fc-f989-339750a733a5@deltatee.com>
+ <20220705164315.GB14484@lst.de>
+ <acb91f37-0470-8ce4-19e4-426903cbc3a1@deltatee.com>
+ <20220705165039.GB14566@lst.de> <YsRzNqmZYlgkL7fI@kroah.com>
+From: Logan Gunthorpe <logang@deltatee.com>
+In-Reply-To: <YsRzNqmZYlgkL7fI@kroah.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 172.16.1.162
+X-SA-Exim-Rcpt-To: gregkh@linuxfoundation.org, hch@lst.de, jgg@ziepe.ca, linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org, sbates@raithlin.com, dan.j.williams@intel.com, christian.koenig@amd.com, jhubbard@nvidia.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, dave.b.minturn@intel.com, jason@jlekstrand.net, dave.hansen@linux.intel.com, jianxin.xiong@intel.com, helgaas@kernel.org, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, rcampbell@nvidia.com, bhelgaas@google.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [PATCH v7 20/21] PCI/P2PDMA: Introduce pci_mmap_p2pmem()
+X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220705_102234_250514_2D94B981 
-X-CRM114-Status: GOOD (  15.01  )
+X-CRM114-CacheID: sfid-20220705_103230_088364_EF518A5E 
+X-CRM114-Status: GOOD (  20.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,33 +98,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
 
-Add the quirk.
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D216049
-Reported-by: Chris Egolf <cegolf@ugholf.net>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/pci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On 2022-07-05 11:21, Greg Kroah-Hartman wrote:
+> On Tue, Jul 05, 2022 at 06:50:39PM +0200, Christoph Hellwig wrote:
+>> [note for the newcomers, this is about allowing mmap()ing the PCIe
+>> P2P memory from the generic PCI P2P code through sysfs, and more
+>> importantly how to revoke it on device removal]
+> 
+> We allow mmap on PCIe config space today, right?  Why is this different
+> from what pci_create_legacy_files() does today?
+> 
+>> On Tue, Jul 05, 2022 at 10:44:49AM -0600, Logan Gunthorpe wrote:
+>>> We might be able to. I'm not sure. I'll have to figure out how to find
+>>> that inode from the p2pdma code. I haven't found an obvious interface to
+>>> do that.
+>>
+>> I think the right way to approach this would be a new sysfs API
+>> that internally calls unmap_mapping_range internally instead of
+>> exposing the inode. I suspect that might actually be the right thing
+>> to do for iomem_inode as well.
+> 
+> Why do we need something new and how is this any different from the PCI
+> binary files I mention above?  We have supported PCI hotplug for a very
+> long time, do the current PCI binary sysfs files not work properly with
+> mmap and removing a device?
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index e7af2234e53b..193b44755662 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3465,7 +3465,8 @@ static const struct pci_device_id nvme_id_table[] =3D=
- {
- 	{ PCI_DEVICE(0x1987, 0x5012),	/* Phison E12 */
- 		.driver_data =3D NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x1987, 0x5016),	/* Phison E16 */
--		.driver_data =3D NVME_QUIRK_IGNORE_DEV_SUBNQN, },
-+		.driver_data =3D NVME_QUIRK_IGNORE_DEV_SUBNQN |
-+				NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x1b4b, 0x1092),	/* Lexar 256 GB SSD */
- 		.driver_data =3D NVME_QUIRK_NO_NS_DESC_LIST |
- 				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
---=20
-2.30.2
+The P2PDMA code allocates and hands out struct pages to userspace that
+are backed with ZONE_DEVICE memory from a device's BAR. This is quite
+different from the existing binary files mentioned above which neither
+support struct pages nor allocation.
 
+Logan
 
