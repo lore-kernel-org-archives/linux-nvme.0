@@ -4,30 +4,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C121C43334
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jul 2022 08:38:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88315C43334
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jul 2022 08:38:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JWB31PmJw69iMcUSkAYBcf6hwHi0oaY3ywspIB5IkiY=; b=r6Bd87Jxvt9UrUqAnsOIb9TvRV
-	S6dQj31qfQ/KckA5NO1GPLeOUVpyH3ehKnEVdCfA3nGI2X1hg8iUCZ48XjwvJrq8ZR+rlT5hRbq9r
-	PeNgDfBKel4C9ATPh6PPOY8ILtWH4kEezLfB7aORCkMSXxNtI1ESGGaRlhLFr9eiV071n2SYdQIsk
-	mi+W/IKx70H4S6nYXu6SRz+IcWDECK16HBeUj+wW0yPVgGmR3hQm8B1UkK8rJzRxDItgJZWSz9g3E
-	3qI/rPMIlWJ0Zahm+UPFXXGJDRvNQYFg9Yk9WM6cxN2Ylu7EjI5FKBKUJEVvYKIks5v9qrgvGU7ao
-	CxZYL2Iw==;
+	bh=LynicjJbX8kxEsTuM3n41XIQVL1TZ/xn1yu/W9ObKlQ=; b=XUSqAa81zzeYVDpYlVaj3vhMT2
+	dsoD09HLaYo3Gc1hTTolR62jqkPwszJTu73dlUzAJ3rIOE4Xy4KAkpKQuMRRWIBV0O6VP0e31YimM
+	nIH+2LGWILB+h9npxDPJY9Rk8/5YnqeQHvyx7aWf5yBb583dysLULFETBfgYDhxRIP2Jl6wZlhvED
+	huB6IW4B9ndQ/BNn9UPTvu2pj8q9rdP0Jsx6+ZYMqjiBVYTpeXGQ/CZElMjDH9subFff/6FlpsEu/
+	4Q9wyh1igTaUYAT3CwowxbqfdWvfiGmtlX0HOJsuWBFdTqnB075W+yAEd4CIRss3Hmm/ekDhkioX3
+	7o0Yf62A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o8e4z-00GGVR-PD; Tue, 05 Jul 2022 08:38:45 +0000
+	id 1o8e53-00GGXC-Ti; Tue, 05 Jul 2022 08:38:49 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o8e2I-00GFEx-Ec
-	for linux-nvme@lists.infradead.org; Tue, 05 Jul 2022 08:35:59 +0000
+	id 1o8e39-00GFkf-PR
+	for linux-nvme@lists.infradead.org; Tue, 05 Jul 2022 08:36:53 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 8F68468AA6; Tue,  5 Jul 2022 10:35:55 +0200 (CEST)
-Date: Tue, 5 Jul 2022 10:35:55 +0200
+	id CBA7068AA6; Tue,  5 Jul 2022 10:36:48 +0200 (CEST)
+Date: Tue, 5 Jul 2022 10:36:48 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Chaitanya Kulkarni <kch@nvidia.com>
 Cc: linux-block@vger.kernel.org, linux-raid@vger.kernel.org,
@@ -42,17 +42,17 @@ Cc: linux-block@vger.kernel.org, linux-raid@vger.kernel.org,
 	adilger.kernel@dilger.ca, jlayton@kernel.org, idryomov@gmail.com,
 	danil.kipnis@cloud.ionos.com, ebiggers@google.com,
 	jinpu.wang@cloud.ionos.com
-Subject: Re: [PATCH 4/6] nvmet: add Verify emulation support for bdev-ns
-Message-ID: <20220705083555.GC19123@lst.de>
-References: <20220630091406.19624-1-kch@nvidia.com> <20220630091406.19624-5-kch@nvidia.com>
+Subject: Re: [PATCH 5/6] nvmet: add verify emulation support for file-ns
+Message-ID: <20220705083648.GD19123@lst.de>
+References: <20220630091406.19624-1-kch@nvidia.com> <20220630091406.19624-6-kch@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220630091406.19624-5-kch@nvidia.com>
+In-Reply-To: <20220630091406.19624-6-kch@nvidia.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220705_013558_661522_CEB3AAD0 
-X-CRM114-Status: GOOD (  13.82  )
+X-CRM114-CacheID: sfid-20220705_013652_016339_907D5B25 
+X-CRM114-Status: GOOD (  12.51  )
 X-Mailman-Approved-At: Tue, 05 Jul 2022 01:38:36 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -68,15 +68,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jun 30, 2022 at 02:14:04AM -0700, Chaitanya Kulkarni wrote:
-> Not all devices can support verify requests which can be mapped to
-> the controller specific command. This patch adds a way to emulate
-> REQ_OP_VERIFY for NVMeOF block device namespace. We add a new
-> workqueue to offload the emulation.
+On Thu, Jun 30, 2022 at 02:14:05AM -0700, Chaitanya Kulkarni wrote:
+> For now, there is no way to map verify operation to the VFS layer API.
+> This patch emulates verify operation by offloading it to the workqueue
+> and reading the data using vfs layer APIs for both buffered io and
+> direct io mode.
 
-How is this an "emulation"?
-
-Also why do we need the workqueue offloads?  I can't see any good
-reason to not just simply submit the bio asynchronously like all the
-other bios submitted by the block device backend.
+What does this buy us?  I'm generally not too happy about adding
+actualy logic to nvmet, it is supposed to mostly just pass through
+operations support by block device or files.
 
