@@ -4,62 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20597C43334
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jul 2022 02:51:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78BDEC43334
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jul 2022 02:54:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qFGbT1o6vMBZQ9GkSLIDGgD6upeS0Et4VWrqvla2XmE=; b=Yz0pLgAynvpWS8WLb7Q+PcPwHz
-	S22JYt0iy9JliltYZUpFXYZ1xJJUhZRPyzyZ15kPUMUyVlXVS/lMsfVais/r0gL3qztiQeCZUCE8H
-	7Qp0m1Jgr0ewu+m1TkXYO2qvuW4ZGrvJ/3kMVTvWx5smgnrOL0pJe2YYdUfsC8b+EnLSns3FibSlF
-	F1irk3ILx/TuwFsDKY6IhuiUnZRTA7obiVAyT5Bop0qe9kNRCS47AA1wWSmJBzS1u/naYL9NOefjj
-	VEf87la/o92EAh1h+kn4a6Q9ZCbMqPZJ8d5wJffTWhahdCi5yer9xIoRyZNuiMwVi+SM6EITOJm5I
-	XMYjYfnw==;
+	bh=e/3BmA63T6OSHZk6je+o/TESUR5IwncipetXYutIfio=; b=zmhjoABzFEs6NPD57qVtEKm0Rc
+	IjL+VfIrqZN+D32QkXeemN6nhydRXXrgkawbiFBGnuthFHEdyy0Zq/A7QilrwAUrdXfeJznf0G12Q
+	3PmfZIa1LHC74pvOg7YLp4xG9yGK8uChnGVIKNCIHvbKVNJadBdngsqUMQn7DJkT2j9CAx7Dgz4HI
+	7eTBdvuo7XEu7AK4Z7e7NWSd9+Pywzzk6a4IEFrAJlWbgusbF6XldryI0ypsGrgmxEMK14dFOCf7n
+	yB3SazvU8bMYX4+4DTm4k9gjrLI0ueNuNGACmTHwBAXSaKG8krCqfECeAeDaDJJU29bjx0jKJydRT
+	6pKN7K0Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o8YeP-00E8mJ-Bq; Tue, 05 Jul 2022 02:50:57 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1o8YhM-00E9en-Gg; Tue, 05 Jul 2022 02:54:00 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o8YeL-00E8kI-Gk
-	for linux-nvme@lists.infradead.org; Tue, 05 Jul 2022 02:50:55 +0000
+	id 1o8YhJ-00E9e1-CR
+	for linux-nvme@lists.infradead.org; Tue, 05 Jul 2022 02:53:59 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1656989453; x=1688525453;
+  t=1656989637; x=1688525637;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=YV32qaUBwpXJwemzo0Wv/JfDuW5/GwMliI6E3LKQ3DY=;
-  b=pXFv/O2b8l7EJH9TzXsm4MF6z+YnfCz6joY7Vzi7XwH4/uMgg/apFEQu
-   cJnU/IgZhcGq58k2DyXEqMWtd6egqp7pyPiYjFwMBKmWgTIdVcMKQm9H7
-   ntGM+Il4Fn8RctEB+C0lk2x7hRefXw5AHlLb8AodQ0TI0F+yFnE3qFkiS
-   1vmcqpXxglmzlAWmj5o4dBlUyAyWqJfypGKiBb6AUBXBT9/pO4XFUZvWu
-   GcUe4vyzFlRsIvhi5d8B6eNL5E+s3cWsgbQh+ivYIGZa5TVJm1HlvkXf8
-   WdK7JROhUXWx0YS9OzqRDLIO9yh5fO302lwwdQ8WyMgPGYhAwsIcJf/pu
+  bh=OW/qtsP/DKcWczrLsPxVu/rCogElMQd2wxJH19rxOR0=;
+  b=BYpUanOqwEgKit2fuRX55oXT/jozLvkmTJ+x02/8m+GExuiqMHXZlL83
+   2JpQE02ksMkeqfBXQsHKG86JdOj13akRC4Q37ykzV4bHI6KLF+h1zfxGq
+   l7MbyocUENGEJnir9Eux8M5go0IpyDG/Q9Ma302YFA49Js0F/aui6AZvq
+   axP5J1SmRU2ir726i6mbGdP0x3CHVttg1IEj/bAoHZNj1DIBewZNU/Roc
+   yqPlyPBexssnb6uSzokX3T7zn6jMTfkLe0Muht43CN77QCzNUEfsqE1Rg
+   nTdkW72KYuwKEuP5yxQ0MNsDLIDNZC7PIgMk3rcXP1fhicj6qjaKr6xPH
    Q==;
 X-IronPort-AV: E=Sophos;i="5.92,245,1650902400"; 
-   d="scan'208";a="309130555"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 05 Jul 2022 10:50:51 +0800
-IronPort-SDR: P0APW4ckF56pplTZc+TS9Fb9uiz2WWarhN0JwfFVm+0xruuDAvKyTxOGGZYbSHL27KKGpt9Wnz
- pEBoAaSywpj2tSGm+UKAUfU1EcW74+AGlFUxz65Hk2NYMN0GSKBBAk4ob9h/yTS8y97abEGAnV
- y72c7x22YNdV0qb8EmyS2fofjrZcjaRshB32FupPEL7jsdB4oIDonjwgJ0XJl1K8ngv1+768da
- KvQFheH/X3WjJBRpwy972ZqH8vRadeMAg9W6P38Yb8v5Bs/A3OMFFY5l3Q+S7e5bCsfPuWE7vb
- 8mk5JTDCIPRRXt9Kp/kOGX2R
+   d="scan'208";a="316926882"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 05 Jul 2022 10:53:56 +0800
+IronPort-SDR: CLww4irRnijX1zbMYmrJt9Yt22zRiow3Mn+OflM0gKv1a9tkOVjpIUVGu7bJDFRbRvyVbxMWbj
+ osbEGJjZyRQrfIDubH9JAByx2yhZc8UfrNpLvalIKwoayck+F3gXGq5bubbp3+2/NmUxiUbatB
+ BSP9BvoY89L6Mfk02i4IWY1Bkp8TDNhjZqcuoXdMrohbjJ/kirpoAXHXmBTrY2olSIfMHOIUPX
+ I/x7tBZgF7dak3j1ocCgXnibN5xkAItRvljlM/ppGhirJQfk0dyPnDllIk4Ev3EeoifVAGl1wR
+ 0pAZoGfaWZs4lRTmfptdjIk4
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 04 Jul 2022 19:12:43 -0700
-IronPort-SDR: SQcvbtW0Ee6z0vE3lQ+Ugpc/Fykwc2Qllql+HjxsArnd0CFcIb6KCmXy7az0yzoVrxUqNNBQrH
- LveMhKnvPVVnjQHRq918+outdin9iiYBNywDqsUaHE1OfpTc7qcDvf32wa5XKVqP9wrEmzAwgX
- Q/xe8w0OQDEYAchbCJ+frQ50Pb++3AljjUOnpfROyR/AxxwJ4Yfro0rhFQZyyslQAoll3qGfEP
- qZfZMGA8zRWybNxsIMVd7ioWq/G6WaWsUykdBuSUkSPJzOhvRs1cKK/p42JfeZcENCgiJWeBjl
- UvY=
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 04 Jul 2022 19:11:15 -0700
+IronPort-SDR: CjLrZHXtuk9xg6jtBdcExDaE9mJCHwPpjTE2gXE/3r3dLQAukkOjAM3+2Ia6xormkh6K8pCOer
+ xkkmnDImr8uvnojq+6sUUPU6X2WJ97LnxrsI4xgJ1rF1InUpGQAYUwn/iZtcNwAz/7hjqdwyZt
+ uqYSIUhWUwyDctGUFUc23Rq/chnRSJpdb20tRm+rW14Pxg24mlTylYswJE+Zb8+b7C54M93hFt
+ tR8KOsdoQpqJ5SKYF3CKPjvxDvKqx25SW9P1hKysR60O/dX0VXtyC1YZbj/5iOKjFc2qLrbVdS
+ xwo=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
-  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 04 Jul 2022 19:50:52 -0700
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 04 Jul 2022 19:53:57 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
-	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LcRxl33srz1Rwnm
-	for <linux-nvme@lists.infradead.org>; Mon,  4 Jul 2022 19:50:51 -0700 (PDT)
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LcS1J2n45z1Rw4L
+	for <linux-nvme@lists.infradead.org>; Mon,  4 Jul 2022 19:53:56 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
 	reason="pass (just generated, assumed good)"
 	header.d=opensource.wdc.com
@@ -67,42 +67,41 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
 	opensource.wdc.com; h=content-transfer-encoding:content-type
 	:in-reply-to:organization:from:references:to:content-language
 	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
-	1656989450; x=1659581451; bh=YV32qaUBwpXJwemzo0Wv/JfDuW5/GwMliI6
-	E3LKQ3DY=; b=gNHpX7V4k18wTnKi4ifgMxVtLCAAFg7dSmeEvbQ22F4SWh7RPPS
-	2Ujyd42pgkyq9cVXXHjZI9apxvurCff/o1eQyq+FtNfjib1TDTXDM6OL33wSMH/q
-	OYfWMI7ThPQmoVPlT9N/o+KebdU6q8LHdEHWNQ8b0GBLS9J+Cwun0/38oLZvcr73
-	xsaNUUWhghYAYoqPbpmVO+YMcwnVD8RlCgqB1RnQY8vs7gKrxRAGSHsO8U8lARt1
-	nm14YV2vf64HAI4j4RwJ/8gkf2K2+4EJXAMcSskJnoL+HAfS+WgzGljGzU+/qWl5
-	PCaljFNegRAx4wcb/96bfnJm9146YAIOUsg==
+	1656989635; x=1659581636; bh=OW/qtsP/DKcWczrLsPxVu/rCogElMQd2wxJ
+	H19rxOR0=; b=bAcQ6cT0fqMHf14S+fDWJVZ4BCgbAmgUmGHqGc4ltbtnXbTQjfn
+	PeSVhZ6VUJ8WWJ4N/3yyo9rCVBKVUdb7D//kuEwZb5ZWVjgpNtnUHQMyw1pjukEV
+	rgpnr22GNC39A8uv4ftUOl+CWks0r8+sN9SUd8izEMkOFzJdQZG02ORh5gnwiKaC
+	AzOYjjlY72lcmzD0SEGtjBIhtevijY9h6TlGz3Vnpa5JkPNXFFIndDMvklzqq9hW
+	LV+xyY1OLk3eZLJCKw61y8EbDkHqcWujWw8xg78hKMst5ZhPi10jSHYD6X0uv7ic
+	Jjsy797Zo7yxDRDOoN8oRMgT3IJBLN1Va2g==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
 	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id BfFTJCw3WgL0 for <linux-nvme@lists.infradead.org>;
-	Mon,  4 Jul 2022 19:50:50 -0700 (PDT)
+	with ESMTP id mZcRZkR_nuV2 for <linux-nvme@lists.infradead.org>;
+	Mon,  4 Jul 2022 19:53:55 -0700 (PDT)
 Received: from [10.225.163.105] (unknown [10.225.163.105])
-	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LcRxj3h60z1RtVk;
-	Mon,  4 Jul 2022 19:50:49 -0700 (PDT)
-Message-ID: <1c7795a3-4a18-6741-a86b-64f1eee42dbd@opensource.wdc.com>
-Date: Tue, 5 Jul 2022 11:50:48 +0900
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LcS1G2BYxz1RtVk;
+	Mon,  4 Jul 2022 19:53:54 -0700 (PDT)
+Message-ID: <0388d3ac-2339-7c27-aac6-3cf192a9bf08@opensource.wdc.com>
+Date: Tue, 5 Jul 2022 11:53:53 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 12/17] block: pass a gendisk to blk_queue_max_open_zones
- and blk_queue_max_active_zones
+Subject: Re: [PATCH 13/17] block: replace blkdev_nr_zones with bdev_nr_zones
 Content-Language: en-US
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 Cc: dm-devel@redhat.com, linux-block@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org
 References: <20220704124500.155247-1-hch@lst.de>
- <20220704124500.155247-13-hch@lst.de>
+ <20220704124500.155247-14-hch@lst.de>
 From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 Organization: Western Digital Research
-In-Reply-To: <20220704124500.155247-13-hch@lst.de>
+In-Reply-To: <20220704124500.155247-14-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220704_195053_755741_36018E57 
-X-CRM114-Status: GOOD (  20.54  )
+X-CRM114-CacheID: sfid-20220704_195357_490640_D3134287 
+X-CRM114-Status: GOOD (  30.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,93 +117,231 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 7/4/22 21:44, Christoph Hellwig wrote:
-> Switch to a gendisk based API in preparation for moving all zone related
-> fields from the request_queue to the gendisk.
+> Pass a block_device instead of a request_queue a that is what most
+
+s/a that/as that
+
+> callers have at hand.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
-
-Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-
 > ---
->  drivers/block/null_blk/zoned.c | 4 ++--
->  drivers/nvme/host/zns.c        | 4 ++--
->  drivers/scsi/sd_zbc.c          | 6 +++---
->  include/linux/blkdev.h         | 8 ++++----
->  4 files changed, 11 insertions(+), 11 deletions(-)
+>  block/blk-zoned.c              | 15 ++++++++-------
+>  block/ioctl.c                  |  2 +-
+>  drivers/block/null_blk/zoned.c |  2 +-
+>  drivers/md/dm-zone.c           |  2 +-
+>  drivers/md/dm-zoned-target.c   |  5 ++---
+>  drivers/nvme/target/zns.c      |  4 ++--
+>  fs/zonefs/super.c              | 17 ++++++++---------
+>  include/linux/blkdev.h         |  4 ++--
+>  8 files changed, 25 insertions(+), 26 deletions(-)
 > 
+> diff --git a/block/blk-zoned.c b/block/blk-zoned.c
+> index 9085f9fb3ab42..836b96ebfdc04 100644
+> --- a/block/blk-zoned.c
+> +++ b/block/blk-zoned.c
+> @@ -108,21 +108,22 @@ void __blk_req_zone_write_unlock(struct request *rq)
+>  EXPORT_SYMBOL_GPL(__blk_req_zone_write_unlock);
+>  
+>  /**
+> - * blkdev_nr_zones - Get number of zones
+> - * @disk:	Target gendisk
+> + * bdev_nr_zones - Get number of zones
+> + * @bdev:	Target device
+>   *
+>   * Return the total number of zones of a zoned block device.  For a block
+>   * device without zone capabilities, the number of zones is always 0.
+>   */
+> -unsigned int blkdev_nr_zones(struct gendisk *disk)
+> +unsigned int bdev_nr_zones(struct block_device *bdev)
+>  {
+> -	sector_t zone_sectors = blk_queue_zone_sectors(disk->queue);
+> +	sector_t zone_sectors = bdev_zone_sectors(bdev);
+>  
+> -	if (!blk_queue_is_zoned(disk->queue))
+> +	if (!blk_queue_is_zoned(bdev_get_queue(bdev)))
+
+bdev_is_zoned() ?
+
+>  		return 0;
+> -	return (get_capacity(disk) + zone_sectors - 1) >> ilog2(zone_sectors);
+> +	return (bdev_nr_sectors(bdev) + zone_sectors - 1) >>
+> +		ilog2(zone_sectors);
+>  }
+> -EXPORT_SYMBOL_GPL(blkdev_nr_zones);
+> +EXPORT_SYMBOL_GPL(bdev_nr_zones);
+>  
+>  /**
+>   * blkdev_report_zones - Get zones information
+> diff --git a/block/ioctl.c b/block/ioctl.c
+> index 46949f1b0dba5..60121e89052bc 100644
+> --- a/block/ioctl.c
+> +++ b/block/ioctl.c
+> @@ -495,7 +495,7 @@ static int blkdev_common_ioctl(struct block_device *bdev, fmode_t mode,
+>  	case BLKGETZONESZ:
+>  		return put_uint(argp, bdev_zone_sectors(bdev));
+>  	case BLKGETNRZONES:
+> -		return put_uint(argp, blkdev_nr_zones(bdev->bd_disk));
+> +		return put_uint(argp, bdev_nr_zones(bdev));
+>  	case BLKROGET:
+>  		return put_int(argp, bdev_read_only(bdev) != 0);
+>  	case BLKSSZGET: /* get block device logical block size */
 > diff --git a/drivers/block/null_blk/zoned.c b/drivers/block/null_blk/zoned.c
-> index b47bbd114058d..576ab3ed082a5 100644
+> index 576ab3ed082a5..e62c52e964259 100644
 > --- a/drivers/block/null_blk/zoned.c
 > +++ b/drivers/block/null_blk/zoned.c
-> @@ -174,8 +174,8 @@ int null_register_zoned_dev(struct nullb *nullb)
+> @@ -170,7 +170,7 @@ int null_register_zoned_dev(struct nullb *nullb)
+>  			return ret;
+>  	} else {
+>  		blk_queue_chunk_sectors(q, dev->zone_size_sects);
+> -		q->nr_zones = blkdev_nr_zones(nullb->disk);
+> +		q->nr_zones = bdev_nr_zones(nullb->disk->part0);
 >  	}
 >  
 >  	blk_queue_max_zone_append_sectors(q, dev->zone_size_sects);
-> -	blk_queue_max_open_zones(q, dev->zone_max_open);
-> -	blk_queue_max_active_zones(q, dev->zone_max_active);
-> +	disk_set_max_open_zones(nullb->disk, dev->zone_max_open);
-> +	disk_set_max_active_zones(nullb->disk, dev->zone_max_active);
+> diff --git a/drivers/md/dm-zone.c b/drivers/md/dm-zone.c
+> index ae616b87c91ae..6d105abe12415 100644
+> --- a/drivers/md/dm-zone.c
+> +++ b/drivers/md/dm-zone.c
+> @@ -301,7 +301,7 @@ int dm_set_zones_restrictions(struct dm_table *t, struct request_queue *q)
+>  	 * correct value to be exposed in sysfs queue/nr_zones.
+>  	 */
+>  	WARN_ON_ONCE(queue_is_mq(q));
+> -	q->nr_zones = blkdev_nr_zones(md->disk);
+> +	q->nr_zones = bdev_nr_zones(md->disk->part0);
 >  
->  	return 0;
+>  	/* Check if zone append is natively supported */
+>  	if (dm_table_supports_zone_append(t)) {
+> diff --git a/drivers/md/dm-zoned-target.c b/drivers/md/dm-zoned-target.c
+> index 0ec5d8b9b1a4e..6ba6ef44b00e2 100644
+> --- a/drivers/md/dm-zoned-target.c
+> +++ b/drivers/md/dm-zoned-target.c
+> @@ -793,8 +793,7 @@ static int dmz_fixup_devices(struct dm_target *ti)
+>  			}
+>  			zone_nr_sectors = blk_queue_zone_sectors(q);
+>  			zoned_dev->zone_nr_sectors = zone_nr_sectors;
+> -			zoned_dev->nr_zones =
+> -				blkdev_nr_zones(zoned_dev->bdev->bd_disk);
+> +			zoned_dev->nr_zones = bdev_nr_zones(zoned_dev->bdev);
+>  		}
+>  	} else {
+>  		reg_dev = NULL;
+> @@ -805,7 +804,7 @@ static int dmz_fixup_devices(struct dm_target *ti)
+>  		}
+>  		q = bdev_get_queue(zoned_dev->bdev);
+>  		zoned_dev->zone_nr_sectors = blk_queue_zone_sectors(q);
+> -		zoned_dev->nr_zones = blkdev_nr_zones(zoned_dev->bdev->bd_disk);
+> +		zoned_dev->nr_zones = bdev_nr_zones(zoned_dev->bdev);
+>  	}
+>  
+>  	if (reg_dev) {
+> diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
+> index c6f0a775efdee..c9b2ce06ca93e 100644
+> --- a/drivers/nvme/target/zns.c
+> +++ b/drivers/nvme/target/zns.c
+> @@ -60,7 +60,7 @@ bool nvmet_bdev_zns_enable(struct nvmet_ns *ns)
+>  	if (ns->bdev->bd_disk->queue->conv_zones_bitmap)
+>  		return false;
+>  
+> -	ret = blkdev_report_zones(ns->bdev, 0, blkdev_nr_zones(bd_disk),
+> +	ret = blkdev_report_zones(ns->bdev, 0, bdev_nr_zones(ns->bdev),
+>  				  validate_conv_zones_cb, NULL);
+>  	if (ret < 0)
+>  		return false;
+> @@ -241,7 +241,7 @@ static unsigned long nvmet_req_nr_zones_from_slba(struct nvmet_req *req)
+>  {
+>  	unsigned int sect = nvmet_lba_to_sect(req->ns, req->cmd->zmr.slba);
+>  
+> -	return blkdev_nr_zones(req->ns->bdev->bd_disk) -
+> +	return bdev_nr_zones(req->ns->bdev) -
+>  		(sect >> ilog2(bdev_zone_sectors(req->ns->bdev)));
 >  }
-> diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
-> index 0ed15c2fd56de..12316ab51bda6 100644
-> --- a/drivers/nvme/host/zns.c
-> +++ b/drivers/nvme/host/zns.c
-> @@ -111,8 +111,8 @@ int nvme_update_zone_info(struct nvme_ns *ns, unsigned lbaf)
 >  
->  	disk_set_zoned(ns->disk, BLK_ZONED_HM);
->  	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
-> -	blk_queue_max_open_zones(q, le32_to_cpu(id->mor) + 1);
-> -	blk_queue_max_active_zones(q, le32_to_cpu(id->mar) + 1);
-> +	disk_set_max_open_zones(ns->disk, le32_to_cpu(id->mor) + 1);
-> +	disk_set_max_active_zones(ns->disk, le32_to_cpu(id->mar) + 1);
->  free_data:
->  	kfree(id);
->  	return status;
-> diff --git a/drivers/scsi/sd_zbc.c b/drivers/scsi/sd_zbc.c
-> index 0f5823b674685..b4106f8997342 100644
-> --- a/drivers/scsi/sd_zbc.c
-> +++ b/drivers/scsi/sd_zbc.c
-> @@ -950,10 +950,10 @@ int sd_zbc_read_zones(struct scsi_disk *sdkp, u8 buf[SD_BUF_SIZE])
->  	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
->  	blk_queue_required_elevator_features(q, ELEVATOR_F_ZBD_SEQ_WRITE);
->  	if (sdkp->zones_max_open == U32_MAX)
-> -		blk_queue_max_open_zones(q, 0);
-> +		disk_set_max_open_zones(disk, 0);
->  	else
-> -		blk_queue_max_open_zones(q, sdkp->zones_max_open);
-> -	blk_queue_max_active_zones(q, 0);
-> +		disk_set_max_open_zones(disk, sdkp->zones_max_open);
-> +	disk_set_max_active_zones(disk, 0);
->  	nr_zones = round_up(sdkp->capacity, zone_blocks) >> ilog2(zone_blocks);
+> diff --git a/fs/zonefs/super.c b/fs/zonefs/super.c
+> index 053299758deb9..9c0eef1ff32a0 100644
+> --- a/fs/zonefs/super.c
+> +++ b/fs/zonefs/super.c
+> @@ -1394,7 +1394,7 @@ static void zonefs_init_dir_inode(struct inode *parent, struct inode *inode,
+>  {
+>  	struct super_block *sb = parent->i_sb;
 >  
+> -	inode->i_ino = blkdev_nr_zones(sb->s_bdev->bd_disk) + type + 1;
+> +	inode->i_ino = bdev_nr_zones(sb->s_bdev) + type + 1;
+>  	inode_init_owner(&init_user_ns, inode, parent, S_IFDIR | 0555);
+>  	inode->i_op = &zonefs_dir_inode_operations;
+>  	inode->i_fop = &simple_dir_operations;
+> @@ -1540,7 +1540,7 @@ static int zonefs_create_zgroup(struct zonefs_zone_data *zd,
 >  	/*
+>  	 * The first zone contains the super block: skip it.
+>  	 */
+> -	end = zd->zones + blkdev_nr_zones(sb->s_bdev->bd_disk);
+> +	end = zd->zones + bdev_nr_zones(sb->s_bdev);
+>  	for (zone = &zd->zones[1]; zone < end; zone = next) {
+>  
+>  		next = zone + 1;
+> @@ -1635,8 +1635,8 @@ static int zonefs_get_zone_info(struct zonefs_zone_data *zd)
+>  	struct block_device *bdev = zd->sb->s_bdev;
+>  	int ret;
+>  
+> -	zd->zones = kvcalloc(blkdev_nr_zones(bdev->bd_disk),
+> -			     sizeof(struct blk_zone), GFP_KERNEL);
+> +	zd->zones = kvcalloc(bdev_nr_zones(bdev), sizeof(struct blk_zone),
+> +			     GFP_KERNEL);
+>  	if (!zd->zones)
+>  		return -ENOMEM;
+>  
+> @@ -1648,9 +1648,9 @@ static int zonefs_get_zone_info(struct zonefs_zone_data *zd)
+>  		return ret;
+>  	}
+>  
+> -	if (ret != blkdev_nr_zones(bdev->bd_disk)) {
+> +	if (ret != bdev_nr_zones(bdev)) {
+>  		zonefs_err(zd->sb, "Invalid zone report (%d/%u zones)\n",
+> -			   ret, blkdev_nr_zones(bdev->bd_disk));
+> +			   ret, bdev_nr_zones(bdev));
+>  		return -EIO;
+>  	}
+>  
+> @@ -1816,8 +1816,7 @@ static int zonefs_fill_super(struct super_block *sb, void *data, int silent)
+>  	if (ret)
+>  		goto cleanup;
+>  
+> -	zonefs_info(sb, "Mounting %u zones",
+> -		    blkdev_nr_zones(sb->s_bdev->bd_disk));
+> +	zonefs_info(sb, "Mounting %u zones", bdev_nr_zones(sb->s_bdev));
+>  
+>  	if (!sbi->s_max_wro_seq_files &&
+>  	    !sbi->s_max_active_seq_files &&
+> @@ -1833,7 +1832,7 @@ static int zonefs_fill_super(struct super_block *sb, void *data, int silent)
+>  	if (!inode)
+>  		goto cleanup;
+>  
+> -	inode->i_ino = blkdev_nr_zones(sb->s_bdev->bd_disk);
+> +	inode->i_ino = bdev_nr_zones(sb->s_bdev);
+>  	inode->i_mode = S_IFDIR | 0555;
+>  	inode->i_ctime = inode->i_mtime = inode->i_atime = current_time(inode);
+>  	inode->i_op = &zonefs_dir_inode_operations;
 > diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-> index a14cc3e46e6ad..e32c147f72868 100644
+> index e32c147f72868..183aa83143fd2 100644
 > --- a/include/linux/blkdev.h
 > +++ b/include/linux/blkdev.h
-> @@ -698,16 +698,16 @@ static inline bool blk_queue_zone_is_seq(struct request_queue *q,
->  	return !test_bit(blk_queue_zone_no(q, sector), q->conv_zones_bitmap);
->  }
+> @@ -298,7 +298,7 @@ void disk_set_zoned(struct gendisk *disk, enum blk_zoned_model model);
+>  #define BLK_ALL_ZONES  ((unsigned int)-1)
+>  int blkdev_report_zones(struct block_device *bdev, sector_t sector,
+>  			unsigned int nr_zones, report_zones_cb cb, void *data);
+> -unsigned int blkdev_nr_zones(struct gendisk *disk);
+> +unsigned int bdev_nr_zones(struct block_device *bdev);
+>  extern int blkdev_zone_mgmt(struct block_device *bdev, enum req_opf op,
+>  			    sector_t sectors, sector_t nr_sectors,
+>  			    gfp_t gfp_mask);
+> @@ -314,7 +314,7 @@ extern int blkdev_zone_mgmt_ioctl(struct block_device *bdev, fmode_t mode,
 >  
-> -static inline void blk_queue_max_open_zones(struct request_queue *q,
-> +static inline void disk_set_max_open_zones(struct gendisk *disk,
->  		unsigned int max_open_zones)
+>  #else /* CONFIG_BLK_DEV_ZONED */
+>  
+> -static inline unsigned int blkdev_nr_zones(struct gendisk *disk)
+> +static inline unsigned int bdev_nr_zones(struct block_device *bdev)
 >  {
-> -	q->max_open_zones = max_open_zones;
-> +	disk->queue->max_open_zones = max_open_zones;
+>  	return 0;
 >  }
->  
-> -static inline void blk_queue_max_active_zones(struct request_queue *q,
-> +static inline void disk_set_max_active_zones(struct gendisk *disk,
->  		unsigned int max_active_zones)
->  {
-> -	q->max_active_zones = max_active_zones;
-> +	disk->queue->max_active_zones = max_active_zones;
->  }
->  
->  static inline unsigned int bdev_max_open_zones(struct block_device *bdev)
 
 
 -- 
