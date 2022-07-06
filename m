@@ -4,48 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 24BD5CCA47F
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Jul 2022 16:36:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D7E7C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 Jul 2022 16:47:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SUTKE9eujSFvwsbNKpWKdU5TI8R/6s8+P3qtIra+oA4=; b=VnTb43Kwvr/pMYFlH9g+JyPm7i
-	ZvRZuSmnry+U3KQStLIh/i1CStx34CXrzRehvQeNlGAWHwrmfAedmzSwZzpJyr1yz/LU5YxyKsztd
-	4LLYFrrf2P7nCzQkGrL3/P5d6pi2covZ6MkFAvrDc1f1k3Gg91XpC6esHTRp8Div/0DILAJWRNpbc
-	V/LfqkYXgnh1TGn4WhqA9dexQM1oppG/EINkBv7ANlgerUkaFtn7ma50+Vq6aUQQ+YVleoQYm+EV6
-	Jhip+Oudz5ENKBJte22jwP5MIqThWPEcwOHIhqZS0C8lfWFj7ckmC2BYJfluKL3qeYJ0jnF4H0DUk
-	g2pHtyig==;
+	bh=WB4NzJKodbI+y2bqKp/frCweq/iQZMvWuAwrRDVsICg=; b=pkbOn/PMfxecjdCJLMMALYfdts
+	vLL7IDejeYOqkAu0wqANJaEvzuJEwHaLUce+i1cPpSFWjMwGQ1xWHBJ8GlYFxNJgBRdSJc8cows1G
+	OhuolgOEI5EtUlV8SXmokvq1drn++eaE6zBtqAYWZnIxBBYuXF1DzpE0g4ncQlzpj7ZyQzDFMT0AQ
+	9V1NaCeFGSl+betz8Pir9g/mf+a8F6xJo6m3Lg5CcsOiUfwZrI4m4tAmhE7TClKOy2DBfZeC5vwlw
+	Acib/IDMtmhpLYxmIluHwHaErEjo8oDmLBVtXTdONv6dsKIQahfPzRKyvV9D75rDnIli9AfXLZAo9
+	7jgxL/Qg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o980X-00BOQQ-Me; Wed, 06 Jul 2022 16:36:09 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1o98BK-00BS6n-HU; Wed, 06 Jul 2022 16:47:18 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o980S-00BOOY-QV
-	for linux-nvme@lists.infradead.org; Wed, 06 Jul 2022 16:36:08 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 1827D68B05; Wed,  6 Jul 2022 18:36:02 +0200 (CEST)
-Date: Wed, 6 Jul 2022 18:36:01 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH] nvme-loop: use nvme core helpers to cancel all
- requests in a tagset
-Message-ID: <20220706163601.GA2404@lst.de>
-References: <20220626140600.81362-1-sagi@grimberg.me>
+	id 1o988q-00BQkl-Rw
+	for linux-nvme@lists.infradead.org; Wed, 06 Jul 2022 16:44:46 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 657BC61DB0;
+	Wed,  6 Jul 2022 16:44:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43EE8C3411C;
+	Wed,  6 Jul 2022 16:44:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1657125883;
+	bh=ETQIfKZ04DBpBTgbtjCsfZym+4EgvwaHflYjwEazCCQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a74zkiUKuyq/dPmCUK9FEAfat7L9V4nkJmMHDcG04XZv1OCevAd/TOWHcu3ScUEI9
+	 XYjssuU+EkcGFRsV98+R6BRrlaHiUwLtxN8+i8GJdkKMlJl7AHrW5yNYfuW49ZPMab
+	 JxykKrwdbqEvxh6sGkdxhxQbloeWyWWuLC+wSmiNPow54vY+7OuewxziiGpZF/HeiP
+	 z40s1HJReRpWl/Gl+CCGp/TM+ARjySJIBk3jmt7uD3cHUQHql4JjddJLOMDkwppk5h
+	 efEDqiRu/gdTbA58Q3mTWHAGTEwKsEI7DLCVlkuO3YxpoZ+TLln/a1iqMvtZPbKl26
+	 QgKvg8NeXsWjg==
+Date: Wed, 6 Jul 2022 10:44:40 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: John Garry <john.garry@huawei.com>, axboe@fb.com, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme: Fix nvme_setup_command metadata trace event for
+ cdw10
+Message-ID: <YsW7+Lsy0ENSA/il@kbusch-mbp.dhcp.thefacebook.com>
+References: <1657095398-114310-1-git-send-email-john.garry@huawei.com>
+ <YsW0orMaDFfrHbx+@kbusch-mbp.dhcp.thefacebook.com>
+ <20220706161825.GA1962@lst.de>
+ <YsW3oXcCe6/y6iRb@kbusch-mbp.dhcp.thefacebook.com>
+ <20220706163434.GA2222@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220626140600.81362-1-sagi@grimberg.me>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20220706163434.GA2222@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220706_093605_055730_9D5EF798 
-X-CRM114-Status: UNSURE (   9.17  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220706_094444_989220_5B0C96BC 
+X-CRM114-Status: GOOD (  23.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,5 +76,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks, applied to nvme-5.20.
+On Wed, Jul 06, 2022 at 06:34:34PM +0200, Christoph Hellwig wrote:
+> On Wed, Jul 06, 2022 at 10:26:09AM -0600, Keith Busch wrote:
+> > On Wed, Jul 06, 2022 at 06:18:25PM +0200, Christoph Hellwig wrote:
+> > > On Wed, Jul 06, 2022 at 10:13:22AM -0600, Keith Busch wrote:
+> > > > Did you test what the trace looks like afte this? We're losing valuable trace
+> > > > data here. The field is supposed to get CDW's 10 - 15, so that's 24 bytes. I
+> > > > don't know why it cares that the address of the field being read is only 4
+> > > > bytes; we want everything that comes after it too.
+> > > 
+> > > Because accesses should not spawn boundaries of members in structs unless
+> > > copying the entire struct.  If we want to trace the various fields we
+> > > need to individually assign them.
+> > > 
+> > > Anyway, I'm dropping this patch from nvme-5.19 for now to let the
+> > > discussion conclude.
+> > 
+> > How about this instead?
+> 
+> Maybe a better option would be to use struct_group().
+
+Good call, I'd never used that macro before. The result produces anonymous
+unions like I just proposed, so yes, I like that option.
 
