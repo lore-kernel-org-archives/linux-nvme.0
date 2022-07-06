@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0DC9C43334
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Jul 2022 07:04:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5C75C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 Jul 2022 07:04:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=59GwLk/57mAU/aV+lYrkyA68Pm/XES/YiUDw0OaPmaE=; b=GUhP8DHSbqUVg5+VT43W/b/+J0
-	IOY5QMEQ2HjB9LBr8i3eJ5Xzliy8uG7C4HS0nPDkFeNirmy9QcYIDMu1Jynn5R27h/HXinIvlsO7m
-	/dbvROJjT11FGSSNY6rlVorgClnHPohp7aL2jb7SVNz15oCYmMUwpg5dXxqRlAGTp52CQ2fP1Jei4
-	a1KWHJc1wS8zsBmRFWiFxaaSvnLwiVWJEZ6nRdN0ChHk8zzDFQdo370Pt83H8IrFeT3p+6DhmjqMc
-	hLbuX7zjJ2s0FNhA20QK8rd5hlZeUMUd8fVFkNA6Ri42a5yJ8CpfkSJCBuXTOR5CiYbhqzx+Npm1+
-	D/0BQG7g==;
+	bh=fIbuap1XjSHBxWPy76ctu7Qj+NuYi3Uw4BF3kwSbcMY=; b=O1aFkTcZadEnu4NDl80NyZOdiO
+	NoDTeCQGBcsOwypdllGt4faXtgVez+8cro94HMsQTviolmltVUAYBrbgV+t/WNeasxCeR2f8hs9K3
+	5l5S0FI6nTzrN4er1GYs2wqApaiENeve0k8Vk2h1Rc3SCiwynu31fNdLBNfTCUKVTcnglLdUM0RiL
+	Ia3pKYxQkPwiBCwp77eRXrtiV6GDBpA/ymiQuO1OrEI0r5Lrr+YaX7qXylMdhxtcZd3VjbPm6RGws
+	ey5rjWfsQKxYXTikfzNMfesFQNH4PVOcdzl7pnD/InDLsSFEj0eUi1JhShPpuoSfLJbyA5pAazFOE
+	sVHMS5Tw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o8z4o-006urv-Fx; Wed, 06 Jul 2022 07:03:58 +0000
+	id 1o8z4s-006uug-MN; Wed, 06 Jul 2022 07:04:02 +0000
 Received: from [2001:4bb8:189:3c4a:f22c:c36a:4e84:c723] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o8z4l-006upM-J0; Wed, 06 Jul 2022 07:03:56 +0000
+	id 1o8z4o-006ur8-86; Wed, 06 Jul 2022 07:03:58 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>,
 	Damien Le Moal <damien.lemoal@opensource.wdc.com>
@@ -33,9 +33,9 @@ Cc: dm-devel@redhat.com,
 	linux-scsi@vger.kernel.org,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Subject: [PATCH 01/16] block: remove a superflous ifdef in blkdev.h
-Date: Wed,  6 Jul 2022 09:03:35 +0200
-Message-Id: <20220706070350.1703384-2-hch@lst.de>
+Subject: [PATCH 02/16] block: call blk_queue_free_zone_bitmaps from disk_release
+Date: Wed,  6 Jul 2022 09:03:36 +0200
+Message-Id: <20220706070350.1703384-3-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220706070350.1703384-1-hch@lst.de>
 References: <20220706070350.1703384-1-hch@lst.de>
@@ -55,38 +55,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-It doesn't hurt to always have the blk_zone_cond_str prototype, and the
-two inlines can also be defined unconditionally.
+The zone bitmaps are only used for non-passthrough I/O, so free them as
+soon as the disk is released.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
 ---
- include/linux/blkdev.h | 3 ---
- 1 file changed, 3 deletions(-)
+ block/blk-sysfs.c | 2 --
+ block/genhd.c     | 1 +
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index b9a94c53c6cd3..270cd0c552924 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -899,8 +899,6 @@ static inline struct request_queue *bdev_get_queue(struct block_device *bdev)
- 	return bdev->bd_queue;	/* this is never NULL */
- }
+diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+index 58cb9cb9f48cd..7590810cf13fc 100644
+--- a/block/blk-sysfs.c
++++ b/block/blk-sysfs.c
+@@ -776,8 +776,6 @@ static void blk_release_queue(struct kobject *kobj)
+ 	blk_free_queue_stats(q->stats);
+ 	kfree(q->poll_stat);
  
--#ifdef CONFIG_BLK_DEV_ZONED
+-	blk_queue_free_zone_bitmaps(q);
 -
- /* Helper to convert BLK_ZONE_ZONE_XXX to its string format XXX */
- const char *blk_zone_cond_str(enum blk_zone_cond zone_cond);
+ 	if (queue_is_mq(q))
+ 		blk_mq_release(q);
  
-@@ -915,7 +913,6 @@ static inline unsigned int bio_zone_is_seq(struct bio *bio)
- 	return blk_queue_zone_is_seq(bdev_get_queue(bio->bi_bdev),
- 				     bio->bi_iter.bi_sector);
- }
--#endif /* CONFIG_BLK_DEV_ZONED */
+diff --git a/block/genhd.c b/block/genhd.c
+index b1fb7e058b9cc..d0bdeb93e922c 100644
+--- a/block/genhd.c
++++ b/block/genhd.c
+@@ -1165,6 +1165,7 @@ static void disk_release(struct device *dev)
  
- /*
-  * Return how much of the chunk is left to be used for I/O at a given offset.
+ 	disk_release_events(disk);
+ 	kfree(disk->random);
++	blk_queue_free_zone_bitmaps(disk->queue);
+ 	xa_destroy(&disk->part_tbl);
+ 
+ 	disk->queue->disk = NULL;
 -- 
 2.30.2
 
