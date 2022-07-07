@@ -4,80 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 235A7C43334
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Jul 2022 05:54:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18930C43334
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Jul 2022 06:06:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=C+bmMEifozR/8jnz08gE5A+SDHU6RUN4Cov1EIxzyl8=; b=tuYjYMynun5Q/lj6FSDdT9i/sE
-	3Xy4X7iSxti4M7X/KQu7oLPLUOOKWLBbjEM9ovrHnVqqpkrtGZYPa/hdzqOZkP5XRKNNRFRrMdZNg
-	LbvCK2erbOwQWwvKJGbcPN8W877x65ymSm80cgYwefi1p9XUt4GlQBSVer66JU6kQxPAEI6zy6NBo
-	h65SilaQEthrSzySqR3PGhr8UabQ1wmqweum2CtvUsGHKFLuqRdxcIlM3Pe4xWzLkmTgLLkp0t5QY
-	H0dmP0LZHAMwSpuJutk8BFs0qdecAtTwD7ACF8HhPZY3wnBgYyt7rtRfdxWluF0Xv7A7ClSsiLexQ
-	r7W9EmBw==;
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=16ivW5l2UUryeGzldin/vxEyJIrNfY0dPNemlWe6kqU=; b=UjHArhZLwN1i/hC3R3Yh2y3jwm
+	XGXWetzjeHzK79j3ihlmD09x13Vs6KV5VdIsdYy2mpU4QKbecOdGlJUzokb3TwA1niqEQYna6Z5QG
+	XiO3J+hVUTadMUoAAI1pNXEUtGzrBlncnYD8hG/WqdF2Yrhda6f2n+SLAGRlgw8Za8vfq10aCz5Zr
+	SgHOKvJAbAwuXz8LFinTsUXG98J1TWBS4RUr7j32fo4ZPPtMf0VoSc/DfJGbFMpvJ6tUEw2+P/xDQ
+	kq108jlpHm1DulsEHO6CLyJtgwU+p3lL3N7LmT2b+fWg7opQKCMgHrZIdqtlwhTldEpydO5ROtBsU
+	K/IPKCkA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o9KTF-00Dph0-1O; Thu, 07 Jul 2022 05:54:37 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1o9Kel-00Drox-SI; Thu, 07 Jul 2022 06:06:31 +0000
+Received: from mga03.intel.com ([134.134.136.65])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o9KTB-00DpgV-Cf
-	for linux-nvme@lists.infradead.org; Thu, 07 Jul 2022 05:54:34 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 11DAA1F920;
-	Thu,  7 Jul 2022 05:54:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1657173270; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C+bmMEifozR/8jnz08gE5A+SDHU6RUN4Cov1EIxzyl8=;
-	b=g7h/m+AzQRbkHxEVkKyrWQ+QCP28qCtK8YaTuDdBpqp79UtxrP1PkAkT6uVUGxOngVom9S
-	Q89PiMil+wiBk/nEmvSrTGEABXSMrXTRerfNxRGNHCGHOJhAV+COxXQkOt7bLtT8qBG/G8
-	ud8h7A2yjp+8B810xIclaIGuzwQ1O4M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1657173270;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C+bmMEifozR/8jnz08gE5A+SDHU6RUN4Cov1EIxzyl8=;
-	b=6ylu1PHA84inuT4gRjLYt411t0AokuiF4x+/D2UY6BPrnaTAzm9e48r6VEXKk4ryKEixod
-	3wCyOAcYWEl0XwDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E760913488;
-	Thu,  7 Jul 2022 05:54:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id VMHJNxV1xmJMNAAAMHmgww
-	(envelope-from <hare@suse.de>); Thu, 07 Jul 2022 05:54:29 +0000
-Message-ID: <872e0129-35ba-0480-0c83-960adc1ab737@suse.de>
-Date: Thu, 7 Jul 2022 07:54:29 +0200
+	id 1o9Kei-00Drng-CT
+	for linux-nvme@lists.infradead.org; Thu, 07 Jul 2022 06:06:29 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657173988; x=1688709988;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=RRPYPOH0MN6YivHklv7QMG0n4hdJ5aRMkylQyDs6yug=;
+  b=n1fCqf3hdElpF65u8JrQHA2ay9LpLd4KUFzQY0vMB/MNoTPTRtKDLSfd
+   t3WZ/uhHH0/Zv3XGFsi7C4Q64sHCK06W4kYsVXP6ywWydcrxOpJ+NPVYN
+   lhbNEzT6+gUBR2f/7NqjLZo9zBduO5me7diwKd4WSqJp4i23Y9A0zJJ1V
+   AdeIkrP6mizrVbjCfObvisrXC5/FSCA3j7O8GThVp/GCiYTGAIpRX9VA9
+   UbRm99rV10VLTkZwJKgrAygo/mw5IelPE+Hvoh7EZw02s3DXZa8rHdqX1
+   MbX0sggxw2hRZuuIxJOUiuA9mS4fdBx3AxDalfPLPag4i8r4nXTX/briS
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10400"; a="285065158"
+X-IronPort-AV: E=Sophos;i="5.92,252,1650956400"; 
+   d="scan'208";a="285065158"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2022 23:06:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,252,1650956400"; 
+   d="scan'208";a="696390074"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 06 Jul 2022 23:06:26 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1o9Kef-000Ldc-SR;
+	Thu, 07 Jul 2022 06:06:25 +0000
+Date: Thu, 07 Jul 2022 14:05:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-5.20] BUILD SUCCESS
+ 375e2143d8f411c181eb630dd2f27a21e5a1a6e9
+Message-ID: <62c677b3.J18YOoLnjzCUgt7q%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCHv18 00/11] nvme: In-band authentication support
-Content-Language: en-US
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>, Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <20220627095207.105201-1-hare@suse.de>
- <b08b8df2-b278-21dc-aff0-b126a70363f5@nvidia.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <b08b8df2-b278-21dc-aff0-b126a70363f5@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220706_225433_616191_D271A551 
-X-CRM114-Status: GOOD (  21.83  )
+X-CRM114-CacheID: sfid-20220706_230628_539653_8EE69209 
+X-CRM114-Status: UNSURE (   7.70  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,58 +81,110 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/27/22 23:34, Chaitanya Kulkarni wrote:
-> On 6/27/22 02:51, Hannes Reinecke wrote:
->> Hi all,
->>
->> recent updates to the NVMe spec have added definitions for in-band
->> authentication, and seeing that it provides some real benefit
->> especially for NVMe-TCP here's an attempt to implement it.
->>
->> Thanks to Nicolai Stange the crypto DH framework has been upgraded
->> to provide us with a FFDHE implementation; I've updated the patchset
->> to use the ephemeral key generation provided there.
->>
->> Note that this is just for in-band authentication. Secure
->> concatenation (ie starting TLS with the negotiated parameters)
->> requires a TLS handshake, which the in-kernel TLS implementation
->> does not provide. This is being worked on with a different patchset
->> which is still WIP.
->>
->> The nvme-cli support has already been merged; please use the latest
->> nvme-cli git repository to build the most recent version.
->>
->> A copy of this patchset can be found at
->> git://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel
->> branch auth.v17
->>
->> The patchset is being cut against nvme-5.20.
->>
-> 
-> I was able to run the V5 of blktets on this version see log below.
-> 
-> I am seeing few error messages when I run with tcp and loop,
-> please have a look to make sure they are the expected ones.
-> 
-> In case they are expected ones lets filter them out since it will
-> create confusion and people will start reporting these issues.
-> 
-As indicated in my earlier mail, these errors _are_ expected, as we also 
-have to check if authentication fails is there's a mismatch of the 
-authentication keys.
+tree/branch: git://git.infradead.org/nvme.git nvme-5.20
+branch HEAD: 375e2143d8f411c181eb630dd2f27a21e5a1a6e9  nvmet-auth: expire authentication sessions
 
-But an authentication failure is an event which the admin definitely 
-should be made aware, so the kernel message is warranted.
+elapsed time: 751m
 
-So I'm not sure how one could filter them out ...
+configs tested: 88
+configs skipped: 2
 
-Cheers,
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Hannes
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm                              allyesconfig
+i386                          randconfig-c001
+powerpc                         wii_defconfig
+m68k                       m5249evb_defconfig
+sh                        apsh4ad0a_defconfig
+arm                          lpd270_defconfig
+arm                           viper_defconfig
+arc                     nsimosci_hs_defconfig
+arc                        nsimosci_defconfig
+arm                          exynos_defconfig
+s390                          debug_defconfig
+powerpc                      cm5200_defconfig
+arm                          simpad_defconfig
+xtensa                           allyesconfig
+sh                           se7721_defconfig
+mips                           ip32_defconfig
+sh                          lboxre2_defconfig
+xtensa                  audio_kc705_defconfig
+sh                            titan_defconfig
+mips                  decstation_64_defconfig
+powerpc                     mpc83xx_defconfig
+sh                          kfr2r09_defconfig
+powerpc                 mpc837x_mds_defconfig
+powerpc                 mpc834x_itx_defconfig
+sh                         microdev_defconfig
+arm                        mini2440_defconfig
+arm                             rpc_defconfig
+sh                           se7705_defconfig
+alpha                               defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_k210_defconfig
+riscv                             allnoconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+x86_64                        randconfig-c001
+arm                  randconfig-c002-20220706
+m68k                             allyesconfig
+m68k                             allmodconfig
+arc                              allyesconfig
+alpha                            allyesconfig
+powerpc                           allnoconfig
+mips                             allyesconfig
+powerpc                          allmodconfig
+sh                               allmodconfig
+i386                             allyesconfig
+i386                                defconfig
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+x86_64                        randconfig-a006
+i386                          randconfig-a001
+i386                          randconfig-a003
+i386                          randconfig-a005
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+x86_64                        randconfig-a015
+i386                          randconfig-a012
+i386                          randconfig-a014
+i386                          randconfig-a016
+arc                  randconfig-r043-20220706
+x86_64                    rhel-8.3-kselftests
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                           rhel-8.3-syz
+x86_64                         rhel-8.3-kunit
+
+clang tested configs:
+x86_64                        randconfig-k001
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+x86_64                        randconfig-a005
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64                        randconfig-a012
+x86_64                        randconfig-a016
+x86_64                        randconfig-a014
+i386                          randconfig-a013
+i386                          randconfig-a011
+i386                          randconfig-a015
+hexagon              randconfig-r041-20220706
+hexagon              randconfig-r045-20220706
+riscv                randconfig-r042-20220706
+s390                 randconfig-r044-20220706
+
 -- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
+0-DAY CI Kernel Test Service
+https://01.org/lkp
 
