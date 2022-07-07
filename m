@@ -4,81 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C14CC43334
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Jul 2022 21:13:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9C94C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Jul 2022 23:39:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=54J6VXP4049vHs1bNV/tiTC4h9IJc9VKgMm+rBmU7Cc=; b=wrkk5jv48gIVkW1rfiznMyl3s7
-	FQLfqXV+TMakgAgfSPl3Rpo8bnh4oE0/tFasA4LXOVpFk4HpHefEnNEspLUdJU/na3eAWbpTYhe6L
-	5PecdFSt95TBuoK17LnJMR7x7+BQ4ABRIQ2aygCG5vO73KnCusGFe6h5j0yzomcQKWYJ5Le1aVKxS
-	SO1HHW1StBALDObGF463Ww9zfels9h6kLUofQVmduJMBQDW84rfwMvZh7hvr5i8lIEqx2dmhpW4wZ
-	iegbrwjb5MIDfwQPTAhAJ2zFuG1PbD29nwCiPVuD3WshY4z5X1DZKlyY9gPVH5Be5Jzb/ZPrtiU65
-	lO9FyOwg==;
+	bh=PP9HkPudxFKzM8yV+TLaxrJjGUojTwU1FfhBFhCGIak=; b=a6v16+FlZuROOgn+CI3Ipx/MK+
+	oS/PyK9RInO42pN1BwduHB625FLDFUvTxFvcuPiKuB3ZoZo6H063zo+zBHnCgimJapk5NqWMc0wao
+	KOMW2XAhfp9T7eeOWUoh9SIRrTo28HtREUcSH6HwxKt1+qUBCDvFZEB1cfMFQYT7oiFfYsQTHVOnR
+	BLDHymg+PeixWxIjnScxTT2Zh1+3KFnn8+2foaYabfoFY3qqJeuO7FOPE/jTvheF5Q/rDJiAFuwnJ
+	wx35gk4BicvH/fxwMnPiVCwVaO9bNNQZXDF17ZKAekwzxUUgMqW81958LfbSRNFlqDGep1LotCVLD
+	plafedVQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o9Yo8-000Hdb-73; Thu, 07 Jul 2022 21:13:08 +0000
-Received: from mail-ot1-x361.google.com ([2607:f8b0:4864:20::361])
+	id 1o9b5M-000g7B-55; Thu, 07 Jul 2022 23:39:04 +0000
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o9Yo4-000HaH-O3
-	for linux-nvme@lists.infradead.org; Thu, 07 Jul 2022 21:13:07 +0000
-Received: by mail-ot1-x361.google.com with SMTP id e1-20020a05683013c100b0061c1a6b8d11so1866259otq.8
-        for <linux-nvme@lists.infradead.org>; Thu, 07 Jul 2022 14:12:57 -0700 (PDT)
+	id 1o9b5I-000g6J-O0
+	for linux-nvme@lists.infradead.org; Thu, 07 Jul 2022 23:39:01 +0000
+Received: by mail-pl1-x636.google.com with SMTP id 5so9102328plk.9
+        for <linux-nvme@lists.infradead.org>; Thu, 07 Jul 2022 16:39:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=54J6VXP4049vHs1bNV/tiTC4h9IJc9VKgMm+rBmU7Cc=;
-        b=MlZFO0EkIFkPKYKaOc8yEqZbOv2IhaEaFgK9Ey3r+E3V7Jbt3k+AuVi5PCydJqXZ01
-         rol+Y+Dsjpx1UJ2wqcNrts0wVG+ydG3vlQRfvhj9XSGgIy2YXzyLhw051Iwn2uEP8z0I
-         gWPUZ1+ZtEP/2KDQqoha90seZAq56CQyjUNDw=
+        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=PP9HkPudxFKzM8yV+TLaxrJjGUojTwU1FfhBFhCGIak=;
+        b=k4DbY5CyszwGTRynUgdVmiEQWvjZnndGUrPAPZGQ4Ojy/qbB+yaiCzY9YpS92QfHXi
+         8c8b5Pzl63N8gqNO1qSb91heIcdaW1BOBsybROj6J6rXvJtgxQ5a0DIK+gIcqG1YjpgN
+         +hcB82NURRBVyEsxs3I5s3hQLdXjgIcXeQL2piz8GcZBuuQF9obPt/DLszZudS46ucub
+         DI5Vd9HxarF/LpjejqdQE8wUe/ENl/pJJFn9BOBfFjWC2M2hnYYCMzjPR0bOzLoi66jg
+         Tz9gxX5FwRVo8RBpHV2MjKDZpX4DRkBgxjH5LUUPVtPyyHBy3YoMCSSK8+vFtVuHaU1X
+         c2bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=54J6VXP4049vHs1bNV/tiTC4h9IJc9VKgMm+rBmU7Cc=;
-        b=feAMdrHOGLZBGYfcWk0aaeF6AYZS/IjwQNC6KOPaPcPFp1dKFuZ3qi+1gRar0Ers6G
-         JJCduVR4DjKtFrngOBLcqZ0QLSEb2gp9FNF7Ey9thQuA/Ez3p8W+kCbOxinSWe4qG9dB
-         cgcx3xSqIPbcr2b/LQ2J/R+oqEiIN6qrdcCFZu4A+Ek9ynajg1H5bG6rKJ4Bo6YyOxkz
-         OsK00MnXv+lY0Kyc9lEA53LcyXDyRruF3J9pZBGBWAft2JpK8U9RxshHoVXhPjfUnPdF
-         nNapmfbJKoDSGnFbwsqhPnBxR8GoTGjoZ13zIM88g/ipumwGqcr6MzcRN/EiyHC3ARTw
-         cC2w==
-X-Gm-Message-State: AJIora+QQ6yznlS7ryFgmJegTavD/RMUbTjFzIXrpc86VVX872Vxm57l
-	VDftsn9OqPyif4721xPKaF+Gr5UcjkF+M7KRcmLSrUtkc2rNEQ==
-X-Google-Smtp-Source: AGRyM1sOFse65d6pDbMKetGVQ78DyDOf3kgQyShKMkSUif6sKd0UC8p275VCsqetPHVG81Vt+CdBSeLjXcPL
-X-Received: by 2002:a9d:51cf:0:b0:616:cc7a:82ed with SMTP id d15-20020a9d51cf000000b00616cc7a82edmr55318oth.244.1657228376975;
-        Thu, 07 Jul 2022 14:12:56 -0700 (PDT)
-Received: from c7-smtp.dev.purestorage.com ([208.88.159.129])
-        by smtp-relay.gmail.com with ESMTPS id cm8-20020a056870b60800b000edf58f87ccsm4936693oab.31.2022.07.07.14.12.56
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 07 Jul 2022 14:12:56 -0700 (PDT)
-X-Relaying-Domain: purestorage.com
-Received: from dev-csander.dev.purestorage.com (dev-csander.dev.purestorage.com [10.7.70.37])
-	by c7-smtp.dev.purestorage.com (Postfix) with ESMTP id 402CE221A7;
-	Thu,  7 Jul 2022 15:12:56 -0600 (MDT)
-Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
-	id 39EEAE4007F; Thu,  7 Jul 2022 15:12:56 -0600 (MDT)
-From: Caleb Sander <csander@purestorage.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>,
-	linux-nvme@lists.infradead.org,
-	Caleb Sander <csander@purestorage.com>
-Subject: [PATCH v2] nvme-tcp: use in-capsule data for I/O connect
-Date: Thu,  7 Jul 2022 15:12:45 -0600
-Message-Id: <20220707211245.3989107-1-csander@purestorage.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <4cfe8116-bb6c-735d-0bb3-ce5e2612505b@grimberg.me>
-References: <4cfe8116-bb6c-735d-0bb3-ce5e2612505b@grimberg.me>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=PP9HkPudxFKzM8yV+TLaxrJjGUojTwU1FfhBFhCGIak=;
+        b=f+7cf5/jhRzS+ChIhW+SjoiGDwReOROGQGS/rVom5pkQv4OJqHkGNpdDPL1D2ROOFh
+         lwGzOkTGjTU5+TtTgkWXsryLN0fCFw5+fpiXr7nB27qLI29W3MyBqwwHfuZokHAJvlKk
+         5VhJkhih+0Hb1HzbAAhqX0CabRvQRBJqrVSue/YxCslxL3Y5zd8c5BxNPKKJURIZdS4p
+         jmDxUUHGvx9W6aPceX42TX6wFDruOVDmlv6rtRAw8p9X3lqr05My/UrrSoXYRp740uAR
+         qWgIc6RZ/dNN94pHQPv0Euvm0yu7bgHecR/QNqu/kcUVRfLZ/20Q4nJ9QfScD2FVI4lZ
+         4zKg==
+X-Gm-Message-State: AJIora92AxhezeBhHaKs6GxCdjAuWtUIda93XenRn/orFytP78KTt+dW
+	U/fGJU+JeWUIL5vInXYIIIqRdQ==
+X-Google-Smtp-Source: AGRyM1sxQx+dUXvX0uvZBKWwJQ+i/OUosw96hqoXkyxuyiDKgo5ekEl3UoZvfwx71s1oOZoqYs60Fw==
+X-Received: by 2002:a17:902:a589:b0:16b:c227:d7f9 with SMTP id az9-20020a170902a58900b0016bc227d7f9mr439863plb.29.1657237139487;
+        Thu, 07 Jul 2022 16:38:59 -0700 (PDT)
+Received: from [192.168.1.100] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id n14-20020a170902e54e00b0016a7d9e6548sm11888188plf.262.2022.07.07.16.38.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Jul 2022 16:38:59 -0700 (PDT)
+Message-ID: <e4c2a81e-dd57-a55d-9a9f-56b7c03cc861@kernel.dk>
+Date: Thu, 7 Jul 2022 17:38:57 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [GIT PULL] nvmes fixes for Linux 5.19
+Content-Language: en-US
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+References: <Ysbe1DGn9vLRpEOh@infradead.org>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <Ysbe1DGn9vLRpEOh@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220707_141304_942917_AB4CE15F 
-X-CRM114-Status: GOOD (  17.07  )
+X-CRM114-CacheID: sfid-20220707_163900_804514_1931C996 
+X-CRM114-Status: UNSURE (   9.72  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,83 +92,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From the NVMe/TCP spec:
-> The maximum amount of in-capsule data for Fabrics and Admin Commands
-> is 8,192 bytes ... NVMe/TCP controllers must support in-capsule data
-> for Fabrics and Admin Command Capsules
+On 7/7/22 7:25 AM, Christoph Hellwig wrote:
+> The following changes since commit f3163d8567adbfebe574fb22c647ce5b829c5971:
+> 
+>   Merge tag 'nvme-5.19-2022-06-30' of git://git.infradead.org/nvme into block-5.19 (2022-06-30 14:00:11 -0600)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git tags/nvme-5.19-2022-07-07
 
-Currently, command data is only sent in-capsule on the admin queue
-or I/O queues that indicate support for it.
-Send fabrics command data in-capsule for I/O queues too to avoid
-needing a separate H2CData PDU for the connect command.
+Pulled, thanks.
 
-Signed-off-by: Caleb Sander <csander@purestorage.com>
----
- drivers/nvme/host/tcp.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 7a9e6ffa2342..307780d2787a 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -207,13 +207,15 @@ static inline u8 nvme_tcp_hdgst_len(struct nvme_tcp_queue *queue)
- static inline u8 nvme_tcp_ddgst_len(struct nvme_tcp_queue *queue)
- {
- 	return queue->data_digest ? NVME_TCP_DIGEST_LENGTH : 0;
- }
-
--static inline size_t nvme_tcp_inline_data_size(struct nvme_tcp_queue *queue)
-+static inline size_t nvme_tcp_inline_data_size(struct nvme_tcp_request *req)
- {
--	return queue->cmnd_capsule_len - sizeof(struct nvme_command);
-+	if (nvme_is_fabrics(req->req.cmd))
-+		return NVME_TCP_ADMIN_CCSZ;
-+	return req->queue->cmnd_capsule_len - sizeof(struct nvme_command);
- }
-
- static inline bool nvme_tcp_async_req(struct nvme_tcp_request *req)
- {
- 	return req == &req->queue->ctrl->async_req;
-@@ -227,11 +229,11 @@ static inline bool nvme_tcp_has_inline_data(struct nvme_tcp_request *req)
- 		return false; /* async events don't have a request */
-
- 	rq = blk_mq_rq_from_pdu(req);
-
- 	return rq_data_dir(rq) == WRITE && req->data_len &&
--		req->data_len <= nvme_tcp_inline_data_size(req->queue);
-+		req->data_len <= nvme_tcp_inline_data_size(req);
- }
-
- static inline struct page *nvme_tcp_req_cur_page(struct nvme_tcp_request *req)
- {
- 	return req->iter.bvec->bv_page;
-@@ -2370,11 +2372,11 @@ static blk_status_t nvme_tcp_map_data(struct nvme_tcp_queue *queue,
- 	c->common.flags |= NVME_CMD_SGL_METABUF;
-
- 	if (!blk_rq_nr_phys_segments(rq))
- 		nvme_tcp_set_sg_null(c);
- 	else if (rq_data_dir(rq) == WRITE &&
--	    req->data_len <= nvme_tcp_inline_data_size(queue))
-+	    req->data_len <= nvme_tcp_inline_data_size(req))
- 		nvme_tcp_set_sg_inline(queue, c, req->data_len);
- 	else
- 		nvme_tcp_set_sg_host_data(c, req->data_len);
-
- 	return 0;
-@@ -2405,11 +2407,11 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct nvme_ns *ns,
- 	req->curr_bio = rq->bio;
- 	if (req->curr_bio && req->data_len)
- 		nvme_tcp_init_iter(req, rq_data_dir(rq));
-
- 	if (rq_data_dir(rq) == WRITE &&
--	    req->data_len <= nvme_tcp_inline_data_size(queue))
-+	    req->data_len <= nvme_tcp_inline_data_size(req))
- 		req->pdu_len = req->data_len;
-
- 	pdu->hdr.type = nvme_tcp_cmd;
- 	pdu->hdr.flags = 0;
- 	if (queue->hdr_digest)
---
-2.25.1
+-- 
+Jens Axboe
 
 
