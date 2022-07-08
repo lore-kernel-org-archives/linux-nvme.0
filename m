@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D23B9C43334
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jul 2022 16:52:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CC9A5C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jul 2022 16:52:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
 	:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zR5bReTHwD7gvoNYhbuwDiinN/ZB07eXl9x5iNx7f3Y=; b=S6NW87pSbYoTJq2bALm1fxUjW2
-	h8Tpi3grIIUcE8SXb9k/1xzA4c+achUHGypvnc/7gncIQKUck6wSKUEnzOCcdThyhjZJ15zn19X5U
-	1biwQHRV8SHNhcdWBJzKK8vIx29kM6mN0kJTs/xFTSEoT/bZBx9npwEBFZbP/cuggVBvcg2hzM6D8
-	RNe/xfKGakHWhr5SxF4crVrPBQKqk1/lsGO1hEdwsST03vrX4EDZNXewBaclKQJTn7uAwsnUfWzRg
-	02r65yl6kDdGBdYOlOma2lDuz0LeAgqJIwkUgCs4UXKfRef1CP3Q/kFjIVakVlXaiLABQMgR/XK/+
-	CxahbcVA==;
+	bh=zRvvqf/soJ+YHmVk4fjT2lplFRBLbHW1+J+sEuwQeuA=; b=2Y2xy8gmmRnkbsQ0WpjivDDwvb
+	tjwhzsOrNM0slm7TcJFjlmISiueI4QNPgAqu4BeeKrH3+sXWnoATmasm3mH6zP9WFoR+EF+lhVI8O
+	yhfyENSl7Xy7HR6SggXFnerwU5oklJ1rX7w1DubIGP0FgBCl7nst81iAllgJ3XyUov0dSeREGxnna
+	kXiuWnxDqTdtEmt8jlPBwG2wOqz8qu7Mwy0ebADGYFdiOlzQgwNvIpGYcBCww/5icxH5ig+EnRBGm
+	/9ekdU16o9km8kfrYgDZtvTuxhgnDns6gkM+2armLQmP9B6ZdTS/2UVN6v1RonDI9HDQWn9nVBgYL
+	umUJ6RGg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o9rDU-004nuB-St; Fri, 08 Jul 2022 16:52:32 +0000
+	id 1o9rDo-004o3c-HL; Fri, 08 Jul 2022 16:52:52 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o9rCJ-004n44-Qh
-	for linux-nvme@lists.infradead.org; Fri, 08 Jul 2022 16:51:25 +0000
+	id 1o9rCL-004n4C-Nw
+	for linux-nvme@lists.infradead.org; Fri, 08 Jul 2022 16:51:27 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Cc:To:From:content-disposition;
-	bh=zR5bReTHwD7gvoNYhbuwDiinN/ZB07eXl9x5iNx7f3Y=; b=F3c4roMl7Vtpt+WLnDnMR27bWj
-	/rCvVtD4cIDUBSJe+J3Cjj7dd6s3nC4L6Ee/hWdBJsSseImhSC45y7HOq6fNL01ouD94p6niBP882
-	ekLwQHtGhmaMTYa8idJ7WSg4JCzs3rB64ojghSDKe0ETrffus6huwIvoE5tBhQuZVppQHXeN38z7i
-	MCffC0jpQXhe6f8MQ6iavgyXxmqwlAZnIy2/N+ZZYAgz7lB1OHM1Xj8RVtIuA1BDwL3TFmkkG5SEW
-	41AswrGZ8i2+JLjiLNvGJHIQg4Fe4OXOcarFTUkQ4Rpap8+9wOpiYOVX/Uss6/mNOb+M8vi1M5NcT
-	XZurL+1w==;
+	bh=zRvvqf/soJ+YHmVk4fjT2lplFRBLbHW1+J+sEuwQeuA=; b=M+C7MCh5IhiXo+bB1Y7x/O53/T
+	bYM37YlM895SHeEuRs3ZbWhoaYCQlOhBf8GwHDGLlSwIi5Xb8IbIZ3FZnoiMEuOafM92vPolonVxA
+	NlALP2XdNi6k9ErgcWKJf4q3eiMHH8NISZMcCgZ6wZLYwgnl0xLupoJbJWPlr/S5sJRnwiLK0Yx41
+	f1Mac8DOupVrKjsHxnwY+REQ2GxotG87bRZsr/7D+5ZCd0T/4UKc3i1TIDNMfe1oYTcmeBJTp7KbI
+	2/ps/9MSnUsrstFXF5zCuC03Po0S8UbJKropq/fSuN53/R95HgGrnbxrTBryQdVbKy9xOmO1dqYFC
+	vJ6zB6Ew==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
 	by ale.deltatee.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <gunthorp@deltatee.com>)
-	id 1o9rCE-009xkJ-0R; Fri, 08 Jul 2022 10:51:15 -0600
+	id 1o9rCF-009xkG-4M; Fri, 08 Jul 2022 10:51:15 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.94.2)
 	(envelope-from <gunthorp@deltatee.com>)
-	id 1o9rCA-0001KH-In; Fri, 08 Jul 2022 10:51:10 -0600
+	id 1o9rC9-0001K4-Uw; Fri, 08 Jul 2022 10:51:09 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
@@ -69,25 +69,23 @@ Cc: Stephen Bates <sbates@raithlin.com>,
 	Martin Oliveira <martin.oliveira@eideticom.com>,
 	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
 	Ralph Campbell <rcampbell@nvidia.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Max Gurtovoy <mgurtovoy@nvidia.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Date: Fri,  8 Jul 2022 10:51:01 -0600
-Message-Id: <20220708165104.5005-11-logang@deltatee.com>
+	Logan Gunthorpe <logang@deltatee.com>
+Date: Fri,  8 Jul 2022 10:50:58 -0600
+Message-Id: <20220708165104.5005-8-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220708165104.5005-1-logang@deltatee.com>
 References: <20220708165104.5005-1-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org, iommu@lists.linux.dev, sbates@raithlin.com, hch@lst.de, jgg@ziepe.ca, christian.koenig@amd.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, jason@jlekstrand.net, dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, logang@deltatee.com, jhubbard@nvidia.com, rcampbell@nvidia.com, mgurtovoy@nvidia.com, kch@nvidia.com
+X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org, iommu@lists.linux.dev, sbates@raithlin.com, hch@lst.de, jgg@ziepe.ca, christian.koenig@amd.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, jason@jlekstrand.net, dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, jhubbard@nvidia.com, rcampbell@nvidia.com, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v8 10/13] nvme-pci: convert to using dma_map_sgtable()
+Subject: [PATCH v8 07/13] iommu: Explicitly skip bus address marked segments  in __iommu_map_sg()
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220708_095119_972519_86762E59 
-X-CRM114-Status: GOOD (  17.98  )
+X-CRM114-CacheID: sfid-20220708_095121_889548_3DEBC084 
+X-CRM114-Status: GOOD (  11.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,203 +100,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The dma_map operations now support P2PDMA pages directly. So remove
-the calls to pci_p2pdma_[un]map_sg_attrs() and replace them with calls
-to dma_map_sgtable().
+In order to support PCI P2PDMA mappings with dma-iommu, explicitly skip
+any segments marked with sg_dma_mark_bus_address() in __iommu_map_sg().
 
-dma_map_sgtable() returns more complete error codes than dma_map_sg()
-and allows differentiating EREMOTEIO errors in case an unsupported
-P2PDMA transfer is requested. When this happens, return BLK_STS_TARGET
-so the request isn't retried.
+These segments should not be mapped into the IOVA and will be handled
+separately in as subsequent patch for dma-iommu.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/pci.c | 69 +++++++++++++++++------------------------
- 1 file changed, 29 insertions(+), 40 deletions(-)
+ drivers/iommu/iommu.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 0f556e954ffc..696434658e53 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -230,11 +230,10 @@ struct nvme_iod {
- 	bool use_sgl;
- 	int aborted;
- 	int npages;		/* In the PRP list. 0 means small pool in use */
--	int nents;		/* Used in scatterlist */
- 	dma_addr_t first_dma;
- 	unsigned int dma_len;	/* length of single DMA segment mapping */
- 	dma_addr_t meta_dma;
--	struct scatterlist *sg;
-+	struct sg_table sgt;
- };
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 847ad47a2dfd..2844a3e02a89 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -2457,6 +2457,9 @@ static ssize_t __iommu_map_sg(struct iommu_domain *domain, unsigned long iova,
+ 			len = 0;
+ 		}
  
- static inline unsigned int nvme_dbbuf_size(struct nvme_dev *dev)
-@@ -524,7 +523,7 @@ static void nvme_commit_rqs(struct blk_mq_hw_ctx *hctx)
- static void **nvme_pci_iod_list(struct request *req)
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
--	return (void **)(iod->sg + blk_rq_nr_phys_segments(req));
-+	return (void **)(iod->sgt.sgl + blk_rq_nr_phys_segments(req));
- }
- 
- static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct request *req)
-@@ -576,17 +575,6 @@ static void nvme_free_sgls(struct nvme_dev *dev, struct request *req)
- 	}
- }
- 
--static void nvme_unmap_sg(struct nvme_dev *dev, struct request *req)
--{
--	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
--
--	if (is_pci_p2pdma_page(sg_page(iod->sg)))
--		pci_p2pdma_unmap_sg(dev->dev, iod->sg, iod->nents,
--				    rq_dma_dir(req));
--	else
--		dma_unmap_sg(dev->dev, iod->sg, iod->nents, rq_dma_dir(req));
--}
--
- static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-@@ -597,9 +585,10 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
- 		return;
- 	}
- 
--	WARN_ON_ONCE(!iod->nents);
-+	WARN_ON_ONCE(!iod->sgt.nents);
++		if (sg_is_dma_bus_address(sg))
++			goto next;
 +
-+	dma_unmap_sgtable(dev->dev, &iod->sgt, rq_dma_dir(req), 0);
+ 		if (len) {
+ 			len += sg->length;
+ 		} else {
+@@ -2464,6 +2467,7 @@ static ssize_t __iommu_map_sg(struct iommu_domain *domain, unsigned long iova,
+ 			start = s_phys;
+ 		}
  
--	nvme_unmap_sg(dev, req);
- 	if (iod->npages == 0)
- 		dma_pool_free(dev->prp_small_pool, nvme_pci_iod_list(req)[0],
- 			      iod->first_dma);
-@@ -607,7 +596,7 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
- 		nvme_free_sgls(dev, req);
- 	else
- 		nvme_free_prps(dev, req);
--	mempool_free(iod->sg, dev->iod_mempool);
-+	mempool_free(iod->sgt.sgl, dev->iod_mempool);
- }
- 
- static void nvme_print_sgl(struct scatterlist *sgl, int nents)
-@@ -630,7 +619,7 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
- 	struct dma_pool *pool;
- 	int length = blk_rq_payload_bytes(req);
--	struct scatterlist *sg = iod->sg;
-+	struct scatterlist *sg = iod->sgt.sgl;
- 	int dma_len = sg_dma_len(sg);
- 	u64 dma_addr = sg_dma_address(sg);
- 	int offset = dma_addr & (NVME_CTRL_PAGE_SIZE - 1);
-@@ -703,16 +692,16 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
- 		dma_len = sg_dma_len(sg);
++next:
+ 		if (++i < nents)
+ 			sg = sg_next(sg);
  	}
- done:
--	cmnd->dptr.prp1 = cpu_to_le64(sg_dma_address(iod->sg));
-+	cmnd->dptr.prp1 = cpu_to_le64(sg_dma_address(iod->sgt.sgl));
- 	cmnd->dptr.prp2 = cpu_to_le64(iod->first_dma);
- 	return BLK_STS_OK;
- free_prps:
- 	nvme_free_prps(dev, req);
- 	return BLK_STS_RESOURCE;
- bad_sgl:
--	WARN(DO_ONCE(nvme_print_sgl, iod->sg, iod->nents),
-+	WARN(DO_ONCE(nvme_print_sgl, iod->sgt.sgl, iod->sgt.nents),
- 			"Invalid SGL for payload:%d nents:%d\n",
--			blk_rq_payload_bytes(req), iod->nents);
-+			blk_rq_payload_bytes(req), iod->sgt.nents);
- 	return BLK_STS_IOERR;
- }
- 
-@@ -738,12 +727,13 @@ static void nvme_pci_sgl_set_seg(struct nvme_sgl_desc *sge,
- }
- 
- static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
--		struct request *req, struct nvme_rw_command *cmd, int entries)
-+		struct request *req, struct nvme_rw_command *cmd)
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
- 	struct dma_pool *pool;
- 	struct nvme_sgl_desc *sg_list;
--	struct scatterlist *sg = iod->sg;
-+	struct scatterlist *sg = iod->sgt.sgl;
-+	unsigned int entries = iod->sgt.nents;
- 	dma_addr_t sgl_dma;
- 	int i = 0;
- 
-@@ -841,7 +831,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
- 	blk_status_t ret = BLK_STS_RESOURCE;
--	int nr_mapped;
-+	int rc;
- 
- 	if (blk_rq_nr_phys_segments(req) == 1) {
- 		struct bio_vec bv = req_bvec(req);
-@@ -859,26 +849,25 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
- 	}
- 
- 	iod->dma_len = 0;
--	iod->sg = mempool_alloc(dev->iod_mempool, GFP_ATOMIC);
--	if (!iod->sg)
-+	iod->sgt.sgl = mempool_alloc(dev->iod_mempool, GFP_ATOMIC);
-+	if (!iod->sgt.sgl)
- 		return BLK_STS_RESOURCE;
--	sg_init_table(iod->sg, blk_rq_nr_phys_segments(req));
--	iod->nents = blk_rq_map_sg(req->q, req, iod->sg);
--	if (!iod->nents)
-+	sg_init_table(iod->sgt.sgl, blk_rq_nr_phys_segments(req));
-+	iod->sgt.orig_nents = blk_rq_map_sg(req->q, req, iod->sgt.sgl);
-+	if (!iod->sgt.orig_nents)
- 		goto out_free_sg;
- 
--	if (is_pci_p2pdma_page(sg_page(iod->sg)))
--		nr_mapped = pci_p2pdma_map_sg_attrs(dev->dev, iod->sg,
--				iod->nents, rq_dma_dir(req), DMA_ATTR_NO_WARN);
--	else
--		nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents,
--					     rq_dma_dir(req), DMA_ATTR_NO_WARN);
--	if (!nr_mapped)
-+	rc = dma_map_sgtable(dev->dev, &iod->sgt, rq_dma_dir(req),
-+			     DMA_ATTR_NO_WARN);
-+	if (rc) {
-+		if (rc == -EREMOTEIO)
-+			ret = BLK_STS_TARGET;
- 		goto out_free_sg;
-+	}
- 
- 	iod->use_sgl = nvme_pci_use_sgls(dev, req);
- 	if (iod->use_sgl)
--		ret = nvme_pci_setup_sgls(dev, req, &cmnd->rw, nr_mapped);
-+		ret = nvme_pci_setup_sgls(dev, req, &cmnd->rw);
- 	else
- 		ret = nvme_pci_setup_prps(dev, req, &cmnd->rw);
- 	if (ret != BLK_STS_OK)
-@@ -886,9 +875,9 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
- 	return BLK_STS_OK;
- 
- out_unmap_sg:
--	nvme_unmap_sg(dev, req);
-+	dma_unmap_sgtable(dev->dev, &iod->sgt, rq_dma_dir(req), 0);
- out_free_sg:
--	mempool_free(iod->sg, dev->iod_mempool);
-+	mempool_free(iod->sgt.sgl, dev->iod_mempool);
- 	return ret;
- }
- 
-@@ -912,7 +901,7 @@ static blk_status_t nvme_prep_rq(struct nvme_dev *dev, struct request *req)
- 
- 	iod->aborted = 0;
- 	iod->npages = -1;
--	iod->nents = 0;
-+	iod->sgt.nents = 0;
- 
- 	ret = nvme_setup_cmd(req->q->queuedata, req);
- 	if (ret)
 -- 
 2.30.2
 
