@@ -4,83 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A13CC43334
-	for <linux-nvme@archiver.kernel.org>; Sun, 10 Jul 2022 01:15:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D589C433EF
+	for <linux-nvme@archiver.kernel.org>; Sun, 10 Jul 2022 07:30:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
+	:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LnmwoE1ESaUSXake5lmFYTPM0/kp0klpWUDGs+CL1aM=; b=BN77YyV3C/n1U5PosYBDVMTNSA
-	oaDn/NMYG2xwrFH8SiAGPbev8PRT1fasGyHongGKnvC9FClJRmBCEU61WtuP6V06dkAxCAg5rsVNI
-	g+bJ8QlmZ4YezuArftGw1AfSn0ddsSW1lG4IRDl6IX1iODzfN5WKXH1x1jbpvRVhW08OQcwApSD6N
-	rCSy0Gk6hQGv4UqH+9x4y8u5QQPVMZa0yp7pWUwgTiMg2DHulwkv9A9QWf7soRwfxf7btgWlUSTKn
-	PaMpF+ADw4IgFT2dTDZxvK6KCtooFAleZXLhtTVN3B9a449ieT2NSA/gVq8+bQbUdBLyMHGNrF7pk
-	F2GWxirQ==;
+	bh=8e834mcfkj5DyYp2F7UpIZpl608YuXQCo9cN4RiJA8E=; b=IuPNoDYeKzlr5Fy8StbFUdW2CE
+	Y9C7c2sGpwmUZVUh7KMDaOhk4HRPdEiXbCHmLcwxQQc9zCG3Bfgg9YaDHVxpWCysyaBVwDfkc4gay
+	h4wT/ut+UN1P+DpIzLNbRa1g5B02XvFQTDC7wb9RxYbalyHCJnl3LniXqBrzY30jutB0XL7OvBv+e
+	hW+XNRwGM+2byy5nNEt70pqd4/IiABKw4jz3c7k2sDhFSqGmy/IL1+AOthfBZtC7t/XzfmVYhgGsu
+	QMC7d2GxiMmHL/tnxREgCU5Nlc/wX7SX+yaNRj+fBgXsVeDLlK2F5mcFVNHrTEI85WAGu0aBrOVkZ
+	GrOzzH9w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oALXa-00A5B9-H9; Sun, 10 Jul 2022 01:15:18 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1oAROx-00AyRm-3G; Sun, 10 Jul 2022 07:30:47 +0000
+Received: from ale.deltatee.com ([204.191.154.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oALXT-00A58F-HV
-	for linux-nvme@lists.infradead.org; Sun, 10 Jul 2022 01:15:13 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1657415707;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LnmwoE1ESaUSXake5lmFYTPM0/kp0klpWUDGs+CL1aM=;
-	b=iexgIstEzH0mvfOwUWvrOuMXkDkio3ncneZJZNjxfPwNkqK1i13UtIx0cvxDXNdbKn+xLv
-	nLS5qMxaWCVFLLuEKZltvcdSozxnypwoWMBTacORxV9VE9imEvJ5NvpiFsi+uL90vs7xAu
-	v/dKEQSQgNgIixv0iKLPAkMmlaK2UZM=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-515-y4nNUvM_O9CQ0HM0wS58Wg-1; Sat, 09 Jul 2022 21:15:06 -0400
-X-MC-Unique: y4nNUvM_O9CQ0HM0wS58Wg-1
-Received: by mail-pj1-f72.google.com with SMTP id mh7-20020a17090b4ac700b001ef88609386so3549395pjb.9
-        for <linux-nvme@lists.infradead.org>; Sat, 09 Jul 2022 18:15:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LnmwoE1ESaUSXake5lmFYTPM0/kp0klpWUDGs+CL1aM=;
-        b=N+Juc8zIu10WA2KAl55n2UJNXnsbRAAPlo1vzbttkd2oS6Nyew6Ie4jk6k4Afnqbt2
-         PXkpTFQuyqTuET6OcUh6STkfTVzNi9Q2F35/LqwMIuVL85oRqGizEC15tKhpxgAmomqF
-         P4dddVxwE4hpzTptk356cxq3U+RozknaGdM2arPsKuD7jfjqpN1dAssb5FKwvclOD4Wm
-         r6BRaS6j+TGbEj/0BAJYYl01RXqKsmE8GTbulTj4FFGapnqsQpe6Ygf8t33+dkDExga7
-         5tlDOrU6LXCqW8lIEdvX7Wbvw1vlsRDA7y/ZX0zYtUAT/GSFw7gI0bRLKpOAfkLzqL7E
-         FfSA==
-X-Gm-Message-State: AJIora9YhujJ141yIK6prh0ObYfITV4VFobl2QktfFxC++5sUPKI8W7D
-	OHcIcL6jaAN/9XSyWNUc9F9qUgYO1Iqrb1fHhHTHOHMhv+n7cwcos3GK6KbhYH2nR92rHw3bdkU
-	4RJlk4cm4G/dUt7L0SBOVk2Txbge/xsKdFWY3ufJH7Gc=
-X-Received: by 2002:a05:6a00:793:b0:52a:b261:f8e7 with SMTP id g19-20020a056a00079300b0052ab261f8e7mr10004220pfu.20.1657415705340;
-        Sat, 09 Jul 2022 18:15:05 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tqJATeVZl4K9fNLEfFlRcSBawUoqH1LFdOK/P3Q+zc5HAvKZdmY9aMRgLd4rtICcDO1JtOVkruH4QCr3aZBZs=
-X-Received: by 2002:a05:6a00:793:b0:52a:b261:f8e7 with SMTP id
- g19-20020a056a00079300b0052ab261f8e7mr10004202pfu.20.1657415705013; Sat, 09
- Jul 2022 18:15:05 -0700 (PDT)
+	id 1o9rCJ-004n3o-Qd
+	for linux-nvme@lists.infradead.org; Fri, 08 Jul 2022 16:51:25 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Cc:To:From:content-disposition;
+	bh=8e834mcfkj5DyYp2F7UpIZpl608YuXQCo9cN4RiJA8E=; b=WQyaLzDGqtTKF10L2+k70xp9Zo
+	NYO4sof7irrsBjsiQVjw1cHzkTxZgXB1h5a5O6NMRW89IIoXRNEpVv7KFcBTW6j1OvJcmHsLoJCxn
+	/mEJsikT4B81IGCKUlRCAWy1fZAyQtibqwdtEx9aZxIEgxlSPuXnj12feUz+Be1smzXTtG3cMnLpr
+	dTw46g/FTQ55xAU5+nCGsBrSJ/7qPQcXPPeoZynV3DebYjPLYCOff7+AaQKaksgShCUC08bgOokwT
+	J0OuyWraBgjmAEa2EuGyOYPvCqb2K1T55hrlC5reJaTouQYCjCr2r5r2JIgBk9y/EtpL+8b/QMTdL
+	ELRV/teQ==;
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+	by ale.deltatee.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <gunthorp@deltatee.com>)
+	id 1o9rCD-009xkH-83; Fri, 08 Jul 2022 10:51:14 -0600
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.94.2)
+	(envelope-from <gunthorp@deltatee.com>)
+	id 1o9rCB-0001KT-5B; Fri, 08 Jul 2022 10:51:11 -0600
+From: Logan Gunthorpe <logang@deltatee.com>
+To: linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-mm@kvack.org,
+	iommu@lists.linux-foundation.org,
+	iommu@lists.linux.dev
+Cc: Stephen Bates <sbates@raithlin.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Don Dutile <ddutile@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Minturn Dave B <dave.b.minturn@intel.com>,
+	Jason Ekstrand <jason@jlekstrand.net>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Xiong Jianxin <jianxin.xiong@intel.com>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Martin Oliveira <martin.oliveira@eideticom.com>,
+	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+	Ralph Campbell <rcampbell@nvidia.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Max Gurtovoy <mgurtovoy@nvidia.com>
+Date: Fri,  8 Jul 2022 10:51:04 -0600
+Message-Id: <20220708165104.5005-14-logang@deltatee.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220708165104.5005-1-logang@deltatee.com>
+References: <20220708165104.5005-1-logang@deltatee.com>
 MIME-Version: 1.0
-References: <CAHj4cs9Jhg4DZRnck_rdGWtpv9nLTAF__CVtPQu9vViVUZ-Odg@mail.gmail.com>
- <def01493-bd2d-bed4-ab1a-9b4304687692@acm.org> <CAHj4cs-xUroRHbvY4kBPCBFgch7d24yXDFLo4P_ym8KEkHCvug@mail.gmail.com>
-In-Reply-To: <CAHj4cs-xUroRHbvY4kBPCBFgch7d24yXDFLo4P_ym8KEkHCvug@mail.gmail.com>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Sun, 10 Jul 2022 09:14:53 +0800
-Message-ID: <CAHj4cs960iq+KfSaCWCtm=xB3bNYNVkewLmZPpuaO66ZZ9nwXQ@mail.gmail.com>
-Subject: Re: [bug report] blktests nvme/005 trigered debugfs: Directory
- 'hctx0' with parent '/' already present!
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: linux-block <linux-block@vger.kernel.org>, 
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, Ming Lei <ming.lei@redhat.com>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org, iommu@lists.linux.dev, sbates@raithlin.com, hch@lst.de, jgg@ziepe.ca, christian.koenig@amd.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, jason@jlekstrand.net, dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, logang@deltatee.com, bhelgaas@google.com, jhubbard@nvidia.com, rcampbell@nvidia.com, jgg@nvidia.com, mgurtovoy@nvidia.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+Subject: [PATCH v8 13/13] PCI/P2PDMA: Remove pci_p2pdma_[un]map_sg()
+X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220709_181511_819451_CA479610 
-X-CRM114-Status: GOOD (  18.07  )
+X-CRM114-CacheID: sfid-20220708_095119_953912_F6A79B0E 
+X-CRM114-Status: GOOD (  14.25  )
+X-Mailman-Approved-At: Sun, 10 Jul 2022 00:30:45 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,45 +104,147 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Jul 9, 2022 at 11:19 AM Yi Zhang <yi.zhang@redhat.com> wrote:
->
-> On Sat, Jul 9, 2022 at 2:59 AM Bart Van Assche <bvanassche@acm.org> wrote:
-> >
-> > On 7/8/22 09:32, Yi Zhang wrote:
-> > > I found below error log when I ran blktests nvme/ tests on aarch64
-> > > with the latest linux-block/for-next,
-> > > Please help check it, and feel free to let me know if you need any
-> > > info/test for it, thanks.
-> >
-> > Is this 100% reproducible? I tried to reproduce this yesterday but
-> > without success. See also
-> Yes, it always can be reproduced at the second run of "nvme_trtype=tcp
-> ./check nvme/005"
-> I reproduced it on aarch64, not sure if it's arch related.
+This interface is superseded by support in dma_map_sg() which now supports
+heterogeneous scatterlists. There are no longer any users, so remove it.
 
-Just reproduced it on x86_64, so pls try to run two times for the test.
+Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/pci/p2pdma.c       | 66 --------------------------------------
+ include/linux/pci-p2pdma.h | 27 ----------------
+ 2 files changed, 93 deletions(-)
 
-
->
-> > https://bugzilla.kernel.org/show_bug.cgi?id=216191.
-> I tried block/001, and cannot reproduce it.
->
-> >
-> > Thanks,
-> >
-> > Bart.
->
-> >
->
->
-> --
-> Best Regards,
->   Yi Zhang
-
-
-
+diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+index 5d2538aa0778..4496a7c5c478 100644
+--- a/drivers/pci/p2pdma.c
++++ b/drivers/pci/p2pdma.c
+@@ -872,72 +872,6 @@ static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
+ 	return type;
+ }
+ 
+-static int __pci_p2pdma_map_sg(struct pci_p2pdma_pagemap *p2p_pgmap,
+-		struct device *dev, struct scatterlist *sg, int nents)
+-{
+-	struct scatterlist *s;
+-	int i;
+-
+-	for_each_sg(sg, s, nents, i) {
+-		s->dma_address = sg_phys(s) + p2p_pgmap->bus_offset;
+-		sg_dma_len(s) = s->length;
+-	}
+-
+-	return nents;
+-}
+-
+-/**
+- * pci_p2pdma_map_sg_attrs - map a PCI peer-to-peer scatterlist for DMA
+- * @dev: device doing the DMA request
+- * @sg: scatter list to map
+- * @nents: elements in the scatterlist
+- * @dir: DMA direction
+- * @attrs: DMA attributes passed to dma_map_sg() (if called)
+- *
+- * Scatterlists mapped with this function should be unmapped using
+- * pci_p2pdma_unmap_sg_attrs().
+- *
+- * Returns the number of SG entries mapped or 0 on error.
+- */
+-int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
+-		int nents, enum dma_data_direction dir, unsigned long attrs)
+-{
+-	struct pci_p2pdma_pagemap *p2p_pgmap =
+-		to_p2p_pgmap(sg_page(sg)->pgmap);
+-
+-	switch (pci_p2pdma_map_type(sg_page(sg)->pgmap, dev)) {
+-	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+-		return dma_map_sg_attrs(dev, sg, nents, dir, attrs);
+-	case PCI_P2PDMA_MAP_BUS_ADDR:
+-		return __pci_p2pdma_map_sg(p2p_pgmap, dev, sg, nents);
+-	default:
+-		/* Mapping is not Supported */
+-		return 0;
+-	}
+-}
+-EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg_attrs);
+-
+-/**
+- * pci_p2pdma_unmap_sg_attrs - unmap a PCI peer-to-peer scatterlist that was
+- *	mapped with pci_p2pdma_map_sg()
+- * @dev: device doing the DMA request
+- * @sg: scatter list to map
+- * @nents: number of elements returned by pci_p2pdma_map_sg()
+- * @dir: DMA direction
+- * @attrs: DMA attributes passed to dma_unmap_sg() (if called)
+- */
+-void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
+-		int nents, enum dma_data_direction dir, unsigned long attrs)
+-{
+-	enum pci_p2pdma_map_type map_type;
+-
+-	map_type = pci_p2pdma_map_type(sg_page(sg)->pgmap, dev);
+-
+-	if (map_type == PCI_P2PDMA_MAP_THRU_HOST_BRIDGE)
+-		dma_unmap_sg_attrs(dev, sg, nents, dir, attrs);
+-}
+-EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_sg_attrs);
+-
+ /**
+  * pci_p2pdma_map_segment - map an sg segment determining the mapping type
+  * @state: State structure that should be declared outside of the for_each_sg()
+diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
+index 8318a97c9c61..2c07aa6b7665 100644
+--- a/include/linux/pci-p2pdma.h
++++ b/include/linux/pci-p2pdma.h
+@@ -30,10 +30,6 @@ struct scatterlist *pci_p2pmem_alloc_sgl(struct pci_dev *pdev,
+ 					 unsigned int *nents, u32 length);
+ void pci_p2pmem_free_sgl(struct pci_dev *pdev, struct scatterlist *sgl);
+ void pci_p2pmem_publish(struct pci_dev *pdev, bool publish);
+-int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
+-		int nents, enum dma_data_direction dir, unsigned long attrs);
+-void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
+-		int nents, enum dma_data_direction dir, unsigned long attrs);
+ int pci_p2pdma_enable_store(const char *page, struct pci_dev **p2p_dev,
+ 			    bool *use_p2pdma);
+ ssize_t pci_p2pdma_enable_show(char *page, struct pci_dev *p2p_dev,
+@@ -83,17 +79,6 @@ static inline void pci_p2pmem_free_sgl(struct pci_dev *pdev,
+ static inline void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
+ {
+ }
+-static inline int pci_p2pdma_map_sg_attrs(struct device *dev,
+-		struct scatterlist *sg, int nents, enum dma_data_direction dir,
+-		unsigned long attrs)
+-{
+-	return 0;
+-}
+-static inline void pci_p2pdma_unmap_sg_attrs(struct device *dev,
+-		struct scatterlist *sg, int nents, enum dma_data_direction dir,
+-		unsigned long attrs)
+-{
+-}
+ static inline int pci_p2pdma_enable_store(const char *page,
+ 		struct pci_dev **p2p_dev, bool *use_p2pdma)
+ {
+@@ -119,16 +104,4 @@ static inline struct pci_dev *pci_p2pmem_find(struct device *client)
+ 	return pci_p2pmem_find_many(&client, 1);
+ }
+ 
+-static inline int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg,
+-				    int nents, enum dma_data_direction dir)
+-{
+-	return pci_p2pdma_map_sg_attrs(dev, sg, nents, dir, 0);
+-}
+-
+-static inline void pci_p2pdma_unmap_sg(struct device *dev,
+-		struct scatterlist *sg, int nents, enum dma_data_direction dir)
+-{
+-	pci_p2pdma_unmap_sg_attrs(dev, sg, nents, dir, 0);
+-}
+-
+ #endif /* _LINUX_PCI_P2P_H */
 -- 
-Best Regards,
-  Yi Zhang
+2.30.2
 
 
