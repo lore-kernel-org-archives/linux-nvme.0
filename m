@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2EDE2CCA47B
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jul 2022 16:52:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62D64C43334
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jul 2022 16:52:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
-	:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3m0HqdPfpIwE9OX075f9oLJxQjZz5A8+nk0L6lYXPdw=; b=YJb8rvZ0sAO+Aylfg2XOj74KyE
-	JhTXZcqiJO5USRqRjGh0P2zzTYxU1tpL8xsBuFhB8Qfj+81AOzOmo4tIfTG5v4QerriEva858AG2d
-	m0VI23GMMZgbkxiPwV2gPeBn5xeYrUaSQTkAkIP/ePl3L0kccqjw4nBz1hxOiWZPkKnAX/cBNWWv5
-	/2MwBFCothrx8fIip+a2b+W+T/V4CbDbtq7PgU1qRtqs1wipG1gCcXvZmdvlZozaqlw7GSEhhnzG6
-	USju7rgJlI9owNyLv9cA3dtN+VhDO14H7AVcJ7mr+aF0GrXW9WLIu7vfUIIzmdh3bzXCv34YM8iYs
-	mzaJpSJw==;
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=rTRb+/So/4EWEZ45msTESV3Xx/IfhAVRRKsYbmWz88w=; b=J5ABgLBOLuZLDt
+	gk+HDq8wmtT+LPnYyjZw3kSHmh0gblw5ObRq1BGvX5c7crsNg7pQNxytqiSIT3gT3uhLZC4TkzN3C
+	zQaQwaaT+YsGf0a8tlixGwSE1FZ/2HJZVDXw/eKrqLaO790lF2LBe//twR09K/90ejzTixc8nzCeE
+	fUyJ9BBjhxfOEsgaVfCqmO85JmzoQq248U6yb4LtDeZaSwm/qFKOg/Ix+2ntGdSSXcUn/K0N6/Ev4
+	L+HE6JiWDR0PmXI/siY6Wl2P7qZ+RydaimnMD9Hga5J10ext1X+WJlbtg76oRCw+PJ1s96XQjmERU
+	CkZZsM2umVEjbdhYSilA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o9rCz-004nc4-7U; Fri, 08 Jul 2022 16:52:01 +0000
+	id 1o9rD6-004nhc-Fv; Fri, 08 Jul 2022 16:52:08 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o9rCI-004n3l-PR
+	id 1o9rCJ-004n3q-QO
 	for linux-nvme@lists.infradead.org; Fri, 08 Jul 2022 16:51:23 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Cc:To:From:content-disposition;
-	bh=3m0HqdPfpIwE9OX075f9oLJxQjZz5A8+nk0L6lYXPdw=; b=Bc6JUB9eA4q6GnWKA7t2anav0e
-	DmbFi/UJHIKGLu2kJc7KTSFdMC/fmIhQG7hr6g8pc5ThIGW9THCmQW/pBla0BtWvBaPHgq64ZCIc7
-	ZmKTZ+FlkaD599cdB3avSkWFRB48EmyCSG1zWVAI/D4qCGiLVHwDYyF/Oq+vtMZFMHs/b/GrNA5G6
-	04YW0ju77TC3N1hXXBFNlJK/uBqH9/qEvhOxQqubOUNg8wFQZmhIC0hbaKrNFlisNBALgFL4vUWBR
-	XEEhcACxZQvJOrr3Y+8xTdJcF1B5XR1UnJqJich9cKGVMGKHsv73wovZVD72Zru5i1jqS+2aexCqC
-	Ow3ZhfGQ==;
+	bh=rTRb+/So/4EWEZ45msTESV3Xx/IfhAVRRKsYbmWz88w=; b=boDw/T3OLLCbj221FqjfwANe11
+	vAAJKxjURenUnC6LcrRQSb00rB7JUyYQbZZU4F6NG1eUTL/3c9WbUHkPIi1SwiDACiT1DiyashnUX
+	tFqQM9aSfLkyMcPz0TY0PVj5P0+SABZ4KVUDbofgojU3sZNVV3D5eAhoyLwDEgZS9dNbjRk2f/LTB
+	yZPC3h4+QaVQyAThd2QaTnXxWjTNFBFYTeqvb7BWSWIHCSbbKf7smx6xbURna/koL0Bgp9z9jc+BW
+	xAwOl55pC1o6Ff9saZIoI/sRItIuXXcNkdabWLWkQCXBgb3N7spZ+GelJnExEgPkJfQpgen/cNs6l
+	lZG+hURw==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
 	by ale.deltatee.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <gunthorp@deltatee.com>)
-	id 1o9rCB-009xkH-SF; Fri, 08 Jul 2022 10:51:13 -0600
+	id 1o9rCB-009xkF-SA; Fri, 08 Jul 2022 10:51:14 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.94.2)
 	(envelope-from <gunthorp@deltatee.com>)
-	id 1o9rC9-0001Js-Bs; Fri, 08 Jul 2022 10:51:09 -0600
+	id 1o9rC9-0001Jl-1m; Fri, 08 Jul 2022 10:51:09 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
@@ -69,24 +69,24 @@ Cc: Stephen Bates <sbates@raithlin.com>,
 	Martin Oliveira <martin.oliveira@eideticom.com>,
 	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
 	Ralph Campbell <rcampbell@nvidia.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Bjorn Helgaas <bhelgaas@google.com>
-Date: Fri,  8 Jul 2022 10:50:54 -0600
-Message-Id: <20220708165104.5005-4-logang@deltatee.com>
+	Logan Gunthorpe <logang@deltatee.com>
+Date: Fri,  8 Jul 2022 10:50:52 -0600
+Message-Id: <20220708165104.5005-2-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220708165104.5005-1-logang@deltatee.com>
 References: <20220708165104.5005-1-logang@deltatee.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org, iommu@lists.linux.dev, sbates@raithlin.com, hch@lst.de, jgg@ziepe.ca, christian.koenig@amd.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, jason@jlekstrand.net, dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, jhubbard@nvidia.com, rcampbell@nvidia.com, logang@deltatee.com, bhelgaas@google.com
+X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org, iommu@lists.linux.dev, sbates@raithlin.com, hch@lst.de, jgg@ziepe.ca, christian.koenig@amd.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, jason@jlekstrand.net, dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, jhubbard@nvidia.com, rcampbell@nvidia.com, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v8 03/13] PCI/P2PDMA: Introduce helpers for dma_map_sg implementations
+Subject: [PATCH v8 01/13] lib/scatterlist: add flag for indicating P2PDMA segments in an SGL
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220708_095118_977341_0D876AB6 
-X-CRM114-Status: GOOD (  23.60  )
+X-CRM114-CacheID: sfid-20220708_095119_885389_A30AB412 
+X-CRM114-Status: GOOD (  19.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,162 +101,129 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add pci_p2pdma_map_segment() as a helper for dma_map_sg()
-implementations. It takes an scatterlist segment that must point to a
-pci_p2pdma struct page and will map it if the mapping requires a bus
-address.
+Introduce a dma_flags field in struct scatterlist. These flags will be
+used by dma_[un]map_sg_p2pdma() to determine when a given SGL segments
+dma_address points to a PCI bus address. dma_unmap_sg_p2pdma() will need
+to perform different cleanup when a segment is marked as a bus address.
 
-The return value indicates whether the mapping required a bus address
-or whether the caller still needs to map the segment normally. If the
-segment should not be mapped, -EREMOTEIO is returned.
+The dma_flags field will fit in the existing padding on 64BIT systems
+(assuming CONFIG_NEED_SG_DMA_LENGTH is also set).
 
-This helper uses a state structure to track the changes to the
-pgmap across calls and avoid needing to lookup into the xarray for
-every page.
-
-The prototype for the helper is added to dma-map-ops.h as it is only
-useful to dma map implementations and don't need to pollute the public
-pci-p2pdma header.
+The new bit will only be used when CONFIG_PCI_P2PDMA is set; this means
+PCI P2PDMA will require CONFIG_64BIT. This should be acceptable as the
+majority of P2PDMA use cases are restricted to newer root complexes and
+roughly require the extra address space for memory BARs used in the
+transactions.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/pci/p2pdma.c        | 44 +++++++++++++++++++++++++-----
- include/linux/dma-map-ops.h | 53 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 90 insertions(+), 7 deletions(-)
+ drivers/pci/Kconfig         |  5 +++
+ include/linux/scatterlist.h | 69 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 74 insertions(+)
 
-diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 4e8bc457e29a..5d2538aa0778 100644
---- a/drivers/pci/p2pdma.c
-+++ b/drivers/pci/p2pdma.c
-@@ -10,6 +10,7 @@
+diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
+index 133c73207782..5cc7cba1941f 100644
+--- a/drivers/pci/Kconfig
++++ b/drivers/pci/Kconfig
+@@ -164,6 +164,11 @@ config PCI_PASID
+ config PCI_P2PDMA
+ 	bool "PCI peer-to-peer transfer support"
+ 	depends on ZONE_DEVICE
++	#
++	# The need for the scatterlist DMA bus address flag means PCI P2PDMA
++	# requires 64bit
++	#
++	depends on 64BIT
+ 	select GENERIC_ALLOCATOR
+ 	help
+ 	  Enableѕ drivers to do PCI peer-to-peer transactions to and from
+diff --git a/include/linux/scatterlist.h b/include/linux/scatterlist.h
+index 7ff9d6386c12..375a5e90d86a 100644
+--- a/include/linux/scatterlist.h
++++ b/include/linux/scatterlist.h
+@@ -16,6 +16,9 @@ struct scatterlist {
+ #ifdef CONFIG_NEED_SG_DMA_LENGTH
+ 	unsigned int	dma_length;
+ #endif
++#ifdef CONFIG_PCI_P2PDMA
++	unsigned int    dma_flags;
++#endif
+ };
  
- #define pr_fmt(fmt) "pci-p2pdma: " fmt
- #include <linux/ctype.h>
-+#include <linux/dma-map-ops.h>
- #include <linux/pci-p2pdma.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-@@ -20,13 +21,6 @@
- #include <linux/seq_buf.h>
- #include <linux/xarray.h>
- 
--enum pci_p2pdma_map_type {
--	PCI_P2PDMA_MAP_UNKNOWN = 0,
--	PCI_P2PDMA_MAP_NOT_SUPPORTED,
--	PCI_P2PDMA_MAP_BUS_ADDR,
--	PCI_P2PDMA_MAP_THRU_HOST_BRIDGE,
--};
--
- struct pci_p2pdma {
- 	struct gen_pool *pool;
- 	bool p2pmem_published;
-@@ -944,6 +938,42 @@ void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
+ /*
+@@ -245,6 +248,72 @@ static inline void sg_unmark_end(struct scatterlist *sg)
+ 	sg->page_link &= ~SG_END;
  }
- EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_sg_attrs);
  
-+/**
-+ * pci_p2pdma_map_segment - map an sg segment determining the mapping type
-+ * @state: State structure that should be declared outside of the for_each_sg()
-+ *	loop and initialized to zero.
-+ * @dev: DMA device that's doing the mapping operation
-+ * @sg: scatterlist segment to map
-+ *
-+ * This is a helper to be used by non-IOMMU dma_map_sg() implementations where
-+ * the sg segment is the same for the page_link and the dma_address.
-+ *
-+ * Attempt to map a single segment in an SGL with the PCI bus address.
-+ * The segment must point to a PCI P2PDMA page and thus must be
-+ * wrapped in a is_pci_p2pdma_page(sg_page(sg)) check.
-+ *
-+ * Returns the type of mapping used and maps the page if the type is
-+ * PCI_P2PDMA_MAP_BUS_ADDR.
++/*
++ * CONFGI_PCI_P2PDMA depends on CONFIG_64BIT which means there is 4 bytes
++ * in struct scatterlist (assuming also CONFIG_NEED_SG_DMA_LENGTH is set).
++ * Use this padding for DMA flags bits to indicate when a specific
++ * dma address is a bus address.
 + */
-+enum pci_p2pdma_map_type
-+pci_p2pdma_map_segment(struct pci_p2pdma_map_state *state, struct device *dev,
-+		       struct scatterlist *sg)
++#ifdef CONFIG_PCI_P2PDMA
++
++#define SG_DMA_BUS_ADDRESS (1 << 0)
++
++/**
++ * sg_dma_is_bus address - Return whether a given segment was marked
++ *			   as a bus address
++ * @sg:		 SG entry
++ *
++ * Description:
++ *   Returns true if sg_dma_mark_bus_address() has been called on
++ *   this segment.
++ **/
++static inline bool sg_is_dma_bus_address(struct scatterlist *sg)
 +{
-+	if (state->pgmap != sg_page(sg)->pgmap) {
-+		state->pgmap = sg_page(sg)->pgmap;
-+		state->map = pci_p2pdma_map_type(state->pgmap, dev);
-+		state->bus_off = to_p2p_pgmap(state->pgmap)->bus_offset;
-+	}
-+
-+	if (state->map == PCI_P2PDMA_MAP_BUS_ADDR) {
-+		sg->dma_address = sg_phys(sg) + state->bus_off;
-+		sg_dma_len(sg) = sg->length;
-+		sg_dma_mark_bus_address(sg);
-+	}
-+
-+	return state->map;
++	return sg->dma_flags & SG_DMA_BUS_ADDRESS;
 +}
++
++/**
++ * sg_dma_mark_bus address - Mark the scatterlist entry as a bus address
++ * @sg:		 SG entry
++ *
++ * Description:
++ *   Marks the passed in sg entry to indicate that the dma_address is
++ *   a bus address and doesn't need to be unmapped. This should only be
++ *   used by dma_map_sg() implementations to mark bus addresses
++ *   so they can be properly cleaned up in dma_unmap_sg().
++ **/
++static inline void sg_dma_mark_bus_address(struct scatterlist *sg)
++{
++	sg->dma_flags |= SG_DMA_BUS_ADDRESS;
++}
++
++/**
++ * sg_unmark_bus_address - Unmark the scatterlist entry as a bus address
++ * @sg:		 SG entry
++ *
++ * Description:
++ *   Clears the bus address mark.
++ **/
++static inline void sg_dma_unmark_bus_address(struct scatterlist *sg)
++{
++	sg->dma_flags &= ~SG_DMA_BUS_ADDRESS;
++}
++
++#else
++
++static inline bool sg_is_dma_bus_address(struct scatterlist *sg)
++{
++	return false;
++}
++static inline void sg_dma_mark_bus_address(struct scatterlist *sg)
++{
++}
++static inline void sg_dma_unmark_bus_address(struct scatterlist *sg)
++{
++}
++
++#endif
 +
  /**
-  * pci_p2pdma_enable_store - parse a configfs/sysfs attribute store
-  *		to enable p2pdma
-diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
-index 0d5b06b3a4a6..df27ee3c9afc 100644
---- a/include/linux/dma-map-ops.h
-+++ b/include/linux/dma-map-ops.h
-@@ -379,4 +379,57 @@ static inline void debug_dma_dump_mappings(struct device *dev)
- 
- extern const struct dma_map_ops dma_dummy_ops;
- 
-+enum pci_p2pdma_map_type {
-+	/*
-+	 * PCI_P2PDMA_MAP_UNKNOWN: Used internally for indicating the mapping
-+	 * type hasn't been calculated yet. Functions that return this enum
-+	 * never return this value.
-+	 */
-+	PCI_P2PDMA_MAP_UNKNOWN = 0,
-+
-+	/*
-+	 * PCI_P2PDMA_MAP_NOT_SUPPORTED: Indicates the transaction will
-+	 * traverse the host bridge and the host bridge is not in the
-+	 * allowlist. DMA Mapping routines should return an error when
-+	 * this is returned.
-+	 */
-+	PCI_P2PDMA_MAP_NOT_SUPPORTED,
-+
-+	/*
-+	 * PCI_P2PDMA_BUS_ADDR: Indicates that two devices can talk to
-+	 * each other directly through a PCI switch and the transaction will
-+	 * not traverse the host bridge. Such a mapping should program
-+	 * the DMA engine with PCI bus addresses.
-+	 */
-+	PCI_P2PDMA_MAP_BUS_ADDR,
-+
-+	/*
-+	 * PCI_P2PDMA_MAP_THRU_HOST_BRIDGE: Indicates two devices can talk
-+	 * to each other, but the transaction traverses a host bridge on the
-+	 * allowlist. In this case, a normal mapping either with CPU physical
-+	 * addresses (in the case of dma-direct) or IOVA addresses (in the
-+	 * case of IOMMUs) should be used to program the DMA engine.
-+	 */
-+	PCI_P2PDMA_MAP_THRU_HOST_BRIDGE,
-+};
-+
-+struct pci_p2pdma_map_state {
-+	struct dev_pagemap *pgmap;
-+	int map;
-+	u64 bus_off;
-+};
-+
-+#ifdef CONFIG_PCI_P2PDMA
-+enum pci_p2pdma_map_type
-+pci_p2pdma_map_segment(struct pci_p2pdma_map_state *state, struct device *dev,
-+		       struct scatterlist *sg);
-+#else /* CONFIG_PCI_P2PDMA */
-+static inline enum pci_p2pdma_map_type
-+pci_p2pdma_map_segment(struct pci_p2pdma_map_state *state, struct device *dev,
-+		       struct scatterlist *sg)
-+{
-+	return PCI_P2PDMA_MAP_NOT_SUPPORTED;
-+}
-+#endif /* CONFIG_PCI_P2PDMA */
-+
- #endif /* _LINUX_DMA_MAP_OPS_H */
+  * sg_phys - Return physical address of an sg entry
+  * @sg:	     SG entry
 -- 
 2.30.2
 
