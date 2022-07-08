@@ -4,46 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5A57C43334
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jul 2022 05:00:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8904AC433EF
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jul 2022 10:00:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0A4ennnc2F+IoJyjjEUp5ofCfIPhj/ZHG/krHpep8B4=; b=1Zj2rTDELFLAY0VIOgZBGCY0gJ
-	b14+xt8v2tt52aKbJVPSTm4uYp1kskowH1JWll6DDkdiucbyLQM6JW9WgmKlb3NL9OcaH/T2ZUxYP
-	mIw3Ogz9JhV36d5OdBfPYxtXtEMgbPNTwSl4rvz7D4A6M0P4K1mZMQPr9WfS8lN1PJt8m/rp5/+Vc
-	uXcyS/hB+jBWe5/6FCZ8TV8ZXCxD0PjX4D09k1MZMEBEjFMMIF8hPgfC3SyXeA74hpKDcFekWGuD+
-	aeC5CjAjSlAGbf+IyJHKGneRFIq2HJ0Nq8IPsg2CXy1mhlLITB8LB/uGVqP4plWRC/73TIlBkeONn
-	hqd9JuPQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2V6Ye+bXmzpFOutWUlzq7wcs77pQ72lctKXBCAhfnO0=; b=2g3mqOtk5DYrDFS7W1twnmaOhw
+	vB1RYUBOwtV7UxHrXcfIOh1J3pKKG8tKdhUXg+MT/rsdTU8gzG/APIPppuT/bqXLxqxWp0f7U8l6d
+	6FT9SyPfApfVWvx01dYx7O6VmgKh/jwaioOrINKyDdL2Fq4wKWbzsupvKcJXDDK7TOcIOzLa90pI+
+	zIGRB7xzo1AWvqOEQB802rKyVjuGBLIO313rAhMQaaIFJPiWBzKbXotVHVvB0Hium6bNxD92kImZW
+	evgY5g6D3f59GyLBLDC+6dNOEksDFJcPqUz4bv4pt4vHWu/2o4QVru9P2Vky56rtAtScU9dMSxNRW
+	p+pEl3eg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o9g6m-001lZQ-4z; Fri, 08 Jul 2022 05:00:52 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1o9kmZ-0035OC-4i; Fri, 08 Jul 2022 10:00:19 +0000
+Received: from szxga02-in.huawei.com ([45.249.212.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o9g6j-001lW5-16
-	for linux-nvme@lists.infradead.org; Fri, 08 Jul 2022 05:00:50 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 7017167373; Fri,  8 Jul 2022 07:00:38 +0200 (CEST)
-Date: Fri, 8 Jul 2022 07:00:38 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Caleb Sander <csander@purestorage.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2] nvme-tcp: use in-capsule data for I/O connect
-Message-ID: <20220708050038.GA15655@lst.de>
-References: <4cfe8116-bb6c-735d-0bb3-ce5e2612505b@grimberg.me> <20220707211245.3989107-1-csander@purestorage.com>
+	id 1o9kmR-0035Mo-KC
+	for linux-nvme@lists.infradead.org; Fri, 08 Jul 2022 10:00:13 +0000
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.55])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LfTFK5GC8zThJw;
+	Fri,  8 Jul 2022 17:56:21 +0800 (CST)
+Received: from kwepemm600011.china.huawei.com (7.193.23.229) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 8 Jul 2022 17:59:38 +0800
+Received: from [10.169.46.19] (10.169.46.19) by kwepemm600011.china.huawei.com
+ (7.193.23.229) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 8 Jul
+ 2022 17:59:38 +0800
+Subject: Re: [PATCH] nvme-pci: use nvme core helper to cancel requests in
+ tagset
+To: Guixin Liu <kanie@linux.alibaba.com>, <kbusch@kernel.org>, <axboe@fb.com>,
+	<hch@lst.de>, <sagi@grimberg.me>
+CC: <linux-nvme@lists.infradead.org>
+References: <1657249477-88304-1-git-send-email-kanie@linux.alibaba.com>
+From: liruozhu <liruozhu@huawei.com>
+Message-ID: <4d25ed5e-ef2c-2700-03ee-2bb1aca2cbbe@huawei.com>
+Date: Fri, 8 Jul 2022 17:59:37 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.0.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220707211245.3989107-1-csander@purestorage.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <1657249477-88304-1-git-send-email-kanie@linux.alibaba.com>
+Content-Type: text/plain; charset="gbk"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.169.46.19]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemm600011.china.huawei.com (7.193.23.229)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220707_220049_267137_BD972CEB 
-X-CRM114-Status: GOOD (  14.69  )
+X-CRM114-CacheID: sfid-20220708_030011_883812_6BEF8DB7 
+X-CRM114-Status: GOOD (  11.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -58,18 +73,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 07, 2022 at 03:12:45PM -0600, Caleb Sander wrote:
-> >From the NVMe/TCP spec:
-> > The maximum amount of in-capsule data for Fabrics and Admin Commands
-> > is 8,192 bytes ... NVMe/TCP controllers must support in-capsule data
-> > for Fabrics and Admin Command Capsules
-> 
-> Currently, command data is only sent in-capsule on the admin queue
-> or I/O queues that indicate support for it.
-> Send fabrics command data in-capsule for I/O queues too to avoid
-> needing a separate H2CData PDU for the connect command.
+On 2022/7/8 11:04, Guixin Liu wrote:
 
-While I'm fine with this change, can you please state here why this
-is important?  Is there a use case where it really matters?  A controller
-that is unhappy if this doesn't happen?
+> Use nvme core helper nvme_cancel_tagset and nvme_cancel_admin_tagset
+> instead of same logic code.
+>
+> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+> ---
+>   drivers/nvme/host/pci.c | 6 ++----
+>   1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index e7af223..ab4facf 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2720,10 +2720,8 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+>   	nvme_pci_disable(dev);
+>   	nvme_reap_pending_cqes(dev);
+>   
+> -	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_request, &dev->ctrl);
+> -	blk_mq_tagset_busy_iter(&dev->admin_tagset, nvme_cancel_request, &dev->ctrl);
+> -	blk_mq_tagset_wait_completed_request(&dev->tagset);
+> -	blk_mq_tagset_wait_completed_request(&dev->admin_tagset);
+> +	nvme_cancel_tagset(&dev->ctrl);
+> +	nvme_cancel_admin_tagset(&dev->ctrl);
+>   
+>   	/*
+>   	 * The driver will not be starting up queues again if shutting down so
+
+Looks good to me,
+
+Reviewed-by:Ruozhu Li <liruozhu@huawei.com>
+
 
