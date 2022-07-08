@@ -4,44 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D5C8C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jul 2022 03:05:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2217C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jul 2022 03:06:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:
 	To:From:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=LW6wrraIIrEW3edhMECP18nq0ErN5YeslRJktigN7gc=; b=HzlT+6/ei7pbc5o30BjmLHiclb
-	nVzAt02piyGVhiopNo/RvgkBalTyg5OU9lMLrsDf/jv81VxGxzPh5LQ/Z5P1zhzGjS97OPY2OhZNp
-	fvYH79zQhJ9XpnVUWnp5SoZHkYNAGMVg/oTqrOEssYNBckn4m/cXkXN8y5WbidS6qn1r68VOb5jyW
-	Jl6l/N4kb9uEtY+pZwa/4lkdaXr9ivlEQrKThIp94jqOerfmRW42E9HVjdfoGJ3j0u8q7P0cVXYuu
-	BdNsKrWwR+KztFiJzxU2Dc1XSfYKDvx5HvuYfL2zwF1UgOwZJMboTxWpZNByoQdFDqq6jwpRtTKME
-	Gi/+dOwg==;
+	bh=PZVxnbJKGIZ/b6lx+jibOHgJAqRgXiux1XWXHznmPRQ=; b=lylMzOeR4y8JtpuiHSqqMVvtEn
+	Pe5KgHH+umDfh8RUv//HEO/ym9Ory1IpAF9mRV47AS53p0uYv02Dux+6PLBOggtZmXJ1mdv++/D9j
+	GVK6nlDOeVEe7B93cl3h8uBbmug3r010eMzVT0VRByTK0e4MUl2UriW+0M2AcPPfv1/32IQqNsAg+
+	BZTh54KWXqTV68tIGv1yxQj9CoRgr8p8mCQAz33f4INK+9J5aWsTCiRzGi//1pKZKIcxgL/VDXP+x
+	y3C4lZNOMVqApmdB9jRm/mJ+zcrsHqZiu4w3fjSHxgI9aWxBiAKRbO7yaJ6ktzT+oAa3zG1SUM9jj
+	Rh2b2f6g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o9eIb-001Tqr-GY; Fri, 08 Jul 2022 03:04:57 +0000
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132])
+	id 1o9eK0-001U7M-Jc; Fri, 08 Jul 2022 03:06:24 +0000
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o9eIY-001TpG-26
-	for linux-nvme@lists.infradead.org; Fri, 08 Jul 2022 03:04:56 +0000
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R881e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0VIheABE_1657249477;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0VIheABE_1657249477)
+	id 1o9eJp-001U5G-PZ; Fri, 08 Jul 2022 03:06:15 +0000
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R801e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046060;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0VIhbwkX_1657249565;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0VIhbwkX_1657249565)
           by smtp.aliyun-inc.com;
-          Fri, 08 Jul 2022 11:04:46 +0800
+          Fri, 08 Jul 2022 11:06:09 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
-To: kbusch@kernel.org,
+To: marcan@marcan.st,
+	sven@svenpeter.dev,
+	alyssa@rosenzweig.io,
+	kbusch@kernel.org,
 	axboe@fb.com,
 	hch@lst.de,
-	sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme-pci: use nvme core helper to cancel requests in tagset
-Date: Fri,  8 Jul 2022 11:04:37 +0800
-Message-Id: <1657249477-88304-1-git-send-email-kanie@linux.alibaba.com>
+	sagi@grimberg.me,
+	p.zabel@pengutronix.de
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH] nvme-apple: use nvme core helper to cancel requests in tagset
+Date: Fri,  8 Jul 2022 11:06:05 +0800
+Message-Id: <1657249565-89708-1-git-send-email-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 1.8.3.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220707_200454_316934_46510DAA 
-X-CRM114-Status: UNSURE (   8.04  )
+X-CRM114-CacheID: sfid-20220707_200614_042987_9D1150B4 
+X-CRM114-Status: UNSURE (   8.52  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -62,23 +66,24 @@ instead of same logic code.
 
 Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 ---
- drivers/nvme/host/pci.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/nvme/host/apple.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index e7af223..ab4facf 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2720,10 +2720,8 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	nvme_pci_disable(dev);
- 	nvme_reap_pending_cqes(dev);
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index d702d7d..7816b5a 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -845,11 +845,8 @@ static void apple_nvme_disable(struct apple_nvme *anv, bool shutdown)
+ 	apple_nvme_handle_cq(&anv->adminq, true);
+ 	spin_unlock_irqrestore(&anv->lock, flags);
  
--	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_request, &dev->ctrl);
--	blk_mq_tagset_busy_iter(&dev->admin_tagset, nvme_cancel_request, &dev->ctrl);
--	blk_mq_tagset_wait_completed_request(&dev->tagset);
--	blk_mq_tagset_wait_completed_request(&dev->admin_tagset);
-+	nvme_cancel_tagset(&dev->ctrl);
-+	nvme_cancel_admin_tagset(&dev->ctrl);
+-	blk_mq_tagset_busy_iter(&anv->tagset, nvme_cancel_request, &anv->ctrl);
+-	blk_mq_tagset_busy_iter(&anv->admin_tagset, nvme_cancel_request,
+-				&anv->ctrl);
+-	blk_mq_tagset_wait_completed_request(&anv->tagset);
+-	blk_mq_tagset_wait_completed_request(&anv->admin_tagset);
++	nvme_cancel_tagset(&anv->ctrl);
++	nvme_cancel_admin_tagset(&anv->ctrl);
  
  	/*
  	 * The driver will not be starting up queues again if shutting down so
