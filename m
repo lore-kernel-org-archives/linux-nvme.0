@@ -4,78 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 691B1C43334
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jul 2022 16:37:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6BA88CCA489
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jul 2022 16:51:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
-	Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=9nTNsJPilxKSjsFmeLfoVK6rg+4vFMVjfLmCxFTwugI=; b=pwHiWlT1cp9kRCrcgo3P6mbceN
-	MEL0pP+7EIYlbAOOZHDMRrD8FL/F0B4+9oAOcTiDeO8F+hVq9OFLONOv2qyql58EjSBTUiyDBql2E
-	rTlB8Agt3txxUzdWuXqwl3udBS1WtuTh5VNKPlBKgP5AsfsDVgmLpSyqYvLMFsgGfXWEMFIikXwAX
-	BLtn8fWZQDsfJ9QJqdWHQyh9k0yoQ/W5Ls2m+126T8fiYZafUAxg8biuhGedzhBc3qMojPqmAaJoy
-	aqvmepa9gNNhtBhl5zeWL+2vgMxF5rE2bK/BGAIWVhpMGOBTDEqmSB8uoICkqufu9fs2xpuAhHWum
-	1XeLiAIQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
+	:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=LmGCYzInizLDoaY0nxdRNakEEV5uOH/M0iEEe8ldOrY=; b=S/4UOX+/HZm6BlpBIbO0KaDWuA
+	cZWwY7bRBZxR71BweHi1/mcWEVkdhwQbHvp4HjhVdG9nLGS/2alRTqSRCsKaO/tuFymRhW1nVbLLi
+	asORziuwuvs6fBzhR3v33smM3z9pzpZIoFBCHeFZG98jYNrT5xw7PYgMrX10YaO1CI48yEcjgmCef
+	uCRKoB0Gk/pBW03/q1u3vIHVdKKBP4sQoRRpA0YU0XZ2dLsCz+IktwvQ2fM0GVAPTipQFcKNmHlqW
+	Qb2BeUttBSpwDomLnAitDXhDLo7HCTXWFc3GETsPgrvuM1JbuU/KieCaysUM//s7GEcrzBR7T+W71
+	NYnwLCng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o9qyW-004hoP-S8; Fri, 08 Jul 2022 16:37:04 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1o9rCM-004nAQ-HK; Fri, 08 Jul 2022 16:51:22 +0000
+Received: from ale.deltatee.com ([204.191.154.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o9qu8-004fvt-3v
-	for linux-nvme@lists.infradead.org; Fri, 08 Jul 2022 16:32:34 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1657297951;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=9nTNsJPilxKSjsFmeLfoVK6rg+4vFMVjfLmCxFTwugI=;
-	b=UKehbpBd6VngdFtpYSYrxB/rOArNakS7TFqAZHBti6pRTJfK/B9+GWOno2VYamEyiGTQTM
-	lTydy1fIxCRrYQt9Y+kKVTVP4RIegeR3U/Cm47QhX/1jVm/+5ZW5A3P094BegGxBlCA+0B
-	dDEL10plwJwuL9XlcX94DAz14QVhJYs=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-333-jmmxO_zRMRix67tDBZyEag-1; Fri, 08 Jul 2022 12:32:30 -0400
-X-MC-Unique: jmmxO_zRMRix67tDBZyEag-1
-Received: by mail-pl1-f198.google.com with SMTP id a17-20020a170902ecd100b0016c012c4cf3so3093073plh.15
-        for <linux-nvme@lists.infradead.org>; Fri, 08 Jul 2022 09:32:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=9nTNsJPilxKSjsFmeLfoVK6rg+4vFMVjfLmCxFTwugI=;
-        b=gPHjmOMUJ5o/NXWaRz9q3b4kVwvKhO9jRdDnTrzEOAatJMg+7TpIc4WdDBsr66ftu8
-         nfO5hXvdTilNWuDaFHPhLYX3LzkHT2w2XO4E/ybdyydff4IiqQPCmB5oxbd3GLtckr0P
-         Rj1ae7jlLs+UGEiPPb4/TYMlmlbSPDwdq7/e5tAuKN45u6VYdIlJSIlFszk/VdSndCwk
-         NwlxD+kE6Vu46HJ/VIN8Y8zQNU2KwYIxdsdJ9Ooioatmsm2cvMnnfVc1PsljL3osSRMA
-         MiF5RdJxbHGmd/1jxgm8Emls6gQomUanh2yCnLraKOEXwfCDqHd1uG29okJezhuimkGV
-         cMjg==
-X-Gm-Message-State: AJIora8wePHWBMpWx++n8bdxvH9XkYBIGM4RkM5eUi54/AfIOBLnoqAT
-	Pe2zNO3r4dNU+s8WvSqBtP5h74qp3InNzCgCiakjomcgp7XvN78X9QCDOlxERdL93WUMUtEG3Hq
-	r5AfmCAzhUeK9Te2SLrflMx1unSFRne9hPStxfHPNt7E=
-X-Received: by 2002:a17:902:f60b:b0:16a:2dcf:989d with SMTP id n11-20020a170902f60b00b0016a2dcf989dmr4582249plg.90.1657297948726;
-        Fri, 08 Jul 2022 09:32:28 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1ua96ynrZ4qItbRqHCIMf2P0YnsecQXFjqOLVL9V4PAaak1XiDh6bykwCb2O0npf6mk7BxSgcWYK7GtDe5lmb4=
-X-Received: by 2002:a17:902:f60b:b0:16a:2dcf:989d with SMTP id
- n11-20020a170902f60b00b0016a2dcf989dmr4582146plg.90.1657297947227; Fri, 08
- Jul 2022 09:32:27 -0700 (PDT)
+	id 1o9rCI-004n3j-QC
+	for linux-nvme@lists.infradead.org; Fri, 08 Jul 2022 16:51:20 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Cc:To:From:content-disposition;
+	bh=LmGCYzInizLDoaY0nxdRNakEEV5uOH/M0iEEe8ldOrY=; b=qf67dDm/FK9cXJ3/XdFWopqX6+
+	Iv1TZsACNs3pjKs21M6ptQoc0wfPVDyASStV1w0FQb5ySqhvcbNG5wnaIzGMcR/X4iT/kVgAHBblk
+	Q/q1iuEdRmEM30tKuo17TTPPN6BSacuMvrfE+/fNMkc6NmqtAA7LiEuMHT7SMOA2Vrw5avcJDsSzp
+	Lk3JJaWyU1OONu0c5C0Uv3Tg5jwM1OniviPLdZZm9OnITYVnqlg7tRRIxKHX262Ht3nwzB8zILp1l
+	Cppr2vavZt+CKBcCUdIMd7Bg+UJBp+wY2RzwD4Ms7r+IRGv5g4vsp95b5XKQLR1T/RQD8u9TM5C4n
+	ZtKl6cDQ==;
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+	by ale.deltatee.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <gunthorp@deltatee.com>)
+	id 1o9rCB-009xkG-SB; Fri, 08 Jul 2022 10:51:13 -0600
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.94.2)
+	(envelope-from <gunthorp@deltatee.com>)
+	id 1o9rC9-0001Jo-68; Fri, 08 Jul 2022 10:51:09 -0600
+From: Logan Gunthorpe <logang@deltatee.com>
+To: linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-mm@kvack.org,
+	iommu@lists.linux-foundation.org,
+	iommu@lists.linux.dev
+Cc: Stephen Bates <sbates@raithlin.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Don Dutile <ddutile@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Minturn Dave B <dave.b.minturn@intel.com>,
+	Jason Ekstrand <jason@jlekstrand.net>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Xiong Jianxin <jianxin.xiong@intel.com>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Martin Oliveira <martin.oliveira@eideticom.com>,
+	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+	Ralph Campbell <rcampbell@nvidia.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Date: Fri,  8 Jul 2022 10:50:53 -0600
+Message-Id: <20220708165104.5005-3-logang@deltatee.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220708165104.5005-1-logang@deltatee.com>
+References: <20220708165104.5005-1-logang@deltatee.com>
 MIME-Version: 1.0
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Sat, 9 Jul 2022 00:32:15 +0800
-Message-ID: <CAHj4cs9Jhg4DZRnck_rdGWtpv9nLTAF__CVtPQu9vViVUZ-Odg@mail.gmail.com>
-Subject: [bug report] blktests nvme/005 trigered debugfs: Directory 'hctx0'
- with parent '/' already present!
-To: linux-block <linux-block@vger.kernel.org>, 
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org, iommu@lists.linux.dev, sbates@raithlin.com, hch@lst.de, jgg@ziepe.ca, christian.koenig@amd.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, jason@jlekstrand.net, dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, logang@deltatee.com, bhelgaas@google.com, jhubbard@nvidia.com, rcampbell@nvidia.com, kch@nvidia.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+Subject: [PATCH v8 02/13] PCI/P2PDMA: Attempt to set map_type if it has not been set
+X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220708_093232_294979_C5B9E7C5 
-X-CRM114-Status: UNSURE (   5.89  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220708_095118_882540_D9B7A5F8 
+X-CRM114-Status: GOOD (  14.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,120 +102,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello
-I found below error log when I ran blktests nvme/ tests on aarch64
-with the latest linux-block/for-next,
-Please help check it, and feel free to let me know if you need any
-info/test for it, thanks.
+Attempt to find the mapping type for P2PDMA pages on the first
+DMA map attempt if it has not been done ahead of time.
 
-[ 3814.423360] run blktests nvme/005 at 2022-07-08 07:38:17
-[ 3814.565071] loop0: detected capacity change from 0 to 2097152
-[ 3814.587169] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-[ 3814.601727] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
-[ 3814.626848] nvmet: creating nvm controller 1 for subsystem
-blktests-subsystem-1 for NQN
-nqn.2014-08.org.nvmexpress:uuid:90390a00-4597-11e9-b935-3c18a0043981.
-[ 3814.642802] nvme nvme0: creating 32 I/O queues.
-[ 3814.659147] nvme nvme0: mapped 32/0/0 default/read/poll queues.
-[ 3814.675934] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr
-127.0.0.1:4420
-[ 3815.906399] nvmet: creating nvm controller 2 for subsystem
-blktests-subsystem-1 for NQN
-nqn.2014-08.org.nvmexpress:uuid:90390a00-4597-11e9-b935-3c18a0043981.
-[ 3815.921954] nvme nvme0: creating 32 I/O queues.
-[ 3815.959703] nvme nvme0: mapped 32/0/0 default/read/poll queues.
-[ 3815.966140] debugfs: Directory 'hctx0' with parent '/' already present!
-[ 3815.972788] debugfs: Directory 'hctx1' with parent '/' already present!
-[ 3815.979399] debugfs: Directory 'hctx2' with parent '/' already present!
-[ 3815.986026] debugfs: Directory 'hctx3' with parent '/' already present!
-[ 3815.992672] debugfs: Directory 'hctx4' with parent '/' already present!
-[ 3815.999282] debugfs: Directory 'hctx5' with parent '/' already present!
-[ 3816.005916] debugfs: Directory 'hctx6' with parent '/' already present!
-[ 3816.013558] debugfs: Directory 'hctx7' with parent '/' already present!
-[ 3816.020168] debugfs: Directory 'hctx8' with parent '/' already present!
-[ 3816.026801] debugfs: Directory 'hctx9' with parent '/' already present!
-[ 3816.033430] debugfs: Directory 'hctx10' with parent '/' already present!
-[ 3816.040125] debugfs: Directory 'hctx11' with parent '/' already present!
-[ 3816.046833] debugfs: Directory 'hctx12' with parent '/' already present!
-[ 3816.056686] debugfs: Directory 'hctx13' with parent '/' already present!
-[ 3816.063423] debugfs: Directory 'hctx14' with parent '/' already present!
-[ 3816.070269] debugfs: Directory 'hctx15' with parent '/' already present!
-[ 3816.077064] debugfs: Directory 'hctx16' with parent '/' already present!
-[ 3816.083798] debugfs: Directory 'hctx17' with parent '/' already present!
-[ 3816.090643] debugfs: Directory 'hctx18' with parent '/' already present!
-[ 3816.097431] debugfs: Directory 'hctx19' with parent '/' already present!
-[ 3816.104216] debugfs: Directory 'hctx20' with parent '/' already present!
-[ 3816.110950] debugfs: Directory 'hctx21' with parent '/' already present!
-[ 3816.117674] debugfs: Directory 'hctx22' with parent '/' already present!
-[ 3816.124412] debugfs: Directory 'hctx23' with parent '/' already present!
-[ 3816.131303] debugfs: Directory 'hctx24' with parent '/' already present!
-[ 3816.138019] debugfs: Directory 'hctx25' with parent '/' already present!
-[ 3816.144739] debugfs: Directory 'hctx26' with parent '/' already present!
-[ 3816.151451] debugfs: Directory 'hctx27' with parent '/' already present!
-[ 3816.158147] debugfs: Directory 'hctx28' with parent '/' already present!
-[ 3816.164862] debugfs: Directory 'hctx29' with parent '/' already present!
-[ 3816.171569] debugfs: Directory 'hctx30' with parent '/' already present!
-[ 3816.178263] debugfs: Directory 'hctx31' with parent '/' already present!
-[ 3816.209654] nvme nvme0: Removing ctrl: NQN "blktests-subsystem-1"
-[ 3816.371107] block nvme0n1: no available path - failing I/O
-[ 3816.376724] block nvme0n1: no available path - failing I/O
-[ 3816.382227] Buffer I/O error on dev nvme0n1, logical block 0, async page read
+Previously, the mapping type was expected to be calculated ahead of
+time, but if pages are to come from userspace then there's no
+way to ensure the path was checked ahead of time.
 
-[ 4508.175060] run blktests nvme/022 at 2022-07-08 07:49:51
-[ 4508.308626] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-[ 4508.336571] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
-[ 4508.362149] nvmet: creating nvm controller 1 for subsystem
-blktests-subsystem-1 for NQN
-nqn.2014-08.org.nvmexpress:uuid:90390a00-4597-11e9-b935-3c18a0043981.
-[ 4508.378077] nvme nvme0: creating 32 I/O queues.
-[ 4508.394236] nvme nvme0: mapped 32/0/0 default/read/poll queues.
-[ 4508.411370] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr
-127.0.0.1:4420
-[ 4509.544769] nvme nvme0: resetting controller
-[ 4509.652901] nvmet: creating nvm controller 2 for subsystem
-blktests-subsystem-1 for NQN
-nqn.2014-08.org.nvmexpress:uuid:90390a00-4597-11e9-b935-3c18a0043981.
-[ 4509.668327] nvme nvme0: creating 32 I/O queues.
-[ 4509.704724] nvme nvme0: mapped 32/0/0 default/read/poll queues.
-[ 4509.711164] debugfs: Directory 'hctx0' with parent '/' already present!
-[ 4509.717803] debugfs: Directory 'hctx1' with parent '/' already present!
-[ 4509.724413] debugfs: Directory 'hctx2' with parent '/' already present!
-[ 4509.731042] debugfs: Directory 'hctx3' with parent '/' already present!
-[ 4509.737671] debugfs: Directory 'hctx4' with parent '/' already present!
-[ 4509.744282] debugfs: Directory 'hctx5' with parent '/' already present!
-[ 4509.750916] debugfs: Directory 'hctx6' with parent '/' already present!
-[ 4509.757526] debugfs: Directory 'hctx7' with parent '/' already present!
-[ 4509.764154] debugfs: Directory 'hctx8' with parent '/' already present!
-[ 4509.770782] debugfs: Directory 'hctx9' with parent '/' already present!
-[ 4509.777392] debugfs: Directory 'hctx10' with parent '/' already present!
-[ 4509.784102] debugfs: Directory 'hctx11' with parent '/' already present!
-[ 4509.790809] debugfs: Directory 'hctx12' with parent '/' already present!
-[ 4509.797503] debugfs: Directory 'hctx13' with parent '/' already present!
-[ 4509.804209] debugfs: Directory 'hctx14' with parent '/' already present!
-[ 4509.810921] debugfs: Directory 'hctx15' with parent '/' already present!
-[ 4509.817627] debugfs: Directory 'hctx16' with parent '/' already present!
-[ 4509.824322] debugfs: Directory 'hctx17' with parent '/' already present!
-[ 4509.831030] debugfs: Directory 'hctx18' with parent '/' already present!
-[ 4509.837742] debugfs: Directory 'hctx19' with parent '/' already present!
-[ 4509.844437] debugfs: Directory 'hctx20' with parent '/' already present!
-[ 4509.852937] debugfs: Directory 'hctx21' with parent '/' already present!
-[ 4509.859677] debugfs: Directory 'hctx22' with parent '/' already present!
-[ 4509.866437] debugfs: Directory 'hctx23' with parent '/' already present!
-[ 4509.873151] debugfs: Directory 'hctx24' with parent '/' already present!
-[ 4509.879861] debugfs: Directory 'hctx25' with parent '/' already present!
-[ 4509.886555] debugfs: Directory 'hctx26' with parent '/' already present!
-[ 4509.893266] debugfs: Directory 'hctx27' with parent '/' already present!
-[ 4509.899978] debugfs: Directory 'hctx28' with parent '/' already present!
-[ 4509.906673] debugfs: Directory 'hctx29' with parent '/' already present!
-[ 4509.913394] debugfs: Directory 'hctx30' with parent '/' already present!
-[ 4509.920103] debugfs: Directory 'hctx31' with parent '/' already present!
-[ 4509.954557] nvme nvme0: Removing ctrl: NQN "blktests-subsystem-1"
-[ 4510.117886] block nvme0n1: no available path - failing I/O
-[ 4510.123413] block nvme0n1: no available path - failing I/O
-[ 4510.128913] Buffer I/O error on dev nvme0n1, logical block 0, async page read
+This change will calculate the mapping type if it hasn't pre-calculated
+so it is no longer invalid to call pci_p2pdma_map_sg() before the mapping
+type is calculated, so drop the WARN_ON when that is the case.
 
+Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/pci/p2pdma.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+index 462b429ad243..4e8bc457e29a 100644
+--- a/drivers/pci/p2pdma.c
++++ b/drivers/pci/p2pdma.c
+@@ -854,6 +854,7 @@ static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
+ 	struct pci_dev *provider = to_p2p_pgmap(pgmap)->provider;
+ 	struct pci_dev *client;
+ 	struct pci_p2pdma *p2pdma;
++	int dist;
+ 
+ 	if (!provider->p2pdma)
+ 		return PCI_P2PDMA_MAP_NOT_SUPPORTED;
+@@ -870,6 +871,10 @@ static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
+ 		type = xa_to_value(xa_load(&p2pdma->map_types,
+ 					   map_types_idx(client)));
+ 	rcu_read_unlock();
++
++	if (type == PCI_P2PDMA_MAP_UNKNOWN)
++		return calc_map_type_and_dist(provider, client, &dist, true);
++
+ 	return type;
+ }
+ 
+@@ -912,7 +917,7 @@ int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
+ 	case PCI_P2PDMA_MAP_BUS_ADDR:
+ 		return __pci_p2pdma_map_sg(p2p_pgmap, dev, sg, nents);
+ 	default:
+-		WARN_ON_ONCE(1);
++		/* Mapping is not Supported */
+ 		return 0;
+ 	}
+ }
 -- 
-Best Regards,
-  Yi Zhang
+2.30.2
 
 
