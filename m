@@ -4,70 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4E4C4C43334
-	for <linux-nvme@archiver.kernel.org>; Sun, 10 Jul 2022 09:41:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5CB88C43334
+	for <linux-nvme@archiver.kernel.org>; Sun, 10 Jul 2022 11:05:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xEuiyabvsQDb6WJ6qFrmFNq916brfyyk43k/L2CuaG0=; b=XTM7S2tsxnbfGSOMptuGmaL7Qr
-	ImjaIYTY+3Ql8/szAkdDKhfM6iXpR7eX3vnaubmhviiXn4iESTE/xEQOrr5RH2PU8JzIoaxTo4rZ3
-	uFSqZkpqG2rISYLe8TGheX+2tHaWucVIzViP3td8Il6p34WszEGx/bq5RpZeUd38Up5hj2pdEa6RK
-	uSy4oEIXDHtUEOT3W1ZwBOY8YBLfIPfhrZ3Ku8LRsooezt6cQZHKEmddwMyajk5FLWS4hIOyaCVHF
-	41bKMdFjItJ9J0JAuzYmGcbkuEk54tt76IHyUdjKiZdC/vwo2LaBDqTonJHlEwDb4NvJAUK5p/iTV
-	Jy/OKFmw==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dqB5hAuVWP/9QqwuPpDXGq1Hp4H2xZQxPFR+Q9W2D4E=; b=4zFc6IcEUCRx1Y/q3lMGsmEbuF
+	RCPGeidDYax2UOLopJsQGheeke0m6ev59RGx+2WhI71mfs2/rglCjakpKYT8QBoIYO0zNI6Qr/gi6
+	UsxesjCHjxYeEMouJlH84nSbmftSBAgkXdEEAhgAlHtquxL2Mzagsy8RsA5GdjIC9J2bXRqXyKJAt
+	H7tr3hYGAVs14zf+EULzmC5Nqfri1TuiMq/XkYK5xyi0iur2Qw3r2sZwEw9fR07QCj2weZPnV95JA
+	IaPHnbz3TOV0Hz1M12dP+D+y+tVbUa6Saxd7KAMJTR2kgrQO0eMsns5by0H3G8YVLnO82Q+h/SBYY
+	/IXdgD5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oATRd-00BHf2-N8; Sun, 10 Jul 2022 09:41:41 +0000
-Received: from mail-wr1-f51.google.com ([209.85.221.51])
+	id 1oAUkf-00BUib-Gj; Sun, 10 Jul 2022 11:05:25 +0000
+Received: from mail-wr1-f47.google.com ([209.85.221.47])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oATRb-00BHeJ-DJ
-	for linux-nvme@lists.infradead.org; Sun, 10 Jul 2022 09:41:41 +0000
-Received: by mail-wr1-f51.google.com with SMTP id v16so3527511wrd.13
-        for <linux-nvme@lists.infradead.org>; Sun, 10 Jul 2022 02:41:37 -0700 (PDT)
+	id 1oAUkc-00BUi8-Nt
+	for linux-nvme@lists.infradead.org; Sun, 10 Jul 2022 11:05:24 +0000
+Received: by mail-wr1-f47.google.com with SMTP id o4so3709043wrh.3
+        for <linux-nvme@lists.infradead.org>; Sun, 10 Jul 2022 04:05:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=xEuiyabvsQDb6WJ6qFrmFNq916brfyyk43k/L2CuaG0=;
-        b=wr0Sehpt41uWTGkXoOyza7rNlu42KiSo179wuxTWZIQbHIrruhCh+4PQOo9B8pKIGz
-         LgYcvfTb3JK22y8Cw67MKgiYT9UDY/TtMWLnGcfV8w2emev8mMF3PUT3APlig09nZfgC
-         R4/HUnTgbZyKVH3ug+985Fe+x6hQtEoZoryAY6oiomC537+MJLOyNkn7OZbqJO4mRKpH
-         giKnIwEoj40zNHo087pz26mouGmD4Wdsy+eCiFQ5243aarRJjiCGOQQQVaN3N0X3vpuQ
-         NIy1inlvrbIjDmLv8p0t3M3kINfzqpvVSlkuXe0YqenggTG3ut+q3e+uY/VqmSLrJa+9
-         C4iQ==
-X-Gm-Message-State: AJIora9qEsWhHqkVbtwbnbmUq1li0tvElSQazwZFp0eoxIy2UYNn6vXC
-	D9HVerK/AU9XXSwD5zvBRkg=
-X-Google-Smtp-Source: AGRyM1tnYHU2kuKbNjQiVLMiKob0GgudW3LLlovKxZOzecsGCXewdaZdgCiaGIy0Ixz+wQEbAeoUhQ==
-X-Received: by 2002:adf:c64c:0:b0:21a:7a3:54a4 with SMTP id u12-20020adfc64c000000b0021a07a354a4mr11641836wrg.163.1657446095973;
-        Sun, 10 Jul 2022 02:41:35 -0700 (PDT)
+        bh=dqB5hAuVWP/9QqwuPpDXGq1Hp4H2xZQxPFR+Q9W2D4E=;
+        b=DLFARNOVqd4y82HStPhKxUkF0RFg2bJKfaX6zt3FoHALdXFpmezZ3hUcQ0HZHB2mc7
+         gwUDQYeI5/i1CIT5EbC5mw3TJqdSW2legCd8S/hAnPQJBH+ItsqfW70H3w4UtCYJpwFg
+         40393/XDFf6rsdTXh4hFTnxEyBi6Fbvtp5W6mX6nqdEed6q37ZBhw++XhxKl+NScE/8G
+         HHEECjCewFWV0bLa2ehl67B90UJPBJsGBUewYgoTmeSjzYfM7t/dWHT15yXQ+PbcmjyP
+         MChd3oLFc0JkgP+2bDE9nyVV2cRFVQ+lFaCZfPPdisKngkn2tI6O6v9nDvxi06i9dC+J
+         Lnfg==
+X-Gm-Message-State: AJIora+AI/NggSQspQlHOEG+o/3lRYQxSP3CmFcTNPENU2rIJDuotZQU
+	YN6OQfNE8NAzL1X+IpbI8tsPrwhaIHo=
+X-Google-Smtp-Source: AGRyM1t9v4uXLBjZEydPyu7B9Rm7MBBK8Zwa8MnvBdx+8eyDhlhG3DWmTumUgTJ/75Q9dzO75lAyOA==
+X-Received: by 2002:a5d:6683:0:b0:21d:7643:dff3 with SMTP id l3-20020a5d6683000000b0021d7643dff3mr11886380wru.304.1657451120701;
+        Sun, 10 Jul 2022 04:05:20 -0700 (PDT)
 Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id v18-20020a5d6792000000b0021d4155cd6fsm3235238wru.53.2022.07.10.02.41.34
+        by smtp.gmail.com with ESMTPSA id g12-20020a05600c4ecc00b0039c99f61e5bsm7880333wmq.5.2022.07.10.04.05.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 10 Jul 2022 02:41:35 -0700 (PDT)
-Message-ID: <5ce566fd-f871-48dc-1cb7-30b745c58f05@grimberg.me>
-Date: Sun, 10 Jul 2022 12:41:33 +0300
+        Sun, 10 Jul 2022 04:05:20 -0700 (PDT)
+Message-ID: <e906e74a-3754-1db8-ed14-ebc3c78d0399@grimberg.me>
+Date: Sun, 10 Jul 2022 14:05:18 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [bug report] blktests nvme/tcp triggered WARNING at
- kernel/workqueue.c:2628 check_flush_dependency+0x110/0x14c
+Subject: Re: [PATCH v2] nvme-tcp: use in-capsule data for I/O connect
 Content-Language: en-US
-To: Yi Zhang <yi.zhang@redhat.com>, linux-block
- <linux-block@vger.kernel.org>,
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
-References: <CAHj4cs86Dm577NK-C+bW6=+mv2V3KOpQCG0Vg6xZrSGzNijX4g@mail.gmail.com>
+To: Caleb Sander <csander@purestorage.com>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ linux-nvme@lists.infradead.org
+References: <4cfe8116-bb6c-735d-0bb3-ce5e2612505b@grimberg.me>
+ <20220707211245.3989107-1-csander@purestorage.com>
+ <20220708050038.GA15655@lst.de>
+ <CADUfDZp-oRUYoXxMwtA5qYux2-AKuimXk-hHWMwwv5tD1ZDUXg@mail.gmail.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <CAHj4cs86Dm577NK-C+bW6=+mv2V3KOpQCG0Vg6xZrSGzNijX4g@mail.gmail.com>
+In-Reply-To: <CADUfDZp-oRUYoXxMwtA5qYux2-AKuimXk-hHWMwwv5tD1ZDUXg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220710_024139_496467_E463A8C4 
-X-CRM114-Status: UNSURE (   7.01  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220710_040522_811462_E76D3C6A 
+X-CRM114-Status: GOOD (  15.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,18 +84,22 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-> Hello
+>> While I'm fine with this change, can you please state here why this
+>> is important?  Is there a use case where it really matters?  A controller
+>> that is unhappy if this doesn't happen?
 > 
-> I reproduced this issue on the linux-block/for-next, pls help check
-> it, feel free to let me know if you need info/test, thanks.
+> It's just an optimization. Without this change, we send the connect command
+> capsule and data in separate PDUs (CapsuleCmd and H2CData), and must wait for
+> the controller to respond with an R2T PDU before sending the H2CData.
+> With the change, we send a single CapsuleCmd PDU that includes the data.
+> This reduces the number of bytes (and likely packets) sent across the network,
+> and simplifies the send state machine handling in the driver.
+> 
+> Using in-capsule data does not "really matter" for admin commands either,
+> but we appear to have decided that the optimization is worth it.
+> So I am just suggesting we extend the logic to the I/O connect command.
 
-
-These reports are making me tired... Should we just remove
-MEM_RECLAIM from all nvme/nvmet workqueues are be done with
-it?
-
-The only downside is that nvme reset/error-recovery will
-also be susceptible for low-memory situation...
-
-Christoph, Keith, what are your thoughts?
+I think that the question was, does a controller that suffers from this
+inefficiency exist? Up until now the controllers seen in the wild all
+support ioccsz that accepts IO connect to go in-capsule.
 
