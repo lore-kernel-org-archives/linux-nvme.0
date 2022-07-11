@@ -4,75 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 092D5C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Jul 2022 16:58:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DAD6FC433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Jul 2022 17:01:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0U5+IilDXsW3BQxwBvuwuzwwHS2jIXKuQyNc4QZoJgE=; b=1DkxYLGDpvkn8w9w4vAeVItp9J
-	tfRnsvWnp5a88dVghhgRL5epC597GqL0HkzdYGCxc4D/f4jXI3WgvaYXFrYKNr4TOXfoJiedlpnSc
-	QhAhkQWNP2Fnc8Se02MHt6EJ60aFnEQh27hIDXW5kaQ8PWVILyPYcEqODrW3h3H3xkckqZvnpfZlA
-	I7Jw/hlXDdWLK7X5+INVI4PvJTRwe6Twxlrj8JG94ae0n0V/YBnYWVnFP7bnnNmoQB4L+0pN9CFi7
-	LtfT6EHBqGocDH9GWBVvZzyV16unGD4cHNLg4kNjienx46oMTjgiN7tDgMQJAybVA1wetzTpNo4Kj
-	SqlfZc5A==;
+	bh=oRVmx9bOllxl3kVjulrN4qiEWyIXLjdDXqd2F2vjPHA=; b=sCBqB2E3u/sMN9mSELubywT+a9
+	JJYBy2qnQTZVnW21gzzW3FMC3Po5r8TAWG1mN/HzkqnMc/t5sy5QAHBJd4DkytQhsRFMbNN5TZ/tt
+	BJxgeNvbWunQs7OE+xT5Iec0YXjYj8R9Neitz+QSOn7lWV86g83hak2wnH6UNaxavf9Q0UTviaT8a
+	fvRJTYuYdzfYlTqrtkTTwBGxyQxE9GO51xhpfSOD7AA6mUbEbuKFdwfLGGGRQlqN4VqBGA78Vk4C7
+	cN1c4IPF4MW2yFOn+iksvY4O0UYFVq1FThyfEccouxH/LoVAtAwJSQTEwsIRV+YxEi8ijMSFtk0/l
+	WwNnXG2g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oAwje-003Mio-QA; Mon, 11 Jul 2022 16:58:14 +0000
-Received: from mail-wm1-f54.google.com ([209.85.128.54])
+	id 1oAwmL-003NNg-7g; Mon, 11 Jul 2022 17:01:01 +0000
+Received: from mail-wm1-f46.google.com ([209.85.128.46])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oAwjc-003MgZ-Jh
-	for linux-nvme@lists.infradead.org; Mon, 11 Jul 2022 16:58:14 +0000
-Received: by mail-wm1-f54.google.com with SMTP id c131-20020a1c3589000000b003a2cc290135so3818459wma.2
-        for <linux-nvme@lists.infradead.org>; Mon, 11 Jul 2022 09:58:11 -0700 (PDT)
+	id 1oAwmI-003NLj-N9
+	for linux-nvme@lists.infradead.org; Mon, 11 Jul 2022 17:00:59 +0000
+Received: by mail-wm1-f46.google.com with SMTP id p4so3402864wms.0
+        for <linux-nvme@lists.infradead.org>; Mon, 11 Jul 2022 10:00:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=0U5+IilDXsW3BQxwBvuwuzwwHS2jIXKuQyNc4QZoJgE=;
-        b=CLXlMllH/c6KW4Y3EOoANDSEyA88xkq9+xvtr1dwMKQ/aQWgFYyL9kcBUaLZMpTeJF
-         AGdjgqOaErWpEXKquTI42nIxixPqMMNggNzBj/ezkHOF4AjRdHZt7qTp4N0Egiy3g6hL
-         a5Nxc56Vy4irsDo8vWUTGOP1E8+Z+eye9ODAkXkQ//dS6styTnqIt1jfedw+eWsCWdP9
-         oIvqL/OEV2pihU4WGP9yepjprxaV3ZfNV0TGMNki2qNsVjfZOSptMAZOXYmzICSwufJb
-         Rs2y9GLwjcxkw+rvFP0SGmTkpigSMNbLVPC0AnedTKdGldj3t3z7KZ0ow7zRnZlNuaEi
-         cZZA==
-X-Gm-Message-State: AJIora8Lt163YHtJEZmkdFZXZJdl+AwOfllfB/Y6i0TXMGXAuzCrk2+x
-	5oKRsI4vnIN6gDX1eebw49k=
-X-Google-Smtp-Source: AGRyM1tDTW2pN9aXI0tb3raSr2YbZRwwOSx9Vn1KdSvNg5gxK9sQ5xn3fSv9QJoTVdTn9JzqblCltg==
-X-Received: by 2002:a7b:cb07:0:b0:3a2:e524:4117 with SMTP id u7-20020a7bcb07000000b003a2e5244117mr9881392wmj.54.1657558690142;
-        Mon, 11 Jul 2022 09:58:10 -0700 (PDT)
+        bh=oRVmx9bOllxl3kVjulrN4qiEWyIXLjdDXqd2F2vjPHA=;
+        b=fjBcqJ/AI/pbKE+ihbDk56JyFxfIBxN1H6OQiaBmcHMbRz2CMDVU7oCi+HnGzeV1MW
+         lAxMDRgunTy9240i5+amwFVdI1E4bJ8qA0olJ0Vl8eMNu3T/G9KQhm6KoD4aquCF6DjM
+         hi/VggbECqrHxT2iiQ2AW2YFBveNeG6JsWVVnim+qbWP6cBQ5/oZK5r5Pnbdu9Cnx86i
+         w/oGLjSa71XHINSPLKhUnFxVznhNeiGGMioM2fU5D0QiWIwtMNRetSO5ectaM7Uhaelf
+         71TqqemTHN/LH85s/7VbnNhmnNbdhBFlgivRXyYDbRrr6rqPQ4x4lASOGeHnILEUIgd2
+         Pe3A==
+X-Gm-Message-State: AJIora+wuTLMUHWx/zqFC9kyLhUByiAdQO9IU+vlQMrkHxC0mAh/B0p/
+	aHpcIldpspRMnxhyBOpClmg=
+X-Google-Smtp-Source: AGRyM1vg+hOt68iw5r4yo5w1HrJm0Q9QpaeugSVcQ4WGNMMLtUlEwXoj/U8a580os9JSwUfwsq3fiw==
+X-Received: by 2002:a05:600c:1548:b0:3a1:95fc:aa42 with SMTP id f8-20020a05600c154800b003a195fcaa42mr16914667wmg.189.1657558855078;
+        Mon, 11 Jul 2022 10:00:55 -0700 (PDT)
 Received: from [10.100.102.14] (46-117-125-14.bb.netvision.net.il. [46.117.125.14])
-        by smtp.gmail.com with ESMTPSA id c8-20020a7bc848000000b003a2e7c13a3asm3450777wml.42.2022.07.11.09.58.08
+        by smtp.gmail.com with ESMTPSA id r3-20020adfe683000000b0021b81855c1csm7411785wrm.27.2022.07.11.10.00.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Jul 2022 09:58:09 -0700 (PDT)
-Message-ID: <2dde0a5b-e4ce-dd44-0f4b-661c860dd5bd@grimberg.me>
-Date: Mon, 11 Jul 2022 19:58:07 +0300
+        Mon, 11 Jul 2022 10:00:54 -0700 (PDT)
+Message-ID: <11db8ab2-b41a-967e-8653-7a84b8a984c0@grimberg.me>
+Date: Mon, 11 Jul 2022 20:00:52 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH for-next 4/4] nvme-multipath: add multipathing for
- uring-passthrough commands
+Subject: Re: [PATCH for-next 3/4] io_uring: grow a field in struct
+ io_uring_cmd
 Content-Language: en-US
-To: Stefan Metzmacher <metze@samba.org>, Kanchan Joshi <joshi.k@samsung.com>,
- hch@lst.de, kbusch@kernel.org, axboe@kernel.dk
+To: Kanchan Joshi <joshi.k@samsung.com>, hch@lst.de, kbusch@kernel.org,
+ axboe@kernel.dk
 Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, asml.silence@gmail.com, joshiiitr@gmail.com,
  anuj20.g@samsung.com, gost.dev@samsung.com
 References: <20220711110155.649153-1-joshi.k@samsung.com>
- <CGME20220711110827epcas5p3fd81f142f55ca3048abc38a9ef0d0089@epcas5p3.samsung.com>
- <20220711110155.649153-5-joshi.k@samsung.com>
- <3fc68482-fb24-1f39-5428-faa3a8db9ecb@grimberg.me>
- <5c71b8f6-afec-8ef6-0a70-d13e71ded79c@samba.org>
+ <CGME20220711110824epcas5p22c8e945cb8c3c3ac46c8c2b5ab55db9b@epcas5p2.samsung.com>
+ <20220711110155.649153-4-joshi.k@samsung.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <5c71b8f6-afec-8ef6-0a70-d13e71ded79c@samba.org>
+In-Reply-To: <20220711110155.649153-4-joshi.k@samsung.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220711_095812_659748_5EA95326 
-X-CRM114-Status: GOOD (  10.55  )
+X-CRM114-CacheID: sfid-20220711_100058_792626_8AD7D2C3 
+X-CRM114-Status: GOOD (  16.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,33 +86,33 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->>> +static inline struct nvme_uring_cmd_pdu *nvme_uring_cmd_pdu(
->>> +        struct io_uring_cmd *ioucmd)
->>> +{
+> Use the leftover space to carve 'next' field that enables linking of
+> io_uring_cmd structs. Also introduce a list head and few helpers.
 > 
-> Shouldn't we have a BUILD_BUG_ON(sizeof(struct nvme_uring_cmd_pdu) > 
-> sizeof(ioucmd->pdu));
-> here?
-
-Probably...
-
->>> +    return (struct nvme_uring_cmd_pdu *)&ioucmd->pdu;
->>> +}
->>> +
+> This is in preparation to support nvme-mulitpath, allowing multiple
+> uring passthrough commands to be queued.
 > 
->>> diff --git a/include/linux/io_uring.h b/include/linux/io_uring.h
->>> index d734599cbcd7..57f4dfc83316 100644
->>> --- a/include/linux/io_uring.h
->>> +++ b/include/linux/io_uring.h
->>> @@ -15,6 +15,8 @@ enum io_uring_cmd_flags {
->>>       IO_URING_F_SQE128        = 4,
->>>       IO_URING_F_CQE32        = 8,
->>>       IO_URING_F_IOPOLL        = 16,
->>> +    /* to indicate that it is a MPATH req*/
->>> +    IO_URING_F_MPATH        = 32,
+> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+> ---
+>   include/linux/io_uring.h | 38 ++++++++++++++++++++++++++++++++++++--
+>   1 file changed, 36 insertions(+), 2 deletions(-)
 > 
-> Isn't that nvme specific? If so I don't think it belongs in io_uring.h 
-> at all...
+> diff --git a/include/linux/io_uring.h b/include/linux/io_uring.h
+> index 54063d67506b..d734599cbcd7 100644
+> --- a/include/linux/io_uring.h
+> +++ b/include/linux/io_uring.h
+> @@ -22,9 +22,14 @@ struct io_uring_cmd {
+>   	const void	*cmd;
+>   	/* callback to defer completions to task context */
+>   	void (*task_work_cb)(struct io_uring_cmd *cmd);
+> +	struct io_uring_cmd	*next;
+>   	u32		cmd_op;
+> -	u32		pad;
+> -	u8		pdu[32]; /* available inline for free use */
+> +	u8		pdu[28]; /* available inline for free use */
+> +};
 
-Yes, it doesn't, it should be completely internal to nvme.
+I think io_uring_cmd will at some point become two cachelines and may
+not be worth the effort to limit a pdu to 28 bytes...
 
