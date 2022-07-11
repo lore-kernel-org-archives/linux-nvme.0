@@ -4,127 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 358AFC43334
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Jul 2022 18:59:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69D80C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Jul 2022 19:19:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8WNQ5ChxuGE5Q71oImwf+rEE0lr/N+rms/8BqaHTtew=; b=WIuSB6C3RndkKo3rJ0VhUgxsnC
-	HFhZyOG6jpI/LM5HvrSyr4R2PuE7tdBqdGbNSG11hjHMCxlu3C2LM2/ZFr2PoRM6VWWFZVVrmqT71
-	rEVksj+nSVK7BCJbX7dUu8mlEBDrpcK3ee5EGb9Tt0I9tzDL/qDrs1wdQzwD8dUNna9cSWj4dhZjy
-	9VSZbD4ek9UFcGLMHbgM2f/lCOGh4CJsiwRauo+DSNhG9RDjP19Avnw9qPU1BcllPWslfIQpD54qB
-	9aHS0tU2xIwC9IRnVrRa/hhMSXbD5n37CMw8PJXI7T0BOaGKDQx1wOstMhvMMkkvIn9GJAIU5v59a
-	zESkBvfw==;
+	bh=MZKXkQw9eK+CamCvobBoAdVEQY3qu/SbwAFPYGWq4Lk=; b=Iuh2PM4kAO7gNWRVA72qmuZukX
+	ia74WTXrchuQPSI3yoghUA8KpD9C+KPA5q5buWIZh+3/jO+y2PZf0FqkLD/A4RfE47Na/03J4CglP
+	1tzFN1w5k42FeDLb3Fx3k+XkDqWUSqF9SaDA3c9ORKcPci81aFCJEpIzHS1ElDyuLuxdSHJUbRpde
+	mK5vg185OpQVeyAwhxuCIwI+krxLZyzjVedDCXboqZUhxMO7Z/swj93S0jLGOunAO1JjQVJ5RjIaO
+	dGeW0YnT7m+iLjFiEXu9LAURTRzZWeI5O/awzKHXl0m8vABcQsvVNqr52KhMJlxQg7BeTQuGYtgCF
+	diLV4dbA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oAydD-0044S2-G3; Mon, 11 Jul 2022 18:59:43 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1oAyw4-004EGI-7D; Mon, 11 Jul 2022 19:19:12 +0000
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oAyd9-0044P7-Ly
-	for linux-nvme@lists.infradead.org; Mon, 11 Jul 2022 18:59:41 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20220711185935epoutp0362389bd700e284a33031c8352f92373c~A23kIP8TR0754107541epoutp03g
-	for <linux-nvme@lists.infradead.org>; Mon, 11 Jul 2022 18:59:35 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20220711185935epoutp0362389bd700e284a33031c8352f92373c~A23kIP8TR0754107541epoutp03g
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1657565975;
-	bh=8WNQ5ChxuGE5Q71oImwf+rEE0lr/N+rms/8BqaHTtew=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=H4C2iQDUpwqtM8f3kMctEqEoZK7BXqDvQ5hv6d1RTbOJcoV4JGsEbJCG3tEkBEpph
-	 9pgFQM7duYs4tI9phNOzqnpiw6DJp46+453fRl/8hsmxktT+VQc6rxyawV1Lai+t7m
-	 AVhzPk9DzVfwStaWK9EW393Vo8X/YlagVfZtP+Ac=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20220711185934epcas5p3aec09119e47cc1946203b0b36a9a2581~A23jMqlp32413124131epcas5p3R;
-	Mon, 11 Jul 2022 18:59:34 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.176]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4LhY8h2NvSz4x9Pp; Mon, 11 Jul
-	2022 18:59:32 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	22.0C.09566.4137CC26; Tue, 12 Jul 2022 03:59:32 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20220711185931epcas5p1bf5d0c8aa5ed5b6d262b81023c2a266e~A23gRc9HF2883828838epcas5p1P;
-	Mon, 11 Jul 2022 18:59:31 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20220711185931epsmtrp237cb38be85c8eb71b8f670812d341b3f~A23gQpCjA0917509175epsmtrp2x;
-	Mon, 11 Jul 2022 18:59:31 +0000 (GMT)
-X-AuditID: b6c32a4a-ba3ff7000000255e-7d-62cc731425f3
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	AB.C5.08802.3137CC26; Tue, 12 Jul 2022 03:59:31 +0900 (KST)
-Received: from test-zns (unknown [107.110.206.5]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20220711185929epsmtip1aac3f7335cfdd50514bcdcb4c399abdf~A23eBcsj00490104901epsmtip1V;
-	Mon, 11 Jul 2022 18:59:29 +0000 (GMT)
-Date: Tue, 12 Jul 2022 00:24:06 +0530
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: Stefan Metzmacher <metze@samba.org>
-Cc: Sagi Grimberg <sagi@grimberg.me>, hch@lst.de, kbusch@kernel.org,
-	axboe@kernel.dk, io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, asml.silence@gmail.com, joshiiitr@gmail.com,
-	anuj20.g@samsung.com, gost.dev@samsung.com
-Subject: Re: [PATCH for-next 4/4] nvme-multipath: add multipathing for
- uring-passthrough commands
-Message-ID: <20220711185406.GB20562@test-zns>
+	id 1oAyw1-004EDT-3Y
+	for linux-nvme@lists.infradead.org; Mon, 11 Jul 2022 19:19:11 +0000
+Received: by mail-ed1-x52c.google.com with SMTP id g1so7446342edb.12
+        for <linux-nvme@lists.infradead.org>; Mon, 11 Jul 2022 12:19:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:cc;
+        bh=MZKXkQw9eK+CamCvobBoAdVEQY3qu/SbwAFPYGWq4Lk=;
+        b=kx6DsPvRUzSQSUQXL7RMs0v1UdULoADs9pQqYVmttDsyfJ7BTmMdq4mHhhRPkCFzNQ
+         UctV1NZzVn35bTv7/+g/73NtCqTGCuzDhPxHN2QnUu8d0S0nZAXnstXzgw6RENpfhyyO
+         zszWcNtTR2R0MuRELgtB8SJsWrzKdUMRzZus8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:cc;
+        bh=MZKXkQw9eK+CamCvobBoAdVEQY3qu/SbwAFPYGWq4Lk=;
+        b=hKlA6dTbCxik3Vyf+34FLpjeifvu+GM6YKy+3wDU8pRMZEFZ9jAhHQtlXqYweW5uN4
+         6PgFBO6I0pQRacg3JgGDep+We+5LkkDU65NlJ3+VYDkQOnXPLea46OLJumWX5q8iBUVE
+         f0ilCKYZ7dDK8Mq5gLNszLYfP1ijeF9uKKU18SsrFEe3GsOOecBbqJETd1Gb8YdSaQ7C
+         oUj2kUisqCDuzWW5Rv6anvJGIurpSFRNZz2Lh91QjGdU/g451yoP1sjyX8HVmqooThYT
+         Al0joobXTkNNMT3ClCndCpbiuS3c5tJLoNv+RgxYyqhdD0jMQ3Hj/JwzJ4gKyE7PqtYD
+         1rOQ==
+X-Gm-Message-State: AJIora+XxBhyJwPAcFcgMC63vpN0cPrdSv6kZXiIE/WkiSjRoia4HyOQ
+	zq0JHtpe0PG2O/BufJgu5bV2WXe3n5Us39KBOycDOQ==
+X-Received: by 2002:a05:6402:538a:b0:43a:298e:bc2b with SMTP id
+ ew10-20020a056402538a00b0043a298ebc2bmt12746951edb.125.1657567145679; Mon, 11
+ Jul 2022 12:19:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <5c71b8f6-afec-8ef6-0a70-d13e71ded79c@samba.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Tf0xbVRTHva+lPJpVnx2ES3FdfWYhTCktK/UVqTNhzOdGHG7GMZyWUp4t
-	Utra1zJlM5IiICTAxBFXKsFEZLE1LlRgAmVjZYDCBoPpCMYVCUUQM34mKrNstrxq9t/nnPs9
-	P+4596Is/gBHgBYaLJTZoNbjHC67ayAxMSmavp4vGXI8RtjObrGIz5xdgHDdqecQ0/3dCPGV
-	axAhlivG2MT43QGEaPDeBkTfz08TLW3zkcRE2yab+OaPFfYLO8jupjuR5LivnU3eumEl3c5q
-	Dvlt6wdk73QZh2zuqQNkXYcTkBtuYXZUblG6jlIXUGYRZdAYCwoNWiV++JgqQ5Uql0iTpAri
-	WVxkUBdTSvxAVnbSwUJ9sGFcVKLWW4OubDVN48nPp5uNVgsl0hlpixKnTAV6k8wkptXFtNWg
-	FRsoS5pUIklJDQrzinRXb8lN3h3v/ui8j5SBFW4NQFGIyWD/vZQawEX5WC+AE1cW2YyxDuAD
-	x6VIxtgA0DbTA2pA1HZEWfsEYA56AOypXI9gjN8AXJ8KxUehbGwPHGqsjwjV4GCJ8OYn1pA7
-	GkuAk7/f3C7BwmoQ6Cor39bvxDTQ7W9AQszDkuCcq53D8OPwB7ufHcoThSlh1eaLIXcM9hTs
-	7xpGQnkg9j0KA5c84e4OwLrmNoThnXBpuCOSYQHcWO7jMKyBk/axsMYC5zxXw7wfVozUs0LM
-	wgrhwuBcmB+Ftf/4EWZePPhRJZ+RPwl9DfMRDMfC2fOtYSbhWkt5eHJfInD1LxfrLBA2PXSd
-	podKMJwGq1dtEQzvhuWdjqAfDXI8vHAfZTARXuxJ/hxwnCCOMtHFWopONaUYqFP/r1tjLHaD
-	7de899B3YPbXVbEXICjwAoiy8Ghe4MZIPp9XoH6vlDIbVWarnqK9IDW4qo9ZghiNMfgdDBaV
-	VKaQyORyuUyxTy7FY3mHfnLn8zGt2kIVUZSJMv8Xh6BRgjLEQTvP0HFfv9q7sBhzucpe22Ft
-	EV3Rnn7rokRzVNViW3rH+0aeHcJXPjzeKKo0HdZ1Jo/m8F5KrppF/YMradeM0k7heOCJOL8w
-	136mXHlkebBi69z5+BO3d7Van6kYHflij0bWtJTr0NnZiT4y4++7vY8ckUgvDJ8+VYdm5ShW
-	+rqdM8MZxzPwjtpZ6vpWSezLea651wOZgWPDMwsCoXIpYcvnDryf6R8lTM81xxnGPM2oJ8c2
-	tD+9dA29HL/6dqOCeMA9mTlt8ZUvFpUoJ4XiuKmpX67l3uPni2c1RzWe6hOvRcwt+/atDek/
-	ncfozVx36snS3ecG3gzsyvozgYuzaZ1aupdlptX/AkziaK1WBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprHIsWRmVeSWpSXmKPExsWy7bCSnK5w8Zkkg0XTFC2aJvxltpizahuj
-	xeq7/WwWNw/sZLJYufook8W71nMsFuffHmaymHToGqPF3lvaFvOXPWW3uLjsJ4vFutfvWRx4
-	PHbOusvucf7eRhaPy2dLPTat6mTz2Lyk3mP3zQY2j7m7+hg9+rasYvT4vEkugDOKyyYlNSez
-	LLVI3y6BK6Px7w7GggucFRf+7GJsYJzF0cXIySEhYCLRsPEiYxcjF4eQwA5GiTl3N7FAJMQl
-	mq/9YIewhSVW/nvODlH0hFFi0u9JbCAJFgFViWNT+1m7GDk42AQ0JS5MLgUJiwioS1x6eQFs
-	DrNAD5PE9jWMILawQLLEpieTmEBsXgFdicerN7JBzFzKJLFy9UuohKDEyZlPoJrNJOZtfsgM
-	Mp9ZQFpi+T8OiLC8RPPW2WBhTgFbifaf7iBhUQFliQPbjjNNYBSahWTQLCSDZiEMmoVk0AJG
-	llWMkqkFxbnpucWGBUZ5qeV6xYm5xaV56XrJ+bmbGMFRqKW1g3HPqg96hxiZOBgPMUpwMCuJ
-	8P45eypJiDclsbIqtSg/vqg0J7X4EKM0B4uSOO+FrpPxQgLpiSWp2ampBalFMFkmDk6pBqYz
-	/ZNN6hzbuV1NVhy4JsAVtf/fM4lbk3MCdK4K3NsbY+bnwDh1mWHevMY9b32cW/tXOPZcU2P0
-	ql4euWlbMd+Cgmvpi3w3Pt7lEqsndyx6W43i3JMOd5X4Lnebyse4/fWoObbJNrooQy2xtTHY
-	+f2C2l65ZRmXf/x9bMs+bb6mCpe3xoOa6rXnp1YdPm2ym41t3xGTrwr7Pk11neD0oGDSY9Un
-	Jz4E1id/2b6ic5mL3Vf71MjNQTO1rTyrOeJM3OcaRO0721UyTeJP4eR/3WGv5shFyhevEygK
-	DGZk3bwoII+Nx67zuvVdzcWzzN5Fpst2SkyaqbicYzbPyvucWcctwv/FuaTI6uyXmlbxToml
-	OCPRUIu5qDgRADwyCBQxAwAA
-X-CMS-MailID: 20220711185931epcas5p1bf5d0c8aa5ed5b6d262b81023c2a266e
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----HMHzcl7Kov5y0bbYah5tgDYyhjafTXQAGx6UUfEgMJOMVZI4=_11bf0b_"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220711110827epcas5p3fd81f142f55ca3048abc38a9ef0d0089
-References: <20220711110155.649153-1-joshi.k@samsung.com>
-	<CGME20220711110827epcas5p3fd81f142f55ca3048abc38a9ef0d0089@epcas5p3.samsung.com>
-	<20220711110155.649153-5-joshi.k@samsung.com>
-	<3fc68482-fb24-1f39-5428-faa3a8db9ecb@grimberg.me>
-	<5c71b8f6-afec-8ef6-0a70-d13e71ded79c@samba.org>
+References: <4cfe8116-bb6c-735d-0bb3-ce5e2612505b@grimberg.me>
+ <20220707211245.3989107-1-csander@purestorage.com> <20220708050038.GA15655@lst.de>
+ <CADUfDZp-oRUYoXxMwtA5qYux2-AKuimXk-hHWMwwv5tD1ZDUXg@mail.gmail.com> <e906e74a-3754-1db8-ed14-ebc3c78d0399@grimberg.me>
+In-Reply-To: <e906e74a-3754-1db8-ed14-ebc3c78d0399@grimberg.me>
+From: Caleb Sander <csander@purestorage.com>
+Date: Mon, 11 Jul 2022 12:18:54 -0700
+Message-ID: <CADUfDZrJtFvbvZwb-emGwkVUJaNag6TvQoxxt9iAy3R83Ax-hA@mail.gmail.com>
+Subject: Re: [PATCH v2] nvme-tcp: use in-capsule data for I/O connect
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, 
+	linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220711_115940_262200_D5A5ACBE 
-X-CRM114-Status: GOOD (  13.12  )
+X-CRM114-CacheID: sfid-20220711_121909_273675_BCAAC0EA 
+X-CRM114-Status: GOOD (  21.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -139,49 +79,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------HMHzcl7Kov5y0bbYah5tgDYyhjafTXQAGx6UUfEgMJOMVZI4=_11bf0b_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
+> I think that the question was, does a controller that suffers from this
+> inefficiency exist? Up until now the controllers seen in the wild all
+> support ioccsz that accepts IO connect to go in-capsule.
 
-On Mon, Jul 11, 2022 at 05:12:23PM +0200, Stefan Metzmacher wrote:
->Hi Sagi,
+No, I don't know of a controller that reports IOCCSZ < 64 + 1024.
+I discovered this behavior when writing a mock nvme-tcp target
+reporting IOCCSZ = 64.
+
+On Sun, Jul 10, 2022 at 4:05 AM Sagi Grimberg <sagi@grimberg.me> wrote:
 >
->>>@@ -189,6 +190,12 @@ enum {
->>>      NVME_REQ_USERCMD        = (1 << 1),
->>>  };
->>>+static inline struct nvme_uring_cmd_pdu *nvme_uring_cmd_pdu(
->>>+        struct io_uring_cmd *ioucmd)
->>>+{
 >
->Shouldn't we have a BUILD_BUG_ON(sizeof(struct nvme_uring_cmd_pdu) > sizeof(ioucmd->pdu));
->here?
-Not sure if I got the concern. We have this already inside
-nvme_ns_uring_cmd function.
-
->>>+    return (struct nvme_uring_cmd_pdu *)&ioucmd->pdu;
->>>+}
->>>+
+> >> While I'm fine with this change, can you please state here why this
+> >> is important?  Is there a use case where it really matters?  A controller
+> >> that is unhappy if this doesn't happen?
+> >
+> > It's just an optimization. Without this change, we send the connect command
+> > capsule and data in separate PDUs (CapsuleCmd and H2CData), and must wait for
+> > the controller to respond with an R2T PDU before sending the H2CData.
+> > With the change, we send a single CapsuleCmd PDU that includes the data.
+> > This reduces the number of bytes (and likely packets) sent across the network,
+> > and simplifies the send state machine handling in the driver.
+> >
+> > Using in-capsule data does not "really matter" for admin commands either,
+> > but we appear to have decided that the optimization is worth it.
+> > So I am just suggesting we extend the logic to the I/O connect command.
 >
->>>diff --git a/include/linux/io_uring.h b/include/linux/io_uring.h
->>>index d734599cbcd7..57f4dfc83316 100644
->>>--- a/include/linux/io_uring.h
->>>+++ b/include/linux/io_uring.h
->>>@@ -15,6 +15,8 @@ enum io_uring_cmd_flags {
->>>      IO_URING_F_SQE128        = 4,
->>>      IO_URING_F_CQE32        = 8,
->>>      IO_URING_F_IOPOLL        = 16,
->>>+    /* to indicate that it is a MPATH req*/
->>>+    IO_URING_F_MPATH        = 32,
->
->Isn't that nvme specific? If so I don't think it belongs in io_uring.h at all...
-
-Right. Removing this was bit ugly in nvme, but yes, need to kill this in
-v2.
-
-------HMHzcl7Kov5y0bbYah5tgDYyhjafTXQAGx6UUfEgMJOMVZI4=_11bf0b_
-Content-Type: text/plain; charset="utf-8"
-
-
-------HMHzcl7Kov5y0bbYah5tgDYyhjafTXQAGx6UUfEgMJOMVZI4=_11bf0b_--
+> I think that the question was, does a controller that suffers from this
+> inefficiency exist? Up until now the controllers seen in the wild all
+> support ioccsz that accepts IO connect to go in-capsule.
 
