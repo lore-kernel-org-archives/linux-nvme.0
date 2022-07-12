@@ -4,49 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B3F9C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jul 2022 06:53:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60EA7C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jul 2022 11:38:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DPKeMO/PaGNiIxRfoDr87m7kX3XO1hLM+sCkvnIZxbA=; b=CcvSPYM2OvU0r0Lr/sgBeRXXHD
-	6zn2VHtllHJNspJXca/wUWWWXS9Zc7QGR6lG/Ddwh04cPc9ClTSe1hh9vZxfQv9nHIg3ZarW9/VhT
-	yY9tEgxY+M3MYY68DRL7TGOZWgT08B0I0UkvEvVX686M6bwElNKunJoXj1mNWxHFSwUiZAVR9Nu+x
-	PxrYeXZCgvA4P/jwtyFkkxRWLiTwk0I8ppSeLsd0pNokqpu3/6WgDSbLNahHig3Oxp3ok4LAoCLJo
-	uUkRYY0LxXtEMPtCZ4OaNPvbf+tYshW9nZRfXGYuvcGNCylLW5887sjNOKt/oKm1uy86sRZcnogxO
-	cMoo4VMg==;
+	bh=cyTZ0JqqZSgf5ijTit5hlDsdeh3mZXsbfkOgDoJM25c=; b=4qGJmfyMVEkymmyss54gtyhHQ3
+	+rC1pgGBHaNNm/6akLucxj/Lw8Hyre2xkSqCnXGqzaf+MubDFVjZUf1bYSoaCMwC/v9p6MpUm0DGP
+	ep6phYNF3yYKLGQV+3eOqWWaOdp0oNQXm7vQqfG+n8XMpMcI2zpxg19xlBIIjPdj07fK2C2XvDi/1
+	K4mbLMWalwn6Kq62umF3GJS+QxzjoW/cAf9nC/flsb+oNoVvMG4rvVwPVI51+lHCLAI5+s1lk2Tht
+	ruy3ax8o9oSHISKz9ee7apgsp4/RnSciUokDP1x8Z0gsfi+PQJv6pGtfPn1GCUUXKrmzOEzaWKDCg
+	quyVCWuQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oB9lR-0089Bx-P4; Tue, 12 Jul 2022 06:52:57 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1oBEE9-00AWsM-Ak; Tue, 12 Jul 2022 11:38:53 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oB9lP-00898u-2R
-	for linux-nvme@lists.infradead.org; Tue, 12 Jul 2022 06:52:56 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 394AF68AA6; Tue, 12 Jul 2022 08:52:51 +0200 (CEST)
-Date: Tue, 12 Jul 2022 08:52:50 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: hch@lst.de, sagi@grimberg.me, kbusch@kernel.org, axboe@kernel.dk,
+	id 1oBEDx-00AWmH-3j
+	for linux-nvme@lists.infradead.org; Tue, 12 Jul 2022 11:38:45 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20220712113834epoutp02b1986744f122373ecfdbdbe25b9b002a~BEfy5DDer1383913839epoutp02P
+	for <linux-nvme@lists.infradead.org>; Tue, 12 Jul 2022 11:38:34 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20220712113834epoutp02b1986744f122373ecfdbdbe25b9b002a~BEfy5DDer1383913839epoutp02P
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1657625915;
+	bh=cyTZ0JqqZSgf5ijTit5hlDsdeh3mZXsbfkOgDoJM25c=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=QlQIy8xqYUHYEAo38+VY7bZjY+IaIh5qVRLyG1n6SU2DHJSs3Cfbx0h9wLW/5dXHv
+	 2m8tgUgDAvY6/a/Qhcjf8ZFhS20maEKZJyUoK0A/Zhk110ebBYAd/DpCT8azVxwkNs
+	 1KESspkZiJT5s1bnfPCMEmcUQKXf97uLtOynBdl0=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20220712113834epcas5p4656a40f25db4218ee2362731b1c3881a~BEfyMe5TT2337223372epcas5p4E;
+	Tue, 12 Jul 2022 11:38:34 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.178]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4LhzKL1dGwz4x9Pt; Tue, 12 Jul
+	2022 11:38:30 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	71.86.09566.63D5DC26; Tue, 12 Jul 2022 20:38:30 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20220712113829epcas5p450d873c7e596124b079f17595fc42e9f~BEftvBJyZ2337223372epcas5p44;
+	Tue, 12 Jul 2022 11:38:29 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20220712113829epsmtrp1b6a97dd9a13941a3024487eca20a16a3~BEftuNYIr0581305813epsmtrp1D;
+	Tue, 12 Jul 2022 11:38:29 +0000 (GMT)
+X-AuditID: b6c32a4a-b8dff7000000255e-75-62cd5d360378
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	63.31.08905.53D5DC26; Tue, 12 Jul 2022 20:38:29 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20220712113827epsmtip16c82cf0b4509137dd52e2cd1092c0b23~BEfsJMP7o1734017340epsmtip11;
+	Tue, 12 Jul 2022 11:38:27 +0000 (GMT)
+Date: Tue, 12 Jul 2022 17:03:04 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: sagi@grimberg.me, kbusch@kernel.org, axboe@kernel.dk,
 	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, asml.silence@gmail.com,
-	joshiiitr@gmail.com, anuj20.g@samsung.com, gost.dev@samsung.com
+	linux-block@vger.kernel.org, asml.silence@gmail.com, joshiiitr@gmail.com,
+	anuj20.g@samsung.com, gost.dev@samsung.com
 Subject: Re: [PATCH for-next 4/4] nvme-multipath: add multipathing for
  uring-passthrough commands
-Message-ID: <20220712065250.GA6574@lst.de>
-References: <20220711110155.649153-1-joshi.k@samsung.com> <CGME20220711110827epcas5p3fd81f142f55ca3048abc38a9ef0d0089@epcas5p3.samsung.com> <20220711110155.649153-5-joshi.k@samsung.com>
+Message-ID: <20220712113304.GA4465@test-zns>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220711110155.649153-5-joshi.k@samsung.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20220712065250.GA6574@lst.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPJsWRmVeSWpSXmKPExsWy7bCmlq5Z7Nkkg09TuSyaJvxltpizahuj
+	xeq7/WwWNw/sZLJYufook8W71nMsFuffHmaymHToGqPF3lvaFvOXPWW3WPf6PYsDt8fOWXfZ
+	Pc7f28jicflsqcemVZ1sHpuX1HvsvtnA5tG3ZRWjx+dNcgEcUdk2GamJKalFCql5yfkpmXnp
+	tkrewfHO8aZmBoa6hpYW5koKeYm5qbZKLj4Bum6ZOUBnKimUJeaUAoUCEouLlfTtbIryS0tS
+	FTLyi0tslVILUnIKTAr0ihNzi0vz0vXyUkusDA0MjEyBChOyM96cPsxW8IajomvCOaYGxtPs
+	XYycHBICJhLrmk+zdjFycQgJ7GaU+PrgMQuE84lR4suEDmYI5xujxLLH69hgWuZtuMQOkdjL
+	KPH+2gqo/meMEk+3nWMEqWIRUJVo6ugDSnBwsAloSlyYXAoSFhFQknj66ixYCbPAO0aJKe9y
+	QGxhgWSJTU8mMYHYvAI6Es/7FrBD2IISJ2c+YQGxOQW0JT4veAp2hKiAssSBbceZQPZKCKzk
+	kNg4ZRszxHUuEv9fzmOCsIUlXh3fAvWolMTL/jYoO1ni0sxzUDUlEo/3HISy7SVaT/UzQxyX
+	ITG3r5MVwuaT6P39hAnkFwkBXomONiGIckWJe5OeskLY4hIPZyyBsj0kPs5vhgbQHUaJ4/9n
+	ME9glJuF5J9ZSFZA2FYSnR+agGwOIFtaYvk/DghTU2L9Lv0FjKyrGCVTC4pz01OLTQuM8lLL
+	4ZGcnJ+7iRGccrW8djA+fPBB7xAjEwfjIUYJDmYlEd4/Z08lCfGmJFZWpRblxxeV5qQWH2I0
+	BUbPRGYp0eR8YNLPK4k3NLE0MDEzMzOxNDYzVBLn9bq6KUlIID2xJDU7NbUgtQimj4mDU6qB
+	yXrqtb+/HVc65wksD/i+Jz9Cft0h8U1VzZdV89fIFtjLXUoU74zL/RDncMJutuXFT47ZsVrd
+	93/cyrwzXypwpUebiqLWz6sWLLMfdwe3JRb9NMmfIv9Wv9wuT+1xeCJ7x6ez1he/J8g+6Nr+
+	pfmCnzNTnNu8hmven1bWbtBxW5wzl3H2/G9T9k2R1oqYso3dK2K1OEfTC8FlfIU9jQ9M2VW4
+	wz2DOnvfPVl7LCbbX/2/nuZM0eS0tyelpgqkyRjzRoQbJBiqrdptUOdr77bLi8vtuGS329MI
+	QzeVlxWL2Zhsd557cMf8+oW9Llwps7u/tM3S+lFrXunTF7CO84l/wYYvk+OMZ89jN5zhN0+J
+	pTgj0VCLuag4EQCxsYW2QgQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrHLMWRmVeSWpSXmKPExsWy7bCSnK5p7Nkkg9e7hSyaJvxltpizahuj
+	xeq7/WwWNw/sZLJYufook8W71nMsFuffHmaymHToGqPF3lvaFvOXPWW3WPf6PYsDt8fOWXfZ
+	Pc7f28jicflsqcemVZ1sHpuX1HvsvtnA5tG3ZRWjx+dNcgEcUVw2Kak5mWWpRfp2CVwZBz6e
+	YyqYx1Zx6dxt9gbG6axdjJwcEgImEvM2XGLvYuTiEBLYzSjRtfoZO0RCXKL52g8oW1hi5b/n
+	UEVPGCU6Vk8BS7AIqEo0dfQBTeLgYBPQlLgwuRQkLCKgJPH01VlGkHpmgXeMEk3zullAEsIC
+	yRKbnkxiArF5BXQknvctgBp6j1Gi7dEzFoiEoMTJmU/AbGYBM4l5mx8ygyxgFpCWWP6PAyTM
+	KaAt8XnBUzYQW1RAWeLAtuNMExgFZyHpnoWkexZC9wJG5lWMkqkFxbnpucWGBYZ5qeV6xYm5
+	xaV56XrJ+bmbGMFRpKW5g3H7qg96hxiZOBgPMUpwMCuJ8P45eypJiDclsbIqtSg/vqg0J7X4
+	EKM0B4uSOO+FrpPxQgLpiSWp2ampBalFMFkmDk6pBqboN1tfvsybvsLvf8SC/Y7znV2S8l1e
+	iFt+YzUWXWRdvuHR3mRXp7qt9v/X7P/xSo8js5DBp29K2LFQhu7CDgFx/1sPtGSdDWO0dkj/
+	rlvZyiuXOI8nKPW3ytnz09dnvjc5NzeRxy8jZOuC7xOmO+rpmRu/nKMZza5g1eKiJnIrRO0R
+	0zmZScsvvJJbdWP3kqwC47D5Ul8mzrLncmH6U7lWZJrUm6pnjbVhB1jPK4QeOrDHintP+C2h
+	9Jxt3T8k2Is956lyPjned05FMHLuu8f9Ufr9kh0/V2/aIrznhANLnLPtWhmHBJGmNxN/u7BE
+	FYnN93zVczomaG0VU5KXUKRTaQHPsftKK76XfhPvVWIpzkg01GIuKk4EAKwPXvURAwAA
+X-CMS-MailID: 20220712113829epcas5p450d873c7e596124b079f17595fc42e9f
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----OEEzMZle2oafIX2psGkTvPl59BrXC3apHO-sLjJPJT1qP5Pe=_81827_"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220711110827epcas5p3fd81f142f55ca3048abc38a9ef0d0089
+References: <20220711110155.649153-1-joshi.k@samsung.com>
+	<CGME20220711110827epcas5p3fd81f142f55ca3048abc38a9ef0d0089@epcas5p3.samsung.com>
+	<20220711110155.649153-5-joshi.k@samsung.com> <20220712065250.GA6574@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220711_235255_281716_93A67CBB 
-X-CRM114-Status: UNSURE (   9.19  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220712_043841_686171_6AB19452 
+X-CRM114-Status: GOOD (  13.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,16 +136,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hmm, I'm a little confused on what this is trying to archive.
+------OEEzMZle2oafIX2psGkTvPl59BrXC3apHO-sLjJPJT1qP5Pe=_81827_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-The io_uring passthrough already does support multipathing, it picks
-an available path in nvme_ns_head_chr_uring_cmd and uses that.
+On Tue, Jul 12, 2022 at 08:52:50AM +0200, Christoph Hellwig wrote:
+>Hmm, I'm a little confused on what this is trying to archive.
+>
+>The io_uring passthrough already does support multipathing, it picks
+>an available path in nvme_ns_head_chr_uring_cmd and uses that.
+>
+>What this does is adding support for requeing on failure or the
+>lack of an available path.  Which very strongly is against our
+>passthrough philosophy both in SCSI and NVMe where error handling
+>is left entirely to the userspace program issuing the I/O.
+>
+>So this does radically change behavior in a very unexpected way.
+>Why?
 
-What this does is adding support for requeing on failure or the
-lack of an available path.  Which very strongly is against our
-passthrough philosophy both in SCSI and NVMe where error handling
-is left entirely to the userspace program issuing the I/O.
+I think ask has been to add requeue/failover support for
+async-passthrough. This came up here - 
+https://lore.kernel.org/linux-nvme/88827a86-1304-e699-ec11-2718e280f9ad@grimberg.me/
 
-So this does radically change behavior in a very unexpected way.
-Why?
+------OEEzMZle2oafIX2psGkTvPl59BrXC3apHO-sLjJPJT1qP5Pe=_81827_
+Content-Type: text/plain; charset="utf-8"
+
+
+------OEEzMZle2oafIX2psGkTvPl59BrXC3apHO-sLjJPJT1qP5Pe=_81827_--
 
