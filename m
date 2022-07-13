@@ -4,72 +4,131 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12DEEC433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jul 2022 11:30:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8DC12C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jul 2022 11:34:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UpU3iAvlI7vFNNtFjXtBf2TLbwrk4hSlTTyYCdlscgc=; b=gdNxTghCjc7znVV56ZhyqhQxXt
-	pA4qdOFr7cudpneNxqremVRzea1+TJdJ9/el7dl7TJjnF2SEMSMiOylDe5g6PtLQkhBo65BGjUBaz
-	y1fchbjVKzSLsRwqii7Lz+WOs189r6VaxH1aYLoDD/l40n6P5avB4Hzlj1APqfVufmywzjLumUkFn
-	rLyIg/jQCxdns8bSZjkR7ZLY7mNCN/WccQKbmNYMdgJPQsmQ6JCdMCnhHMh0EfvwZZESjJnqESVoO
-	HDoObbce3OAXyy+D2krqrS7bGvqS5DHfs3Mt10NKwwkIHujkwkQ4N+HOSAkn7SmC3RrExCCMKY9Rl
-	Kb7OGAHg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=jNQcGckq/C69LOQQ/cLEX1diqAcKv25heOBBxeK9Hso=; b=rrE5UpJOYx2hTkaT7F7CjdaZbD
+	BKjpojyN7QNlKlSxe6YKsJF8WH4M7/twKodqyXruvApt90yueDpBqxG+0LL5rKUk/hJ1TXPoKWmXG
+	Qy4/JGbtzb5oytVvJ2prIvWpiT8Y/cOxlopnmyPX+DSAd/xVyOAMFJcIXK/7+tyRyhOR6Gn0O3REy
+	1eOB2uSXN7kuGZZGlujc9WkO3ZySp/fcVm3O6qEb2jN0mgnPVbKIuc0OCxhlhsH5iFt4rQ5zE7lNd
+	WJbPXP/IUYorcRORHy8QD0mz80bADFV0xzpw9gSk8UUHpgjOmEqO8VJ7CvZSVUwwFetmAVAAXi1jf
+	FzdszNQQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBaZ3-00398A-OQ; Wed, 13 Jul 2022 11:29:57 +0000
-Received: from mail-wm1-f47.google.com ([209.85.128.47])
+	id 1oBadk-003BUh-Nl; Wed, 13 Jul 2022 11:34:48 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBaYq-0038wR-RH
-	for linux-nvme@lists.infradead.org; Wed, 13 Jul 2022 11:29:46 +0000
-Received: by mail-wm1-f47.google.com with SMTP id c131-20020a1c3589000000b003a2cc290135so1038494wma.2
-        for <linux-nvme@lists.infradead.org>; Wed, 13 Jul 2022 04:29:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=UpU3iAvlI7vFNNtFjXtBf2TLbwrk4hSlTTyYCdlscgc=;
-        b=rilec9v62EEZIiYGfZR1gYm8aEXnTwRUVYVj4CphJ/MyB53bBTcbGiQAcwCN/RZIcL
-         1aRE5c0FrqJFvLIWquRXFeo7NZIP89Gk1MRBnrTosv+dQ6S5G/2dizXVHsfFFENymwD7
-         fkIDByAh26U6dZKobJu9P2dPZ7uQFg8sXOzFVwfYMePThO+k31yQ0aTaP9fNp8Q2/25n
-         Nw3ftyyx+EWfAzlpND4vQk7DkOjyOpqlDsp8zrVw7GMT3uyIXQgp0qzPVsZCeAdcM8XM
-         5cfYNP79PjVdmLIPrnvtrEoZjyZ5HcsUIrLLr8QzGVIhaVtuhaIIgTqRmfdK6K2yrnHV
-         EjQA==
-X-Gm-Message-State: AJIora8Ci7OwbTUgs7bAc5VX+DhgjX+UoXTCwYR/BNTuwmp7Gkmx6Se6
-	TiOp4dIbCIzQmDRG3s1/i/A=
-X-Google-Smtp-Source: AGRyM1tAV3cbh98V7zivcQQEJSRhTtBKASVvqnCwfoRbs+PoIdpF8qowitkgzUE7t3U/ctmsRvFMEA==
-X-Received: by 2002:a05:600c:4fcc:b0:3a1:987c:82c9 with SMTP id o12-20020a05600c4fcc00b003a1987c82c9mr9495996wmq.73.1657711780854;
-        Wed, 13 Jul 2022 04:29:40 -0700 (PDT)
-Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id az29-20020a05600c601d00b003a03e63e428sm2367497wmb.36.2022.07.13.04.29.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Jul 2022 04:29:40 -0700 (PDT)
-Message-ID: <d5b7a279-0271-f53c-b886-b9ddaff906b3@grimberg.me>
-Date: Wed, 13 Jul 2022 14:29:38 +0300
+	id 1oBadf-003BNF-LU
+	for linux-nvme@lists.infradead.org; Wed, 13 Jul 2022 11:34:47 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20220713113421epoutp028df90b89d1dc70063cb6cd211655707e~BYFY3NCPy3024130241epoutp02Q
+	for <linux-nvme@lists.infradead.org>; Wed, 13 Jul 2022 11:34:21 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20220713113421epoutp028df90b89d1dc70063cb6cd211655707e~BYFY3NCPy3024130241epoutp02Q
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1657712061;
+	bh=jNQcGckq/C69LOQQ/cLEX1diqAcKv25heOBBxeK9Hso=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lSfEd2KHIQktyW4L4hq1jZqiz8gPC/IPIM0y3mxJKJm9ibKBKdbM9YV+H2jtNpS4t
+	 9VmMPFrCsQImJS6N+S/Rmwn0D7HSFCrnGTGIhse5emIEQJPTmd63laCplhU92ncM0Q
+	 jnH1hSZvL5tPQievOSrS3NZfOjnwQPwTM3DymFb0=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20220713113420epcas5p2f6ffffb7b4a28367683dd698421701db~BYFYUPfqL1307313073epcas5p2V;
+	Wed, 13 Jul 2022 11:34:20 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.181]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4LjbB21tw3z4x9Q0; Wed, 13 Jul
+	2022 11:34:18 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	EA.A1.09662.8BDAEC26; Wed, 13 Jul 2022 20:34:16 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20220713113415epcas5p3ebffdbb62e1ec75e91fddb55a349bb01~BYFTi17KU1019810198epcas5p3J;
+	Wed, 13 Jul 2022 11:34:15 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20220713113415epsmtrp2705cca99a2e2583cf1ed427b270b4bca~BYFThs_6R2637826378epsmtrp2Y;
+	Wed, 13 Jul 2022 11:34:15 +0000 (GMT)
+X-AuditID: b6c32a49-885ff700000025be-98-62ceadb83bcb
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	0A.66.08905.7BDAEC26; Wed, 13 Jul 2022 20:34:15 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20220713113413epsmtip1962effb45ddc119218799b3a3c3e60a1~BYFR7ek5_0690606906epsmtip1N;
+	Wed, 13 Jul 2022 11:34:13 +0000 (GMT)
+Date: Wed, 13 Jul 2022 16:58:50 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: hch@lst.de, kbusch@kernel.org, axboe@kernel.dk,
+	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, asml.silence@gmail.com, joshiiitr@gmail.com,
+	anuj20.g@samsung.com, gost.dev@samsung.com
+Subject: Re: [PATCH for-next 4/4] nvme-multipath: add multipathing for
+ uring-passthrough commands
+Message-ID: <20220713112850.GD30733@test-zns>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 3/5] nvme: refactor namespace probing
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>
-Cc: Joel Granados <j.granados@samsung.com>, kbusch@kernel.org,
- joshi.k@samsung.com, linux-nvme@lists.infradead.org, gost.dev@samsung.com,
- k.jensen@samsung.com
-References: <20220713054914.1888305-1-hch@lst.de>
- <20220713054914.1888305-4-hch@lst.de>
- <a09f1d0d-09de-6dd6-3810-d6fd5e11f63d@grimberg.me>
- <20220713101655.GA27936@lst.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220713101655.GA27936@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <f15bc945-8192-c10e-70d8-9946ae2969ce@grimberg.me>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrHJsWRmVeSWpSXmKPExsWy7bCmhu6OteeSDBo+C1g0TfjLbDFn1TZG
+	i9V3+9ksbh7YyWSxcvVRJot3redYLM6/PcxkMenQNUaLvbe0LeYve8puse71exYHbo+ds+6y
+	e5y/t5HF4/LZUo9NqzrZPDYvqffYfbOBzaNvyypGj8+b5AI4orJtMlITU1KLFFLzkvNTMvPS
+	bZW8g+Od403NDAx1DS0tzJUU8hJzU22VXHwCdN0yc4DOVFIoS8wpBQoFJBYXK+nb2RTll5ak
+	KmTkF5fYKqUWpOQUmBToFSfmFpfmpevlpZZYGRoYGJkCFSZkZ9y4o1CwiL9i2cwmxgbGYzxd
+	jJwcEgImEo9e/GLsYuTiEBLYzSjx99IPKOcTo8T+t+uZIZxvjBI3m64zwrQs2jeTFSKxl1Gi
+	8dkmqKpnjBI7F/5mAaliEVCVWPx3ClAVBwebgKbEhcmlIKaIgIrEmze5IOXMAi8YJRbOW8gK
+	Ui4skCyx6ckkJhCbV0BXon//aVYIW1Di5MwnYCM5BewlPs34zgZiiwooSxzYdpwJZJCEwFoO
+	iVNff0Jd5yKx5nUXG4QtLPHq+BZ2CFtK4vO7vVDxZIlLM88xQdglEo/3HISy7SVaT/Uzg9jM
+	ApkS6ya1skHYfBK9v58wgTwgIcAr0dEmBFGuKHFv0lNWCFtc4uGMJVC2h8TH+c3skDD5yyzx
+	qPEc4wRGuVlI/pmFZAWEbSXR+aGJdRbQCmYBaYnl/zggTE2J9bv0FzCyrmKUTC0ozk1PLTYt
+	MMxLLYfHcXJ+7iZGcMLV8tzBePfBB71DjEwcjIcYJTiYlUR4/5w9lSTEm5JYWZValB9fVJqT
+	WnyI0RQYPROZpUST84EpP68k3tDE0sDEzMzMxNLYzFBJnNfr6qYkIYH0xJLU7NTUgtQimD4m
+	Dk6pBqau84knW5L/RW76UXxAIcv/4wKNW/sLlbRfT3VIO3pTzORmUdLrrwHll48rSJ2Wzot6
+	YJb08d06ExHRBcfMXNb/n7g2ZNFSppx/0pJTA7e3z/K3jrcNenbeuejeV7kFFdZXXwrc08mf
+	yLLqo6yHl/GjglB5kYXHd5rPeC346gxbafCdZ2dmXErbK/NSTSTrzJFUqdqiXE7losaDtoXJ
+	K278P7LMrELBOE2+YN6hWZ+eaGc9qWI68njGOp3fJY3cz/5Gr4u51WJ7v6NMsSH0L6tWymyV
+	3Z0ch6P2s/4qmJY1NzM540fFzGVnLE8qvm5by7yvWdx76+fsCY4cKdaX1PgFC6+7NzByXH4z
+	wUnojasSS3FGoqEWc1FxIgA8sd4CQQQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrDLMWRmVeSWpSXmKPExsWy7bCSnO72teeSDJbuE7domvCX2WLOqm2M
+	Fqvv9rNZ3Dywk8li5eqjTBbvWs+xWJx/e5jJYtKha4wWe29pW8xf9pTdYt3r9ywO3B47Z91l
+	9zh/byOLx+WzpR6bVnWyeWxeUu+x+2YDm0ffllWMHp83yQVwRHHZpKTmZJalFunbJXBlXNr0
+	mqXgIk/FrdPTWBoY+7m6GDk5JARMJBbtm8naxcjFISSwm1Fi+4XdzBAJcYnmaz/YIWxhiZX/
+	noPZQgJPGCXWtyWD2CwCqhKL/04BaubgYBPQlLgwuRTEFBFQkXjzJhdkJLPAC0aJi1e2sICU
+	CwskS2x6MokJxOYV0JXo338aau9fZok356axQCQEJU7OfAJmMwuYSczb/JAZZCizgLTE8n8c
+	IGFOAXuJTzO+s4HYogLKEge2HWeawCg4C0n3LCTdsxC6FzAyr2KUTC0ozk3PLTYsMMxLLdcr
+	TswtLs1L10vOz93ECI4gLc0djNtXfdA7xMjEwXiIUYKDWUmE98/ZU0lCvCmJlVWpRfnxRaU5
+	qcWHGKU5WJTEeS90nYwXEkhPLEnNTk0tSC2CyTJxcEo1MJlqvW790G2vfmyd3vprMVMctaNC
+	n5U9sDnQp7evra02Mu97kOzK25+NrjHvXiK04U1icWDHozccD7yK356Qd646aviYsTLhwgOH
+	csEZ3dKXdugxLioJSE+KT2w31fqi35J3f5143sWrzlvbu+OkeKae7lX0Ohixylvpf5sWg7rZ
+	xYNHJ+gtWPZz696Sd/d3PxG6kbDz1pGsnYEFcsFq07I/b/mu6TwvbNH/iSmPF+pfLmWbaXdS
+	IedM45KrDLWC6SyNZ3iyjb+VLVYr2sfp1Xw7fc9Ch0Vi5f/XbvvkybrynjLP8Sa/dy32s/J4
+	d9s28YTO+PZwVqhzlGgze1JgwHZnn26dd45uftvfyl/dpsRSnJFoqMVcVJwIADW4z8kPAwAA
+X-CMS-MailID: 20220713113415epcas5p3ebffdbb62e1ec75e91fddb55a349bb01
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----jllqsR28.5W1KdEnZlWKzx60EIuo6gwqBUS1IW9J_3KKio4g=_128281_"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220711110827epcas5p3fd81f142f55ca3048abc38a9ef0d0089
+References: <20220711110155.649153-1-joshi.k@samsung.com>
+	<CGME20220711110827epcas5p3fd81f142f55ca3048abc38a9ef0d0089@epcas5p3.samsung.com>
+	<20220711110155.649153-5-joshi.k@samsung.com>
+	<3fc68482-fb24-1f39-5428-faa3a8db9ecb@grimberg.me>
+	<20220711183746.GA20562@test-zns>
+	<5f30c7de-03b1-768a-d44f-594ed2d1dc75@grimberg.me>
+	<20220712042332.GA14780@test-zns>
+	<3a2b281b-793b-b8ad-6a27-138c89a46fac@grimberg.me>
+	<20220713053757.GA15022@test-zns>
+	<f15bc945-8192-c10e-70d8-9946ae2969ce@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220713_042944_938415_3DF097C2 
-X-CRM114-Status: GOOD (  12.33  )
+X-CRM114-CacheID: sfid-20220713_043444_061744_2DB89725 
+X-CRM114-Status: GOOD (  20.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,17 +143,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+------jllqsR28.5W1KdEnZlWKzx60EIuo6gwqBUS1IW9J_3KKio4g=_128281_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
->> Maybe nvme_ns_info can have a id reference such that
->> nvme_update_ns_info_block can reuse it?
-> 
-> I thought about it and, and it does seem doable.  But it just seems
-> like an awful lack of abstraction, all for avoiding a single command
-> on some setups.  True, those are the absolute majority right now, but
-> with more and more information going to go into the comman set
-> independent identify page it will become less and less so going
-> forward.
+On Wed, Jul 13, 2022 at 12:03:48PM +0300, Sagi Grimberg wrote:
+>
+>>>However io_kiocb is less
+>>>constrained, and could be used as a context to hold such a space.
+>>>
+>>>Even if it is undesired to have io_kiocb be passed to uring_cmd(), it
+>>>can still hold a driver specific space paired with a helper to obtain it
+>>>(i.e. something like io_uring_cmd_to_driver_ctx(ioucmd) ). Then if the
+>>>space is pre-allocated it is only a small memory copy for a stable copy
+>>>that would allow a saner failover design.
+>>
+>>I am thinking along the same lines, but it's not about few bytes of
+>>space rather we need 80 (72 to be precise). Will think more, but
+>>these 72 bytes really stand tall in front of my optimism.
+>
+>You don't have to populate this space on every I/O, you can just
+>populate it when there is no usable path and when you failover a
+>request...
 
-I don't think its that bad, and it saves fetching the same data
-twice. But I don't really care either way...
+Getting the space and when/how to populate it - related but diferent
+topics in this context.
+
+It is about the lifetime of SQE which is valid only for the first
+submission. If we don't make the command stable at that point, we don't
+have another chance. And that is exactly what happens for failover.
+Since we know IO is failed only when it fails, but by that time
+original passthrough-command is gone out of hand. I think if we somehow
+get the space (preallocated), it is ok to copy to command for every IO
+in mpath case.
+
+The other part (no usuable path) is fine, because we hit that condition
+during initial submission and therefore have the chance to allocate/copy
+the passthrough command. This patch already does that. 
+
+
+
+------jllqsR28.5W1KdEnZlWKzx60EIuo6gwqBUS1IW9J_3KKio4g=_128281_
+Content-Type: text/plain; charset="utf-8"
+
+
+------jllqsR28.5W1KdEnZlWKzx60EIuo6gwqBUS1IW9J_3KKio4g=_128281_--
 
