@@ -4,67 +4,158 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A914C43334
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 14:42:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CB313C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 15:00:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Q/CVOE+Z8neDm9lUsCBc6Cnh9TUe3ZI0uIOD6Q/D0XQ=; b=YsRwPY+1lakQxgft1G5IiVCFuE
-	vwzYjZcK+qOLZPrJewSOJHf95ggf+87CFHLW0Zs4HTWuA+uOIf45BsMJVtvYDNjqPQdKIpDIQ1vxh
-	jtdjdqB91+ycw47bKc1O505GPOQf1uXjrsqgKacpwUVlpx943RCqpA2BEAlmWl3gUAnbwYVC+eae5
-	XHcXOyPBpsaZw0qTFE7gMukNssb79Clm0Cn5gJHQvwzTWemMZ3nKp9t4tLJE01KdKY9hShq/f/Lw9
-	1b2tJbRSTwbTXJ/uKV19XPMUQTwRXKZ2Hye+l8k3+rhYOp+0Xwiohtnl7Ajlw9apbzmNOTIKYzXkW
-	+zIlO1oQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=BLHlzs/lmOt1CTNpWlKWO4S51pCQAGi1msy82OT0GpU=; b=C76kzaEz5528YRIjRRLB7Dm/rD
+	iUDDGtv8+xhW4VZ0ZTJRBQyKsno3Omj1g2bm7frX8kOotwnREdaLlRLKh2DFKglUnZ3ZygjoMiW5R
+	ewZZgWTmAsS+Lzsl+YPiozVMi4qxF2zBPqB6r1COh5skPoY+Sv1SKTFiY3CAKgPBk7K810652Goxs
+	F9n0ZyRuLt7elJQCbJ6ADbd0VWSBqJPGQ69h2B56rJGwCxxu7ArJqvdD0XgCF7dP31MlR9B+vRwTB
+	SV64Ra2VTWAvA+dffSpXx35SvmyDeFxROBr/Rd7igp844oroJkAHW0yfkzjHkj3HwHbt9eQ9dRg2z
+	iSql9m9w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oC03J-00FJUg-HQ; Thu, 14 Jul 2022 14:42:53 +0000
-Received: from mail-wm1-f46.google.com ([209.85.128.46])
+	id 1oC0Ki-00FSFq-80; Thu, 14 Jul 2022 15:00:52 +0000
+Received: from mail-bn7nam10on2069.outbound.protection.outlook.com ([40.107.92.69] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oC03G-00FJRY-Ff
-	for linux-nvme@lists.infradead.org; Thu, 14 Jul 2022 14:42:52 +0000
-Received: by mail-wm1-f46.google.com with SMTP id y22-20020a7bcd96000000b003a2e2725e89so1370531wmj.0
-        for <linux-nvme@lists.infradead.org>; Thu, 14 Jul 2022 07:42:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Q/CVOE+Z8neDm9lUsCBc6Cnh9TUe3ZI0uIOD6Q/D0XQ=;
-        b=mJVr2GrQHnXdgg/nNHh6xeYmrXUIEQj5oW8Ibu9oAp2wJA3KScDurW04k3Z+9BT55p
-         TUoLyBWgf3RIAYqHcxTaY/Jyuy/J5QrR1r1QjqWhvmTaS/krb2RtnHSkIbRZOUpvA8l7
-         4crC7F0cY8uf4V0odoIQBttD9utvRm5nnFUpviAst5ABDK97rRcyxdVkdrFIj+KtV8AJ
-         ElJASXkVGX9BMc+Cn1pHJ3RauRbYB1WbiduBFup5t1Eic78/tJ4760eim8Uqy1giSTs4
-         +8+uYZvRDJlw6DSyODUEOehv0JcE0MQx3KKB+zAjf6yWjB8memi4fWcGnsPap5l5Vd1H
-         YhlQ==
-X-Gm-Message-State: AJIora9lze2iv2/+uXEkM5zSNlDIjb1np7hoAPto5on7p4DmLG4yg9l3
-	pjjwGEkoW7Lzs0+TBIr5ok/nH4aYFME=
-X-Google-Smtp-Source: AGRyM1uTXpQeGz5qUJao7blPcyoPpQ+HEedS7uisikYUlt38nA4FJiB4/mW3FXt+CRyZZybLby6siQ==
-X-Received: by 2002:a05:600c:2411:b0:3a2:e09a:6cb8 with SMTP id 17-20020a05600c241100b003a2e09a6cb8mr9277133wmp.44.1657809766086;
-        Thu, 14 Jul 2022 07:42:46 -0700 (PDT)
-Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id y18-20020a05600c365200b003a2c67aa6c0sm2563205wmq.23.2022.07.14.07.42.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Jul 2022 07:42:45 -0700 (PDT)
-Message-ID: <49be3b16-9c99-460b-e321-c2727c159d9c@grimberg.me>
-Date: Thu, 14 Jul 2022 17:42:44 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] nvme-tcp: delay error recovery after link drop
+	id 1oBeWa-005DQE-Ks
+	for linux-nvme@lists.infradead.org; Wed, 13 Jul 2022 15:43:41 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZGHNkPSeuj5uazpBoeMhLGEaAe2C88qEJQFsNS2xQQZTSCsfK2AgFhHKSbYzkko8VZizkwO7MbkB6V5akLMseZDHbCDzcz5phvtwJlMSqvI0wukT27JY3ECrl05YDG4Seg/81sZtYO6337g0mvCZX9tcvrP6tFrWyvdQxunMfQQ3R4DrZmffCO/wj/ySLHeG76Ho7044S8g4aObpAJ3zRASNoXmW33qs1zOa5hgc9gIXog/r2Ep9J3XqfSYX5hB3M+d6Yf4xhvaZUd5Pbsi4zpoti8nteifJGH7YBWvv8SZbL6ZEqTC08MzKdq8f4XeHx0a7z0TVezIYucdr0TRk7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BLHlzs/lmOt1CTNpWlKWO4S51pCQAGi1msy82OT0GpU=;
+ b=W8Gr85MvHWUqRO1yxJaWO0Er/m+mbFsp777PMJ9Yn2vOxD2FGJHkpK3JGofKn8z96WlaR8PkpEciamn9sl3PzFtaX56WhtGGCWwk6FXiiXsUvns5fuVyL4NWICPwK0B82Nfu/EV0I7jjVtHbO8VjnMaBmU7vl69mBrZI2Y+jnJbhM4JfIdsy2VQIfq5IHSwjh1LBjnhaKLto+NAmj8yXSFLNn7O2rfD6SnNShqBcqoUo7pl6Gn0gG4btacqOeAiGkWQfG60f+suKvoiSp0qt1CzDVRPu9Tz59vWXWzGG+OkAVtAAqcLsmsj3oDDc3NNU0Hpf2ibCmyo6Q7frGFCSxw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BLHlzs/lmOt1CTNpWlKWO4S51pCQAGi1msy82OT0GpU=;
+ b=EtuV8MeHgEeQBcT27n6VgOUmuNSEGURICb9OpDukk8ZH+5eC816OqhLaTU3Tm8Ybs4UAZCvCZtvD8AbHuWySkZ2rMU+YXR54l969Gj9MHZhFnNNZv2+Rx6we2kINJpltSSw3yqQoyRNNbXfNUkCRqRvy1YKs0EPY0puQ2VcNbB/AqiPzo/nQnwh90t5TC56WvQxzGgd2/+FsL7HTEBtua0xD7yFleBZBdgOT21AVrvGpcRPx2d8WLDSABQREq9l4oXICP1GIjOPDjGnEVZJyo8NYlL1hJ7ja4NonrB9A1uClH9mIyHfGj64Y3a4qfD4lIWtNzjBM/QoK23ZUA8EGzw==
+Received: from BL0PR12MB4659.namprd12.prod.outlook.com (2603:10b6:207:1d::33)
+ by BN6PR12MB1617.namprd12.prod.outlook.com (2603:10b6:405:d::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.12; Wed, 13 Jul
+ 2022 15:43:36 +0000
+Received: from BL0PR12MB4659.namprd12.prod.outlook.com
+ ([fe80::3cc0:2098:d2fe:5f56]) by BL0PR12MB4659.namprd12.prod.outlook.com
+ ([fe80::3cc0:2098:d2fe:5f56%7]) with mapi id 15.20.5417.026; Wed, 13 Jul 2022
+ 15:43:36 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Matthew Wilcox <willy@infradead.org>, Chaitanya Kulkarni
+	<chaitanyak@nvidia.com>
+CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"axboe@kernel.dk" <axboe@kernel.dk>, "agk@redhat.com" <agk@redhat.com>,
+	"song@kernel.org" <song@kernel.org>, "djwong@kernel.org" <djwong@kernel.org>,
+	"kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>,
+	"sagi@grimberg.me" <sagi@grimberg.me>, "jejb@linux.ibm.com"
+	<jejb@linux.ibm.com>, "martin.petersen@oracle.com"
+	<martin.petersen@oracle.com>, "viro@zeniv.linux.org.uk"
+	<viro@zeniv.linux.org.uk>, "javier@javigon.com" <javier@javigon.com>,
+	"johannes.thumshirn@wdc.com" <johannes.thumshirn@wdc.com>,
+	"bvanassche@acm.org" <bvanassche@acm.org>, "dongli.zhang@oracle.com"
+	<dongli.zhang@oracle.com>, "ming.lei@redhat.com" <ming.lei@redhat.com>,
+	"jefflexu@linux.alibaba.com" <jefflexu@linux.alibaba.com>,
+	"josef@toxicpanda.com" <josef@toxicpanda.com>, "clm@fb.com" <clm@fb.com>,
+	"dsterba@suse.com" <dsterba@suse.com>, "jack@suse.com" <jack@suse.com>,
+	"tytso@mit.edu" <tytso@mit.edu>, "adilger.kernel@dilger.ca"
+	<adilger.kernel@dilger.ca>, "jlayton@kernel.org" <jlayton@kernel.org>,
+	"idryomov@gmail.com" <idryomov@gmail.com>, "danil.kipnis@cloud.ionos.com"
+	<danil.kipnis@cloud.ionos.com>, "ebiggers@google.com" <ebiggers@google.com>,
+	"jinpu.wang@cloud.ionos.com" <jinpu.wang@cloud.ionos.com>
+Subject: Re: [PATCH V2 0/6] block: add support for REQ_OP_VERIFY
+Thread-Topic: [PATCH V2 0/6] block: add support for REQ_OP_VERIFY
+Thread-Index: AQHYloklge72pDYJZUKn07WrBI9g4618OGyAgAA5IgA=
+Date: Wed, 13 Jul 2022 15:43:36 +0000
+Message-ID: <22451082-a467-4bd7-d25d-0f9d0dac4848@nvidia.com>
+References: <20220713072019.5885-1-kch@nvidia.com>
+ <Ys64O6malGAbslBL@casper.infradead.org>
+In-Reply-To: <Ys64O6malGAbslBL@casper.infradead.org>
+Accept-Language: en-US
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20220714122703.67621-1-hare@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220714122703.67621-1-hare@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e0bc82d7-0a1b-498d-0891-08da64e67349
+x-ms-traffictypediagnostic: BN6PR12MB1617:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  x+cjAICaTvY0tiMT1FnlRVD9K9S/sktApZCQDHUcqoP/PfYlVkMR9oUGnxwZA5Xv9ze6X7OD0n38qX4qBipW4/CjGjTBINhzVFohEQ263YKog3FZ8sxUnWCICKbHx5/wqnJmhx1e67FI7HJh9N/bFF7A0fISkbJoqeO++5yfTV+jx3aUHmQRSjDW5pptU70RR9EucI1Paf4a8cqPsvnerW6x754OoXj4gnv8kTBnYW9OaZb/Mbd+Ifs0rVdcOfCA8+9PzQlt5EnCxL/mYcO7CsITz6MfXqCsHfrtxdRWEk3idedBi6Ait7geV4ypLEmXY8Wp/wL++7OhvywZ75TRJCHU7D+jzwumn1lSSVc6fuCMPtFe9NEVHaPqoeO//kdXW/K7HGEsIh2fFZuQ4yqlZN6UOdgUM95TkUdBgjePqOErGBD9VCK+Mn4gXLAFCmz84M2VVaZ/SBRoyCxWTNdWXh8CL6YS3dv/z9iBvZJIA+6JQmma7UKvizPAtFNo+7a0AE5GURu9wVoUcDQ7cloyaQi0tMqTNL28NSMFD8p5podvMjwWZUxNAuP3WSq96zqp7aEfZ7hacImEsQKZE4PzPcVMbxPKEsfvqXKHnOYeea7nnc7D8aJkHczZh9+Zi8g5f5L95kfmFavGbbsJKy2mYSRNO3/06buBe7N7hqXFaiF+tINx7irA+V98sCMPATfF4SeM0MOJMPSLw5NLDxAzoPdPp6gqNWo3yAf6bAX3EMZ1pCxr9iCqXlWeO1BzsC8e5EiUcUtw8ZZ3OIBwWsj7b4nzLUcMR9olhSCv82GUxeTN9BteFCX+fNXx99+839L8sbmPLvMzAZPmbCC7nfo3T2MgYpZtK1jIxRrVdIAbtMHMyNDVPpRRFsG8vQq1Wooy
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB4659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(366004)(396003)(376002)(136003)(39860400002)(53546011)(66446008)(41300700001)(66556008)(6512007)(64756008)(6506007)(66946007)(6486002)(66476007)(36756003)(5660300002)(316002)(54906003)(478600001)(76116006)(86362001)(110136005)(91956017)(71200400001)(122000001)(31696002)(38100700002)(38070700005)(2616005)(83380400001)(8676002)(31686004)(8936002)(2906002)(186003)(7416002)(7406005)(4326008)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?K2NRWEdndW5PakRJV29Wck9GdHQwdUpmaWNmaWwrVHNqMGJVdU8wdmVoMDNl?=
+ =?utf-8?B?L2JPSzA2OFJJczVpMlV3d3hFUnJXSXhzMTRwZWhlY0xjeURvYXRnMzlHL3pt?=
+ =?utf-8?B?eVdMejN1bm1WN0xGL1NnZnV5VHRWYlZjWnhpdUtMRWVsNC83eGJVeW9SN1Jw?=
+ =?utf-8?B?RzlzY2svd1RLRG5ldzJkNEVCQW5pa2I5RUg0aUlkdC9jdW50NFV5anFXd0kr?=
+ =?utf-8?B?aHMrSEdwTWJ6eW14TUFHTitRQnBRN0dSSmlkV0NVY0NkOXEzVlVwN2w3eUlU?=
+ =?utf-8?B?Q1AweG5aL1FmS0pQSTR1cVZBbStpMnZpMFQwYm5LUTNWQzBjaGZQS0NidUtY?=
+ =?utf-8?B?R2w1M3hUZ0M3YWQvM2VmSnZLZ0FXd1FuR3l1OFMrTXJHR0RtNkZXNGswNm9x?=
+ =?utf-8?B?dUNKYmFLNEpDYWRXNEJwYVNPR2JVSWMrTUNWVlQ0V2k0MlpJQlZvaEM4ZnlN?=
+ =?utf-8?B?MlhOaFljaWJ4SUMzL1laR0ZoT0QzbjFHMGkwOWh4c296S0RDS2o4VExYUlJ6?=
+ =?utf-8?B?RlVYcFlxK0s1ZXI0TUtOZzYraUpyazhPZHBHclA5NW9nc01oTC9pRnpXcFFS?=
+ =?utf-8?B?YkhwUmVKa0NXMWw4ZVptRlpiT1dpaVBFNThSZ3VpMlJXbDQ1NHZsY1F5cHIz?=
+ =?utf-8?B?cFJjcHFkNkx4OU5IbEFXTFB5Mnk0NjNmSGloZi9Hd1NuRGZUWnBwQVhvU0dP?=
+ =?utf-8?B?UURpZHA3T3NySEkxZkZaZnJHSG0zeTRiNFVIeUMvQndGR3lKR3BTNzZjYmZ4?=
+ =?utf-8?B?OHJpUld4VHhQUzhDeTFzeUxiZDdUdEdLdng2MktIb0lYNUlEc2syb0ZhV3Jx?=
+ =?utf-8?B?elUzaEtLcE5EV1VtajF0QnoySjJXVjRrWG1uNnczdmxnczFWQ1c0RE0vY2t0?=
+ =?utf-8?B?MjYrUGZUSXQzWFc0cFNwc2JCZ0dqWnpnWGQzNDRQZXRLanEzalB2bGhHRjVF?=
+ =?utf-8?B?RlJnTHhxYXpnQ2oyYnVESUEyOWJOWmxYQS95d3JURHdDVnZwNk9yTTZqb1B1?=
+ =?utf-8?B?aVQwT1VQOTgxb0JKWThNamYrWFNvN2QyeitDUzhaekRab014MXVabTFsY0kw?=
+ =?utf-8?B?Z2hWc0lQMklYS2llSXJkT2tVdlp4TlBKa0h6VnlaeTJ2RzQ4ekVjV0dJT2ZB?=
+ =?utf-8?B?bzhxSzNpRjI1OUpaYzIyZlJSWFV6Sld3Wit0NVVRbGdxRUJhVjRVeEt0UmMx?=
+ =?utf-8?B?dnVxNCtzL1luUUJDMDlvNmFDQVE3d1lwekJxOS80dFV0Y25aTmNUT1RXUnhw?=
+ =?utf-8?B?MlV2MVFBSTFpajF4Q25OU3M2cXNYdDdJWUhjeXo4NHFvZm9VREFSRlc3M3N1?=
+ =?utf-8?B?dEE3c0w0ek9DVDVOUUlBTEk0R0VESmdGM2d3RkpRa1dQd25hcGlRVDV2enl2?=
+ =?utf-8?B?aVZkci9YRHY4WkNuQTZZMktXVmlwYkkrczF4aVlWbzFrREdnTVZWYVpoNnRD?=
+ =?utf-8?B?Y21BYUtJTDB0VmYwSGZpSWFPN2hLMDlGSU1xNlM4MmY4U1JMRG5ybWFzTzdS?=
+ =?utf-8?B?RllHWUV5OFNTcFVUWmlxeWZKUEhydTJSWThybkVDdWxxdlR6c1FXTHRKUm9C?=
+ =?utf-8?B?S1NFQVhWZmtCazNGVExKaVFwdnJTdVlqNTVMQ2luYkh0TXpZdEMvTTd4MEpS?=
+ =?utf-8?B?RUllVThCVnFkb2p4b3Faa1A3elJnMHlLaTdLZEFvelRCZm0yNTUzcktxOVJI?=
+ =?utf-8?B?REJnQmhVYnFORUl4MjdhN2dYUjJiL2lhNjYvbGwwb3YwSU9CNDBhVEVKSmlK?=
+ =?utf-8?B?TTF6cDJ3WURLeTRtd0FKNjZ0bFIrS25ZczdRRzJsd3RtcTEyYkZ5K0Q5ZWg2?=
+ =?utf-8?B?R2VaOHYrcUtGVnBlcXM2cXRMSkM5Mm5FaFpyZHljU0VVSTJtc3FkaTEycVRr?=
+ =?utf-8?B?SkxzOW44eDIvMlZGeUNERjkwSC9UMlE2MWtibHg5QjZxMUVXcDZrN0R6MGdv?=
+ =?utf-8?B?aWkwK1lieWxqZWJLWFVkL3plQ1FNRVBMMzl6SFE3N0VqVlVBcnp5b0FWRjBa?=
+ =?utf-8?B?UWgxckNpc3JkeWp0R2xRVy9hRnhDWlVUM3JvMVRERWNzTWx4dlo5SnRCTS9S?=
+ =?utf-8?B?bk5lNlpYVExFWi93OHBqUTNOUFhtelpmVkFna2o4dmdIMVJhUGtvTTlmTVE1?=
+ =?utf-8?B?cDBmVEs4VStGVHRFV1NSQ2VMbVEzeEptZGRxNEtiSXphSkxGc1AwZldKR2tJ?=
+ =?utf-8?Q?GSz+o3ZnhgX78ZapiyBZWtWimwKYbqSayF/SY78aVfZK?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <AC8C512CC292C8459B57987F685A50CE@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e0bc82d7-0a1b-498d-0891-08da64e67349
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jul 2022 15:43:36.5455
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xdev/kgnqNxNcAmQpdlD/Tja50n8j3LdIA1p3R++eDtJwB4emEsrKM0upInPiIVi46zkClEAD3OGw2xP5UO+7Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1617
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220714_074250_558292_496864EB 
-X-CRM114-Status: GOOD (  28.88  )
+X-CRM114-CacheID: sfid-20220713_084340_711908_0B9E8E29 
+X-CRM114-Status: GOOD (  13.81  )
+X-Mailman-Approved-At: Thu, 14 Jul 2022 08:00:51 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,179 +170,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-> When the connection unexpectedly closes we must not start error
-> recovery right away, as the controller might not have registered
-> the connection failure and so retrying commands directly will
-> might lead to data corruption.
-> So wait for KATO before starting error recovery to be on the safe
-> side; chances are the commands will time out before that anyway.
-
-We can't just blindly adding kato to the error recovery because that
-by definition creates a intrinsic delay for I/O failover. There is
-absolutely no reason what-so-ever to do that. kato can be arbitrarily
-long.
-
-If the controller needs this delay, then it should signal this
-somehow in its capabilities. This is not something that we can just
-blindly do. So this needs to go through the TWG.
-
-Also, how come this is TCP specific anyway? This talks about a
-controller that has a dangling inflight command that he cannot fence
-yet hence cannot serve failover I/O. RDMA should have the same thing.
-
-> 
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> ---
->   drivers/nvme/host/tcp.c           | 37 +++++++++++++++++++++----------
->   drivers/nvme/target/io-cmd-bdev.c | 18 +++++++++++++++
->   2 files changed, 43 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index a7848e430a5c..70096a2e8762 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -167,7 +167,7 @@ struct nvme_tcp_ctrl {
->   	struct sockaddr_storage src_addr;
->   	struct nvme_ctrl	ctrl;
->   
-> -	struct work_struct	err_work;
-> +	struct delayed_work	err_work;
->   	struct delayed_work	connect_work;
->   	struct nvme_tcp_request async_req;
->   	u32			io_queues[HCTX_MAX_TYPES];
-> @@ -522,13 +522,21 @@ static void nvme_tcp_init_recv_ctx(struct nvme_tcp_queue *queue)
->   	queue->ddgst_remaining = 0;
->   }
->   
-> -static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl)
-> +static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl, bool delay)
->   {
-> +	int tmo = delay ? (ctrl->kato ? ctrl->kato : NVME_DEFAULT_KATO) : 0;
-> +
->   	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
->   		return;
->   
-> -	dev_warn(ctrl->device, "starting error recovery\n");
-> -	queue_work(nvme_reset_wq, &to_tcp_ctrl(ctrl)->err_work);
-> +	if (tmo)
-> +		dev_warn(ctrl->device,
-> +			 "delaying error recovery by %d seconds\n", tmo);
-> +	else
-> +		dev_warn(ctrl->device,
-> +			 "starting error recovery\n");
-> +	queue_delayed_work(nvme_reset_wq, &to_tcp_ctrl(ctrl)->err_work,
-> +			   tmo * HZ);
->   }
->   
->   static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
-> @@ -542,7 +550,7 @@ static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
->   		dev_err(queue->ctrl->ctrl.device,
->   			"got bad cqe.command_id %#x on queue %d\n",
->   			cqe->command_id, nvme_tcp_queue_id(queue));
-> -		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-> +		nvme_tcp_error_recovery(&queue->ctrl->ctrl, false);
->   		return -EINVAL;
->   	}
->   
-> @@ -584,7 +592,7 @@ static int nvme_tcp_handle_c2h_data(struct nvme_tcp_queue *queue,
->   		dev_err(queue->ctrl->ctrl.device,
->   			"queue %d tag %#x SUCCESS set but not last PDU\n",
->   			nvme_tcp_queue_id(queue), rq->tag);
-> -		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-> +		nvme_tcp_error_recovery(&queue->ctrl->ctrl, false);
->   		return -EPROTO;
->   	}
->   
-> @@ -895,7 +903,7 @@ static int nvme_tcp_recv_skb(read_descriptor_t *desc, struct sk_buff *skb,
->   			dev_err(queue->ctrl->ctrl.device,
->   				"receive failed:  %d\n", result);
->   			queue->rd_enabled = false;
-> -			nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-> +			nvme_tcp_error_recovery(&queue->ctrl->ctrl, false);
->   			return result;
->   		}
->   	}
-> @@ -943,7 +951,12 @@ static void nvme_tcp_state_change(struct sock *sk)
->   	case TCP_LAST_ACK:
->   	case TCP_FIN_WAIT1:
->   	case TCP_FIN_WAIT2:
-> -		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-> +		/*
-> +		 * We cannot start error recovery right away, as we need
-> +		 * to wait for KATO to trigger to give the controller a
-> +		 * chance to detect the failure.
-> +		 */
-> +		nvme_tcp_error_recovery(&queue->ctrl->ctrl, true);
->   		break;
->   	default:
->   		dev_info(queue->ctrl->ctrl.device,
-> @@ -2171,7 +2184,7 @@ static void nvme_tcp_reconnect_ctrl_work(struct work_struct *work)
->   static void nvme_tcp_error_recovery_work(struct work_struct *work)
->   {
->   	struct nvme_tcp_ctrl *tcp_ctrl = container_of(work,
-> -				struct nvme_tcp_ctrl, err_work);
-> +				struct nvme_tcp_ctrl, err_work.work);
->   	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
->   
->   	nvme_auth_stop(ctrl);
-> @@ -2195,7 +2208,7 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
->   
->   static void nvme_tcp_teardown_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
->   {
-> -	cancel_work_sync(&to_tcp_ctrl(ctrl)->err_work);
-> +	cancel_work_sync(&to_tcp_ctrl(ctrl)->err_work.work);
->   	cancel_delayed_work_sync(&to_tcp_ctrl(ctrl)->connect_work);
->   
->   	nvme_tcp_teardown_io_queues(ctrl, shutdown);
-> @@ -2355,7 +2368,7 @@ nvme_tcp_timeout(struct request *rq, bool reserved)
->   	 * LIVE state should trigger the normal error recovery which will
->   	 * handle completing this request.
->   	 */
-> -	nvme_tcp_error_recovery(ctrl);
-> +	nvme_tcp_error_recovery(ctrl, false);
->   	return BLK_EH_RESET_TIMER;
->   }
->   
-> @@ -2596,7 +2609,7 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
->   
->   	INIT_DELAYED_WORK(&ctrl->connect_work,
->   			nvme_tcp_reconnect_ctrl_work);
-> -	INIT_WORK(&ctrl->err_work, nvme_tcp_error_recovery_work);
-> +	INIT_DELAYED_WORK(&ctrl->err_work, nvme_tcp_error_recovery_work);
->   	INIT_WORK(&ctrl->ctrl.reset_work, nvme_reset_ctrl_work);
->   
->   	if (!(opts->mask & NVMF_OPT_TRSVCID)) {
-> diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-> index 27a72504d31c..bbeeeeaedc9b 100644
-> --- a/drivers/nvme/target/io-cmd-bdev.c
-> +++ b/drivers/nvme/target/io-cmd-bdev.c
-> @@ -157,6 +157,24 @@ u16 blk_to_nvme_status(struct nvmet_req *req, blk_status_t blk_sts)
->   		req->error_loc = offsetof(struct nvme_rw_command, nsid);
->   		break;
->   	case BLK_STS_IOERR:
-> +		switch (req->cmd->common.opcode) {
-> +		case nvme_cmd_read:
-> +			status = NVME_SC_READ_ERROR;
-> +			req->error_loc = offsetof(struct nvme_rw_command,
-> +						  slba);
-> +			break;
-> +		case nvme_cmd_write:
-> +			status = NVME_SC_WRITE_FAULT;
-> +			req->error_loc = offsetof(struct nvme_rw_command,
-> +						  slba);
-> +			break;
-> +		default:
-> +			status = NVME_SC_DATA_XFER_ERROR | NVME_SC_DNR;
-> +			req->error_loc = offsetof(struct nvme_common_command,
-> +						  opcode);
-> +			break;
-> +		}
-> +		break;
-
-unrelated hunk.
-
->   	default:
->   		status = NVME_SC_INTERNAL | NVME_SC_DNR;
->   		req->error_loc = offsetof(struct nvme_common_command, opcode);
+T24gNy8xMy8yMDIyIDU6MTkgQU0sIE1hdHRoZXcgV2lsY294IHdyb3RlOg0KPiBPbiBXZWQsIEp1
+bCAxMywgMjAyMiBhdCAxMjoyMDoxM0FNIC0wNzAwLCBDaGFpdGFueWEgS3Vsa2Fybmkgd3JvdGU6
+DQo+PiBIaSwNCj4+DQo+PiBPbmUgb2YgdGhlIHJlc3BvbnNpYmlsaXRpZXMgb2YgdGhlIE9wZXJh
+dGluZyBTeXN0ZW0sIGFsb25nIHdpdGggbWFuYWdpbmcNCj4+IHJlc291cmNlcywgaXMgdG8gcHJv
+dmlkZSBhIHVuaWZpZWQgaW50ZXJmYWNlIHRvIHRoZSB1c2VyIGJ5IGNyZWF0aW5nDQo+PiBoYXJk
+d2FyZSBhYnN0cmFjdGlvbnMuIEluIHRoZSBMaW51eCBLZXJuZWwgc3RvcmFnZSBzdGFjayB0aGF0
+DQo+PiBhYnN0cmFjdGlvbiBpcyBjcmVhdGVkIGJ5IGltcGxlbWVudGluZyB0aGUgZ2VuZXJpYyBy
+ZXF1ZXN0IG9wZXJhdGlvbnMNCj4+IHN1Y2ggYXMgUkVRX09QX1JFQUQvUkVRX09QX1dSSVRFIG9y
+IFJFUV9PUF9ESVNDQVJEL1JFUV9PUF9XUklURV9aRVJPRVMsDQo+PiBldGMgdGhhdCBhcmUgbWFw
+cGVkIHRvIHRoZSBzcGVjaWZpYyBsb3ctbGV2ZWwgaGFyZHdhcmUgcHJvdG9jb2wgY29tbWFuZHMN
+Cj4+IGUuZy4gU0NTSSBvciBOVk1lLg0KPiANCj4gU3RpbGwgTkFLLCBzZWUgcHJldmlvdXMgdGhy
+ZWFkIGZvciByZWFzb25zLiAgU29tZXdoYXQgZGlzYXBwb2ludGluZyB0aGF0DQo+IHlvdSBzZW50
+IGEgbmV3IHZlcnNpb24gaW5zdGVhZCBvZiBhZGRyZXNzaW5nIHRob3NlIGNvbW1lbnRzIGZpcnN0
+Lg0KDQpJJ3ZlIGFsc28gYXNrZWQgeW91IGV4YWN0bHkgd2hhdCBkbyB5b3UgZXhwZWN0IGFzIEkg
+ZGlkIG5vdCB1bmRlcnN0YW5kDQp5b3VyIGZpcnN0IHJlcGx5Lg0KDQpJJ3ZlIGFkZGVkIHRoZSBm
+aXhlcyB0byB0aGlzIHZlcnNpb24gYmFzZWQgb24gdGhlIG90aGVyIGNvbW1lbnRzIHRoYXQgDQpJ
+J3ZlIHJlY2VpdmVkIGFzIEkgdGhpbmsgdGhleSBzdGlsbCBuZWVkcyBiZSB0byByZXZpZXdlZC4N
+Cg0KQXMgSSBjYW4gc2VlIHlvdXIgcmVwbHkgZWFybGllciB0b2RheSwgSSdsbCBjb250aW51ZSBk
+aXNjdXNzaW9uIG9uIHRoYXQNCnRocmVhZC4NCg0KLWNrDQoNCg0K
 
