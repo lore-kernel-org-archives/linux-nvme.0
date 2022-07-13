@@ -4,87 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16079C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jul 2022 04:47:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3071C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jul 2022 05:36:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gBaYkCq2UOecKkI/ZcXaXDVPy+SEFxbUDpVc4bdCZmM=; b=y2HXOmlj0+OY6mfgk2rJD88/Fk
-	ZuhXk0fhdgvGVBpdfrLofHptUmHyJl/1uwFE5YxW4aSHpktZ8NdMCXgJuVno+CMpFM9hUzEBPuPYR
-	8DAaHSON+Lxu6mEBiJieoEk8flCmVU50PW8SZhMCAFeWR0n5YIOBB4sqex4GcL/FXd9HpkKlvt3wb
-	oGCbTlECCjJlO4zggtj4+OIsGSNUzFxy3Dia0/P7cFvXokN+OORcHq0Hq3ROfE/fYsV2MuYkMKq+E
-	fnIMkU9C+ur+iAcOrh0XNHNLs5joEM+MfYpmwd144sDFbnW9JXxQ13hrTb0TwKwbMdFwmTICIE1j9
-	EgjHabow==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8F9asmchbHoMtKx4dWhxDQzOKwtT1HulJnrCajrND54=; b=0twkVxaHmjxfp3aEY1Or4Yi1gL
+	56gN8+BXklX0VYFK9OUwRcDekyoYq5wITar0AZyRTwfPe9Jt3sR44hOoYs2SGyf9Ml00NTrsS2jvZ
+	1mchL98aJgjpHiQrRTH6uAwwKZ+j/ujSVguh+WKE50qXDEVI6SujSsDyqnt2Q1zgXJIvixVsKerq2
+	9/9tFQmAag2MgyWdqKzyxvtayR98HLn9RuGKIwDO3UwE54UZvxE4JRlh4Izt2/wBiAQky9nlDXrmm
+	rhZVs0wiW5yZ9Bg6jHv9xGHkTY8Ou84HaYqWxxdGJel5XhF6rd1GQIco/Xkq/9la2No+Q8gYp1cSb
+	LiP6INMw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBUH8-0008by-Oi; Wed, 13 Jul 2022 04:47:02 +0000
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+	id 1oBV3K-000Hmp-Oq; Wed, 13 Jul 2022 05:36:50 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBUH5-0008bX-UF
-	for linux-nvme@lists.infradead.org; Wed, 13 Jul 2022 04:47:01 +0000
-Received: by mail-pj1-x1036.google.com with SMTP id g16-20020a17090a7d1000b001ea9f820449so1703246pjl.5
-        for <linux-nvme@lists.infradead.org>; Tue, 12 Jul 2022 21:46:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=gBaYkCq2UOecKkI/ZcXaXDVPy+SEFxbUDpVc4bdCZmM=;
-        b=h1H/+uf4FxW4bgT2t3lI+XGqdPLgtl0u4V9II5sch1nlT+lMFHYXepqKt3obshgGQr
-         3HvlRGfLhGGuN/cLDAW+qlK3KCK5YFGagFcXTsXxI41AZhR0UvNjIOlpluv73F4bxF/g
-         pFWma2sdbuCLVJtI9XiLV2fs42bsQjkzpvmWkN4oCL2sNl7r9G1b+YQyRp08KueMfFes
-         c4o+4R1l23aSWaIKGanMB/60uX0VmGGgtKiBWNxIHEkc06LPSYVDvoQbvR1B5UwEmIHV
-         dw1B4Nb9a9I4T9YxMEAxznmpehRy31heyuhIqdWkyGOAybIB3VCVbIEOmwToNh5BrTu+
-         lr5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=gBaYkCq2UOecKkI/ZcXaXDVPy+SEFxbUDpVc4bdCZmM=;
-        b=QclDNxWeFvZfxPwruoEFCStpaBmDjepcBqHqJj1+ELU9uOEg4oyo34YtmSFNxvnYhY
-         jowqjtGEsmtAEwYL0EuTKbkfmUOpXMeGTAL6yGFeoQokC8aTX/8OJuPPVH9MgjgCaAls
-         RZaqvH3X3UwvZkamBBJz9EdQEaWblgAudhm09exVbczbBCtYRi9EaGGnaYMSzCOy4jJu
-         jy21/pkMQkadv+e9tjQvtWDiH+QfeGd2UHaxINcyk9GK4QAZYZb/RKOpWI1yeKSgs0b7
-         u+2VwcHMSCVB0kwRw6rmKmPtYKY9N4lNTaBWJj4ctaHJQhOR7vbF6Trt9P7mStMWmvMc
-         cEOA==
-X-Gm-Message-State: AJIora9m6GpJqYJcUPw781CFCb9IX+dfoyAhjPTJc83AYn5b5OH/P5Oy
-	cnnSzUqkMagKiRLvauvv+oo=
-X-Google-Smtp-Source: AGRyM1t4Kvp3+MPAFYCpd5hlmg5MlCU8bpPTtIXAtIiqdQtJ+Yzx2cYW2gylT+SNs6NaoePwv/3tlQ==
-X-Received: by 2002:a17:90b:1d02:b0:1f0:1c2c:cc64 with SMTP id on2-20020a17090b1d0200b001f01c2ccc64mr1836081pjb.52.1657687618757;
-        Tue, 12 Jul 2022 21:46:58 -0700 (PDT)
-Received: from localhost.localdomain (pcd364232.netvigator.com. [203.218.154.232])
-        by smtp.gmail.com with ESMTPSA id fr14-20020a17090ae2ce00b001f0097c2fb2sm469316pjb.28.2022.07.12.21.46.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jul 2022 21:46:58 -0700 (PDT)
-From: Hawkins Jiawei <yin31149@gmail.com>
-To: hare@suse.de
-Cc: ak@tempesta-tech.com,
-	borisp@nvidia.com,
-	chuck.lever@oracle.com,
-	linux-cifs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	netdev@vger.kernel.org,
-	simo@redhat.com,
-	kuba@kernel.org,
-	18801353760@163.com,
-	paskripkin@gmail.com,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH RFC 1/5] net: Add distinct sk_psock field
-Date: Wed, 13 Jul 2022 12:46:37 +0800
-Message-Id: <20220713044637.106017-1-yin31149@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <325938d3-bb82-730b-046c-451dde8cc14c@suse.de>
-References: <325938d3-bb82-730b-046c-451dde8cc14c@suse.de>
+	id 1oBV3H-000HjF-Lp
+	for linux-nvme@lists.infradead.org; Wed, 13 Jul 2022 05:36:49 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 82B0E68AA6; Wed, 13 Jul 2022 07:36:33 +0200 (CEST)
+Date: Wed, 13 Jul 2022 07:36:33 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
+	kbusch@kernel.org, axboe@kernel.dk, io-uring@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	asml.silence@gmail.com, joshiiitr@gmail.com, anuj20.g@samsung.com,
+	gost.dev@samsung.com
+Subject: Re: [PATCH for-next 4/4] nvme-multipath: add multipathing for
+ uring-passthrough commands
+Message-ID: <20220713053633.GA13135@lst.de>
+References: <20220711110155.649153-1-joshi.k@samsung.com> <CGME20220711110827epcas5p3fd81f142f55ca3048abc38a9ef0d0089@epcas5p3.samsung.com> <20220711110155.649153-5-joshi.k@samsung.com> <20220712065250.GA6574@lst.de> <436c8875-5a99-4328-80ac-6a5aef7f16f4@grimberg.me>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <436c8875-5a99-4328-80ac-6a5aef7f16f4@grimberg.me>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220712_214700_016026_F1A9B7C2 
-X-CRM114-Status: GOOD (  17.79  )
+X-CRM114-CacheID: sfid-20220712_223647_904534_BDE0D8FD 
+X-CRM114-Status: GOOD (  15.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,61 +61,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
->On 4/18/22 18:49, Chuck Lever wrote:
->> The sk_psock facility populates the sk_user_data field with the
->> address of an extra bit of metadata. User space sockets never
->> populate the sk_user_data field, so this has worked out fine.
->> 
->> However, kernel consumers such as the RPC client and server do
->> populate the sk_user_data field. The sk_psock() function cannot tell
->> that the content of sk_user_data does not point to psock metadata,
->> so it will happily return a pointer to something else, cast to a
->> struct sk_psock.
->> 
->> Thus kernel consumers and psock currently cannot co-exist.
->> 
->> We could educate sk_psock() to return NULL if sk_user_data does
->> not point to a struct sk_psock. However, a more general solution
->> that enables full co-existence psock and other uses of sk_user_data
->> might be more interesting.
->> 
->> Move the struct sk_psock address to its own pointer field so that
->> the contents of the sk_user_data field is preserved.
->> 
->> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
->> ---
->>   include/linux/skmsg.h |    2 +-
->>   include/net/sock.h    |    4 +++-
->>   net/core/skmsg.c      |    6 +++---
->>   3 files changed, 7 insertions(+), 5 deletions(-)
->> 
->Reviewed-by: Hannes Reinecke <hare@suse.de>
->
->Cheers,
->
->Hannes
+On Tue, Jul 12, 2022 at 11:13:57PM +0300, Sagi Grimberg wrote:
+> I think the difference from scsi-generic and controller nvme passthru is
+> that this is a mpath device node (or mpath chardev). This is why I think
+> that users would expect that it would have equivalent multipath
+> capabilities (i.e. failover).
 
-In Patchwork website, this patch fails the checks on
-netdev/cc_maintainers.
+How is that different from /dev/sg?
 
-So maybe you need CC folks pointed out by
-scripts/get_maintainer.pl script, which is suggested
-by Jakub Kicinski <kuba@kernel.org>.
+> In general, I think that uring passthru as an alternative I/O interface
+> and as such needs to be able to failover. If this is not expected from
+> the interface, then why are we exposing a chardev for the mpath device
+> node? why not only the bottom namespaces?
 
-What's more, Syskaller reports
-refcount bug in sk_psock_get (2).
-
-In this bug, the problem is that smc and psock, 
-both use sk_user_data field to save their 
-private data. So they will treat field in their own way.
-
-> in smc_switch_to_fallback(), and set smc->clcsock->sk_user_data
-> to origin smc in smc_fback_replace_callbacks().
-> 
-> Later, sk_psock_get() will treat the smc->clcsock->sk_user_data
-> as sk_psock type, which triggers the refcnt warning.
-
-I have tested this patch and the reproducer did not trigger any issue.
-For more details, you can check the email
-[PATCH] smc: fix refcount bug in sk_psock_get (2)
+The failover will happen when you retry, but we leave that retry to
+userspace.  There even is the uevent to tell userspace when a new
+path is up.
 
