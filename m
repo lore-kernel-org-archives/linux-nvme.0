@@ -4,68 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C48C1C43334
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jul 2022 11:50:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21FB8CCA479
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jul 2022 12:16:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:Subject:From:References:Cc:To:MIME-Version:Date:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NfMyiG6I6kY9duJdum1vSBmQPs459FBBxkpB0eMmIG4=; b=ahUQ3M1Ei2/WCjL4CZhduh8kyy
-	pWeCHefH0XyNI9tS8rc0eIxqqIfrl6XDb+HQp1DApcYSWPoYPYXkN9yH+IabWtZhL6WLENBO2vNk2
-	BO2fUOSaffQnUPUVw9/Dwx2U1WFqUIlIPgezaYaod3ygzKTsh3sjYur6LIgr+RJRvgot0clFLB90I
-	7z4sJ0yWKGHi9qwfh2TmWxay3oVKgdlvHQo8nTtjYHJPmF8iRWu3inTB+IqaE+ojJgVTVB2glU7bH
-	Gkq4+jwQ/SlJq62LOs9YYodktZ6qecEhAf7F6UTGGUNF2lWt9PZkDKIRH/OPKLdZN1guUAfM6RYTS
-	qFN02c2A==;
+	bh=n8eCyagKJD1192UPqzMB5meP50tseHK9E50B0X3PFRQ=; b=HeJrWKTxkrDEwDHkXgz81pSlfg
+	f4bNwQLZIozMESkHCOZYzUrthcqFO4VFudbxStg2gQPl9M8gRYWl2Yaf18Sspz4KHJWEYzHvWUKN3
+	Dv+AQpP6SInkVupbckp+K76KGRMo3Nx9fOGdlTBf6NRCM9BhQiQ9GQvFyGHU/022kJFQbQSx8BbTS
+	LJzcXQLSj2EgNdSG2tGbL/UJOf1r7XP/YTMyeCjgCzUsMK8vU7n9Kui3HAYz6KSYXY4SWSWpE5qwY
+	RJXOXCgyIRUuGCXMHsv6qdjtlQFzOqTJhCGMZPcH6ZKJtkx15bXbrKCJc6mOCipADRQ773ElHoQVR
+	3OFG2ivA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBasa-003HC9-DQ; Wed, 13 Jul 2022 11:50:08 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1oBbIJ-003RAs-4q; Wed, 13 Jul 2022 12:16:43 +0000
+Received: from mail-wm1-f47.google.com ([209.85.128.47])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBasU-003H8V-LX
-	for linux-nvme@lists.infradead.org; Wed, 13 Jul 2022 11:50:04 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 04A5220076;
-	Wed, 13 Jul 2022 11:49:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1657712999; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NfMyiG6I6kY9duJdum1vSBmQPs459FBBxkpB0eMmIG4=;
-	b=MBiFCVEpkGBkXylj/DRftkyXS3dQHP175Q8BVAy2q/IIyUM9glNzGIHwRU2mQZ96irpV2K
-	DlzRfYX433mqXk8g+jxRPb880qGKAPuOjxu+0D8ZioPWBSGrDlCy6UDCr4tSNU+qBfky2l
-	35Ut5Xx1KWYMRX9VevE+QLW5Fwtkbkk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1657712999;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NfMyiG6I6kY9duJdum1vSBmQPs459FBBxkpB0eMmIG4=;
-	b=pGNNYSoAwdU5qBAB/O0zEtiuqF8w8l5ur5tzVXP2y/lncNKQlKY6cQX3+vnO+oYLbajtP6
-	gRrtRfWmCLKbv/BQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A901B13AAD;
-	Wed, 13 Jul 2022 11:49:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 4/GJKGaxzmKsFgAAMHmgww
-	(envelope-from <hare@suse.de>); Wed, 13 Jul 2022 11:49:58 +0000
-Message-ID: <96f47d9b-fbfc-80da-4c38-f46986f14a43@suse.de>
-Date: Wed, 13 Jul 2022 13:49:58 +0200
+	id 1oBbIG-003R9e-HH
+	for linux-nvme@lists.infradead.org; Wed, 13 Jul 2022 12:16:42 +0000
+Received: by mail-wm1-f47.google.com with SMTP id c131-20020a1c3589000000b003a2cc290135so1107619wma.2
+        for <linux-nvme@lists.infradead.org>; Wed, 13 Jul 2022 05:16:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=n8eCyagKJD1192UPqzMB5meP50tseHK9E50B0X3PFRQ=;
+        b=OVp4AYIztTHhYFFeF+r17SiG8UshihrzSQHYA1itu8bIAeLIYmlohhXFxf+r3T48Ti
+         BDvJcVWnhCF624QFUK5Y99l4UwLUjlKiTXszXoAlXmKq32sj7fJuZwYhE+adaKP7Gyfh
+         l0c7yU+S40SQ6EKTBuVft2YbK6+JRkU+iiUn6AE93NfAdWZggBQcDxpank62blx1SMik
+         EXmD4x8QYTxAB/V9n4ab2OOInDSLnyUOYoB3K2Vyur+XT7JXTVFmCw/JSrYchzZMK7kh
+         bgapsrZU08vJcR5aHSh44K34kcUmUegH5lamW4sI2Chg+oapT+fw6Td4FWx8KdHzV+W7
+         qLBg==
+X-Gm-Message-State: AJIora9ivBw1g8ERMAO1VzTLPPp20tGJouUZGS8PQJ03zdvddvOg2Kd4
+	koS03N1qqsR785STF0YTe3U=
+X-Google-Smtp-Source: AGRyM1t6s7YUfAjYHssbxL+0aWhZ1r/560DGbYAjEbsPRdwzdBPLYGVoGLXh+VfJcYUYUWP8wxYpVQ==
+X-Received: by 2002:a05:600c:1c18:b0:3a2:e193:2bda with SMTP id j24-20020a05600c1c1800b003a2e1932bdamr3256228wms.2.1657714599185;
+        Wed, 13 Jul 2022 05:16:39 -0700 (PDT)
+Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id q6-20020a1cf306000000b003a2e92edeccsm1986453wmq.46.2022.07.13.05.16.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Jul 2022 05:16:38 -0700 (PDT)
+Message-ID: <156ed583-5150-d823-437a-de5b9ffcda99@grimberg.me>
+Date: Wed, 13 Jul 2022 15:16:36 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
+ Thunderbird/91.9.1
+Subject: Re: [PATCH for-next 4/4] nvme-multipath: add multipathing for
+ uring-passthrough commands
 Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
+To: Christoph Hellwig <hch@lst.de>
 Cc: Kanchan Joshi <joshi.k@samsung.com>, kbusch@kernel.org, axboe@kernel.dk,
  io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, asml.silence@gmail.com, joshiiitr@gmail.com,
@@ -78,15 +69,14 @@ References: <20220711110155.649153-1-joshi.k@samsung.com>
  <24f0a3e6-aa53-8c69-71b7-d66289a63eae@grimberg.me>
  <20220713101235.GA27815@lst.de>
  <772b461a-bc43-c229-906d-0e280091e17f@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH for-next 4/4] nvme-multipath: add multipathing for
- uring-passthrough commands
-In-Reply-To: <772b461a-bc43-c229-906d-0e280091e17f@grimberg.me>
+ <20220713112845.GA780@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20220713112845.GA780@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220713_045002_875737_64C805E6 
-X-CRM114-Status: GOOD (  18.23  )
+X-CRM114-CacheID: sfid-20220713_051640_615485_C272AB51 
+X-CRM114-Status: GOOD (  19.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,61 +91,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/13/22 13:00, Sagi Grimberg wrote:
-> 
->>> Maybe the solution is to just not expose a /dev/ng for the mpath device
->>> node, but only for bottom namespaces. Then it would be completely
->>> equivalent to scsi-generic devices.
->>>
->>> It just creates an unexpected mix of semantics of best-effort
->>> multipathing with just path selection, but no requeue/failover...
+
+>> I view uring passthru somewhat as a different thing than sending SG_IO
+>> ioctls to dm-mpath. But it can be argued otherwise.
 >>
->> Which is exactly the same semanics as SG_IO on the dm-mpath nodes.
+>> BTW, the only consumer of it that I'm aware of commented that he
+>> expects dm-mpath to retry SG_IO when dm-mpath retry for SG_IO submission
+>> was attempted (https://www.spinics.net/lists/dm-devel/msg46924.html).
 > 
-> I view uring passthru somewhat as a different thing than sending SG_IO
-> ioctls to dm-mpath. But it can be argued otherwise.
+> Yeah.  But the point is that if we have a path failure, the kernel
+> will pick a new path next time anyway, both in dm-mpath and nvme-mpath.
+
+If such a path is available at all.
+
+>> I still think that there is a problem with the existing semantics for
+>> passthru requests over mpath device nodes.
+>>
+>> Again, I think it will actually be cleaner not to expose passthru
+>> devices for mpath at all if we are not going to support retry/failover.
 > 
-> BTW, the only consumer of it that I'm aware of commented that he
-> expects dm-mpath to retry SG_IO when dm-mpath retry for SG_IO submission
-> was attempted (https://www.spinics.net/lists/dm-devel/msg46924.html).
-> 
->  From Paolo:
-> "The problem is that userspace does not have a way to direct the command 
-> to a different path in the resubmission. It may not even have permission 
-> to issue DM_TABLE_STATUS, or to access the /dev nodes for the underlying 
-> paths, so without Martin's patches SG_IO on dm-mpath is basically 
-> unreliable by design."
-> 
-> I didn't manage to track down any followup after that email though...
-> 
-I did; 'twas me who was involved in the initial customer issue leading 
-up to that.
+> I think they are very useful here.  Users of passthrough interface
+> need to be able to retry anyway, even on non-multipath setups.  And
+> a dumb retry will do the right thing.
 
-Amongst all the other issue we've found the prime problem with SG_IO is 
-that it needs to be directed to the 'active' path.
-For the device-mapper has a distinct callout (dm_prepare_ioctl), which 
-essentially returns the current active path device. And then the 
-device-mapper core issues the command on that active path.
+I think you are painting a simple picture while this is not the case
+necessarily. It is not a dumb retry, because the user needs to determine
+if an available path for this particular namespace exists or wait for
+one if it doesn't want to do a submit/fail constant loop.
 
-All nice and good, _unless_ that command triggers an error.
-Normally it'd be intercepted by the dm-multipath end_io handler, and 
-would set the path to offline.
-But as ioctls do not use the normal I/O path the end_io handler is never 
-called, and further SG_IO calls are happily routed down the failed path.
+A passthru interface does not mean that the user by definition needs to
+understand multipathing, ana/ctrl/ns states/mappings, etc. The user may
+just want to be able issue vendor-specific commands to the device.
 
-And the customer had to use SG_IO (or, in qemu-speak, LUN passthrough) 
-as his application/filesystem makes heavy use of persistent reservations.
-
-So yeah, nvme-multipathing should be okay here, as io_uring and normal 
-I/O are using the same code paths, hence the above scenario really won't 
-occur.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
+If the user needs to understand multipathing by definition, he/she has
+zero use of a mpath passthru device if it doesn't retry IMO.
 
