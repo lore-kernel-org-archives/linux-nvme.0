@@ -4,120 +4,138 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59805C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jul 2022 07:34:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42150C43334
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jul 2022 07:55:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GdM5KiJTOKaOqKlARvS1nTvEPZ1AO+iGJBYnQlmew5o=; b=xEwiBjk9n5ljLa9Ukk9RDaKY9w
-	S1dqyhH/umpzK7pEkA1WAFlvMqa9FwRevt/8mB5FJJZL3h4fEMK9h5g0kSA3KSXPpEv+7pid45VhS
-	dUQdDleRT88SnE/noHvLVctWUCcfsUZuMX4kHte8RFwxHENNgAkzKt3PZzbARcs40YPzKJcv2hwnr
-	rzblLE6ckvPdzdKwKgjvHUuuqRcDYtVGk8+3OCNmJFcHLWyFccarNsbS1pUCgLI/i2M7cPDQfipWp
-	PcgENt8fR521qeiIyaF+VosmwEngKdWwfv4vNr5c9Px/F9SK2n23TpA9E1Wz03hFB5vKOE+HJGV7o
-	0l8dOOkg==;
+	bh=LtNvc6V/R/YhTrcmxIE46440fV1dt7BRxzlTGuLoOpA=; b=Bfz7GgYxFPqT2Fb87RZsBXkrhz
+	uJiJ6WYTPIR3gGhJzFlRfdCiRqFAqLfYlUkCYoLPSye6B3u9s+pv8UhJy0EvFaeZRuWSys4JykrQe
+	WsXo7I6FDcPWTPoBrLfB9ex41sDNgzjLA94BY8BTeF7Gv5hnVyqUrUV47LVEnn8jxYJdKWlFr9Hqy
+	lSTf+gcDk/AFOdr8RCM2PvLjRfg8RZRqisoogv+DqZW8J/RjMoHlVgemfUPrRWa27rByWx818gYH1
+	1zcsdBeQ8QTYuZ6zQCpfXpGAXofV71OUxEcdelJvH/pfbqvJvWgyPKbcq4uo6eB60TGhpZwdRjNv7
+	FAfTbtNA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBWsg-001H36-AA; Wed, 13 Jul 2022 07:33:58 +0000
-Received: from mail-dm6nam11on2057.outbound.protection.outlook.com ([40.107.223.57] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+	id 1oBXDc-001Qyb-KA; Wed, 13 Jul 2022 07:55:36 +0000
+Received: from mail-bn1nam07on2081.outbound.protection.outlook.com ([40.107.212.81] helo=NAM02-BN1-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBWhc-001C7N-FI
-	for linux-nvme@lists.infradead.org; Wed, 13 Jul 2022 07:22:34 +0000
+	id 1oBXDa-001Qx5-4j
+	for linux-nvme@lists.infradead.org; Wed, 13 Jul 2022 07:55:35 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N8QHpme/PzxGqTqwsDTW/Y7Bvik8kphIV7peU2jC4015A2lr6fbs5RgsVW+yQ6ZuzloqMjKXgmJFhsA8gslAf3o1d+tmIR1xjKo90dOVEr8Ons5lz2QLvZolF2NMxLIJiLIjaKoBiVNPO39vZ2VL8q4wWXfaGpjk6Pyhdq+AOP2wbdzeQFyw7rJhLCfQ07wmOT/JMNt/qE5m/WAj8eBJ5ABN4DtdLsxz+m5g0Nt3ieMqSs6tRZuowzFS336jVBYm2vQErVqmPlo9XqM9AoRGSPpbU4NqyNxu4ScknNJCietTZSn2VxqA1N/nvgwmTgnTYfqep7ySN05mTPYxunvESQ==
+ b=XYq88wElsgdcAfT71Skljfv4S/3Q/NSyxSojOwKm51KQlT84xDPxRViAJfTNobBECyaD4kZZCkjmTvdqrmhtoa0kDR67exs+mFTgRNrsGzZCSvA4LMYKBQX86PFD6E7GNV/mHAQiucLhmA+xB1v3qNMHgiXkbkPb2FM9szD/jzvOav665OYRHCPZUxI8c1J/Ly389hbY9TRFp5f8vjyzrmCVrZMUShbkIo2LzDOvZqjuJST5FBLexxnmpLU2gXtYfoRFuHG6SM5yxT1k5z3hy7ydloufSw7iYQWiyexPSEvItRDsHs1ikKOw969l5PhlydYolVPJtM+XEV1cVoRFgQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GdM5KiJTOKaOqKlARvS1nTvEPZ1AO+iGJBYnQlmew5o=;
- b=ZwjHFOPT4tRcrnMszQwNiX8uakHYFO/9Riiu1v1+dhtFCdX9gQMPWlBWFdfMkzVvMwR9H/aL8XTKnbCY7Zt4OsJ8o9KmGIBfSIMzdj3xF9lbQ5FkzGJQU/3hTHKfXlZQ6Q+BvCYrsYK75VwCGTvqIYcTReahDXx0pYGcLOHguFGtXGLETPyIlBigvfWn+UfIgatjJ/fdhBb31vaPJBYMge6j+noRtl/6UlUarwSIuFdB2KbVjokLJ4zTIyGsaWRejaLF6F+tAUYuJEZaf5gMF8u+NP6932VXUQeYt2jhBBRMq5r9luqMrmKSPaEpQ4MQ3C0fKKtmQsAfSHpAdXQ2yQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.236) smtp.rcpttodomain=kernel.dk smtp.mailfrom=nvidia.com; dmarc=pass
- (p=reject sp=reject pct=100) action=none header.from=nvidia.com; dkim=none
- (message not signed); arc=none
+ bh=LtNvc6V/R/YhTrcmxIE46440fV1dt7BRxzlTGuLoOpA=;
+ b=l1XCnGAkURQmVFEHqmofDeCe/QP9av5hhst7cHpAxMCCJUlRlxHLihAfsg18zLpYIkjGL3RCCkSqzkzQgew2L6CGA6KZEjYQW0pJtp+RN7qQESU3pc950UsqyvTo8oBoC3+ZALQcCzstyucp8E5S2NFAJtteIhSEX/BD3daTnVD8kLgFkt+COFRX/d9Ly8qBHzqfPZlcuZJMpBGY2SGL8xKMlVK44rSI44muuzVYVvU8/47tKoqbOytDOlVQv5NTEE9fyXsf0SXDYM/XakHiD8wDXl6PRBFKZyLjce8qOCngJxty8ru5ChezDTFoHAOeQkGQXmEq2x/0/iSua7uu1Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GdM5KiJTOKaOqKlARvS1nTvEPZ1AO+iGJBYnQlmew5o=;
- b=eM5DvZjrIenCoHVJ+euS5MBIx6O4PSQ9lzt01p3lx7CMwlCUBlbQh9Rh+X9oxPjS6K020ntBqG8S4dTBr9lLYEYUg1OK8DoUsztdjkbps+Y4u8KqzvQIH+3QAIhyVdqxBt3CIdsVfzamFoOQ4PdQnttkc2w2pPfdYF/YoFudWf1nNPIQSNr03tQW4pv3kZWW6ZlxRqAk4r1DYb4TKLkG+gI9Fl+Cu1DWLV44l6wiRDhSZ1tBmf4/OeZVyws0TGeUttPntNhQdraC5rZYwGk6zviT10JlcKnUmBUwZI/2czmj4TyCvTpEq7k0c6GG6hDmp6khvhPv8OcDXxkYi/xjow==
-Received: from MW4PR03CA0279.namprd03.prod.outlook.com (2603:10b6:303:b5::14)
- by DM5PR12MB1627.namprd12.prod.outlook.com (2603:10b6:4:10::21) with
+ bh=LtNvc6V/R/YhTrcmxIE46440fV1dt7BRxzlTGuLoOpA=;
+ b=Bhs0r3kFMtGMfue8lt7sJLYeLiYktK1yURsnyX92+JALTiR30y0qb8f//sjXo1RogPHWPqmTGU5n6J6LeD9cXNVllSeOi9QPWCN07b4JAWb9SZjehHl2J3n6J0GeX7gRoyil9fhJrzYVT+xSvCubwREljniab/o9CmegLfC6HdBBr2iKk4wGxFhOB1TqKkvtr8xAaKxRQD7M1Vp0cXji0ArQ1FPBUHAzt1UeoIP0swwd8qxEvH429Ea99cvyowkVaUWFV7wKoBlJa9JdzRnUwPc7FJoS7QPnqa3LRstDkYSsHTHbmVBOrEHZ4q5cXLctBSeGuUY3JNS9kscd3a/N0w==
+Received: from BL0PR12MB4659.namprd12.prod.outlook.com (2603:10b6:207:1d::33)
+ by PH8PR12MB6674.namprd12.prod.outlook.com (2603:10b6:510:1c1::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.16; Wed, 13 Jul
- 2022 07:22:29 +0000
-Received: from CO1NAM11FT047.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:b5:cafe::f2) by MW4PR03CA0279.outlook.office365.com
- (2603:10b6:303:b5::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.19 via Frontend
- Transport; Wed, 13 Jul 2022 07:22:28 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.236)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.236 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.236; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.236) by
- CO1NAM11FT047.mail.protection.outlook.com (10.13.174.132) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5438.12 via Frontend Transport; Wed, 13 Jul 2022 07:22:28 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL109.nvidia.com
- (10.27.9.19) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Wed, 13 Jul
- 2022 07:22:27 +0000
-Received: from dev.nvidia.com (10.126.230.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Wed, 13 Jul
- 2022 00:22:25 -0700
-From: Chaitanya Kulkarni <kch@nvidia.com>
-To: <linux-block@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
-	<linux-nvme@lists.infradead.org>, <linux-xfs@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>
-CC: <axboe@kernel.dk>, <agk@redhat.com>, <song@kernel.org>,
-	<djwong@kernel.org>, <kbusch@kernel.org>, <hch@lst.de>, <sagi@grimberg.me>,
-	<jejb@linux.ibm.com>, <martin.petersen@oracle.com>,
-	<viro@zeniv.linux.org.uk>, <javier@javigon.com>,
-	<johannes.thumshirn@wdc.com>, <bvanassche@acm.org>,
-	<dongli.zhang@oracle.com>, <ming.lei@redhat.com>, <willy@infradead.org>,
-	<jefflexu@linux.alibaba.com>, <josef@toxicpanda.com>, <clm@fb.com>,
-	<dsterba@suse.com>, <jack@suse.com>, <tytso@mit.edu>,
-	<adilger.kernel@dilger.ca>, <jlayton@kernel.org>, <idryomov@gmail.com>,
-	<danil.kipnis@cloud.ionos.com>, <ebiggers@google.com>,
-	<jinpu.wang@cloud.ionos.com>, Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH V2 6/6] scsi: sd: add support for REQ_OP_VERIFY
-Date: Wed, 13 Jul 2022 00:20:19 -0700
-Message-ID: <20220713072019.5885-7-kch@nvidia.com>
-X-Mailer: git-send-email 2.29.0
-In-Reply-To: <20220713072019.5885-1-kch@nvidia.com>
-References: <20220713072019.5885-1-kch@nvidia.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.12; Wed, 13 Jul
+ 2022 07:55:30 +0000
+Received: from BL0PR12MB4659.namprd12.prod.outlook.com
+ ([fe80::3cc0:2098:d2fe:5f56]) by BL0PR12MB4659.namprd12.prod.outlook.com
+ ([fe80::3cc0:2098:d2fe:5f56%7]) with mapi id 15.20.5417.026; Wed, 13 Jul 2022
+ 07:55:30 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Christoph Hellwig <hch@lst.de>
+CC: "joshi.k@samsung.com" <joshi.k@samsung.com>, "kbusch@kernel.org"
+	<kbusch@kernel.org>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, Joel Granados <j.granados@samsung.com>,
+	"gost.dev@samsung.com" <gost.dev@samsung.com>, "k.jensen@samsung.com"
+	<k.jensen@samsung.com>, "sagi@grimberg.me" <sagi@grimberg.me>
+Subject: Re: [PATCH 4/5] nvme: factor out a nvme_ns_is_readonly helper
+Thread-Topic: [PATCH 4/5] nvme: factor out a nvme_ns_is_readonly helper
+Thread-Index: AQHYlnxq05VZHrupv0S5zCUcokIgma177t8A
+Date: Wed, 13 Jul 2022 07:55:30 +0000
+Message-ID: <cfa284bb-919f-78ae-f368-05aeb2021989@nvidia.com>
+References: <20220713054914.1888305-1-hch@lst.de>
+ <20220713054914.1888305-5-hch@lst.de>
+In-Reply-To: <20220713054914.1888305-5-hch@lst.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 4390644e-e29a-465c-3602-08da64a50ea4
+x-ms-traffictypediagnostic: PH8PR12MB6674:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  N96Hvj9rVFVQi3MRqoIYGJGzSgO2vndIpNuUB3i/tPuLb8xdZHxihUhvfWydoLDMIrTZJHh7vtdJoNlB4EakDrTMEByjBjfZ0EOBs9Z8C6ViQ7zGI7Mug8okK017Ip9qpbsDLOCQUTPvU2quar9J47EwDozw4D70wU+ECM5vjczV2N42E5hHSAsnnRVZXGFiKnoy89nTTvheNBxQWYTvY+wouzdeS6Ge8JYS5HcDDGWxntBkHNfX0oP9RewmOZ3MpQnKQLiQ/M8j5Xwn4KwYtB36cUWB34j5MwDWVbMjhPIS4PqPjzpRwXKZwqPrmNvzYSIWbbA2HfkmxK85xJRq+CzA6D4UP3jElnhfQidQMdP1IsDQy+z5zx5WmuWYk41lk932EkmBrfh7oy7jhtRZn0MahKEnK/COh4f9BtVEudIgMactW/3ZB3djvmwoS3e8f6cldvC28LtXvd4YXyFc/QR+DzTzrOMcXpazj2ISFLHVGzgc0l0B6XkFGz3Jw8JuQDTvbBuGjGNZRF3aDxYBGO/Ozj1wJv+6FQA733OOzQqMo4kOKFbY+FCJw51S6/hh2g0gbwdmdFZbqU+Dbcz4O4u/L672dNuwCckVVzsjSpjhQ/xB7msJotn3ApntkDzTGTt3Xs1nImLJ8b5Xt3iOViroT215vF38BKraeE6mlfdNUJKXIlSRgibBAL/x919T3RZcWQ3BgrSnZ7S2dHMUJxvmQY61+FBm18zErLBlVxYrEdRDZm5srcj+oxbUPZx9L/asVTSJJDtHqMiEomrIqVp023acBqCHFOX3oj8/t4zyw3aoqj9ROH54xEDlrLrz60f8GBwObfHbYRRv5mBR7OTwacLrFP2IjAhdDT70LIiyRO/+4hvX/b3kPNB2Zx+h
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB4659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(396003)(39860400002)(366004)(376002)(346002)(558084003)(36756003)(31696002)(91956017)(316002)(66556008)(66476007)(66946007)(4326008)(8676002)(64756008)(66446008)(76116006)(2906002)(5660300002)(8936002)(86362001)(31686004)(6512007)(6506007)(478600001)(122000001)(54906003)(6486002)(71200400001)(6916009)(53546011)(41300700001)(2616005)(186003)(38070700005)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?UHdFYTB6Q0JEUFJTdjBaeGhlRUN5THVVZHBRM1NuV3UyTWdZbDFzSTR1MXNu?=
+ =?utf-8?B?V3lid1hkYy90NGJjSmcxYVJHcU9sMG15eTVueHdDdkhSRElqUjlFdDNKV2xp?=
+ =?utf-8?B?T1g0ZUJhejhOQnV6U2hmTW5wL1NncXRheTVxWWRGT1d4M0JXVkpGMnJtT0Nn?=
+ =?utf-8?B?U05kaEJodkdoVERaeFBTQStjY3ArbGVNR0RBTVV5TTZWRXlKU3BPSnJVZXdS?=
+ =?utf-8?B?bUVnSjd5SWsxd2hjVVBPTjU1blBmdnVTd0tnMWtLdVJTVXlya01OVnRMUWhM?=
+ =?utf-8?B?MnhKUkd1MlNaMFRvU2hCM1A2TEUzNW5yd3g2NTBQZTU3NzBaNWxveFdMS1Qw?=
+ =?utf-8?B?dnpKR0JTZkkreTVQTDY3MHIvV0RELzFDVVpHUEFydjlZeUNqVGI4Q3J4c29h?=
+ =?utf-8?B?LzQwV0lnQTBMSVlTMTEwUjAyaTU3dXI1aUVvZlVCbnZYL1NJSGNrQTl5UjMw?=
+ =?utf-8?B?YUlqdm5PTzRqVzJaZXN0RzBZQkN5bjE4emRCREFDQTlxVTJRa2JJMGpTT25o?=
+ =?utf-8?B?b1NhZ0cwZzJnVFVLWGpnSU95MU94ZUZyWThLZ0JrL1VnZFY1K3lEa2graCtk?=
+ =?utf-8?B?QkNNZmUxaW8yS1FJdnNNdnBrbWw3S2w1c1QrWDh2ZlozVmZVcVJqV3JWNmV4?=
+ =?utf-8?B?Q0t2VmowVDVLd3RiOVBtdGZOWUJTeEtxRWJ4Rkw1S1F0elZ6VE1Vdi9EOTZP?=
+ =?utf-8?B?NTNiYjc1NFVuNXE1bXgyVXViSnFINEZqQjdRNld3MklNSktCd2paYTdiMitH?=
+ =?utf-8?B?Vmw5UFpKZU9BTFBDL3JIWkNqZmxKSlNaVk9md3RMamFYQWVzTHZqUUtWU3VS?=
+ =?utf-8?B?WmlpYXIwZUx2QUJhVlA5Qzh5UjEvdm5rWCtYYU9yaFRvbFRTbjZUWlRRVHA0?=
+ =?utf-8?B?U1ROYlNmV1IyUlRDejZ2RUZuMUNBdXhnNkFHM2tXT1V4cUpnYzI4UEJTS3RY?=
+ =?utf-8?B?RkZSa2xYUmkvcEpscU1tajVSY1RYL3duNGRJUUl0dTVaU1BRLzh4QnMyVmUv?=
+ =?utf-8?B?eXJmUnF6QU1RamMyOHhnZDR0bkJwdGMwMFVxLy9FN1JXWjc0a2VnV2tXNi9s?=
+ =?utf-8?B?QkdzYU1NYzVGWDg5VEpNWWdyVjNpS3pnQ00zSUwwazhVTTNaTFdIbC9oemNT?=
+ =?utf-8?B?RzhsZFpSYUkwT2MvbVo4QVIvYldXZCt5ekNmbHNSNGxnV1FoS3Y5U3dySTdY?=
+ =?utf-8?B?bmhzWEJRMEIyRkJnR0NkQTNjSVRPcFFVd2VHdG9oT0ZqTkFicmNpOUNEUG8y?=
+ =?utf-8?B?NHRjc0JKa2h2U0N6SjNnRkQ3NHlGd3ZFUHllb1hMNEtZN0l1VkRRUG1rVlFx?=
+ =?utf-8?B?RExLcjFkWVRVeU5EM05LdklCODQ3MFRPTlF6WGxYa09Va0ZwSnZDdUN4TGNZ?=
+ =?utf-8?B?YlVYbEdjMmJxTDFjbE0rU0xBSkdZdHpZZHdkM2RhSHVYdDQrU3hBL2h6R0xK?=
+ =?utf-8?B?QUdxUVhIOFFtYkNTVW1FeXgybENzWmpuVTAzdlo4a0ppdEx6Y0pwTmVma0ht?=
+ =?utf-8?B?Ync5a0RBdXR1OFdpVlhQdmgzSmxSbzFIaEdoMVJaTDdnZnJ2Z1MxUXUxbWxU?=
+ =?utf-8?B?dkd5UWkrQm5IbUdCZCtCbEJZbVhiZkVOZ1g1eDNTb3ZQamN2Y1VCL3g3K2hX?=
+ =?utf-8?B?a01VTWx6N2ZSdndja0ovcCtTdXZ5SWVyWGx1YWR0dFlDYUgzb1dMTWkwaXB0?=
+ =?utf-8?B?d0Z4M1ltSmxRYmQxc1krSXlsYlduSDNkT1dWdFdZRkFtZnVSekZuRlFMY0NE?=
+ =?utf-8?B?dFppdG1zMHdybTBhUnovUEdUWm85V09ab0xXb09QMm1hYWRjNGh4Vm0xV0hU?=
+ =?utf-8?B?Yy9oZUVYQ2V1QVhZMEszY0IxenRUaCtxZXZ1dktqV2F3dWRJQWI4MkJ5Wm9l?=
+ =?utf-8?B?UkJubmNlSk42MlU4YWJKcFhNM0loZzVjWTNWb3c3Zm10OEdIOFhXeGpxOVZW?=
+ =?utf-8?B?Tzh4UGxUZ0lYNmpNRngzdDJNa2NvWXVxYUY0U2VUd0VoUU02bHRTNmY3UGZ0?=
+ =?utf-8?B?OGovY0lIL1RpTEg4RnJ4Zm05K3BGRGlvRTU0QlRXS0FjeGpvb3FPeHpZUUxo?=
+ =?utf-8?B?SUJENGRsQzhYZzgwN3l6VnBBRHBRWUpseGp6NjFtUko4alpIYzhiVmN0TWlL?=
+ =?utf-8?B?WExrSVFqK0szTGZhaUd3QVZDbVBwaURMSEFSUlprRkxOQmVkVDlWaWFHRGM1?=
+ =?utf-8?Q?hzhMes15NyBvzyqdNvqDvjORoipSk9OczsGqhL2gcToQ?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <29A29054DBC36540BFD74836D265029B@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.126.230.35]
-X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7aac256d-1c1c-46f6-92c7-08da64a0716d
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1627:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	8ec26Jg94V2AJOlwQEfKM80zlZ2+tD/Qp9BeD0p4m4/E6E7OpP7bmq6GWhIX3WwFRohvKg/30D4Uh7HftZ+O6mbC/6z2Ztjb/m8l0HmZ/mig7GRoSBBouPnMj6KQBTpi8Zlnhg0ueMs2wCUu0AhXNqw847C9YkdWCKZ+3U0SPGXockGBjsdVo8eqT6SKmphJdsX9KazbOgZFKGYRnADCoFhkzIcrm5/ZyElizH/GKKB5nZLjuZKIkegCJhAj/vGq/XltEnlCpY5v+dvyHUDfSpl4cvJktD2ytBnUDo7gUsvPGICqXq1zQJxGCnMxIeaYArsrPxyjOdPboRJdRA6HlAAeywrpcpcGiKnOOQF/yznajYCbC7qmxnNfLTs+3D6E6WJ/rDEGnGk/VOdKzilEyyngmZ9uSgQJ7cEHtBaGa/vM1b5960BqDLApmhbHc629c4WFOczWJNLoFt/L3vyZCalB9qENgcEyICH7p+hGCNQFOXj8F9ajm++JvrG5DxH82JLPawy1P40XBUpvRMRuNG7Sw35A1pKgZEc55sJQOS2+dvZhxxceTKftDqP7QqMBCvOyNIsu0DbflqqJP/wXwE+ndONqYEJiRfnQJn275b+iCThLXw1GFMXDeqW0pbOgOrWLbv2+DWtZvLQypU3ghNe3OYKn5a9djt6cMWSRgHZRH5invKZW3sz60+gTKOJcHtDAmXrsztWlu+p+KJbp5rMDQZBMsHRdC5Ttto5ZhInkGEe2bka3Cyu7KCzj92dP4FJR8A1PdbuxYg87aPrLFxv30GOZnDuDmzk1Jg0uTjJbkw8s6oIZdauuRrI23trWEhTcLKnVaNlQCwzsXfX9IOtZwVyAxbKswX7YFbIOxvPI+9L8FZMgxLroLdi2b0wD
-X-Forefront-Antispam-Report: 	CIP:12.22.5.236;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230016)(4636009)(396003)(136003)(39860400002)(346002)(376002)(46966006)(40470700004)(36840700001)(110136005)(4326008)(36860700001)(186003)(70586007)(478600001)(316002)(5660300002)(41300700001)(8676002)(70206006)(107886003)(8936002)(6666004)(1076003)(26005)(7416002)(81166007)(16526019)(54906003)(356005)(2616005)(82740400003)(7406005)(47076005)(426003)(336012)(2906002)(83380400001)(36756003)(40480700001)(40460700003)(82310400005)(7696005)(2101003)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2022 07:22:28.5804
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4390644e-e29a-465c-3602-08da64a50ea4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jul 2022 07:55:30.4214
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7aac256d-1c1c-46f6-92c7-08da64a0716d
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.236];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: 	CO1NAM11FT047.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1627
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3ZBI+ERj10bTDQfcW3Wtt1iqboLzT8oQkH5kGuLqpkBMqr+B18PWeLKTGfI0eIHCNtilYYKiYHARiE4JWCZdNA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6674
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220713_002232_541204_468A92E8 
-X-CRM114-Status: GOOD (  15.21  )
-X-Mailman-Approved-At: Wed, 13 Jul 2022 00:33:15 -0700
+X-CRM114-CacheID: sfid-20220713_005534_206869_3B83CEE9 
+X-CRM114-Status: GOOD (  10.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -132,238 +150,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add support to handle REQ_OP_VERIFY req_op and map it on VERIFY (16)
-or VERIFY (10) in the sd driver. In case SCSI command VERIFY (16) is not
-supported use SCSI command VERIFY (10). Tested with scsi_debug.
-
-Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
----
- drivers/scsi/sd.c | 124 ++++++++++++++++++++++++++++++++++++++++++++++
- drivers/scsi/sd.h |   5 ++
- 2 files changed, 129 insertions(+)
-
-diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
-index eb02d939dd44..8ba8bdd78ebd 100644
---- a/drivers/scsi/sd.c
-+++ b/drivers/scsi/sd.c
-@@ -101,6 +101,7 @@ MODULE_ALIAS_SCSI_DEVICE(TYPE_ZBC);
- 
- static void sd_config_discard(struct scsi_disk *, unsigned int);
- static void sd_config_write_same(struct scsi_disk *);
-+static void sd_config_verify(struct scsi_disk *sdkp);
- static int  sd_revalidate_disk(struct gendisk *);
- static void sd_unlock_native_capacity(struct gendisk *disk);
- static int  sd_probe(struct device *);
-@@ -519,6 +520,43 @@ max_write_same_blocks_store(struct device *dev, struct device_attribute *attr,
- }
- static DEVICE_ATTR_RW(max_write_same_blocks);
- 
-+static ssize_t
-+max_verify_blocks_show(struct device *dev, struct device_attribute *attr,
-+		       char *buf)
-+{
-+	struct scsi_disk *sdkp = to_scsi_disk(dev);
-+
-+	return sprintf(buf, "%u\n", sdkp->max_verify_blocks);
-+}
-+
-+static ssize_t
-+max_verify_blocks_store(struct device *dev, struct device_attribute *attr,
-+			const char *buf, size_t count)
-+{
-+	struct scsi_disk *sdkp = to_scsi_disk(dev);
-+	struct scsi_device *sdp = sdkp->device;
-+	unsigned long max;
-+	int err;
-+
-+	if (!capable(CAP_SYS_ADMIN))
-+		return -EACCES;
-+
-+	if (sdp->type != TYPE_DISK && sdp->type != TYPE_ZBC)
-+		return -EINVAL;
-+
-+	err = kstrtoul(buf, 10, &max);
-+
-+	if (err)
-+		return err;
-+
-+	sdkp->max_verify_blocks = max;
-+
-+	sd_config_verify(sdkp);
-+
-+	return count;
-+}
-+static DEVICE_ATTR_RW(max_verify_blocks);
-+
- static ssize_t
- zoned_cap_show(struct device *dev, struct device_attribute *attr, char *buf)
- {
-@@ -579,6 +617,7 @@ static struct attribute *sd_disk_attrs[] = {
- 	&dev_attr_provisioning_mode.attr,
- 	&dev_attr_zeroing_mode.attr,
- 	&dev_attr_max_write_same_blocks.attr,
-+	&dev_attr_max_verify_blocks.attr,
- 	&dev_attr_max_medium_access_timeouts.attr,
- 	&dev_attr_zoned_cap.attr,
- 	&dev_attr_max_retries.attr,
-@@ -1018,6 +1057,68 @@ static void sd_config_write_same(struct scsi_disk *sdkp)
- 					 (logical_block_size >> 9));
- }
- 
-+static blk_status_t sd_setup_verify16_cmnd(struct scsi_cmnd *cmd, u64 lba,
-+					   u32 nr_blocks)
-+{
-+	cmd->cmd_len = 16;
-+	cmd->cmnd[0] = VERIFY_16;
-+	put_unaligned_be64(lba, &cmd->cmnd[2]);
-+	put_unaligned_be32(nr_blocks, &cmd->cmnd[10]);
-+	cmd->cmnd[14] = 0;
-+	cmd->cmnd[15] = 0;
-+
-+	return BLK_STS_OK;
-+}
-+
-+static blk_status_t sd_setup_verify10_cmnd(struct scsi_cmnd *cmd, u64 lba,
-+					   u32 nr_blocks)
-+{
-+	if (lba > 0xffffffff && nr_blocks > 0xffff)
-+		return BLK_STS_NOTSUPP;
-+
-+	cmd->cmd_len = 10;
-+	cmd->cmnd[0] = VERIFY;
-+	put_unaligned_be32((u32)lba, &cmd->cmnd[2]);
-+	put_unaligned_be16((u16)nr_blocks, &cmd->cmnd[6]);
-+	cmd->cmnd[9] = 0;
-+
-+	return BLK_STS_OK;
-+}
-+
-+static blk_status_t sd_setup_verify_cmnd(struct scsi_cmnd *cmd)
-+{
-+	struct request *rq = scsi_cmd_to_rq(cmd);
-+	struct scsi_disk *sdkp = scsi_disk(rq->q->disk);
-+	struct scsi_device *sdp = cmd->device;
-+	u64 lba = sectors_to_logical(sdp, blk_rq_pos(rq));
-+	u32 nr_blocks = sectors_to_logical(sdp, blk_rq_sectors(rq));
-+
-+	if (!sdkp->verify16 && !sdkp->verify10)
-+		goto out;
-+
-+	cmd->allowed = SD_MAX_RETRIES;
-+	cmd->sc_data_direction = DMA_NONE;
-+	cmd->transfersize = 0;
-+	/* skip veprotect / dpo / bytchk */
-+	cmd->cmnd[1] = 0;
-+
-+	if (sdkp->verify16)
-+		return sd_setup_verify16_cmnd(cmd, lba, nr_blocks);
-+	if (sdkp->verify10)
-+		return sd_setup_verify10_cmnd(cmd, lba, nr_blocks);
-+out:
-+	return BLK_STS_TARGET;
-+}
-+
-+static void sd_config_verify(struct scsi_disk *sdkp)
-+{
-+	unsigned int max_verify_sectors = sdkp->max_verify_blocks;
-+	unsigned int logical_bs = sdkp->device->sector_size;
-+	struct request_queue *q = sdkp->disk->queue;
-+
-+	blk_queue_max_verify_sectors(q, max_verify_sectors * (logical_bs >> 9));
-+}
-+
- static blk_status_t sd_setup_flush_cmnd(struct scsi_cmnd *cmd)
- {
- 	struct request *rq = scsi_cmd_to_rq(cmd);
-@@ -1244,6 +1345,8 @@ static blk_status_t sd_init_command(struct scsi_cmnd *cmd)
- 		}
- 	case REQ_OP_WRITE_ZEROES:
- 		return sd_setup_write_zeroes_cmnd(cmd);
-+	case REQ_OP_VERIFY:
-+		return sd_setup_verify_cmnd(cmd);
- 	case REQ_OP_FLUSH:
- 		return sd_setup_flush_cmnd(cmd);
- 	case REQ_OP_READ:
-@@ -1935,6 +2038,7 @@ static int sd_done(struct scsi_cmnd *SCpnt)
- 	switch (req_op(req)) {
- 	case REQ_OP_DISCARD:
- 	case REQ_OP_WRITE_ZEROES:
-+	case REQ_OP_VERIFY:
- 	case REQ_OP_ZONE_RESET:
- 	case REQ_OP_ZONE_RESET_ALL:
- 	case REQ_OP_ZONE_OPEN:
-@@ -3021,6 +3125,24 @@ static void sd_read_write_same(struct scsi_disk *sdkp, unsigned char *buffer)
- 		sdkp->ws10 = 1;
- }
- 
-+static void sd_read_verify(struct scsi_disk *sdkp, unsigned char *buffer)
-+{
-+	struct scsi_device *sdev = sdkp->device;
-+
-+	if (scsi_report_opcode(sdev, buffer, SD_BUF_SIZE, VERIFY_16)) {
-+		sd_printk(KERN_DEBUG, sdkp, "VERIFY16 supported\n");
-+		sdkp->verify16 = 1;
-+		sdkp->max_verify_blocks = SD_MAX_VERIFY16_BLOCKS;
-+		return;
-+	}
-+
-+	if (scsi_report_opcode(sdev, buffer, SD_BUF_SIZE, VERIFY)) {
-+		sd_printk(KERN_DEBUG, sdkp, "VERIFY10 supported\n");
-+		sdkp->verify10 = 1;
-+		sdkp->max_verify_blocks = SD_MAX_VERIFY10_BLOCKS;
-+	}
-+}
-+
- static void sd_read_security(struct scsi_disk *sdkp, unsigned char *buffer)
- {
- 	struct scsi_device *sdev = sdkp->device;
-@@ -3264,6 +3386,7 @@ static int sd_revalidate_disk(struct gendisk *disk)
- 		sd_read_cache_type(sdkp, buffer);
- 		sd_read_app_tag_own(sdkp, buffer);
- 		sd_read_write_same(sdkp, buffer);
-+		sd_read_verify(sdkp, buffer);
- 		sd_read_security(sdkp, buffer);
- 		sd_config_protection(sdkp);
- 	}
-@@ -3312,6 +3435,7 @@ static int sd_revalidate_disk(struct gendisk *disk)
- 
- 	set_capacity_and_notify(disk, logical_to_sectors(sdp, sdkp->capacity));
- 	sd_config_write_same(sdkp);
-+	sd_config_verify(sdkp);
- 	kfree(buffer);
- 
- 	/*
-diff --git a/drivers/scsi/sd.h b/drivers/scsi/sd.h
-index 5eea762f84d1..249100e2ea1f 100644
---- a/drivers/scsi/sd.h
-+++ b/drivers/scsi/sd.h
-@@ -49,6 +49,8 @@ enum {
- 	SD_MAX_XFER_BLOCKS = 0xffffffff,
- 	SD_MAX_WS10_BLOCKS = 0xffff,
- 	SD_MAX_WS16_BLOCKS = 0x7fffff,
-+	SD_MAX_VERIFY10_BLOCKS = 0xffff,
-+	SD_MAX_VERIFY16_BLOCKS = 0xffffff,
- };
- 
- enum {
-@@ -118,6 +120,7 @@ struct scsi_disk {
- 	u32		max_xfer_blocks;
- 	u32		opt_xfer_blocks;
- 	u32		max_ws_blocks;
-+	u32		max_verify_blocks;
- 	u32		max_unmap_blocks;
- 	u32		unmap_granularity;
- 	u32		unmap_alignment;
-@@ -145,6 +148,8 @@ struct scsi_disk {
- 	unsigned	lbpvpd : 1;
- 	unsigned	ws10 : 1;
- 	unsigned	ws16 : 1;
-+	unsigned        verify10 : 1;
-+	unsigned        verify16 : 1;
- 	unsigned	rc_basis: 2;
- 	unsigned	zoned: 2;
- 	unsigned	urswrz : 1;
--- 
-2.29.0
-
+T24gNy8xMi8yMiAyMjo0OSwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6DQo+IEFkZCBhIGxpdHRs
+ZSBoZWxwZXIgdG8gY2hlY2sgaWYgYSBuYW1lc3BhY2Ugc2hvdWxkIGJlIG1hcmtlZCByZWFkLW9u
+bHkNCj4gdGhhdCB1c2VzIGEgbmV3IGlzX3JlYWRvbmx5IGZsYWcgaW4gdGhlIG52bWVfbnNfaW5m
+byBzdHJ1Y3R1cmUuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RvcGggSGVsbHdpZyA8aGNo
+QGxzdC5kZT4NCj4gLS0tDQoNCkxvb2tzIGdvb2QuDQoNClJldmlld2VkLWJ5OiBDaGFpdGFueWEg
+S3Vsa2FybmkgPGtjaEBudmlkaWEuY29tPg0KDQotY2sNCg0KDQoNCg==
 
