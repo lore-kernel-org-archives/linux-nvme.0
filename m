@@ -4,161 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F4187C43334
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jul 2022 15:00:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E49FC43334
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jul 2022 15:00:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:References:Message-ID:Date:Subject:CC:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=D++acP2aokmIlhEol82WWjoPeGfwVxcLhf9Yy58vu7s=; b=wjianN/nmQNIkZHyWpAzNd/Uib
-	hklqtLQWLhI282iJQ5JAP9lmQghvgKBpxT/Xh1y1TiZgGNKzubT85W2/wyurZq4yVUGCupVuG7Qg+
-	CNxOeHmsbhcimUxCYR5OGZTzH141TpQT/t+TLFeFjTlB7JAI3f5qzjNlFyCsLJlFkMpcvQ2LO+6yN
-	7YwJjtwLCM+zptCwR2wwGE6kWw3g/FQyaudpmDzCp/35mXPWERl1qCJoi1b+JMqPp7Gi7nIxI6YGL
-	zB7Wy3cerC78lwnGjRfk2egFD9//P2mej0AWNiyWkPO1qjABMH9p/4INGTuA767JmKG8r2eO5+m5x
-	uGxHIO/w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=WgehCo4EWz54AyF2jDUuG0Xj0H/FjQtWvzeLouBbzy8=; b=QnDIytteai9W3kt0z5PLxohdqa
+	FWf7Gl6fLoOtMjQjyVGy8K4TiKj4JFjbGl9dvDHNbAYz0XsapevPY0btSOaaWxeuFH4k5EmTL7VqA
+	s2nC8QoY910KB/cyKUUsI7FoO/kbWCJnJbciuyeVl5Ju9gjo+QTtlgJ+yWbsD67K5XkK1VN1V0ICW
+	th7ls057afmcNbZ5tWATcOXWVZkkI1hbO58ksotU0PCmeM9z2Yu/Xq4KFFfLzQRGqJP4WdEolvYL5
+	pPYAFlMZwf1wE42wTIfFUhx9gslSQUDVybPnObOZhz0fjlqyZHUWlifRmYw1Td9semsPcLgR0bevC
+	Dn3xvqFw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBdr6-004pvJ-U6; Wed, 13 Jul 2022 15:00:48 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1oBdrB-004px1-Iv; Wed, 13 Jul 2022 15:00:53 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBYnb-002Jis-Rn
-	for linux-nvme@lists.infradead.org; Wed, 13 Jul 2022 09:36:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1657705011; x=1689241011;
-  h=from:to:cc:subject:date:message-id:references:
-   content-transfer-encoding:mime-version;
-  bh=BsQxbcHDS5PXdpZlnd9pcRkhHERf10QrbThzthvLEQU=;
-  b=AQS8u1Yuq6eLjRoqmgWs84PMjpwcKRqrZbzFsX8FuqK0aFE9uZrwtEXS
-   jl22gt0DithMAPvuAHG/qMedqIacB9gh+NGAl4ez9iiHSAG+L+pNcvlcn
-   sFs+8zL1K9iH+l8Sxh8qoShKTUBl8TnT9U9QZ5BOb9c7ebiJjzFbK/20D
-   /FsCVHMqGsAaG386h7f7BjvZdY1AaTz6Wmga0+pq1dGRRlcp4C4bNLkj1
-   okjFPJswv+1MNDTHwHRHNAaUj/OlSeiDHHtFlosw8uKW4moSC7HkqNKSY
-   tpAO5LMDbT30jDRH58p/88XN6xgKaaJ5Yi1dEJyH1fExKaJueYODlzsVB
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.92,267,1650902400"; 
-   d="scan'208";a="206279759"
-Received: from mail-dm6nam11lp2170.outbound.protection.outlook.com (HELO NAM11-DM6-obe.outbound.protection.outlook.com) ([104.47.57.170])
-  by ob1.hgst.iphmx.com with ESMTP; 13 Jul 2022 17:36:42 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CmddOk3KlQn+7LnCv3FP/wezcKuT61fLsO4CDuglzOch8BYLwapW50PsMUXw3d4spXBgNNY9iZFYauDKy9VjAvq9yKDVjn+xqmOTHPBqa3kxComj7v4PSXDuVDuc3eFXeK1SZ3z8cHMFW60eew6ORAf3YbVNltE3upr+GbVUV8bhsqUAQox8Yb8AGODrpuJk15AbOGlPVTDD0aBkqo6tO24pvb4pI9zJuMriM7p6RCTbL8W/vIu7cb9aOucUNKhp3Be4ybElrU+2LjgdL5vFzMLFfFUq474dUM7C5SmBZ4dLph6F9Z/SJDArqh5j3ntI+NOJq8F6ShkjZUGpQkAO7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D++acP2aokmIlhEol82WWjoPeGfwVxcLhf9Yy58vu7s=;
- b=W/py5geidqpUd8qaXDLAiqu+J7l2K7WEWK7+w8b06KhYppHHl9IfIJNRlunXarHTZLI57UySFH+5Fubs9yrDPjfkhMGMF2FPHnOozpO/19UAoiUZxAKp+JuCilusNvPlPLjVGpJt6BxIk1FQ3RtpkjoxIXX9oN8M/F7dStH4yQGTWn3evpSYmTR5hMQK2qlnRAId85d7ZdrIMDWpyPFnv1Ev1GwvGXzvpfVy3Da1X+Ec1aevYIq6tvHL48d1811HXWTFDJFiVyNUc1JIje5mxDoqd7haEdvZu/5frPkV1X7jvQqJQe3xQ7cdSr7aTgeUfUUyTCqzQcLMjZbl2Om6Sg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D++acP2aokmIlhEol82WWjoPeGfwVxcLhf9Yy58vu7s=;
- b=DEY2f4jiAnMfwIjhSosgqPcn1kGsdFHaOi3vLN64JJyG5gr5D2SZkZsWeHY+lBCPmmjPa1YteyINArO6Wc4/cyqxe5THOOr6VeKhafQ/F8uvvgasW6DdZiagTjwelgSd7l6c7/i/IOFQMN+ER6FCsDazPaCpefy9HoIkh1RMneQ=
-Received: from PH0PR04MB7416.namprd04.prod.outlook.com (2603:10b6:510:12::17)
- by SJ0PR04MB7662.namprd04.prod.outlook.com (2603:10b6:a03:325::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.23; Wed, 13 Jul
- 2022 09:36:40 +0000
-Received: from PH0PR04MB7416.namprd04.prod.outlook.com
- ([fe80::d54b:24e1:a45b:ab91]) by PH0PR04MB7416.namprd04.prod.outlook.com
- ([fe80::d54b:24e1:a45b:ab91%9]) with mapi id 15.20.5417.026; Wed, 13 Jul 2022
- 09:36:40 +0000
-From: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>, Matthew Wilcox
-	<willy@infradead.org>
-CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	id 1oBbJi-003RtH-Vg
+	for linux-nvme@bombadil.infradead.org; Wed, 13 Jul 2022 12:18:10 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=WgehCo4EWz54AyF2jDUuG0Xj0H/FjQtWvzeLouBbzy8=; b=hiFqFuAZ+D4oDZkdGrk3mNwzMD
+	RIy2FWRD01ImOMohxZ8m+oSnAnrZugKZCrbRbuLAfgfm93CUmmSdIq/4hwbRAbDr0ukKJWTnGpHXR
+	iQ1Tr4QcsDokLiSOoXImkKWeQz3d51T3UJX1Uhw8xWnu1KOCxOaCG3ndxI3FniFiEWESfF1YjfWv0
+	xpqgBJ67IfhYi0ILfNdc7DxI3lJNsEeE75sm/g4LS9TGlCHw3D9nhrwHl1znFQNqekPD1rNs6qWMf
+	+YTEq1Cvs1rFBavrhFCxNokpBT1AY4DDVYumygqVZ6vgUL/WHbSkJ6TWJqHGUr13Wu+sIJDCDql6d
+	ZbukAvMg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oBbJU-008AhI-St; Wed, 13 Jul 2022 12:17:56 +0000
+Date: Wed, 13 Jul 2022 13:17:56 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
 	"linux-raid@vger.kernel.org" <linux-raid@vger.kernel.org>,
 	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
 	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"axboe@kernel.dk" <axboe@kernel.dk>, "agk@redhat.com" <agk@redhat.com>,
-	"song@kernel.org" <song@kernel.org>, "djwong@kernel.org" <djwong@kernel.org>,
+	"axboe@kernel.dk" <axboe@kernel.dk>,
+	"agk@redhat.com" <agk@redhat.com>,
+	"song@kernel.org" <song@kernel.org>,
+	"djwong@kernel.org" <djwong@kernel.org>,
 	"kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>,
-	"sagi@grimberg.me" <sagi@grimberg.me>, "jejb@linux.ibm.com"
-	<jejb@linux.ibm.com>, "martin.petersen@oracle.com"
-	<martin.petersen@oracle.com>, "viro@zeniv.linux.org.uk"
-	<viro@zeniv.linux.org.uk>, "javier@javigon.com" <javier@javigon.com>,
-	"bvanassche@acm.org" <bvanassche@acm.org>, "dongli.zhang@oracle.com"
-	<dongli.zhang@oracle.com>, "ming.lei@redhat.com" <ming.lei@redhat.com>,
+	"sagi@grimberg.me" <sagi@grimberg.me>,
+	"jejb@linux.ibm.com" <jejb@linux.ibm.com>,
+	"martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+	"javier@javigon.com" <javier@javigon.com>,
+	"johannes.thumshirn@wdc.com" <johannes.thumshirn@wdc.com>,
+	"bvanassche@acm.org" <bvanassche@acm.org>,
+	"dongli.zhang@oracle.com" <dongli.zhang@oracle.com>,
+	"ming.lei@redhat.com" <ming.lei@redhat.com>,
 	"jefflexu@linux.alibaba.com" <jefflexu@linux.alibaba.com>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>, "clm@fb.com" <clm@fb.com>,
-	"dsterba@suse.com" <dsterba@suse.com>, "jack@suse.com" <jack@suse.com>,
-	"tytso@mit.edu" <tytso@mit.edu>, "adilger.kernel@dilger.ca"
-	<adilger.kernel@dilger.ca>, "jlayton@kernel.org" <jlayton@kernel.org>,
-	"idryomov@gmail.com" <idryomov@gmail.com>, "danil.kipnis@cloud.ionos.com"
-	<danil.kipnis@cloud.ionos.com>, "ebiggers@google.com" <ebiggers@google.com>,
+	"josef@toxicpanda.com" <josef@toxicpanda.com>,
+	"clm@fb.com" <clm@fb.com>, "dsterba@suse.com" <dsterba@suse.com>,
+	"jack@suse.com" <jack@suse.com>, "tytso@mit.edu" <tytso@mit.edu>,
+	"adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+	"jlayton@kernel.org" <jlayton@kernel.org>,
+	"idryomov@gmail.com" <idryomov@gmail.com>,
+	"danil.kipnis@cloud.ionos.com" <danil.kipnis@cloud.ionos.com>,
+	"ebiggers@google.com" <ebiggers@google.com>,
 	"jinpu.wang@cloud.ionos.com" <jinpu.wang@cloud.ionos.com>
 Subject: Re: [PATCH 0/6] block: add support for REQ_OP_VERIFY
-Thread-Topic: [PATCH 0/6] block: add support for REQ_OP_VERIFY
-Thread-Index: AQHYjGHLrTko3I1yxEO9BQEmDW6tZw==
-Date: Wed, 13 Jul 2022 09:36:40 +0000
-Message-ID:  <PH0PR04MB74161F58D05301F3C50680049B899@PH0PR04MB7416.namprd04.prod.outlook.com>
+Message-ID: <Ys639LsjBUGPNErd@casper.infradead.org>
 References: <20220630091406.19624-1-kch@nvidia.com>
  <YsXJdXnXsMtaC8DJ@casper.infradead.org>
  <5ffe57d3-354c-eabe-ea38-9c4201c13970@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: dc2611a5-9043-4252-8168-08da64b3309e
-x-ms-traffictypediagnostic: SJ0PR04MB7662:EE_
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  bBs3AKsP2KucwvcjCnQHlGURtDMdt9BkR8TcS/0qkxRglgZjVe2z1DAEqVmFAVtrcZJ4DgqsuOi77Dvpgcu+aP+K79znfFnu0ZJ3XlJbWTDH7gfJrDd9Hpaykn6ajrqBa7P4Adft4loThzIuuulPkwceDxRoKiHc34//y42HxwCCfIOvb0Y0SE6+gjIm6ctjl07LTOB4MnoXsolNOnkwtd4lX70+qpuuaPuRJM+x3FvOcbl0fdBjvGfH6cwbg7q26+/J7wPo5QpWZaJjDmmyYwknWyk7XXs6CddlwvG7IBD4293Uii9Q5k5ykcjhtjA+qU5QgeKuFQh04Oft5sW9kQfzvcHWMZy4Qf0SCh5zJJbsAU5ufTVUFeH7SsRV4vNlNwPwTqoXS836ErWIyaUxXicno/V4K8wbP637Zq97zhaPY6NLtgB15F7/IXlja+qP+3Ignbln7GywoLnKU5+w7ISrMWt/Y873WA9fYAG9CfB1AboM5x0VwpcE30NVu+LNP5h9DSzW18mZ/REoZoaz44pIwW1QwaV0aknIwN2JtDYyiPBRPrdgNq/Nw+t0cefc95KlwY4h/ZnBjRQC8itbG0NjEhD9uqvRFh0ynrnZOP1azSfburvZ/zkbvmCOP3SA/0bAKv6ArAF0wN2RF0Afd8n252kKlkQKnt9zFyWK0hFSTQ0goCrko5tHAjijO3jr2MdUwcaxbmDwYCP5seNLnXh1AxQovzni4aI7xHqlG3JFMWCunkZVtLnt/jADrBz0J0jXCVntQ2TAVPeXzYE+HV6fj2zDc9cpfV1VvFLkStcY4EEu3RZxaYCnndlHs7KI
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR04MB7416.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(366004)(136003)(396003)(346002)(39860400002)(66476007)(64756008)(66946007)(76116006)(91956017)(9686003)(6506007)(66556008)(316002)(7696005)(54906003)(52536014)(8936002)(478600001)(53546011)(71200400001)(110136005)(66446008)(26005)(8676002)(38070700005)(4326008)(186003)(86362001)(82960400001)(41300700001)(33656002)(83380400001)(4744005)(2906002)(38100700002)(5660300002)(7406005)(122000001)(55016003)(7416002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?BbpiKS/AAkUAi80718vwCpUTtjD5TaxmMMBnLkC3NvM0pOyEADzgWaFYKYVl?=
- =?us-ascii?Q?JQ/jmMMGUZMdaW+/f/8XSnDWZYDC0MLL1+XBzAmOI33aaoctDivdKmoPT4tC?=
- =?us-ascii?Q?mYS8kVzNSdhqo3ErMEdHJ9JvxhpvDT92M+4WHYXnf+1BfQNzmxh/3f2ERg1d?=
- =?us-ascii?Q?64wT0QsHzjsWA3DAxttAlFqjIHTAFW9mOa9M76ksYBNOxlFzEspF7LQb8LN4?=
- =?us-ascii?Q?4zHf/Yx76tDXHrYWs+0CRbv2HS18OANbtF1Hw3XrKZm7Yq9ZLepB84fqjnpZ?=
- =?us-ascii?Q?2le0fu5XHgAf4KxVfe39uIXe4X9aZTBTZeMoQC2SuG/88cjUhFjElk6MSQP1?=
- =?us-ascii?Q?u23Y6T8bV+EKZfZqC+M+xAABxuPOMRv1z18A5Ba6yMBXlhPXgVQK9Vj7F48m?=
- =?us-ascii?Q?v/a2HNouYiC3x+KKykhTVxoAcA7niXpmMFi2IEAFC0/xpEf1trF0auORZHKf?=
- =?us-ascii?Q?kAQX3eaPzgVZ3mvsnChD48koezWgYteSfyyLHPewp+vsT0nBUb9k2k6Vl30s?=
- =?us-ascii?Q?/AitCz5O8q3eFrUEAswHCVAfv2x4PwF7CnlIOMKNc60sKA+mpA/NusNTCSOM?=
- =?us-ascii?Q?X5f0j0NCHPhX6rqx+lnxgtIKeUHZ9bCcsDB+2KjLhLBD6U+cQwPOjGR92RwR?=
- =?us-ascii?Q?uOgCKAPKJm3bEoYTzQ87NT60KvFgLrb0zKv6M5gBlJpNjOTjOJ4TTgVL4vtD?=
- =?us-ascii?Q?sfupOsbstt375EsglacwfNJf4KsrOTT6H81QDCue2WlZtvY9qeidFo5o2uMe?=
- =?us-ascii?Q?YhvjMTXL2P+GE1Yx/g2u9jtwGUNv7IFRqgGrbgSTVXA9Fc5lj5CvdJTpLs0R?=
- =?us-ascii?Q?G66PkZzQ5d5zs+0p2R1Ep6llMnirEmqZj6jUluHaS/DFTs7lGqiX3N+1rXRu?=
- =?us-ascii?Q?4pwnvAbZZFI2TZepwfYdPoTlQl46PwIlaeDptNr8cKF5dkohPjnHKdcQVFID?=
- =?us-ascii?Q?R4hacx1NVA29QzeVAfyLrWzkFeNSKg1vyk7YvhqnS4cR5POqbxDK7/l33cw6?=
- =?us-ascii?Q?qrwRLixhkFfcK601orGAQkGklYFBVIzGWKDzOEzbSSTdp5ilyyiXnmjV1/xk?=
- =?us-ascii?Q?sihGtFWQvmdI3tPS7n8WQR57Knt0bk9bSKIsqtUCLTM8F+fg8aa8yvqeyl6b?=
- =?us-ascii?Q?+QZy/Lat0bDgtMTm4sht/BiZ8U2+A0qIslvCR7r+S8gN6A271TrXkY6Rn11p?=
- =?us-ascii?Q?fJHw0XYgGlw2r+lngdEuhIUv3pStsAXgJWMn61yiM8WeaK+JX5qYOhzExp/e?=
- =?us-ascii?Q?UIvdcqZvALdMQ8BeZ4nAMnPXcK/ZrK3ncqtqaWHUSFNsWBYaQeZysNJeql0f?=
- =?us-ascii?Q?J/I25yDCrn8goaGO1LNDEq/S6rSPmE9sHwQ6I48XlPu4FrR64QJ+rUCTpNEr?=
- =?us-ascii?Q?AeHp7Y3OzwK4x/poNnR0qqW8o00TSS8aQs6baVfwqgqSZDreFRs8hgFIiVtb?=
- =?us-ascii?Q?X2l5bD+mBQjeEtcioywV/px9NvdcrF80K2HGHCPaBTbxcUfdI0DqCcgX80+W?=
- =?us-ascii?Q?0zFb8dB37uhyv/aPgRRlrje/ikcFvKgmT47TA1Y77pLTG9V3op40Juperi8f?=
- =?us-ascii?Q?qGEafWDZdP6bibGUVp6LvJ08g0HbV/vOuUPwf6lQg9TJSVf3wfFmdawiGRw6?=
- =?us-ascii?Q?VF26jsVTtVXRW2AaW7ArBrk=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR04MB7416.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc2611a5-9043-4252-8168-08da64b3309e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jul 2022 09:36:40.3808
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: YBJo3St95fQ6JAEu8s/WK+fmM6wlFCz4XLs/DX97CtAm+qsMSSa5RYlgNxrtTRSBl/In36v4KLTmEbuuzZ7N46cojiJCwKK5PZLG2bN5qpI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB7662
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220713_023652_004126_0D2539EC 
-X-CRM114-Status: GOOD (  12.78  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5ffe57d3-354c-eabe-ea38-9c4201c13970@nvidia.com>
 X-Mailman-Approved-At: Wed, 13 Jul 2022 08:00:42 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -174,28 +92,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 13.07.22 11:14, Chaitanya Kulkarni wrote:=0A=
->> I'd suggest calculating some kind of checksum, even something like a=0A=
->> SHA-1 of the contents would be worth having.  It doesn't need to be=0A=
->> crypto-secure; just something the host can verify the device didn't spoo=
-f.=0A=
-> I did not understand exactly what you mean here.=0A=
-=0A=
-I _think_ what Willy wants to say here is, we need some kind of "out-of-ban=
-d"=0A=
-checksums to verify the device is not lying to us.=0A=
-=0A=
-Something like the checksums for each data block that i.e. btrfs has. On re=
-ad,=0A=
-we're verifying the calculated checksum of the payload with the saved one a=
-nd=0A=
-if they're not matching (for whatever reason) return -EIO.=0A=
-=0A=
-As the device doesn't know the location of the data checksum, it can't spoo=
-f it=0A=
-for the host.=0A=
-=0A=
-(Excuse me for my btrfs centric view on this topic, but that's what I know =
-and=0A=
-what I'm used to)=0A=
+On Wed, Jul 13, 2022 at 09:14:42AM +0000, Chaitanya Kulkarni wrote:
+> On 7/6/22 10:42, Matthew Wilcox wrote:
+> > On Thu, Jun 30, 2022 at 02:14:00AM -0700, Chaitanya Kulkarni wrote:
+> >> This adds support for the REQ_OP_VERIFY. In this version we add
+> > 
+> > IMO, VERIFY is a useless command.  The history of storage is full of
+> > devices which simply lie.  Since there's no way for the host to check if
+> > the device did any work, cheap devices may simply implement it as a NOOP.
+> 
+> Thanks for sharing your feedback regarding cheap devices.
+> 
+> This falls outside of the scope of the work, as scope of this work is
+> not to analyze different vendor implementations of the verify command.
+
+The work is pointless.  As a customer, I can't ever use the VERIFY
+command because I have no reason for trusting the outcome.  And there's
+no way for a vendor to convince me that I should trust the result.
+
+> > Even expensive devices where there's an ironclad legal contract between
+> > the vendor and customer may have bugs that result in only some of the
+> > bytes being VERIFYed.  We shouldn't support it.
+> This is not true with enterprise SSDs, I've been involved with product
+> qualification of the high end enterprise SSDs since 2012 including good
+> old non-nvme devices with e.g. skd driver on linux/windows/vmware.
+
+Oh, I'm sure there's good faith at the high end.  But bugs happen in
+firmware, and everybody knows it.
+
+> > Now, everything you say about its value (not consuming bus bandwidth)
+> > is true, but the device should provide the host with proof-of-work.
+> 
+> Yes that seems to be missing but it is not a blocker in this work since
+> protocol needs to provide this information.
+
+There's no point in providing access to a feature when that feature is
+not useful.
+
+> We can update the respective specification to add a log page which
+> shows proof of work for verify command e.g.
+> A log page consist of the information such as :-
+> 
+> 1. How many LBAs were verified ? How long it took.
+> 2. What kind of errors were detected ?
+> 3. How many blocks were moved to safe location ?
+> 4. How much data (LBAs) been moved successfully ?
+> 5. How much data we lost permanently with uncorrectible errors?
+> 6. What is the impact on the overall size of the storage, in
+>     case of flash reduction in the over provisioning due to
+>     uncorrectible errors.
+
+That's not proof of work.  That's claim of work.
+
+> > I'd suggest calculating some kind of checksum, even something like a
+> > SHA-1 of the contents would be worth having.  It doesn't need to be
+> > crypto-secure; just something the host can verify the device didn't spoof.
+> 
+> I did not understand exactly what you mean here.
+
+The firmware needs to prove to me that it *did something*.  That it
+actually read those bytes that it claims to have verified.  The simplest
+way to do so is to calculate a hash over the blocks which were read
+(maybe the host needs to provide a nonce as part of the VERIFY command
+so the drive can't "remember" the checksum).
 
