@@ -4,34 +4,34 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0496C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jul 2022 07:33:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37ECEC43334
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jul 2022 07:33:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MPAH0iKcSq0C0K71QGumQc2JkeHS2CZJTBrVdORMWMQ=; b=Li9H0PecP8cchbN7C4akwLLt+P
-	6hmuIst2RyVBteMC1sBIFq4pdfUP3hcOUA1xABFVajMRyQ5nDlM+fK3fD3zGA2340+EZ9cLONG7sq
-	NqmcGPeIaOTneQ40adE4b2AG+/5MtvtrT9OHUNeU9Fh74CAtvKuYwAQSnzHp+AfHFaf74o6NAljxS
-	I+fdf91XZptCPIbCSkApFNIJaEKIyeSH8Mtm8lOyb12mBpMuXK7ih5nmRkUnbieOuJBkuIYqVtrRl
-	N5LWi30dagS7iwPVV75Gq0GaU7Lq1y7Yn33/fCpMTfOna/M3ROuSws/gj3dVQp5eAj+isdTCRg8Im
-	jFlDAlFg==;
+	bh=ZL4ms3Oh7uy6X4sXiQwTR1+i7JzA2MjgsL6Shj7BWXw=; b=ofPMgFW0R2H5qYkHXaxxRbojHg
+	9B6TkfST+/ULWy693dtCb4iFauuug+TyFG9AnARYCc7uxH5842FXHA6DkbrqHHpQhXRWqgnL/G0Uz
+	8PMCivtMnEyXRvuFn4Wpw2Y9i4tsOykrz3/p+fix7AtqqUhCu1m11ouKnAud6W5HkmpEmZoOFuLwF
+	o/8pVL3yYn+Eeg5/kz+e8UBWsV2czfHynQ2Z29lbXGi0ymmGm0zEM6Wo4lXpvAiuOpbGPM9mQEjbm
+	W2VfXxeTFW0EDep5ePoiSY2Qndg+S/0mWrIsYvTPYmKzfPX7arD4eR2OlNNWmvDzwurEPCPJmBK6s
+	Lpf4xDeA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBWsH-001GtK-4N; Wed, 13 Jul 2022 07:33:33 +0000
-Received: from mail-dm6nam11on2074.outbound.protection.outlook.com ([40.107.223.74] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+	id 1oBWsO-001Gvx-92; Wed, 13 Jul 2022 07:33:40 +0000
+Received: from mail-dm6nam10on2047.outbound.protection.outlook.com ([40.107.93.47] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBWhG-001Bfp-T5
-	for linux-nvme@lists.infradead.org; Wed, 13 Jul 2022 07:22:15 +0000
+	id 1oBWhQ-001BxK-Qk
+	for linux-nvme@lists.infradead.org; Wed, 13 Jul 2022 07:22:22 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C4kkEVFHpWjAZCzG3q0b21FzYDAiKQUfkVcPedaFVdGauqI5Nk+n8Q/7OrwwIlqQjDzyxnbP7F86V+IQgcRt1RrOUcQvDwaokWXJliCKMAXrbRy3Uoo3hosHtUUiSlfdTJ3/rBwnUOS6KH60k06aD0PgsUEbwdVQlDwgAfFdlhaYWLj6PSzm6srLlgiwm/bDcCo3ajxHBzsLd6GpoeabMp4vIpymdt0bSH0I8Zxbhm8/jUxzoTSoVzrZC1KMlnz1+yrqsuBp3YKREcuiCUVwCZa83f2hIP+Um7YtTy8cYtEoa+bgSOGLHPSXO178y4WRsPyrJaPy5XotunglHsbDvA==
+ b=WBJtgDEh0vIzyj5PBG8isN0efk4+e24Ve8SpHcVFu5JHlQF4ick4tt4RGRTOkCiIOjHMV9oxK7nRZBL+WU81DEbujjXrwzmu06tRVeDzKAJ367nncHOmjVShX9bAD+6GtmjG1LITgBWvmKDxqHd7rrcYzGPZ9S/no6Yr0wBELsAdsbcHaTxDSbBRP4QH5utENgI87CpT+bfmAXUch0xvSYdqrngOkuj3o07AEfpAZx8k2P3Yp4Eyq+cgC0Mu2PUB5+0dFLbN6P4J9DjKIEOWbrdhHxwalFOp1E0EeXk3gT7e+yl3twAEzX/KgWr3TvzBHAa+F49keCBsFvnMvrhpkw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MPAH0iKcSq0C0K71QGumQc2JkeHS2CZJTBrVdORMWMQ=;
- b=b+MVMlBk/hrKCm4NQTw1al0fC8HeEAPHRzuAA/3KkXqmImP25s7LmVrpnFrs03AYihpI9Lx9uVJjGb2Woz1cu4RCjXXMHzkpmKRR6Olrr+nWQ9YK/tygdkiYRlAes+btgaOteYExS/pJxzyT/npYosvS164zU/iRJjzRpfXT6Ai80+5z+12CouoSpEhs6E9ivV1jfBWj+iy6/qxnsT2wbQmzfL6oE5DLObD9P6JSrgBUeoKzYNA9nS/tAAuE2xGalcgRgFt7umn6yRFmfwqbZbH+PTXSXpoWhldUMcdPTEq9kD3PNgWgV0Hnp3Lmp/V+RDJyxW4CcXd5WElxDiaYaQ==
+ bh=ZL4ms3Oh7uy6X4sXiQwTR1+i7JzA2MjgsL6Shj7BWXw=;
+ b=ICTQ/KHBxyGlRmePMVc3VBKm4KRGOCSdf4AVvsTNr4mEk6yhtcJ49s2C2PGmgIS2YOkCC6xH8ihV+JXEgEFN2+nbP6OShQje+hKzRII2G2YvbLAP18G+yj5grWFkYb4QZk8vOxK76FfBudkbA4Zo+5UGqMtIM+VNjWqY0E9A6EpSzHwSy9iPSjEXOueS/rJnZUAeUjbZ8ZmDo+cc6um+5Uwx6/3RrquNHSSgPxu2XEiO+LccVaoxounRMzt0XytCRr7BqV7abIpxkqle8dqmw+u/ebIGzyjuwOM4fXXHW96vi+DpD3VVo/J0k5NwmdNxZTX5m60czlL+VfUgUS/2jw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  12.22.5.234) smtp.rcpttodomain=kernel.dk smtp.mailfrom=nvidia.com; dmarc=pass
  (p=reject sp=reject pct=100) action=none header.from=nvidia.com; dkim=none
@@ -39,18 +39,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MPAH0iKcSq0C0K71QGumQc2JkeHS2CZJTBrVdORMWMQ=;
- b=hJV7RyUuW9ZCtTHYZ+E3ik239x8554oZfrLg03omdY9yS+Ukn/2gDKwJTr5xsRceDV9Z/DkcPzR+SA1E+V/yJRGaQ2LK9c132UVThuoT/vOtBKEyJY5+LV66v5tQYHyEUYVvlxrwHh9w2tGEYYsaf8KjWof+1SnWBc7tnIbSucgcP7CumgRvtKaQ5qch1UlOoJOkhyLxwjo5OJD99ZDepvtLonjjJIpsuso33YTujshnJu2v3iEHs+GfmcuxaOt9wq0E5XZYbdu+WfB6u4vyeFFexNYCiwsxBkuQs+ra1ZdC0AaZgaqF9jvcWgahiyEvU0zWyjwiFSu9zRbJEZAA0g==
-Received: from MW4PR04CA0090.namprd04.prod.outlook.com (2603:10b6:303:6b::35)
- by BN6PR12MB1154.namprd12.prod.outlook.com (2603:10b6:404:1c::14) with
+ bh=ZL4ms3Oh7uy6X4sXiQwTR1+i7JzA2MjgsL6Shj7BWXw=;
+ b=o0hUw8qAlJrgm9nrFGhQ74Ti4jm2ArnRKXqT33bQr5LsVPhioJ8zXLIshX+T6j/Ynaj/1DvprB888P4P2ov/nhwPG4PaEDrWpqi3oUVnH5wj9imWakks2iChsheYdkbDiqQqtaAFBjGMgXAEgR2mdiuCkLZ/RjZLWl8m/LzP2XeBhBFhjgI94Jcgz0f2jmizWiMX2d2g+h9/PPqalid1/8cM/cqdT+EdagWWfb+ZVkiIAIzsoeJHSkT+Ho1I2NeU0hnQiwAKldsiE982arspOUE/j6QSFGZS2jRsaXnstuDQnboITskxHAWyXtQlSpHeor1Yu0Wl4utfKD6IA1qOng==
+Received: from MW4PR04CA0082.namprd04.prod.outlook.com (2603:10b6:303:6b::27)
+ by DM6PR12MB2825.namprd12.prod.outlook.com (2603:10b6:5:75::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.20; Wed, 13 Jul
- 2022 07:21:57 +0000
-Received: from CO1NAM11FT011.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:6b:cafe::5a) by MW4PR04CA0090.outlook.office365.com
- (2603:10b6:303:6b::35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.22 via Frontend
- Transport; Wed, 13 Jul 2022 07:21:57 +0000
+ 2022 07:22:15 +0000
+Received: from CO1NAM11FT036.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:6b:cafe::53) by MW4PR04CA0082.outlook.office365.com
+ (2603:10b6:303:6b::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.23 via Frontend
+ Transport; Wed, 13 Jul 2022 07:22:15 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.234)
  smtp.mailfrom=nvidia.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
@@ -58,16 +58,16 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
  12.22.5.234 as permitted sender) receiver=protection.outlook.com;
  client-ip=12.22.5.234; helo=mail.nvidia.com; pr=C
 Received: from mail.nvidia.com (12.22.5.234) by
- CO1NAM11FT011.mail.protection.outlook.com (10.13.175.186) with Microsoft SMTP
+ CO1NAM11FT036.mail.protection.outlook.com (10.13.174.124) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5438.12 via Frontend Transport; Wed, 13 Jul 2022 07:21:56 +0000
+ 15.20.5438.12 via Frontend Transport; Wed, 13 Jul 2022 07:22:15 +0000
 Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL101.nvidia.com
  (10.27.9.10) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Wed, 13 Jul
- 2022 07:21:49 +0000
+ 2022 07:22:14 +0000
 Received: from dev.nvidia.com (10.126.230.35) by rnnvmail201.nvidia.com
  (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Wed, 13 Jul
- 2022 00:21:47 -0700
+ 2022 00:22:12 -0700
 From: Chaitanya Kulkarni <kch@nvidia.com>
 To: <linux-block@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
 	<linux-nvme@lists.infradead.org>, <linux-xfs@vger.kernel.org>,
@@ -83,9 +83,9 @@ CC: <axboe@kernel.dk>, <agk@redhat.com>, <song@kernel.org>,
 	<adilger.kernel@dilger.ca>, <jlayton@kernel.org>, <idryomov@gmail.com>,
 	<danil.kipnis@cloud.ionos.com>, <ebiggers@google.com>,
 	<jinpu.wang@cloud.ionos.com>, Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH V2 3/6] nvmet: add Verify command support for bdev-ns
-Date: Wed, 13 Jul 2022 00:20:16 -0700
-Message-ID: <20220713072019.5885-4-kch@nvidia.com>
+Subject: [PATCH V2 5/6] null_blk: add REQ_OP_VERIFY support
+Date: Wed, 13 Jul 2022 00:20:18 -0700
+Message-ID: <20220713072019.5885-6-kch@nvidia.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20220713072019.5885-1-kch@nvidia.com>
 References: <20220713072019.5885-1-kch@nvidia.com>
@@ -97,26 +97,26 @@ X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
  rnnvmail201.nvidia.com (10.129.68.8)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2a633287-4f65-4c54-594e-08da64a05e1c
-X-MS-TrafficTypeDiagnostic: BN6PR12MB1154:EE_
+X-MS-Office365-Filtering-Correlation-Id: 616d9819-8203-4a14-e120-08da64a06978
+X-MS-TrafficTypeDiagnostic: DM6PR12MB2825:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	Gw226/i5mEY8bKlawik27Ze3RolJyXTicDsMlm8lu7JPL6MdHQvVSrt/nQCLWDdWxlJEFNoP+Sfq1yNXDPpMe6Z4XrB/k1WuZ/psWmGR4kDnP8FppWBwITZTLy8lE9txjMkccmj28mWfnzafhQlnv/cAYVnezi9o3LguZouDBaoVg5b/ShJmvSwisi2M3r/GlvsFoY4UnMoUURZpgpPcAdYpuEEqvyK3UwMY03V6P1VxrNLw05uDWJ9K7POQy9nilvt09nk2JbzAbkwQnHZUblrzxJeBzuQ+FtTv4S/kAm3VsEdtuFEFErvw/Jz8wFaZrpqbig6H24DnbHl1bM9zJ0mM/Peu5x+dkGjc9Le+C9h3KX0X1M8X4lrYkU5ndbFQcv0I7N9rmLi9b+SFiOr9jXHirJYBu/0vqvjQckbZ5s5gy3k8Lwnfdcda29HG3+ZEl1d8NXwWm0lpq56l8LSMoz1sWq3r8fHyLTap/x81twXcdHu8F1lXtR+U1kxgsvoP9CawtZ1IWtIrlv6FiJj732kgBucDl0JNrATYkmvXYf/Ed6//4nYDln8dzoxpYOyGBlG/it4hKAA+635VvhOOqfbcCrnLmni9hu60GrWOsR5Hx/bJKXmYSnsTqgDjPJ2vJgk0ovJOMAS1/+4HQBAQZX3gAWVa8Yfh/sthClZgmLt/W8TvlmGiH86sKnoDtYpvn4VZmkU5QvGtDHTHdoKkw7ETUPPIw1LZOkyOWOOnlR3dclSnL8FtHHTmiXMFCmiQw167qgaUMqBmDPO9FUnzxfLn2cyBqd4jt4qWIRxCjsWsdRoz3V6wYRR7SQ0Wcvajyp7E3UD3zbHkpEm4xglnz1e8zKoBY7NzDuDTihTC+xgo4JJtXqL68H41Pd19tAItDN7NvdzyNunLEdjLcis/jA==
-X-Forefront-Antispam-Report: 	CIP:12.22.5.234;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230016)(4636009)(136003)(39860400002)(376002)(396003)(346002)(40470700004)(46966006)(36840700001)(8936002)(7406005)(7416002)(336012)(47076005)(40480700001)(40460700003)(82310400005)(5660300002)(2906002)(15650500001)(26005)(356005)(36860700001)(83380400001)(82740400003)(41300700001)(36756003)(186003)(54906003)(110136005)(478600001)(81166007)(8676002)(7696005)(1076003)(70586007)(316002)(70206006)(4326008)(426003)(6666004)(107886003)(2616005)(16526019)(21314003)(2101003)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 	qHHupalmu/uibIdfjj8jdoVsruiCnpAwq5XB6MTTM3rkKTNUg7fklAdrvoOV/LiBKizBv34SF/Qx178cHetPm/wMiCwJCdCUv/aAealueCvhI8o6VV4n5MisIM2XPquDFwtHpA4P7d6I6OFL+1q4lItLrVH3mp/W4nrAprZkbDhC4X7S2IKeB4gjbrR3X3V/O3IuOBGZiXpNQgrwMFfFsbsIh1XDTSZxV9zSbg0f/Q+N+RK1A3f15MjmdX1H9FEj1EezemZF9vPGBj49CyLZ55hYc439kWnJh58WPmxW16YNrZ/VyPo115/+fVZDpC8C7c+xFwgx9hBgKZLc602kQYvW2ZofbHCmEDcYWo9mA0ZLwXbeeFukxHLMPJgLQAAVyz0/MZ2MZvs0OoGnFwsnPFNDDzMQK0/oKzWlsLo1+quZ0JxA7a9w7hRTaEdF2zBoFLnZMihH+6Ld1DaTAjKrjrchITE/u9yPr0FprMEAwe81v+ulIxgnRzWWX9/CichYv9EVOlMjZnjaF4k4QNJhKTYn9RGb7gB95h++WMIO4OJLo8ReUMQeOEMwqu+JYi3T/2bQ2bpilpuy76L+PN0l5a7s77D8VsFHxYY+VVHuuW4423+6op+LMCwiowE37gF6ngOe4tr8n/qX+4M+STvyw9l3gogHAm0Qo+dSc1QZmfLv4qCyY7qXONBInNxJBK4PfgFuzZG5SaebPhBuLHGB7uxTbVwd7EVprPRm3UMvDOaxgcqGIxfn5WoCbxdGSZMwDnBQbv8RsjSjFakGKSMJkh/MxzM9aJWxk9yAWKYSr9vWIyvn4L+mmZ2gu1b0Zx7UsfW33w+dxbOnag9OJuFUZycl1864Cjd8n4sw5jHojdC5aX7uWs3vgYCeH89DbTyF
+X-Forefront-Antispam-Report: 	CIP:12.22.5.234;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230016)(4636009)(136003)(396003)(39860400002)(346002)(376002)(36840700001)(46966006)(40470700004)(186003)(36756003)(36860700001)(2906002)(70586007)(478600001)(82740400003)(83380400001)(336012)(82310400005)(40480700001)(426003)(356005)(40460700003)(16526019)(47076005)(316002)(1076003)(2616005)(7416002)(4326008)(107886003)(5660300002)(110136005)(7406005)(8936002)(70206006)(54906003)(41300700001)(26005)(7696005)(81166007)(8676002)(36900700001)(2101003);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2022 07:21:56.1713
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2022 07:22:15.2171
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a633287-4f65-4c54-594e-08da64a05e1c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 616d9819-8203-4a14-e120-08da64a06978
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.234];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: 	CO1NAM11FT011.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: 	CO1NAM11FT036.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1154
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2825
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220713_002210_964748_ABBCB462 
-X-CRM114-Status: GOOD (  13.62  )
+X-CRM114-CacheID: sfid-20220713_002220_896579_E91DB4A5 
+X-CRM114-Status: GOOD (  16.36  )
 X-Mailman-Approved-At: Wed, 13 Jul 2022 00:33:15 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -132,100 +132,108 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add support for handling verify command on target. Call into
-__blkdev_issue_verify, which the block layer expands into the
-REQ_OP_VERIFY LBAs.
+Add a new module parameter, configfs attribute to configure handling of
+the REQ_OP_VERIFY. This is needed for testing newly added REQ_OP_VERIFY
+block layer operation.
 
 Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
 ---
- drivers/nvme/target/admin-cmd.c   |  3 ++-
- drivers/nvme/target/io-cmd-bdev.c | 38 +++++++++++++++++++++++++++++++
- 2 files changed, 40 insertions(+), 1 deletion(-)
+ drivers/block/null_blk/main.c     | 20 +++++++++++++++++++-
+ drivers/block/null_blk/null_blk.h |  1 +
+ 2 files changed, 20 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 397daaf51f1b..495c3a31473a 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -431,7 +431,8 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 	id->nn = cpu_to_le32(NVMET_MAX_NAMESPACES);
- 	id->mnan = cpu_to_le32(NVMET_MAX_NAMESPACES);
- 	id->oncs = cpu_to_le16(NVME_CTRL_ONCS_DSM |
--			NVME_CTRL_ONCS_WRITE_ZEROES);
-+			NVME_CTRL_ONCS_WRITE_ZEROES |
-+			NVME_CTRL_ONCS_VERIFY);
+diff --git a/drivers/block/null_blk/main.c b/drivers/block/null_blk/main.c
+index d44629538cc4..c31cad169595 100644
+--- a/drivers/block/null_blk/main.c
++++ b/drivers/block/null_blk/main.c
+@@ -77,6 +77,10 @@ enum {
+ 	NULL_IRQ_TIMER		= 2,
+ };
  
- 	/* XXX: don't report vwc if the underlying device is write through */
- 	id->vwc = NVME_CTRL_VWC_PRESENT;
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index 27a72504d31c..82c341f90f06 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -146,6 +146,7 @@ u16 blk_to_nvme_status(struct nvmet_req *req, blk_status_t blk_sts)
- 		switch (req->cmd->common.opcode) {
- 		case nvme_cmd_dsm:
- 		case nvme_cmd_write_zeroes:
-+		case nvme_cmd_verify:
- 			status = NVME_SC_ONCS_NOT_SUPPORTED | NVME_SC_DNR;
- 			break;
- 		default:
-@@ -171,6 +172,9 @@ u16 blk_to_nvme_status(struct nvmet_req *req, blk_status_t blk_sts)
- 		req->error_slba =
- 			le64_to_cpu(req->cmd->write_zeroes.slba);
- 		break;
-+	case nvme_cmd_verify:
-+		req->error_slba = le64_to_cpu(req->cmd->verify.slba);
-+		break;
- 	default:
- 		req->error_slba = 0;
- 	}
-@@ -442,6 +446,37 @@ static void nvmet_bdev_execute_write_zeroes(struct nvmet_req *req)
- 	}
++static bool g_verify = true;
++module_param_named(verify, g_verify, bool, 0444);
++MODULE_PARM_DESC(verify, "Allow REQ_OP_VERIFY processing. Default: true");
++
+ static bool g_virt_boundary = false;
+ module_param_named(virt_boundary, g_virt_boundary, bool, 0444);
+ MODULE_PARM_DESC(virt_boundary, "Require a virtual boundary for the device. Default: False");
+@@ -400,6 +404,7 @@ NULLB_DEVICE_ATTR(blocking, bool, NULL);
+ NULLB_DEVICE_ATTR(use_per_node_hctx, bool, NULL);
+ NULLB_DEVICE_ATTR(memory_backed, bool, NULL);
+ NULLB_DEVICE_ATTR(discard, bool, NULL);
++NULLB_DEVICE_ATTR(verify, bool, NULL);
+ NULLB_DEVICE_ATTR(mbps, uint, NULL);
+ NULLB_DEVICE_ATTR(cache_size, ulong, NULL);
+ NULLB_DEVICE_ATTR(zoned, bool, NULL);
+@@ -522,6 +527,7 @@ static struct configfs_attribute *nullb_device_attrs[] = {
+ 	&nullb_device_attr_power,
+ 	&nullb_device_attr_memory_backed,
+ 	&nullb_device_attr_discard,
++	&nullb_device_attr_verify,
+ 	&nullb_device_attr_mbps,
+ 	&nullb_device_attr_cache_size,
+ 	&nullb_device_attr_badblocks,
+@@ -588,7 +594,7 @@ nullb_group_drop_item(struct config_group *group, struct config_item *item)
+ static ssize_t memb_group_features_show(struct config_item *item, char *page)
+ {
+ 	return snprintf(page, PAGE_SIZE,
+-			"memory_backed,discard,bandwidth,cache,badblocks,zoned,zone_size,zone_capacity,zone_nr_conv,zone_max_open,zone_max_active,blocksize,max_sectors,virt_boundary\n");
++			"memory_backed,discard,verify,bandwidth,cache,badblocks,zoned,zone_size,zone_capacity,zone_nr_conv,zone_max_open,zone_max_active,blocksize,max_sectors,virt_boundary\n");
  }
  
-+static void nvmet_bdev_execute_verify(struct nvmet_req *req)
+ CONFIGFS_ATTR_RO(memb_group_, features);
+@@ -651,6 +657,7 @@ static struct nullb_device *null_alloc_dev(void)
+ 	dev->hw_queue_depth = g_hw_queue_depth;
+ 	dev->blocking = g_blocking;
+ 	dev->use_per_node_hctx = g_use_per_node_hctx;
++	dev->verify = g_verify;
+ 	dev->zoned = g_zoned;
+ 	dev->zone_size = g_zone_size;
+ 	dev->zone_capacity = g_zone_capacity;
+@@ -1394,6 +1401,10 @@ blk_status_t null_process_cmd(struct nullb_cmd *cmd,
+ 			return ret;
+ 	}
+ 
++	/* currently implemented as noop */
++	if (op == REQ_OP_VERIFY)
++		return 0;
++
+ 	if (dev->memory_backed)
+ 		return null_handle_memory_backed(cmd, op, sector, nr_sectors);
+ 
+@@ -1769,6 +1780,12 @@ static void null_config_discard(struct nullb *nullb)
+ 	blk_queue_max_discard_sectors(nullb->q, UINT_MAX >> 9);
+ }
+ 
++static void null_config_verify(struct nullb *nullb)
 +{
-+	struct nvme_verify_cmd *verify = &req->cmd->verify;
-+	struct bio *bio = NULL;
-+	sector_t nr_sector;
-+	sector_t sector;
-+	int ret;
-+
-+	if (!nvmet_check_transfer_len(req, 0))
-+		return;
-+
-+	if (!bdev_verify_sectors(req->ns->bdev)) {
-+		nvmet_req_complete(req, NVME_SC_INTERNAL | NVME_SC_DNR);
-+		return;
-+	}
-+
-+	sector = le64_to_cpu(verify->slba) << (req->ns->blksize_shift - 9);
-+	nr_sector = (((sector_t)le16_to_cpu(verify->length) + 1) <<
-+			(req->ns->blksize_shift - 9));
-+
-+	ret = __blkdev_issue_verify(req->ns->bdev, sector, nr_sector,
-+			GFP_KERNEL, &bio);
-+	if (bio) {
-+		bio->bi_private = req;
-+		bio->bi_end_io = nvmet_bio_done;
-+		submit_bio(bio);
-+	} else {
-+		nvmet_req_complete(req, errno_to_nvme_status(req, ret));
-+	}
++	blk_queue_max_verify_sectors(nullb->q,
++				     nullb->dev->verify ? UINT_MAX >> 9 : 0);
 +}
 +
- u16 nvmet_bdev_parse_io_cmd(struct nvmet_req *req)
- {
- 	switch (req->cmd->common.opcode) {
-@@ -460,6 +495,9 @@ u16 nvmet_bdev_parse_io_cmd(struct nvmet_req *req)
- 	case nvme_cmd_write_zeroes:
- 		req->execute = nvmet_bdev_execute_write_zeroes;
- 		return 0;
-+	case nvme_cmd_verify:
-+		req->execute = nvmet_bdev_execute_verify;
-+		return 0;
- 	default:
- 		return nvmet_report_invalid_opcode(req);
- 	}
+ static const struct block_device_operations null_bio_ops = {
+ 	.owner		= THIS_MODULE,
+ 	.submit_bio	= null_submit_bio,
+@@ -2058,6 +2075,7 @@ static int null_add_dev(struct nullb_device *dev)
+ 		blk_queue_virt_boundary(nullb->q, PAGE_SIZE - 1);
+ 
+ 	null_config_discard(nullb);
++	null_config_verify(nullb);
+ 
+ 	if (config_item_name(&dev->item)) {
+ 		/* Use configfs dir name as the device name */
+diff --git a/drivers/block/null_blk/null_blk.h b/drivers/block/null_blk/null_blk.h
+index 8359b43842f2..2a1df1bc8165 100644
+--- a/drivers/block/null_blk/null_blk.h
++++ b/drivers/block/null_blk/null_blk.h
+@@ -111,6 +111,7 @@ struct nullb_device {
+ 	bool power; /* power on/off the device */
+ 	bool memory_backed; /* if data is stored in memory */
+ 	bool discard; /* if support discard */
++	bool verify; /* if support verify */
+ 	bool zoned; /* if device is zoned */
+ 	bool virt_boundary; /* virtual boundary on/off for the device */
+ };
 -- 
 2.29.0
 
