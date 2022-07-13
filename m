@@ -4,140 +4,118 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C144C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jul 2022 07:32:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3524EC43334
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jul 2022 07:33:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QFSSLFE5IUnoar8RlEEiQCqOqzu5aJCTeKAQNEHSEes=; b=xS/IWxHmjs5IuoN8VhFrCOrrwz
-	vePMaZUEbR1TTeq3za70VQKgcJPa+5FUAxvyv8muZ+KxeXsvLH+GXNacQ6sNKKNz/07LWnQY/ZFTT
-	2ZJXrB4pEr4/juYnVhP//4eUmszc15eTOoy/0nMvQnyVb0azP5YmqPeF+YjU45ai7BWED33nNYwmc
-	IcrImZ35Wz5KAmXGwRe4NcrIDkhxxqqmjYdtk/N6+3cm9PERCq1Vfl3dL58k7WvlxGaVoJ9r6Nln5
-	NNK8YOMB3c+0v9R4r5ZlxguehBTvsDDe6K4TO0lxMf+AK+97FN+O5itxa5AO4xt5aPoVWfi80FNn3
-	cSYo3Rkw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=30wO3uwCbH1dNbT1ErY4RtXTihb6khWDZ0CyQZeNbTM=; b=NQO9lKSn7p6T6pkXYW1QeKsL7V
+	LUHrEDO27L3nX1ibBDYk2uEjTaLGoFje3AN51Z2t0gDTSzvxxtevLl9mHM7E3T7FFKke0fq5/mQDq
+	QUP73ghjbHlyXt0km1d/2u5fDQFfg9R+wXyRv97yUxIQU1OjKTB1jpzYGOfo0TCV0EmuDdtyORhIm
+	xKK/YQcXTdBICAJ1szbuotZbs/g1fYxdRYKOoCyQrU+/0m4uT+HPeyAp7bWm7aoTY3M4hgIS4trP8
+	8nXPtIRGogPbw+Sr/KAf7jdJZOMN0fAdSpSAKE3BdOSHuCEGNy2YJW5oV/NbC5DBElZ5bFZyQ2Z2J
+	7LdkihdQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBWqz-001GaN-Ew; Wed, 13 Jul 2022 07:32:13 +0000
-Received: from mail-dm6nam10on2076.outbound.protection.outlook.com ([40.107.93.76] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+	id 1oBWs1-001GoD-4S; Wed, 13 Jul 2022 07:33:17 +0000
+Received: from mail-mw2nam10on2073.outbound.protection.outlook.com ([40.107.94.73] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBWqx-001GZh-Dx
-	for linux-nvme@lists.infradead.org; Wed, 13 Jul 2022 07:32:12 +0000
+	id 1oBWgW-001B0u-CX
+	for linux-nvme@lists.infradead.org; Wed, 13 Jul 2022 07:21:27 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AfwLxmovJ93ZNKfr1Ykp6Kq9VpGeso3MQAU887bEXuYUHEAStIIALQGoe92djMl6IbR7dJu0LaNmYmBXmVEOSm0JQVSIR/4UZ5WNrDSIinC7vwDw8KYQQSLMGq8zYI+J5+d5m+JCtCFGNlFl5RHg7tOFqLGOVdxVKbiBAjJH9fT1UIhmxsgy0sLIMIpsr45L0Lf4khz3sp34HAX1wge/SNJZ+DWn1v0K2DldGws053FnnIhBkMOaSaA1jVCAu3DG8puAcDa3L7/7zPyHPSfFsMTRlpQszU3S2val1ZDQI8oTyhrIWDaifqoI1Q3ch94WpHrl8Ke5vfWtoUj6lNqOVg==
+ b=kJXBMFV7W77J5pKkNcLkgwRtSmYVEy5VwhTFyqQw1MnjDvCuauwXvCxAbV9QhkK9Xhsj1hsoEG4b+jCCkl0r9Hj476nUta9qdvYK4+GGadamKs+EcghHNIDtgg2ZEylHfD1d6PJ8MuViRacWyZji8uiDcBGotBajsZWG0ouplWTXbKAaKeHNGQWs847jpt28DzHtKDl9SG3zGjra+Z+Ga4pMfD3ZGR6UlV63MxXPhLMGo1m+u6dtZodjgTZrdc41HGXK34rgNqrGFl5XJTm1uxBtstuGs19i85HqoOzu2wXdzg0PLQazn0V+5QKXQN4+06yfbFXBwvmfbxSw6ayQRA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QFSSLFE5IUnoar8RlEEiQCqOqzu5aJCTeKAQNEHSEes=;
- b=daiSTFM8DSAlqxvuG1WbmKmrOZX3MKNHF0M+FLb578vzQkvVGUgTTA134ytumXV+2P3c+IuRjNvyI3JT2ezc89KTGiA69eNUvNV5F5a2CL3ghuPnaJoSCsUI37qq3WkeJJkW5iwzlT2CSHILQTKTMn2C9kOIe2eqOVxQbSigJTDQQiAKFS/nfG3jI+oE/T0Y1PyMOhomIZB+G3PUiQFEFnsTq+aBs4kRf0hIDAcKteRgralSXtr5cddEV+9UAl0/ZVhS982kwAO7GFPjS7WWnJN28mLZHbMx9fjxh6f8H8w6obm/uTXcku61c8B67lwwaJ5ZHz54zVd8e8g5OmHN/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
+ bh=30wO3uwCbH1dNbT1ErY4RtXTihb6khWDZ0CyQZeNbTM=;
+ b=gCg+XBumRlQaO3uP/pLG8UBsQPUUJVdsPej+5SPcYCo87Iiu6QCAsLfaRtXk9vwAA7VJOypfzUIdUFs2yap4FAw3UPwfPzbRhonwLR6QX3erwgvh1ym/J+7VouKcwLjBnAo/707IMbvpXwON/teAY+qO5wSa1HtMjNy3EZ8drpy6tg/ha6976mjxieIqFuHfbF1XOYfgwuPDqqBpLjYt77WSAveH98aeS58PnWMawVONN49dVuxhq0DUqUrfC4S0qVeiZbJ+SuMv0O37bPoSO7XJVhc2qT6SzSWZ+eJCtclGnDI7b5L+Zga6H+oqnXkVBQZ2DDeNEpZCUQtz1NkGhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.236) smtp.rcpttodomain=kernel.dk smtp.mailfrom=nvidia.com; dmarc=pass
+ (p=reject sp=reject pct=100) action=none header.from=nvidia.com; dkim=none
+ (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QFSSLFE5IUnoar8RlEEiQCqOqzu5aJCTeKAQNEHSEes=;
- b=uXmcdUpXt0qs0tC/m0MBiejLBCf4LS0V5fFjJFb+E419lxP5QnyvTbHj6BBmKoQt/FXV9sMXIIEO1JDvkeaSRvry6ShLdpHyyDYTImsFJ15qlUytInk4jqMy8bO000Y3IOYvj5NPTk9iR9XSa9s1ydM+UjGcSHtLbthelkUVdK+1ar00OXYmixRrG50ovxvSvUulNFQKeLI1MMSKbFf9d4cWOjGMJUxjdmec384AndJ/rc0DeaOuTQPDNxocoIs+c8738K4n3AIBM8DHdvY+iGCpLmCjbSsbjib+Bp6r6eT6bojLwf644UN4LOo3kcHFiN1Cgh4wxzgQBSe6kidcRA==
-Received: from BL0PR12MB4659.namprd12.prod.outlook.com (2603:10b6:207:1d::33)
- by BL1PR12MB5350.namprd12.prod.outlook.com (2603:10b6:208:31d::23) with
+ bh=30wO3uwCbH1dNbT1ErY4RtXTihb6khWDZ0CyQZeNbTM=;
+ b=Gwp5af7ppBSFjlEOLDpGdbcb2eb8C3HHv6gQevwcoqskFqIqQ4I63a3vbWNH3JNnn+qIsiU2xLruhGAVliTiLU0XUwLP0+Ub6DQFfL80dnkJb5pvx8QKlvCLyAKM46e03DMwpwW+ifM1hjZPcFLXVDrs655p/+jF1EX7Aar7WkeT1T17iicEI2LwYCWQv0mABVcWuLiJdBNkTAfT2IRsKO0uQELU8dPeX5EVhwycuPWAVxyI2BTv7WB2m/U43XaJzvHwG4DAUL60iF4Vks5ULZrnU5f8sYIAJ/aqMNa/9WWMLnWGOSYqwhbhmQTXFV+5uMsnMOLoqum6BX1hKhUcog==
+Received: from MW4PR04CA0298.namprd04.prod.outlook.com (2603:10b6:303:89::33)
+ by BYAPR12MB3493.namprd12.prod.outlook.com (2603:10b6:a03:dd::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.20; Wed, 13 Jul
- 2022 07:32:07 +0000
-Received: from BL0PR12MB4659.namprd12.prod.outlook.com
- ([fe80::3cc0:2098:d2fe:5f56]) by BL0PR12MB4659.namprd12.prod.outlook.com
- ([fe80::3cc0:2098:d2fe:5f56%7]) with mapi id 15.20.5417.026; Wed, 13 Jul 2022
- 07:32:07 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Christoph Hellwig <hch@lst.de>
-CC: "joshi.k@samsung.com" <joshi.k@samsung.com>, "kbusch@kernel.org"
-	<kbusch@kernel.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "sagi@grimberg.me" <sagi@grimberg.me>, Joel
- Granados <j.granados@samsung.com>, "gost.dev@samsung.com"
-	<gost.dev@samsung.com>, "k.jensen@samsung.com" <k.jensen@samsung.com>
-Subject: Re: [PATCH 2/5] nvme: generalize the nvme_multi_css check in
- nvme_scan_ns
-Thread-Topic: [PATCH 2/5] nvme: generalize the nvme_multi_css check in
- nvme_scan_ns
-Thread-Index: AQHYlnxkn3Dmv+QWakGyZK/51OeAd6176FUA
-Date: Wed, 13 Jul 2022 07:32:07 +0000
-Message-ID: <1a96c320-f9ea-cbc1-e61c-fdeb9244e5c7@nvidia.com>
-References: <20220713054914.1888305-1-hch@lst.de>
- <20220713054914.1888305-3-hch@lst.de>
-In-Reply-To: <20220713054914.1888305-3-hch@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f696f866-3c3b-49d9-7b4b-08da64a1ca42
-x-ms-traffictypediagnostic: BL1PR12MB5350:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  h0L8dRzPQafOs7g5ywNhFZp5iqGL/l38SB8w0kVqTFhwgZG4w7//g+YUlgMjDRoyqZ8kwE6I5Rik90BAXBz0ifoqx3v2DdQ2fvUJjgvI63h45xtVspELeDImqaXyM8lSRQ/IsT3InPH/xer6ryB6thuDyuyVIkt82uQMb1T0PoTjzqAw2y/3ta6ZULI1JuXVoI1/bLXsGxpKlfL0Ig4Pyi8OFBfo3o62fjoeZTYISTHjM8slzc1tCbeg5GYJT8piNBGpbdxumb6K/zaV1rd3D4TAoaTbgdNOs7N6FhkQ+LpH6JkllrQVKMbIAt9P3vqgh2EY1iJxRdR8xxCEMhKLoc/yuPEOlnlyf3Cka1CQ8tjg5GFQIG8jGvzDxdwOVEo+QlfLO9ioI0rfCzg3VIa4cCXNoVGHueivolQBPJazr729QGqycW2hOra5jFvngxoqP0i7tY4+gFOIwPBxNU3ZPWnaJZswutW5fsxFKT4o9UTEiHqB0zm7xkQnrII5wfzVhQZ4F3kGScc87HSvAlcFIsilMiaEGFgZBrbxS63ymi2RneME+0ipamNFz0VYwBmVS8qwzuRij5ZZv7M6A0elZfChrddpTYRkHmLraU0XMeIIMfCfrzBWdua03HdZ8yGxHjdKAnwT+FNCbIlU1casqtcXvR4uNrJRI6fTkw/EsUoPuFQQ9nmgxP3xyPGlubzeQhX0hn4DMOCUTQtKV6uJBIwHtE/Wfup3fSM/PXQ2hcmSYTtMKtXxK/VyhbdxvsYH806o/vxjvo7ZRKZX73DKbpu/qwZ1QF5HTM+XQao94w3lDDzAdUeosNC2Us/Bm8Hb05PtZd+vACeh9is9D7ulJzidrzthR0TUJyOuvMbHaHJu0cjVOAq/bwo3e+SvfqGn
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB4659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(346002)(376002)(396003)(136003)(366004)(186003)(122000001)(91956017)(38100700002)(5660300002)(54906003)(76116006)(4326008)(71200400001)(31686004)(6916009)(64756008)(316002)(66946007)(36756003)(6486002)(66446008)(41300700001)(53546011)(6512007)(2906002)(8676002)(86362001)(8936002)(6506007)(478600001)(66476007)(2616005)(38070700005)(31696002)(4744005)(66556008)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?ZE9zSERLeXhINVRWZ0tQMEtvM1lSTnd0b25MRW5wRHVVUWZUVXVHdnBzZmxr?=
- =?utf-8?B?MGNScFNWcDZQNlRhSmQybUpxSWJ3N1k4Wk5oeHg5WE5FZHVMR0c5dFBiLzgz?=
- =?utf-8?B?MmdLeVZUOEd4cDZnMHVsU2NoRGRhMFhsMTFJNithTVFvYVBNbE5zVVltaVoz?=
- =?utf-8?B?TkdldFNOcHNxOHZERytJSjN5YytnazRsUGo1NkgxRnAyNlRqWk4rc3NpU2hB?=
- =?utf-8?B?LzVlTUd0Q0dxMXZaR3VyYmZtQ1Vpa0V4UmxMRkJ6M2dqVnI4U3VvL3FtVDIw?=
- =?utf-8?B?UXBWOTQyc2VrQkRhZ0Z1V0tLdDZiSEMxSWdvUzgxODI5K2pLUENGdjJjN0dz?=
- =?utf-8?B?UVh4c1BGVU9PN1RycGVNOGFhR1VFNVRCY0N1WG5Gc0FjQ0tibkNYTGw4MHBj?=
- =?utf-8?B?andzd3BQaGFmUVVVcFB4OGhQYWRBWEZKcUtnamIzTVp0aS85NVFpMGR4NlZm?=
- =?utf-8?B?a3pCNWlpT2R4bURWUUpKVGs0cldqMk5uYWh5Y1JoTHR1UUtlNzBKdk5qTGtS?=
- =?utf-8?B?R2V1MTJveGxtNjdUZWNCVDBxUkN3aE52SytjY0wvekVVZ3I2Z09vZFQ0Vis5?=
- =?utf-8?B?SHovYWIrTlpSUEQ2WUFIVnQ4N1FGaUtWalhtSmpGRXB5ZVpIUjVkd1lCaGE2?=
- =?utf-8?B?MU1Pdm1TWXFJMGIxMitRaFpJVkxnMDRFdmEzZnl4ODdLazRXRzZWSGEydm5E?=
- =?utf-8?B?Ryt1d2FjeFRKbmR3azlzYUVOQVo5TFFIdFp2RklJdFZKMDRRV3lHNHNMWjQ2?=
- =?utf-8?B?eXFoQW11b2RmbVYrYmI2aXJQTmU0UjJlcFNuZlhGTnczdWJsU1M2MTg2a3RV?=
- =?utf-8?B?M2JXM2p5T01TOFYwZllTVUM1czgxVndBbmx3b01HNFFPWDdUdWEzc2VOWk1J?=
- =?utf-8?B?d3BmMWxqakJHNTR4Y0FjbkdRTHhtMmxKWWxpVHpNRGtSWjMxTXdEcDJGODR3?=
- =?utf-8?B?WUtydWhGL1pNSVhWSnRrVmtzMWtpbnl2TVU5eGkvMGRQRXN5ZFhQNkJXZ3Y0?=
- =?utf-8?B?OVVSdlBpNkxHUGNGSGRQNlp3VGxudE50bFBiVXJ3N1dYVVFPTFBVMi9FZDg4?=
- =?utf-8?B?dUltZTFxSXNCY2JDSGllMG5pNUg0RVQ0RmQybmpYbVRoczA5aG5pTlBUZ1px?=
- =?utf-8?B?eCswQWNTb1NOc0xmcnRvaElXcC96SFV6ZUxsMU5ISzhGZ1FtT2dsVmZBVjJM?=
- =?utf-8?B?RE1QY1Q5NG5JNDh3ZXNSWmFIeXcwUE1ReXBRZGcwL2k5UEtHZkJMdE1KMlBh?=
- =?utf-8?B?Z0JFUXdLbjIreGU5eHoxUmVCRjU3QTd6TVlJRVVrZXVmbGdkaG5YQUZlOElJ?=
- =?utf-8?B?Tk5aWmNlNHBwQy9aTkV5YlBXSGZNa0RQU0M2UURnQkw0YmpscFJTVzNqaS9y?=
- =?utf-8?B?TTBRV3A4M1lMQ3RqakU3VHV1OHhoclQ1YjdqUnhsNU1aQ09VOFkvZG5MWDQr?=
- =?utf-8?B?SWkxMUVyS0dQdXU4MGMzTXd3dFpIMUFwZ0tDNi9VNWtOZnQ3WG5vbVVJVjFJ?=
- =?utf-8?B?dC9lQUlhYU9PY2xnb1dFZ0JYWDIzK2dyWko4S0ZOUytueG5DeTdDQTlrb2tI?=
- =?utf-8?B?RzNkdG9qaFZEdVBYYmtYZm5pY3pKY0xIMjVMU2ZFRUVTbnF3SGltMVQ2T0sx?=
- =?utf-8?B?QjZwZFltZDJ4YkZmOERHeTF4aUNSVlYvelh3NGxnWG1XMkpGVGpxVTRjYVND?=
- =?utf-8?B?aWtjRUtVTmpWMDQwOXVpUTBsWENIeThHMHlOWU92RS92LzBENE94MFBiUDVm?=
- =?utf-8?B?NDBKTC9GSHhoM0hZL1BHRmw0WUxJVWNkNmdIRng3bmw5OEZ2Z1VzRWMrWkd3?=
- =?utf-8?B?dFJZTDZISkJwYmthcnUzUG5QSFdnWWlrRFZXZlpQaXp1UFc3SEh2UXZ2T1V2?=
- =?utf-8?B?NytYalZRMnZMVGhncjYyYklBNDhvVlg2MzZHL1ByS3JUQWZTVTFmZzgzQi9p?=
- =?utf-8?B?N3NaSG55WFhRdXV1N3E2dXd4ZG9Tcnd4aHF5Qjc4T3VNUEgzNjNQWFhhaGRh?=
- =?utf-8?B?TG8rL2orbXFkeldkU0NPNmUxaU5hdmlXdTViTXdhUXNnQlBFTGxFL3dYa1I2?=
- =?utf-8?B?SXJUVDBxcmt4SlcwaFE3STlRSm9RT0g0Sml1SmJLT0lwSVJJYkRPaHNNNDdJ?=
- =?utf-8?B?RVVHOXRIL2tFa2JtTkYyR0IvL2pGSTJET0VOQXZrRDBtcnJOdnViczN2U1BB?=
- =?utf-8?Q?Cu5iuZDaIYFFZ2mvhbAoFWHzabKGRhRkYoilj6u+/tZ6?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <F4A5F6421BF10843907F6C5A7272CB43@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.25; Wed, 13 Jul
+ 2022 07:21:19 +0000
+Received: from CO1NAM11FT025.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:89:cafe::ca) by MW4PR04CA0298.outlook.office365.com
+ (2603:10b6:303:89::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.15 via Frontend
+ Transport; Wed, 13 Jul 2022 07:21:19 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.236)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.236 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.236; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (12.22.5.236) by
+ CO1NAM11FT025.mail.protection.outlook.com (10.13.175.232) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5438.12 via Frontend Transport; Wed, 13 Jul 2022 07:21:19 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL109.nvidia.com
+ (10.27.9.19) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Wed, 13 Jul
+ 2022 07:21:08 +0000
+Received: from dev.nvidia.com (10.126.231.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Wed, 13 Jul
+ 2022 00:21:06 -0700
+From: Chaitanya Kulkarni <kch@nvidia.com>
+To: <linux-block@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+	<linux-nvme@lists.infradead.org>, <linux-xfs@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>
+CC: <axboe@kernel.dk>, <agk@redhat.com>, <song@kernel.org>,
+	<djwong@kernel.org>, <kbusch@kernel.org>, <hch@lst.de>, <sagi@grimberg.me>,
+	<jejb@linux.ibm.com>, <martin.petersen@oracle.com>,
+	<viro@zeniv.linux.org.uk>, <javier@javigon.com>,
+	<johannes.thumshirn@wdc.com>, <bvanassche@acm.org>,
+	<dongli.zhang@oracle.com>, <ming.lei@redhat.com>, <willy@infradead.org>,
+	<jefflexu@linux.alibaba.com>, <josef@toxicpanda.com>, <clm@fb.com>,
+	<dsterba@suse.com>, <jack@suse.com>, <tytso@mit.edu>,
+	<adilger.kernel@dilger.ca>, <jlayton@kernel.org>, <idryomov@gmail.com>,
+	<danil.kipnis@cloud.ionos.com>, <ebiggers@google.com>,
+	<jinpu.wang@cloud.ionos.com>, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH V2 0/6] block: add support for REQ_OP_VERIFY 
+Date: Wed, 13 Jul 2022 00:20:13 -0700
+Message-ID: <20220713072019.5885-1-kch@nvidia.com>
+X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset="y"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.126.231.35]
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3e8c86c0-d7b3-4581-05f3-08da64a04835
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3493:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	8QaLkpPTpOzcZUNAXUnYirdrF8k1lz0lyez1k1t5BzAhxPGHMgF09QWHtyP7yf10wrSBNLFDDnqNuwIeVgSt0jsXx7EH3DrUQOHFLDqw/H7wAAneMWjXyIWSTqPdNR2GLaHNz51SHHmscLQWLW6+MOnGX/iAhN9sp1roYQ93QIKyHTyLdRWAAECBER1NRzziBH3sXm9/4sXaCJjgngGbbLQkQXWwUekUgcTBkFH5AfeugFwHEc5lepjvY4VIPbxpKjDID23ArXplSNJNei0rpRodU0E+eHNPT+OsDxDkdW/TSj88HLDEOPJcaC8O8+/TUN7Z9A97SFCdpkfZyVh6p1zI0U0+4YFMubZV0t+bybIAgMYI3b7sCpnz0tHxGzMOgZqxaklRH8nXcInwB1LwZ4iT6jaa7zBcGFhVElLWihcKd2+DFfsMgoMkuTCGHEiTQ12Hd8nwCNgY287uDPBaVkgXcezJLeFKaF9qniJUpwXol8gNMMJTlJaoDov70IgfCz/PUb3adjXj5RUU3ROboDtsUSKnk9sNIRg4lpYfGFSMEyXYTL6mxwWWA0OUl+AQsJ7je0KRBPzP9nP7dAajOJLQ9GFJeyjcQYfel0q37ZxSHzTa8aUtbp7zzrN3zbu69ijmh/TKGo7vJm8Eh4NqJ42anEFHXPNVyL7juNOIdl+A1ylTpdjzOeBA0+YjGKPTtn4+A8Oc1fugyxb831bbMr7Y0UkyFtiogaRSL6HeFC+jHu3z4tTpG8B1vgcYgprU93TJ3llSz8z1zmQlbJls4G+CqmJYpyRQ7mWOG5RNowlZWeHdc1rT7qM7rL1EHhDtj98C5KsOdnVGd8yYjKLqieNwfDROP/kCzcGfVdCL1gKb/7gjZJVPj701kJ3rXGKMM2M7FhKfH4VL3CtN1eW255VsK7P9KUbt8GB3sh8HlnglOCjYVEGVi+tmC7LT4FBd
+X-Forefront-Antispam-Report: 	CIP:12.22.5.236;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230016)(4636009)(396003)(376002)(136003)(346002)(39860400002)(46966006)(36840700001)(40470700004)(40460700003)(7406005)(5660300002)(316002)(30864003)(40480700001)(36860700001)(83380400001)(81166007)(36756003)(7416002)(8936002)(186003)(8676002)(47076005)(4743002)(336012)(4326008)(356005)(70586007)(16526019)(1076003)(70206006)(7696005)(6666004)(82740400003)(54906003)(426003)(2616005)(82310400005)(107886003)(26005)(110136005)(478600001)(966005)(41300700001)(2906002)(36900700001)(2101003);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f696f866-3c3b-49d9-7b4b-08da64a1ca42
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jul 2022 07:32:07.1900
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2022 07:21:19.3919
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rvoSOe/zSEX+zQf7FiCTCPOFTZf6Og/EjNXE6y8H459pPX9mDbRBuMaiANDz+Lh0Ifb4FsM1Ug/Z59mGXGZm9A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5350
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3e8c86c0-d7b3-4581-05f3-08da64a04835
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.236];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: 	CO1NAM11FT025.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3493
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220713_003211_492771_7F67B21C 
-X-CRM114-Status: GOOD (  10.61  )
+X-CRM114-CacheID: sfid-20220713_002124_512422_4E2C3CA0 
+X-CRM114-Status: GOOD (  18.92  )
+X-Mailman-Approved-At: Wed, 13 Jul 2022 00:33:15 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -152,11 +130,526 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gNy8xMi8yMiAyMjo0OSwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6DQo+IENoZWNrIGZvciBt
-dWx0aXBsZSBjb21tYW5kIHNldCBzdXBwb3J0IGVhcmx5IG9uIGFuIGVycm9yIG91dCBpZiBpcw0K
-PiBub3Qgc3VwcG9ydGVkIHdoZW4gYSAhTlZNIGNvbW1hbmQgc2V0IG5hbWVzcGFjZSBpcyBmb3Vu
-ZC4gIFRoaXMNCj4gcHJlcGFyZXMgZm9yIGFkZGluZyBjb21tYW5kIHNldCBpbmRlcGVuZGVudCBw
-YXNzdGhyb3VnaCBzdXBwb3J0Lg0KPiANCj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0b3BoIEhlbGx3
-aWcgPGhjaEBsc3QuZGU+DQo+IC0tLQ0KDQpMb29rcyBnb29kLg0KDQpSZXZpZXdlZC1ieTogQ2hh
-aXRhbnlhIEt1bGthcm5pIDxrY2hAbnZpZGlhLmNvbT4NCg0KLWNrDQoNCg0K
+Hi,
+
+One of the responsibilities of the Operating System, along with managing
+resources, is to provide a unified interface to the user by creating
+hardware abstractions. In the Linux Kernel storage stack that
+abstraction is created by implementing the generic request operations
+such as REQ_OP_READ/REQ_OP_WRITE or REQ_OP_DISCARD/REQ_OP_WRITE_ZEROES,
+etc that are mapped to the specific low-level hardware protocol commands 
+e.g. SCSI or NVMe.
+
+With that in mind, this patch-series implements a new block layer
+operation to offload the data verification on to the controller if
+supported or emulate the operation if not. The main advantage is to free
+up the CPU and reduce the host link traffic since, for some devices,
+their internal bandwidth is higher than the host link and offloading this
+operation can improve the performance of the proactive error detection
+applications such as file system level scrubbing. 
+
+* Background *
+-----------------------------------------------------------------------
+
+NVMe Specification provides a controller level Verify command [1] which
+is similar to the ATA Verify [2] command where the controller is
+responsible for data verification without transferring the data to the
+host. (Offloading LBAs verification). This is designed to proactively
+discover any data corruption issues when the device is free so that
+applications can protect sensitive data and take corrective action
+instead of waiting for failure to occur.
+
+The NVMe Verify command is added in order to provide low level media
+scrubbing and possibly moving the data to the right place in case it has
+correctable media degradation. Also, this provides a way to enhance
+file-system level scrubbing/checksum verification and optinally offload
+this task, which is CPU intensive, to the kernel (when emulated), over
+the fabric, and to the controller (when supported).   
+
+This is useful when the controller's internal bandwidth is higher than
+the host's bandwith showing a sharp increase in the performance due to
+_no host traffic or host CPU involvement_.
+
+* Implementation *
+-----------------------------------------------------------------------
+
+Right now there is no generic interface which can be used by the
+in-kernel components such as file-system or userspace application
+(except passthru commands or some combination of write/read/compare) to 
+issue verify command with the central block layer API. This can lead to
+each userspace applications having protocol specific IOCTL which
+defeates the purpose of having the OS provide a H/W abstraction.
+
+This patch series introduces a new block layer payloadless request
+operation REQ_OP_VERIFY that allows in-kernel components & userspace
+applications to verify the range of the LBAs by offloading checksum
+scrubbing/verification to the controller that is directly attached to
+the host. For direct attached devices this leads to decrease in the host
+DMA traffic and CPU usage and for the fabrics attached device over the
+network that leads to a decrease in the network traffic and CPU usage
+for both host & target.
+
+* Scope *
+-----------------------------------------------------------------------
+
+Please note this only covers the operating system level overhead.
+Analyzing controller verify command performance for common protocols
+(SCSI/NVMe) is out of scope for REQ_OP_VERIFY.
+
+* Micro Benchmarks *
+-----------------------------------------------------------------------
+
+When verifing 500GB of data on NVMeOF with nvme-loop and null_blk as a
+target backend block device results show almost a 80% performance
+increase :-
+
+With Verify resulting in REQ_OP_VERIFY to null_blk :-
+
+real	2m3.773s
+user	0m0.000s
+sys	0m59.553s
+
+With Emulation resulting in REQ_OP_READ null_blk :-
+
+real	12m18.964s
+user	0m0.002s
+sys	1m15.666s
+
+Any comments are welcome.
+
+Below is the summary of testlog :-
+
+1. blkverify command on nvme-pcie :-
+------------------------------------
+[   22.802798] nvme nvme0: pci function 0000:00:04.0
+[   22.846145] nvme nvme0: 48/0/0 default/read/poll queues
+[   22.857822] blkdev_issue_verify 490
+*[   22.857827] __blkdev_issue_verify 419*
+*[   22.857828] __blkdev_issue_verify 452*
+*[   22.857911] __blkdev_issue_verify 466*
+[   22.857922] nvme_setup_verify 844
+[   22.858287] blkdev_issue_verify 502
+modprobe: FATAL: Module nvme is in use.
+
+2. blkverify command on null_blk verify=0 :-
+--------------------------------------------
+Observed the emulation from block layer :-
+
+[   24.696254] blkdev_issue_verify 490
+[   24.696259] __blkdev_issue_verify 419
+[   24.696263] __blkdev_issue_verify 429
+*[   24.696264] __blkdev_emulate_verify 366*
+*[   24.696265] __blkdev_emulate_verify 368*
+[   24.696334] blkdev_issue_verify 502
+
+3. blkverify command on null_blk verify=0 :-
+--------------------------------------------
+Observed the REQ_OP_VERIFY from block layer :-
+[   26.396652] blkdev_issue_verify 490
+*[   26.396659] __blkdev_issue_verify 419*
+*[   26.396662] __blkdev_issue_verify 452*
+*[   26.396669] __blkdev_issue_verify 466*
+[   26.396702] null_blk: null_process_cmd 1406 kworker/0:1H
+[   26.396740] blkdev_issue_verify 502
+
+4. blkverify command on NVMeOF block device backend null_blk verify=0 :-
+Observed REQ_OP_VERIFY on host side as target support NVMe verify.
+Observed the emulation from block layer on target :-
+[   31.520548] blkdev_issue_verify 490
+*[   31.520553] __blkdev_issue_verify 419*
+*[   31.520554] __blkdev_issue_verify 452*
+*[   31.520885] __blkdev_issue_verify 466*
+[   31.520976] nvme_setup_verify 844
+[   31.520982] nvmet: nvmet_bdev_submit_emulate_verify 469
+[   31.520984] blkdev_issue_verify 490
+[   31.520985] __blkdev_issue_verify 419
+[   31.520989] __blkdev_issue_verify 429
+*[   31.520990] __blkdev_emulate_verify 36*
+*[   31.520990] __blkdev_emulate_verify 368*
+*[   31.521088] blkdev_issue_verify 502*
+*[   31.521097] blkdev_issue_verify 502*
+[   31.534798] nvme nvme1: Removing ctrl: NQN "testnqn"
+
+3. blkverify command on NVMeOF block device backend null_blk verify=1 :-
+Observed the REQ_OP_VERIFY from host and target block layer :-
+[   54.399880] blkdev_issue_verify 490
+[   54.399885] __blkdev_issue_verify 419
+[   54.399887] __blkdev_issue_verify 452
+[   54.399962] __blkdev_issue_verify 466
+[   54.400038] nvme_setup_verify 844
+[   54.400044] nvmet: nvmet_bdev_execute_verify 497
+*[   54.400045] __blkdev_issue_verify 419*
+*[   54.400046] __blkdev_issue_verify 452*
+*[   54.400048] __blkdev_issue_verify 466*
+[   54.400053] null_blk: null_process_cmd 1406 kworker/20:1
+[   54.400062] blkdev_issue_verify 502
+[   54.405139] nvme nvme1: Removing ctrl: NQN "testnqn"
+
+6. blkverify command on scsi debug drive :-
+Observed REQ_OP_VERIFY mapped onto SCSI Verify (16) :-
+[   61.727782] sd 2:0:0:0: Attached scsi generic sg3 type 0
+[   61.727853] sd 2:0:0:0: Power-on or device reset occurred
+[   61.729965] sd 2:0:0:0: [sdc] 8388608 512-byte logical blocks: (4.29 GB/4.00 GiB)
+[   61.730992] sd 2:0:0:0: [sdc] Write Protect is off
+[   61.730996] sd 2:0:0:0: [sdc] Mode Sense: 73 00 10 08
+[   61.733141] sd 2:0:0:0: [sdc] Write cache: enabled, read cache: enabled, supports DPO and FUA
+[   61.737303] sd 2:0:0:0: [sdc] VERIFY16 supported
+[   61.737307] sd 2:0:0:0: [sdc] Preferred minimum I/O size 512 bytes
+[   61.737309] sd 2:0:0:0: [sdc] Optimal transfer size 524288 bytes
+[   61.755811] sd 2:0:0:0: [sdc] VERIFY16 supported
+[   61.757983] sd 2:0:0:0: [sdc] Attached SCSI disk
+[   61.759689] blkdev_issue_verify 490
+*[   61.759693] __blkdev_issue_verify 419*
+*[   61.759695] __blkdev_issue_verify 452*
+*[   61.759770] __blkdev_issue_verify 466*
+[   61.759784] sd_setup_verify_cmnd 1101
+[   61.759785] sd_setup_verify16_cmnd 1063
+[   61.760800] blkdev_issue_verify 502
+
+-ck
+
+Changes from V1:-
+
+1. Don't use kzalloc for buffer allocation. (Darrik)
+2. Use NVMe controllers VSL (Verify Size Limit) to set the verify max
+   sectors limit for the block layer queue. (Keith, Christoph)
+3. Remove the word "we" from commit messages and point to the right
+   kernel subsystem. (Christoph).
+4. Add complete original cover-letter.
+5. Add SCSI REQ_OP_VERIFY patch with Damien's comments addressed.
+6. Remove the patch for the NVMeOF file-ns.
+
+References:-
+
+[1] NVMe Verify :-
+
+For pro-actively avoiding unrecoverable read errors, NVMe 1.4 adds
+Verify and Get LBA Status commands. The Verify command is simple: it
+does everything a normal read command does, except for returning the
+data to the host system. If a read command would return an error, a
+verify command will return the same error. If a read command would be
+successful, a verify command will be as well. This makes it possible to
+do a low-level scrub of the stored data without being bottlenecked by
+the host interface bandwidth. Some SSDs will react to a fixable ECC
+error by moving or re-writing degraded data, and a verify command
+should trigger the same behavior. Overall, this should reduce the need
+for filesystem-level checksum scrubbing/verification. Each Verify
+command is tagged with a bit indicating whether the SSD should fail
+fast or try hard to recover data, similar to but overriding the above
+Read Recovery Level setting.
+
+[2]
+
+http://t13.org/Documents/UploadedDocuments/docs2017/di529...
+
+Chaitanya Kulkarni (6):
+  block: add support for REQ_OP_VERIFY
+  nvme: add support for the Verify command
+  nvmet: add Verify command support for bdev-ns
+  nvmet: add Verify emulation support for bdev-ns
+  null_blk: add REQ_OP_VERIFY support
+  scsi: sd: add support for REQ_OP_VERIFY
+
+ Documentation/ABI/stable/sysfs-block |  12 +++
+ block/blk-core.c                     |   5 +
+ block/blk-lib.c                      | 155 +++++++++++++++++++++++++++
+ block/blk-merge.c                    |  18 ++++
+ block/blk-settings.c                 |  17 +++
+ block/blk-sysfs.c                    |   8 ++
+ block/blk.h                          |   7 ++
+ block/ioctl.c                        |  35 ++++++
+ drivers/block/null_blk/main.c        |  20 +++-
+ drivers/block/null_blk/null_blk.h    |   1 +
+ drivers/nvme/host/core.c             |  31 ++++++
+ drivers/nvme/host/nvme.h             |   1 +
+ drivers/nvme/target/admin-cmd.c      |   3 +-
+ drivers/nvme/target/io-cmd-bdev.c    |  66 ++++++++++++
+ drivers/scsi/sd.c                    | 124 +++++++++++++++++++++
+ drivers/scsi/sd.h                    |   5 +
+ include/linux/bio.h                  |   9 +-
+ include/linux/blk_types.h            |   2 +
+ include/linux/blkdev.h               |  19 ++++
+ include/linux/nvme.h                 |  19 ++++
+ include/uapi/linux/fs.h              |   1 +
+ 21 files changed, 553 insertions(+), 5 deletions(-)
+
+linux-block (for-next) # 
+linux-block (for-next) # sh verify-test.sh 
+nvme-pcie
+[   22.802798] nvme nvme0: pci function 0000:00:04.0
+[   22.846145] nvme nvme0: 48/0/0 default/read/poll queues
+[   22.849666] nvme nvme0: Ignoring bogus Namespace Identifiers
+[   22.857822] blkdev_issue_verify 490
+[   22.857827] __blkdev_issue_verify 419
+[   22.857828] __blkdev_issue_verify 452
+[   22.857911] __blkdev_issue_verify 466
+[   22.857922] nvme_setup_verify 844
+[   22.858287] blkdev_issue_verify 502
+modprobe: FATAL: Module nvme is in use.
+
+null_blk verify=0
+[   24.696254] blkdev_issue_verify 490
+[   24.696259] __blkdev_issue_verify 419
+[   24.696263] __blkdev_issue_verify 429
+[   24.696264] __blkdev_emulate_verify 366
+[   24.696265] __blkdev_emulate_verify 368
+[   24.696334] blkdev_issue_verify 502
+
+null_blk verify=1
+[   26.396652] blkdev_issue_verify 490
+[   26.396659] __blkdev_issue_verify 419
+[   26.396662] __blkdev_issue_verify 452
+[   26.396669] __blkdev_issue_verify 466
+[   26.396702] null_blk: null_process_cmd 1406 kworker/0:1H
+[   26.396740] blkdev_issue_verify 502
+
+bdev-ns null_blk verify=0
+++ FILE=/dev/nvme0n1
+++ NN=1
+++ NQN=testnqn
+++ let NR_DEVICES=NN+1
+++ modprobe -r null_blk
+++ modprobe null_blk nr_devices=0 verify=0
+++ modprobe nvme
+++ modprobe nvme-fabrics
+++ modprobe nvmet
+++ modprobe nvme-loop
+++ dmesg -c
+++ sleep 2
+++ tree /sys/kernel/config
+/sys/kernel/config
+├── nullb
+│   └── features
+└── nvmet
+    ├── hosts
+    ├── ports
+    └── subsystems
+
+5 directories, 1 file
+++ mkdir /sys/kernel/config/nvmet/subsystems/testnqn
+++ mkdir /sys/kernel/config/nvmet/ports/1/
+++ echo -n loop
+++ echo -n 1
+++ ln -s /sys/kernel/config/nvmet/subsystems/testnqn /sys/kernel/config/nvmet/ports/1/subsystems/
+++ sleep 1
+++ echo transport=loop,nqn=testnqn
++++ shuf -i 1-1 -n 1
+++ for i in `shuf -i  1-$NN -n $NN`
+++ mkdir config/nullb/nullb1
+++ echo 4096
+++ echo 512000
+++ echo 1
++++ cat config/nullb/nullb1/index
+++ IDX=0
+++ mkdir /sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1
+++ let IDX=IDX+1
+++ echo ' ####### /dev/nullb1'
+ ####### /dev/nullb1
+++ echo -n /dev/nullb1
+++ cat /sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1/device_path
+/dev/nullb1
+++ echo 1
+++ dmesg -c
+[   30.489780] nvmet: creating nvm controller 1 for subsystem testnqn for NQN nqn.2014-08.org.nvmexpress:uuid:2ee37606-f9d7-4925-8a61-784320913d7b.
+[   30.489918] nvme nvme1: creating 48 I/O queues.
+[   30.495425] nvme nvme1: new ctrl: "testnqn"
+[   30.500883] null_blk: disk nullb1 created
+[   30.503497] nvmet: adding nsid 1 to subsystem testnqn
+[   30.505313] nvme nvme1: rescanning namespaces.
+++ sleep 1
+++ mount
+++ column -t
+++ grep nvme
+++ '[' 1 ']'
++++ wc -l
++++ ls -l /dev/nvme1 /dev/nvme1n1
+++ cnt=2
+++ echo 2
+2
+++ '[' 2 -gt 1 ']'
+++ break
+++ dmesg -c
++ nvme disconnect -n testnqn
+NQN:testnqn disconnected 1 controller(s)
+
+real	0m0.362s
+user	0m0.000s
+sys	0m0.009s
+++ shuf -i 1-1 -n 1
++ for i in `shuf -i  1-$NN -n $NN`
++ echo 0
++ rmdir /sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1
++ rmdir config/nullb/nullb1
++ sleep 2
++ rm -fr /sys/kernel/config/nvmet/ports/1/subsystems/testnqn
++ sleep 1
++ rmdir /sys/kernel/config/nvmet/ports/1
++ rmdir /sys/kernel/config/nvmet/subsystems/testnqn
++ sleep 1
++ modprobe -r nvme_loop
++ modprobe -r nvme_fabrics
++ modprobe -r nvmet
++ modprobe -r nvme
++ umount /mnt/nvme0n1
+umount: /mnt/nvme0n1: no mount point specified.
++ umount /mnt/backend
+umount: /mnt/backend: not mounted.
++ modprobe -r null_blk
++ tree /sys/kernel/config
+/sys/kernel/config
+
+0 directories, 0 files
+[   31.520548] blkdev_issue_verify 490
+[   31.520553] __blkdev_issue_verify 419
+[   31.520554] __blkdev_issue_verify 452
+[   31.520885] __blkdev_issue_verify 466
+[   31.520976] nvme_setup_verify 844
+[   31.520982] nvmet: nvmet_bdev_submit_emulate_verify 469
+[   31.520984] blkdev_issue_verify 490
+[   31.520985] __blkdev_issue_verify 419
+[   31.520989] __blkdev_issue_verify 429
+[   31.520990] __blkdev_emulate_verify 366
+[   31.520990] __blkdev_emulate_verify 368
+[   31.521088] blkdev_issue_verify 502
+[   31.521097] blkdev_issue_verify 502
+[   31.534798] nvme nvme1: Removing ctrl: NQN "testnqn"
+
+bdev-ns null_blk verify=1
+++ FILE=/dev/nvme0n1
+++ NN=1
+++ NQN=testnqn
+++ let NR_DEVICES=NN+1
+++ modprobe -r null_blk
+++ modprobe null_blk nr_devices=0 verify=1
+++ modprobe nvme
+++ modprobe nvme-fabrics
+++ modprobe nvmet
+++ modprobe nvme-loop
+++ dmesg -c
+++ sleep 2
+++ tree /sys/kernel/config
+/sys/kernel/config
+├── nullb
+│   └── features
+└── nvmet
+    ├── hosts
+    ├── ports
+    └── subsystems
+
+5 directories, 1 file
+++ mkdir /sys/kernel/config/nvmet/subsystems/testnqn
+++ mkdir /sys/kernel/config/nvmet/ports/1/
+++ echo -n loop
+++ echo -n 1
+++ ln -s /sys/kernel/config/nvmet/subsystems/testnqn /sys/kernel/config/nvmet/ports/1/subsystems/
+++ sleep 1
+++ echo transport=loop,nqn=testnqn
++++ shuf -i 1-1 -n 1
+++ for i in `shuf -i  1-$NN -n $NN`
+++ mkdir config/nullb/nullb1
+++ echo 4096
+++ echo 512000
+++ echo 1
++++ cat config/nullb/nullb1/index
+++ IDX=0
+++ mkdir /sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1
+++ let IDX=IDX+1
+++ echo ' ####### /dev/nullb1'
+ ####### /dev/nullb1
+++ echo -n /dev/nullb1
+++ cat /sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1/device_path
+/dev/nullb1
+++ echo 1
+++ dmesg -c
+[   53.372782] nvmet: creating nvm controller 1 for subsystem testnqn for NQN nqn.2014-08.org.nvmexpress:uuid:0c78049e-e88f-4f9f-a8ff-bf6287235660.
+[   53.373088] nvme nvme1: creating 48 I/O queues.
+[   53.377729] nvme nvme1: new ctrl: "testnqn"
+[   53.382877] null_blk: disk nullb1 created
+[   53.385343] nvmet: adding nsid 1 to subsystem testnqn
+[   53.387320] nvme nvme1: rescanning namespaces.
+++ sleep 1
+++ mount
+++ column -t
+++ grep nvme
+++ '[' 1 ']'
++++ wc -l
++++ ls -l /dev/nvme1 /dev/nvme1n1
+++ cnt=2
+++ echo 2
+2
+++ '[' 2 -gt 1 ']'
+++ break
+++ dmesg -c
++ nvme disconnect -n testnqn
+NQN:testnqn disconnected 1 controller(s)
+
+real	0m0.364s
+user	0m0.000s
+sys	0m0.007s
+++ shuf -i 1-1 -n 1
++ for i in `shuf -i  1-$NN -n $NN`
++ echo 0
++ rmdir /sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1
++ rmdir config/nullb/nullb1
++ sleep 2
++ rm -fr /sys/kernel/config/nvmet/ports/1/subsystems/testnqn
++ sleep 1
++ rmdir /sys/kernel/config/nvmet/ports/1
++ rmdir /sys/kernel/config/nvmet/subsystems/testnqn
++ sleep 1
++ modprobe -r nvme_loop
++ modprobe -r nvme_fabrics
++ modprobe -r nvmet
++ modprobe -r nvme
++ umount /mnt/nvme0n1
+umount: /mnt/nvme0n1: no mount point specified.
++ umount /mnt/backend
+umount: /mnt/backend: not mounted.
++ modprobe -r null_blk
++ tree /sys/kernel/config
+/sys/kernel/config
+
+0 directories, 0 files
+[   54.399880] blkdev_issue_verify 490
+[   54.399885] __blkdev_issue_verify 419
+[   54.399887] __blkdev_issue_verify 452
+[   54.399962] __blkdev_issue_verify 466
+[   54.400038] nvme_setup_verify 844
+[   54.400044] nvmet: nvmet_bdev_execute_verify 497
+[   54.400045] __blkdev_issue_verify 419
+[   54.400046] __blkdev_issue_verify 452
+[   54.400048] __blkdev_issue_verify 466
+[   54.400053] null_blk: null_process_cmd 1406 kworker/20:1
+[   54.400062] blkdev_issue_verify 502
+[   54.405139] nvme nvme1: Removing ctrl: NQN "testnqn"
+
+scsi debug
+modprobe: FATAL: Module scsi_debug is in use.
+[   61.392949] scsi_debug: module verification failed: signature and/or required key missing - tainting kernel
+[   61.727201] scsi_debug:sdebug_driver_probe: scsi_debug: trim poll_queues to 0. poll_q/nr_hw = (0/1)
+[   61.727208] scsi host2: scsi_debug: version 0191 [20210520]
+                 dev_size_mb=4096, opts=0x0, submit_queues=1, statistics=0
+[   61.727369] scsi 2:0:0:0: Direct-Access     Linux    scsi_debug       0191 PQ: 0 ANSI: 7
+[   61.727782] sd 2:0:0:0: Attached scsi generic sg3 type 0
+[   61.727853] sd 2:0:0:0: Power-on or device reset occurred
+[   61.729965] sd 2:0:0:0: [sdc] 8388608 512-byte logical blocks: (4.29 GB/4.00 GiB)
+[   61.730992] sd 2:0:0:0: [sdc] Write Protect is off
+[   61.730996] sd 2:0:0:0: [sdc] Mode Sense: 73 00 10 08
+[   61.733141] sd 2:0:0:0: [sdc] Write cache: enabled, read cache: enabled, supports DPO and FUA
+[   61.737303] sd 2:0:0:0: [sdc] VERIFY16 supported
+[   61.737307] sd 2:0:0:0: [sdc] Preferred minimum I/O size 512 bytes
+[   61.737309] sd 2:0:0:0: [sdc] Optimal transfer size 524288 bytes
+[   61.755811] sd 2:0:0:0: [sdc] VERIFY16 supported
+[   61.757983] sd 2:0:0:0: [sdc] Attached SCSI disk
+[   61.759689] blkdev_issue_verify 490
+[   61.759693] __blkdev_issue_verify 419
+[   61.759695] __blkdev_issue_verify 452
+[   61.759770] __blkdev_issue_verify 466
+[   61.759784] sd_setup_verify_cmnd 1101
+[   61.759785] sd_setup_verify16_cmnd 1063
+[   61.760800] blkdev_issue_verify 502
+
+-- 
+2.29.0
+
 
