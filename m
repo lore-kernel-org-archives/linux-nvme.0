@@ -4,70 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A74FC433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 13:55:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64BC8C43334
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 14:07:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KhtmeoLhSVw8TxG3EM8WGDxXWprw20ODCHZnU0rs1oc=; b=0c+QyGPMO20J/ZbLwZcSS/2atW
-	/8w1ijulo/gRvLUa0CMfLyTUZuWREEXu/ND+XxuOzYce68Int4cCtX2V4LeKLuvTCZzX1vv6a18tt
-	vp277GK/HJQb8yCAcrdVFNE993cAOL7dpUbVZH4LTDw1+TZi7XN2I7yAm3TmUeESJWWZbXuNn/b33
-	6J2VYCouYbT9dRmLxuGwK871y691nQo1osEic2zK5tfJBhOSLNXiVQPlCaSnzse9aKLHc157aJKWb
-	IaaeICbVxQL4jFWmfWn0QPV4+wRz2rd4lcf/UAkSL7jyWPZgfHRb5/8+Czw9bh8yqqptzf2TGlzFk
-	g4jff5Bg==;
+	bh=0Zc/j1kzg45ZO6xFQhvgxG/Y13VKxiwjDNgb2fmfG14=; b=rQdZ5YBhyIOg7lUEjdhOdjixJf
+	OGr0qYWbFK//6X6DrEk/tgiHwCwwc87JdbYCFRFCiOsoNY5aW/s1+ksxZsI3i5tEo9FxWPQqnYPej
+	FvIzLg+bq0psr87ltP/ITL/9pMFhvL3O/mXnX7KWuBndxVuvoXVirzCaYVvB3Sy/TLVhHrQqQeLc/
+	7Ct8qD3gwJzIJSgI01N45y6XVmejuNBOGjjl6gqjGLvz6o2kmmN+O6FLdxWSGKMS34biSg31g0/xi
+	dfZk05CwlMms0R/Ytn8Jn3am/b0BfPHiQiL3jKILbygZ/AJmgn/4AhUR10EOkvtN4c76pLo0Rc+lQ
+	Xl1fIhBQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBzJa-00ExE2-Pv; Thu, 14 Jul 2022 13:55:38 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1oBzUx-00F14i-8B; Thu, 14 Jul 2022 14:07:23 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBzJX-00ExAr-Pc
-	for linux-nvme@lists.infradead.org; Thu, 14 Jul 2022 13:55:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1657806934;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KhtmeoLhSVw8TxG3EM8WGDxXWprw20ODCHZnU0rs1oc=;
-	b=gL+KacSeljxCh4scBAzvbkf4J3Kkqg8Y6f34MFNVUzyvGJXi14KqofdP3iFNJSvTBxaEmt
-	8VJXR0/+CIWIZmvj05jNG5pOpIyvUAC++sgoyKCyipyCwzwDLa/1vrliYTj/38+ptPGQEx
-	qy33lIkpU19/svELuVTTxbpIh8WldBA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-267-JLYhTxIqP1mO5l_seL57XQ-1; Thu, 14 Jul 2022 09:55:32 -0400
-X-MC-Unique: JLYhTxIqP1mO5l_seL57XQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	id 1oBzUu-00F12E-Je
+	for linux-nvme@lists.infradead.org; Thu, 14 Jul 2022 14:07:21 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 96B5A80418F;
-	Thu, 14 Jul 2022 13:55:30 +0000 (UTC)
-Received: from T590 (ovpn-8-16.pek2.redhat.com [10.72.8.16])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1618A2026D64;
-	Thu, 14 Jul 2022 13:55:22 +0000 (UTC)
-Date: Thu, 14 Jul 2022 21:55:17 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: hch@lst.de, sagi@grimberg.me, kbusch@kernel.org, axboe@kernel.dk,
-	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, asml.silence@gmail.com,
-	joshiiitr@gmail.com, anuj20.g@samsung.com, gost.dev@samsung.com,
-	ming.lei@redhat.com
-Subject: Re: [PATCH for-next 1/4] io_uring, nvme: rename a function
-Message-ID: <YtAgReh6PnevFwzX@T590>
-References: <20220711110155.649153-1-joshi.k@samsung.com>
- <CGME20220711110800epcas5p3d338dd486fd778c5ba5bfe93a91ec8bd@epcas5p3.samsung.com>
- <20220711110155.649153-2-joshi.k@samsung.com>
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 8AFFE62103;
+	Thu, 14 Jul 2022 14:07:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE06AC34114;
+	Thu, 14 Jul 2022 14:07:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1657807639;
+	bh=ZfA51XV5AmWz21qR7tT+06ucaJi1XGmqshmw1OJsTTo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=M7/3shNv6XFt8AS67w4IXje18HECdLs/zOuZsfbbKynTehZU8jWsqfzX2WJ+NY0SZ
+	 zcaDYdyOArQg3TfiaWLBk97KV/CNAcJTolmlWTMhYrCXAZwWTjGi0tWKlGfRbQ5/fz
+	 6pbyYR7RzxS25SC9b+ygof/ByhlbtuxSsEz+w2zx1QJkNwW6URcuSl8yehBUVPyeQ+
+	 nCXm+ghAYxZPYWTzsJIEeraRCVYm+eGCBRw2J6SetzVhfs9UmyaIpVHwpOIEp84JKS
+	 4o6QJSt5x2F1XAJZRnj3lBbTTvEkJVPhRieA1M1KUeMAcjeO6xypAwls6n87i6Iz9W
+	 t1PmUl7wCulRQ==
+Date: Thu, 14 Jul 2022 08:07:15 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Klaus Jensen <its@irrelevant.dk>
+Cc: linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: shadow doorbell on admin queue
+Message-ID: <YtAjEzTmdrmaY9hw@kbusch-mbp.dhcp.thefacebook.com>
+References: <Ys/Y8N0y1lpMwyZH@apples>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220711110155.649153-2-joshi.k@samsung.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+In-Reply-To: <Ys/Y8N0y1lpMwyZH@apples>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220714_065535_950368_8F7ACD5F 
-X-CRM114-Status: GOOD (  11.20  )
+X-CRM114-CacheID: sfid-20220714_070720_724123_0C3CE29E 
+X-CRM114-Status: GOOD (  21.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,19 +71,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 11, 2022 at 04:31:52PM +0530, Kanchan Joshi wrote:
-> io_uring_cmd_complete_in_task() is bit of a misnomer. It schedules a
-> callback function for execution in task context. What callback does is
-> private to provider, and does not have to be completion. So rename it to
-> io_uring_cmd_execute_in_task() to allow more generic use.
+On Thu, Jul 14, 2022 at 10:50:56AM +0200, Klaus Jensen wrote:
+> Hi,
 > 
-> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+> Jinhao, our QEMU GSoC intern is working on nvme performance improvements
+> and while implementing shadow doorbells an interesting issue came up.
+> 
+> The spec states that when enabling shadow doorbells, it is for all
+> queues (including the admin queue). However, the kernel will currently
+> not update the shadow doorbell for the admin queue, which causes trouble
+> if the device expects it to.
+> 
+> The kernel is not the only driver doing this - SPDK doesn't update it
+> either[1]. At least one virtual target implementing shadow doorbells
+> (SPDK's vfio-user target) jumped on the band-wagon and simply expects
+> the driver to not update it. In QEMU, Keith came up with a hack to
+> update the shadow doorbell from the device side, allowing both compliant
+> and non-compliant drivers to work. Just fixing it on the driver side is
+> a problem, because it will break targets that expects the non-compliant
+> behavior (i.e. always expecting mmio on the admin queue).
+> 
+> Question is if the kernel even wants to do anything about this at all? I
+> kinda already know the answer here - "spec is screwed up", but I wanted
+> to raise the issue here for feedback prior to potentially starting a
+> process with the NVMe TWG to sort out there.
 
-ublk driver has same usage, and this change makes sense:
-
-Reviewed-by: Ming Lei <ming.lei@redhat.com>
-
-thanks,
-Ming
-
+The driver has been this way forever, so either (a) no one was actually using
+this feature, or (b) every target implementing shadow doorbells has the same
+non-spec implementation. Either way, we can't very well change it now, and it
+looks like shadows can't reliably be used on a live queue anyway. I think you'd
+have to refine this feature with the TWG.
 
