@@ -4,80 +4,131 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9382C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 16:31:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3122C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 23:11:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fChIS7SF6nm8gZuMqg7g5RM8auvMS4gNHlZoat1RXb8=; b=PnMX5AaH4fgd5NnepcFsYjHb7j
-	Lynxw5hc0RFRhbErCCwva1Grrb5Rv+4YJcGewdAd7HQVEU3Y+Rey8TOwqZ5btOEc39k62V52FnjvP
-	dOmav5ATh/IE5qslqZ+SjfwRkXr7DfU4gs8VHw/7BvEkz3dyaP5s1RJZQgX0vcNnKaK+/rjoByjBG
-	j184Wfb+1flAaNT86XJCD0j9qUDODe4GOcxsOKzqLGbI5tbaJgu+N1JPdvb+NoyRq6WUUwjp8ZweX
-	8wSSyUakhyWwnJgAbKUYcMbCW5YTrFZ+akSHlsiWKiu+5eIif0q0x1dGY4yQJY+NlSlfkJUhjugZ3
-	y49fK/NQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=XKjcKrBiNJPIvHm3Pc2IEOcF6ugpBtjk6hvCUBodlt0=; b=EbH+wONl4ihV8sXyv9RGrMgBrz
+	dz3nU/owgl8efVRyi98uRoOzqI2YuQu75cGlTHB31mYLXjrmbHiRbhqBOj1VYOucaWdPcDcIY2CE/
+	LIrsQ+JQv+c27RMiwmPgQ23y5v0+mGd4HMkJoVzCLbZWHz5+dDTjWTMfDljysa5xmCfAoV+SqC5l8
+	q8MMsWHm05oxQIs01No4NBZ5zJQZmK3FeEuOLZ9p2NjclefEgzAtGvvCjxTVa5W0+Kt6/yRS8oV6q
+	/NRqAI0GFGRn50cdlMar4quFZ0y1QYL5fwc5o34aDr3KDMLLHg59oQ4qVbdkEBu/OHRNaOp5nRXI/
+	BqxB0pFA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oC1k4-00GHgP-BH; Thu, 14 Jul 2022 16:31:08 +0000
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+	id 1oC7zB-002ZsX-Ec; Thu, 14 Jul 2022 23:11:09 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oC1k1-00GHdY-7x
-	for linux-nvme@lists.infradead.org; Thu, 14 Jul 2022 16:31:06 +0000
-Received: by mail-pl1-x633.google.com with SMTP id q5so871455plr.11
-        for <linux-nvme@lists.infradead.org>; Thu, 14 Jul 2022 09:31:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=fChIS7SF6nm8gZuMqg7g5RM8auvMS4gNHlZoat1RXb8=;
-        b=MXUAe2lacoSQtWc3n+mnrIopZwD4pVJER7BbVPAKYYOYjOQwFkuQ3Ed13z70prQac2
-         MXJS43xgkYkGFPOGhZRUlhGS5u04P7DmvARkN8XY/88OMShxtVYRZa3IVRjDOl8dOjMy
-         1qludyzTG2FCczX2S0sJWe70NSJ44iFzVJ08Ol1MsiYNEH20S8r7Kounwf82YB7tM7zw
-         yLS0G+3kLv09txBU7WjGqZAdwyj2LAdIFzkeb2wuIcgFe4Lmi7DIShHzXW9qqDSVg4Q3
-         rWqJwJkAOf3cFUVM9F/th/vUJRrA4y3nlpT8QPb2bXetHsYJjBfMF7siXd0M+1DXc0pe
-         Paxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=fChIS7SF6nm8gZuMqg7g5RM8auvMS4gNHlZoat1RXb8=;
-        b=vpAAV1IhPJjfxH0fCjQk2CJh5xtYo/71dR9qQv/zl5cw2hWTKGpazcdWnmb2bsssSV
-         xQtxBlpOQuIZlaJ85k/QHkylMqdI4JhO7+u+XIpNCyoYam4Zf140R+8L2VY7JK3rt4bK
-         T2iHuSvN8niwsSryRrjIq5g7FF9Zr7D+Ieivg3mx/D/4A9/r9Tgs9u7l3RrMqhl9Weqp
-         PEIJGmcCLqb60np9n/fXWI7QPPXTktAP0ZcyolINGMVq1FCK220qmYmpgIuq6h2dFKqb
-         eWN1xNMkszZHaZOup3IiDFkgGDBwHsruGuygTUO3lhIP22tG8+T9ldNjVxkmdvD+Anm9
-         phVg==
-X-Gm-Message-State: AJIora92iLZcfrp/s71/DPILfcwjjyjjjEF9eWlsqQYpLzsAXIR7SK6m
-	GZQ/hEcvjSf/8f/flzijh7tO0g==
-X-Google-Smtp-Source: AGRyM1tC/2ESlB+Nku6uVdiTIFXXf12AdH6j2c8BO8CJN5VVvj3eS4zOkkHebVaRVRXh+DPcwqwjDw==
-X-Received: by 2002:a17:90b:3910:b0:1f0:386e:c0ee with SMTP id ob16-20020a17090b391000b001f0386ec0eemr10502114pjb.141.1657816264205;
-        Thu, 14 Jul 2022 09:31:04 -0700 (PDT)
-Received: from [192.168.1.100] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id bf1-20020a170902b90100b0016bf2dc1724sm1664645plb.247.2022.07.14.09.31.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Jul 2022 09:31:03 -0700 (PDT)
-Message-ID: <aa3f3387-2550-4f46-2dda-01d6d776e7e1@kernel.dk>
-Date: Thu, 14 Jul 2022 10:31:02 -0600
+	id 1oC7z5-002Zqz-GJ
+	for linux-nvme@lists.infradead.org; Thu, 14 Jul 2022 23:11:07 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20220714231052epoutp01d215a705d99cce5054f285d2e128ef8d~B1O0Hc6912293222932epoutp01y
+	for <linux-nvme@lists.infradead.org>; Thu, 14 Jul 2022 23:10:52 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20220714231052epoutp01d215a705d99cce5054f285d2e128ef8d~B1O0Hc6912293222932epoutp01y
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1657840252;
+	bh=XKjcKrBiNJPIvHm3Pc2IEOcF6ugpBtjk6hvCUBodlt0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=i2HYImPFPsgmSGXbeTjyn901pQKgwL52cir0nTdeFc9vAeNbzNsw8V0rf3sMzb4Oy
+	 oY2n2bxZSpHIxDYo77jEUtXCfH4QqBG2VCxhq+gFUM/rvJpeAsP5lTCh/yz8Bf2y3U
+	 Wco59c+yP04knttxwXQXfehdmNC6LaBIPCkMO22Y=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20220714231051epcas5p4b3caa5ff4752700aa15940f21eae0240~B1Ozjy64R2828228282epcas5p4Y;
+	Thu, 14 Jul 2022 23:10:51 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.177]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4LkVbF1vf4z4x9Pp; Thu, 14 Jul
+	2022 23:10:49 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	76.0F.09662.972A0D26; Fri, 15 Jul 2022 08:10:49 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20220714231048epcas5p14495dd43b5e169ee533cc185f72addac~B1OwwKDkG2822628226epcas5p1G;
+	Thu, 14 Jul 2022 23:10:48 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20220714231048epsmtrp2fa8cbc7ae1ae03b4d1dc1e094684c385~B1OwuO9KX2203722037epsmtrp2M;
+	Thu, 14 Jul 2022 23:10:48 +0000 (GMT)
+X-AuditID: b6c32a49-885ff700000025be-d2-62d0a2791e39
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	38.9E.08905.872A0D26; Fri, 15 Jul 2022 08:10:48 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20220714231046epsmtip2d59211587a5e568e2ae354c6648668bb~B1OvDrAlM0098600986epsmtip2b;
+	Thu, 14 Jul 2022 23:10:46 +0000 (GMT)
+Date: Fri, 15 Jul 2022 04:35:23 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>, hch@lst.de, kbusch@kernel.org,
+	axboe@kernel.dk, io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, asml.silence@gmail.com, joshiiitr@gmail.com,
+	anuj20.g@samsung.com, gost.dev@samsung.com
+Subject: Re: [PATCH for-next 4/4] nvme-multipath: add multipathing for
+ uring-passthrough commands
+Message-ID: <20220714230523.GA14373@test-zns>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [GIT PULL] nvme fixes for Linux 5.19
-Content-Language: en-US
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-References: <YtAqRsNAUZXA60+V@infradead.org>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <YtAqRsNAUZXA60+V@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <YtAy2PUDoWUUE9Bl@T590>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTZxjG953Tnp661Z0ViJ+VuXq8TFgKrWvLQWFbBrqjm0kTFmXO2BU4
+	oQRom17o3BLsRCZyEaybaLMFMho7WwaDEQYUTK0XNqeFXZiRpKRqC5t2XJRoZEHXenDxv9/3
+	vM97+W44KuzDRHiJzswYdZoyElvG6T2fslGy/5vRAunA1eepg02LKPWVuxdQnmAjRl339SPU
+	Gc9FhJquDnCokX/OI5Td/yeghsZfo1pOR3iU/3gVQnXcmeG89QLd7wjy6JGJLg79+1UL3e0+
+	gtE/OA/Q3us2jJ45O4bRR3vcgL7XvVrF31OapWU0RYxRzOgK9UUluuJs8t08dY5aoZTKJLJM
+	KoMU6zTlTDaZ+55Ksq2kLDYwKa7QlFlikkpjMpHpb2QZ9RYzI9bqTeZskjEUlRnkhjSTptxk
+	0RWn6RjzZplUukkRM35Uqr0wVocavlv38WzzSdQG/Mm1gI9DQg5d55rRWrAMFxJeAB9Uj2Ps
+	4i6AHt/Zpch9AI/OB8DTlGjfOC/OQmIIwF/+ymVNkwC2fRZ6EuAQ62FnYIBbC3AcI1Lg6HFL
+	XE4kSBgMenhxP0rUItBjq+LEAwlEIewO25E4CwgJPP31Ay7LL8GfT4U58Tp8Yh2M/L01LicR
+	a6GvdxiJ14HEIA7b3WMcdrhc2HJoCmM5Ad4e7uGxLIL3poeW9EL426kAwrIZ3ho8t8RvwurL
+	jWicUUILF9q+R1heDhv+DSPxGSAhgDWfC1n7Gjhhj3BZXgFvnHQuMQ3nWqp47JmEUDh4qQNt
+	Aqsdz2zH8UwLljfDI7MHuY5YC5RYBV2PcBZTYOdAeivgusFKxmAqL2ZMCoNMx1j/v+NCfXk3
+	ePKEU7f3gWBoNs0PEBz4AcRRMlFQ5w8UCAVFmv2fMEa92mgpY0x+oIhdzzFUlFSoj/0BnVkt
+	k2dK5UqlUp75ulJGrhDsGOsuEBLFGjNTyjAGxvg0D8H5IhuC3xQ31Guj73+L1XExDIT2Tbf2
+	jphrOuYzyPzk5KkDOVFRc8LD1NGBcP5j+LAiCXe3198sn56oy8of9jrs6sRA8adXrILADftG
+	gWV2+8xyR5J7wV/TpR/Pu7ty37HH0RM9ezdcJsW7nHsadnIkOVt8rvuyqefeeeVWDs9t3bTz
+	R9+u6FDrNdsVV2nF/CXGHAlN2u78FPHOHV5b8sXu1jMZqldffLTQ5l+sbEqn5/7o+tWq9qxx
+	zF3I62937g4Nhr1Vh3PhB4cgf+/bFp9UgCo6pSqhdP2is7FVWVu/o22cG7724ctbgwuLqxYk
+	zZMX8S1fWh0bZjsqg9OugdsTlSTHpNXIUlGjSfMfrw8XSUsEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpjkeLIzCtJLcpLzFFi42LZdlhJXrdi0YUkg/4zyhZNE/4yW8xZtY3R
+	YvXdfjaLmwd2MlmsXH2UyeJd6zkWi/NvDzNZTDp0jdFi7y1ti/nLnrJbHJrczGSx7vV7Fgce
+	j52z7rJ7nL+3kcXj8tlSj02rOtk8Ni+p99h9s4HN4/2+q2wefVtWMXp83iQXwBnFZZOSmpNZ
+	llqkb5fAlbHnUTtTwX3FiiPnz7E1MPZJdTFyckgImEi82XGLvYuRi0NIYDejxPX7U9ggEuIS
+	zdd+sEPYwhIr/z2HKnrCKDF5xxZWkASLgKrE+nO7gGwODjYBTYkLk0tBwiICShJ3764G62UW
+	6GGS2L6GEcQWFkiW2PRkEhOIzSugK7Fs7ndWiJmPmCX+L1/ADJEQlDg58wkLRLOZxLzND5lB
+	5jMLSEss/8cBYnIKqEg8fekKUiEqoCxxYNtxpgmMgrOQNM9C0jwLoXkBI/MqRsnUguLc9Nxi
+	wwLDvNRyveLE3OLSvHS95PzcTYzgqNLS3MG4fdUHvUOMTByMhxglOJiVRHi7D51LEuJNSays
+	Si3Kjy8qzUktPsQozcGiJM57oetkvJBAemJJanZqakFqEUyWiYNTqoFpw2aj5Fm/+ji/rytI
+	89awfHP8h5/2qY4JxUkmq/QCv6q7639PDvwy84V89Yp/Ys2Jhyu/u/ssnd3JxDFpQ//XpWzr
+	vCe8qn99+QiTrU5Uvb90Vi2Xu9Xh/NqIQmH3WbpP8ybt0sh8Ua6t43b8xk9rs8v/bzDMXdXf
+	/S7PZHfmiQztupfs9/6zfW7bvj+M+cK7f9mv9DfefM715PnMR28WTVapPdWStPU6w4xQs1yP
+	R5ufeu9Yavva9/IFKaYqfv93f/8aXAnX9f6am/71XylLsrzwm5m9AtNvuWxQ3ZSz8cj6o2wH
+	vjhkdpRr+9qfTeJjOGRhGFm7/UZr8T1ficcKl91djt2exRrDZpfcZXlQiaU4I9FQi7moOBEA
+	FcrZKBkDAAA=
+X-CMS-MailID: 20220714231048epcas5p14495dd43b5e169ee533cc185f72addac
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----OEEzMZle2oafIX2psGkTvPl59BrXC3apHO-sLjJPJT1qP5Pe=_90150_"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220711110827epcas5p3fd81f142f55ca3048abc38a9ef0d0089
+References: <20220711110155.649153-1-joshi.k@samsung.com>
+	<CGME20220711110827epcas5p3fd81f142f55ca3048abc38a9ef0d0089@epcas5p3.samsung.com>
+	<20220711110155.649153-5-joshi.k@samsung.com>
+	<3fc68482-fb24-1f39-5428-faa3a8db9ecb@grimberg.me>
+	<20220711183746.GA20562@test-zns>
+	<5f30c7de-03b1-768a-d44f-594ed2d1dc75@grimberg.me>
+	<20220712042332.GA14780@test-zns>
+	<3a2b281b-793b-b8ad-6a27-138c89a46fac@grimberg.me>
+	<20220713053757.GA15022@test-zns> <YtAy2PUDoWUUE9Bl@T590>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220714_093105_314424_A0ACFA86 
-X-CRM114-Status: UNSURE (   9.57  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220714_161104_857624_914DA054 
+X-CRM114-Status: GOOD (  44.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,18 +143,102 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/14/22 8:37 AM, Christoph Hellwig wrote:
-> The following changes since commit 6b0de7d0f3285df849be2b3cc94fc3a0a31987bf:
-> 
->   Merge tag 'nvme-5.19-2022-07-07' of git://git.infradead.org/nvme into block-5.19 (2022-07-07 17:38:19 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-5.19-2022-07-14
+------OEEzMZle2oafIX2psGkTvPl59BrXC3apHO-sLjJPJT1qP5Pe=_90150_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-Pulled, thanks.
+On Thu, Jul 14, 2022 at 11:14:32PM +0800, Ming Lei wrote:
+>On Wed, Jul 13, 2022 at 11:07:57AM +0530, Kanchan Joshi wrote:
+>> > > > > > The way I would do this that in nvme_ioucmd_failover_req (or in the
+>> > > > > > retry driven from command retriable failure) I would do the above,
+>> > > > > > requeue it and kick the requeue work, to go over the requeue_list and
+>> > > > > > just execute them again. Not sure why you even need an explicit retry
+>> > > > > > code.
+>> > > > > During retry we need passthrough command. But passthrough command is not
+>> > > > > stable (i.e. valid only during first submission). We can make it stable
+>> > > > > either by:
+>> > > > > (a) allocating in nvme (b) return -EAGAIN to io_uring, and
+>> > > > > it will do allocate + deferral
+>> > > > > Both add a cost. And since any command can potentially fail, that
+>> > > > > means taking that cost for every IO that we issue on mpath node. Even if
+>> > > > > no failure (initial or subsquent after IO) occcured.
+>> > > >
+>> > > > As mentioned, I think that if a driver consumes a command as queued,
+>> > > > it needs a stable copy for a later reformation of the request for
+>> > > > failover purposes.
+>> > >
+>> > > So what do you propose to make that stable?
+>> > > As I mentioned earlier, stable copy requires allocating/copying in fast
+>> > > path. And for a condition (failover) that may not even occur.
+>> > > I really think currrent solution is much better as it does not try to make
+>> > > it stable. Rather it assembles pieces of passthrough command if retry
+>> > > (which is rare) happens.
+>> >
+>> > Well, I can understand that io_uring_cmd is space constrained, otherwise
+>> > we wouldn't be having this discussion.
+>>
+>> Indeed. If we had space for keeping passthrough command stable for
+>> retry, that would really have simplified the plumbing. Retry logic would
+>> be same as first submission.
+>>
+>> > However io_kiocb is less
+>> > constrained, and could be used as a context to hold such a space.
+>> >
+>> > Even if it is undesired to have io_kiocb be passed to uring_cmd(), it
+>> > can still hold a driver specific space paired with a helper to obtain it
+>> > (i.e. something like io_uring_cmd_to_driver_ctx(ioucmd) ). Then if the
+>> > space is pre-allocated it is only a small memory copy for a stable copy
+>> > that would allow a saner failover design.
+>>
+>> I am thinking along the same lines, but it's not about few bytes of
+>> space rather we need 80 (72 to be precise). Will think more, but
+>> these 72 bytes really stand tall in front of my optimism.
+>>
+>> Do you see anything is possible in nvme-side?
+>> Now also passthrough command (although in a modified form) gets copied
+>> into this preallocated space i.e. nvme_req(req)->cmd. This part -
+>
+>I understand it can't be allocated in nvme request which is freed
+>during retry,
 
--- 
-Jens Axboe
+Why not. Yes it gets freed, but we have control over when it gets freed
+and we can do if anything needs to be done before freeing it. Please see
+below as well.
 
+>and looks the extra space has to be bound with
+>io_uring_cmd.
+
+if extra space is bound with io_uring_cmd, it helps to reduce the code
+(and just that. I don't see that efficiency will improve - rather it
+will be tad bit less because of one more 72 byte copy opeation in fast-path).
+
+Alternate is to use this space that is bound with request i.e.
+nvme_req(req)->cmd. This is also preallocated and passthru-cmd
+already gets copied. But it is ~80% of the original command. 
+Rest 20% includes few fields (data/meta buffer addres, rspective len)
+which are not maintained (as bio/request can give that). 
+During retry, we take out stuff from nvme_req(req)->cmd and then free
+req. Please see nvme_uring_cmd_io_retry in the patch. And here is the
+fragement for quick glance -
+
++       memcpy(&c, nvme_req(oreq)->cmd, sizeof(struct nvme_command));
++       d.metadata = (__u64)pdu->meta_buffer;
++       d.metadata_len = pdu->meta_len;
++       d.timeout_ms = oreq->timeout;
++       d.addr = (__u64)ioucmd->cmd;
++       if (obio) {
++               d.data_len = obio->bi_iter.bi_size;
++               blk_rq_unmap_user(obio);
++       } else {
++               d.data_len = 0;
++       }
++       blk_mq_free_request(oreq);
+
+Do you see chinks in above?
+
+------OEEzMZle2oafIX2psGkTvPl59BrXC3apHO-sLjJPJT1qP5Pe=_90150_
+Content-Type: text/plain; charset="utf-8"
+
+
+------OEEzMZle2oafIX2psGkTvPl59BrXC3apHO-sLjJPJT1qP5Pe=_90150_--
 
