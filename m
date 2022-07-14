@@ -4,30 +4,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE967C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 05:13:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46DAEC433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 05:13:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WWk1Pl8TKYFS2t6j+LPXZDTQIfHKvI7VIeJdtOO30R8=; b=DojjSd0fgacfvkdZqaVxY5Ion8
-	lbn6KVuN/nI7V4+3fsN5YGTLL1xpOr5Oiu8LuxpHFPNGpHaSsgFBkR87zKM3OomJ0h+Q+kRKDzRww
-	xBkcoaqvl+eouzcctDOy08PfO2YtBaLjbn81mbadyX9HtfECs5eLTYSORq75AgoSrgBbErRVMlxYa
-	qc0M4pe+PWWxhLilfCvFgJXv9gEeFU6zF9IrmsbnFxdRBy/W3iKEAohbljFqKs7BmFlvBi9K4qnJx
-	oY7XNT6pvqJOdB4j9fZ1Ipx7FgKQvUu7yv02jeY7RpdR2VomEB7MaK0sBPa7/4pQ3RJA6N4ZIGafw
-	k4Br4S9g==;
+	bh=1233j5DXGpTRLoBA0hBLDxYwOsuy3z5gPYHwX2Dyeb4=; b=pqfVpjd9txV/1hrPlK0g5ErwLk
+	Om6Rfa2/zwEV4pg1S3iH7IfAli1WnQe1P2Mj+JgoSFD0KyfmpGWXSTRLrWufBYGaD2tEY9X+2ztc9
+	gwTfIXSc7r1U0bcOvrGPU0CSP+m+Os+HsNDJzXDGAb2PuFrAu8FAg8WYikllp0jOukzvChZrm5RrQ
+	eJH4LO+zIQjw77gpUWD85b7/ByiSiYS+amLcpiBU+SNhzkhmfs3VZStBkoHMQTsWvJX9eqmXyjI+M
+	gUzFLN9oEr38zXE4lUJtZi0dpRyOVYpJz4LSOsnvCMCNlkdN7lc/TOlGRgxuHlcmfCqRRLnu/3wOF
+	BlVRicSA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBr9q-00AyLB-6u; Thu, 14 Jul 2022 05:13:02 +0000
+	id 1oBrAh-00AyiV-Lp; Thu, 14 Jul 2022 05:13:55 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBr9n-00AyGM-Br
-	for linux-nvme@lists.infradead.org; Thu, 14 Jul 2022 05:13:00 +0000
+	id 1oBrAe-00Ayg4-RN
+	for linux-nvme@lists.infradead.org; Thu, 14 Jul 2022 05:13:54 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 8B49567373; Thu, 14 Jul 2022 07:12:48 +0200 (CEST)
-Date: Thu, 14 Jul 2022 07:12:48 +0200
+	id 072FB67373; Thu, 14 Jul 2022 07:13:50 +0200 (CEST)
+Date: Thu, 14 Jul 2022 07:13:49 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Logan Gunthorpe <logang@deltatee.com>
 Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
@@ -50,18 +50,17 @@ Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
 	Martin Oliveira <martin.oliveira@eideticom.com>,
 	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
 	Ralph Campbell <rcampbell@nvidia.com>
-Subject: Re: [PATCH v8 01/13] lib/scatterlist: add flag for indicating
- P2PDMA segments in an SGL
-Message-ID: <20220714051248.GA23381@lst.de>
-References: <20220708165104.5005-1-logang@deltatee.com> <20220708165104.5005-2-logang@deltatee.com>
+Subject: Re: [PATCH v8 00/13] DMA Mapping P2PDMA Pages
+Message-ID: <20220714051349.GB23381@lst.de>
+References: <20220708165104.5005-1-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220708165104.5005-2-logang@deltatee.com>
+In-Reply-To: <20220708165104.5005-1-logang@deltatee.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220713_221259_564620_1E5B8EAC 
-X-CRM114-Status: UNSURE (   8.96  )
+X-CRM114-CacheID: sfid-20220713_221353_039158_CECACA48 
+X-CRM114-Status: UNSURE (   8.68  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -77,11 +76,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Do we need the dma_ prefix for the flags field?  That's just what it
-is used for now.
-
-Otherwise looks good:
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+I'd like to hear from Robin on the dma-iommu parts, but otherwise
+this looks fine to me modulo a little filed naming change I could
+handle when applying this.
 
 
