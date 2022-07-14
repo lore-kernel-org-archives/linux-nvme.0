@@ -4,91 +4,129 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A523C43334
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 08:16:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA621C43334
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 08:25:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=N9GWd0sBaI8nv9Ual241B75ITmlchqE33wNYl8IpyxI=; b=yXWDiVIOkk7wpLAExn8eWXbwIc
-	Q3ZMfXDQse7NtoLWe0B/Cd28tg0hqNscjs16gZ+DACaBnZylTeDpthfyAXwhOyUPnZ7rUY743repW
-	CVuzuSn5refsAKuI+1uH/zNyb9nre07e9wHB+/yVpsc32M1kLOOIjPuAhS7b/y9dqLXNRyWCcoQ3X
-	+hOx0PVqAPxjJM4nQFKnP6e178VqStBW/onDaqcyS3b9AyEQySRwoar+c7JHunv1/opq71WoEmbvX
-	q//stvX/mJwdWB7UZXnJWy0dWIocj64x3SKXsjetV5pnSLVTwAnp7Z3f8cYK4rmTTnmNUisrJKQEi
-	r6J9c39A==;
+	bh=ImEm3uLnMWETXbmkm+rCTqM6+ogJkg8BitxVUXzVYEc=; b=003ocIHNg1B/oMhqna8BhVGj3n
+	94ddGQ97mEQv5CqpIo/FxCKwPbB4LQYlNeySojcd//bmo/lrZdbz/Y/EfodB61vSCRQE9+lwEjh/b
+	bCkp/XNL6Pkkgle9Dk5QISoJFYQQtouX/gkNp4bCQu4PbZ6OaZlmnYoMUsw09r8yvfHLGOLqRbcM8
+	8O21hGOTAKrtifRV9ihDxA0uXFfeVLZewA+0VYDH9AV/WBjIeEK/C8OR/XRaYGUU3kM4VX/XY1slS
+	BMwpPwiPb5us5NOJ0L58Lyuv4aKgQrBqxR3wC0AM63BgBiZiVQv+bgouPpq25ms8IjEsmIBuTIudf
+	DgTIIFOw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBu1K-00CGMX-VE; Thu, 14 Jul 2022 08:16:26 +0000
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21])
+	id 1oBu9i-00CKMG-CC; Thu, 14 Jul 2022 08:25:06 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBu1I-00CGKr-09
-	for linux-nvme@lists.infradead.org; Thu, 14 Jul 2022 08:16:25 +0000
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.west.internal (Postfix) with ESMTP id B538832008FB;
-	Thu, 14 Jul 2022 04:16:22 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Thu, 14 Jul 2022 04:16:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
-	 h=cc:cc:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1657786582; x=1657872982; bh=N9
-	GWd0sBaI8nv9Ual241B75ITmlchqE33wNYl8IpyxI=; b=2y9R7r9nBhoJf154cb
-	L1iKXRf5aYQqzRYmb/6w7EunmOk/g6BlMs1hSr7u2geDpEAghtGEYdNIfEZPIRf+
-	Mt2W5gaL3D7JhLFOUrgTEuAl2H5+2yw8hQf6PZ6ADmeeSNSggu2v29Gj04YjhkJ1
-	MdM2Gqf9Zuq4HCiU2MGHmbMCTMT1eCS2xQ1BkRLm7Zhte7nSwa1YnWh83ORmcrEk
-	ZT2LhyB0pMcL0La1eIvf3hlQcUeor/0Mio8wln2o6z//KQO69F18dlLPN+QsVPuD
-	NFHWMZH5feFQQ10NjlCkCUEKaY4/H0zMI8UYTKtVoY1lM9w4L/kQX2C0caA3PkUb
-	jAEw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1657786582; x=1657872982; bh=N9GWd0sBaI8nv9Ual241B75ITmlc
-	hqE33wNYl8IpyxI=; b=ac3YGl1RDvuERGtv8i1dVeL4l+MWIZV95TIgyExt/cgO
-	BNyWiXRBeo5QNevxFGD0FwkqOzNd0Zgw8UcibQHU7JjCk+Etv4SjbowvqdGPg33/
-	mjlYDa0SMEvETqQ3ljP/w/mSPD4hCsrTFAXli92LXnFkoYiyFaDQhGFmcyoutOfj
-	AU/D7KfZKZDzoJ8MKxrLWUPD0Eml+jF93Gtko4ElsaabSgpvG3f25M2pLiu87XLq
-	C+s6hbwn8AAk+CXMQiVPX+zKXWxadc/YB7QmKdccQlUr0pZmq0FJg/Mh7E4pF9v4
-	lpMDrGAMIPSxejonkMmGwj+ismBBGwagNlEEu+35NA==
-X-ME-Sender: <xms:1dDPYi9BIUJmxQpSD8ZtHillYrj-tHzDBnVEZXovtMIgVPwwutGpUA>
-    <xme:1dDPYisXAyolDXwg44tDYXWGBz3lbKeKQbos3OSd0NI23I55GezGbtmBw5utQOSFu
-    kbBcRa4TagHboE_pUw>
-X-ME-Received: <xmr:1dDPYoDXJUczMAZI6ozHkR-PvsmZIXZhg5_wh8bCgVkVwW2qEeqxiAPjkhYdKBDvuG_2TcfNlOwt_w3bp2E>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejledgtdduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
-    shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
-    htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
-    jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
-    htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:1dDPYqctnTltaKnkYERY8grySJP_qtTy6KRJLUkEAMyra7pKdDsT6A>
-    <xmx:1dDPYnM-KOOw9ho1R_I7oLgxFVRNcwP8DgdzldWFr7uHkPs4f-hi6g>
-    <xmx:1dDPYkmFKK0LQz3KXtzvLaawl_7slYFZct_9T9G7paKe4bWwqs7Q6A>
-    <xmx:1tDPYsquWFl0iuw8Zy_czHNVcCNfeoCelejKKbACFqQP33eKioJFcg>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 14 Jul 2022 04:16:20 -0400 (EDT)
-Date: Thu, 14 Jul 2022 10:16:19 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: issuing flush to all namespaces
-Message-ID: <Ys/Q08orzDQgIp4X@apples>
-References: <Ys/PCWCY8YWsoIci@apples>
- <20220714081103.GA30086@lst.de>
+	id 1oBu9f-00CKIy-Lk
+	for linux-nvme@lists.infradead.org; Thu, 14 Jul 2022 08:25:05 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20220714082452epoutp0267dd2a631245e1cd4f7bfc31cd24d0a6~BpJPg3XIV2305023050epoutp02G
+	for <linux-nvme@lists.infradead.org>; Thu, 14 Jul 2022 08:24:52 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20220714082452epoutp0267dd2a631245e1cd4f7bfc31cd24d0a6~BpJPg3XIV2305023050epoutp02G
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1657787092;
+	bh=ImEm3uLnMWETXbmkm+rCTqM6+ogJkg8BitxVUXzVYEc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=r85Z0NLTUykAGEmc7u6tcFoNBPilQ+LgX3kkGHO9h605aH4DfW0q2E1x3YX38PYfu
+	 FklTeeJcFXYGgdn/fIVHCwFEZ0L/1qqIZHHg/J8FjvO6sjTXnyhTcKsEAW2lKaqS9x
+	 7pnebfkpUtIj86gIeLWDm9yOdiFgb/Pe/ouvFkAM=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20220714082452epcas5p3059d7018af2456b9a88c47e80d467f40~BpJOwDday2978829788epcas5p3g;
+	Thu, 14 Jul 2022 08:24:52 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.176]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4Lk6wx2xZ3z4x9Pw; Thu, 14 Jul
+	2022 08:24:49 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	EC.32.09566.1D2DFC26; Thu, 14 Jul 2022 17:24:49 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20220714082448epcas5p1a3497e7ce59fe8b5388afe8c3edfc6d0~BpJLdb9vS1554115541epcas5p1J;
+	Thu, 14 Jul 2022 08:24:48 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20220714082448epsmtrp1df67c0bc5028944645406faa6e3d15d9~BpJLcozEi0497104971epsmtrp1e;
+	Thu, 14 Jul 2022 08:24:48 +0000 (GMT)
+X-AuditID: b6c32a4a-b8dff7000000255e-ab-62cfd2d19600
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+	BB.98.08802.0D2DFC26; Thu, 14 Jul 2022 17:24:48 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20220714082446epsmtip1e51819c52649a216baff5f9dfc1b9ef1~BpJJrUxNX0771807718epsmtip1f;
+	Thu, 14 Jul 2022 08:24:46 +0000 (GMT)
+Date: Thu, 14 Jul 2022 13:49:23 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>,
+	hch@lst.de, kbusch@kernel.org, io-uring@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	asml.silence@gmail.com, joshiiitr@gmail.com, anuj20.g@samsung.com,
+	gost.dev@samsung.com
+Subject: Re: [PATCH for-next 3/4] io_uring: grow a field in struct
+ io_uring_cmd
+Message-ID: <20220714081923.GE30733@test-zns>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="8Mmg9sYRIVeTrqEr"
-Content-Disposition: inline
-In-Reply-To: <20220714081103.GA30086@lst.de>
+In-Reply-To: <Ys+QPjYBDoByrfw1@T590>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrGJsWRmVeSWpSXmKPExsWy7bCmlu7FS+eTDBpv81s0TfjLbDFn1TZG
+	i9V3+9ksbh7YyWSxcvVRJot3redYLM6/PcxkMenQNUaLvbe0LeYve8pucWhyM5PFutfvWRx4
+	PHbOusvucf7eRhaPy2dLPTat6mTz2Lyk3mP3zQY2j/f7rrJ59G1ZxejxeZNcAGdUtk1GamJK
+	apFCal5yfkpmXrqtkndwvHO8qZmBoa6hpYW5kkJeYm6qrZKLT4CuW2YO0MFKCmWJOaVAoYDE
+	4mIlfTubovzSklSFjPziElul1IKUnAKTAr3ixNzi0rx0vbzUEitDAwMjU6DChOyMNcf4Cnbz
+	V9y9tIm5gfEWTxcjJ4eEgInE8mVnGUFsIYHdjBJHFud1MXIB2Z8YJV43LmSDcD4zSiyZfZMZ
+	puPW/amMEIldjBLz/r1mh3CeMUosvvKAtYuRg4NFQFWiZbERiMkmoClxYXIpSK+IgJLE3bur
+	2UFsZoGZTBJvOpVBbGGBQInVvXvA4rwCuhKb71+FsgUlTs58wgJicwqoSLRuXwB2qaiAssSB
+	bceZQNZKCOzgkJj/fC8TxHEuElfm74OyhSVeHd/CDmFLSbzsb4OykyUuzTwHVVMi8XjPQSjb
+	XqL1VD8zxHGZEotX3WGBsPkken8/YQL5RUKAV6KjTQiiXFHi3qSnrBC2uMTDGUugbA+Jm7f2
+	QgPuE5PEuclLWScwys1C8s8sJCsgbCuJzg9NrLOAVjALSEss/8cBYWpKrN+lv4CRdRWjZGpB
+	cW56arFpgVFeajk8hpPzczcxghOwltcOxocPPugdYmTiYDzEKMHBrCTC233oXJIQb0piZVVq
+	UX58UWlOavEhRlNg7ExklhJNzgfmgLySeEMTSwMTMzMzE0tjM0MlcV6vq5uShATSE0tSs1NT
+	C1KLYPqYODilGphC/ryosVxZNvdD1ezfq9ccPRRwlqM+b+fXfK47U+64y6q7bYy9Jath8uAB
+	B+NvMV82F8HIbUbfJge84c9J1pm+ee3OS7NXbtux5cZ7mwP73M3vsywWfOWn9cbr1I4bn+cy
+	S0ZPu9y0ocil+O3/mf9PqN/+naZktcO4V+2eMNOxmVskE5fm/Jr9zvmgYZXm//89Cc1rj4gZ
+	GvIvP1fK9rpZd6Nu/yPF7znioo2RZ0vuLLu+xJWht1ae3dquoGLu3qZNX+xn3ZhU6q7Be5Rx
+	9eObDp/1IgLFpERC1a4w9us/ntM/4frehLDb5h99Zs38O2cKw1GV7eeFF7hZTJO45RgVI3PZ
+	dqF0T6lG+911jT91lViKMxINtZiLihMBqxB5VUkEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphkeLIzCtJLcpLzFFi42LZdlhJTvfCpfNJBts3Slo0TfjLbDFn1TZG
+	i9V3+9ksbh7YyWSxcvVRJot3redYLM6/PcxkMenQNUaLvbe0LeYve8pucWhyM5PFutfvWRx4
+	PHbOusvucf7eRhaPy2dLPTat6mTz2Lyk3mP3zQY2j/f7rrJ59G1ZxejxeZNcAGcUl01Kak5m
+	WWqRvl0CV8aT5p3sBa94Kh7tXcvUwLiYq4uRk0NCwETi1v2pjCC2kMAORonL19Ih4uISzdd+
+	sEPYwhIr/z0HsrmAap4wSqzfsIG1i5GDg0VAVaJlsRGIySagKXFhcilIuYiAksTdu6vBWpkF
+	ZjJJvOlUBrGFBQIlVvfuAYvzCuhKbL5/lR1i7RcmienLXSDighInZz5hgeg1k5i3+SEzyHhm
+	AWmJ5f84QMKcAioSrdsXgF0sKqAscWDbcaYJjIKzkHTPQtI9C6F7ASPzKkbJ1ILi3PTcYsMC
+	o7zUcr3ixNzi0rx0veT83E2M4IjS0trBuGfVB71DjEwcjIcYJTiYlUR4uw+dSxLiTUmsrEot
+	yo8vKs1JLT7EKM3BoiTOe6HrZLyQQHpiSWp2ampBahFMlomDU6qBaVej45fXpSvq3nv08btd
+	un7K8e1FdtnrvCsnLHTmT/03qSctlHGK9SSbbymJ6R/6T7/YdmXl7/+Cvrc0lt/1eB2+285I
+	kyn8h4XZJcvA86yiWyLzGlMsjnJULP3E5p7+z/rWqo+fmi9deXdO/0qujeO6DA/xegZ9DSOd
+	oKhmu7e5zl8+dz5SzPx0VPfafpcp+fNNLc6cVNt4iqfuVIlMYWPGm85DXW8bggSlTOIPOdUm
+	XN57wZRt/d1PR8XqRSr37si8LGV348TlV14ix6xnT192+Ng6k6uL7jUIvtDcfy+gTH2hVeTD
+	61l3xM0CrQ+EuC3I3GZ8RkzzwG/WMM90J5Uf8tq+O5I5GVryw/NPKLEUZyQaajEXFScCAG5T
+	2vAXAwAA
+X-CMS-MailID: 20220714082448epcas5p1a3497e7ce59fe8b5388afe8c3edfc6d0
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----jllqsR28.5W1KdEnZlWKzx60EIuo6gwqBUS1IW9J_3KKio4g=_12d5b0_"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220711110824epcas5p22c8e945cb8c3c3ac46c8c2b5ab55db9b
+References: <20220711110155.649153-1-joshi.k@samsung.com>
+	<CGME20220711110824epcas5p22c8e945cb8c3c3ac46c8c2b5ab55db9b@epcas5p2.samsung.com>
+	<20220711110155.649153-4-joshi.k@samsung.com>
+	<2b644543-9a54-c6c4-fd94-f2a64d0701fa@kernel.dk>
+	<43955a42-7185-2afc-9a55-80cc2de53bf9@grimberg.me>
+	<96fcba9a-76ad-8e04-e94e-b6ec5934f84e@grimberg.me> <Ys+QPjYBDoByrfw1@T590>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220714_011624_096977_BB4E1B86 
-X-CRM114-Status: GOOD (  17.33  )
+X-CRM114-CacheID: sfid-20220714_012504_076142_7F752F02 
+X-CRM114-Status: GOOD (  23.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,47 +141,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
---8Mmg9sYRIVeTrqEr
-Content-Type: text/plain; charset=utf-8
+------jllqsR28.5W1KdEnZlWKzx60EIuo6gwqBUS1IW9J_3KKio4g=_12d5b0_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Jul 14 10:11, Christoph Hellwig wrote:
-> On Thu, Jul 14, 2022 at 10:08:41AM +0200, Klaus Jensen wrote:
-> > Hi,
-> >=20
-> > Since the (very reasonable) changes that cause the driver to check that
-> > the nsid of the command corresponds to the nsid of the namespace being
-> > targeted it is no longer possible to issue a flush to all namespaces:
-> >=20
-> >    # nvme flush /dev/nvme0n1 -n 0xffffffff
-> >    flush: Invalid argument
-> >=20
-> > Now, I think we can all agree that Flush is the odd one out here, but
-> > can we do anything about it? The char devices also check the nsid, so
-> > they can't be used either.
->=20
-> Don't do it.  Sending flush to all namespaces wasn't even clearly
-> defined until I think NVMe 1.4 with the supported bits.  It doesn't
-> really make much sense and there is no point in supporting it in Linux.
+On Thu, Jul 14, 2022 at 11:40:46AM +0800, Ming Lei wrote:
+>On Mon, Jul 11, 2022 at 09:22:54PM +0300, Sagi Grimberg wrote:
+>>
+>> > > > Use the leftover space to carve 'next' field that enables linking of
+>> > > > io_uring_cmd structs. Also introduce a list head and few helpers.
+>> > > >
+>> > > > This is in preparation to support nvme-mulitpath, allowing multiple
+>> > > > uring passthrough commands to be queued.
+>> > >
+>> > > It's not clear to me why we need linking at that level?
+>> >
+>> > I think the attempt is to allow something like blk_steal_bios that
+>> > nvme leverages for io_uring_cmd(s).
+>>
+>> I'll rephrase because now that I read it, I think my phrasing is
+>> confusing.
+>>
+>> I think the attempt is to allow something like blk_steal_bios that
+>> nvme leverages, but for io_uring_cmd(s). Essentially allow io_uring_cmd
+>> to be linked in a requeue_list.
+>
+>io_uring_cmd is 1:1 with pt request, so I am wondering why not retry on
+>io_uring_cmd instance directly via io_uring_cmd_execute_in_task().
+>
+>I feels it isn't necessary to link io_uring_cmd into list.
 
-Alright, I hear you :) Thanks!
+If path is not available, retry is not done immediately rather we wait for
+path to be available (as underlying controller may still be
+resetting/connecting). List helped as command gets added into
+it (and submitter/io_uring gets the control back), and retry is done
+exact point in time.
+But yes, it won't harm if we do couple of retries even if path is known
+not to be available (somewhat like iopoll). As this situation is
+not common. And with that scheme, we don't have to link io_uring_cmd.
 
---8Mmg9sYRIVeTrqEr
-Content-Type: application/pgp-signature; name="signature.asc"
+Sagi: does this sound fine to you?
 
------BEGIN PGP SIGNATURE-----
+------jllqsR28.5W1KdEnZlWKzx60EIuo6gwqBUS1IW9J_3KKio4g=_12d5b0_
+Content-Type: text/plain; charset="utf-8"
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmLP0M8ACgkQTeGvMW1P
-Den2Ygf/VN4DIHyrPukigfU3PjbzozHbvi1J3b0WFHdtLlOPylF80lVuvFmO5De/
-GfXT69jcnh6rpWXovKQXRz8FiYJaPDDx6rxQyBh9S2gcT8GZEehOVFeaKOH+qThS
-EXfpmip78P7RB/gW3wg95vbJ3N/RJIp02G1qiZg58ZE/GRWePqBxV9bMpclNGipI
-D2xyo+cHIN+FMV5oUab1neUDZFCGuhDM1AwkRlC+mQR6/jRolu5AuW53h5F/jawp
-T4sehopK+G1Mjq6UfJh8DnYuImycvuuzOeiXDhqHUAW7m1gd23Ew7Bm2vpZjdeKU
-0VWiHqYcHCe+7P0H1zmLY/aUqeLFow==
-=jB5C
------END PGP SIGNATURE-----
 
---8Mmg9sYRIVeTrqEr--
+------jllqsR28.5W1KdEnZlWKzx60EIuo6gwqBUS1IW9J_3KKio4g=_12d5b0_--
 
