@@ -4,78 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05B41C43334
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 16:30:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9382C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 16:31:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=j73152At3Tez8Ku+H4U593w6FOIkEmXuldDavt74jYo=; b=c6SeOZC9GqPqWW/DOX1IKuj7VM
-	y5cBnn6kz9WSCRpyUv69lIbmFikIGT41JtYABsjYXKNc1rfqqIVRwoV6ZMvhBbLPzxAkQDNT1YwyN
-	1MY0VCj6+cFoxqFzJm99PfcIgw1mHiR6dYa2+SOlkj2Fv8tNlwy5mNZHEH2TvHIhZGdpL3LKYeG4q
-	FInN2PE5APkUWenzSnhmPSYJK52wRZMTu/WeddCUQ28cXeJVu7l7VQtOxmwv+INVzNrZn71aH/xOd
-	g1KNwvkAY4JE+ze8es8D8r92B3mQDdcNZTk6zA6JFz62Rn1qOk0Ro6hh2KLj0F4E32auZYT9DSgu6
-	YobwKfrQ==;
+	bh=fChIS7SF6nm8gZuMqg7g5RM8auvMS4gNHlZoat1RXb8=; b=PnMX5AaH4fgd5NnepcFsYjHb7j
+	Lynxw5hc0RFRhbErCCwva1Grrb5Rv+4YJcGewdAd7HQVEU3Y+Rey8TOwqZ5btOEc39k62V52FnjvP
+	dOmav5ATh/IE5qslqZ+SjfwRkXr7DfU4gs8VHw/7BvEkz3dyaP5s1RJZQgX0vcNnKaK+/rjoByjBG
+	j184Wfb+1flAaNT86XJCD0j9qUDODe4GOcxsOKzqLGbI5tbaJgu+N1JPdvb+NoyRq6WUUwjp8ZweX
+	8wSSyUakhyWwnJgAbKUYcMbCW5YTrFZ+akSHlsiWKiu+5eIif0q0x1dGY4yQJY+NlSlfkJUhjugZ3
+	y49fK/NQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oC1jj-00GHUn-Fx; Thu, 14 Jul 2022 16:30:47 +0000
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+	id 1oC1k4-00GHgP-BH; Thu, 14 Jul 2022 16:31:08 +0000
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oC1jh-00GHSZ-4l
-	for linux-nvme@lists.infradead.org; Thu, 14 Jul 2022 16:30:46 +0000
-Received: by mail-pj1-x1031.google.com with SMTP id z12-20020a17090a7b8c00b001ef84000b8bso9143280pjc.1
-        for <linux-nvme@lists.infradead.org>; Thu, 14 Jul 2022 09:30:43 -0700 (PDT)
+	id 1oC1k1-00GHdY-7x
+	for linux-nvme@lists.infradead.org; Thu, 14 Jul 2022 16:31:06 +0000
+Received: by mail-pl1-x633.google.com with SMTP id q5so871455plr.11
+        for <linux-nvme@lists.infradead.org>; Thu, 14 Jul 2022 09:31:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kernel-dk.20210112.gappssmtp.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=j73152At3Tez8Ku+H4U593w6FOIkEmXuldDavt74jYo=;
-        b=E+ZrkllF13Yqbcs1uNnH2jjnHMT80auNTYEwrH3XGniySbcAACKd5ogvvsdrNp5tiH
-         IOo3E2VIKZPfTWPAtp4s+s7IloMz6BUulDqleWS96wxVXlMIEIIMC3oo5bfqfT7UqXRa
-         74vfVdm9H2a3BveGtIsrsxcUQORrFpx+Gc7aKrCcI9jFAxggsHYb+GHVEW7WDHuVfcTI
-         GfOWnxNP1xca5GNsmY26wPCgQ25JYuP6nz2J+ne2zHLtLib1pIBZgfP45yNr3BXbUiST
-         du9OsVq9rYm8N37nr1QlSb+06/WM9VZ9m/yWKYmbz0gZCfpoiWMw8J/sraSwGuGcLSFX
-         Fxsg==
+        bh=fChIS7SF6nm8gZuMqg7g5RM8auvMS4gNHlZoat1RXb8=;
+        b=MXUAe2lacoSQtWc3n+mnrIopZwD4pVJER7BbVPAKYYOYjOQwFkuQ3Ed13z70prQac2
+         MXJS43xgkYkGFPOGhZRUlhGS5u04P7DmvARkN8XY/88OMShxtVYRZa3IVRjDOl8dOjMy
+         1qludyzTG2FCczX2S0sJWe70NSJ44iFzVJ08Ol1MsiYNEH20S8r7Kounwf82YB7tM7zw
+         yLS0G+3kLv09txBU7WjGqZAdwyj2LAdIFzkeb2wuIcgFe4Lmi7DIShHzXW9qqDSVg4Q3
+         rWqJwJkAOf3cFUVM9F/th/vUJRrA4y3nlpT8QPb2bXetHsYJjBfMF7siXd0M+1DXc0pe
+         Paxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=j73152At3Tez8Ku+H4U593w6FOIkEmXuldDavt74jYo=;
-        b=G0PhcuYL89H+M2QRGdLEqNAMJtbfdJs+Ek4t6XeaAZA0B3TTOIyKOok4wpz29yitk7
-         sivbSyjrxskEZUT5fa4z4q7pUVaArkoepYf3B/b1TTaxIvMc3Ua8yM2W28ggaYmePfvp
-         CbxEgH4boL8T0O7jKYVh99QmysBY9Q1kb9GpKiBkmK9BP18IGJu1X5zF34hyPmRVKoYw
-         MAT1J23EeK0nRL+dRL2xSVqVpccDlJw+kcRGmNxwnou03SzoPrjqA4NMZGozHiA2c1mD
-         1eznkTWZ1+SCdWAoF2/xRHHA7TnebcsksjWM6xvbmM+gZs47JLQBv0nfBsbWmJQqRJe2
-         dbTQ==
-X-Gm-Message-State: AJIora+HqUWS+DxMvIpwhSEbv6Lq1CETpnwc/Ej6LvsGrrzOX+zHACkf
-	y3VJa8wfw75rElV/bTeouUi+CQ==
-X-Google-Smtp-Source: AGRyM1tAcOJzsWy+ScsCmtUZKsxabSBS8iERcX/7YK6OSUV65sWQU7PAE0VP4P1XIREHrjomgIJ6HA==
-X-Received: by 2002:a17:903:445:b0:16c:5d4f:c329 with SMTP id iw5-20020a170903044500b0016c5d4fc329mr9197186plb.104.1657816243043;
-        Thu, 14 Jul 2022 09:30:43 -0700 (PDT)
+        bh=fChIS7SF6nm8gZuMqg7g5RM8auvMS4gNHlZoat1RXb8=;
+        b=vpAAV1IhPJjfxH0fCjQk2CJh5xtYo/71dR9qQv/zl5cw2hWTKGpazcdWnmb2bsssSV
+         xQtxBlpOQuIZlaJ85k/QHkylMqdI4JhO7+u+XIpNCyoYam4Zf140R+8L2VY7JK3rt4bK
+         T2iHuSvN8niwsSryRrjIq5g7FF9Zr7D+Ieivg3mx/D/4A9/r9Tgs9u7l3RrMqhl9Weqp
+         PEIJGmcCLqb60np9n/fXWI7QPPXTktAP0ZcyolINGMVq1FCK220qmYmpgIuq6h2dFKqb
+         eWN1xNMkszZHaZOup3IiDFkgGDBwHsruGuygTUO3lhIP22tG8+T9ldNjVxkmdvD+Anm9
+         phVg==
+X-Gm-Message-State: AJIora92iLZcfrp/s71/DPILfcwjjyjjjEF9eWlsqQYpLzsAXIR7SK6m
+	GZQ/hEcvjSf/8f/flzijh7tO0g==
+X-Google-Smtp-Source: AGRyM1tC/2ESlB+Nku6uVdiTIFXXf12AdH6j2c8BO8CJN5VVvj3eS4zOkkHebVaRVRXh+DPcwqwjDw==
+X-Received: by 2002:a17:90b:3910:b0:1f0:386e:c0ee with SMTP id ob16-20020a17090b391000b001f0386ec0eemr10502114pjb.141.1657816264205;
+        Thu, 14 Jul 2022 09:31:04 -0700 (PDT)
 Received: from [192.168.1.100] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id l1-20020a63da41000000b004114aad90ebsm1579313pgj.49.2022.07.14.09.30.41
+        by smtp.gmail.com with ESMTPSA id bf1-20020a170902b90100b0016bf2dc1724sm1664645plb.247.2022.07.14.09.31.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Jul 2022 09:30:42 -0700 (PDT)
-Message-ID: <f67a182c-7f56-8e6a-9a0d-5b333afd1135@kernel.dk>
-Date: Thu, 14 Jul 2022 10:30:41 -0600
+        Thu, 14 Jul 2022 09:31:03 -0700 (PDT)
+Message-ID: <aa3f3387-2550-4f46-2dda-01d6d776e7e1@kernel.dk>
+Date: Thu, 14 Jul 2022 10:31:02 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [GIT PULL] nvme updates for Linux 5.20
+Subject: Re: [GIT PULL] nvme fixes for Linux 5.19
 Content-Language: en-US
 To: Christoph Hellwig <hch@infradead.org>
 Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
  Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-References: <YtApX8HC+BcN3NvL@infradead.org>
+References: <YtAqRsNAUZXA60+V@infradead.org>
 From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <YtApX8HC+BcN3NvL@infradead.org>
+In-Reply-To: <YtAqRsNAUZXA60+V@infradead.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220714_093045_192309_E070B1F4 
+X-CRM114-CacheID: sfid-20220714_093105_314424_A0ACFA86 
 X-CRM114-Status: UNSURE (   9.57  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -92,14 +92,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/14/22 8:34 AM, Christoph Hellwig wrote:
-> The following changes since commit 3b56590b1715b998cb5c73a5bd2e9d340ccb42dc:
+On 7/14/22 8:37 AM, Christoph Hellwig wrote:
+> The following changes since commit 6b0de7d0f3285df849be2b3cc94fc3a0a31987bf:
 > 
->   rnbd-clt: make rnbd_clt_change_capacity return void (2022-07-06 07:38:40 -0600)
+>   Merge tag 'nvme-5.19-2022-07-07' of git://git.infradead.org/nvme into block-5.19 (2022-07-07 17:38:19 -0600)
 > 
 > are available in the Git repository at:
 > 
->   git://git.infradead.org/nvme.git tags/nvme-5.20-2022-07-14
+>   git://git.infradead.org/nvme.git tags/nvme-5.19-2022-07-14
 
 Pulled, thanks.
 
