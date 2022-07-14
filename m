@@ -4,85 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75140C43334
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 15:31:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2FE62C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 16:07:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0qjqT7SoxoR9mTBoMZMCI7jluhIaJmn/utMED2HCl/Q=; b=MSBI/xbdY24UihaoRq/N+YTYAY
-	JkQxmyPWXNBB5b13ZLOIwa9Hev9Bej2q5dd7IGq4i2swYr5qHSvxBNxjsOZ/2ItDEHUSZYYXqwLBG
-	v/fZJjGKG3imwPfkNdIdARNYnCwkhvlftISVrjwKF/MbrddwEndaceLjN58bTJw23zGLHAKjdGkKC
-	Kny3Peyg91aED4hk2PE+GG8hwRE7ubydtk8ILr9yjWJzftN5m0ruBuFTMWrsmqToIM8oMt7JwwdNg
-	10E2xTIJNDE/1Bssl/E/heAGVpFYGhuXJWK0My+agLxv3dsuWndsxIKkCFqaS7wZzdKg7Sd5C3dCB
-	pF9X/Wlw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=IsakR5nb5HoVwT7CSmfkuz8869/FesKJl00dWLPNOvo=; b=jnxdCHQEBBV8no5TqYsnIdf6HY
+	rRTbKZIQgqetFhLxsJfBG4f6wYbZyS2IpWlvPfvvEr3Q2HblcDYsrc3k7/qSopWudcXgWzIBW9NbE
+	jt/zTbBNekYYbx6Q7FWwZSgSe2b1syKlMLfBHgTk5XMDUlk7eaLS+brch/KvxJCUuwX2UWMDFUt5z
+	W1Ek+aiVTJnr5Fl3LVH08FfBnGBIoClNMaZ4Ao7R3yKApnG29KekjrN7rjsZIQmv/kUVvb60Vv63j
+	IPB83tAaGqYzxQfLRTa75PjFmgwxoD0NBo4PX/K68Zv+0ZGsYjAP4i04wqr9i4FHZvEyXgXoO9Zwg
+	TQHnqNxQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oC0nq-00Fiyn-Ki; Thu, 14 Jul 2022 15:30:58 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1oC1Mw-00G4sC-RS; Thu, 14 Jul 2022 16:07:14 +0000
+Received: from mail-wr1-f54.google.com ([209.85.221.54])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oC0no-00Fivg-Ci
-	for linux-nvme@lists.infradead.org; Thu, 14 Jul 2022 15:30:57 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DE80F33FC3;
-	Thu, 14 Jul 2022 15:30:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1657812651; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0qjqT7SoxoR9mTBoMZMCI7jluhIaJmn/utMED2HCl/Q=;
-	b=EiHzMxDmlU7EFkfaKGQ3NPyWR/nQ/wJVfS/BfupL2vMMk58MErRaeDyeGYGNDzxwKFgnIt
-	30I0tn0r+DT3V4zqPunRblVvDPgUA2cOt255YYKdRdSFQl6xdR8noYXbKZBcbV04eDnI2x
-	xoRaK24x0c0usq3+HWBlsb1ZpfDHCuY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1657812651;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0qjqT7SoxoR9mTBoMZMCI7jluhIaJmn/utMED2HCl/Q=;
-	b=AtG53+dMYDD2TdTwBe3wsKp7lrtNO3JD78sVC3LoZbBzIqQIb+wtYbhF9Av4AwOJdyu5Cg
-	30nEAemoaiE2K7AA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CEB5913A61;
-	Thu, 14 Jul 2022 15:30:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id yxZrMqs20GLUTgAAMHmgww
-	(envelope-from <dwagner@suse.de>); Thu, 14 Jul 2022 15:30:51 +0000
-Date: Thu, 14 Jul 2022 17:30:51 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: Ming Lei <ming.lei@redhat.com>, Sagi Grimberg <sagi@grimberg.me>,
-	Jens Axboe <axboe@kernel.dk>, hch@lst.de, kbusch@kernel.org,
-	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, asml.silence@gmail.com,
-	joshiiitr@gmail.com, anuj20.g@samsung.com, gost.dev@samsung.com
-Subject: Re: [PATCH for-next 3/4] io_uring: grow a field in struct
- io_uring_cmd
-Message-ID: <20220714153051.5e53zgkcabb7ajms@carbon.lan>
-References: <20220711110155.649153-1-joshi.k@samsung.com>
- <CGME20220711110824epcas5p22c8e945cb8c3c3ac46c8c2b5ab55db9b@epcas5p2.samsung.com>
- <20220711110155.649153-4-joshi.k@samsung.com>
- <2b644543-9a54-c6c4-fd94-f2a64d0701fa@kernel.dk>
- <43955a42-7185-2afc-9a55-80cc2de53bf9@grimberg.me>
- <96fcba9a-76ad-8e04-e94e-b6ec5934f84e@grimberg.me>
- <Ys+QPjYBDoByrfw1@T590>
- <20220714081923.GE30733@test-zns>
+	id 1oC1Ms-00G4nE-UO
+	for linux-nvme@lists.infradead.org; Thu, 14 Jul 2022 16:07:12 +0000
+Received: by mail-wr1-f54.google.com with SMTP id bu1so3164171wrb.9
+        for <linux-nvme@lists.infradead.org>; Thu, 14 Jul 2022 09:07:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=IsakR5nb5HoVwT7CSmfkuz8869/FesKJl00dWLPNOvo=;
+        b=UAf5oI6nAYKiOIqd+KJ3vfNHqpByJEzRMIzyO3L5VhPuZbwtyDzZywmdZPp7XRhyo8
+         7lcGae48p3vyYcB1OekjNnS0wnrSicTMhcffpBsqVnc9WrqW7bv7lBiaAqHjR0ybqlkw
+         UKhZQKti2+U5S6xoJZvUG0OVIFlY5GshX94ogR12PMX6FjvAB7R0NtClSLBuKvpEuz+w
+         DUDHBJVkRgRop+IWfj5C833Uq7c4qCKIg3O0QBwEUyBQddHT9kR3zLAAWkMro5xRNiZn
+         4Pp4WR8sfT186v9UTczDOQkb5m7HNYloVeKGHTe46Fe1HYOBUkAL0zLV32Opu33RZ6v5
+         ji+Q==
+X-Gm-Message-State: AJIora84d92iSFNKsSGnu7fVlduSjhkFfuSLcR6bsCAazR9QnrcFhRlK
+	b5p+zukaKmsU9HIt0BUlMCQ=
+X-Google-Smtp-Source: AGRyM1sWsWpOZfiI82ywc5rwxVKa/0g6y1sLT9olyWVn3G2R7u0iSN3uiAkJTLklRNNhVtgUIz46jA==
+X-Received: by 2002:a5d:44d1:0:b0:21d:7471:2094 with SMTP id z17-20020a5d44d1000000b0021d74712094mr9012802wrr.374.1657814827305;
+        Thu, 14 Jul 2022 09:07:07 -0700 (PDT)
+Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id m21-20020a05600c4f5500b0039c5ab7167dsm5950509wmq.48.2022.07.14.09.07.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Jul 2022 09:07:07 -0700 (PDT)
+Message-ID: <6dde7d08-c51b-9595-18d9-673f585c3d5a@grimberg.me>
+Date: Thu, 14 Jul 2022 19:07:05 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220714081923.GE30733@test-zns>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] nvme-tcp: delay error recovery after link drop
+Content-Language: en-US
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20220714122703.67621-1-hare@suse.de>
+ <49be3b16-9c99-460b-e321-c2727c159d9c@grimberg.me>
+ <cdf87a27-0981-f51f-3900-f601f4dc49a7@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <cdf87a27-0981-f51f-3900-f601f4dc49a7@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220714_083056_603610_1DAC5C8A 
-X-CRM114-Status: GOOD (  12.85  )
+X-CRM114-CacheID: sfid-20220714_090711_028656_0E2F8F96 
+X-CRM114-Status: GOOD (  29.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,18 +81,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 14, 2022 at 01:49:23PM +0530, Kanchan Joshi wrote:
-> If path is not available, retry is not done immediately rather we wait for
-> path to be available (as underlying controller may still be
-> resetting/connecting). List helped as command gets added into
-> it (and submitter/io_uring gets the control back), and retry is done
-> exact point in time.
-> But yes, it won't harm if we do couple of retries even if path is known
-> not to be available (somewhat like iopoll). As this situation is
-> not common. And with that scheme, we don't have to link io_uring_cmd.
 
-Stupid question does it only fail over immediately when the path is not
-available or any failure? If it fails over for everything it's possible
-the target gets the same request twice. FWIW, we are just debugging this
-scenario right now.
+>>> When the connection unexpectedly closes we must not start error
+>>> recovery right away, as the controller might not have registered
+>>> the connection failure and so retrying commands directly will
+>>> might lead to data corruption.
+>>> So wait for KATO before starting error recovery to be on the safe
+>>> side; chances are the commands will time out before that anyway.
+>>
+>> We can't just blindly adding kato to the error recovery because that
+>> by definition creates a intrinsic delay for I/O failover. There is
+>> absolutely no reason what-so-ever to do that. kato can be arbitrarily
+>> long.
+>>
+> Yes, true. But the controller might need to register the connection 
+> timeout and do some cleanup action afterwards, for which KATO is the 
+> only value we have currently.
+
+Yes, but it is orthogonal to the problem you are describing. This is
+tying two things that are unrelated. Plus, kato is controlled by the
+user and now it affects the failover latency? kato can be 1s, is that
+enough? no one knows... its all voodoo.
+
+>> If the controller needs this delay, then it should signal this
+>> somehow in its capabilities. This is not something that we can just
+>> blindly do. So this needs to go through the TWG.
+>>
+> ... as you might be aware, this is discussed at the TWG.
+
+I remember discussing this once, and was against doing this
+unconditionally. This is by definition a result of a controller
+implementation. There are controllers out there that know how
+to fence against the issue you are describing and there is no
+reason that the host will failover after kato for no reason.
+
+If the controller needs it, the controller needs to reflect
+it to the host.
+
+> There even is a TPAR 4129 which deals with precisely this issue.
+> But consensus is that an immediate retry on path failure is dangerous, 
+> as the controller might not have detected the path failure yet, and will 
+> wait for at least KATO before declaring a path dead and start recovery 
+> actions, potentially clearing out stale/stuck commands.
+> And retry on another path during that time is dangerous.
+
+Dangerous is not enough to universally do this unfortunately. If for
+some reason that is unclear to me, there is resistance to have the
+controller reflect what it needs, then add a failover_tmo parameter
+that is defaulting to 0. The controllers that need a different timeout
+then the user can explicitly state it.
+
+> And yes, we do have customers who have seen this in real life.
+> 
+>> Also, how come this is TCP specific anyway? This talks about a
+>> controller that has a dangling inflight command that he cannot fence
+>> yet hence cannot serve failover I/O. RDMA should have the same thing.
+>>
+> The crucial bit here is the 'nvme_tcp_state_change()' callback, which 
+> will trigger recovery as soon as it detects a connection failure.
+> 
+> RDMA doesn't have a direct equivalent here, and I'm not that deep into 
+> RDMA details to know if the RDMA_CM_EVENT_DISCONNECTED is synchronized 
+> with the remote side. If it is, we're fine. If not, we'll have the same 
+> issue.
+
+RDMA_CM_EVENT_DISCONNECTED is unrelated to what you are describing, the
+rdma_cm event you are referring to is RDMA_CM_EVENT_TIMEWAIT_EXIT (i.e.
+the host send disconnect request and timed out). At least it is the case
+afair.
 
