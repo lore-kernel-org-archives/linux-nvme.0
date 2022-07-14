@@ -4,129 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA621C43334
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 08:25:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BF05BC433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 08:51:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ImEm3uLnMWETXbmkm+rCTqM6+ogJkg8BitxVUXzVYEc=; b=003ocIHNg1B/oMhqna8BhVGj3n
-	94ddGQ97mEQv5CqpIo/FxCKwPbB4LQYlNeySojcd//bmo/lrZdbz/Y/EfodB61vSCRQE9+lwEjh/b
-	bCkp/XNL6Pkkgle9Dk5QISoJFYQQtouX/gkNp4bCQu4PbZ6OaZlmnYoMUsw09r8yvfHLGOLqRbcM8
-	8O21hGOTAKrtifRV9ihDxA0uXFfeVLZewA+0VYDH9AV/WBjIeEK/C8OR/XRaYGUU3kM4VX/XY1slS
-	BMwpPwiPb5us5NOJ0L58Lyuv4aKgQrBqxR3wC0AM63BgBiZiVQv+bgouPpq25ms8IjEsmIBuTIudf
-	DgTIIFOw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=gkXpk55u1PGtSRZ5orhABhS3U6cGpcNjrvoSiD85Ppc=; b=TFw4XpHOl4MNrQ11zTXu8dDzMg
+	V7nHSE54PVco1xQz9k9s05pkiwNMMc/1rCdbnQreMJ7JHxm2aIEtJgK3LIat2hOWI+TWCzZIswLV7
+	NM0Kd5MiUf87rLXb/J9DbaJ4UqTXBozJ/DXxG6q/cyvPwB7kpXDYEmUBmCMhxSxMeNu9yZLioWGE+
+	42/9K3qnU+WT4VZ5q6DDw6bxYBDkwoOXIgG1cAE7Xfy9/pvs+md05J/PB04dX1Akq7DfOjGiMU5UX
+	khlIz4nyutL7Rm71H4w97Rdae3TgeqN2672rquDP53lHwRiiN02TF99PRmumCwbdIi6jEVkJXmS8A
+	59WQI6Xw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBu9i-00CKMG-CC; Thu, 14 Jul 2022 08:25:06 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1oBuYu-00CVwf-TU; Thu, 14 Jul 2022 08:51:08 +0000
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBu9f-00CKIy-Lk
-	for linux-nvme@lists.infradead.org; Thu, 14 Jul 2022 08:25:05 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20220714082452epoutp0267dd2a631245e1cd4f7bfc31cd24d0a6~BpJPg3XIV2305023050epoutp02G
-	for <linux-nvme@lists.infradead.org>; Thu, 14 Jul 2022 08:24:52 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20220714082452epoutp0267dd2a631245e1cd4f7bfc31cd24d0a6~BpJPg3XIV2305023050epoutp02G
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1657787092;
-	bh=ImEm3uLnMWETXbmkm+rCTqM6+ogJkg8BitxVUXzVYEc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=r85Z0NLTUykAGEmc7u6tcFoNBPilQ+LgX3kkGHO9h605aH4DfW0q2E1x3YX38PYfu
-	 FklTeeJcFXYGgdn/fIVHCwFEZ0L/1qqIZHHg/J8FjvO6sjTXnyhTcKsEAW2lKaqS9x
-	 7pnebfkpUtIj86gIeLWDm9yOdiFgb/Pe/ouvFkAM=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20220714082452epcas5p3059d7018af2456b9a88c47e80d467f40~BpJOwDday2978829788epcas5p3g;
-	Thu, 14 Jul 2022 08:24:52 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.176]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4Lk6wx2xZ3z4x9Pw; Thu, 14 Jul
-	2022 08:24:49 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	EC.32.09566.1D2DFC26; Thu, 14 Jul 2022 17:24:49 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20220714082448epcas5p1a3497e7ce59fe8b5388afe8c3edfc6d0~BpJLdb9vS1554115541epcas5p1J;
-	Thu, 14 Jul 2022 08:24:48 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20220714082448epsmtrp1df67c0bc5028944645406faa6e3d15d9~BpJLcozEi0497104971epsmtrp1e;
-	Thu, 14 Jul 2022 08:24:48 +0000 (GMT)
-X-AuditID: b6c32a4a-b8dff7000000255e-ab-62cfd2d19600
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	BB.98.08802.0D2DFC26; Thu, 14 Jul 2022 17:24:48 +0900 (KST)
-Received: from test-zns (unknown [107.110.206.5]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20220714082446epsmtip1e51819c52649a216baff5f9dfc1b9ef1~BpJJrUxNX0771807718epsmtip1f;
-	Thu, 14 Jul 2022 08:24:46 +0000 (GMT)
-Date: Thu, 14 Jul 2022 13:49:23 +0530
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>,
-	hch@lst.de, kbusch@kernel.org, io-uring@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	asml.silence@gmail.com, joshiiitr@gmail.com, anuj20.g@samsung.com,
-	gost.dev@samsung.com
-Subject: Re: [PATCH for-next 3/4] io_uring: grow a field in struct
- io_uring_cmd
-Message-ID: <20220714081923.GE30733@test-zns>
+	id 1oBuYp-00CVtk-1P
+	for linux-nvme@lists.infradead.org; Thu, 14 Jul 2022 08:51:07 +0000
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 18CAD32008FC;
+	Thu, 14 Jul 2022 04:51:00 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Thu, 14 Jul 2022 04:51:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+	 h=cc:cc:content-type:date:date:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to; s=fm2; t=
+	1657788659; x=1657875059; bh=gkXpk55u1PGtSRZ5orhABhS3U6cGpcNjrvo
+	SiD85Ppc=; b=Lv9YT/FdTdVxrkAv/FNCdTraXg5v8TlkAdO217Ah3/1xg8WRLbH
+	OTI3BU53fsgI2/xKBpPhHPOx4ONhtCSgmNi5ulKNijrHNRT0aZ7LY4ItaGQ8LwhW
+	/WaTwW2X5PQHdsyJupKFsTPxEl13RAR7z/H5HTYOW/xjy2OiiTTmmm51cwKvffUE
+	iDoPorHejkE2TAiZ2FPsoXKfHXLWiztba01lOeUvhqwtbatJsTICd7v6MDBO0PRR
+	Ipri4ypJWJSqRqtsDsB476GehMIwlNQDh+ZqeVt9wm3a0CUIv4HIqPhR+hJkw9Yz
+	IEbJOCFMwH4NqyvqaRZmWle3nKrH3ht5Oew==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:message-id:mime-version
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1657788659; x=
+	1657875059; bh=gkXpk55u1PGtSRZ5orhABhS3U6cGpcNjrvoSiD85Ppc=; b=E
+	QZtgKPxkdMTX7xE0u90HsxCGzTOc/1jVJpjbAh1yZe/kNHxaxSjQ/sMuOu/sKjbk
+	+UlLcs6G0Or9yEGvEfzRKWPu7SfC/StVVZFu3ntchgQB8ajy+lioPTa0sk1lSb0r
+	PqhFq/WOm94bTZw3U36n+Jm5GYF6iNP31AZtXExmXzeZCrD5Gn+/bBZLcceQYUcT
+	4mKpth3kVNwDxSs2yyvlS7h6KbIRIFizqxxsrh4Jj5815MKURNlc5J2QliVdLFZZ
+	wfaFSGqJMKPxSzsu0izqCRCauEqKTHyeuB9dRlh/FCvy97tJ8LLEC2MMUOx3nMjG
+	AKrfs0jvE8RGCTjnm8xKA==
+X-ME-Sender: <xms:8tjPYu-uOYkn0sD2dCdnzQzla0nwjVuXTuQQjhQ9P-Lu4FJimVi9xg>
+    <xme:8tjPYutRBA-zE_Lbtwl9QaBv5oBmE-V46WPQQ4bd9XbMcYrbrJu-enRhK34x3CvT9
+    Lc1IqIbL7dMa7_1Qq4>
+X-ME-Received: <xmr:8tjPYkBbdIzG7B4Ik6fAccTdpGsHnl6mRwmpB8A7CKtj2Tt-B7vD7t6IN82m8Lb2re1giBheHaCH-CAOeHE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejledgtdekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkgggtugesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+    lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+    hrnhepleeuhedtlefhveethfetgfffudevjefhfeeftddtveevteegveejvdekfedtgeet
+    necuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpedtne
+    curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:8tjPYmfGaTs2u5WaffgFD8d871bNnwf2OlZKTmq1OvwtnEQfHYrZ3A>
+    <xmx:8tjPYjPIgcl6E5uZD0mMNZoA1PSqmgLt4HMItVmCEMXRzNLcwJMB0Q>
+    <xmx:8tjPYgmsCrCyFBgUMI-UMm609GxdqVxL2_AlEtd4UUOIgh_NyiuecA>
+    <xmx:89jPYormazpGpaIJiiv-F__9fKBuVssbaRQpnDRNdtEkveUB3ffezQ>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 14 Jul 2022 04:50:57 -0400 (EDT)
+Date: Thu, 14 Jul 2022 10:50:56 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Subject: shadow doorbell on admin queue
+Message-ID: <Ys/Y8N0y1lpMwyZH@apples>
 MIME-Version: 1.0
-In-Reply-To: <Ys+QPjYBDoByrfw1@T590>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrGJsWRmVeSWpSXmKPExsWy7bCmlu7FS+eTDBpv81s0TfjLbDFn1TZG
-	i9V3+9ksbh7YyWSxcvVRJot3redYLM6/PcxkMenQNUaLvbe0LeYve8pucWhyM5PFutfvWRx4
-	PHbOusvucf7eRhaPy2dLPTat6mTz2Lyk3mP3zQY2j/f7rrJ59G1ZxejxeZNcAGdUtk1GamJK
-	apFCal5yfkpmXrqtkndwvHO8qZmBoa6hpYW5kkJeYm6qrZKLT4CuW2YO0MFKCmWJOaVAoYDE
-	4mIlfTubovzSklSFjPziElul1IKUnAKTAr3ixNzi0rx0vbzUEitDAwMjU6DChOyMNcf4Cnbz
-	V9y9tIm5gfEWTxcjJ4eEgInE8mVnGUFsIYHdjBJHFud1MXIB2Z8YJV43LmSDcD4zSiyZfZMZ
-	puPW/amMEIldjBLz/r1mh3CeMUosvvKAtYuRg4NFQFWiZbERiMkmoClxYXIpSK+IgJLE3bur
-	2UFsZoGZTBJvOpVBbGGBQInVvXvA4rwCuhKb71+FsgUlTs58wgJicwqoSLRuXwB2qaiAssSB
-	bceZQNZKCOzgkJj/fC8TxHEuElfm74OyhSVeHd/CDmFLSbzsb4OykyUuzTwHVVMi8XjPQSjb
-	XqL1VD8zxHGZEotX3WGBsPkken8/YQL5RUKAV6KjTQiiXFHi3qSnrBC2uMTDGUugbA+Jm7f2
-	QgPuE5PEuclLWScwys1C8s8sJCsgbCuJzg9NrLOAVjALSEss/8cBYWpKrN+lv4CRdRWjZGpB
-	cW56arFpgVFeajk8hpPzczcxghOwltcOxocPPugdYmTiYDzEKMHBrCTC233oXJIQb0piZVVq
-	UX58UWlOavEhRlNg7ExklhJNzgfmgLySeEMTSwMTMzMzE0tjM0MlcV6vq5uShATSE0tSs1NT
-	C1KLYPqYODilGphC/ryosVxZNvdD1ezfq9ccPRRwlqM+b+fXfK47U+64y6q7bYy9Jath8uAB
-	B+NvMV82F8HIbUbfJge84c9J1pm+ee3OS7NXbtux5cZ7mwP73M3vsywWfOWn9cbr1I4bn+cy
-	S0ZPu9y0ocil+O3/mf9PqN/+naZktcO4V+2eMNOxmVskE5fm/Jr9zvmgYZXm//89Cc1rj4gZ
-	GvIvP1fK9rpZd6Nu/yPF7znioo2RZ0vuLLu+xJWht1ae3dquoGLu3qZNX+xn3ZhU6q7Be5Rx
-	9eObDp/1IgLFpERC1a4w9us/ntM/4frehLDb5h99Zs38O2cKw1GV7eeFF7hZTJO45RgVI3PZ
-	dqF0T6lG+911jT91lViKMxINtZiLihMBqxB5VUkEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphkeLIzCtJLcpLzFFi42LZdlhJTvfCpfNJBts3Slo0TfjLbDFn1TZG
-	i9V3+9ksbh7YyWSxcvVRJot3redYLM6/PcxkMenQNUaLvbe0LeYve8pucWhyM5PFutfvWRx4
-	PHbOusvucf7eRhaPy2dLPTat6mTz2Lyk3mP3zQY2j/f7rrJ59G1ZxejxeZNcAGcUl01Kak5m
-	WWqRvl0CV8aT5p3sBa94Kh7tXcvUwLiYq4uRk0NCwETi1v2pjCC2kMAORonL19Ih4uISzdd+
-	sEPYwhIr/z0HsrmAap4wSqzfsIG1i5GDg0VAVaJlsRGIySagKXFhcilIuYiAksTdu6vBWpkF
-	ZjJJvOlUBrGFBQIlVvfuAYvzCuhKbL5/lR1i7RcmienLXSDighInZz5hgeg1k5i3+SEzyHhm
-	AWmJ5f84QMKcAioSrdsXgF0sKqAscWDbcaYJjIKzkHTPQtI9C6F7ASPzKkbJ1ILi3PTcYsMC
-	o7zUcr3ixNzi0rx0veT83E2M4IjS0trBuGfVB71DjEwcjIcYJTiYlUR4uw+dSxLiTUmsrEot
-	yo8vKs1JLT7EKM3BoiTOe6HrZLyQQHpiSWp2ampBahFMlomDU6qBaVej45fXpSvq3nv08btd
-	un7K8e1FdtnrvCsnLHTmT/03qSctlHGK9SSbbymJ6R/6T7/YdmXl7/+Cvrc0lt/1eB2+285I
-	kyn8h4XZJcvA86yiWyLzGlMsjnJULP3E5p7+z/rWqo+fmi9deXdO/0qujeO6DA/xegZ9DSOd
-	oKhmu7e5zl8+dz5SzPx0VPfafpcp+fNNLc6cVNt4iqfuVIlMYWPGm85DXW8bggSlTOIPOdUm
-	XN57wZRt/d1PR8XqRSr37si8LGV348TlV14ix6xnT192+Ng6k6uL7jUIvtDcfy+gTH2hVeTD
-	61l3xM0CrQ+EuC3I3GZ8RkzzwG/WMM90J5Uf8tq+O5I5GVryw/NPKLEUZyQaajEXFScCAG5T
-	2vAXAwAA
-X-CMS-MailID: 20220714082448epcas5p1a3497e7ce59fe8b5388afe8c3edfc6d0
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----jllqsR28.5W1KdEnZlWKzx60EIuo6gwqBUS1IW9J_3KKio4g=_12d5b0_"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220711110824epcas5p22c8e945cb8c3c3ac46c8c2b5ab55db9b
-References: <20220711110155.649153-1-joshi.k@samsung.com>
-	<CGME20220711110824epcas5p22c8e945cb8c3c3ac46c8c2b5ab55db9b@epcas5p2.samsung.com>
-	<20220711110155.649153-4-joshi.k@samsung.com>
-	<2b644543-9a54-c6c4-fd94-f2a64d0701fa@kernel.dk>
-	<43955a42-7185-2afc-9a55-80cc2de53bf9@grimberg.me>
-	<96fcba9a-76ad-8e04-e94e-b6ec5934f84e@grimberg.me> <Ys+QPjYBDoByrfw1@T590>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="909vGvavICrf63QX"
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220714_012504_076142_7F752F02 
-X-CRM114-Status: GOOD (  23.70  )
+X-CRM114-CacheID: sfid-20220714_015104_465960_DCD86563 
+X-CRM114-Status: GOOD (  12.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -141,50 +99,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------jllqsR28.5W1KdEnZlWKzx60EIuo6gwqBUS1IW9J_3KKio4g=_12d5b0_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
+
+--909vGvavICrf63QX
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 
-On Thu, Jul 14, 2022 at 11:40:46AM +0800, Ming Lei wrote:
->On Mon, Jul 11, 2022 at 09:22:54PM +0300, Sagi Grimberg wrote:
->>
->> > > > Use the leftover space to carve 'next' field that enables linking of
->> > > > io_uring_cmd structs. Also introduce a list head and few helpers.
->> > > >
->> > > > This is in preparation to support nvme-mulitpath, allowing multiple
->> > > > uring passthrough commands to be queued.
->> > >
->> > > It's not clear to me why we need linking at that level?
->> >
->> > I think the attempt is to allow something like blk_steal_bios that
->> > nvme leverages for io_uring_cmd(s).
->>
->> I'll rephrase because now that I read it, I think my phrasing is
->> confusing.
->>
->> I think the attempt is to allow something like blk_steal_bios that
->> nvme leverages, but for io_uring_cmd(s). Essentially allow io_uring_cmd
->> to be linked in a requeue_list.
->
->io_uring_cmd is 1:1 with pt request, so I am wondering why not retry on
->io_uring_cmd instance directly via io_uring_cmd_execute_in_task().
->
->I feels it isn't necessary to link io_uring_cmd into list.
+Hi,
 
-If path is not available, retry is not done immediately rather we wait for
-path to be available (as underlying controller may still be
-resetting/connecting). List helped as command gets added into
-it (and submitter/io_uring gets the control back), and retry is done
-exact point in time.
-But yes, it won't harm if we do couple of retries even if path is known
-not to be available (somewhat like iopoll). As this situation is
-not common. And with that scheme, we don't have to link io_uring_cmd.
+Jinhao, our QEMU GSoC intern is working on nvme performance improvements
+and while implementing shadow doorbells an interesting issue came up.
 
-Sagi: does this sound fine to you?
+The spec states that when enabling shadow doorbells, it is for all
+queues (including the admin queue). However, the kernel will currently
+not update the shadow doorbell for the admin queue, which causes trouble
+if the device expects it to.
 
-------jllqsR28.5W1KdEnZlWKzx60EIuo6gwqBUS1IW9J_3KKio4g=_12d5b0_
-Content-Type: text/plain; charset="utf-8"
+The kernel is not the only driver doing this - SPDK doesn't update it
+either[1]. At least one virtual target implementing shadow doorbells
+(SPDK's vfio-user target) jumped on the band-wagon and simply expects
+the driver to not update it. In QEMU, Keith came up with a hack to
+update the shadow doorbell from the device side, allowing both compliant
+and non-compliant drivers to work. Just fixing it on the driver side is
+a problem, because it will break targets that expects the non-compliant
+behavior (i.e. always expecting mmio on the admin queue).
+
+Question is if the kernel even wants to do anything about this at all? I
+kinda already know the answer here - "spec is screwed up", but I wanted
+to raise the issue here for feedback prior to potentially starting a
+process with the NVMe TWG to sort out there.
 
 
-------jllqsR28.5W1KdEnZlWKzx60EIuo6gwqBUS1IW9J_3KKio4g=_12d5b0_--
+  [1]: https://github.com/spdk/spdk/issues/2147
+
+--909vGvavICrf63QX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmLP2O4ACgkQTeGvMW1P
+Del3Tgf9GkkouRIcRrUlAgbqHwegTwJBe7F+7xCxbQaZvCKWsLKMlxAOukA8t9m4
+OBiGkF6eC1kfRQfE7kyooucw159Tah42RPSrC6ZsMr5z/Rw/B71gph8GLBieqdS8
+68DtyVge1timKCEqPjMO2OBq48N6R4KPPJx0zsay4VpcJNKQFtqu70FqLOo+tlDO
+gKz/1p5PGQwXETqfUhc4281waED9NghjUcSBoV98tzsPnJtxTeRwKScYbnI5Dvhf
+zhDIXcSX/TpCZ0vQpqGOoW4iYbSutgseYhMa9Lp1iBUm3pqhM+FmTNebixx61HZP
+Q5LXO6Z5RmiD85lerBE3gBY2PpNW4A==
+=afbn
+-----END PGP SIGNATURE-----
+
+--909vGvavICrf63QX--
 
