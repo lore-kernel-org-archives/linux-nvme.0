@@ -4,69 +4,164 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2FE62C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 16:07:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0BB7EC43334
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 16:26:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IsakR5nb5HoVwT7CSmfkuz8869/FesKJl00dWLPNOvo=; b=jnxdCHQEBBV8no5TqYsnIdf6HY
-	rRTbKZIQgqetFhLxsJfBG4f6wYbZyS2IpWlvPfvvEr3Q2HblcDYsrc3k7/qSopWudcXgWzIBW9NbE
-	jt/zTbBNekYYbx6Q7FWwZSgSe2b1syKlMLfBHgTk5XMDUlk7eaLS+brch/KvxJCUuwX2UWMDFUt5z
-	W1Ek+aiVTJnr5Fl3LVH08FfBnGBIoClNMaZ4Ao7R3yKApnG29KekjrN7rjsZIQmv/kUVvb60Vv63j
-	IPB83tAaGqYzxQfLRTa75PjFmgwxoD0NBo4PX/K68Zv+0ZGsYjAP4i04wqr9i4FHZvEyXgXoO9Zwg
-	TQHnqNxQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wZ3/sR7YlEK6ZNzvW3J+On1/6bWJzqvb93VxLOt6lbE=; b=M4DjwcnlByZidKY6M6AXzo4zG5
+	H+AifOd7bNc3xOZepDCwdy3CzwpB0SfSz3E7wAeFLczm6nHhzxnnbQC+0tlFmK4fCLSkqAbaZTItC
+	Wp8ngpe0oXLHnJYAXhAlGECgSqe6EJD+HzIgnZpP3SwNqg5gWJhdelnGiekSR6Q/WDFwNidrhgQjM
+	VoxRt4a4a20I2d0TJKLCMS83hMrvC/RfQF1LC6AWJUtaQQKOCQ6B7VaNohWnUx1k/7J8jFoP0FR6V
+	Z4HNCJXAhqHh6LBmLnUOQL6sQvo/kvr93sA0EvHHS8ey+E94Rz/0i2SzyTNk7SlfwaaOQsZwSP/0J
+	tPqsJqKw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oC1Mw-00G4sC-RS; Thu, 14 Jul 2022 16:07:14 +0000
-Received: from mail-wr1-f54.google.com ([209.85.221.54])
+	id 1oC1fE-00GF7E-7R; Thu, 14 Jul 2022 16:26:08 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oC1Ms-00G4nE-UO
-	for linux-nvme@lists.infradead.org; Thu, 14 Jul 2022 16:07:12 +0000
-Received: by mail-wr1-f54.google.com with SMTP id bu1so3164171wrb.9
-        for <linux-nvme@lists.infradead.org>; Thu, 14 Jul 2022 09:07:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=IsakR5nb5HoVwT7CSmfkuz8869/FesKJl00dWLPNOvo=;
-        b=UAf5oI6nAYKiOIqd+KJ3vfNHqpByJEzRMIzyO3L5VhPuZbwtyDzZywmdZPp7XRhyo8
-         7lcGae48p3vyYcB1OekjNnS0wnrSicTMhcffpBsqVnc9WrqW7bv7lBiaAqHjR0ybqlkw
-         UKhZQKti2+U5S6xoJZvUG0OVIFlY5GshX94ogR12PMX6FjvAB7R0NtClSLBuKvpEuz+w
-         DUDHBJVkRgRop+IWfj5C833Uq7c4qCKIg3O0QBwEUyBQddHT9kR3zLAAWkMro5xRNiZn
-         4Pp4WR8sfT186v9UTczDOQkb5m7HNYloVeKGHTe46Fe1HYOBUkAL0zLV32Opu33RZ6v5
-         ji+Q==
-X-Gm-Message-State: AJIora84d92iSFNKsSGnu7fVlduSjhkFfuSLcR6bsCAazR9QnrcFhRlK
-	b5p+zukaKmsU9HIt0BUlMCQ=
-X-Google-Smtp-Source: AGRyM1sWsWpOZfiI82ywc5rwxVKa/0g6y1sLT9olyWVn3G2R7u0iSN3uiAkJTLklRNNhVtgUIz46jA==
-X-Received: by 2002:a5d:44d1:0:b0:21d:7471:2094 with SMTP id z17-20020a5d44d1000000b0021d74712094mr9012802wrr.374.1657814827305;
-        Thu, 14 Jul 2022 09:07:07 -0700 (PDT)
-Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id m21-20020a05600c4f5500b0039c5ab7167dsm5950509wmq.48.2022.07.14.09.07.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Jul 2022 09:07:07 -0700 (PDT)
-Message-ID: <6dde7d08-c51b-9595-18d9-673f585c3d5a@grimberg.me>
-Date: Thu, 14 Jul 2022 19:07:05 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] nvme-tcp: delay error recovery after link drop
+	id 1oC1fA-00GF3f-OO
+	for linux-nvme@lists.infradead.org; Thu, 14 Jul 2022 16:26:06 +0000
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26EFsV84008512;
+	Thu, 14 Jul 2022 16:26:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=wZ3/sR7YlEK6ZNzvW3J+On1/6bWJzqvb93VxLOt6lbE=;
+ b=R7FBcan8G46O93sgHizRndLmYmSKgmWxlMNHe70I4hHBHnYPFSPG0cZNxSDZ9v4dXfFT
+ WW8hGEA6jbJoHpfDxW0K23nXXCFJ5nWULpfM6u/Vo/jh5op04Fg/awLThS8z2zV/3HdU
+ qOmg6nB0j5dZ6ODApMGvRg0tuETkQSXoCxs7WaMQ4IwlQVz4uGBpo6WnqXVlTE2DrhS0
+ JvS0BaDmJfRz2P6DzPUSDugIADVxSePhp/HUyv/pDOrWqQ7p5uhfAsdLdGyiAMduGnfb
+ d2TijaEjSxfoisNcU/82XdXJlE1iXZNyl3XEhcJdVi2GjWKDUbtkY/jjvdYVB2pBfJzP Qw== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h71scdtba-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 14 Jul 2022 16:26:00 +0000
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 26EGFI3G020962;
+	Thu, 14 Jul 2022 16:25:59 GMT
+Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2040.outbound.protection.outlook.com [104.47.73.40])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3h70460j5p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 14 Jul 2022 16:25:59 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aLb1xzqinY6fgt7BlVCZSDuS7bLq+AD5Zq8L+sIZnkgZ1lF8jaQSQZpNGdvYhk31pAA2cN2ukw/bNXr0HAWHfq26gViBZVcT/qm19AkE8kO6M7z2e8FKipXRHVs2QP8zhse6fkmB4jxYj5q7BMmvj0VW7+tESoncY2XfXAAp29aGMdtYbdOfTgGnIHhwRT7xsNwvTiWCYWo2HlA/kzU5GVSP60TzBpEREPnNZMvffDhjXG0HvnAGiAcSSjO60oqqWCt/ryCEeaGJhchVqEZ0Kzz8lkIU3DBAp98X3xjB7Zyd62CfyRJXhM2FUNZkoQgz5ZQ+EmP4+kRGugnp/UxT/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wZ3/sR7YlEK6ZNzvW3J+On1/6bWJzqvb93VxLOt6lbE=;
+ b=ofXtWlDSoKswXDJcmNdK875Iq380MDqqnf5HUzcR1Wro2vob9Y+DGF3XHV3YDbpfEGuWs5aFiyuMTLqryet1NUnscsmpk9q52s8OMXe/SSQKeJUxFssDR6OGBK0YHlBjX1nq6Yn3MCJQHf6a3n1+wJt+MOfY6STuDgzzRd4i8fGzoicmaRJYcM7HOKv9OyR8zf3CxFE6AG6bYLvpun9ZWsJLHdFnelVs3+3i5Nwpv8hMFe6N8E3usWTWl4ht8osXN+FJh9C1KxikjIJKbNA5KsB8rXGUxXRUHb548qdYoLywaOO/3o5ZOBupUPrX/CLZbt7cxzMmZAQz3t+hRY4YXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wZ3/sR7YlEK6ZNzvW3J+On1/6bWJzqvb93VxLOt6lbE=;
+ b=yUPzSYx94h7DBbgW0w5LyBqAIKgXOM1gwFHt63Bp4eI7xktZraFAsiJ3EPqU8+3srVS5DikzMyk6OzY6weX90jU/G8GZTVcddjPJVCnsHefgIQtZD+mR94p/sPEQ810QCC54+FSxj0n8IrereWDJLgcO/GwaH012vqM4GfJ2WQg=
+Received: from SJ0PR10MB5550.namprd10.prod.outlook.com (2603:10b6:a03:3d3::5)
+ by BLAPR10MB5331.namprd10.prod.outlook.com (2603:10b6:208:334::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.14; Thu, 14 Jul
+ 2022 16:25:57 +0000
+Received: from SJ0PR10MB5550.namprd10.prod.outlook.com
+ ([fe80::711c:ac02:36af:925c]) by SJ0PR10MB5550.namprd10.prod.outlook.com
+ ([fe80::711c:ac02:36af:925c%3]) with mapi id 15.20.5438.014; Thu, 14 Jul 2022
+ 16:25:57 +0000
+From: Alan Adamson <alan.adamson@oracle.com>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
+CC: "shinichiro.kawasaki@wdc.com" <shinichiro.kawasaki@wdc.com>
+Subject: Re: [PATCH] tests/nvme: Set clear_ids for passthru targets
+Thread-Topic: [PATCH] tests/nvme: Set clear_ids for passthru targets
+Thread-Index: AQHYkLG+bIDx62xWtUmXo8eTsGiyYa1weoyAgAEGqgCADJoxgA==
+Date: Thu, 14 Jul 2022 16:25:57 +0000
+Message-ID: <4AB40A37-F3CA-496D-80D9-13845D6DC3E1@oracle.com>
+References: <20220705205632.1720-1-alan.adamson@oracle.com>
+ <cd910676-cf1d-ae13-94f2-e1ccd59d431d@nvidia.com>
+ <85D002C4-B3F7-4EE1-8C0B-B2E41F234046@oracle.com>
+In-Reply-To: <85D002C4-B3F7-4EE1-8C0B-B2E41F234046@oracle.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20220714122703.67621-1-hare@suse.de>
- <49be3b16-9c99-460b-e321-c2727c159d9c@grimberg.me>
- <cdf87a27-0981-f51f-3900-f601f4dc49a7@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <cdf87a27-0981-f51f-3900-f601f4dc49a7@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: cf512eb4-3a4b-4be5-dd17-08da65b5885b
+x-ms-traffictypediagnostic: BLAPR10MB5331:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  Srz9bDykTIFEbareQSc/9dphM9pJvHR8gF/JU/kAu8lSLOr/6d0xoyFp43WwpipNGoZFgoJ+658RbQFZgrSZrUikwG8hjxm16DzdF/XOq4JooDJplmbZSpi26c78ikUX9mfqgAZseXQBUVBrMI/TVzYElZ9Es/dNWYwI/nV5ZPWVs7U2YpCpDGgoNzPc2wbDR/fL7/egA4rOu9LXMh/OHZPC5x0sGd5KRzRu+JZ3jR6Aumtflqgs6vtmhFxeWDVqHOZ9bJTs+3FNKqcLyJhYC4AWMIOoPjXIBguobt7qD+Qg7zj3lCCksORnTdnUa+F5idgayYhjdBlDJ2DQf9VqaEdc6qiIh7Agzse7xVpM9U7lwZj23ZWDLUTTxvQ37axvKwuJySlzDqXhmOAPJAsCV63xsPiRLqBm35wesq3YrklI3ss0vlriwnyVDfKu8J10mEMebRrZtl/SL8+ZOI7HqS3ybf+mFLXvwJCzWy6tZ0pMJRVWwvT0AYIXYu+xGFCDsCZEpWgmQnBH+H+z1mPvEj1Hmfw0XcDqkDlhx8jNQZylMtkM3APGPLgRIdnpOhJtsV9V5tPjZBCqPdpUpDBmrVKtDqmD+meJP+WxG34FOaOo17IObJlpMqprm4B2uWOYsGSOiliOABPWSHB4jor0HbBOF6erHeoJogElmVeY1yE/wtqyvoNmLFcr2eOtJmBZ6+3vuV6PsMiO3xrWt/h/N6raW9AdXh4TOZyl/c06XBzVd+qp6CnPZlOH3S51YWti0gnz24YRnqzooFQiqrA+nF7BPKp9PtNiC6w7bpal+aVWUQIndjnHL8+Jscm8XW1r4z6x9/GFQtFRwq3vrz1gk37ViPapsXZPDO3IjF0NyB4=
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5550.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(366004)(346002)(136003)(376002)(396003)(39860400002)(478600001)(38070700005)(44832011)(186003)(6506007)(6486002)(26005)(6512007)(76116006)(38100700002)(91956017)(316002)(110136005)(86362001)(71200400001)(53546011)(8676002)(64756008)(4326008)(5660300002)(2616005)(8936002)(66476007)(66946007)(66556008)(41300700001)(66446008)(83380400001)(36756003)(122000001)(33656002)(2906002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?RXRucVNxcmk0SmxZNlhPK3gvN2lDaFZaMWRlTjZGbHBkb0FUSStGL3kvd3lK?=
+ =?utf-8?B?dVNQSjl0b1VFUitrbHNVM2prclM0TEVta25JUHVoY3diaTg1K0lQdHlZRzgx?=
+ =?utf-8?B?UFZlZiswZnV4N0pianhsQ0Y4VVFXZDdrTGMrd1hqUlVnTVJTS05PdDZjYWpX?=
+ =?utf-8?B?c1RXbG1KblZuU0NFcmt6dk1aUnY4L1QzVVM0T3ZaNVp6TWxHZ3JYaVk1U2c5?=
+ =?utf-8?B?TlZtUVhJTENtK3pIUDYzK3J4MHpDZkR1ZHdYT1cwU0l2dE1JblhGenFsM2g1?=
+ =?utf-8?B?RkNhQU1jYWliem8xSUtBN0o5OGc0OS95cFVVUWtQajJpc0QwblNGdkE0NTBi?=
+ =?utf-8?B?UkJMT3I1UmJXcC9LWitlOXVjcTYxei9oUTBoamZyV0pFcTUyc1ZJMmJad05I?=
+ =?utf-8?B?WWtjZG9VNW41Y09aUFB2NTQ2U3pGMzRlbGdWMzB5TlJNQ0hNUEhzamNTeUhm?=
+ =?utf-8?B?aXJWVGNCYnF1K2hNTDY0QjNIUDM2MlhWcmpUMitHTjZNTWMzbUlrNGVXdUQ4?=
+ =?utf-8?B?NkdON0prTDJETVdVSzZacG5MWWMzbjJJQ1Mwb082WlFRYXpXVFM0aDNVWXFH?=
+ =?utf-8?B?WGVOWlJsUHhqWW9XUXVDbHgybU05N2pvZTNMUmhtQjlrRGFYMThLakVyalg1?=
+ =?utf-8?B?c1Jqa0dVMVBaeDQrWmNhVEVLRGsvSDZqVHR1cSsrSFQ0eFUweW81VVBBZHJP?=
+ =?utf-8?B?eExSMHlFK1Y2ZU5jZ2RJUmVlcDZRd1JiZG8xR1hvUitaZW5JWm5vZVRjeGM5?=
+ =?utf-8?B?cHF5Wkk3aVJ4enhkaUF2aVZIZ2tKR0psNzNGY1Q2N01aenZiZXloTXVobnB5?=
+ =?utf-8?B?Z2VqOGM1NEc2MllvdExINE5xQzh0UXVDdi9RdHU0ZUloK1NpVDZVSVZnaTFi?=
+ =?utf-8?B?TDZxTU5KdFArUEVlUFdsL3IvZFBIL3dOMysyVWZlMEx6enB3KzE2NVllN3pz?=
+ =?utf-8?B?S2hoNGlNaFlZSWluT2hOYmtrZ05ORkc2NzRpbHQrakVqb1piOVlPcWVnMUVM?=
+ =?utf-8?B?ZGJ6N2tlQWt3Y2xmWHdxM0JjdGZwWTh1VEx0K29LdkwrL1YyVWxiOGFpbXRr?=
+ =?utf-8?B?NG90bWh2YlpzZTBYOTNENzFMZVhvMm4wRTJ4UVFCdTdwb2JZMWlwVStEcWlx?=
+ =?utf-8?B?U29INmFldGFUcExIeFhiUHFIVDZUUHpRVmRWV0RIN3V4RkFZdDVWZGk5NE1D?=
+ =?utf-8?B?T3JpdE84Q1F6dENqNlRGM0RFemlwMUFkQ2VSbldCaWxPMEVOTWpITEZtZEc5?=
+ =?utf-8?B?ejg5cmRRV0pVbFJ2Q1o4dEx4eUNmS3V3aXZCckI5Y25MbnNjbU1FWVo1RnZZ?=
+ =?utf-8?B?NTVqSHlEc2YzYmJIcVNhbFFRQllDZDlldkZXWElOQlZxNWhXQzBKcVVpanFU?=
+ =?utf-8?B?elNYQi9ZQ1BaaEs2TlBvWkF0TTRJRlc1THNCczRySXFtN3IyMkgwL0ZkMEJ4?=
+ =?utf-8?B?UmRxZHZZd3piNjg3V3VCdzYrTEp6WHl0aExscUtvV1lDRnVkYUlWTGYwMG0w?=
+ =?utf-8?B?K2ZpbTdINnlvdUpHckRMUmVqckxrNjlSMWpILzZsbWZjeTVFbCtPdUdsQVdJ?=
+ =?utf-8?B?d3U3MUlDZ0hETS9FZnF4SjArQURyaFFhelZZZ1dpNEw5NTlNRk9PWmR1S0c3?=
+ =?utf-8?B?c3lua3BNSUw5MUxYR1hSdFgrUG82V2hYb2FwSTB5bUVVL21mcGRwSkFIV1Rx?=
+ =?utf-8?B?RVZFWmJzK1BRNTgydFg5WHpWNlF0cE84YzA2SkpkMzFvbnRwSkoxMEt6dXJq?=
+ =?utf-8?B?aW9KSkxnMXBVK2IvRFRQV0xGeS9RUlNlNEV4NStoeTBrSHB5N28ycGxOOGFw?=
+ =?utf-8?B?MWlkZHlVeklBWXhHdkdOZUkyUTZBVG5DYVRIVlQ4SmFweHJkb1ozSnpYSVJC?=
+ =?utf-8?B?RHhOTy9hbnNpQm9POHR5OXRVN1RyQ1dZRDdGL2lBTFI4c3l0dEFsQnJYSGlq?=
+ =?utf-8?B?eHNwQ1hwUk5UMFdBU2FLWXZ5a0lleGxINmRCcGpuSEdSRGdob0I0L1ZSUk5Y?=
+ =?utf-8?B?T0lCYzZMM3d2Skk1SFhSYUJqVUlraCtheUhvelorY09UMEcrTkVPcGJpTSs4?=
+ =?utf-8?B?cHp1YUNyNHhERnp0L28vRUl5bG1aTGdPU1ZicS9ON0FwS213R3VGVHFjVzRS?=
+ =?utf-8?B?SkdiWCtGaElJZ0VJUkxTRWNxdnM2YjNWa0FvQk1Mek5oSFdsdDhIc21OU1V0?=
+ =?utf-8?B?S1E9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <67EDAB6398C59F4EB59B68C4C88B36F3@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5550.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf512eb4-3a4b-4be5-dd17-08da65b5885b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jul 2022 16:25:57.6929
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jJacjKBTrVW8RGW6rvn7nP811jWJr84LeSEPzpf3xF7m1HufNdocKahfLrw4GH+P6BIJKRG3XgY8XWTh80WIJg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5331
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.883
+ definitions=2022-07-14_13:2022-07-14,2022-07-14 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxlogscore=999 mlxscore=0
+ suspectscore=0 phishscore=0 spamscore=0 malwarescore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
+ definitions=main-2207140071
+X-Proofpoint-GUID: Yx6iEU53LaNxgO4R6CKaZQI0FRdNfEti
+X-Proofpoint-ORIG-GUID: Yx6iEU53LaNxgO4R6CKaZQI0FRdNfEti
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220714_090711_028656_0E2F8F96 
-X-CRM114-Status: GOOD (  29.05  )
+X-CRM114-CacheID: sfid-20220714_092604_955882_FE2DB0B4 
+X-CRM114-Status: GOOD (  24.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,72 +176,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>> When the connection unexpectedly closes we must not start error
->>> recovery right away, as the controller might not have registered
->>> the connection failure and so retrying commands directly will
->>> might lead to data corruption.
->>> So wait for KATO before starting error recovery to be on the safe
->>> side; chances are the commands will time out before that anyway.
->>
->> We can't just blindly adding kato to the error recovery because that
->> by definition creates a intrinsic delay for I/O failover. There is
->> absolutely no reason what-so-ever to do that. kato can be arbitrarily
->> long.
->>
-> Yes, true. But the controller might need to register the connection 
-> timeout and do some cleanup action afterwards, for which KATO is the 
-> only value we have currently.
-
-Yes, but it is orthogonal to the problem you are describing. This is
-tying two things that are unrelated. Plus, kato is controlled by the
-user and now it affects the failover latency? kato can be 1s, is that
-enough? no one knows... its all voodoo.
-
->> If the controller needs this delay, then it should signal this
->> somehow in its capabilities. This is not something that we can just
->> blindly do. So this needs to go through the TWG.
->>
-> ... as you might be aware, this is discussed at the TWG.
-
-I remember discussing this once, and was against doing this
-unconditionally. This is by definition a result of a controller
-implementation. There are controllers out there that know how
-to fence against the issue you are describing and there is no
-reason that the host will failover after kato for no reason.
-
-If the controller needs it, the controller needs to reflect
-it to the host.
-
-> There even is a TPAR 4129 which deals with precisely this issue.
-> But consensus is that an immediate retry on path failure is dangerous, 
-> as the controller might not have detected the path failure yet, and will 
-> wait for at least KATO before declaring a path dead and start recovery 
-> actions, potentially clearing out stale/stuck commands.
-> And retry on another path during that time is dangerous.
-
-Dangerous is not enough to universally do this unfortunately. If for
-some reason that is unclear to me, there is resistance to have the
-controller reflect what it needs, then add a failover_tmo parameter
-that is defaulting to 0. The controllers that need a different timeout
-then the user can explicitly state it.
-
-> And yes, we do have customers who have seen this in real life.
-> 
->> Also, how come this is TCP specific anyway? This talks about a
->> controller that has a dangling inflight command that he cannot fence
->> yet hence cannot serve failover I/O. RDMA should have the same thing.
->>
-> The crucial bit here is the 'nvme_tcp_state_change()' callback, which 
-> will trigger recovery as soon as it detects a connection failure.
-> 
-> RDMA doesn't have a direct equivalent here, and I'm not that deep into 
-> RDMA details to know if the RDMA_CM_EVENT_DISCONNECTED is synchronized 
-> with the remote side. If it is, we're fine. If not, we'll have the same 
-> issue.
-
-RDMA_CM_EVENT_DISCONNECTED is unrelated to what you are describing, the
-rdma_cm event you are referring to is RDMA_CM_EVENT_TIMEWAIT_EXIT (i.e.
-the host send disconnect request and timed out). At least it is the case
-afair.
+DQoNCj4gT24gSnVsIDYsIDIwMjIsIGF0IDg6NTggQU0sIEFsYW4gQWRhbXNvbiA8YWxhbi5hZGFt
+c29uQG9yYWNsZS5jb20+IHdyb3RlOg0KPiANCj4gDQo+IA0KPj4gT24gSnVsIDUsIDIwMjIsIGF0
+IDU6MTggUE0sIENoYWl0YW55YSBLdWxrYXJuaSA8Y2hhaXRhbnlha0BudmlkaWEuY29tPiB3cm90
+ZToNCj4+IA0KPj4gT24gNy81LzIyIDEzOjU2LCBBbGFuIEFkYW1zb24gd3JvdGU6DQo+Pj4gVGhp
+cyBhbGxvd3MgdG8gY29ubmVjdCB0byBwYXNzdGhydSB0YXJnZXRzIHdoZW4gdGhlIGNsaWVudCBh
+bmQgdGFyZ2V0DQo+Pj4gYXJlIG9uIHRoZSBzYW1lIGhvc3QuDQo+Pj4gDQo+Pj4gU2lnbmVkLW9m
+Zi1ieTogQWxhbiBBZGFtc29uIDxhbGFuLmFkYW1zb25Ab3JhY2xlLmNvbT4NCj4+PiAtLS0NCj4+
+PiB0ZXN0cy9udm1lL3JjIHwgMyArKysNCj4+PiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25z
+KCspDQo+Pj4gDQo+Pj4gZGlmZiAtLWdpdCBhL3Rlc3RzL252bWUvcmMgYi90ZXN0cy9udm1lL3Jj
+DQo+Pj4gaW5kZXggNGJlYmJjNzYyY2JiLi41ZTUwZTY5ZmIzZjAgMTAwNjQ0DQo+Pj4gLS0tIGEv
+dGVzdHMvbnZtZS9yYw0KPj4+ICsrKyBiL3Rlc3RzL252bWUvcmMNCj4+PiBAQCAtMzAzLDYgKzMw
+Myw5IEBAIF9jcmVhdGVfbnZtZXRfcGFzc3RocnUoKSB7DQo+Pj4gDQo+Pj4gCV90ZXN0X2Rldl9u
+dm1lX2N0cmwgPiAiJHtwYXNzdGhydV9wYXRofS9kZXZpY2VfcGF0aCINCj4+PiAJZWNobyAxID4g
+IiR7cGFzc3RocnVfcGF0aH0vZW5hYmxlIg0KPj4+ICsJaWYgWyAtZiAiJHtwYXNzdGhydV9wYXRo
+fS9jbGVhcl9pZHMiIF07IHRoZW4NCj4+PiArCQllY2hvIDEgPiAiJHtwYXNzdGhydV9wYXRofS9j
+bGVhcl9pZHMiDQo+Pj4gKwlmaQ0KPj4+IH0NCj4+PiANCj4+PiBfcmVtb3ZlX252bWV0X3Bhc3No
+dHJ1KCkgew0KPj4gDQo+PiB3aXRob3V0IGxvb2tpbmcgaW50byB0aGUgY29kZSwganVzdCB3b25k
+ZXJpbmcgd2hldGhlciB3ZSBuZWVkDQo+PiBhbiBleHBsaWNpdCBjaGVjayB0byBlbnN1cmUgdGhh
+dCBib3RoIGhvc3QgYW5kIHRhcmdldCBvbiB0aGUNCj4+IHNhbWUgbWFjaGluZSBzb21ldGhpbmcg
+bGlrZSBjaGVja2luZyBudm1lX3RydHlwZT1sb29wID8NCj4gDQo+IElmIG52bWVfdHJ0eXBlPWxv
+b3AsIHRoaXMgY29kZSBpc27igJl0IG5lY2Vzc2FyeSBiZWNhdXNlIGxvb3AgZGVmYXVsdHMNCj4g
+dG8gY2xlYXJfaWRzLCBidXQgaXQgaXMgbmVjZXNzYXJ5IGZvciB0Y3AgYW5kIHJkbWEuICBUaGUg
+Y2hlY2sgaXMNCj4gZm9yIG5lY2Vzc2FyeSB3aGVuIHJ1bm5pbmcgYSBwcmUgNS4xOSBrZXJuZWwg
+d2hlcmUgY2xlYXJfaWRzDQo+IGlzbuKAmXQgcHJlc2VudCBqdXN0IHRvIHByZXZlbnQgYSBlcnJv
+ciBtZXNzYWdlLg0KPiANCj4gQWxhbg0KDQpBbnkgb3RoZXIgY29tbWVudHMgb3IgZmVlZGJhY2s/
+DQoNCkFsYW4NCg0K
 
