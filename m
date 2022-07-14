@@ -4,158 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CB313C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 15:00:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5DF18C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 15:15:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BLHlzs/lmOt1CTNpWlKWO4S51pCQAGi1msy82OT0GpU=; b=C76kzaEz5528YRIjRRLB7Dm/rD
-	iUDDGtv8+xhW4VZ0ZTJRBQyKsno3Omj1g2bm7frX8kOotwnREdaLlRLKh2DFKglUnZ3ZygjoMiW5R
-	ewZZgWTmAsS+Lzsl+YPiozVMi4qxF2zBPqB6r1COh5skPoY+Sv1SKTFiY3CAKgPBk7K810652Goxs
-	F9n0ZyRuLt7elJQCbJ6ADbd0VWSBqJPGQ69h2B56rJGwCxxu7ArJqvdD0XgCF7dP31MlR9B+vRwTB
-	SV64Ra2VTWAvA+dffSpXx35SvmyDeFxROBr/Rd7igp844oroJkAHW0yfkzjHkj3HwHbt9eQ9dRg2z
-	iSql9m9w==;
+	bh=OeF6usJeTyAcTdKe5UBwqQy7jEW4hkpRgeYYoNc1qmc=; b=R3KCJCCeFTxNKdnPT1lKi1AVgn
+	TKjzMl3Of3ax5eZSxv1kQUUSq2jWTTGtc2FP45c2h0FHtpb7Ha73Fqigx1WDhZHLoxlW4r3/ET4Ae
+	WsMMnSeBGyszeKhutNUaWf8WGOrtS1wpwh+fTSGtpzeWzINUwPAeTPle2uzeUCsXOkOIwLY245zXP
+	hO2q/n+3H2OUVqEwUeEYM98UR8wTVNBIGTgc6kv/3svTQKp/jFPLy6e3xEfK7lveVPyT6osHOiNx6
+	AGCeXdmpcfeUDeoEOe+0sNHCpBpbM58am9AIIoEkfC0SR3xhIwOfyU3QArsmrNidWAjda17SthEN/
+	blqQVwAw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oC0Ki-00FSFq-80; Thu, 14 Jul 2022 15:00:52 +0000
-Received: from mail-bn7nam10on2069.outbound.protection.outlook.com ([40.107.92.69] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+	id 1oC0YN-00FZfU-Eg; Thu, 14 Jul 2022 15:14:59 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBeWa-005DQE-Ks
-	for linux-nvme@lists.infradead.org; Wed, 13 Jul 2022 15:43:41 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZGHNkPSeuj5uazpBoeMhLGEaAe2C88qEJQFsNS2xQQZTSCsfK2AgFhHKSbYzkko8VZizkwO7MbkB6V5akLMseZDHbCDzcz5phvtwJlMSqvI0wukT27JY3ECrl05YDG4Seg/81sZtYO6337g0mvCZX9tcvrP6tFrWyvdQxunMfQQ3R4DrZmffCO/wj/ySLHeG76Ho7044S8g4aObpAJ3zRASNoXmW33qs1zOa5hgc9gIXog/r2Ep9J3XqfSYX5hB3M+d6Yf4xhvaZUd5Pbsi4zpoti8nteifJGH7YBWvv8SZbL6ZEqTC08MzKdq8f4XeHx0a7z0TVezIYucdr0TRk7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BLHlzs/lmOt1CTNpWlKWO4S51pCQAGi1msy82OT0GpU=;
- b=W8Gr85MvHWUqRO1yxJaWO0Er/m+mbFsp777PMJ9Yn2vOxD2FGJHkpK3JGofKn8z96WlaR8PkpEciamn9sl3PzFtaX56WhtGGCWwk6FXiiXsUvns5fuVyL4NWICPwK0B82Nfu/EV0I7jjVtHbO8VjnMaBmU7vl69mBrZI2Y+jnJbhM4JfIdsy2VQIfq5IHSwjh1LBjnhaKLto+NAmj8yXSFLNn7O2rfD6SnNShqBcqoUo7pl6Gn0gG4btacqOeAiGkWQfG60f+suKvoiSp0qt1CzDVRPu9Tz59vWXWzGG+OkAVtAAqcLsmsj3oDDc3NNU0Hpf2ibCmyo6Q7frGFCSxw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BLHlzs/lmOt1CTNpWlKWO4S51pCQAGi1msy82OT0GpU=;
- b=EtuV8MeHgEeQBcT27n6VgOUmuNSEGURICb9OpDukk8ZH+5eC816OqhLaTU3Tm8Ybs4UAZCvCZtvD8AbHuWySkZ2rMU+YXR54l969Gj9MHZhFnNNZv2+Rx6we2kINJpltSSw3yqQoyRNNbXfNUkCRqRvy1YKs0EPY0puQ2VcNbB/AqiPzo/nQnwh90t5TC56WvQxzGgd2/+FsL7HTEBtua0xD7yFleBZBdgOT21AVrvGpcRPx2d8WLDSABQREq9l4oXICP1GIjOPDjGnEVZJyo8NYlL1hJ7ja4NonrB9A1uClH9mIyHfGj64Y3a4qfD4lIWtNzjBM/QoK23ZUA8EGzw==
-Received: from BL0PR12MB4659.namprd12.prod.outlook.com (2603:10b6:207:1d::33)
- by BN6PR12MB1617.namprd12.prod.outlook.com (2603:10b6:405:d::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.12; Wed, 13 Jul
- 2022 15:43:36 +0000
-Received: from BL0PR12MB4659.namprd12.prod.outlook.com
- ([fe80::3cc0:2098:d2fe:5f56]) by BL0PR12MB4659.namprd12.prod.outlook.com
- ([fe80::3cc0:2098:d2fe:5f56%7]) with mapi id 15.20.5417.026; Wed, 13 Jul 2022
- 15:43:36 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Matthew Wilcox <willy@infradead.org>, Chaitanya Kulkarni
-	<chaitanyak@nvidia.com>
-CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"axboe@kernel.dk" <axboe@kernel.dk>, "agk@redhat.com" <agk@redhat.com>,
-	"song@kernel.org" <song@kernel.org>, "djwong@kernel.org" <djwong@kernel.org>,
-	"kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>,
-	"sagi@grimberg.me" <sagi@grimberg.me>, "jejb@linux.ibm.com"
-	<jejb@linux.ibm.com>, "martin.petersen@oracle.com"
-	<martin.petersen@oracle.com>, "viro@zeniv.linux.org.uk"
-	<viro@zeniv.linux.org.uk>, "javier@javigon.com" <javier@javigon.com>,
-	"johannes.thumshirn@wdc.com" <johannes.thumshirn@wdc.com>,
-	"bvanassche@acm.org" <bvanassche@acm.org>, "dongli.zhang@oracle.com"
-	<dongli.zhang@oracle.com>, "ming.lei@redhat.com" <ming.lei@redhat.com>,
-	"jefflexu@linux.alibaba.com" <jefflexu@linux.alibaba.com>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>, "clm@fb.com" <clm@fb.com>,
-	"dsterba@suse.com" <dsterba@suse.com>, "jack@suse.com" <jack@suse.com>,
-	"tytso@mit.edu" <tytso@mit.edu>, "adilger.kernel@dilger.ca"
-	<adilger.kernel@dilger.ca>, "jlayton@kernel.org" <jlayton@kernel.org>,
-	"idryomov@gmail.com" <idryomov@gmail.com>, "danil.kipnis@cloud.ionos.com"
-	<danil.kipnis@cloud.ionos.com>, "ebiggers@google.com" <ebiggers@google.com>,
-	"jinpu.wang@cloud.ionos.com" <jinpu.wang@cloud.ionos.com>
-Subject: Re: [PATCH V2 0/6] block: add support for REQ_OP_VERIFY
-Thread-Topic: [PATCH V2 0/6] block: add support for REQ_OP_VERIFY
-Thread-Index: AQHYloklge72pDYJZUKn07WrBI9g4618OGyAgAA5IgA=
-Date: Wed, 13 Jul 2022 15:43:36 +0000
-Message-ID: <22451082-a467-4bd7-d25d-0f9d0dac4848@nvidia.com>
-References: <20220713072019.5885-1-kch@nvidia.com>
- <Ys64O6malGAbslBL@casper.infradead.org>
-In-Reply-To: <Ys64O6malGAbslBL@casper.infradead.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e0bc82d7-0a1b-498d-0891-08da64e67349
-x-ms-traffictypediagnostic: BN6PR12MB1617:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  x+cjAICaTvY0tiMT1FnlRVD9K9S/sktApZCQDHUcqoP/PfYlVkMR9oUGnxwZA5Xv9ze6X7OD0n38qX4qBipW4/CjGjTBINhzVFohEQ263YKog3FZ8sxUnWCICKbHx5/wqnJmhx1e67FI7HJh9N/bFF7A0fISkbJoqeO++5yfTV+jx3aUHmQRSjDW5pptU70RR9EucI1Paf4a8cqPsvnerW6x754OoXj4gnv8kTBnYW9OaZb/Mbd+Ifs0rVdcOfCA8+9PzQlt5EnCxL/mYcO7CsITz6MfXqCsHfrtxdRWEk3idedBi6Ait7geV4ypLEmXY8Wp/wL++7OhvywZ75TRJCHU7D+jzwumn1lSSVc6fuCMPtFe9NEVHaPqoeO//kdXW/K7HGEsIh2fFZuQ4yqlZN6UOdgUM95TkUdBgjePqOErGBD9VCK+Mn4gXLAFCmz84M2VVaZ/SBRoyCxWTNdWXh8CL6YS3dv/z9iBvZJIA+6JQmma7UKvizPAtFNo+7a0AE5GURu9wVoUcDQ7cloyaQi0tMqTNL28NSMFD8p5podvMjwWZUxNAuP3WSq96zqp7aEfZ7hacImEsQKZE4PzPcVMbxPKEsfvqXKHnOYeea7nnc7D8aJkHczZh9+Zi8g5f5L95kfmFavGbbsJKy2mYSRNO3/06buBe7N7hqXFaiF+tINx7irA+V98sCMPATfF4SeM0MOJMPSLw5NLDxAzoPdPp6gqNWo3yAf6bAX3EMZ1pCxr9iCqXlWeO1BzsC8e5EiUcUtw8ZZ3OIBwWsj7b4nzLUcMR9olhSCv82GUxeTN9BteFCX+fNXx99+839L8sbmPLvMzAZPmbCC7nfo3T2MgYpZtK1jIxRrVdIAbtMHMyNDVPpRRFsG8vQq1Wooy
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB4659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(366004)(396003)(376002)(136003)(39860400002)(53546011)(66446008)(41300700001)(66556008)(6512007)(64756008)(6506007)(66946007)(6486002)(66476007)(36756003)(5660300002)(316002)(54906003)(478600001)(76116006)(86362001)(110136005)(91956017)(71200400001)(122000001)(31696002)(38100700002)(38070700005)(2616005)(83380400001)(8676002)(31686004)(8936002)(2906002)(186003)(7416002)(7406005)(4326008)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?K2NRWEdndW5PakRJV29Wck9GdHQwdUpmaWNmaWwrVHNqMGJVdU8wdmVoMDNl?=
- =?utf-8?B?L2JPSzA2OFJJczVpMlV3d3hFUnJXSXhzMTRwZWhlY0xjeURvYXRnMzlHL3pt?=
- =?utf-8?B?eVdMejN1bm1WN0xGL1NnZnV5VHRWYlZjWnhpdUtMRWVsNC83eGJVeW9SN1Jw?=
- =?utf-8?B?RzlzY2svd1RLRG5ldzJkNEVCQW5pa2I5RUg0aUlkdC9jdW50NFV5anFXd0kr?=
- =?utf-8?B?aHMrSEdwTWJ6eW14TUFHTitRQnBRN0dSSmlkV0NVY0NkOXEzVlVwN2w3eUlU?=
- =?utf-8?B?Q1AweG5aL1FmS0pQSTR1cVZBbStpMnZpMFQwYm5LUTNWQzBjaGZQS0NidUtY?=
- =?utf-8?B?R2w1M3hUZ0M3YWQvM2VmSnZLZ0FXd1FuR3l1OFMrTXJHR0RtNkZXNGswNm9x?=
- =?utf-8?B?dUNKYmFLNEpDYWRXNEJwYVNPR2JVSWMrTUNWVlQ0V2k0MlpJQlZvaEM4ZnlN?=
- =?utf-8?B?MlhOaFljaWJ4SUMzL1laR0ZoT0QzbjFHMGkwOWh4c296S0RDS2o4VExYUlJ6?=
- =?utf-8?B?RlVYcFlxK0s1ZXI0TUtOZzYraUpyazhPZHBHclA5NW9nc01oTC9pRnpXcFFS?=
- =?utf-8?B?YkhwUmVKa0NXMWw4ZVptRlpiT1dpaVBFNThSZ3VpMlJXbDQ1NHZsY1F5cHIz?=
- =?utf-8?B?cFJjcHFkNkx4OU5IbEFXTFB5Mnk0NjNmSGloZi9Hd1NuRGZUWnBwQVhvU0dP?=
- =?utf-8?B?UURpZHA3T3NySEkxZkZaZnJHSG0zeTRiNFVIeUMvQndGR3lKR3BTNzZjYmZ4?=
- =?utf-8?B?OHJpUld4VHhQUzhDeTFzeUxiZDdUdEdLdng2MktIb0lYNUlEc2syb0ZhV3Jx?=
- =?utf-8?B?elUzaEtLcE5EV1VtajF0QnoySjJXVjRrWG1uNnczdmxnczFWQ1c0RE0vY2t0?=
- =?utf-8?B?MjYrUGZUSXQzWFc0cFNwc2JCZ0dqWnpnWGQzNDRQZXRLanEzalB2bGhHRjVF?=
- =?utf-8?B?RlJnTHhxYXpnQ2oyYnVESUEyOWJOWmxYQS95d3JURHdDVnZwNk9yTTZqb1B1?=
- =?utf-8?B?aVQwT1VQOTgxb0JKWThNamYrWFNvN2QyeitDUzhaekRab014MXVabTFsY0kw?=
- =?utf-8?B?Z2hWc0lQMklYS2llSXJkT2tVdlp4TlBKa0h6VnlaeTJ2RzQ4ekVjV0dJT2ZB?=
- =?utf-8?B?bzhxSzNpRjI1OUpaYzIyZlJSWFV6Sld3Wit0NVVRbGdxRUJhVjRVeEt0UmMx?=
- =?utf-8?B?dnVxNCtzL1luUUJDMDlvNmFDQVE3d1lwekJxOS80dFV0Y25aTmNUT1RXUnhw?=
- =?utf-8?B?MlV2MVFBSTFpajF4Q25OU3M2cXNYdDdJWUhjeXo4NHFvZm9VREFSRlc3M3N1?=
- =?utf-8?B?dEE3c0w0ek9DVDVOUUlBTEk0R0VESmdGM2d3RkpRa1dQd25hcGlRVDV2enl2?=
- =?utf-8?B?aVZkci9YRHY4WkNuQTZZMktXVmlwYkkrczF4aVlWbzFrREdnTVZWYVpoNnRD?=
- =?utf-8?B?Y21BYUtJTDB0VmYwSGZpSWFPN2hLMDlGSU1xNlM4MmY4U1JMRG5ybWFzTzdS?=
- =?utf-8?B?RllHWUV5OFNTcFVUWmlxeWZKUEhydTJSWThybkVDdWxxdlR6c1FXTHRKUm9C?=
- =?utf-8?B?S1NFQVhWZmtCazNGVExKaVFwdnJTdVlqNTVMQ2luYkh0TXpZdEMvTTd4MEpS?=
- =?utf-8?B?RUllVThCVnFkb2p4b3Faa1A3elJnMHlLaTdLZEFvelRCZm0yNTUzcktxOVJI?=
- =?utf-8?B?REJnQmhVYnFORUl4MjdhN2dYUjJiL2lhNjYvbGwwb3YwSU9CNDBhVEVKSmlK?=
- =?utf-8?B?TTF6cDJ3WURLeTRtd0FKNjZ0bFIrS25ZczdRRzJsd3RtcTEyYkZ5K0Q5ZWg2?=
- =?utf-8?B?R2VaOHYrcUtGVnBlcXM2cXRMSkM5Mm5FaFpyZHljU0VVSTJtc3FkaTEycVRr?=
- =?utf-8?B?SkxzOW44eDIvMlZGeUNERjkwSC9UMlE2MWtibHg5QjZxMUVXcDZrN0R6MGdv?=
- =?utf-8?B?aWkwK1lieWxqZWJLWFVkL3plQ1FNRVBMMzl6SFE3N0VqVlVBcnp5b0FWRjBa?=
- =?utf-8?B?UWgxckNpc3JkeWp0R2xRVy9hRnhDWlVUM3JvMVRERWNzTWx4dlo5SnRCTS9S?=
- =?utf-8?B?bk5lNlpYVExFWi93OHBqUTNOUFhtelpmVkFna2o4dmdIMVJhUGtvTTlmTVE1?=
- =?utf-8?B?cDBmVEs4VStGVHRFV1NSQ2VMbVEzeEptZGRxNEtiSXphSkxGc1AwZldKR2tJ?=
- =?utf-8?Q?GSz+o3ZnhgX78ZapiyBZWtWimwKYbqSayF/SY78aVfZK?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <AC8C512CC292C8459B57987F685A50CE@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	id 1oC0YK-00FZbg-RS
+	for linux-nvme@lists.infradead.org; Thu, 14 Jul 2022 15:14:58 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1657811693;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OeF6usJeTyAcTdKe5UBwqQy7jEW4hkpRgeYYoNc1qmc=;
+	b=OXj8KeXXgY0H/B2Te0BDyi5c2SQm/qVyMd3E+njkx4SWj6oB6sr1fcKP5F+jvX8rN2xFUU
+	WutCF5xUCJBewukpAfTbXOTikPeH1XdQU/l31XWaYZrtfS6xJw0RQzXg6obizQ2wmNSOjl
+	aDWB87kCuD1P7S+XMX4J01Yt44oQcuQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-324-cF3MWFlaO3-_NJpZ-c4sCw-1; Thu, 14 Jul 2022 11:14:46 -0400
+X-MC-Unique: cF3MWFlaO3-_NJpZ-c4sCw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9E7C718F025F;
+	Thu, 14 Jul 2022 15:14:45 +0000 (UTC)
+Received: from T590 (ovpn-8-16.pek2.redhat.com [10.72.8.16])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B2B05140EBE3;
+	Thu, 14 Jul 2022 15:14:37 +0000 (UTC)
+Date: Thu, 14 Jul 2022 23:14:32 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>, hch@lst.de, kbusch@kernel.org,
+	axboe@kernel.dk, io-uring@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	asml.silence@gmail.com, joshiiitr@gmail.com, anuj20.g@samsung.com,
+	gost.dev@samsung.com, ming.lei@redhat.com
+Subject: Re: [PATCH for-next 4/4] nvme-multipath: add multipathing for
+ uring-passthrough commands
+Message-ID: <YtAy2PUDoWUUE9Bl@T590>
+References: <20220711110155.649153-1-joshi.k@samsung.com>
+ <CGME20220711110827epcas5p3fd81f142f55ca3048abc38a9ef0d0089@epcas5p3.samsung.com>
+ <20220711110155.649153-5-joshi.k@samsung.com>
+ <3fc68482-fb24-1f39-5428-faa3a8db9ecb@grimberg.me>
+ <20220711183746.GA20562@test-zns>
+ <5f30c7de-03b1-768a-d44f-594ed2d1dc75@grimberg.me>
+ <20220712042332.GA14780@test-zns>
+ <3a2b281b-793b-b8ad-6a27-138c89a46fac@grimberg.me>
+ <20220713053757.GA15022@test-zns>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0bc82d7-0a1b-498d-0891-08da64e67349
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jul 2022 15:43:36.5455
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xdev/kgnqNxNcAmQpdlD/Tja50n8j3LdIA1p3R++eDtJwB4emEsrKM0upInPiIVi46zkClEAD3OGw2xP5UO+7Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1617
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220713053757.GA15022@test-zns>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220713_084340_711908_0B9E8E29 
-X-CRM114-Status: GOOD (  13.81  )
-X-Mailman-Approved-At: Thu, 14 Jul 2022 08:00:51 -0700
+X-CRM114-CacheID: sfid-20220714_081456_985522_A5C69BF5 
+X-CRM114-Status: GOOD (  36.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -170,23 +89,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gNy8xMy8yMDIyIDU6MTkgQU0sIE1hdHRoZXcgV2lsY294IHdyb3RlOg0KPiBPbiBXZWQsIEp1
-bCAxMywgMjAyMiBhdCAxMjoyMDoxM0FNIC0wNzAwLCBDaGFpdGFueWEgS3Vsa2Fybmkgd3JvdGU6
-DQo+PiBIaSwNCj4+DQo+PiBPbmUgb2YgdGhlIHJlc3BvbnNpYmlsaXRpZXMgb2YgdGhlIE9wZXJh
-dGluZyBTeXN0ZW0sIGFsb25nIHdpdGggbWFuYWdpbmcNCj4+IHJlc291cmNlcywgaXMgdG8gcHJv
-dmlkZSBhIHVuaWZpZWQgaW50ZXJmYWNlIHRvIHRoZSB1c2VyIGJ5IGNyZWF0aW5nDQo+PiBoYXJk
-d2FyZSBhYnN0cmFjdGlvbnMuIEluIHRoZSBMaW51eCBLZXJuZWwgc3RvcmFnZSBzdGFjayB0aGF0
-DQo+PiBhYnN0cmFjdGlvbiBpcyBjcmVhdGVkIGJ5IGltcGxlbWVudGluZyB0aGUgZ2VuZXJpYyBy
-ZXF1ZXN0IG9wZXJhdGlvbnMNCj4+IHN1Y2ggYXMgUkVRX09QX1JFQUQvUkVRX09QX1dSSVRFIG9y
-IFJFUV9PUF9ESVNDQVJEL1JFUV9PUF9XUklURV9aRVJPRVMsDQo+PiBldGMgdGhhdCBhcmUgbWFw
-cGVkIHRvIHRoZSBzcGVjaWZpYyBsb3ctbGV2ZWwgaGFyZHdhcmUgcHJvdG9jb2wgY29tbWFuZHMN
-Cj4+IGUuZy4gU0NTSSBvciBOVk1lLg0KPiANCj4gU3RpbGwgTkFLLCBzZWUgcHJldmlvdXMgdGhy
-ZWFkIGZvciByZWFzb25zLiAgU29tZXdoYXQgZGlzYXBwb2ludGluZyB0aGF0DQo+IHlvdSBzZW50
-IGEgbmV3IHZlcnNpb24gaW5zdGVhZCBvZiBhZGRyZXNzaW5nIHRob3NlIGNvbW1lbnRzIGZpcnN0
-Lg0KDQpJJ3ZlIGFsc28gYXNrZWQgeW91IGV4YWN0bHkgd2hhdCBkbyB5b3UgZXhwZWN0IGFzIEkg
-ZGlkIG5vdCB1bmRlcnN0YW5kDQp5b3VyIGZpcnN0IHJlcGx5Lg0KDQpJJ3ZlIGFkZGVkIHRoZSBm
-aXhlcyB0byB0aGlzIHZlcnNpb24gYmFzZWQgb24gdGhlIG90aGVyIGNvbW1lbnRzIHRoYXQgDQpJ
-J3ZlIHJlY2VpdmVkIGFzIEkgdGhpbmsgdGhleSBzdGlsbCBuZWVkcyBiZSB0byByZXZpZXdlZC4N
-Cg0KQXMgSSBjYW4gc2VlIHlvdXIgcmVwbHkgZWFybGllciB0b2RheSwgSSdsbCBjb250aW51ZSBk
-aXNjdXNzaW9uIG9uIHRoYXQNCnRocmVhZC4NCg0KLWNrDQoNCg0K
+On Wed, Jul 13, 2022 at 11:07:57AM +0530, Kanchan Joshi wrote:
+> > > > > > The way I would do this that in nvme_ioucmd_failover_req (or in the
+> > > > > > retry driven from command retriable failure) I would do the above,
+> > > > > > requeue it and kick the requeue work, to go over the requeue_list and
+> > > > > > just execute them again. Not sure why you even need an explicit retry
+> > > > > > code.
+> > > > > During retry we need passthrough command. But passthrough command is not
+> > > > > stable (i.e. valid only during first submission). We can make it stable
+> > > > > either by:
+> > > > > (a) allocating in nvme (b) return -EAGAIN to io_uring, and
+> > > > > it will do allocate + deferral
+> > > > > Both add a cost. And since any command can potentially fail, that
+> > > > > means taking that cost for every IO that we issue on mpath node. Even if
+> > > > > no failure (initial or subsquent after IO) occcured.
+> > > > 
+> > > > As mentioned, I think that if a driver consumes a command as queued,
+> > > > it needs a stable copy for a later reformation of the request for
+> > > > failover purposes.
+> > > 
+> > > So what do you propose to make that stable?
+> > > As I mentioned earlier, stable copy requires allocating/copying in fast
+> > > path. And for a condition (failover) that may not even occur.
+> > > I really think currrent solution is much better as it does not try to make
+> > > it stable. Rather it assembles pieces of passthrough command if retry
+> > > (which is rare) happens.
+> > 
+> > Well, I can understand that io_uring_cmd is space constrained, otherwise
+> > we wouldn't be having this discussion.
+> 
+> Indeed. If we had space for keeping passthrough command stable for
+> retry, that would really have simplified the plumbing. Retry logic would
+> be same as first submission.
+> 
+> > However io_kiocb is less
+> > constrained, and could be used as a context to hold such a space.
+> > 
+> > Even if it is undesired to have io_kiocb be passed to uring_cmd(), it
+> > can still hold a driver specific space paired with a helper to obtain it
+> > (i.e. something like io_uring_cmd_to_driver_ctx(ioucmd) ). Then if the
+> > space is pre-allocated it is only a small memory copy for a stable copy
+> > that would allow a saner failover design.
+> 
+> I am thinking along the same lines, but it's not about few bytes of
+> space rather we need 80 (72 to be precise). Will think more, but
+> these 72 bytes really stand tall in front of my optimism.
+> 
+> Do you see anything is possible in nvme-side?
+> Now also passthrough command (although in a modified form) gets copied
+> into this preallocated space i.e. nvme_req(req)->cmd. This part -
+
+I understand it can't be allocated in nvme request which is freed
+during retry, and looks the extra space has to be bound with
+io_uring_cmd.
+
+
+thanks, 
+Ming
+
 
