@@ -4,79 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A47F5CCA47B
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 15:16:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A57E3C43334
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jul 2022 15:17:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YT6F0R/tYGFQNTaQHzJFTxGvrdFWvfza3EuYjz5mT/Q=; b=29yYDF1ogmYnsw7QwTzAkFHaGI
-	zDhOpl+v3YIjSHhf5dYCEA4h/re+TIGnOZ0r+545tH8ov1yMaZ73FTgCyHTuuGphWvmftTCH1uGUo
-	0aOVbc+X78ooiS6on5DUtQEqAwhH2rxIRwzgv8A/n81XrpAGT2Fmv1N20tKyMWT/fhOj2CcdbHlGH
-	9bmKFY4+iCxOTgphBeOVg1ntpSPtmwF2YEywHJIm9xszgtfMvHrL+7TenNoi0egMlFq3N4GecXuow
-	NUxes9b1SC/c0Uj4xsLFpCDT/UM77k4kZso+/MxeSoaypuTtSGVXJnd8MQjjLfN6moa+vyE3wNdg3
-	n1fjifxQ==;
+	bh=cQfjk/EiRJBS7ZWYy3LrZbVQbXUMlddYbJiR+9/1tRM=; b=lddGrf3kV5zwJrL6NDNRy/CAka
+	Xw3Q0u0+EImP9ioXPCE4bWlFkBQ5OAOrCA0vA7YfB4luU0uIvneJok8nl12kOMuUKVrIyQApfbR1V
+	CXyk8NSo4ZNaDZU8kVztTBb/OL4fXcgNgf613+JtogcejfU98TrwN5ff9xY+M6BPLKXyb/Pqw5P3F
+	9FWbq8Fl3YSITlEToxFa7eLTsDhz1EiVljJk8Cu50h9XC2BFrTQDUuz8YNlSilldPlFhy+Oo9QeE2
+	JWoHSSfHnQ+QKGS/o91WOyCWYZlkP80HLZHVnv6GwV1I6/lejdCDDHyxAyPPTlLXC6l8fpJ3BWvTE
+	44fa1Ucg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oC0ZR-00FaD6-Ty; Thu, 14 Jul 2022 15:16:05 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1oC0ao-00FatP-Po; Thu, 14 Jul 2022 15:17:30 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oC0ZO-00Fa8O-7S
-	for linux-nvme@lists.infradead.org; Thu, 14 Jul 2022 15:16:03 +0000
+	id 1oC0al-00Fan7-T1
+	for linux-nvme@lists.infradead.org; Thu, 14 Jul 2022 15:17:29 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BEF0834CD1;
-	Thu, 14 Jul 2022 15:15:56 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AD72F34CD6;
+	Thu, 14 Jul 2022 15:17:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1657811756; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1657811838; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YT6F0R/tYGFQNTaQHzJFTxGvrdFWvfza3EuYjz5mT/Q=;
-	b=tfcL96TB/5ct/LL/4vKK7K/2d+X5R3pwCnrGm0X2TiHOgcp5VUbbmibvjtzXrUWZjjpT3E
-	yyIo9UTToP3t6atsPmSkULLvjkY5hlATAHogWG+t1OclJRIghiq2qcLGb+bD/631Boe7uH
-	2lfU4Wn+qGtxyXg0470MdildNn/NDu8=
+	bh=cQfjk/EiRJBS7ZWYy3LrZbVQbXUMlddYbJiR+9/1tRM=;
+	b=HogBBsgR9SrrmQ3HlsE2p7yFFwoPKIScDtlnufd0EcJeZbH0nnijA4Ojkn7+qPrcOuJGlB
+	xft6e9k4IjEEP3/ucup42ldXudNa1qk9qLDUlgweMrCAeJ7ufnQw3NuRNCv+KqoabK/wy1
+	L352xIfV73umgfHA0UDdJHgNr6TesMs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1657811756;
+	s=susede2_ed25519; t=1657811838;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YT6F0R/tYGFQNTaQHzJFTxGvrdFWvfza3EuYjz5mT/Q=;
-	b=DvRF+RG6ahEb0ez9qbvh1IoaML+Pz6xiGWO7aA0Pu1D6T8t7ovfm0OA9987yW+kjEdJAR7
-	OSkJfukHsmAxpsBQ==
+	bh=cQfjk/EiRJBS7ZWYy3LrZbVQbXUMlddYbJiR+9/1tRM=;
+	b=JxH0UlWynoVJRzoFq+RAOEUnji2cysrArE+Jy+BqZWJc17WqV2n9TzZqlCFGUbunX0Bz9Z
+	0o4mQkzXu2YwEYDQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 93DEE13A61;
-	Thu, 14 Jul 2022 15:15:56 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9104413A61;
+	Thu, 14 Jul 2022 15:17:18 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id Q55kIiwz0GLPSAAAMHmgww
-	(envelope-from <hare@suse.de>); Thu, 14 Jul 2022 15:15:56 +0000
-Message-ID: <cdf87a27-0981-f51f-3900-f601f4dc49a7@suse.de>
-Date: Thu, 14 Jul 2022 17:15:56 +0200
+	id ykB6In4z0GJJSQAAMHmgww
+	(envelope-from <hare@suse.de>); Thu, 14 Jul 2022 15:17:18 +0000
+Message-ID: <15429c01-5274-0cfc-e7a7-465980c294a8@suse.de>
+Date: Thu, 14 Jul 2022 17:17:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH] nvme-tcp: delay error recovery after link drop
+Subject: Re: [PATCH 1/2] nvme-tcp: short-circuit connect retries
 Content-Language: en-US
 To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20220714122703.67621-1-hare@suse.de>
- <49be3b16-9c99-460b-e321-c2727c159d9c@grimberg.me>
+References: <20220714124133.68598-1-hare@suse.de>
+ <20220714124133.68598-2-hare@suse.de>
+ <922264f1-3a76-aefa-8e5f-2e41a2130b22@grimberg.me>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <49be3b16-9c99-460b-e321-c2727c159d9c@grimberg.me>
+In-Reply-To: <922264f1-3a76-aefa-8e5f-2e41a2130b22@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220714_081602_437952_3F4B4DF3 
-X-CRM114-Status: GOOD (  22.95  )
+X-CRM114-CacheID: sfid-20220714_081728_115566_C5911552 
+X-CRM114-Status: GOOD (  23.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,49 +92,110 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/14/22 16:42, Sagi Grimberg wrote:
+On 7/14/22 16:35, Sagi Grimberg wrote:
 > 
->> When the connection unexpectedly closes we must not start error
->> recovery right away, as the controller might not have registered
->> the connection failure and so retrying commands directly will
->> might lead to data corruption.
->> So wait for KATO before starting error recovery to be on the safe
->> side; chances are the commands will time out before that anyway.
+>> When a reconnect attempt fails with a non-retryable status
+>> (eg when the subsystem has been unprovisioned) there hardly
+>> is any reason to retry the reconnect attempt.
+>> So pass the actual error status to nvme_tcp_reconnect_or_remove()
+>> and short-circuit retries if the DNR bit is set.
+>>
+>> Signed-off-by: Hannes Reinecke <hare@suse.de>
+>> ---
+>>   drivers/nvme/host/tcp.c | 25 ++++++++++++++++++-------
+>>   1 file changed, 18 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+>> index 70096a2e8762..4220c1ad6b29 100644
+>> --- a/drivers/nvme/host/tcp.c
+>> +++ b/drivers/nvme/host/tcp.c
+>> @@ -2065,8 +2065,10 @@ static void nvme_tcp_teardown_io_queues(struct 
+>> nvme_ctrl *ctrl,
+>>       nvme_tcp_destroy_io_queues(ctrl, remove);
+>>   }
+>> -static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl)
+>> +static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl, int 
+>> status)
+>>   {
+>> +    bool recon = true;
+>> +
+>>       /* If we are resetting/deleting then do nothing */
+>>       if (ctrl->state != NVME_CTRL_CONNECTING) {
+>>           WARN_ON_ONCE(ctrl->state == NVME_CTRL_NEW ||
+>> @@ -2074,7 +2076,12 @@ static void nvme_tcp_reconnect_or_remove(struct 
+>> nvme_ctrl *ctrl)
+>>           return;
+>>       }
+>> -    if (nvmf_should_reconnect(ctrl)) {
+>> +    if (status > 0 && (status & NVME_SC_DNR)) {
+>> +        dev_info(ctrl->device, "reconnect failure %d\n", status);
+>> +        recon = false;
+>> +    }
+>> +
 > 
-> We can't just blindly adding kato to the error recovery because that
-> by definition creates a intrinsic delay for I/O failover. There is
-> absolutely no reason what-so-ever to do that. kato can be arbitrarily
-> long.
+> Why should we call this if we need to remove for sure?
+> I suggest we just change the call-site.
 > 
-Yes, true. But the controller might need to register the connection 
-timeout and do some cleanup action afterwards, for which KATO is the 
-only value we have currently.
+>> +    if (recon && nvmf_should_reconnect(ctrl)) {
+>>           dev_info(ctrl->device, "Reconnecting in %d seconds...\n",
+>>               ctrl->opts->reconnect_delay);
+>>           queue_delayed_work(nvme_wq, &to_tcp_ctrl(ctrl)->connect_work,
+>> @@ -2162,10 +2169,12 @@ static void 
+>> nvme_tcp_reconnect_ctrl_work(struct work_struct *work)
+>>       struct nvme_tcp_ctrl *tcp_ctrl = 
+>> container_of(to_delayed_work(work),
+>>               struct nvme_tcp_ctrl, connect_work);
+>>       struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
+>> +    int ret;
+>>       ++ctrl->nr_reconnects;
+>> -    if (nvme_tcp_setup_ctrl(ctrl, false))
+>> +    ret = nvme_tcp_setup_ctrl(ctrl, false);
+>> +    if (ret)
+>>           goto requeue;
+> 
+>      status = nvme_tcp_setup_ctrl(ctrl, false);
+>      if (!status) {
+>          dev_info(ctrl->device,
+>              "Successfully reconnected (%d attempt)\n",
+>                          ctrl->nr_reconnects);
+>          ctrl->nr_reconnects = 0;
+>      } else {
+>          dev_info(ctrl->device,
+>              "Failed reconnect attempt %d (%d)\n",
+>                  ctrl->nr_reconnects, status);
+>          if (status > 0 && (status & NVME_SC_DNR)) {
+>              dev_info(ctrl->device,
+>                  "Removing controller...\n");
+>              nvme_delete_ctrl(ctrl);
+>          } else {
+>              nvme_tcp_reconnect_or_remove(ctrl);
+>          }
+>      }
+> }
+> 
+Good point.
 
-> If the controller needs this delay, then it should signal this
-> somehow in its capabilities. This is not something that we can just
-> blindly do. So this needs to go through the TWG.
+>>       dev_info(ctrl->device, "Successfully reconnected (%d attempt)\n",
+>> @@ -2178,7 +2187,7 @@ static void nvme_tcp_reconnect_ctrl_work(struct 
+>> work_struct *work)
+>>   requeue:
+>>       dev_info(ctrl->device, "Failed reconnect attempt %d\n",
+>>               ctrl->nr_reconnects);
+>> -    nvme_tcp_reconnect_or_remove(ctrl);
+>> +    nvme_tcp_reconnect_or_remove(ctrl, ret);
+>>   }
+>>   static void nvme_tcp_error_recovery_work(struct work_struct *work)
+>> @@ -2203,7 +2212,7 @@ static void nvme_tcp_error_recovery_work(struct 
+>> work_struct *work)
+>>           return;
+>>       }
+>> -    nvme_tcp_reconnect_or_remove(ctrl);
+>> +    nvme_tcp_reconnect_or_remove(ctrl, -ENOTCONN);
 > 
-... as you might be aware, this is discussed at the TWG.
-There even is a TPAR 4129 which deals with precisely this issue.
-But consensus is that an immediate retry on path failure is dangerous, 
-as the controller might not have detected the path failure yet, and will 
-wait for at least KATO before declaring a path dead and start recovery 
-actions, potentially clearing out stale/stuck commands.
-And retry on another path during that time is dangerous.
-
-And yes, we do have customers who have seen this in real life.
-
-> Also, how come this is TCP specific anyway? This talks about a
-> controller that has a dangling inflight command that he cannot fence
-> yet hence cannot serve failover I/O. RDMA should have the same thing.
+> This emphasizes that this is a redundant parameter.
 > 
-The crucial bit here is the 'nvme_tcp_state_change()' callback, which 
-will trigger recovery as soon as it detects a connection failure.
 
-RDMA doesn't have a direct equivalent here, and I'm not that deep into 
-RDMA details to know if the RDMA_CM_EVENT_DISCONNECTED is synchronized 
-with the remote side. If it is, we're fine. If not, we'll have the same 
-issue.
+Ok, will be reworking it.
 
 Cheers,
 
