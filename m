@@ -4,87 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B33DEC433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Jul 2022 23:26:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A912C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Jul 2022 23:29:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2OCb/AjcvIH/i3CSjl/5wUiBq9s4xh1r7FaSKY2F5ag=; b=Y1DEcJ2e2Z0A8ZzGhMpbA+06fR
-	w35ckGBjHPhZ5MVz8iyS8y5IkxZ6wN7qPwQTKmHDcXEuK9E1ys92/BcWSPz4bwGtGzXqKDQ19nIMR
-	3996GVnh/V+oS4TtHOHG+obXXFUD4NjIdEH/85AFnQlIFTttpg2enjqDku+IaqL0Cf3Eahrby8Fkq
-	GqDlPb9ZzurX8pEsh324iaZJgGDj/rgHCphpyCegfYEPRy/DsG5slxAZHVdFDO99ed+AUJwpNVDfE
-	G+RHKravVMlr74WnmwSINHeEKa+MqhlFIX0WhUkGPVJe0+j7YUSRVVvKp5S+4xsSkVA04kskiySfu
-	AuCNnUQw==;
+	bh=R8EIKviJpWn6WXvA0ocp7Iy+6MkS1Q6PiUMTHbdBoOI=; b=EKOX+4RB5PW3dKSGSP4ZMImMXN
+	y7WMXvuPodlUo/2VqFBmlnoRkjn7Zwbuae4gDzAn2F0CZZKMBa/8xnk7Fayvz4ZuLdh7lLnIXAXxs
+	f+luoKZJtiypEu1HCg48DqdiN6lUpN69U/VUb1zUl55uEhLkg0OodWAG/1S/Cf3QFMRTZt340p4Ee
+	A1Wa7dqJXq/yMmzxJLrun+DwU4SjWMB+KUrVcJo+wDWTdCJ1a0h+2AtlUmSycus32/eqlOTxOpSLH
+	Kbi+a48DPSbLXnuAPENzh4DHN4GwnMQUwerlIJhYOlCAJsjSX1Rqtf6X3G3RPgD3Cw2LcOPxJ22TR
+	/YSn7WXw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oCUh3-00B8Ko-EZ; Fri, 15 Jul 2022 23:25:57 +0000
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
+	id 1oCUkK-00BACC-MW; Fri, 15 Jul 2022 23:29:20 +0000
+Received: from sonic308-16.consmr.mail.ne1.yahoo.com ([66.163.187.39])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oCUNE-00Ayxt-LC
-	for linux-nvme@lists.infradead.org; Fri, 15 Jul 2022 23:05:31 +0000
-Received: by mail-pg1-x531.google.com with SMTP id h132so5633051pgc.10
-        for <linux-nvme@lists.infradead.org>; Fri, 15 Jul 2022 16:05:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=2OCb/AjcvIH/i3CSjl/5wUiBq9s4xh1r7FaSKY2F5ag=;
-        b=DwYYhmRPz2mpTb5dQaE+gHME2xLphwFVBpA1iw8adSenrkBbdmYCdY67Z9+xKbJgcM
-         OupMuQxKwNe0AGQHKnVEeUhThV9Y21Ukw1Ge1oAowPMAUjkRD1ylCdeSMNlkU9G9RAlh
-         qVk/JWR00g3U+ulOy162JnhojAitaGTjTeatEaakJagPB0IYJzyCKrqsZxSWrXLt/RlD
-         VrFbv1j6eGhCP8G1m7VK3bwMK+RDkCjC4s0MdjLX17BjxccRSXTWV0/9m9P8AhPBXtk+
-         nfMi5j6z5EEosKyNmgqPqYsDvOxPN0V8kE+p8eXmqtfEJS4Xi0UhSl1H2RwRSEZKdIRQ
-         Z9PQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=2OCb/AjcvIH/i3CSjl/5wUiBq9s4xh1r7FaSKY2F5ag=;
-        b=RWLOJcXA5AjoO2N0JSzB6zjeY8hmqvXN53nB7UkR7nmQvfMEubO0+8s1PzC/p4Dr8z
-         I183TSVVXA0P7c4v+GjvS6O3l9xBDB3v66LnVHbdzwGN+o0uErf8RPk0TkQZ9QQKaAAD
-         5GYFojHzlynX59zw6g3caUZ9aNoaTJ78N6ar7dyKl6dNhZAisJNWhW/tfri9q86GhE4G
-         GXhqDs655/fEB2s70OBWYkitRzxny4sr2AYVhvq5Ej4TBXAyO4ewmEqVH0uPFyqH0nJ1
-         nSrynquYAgmwr/8IlfGkvmGVp0xEIoKlvP1HXUcNIvY3sPcPeuF1B2ATNcR68vekvywT
-         taNQ==
-X-Gm-Message-State: AJIora/Ec0CFKJzDdHMVTYiTWV1u4GpBwCTBSXre38TEP6cj1ZifhxC/
-	ZXCXXiygWuQfviQwhA1HVjEotA==
-X-Google-Smtp-Source: AGRyM1v0/NMsRi7HgV6tbdxxgF8E1kjSFzz2pS4Hf2zbLAvJN7nRSa4DN5/iC9OJyKn0wKjoAkFHtQ==
-X-Received: by 2002:a05:6a00:1806:b0:52a:ec5b:2263 with SMTP id y6-20020a056a00180600b0052aec5b2263mr16587221pfa.1.1657926325503;
-        Fri, 15 Jul 2022 16:05:25 -0700 (PDT)
-Received: from [192.168.1.100] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id f4-20020aa79684000000b0052ab764fa78sm4387946pfk.185.2022.07.15.16.05.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Jul 2022 16:05:24 -0700 (PDT)
-Message-ID: <4588f798-54d6-311a-fcd2-0d0644829fc2@kernel.dk>
-Date: Fri, 15 Jul 2022 17:05:23 -0600
+	id 1oCUWL-00B2h8-K0
+	for linux-nvme@lists.infradead.org; Fri, 15 Jul 2022 23:14:54 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1657926889; bh=R8EIKviJpWn6WXvA0ocp7Iy+6MkS1Q6PiUMTHbdBoOI=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=ffm+xBCJ10KkkHHnpthfdst8le/V6cj4NwudhAbyFcXJfrYsPAjoOSTsk8S+CNw+KsFv1ndXMRldm2wMORuaF+zXOwgfPsITk8hBfK0eR3ApudsxM1D34mmoBAQAvPucbin9JG4l0nTWlrC+Y1jRJE7TipJrhBqVU3O/AtxIZEmUl6G/UYuM5fSSJB00A9rSNiN929c23J3DLl0sQOrmVxGh4GDtjawjBOpc2qmykMRz56epE14m2qSQSV8IYF5XCZGZPUsZpfUklCRcNYhsKWPBE25ygEE/8jbtN6vWPIDib+FVeAWHvTnGc9xXS2hTeaSRLJub4NN0AwbUiMFKtg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1657926889; bh=B1bXHFR5E1nXSeE/G6XKIdP3YYsr+IXcMjMAnL+lVHZ=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=QsiErGTb/5A0EgB5mIB3KHz1mVaOMNkVRXGyNBrhfENUudC1OsQouPyTOP82cfBoPOCUhMJqdvlvbV3twh/OK2wNYsKn7sAkDWvVGEv2Jq1an+hLNysfax/UbLTHQdu9G5PDU2JAmj3CtEU5zpPj5Bp0GlbEcljNSUrJcSSR4Q9bWId2Vzdq10FBs46BJHRKGyu+/Boqu8nHRJlD6CNVmYUdZIEL8rOWU8Ypzyl1TvHj+0LEjL55xu6vFSMD1sNil4C66ENatk3e9ky9vpvczQcPlaSSVFv+eWf/Iy2VQ+xTaofwjPme1uI+MDJyI1cQ4jwcSSMpqL3vUbd2ynS+Bg==
+X-YMail-OSG: wvcK4usVM1n4LwK3_eQbCiFLdfVUS9Xm5zN4Mekmx0aF2OYgOR.XZaacK340ssP
+ FRWv98Jd43a4aurXvEukipBLLjndmke40.ghFbR01vcwMpje8LDCN0eyOaTa2N_MwJZTriNm728N
+ 7S2x2gTdcZPnPat9cXlf6fsPKoP6F4B9u6JNCoLmr7epW6603qbjUf1Ihg5ECGLbQNtqFWw5Mynh
+ xR.WTqeOVMPE5_7lerhXx4n9UYHW2hQv28A5nHy2x6zo5oPEdE0GAPnrHMpCN.2e50DGs98bFOek
+ L5hsTwqGZ3nKCWUgj07x34C8fj5Zox2vod9KhPZTroU9CrHiGpXLN.tfmH2p1hRtnfG2n7tOTWoJ
+ ivKeFdxC1UiEEjxKHrGLawC4ha3OTSDLALopkUfqmYSUJfC7Yyq3_c0xQxo290VTRRhfdj4MSfew
+ drIz7ntK6TnrpFd5Prf606Te.tmep8MpDTQbaTXYVlmhodZ24y0.hIuMSu_ExCrWT8xVLNzXiJvz
+ RJAY8HJ5yeVZelSlIXKojfoT7CcxdazmU3rhvLxtpSIEa9kGjsfJqOpuD1buXkdctlVcyqoJsBWx
+ fRuMJ_TM1bqiTTil6Kc4p7_CveNMW5FMR7bx4aXwW5zpaQk7ObICs_DsAcA4jU_ib70fUgv.djBy
+ 6e7SEILLHL7gcQMWE.jAF9bSNhmHyjrKab536Ybg96O5aaPpmw4H6SszmZoSG9b8mg769w5mfPQk
+ rBPUbx3Xc2IKIWSvkOsqLbOFuGN4QvSde_r3C9xwc7BMWgECvcdMxnzKGFqy9Ocg3SEDnSnbAtFW
+ _IHKzCF6xhDfKZZrBZl0ZhTpHuSCK8oWEkXEEus.HWEyuvzJVE7NG9aNGVVbanxqevwB35JsUZqv
+ uMWAknFMzIL2SFuWwyqJWwsifnNLjM.636nvRp6H5LGBXVhOj.T6mFQO076kxK6poPkkpiTjqGXo
+ 5I.1z3qyq_Ec7C4evzSoYT4Q3Agv_6jxJ0YQcdz9RtXfIVoTw7lSWQBed7nzhsCBG2r_ahckbE_8
+ bOFxPZffQo_T_Arx2v8UTu4sKLIMtfLISFk_9KjvNxelVQ3cRRvnm7y_Uq2_3lYWtBHV2I1PSinc
+ THeJb6y9K2aC4TdD6P2v3CBe9HoJKurFmxAWhcIYAnvRIJ9RcVv192xcdklc3ZTvoseMqLStxJHz
+ Paj1Qk4k0R60FSpuRdVjinwPquYHRFZtOsG00sgGrY4R9ejUdCBPpxJZJ15loIa4a.cExGePO.yi
+ s4UTVDswxKVUgIRlHcjYkHzXrXQkFB.f5J9Ouwtml3PRMqCGQ_JJ74zwE9Vqogan.J6nKnnCzPTX
+ qkgWpB2TCu0QIYVihOXvPg6ZhiKHejF7BvcqCt6n6r10EWP9FvVV3VDwi1VWtGm0QNdIWn3LHLDh
+ SHeEr72eoMNwL9340LYR8LwQl2yWPtlwsZ2MXLCg_rl0rhKHHzzr6Z_3lo3jEzP10PCqrlrcKW5l
+ kFfZPmnEUyN_3xc0rTMJEMh0tMYiMjVE42ckYshLMd_XhsN7wXD4U_2kArFIe0Ro2BV3xM7Nm3wR
+ 0uo8JCFLXIfotP8cSbej60ACH946t9lJNFP7M05agkaP1hjCqplM7pm9Wqqj9WBI.Tf9R.CAovZ1
+ xJja821Hs6_ZYkbBAi5BBNNGft_XL_FDXt7ACZecpyc.9lAVNomM_ouqMcTz9dL0z1pYJEHaCI0C
+ rhW.XGeXSzIri5lATDintrhtblM38XpHaZF_VA4O3cpLHWP8M.OSjrG8s4MSuFmzXks64RAu_Vot
+ E1_26L9_snORIvIocuH7V.4phIk4uNSi7a88kWhc7c8jsSlfMs0d_nDJk95CRa_owB.wyats.v5P
+ gCZjPxoycdWvO4DyS3DEh6jiJUgJc8REWQPsDexaEDF.xwl2isO_AG1XQGBW045Yoga8m_Z_gXU0
+ Qn9.y7hz3ixWvYkj.GIfqIe1XdTpWOfA8VFvlQLnd346ce7ZwToDgY6ykOTB3GBxB81.aZOHUnmR
+ XnQJU4qKhqfmKgfDdFCrh1d5djT.aob9NcLmoRhFvV8au2lG_nDh2QCtVPx_oOOe8X_6LGtHLeAd
+ WBfuuUYj2IVjcLbBqp6oq7mbcHqTzkOf1a56HV4Ji8glbnljXWWpBAlbAQ4oBb.WQ9ZZSHqxBC79
+ Q0OlAgJE70lT6oJ8hAjILQKISw.OhfpHj8kr8XlKiIoP8bu4Sv7_mCvwGlHCTnE0IOXBzw_jzodh
+ tk2O7cI5ISRWbgTswem3CpVC5ry.kvJCdqbW9_bTWOE7L
+X-Sonic-MF: <casey@schaufler-ca.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.ne1.yahoo.com with HTTP; Fri, 15 Jul 2022 23:14:49 +0000
+Received: by hermes--production-gq1-56bb98dbc7-28prh (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 7cd21de8b1e1f563320f75e46f114243;
+          Fri, 15 Jul 2022 23:14:48 +0000 (UTC)
+Message-ID: <d8912809-ffeb-8d88-3b6b-fd30681ad898@schaufler-ca.com>
+Date: Fri, 15 Jul 2022 16:14:47 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
 Subject: Re: [PATCH] lsm,io_uring: add LSM hooks to for the new uring_cmd file
  op
 Content-Language: en-US
-To: Casey Schaufler <casey@schaufler-ca.com>, Paul Moore
- <paul@paul-moore.com>, Luis Chamberlain <mcgrof@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>, Paul Moore <paul@paul-moore.com>,
+ Luis Chamberlain <mcgrof@kernel.org>
 Cc: joshi.k@samsung.com, linux-security-module@vger.kernel.org,
  io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, a.manzanares@samsung.com, javier@javigon.com
+ linux-block@vger.kernel.org, a.manzanares@samsung.com, javier@javigon.com,
+ casey@schaufler-ca.com
 References: <20220714000536.2250531-1-mcgrof@kernel.org>
  <CAHC9VhSjfrMtqy_6+=_=VaCsJKbKU1oj6TKghkue9LrLzO_++w@mail.gmail.com>
  <YtC8Hg1mjL+0mjfl@bombadil.infradead.org>
  <CAHC9VhQMABYKRqZmJQtXai0gtiueU42ENvSUH929=pF6tP9xOg@mail.gmail.com>
  <566af35b-cebb-20a4-99b8-93184f185491@schaufler-ca.com>
  <e9cd6c3a-0658-c770-e403-9329b8e9d841@schaufler-ca.com>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <e9cd6c3a-0658-c770-e403-9329b8e9d841@schaufler-ca.com>
+ <4588f798-54d6-311a-fcd2-0d0644829fc2@kernel.dk>
+From: Casey Schaufler <casey@schaufler-ca.com>
+In-Reply-To: <4588f798-54d6-311a-fcd2-0d0644829fc2@kernel.dk>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Mailer: WebService/1.1.20407 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220715_160528_976960_E3DFA6CE 
-X-CRM114-Status: GOOD (  39.28  )
+X-CRM114-CacheID: sfid-20220715_161453_748216_B9C039B0 
+X-CRM114-Status: UNSURE (   4.74  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,152 +106,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/15/22 5:03 PM, Casey Schaufler wrote:
-> On 7/15/2022 1:50 PM, Casey Schaufler wrote:
->> On 7/15/2022 11:46 AM, Paul Moore wrote:
->>> On Thu, Jul 14, 2022 at 9:00 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
->>>> On Wed, Jul 13, 2022 at 11:00:42PM -0400, Paul Moore wrote:
->>>>> On Wed, Jul 13, 2022 at 8:05 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
->>>>>> io-uring cmd support was added through ee692a21e9bf ("fs,io_uring:
->>>>>> add infrastructure for uring-cmd"), this extended the struct
->>>>>> file_operations to allow a new command which each subsystem can use
->>>>>> to enable command passthrough. Add an LSM specific for the command
->>>>>> passthrough which enables LSMs to inspect the command details.
->>>>>>
->>>>>> This was discussed long ago without no clear pointer for something
->>>>>> conclusive, so this enables LSMs to at least reject this new file
->>>>>> operation.
->>>>>>
->>>>>> [0] https://lkml.kernel.org/r/8adf55db-7bab-f59d-d612-ed906b948d19@schaufler-ca.com
->>>>> [NOTE: I now see that the IORING_OP_URING_CMD has made it into the
->>>>> v5.19-rcX releases, I'm going to be honest and say that I'm
->>>>> disappointed you didn't post the related LSM additions
->>>> It does not mean I didn't ask for them too.
->>>>
->>>>> until
->>>>> v5.19-rc6, especially given our earlier discussions.]
->>>> And hence since I don't see it either, it's on us now.
->>> It looks like I owe you an apology, Luis.  While my frustration over
->>> io_uring remains, along with my disappointment that the io_uring
->>> developers continue to avoid discussing access controls with the LSM
->>> community, you are not the author of the IORING_OP_URING_CMD.   You
->>> are simply trying to do the right thing by adding the necessary LSM
->>> controls and in my confusion I likely caused you a bit of frustration;
->>> I'm sorry for that.
->>>
->>>> As important as I think LSMs are, I cannot convince everyone
->>>> to take them as serious as I do.
->>> Yes, I think a lot of us are familiar with that feeling unfortunately :/
->>>
->>>>> While the earlier discussion may not have offered a detailed approach
->>>>> on how to solve this, I think it was rather conclusive in that the
->>>>> approach used then (and reproduced here) did not provide enough
->>>>> context to the LSMs to be able to make a decision.
->>>> Right...
->>>>
->>>>> There were similar
->>>>> concerns when it came to auditing the command passthrough.  It appears
->>>>> that most of my concerns in the original thread still apply to this
->>>>> patch.
->>>>>
->>>>> Given the LSM hook in this patch, it is very difficult (impossible?)
->>>>> to determine the requested operation as these command opcodes are
->>>>> device/subsystem specific.  The unfortunate result is that the LSMs
->>>>> are likely going to either allow all, or none, of the commands for a
->>>>> given device/subsystem, and I think we can all agree that is not a
->>>>> good idea.
->>>>>
->>>>> That is the critical bit of feedback on this patch, but there is more
->>>>> feedback inline below.
->>>> Given a clear solution is not easily tangible at this point
->>>> I was hoping perhaps at least the abilility to enable LSMs to
->>>> reject uring-cmd would be better than nothing at this point.
->>> Without any cooperation from the io_uring developers, that is likely
->>> what we will have to do.  I know there was a lot of talk about this
->>> functionality not being like another ioctl(), but from a LSM
->>> perspective I think that is how we will need to treat it.
->>>
->>>>>> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
->>>>>> ---
->>>>>>  include/linux/lsm_hook_defs.h | 1 +
->>>>>>  include/linux/lsm_hooks.h     | 3 +++
->>>>>>  include/linux/security.h      | 5 +++++
->>>>>>  io_uring/uring_cmd.c          | 5 +++++
->>>>>>  security/security.c           | 4 ++++
->>>>>>  5 files changed, 18 insertions(+)
->>>>> ...
->>>>>
->>>>>> diff --git a/io_uring/uring_cmd.c b/io_uring/uring_cmd.c
->>>>>> index 0a421ed51e7e..5e666aa7edb8 100644
->>>>>> --- a/io_uring/uring_cmd.c
->>>>>> +++ b/io_uring/uring_cmd.c
->>>>>> @@ -3,6 +3,7 @@
->>>>>>  #include <linux/errno.h>
->>>>>>  #include <linux/file.h>
->>>>>>  #include <linux/io_uring.h>
->>>>>> +#include <linux/security.h>
->>>>>>
->>>>>>  #include <uapi/linux/io_uring.h>
->>>>>>
->>>>>> @@ -82,6 +83,10 @@ int io_uring_cmd(struct io_kiocb *req, unsigned int issue_flags)
->>>>>>         struct file *file = req->file;
->>>>>>         int ret;
->>>>>>
->>>>>> +       ret = security_uring_cmd(ioucmd);
->>>>>> +       if (ret)
->>>>>> +               return ret;
->>>>>> +
->>>>>>         if (!req->file->f_op->uring_cmd)
->>>>>>                 return -EOPNOTSUPP;
->>>>>>
->>>>> In order to be consistent with most of the other LSM hooks, the
->>>>> 'req->file->f_op->uring_cmd' check should come before the LSM hook
->>>>> call.
->>>> Sure.
->>>>
->>>>> The general approach used in most places is to first validate
->>>>> the request and do any DAC based access checks before calling into the
->>>>> LSM.
->>>> OK.
->>>>
->>>> Let me know how you'd like to proceed given our current status.
->>> Well, we're at -rc6 right now which means IORING_OP_URING_CMD is
->>> happening and it's unlikely the LSM folks are going to be able to
->>> influence the design/implementation much at this point so we have to
->>> do the best we can.  Given the existing constraints, I think your
->>> patch is reasonable (although please do shift the hook call site down
->>> a bit as discussed above), we just need to develop the LSM
->>> implementations to go along with it.
->>>
->>> Luis, can you respin and resend the patch with the requested changes?
->>>
->>> Casey, it looks like Smack and SELinux are the only LSMs to implement
->>> io_uring access controls.  Given the hook that Luis developed in this
->>> patch, could you draft a patch for Smack to add the necessary checks?
->> Yes. I don't think it will be anything more sophisticated than the
->> existing "Brutalist" Smack support. It will also be tested to the
->> limited extent my resources and understanding of io_uring allow.
->>
->> I am seriously concerned that without better integration between
->> LSM and io_uring development I'm going to end up in the same place
->> that led to Al Viro's comment regarding the Smack fcntl hooks:
->>
->> 	"I think I have an adequate flame, but it won't fit
->> 	the maillist size limit..."
->>
->> That came about because my understanding of fnctl() was incomplete.
->> I know a lot more about fnctl than I do about io_uring. I would
->> really like io_uring to work well in a Smack environment. It saddens
->> me that there isn't any reciporicol interest. But enough whinging.
->> On to the patch.
-> 
-> There isn't (as of this writing) a file io_uring/uring_cmd.c in
-> Linus' tree. What tree does this patch apply to?
+On 7/15/2022 4:05 PM, Jens Axboe wrote:
+> On 7/15/22 5:03 PM, Casey Schaufler wrote:
+>
+>> There isn't (as of this writing) a file io_uring/uring_cmd.c in
+>> Linus' tree. What tree does this patch apply to?
+> It's the for-5.20 tree. See my reply to the v2 of the patch, including
+> suggestions on how to stage it.
 
-It's the for-5.20 tree. See my reply to the v2 of the patch, including
-suggestions on how to stage it.
+A URL for the io_uring tree would be REAL helpful.
 
--- 
-Jens Axboe
 
 
