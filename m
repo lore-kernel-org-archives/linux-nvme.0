@@ -4,131 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B050C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Jul 2022 11:12:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F317FC43334
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Jul 2022 11:40:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ji9OfW4MTOZofKIL3li59siIKM0d+5nNRqymbyXJlds=; b=GbcLDw+XQn1xND/FnGk/CulK1n
-	tP0Z7oLvSjfA8YJHyAvm1+9jPwWnXQRM2W9HEDG7WyUjecwf9s+GVB7VxNUCOz8LRpTJSWK/5bn1z
-	186KcqOtqb+HTG0jNB3Lig6a8PCT7SkkvfXSS4se4bnNYej/zWLWIh8NO4D2f23qapP+ZBlCKtHc0
-	BpWE+hGSa5NmQHqxa5u0mjgPJVQuq/iwzHVZVSvJ6uf7xBeGD8/qPPel/kc/ltMzDKX8f+Z+kNKjD
-	Ziavect3ygP/qEM4lu55XodbktQjAfGvWRSRIqV4sCmk0oXzA1Ud2ymMWWPe09z+bi7R5cgmCOaCM
-	6HGdSQnQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=KZobnTvHVRGj8VnmtvNun3RbnRa5h4o6yXoKaMfPo0Q=; b=lefGxHAYJK5TPgLOGaqPCk1Nte
+	VrnHZ9hzK6n1J74AoMPjBPZPnyLNKJbsdyb0S+2k78lTqwBejOGqtEC2a5QnDkgsFcE8TrkfC8ouq
+	SBKcfhgn6BEORHcqrNDWPrHKwPkvwWH3uwKxXFuo3V5aeWL7oO81wtnD8sRl6ATo33tzqjTW2C1/B
+	OFWhsFPlU2MjnWrNFZAxA/Mnu3ogDuVo4Qya/xjtzChxAsBdpkzSH0I3wE+oaDXVSvuEmC3A8jtrM
+	bDW7DpakwuuBYTuWwpTN6G+lQxXMMYmEFn+F5cP60BTOWLBpIyvwBmK+IMFgnkATlgWU2JCiPzD7S
+	ofbZXJkA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oCJFR-006W65-Cc; Fri, 15 Jul 2022 11:12:41 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1oCJgh-006fvh-FJ; Fri, 15 Jul 2022 11:40:51 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oCJFM-006W5L-BU
-	for linux-nvme@lists.infradead.org; Fri, 15 Jul 2022 11:12:40 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20220715111230epoutp01b727ce6fd98d724c521333ec72de9474~B-E4m35BC2707127071epoutp01L
-	for <linux-nvme@lists.infradead.org>; Fri, 15 Jul 2022 11:12:30 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20220715111230epoutp01b727ce6fd98d724c521333ec72de9474~B-E4m35BC2707127071epoutp01L
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1657883550;
-	bh=Ji9OfW4MTOZofKIL3li59siIKM0d+5nNRqymbyXJlds=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=RtfcvVhl77Quvi1PE3X2uXnb1Zq/HuHYTkEMhjC0GoEa5xt6yoW5CkvpruTi0zG30
-	 8806yF7OOUj2NU19I23aI+JJe4qDTeVCGYZ2I3iXK577w/YX09IP6bJ3+igBBcDObV
-	 KOFQnMHDNYikWJaeX7lcugA2ycjkQkWshXYC40HQ=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20220715111229epcas5p24cdb6c2dedae889189ca6cd8518586ad~B-E4MiZHX0850708507epcas5p21;
-	Fri, 15 Jul 2022 11:12:29 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.180]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4Lkpbt2TW0z4x9Py; Fri, 15 Jul
-	2022 11:12:26 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	85.46.09662.A9B41D26; Fri, 15 Jul 2022 20:12:26 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20220715111225epcas5p174b037b8b850300e1ff2d1b96dd0a64d~B-E0ZA86c1396213962epcas5p12;
-	Fri, 15 Jul 2022 11:12:25 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20220715111225epsmtrp191da074f2d6e26c34a8a4fc31f69d141~B-E0YGCWd1475014750epsmtrp1q;
-	Fri, 15 Jul 2022 11:12:25 +0000 (GMT)
-X-AuditID: b6c32a49-885ff700000025be-44-62d14b9a3566
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	1C.63.08802.99B41D26; Fri, 15 Jul 2022 20:12:25 +0900 (KST)
-Received: from test-zns (unknown [107.110.206.5]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20220715111223epsmtip243bea6f75bf92c0416d33c21c9e224ea~B-EycOCFr1601816018epsmtip2b;
-	Fri, 15 Jul 2022 11:12:23 +0000 (GMT)
-Date: Fri, 15 Jul 2022 16:37:00 +0530
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Ming Lei <ming.lei@redhat.com>, Sagi Grimberg <sagi@grimberg.me>, Jens
-	Axboe <axboe@kernel.dk>, hch@lst.de, kbusch@kernel.org,
-	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, asml.silence@gmail.com, joshiiitr@gmail.com,
-	anuj20.g@samsung.com, gost.dev@samsung.com
-Subject: Re: [PATCH for-next 3/4] io_uring: grow a field in struct
- io_uring_cmd
-Message-ID: <20220715110700.GA27117@test-zns>
+	id 1oCJge-006ftc-R5
+	for linux-nvme@lists.infradead.org; Fri, 15 Jul 2022 11:40:50 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out1.suse.de (Postfix) with ESMTP id 8AC0E34D5A;
+	Fri, 15 Jul 2022 11:40:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1657885245; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=KZobnTvHVRGj8VnmtvNun3RbnRa5h4o6yXoKaMfPo0Q=;
+	b=EPSSg5cpOUEHcCF+bT8PzOzWnJG2UAlLVgt31Ew1rXa2+my/9cmp6DJva3weY0ZRt4bs/C
+	RK6yati/ieRCkgh1IXIk+1MqjxJJeJd0UFIO5EoljI5lvihrdAZvSZ4Ylxs0vHne5brhuo
+	uN9nZO9sKEQlt7XWOnVGW7TUP2jwKmg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1657885245;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=KZobnTvHVRGj8VnmtvNun3RbnRa5h4o6yXoKaMfPo0Q=;
+	b=x5zh2+UGTfkMx+/W6i9iR8vc8aozipszDpqWOKTJtpTl87sge1+Hbv79N11f5vE6u3ztKq
+	ljplV7KA4n5zsWBw==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+	by relay2.suse.de (Postfix) with ESMTP id 7E7522C142;
+	Fri, 15 Jul 2022 11:40:45 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+	id 6DC635198905; Fri, 15 Jul 2022 13:40:45 +0200 (CEST)
+From: Hannes Reinecke <hare@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH] nvme-auth: Fixup kernel test robot warnings
+Date: Fri, 15 Jul 2022 13:40:44 +0200
+Message-Id: <20220715114044.104782-1-hare@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20220714153051.5e53zgkcabb7ajms@carbon.lan>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrEJsWRmVeSWpSXmKPExsWy7bCmuu4s74tJBtO6+C2aJvxltpizahuj
-	xeq7/WwWhx9PYre4eWAnk8XK1UeZLN61nmOxOP/2MJPFpEPXGC323tK2mL/sKbvFocnNTBbr
-	Xr9nceD12DnrLrvH+XsbWTwuny312LSqk81j85J6j903G9g83u+7yubRt2UVo8fm09UenzfJ
-	BXBFZdtkpCampBYppOYl56dk5qXbKnkHxzvHm5oZGOoaWlqYKynkJeam2iq5+AToumXmAF2u
-	pFCWmFMKFApILC5W0rezKcovLUlVyMgvLrFVSi1IySkwKdArTswtLs1L18tLLbEyNDAwMgUq
-	TMjOeNd5irngF1fFonV7WRsYp3F2MXJySAiYSEx9sIMFxBYS2M0ocW2maxcjF5D9iVFiT1sT
-	I4TzmVHi8cObzDAdq+4eZoFI7GKU6Lp1mBXCecYocfTMLjaQKhYBVYl7hycwdTFycLAJaEpc
-	mFwKEhYRUJbY/n8bWDOzwE4miUcPNjCCJIQFAiVW9+5hB7F5BXQlnl8/xgRhC0qcnPkE7D5O
-	AUuJgyfPgtWIAg06sO04E8ggCYELHBKbu64yQZznIjH903OoU4UlXh3fwg5hS0m87G+DspMl
-	Ls08B1VfIvF4z0Eo216i9VQ/WC+zQKbEpQ/T2CBsPone30/AnpEQ4JXoaBOCKFeUuDfpKSuE
-	LS7xcMYSKNtD4uatvWyQQDnKLHHl4HnWCYxys5D8MwvJCgjbSqLzQxPrLKAVzALSEsv/cUCY
-	mhLrd+kvYGRdxSiZWlCcm55abFpgmJdaDo/k5PzcTYzgxKzluYPx7oMPeocYmTgYDzFKcDAr
-	ifB2HzqXJMSbklhZlVqUH19UmpNafIjRFBg/E5mlRJPzgbkhryTe0MTSwMTMzMzE0tjMUEmc
-	1+vqpiQhgfTEktTs1NSC1CKYPiYOTqkGJo2oH5PqSrbPmBd0JkjIOWHdHrN3vz57FN+PulPP
-	FJN+yKw2Ypvn+n1PyrZ0bwhPfOWrmigZwuJ7dUdd6aMENzaHpllKolNePP900YUld5XVJ/3z
-	2Qu2qeXKukYrsy41nD5X2Ma6JWWZ5B032zM2/za1HL63bHNO8cZJ+5UWG0w4WNhtN3P1xy6d
-	vaHzA+aWyfue+LafM/irfsO5En2NShG1vMsnlMVlb7Ib/30zhfVW6+wJTucFjBleelcfuMMt
-	HW24jWHy+54iVw/Jsw2/3l4uaGZg/5dmM4/jZc4k+3TlgBKJB/95ej2X6dTcXjeNoeL8m/DJ
-	lfkRuu/SmXd7PjL6/+k2X/1GnWO2Vn7iSizFGYmGWsxFxYkAy3CCulUEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprAIsWRmVeSWpSXmKPExsWy7bCSvO5M74tJBk9ajSyaJvxltpizahuj
-	xeq7/WwWhx9PYre4eWAnk8XK1UeZLN61nmOxOP/2MJPFpEPXGC323tK2mL/sKbvFocnNTBbr
-	Xr9nceD12DnrLrvH+XsbWTwuny312LSqk81j85J6j903G9g83u+7yubRt2UVo8fm09UenzfJ
-	BXBFcdmkpOZklqUW6dslcGXcb/jGVrCSo2Lr9F9MDYz32boYOTkkBEwkVt09zNLFyMUhJLCD
-	UWLxtzWMEAlxieZrP9ghbGGJlf+eg9lCAk8YJX5dCAGxWQRUJe4dnsDUxcjBwSagKXFhcilI
-	WERAWWL7/21gM5kFdjJJrDv5EmyZsECgxOrePWBzeAV0JZ5fP8YEsfg4s8SyBxtZIRKCEidn
-	PmEBsZkFzCTmbX7IDLKAWUBaYvk/DpAwp4ClxMGTZ8HmiAItO7DtONMERsFZSLpnIemehdC9
-	gJF5FaNkakFxbnpusWGBUV5quV5xYm5xaV66XnJ+7iZGcKRpae1g3LPqg94hRiYOxkOMEhzM
-	SiK83YfOJQnxpiRWVqUW5ccXleakFh9ilOZgURLnvdB1Ml5IID2xJDU7NbUgtQgmy8TBKdXA
-	VP3tjxETa9gMGcurEnpMOWufxU9qD7B3/f7xouNLln3n+R2fSjEs3Fwb02jk/XbbRP/zO/v/
-	PjcytVXdc+9Hxfqu77+szyy2n2s4ua1POHzynQ6rlRMv7U+x3vzbuMXy8ozm1PIn0w6uMhXJ
-	+ceqcMO/sK7v2T/rkmfBX5Y+a9AyU5nWrHXi4SLDSXzW/aLJy5grLfU0r2zb9vaW6drv597u
-	PrHRZfGcH8cunJrxYu58C5ZnHMt8uP4YPOHdOZ3HPL3llFuI2oTQlC3Ma/69vzvlxqnVU89/
-	Z/64+6bXiazJyeUWB2fqahXPF5H8IPtLMkcmZGlEnC3DlLerVjuZH5yze/nxP92f7Dacyn5x
-	wvitEktxRqKhFnNRcSIAQmnjCyMDAAA=
-X-CMS-MailID: 20220715111225epcas5p174b037b8b850300e1ff2d1b96dd0a64d
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----HMHzcl7Kov5y0bbYah5tgDYyhjafTXQAGx6UUfEgMJOMVZI4=_13446e_"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220711110824epcas5p22c8e945cb8c3c3ac46c8c2b5ab55db9b
-References: <20220711110155.649153-1-joshi.k@samsung.com>
-	<CGME20220711110824epcas5p22c8e945cb8c3c3ac46c8c2b5ab55db9b@epcas5p2.samsung.com>
-	<20220711110155.649153-4-joshi.k@samsung.com>
-	<2b644543-9a54-c6c4-fd94-f2a64d0701fa@kernel.dk>
-	<43955a42-7185-2afc-9a55-80cc2de53bf9@grimberg.me>
-	<96fcba9a-76ad-8e04-e94e-b6ec5934f84e@grimberg.me> <Ys+QPjYBDoByrfw1@T590>
-	<20220714081923.GE30733@test-zns>
-	<20220714153051.5e53zgkcabb7ajms@carbon.lan>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220715_041238_509006_2210CA4D 
-X-CRM114-Status: GOOD (  17.92  )
+X-CRM114-CacheID: sfid-20220715_044049_061584_7FFB5CF5 
+X-CRM114-Status: GOOD (  12.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -143,33 +76,102 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------HMHzcl7Kov5y0bbYah5tgDYyhjafTXQAGx6UUfEgMJOMVZI4=_13446e_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+The linux kernel test robot complained that some checks in
+nvme_auth_hmac_{len,name,id} and nvme_auth_dhgroup_{name,kpp,id}
+always evaluate to 'true'. So simplify the conditions to get
+rid of those warnings.
 
-On Thu, Jul 14, 2022 at 05:30:51PM +0200, Daniel Wagner wrote:
->On Thu, Jul 14, 2022 at 01:49:23PM +0530, Kanchan Joshi wrote:
->> If path is not available, retry is not done immediately rather we wait for
->> path to be available (as underlying controller may still be
->> resetting/connecting). List helped as command gets added into
->> it (and submitter/io_uring gets the control back), and retry is done
->> exact point in time.
->> But yes, it won't harm if we do couple of retries even if path is known
->> not to be available (somewhat like iopoll). As this situation is
->> not common. And with that scheme, we don't have to link io_uring_cmd.
->
->Stupid question does it only fail over immediately when the path is not
->available or any failure? If it fails over for everything it's possible
->the target gets the same request twice. FWIW, we are just debugging this
->scenario right now.
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/nvme/common/auth.c | 30 ++++++++++++------------------
+ 1 file changed, 12 insertions(+), 18 deletions(-)
 
-failover is only for path-related failure, and not otherwise.
-you might want to take a look at nvme_decide_disposition routine where
-it makes that decision.
+diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
+index 0c86ebce59d2..94cc7cafbb9d 100644
+--- a/drivers/nvme/common/auth.c
++++ b/drivers/nvme/common/auth.c
+@@ -55,9 +55,7 @@ static struct nvme_auth_dhgroup_map {
+ 
+ const char *nvme_auth_dhgroup_name(u8 dhgroup_id)
+ {
+-	if ((dhgroup_id > ARRAY_SIZE(dhgroup_map)) ||
+-	    !dhgroup_map[dhgroup_id].name ||
+-	    !strlen(dhgroup_map[dhgroup_id].name))
++	if (dhgroup_id > ARRAY_SIZE(dhgroup_map))
+ 		return NULL;
+ 	return dhgroup_map[dhgroup_id].name;
+ }
+@@ -65,9 +63,7 @@ EXPORT_SYMBOL_GPL(nvme_auth_dhgroup_name);
+ 
+ const char *nvme_auth_dhgroup_kpp(u8 dhgroup_id)
+ {
+-	if ((dhgroup_id > ARRAY_SIZE(dhgroup_map)) ||
+-	    !dhgroup_map[dhgroup_id].kpp ||
+-	    !strlen(dhgroup_map[dhgroup_id].kpp))
++	if (dhgroup_id > ARRAY_SIZE(dhgroup_map))
+ 		return NULL;
+ 	return dhgroup_map[dhgroup_id].kpp;
+ }
+@@ -77,9 +73,10 @@ u8 nvme_auth_dhgroup_id(const char *dhgroup_name)
+ {
+ 	int i;
+ 
++	if (!dhgroup_name || !strlen(dhgroup_name))
++		return NVME_AUTH_DHGROUP_INVALID;
+ 	for (i = 0; i < ARRAY_SIZE(dhgroup_map); i++) {
+-		if (!dhgroup_map[i].name ||
+-		    !strlen(dhgroup_map[i].name))
++		if (!strlen(dhgroup_map[i].name))
+ 			continue;
+ 		if (!strncmp(dhgroup_map[i].name, dhgroup_name,
+ 			     strlen(dhgroup_map[i].name)))
+@@ -113,9 +110,7 @@ static struct nvme_dhchap_hash_map {
+ 
+ const char *nvme_auth_hmac_name(u8 hmac_id)
+ {
+-	if ((hmac_id > ARRAY_SIZE(hash_map)) ||
+-	    !hash_map[hmac_id].hmac ||
+-	    !strlen(hash_map[hmac_id].hmac))
++	if (hmac_id > ARRAY_SIZE(hash_map))
+ 		return NULL;
+ 	return hash_map[hmac_id].hmac;
+ }
+@@ -123,9 +118,7 @@ EXPORT_SYMBOL_GPL(nvme_auth_hmac_name);
+ 
+ const char *nvme_auth_digest_name(u8 hmac_id)
+ {
+-	if ((hmac_id > ARRAY_SIZE(hash_map)) ||
+-	    !hash_map[hmac_id].digest ||
+-	    !strlen(hash_map[hmac_id].digest))
++	if (hmac_id > ARRAY_SIZE(hash_map))
+ 		return NULL;
+ 	return hash_map[hmac_id].digest;
+ }
+@@ -135,8 +128,11 @@ u8 nvme_auth_hmac_id(const char *hmac_name)
+ {
+ 	int i;
+ 
++	if (!hmac_name || !strlen(hmac_name))
++		return NVME_AUTH_HASH_INVALID;
++
+ 	for (i = 0; i < ARRAY_SIZE(hash_map); i++) {
+-		if (!hash_map[i].hmac || !strlen(hash_map[i].hmac))
++		if (!strlen(hash_map[i].hmac))
+ 			continue;
+ 		if (!strncmp(hash_map[i].hmac, hmac_name,
+ 			     strlen(hash_map[i].hmac)))
+@@ -148,9 +144,7 @@ EXPORT_SYMBOL_GPL(nvme_auth_hmac_id);
+ 
+ size_t nvme_auth_hmac_hash_len(u8 hmac_id)
+ {
+-	if ((hmac_id > ARRAY_SIZE(hash_map)) ||
+-	    !hash_map[hmac_id].hmac ||
+-	    !strlen(hash_map[hmac_id].hmac))
++	if (hmac_id > ARRAY_SIZE(hash_map))
+ 		return 0;
+ 	return hash_map[hmac_id].len;
+ }
+-- 
+2.29.2
 
-------HMHzcl7Kov5y0bbYah5tgDYyhjafTXQAGx6UUfEgMJOMVZI4=_13446e_
-Content-Type: text/plain; charset="utf-8"
-
-
-------HMHzcl7Kov5y0bbYah5tgDYyhjafTXQAGx6UUfEgMJOMVZI4=_13446e_--
 
