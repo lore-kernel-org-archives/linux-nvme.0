@@ -4,82 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DCE58C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Jul 2022 19:28:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23D0BC433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Jul 2022 19:48:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qLmffwl75hgVbG2gk0tD6CR2NK/r5FWbW6d2Hfhvklw=; b=wbWTem9YmFrrQiwB/qpBfoP0zY
-	k5UuDDKBFILn6WfamEb2WEiH/780jvAx/+ETuovtS0/Z/dpygExvHHLXmaRTeKaK35AM2a+1CryS4
-	iCneyG0cTo62TGJwqIGgfCgqV2HgvjG5pA3tOYMlAQhgJDGvFIEZrqdinYn5cmrGQQzuMOmM9I4aF
-	0x34zY1c2ggOrOVxI3YVAAWLZQ9hu/NZ3Yofbx0zJXRQvWBkwTimo4/+5erv0wr6sB9H4/aTZoVvY
-	pN5cmYnQzp4/awKtvex2/fZ/g4fWlIZh1yvFIMgXecElF59Ghr0Tzt10/mI7oFi4TC/sUluMjoMPg
-	gEsvbh3w==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=P/BPGntKrlJzEPfvltLN0Erobid99m4v2m2RxQ2xveo=; b=tlOQ+TSWED0n4y119UEEpRLxz0
+	atVoZljCxxueySu7Ber0CMpStMuybrkE6k0S/DXzziJPWhz5A9F089rfWYXUDFgqwFLaZHwXWIagw
+	IXcuZNC11ro0UaKzn05gl2BzqvCFGfZFKlytP429/PNZ9mQAjam951458Uw2q+yjVQ4EpnXK3tVrX
+	5h2ie0sgKekNFTBAsf6EZxNtQ/QrCjOVYN6RG6QIG6q0ur6ONpEBJ7op/8JMkE7kEMi0r0zr0WY8I
+	8fgNOLCcAFre+Xf8mdWGcX2YTRQ5YmipLqR1zb5jXaCwI22xUODvMkXphaA9dUFOMOEn08CRvfBNw
+	eXfYJsZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oCQza-009mA8-Ti; Fri, 15 Jul 2022 19:28:50 +0000
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
+	id 1oCRIc-009uid-Mm; Fri, 15 Jul 2022 19:48:30 +0000
+Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.54])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oCQzX-009m4l-2O
-	for linux-nvme@lists.infradead.org; Fri, 15 Jul 2022 19:28:49 +0000
-Received: by mail-pf1-x431.google.com with SMTP id c3so4526088pfb.13
-        for <linux-nvme@lists.infradead.org>; Fri, 15 Jul 2022 12:28:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=qLmffwl75hgVbG2gk0tD6CR2NK/r5FWbW6d2Hfhvklw=;
-        b=tBNflhJG39NNOtRJAnSsZf0Mz1s7O9xDQiesgT8qsidLnFtuOTSk+TbYvdMNItHTPn
-         PpvmA9kGK70VxNP2LiF7AZMV54w4qphldr0uoS4HsMGePDL/vlr9tA9u8C4ZK4y32zEw
-         PtcAWB08G5Jq81PsYzRlscnqOQS3yK9+qdTF+iuBD7cGbbqJ+Zpd4YK4HaS5xL/JivC2
-         XNkTdf+HGR3BkV91vPU3dMChnCOTzOB6tJ2dWRqvkEFLhhrt/wAlYBG6XuNJ9++fM/Eh
-         X2Mmem6tjHdZ0kL0PWeVBukomdpxpIvJ7NaBhRPAB2OacrCq48ujcQYvFG9AqBbw8bkB
-         4KIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=qLmffwl75hgVbG2gk0tD6CR2NK/r5FWbW6d2Hfhvklw=;
-        b=Xy3y/uFxnSLDOTDGKrE7eHXilX1ZvrNoWixmGC8WVUzAmdYUNDEaTfbM6DEuu3CdOS
-         uvoGNprbyTFR4q+iKUqQ1Wwq5zz5i/YX7xU323D5LNmJOjS1UKcZkX8j4om64nJa67Uw
-         rnELVSCwy2uaOmeSpLEKRZzYEu7M2fgi/0rfkEv7VILteZ0vmWarbVxzbIAMYPMa5dYe
-         hf6T9ODGimSOasch4KKuHeJ7YubtGzBsYlKwuno3p4ZBV4KFl/uIgLeP3kdZ4H6LU2Vh
-         1JBwDWtg2MGd9rTt5ywULZkhcqqUXXv0dWxACrf4DDgclQbPqwKR7Ve37RKvUP5ND9o4
-         CYew==
-X-Gm-Message-State: AJIora+3yA6dxAhhJMuWWe1ekrNyvMGljWnnocs26DiCT/eDwMcVN3sX
-	IqKGVqCCKbNROqHZ9lD/+PUDIMXEEwIloA==
-X-Google-Smtp-Source: AGRyM1sguRsI0CLbyOSQx7uqFMEBO/+wa1uRdB/NxjvCJYWu8rLyJIPfD1UcG2YEKSuCOARPIH+ROg==
-X-Received: by 2002:a65:5605:0:b0:419:d863:8d94 with SMTP id l5-20020a655605000000b00419d8638d94mr5229267pgs.359.1657913317875;
-        Fri, 15 Jul 2022 12:28:37 -0700 (PDT)
-Received: from [192.168.1.100] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id a8-20020a170902ecc800b001641b2d61d4sm3967075plh.30.2022.07.15.12.28.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Jul 2022 12:28:37 -0700 (PDT)
-Message-ID: <a56d191e-a3a3-76b9-6ca3-782803d2600c@kernel.dk>
-Date: Fri, 15 Jul 2022 13:28:35 -0600
+	id 1oCRIZ-009ucb-32
+	for linux-nvme@lists.infradead.org; Fri, 15 Jul 2022 19:48:28 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1657914494;
+    s=strato-dkim-0002; d=iokpp.de;
+    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=P/BPGntKrlJzEPfvltLN0Erobid99m4v2m2RxQ2xveo=;
+    b=S0mro0BHCuqvDBoy21k1GUKqwTk5dSdwtvSUBuUU+LttOD4sjv4YRTX5/EQgjh2psR
+    aCDANAqjn5PGprXF3hd8mkaCz/lMI1z0S01RvCIX3qwKfLBD1i+ktAfmplVby2AhB8RK
+    2x0ZeQYWxuxSFDH5rt+e33IwKtBP1iBNteCbotEKsGrlRHsh8aFN0GUFtGaP0g7YHQiE
+    DXAjAnPdCb2xRf73XUNvCu+P8ja0ZdzcMGTxHYqW8enTkK5KJTs5byO6MFp3kH25x2+c
+    u3yaDs3wQDlHzB2nNbxyR0aXQQ3qmeIs/AoZ0eP5IlHzO91wlSoMKi36xTjYPSyWx6jX
+    ztKw==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":LmkFe0i9dN8c2t4QQyGBB/NDXvjDB6pBSedrgBzPc9DUyubU4DD1QLj68UeUr1+U1UzWvoOJrrSACWlJOqXdPodE67SDBKlmD1RX4Q=="
+X-RZG-CLASS-ID: mo00
+Received: from linux.speedport.ip
+    by smtp.strato.de (RZmta 47.47.0 AUTH)
+    with ESMTPSA id z88edfy6FJmEE5I
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Fri, 15 Jul 2022 21:48:14 +0200 (CEST)
+From: Bean Huo <beanhuo@iokpp.de>
+To: kbusch@kernel.org,
+	axboe@fb.com,
+	hch@lst.de,
+	sagi@grimberg.me,
+	linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org,
+	beanhuo@micron.com
+Subject: [PATCH] nvme: Use command_id instead of req->tag in trace_nvme_complete_rq()
+Date: Fri, 15 Jul 2022 21:48:04 +0200
+Message-Id: <20220715194804.324158-1-beanhuo@iokpp.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2] lsm,io_uring: add LSM hooks for the new uring_cmd file
- op
-Content-Language: en-US
-To: Luis Chamberlain <mcgrof@kernel.org>, casey@schaufler-ca.com,
- paul@paul-moore.com, joshi.k@samsung.com,
- linux-security-module@vger.kernel.org, io-uring@vger.kernel.org
-Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- a.manzanares@samsung.com, javier@javigon.com
-References: <20220715191622.2310436-1-mcgrof@kernel.org>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20220715191622.2310436-1-mcgrof@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220715_122847_149870_E7BA42B7 
-X-CRM114-Status: GOOD (  12.24  )
+X-CRM114-CacheID: sfid-20220715_124827_298535_28BC2675 
+X-CRM114-Status: GOOD (  10.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,26 +76,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/15/22 1:16 PM, Luis Chamberlain wrote:
-> io-uring cmd support was added through ee692a21e9bf ("fs,io_uring:
-> add infrastructure for uring-cmd"), this extended the struct
-> file_operations to allow a new command which each subsystem can use
-> to enable command passthrough. Add an LSM specific for the command
-> passthrough which enables LSMs to inspect the command details.
-> 
-> This was discussed long ago without no clear pointer for something
-> conclusive, so this enables LSMs to at least reject this new file
-> operation.
+From: Bean Huo <beanhuo@micron.com>
 
-From an io_uring perspective, this looks fine to me. It may be easier if
-I take this through my tree due to the moving of the files, or the
-security side can do it but it'd have to then wait for merge window (and
-post io_uring branch merge) to do so. Just let me know. If done outside
-of my tree, feel free to add:
+use command_id instead of req->tag in trace_nvme_complete_rq(),
+because of commit e7006de6c238 ("nvme: code command_id with a genctr
+for use authentication after release"), cmd->common.command_id is set to
+((genctl & 0xf)< 12 | req->tag), no longer req->tag, which makes cid in
+trace_nvme_complete_rq and trace_nvme_setup_cmd are not the same.
 
-Acked-by: Jens Axboe <axboe@kernel.dk>
+Signed-off-by: Bean Huo <beanhuo@micron.com>
+---
+ drivers/nvme/host/trace.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+index b5f85259461a..fe8c90080731 100644
+--- a/drivers/nvme/host/trace.h
++++ b/drivers/nvme/host/trace.h
+@@ -98,7 +98,7 @@ TRACE_EVENT(nvme_complete_rq,
+ 	    TP_fast_assign(
+ 		__entry->ctrl_id = nvme_req(req)->ctrl->instance;
+ 		__entry->qid = nvme_req_qid(req);
+-		__entry->cid = req->tag;
++		__entry->cid = nvme_req(req)->cmd->common.command_id;
+ 		__entry->result = le64_to_cpu(nvme_req(req)->result.u64);
+ 		__entry->retries = nvme_req(req)->retries;
+ 		__entry->flags = nvme_req(req)->flags;
 -- 
-Jens Axboe
+2.34.1
 
 
