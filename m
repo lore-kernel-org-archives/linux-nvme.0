@@ -4,93 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DE77C43334
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Jul 2022 21:16:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7BB1AC43334
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Jul 2022 21:27:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wFmCNr6mVUQ1FQYknGOvyDMLqvMWptFfqJCcv+Tg63U=; b=NNAtI8LAgDggktwMd2avpRfB6U
-	A0MAa4HJRaFrn7H2a6Sq8ZGvk5Icl1xJy7RPEAuTw/4jAzPrjgKT1tvQA3UHQOVE6uPGVXrFAIkNP
-	z2B1v3fBGE3F8/Vt9aGMGmMor/4+dtLjt4Ui3hYIGJzQSvrY2HBnhBEhIJRRJ/+b9K4i9i3De9U79
-	sXiqeC5Dg6kGocyGZwGIsc0UBoInpxEWflf5e8jj3gLvVv6I+P0BP9OohpUuUyN/v0HhoG1jgTNCf
-	uUxYwuH+DBgzoywmoAFv8Fkfb0Bg1ivozlkHAuMhguHcpZDANEG+43Oq+Ji9YA4v+Us1JAof3VIll
-	Y0jR5+kQ==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ftOZyHjc9fR4P7242V8ktD8hYYx3sxdAtQDS71sPEmA=; b=UNCsyYmUCIg14t19JEI6Qvxlin
+	sh7lY0hmKtJqcccNxdL+wyn1bwwBXw9wxnCut2sdDIov/AHz7tetWUUD9QKrOGGxkGtJOevaAZEyC
+	qT5BqQ65GZ1Sp8E1530MTW/MltoUkwHzt0nRbOsjTXNturIDRh0UnyxdY/UXJbOJqHOdW/pFpdZ3X
+	TVQHn1IoV3IOEAOFaIp8gmCnvYw0kcD2e+3/RxUEi7ZkpFOArzpGOjvPDj8vb4u1WN5zXHj3MsBKM
+	5u78Aes7ztHG+s+0PYIIXcfP5XWW6Eb2ZJYnxgrwxoKeEFzHaTz9VX7ESNCUqZY23Rgy5ggQvpCUq
+	WE2Wcwmw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oCSg2-00AOvs-9y; Fri, 15 Jul 2022 21:16:46 +0000
-Received: from sonic308-15.consmr.mail.ne1.yahoo.com ([66.163.187.38])
+	id 1oCSqh-00ARhS-Ts; Fri, 15 Jul 2022 21:27:47 +0000
+Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.52])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oCSfz-00AOuM-CY
-	for linux-nvme@lists.infradead.org; Fri, 15 Jul 2022 21:16:44 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1657919801; bh=wFmCNr6mVUQ1FQYknGOvyDMLqvMWptFfqJCcv+Tg63U=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=A4Izv9Fe//NUAg1lRZx/JgX3SPdgaHQsglPDXOmVRKeJvECDG9uNw/KT29SSMz/aUxHJ9ozv/LnqTzGeN+K+GnionrNzSMAAdxglyloYIP85VD9EFlsRpzJcXMBl2VEFJ/zSFsqG37CutFBCAZpO009g2ELSAXF4PYnckDDhYc2sYbe0u+NnAXS/aARGVke2WdtKMjSAFvz8oSr+l+StXYZj6z5ytjVpHUry5GHkMg7TBKV9EF0jMTmzVD/WciDw6K9D9Q5JxXarK2HvC1OsFz58lRFtKIRS/TD3vrXJt1Bru21BF5RQFvdUPPXPDgYrnNjtvlyJDVFaFIVAmuk+0A==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1657919801; bh=lWZiPze4TQq48Q8QJmL7h57jOV3m8gGGIfMylY9J1Ls=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=GHyhH4Nv3hLwkTOfIOADebulRud4gHQh9wZjufPCj+w24xHrG5gstkhzN7jmbS2hqT2NJBf5QvExem7Tp3CeQDMQZ+pCgVM4qEy9cGmVReX00EPGQ5l6tA03ToFJCUZZUUWcC5ekX1rfc7Hl/fZwtiJUnZoVybQSAMvqtlWZgHxnxjH4O+2YIKNRC2W+qXGTQy4s84OSzYAf9eI04koV0kNEhAzs+kAr/d111VmeBBmJFq5cmZpgczbE0WFY4FOtMOvXvgAMB4GYK0+lByftrEmyHQAnnVGqDBDoYLy5B2Jo5q7eGyPiWNXkrbynfD+gxsLbnQVNd/HN1Do/zrwOXw==
-X-YMail-OSG: MBgKIqgVM1nQouXEJyBRqcqSvuf4CQat9W4ypP14Z4fJaygnJ_0vLavwAUOo6FV
- xVDfuG.C6c4mg14k0M3HIAnHUMAXlMCpuCzEa3lnFrr6M7ZXFRQiat1_LZ6eDQEJZOmhC9Er4a5G
- KgQkIcFELaembA54P_VRr_zwfqk.uvR7qdLUY4s2GmHWLsdUYRD_fqQ0m_lJa2c_yexIlcqsNkAV
- wti6rcr8GMHpcUhTlAbwMHbjaPLgUaRf3o8wZqQzj_Rkzsx8BOrhBoABxi3R_PAC_KJMwnAJ9sms
- QXKWoIvFm1xxrcmZu0Ksvdny1.v6G6Oj.jQen2Jn6Sc3Pz98afioGrra4V2gAiSuN8xrdFXQlnMQ
- XB.3tQzLiujYhfC9tzyz0uYoDS5K3fAdG88awM017XjgvE9bBdA7756G1atmsUAzxJRV.dv.vRsd
- s4iSAFiPjQeEBwBeeXcNLMAlZR_imNWNm_mDyZMk2ltxKkhi_MO5YMWj9otFHkFDlqJx8BlP0ozk
- 5UVeXCpP_Lp7wGBFlkbLfKS9T7BLmZKDEG2lqdkl.bt7PkXrjPQxyRvdkuZAQk1z5t56M72ukdag
- IptKxX2uI89pZKVZZbjClMihhEqenewdCIYkIanqZvDQu7KxA31LSYVy6dooTj4VM2EwjIk_vUBb
- f.mzEzrE38r4ydkwqXAgRPpBiwHiNorhLyia23rgtDFOVfeRcOnp_ZtKy0vZIKWAAjVoLRC6r77Q
- PS2vtvGqyFAX_MDDikIQseOEpxnbZXioZ1AhHfHNAaQy2ADhBsPDmOCZHjqR.s2MOw.Fy8.R6CdC
- kXbS07A9ZSqWDEpNeXYxU2Ez6Yyhp_D7L9PhtO78vvTQUC5OVTD.YCWeLoXVabspxxYre6upuo5z
- 2_ZhoQ647TOcB2y6ar8v9tgkpA_9T.tsuJ6buaYatrRqZfYAOwGw30PKX9Qa2zvIyQaCVJs5Gdjg
- wc__VHW0SKkG5myDirmA5lDbumv76e_NVz0cA.hob8zoc6_2D4WC2LGCZLODB7tRxCKh_BYiPCpb
- CC7g5pOHWYQ2rEQh012GJ8DsNniWAmeU.9dSSaYQziIFFGt0sdhlwZZaV0w4XYvcf0SP5.k1mrva
- XebODTp4_mL9KxwHJ3yvG8zIVnjf1jNV8B53J.G._LcAPl14rqOFJWXSvlc0E7heLjMMJ_ANP9rE
- 0PmZFY.8HYNwcW.GCF65ee7xuaS.HyDeUOHwX5ixm2FnwVjgrwAQKtmZQVZrTyG4uBvDXzBmHPSW
- BxhMKNqzqGx6JkNMzsd7y7Hjhnoi5Vct1CAbdv8jVJmDaOM6bOEIhEllL7TSycdSmxKuhZuwdMxY
- caPWlq5kRMuzAQJbWZNv.U7kELGPnfvLoCUM5ejRMBtRMHwcnNW3o5.Ft6eqJlmQZu2G4kuK1LLy
- bvkjKaEwB8UjgPxSJUtU5PnUWJR3qxJDE7sdhnRQT2QWXGcWMIHFUDsIiAetQSsOVJQOMrjGrFWu
- iPSQ4wnZT.iOaJrzpBPqgFMUuPxBhw8oOMih.dSauzvRNPCroSN1x2jqFSPyqCd0kejV5aur3uHu
- uYEZb.x.sG36k4bT4TlReAAhuPz.DQqqix5bWtaJY8h_mx3.kVlKbbRdlB79mV7ySJ6BjscYuFNT
- 4IV7nZlSGZdxe8X0tRyFanoIC3LUGioNUDxShKmYAqPH9qlu1FdRl6jPEWyYqbw3iTPYkDS424Da
- 0aeuO.ZEwB6TElJ17NvLTSM9mUj4.1k8ggv2SiKDlwTAmgGkDYUSbsOMmdyP75iXBWCBSKRaHHSf
- Yq0sfhvENfLeQ6haqs4hRZeJheNuZ_iAYnFVrxh.2QuNtOt_vlA3.EVb7KUW68Tu4h93YY.jKZfz
- ibxwZ7snDt6ld159u9D3I_RBVFaKJh3GmZhUsLJ5VcXobPTk8jHANjJZbMOv.6nXvzMLn1UL4mdc
- yR_nXL71DrT7MQzT8YMLCrqREgwfDwWISMjE5KNEpKjVGbb7LwpZzvAaB9dpQeYHmXazA3AN3xzt
- 1Zzjn5GxDRbyT1GpVgrcw.nLe4K2K5hRA9O4Z._adQObEuX4S4rUVhF.HqPkaeoOYyJf0kxaOVh_
- KAGwDtRreedQY46.1MkDLfQYkXB.WHbqSBrnpHx3xdrLCTmrkfGyFC3DKogMku9dnLF2zkixV_lC
- zMte7n0XPFRLDWeJSmnugS1hH2AYnPiQ_oSbjWy1fRtmhE2yLztuX99ZXNwdXlrPjxvvOXCxCNeG
- Yqcf3Vae9j2yr.Ce6qREY4CCD1iBZaqkfXRqKnAT5Ui.K
-X-Sonic-MF: <casey@schaufler-ca.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.ne1.yahoo.com with HTTP; Fri, 15 Jul 2022 21:16:41 +0000
-Received: by hermes--production-gq1-56bb98dbc7-r7f9c (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 5a5804bb51dabd48fee000183e3b2fa7;
-          Fri, 15 Jul 2022 21:16:36 +0000 (UTC)
-Message-ID: <1b220ed8-c010-15f2-3bc2-6ec4b2e7532f@schaufler-ca.com>
-Date: Fri, 15 Jul 2022 14:16:35 -0700
+	id 1oCSqe-00ARg0-RH
+	for linux-nvme@lists.infradead.org; Fri, 15 Jul 2022 21:27:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1657920455;
+    s=strato-dkim-0002; d=iokpp.de;
+    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=ftOZyHjc9fR4P7242V8ktD8hYYx3sxdAtQDS71sPEmA=;
+    b=DO/MC0H/eiSQcg5H6jggad38h188504b5uxud6U4v9MEVXubNLQJHjIzjvXSbOgQvW
+    YPGjOa0baJjnuBsQBFA/c6SiEJhmZeX1Pnp3xqELJBcwB/FvnZPDPVdZV71HkpIFPFT2
+    XjPbfnWdoKXV9daWmuiMZ3wS5jYwt2C/aG72m+FKWpUSLIu1nETLlVMs3lwmk1p3P8QG
+    nM7vyh+DM0hW5BXm3xIYlUUbnyJ0Dw4NC03UBE3yC3eoRAkMZasFTL5bEzIK5HF/jjvR
+    hzKRrxixJw00SLF8ZHksFJp5PoSq/RE+OO8VS/AJqQv5W7BbgRWnRLdrGbiWmwrPnyll
+    llgw==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":LmkFe0i9dN8c2t4QQyGBB/NDXvjDB6pBSedrgBzPc9DUyubU4DD1QLj68UeUr1+U1UzWvoOJrrSACWlJOqXdPodE67SDBKlmD1RX4Q=="
+X-RZG-CLASS-ID: mo00
+Received: from linux.speedport.ip
+    by smtp.strato.de (RZmta 47.47.0 AUTH)
+    with ESMTPSA id z88edfy6FLRYECh
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Fri, 15 Jul 2022 23:27:34 +0200 (CEST)
+From: Bean Huo <beanhuo@iokpp.de>
+To: kbusch@kernel.org,
+	axboe@fb.com,
+	hch@lst.de,
+	sagi@grimberg.me,
+	linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org,
+	beanhuo@micron.com
+Subject: [PATCH v2] nvme: Use command_id instead of req->tag in trace_nvme_complete_rq()
+Date: Fri, 15 Jul 2022 23:27:21 +0200
+Message-Id: <20220715212721.332857-1-beanhuo@iokpp.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] lsm,io_uring: add LSM hooks to for the new uring_cmd file
- op
-Content-Language: en-US
-To: Jens Axboe <axboe@kernel.dk>, Paul Moore <paul@paul-moore.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, joshi.k@samsung.com,
- linux-security-module@vger.kernel.org, io-uring@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- a.manzanares@samsung.com, javier@javigon.com, casey@schaufler-ca.com
-References: <20220714000536.2250531-1-mcgrof@kernel.org>
- <CAHC9VhSjfrMtqy_6+=_=VaCsJKbKU1oj6TKghkue9LrLzO_++w@mail.gmail.com>
- <YtC8Hg1mjL+0mjfl@bombadil.infradead.org>
- <CAHC9VhQMABYKRqZmJQtXai0gtiueU42ENvSUH929=pF6tP9xOg@mail.gmail.com>
- <a91fdbe3-fe01-c534-29ee-f05056ffd74f@kernel.dk>
- <CAHC9VhRCW4PFwmwyAYxYmLUDuY-agHm1CejBZJUpHTVbZE8L1Q@mail.gmail.com>
- <711b10ab-4ac7-e82f-e125-658460acda89@kernel.dk>
-From: Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <711b10ab-4ac7-e82f-e125-658460acda89@kernel.dk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailer: WebService/1.1.20407 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220715_141643_495145_4ED7461C 
-X-CRM114-Status: UNSURE (   7.04  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220715_142745_137798_7E44E65D 
+X-CRM114-Status: GOOD (  10.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,24 +76,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/15/2022 1:00 PM, Jens Axboe wrote:
-> I agree that it should've been part of the initial series. As mentioned
-> above, I wasn't much apart of that earlier discussion in the series, and
-> hence missed that it was missing. And as also mentioned, LSM isn't much
-> on my radar as nobody I know uses it.
+From: Bean Huo <beanhuo@micron.com>
 
-There are well over 6 Billion systems deployed in the wild that use LSM.
-Every Android device. Every Samsung TV, camera and watch. Chromebooks.
-Data centers. AWS. HPC. Statistically, a system that does not use LSM is
-extremely rare. The only systems that *don't* use LSM are the ones hand
-configured by Linux developers for their own use.
+Use command_id instead of req->tag in trace_nvme_complete_rq(),
+because of commit e7006de6c238 ("nvme: code command_id with a genctr
+for use authentication after release"), cmd->common.command_id is set to
+((genctl & 0xf)< 12 | req->tag), no longer req->tag, which makes cid in
+trace_nvme_complete_rq and trace_nvme_setup_cmd are not the same.
 
->  This will cause oversights, even
-> if they are unfortunate. My point is just that no ill intent should be
-> assumed here.
+Fixes: e7006de6c238 ("nvme: code command_id with a genctr for use authentication after release")
+Signed-off-by: Bean Huo <beanhuo@micron.com>
+---
 
-I see no ill intent. And io_uring addresses an important issue.
-It just needs to work for the majority of Linux systems, not just
-the few that don't use LSM.
+V1 -- V2:
+    Add fixes tag.
+
+---
+ drivers/nvme/host/trace.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+index b5f85259461a..fe8c90080731 100644
+--- a/drivers/nvme/host/trace.h
++++ b/drivers/nvme/host/trace.h
+@@ -98,7 +98,7 @@ TRACE_EVENT(nvme_complete_rq,
+ 	    TP_fast_assign(
+ 		__entry->ctrl_id = nvme_req(req)->ctrl->instance;
+ 		__entry->qid = nvme_req_qid(req);
+-		__entry->cid = req->tag;
++		__entry->cid = nvme_req(req)->cmd->common.command_id;
+ 		__entry->result = le64_to_cpu(nvme_req(req)->result.u64);
+ 		__entry->retries = nvme_req(req)->retries;
+ 		__entry->flags = nvme_req(req)->flags;
+-- 
+2.34.1
 
 
