@@ -4,64 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23D0BC433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Jul 2022 19:48:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFF01CCA482
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Jul 2022 19:51:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=P/BPGntKrlJzEPfvltLN0Erobid99m4v2m2RxQ2xveo=; b=tlOQ+TSWED0n4y119UEEpRLxz0
-	atVoZljCxxueySu7Ber0CMpStMuybrkE6k0S/DXzziJPWhz5A9F089rfWYXUDFgqwFLaZHwXWIagw
-	IXcuZNC11ro0UaKzn05gl2BzqvCFGfZFKlytP429/PNZ9mQAjam951458Uw2q+yjVQ4EpnXK3tVrX
-	5h2ie0sgKekNFTBAsf6EZxNtQ/QrCjOVYN6RG6QIG6q0ur6ONpEBJ7op/8JMkE7kEMi0r0zr0WY8I
-	8fgNOLCcAFre+Xf8mdWGcX2YTRQ5YmipLqR1zb5jXaCwI22xUODvMkXphaA9dUFOMOEn08CRvfBNw
-	eXfYJsZA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=B3ZiGF2tDesE+mQexAH3kzTRyU5arN1AgSUXC9Mb9ew=; b=IZGxI9Ec76Rzkd6OHUExH/nE5B
+	gDwdFcK7pNg57CpasRbmieNR6SmMAh4mCKs4ZcIzyXFCc6BrTnik7gNwpnWvyXfFwPDQmDTY2OvvO
+	BfWtrjqZbVyDe90oc2n3tQVS9XzvtfpZE6EgJiwyk31OZUbOsF4om/WQjNCVEsVLuxeNVs9ecdGhM
+	8wOZgytoyyLag3ICboYSS/zh9PD+ivbzklldUAEwMZY0U5lHHrNwYGvWWW3/K8z1d/eT6VM5zmWaW
+	OVChCJBqGBBCUKlSslivHr88X6GlAYJo9Oj2FdABKUzPWZkgYbW8cYEPDVgjPkl6eLJYyqIxvpXPe
+	q5CMaUQQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oCRIc-009uid-Mm; Fri, 15 Jul 2022 19:48:30 +0000
-Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.54])
+	id 1oCRLB-009vtL-He; Fri, 15 Jul 2022 19:51:09 +0000
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oCRIZ-009ucb-32
-	for linux-nvme@lists.infradead.org; Fri, 15 Jul 2022 19:48:28 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1657914494;
-    s=strato-dkim-0002; d=iokpp.de;
-    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=P/BPGntKrlJzEPfvltLN0Erobid99m4v2m2RxQ2xveo=;
-    b=S0mro0BHCuqvDBoy21k1GUKqwTk5dSdwtvSUBuUU+LttOD4sjv4YRTX5/EQgjh2psR
-    aCDANAqjn5PGprXF3hd8mkaCz/lMI1z0S01RvCIX3qwKfLBD1i+ktAfmplVby2AhB8RK
-    2x0ZeQYWxuxSFDH5rt+e33IwKtBP1iBNteCbotEKsGrlRHsh8aFN0GUFtGaP0g7YHQiE
-    DXAjAnPdCb2xRf73XUNvCu+P8ja0ZdzcMGTxHYqW8enTkK5KJTs5byO6MFp3kH25x2+c
-    u3yaDs3wQDlHzB2nNbxyR0aXQQ3qmeIs/AoZ0eP5IlHzO91wlSoMKi36xTjYPSyWx6jX
-    ztKw==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":LmkFe0i9dN8c2t4QQyGBB/NDXvjDB6pBSedrgBzPc9DUyubU4DD1QLj68UeUr1+U1UzWvoOJrrSACWlJOqXdPodE67SDBKlmD1RX4Q=="
-X-RZG-CLASS-ID: mo00
-Received: from linux.speedport.ip
-    by smtp.strato.de (RZmta 47.47.0 AUTH)
-    with ESMTPSA id z88edfy6FJmEE5I
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Fri, 15 Jul 2022 21:48:14 +0200 (CEST)
-From: Bean Huo <beanhuo@iokpp.de>
-To: kbusch@kernel.org,
-	axboe@fb.com,
-	hch@lst.de,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	beanhuo@micron.com
-Subject: [PATCH] nvme: Use command_id instead of req->tag in trace_nvme_complete_rq()
-Date: Fri, 15 Jul 2022 21:48:04 +0200
-Message-Id: <20220715194804.324158-1-beanhuo@iokpp.de>
-X-Mailer: git-send-email 2.34.1
+	id 1oCRL8-009vs5-0R
+	for linux-nvme@lists.infradead.org; Fri, 15 Jul 2022 19:51:08 +0000
+Received: by mail-wm1-x32f.google.com with SMTP id o8so3416410wms.2
+        for <linux-nvme@lists.infradead.org>; Fri, 15 Jul 2022 12:51:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=B3ZiGF2tDesE+mQexAH3kzTRyU5arN1AgSUXC9Mb9ew=;
+        b=C5BVrNOtv8yFXOUZEUcznwAm5ACBfjZTrKM1nrHegqukd1Hefyz/I3PKLnAXdbXEoE
+         1omsOY2A1h6uFtkMNOPd5VIMCEzPixeQzbWmXfuLw/U0cGxNRVYdieybJHOLmWkNABp7
+         ZYt5+A8yXbuOPwvnW9yLTpWHcAzjBoIeZm2/3WBb6Oyyfh+nN9nVotozZk8+9mtsse6Z
+         IlR6KcOyCfoeoWHvi6NCyl9HjQrL3NDJZcB1gWLtlEPa6kdO85zxzaqceIqt02hvo6Pe
+         prnbeU/odHesphjOtzqT94rWWlIv1xQqKBImdJ0+B+3BECh8YelGM1dR35482bVn1NTo
+         ZolA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=B3ZiGF2tDesE+mQexAH3kzTRyU5arN1AgSUXC9Mb9ew=;
+        b=igt4rlkZkv7Cwo1V8iVJEw8lfHjMDuvBxqFecpl1yA8LqBx/Qfbsf9Lkk0qnFUFbmG
+         klCw6MjCUV/ZLzn8/i0DGPCWraTnrVLUkIDm9vAAD+fUWWfvEMBiybodZSSay5IvYquv
+         ZYHtBOHWki3OWc43XXKEty+EKIDgVujs39q4lXVpdYy+yLwO3FWDuwLCsuNmlkfq1sW0
+         WlZHOLoh08acG5m+yjkdRP56bpqE3BIFfxypJ6B9VZIM6QGi338s2VgdZ56yEihH/Djp
+         rfWuDQfv8igyNOV4v2tPwrTLx36Nvo5yAHRhIm2uZbW4Qy4EinAtmIfzO+H9+0SeYnPN
+         BPSg==
+X-Gm-Message-State: AJIora8J1Ooto9Gk7LhLWWnFdReX9EBCRgBHU24d46ncC9ReaCFKKN35
+	NWnnSITqnCzNUevDW//fLcyigHi3wwCW2LgiRwzv
+X-Google-Smtp-Source: AGRyM1v9Y59NpuNV8HmLV11n89oSkcfJUYTmai6o9MEZYymhprlb09bXYf1KArAe8J77kBFj3VQqmYg4BbMmRnRxhY8=
+X-Received: by 2002:a7b:c381:0:b0:3a2:fe96:2ce4 with SMTP id
+ s1-20020a7bc381000000b003a2fe962ce4mr13050035wmj.70.1657914664182; Fri, 15
+ Jul 2022 12:51:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220714000536.2250531-1-mcgrof@kernel.org> <CAHC9VhSjfrMtqy_6+=_=VaCsJKbKU1oj6TKghkue9LrLzO_++w@mail.gmail.com>
+ <YtC8Hg1mjL+0mjfl@bombadil.infradead.org> <CAHC9VhQMABYKRqZmJQtXai0gtiueU42ENvSUH929=pF6tP9xOg@mail.gmail.com>
+ <a91fdbe3-fe01-c534-29ee-f05056ffd74f@kernel.dk>
+In-Reply-To: <a91fdbe3-fe01-c534-29ee-f05056ffd74f@kernel.dk>
+From: Paul Moore <paul@paul-moore.com>
+Date: Fri, 15 Jul 2022 15:50:53 -0400
+Message-ID: <CAHC9VhRCW4PFwmwyAYxYmLUDuY-agHm1CejBZJUpHTVbZE8L1Q@mail.gmail.com>
+Subject: Re: [PATCH] lsm,io_uring: add LSM hooks to for the new uring_cmd file op
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, casey@schaufler-ca.com, joshi.k@samsung.com, 
+	linux-security-module@vger.kernel.org, io-uring@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
+	a.manzanares@samsung.com, javier@javigon.com
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220715_124827_298535_28BC2675 
-X-CRM114-Status: GOOD (  10.56  )
+X-CRM114-CacheID: sfid-20220715_125106_274894_2F6C82B2 
+X-CRM114-Status: GOOD (  65.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,33 +87,146 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Bean Huo <beanhuo@micron.com>
+On Fri, Jul 15, 2022 at 3:07 PM Jens Axboe <axboe@kernel.dk> wrote:
+> On 7/15/22 12:46 PM, Paul Moore wrote:
+> > On Thu, Jul 14, 2022 at 9:00 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
+> >> On Wed, Jul 13, 2022 at 11:00:42PM -0400, Paul Moore wrote:
+> >>> On Wed, Jul 13, 2022 at 8:05 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
+> >>>>
+> >>>> io-uring cmd support was added through ee692a21e9bf ("fs,io_uring:
+> >>>> add infrastructure for uring-cmd"), this extended the struct
+> >>>> file_operations to allow a new command which each subsystem can use
+> >>>> to enable command passthrough. Add an LSM specific for the command
+> >>>> passthrough which enables LSMs to inspect the command details.
+> >>>>
+> >>>> This was discussed long ago without no clear pointer for something
+> >>>> conclusive, so this enables LSMs to at least reject this new file
+> >>>> operation.
+> >>>>
+> >>>> [0] https://lkml.kernel.org/r/8adf55db-7bab-f59d-d612-ed906b948d19@schaufler-ca.com
+> >>>
+> >>> [NOTE: I now see that the IORING_OP_URING_CMD has made it into the
+> >>> v5.19-rcX releases, I'm going to be honest and say that I'm
+> >>> disappointed you didn't post the related LSM additions
+> >>
+> >> It does not mean I didn't ask for them too.
+> >>
+> >>> until
+> >>> v5.19-rc6, especially given our earlier discussions.]
+> >>
+> >> And hence since I don't see it either, it's on us now.
+> >
+> > It looks like I owe you an apology, Luis.  While my frustration over
+> > io_uring remains, along with my disappointment that the io_uring
+> > developers continue to avoid discussing access controls with the LSM
+> > community, you are not the author of the IORING_OP_URING_CMD.   You
+> > are simply trying to do the right thing by adding the necessary LSM
+> > controls and in my confusion I likely caused you a bit of frustration;
+> > I'm sorry for that.
+>
+> Maybe, just maybe, outbursts like this are why there's not a lot of
+> incentive to collaborate on this? I get why it can seem frustrating and
+> that you are being ignored, but I think it's more likely that people
+> just don't think of adding these hooks. I don't use any of the access
+> controls, nor do I really have a good idea which one exists and what
+> they do. None of the external developers or internal use cases we have
+> use any of this, and nobody outside of the developers of these kernel
+> features have ever brought it up...
 
-use command_id instead of req->tag in trace_nvme_complete_rq(),
-because of commit e7006de6c238 ("nvme: code command_id with a genctr
-for use authentication after release"), cmd->common.command_id is set to
-((genctl & 0xf)< 12 | req->tag), no longer req->tag, which makes cid in
-trace_nvme_complete_rq and trace_nvme_setup_cmd are not the same.
+While my response may have been misdirected (once again, sorry Luis),
+I feel that expressing frustration about the LSMs being routinely left
+out of the discussion when new functionality is added to the kernel is
+a reasonable response; especially when one considers the history of
+this particular situation.  I was willing to attribute the initial
+LSM/audit omission in io_uring to an honest oversight, and the fact
+that we were able to work together to get something in place was a
+good thing which gave me some hope.  However, the issue around
+IORING_OP_URING_CMD was brought up earlier this year and many of us on
+the LSM side expressed concern, only to see the code present in
+v5.19-rcX with little heads-up given outside of Luis' patch a few days
+ago.  You can call my comments an outburst if you like, but it seems
+like an appropriate reaction in this case.
 
-Signed-off-by: Bean Huo <beanhuo@micron.com>
----
- drivers/nvme/host/trace.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> I don't mind getting these added, but since I wasn't really part of
+> driving this particular feature, it wasn't on my radar.
 
-diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
-index b5f85259461a..fe8c90080731 100644
---- a/drivers/nvme/host/trace.h
-+++ b/drivers/nvme/host/trace.h
-@@ -98,7 +98,7 @@ TRACE_EVENT(nvme_complete_rq,
- 	    TP_fast_assign(
- 		__entry->ctrl_id = nvme_req(req)->ctrl->instance;
- 		__entry->qid = nvme_req_qid(req);
--		__entry->cid = req->tag;
-+		__entry->cid = nvme_req(req)->cmd->common.command_id;
- 		__entry->result = le64_to_cpu(nvme_req(req)->result.u64);
- 		__entry->retries = nvme_req(req)->retries;
- 		__entry->flags = nvme_req(req)->flags;
+I generally don't care who authors a commit, it's that code itself
+that matters, not who wrote it.  However, since you mentioned it I
+went back to check, and it looks like you authored the basic
+IORING_OP_URING_CMD infrastructure according to ee692a21e9bf
+("fs,io_uring: add infrastructure for uring-cmd"); that seems like a
+decent level of awareness to me.
+
+> >> Given a clear solution is not easily tangible at this point
+> >> I was hoping perhaps at least the abilility to enable LSMs to
+> >> reject uring-cmd would be better than nothing at this point.
+> >
+> > Without any cooperation from the io_uring developers, that is likely
+> > what we will have to do.  I know there was a lot of talk about this
+> > functionality not being like another ioctl(), but from a LSM
+> > perspective I think that is how we will need to treat it.
+>
+> Again this perceived ill intent. What are you looking for here?
+
+We expressed concern earlier this year and were largely ignored, and
+when the functionality was merged into mainline the LSM community was
+not notified despite our previous comments.  Perhaps there is no ill
+intent on the side of io_uring, but from my perspective it sure seems
+like there was an effort to avoid the LSM community.
+
+As far as what I'm looking for, I think basic consideration for
+comments coming from the LSM community would be a good start.  We
+obviously have had some success in the past with this, which is why
+I'm a bit shocked that our IORING_OP_URING_CMD comments from earlier
+this year appeared to fall on deaf ears.
+
+> >>>> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+>
+> > Well, we're at -rc6 right now which means IORING_OP_URING_CMD is
+> > happening and it's unlikely the LSM folks are going to be able to
+> > influence the design/implementation much at this point so we have to
+> > do the best we can.  Given the existing constraints, I think your
+> > patch is reasonable (although please do shift the hook call site down
+> > a bit as discussed above), we just need to develop the LSM
+> > implementations to go along with it.
+> >
+> > Luis, can you respin and resend the patch with the requested changes?
+> >
+> > Casey, it looks like Smack and SELinux are the only LSMs to implement
+> > io_uring access controls.  Given the hook that Luis developed in this
+> > patch, could you draft a patch for Smack to add the necessary checks?
+> > I'll do the same for SELinux.  My initial thinking is that all we can
+> > really do is check the access between the creds on the current task
+> > (any overrides will have already taken place by the time the LSM hook
+> > is called) with the io_uring_cmd:file label/creds; we won't be able to
+> > provide much permission granularity for all the reasons previously
+> > discussed, but I suspect that will be more of a SELinux problem than a
+> > Smack problem (although I suspect Smack will need to treat this as
+> > both a read and a write, which is likely less than ideal).
+> >
+> > I think it's doubtful we will have all of this ready and tested in
+> > time for v5.19, but I think we can have it ready shortly after that
+> > and I'll mark all of the patches for -stable when I send them to
+> > Linus.
+> >
+> > I also think we should mark the patches with a 'Fixes:' line that
+> > points at the IORING_OP_URING_CMD commit, ee692a21e9bf ("fs,io_uring:
+> > add infrastructure for uring-cmd").
+> >
+> > How does that sound to everyone?
+>
+> Let's do it the right way for 5.20, and then get it marked for a
+> backport. That will be trivial enough and will hit 5.19-stable shortly
+> as well. Rushing it now with 1 week before release will most likely
+> yield a worse long term result.
+
+That is what I suggested above; it looks like we are on the same page
+at least with the resolution.  I'll plan on bundling Luis' hook patch,
+Casey's Smack patch, the SELinux patch and send them up to Linus once
+they are ready.  If you, and/or other io_uring developers, could
+review Luis' LSM hook patch from an io_uring perspective and add your
+Ack/Review-by tag I would appreciate it.
+
 -- 
-2.34.1
-
+paul-moore.com
 
