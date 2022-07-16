@@ -4,74 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C33E7C433EF
-	for <linux-nvme@archiver.kernel.org>; Sat, 16 Jul 2022 03:33:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0900C43334
+	for <linux-nvme@archiver.kernel.org>; Sat, 16 Jul 2022 11:50:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vYR3WbTFw4TG1sTb7Tx0DmmRBxroaabfz9k7MAvXkH8=; b=MeqFsWY6ljxF+r3M2E0pyxqUcx
-	IqqY7Jsef8fM7aVI8dKLIA3nxCZGiUIlGqHIg61XJJWBE5xRoNmDPTlvjDP2i6YWxViHOu9vseQ3e
-	ASNPKFnEoWl9Y16SjpKEIn5YW070EupVp0a/AOwpTSMjOqhV2COM9T5vIPJjVEmR6pz/mLSCwYAna
-	TsAquAWSNVnzqN50TlC8D8MCx8cYvnTqT+fI/UaOu+egNidpNnk+Td7SSEbTLZQt2Cwo4naOF/KoU
-	N+kgktlFKABhdznv0bmU/REvb0ehZZKuo6NOBKXav3sf7IDKzagMtMCxDK22kNfCWHPi7XbKVN6Ne
-	FOtiAxlA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:
+	To:From:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=YLMrBMak9diEtG2Iokg1H+xhhQF8JxdDrp1+rpOZqow=; b=DHBMhon4KfF2/NQ1r0ks7zQbhA
+	EY+0XblJuNhfBVtYZXA8eav1R5faw2UpMKodkujuQMPJhT2MwJUpd5Dxvwvc5QaLia65/hn/pluko
+	Kd28mkWiLEncOGXuGM0vTuTiiL7kxxzpPEG2pJJoAg234Nds2XotLDuVRxNfV9hTbbbAGj/PNzDD/
+	OD8vOXIoTEXUmJeJChVVi216yBfDnM10XBvNhJaEz5qzMUiurYE6c3ngLJkrTp/4Q1KFwvS65eZvz
+	ES3fX/2yVjgpsGt8vf64mq+FfipQ1kuWsVQ9UiCDorGarFasL3JInh+k85A+sGKmEOvR8e4lgoMzz
+	3pYyzdXw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oCYYZ-00CiMJ-R8; Sat, 16 Jul 2022 03:33:27 +0000
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+	id 1oCgJN-00FqMF-Ig; Sat, 16 Jul 2022 11:50:17 +0000
+Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oCYYW-00CiLR-P6
-	for linux-nvme@lists.infradead.org; Sat, 16 Jul 2022 03:33:26 +0000
-Received: by mail-wr1-x433.google.com with SMTP id a5so9143906wrx.12
-        for <linux-nvme@lists.infradead.org>; Fri, 15 Jul 2022 20:33:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vYR3WbTFw4TG1sTb7Tx0DmmRBxroaabfz9k7MAvXkH8=;
-        b=k7qQPhMi60UEu2t7Hy049XBotEoKQQS4zKTvIZbjutCVW3oOPDzfx/tdLWSNpBnAuk
-         Qr/jpVC/tkzaqBgeT7DhsxNRpddneFPr3lGnPMdRZ/fGzqTxOFFowlSmNl0f0yiNCaQ7
-         KZJdZiyJvNaLfDBguZfb3B7tsLe1EfdJeZfL4jgVhJEKCKAhUFGFj/sqH9QC8ChW0wyx
-         7WALWpRiTCSmJ+8hllhUoERb9LdVasszLNciNqU1jLpTCCcbZ4lJkMXJRTIyFs9jgJPO
-         od5s4hxPHJN/vuFDpKdYJFXkhyMsKp53LyJ41wKjw3fRXmiA/Q6pISDX8GV1EJSRthLX
-         ETrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vYR3WbTFw4TG1sTb7Tx0DmmRBxroaabfz9k7MAvXkH8=;
-        b=zc7998wDCgRNMlFt49ztpd3AhIu/Sm3zZuvb2ibJrUPCGocVAn6Mee/BuHM0lnXqnL
-         qVngY6P/fY6tQhNeOSpqmOyHtWIzyFmxgJhkhyWukYNYnj8ZgWAnQOH7Ck0JgRKrqxuG
-         sk+av1J8SN2zdBjtLMHt2Hi2W4hd8txp8gIOS76MVN+UxpweDqHMNaHxfRQmJRlXbK1z
-         J77YTrHXedr+oxIXGdwQP6nq3zGeKsqtv2A20SFpVLQoNioJuGejhtD/a/ss/qbvjVRx
-         79RjSlm8NP8cx7l3Zu2/+U5kfdByyx5pgxEfpo5sHbz8RNkrlq7sLxGABf+8BQe9AYLl
-         FGVw==
-X-Gm-Message-State: AJIora/e4AfgpaBmSNHOUaNsyhzCnDsn+HhlUTRKJlTuGkl7BkxxiXtJ
-	sWaFg5JXepG2+oy1t7nlTpkP2mYESIC9Xzdv13lq
-X-Google-Smtp-Source: AGRyM1tBYotr89sxZgUpj7Rz0paH0nzxUS6pduI0qUwqAk5vOCrzC6ovujPmRSHKTDcGuNMqQfswDSvUMwdMgE31v98=
-X-Received: by 2002:adf:d22f:0:b0:21d:6b26:8c6f with SMTP id
- k15-20020adfd22f000000b0021d6b268c6fmr15647822wrh.70.1657942400130; Fri, 15
- Jul 2022 20:33:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220715191622.2310436-1-mcgrof@kernel.org> <a56d191e-a3a3-76b9-6ca3-782803d2600c@kernel.dk>
- <CAHC9VhRzm=1mh9bZKEdLSG0vet=amQDVpuZk+1shMuXYLV_qoQ@mail.gmail.com>
-In-Reply-To: <CAHC9VhRzm=1mh9bZKEdLSG0vet=amQDVpuZk+1shMuXYLV_qoQ@mail.gmail.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Fri, 15 Jul 2022 23:33:08 -0400
-Message-ID: <CAHC9VhQm3CBUkVz2OHBmuRi1VDNxvfWs-tFT2UO9LKMbO7YJMg@mail.gmail.com>
-Subject: Re: [PATCH v2] lsm,io_uring: add LSM hooks for the new uring_cmd file op
-To: Jens Axboe <axboe@kernel.dk>, Luis Chamberlain <mcgrof@kernel.org>
-Cc: casey@schaufler-ca.com, joshi.k@samsung.com, 
-	linux-security-module@vger.kernel.org, io-uring@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
-	a.manzanares@samsung.com, javier@javigon.com
-Content-Type: text/plain; charset="UTF-8"
+	id 1oCgJK-00FqJL-3U
+	for linux-nvme@lists.infradead.org; Sat, 16 Jul 2022 11:50:16 +0000
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=liusong@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0VJUDiDf_1657972181;
+Received: from localhost(mailfrom:liusong@linux.alibaba.com fp:SMTPD_---0VJUDiDf_1657972181)
+          by smtp.aliyun-inc.com;
+          Sat, 16 Jul 2022 19:50:06 +0800
+From: Liu Song <liusong@linux.alibaba.com>
+To: kbusch@kernel.org,
+	axboe@fb.com,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] nvme-pci: remove useless assignment in nvme_pci_setup_prps
+Date: Sat, 16 Jul 2022 19:49:41 +0800
+Message-Id: <1657972181-72398-1-git-send-email-liusong@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220715_203325_059938_753D6A8C 
-X-CRM114-Status: GOOD (  19.74  )
+X-CRM114-CacheID: sfid-20220716_045014_353036_C3A65125 
+X-CRM114-Status: UNSURE (   7.01  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,30 +58,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jul 15, 2022 at 3:52 PM Paul Moore <paul@paul-moore.com> wrote:
-> On Fri, Jul 15, 2022 at 3:28 PM Jens Axboe <axboe@kernel.dk> wrote:
-> > On 7/15/22 1:16 PM, Luis Chamberlain wrote:
-> > > io-uring cmd support was added through ee692a21e9bf ("fs,io_uring:
-> > > add infrastructure for uring-cmd"), this extended the struct
-> > > file_operations to allow a new command which each subsystem can use
-> > > to enable command passthrough. Add an LSM specific for the command
-> > > passthrough which enables LSMs to inspect the command details.
-> > >
-> > > This was discussed long ago without no clear pointer for something
-> > > conclusive, so this enables LSMs to at least reject this new file
-> > > operation.
-> >
-> > From an io_uring perspective, this looks fine to me. It may be easier if
-> > I take this through my tree due to the moving of the files, or the
-> > security side can do it but it'd have to then wait for merge window (and
-> > post io_uring branch merge) to do so. Just let me know. If done outside
-> > of my tree, feel free to add:
+From: Liu Song <liusong@linux.alibaba.com>
 
-I forgot to add this earlier ... let's see how the timing goes, I
-don't expect the LSM/Smack/SELinux bits to be ready and tested before
-the merge window opens so I'm guessing this will not be an issue in
-practice, but thanks for the heads-up.
+If prp_list is NULL, nvme_unmap_sg will be performed, and the assignment
+to first_dma is meaningless, so remove it.
 
+Signed-off-by: Liu Song <liusong@linux.alibaba.com>
+---
+ drivers/nvme/host/pci.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 193b447..3872e33 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -670,7 +670,6 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
+ 
+ 	prp_list = dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
+ 	if (!prp_list) {
+-		iod->first_dma = dma_addr;
+ 		iod->npages = -1;
+ 		return BLK_STS_RESOURCE;
+ 	}
 -- 
-paul-moore.com
+1.8.3.1
+
 
