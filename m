@@ -4,91 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C875C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Jul 2022 23:35:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5E67C43334
+	for <linux-nvme@archiver.kernel.org>; Sat, 16 Jul 2022 01:31:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pzoy1lB0v/6rv9DQZd9VxpupwhasQh/2PyI0IHfFrE8=; b=HZ6djkMNv5KFeQsKfKOwj/3kb4
-	eR2jzg+li5ToDbi8eMBPXKW+eBrg0+r7+rPwYscly4RsNSD6ILVuI3eDofywjou1yVyGU1abxfy+7
-	/Onf19CAICfFIjp/hxtnytGBOJDB2OnnCzOQcDG1CudrK0xhNpGR0k6e11pXxOHjQrFp59vqRWyX3
-	LCEtwOzl2BgPMe2ANhWkT061UWBh2E807biOGviuY5yeDiN2xlD3CuvR7W2Mk7K+3QD2t0fgce9sC
-	4hyGRymc/ygrtcA7XLVu/P6NaTLXU16MRTEBavYd9m3mEbt9vQEKXhblB/ZCQ+nO7LMDl+r0N7SFc
-	+lFYUcGw==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=dJmLFq0emmjxsfsOyOhSe3jEldblv8z8mkscqEbCkkE=; b=dPYiO8JHhKGGH7NuTkslyaQu78
+	cpazGv86QfXpCrt0+UVXDqjOTCtKwF9TM4nutHHBgY+90i5wy94QfTOnmEwXYYIgSXfeA8AHMDFQH
+	JHHRxQQ+KimmCdF7nGX9IObBXZ7Kt9mpIdxxP6zmc9NOmux61x95QhzVI4rHaLfTQgHjWQnDz5aTB
+	eaI7XdHhaq6nxIb2D6+dDuZ6/kZ6ud/aliGRUSH7a/QwGaopmOCB9p9efHto8petTTVMMtknffguE
+	RuQKbN5uf78eUEKZbObSQ0c4Gkr8bGqJYqlJxP1BzQNkmWgo4h+lYqHFKknU9xxk+alrvwk5oLkk8
+	W94+G2gA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oCUqK-00BDku-Nv; Fri, 15 Jul 2022 23:35:32 +0000
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+	id 1oCWdy-00BgMz-1F; Sat, 16 Jul 2022 01:30:54 +0000
+Received: from out2-smtp.messagingengine.com ([66.111.4.26])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oCUp9-00BD5K-3v
-	for linux-nvme@lists.infradead.org; Fri, 15 Jul 2022 23:34:21 +0000
-Received: by mail-pj1-x1030.google.com with SMTP id i8-20020a17090a4b8800b001ef8a65bfbdso7509019pjh.1
-        for <linux-nvme@lists.infradead.org>; Fri, 15 Jul 2022 16:34:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=pzoy1lB0v/6rv9DQZd9VxpupwhasQh/2PyI0IHfFrE8=;
-        b=RUs4RJG10t3npoapeFLstot6OT3s2CAwPPMDxx6WbB3XyCwITIKcdE3hATQeTbgqfx
-         siSLu2Cow1Al91+Yj8cXP5+AWJYjhrWfOMekD+G6U75zr6J3b+m0Har1b5wy0oea/Fuo
-         K6mRsgzH2NiuaPebhGSgxUiRrXnFBypAVT+ZYqxzkksZeIz7aKtkb//RMMl1plawY3ht
-         W0ALarB+KnUC9LxxFHiauxK3EFv6BIRLpzhGmpOlmeP0fgWQ39bO+hhJdQ1KBHBMXDOj
-         2AOdqFWz4vnpQ3laCcsLaYV5N+tcLXX1MC/zSr07XvHakv3Ez87bNlANsMXCky9ks+M6
-         TPOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=pzoy1lB0v/6rv9DQZd9VxpupwhasQh/2PyI0IHfFrE8=;
-        b=gTTu8q8Qj6JLtgBeCXvCIZy6M2+HO/rv582RvvlCiwt2UgwtoIRUyIN5IIYSHhrTPw
-         XC5EGLUqa4vBrVt8EDHLKqaRk82zZBkeOkjTR55M1PTULkX7v7zPP0oz5Ped2VocMKi6
-         lXGabphIhkXkPes2SSo4SKPrrsWnOB3yIzgTkyZ/OYyyhpP4+m5OhPwsDZFx2V6Sa2nm
-         5IxvqtXlXNF+2I2fFtLUbEcnKe6JZCd6JhvEDDZHHh+pQUMTzxN4ZFzkkkIkZ7GtyQ2o
-         DG69/S5ubJM+4d6QBuBxShBF5rilARIK97hgqcbqz936hxMlYTusAoL6Lb3azZ/ia3h7
-         Rhuw==
-X-Gm-Message-State: AJIora+6gGr3+fLDRMCl0AAnZ8L7RPCbeoCC0aNL1d0Jf8FsyHLibqSI
-	n7otJ4wRUsBKUAMKRV3r3+EsmQ==
-X-Google-Smtp-Source: AGRyM1vuPuU3qfouowNfCFYUqlvzGi9NLhytJ13Q1VlElKwXTIZX+SBEfFQdjaOUe7RlMwvURt059A==
-X-Received: by 2002:a17:90a:d714:b0:1ef:b93d:fc4d with SMTP id y20-20020a17090ad71400b001efb93dfc4dmr18709466pju.49.1657928055988;
-        Fri, 15 Jul 2022 16:34:15 -0700 (PDT)
-Received: from [192.168.1.100] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id u9-20020a1709026e0900b0016be702a535sm4086321plk.187.2022.07.15.16.34.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Jul 2022 16:34:15 -0700 (PDT)
-Message-ID: <7d928dc4-ed59-3858-803a-41b3947ea12b@kernel.dk>
-Date: Fri, 15 Jul 2022 17:34:14 -0600
+	id 1oCWdu-00BgLC-Nm
+	for linux-nvme@lists.infradead.org; Sat, 16 Jul 2022 01:30:52 +0000
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 3F82F5C00F8;
+	Fri, 15 Jul 2022 21:30:41 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Fri, 15 Jul 2022 21:30:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jbernard.io; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm1; t=1657935041; x=1658021441; bh=dJmLFq0emmjxsfsOyOhSe3jEl
+	dblv8z8mkscqEbCkkE=; b=o5naZ/9NYf/vs+/nYoPR+XBPBBlOVN1vpz7Hj/WFn
+	8+K6oplQvTP4ADVfgmSENi1ysfcFAebQE5/oisbb25JOMKf2QixdrAl4pC7sIZwz
+	UWcobLU9Tn6i52tRQHpEE9n2fLoeiqTm80oW7UuNWckWWGQu8zS4ZAZx3kE0vMFh
+	fku7iiQ8g2oj6+Xs6dTXOWvJ1wKNLowRYOeLxns2Kah3wkCilHFfIHNTDkTsG6kR
+	YXi3BlEArHY6/N88Pmaxsz8HDn2dVZ23Ub3mPbVyGeb//V9DXUqQlDPkifm4cFKW
+	D85iAnmWyRaxud31YVq3sv6mNUZSGa4Q/D6dCme+i6DFw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1657935041; x=1658021441; bh=dJmLFq0emmjxsfsOyOhSe3jEldblv8z8mks
+	cqEbCkkE=; b=SJzWOc76MXUZnhi3VRG0Om/AGVLs6w7NXdv4Rz6dQ16/usGePNM
+	BYruxfQQ01OOH9F+UT09r5IDbMx1J3gHvsboBKoa2PrHgBmRbevFH7zvIuZ5C6DG
+	lIaMQkg12cbR7TijneuhMgTn3JX4S8zw6fRdCU6CSBxSJhUbgMJ1hn6Oa81tUM3H
+	HL5dlO+w7ZUN/5wszs6GYV5Xc1D7lJFSpaE/3pBZx4FTDGeYBxFiePRl3RCqulCy
+	176/k7INE/TcWo7ruzid+umUcLi1MxhFtPVlt7lOzI6ygahE5BS1mr0qW7dmF8TG
+	ofk6Z5OoswMdZ1EIbdZbLc37DipMZ+3htxw==
+X-ME-Sender: <xms:wBTSYg-R7xVQ0tyDh65dMkDzH9svJ_j6X3TzsH_5eWLGY-mIExAFTg>
+    <xme:wBTSYotZHpfJMNc6XdU0aT693EiRrPLIjALZBVNZTaY0K0TwaeLQy23skjnlfD9cQ
+    ao7bgRBXEVFqol3>
+X-ME-Received: <xmr:wBTSYmBa46n__jgiK5G30mIiBU6MrEDptP8m8-WYFwuDNSuhdVzCj7kxaKI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudekvddggeekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpeflohhnuceuvghrnhgrrhguuceojhgsvghrnhgrrhgusehjsggv
+    rhhnrghrugdrihhoqeenucggtffrrghtthgvrhhnpeetlefhleelleffleekgefftdduhe
+    efveeiffdugfetfeeuffelveeuteffleevffenucevlhhushhtvghrufhiiigvpedtnecu
+    rfgrrhgrmhepmhgrihhlfhhrohhmpehjsggvrhhnrghrugesjhgsvghrnhgrrhgurdhioh
+X-ME-Proxy: <xmx:wBTSYgcnY27rxbFdd8BtdWOsGQ8GlAIgRX-D9neS1FBH5Dm-fSjQ4Q>
+    <xmx:wBTSYlOs_13GoIeIFvqimzvy40765bcfOmKttXw1Kz2slS0cip7CeA>
+    <xmx:wBTSYqmNGRIGoK93EOuuMqA1tMuhCjqK9U-BgcCAQTRxH6jg0Thjng>
+    <xmx:wRTSYnVjnfOaQmYjSpsPM1G8IEOTvDkmSkl75OdF6pezwZyx98krsg>
+Feedback-ID: ib85842f9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 15 Jul 2022 21:30:40 -0400 (EDT)
+From: Jon Bernard <jbernard@jbernard.io>
+To: linux-nvme@lists.infradead.org
+Cc: Jon Bernard <jbernard@jbernard.io>
+Subject: [PATCH] Add configshell-fb to install requirements
+Date: Fri, 15 Jul 2022 21:30:31 -0400
+Message-Id: <20220716013031.64959-1-jbernard@jbernard.io>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] lsm,io_uring: add LSM hooks to for the new uring_cmd file
- op
-Content-Language: en-US
-To: Casey Schaufler <casey@schaufler-ca.com>, Paul Moore
- <paul@paul-moore.com>, Luis Chamberlain <mcgrof@kernel.org>
-Cc: joshi.k@samsung.com, linux-security-module@vger.kernel.org,
- io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, a.manzanares@samsung.com, javier@javigon.com
-References: <20220714000536.2250531-1-mcgrof@kernel.org>
- <CAHC9VhSjfrMtqy_6+=_=VaCsJKbKU1oj6TKghkue9LrLzO_++w@mail.gmail.com>
- <YtC8Hg1mjL+0mjfl@bombadil.infradead.org>
- <CAHC9VhQMABYKRqZmJQtXai0gtiueU42ENvSUH929=pF6tP9xOg@mail.gmail.com>
- <566af35b-cebb-20a4-99b8-93184f185491@schaufler-ca.com>
- <e9cd6c3a-0658-c770-e403-9329b8e9d841@schaufler-ca.com>
- <4588f798-54d6-311a-fcd2-0d0644829fc2@kernel.dk>
- <d8912809-ffeb-8d88-3b6b-fd30681ad898@schaufler-ca.com>
- <27b03030-3ee7-f795-169a-5c49de2f6dd2@kernel.dk>
- <5615235a-ccc4-efc7-c395-f50909860ab0@schaufler-ca.com>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <5615235a-ccc4-efc7-c395-f50909860ab0@schaufler-ca.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220715_163419_206474_6C8653D3 
-X-CRM114-Status: GOOD (  15.02  )
+X-CRM114-CacheID: sfid-20220715_183051_243945_60CE06F0 
+X-CRM114-Status: UNSURE (   9.32  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,36 +97,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/15/22 5:31 PM, Casey Schaufler wrote:
-> On 7/15/2022 4:18 PM, Jens Axboe wrote:
->> On 7/15/22 5:14 PM, Casey Schaufler wrote:
->>> On 7/15/2022 4:05 PM, Jens Axboe wrote:
->>>> On 7/15/22 5:03 PM, Casey Schaufler wrote:
->>>>
->>>>> There isn't (as of this writing) a file io_uring/uring_cmd.c in
->>>>> Linus' tree. What tree does this patch apply to?
->>>> It's the for-5.20 tree. See my reply to the v2 of the patch, including
->>>> suggestions on how to stage it.
->>> A URL for the io_uring tree would be REAL helpful.
->> https://git.kernel.dk/cgit/linux-block/log/?h=for-5.20/io_uring
-> 
-> I'm sorry, I must be being extremely obtuse. I want to create the Smack
-> patch to go along with the patch under discussion. I would like to clone
-> the tree (with git clone <URL> ; git checkout <branch>) so I can build
-> the tree and then develop the code.  The URL you provided is a web front
-> end to the git tree, and does not provide the clone URL (that I can find).
+The 'install_requires' keyword is used to specify what is minimally
+needed to run correctly.  This patch adds configshell-fb as a
+requirement so that nvmetcli runs correctly without additional
+dependency installation.  This will not effect distribution packages,
+only users that install using pip.
 
-Just go one level back, out of the branch, and it'll tell you:
+Also remove a reference to the 'pyparsing' package in README as it's no
+longer in use.
 
-git://git.kernel.dk/linux-block
+Signed-off-by: Jon Bernard <jbernard@jbernard.io>
+---
+ README   | 3 ---
+ setup.py | 3 ++-
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-or
-
-https://git.kernel.dk/linux-block
-
-and the branch is for-5.20/io_uring as in the link.
-
+diff --git a/README b/README
+index 6ebe666..ae95fcf 100644
+--- a/README
++++ b/README
+@@ -17,9 +17,6 @@ Common Package Dependencies and Problems
+ Both python2 and python3 are supported via use of the 'python-six'
+ package.
+ 
+-nvmetcli uses the 'pyparsing' package -- running nvmetcli without this
+-package may produce hard-to-decipher errors.
+-
+ Usage
+ -----
+ Look at Documentation/nvmetcli.txt for details.
+diff --git a/setup.py b/setup.py
+index 1956d95..71c7cd2 100755
+--- a/setup.py
++++ b/setup.py
+@@ -27,5 +27,6 @@ setup(
+     maintainer_email = 'hch@lst.de',
+     test_suite='nose2.collector.collector',
+     packages = ['nvmet'],
+-    scripts=['nvmetcli']
++    scripts=['nvmetcli'],
++    install_requires=["configshell-fb"]
+     )
 -- 
-Jens Axboe
+2.37.1
 
 
