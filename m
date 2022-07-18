@@ -4,33 +4,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7287C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Jul 2022 05:14:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C374C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Jul 2022 05:25:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=cQroW7ZYb2QrhV7KPquGWTR/wglFs53YyNcndiEfH7k=; b=CgRrf790ciWQMirzQ7R1XVMRCB
-	mx8T/UAEMZ/T0AIPyhP/EnApY1TGAwAlKhcllAVgp5yGFi4LLFtfWPR3rN7Xv2o7MoNeEv20sHQIy
-	I/3oPASPZyfaSOeuL5ophJrj8gs8jsMXTBQOokeGisDebzL7VxeM9mhy36srJQ+PB2vlPkIKxsmaW
-	cqGz2AHJyp8unvBlRB++8mGeFRyzIU9oyPp2Floo2/E+VaSizGxWuftVW+zE/Q55ebpqFQ60SGvQm
-	5wJ3c19uMeDpn5J2fUCeOEsz+tC020vRZfgCPIkutZ5EE3OB9XkxtvB9vO9WSjs8LUmlj5LZq9tXa
-	I3Zvhd2w==;
+	bh=Q6gCXFXfN7xdVKHYHb7gP2CfaF3W+RirJve84mlrK+o=; b=U6AVHUKUQ9IXmX/XXVf+IWbC18
+	8KEPMgdiNvA6ZPvC7JKtHuVbHGT0Bo1dagyvLgayX5zDqNRUVmyrTWjivcFs0upPVz5xlnz6eFDC+
+	g73ilQcREA+hMdL/dBqRpqVjOXmt4AU8v18Vtr3AXy8ZQO+5Cr0db063oiomWemrU6vUyLQBJytHB
+	K4ZnEIC4BHMZUQ32XEbhqgNxa029eI3Fh6+yf0nCaZIBKsRaWqtXOmCHx804JwTBZrbkczIha3Lky
+	k9hmhGXCQuGoFbyGvVBPrr28KIXtRPSsnXktq6lsOtT+NIFCThgflqhvr7WrDiZu+qF67HDDlB3G6
+	ZPhWFDyA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oDJ4z-00B0dM-75; Mon, 18 Jul 2022 05:14:01 +0000
+	id 1oDJFk-00B2Se-Bn; Mon, 18 Jul 2022 05:25:08 +0000
 Received: from 089144198117.atnat0007.highway.a1.net ([89.144.198.117] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oDJ4x-00B0cn-IO; Mon, 18 Jul 2022 05:14:00 +0000
+	id 1oDJFi-00B2SH-3F; Mon, 18 Jul 2022 05:25:06 +0000
 From: Christoph Hellwig <hch@lst.de>
-To: linux-nvme@lists.infradead.org
-Cc: sagi@grimberg.me,
-	kbusch@kernel.org
-Subject: [PATCH] nvme-pci: print the command name of aborted commands
-Date: Mon, 18 Jul 2022 07:13:57 +0200
-Message-Id: <20220718051357.232697-1-hch@lst.de>
+To: Joel Granados <j.granados@samsung.com>,
+	kbusch@kernel.org,
+	sagi@grimberg.me
+Cc: joshi.k@samsung.com,
+	linux-nvme@lists.infradead.org,
+	gost.dev@samsung.com,
+	k.jensen@samsung.com
+Subject: enable generic interface (/dev/ngX) for unknown command sets v2
+Date: Mon, 18 Jul 2022 07:24:58 +0200
+Message-Id: <20220718052503.235270-1-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -48,32 +52,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-To allow for slightly better debugging, print the command name when
-aborting an command.
+Hi all,
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/nvme/host/pci.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+this is a version of the patch from Joel rebased on a bunch of cleanups
+from me that I think make the layering a lot cleaner.  Let me know what
+everyone things.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index e465902e0b752..1f229dabbe7aa 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1434,8 +1434,10 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 	cmd.abort.sqid = cpu_to_le16(nvmeq->qid);
- 
- 	dev_warn(nvmeq->dev->ctrl.device,
--		"I/O %d QID %d timeout, aborting\n",
--		 req->tag, nvmeq->qid);
-+		"I/O %d (%s) QID %d timeout, aborting\n",
-+		 req->tag,
-+		 nvme_get_opcode_str(nvme_req(req)->cmd->common.opcode),
-+		 nvmeq->qid);
- 
- 	abort_req = blk_mq_alloc_request(dev->ctrl.admin_q, nvme_req_op(&cmd),
- 					 BLK_MQ_REQ_NOWAIT);
--- 
-2.30.2
-
+Changes since v1:
+ - log consistent messages when only passthrough is supported for
+   namespaces
 
