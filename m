@@ -4,145 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 294E9C43334
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Jul 2022 13:14:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F1D4CCA479
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Jul 2022 14:55:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=+pV8Xx9jR29eUncemAUK2DjRC9eqOObkCY56dgrRhdI=; b=huLcEwV7IAKt+72JlqhkZLC4gs
-	Dv7NTjJHuovPlzGghVTi0IMu1ROvwvbs+F/1MWze4oIT1eCsjPzV1aU5YROzRBzhrFnZiNSeCmXMN
-	fmFvM+3fTltHOpZXK5aad5yT4Nn1KQ1nmFNoTSuxIuaQMlhNxUFbe40mnbcdtSyHx3dCRHHRmgKmR
-	qjU90QTpL8mmGEBYzGpImZ9B0BO1XW1kLoemoDZNG2udumGgH7di+JDTh5LdfTRR3gnG3ftyYUJ6J
-	KNqivyN4d8Thk+tcFY0o+FhwEDZNBBwIBgRg/qiSTNM4UOMRhhnb24VXsjA75vUM7uEkfWqKxBm+0
-	opmOlIMQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=awB3IScCM82ThTtG2SFehRsEwEakyzEv6teXUnsFMUA=; b=oFLmcTgCg1lHkZJuiBXOXGrfIn
+	1L1gRMq32mmt5H/VjGMChd2F69304xMn2hxVoyW+MAd1z3IttdRhRfPXsHwicclZZpOKmEhO/JkRD
+	OOcfYXQixt6DjwTCLKDP2ZFCQWNNGKq7FsqC41r0kERuWW5jpDHeBTG8H0eMsfdMMg7bOHvOKodoL
+	H/NBQV22WzDCEZxvLOqdnykQ9Von06CXLAv9xSk2YPD2OlcScmQYB0vfilwDwgLLhuGJjUd7ihlqU
+	OxeKU/881k+AAzyQK0hDK0YVZkjYwLhhKHmoN71pcHsHvLHD0jdHuDT/WLCBFB/E9lj13wXc/RQp9
+	ZFqImMkA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oDQaD-00DdcX-Aw; Mon, 18 Jul 2022 13:14:45 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1oDS9x-00FxIu-35; Mon, 18 Jul 2022 14:55:45 +0000
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oDQaB-00DdaQ-FN
-	for linux-nvme@lists.infradead.org; Mon, 18 Jul 2022 13:14:44 +0000
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26IB4L9M018815;
-	Mon, 18 Jul 2022 13:14:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : content-type : mime-version; s=corp-2022-7-12;
- bh=+pV8Xx9jR29eUncemAUK2DjRC9eqOObkCY56dgrRhdI=;
- b=Z1VuWYP3lpvNAd2a68B+O6yPvMYGtQhUI8+/w8TEYu59JOCs6PCXlura9w/Ydg8nnLob
- cUS2+2r4bICLHEKGxCAa1IlAqajiuKEX2OVJ1tuT0vtCfzAIbh9QT1MggTvWCV8FES36
- UQoffkYr2+c5Q++whtDBMh/pAcUNnbAa2fyglIaMjh7o94cueSuyGU9nU792d90Bx6Yz
- UPwWbYmxc3K6qaq6+brdk0ZmB+jxPO+i1BP/nYvcRSly94coEAzLKKye/iLBWOsfQE+/
- CuJt5meVUIBhIZGoGVW2hVqWILYsA+PpJ+RArDWvnflAjlg2bFH7bNDsOdUp3dcvu4Ie MQ== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hbn7a370f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 18 Jul 2022 13:14:41 +0000
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 26ICMXJ5007954;
-	Mon, 18 Jul 2022 13:14:41 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3hc1ekk5vy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 18 Jul 2022 13:14:41 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dbMN2oNaIaWN4eAUEqUaOQAicZdxKkWbsgrIe0MF9GwDcGt2l/mGvRfz0GW5xtx0KyJBu5v9Wb1KSKrxLh+79ScuoJ+EkOIdhH4eNf4jyVVD3pZmZ87e6DRDIXRbEn28mEACQguRZIWKou28GS11sXQ73cNaBUiMejbYF0N6oc6yZ2MyMSYINB868K2Rzgq5t4kwy+wf5q1UlGMEXSWauiOnNT7dMmbAiQBteZUSjogZ941q656Sw8Ip9EAiZOZgfaajGVA0V8bQobbbHtuCgcCqH2Wj84Q8FHr63weFRaL7u7uHsEnOy/p26MsZWHtgLaIw7fyrEIZiBI2a39HhTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+pV8Xx9jR29eUncemAUK2DjRC9eqOObkCY56dgrRhdI=;
- b=YQ6yKko2F7SkyuFwHESN9yHFY7ke765DB+he/dTalFvfR95PaJxK4vYwl/H1Jq/iekv+ZWV2so/GRLlU7j1586Ql3SthAAw8gyetA90danoKfQN9wnEyW6KpC6HjAfoPVEVFd9Rn3mWYXehN16m4foW/ldQpdJ84cgzqeBtX/yTNMA8OzrTEeoi9+lZ2TxK5o/ONJPJBLSBczymSa9bUwGIqJP9lyWrDnTss5D24JqB/8+WCkszRnCJdU/+TcvCRCCw9O4iQY5cVQ3P8KQR7u5+mtPYhFPPlxD2fXKqvVDKrs6MyrnjrJLyzTylL9UMzF7imzL3EP7FWhxIsIyTfFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	id 1oDS9t-00FxEn-RW
+	for linux-nvme@lists.infradead.org; Mon, 18 Jul 2022 14:55:43 +0000
+Received: by mail-wm1-x333.google.com with SMTP id o8so7299026wms.2
+        for <linux-nvme@lists.infradead.org>; Mon, 18 Jul 2022 07:55:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+pV8Xx9jR29eUncemAUK2DjRC9eqOObkCY56dgrRhdI=;
- b=GJVvdpMqRfD21RDVp8DjnOvPPf8eTOSxUDYqoZkKs7AhbT190qfSfo0jDxbsGLHjv4Pxga5mLjyO3UaycbS1Zjx5ErHfDrfREuPkONhjFjeUdYiLQ/89UKxzXv+KOZ1w4PEsuPcuP/vy/hZ4Sec8HTBJ9mYvEsXNRzwODAXDd8s=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by DM6PR10MB3196.namprd10.prod.outlook.com
- (2603:10b6:5:1a5::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.20; Mon, 18 Jul
- 2022 13:14:39 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5438.023; Mon, 18 Jul 2022
- 13:14:38 +0000
-Date: Mon, 18 Jul 2022 16:14:30 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: hare@suse.de
-Cc: linux-nvme@lists.infradead.org
-Subject: [bug report] nvmet: implement basic In-Band Authentication
-Message-ID: <YtVctvOUthLBZeir@kili>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-ClientProxiedBy: ZRAP278CA0011.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:10::21) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=awB3IScCM82ThTtG2SFehRsEwEakyzEv6teXUnsFMUA=;
+        b=xpExZ3kZCdk2WKHRKvNTZvS7M91X0EEJtGhiw331LmrtUZOYjX68OUTX0PXvRoq9Mg
+         rqRaN2pueOU9+e0THRE0dnpvpdRcP3K01m4gEUfL1uPoqfF0O0ihsPtN58yxHoc7voDY
+         1cQFrVWgDcoMgZ2WmrmEL8uzt0DB4SWAnFV2j4Taehtrz8/xQLX0L0ptEmEwFjp60GVk
+         0S5wr44rR8pwrLJpegsNUKKkLGK+MuKZxkjnEkCS7p+fYa7uxUteoCgcGecUQA0ED3RN
+         YE1oRr4rJnXM+3ZYpfeYSI/rtdPEpucaIulaDfXRio1x4Wkz9vHEqUBu5M1jnvusK3wR
+         CITA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=awB3IScCM82ThTtG2SFehRsEwEakyzEv6teXUnsFMUA=;
+        b=v4KSPzlcSJAY5hJOLXt0Eck9sdzAmjKtDXChXUtyfNrYxnsU2uQWGlt/Qtf6QZBviN
+         3BE2PtI2dmySXhZL2+lmzSoii5ccxV8Z+hS1k1X/1ObMNWS7dlC+umYndpYTgii9oPxe
+         NCf3wnm6PDqGxCX2GRJL/WqynGQDY33zQeX9qN4o5kQapZYTfs2mQGs1Hn+QF5atqPSu
+         8Yp3w3LbyoGrwxWNn/K0Xlb6puZqBi8zEcy6ZMRcNgWPbDHHVYKUDFLVdZResdf+xwza
+         c+z3NjHMqs7NyU6PaQXYz/TjK5/XdJBe5FYi1kJgdMpekWCtqS/n7SwlwAnM0YIKKdbb
+         mQOA==
+X-Gm-Message-State: AJIora/JGmyyaga6Ze865rYiRwuLrRK2oFpAOl07HsVn+EwbmIUoFp0c
+	LUQrQgTm49wOYstSpsKoSUvhiIY2+Am7V7zQKoJB
+X-Google-Smtp-Source: AGRyM1tH7+KDgIRxNaY2LGntFQMixVhfjpDqcUF6WGCiIIg9/YcIi0aQwTC6+2UR286rXvWRV6cy1fT2sqKQ7U2WyyY=
+X-Received: by 2002:a7b:c3cc:0:b0:3a3:8ec:d69 with SMTP id t12-20020a7bc3cc000000b003a308ec0d69mr17787022wmj.78.1658156135929;
+ Mon, 18 Jul 2022 07:55:35 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c823dc31-1f47-41c6-688c-08da68bf77ee
-X-MS-TrafficTypeDiagnostic: DM6PR10MB3196:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	iDgpHm15IUJd2i5rsXX3nrKnCzEFf7D28dvtZ25UjMcJ6wlu+VqRKVa5+acEZB0MyRp4NTK14Y9+Ogm2di5NoWB2RUfD3wwteo54qm/wUrvsqwGsa9OoH65Xy1VPxatNfz1zU3kPtZ51IKH6UxRhSNcAYRnb51yU3OP/AJTmn7QYVPciNAe+Ij95PImb+oNn0MsDtjBgXvWLmuLXyhf39v2h/5rE8v6U4zcqk8dg9Q7NqJNChBXeS2qXKmw4RBcsVYQLiVtKuOY++jSqrSBrfkQRwMH7iS1OtDgnX714Zxqpgl7nLfEueTFrwt6Xn55Ve7RjTFiLFRvoOSBz5aZTHFNMjyatKV+Bg9FB2EpA+T22DSiB2SoXuXsqG3t0fAKswDYquh9+2bcmO9JFlWPLm1UMOyBo9LQi7cvVNVEGA4BTAE9M+Fxw3UmyCYTkZP+8aEQOscu4xDcpG+H/bIjuuWDRhkoEeNi2HsRusaGLPIcNpqiYkTTwB+hzf9T0e4FYmL1d9zLrMHo0NIEVwCCXDpb3vosNukR4ZaszF0CC9m3cdQtUIdil33neElxfqhwiiqK+S2EKUXgRgA3dmyxhHR8r5w1ok7NM+8EnBdzTNtJ1HC5idWlMub+iVsuqB7vYw1vPZlvsoE5fGMlYT1LRSILZMkhMSP1yrw0VnY49x8OHVT4K2zOf8OCBsUXLzb+a6zrpvE5KFTCxxd0VAbGa+4CCJ2qK4wY71z/KcBKLjAjrO6yAHGY1cINiexDbBArXSiLKHaFGAwXsBkiGRJKVZZGQjqCVtq4OLMbJ3o8KOd6fjBB5H6d4VjSzW8lczIem
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(366004)(396003)(376002)(346002)(39860400002)(136003)(33716001)(8676002)(8936002)(2906002)(66946007)(66476007)(66556008)(6506007)(83380400001)(5660300002)(4326008)(6666004)(41300700001)(44832011)(6486002)(26005)(6512007)(9686003)(86362001)(478600001)(6916009)(38350700002)(316002)(38100700002)(186003)(52116002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?xfDZ1sVSoJe/f2D373UeJpDfvuVgEcmLq22rRLz3iWKV9qC9EDSasjiYisf8?=
- =?us-ascii?Q?AMT6g6F6pLRWL3w1Kjf4I+mjAaagM2EmaJo2Bvr1cAX2/UJOVsXAeeM3AC7C?=
- =?us-ascii?Q?uMs+iN2NuvdV8WdyDMKZVaBUTnrSt07Ag1rM06q5ueycnBgFkXo7Idorln/m?=
- =?us-ascii?Q?3iKCTrpK21Crtl8Uu8O8Y2kaQL0HYvxwrIb5fIONkYcTAPG+xhPhXY0i9j3X?=
- =?us-ascii?Q?4orFbB2LHN5Mh82S6gwaZLj7j7a+Lh7jWNM/lS0RlkDrN7CkmVCPHRgaNVjU?=
- =?us-ascii?Q?NAA0MTHCkFl6AfO2QAqp6R5XB7RZYeYtgWJcZuyty81xQm2r4+Rcp//LdLt9?=
- =?us-ascii?Q?0oZD1ZI+q1RQY3iUPtV8z/oQZG365LxLCbeuTPs0at08Rp0O50idD7+7ju0F?=
- =?us-ascii?Q?Xb3jO4IuHUbHL0gzs0B0HdUpA+eahGxIRPhT9nmiXRCeINmpu7mrzNI8DAwB?=
- =?us-ascii?Q?fLNdhWYnIXRPoTVvdUtMmb/MSPxa+A0uVzYJeOJ+SPGXuU7lKzUD+B4J/JPi?=
- =?us-ascii?Q?/B5Dczlmn2RUtnEVQ2mrxkNVV8eRzGwgUo6i679SqYzSrZR/e6aOXEa3QRMo?=
- =?us-ascii?Q?gDyP81AjftwqC3XzpIMvb9lgX/aJC4wG2x66rP2JC5ZdC15zBmTx+Xq0B/GX?=
- =?us-ascii?Q?vwaZwR0QHJL6KQmGPUgUAhbHSKFrMkORGZxOUOUUTUfUNh2YyauvOR5npUEw?=
- =?us-ascii?Q?CQuG7+sZPdH8VQwNggFfm6pmqMBGfU3E8pdmOK6fo7PC639kImfIm0z3q7CC?=
- =?us-ascii?Q?FKG+vunB+u6kJeLKDE6P0hTvwpwi+0Q1HwrZ4ixL0GJxnJQyIsXLtZ33XgfL?=
- =?us-ascii?Q?eO1gNqp5TW+9mAWimGD4vqqV2XRfF3uv2C0KQn0zTRNyDWAjR1LEX5bv11uL?=
- =?us-ascii?Q?UvoqMXDll30d5n2d/a7bUbTlG5Ypewx8thWAwXPPL77haBQKRTitroVAZNWb?=
- =?us-ascii?Q?Ky0oxpzJZgEFIogq1I/nRB5ooqUXks7J92ZWj7Fwf1x2Vfmy3apNca8uA/+w?=
- =?us-ascii?Q?XijCRgigVjWdxFf+8ikolrsUf9eNsVEfCkoz/ax+EXNYf2AkjeCBK8tTNozA?=
- =?us-ascii?Q?xd5y2QVL+ViEfMaE53unH0Jbm/4f8HBiXtqE64oSKW7WLvSjfR0FPNy+O5dc?=
- =?us-ascii?Q?9Pss8GQaLx4BB9C7XqiSiVk+JLhdKcbxOkfm/nexaRfk8m9lhu/MRQElL9ME?=
- =?us-ascii?Q?UDlSHtWYxilXjtmklIknZPatVAu36ENdLTfVnSwGXYAu/FAxrP4GOgQfj27u?=
- =?us-ascii?Q?oiK361LK2n+TcTrkbsPuDpgQOd0VbJTxuLmB6pG2gbqvUUrho3Uf8m7Y45S0?=
- =?us-ascii?Q?8T7yGpMXaqUIuZD2zlf9p1ZvVxt07B44/yEP6XEUm0tIrotWq1a32P2udEJB?=
- =?us-ascii?Q?A1jTmR5t1W4Hr4zXiO5LGlGOnuhM6Fv3Ue0VI97LcKH0eDfC7B7i4t9O30+K?=
- =?us-ascii?Q?GGckE0RXuE9Uqr6olPT9IeT6X+++obZp/nCjOjahq76Q/HjMCSW3jneXce7v?=
- =?us-ascii?Q?6GQtAEaHxWR8RVqVO6+M/6v+BqcjPpabSnOwfkXWXv5klC8IMMKOeqjbxTI9?=
- =?us-ascii?Q?3l2mie/t5AmheQeBBG/4X+ZSDTbiU09veE8JZaKRzqYDZIechl7WVRKP8NEq?=
- =?us-ascii?Q?rw=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c823dc31-1f47-41c6-688c-08da68bf77ee
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2022 13:14:38.7907
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7VBuj/VzxOYik9uDBzA4a2ONPKog1O0CMFbNMxT1wmimsJmU0SykMcTq1YvcuN7eiGm8Ox3TG88xmtf6c5ZWjSMpBWywlZAO6m61XAoHQRQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3196
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-18_12,2022-07-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0 mlxlogscore=999
- suspectscore=0 phishscore=0 adultscore=0 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2207180058
-X-Proofpoint-ORIG-GUID: fSudPzSTsqfk79kD_tjIHQR3J5VF06LK
-X-Proofpoint-GUID: fSudPzSTsqfk79kD_tjIHQR3J5VF06LK
+References: <20220714000536.2250531-1-mcgrof@kernel.org> <CAHC9VhSjfrMtqy_6+=_=VaCsJKbKU1oj6TKghkue9LrLzO_++w@mail.gmail.com>
+ <YtC8Hg1mjL+0mjfl@bombadil.infradead.org> <CGME20220715184632epcas5p36bd157d36a2aed044de40264911bec05@epcas5p3.samsung.com>
+ <CAHC9VhQMABYKRqZmJQtXai0gtiueU42ENvSUH929=pF6tP9xOg@mail.gmail.com> <20220716032041.GB25618@test-zns>
+In-Reply-To: <20220716032041.GB25618@test-zns>
+From: Paul Moore <paul@paul-moore.com>
+Date: Mon, 18 Jul 2022 10:55:24 -0400
+Message-ID: <CAHC9VhQKeufrqN=dVZ74wEFgd3K=KY-aEZafYembT738juzWUw@mail.gmail.com>
+Subject: Re: [PATCH] lsm,io_uring: add LSM hooks to for the new uring_cmd file op
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, casey@schaufler-ca.com, axboe@kernel.dk, 
+	linux-security-module@vger.kernel.org, io-uring@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
+	a.manzanares@samsung.com, javier@javigon.com
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220718_061443_542480_1F98DF88 
-X-CRM114-Status: GOOD (  11.04  )
+X-CRM114-CacheID: sfid-20220718_075541_920222_4B8BE4A4 
+X-CRM114-Status: GOOD (  31.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -157,92 +86,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello Hannes Reinecke,
+On Fri, Jul 15, 2022 at 11:26 PM Kanchan Joshi <joshi.k@samsung.com> wrote:
+> On Fri, Jul 15, 2022 at 02:46:16PM -0400, Paul Moore wrote:
+> >On Thu, Jul 14, 2022 at 9:00 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
+> >> On Wed, Jul 13, 2022 at 11:00:42PM -0400, Paul Moore wrote:
+> >> > On Wed, Jul 13, 2022 at 8:05 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
+> >> > >
+> >> > > io-uring cmd support was added through ee692a21e9bf ("fs,io_uring:
+> >> > > add infrastructure for uring-cmd"), this extended the struct
+> >> > > file_operations to allow a new command which each subsystem can use
+> >> > > to enable command passthrough. Add an LSM specific for the command
+> >> > > passthrough which enables LSMs to inspect the command details.
+> >> > >
+> >> > > This was discussed long ago without no clear pointer for something
+> >> > > conclusive, so this enables LSMs to at least reject this new file
+> >> > > operation.
+> >> > >
+> >> > > [0] https://lkml.kernel.org/r/8adf55db-7bab-f59d-d612-ed906b948d19@schaufler-ca.com
+> >> >
+> >> > [NOTE: I now see that the IORING_OP_URING_CMD has made it into the
+> >> > v5.19-rcX releases, I'm going to be honest and say that I'm
+> >> > disappointed you didn't post the related LSM additions
+> >>
+> >> It does not mean I didn't ask for them too.
+> >>
+> >> > until
+> >> > v5.19-rc6, especially given our earlier discussions.]
+> >>
+> >> And hence since I don't see it either, it's on us now.
+> >
+> >It looks like I owe you an apology, Luis.  While my frustration over
+> >io_uring remains, along with my disappointment that the io_uring
+> >developers continue to avoid discussing access controls with the LSM
+> >community, you are not the author of the IORING_OP_URING_CMD.   You
+>
+> I am to be shot down here. Solely.
+> My LSM understanding has been awful. At a level that I am not clear
+> how to fix if someone says - your code lacks LSM consideration.
+> But nothing to justify, I fully understand this is not someone else's
+> problem but mine. I intend to get better at it.
+> And I owe apology (to you/LSM-folks, Luis, Jens) for the mess.
 
-The patch b281bec75946: "nvmet: implement basic In-Band
-Authentication" from Jun 27, 2022, leads to the following Smatch
-static checker warning:
+Thanks for your honesty.  If it is any consolation, my understanding
+of io_uring remains superficial at best, and it's one of the reasons
+I've asked the io_uring devs to ack/review the LSM io_uring hooks and
+their placement in the io_uring code.  Developing a deep understanding
+of one kernel subsystem is often very difficult, doing the same across
+multiple subsystems requires a *lot* of time and effort.  We have to
+rely on our combined expertise to help each other fill in the gaps :)
 
-    drivers/nvme/target/fabrics-cmd-auth.c:251 nvmet_execute_auth_send()
-    warn: impossible condition '(status < 0) => (0-u16max < 0)'
+If you are ever unsure about something in the LSM layer, or how a
+change to io_uring (or any other subsystem) might impact the LSMs,
+please don't hesitate to ask us.  It might take all of us a little
+while to sort it out, but we can usually get it working in the end.
 
-    drivers/nvme/target/fabrics-cmd-auth.c:488 nvmet_execute_auth_receive()
-    warn: impossible condition '(status < 0) => (0-u16max < 0)'
+There shouldn't be harm in asking for help/clarification, the harm
+usually comes when assumptions are made.
 
-drivers/nvme/target/fabrics-cmd-auth.c
-    187 void nvmet_execute_auth_send(struct nvmet_req *req)
-    188 {
-    189         struct nvmet_ctrl *ctrl = req->sq->ctrl;
-    190         struct nvmf_auth_dhchap_success2_data *data;
-    191         void *d;
-    192         u32 tl;
-    193         u16 status = 0;
-    194 
-    195         if (req->cmd->auth_send.secp != NVME_AUTH_DHCHAP_PROTOCOL_IDENTIFIER) {
-    196                 status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
-    197                 req->error_loc =
-    198                         offsetof(struct nvmf_auth_send_command, secp);
-    199                 goto done;
-    200         }
-    201         if (req->cmd->auth_send.spsp0 != 0x01) {
-    202                 status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
-    203                 req->error_loc =
-    204                         offsetof(struct nvmf_auth_send_command, spsp0);
-    205                 goto done;
-    206         }
-    207         if (req->cmd->auth_send.spsp1 != 0x01) {
-    208                 status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
-    209                 req->error_loc =
-    210                         offsetof(struct nvmf_auth_send_command, spsp1);
-    211                 goto done;
-    212         }
-    213         tl = le32_to_cpu(req->cmd->auth_send.tl);
-    214         if (!tl) {
-    215                 status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
-    216                 req->error_loc =
-    217                         offsetof(struct nvmf_auth_send_command, tl);
-    218                 goto done;
-    219         }
-    220         if (!nvmet_check_transfer_len(req, tl)) {
-    221                 pr_debug("%s: transfer length mismatch (%u)\n", __func__, tl);
-    222                 return;
-    223         }
-    224 
-    225         d = kmalloc(tl, GFP_KERNEL);
-    226         if (!d) {
-    227                 status = NVME_SC_INTERNAL;
-    228                 goto done;
-    229         }
-    230 
-    231         status = nvmet_copy_from_sgl(req, 0, d, tl);
-    232         if (status) {
-    233                 kfree(d);
-    234                 goto done;
-    235         }
-    236 
-    237         data = d;
-    238         pr_debug("%s: ctrl %d qid %d type %d id %d step %x\n", __func__,
-    239                  ctrl->cntlid, req->sq->qid, data->auth_type, data->auth_id,
-    240                  req->sq->dhchap_step);
-    241         if (data->auth_type != NVME_AUTH_COMMON_MESSAGES &&
-    242             data->auth_type != NVME_AUTH_DHCHAP_MESSAGES)
-    243                 goto done_failure1;
-    244         if (data->auth_type == NVME_AUTH_COMMON_MESSAGES) {
-    245                 if (data->auth_id == NVME_AUTH_DHCHAP_MESSAGE_NEGOTIATE) {
-    246                         /* Restart negotiation */
-    247                         pr_debug("%s: ctrl %d qid %d reset negotiation\n", __func__,
-    248                                  ctrl->cntlid, req->sq->qid);
-    249                         if (!req->sq->qid) {
-    250                                 status = nvmet_setup_auth(ctrl);
---> 251                                 if (status < 0) {
-
-"status" is a u16 so it can't be negative.
-
-    252                                         pr_err("ctrl %d qid 0 failed to setup"
-    253                                                "re-authentication",
-    254                                                ctrl->cntlid);
-    255                                         goto done_failure1;
-
-regards,
-dan carpenter
+-- 
+paul-moore.com
 
