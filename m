@@ -4,74 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F1D4CCA479
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Jul 2022 14:55:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B49FC43334
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Jul 2022 16:01:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:Cc:To:
+	From:Date:References:In-Reply-To:Message-Id:Mime-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=awB3IScCM82ThTtG2SFehRsEwEakyzEv6teXUnsFMUA=; b=oFLmcTgCg1lHkZJuiBXOXGrfIn
-	1L1gRMq32mmt5H/VjGMChd2F69304xMn2hxVoyW+MAd1z3IttdRhRfPXsHwicclZZpOKmEhO/JkRD
-	OOcfYXQixt6DjwTCLKDP2ZFCQWNNGKq7FsqC41r0kERuWW5jpDHeBTG8H0eMsfdMMg7bOHvOKodoL
-	H/NBQV22WzDCEZxvLOqdnykQ9Von06CXLAv9xSk2YPD2OlcScmQYB0vfilwDwgLLhuGJjUd7ihlqU
-	OxeKU/881k+AAzyQK0hDK0YVZkjYwLhhKHmoN71pcHsHvLHD0jdHuDT/WLCBFB/E9lj13wXc/RQp9
-	ZFqImMkA==;
+	bh=PguC9lL9lNXpprqzaAenF/r4bQZZwT7KM/B00jxMqRg=; b=I0r2eeT81X5hj0sE+k1JO7WjXs
+	U1Nozr7dhOmf/EWisNX3Twuia2ba5cVvqlUPCK3G1AfYdKtvdZSNA7by79aj/JKtJSlwlwdTxDhgf
+	W66Pxn1B7ST0fki2vIp6DKksYyE6BQSCcdrI/fNOYGJYTcCvmKfMunD7QveJB8fodr4dvTls5aOzV
+	ZZRvchp7DM+np0+BsDppJ5lwDWpfIlaA/XuxbwBc+NtpucPKBA9goB3ANaic1ftmOMdwq1W6zXLqn
+	Lqa+uaIF2IZ2Avv23Uzaxd4+f2B65fgPMBVRoYm7ch9x0E+XfXG919lc29SIC9ZD7Lc5wljYBGNlr
+	nx/PEu+w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oDS9x-00FxIu-35; Mon, 18 Jul 2022 14:55:45 +0000
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+	id 1oDTBD-00GTDG-LT; Mon, 18 Jul 2022 16:01:07 +0000
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oDS9t-00FxEn-RW
-	for linux-nvme@lists.infradead.org; Mon, 18 Jul 2022 14:55:43 +0000
-Received: by mail-wm1-x333.google.com with SMTP id o8so7299026wms.2
-        for <linux-nvme@lists.infradead.org>; Mon, 18 Jul 2022 07:55:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=awB3IScCM82ThTtG2SFehRsEwEakyzEv6teXUnsFMUA=;
-        b=xpExZ3kZCdk2WKHRKvNTZvS7M91X0EEJtGhiw331LmrtUZOYjX68OUTX0PXvRoq9Mg
-         rqRaN2pueOU9+e0THRE0dnpvpdRcP3K01m4gEUfL1uPoqfF0O0ihsPtN58yxHoc7voDY
-         1cQFrVWgDcoMgZ2WmrmEL8uzt0DB4SWAnFV2j4Taehtrz8/xQLX0L0ptEmEwFjp60GVk
-         0S5wr44rR8pwrLJpegsNUKKkLGK+MuKZxkjnEkCS7p+fYa7uxUteoCgcGecUQA0ED3RN
-         YE1oRr4rJnXM+3ZYpfeYSI/rtdPEpucaIulaDfXRio1x4Wkz9vHEqUBu5M1jnvusK3wR
-         CITA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=awB3IScCM82ThTtG2SFehRsEwEakyzEv6teXUnsFMUA=;
-        b=v4KSPzlcSJAY5hJOLXt0Eck9sdzAmjKtDXChXUtyfNrYxnsU2uQWGlt/Qtf6QZBviN
-         3BE2PtI2dmySXhZL2+lmzSoii5ccxV8Z+hS1k1X/1ObMNWS7dlC+umYndpYTgii9oPxe
-         NCf3wnm6PDqGxCX2GRJL/WqynGQDY33zQeX9qN4o5kQapZYTfs2mQGs1Hn+QF5atqPSu
-         8Yp3w3LbyoGrwxWNn/K0Xlb6puZqBi8zEcy6ZMRcNgWPbDHHVYKUDFLVdZResdf+xwza
-         c+z3NjHMqs7NyU6PaQXYz/TjK5/XdJBe5FYi1kJgdMpekWCtqS/n7SwlwAnM0YIKKdbb
-         mQOA==
-X-Gm-Message-State: AJIora/JGmyyaga6Ze865rYiRwuLrRK2oFpAOl07HsVn+EwbmIUoFp0c
-	LUQrQgTm49wOYstSpsKoSUvhiIY2+Am7V7zQKoJB
-X-Google-Smtp-Source: AGRyM1tH7+KDgIRxNaY2LGntFQMixVhfjpDqcUF6WGCiIIg9/YcIi0aQwTC6+2UR286rXvWRV6cy1fT2sqKQ7U2WyyY=
-X-Received: by 2002:a7b:c3cc:0:b0:3a3:8ec:d69 with SMTP id t12-20020a7bc3cc000000b003a308ec0d69mr17787022wmj.78.1658156135929;
- Mon, 18 Jul 2022 07:55:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220714000536.2250531-1-mcgrof@kernel.org> <CAHC9VhSjfrMtqy_6+=_=VaCsJKbKU1oj6TKghkue9LrLzO_++w@mail.gmail.com>
- <YtC8Hg1mjL+0mjfl@bombadil.infradead.org> <CGME20220715184632epcas5p36bd157d36a2aed044de40264911bec05@epcas5p3.samsung.com>
- <CAHC9VhQMABYKRqZmJQtXai0gtiueU42ENvSUH929=pF6tP9xOg@mail.gmail.com> <20220716032041.GB25618@test-zns>
-In-Reply-To: <20220716032041.GB25618@test-zns>
-From: Paul Moore <paul@paul-moore.com>
-Date: Mon, 18 Jul 2022 10:55:24 -0400
-Message-ID: <CAHC9VhQKeufrqN=dVZ74wEFgd3K=KY-aEZafYembT738juzWUw@mail.gmail.com>
-Subject: Re: [PATCH] lsm,io_uring: add LSM hooks to for the new uring_cmd file op
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, casey@schaufler-ca.com, axboe@kernel.dk, 
-	linux-security-module@vger.kernel.org, io-uring@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
-	a.manzanares@samsung.com, javier@javigon.com
-Content-Type: text/plain; charset="UTF-8"
+	id 1oDTAx-00GT2Y-Mk; Mon, 18 Jul 2022 16:00:53 +0000
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 9EC333200344;
+	Mon, 18 Jul 2022 12:00:43 -0400 (EDT)
+Received: from imap47 ([10.202.2.97])
+  by compute2.internal (MEProxy); Mon, 18 Jul 2022 12:00:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm3; t=1658160043; x=1658246443; bh=Pg
+	uC9lL9lNXpprqzaAenF/r4bQZZwT7KM/B00jxMqRg=; b=mhIcms0o1gX72P96t1
+	QeKdb1FoL9F23ArNNpgCAZl5EPyuVk6TN7JLR9VIVtz5CihDQjZXxxX9WF7KmhCP
+	+jsUXbf80oXBdBFT43yKAbh43ZER9m1DV+GlY/sMgDS6CWnL0sx+0ntmXDjKNyVx
+	zPcKq8dIE0D2WGaHefDqq/R5igVkRFaS199RyUxk1R8Fr/9/ESbyEula6eX4s9N9
+	44W6lT9rAKu6yPwtMK0TeDjQj+o0OLHonsK5CAW790D7s8G67LViWNG/uK6Juyhw
+	AgOWznoWiZHGfbdJpOCcllxabQByhl08w+cAkf2bRNIWyJxO+WnK6tR0bOYkjuWu
+	Pg/Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1658160043; x=1658246443; bh=PguC9lL9lNXpprqzaAenF/r4bQZZ
+	wT7KM/B00jxMqRg=; b=g+Z3HcJh+K/p9KMxKGVhFrXs97w4sDh7/yEBFuWEd7wr
+	HySQk5ocvkl6QgfcZQ9csMniVjJCUqMbbmWpIGmOuk/F8QDr8dA2xFP1wC5LjFKp
+	bAEY9PdapkPcJ/ZLZL8tWTeS/abYn1V9/67243PGma1Awue6DTQCZbtdJ6FS8ndJ
+	uNJrjgzK20SxTzdKK/3wwT8MA/DOESMHGYyKlqZfmk2paBdV3fVNOqyeuIVCfDp7
+	PwLxHXreVlN7RA9vTrmFStZqhOwc8hnAMwaGOEfmgT428U2LGJKmUwd8xik0lbEQ
+	vszry9cjghm6hML10iSjyDmt0e+mbkaoeOlp0pQNHQ==
+X-ME-Sender: <xms:qYPVYtoezkxmi13lLQMcLboGYbO9cIhWhgwdwe24nCJ8GCgKuFNhrA>
+    <xme:qYPVYvoaaai3QuJk4DiQaDp0r1ZgKW3M7EsznNoKeLTc8c-4y2BNLOPbaJ83hY4xg
+    efJeVxUTwhhSG8VWOk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudekkedgleefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfufhv
+    vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
+    grthhtvghrnhepleevgfegffehvedtieevhfekheeftedtjeetudevieehveevieelgffh
+    ieevieeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshhvvghnsehsvhgvnhhpvghtvghrrdguvghv
+X-ME-Proxy: <xmx:qYPVYqNw1cT7EyF-QAk6LcX2k84sRYZs-HhK9yE0_SLTRkrhdLl3LA>
+    <xmx:qYPVYo7TOgfhywUjcMi-b4piKyE-yPvPl9yvi_qZB5oq9Fnd_L8M2A>
+    <xmx:qYPVYs5rSVVeOUeUFJwYSjTFOMWb01xLfaX_WvkvHMeJRYQ2h2dQaw>
+    <xmx:q4PVYsHk_NsxYdlwPab0Hmqa82PWVP69XxfFO40K1otYMfwNxGO_cA>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 517F7A6007C; Mon, 18 Jul 2022 12:00:41 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-755-g3e1da8b93f-fm-20220708.002-g3e1da8b9
+Mime-Version: 1.0
+Message-Id: <cfb2ddcd-7b64-4c81-8c60-ebb2068b9363@www.fastmail.com>
+In-Reply-To: <20220718050500.227804-1-hch@lst.de>
+References: <20220718050500.227804-1-hch@lst.de>
+Date: Mon, 18 Jul 2022 18:00:41 +0200
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "hch@lst.de" <hch@lst.de>, "Hector Martin" <marcan@marcan.st>
+Cc: "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
+ linux-nvme@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] nvme-apple: stop casting function pointer signatures
+Content-Type: text/plain
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220718_075541_920222_4B8BE4A4 
-X-CRM114-Status: GOOD (  31.71  )
+X-CRM114-CacheID: sfid-20220718_090051_996666_B3EF4381 
+X-CRM114-Status: UNSURE (   6.68  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,63 +101,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jul 15, 2022 at 11:26 PM Kanchan Joshi <joshi.k@samsung.com> wrote:
-> On Fri, Jul 15, 2022 at 02:46:16PM -0400, Paul Moore wrote:
-> >On Thu, Jul 14, 2022 at 9:00 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
-> >> On Wed, Jul 13, 2022 at 11:00:42PM -0400, Paul Moore wrote:
-> >> > On Wed, Jul 13, 2022 at 8:05 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
-> >> > >
-> >> > > io-uring cmd support was added through ee692a21e9bf ("fs,io_uring:
-> >> > > add infrastructure for uring-cmd"), this extended the struct
-> >> > > file_operations to allow a new command which each subsystem can use
-> >> > > to enable command passthrough. Add an LSM specific for the command
-> >> > > passthrough which enables LSMs to inspect the command details.
-> >> > >
-> >> > > This was discussed long ago without no clear pointer for something
-> >> > > conclusive, so this enables LSMs to at least reject this new file
-> >> > > operation.
-> >> > >
-> >> > > [0] https://lkml.kernel.org/r/8adf55db-7bab-f59d-d612-ed906b948d19@schaufler-ca.com
-> >> >
-> >> > [NOTE: I now see that the IORING_OP_URING_CMD has made it into the
-> >> > v5.19-rcX releases, I'm going to be honest and say that I'm
-> >> > disappointed you didn't post the related LSM additions
-> >>
-> >> It does not mean I didn't ask for them too.
-> >>
-> >> > until
-> >> > v5.19-rc6, especially given our earlier discussions.]
-> >>
-> >> And hence since I don't see it either, it's on us now.
-> >
-> >It looks like I owe you an apology, Luis.  While my frustration over
-> >io_uring remains, along with my disappointment that the io_uring
-> >developers continue to avoid discussing access controls with the LSM
-> >community, you are not the author of the IORING_OP_URING_CMD.   You
+On Mon, Jul 18, 2022, at 07:05, Christoph Hellwig wrote:
+> Casting function pointers breaks control flow enforcement and is
+> generally a horrible coding style.
 >
-> I am to be shot down here. Solely.
-> My LSM understanding has been awful. At a level that I am not clear
-> how to fix if someone says - your code lacks LSM consideration.
-> But nothing to justify, I fully understand this is not someone else's
-> problem but mine. I intend to get better at it.
-> And I owe apology (to you/LSM-folks, Luis, Jens) for the mess.
+> Add two wrapper to get rid of these casts.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Thanks for your honesty.  If it is any consolation, my understanding
-of io_uring remains superficial at best, and it's one of the reasons
-I've asked the io_uring devs to ack/review the LSM io_uring hooks and
-their placement in the io_uring code.  Developing a deep understanding
-of one kernel subsystem is often very difficult, doing the same across
-multiple subsystems requires a *lot* of time and effort.  We have to
-rely on our combined expertise to help each other fill in the gaps :)
+Reviewed-by: Sven Peter <sven@svenpeter.dev>
 
-If you are ever unsure about something in the LSM layer, or how a
-change to io_uring (or any other subsystem) might impact the LSMs,
-please don't hesitate to ask us.  It might take all of us a little
-while to sort it out, but we can usually get it working in the end.
+makes sense, thanks!
 
-There shouldn't be harm in asking for help/clarification, the harm
-usually comes when assumptions are made.
 
--- 
-paul-moore.com
+Sven
+
 
