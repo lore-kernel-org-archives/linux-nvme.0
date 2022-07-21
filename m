@@ -4,48 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5CE3DCCA479
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Jul 2022 05:41:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82D44C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Jul 2022 06:10:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OKoPl6pkKwqfVXv0tkCsZkhTLVRcHEZ8byA5r6vMqzE=; b=Zwf5sFghuQgUDsL88F+UmlDKAg
-	iiRUyP1y1+TNz8HFcofjtBKO6Xcw6Ncbms8yHPZogD2fQFMDI1SJ2dZO0r2O70zlQdrmBn6h8qOST
-	5+THBa7NMJ41rV86DmvklZcgWESVSnM82XOpA8V2GufGANRT/qayk42UGMYiF860czKHVUtbPkPX5
-	YfakR7y9I/IsLEAfDzA1Es/P8SwwEtv7qJ03BL6x/bG3E189Yn8+1I+MdNhIRH1b/RIHxwXs3yTr5
-	Ym9+7dS54KwymiG5Yub4X7r2qAyoseOWz1BIWAATQWGp8p0FI5O+sBrcwihdOvsZW5bWLudhz7JxT
-	Haxa6THQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=z9qaQnXOW0sXhx8eK2RWAxivR8kBnohyj5UbNJk3QiA=; b=wRvJDpCCXbaX0qpQ4V8X/WW4wc
+	+L/E601CFVnRzO1KAWN+AJuurZBLf6hvQeYmVxf2XQ03dEvDB2gM24U0qapcMWg17EyAo8DB1LRM7
+	AnwFgEY3JSppPmVGgGwnW/ElkTNOS8t0QF2CpUtnFpBHylWNngXqm2Q+mI+TO16Uvc47HtxEemYEk
+	ArgHB+QZ05zC6uNChaMGoscGG2oX1cMKtUCFho/7BhW/pWt3itB+Ikne4WOmj43RyDTDkb+sOGEj1
+	H/lXoHMWANh7RvWWE9LOGZ0c3er57lzksf/JHu1UvBnbPm+M0ADsxHmnCaAOlT2XyhLLTMwidVLew
+	wUmUpFrA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oEOwU-0005DA-SI; Thu, 21 Jul 2022 05:41:46 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oEOwS-00057Z-OJ
-	for linux-nvme@lists.infradead.org; Thu, 21 Jul 2022 05:41:45 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 0CE1668AFE; Thu, 21 Jul 2022 07:41:42 +0200 (CEST)
-Date: Thu, 21 Jul 2022 07:41:41 +0200
+	id 1oEPOA-000lyd-UD; Thu, 21 Jul 2022 06:10:22 +0000
+Received: from [2001:4bb8:18a:6f7a:1b03:4d0e:b929:ebb2] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oEPHP-000dXS-3Y; Thu, 21 Jul 2022 06:03:23 +0000
 From: Christoph Hellwig <hch@lst.de>
-To: Nick Bowler <nbowler@draconx.ca>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>,
-	Guixin Liu <kanie@linux.alibaba.com>
-Subject: Re: [PATCH v2] nvme: Define compat_ioctl again to unbreak 32-bit
- userspace.
-Message-ID: <20220721054141.GC20003@lst.de>
-References: <20220721035735.2720-1-nbowler@draconx.ca>
+To: Joel Granados <j.granados@samsung.com>,
+	kbusch@kernel.org,
+	sagi@grimberg.me
+Cc: joshi.k@samsung.com,
+	linux-nvme@lists.infradead.org,
+	gost.dev@samsung.com,
+	k.jensen@samsung.com
+Subject: enable generic interface (/dev/ngX) for unknown command sets v3
+Date: Thu, 21 Jul 2022 08:03:14 +0200
+Message-Id: <20220721060320.1704646-1-hch@lst.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220721035735.2720-1-nbowler@draconx.ca>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220720_224144_948226_7E51D8DA 
-X-CRM114-Status: UNSURE (   7.72  )
-X-CRM114-Notice: Please train this message.
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,7 +52,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks,
+Hi all,
 
-applied to nvme-5.20.
+this is a version of the patch from Joel rebased on a bunch of cleanups
+from me that I think make the layering a lot cleaner.  Let me know what
+everyone things.
+
+Changes since v2:
+ - add a patch to fix a previous regression in handling of unsupported
+   ZNS configs
+
+Changes since v1:
+ - log consistent messages when only passthrough is supported for
+   namespaces
 
