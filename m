@@ -4,87 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7C3DACCA480
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Jul 2022 15:11:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3B475C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Jul 2022 00:34:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Dzh0OHfhSfTPdRD1uqG+wxzQNMPCpCHl9H/l+XFp8pA=; b=KS5ci7nDixIEcqoWfsgWNfEMZy
-	t5QOZ8DkKNzu1Le4cDsU4U5MocADVdrB5lnt1+h/jWDpKPRv0he+CK48190Q73owu867RNFbUKHGU
-	BGJXxKT2ht1W0bwsievRds8w3RAeUzvCN0+zVMeotyKv7qVLiFqwHjqNNLBCIbs8lcPOM+3oQYpls
-	dvkAbykfVEKh4FplYrdfmfrHhBLrYY/D5AVJOmkItLZd69FfLbLnEjA9OzTV9Iui3SLmqV2TNBsc1
-	/MgC7lwY5q96pDyacbyb4OH0MWz2rDl+cefb8vm1+pZY+RR0SLhf9NmUgCn8tSvACjw1SY2/IrpWl
-	8u86MvCA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=8cCZvDWhaCkmIXxD501GEeM3UPcsCWm6cE45dA8mIss=; b=e8zp2v1p/ECIWR94bo2nIi0yXU
+	XkbPgPj4NzmAylW9VYKON/xnzs3ztZM0bRyMRtghdwIwh53ud+6IxSQjXap88VxfzG5dFI4Q5+SZh
+	nN0aegCW2I3iVn1wULhzm8v+0kgd8TTIJujn8+SwryrCFzkA9QtNChWsUvTqlEPymOjQQ8YKSKTHU
+	7zP6hA6OvfZ6jataJqo0Z7ohGe53kR5RG4n97XLR2kIZhnV1cS+xTEExDhHwxEvmAsubS19QiH1jo
+	F8Xk/OwTN2SR6b4otDZy9CH9VxsK+FlTn7k/w8yrMU3Rj1Zfr97OJ9DYmQ+dANQDX6xIaiMjlFzmJ
+	J344S+tw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oEBME-007NmO-QS; Wed, 20 Jul 2022 15:11:26 +0000
-Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c])
+	id 1oEK94-00Dx53-MM; Thu, 21 Jul 2022 00:34:26 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oEBMB-007Nkv-8N
-	for linux-nvme@lists.infradead.org; Wed, 20 Jul 2022 15:11:25 +0000
-Received: by mail-io1-xd2c.google.com with SMTP id x64so6138036iof.1
-        for <linux-nvme@lists.infradead.org>; Wed, 20 Jul 2022 08:11:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=Dzh0OHfhSfTPdRD1uqG+wxzQNMPCpCHl9H/l+XFp8pA=;
-        b=z3yATtngvqNDfJ8LwUm7Wh7DA9H96iiqQiJ06MziOryC56MMLPo5PgjaOX20JKAcrF
-         RxaYcebq5AR4ZqZu5oZmP4WzTuwwto8nPtXNu1ciQ39UL7m5rJnz5YiU86rk1wMeQB4y
-         DyOrWPldCeXByRxmX19+VN3wkOT03yoZJ2M+Tn00YVD1SD6+o3aLNWT9CMyH8AeX0zVH
-         9Idt+AtYZYNvz5R8kWTNuEiYz37ZVJijp+41fqthlnRYBPX0sQC6PJ+WB7OB4LiyXf2o
-         uzyEShFMwfbKCfYrJqwujCHq9mX8ZJ703kBmU9JH6J0STHr3vu79MnLwBwfYgmySwzdd
-         /0LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Dzh0OHfhSfTPdRD1uqG+wxzQNMPCpCHl9H/l+XFp8pA=;
-        b=6L7ZVuEFyFTFkZxpDHDUGVX+H6f3zlbMsaxdqe/I+8EW1PcLilUQR+h/Iven7ALr4I
-         tsDUy3ZsVfjBid1ito6KmMBFCTjBwd/N07HYo5zGd+VuxJDJHeSrXiH0aWvTWQzaOLDp
-         e0VXhUvc7ImkQMFC80FaIqvrY0T8uHB1tjo+DdcqhorVIcDmDE1Iy/VnLWYYRssqU9/c
-         hKcK+xlLPb5w/JoCxBrJAn428Khu7g11w4vWcJLs/zFJZetBDYOLU2sHtxDkaXrvFdGy
-         7PQ2IYinfmx+aA4vt4Rl5z25q8a1LUHrV49NFnpzqPGA7UvFGCOX/MLjWsCU/7Fq5VH2
-         MjOg==
-X-Gm-Message-State: AJIora/9hlyI3FvRA5XsFAJUxDAymf0jcG0fyInCWAbli+UtDQMRuA5y
-	5b+RkJ+VdMIFyI2qpeYgNfXLLg==
-X-Google-Smtp-Source: AGRyM1tvyPJEWtQKdPzmfqgg4gAhar/S04riTBZcDusHmTco4zK/wtPUvt3JJSh5Z0tLWnXetR84/w==
-X-Received: by 2002:a05:6638:dd1:b0:341:595e:4ef8 with SMTP id m17-20020a0566380dd100b00341595e4ef8mr11481693jaj.26.1658329882081;
-        Wed, 20 Jul 2022 08:11:22 -0700 (PDT)
-Received: from [192.168.1.172] ([207.135.234.126])
-        by smtp.gmail.com with ESMTPSA id c42-20020a02962d000000b0033f29233b9csm7769925jai.74.2022.07.20.08.11.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Jul 2022 08:11:21 -0700 (PDT)
-Message-ID: <a4e8e599-49bd-bf26-dd8d-754a627a251e@kernel.dk>
-Date: Wed, 20 Jul 2022 09:11:19 -0600
+	id 1oEK8x-00Dx2U-DS
+	for linux-nvme@lists.infradead.org; Thu, 21 Jul 2022 00:34:20 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1658363657;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=8cCZvDWhaCkmIXxD501GEeM3UPcsCWm6cE45dA8mIss=;
+	b=NLhxQk2dA+c6IhqE31t9INrPKZORjLwfzk5IQzPDx3n38Peac+ATvSz77QaEW4FG8bSEDr
+	iKA7tnxBIWfwOmeZVWgOmGciy1Ru7yfTYBdhQ2J+iPyX3O5KgSHO7Lv1vzXGYhBr2ib4mL
+	3FbJaFBkaVOvpdCm7TLQaklUdNBW/B4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-602-x32CxBHjPZaWz-1HtV8AcA-1; Wed, 20 Jul 2022 20:34:13 -0400
+X-MC-Unique: x32CxBHjPZaWz-1HtV8AcA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 77FB63C0D196;
+	Thu, 21 Jul 2022 00:34:12 +0000 (UTC)
+Received: from localhost (ovpn-8-19.pek2.redhat.com [10.72.8.19])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id A67A9C28100;
+	Thu, 21 Jul 2022 00:34:11 +0000 (UTC)
+From: Ming Lei <ming.lei@redhat.com>
+To: Christoph Hellwig <hch@lst.de>,
+	linux-nvme@lists.infradead.org,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	James Smart <james.smart@broadcom.com>,
+	Ming Lei <ming.lei@redhat.com>,
+	"Ewan D . Milne" <emilne@redhat.com>
+Subject: [PATCH] nvme-fc: restart admin queue if the caller needs to restart queue
+Date: Thu, 21 Jul 2022 08:33:58 +0800
+Message-Id: <20220721003358.543509-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2] lsm,io_uring: add LSM hooks for the new uring_cmd file
- op
-Content-Language: en-US
-To: Paul Moore <paul@paul-moore.com>, Casey Schaufler
- <casey@schaufler-ca.com>, Luis Chamberlain <mcgrof@kernel.org>
-Cc: joshi.k@samsung.com, linux-security-module@vger.kernel.org,
- io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, a.manzanares@samsung.com, javier@javigon.com
-References: <20220715191622.2310436-1-mcgrof@kernel.org>
- <a56d191e-a3a3-76b9-6ca3-782803d2600c@kernel.dk>
- <CAHC9VhRzm=1mh9bZKEdLSG0vet=amQDVpuZk+1shMuXYLV_qoQ@mail.gmail.com>
- <CAHC9VhQm3CBUkVz2OHBmuRi1VDNxvfWs-tFT2UO9LKMbO7YJMg@mail.gmail.com>
- <e139a585-ece7-7813-7c90-9ffc3a924a87@schaufler-ca.com>
- <CAHC9VhQeScpuhFU=E+Q7Ewyd0Ta-VLA+45zQF9-g-Ae+CN1fgA@mail.gmail.com>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <CAHC9VhQeScpuhFU=E+Q7Ewyd0Ta-VLA+45zQF9-g-Ae+CN1fgA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ming.lei@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220720_081123_552409_A6A84D3D 
-X-CRM114-Status: GOOD (  28.98  )
+X-CRM114-CacheID: sfid-20220720_173419_549154_D763037F 
+X-CRM114-Status: GOOD (  10.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,59 +84,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/20/22 9:06 AM, Paul Moore wrote:
-> On Mon, Jul 18, 2022 at 1:12 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
->> On 7/15/2022 8:33 PM, Paul Moore wrote:
->>> On Fri, Jul 15, 2022 at 3:52 PM Paul Moore <paul@paul-moore.com> wrote:
->>>> On Fri, Jul 15, 2022 at 3:28 PM Jens Axboe <axboe@kernel.dk> wrote:
->>>>> On 7/15/22 1:16 PM, Luis Chamberlain wrote:
->>>>>> io-uring cmd support was added through ee692a21e9bf ("fs,io_uring:
->>>>>> add infrastructure for uring-cmd"), this extended the struct
->>>>>> file_operations to allow a new command which each subsystem can use
->>>>>> to enable command passthrough. Add an LSM specific for the command
->>>>>> passthrough which enables LSMs to inspect the command details.
->>>>>>
->>>>>> This was discussed long ago without no clear pointer for something
->>>>>> conclusive, so this enables LSMs to at least reject this new file
->>>>>> operation.
->>>>> From an io_uring perspective, this looks fine to me. It may be easier if
->>>>> I take this through my tree due to the moving of the files, or the
->>>>> security side can do it but it'd have to then wait for merge window (and
->>>>> post io_uring branch merge) to do so. Just let me know. If done outside
->>>>> of my tree, feel free to add:
->>> I forgot to add this earlier ... let's see how the timing goes, I
->>> don't expect the LSM/Smack/SELinux bits to be ready and tested before
->>> the merge window opens so I'm guessing this will not be an issue in
->>> practice, but thanks for the heads-up.
->>
->> I have a patch that may or may not be appropriate. I ran the
->> liburing tests without (additional) failures, but it looks like
->> there isn't anything there testing uring_cmd. Do you have a
->> test tucked away somewhere I can use?
-> 
-> I just had a thought, would the io_uring folks be opposed if I
-> submitted a patch to add a file_operations:uring_cmd for the null
-> character device?  A simple uring_cmd noop seems to be in keeping with
-> the null device, and it would make testing the io_uring CMD
-> functionality much easier as it would not rely on a specific device.
-> 
-> I think something like this would be in keeping with the null driver:
-> 
->   static int uring_cmd_null(struct io_uring_cmd *ioucmd, unsigned int
-> issue_flags)
->   {
->     return 0;
->   }
-> 
-> Thoughts?
+Without restarting admin queue in __nvme_fc_abort_outstanding_ios(),
+it leaves controller not capable of handling admin pt request, and
+causes io hang.
 
-I think that's a good idea. We're adding an nvme based test for
-liburing, but that's to be able to test the whole passthrough part, not
-just uring_cmd in particular.
+Fixes it by restarting admin queue if the caller of __nvme_fc_abort_outstanding_ios
+requires to restart queue.
 
-Adding a dummy one to null/zero makes sense for test purposes.
+Tested-by: Ewan D. Milne <emilne@redhat.com>
+Signed-off-by: Ming Lei <ming.lei@redhat.com>
+---
+ drivers/nvme/host/fc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 9987797620b6..8d14df8eeab8 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2533,6 +2533,8 @@ __nvme_fc_abort_outstanding_ios(struct nvme_fc_ctrl *ctrl, bool start_queues)
+ 	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
+ 				nvme_fc_terminate_exchange, &ctrl->ctrl);
+ 	blk_mq_tagset_wait_completed_request(&ctrl->admin_tag_set);
++	if (start_queues)
++		nvme_start_admin_queue(&ctrl->ctrl);
+ }
+ 
+ static void
 -- 
-Jens Axboe
+2.31.1
 
 
