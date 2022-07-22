@@ -4,46 +4,42 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21E1FC43334
-	for <linux-nvme@archiver.kernel.org>; Fri, 22 Jul 2022 04:37:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6471FC43334
+	for <linux-nvme@archiver.kernel.org>; Fri, 22 Jul 2022 04:46:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1YcWaE2JIjDLT+8acbfDR5uOJiuBkZNhLfg8d3eGjys=; b=SCq4aGT9O1T+FIlQSuZ2UUItep
-	NhByRpojkjNBbddKL492YeuaoMG/wwoRUP8j78EW/5kjWs2mopUgCp3WMDiNH4I9AHVp9gtwi5IQB
-	D1qfCjGQDlHs+q3Aj7Te+kguW17VxkbvUtYtxsqgHVhbvaQFIo3jZtZUzT6UYXwpev1PlqkIIbr1N
-	LV0yco01jKIqjHDEF41r97Vg+NkDscthhwqhXwJ3Uij8B0zoB4DsPnB73upuGlOW4QkTDTSYEoQX5
-	2nxzBoyt5I4Ga5I1b8eUsysx1mHCRvEuI1I4V1m3Kcl4cEomG3XFIMNYlOdeJSLT10CPS6I2XDSCC
-	JeDE7qPA==;
+	bh=jInxvd5KGPTK0UzbTxqy4niIXX1piXEaGtA5dJxSNDY=; b=U9cTJ4oZe1XWAzM92QA0Du34fj
+	HiKrjelCwPOef49Q10y/ZyBfAAHXR7OE70n5tERDDSFXNfFZZFQqbsdWKtowR6FfG4TdO6zdCfrku
+	MzalulrvZ2U13L/RlI86zmQNilTqtifAoqMy/nRWq0jW7y627mPvkgnn1ZZewJyBiJSd5PAEFOsT9
+	IsEz9f+GNH4NLddKRVpwk5DcGg9F39oy6l8/XYv+6O47gb7EWnoLyVHNNyurm685MLqbVQUqDDm/g
+	f3Use5jct5028BIi+MBXZvglqFvsU/Z2r78d4R2yT7TbTblIpXEBrMxsxgcMknV5SbtjNYCPIGqAw
+	9j/1z+xA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oEkPb-00HWBi-UJ; Fri, 22 Jul 2022 04:37:15 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oEkPY-00HWAO-FS
-	for linux-nvme@lists.infradead.org; Fri, 22 Jul 2022 04:37:14 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3704A68AFE; Fri, 22 Jul 2022 06:37:07 +0200 (CEST)
-Date: Fri, 22 Jul 2022 06:37:07 +0200
-From: Christoph Hellwig <hch@lst.de>
+	id 1oEkY6-00HXje-3U; Fri, 22 Jul 2022 04:46:02 +0000
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oEkY4-00HXj2-QS; Fri, 22 Jul 2022 04:46:00 +0000
+Date: Thu, 21 Jul 2022 21:46:00 -0700
+From: Christoph Hellwig <hch@infradead.org>
 To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
-	kbusch@kernel.org
-Subject: Re: [PATCH] nvme-pci: print the command name of aborted commands
-Message-ID: <20220722043707.GA30303@lst.de>
-References: <20220718051357.232697-1-hch@lst.de> <e448b5d1-d1d1-49a4-3972-cbe89353fbf7@grimberg.me>
+Cc: Christoph Hellwig <hch@infradead.org>, Yi Zhang <yi.zhang@redhat.com>,
+	linux-block <linux-block@vger.kernel.org>,
+	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
+Subject: Re: [bug report] blktests nvme/tcp triggered WARNING at
+ kernel/workqueue.c:2628 check_flush_dependency+0x110/0x14c
+Message-ID: <YtoriAQGW8+p4pFe@infradead.org>
+References: <CAHj4cs86Dm577NK-C+bW6=+mv2V3KOpQCG0Vg6xZrSGzNijX4g@mail.gmail.com>
+ <5ce566fd-f871-48dc-1cb7-30b745c58f05@grimberg.me>
+ <YteeHq8TJBncRvZu@infradead.org>
+ <bd233bf9-d554-89cc-4498-c15a45fe860b@grimberg.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e448b5d1-d1d1-49a4-3972-cbe89353fbf7@grimberg.me>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220721_213712_693341_7D871DEE 
-X-CRM114-Status: UNSURE (   9.94  )
-X-CRM114-Notice: Please train this message.
+In-Reply-To: <bd233bf9-d554-89cc-4498-c15a45fe860b@grimberg.me>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -58,8 +54,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jul 22, 2022 at 01:20:48AM +0300, Sagi Grimberg wrote:
-> I want that for rdma/tcp/loop as well.
+On Fri, Jul 22, 2022 at 01:13:26AM +0300, Sagi Grimberg wrote:
+> The problem is that nvme_wq is MEM_RECLAIM, and nvme_tcp_wq is
+> for the socket threads, that does not need to be MEM_RECLAIM workqueue.
 
-We don't ever send an abort from those currently.
+Why don't we need MEM_RECLAIM for the socket threads?
+
+> But reset/error-recovery that take place on nvme_wq, stop nvme-tcp
+> queues, and that must involve flushing queue->io_work in order to
+> fence concurrent execution.
+> 
+> So what is the solution? make nvme_tcp_wq MEM_RECLAIM?
+
+I think so.
 
