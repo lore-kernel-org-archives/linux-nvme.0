@@ -4,67 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 497ADC433EF
-	for <linux-nvme@archiver.kernel.org>; Sun, 24 Jul 2022 02:14:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2F00EC433EF
+	for <linux-nvme@archiver.kernel.org>; Sun, 24 Jul 2022 08:21:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8K54egOeZsU6zxzJfbBEEuBhwNhuCW0/visvvZQJEhI=; b=cHOzSGrR6+ki8KfsPVQrW8mL04
-	JEzSU/uxe/GjgH0+4Ei+ubYSNkyIa0SfJk3OOGKKJekgCJBcSaUZ7Urrj6UWIFSLB5+Y74SiHxNfk
-	a95i8FdPlAngIQ/IfXWNQ/9O0iI+5uyq6dRlGls83nEBRwh/liR1GaFlmUf1kRDxXrJkZzHxO/Vo6
-	7wVXXlrjwxwrbwW6VGeHPWOW3KG7PTvAlUoh6s/ms59LEvaezW87trtakHQFG1r81TNir+Wbzh/Y7
-	Md480EtP6C/+ubCB9EQYzTaGflo7/UXXTYnCiWtEfgiq7nhW/NK881I/7Iww4QTNbCTf2v7QTw93w
-	lweAyAlw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=VKItlKqeQzUeLjsSOboxbZBwuf6Jv/NlZDlxQtu9aBY=; b=vTR4URKFVY78cGbcpVpDCelDN/
+	azAQflwiK+tR070/Nuy+YObRckp+fOo3iQGWNvkBgO/eAUC4MV1hS+1za5elgs6dY22yuXaLxUMrd
+	7KNowoazZBGBe4bxw2cZMMLMejWGKgjMipa3mI+FfKlc/5kLpp2kzyTOx/adJH2/VyhVRmLUlRQ4K
+	vm4ovXR1V44NvP5SFc5vaiMZNFW6ZJGc4n78YIoSVJ2Rl+swC5jHXhkWoByVrodu3NlvvrbiIr3DA
+	BE+nJI6IVWsporCrYW8G0fBbLte+JkvvDXQtGl41tfuzT0Z/kh9PrZK1QtEm/ieLfaJifQmcOV60M
+	0pXqp+6Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oFR84-00A81R-Od; Sun, 24 Jul 2022 02:14:00 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1oFWrn-000A6r-1g; Sun, 24 Jul 2022 08:21:35 +0000
+Received: from mail-wm1-f52.google.com ([209.85.128.52])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oFR7x-00A7vd-KC
-	for linux-nvme@lists.infradead.org; Sun, 24 Jul 2022 02:13:55 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by sin.source.kernel.org (Postfix) with ESMTPS id EC31ACE0AC8;
-	Sun, 24 Jul 2022 02:13:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFE6AC341C0;
-	Sun, 24 Jul 2022 02:13:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1658628826;
-	bh=og9ze5loOAAMQT6P8ZLrl2EjWlyd5ZdK+lsrPP1Q3uY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WgXZLvn4EVhaB1K+jUHEdB54noAuv88logZVknkjhZV5wrUDoV+rBUts6Dm5oXpsI
-	 TW1LEcZaQ2351UKby3kmW7tDrs8OIRaMNuVFrLwVDUpICTymY4jCMut49hvTg3g72S
-	 xNS097YFbcZSJuzsMWUPnstSSvbvDdqmzmyK5ksY1nog1MThwTda5OcavA5PXynI8S
-	 fEekRQBpVhNSyLgmFSc8nUrdKf1l5JXstUiBrMjEyllJmaG5sE7q6SDc1/JCdVT1se
-	 OgRaRK0wYcaJIKJjLRKhrGbwQZ9H9CKndQkfWXsa396bolC92NI8uc418gW5FwPdjd
-	 PW/nK58zhUFFQ==
-Date: Sat, 23 Jul 2022 19:13:44 -0700
-From: Jaegeuk Kim <jaegeuk@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Keith Busch <kbusch@kernel.org>, Keith Busch <kbusch@fb.com>,
-	Chao Yu <chao@kernel.org>, linux-fsdevel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-	axboe@kernel.dk, Kernel Team <Kernel-team@fb.com>, hch@lst.de,
-	bvanassche@acm.org, damien.lemoal@opensource.wdc.com,
-	pankydev8@gmail.com, linux-f2fs-devel@lists.sourceforge.net
-Subject: Re: [PATCHv6 11/11] iomap: add support for dma aligned direct-io
-Message-ID: <Ytyq2LWiZaBY0QJ/@google.com>
-References: <20220610195830.3574005-1-kbusch@fb.com>
- <20220610195830.3574005-12-kbusch@fb.com>
- <YtpTYSNUCwPelNgL@sol.localdomain>
- <Ytq3qwTBTRRxBfXv@kbusch-mbp.dhcp.thefacebook.com>
- <Ytrl/1YEg9M0fb+i@gmail.com>
+	id 1oFWrl-000A3O-6B
+	for linux-nvme@lists.infradead.org; Sun, 24 Jul 2022 08:21:34 +0000
+Received: by mail-wm1-f52.google.com with SMTP id ay11-20020a05600c1e0b00b003a3013da120so7542786wmb.5
+        for <linux-nvme@lists.infradead.org>; Sun, 24 Jul 2022 01:21:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=VKItlKqeQzUeLjsSOboxbZBwuf6Jv/NlZDlxQtu9aBY=;
+        b=L4w8znXRetOZ2iCcU9c6vCkpxLN9K5V82obPltZAgqsDPd/7Ll4TcCokks1KFiCwZH
+         oocJ3SziTpviCZ/8iqDy/yeKvnpJDY+aAjG9EkpkrbMHmXWPUtypzqSUOjaCROHbWhpq
+         lF0cjqorNjbNOkY/GkL4PRtQVfIoKj2kiu8HltocKXtfL2gJce36NMVuOVhXFtZ9xcrl
+         4MsjU9l4rzU11Fag8q3sG99qx/i+58Pf2v2lsvHs2ysAAD2atvHG/6MxlTKKd7k4Enj8
+         6nOlg4rbMBLd9r4eHBO3lpB6KPtdJ2ZE5S+nnjNsonSzFCIsCV6MB5wWklE5N6lb0pr4
+         wzfA==
+X-Gm-Message-State: AJIora8DpPVvVX6pG1pzAi3qZXh4RBVJi5bRUvRLYZ1PDvrii7Rdc0VS
+	xBOLsqPU8K/oVp8/IBUqgkk=
+X-Google-Smtp-Source: AGRyM1vkJHWKG/flWuUgZLrFPARge0QuHbIawiWSLWyzfzm3ZkH7TuRJKNn5TWS0oZkewMVe+YPuwA==
+X-Received: by 2002:a05:600c:4e88:b0:3a3:1bdc:cb72 with SMTP id f8-20020a05600c4e8800b003a31bdccb72mr17784171wmq.59.1658650882597;
+        Sun, 24 Jul 2022 01:21:22 -0700 (PDT)
+Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id m20-20020a05600c4f5400b003976fbfbf00sm11119183wmq.30.2022.07.24.01.21.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 24 Jul 2022 01:21:22 -0700 (PDT)
+Message-ID: <472156f4-ff58-aeba-64eb-b8e5815e9c29@grimberg.me>
+Date: Sun, 24 Jul 2022 11:21:18 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ytrl/1YEg9M0fb+i@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [bug report] blktests nvme/tcp triggered WARNING at
+ kernel/workqueue.c:2628 check_flush_dependency+0x110/0x14c
+Content-Language: en-US
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Yi Zhang <yi.zhang@redhat.com>, linux-block
+ <linux-block@vger.kernel.org>,
+ "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
+References: <CAHj4cs86Dm577NK-C+bW6=+mv2V3KOpQCG0Vg6xZrSGzNijX4g@mail.gmail.com>
+ <5ce566fd-f871-48dc-1cb7-30b745c58f05@grimberg.me>
+ <YteeHq8TJBncRvZu@infradead.org>
+ <bd233bf9-d554-89cc-4498-c15a45fe860b@grimberg.me>
+ <YtoriAQGW8+p4pFe@infradead.org>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <YtoriAQGW8+p4pFe@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220723_191354_058938_741B3890 
-X-CRM114-Status: GOOD (  52.03  )
+X-CRM114-CacheID: sfid-20220724_012133_258652_0991BBED 
+X-CRM114-Status: GOOD (  13.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,104 +86,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 07/22, Eric Biggers wrote:
-> On Fri, Jul 22, 2022 at 08:43:55AM -0600, Keith Busch wrote:
-> > On Fri, Jul 22, 2022 at 12:36:01AM -0700, Eric Biggers wrote:
-> > > [+f2fs list and maintainers]
-> > > 
-> > > On Fri, Jun 10, 2022 at 12:58:30PM -0700, Keith Busch wrote:
-> > > > From: Keith Busch <kbusch@kernel.org>
-> > > > 
-> > > > Use the address alignment requirements from the block_device for direct
-> > > > io instead of requiring addresses be aligned to the block size.
-> > > > 
-> > > > Signed-off-by: Keith Busch <kbusch@kernel.org>
-> > > > Reviewed-by: Christoph Hellwig <hch@lst.de>
-> > > > ---
-> > > >  fs/iomap/direct-io.c | 4 ++--
-> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-> > > > index 370c3241618a..5d098adba443 100644
-> > > > --- a/fs/iomap/direct-io.c
-> > > > +++ b/fs/iomap/direct-io.c
-> > > > @@ -242,7 +242,6 @@ static loff_t iomap_dio_bio_iter(const struct iomap_iter *iter,
-> > > >  	struct inode *inode = iter->inode;
-> > > >  	unsigned int blkbits = blksize_bits(bdev_logical_block_size(iomap->bdev));
-> > > >  	unsigned int fs_block_size = i_blocksize(inode), pad;
-> > > > -	unsigned int align = iov_iter_alignment(dio->submit.iter);
-> > > >  	loff_t length = iomap_length(iter);
-> > > >  	loff_t pos = iter->pos;
-> > > >  	unsigned int bio_opf;
-> > > > @@ -253,7 +252,8 @@ static loff_t iomap_dio_bio_iter(const struct iomap_iter *iter,
-> > > >  	size_t copied = 0;
-> > > >  	size_t orig_count;
-> > > >  
-> > > > -	if ((pos | length | align) & ((1 << blkbits) - 1))
-> > > > +	if ((pos | length) & ((1 << blkbits) - 1) ||
-> > > > +	    !bdev_iter_is_aligned(iomap->bdev, dio->submit.iter))
-> > > >  		return -EINVAL;
-> > > >  
-> > > >  	if (iomap->type == IOMAP_UNWRITTEN) {
-> > > 
-> > > I noticed that this patch is going to break the following logic in
-> > > f2fs_should_use_dio() in fs/f2fs/file.c:
-> > > 
-> > > 	/*
-> > > 	 * Direct I/O not aligned to the disk's logical_block_size will be
-> > > 	 * attempted, but will fail with -EINVAL.
-> > > 	 *
-> > > 	 * f2fs additionally requires that direct I/O be aligned to the
-> > > 	 * filesystem block size, which is often a stricter requirement.
-> > > 	 * However, f2fs traditionally falls back to buffered I/O on requests
-> > > 	 * that are logical_block_size-aligned but not fs-block aligned.
-> > > 	 *
-> > > 	 * The below logic implements this behavior.
-> > > 	 */
-> > > 	align = iocb->ki_pos | iov_iter_alignment(iter);
-> > > 	if (!IS_ALIGNED(align, i_blocksize(inode)) &&
-> > > 	    IS_ALIGNED(align, bdev_logical_block_size(inode->i_sb->s_bdev)))
-> > > 		return false;
-> > > 
-> > > 	return true;
-> > > 
-> > > So, f2fs assumes that __iomap_dio_rw() returns an error if the I/O isn't logical
-> > > block aligned.  This patch changes that.  The result is that DIO will sometimes
-> > > proceed in cases where the I/O doesn't have the fs block alignment required by
-> > > f2fs for all DIO.
-> > > 
-> > > Does anyone have any thoughts about what f2fs should be doing here?  I think
-> > > it's weird that f2fs has different behaviors for different degrees of
-> > > misalignment: fail with EINVAL if not logical block aligned, else fallback to
-> > > buffered I/O if not fs block aligned.  I think it should be one convention or
-> > > the other.  Any opinions about which one it should be?
-> > 
-> > It looks like f2fs just falls back to buffered IO for this condition without
-> > reaching the new code in iomap_dio_bio_iter().
-> 
-> No.  It's a bit subtle, so read the code and what I'm saying carefully.  f2fs
-> only supports 4K aligned DIO and normally falls back to buffered I/O; however,
-> for DIO that is *very* misaligned (not even LBS aligned) it returns EINVAL
-> instead.  And it relies on __iomap_dio_rw() returning that EINVAL.
-> 
-> Relying on __iomap_dio_rw() in that way is definitely a bad design on f2fs's
-> part (and I messed that up when switching f2fs from fs/direct-io.c to iomap).
-> The obvious fix is to just have f2fs do the LBS alignment check itself.
-> 
-> But I think that f2fs shouldn't have different behavior for different levels of
-> misalignment in the first place, so I was wondering if anyone had any thoughts
-> on which behavior (EINVAL or fallback to buffered I/O) should be standardized on
-> in all cases, at least for f2fs.  There was some discussion about this sort of
-> thing for ext4 several years ago on the thread
-> https://lore.kernel.org/linux-ext4/1461472078-20104-1-git-send-email-tytso@mit.edu/T/#u,
-> but it didn't really reach a conclusion.  I'm wondering if the f2fs maintainers
-> have any thoughts about why the f2fs behavior is as it is.  I.e. is it just
-> accidental, or are there specific reasons...
 
-If there's a generic way to deal with this, I have no objection to
-follow it. Initially, I remember I was trying to match the ext4 rule,
-but at some point, I lost the track.
-
+>> The problem is that nvme_wq is MEM_RECLAIM, and nvme_tcp_wq is
+>> for the socket threads, that does not need to be MEM_RECLAIM workqueue.
 > 
-> - Eric
+> Why don't we need MEM_RECLAIM for the socket threads?
+> 
+>> But reset/error-recovery that take place on nvme_wq, stop nvme-tcp
+>> queues, and that must involve flushing queue->io_work in order to
+>> fence concurrent execution.
+>>
+>> So what is the solution? make nvme_tcp_wq MEM_RECLAIM?
+> 
+> I think so.
+
+OK.
+
+Yi, does this patch makes the issue go away?
+--
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 0a9542599ad1..dc3b4dc8fe08 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1839,7 +1839,8 @@ static int __init nvmet_tcp_init(void)
+  {
+         int ret;
+
+-       nvmet_tcp_wq = alloc_workqueue("nvmet_tcp_wq", WQ_HIGHPRI, 0);
++       nvmet_tcp_wq = alloc_workqueue("nvmet_tcp_wq",
++                               WQ_MEM_RECLAIM | WQ_HIGHPRI, 0);
+         if (!nvmet_tcp_wq)
+                 return -ENOMEM;
+--
 
