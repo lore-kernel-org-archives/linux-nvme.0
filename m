@@ -4,60 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9E847C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 25 Jul 2022 00:52:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4787AC433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 25 Jul 2022 02:18:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Z8iVGHYAiKkMFyqLjXfMNEvJ8FThm1/SFBbGTi0TUEc=; b=MbYj1VBNubFjcNAuKFad8EgYvJ
-	IKu6rb33RLgWt4Yj/1KPtHc8zGG4WWUTHWWQIn2L8F04RXx8vRdCfAbAlDQsufHFawpV3sLt2kee0
-	UIaTy1PXImvhOzNvJ+Qxuvm2s6AwWo5BCf2mc6qn7N2h8J680Bi9LTas5gw5LDgyayO/LL+z1VIyu
-	DBtd9Z4l6ekB/CrZvglW15JjhTb+sJN4c0IZqZA7ZG15hK8MwsS3aWtymCqP/OwGa5i399mbbHRXq
-	N8KgL4Gb5NuRPq9Fb4K0PvVrw1/w/8lj0FG8T/L0x6eDuF6Egmsq0nujHJTCLurhYbrkNUHCkTJRG
-	QqnEljeQ==;
+	bh=AqBTb7LXDE0o1pPiFidObnWsIEKshVl6iMdRHn7mk6k=; b=S8nWOMb9N8SbJfBhJzFrsXuOfN
+	ZX3J6kMTHPqRUa44BRoVF3zULprs6UMkVzAaGmM3j8Ck7RnYPTyUXIQPFPki3eoLHjKar0rtabOK1
+	DMcj1HBRzDJabNCKwKL1ivheJwWz9a9KOMOoZVNr5pXCu5GgScZo24ZZFZsWXjJLXZYmJEacgOmXc
+	To6O0udcbh2rnoMxoFqj/m17ek1X9mfIrdZeMAqVlg3Za4Z5qquhn2c7+xSAWAIkeEjncVXUKlLLc
+	T1Roi0RRUyajHzNG8OQOKGswunISeDfgDjtbJ0AnhOxU80O/RV8e/m26RdrQcYmTjocjLB23r5H24
+	/5pmXVLg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oFmKz-00GuOx-DY; Mon, 25 Jul 2022 00:52:45 +0000
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+	id 1oFngM-000lqh-ET; Mon, 25 Jul 2022 02:18:54 +0000
+Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oFmKv-00GuF0-Ss
-	for linux-nvme@lists.infradead.org; Mon, 25 Jul 2022 00:52:44 +0000
-Received: from canpemm500002.china.huawei.com (unknown [172.30.72.55])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4LrhKs1MDCzmV8x
-	for <linux-nvme@lists.infradead.org>; Mon, 25 Jul 2022 08:50:41 +0800 (CST)
-Received: from [10.169.59.127] (10.169.59.127) by
- canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 25 Jul 2022 08:52:27 +0800
-Subject: Re: [PATCH v2] nvme: consider also host_iface when checking ip
- options
-To: Daniel Wagner <dwagner@suse.de>
-CC: <linux-nvme@lists.infradead.org>
-References: <20220722092456.24517-1-dwagner@suse.de>
- <3f0528a5-73d2-3dc5-32fb-0eb73797bf71@huawei.com>
- <20220722094648.i6w3dymag3mfjpuo@carbon>
- <ce2ba75a-3dd6-8530-c868-298bbeb93d67@huawei.com>
- <20220722100932.tyjljbccwv47tg4z@carbon>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <a37fc589-b47b-61c6-0c36-c3b13e7ce56d@huawei.com>
-Date: Mon, 25 Jul 2022 08:52:27 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+	id 1oFngG-000lh3-R5
+	for linux-nvme@lists.infradead.org; Mon, 25 Jul 2022 02:18:51 +0000
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046049;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0VKFyIoN_1658715521;
+Received: from 30.178.82.199(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0VKFyIoN_1658715521)
+          by smtp.aliyun-inc.com;
+          Mon, 25 Jul 2022 10:18:42 +0800
+Message-ID: <c747547d-d33d-b1ce-38ae-ad7b64107dfb@linux.alibaba.com>
+Date: Mon, 25 Jul 2022 10:18:38 +0800
 MIME-Version: 1.0
-In-Reply-To: <20220722100932.tyjljbccwv47tg4z@carbon>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.169.59.127]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- canpemm500002.china.huawei.com (7.192.104.244)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.8.1
+Subject: Re: [PATCH] nvmet: avoid unnecessary fsync and flush bio
+To: Christoph Hellwig <hch@lst.de>
+Cc: sagi@grimberg.me, kch@nvidia.com, linux-nvme@lists.infradead.org
+References: <1658491944-34701-1-git-send-email-kanie@linux.alibaba.com>
+ <20220722150635.GA7327@lst.de>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <20220722150635.GA7327@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220724_175242_150358_72D61878 
-X-CRM114-Status: GOOD (  12.43  )
+X-CRM114-CacheID: sfid-20220724_191849_157441_18C824FC 
+X-CRM114-Status: GOOD (  13.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,34 +61,45 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
+在 2022/7/22 23:06, Christoph Hellwig 写道:
+> On Fri, Jul 22, 2022 at 08:12:24PM +0800, Guixin Liu wrote:
+>> @@ -333,10 +333,16 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+>>   static void nvmet_bdev_execute_flush(struct nvmet_req *req)
+>>   {
+>>   	struct bio *bio = &req->b.inline_bio;
+>> +	struct request_queue *q = req->ns->bdev->bd_queue;
+>>   
+>>   	if (!nvmet_check_transfer_len(req, 0))
+>>   		return;
+>>   
+>> +	if (!test_bit(QUEUE_FLAG_WC, &q->queue_flags)) {
+> This should be using a bdev_write_cache.
+I will change that in the v2, thanks.
+>
+> But more importantly:  if the backend does not have a volatile write
+> cache, and we should not even receive flushes from the remote side.
 
-On 2022/7/22 18:09, Daniel Wagner wrote:
-> On Fri, Jul 22, 2022 at 05:55:40PM +0800, Chao Leng wrote:
->> We should add the N:1 related controller management first, and then add
->> the host_iface cheching. Thus it might be better.
-> 
-> I am not following you here. What do you mean with controller
-> management?
-> 
-> I've tested this patch against our nvmet backend. This allows additional
-> connections. E.g. the host has following setup:
-> 
->   eth0: 192.168.154.50/24
->   eth1: 192.168.154.214/24
-> 
-> and the target:
-> 
->   br0: 192.168.19.54/24
-> 
-> With this change we can do this here:
-> 
-> nvme connect -t tcp -n nvmet-test -a 192.168.19.54 -s 4420 -f eth0
-> nvme connect -t tcp -n nvmet-test -a 192.168.19.54 -s 4420 -f eth1
-> 
-> What's wrong with it?
-nvme over tcp has implemented host_iface-related processing.
-But nvme over rdma(roce) do not.
-You can test with nvme over rdma(roce).
-> .
-> 
+The vwc is in the ctroller data struct, not every each namespace. 
+Currently, the vwc in
+
+the nvmet_ctrl is always 1 to avoid some of the namespaces`s vwc are 
+present, other namespaces`s
+
+vwc are not present, therefore we can not set vwc = 0 to avoid receive 
+flushes.
+
+>
+>> +	if (req->ns->buffered_io)
+>> +		return errno_to_nvme_status(req, vfs_fsync(req->ns->file, 1));
+>> +	else
+>> +		return errno_to_nvme_status(req, 0);
+> No need for the else, and the simple success case can just use the
+> constant status and does not need a translation.
+
+I will fix that in v2, thanks.
+
+Best regards,
+
+Guixin Liu
+
 
