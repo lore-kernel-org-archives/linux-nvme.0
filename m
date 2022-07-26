@@ -4,70 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88347C04A68
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jul 2022 17:39:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7D29C00140
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jul 2022 20:44:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xXA4PeA+Ixr6EVwKEP8AkMKM0BHBogXynqcDNFl5W98=; b=FTb2qregmuceMYMuCH4vKeOyto
-	9QsCo/RBTohhAEFEPnP0kMr6c7A7S3Fp7HYlS+fOI7cCszTrylNNPUxqF6kpoAHEhuYS1xnICPKyv
-	gkbmDsEiwQ6Wk7YWNAg/H96dn84DajBrWiWdgVsp0UFBqeADRU90mMJZyjxkWPDvlqe2mu2qCmcm2
-	YmTZB75uW33nOxaTamFOSFA9wbVKPC7wxiiK6uskqRhtW90EtNds97Pa3qqWIrNohhSIaOcsbnhob
-	2DcLfpZJwXMIGsjqDGFseEB6Jy5v2SvvAi8iVHvNmotspuGwmGme/eaYglfbJPKWzsldw9gEWDuBT
-	3qubz/VA==;
+	bh=S9ujFLos5ZzJxtOwNJ6RW4VbMsZaGWDEjqBa6k1DQP4=; b=EUZ9YrSRsEXtmhje24atXkyCFg
+	D9qwbf3z2ys2M9aU3n/xxAcJm5IvOMZTROcTPg2bOIoeQUguyFDGwo4rUT6o23N1jJUSNv+J7NNu4
+	RT1oivrtqU/zac0YdzAeofwDRoKxP8dcDcQxw4qXVHyVFxc6BRgJBj+4h3/jSuTI22oZjFytmel11
+	G/NaDDGCWQeqn2Ca/AK/Azz8MTTMRju7rdDqiVGtvMgxGv+tzAST6dxvL6pHoLgr3CEhibYIHEt54
+	K3y9fgKHn60tlE0M9nZ8KyuTbHfN9OhsNbhtYdmQRTVjGX4TbwwPGrECqsGubXh5ArgJkRQfjX/0i
+	Fes3YqHg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oGOWI-001Zzg-7Y; Tue, 26 Jul 2022 17:38:58 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1oGRPY-003SPm-I6; Tue, 26 Jul 2022 20:44:12 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oGOVq-001Zbc-4W
-	for linux-nvme@lists.infradead.org; Tue, 26 Jul 2022 17:38:32 +0000
-Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QEJndX001509
-	for <linux-nvme@lists.infradead.org>; Tue, 26 Jul 2022 10:38:28 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=facebook;
- bh=xXA4PeA+Ixr6EVwKEP8AkMKM0BHBogXynqcDNFl5W98=;
- b=FoGwSyh9qZ4SxN67Vue0TY6aaADsWFs8DPoqTqRgFdR85fBrM4FfU/E5+XNej4twOLx2
- dmuS5PKtiKfyAUGkqNYzDb0RlmCpn9Wyd2lXzRBnOqMiwlupza77UTNhNxu0GBhI6OBY
- WUPvRdjrPLqe3LOEG6mD7GJY8NK1Iobwrg4= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3hjhxashpa-5
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 26 Jul 2022 10:38:28 -0700
-Received: from twshared22413.18.frc3.facebook.com (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:83::6) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Tue, 26 Jul 2022 10:38:26 -0700
-Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id 8D0D1698E4B2; Tue, 26 Jul 2022 10:38:15 -0700 (PDT)
-From: Keith Busch <kbusch@fb.com>
-To: <linux-nvme@lists.infradead.org>, <linux-block@vger.kernel.org>,
-        <io-uring@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-CC: <axboe@kernel.dk>, <hch@lst.de>, Alexander Viro <viro@zeniv.linux.org.uk>,
-        Keith Busch <kbusch@kernel.org>
-Subject: [PATCH 5/5] nvme-pci: implement dma_map support
-Date: Tue, 26 Jul 2022 10:38:14 -0700
-Message-ID: <20220726173814.2264573-6-kbusch@fb.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220726173814.2264573-1-kbusch@fb.com>
-References: <20220726173814.2264573-1-kbusch@fb.com>
+	id 1oGRPU-003SJp-RE
+	for linux-nvme@lists.infradead.org; Tue, 26 Jul 2022 20:44:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1658868246;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=S9ujFLos5ZzJxtOwNJ6RW4VbMsZaGWDEjqBa6k1DQP4=;
+	b=hPxowChmxF+tiUySQcnqesn8W0o75AHVfLpVtH9flIyVucxKUtJpv0hEbxhgeilwF1Mx0w
+	FJ+vL1PLRwJC7oXDeCcKEAusSyNHZNofXYCefDVKVr0U7yN9+xf5WrpwxoCB2hxIBfZZaQ
+	49Vsxe4s/cy03FX0fHZUjiBEZnC1Qf4=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-516-VNrhuQ2iNfis1ZExBtZWvA-1; Tue, 26 Jul 2022 16:42:29 -0400
+X-MC-Unique: VNrhuQ2iNfis1ZExBtZWvA-1
+Received: by mail-pg1-f197.google.com with SMTP id f128-20020a636a86000000b0041a4b07b039so6760236pgc.5
+        for <linux-nvme@lists.infradead.org>; Tue, 26 Jul 2022 13:42:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=S9ujFLos5ZzJxtOwNJ6RW4VbMsZaGWDEjqBa6k1DQP4=;
+        b=nnYLsXKhj0XJjVNMWXqUwdhSDnyejmb4I9QwwNW90O8mtEoQRRFqT2GSx7jMnHkbXB
+         yG/xCJMufR0AlCXWK/jbKzhJn0Je0SwQEn6oe5YNH20U8jVmzAIqZ3vwMc6ufqcNUpVf
+         IhNxknmxGgWYZIF7S1IZrxpys6i4h/MAAV+AZ0H4SQnqsZHklMl79GYS3/hxE7+RMgV3
+         jwhRVSu3Q7hr3wt16kzqUhh2nnr2iAp+AmFZomMJvnfUW9x1OmR03Shd5f+6EHN88JDS
+         7EgIw+wBBwWAss9BJyaX9Lf4WIGwaGVoqt+xNA1GQgHOqYj+U1hgYuDWqjRagnive4GW
+         ysNw==
+X-Gm-Message-State: AJIora+LNGl95qkwop3OxCOlV0XunsGO8HT5/z6UB8VIFFaiqWmVV3jw
+	QGg26qqoN6jGUs9KIXuUVWhfE6WbZUnIT/w+eyw+KVQdNnmI5FCJXP2ExWHX+kt2jKX+KGblg57
+	FBTouMah5nLhEVQ1qwEar9g47ba3TOvpsoJ1TQUntoNg=
+X-Received: by 2002:a63:eb03:0:b0:412:b1d6:94ca with SMTP id t3-20020a63eb03000000b00412b1d694camr16162681pgh.468.1658868147989;
+        Tue, 26 Jul 2022 13:42:27 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1taichG0/zwmNKzU5lA5kit8aXjZ0n1scRvQ1bALjyZQiEbyg1QQO8CMQIqjKYrEqVjb5L9EkAaP40jMsUrYOU=
+X-Received: by 2002:a63:eb03:0:b0:412:b1d6:94ca with SMTP id
+ t3-20020a63eb03000000b00412b1d694camr16162661pgh.468.1658868147752; Tue, 26
+ Jul 2022 13:42:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: pvDC-1KQ7P0EXnpb9cfTOWUKAXnxwlNl
-X-Proofpoint-GUID: pvDC-1KQ7P0EXnpb9cfTOWUKAXnxwlNl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-26_05,2022-07-26_01,2022-06-22_01
+References: <20220721003358.543509-1-ming.lei@redhat.com> <Yt6DJBRXyGXbShIF@T590>
+ <20220726111338.GA32638@lst.de>
+In-Reply-To: <20220726111338.GA32638@lst.de>
+From: Ewan Milne <emilne@redhat.com>
+Date: Tue, 26 Jul 2022 16:42:16 -0400
+Message-ID: <CAGtn9rn7NvOo8iCg=KV+Q78b1MNyE878RvghkOQYjcBS4LPZ+A@mail.gmail.com>
+Subject: Re: [PATCH] nvme-fc: restart admin queue if the caller needs to
+ restart queue
+To: Christoph Hellwig <hch@lst.de>
+Cc: Ming Lei <ming.lei@redhat.com>, linux-nvme@lists.infradead.org, 
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>, Sagi Grimberg <sagi@grimberg.me>, 
+	Keith Busch <kbusch@kernel.org>, James Smart <james.smart@broadcom.com>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=emilne@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220726_103830_218855_0A1730CD 
-X-CRM114-Status: GOOD (  27.38  )
+X-CRM114-CacheID: sfid-20220726_134408_992837_DE949229 
+X-CRM114-Status: GOOD (  13.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,385 +96,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+I have a reproducible test case, FWIW.  (It requires extra kernel code
+to inject ERSP_IU errors though).
+If you get an error at the wrong time when issuing commands e.g. in
+nvme_init_ctrl_finish() it ends up
+with a command on the admin queue and the admin queue quiesced.
 
-Implement callbacks to convert a registered bio_vec to a prp list, and
-use this for each IO that uses the returned tag. This saves repeated IO
-conversions and dma mapping/unmapping. In many cases, the driver can
-skip per-IO pool allocations entirely, saving potentially signficant CPU
-cycles.
+-Ewan
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/pci.c | 291 ++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 283 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 644664098ae7..571d955eaef0 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -110,6 +110,14 @@ struct nvme_queue;
- static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown);
- static bool __nvme_disable_io_queues(struct nvme_dev *dev, u8 opcode);
-=20
-+struct nvme_dma_mapping {
-+	int nr_pages;
-+	u16 offset;
-+	u8  rsvd[2];
-+	dma_addr_t prp_dma_addr;
-+	__le64 *prps;
-+};
-+
- /*
-  * Represents an NVM Express device.  Each nvme_dev is a PCI function.
-  */
-@@ -544,6 +552,35 @@ static inline bool nvme_pci_use_sgls(struct nvme_dev=
- *dev, struct request *req)
- 	return true;
- }
-=20
-+static void nvme_sync_dma(struct nvme_dev *dev, struct request *req)
-+{
-+	int index, offset, i, length, nprps;
-+	struct nvme_dma_mapping *mapping;
-+	bool needs_sync;
-+
-+	mapping =3D blk_rq_dma_tag(req);
-+	offset =3D blk_rq_dma_offset(req) + mapping->offset;
-+	index =3D offset >> NVME_CTRL_PAGE_SHIFT;
-+	needs_sync =3D rq_data_dir(req) =3D=3D READ &&
-+		 dma_need_sync(dev->dev, le64_to_cpu(mapping->prps[index]));
-+
-+	if (!needs_sync)
-+		return;
-+
-+	offset =3D offset & (NVME_CTRL_PAGE_SIZE - 1);
-+	length =3D blk_rq_payload_bytes(req) - (NVME_CTRL_PAGE_SIZE - offset);
-+	nprps =3D DIV_ROUND_UP(length, NVME_CTRL_PAGE_SIZE);
-+
-+	dma_sync_single_for_cpu(dev->dev,
-+		le64_to_cpu(mapping->prps[index++]),
-+		NVME_CTRL_PAGE_SIZE - offset, DMA_FROM_DEVICE);
-+	for (i =3D 1; i < nprps; i++) {
-+		dma_sync_single_for_cpu(dev->dev,
-+			le64_to_cpu(mapping->prps[index++]),
-+			NVME_CTRL_PAGE_SIZE, DMA_FROM_DEVICE);
-+	}
-+}
-+
- static void nvme_free_prps(struct nvme_dev *dev, struct request *req)
- {
- 	const int last_prp =3D NVME_CTRL_PAGE_SIZE / sizeof(__le64) - 1;
-@@ -576,6 +613,21 @@ static void nvme_free_sgls(struct nvme_dev *dev, str=
-uct request *req)
- 	}
- }
-=20
-+static void nvme_free_prp_chain(struct nvme_dev *dev, struct request *re=
-q,
-+				struct nvme_iod *iod)
-+{
-+	if (iod->npages < 0)
-+		return;
-+
-+	if (iod->npages =3D=3D 0)
-+		dma_pool_free(dev->prp_small_pool, nvme_pci_iod_list(req)[0],
-+			      iod->first_dma);
-+	else if (iod->use_sgl)
-+		nvme_free_sgls(dev, req);
-+	else
-+		nvme_free_prps(dev, req);
-+}
-+
- static void nvme_unmap_sg(struct nvme_dev *dev, struct request *req)
- {
- 	struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
-@@ -595,18 +647,15 @@ static void nvme_unmap_data(struct nvme_dev *dev, s=
-truct request *req)
- 		dma_unmap_page(dev->dev, iod->first_dma, iod->dma_len,
- 			       rq_dma_dir(req));
- 		return;
-+	} else if (blk_rq_dma_tag(req)) {
-+		nvme_sync_dma(dev, req);
-+		nvme_free_prp_chain(dev, req, iod);
-+		return;
- 	}
-=20
- 	WARN_ON_ONCE(!iod->nents);
--
- 	nvme_unmap_sg(dev, req);
--	if (iod->npages =3D=3D 0)
--		dma_pool_free(dev->prp_small_pool, nvme_pci_iod_list(req)[0],
--			      iod->first_dma);
--	else if (iod->use_sgl)
--		nvme_free_sgls(dev, req);
--	else
--		nvme_free_prps(dev, req);
-+	nvme_free_prp_chain(dev, req, iod);
- 	mempool_free(iod->sg, dev->iod_mempool);
- }
-=20
-@@ -835,6 +884,122 @@ static blk_status_t nvme_setup_sgl_simple(struct nv=
-me_dev *dev,
- 	return BLK_STS_OK;
- }
-=20
-+static blk_status_t nvme_premapped(struct nvme_dev *dev, struct request =
-*req,
-+				   struct nvme_rw_command *cmnd,
-+				   struct nvme_iod *iod)
-+{
-+	static const int last_prp =3D NVME_CTRL_PAGE_SIZE / sizeof(__le64) - 1;
-+	dma_addr_t prp_list_start, prp_list_end, prp_dma;
-+	int index, offset, i, length, nprps, nprps_left;
-+	void **list =3D nvme_pci_iod_list(req);
-+	struct nvme_dma_mapping *mapping;
-+	struct dma_pool *pool;
-+	__le64 *prp_list;
-+	bool needs_sync;
-+
-+	mapping =3D blk_rq_dma_tag(req);
-+	offset =3D blk_rq_dma_offset(req) + mapping->offset;
-+	index =3D offset >> NVME_CTRL_PAGE_SHIFT;
-+	offset =3D offset & (NVME_CTRL_PAGE_SIZE - 1);
-+	needs_sync =3D rq_data_dir(req) =3D=3D WRITE &&
-+		 dma_need_sync(dev->dev, le64_to_cpu(mapping->prps[index]));
-+
-+	/*
-+	 * XXX: For PAGE_SIZE > NVME_CTRL_PAGE_SIZE, is it faster to save the
-+	 * PRP list implementation and sync multiple partial pages, more
-+	 * efficient to sync PAGE_SIZE and build the PRP list per-IO from a
-+	 * host PAGE_SIZE representation, or cleverly sync physically
-+	 * contiguous regions?
-+	 */
-+	if (needs_sync) {
-+		dma_sync_single_for_device(dev->dev,
-+			le64_to_cpu(mapping->prps[index]),
-+			NVME_CTRL_PAGE_SIZE - offset, DMA_TO_DEVICE);
-+	}
-+
-+	length =3D blk_rq_payload_bytes(req) - (NVME_CTRL_PAGE_SIZE - offset);
-+	cmnd->dptr.prp1 =3D cpu_to_le64(le64_to_cpu(mapping->prps[index++]) + o=
-ffset);
-+
-+	if (length <=3D 0)
-+		return BLK_STS_OK;
-+
-+	if (length <=3D NVME_CTRL_PAGE_SIZE) {
-+		if (needs_sync)
-+			dma_sync_single_for_device(dev->dev,
-+				le64_to_cpu(mapping->prps[index]),
-+				NVME_CTRL_PAGE_SIZE, DMA_TO_DEVICE);
-+		cmnd->dptr.prp2 =3D mapping->prps[index];
-+		return BLK_STS_OK;
-+	}
-+
-+	nprps =3D DIV_ROUND_UP(length, NVME_CTRL_PAGE_SIZE);
-+	prp_list_start =3D mapping->prp_dma_addr + 8 * index;
-+	prp_list_end =3D prp_list_start + 8 * nprps;
-+
-+	/* Optimization when remaining list fits in one nvme page */
-+	if ((prp_list_start >> NVME_CTRL_PAGE_SHIFT) =3D=3D
-+	    (prp_list_end >> NVME_CTRL_PAGE_SHIFT)) {
-+		cmnd->dptr.prp2 =3D cpu_to_le64(prp_list_start);
-+		goto sync;
-+	}
-+
-+	if (nprps <=3D (256 / 8)) {
-+		pool =3D dev->prp_small_pool;
-+		iod->npages =3D 0;
-+	} else {
-+		pool =3D dev->prp_page_pool;
-+		iod->npages =3D 1;
-+	}
-+
-+	prp_list =3D dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
-+	if (!prp_list) {
-+		iod->npages =3D -1;
-+		return BLK_STS_RESOURCE;
-+	}
-+
-+	list[0] =3D prp_list;
-+	iod->first_dma =3D prp_dma;
-+	i =3D 0;
-+	for (;;) {
-+		dma_addr_t next_prp_dma;
-+		__le64 *next_prp_list;
-+
-+		if (nprps_left <=3D last_prp + 1) {
-+			memcpy(prp_list, &mapping->prps[index], nprps_left * 8);
-+			break;
-+		}
-+
-+		memcpy(prp_list, &mapping->prps[index],
-+		       NVME_CTRL_PAGE_SIZE - 8);
-+		nprps_left -=3D last_prp;
-+		index +=3D last_prp;
-+
-+		next_prp_list =3D dma_pool_alloc(pool, GFP_ATOMIC, &next_prp_dma);
-+		if (!next_prp_list)
-+			goto free_prps;
-+
-+		prp_list[last_prp] =3D cpu_to_le64(next_prp_dma);
-+		prp_list =3D next_prp_list;
-+		prp_dma =3D next_prp_dma;
-+		list[iod->npages++] =3D prp_list;
-+	}
-+	cmnd->dptr.prp2 =3D cpu_to_le64(iod->first_dma);
-+
-+sync:
-+	if (!needs_sync)
-+		return BLK_STS_OK;
-+
-+	for (i =3D 0; i < nprps; i++)
-+		dma_sync_single_for_device(dev->dev,
-+			le64_to_cpu(mapping->prps[index++]),
-+			NVME_CTRL_PAGE_SIZE, DMA_TO_DEVICE);
-+	return BLK_STS_OK;
-+
-+free_prps:
-+	nvme_free_prps(dev, req);
-+	return BLK_STS_RESOURCE;
-+}
-+
- static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *=
-req,
- 		struct nvme_command *cmnd)
- {
-@@ -842,6 +1007,12 @@ static blk_status_t nvme_map_data(struct nvme_dev *=
-dev, struct request *req,
- 	blk_status_t ret =3D BLK_STS_RESOURCE;
- 	int nr_mapped;
-=20
-+	if (blk_rq_dma_tag(req)) {
-+		iod->dma_len =3D 0;
-+		iod->use_sgl =3D false;
-+		return nvme_premapped(dev, req, &cmnd->rw, iod);
-+	}
-+
- 	if (blk_rq_nr_phys_segments(req) =3D=3D 1) {
- 		struct bio_vec bv =3D req_bvec(req);
-=20
-@@ -1732,6 +1903,106 @@ static int nvme_create_queue(struct nvme_queue *n=
-vmeq, int qid, bool polled)
- 	return result;
- }
-=20
-+#ifdef CONFIG_HAS_DMA
-+/*
-+ * Important: bvec must be describing a virtually contiguous buffer.
-+ */
-+static void *nvme_pci_dma_map(struct request_queue *q,
-+			       struct bio_vec *bvec, int nr_vecs)
-+{
-+	const int nvme_pages =3D 1 << (PAGE_SIZE - NVME_CTRL_PAGE_SIZE);
-+	struct nvme_ns *ns =3D q->queuedata;
-+	struct nvme_dev *dev =3D to_nvme_dev(ns->ctrl);
-+	struct nvme_dma_mapping *mapping;
-+	int i, j, k, size, ret =3D -ENOMEM;
-+
-+	if (!nr_vecs)
-+		return ERR_PTR(-EINVAL);
-+
-+	mapping =3D kzalloc(sizeof(*mapping), GFP_KERNEL);
-+	if (!mapping)
-+		return ERR_PTR(-ENOMEM);
-+
-+	mapping->nr_pages =3D nr_vecs * nvme_pages;
-+	size =3D sizeof(*mapping->prps) * mapping->nr_pages;
-+	mapping->prps =3D dma_alloc_coherent(dev->dev, size,
-+				&mapping->prp_dma_addr, GFP_KERNEL);
-+	if (!mapping->prps)
-+		goto free_mapping;
-+
-+	for (i =3D 0, k =3D 0; i < nr_vecs; i++) {
-+		struct bio_vec *bv =3D bvec + i;
-+		int pages_per =3D nvme_pages;
-+		dma_addr_t dma_addr;
-+
-+		if (i =3D=3D 0) {
-+			mapping->offset =3D bv->bv_offset;
-+			pages_per -=3D mapping->offset >> NVME_CTRL_PAGE_SHIFT;
-+		} else if (bv->bv_offset) {
-+			ret =3D -EINVAL;
-+			goto err;
-+		}
-+
-+		if (bv->bv_offset + bv->bv_len !=3D PAGE_SIZE &&
-+		    i < nr_vecs - 1) {
-+			ret =3D -EINVAL;
-+			goto err;
-+		}
-+
-+		dma_addr =3D dma_map_bvec(dev->dev, bv, 0, 0);
-+		if (dma_mapping_error(dev->dev, dma_addr)) {
-+			ret =3D -EIO;
-+			goto err;
-+		}
-+
-+		if (i =3D=3D 0)
-+			dma_addr -=3D mapping->offset;
-+
-+		for (j =3D 0; j < nvme_pages; j++)
-+			mapping->prps[k++] =3D cpu_to_le64(dma_addr +
-+						j * NVME_CTRL_PAGE_SIZE);
-+	}
-+
-+	get_device(dev->dev);
-+	return mapping;
-+
-+err:
-+	for (i =3D 0; i < k; i +=3D nvme_pages) {
-+		__u64 dma_addr =3D le64_to_cpu(mapping->prps[i]);
-+
-+		dma_unmap_page(dev->dev, dma_addr,
-+			       PAGE_SIZE - offset_in_page(dma_addr), 0);
-+	}
-+
-+	dma_free_coherent(dev->dev, size, (void *)mapping->prps,
-+			  mapping->prp_dma_addr);
-+free_mapping:
-+	kfree(mapping);
-+	return ERR_PTR(ret);
-+}
-+
-+static void nvme_pci_dma_unmap(struct request_queue *q, void *dma_tag)
-+{
-+	const int nvme_pages =3D 1 << (PAGE_SIZE - NVME_CTRL_PAGE_SIZE);
-+	struct nvme_ns *ns =3D q->queuedata;
-+	struct nvme_dev *dev =3D to_nvme_dev(ns->ctrl);
-+	struct nvme_dma_mapping *mapping =3D dma_tag;
-+	int i;
-+
-+	for (i =3D 0; i < mapping->nr_pages; i +=3D nvme_pages) {
-+		__u64 dma_addr =3D le64_to_cpu(mapping->prps[i]);
-+
-+		dma_unmap_page(dev->dev, dma_addr,
-+			       PAGE_SIZE - offset_in_page(dma_addr), 0);
-+	}
-+
-+	dma_free_coherent(dev->dev, mapping->nr_pages * sizeof(*mapping->prps),
-+			  (void *)mapping->prps, mapping->prp_dma_addr);
-+	kfree(mapping);
-+	put_device(dev->dev);
-+}
-+#endif
-+
- static const struct blk_mq_ops nvme_mq_admin_ops =3D {
- 	.queue_rq	=3D nvme_queue_rq,
- 	.complete	=3D nvme_pci_complete_rq,
-@@ -1750,6 +2021,10 @@ static const struct blk_mq_ops nvme_mq_ops =3D {
- 	.map_queues	=3D nvme_pci_map_queues,
- 	.timeout	=3D nvme_timeout,
- 	.poll		=3D nvme_poll,
-+#ifdef CONFIG_HAS_DMA
-+	.dma_map	=3D nvme_pci_dma_map,
-+	.dma_unmap	=3D nvme_pci_dma_unmap,
-+#endif
- };
-=20
- static void nvme_dev_remove_admin(struct nvme_dev *dev)
---=20
-2.30.2
+On Tue, Jul 26, 2022 at 7:13 AM Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Mon, Jul 25, 2022 at 07:48:52PM +0800, Ming Lei wrote:
+> > Hello Guys,
+> >
+> > Ping...
+>
+> I'm waiting for a review from James, who apparently just got back from
+> his vacation.
+>
 
 
