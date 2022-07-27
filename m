@@ -4,38 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9AF08C04A68
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jul 2022 06:52:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81DB7C04A68
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jul 2022 08:03:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3If5uj5iVMkkgiwAVWzPfwqhWX+3z2oN2AObDbXF+ME=; b=VbI8PYfqGpSn6bYrxl59yD2Cdt
-	T+KZevJcv0ukirRHERLS7jQlxaHqTJEYP+oMAgLE/6wjmmQAIwH8VwhBkfwLHOBtd302JpuEnMgry
-	FJOS02VvX5gikr7M5S4EJNlvezEaT26Jvc59mEIYmHWeGI5zefe31JWYaru2W51HjN+7dGD5QXvO5
-	5ruc1deH2X7uxZo4fYOUHBWriCmZAPOXrkHRcO98rgEPQyL/1E4cIspHZHx7Ex+7Yu2NluLrHBmn/
-	ppP1YyM9sISF3FwvnmO6OENzVNbbl9vSUiOdW6Y+vzNlE4T0euhmRiuGIvjn9yiBFlRW45pNKedu9
-	9qINQzOg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ZYSdY578I1v2dGPAqt08m5gXJuAIvODY8T2iLcuoOZM=; b=cCoVAOCH4jND4G5X4VMNT5RVaC
+	4wlNquyD1n3v3qYYfLyarW0IZ3hG0RL2l8GpAMXEXw3WgKKdhahWTdbIo7Mfp6TfDJ5BbQo2/Veeh
+	tQ5dDRgeCKSRFltVVrN4IXaRiSdGlF186LgYnpo82M1iHftqDsdz6IsD0JOtO5avj0KJnc/BkcMSG
+	/BezPJVZSKYStD3s9+iXFxsT2F8SGdymfF8C8HPm3ZMgKLOTs6FcURUdwUP3vzGl+91wd63znLM+P
+	d1Ci6kws5wIBFqcAC7aSt9466EuvuXi/gkpajOxaOvzd91cNbJf40je8cqbCY0HCYrcRCVMjImRob
+	lDZCDv1w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oGauS-00ABUA-TW; Wed, 27 Jul 2022 06:52:44 +0000
-Received: from szxga02-in.huawei.com ([45.249.212.188])
+	id 1oGc0m-00AsUL-F6; Wed, 27 Jul 2022 08:03:20 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oGauL-00ABKG-PU
-	for linux-nvme@lists.infradead.org; Wed, 27 Jul 2022 06:52:42 +0000
-Received: from canpemm500002.china.huawei.com (unknown [172.30.72.53])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Lt49s1Cy1zWfxg
-	for <linux-nvme@lists.infradead.org>; Wed, 27 Jul 2022 14:48:33 +0800 (CST)
-Received: from [10.169.59.127] (10.169.59.127) by
- canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Wed, 27 Jul 2022 14:52:26 +0800
+	id 1oGc0c-00AsLO-Ij
+	for linux-nvme@lists.infradead.org; Wed, 27 Jul 2022 08:03:12 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id AB29D204A4;
+	Wed, 27 Jul 2022 08:03:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1658908984; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZYSdY578I1v2dGPAqt08m5gXJuAIvODY8T2iLcuoOZM=;
+	b=pTk1UIptKn0+B44pby+mdyQAourfHSSZcFNSfHC8E4Rx83jhmqfpvcfmKOMZebHAkUsz5A
+	RThwJLyMhOkJNCsAZokG8Y9BzgjL3EaLil8jJ9t1VbnAVhS7dgxCX10ipx5eGLMSZ5EXS2
+	10JVmpnlm7jb/s6CxVDo6oIppH2rXVs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1658908984;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZYSdY578I1v2dGPAqt08m5gXJuAIvODY8T2iLcuoOZM=;
+	b=zv0ZjREkDsoXKo+5VcPWhAKpJqYx0XS42KICmxlVMhoniGk5GAOjVHvpdXfO/63amDJIR9
+	3zqsyh1BOsnWHWAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 91DD013AD7;
+	Wed, 27 Jul 2022 08:03:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id lWSSIzjx4GLRIQAAMHmgww
+	(envelope-from <dwagner@suse.de>); Wed, 27 Jul 2022 08:03:04 +0000
+Date: Wed, 27 Jul 2022 10:03:04 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Chao Leng <lengchao@huawei.com>
+Cc: linux-nvme@lists.infradead.org
 Subject: Re: [PATCH v2] nvme: consider also host_iface when checking ip
  options
-To: Daniel Wagner <dwagner@suse.de>
-CC: <linux-nvme@lists.infradead.org>
+Message-ID: <20220727080304.vlgrszlqmbnbpyin@carbon>
 References: <20220722092456.24517-1-dwagner@suse.de>
  <3f0528a5-73d2-3dc5-32fb-0eb73797bf71@huawei.com>
  <20220722094648.i6w3dymag3mfjpuo@carbon>
@@ -45,23 +73,14 @@ References: <20220722092456.24517-1-dwagner@suse.de>
  <20220725092522.i7lch2p4tn7uj6ii@carbon.lan>
  <37845bb2-c868-938b-8aed-cbc18594b9d6@huawei.com>
  <20220726071845.i2sq2p3c6e6hoa7h@carbon>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <dee8e066-c898-1d48-eb78-668a0bb94d11@huawei.com>
-Date: Wed, 27 Jul 2022 14:52:25 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+ <dee8e066-c898-1d48-eb78-668a0bb94d11@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20220726071845.i2sq2p3c6e6hoa7h@carbon>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.169.59.127]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- canpemm500002.china.huawei.com (7.192.104.244)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dee8e066-c898-1d48-eb78-668a0bb94d11@huawei.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220726_235238_093917_D9C0CFE9 
-X-CRM114-Status: GOOD (  17.22  )
+X-CRM114-CacheID: sfid-20220727_010310_815371_14357832 
+X-CRM114-Status: GOOD (  17.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,45 +95,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Wed, Jul 27, 2022 at 02:52:25PM +0800, Chao Leng wrote:
+> host_iface is different with traddr and trsvcid.
+> traddr is required opt, trsvcid can be specified or the default.
+> host_iface is NULL if without specified. It is same with host_tradr.
+> 
+> For example:
+> nvme connect -t tcp -n nvmet-test -a 192.168.19.54 -s 4420 -f eth0
+> nvme connect -t tcp -n nvmet-test -a 192.168.19.54 -s 4420
+> According to your patch, the second will be treated as a duplicate.
 
+Correct. And incidentally this is a duplicate :)
 
-On 2022/7/26 15:18, Daniel Wagner wrote:
-> On Tue, Jul 26, 2022 at 10:11:41AM +0800, Chao Leng wrote:
->> Checking host_iface is similar to host_tradr, so some suggestions:
->> First, move these codes near checking host_traddr.
-> 
-> We have several places where we have the same sequence as above, that is
-> traddr, trsvcid and then host_iface, e.g. nvme_class_uevent,
-> nvmf_free_options, nvmf_get_address. So I'd say we should stick to this
-> and not start introducing a new ordering scheme.
-> 
->> Second, the checking logic should be the same as that of host_tradr.
-> 
-> What do you mean with this? We compare the host_iface with strcmp. It is
-> exactly the same thing we do with traddr and trsvcid.
-host_iface is different with traddr and trsvcid.
-traddr is required opt, trsvcid can be specified or the default.
-host_iface is NULL if without specified. It is same with host_tradr.
+> It is similar like this:
+> nvme connect -t tcp -n nvmet-test -a 192.168.19.54 -s 4420 -w 192.168.154.50
+> nvme connect -t tcp -n nvmet-test -a 192.168.19.54 -s 4420
+> This will be treated as a different new.
 
-For example:
-nvme connect -t tcp -n nvmet-test -a 192.168.19.54 -s 4420 -f eth0
-nvme connect -t tcp -n nvmet-test -a 192.168.19.54 -s 4420
-According to your patch, the second will be treated as a duplicate.
-It is similar like this:
-nvme connect -t tcp -n nvmet-test -a 192.168.19.54 -s 4420 -w 192.168.154.50
-nvme connect -t tcp -n nvmet-test -a 192.168.19.54 -s 4420
-This will be treated as a different new.
+Yes, though if in this case eth0 has only IP 192.168.154.50, it would be
+a duplicate.
 
-host_iface and host_tradr are similar opts related to host outgoing.
-host_iface and host_tradr may or may not be specified.
-The check logic should be consistent.
-> 
->> It might be better to add a helper to implement host port attribute
->> checking. Of course, this can be considered as a separate patch.
-> 
-> As far I can tell Christoph is not a big fan of small one-line helpers
-> especially if there is only one call place. But as you said, that's his
-> call :)
-> .
-> 
+> host_iface and host_tradr are similar opts related to host outgoing.
+> host_iface and host_tradr may or may not be specified.
+> The check logic should be consistent.
+
+I see. The comment nvmf_ip_options_match() on this topic says the whole
+logic is a bit 'rough'. Bringing iface_host into this picture makes the
+whole logic even more complex. it's possible to use iface_host and
+host_traddr combined. That's why I thought it would be a good idea to
+make it more restrict.
+
+I suspect the correct solution would be to inference each option set
+which actual configuration is used. Not sure if it is worth the
+hassle. Is there any real harm with duplicate connections, except
+performance?
+
+Even with this patch, it's possible to do something like this here:
+
+# nvme list-subsys
+nvme-subsys0 - NQN=nvmet-test
+\
+ +- nvme0 tcp traddr=192.168.19.54,trsvcid=4420,host_iface=eth0 live optimized
+ +- nvme1 tcp traddr=192.168.19.54,trsvcid=4420,host_traddr=192.168.154.50 live optimized
+
+It is a duplicate connection...
+
+I don't mind relaxing the check but the question is should it combined
+with the host_traddr logic or stay separate?
 
