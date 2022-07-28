@@ -4,66 +4,109 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B05B3C04A68
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jul 2022 01:20:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 814D4C19F2B
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jul 2022 01:52:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=p4DlwrAw0M2kamvORLSYpECKJY1f/zvMl5pLNbxcqBU=; b=qXAtEOxltsvnYOiz4rEwDeylGh
-	mWmWcAWQvhE1WoAmsyzgpYhLpQ15KfmBBKguwsxgUtHdppQ5bj4CP9/upCb9CIIDpJo5ALuCCo/8j
-	Pd5KXL05pdvuBSYSxfCp6Gn1qJ2LZDL2iSPDztnU1Wxw62ZnD94YOjbJRQfBQHAWFPCXdxkKX1oQ2
-	1L33r4uPnePWwI3F9KBccupzka9qOYNW/4GJY5bkXmvOduDoPtQyYHBoCnlS5t2jtpd1gkYK9SYJP
-	Is47zEwNVcBZj3D/ark9+AlSfkYtv7QLl9pKszCI9szRpJ2N92xtCD5D7Zv6iNJNJiuk7luwI+FxX
-	CDetE9CQ==;
+	bh=2mt1O7SWjFLHD1EXE6V9UmPR5M2z7VMStRoTnCj5Bjo=; b=0wM8ug5l9t/lg5NKSZczBTktFx
+	cFaULzJ2+wIwM8TzptqMLILSkoFyOLSL4rV/MitqJ0v553dHtB0rcE561V4dY5bEQ7bEXwuQyUt72
+	SK8xSNTQOXEhKDcUVQCLTPNKarvrdmATdxPBS84BsPkILUVgI8HPRyTSmhV3Zjxw+xwDZDNx1FG0+
+	eGY189ekrel78rZQA4Hu7Xk2c4WgvUpTuwXwY2fvnM7WnKVijlJZrmfVVUwSOPcGX77p4my7dLdHb
+	zepZHYpHbnCySIqh5lXkUlDT1ayK22lx8PnkIjuayFCZjXqDs8D6oMIQVl2GzD7lmWEf2dB5DDai3
+	UoM2S1AQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oGsCK-002I24-9H; Thu, 28 Jul 2022 01:20:20 +0000
-Received: from szxga03-in.huawei.com ([45.249.212.189])
+	id 1oGshZ-002WDN-0F; Thu, 28 Jul 2022 01:52:37 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oGsCG-002Hyb-Dw
-	for linux-nvme@lists.infradead.org; Thu, 28 Jul 2022 01:20:19 +0000
-Received: from canpemm500002.china.huawei.com (unknown [172.30.72.54])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4LtXq55cVMz9swR
-	for <linux-nvme@lists.infradead.org>; Thu, 28 Jul 2022 09:18:57 +0800 (CST)
-Received: from [10.169.59.127] (10.169.59.127) by
- canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 28 Jul 2022 09:20:08 +0800
-Subject: Re: [PATCH v2] nvme: consider also host_iface when checking ip
- options
-To: Daniel Wagner <dwagner@suse.de>
-CC: <linux-nvme@lists.infradead.org>
-References: <20220722092456.24517-1-dwagner@suse.de>
- <3f0528a5-73d2-3dc5-32fb-0eb73797bf71@huawei.com>
- <20220722094648.i6w3dymag3mfjpuo@carbon>
- <ce2ba75a-3dd6-8530-c868-298bbeb93d67@huawei.com>
- <20220722100932.tyjljbccwv47tg4z@carbon>
- <a37fc589-b47b-61c6-0c36-c3b13e7ce56d@huawei.com>
- <20220725092522.i7lch2p4tn7uj6ii@carbon.lan>
- <37845bb2-c868-938b-8aed-cbc18594b9d6@huawei.com>
- <20220726071845.i2sq2p3c6e6hoa7h@carbon>
- <dee8e066-c898-1d48-eb78-668a0bb94d11@huawei.com>
- <20220727080304.vlgrszlqmbnbpyin@carbon>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <19f7118a-2028-0d48-c120-8af16d619cac@huawei.com>
-Date: Thu, 28 Jul 2022 09:20:07 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+	id 1oGshU-002W9N-U8
+	for linux-nvme@lists.infradead.org; Thu, 28 Jul 2022 01:52:35 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1658973152; x=1690509152;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=QVVBWQ6JmTLGyCI9T6RhLFvgwT91qI0IoKUt3pFI0/Q=;
+  b=Enj0KKA1eKTg3TpYg4dyr8t1BZ0ppV/zBxVTKiCypFmaAOA67uDIbXa3
+   jONoHqsMe/L+zKNH5mc9IbYt1CdYDvRfoOOc0EnwGnUlTVOr6mwuY2HL6
+   6EGcSinmvA0StbxRbxkvsqgVDWXJWJQ8d6/XeocDZZe5LPRkuElom5GlH
+   ungbB0O0aq8/GZiEJ+e7jAbG5RksMf/8liix4L17SnYJB6enVEwH90RU1
+   npn2z4qFdx/7S4IwQNKdByAPwt4Xlu+HNIcK3GvqsrYEBhafSI2sqB1ra
+   QV3ARiT221IVHlunN/qrISLBML24S4fPC+qZpL3ya5Ck5K6LIM/ThJiAc
+   A==;
+X-IronPort-AV: E=Sophos;i="5.93,196,1654531200"; 
+   d="scan'208";a="212058728"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 28 Jul 2022 09:52:27 +0800
+IronPort-SDR: QrW3dsvR2nMg/X1R1cI9RdOegnRNjjwBacoGc7QxIyZCjf2YLS3+Tbst1eCod9BvhZgGOTKp45
+ Mif6h6XofM2MAhGjark8ngV9OBIChk24hOMWtWVxAWs7m8LKaGITMCgseGvZmtSCQAwutswzXd
+ Mz54hf39tDZ/k/iq9a18VEmj6j0PXwVZQz5m3nu1VCoiE9Pz2+7PDH3dhi2kphoItNsXVRv1wZ
+ UQsvo1ev+WbKoF6/xSja56DnSPXKJdNFhIs/V5cJPKB2OdXm6CzAvCGqNY3C1LUFb1qAk0GOBe
+ 4wzt1ypug206/+aoNdag/MbO
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Jul 2022 18:08:35 -0700
+IronPort-SDR: HegMeiSjNxicxsvIj33c1Inp8fAYOi2cbRt18TAz67kLg6R39cgEuhjxImMQh40Rci/x30hzhM
+ Q3Tz4xbcXhwzsYebEkhwJ9YQvP1k0yIGFeEQyInDrCYGZX2yd3/v03kLDKqxmS9IRNTm2kllLB
+ w1wT3xKcPym8fd8Ck7iIlywQN4q8MC5I2LhCDuLyNXQbuZkR5vB4pcXggU2umTnnBWBpmPX+2K
+ 0aO4jpZi0c+raEZbDUgj6AfQjWu6zyeRII585C0wr3lBKmhaSm4NEM2MWCW7VS/sb10/ANIz9j
+ pW4=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Jul 2022 18:52:28 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LtYYl3RfBz1Rws6
+	for <linux-nvme@lists.infradead.org>; Wed, 27 Jul 2022 18:52:27 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+	reason="pass (just generated, assumed good)"
+	header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+	opensource.wdc.com; h=content-transfer-encoding:content-type
+	:in-reply-to:organization:from:references:to:content-language
+	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
+	1658973146; x=1661565147; bh=QVVBWQ6JmTLGyCI9T6RhLFvgwT91qI0IoKU
+	t3pFI0/Q=; b=F2iFvoSMiJbccMADjVAZVn3gxWlhNSCpud0qSERpSOd0Ry5Xo6F
+	81dY6m6tBCK2oCJXK4dOrRJS7yNisxUJtbfIfLOGG7EjrS5D/amN0FY+Hzj45R+L
+	Oe5u5/l77XqslEMw0POtUwr7nVVYFzCyx/bcl3ycltBiovl0G1yxk50QbnjCapjx
+	VG/XkGyfKk+WK613YwwwKpQXFZn+ty9vLUAVcqOYeXLtobUoJcygQwMnnLylXPYx
+	RhXfOrxRLu3TdBEledwgd0z/EubL2m3Y60eLOH+lQW5gcXeEwhv7WiaAVoRGRAzO
+	KZB8F0gXFZOk2ZhFee8Ub4lkhrskmA2GbIA==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id nKt4C6ShEgGj for <linux-nvme@lists.infradead.org>;
+	Wed, 27 Jul 2022 18:52:26 -0700 (PDT)
+Received: from [10.225.163.14] (unknown [10.225.163.14])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LtYYh12zFz1RtVk;
+	Wed, 27 Jul 2022 18:52:23 -0700 (PDT)
+Message-ID: <f2f29f97-5994-37f9-c922-31158c1c1b9a@opensource.wdc.com>
+Date: Thu, 28 Jul 2022 10:52:22 +0900
 MIME-Version: 1.0
-In-Reply-To: <20220727080304.vlgrszlqmbnbpyin@carbon>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v8 00/11] support non power of 2 zoned device
 Content-Language: en-US
+To: Bart Van Assche <bvanassche@acm.org>, Pankaj Raghav
+ <p.raghav@samsung.com>, hch@lst.de, axboe@kernel.dk, snitzer@kernel.org,
+ Johannes.Thumshirn@wdc.com
+Cc: matias.bjorling@wdc.com, gost.dev@samsung.com,
+ linux-kernel@vger.kernel.org, hare@suse.de, linux-block@vger.kernel.org,
+ pankydev8@gmail.com, jaegeuk@kernel.org, dm-devel@redhat.com,
+ linux-nvme@lists.infradead.org
+References: <CGME20220727162246eucas1p1a758799f13d36ba99d30bf92cc5e2754@eucas1p1.samsung.com>
+ <20220727162245.209794-1-p.raghav@samsung.com>
+ <51255650-ddc2-4f3d-52e5-14007b9ff538@acm.org>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <51255650-ddc2-4f3d-52e5-14007b9ff538@acm.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.169.59.127]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- canpemm500002.china.huawei.com (7.192.104.244)
-X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220727_182016_837644_9B95F6BE 
-X-CRM114-Status: GOOD (  21.72  )
+X-CRM114-CacheID: sfid-20220727_185233_033372_C74962E3 
+X-CRM114-Status: GOOD (  16.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,60 +121,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 7/28/22 08:19, Bart Van Assche wrote:
+> On 7/27/22 09:22, Pankaj Raghav wrote:
+>> This series adds support to npo2 zoned devices in the block and nvme
+>> layer and a new **dm target** is added: dm-po2z-target. This new
+>> target will be initially used for filesystems such as btrfs and
+>> f2fs that does not have native npo2 zone support.
+> 
+> Should any SCSI changes be included in this patch series? From sd_zbc.c:
+> 
+> 	if (!is_power_of_2(zone_blocks)) {
+> 		sd_printk(KERN_ERR, sdkp,
+> 			  "Zone size %llu is not a power of two.\n",
+> 			  zone_blocks);
+> 		return -EINVAL;
+> 	}
+
+There are no non-power of 2 SMR drives on the market and no plans to have
+any as far as I know. Users want power of 2 zone size. So I think it is
+better to leave sd_zbc & scsi_debug as is for now.
+
+> 
+> Thanks,
+> 
+> Bart.
 
 
-On 2022/7/27 16:03, Daniel Wagner wrote:
-> On Wed, Jul 27, 2022 at 02:52:25PM +0800, Chao Leng wrote:
->> host_iface is different with traddr and trsvcid.
->> traddr is required opt, trsvcid can be specified or the default.
->> host_iface is NULL if without specified. It is same with host_tradr.
->>
->> For example:
->> nvme connect -t tcp -n nvmet-test -a 192.168.19.54 -s 4420 -f eth0
->> nvme connect -t tcp -n nvmet-test -a 192.168.19.54 -s 4420
->> According to your patch, the second will be treated as a duplicate.
-> 
-> Correct. And incidentally this is a duplicate :)
-> 
->> It is similar like this:
->> nvme connect -t tcp -n nvmet-test -a 192.168.19.54 -s 4420 -w 192.168.154.50
->> nvme connect -t tcp -n nvmet-test -a 192.168.19.54 -s 4420
->> This will be treated as a different new.
-> 
-> Yes, though if in this case eth0 has only IP 192.168.154.50, it would be
-> a duplicate.
-> 
->> host_iface and host_tradr are similar opts related to host outgoing.
->> host_iface and host_tradr may or may not be specified.
->> The check logic should be consistent.
-> 
-> I see. The comment nvmf_ip_options_match() on this topic says the whole
-> logic is a bit 'rough'. Bringing iface_host into this picture makes the
-> whole logic even more complex. it's possible to use iface_host and
-> host_traddr combined. That's why I thought it would be a good idea to
-> make it more restrict.
-> 
-> I suspect the correct solution would be to inference each option set
-> which actual configuration is used. Not sure if it is worth the
-> hassle. Is there any real harm with duplicate connections, except
-> performance? >
-> Even with this patch, it's possible to do something like this here:
-> 
-> # nvme list-subsys
-> nvme-subsys0 - NQN=nvmet-test
-> \
->   +- nvme0 tcp traddr=192.168.19.54,trsvcid=4420,host_iface=eth0 live optimized
->   +- nvme1 tcp traddr=192.168.19.54,trsvcid=4420,host_traddr=192.168.154.50 live optimized
-> 
-> It is a duplicate connection...
-> 
-> I don't mind relaxing the check but the question is should it combined
-> with the host_traddr logic or stay separate?
-It's really troublesome to make strict judgments. Unexpected repeated connections
-in special cases should be acceptable, because the harm is almost negligible and
-the probability of actual occurrence is very low.
-A bit more strict or relaxing both can be acceptable. but it should be same
-for the host_traddr and the host_iface.
-> .
-> 
+-- 
+Damien Le Moal
+Western Digital Research
 
