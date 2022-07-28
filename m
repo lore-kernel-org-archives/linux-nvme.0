@@ -4,109 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 814D4C19F2B
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jul 2022 01:52:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8410C04A68
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jul 2022 02:35:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2mt1O7SWjFLHD1EXE6V9UmPR5M2z7VMStRoTnCj5Bjo=; b=0wM8ug5l9t/lg5NKSZczBTktFx
-	cFaULzJ2+wIwM8TzptqMLILSkoFyOLSL4rV/MitqJ0v553dHtB0rcE561V4dY5bEQ7bEXwuQyUt72
-	SK8xSNTQOXEhKDcUVQCLTPNKarvrdmATdxPBS84BsPkILUVgI8HPRyTSmhV3Zjxw+xwDZDNx1FG0+
-	eGY189ekrel78rZQA4Hu7Xk2c4WgvUpTuwXwY2fvnM7WnKVijlJZrmfVVUwSOPcGX77p4my7dLdHb
-	zepZHYpHbnCySIqh5lXkUlDT1ayK22lx8PnkIjuayFCZjXqDs8D6oMIQVl2GzD7lmWEf2dB5DDai3
-	UoM2S1AQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mAckjg+E6dMrqWkXQdRzj5mY6ksj2NPdZDAIWa7ytJc=; b=UgzGX+r/WDz0nxLnhz7BMQwIcl
+	dO6eWaY+ZdxR1uJGE5PIIscBZE7O1bsciO1wb8N40Yr7/k+5wuHTEbEuGft2dyj6Cokj78gs+0tSi
+	+TDH9qSS0uxUahNOa9nhs+tiCBBrDocb1fOIWMemV/TYsvYR2WIh3uiEeWzTWfCSLYDP75bYa8JhR
+	UGgULj5S5gRksuIOjxav12/CQDK0kV0EkSjxC9XfWmHyYuTb661hsnVYO8Wusk1j0jMk8NOu3Vh4h
+	Mae0TEhV9EE68IIIp4wlb8BZF9u0uby/LI9Lttc/xlKb3DDjQBvJhWhCkevuRlM0aYczao85S1nId
+	X/YeSeqQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oGshZ-002WDN-0F; Thu, 28 Jul 2022 01:52:37 +0000
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
+	id 1oGtNK-002wd3-Ej; Thu, 28 Jul 2022 02:35:46 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oGshU-002W9N-U8
-	for linux-nvme@lists.infradead.org; Thu, 28 Jul 2022 01:52:35 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1658973152; x=1690509152;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=QVVBWQ6JmTLGyCI9T6RhLFvgwT91qI0IoKUt3pFI0/Q=;
-  b=Enj0KKA1eKTg3TpYg4dyr8t1BZ0ppV/zBxVTKiCypFmaAOA67uDIbXa3
-   jONoHqsMe/L+zKNH5mc9IbYt1CdYDvRfoOOc0EnwGnUlTVOr6mwuY2HL6
-   6EGcSinmvA0StbxRbxkvsqgVDWXJWJQ8d6/XeocDZZe5LPRkuElom5GlH
-   ungbB0O0aq8/GZiEJ+e7jAbG5RksMf/8liix4L17SnYJB6enVEwH90RU1
-   npn2z4qFdx/7S4IwQNKdByAPwt4Xlu+HNIcK3GvqsrYEBhafSI2sqB1ra
-   QV3ARiT221IVHlunN/qrISLBML24S4fPC+qZpL3ya5Ck5K6LIM/ThJiAc
-   A==;
-X-IronPort-AV: E=Sophos;i="5.93,196,1654531200"; 
-   d="scan'208";a="212058728"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
-  by ob1.hgst.iphmx.com with ESMTP; 28 Jul 2022 09:52:27 +0800
-IronPort-SDR: QrW3dsvR2nMg/X1R1cI9RdOegnRNjjwBacoGc7QxIyZCjf2YLS3+Tbst1eCod9BvhZgGOTKp45
- Mif6h6XofM2MAhGjark8ngV9OBIChk24hOMWtWVxAWs7m8LKaGITMCgseGvZmtSCQAwutswzXd
- Mz54hf39tDZ/k/iq9a18VEmj6j0PXwVZQz5m3nu1VCoiE9Pz2+7PDH3dhi2kphoItNsXVRv1wZ
- UQsvo1ev+WbKoF6/xSja56DnSPXKJdNFhIs/V5cJPKB2OdXm6CzAvCGqNY3C1LUFb1qAk0GOBe
- 4wzt1ypug206/+aoNdag/MbO
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Jul 2022 18:08:35 -0700
-IronPort-SDR: HegMeiSjNxicxsvIj33c1Inp8fAYOi2cbRt18TAz67kLg6R39cgEuhjxImMQh40Rci/x30hzhM
- Q3Tz4xbcXhwzsYebEkhwJ9YQvP1k0yIGFeEQyInDrCYGZX2yd3/v03kLDKqxmS9IRNTm2kllLB
- w1wT3xKcPym8fd8Ck7iIlywQN4q8MC5I2LhCDuLyNXQbuZkR5vB4pcXggU2umTnnBWBpmPX+2K
- 0aO4jpZi0c+raEZbDUgj6AfQjWu6zyeRII585C0wr3lBKmhaSm4NEM2MWCW7VS/sb10/ANIz9j
- pW4=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
-  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Jul 2022 18:52:28 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
-	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LtYYl3RfBz1Rws6
-	for <linux-nvme@lists.infradead.org>; Wed, 27 Jul 2022 18:52:27 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
-	reason="pass (just generated, assumed good)"
-	header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
-	opensource.wdc.com; h=content-transfer-encoding:content-type
-	:in-reply-to:organization:from:references:to:content-language
-	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
-	1658973146; x=1661565147; bh=QVVBWQ6JmTLGyCI9T6RhLFvgwT91qI0IoKU
-	t3pFI0/Q=; b=F2iFvoSMiJbccMADjVAZVn3gxWlhNSCpud0qSERpSOd0Ry5Xo6F
-	81dY6m6tBCK2oCJXK4dOrRJS7yNisxUJtbfIfLOGG7EjrS5D/amN0FY+Hzj45R+L
-	Oe5u5/l77XqslEMw0POtUwr7nVVYFzCyx/bcl3ycltBiovl0G1yxk50QbnjCapjx
-	VG/XkGyfKk+WK613YwwwKpQXFZn+ty9vLUAVcqOYeXLtobUoJcygQwMnnLylXPYx
-	RhXfOrxRLu3TdBEledwgd0z/EubL2m3Y60eLOH+lQW5gcXeEwhv7WiaAVoRGRAzO
-	KZB8F0gXFZOk2ZhFee8Ub4lkhrskmA2GbIA==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
-	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id nKt4C6ShEgGj for <linux-nvme@lists.infradead.org>;
-	Wed, 27 Jul 2022 18:52:26 -0700 (PDT)
-Received: from [10.225.163.14] (unknown [10.225.163.14])
-	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LtYYh12zFz1RtVk;
-	Wed, 27 Jul 2022 18:52:23 -0700 (PDT)
-Message-ID: <f2f29f97-5994-37f9-c922-31158c1c1b9a@opensource.wdc.com>
-Date: Thu, 28 Jul 2022 10:52:22 +0900
+	id 1oGtNJ-002waq-Ak
+	for linux-nvme@bombadil.infradead.org; Thu, 28 Jul 2022 02:35:45 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=mAckjg+E6dMrqWkXQdRzj5mY6ksj2NPdZDAIWa7ytJc=; b=p+TQRj+1YTwJZ+e2JZjC9XTd0J
+	+6hC9OfLjfaK57io9yzd1xksfmE4x2eDyfYsXi2QyncUTANoIO0H8ESW/q/9BaCJrA6Dh5K2OPBZ6
+	RQftdCIJQ7+UDnRMpw5vO7i2LNzpG+/HDISEhhP5dugTIRxXsGejXXIxq7nlKuGsAhnJFBxu83S7C
+	5bieIBcKXgcg6EABZFGd9zmD5q6qLMPkBbM5VxgVmOswODLySXo1DIJyizHM0Dnz8rmhXG7x2bKxG
+	gjAmcZozTOKRTDaFXPMBgsndnIMHmQaVby5TYupbyHvly6Mu+ZRdSRLQECiShi0fuVpTgly2JYvsi
+	YhlWknxw==;
+Received: from mail105.syd.optusnet.com.au ([211.29.132.249])
+	by desiato.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oGtN6-000uRy-Lh
+	for linux-nvme@lists.infradead.org; Thu, 28 Jul 2022 02:35:40 +0000
+Received: from dread.disaster.area (pa49-195-20-138.pa.nsw.optusnet.com.au [49.195.20.138])
+	by mail105.syd.optusnet.com.au (Postfix) with ESMTPS id 25C0D10C8868;
+	Thu, 28 Jul 2022 12:35:13 +1000 (AEST)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+	(envelope-from <david@fromorbit.com>)
+	id 1oGtMl-0069Ji-VP; Thu, 28 Jul 2022 12:35:11 +1000
+Date: Thu, 28 Jul 2022 12:35:11 +1000
+From: Dave Chinner <david@fromorbit.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, Keith Busch <kbusch@fb.com>,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	io-uring@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	axboe@kernel.dk, hch@lst.de
+Subject: Re: [PATCH 4/5] io_uring: add support for dma pre-mapping
+Message-ID: <20220728023511.GX3600936@dread.disaster.area>
+References: <20220726173814.2264573-1-kbusch@fb.com>
+ <20220726173814.2264573-5-kbusch@fb.com>
+ <YuB09cZh7rmd260c@ZenIV>
+ <YuFEhQuFtyWcw7rL@kbusch-mbp.dhcp.thefacebook.com>
+ <YuFGCO7M29fr3bVB@ZenIV>
+ <YuFT+UYxd2QtDPe5@kbusch-mbp.dhcp.thefacebook.com>
+ <20220727223232.GV3600936@dread.disaster.area>
+ <YuHDeRImQPuuV2Mr@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v8 00/11] support non power of 2 zoned device
-Content-Language: en-US
-To: Bart Van Assche <bvanassche@acm.org>, Pankaj Raghav
- <p.raghav@samsung.com>, hch@lst.de, axboe@kernel.dk, snitzer@kernel.org,
- Johannes.Thumshirn@wdc.com
-Cc: matias.bjorling@wdc.com, gost.dev@samsung.com,
- linux-kernel@vger.kernel.org, hare@suse.de, linux-block@vger.kernel.org,
- pankydev8@gmail.com, jaegeuk@kernel.org, dm-devel@redhat.com,
- linux-nvme@lists.infradead.org
-References: <CGME20220727162246eucas1p1a758799f13d36ba99d30bf92cc5e2754@eucas1p1.samsung.com>
- <20220727162245.209794-1-p.raghav@samsung.com>
- <51255650-ddc2-4f3d-52e5-14007b9ff538@acm.org>
-From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Organization: Western Digital Research
-In-Reply-To: <51255650-ddc2-4f3d-52e5-14007b9ff538@acm.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YuHDeRImQPuuV2Mr@kbusch-mbp.dhcp.thefacebook.com>
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.4 cv=VuxAv86n c=1 sm=1 tr=0 ts=62e1f5e2
+	a=cxZHBGNDieHvTKNp/pucQQ==:117 a=cxZHBGNDieHvTKNp/pucQQ==:17
+	a=kj9zAlcOel0A:10 a=RgO8CyIxsXoA:10 a=7-415B0cAAAA:8
+	a=DxEnDgycP0rwEceSJA4A:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220727_185233_033372_C74962E3 
-X-CRM114-Status: GOOD (  16.39  )
+X-CRM114-CacheID: sfid-20220728_033536_432183_D7090314 
+X-CRM114-Status: GOOD (  33.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,33 +88,112 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/28/22 08:19, Bart Van Assche wrote:
-> On 7/27/22 09:22, Pankaj Raghav wrote:
->> This series adds support to npo2 zoned devices in the block and nvme
->> layer and a new **dm target** is added: dm-po2z-target. This new
->> target will be initially used for filesystems such as btrfs and
->> f2fs that does not have native npo2 zone support.
+On Wed, Jul 27, 2022 at 05:00:09PM -0600, Keith Busch wrote:
+> On Thu, Jul 28, 2022 at 08:32:32AM +1000, Dave Chinner wrote:
+> > On Wed, Jul 27, 2022 at 09:04:25AM -0600, Keith Busch wrote:
+> > > On Wed, Jul 27, 2022 at 03:04:56PM +0100, Al Viro wrote:
+> > > > On Wed, Jul 27, 2022 at 07:58:29AM -0600, Keith Busch wrote:
+> > > > > On Wed, Jul 27, 2022 at 12:12:53AM +0100, Al Viro wrote:
+> > > > > > On Tue, Jul 26, 2022 at 10:38:13AM -0700, Keith Busch wrote:
+> > > > > > 
+> > > > > > > +	if (S_ISBLK(file_inode(file)->i_mode))
+> > > > > > > +		bdev = I_BDEV(file->f_mapping->host);
+> > > > > > > +	else if (S_ISREG(file_inode(file)->i_mode))
+> > > > > > > +		bdev = file->f_inode->i_sb->s_bdev;
+> > > > > > 
+> > > > > > *blink*
+> > > > > > 
+> > > > > > Just what's the intended use of the second case here?
+> > > > > 
+> > > > > ??
+> > > > > 
+> > > > > The use case is same as the first's: dma map the user addresses to the backing
+> > > > > storage. There's two cases here because getting the block_device for a regular
+> > > > > filesystem file is different than a raw block device.
+> > > > 
+> > > > Excuse me, but "file on some filesystem + block number on underlying device"
+> > > > makes no sense as an API...
+> > > 
+> > > Sorry if I'm misunderstanding your concern here.
+> > > 
+> > > The API is a file descriptor + index range of registered buffers (which is a
+> > > pre-existing io_uring API). The file descriptor can come from opening either a
+> > > raw block device (ex: /dev/nvme0n1), or any regular file on a mounted
+> > > filesystem using nvme as a backing store.
+> > 
+> > That's fundamentally flawed. Filesystems can have multiple block
+> > devices backing them that the VFS doesn't actually know about (e.g.
+> > btrfs, XFS, etc). Further, some of these filesystems can spread
+> > indiivdual file data across mutliple block devices i.e. the backing
+> > bdev changes as file offset changes....
+> > 
+> > Filesystems might not even have a block device (NFS, CIFS, etc) -
+> > what happens if you call this function on a file belonging to such a
+> > filesystem?
 > 
-> Should any SCSI changes be included in this patch series? From sd_zbc.c:
-> 
-> 	if (!is_power_of_2(zone_blocks)) {
-> 		sd_printk(KERN_ERR, sdkp,
-> 			  "Zone size %llu is not a power of two.\n",
-> 			  zone_blocks);
-> 		return -EINVAL;
-> 	}
+> The block_device driver has to opt-in to this feature. If a multi-device block
+> driver wants to opt-in to this, then it would be responsible to handle
+> translating that driver's specific cookie to whatever representation the
+> drivers it stacks atop require. Otherwise, the cookie threaded through the bio
+> is an opque value: nothing between io_uring and the block_device driver need to
+> decode it.
 
-There are no non-power of 2 SMR drives on the market and no plans to have
-any as far as I know. Users want power of 2 zone size. So I think it is
-better to leave sd_zbc & scsi_debug as is for now.
+I'm not talking about "multi-device" block devices like we build
+with DM or MD to present a single stacked block device to the
+filesystem. I'm talking about the fact that both btrfs and XFS
+support multiple *independent* block devices in the one filesystem.
 
-> 
-> Thanks,
-> 
-> Bart.
+i.e.:
 
+# mkfs.xfs -r rtdev=/dev/nvme0n1 -l logdev=/dev/nvme1n1,size=2000m /dev/nvme2n1
+meta-data=/dev/nvme2n1           isize=512    agcount=4, agsize=22893287 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=1        finobt=1, sparse=1, rmapbt=0
+         =                       reflink=0    bigtime=1 inobtcount=1 nrext64=0
+data     =                       bsize=4096   blocks=91573146, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0, ftype=1
+log      =/dev/nvme1n1           bsize=4096   blocks=512000, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =/dev/nvme0n1           extsz=4096   blocks=91573146, rtextents=91573146
+#
 
+This builds an XFS filesystem which can write file data to either
+/dev/nvme0n1 or /dev/nvme2n1, and journal IO will get sent to a
+third block dev (/dev/nvme1n1).
+
+So, which block device do we map for the DMA buffers that contain
+the file data for any given file in that filesystem? There is no
+guarantee that is is sb->s_bdev, because it only points at one of
+the two block devices that can contain file data.
+
+Btrfs is similar, but it might stripe data across /dev/nvme0n1,
+/dev/nvme1n1 and /dev/nvme2n1 for a single file writes (and hence
+reads) and so needs separate DMA mappings for each block device just
+to do IO direct to/from one file....
+
+Indeed, for XFS there's no requirement that the block devices have
+the same capabilities or even storage types - the rtdev could be
+spinning disks, the logdev an nvme SSD, and the datadev is pmem. If
+XFs has to do something special, it queries the bdev it needs to
+operate on (e.g. DAX mappings are only allowed on pmem based
+devices).
+
+Hence it is invalid to assume that sb->s_bdev points at the actual
+block device the data for any given regular file is stored on. It is
+also invalid to assume the characteristics of the device in
+sb->s_bdev are common for all files in the filesystem.
+
+IOWs, the only way you can make something like this work via
+filesystem mapping infrastructure to translate file offset to
+to a {dev, dev_offset} tuple to tell you what persistently mapped
+device buffers you need to use for IO to the given file {offset,len}
+range that IO needs to be done on....
+
+Cheers,
+
+Dave.
 -- 
-Damien Le Moal
-Western Digital Research
+Dave Chinner
+david@fromorbit.com
 
