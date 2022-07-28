@@ -4,69 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BBDB2C04A68
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jul 2022 13:25:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7AD34C04A68
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jul 2022 13:29:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=E/xPB2mlHE49JZM6uNPImpp7PFnQSbk0nL9Ow9JoeAI=; b=F+eqhXpQ6kizOjA7Vp6yRy6GdN
-	84LHVPxorecoySCtFBsHrfzqxgSBey06/4DYr5arC24e/I4776n8wyOMkv2IEseKBwjJw8E7FeIx2
-	r01FT0M8xbpkdTKIdPZoU7bSdDvpdpq0tDJEDlHi5uVG+X5a4G9zTmm9t14K+GD2RUDZXJmA+LJqd
-	QioJ+S5OUCEMVK2L8jC0Tj+JhEMnz/oDq3++PLBBQCnGatxXaVvqi40qmnmDoyWnXGTwAyiFNDycY
-	NcZ8JJQkve+fuqxJX4nqErSP8wVylRzg1YMQ6/XGKTDykm5av5ms3PYcGTKxqSEwtDIp4rgGgtZ1z
-	F8WH+J/Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=KVAZ1OoYcDPkaYDmhjB+rFFypTllysidvXvCw8//pAg=; b=CjxjINFM1L1eE09UrQZNuqcqKd
+	+W/aI4NiiwSTizKbqz+mtNYU85C09+iup9wvz/MtFYGTBWXAldy/xvYE0UR1NMX1pgO7iEAfdK6fg
+	Bn1psTZlGi1APOL5GnqBnIPIFGy/hMg9puksRSeXEjmsodQrmOdShh6J44Bia/dqDL89ShKri4DYy
+	NZp6rQSmJHmID4IwoHsApWFAYf7UWiWM+qixR3/BPhOXaq6XqloYAfE7oh/Jbwa+QNcPh0oW3oiV3
+	KTpcbZcsXgJ9NmtKtFTe+rueDlEq1mm0oUXSSRLudOV47FXz1a2rowawViI15J6inIFzyK/6Fd1wI
+	nIb/lBrA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oH3WM-009fFM-PC; Thu, 28 Jul 2022 13:25:46 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1oH3Zl-009gwp-Kg; Thu, 28 Jul 2022 13:29:17 +0000
+Received: from mail-pl1-f175.google.com ([209.85.214.175])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oH3WJ-009fDV-Dm
-	for linux-nvme@lists.infradead.org; Thu, 28 Jul 2022 13:25:45 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 14B7A61D26;
-	Thu, 28 Jul 2022 13:25:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C213AC433D6;
-	Thu, 28 Jul 2022 13:25:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1659014741;
-	bh=SIh451UOcr5P1ZCc5zO+DXTL5bn6jrzBhDakMU5uaXk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d4fyPdHKmYH+9jSIi/OFSrp+usiba4BARaXzUEdw/Vg6F51YzPcr+GlXTj4J428uW
-	 Vc5AdT3NPuKTnbs+tcvGw4jKh4x1G/qNx0ZXk4D+R2fFiKD9jV6x58uUZuZw0UgDtp
-	 r9Ne4++h5myKt/d2wpYAhv/ulTKK6MZrgvBF88siYvLycPng7h8vf33oTTUltOd6dT
-	 fXu19t8l4X6Ngn07OLOq1EEL0ZEXlM3YVFhHkGtwo/Zzw6rjyyjWqiRImgEaZDrqxy
-	 mVm1vZYYi+JjZVBGHYvIFKaSFYBNt5p6TObsbNCMRFowbSqK5EOEAJAgI2qlSDAo4v
-	 6OgN3S6YuuVVw==
-Date: Thu, 28 Jul 2022 07:25:38 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Dave Chinner <david@fromorbit.com>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, Keith Busch <kbusch@fb.com>,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	io-uring@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	axboe@kernel.dk, hch@lst.de
-Subject: Re: [PATCH 4/5] io_uring: add support for dma pre-mapping
-Message-ID: <YuKOUh6MJGGFuIm/@kbusch-mbp.dhcp.thefacebook.com>
-References: <20220726173814.2264573-1-kbusch@fb.com>
- <20220726173814.2264573-5-kbusch@fb.com>
- <YuB09cZh7rmd260c@ZenIV>
- <YuFEhQuFtyWcw7rL@kbusch-mbp.dhcp.thefacebook.com>
- <YuFGCO7M29fr3bVB@ZenIV>
- <YuFT+UYxd2QtDPe5@kbusch-mbp.dhcp.thefacebook.com>
- <20220727223232.GV3600936@dread.disaster.area>
- <YuHDeRImQPuuV2Mr@kbusch-mbp.dhcp.thefacebook.com>
- <20220728023511.GX3600936@dread.disaster.area>
+	id 1oH3Zi-009gul-P3
+	for linux-nvme@lists.infradead.org; Thu, 28 Jul 2022 13:29:16 +0000
+Received: by mail-pl1-f175.google.com with SMTP id v18so1796785plo.8
+        for <linux-nvme@lists.infradead.org>; Thu, 28 Jul 2022 06:29:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=KVAZ1OoYcDPkaYDmhjB+rFFypTllysidvXvCw8//pAg=;
+        b=NUfxB53bFwBPznUCJkQeXPID1N7wgrXa/zwoSABYbHKKVq7MSWdKQxTc25H4XwzJe5
+         kxBnQDjosWrd27Who9ZfuQ2U3UTjPeKqnGV/bUc7om1dopQWvPrt65ycarzlL3jur2dH
+         peJIzSrJZNb3CJK4K6y9699feYTKDINhYIlfIG0rGWDfTIxF4DPBtVdEx85mAU5Z2hRk
+         /U7BmBSyyhRdfNubx9rHVlRak5+LJsqmaVZ3YxBl6f5S82pX3TzPv8PFmSovPL2pkZ+W
+         DF43NOMkvTq2oxchOOUhtQYdePEGEcysi65pnEYA2NC6QHSn7CKQwihHLSyB03hk3Np9
+         yNLQ==
+X-Gm-Message-State: AJIora806HgflJntCIlyDMOXIqAHWPHTPmeJm3JiPsq0ooSecZJ5qyOe
+	+qRSlrZgj88C2O1sjDOFknU=
+X-Google-Smtp-Source: AGRyM1sVlJ4VxZdri5AJaXpK+abw9sqfSjFByJuWKJUf33Qsr5XtcruBoEo93wrUA8fG42N8cHOiXg==
+X-Received: by 2002:a17:902:70c4:b0:16c:5306:9172 with SMTP id l4-20020a17090270c400b0016c53069172mr26736583plt.171.1659014952312;
+        Thu, 28 Jul 2022 06:29:12 -0700 (PDT)
+Received: from [192.168.3.217] ([98.51.102.78])
+        by smtp.gmail.com with ESMTPSA id h1-20020aa796c1000000b0052b66304d54sm742466pfq.74.2022.07.28.06.29.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Jul 2022 06:29:11 -0700 (PDT)
+Message-ID: <514f85ce-84fc-1186-7169-a29d7118e8cc@acm.org>
+Date: Thu, 28 Jul 2022 06:29:09 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220728023511.GX3600936@dread.disaster.area>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v8 02/11] block: allow blk-zoned devices to have
+ non-power-of-2 zone size
+Content-Language: en-US
+To: Pankaj Raghav <p.raghav@samsung.com>, damien.lemoal@opensource.wdc.com,
+ hch@lst.de, axboe@kernel.dk, snitzer@kernel.org, Johannes.Thumshirn@wdc.com
+Cc: matias.bjorling@wdc.com, gost.dev@samsung.com,
+ linux-kernel@vger.kernel.org, hare@suse.de, linux-block@vger.kernel.org,
+ pankydev8@gmail.com, jaegeuk@kernel.org, dm-devel@redhat.com,
+ linux-nvme@lists.infradead.org, Luis Chamberlain <mcgrof@kernel.org>
+References: <20220727162245.209794-1-p.raghav@samsung.com>
+ <CGME20220727162248eucas1p2ff8c3c2b021bedcae3960024b4e269e9@eucas1p2.samsung.com>
+ <20220727162245.209794-3-p.raghav@samsung.com>
+ <7984b969-9025-6b31-2645-da08daeefafb@acm.org>
+ <eed7d9ee-fd7f-e57c-598e-909dbb0d2380@samsung.com>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <eed7d9ee-fd7f-e57c-598e-909dbb0d2380@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220728_062543_639260_3EE731EF 
-X-CRM114-Status: GOOD (  28.05  )
+X-CRM114-CacheID: sfid-20220728_062914_854263_977125A5 
+X-CRM114-Status: GOOD (  17.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,70 +88,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 28, 2022 at 12:35:11PM +1000, Dave Chinner wrote:
-> On Wed, Jul 27, 2022 at 05:00:09PM -0600, Keith Busch wrote:
-> > The block_device driver has to opt-in to this feature. If a multi-device block
-> > driver wants to opt-in to this, then it would be responsible to handle
-> > translating that driver's specific cookie to whatever representation the
-> > drivers it stacks atop require. Otherwise, the cookie threaded through the bio
-> > is an opque value: nothing between io_uring and the block_device driver need to
-> > decode it.
+On 7/28/22 05:11, Pankaj Raghav wrote:
+> On 2022-07-28 01:16, Bart Van Assche wrote:
+>> The bdev_is_zone_start() name seems more clear to me than
+>> bdev_is_zone_aligned(). Has there already been a discussion about which
+>> name to use for this function?
+>>
+> The reason I did s/bdev_is_zone_start/bdev_is_zone_aligned is that this
+> name makes more sense for also checking if a given size is a multiple of
+> zone sectors for e.g., used in PATCH 9:
 > 
-> I'm not talking about "multi-device" block devices like we build
-> with DM or MD to present a single stacked block device to the
-> filesystem. I'm talking about the fact that both btrfs and XFS
-> support multiple *independent* block devices in the one filesystem.
+> -		if (len & (zone_sectors - 1)) {
+> +		if (!bdev_is_zone_aligned(bdev, len)) {
 > 
-> i.e.:
+> I felt `bdev_is_zone_aligned` fits the use case of checking if the
+> sector starts at the start of a zone and also check if a given length of
+> sectors also align with the zone sectors. bdev_is_zone_start does not
+> make the intention clear for the latter use case IMO.
 > 
-> # mkfs.xfs -r rtdev=/dev/nvme0n1 -l logdev=/dev/nvme1n1,size=2000m /dev/nvme2n1
-> meta-data=/dev/nvme2n1           isize=512    agcount=4, agsize=22893287 blks
->          =                       sectsz=512   attr=2, projid32bit=1
->          =                       crc=1        finobt=1, sparse=1, rmapbt=0
->          =                       reflink=0    bigtime=1 inobtcount=1 nrext64=0
-> data     =                       bsize=4096   blocks=91573146, imaxpct=25
->          =                       sunit=0      swidth=0 blks
-> naming   =version 2              bsize=4096   ascii-ci=0, ftype=1
-> log      =/dev/nvme1n1           bsize=4096   blocks=512000, version=2
->          =                       sectsz=512   sunit=0 blks, lazy-count=1
-> realtime =/dev/nvme0n1           extsz=4096   blocks=91573146, rtextents=91573146
-> #
-> 
-> This builds an XFS filesystem which can write file data to either
-> /dev/nvme0n1 or /dev/nvme2n1, and journal IO will get sent to a
-> third block dev (/dev/nvme1n1).
-> 
-> So, which block device do we map for the DMA buffers that contain
-> the file data for any given file in that filesystem? There is no
-> guarantee that is is sb->s_bdev, because it only points at one of
-> the two block devices that can contain file data.
-> 
-> Btrfs is similar, but it might stripe data across /dev/nvme0n1,
-> /dev/nvme1n1 and /dev/nvme2n1 for a single file writes (and hence
-> reads) and so needs separate DMA mappings for each block device just
-> to do IO direct to/from one file....
-> 
-> Indeed, for XFS there's no requirement that the block devices have
-> the same capabilities or even storage types - the rtdev could be
-> spinning disks, the logdev an nvme SSD, and the datadev is pmem. If
-> XFs has to do something special, it queries the bdev it needs to
-> operate on (e.g. DAX mappings are only allowed on pmem based
-> devices).
-> 
-> Hence it is invalid to assume that sb->s_bdev points at the actual
-> block device the data for any given regular file is stored on. It is
-> also invalid to assume the characteristics of the device in
-> sb->s_bdev are common for all files in the filesystem.
-> 
-> IOWs, the only way you can make something like this work via
-> filesystem mapping infrastructure to translate file offset to
-> to a {dev, dev_offset} tuple to tell you what persistently mapped
-> device buffers you need to use for IO to the given file {offset,len}
-> range that IO needs to be done on....
+> But I am fine with going back to bdev_is_zone_start if you and Damien
+> feel strongly otherwise.
+The "zone start LBA" terminology occurs in ZBC-1, ZBC-2 and ZNS but 
+"zone aligned" not. I prefer "zone start" because it is clear, 
+unambiguous and because it has the same meaning as in the corresponding 
+standards documents. I propose to proceed as follows for checking 
+whether a number of LBAs is a multiple of the zone length:
+* Either use bdev_is_zone_start() directly.
+* Or introduce a synonym for bdev_is_zone_start() with an appropriate 
+name, e.g. bdev_is_zone_len_multiple().
 
-Thank you for the explanation. I understand now, sorry for my previous
-misunderstanding.
+Thanks,
 
-I may consider just initially supporting direct raw block devices if I can't
-find a viable solution quick enough.
+Bart.
 
