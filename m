@@ -4,61 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0610C00140
-	for <linux-nvme@archiver.kernel.org>; Sun, 31 Jul 2022 07:16:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF672C00140
+	for <linux-nvme@archiver.kernel.org>; Sun, 31 Jul 2022 10:23:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ON9v7abyLsZiE4nt63L0RfYeslElMllMx12QZrvI8oQ=; b=CR9ceFyvBdD64VSxWf0rfEGc0n
-	HJ3IDnzj+1A7jKJfH6kEs7+XLSM/kajsc8OMcpKkVMaOQfUA16Yo6KF78mf3sWpKe420/NdofGssQ
-	rf4zCGQ1hWdNXfarXE1H5DYmX1zGTPW+MFSKgePab/FOdo4L7WMJFNKvaZwWsj4MlPxBQTkf4R1SO
-	MrK9YhOMzXb/g0GKyGbZkNQ1bHWulH43rIxsU3uEeP/qQ/h616XAj1JrfJ7RCJ4MLVKXlLeTn/SYB
-	ndHt7MRt4D6Du0mlzyEMihNlfHVqzLLX5vnfkBOxe/3969hD4+/f4Wt+WEUldnSqDvCgJl7BSZ1eQ
-	NzaGAXsA==;
+	bh=bDJBVdCs0+Lkcsh+eqsSjWB2X6vyVGxKkU/1SIgk/yg=; b=2rds2uqdF8e1mYf6BqaZjn+Uxx
+	KIWTHNadhReezz12JhCETBHBYYSAoDpZDMoRmu5bd69B58lg8OMdV50AgedNnTTaA2KxsUPo8kQFg
+	uK0ZdqALYNeVMX6EUXGjv862n8g+441zBgcGEEZbYd156lUms3EW2FXo8HbSaEJbubl3M73z9Wyhy
+	/hyVEL13NcWTPTJ/mhCt5ShNgAYtV2P3VxSUDEP7IxqPcQ+Kp9aK3q9icOquFJKAS4KiGT2UDYOq2
+	84OUCqGiV///7jvUTSA8g5bzugSU9j0QtirELAdbbZv4Brjens5EWN7slMYRmo16ta1LKA47RrOk4
+	uXdPuZIQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oI3BV-009Jpn-VI; Sun, 31 Jul 2022 07:16:21 +0000
-Received: from marcansoft.com ([212.63.210.85] helo=mail.marcansoft.com)
+	id 1oI66q-00B0Mg-Bn; Sun, 31 Jul 2022 10:23:44 +0000
+Received: from mail-wm1-f54.google.com ([209.85.128.54])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oI3BB-009Jfo-BO; Sun, 31 Jul 2022 07:16:02 +0000
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 09A6842597;
-	Sun, 31 Jul 2022 07:15:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1659251758; bh=C0N60javoyzer1itq5XZGdVF+06j+iDnfMMvzGBw7u0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=XnYQjU+OUOW0EYlQR70emvx95JhwGB6+kw8NFpGiAXT6uu5Mexnr625DUkDL6RuuS
-	 UEozeHSSHLJzJDSlcGiObIcZmJO+67IkJO3pwR9TBR197DsFVHCOGivwonCLdZbLns
-	 zJ66zbPzQQdwL9ztxdAVadPJqiSJZnF92/jUKOVglopwKPIKLZmAMY0MTKm6HXptrR
-	 TxEc33oR9jkHrKpK4PWUFjmfgvBv3B6CZoYfaiDnvh2T3bK6HeaUFYfBLQKFQQeBwe
-	 dECx7CzzqVzkOF17Elp75HtFd2Dy3whBTkx3i1uTnssKPVNBhiOUKoNyWRYpV5awHQ
-	 UstBCXMHl6CVQ==
-Message-ID: <f959307b-6d75-263b-4a91-e152d14f4399@marcan.st>
-Date: Sun, 31 Jul 2022 16:15:55 +0900
+	id 1oI66o-00B0Jv-0h
+	for linux-nvme@lists.infradead.org; Sun, 31 Jul 2022 10:23:43 +0000
+Received: by mail-wm1-f54.google.com with SMTP id u14-20020a05600c00ce00b003a323062569so4323592wmm.4
+        for <linux-nvme@lists.infradead.org>; Sun, 31 Jul 2022 03:23:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=bDJBVdCs0+Lkcsh+eqsSjWB2X6vyVGxKkU/1SIgk/yg=;
+        b=lYD6elHLz/gWj4DltCjHCs9Gz4mDBlBK5SR0YybSrCnyjF0Uy/HHMdUseNx+PA4Byl
+         +7fMvCwoMlkO+y0ok89XR3PE5OO14j2Rb5EzTKFunFjOOEugxQ+kzbky+HMhvj/YszCz
+         zNPHeJcp21qZUZRrTXXHi1Iw9jN6Z19VXuAMts4lo+pwIMMjInYqlTfikjPHngo29YBv
+         7eBKlTFZjOBJh/E5WeFk1F9Cq3UhsL7xAcGBILwjXkijrrG3monbcD28LiTNTz2WujGe
+         pRLmQn1aQXT2/IQCfEg/mY/r95XCP1LZTNrsY7i4LRLXrsLxsG6rqAlRrxfIxo2YMTSZ
+         p5RA==
+X-Gm-Message-State: AJIora/LBtzrqNnA+kUMRpEUbLwkrJfM43oxTwQOHiEXVmMSZ/WhA6qH
+	8Dc1W3/uo5eMwYOG7P1LJ3U=
+X-Google-Smtp-Source: AGRyM1smIWdFLBeC22+ja52UBqgctV3T6np7Y5H2dchVlIkebia3ASdi3vEAq+v6Wzp4qk2wnC2/Jg==
+X-Received: by 2002:a05:600c:5128:b0:3a3:2160:7a7b with SMTP id o40-20020a05600c512800b003a321607a7bmr8099305wms.204.1659263019052;
+        Sun, 31 Jul 2022 03:23:39 -0700 (PDT)
+Received: from [10.100.102.14] (46-117-125-14.bb.netvision.net.il. [46.117.125.14])
+        by smtp.gmail.com with ESMTPSA id n2-20020a5d51c2000000b0021badf3cb26sm10032484wrv.63.2022.07.31.03.23.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 31 Jul 2022 03:23:38 -0700 (PDT)
+Message-ID: <fc7a303f-0921-f784-a559-f03511f2e4be@grimberg.me>
+Date: Sun, 31 Jul 2022 13:23:36 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] nvme-apple: stop casting function pointer signatures
-Content-Language: es-ES
-To: Christoph Hellwig <hch@lst.de>, sven@svenpeter.dev
-Cc: alyssa@rosenzweig.io, linux-nvme@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
-References: <20220718050500.227804-1-hch@lst.de>
-From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <20220718050500.227804-1-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 0/3] improve nvme quiesce time for large amount of
+ namespaces
+Content-Language: en-US
+To: Chao Leng <lengchao@huawei.com>, Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ kbusch@kernel.org, axboe@kernel.dk
+References: <20220729073948.32696-1-lengchao@huawei.com>
+ <20220729142605.GA395@lst.de>
+ <1b3d753a-6ff5-bdf1-8c91-4b4760ea1736@huawei.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <1b3d753a-6ff5-bdf1-8c91-4b4760ea1736@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220731_001601_568141_DB5FDD14 
-X-CRM114-Status: UNSURE (   7.60  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220731_032342_078735_424520A6 
+X-CRM114-Status: GOOD (  12.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,17 +83,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 18/07/2022 14.05, Christoph Hellwig wrote:
-> Casting function pointers breaks control flow enforcement and is
-> generally a horrible coding style.
-> 
-> Add two wrapper to get rid of these casts.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Reviewed-by: Hector Martin <marcan@marcan.st>
+>> Why can't we have a per-tagset quiesce flag and just wait for the
+>> one?  That also really nicely supports the problem with changes in
+>> the namespace list during that time.
+> Because If quiesce queues based on tagset, it is difficult to
+> distinguish non-IO queues. The I/O queues process is different
+> from other queues such as fabrics_q, admin_q, etc, which may cause
+> confusion in the code logic.
 
-Yeah, casting function pointers is evil.
+It is primarily the connect_q where we issue io queue connect...
+We should not quiesce the connect_q in nvme_stop_queues() as that
+relates to only namespaces queues.
 
-- Hector
+In the last attempt to do a tagset flag, we ended up having to do
+something like:
+--
+void nvme_stop_queues(struct nvme_ctrl *ctrl)
+{
+	blk_mq_quiesce_tagset(ctrl->tagset);
+	if (ctrl->connect_q)
+		blk_mq_unquiesce_queue(ctrl->connect_q);
+}
+EXPORT_SYMBOL_GPL(nvme_stop_queues);
+--
+
+But maybe we can avoid that, and because we allocate
+the connect_q ourselves, and fully know that it should
+not be apart of the tagset quiesce, perhaps we can introduce
+a new interface like:
+--
+static inline int nvme_ctrl_init_connect_q(struct nvme_ctrl *ctrl)
+{
+	ctrl->connect_q = blk_mq_init_queue_self_quiesce(ctrl->tagset);
+	if (IS_ERR(ctrl->connect_q))
+		return PTR_ERR(ctrl->connect_q);
+	return 0;
+}
+--
+
+And then blk_mq_quiesce_tagset can simply look into a per request-queue
+self_quiesce flag and skip as needed.
 
