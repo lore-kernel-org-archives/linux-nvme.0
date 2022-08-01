@@ -4,76 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A233DC00144
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Aug 2022 18:20:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47733C00144
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Aug 2022 18:24:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LWFc53dfp5h/b6bNyb2pxE66S6PtnhMkOByF8PUpAeI=; b=LEhmDskHfMv5UvX1oqAR3nlz4L
-	/EQUaIq2gdPaN/4qElF2iWdCweLocWoaGYBwKG9SxPxozQRJvOEFUNs7TNQOmnXLmAhDqycd46AAe
-	jRzCeIKAZtw8/xuP8I8+jDzqtpzHW95b3EVRu65GC4P9tjHrp+kX8GVp/ZgBUt8YF8xYFr2yrzf81
-	DV8uBt6I4bf8elVeNJj6kTxiuc17U8i2rUVjULRaIQ7ZPKPb8c7QUQ5OHdSCNp0qQ87rrwzBP10Uw
-	uk3d91APVY21UXmYHE1uNjc0TvJ3i4B8Sau9mSs9tb9sXUllb4ofLLG7kUN2yeIYE5h0FMoRq8z84
-	Yg6FwSeg==;
+	bh=W8rN2mblzq1ASEvlL21ayeCCG+Js+B4ZmZmZrGJYJsI=; b=FCHcAHl1nJiOg0s49WdR8SI58U
+	P4CJLsQxNSeseSVjL94CzUTTAHgPl46bDUzQycG/LrfWCsKubpsB16Yz3S30Sgg+Q9reD5TNnJEHE
+	WBYtTpUHaL2IrUrP2iEFC+zbYdMFxxINmrPddcAMWM0wJRNF6puynScK7UOax1AmIlMJEZjk0Oy5d
+	6t646aPEyaxkru3j/G5B+YgbCEroQXmP8jDQZzimy0LQkiVMBgZcrtFQJj7TDwarNGwW+wXgby6S7
+	5tjKT4YTWyEsYE2iEGiecJoIMrmFjWeFtOyXXLXQ8qI5i7W2SW4OOfIM5TQOBv3thsAbOAosefc4E
+	/1WjlJxw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oIa1G-008pHs-Mz; Mon, 01 Aug 2022 18:19:58 +0000
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
+	id 1oIa5d-008tt3-E7; Mon, 01 Aug 2022 18:24:29 +0000
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oIa1B-008p1r-45
-	for linux-nvme@lists.infradead.org; Mon, 01 Aug 2022 18:19:54 +0000
-Received: by mail-pf1-x42e.google.com with SMTP id u133so4702678pfc.10
-        for <linux-nvme@lists.infradead.org>; Mon, 01 Aug 2022 11:19:47 -0700 (PDT)
+	id 1oIa5Y-008tm4-JT
+	for linux-nvme@lists.infradead.org; Mon, 01 Aug 2022 18:24:27 +0000
+Received: by mail-pl1-x633.google.com with SMTP id d16so3126905pll.11
+        for <linux-nvme@lists.infradead.org>; Mon, 01 Aug 2022 11:24:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=LWFc53dfp5h/b6bNyb2pxE66S6PtnhMkOByF8PUpAeI=;
-        b=i196U5cWd2PQ9N4Na/CHEAg46nppJAydeyKRBJUU60n/gPMAz3uHrHu9ai1ZvWcQsd
-         tY5YF+qdj+WjJZY2jVeNBGe3tqAfmj9Y/QqV77V25kmsKh0TslXFV5uNgVY2jrhiF3HY
-         iNRwUSHoeRpCnt13HnfdRDuoeE6FF1pBkF0tMOd+f5fecWn17ipzgWWjKl2DUVzYwI11
-         cq+cV1vJdnnVu2lGkknYyFzUjmIYVRyTiH7yRIu+dIMUeieIIX7rjfhtwidRS6DF4gA5
-         yI4tWDc/8DlF3PFp87W3Rx8cLhCUxs1nv6LQq/RReB5k81sCqGlKk/W6qEWAI1Aes+KN
-         bGqg==
+        bh=W8rN2mblzq1ASEvlL21ayeCCG+Js+B4ZmZmZrGJYJsI=;
+        b=YA/c+ee9rJLOLvJiAt3iPm4a0PRLq+uilww6kiFaW/3IjrUV10QGDsiaLlp2wPfTR2
+         CqDZmy7KBGmKvvZ8OB0Co344XLGCr+FT2H/2wPDAqioa7Kc73JW90+Zju45c0XOch/yD
+         hpFMEOVQ0gvvu3eWdz+lOoB2HA4hroW+jxBPfeiSWI5LuU1XffxmglZ1jYexXxPJ2sqU
+         LhYwiQpHA07jeoEvSWho+voqiHSTretlN3555K+EtaoauceitOFL+b+wryfj65WCoyWC
+         cMDVNmDarYZKCsTIULtVQJSijNzmzsjQvpDHQsMK6Y5/VUBUk6pyebbn+8myMuUH82Mz
+         ZQ9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=LWFc53dfp5h/b6bNyb2pxE66S6PtnhMkOByF8PUpAeI=;
-        b=7Qu+w7TLcmeFJ/PdeSJBgRpVxUqu65RKtTXQsGeXXCSbC0pz/mu9bHLtrUWC/Hc9tQ
-         YM7rFP7Xh2DprR3uKU2uX1nMN++unwPZ1tIjKEGkq2v3vmXu5IKBewFPx+F1Q/k/4QbX
-         GB2LpSh9dXtGEQ2HaocvbA2d+LtLPWBfOdS7gm30TFhUz7EDru2Qg1zg9mfgbmGFHSOC
-         rQ6idJg6mGRHDZxhANDZVsLDTajy7x5XUR4SBPKaSrwBaIQpJkt5rHWQtU8XFZZoND0U
-         76TU+XMYDA8eEuE0cOqgy0SRXPhz+h5fZdagMOUlWDJfrXmB09WkwJNimGuhWGcN75fA
-         qSWw==
-X-Gm-Message-State: AJIora8YhKTeHkCcrG5tnBmEc9cLS71NmPjZe7axWqQN83SQpcl2zBme
-	T+sVjyo+Sziqg4ti8Sr1cikZ29y9Xm4zzw==
-X-Google-Smtp-Source: AGRyM1t4DXdjUTx48DPhDWOvLU5j3wj7P62t42f2cXH1AUi6+ZuCJDNl661QjWsqFye1GdmT9GIwCg==
-X-Received: by 2002:a05:6a00:10d3:b0:4fe:5d:75c8 with SMTP id d19-20020a056a0010d300b004fe005d75c8mr17858440pfu.6.1659377986810;
-        Mon, 01 Aug 2022 11:19:46 -0700 (PDT)
+        bh=W8rN2mblzq1ASEvlL21ayeCCG+Js+B4ZmZmZrGJYJsI=;
+        b=7putssAEtZ/+ULQg/mhkTTJ6RuZVBO0z0TKUNk18c+Wl0G8UtkBq/Edh8IxEPaTjHa
+         9Csw41liV/Db507EeSkdj0vIbsiZ4oqdrBlPPn3Y5d25B7iAkC1D9LhYY1InozcNfvXE
+         AvEIT8QLDJcxxb6mHpObUw3HlE5KpgmywOFI4LHATBu73bTdR/4cksFWOG+x+yibjREj
+         UTrLy2hiICZXbbkD18+0kmCL5O6ZNEO/IMApmLRfSguLgU2XXLpY99kkFWC2KAwXEjdY
+         B7ftXrVCGF6ipYN6hf7LBL0K30b+osmnw1OlmnVcrg3NOt8A6sKdb0hbfsnrVVAAk/nq
+         CoRA==
+X-Gm-Message-State: ACgBeo1OumBV0mERgbD5whTDYoENXgvXFfMsWolCb58T7/8WMU7Mu5hV
+	/9Fu7TGv7rz0GJdFZeSEzrCXgw==
+X-Google-Smtp-Source: AA6agR7oQ+MahiBHH1gDEgJkPVRLBTheZdi1HG724XZGw5AL1HQkiqlEFM2H0krA+YtQLw+1JwE2Ww==
+X-Received: by 2002:a17:90b:4f8d:b0:1f5:835:1b19 with SMTP id qe13-20020a17090b4f8d00b001f508351b19mr5035973pjb.63.1659378261711;
+        Mon, 01 Aug 2022 11:24:21 -0700 (PDT)
 Received: from google.com ([2620:15c:211:202:8c46:3487:778c:aadb])
-        by smtp.gmail.com with ESMTPSA id cp17-20020a17090afb9100b001ef9659d711sm9152277pjb.48.2022.08.01.11.19.45
+        by smtp.gmail.com with ESMTPSA id z21-20020a630a55000000b00419ab8f8d2csm7729868pgk.20.2022.08.01.11.24.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Aug 2022 11:19:46 -0700 (PDT)
-Date: Mon, 1 Aug 2022 11:19:39 -0700
+        Mon, 01 Aug 2022 11:24:21 -0700 (PDT)
+Date: Mon, 1 Aug 2022 11:24:14 -0700
 From: Justin Stitt <justinstitt@google.com>
 To: Christoph Hellwig <hch@lst.de>
 Cc: linux-nvme@lists.infradead.org, linux@roeck-us.net, hare@suse.de,
 	sagi@grimberg.me
 Subject: Re: [PATCH] nvmet: fix a format specifier in
  nvmet_auth_ctrl_exponential
-Message-ID: <YugWEHx+Myhtfv7v@google.com>
+Message-ID: <YugaTrnLCRD9NIhk@google.com>
 References: <20220718050356.227647-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20220718050356.227647-1-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220801_111953_299294_8586BC30 
-X-CRM114-Status: GOOD (  20.58  )
+X-CRM114-CacheID: sfid-20220801_112426_091349_CEEDF926 
+X-CRM114-Status: GOOD (  19.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,11 +115,6 @@ On Mon, Jul 18, 2022 at 07:03:56AM +0200, Christoph Hellwig wrote:
 > 
 > 
 > 
-This patch runs parallel to our efforts to re-enable -Wformat.
-See here: https://lore.kernel.org/all/20220720232332.2720091-1-justinstitt@google.com/
-
-Hopefully this patch gets picked up by a maintainer so that Masahiro can
-stage a clean PR re-enabling the -Wformat warning.
-
-Reviewed-by: Justin Stitt <justinstitt@google.com>
+Disregard my previous reply as this has already been picked up:
+https://lore.kernel.org/all/YuFhR9OoPvM9VsdT@infradead.org/
 
