@@ -4,49 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06A5CC00140
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Aug 2022 13:34:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A99FC00140
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Aug 2022 13:38:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7Q29rYz1LCtX7AYN8zfVxoDdH+Ca+UtYQdSVNjHbXKI=; b=JwYiF6pwHZlbuGxOO6U4KjCYu2
-	NjI89MNzPKYQAwKDcboQzSdJSTZWCfCc8KOB7E1k2BZMAR0D6Co7w61uFruLXG/fYOSCrGZNeJGyY
-	SioMMSlJFpVmjTUnAr1di9CoPxRbh47b8SuxB79kr3hRA2/xmAThplzSFpwFpbJmVtTEOvLoSfs0O
-	sNthisCZlBLiQKkwBRYmH25b0zWT4lKYKX0OmzUa7JjBbtKOVa/00SDCBUlCbp0CnvMUgLN0CIxI/
-	MaKVUn4PVvjibs5ECJi6stz2Zg+Cy1cJ7SK0g5E6Bj3nP+YZXdurLxz8bvJSg/v1BDkEQug1aSk6i
-	zLd9w44A==;
+	bh=ZYabjQ2Kp1Vp92lS+kqLez96XRrl6TthLjQ2vLU9+JA=; b=YZBiEaGweqyuU8UCT0N5h6zIyX
+	wRSpq8NWsPtFaZkTI3q6jdF7KVFzYsj3gyAESsl6ELYYkG6k2HDByiHBzU0UY0V5JU/rg1Vi8fGYf
+	eMCPg+7ObDXsd2P9MwXH4fagStqhNWf4DrU70UTVEzqM+1OoXjTFSp7dQzWmfYLMi7YzVK3n/KAc/
+	gIkU7C2zzsuqWNnax8YW78VgQpxhZ9a9LolZVVqTlcmhYZUW07feJv3DUcWYD6Xn1KZOA8zRU+VYx
+	hW9j83/5CftNosCdB+3515P3elmxojhyHTecAti39n1/D2nCaiZOw9MO/vz5GqcUsQeQ/+2F/sWpk
+	96o7Du2A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oIs2Y-00EUZa-KE; Tue, 02 Aug 2022 13:34:30 +0000
+	id 1oIs6J-00EXAc-Fa; Tue, 02 Aug 2022 13:38:23 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oIs2V-00EUVJ-At
-	for linux-nvme@lists.infradead.org; Tue, 02 Aug 2022 13:34:29 +0000
+	id 1oIs6F-00EX7S-K4
+	for linux-nvme@lists.infradead.org; Tue, 02 Aug 2022 13:38:20 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3D75E68AA6; Tue,  2 Aug 2022 15:34:20 +0200 (CEST)
-Date: Tue, 2 Aug 2022 15:34:20 +0200
+	id 0129E68AA6; Tue,  2 Aug 2022 15:38:16 +0200 (CEST)
+Date: Tue, 2 Aug 2022 15:38:15 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	James Smart <james.smart@broadcom.com>,
-	"Ewan D . Milne" <emilne@redhat.com>
-Subject: Re: [PATCH] nvme-fc: restart admin queue if the caller needs to
- restart queue
-Message-ID: <20220802133420.GA337@lst.de>
-References: <20220721003358.543509-1-ming.lei@redhat.com> <20220728160637.GA19898@lst.de> <YuiGJdz/p8Csyk37@T590>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Chao Leng <lengchao@huawei.com>, Christoph Hellwig <hch@lst.de>,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	kbusch@kernel.org, axboe@kernel.dk
+Subject: Re: [PATCH 0/3] improve nvme quiesce time for large amount of
+ namespaces
+Message-ID: <20220802133815.GA380@lst.de>
+References: <20220729073948.32696-1-lengchao@huawei.com> <20220729142605.GA395@lst.de> <1b3d753a-6ff5-bdf1-8c91-4b4760ea1736@huawei.com> <fc7a303f-0921-f784-a559-f03511f2e4be@grimberg.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YuiGJdz/p8Csyk37@T590>
+In-Reply-To: <fc7a303f-0921-f784-a559-f03511f2e4be@grimberg.me>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220802_063427_548020_95AD3FB8 
-X-CRM114-Status: GOOD (  15.71  )
+X-CRM114-CacheID: sfid-20220802_063819_834915_876A87E8 
+X-CRM114-Status: GOOD (  17.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,15 +59,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 02, 2022 at 10:04:21AM +0800, Ming Lei wrote:
-> On Thu, Jul 28, 2022 at 06:06:37PM +0200, Christoph Hellwig wrote:
-> > Thanks,
-> > 
-> > applied to nvme-5.20.
-> 
-> Hi Christoph,
-> 
-> Looks not find the patch in your nvme-5.20 tree, :-(
+On Sun, Jul 31, 2022 at 01:23:36PM +0300, Sagi Grimberg wrote:
+> But maybe we can avoid that, and because we allocate
+> the connect_q ourselves, and fully know that it should
+> not be apart of the tagset quiesce, perhaps we can introduce
+> a new interface like:
+> --
+> static inline int nvme_ctrl_init_connect_q(struct nvme_ctrl *ctrl)
+> {
+> 	ctrl->connect_q = blk_mq_init_queue_self_quiesce(ctrl->tagset);
+> 	if (IS_ERR(ctrl->connect_q))
+> 		return PTR_ERR(ctrl->connect_q);
+> 	return 0;
+> }
+> --
+>
+> And then blk_mq_quiesce_tagset can simply look into a per request-queue
+> self_quiesce flag and skip as needed.
 
-I've pushed it out now.
+I'd just make that a queue flag set after allocation to keep the
+interface simple, but otherwise this seems like the right thing
+to do.
 
