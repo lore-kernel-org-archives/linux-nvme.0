@@ -4,70 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DAF6EC00140
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Aug 2022 19:38:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3400C00140
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Aug 2022 21:35:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/tSE1EYj8ZALKJUlPJ9Sl1+4DKODfpI5WLuyZxKEnJs=; b=hkU4NOA/qgA1iiYAZI3HL7X3OI
-	63zC11UOYGZ3pDDUHBqLfQb77DhbqI8ZL1W7k4gBM5IL6k0yTKmRoRryvAt/Zub/kTpSrS6u7VEUC
-	ZhKT/rTAcSbZFQ2Va6yZGps/t3lpNMDjEXI6XiKvDtuYNsNsl6Bs/Vpnx1oe1LAmuWAjBtmuTHxST
-	DsNnNoQ8mMHWrXlfOj4JV39LB65lUcoLNMIa9xQoHMA745lz45yGECCoXHfnrK+ZtT1Q3WsFtsrmh
-	bl8SfXME2PvqT6OAB+WMhuaeF5Z9x49724+T2VBhI0GljrM5++rmC0bSdUCbWWs030H8R3/xDWLny
-	YsA50ngw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=xuXlSgKloFbAxmR39krAognGMO4wnbqhe3vTtXEVmgw=; b=NfnFvqik2Q1wJA
+	dU4kIyvanOTavXlBEvt9CAPWo7ne5xnexPRQ0+zacyMbNi/Slc9n5k3v2oBUADSAKpl+L31PuJ1EI
+	INyVU1udOtBcLTGi9DOagkBR3oJokhoE+z7/9VyWmgPCMOn5UYDNxI/zhsGq0ZXquDB+NRMZopfW8
+	EQtjDXduySulitoyWUn43IEfswTE2t3neqp4T8CDC0nvZJD2qIOcOXuQL9uZYXp7iqYJtS4Iarli6
+	P2VxzkoGKk+9W+bHrz7QPS7tl/1NgpW8ts08oPx5B4UT1Bl6q3GEp4JKENrTRCrolH+mFNW0zT+IT
+	oZW6Oji1b8n5jOkMRxmw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oIxif-00GxWM-QI; Tue, 02 Aug 2022 19:38:22 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1oIzXs-00020I-8f; Tue, 02 Aug 2022 21:35:20 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oIxhN-00Gwob-Ij
-	for linux-nvme@lists.infradead.org; Tue, 02 Aug 2022 19:37:03 +0000
-Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 272I2T9E021416
-	for <linux-nvme@lists.infradead.org>; Tue, 2 Aug 2022 12:37:01 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=facebook;
- bh=/tSE1EYj8ZALKJUlPJ9Sl1+4DKODfpI5WLuyZxKEnJs=;
- b=DS4LuGlSrgwYWriHxeGvQ1bKF7EfV2PfpZ2/xnnGwUr1bMDYiVGPZNI1HNPSvDjdz6vF
- V16OCfUWScoZeQbgF4FcEmf7LLCJ2QXKNvjf+3TSaeJezaJlIVVhvpr1O7I1aV1wyVKl
- YwyHpjIwZb8VL/OTz7ELO/7LaMWpVHhWfb8= 
-Received: from mail.thefacebook.com ([163.114.132.120])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3hq477k7b6-3
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 02 Aug 2022 12:37:01 -0700
-Received: from twshared7556.02.ash8.facebook.com (2620:10d:c085:208::f) by
- mail.thefacebook.com (2620:10d:c085:21d::4) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Tue, 2 Aug 2022 12:36:59 -0700
-Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id 18D406E59F08; Tue,  2 Aug 2022 12:36:38 -0700 (PDT)
-From: Keith Busch <kbusch@fb.com>
-To: <linux-nvme@lists.infradead.org>, <linux-block@vger.kernel.org>,
-        <io-uring@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-CC: <axboe@kernel.dk>, <hch@lst.de>, Alexander Viro <viro@zeniv.linux.org.uk>,
-        Kernel Team <Kernel-team@fb.com>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv2 7/7] nvme-pci: implement dma_map support
-Date: Tue, 2 Aug 2022 12:36:33 -0700
-Message-ID: <20220802193633.289796-8-kbusch@fb.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220802193633.289796-1-kbusch@fb.com>
-References: <20220802193633.289796-1-kbusch@fb.com>
+	id 1oIzXo-0001xk-Ds
+	for linux-nvme@lists.infradead.org; Tue, 02 Aug 2022 21:35:18 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 71FCDB820D7;
+	Tue,  2 Aug 2022 21:35:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03521C433D6;
+	Tue,  2 Aug 2022 21:35:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1659476113;
+	bh=sDdUdwBWvplP7SH3rsAyBZtLq4594pOoiv4EVIrlAgQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=Dxr/rmm1wWZkd7LyxAdwLJ5Xz0ToNGAJU5kTpZX6bTdjDKDCsdqOcAvtpmcXZ1JeD
+	 Avkt6i8d4HbyJorqFqpWLCLiTicbwk3DXBCF+4TYwhXkF+G1xt9b6wkFAhWu8UdvQl
+	 itWH9BQ5Lt4SxFSg+JCjDq0T93AD79ELcoWl6RhhNTDX2hD51P8H53ab9xTByfH/Vh
+	 6Lw3fwlbAW1C95yWOgj9XMe9dEFLV6+aEfOGzhiW7TwFQp6tZMkr3FqzItyY2EfDKA
+	 LL8Ko+0YwJYn73/AN16s4C5sCt2aK7kel4FQ4LblWWD5a3AR0SVrYmHoQoj8nAgZVZ
+	 s/3enJP+sGhKg==
+Date: Tue, 2 Aug 2022 16:35:11 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Tanjore Suresh <tansuresh@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-nvme <linux-nvme@lists.infradead.org>,
+	Linux PCI <linux-pci@vger.kernel.org>
+Subject: Re: [PATCH v3 1/3] driver core: Support asynchronous driver shutdown
+Message-ID: <20220802213511.GA738995@bhelgaas>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: VL-HiBFDKg2AGsD_0QtNsIICO0UJZ-3w
-X-Proofpoint-ORIG-GUID: VL-HiBFDKg2AGsD_0QtNsIICO0UJZ-3w
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-02_14,2022-08-02_01,2022-06-22_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220518175002.GA1148748@bhelgaas>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220802_123701_724947_18934214 
-X-CRM114-Status: GOOD (  24.83  )
+X-CRM114-CacheID: sfid-20220802_143517_089140_6A6B4A56 
+X-CRM114-Status: GOOD (  23.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,404 +75,124 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+[Beginning of thread: https://lore.kernel.org/r/20220517220816.1635044-2-tansuresh@google.com]
+On Wed, May 18, 2022 at 12:50:02PM -0500, Bjorn Helgaas wrote:
 
-Implement callbacks to convert a registered bio_vec to a prp list, and
-use this for each IO that uses the returned tag. This saves repeated IO
-conversions and dma mapping/unmapping. In many cases, the driver can
-skip per-IO pool allocations entirely, saving potentially signficant CPU
-cycles.
+> Devices have this async_suspend bit:
+> 
+>   struct device {
+>     struct dev_pm_info {
+>       unsigned int async_suspend:1;
+> 
+> Drivers call device_enable_async_suspend() to set async_suspend if
+> they want it.  The system suspend path is something like this:
+> 
+>   suspend_enter
+>     dpm_suspend_noirq(PMSG_SUSPEND)
+>       dpm_noirq_suspend_devices(PMSG_SUSPEND)
+>         pm_transition = PMSG_SUSPEND
+>         while (!list_empty(&dpm_late_early_list))
+>           device_suspend_noirq(dev)
+>             dpm_async_fn(dev, async_suspend_noirq)
+>               if (is_async(dev))
+>                 async_schedule_dev(async_suspend_noirq)       # async path
+> 
+>                   async_suspend_noirq               # called asynchronously
+>                   __device_suspend_noirq(dev, PMSG_SUSPEND, true)
+>                     callback = pm_noirq_op(PMSG_SUSPEND) # .suspend_noirq()
+>                     dpm_run_callback(callback)      # async call
+> 
+>             __device_suspend_noirq(dev, pm_transition, false) # sync path
+>               callback = pm_noirq_op(PMSG_SUSPEND)  # .suspend_noirq()
+>               dpm_run_callback(callback)            # sync call
+> 
+>         async_synchronize_full                                # wait
+> 
+> If a driver has called device_enable_async_suspend(), we'll use the
+> async_schedule_dev() path to schedule the appropriate .suspend_noirq()
+> method.  After scheduling it via the async path or directly calling it
+> via the sync path, the async_synchronize_full() waits for completion
+> of all the async methods.
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/pci.c | 302 ++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 292 insertions(+), 10 deletions(-)
+Correct me if I'm wrong: in the suspend scenario, there are several
+phases, and async_synchronize_full() ensures that one phase finishes
+before the next phase starts.  For example:
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 644664098ae7..2df2b9bde7d7 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -110,6 +110,14 @@ struct nvme_queue;
- static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown);
- static bool __nvme_disable_io_queues(struct nvme_dev *dev, u8 opcode);
-=20
-+struct nvme_dma_mapping {
-+	int nr_pages;
-+	u16 offset;
-+	u8  rsvd[2];
-+	dma_addr_t prp_dma_addr;
-+	__le64 *prps;
-+};
-+
- /*
-  * Represents an NVM Express device.  Each nvme_dev is a PCI function.
-  */
-@@ -544,6 +552,34 @@ static inline bool nvme_pci_use_sgls(struct nvme_dev=
- *dev, struct request *req)
- 	return true;
- }
-=20
-+static void nvme_sync_dma(struct nvme_dev *dev, struct request *req,
-+			  struct nvme_dma_mapping *mapping)
-+{
-+	int offset, i, j, length, nprps;
-+	bool needs_sync;
-+
-+	offset =3D blk_rq_dma_offset(req) + mapping->offset;
-+	i =3D offset >> NVME_CTRL_PAGE_SHIFT;
-+	needs_sync =3D rq_data_dir(req) =3D=3D READ &&
-+		 dma_need_sync(dev->dev, le64_to_cpu(mapping->prps[i]));
-+
-+	if (!needs_sync)
-+		return;
-+
-+	offset =3D offset & (NVME_CTRL_PAGE_SIZE - 1);
-+	length =3D blk_rq_payload_bytes(req) - (NVME_CTRL_PAGE_SIZE - offset);
-+	nprps =3D DIV_ROUND_UP(length, NVME_CTRL_PAGE_SIZE);
-+
-+	dma_sync_single_for_cpu(dev->dev,
-+		le64_to_cpu(mapping->prps[i++]),
-+		NVME_CTRL_PAGE_SIZE - offset, DMA_FROM_DEVICE);
-+	for (j =3D 1; j < nprps; j++) {
-+		dma_sync_single_for_cpu(dev->dev,
-+			le64_to_cpu(mapping->prps[i++]),
-+			NVME_CTRL_PAGE_SIZE, DMA_FROM_DEVICE);
-+	}
-+}
-+
- static void nvme_free_prps(struct nvme_dev *dev, struct request *req)
- {
- 	const int last_prp =3D NVME_CTRL_PAGE_SIZE / sizeof(__le64) - 1;
-@@ -576,10 +612,24 @@ static void nvme_free_sgls(struct nvme_dev *dev, st=
-ruct request *req)
- 	}
- }
-=20
-+static void nvme_free_prp_chain(struct nvme_dev *dev, struct request *re=
-q,
-+				struct nvme_iod *iod)
-+{
-+	if (iod->npages =3D=3D 0)
-+		dma_pool_free(dev->prp_small_pool, nvme_pci_iod_list(req)[0],
-+			      iod->first_dma);
-+	else if (iod->use_sgl)
-+		nvme_free_sgls(dev, req);
-+	else
-+		nvme_free_prps(dev, req);
-+	mempool_free(iod->sg, dev->iod_mempool);
-+}
-+
- static void nvme_unmap_sg(struct nvme_dev *dev, struct request *req)
- {
- 	struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
-=20
-+	WARN_ON_ONCE(!iod->nents);
- 	if (is_pci_p2pdma_page(sg_page(iod->sg)))
- 		pci_p2pdma_unmap_sg(dev->dev, iod->sg, iod->nents,
- 				    rq_dma_dir(req));
-@@ -589,25 +639,24 @@ static void nvme_unmap_sg(struct nvme_dev *dev, str=
-uct request *req)
-=20
- static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
- {
-+	struct nvme_dma_mapping *mapping =3D blk_rq_dma_tag(req);
- 	struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
-=20
-+	if (mapping) {
-+		nvme_sync_dma(dev, req, mapping);
-+		if (iod->npages >=3D 0)
-+			nvme_free_prp_chain(dev, req, iod);
-+		return;
-+	}
-+
- 	if (iod->dma_len) {
- 		dma_unmap_page(dev->dev, iod->first_dma, iod->dma_len,
- 			       rq_dma_dir(req));
- 		return;
- 	}
-=20
--	WARN_ON_ONCE(!iod->nents);
--
- 	nvme_unmap_sg(dev, req);
--	if (iod->npages =3D=3D 0)
--		dma_pool_free(dev->prp_small_pool, nvme_pci_iod_list(req)[0],
--			      iod->first_dma);
--	else if (iod->use_sgl)
--		nvme_free_sgls(dev, req);
--	else
--		nvme_free_prps(dev, req);
--	mempool_free(iod->sg, dev->iod_mempool);
-+	nvme_free_prp_chain(dev, req, iod);
- }
-=20
- static void nvme_print_sgl(struct scatterlist *sgl, int nents)
-@@ -835,13 +884,136 @@ static blk_status_t nvme_setup_sgl_simple(struct n=
-vme_dev *dev,
- 	return BLK_STS_OK;
- }
-=20
-+static blk_status_t nvme_premapped(struct nvme_dev *dev, struct request =
-*req,
-+				   struct nvme_rw_command *cmnd,
-+				   struct nvme_iod *iod,
-+				   struct nvme_dma_mapping *mapping)
-+{
-+	static const int last_prp =3D NVME_CTRL_PAGE_SIZE / sizeof(__le64) - 1;
-+	dma_addr_t prp_list_start, prp_list_end, prp_dma;
-+	int i, offset, j, length, nprps, nprps_left;
-+	struct dma_pool *pool;
-+	__le64 *prp_list;
-+	bool needs_sync;
-+	void **list;
-+
-+	offset =3D blk_rq_dma_offset(req) + mapping->offset;
-+	i =3D offset >> NVME_CTRL_PAGE_SHIFT;
-+	offset =3D offset & (NVME_CTRL_PAGE_SIZE - 1);
-+	needs_sync =3D rq_data_dir(req) =3D=3D WRITE &&
-+		 dma_need_sync(dev->dev, le64_to_cpu(mapping->prps[i]));
-+
-+	if (needs_sync) {
-+		dma_sync_single_for_device(dev->dev,
-+			le64_to_cpu(mapping->prps[i]),
-+			NVME_CTRL_PAGE_SIZE - offset, DMA_TO_DEVICE);
-+	}
-+
-+	length =3D blk_rq_payload_bytes(req) - (NVME_CTRL_PAGE_SIZE - offset);
-+	cmnd->dptr.prp1 =3D cpu_to_le64(le64_to_cpu(mapping->prps[i++]) + offse=
-t);
-+
-+	if (length <=3D 0)
-+		return BLK_STS_OK;
-+
-+	if (length <=3D NVME_CTRL_PAGE_SIZE) {
-+		if (needs_sync)
-+			dma_sync_single_for_device(dev->dev,
-+				le64_to_cpu(mapping->prps[i]),
-+				NVME_CTRL_PAGE_SIZE, DMA_TO_DEVICE);
-+		cmnd->dptr.prp2 =3D mapping->prps[i];
-+		return BLK_STS_OK;
-+	}
-+
-+	nprps =3D DIV_ROUND_UP(length, NVME_CTRL_PAGE_SIZE);
-+	prp_list_start =3D mapping->prp_dma_addr + 8 * i;
-+	prp_list_end =3D prp_list_start + 8 * nprps;
-+
-+	/* Optimization when remaining list fits in one nvme page */
-+	if ((prp_list_start >> NVME_CTRL_PAGE_SHIFT) =3D=3D
-+	    (prp_list_end >> NVME_CTRL_PAGE_SHIFT)) {
-+		cmnd->dptr.prp2 =3D cpu_to_le64(prp_list_start);
-+		goto sync;
-+	}
-+
-+	iod->sg =3D mempool_alloc(dev->iod_mempool, GFP_ATOMIC);
-+	if (!iod->sg)
-+		return BLK_STS_RESOURCE;
-+
-+	if (nprps <=3D (256 / 8)) {
-+		pool =3D dev->prp_small_pool;
-+		iod->npages =3D 0;
-+	} else {
-+		pool =3D dev->prp_page_pool;
-+		iod->npages =3D 1;
-+	}
-+
-+	prp_list =3D dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
-+	if (!prp_list) {
-+		iod->npages =3D -1;
-+		goto out_free_sg;
-+	}
-+
-+	list =3D nvme_pci_iod_list(req);
-+	list[0] =3D prp_list;
-+	iod->first_dma =3D prp_dma;
-+
-+	for (;;) {
-+		dma_addr_t next_prp_dma;
-+		__le64 *next_prp_list;
-+
-+		if (nprps_left <=3D last_prp + 1) {
-+			memcpy(prp_list, &mapping->prps[i], nprps_left * 8);
-+			break;
-+		}
-+
-+		memcpy(prp_list, &mapping->prps[i],
-+		       NVME_CTRL_PAGE_SIZE - 8);
-+		nprps_left -=3D last_prp;
-+		i +=3D last_prp;
-+
-+		next_prp_list =3D dma_pool_alloc(pool, GFP_ATOMIC, &next_prp_dma);
-+		if (!next_prp_list)
-+			goto free_prps;
-+
-+		prp_list[last_prp] =3D cpu_to_le64(next_prp_dma);
-+		prp_list =3D next_prp_list;
-+		prp_dma =3D next_prp_dma;
-+		list[iod->npages++] =3D prp_list;
-+	}
-+	cmnd->dptr.prp2 =3D cpu_to_le64(iod->first_dma);
-+
-+sync:
-+	if (!needs_sync)
-+		return BLK_STS_OK;
-+
-+	i =3D offset >> NVME_CTRL_PAGE_SHIFT;
-+	for (j =3D 0; j < nprps; j++)
-+		dma_sync_single_for_device(dev->dev,
-+			le64_to_cpu(mapping->prps[i++]),
-+			NVME_CTRL_PAGE_SIZE, DMA_TO_DEVICE);
-+	return BLK_STS_OK;
-+
-+free_prps:
-+	nvme_free_prps(dev, req);
-+out_free_sg:
-+	mempool_free(iod->sg, dev->iod_mempool);
-+	return BLK_STS_RESOURCE;
-+}
-+
- static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *=
-req,
- 		struct nvme_command *cmnd)
- {
-+	struct nvme_dma_mapping *mapping =3D blk_rq_dma_tag(req);
- 	struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
- 	blk_status_t ret =3D BLK_STS_RESOURCE;
- 	int nr_mapped;
-=20
-+	if (mapping) {
-+		iod->dma_len =3D 0;
-+		iod->use_sgl =3D false;
-+		return nvme_premapped(dev, req, &cmnd->rw, iod, mapping);
-+	}
-+
- 	if (blk_rq_nr_phys_segments(req) =3D=3D 1) {
- 		struct bio_vec bv =3D req_bvec(req);
-=20
-@@ -1732,6 +1904,112 @@ static int nvme_create_queue(struct nvme_queue *n=
-vmeq, int qid, bool polled)
- 	return result;
- }
-=20
-+#ifdef CONFIG_HAS_DMA
-+/*
-+ * Important: bvec must be describing a virtually contiguous buffer.
-+ */
-+static void *nvme_pci_dma_map(struct request_queue *q,
-+			       struct bio_vec *bvec, int nr_vecs)
-+{
-+	const int nvme_pages =3D 1 << (PAGE_SIZE - NVME_CTRL_PAGE_SIZE);
-+	struct nvme_ns *ns =3D q->queuedata;
-+	struct nvme_dev *dev =3D to_nvme_dev(ns->ctrl);
-+	struct nvme_dma_mapping *mapping;
-+	int i, j, k, size, ppv, ret =3D -ENOMEM;
-+
-+	if (!nr_vecs)
-+		return ERR_PTR(-EINVAL);
-+
-+	mapping =3D kzalloc(sizeof(*mapping), GFP_KERNEL);
-+	if (!mapping)
-+		return ERR_PTR(-ENOMEM);
-+
-+	mapping->nr_pages =3D nr_vecs * nvme_pages;
-+	size =3D sizeof(*mapping->prps) * mapping->nr_pages;
-+	mapping->prps =3D dma_alloc_coherent(dev->dev, size,
-+				&mapping->prp_dma_addr, GFP_KERNEL);
-+	if (!mapping->prps)
-+		goto free_mapping;
-+
-+	for (i =3D 0, k =3D 0; i < nr_vecs; i++) {
-+		struct bio_vec *bv =3D bvec + i;
-+		dma_addr_t dma_addr;
-+
-+		ppv =3D nvme_pages;
-+		if (i =3D=3D 0) {
-+			mapping->offset =3D bv->bv_offset;
-+			ppv -=3D mapping->offset >> NVME_CTRL_PAGE_SHIFT;
-+		} else if (bv->bv_offset) {
-+			ret =3D -EINVAL;
-+			goto err;
-+		}
-+
-+		if (bv->bv_offset + bv->bv_len !=3D PAGE_SIZE &&
-+		    i < nr_vecs - 1) {
-+			ret =3D -EINVAL;
-+			goto err;
-+		}
-+
-+		dma_addr =3D dma_map_bvec(dev->dev, bv, 0, 0);
-+		if (dma_mapping_error(dev->dev, dma_addr)) {
-+			ret =3D -EIO;
-+			goto err;
-+		}
-+
-+		if (i =3D=3D 0)
-+			dma_addr -=3D mapping->offset;
-+
-+		for (j =3D 0; j < ppv; j++)
-+			mapping->prps[k++] =3D cpu_to_le64(dma_addr +
-+						j * NVME_CTRL_PAGE_SIZE);
-+	}
-+
-+	get_device(dev->dev);
-+	return mapping;
-+
-+err:
-+	for (i =3D 0; i < k; i +=3D ppv) {
-+		__u64 dma_addr =3D le64_to_cpu(mapping->prps[i]);
-+		ppv =3D nvme_pages;
-+
-+		if (i =3D=3D 0)
-+			ppv -=3D mapping->offset >> NVME_CTRL_PAGE_SHIFT;
-+		dma_unmap_page(dev->dev, dma_addr,
-+			       PAGE_SIZE - offset_in_page(dma_addr), 0);
-+	}
-+
-+	dma_free_coherent(dev->dev, size, (void *)mapping->prps,
-+			  mapping->prp_dma_addr);
-+free_mapping:
-+	kfree(mapping);
-+	return ERR_PTR(ret);
-+}
-+
-+static void nvme_pci_dma_unmap(struct request_queue *q, void *dma_tag)
-+{
-+	const int nvme_pages =3D 1 << (PAGE_SIZE - NVME_CTRL_PAGE_SIZE);
-+	struct nvme_ns *ns =3D q->queuedata;
-+	struct nvme_dev *dev =3D to_nvme_dev(ns->ctrl);
-+	struct nvme_dma_mapping *mapping =3D dma_tag;
-+	int i, ppv;
-+
-+	for (i =3D 0; i < mapping->nr_pages; i +=3D nvme_pages) {
-+		__u64 dma_addr =3D le64_to_cpu(mapping->prps[i]);
-+		ppv =3D nvme_pages;
-+
-+		if (i =3D=3D 0)
-+			ppv -=3D mapping->offset >> NVME_CTRL_PAGE_SHIFT;
-+		dma_unmap_page(dev->dev, dma_addr,
-+			       PAGE_SIZE - offset_in_page(dma_addr), 0);
-+	}
-+
-+	dma_free_coherent(dev->dev, mapping->nr_pages * sizeof(*mapping->prps),
-+			  (void *)mapping->prps, mapping->prp_dma_addr);
-+	kfree(mapping);
-+	put_device(dev->dev);
-+}
-+#endif
-+
- static const struct blk_mq_ops nvme_mq_admin_ops =3D {
- 	.queue_rq	=3D nvme_queue_rq,
- 	.complete	=3D nvme_pci_complete_rq,
-@@ -1750,6 +2028,10 @@ static const struct blk_mq_ops nvme_mq_ops =3D {
- 	.map_queues	=3D nvme_pci_map_queues,
- 	.timeout	=3D nvme_timeout,
- 	.poll		=3D nvme_poll,
-+#ifdef CONFIG_HAS_DMA
-+	.dma_map	=3D nvme_pci_dma_map,
-+	.dma_unmap	=3D nvme_pci_dma_unmap,
-+#endif
- };
-=20
- static void nvme_dev_remove_admin(struct nvme_dev *dev)
---=20
-2.30.2
+  dpm_suspend_end
+    dpm_suspend_late                             # phase 1
+      while (!list_empty(&dpm_suspended_list))
+        device_suspend_late
+      async_synchronize_full                     # finish phase 1
+    dpm_suspend_noirq                            # phase 2
+      dpm_noirq_suspend_devices
+        while (!list_empty(&dpm_late_early_list))
+          device_suspend_noirq
+      async_synchronize_full
 
+The device .suspend_late() and .suspend_noirq() methods may all be
+started asynchronously.  So far there's nothing to order them within
+the phase, but async_synchronize_full() ensures that all the
+.suspend_late() methods finish before the .suspend_noirq() methods
+start.
+
+Obviously we do want a child's method to complete before we run the
+parent's method.  If I understand correctly, that parent/child
+synchronization is done by a different method: __device_suspend_late()
+and __device_suspend_noirq() call dpm_wait_for_subordinate(), which
+waits for &dev->power.completion for all children:
+
+  __device_suspend_late
+    dpm_wait_for_subordinate
+      dpm_wait_for_children   # wait for children .suspend_late()
+        device_for_each_child(dev, &async, dpm_wait_fn)
+          dpm_wait_fn
+            dpm_wait
+              wait_for_completion(&dev->power.completion)
+    dpm_run_callback          # run parent method, e.g., ops->suspend_late
+    complete_all(&dev->power.completion)  # note completion of parent
+
+> I assume your suggestion is to do something like this:
+> 
+>   struct device {
+>     struct dev_pm_info {
+>       unsigned int async_suspend:1;
+>  +    unsigned int async_shutdown:1;
+> 
+>  + void device_enable_async_shutdown(struct device *dev)
+>  +   dev->power.async_shutdown = true;
+> 
+>     device_shutdown
+>       while (!list_empty(&devices_kset->list))
+>  -      dev->...->shutdown()
+>  +      if (is_async_shutdown(dev))
+>  +        async_schedule_dev(async_shutdown)   # async path
+>  +
+>  +         async_shutdown               # called asynchronously
+>  +           dev->...->shutdown()
+>  +
+>  +      else
+>  +        dev->...->shutdown()                 # sync path
+>  +
+>  +    async_synchronize_full                   # wait
+
+In the shutdown case, I think we still probably need the
+async_synchronize_full() to ensure that all the .shutdown() methods
+complete before we turn the power off, reboot, or kexec.
+
+But I think we also need a mechanism like dev->power.completion to
+make sure all the child .shutdown() methods complete before we run a
+parent's .shutdown().
+
+There's not much overlap between the suspend path and the shutdown
+path (probably none at all), so it's tempting to use the existing
+dev->power.completion for shutdown as well.
+
+But I don't think that's feasible because dev->power.completion is
+tied up with dev->power.async_suspend, which is set by
+device_enable_async_suspend().  That's a different concept than async
+shutdown, and drivers will want one without the other.
+
+Does this make sense?
+
+Bjorn
 
