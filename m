@@ -4,63 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3400C00140
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Aug 2022 21:35:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91DD5C00140
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Aug 2022 23:27:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=xuXlSgKloFbAxmR39krAognGMO4wnbqhe3vTtXEVmgw=; b=NfnFvqik2Q1wJA
-	dU4kIyvanOTavXlBEvt9CAPWo7ne5xnexPRQ0+zacyMbNi/Slc9n5k3v2oBUADSAKpl+L31PuJ1EI
-	INyVU1udOtBcLTGi9DOagkBR3oJokhoE+z7/9VyWmgPCMOn5UYDNxI/zhsGq0ZXquDB+NRMZopfW8
-	EQtjDXduySulitoyWUn43IEfswTE2t3neqp4T8CDC0nvZJD2qIOcOXuQL9uZYXp7iqYJtS4Iarli6
-	P2VxzkoGKk+9W+bHrz7QPS7tl/1NgpW8ts08oPx5B4UT1Bl6q3GEp4JKENrTRCrolH+mFNW0zT+IT
-	oZW6Oji1b8n5jOkMRxmw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=q9CqKXWkksInGzrUprepmdYnzQdHSiTIpX5HzKbwd+s=; b=sBBsG4hCBoX/hD7tkM6QQ7mUF5
+	T2ltKa7MEYCRiCiNsLkplco9696fKQpzWasDwbmt1MwAUqKeSiaCmAVXExD3OttvwkRACgUFLM5Hy
+	6xuPmOBbrIpZgExcC6otVdnWQLvyKF5S/hqSDpcFF5AhmiF+x/eoCW//bMRGY2031UmjFpE1QO8VB
+	yCgi7cWRFxwWOUDHGAPitI3NVuGwNsvyS+A/gY5HgD1X+MUoAIjdmYgUldLDka8WNnXv2GAev3oOy
+	+QefneEbcC4SoaU9ZBVPijRQpv/SDvLeEUyBZUr6+uDJel1wuVw3eE2vXFi8CtTvy4s8k+/LBdPkm
+	7icT6iQg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oIzXs-00020I-8f; Tue, 02 Aug 2022 21:35:20 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1oJ1IP-000dkd-4b; Tue, 02 Aug 2022 23:27:29 +0000
+Received: from gnuweeb.org ([51.81.211.47])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oIzXo-0001xk-Ds
-	for linux-nvme@lists.infradead.org; Tue, 02 Aug 2022 21:35:18 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 71FCDB820D7;
-	Tue,  2 Aug 2022 21:35:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03521C433D6;
-	Tue,  2 Aug 2022 21:35:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1659476113;
-	bh=sDdUdwBWvplP7SH3rsAyBZtLq4594pOoiv4EVIrlAgQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=Dxr/rmm1wWZkd7LyxAdwLJ5Xz0ToNGAJU5kTpZX6bTdjDKDCsdqOcAvtpmcXZ1JeD
-	 Avkt6i8d4HbyJorqFqpWLCLiTicbwk3DXBCF+4TYwhXkF+G1xt9b6wkFAhWu8UdvQl
-	 itWH9BQ5Lt4SxFSg+JCjDq0T93AD79ELcoWl6RhhNTDX2hD51P8H53ab9xTByfH/Vh
-	 6Lw3fwlbAW1C95yWOgj9XMe9dEFLV6+aEfOGzhiW7TwFQp6tZMkr3FqzItyY2EfDKA
-	 LL8Ko+0YwJYn73/AN16s4C5sCt2aK7kel4FQ4LblWWD5a3AR0SVrYmHoQoj8nAgZVZ
-	 s/3enJP+sGhKg==
-Date: Tue, 2 Aug 2022 16:35:11 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Tanjore Suresh <tansuresh@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-nvme <linux-nvme@lists.infradead.org>,
-	Linux PCI <linux-pci@vger.kernel.org>
-Subject: Re: [PATCH v3 1/3] driver core: Support asynchronous driver shutdown
-Message-ID: <20220802213511.GA738995@bhelgaas>
+	id 1oJ1IM-000d5q-9X
+	for linux-nvme@lists.infradead.org; Tue, 02 Aug 2022 23:27:27 +0000
+Received: from [192.168.88.254] (unknown [125.160.110.15])
+	by gnuweeb.org (Postfix) with ESMTPSA id EF8CE8060F;
+	Tue,  2 Aug 2022 23:25:16 +0000 (UTC)
+X-GW-Data: lPqxHiMPbJw1wb7CM9QUryAGzr0yq5atzVDdxTR0iA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnuweeb.org;
+	s=default; t=1659482719;
+	bh=+au6dQlBqQIHJQgyGdW4Nb34wf6bajMRt7oudmw/yo4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=gFXTqEcTqyl0/ej7COyaD6isAwgmie7aA2fAMxbf4A3wZbyjrmHLRchIVlj/RsV/p
+	 OMXY0fANBx40iqGa2gX/Cxvx3H864UliDnl7DECdpDlkON2s/83iPgnLvxWKHND1wT
+	 BotuQS5+le1vHJzh2whp1N2fVFBPHbDMwB/iJulNHL2dSwuJLzXIA44Y1nGxr7v/sf
+	 nnKm63FpaQEQQZudRwEsDNoDrzZfGRAE8xU+xvfRAPqdpO4BCt2CHRRuLUoLHmyLkM
+	 DpWO0SFIRp9B615YZ6mNwLgE1oqW0Rm6WocN8i+49AmmIfMAylZLBBhDyHLpewIm8c
+	 BPf/hx2vhUoiw==
+Message-ID: <05dfe735-d146-ad5c-2f98-940032fd1f48@gnuweeb.org>
+Date: Wed, 3 Aug 2022 06:25:14 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220518175002.GA1148748@bhelgaas>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCHv2 6/7] io_uring: add support for dma pre-mapping
+Content-Language: en-US
+To: Keith Busch <kbusch@fb.com>
+Cc: Facebook Kernel Team <kernel-team@fb.com>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Al Viro <viro@zeniv.linux.org.uk>,
+ Keith Busch <kbusch@kernel.org>, Fernanda Ma'rouf
+ <fernandafmr12@gnuweeb.org>, io-uring Mailing List
+ <io-uring@vger.kernel.org>,
+ Linux Block Mailing List <linux-block@vger.kernel.org>,
+ Linux fsdevel Mailing List <linux-fsdevel@vger.kernel.org>,
+ Linux NVME Mailing List <linux-nvme@lists.infradead.org>
+References: <20220802193633.289796-1-kbusch@fb.com>
+ <20220802193633.289796-7-kbusch@fb.com>
+From: Ammar Faizi <ammarfaizi2@gnuweeb.org>
+In-Reply-To: <20220802193633.289796-7-kbusch@fb.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220802_143517_089140_6A6B4A56 
-X-CRM114-Status: GOOD (  23.13  )
+X-CRM114-CacheID: sfid-20220802_162726_406154_E125FA13 
+X-CRM114-Status: GOOD (  18.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,124 +78,85 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-[Beginning of thread: https://lore.kernel.org/r/20220517220816.1635044-2-tansuresh@google.com]
-On Wed, May 18, 2022 at 12:50:02PM -0500, Bjorn Helgaas wrote:
-
-> Devices have this async_suspend bit:
+On 8/3/22 2:36 AM, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
 > 
->   struct device {
->     struct dev_pm_info {
->       unsigned int async_suspend:1;
+> Provide a new register operation that can request to pre-map a known
+> bvec to the requested fixed file's specific implementation. If
+> successful, io_uring will use the returned dma tag for future fixed
+> buffer requests to the same file.
 > 
-> Drivers call device_enable_async_suspend() to set async_suspend if
-> they want it.  The system suspend path is something like this:
-> 
->   suspend_enter
->     dpm_suspend_noirq(PMSG_SUSPEND)
->       dpm_noirq_suspend_devices(PMSG_SUSPEND)
->         pm_transition = PMSG_SUSPEND
->         while (!list_empty(&dpm_late_early_list))
->           device_suspend_noirq(dev)
->             dpm_async_fn(dev, async_suspend_noirq)
->               if (is_async(dev))
->                 async_schedule_dev(async_suspend_noirq)       # async path
-> 
->                   async_suspend_noirq               # called asynchronously
->                   __device_suspend_noirq(dev, PMSG_SUSPEND, true)
->                     callback = pm_noirq_op(PMSG_SUSPEND) # .suspend_noirq()
->                     dpm_run_callback(callback)      # async call
-> 
->             __device_suspend_noirq(dev, pm_transition, false) # sync path
->               callback = pm_noirq_op(PMSG_SUSPEND)  # .suspend_noirq()
->               dpm_run_callback(callback)            # sync call
-> 
->         async_synchronize_full                                # wait
-> 
-> If a driver has called device_enable_async_suspend(), we'll use the
-> async_schedule_dev() path to schedule the appropriate .suspend_noirq()
-> method.  After scheduling it via the async path or directly calling it
-> via the sync path, the async_synchronize_full() waits for completion
-> of all the async methods.
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+[...]
+> +static int io_register_map_buffers(struct io_ring_ctx *ctx, void __user *arg)
+> +{
+> +	struct io_uring_map_buffers map;
+> +	struct io_fixed_file *file_slot;
+> +	struct file *file;
+> +	int ret, i;
+> +
+> +	if (!capable(CAP_SYS_ADMIN))
+> +		return -EPERM;
+> +
+> +	ret = get_map_range(ctx, &map, arg);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	file_slot = io_fixed_file_slot(&ctx->file_table,
+> +			array_index_nospec(map.fd, ctx->nr_user_files));
+> +	if (!file_slot || !file_slot->file_ptr)
+> +		return -EBADF;
 
-Correct me if I'm wrong: in the suspend scenario, there are several
-phases, and async_synchronize_full() ensures that one phase finishes
-before the next phase starts.  For example:
+The @file_slot NULL-check doesn't make sense. The definition of
+io_fixed_file_slot() is:
 
-  dpm_suspend_end
-    dpm_suspend_late                             # phase 1
-      while (!list_empty(&dpm_suspended_list))
-        device_suspend_late
-      async_synchronize_full                     # finish phase 1
-    dpm_suspend_noirq                            # phase 2
-      dpm_noirq_suspend_devices
-        while (!list_empty(&dpm_late_early_list))
-          device_suspend_noirq
-      async_synchronize_full
+static inline struct io_fixed_file *
+io_fixed_file_slot(struct io_file_table *table, unsigned i)
+{
+         return &table->files[i];
+}
 
-The device .suspend_late() and .suspend_noirq() methods may all be
-started asynchronously.  So far there's nothing to order them within
-the phase, but async_synchronize_full() ensures that all the
-.suspend_late() methods finish before the .suspend_noirq() methods
-start.
+which takes the address of an element in the array. So @file_slot
+should never be NULL, if it ever be, something has gone wrong.
 
-Obviously we do want a child's method to complete before we run the
-parent's method.  If I understand correctly, that parent/child
-synchronization is done by a different method: __device_suspend_late()
-and __device_suspend_noirq() call dpm_wait_for_subordinate(), which
-waits for &dev->power.completion for all children:
+If you ever had @ctx->file_table.files being NULL in this path, you
+should NULL-check the @->files itself, *not* the return value of
+io_fixed_file_slot().
 
-  __device_suspend_late
-    dpm_wait_for_subordinate
-      dpm_wait_for_children   # wait for children .suspend_late()
-        device_for_each_child(dev, &async, dpm_wait_fn)
-          dpm_wait_fn
-            dpm_wait
-              wait_for_completion(&dev->power.completion)
-    dpm_run_callback          # run parent method, e.g., ops->suspend_late
-    complete_all(&dev->power.completion)  # note completion of parent
+IOW:
 
-> I assume your suggestion is to do something like this:
-> 
->   struct device {
->     struct dev_pm_info {
->       unsigned int async_suspend:1;
->  +    unsigned int async_shutdown:1;
-> 
->  + void device_enable_async_shutdown(struct device *dev)
->  +   dev->power.async_shutdown = true;
-> 
->     device_shutdown
->       while (!list_empty(&devices_kset->list))
->  -      dev->...->shutdown()
->  +      if (is_async_shutdown(dev))
->  +        async_schedule_dev(async_shutdown)   # async path
->  +
->  +         async_shutdown               # called asynchronously
->  +           dev->...->shutdown()
->  +
->  +      else
->  +        dev->...->shutdown()                 # sync path
->  +
->  +    async_synchronize_full                   # wait
+...
+	// NULL check here.
+         if (!ctx->file_table.files)
+                 return -EBADF;
 
-In the shutdown case, I think we still probably need the
-async_synchronize_full() to ensure that all the .shutdown() methods
-complete before we turn the power off, reboot, or kexec.
+         file_slot = io_fixed_file_slot(&ctx->file_table,
+                                        array_index_nospec(map.fd, ctx->nr_user_files));
+         if (!file_slot->file_ptr)
+                 return -EBADF;
+...
 
-But I think we also need a mechanism like dev->power.completion to
-make sure all the child .shutdown() methods complete before we run a
-parent's .shutdown().
+>   	for (i = 0; i < ctx->nr_user_files; i++) {
+> -		struct file *file = io_file_from_index(&ctx->file_table, i);
+> +		struct io_fixed_file *f = io_fixed_file_slot(&ctx->file_table, i);
+> +		struct file *file;
+>   
+> -		if (!file)
+> +		if (!f)
+>   			continue;
 
-There's not much overlap between the suspend path and the shutdown
-path (probably none at all), so it's tempting to use the existing
-dev->power.completion for shutdown as well.
+The same thing, this @f NULL-check is not needed.
 
-But I don't think that's feasible because dev->power.completion is
-tied up with dev->power.async_suspend, which is set by
-device_enable_async_suspend().  That's a different concept than async
-shutdown, and drivers will want one without the other.
+> -		if (io_fixed_file_slot(&ctx->file_table, i)->file_ptr & FFS_SCM)
+> +		if (f->file_ptr & FFS_SCM)
+>   			continue;
+> +
+> +		io_dma_unmap_file(ctx, f);
+> +		file = io_file_from_fixed(f);
+>   		io_file_bitmap_clear(&ctx->file_table, i);
+>   		fput(file);
+>   	}
 
-Does this make sense?
-
-Bjorn
+-- 
+Ammar Faizi
 
