@@ -4,74 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A4FAC19F28
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Aug 2022 17:11:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B175FC19F2C
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Aug 2022 17:19:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=o2afx9aZmzEdoWwdGDbShaY9b54ZclDxz5tctOo//Fo=; b=gFi5VQBnFGzjbqlsVr5ZVeIEAD
-	9SJKd4viV7LTPs8PP3I+VpTLch03/QStK4PGue/6oVEZ3tY0GjZmWn2s0AKaeuON9cDiuc7rgG4zd
-	oDT+FNPU0q5CkGw2WQrlTA/QVPEGcViNPSXV4dzirzV+mwd/FU4o7M86Df7BtILCKdeI/QrdR/Jz1
-	YQyKuryruWkv5mvdCCipwnXDZyq8dDFqVm/qwKrvVWZO1spmhfI1wrL8HwnW5OBMTRWMprA9ENPz9
-	sJnhTeafLkAAGWfhOFK4uajW0CFxGeaZyt7NEGnM6sr7v387rOGsrDAB8GmYbvMNGFvGwbBEFc6Fw
-	3zXL1MlQ==;
+	bh=TwJQ/yYNiTQ3gXYdp9ajvzFbzU+GLcBJYBbzELtb76o=; b=zxlhyWdWctr1bn+8mlzMBdCZMs
+	fHKVQ/vrfXYak6aXqizNVTLPYkZ0N4FckjpIJzTkkDbnsbejY7LYsdjkfw7csEjGqrwyqFxlq2CdD
+	41pl6p8yxckGyenAU58gZZLcEO01CLc8DYkfgVuoJpO3sqGFjyKFbmtCqK0bsqHcutRAAjlTppLzx
+	RjTBppCbe0o+sxKRf2qVzhFQLt8U4ps2XRH/vwGO9bqde7UUfF2urHWoE5gLDC6qSh1farRljW30R
+	FNXEHKdsJekDGVTCMU+okN8pb221Z8oPQu2xT1TiH49XvXDncws8WAjqRFNHom+kisLsmXSqMCuB+
+	v6iJEp6w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oJHtv-007nbq-Nd; Wed, 03 Aug 2022 17:11:19 +0000
-Received: from mail-pj1-f45.google.com ([209.85.216.45])
+	id 1oJI1H-007rDF-7A; Wed, 03 Aug 2022 17:18:55 +0000
+Received: from mail-pg1-f174.google.com ([209.85.215.174])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oJHtt-007nZB-3q
-	for linux-nvme@lists.infradead.org; Wed, 03 Aug 2022 17:11:18 +0000
-Received: by mail-pj1-f45.google.com with SMTP id p14-20020a17090a74ce00b001f4d04492faso2771430pjl.4
-        for <linux-nvme@lists.infradead.org>; Wed, 03 Aug 2022 10:11:15 -0700 (PDT)
+	id 1oJI1E-007r7q-Hn
+	for linux-nvme@lists.infradead.org; Wed, 03 Aug 2022 17:18:53 +0000
+Received: by mail-pg1-f174.google.com with SMTP id q16so15696012pgq.6
+        for <linux-nvme@lists.infradead.org>; Wed, 03 Aug 2022 10:18:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc;
-        bh=o2afx9aZmzEdoWwdGDbShaY9b54ZclDxz5tctOo//Fo=;
-        b=q8Q2N0IR80xHuHtXXbGJl/NghKc56hMtQz3CRnK1zzbZwhokTmNfC6N0t+zGOi2k+Y
-         TtxYHT6JpQRk4LsWI+fzgFBdtTPxiYyiKm/+CubbUyjD8fHRkCGuvIlQPnOn1ghzo/zv
-         7ELqOwIathQBjIBCCuXsh239ITbUY3CrKEQmQL4LKhdML5/v7FE+SPTBlejLIF/ZAWJL
-         Rxy6eSNmFfRrqKIf1i4tFkUnKisSZ9HzlPGGXGXiU5F/N6V1QTrQOautMvQ3rr8+LAeK
-         MYxloXgDCY1ihSfDXD00W07wKaf0N7+FkLX9pH9TOBvwUGkM4ALKeZoRJi76hd2ypLhj
-         dFGw==
-X-Gm-Message-State: ACgBeo0vj53SKWa/HiX/eFjda+mSeEW0V6rnpk8ZmcazTpEiJRxcevHu
-	RacZjau4fSkKyvTvJ8HxmIE=
-X-Google-Smtp-Source: AA6agR6EBIzKze1/rFrYedIXXEbWGppFAk1TLH0M11oAyd1FFJw2h6QmbM00Fe9GucsJfuqW4gRWhw==
-X-Received: by 2002:a17:903:245:b0:16b:9c49:6b1c with SMTP id j5-20020a170903024500b0016b9c496b1cmr26089750plh.153.1659546675071;
-        Wed, 03 Aug 2022 10:11:15 -0700 (PDT)
+        bh=TwJQ/yYNiTQ3gXYdp9ajvzFbzU+GLcBJYBbzELtb76o=;
+        b=fqFbwYVfPhrntZDJbvEg/sKZT7XQq4xCKBJi1lp+O5kkDoiE0GaiOfukwFYi3QW4Fe
+         AQbeMkBJsrt1q8kvyOlrpk4MGCu/nbEtOEJRU3U/9Wh2MGW4FjUDXLlWh+2PgVpgBivF
+         KI5zm5KY6JT8cQBi7+tFENLmsaamqmFWIZ5bYYrKIsY8tArAXYauSP809HZeKR7vpnlO
+         HwFJsbNfNf2vt4MSq3EQcQ9OwE65sSF7Z44TwTy1lHj4dVoQKxbmuc0TLHwgJdX0Kb0h
+         jZAoDQnb9J+9TWNoF+jgMpPmQ8BYcZNiaSjZf1hn9R4mtdJ8zAziueiFM8z8fF18pq3f
+         fvFQ==
+X-Gm-Message-State: ACgBeo3es8ey2lBMUBpxYmm3WmcSNKH9ghqp63gzTjGsXylON6GfM8+o
+	jXbqptyDpa2C3tW4CanW1vM=
+X-Google-Smtp-Source: AGRyM1ut0iw8ACYHFdssYF1RXnkAJwY8ims1WoIWh5sfrKcVetqVvRyv8YyN43reQB04YYQHCbVNEQ==
+X-Received: by 2002:a05:6a00:3392:b0:52b:4896:b317 with SMTP id cm18-20020a056a00339200b0052b4896b317mr27047195pfb.17.1659547125023;
+        Wed, 03 Aug 2022 10:18:45 -0700 (PDT)
 Received: from ?IPV6:2620:15c:211:201:db71:edb7:462a:44af? ([2620:15c:211:201:db71:edb7:462a:44af])
-        by smtp.gmail.com with ESMTPSA id w127-20020a623085000000b0052df34124b4sm3552742pfw.84.2022.08.03.10.11.13
+        by smtp.gmail.com with ESMTPSA id d81-20020a621d54000000b0050dc76281f8sm3824637pfd.210.2022.08.03.10.18.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Aug 2022 10:11:14 -0700 (PDT)
-Message-ID: <d091dcf8-ce01-06cb-bff0-b41a5bb1ee86@acm.org>
-Date: Wed, 3 Aug 2022 10:11:12 -0700
+        Wed, 03 Aug 2022 10:18:44 -0700 (PDT)
+Message-ID: <3dd40197-776d-9003-3c8f-1791587ade0b@acm.org>
+Date: Wed, 3 Aug 2022 10:18:41 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [dm-devel] [PATCH v9 02/13] block:rearrange bdev_{is_zoned,
- zone_sectors, get_queue} helpers in blkdev.h
+Subject: Re: [dm-devel] [PATCH v9 03/13] block: allow blk-zoned devices to
+ have non-power-of-2 zone size
 Content-Language: en-US
 To: Pankaj Raghav <p.raghav@samsung.com>, Johannes.Thumshirn@wdc.com,
  snitzer@kernel.org, axboe@kernel.dk, damien.lemoal@opensource.wdc.com,
  agk@redhat.com, hch@lst.de
 Cc: pankydev8@gmail.com, gost.dev@samsung.com, linux-kernel@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- dm-devel@redhat.com, jaegeuk@kernel.org, matias.bjorling@wdc.com
+ dm-devel@redhat.com, jaegeuk@kernel.org, matias.bjorling@wdc.com,
+ Luis Chamberlain <mcgrof@kernel.org>
 References: <20220803094801.177490-1-p.raghav@samsung.com>
- <CGME20220803094804eucas1p1feea4b1bdae819f4c8750994ddd94803@eucas1p1.samsung.com>
- <20220803094801.177490-3-p.raghav@samsung.com>
+ <CGME20220803094805eucas1p1c68ba40d319331c2c34059f966ba2d83@eucas1p1.samsung.com>
+ <20220803094801.177490-4-p.raghav@samsung.com>
 From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20220803094801.177490-3-p.raghav@samsung.com>
+In-Reply-To: <20220803094801.177490-4-p.raghav@samsung.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220803_101117_192918_64AD3B93 
-X-CRM114-Status: UNSURE (   9.46  )
+X-CRM114-CacheID: sfid-20220803_101852_629959_0D17909D 
+X-CRM114-Status: UNSURE (   9.01  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -88,11 +89,13 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 8/3/22 02:47, Pankaj Raghav wrote:
-> Define bdev_is_zoned(), bdev_zone_sectors() and bdev_get_queue() earlier
-> in the blkdev.h include file.
-> 
-> This commit has no functional change, and it is a prep patch for allowing
-> zoned devices with non-power-of-2 zone sizes in the block layer.
+> +		if (!is_power_of_2(zone->len) && zone->capacity < zone->len) {
+> +			pr_err("%s: Invalid zone capacity: %lld with non power-of-2 zone size: %lld",
+> +			       disk->disk_name, zone->capacity, zone->len);
+
+If this patch series needs to be reposted, please leave out the second 
+and third colon (:) from the above error message. Once this comment has 
+been addressed, feel free to add:
 
 Reviewed-by: Bart Van Assche <bvanassche@acm.org>
 
