@@ -4,63 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9EAE8C19F28
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Aug 2022 15:05:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 327C1C19F28
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Aug 2022 15:44:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ouan4Svxron6vwUQD0UpAc3rvidEPjwBels5eMrK9DQ=; b=tWMscuhqVPY9PIhtFs1qvAyQKz
-	E8HL2M9bWXHQ7nHoRCu7VJENSEkhaK303xAiATI36RBHAbDtKmmqCwNMlKjnUKx6R+I+Y6kKsSEVQ
-	3BkKJSVGp/c25c5QcF9M47MinoyPEulFcd9M3wl/l6dh0k7Ndwj2nzAgwpsoKQXN36GYcpiT20vwH
-	5nZ6wo14Q5CPFyzNXaTO9tOIX+hNf1ZU3SQm7qDjNuCPLHUZaw2PPeQ+mKvlPtC9lKGrFakocvym0
-	RIg1MFwh4FVOBJMUHfH9UeKZdrXyA1Xx7VifuijAkez64djlVqHA8T+QD8LwghPdcvPUIMvDXA2a2
-	2AjnRdDw==;
+	bh=8uMuZwWVDZvuAiyqKaKTaJ3JINEwJGVOcMFBBvJKRWs=; b=eDyPeGd9g7c9PPCSFrGh7/TTug
+	CV1k1IhrOuwaisHVh9UriTK/qre93fn39m6kLKfaJj2Tse/89KYV4DrNfdAQEP1BmFnZ31I3V6HlL
+	TFUPTfEDoeEe2IHyZmgHDS0SU2kiTn8JjbTH4xMjDjJcI5EXTknq20TF0/tfJEOsqDRCjUFsCBhV9
+	29IOQVhrTREPAG/BMkA5iTgdqOQvVQE7wZLbwC1AOUUCXDFQc11KSJVKX0F8aRqv5OCr3nn5CJR8d
+	ZKDU1iOjTVRdtxfHq7NkCc85lTkW4ijvWmRp2S1EShuNpGJQ2ARzzRjMtl2oJdi3KU4V6M5VvKEVK
+	OkG+g6VQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oJFve-006ylr-Kh; Wed, 03 Aug 2022 15:04:58 +0000
-Received: from mail-yw1-f171.google.com ([209.85.128.171])
+	id 1oJGYG-007ER8-J7; Wed, 03 Aug 2022 15:44:52 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oJFvb-006yjJ-2F
-	for linux-nvme@lists.infradead.org; Wed, 03 Aug 2022 15:04:57 +0000
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-31f661b3f89so174183507b3.11
-        for <linux-nvme@lists.infradead.org>; Wed, 03 Aug 2022 08:04:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=ouan4Svxron6vwUQD0UpAc3rvidEPjwBels5eMrK9DQ=;
-        b=eGztgeniBMzXE7fd9gWskfsD8C0M2kxomv2uAwaRnPDZM1F2kvp9cUnARYlDcV5EIJ
-         CuqCFqFH6wJnqSVJvvdTEfgtQS2dlGd6IZhzELlh/viVb1niHgWm7WTTTdNCunWId3G1
-         5H/f71w1V5w1Og0JyeKiaru2NzgZN4Xbz2BY8hjaNpGQqCljk5niZLQ0cEjgCIba0FFk
-         MF39s7ApFe5Z4xiRdu1jEa8xYk+mxskK8eFK5B+7OCr+IVYjqn2pm1tFzMN0HYYci+jD
-         jpMLazY65K2HlF3TMpom/92YJXLyS+HEgBBKg2fTdtMgHJS79yGSltcn6MpahCYex0Nj
-         nv0g==
-X-Gm-Message-State: ACgBeo0aIomQQJ82xAIpjPK3go7bEiPnu38UonZ1lBveGIqmEv+jGJkj
-	wMymwvhxudAfy/2adhF9Z7V4Tr5xIQEigxmobOk=
-X-Google-Smtp-Source: AA6agR42p5rkbE8sCWpMYfdup41Al1EYl3FCyQRWucakWGKFoLkxTabC0VIDOG3BRuaGnSFEoT8sO0fgCIdyYebzfIk=
-X-Received: by 2002:a0d:d694:0:b0:325:1881:6a52 with SMTP id
- y142-20020a0dd694000000b0032518816a52mr12643988ywd.149.1659539092812; Wed, 03
- Aug 2022 08:04:52 -0700 (PDT)
+	id 1oJGYE-007EPF-3L
+	for linux-nvme@lists.infradead.org; Wed, 03 Aug 2022 15:44:51 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id EB2F36172C;
+	Wed,  3 Aug 2022 15:44:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F00D5C433C1;
+	Wed,  3 Aug 2022 15:44:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1659541488;
+	bh=8uMuZwWVDZvuAiyqKaKTaJ3JINEwJGVOcMFBBvJKRWs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Lm6xRFvU0KhPo0RXcZYDotGCny5Q73YSg7FtpKcKwfKVbXyJWncdkndbolKRaLfSt
+	 W0AI7rFLHP/KV2ZSKfKA4rKiaIJEglhSzGcvzltQtUbEJg/h+6EuuZIuTwQEUBHXkg
+	 RFTfB4TCM6Y/FILxuzGWGqdxyEKiH9ZtDriY1dbQ6XzhfBtiy+dTtVhPkDxpaAwdFc
+	 nqs3KePoKL9j1f6hMxYuXRm3Pau15cb8aspq0XuPIZcQ4anT/QKM9wyxCyQJhfiBCk
+	 v65TYOOKBlMeA9WJQd0q6Uwa/s1lUULKOLkWHDWuUqukwzIFDG4fbR2uQ5ETSE8l9b
+	 ZdISnw0MR7dqA==
+Date: Wed, 3 Aug 2022 09:44:45 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Chao Leng <lengchao@huawei.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
+Subject: Re: [PATCH] nvme: allow ioctl to submit io command with dif for
+ NVMeoF
+Message-ID: <YuqX7dur94Vr1PIA@kbusch-mbp.dhcp.thefacebook.com>
+References: <20220803094436.23407-1-lengchao@huawei.com>
 MIME-Version: 1.0
-References: <20220518175002.GA1148748@bhelgaas> <20220802213511.GA738995@bhelgaas>
-In-Reply-To: <20220802213511.GA738995@bhelgaas>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 3 Aug 2022 17:04:40 +0200
-Message-ID: <CAJZ5v0hrrHvBwXThEjiWAxUcM3=NgsfYw+nTyXjdiTmNug_PbQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] driver core: Support asynchronous driver shutdown
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Tanjore Suresh <tansuresh@google.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-nvme <linux-nvme@lists.infradead.org>, 
-	Linux PCI <linux-pci@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220803094436.23407-1-lengchao@huawei.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220803_080455_128512_3F3518CA 
-X-CRM114-Status: GOOD (  34.89  )
+X-CRM114-CacheID: sfid-20220803_084450_213881_A91721D0 
+X-CRM114-Status: GOOD (  13.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,132 +71,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 2, 2022 at 11:35 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
->
-> [Beginning of thread: https://lore.kernel.org/r/20220517220816.1635044-2-tansuresh@google.com]
-> On Wed, May 18, 2022 at 12:50:02PM -0500, Bjorn Helgaas wrote:
->
-> > Devices have this async_suspend bit:
-> >
-> >   struct device {
-> >     struct dev_pm_info {
-> >       unsigned int async_suspend:1;
-> >
-> > Drivers call device_enable_async_suspend() to set async_suspend if
-> > they want it.  The system suspend path is something like this:
-> >
-> >   suspend_enter
-> >     dpm_suspend_noirq(PMSG_SUSPEND)
-> >       dpm_noirq_suspend_devices(PMSG_SUSPEND)
-> >         pm_transition = PMSG_SUSPEND
-> >         while (!list_empty(&dpm_late_early_list))
-> >           device_suspend_noirq(dev)
-> >             dpm_async_fn(dev, async_suspend_noirq)
-> >               if (is_async(dev))
-> >                 async_schedule_dev(async_suspend_noirq)       # async path
-> >
-> >                   async_suspend_noirq               # called asynchronously
-> >                   __device_suspend_noirq(dev, PMSG_SUSPEND, true)
-> >                     callback = pm_noirq_op(PMSG_SUSPEND) # .suspend_noirq()
-> >                     dpm_run_callback(callback)      # async call
-> >
-> >             __device_suspend_noirq(dev, pm_transition, false) # sync path
-> >               callback = pm_noirq_op(PMSG_SUSPEND)  # .suspend_noirq()
-> >               dpm_run_callback(callback)            # sync call
-> >
-> >         async_synchronize_full                                # wait
-> >
-> > If a driver has called device_enable_async_suspend(), we'll use the
-> > async_schedule_dev() path to schedule the appropriate .suspend_noirq()
-> > method.  After scheduling it via the async path or directly calling it
-> > via the sync path, the async_synchronize_full() waits for completion
-> > of all the async methods.
->
-> Correct me if I'm wrong: in the suspend scenario, there are several
-> phases, and async_synchronize_full() ensures that one phase finishes
-> before the next phase starts.  For example:
->
->   dpm_suspend_end
->     dpm_suspend_late                             # phase 1
->       while (!list_empty(&dpm_suspended_list))
->         device_suspend_late
->       async_synchronize_full                     # finish phase 1
->     dpm_suspend_noirq                            # phase 2
->       dpm_noirq_suspend_devices
->         while (!list_empty(&dpm_late_early_list))
->           device_suspend_noirq
->       async_synchronize_full
->
-> The device .suspend_late() and .suspend_noirq() methods may all be
-> started asynchronously.  So far there's nothing to order them within
-> the phase, but async_synchronize_full() ensures that all the
-> .suspend_late() methods finish before the .suspend_noirq() methods
-> start.
->
-> Obviously we do want a child's method to complete before we run the
-> parent's method.  If I understand correctly, that parent/child
-> synchronization is done by a different method: __device_suspend_late()
-> and __device_suspend_noirq() call dpm_wait_for_subordinate(), which
-> waits for &dev->power.completion for all children:
->
->   __device_suspend_late
->     dpm_wait_for_subordinate
->       dpm_wait_for_children   # wait for children .suspend_late()
->         device_for_each_child(dev, &async, dpm_wait_fn)
->           dpm_wait_fn
->             dpm_wait
->               wait_for_completion(&dev->power.completion)
->     dpm_run_callback          # run parent method, e.g., ops->suspend_late
->     complete_all(&dev->power.completion)  # note completion of parent
->
-> > I assume your suggestion is to do something like this:
-> >
-> >   struct device {
-> >     struct dev_pm_info {
-> >       unsigned int async_suspend:1;
-> >  +    unsigned int async_shutdown:1;
-> >
-> >  + void device_enable_async_shutdown(struct device *dev)
-> >  +   dev->power.async_shutdown = true;
-> >
-> >     device_shutdown
-> >       while (!list_empty(&devices_kset->list))
-> >  -      dev->...->shutdown()
-> >  +      if (is_async_shutdown(dev))
-> >  +        async_schedule_dev(async_shutdown)   # async path
-> >  +
-> >  +         async_shutdown               # called asynchronously
-> >  +           dev->...->shutdown()
-> >  +
-> >  +      else
-> >  +        dev->...->shutdown()                 # sync path
-> >  +
-> >  +    async_synchronize_full                   # wait
->
-> In the shutdown case, I think we still probably need the
-> async_synchronize_full() to ensure that all the .shutdown() methods
-> complete before we turn the power off, reboot, or kexec.
->
-> But I think we also need a mechanism like dev->power.completion to
-> make sure all the child .shutdown() methods complete before we run a
-> parent's .shutdown().
->
-> There's not much overlap between the suspend path and the shutdown
-> path (probably none at all), so it's tempting to use the existing
-> dev->power.completion for shutdown as well.
->
-> But I don't think that's feasible because dev->power.completion is
-> tied up with dev->power.async_suspend, which is set by
-> device_enable_async_suspend().  That's a different concept than async
-> shutdown, and drivers will want one without the other.
->
-> Does this make sense?
+On Wed, Aug 03, 2022 at 05:44:36PM +0800, Chao Leng wrote:
+> If nvme over fabrics support t10dif, NVME_NS_EXT_LBAS and
+> NVME_NS_METADATA_SUPPORTED of ns->features will be set to 1.
+> Now nvme_submit_io do not allow the metadata if NVME_NS_EXT_LBAS of
+> ns->features is setted. Indeed It should allow the metadata if both
+> NVME_NS_EXT_LBAS and NVME_NS_METADATA_SUPPORTED of ns->features are setted.
 
-Well, why don't we change the code so that dev->power.completion is
-not tied to dev->power.async_suspend, but can be also used
-(analogously) if something like dev->async_shutdown is set?
+I'm not sure. As a passthrough interface, don't you want to set up the host
+buffers with the inline metadata instead of relying on the HBA to splice
+separate ones?
 
-My point is that we know how to suspend devices asynchronously (the
-fact that there are multiple phases is not that important IMV), so why
-don't we design the async shutdown analogously?
+If you really want to control this kind of thing, it would be better to use
+NVME_IOCTL_IO_CMD instead of NVME_IOCTL_SUBMIT_IO.
 
