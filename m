@@ -4,86 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3AF2C25B0C
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Aug 2022 18:15:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92331C00140
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Aug 2022 18:21:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gk5a3EW3Ph2WpipU/WTzFfbiIRaAAQHx8pFA4GCIzmM=; b=vHAKUP8yk5qUt3J+SiOgwDkJ7D
-	qc8itv69Qhjut/V3e23Hl9PGngPVerhMp+x+caJalK8Lq7jMOVRkWM8zr4slsDLyKtb8TOi8QFBjS
-	6rmYCApV5PbYaJjWzIGvAJWmqiWw8ht9uXd99d7ZjGAMjZeiF9iT49PFhg8jQp7tkeHyedZ9dilNP
-	eRfACA+3Am31KvqHiJ6/o9vPEOdUmtWFYCaG9CJyE6eoOCgtzoLY3XdS+LAU4LHlJudj5zzm2huBq
-	vt/zG1SFm/SgPYiD5O+c1N6VAwiBqsGCHEJRCeY84mjcwMxe0wpvlvivGl/6HE0ulWegSxYmgN0OU
-	26Dvg+Pg==;
+	bh=rXJR+3kRg10GWju8AY2VY5RepJsm3stSFMxKfTc+Mdw=; b=GnQEzJiQaBvFW31hCM6oNqaUR6
+	uaBY1/g5t1aSaqhhrHaIWZXqrkSpT5qiWYtYmzvh52OC03LVj8AIIjiVHxTgGZC+M4uJc2EfN1SkZ
+	9GGOOQZcT1rprG6ygOUseuq/MPAZWDhOVJBtn97aKLtBa5xkR28o08Z+Qm4eiE7s+FA3Fisa3F+hd
+	/5ndpB/RZZMwpq9iXfA9edTElAj8iJ4TjyfWPYbMRmXrP7d2sLbB8Wn9deSDlmewlGo4mObaWPjFq
+	Yk/klP3O3z9xIMk6GEW/+84QCHTWn1w+yCXzon8QwxU8HTBItb/zuM1LxzR531Sf/Aw15n+cHArW0
+	QZGcGh2g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oK1rB-00HNFA-1x; Fri, 05 Aug 2022 18:15:33 +0000
-Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131])
+	id 1oK1xH-00HPx1-6e; Fri, 05 Aug 2022 18:21:51 +0000
+Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oK1r8-00HNCU-0A
-	for linux-nvme@lists.infradead.org; Fri, 05 Aug 2022 18:15:31 +0000
-Received: by mail-il1-x131.google.com with SMTP id z8so432160ile.0
-        for <linux-nvme@lists.infradead.org>; Fri, 05 Aug 2022 11:15:27 -0700 (PDT)
+	id 1oK1xD-00HPt5-NQ
+	for linux-nvme@lists.infradead.org; Fri, 05 Aug 2022 18:21:49 +0000
+Received: by mail-il1-x12d.google.com with SMTP id g14so1727356ile.11
+        for <linux-nvme@lists.infradead.org>; Fri, 05 Aug 2022 11:21:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc;
-        bh=gk5a3EW3Ph2WpipU/WTzFfbiIRaAAQHx8pFA4GCIzmM=;
-        b=Ovo1jaM1jNoHeGymgKW/S1O7IKGi8JTPl5wusmqk8/QBRF0qiX8qIYEaMlg49Sl6Rr
-         igkabJRDKfi9kiE1gR5fJY2rQ0hT1TPbzwYZUm7Ag8OAgk+fqNh3ToNqm0xLd3yPE7Qk
-         Oi+E3a6qVxwXfb6sn9O7EyH2AQ7JrOylgEAAMFuLNjQ37Q5neXLDZ+diBpC5OcIt3D7t
-         rZo5T+VO8cs60ogBloKJ5BTksHzrA3sDlUxyhu4v0zQQvfkhHePD3Fp+ZfsosnGSSHsQ
-         gTqaJ6IHuP0xsYQqHxILei7R/i3Wkw0FDR2KqwAcL1fFkTonHyy9zueR8jDiRC6vwmiZ
-         hKzQ==
+        bh=rXJR+3kRg10GWju8AY2VY5RepJsm3stSFMxKfTc+Mdw=;
+        b=ylx2a39t5J/xEYFPe9U2YFYkUC0vB2kEd6CZ0AM3jHmuWnlWGVzvucZOIbxVceg+5f
+         SHItuRP4ZHyrlM5gqKBA+f8EeAFZj7weuhI0B8efhbEhNcay66sSc+mMPE/1snGyd5GN
+         ZiqTjR28ByPPcqkuCLa2GpQkdwkfiad3LU4kQBrlM4qM+ef9wFfO/ZpDpNJEU3jOPE2k
+         tGQcKdbgx2pPqSBZmyXKm8G7+Z4NxpBJFBpVpO5ghdho8/O/2BtxZ79dh9Ul8emCSast
+         b2/R0ZYL9dnMbbOqHWfwFcX7BBvqZ6ROf5vYBNzRkkJugiJuEcl7mVlFonciUqZco+jl
+         lkJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc;
-        bh=gk5a3EW3Ph2WpipU/WTzFfbiIRaAAQHx8pFA4GCIzmM=;
-        b=V/M97HG3xGLQQlYr+i7F4Cy6LSHwkMK6XN6o98Vl52i+uNFSO+hy9p2BRzjV8hTKjO
-         bZ9AeR7j7Sni9tiu2P1XpozOl83pS6p+c09/HmmnYO4wff9oxaByfEhatWk2HyZ61ByX
-         kq4MdqQFutpqJvzQlNl8dwFEaSL2vhoHmxResx6uj7g8x7joofp7tUVjk4wayILeTKPw
-         YPYZQh05069Pt4sjbbq0x1Rp3uS3kYBG4gSk/+e42o/uOrggrHLlVKifhRvPo0vOyEOu
-         i5a/LmDBBTBlFcsBNiBYNTdXmazjT0lZXUfpbiE6293U3QymISaX2Tm1EdzbYSUwR+I1
-         Pv8A==
-X-Gm-Message-State: ACgBeo3i2OSoeBJZgtYqv2ZlwEuc+ZHyvcyl1tl8825iuwwUe58x/lMd
-	WDVbvFQFiNq1ImSa4rjE/TxRJg==
-X-Google-Smtp-Source: AA6agR4dF96Re7MRCaE8lp8UNdD9uMORcpeztS2fubhGx5Y8gqqOZCibghCeLMzaWGWAub0D17UjOg==
-X-Received: by 2002:a05:6e02:152b:b0:2de:e632:ca6b with SMTP id i11-20020a056e02152b00b002dee632ca6bmr3703645ilu.296.1659723326973;
-        Fri, 05 Aug 2022 11:15:26 -0700 (PDT)
+        bh=rXJR+3kRg10GWju8AY2VY5RepJsm3stSFMxKfTc+Mdw=;
+        b=uWvH0V58Oi213XbQhkJvv6TiyxVvNEsdDe72XmG+KfeDTfU46lpRhvCFNwW6zFOUWe
+         vZd72onxr2n2guzSW89x+0heyi3aL00m9E5+690GRazkN4TkuIrUTbDgMGNUH9TZal6A
+         Nr9l8+HKqo0CrUAmokM0j4X6/OTeJByT3GRMzgNpXNOxalIV0cX+kb4tcge2Jm1sGvZm
+         MEFGKz2sbqLYpp/UB3y4yAJgZRKsL6nxGMB8Adj92Oe4aq+YZRxfGOrSl4q6VaiCrP9U
+         nCMQ2FoAWObm3kyF8fpcRbuEvd0adVSlEDfqAHm0mDXp0R0CUBFmNU2byVrrqi6tanbT
+         PJ9Q==
+X-Gm-Message-State: ACgBeo2xO8dNkTZF3Ki1aOpHqrOSioFpYOfG+viCG6M8bO4m3w8qYF6s
+	NHd+LuQXThxuU8zXXUep7eQOaA==
+X-Google-Smtp-Source: AA6agR54l3gROd8fc8d/9Drphu+8qZXHk3NQjHgNOoLVQ9RkgmLa8ddQo4OjUqO7+DrtWHvs27S+bA==
+X-Received: by 2002:a05:6e02:15c9:b0:2da:c33e:49c7 with SMTP id q9-20020a056e0215c900b002dac33e49c7mr3543295ilu.26.1659723703886;
+        Fri, 05 Aug 2022 11:21:43 -0700 (PDT)
 Received: from [192.168.1.172] ([207.135.234.126])
-        by smtp.gmail.com with ESMTPSA id r16-20020a056e02109000b002dcf927087asm1896938ilj.65.2022.08.05.11.15.25
+        by smtp.gmail.com with ESMTPSA id p5-20020a02c805000000b0033ec45fb044sm1927776jao.47.2022.08.05.11.21.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Aug 2022 11:15:26 -0700 (PDT)
-Message-ID: <6bd091d6-e0e6-3095-fc6b-d32ec89db054@kernel.dk>
-Date: Fri, 5 Aug 2022 12:15:24 -0600
+        Fri, 05 Aug 2022 11:21:43 -0700 (PDT)
+Message-ID: <e7aef1f3-b616-8a6e-ee1f-e5ed5998b0db@kernel.dk>
+Date: Fri, 5 Aug 2022 12:21:42 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
 Subject: Re: [PATCH 0/4] iopoll support for io_uring/nvme passthrough
 Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, hch@lst.de,
- io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+From: Jens Axboe <axboe@kernel.dk>
+To: Kanchan Joshi <joshi.k@samsung.com>, hch@lst.de
+Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, ming.lei@redhat.com, joshiiitr@gmail.com,
- gost.dev@samsung.com
+ gost.dev@samsung.com, Keith Busch <kbusch@kernel.org>
 References: <CGME20220805155300epcas5p1b98722e20990d0095238964e2be9db34@epcas5p1.samsung.com>
  <20220805154226.155008-1-joshi.k@samsung.com>
  <78f0ac8e-cd45-d71d-4e10-e6d2f910ae45@kernel.dk>
  <a2a5184d-f3ab-0941-6cc4-87cf231d5333@kernel.dk>
- <Yu1dTRhrcOSXmYoN@kbusch-mbp.dhcp.thefacebook.com>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <Yu1dTRhrcOSXmYoN@kbusch-mbp.dhcp.thefacebook.com>
+In-Reply-To: <a2a5184d-f3ab-0941-6cc4-87cf231d5333@kernel.dk>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220805_111530_298683_BF410420 
-X-CRM114-Status: GOOD (  19.11  )
+X-CRM114-CacheID: sfid-20220805_112147_801235_0F40EF08 
+X-CRM114-Status: GOOD (  29.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,50 +96,200 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/5/22 12:11 PM, Keith Busch wrote:
-> On Fri, Aug 05, 2022 at 11:18:38AM -0600, Jens Axboe wrote:
->> On 8/5/22 11:04 AM, Jens Axboe wrote:
->>> On 8/5/22 9:42 AM, Kanchan Joshi wrote:
->>>> Hi,
->>>>
->>>> Series enables async polling on io_uring command, and nvme passthrough
->>>> (for io-commands) is wired up to leverage that.
->>>>
->>>> 512b randread performance (KIOP) below:
->>>>
->>>> QD_batch    block    passthru    passthru-poll   block-poll
->>>> 1_1          80        81          158            157
->>>> 8_2         406       470          680            700
->>>> 16_4        620       656          931            920
->>>> 128_32      879       1056        1120            1132
+On 8/5/22 11:18 AM, Jens Axboe wrote:
+> On 8/5/22 11:04 AM, Jens Axboe wrote:
+>> On 8/5/22 9:42 AM, Kanchan Joshi wrote:
+>>> Hi,
 >>>
->>> Curious on why passthru is slower than block-poll? Are we missing
->>> something here?
+>>> Series enables async polling on io_uring command, and nvme passthrough
+>>> (for io-commands) is wired up to leverage that.
+>>>
+>>> 512b randread performance (KIOP) below:
+>>>
+>>> QD_batch    block    passthru    passthru-poll   block-poll
+>>> 1_1          80        81          158            157
+>>> 8_2         406       470          680            700
+>>> 16_4        620       656          931            920
+>>> 128_32      879       1056        1120            1132
 >>
->> I took a quick peek, running it here. List of items making it slower:
->>
->> - No fixedbufs support for passthru, each each request will go through
->>   get_user_pages() and put_pages() on completion. This is about a 10%
->>   change for me, by itself.
+>> Curious on why passthru is slower than block-poll? Are we missing
+>> something here?
 > 
-> Enabling fixed buffer support through here looks like it will take a
-> little bit of work. The driver needs an opcode or flag to tell it the
-> user address is a fixed buffer, and io_uring needs to export its
-> registered buffer for a driver like nvme to get to.
-
-Yeah, it's not a straight forward thing. But if this will be used with
-recycled buffers, then it'll definitely be worthwhile to look into.
-
->> - nvme_uring_cmd_io() -> nvme_alloc_user_request() -> blk_rq_map_user()
->>   -> blk_rq_map_user_iov() -> memset() is another ~4% for me.
+> I took a quick peek, running it here. List of items making it slower:
 > 
-> Where's the memset() coming from? That should only happen if we need
-> to bounce, right? This type of request shouldn't need that unless
-> you're using odd user address alignment.
+> - No fixedbufs support for passthru, each each request will go through
+>   get_user_pages() and put_pages() on completion. This is about a 10%
+>   change for me, by itself.
+> 
+> - nvme_uring_cmd_io() -> nvme_alloc_user_request() -> blk_rq_map_user()
+>   -> blk_rq_map_user_iov() -> memset() is another ~4% for me.
+> 
+> - The kmalloc+kfree per command is roughly 9% extra slowdown.
+> 
+> There are other little things, but the above are the main ones. Even if
+> I disable fixedbufs for non-passthru, passthru is about ~24% slower
+> here using a single device and a single core, which is mostly the above
+> mentioned items.
+> 
+> This isn't specific to the iopoll support, that's obviously faster than
+> IRQ driven for this test case. This is just comparing passthru with
+> the regular block path for doing random 512b reads.
 
-Not sure, need to double check! Hacking up a patch to get rid of the
-frivolous alloc+free, we'll see how it stands after that and I'll find
-it.
+Here's a hack that gets rid of the page array alloc+free for smaller vec
+ranges, and uses the bio cache for polled IO too.
+
+This reclaims about 14% of the 24% compared to block-iopoll, in
+particular for this run it brings IOPS from ~1815K to 2110K for
+passthru-polled.
+
+We also don't seem to be taking advantage of request completion
+batching, and tag batch allocations. Outside of that, looks like just
+some generic block bits that need fixing up (and the attached patch that
+needs some cleanup gets us most of the way there), so nothing we can't
+get sorted out.
+
+Keith, the memset() seems to be tied to the allocations fixed in this
+patch, it's gone now as well.
+
+diff --git a/block/blk-map.c b/block/blk-map.c
+index df8b066cd548..8861b89e15a8 100644
+--- a/block/blk-map.c
++++ b/block/blk-map.c
+@@ -157,10 +157,8 @@ static int bio_copy_user_iov(struct request *rq, struct rq_map_data *map_data,
+ 		goto out_bmd;
+ 	bio_init(bio, NULL, bio->bi_inline_vecs, nr_pages, req_op(rq));
+ 
+-	if (map_data) {
+-		nr_pages = 1 << map_data->page_order;
++	if (map_data)
+ 		i = map_data->offset / PAGE_SIZE;
+-	}
+ 	while (len) {
+ 		unsigned int bytes = PAGE_SIZE;
+ 
+@@ -232,7 +230,7 @@ static int bio_copy_user_iov(struct request *rq, struct rq_map_data *map_data,
+ }
+ 
+ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
+-		gfp_t gfp_mask)
++			    gfp_t gfp_mask)
+ {
+ 	unsigned int max_sectors = queue_max_hw_sectors(rq->q);
+ 	unsigned int nr_vecs = iov_iter_npages(iter, BIO_MAX_VECS);
+@@ -243,18 +241,34 @@ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
+ 	if (!iov_iter_count(iter))
+ 		return -EINVAL;
+ 
+-	bio = bio_kmalloc(nr_vecs, gfp_mask);
+-	if (!bio)
+-		return -ENOMEM;
+-	bio_init(bio, NULL, bio->bi_inline_vecs, nr_vecs, req_op(rq));
++	if (rq->cmd_flags & REQ_POLLED) {
++		blk_opf_t opf = rq->cmd_flags | REQ_ALLOC_CACHE;
++
++		bio = bio_alloc_bioset(NULL, nr_vecs, opf, gfp_mask,
++					&fs_bio_set);
++		if (!bio)
++			return -ENOMEM;
++	} else {
++		bio = bio_kmalloc(nr_vecs, gfp_mask);
++		if (!bio)
++			return -ENOMEM;
++		bio_init(bio, NULL, bio->bi_inline_vecs, nr_vecs, req_op(rq));
++	}
+ 
+ 	while (iov_iter_count(iter)) {
+-		struct page **pages;
++		struct page **pages, *stack_pages[8];
+ 		ssize_t bytes;
+ 		size_t offs, added = 0;
+ 		int npages;
+ 
+-		bytes = iov_iter_get_pages_alloc(iter, &pages, LONG_MAX, &offs);
++		if (nr_vecs < ARRAY_SIZE(stack_pages)) {
++			pages = stack_pages;
++			bytes = iov_iter_get_pages(iter, pages, LONG_MAX,
++							nr_vecs, &offs);
++		} else {
++			bytes = iov_iter_get_pages_alloc(iter, &pages, LONG_MAX,
++							&offs);
++		}
+ 		if (unlikely(bytes <= 0)) {
+ 			ret = bytes ? bytes : -EFAULT;
+ 			goto out_unmap;
+@@ -291,7 +305,8 @@ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
+ 		 */
+ 		while (j < npages)
+ 			put_page(pages[j++]);
+-		kvfree(pages);
++		if (pages != stack_pages)
++			kvfree(pages);
+ 		/* couldn't stuff something into bio? */
+ 		if (bytes)
+ 			break;
+@@ -304,8 +319,12 @@ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
+ 
+  out_unmap:
+ 	bio_release_pages(bio, false);
+-	bio_uninit(bio);
+-	kfree(bio);
++	if (bio->bi_opf & REQ_ALLOC_CACHE) {
++		bio_put(bio);
++	} else {
++		bio_uninit(bio);
++		kfree(bio);
++	}
+ 	return ret;
+ }
+ 
+@@ -325,8 +344,12 @@ static void bio_invalidate_vmalloc_pages(struct bio *bio)
+ static void bio_map_kern_endio(struct bio *bio)
+ {
+ 	bio_invalidate_vmalloc_pages(bio);
+-	bio_uninit(bio);
+-	kfree(bio);
++	if (bio->bi_opf & REQ_ALLOC_CACHE) {
++		bio_put(bio);
++	} else {
++		bio_uninit(bio);
++		kfree(bio);
++	}
+ }
+ 
+ /**
+@@ -610,8 +633,12 @@ int blk_rq_unmap_user(struct bio *bio)
+ 
+ 		next_bio = bio;
+ 		bio = bio->bi_next;
+-		bio_uninit(next_bio);
+-		kfree(next_bio);
++		if (next_bio->bi_opf & REQ_ALLOC_CACHE) {
++			bio_put(next_bio);
++		} else {
++			bio_uninit(next_bio);
++			kfree(next_bio);
++		}
+ 	}
+ 
+ 	return ret;
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 8f841caaa4cb..ce2f4b8dc0d9 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -964,11 +964,10 @@ blk_status_t blk_insert_cloned_request(struct request *rq);
+ 
+ struct rq_map_data {
+ 	struct page **pages;
+-	int page_order;
+ 	int nr_entries;
+ 	unsigned long offset;
+-	int null_mapped;
+-	int from_user;
++	bool null_mapped;
++	bool from_user;
+ };
+ 
+ int blk_rq_map_user(struct request_queue *, struct request *,
 
 -- 
 Jens Axboe
