@@ -4,120 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9CB38C25B08
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Aug 2022 15:59:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1DEB4C00140
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Aug 2022 16:25:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5IRAjs6+m4OB4xTk3tclAQOLtoFiORzCHerBHOWaHZk=; b=Ir9OvRKDNyFKRfCAWle+C3W3qf
-	NEDqmeyYtlI5lXp7/rVNS0kGV1Lp4XdZeWksCxkdYhc25qMae2DwbFvBgpuQTQk8tkp1oOfPsXObd
-	PESdtb3zZj+MTqIWCrT47+PI8esPeaaIx6/Or6cf81XE8MY7+2nCH9CoubMO69p/+/E9kI8ekKmO6
-	0GmNAdHdZSsd3/xPYmiJm9CfRs3q9Q2PUUDYCdCiRMhzfQlE/aE3wrM6+F3b6RfsNvN1z7xQkzopI
-	JAaCftEZN/qyr5ZVaGPVIpUkOB2ULH4M2cQ4oVtgr32Ozo16vyTjg3qtePBsFyqCenp3rXYGmUsb4
-	dp4ZqYEg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=/ZWLqbL5tGSYE5Rcc02OrOw2EnF/iFGjGINklpZXyq8=; b=uLMucQKjBf/4I+Vj2wMAScpZIa
+	cGmrcXSE61RzWoCI+c3u9heUfUM4dwo8jIuExK/5KxlfPq3gwWp2107mt9cpOgzi8H/3nU+c0JSdg
+	a60gf3DPI4gp1LfrT3x4OKgAAtF6bAig+AgGA6zg+m7HG661QOFbtFj7SX8+jwgTj57Q+QiJM5uSj
+	O4yZ4q/Cro9g6Qphjh8Yr0Y5GfXEsYuVvkl1DdPHpzgbm3qea6jIO2oKEzoeo5FOLHUqlChrOxJvS
+	XA7gMezzxi8cnHPvGfkrLE5KRIvjNxJ95Jy32I4ONt1JrkmY1r27htF5mLKRSYIU5JPX8GbUfilJY
+	TGIDJsVw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oJzje-00GWkx-Ka; Fri, 05 Aug 2022 15:59:38 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1oK08W-00GiOm-4F; Fri, 05 Aug 2022 16:25:20 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oJzdc-00GSxb-Pp
-	for linux-nvme@lists.infradead.org; Fri, 05 Aug 2022 15:53:29 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20220805155314epoutp04de1c2620333946028e936990f3520337~Ifc-vsVYJ3034030340epoutp04H
-	for <linux-nvme@lists.infradead.org>; Fri,  5 Aug 2022 15:53:14 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20220805155314epoutp04de1c2620333946028e936990f3520337~Ifc-vsVYJ3034030340epoutp04H
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1659714794;
-	bh=5IRAjs6+m4OB4xTk3tclAQOLtoFiORzCHerBHOWaHZk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pi6VduDbQO3FvD0OGWcZ797fl67h4GdvYod+R9ieYWd2SdUF6qmyH1TUuDT8Sf86p
-	 1vIb3uLhccOU3tUAnYDriP4aAr98h95dVzxkG4eoILKw2PJNC+x+rP0i1EX/uW062f
-	 Hj4/YDIC67HadgiiZHy0KmjbEygkG+KGfjKGonCY=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20220805155313epcas5p3b900662fb2a530dad95248adf6276cdc~Ifc_0k9j12910829108epcas5p35;
-	Fri,  5 Aug 2022 15:53:13 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.183]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4Lzqr72TJXz4x9Pt; Fri,  5 Aug
-	2022 15:53:11 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	7B.15.09639.7EC3DE26; Sat,  6 Aug 2022 00:53:11 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20220805155310epcas5p2bd7ec5b9bee73893958f4bc84038eca0~Ifc8FvJhX2017620176epcas5p2U;
-	Fri,  5 Aug 2022 15:53:10 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20220805155310epsmtrp2040be2f0d9c1a34a63a932dd1253ec62~Ifc8FEgkV2288122881epsmtrp20;
-	Fri,  5 Aug 2022 15:53:10 +0000 (GMT)
-X-AuditID: b6c32a4b-e83ff700000025a7-49-62ed3ce7dee3
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	55.B9.08905.6EC3DE26; Sat,  6 Aug 2022 00:53:10 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.110.206.5]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20220805155309epsmtip2230ca8e5ac0461a35d0f554ac625fb4a~Ifc6wGjCc0383603836epsmtip2T;
-	Fri,  5 Aug 2022 15:53:09 +0000 (GMT)
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: axboe@kernel.dk, hch@lst.de
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, ming.lei@redhat.com, joshiiitr@gmail.com,
-	gost.dev@samsung.com, Kanchan Joshi <joshi.k@samsung.com>
-Subject: [PATCH 3/4] block: export blk_rq_is_poll
-Date: Fri,  5 Aug 2022 21:12:25 +0530
-Message-Id: <20220805154226.155008-4-joshi.k@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220805154226.155008-1-joshi.k@samsung.com>
+	id 1oK08U-00GiO2-AU
+	for linux-nvme@bombadil.infradead.org; Fri, 05 Aug 2022 16:25:18 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Type:Content-Transfer-Encoding
+	:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=/ZWLqbL5tGSYE5Rcc02OrOw2EnF/iFGjGINklpZXyq8=; b=Vbp2l//BCjHwxJz7tyUKJutiUX
+	7Jhhet1SnKbL+nL/Wc3qRG4e1bO1FeVZtWcJGpzogzRY0kLD03wmCgPUqTM9ZrNRP/vVpbK+Ckphi
+	dpIPS9FKyZu6sCgxfxMLvA3Wz2a/7a7by2eATHliBuvWAm5JZWydBWxTM9kJNyAsqo+3W1Wlx2K+c
+	qDyOXoMHgmY+jNBIZZRwYoF3BO0QOvcF734EJnSNFV/59HFL5EHADcphgnyNcEvZz1J02M8ZXgsty
+	C73tZLi2cbfjhVQX7xf75KKRL5Upjoa2g6Dr4GU1uMRyp6Cu6Nv6Y7iaVmFJPk9DQMBsSrfYdQDee
+	ha2p95Qg==;
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	by desiato.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oK08Q-003IhI-1p
+	for linux-nvme@lists.infradead.org; Fri, 05 Aug 2022 16:25:16 +0000
+Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 275G6sTN012179
+	for <linux-nvme@lists.infradead.org>; Fri, 5 Aug 2022 09:25:09 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=facebook;
+ bh=/ZWLqbL5tGSYE5Rcc02OrOw2EnF/iFGjGINklpZXyq8=;
+ b=gQ1S6EffymZ1w7OH/pjBevA/cscGar7djsJcGQaB/vIz3x0MZAGdtoHX7Jhibe/IrZH4
+ sO5iWYijReq3w6x/xavEVCu8+7oCPsriZh91mGmDIghvRaVWI6UtwvtM+jzf36cV+S4g
+ l5MRwaDQ3ydjQij8SJAjAsNG8e7jXq0ND0A= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3hs3cf1d84-10
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Fri, 05 Aug 2022 09:25:09 -0700
+Received: from twshared22934.08.ash9.facebook.com (2620:10d:c0a8:1b::d) by
+ mail.thefacebook.com (2620:10d:c0a8:83::6) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Fri, 5 Aug 2022 09:25:02 -0700
+Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
+	id 9F1D7703750A; Fri,  5 Aug 2022 09:24:46 -0700 (PDT)
+From: Keith Busch <kbusch@fb.com>
+To: <linux-nvme@lists.infradead.org>, <linux-block@vger.kernel.org>,
+        <io-uring@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
+CC: <axboe@kernel.dk>, <hch@lst.de>, Alexander Viro <viro@zeniv.linux.org.uk>,
+        Kernel Team <Kernel-team@fb.com>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCHv3 5/7] io_uring: introduce file slot release helper
+Date: Fri, 5 Aug 2022 09:24:42 -0700
+Message-ID: <20220805162444.3985535-6-kbusch@fb.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220805162444.3985535-1-kbusch@fb.com>
+References: <20220805162444.3985535-1-kbusch@fb.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCJsWRmVeSWpSXmKPExsWy7bCmuu5zm7dJBluO8lusvtvPZnHzwE4m
-	i5WrjzJZvGs9x2Jx9P9bNovzbw8zWey9pW0xf9lTdotDk5uZHDg9ds66y+5x+Wypx+Yl9R67
-	bzawebzfd5XNo2/LKkaPz5vkAtijsm0yUhNTUosUUvOS81My89JtlbyD453jTc0MDHUNLS3M
-	lRTyEnNTbZVcfAJ03TJzgO5SUihLzCkFCgUkFhcr6dvZFOWXlqQqZOQXl9gqpRak5BSYFOgV
-	J+YWl+al6+WlllgZGhgYmQIVJmRnzH1zj7VgEnfFpp4jrA2MSzm7GDk5JARMJC58PM3axcjF
-	ISSwm1Hiz6w3zBDOJ0aJo9/mMUI43xglln54zgzTsuzpE3aIxF5GiQlXT0H1f2aUOPe4AaiF
-	g4NNQFPiwuRSkAYRAXmJL7fXsoDUMAscYpR4vuQV2CRhAUOJles3gNWzCKhKrLhQCRLmFbCU
-	2DynE2qZvMTMS9/ZQWxOASuJ1sNbmCFqBCVOznzCAmIzA9U0b50NdraEQCuHxJr1/6CaXSQu
-	7/nECGELS7w6voUdwpaS+PxuLxuEnSxxaeY5Jgi7ROLxnoNQtr1E66l+ZpDbmIF+Wb9LH2IX
-	n0Tv7ydMIGEJAV6JjjYhiGpFiXuTnrJC2OISD2csgbI9JLbcuAYNq15GicM/21knMMrPQvLC
-	LCQvzELYtoCReRWjZGpBcW56arFpgXFeajk8YpPzczcxgpOnlvcOxkcPPugdYmTiYAQGLQez
-	kgjvzx2vk4R4UxIrq1KL8uOLSnNSiw8xmgKDeCKzlGhyPjB955XEG5pYGpiYmZmZWBqbGSqJ
-	83pd3ZQkJJCeWJKanZpakFoE08fEwSnVwMR/oi0imY9H3e/9yhucDDJnuHX3XrJ2nx1WaeXF
-	9XjddfZpnQoF7888PPJ107ztwZdm7rnhfX7zb+mL2yvFT6zoiU88slmE2Zf9qsbE7pXsjab+
-	bOWXdx7U3tckZNw2S0T1lsjNY+ynfWN3FP1pbFm9vLBnLZetRdeCGYaVV1QbPnEn37/Zzyd1
-	2iT9Stlb769Hdm4/s+DeoVuG/L33a7bJxu3alyevqldfMcd03ar7f9Lc3n01/nh/5+MvldKb
-	7vv6XJwkkLPj/UqDn9PEp622aoxm2KTTqHObv/XqHY69dkaNbvsMpN4c3KZ9/uVSfXOBn3vn
-	6f/NY9oT4znr87nOg+cuLexrYny0Wejg83N6SizFGYmGWsxFxYkAH8iXoicEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrGLMWRmVeSWpSXmKPExsWy7bCSvO4zm7dJBg93alqsvtvPZnHzwE4m
-	i5WrjzJZvGs9x2Jx9P9bNovzbw8zWey9pW0xf9lTdotDk5uZHDg9ds66y+5x+Wypx+Yl9R67
-	bzawebzfd5XNo2/LKkaPz5vkAtijuGxSUnMyy1KL9O0SuDLmvrnHWjCJu2JTzxHWBsalnF2M
-	nBwSAiYSy54+Ye9i5OIQEtjNKPG85wQjREJcovnaD3YIW1hi5b/nUEUfGSXe9e5m62Lk4GAT
-	0JS4MLkUpEZEQFFi48cmRpAaZoFTjBLvj75hAUkICxhKrFy/gRGknkVAVWLFhUqQMK+ApcTm
-	OZ3MEPPlJWZe+g62i1PASqL18BZmkHIhoJr5d7ggygUlTs58AjaRGai8eets5gmMArOQpGYh
-	SS1gZFrFKJlaUJybnltsWGCYl1quV5yYW1yal66XnJ+7iREc9FqaOxi3r/qgd4iRiYPxEKME
-	B7OSCO/PHa+ThHhTEiurUovy44tKc1KLDzFKc7AoifNe6DoZLySQnliSmp2aWpBaBJNl4uCU
-	amCqq34WZMh371PW47mqARMYDiy6F/0giC3wt8DH68Hi55/2BFhufHV04/KcOf9OGb2a1xZ8
-	d8Yf6fd37jxym51UUvtUN/AH978E+989ftsPZcnX3hCuO8IgIjFpDhOTvZJqmfMzrbkB71++
-	+Sp1bFfHyv2a4tG1paL/eywrbysvuCCbt/nANoUTO6ZOV/2hPYf56cQj/AUiOe7f1+f0f172
-	+E/okbUNpkxqXJ1XZns+EJgWtLZaY07o6Y7yLbrmad3s2wLvhDMEyU7zEAnv/vDmUeq7GxpH
-	di99IJ95ITU5wT9U1Fpu96RPr8951Vq5PQ/KlKzLLj8mo7FwYcHqeREXPs6LSj4wSel1Qldg
-	UsVNJZbijERDLeai4kQAp56ntekCAAA=
-X-CMS-MailID: 20220805155310epcas5p2bd7ec5b9bee73893958f4bc84038eca0
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220805155310epcas5p2bd7ec5b9bee73893958f4bc84038eca0
-References: <20220805154226.155008-1-joshi.k@samsung.com>
-	<CGME20220805155310epcas5p2bd7ec5b9bee73893958f4bc84038eca0@epcas5p2.samsung.com>
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: 0H0w9CvC4eybcGhAl2Pt3uaoFcI_rcv3
+X-Proofpoint-GUID: 0H0w9CvC4eybcGhAl2Pt3uaoFcI_rcv3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-05_09,2022-08-05_01,2022-06-22_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220805_085325_388417_D7571B0F 
-X-CRM114-Status: GOOD (  14.45  )
+X-CRM114-CacheID: sfid-20220805_172514_584888_CB8155A2 
+X-CRM114-Status: GOOD (  18.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -132,48 +96,131 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This is being done as preparation to support iopoll for nvme passthrough
+From: Keith Busch <kbusch@kernel.org>
 
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+Releasing the pre-registered file follows a repeated pattern. Introduce
+a helper to make it easier to add more complexity to this resource in
+the future.
+
+Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- block/blk-mq.c         | 3 ++-
- include/linux/blk-mq.h | 1 +
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ io_uring/filetable.c | 33 +++++++++++++++++++++------------
+ io_uring/filetable.h |  3 +++
+ io_uring/rsrc.c      |  5 +----
+ 3 files changed, 25 insertions(+), 16 deletions(-)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 5ee62b95f3e5..de42f7237bad 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -1233,7 +1233,7 @@ static void blk_end_sync_rq(struct request *rq, blk_status_t ret)
- 	complete(&wait->done);
- }
- 
--static bool blk_rq_is_poll(struct request *rq)
-+bool blk_rq_is_poll(struct request *rq)
+diff --git a/io_uring/filetable.c b/io_uring/filetable.c
+index 7b473259f3f4..1b8db1918678 100644
+--- a/io_uring/filetable.c
++++ b/io_uring/filetable.c
+@@ -76,19 +76,13 @@ static int io_install_fixed_file(struct io_ring_ctx *=
+ctx, struct file *file,
+ 	file_slot =3D io_fixed_file_slot(&ctx->file_table, slot_index);
+=20
+ 	if (file_slot->file_ptr) {
+-		struct file *old_file;
+-
+ 		ret =3D io_rsrc_node_switch_start(ctx);
+ 		if (ret)
+ 			goto err;
+=20
+-		old_file =3D (struct file *)(file_slot->file_ptr & FFS_MASK);
+-		ret =3D io_queue_rsrc_removal(ctx->file_data, slot_index,
+-					    ctx->rsrc_node, old_file);
++		ret =3D io_file_slot_queue_removal(ctx, file_slot);
+ 		if (ret)
+ 			goto err;
+-		file_slot->file_ptr =3D 0;
+-		io_file_bitmap_clear(&ctx->file_table, slot_index);
+ 		needs_switch =3D true;
+ 	}
+=20
+@@ -148,7 +142,6 @@ int io_fixed_fd_install(struct io_kiocb *req, unsigne=
+d int issue_flags,
+ int io_fixed_fd_remove(struct io_ring_ctx *ctx, unsigned int offset)
  {
- 	if (!rq->mq_hctx)
- 		return false;
-@@ -1243,6 +1243,7 @@ static bool blk_rq_is_poll(struct request *rq)
- 		return false;
- 	return true;
+ 	struct io_fixed_file *file_slot;
+-	struct file *file;
+ 	int ret;
+=20
+ 	if (unlikely(!ctx->file_data))
+@@ -164,13 +157,10 @@ int io_fixed_fd_remove(struct io_ring_ctx *ctx, uns=
+igned int offset)
+ 	if (!file_slot->file_ptr)
+ 		return -EBADF;
+=20
+-	file =3D (struct file *)(file_slot->file_ptr & FFS_MASK);
+-	ret =3D io_queue_rsrc_removal(ctx->file_data, offset, ctx->rsrc_node, f=
+ile);
++	ret =3D io_file_slot_queue_removal(ctx, file_slot);
+ 	if (ret)
+ 		return ret;
+=20
+-	file_slot->file_ptr =3D 0;
+-	io_file_bitmap_clear(&ctx->file_table, offset);
+ 	io_rsrc_node_switch(ctx, ctx->file_data);
+ 	return 0;
  }
-+EXPORT_SYMBOL_GPL(blk_rq_is_poll);
- 
- static void blk_rq_poll_completion(struct request *rq, struct completion *wait)
- {
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index effee1dc715a..8f841caaa4cb 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -981,6 +981,7 @@ int blk_rq_map_kern(struct request_queue *, struct request *, void *,
- int blk_rq_append_bio(struct request *rq, struct bio *bio);
- void blk_execute_rq_nowait(struct request *rq, bool at_head);
- blk_status_t blk_execute_rq(struct request *rq, bool at_head);
-+bool blk_rq_is_poll(struct request *rq);
- 
- struct req_iterator {
- 	struct bvec_iter iter;
--- 
-2.25.1
+@@ -191,3 +181,22 @@ int io_register_file_alloc_range(struct io_ring_ctx =
+*ctx,
+ 	io_file_table_set_alloc_range(ctx, range.off, range.len);
+ 	return 0;
+ }
++
++int io_file_slot_queue_removal(struct io_ring_ctx *ctx,
++			       struct io_fixed_file *file_slot)
++{
++	u32 slot_index =3D file_slot - ctx->file_table.files;
++	struct file *file;
++	int ret;
++
++	file =3D (struct file *)(file_slot->file_ptr & FFS_MASK);
++	ret =3D io_queue_rsrc_removal(ctx->file_data, slot_index,
++				    ctx->rsrc_node, file);
++	if (ret)
++		return ret;
++
++	file_slot->file_ptr =3D 0;
++	io_file_bitmap_clear(&ctx->file_table, slot_index);
++
++	return 0;
++}
+diff --git a/io_uring/filetable.h b/io_uring/filetable.h
+index ff3a712e11bf..e52ecf359199 100644
+--- a/io_uring/filetable.h
++++ b/io_uring/filetable.h
+@@ -34,6 +34,9 @@ int io_fixed_fd_remove(struct io_ring_ctx *ctx, unsigne=
+d int offset);
+ int io_register_file_alloc_range(struct io_ring_ctx *ctx,
+ 				 struct io_uring_file_index_range __user *arg);
+=20
++int io_file_slot_queue_removal(struct io_ring_ctx *ctx,
++			       struct io_fixed_file *file_slot);
++
+ unsigned int io_file_get_flags(struct file *file);
+=20
+ static inline void io_file_bitmap_clear(struct io_file_table *table, int=
+ bit)
+diff --git a/io_uring/rsrc.c b/io_uring/rsrc.c
+index 59704b9ac537..1f10eecad4d7 100644
+--- a/io_uring/rsrc.c
++++ b/io_uring/rsrc.c
+@@ -469,12 +469,9 @@ static int __io_sqe_files_update(struct io_ring_ctx =
+*ctx,
+ 		file_slot =3D io_fixed_file_slot(&ctx->file_table, i);
+=20
+ 		if (file_slot->file_ptr) {
+-			file =3D (struct file *)(file_slot->file_ptr & FFS_MASK);
+-			err =3D io_queue_rsrc_removal(data, i, ctx->rsrc_node, file);
++			err =3D io_file_slot_queue_removal(ctx, file_slot);
+ 			if (err)
+ 				break;
+-			file_slot->file_ptr =3D 0;
+-			io_file_bitmap_clear(&ctx->file_table, i);
+ 			needs_switch =3D true;
+ 		}
+ 		if (fd !=3D -1) {
+--=20
+2.30.2
 
 
