@@ -4,37 +4,39 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42FFAC25B06
-	for <linux-nvme@archiver.kernel.org>; Sat,  6 Aug 2022 08:32:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B306C25B06
+	for <linux-nvme@archiver.kernel.org>; Sat,  6 Aug 2022 08:35:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=wXG+Z7ExJqnbUstr0EuFLBmtrpoZThjx4LP/TS3YJKM=; b=SgUPn5vyKGRE/wxFISa4AxLHSq
-	PbK6HkASHB9Z8j7HnBaD0phDpuHMQUBvxw26i7xspECLJhJMTSwkFtmNDvj7pxt0WCx2FnL77I/nC
-	sTQsY2JrjIoBOj7EO4Y1JHOneNVwifGzbwatlEexSd/VmSaCgQdUOYpYHP/mr5tYKNNEzPPviKcx9
-	zmw0bqqSmMP++pxHFppv1Ui38F9Lo6yiYz6hh1QkwTDtUCUeeh/LxonCXXhoS29lDKv5epgVI+k59
-	TbKWjlt7LS9WLhlo7C4gAqLO+6xCOzfO9/1mND+Zm0XI5dVgQe/EuSAn4mFbYRpIhd1oafZeD0KQ6
-	SepP73+Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=BEUfRzIoKIx0c0BN5Z5CmPkYl3e0Vb4l3CNHTKDA8IA=; b=c0s70p/WjPMJn5C1HoxOSjtOeB
+	phcf5CYQGNtHCAx9tf51rzYnL4jfu1WnK7+HGKVJ1VterT+OcpxicqqeHhLuCES0QJhUJJGTTB7n8
+	72SUxKEtO5aoY9ukW0kU/xQru9bVsg8PJMwYkHu3IWC0lWM/t+QH2Xb4d5Bd9PDSDw8hyzadlVPRQ
+	RV4kq/65xWO0hcZPQMuc3kQqS29MU6ADfUrmg62pTnxbm0u/L2bl7/Q5+XmfOIZ0aF3eRshMup0bp
+	iocXdz8tFHYId4r+Fcm1KtXtI5D7DRcY6Xw1mXb7CObEqFbEuDrFftLDRZI9/o5FZQ6D1tjxx0yN9
+	Z/L7faXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oKFEY-006XxQ-CH; Sat, 06 Aug 2022 08:32:34 +0000
-Received: from [2001:4bb8:192:6d54:4997:d9fe:27ec:4c3c] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oKFEV-006Xw1-Tq; Sat, 06 Aug 2022 08:32:32 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: linux-nvme@lists.infradead.org
-Cc: "Ewan D . Milne" <emilne@redhat.com>,
-	James Smart <jsmart2021@gmail.com>,
-	Muneendra Kumar M <muneendra.kumar@broadcom.com>
-Subject: [PATCH] nvme-fc: fix the fc_appid_store return value
-Date: Sat,  6 Aug 2022 10:32:28 +0200
-Message-Id: <20220806083228.3826126-1-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
+	id 1oKFGy-006ZKx-UE; Sat, 06 Aug 2022 08:35:04 +0000
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oKFGx-006ZJx-AI; Sat, 06 Aug 2022 08:35:03 +0000
+Date: Sat, 6 Aug 2022 01:35:03 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Gilles Buloz <Gilles.Buloz@kontron.com>
+Cc: Christoph Hellwig <hch@infradead.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: NVMe write protection support
+Message-ID: <Yu4nt1bzSynhmeUF@infradead.org>
+References: <DU0PR10MB62528F66099C2311E2AF1EEE809A9@DU0PR10MB6252.EURPRD10.PROD.OUTLOOK.COM>
+ <YugctzU0uDZvfAal@infradead.org>
+ <DU0PR10MB62528A77489B4ADE66503166809D9@DU0PR10MB6252.EURPRD10.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DU0PR10MB62528A77489B4ADE66503166809D9@DU0PR10MB6252.EURPRD10.PROD.OUTLOOK.COM>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -49,44 +51,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-"nvme-fc: fold t fc_update_appid into fc_appid_store" accidentally
-changed the userspace interface for the appid attribute, because the code
-that decrements "count" to remove a trailing '\n' in the parsing results
-in the decremented value being incorrectly be returned from the sysfs
-write.  Fix this by keeping an orig_count variable for the full length
-of the write.
+On Tue, Aug 02, 2022 at 09:20:02AM +0000, Gilles Buloz wrote:
+> Sorry Christoph, I'm completely newbie in NVMe and don't know what "Namespace Write Protection Config" means.
 
-Fixes: c814153c83a8 ("nvme-fc: fold t fc_update_appid into fc_appid_store")
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Ewan D. Milne <emilne@redhat.com>
-Reviewed-by: James Smart <jsmart2021@gmail.com>
-Tested-by:  Muneendra Kumar M <muneendra.kumar@broadcom.com>
----
- drivers/nvme/host/fc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Take a look at
+https://nvmexpress.org/wp-content/uploads/NVM-Express-Base-Specification-2.0b-2021.12.18-Ratified.pdf
+and search for this term.
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 8d14df8eeab84..127abaf9ba5d6 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -3880,6 +3880,7 @@ static int fc_parse_cgrpid(const char *buf, u64 *id)
- static ssize_t fc_appid_store(struct device *dev,
- 		struct device_attribute *attr, const char *buf, size_t count)
- {
-+	size_t orig_count = count;
- 	u64 cgrp_id;
- 	int appid_len = 0;
- 	int cgrpid_len = 0;
-@@ -3904,7 +3905,7 @@ static ssize_t fc_appid_store(struct device *dev,
- 	ret = blkcg_set_fc_appid(app_id, cgrp_id, sizeof(app_id));
- 	if (ret < 0)
- 		return ret;
--	return count;
-+	return orig_count;
- }
- static DEVICE_ATTR(appid_store, 0200, NULL, fc_appid_store);
- #endif /* CONFIG_BLK_CGROUP_FC_APPID */
--- 
-2.30.2
+> What I mean is that all the NVMe content seen by the user is write protected.
 
+And that is what this feature is abut.
+
+> Our NVMe manufacturer partner has dedicated a pin of the module for global write protection.
+
+There is no concept of a 'module' in NVMe.
+
+> But if we enable this protection and attempt a write (we should not), we get a "critical medium error" which seems a bit brutal for a disk that is still valid but just write protected. So I would like to make sure the NVMe manufacturer has used the right method/status to report this write protection, and if possible get a less fatal error feedback.
+
+It seems like your manufacturer needs to read the NVMe spec and
+implement the correct features.
 
