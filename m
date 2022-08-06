@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A16F0C00140
-	for <linux-nvme@archiver.kernel.org>; Sat,  6 Aug 2022 00:06:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 639B9C00140
+	for <linux-nvme@archiver.kernel.org>; Sat,  6 Aug 2022 01:38:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eux/D5Lv9qNRWAdldvmPk2NZNhaPTDIsn+e6/ZE3bto=; b=SA17x0WMWBdgY8dpKxFTV+dBuU
-	qKdN85/J6R5WlTC56mkOIJHOqv2Qb8lthgXLFjjktahu0qCPckq7jq/QiMoeoHFZxBhOWGX1av+7E
-	pht4LR0TMp6k85I/HXFLiKmIc+jtcGsLnyLzta+bbbF0pfsKM2UZb2FzV0AmdvU98NE4mgJXn7r8l
-	r9fmYvFKoxW/bxGbsWt4t4+GDaIwSquAhU+DcR2mNBlFvPRGkAzIuEN/V0hrBQypnCbE4OZk8qIX2
-	uYMj/N85f78GCB6+2AfQy+roqnV3WJgfL/iZq6Iht7i6/TIurzCYr93lUI7SefyhwaFlhRWYipBLa
-	cFdeRcCg==;
+	bh=3TZDUYBhAejCeSUGH88vzASBASF9oG+l6zd0h87TvwM=; b=SGtmwg8smYtHNmTL1HvzUhdJBt
+	BILTwGUs2W+YGN9ehep5qGgCuPo/e7igZjR8dVCfiI7+AsOLsB8SN86e0Nw9MZNW2YILqq5h2Z6XZ
+	RpsPUGp60obxqGFShOPKYxmXVaawj0dWSYqAl7wso25yNxCuqgHeA2CwXGxCIXmqMOJKnqXkn/eOl
+	vLlHyAcTmDCgc5eoZ5tieLjxhO0WPm/IQym49v8oQ7+RFZc4aD+AaUCPlDhDyOeNnYanENI+Y7+9Z
+	7c+G5rANIfpEMcBsIlB+0JHeP2zPmfHnutwTZ/oBWeZlGV3OZuLWY/faoGVRNW17fZN2avhB8tFPk
+	bgt1CikA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oK7L6-001vOK-5Z; Sat, 06 Aug 2022 00:06:48 +0000
-Received: from mga05.intel.com ([192.55.52.43])
+	id 1oK8m7-002StH-Q2; Sat, 06 Aug 2022 01:38:47 +0000
+Received: from mga07.intel.com ([134.134.136.100])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oK7L3-001vLE-4W
-	for linux-nvme@lists.infradead.org; Sat, 06 Aug 2022 00:06:46 +0000
+	id 1oK8m3-002Sqs-VT
+	for linux-nvme@lists.infradead.org; Sat, 06 Aug 2022 01:38:46 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659744405; x=1691280405;
+  t=1659749923; x=1691285923;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Wf66Dk1R1z5HRNa92f3K6aYFgQFLMt1ZbhtZO2lk6Uo=;
-  b=EHUFNi+IxO57acBrJTnLTIc0e2QGdHYsB3Uiq4lAJgsmgPJpfjOzxA2l
-   LEgRPfxREPmso/4cvws1ah4pklkyIyaBBXDG6cK+LA2XmsX5ehMSo4SOq
-   ZPBOmSszeKwSuzixriogYflJJyB67gLL5QVFo6q61tt8xluehHcCL0ttA
-   1gkPEw6r53JlBNdQ1i+xMmWoa5S34E/aYt9NDJpOlx4a5eTXeZCeVJ1wJ
-   p11sChaD5/T6r++/wpNaD6daIZeiJzTdciUa7UJC4q8yi8KREJ/bY7Ad2
-   bTr7DFyNPnM+Ua36UiVu7PqdnQnbOLAHqzxrPS0nO8sAawgLP2IudTjzu
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10430"; a="376611464"
+  bh=szq5MDh+o5m9XK7uyYnF8RJiFtQFKDvsgVMvsNGKPyE=;
+  b=Xo9UGACnE2U/zIpwV6+UUKVSXz3v7tN8B40NuDnty5lgYZh4g+FIyJP9
+   rZT/8YiPlTLITEOUu91hyAzSgvynEND9K5sAMXdW2rM5Lp+dyOCYCgxcR
+   wklpnwjyNdvJmXAwbCd33rN3FIVVWGwrsvGzBeUZkQALYvJE7goVchf9f
+   1AWEzF5e5rwTwn4CeLK3sXO3on4oA+7ouf8/IpkZXuUvg5hhQeP5SgskO
+   neH8hMEYUZM6zx9r/2qx/A3uK7B2KHIyCeEqutABez5HZCffR7TXfGUV6
+   F7a5MXUjGCPH44vq8rGN6Z8ZDkhviETBmUx3esnar0p6n2CrdA7XoSiE1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10430"; a="354326868"
 X-IronPort-AV: E=Sophos;i="5.93,217,1654585200"; 
-   d="scan'208";a="376611464"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2022 17:06:39 -0700
+   d="scan'208";a="354326868"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2022 18:38:42 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.93,217,1654585200"; 
-   d="scan'208";a="746027320"
+   d="scan'208";a="603782749"
 Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 05 Aug 2022 17:06:36 -0700
+  by orsmga002.jf.intel.com with ESMTP; 05 Aug 2022 18:38:39 -0700
 Received: from kbuild by e0eace57cfef with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1oK7Ku-000Jq7-07;
-	Sat, 06 Aug 2022 00:06:36 +0000
-Date: Sat, 6 Aug 2022 08:06:02 +0800
+	id 1oK8ly-000JuD-1E;
+	Sat, 06 Aug 2022 01:38:38 +0000
+Date: Sat, 6 Aug 2022 09:38:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kanchan Joshi <joshi.k@samsung.com>, axboe@kernel.dk, hch@lst.de
 Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org, io-uring@vger.kernel.org,
@@ -62,15 +62,15 @@ Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org, io-uring@vger.kernel.org,
 	Anuj Gupta <anuj20.g@samsung.com>
 Subject: Re: [PATCH 4/4] nvme: wire up async polling for io passthrough
  commands
-Message-ID: <202208060733.GCwasLXB-lkp@intel.com>
+Message-ID: <202208060944.JJcNJmU1-lkp@intel.com>
 References: <20220805154226.155008-5-joshi.k@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20220805154226.155008-5-joshi.k@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220805_170645_218221_8CAB1061 
-X-CRM114-Status: GOOD (  13.34  )
+X-CRM114-CacheID: sfid-20220805_183844_195054_D04C62AB 
+X-CRM114-Status: GOOD (  12.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,10 +87,10 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 Hi Kanchan,
 
-Thank you for the patch! Perhaps something to improve:
+Thank you for the patch! Yet something to improve:
 
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on linus/master next-20220805]
+[auto build test ERROR on axboe-block/for-next]
+[also build test ERROR on linus/master]
 [cannot apply to hch-configfs/for-next v5.19]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
@@ -98,8 +98,8 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Kanchan-Joshi/fs-add-file_operations-uring_cmd_iopoll/20220806-004320
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-config: i386-randconfig-a002 (https://download.01.org/0day-ci/archive/20220806/202208060733.GCwasLXB-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 26dd42705c2af0b8f6e5d6cdb32c9bd5ed9524eb)
+config: hexagon-randconfig-r015-20220805 (https://download.01.org/0day-ci/archive/20220806/202208060944.JJcNJmU1-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 5f1c7e2cc5a3c07cbc2412e851a7283c1841f520)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
@@ -109,16 +109,19 @@ reproduce (this is a W=1 build):
         git checkout 0964795577fbf09d8b315269504b5e87b5ac492b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/nvme/host/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/nvme/host/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
 >> drivers/nvme/host/ioctl.c:638:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
            if (test_bit(QUEUE_FLAG_POLL, &q->queue_flags) && bio && bio->bi_bdev)
                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/hexagon/include/asm/bitops.h:175:28: note: expanded from macro 'test_bit'
+   #define test_bit(nr, addr) __test_bit(nr, addr)
+                              ^
    drivers/nvme/host/ioctl.c:641:9: note: uninitialized use occurs here
            return ret;
                   ^~~
@@ -128,29 +131,179 @@ All warnings (new ones prefixed by >>):
 >> drivers/nvme/host/ioctl.c:638:6: warning: variable 'ret' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
            if (test_bit(QUEUE_FLAG_POLL, &q->queue_flags) && bio && bio->bi_bdev)
                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/hexagon/include/asm/bitops.h:175:28: note: expanded from macro 'test_bit'
+   #define test_bit(nr, addr) __test_bit(nr, addr)
+                              ^
    drivers/nvme/host/ioctl.c:641:9: note: uninitialized use occurs here
            return ret;
                   ^~~
    drivers/nvme/host/ioctl.c:638:6: note: remove the '&&' if its condition is always true
            if (test_bit(QUEUE_FLAG_POLL, &q->queue_flags) && bio && bio->bi_bdev)
                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/hexagon/include/asm/bitops.h:175:28: note: expanded from macro 'test_bit'
+   #define test_bit(nr, addr) __test_bit(nr, addr)
+                              ^
 >> drivers/nvme/host/ioctl.c:638:6: warning: variable 'ret' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
            if (test_bit(QUEUE_FLAG_POLL, &q->queue_flags) && bio && bio->bi_bdev)
                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/hexagon/include/asm/bitops.h:175:28: note: expanded from macro 'test_bit'
+   #define test_bit(nr, addr) __test_bit(nr, addr)
+                              ^~~~~~~~~~~~~~~~~~~~
    drivers/nvme/host/ioctl.c:641:9: note: uninitialized use occurs here
            return ret;
                   ^~~
    drivers/nvme/host/ioctl.c:638:6: note: remove the '&&' if its condition is always true
            if (test_bit(QUEUE_FLAG_POLL, &q->queue_flags) && bio && bio->bi_bdev)
                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/hexagon/include/asm/bitops.h:175:28: note: expanded from macro 'test_bit'
+   #define test_bit(nr, addr) __test_bit(nr, addr)
+                              ^
    drivers/nvme/host/ioctl.c:629:9: note: initialize the variable 'ret' to silence this warning
            int ret;
                   ^
                    = 0
-   3 warnings generated.
+>> drivers/nvme/host/ioctl.c:737:27: error: no member named 'private' in 'struct io_uring_cmd'
+                   bio = READ_ONCE(ioucmd->private);
+                                   ~~~~~~  ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:321:10: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+                   ^
+   include/linux/compiler_types.h:354:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   include/linux/compiler_types.h:342:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:334:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+>> drivers/nvme/host/ioctl.c:737:27: error: no member named 'private' in 'struct io_uring_cmd'
+                   bio = READ_ONCE(ioucmd->private);
+                                   ~~~~~~  ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:321:39: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+                                                ^
+   include/linux/compiler_types.h:354:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   include/linux/compiler_types.h:342:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:334:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+>> drivers/nvme/host/ioctl.c:737:27: error: no member named 'private' in 'struct io_uring_cmd'
+                   bio = READ_ONCE(ioucmd->private);
+                                   ~~~~~~  ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:322:10: note: expanded from macro '__native_word'
+            sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+                   ^
+   include/linux/compiler_types.h:354:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   include/linux/compiler_types.h:342:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:334:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+>> drivers/nvme/host/ioctl.c:737:27: error: no member named 'private' in 'struct io_uring_cmd'
+                   bio = READ_ONCE(ioucmd->private);
+                                   ~~~~~~  ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:322:38: note: expanded from macro '__native_word'
+            sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+                                               ^
+   include/linux/compiler_types.h:354:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   include/linux/compiler_types.h:342:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:334:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+>> drivers/nvme/host/ioctl.c:737:27: error: no member named 'private' in 'struct io_uring_cmd'
+                   bio = READ_ONCE(ioucmd->private);
+                                   ~~~~~~  ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:48: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                                         ^
+   include/linux/compiler_types.h:354:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   include/linux/compiler_types.h:342:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:334:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+>> drivers/nvme/host/ioctl.c:737:27: error: no member named 'private' in 'struct io_uring_cmd'
+                   bio = READ_ONCE(ioucmd->private);
+                                   ~~~~~~  ^
+   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+                       ^
+   include/asm-generic/rwonce.h:44:65: note: expanded from macro '__READ_ONCE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+                                                                    ^
+   include/linux/compiler_types.h:310:13: note: expanded from macro '__unqual_scalar_typeof'
+                   _Generic((x),                                           \
+                             ^
+>> drivers/nvme/host/ioctl.c:737:27: error: no member named 'private' in 'struct io_uring_cmd'
+                   bio = READ_ONCE(ioucmd->private);
+                                   ~~~~~~  ^
+   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+                       ^
+   include/asm-generic/rwonce.h:44:65: note: expanded from macro '__READ_ONCE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+                                                                    ^
+   include/linux/compiler_types.h:317:15: note: expanded from macro '__unqual_scalar_typeof'
+                            default: (x)))
+                                      ^
+>> drivers/nvme/host/ioctl.c:737:27: error: no member named 'private' in 'struct io_uring_cmd'
+                   bio = READ_ONCE(ioucmd->private);
+                                   ~~~~~~  ^
+   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+                       ^
+   include/asm-generic/rwonce.h:44:72: note: expanded from macro '__READ_ONCE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+                                                                           ^
+>> drivers/nvme/host/ioctl.c:737:7: error: assigning to 'struct bio *' from incompatible type 'void'
+                   bio = READ_ONCE(ioucmd->private);
+                       ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   3 warnings and 9 errors generated.
 
 
-vim +638 drivers/nvme/host/ioctl.c
+vim +737 drivers/nvme/host/ioctl.c
 
    625	
    626	int nvme_ns_chr_uring_cmd_iopoll(struct io_uring_cmd *ioucmd)
@@ -186,6 +339,96 @@ vim +638 drivers/nvme/host/ioctl.c
    656		return ret;
    657	}
    658	
+   659	int nvme_ns_head_ioctl(struct block_device *bdev, fmode_t mode,
+   660			unsigned int cmd, unsigned long arg)
+   661	{
+   662		struct nvme_ns_head *head = bdev->bd_disk->private_data;
+   663		void __user *argp = (void __user *)arg;
+   664		struct nvme_ns *ns;
+   665		int srcu_idx, ret = -EWOULDBLOCK;
+   666	
+   667		srcu_idx = srcu_read_lock(&head->srcu);
+   668		ns = nvme_find_path(head);
+   669		if (!ns)
+   670			goto out_unlock;
+   671	
+   672		/*
+   673		 * Handle ioctls that apply to the controller instead of the namespace
+   674		 * seperately and drop the ns SRCU reference early.  This avoids a
+   675		 * deadlock when deleting namespaces using the passthrough interface.
+   676		 */
+   677		if (is_ctrl_ioctl(cmd))
+   678			return nvme_ns_head_ctrl_ioctl(ns, cmd, argp, head, srcu_idx);
+   679	
+   680		ret = nvme_ns_ioctl(ns, cmd, argp);
+   681	out_unlock:
+   682		srcu_read_unlock(&head->srcu, srcu_idx);
+   683		return ret;
+   684	}
+   685	
+   686	long nvme_ns_head_chr_ioctl(struct file *file, unsigned int cmd,
+   687			unsigned long arg)
+   688	{
+   689		struct cdev *cdev = file_inode(file)->i_cdev;
+   690		struct nvme_ns_head *head =
+   691			container_of(cdev, struct nvme_ns_head, cdev);
+   692		void __user *argp = (void __user *)arg;
+   693		struct nvme_ns *ns;
+   694		int srcu_idx, ret = -EWOULDBLOCK;
+   695	
+   696		srcu_idx = srcu_read_lock(&head->srcu);
+   697		ns = nvme_find_path(head);
+   698		if (!ns)
+   699			goto out_unlock;
+   700	
+   701		if (is_ctrl_ioctl(cmd))
+   702			return nvme_ns_head_ctrl_ioctl(ns, cmd, argp, head, srcu_idx);
+   703	
+   704		ret = nvme_ns_ioctl(ns, cmd, argp);
+   705	out_unlock:
+   706		srcu_read_unlock(&head->srcu, srcu_idx);
+   707		return ret;
+   708	}
+   709	
+   710	int nvme_ns_head_chr_uring_cmd(struct io_uring_cmd *ioucmd,
+   711			unsigned int issue_flags)
+   712	{
+   713		struct cdev *cdev = file_inode(ioucmd->file)->i_cdev;
+   714		struct nvme_ns_head *head = container_of(cdev, struct nvme_ns_head, cdev);
+   715		int srcu_idx = srcu_read_lock(&head->srcu);
+   716		struct nvme_ns *ns = nvme_find_path(head);
+   717		int ret = -EINVAL;
+   718	
+   719		if (ns)
+   720			ret = nvme_ns_uring_cmd(ns, ioucmd, issue_flags);
+   721		srcu_read_unlock(&head->srcu, srcu_idx);
+   722		return ret;
+   723	}
+   724	
+   725	int nvme_ns_head_chr_uring_cmd_iopoll(struct io_uring_cmd *ioucmd)
+   726	{
+   727		struct cdev *cdev = file_inode(ioucmd->file)->i_cdev;
+   728		struct nvme_ns_head *head = container_of(cdev, struct nvme_ns_head, cdev);
+   729		int srcu_idx = srcu_read_lock(&head->srcu);
+   730		struct nvme_ns *ns = nvme_find_path(head);
+   731		struct bio *bio;
+   732		int ret = 0;
+   733		struct request_queue *q;
+   734	
+   735		if (ns) {
+   736			rcu_read_lock();
+ > 737			bio = READ_ONCE(ioucmd->private);
+   738			q = ns->queue;
+   739			if (test_bit(QUEUE_FLAG_POLL, &q->queue_flags) && bio
+   740					&& bio->bi_bdev)
+   741				ret = bio_poll(bio, 0, 0);
+   742			rcu_read_unlock();
+   743		}
+   744		srcu_read_unlock(&head->srcu, srcu_idx);
+   745		return ret;
+   746	}
+   747	#endif /* CONFIG_NVME_MULTIPATH */
+   748	
 
 -- 
 0-DAY CI Kernel Test Service
