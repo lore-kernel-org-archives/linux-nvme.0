@@ -4,83 +4,125 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 613C2C19F2A
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Aug 2022 15:06:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75D02C19F2A
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Aug 2022 18:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ccT/Lv9DDxEKJ5TBaKPOTUb8bX0L0Ec0MAdc0eVNtWM=; b=t2JF1B31aX5S9LF2TCfSwmZMsR
-	jYlBJt8X+r5Q8txvQ1Ti38o5zThM8sd4phOXF3Ok9bQQ+mci+eqwKcQGr9pgQkUav+mmkgxo+Z5CY
-	mkogfiraev7Mn/8hZot/BKqva22n/lDKzTYAQJxFhxd0824nGIDmpxtCalY/6GX9OJZODjBlBhgCH
-	4TOOMiIWaqlkJ9ZUTCGHcOVSulosxawWqDFvGhVwGVGKlr1K4urBe6iz6XUF2q0bDwApUVAMTe07Y
-	auFZXKKFt9kQET+DN9HGTKOXdX/EeIYig78+B0DEivnmEjnqocM7Amt3KvIBO0z9TDVLl//avZtOX
-	jFEmUMZw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=jUN5QvlR9Uy8Pfnu+8DKscjyRJsVvIsxU/bQybv/KcE=; b=NFN0y+z67upI4qmfYHj/+KOX9X
+	WNvdAn82NEbpMARQkoqFfZ0xnw9NBRKk0/LnYvFIkEB/FfMtNvUH8/oDIDAR1rZALClvR4dNMgBJg
+	xGSDSNOhS++8WHNCZ5z7/lpdbizIMgphh4GwugXPsEDr0AC1jKQcym1f3v2GUgGnaK0z+lreUcC6u
+	h6VWOti7TLKdBDzQp/au3rTaykrSNxTb4bQfrshkH0gt6iuiSTa/Or2BF2C9uubuHR/wbgnHNdv1S
+	fJG2EYAiHnH6tt0Qh32k6njuYsFi43W93trt24eEWvN9T71217c7NuuyuFWgvKv5TWwMJYxgxjFq/
+	KcMPFM6w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oKhrG-00EFdb-6K; Sun, 07 Aug 2022 15:06:26 +0000
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+	id 1oKkgg-001Adk-4Y; Sun, 07 Aug 2022 18:07:42 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oKhrD-00EFNK-7P
-	for linux-nvme@lists.infradead.org; Sun, 07 Aug 2022 15:06:24 +0000
-Received: by mail-pj1-x1029.google.com with SMTP id t2-20020a17090a4e4200b001f21572f3a4so7025904pjl.0
-        for <linux-nvme@lists.infradead.org>; Sun, 07 Aug 2022 08:06:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=ccT/Lv9DDxEKJ5TBaKPOTUb8bX0L0Ec0MAdc0eVNtWM=;
-        b=RU6CWGR8+WxTCtSz4MSMHQFOk23DwBdcGyr2ky5jr/aeOXBGhhn7UsTtZ/nOmZziYt
-         yYhvtQvs2Pg4FmuSOnR/fCKo1Y0uedsDMxrwjaWirA/X5rO6K008Hi/Dera26neKoKCO
-         E6+wwVUmr3/hiAWGDGLeIpYoBoDBon81Eqn4Zc6LroQ7AcmXzygLXqUhD/odKg/UpVGH
-         Xt/4dGmygO6cm34MCe5qc9ob63izaFteyc8UkRU5ybBQoTP6hzoZOr1ZfF6alHhiyP3g
-         XDbXcyU8Iy/ZJqyKVTwHyKTth2RaScWoSwzWwVzbHskFKxsLih+3WWAOQZeouX+tIxoG
-         5pZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=ccT/Lv9DDxEKJ5TBaKPOTUb8bX0L0Ec0MAdc0eVNtWM=;
-        b=R77FMGjilvnl3gQi9KSZ17RKwzAQX2jkiBspArTeLoD3goXDLr0PnAMzps49IZmd2w
-         ZY8FpBwGNz7sLdrhBhVwv2Sh4qSK/ys20JBjS4JLFZVXeom2eFHI8l9qhOIVA53+Vn4k
-         C3Tw6cRobnK2QjNTChhmmKkZOyEc3dtARS/ETfmxWhMBrNo6BTKr8fZo6yPMmb6fnSz8
-         tEDUD9EKd6CQXAPob+ULN15BNjo/5CZSA+8aXunRtUdMwj37h5/u2cAKwpZ27CqQyW8m
-         VPNLJP8TQ6jRCqu8nRqsK+FOg6g6Cp0X/9hTvCKNSRb09HNtzKwB/NJTINkL3hoWZCGb
-         4DVw==
-X-Gm-Message-State: ACgBeo1GTEYQzy+LWTY+s7Iel6MVtZZ5iVWaltJiFYEwF6giWGGHVXxr
-	oTtuj3Bw3lLPIiMuT/bTS+g=
-X-Google-Smtp-Source: AA6agR6ztP279UyCIJS65i6/b8KHvFooEObQZ4CPQWj4j9z2S6lly3EHhB+oU/Q3Cdo5Cdv42DNiag==
-X-Received: by 2002:a17:902:e552:b0:16d:d3c0:85fb with SMTP id n18-20020a170902e55200b0016dd3c085fbmr14610522plf.38.1659884780148;
-        Sun, 07 Aug 2022 08:06:20 -0700 (PDT)
-Received: from [192.168.122.100] (M106072039032.v4.enabler.ne.jp. [106.72.39.32])
-        by smtp.gmail.com with ESMTPSA id n14-20020a170902d2ce00b0016cbb46806asm6684386plc.278.2022.08.07.08.06.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 07 Aug 2022 08:06:19 -0700 (PDT)
-Message-ID: <a5b9f6a1-1884-0b38-adef-ed47abaf7091@gmail.com>
-Date: Mon, 8 Aug 2022 00:06:17 +0900
+	id 1oKkgc-001Aa2-L2
+	for linux-nvme@lists.infradead.org; Sun, 07 Aug 2022 18:07:40 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20220807180730epoutp01de31fd7baf40990481e42a6cecc6a98e~JIkzNlW8z1266812668epoutp01b
+	for <linux-nvme@lists.infradead.org>; Sun,  7 Aug 2022 18:07:30 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20220807180730epoutp01de31fd7baf40990481e42a6cecc6a98e~JIkzNlW8z1266812668epoutp01b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1659895650;
+	bh=jUN5QvlR9Uy8Pfnu+8DKscjyRJsVvIsxU/bQybv/KcE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=a1sah8/m3QNpJt2PP1m/cqJ+N4VN5ZXxgb/2x9x0fUXTUip7e78oVC4km2RaLDz2V
+	 dydIjG0g3+NZ6/BqC0CwtEfHytfi2Xgeofg0WfTYT+x6YbnHIMToPEZY8CqGMQOpA4
+	 AGFDvP90kLLrtVyEpJ4TSD8KTtNUXTS5vSECRuEk=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20220807180729epcas5p4d37be7d1fd26a57b6b302007ae4c9106~JIkyQvsh32437724377epcas5p4f;
+	Sun,  7 Aug 2022 18:07:29 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.177]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4M16k80Vxfz4x9Pt; Sun,  7 Aug
+	2022 18:07:28 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	18.31.42669.F5FFFE26; Mon,  8 Aug 2022 03:07:27 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20220807180727epcas5p204005d5094b9904b03c4d8b2e0c4ea9a~JIkwCjGS21226712267epcas5p22;
+	Sun,  7 Aug 2022 18:07:27 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20220807180727epsmtrp184ceb6a4741dd7dc34b4105b718bc933~JIkwByUVf1302613026epsmtrp1M;
+	Sun,  7 Aug 2022 18:07:27 +0000 (GMT)
+X-AuditID: b6c32a4a-b3bff7000001a6ad-87-62efff5f4fbd
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	98.D4.08905.F5FFFE26; Mon,  8 Aug 2022 03:07:27 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20220807180726epsmtip20b1de544073579885ae5decb1c1b2607~JIkus4M9A0243902439epsmtip2N;
+	Sun,  7 Aug 2022 18:07:25 +0000 (GMT)
+Date: Sun, 7 Aug 2022 23:28:03 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>, hch@lst.de, io-uring@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	ming.lei@redhat.com, joshiiitr@gmail.com, gost.dev@samsung.com
+Subject: Re: [PATCH 0/4] iopoll support for io_uring/nvme passthrough
+Message-ID: <20220807175803.GA13140@test-zns>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH] nvme: hwmon: Add support for throttling temperature
- feature
-Content-Language: en-US
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-nvme@lists.infradead.org, linux-hwmon@vger.kernel.org
-References: <20220806054606.7280-1-ikegami.t@gmail.com>
- <20220806083113.GA3986075@roeck-us.net>
- <ae3a4377-440b-af9d-8033-cbfe2d76d135@gmail.com>
- <20220807060530.GA4018377@roeck-us.net>
-From: Tokunori Ikegami <ikegami.t@gmail.com>
-In-Reply-To: <20220807060530.GA4018377@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <6bd091d6-e0e6-3095-fc6b-d32ec89db054@kernel.dk>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrCJsWRmVeSWpSXmKPExsWy7bCmlm78//dJBu82W1msvtvPZnHzwE4m
+	i5WrjzJZvGs9x2Jx/u1hJotJh64xWuy9pW0xf9lTdotDk5uZHDg9ds66y+5x+Wypx6ZVnWwe
+	m5fUe+y+2cDm8X7fVTaPvi2rGD0+b5IL4IjKtslITUxJLVJIzUvOT8nMS7dV8g6Od443NTMw
+	1DW0tDBXUshLzE21VXLxCdB1y8wBOk5JoSwxpxQoFJBYXKykb2dTlF9akqqQkV9cYquUWpCS
+	U2BSoFecmFtcmpeul5daYmVoYGBkClSYkJ2x4ONWpoKdghU7b7ewNDAe5u1i5OSQEDCReNxx
+	jK2LkYtDSGA3o8SOU9MYQRJCAp8YJe4eMoVIfGOUOLS7gbWLkQOso79FHCK+l1Hi+/m9TBDO
+	M0aJ5a8PMIF0swioSDybv5kJpIFNQFPiwuRSkLCIgIJEz++VYNuYBU4xSqyYfoMZJCEs4Cox
+	4dIisM28AroSCzcuh7IFJU7OfMICYnMK2ErcbD8KFhcVUJY4sO042GIJgYUcEtenPGCC+MdF
+	4sLSNnYIW1ji1fEtULaUxMt+mHiyxKWZ56DqSyQe7zkIZdtLtJ7qBzuIWSBD4vm31UwQNp9E
+	7+8nTBDf80p0tAlBlCtK3Jv0lBXCFpd4OGMJlO0hcW9tEzskUG4zSbyb0sk+gVFuFpJ/ZiFZ
+	AWFbSXR+aGKdBbSCWUBaYvk/DghTU2L9Lv0FjKyrGCVTC4pz01OLTQuM8lLL4XGcnJ+7iRGc
+	XLW8djA+fPBB7xAjEwfjIUYJDmYlEd4ja98nCfGmJFZWpRblxxeV5qQWH2I0BcbPRGYp0eR8
+	YHrPK4k3NLE0MDEzMzOxNDYzVBLn9bq6KUlIID2xJDU7NbUgtQimj4mDU6qByWHXk5KH6j8U
+	It4Vx+XklbFaC38pf3FazPDwybojfZ7RreFNxxyy5m0teJggO+M8+768xl/1+iXWDPfU7WZ4
+	nG1yP7ZWI/m9lXs0u7B4ycH8Vds9vwc4htm8v7fB5nzM9j/c88sZWFmvfnBLM53OGc9WLF76
+	PSS2ZZdevcVpU+HqcuHw5bW7E16JJ/EyCJSujhD6WrPa7+StksObcrbarf7Fl1BWcfyOXutV
+	ib4bqsc2vQgsMFis6P7snciU1S+u/Tv/nvVl1+eovHcXfnwR+CfY/fOn6+PMF0efP9vycPGB
+	GQ09c2pvTk/wT1uyTVbS8FW1mlTZp0luv+4uUZwRob3sTOv6hvQXr+b3LtsUoMRSnJFoqMVc
+	VJwIAE5QTB83BAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrMLMWRmVeSWpSXmKPExsWy7bCSvG78//dJBqu+S1qsvtvPZnHzwE4m
+	i5WrjzJZvGs9x2Jx/u1hJotJh64xWuy9pW0xf9lTdotDk5uZHDg9ds66y+5x+Wypx6ZVnWwe
+	m5fUe+y+2cDm8X7fVTaPvi2rGD0+b5IL4IjisklJzcksSy3St0vgyrj/dC5LwWu+imWTXrE1
+	MPZzdzFycEgImEj0t4h3MXJxCAnsZpRYtvEuSxcjJ1BcXKL52g92CFtYYuW/5+wQRU8YJRpu
+	rAArYhFQkXg2fzMTyCA2AU2JC5NLQcIiAgoSPb9XsoHUMwucYpRYMf0GM0hCWMBVYsKlRYwg
+	Nq+ArsTCjcsZIYbeZpJ4/ewnM0RCUOLkzCdgC5gFzCTmbX7IDLKAWUBaYvk/DpAwp4CtxM32
+	o2BzRAWUJQ5sO840gVFwFpLuWUi6ZyF0L2BkXsUomVpQnJueW2xYYJiXWq5XnJhbXJqXrpec
+	n7uJERwvWpo7GLev+qB3iJGJg/EQowQHs5II75G175OEeFMSK6tSi/Lji0pzUosPMUpzsCiJ
+	817oOhkvJJCeWJKanZpakFoEk2Xi4JRqYMpy10n0uPvu2NbSA/usnzl+vznF+PRK5q7yb1cK
+	5nhdzM7h3in/rKVjtp6F2J7N7EvKf0z3uK8WI6n7eb8a16kJ24Ic77Udktz1KKhYwkvM4a3G
+	TXvPgALd9RND/Q+82Mcqz2Z4fP/3C2t8mBN+W3WEREkfnPCw4CpjacXHHr3zP0SM67MLZGU/
+	TZM/LGpR9IEn9gxrkMlZZaXL/xnLz/pUzD75ONUmWMPgr/PRj46/Zjvs6Dmy66/K457Lfw0E
+	n7X6ivM+2rY0JsjkZsO8kMvTL2ZNf7XGpbyy/kCw9AdX/7rso711S9qm9OxLeyzD+6QurLPB
+	/JDbe6FFnE6qjYerpU6llf4U+CAo9Fb6lRJLcUaioRZzUXEiAOeQ3vYGAwAA
+X-CMS-MailID: 20220807180727epcas5p204005d5094b9904b03c4d8b2e0c4ea9a
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----NuB4zix05mrs21-izUqZH_CfDXeHJwDu-cyxw2zCq-3u00NA=_54e9a_"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220805155300epcas5p1b98722e20990d0095238964e2be9db34
+References: <CGME20220805155300epcas5p1b98722e20990d0095238964e2be9db34@epcas5p1.samsung.com>
+	<20220805154226.155008-1-joshi.k@samsung.com>
+	<78f0ac8e-cd45-d71d-4e10-e6d2f910ae45@kernel.dk>
+	<a2a5184d-f3ab-0941-6cc4-87cf231d5333@kernel.dk>
+	<Yu1dTRhrcOSXmYoN@kbusch-mbp.dhcp.thefacebook.com>
+	<6bd091d6-e0e6-3095-fc6b-d32ec89db054@kernel.dk>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220807_080623_282896_6DC0CF33 
-X-CRM114-Status: GOOD (  14.92  )
+X-CRM114-CacheID: sfid-20220807_110739_053646_5CEDBD73 
+X-CRM114-Status: GOOD (  19.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,56 +137,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+------NuB4zix05mrs21-izUqZH_CfDXeHJwDu-cyxw2zCq-3u00NA=_54e9a_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-On 2022/08/07 15:05, Guenter Roeck wrote:
-> On Sat, Aug 06, 2022 at 08:58:49PM +0900, Tokunori Ikegami wrote:
->> Note: Sorry let me resend the mail below as text format since it was not
->> delivered to the mailing lists as contained HTML subpart.
->>
->> Hi,
->>
->> Thanks for your comments.
->>
->> On 2022/08/06 17:31, Guenter Roeck wrote:
->>> On Sat, Aug 06, 2022 at 02:46:06PM +0900, Tokunori Ikegami wrote:
->>>> NVMe drives support host controlled thermal management feature as optional.
->>>> The thermal management temperature are different from the temperature threshold.
->>>> So add functionality to set the throttling temperature values.
+On Fri, Aug 05, 2022 at 12:15:24PM -0600, Jens Axboe wrote:
+>On 8/5/22 12:11 PM, Keith Busch wrote:
+>> On Fri, Aug 05, 2022 at 11:18:38AM -0600, Jens Axboe wrote:
+>>> On 8/5/22 11:04 AM, Jens Axboe wrote:
+>>>> On 8/5/22 9:42 AM, Kanchan Joshi wrote:
+>>>>> Hi,
+>>>>>
+>>>>> Series enables async polling on io_uring command, and nvme passthrough
+>>>>> (for io-commands) is wired up to leverage that.
+>>>>>
+>>>>> 512b randread performance (KIOP) below:
+>>>>>
+>>>>> QD_batch    block    passthru    passthru-poll   block-poll
+>>>>> 1_1          80        81          158            157
+>>>>> 8_2         406       470          680            700
+>>>>> 16_4        620       656          931            920
+>>>>> 128_32      879       1056        1120            1132
 >>>>
->>>> Signed-off-by: Tokunori Ikegami <ikegami.t@gmail.com>
->> I think actually the suggested attributes are not met with the throttling
->> temperatures as below.
+>>>> Curious on why passthru is slower than block-poll? Are we missing
+>>>> something here?
+>>>
+>>> I took a quick peek, running it here. List of items making it slower:
+>>>
+>>> - No fixedbufs support for passthru, each each request will go through
+>>>   get_user_pages() and put_pages() on completion. This is about a 10%
+>>>   change for me, by itself.
 >>
->>    temp[1-*]_emergency: Temperature emergency max value, for chips supporting
->> more than two upper temperature limits.
->>    temp[1-*]_lcrit: Temperature critical min value, typically lower than
->> corresponding temp_min values.
->>
->>    Thermal Management Temperature 1 (TMT1): This field specifies the
->> temperature, in Kelvins, when the controller begins to transition to lower
->> power active power states or performs vendor specific thermal management
->> actions while minimizing the impact on performance (e.g., light throttling)
->> in order to attempt to reduce the Composite Temperature.
->>    Thermal Management Temperature 2 (TMT2): This field specifies the
->> temperature, in Kelvins, when the controller begins to transition to lower
->> power active power states or perform vendor specific thermal management
->> actions regardless of the impact on performance (e.g., heavy throttling) in
->> order to attempt to reduce the Composite Temperature.
->>
-> That happens a lot. That is neither a reason nor an argument to introducing
-> new attributes to match chip descriptions. If we would do that, we would end
-> up with lots and lots of different and unmanageable attributes.
+>> Enabling fixed buffer support through here looks like it will take a
+>> little bit of work. The driver needs an opcode or flag to tell it the
+>> user address is a fixed buffer, and io_uring needs to export its
+>> registered buffer for a driver like nvme to get to.
 >
-> Please note that the functionality is associated with thermal management,
-> so you might want to discuss your attributes with the thermal subsystem
-> maintainers.
+>Yeah, it's not a straight forward thing. But if this will be used with
+>recycled buffers, then it'll definitely be worthwhile to look into.
 
-Okay I see and have understood as it is difficult to use hwmon 
-attributes for the thermal management functionality.
+Had posted bio-cache and fixedbufs in the initial round but retracted
+to get the foundation settled first.
+https://lore.kernel.org/linux-nvme/20220308152105.309618-1-joshi.k@samsung.com/
 
-Regards,
-Ikegami
+I see that you brought back bio-cache already. I can refresh fixedbufs.
+Completion-batching seems too tightly coupled to block-path.
 
->
-> Guenter
+------NuB4zix05mrs21-izUqZH_CfDXeHJwDu-cyxw2zCq-3u00NA=_54e9a_
+Content-Type: text/plain; charset="utf-8"
+
+
+------NuB4zix05mrs21-izUqZH_CfDXeHJwDu-cyxw2zCq-3u00NA=_54e9a_--
 
