@@ -4,80 +4,138 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5FBB3C19F2A
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Aug 2022 06:05:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B53AFC19F2A
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Aug 2022 09:15:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/ZL6MuGSZ0fbyhZczXSChEhRBJbhpcc1DJVt1TcXOm8=; b=V/p/38p7bVws33+dgf4NjtUGsy
-	fUcZlSaBasiCsDEcbM8vBNGwZUq8VxHFBK5OQysl3qjtjwyxsKa91ZJP9Qf0UF/89fSa8cwz2nCQd
-	Bg36B4SdmedoRORUBKbFWuw0wYNvw94ffiFXvQk913XFzqvRmfX1vmsRWU6Ho+eIl3WIOoKyZWcUC
-	/P9lYjKdF2v+th3z9ZbgFhTNVX8Xb73Z/AVmIc5EsZgGSFj24CJOpl78cMIPQ7kJqzmJp+20xAoRk
-	wEMdWeTrzXKzSlWycxnmn7foTChj9YIVm5Pt/kSA5cLNujUzjh9dneFqU/wZg+Wmug1+hJ6UjMY9Y
-	XRPKCgJw==;
+	bh=/LFttgBj0rszNtMAg2Rq++5ALosAEiRV5eOuuSLBeZo=; b=d7KHm723N6JHL1v3LozYJ1mPOy
+	HQj7S9PId0SSCm12ChE/ueomi0hVrrToPUerxXEyrcK5YZE1q26WEF87DOBeaVHyHJ5YT2tSLF3B7
+	itnVlbSXmspLtKlYU6FXkvzW1/5r2dgHRaPcbyX3tLu1gV9qJYnbuuKp3MKmAkZwtt1iTaMtWhLyi
+	akmBZRpCKUHcvmOtVBCNdxGnkU8S5wqVm3LLBWP4r+tmo8MkU9KjbFezp/9WSEK8U42RSUkohqU32
+	MQcHeLGYYzS6DaiWD5RHyZWOK6IWiJJ+XuL+mqkeBWHxL8NC1clII+jgg6vlCFHrpevJr1S6sM2Kz
+	pNj9AhKw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oKZPv-006r3A-5g; Sun, 07 Aug 2022 06:05:39 +0000
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
+	id 1oKcNg-009yFI-Sc; Sun, 07 Aug 2022 09:15:32 +0000
+Received: from mail-bn8nam12on2047.outbound.protection.outlook.com ([40.107.237.47] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oKZPr-006r20-65
-	for linux-nvme@lists.infradead.org; Sun, 07 Aug 2022 06:05:37 +0000
-Received: by mail-pg1-x532.google.com with SMTP id f11so5996717pgj.7
-        for <linux-nvme@lists.infradead.org>; Sat, 06 Aug 2022 23:05:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc;
-        bh=/ZL6MuGSZ0fbyhZczXSChEhRBJbhpcc1DJVt1TcXOm8=;
-        b=Qr/O+7zZYUZbgQNfaz96veuhwlbUrTIpwKXmQUW3IG1kJq9vCIaj011+cYvdkOidqs
-         bhda3jVAy449gvIZCnuxYRPzmyvFYhx9C6i/OTdUdSteDalkoaI3VPTA7Abr8drAvhU2
-         o6RSEMRoueeK3S9WvmCIRCIk6F8wpxAOfTZAiyiasz808jCn7ps6XSPba489tGPc94ca
-         WsU/dg+N7+/Q1df0rYeMFd5+h9SgOSKxdtQHuOfY6g1Obj2UTh6z8jw95UumZ8CFgkXO
-         +f9PPD/eUcf43G0jV52bKdIGU5pCVoT2yL0l1ebGKChnPUUzNnZ3PTPaDBPKR6wfff7/
-         w2ZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-message-state:from:to:cc;
-        bh=/ZL6MuGSZ0fbyhZczXSChEhRBJbhpcc1DJVt1TcXOm8=;
-        b=H3bWer7qV+3SNScNaL+bvXoiXC3XemlHYr02VW/gN9gOBgzptNaog4pwyZJRJ9Kw3/
-         Jvv4bJS5UFUb7jG7W9NZNpKFJi+hvs6WUGvFFB/S5d4wOqC5lSKiLLh+p3Xc2MNtB6DG
-         o+et6U2/J1bRNNol5lsNJR3/MBWUEDsH+s8lCbaVv6TSVJHhZu5KMEiHIjFItXbSrKLA
-         zsgC4fOSzRufcIjBvcB0Bm2O6C5WEXumhuq86etFRKpZJZ+qG4c0/Xgb8q/EBVAXSakz
-         S8hBrH2kvrfVCtqQ8UBqQ0uz7gYbKg2bMCOzHAGMrWNZgzr9+XytJx18st13XZ4taswU
-         ++4g==
-X-Gm-Message-State: ACgBeo0J7852DJPYPuIOao07hgWZQOSuuK9tr6n2kIsjA+nSoFE1QFaS
-	LqaqbJ6FMpDTXXio6TU+DZgHz6K/5QM=
-X-Google-Smtp-Source: AA6agR6Q3u5B8WNIU/tO6WbYtJH27XYXP9n5SLKIBmTeBi2uAKOZNYkppANEL7KErWG25fB9+QdUEw==
-X-Received: by 2002:a05:6a00:2cb:b0:52d:64bc:9a2a with SMTP id b11-20020a056a0002cb00b0052d64bc9a2amr13556259pft.38.1659852333474;
-        Sat, 06 Aug 2022 23:05:33 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id b7-20020a170902d50700b0016c78f9f024sm6158583plg.104.2022.08.06.23.05.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Aug 2022 23:05:31 -0700 (PDT)
-Date: Sat, 6 Aug 2022 23:05:30 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Tokunori Ikegami <ikegami.t@gmail.com>
-Cc: linux-nvme@lists.infradead.org, linux-hwmon@vger.kernel.org
-Subject: Re: [PATCH] nvme: hwmon: Add support for throttling temperature
- feature
-Message-ID: <20220807060530.GA4018377@roeck-us.net>
-References: <20220806054606.7280-1-ikegami.t@gmail.com>
- <20220806083113.GA3986075@roeck-us.net>
- <ae3a4377-440b-af9d-8033-cbfe2d76d135@gmail.com>
+	id 1oKcNe-009yCE-EP
+	for linux-nvme@lists.infradead.org; Sun, 07 Aug 2022 09:15:31 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GUA7j4hE90DaxnMYzk1xKXNjw1+cFK5OSf01hdCoSyU0Eg43O1N071qCKmfPB45Mt3FgpYpgm+oIGoRr0t5WYy9Ci8u/24mwkMXqYUqWQWs32Eoo/WE8GxMey1XQtOSvV9k8kYiH2nKYbmzf8eZCyEtHSuovJwYN0PuslS5aMgqkMfM6B8+uGmyxt42NfMNzvSd5Or0EefoJr9ul3wx514YWXqIzQnob/qLofGmsQjIVSWR+Hj9rDU+mm7iRn4+ug0SVij2lMPecv2d90Neclq8O5tz7fnBl8iffFcBThVfz3f5nrYCkF3XJ7EwnhoXe6RrJZa/HhQCAU276HK91bA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/LFttgBj0rszNtMAg2Rq++5ALosAEiRV5eOuuSLBeZo=;
+ b=MknK80/CuWRhb/sOYNLrdI+N/uPHShD1yQSOKqgMf2nqsBYatlJwbD3wmG6m+yXu1BfWoYaUXQRtYnyk+Vx1g1snEa8+DVvDep5oZygRjEDSRpqx+gc75INggD+ArfNaqixstpiQx+xvAIGYl4ZeW7+bTMNoRGf31LvAnIhFRmqGx6DEQ4Cv+BFOUzNTYpKZ1uqzMfNU15KDKyyWT8uMTFCiIwavfBTuPJ2hnm7d/qL8auk8W+o7Sun53f54mM2xjmTdW4xGqr+aKSx4EJEx0OPp0fKReBZFeKfLhmE8MwsV7MSY1r1tHqcdys2Fuj7V3GTgNJ5xfyedW558vM2Tpg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/LFttgBj0rszNtMAg2Rq++5ALosAEiRV5eOuuSLBeZo=;
+ b=Fom0wNiHA2AHxDt5bX92p4yO93Qsor1du1gF2eb4md1QWJIN4RoZkF3T3cBi7mIK2Kl6uY2+3kQNn+TB/CERCM6+Y9m4arUYsQhzI1HwaZzFC+VqWpANXt68+H3cgHmYwyw1CZcspbTQ4HoA7dp5+HbHYOP+6vYfuUvpWx/A3wKLX6Hk60F3olcaGBpgXCiMW0ZOFyaSokMCIzWQW9JcCgoRSZskJrxdQBJF5ddZh8d6Ckp+2hXneHj+uzldQc9HGQq7NBNvQRWLgp9S+uug1iVvpcbtvX1wWszWZYaijtVTaNqmB62LOUZsUsV1rBU/0bQuH5D63RIZMGeAXk99AQ==
+Received: from BL0PR12MB4659.namprd12.prod.outlook.com (2603:10b6:207:1d::33)
+ by DM4PR12MB5721.namprd12.prod.outlook.com (2603:10b6:8:5c::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.17; Sun, 7 Aug
+ 2022 09:15:22 +0000
+Received: from BL0PR12MB4659.namprd12.prod.outlook.com
+ ([fe80::e033:3f08:d8d6:1882]) by BL0PR12MB4659.namprd12.prod.outlook.com
+ ([fe80::e033:3f08:d8d6:1882%7]) with mapi id 15.20.5482.016; Sun, 7 Aug 2022
+ 09:15:22 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+CC: Jens Axboe <axboe@fb.com>, Keith Busch <kbusch@kernel.org>, Sagi Grimberg
+	<sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH] nvme-fabrics: Fix a typo in an error message
+Thread-Topic: [PATCH] nvme-fabrics: Fix a typo in an error message
+Thread-Index: AQHYqdFje9miRyEgPUSCDX21C2V3ua2jKM2A
+Date: Sun, 7 Aug 2022 09:15:22 +0000
+Message-ID: <b6e047eb-a9d9-bc1a-05af-faae41f4dd09@nvidia.com>
+References:  <9cff69b6e880387a420b848b7248dd6e6ad3739a.1659816888.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To:  <9cff69b6e880387a420b848b7248dd6e6ad3739a.1659816888.git.christophe.jaillet@wanadoo.fr>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5c45b7e2-ef55-4e1f-f3fa-08da78555b0e
+x-ms-traffictypediagnostic: DM4PR12MB5721:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  XH6jHTCZXNC6wYdkt5LHfVThPjqFfOhMqjbQn3BIjE5cfRvxRb9u51l2h5P7c6rMk3uYna841c0AivyXU/0wsO/e0goQn6Xe6g6W3DlQfUS7eEzkDQrqjkqfUa68Q4oJDPZehbW6CBMi6EpOUnVoATyZ6lV3Kfkx4EiMK+UfqH8oZekfHUn6aW+BN6Rjf86bU46CB3ku9jKp0JQYZxZWdvppfJhDp0KWzD0OkQoWeyl4ErhR/er3MwWUriS+dbEcpUBDouquw+pmB+clJp5eYVwuHA03rWKZX6xkRqipH7Kc1MbVCjnqqxsVWtA+go2JanOS5nPWkjix+fBd9iEZJgGl4cpKpi2KckmF67dtdL/WtlzhitVoF/xqyzrgp3iB4EPJxu5o15zSq7PNsXo0lz53SwsvgbbiPs+csk3Lp4Ae3IOOkLUtjbGPX9yzRYs8Jzrr6RzEJumKdu2JDHUItE2pJPwZhZq6ZfCJ9lTl7riPSN8QMfGTvsW4ZVem8IB0f0ltfbJmzbAmNeDM5DWYC4cGmHGzzrczTAOncmlXKpdkxMhkg9kzZu9Y3eSUwEVEq433xVUlYKoDSEc2m5uAIjt5m8pedTvOJyMlY3tYUGSfT2lNWkoQJhMDEP4oIIvcd3UjUYWMe8ywb410iOq+VQL1EERh1mmG0KyfIStgQYNbN2YkSMqxQjY5JOuTHKt9TFbW+iPr8o2eKGLtO32irDvescdHWY9HXza0nKCg/1fJjk1xNF3kLGcv4/A6IAzwmcgQb9r2TnvcXzUHRBwdwG4JePixXQ9Ts8Qlk4+AzEBe7f3GjbVWw5Pavg+Dj3V255DvWD95/ojWyLODmSXtMZjCU6lPStz83Q0rMPGn5i7ow7UlcnKYnS49wA3Srxk5
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB4659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(366004)(136003)(39860400002)(346002)(376002)(6916009)(54906003)(316002)(91956017)(76116006)(66946007)(64756008)(66556008)(66476007)(66446008)(31696002)(36756003)(38070700005)(38100700002)(8936002)(86362001)(71200400001)(5660300002)(6486002)(6512007)(122000001)(478600001)(2906002)(6506007)(4326008)(53546011)(8676002)(31686004)(558084003)(2616005)(41300700001)(186003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?RTRJUWhRY0QxRjZrMzVUQXVlTVZhTFd0bmszMnZGand6OXZWdFMyUTlNTjVD?=
+ =?utf-8?B?TEJQMmhrbklPMjJOY2U4Y3RMNjhod3lQMUZpb3ExNU00MzZ2cXZJekorbFpi?=
+ =?utf-8?B?NmhrMlN4OE1xY1RzMUFwMSsvQjRMMHN2NEw1U1Rkb2RCSk9RWWpvTXAvNER4?=
+ =?utf-8?B?eGt5MTY5NlBqWndhVnE4OXZPM21vTTZEdW82ckdpSUVtb1AxMDhLVG5weHZL?=
+ =?utf-8?B?RlMxNXlsMGxMVnpWTGFDZW42UWdsUmVadGNJeUMyV0NmZCs5OGlPTGlqY0RK?=
+ =?utf-8?B?MWRrZUcwazRkaDdDL3FSYWpweE90VW9XekttWUtrSjhNQmttaE8xQktDeDRa?=
+ =?utf-8?B?dElIc3pCclozSEYrTm5MdjZVWVd0MjVKRFdwSkdnMWFxdjdPeWw5SDY4VG01?=
+ =?utf-8?B?eGloNVlENHMxVWt3dDF2TUo5ekZIMkNlVTEyTjE0Z0N5L0grYSs3MGF5N09m?=
+ =?utf-8?B?QTJ4dExNUlRKei9FZFE1dHlXUzBqVCtrY1VwRVVZa0txazVtdVhVNFdTY0tR?=
+ =?utf-8?B?RXQzV2tha1hnYURUWG5jU1lvRHMrS1p1aXRsSWFFUFR2VnJFdVVra0d4Vlpp?=
+ =?utf-8?B?YzBwNzZWd01hdnZaVWVSUFlBUjFQUjJHNmQvSG5pM1EvS3pacTRkbjhOZ0tq?=
+ =?utf-8?B?ZERlNVhzaGF0b01iUTQ3QjN5cmFQaHJMRUFiQTNBV2VLN0tmMXVxMEErd1pF?=
+ =?utf-8?B?WUlxeDlPZlN2eStrU0FEam9XbXJmOFRzTTVzUkxJR0JsbHkxdnAvaWhqdnNq?=
+ =?utf-8?B?aG1LeU9hOGxMN1lIN1E4RWxadk5HZFBJWFVrcVVUeXd2T2JKaElpdHVZRUNV?=
+ =?utf-8?B?bXR3akJZWkZ5bk15bk8vVWZSUXp4RkpBdGRPMklIZUU0ZUU1RTB3czNxbWtB?=
+ =?utf-8?B?am1wNlBsNnZVOHh0a0JFNjRaL3VFdHFybjdSNWFHMm9ROENIQ1hqQVg2U2dh?=
+ =?utf-8?B?TGJxNTBMZlBHVkdwRGFMejN5VXBMU1d2MUNnUWdSMm1rMHlKR09iWmFTbVdo?=
+ =?utf-8?B?SW9wVUgzU1NWeVMrdHNvZkFUbThUMU5DT2Y2VFZ3Zkt6cWJib1VjV29raWhr?=
+ =?utf-8?B?aG1YM3ZRc2o5VzZqYWZwQ1RnczFZNVk3U0FTbWVVeXA3OFNrNzJBVWVLczhC?=
+ =?utf-8?B?UHFCcnZSM0RJMnpWK3RyR2paUFNwWGo5RTZlNXB1cXAxYUxmb2xkMkVham5Q?=
+ =?utf-8?B?MDRsOVczMmN2RkxXOFBnV0owQzVQUXU0UXYrZSt6bHBKV0hTZVVqQy9KZUtV?=
+ =?utf-8?B?aDRPNmhEdDR6dFhmelpvUkx3T0Z0TDBScGc1NUFQM3JHVzJDVFl1bnl5V2ho?=
+ =?utf-8?B?Smw2dERra1Q5aDJHNWtxZndyVlRrM1NkUXg3NTY3cFhmbHpKMllHdllGUXpL?=
+ =?utf-8?B?U3R1R3FUR2VReVZoYXJneHJPSWRpNml0MVRFQmJ6MTRZS2JxMlpTUmdwTDRD?=
+ =?utf-8?B?RndZT1dka2dzbVI4azZVODJmaVowTVJGTWlKMmhTUWxETVZqV1orYkhDVVgv?=
+ =?utf-8?B?QTNRc2VsZzNSck9rdUhzNXhSeXhKNVBkWisyc2JYNmdGTzB4TFRuLzRKbmxQ?=
+ =?utf-8?B?b2wwTnQ1M2lreUdzZHAzbld1dmNPOHlNQzR6WTduSDhaaWYxdS8rV3pBamxT?=
+ =?utf-8?B?SytGTjQxY1M4WVBNRFk0WkEwcjJvOVIwNytpRllqSWxZU2xvM1hpdE1Cc1dP?=
+ =?utf-8?B?ZXJKaVN6ZG5hZ1BDNmpnL3VSZnZ3QlJiN1E3REJ4SVZ1ekFFd0c5NVBnUnpu?=
+ =?utf-8?B?TURiejRiYXRQRkFaZjY4Ky9CVmpSYnFWUUVNYUpiZ0lXUHh2TVh1b3JOdysv?=
+ =?utf-8?B?a1FJdDl1RU1MTzUvSE5SMFJjZU54ZUxReTRPeGNyS054THEzUWkxMG4xUUp3?=
+ =?utf-8?B?S0V5VE5HRWhTY2hxazQ5M0d1YVgrdkpPVTMyS1JQREJSWG9xT2dnaWlya081?=
+ =?utf-8?B?L0hYRUs1YVBVM1dpWUlRZVFOOVIzckJ3UlRrbDZrRmdGNXowWDlDQVlZUGhp?=
+ =?utf-8?B?Y2owd0lZcGxlNXIzMnNUaGZXa25XODJENXRaKzdiZklDTnlxZDdibXBXbVVG?=
+ =?utf-8?B?VGI3c0lSYjh0ZUNpNDJnYTU4NWhCbklOVThvR0JEUjYwWndtQWZBWk1vejNy?=
+ =?utf-8?B?UDhEYzg5M1NyL2tFWGl2TXp1QUNHOFRTdFhlM01HeC9OUy9kalRXakcxZUs5?=
+ =?utf-8?B?M1E9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A8A2C5AFA0F4A642B25485562FFCCA5E@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ae3a4377-440b-af9d-8033-cbfe2d76d135@gmail.com>
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c45b7e2-ef55-4e1f-f3fa-08da78555b0e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Aug 2022 09:15:22.1137
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 6SplXSYghYVsCdOSx8EU0Jz/lAkAa/zaWCj8wz0vdUuKYmG5Pmf7d2QAwuySCFpOJ2fC1ICrqXw0Jw4iBCaOBQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5721
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220806_230535_241195_56352A9E 
-X-CRM114-Status: GOOD (  17.52  )
+X-CRM114-CacheID: sfid-20220807_021530_524742_AD04BA52 
+X-CRM114-Status: UNSURE (   9.67  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,48 +150,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Aug 06, 2022 at 08:58:49PM +0900, Tokunori Ikegami wrote:
-> Note: Sorry let me resend the mail below as text format since it was not
-> delivered to the mailing lists as contained HTML subpart.
-> 
-> Hi,
-> 
-> Thanks for your comments.
-> 
-> On 2022/08/06 17:31, Guenter Roeck wrote:
-> > On Sat, Aug 06, 2022 at 02:46:06PM +0900, Tokunori Ikegami wrote:
-> > > NVMe drives support host controlled thermal management feature as optional.
-> > > The thermal management temperature are different from the temperature threshold.
-> > > So add functionality to set the throttling temperature values.
-> > > 
-> > > Signed-off-by: Tokunori Ikegami <ikegami.t@gmail.com>
-> 
-> I think actually the suggested attributes are not met with the throttling
-> temperatures as below.
-> 
->   temp[1-*]_emergency: Temperature emergency max value, for chips supporting
-> more than two upper temperature limits.
->   temp[1-*]_lcrit: Temperature critical min value, typically lower than
-> corresponding temp_min values.
-> 
->   Thermal Management Temperature 1 (TMT1): This field specifies the
-> temperature, in Kelvins, when the controller begins to transition to lower
-> power active power states or performs vendor specific thermal management
-> actions while minimizing the impact on performance (e.g., light throttling)
-> in order to attempt to reduce the Composite Temperature.
->   Thermal Management Temperature 2 (TMT2): This field specifies the
-> temperature, in Kelvins, when the controller begins to transition to lower
-> power active power states or perform vendor specific thermal management
-> actions regardless of the impact on performance (e.g., heavy throttling) in
-> order to attempt to reduce the Composite Temperature.
-> 
-That happens a lot. That is neither a reason nor an argument to introducing
-new attributes to match chip descriptions. If we would do that, we would end
-up with lots and lots of different and unmanageable attributes.
-
-Please note that the functionality is associated with thermal management,
-so you might want to discuss your attributes with the thermal subsystem
-maintainers.
-
-Guenter
+T24gOC82LzIyIDEzOjE1LCBDaHJpc3RvcGhlIEpBSUxMRVQgd3JvdGU6DQo+IEEgJ2MnIGlzIG1p
+c3NpbmcuDQo+IHMvZmFicmlzL2ZhYnJpY3MvDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3Rv
+cGhlIEpBSUxMRVQgPGNocmlzdG9waGUuamFpbGxldEB3YW5hZG9vLmZyPg0KPiAtLS0NCg0KUmV2
+aWV3ZWQtYnk6IENoYWl0YW55YSBLdWxrYXJuaSA8a2NoQG52aWRpYS5jb20+DQoNCi1jaw0KDQoN
+Cg==
 
