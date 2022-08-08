@@ -4,87 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 364F0C00140
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Aug 2022 10:20:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44F3BC00140
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Aug 2022 15:29:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M0he5Go9fj5sZtod3L10U6cY98vEYvhLvSwdvfZFRy4=; b=tBUAnUhQP357DR8/JtnPoKkuMc
-	Ghp4WndIXb9Ogs8T6M6L/8B9IWelBJesWLMKx9SDZU8z/oJ3yKxsBhl4QIMdivCSHuswyKUQOXk0H
-	BeRzARg9VSUY/gmebU0bnH49/6qnhaJ/ezK570oa8/la+Pf9kdOhBY8ZSVkpChZx44ie/V5SFk/m7
-	Wj4mLQs32yn/jhD0O+Tu6jF3fuleNVl1EJ/02wQPRoyovAk4/g+MKNhybyZDNHem6EiLQ8NffrGKb
-	eFnEJq3wEpPF/VBylMBjgeaZUMG5gl3MfbYM4e8fEscrxLXjkkk/1tACf31OJMESA7Rkn6bDlpSIZ
-	JQHBoNGg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=cWkJTJXK/JiTgPEFo7NseuTSDz/fI2MPzkdphRttrQ8=; b=s4FkuXleTlcwb+IN/x0cj3NOFT
+	mVN9JDXYjrgmslCoYReFwzOCBWS0L/vR5FrTdwFPRvgu3KYwC1LtVDfQ68uX+N1ErhNfRZd6vQODn
+	BBjXWHP5bzVX4iC6a4ftF4tFOnCHCZAK+IO8DBVKE12PtXlPW7XxyVxh08ZGUv5rgC8rYlMaMAKfE
+	mHREx9v2FIByKBVxfNv4CcBS3PZQCfBpasMAWbKOlJ6v7dtP8GX63MUbWQtjaSsVIqUI41EKjTles
+	TYmQuc4/3q+OnCFLyoj9Rl8E2gE7c8avNGMyReXkW59ylGX7d6m1COQjpO7BgPfc3tNifjU/hQ5lz
+	VDTKwtKg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oKzsG-00CtbC-2y; Mon, 08 Aug 2022 10:20:40 +0000
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+	id 1oL4gd-00Eh4u-GA; Mon, 08 Aug 2022 15:28:59 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oKzsD-00CtYJ-OD
-	for linux-nvme@lists.infradead.org; Mon, 08 Aug 2022 10:20:39 +0000
-Received: by mail-wr1-x435.google.com with SMTP id z16so10271623wrh.12
-        for <linux-nvme@lists.infradead.org>; Mon, 08 Aug 2022 03:20:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=M0he5Go9fj5sZtod3L10U6cY98vEYvhLvSwdvfZFRy4=;
-        b=LG5qSNqT2JJX558617sZsTm/x1GVdc33O5C2ZvV9LFwSf0Taya3QKaq2FNjiT1gmXa
-         AO34vQAZY27gcplpKOG5AYWyOuQNFORHwsVKv/SZh1h72ITT60s7iF0KnDLeAp/EXh28
-         fTeoqglikt4zTo1yW1UkYcrysdR1yKPYFAxyQjC81W2nrJYMK4oclK9OWphrnDJ5pw47
-         9W3+qcd3fx7EhN0X/yMXvGcENFkZscwuSJFBb+MvJLaMZv13mriWR+vb3MYg88IiPvHG
-         HPb5z06HWUNDhnAyBxB+G0KaPQXQd96d5+PP+WLhl4xxqVDNzGW3YCI8FKdte+/VUfCW
-         vupQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=M0he5Go9fj5sZtod3L10U6cY98vEYvhLvSwdvfZFRy4=;
-        b=mKv+eNRruSS5FMaaQLvguEKWOqs9drHeIEz2yY6gB6Mmib+Q5l6ZNzI6Qj+a8JQla5
-         xbIfmyipnXL6Z99XtHIE9HKlo3vJu29ZKdif0Jm9tKSMv+OYTf0X0T2sCwRkUCmg1Mwp
-         xlb1ZFZsCVZ41zXOxeGO1iCPuJ+PFXaLSTGbnCnwJCwprl/WAGzQV2fP+sbjc9eXz2bj
-         clRJTkL7BDniDg+/0Mtt1i4eROUbsyd/tem1MN/VYRAMADFr8hPRtb+kUQvFJ+I81zJ/
-         qsiWX5Qkll59GmhtHt34Y+RdU3/qoW3ARxJuyXVGNv+JHyv4BWQs/D2hI9F2zwQ+lu81
-         PYoA==
-X-Gm-Message-State: ACgBeo2EsLs4RApfs5MhFEl2FaIA9uLFQxtNZHnxCnEW+PLEv/d58qIT
-	R4WcpLtfGrCCxm+jgGbTgS0=
-X-Google-Smtp-Source: AA6agR7ax8R8c9mQtUybOaqiiYYyNxIdrYTlId2y5BpG1dayZFvQX7I3r27NmErdCjerQN67iza3iw==
-X-Received: by 2002:a05:6000:1445:b0:220:7fcb:23a8 with SMTP id v5-20020a056000144500b002207fcb23a8mr10818474wrx.204.1659954034513;
-        Mon, 08 Aug 2022 03:20:34 -0700 (PDT)
-Received: from ?IPV6:2620:10d:c096:310::22ef? ([2620:10d:c092:600::2:c70])
-        by smtp.gmail.com with ESMTPSA id d14-20020adfe84e000000b0021badf3cb26sm13111677wrn.63.2022.08.08.03.20.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Aug 2022 03:20:34 -0700 (PDT)
-Message-ID: <f2e5d71b-7eb7-5103-28c2-5e39c3c25aed@gmail.com>
-Date: Mon, 8 Aug 2022 11:14:44 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
+	id 1oL4gb-00Eh2h-3L
+	for linux-nvme@lists.infradead.org; Mon, 08 Aug 2022 15:28:58 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id A26C4B80E25;
+	Mon,  8 Aug 2022 15:28:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9187AC433D6;
+	Mon,  8 Aug 2022 15:28:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1659972533;
+	bh=lpFQdsjZh8wL+uNBQDVltfnf7Gcs7geIK2yl0gZEZis=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DuabrMO3JhQYKj/lsRfa4eWTX5vJ/OD5elQ3cp0RJFhxmFivmc3uRLkaTf9DoIe5p
+	 uBMCFwueUu+gmYNgHmsBBLIRJcRbgWsGfyul8JIm+fhLaMUYQLQAC/9/UWG+CTvckC
+	 JL7A5Geed95RZ04FGpBOY8uJJrc8XgUNtNHupCWjiEr0pLg2i58LwXvXlyjXHP+LeK
+	 urpTTbYRmuOxN6i+H6oUa1pVSnfzLMFLUzT2NQM/4qr6rQHTCaUVWa6PCQxUfta/Ic
+	 idtNv4fQOtRMvL4hr5zKZR4ham7kYrM5t3MLhIkgA/E1vR5cfhPnISAjWdLWBwBZgR
+	 Ai3mjsGZTfhvA==
+Date: Mon, 8 Aug 2022 09:28:49 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Dave Chinner <david@fromorbit.com>
+Cc: Matthew Wilcox <willy@infradead.org>, Keith Busch <kbusch@fb.com>,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	io-uring@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	axboe@kernel.dk, hch@lst.de,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Kernel Team <Kernel-team@fb.com>
 Subject: Re: [PATCHv3 2/7] file: add ops to dma map bvec
-Content-Language: en-US
-To: Dave Chinner <david@fromorbit.com>, Matthew Wilcox <willy@infradead.org>
-Cc: Keith Busch <kbusch@fb.com>, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, io-uring@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, axboe@kernel.dk, hch@lst.de,
- Alexander Viro <viro@zeniv.linux.org.uk>, Kernel Team <Kernel-team@fb.com>,
- Keith Busch <kbusch@kernel.org>
+Message-ID: <YvErsVTIQqTykcbq@kbusch-mbp>
 References: <20220805162444.3985535-1-kbusch@fb.com>
  <20220805162444.3985535-3-kbusch@fb.com>
  <20220808002124.GG3861211@dread.disaster.area>
  <YvBjRfy4XzzBajTX@casper.infradead.org>
  <20220808021501.GH3861211@dread.disaster.area>
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20220808021501.GH3861211@dread.disaster.area>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <YvB5pbsfM6QuR5Y7@casper.infradead.org>
+ <20220808073134.GI3861211@dread.disaster.area>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220808073134.GI3861211@dread.disaster.area>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220808_032037_841386_A3CE81C4 
-X-CRM114-Status: GOOD (  37.10  )
+X-CRM114-CacheID: sfid-20220808_082857_322704_C4F901BF 
+X-CRM114-Status: GOOD (  21.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,85 +81,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/8/22 03:15, Dave Chinner wrote:
-> On Mon, Aug 08, 2022 at 02:13:41AM +0100, Matthew Wilcox wrote:
->> On Mon, Aug 08, 2022 at 10:21:24AM +1000, Dave Chinner wrote:
->>>> +#ifdef CONFIG_HAS_DMA
->>>> +	void *(*dma_map)(struct file *, struct bio_vec *, int);
->>>> +	void (*dma_unmap)(struct file *, void *);
->>>> +#endif
->>>
->>> This just smells wrong. Using a block layer specific construct as a
->>> primary file operation parameter shouts "layering violation" to me.
->>
->> A bio_vec is also used for networking; it's in disguise as an skb_frag,
->> but it's there.
+On Mon, Aug 08, 2022 at 05:31:34PM +1000, Dave Chinner wrote:
+> On Mon, Aug 08, 2022 at 03:49:09AM +0100, Matthew Wilcox wrote:
 > 
-> Which is just as awful. Just because it's done somewhere else
-> doesn't make it right.
+> > So you hot-unplug the failed
+> > device, plug in a new NVMe drive and add it to the RAID.  The pages now
+> > need to be DMA mapped to that new PCI device.
 > 
->>> What we really need is a callout that returns the bdevs that the
->>> struct file is mapped to (one, or many), so the caller can then map
->>> the memory addresses to the block devices itself. The caller then
->>> needs to do an {file, offset, len} -> {bdev, sector, count}
->>> translation so the io_uring code can then use the correct bdev and
->>> dma mappings for the file offset that the user is doing IO to/from.
->>
->> I don't even know if what you're proposing is possible.  Consider a
->> network filesystem which might transparently be moved from one network
->> interface to another.  I don't even know if the filesystem would know
->> which network device is going to be used for the IO at the time of
->> IO submission.
+> yup, and now the dma tags for the mappings to that sub-device return
+> errors, which then tell the application that it needs to remap the
+> dma buffers it is using.
 > 
-> Sure, but nobody is suggesting we support direct DMA buffer mapping
-> and reuse for network devices right now, whereas we have working
-> code for block devices in front of us.
+> That's just bog standard error handling - if a bdev goes away,
+> access to the dma tags have to return IO errors, and it is up to the
+> application level (i.e. the io_uring code) to handle that sanely.
 
-Networking is not so far away, with zerocopy tx landed the next target
-is peer-to-peer, i.e. transfers from a device memory. It's nothing
-new and was already tried out quite some time ago, but to be fair,
-it's not ready yet as this patchset. In any case, they have to use
-common infra, which means we can't rely on struct block_device.
+I didn't think anyone should see IO errors in such scenarios. This feature is
+more of an optional optimization, and everything should work as it does today
+if a tag becomes invalid.
 
-The first idea was to have a callback returning a struct device
-pointer and failing when the file can have multiple devices or change
-them on the fly. Networking already has a hook to assign a device to
-a socket, we just need to make it's immutable after the assignment.
- From the userspace perspective, if host memory mapping failed it can
-be re-registered as a normal io_uring registered buffer with no change
-in the API on the submission side.
+For md raid or multi-device filesystem, I imagined this would return dma tag
+that demuxes to dma tags of the member devices. If any particular member device
+doesn't have a dma tag for whatever reason, the filesystem or md would
+transparently fall back to the registered bvec that it currently uses when it
+needs to do IO to that device.
 
-I like the idea to reserve ranges in the API for future use, but
-as I understand it, io_uring would need to do device lookups based on
-the I/O offset, which doesn't sound fast and I'm not convinced we want
-to go this way now. Could work if the specified range covers only one
-device but needs knowledge of how it's chunked and doesn't go well
-when devices alternate every 4KB or so.
+If you do a RAID hot-swap, MD could request a new dma tag for the new device
+without io_uring knowing about the event. MD can continue servicing new IO
+referencing its dma tag, and use the new device's tag only once the setup is
+complete.
 
-Another question is whether we want to have some kind of notion of
-device groups so the userspace doesn't have to register a buffer
-multiple times when the mapping can be shared b/w files.
-
-
-> What I want to see is broad-based generic block device based
-> filesysetm support, not niche functionality that can only work on a
-> single type of block device. Network filesystems and devices are a
-> *long* way from being able to do anything like this, so I don't see
-> a need to cater for them at this point in time.
-> 
-> When someone has a network device abstraction and network filesystem
-> that can do direct data placement based on that device abstraction,
-> then we can talk about the high level interface we should use to
-> drive it....
-> 
->> I think a totally different model is needed where we can find out if
->> the bvec contains pages which are already mapped to the device, and map
->> them if they aren't.  That also handles a DM case where extra devices
->> are hot-added to a RAID, for example.
-> 
-> I cannot form a picture of what you are suggesting from such a brief
-> description. Care to explain in more detail?
-
--- 
-Pavel Begunkov
+I'm not familiar enough with the networking side, but I thought the file level
+abstraction would allow similar handling without io_uring's knowledge.
 
