@@ -4,151 +4,151 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2264C00140
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Aug 2022 00:06:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0D36C00140
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Aug 2022 00:07:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iWKAVGTaOfAMbRaB8Vh9yefBMRTWbzvZ0iY9lcF07yQ=; b=Y0cnd8B6E7LUwcya4UhrfSGZsR
-	tgxIa0elcJWTJtqAUmL8G09eEUHTPJVvqsuu4GH3/uRaKBjfhKhViAT+zavaeEtbJk9Cn3Ol7zRGS
-	7H9XfDOB2icvR9N6byE0keACNJMLR1iOXuYbZfVy9b4JNyvTdKh9iB0abIBYIdb7yhl5gwX05y8Sj
-	V6NfmjhcGVyXhbpP2r6jvxp3YRCgl9hcReALXrAg//lw0HDtKD8UTjyvB7bpyq1GT7sWaCYYspk5R
-	Bm6QRAWOxy3hqpmQsQliaeo7jzzaMtFrDkA3+x6wE2mgNOZtTLIOEIY+1c2QKBNiQhRgjegO/s0dk
-	31VGPZJA==;
+	bh=HWjUi3x3pR0J2NI56B5LRU2aUiMppOApsNHBsj0Ha0Q=; b=XeavNSsaaR24fbdylmdmBmDmA4
+	u0ktzbD5ssm2FivMyNX1BR76YtwtZKRja6DRFalNLD804OJe/l2pSFzsjyxPzv2tg392WGA8woUQB
+	+46+i1qu3TJqj1YvQQy0gl/4SxzbV9QSj+mbJCDNqPs3CrbZ7nbkJr/okU6dpTQpwl1vhg0ln12tV
+	TQnduW/DixrPnogdnhMQcABkRBYex/vx5oV6MdFQpHTRq3YCgJ3vW8gpkuR8dUgZ3RN/gccy8PDV5
+	FMOkXM0CEtr+6JLMgz+uhgyCWe3J2sudGGoXLVZBRc0odPegG623sPQvBvmQ3Ase5i1brZSyz2WFV
+	ODH4xDgA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oLClW-00H6se-7u; Tue, 09 Aug 2022 00:06:34 +0000
+	id 1oLCmA-00H79z-Io; Tue, 09 Aug 2022 00:07:14 +0000
 Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oLCjm-00H68O-2j
-	for linux-nvme@lists.infradead.org; Tue, 09 Aug 2022 00:04:50 +0000
+	id 1oLCjn-00H691-Va
+	for linux-nvme@lists.infradead.org; Tue, 09 Aug 2022 00:04:51 +0000
 Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 278NxYXJ000317;
-	Tue, 9 Aug 2022 00:04:38 GMT
+	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 278NwfQ2031102;
+	Tue, 9 Aug 2022 00:04:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version; s=corp-2022-7-12;
- bh=iWKAVGTaOfAMbRaB8Vh9yefBMRTWbzvZ0iY9lcF07yQ=;
- b=fwi+LI56gT2z6CyCpLYNZHGvJZ1aRQrDDyAHGOHsXH8imzOnK/XGaLXi3dwtGfcs/Npk
- udHfWS0ZMoIQuVK2Orv8a7j5sj6OhzIoljE47pVPffKhan+xcu4WqPdXEoslMuQwEAjM
- rSQiHWtSUrjA5J0NGWAMm6GTadUsoCdy95RKNcnVx9aXlY0/NuqlUJb+WoSfYPrFJZlE
- U1rLZShoa3zIgYCG/nuAPdFcKKr63ZUSrnrU0pQY0jx+daK/NoapEQkYa3tcBBIQ0nlp
- hi1Z9dFva/QMAY5sFJ2U8/CG1zb5fjIZMG9NhjOVKAfP++6JXLfsrnTEpZ/O2Hm7y88O vA== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hsew155h6-1
+ bh=HWjUi3x3pR0J2NI56B5LRU2aUiMppOApsNHBsj0Ha0Q=;
+ b=gtz9QEdsEHYoMEx+qRGiD9xASUxx6jCQlgSvBdTHB5S8vF7GmbUD9CRcYHwXhUKtnXhn
+ J4C0x5XYjndoE5hZnj6yAXi0xXv2/8N10zwJm3YFf2LKZPCK0JWmc9C/dh69tts6sS5p
+ 3OtdndKuZcEshuVbT4wPICSJljir6t7Ep4BCpzhPJ3kMTTBJ0ozDhvzSHmhTpavFlPTY
+ 8LQL5b3DHRM/NHZug1oekujQmQiJSReSkUq8voahmlByvy4mYvysDLfi5H7poWRpIlEo
+ SMkCJVIovFt4a06Trc6PzAIN6H7wjn/A3cMQ9xEOvagOSnRbEgInpjUi20UwKPWyY38+ SQ== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hsew155he-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 09 Aug 2022 00:04:38 +0000
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 278M0i97013162;
-	Tue, 9 Aug 2022 00:04:36 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3hu0q2b9kk-1
+	Tue, 09 Aug 2022 00:04:43 +0000
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 278M0hHn038083;
+	Tue, 9 Aug 2022 00:04:43 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2100.outbound.protection.outlook.com [104.47.58.100])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3hu0n32vm1-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 09 Aug 2022 00:04:36 +0000
+	Tue, 09 Aug 2022 00:04:42 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gRr+FFR/ivUPk1ykTu7ozlzmxBsz83GgljbnqEqiTl76aytPfKadeOiul6PZ/f6X5AVXTWXx3g8KWSjNnBQfMzxa+e/XR5Wd/U7yyhZQ8Sz8hM3Powvo2OPW7pyd3r4B6WQwP/oGRNhNndyaUpZ1//8mwWWDsK3fYppRJJ+GnAOWa3jtdGYAkLBRFqlmyrK/n7NiFZzCRWZXpQ5aJ1RouuG4T8liRwPEzdfVyRM1Dye9SzfHajnMTjjoEJvjUhewPbFvYcVRdRNd2+Q3K+xLEyKQBjC54nFuJu26IdTOLG0f9IFML1Xm/4K3u8fzw2C2Z0JSnu1SUebQCwxUMRfqDQ==
+ b=nWNa/XVtrqH30K+6ut4iLIXhdPe/V9QcKOfIkk21UwsIsPtk3eeQy5/jfRCFhq94OOCYW2eR1DaMvsZuJlCk9izH/jaLGIOzRFWZbRlmup502QJg7xJyn/y+AVs2aafd3Znb1/X53wTko7Mqf9KArkNUVdBiTsV7TH51A4sgPidCpBSd2ZX8Ek1lQ65EMauWcNohHl98xX75K6e8UvQueJ2rxVGd8VCRCcoG/XcYUhVoh4PF0r6GwUDyz+zY16rAKDa0jBXUxLUaqUT+cU0cnp+nYEl2DusWgruSXA1XLJykou/WgoOqZj/ZifSdZbuKMh8bIxSSBdMVIiRK/DHotA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iWKAVGTaOfAMbRaB8Vh9yefBMRTWbzvZ0iY9lcF07yQ=;
- b=n/rMmuksePBCKpKg7wtPS2GedZjK9SpitGUHFKaVv+aqnfOuh2bE3Xg7N8+2vFgeNTWnWvVbnoNaIorgDvUxVilddDo/Kh7bvGhcCkOdxMHO67qzbE8SZ1J5rg+bmlXFDRBXhZEj0+nwh1Gj7FlnAUD0F+/J0MjPcTqZ+FGdhhdVzRwfX/1EBrobdXX/PpkeM0maJtlE2TtnAdHkIO1Os1Dfrgp5co9E2F2Mwe45mx+x23A/xlx8aehW8pZmuwZCbEivp4C0jOxB2KZZwyhY5BkqeZB7N1786UeGbmHNk3M4V/ZG2pyyXo8/a3O1zLyNhHfBym0hwgoIT3IGoYEUhw==
+ bh=HWjUi3x3pR0J2NI56B5LRU2aUiMppOApsNHBsj0Ha0Q=;
+ b=WvIItg5fxVZoBi+3KPaXgzyHC0QE/kOX7LXzXgAdQY8wDM8wMMpwYJ6XrrbVz7s9kiPl/joYyhqNw6ZqHUOr0/mEh54sTzm794IjfxSdHcAnkCV5xEDQF++1u+5HnNbWPM3kOHJVS1XAckLIZQ/h4RPLQOtGbn3JRZhJ5oMKwKtt4Wn/PoNgoNe3sEdzrbNkyN7BgH8Xug4BX4OJXJsYl54hOFB25vLkuqriurZz++pOWAwtz9QX1NGdD9czgWeauw8S2sH1FKWEtniH2ZKqIuvMRybUAW5GpK9j+1n1IzEqCOcbWYcCh1YHBO0hOgmqwaEevIoZXewXyhfKHpWmiw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iWKAVGTaOfAMbRaB8Vh9yefBMRTWbzvZ0iY9lcF07yQ=;
- b=C5r2P7B9ZAG7wuRIgAqWNg/hfDJ3IS5WD2Os94th7Kukhg55rYl+rdpXu2TfWda+4p+Wmvo7XgLz80g/pR779WMEaFb8VOOBDUVGkaInaA6lIQp+TaJJC2A5bUQptD9NpA7vdIOUKymjk6cFNHC2F8PxhUjluSvJccOjSF9Q9KQ=
+ bh=HWjUi3x3pR0J2NI56B5LRU2aUiMppOApsNHBsj0Ha0Q=;
+ b=cCmlNl9bcxMkeFYLw2yU8denz3+LaZaYRoWt2Cw9rhFKrHpM08jLKA/FcjP/ml+MoZM1CTLBDC6J5cr/q9AWwbVdsYkMfGnFwbR0zfF3bS1BZcs8JLL2AH+UDCCKSQXHdASh6nqy6e6F33Rccc+VcvFOxFSzyVZZO5J3W8MgzOE=
 Received: from DM5PR10MB1466.namprd10.prod.outlook.com (2603:10b6:3:b::7) by
- SN6PR10MB2590.namprd10.prod.outlook.com (2603:10b6:805:45::15) with Microsoft
+ CH0PR10MB4907.namprd10.prod.outlook.com (2603:10b6:610:db::8) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5504.14; Tue, 9 Aug 2022 00:04:35 +0000
+ 15.20.5504.14; Tue, 9 Aug 2022 00:04:41 +0000
 Received: from DM5PR10MB1466.namprd10.prod.outlook.com
  ([fe80::8dee:d667:f326:1d50]) by DM5PR10MB1466.namprd10.prod.outlook.com
  ([fe80::8dee:d667:f326:1d50%6]) with mapi id 15.20.5504.020; Tue, 9 Aug 2022
- 00:04:35 +0000
+ 00:04:41 +0000
 From: Mike Christie <michael.christie@oracle.com>
 To: bvanassche@acm.org, linux-block@vger.kernel.org, dm-devel@redhat.com,
         snitzer@kernel.org, axboe@kernel.dk, hch@lst.de,
         linux-nvme@lists.infradead.org, martin.petersen@oracle.com,
         linux-scsi@vger.kernel.org, james.bottomley@hansenpartnership.com
 Cc: Mike Christie <michael.christie@oracle.com>
-Subject: [PATCH v2 09/20] nvme: Add helper to execute Reservation Report
-Date: Mon,  8 Aug 2022 19:04:08 -0500
-Message-Id: <20220809000419.10674-10-michael.christie@oracle.com>
+Subject: [PATCH v2 13/20] nvme: Have nvme pr_ops return a blk_status_t
+Date: Mon,  8 Aug 2022 19:04:12 -0500
+Message-Id: <20220809000419.10674-14-michael.christie@oracle.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220809000419.10674-1-michael.christie@oracle.com>
 References: <20220809000419.10674-1-michael.christie@oracle.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: CH0PR03CA0209.namprd03.prod.outlook.com
- (2603:10b6:610:e4::34) To DM5PR10MB1466.namprd10.prod.outlook.com
+X-ClientProxiedBy: CH2PR03CA0015.namprd03.prod.outlook.com
+ (2603:10b6:610:59::25) To DM5PR10MB1466.namprd10.prod.outlook.com
  (2603:10b6:3:b::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b1af35c0-77a4-44ec-d3a2-08da799abe2f
-X-MS-TrafficTypeDiagnostic: SN6PR10MB2590:EE_
+X-MS-Office365-Filtering-Correlation-Id: e269e834-feed-46e8-b865-08da799ac216
+X-MS-TrafficTypeDiagnostic: CH0PR10MB4907:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	bmRw3ED0LiOs5/vbwSR+TtTDg7QusfcJLka1fUrZjQwZg1vmppFq8pVILCBlVvO2GH7pD0rqJDSPyfvazIl5ZGJKOsT8BemjyN/rW2FogyaCBmFT5i2GUAy3/cyPRJAnHAi3K6B+9JwCoBwfDVeet7CRjSnkfBMQZHOc8cOs8DcYgSy3aoDXPQ1zZuw2wIhXqdwGfC4VJ58877Gw5L1JKpVzhAWbz8PFl2bXK6hv90MMNQoEIoJSpQ8QZFVXISYhdSrhbmf/kcA9c+Wn9HeTnLMfieieQkqReO+jdg7u/clq7OrGoP6WPXn0aSkGxQ3HgihfSDzyiCNJQisuc/ilBSLf9qdEWJu//HJZAqWMPjjgZOrdnYe0D7WtHJWEPzTazb/sNjeVuOoII2co2k9Lc4Srvv5y3Zrlqb+Bm3BJJ9bhgCcBAe/9cMo6J5n4aNa1YZfu6kc+2VwepISWpLY3Ct8SxoUOv26/5oT9DXBhvi2HSdKoi3ruL/gnqR5oKia4D0SrDpTjW+Y5ucmhNPin+H4v4YeSPCaQ6uII6yOCKwx19JKxr2SxFl3GuX7IIwEROX+Jv47z/5dTSMsmLWQP3WePC9kg10nRGQBHWFB3YtrsV5jansqL2T2Vyl3dXZurPMu1zPPlgAe8eTF4SU3CDclPZr/9A6j244QzLfi6aZUMyEPC0GLhH/AOxJHkukaZHaxdHtqIhBSwGqHhXHP2FnpTU9LxHU76JgmEqFPih6eCUZbVdvxivxoKAp+Jk8+dE4AMzw0Sb3fsCyAfAobLmq3FTiSbGuf7umnS9SDylWE=
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR10MB1466.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(346002)(396003)(39860400002)(366004)(136003)(376002)(2906002)(83380400001)(6512007)(26005)(6506007)(186003)(1076003)(2616005)(36756003)(107886003)(38100700002)(86362001)(921005)(66476007)(6486002)(316002)(4326008)(6666004)(8936002)(66556008)(66946007)(8676002)(478600001)(5660300002)(41300700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 	/gBU3888B5l9SwWMOsjgyf47OE5b2UVx4IDjQUk1Aumpw+EWIKegXNblHnII542wERDv5VZuQAeozpCYhuW0haiL36K2MOJcmQ4WdzZVJZHQIWCRHSY8Y64Aele5OzcY+/wuK32B4jMJG87G5PT7JKs2tTJWIyM4W4rJGHZLowvegrz0pYfImyxJ9feT5rK3zkC1gRX2OjwPUi2fgN990bz82onL8KBtTPSmu/pPWzQDyDw9zCl1H1FrsviLCnB6L1M2S02C2RM81agCHwGhIfsSri+mDqvSwr0p0/fmZAMszEHLQEKFFa/CABhQ3pQ5eZO2adoanoit5Kvn9ihJzr07F3ZYm6zfmHEfqOP/SMZ3le8G0bfYgI/uL75+hXFmFxkQFatRsYxgkzQ3QFeXAvePMVMwG6SAPNUeHcXqdxKER0C/iwEBgfYFWgf3RoyMxCy5cRGG7hq/ietMXWcYeVjOHV8Mfyxl/bkPBzH6uMgZw+ykLqSkAnkTQnHUTt1tgfFW3hq5+iorhHHuFuePEn4BMpBjM+YHFAjgMBmlb5FZgfgHWDWbtb0M7yDcwCZsSuKz3NPuPwgymt+UtMQXLyDsMK5M4F9yDGVdZ969DIYDSK3lIZTc06xKCEDfU9CwQenE5/Nf7X7E6IboJ9c1OSoVpNGWa7Y7Ykq93RYdfdEBMdyS0ZbW62BJhTE6zDEMUzHR/Goyjtl12p59KZrwMGQFuyahvhsw/X+W4LfUd3qcPTPxpzUp3EePaOzLzuYDlbHZBhasLqjZKPbek5dHRUqsa0oZ+V//p1AFdCKFBUA=
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR10MB1466.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(396003)(366004)(136003)(346002)(376002)(39860400002)(921005)(6666004)(41300700001)(6512007)(26005)(2906002)(6506007)(83380400001)(2616005)(107886003)(38100700002)(86362001)(186003)(6486002)(1076003)(316002)(66476007)(66556008)(36756003)(8676002)(66946007)(4326008)(8936002)(478600001)(5660300002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?15Oj6XpeIhuRej44OkZxD3bGjMYvBxHiYm19ukKht/oIDRxVqxx7W9h2Wx5Y?=
- =?us-ascii?Q?Lfj1OISVrlnxOPNnN2oIcOH4Ir9BvA0krI0IJvAF6hwGkcxc2rurjN6sH0CP?=
- =?us-ascii?Q?uppoAbL5FGmc3GZivIdxbwqfRUu4zSAedtSYfdrtW0xvgYF5HMDTwlWLNoNw?=
- =?us-ascii?Q?YlyhDrLMH6bOFlii2LlgOR2QNlXW8mAMHDcfz9ViL7gYa68st7KmqRB7QmaK?=
- =?us-ascii?Q?TCxChN7c0LMpx3VKynh4glx0vxqsC5jr27oM8MtPWmyiVZp3WzuX1TxnM16a?=
- =?us-ascii?Q?KFBtnpeDeIYEUbgMRPK9YOPu92TihI0SJ0Zv4MC30R736CeYIkDHJ59DyMGu?=
- =?us-ascii?Q?W7jNZPluCmQaD72Wtoh2Qo4sgBJWy0XqHJ/psxHnp91oWu7F4Yo5/1vKkqVe?=
- =?us-ascii?Q?wiqfldBw5CSP7juEoSIwxRLj2y1TCddajehaw/MwADwL2roJVL1BdA/AyCB/?=
- =?us-ascii?Q?Nwy4SXtdG+eMcZXn3u8UyRWYINfLV654rGA5XMvn1nKBiUM9uvipKys4fSTl?=
- =?us-ascii?Q?50RzgT/BQTfMUfpgRwB7m+rGxl7NwnMS1IQmSmisAHh51ScZikrgcDFu7fsq?=
- =?us-ascii?Q?IYCSE8EyhfmpZyJ60qv8pnGU7wwQDVbmZutd6MbMyrRf61yrx8K3GGx4vLjY?=
- =?us-ascii?Q?9Mgsg+lDGnwwAkIzABgYUAk4EhY79QPCB4kRIPZVpjHtMsAudlitwi1txE3B?=
- =?us-ascii?Q?EGV3r3JW12yWFsE+S4iLruG6W5lnrgokxR+NybOjdCxuNvWj9GTBs8xSJwPn?=
- =?us-ascii?Q?62+omjB+AtxvCGTlQBF+xkAduyiE3l3UoW/ZN/WJYNtIaPPXWQDTEMlhUI/z?=
- =?us-ascii?Q?H18bQWs29qRYp1HwpQa8D2qGtOH0To2gTT4kRzEOUzMhuJX3gmHGKQkgghbp?=
- =?us-ascii?Q?9GwDI7fPkYBjZcYGF+aAUZ0+E4G6Fnfq0MArR26bP4UqguvYhChvl6KZTrON?=
- =?us-ascii?Q?czeQ1HJPUx1wPkL7G6wBfCniwgDfcEJk+M6O8eQSql9HKuDb4rkTTMZwmZRU?=
- =?us-ascii?Q?JHpNnKXKos6xATOIuXue2JftJXp+NDudl/opxCho+m7qYnbsFnsYU7B/yUtp?=
- =?us-ascii?Q?5z0MP1cBcwQovqq58g3PIFhUIO915IO+HFNhT85IQ+V49OXAt1XV0yn6avJ2?=
- =?us-ascii?Q?JovtUNPBfnl/5li3Gs/0sIVnS8J2MC2wNL89sHFwPVboYqnNs+XWDoO5k6Rf?=
- =?us-ascii?Q?FcljpJZz6CiGopW3B+ER31xp24+X84CZsSDb5vTEGIYw5c/lLW7yz1H7nbO5?=
- =?us-ascii?Q?HpQDQzxVZIzZOpSXHZ0PoohpR9NzLvRk42jrRrsrpjbxX+Ry4M7RPs2pbj6A?=
- =?us-ascii?Q?8gkfyLgkWuhjYct1wJuDwNAJmN+hmvAhHKoI+/M3KvHbNKL/JvybUpJWBD5a?=
- =?us-ascii?Q?eFi0f9kFG5UyKEgdh3++9DMvhz4MvcWSHzXGcJk7zJsdRC+ZGNxpzl/YAonl?=
- =?us-ascii?Q?sdH1A1eLdswBzLuFAkPMZp9XFxpbGiWN06BgEY4DA1xA1JjFLtYRlr3AAamz?=
- =?us-ascii?Q?yKcZatHji/vrJ5xtx/cNJ/uCAShKLqpcSwK8vkK2RCBM3CTZRdxBoT6bO57R?=
- =?us-ascii?Q?WTFNlOIwOTjaesmgE/DyOFtGTiEaUQ6J7MX5VOPyfBy2bpgAMyQ4TC8QvkNE?=
- =?us-ascii?Q?Ag=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?+HyS8pSGXQuNg4Bi8v9joHGp1owqfy7JjY6ruZLC4Tf/zX4L2mvg74M0tdkT?=
+ =?us-ascii?Q?kgKSPWF5RzOj5gXON2Cr1dRQtO7rH+1I5zLqRUig/3YGUtxA6QFUUgPeb1RN?=
+ =?us-ascii?Q?6ac3qutbPv5SkydiANu9xPtcPE3uh37Hg9iqcw3S2HtB8UN8cgmo48m0M02j?=
+ =?us-ascii?Q?0Miaims6/kxn7JRlUW3ty0QiXZP2bjtlA7Qkh6vw1icACbHyvmY9C4eNY00W?=
+ =?us-ascii?Q?JL7ojYHSHsaFIB2thOzoANgiKb1TmQalddcmUTMre9iBluiVZkjDFPcbg4Wr?=
+ =?us-ascii?Q?dHlV8NWTo2WRI/Tt6/8UrJeIFkXxqIgf1TCUkcynPcR7fxpGhYFWKcseqlR0?=
+ =?us-ascii?Q?3SCv+2jlLslPcOiN+/CvVwk6W35cCj1mMAX+Yif6TwfIEvpxm4de54Vz82Ju?=
+ =?us-ascii?Q?H05L4N/ImaMazDZVYlqA18HykxnHi6Ok59vFzSmyCIlyMQIqCpRnhgRI5me3?=
+ =?us-ascii?Q?k+IbC+LX/7drKEraHevk5ExiSOOMonWTlB9AAHlJspOSNokF+KUpsQM8GdBj?=
+ =?us-ascii?Q?o+1434j3kEAutM8op/VusGvB3ORfbaenADPK2vxeRMB7z5qY2bzPi6TK3jve?=
+ =?us-ascii?Q?UGjCar5oCBTiTbUShUKn8qjzMW+GE5MAWC1KfQgbgfQpYqOoRXZq0gqBKRfm?=
+ =?us-ascii?Q?hB4s5lcfJ+NIYLNGs5ZBVZWGA6Z1PoHE4YQvKD3QId3hLJob1kz9kpW3jb4T?=
+ =?us-ascii?Q?is5E50vivmx9aztOfBIoL3V0DOD3An0TlIQJy2IkCtuRSn2bn2+6sfVtCHK1?=
+ =?us-ascii?Q?SSmAH3/+YIFy1Ho9Di5wbDO2dc7bPcWlSp4c/QMMd5WRzFriK/bjZSNpr36r?=
+ =?us-ascii?Q?Iwh7seqGG5liewvnoygqEoZmZD3dD5w4bIGmZFf7Syde7QKOr+liKRzqC5H1?=
+ =?us-ascii?Q?/Djl+TpgSw4zVeGf0GoOnEBr7cU8RCtaZ3iDMG5W+ovV6M57xldo/ZdVqwpF?=
+ =?us-ascii?Q?dCtZeQ8PyLpJtY7u54k3CB6d81r2noGRwgWPRtsC9/HVPnCsYxtSDDgeffia?=
+ =?us-ascii?Q?PDSct8GaHtLGPYpHptuk+SkYjTKHDst4Wl4zoJtF4m8jv9CqKYxiqe5GTtwC?=
+ =?us-ascii?Q?jQtsglEPHDOH7A2KFImmPP1939AL0BB/hcA0mtgb7wMFSR9slyKnvWnQB/P3?=
+ =?us-ascii?Q?4Tio6alaOcaBHe8NF6ggRgFYrdIdTmfqC6gTnjXUN68DA272iCMBx/Z8joUM?=
+ =?us-ascii?Q?FMKw26miK2sjD/59QgT7FjGaEFnXc6pqxOARC4hGY/nPwPeyl4rtSA43H7ya?=
+ =?us-ascii?Q?5mlqoregiHQTN8ie2jK9a9O8iWuB5mRXXhCKIG6PLxB7nbTaDSh4v2pU0Lid?=
+ =?us-ascii?Q?r1mgdcJ6ziNvhqz66B35rFt/dn+hpoN5biTf/AywHXfbyJx2Gy/z/P5UdufN?=
+ =?us-ascii?Q?doUnxB/TxCs1vZ9iDe6kTaeqHGTXjooZw5Og9OHmok+ON4CqY1ZbQDEArUYB?=
+ =?us-ascii?Q?O3baum+pjmL9Qftm4pAU0rUpgvPNfjPXoTpZ95Y+tLW5uDl35AA5LZP+Qeli?=
+ =?us-ascii?Q?UCc4AgBjrlQl8Ik3dA0zciYd6NYo2noQXYfE31PUAX1SvTK+bckP0JL/JGdf?=
+ =?us-ascii?Q?TPsJN2fslaru6VuQBD49u8A0XjIK6WqXrtFudsY7+E26+HqOxaiMhVx1bqcK?=
+ =?us-ascii?Q?+Q=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1af35c0-77a4-44ec-d3a2-08da799abe2f
+X-MS-Exchange-CrossTenant-Network-Message-Id: e269e834-feed-46e8-b865-08da799ac216
 X-MS-Exchange-CrossTenant-AuthSource: DM5PR10MB1466.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2022 00:04:35.0326
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2022 00:04:41.5946
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DXSmkbqGc8ANh4seI4wfza6ZEcOSrVaL/WYImjnx6D72647yYzkR/FlEFQk1leVqTyI4FPxuEiAsI0loV1xHIEjY/+FrjOXlW3nOFdG+MqY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR10MB2590
+X-MS-Exchange-CrossTenant-UserPrincipalName: /fIZWQSPZxJ09X568Uh5tLLOvZ7lM/kqp+WUvIxZdS6igrm1bg9Ey/wpP/he8PSTp7SNAiewnT/Kl1pfL98GSgOAzgDFUanpdz99RSetTwo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB4907
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-08-08_14,2022-08-08_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 mlxscore=0 spamscore=0
- phishscore=0 bulkscore=0 adultscore=0 malwarescore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2208080105
-X-Proofpoint-ORIG-GUID: h9vD1FbRq9vWMjTaCa3vo4Tnu9fEzJ1Q
-X-Proofpoint-GUID: h9vD1FbRq9vWMjTaCa3vo4Tnu9fEzJ1Q
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
+ phishscore=0 malwarescore=0 suspectscore=0 adultscore=0 bulkscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2208080105
+X-Proofpoint-ORIG-GUID: iyKs7l8dH-6h1VKOxmJ8RCxmKHj35kHJ
+X-Proofpoint-GUID: iyKs7l8dH-6h1VKOxmJ8RCxmKHj35kHJ
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220808_170446_173601_7F5AC9AC 
-X-CRM114-Status: GOOD (  18.48  )
+X-CRM114-CacheID: sfid-20220808_170448_088182_DD184796 
+X-CRM114-Status: GOOD (  21.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -163,53 +163,174 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This adds a helper to execute the Reservation Report. The next patches
-will then convert call it and convert that info to read_keys and
-read_reservation.
+This patch has the nvme pr_ops convert from a nvme status value to a
+blk_status_t.
 
 Signed-off-by: Mike Christie <michael.christie@oracle.com>
 ---
- drivers/nvme/host/core.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ drivers/nvme/host/core.c | 54 ++++++++++++++++++++++++++--------------
+ 1 file changed, 36 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0dc768ae0c16..6b22a5dec122 100644
+index 49bd745d28e2..46188b3d9df8 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -2196,6 +2196,33 @@ static int nvme_pr_release(struct block_device *bdev, u64 key, enum pr_type type
- 	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_release);
+@@ -2105,7 +2105,8 @@ static char nvme_pr_type(enum pr_type type)
  }
  
-+static int nvme_pr_resv_report(struct block_device *bdev, u8 *data,
-+		u32 data_len, bool *eds)
-+{
-+	struct nvme_command c = { };
+ static int nvme_send_ns_head_pr_command(struct block_device *bdev,
+-		struct nvme_command *c, u8 *data, unsigned int data_len)
++		struct nvme_command *c, u8 *data, unsigned int data_len,
++		blk_status_t *blk_stat)
+ {
+ 	struct nvme_ns_head *head = bdev->bd_disk->private_data;
+ 	int srcu_idx = srcu_read_lock(&head->srcu);
+@@ -2115,20 +2116,28 @@ static int nvme_send_ns_head_pr_command(struct block_device *bdev,
+ 	if (ns) {
+ 		c->common.nsid = cpu_to_le32(ns->head->ns_id);
+ 		ret = nvme_submit_sync_cmd(ns->queue, c, data, data_len);
++		if (blk_stat && ret >= 0)
++			*blk_stat = nvme_error_status(ret);
+ 	}
+ 	srcu_read_unlock(&head->srcu, srcu_idx);
+ 	return ret;
+ }
+ 	
+ static int nvme_send_ns_pr_command(struct nvme_ns *ns, struct nvme_command *c,
+-		u8 *data, unsigned int data_len)
++		u8 *data, unsigned int data_len, blk_status_t *blk_stat)
+ {
 +	int ret;
 +
-+	c.common.opcode = nvme_cmd_resv_report;
-+	c.common.cdw10 = cpu_to_le32(nvme_bytes_to_numd(data_len));
-+	c.common.cdw11 = 1;
-+	*eds = true;
-+
-+retry:
-+	if (IS_ENABLED(CONFIG_NVME_MULTIPATH) &&
-+	    bdev->bd_disk->fops == &nvme_ns_head_ops)
-+		ret = nvme_send_ns_head_pr_command(bdev, &c, data, data_len);
-+	else
-+		ret = nvme_send_ns_pr_command(bdev->bd_disk->private_data, &c,
-+					      data, data_len);
-+	if (ret == NVME_SC_HOST_ID_INCONSIST && c.common.cdw11) {
-+		c.common.cdw11 = 0;
-+		*eds = false;
-+		goto retry;
-+	}
-+
+ 	c->common.nsid = cpu_to_le32(ns->head->ns_id);
+-	return nvme_submit_sync_cmd(ns->queue, c, data, data_len);
++	ret = nvme_submit_sync_cmd(ns->queue, c, data, data_len);
++	if (blk_stat && ret >= 0)
++		*blk_stat = nvme_error_status(ret);
 +	return ret;
-+}
+ }
+ 
+ static int nvme_pr_command(struct block_device *bdev, u32 cdw10,
+-				u64 key, u64 sa_key, u8 op)
++				u64 key, u64 sa_key, u8 op,
++				blk_status_t *blk_stat)
+ {
+ 	struct nvme_command c = { };
+ 	u8 data[16] = { 0, };
+@@ -2142,9 +2151,9 @@ static int nvme_pr_command(struct block_device *bdev, u32 cdw10,
+ 	if (IS_ENABLED(CONFIG_NVME_MULTIPATH) &&
+ 	    bdev->bd_disk->fops == &nvme_ns_head_ops)
+ 		return nvme_send_ns_head_pr_command(bdev, &c, data,
+-						    sizeof(data));
+-	return nvme_send_ns_pr_command(bdev->bd_disk->private_data, &c, data,
+-				       sizeof(data));
++						    sizeof(data), blk_stat);
++	return nvme_send_ns_pr_command(bdev->bd_disk->private_data, &c,
++				       data, sizeof(data), blk_stat);
+ }
+ 
+ static int nvme_pr_register(struct block_device *bdev, u64 old,
+@@ -2158,7 +2167,8 @@ static int nvme_pr_register(struct block_device *bdev, u64 old,
+ 	cdw10 = old ? 2 : 0;
+ 	cdw10 |= (flags & PR_FL_IGNORE_KEY) ? 1 << 3 : 0;
+ 	cdw10 |= (1 << 30) | (1 << 31); /* PTPL=1 */
+-	return nvme_pr_command(bdev, cdw10, old, new, nvme_cmd_resv_register);
++	return nvme_pr_command(bdev, cdw10, old, new, nvme_cmd_resv_register,
++			       blk_stat);
+ }
+ 
+ static int nvme_pr_reserve(struct block_device *bdev, u64 key,
+@@ -2171,7 +2181,8 @@ static int nvme_pr_reserve(struct block_device *bdev, u64 key,
+ 
+ 	cdw10 = nvme_pr_type(type) << 8;
+ 	cdw10 |= ((flags & PR_FL_IGNORE_KEY) ? 1 << 3 : 0);
+-	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_acquire);
++	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_acquire,
++			       blk_stat);
+ }
+ 
+ static int nvme_pr_preempt(struct block_device *bdev, u64 old, u64 new,
+@@ -2179,7 +2190,8 @@ static int nvme_pr_preempt(struct block_device *bdev, u64 old, u64 new,
+ {
+ 	u32 cdw10 = nvme_pr_type(type) << 8 | (abort ? 2 : 1);
+ 
+-	return nvme_pr_command(bdev, cdw10, old, new, nvme_cmd_resv_acquire);
++	return nvme_pr_command(bdev, cdw10, old, new, nvme_cmd_resv_acquire,
++			       blk_stat);
+ }
+ 
+ static int nvme_pr_clear(struct block_device *bdev, u64 key,
+@@ -2187,7 +2199,8 @@ static int nvme_pr_clear(struct block_device *bdev, u64 key,
+ {
+ 	u32 cdw10 = 1 | (key ? 1 << 3 : 0);
+ 
+-	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_register);
++	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_register,
++			       blk_stat);
+ }
+ 
+ static int nvme_pr_release(struct block_device *bdev, u64 key, enum pr_type type,
+@@ -2195,11 +2208,12 @@ static int nvme_pr_release(struct block_device *bdev, u64 key, enum pr_type type
+ {
+ 	u32 cdw10 = nvme_pr_type(type) << 8 | (key ? 1 << 3 : 0);
+ 
+-	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_release);
++	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_release,
++			       blk_stat);
+ }
+ 
+ static int nvme_pr_resv_report(struct block_device *bdev, u8 *data,
+-		u32 data_len, bool *eds)
++		u32 data_len, bool *eds, blk_status_t *blk_stat)
+ {
+ 	struct nvme_command c = { };
+ 	int ret;
+@@ -2210,12 +2224,16 @@ static int nvme_pr_resv_report(struct block_device *bdev, u8 *data,
+ 	*eds = true;
+ 
+ retry:
++	if (blk_stat)
++		*blk_stat = 0;
 +
- const struct pr_ops nvme_pr_ops = {
- 	.pr_register	= nvme_pr_register,
- 	.pr_reserve	= nvme_pr_reserve,
+ 	if (IS_ENABLED(CONFIG_NVME_MULTIPATH) &&
+ 	    bdev->bd_disk->fops == &nvme_ns_head_ops)
+-		ret = nvme_send_ns_head_pr_command(bdev, &c, data, data_len);
++		ret = nvme_send_ns_head_pr_command(bdev, &c, data, data_len,
++						   blk_stat);
+ 	else
+ 		ret = nvme_send_ns_pr_command(bdev->bd_disk->private_data, &c,
+-					      data, data_len);
++					      data, data_len, blk_stat);
+ 	if (ret == NVME_SC_HOST_ID_INCONSIST && c.common.cdw11) {
+ 		c.common.cdw11 = 0;
+ 		*eds = false;
+@@ -2245,7 +2263,7 @@ static int nvme_pr_read_keys(struct block_device *bdev,
+ 	if (!data)
+ 		return -ENOMEM;
+ 
+-	ret = nvme_pr_resv_report(bdev, data, data_len, &eds);
++	ret = nvme_pr_resv_report(bdev, data, data_len, &eds, blk_stat);
+ 	if (ret)
+ 		goto free_data;
+ 
+@@ -2286,7 +2304,7 @@ static int nvme_pr_read_reservation(struct block_device *bdev,
+ 	 * the response buffer.
+ 	 */
+ 	ret = nvme_pr_resv_report(bdev, (u8 *)&tmp_status, sizeof(tmp_status),
+-				  &eds);
++				  &eds, blk_stat);
+ 	if (ret)
+ 		return 0;
+ 
+@@ -2302,7 +2320,7 @@ static int nvme_pr_read_reservation(struct block_device *bdev,
+ 	if (!data)
+ 		return -ENOMEM;
+ 
+-	ret = nvme_pr_resv_report(bdev, data, data_len, &eds);
++	ret = nvme_pr_resv_report(bdev, data, data_len, &eds, blk_stat);
+ 	if (ret)
+ 		goto free_data;
+ 	status = (struct nvme_reservation_status *)data;
 -- 
 2.18.2
 
