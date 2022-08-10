@@ -4,68 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F140BC00140
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Aug 2022 13:07:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42CEAC00140
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Aug 2022 13:41:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=egjVfBfP2+DSAflfWi9iG7KkzeybtXGdm366A4iau4Y=; b=hZCEaiy0WWMjq+ZACY/t7HNNcc
-	4OmC7vC7uZSbFxM+phJUvAMBbiuQ+0d+NKbdfbo9D72uXa9uLnIUcpNzRwGTQOMsefAjpXbOeBsfT
-	sPDC07ONErJtDwZ/z+hlxWnGS9qstUjluzlx3rllPHz1Bff1NpyD3nVTz/IYJ6FVXD1M1s/ZUNTvQ
-	ipq0zomWyLCJF9l6US1nY38agK9qMb7HfJ9+su4z2DJwe3xY7nnoWvVTt0+HGmbQyJIfiwme56Vco
-	6S7eWRFKUvVnfSscc2EwdERw+6KCWWpdLNoYVXf89XBqJwXHYlceRojQ5ux0Sv5N5cNgzZne+7yb2
-	t2BCL4ig==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=IyZuXwvWxfkgzhF4RsrPMJZKJwH00vPO7yyEdw3/HlU=; b=cVbTjH4UJOlwg+6A+/mB/W9VnG
+	2J/g9B+Djiz5AM6pEXPRTEY6kNXwxYQDbILOmnjnsScszDGVRnUV75UY6xFXaTbXEAMW+XjG4XCs6
+	B3eyDUEfCERIUxmZcstiJwSa6wAJ8e/dbg51skZhr+GOhi57bJOaJqHef0B1kw40DsRCr9MGhYR20
+	H7wv6VtrygemyZr9AKeNrb2KI2MZ2YChaswa4+SePPMfJ05CQTKYZ1BwKty+Xtq5xN1FttrhX7Qvy
+	UqGDmI2qnHUFlQ03ipwbyBxiO1e5HAGOdetDkFS8Yzp7khvAJhZW/rSYHyjr63rpuAWciZiJW6jRq
+	6IKDnEHA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oLlQv-00Burj-9U; Wed, 10 Aug 2022 13:07:37 +0000
-Received: from mail-wr1-f41.google.com ([209.85.221.41])
+	id 1oLlxU-00C66F-Dh; Wed, 10 Aug 2022 13:41:16 +0000
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oLlQr-00Bupk-J5
-	for linux-nvme@lists.infradead.org; Wed, 10 Aug 2022 13:07:34 +0000
-Received: by mail-wr1-f41.google.com with SMTP id j7so17724087wrh.3
-        for <linux-nvme@lists.infradead.org>; Wed, 10 Aug 2022 06:07:31 -0700 (PDT)
+	id 1oLlxD-00C5wz-W7
+	for linux-nvme@lists.infradead.org; Wed, 10 Aug 2022 13:41:03 +0000
+Received: by mail-pj1-x1036.google.com with SMTP id q9-20020a17090a2dc900b001f58bcaca95so2235859pjm.3
+        for <linux-nvme@lists.infradead.org>; Wed, 10 Aug 2022 06:40:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=IyZuXwvWxfkgzhF4RsrPMJZKJwH00vPO7yyEdw3/HlU=;
+        b=ntBoPYazYax6r+0qruxmbOuxL4Quz3/W4JD/frVfAWX5FLJeldi7Kf67t1zu8kWyhg
+         D1CTRuLF1AdfTtu4+q/ViZUx2EYsycML1zowouHBWwdm2kFD1y/ETa5c7BK/n7AeWCGh
+         25VjN9PyZmAcPKMNrNToRhoPCM3LpSsMBGYH//dodvco7MUS6ROxfJC/1wJcQo90oXc1
+         i8lacWkOrJt5rJQx+/59O5XTOh5sdT0vU/Zjd1+1bkwhIaheXTK37lr37tBOUCe4g2MA
+         so9+IdGuE44IwtigMXYJ+K4nfMpFOS/Bj14zNu2k5sqrLeQPGv1y84Xs+7EDCT4Eg4Ya
+         9OKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=egjVfBfP2+DSAflfWi9iG7KkzeybtXGdm366A4iau4Y=;
-        b=bz9B2jA3khiJe53X9CmaLqEJF1n+vB+tqa1VaW6X3/CR1ebzbbZOtzpoYpJbhh1M/6
-         uz7+tOTwan3hX9kKk6sKtZ6fOVJpRECqMOE6Gjqa5xoRVyhF+kegOdVoLo3dUSKLCzTK
-         fb329vV9PMLQ+LWMAHgYLNVX5creQJY3UOqjrg8jpyxHg90In4ngTIj84A5y2cjAOmta
-         JWI6Eod+MHK3nYxlcIfw2geEBw63+FJuEdYHAvuzUNDgUhHy5Ks0rxb2cZVwkxeP4S+A
-         M2qE65zI5Ag8fc3TchZjreUGdMJXzsMXDDY9PDYjZkZKgBc6C2UM4ZD0ouwdBztL1zth
-         Uh0g==
-X-Gm-Message-State: ACgBeo2z4yFNf82xf1aGV9EPC5RJzT5YBroVgWQSbjFZ940T16GXT6vb
-	iZaUOn7y5AKfyZZWyN+H90zxytcSiiU=
-X-Google-Smtp-Source: AA6agR4E3GOk2GttBpA2LPnnZ6Zr3Jh6YYcHoSIGcoEgSONAh4MOJ5RDIENj+c5XGZLvVG3ZpmhL6A==
-X-Received: by 2002:a5d:4205:0:b0:223:654d:a2f8 with SMTP id n5-20020a5d4205000000b00223654da2f8mr5366405wrq.114.1660136850739;
-        Wed, 10 Aug 2022 06:07:30 -0700 (PDT)
-Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id o4-20020a05600c4fc400b003a310fe1d75sm126850wmq.38.2022.08.10.06.07.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Aug 2022 06:07:30 -0700 (PDT)
-Message-ID: <ad5af636-7baa-9915-7eae-d8d244eb4fc2@grimberg.me>
-Date: Wed, 10 Aug 2022 16:07:29 +0300
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=IyZuXwvWxfkgzhF4RsrPMJZKJwH00vPO7yyEdw3/HlU=;
+        b=aoEVUjiB/O3M2mKE7ClCZLuwE0lPayO47ENs7iW7CHT2iSqSRDMbS7MTpLKxFfU16o
+         G5th7skqkx/AI0xXD5WYkZ1aBeHJSbrBl3KqhqrqFENNHs+COSAHYjNXh/2NCRHFSEY3
+         nT1+4uXNPemDhTqvyDXfS86vScyf69R9j1xs1NVWYatqFH0u06+4AMTdF/ZDyjbtzt6L
+         jqgPGMUEYC2H0BjPfjsIlGA7zF8Bg+k1vXWlVcR5U5F51/Q/+mfianuroFYgZIrcJKAm
+         9qEsDhkNUcIbBw3zLBPFFIZ0BDVswRZUu0PdizQGWCj+fhVBmtVMHUMp0C06ZUGUkk3g
+         +2ZA==
+X-Gm-Message-State: ACgBeo353cLshx6RS42VISE6FC9SSBmIW+d+nLtQfbIdojj4TebX/MUX
+	XgN3bv1N4imRlfA+iKTvjO0=
+X-Google-Smtp-Source: AA6agR50lS+v70l8L54U1MD/Aa7s1ADUymKDg/apa/H8HaUHjIpyM0gFNZxxl2s+u6o4hQctVzKLUw==
+X-Received: by 2002:a17:90b:38c9:b0:1f7:28bb:aa16 with SMTP id nn9-20020a17090b38c900b001f728bbaa16mr3798436pjb.201.1660138854073;
+        Wed, 10 Aug 2022 06:40:54 -0700 (PDT)
+Received: from pipi-desktop.testerjoe ([101.88.11.237])
+        by smtp.gmail.com with ESMTPSA id f23-20020aa79697000000b0052d4487ae7fsm1969999pfk.27.2022.08.10.06.40.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Aug 2022 06:40:53 -0700 (PDT)
+From: Linjun Bao <meljbao@gmail.com>
+To: 
+Cc: Linjun Bao <meljbao@gmail.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@fb.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] nvme: align "fake" nqn with spec 1.3
+Date: Wed, 10 Aug 2022 21:39:54 +0800
+Message-Id: <20220810133953.5411-1-meljbao@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] nvme-target tcp: fix unhandled tcp states in
- nvmet_tcp_state_change()
-Content-Language: en-US
-To: Maurizio Lombardi <mlombard@redhat.com>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, kbusch@kernel.org
-References: <20220802151922.480571-1-mlombard@redhat.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220802151922.480571-1-mlombard@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220810_060733_667773_7D8937B0 
-X-CRM114-Status: GOOD (  16.27  )
+X-CRM114-CacheID: sfid-20220810_064101_857410_090400E8 
+X-CRM114-Status: GOOD (  10.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,36 +90,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Replace '.' with '-' to align "fake" nqn format with nvme spec 1.3 or newer.
 
-> TCP_FIN_WAIT2 and TCP_LAST_ACK were not handled, the connection is closing
-> so it's safe to call nvmet_tcp_schedule_release_queue() and avoid printing
-> the "unhandled state" warning message.
-> 
-> [ 1298.852386] nvmet_tcp: queue 2 unhandled state 5
-> [ 1298.879112] nvmet_tcp: queue 7 unhandled state 5
-> [ 1298.884253] nvmet_tcp: queue 8 unhandled state 5
-> [ 1298.889475] nvmet_tcp: queue 9 unhandled state 5
-> 
-> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
-> ---
->   drivers/nvme/target/tcp.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> index 5f9303232e86..b06a58eb02fc 100644
-> --- a/drivers/nvme/target/tcp.c
-> +++ b/drivers/nvme/target/tcp.c
-> @@ -1524,6 +1524,8 @@ static void nvmet_tcp_state_change(struct sock *sk)
->   
->   	switch (sk->sk_state) {
->   	case TCP_FIN_WAIT1:
-> +	case TCP_FIN_WAIT2:
-> +	case TCP_LAST_ACK:
->   	case TCP_CLOSE_WAIT:
->   	case TCP_CLOSE:
->   		/* FALLTHRU */
+Signed-off-by: Linjun Bao <meljbao@gmail.com>
+---
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I know that nvmet_tcp_schedule_release_queue is safe, but I think we
-for sure called it before these events, so won't it be better for
-readability to just do nothing when we get these events?
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d2ea6ca37c41..d6fb91bbcf9e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2504,7 +2504,7 @@ static void nvme_init_subnqn(struct nvme_subsystem *subsys, struct nvme_ctrl *ct
+ 
+ 	/* Generate a "fake" NQN per Figure 254 in NVMe 1.3 + ECN 001 */
+ 	off = snprintf(subsys->subnqn, NVMF_NQN_SIZE,
+-			"nqn.2014.08.org.nvmexpress:%04x%04x",
++			"nqn.2014-08.org.nvmexpress:%04x%04x",
+ 			le16_to_cpu(id->vid), le16_to_cpu(id->ssvid));
+ 	memcpy(subsys->subnqn + off, id->sn, sizeof(id->sn));
+ 	off += sizeof(id->sn);
+-- 
+2.25.1
+
 
