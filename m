@@ -4,74 +4,146 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47981C19F2D
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Aug 2022 19:33:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DB91BC19F2D
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Aug 2022 01:46:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=f+0qvG5LpZ/YCrirnG9rg8hMNbrBXBa71sPfrtvKm9k=; b=JnbY19JzEJjb1v2/NQSTx/qP5S
-	Xt2+FGlGUsWjWQQ7e9WPKYbb+y9E0F32mQeky9hTFHRwmxeGTUkd1AUuV09FEVifwrqp+VFnIxxOr
-	v5/niHw4fGQfWZJHqC9+p70uvc6IWpnmDDFqkrVFpTLOSIF0PK7w08P4a5eoq717onMOUIn4yv52g
-	snKou4rpQ7Mrz8nXrAZhf88Wy62cXZDVooAeQtPKauE0CQDHOaia2j9SXmjgEwImJizaRH5VWc1Zy
-	lx0AWGeTBEd9tzdOtDjbo6+21m/opyZykAQ6FApo9YtCRWisTV4lpIF9lYyypioGOaVqq0HFVch2O
-	QBld5Kew==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pBTkTu7LHOISClDy++C/vM75iI6ErJ2Smkz24Nquyc4=; b=1eNAWRi6CBKt6JLJHglsI7lRR6
+	tMNW/QGe1PWRAaHVecUoCw093x57xHGH1Id5VjYPDzOSyyCxh3ySCfncb4umWC9paiQ2IwPs8ni35
+	dTCTMpDMhRUweeOB7l4s9RQA8ajfqa7cuKTGUJx8z9ycWb4YIDn4xpWljfiZ6yBRZwXqL5RXDd0xS
+	UfQEtzCzoTsNrHNuI7hcTj4CjNbUNkWIjE+GuLx8KIO5JAg9qe+u/4wuxolbu5NwzhbHfBsPq3mvq
+	pi/aaU3lwgOMwVz+sEWd7Ld6osZFlpxzev5DgCSoU81720cZarp42Y7KZSOHkfBda5E2QcrHEF6aD
+	2VR+nL8A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oLUyS-005spw-WE; Tue, 09 Aug 2022 19:33:09 +0000
-Received: from mail-pj1-f44.google.com ([209.85.216.44])
+	id 1oLanI-008BGo-6O; Wed, 10 Aug 2022 01:46:00 +0000
+Received: from mail-mw2nam10on2053.outbound.protection.outlook.com ([40.107.94.53] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oLUyQ-005snh-6a
-	for linux-nvme@lists.infradead.org; Tue, 09 Aug 2022 19:33:07 +0000
-Received: by mail-pj1-f44.google.com with SMTP id t22-20020a17090a449600b001f617f2bf3eso2037149pjg.0
-        for <linux-nvme@lists.infradead.org>; Tue, 09 Aug 2022 12:33:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=f+0qvG5LpZ/YCrirnG9rg8hMNbrBXBa71sPfrtvKm9k=;
-        b=3/gu9tO9xagf+/HGcZc9bnrPSb+D7Hlypws2pcPjH1kK4kAgIsDpvNKxSsPihXIslo
-         9SJD2GnyQ2Qfc/O1YGP3afpDbaE+c/C6IkIxFJhwH8Mv7gf0YH52hfXtoWoAuXB5xLsU
-         vreAkndG3pdMbsn1RUA+fPjXPRXuwYf9sROKnDl3hXHK8CpEJJbpgKiOIskDUO1mcQ/x
-         3x+pmuMLbdsO1WnXnUl9KP7FrKBCGTMp3O0ldO3Vfys/PPA5s/G/cxjWdLw7eo3BRLjv
-         iNk1RrIZ8Qb9fxm99ed0qBvYZhTajl9VSd0P2RZXpzL++gUTBGa+eoG/ZNjOyZLWVTyf
-         R9ag==
-X-Gm-Message-State: ACgBeo0YpmVaxHRJJMgXT9T3HPgzwWm1dob8aUWl40Z/dlQof7fh/X0g
-	19XrNKhaFleI6SIFc9kVZ1o=
-X-Google-Smtp-Source: AA6agR5b3k6/3uuXU2uCikVcoZWIFTOMmR2vQDrfIljSBaQQd1XN66Nj9Fx1iPA0NtYy8Ovw7IMVMA==
-X-Received: by 2002:a17:902:e891:b0:16f:a8:9b9c with SMTP id w17-20020a170902e89100b0016f00a89b9cmr24397129plg.8.1660073583617;
-        Tue, 09 Aug 2022 12:33:03 -0700 (PDT)
-Received: from ?IPV6:2620:15c:211:201:61e9:2f41:c2d4:73d? ([2620:15c:211:201:61e9:2f41:c2d4:73d])
-        by smtp.gmail.com with ESMTPSA id d14-20020a170902654e00b0016d12adc282sm11204466pln.147.2022.08.09.12.33.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Aug 2022 12:33:03 -0700 (PDT)
-Message-ID: <4768d11e-06c6-1b74-9822-b2421a3f59bb@acm.org>
-Date: Tue, 9 Aug 2022 12:33:00 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 12/20] block,nvme,scsi,dm: Add blk_status to pr_ops
- callouts.
-Content-Language: en-US
-To: Mike Christie <michael.christie@oracle.com>,
- Christoph Hellwig <hch@lst.de>
-Cc: linux-block@vger.kernel.org, dm-devel@redhat.com, snitzer@kernel.org,
- axboe@kernel.dk, linux-nvme@lists.infradead.org, martin.petersen@oracle.com,
- linux-scsi@vger.kernel.org, james.bottomley@hansenpartnership.com
+	id 1oLanF-008BEO-4I
+	for linux-nvme@lists.infradead.org; Wed, 10 Aug 2022 01:45:59 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TVgByKdUj8SzR7zSbyfT1t5ZttXTM4zbp/4e8XGKauBH2m5RI2PGsMxEf61RU97TdgVhaL5kDZWllI+x7OrXRWvmGab2bnl4u2V6beixXeHOqpLF3Ju1pQHlxV1ls+0AYbsJKGtTcZaeJceSq72ehu67VvcNVS+45LD5h32twKrbu7hpsh6eMJbKgAPRs05+dqDdugYpeR3Ggh4yUxNkP+NCWMk4TJ4ZVjv7Pu0IcuEwfw7WxXaxPGQ/ZKJyaQlyBZlZMWrc1B1Cns8tM6P1Rm+5W5hoE3vwVxaLMPAOfCP5gq/JzcPEm/eOWVdbpglFu+7ah0YqzSWOWSt+ndNdpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pBTkTu7LHOISClDy++C/vM75iI6ErJ2Smkz24Nquyc4=;
+ b=ILd8yD0JCSv5FSCzTHC0+ag01WHpamBo8Av0qNsS0B6UhjjhgsKE7Wu+95CKxX82ezjzlNm4Ffs0HRpaXTnjO5DWDlP72x7XKxU2DuzoSTHNJL0Q6his9F3QkBIwznW8gXDcR6dcr3B2F52BbofP/I5NWhRrcuWv/YwhmnY6qk4xj1Uc4Q1bI9eKfb4VGfUOQuLYQquWmS5JUqRS0vDttEvY+3OlyqSwHOODDZ6JfixNJnE4tsAmc12BkcuvHnh7y7I3Pup4hkE++UaO4F1+VMj4hwVuxAJqK+u9qxXlCLyUaZIAynfIqpVYFe37L8NnL7MSqvhcjKry17UJJo1HDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pBTkTu7LHOISClDy++C/vM75iI6ErJ2Smkz24Nquyc4=;
+ b=KGxQwhSGnv1h6K732hXqI7qNNjzQHAstW1vzynE5Appe9DnfiLadV/8/UH8CTKEfgdXTTB0CEZ9sZFeMHlxZp9JC1N9W02nQqEwK66ahh+qRt8mdFumPfvfXG5ZeqEMK+LtV/pqxNbAl3GIgCEazHS4Ay0MtwAG1uOBi//+94NfX1zL+vJseBqNIMBqY6GUC4PesDP42Wy3XziwXKtYCDkMVpteOOdDwW+cPHq399TN8Qk6+G2WUWuqgVckyIV85AYATWEpDGN3XEnIZdyUltkHuZmikN8Q0Jt1JiBNkcSIuONK336gTx9Xu6WC7j4W8OaamgS97Tc3NVlknPMzF0Q==
+Received: from BL0PR12MB4659.namprd12.prod.outlook.com (2603:10b6:207:1d::33)
+ by PH7PR12MB6610.namprd12.prod.outlook.com (2603:10b6:510:212::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.20; Wed, 10 Aug
+ 2022 01:45:48 +0000
+Received: from BL0PR12MB4659.namprd12.prod.outlook.com
+ ([fe80::e033:3f08:d8d6:1882]) by BL0PR12MB4659.namprd12.prod.outlook.com
+ ([fe80::e033:3f08:d8d6:1882%7]) with mapi id 15.20.5482.016; Wed, 10 Aug 2022
+ 01:45:48 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Mike Christie <michael.christie@oracle.com>, Keith Busch
+	<kbusch@kernel.org>
+CC: "bvanassche@acm.org" <bvanassche@acm.org>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, "dm-devel@redhat.com" <dm-devel@redhat.com>,
+	"snitzer@kernel.org" <snitzer@kernel.org>, "axboe@kernel.dk"
+	<axboe@kernel.dk>, "hch@lst.de" <hch@lst.de>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"james.bottomley@hansenpartnership.com"
+	<james.bottomley@hansenpartnership.com>
+Subject: Re: [PATCH v2 09/20] nvme: Add helper to execute Reservation Report
+Thread-Topic: [PATCH v2 09/20] nvme: Add helper to execute Reservation Report
+Thread-Index: AQHYq4PmjV2UOnxHHEaZfkf5ZGRZ762mZnKAgABBcwCAABkjAIAAncQA
+Date: Wed, 10 Aug 2022 01:45:48 +0000
+Message-ID: <a0184a51-ef30-dc80-412e-6f754c4d9476@nvidia.com>
 References: <20220809000419.10674-1-michael.christie@oracle.com>
- <20220809000419.10674-13-michael.christie@oracle.com>
- <20220809072155.GF11161@lst.de>
- <4af2a4d3-04d1-966a-5fd5-5e443b593c8b@oracle.com>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <4af2a4d3-04d1-966a-5fd5-5e443b593c8b@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <20220809000419.10674-10-michael.christie@oracle.com>
+ <12b99b10-8353-0f72-f314-c453a4fc5b6a@nvidia.com>
+ <YvJ0Xh61npH+M9HP@kbusch-mbp.dhcp.thefacebook.com>
+ <5f55a431-31ce-185a-6ab0-db701b878d82@oracle.com>
+In-Reply-To: <5f55a431-31ce-185a-6ab0-db701b878d82@oracle.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b18d4017-3e25-41b0-cb79-08da7a720cd1
+x-ms-traffictypediagnostic: PH7PR12MB6610:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  kaBKR5UL8TlRqGEjQTxJH7kekJXssZyxXvI19NpRU8+DCjL6XBHMC/5MBV3uRScy54GWqlNaI7xrM7GVZLXgJ2VwOqe5t1qSLZoDSy0hYoXXFMoY22y+7tWj9q4MwoeeVdfojnf7ILJIr21HcS+iNYDXuSnlyx5xcnVI3iiJPRZhPO/OsnTXWurNgYXYTlQqIWdwSxBCr2A3Bs4CtKZNRNV025pDyQErVPiy/Qe5tsiDK52KtGLQhNe+0uY7VcPDbQI+4fUEDLt6uX8KHQmyL3SDFtRJNyb2n/LEoMAIw/1fdRK3kX9MrJgUcUEHOTs51fxBmm/uzbgGhHgPllf+1T/uYjwv4PtYYYnv4u/oN97A/ipUX7l5NXYDoJbNO8ythx63S1i0yMorgy4QFwH1HvlKyn/teRmsxhGmVqqcmi3lRfSpi5aNzYR4NaGknPrNianov/Y0wenneyAZCuZalbUQkKE2bfasa0Ce92g+UjN/1F+P3B+1hw8dwI0KxCttkA8ea+E0GR8DfZiVtJK50hWi2kqQ5GUPpFBJGjDogwOapuzutpd3B7qTl2ySODrh3wYU8GGCPJ9zAprjf9S9DXxGP2FGzRyTRomgxqs7U7b9gjgauTFFWpMzMMAwqmdMPTkQtjCr5qQwUnrL11kM693/cyDaqshiJbLmcGIsJPPWyPAD0zFdGPuzyO9qhaCUaupJ65m1ITldyK+vMrMWefmfWZyPSC0NG2rqsmAU/soIQNMaAyLrbz5oRQonh7lbTMCsutocsIv2QI9JqFvLfUC9K61RZN5jYkf9nUYfSYW0sZs3+zqcm2nHvptLGbQlnBYhzwNx0gsKLEwlcFo/BP9FdUhyqLuhNeH1ajGpKwo=
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB4659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(39860400002)(396003)(136003)(376002)(346002)(71200400001)(6506007)(7416002)(110136005)(8936002)(76116006)(478600001)(86362001)(5660300002)(53546011)(122000001)(38100700002)(6486002)(2906002)(31696002)(2616005)(38070700005)(6512007)(41300700001)(83380400001)(186003)(4326008)(31686004)(66556008)(316002)(91956017)(66476007)(64756008)(66946007)(66446008)(8676002)(36756003)(54906003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?OWE0cTgxc2RiNEM4OUUxekRZMEdQUUtBaXR5ZjRGWWdIMm1vZlNDeUpoKzNw?=
+ =?utf-8?B?SlNWSkxLY0JRQkNvVVRUVEF0a0FwMnl1ZnZtUUpGSWwyRGJ2aFNEZTArWUZs?=
+ =?utf-8?B?WXNnUy84SThJV2s3STMrQWE0OXVJZTMvdFYwUGtVaG5YZzluMkVJYmNIRDRw?=
+ =?utf-8?B?UWhJZENaZzYzT0hIK2RwaXFlL2RlSk1aaXhzVHl6V2pxaVVIRkFVTnAvTjdl?=
+ =?utf-8?B?Ykh4NC9pa0Y4N1B4QjdYd0tMN1doQVJuQTlFZmN6UFZPeFZvVmZHVm00WXdS?=
+ =?utf-8?B?ZkVIVUFSNVZUTW5zRU1aTllmcEpCcFVFaU5jRm56TXphL0p5bmtUeUNkd0c1?=
+ =?utf-8?B?ME5pd0M5S2RYZ05qeHNOeFlmdkhtMjNIOUtEU0ovWlQ1UUVQMUpvaUd4ODJ6?=
+ =?utf-8?B?M0pJUWtYYkVhWm9tSFBvUjh4cGcyZnM4alArN0I0bVNNL3M2RHovTGxXSC9D?=
+ =?utf-8?B?UG1DVW5URDNBeFJ4c3ljYU01YUNPbnRYM1AxVlZtT3FLbDNzQXZpbFNuelZk?=
+ =?utf-8?B?QS9wYjd0bmVxcStYWDFEdlhsREtudndRRGFPTWhRclBqZ0NuOWNhYm9wMWxN?=
+ =?utf-8?B?NnpIUTRneVNET3l1S2hoUTZ2Q3phdTQzRkNUMmRtWUpiYXJrRlF2L3czQndm?=
+ =?utf-8?B?ZW95T0tqaUFSVmV6c1NzRkM0c3B1dHpXSWRqT0xoMnZMMzJDUjFrU1l5VVNC?=
+ =?utf-8?B?MENEdWxrcUlBNmV3L3hYN05iaU1pblA5Z2RUMmQ5dk5GN1lzM1R0U0dkaXkz?=
+ =?utf-8?B?MDlFL1ZzbXJZQW94SzY4WDM4R0dFLzBSQnNUbjZsZHlqWWg0a2NuVElaT2pZ?=
+ =?utf-8?B?M3EvSThrbkVxSWs2UEUzeDQyRmFmYnBZbWlsVm8zOUpGSlpiVkYxcnNtTVk1?=
+ =?utf-8?B?TnZqTVhMMDJJYm54TjZRQlFHWkFLWXBCbzJmNGczZy82K09oVGZSTkw0QUVO?=
+ =?utf-8?B?TkNCVEJmbnA3d2pYU3VQVDYrdDdid2t2VVlieE9UWGE0M0lUUTI1U01BNHlU?=
+ =?utf-8?B?ajZycnpYYVZ4TlI2MlFhOEFnZUFnNERld0dseEhldkxFWnhZdzloTkpIRlNm?=
+ =?utf-8?B?aDk4OE95ZjEwV0FHUHpJUUxqNkh6RkhDL3ZjS3MvUlpOL2NqQVhjOW54TVkw?=
+ =?utf-8?B?dmVVQUptdjRMN3lIUjBEb1BzNjhSZUtKOWVjZFM4dVZ5ZnFmYVBJd2lwU0wr?=
+ =?utf-8?B?cVJpTEJKY3g2ekNITWlOcmNwK1pESUMyakoyTzhxamUyVUxTOU1rcXFoM0lW?=
+ =?utf-8?B?bUtwOXdseisrTDZNSXA4L2V1YWNxZkVJemxENHh1bGZNWGR1K1hZR2NUUWV3?=
+ =?utf-8?B?QmsxYkVsYnhUN1JaVjh0SlU3RW9abFltNUhXMzRFTlFSSld2eVFzb0pEUURN?=
+ =?utf-8?B?d1lVcEpVekZMcWtDaTRFVHIraVpLZzJsSmF0T1hxbmk2dk5USmZqYkUrUmVq?=
+ =?utf-8?B?TDRLREprZ2wyRkZIc0FzeFZqM2Y4MnY0ZlFWUDQ4d3RuV3VOR090UGtvRG80?=
+ =?utf-8?B?REg3aEUwbFZDZDNEWTZGNThweXpQZlczMW52bEQwVjNxc0J0c2V6cTdUTWJF?=
+ =?utf-8?B?MDhWTjY5aWJqTXdva0FmQzVRMHFHSC9rbEUwYmo5TFBYQm1jY3oxa1ZMbnNK?=
+ =?utf-8?B?RktqZGJxazVBUXl6OFFMMEQxQnNzQ1hlWEVYVEl4UmQ5VWRqMllRMmZzZmlM?=
+ =?utf-8?B?TzFNTlNueWw3N2cvQ3ZTYWhWTmkrcG9mN1JJK2h0NDh3dXcxRkJYUzQrYXhT?=
+ =?utf-8?B?L3I0WHcrZVFEcUo4TmxUSUZkRjdtbFlyNi80aDBXY1RpaTBrWlpjcUQ0Sk1Z?=
+ =?utf-8?B?cHQ3MjVCVGVoZjdEWUd1blBKSG00QnpIMUZpNHoybXRpSjFJYU1SeWFqdllq?=
+ =?utf-8?B?RXhXQUs0Vlp2Y3pjYkQ5a29pMVIxVTN1NEcva0dMaEtmemx3K1BsRzh6NXY1?=
+ =?utf-8?B?WXU4dnJhOFJrTGZlS2tJaTJpZE9zdnQxdHZTbk1NNzFzaEV0YlNFWEtsamMv?=
+ =?utf-8?B?WElGTlVuZmIxcXMxU3YwYXBPemJOcmtzLzlmSE5XelZkb1I0MzFqczE0ajRY?=
+ =?utf-8?B?T3FNd0VvMG4vem9kem1PZ1BTdXVQV29QVjZSQjZ0TUMxak90VWsxRHI2Yyts?=
+ =?utf-8?B?OFhIZ3V3UHZSRTRzeGk1a3d5OFJ4bjdkSzZIRmRWMmNJL202K0JEWmE4OUc5?=
+ =?utf-8?B?R2c9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <46C78720EA490943A6AF2FC6B0A2BC79@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b18d4017-3e25-41b0-cb79-08da7a720cd1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Aug 2022 01:45:48.5813
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: F3L6yz60+JB4g+zWOs/kIlCrBHcIB9YLI4fWPxfkmGzDTKUDTIIyrdkLG56hylVnf6jLP88zYU1Z15pe23Bi/A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6610
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220809_123306_274646_187D250F 
-X-CRM114-Status: GOOD (  37.81  )
+X-CRM114-CacheID: sfid-20220809_184557_395086_A04AFA60 
+X-CRM114-Status: GOOD (  17.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,131 +158,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/9/22 11:08, Mike Christie wrote:
-> On 8/9/22 2:21 AM, Christoph Hellwig wrote:
->> On Mon, Aug 08, 2022 at 07:04:11PM -0500, Mike Christie wrote:
->>> To handle both cases, this patch adds a blk_status_t arg to the pr_ops
->>> callouts. The lower levels will convert their device specific error to
->>> the blk_status_t then the upper levels can easily check that code
->>> without knowing the device type. It also allows us to keep userspace
->>> compat where it expects a negative -Exyz error code if the command fails
->>> before it's sent to the device or a device/tranport specific value if the
->>> error is > 0.
->>
->> Why do we need two return values here?
-> 
-> I know the 2 return values are gross :) I can do it in one, but I wasn't sure
-> what's worse. See below for the other possible solutions. I think they are all
-> bad.
-> 
-> 
-> 0. Convert device specific conflict error to -EBADE then back:
-> 
-> sd_pr_command()
-> 
-> .....
-> 
-> /* would add similar check for NVME_SC_RESERVATION_CONFLICT in nvme */
-> if (result == SAM_STAT_CHECK_CONDITION)
-> 	return -EBADE;
-> else
-> 	return result;
-> 
-> 
-> LIO then just checks for -EBADE but when going to userspace we have to
-> convert:
-> 
-> 
-> blkdev_pr_register()
-> 
-> ...
-> 	result = ops->pr_register()
-> 	if (result < 0) {
-> 		/* For compat we must convert back to the nvme/scsi code */
-> 		if (result == -EBADE) {
-> 			/* need some helper for this that calls down the stack */
-> 			if (bdev == SCSI)
-> 				return SAM_STAT_RESERVATION_CONFLICT
-> 			else
-> 				return NVME_SC_RESERVATION_CONFLICT
-> 		} else
-> 			return blk_status_to_str(result)
-> 	} else
-> 		return result;
-> 
-> 
-> The conversion is kind of gross and I was thinking in the future it's going
-> to get worse. I'm going to want to have more advanced error handling in LIO
-> and dm-multipath. Like dm-multipath wants to know if an pr_op failed because
-> of a path failure, so it can retry another one, or a hard device/target error.
-> It would be nice for LIO if an PGR had bad/illegal values and the device
-> returned an error than I could detect that.
-> 
-> 
-> 1. Drop the -Exyz error type and use blk_status_t in the kernel:
-> 
-> sd_pr_command()
-> 
-> .....
-> if (result < 0)
-> 	return -errno_to_blk_status(result);
-> else if (result == SAM_STAT_CHECK_CONDITION)
-> 	return -BLK_STS_NEXUS;
-> else
-> 	return result;
-> 
-> blkdev_pr_register()
-> 
-> ...
-> 	result = ops->pr_register()
-> 	if (result < 0) {
-> 		/* For compat we must convert back to the nvme/scsi code */
-> 		if (result == -BLK_STS_NEXUS) {
-> 			/* need some helper for this that calls down the stack */
-> 			if (bdev == SCSI)
-> 				return SAM_STAT_RESERVATION_CONFLICT
-> 			else
-> 				return NVME_SC_RESERVATION_CONFLICT
-> 		} else
-> 			return blk_status_to_str(result)
-> 	} else
-> 		return result;
-> 
-> This has similar issues as #0 where we have to convert before returning to
-> userspace.
-> 
-> 
-> Note: In this case, if the block layer uses an -Exyz error code there's not
-> BLK_STS for then we would return -EIO to userspace now. I was thinking
-> that might not be ok but I could also just add a BLK_STS error code
-> for errors like EINVAL, EWOULDBLOCK, ENOMEM, etc so that doesn't happen.
-> 
-> 
-> 2. We could do something like below where the low levels are not changed but the
-> caller converts:
-> 
-> sd_pr_command()
-> 	/* no changes */
-> 
-> lio()
-> 	result = ops->pr_register()
-> 	if (result > 0) {
-> 		/* add some stacked helper again that goes through dm and
-> 		 * to the low level device
-> 		 */
-> 		if (bdev == SCSI) {
-> 			result = scsi_result_to_blk_status(result)
-> 		else
-> 			result = nvme_error_status(result)
-> 
-> 
-> This looks simple, but it felt wrong having upper layers having to
-> know the device type and calling conversion functions.
-
-Has it been considered to introduce a new enumeration type instead of 
-choosing (0), (1) or (2)?
-
-Thanks,
-
-Bart.
+T24gOC85LzIyIDA5OjIxLCBNaWtlIENocmlzdGllIHdyb3RlOg0KPiBPbiA4LzkvMjIgOTo1MSBB
+TSwgS2VpdGggQnVzY2ggd3JvdGU6DQo+PiBPbiBUdWUsIEF1ZyAwOSwgMjAyMiBhdCAxMDo1Njo1
+NUFNICswMDAwLCBDaGFpdGFueWEgS3Vsa2Fybmkgd3JvdGU6DQo+Pj4gT24gOC84LzIyIDE3OjA0
+LCBNaWtlIENocmlzdGllIHdyb3RlOg0KPj4+PiArDQo+Pj4+ICsJYy5jb21tb24ub3Bjb2RlID0g
+bnZtZV9jbWRfcmVzdl9yZXBvcnQ7DQo+Pj4+ICsJYy5jb21tb24uY2R3MTAgPSBjcHVfdG9fbGUz
+Mihudm1lX2J5dGVzX3RvX251bWQoZGF0YV9sZW4pKTsNCj4+Pj4gKwljLmNvbW1vbi5jZHcxMSA9
+IDE7DQo+Pj4+ICsJKmVkcyA9IHRydWU7DQo+Pj4+ICsNCj4+Pj4gK3JldHJ5Og0KPj4+PiArCWlm
+IChJU19FTkFCTEVEKENPTkZJR19OVk1FX01VTFRJUEFUSCkgJiYNCj4+Pj4gKwkgICAgYmRldi0+
+YmRfZGlzay0+Zm9wcyA9PSAmbnZtZV9uc19oZWFkX29wcykNCj4+Pj4gKwkJcmV0ID0gbnZtZV9z
+ZW5kX25zX2hlYWRfcHJfY29tbWFuZChiZGV2LCAmYywgZGF0YSwgZGF0YV9sZW4pOw0KPj4+PiAr
+CWVsc2UNCj4+Pj4gKwkJcmV0ID0gbnZtZV9zZW5kX25zX3ByX2NvbW1hbmQoYmRldi0+YmRfZGlz
+ay0+cHJpdmF0ZV9kYXRhLCAmYywNCj4+Pj4gKwkJCQkJICAgICAgZGF0YSwgZGF0YV9sZW4pOw0K
+Pj4+PiArCWlmIChyZXQgPT0gTlZNRV9TQ19IT1NUX0lEX0lOQ09OU0lTVCAmJiBjLmNvbW1vbi5j
+ZHcxMSkgew0KPj4+PiArCQljLmNvbW1vbi5jZHcxMSA9IDA7DQo+Pj4+ICsJCSplZHMgPSBmYWxz
+ZTsNCj4+Pj4gKwkJZ290byByZXRyeTsNCj4+Pg0KPj4+IFVuY29uZGl0aW9uYWwgcmV0cmllcyB3
+aXRob3V0IGFueSBsaW1pdCBjYW4gY3JlYXRlIHByb2JsZW1zLA0KPj4+IHBlcmhhcHMgY29uc2lk
+ZXIgYWRkaW5nIHNvbWUgc29mdCBsaW1pdHMuDQo+Pg0KPj4gSXQncyBhbHJlYWR5IGNvbmRpdGlv
+bmVkIG9uIGNkdzExLCB3aGljaCBpcyBjbGVhcmVkIHRvIDAgb24gdGhlIDJuZCB0cnkuIE5vdA0K
+Pj4gdGhhdCB0aGF0J3MgcGFydGljdWxhcmx5IGNsZWFyLiBJJ2Qgc3VnZ2VzdCBuYW1pbmcgYW4g
+ZW51bSB2YWx1ZSBmb3IgaXQgc28gdGhlDQo+PiBjb2RlIHRlbGxzIHVzIHdoYXQgdGhlIHNpZ25m
+aWNhbmNlIG9mIGNkdzExIGlzIGluIHRoaXMgY29udGV4dCAoaXQncyB0aGUNCj4+IEV4dGVuZGVk
+IERhdGEgU3RydWN0dXJlIGNvbnRyb2wgZmxhZykuDQo+IA0KDQp0cnVlLCBteSBjb25jZXJuIGlz
+IGlmIGNvbnRyb2xsZXIgd2VudCBiYWQgKG5vdCBhIGNvbW1vbiBjYXNlIGJ1dCBpdCBpcw0KSC9X
+IGFmdGVyYWxsKSB0aGVuIHdlIHNob3VsZCBoYXZlIHNvbWUgc29mdCBsaW1pdCB0byBhdm9pZCBp
+bmZpbml0ZQ0KcmV0cmllcy4NCg0KPiBXaWxsIGRvIHRoYXQuDQo+IA0KPiBDaGFpdGFueWEgZm9y
+IHlvdXIgY29tbWVudCwgd2l0aCBhIGJhZCBkZXZpY2Ugd2UgY291bGQgaGl0IGFuIGlzc3VlIHdo
+ZXJlIHdlDQo+IHdlIGNsZWFyZWQgdGhlIEV4dGVuZGVkIERhdGEgU3RydWN0dXJlIGNvbnRyb2wg
+ZmxhZyBhbmQgaXQgYWxzbyByZXR1cm5lZA0KPiBOVk1FX1NDX0hPU1RfSURfSU5DT05TSVNUIGFu
+ZCB3ZSdkIGJlIGluIGFuIGluZmluaXRlIGxvb3AsIHNvIEknbGwgaGFuZGxlIHRoYXQuDQo+IA0K
+DQp0aGF0IHdpbGwgYmUgZ3JlYXQuDQoNCi1jaw0KDQoNCg==
 
