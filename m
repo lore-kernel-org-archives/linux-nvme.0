@@ -4,36 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4FCA0C19F2A
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Aug 2022 14:05:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6EDAC19F2A
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Aug 2022 14:31:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=eNVCBqUqn8SFOfBc/qsyONTEJOmB7aKbelzMUwsw9NI=; b=Z2cNpzLCTLpA1xpF3MfVq3kP6Z
-	0PnZXv1imCpy4a7DgpkSHw35h4YB8FuvatT5yunF56xvxtcxyB9O3xiGRxLMEcPDZGFYEIjacAvaa
-	xr0GljsAadovR8iFly5cSDRet/I9l/2JLjQF9fJUrPJBQFkeUSdAc9Bge6sthpc/UbRyWybiJN05j
-	oLI42Y8lWhj0mVmOs4kOJZ/oKHUGQWC4gQ+8vkpgXvrH0jR09XWh9+QSmYT/RNAMyzGI31gIWGnqh
-	4RanufWzemhOwDqkEgd80EdgsTOZsy9/BYkCfw45yYo7YO1yFdUvyyNYa7f+eFo9/b1/gHN/Bw5Q1
-	qenfN9AQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=AD8v/RK3vFIqsgabYiTtVZbPbcAOQ4zUOz/AmbfbvbE=; b=gJDoIq6w45ksQaiX6QhwF5Oay/
+	JWgFLtKbMZNhk+RqknjK1rz3qNaeUcIXJYdBx5osFrTX5ZbXyd0oW+lJUrXs95vvBsTsjDmjYbSp4
+	0hhwcCaJvNhouYgwsrgxPMKokDrmpaOqGJAAXLMC4wCyIR1MPzyT3V9JWneYw73o9VxS6xtY24dJC
+	K3+NM7MMFjveFJhhU3wXhK/xWFTbTBC+FLadlySgYW2GCnotHHSgf4KqaS7NmJ00iuMO3er4lgvGB
+	s08ESkc2WbwJYNyoxrfb5O+ujRiFPGi26hz7ycVplMQfZkt4ARNahwaE4O7d7H4SVZKtVJXzONKmE
+	TtIpKyQA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oM8oQ-00D2TY-RV; Thu, 11 Aug 2022 14:05:26 +0000
-Received: from [2001:4bb8:182:2eeb:8088:4912:c90b:f14d] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oM8oP-00D2Qy-EV; Thu, 11 Aug 2022 14:05:25 +0000
-Date: Thu, 11 Aug 2022 16:05:25 +0200
-From: Christoph Hellwig <hch@infradead.org>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: [GIT PULL] nvme fixes for Linux 6.0
-Message-ID: <YvUMpS5PxgJSykCB@infradead.org>
+	id 1oM9D5-00DHpa-Ne; Thu, 11 Aug 2022 14:30:55 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oM9D1-00DHjV-N0
+	for linux-nvme@lists.infradead.org; Thu, 11 Aug 2022 14:30:53 +0000
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20220811143048euoutp01c9619e5e9f99f6a04fac78cb620f9b1d~KUMujUIGs2260922609euoutp014
+	for <linux-nvme@lists.infradead.org>; Thu, 11 Aug 2022 14:30:48 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20220811143048euoutp01c9619e5e9f99f6a04fac78cb620f9b1d~KUMujUIGs2260922609euoutp014
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1660228248;
+	bh=AD8v/RK3vFIqsgabYiTtVZbPbcAOQ4zUOz/AmbfbvbE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=SnL2YnjAOjY9wL4Wt4C64w9KF1nFRqZdaZW/RDnlmzzKZIiBg8J4TFoE+2N8hsPIG
+	 DQOZaXUJGT6OwD2yA6ljG3xTF1AdF/bEc5qPJ3wD7qNQyKXJeVYAHdOY4+lxJ8AJKF
+	 HuVER4Y91IZPsdaCukU9YV9lkh8JP5DXOhm2/9Vc=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20220811143046eucas1p2aca499e896bb89a154e4a4b1bdf718e2~KUMs082vL1006810068eucas1p2D;
+	Thu, 11 Aug 2022 14:30:46 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+	eusmges3new.samsung.com (EUCPMTA) with SMTP id 58.8C.09580.69215F26; Thu, 11
+	Aug 2022 15:30:46 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20220811143045eucas1p2773a7e7bbe9f3667d1105cc1465dac42~KUMsXYqvE2328423284eucas1p2G;
+	Thu, 11 Aug 2022 14:30:45 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20220811143045eusmtrp2a1accb11028d7272eec67818e141c2aa~KUMsWeF4W0786307863eusmtrp2t;
+	Thu, 11 Aug 2022 14:30:45 +0000 (GMT)
+X-AuditID: cbfec7f5-9c3ff7000000256c-a0-62f51296b42f
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms2.samsung.com (EUCPMTA) with SMTP id FB.00.09038.59215F26; Thu, 11
+	Aug 2022 15:30:45 +0100 (BST)
+Received: from localhost (unknown [106.210.248.43]) by eusmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20220811143045eusmtip2ddbb16a5b5589429fc9855578ecfe1d6~KUMsA2dat1262412624eusmtip2w;
+	Thu, 11 Aug 2022 14:30:45 +0000 (GMT)
+From: Pankaj Raghav <p.raghav@samsung.com>
+To: snitzer@kernel.org, axboe@kernel.dk, hch@lst.de, agk@redhat.com,
+	damien.lemoal@opensource.wdc.com
+Cc: linux-block@vger.kernel.org, Johannes.Thumshirn@wdc.com,
+	bvanassche@acm.org, matias.bjorling@wdc.com, hare@suse.de,
+	gost.dev@samsung.com, linux-nvme@lists.infradead.org, jaegeuk@kernel.org,
+	pankydev8@gmail.com, linux-kernel@vger.kernel.org, dm-devel@redhat.com,
+	Pankaj Raghav <p.raghav@samsung.com>, Luis Chamberlain <mcgrof@kernel.org>,
+	Adam Manzanares <a.manzanares@samsung.com>
+Subject: [PATCH v10 01/13] block: make bdev_nr_zones and disk_zone_no
+ generic for npo2 zone size
+Date: Thu, 11 Aug 2022 16:30:31 +0200
+Message-Id: <20220811143043.126029-2-p.raghav@samsung.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220811143043.126029-1-p.raghav@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJKsWRmVeSWpSXmKPExsWy7djP87rThL4mGRx8KmAx/bCixfpTx5gt
+	Vt/tZ7OY9uEns8Xvs+eZLfa+m81qcfPATiaLPYsmMVmsXH2UyeLJ+lnMFn+77jFZ7L2lbXF5
+	1xw2i/nLnrJbTGj7ymxxY8JTRovPS1vYLdbcfMpiceKWtIOwx+Ur3h47Z91l97h8ttRj06pO
+	No/NS+o9dt9sYPPY2Xqf1eP9vqtsHn1bVjF6bD5d7fF5k5xH+4FupgCeKC6blNSczLLUIn27
+	BK6Mv1PbmQquilQ8m/CKrYFxlmAXIyeHhICJRNPrMyxdjFwcQgIrGCXObFzPDuF8YZRo7Z7O
+	COF8ZpSYPuUZO0zLjvZFTBCJ5YwSnTcmM0M4Lxglzr/YAlTFwcEmoCXR2AnWICKQLrF+wXKw
+	HcwCXcwSj07+ZwZJCAskSUy+fYEFxGYRUJXoeraHFcTmFbCS2Nn9nBVim7zEzEvfwQZxClhL
+	TFh0kQmiRlDi5MwnYL3MQDXNW2eDHSEhsJ9T4taew1CnukicP/aGBcIWlnh1fAtUXEbi/875
+	TBB2tcTTG7+hmlsYJfp3rmcD+UACaFvfmRwQk1lAU2L9Ln2IckeJ8xv+MkJU8EnceCsIcQKf
+	xKRt05khwrwSHW1CENVKEjt/PoFaKiFxuWkO1DEeEi/OLWKewKg4C8kzs5A8Mwth7wJG5lWM
+	4qmlxbnpqcXGeanlesWJucWleel6yfm5mxiBqfH0v+NfdzCuePVR7xAjEwfjIUYJDmYlEd6y
+	RZ+ThHhTEiurUovy44tKc1KLDzFKc7AoifMmZ25IFBJITyxJzU5NLUgtgskycXBKNTBNbVA8
+	1+645NPqrYJKLZfUlCJe7D7cNnnb8e9FkSnmjhcsuDIWqMqt9lni0GanvjX2R9vEE19vuLqI
+	v7y0WqKtQSVytsK1YxKHWfRd7h76WCveqn9d26nXUK3PXves7NUyu4TIzQd4F7C6WX0Sf6q8
+	1Cc+Jl7+c6FxcJur+Is9XdnZe1N/WTo8TFhfovxGg13/wDnJ3yd/5hb77lnBIsO7f86ePVva
+	elhVKlZ+OaRtcYExePeyiAM35NmETF+IvT3tumlunV3a5OnN/6sL3jYfNAp+v9qyokib9d7k
+	DUkb/mUs3eg/97iXje6sVXGO9Wcd7ncdqJ0mv3ebzPZSR42MnF6mbjXfOTUPj8znmanEUpyR
+	aKjFXFScCAB3M5S3/AMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrGIsWRmVeSWpSXmKPExsVy+t/xe7pThb4mGXT161hMP6xosf7UMWaL
+	1Xf72SymffjJbPH77Hlmi73vZrNa3Dywk8liz6JJTBYrVx9lsniyfhazxd+ue0wWe29pW1ze
+	NYfNYv6yp+wWE9q+MlvcmPCU0eLz0hZ2izU3n7JYnLgl7SDscfmKt8fOWXfZPS6fLfXYtKqT
+	zWPzknqP3Tcb2Dx2tt5n9Xi/7yqbR9+WVYwem09Xe3zeJOfRfqCbKYAnSs+mKL+0JFUhI7+4
+	xFYp2tDCSM/Q0kLPyMRSz9DYPNbKyFRJ384mJTUnsyy1SN8uQS/j79R2poKrIhXPJrxia2Cc
+	JdjFyMkhIWAisaN9EROILSSwlFHib2cxRFxC4vbCJkYIW1jiz7Uuti5GLqCaZ4wSj6++Y+li
+	5OBgE9CSaOxkBzFFBHIlDh4JBClhFpjFLHHj4QE2kF5hgQSJ0633mUFsFgFVia5ne1hBbF4B
+	K4md3c9ZIebLS8y89J0dxOYUsJaYsOgi1D1WEhM6jrFD1AtKnJz5hAXEZgaqb946m3kCo8As
+	JKlZSFILGJlWMYqklhbnpucWG+kVJ+YWl+al6yXn525iBEbwtmM/t+xgXPnqo94hRiYOxkOM
+	EhzMSiK8ZYs+JwnxpiRWVqUW5ccXleakFh9iNAW6eyKzlGhyPjCF5JXEG5oZmBqamFkamFqa
+	GSuJ83oWdCQKCaQnlqRmp6YWpBbB9DFxcEo1MO0s39O89Zd3gz+XWZqRQ+At63VSpTM3fVk5
+	5S73vGPKOXUZ8ZF7k+yqRd58W/l1VbPOgg18ewNux0ptasgKzfQ2Ot7Hkvvh4DMR67/hN19m
+	1Kx7rRTyy2B1wdvt0z3/5nNJH9fZv/Lm90zm2Vc3zVwpPbt0cc05yVeVqnJuLQ5hE6ZMXrTq
+	STHLhS9n0kslGStDo+of3Be7WHfs6CXbovqpjSc77u9zUUtSl51z69rk26XLvxTdFXPnTz4h
+	td7V4OiVJV+ZGA72rkysPr7nFKsex20ncempbVXKt171a4r6rd88MTF5Zk7hxJoJOl6F+Z/9
+	5Z9fm64daeIvIp51e0fjy4n2c6u2i520+iz+7boSS3FGoqEWc1FxIgAWpoobaQMAAA==
+X-CMS-MailID: 20220811143045eucas1p2773a7e7bbe9f3667d1105cc1465dac42
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20220811143045eucas1p2773a7e7bbe9f3667d1105cc1465dac42
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220811143045eucas1p2773a7e7bbe9f3667d1105cc1465dac42
+References: <20220811143043.126029-1-p.raghav@samsung.com>
+	<CGME20220811143045eucas1p2773a7e7bbe9f3667d1105cc1465dac42@eucas1p2.samsung.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20220811_073052_274643_69DF6598 
+X-CRM114-Status: GOOD (  14.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -48,57 +136,79 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The following changes since commit fa9db655d0e112c108fe838809608caf759bdf5e:
+Adapt bdev_nr_zones and disk_zone_no functions so that they can
+also work for non-power-of-2 zone sizes.
 
-  Merge tag 'for-5.20/block-2022-08-04' of git://git.kernel.dk/linux-block (2022-08-04 20:00:14 -0700)
+As the existing deployments assume that a device zone size is a power of
+2 number of sectors, power-of-2 optimized calculation is used for those
+devices.
 
-are available in the Git repository at:
+There are no direct hot paths modified and the changes just
+introduce one new branch per call.
 
-  git://git.infradead.org/nvme.git tags/nvme-6.0-2022-08-11
+Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+Reviewed-by: Adam Manzanares <a.manzanares@samsung.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+---
+ block/blk-zoned.c      | 13 +++++++++----
+ include/linux/blkdev.h |  8 +++++++-
+ 2 files changed, 16 insertions(+), 5 deletions(-)
 
-for you to fetch changes up to f37527a09dac324c74bb341c841096395a2f2566:
+diff --git a/block/blk-zoned.c b/block/blk-zoned.c
+index a264621d4905..dce9c95b4bcd 100644
+--- a/block/blk-zoned.c
++++ b/block/blk-zoned.c
+@@ -111,17 +111,22 @@ EXPORT_SYMBOL_GPL(__blk_req_zone_write_unlock);
+  * bdev_nr_zones - Get number of zones
+  * @bdev:	Target device
+  *
+- * Return the total number of zones of a zoned block device.  For a block
+- * device without zone capabilities, the number of zones is always 0.
++ * Return the total number of zones of a zoned block device, including the
++ * eventual small last zone if present. For a block device without zone
++ * capabilities, the number of zones is always 0.
+  */
+ unsigned int bdev_nr_zones(struct block_device *bdev)
+ {
+ 	sector_t zone_sectors = bdev_zone_sectors(bdev);
++	sector_t capacity = bdev_nr_sectors(bdev);
+ 
+ 	if (!bdev_is_zoned(bdev))
+ 		return 0;
+-	return (bdev_nr_sectors(bdev) + zone_sectors - 1) >>
+-		ilog2(zone_sectors);
++
++	if (is_power_of_2(zone_sectors))
++		return (capacity + zone_sectors - 1) >> ilog2(zone_sectors);
++
++	return DIV_ROUND_UP_SECTOR_T(capacity, zone_sectors);
+ }
+ EXPORT_SYMBOL_GPL(bdev_nr_zones);
+ 
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 84b13fdd34a7..ab82d1ff0cce 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -674,9 +674,15 @@ static inline unsigned int disk_nr_zones(struct gendisk *disk)
+ 
+ static inline unsigned int disk_zone_no(struct gendisk *disk, sector_t sector)
+ {
++	sector_t zone_sectors = disk->queue->limits.chunk_sectors;
++
+ 	if (!blk_queue_is_zoned(disk->queue))
+ 		return 0;
+-	return sector >> ilog2(disk->queue->limits.chunk_sectors);
++
++	if (is_power_of_2(zone_sectors))
++		return sector >> ilog2(zone_sectors);
++
++	return div64_u64(sector, zone_sectors);
+ }
+ 
+ static inline bool disk_zone_is_seq(struct gendisk *disk, sector_t sector)
+-- 
+2.25.1
 
-  nvme-pci: add NVME_QUIRK_BOGUS_NID for ADATA XPG GAMMIX S70 (2022-08-11 14:10:16 +0200)
-
-----------------------------------------------------------------
-nvme fixes for Linux 6.0
-
- - print nvme connect Linux error codes properly (Amit Engel)
- - fix the fc_appid_store return value (Christoph Hellwig)
- - fix a typo in an error message (Christophe JAILLET)
- - add another non-unique identifier quirk (Dennis P. Kliem)
- - check if the queue is allocated before stopping it in nvme-tcp
-   (Maurizio Lombardi)
- - restart admin queue if the caller needs to restart queue in nvme-fc
-   (Ming Lei)
- - use kmemdup instead of kmalloc + memcpy in nvme-auth (Zhang Xiaoxu)
-
-----------------------------------------------------------------
-Amit Engel (1):
-      nvme-fabrics: parse nvme connect Linux error codes
-
-Christoph Hellwig (1):
-      nvme-fc: fix the fc_appid_store return value
-
-Christophe JAILLET (1):
-      nvme-fabrics: Fix a typo in an error message
-
-Dennis P. Kliem (1):
-      nvme-pci: add NVME_QUIRK_BOGUS_NID for ADATA XPG GAMMIX S70
-
-Maurizio Lombardi (1):
-      nvme-tcp: check if the queue is allocated before stopping it
-
-Ming Lei (1):
-      nvme-fc: restart admin queue if the caller needs to restart queue
-
-Zhang Xiaoxu (1):
-      nvmet-auth: use kmemdup instead of kmalloc + memcpy
-
- drivers/nvme/host/fabrics.c            | 8 +++++++-
- drivers/nvme/host/fc.c                 | 5 ++++-
- drivers/nvme/host/pci.c                | 2 ++
- drivers/nvme/host/tcp.c                | 3 +++
- drivers/nvme/target/fabrics-cmd-auth.c | 4 ++--
- 5 files changed, 18 insertions(+), 4 deletions(-)
 
