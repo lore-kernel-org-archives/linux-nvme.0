@@ -4,54 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 316B7C25B06
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Aug 2022 03:13:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9406C00140
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Aug 2022 05:33:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ZyczEM+yogtv1ZdiWTfza4Gc6NbUc3uJi5Ic4cWWdrg=; b=RZwIwiQFuo/ic38Nk1GcagQtwp
-	VVioNL72poQgofLmgIdpMbOjiS5JAqJThMeD8mCITCgGIBE/QYDorEQUOWenuJZQ9XbutiZ9I+mA/
-	enMciO85i0gX/vbWECScvXC40NsDzyJQM021t7AJ91akpz5owLiXnXUhuqjdy8KnwQkrsUtwgepXi
-	yEQ54uYRXUJtjrNMLC05XMT7Unmz8bQJaVGKMNw12T8ZXcOgreIW/g3OkuHAsf2m0MH8fhxaSmkQ8
-	EGsHVxg+md8Gv9dOGcWUst6qwWJtpSgqDAUV6EhSeLukdQIWaJ6FYRPWObyyzGPgoZACtQZ0vk4jY
-	k/X8EwNQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HweWSmvmD2c1NosW6lpOZ2fFYRG12L+8YElxJFHn39o=; b=1uewhuzyAt6bdmc9ouorcALUBc
+	AoBPnrDLk61vEJ8cIbx/Px/WMaighisacxLguUJHIZYsrB2nVId62ddHb3MSDMh3x2RQjSPUXpri+
+	E9wz4KV6EInWguA9Ox+PhH41ZRqBFDcaOrJ9zqedtNi3fgz3mS7TzFWs7guukUs6BGROdpf/ZCQR4
+	uXzjFYI0r2rx0HbJ0ym5BvIQWTahbODa6kp78Eaq/G58uNO33DZpWCwHPiiFsmt4TEXEyr9zTDca6
+	/fjL+F85CVJ+e2m5ewSWOJKwGQLZKauD48c8PQXDVfI3KS2BPhoXsv+3LNUtlE0n6C9ig1mFOdu5g
+	DD3gpNWg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oML6q-00BseR-KS; Fri, 12 Aug 2022 03:13:16 +0000
-Received: from out2.migadu.com ([2001:41d0:2:aacc::])
+	id 1oMNIn-00Fmt1-AH; Fri, 12 Aug 2022 05:33:45 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oML6i-00Br5e-J9
-	for linux-nvme@lists.infradead.org; Fri, 12 Aug 2022 03:13:10 +0000
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1660273979;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ZyczEM+yogtv1ZdiWTfza4Gc6NbUc3uJi5Ic4cWWdrg=;
-	b=T8H1sgNoM5QHKDPJOud2xDCQteDlJvM4WHdkVfRnshCEcCOpXAzazZP0nD9XZ1LzN8AFYR
-	zN4HLkwZXubvWvV8UfDVIJ1bclMaPYbyCVHkd29t4Mi9lLkFeVqZIS+w9mRdaO3KsjBCmC
-	X1lTmfQ3Z6JcV4TuL12vsEkGlsw6/jE=
-From: Jackie Liu <liu.yun@linux.dev>
-To: sagi@grimberg.me
-Cc: hch@lst.de,
-	hare@suse.de,
-	linux-nvme@lists.infradead.org,
-	kch@nvidia.com,
-	liu.yun@linux.dev
-Subject: [PATCH 1/2] nvmet-auth: clean up with done_kfree
-Date: Fri, 12 Aug 2022 11:12:30 +0800
-Message-Id: <20220812031231.3386953-1-liu.yun@linux.dev>
+	id 1oMNIk-00Fmmo-Ib
+	for linux-nvme@lists.infradead.org; Fri, 12 Aug 2022 05:33:44 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 34F1268AA6; Fri, 12 Aug 2022 07:33:30 +0200 (CEST)
+Date: Fri, 12 Aug 2022 07:33:30 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Keith Busch <kbusch@fb.com>, linux-nvme@lists.infradead.org, hch@lst.de,
+	sagi@grimberg.me
+Subject: Re: [PATCH] nvme: do not update kato from a dsm io command
+Message-ID: <20220812053329.GA24588@lst.de>
+References: <20220811192608.3387239-1-kbusch@fb.com> <YvVgIzRXRv6EKk98@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YvVgIzRXRv6EKk98@kbusch-mbp.dhcp.thefacebook.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220811_201309_363236_EB1081DE 
-X-CRM114-Status: UNSURE (   7.29  )
+X-CRM114-CacheID: sfid-20220811_223342_808258_F80F3703 
+X-CRM114-Status: UNSURE (   9.89  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -67,35 +58,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Jackie Liu <liuyun01@kylinos.cn>
+On Thu, Aug 11, 2022 at 02:01:39PM -0600, Keith Busch wrote:
+> Actually please disregard this. We don't reach the effects_end on io commands
+> as it is already.
 
-Jump directly to done_kfree to release d, which is consistent with the
-code style behind.
+I thought we do, what prevents them from ending up there?
 
-Reported-by: Genjian Zhang <zhanggenjian@kylinos.cn>
-Signed-off-by: Jackie Liu <liuyun01@kylinos.cn>
----
- drivers/nvme/target/fabrics-cmd-auth.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme/target/fabrics-cmd-auth.c
-index c851814d6cb0..17c19614b929 100644
---- a/drivers/nvme/target/fabrics-cmd-auth.c
-+++ b/drivers/nvme/target/fabrics-cmd-auth.c
-@@ -229,10 +229,8 @@ void nvmet_execute_auth_send(struct nvmet_req *req)
- 	}
- 
- 	status = nvmet_copy_from_sgl(req, 0, d, tl);
--	if (status) {
--		kfree(d);
--		goto done;
--	}
-+	if (status)
-+		goto done_kfree;
- 
- 	data = d;
- 	pr_debug("%s: ctrl %d qid %d type %d id %d step %x\n", __func__,
--- 
-2.25.1
-
+And we really should be more careful on admin vs I/O commands here
+anyway.
 
