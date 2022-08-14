@@ -4,70 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE8C7C25B06
-	for <linux-nvme@archiver.kernel.org>; Sun, 14 Aug 2022 11:46:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35123C25B06
+	for <linux-nvme@archiver.kernel.org>; Sun, 14 Aug 2022 14:25:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=Dq/YjkZdHBrk+zZbPrZiu6ho0g
-	L7q7Vt+PiRjDpsgI7MI2OalbIKuRZOQ7PPG3rWaTtcr9o1vaoCSCWjYvRpk0UO+yolF7XO5V7jfOb
-	oj2L+lxA59W2TVTR4YoGmXJhsERUoQP5JGgebfLfxFSjLuvJC5gUMJnis9Cr1YSzuTzsuDB2ixu9u
-	QCiUeBQkuOXlywVqgVHTH99gWhHqyPXCcF43g2XOth44JCbfVmTYmFAIBu+ihZvIBVDA4qdaXxiwS
-	HnLhikxhwdmqBkZy2PZqFS7acAXglpowVqDQf0+fJb+cpdr8ZtMVbPOMzduLyAOQT+Pk9VKIx4iXp
-	bri6/uDg==;
+	bh=Nu1E7AmmDIl2LFiTiOoUmoMGabBpkxzR1LmY2ZhmWkw=; b=lSjGdqEj9jxDZ+z0hUt4I2jug0
+	tP4/NxM6jgFpt6KYOkbWKH6Ug6KCybN9YB7lfpX/3NNNh6iJf8+D1o0vHm2nz9gwkHIj6EI32pCVF
+	RnvwGkeNYVf/+GGxKzf+oyUknUEqUsEwu9Y7cAKkbqA2ILDwx8cd7h3xzrzHfIdR7qyx4l4BKkAfV
+	rnUG922f6ny6YEZdbL+UXCCNOh9qQ3m5ksOv0a1H2Psdp5UBy5d0Wo1ijOzOyDteq7tStzyBJ7Vxd
+	o3fGOMhAK3ecsb3WS8ybs9sbmfV0usSb81rsjSDjuGPBjfPO+ufUXWOzQzX+dyOBQ10XvYWdKLnYn
+	nCjFO5WA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oNC46-006GqE-BR; Sun, 14 Aug 2022 11:45:58 +0000
-Received: from mail-wr1-f54.google.com ([209.85.221.54])
+	id 1oNEXz-007409-0s; Sun, 14 Aug 2022 14:24:59 +0000
+Received: from mail-pl1-f182.google.com ([209.85.214.182])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oNC44-006Goh-7W
-	for linux-nvme@lists.infradead.org; Sun, 14 Aug 2022 11:45:57 +0000
-Received: by mail-wr1-f54.google.com with SMTP id j7so6111582wrh.3
-        for <linux-nvme@lists.infradead.org>; Sun, 14 Aug 2022 04:45:55 -0700 (PDT)
+	id 1oNEXw-0073z6-6E
+	for linux-nvme@lists.infradead.org; Sun, 14 Aug 2022 14:24:57 +0000
+Received: by mail-pl1-f182.google.com with SMTP id p18so4461677plr.8
+        for <linux-nvme@lists.infradead.org>; Sun, 14 Aug 2022 07:24:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=XyvvpZ15dPxcXbUBRSJHdtkmIDJVlwvkXC7WQGw4EqPpNHL8vMJkUiavfyA1LAo6pQ
-         YrsrUV8OSm67Pm0E9ZxfQErUsueePB5L9gQzU0cHOKbOBFldbsLebBvdjzUuuDHU20ER
-         6PJthaLD1QTkrExz5Oc5XXKxUl/prQqVwbH1VjQZSkZ64beHl2bJDSK+7NsXsYdshIYv
-         csEaaWBdI3XwI3350ujCy9b0LxmzKLZvvpPmizHj0h1o6zDZc+1WAVETJ/jOY6bTLG/M
-         p8BXzO2KiH2emps8UrsuaEi+zZWaUIgc8E+246BIW3zn3yNIEiGao7L4o1M5IhRNPZuC
-         rTQA==
-X-Gm-Message-State: ACgBeo1rBN9NRAziwPjAqaGArVjRmevwEOqGiHZ+TTwGjR8OmzxKSA6h
-	JMOwNeL7caKFztdY0xQlZls=
-X-Google-Smtp-Source: AA6agR57t+z0NrVVf706nrGoQwZspNiDzPC23IfS/dNBcpzyfeH+piS/RU0NnbS480L3/NkyCAQZXQ==
-X-Received: by 2002:adf:f6cb:0:b0:220:7859:7bf with SMTP id y11-20020adff6cb000000b00220785907bfmr5841614wrp.683.1660477554457;
-        Sun, 14 Aug 2022 04:45:54 -0700 (PDT)
-Received: from [10.100.102.14] (85.65.248.193.dynamic.barak-online.net. [85.65.248.193])
-        by smtp.gmail.com with ESMTPSA id b10-20020a05600c06ca00b003a54f49c1c8sm5807959wmn.12.2022.08.14.04.45.53
+        bh=Nu1E7AmmDIl2LFiTiOoUmoMGabBpkxzR1LmY2ZhmWkw=;
+        b=u7jQDdnyItEnpZlyd1Hi5gar2h8feQmKL81iPEgvZqbyu9E0Ucg8vb8MRUHx0yNTnB
+         xuRBYXmLaqTtHPm78H7hWu70jcBWyAVgfVTwoMYTsuAHHEoza4aJ06b7QxwPVK/Hbb3p
+         ets+1AD6JhP+hPWU95SqCmzrWIHmegGeQvcjZ+0OlSb9A8KOqK0DdCJ1BtKetqrUTLzE
+         qGzHlRlvLJlhJcrmEpEvWBAkt9GEQc09XybejWxBTQv0cmQrl75x1zls6bnx2z4z44Hc
+         OYvM4tA8ShWqhCiAbmcY3Ivffsb7PmxH1SBldv/9v4y6hNbeu60ZlMGW7aQVF1Tpqxa2
+         OZAQ==
+X-Gm-Message-State: ACgBeo29cGFTRRFem+Hm31apwgrJRzQZEXFI8IqnBwlmsfJ84GuoXGBs
+	y+sn42zT3oqjL970Qu2n6mI=
+X-Google-Smtp-Source: AA6agR5HCgWAcQjNp29LelwPDbPAB0mm64U/w5KM+jlUo+hz5aRdPoEqZyCP7VVUl818K/V7bQ1yRA==
+X-Received: by 2002:a17:902:6808:b0:170:9453:8203 with SMTP id h8-20020a170902680800b0017094538203mr12696076plk.24.1660487094199;
+        Sun, 14 Aug 2022 07:24:54 -0700 (PDT)
+Received: from [192.168.3.217] ([98.51.102.78])
+        by smtp.gmail.com with ESMTPSA id f7-20020a623807000000b0052acb753b8bsm5156039pfa.158.2022.08.14.07.24.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 14 Aug 2022 04:45:54 -0700 (PDT)
-Message-ID: <12dde734-5c03-28f6-2552-6f48c1d1efb6@grimberg.me>
-Date: Sun, 14 Aug 2022 14:45:53 +0300
+        Sun, 14 Aug 2022 07:24:53 -0700 (PDT)
+Message-ID: <9ec2e292-1e75-8ee2-a9fc-d5adfab92fbd@acm.org>
+Date: Sun, 14 Aug 2022 07:24:51 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 2/2] nvme-auth: remove the redundant req->cqe->result.u16
- assignment operation
+Subject: Re: [PATCH] nvmet: Fix a use-after-free
 Content-Language: en-US
-To: Jackie Liu <liu.yun@linux.dev>
-Cc: hch@lst.de, hare@suse.de, linux-nvme@lists.infradead.org, kch@nvidia.com
-References: <20220812031231.3386953-1-liu.yun@linux.dev>
- <20220812031231.3386953-2-liu.yun@linux.dev>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220812031231.3386953-2-liu.yun@linux.dev>
+To: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ stable@vger.kernel.org
+References: <20220812210317.2252051-1-bvanassche@acm.org>
+ <cd2189da-59b3-c01e-9bd3-5f838258c7bc@grimberg.me>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <cd2189da-59b3-c01e-9bd3-5f838258c7bc@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220814_044556_276097_07D99A5C 
-X-CRM114-Status: UNSURE (   5.85  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220814_072456_251152_401CBE81 
+X-CRM114-Status: GOOD (  12.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,5 +81,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+On 8/14/22 04:45, Sagi Grimberg wrote:
+> On 8/13/22 00:03, Bart Van Assche wrote:
+>> @@ -745,9 +747,9 @@ static void __nvmet_req_complete(struct nvmet_req 
+>> *req, u16 status)
+>>       trace_nvmet_req_complete(req);
+>> -    if (req->ns)
+>> -        nvmet_put_namespace(req->ns);
+>>       req->ops->queue_response(req);
+>> +    if (ns)
+>> +        nvmet_put_namespace(ns);
+> 
+> Why did the put change position?
+> I'm not exactly clear what was used-after-free here..
+
+Hi Sagi,
+
+Is my understanding correct that the NVMe target namespace owns the 
+block device `req` is associated with and hence that the namespace 
+reference count must only be dropped after dereferencing the `req` 
+pointer has finished?
+
+This is what I found in the NVMe target code:
+* nvmet_put_namespace() decreases ns->ref.
+* Dropping the last ns->ref causes nvmet_destroy_namespace() to be
+   called. That function completes ns->disable_done.
+* nvmet_ns_disable() waits on that completion and calls
+   nvmet_ns_dev_disable().
+* For a block device, nvmet_ns_dev_disable() calls blkdev_put().
+* The last blkdev_put() call calls disk_release().
+* disk_release() calls blk_put_queue().
+* The last blk_put_queue() call calls blk_release_queue().
+* blk_release_queue() frees struct request_queue.
+* blk_mq_complete_request_remote() dereferences req->q.
+
+Thanks,
+
+Bart.
 
