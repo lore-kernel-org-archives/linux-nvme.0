@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14C17C25B08
-	for <linux-nvme@archiver.kernel.org>; Sun, 14 Aug 2022 15:50:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4CB5AC3F6B0
+	for <linux-nvme@archiver.kernel.org>; Sun, 14 Aug 2022 15:53:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jUdJam3gjRfjSnsC7BoT2571XBpooNvYHD1KYSGCeXo=; b=GdBCeJjc80SmpJ5ZVZ7G5M+b/V
-	gPwHBhEpovPaAMWxm28wao7nIKTIORa+d7eNuvp8ZPFf/E4QdmFhozPNqBa+2pqB8w0QjzkhqxHG5
-	UgyXecpmcCI3SfvqpXyyFSlAXixQ94sJIo3DbhAZJ8kcJ/GLY5h8aKKXU3udSJ0V9WY6VHab1OUjk
-	gkUomY8JIHar0PowoQFWOdSQI49GOBCECjhNPcd/75z0PiyociUPubxDZcMjGMhtPDyV1eZGk72r4
-	D/lgA3aVlleU0UJKorrJv1gAzYpJDhnEQvoZKu1V2WaMevdS0evb0bk7bxZ8CqyUEphBKwnoKFDbd
-	IJsEBskw==;
+	bh=vGrt4brLYBCON2IhYcSAc6aQKYeWuxWN9RUzC1VEWTk=; b=mWJRfn8UHOxrAiwab0V9dD6clH
+	nIocxlF/KD+chsb99dkyaQTR23t+HIXEth56wyQT46dU6hHE2IrEL7FvkqQjntXvtM6Hdk2n9NUKZ
+	oWGJ//MgObGRfuY4aOUed/BP9n0JJfn3kF3o1ln5InCQhDCL7dwenxjR2/LYdLlTM4YyBoyGf1T3s
+	yX4gx3T2YDuO1KluUDBD5k8tRztCjkW4y7wgyO19EEfwdikO1skv3A7C7wmnr+QiNhFCFnebgGcKe
+	WonhVU2jVY35CewGL/j3ntWUO/kHZvhbWwNHpdVrR+l4qG2D4X+Q/DxJk1Z6TWg/6BC2ydHVPwFs2
+	2hOnC9IA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oNFsW-007bZj-4z; Sun, 14 Aug 2022 15:50:16 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1oNFvU-007dOc-NJ; Sun, 14 Aug 2022 15:53:20 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oNFeD-007SVp-ID
-	for linux-nvme@lists.infradead.org; Sun, 14 Aug 2022 15:35:31 +0000
+	id 1oNFep-007SrT-9U
+	for linux-nvme@lists.infradead.org; Sun, 14 Aug 2022 15:36:08 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 189C9B80B56;
-	Sun, 14 Aug 2022 15:35:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 015E9C433C1;
-	Sun, 14 Aug 2022 15:35:25 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id BE6AB60DBC;
+	Sun, 14 Aug 2022 15:36:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EF86C433D6;
+	Sun, 14 Aug 2022 15:36:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1660491326;
-	bh=nEkF1TpJSP1X5PisiKU424aJbozh7Siip5OuzuWXmoE=;
+	s=k20201202; t=1660491366;
+	bh=EYVjw1q+dpeO/mjOC3orZPoHYiNWoXIRtQLqP1kf+8w=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=u6rtrGe+QJJnXGwxzzsc5vo4ssnIJuRPQU6h9auMnuUewuL6a88OMTbCtvcy5P2UL
-	 YYtUtRHmKmOrVAGT3nVVCNL007Gu6lM99aFYcSUvZO/zluGyGONXxZx2etq6m9LkII
-	 x9kVW5k964yDIy/Tiw2iHayYtYuBFqYystREo9dhLxXbPn3c0FWiD/F2c6MSfd9W3/
-	 WnZYF0tQmGJRKKLUA2zc7SonZBfFYSCF2Pci+GGmfU6RrHsZsLyYFFkCma4H+8xlSo
-	 u6hhmX3OSIX6nensetqP5Ai0kl+OuNUVcZqmiW1cDA/IzEiDm/mu8QpQq8++OWy7Eq
-	 v6MKs+aEfFfzA==
+	b=dNyntqWI66MfgeZVFJydEtXQepMMTk9BsjJPeMRNt5P1IV8RIR54D/ljs8D95yJCU
+	 cbh8+OTQPqma0Wn0a+fDULTRZzxKRyo/fRptFMWoNWdj040ujGtnbTVpvOA20HwfOJ
+	 KXD0tlQmn6uAt5/CJIOmL8f6yrwkDBXzMkApoNLVisKH40KmgT4PpopA9Dv8sj8H69
+	 IkEJdUMHNh/zKekUv15026e+exfN52sGi68G0pWOVhouYGrlQ3zZeGIfELAz+d9t1E
+	 gBGjg8H0ocM+MIMV0+lyDqKwAfqbR0JNwNAacR5nBPeaeogpL+zkLjOQGeQc37oKBT
+	 BSMkZInBrUfAg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -52,18 +52,18 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Sasha Levin <sashal@kernel.org>,
 	kch@nvidia.com,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.10 28/31] nvmet-tcp: fix lockdep complaint on nvmet_tcp_wq flush during queue teardown
-Date: Sun, 14 Aug 2022 11:34:28 -0400
-Message-Id: <20220814153431.2379231-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 18/21] nvmet-tcp: fix lockdep complaint on nvmet_tcp_wq flush during queue teardown
+Date: Sun, 14 Aug 2022 11:35:28 -0400
+Message-Id: <20220814153531.2379705-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220814153431.2379231-1-sashal@kernel.org>
-References: <20220814153431.2379231-1-sashal@kernel.org>
+In-Reply-To: <20220814153531.2379705-1-sashal@kernel.org>
+References: <20220814153531.2379705-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220814_083529_891520_B7799F36 
+X-CRM114-CacheID: sfid-20220814_083607_458426_73DBDBB5 
 X-CRM114-Status: GOOD (  12.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -103,10 +103,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 96b67a70cbbb..d030d5e69dc5 100644
+index 4341c7244662..e9512d077b8a 100644
 --- a/drivers/nvme/target/tcp.c
 +++ b/drivers/nvme/target/tcp.c
-@@ -1802,7 +1802,8 @@ static int __init nvmet_tcp_init(void)
+@@ -1762,7 +1762,8 @@ static int __init nvmet_tcp_init(void)
  {
  	int ret;
  
