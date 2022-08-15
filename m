@@ -4,171 +4,113 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F21DDC00140
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Aug 2022 15:29:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3765DC00140
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Aug 2022 18:58:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iPsnByg9GkmeiXdCbLUjXq5RxPhjCaYA61SaoODvzqg=; b=SRyrU4un+ugrU91T+aSRJuuvnb
-	vHUotnwQa8G1TKKpxzKcPjPMsEfBY4aS+Laxlqs9kNdNbChH6Eo3t+rcvy4WRIhN8NUqkqP3o+dU7
-	UyOMPfXB3jjGIftm5KlWZq/J6Sbji6eys76JhQWYy/OdhDjq3jxV6tTfBHCy/eQpOufHIwWIkglMD
-	0rt/osM8TGMk9xDhnXpL+aaBjIUnkcNDyQLbqJW6REqml0tpCa/ywTQZbtlVHJvOpzchKfSsQ/Az4
-	XgWoocSZHvEUe5jJG7pGHOt91yl6PmBlwILY7HOwDDIpbIYJR2uQtxnaKdBlvFSWK6LWip34b9QN9
-	Y1wKJtJQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=W/lFBjot7tryRzPm5syzaz23xxVaLd4UL4vG2N8Avh8=; b=ufVZdlxTYAwLhryVBLL7QwkFMR
+	v40dvIX2mcNUJpnUEW3vzLQcwlVTv4anapsTm/Ga8MW0NgAHwfFcGtO9j5Oc6x6ogBqLXonBdIilg
+	SctxJTQxxsYOZ0xmzETTq6T2gxg/bnAIvJZqSbxNhapbuswMi4K3LBjcj7w6sVt2XJQ+7gURgl0/9
+	pXYqsR2VfW1EY21B1Zw87fZnI7Qq7MUrk5XEFS2izlqlMMutur37QRP2hNTmkn6iVh2219FxHYpPC
+	26ve3vy66KuUDp0ogIZbRBwBh8hBpgERi0FtzoGPpJxfYBwPHnp0YjdHK65u9eEmXz3DRwMe6uQvU
+	EwbH27gg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oNc2B-000sJ6-6M; Mon, 15 Aug 2022 15:29:43 +0000
-Received: from mail-bn8nam12on2084.outbound.protection.outlook.com ([40.107.237.84] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+	id 1oNfIZ-003b7e-VZ; Mon, 15 Aug 2022 18:58:52 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oN682-003TJU-Mh; Sun, 14 Aug 2022 05:25:44 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LTzIebJc7wR27rZhZNxqQXUGEntM7H6pgwQ4wqeKq55S3mCVi1G29ga7ShcQ7DZ8abXomqXocWnviZJaTu24Ve+p13Wuhy6kkYiTndg9NkOCqS0UhlqrURFSBssOQvYQjPE2L7qH6JBRhsueES0HnHy5fRHzptWMJcFNxpyi9DF6REOSA+C31hnFRJJUEYumrpAO3Gpegw8tJgZ6tVX6WI2WCzoZsCngNfUjzC12sMlnOx6sUwPqBISa0YiM0aJ3H7czXOBgnjsRA/5/wxTVes6MyBe4iPbH8fpRQUHZsSuEnCFV5ahFFf9JYVPr+2O6oxPqbIv9na+UfUuFgJrzEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iPsnByg9GkmeiXdCbLUjXq5RxPhjCaYA61SaoODvzqg=;
- b=jqSeCGlyL6w/kEEktueNI/fuwZ91+/fgVidnZ72YcZ97Rwp7xj5EDvSPLkV1/ahr5+H+EBmvdP4Nl0R9mW0Iq3eY7dm4BwerE2VEkJdnZBgETrEg4IlzWRdLwr4RZvvWLT57m2103oIHk76hEfLtHxvhp0gmsGzJluRa8NyFolbO0GCqYvLCY+PqT0U3p1R6xyorKt3Py9e0dgo9Kw1nc+l5oe5fQ8Jrxs8wOvyLfKJ6X+Wp1VkxFBNx01/QKmQoktGo3k32L3HiP27JkRs27taUwwECYsnyF6pV6NImm+fK/yzYioblAiwUQMSdnHJIv48FihKzpl3avhxqtyqrrw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iPsnByg9GkmeiXdCbLUjXq5RxPhjCaYA61SaoODvzqg=;
- b=Pq80a7lYO2AKoEkT8vF6OpsyuOwmTuArVdoaMngPuKJXwUPeJT1iDlPtO5FJbvXARElAz8reD+fmZlnlcSgRGD4eHu8W+hgtL3Zo2SwtPeNfLobo6FWydHHHESf1rA9Mbevm4h/fQR/U59WugWV/BNlNhHvcWnpPbc3zwSSFnQXt4rHnp9UOkN4CSpSBE97VKABnj6B6xynrNnOPN01ZUZ/k+oVgdJA5V9n4wBQ0Zorq6ZJlrurxNepEzuMWw90fF5yWwk+KpoC1h6QLT1exzR1yuBpsTKt/7tWdU4HrIzpmqCiB15xCDkDsrng92AXl6yArEcB4R8p+XW/shNACaQ==
-Received: from DM5PR12MB4663.namprd12.prod.outlook.com (2603:10b6:4:a9::26) by
- DM4PR12MB5199.namprd12.prod.outlook.com (2603:10b6:5:396::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5504.14; Sun, 14 Aug 2022 05:25:31 +0000
-Received: from DM5PR12MB4663.namprd12.prod.outlook.com
- ([fe80::b4ab:4d63:1cdd:b051]) by DM5PR12MB4663.namprd12.prod.outlook.com
- ([fe80::b4ab:4d63:1cdd:b051%4]) with mapi id 15.20.5504.025; Sun, 14 Aug 2022
- 05:25:31 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: "ira.weiny@intel.com" <ira.weiny@intel.com>, Andy Whitcroft
-	<apw@canonical.com>, Joe Perches <joe@perches.com>
-CC: "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, "kvm@vger.kernel.org"
-	<kvm@vger.kernel.org>, "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
-	"kgdb-bugreport@lists.sourceforge.net"
-	<kgdb-bugreport@lists.sourceforge.net>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "linux-mips@vger.kernel.org"
-	<linux-mips@vger.kernel.org>, "linux-ide@vger.kernel.org"
-	<linux-ide@vger.kernel.org>, "dm-devel@redhat.com" <dm-devel@redhat.com>,
-	"keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
-	"linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
-	"sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-	"linux1394-devel@lists.sourceforge.net"
-	<linux1394-devel@lists.sourceforge.net>, "linux-scsi@vger.kernel.org"
-	<linux-scsi@vger.kernel.org>, "linux-rdma@vger.kernel.org"
-	<linux-rdma@vger.kernel.org>, "x86@kernel.org" <x86@kernel.org>,
-	"linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	"linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
-	"Fabio M . De Francesco" <fmdefrancesco@gmail.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-xtensa@linux-xtensa.org" <linux-xtensa@linux-xtensa.org>,
-	"linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>, Thomas Gleixner
-	<tglx@linutronix.de>, "virtualization@lists.linux-foundation.org"
-	<virtualization@lists.linux-foundation.org>, "bpf@vger.kernel.org"
-	<bpf@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-edac@vger.kernel.org"
-	<linux-edac@vger.kernel.org>, "linux-raid@vger.kernel.org"
-	<linux-raid@vger.kernel.org>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "linux-mmc@vger.kernel.org"
-	<linux-mmc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-crypto@vger.kernel.org"
-	<linux-crypto@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
-	"linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
-Subject: Re: [PATCH] checkpatch: Add kmap and kmap_atomic to the deprecated
- list
-Thread-Topic: [PATCH] checkpatch: Add kmap and kmap_atomic to the deprecated
- list
-Thread-Index: AQHYr2AnarTe9oV4GEWjC3HdbpR5Ya2t3ckA
-Date: Sun, 14 Aug 2022 05:25:30 +0000
-Message-ID: <91f708ed-f456-dc83-281e-fc18a0b4b981@nvidia.com>
-References: <20220813220034.806698-1-ira.weiny@intel.com>
-In-Reply-To: <20220813220034.806698-1-ira.weiny@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 31ec3568-a4e9-4168-77a9-08da7db567cb
-x-ms-traffictypediagnostic: DM4PR12MB5199:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  6VLE6UsKRBwAODhumIvrq3g/k3pw/3vVudsx7E1SYHm5qNlNlnwoHNGRuBrJQuXwTVVhU/VrAz8wlQXrLxQpPOW3iUHura4jvNR1SaAW/5S6I2Qx6kDAoaJd3avPZjss5UBvvIJ0XTxeHDgZskqRz+Iuwvolz3WQrJZJ7Wu1uU3xEF6au3DuFGl6Med2yyJsJsSGjTXkRj3dq4qOMEf7RN062zm0Q3MylQHxl858NTHI406oDnSxrxFcJLqdMZk1wKAI0QIXLGRs9KFi1XEEq/QcHJDH5AWxH7QSWtuCKWI/LXV6WF7spD0PsHp8NfI6oq/BKnuAAHTCtachXF8YNDALwCj+x1IbZmMvtEZCrnh81tDCGsTHvrSTRTMdvaNIaOE3rpUmBKh4o8a0zZFXbJkjhW4B5mvOtdIodXEajf1D0y2nv3u6XShHIwlVQDdQtu0f9H3V2GEMEv2wYY98m0rxNK80QRyYof11BNGSXMA6YsMA5ib4wDeLSybgNDV5rMxAJ2R8s/0/uY81Bd2ma7Cgsu+dKZFwK2nG/FujAuLxp66HdkHZtEDjrK1uBcTBAjvabxosYanuiMrzK/KmduPw+F8M/vBqqtBRFkoDX5hgcBYD+Dg4QlhCtdZ9t/9S1yQK50V/B5rEPgts1rA6grLB7lTOQfNTJHDVQsAW/pxm3Hys4bqjgOw6xMuU5GvWZWt7K/GnjMxxXuMdDJ3u89cIcErwOX0MxVR3NivkZoqA8+uK03F13AHHxSME3P4gG/hAjnM2bVmq1Taj5+DJtKlNRc15jMly+lv9g7OxKYq2IgXpwuivh6VROmKVUc2lt6y0hmnBcNu8zovkYk7KVhJVd1ZElq8RXIN1mjse85V9z6ROkqRQ0xoRQ9uWbgH2YdM8wUZti0B0W3yYPGekPh+xdOdkVR3rud9Sf1ONTr08EArEgOazyW1wU4zYF0Kw
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR12MB4663.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(376002)(346002)(136003)(39860400002)(366004)(66946007)(66446008)(6506007)(41300700001)(6512007)(53546011)(186003)(83380400001)(91956017)(76116006)(66556008)(4326008)(66476007)(64756008)(8676002)(2616005)(2906002)(8936002)(5660300002)(7406005)(7416002)(86362001)(478600001)(54906003)(966005)(6486002)(110136005)(71200400001)(316002)(38070700005)(31696002)(38100700002)(31686004)(36756003)(122000001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?U1MyRnlCbC8vYlhTbkV3enZJdFhCYXZzOGtIRm52Y3JybUxCZlRBRnVDclN0?=
- =?utf-8?B?ek9xZUhkMm1rNUc2WmgvVXFMSWNYVFZ4dTh0cVY4M0dzRmxxZ1R1R2o0K1la?=
- =?utf-8?B?NVNqd0pEeGNPWm43V0xYRitZWFdqUklvbWsvQ0RmcnFhZkQ4MXRkWko3SDJP?=
- =?utf-8?B?eHJobTFNU1ZUbFk3MytOSUxEeVM1WlFySnc4TGF1MjVWL2tsRENZNW51SnV2?=
- =?utf-8?B?b01wV0RsN0Z2WTA2eEZvMFhQYXBSbk9GWTErbzMrcWJybmd5R0dsMTFCQ1lB?=
- =?utf-8?B?L0k0Um94M0MrNkpRMzFxZVRVZUZGZ3lUUGlXbVBQb1ZYVXZiZCtqMEJsWXpG?=
- =?utf-8?B?QVllM2NCSkR1eE9XRlQrQ0lKeFZ0Y09rWTcrYVV3RVdwTWZGcDcrbDNpWDFH?=
- =?utf-8?B?S3hDODZ3dDBncHdscWFZOWxMWU1SalNhOTlvMDc1cmFaNndHQ2pNSnpCeVF3?=
- =?utf-8?B?L0RIVGN0d1ZqV0VLemg0Unh3VlhpUDdVVnpQbDN0d3NyK0VOWmF5Vkhjanlv?=
- =?utf-8?B?aG1DRDdITjJ5YzFPUHZiYjIvM0Z4ZjVrTnZtdHcrSTVVbmtXcmNXczRRMFJP?=
- =?utf-8?B?YjZNL00zQS8vUm0rMnpDUjV6eGVrS2cxNWNnaWJJaVNZdWhMRW5ZU1dDa0s5?=
- =?utf-8?B?RGExODVYMjBoemc4QnNBaDg0eFNKODJWN29MUHRFUDZWZUlSYUMvWXR3dVhw?=
- =?utf-8?B?UTd4eFVQUGgvazFRaGhOYkNxc2dFelJJUENPdDZJV1o3OEI4dVVwN1h1RG1X?=
- =?utf-8?B?SkZWd09nNWhrSGtnSHFTNXM5VlZnVHYreUpkaVlLOW84UFdlRGlQWWtxdzJh?=
- =?utf-8?B?aSs1VjYrazRuRWloMktyc1JlNzhUcEFmWlFOVS85bFJBeTM5WFpPS2J5bFJh?=
- =?utf-8?B?UElIaTlCUUJ1eDhXcTFpdnlHeHBsdHdMM1oyOXk3aUw1ZlI2c3A3RVo0WnFk?=
- =?utf-8?B?cmhOMHVyNTZTZUhUYkF5dkRkdS9jU1dXMW1nbktKcHd3QTdJZmxxSm5CUkVi?=
- =?utf-8?B?NUsvTVF2THNFMDBFd2JvL0ZzUDdxY0xBUTZhOU5zWHVFVllid2NnTGFicFlu?=
- =?utf-8?B?YkVQQmVwT29vdG51Q2w3eEFGUjNhbUU3OHZOV25jM1VCNlNqSUw5enZFS0h0?=
- =?utf-8?B?eDdUN005QzgvZWtyZVhGclJqdTNVbGtQUm5xVmRQeER0NHVsY3l3OFRLYUlo?=
- =?utf-8?B?aUltOHNRSmowcGhIRjM5ajNjcTNzNEdjVlM3cWdnRnFvaExiRDZhVnNjcjU3?=
- =?utf-8?B?YmRIMU1PenFjM0FLSWtTaGVidHFrSFZDQlp6NDdHTUJnbGZJd203WjNRN2lx?=
- =?utf-8?B?S3ZNK25JVHplalQ3SFhSdGFSeHpPbzMxbTFXQWF4SEtPc25PRG11OUhVQWRC?=
- =?utf-8?B?NFFHYVBzbVlJQkVOZ1Jvd2JPM2QvOUxtUUpSZUIvQUg2MmxEZnlJM3EwTjdX?=
- =?utf-8?B?RVZjM3dwb3JVdDZnMEU1SmtaaXkzZnk0NmxPTnBBcG5INHJSdVAzV2w0RW5J?=
- =?utf-8?B?azJxOUZleldLdW1jTFQ0WmlhM2RlMWpSb0krcGNFZjVIYWNvV1lYbjdSVGlF?=
- =?utf-8?B?a3hNSzhadERYS2VxK20wRHdXSHkvY1F1Mk0xRUhlWUw3bzJXRGgrSHozSVRn?=
- =?utf-8?B?dzBHbk16azVqVWk4WU5iQTdGVENub1Robmk2Y3ZOaUZwdXJ0U0xBb2ZIVHNJ?=
- =?utf-8?B?Qm9EeFBVNmtkSU90ZjM4cDEvdEl3R3dacEM2RFhpN0c1TUdZYVBnemlqYzBV?=
- =?utf-8?B?MUlmSXpaMVpONFhBNHFNY0JPY3FxQWNqckVDd0gvTFRldVJMbGd0SVpBQ2hn?=
- =?utf-8?B?aDRZZkl5MUhjeFlkbDB6eWFrSGpFNHNtbi9JNzhsZzdJQ1N1Z1hKRG9ZcVZR?=
- =?utf-8?B?WGtzbnVGVnN5K2owUy9nS1g2UGpLSEs2KzJibUlRZkZaellFWlRqMTYwSklw?=
- =?utf-8?B?Q2Z2MmlENTlEbXdSWjB5bmwvUFhxWkcreDd2aUMvZWhKS1Iyc1JKMnJtQnpS?=
- =?utf-8?B?TWdtTzUyZmdJMGhaVlpDdStZc3NuR1RZNmgzbEhxejF2cWVFTGlzY1QyM016?=
- =?utf-8?B?WmFDRVY3ZHdPS1oraHNPU3F0S0JHRUVxZFRRWSszLzBqQ1RqaTJYNXY2SEow?=
- =?utf-8?B?SU5IaXpMSWNROTRGYUJsWGVjMXdYQjBuNWg1eUJRcDg4YlR4ZjNMRzFVL1Nx?=
- =?utf-8?B?dmc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <5261E63C04B5044FBDC2CBFA7DC85685@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	id 1oNfFy-003YNl-Gs
+	for linux-nvme@lists.infradead.org; Mon, 15 Aug 2022 18:56:14 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1660589770; x=1692125770;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=V1iJTH7GEzKcPtxfy/9tnWQGVGcg7nbx15/9pWEV0IM=;
+  b=ovCThcMSTbCkcHfJiXmDQdPP39PALL/cN0PQhl2U3yvWtZc0ARPND6xo
+   arS+L73GqHyUify33MXAS9kwxTELQyOeaEx5bFNt+GYhyXYGoR47VdX2J
+   ePt43dHHInnyO3iQQONaE3ryvkM6RrTpfSE2yOPjrjegHpYAmArhaIVhS
+   eMsAWmhS7ubQDozJUAR+pE5Nr30sK7zgV5lU1qI0uaQbEh50QhYe4YE9t
+   0F2X8XQn2Gb5F4Ey+azVT1xf36SuqvCijLN3xJkFk29MXGPY8WdOQ1dzv
+   k0QN4hpN9iIT+KLFpZ4DDHAcLXL07exS8jkWDhSDsNZGLGcLVyx1wqfKQ
+   w==;
+X-IronPort-AV: E=Sophos;i="5.93,239,1654531200"; 
+   d="scan'208";a="209294615"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 16 Aug 2022 02:56:04 +0800
+IronPort-SDR: cGQ1Xl/LPBI8u09YFxRYEdCpMQvSgHiz6O834+LKmlBhHz3cQH31hjIqA74KyRHsd3uakgMfZV
+ yiQ+RMYsw+N0S4gpSR6uaMdayF+8lNEwPWJQV2hWgPuZmTDmS1QYss77ZLsa/qUPxKvzGFgUiR
+ +rKWd6Vjhqv8/VLnCmu/3Z6MhdZr/coQroH4yPPrPhpM3hlwYg/v2M7ZXcq58oqjeFQhIPg3R1
+ bR+0L0YC3VkxTxnkyxMJ/fcsfzcUKhQmN0BBt782t1zA3vgYQ6rMH2WJg+a40051fjw4ZbRnVz
+ v945xQfltxJMzay39L85GO6d
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 15 Aug 2022 11:16:54 -0700
+IronPort-SDR: aMCYcoGRJhLXSl5+KhygIFIwayQNAUjGTBHVfyjQSO6NEoGxfE+dNTAElIn27xem6ecNbCtOBZ
+ +jCQqfi+S6ITXzxuRVDPlDJDmwFJUGyjvQxyVnsXPIRMTHp6gy7UX6B+5a167ULr/Nthz81TnJ
+ GbdMUN+/EDN43UEjXGIJC/cbkq5E/9Arn0HjRSRb0RCilvbNiMSWELVm+yYCiLviZ/JRTMtfAj
+ NSXo/lTVfI84xNdNfnD7aWhLN/5jIkJyPhLfuTlG8thpOUrYqnSHsRiljkWfJHA+G6RHU8ZyZ6
+ isE=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 15 Aug 2022 11:56:05 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4M63QX2Xnkz1Rws8
+	for <linux-nvme@lists.infradead.org>; Mon, 15 Aug 2022 11:56:04 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+	reason="pass (just generated, assumed good)"
+	header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+	opensource.wdc.com; h=content-transfer-encoding:content-type
+	:in-reply-to:organization:from:references:to:content-language
+	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
+	1660589763; x=1663181764; bh=V1iJTH7GEzKcPtxfy/9tnWQGVGcg7nbx15/
+	9pWEV0IM=; b=cVDPi0Kzmzep2M8EqbqerFRmNFoCzwAWbOj49TmDAhX+LD4UCaY
+	Cu/8kISW5TTQjQoXXq5GIOG6cDv01dng/UeI8zZzrI7QOlT+Bs+E/55TUL4BKYks
+	TUVkhsU9i+QuCZCUKDcmfCnSl3gC4HeZNgOS0Ks4RuWeVYoZgZF46Gr5uJ/oElz0
+	AT1tRvaEpFm3UCnJTto+JubxBpyWER7qwvosuu75e+ozyN8f8uUz7qqfGdvf3Xjp
+	+UE2mjvKQtKTTuhao8LQoYETzhYUPGqQveWajxIvwokYLcuQxC4CcQAo1VLKbLwy
+	X3ZpKiTUFbceakcDnLArV9shPg/mZTqGRBA==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id JP8fTpWj-KiK for <linux-nvme@lists.infradead.org>;
+	Mon, 15 Aug 2022 11:56:03 -0700 (PDT)
+Received: from [10.11.46.122] (c02drav6md6t.sdcorp.global.sandisk.com [10.11.46.122])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4M63QT4j3Gz1RtVk;
+	Mon, 15 Aug 2022 11:56:01 -0700 (PDT)
+Message-ID: <d4735d9e-31b6-0872-82a7-acbbd0cb5af5@opensource.wdc.com>
+Date: Mon, 15 Aug 2022 11:56:01 -0700
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB4663.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 31ec3568-a4e9-4168-77a9-08da7db567cb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Aug 2022 05:25:31.0130
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DTS1C5RKwVtBKScaU/BTbd0QOIaELY0YZxfbtZMm5adcb9U5unTaXCRAksNDGAW1JZlBYO6iAoiBrXG8NSNNaQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5199
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.12.0
+Subject: Re: [PATCH v10 13/13] dm: add power-of-2 target for zoned devices
+ with non power-of-2 zone sizes
+Content-Language: en-US
+To: Pankaj Raghav <p.raghav@samsung.com>, snitzer@kernel.org,
+ axboe@kernel.dk, hch@lst.de, agk@redhat.com
+Cc: linux-block@vger.kernel.org, Johannes.Thumshirn@wdc.com,
+ bvanassche@acm.org, matias.bjorling@wdc.com, hare@suse.de,
+ gost.dev@samsung.com, linux-nvme@lists.infradead.org, jaegeuk@kernel.org,
+ pankydev8@gmail.com, linux-kernel@vger.kernel.org, dm-devel@redhat.com,
+ Damien Le Moal <damien.lemoal@wdc.com>,
+ Joel Granados <j.granados@samsung.com>
+References: <20220811143043.126029-1-p.raghav@samsung.com>
+ <CGME20220811143058eucas1p247291685ffff7a75186947fd30b5c13f@eucas1p2.samsung.com>
+ <20220811143043.126029-14-p.raghav@samsung.com>
+ <bb4ab1f2-7e16-15a7-58b1-d37f6f3822fd@opensource.wdc.com>
+ <b98ab80d-1bc0-a378-d438-09ef8b375836@samsung.com>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <b98ab80d-1bc0-a378-d438-09ef8b375836@samsung.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220813_222542_370705_F5AF04D5 
-X-CRM114-Status: GOOD (  22.69  )
-X-Mailman-Approved-At: Mon, 15 Aug 2022 08:29:34 -0700
+X-CRM114-CacheID: sfid-20220815_115610_895275_EC1BC5AD 
+X-CRM114-Status: GOOD (  30.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -183,46 +125,159 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gOC8xMy8yMiAxNTowMCwgaXJhLndlaW55QGludGVsLmNvbSB3cm90ZToNCj4gRnJvbTogSXJh
-IFdlaW55IDxpcmEud2VpbnlAaW50ZWwuY29tPg0KPiANCj4ga21hcCgpIGFuZCBrbWFwX2F0b21p
-YygpIGFyZSBiZWluZyBkZXByZWNhdGVkIGluIGZhdm9yIG9mDQo+IGttYXBfbG9jYWxfcGFnZSgp
-Lg0KPiANCj4gVGhlcmUgYXJlIHR3byBtYWluIHByb2JsZW1zIHdpdGgga21hcCgpOiAoMSkgSXQg
-Y29tZXMgd2l0aCBhbiBvdmVyaGVhZA0KPiBhcyBtYXBwaW5nIHNwYWNlIGlzIHJlc3RyaWN0ZWQg
-YW5kIHByb3RlY3RlZCBieSBhIGdsb2JhbCBsb2NrIGZvcg0KPiBzeW5jaHJvbml6YXRpb24gYW5k
-ICgyKSBpdCBhbHNvIHJlcXVpcmVzIGdsb2JhbCBUTEIgaW52YWxpZGF0aW9uIHdoZW4NCj4gdGhl
-IGttYXDigJlzIHBvb2wgd3JhcHMgYW5kIGl0IG1pZ2h0IGJsb2NrIHdoZW4gdGhlIG1hcHBpbmcg
-c3BhY2UgaXMgZnVsbHkNCj4gdXRpbGl6ZWQgdW50aWwgYSBzbG90IGJlY29tZXMgYXZhaWxhYmxl
-Lg0KPiANCj4ga21hcF9sb2NhbF9wYWdlKCkgaXMgc2FmZSBmcm9tIGFueSBjb250ZXh0IGFuZCBp
-cyB0aGVyZWZvcmUgcmVkdW5kYW50DQo+IHdpdGgga21hcF9hdG9taWMoKSB3aXRoIHRoZSBleGNl
-cHRpb24gb2YgYW55IHBhZ2VmYXVsdCBvciBwcmVlbXB0aW9uDQo+IGRpc2FibGUgcmVxdWlyZW1l
-bnRzLiAgSG93ZXZlciwgdXNpbmcga21hcF9hdG9taWMoKSBmb3IgdGhlc2Ugc2lkZQ0KPiBlZmZl
-Y3RzIG1ha2VzIHRoZSBjb2RlIGxlc3MgY2xlYXIuICBTbyBhbnkgcmVxdWlyZW1lbnQgZm9yIHBh
-Z2VmYXVsdCBvcg0KPiBwcmVlbXB0aW9uIGRpc2FibGUgc2hvdWxkIGJlIG1hZGUgZXhwbGljaXRs
-eS4NCj4gDQo+IFdpdGgga21hcF9sb2NhbF9wYWdlKCkgdGhlIG1hcHBpbmdzIGFyZSBwZXIgdGhy
-ZWFkLCBDUFUgbG9jYWwsIGNhbiB0YWtlDQo+IHBhZ2UgZmF1bHRzLCBhbmQgY2FuIGJlIGNhbGxl
-ZCBmcm9tIGFueSBjb250ZXh0IChpbmNsdWRpbmcgaW50ZXJydXB0cykuDQo+IEl0IGlzIGZhc3Rl
-ciB0aGFuIGttYXAoKSBpbiBrZXJuZWxzIHdpdGggSElHSE1FTSBlbmFibGVkLiBGdXJ0aGVybW9y
-ZSwNCj4gdGhlIHRhc2tzIGNhbiBiZSBwcmVlbXB0ZWQgYW5kLCB3aGVuIHRoZXkgYXJlIHNjaGVk
-dWxlZCB0byBydW4gYWdhaW4sDQo+IHRoZSBrZXJuZWwgdmlydHVhbCBhZGRyZXNzZXMgYXJlIHJl
-c3RvcmVkLg0KPiANCj4gU3VnZ2VzdGVkLWJ5OiBUaG9tYXMgR2xlaXhuZXIgPHRnbHhAbGludXRy
-b25peC5kZT4NCj4gU3VnZ2VzdGVkLWJ5OiBGYWJpbyBNLiBEZSBGcmFuY2VzY28gPGZtZGVmcmFu
-Y2VzY29AZ21haWwuY29tPg0KPiBTaWduZWQtb2ZmLWJ5OiBJcmEgV2VpbnkgPGlyYS53ZWlueUBp
-bnRlbC5jb20+DQo+IA0KPiAtLS0NCj4gU3VnZ2VzdGVkIGJ5IGNyZWRpdHMuDQo+IAlUaG9tYXM6
-IElkZWEgdG8ga2VlcCBmcm9tIGdyb3dpbmcgbW9yZSBrbWFwL2ttYXBfYXRvbWljIGNhbGxzLg0K
-PiAJRmFiaW86IFN0b2xlIHNvbWUgb2YgaGlzIGJvaWxlciBwbGF0ZSBjb21taXQgbWVzc2FnZS4N
-Cj4gDQo+IE5vdGVzIG9uIHRyZWUtd2lkZSBjb252ZXJzaW9uczoNCj4gDQo+IEkndmUgY2MnZWQg
-bWFpbGluZyBsaXN0cyBmb3Igc3Vic3lzdGVtcyB3aGljaCBjdXJyZW50bHkgY29udGFpbnMgZWl0
-aGVyIGttYXAoKQ0KPiBvciBrbWFwX2F0b21pYygpIGNhbGxzLiAgQXMgc29tZSBvZiB5b3UgYWxy
-ZWFkeSBrbm93IEZhYmlvIGFuZCBJIGhhdmUgYmVlbg0KPiB3b3JraW5nIHRocm91Z2ggY29udmVy
-dGluZyBrbWFwKCkgY2FsbHMgdG8ga21hcF9sb2NhbF9wYWdlKCkuICBCdXQgdGhlcmUgaXMgYQ0K
-PiBsb3QgbW9yZSB3b3JrIHRvIGJlIGRvbmUuICBIZWxwIGZyb20gdGhlIGNvbW11bml0eSBpcyBh
-bHdheXMgd2VsY29tZSwNCj4gZXNwZWNpYWxseSB3aXRoIGttYXBfYXRvbWljKCkgY29udmVyc2lv
-bnMuICBUbyBrZWVwIGZyb20gc3RlcHBpbmcgb24gZWFjaA0KPiBvdGhlcnMgdG9lcyBJJ3ZlIGNy
-ZWF0ZWQgYSBzcHJlYWRzaGVldCBvZiB0aGUgY3VycmVudCBjYWxsc1sxXS4gIFBsZWFzZSBsZXQg
-bWUNCj4gb3IgRmFiaW8ga25vdyBpZiB5b3UgcGxhbiBvbiB0YWNraW5nIG9uZSBvZiB0aGUgY29u
-dmVyc2lvbnMgc28gd2UgY2FuIG1hcmsgaXQNCj4gb2ZmIHRoZSBsaXN0Lg0KPiANCj4gWzFdIGh0
-dHBzOi8vZG9jcy5nb29nbGUuY29tL3NwcmVhZHNoZWV0cy9kLzFpX2NrWjEwcDkwYkhfQ2t4RDJi
-WU5pMDVTMlF6ODRFMk9GUHY4enFfXzB3L2VkaXQjZ2lkPTE2Nzk3MTQzNTcNCj4gDQoNCkxvb2tz
-IGdvb2QuDQoNClJldmlld2VkLWJ5OiBDaGFpdGFueWEgS3Vsa2FybmkgPGtjaEBudmlkaWEuY29t
-Pg0KDQoNCg==
+On 2022/08/15 6:38, Pankaj Raghav wrote:
+> Hi Damien,
+> 
+>>> +static int dm_po2z_map_read_emulated_area(struct dm_po2z_target *dmh,
+>>> +					  struct bio *bio)
+>>
+>> This really should be called dm_po2z_handle_read() since it handles both cases
+>> of read commands, with and without the accept partial. Note that this is
+>> retesting the need for a split after that was already tested in dm_po2z_map()
+>> with bio_across_emulated_zone_area(). So the code should be better organized to
+>> avoid that repetition.
+>>
+>> You can simplify the code by having bio_across_emulated_zone_area() return 0 for
+>> a bio that does not cross the zone capacity and return the number of sectors up
+>> to the zone capacity from the bio start if there is a cross. That value can then
+> The offset will also be zero if the BIO starts at the zone capacity and
+> dm_po2z_map will assume that the bio did not cross the emulated zone boundary.
+> 
+>> be used to call dm_accept_partial_bio() directly in dm_po2z_map() for read
+>> commands. That will make this function much simpler and essentially turn it into
+>> dm_po2z_read_zeroes().
+>>
+>>> +{
+> 
+> What about something like this? We have one function:
+> bio_in_emulated_zone_area() that checks if a BIO is partly or completely in the
+> emulated zone area and also returns the offset from bio to the emulated zone
+> boundary (zone capacity of the device).
+> 
+> /**
+>  * bio_in_emulated_zone_area - check if bio is in the emulated zone area
+>  * @dmh:	pozone target data
+>  * @bio:	bio
+>  * @offset:	bio offset to emulated zone boundary
+>  *
+>  * Check if a @bio is partly or completely in the emulated zone area. If the
+>  * @bio is partly in the emulated zone area, @offset
+>  * can be used to split the @bio across the emulated zone boundary. @offset
+>  * will be negative if the @bio completely lies in the emulated area.
+>  *  */
+> static bool bio_in_emulated_zone_area(struct dm_po2z_target *dmh,
+> 					  struct bio *bio, int *offset)
+> {
+> 	unsigned int zone_idx = po2_zone_no(dmh, bio->bi_iter.bi_sector);
+> 	sector_t nr_sectors = bio->bi_iter.bi_size >> SECTOR_SHIFT;
+> 	sector_t relative_sect_in_zone =
+
+Nit: Could simply call this sector_offset.
+
+> 		bio->bi_iter.bi_sector - (zone_idx << dmh->zone_size_po2_shift);
+> 
+> 	*offset = dmh->zone_size - relative_sect_in_zone;
+> 
+> 	return (relative_sect_in_zone + nr_sectors) > dmh->zone_size;
+
+No need for the parenthesis.
+
+> }
+> 
+> static int dm_po2z_read_zeroes(struct bio *bio)
+
+Make that an inline.
+
+> {
+> 	zero_fill_bio(bio);
+> 	bio_endio(bio);
+> 	return DM_MAPIO_SUBMITTED;
+> }
+> 
+> static int dm_po2z_remap_sector(struct dm_po2z_target *dmh, struct bio *bio)
+
+Inline this one too.
+
+> {
+> 	bio->bi_iter.bi_sector =
+> 		target_to_device_sect(dmh, bio->bi_iter.bi_sector);
+> 	return DM_MAPIO_REMAPPED;
+> }
+> 
+> static int dm_po2z_map(struct dm_target *ti, struct bio *bio)
+> {
+> 	struct dm_po2z_target *dmh = ti->private;
+> 
+> 	bio_set_dev(bio, dmh->dev->bdev);
+> 	if (bio_sectors(bio) || op_is_zone_mgmt(bio_op(bio))) {
+> 		int split_io_pos;
+
+Blank line needed here.
+
+> 		if (!bio_in_emulated_zone_area(dmh, bio, &split_io_pos)) {
+> 			return dm_po2z_remap_sector(dmh, bio);
+> 		}
+
+No need for the curly brackets.
+
+> 		/*
+> 		 * Read operation on the emulated zone area (between zone capacity
+> 		 * and zone size) will fill the bio with zeroes. Any other operation
+> 		 * in the emulated area should return an error.
+> 		 */
+> 		if (bio_op(bio) == REQ_OP_READ) {
+> 			if (split_io_pos > 0) {
+> 				dm_accept_partial_bio(bio, split_io_pos);
+> 				return dm_po2z_remap_sector(dmh, bio);
+> 			}
+> 			return dm_po2z_read_zeroes(bio);
+> 		}
+> 		return DM_MAPIO_KILL;
+> 	}
+> 	return DM_MAPIO_REMAPPED;
+> }
+> 
+> Let me know what you think.
+
+I think this is way better. But I would still reorganize this like this:
+
+static int dm_po2z_map(struct dm_target *ti, struct bio *bio)
+{
+        struct dm_po2z_target *dmh = ti->private;
+        int split_io_pos;
+
+        bio_set_dev(bio, dmh->dev->bdev);
+
+        if (op_is_zone_mgmt(bio_op(bio)))
+                return dm_po2z_remap_sector(dmh, bio);
+
+        if (!bio_sectors(bio))
+                return DM_MAPIO_REMAPPED;
+
+        /*
+         * Read operation on the emulated zone area (between zone capacity
+         * and zone size) will fill the bio with zeroes. Any other operation
+         * in the emulated area should return an error.
+         */
+        if (!bio_in_emulated_zone_area(dmh, bio, &split_io_pos))
+                return dm_po2z_remap_sector(dmh, bio);
+
+        if (bio_op(bio) == REQ_OP_READ) {
+                if (split_io_pos > 0) {
+                        dm_accept_partial_bio(bio, split_io_pos);
+                        return dm_po2z_remap_sector(dmh, bio);
+                }
+                return dm_po2z_read_zeroes(bio);
+        }
+
+        return DM_MAPIO_KILL;
+}
+
+I find the code easier to follow this way.
+
+
+
+-- 
+Damien Le Moal
+Western Digital Research
 
