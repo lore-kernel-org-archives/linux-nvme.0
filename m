@@ -4,66 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05C96C25B08
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Aug 2022 11:28:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6C5FC25B08
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Aug 2022 12:03:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ECuxpwCDUrgeNoln0VDvjmcGTKomlTzEzl7fPmQcTHQ=; b=i/0HATExWEwKNnRAFn/zMBmGyv
-	6sRsrRlnHciQRIfKJSc1QOer1vapR+uSmr/ifvG+sw/vlAfE61xdiEWyAwVUctxpQm3B8jEH/Zn7+
-	9DJ1LDgAkPhm/PYgNvLZSwbPE4C5gOM6oYpT+32h6MxotCpqyGpc68qXnxpvnOzEf1WIWCgms0xky
-	79nGiJURWetZUnv2jsrBYg0PTfUppKjoTOnq2S4Zb5w4BHgtdKl7KkbJahAD/VFTQt9ITRd3Pd3M2
-	RwYVw8NFNFxMgaYnnqBxeQXcFW79TN333a36MQxSHy5nRlXPpgYvvz1qQv64GiwPde9cqYB3Vkxk9
-	CmVfcqkw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=6QBF8OUU8w0EMBfU5E9Y1uiD/NcvMC8accXIwQQECM0=; b=n0epMi2ZSiBvwvVrugz8gf98e8
+	s8+Ff2J7Zj0blNUJ0Es5NzSr7tMsjLoQkD+a7W4QFoo+YEjo21EjSPXYYjWIns4TmCma1QHic+xqA
+	9rrIXXvyTxAWZKu8Qkapr3ETvlThDE0q08AKVOo3XdbHQZ+yycejMSLt33UV/q7IjT2wVv3h+h4+3
+	/r9NtzrApmW4m9dh7o0Aof70D3osU/R778yaKZrLNx/M32ow5f0Oob4lGjBTdmv3aS+xhEmaK1q13
+	S82IoXj5/9uCwyd/efG5x6oceNu18wcS7R9wCoBUMKWTJegkglsKDr/2HtCepPw16ulKx8Nsvrqrr
+	HleebZ9A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oOHDh-001Qfl-5x; Wed, 17 Aug 2022 11:28:21 +0000
-Received: from mail-wm1-f47.google.com ([209.85.128.47])
+	id 1oOHlG-001iyY-Je; Wed, 17 Aug 2022 12:03:02 +0000
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oOHDd-001QaW-Ek
-	for linux-nvme@lists.infradead.org; Wed, 17 Aug 2022 11:28:19 +0000
-Received: by mail-wm1-f47.google.com with SMTP id m3-20020a05600c3b0300b003a5e0557150so1726700wms.0
-        for <linux-nvme@lists.infradead.org>; Wed, 17 Aug 2022 04:28:15 -0700 (PDT)
+	id 1oOHlD-001ixF-GE
+	for linux-nvme@lists.infradead.org; Wed, 17 Aug 2022 12:03:01 +0000
+Received: by mail-ed1-x52a.google.com with SMTP id b16so17198580edd.4
+        for <linux-nvme@lists.infradead.org>; Wed, 17 Aug 2022 05:02:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=6QBF8OUU8w0EMBfU5E9Y1uiD/NcvMC8accXIwQQECM0=;
+        b=Kbpe8F04LfFeg75euDy4hW+5X9Vjk0c5vTGN+38syf9GnoRt8pbKyaVNnmv5fmTCNk
+         HlOPQqKaqAYBQMSvEZLf9I60FRXyRoPFD8ZCeCaMsstiKpIlEs0c+kR+aFYeVsz3ZKFB
+         ZZvU9GG9S02FtZK/gwsgrjYa3zh/57Pa5SNGBaHnUxlatsfv5E0BGAS7rMnPO+5bBort
+         73Kb7uS55ZPWKPP11pFoXFwxf4ha9yC0E/MBcf6ZVkxZF42zxWgHVUVpuFXhPZ5n+9vP
+         U1BHWkBNERyIio8tpMpRZYlLdtPOIcWU3C4x/V+hmEV/u3AoBrmCFKayONJTUYA4wt/G
+         nuIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=ECuxpwCDUrgeNoln0VDvjmcGTKomlTzEzl7fPmQcTHQ=;
-        b=MtPd6BKJFY4XjjDPXc6CpAf+BT3+U2dJzTXSs6kF9KewErrpkVBSF1faWRSJ4y8D8Y
-         PxLMrSpE+bgKWwSiogNQ7aTEOvwn3JuUF4ll+Rd50a7bYsxIk8Pmho54U9xDNmgDFcDm
-         lS3+l5zTYvuGa6R9p+0BDUL1TW4CJYfBYxRsCXF5//8d7DaVL4jWQDK2eZV6UsZIZk6L
-         Crq30BmQgBrLbSuwiwnzM+zaUVJkX87ZLuhweW3iCg3fqC+2MXt20nHKLcF7qCwklMSS
-         Gaw4AmYpf0zSqpvebGcz1PJM/qMb5HO6hsgjtUoE27gL74GJleXSdUzKwdLIiyMlRPHD
-         XKBg==
-X-Gm-Message-State: ACgBeo2FZALu0MPVeiw48w+xG4VWnyINV3n7d6hx7Fjx5aJGlAfrZz8i
-	AbvHvR1qlHRFvlNGPihCOjZG1vWRarQ=
-X-Google-Smtp-Source: AA6agR64pHq14d2T48t3MHS9Gh4nolUmI2DWAZeE+JJrM/MnqQJ+cOEVvnQqUazGN7sONFxFAgtyZg==
-X-Received: by 2002:a05:600c:19cf:b0:3a3:1df6:af0c with SMTP id u15-20020a05600c19cf00b003a31df6af0cmr1817929wmq.37.1660735694747;
-        Wed, 17 Aug 2022 04:28:14 -0700 (PDT)
-Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id u9-20020a5d6da9000000b0022510e8cb82sm6094993wrs.52.2022.08.17.04.28.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Aug 2022 04:28:14 -0700 (PDT)
-Message-ID: <a32bb1f7-921e-1c88-716c-22340d4384d1@grimberg.me>
-Date: Wed, 17 Aug 2022 14:28:12 +0300
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=6QBF8OUU8w0EMBfU5E9Y1uiD/NcvMC8accXIwQQECM0=;
+        b=QA6EuhD9Wr0NWKVbWfVuEB3QixAuqueCFXE7NYxEX/4w32JYlk3pCuk3JiMOUF/xqw
+         v2GQU8BO9tZbpCDpp6yJIMsU5hhvhUD21T80//3DZKCeebZ9qPytXvlhpRYkV2yr1qfj
+         JAD5MpaLMXfwlziMsXwwLvVPRV2AGM02b1iAt8vVwU+1+PhGAR1lZNu+c4OeP5GKwFS0
+         iSEI7IaNyznab0YQBhOOtyG3+2eaPW25XRiJKF3E+QsljfBFBMTbaL+4MTfysA1dpQmk
+         b5aiz9FPtYTTZTNktS6eHMVD/bAEbWW6Zo5wKiUwjsvUypW7tEHU7UakBzY+kRv4cNwj
+         pDkA==
+X-Gm-Message-State: ACgBeo2QKa9JqmnoFbLLnUuGD2K32DwkYa0IKW1DHsF8uXU1Q5dVwpvY
+	bRNhL6+y0wwpyQxEUtDhpHU=
+X-Google-Smtp-Source: AA6agR4TmWchQrV9/rpL/dcNvKrGk0AHACleyZyoz0eilW/dtlO1i1O5TanqRUYeEQRrXbUm+kr9jA==
+X-Received: by 2002:a50:9f44:0:b0:445:dfca:87da with SMTP id b62-20020a509f44000000b00445dfca87damr1991538edf.105.1660737777226;
+        Wed, 17 Aug 2022 05:02:57 -0700 (PDT)
+Received: from opensuse.localnet (host-87-17-106-94.retail.telecomitalia.it. [87.17.106.94])
+        by smtp.gmail.com with ESMTPSA id fn4-20020a1709069d0400b00730bbd81646sm6629934ejc.87.2022.08.17.05.02.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Aug 2022 05:02:55 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>
+Subject: Re: [RFC PATCH] nvmet-tcp: Don't kmap() pages which can't come from HIGHMEM
+Date: Wed, 17 Aug 2022 14:02:54 +0200
+Message-ID: <3177256.oiGErgHkdL@opensuse>
+In-Reply-To: <c11e62ae-3439-e3e3-adba-d7f5f951791c@grimberg.me>
+References: <20220816091808.23236-1-fmdefrancesco@gmail.com> <YvvpJbOT9iv6rnm2@kbusch-mbp.dhcp.thefacebook.com> <c11e62ae-3439-e3e3-adba-d7f5f951791c@grimberg.me>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [RFC] nvme-tcp: Handle number of queue changes
-Content-Language: en-US
-To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
-References: <20220812142824.17766-1-dwagner@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220812142824.17766-1-dwagner@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220817_042817_546881_66734025 
-X-CRM114-Status: GOOD (  39.72  )
+X-CRM114-CacheID: sfid-20220817_050259_582578_538A65EB 
+X-CRM114-Status: GOOD (  31.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,155 +86,119 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On mercoled=C3=AC 17 agosto 2022 11:44:09 CEST Sagi Grimberg wrote:
+> >> Therefore, I have two questions: am I right about thinking that the pa=
+ges
+> >> mapped in nvmet_tcp_map_pdu_iovec() are allocated with GFP_KERNEL?
+> >=20
+> > I think you are correct.
+>=20
+> It is correct. It is the same model for the linux scsi target, sunrpc
+> etc.
 
-> On reconnect, the number of queues might have changed. In the case
-> where the old number of queues is lower than the new one, we try to
-> restart the new number of queues. At this point though, the tagset
-> is has not yet been updated and the operations fails.
-> 
-> Thus, on reconnect only start only the old number of queues, then update
-> the tag set and then start the rest of the newly added queues.
+I'll try to address the comments from the two last messages from Keith and=
+=20
+Sagi with this email (I replied yesterday to Chaitanya).
 
-I agree this change is needed. The same issue exists in rdma and
-possibly others...
+=46irst of all: good to know that it is the same model for other subsystem.=
+ This=20
+is useful to know. Thanks!
+
+> >> If so, can anyone with more knowledge than mine please say if my chang=
+es
+> >> make
+> >> any sense?
+> >=20
+> > I think it does make sense.
+
+Thanks, I'm glad I was not wrong :-)
+
+> > I like the code simplification, though this use
+> > was't really paying the kmap penalty since, as you mentioned, this is=20
+never
+> > highmem.
+
+Correct, however everybody like code simplification. I added a couple of=20
+sentences to kmap_local_page() documentation in highmem.rst. They clearly=20
+state that, when users know that pages cannot come from Highmem, they may=20
+better prefer page_address().
+
+The changes to nvmet-tcp started with trying to convert kmap() / kunmap() t=
+o=20
+kmap_local_page() /kunmap_local(), but it ended up to code shortening and=20
+simplification with a plain use of page_address().=20
+
+Obviously, due to my little experience with kernel developing and less than=
+=20
+little knowledge of this protocol I had to ask whether or not I was right i=
+n=20
+identifying the site of the allocations.
+
+The reasons why I had to use page_address() will be clearer reading what=20
+follows...
+
+> Yes, its the same code-path. Would be great if we still had an
+> abstraction that would do the right thing regardless of highmem or
+> not like kmap provides though.
+
+It would be great and it is already possible (this is why Thomas Gleixner=20
+created this kmap_local_page() API) but here we have a huge issue. kmap() a=
+nd=20
+kmap_atomic() have recently been deprecated and they shouldn't any longer b=
+e=20
+used in new code: https://lore.kernel.org/all/20220813220034.806698-1-ira.w=
+einy@intel.com/ ("[PATCH] checkpatch: Add kmap and kmap_atomic to the=20
+deprecated list").
+
+kmap_local_page() always does the right thing: users can call it with or=20
+without HIGHMEM enabled, in-atomic (also in interrupts) or in preemptible=20
+contexts, they can take page faults.=20
+
+It doesn't require global lock for synchronization and doesn't require glob=
+al=20
+TLB invalidation when the kmap's pool wraps and doesn't block waiting for f=
+ree=20
+slots.=20
+
+Nice, isn't it?
+
+However, with nvmet-tcp we cannot easily use kmap_local_page() because it=20
+comes with a major problem: it's local to the thread. If users handed the=20
+kernel virtual addresses returned by this function to other threads, the=20
+pointers would be invalid.
+
+Here kmap() and kunmap() call sites are in two different workqueues.=20
+Therefore, there is no way to convert kmap() to kmap_local_page(), unless t=
+his=20
+code is heavily refactored.
+
+Knowing that the pages cannot come from Highmem avoids this refactoring and=
+ in=20
+the meantime it allows us to delete the kmap() and kunmap() calls sites.
+
+> > You should also remove the cmd's 'nr_mapped' field while you're at it,
+> > otherwise you'll hit the WARN in nvmet_tcp_free_cmd_buffers().
+>=20
+> Not remove nr_mapped because we use it to know the iovec entries, but
+> we can just remove the WARN statement.
+
+Ah, OK. I'll take care of this too. That was not my first concern when I di=
+d=20
+the RFC. The "real" patch must also address this detail.
+
+@Chaitanya:
+
+Since this is a mere simplification and shorten of code, I suppose I can sk=
+ip=20
+the performance tests. Ira and I have still hundreds of call sites with kma=
+p()=20
+and kmap_atomic() which we should care of, therefore we prefer to leave alo=
+ne=20
+everything that is not strictly necessary for the deprecated API deletions.
+
+Thanks to you all,
+
+=46abio
 
 
-> 
-> Signed-off-by: Daniel Wagner <dwagner@suse.de>
-> ---
-> 
-> We got a report from our customer that a firmware upgrade on the
-> storage array is able to 'break' host. This is caused a change of
-> number of queues which the target supports after a reconnect.
-> 
-> Let's assume the number of queues is 8 and all is working fine. Then
-> the connection is dropped and the host starts to try to
-> reconnect. Eventually, this succeeds but now the new number of queues
-> is 10:
-> 
-> nvme0: creating 8 I/O queues.
-> nvme0: mapped 8/0/0 default/read/poll queues.
-> nvme0: new ctrl: NQN "nvmet-test", addr 10.100.128.29:4420
-> nvme0: queue 0: timeout request 0x0 type 4
-> nvme0: starting error recovery
-> nvme0: failed nvme_keep_alive_end_io error=10
-> nvme0: Reconnecting in 10 seconds...
-> nvme0: failed to connect socket: -110
-> nvme0: Failed reconnect attempt 1
-> nvme0: Reconnecting in 10 seconds...
-> nvme0: creating 10 I/O queues.
-> nvme0: Connect command failed, error wo/DNR bit: -16389
-> nvme0: failed to connect queue: 9 ret=-5
-> nvme0: Failed reconnect attempt 2
-> 
-> As you can see queue number 9 is not able to connect.
-> 
-> As the order of starting and unfreezing is important we can't just
-> move the start of the queues after the tagset update. So my stupid
-> idea was to start just the older number of queues and then the rest.
-> 
-> This seems work:
-> 
-> nvme nvme0: creating 4 I/O queues.
-> nvme nvme0: mapped 4/0/0 default/read/poll queues.
-> nvme_tcp_start_io_queues nr_hw_queues 4 queue_count 5 qcnt 5
-> nvme_tcp_start_io_queues nr_hw_queues 4 queue_count 5 qcnt 5
-> nvme nvme0: new ctrl: NQN "nvmet-test", addr 10.100.128.29:4420
-> nvme nvme0: queue 0: timeout request 0x0 type 4
-> nvme nvme0: starting error recovery
-> nvme0: Keep Alive(0x18), Unknown (sct 0x3 / sc 0x71)
-> nvme nvme0: failed nvme_keep_alive_end_io error=10
-> nvme nvme0: Reconnecting in 10 seconds...
-> nvme nvme0: creating 6 I/O queues.
-> nvme_tcp_start_io_queues nr_hw_queues 4 queue_count 7 qcnt 5
-> nvme nvme0: mapped 6/0/0 default/read/poll queues.
-> nvme_tcp_start_io_queues nr_hw_queues 6 queue_count 7 qcnt 7
-> nvme nvme0: Successfully reconnected (1 attempt)
-> nvme nvme0: starting error recovery
-> nvme0: Keep Alive(0x18), Unknown (sct 0x3 / sc 0x71)
-> nvme nvme0: failed nvme_keep_alive_end_io error=10
-> nvme nvme0: Reconnecting in 10 seconds...
-> nvme nvme0: creating 4 I/O queues.
-> nvme_tcp_start_io_queues nr_hw_queues 6 queue_count 5 qcnt 5
-> nvme nvme0: mapped 4/0/0 default/read/poll queues.
-> nvme_tcp_start_io_queues nr_hw_queues 4 queue_count 5 qcnt 5
-> nvme nvme0: Successfully reconnected (1 attempt)
-> 
-> And yes, the patch per se is ugly, but I didn't want to reorganize
-> code at this point. It just an illustration of my idea.
-> 
-> Feedback highly appreciated!
-> 
-> Thanks,
-> Daniel
-> 
-> 
->   drivers/nvme/host/tcp.c | 23 ++++++++++++++++++-----
->   1 file changed, 18 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index e82dcfcda29b..177d2f5d9047 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -1671,6 +1671,9 @@ static int nvme_tcp_start_queue(struct nvme_ctrl *nctrl, int idx)
->   	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
->   	int ret;
->   
-> +	if (test_bit(NVME_TCP_Q_LIVE, &ctrl->queues[idx].flags))
-> +		return 0;
-> +
-
-How about we make concise calls to queue starts instead of
-making this re-entrant safe... Although this does follow
-the same model as pci...
-
->   	if (idx)
->   		ret = nvmf_connect_io_queue(nctrl, idx);
->   	else
-> @@ -1759,12 +1762,18 @@ static void nvme_tcp_stop_io_queues(struct nvme_ctrl *ctrl)
->   		nvme_tcp_stop_queue(ctrl, i);
->   }
->   
-> -static int nvme_tcp_start_io_queues(struct nvme_ctrl *ctrl)
-> +static int nvme_tcp_start_io_queues(struct nvme_ctrl *nctrl)
->   {
-> -	int i, ret;
-> +	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
-> +	int i, ret, qcnt;
->   
-> -	for (i = 1; i < ctrl->queue_count; i++) {
-> -		ret = nvme_tcp_start_queue(ctrl, i);
-> +	qcnt = min(ctrl->tag_set.nr_hw_queues + 1, nctrl->queue_count);
-> +
-> +	dev_info(nctrl->device, "nr_hw_queues %d queue_count %d qcnt %d\n",
-> +	         ctrl->tag_set.nr_hw_queues, nctrl->queue_count, qcnt);
-
-No need for this print as info, its just spamming...
-
-> +
-> +	for (i = 1; i < qcnt; i++) {
-> +		ret = nvme_tcp_start_queue(nctrl, i);
->   		if (ret)
->   			goto out_stop_queues;
->   	}
-> @@ -1773,7 +1782,7 @@ static int nvme_tcp_start_io_queues(struct nvme_ctrl *ctrl)
->   
->   out_stop_queues:
->   	for (i--; i >= 1; i--)
-> -		nvme_tcp_stop_queue(ctrl, i);
-> +		nvme_tcp_stop_queue(nctrl, i);
->   	return ret;
->   }
->   
-> @@ -1934,6 +1943,10 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
->   		nvme_unfreeze(ctrl);
->   	}
->   
-> +	ret = nvme_tcp_start_io_queues(ctrl);
-> +	if (ret)
-> +		goto out_cleanup_connect_q;
-> +
-
-Shouldn't we do the same for the create itself? Is there any chance that
-we will leave a tcp connection idle in any situation?
 
