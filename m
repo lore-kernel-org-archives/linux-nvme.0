@@ -4,72 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 761CCC25B08
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Aug 2022 18:25:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C3B1C32771
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Aug 2022 18:45:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6XoCRWTpHFxKAXiFtoAE096KFo+xlJ75DyKMVWp9KjE=; b=ySSqV2qTXyUUt3EB0KD+dvpdGX
-	4rIPDV9q1Jw9Qsz3iNwqyJc/br2Xr6VfqvvmWTrPl+LeUlF762DrUIKrriduzh11xWvRwpxaR3gs/
-	D826aeBJ+vJx5Q3fC92RBNgeBKzphSdzX0MPnREQNPHG9mYGtkGc9qi61UTbsN+uhSwJsfacgZFGR
-	09KenUYAgqVS4K1zpt+ctMcm4cMViz3cU0AdXIjVqH8dZdotS9WIQAWxvy6WvfJVTfBdLYUFdwt2J
-	S9eL9wM53bnjZJwyz3Xad1xwwOFkQzpPE4KTe6rSwW92WIEErQNmiIzgzRpCBivc1zV8I5dirParC
-	HfBgyo7w==;
+	Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=xGU9QalusRdz0W9hKf9EB+6UjNuyQWtvR/GW+P/WHUw=; b=f2CP8irvVX2tNS5JGXUK2lp/Tm
+	qfTB2N6Yv4w8KL7LX3csdf+Fqk7MEgXZ+5mmpteEGhik9f2XMYmqBs7+KLop3HMdhdXknRMQzjm8d
+	l9E4Loyzbk8E3CBJ9ukR9rtOPZ4Cj1TQjHALMmO4PjxTfFpDfGmU4pmlpyGb885ZT3PhUZWN3kVuH
+	OP0lHm7zZz0bD98iRMmZ0AqkbGI0o/3KMrGrkPjuWoSVlVFvvSe3Y3FsEZfwFsbwy8U3G/2V7an0n
+	6sP+ZDjL82W03BKYpSKGm9rSuFn36o3CVFaQfXtsIh7lKd3aYJRMCCSX3qP1MRD/tgpWZGD0wnE6b
+	+Rv39+ZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oONjV-004xVl-Gu; Wed, 17 Aug 2022 18:25:38 +0000
-Received: from mail-wm1-f47.google.com ([209.85.128.47])
+	id 1oOO2o-005Dzk-02; Wed, 17 Aug 2022 18:45:34 +0000
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oONik-004wk1-JK
-	for linux-nvme@lists.infradead.org; Wed, 17 Aug 2022 18:24:51 +0000
-Received: by mail-wm1-f47.google.com with SMTP id p12-20020a7bcc8c000000b003a5360f218fso1434108wma.3
-        for <linux-nvme@lists.infradead.org>; Wed, 17 Aug 2022 11:24:48 -0700 (PDT)
+	id 1oOO2k-005Ds1-OR
+	for linux-nvme@lists.infradead.org; Wed, 17 Aug 2022 18:45:32 +0000
+Received: by mail-ed1-x52a.google.com with SMTP id r4so18612044edi.8
+        for <linux-nvme@lists.infradead.org>; Wed, 17 Aug 2022 11:45:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=xGU9QalusRdz0W9hKf9EB+6UjNuyQWtvR/GW+P/WHUw=;
+        b=UFDIuYFY1k8+fk1hDuKvDWb2fyjxcvEPEJdw2+VK5IwzA3fGcWVBtydYoCc9Jz0qgH
+         wf/Ivhl/hMejcR+6haJyBF+jAl6tORW7jX97VGmaOgVAAS9T8Q1WMNtwxVzlw+sqV0DM
+         3xs1FkAt6tB3/0gNIn+5Y/rLSHozCz0Jjrn7kVlnI41wP0s7ZI+TAj9upAr55PRrerCU
+         Qd3KGIL0mIv8uFQhhzwgSrp4W2hoUMt0H6QOm97b3yHxdWBxjYW14VTfKu1rgjUaLdYH
+         AuRMDRShgIkhuNClu8q2lvnHHvl/tRsM1uEadix1ZSdGMyW4l0zFipkNPbSXOVKajq4k
+         6ipA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=6XoCRWTpHFxKAXiFtoAE096KFo+xlJ75DyKMVWp9KjE=;
-        b=O+wpVMNVeuYaWMjBPMvswo6HIqHyjpu0ivkxPsK3WCi2FRx2YNnDgbMfnv8D26PH1m
-         bvB1GeFN2yJs1v1Zratx+foARNRI83y9kiq0D+b/EEXxsB+KAy4RJZWYP9z9a9Z0CIoT
-         3ICSoMfAl7P30rxUBOIeZFS8UedAs0Lq+XCLCqz6wMsJ7j7itttqzqhhL1wNSyBHVWzd
-         hBdP8uYuLrMv0grFIB6tDQAsorPyYDl2bS2OD4wKEbuIKfMHp+azxtBLtpoMJWwcBBuu
-         QxmBNVSx3KrxKDRzoHYZ/gq0ReHK0L08n7HkI3Jth7LQsCefoXsPUGNsMK8LA6STByUB
-         wi6A==
-X-Gm-Message-State: ACgBeo2pefpdvOnKR4IzXej4PXg8lPHuWIFxrE5eW3wsNCMxw1R6xtKe
-	LF9eUemQ4cB6lcliazh92j0=
-X-Google-Smtp-Source: AA6agR6LAY7RcTFsAxJ/3LYoG+1PdOZtBozR/j5W5+DEosWciHEvkrT+THm9dB3Vn7RsIHRg4rtWNw==
-X-Received: by 2002:a05:600c:1906:b0:3a5:f9e0:fcb6 with SMTP id j6-20020a05600c190600b003a5f9e0fcb6mr3044330wmq.157.1660760686884;
-        Wed, 17 Aug 2022 11:24:46 -0700 (PDT)
-Received: from [10.100.102.14] (85-250-24-41.bb.netvision.net.il. [85.250.24.41])
-        by smtp.gmail.com with ESMTPSA id j17-20020adfe511000000b00225239d9265sm2840786wrm.74.2022.08.17.11.24.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Aug 2022 11:24:46 -0700 (PDT)
-Message-ID: <581ecec9-8f2b-32a2-6ce1-63551496e332@grimberg.me>
-Date: Wed, 17 Aug 2022 21:24:44 +0300
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=xGU9QalusRdz0W9hKf9EB+6UjNuyQWtvR/GW+P/WHUw=;
+        b=mIMJoc2uVWKOqkqYPBwJMXbNWGuW1FMI2xuFdhQ7eGCEESf0mcCfxguSp5mCpy7WlL
+         wIX+TBrVgb4NoAqHXYWr1f6/H5bdKwZGgP7SpO+Kyj2dhphGJJre+C1Lw2MP2kPrnj65
+         PYCTuuq6fP+EeJ0bJuleM3yXVTOjUnPpB6CtwyA2hK1D9/tRDnV7gjRqSr5rT4oR3gxX
+         sqvGQAkT0ds/N6Jj9pgwd0qYSbXABs+npWU9mJul4hHmXxwasPf1KLaHezghByBWz0J/
+         QJCG3ujL3U5gTYHo7R1AM6k/gjI51CEWGFTBlyA3Gu0B7aODNwO072T4mzdZ33hNsjPq
+         xsJg==
+X-Gm-Message-State: ACgBeo3DD865yShtYPOTFhxG4PaFn/D9Rh7V72TQrKw73z+9RlhD9huO
+	1+R29M0SKdz2pM2sRFbcb0I=
+X-Google-Smtp-Source: AA6agR5zgDfueJg8rk7ZyXHB/d3TWt3aCmNp/ioebSxEicV6/TaYp4vTbgxI/8z/q1nGKBfvTKd5WQ==
+X-Received: by 2002:a05:6402:3881:b0:445:f8bf:5a1c with SMTP id fd1-20020a056402388100b00445f8bf5a1cmr1127787edb.13.1660761926704;
+        Wed, 17 Aug 2022 11:45:26 -0700 (PDT)
+Received: from localhost.localdomain (host-87-17-106-94.retail.telecomitalia.it. [87.17.106.94])
+        by smtp.gmail.com with ESMTPSA id fq15-20020a1709069d8f00b007306a4ecc9dsm7211975ejc.18.2022.08.17.11.45.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Aug 2022 11:45:24 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Ira Weiny <ira.weiny@intel.com>
+Subject: [PATCH v2] nvmet-tcp: Don't kmap() pages which can't come from HIGHMEM
+Date: Wed, 17 Aug 2022 20:45:19 +0200
+Message-Id: <20220817184519.25141-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] nvmet-tcp: Don't kmap() pages which can't come from
- HIGHMEM
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Christoph Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- Chaitanya Kulkarni <chaitanyak@nvidia.com>, Ira Weiny <ira.weiny@intel.com>
-References: <20220817170427.15682-1-fmdefrancesco@gmail.com>
- <Yv0o9MlqCjXUcDKc@kbusch-mbp.dhcp.thefacebook.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <Yv0o9MlqCjXUcDKc@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220817_112450_693589_769825EB 
-X-CRM114-Status: GOOD (  14.07  )
+X-CRM114-CacheID: sfid-20220817_114530_887561_8C2BA4EB 
+X-CRM114-Status: GOOD (  17.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,42 +92,149 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+kmap() is being deprecated in favor of kmap_local_page().[1]
 
->> @@ -329,7 +312,6 @@ static void nvmet_tcp_map_pdu_iovec(struct nvmet_tcp_cmd *cmd)
->>   	u32 length, offset, sg_offset;
->>   
->>   	length = cmd->pdu_len;
->> -	cmd->nr_mapped = DIV_ROUND_UP(length, PAGE_SIZE);
->>   	offset = cmd->rbytes_done;
->>   	cmd->sg_idx = offset / PAGE_SIZE;
->>   	sg_offset = offset % PAGE_SIZE;
->> @@ -338,7 +320,7 @@ static void nvmet_tcp_map_pdu_iovec(struct nvmet_tcp_cmd *cmd)
->>   	while (length) {
->>   		u32 iov_len = min_t(u32, length, sg->length - sg_offset);
->>   
->> -		iov->iov_base = kmap(sg_page(sg)) + sg->offset + sg_offset;
->> +		iov->iov_base = page_address(sg_page(sg)) + sg->offset + sg_offset;
->>   		iov->iov_len = iov_len;
->>   
->>   		length -= iov_len;
->> @@ -347,8 +329,7 @@ static void nvmet_tcp_map_pdu_iovec(struct nvmet_tcp_cmd *cmd)
->>   		sg_offset = 0;
->>   	}
->>   
->> -	iov_iter_kvec(&cmd->recv_msg.msg_iter, READ, cmd->iov,
->> -		cmd->nr_mapped, cmd->pdu_len);
->> +	iov_iter_kvec(&cmd->recv_msg.msg_iter, READ, cmd->iov, 0, cmd->pdu_len);
->>   }
-> 
-> I earlier meant just use a local variable for 'nr_mapped' rather than replace
-> it with '0'. I don't think that 0 segments would result in usable kvec.
+There are two main problems with kmap(): (1) It comes with an overhead as
+mapping space is restricted and protected by a global lock for
+synchronization and (2) it also requires global TLB invalidation when the
+kmap’s pool wraps and it might block when the mapping space is fully
+utilized until a slot becomes available.
 
-yes, that is wrong. Need a local int nr_mapped variable.
+The pages which will be mapped are allocated in nvmet_tcp_map_data(),
+using the GFP_KERNEL flag. This assures that they cannot come from
+HIGHMEM. This imply that a straight page_address() can replace the kmap()
+of sg_page(sg) in nvmet_tcp_map_pdu_iovec(). As a side effect, we might
+also delete the field "nr_mapped" from struct "nvmet_tcp_cmd" because,
+after removing the kmap() calls, there would be no longer any need of it.
 
-> 
-> I'm not even sure the existing code is correct, though. The sg->length can be
-> higher order than a PAGE_SIZE, so it may be over-reporting nr_segs. It's just
-> supposed to be the number of initialized iov's.
+Therefore, replace the kmap() of sg_page(sg) with a page_address() and
+delete the "nr_mapped" field from "nvmet_tcp_cmd" and instead pass a
+local variable to iov_iter_kvec() from the call site in
+nvmet_tcp_map_pdu_iovec().
 
-The sg is allocated with sgl_alloc so it is for sure 0-order.
+[1] "[PATCH] checkpatch: Add kmap and kmap_atomic to the deprecated
+list" https://lore.kernel.org/all/20220813220034.806698-1-ira.weiny@intel.com/
+
+Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: Keith Busch <kbusch@kernel.org>
+Cc: Sagi Grimberg <sagi@grimberg.me>
+Suggested-by: Ira Weiny <ira.weiny@intel.com>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+
+v1->v2: Use a local variable as argument of iov_iter_kvec() instead of
+the removed "nr_mapped" field from struct "nvmet_tcp_cmd". Thanks to
+Sagi and Keith who noticed my mistake.
+
+Many thanks to Chaitanya, Keith, Sagi, for the answers and the comments on
+the RFC which led to this patch. The RFC is at:
+https://lore.kernel.org/all/20220816091808.23236-1-fmdefrancesco@gmail.com/
+
+ drivers/nvme/target/tcp.c | 28 ++++------------------------
+ 1 file changed, 4 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index dc3b4dc8fe08..5b839f842623 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -77,7 +77,6 @@ struct nvmet_tcp_cmd {
+ 	u32				pdu_len;
+ 	u32				pdu_recv;
+ 	int				sg_idx;
+-	int				nr_mapped;
+ 	struct msghdr			recv_msg;
+ 	struct kvec			*iov;
+ 	u32				flags;
+@@ -167,7 +166,6 @@ static const struct nvmet_fabrics_ops nvmet_tcp_ops;
+ static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
+ static void nvmet_tcp_finish_cmd(struct nvmet_tcp_cmd *cmd);
+ static void nvmet_tcp_free_cmd_buffers(struct nvmet_tcp_cmd *cmd);
+-static void nvmet_tcp_unmap_pdu_iovec(struct nvmet_tcp_cmd *cmd);
+ 
+ static inline u16 nvmet_tcp_cmd_tag(struct nvmet_tcp_queue *queue,
+ 		struct nvmet_tcp_cmd *cmd)
+@@ -301,35 +299,21 @@ static int nvmet_tcp_check_ddgst(struct nvmet_tcp_queue *queue, void *pdu)
+ 
+ static void nvmet_tcp_free_cmd_buffers(struct nvmet_tcp_cmd *cmd)
+ {
+-	WARN_ON(unlikely(cmd->nr_mapped > 0));
+-
+ 	kfree(cmd->iov);
+ 	sgl_free(cmd->req.sg);
+ 	cmd->iov = NULL;
+ 	cmd->req.sg = NULL;
+ }
+ 
+-static void nvmet_tcp_unmap_pdu_iovec(struct nvmet_tcp_cmd *cmd)
+-{
+-	struct scatterlist *sg;
+-	int i;
+-
+-	sg = &cmd->req.sg[cmd->sg_idx];
+-
+-	for (i = 0; i < cmd->nr_mapped; i++)
+-		kunmap(sg_page(&sg[i]));
+-
+-	cmd->nr_mapped = 0;
+-}
+-
+ static void nvmet_tcp_map_pdu_iovec(struct nvmet_tcp_cmd *cmd)
+ {
+ 	struct kvec *iov = cmd->iov;
+ 	struct scatterlist *sg;
+ 	u32 length, offset, sg_offset;
++	int nr_mapped;
+ 
+ 	length = cmd->pdu_len;
+-	cmd->nr_mapped = DIV_ROUND_UP(length, PAGE_SIZE);
++	nr_mapped = DIV_ROUND_UP(length, PAGE_SIZE);
+ 	offset = cmd->rbytes_done;
+ 	cmd->sg_idx = offset / PAGE_SIZE;
+ 	sg_offset = offset % PAGE_SIZE;
+@@ -338,7 +322,7 @@ static void nvmet_tcp_map_pdu_iovec(struct nvmet_tcp_cmd *cmd)
+ 	while (length) {
+ 		u32 iov_len = min_t(u32, length, sg->length - sg_offset);
+ 
+-		iov->iov_base = kmap(sg_page(sg)) + sg->offset + sg_offset;
++		iov->iov_base = page_address(sg_page(sg)) + sg->offset + sg_offset;
+ 		iov->iov_len = iov_len;
+ 
+ 		length -= iov_len;
+@@ -347,8 +331,7 @@ static void nvmet_tcp_map_pdu_iovec(struct nvmet_tcp_cmd *cmd)
+ 		sg_offset = 0;
+ 	}
+ 
+-	iov_iter_kvec(&cmd->recv_msg.msg_iter, READ, cmd->iov,
+-		cmd->nr_mapped, cmd->pdu_len);
++	iov_iter_kvec(&cmd->recv_msg.msg_iter, READ, cmd->iov, nr_mapped, cmd->pdu_len);
+ }
+ 
+ static void nvmet_tcp_fatal_error(struct nvmet_tcp_queue *queue)
+@@ -1141,7 +1124,6 @@ static int nvmet_tcp_try_recv_data(struct nvmet_tcp_queue *queue)
+ 		cmd->rbytes_done += ret;
+ 	}
+ 
+-	nvmet_tcp_unmap_pdu_iovec(cmd);
+ 	if (queue->data_digest) {
+ 		nvmet_tcp_prep_recv_ddgst(cmd);
+ 		return 0;
+@@ -1411,7 +1393,6 @@ static void nvmet_tcp_restore_socket_callbacks(struct nvmet_tcp_queue *queue)
+ static void nvmet_tcp_finish_cmd(struct nvmet_tcp_cmd *cmd)
+ {
+ 	nvmet_req_uninit(&cmd->req);
+-	nvmet_tcp_unmap_pdu_iovec(cmd);
+ 	nvmet_tcp_free_cmd_buffers(cmd);
+ }
+ 
+@@ -1424,7 +1405,6 @@ static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
+ 		if (nvmet_tcp_need_data_in(cmd))
+ 			nvmet_req_uninit(&cmd->req);
+ 
+-		nvmet_tcp_unmap_pdu_iovec(cmd);
+ 		nvmet_tcp_free_cmd_buffers(cmd);
+ 	}
+ 
+-- 
+2.37.1
+
 
