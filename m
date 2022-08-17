@@ -4,73 +4,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AC46C25B08
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Aug 2022 15:39:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 02F44C25B08
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Aug 2022 16:10:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ri8Hih/g0N1z7TAjVx4AbJ27UV4uJ+etMnMuQG9+gbw=; b=ogeMqM0KsO25scTdHYR0WU/Fz4
-	0zeQDglvfdv0Rx5I0BuYr9Gu+g3CooicuOtul1VaIj/l6FuL8xAUlOq3cRgyEl50SoJhBgC+bMeGC
-	yC1RntD6jTH5NTp50mfPBBBkUE2QpWpTyva3JiXJqyApHrTDbofkfhC7kvFsc5cnvZs8FzE+XZjVZ
-	RNsQTjLLjaWTrg2FDa8DnoNwzLRS+Lee3VwCDstWubHKlQD+m+ODm+UBp+pqCy/3h6njOBTQ9QFSR
-	uhzL0zsKvZANxHPrDCjbS7DGjPXoCwQ1VmSFI0Y74sBDMVNytuT83dTHLlcCFGBbqKKQs9ue+A1PU
-	3UTUgX8w==;
+	bh=kF6L5lBVEYEWO6HCovKa2gIExjDrBBg5oudOvILDX18=; b=3clcKBlQ0u9tTLCAwCw8kJogTr
+	wUSDXFp7QO1yjr18HOKokVJolHE8VoZ3aFttqtBGkCNJdkRIrfeMNtKv/WMoaNuQ+p9EUllASGJm7
+	bzVYafJsojWZim9eQpIbn2Q+gNbdDRcHd12F12k8UWrVhcw/TuuU6K3q/2HBDZQotx623NGnP/Ook
+	C92B8UawRIjbeSdZjdHteo5bA0iMnu2cbr/sQK4ZTxHV8ZJ0sCNq9S08OT6bkLJZ2wD2URUrTisqL
+	56VkFoLgsrNibmYMqc3cdctYMwQl2UGZFOzLK16t2gpsjN7yjeCjbF9qZDf9xnwszsz09hH5mGwOo
+	LwJxMUmQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oOL97-003MxW-0V; Wed, 17 Aug 2022 15:39:53 +0000
-Received: from mail-wm1-f53.google.com ([209.85.128.53])
+	id 1oOLcl-003eVX-Cj; Wed, 17 Aug 2022 16:10:31 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oOL93-003Muz-6h
-	for linux-nvme@lists.infradead.org; Wed, 17 Aug 2022 15:39:50 +0000
-Received: by mail-wm1-f53.google.com with SMTP id j26so4623114wms.0
-        for <linux-nvme@lists.infradead.org>; Wed, 17 Aug 2022 08:39:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=Ri8Hih/g0N1z7TAjVx4AbJ27UV4uJ+etMnMuQG9+gbw=;
-        b=W0W6z0ZGBBUHgPqKT8qITGUS/zjfKUXvOHtFzOTMQPGtuxCwz4HNdm32Dv+nTzWR6f
-         RpEKRrTLMYPvH2t95BjCIFkgW4TS0iozbcjx321g0Ea+DPWOS85PXFmU5P9iWqKXtJIP
-         gCAp+YpdsOduT4LKba/RaEL5JxrETSTs/knOMAVqZiGQekO4v617LrQn1AccOGJ3kmCA
-         l4wdKZOgx3NBqxLx2vRUkpwGK3NDDabqoxxUz36pvl9UnQYSE/o+m78tcqXAA/xjfaDe
-         rTJfCO6w4tKxCId96yIUZN9A/NxDnqu16KOwOL7m2m8dinneyT8BYhkC7L8/zKySFj7g
-         GfKg==
-X-Gm-Message-State: ACgBeo2HWdHNnXWOT+7JYEhRIwu0P0u8NgODd31kd06Wx8Aht8iFGMkI
-	5Z6RCcnSAvH2x5p1/SmeP+Y=
-X-Google-Smtp-Source: AA6agR6rnwR4y6N/C94dmp3HIitjKTgExAKmXLGJQBigrdxdXIqnQkmAeBOLKX13x08wwGAIWnIzWQ==
-X-Received: by 2002:a7b:ca42:0:b0:3a6:9d:a444 with SMTP id m2-20020a7bca42000000b003a6009da444mr2585434wml.51.1660750786516;
-        Wed, 17 Aug 2022 08:39:46 -0700 (PDT)
-Received: from [10.100.102.14] (85-250-24-41.bb.netvision.net.il. [85.250.24.41])
-        by smtp.gmail.com with ESMTPSA id z17-20020a056000111100b0021e4829d359sm1872237wrw.39.2022.08.17.08.39.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Aug 2022 08:39:45 -0700 (PDT)
-Message-ID: <07488a82-10aa-2d06-f7e9-fab7bcaf5e8e@grimberg.me>
-Date: Wed, 17 Aug 2022 18:39:43 +0300
+	id 1oOLce-003eQJ-SF
+	for linux-nvme@lists.infradead.org; Wed, 17 Aug 2022 16:10:26 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1660752622; x=1692288622;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=tGXL1veMClRR6J6COmjOo7zqJDj1I9afT5K0DiyexSs=;
+  b=pnXMLQfrMc4x/G8Nn/NtSmzBND7NQlsCnsyYAIopR3gpWeddARRxj342
+   IYXwv1F01b4Jivrbu45Rxn2arVLCRt4IsvC3wvyMkfamZBSSOIyeMO/tp
+   ft/97NhCh56Q5jpqRN5gUCNBmTxa93kV0KwLlpzmSLMyaBYI8cLTfSoay
+   y+6PcUuLLhk4BbTwsfKp6fLyjz4VqYANAWRQi0eaHTjWuXsm8cRgGvgTn
+   QaOCwHnUbNK3KwpwPPDAoz4ogIr2p4jAR3KLp8iAOlMrnkmgjUoAPQKwK
+   BZPmGeK55Q2VWbwOSgQMiniNOvLwjcN0btnYflaIzyENTDcLK8ecPs0fc
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.93,243,1654531200"; 
+   d="scan'208";a="208955154"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 18 Aug 2022 00:10:16 +0800
+IronPort-SDR: 8Hx65kUeOKfSJ4Z8ICsnecB7AGDCP1KviK4ZowbaFLQT8NcLGv8U99uVgPA3vb675OASrTbHQq
+ j7Qhxqz1VkQSR+a0db+j913kjfpxMznjkp/0mH1LHJ2NZJr4qrGOh9bZAS2kEBefXVAYbeUwbf
+ E34B9lDERrnmIBGOPzXiATtbMyo4sO6inOF2oF1zwE2kGZGsFTPbpCQ7lyLiWkL9KftpMK/lCw
+ ZTyDvbVAjW+Yjh0O+bxFCB0o9QVT8ak0qvL71ECwHrY4WApNrIYdX1396la+l9shyeerEKUYWw
+ hrqWr49zIU586Ku/tB4l8rJd
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 17 Aug 2022 08:25:46 -0700
+IronPort-SDR: +0iTLo2yjIQRFbDSWLH3LFc6uK2GVrhDnCnJWNkWFVjsC3VP7Hlef3cbGupmeKR54PcJYZkhzc
+ /FJCvpJmsKlKkv8StxgcbighGuTP7W5qRuIy0ndj2YfMR68hLRHWFtzkngumLh3NbBqUquaBfE
+ TUZL5HJvWOStDm8VARtpAmRQ9V9LyT//WzndSlj1IM93hMgRDEJG02jf3oILjidNYZwlimi4hN
+ Vc7pMb8BmHQVlzAOkfRJKLWv75NplTzGEZcjT1z9vL423X6zTbNwswf80vzkAnsY0MsNM9zwUs
+ 8CE=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 17 Aug 2022 09:10:19 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4M7CfL2WlHz1Rwnl
+	for <linux-nvme@lists.infradead.org>; Wed, 17 Aug 2022 09:10:18 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+	reason="pass (just generated, assumed good)"
+	header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+	opensource.wdc.com; h=content-transfer-encoding:content-type
+	:in-reply-to:organization:from:references:to:content-language
+	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
+	1660752617; x=1663344618; bh=tGXL1veMClRR6J6COmjOo7zqJDj1I9afT5K
+	0DiyexSs=; b=m9BkyA42lhKQOlCHS75npA6KAXx1QnGZcXPa+ScENhVWJDJNb7B
+	CA4xAIg2JLIQh1qDtAFUfRAdEgicNU7AzvGl1UX407LVeNHE65d+ytCK6hieUVyP
+	GfegZ1iiJLB6FcIM+/XCOJO7XUf2WX7xe7nJat0qikxM2uttvMxMvTRO3z7r6ERf
+	ywpSS5GyDiYyH5Of0AxXUKuEzNQGyHY+oEQHV1sxk6T1Gk/2q/GT7quFCU/K4TUD
+	dfYtsC3MKMsJlsS/IgqSjBoNzukrcw9g15hSBhwy2cI7TC86JIrtSHtbDD025sK3
+	K8pihhaJ2GB2m9/g249orQLFyIo8N6bv99w==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id etXy6aUaOQ08 for <linux-nvme@lists.infradead.org>;
+	Wed, 17 Aug 2022 09:10:17 -0700 (PDT)
+Received: from [10.11.46.122] (unknown [10.11.46.122])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4M7CfJ44Fbz1RtVk;
+	Wed, 17 Aug 2022 09:10:16 -0700 (PDT)
+Message-ID: <840ce5cf-32d5-d694-cb79-2df871a607c9@opensource.wdc.com>
+Date: Wed, 17 Aug 2022 09:10:16 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] nvme: don't flush scan work with non-idle request
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.12.0
+Subject: Re: [PATCH v11 13/13] dm: add power-of-2 target for zoned devices
+ with non power-of-2 zone sizes
 Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>
-Cc: Chao Leng <lengchao@huawei.com>, Keith Busch <kbusch@fb.com>,
- linux-nvme@lists.infradead.org, hch@lst.de,
- Jonathan Derrick <Jonathan.Derrick@solidigm.com>
-References: <20220812182147.1564958-1-kbusch@fb.com>
- <e034ba1d-b43e-6813-37b8-7b341dbdb573@huawei.com>
- <35b13f23-25fd-cff6-1e79-7f8d5ef3790f@grimberg.me>
- <Yv0ETKzC9QUDUvKI@kbusch-mbp.dhcp.thefacebook.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <Yv0ETKzC9QUDUvKI@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Pankaj Raghav <p.raghav@samsung.com>, axboe@kernel.dk,
+ snitzer@kernel.org, hch@lst.de, agk@redhat.com
+Cc: pankydev8@gmail.com, gost.dev@samsung.com, matias.bjorling@wdc.com,
+ hare@suse.de, bvanassche@acm.org, linux-kernel@vger.kernel.org,
+ dm-devel@redhat.com, linux-nvme@lists.infradead.org, jaegeuk@kernel.org,
+ Johannes.Thumshirn@wdc.com, linux-block@vger.kernel.org,
+ Damien Le Moal <damien.lemoal@wdc.com>
+References: <20220816131536.189406-1-p.raghav@samsung.com>
+ <CGME20220816131551eucas1p218faf35348e78a73aaa87d5477ecdb2e@eucas1p2.samsung.com>
+ <20220816131536.189406-14-p.raghav@samsung.com>
+ <30790cae-5440-2447-a8b8-52a57fa16fa5@opensource.wdc.com>
+ <ab3ef674-c453-5b38-80b5-f41dcfed62bb@samsung.com>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <ab3ef674-c453-5b38-80b5-f41dcfed62bb@samsung.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220817_083949_367297_C7F8CD36 
-X-CRM114-Status: UNSURE (   9.78  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220817_091025_127053_97ACE324 
+X-CRM114-Status: GOOD (  13.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,22 +124,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>>> +    /*
->>>> +     * Ensure the namespace inventory is up-to-date before returning if
->>>> +     * this command can change it.
->>>> +     */
->>>> +    if (ret >= 0 && effects & (NVME_CMD_EFFECTS_NIC |
->>>> NVME_CMD_EFFECTS_NCC))
->>>> +        flush_work(&ctrl->scan_work);
->>> Maybe it is better to move nvme_queue_scan together here.
+On 2022/08/17 0:35, Pankaj Raghav wrote:
+> Hi Damien,
+>>> + */
+>>> +static bool bio_in_emulated_zone_area(struct dm_po2z_target *dmh,
+>>> +				      struct bio *bio, int *offset)
 >>
->> I agree, why not move the scan here as well?
+>> This function name reads like it is a block layer helper. It mat be less
+>> confucing to keep using the dm_po2z_ prefix for it.
+>>
+> Good point. Even though it is a static function in the same file, it could
+> be confused for a block helper at the caller site.
+>>> +{
+>>> +	/*
+>>> +	 * Read operation on the emulated zone area (between zone capacity
+>>> +	 * and zone size) will fill the bio with zeroes. Any other operation
 > 
-> Then I'd need to duplicate this to nvmet_passthru_execute_cmd_work(), and I
-> didn't want to do that. :)
+>>> +
+>>> +	return DM_MAPIO_KILL;
+>>> +}
+>>
+> Do you see any more issues apart from the two you pointed out?
 
-Got it,
+nope
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+-- 
+Damien Le Moal
+Western Digital Research
 
