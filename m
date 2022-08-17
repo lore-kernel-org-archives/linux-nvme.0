@@ -4,80 +4,142 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C3B1C32771
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Aug 2022 18:45:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 167A4C25B08
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Aug 2022 23:42:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=xGU9QalusRdz0W9hKf9EB+6UjNuyQWtvR/GW+P/WHUw=; b=f2CP8irvVX2tNS5JGXUK2lp/Tm
-	qfTB2N6Yv4w8KL7LX3csdf+Fqk7MEgXZ+5mmpteEGhik9f2XMYmqBs7+KLop3HMdhdXknRMQzjm8d
-	l9E4Loyzbk8E3CBJ9ukR9rtOPZ4Cj1TQjHALMmO4PjxTfFpDfGmU4pmlpyGb885ZT3PhUZWN3kVuH
-	OP0lHm7zZz0bD98iRMmZ0AqkbGI0o/3KMrGrkPjuWoSVlVFvvSe3Y3FsEZfwFsbwy8U3G/2V7an0n
-	6sP+ZDjL82W03BKYpSKGm9rSuFn36o3CVFaQfXtsIh7lKd3aYJRMCCSX3qP1MRD/tgpWZGD0wnE6b
-	+Rv39+ZA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9loWoYNFevlsgf75CzJ0e9r6eaXQHX4IEZQp75GFLRw=; b=YJRQHzFKQQrUwzA4nStWgIQLXj
+	+mABXlUxlIr64vXYnB8K4FALBbWQm3ZR2Dg1PkErxiOidbL8dk1lzfYwHeYl190Seko3ltec3INkH
+	TruBJUd84eDC+PbuxBlhdLIbtk7OGsXZpBkm9WK7whTEn4w02i2taqlrmNvHPGm55UnxVBAKAt0yq
+	UMu89sFjLJxD3MDEJDErz8UnFblgQrOiXtDKI/CbR0Qkszt+3Wj84S/+dZu9FCSX4avEVYYkRWMZZ
+	J0/DkyxzCJetFs0e+BjUr9AdF4z8KyOz+atuBE2AAxSDC59s3xGUVdTZiWl8SeBPNnzTKvgV8GFX6
+	MZybUQ4g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oOO2o-005Dzk-02; Wed, 17 Aug 2022 18:45:34 +0000
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
+	id 1oOSgV-008eot-0C; Wed, 17 Aug 2022 23:42:51 +0000
+Received: from mail-dm6nam10on2075.outbound.protection.outlook.com ([40.107.93.75] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oOO2k-005Ds1-OR
-	for linux-nvme@lists.infradead.org; Wed, 17 Aug 2022 18:45:32 +0000
-Received: by mail-ed1-x52a.google.com with SMTP id r4so18612044edi.8
-        for <linux-nvme@lists.infradead.org>; Wed, 17 Aug 2022 11:45:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=xGU9QalusRdz0W9hKf9EB+6UjNuyQWtvR/GW+P/WHUw=;
-        b=UFDIuYFY1k8+fk1hDuKvDWb2fyjxcvEPEJdw2+VK5IwzA3fGcWVBtydYoCc9Jz0qgH
-         wf/Ivhl/hMejcR+6haJyBF+jAl6tORW7jX97VGmaOgVAAS9T8Q1WMNtwxVzlw+sqV0DM
-         3xs1FkAt6tB3/0gNIn+5Y/rLSHozCz0Jjrn7kVlnI41wP0s7ZI+TAj9upAr55PRrerCU
-         Qd3KGIL0mIv8uFQhhzwgSrp4W2hoUMt0H6QOm97b3yHxdWBxjYW14VTfKu1rgjUaLdYH
-         AuRMDRShgIkhuNClu8q2lvnHHvl/tRsM1uEadix1ZSdGMyW4l0zFipkNPbSXOVKajq4k
-         6ipA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=xGU9QalusRdz0W9hKf9EB+6UjNuyQWtvR/GW+P/WHUw=;
-        b=mIMJoc2uVWKOqkqYPBwJMXbNWGuW1FMI2xuFdhQ7eGCEESf0mcCfxguSp5mCpy7WlL
-         wIX+TBrVgb4NoAqHXYWr1f6/H5bdKwZGgP7SpO+Kyj2dhphGJJre+C1Lw2MP2kPrnj65
-         PYCTuuq6fP+EeJ0bJuleM3yXVTOjUnPpB6CtwyA2hK1D9/tRDnV7gjRqSr5rT4oR3gxX
-         sqvGQAkT0ds/N6Jj9pgwd0qYSbXABs+npWU9mJul4hHmXxwasPf1KLaHezghByBWz0J/
-         QJCG3ujL3U5gTYHo7R1AM6k/gjI51CEWGFTBlyA3Gu0B7aODNwO072T4mzdZ33hNsjPq
-         xsJg==
-X-Gm-Message-State: ACgBeo3DD865yShtYPOTFhxG4PaFn/D9Rh7V72TQrKw73z+9RlhD9huO
-	1+R29M0SKdz2pM2sRFbcb0I=
-X-Google-Smtp-Source: AA6agR5zgDfueJg8rk7ZyXHB/d3TWt3aCmNp/ioebSxEicV6/TaYp4vTbgxI/8z/q1nGKBfvTKd5WQ==
-X-Received: by 2002:a05:6402:3881:b0:445:f8bf:5a1c with SMTP id fd1-20020a056402388100b00445f8bf5a1cmr1127787edb.13.1660761926704;
-        Wed, 17 Aug 2022 11:45:26 -0700 (PDT)
-Received: from localhost.localdomain (host-87-17-106-94.retail.telecomitalia.it. [87.17.106.94])
-        by smtp.gmail.com with ESMTPSA id fq15-20020a1709069d8f00b007306a4ecc9dsm7211975ejc.18.2022.08.17.11.45.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Aug 2022 11:45:24 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Ira Weiny <ira.weiny@intel.com>
-Subject: [PATCH v2] nvmet-tcp: Don't kmap() pages which can't come from HIGHMEM
-Date: Wed, 17 Aug 2022 20:45:19 +0200
-Message-Id: <20220817184519.25141-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.37.1
+	id 1oOSgS-008eit-AO
+	for linux-nvme@lists.infradead.org; Wed, 17 Aug 2022 23:42:49 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=M+9uk7kd2fognMh92/Uu8TFV+G0F1N+kggKGa8ifUOOQ0jaMa0xpc1C3qxoxhtRWqNXUpO3c6ZYNVtKlCFV4ebgSQultmSrXtPUhNUkaFuP96DQOgQfsIpfDGuwKdjsivar+4SlKzZPGJGC2juxQNUU94qm/PQDDbmZMiHXsdXhu15aqAjpdKil3DvkAyb83YoNcPz1Zwn9kZdG0yll/BstMA7kcXewwTsE0LA02YPAR/fzUOskNgYDjIO9XhfgzH/DVLz+bOoLYcffio+0FwT7xJGfsn+OgGa+GHYsfSYgjM0R0QtJqkPoIwF8iCRS7PL4qpXcfprbGZO3Q1HjGBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9loWoYNFevlsgf75CzJ0e9r6eaXQHX4IEZQp75GFLRw=;
+ b=DqxmQvbEaxWdM7rDpQpaCdU87vtkDuaN2IZgKgLzgixpqmn2XryXqcD8nDz0SIi7BZlH96xoD8GOd3yPs4DRkwWFfMHpLJh3jhZmxQhNKKOZfs3WvtxJwRCDaGOZyNnD/rM9xJqAIbTz6LVUk6TcNxHV+/52g9T5abGiPziqOd/lWQKZs5x4Bkr0Jx7caUbhZIdMoEaW7g7bmDudc+WOwL00KbylSZKV7xpBD6BbVOgRauh34I4pjDk3EAhIHH2ubvi726chPN9GYZm7l0zqjWwMsgIyfJsr9NTxNVDOfHx5W795zp8Lcn8Yv26/GXX/kdD/ajd+Xk6eFq1J7Gqsiw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9loWoYNFevlsgf75CzJ0e9r6eaXQHX4IEZQp75GFLRw=;
+ b=PocfqPqM6s6diyNxsUvrDCmpnKIEoBiZoFTckHzitJZoEhAG8aYwU71Q0EBrrI2y3Oi1yCbiHC4vLYXJQ9WLSF7Py+9gUEzUoZKOEsM5a2CByoIKVmCle8sAuRvK5PP9ySSs0A6OTJssnzxSD9PzLq++zXFFTgmK4pO919E8dzT2e1Fkl2SKwviGnp13fa2yJKh9mWW+v2RrwYP5pRumXqm1x1H2g9GRxj55Y+qNL6NDEeemeWx1pyRjlhV8xmUpBFZlylxpbteiGnA+YMT2OaPQdUaa1WpDH5hIkdjijWGCkabZYPAhWT1cJs603wHERuty1SxwVWPWpDsrmuJHDg==
+Received: from DM5PR12MB4663.namprd12.prod.outlook.com (2603:10b6:4:a9::26) by
+ MWHPR12MB1567.namprd12.prod.outlook.com (2603:10b6:301:d::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5504.15; Wed, 17 Aug 2022 23:42:39 +0000
+Received: from DM5PR12MB4663.namprd12.prod.outlook.com
+ ([fe80::b4ab:4d63:1cdd:b051]) by DM5PR12MB4663.namprd12.prod.outlook.com
+ ([fe80::b4ab:4d63:1cdd:b051%4]) with mapi id 15.20.5504.025; Wed, 17 Aug 2022
+ 23:42:39 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Sagi Grimberg
+	<sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, Ira Weiny
+	<ira.weiny@intel.com>, Christoph Hellwig <hch@lst.de>, Chaitanya Kulkarni
+	<chaitanyak@nvidia.com>
+Subject: Re: [RFC PATCH] nvmet-tcp: Don't kmap() pages which can't come from
+ HIGHMEM
+Thread-Topic: [RFC PATCH] nvmet-tcp: Don't kmap() pages which can't come from
+ HIGHMEM
+Thread-Index: AQHYsVEedeiw0ct5d0K1OQCxtBxFsK2x4hWAgAD3FICAACbEAIAAw4EA
+Date: Wed, 17 Aug 2022 23:42:39 +0000
+Message-ID: <960e89d2-b32a-4da7-97fe-7157f905fa9f@nvidia.com>
+References: <20220816091808.23236-1-fmdefrancesco@gmail.com>
+ <YvvpJbOT9iv6rnm2@kbusch-mbp.dhcp.thefacebook.com>
+ <c11e62ae-3439-e3e3-adba-d7f5f951791c@grimberg.me>
+ <3177256.oiGErgHkdL@opensuse>
+In-Reply-To: <3177256.oiGErgHkdL@opensuse>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 230f2d12-6a2d-4fdb-3d07-08da80aa2bb3
+x-ms-traffictypediagnostic: MWHPR12MB1567:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  YY9A4ECr9sFi+i4yyAI5bskLq0WQGQx7rwQvbuM6gmFLGLj/GvAlEqMGIspMurO6VBNwKHdiLUR/LMtRWfMBEOTKvv6M/oMTT32LbmjveGfsXhsWcw3mWc+WK+4OPstrR/7Q5zBsWD8n9F3w++qxrl6bfREgNF3iTLcKr19uTW/C7/UOqg0ZQ1BNfhx09hX6jxlI+kwUbw6+iRLhQToG0Ww2ihch3HOVbOToVqvWvlj+/BGTlsJLMNeX5ZLqJ90JQwSSA+7tbwwn6PoNQ+JkPKXg0eLYei1ZqSF12uK9Edl7ToJww2mta3xXkhSp95AFpqPfGSRZiCbFLQCJI/9OYfRxFvUWi+V783x7MLX3MWKBbHJsVwqh6KVc7Xbs/3O7pPpV70nYgrClfBLstz9AtjOOycxpHA2p5STSqw1VKMkGXnC6EvCheJlO2sfMjhDIIqL0U2i2QR87ZWhfrPmlEoEmFuNJOguRycZwXl3wyJWtI0eaewADV+YmhY5bCbT+ogPE3xzYFBqjfMt224mqkJeTXwDnbugvVkxtPOPydoVhLQlfL9LornXQ7gyIZ0h4KS1IsbcYeak/2jewtRXn/qQ4MTcfTldc140ApEJmnm3p9F3iKwgEaS4qjsN51olYXJ6skRuroM2FIOprRlpdOu4Xqdh5QHipe3j5zv4VF0XwrRvy+UHXqZXOLC9p2tG+ErHxK+C1DR3+JpAEsXIcCy7ne5Y0PRKyC3KzVeg9SKFfblyQDabkAUu1ubVrroXbcQ3OJbWrNen0NVsxJVWHvXby3WCcCZJETm7u/rAvcs337+4n8wq2uOa9g+MyKvjgBtkvk4kFdGxrsYS1J8pzgA==
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR12MB4663.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(366004)(346002)(396003)(39860400002)(136003)(6512007)(186003)(2616005)(6506007)(107886003)(36756003)(71200400001)(478600001)(6486002)(41300700001)(31686004)(76116006)(31696002)(4326008)(86362001)(38070700005)(83380400001)(91956017)(8676002)(122000001)(316002)(2906002)(5660300002)(8936002)(66446008)(6916009)(66556008)(38100700002)(64756008)(66476007)(54906003)(66946007)(4744005)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?VE92SXBpdHdBd0owaGVYMFlVcVZkOTFOVnJKTUI4ak94SE1SZ3hvOEt2SnVp?=
+ =?utf-8?B?Wk9SemhZclV1RXpqRVplUXU4dVJnOGpKaFluakNBUy81Uk5QekxOSDlMWVZD?=
+ =?utf-8?B?VjlDaTIxelFpUHZHdE1QWktmVTB2WEtiOVg3RklVVDVuRWtHVHAwN2JFck96?=
+ =?utf-8?B?RWk2Sy9SUWRQNlZEK0k0bnY0blZnUEducm4vejVCTFU4TmVDMXcxMWo2TkNU?=
+ =?utf-8?B?L2ZOUGEwNDhVUEt2ZXpUZ1lGQnR4MEpKK01LZ3JtZHVtV0JjdTZlSVgwbEg3?=
+ =?utf-8?B?d21tSzZ2OXYxWXhqYS93ODg4RW5YMEVlRmY4ODlNQVYxQmJ2VmdWT21ha2ta?=
+ =?utf-8?B?eFVhNkw0WkhpdzRCdGhIUjNwdVAvbWNkOXhQdnY0RW9ySlBLU1hubXo0UUNV?=
+ =?utf-8?B?SDlNNGUvUGpINzhHaXN0UDFMclk3TGN3N1lNSHBZN1NDTkpVZ0NIUUw0Z000?=
+ =?utf-8?B?Ymw2Mjc3cVJNN1RpV0pRY3hOVSt4UHh2cnZLMTJwWmR5c1o3aFJPb2JZTWwv?=
+ =?utf-8?B?eDlnZm5XTXFSb1VsbDQwLzdnaFZIMzlmS1BScVNGMWptT0p0WXlvUlFSeHBx?=
+ =?utf-8?B?VnliVlBNb1F6ZjlCSWd5ekFGYnlDblFNTTVvMTRIcDFXWm5hSGtkaDVHb0t1?=
+ =?utf-8?B?SDk5QS9jc2cvdWJJdS81WnZEZDl6S2lhWXcyaWI0UkZJMDhGS296WnN0WE1w?=
+ =?utf-8?B?eEZtOFUvTy90RGgycnJQdDVlbzV1cldSVERjbWIyS0dDMXZORkhzKzFBNjlW?=
+ =?utf-8?B?d1pLL2tDNmIxVnI0ekNXSDVYSlRIcC9pdEg1RjhxY3ZGekdtQTdiRDdEU1lt?=
+ =?utf-8?B?T0FKMkxFQ0FjczErMkt4dklSU1VNSU9VemdzN2lrRXZkdUtJNFN6NWZyUkxr?=
+ =?utf-8?B?S3owczUzdjVuK2c5QzV3ajFsd1VVSXFNTCtSWmdNNWdBYzQ4YTNWSVlubUVF?=
+ =?utf-8?B?RE9wNDczbk1jaHNIcTFjSExMSm9CN0dYNVU2dGJjbS8xYzN4RVhCQ29EM2J4?=
+ =?utf-8?B?ZTVpVHRVK2t4UUFKUVlOV0FxYjhlN01KQ1VmKy9hOWRwSDB2TDVCRG9TUENJ?=
+ =?utf-8?B?Y1ova1NWWFhQSE5RdHFoemQxSXNmUEcrWmZyaEE4WDZ0SXc3dnROTEozSmRJ?=
+ =?utf-8?B?UVQ3RVlXdEZCdC9MUDNkcjJmWTNpeG4xOE4xelh1M0JCWW53R3BpQk8rVVpQ?=
+ =?utf-8?B?VkgrSGw4cVEzM3ByekIyQjdoQmRaN3hXK3pUZ3pkSGR3bXF2WEYvSW5WWHVJ?=
+ =?utf-8?B?SzhqY0dlNy9WVnFhOTcxY094SHQ5WkV0cy9lM3pyU3BKYkVYd01qZSt0a0lF?=
+ =?utf-8?B?dFp1M0N5U2ZINHNhODJDbmhvb0NsTlFESm9jN3RtWHVnNzF0VGlCSDhHTFRH?=
+ =?utf-8?B?ZUltOVBaVWhHZWM2L0NGaWhEU1NGc2hZTFByVU02SzVCTS9tcVNrNTBLMzhM?=
+ =?utf-8?B?dTM4OFZUSHJ4WDVwZmFZOTNSdFE0Yld4Wmx2ZkpVT0RjYkI5dWQ4bkRWVnRx?=
+ =?utf-8?B?ZlNySFFWcWlxcFFvWkZicm51dVNUSlVkQzc3VStRRTZ0RXorUWkrNEMxSHls?=
+ =?utf-8?B?cVIwTmJvdnpGYUYxc2pFUWZFakdtVGNlb0dtS3B0SDVTMXAxazgyZkdDdlEw?=
+ =?utf-8?B?MDI4eExaUUJGczN4SGNFaXg4TW5wUTIvcHc4WFdtaHJzTWNCVjQzRzgvZElO?=
+ =?utf-8?B?S0xOYkc3QnMrRjJxbW0vV3dJTm9JcS96dnJuVHp0Mnowc2FQQWtBSlh6cVM1?=
+ =?utf-8?B?dUk3QWJZTG1FK2pmb3BDaTgxRzVlSGRRdnBJdnE0TVZHQk95UUxsaEFBSVM0?=
+ =?utf-8?B?cjh1Y0h0TVV5Z0dXL0VXQ0cyR1pPdjB3blduWCtYbDU5VnFwRnlON3dHakYy?=
+ =?utf-8?B?cnJRN2FwR2VkT1J0SExrYndlS0VQRXFQWUg5YmV3ZTU5WktVTi8vbDF2bm5H?=
+ =?utf-8?B?b1RjbGQ0bWdMVEIwZE5RTjBnaW0ydnZ1VEVVb0N6N1FjNlJZcEVBbmlla3RY?=
+ =?utf-8?B?QWxsSlh4U09JWmovbmJGUVBZT2FlRTk0cGQ4cFpaMlJha09iVzlPZDdLaEIx?=
+ =?utf-8?B?UEhQRnk1TlVNNnNhK3ZocVdWY1BWRDFKcTYxTjlFQnk4b0NTSC9TTy9LOFhn?=
+ =?utf-8?B?a3BMc1l5ejF2OE5icGVVSjNtQmlIQzBWUXFBeFlPN0tqRkIvYldiRng5UEdq?=
+ =?utf-8?B?V2c9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6EA3DD37AA6EA141AE55D7FF7251D739@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB4663.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 230f2d12-6a2d-4fdb-3d07-08da80aa2bb3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Aug 2022 23:42:39.1996
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: KQGaRFtDcwZ22WJjkJExc17ew8HvHjZC5rD4V1as8h2ymUlzxUaumgeX7KSC4eU996KiQN29bQaBKPnYntRV/g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1567
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220817_114530_887561_8C2BA4EB 
-X-CRM114-Status: GOOD (  17.97  )
+X-CRM114-CacheID: sfid-20220817_164248_412967_A053D8DA 
+X-CRM114-Status: UNSURE (   9.99  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,149 +154,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-kmap() is being deprecated in favor of kmap_local_page().[1]
-
-There are two main problems with kmap(): (1) It comes with an overhead as
-mapping space is restricted and protected by a global lock for
-synchronization and (2) it also requires global TLB invalidation when the
-kmap’s pool wraps and it might block when the mapping space is fully
-utilized until a slot becomes available.
-
-The pages which will be mapped are allocated in nvmet_tcp_map_data(),
-using the GFP_KERNEL flag. This assures that they cannot come from
-HIGHMEM. This imply that a straight page_address() can replace the kmap()
-of sg_page(sg) in nvmet_tcp_map_pdu_iovec(). As a side effect, we might
-also delete the field "nr_mapped" from struct "nvmet_tcp_cmd" because,
-after removing the kmap() calls, there would be no longer any need of it.
-
-Therefore, replace the kmap() of sg_page(sg) with a page_address() and
-delete the "nr_mapped" field from "nvmet_tcp_cmd" and instead pass a
-local variable to iov_iter_kvec() from the call site in
-nvmet_tcp_map_pdu_iovec().
-
-[1] "[PATCH] checkpatch: Add kmap and kmap_atomic to the deprecated
-list" https://lore.kernel.org/all/20220813220034.806698-1-ira.weiny@intel.com/
-
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: Keith Busch <kbusch@kernel.org>
-Cc: Sagi Grimberg <sagi@grimberg.me>
-Suggested-by: Ira Weiny <ira.weiny@intel.com>
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
-
-v1->v2: Use a local variable as argument of iov_iter_kvec() instead of
-the removed "nr_mapped" field from struct "nvmet_tcp_cmd". Thanks to
-Sagi and Keith who noticed my mistake.
-
-Many thanks to Chaitanya, Keith, Sagi, for the answers and the comments on
-the RFC which led to this patch. The RFC is at:
-https://lore.kernel.org/all/20220816091808.23236-1-fmdefrancesco@gmail.com/
-
- drivers/nvme/target/tcp.c | 28 ++++------------------------
- 1 file changed, 4 insertions(+), 24 deletions(-)
-
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index dc3b4dc8fe08..5b839f842623 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -77,7 +77,6 @@ struct nvmet_tcp_cmd {
- 	u32				pdu_len;
- 	u32				pdu_recv;
- 	int				sg_idx;
--	int				nr_mapped;
- 	struct msghdr			recv_msg;
- 	struct kvec			*iov;
- 	u32				flags;
-@@ -167,7 +166,6 @@ static const struct nvmet_fabrics_ops nvmet_tcp_ops;
- static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
- static void nvmet_tcp_finish_cmd(struct nvmet_tcp_cmd *cmd);
- static void nvmet_tcp_free_cmd_buffers(struct nvmet_tcp_cmd *cmd);
--static void nvmet_tcp_unmap_pdu_iovec(struct nvmet_tcp_cmd *cmd);
- 
- static inline u16 nvmet_tcp_cmd_tag(struct nvmet_tcp_queue *queue,
- 		struct nvmet_tcp_cmd *cmd)
-@@ -301,35 +299,21 @@ static int nvmet_tcp_check_ddgst(struct nvmet_tcp_queue *queue, void *pdu)
- 
- static void nvmet_tcp_free_cmd_buffers(struct nvmet_tcp_cmd *cmd)
- {
--	WARN_ON(unlikely(cmd->nr_mapped > 0));
--
- 	kfree(cmd->iov);
- 	sgl_free(cmd->req.sg);
- 	cmd->iov = NULL;
- 	cmd->req.sg = NULL;
- }
- 
--static void nvmet_tcp_unmap_pdu_iovec(struct nvmet_tcp_cmd *cmd)
--{
--	struct scatterlist *sg;
--	int i;
--
--	sg = &cmd->req.sg[cmd->sg_idx];
--
--	for (i = 0; i < cmd->nr_mapped; i++)
--		kunmap(sg_page(&sg[i]));
--
--	cmd->nr_mapped = 0;
--}
--
- static void nvmet_tcp_map_pdu_iovec(struct nvmet_tcp_cmd *cmd)
- {
- 	struct kvec *iov = cmd->iov;
- 	struct scatterlist *sg;
- 	u32 length, offset, sg_offset;
-+	int nr_mapped;
- 
- 	length = cmd->pdu_len;
--	cmd->nr_mapped = DIV_ROUND_UP(length, PAGE_SIZE);
-+	nr_mapped = DIV_ROUND_UP(length, PAGE_SIZE);
- 	offset = cmd->rbytes_done;
- 	cmd->sg_idx = offset / PAGE_SIZE;
- 	sg_offset = offset % PAGE_SIZE;
-@@ -338,7 +322,7 @@ static void nvmet_tcp_map_pdu_iovec(struct nvmet_tcp_cmd *cmd)
- 	while (length) {
- 		u32 iov_len = min_t(u32, length, sg->length - sg_offset);
- 
--		iov->iov_base = kmap(sg_page(sg)) + sg->offset + sg_offset;
-+		iov->iov_base = page_address(sg_page(sg)) + sg->offset + sg_offset;
- 		iov->iov_len = iov_len;
- 
- 		length -= iov_len;
-@@ -347,8 +331,7 @@ static void nvmet_tcp_map_pdu_iovec(struct nvmet_tcp_cmd *cmd)
- 		sg_offset = 0;
- 	}
- 
--	iov_iter_kvec(&cmd->recv_msg.msg_iter, READ, cmd->iov,
--		cmd->nr_mapped, cmd->pdu_len);
-+	iov_iter_kvec(&cmd->recv_msg.msg_iter, READ, cmd->iov, nr_mapped, cmd->pdu_len);
- }
- 
- static void nvmet_tcp_fatal_error(struct nvmet_tcp_queue *queue)
-@@ -1141,7 +1124,6 @@ static int nvmet_tcp_try_recv_data(struct nvmet_tcp_queue *queue)
- 		cmd->rbytes_done += ret;
- 	}
- 
--	nvmet_tcp_unmap_pdu_iovec(cmd);
- 	if (queue->data_digest) {
- 		nvmet_tcp_prep_recv_ddgst(cmd);
- 		return 0;
-@@ -1411,7 +1393,6 @@ static void nvmet_tcp_restore_socket_callbacks(struct nvmet_tcp_queue *queue)
- static void nvmet_tcp_finish_cmd(struct nvmet_tcp_cmd *cmd)
- {
- 	nvmet_req_uninit(&cmd->req);
--	nvmet_tcp_unmap_pdu_iovec(cmd);
- 	nvmet_tcp_free_cmd_buffers(cmd);
- }
- 
-@@ -1424,7 +1405,6 @@ static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
- 		if (nvmet_tcp_need_data_in(cmd))
- 			nvmet_req_uninit(&cmd->req);
- 
--		nvmet_tcp_unmap_pdu_iovec(cmd);
- 		nvmet_tcp_free_cmd_buffers(cmd);
- 	}
- 
--- 
-2.37.1
-
+DQo+IEBDaGFpdGFueWE6DQo+IA0KPiBTaW5jZSB0aGlzIGlzIGEgbWVyZSBzaW1wbGlmaWNhdGlv
+biBhbmQgc2hvcnRlbiBvZiBjb2RlLCBJIHN1cHBvc2UgSSBjYW4gc2tpcA0KPiB0aGUgcGVyZm9y
+bWFuY2UgdGVzdHMuIElyYSBhbmQgSSBoYXZlIHN0aWxsIGh1bmRyZWRzIG9mIGNhbGwgc2l0ZXMg
+d2l0aCBrbWFwKCkNCj4gYW5kIGttYXBfYXRvbWljKCkgd2hpY2ggd2Ugc2hvdWxkIGNhcmUgb2Ys
+IHRoZXJlZm9yZSB3ZSBwcmVmZXIgdG8gbGVhdmUgYWxvbmUNCj4gZXZlcnl0aGluZyB0aGF0IGlz
+IG5vdCBzdHJpY3RseSBuZWNlc3NhcnkgZm9yIHRoZSBkZXByZWNhdGVkIEFQSSBkZWxldGlvbnMu
+DQo+IA0KPiBUaGFua3MgdG8geW91IGFsbCwNCj4gDQoNCmZpbmUgYnkgbWUuDQoNCi1jaw0KDQoN
+Cg==
 
