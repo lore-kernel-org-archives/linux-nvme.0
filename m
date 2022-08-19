@@ -4,79 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14E32C25B0E
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Aug 2022 06:09:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 932CBC32771
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Aug 2022 07:51:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5dgh0mRNVGiAT981rc+BiMLlWYrkrNgUD8IdfprQkqA=; b=t0gSAb+bwxEICltZrEf8/FR4t3
-	ceSLwLTI3cH5YH9Wt+iX89tqD8zUBY6XXE3Pe+VqZbf6fZmgUlm5SaGX11MBZHHpME49uL5INrNzf
-	iP5EbkNoCGg/pDdygw0dYDV8+Sc96IQG/9AQoCpuAQ+cN4tO3aj0ZZRXf8h1KTnv9GD4T9ba6FFFz
-	xbjfIqLIqBpQrbDVXF0w2XjobemAmh7D3qYiKDsTOfkYunQm4Y7I7n15gZx5HcsHoPL9fkWIkEJvM
-	NWtpwnvF2Y4XuDrBlrBt2uGO5B98JJiOlAULKLzoXwD9ULsrcttUiEle5EfMiG8TMI6o0o0S23YfT
-	H/HS0NiQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:To:From:Date:Reply-To:Cc:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=a+f1B4c1i+AZ2GarnN4KZY0AG5dvjKV+3OdA1Itfi+8=; b=QF1dZQH+cCPDAgLJYnzLlOUXFn
+	nZ8njAP7YtA+X7P1AFxLBYtGxPAPLy6LtTWH+Xb8pXX7tzR9jUfTfSlsYswbVly9o4Ey6r2Z8ZMXM
+	C3pKzvkqoAfwfKlph8G4Btgri/nIVLbp0iqFbLRv6uxl94bNMYZ897Z3w2G/SFVSHoTTIA+pfxnK0
+	67G+YDGLZDPrI2zRPlG3/2wYFsf5GP9Uaumtvk3GihP0AYzwYVdrMrXKdVZKo0+oHHbhgtYm5J8Wy
+	6JrLKPtrEnybkcaxSAAyBvfgnlNx9qfJjvukvW4xUeNKTD7DsWLQzsdvpHveOaIbvnMFq+rIUmVhh
+	5qngWA0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oOvCB-002BLR-Tq; Fri, 19 Aug 2022 06:09:27 +0000
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
+	id 1oOwmq-003cbJ-6b; Fri, 19 Aug 2022 07:51:24 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oOvBC-0029S7-JF
-	for linux-nvme@lists.infradead.org; Fri, 19 Aug 2022 06:08:28 +0000
-Received: by mail-ej1-x635.google.com with SMTP id gi31so488815ejc.5
-        for <linux-nvme@lists.infradead.org>; Thu, 18 Aug 2022 23:08:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ionos.com; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=5dgh0mRNVGiAT981rc+BiMLlWYrkrNgUD8IdfprQkqA=;
-        b=W5WMmy+an0THIibSKrr3bcWg4gjuYgGgd72fP/ALycZ+7+Pa0SfJykH8cr7EcbmFhQ
-         azhFHI6OBwkWgPK6ZpMfr9Om11xd/5LqmEKxVhg6en5ryfV3ZPV0QgnB/7UKMtO/gzan
-         Z//ONWSeVL4TaZpjD7YmjJpps5VFk3z3CfxYVx6wMJO+M1Zh3Z8STOFwIoBCOpMHiSjD
-         zkZxUsCZuHqQ59thjGYOvNcdcAZ2nY00mRORym3v7Fjb2NKri7WM4bq1wuFPX9Tcg/3l
-         EkQaSVW96Onm/Rz+9wbCm9GDcPL9ONsaT1bt5Ymm4kl/5J+miqTeNDeNblYHym9NerAd
-         ghVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=5dgh0mRNVGiAT981rc+BiMLlWYrkrNgUD8IdfprQkqA=;
-        b=lbZFzI9QS7pjJc2eCtBif3Ke2DchJskzTmrHbmT7XWrWB07Izt4SujH84Fmwi/MeBB
-         PT1E9iYGRC6tAjLeBMEMRs+jdoTDX6yJWtyUne8bBrqTvMYP3x+KDpliVNIP/HLbweHb
-         aGRTUZ1y1cG48nCQ89+KpLKEofTDIVy4fGl0sdJxCqnlyi9zm5rDufjqNSKnRFSbLjT/
-         q2UyCMeBaoEUfbS2xa28ntCwkTI5HFizKZ7Ngtomx7kkaVSZG0yYfLblxUfOM1CJuaiU
-         IkxFfmANbrAFaUb3RuFwNTBApD/6jh/ThwIRCBoppYyMB1M7ITz5oMyPMQRh73crdQEs
-         y9CA==
-X-Gm-Message-State: ACgBeo28bidxjygAkKgJP9GJk3kW41KbQDRqd8YBSFdC0q01ZtBeK/KD
-	MMPUdS5ARUL0tqqatS/yZc+pPw==
-X-Google-Smtp-Source: AA6agR4w+Ar1X7e4t7akiH3do+1BZFgD+ksEGLVKvjAc15jlYgFPvVhkpqkmoIXMBHOiP6bq4bnzGQ==
-X-Received: by 2002:a17:906:730c:b0:730:da74:3453 with SMTP id di12-20020a170906730c00b00730da743453mr3837859ejc.270.1660889306078;
-        Thu, 18 Aug 2022 23:08:26 -0700 (PDT)
-Received: from lb02065.fritz.box ([2001:9e8:143b:fd00:5207:8c7f:747a:b80d])
-        by smtp.gmail.com with ESMTPSA id y14-20020a1709063a8e00b0073a644ef803sm1809660ejd.101.2022.08.18.23.08.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Aug 2022 23:08:25 -0700 (PDT)
-From: Jack Wang <jinpu.wang@ionos.com>
-To: linux-kernel@vger.kernel.org
-Cc: James Smart <james.smart@broadcom.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH v1 15/19] nvme-fc: Fix the error check for dma_map_sg
-Date: Fri, 19 Aug 2022 08:07:57 +0200
-Message-Id: <20220819060801.10443-16-jinpu.wang@ionos.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220819060801.10443-1-jinpu.wang@ionos.com>
-References: <20220819060801.10443-1-jinpu.wang@ionos.com>
+	id 1oOwmn-003cZT-Gc
+	for linux-nvme@lists.infradead.org; Fri, 19 Aug 2022 07:51:22 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4FE21344EB
+	for <linux-nvme@lists.infradead.org>; Fri, 19 Aug 2022 07:51:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1660895478; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=a+f1B4c1i+AZ2GarnN4KZY0AG5dvjKV+3OdA1Itfi+8=;
+	b=nfLuL0ELMTONfib2D0sQL2NgUHuIqMGLV/VybjISAJSTK7pSTHz7EUwjlU+ttNlQvhZDoM
+	zO3kikV88VovOlZn0DDa8Wx9lc1sq/aDY4MAUxFwhOEDlHkaTi0lizMDPkh97bM+A+sAVv
+	/dR9Ak0uWdeQViGwZl4ucmOObtnWHpw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1660895478;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=a+f1B4c1i+AZ2GarnN4KZY0AG5dvjKV+3OdA1Itfi+8=;
+	b=03/gcx7ysYWfudMOd4gybmw1tmMcglf63v9NVrDc+McgZ+r4MfOrJ1OAMLMS360WQ//LOn
+	fYZFV6BD/7rR2oDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 410D813AC1
+	for <linux-nvme@lists.infradead.org>; Fri, 19 Aug 2022 07:51:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id x1/YD/ZA/2JjVwAAMHmgww
+	(envelope-from <dwagner@suse.de>)
+	for <linux-nvme@lists.infradead.org>; Fri, 19 Aug 2022 07:51:18 +0000
+Date: Fri, 19 Aug 2022 09:51:17 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: linux-nvme@lists.infradead.org
+Subject: crash at nvme_tcp_init_iter with header digest enabled
+Message-ID: <20220819075117.rzvbecyvh2wuwokj@carbon.lan>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220818_230827_629415_B1BD5F57 
-X-CRM114-Status: GOOD (  17.16  )
+X-CRM114-CacheID: sfid-20220819_005121_745613_D2A363B5 
+X-CRM114-Status: GOOD (  12.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,52 +81,95 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-dma_map_sg return 0 on error, add missing check.
+Hi,
 
-Cc: James Smart <james.smart@broadcom.com>
-Cc: Keith Busch <kbusch@kernel.org>
-Cc: Jens Axboe <axboe@fb.com>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
+we got a customer bug report against our downstream kernel
+when doing fail over tests with header digest enabled.
 
-Signed-off-by: Jack Wang <jinpu.wang@ionos.com>
----
- drivers/nvme/host/fc.c   | 2 +-
- drivers/nvme/target/fc.c | 5 +++++
- 2 files changed, 6 insertions(+), 1 deletion(-)
+The whole crash looks like an user after free bug but
+so far we were not able to figure out where it happens.
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 127abaf9ba5d..95050f2e0a06 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2616,7 +2616,7 @@ nvme_fc_map_data(struct nvme_fc_ctrl *ctrl, struct request *rq,
- 	WARN_ON(op->nents > blk_rq_nr_phys_segments(rq));
- 	freq->sg_cnt = fc_dma_map_sg(ctrl->lport->dev, freq->sg_table.sgl,
- 				op->nents, rq_dma_dir(rq));
--	if (unlikely(freq->sg_cnt <= 0)) {
-+	if (unlikely(!freq->sg_cnt)) {
- 		sg_free_table_chained(&freq->sg_table, NVME_INLINE_SG_CNT);
- 		freq->sg_cnt = 0;
- 		return -EFAULT;
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index ab2627e17bb9..3749ca28860b 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -2089,6 +2089,11 @@ nvmet_fc_alloc_tgt_pgs(struct nvmet_fc_fcp_iod *fod)
- 				((fod->io_dir == NVMET_FCP_WRITE) ?
- 					DMA_FROM_DEVICE : DMA_TO_DEVICE));
- 				/* note: write from initiator perspective */
-+	if (!fod->data_sg_cnt) {
-+		sgl_free(fod->data_sg);
-+		fod->data_sg = NULL;
-+		goto out;
-+	}
- 	fod->next_sg = fod->data_sg;
+  nvme nvme13: queue 1: header digest flag is cleared
+  nvme nvme13: receive failed:  -71
+  nvme nvme13: starting error recovery
+  nvme nvme7: Reconnecting in 10 seconds...
+
+  RIP: nvme_tcp_init_iter
+
+  nvme_tcp_recv_skb
+  ? tcp_mstamp_refresh
+  ? nvme_tcp_submit_async_event
+  tcp_read_sock
+  nvme_tcp_try_recv
+  nvme_tcp_io_work
+  process_one_work
+  ? process_one_work
+  worker_thread
+  ? process_one_work
+  kthread
+  ? set_kthread_struct
+  ret_from_fork
+
+In order to rule out that this caused by an reuse of a command id, I
+added a test patch which always clears the request pointer (see below)
+and hoped to see
+
+   "got bad cqe.command_id %#x on queue %d\n"
+
+but there was none. Instead the crash disappeared. It looks like we are
+not clearing the request in the error path, but so far I haven't figured
+out how this is related to the header digest enabled.
+
+Anyway, this is just a FYI and in case anyone has an idea where to poke
+at; I am listening.
+
+Thanks,
+Daniel
+
+
+
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 98cc93d58575..bfadccb90be6 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -847,6 +847,13 @@ struct request *blk_mq_tag_to_rq(struct blk_mq_tags *tags, unsigned int tag)
+ }
+ EXPORT_SYMBOL(blk_mq_tag_to_rq);
  
- 	return 0;
--- 
-2.34.1
++void blk_mq_tag_reset(struct blk_mq_tags *tags, unsigned int tag)
++{
++	struct request *rq = tags->rqs[tag];
++	cmpxchg(&tags->rqs[tag], rq, NULL);
++}
++EXPORT_SYMBOL(blk_mq_tag_reset);
++
+ static bool blk_mq_rq_inflight(struct blk_mq_hw_ctx *hctx, struct request *rq,
+ 			       void *priv, bool reserved)
+ {
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 78cfe97031ca..f9a641fb7353 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -504,6 +504,8 @@ static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
+ 		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
+ 		return -EINVAL;
+ 	}
++	blk_mq_tag_reset(nvme_tcp_tagset(queue),
++			 nvme_tag_from_cid(cqe->command_id));
+ 
+ 	req = blk_mq_rq_to_pdu(rq);
+ 	if (req->status == cpu_to_le16(NVME_SC_SUCCESS))
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 1d18447ebebc..a338ec65f3c8 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -470,6 +470,7 @@ struct request *blk_mq_alloc_request_hctx(struct request_queue *q,
+ 		unsigned int op, blk_mq_req_flags_t flags,
+ 		unsigned int hctx_idx);
+ struct request *blk_mq_tag_to_rq(struct blk_mq_tags *tags, unsigned int tag);
++void blk_mq_tag_reset(struct blk_mq_tags *tags, unsigned int tag);
+ 
+ enum {
+ 	BLK_MQ_UNIQUE_TAG_BITS = 16,
 
 
