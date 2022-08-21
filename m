@@ -4,75 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F89DC32772
-	for <linux-nvme@archiver.kernel.org>; Sun, 21 Aug 2022 15:05:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 637B1C00140
+	for <linux-nvme@archiver.kernel.org>; Sun, 21 Aug 2022 15:12:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=h6HHRBszP1qSaglLBv4CHXp3Ol6/zrgby+DBPe5JflQ=; b=wXx9j3joYHtnsGpZYrDbAcd8he
-	zT7cYWLTRgLYTBFhxOkQhU9yErg9mPcKjVyqejkY1JQJ4SW6yUIF1RKyrPUiWfoutvM/eOVrfTEf8
-	vhOdcIoRinpmiAMBM+2g9qLjruecZcbAV1u8t1Yp2bmJl9W/Th2XicTnbChkMGRNrohtcxre0iJ5P
-	EUoQ5N+jjnFbTW5JAVWR/MnKDUaE+/twkNefUemZuCuS1xc2WVXBpuH4ZEHsb5ffaBGCaFZ2ETZml
-	ktZJV1Bgl4k21HJMkYWfoMV/aqmdbAKKv0AIenmEgQH/GnuHwNkFx+asQODANCTcqxxswLL1rFBds
-	F/sydU/w==;
+	bh=ZaWtw9Zg1nD5CoL5cE2PY2gb33V2/yQXN/4KLffNp9M=; b=FvOOT5DAtvqHfdCs24dKDHdRyo
+	7xLwY08x7Ousr6RVW4GN9TewbRG9bTW4KrtrHuOZEiaJWToAKCOZfnrimOE6xkEpJwFvQeZtFAE+q
+	YjU9wSsvwY/WDKkWqRzdgZPgZ8FSsyk/FTG/DFtfFG76sLzckf+elFvu6tjtfaGtQmCYMFUa+gyAa
+	ItDMGW1Z1GDtj5I/NI/ZHnk9quZc4pmQkpSSlc6a41YFDQWwSY90KhNR9xxKEGhkwAtaHjDK42sex
+	UXNLhZXByAjnefvQArBZ/Zor72zwoBuG4r3bzToiZD9AImUEAo1nJH9bB0QEIIhBSbsdaXQ+amYAz
+	ed3hi7cA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oPmVf-00Be0m-R5; Sun, 21 Aug 2022 15:05:08 +0000
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
+	id 1oPmcV-00Bgie-DM; Sun, 21 Aug 2022 15:12:11 +0000
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oPmVd-00Bdxs-3C
-	for linux-nvme@lists.infradead.org; Sun, 21 Aug 2022 15:05:06 +0000
-Received: by mail-ej1-x629.google.com with SMTP id ce26so1185047ejb.11
-        for <linux-nvme@lists.infradead.org>; Sun, 21 Aug 2022 08:05:03 -0700 (PDT)
+	id 1oPmcS-00Bggj-Cc
+	for linux-nvme@lists.infradead.org; Sun, 21 Aug 2022 15:12:09 +0000
+Received: by mail-ej1-x62c.google.com with SMTP id ce26so1204646ejb.11
+        for <linux-nvme@lists.infradead.org>; Sun, 21 Aug 2022 08:12:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=h6HHRBszP1qSaglLBv4CHXp3Ol6/zrgby+DBPe5JflQ=;
-        b=KDbmyK/uIIxxyzEqWmqcf7+9xsTBsInN0VwwzclaFHULK/BQNdFv/BKQGPCpuVyzUR
-         kveviZ3z7NG/PRoBHBHJXm4rdlBzkVTbge7TyonLodwLUJb0wx6HdqHMKmR704AQ1BWo
-         U5fS7iFzaBjzyWXYiAD3U7KP1YGqlTJInD8gXJDPJeIl12Cp3NOMry26wNutT2ayUL7i
-         gUXZivwnydcFQMZcuSifKewMhSCY3KoH4b9SstDyUiwpvm0SCPPk6aNxGBzM8AueetFd
-         qq69p7x07z9Op0944xhAHX1lzt4Bcz7qiwzI4wLDKYe1ff9pfoZdSSRQ9ChRWnxIXpiT
-         MEkg==
+        bh=ZaWtw9Zg1nD5CoL5cE2PY2gb33V2/yQXN/4KLffNp9M=;
+        b=e2DTWR3YpfOjEHiMva39dkePzbaqOOjoCOG4mZEeHn5GGuOwWvgxfgeqwo7RP5BrmM
+         YTRwjNG4MLbmPQKeiXLh/KoS1wrGEeAPv9xqDGuufErHU5+YEe3LsRGCbqNibKxcI9WI
+         Mfc/TDTI2DsLAJWIFmDYZiZ3HApIDBauVWgnX5zotQPg/OfZjNNJm6+IZTRJs7jSAtlO
+         t39gM2a6NlA/9GUNgxE6WBKmiRhIbVFzyEesoZ/1+19cDT5gSGN4SgVO+q18uCYIG67+
+         qeFYod72WbkE0k8TJjryAuiTQhEgniImrKh5GyeSoFBo3YkYqza9mq6AZkItTTXrQVkI
+         v4ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=h6HHRBszP1qSaglLBv4CHXp3Ol6/zrgby+DBPe5JflQ=;
-        b=atz0Qy28EX/Ccsl2MvMMOvfV/1tvhKOPQ0FSbZ/Oo/htDzQjrhp0pXRbpV7XfdJ75+
-         nqVB3hgZWU0v9+Liw4Qy/kCChUuD/XYJFz59qJlib8eeGGEBvz5TAKCt4csI9ygnmZK3
-         ALEtCI3aaWuIMZ4Y+ZeNpEeF0BL6Cf2luFH9FJj521d+grPHZ3WDukRk7zyfXcyYdwA6
-         moZWTij0mdijYH8mK9KmGa3ZLmVIPVu7L6kBVYzeq0Q37P7XnBkvdtQW+fYzUH9lGTSJ
-         uPsVOMCzHy71UpxPsAyX2Hz1fE0Ck72eN61Okr3ZrAyPQ/ldqfo3/Q2Z6+O3eTQ8HPs1
-         o1Mw==
-X-Gm-Message-State: ACgBeo1gLkFubC5Egv2HGx8yqbgclM9cpSxJ7+Avi11RqUaxW5FVkXVM
-	Out17JPMKpKwp+xoE867ixs=
-X-Google-Smtp-Source: AA6agR57fGQU2gSgrO8yJKl/jul1Q0zkPKgEf+Zuu+ozmwRZ8HdyGhfl0YB1gAfKwsD2lQJIs+6wXg==
-X-Received: by 2002:a17:907:3e21:b0:730:92bb:7fcd with SMTP id hp33-20020a1709073e2100b0073092bb7fcdmr10369285ejc.170.1661094302340;
-        Sun, 21 Aug 2022 08:05:02 -0700 (PDT)
+        bh=ZaWtw9Zg1nD5CoL5cE2PY2gb33V2/yQXN/4KLffNp9M=;
+        b=obFDqq9MF+gMk94X1Qb40L6nxx6SRWK+oC3j+9xQ5Ck/LBgitmTd9wRrjuRB7rfYae
+         1oK9xQVnUAQZUOPEvWpBWwCbod4awLeGw14oUgEH4IVUqgrAh5VWMCIb59UPQ/kFTYRs
+         NEuUjjykb8oDpzAUXOSdQzwgsoZQv4BFvw64bk5+CAjBKetnWOUJfyNd1BUyUUnHfV8l
+         JLsuw9KNJj4vueAXHP9YRgjWIR5ex+uBJBO2GPFkym2J1EqtH1bSEaJMPaIufHtH7TRD
+         +ZvN/c9+iCl/Fv9w7h/k+1mxqYK2i8WCJA3PVtI/MLC/cOACUtAE/nWqJh37Zjz0wg6q
+         SXKA==
+X-Gm-Message-State: ACgBeo0VRcbifm8v2SU7zb36fVzgBH6leYTyXsEIymz0fxFDG63KSE3R
+	BQGvoG5u5CRi+6lHFYRcWZSiarvS9nA=
+X-Google-Smtp-Source: AA6agR68YNxfCRPYknc8+Ny6gQI1mqxcOIR7ZNTAXkL+VYPiJcMo2uyQ2HewLVkw0Q9bUKOXtYQTgA==
+X-Received: by 2002:a17:907:7256:b0:730:f074:963c with SMTP id ds22-20020a170907725600b00730f074963cmr10782622ejc.201.1661094724854;
+        Sun, 21 Aug 2022 08:12:04 -0700 (PDT)
 Received: from opensuse.localnet (host-87-17-106-94.retail.telecomitalia.it. [87.17.106.94])
-        by smtp.gmail.com with ESMTPSA id 2-20020a170906200200b0072aa009aa68sm4994409ejo.36.2022.08.21.08.05.00
+        by smtp.gmail.com with ESMTPSA id bm16-20020a170906c05000b00730a1c73288sm4962663ejb.49.2022.08.21.08.12.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Aug 2022 08:05:00 -0700 (PDT)
+        Sun, 21 Aug 2022 08:12:03 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Christoph Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, Sagi Grimberg <sagi@grimberg.me>
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>, Keith Busch <kbusch@kernel.org>, Ira Weiny <ira.weiny@intel.com>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>, Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Ira Weiny <ira.weiny@intel.com>, "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
 Subject: Re: [PATCH v2] nvmet-tcp: Don't kmap() pages which can't come from HIGHMEM
-Date: Sun, 21 Aug 2022 17:04:51 +0200
-Message-ID: <5595912.DvuYhMxLoT@opensuse>
-In-Reply-To: <c0d5e4c2-512f-3d6e-b555-8a87b1be1db5@grimberg.me>
-References: <20220817184519.25141-1-fmdefrancesco@gmail.com> <c0d5e4c2-512f-3d6e-b555-8a87b1be1db5@grimberg.me>
+Date: Sun, 21 Aug 2022 17:12:00 +0200
+Message-ID: <2113668.irdbgypaU6@opensuse>
+In-Reply-To: <8f3e0127-91d4-af1f-ba41-951e2c5050f9@nvidia.com>
+References: <20220817184519.25141-1-fmdefrancesco@gmail.com> <8f3e0127-91d4-af1f-ba41-951e2c5050f9@nvidia.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220821_080505_254230_C56A90A1 
-X-CRM114-Status: UNSURE (   7.94  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220821_081208_482302_8EC8E66F 
+X-CRM114-Status: GOOD (  10.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,24 +86,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On gioved=C3=AC 18 agosto 2022 13:45:49 CEST Sagi Grimberg wrote:
-> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+On gioved=C3=AC 18 agosto 2022 17:48:04 CEST Chaitanya Kulkarni wrote:
+> > -	iov_iter_kvec(&cmd->recv_msg.msg_iter, READ, cmd->iov,
+> > -		cmd->nr_mapped, cmd->pdu_len);
+> > +	iov_iter_kvec(&cmd->recv_msg.msg_iter, READ, cmd->iov, nr_mapped,
+> > cmd->pdu_len);
 >=20
-> Fabio, did you run blktests?
+> >   }
+> >  =20
 >=20
-> The simplest thing you can do is:
 >=20
-> $ git clone https://github.com/osandov/blktests.git
-> $ cd blktests
-> $ nvme_trtype=3Dtcp ./check nvme
+> overly long lines above ? we are keeping lines < 80 for consistency, can
+> be done at the time of applying patch.
+>=20
+> -ck
+>=20
 
-I just run the tests you requested.
-I'm going to send a v3 patch which shows the results.
+I'm sorry for this.
+I changed my post commit hook and forgot to make it executable :-(
+I just wrote to Sagi and said that I'm going to send a new version with the=
+=20
+results of blktests. In the meantime I'll shorten those long lines below th=
+e=20
+80 characters threshold.
 
 Thanks,
 
-=46abio
-
+=46abio=20
 
 
 
