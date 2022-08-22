@@ -4,73 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B958C28D13
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Aug 2022 07:11:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF56AC28D13
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Aug 2022 09:51:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OXJSHC3u10OP+HTbMpSxeKMRN8oREsLJAZ1clqoMmSE=; b=U6gm8+lY8qjOngpc6O82J9bfQi
-	0SSzZjv9Xq6DuKSfihTDXPLAMuzYedPrC26jkOkUDeuBMScpWKCPe/0506QNq/UoaU+gtKzosM1vL
-	pbDB/Ajzi0PZZhOy1jSGrKOMhKYOE8r37SMKMZJ11gbDs26LyUwpxxnbKmhl5lVo+HbHAVxLKCful
-	yKhpHcfpayZaBxJWtcZLnkHR6jB1nmLZnXShl/qbwZT1EETsM1k67RVth9/qc32zyODs8D5a6kYdM
-	U1mZqCBrqDfQIW6pM6/Mf8zkSOANxtdEXzhgmqS+SbpDnWPB+kSOYStlUIc2ck6qz+0gA7wrlgymx
-	AXF/y4OQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=AsZyoX5yeen6RG6iXHAXxTccdz5/f/EDGsQmh63E7kc=; b=tiGuorWSWmrsAf2daE9o/MZAnR
+	K33CHYa0tnwQa/hC2q+HIcyPRXNLcRmSnd2WQfRmpWUdjPk/6EjPvSzmZdn2qIK7Oz6nGvAPu6vTb
+	o4Nf+xwVli6GNAC3FhGI2pNtx/kieyuhs7oDAm2fe4rCcUpXTpCOm0ToZeZxXH7ZQ4XgwKXsi8WpZ
+	5gHKjAkJ/gjvNwbMKKUCwGwayoQ7daU26WXJV71yZRpZiOLN3f4kbk4iKtCpJif1njfPG77zTd4gN
+	gRcZKw5CVzrqccvnU0Ntz8mACeTzUS7rPxRyDBKvvqxXmL2aUk2DXG3ee1/3qVXCiv5ESESVlgCPL
+	gRD6S2/g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oQ1aM-005oS1-AW; Mon, 22 Aug 2022 07:10:58 +0000
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
+	id 1oQ45T-007C9J-Kp; Mon, 22 Aug 2022 09:51:15 +0000
+Received: from szxga08-in.huawei.com ([45.249.212.255])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oQ1aD-005oJq-VG
-	for linux-nvme@lists.infradead.org; Mon, 22 Aug 2022 07:10:52 +0000
-Received: by mail-ed1-x534.google.com with SMTP id c39so12646407edf.0
-        for <linux-nvme@lists.infradead.org>; Mon, 22 Aug 2022 00:10:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ionos.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=OXJSHC3u10OP+HTbMpSxeKMRN8oREsLJAZ1clqoMmSE=;
-        b=RA4HZQCDGyC/SIDeLGpy5vj438ALKhnGrTPthx9WF5F5HpgPWbDULm3ZlExFGAc+XU
-         9TsJVTaLDSbjyoumB0uaFuxID66Xi0UX+lP/uzTBbVBLCqQfOQBFVLTsNaa1Nu1gFVPM
-         yeD6KyTOSzgfNeF+ICDsLrL4weCG72go6GbDCuVATFaQLL1ywpBnEq0oz5qGr/kfWznP
-         HPQ43J8OvsDDKcrL7nl4kCWc1P9UBD8HnAqD/6Ukgwy98732aajgzuqiLeH2wptvoSh0
-         cKvsSp87AAINTffTiuu/6mUev0LmUwqTYB3ivP+ugQlsh02tsfcavwdvLsx6Mp6hSRbf
-         tEJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=OXJSHC3u10OP+HTbMpSxeKMRN8oREsLJAZ1clqoMmSE=;
-        b=vYnJ3G8J5QlHnVG3Z0mmqQYkJRbNgnw9mx3hRB5lTWsZA4mdOkDw1EW2s8YTMhGQf5
-         kEuBl0ehIrRreqAYQOwenwLMeTgDQcZtSVdkDJpIU3q0m1n2hbp58J6Q4IJIArCeF0Aa
-         2vHZ191ElYYOoJASa/zMJBS+RXQZd6Yb1B2Rxga8ZxZ3ZBJJd/9UbIRG8OZ9nXkOVhLm
-         PH+KXc/fRPmtIdqvIQkkaG2oWtkPeEC9IXlER3R8z9PpPvvfHQ9W0r0E0nrOwmU2S2ZN
-         CXWf/H7mC6WAQenUbrxbXBBBls0SFR2/DznE9sq3FMvXgM+fonjzrmjebK5rsy0c5qdY
-         bE4Q==
-X-Gm-Message-State: ACgBeo3HDTmsVfuUCs1TkzFd2HhT+ujN7Iw+aOlfGSoF4uCw+wUYrQIW
-	h7ty5Tyy9mMt9O4vl625sUfgJLld+cZBWpd6hEsVIg==
-X-Google-Smtp-Source: AA6agR6GlsGATx8E1XQpTn7CSZWm+8KDw8Qzr9k38Vth1pGheZzAb26A/rhtk2zLUbTv2V3eAdYhXR2P8sP7f+aMfWg=
-X-Received: by 2002:a05:6402:5106:b0:440:3693:e67b with SMTP id
- m6-20020a056402510600b004403693e67bmr15167256edd.226.1661152244210; Mon, 22
- Aug 2022 00:10:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220819060801.10443-1-jinpu.wang@ionos.com> <20220819060801.10443-15-jinpu.wang@ionos.com>
- <20220821055745.GA26064@lst.de> <CAMGffEkhQd6oGgg+m9AUkquYnkufyrt1ptEkg5LG_HE_7s-Vsw@mail.gmail.com>
- <20220822062537.GA21455@lst.de>
-In-Reply-To: <20220822062537.GA21455@lst.de>
-From: Jinpu Wang <jinpu.wang@ionos.com>
-Date: Mon, 22 Aug 2022 09:10:33 +0200
-Message-ID: <CAMGffEk1CJAkaZi5GHrKdW-y1HQRUuo0YfRuGR8hFpNe1dZyoA@mail.gmail.com>
-Subject: Re: [PATCH v1 14/19] nvme-rdma: Fix error check for ib_dma_map_sg
+	id 1oQ45Q-007C41-9X
+	for linux-nvme@lists.infradead.org; Mon, 22 Aug 2022 09:51:13 +0000
+Received: from canpemm500002.china.huawei.com (unknown [172.30.72.57])
+	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MB6wQ4RBKz1N7Vd;
+	Mon, 22 Aug 2022 17:47:34 +0800 (CST)
+Received: from [10.169.59.127] (10.169.59.127) by
+ canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 22 Aug 2022 17:51:01 +0800
+Subject: Re: [PATCH] nvme-rdma: set ack timeout of RoCE to 262ms
 To: Christoph Hellwig <hch@lst.de>
-Cc: linux-kernel@vger.kernel.org, Keith Busch <kbusch@kernel.org>, 
-	Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+CC: <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>, <kbusch@kernel.org>
+References: <20220819075825.21231-1-lengchao@huawei.com>
+ <20220821062016.GA26553@lst.de>
+From: Chao Leng <lengchao@huawei.com>
+Message-ID: <83992e8f-b18a-ccd3-e0ee-a5802043f161@huawei.com>
+Date: Mon, 22 Aug 2022 17:50:59 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
+MIME-Version: 1.0
+In-Reply-To: <20220821062016.GA26553@lst.de>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.169.59.127]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ canpemm500002.china.huawei.com (7.192.104.244)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220822_001050_194146_48ABDF8B 
-X-CRM114-Status: GOOD (  19.69  )
+X-CRM114-CacheID: sfid-20220822_025112_573941_607A9A30 
+X-CRM114-Status: GOOD (  11.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,24 +68,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Aug 22, 2022 at 8:25 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Mon, Aug 22, 2022 at 07:12:23AM +0200, Jinpu Wang wrote:
-> > On Sun, Aug 21, 2022 at 7:57 AM Christoph Hellwig <hch@lst.de> wrote:
-> > >
-> > > Please don't send me just two random patches out of a series, as I
-> > > have no way to review them.  If the patches are independent, send them
-> > > independently and if they depend on common prep work send the entire
-> > > series to everyone.
-> > Hi Christoph,
-> >
-> > As mentioned in the cover letter, the bugfixes are all independent,
-> > for each of the drivers.
->
-> I still haven't seen the cover letter as it was never sent to me.
-> But if patches are independent please send a series per subsystem
-> as that makes that very clear.
-Thanks for the hint, this definitely helps the subsystem maintainer to
-get a clear background.
-I'll do it in the future.
+
+
+On 2022/8/21 14:20, Christoph Hellwig wrote:
+> On Fri, Aug 19, 2022 at 03:58:25PM +0800, Chao Leng wrote:
+>> Now the ack timeout of RoCE is 2 second(2^(18+1)*4us=2 second). In the
+>> case of low concurrency, if some packets lost due to network abnormal
+>> such as network rerouting, Optical fiber signal interference, etc,
+>> it will wait 2 second to try retransmitting the lost packets.
+>> As a result, the I/O latency is greater than 2 seconds.
+>> The I/O latency is so long for real-time transaction service. Indeed we
+>> do not have to wait so long time to make sure that packets are lost.
+>> Setting the ack timeout to 262ms(2^(15+1)*4us=262ms) is sufficient.
+> 
+> I'll leave people more familar with RoCE to judge the merits of this
+> change, but I really want a comment explaining the choice in the
+> source code.
+Now the TCP retransmission timeout interval is 250ms, and this setting
+has been maintained for many years.
+The network quality of rdma is better than that of common Ethernet.
+That is the reason to set 262ms as the default ack timeout.
+Adding a module parameter may be a better option.
+> 
+> .
+> 
 
