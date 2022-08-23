@@ -4,46 +4,122 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EAEC2C32772
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Aug 2022 16:14:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2384C32772
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Aug 2022 16:25:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lCLXgqO8EvoOIETpd2/7M1jgGA3/DtyQ52aB1PjAuC4=; b=svCISaYJ6o3WdFfXCyXLQeVcVu
-	0QZcGKQ3PqzV4FOdjStTeUPnANhNbbSkZ/d7KMl0v5vOqMqpC9Z7Z+hViIEUF2eaDAd+VPpEjZAWZ
-	sL9h3dM/T1n9S6qJ/eALqrHa8hqKMPS9Dmn71Na02sW5PR93Q2vSTUNJABWX4lrUiq6crPfrehQTM
-	FSjnIJBRtC6R8R86ZR6k14fbozJgxb/NS22GXBz5XxmspYhKsaIveKoW/FnoTlrr59lW8jofqP6Cp
-	E6g1e3D7ATEOPq0JeuCvtoRQmsoRUyCG/6Op3dLHvlB/7K1bUFbLOJ5TS3g4TnSAvbJm+sm0jYLzP
-	opQ4zlfA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=7uxpW2z8PgV6QmCh80XCC5JE20bOhAeRfZs6FnbP8ws=; b=RUv/GO4HgVC+S3Rd7hHo3BusKk
+	xZ4BMrtYn0Pj8NRtLdaeUkKuizsGv+Ank31pWz7DaHbXA89Hkc4cpTbso/XTeogD091ikdTZ6CLCq
+	NzItb5J6Hk8SfqtGNDoufRSgOk97B8qlAiEimh8XGo2xi5zXlJapKcHI0nH2e8P9rQhYf0BHiJPxz
+	wUZvvy6Xn+3HY5Mx2AavyKFScTvXlZLYTegdx0VXjkwv6GnIvBWVfeF2OL7nizKWQmSkCT59rsC/T
+	GQXqtJs0eVcPBcUsK7U5XOqbwzN1fGoJrtGjqdhrKZu171frLlveMSwAanMjmVYbau4uGgL1JEFQu
+	zMh5iXdQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oQWXe-007DxR-LZ; Tue, 23 Aug 2022 16:14:14 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1oQWiY-007Gi3-W8; Tue, 23 Aug 2022 16:25:31 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oQWXb-007Dvp-Jx
-	for linux-nvme@lists.infradead.org; Tue, 23 Aug 2022 16:14:12 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id DA24668AA6; Tue, 23 Aug 2022 18:14:08 +0200 (CEST)
-Date: Tue, 23 Aug 2022 18:14:08 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@fb.com>,
-	linux-nvme@lists.infradead.org,
-	Jonathan Derrick <Jonathan.Derrick@solidigm.com>
-Subject: Re: [PATCH] nvme: don't flush scan work with non-idle request
-Message-ID: <20220823161408.GB21462@lst.de>
-References: <20220812182147.1564958-1-kbusch@fb.com> <20220821144039.GA3384@lst.de> <YwOcFmTPQeDAl0Og@kbusch-mbp.dhcp.thefacebook.com>
+	id 1oQWiW-007Gem-Bf
+	for linux-nvme@lists.infradead.org; Tue, 23 Aug 2022 16:25:30 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20220823162515epoutp03089ab5d3b6880f5f697f0ddce1c05629~OBgFhMIdi1743717437epoutp03l
+	for <linux-nvme@lists.infradead.org>; Tue, 23 Aug 2022 16:25:15 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20220823162515epoutp03089ab5d3b6880f5f697f0ddce1c05629~OBgFhMIdi1743717437epoutp03l
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1661271915;
+	bh=7uxpW2z8PgV6QmCh80XCC5JE20bOhAeRfZs6FnbP8ws=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=CVdMOmlv10ByaXWOAPzBVCZN89aO+dSCyENBbRFe52cCoU/3HTkHdaoRfMWkQYaAW
+	 LUfNbgZ37CNZgyUFcJ7kFsH5RtVz8l1h5a+gnZ4//fRh3PJ3MlzCNjmPz+pVol6TZC
+	 /TYep2mm3pha9OWXtVA0Um+w1svoz1Q7V31/3Tvk=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20220823162514epcas5p4bab52d83513af7624c72983dc6483d77~OBgEwqAQt1443914439epcas5p4D;
+	Tue, 23 Aug 2022 16:25:14 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.182]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4MBvhm1wwMz4x9Pv; Tue, 23 Aug
+	2022 16:25:12 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	8A.15.18001.86FF4036; Wed, 24 Aug 2022 01:25:12 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20220823162511epcas5p46fc0e384524f0a386651bc694ff21976~OBgCFk0bl1443914439epcas5p4C;
+	Tue, 23 Aug 2022 16:25:11 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20220823162511epsmtrp2348517518c30dc9194b2c3270f5341d1~OBgCEx5n20268302683epsmtrp2q;
+	Tue, 23 Aug 2022 16:25:11 +0000 (GMT)
+X-AuditID: b6c32a4a-2c3ff70000004651-f8-6304ff68a585
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+	E3.A2.18644.76FF4036; Wed, 24 Aug 2022 01:25:11 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.110.206.5]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20220823162510epsmtip2860888bab5114fedd5a902771318d48f~OBgAdulrt3114031140epsmtip2a;
+	Tue, 23 Aug 2022 16:25:09 +0000 (GMT)
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org, asml.silence@gmail.com
+Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, ming.lei@redhat.com, gost.dev@samsung.com,
+	Kanchan Joshi <joshi.k@samsung.com>, Pankaj Raghav <p.raghav@samsung.com>
+Subject: [PATCH for-next v3 2/4] io_uring: add iopoll infrastructure for
+ io_uring_cmd
+Date: Tue, 23 Aug 2022 21:44:41 +0530
+Message-Id: <20220823161443.49436-3-joshi.k@samsung.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220823161443.49436-1-joshi.k@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YwOcFmTPQeDAl0Og@kbusch-mbp.dhcp.thefacebook.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrAJsWRmVeSWpSXmKPExsWy7bCmum7Gf5Zkgy+LuCzmrNrGaLH6bj+b
+	xc0DO5ksVq4+ymTxrvUci8XR/2/ZLCYdusZosfeWtsX8ZU/ZLQ5Nbmay+Ly0hd2B22PnrLvs
+	HpfPlnpsWtXJ5rF5Sb3H7psNbB7v911l8+jbsorR4/MmuQCOqGybjNTElNQihdS85PyUzLx0
+	WyXv4HjneFMzA0NdQ0sLcyWFvMTcVFslF58AXbfMHKAzlRTKEnNKgUIBicXFSvp2NkX5pSWp
+	Chn5xSW2SqkFKTkFJgV6xYm5xaV56Xp5qSVWhgYGRqZAhQnZGcunrWUtuChX8fXQFZYGxh8S
+	XYwcHBICJhLft6p3MXJxCAnsZpSYemgJI4TziVFi3qN3TBDOZ0aJmUtPsnUxcoJ1PH5zhRki
+	sYtR4tKCg2xwVc+fT2UHmcsmoClxYXIpSIOIgJfE/dvvWUFqmAUuM0q0dU5hBkkIC4RLbJ17
+	jwnEZhFQlfh/ajoriM0rYCFxfmEvK8Q2eYmZl76DzeQUsJQ4fVAOokRQ4uTMJywgNjNQSfPW
+	2WAHSQjM5JBYc7+fDeI3F4kV/yMhxghLvDq+hR3ClpL4/G4v1DPJEpdmnmOCsEskHu85CGXb
+	S7Se6mcGGcMM9Mr6XfoQq/gken8/YYKYzivR0SYEUa0ocW/SU6iDxSUezljCClHiIfH2mz8k
+	cHoYJVafnsQ0gVF+FpIHZiF5YBbCsgWMzKsYJVMLinPTU4tNC4zyUsvhsZqcn7uJEZxUtbx2
+	MD588EHvECMTB+MhRgkOZiURXqtjLMlCvCmJlVWpRfnxRaU5qcWHGE2BATyRWUo0OR+Y1vNK
+	4g1NLA1MzMzMTCyNzQyVxHmnaDMmCwmkJ5akZqemFqQWwfQxcXBKNTDpf2LT2srKZ/p30hyj
+	TdVvhBPnuDat4Tkmei90yY9AJiWFP7w19yIOH4zNyJA3E/iiy7FiU2lW236fsg7lN0K8RlOf
+	H5DRu/Q0nPl0Wc/bT6mvZ7CZGPws/cF4e+3JG+dU21e+V0x1DQjzFVSQfhij3j/T6pbqxNtr
+	/A6s3Xn56roL+vmRJQIhfWsec1U/6NmTPtfwauf3XxOm8ha4XLp4tcjSUNgw26WNh33l2aUR
+	Vzi+2t4KbC5Y7P2S6cFXy0/C8bvW3lOPWC/gcfPInDcnN7wwzmxpL523POO7yMMXaxdt3rs9
+	LPvowxQv/3nvLx9+lPY7X6HCoj3ePSZFfOKOjpxSe+XsKVkJX7XF9vAqsRRnJBpqMRcVJwIA
+	appf+jMEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrKLMWRmVeSWpSXmKPExsWy7bCSvG76f5Zkg9V7tCzmrNrGaLH6bj+b
+	xc0DO5ksVq4+ymTxrvUci8XR/2/ZLCYdusZosfeWtsX8ZU/ZLQ5Nbmay+Ly0hd2B22PnrLvs
+	HpfPlnpsWtXJ5rF5Sb3H7psNbB7v911l8+jbsorR4/MmuQCOKC6blNSczLLUIn27BK6M5dPW
+	shZclKv4eugKSwPjD4kuRk4OCQETicdvrjCD2EICOxglPnzjgoiLSzRf+8EOYQtLrPz3HMjm
+	Aqr5yCjxb/9qpi5GDg42AU2JC5NLQWpEBAIkDjZeBqthFrjNKDF3+ikWkISwQKjE7KZnTCA2
+	i4CqxP9T01lBbF4BC4nzC3tZIRbIS8y89J0dZCangKXE6YNyEPdYSPzZ1MAGUS4ocXLmE7CR
+	zEDlzVtnM09gFJiFJDULSWoBI9MqRsnUguLc9NxiwwKjvNRyveLE3OLSvHS95PzcTYzgmNDS
+	2sG4Z9UHvUOMTByMhxglOJiVRHitjrEkC/GmJFZWpRblxxeV5qQWH2KU5mBREue90HUyXkgg
+	PbEkNTs1tSC1CCbLxMEp1cB0wKH7kfrx9AqPfI1lRx5/DDNmnBn/e2qZqOejyEWKha59tU+u
+	hK5LEfutefXCksX3Vf47b3ENO+c+7WSJdfx7T65O7msH75Umfd97jKtGjsn6cVu2TXLa89eG
+	j3Sr2v8cml5dZdAuIlKsnz2TZ728tscq/u9dnC4r1JI0Zt2fZphgkdceq/s59dzqlzua+l9t
+	3LKIrTzbQyS2w8Fw+0rBpd9Wiaq0ZN4zuzXDZoP5U6en2vFHDZ9O4r3+zDDTvnNFZHbx17Rd
+	bg/m7yy1MGby6Njy4WN47tLLz4Mrnu3YHP9gl06+0N5f51Kc/l/I5HnfuF5OtvWKp/2/w5On
+	HVmQKnpMZOtZLZv+DWdyjIuUWIozEg21mIuKEwGN2Eyq+AIAAA==
+X-CMS-MailID: 20220823162511epcas5p46fc0e384524f0a386651bc694ff21976
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220823162511epcas5p46fc0e384524f0a386651bc694ff21976
+References: <20220823161443.49436-1-joshi.k@samsung.com>
+	<CGME20220823162511epcas5p46fc0e384524f0a386651bc694ff21976@epcas5p4.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220823_091411_823405_E58B9F1F 
-X-CRM114-Status: GOOD (  23.73  )
+X-CRM114-CacheID: sfid-20220823_092528_763512_F222FC04 
+X-CRM114-Status: GOOD (  21.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -58,27 +134,118 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Aug 22, 2022 at 09:09:10AM -0600, Keith Busch wrote:
-> On Sun, Aug 21, 2022 at 04:40:39PM +0200, Christoph Hellwig wrote:
-> > With this the flush_work is lost for the target passthrough case.
-> > 
-> > I also don't really like the double call to nvme_command_effects().
-> > 
-> > What about just removing nvme_execute_passthru_rq() and open coding
-> > it in the two calles, with the nvme_passthru_end call moved until
-> > after freeing the request?
-> 
-> I didn't think it mattered for passthrough because the host needs to flush the
-> scan work on its side before safely using the changed namespace. It doesn't
-> matter if the target side has flushed out the new namespace format because it's
-> not the one creating LBA command parameters.
+Put this up in the same way as iopoll is done for regular read/write IO.
+Make place for storing a cookie into struct io_uring_cmd on submission.
+Perform the completion using the ->uring_cmd_iopoll handler.
 
-Well, a passthrough controller is still also available locally, so I don't
-think we can just skip the scan.
+Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+---
+ include/linux/io_uring.h |  8 ++++++--
+ io_uring/io_uring.c      |  6 ++++++
+ io_uring/opdef.c         |  1 +
+ io_uring/rw.c            |  8 +++++++-
+ io_uring/uring_cmd.c     | 11 +++++++++--
+ 5 files changed, 29 insertions(+), 5 deletions(-)
 
-> Never-the-less, if you do prefer to have each caller open code the sequence, I
-> have that patch ready to send.
+diff --git a/include/linux/io_uring.h b/include/linux/io_uring.h
+index 4a2f6cc5a492..58676c0a398f 100644
+--- a/include/linux/io_uring.h
++++ b/include/linux/io_uring.h
+@@ -20,8 +20,12 @@ enum io_uring_cmd_flags {
+ struct io_uring_cmd {
+ 	struct file	*file;
+ 	const void	*cmd;
+-	/* callback to defer completions to task context */
+-	void (*task_work_cb)(struct io_uring_cmd *cmd);
++	union {
++		/* callback to defer completions to task context */
++		void (*task_work_cb)(struct io_uring_cmd *cmd);
++		/* used for polled completion */
++		void *cookie;
++	};
+ 	u32		cmd_op;
+ 	u32		pad;
+ 	u8		pdu[32]; /* available inline for free use */
+diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
+index ebfdb2212ec2..04abcc67648e 100644
+--- a/io_uring/io_uring.c
++++ b/io_uring/io_uring.c
+@@ -1296,6 +1296,12 @@ static int io_iopoll_check(struct io_ring_ctx *ctx, long min)
+ 			    wq_list_empty(&ctx->iopoll_list))
+ 				break;
+ 		}
++
++		if (task_work_pending(current)) {
++			mutex_unlock(&ctx->uring_lock);
++			io_run_task_work();
++			mutex_lock(&ctx->uring_lock);
++		}
+ 		ret = io_do_iopoll(ctx, !min);
+ 		if (ret < 0)
+ 			break;
+diff --git a/io_uring/opdef.c b/io_uring/opdef.c
+index 72dd2b2d8a9d..9a0df19306fe 100644
+--- a/io_uring/opdef.c
++++ b/io_uring/opdef.c
+@@ -466,6 +466,7 @@ const struct io_op_def io_op_defs[] = {
+ 		.needs_file		= 1,
+ 		.plug			= 1,
+ 		.name			= "URING_CMD",
++		.iopoll			= 1,
+ 		.async_size		= uring_cmd_pdu_size(1),
+ 		.prep			= io_uring_cmd_prep,
+ 		.issue			= io_uring_cmd,
+diff --git a/io_uring/rw.c b/io_uring/rw.c
+index 1babd77da79c..9698a789b3d5 100644
+--- a/io_uring/rw.c
++++ b/io_uring/rw.c
+@@ -1005,7 +1005,13 @@ int io_do_iopoll(struct io_ring_ctx *ctx, bool force_nonspin)
+ 		if (READ_ONCE(req->iopoll_completed))
+ 			break;
+ 
+-		ret = rw->kiocb.ki_filp->f_op->iopoll(&rw->kiocb, &iob, poll_flags);
++		if (req->opcode == IORING_OP_URING_CMD) {
++			struct io_uring_cmd *ioucmd = (struct io_uring_cmd *)rw;
++
++			ret = req->file->f_op->uring_cmd_iopoll(ioucmd);
++		} else
++			ret = rw->kiocb.ki_filp->f_op->iopoll(&rw->kiocb, &iob,
++							poll_flags);
+ 		if (unlikely(ret < 0))
+ 			return ret;
+ 		else if (ret)
+diff --git a/io_uring/uring_cmd.c b/io_uring/uring_cmd.c
+index 8e0cc2d9205e..b0e7feeed365 100644
+--- a/io_uring/uring_cmd.c
++++ b/io_uring/uring_cmd.c
+@@ -49,7 +49,11 @@ void io_uring_cmd_done(struct io_uring_cmd *ioucmd, ssize_t ret, ssize_t res2)
+ 	io_req_set_res(req, ret, 0);
+ 	if (req->ctx->flags & IORING_SETUP_CQE32)
+ 		io_req_set_cqe32_extra(req, res2, 0);
+-	__io_req_complete(req, 0);
++	if (req->ctx->flags & IORING_SETUP_IOPOLL)
++		/* order with io_iopoll_req_issued() checking ->iopoll_complete */
++		smp_store_release(&req->iopoll_completed, 1);
++	else
++		__io_req_complete(req, 0);
+ }
+ EXPORT_SYMBOL_GPL(io_uring_cmd_done);
+ 
+@@ -92,8 +96,11 @@ int io_uring_cmd(struct io_kiocb *req, unsigned int issue_flags)
+ 		issue_flags |= IO_URING_F_SQE128;
+ 	if (ctx->flags & IORING_SETUP_CQE32)
+ 		issue_flags |= IO_URING_F_CQE32;
+-	if (ctx->flags & IORING_SETUP_IOPOLL)
++	if (ctx->flags & IORING_SETUP_IOPOLL) {
+ 		issue_flags |= IO_URING_F_IOPOLL;
++		req->iopoll_completed = 0;
++		WRITE_ONCE(ioucmd->cookie, NULL);
++	}
+ 
+ 	if (req_has_async_data(req))
+ 		ioucmd->cmd = req->async_data;
+-- 
+2.25.1
 
-It's not that I really like the open coding, but it was the first
-thing that came to mind on how to fix the passthrough case.
 
