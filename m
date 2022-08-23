@@ -4,70 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F069C32774
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Aug 2022 07:45:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6F7DC32774
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Aug 2022 07:45:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=EvM12OtBZswmtqps6W446O4uuQ2rfAM6CRFzYh12zU4=; b=GOPs7JgH+mLWsIhgG05VyQlDUd
-	eWNl+AXlFh4s/qqd98DVLijRKgESMd9q8JvGbVI2Gn7wH1kfVE0mWiwXVALzlSjY/nJkfaQ12rP2w
-	qW2zy3hYswGdVXf/aeguXRYrdjuNarYudj05WwZldk7HvCnlYV7rRGNY/lDdBnEhH8JbM8VZyMwG9
-	ikSIXJnMLZohMOMyzi0yJhkiOA56Hv2pdcqwfI2RhH7PpJJbVqwUyA5UZ4GBpKlq9ukCBwcy2ynjW
-	xMPmwQ252HCFTzyBYE7DVSOXYOT/VvCfkgRKoYbi3wzsVsQIm6fiZOQd1iGPsfCgXbVciJNZuOsx4
-	WusGWPgw==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ncoyUvgrY7Lm/4WGfz/miEjgyBXtrZ7WIQNiQ1XGMKY=; b=AJGECq+3N+r3iXivmwEYW84x+w
+	k9o9izaxmMkYpai79rnqDfgu8v0XGdBHKMFT66VLzRTGbVelYEMF3nucLV3HlcHi50tucqbEmEF0Y
+	GMeQ7UZXGn1Apn5zCRkDwUQmTYFRlhthj8n5P1oErm2rhdOVA1YE0F7mZpPkdlHMzf+8qLSDD6n6i
+	apG83nnZCxpDrgAQPYOQwzyRyzC9UnYcTO156ubjy43FlaUE0SLVcz8EwE/ara0DxPqs94Gcx7V0d
+	q7MXAxzWHrrVLDmP1rYtXhWHsbmA8zlPG/j5ukmYI72RrqzBCUyuGvJkJHKYMrUI58vchSMXGifWe
+	ED/NqFXw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oQOat-003ZX6-On; Tue, 23 Aug 2022 07:45:03 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1oQOb1-003Zbx-2F; Tue, 23 Aug 2022 07:45:11 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oQOaq-003ZRg-SQ
-	for linux-nvme@lists.infradead.org; Tue, 23 Aug 2022 07:45:02 +0000
+	id 1oQOar-003ZSV-6v
+	for linux-nvme@lists.infradead.org; Tue, 23 Aug 2022 07:45:03 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B387D5CE40;
-	Tue, 23 Aug 2022 07:44:55 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 476DD33FFA;
+	Tue, 23 Aug 2022 07:44:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1661240695; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=EvM12OtBZswmtqps6W446O4uuQ2rfAM6CRFzYh12zU4=;
-	b=Cwb20HGFoDFJnUCcxJymVONpLbMKWKPHsutL/Hfr2FjfAtdyD6mY3hk40zw6fEmiG+RNzS
-	+9tNcou+My+1O5TGccJQsHoO2Vqrn2Ejn98qO5JYZn89JEgNsK/vGk7LysvB2MM5vdVxGb
-	vwCyI7WAnzGLAGuvK7kT5KO3/WUiqi8=
+	t=1661240696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ncoyUvgrY7Lm/4WGfz/miEjgyBXtrZ7WIQNiQ1XGMKY=;
+	b=gCokpOL0ZxDrWQ5xHa7yNWgKUZXStFg+WmZSz0IjuwE3S5XGk7fGsERWzWwhLm2UPC/pAU
+	r6O6QjcmrH0hCb7yMV7U5dXwKZfgxUSscA1cqc3Sfg+8Fjet4AHea+5D534uYeiElXDyhl
+	BGCm+ZssztdmofLeULzxpw71RQtc+OM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1661240695;
+	s=susede2_ed25519; t=1661240696;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=EvM12OtBZswmtqps6W446O4uuQ2rfAM6CRFzYh12zU4=;
-	b=x6XDuuvNwbkbi80jNusSRxa0a0oCuOVqoGmohbyBp4x7rLgmhzTn/NGSkbu7TzjY0RJy3K
-	l+aASozO9UllzwDw==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ncoyUvgrY7Lm/4WGfz/miEjgyBXtrZ7WIQNiQ1XGMKY=;
+	b=lL4XqcUjz7wCnGKuLp5MHLgFx3qinCiu8tvXaezVsBBH2RngJFh0OuHKx4pCcYumoyH1iW
+	gtoZTmhMWZJVoMDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A5E9F13AB7;
-	Tue, 23 Aug 2022 07:44:55 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 36E5513AB7;
+	Tue, 23 Aug 2022 07:44:56 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id sRp2KHeFBGMuQwAAMHmgww
-	(envelope-from <dwagner@suse.de>); Tue, 23 Aug 2022 07:44:55 +0000
+	id bukUDXiFBGMzQwAAMHmgww
+	(envelope-from <dwagner@suse.de>); Tue, 23 Aug 2022 07:44:56 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH v2 0/3] Handle number of queue changes
-Date: Tue, 23 Aug 2022 09:44:48 +0200
-Message-Id: <20220823074451.12170-1-dwagner@suse.de>
+Subject: [PATCH v2 1/3] nvmet: Expose max queues to sysfs
+Date: Tue, 23 Aug 2022 09:44:49 +0200
+Message-Id: <20220823074451.12170-2-dwagner@suse.de>
 X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220823074451.12170-1-dwagner@suse.de>
+References: <20220823074451.12170-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220823_004501_111742_C908F969 
-X-CRM114-Status: GOOD (  14.81  )
+X-CRM114-CacheID: sfid-20220823_004501_514093_8565FE03 
+X-CRM114-Status: GOOD (  11.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,96 +88,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Updated this series to a proper patch series with Sagi's feedback
-addressed.
+Allow to set the max queues the target supports. This is useful for
+testing the reconnect attempt of the host with chaning numbers of
+supported queues.
 
-This version updates the caller side of nvme_tcp_start_io_queues()
-which queues need to be started instead making
-nvme_tcp_start_io_queues() re-entrant safe.
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+---
+ drivers/nvme/target/configfs.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-I tested this properly with nvme-tcp but due to lack of hardware the
-nvme-rdma is only compile tested.
-
-Daniel
-
-
-From the previous cover letter:
-
-We got a report from our customer that a firmware upgrade on the
-storage array is able to 'break' host. This is caused a change of
-number of queues which the target supports after a reconnect.
-
-Let's assume the number of queues is 8 and all is working fine. Then
-the connection is dropped and the host starts to try to
-reconnect. Eventually, this succeeds but now the new number of queues
-is 10:
-
-nvme0: creating 8 I/O queues.
-nvme0: mapped 8/0/0 default/read/poll queues.
-nvme0: new ctrl: NQN "nvmet-test", addr 10.100.128.29:4420
-nvme0: queue 0: timeout request 0x0 type 4
-nvme0: starting error recovery
-nvme0: failed nvme_keep_alive_end_io error=10
-nvme0: Reconnecting in 10 seconds...
-nvme0: failed to connect socket: -110
-nvme0: Failed reconnect attempt 1
-nvme0: Reconnecting in 10 seconds...
-nvme0: creating 10 I/O queues.
-nvme0: Connect command failed, error wo/DNR bit: -16389
-nvme0: failed to connect queue: 9 ret=-5
-nvme0: Failed reconnect attempt 2
-
-As you can see queue number 9 is not able to connect.
-
-As the order of starting and unfreezing is important we can't just
-move the start of the queues after the tagset update. So my stupid
-idea was to start just the older number of queues and then the rest.
-
-This seems work:
-
-nvme nvme0: creating 4 I/O queues.
-nvme nvme0: mapped 4/0/0 default/read/poll queues.
-nvme_tcp_start_io_queues nr_hw_queues 4 queue_count 5 qcnt 5
-nvme_tcp_start_io_queues nr_hw_queues 4 queue_count 5 qcnt 5
-nvme nvme0: new ctrl: NQN "nvmet-test", addr 10.100.128.29:4420
-nvme nvme0: queue 0: timeout request 0x0 type 4
-nvme nvme0: starting error recovery
-nvme0: Keep Alive(0x18), Unknown (sct 0x3 / sc 0x71)
-nvme nvme0: failed nvme_keep_alive_end_io error=10
-nvme nvme0: Reconnecting in 10 seconds...
-nvme nvme0: creating 6 I/O queues.
-nvme_tcp_start_io_queues nr_hw_queues 4 queue_count 7 qcnt 5
-nvme nvme0: mapped 6/0/0 default/read/poll queues.
-nvme_tcp_start_io_queues nr_hw_queues 6 queue_count 7 qcnt 7
-nvme nvme0: Successfully reconnected (1 attempt)
-nvme nvme0: starting error recovery
-nvme0: Keep Alive(0x18), Unknown (sct 0x3 / sc 0x71)
-nvme nvme0: failed nvme_keep_alive_end_io error=10
-nvme nvme0: Reconnecting in 10 seconds...
-nvme nvme0: creating 4 I/O queues.
-nvme_tcp_start_io_queues nr_hw_queues 6 queue_count 5 qcnt 5
-nvme nvme0: mapped 4/0/0 default/read/poll queues.
-nvme_tcp_start_io_queues nr_hw_queues 4 queue_count 5 qcnt 5
-nvme nvme0: Successfully reconnected (1 attempt)
-
-
-changes:
-v2:
- - removed debug logging
- - pass in queue range idx as argument to nvme_tcp_start_io_queues
-v1:
- - https://lore.kernel.org/linux-nvme/20220812142824.17766-1-dwagner@suse.de/
-
-Daniel Wagner (3):
-  nvmet: Expose max queues to sysfs
-  nvme-tcp: Handle number of queue changes
-  nvme-rdma: Handle number of queue changes
-
- drivers/nvme/host/rdma.c       | 26 ++++++++++++---
- drivers/nvme/host/tcp.c        | 59 ++++++++++++++++++++++------------
- drivers/nvme/target/configfs.c | 25 ++++++++++++++
- 3 files changed, 84 insertions(+), 26 deletions(-)
-
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 2bcd60758919..ba9f3209f848 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -1281,6 +1281,30 @@ static ssize_t nvmet_subsys_attr_pi_enable_store(struct config_item *item,
+ CONFIGFS_ATTR(nvmet_subsys_, attr_pi_enable);
+ #endif
+ 
++static ssize_t nvmet_subsys_attr_qid_max_show(struct config_item *item,
++					      char *page)
++{
++	return snprintf(page, PAGE_SIZE, "%u\n", to_subsys(item)->max_qid);
++}
++
++static ssize_t nvmet_subsys_attr_qid_max_store(struct config_item *item,
++					       const char *page, size_t cnt)
++{
++	u16 qid_max;
++
++	if (sscanf(page, "%hu\n", &qid_max) != 1)
++		return -EINVAL;
++
++	if (qid_max == 0)
++		return -EINVAL;
++
++	down_write(&nvmet_config_sem);
++	to_subsys(item)->max_qid = qid_max;
++	up_write(&nvmet_config_sem);
++	return cnt;
++}
++CONFIGFS_ATTR(nvmet_subsys_, attr_qid_max);
++
+ static struct configfs_attribute *nvmet_subsys_attrs[] = {
+ 	&nvmet_subsys_attr_attr_allow_any_host,
+ 	&nvmet_subsys_attr_attr_version,
+@@ -1291,6 +1315,7 @@ static struct configfs_attribute *nvmet_subsys_attrs[] = {
+ #ifdef CONFIG_BLK_DEV_INTEGRITY
+ 	&nvmet_subsys_attr_attr_pi_enable,
+ #endif
++	&nvmet_subsys_attr_attr_qid_max,
+ 	NULL,
+ };
+ 
 -- 
 2.37.1
 
