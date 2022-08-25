@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B54F1C65C0F
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 Aug 2022 15:25:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8776C6498F
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Aug 2022 15:25:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
 	:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Zco/cq2uLRvV+s+4HkHZAZF2wQKOR8FuVA8Uucgnt08=; b=Yj7nNIkXfIsUAFTXJB3xqeI2Qt
-	lvmB7O+Th0i44PNt2neCKxkucKEcMl2wKihAZlYQpmBjp0oh5IxTfgtj3U8GRZKP4aHZG20Sc4i8X
-	qeAmrYU8UnU3yIBd2vkxr836GXqLBevFn4avnVRowAPxTMdQtGbQPY5kfrXkmvQ9L0QjXi7zGL9B1
-	3HXh/r6Y5Fm9tZ0c/FPJ7hxL4eexStIRyu9y+MC33R2p1L7vgK1V/NAx1CYcUD8bayLAg56p7se0h
-	Ix1Y8TFiSESs4yMeugx6Wqx5xYusVCoNSUOoVOnV12DcCu1Xn/kJ0HTMEOR1P4UdSTCtzfGVfckrs
-	L3w7WGIQ==;
+	bh=jHRxLz2djGGS1TM542jkP+PzdqwM8h/KFYgaj6hQq10=; b=YKPllOwOUFu4gRsHp0ABCat4Vf
+	J1FjCzmfHqDtmZjtubB6fb+vdqwrz3jRbEim5lOqmH63W6aFmman88lJ4I5J2o+BHuM1kFy99wTZo
+	avih/t0/d6p4XaKLv8CzyIDIEsidQUr7gyAMsy2CR9lsWeIWb8So9hioUOYHxQJGAaWyvAyKatQzq
+	8ipRuzZX6F12It2qCSedYVjRKBAuIfdA3rw8NYRae1So6LZWnZ232ICyPg4UgLxYMCgGPAQ2ibmAt
+	qQ7VgnqYSjSfRpbelL1zwmgYJ36im9NyiLPzmeiwb9HingjBnNjwfhOuELvMdD+zs9/LhMwDHD4OA
+	Ds0gfjvA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oREja-00FgoV-4Q; Thu, 25 Aug 2022 15:25:30 +0000
+	id 1oREjv-00Fgzk-6V; Thu, 25 Aug 2022 15:25:51 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oREiq-00FgKR-UE
-	for linux-nvme@lists.infradead.org; Thu, 25 Aug 2022 15:24:49 +0000
+	id 1oREiq-00FgKU-TF
+	for linux-nvme@lists.infradead.org; Thu, 25 Aug 2022 15:24:50 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Cc:To:From:content-disposition;
-	bh=Zco/cq2uLRvV+s+4HkHZAZF2wQKOR8FuVA8Uucgnt08=; b=ECzpmWpGfFN3FSN3MXglMySWFq
-	2/AyvUP5mc5dsTnuux+42Fb10+vKI4gPCs10aAmDZbYoZBwUmNwUGysjQ2BuYBQpsvZ9MWElt96CC
-	bBjlqVLRj+av4OPvi1lgmo3s95qcB+a6q7ZpddFxRXCVbyQ00iLx/6NcZwRINyXwJUl/6x3FaBCFo
-	J8pPdkOHtrhU+wGWGLJdb2zwmskLsaqFcwcodC4kLN7+M30fYzYMaIm8+MCZlyrayUO/+R1Znp3oy
-	EiQoV2+fW6SxljxTyfuMnJ+vpiDzNUKchWev7FIQaywEwCZgXQU09yjQLzpHaoy4OsXgKoRj5NCXN
-	Esl7IF9A==;
+	bh=jHRxLz2djGGS1TM542jkP+PzdqwM8h/KFYgaj6hQq10=; b=auQ8tkE4WiGZMxITEDr0NehtLa
+	pjduVL2MTl1EiBVIWvrNWahaQ5IAFoEUwcLTSHpGK2r6Oe7SxBi+IoVGHvbBpi+CXWY2XBo0a7zhv
+	pDZJqZJkhOYRFSM1hA9uDW1z4W3hMxIJBQnMkDchJtZJnzA20Pu7ybmXMSyg3/G8Or3YDlqu6sClq
+	3SyNxXu76FGeRui6SKCsyCsBGskr47P/3F2Zsog/zrqzp8FBoym3K0em4jkCFauHESXwUH9TW3iY8
+	B91rE1P2LZIVVI99tN4nwLTnWRNVd3Uejp5tslsOCEhyYNKMadbzbS8yFg8DsO9sv68gCv0XkiaT2
+	IuGjyLIg==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
 	by ale.deltatee.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <gunthorp@deltatee.com>)
-	id 1oREik-0086M9-On; Thu, 25 Aug 2022 09:24:39 -0600
+	id 1oREim-0086MC-BQ; Thu, 25 Aug 2022 09:24:41 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.94.2)
 	(envelope-from <gunthorp@deltatee.com>)
-	id 1oREif-0001es-0Y; Thu, 25 Aug 2022 09:24:33 -0600
+	id 1oREie-0001eo-SF; Thu, 25 Aug 2022 09:24:32 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
@@ -69,8 +69,8 @@ Cc: Christoph Hellwig <hch@lst.de>,
 	Ralph Campbell <rcampbell@nvidia.com>,
 	Stephen Bates <sbates@raithlin.com>,
 	Logan Gunthorpe <logang@deltatee.com>
-Date: Thu, 25 Aug 2022 09:24:25 -0600
-Message-Id: <20220825152425.6296-9-logang@deltatee.com>
+Date: Thu, 25 Aug 2022 09:24:24 -0600
+Message-Id: <20220825152425.6296-8-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220825152425.6296-1-logang@deltatee.com>
 References: <20220825152425.6296-1-logang@deltatee.com>
@@ -79,12 +79,12 @@ Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 172.16.1.31
 X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, hch@lst.de, gregkh@linuxfoundation.org, jgg@ziepe.ca, christian.koenig@amd.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, jason@jlekstrand.net, dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, jhubbard@nvidia.com, rcampbell@nvidia.com, sbates@raithlin.com, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v9 8/8] ABI: sysfs-bus-pci: add documentation for p2pmem allocate
+Subject: [PATCH v9 7/8] PCI/P2PDMA: Allow userspace VMA allocations through sysfs
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220825_082445_019879_FF9470AB 
-X-CRM114-Status: GOOD (  13.90  )
+X-CRM114-CacheID: sfid-20220825_082445_038537_C7AE37EC 
+X-CRM114-Status: GOOD (  24.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,45 +99,192 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add documentation for the p2pmem/allocate binary file which allows
-for allocating p2pmem buffers in userspace for passing to drivers
-that support them. (Currently only O_DIRECT to NVMe devices.)
+Create a sysfs bin attribute called "allocate" under the existing
+"p2pmem" group. The only allowable operation on this file is the mmap()
+call.
+
+When mmap() is called on this attribute, the kernel allocates a chunk of
+memory from the genalloc and inserts the pages into the VMA. The
+dev_pagemap .page_free callback will indicate when these pages are no
+longer used and they will be put back into the genalloc.
+
+On device unbind, remove the sysfs file before the memremap_pages are
+cleaned up. This ensures unmap_mapping_range() is called on the files
+inode and no new mappings can be created.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- Documentation/ABI/testing/sysfs-bus-pci | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ drivers/pci/p2pdma.c | 124 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 124 insertions(+)
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-pci b/Documentation/ABI/testing/sysfs-bus-pci
-index 6fc2c2efe8ab..dca5e032b4fa 100644
---- a/Documentation/ABI/testing/sysfs-bus-pci
-+++ b/Documentation/ABI/testing/sysfs-bus-pci
-@@ -171,7 +171,7 @@ Description:
- 		binary file containing the Vital Product Data for the
- 		device.  It should follow the VPD format defined in
- 		PCI Specification 2.1 or 2.2, but users should consider
--		that some devices may have incorrectly formatted data.  
-+		that some devices may have incorrectly formatted data.
- 		If the underlying VPD has a writable section then the
- 		corresponding section of this file will be writable.
+diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+index 4496a7c5c478..a6ed6bbca214 100644
+--- a/drivers/pci/p2pdma.c
++++ b/drivers/pci/p2pdma.c
+@@ -89,6 +89,90 @@ static ssize_t published_show(struct device *dev, struct device_attribute *attr,
+ }
+ static DEVICE_ATTR_RO(published);
  
-@@ -407,6 +407,16 @@ Description:
- 	        file contains a '1' if the memory has been published for
- 		use outside the driver that owns the device.
- 
-+What:		/sys/bus/pci/devices/.../p2pmem/allocate
-+Date:		August 2022
-+Contact:	Logan Gunthorpe <logang@deltatee.com>
-+Description:
-+		Thes attribute allows mapping p2pmem into userspace. For
-+		each mmap() call on this file, the kernel will allocate
-+		a chunk of Peer-to-Peer memory for use in Peer-to-Peer
-+		transactions. This memory can be used in O_DIRECT calls
-+		to NVMe backed files for Peer-to-Peer copies.
++static int p2pmem_alloc_mmap(struct file *filp, struct kobject *kobj,
++		struct bin_attribute *attr, struct vm_area_struct *vma)
++{
++	struct pci_dev *pdev = to_pci_dev(kobj_to_dev(kobj));
++	size_t len = vma->vm_end - vma->vm_start;
++	struct pci_p2pdma *p2pdma;
++	struct percpu_ref *ref;
++	unsigned long vaddr;
++	void *kaddr;
++	int ret;
 +
- What:		/sys/bus/pci/devices/.../link/clkpm
- 		/sys/bus/pci/devices/.../link/l0s_aspm
- 		/sys/bus/pci/devices/.../link/l1_aspm
++	/* prevent private mappings from being established */
++	if ((vma->vm_flags & VM_MAYSHARE) != VM_MAYSHARE) {
++		pci_info_ratelimited(pdev,
++				     "%s: fail, attempted private mapping\n",
++				     current->comm);
++		return -EINVAL;
++	}
++
++	if (vma->vm_pgoff) {
++		pci_info_ratelimited(pdev,
++				     "%s: fail, attempted mapping with non-zero offset\n",
++				     current->comm);
++		return -EINVAL;
++	}
++
++	rcu_read_lock();
++	p2pdma = rcu_dereference(pdev->p2pdma);
++	if (!p2pdma) {
++		ret = -ENODEV;
++		goto out;
++	}
++
++	kaddr = (void *)gen_pool_alloc_owner(p2pdma->pool, len, (void **)&ref);
++	if (!kaddr) {
++		ret = -ENOMEM;
++		goto out;
++	}
++
++	/*
++	 * vm_insert_page() can sleep, so a reference is taken to mapping
++	 * such that rcu_read_unlock() can be done before inserting the
++	 * pages
++	 */
++	if (unlikely(!percpu_ref_tryget_live_rcu(ref))) {
++		ret = -ENODEV;
++		goto out_free_mem;
++	}
++	rcu_read_unlock();
++
++	for (vaddr = vma->vm_start; vaddr < vma->vm_end; vaddr += PAGE_SIZE) {
++		ret = vm_insert_page(vma, vaddr, virt_to_page(kaddr));
++		if (ret) {
++			gen_pool_free(p2pdma->pool, (uintptr_t)kaddr, len);
++			return ret;
++		}
++		percpu_ref_get(ref);
++		put_page(virt_to_page(kaddr));
++		kaddr += PAGE_SIZE;
++		len -= PAGE_SIZE;
++	}
++
++	percpu_ref_put(ref);
++
++	return 0;
++out_free_mem:
++	gen_pool_free(p2pdma->pool, (uintptr_t)kaddr, len);
++out:
++	rcu_read_unlock();
++	return ret;
++}
++
++static struct bin_attribute p2pmem_alloc_attr = {
++	.attr = { .name = "allocate", .mode = 0660 },
++	.mmap = p2pmem_alloc_mmap,
++	/*
++	 * Some places where we want to call mmap (ie. python) will check
++	 * that the file size is greater than the mmap size before allowing
++	 * the mmap to continue. To work around this, just set the size
++	 * to be very large.
++	 */
++	.size = SZ_1T,
++};
++
+ static struct attribute *p2pmem_attrs[] = {
+ 	&dev_attr_size.attr,
+ 	&dev_attr_available.attr,
+@@ -96,11 +180,32 @@ static struct attribute *p2pmem_attrs[] = {
+ 	NULL,
+ };
+ 
++static struct bin_attribute *p2pmem_bin_attrs[] = {
++	&p2pmem_alloc_attr,
++	NULL,
++};
++
+ static const struct attribute_group p2pmem_group = {
+ 	.attrs = p2pmem_attrs,
++	.bin_attrs = p2pmem_bin_attrs,
+ 	.name = "p2pmem",
+ };
+ 
++static void p2pdma_page_free(struct page *page)
++{
++	struct pci_p2pdma_pagemap *pgmap = to_p2p_pgmap(page->pgmap);
++	struct percpu_ref *ref;
++
++	gen_pool_free_owner(pgmap->provider->p2pdma->pool,
++			    (uintptr_t)page_to_virt(page), PAGE_SIZE,
++			    (void **)&ref);
++	percpu_ref_put(ref);
++}
++
++static const struct dev_pagemap_ops p2pdma_pgmap_ops = {
++	.page_free = p2pdma_page_free,
++};
++
+ static void pci_p2pdma_release(void *data)
+ {
+ 	struct pci_dev *pdev = data;
+@@ -152,6 +257,19 @@ static int pci_p2pdma_setup(struct pci_dev *pdev)
+ 	return error;
+ }
+ 
++static void pci_p2pdma_unmap_mappings(void *data)
++{
++	struct pci_dev *pdev = data;
++
++	/*
++	 * Removing the alloc attribute from sysfs will call
++	 * unmap_mapping_range() on the inode, teardown any existing userspace
++	 * mappings and prevent new ones from being created.
++	 */
++	sysfs_remove_file_from_group(&pdev->dev.kobj, &p2pmem_alloc_attr.attr,
++				     p2pmem_group.name);
++}
++
+ /**
+  * pci_p2pdma_add_resource - add memory for use as p2p memory
+  * @pdev: the device to add the memory to
+@@ -198,6 +316,7 @@ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
+ 	pgmap->range.end = pgmap->range.start + size - 1;
+ 	pgmap->nr_range = 1;
+ 	pgmap->type = MEMORY_DEVICE_PCI_P2PDMA;
++	pgmap->ops = &p2pdma_pgmap_ops;
+ 
+ 	p2p_pgmap->provider = pdev;
+ 	p2p_pgmap->bus_offset = pci_bus_address(pdev, bar) -
+@@ -209,6 +328,11 @@ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
+ 		goto pgmap_free;
+ 	}
+ 
++	error = devm_add_action_or_reset(&pdev->dev, pci_p2pdma_unmap_mappings,
++					 pdev);
++	if (error)
++		goto pages_free;
++
+ 	p2pdma = rcu_dereference_protected(pdev->p2pdma, 1);
+ 	error = gen_pool_add_owner(p2pdma->pool, (unsigned long)addr,
+ 			pci_bus_address(pdev, bar) + offset,
 -- 
 2.30.2
 
