@@ -4,58 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83EE8C04AA5
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 Aug 2022 10:02:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1B80AC28D13
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Aug 2022 10:05:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SFpsHHiCKKGcK68CxBminy5B0zZuS5RoY6sH2iu9fnU=; b=I/osPV5RqU2iR3+dz/6c5Gvs8f
-	fB6W7p46ORUPwtgX2+vVL5/cHqFRbc28oiWCGU6O4CxGsX/m5wIs2MlINYq/NjaOA+pGqjE05wLeZ
-	Sh7irb1C0Z4waTLJhgiwAcv32S1qfcBKzVeMOapSJ1Ym155Zx13ZgEFfBxY4F0vBfwfxklf0D/Ypx
-	UuwoiZbWyBKdQEivinfdpplseAN7yifUi3NaDlXetDEkBpIK6yovka0WGZz642a4GZqHvOGMHbJ/M
-	I/XM9gP4fC9mPN9veE/3JfB6RE+y0fH3m2cKQxGJrHnqlnVfmWjeZtSU7IT65PUuxwQx2epA2mvmr
-	IKyYKKxw==;
+	bh=q2FKWbY0bQ1KKR2vtH+3Kal7QcFLPAKp3Z2BnE/X5pc=; b=tVz6r0olyhkSKu/bh4P/oV2NFq
+	OzQip9N5lfojyEgfSYBlDuxagSVv6CN1G3ex89bjEkWz5Uww+DRHYGWPglULJsnDa653UIFIfNwb+
+	fwSSrelWo9YW0xJFeU9Q1W6DBxuGiYSUxPh4mIc4lsg9ULTcaHgz/vK2OIHuFyvK35uvN3UulxNXi
+	GYwztgRT508yX3MXfgqbhCnsHfky6boXqCZ1HyYbQ2uY3iUZf5VWFLH4Os8usy+zbE78SNgZxnDgC
+	GE9+XP+/7ikDHTOSVj9b4FB+l8/ARyxHSS9pyCr80nDPbdds8m/K6VT3/4Vnq1ijBXj9NtFR8ayJW
+	dg54y4XQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oR9hD-00BiNu-FL; Thu, 25 Aug 2022 10:02:43 +0000
-Received: from szxga03-in.huawei.com ([45.249.212.189])
+	id 1oR9kF-00Bksb-QF; Thu, 25 Aug 2022 10:05:51 +0000
+Received: from szxga02-in.huawei.com ([45.249.212.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oR9h9-00Bi9Q-UJ
-	for linux-nvme@lists.infradead.org; Thu, 25 Aug 2022 10:02:41 +0000
-Received: from canpemm500002.china.huawei.com (unknown [172.30.72.56])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4MCz4P4y2YzGpr5;
-	Thu, 25 Aug 2022 18:00:53 +0800 (CST)
+	id 1oR9kD-00Bkrp-J9
+	for linux-nvme@lists.infradead.org; Thu, 25 Aug 2022 10:05:50 +0000
+Received: from canpemm500002.china.huawei.com (unknown [172.30.72.53])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MCz6116pjzlWYY;
+	Thu, 25 Aug 2022 18:02:17 +0800 (CST)
 Received: from [10.169.59.127] (10.169.59.127) by
  canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 25 Aug 2022 18:02:33 +0800
-Subject: Re: [PATCH 1/2] nvme: make NVMe freeze API reliably
+ 15.1.2375.24; Thu, 25 Aug 2022 18:05:32 +0800
+Subject: Re: [PATCH 2/2] nvme-pci: don't wait freeze during resetting
 To: Ming Lei <ming.lei@redhat.com>, Christoph Hellwig <hch@lst.de>,
 	<linux-nvme@lists.infradead.org>
 CC: Yi Zhang <yi.zhang@redhat.com>, Sagi Grimberg <sagi@grimberg.me>, Keith
  Busch <kbusch@kernel.org>
 References: <20220821084754.340585-1-ming.lei@redhat.com>
- <20220821084754.340585-2-ming.lei@redhat.com>
+ <20220821084754.340585-3-ming.lei@redhat.com>
 From: Chao Leng <lengchao@huawei.com>
-Message-ID: <e2568bdd-a3cb-7a94-8018-d1468f3dcdd4@huawei.com>
-Date: Thu, 25 Aug 2022 18:02:33 +0800
+Message-ID: <fcd5d4c6-b803-db9f-a00c-abfe7365f364@huawei.com>
+Date: Thu, 25 Aug 2022 18:05:30 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.1
 MIME-Version: 1.0
-In-Reply-To: <20220821084754.340585-2-ming.lei@redhat.com>
+In-Reply-To: <20220821084754.340585-3-ming.lei@redhat.com>
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.169.59.127]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
  canpemm500002.china.huawei.com (7.192.104.244)
 X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220825_030240_351270_FCD3C127 
-X-CRM114-Status: GOOD (  17.09  )
+X-CRM114-CacheID: sfid-20220825_030549_821575_4BDE4EEB 
+X-CRM114-Status: GOOD (  14.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,91 +73,33 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 On 2022/8/21 16:47, Ming Lei wrote:
-> From: Keith Busch <kbusch@kernel.org>
+> First it isn't necessary to call nvme_wait_freeze in nvme_reset_work().
+> If tagset isn't allocated, there can't be any inflight IOs; otherwise
+> blk_mq_update_nr_hw_queues can freeze & wait queues.
 > 
-> In some corner cases[1], freeze wait and unfreeze API may be called on
-> unfrozen queue, add one per-ns flag of NVME_NS_FREEZE to make these
-> freeze APIs more reliably, then this kind of issues can be avoided.
-> And similar approach has been applied on stopping/quiescing nvme queues.
-This leads to another problem: the process that needs to be
-in the frozen state is not actually frozen.
-It's not safe.
-There is the same risk on stopping/quiescing nvme queues.
+> Second, since commit bdd6316094e0 ("block: Allow unfreezing of a queue
+> while requests are in progress"), it is fine to unfreeze queue without
+> draining inflight IOs.
 > 
-> [1] https://lore.kernel.org/linux-nvme/20220801125753.1434024-1-ming.lei@redhat.com/
-> 
-> Reported-by: Yi Zhang <yi.zhang@redhat.com>
-> Link: https://lore.kernel.org/linux-block/CAHj4cs--KPTAGP=jj+7KMe=arDv=HeGeOgs1T8vbusyk=EjXow@mail.gmail.com/#r
-> 
-> Add comment log.
 > Signed-off-by: Ming Lei <ming.lei@redhat.com>
 > ---
->   drivers/nvme/host/core.c | 16 +++++++++++++---
->   drivers/nvme/host/nvme.h |  1 +
->   2 files changed, 14 insertions(+), 3 deletions(-)
+>   drivers/nvme/host/pci.c | 1 -
+>   1 file changed, 1 deletion(-)
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index af367b22871b..fe4ae3616ed1 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -5028,8 +5028,11 @@ void nvme_unfreeze(struct nvme_ctrl *ctrl)
->   	struct nvme_ns *ns;
->   
->   	down_read(&ctrl->namespaces_rwsem);
-> -	list_for_each_entry(ns, &ctrl->namespaces, list)
-> +	list_for_each_entry(ns, &ctrl->namespaces, list) {
-> +		if (!test_and_clear_bit(NVME_NS_FREEZE, &ns->flags))
-> +			continue;
->   		blk_mq_unfreeze_queue(ns->queue);
-> +	}
->   	up_read(&ctrl->namespaces_rwsem);
->   }
->   EXPORT_SYMBOL_GPL(nvme_unfreeze);
-> @@ -5040,6 +5043,8 @@ int nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout)
->   
->   	down_read(&ctrl->namespaces_rwsem);
->   	list_for_each_entry(ns, &ctrl->namespaces, list) {
-> +		if (!test_bit(NVME_NS_FREEZE, &ns->flags))
-> +			continue;
->   		timeout = blk_mq_freeze_queue_wait_timeout(ns->queue, timeout);
->   		if (timeout <= 0)
->   			break;
-> @@ -5054,8 +5059,11 @@ void nvme_wait_freeze(struct nvme_ctrl *ctrl)
->   	struct nvme_ns *ns;
->   
->   	down_read(&ctrl->namespaces_rwsem);
-> -	list_for_each_entry(ns, &ctrl->namespaces, list)
-> +	list_for_each_entry(ns, &ctrl->namespaces, list) {
-> +		if (!test_bit(NVME_NS_FREEZE, &ns->flags))
-> +			continue;
->   		blk_mq_freeze_queue_wait(ns->queue);
-> +	}
->   	up_read(&ctrl->namespaces_rwsem);
->   }
->   EXPORT_SYMBOL_GPL(nvme_wait_freeze);
-> @@ -5065,8 +5073,10 @@ void nvme_start_freeze(struct nvme_ctrl *ctrl)
->   	struct nvme_ns *ns;
->   
->   	down_read(&ctrl->namespaces_rwsem);
-> -	list_for_each_entry(ns, &ctrl->namespaces, list)
-> +	list_for_each_entry(ns, &ctrl->namespaces, list) {
-> +		set_bit(NVME_NS_FREEZE, &ns->flags);
->   		blk_freeze_queue_start(ns->queue);
-> +	}
->   	up_read(&ctrl->namespaces_rwsem);
->   }
->   EXPORT_SYMBOL_GPL(nvme_start_freeze);
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 1bdf714dcd9e..702ba19b5647 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -484,6 +484,7 @@ struct nvme_ns {
->   #define NVME_NS_FORCE_RO	3
->   #define NVME_NS_READY		4
->   #define NVME_NS_STOPPED		5
-> +#define NVME_NS_FREEZE		6
->   
->   	struct cdev		cdev;
->   	struct device		cdev_device;
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 3a1c37f32f30..91b2903fcc24 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2910,7 +2910,6 @@ static void nvme_reset_work(struct work_struct *work)
+>   		nvme_free_tagset(dev);
+>   	} else {
+>   		nvme_start_queues(&dev->ctrl);
+> -		nvme_wait_freeze(&dev->ctrl);
+It is not safe.
+nvme_dev_add may call blk_mq_update_nr_hw_queues, blk_mq_update_nr_hw_queues
+require the state is frozen.
+>   		if (!dev->ctrl.tagset)
+>   			nvme_pci_alloc_tag_set(dev);
+>   		else
 > 
 
