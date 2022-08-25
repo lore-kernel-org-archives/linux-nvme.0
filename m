@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0850AC28D13
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 Aug 2022 15:24:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A3ABC76194
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Aug 2022 15:24:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
 	:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PNE4B8sXwOVMOk+3rqBkaNjhAgYrAxODM+UtKodjnl4=; b=CchIPx3HaoQm341F6KZlgV/eOK
-	SFPq1j3e4lvh9eBRnxAai+iL5i7Qfv5E7mRaC9/fJ3ETIoImjk4xfx/IZxK+cFB0jM6WzXCRh17zc
-	hogwvjMGW2DNiKMwEFqOeacHZZI9h4txGwC/e9DIpTo52ssUrN6P/kfZUddrhWtbbPLFrateNiEjS
-	6yjzVT1y4jtJ+yKi4K9+JtBwtvALi2XIwbOFSyc9AyrJdozPHTlnmU8oH960WNKtQ9qA0RcOAKiBJ
-	GlZMpaUmgD4gXPIYSQYR8KMpYSQKFGkoI3Tjn4o8oT2doaixbynrgwkJ4owEIZ6IVi7Ba5FgOUBkD
-	DPOz2fIQ==;
+	bh=JQ3qiW538t9ABcApNKq4W32OZxdHmb0EGXdVRgOkT1A=; b=K0K8WUADDfRUB3vYxquvoBLRXk
+	hu4pjGn2rn6H1F0TGj1G7wLoXxs6CWZ37R3xORu4RfQdDiATf3htbmUMd7uDrxd9kw2pOMXkVdIuv
+	biAywt68q7GaxQZGcP+6zmDyjnwomJ62wiQaaqv+zL0hI9vZs0rKDrBOmYJ25Ja/8B3nyGPotyBIz
+	Hc7iECK2vrHy/H8p6K6ifFKkfQo+AnUVFUi3UAuUVp9QvoEu9kI2sNogoPOkeD/RImpBjP076vmgE
+	CUrt8iZa2N1LUyPpBybLPPP9Wci8fPZSym4uyWWrEIhOXUnj0kg6DtlWadvaR49JC10Y06gqPtS66
+	RVRfAKYg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oREiu-00FgOd-4g; Thu, 25 Aug 2022 15:24:48 +0000
+	id 1oREj3-00FgU6-0z; Thu, 25 Aug 2022 15:24:57 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oREiq-00FgKD-87
+	id 1oREiq-00FgKQ-7v
 	for linux-nvme@lists.infradead.org; Thu, 25 Aug 2022 15:24:45 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Cc:To:From:content-disposition;
-	bh=PNE4B8sXwOVMOk+3rqBkaNjhAgYrAxODM+UtKodjnl4=; b=blWJgVk3dMLXB9Hn8RuPfUoC0X
-	14dFNFjLX5NPIJM12TD3x1Ff5i8KItpOFIT6ngkqLr6P5dN+ZseUqea/oX0Jh6mbgxeufH94pmnxR
-	YWNj1cKBdx6e89DpKvvqrl4M3NyL8YZeMHTJjoriIU82VWUxxsalH6aH3+dxyBMzORat8o9RYJ3su
-	dRKf03bADuprGQ05RTIOCvqU8rIuPgfxIC3/k5rLPBXfZbxvyCfTrHn0Cs8V1r2nuN82JKFPGvNx6
-	ARAzsSfmXrNkHGfrMewamAQWvZgPLup5H2IFOL4sPhpUsJ/BBP0wHhvwu2+9BRzCGMyc6UVSukB28
-	Hb9Dh65g==;
+	bh=JQ3qiW538t9ABcApNKq4W32OZxdHmb0EGXdVRgOkT1A=; b=mL1bcL2m3muagTl7k/hmjjD2sd
+	WrGCiFwORUktHwhS6nJWPH2C/y3bRvzX6UhnbrEhLzyM3G7AGiNs7WpJfduS4yQ+TtLr3MyMHs5yL
+	CWSJb9tMAb1GLhvJnfHKYifj41RK8KGr2qzUpybsOPuSQrV+eVgrLR6i1x2CbEKZtW3TREUfNc84H
+	lxZYhh2cVE1+0Ja1vSY+HqqjdBAp/XLEhAVhSdmPse6kUBbQxwXI6q2R3hTK7ZJGQjXp9zHOAijYS
+	GSTBGpijJgtCqQWh8U65wMlklqsAnSfTM+W1+Sh/d9x1x5cE8wNn9k8Ry2JK+22T576pcjmcyhi4i
+	Epk0iVoQ==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
 	by ale.deltatee.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <gunthorp@deltatee.com>)
-	id 1oREij-0086MC-QX; Thu, 25 Aug 2022 09:24:38 -0600
+	id 1oREij-0086MA-QV; Thu, 25 Aug 2022 09:24:39 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.94.2)
 	(envelope-from <gunthorp@deltatee.com>)
-	id 1oREie-0001ef-EU; Thu, 25 Aug 2022 09:24:32 -0600
+	id 1oREie-0001eY-4B; Thu, 25 Aug 2022 09:24:32 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
@@ -69,8 +69,8 @@ Cc: Christoph Hellwig <hch@lst.de>,
 	Ralph Campbell <rcampbell@nvidia.com>,
 	Stephen Bates <sbates@raithlin.com>,
 	Logan Gunthorpe <logang@deltatee.com>
-Date: Thu, 25 Aug 2022 09:24:21 -0600
-Message-Id: <20220825152425.6296-5-logang@deltatee.com>
+Date: Thu, 25 Aug 2022 09:24:19 -0600
+Message-Id: <20220825152425.6296-3-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220825152425.6296-1-logang@deltatee.com>
 References: <20220825152425.6296-1-logang@deltatee.com>
@@ -79,12 +79,12 @@ Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 172.16.1.31
 X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, hch@lst.de, gregkh@linuxfoundation.org, jgg@ziepe.ca, christian.koenig@amd.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, jason@jlekstrand.net, dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, jhubbard@nvidia.com, rcampbell@nvidia.com, sbates@raithlin.com, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v9 4/8] lib/scatterlist: add check when merging zone device pages
+Subject: [PATCH v9 2/8] iov_iter: introduce iov_iter_get_pages_[alloc_]flags()
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220825_082444_371202_791BF0AC 
-X-CRM114-Status: GOOD (  16.06  )
+X-CRM114-CacheID: sfid-20220825_082444_372018_355B0105 
+X-CRM114-Status: GOOD (  13.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,93 +99,118 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Consecutive zone device pages should not be merged into the same sgl
-or bvec segment with other types of pages or if they belong to different
-pgmaps. Otherwise getting the pgmap of a given segment is not possible
-without scanning the entire segment. This helper returns true either if
-both pages are not zone device pages or both pages are zone device
-pages with the same pgmap.
+Add iov_iter_get_pages_flags() and iov_iter_get_pages_alloc_flags()
+which take a flags argument that is passed to get_user_pages_fast().
 
-Factor out the check for page mergability into a pages_are_mergable()
-helper and add a check with zone_device_pages_are_mergeable().
+This is so that FOLL_PCI_P2PDMA can be passed when appropriate.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- lib/scatterlist.c | 25 +++++++++++++++----------
- 1 file changed, 15 insertions(+), 10 deletions(-)
+ include/linux/uio.h |  6 ++++++
+ lib/iov_iter.c      | 40 ++++++++++++++++++++++++++++++++++++----
+ 2 files changed, 42 insertions(+), 4 deletions(-)
 
-diff --git a/lib/scatterlist.c b/lib/scatterlist.c
-index c8c3d675845c..a0ad2a7959b5 100644
---- a/lib/scatterlist.c
-+++ b/lib/scatterlist.c
-@@ -410,6 +410,15 @@ static struct scatterlist *get_next_sg(struct sg_append_table *table,
- 	return new_sg;
+diff --git a/include/linux/uio.h b/include/linux/uio.h
+index 5896af36199c..76ba69edb8c5 100644
+--- a/include/linux/uio.h
++++ b/include/linux/uio.h
+@@ -247,8 +247,14 @@ void iov_iter_pipe(struct iov_iter *i, unsigned int direction, struct pipe_inode
+ void iov_iter_discard(struct iov_iter *i, unsigned int direction, size_t count);
+ void iov_iter_xarray(struct iov_iter *i, unsigned int direction, struct xarray *xarray,
+ 		     loff_t start, size_t count);
++ssize_t iov_iter_get_pages_flags(struct iov_iter *i, struct page **pages,
++		size_t maxsize, unsigned maxpages, size_t *start,
++		unsigned int gup_flags);
+ ssize_t iov_iter_get_pages2(struct iov_iter *i, struct page **pages,
+ 			size_t maxsize, unsigned maxpages, size_t *start);
++ssize_t iov_iter_get_pages_alloc_flags(struct iov_iter *i,
++		struct page ***pages, size_t maxsize, size_t *start,
++		unsigned int gup_flags);
+ ssize_t iov_iter_get_pages_alloc2(struct iov_iter *i, struct page ***pages,
+ 			size_t maxsize, size_t *start);
+ int iov_iter_npages(const struct iov_iter *i, int maxpages);
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index 4b7fce72e3e5..dedb78f3c655 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -1427,7 +1427,8 @@ static struct page *first_bvec_segment(const struct iov_iter *i,
+ 
+ static ssize_t __iov_iter_get_pages_alloc(struct iov_iter *i,
+ 		   struct page ***pages, size_t maxsize,
+-		   unsigned int maxpages, size_t *start)
++		   unsigned int maxpages, size_t *start,
++		   unsigned int gup_flags)
+ {
+ 	unsigned int n;
+ 
+@@ -1439,7 +1440,6 @@ static ssize_t __iov_iter_get_pages_alloc(struct iov_iter *i,
+ 		maxsize = MAX_RW_COUNT;
+ 
+ 	if (likely(user_backed_iter(i))) {
+-		unsigned int gup_flags = 0;
+ 		unsigned long addr;
+ 		int res;
+ 
+@@ -1497,10 +1497,24 @@ ssize_t iov_iter_get_pages2(struct iov_iter *i,
+ 		return 0;
+ 	BUG_ON(!pages);
+ 
+-	return __iov_iter_get_pages_alloc(i, &pages, maxsize, maxpages, start);
++	return __iov_iter_get_pages_alloc(i, &pages, maxsize, maxpages,
++					  start, 0);
  }
+ EXPORT_SYMBOL(iov_iter_get_pages2);
  
-+static bool pages_are_mergeable(struct page *a, struct page *b)
++ssize_t iov_iter_get_pages_flags(struct iov_iter *i, struct page **pages,
++		size_t maxsize, unsigned maxpages, size_t *start,
++		unsigned int gup_flags)
 +{
-+	if (page_to_pfn(a) != page_to_pfn(b) + 1)
-+		return false;
-+	if (!zone_device_pages_have_same_pgmap(a, b))
-+		return false;
-+	return true;
-+}
++	if (!maxpages)
++		return 0;
++	BUG_ON(!pages);
 +
- /**
-  * sg_alloc_append_table_from_pages - Allocate and initialize an append sg
-  *                                    table from an array of pages
-@@ -447,6 +456,7 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
- 	unsigned int chunks, cur_page, seg_len, i, prv_len = 0;
- 	unsigned int added_nents = 0;
- 	struct scatterlist *s = sgt_append->prv;
-+	struct page *last_pg;
++	return __iov_iter_get_pages_alloc(i, &pages, maxsize, maxpages,
++					  start, gup_flags);
++}
++EXPORT_SYMBOL_GPL(iov_iter_get_pages_flags);
++
+ ssize_t iov_iter_get_pages_alloc2(struct iov_iter *i,
+ 		   struct page ***pages, size_t maxsize,
+ 		   size_t *start)
+@@ -1509,7 +1523,7 @@ ssize_t iov_iter_get_pages_alloc2(struct iov_iter *i,
  
- 	/*
- 	 * The algorithm below requires max_segment to be aligned to PAGE_SIZE
-@@ -460,21 +470,17 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
- 		return -EOPNOTSUPP;
+ 	*pages = NULL;
  
- 	if (sgt_append->prv) {
--		unsigned long paddr =
--			(page_to_pfn(sg_page(sgt_append->prv)) * PAGE_SIZE +
--			 sgt_append->prv->offset + sgt_append->prv->length) /
--			PAGE_SIZE;
--
- 		if (WARN_ON(offset))
- 			return -EINVAL;
+-	len = __iov_iter_get_pages_alloc(i, pages, maxsize, ~0U, start);
++	len = __iov_iter_get_pages_alloc(i, pages, maxsize, ~0U, start, 0);
+ 	if (len <= 0) {
+ 		kvfree(*pages);
+ 		*pages = NULL;
+@@ -1518,6 +1532,24 @@ ssize_t iov_iter_get_pages_alloc2(struct iov_iter *i,
+ }
+ EXPORT_SYMBOL(iov_iter_get_pages_alloc2);
  
- 		/* Merge contiguous pages into the last SG */
- 		prv_len = sgt_append->prv->length;
--		while (n_pages && page_to_pfn(pages[0]) == paddr) {
-+		last_pg = sg_page(sgt_append->prv);
-+		while (n_pages && pages_are_mergeable(last_pg, pages[0])) {
- 			if (sgt_append->prv->length + PAGE_SIZE > max_segment)
- 				break;
- 			sgt_append->prv->length += PAGE_SIZE;
--			paddr++;
-+			last_pg = pages[0];
- 			pages++;
- 			n_pages--;
- 		}
-@@ -488,7 +494,7 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
- 	for (i = 1; i < n_pages; i++) {
- 		seg_len += PAGE_SIZE;
- 		if (seg_len >= max_segment ||
--		    page_to_pfn(pages[i]) != page_to_pfn(pages[i - 1]) + 1) {
-+		    !pages_are_mergeable(pages[i], pages[i - 1])) {
- 			chunks++;
- 			seg_len = 0;
- 		}
-@@ -504,8 +510,7 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
- 		for (j = cur_page + 1; j < n_pages; j++) {
- 			seg_len += PAGE_SIZE;
- 			if (seg_len >= max_segment ||
--			    page_to_pfn(pages[j]) !=
--			    page_to_pfn(pages[j - 1]) + 1)
-+			    !pages_are_mergeable(pages[j], pages[j - 1]))
- 				break;
- 		}
- 
++ssize_t iov_iter_get_pages_alloc_flags(struct iov_iter *i,
++		struct page ***pages, size_t maxsize,
++		size_t *start, unsigned int gup_flags)
++{
++	ssize_t len;
++
++	*pages = NULL;
++
++	len = __iov_iter_get_pages_alloc(i, pages, maxsize, ~0U, start,
++					 gup_flags);
++	if (len <= 0) {
++		kvfree(*pages);
++		*pages = NULL;
++	}
++	return len;
++}
++EXPORT_SYMBOL_GPL(iov_iter_get_pages_alloc_flags);
++
+ size_t csum_and_copy_from_iter(void *addr, size_t bytes, __wsum *csum,
+ 			       struct iov_iter *i)
+ {
 -- 
 2.30.2
 
