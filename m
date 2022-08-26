@@ -4,61 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18A79ECAAD6
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 Aug 2022 19:46:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0383ECAAD7
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Aug 2022 20:06:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fvUBFfFzn7HvKcdbrFAuNKCPWXqUulWBKHg8IqkpKH8=; b=zoNpuXjn2+bTOe2BTmUEzjSHUG
-	DuwSY0gJV25qqiyYVOgxJlciz4E3IGIExEqGXl6CtL+khR6Z9v4K4jWJHOR68ywPOlLyUt/y9TF8G
-	YjUD03xMqm1YlSmwJPnsXE7DZ1DZ/9d0+6/zN695Z4+3oXqyWfqrvfIO7eF0+wy17Txx72C2XmOb5
-	tiBQNWSSNOHuxoaNsfjf2oU006jFnPr9LtpuV8E80fPu+lWxuGGb5hksKrantFNsxGfGnW3mtqN9C
-	w65MgkBad+vT7O3VMW4TEcL9OZV8W8gTcwAK8zrai5tY4sw4UNg8sgHdbyBhv4hhCuHBYUR3UJdcY
-	QICYKNiQ==;
+	bh=PNk1kll23rwJYMsqgLsvF7iQCb4ky0T3/2VgqDe/eTw=; b=TUd55K/Fgc2UHPDJPcWGWqoqFk
+	SCYfXL4vAp+HagzA90ngM/OMuwR4rpxIPFIfG/743PrWIoPQBRKY5NgsQM3LWKgyP7VeDKtAwKVQR
+	0BRwfbhK7VNAMbQ0dIuJi5h0+0xSVlKLc0JAfFv2nJQtFuAgd03HEUIm2ZuwuU6vnrB4MR2yqujo4
+	T4+X58ySkac0YUzYy9joBYNQO+2AQ0lIggRL4WwgFuNmWHzoPC2d64c9FMlb/Qk4L5AAWCEx3TouV
+	e1zelr2WpKWQs64C06GW4CGQMJPSaYJUPniBJE0fig3AstZ3WZpfWyw9Z34x8R2FJpCde1C6PLHYW
+	z+/NUZPw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oRfHS-00Atrp-OB; Fri, 26 Aug 2022 19:46:14 +0000
-Received: from out1.migadu.com ([2001:41d0:2:863f::])
+	id 1oRfaq-00BFtH-V8; Fri, 26 Aug 2022 20:06:16 +0000
+Received: from out0.migadu.com ([94.23.1.103])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oRfBg-00AoQx-0L
-	for linux-nvme@lists.infradead.org; Fri, 26 Aug 2022 19:40:18 +0000
-Message-ID: <d92eae14-8ae7-a142-fb6b-26cc40791741@linux.dev>
+	id 1oRfan-00BFnA-KL
+	for linux-nvme@lists.infradead.org; Fri, 26 Aug 2022 20:06:16 +0000
+Message-ID: <1dc85f87-7146-ccd2-bbf4-e3077dd7a548@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1661542812;
+	t=1661544371;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fvUBFfFzn7HvKcdbrFAuNKCPWXqUulWBKHg8IqkpKH8=;
-	b=hcFBjP4/iLm28BfLgjsD5ktVnjEDR1VK2uKaWX/TZyaJfLhHnB0tLLUTuuN0POaXdNsgbB
-	brstYeISfKf2Yfiivw0M3RfvkPp9skrl5asUPTS123eGFKCkmLmWp4cAlbJLqBVlnYHdi7
-	GyfORYf4h+cUvpX+NRnFWw9MTGa8Ivk=
-Date: Fri, 26 Aug 2022 13:40:10 -0600
+	bh=PNk1kll23rwJYMsqgLsvF7iQCb4ky0T3/2VgqDe/eTw=;
+	b=dGlANpuf+dyysAHNTCQkld7zCMnQBzdsup6joAOWrC8cpsUqkoSGuLWQC0YwXko3DvA8D+
+	pqOXZCtfDLxV2cUFqtOS8vCd7awM2XEpKEfgFWI7fn7ZVUlhnKEEohQqz9IUmU/47ii7LR
+	sUeVGKoKefsvYqoDp4J/fSX9kz0e6sM=
+Date: Fri, 26 Aug 2022 14:06:07 -0600
 MIME-Version: 1.0
-Subject: Re: NVMe write protection support
+Subject: Re: [PATCH v12 03/13] block: allow blk-zoned devices to have
+ non-power-of-2 zone size
 Content-Language: en-US
+To: Pankaj Raghav <p.raghav@samsung.com>, agk@redhat.com, snitzer@kernel.org,
+ axboe@kernel.dk, damien.lemoal@opensource.wdc.com, hch@lst.de
+Cc: pankydev8@gmail.com, Johannes.Thumshirn@wdc.com,
+ linux-block@vger.kernel.org, dm-devel@redhat.com, hare@suse.de,
+ jaegeuk@kernel.org, linux-kernel@vger.kernel.org, matias.bjorling@wdc.com,
+ gost.dev@samsung.com, bvanassche@acm.org, linux-nvme@lists.infradead.org,
+ Luis Chamberlain <mcgrof@kernel.org>
+References: <20220823121859.163903-1-p.raghav@samsung.com>
+ <CGME20220823121904eucas1p1cdedb3e9af928e25564f46e70765d39b@eucas1p1.samsung.com>
+ <20220823121859.163903-4-p.raghav@samsung.com>
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Jonathan Derrick <jonathan.derrick@linux.dev>
-To: Gilles Buloz <Gilles.Buloz@kontron.com>,
- Christoph Hellwig <hch@infradead.org>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <DU0PR10MB62528F66099C2311E2AF1EEE809A9@DU0PR10MB6252.EURPRD10.PROD.OUTLOOK.COM>
- <YugctzU0uDZvfAal@infradead.org>
- <DU0PR10MB62528A77489B4ADE66503166809D9@DU0PR10MB6252.EURPRD10.PROD.OUTLOOK.COM>
- <Yu4nt1bzSynhmeUF@infradead.org>
- <DU0PR10MB6252E237D18FCFB37CB17B8F80729@DU0PR10MB6252.EURPRD10.PROD.OUTLOOK.COM>
- <6a50bd55-e8be-283d-1e57-731958bd1820@linux.dev>
-In-Reply-To: <6a50bd55-e8be-283d-1e57-731958bd1820@linux.dev>
+In-Reply-To: <20220823121859.163903-4-p.raghav@samsung.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 X-Migadu-Auth-User: linux.dev
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220826_124016_278397_CFCBACF0 
-X-CRM114-Status: GOOD (  21.15  )
+X-CRM114-CacheID: sfid-20220826_130614_424036_EDE6F760 
+X-CRM114-Status: GOOD (  30.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,65 +77,151 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 8/26/2022 1:39 PM, Jonathan Derrick wrote:
+On 8/23/2022 6:18 AM, Pankaj Raghav wrote:
+> Checking if a given sector is aligned to a zone is a common
+> operation that is performed for zoned devices. Add
+> bdev_is_zone_start helper to check for this instead of opencoding it
+> everywhere.
 > 
+> Convert the calculations on zone size to be generic instead of relying on
+> power-of-2(po2) based arithmetic in the block layer using the helpers
+> wherever possible.
 > 
-> On 8/25/2022 2:26 AM, Gilles Buloz wrote:
->>> On Sat, Aug 06, 2022 at 10:35:00 AM +0100, Christoph Hellwig wrote:
->>>> On Tue, Aug 02, 2022 at 09:20:02AM +0000, Gilles Buloz wrote:
->>>> Sorry Christoph, I'm completely newbie in NVMe and don't know what 
->>>> "Namespace Write Protection Config" means.
->>>
->>> Take a look at
->>> https://nvmexpress.org/wp-content/uploads/NVM-Express-Base-Specification-2.0b-2021.12.18-Ratified.pdf 
->>>
->>> and search for this term.
->>
->> Thank you for the specs.
->>
->>>> What I mean is that all the NVMe content seen by the user is write 
->>>> protected.
->>>
->>> And that is what this feature is abut.
->>>
->>>> Our NVMe manufacturer partner has dedicated a pin of the module for 
->>>> global write protection.
->>>
->>> There is no concept of a 'module' in NVMe.
->>
->> In fact this is a M.2 module : a M.2 PCIe SSD one. A M.2 GND pin has 
->> been reused for WP with a pull-up on module, so that if the module is 
->> plugged into a standard M.2 socket this pin is connected to GND and 
->> the module is not protected. And in a socket providing WP on this pin, 
->> the write protection can be enabled by setting the pin high or 
->> unconnected.
->>
-> In other words, your firmware needs to set bit 0 in the ID-NS's NSATTR 
-> field [1] in the Identify Namespace data structure(s) when WP pin is 
-> grounded.
-s/grounded/set
+> The only hot path affected by this change for zoned devices with po2
+> zone size is in blk_check_zone_append() but bdev_is_zone_start() helper is
+> used to optimize the calculation for po2 zone sizes.
+> 
+> Finally, allow zoned devices with non po2 zone sizes provided that their
+> zone capacity and zone size are equal. The main motivation to allow zoned
+> devices with non po2 zone size is to remove the unmapped LBA between
+> zone capcity and zone size for devices that cannot have a po2 zone
+> capacity.
+> 
+> Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+> Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+> ---
+>   block/blk-core.c       |  2 +-
+>   block/blk-zoned.c      | 24 ++++++++++++++++++------
+>   include/linux/blkdev.h | 30 ++++++++++++++++++++++++++++++
+>   3 files changed, 49 insertions(+), 7 deletions(-)
+> 
+> diff --git a/block/blk-core.c b/block/blk-core.c
+> index a0d1104c5590..1cb519220ffb 100644
+> --- a/block/blk-core.c
+> +++ b/block/blk-core.c
+> @@ -563,7 +563,7 @@ static inline blk_status_t blk_check_zone_append(struct request_queue *q,
+>   		return BLK_STS_NOTSUPP;
+>   
+>   	/* The bio sector must point to the start of a sequential zone */
+> -	if (bio->bi_iter.bi_sector & (bdev_zone_sectors(bio->bi_bdev) - 1) ||
+> +	if (!bdev_is_zone_start(bio->bi_bdev, bio->bi_iter.bi_sector) ||
+>   	    !bio_zone_is_seq(bio))
+>   		return BLK_STS_IOERR;
+>   
+> diff --git a/block/blk-zoned.c b/block/blk-zoned.c
+> index dce9c95b4bcd..6806c69c81dc 100644
+> --- a/block/blk-zoned.c
+> +++ b/block/blk-zoned.c
+> @@ -285,10 +285,10 @@ int blkdev_zone_mgmt(struct block_device *bdev, enum req_op op,
+>   		return -EINVAL;
+>   
+>   	/* Check alignment (handle eventual smaller last zone) */
+> -	if (sector & (zone_sectors - 1))
+> +	if (!bdev_is_zone_start(bdev, sector))
+>   		return -EINVAL;
+>   
+> -	if ((nr_sectors & (zone_sectors - 1)) && end_sector != capacity)
+> +	if (!bdev_is_zone_start(bdev, nr_sectors) && end_sector != capacity)
+>   		return -EINVAL;
+>   
+>   	/*
+> @@ -486,14 +486,26 @@ static int blk_revalidate_zone_cb(struct blk_zone *zone, unsigned int idx,
+>   	 * smaller last zone.
+>   	 */
+>   	if (zone->start == 0) {
+> -		if (zone->len == 0 || !is_power_of_2(zone->len)) {
+> -			pr_warn("%s: Invalid zoned device with non power of two zone size (%llu)\n",
+> -				disk->disk_name, zone->len);
+> +		if (zone->len == 0) {
+> +			pr_warn("%s: Invalid zero zone size", disk->disk_name);
+> +			return -ENODEV;
+> +		}
+> +
+> +		/*
+> +		 * Non power-of-2 zone size support was added to remove the
+> +		 * gap between zone capacity and zone size. Though it is technically
+> +		 * possible to have gaps in a non power-of-2 device, Linux requires
+> +		 * the zone size to be equal to zone capacity for non power-of-2
+> +		 * zoned devices.
+> +		 */
+> +		if (!is_power_of_2(zone->len) && zone->capacity < zone->len) {
+> +			pr_err("%s: Invalid zone capacity %lld with non power-of-2 zone size %lld",
+> +			       disk->disk_name, zone->capacity, zone->len);
+>   			return -ENODEV;
+>   		}
+>   
+>   		args->zone_sectors = zone->len;
+> -		args->nr_zones = (capacity + zone->len - 1) >> ilog2(zone->len);
+> +		args->nr_zones = div64_u64(capacity + zone->len - 1, zone->len);
+>   	} else if (zone->start + args->zone_sectors < capacity) {
+>   		if (zone->len != args->zone_sectors) {
+>   			pr_warn("%s: Invalid zoned device with non constant zone size\n",
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index 84e7881262e3..d0d66a0db224 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -704,6 +704,30 @@ static inline unsigned int disk_zone_no(struct gendisk *disk, sector_t sector)
+>   	return div64_u64(sector, zone_sectors);
+>   }
+>   
+> +static inline sector_t bdev_offset_from_zone_start(struct block_device *bdev,
+> +						   sector_t sec)
+> +{
+> +	sector_t zone_sectors = bdev_zone_sectors(bdev);
+> +	u64 remainder = 0;
+> +
+> +	if (!bdev_is_zoned(bdev))
+> +		return 0;
+See below
 
-> 
-> 
->>>> But if we enable this protection and attempt a write (we should 
->>>> not), we get a "critical medium error" which seems a bit brutal for 
->>>> a disk that is still valid but just write protected. So I would like 
->>>> to make sure the NVMe manufacturer has used the right method/status 
->>>> to report this write protection, and if possible get a less fatal 
->>>> error feedback.
->>>
->>> It seems like your manufacturer needs to read the NVMe spec and 
->>> implement the correct features.
->>
->> Yes, that's why I requested some tips from experts like you to be sure.
->> And with the features implemented correctly, is a the case of a write 
->> to a protected module already handled/expected by the kernel ? and 
->> what message the kernel is expected to report in dmesg ?
-> Search for 'Write Protected'/'Write Protection' in [1] spec.
-> You will need to support certain command Status Codes in the controller 
-> to convey state information on commands that may change the namespace.
-> 
-> [1] NVM Express Base Spec 2.0b, Figure 280
-> https://nvmexpress.org/wp-content/uploads/NVM-Express-Base-Specification-2.0b-2021.12.18-Ratified.pdf 
-> 
+> +
+> +	if (is_power_of_2(zone_sectors))
+> +		return sec & (zone_sectors - 1);
+> +
+> +	div64_u64_rem(sec, zone_sectors, &remainder);
+> +	return remainder;
+> +}
+> +
+> +static inline bool bdev_is_zone_start(struct block_device *bdev, sector_t sec)
+> +{
+> +	if (!bdev_is_zoned(bdev))
+> +		return false;
+Duplicating the same check above, and the check above is less clear in 
+the case of !zoned since it returns 0 and not some warning that makes 
+sense in the case of zoned check on !zoned bdev.
+Can you simply exclude above check?
+
+
+> +
+> +	return bdev_offset_from_zone_start(bdev, sec) == 0;
+> +}
+> +
+>   static inline bool disk_zone_is_seq(struct gendisk *disk, sector_t sector)
+>   {
+>   	if (!blk_queue_is_zoned(disk->queue))
+> @@ -748,6 +772,12 @@ static inline unsigned int disk_zone_no(struct gendisk *disk, sector_t sector)
+>   {
+>   	return 0;
+>   }
+> +
+> +static inline bool bdev_is_zone_start(struct block_device *bdev, sector_t sec)
+> +{
+> +	return false;
+> +}
+> +
+>   static inline unsigned int bdev_max_open_zones(struct block_device *bdev)
+>   {
+>   	return 0;
 
