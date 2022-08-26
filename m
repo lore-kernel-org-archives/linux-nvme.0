@@ -4,79 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16E3CECAAD4
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 Aug 2022 11:33:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45F18ECAAD4
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Aug 2022 12:20:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nHt6BjmfMZwIRuzx2hlfMkr4ivxryo7wW7bhUQb6ZSU=; b=U7ZEihDBxBlY69HxobMJQQyRTy
-	qYwnhfi2RRsKO1F5nqZel1f9Oq6fdIQKl095Vicul/Dc4XIq6IfXZ28bwQPTZphNGW8ITXE2Gvoo3
-	vr1JLgn14f2D35L01eq815GzkxZt/U2JSoR3MQuH2L8qPJY9kLxhnAmwBtmgg48pIXLQVezmQh5T9
-	hcyfzrIC6NqoGci7gumu7iTPAJ+bItH1SSRLsjoMVS0WQ9j3ajGjv7QQvSfyU4+JuqxRjf+tVXOjH
-	xm88GliTTN+HyNbEMjLNrxXY5aNiI/WdUrYT4R3LrG1O+7vJAOotVz7KXAMFeAQGfIPXtvMVKcJeO
-	salL91jg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Subject:From:Cc:To:MIME-Version:Date:Message-ID:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=8xhCNGQ44HWZ9LqBc8ZA6ehjl8xPkQcSslAEFHJe99U=; b=0MR3wPt2kZjKjLQlEV4QCp7mqn
+	fIlMaQ7AjZKSSlXQJUQgboP6/sLIHiXjLa6unWdFZkmN0UoCjXM3ifvGK1otpXA9wcbIJ6hB0ymUg
+	sYejopywLHBkKyKQO1hoF5RQqQFd+ZaWNPCW3ZNjMgUrB6fHOWtGMIzQR7wyFCqF4puL8JtlThQSe
+	tcW70dU0AB3xEu0Y2/1BVuWaYDyr3xH3NIO7CYiOnrYuXmSuWxPRxSR6zNw86g8sPbJbe3vFDvB7c
+	BC3yBb4NeuNqLvl2PYUbfHfYoeO1QX/h4KbNME6rqeT8R3kts54GsLZES3yg9r0m6ruWFZlSW4ABN
+	4z66KGwQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oRXaw-0022aF-KU; Fri, 26 Aug 2022 11:33:50 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1oRYJY-002Y31-Cz; Fri, 26 Aug 2022 12:19:56 +0000
+Received: from wp530.webpack.hosteurope.de ([2a01:488:42:1000:50ed:8234::])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oRXau-0022W7-3e
-	for linux-nvme@lists.infradead.org; Fri, 26 Aug 2022 11:33:49 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7DED91F8E5;
-	Fri, 26 Aug 2022 11:33:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1661513622; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nHt6BjmfMZwIRuzx2hlfMkr4ivxryo7wW7bhUQb6ZSU=;
-	b=OdDiAe247qN/QNai55bv1yXK2ed7yxv3L62R6dQOmoS7jH8YModGxej/CAhvj6OnEtgr51
-	OThh5ZYnk0RZQ7Rg4Lvi+ZoxV86C4yl1GJ6k9ZDfaUQfiBXo6ISFyirD1bQu+KhVQSfAF6
-	76nRt9MlCicbtR9ALr9qVUSwoyhcyYg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1661513622;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nHt6BjmfMZwIRuzx2hlfMkr4ivxryo7wW7bhUQb6ZSU=;
-	b=N+NIRd4y10Uhe4elvBvXIDGOxVJOhwnjRtBEV1/WWWyXGlpbOYBEYiugh0/liQPItIqAmt
-	KYabTCnem/FetjCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6D51113421;
-	Fri, 26 Aug 2022 11:33:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id Sv6bGpavCGMHeQAAMHmgww
-	(envelope-from <dwagner@suse.de>); Fri, 26 Aug 2022 11:33:42 +0000
-Date: Fri, 26 Aug 2022 13:33:41 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Chao Leng <lengchao@huawei.com>
-Cc: linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH v2 3/3] nvme-rdma: Handle number of queue changes
-Message-ID: <20220826113341.nac4rgu3goa4enfq@carbon.lan>
-References: <20220823074451.12170-1-dwagner@suse.de>
- <20220823074451.12170-4-dwagner@suse.de>
- <17886a4c-8443-19a1-c2fa-d7ea0f2e5a1f@huawei.com>
- <20220825105550.3hxjveuex4nmup54@carbon.lan>
- <a232a477-b2a3-af6e-58fd-265d8f10bb25@huawei.com>
- <20220826063024.tndzjp7j6xhx3234@carbon.lan>
- <e9caacd6-033a-3f93-e9d5-2ad80fa07cfe@huawei.com>
+	id 1oRYJS-002Xyw-G7
+	for linux-nvme@lists.infradead.org; Fri, 26 Aug 2022 12:19:52 +0000
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1oRYJL-00028L-IM; Fri, 26 Aug 2022 14:19:43 +0200
+Message-ID: <5e8c01cb-2dc1-e460-6bb2-c9861080154f@leemhuis.info>
+Date: Fri, 26 Aug 2022 14:19:43 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e9caacd6-033a-3f93-e9d5-2ad80fa07cfe@huawei.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Content-Language: en-US
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, lixingyuan@inspur.com,
+ linux-nvme@lists.infradead.org
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Subject: [Regression] Bug 216400 - Firmware activation starting AEN processing
+ prevents further AER commands sent to the NVMe controller.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1661516390;2384a687;
+X-HE-SMSGID: 1oRYJL-00028L-IM
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220826_043348_333465_BAEA4BFA 
-X-CRM114-Status: GOOD (  18.08  )
+X-CRM114-CacheID: sfid-20220826_051950_725756_8744DC96 
+X-CRM114-Status: GOOD (  17.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,39 +61,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 26, 2022 at 03:31:15PM +0800, Chao Leng wrote:
-> > After seeing both version I tend to do say the first one keeps the
-> > 'wierd' stuff more closer together and doesn't make the callside of
-> > nvme_rdma_start_io_queues() do the counting. So my personal preference
-> I don't understand "do the counting".
+Hi, this is your Linux kernel regression tracker.
 
-Sorry. I meant we fist start only queues for which have resources
-allocated (nr_queues in my patch). And then we only need to start
-potentially added queues.
+I noticed a regression report in bugzilla.kernel.org that afaics nobody
+acted upon since it was reported. That's why I decided to forward it by
+mail to those that afaics should handle this.
 
-> Show the code:
-> ---
->  drivers/nvme/host/rdma.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+To quote from https://bugzilla.kernel.org/show_bug.cgi?id=216400 :
+
+>  lixingyuan 2022-08-23 01:14:50 UTC
 > 
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 7d01fb770284..8dfb79726e13 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -980,10 +980,6 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
->                         goto out_free_tag_set;
->         }
+> This bug is related to these two commits:
 > 
-> -       ret = nvme_rdma_start_io_queues(ctrl);
-> -       if (ret)
-> -               goto out_cleanup_connect_q;
+> 1. https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v6.0-rc2&id=4c75f877853cfa81b12374a07208e07b077f39b8
+> 
+> These codes will set the controller state to NVME_CTRL_RESETTING while handling the firmware activation staring AEN
+> 
+> 2. https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v6.0-rc2&id=0fa0f99fc84e41057cbdd2efbfe91c6b2f47dd9d
+> 
+> When submitting a new AER command to the controller, this code checks if the controller state is NVME_CTRL_LIVE. This caused the problem. When the firmware activation staring AEN was processed before, the controller state was already set to NVME_CTRL_RESETTING, which resulted in no new AER commands being sent to the controller.
 
-Again, these need to start so that...
+See the ticket for details and further comments.
 
-> -
->         if (!new) {
->                 nvme_start_queues(&ctrl->ctrl);
->                 if (!nvme_wait_freeze_timeout(&ctrl->ctrl,
+Please look into the issue if you're among the main recipients of this
+mail (and not just CCed). I hope I picked the right people to sent this
+to, if not just let everyone know (and apologies for getting it wrong!).
 
-... this here has a chance to work.
+Anyway, to ensure this is not forgotten lets get this tracked by the the
+Linux kernel regression tracking bot:
+
+#regzbot introduced: 0fa0f99fc84e
+https://bugzilla.kernel.org/show_bug.cgi?id=216400
+#regzbot ignore-activity
+
+This isn't a regression? This issue or a fix for it are already
+discussed somewhere else? It was fixed already? You want to clarify when
+the regression started to happen? Or point out I got the title or
+something else totally wrong? Then just reply -- ideally with also
+telling regzbot about it, as explained here:
+https://linux-regtracking.leemhuis.info/tracked-regression/
+
+Reminder for developers: When fixing the issue, add 'Link:' tags
+pointing to the report in bugzilla, as the kernel's documentation calls
+for; above page explains why this is important for tracked regressions.
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+
+P.S.: As the Linux kernel's regression tracker I deal with a lot of
+reports and sometimes miss something important when writing mails like
+this. If that's the case here, don't hesitate to tell me in a public
+reply, it's in everyone's interest to set the public record straight.
 
