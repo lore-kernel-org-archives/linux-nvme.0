@@ -4,60 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F20AECAAA3
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 Aug 2022 07:31:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45C47ECAAA3
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Aug 2022 09:59:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qDZaDA+pOLf49Mnhbnzq/4BTWaAhLwWjEThZ1vkUmxM=; b=kXtRiZtkPShAeb1V1E6umY7onk
-	SZmkgvtLk61umRn0HVbQhLl/UOMcc57ry/WbS+bY3/laigYAvaR1Aog9pBZO+H94BwDwPwIE9gRQq
-	TB3zUnwJ+cQEKygT+z4s12X1qxNfhARqQP42sHi7UAUDxxiB7IviAN1WUnh6unv+/YgZxrHNFt3SN
-	68WFcl7WaI9Wsg2Vdtkmu3auGKQxJsIFy4Y7ku8/9PaLR4u7QTzscdkW7WgC+RlAO7zENoXCnFg5q
-	N3DrqfNn5y+U5Ef9YVI5LYzdPrSoXYtbzUBXbcdFL1JMGDTOUs6sKV32PGNjwlAO+hq3wcSpb20jM
-	1aODuuqg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
+	Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=jOCx6WaHUkCpSW3qSoGPqbW9PT9A7ovvnlg0/bkC9do=; b=YofV2QiLyWDLkwRHabGkrBjGO+
+	+kNv7wiiTRDXLnv0rp2cNxOq26By1OIRcP5QBO32AWMDYx4RjPA0/2XccFBiv4biKi9+6p0/ogqsY
+	5rTkmPMkWea5JrwD2hbhmMAhEzSQmRSp5mN7OK+nQNQbXwd3yG/0V4oDv6Jy5GBGeF0v/9dHfmtPB
+	rMY/NGV8cFr4t0TrmI0IfPYsa7O8S9ZmtUp8n5pkUUIi99Cyqp3JShwawbpF/7oLUsBIpFi5Sf3Ch
+	O/lCEjCLcSQe6LE33J2XN+1v6MJ26UcSXqoLs9VZJJYwnPVR7WwCpPT/EypKHilgDpBUMMbXn8Vir
+	x/6pEytQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oRToL-00GQwb-CG; Fri, 26 Aug 2022 07:31:25 +0000
-Received: from szxga02-in.huawei.com ([45.249.212.188])
+	id 1oRW7J-0016A9-G0; Fri, 26 Aug 2022 09:59:09 +0000
+Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oRToH-00GQZJ-Hy
-	for linux-nvme@lists.infradead.org; Fri, 26 Aug 2022 07:31:23 +0000
-Received: from canpemm500002.china.huawei.com (unknown [172.30.72.57])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MDWcK1428zYcpb;
-	Fri, 26 Aug 2022 15:26:57 +0800 (CST)
-Received: from [10.169.59.127] (10.169.59.127) by
- canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 26 Aug 2022 15:31:16 +0800
-Subject: Re: [PATCH v2 3/3] nvme-rdma: Handle number of queue changes
-To: Daniel Wagner <dwagner@suse.de>
-CC: <linux-nvme@lists.infradead.org>, Sagi Grimberg <sagi@grimberg.me>
-References: <20220823074451.12170-1-dwagner@suse.de>
- <20220823074451.12170-4-dwagner@suse.de>
- <17886a4c-8443-19a1-c2fa-d7ea0f2e5a1f@huawei.com>
- <20220825105550.3hxjveuex4nmup54@carbon.lan>
- <a232a477-b2a3-af6e-58fd-265d8f10bb25@huawei.com>
- <20220826063024.tndzjp7j6xhx3234@carbon.lan>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <e9caacd6-033a-3f93-e9d5-2ad80fa07cfe@huawei.com>
-Date: Fri, 26 Aug 2022 15:31:15 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+	id 1oRW7G-001622-2u
+	for linux-nvme@lists.infradead.org; Fri, 26 Aug 2022 09:59:07 +0000
+Received: by mail-lf1-x132.google.com with SMTP id s6so1319989lfo.11
+        for <linux-nvme@lists.infradead.org>; Fri, 26 Aug 2022 02:59:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shyamin.com; s=google;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc;
+        bh=jOCx6WaHUkCpSW3qSoGPqbW9PT9A7ovvnlg0/bkC9do=;
+        b=a28pDSdNPCuF4jqYh886jdnzT/DpYvZB/Oy4CM8uCXLry71fUoyomK+fdFMX8H6I6G
+         l5e/9C2DfqWn1nGGQmJLfrSnD2MIY+b7up27U1sqNxzs9R/T2VuM5K4sLtUtqPM1IBOP
+         zw+T1RmrXk3bWxtX1HD0jhHZmIXhWDQ4FMSQo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc;
+        bh=jOCx6WaHUkCpSW3qSoGPqbW9PT9A7ovvnlg0/bkC9do=;
+        b=f//5VimK97+BB2vW7mGuQAb+CJneSQfvya025xOiYzfTk3ZFj90apTrQ5NTvxAs3uQ
+         50AQM3z6BAWmW0bV9V9dVDJxawyFC1eL3Em/hknRoVsoWxCgmIlNvdkHB00X5lM3q7Gf
+         MX/tdqydofSiWF0EFV8Dpflr7Z1c7ItUzKyy/p3Z8wbOObIh3Wwmg+5uSFsl3tyuSxGF
+         1zhU8KZf7iQNFL14urjyxPA1i7vtGa8lJlF0PCHRpdu9N6tfxdg43y7TEBPxxmMV9hdK
+         CMMQKgyLY0Ls3ohSpVlBtQgZ1SeMFx0QI3T51nvCSC7zOWDiETrz5ux3LFEYhhkZxikb
+         xaKw==
+X-Gm-Message-State: ACgBeo3Zn70YoN97GAdCpYKpctvVaMUj+4maA4li9MduX0POVGJhVuzc
+	JT4JyEQ6o8a380ROLwQcW62iRc9BUdqrEjKGlWmUUgdnHhFSdmfq6pWCUg==
+X-Google-Smtp-Source: AA6agR5IVpKoLcFomIo2IbEnPXtfzDTfHTVIIaZv9UwLDGYM/4XR3Cb+dyW6dQ6SJKIcsk4+8ate8qunMeLPQHkR8mw=
+X-Received: by 2002:a05:6512:3b09:b0:48b:394e:6b3b with SMTP id
+ f9-20020a0565123b0900b0048b394e6b3bmr2107660lfv.567.1661507938125; Fri, 26
+ Aug 2022 02:58:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20220826063024.tndzjp7j6xhx3234@carbon.lan>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.169.59.127]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- canpemm500002.china.huawei.com (7.192.104.244)
-X-CFilter-Loop: Reflected
+From: Shyamin Ayesh <me@shyamin.com>
+Date: Fri, 26 Aug 2022 15:28:45 +0530
+Message-ID: <CAL1XK+MViKNnPJm=iiKNXBrNmNtourYsHR1n2oWpntjj6jxQnw@mail.gmail.com>
+Subject: [PATCH]: NVME device not found with Linux 5.19.* - globally duplicate
+ IDs for nsid 1
+To: linux-nvme@lists.infradead.org
+Content-Type: multipart/mixed; boundary="00000000000071e12505e721f62d"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220826_003121_987773_9A3BA914 
-X-CRM114-Status: GOOD (  23.31  )
+X-CRM114-CacheID: sfid-20220826_025906_146273_ADBCB6FD 
+X-CRM114-Status: GOOD (  11.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,81 +76,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+--00000000000071e12505e721f62d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi All,
 
-On 2022/8/26 14:30, Daniel Wagner wrote:
-> On Fri, Aug 26, 2022 at 09:10:04AM +0800, Chao Leng wrote:
->> On 2022/8/25 18:55, Daniel Wagner wrote:
->>> On Thu, Aug 25, 2022 at 06:08:10PM +0800, Chao Leng wrote:
->>>>> +	/*
->>>>> +	 * If the number of queues has increased (reconnect case)
->>>>> +	 * start all new queues now.
->>>>> +	 */
->>>>> +	ret = nvme_rdma_start_io_queues(ctrl, nr_queues,
->>>>> +					ctrl->tag_set.nr_hw_queues + 1);
->>>>> +	if (ret)
->>>>> +		goto out_cleanup_connect_q;
->>>>> +
->>>> Now the code looks weird.
->>>> Maybe we can do like this:
->>>> first blk_mq_update_nr_hw_queues, and then nvme_rdma_start_io_queues.
->>>
->>> We have to start the exiting queues before going into the 'if (!new)'
->>> part. That's why the start of queues is splited into two steps.
->> Indeed it is not necessary.
->> It's just a little negative: some request will failed, and then retry
->> or failover. I think it is acceptable.
-> 
-> The first version made nvme_rdma_start_io_queues() re-entrant and hence
-> we just could call nvme_rdma_start_io_queues() twice without the max
-> queue logic here.
-> 
-> After seeing both version I tend to do say the first one keeps the
-> 'wierd' stuff more closer together and doesn't make the callside of
-> nvme_rdma_start_io_queues() do the counting. So my personal preference
-I don't understand "do the counting".
-Show the code:
----
-  drivers/nvme/host/rdma.c | 9 ++++-----
-  1 file changed, 4 insertions(+), 5 deletions(-)
+After upgrading to linux-5.19.2 a second identical NVME device is no
+longer found/visible. Only one of the 2 devices is visible in the /dev
+tree. Also can reproduce the same bug in 5.18.* versions and
+downgrading to 5.17.* fixes the issue atm.
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 7d01fb770284..8dfb79726e13 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -980,10 +980,6 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
-                         goto out_free_tag_set;
-         }
+The 5.18* / 5.19* kernel throws the error: "globally duplicate IDs for nsid=
+ 1"
 
--       ret = nvme_rdma_start_io_queues(ctrl);
--       if (ret)
--               goto out_cleanup_connect_q;
--
-         if (!new) {
-                 nvme_start_queues(&ctrl->ctrl);
-                 if (!nvme_wait_freeze_timeout(&ctrl->ctrl, NVME_IO_TIMEOUT)) {
-@@ -1000,13 +996,16 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
-                 nvme_unfreeze(&ctrl->ctrl);
-         }
+=E2=9E=9C  ~ sudo dmesg| grep nvme
+[    1.145069] nvme nvme0: pci function 0000:02:00.0
+[    1.145201] nvme nvme1: pci function 0000:05:00.0
+[    1.148053] nvme nvme1: missing or invalid SUBNQN field.
+[    1.149823] nvme nvme0: missing or invalid SUBNQN field.
+[    1.157321] nvme nvme1: allocated 64 MiB host memory buffer.
+[    1.157960] nvme nvme1: 4/0/0 default/read/poll queues
+[    1.159831]  nvme1n1: p1 p2 p3 p4
+[    1.159932] nvme nvme0: allocated 64 MiB host memory buffer.
+[    1.160277] nvme nvme0: 4/0/0 default/read/poll queues
+[    1.160530] nvme nvme0: globally duplicate IDs for nsid 1
+[    1.160532] nvme nvme0: VID:DID 1d97:2263 model:Lexar 250GB SSD
+firmware:V2.18.0
+=E2=9E=9C  ~
 
-+       ret = nvme_rdma_start_io_queues(ctrl);
-+       if (ret)
-+               goto out_wait_freeze_timed_out;
-+
-         return 0;
+=E2=9E=9C  ~ lspci -nnk | grep "Non-Volatile memory controller"
+02:00.0 Non-Volatile memory controller [0108]: Shenzhen Longsys
+Electronics Co., Ltd. SM2263EN/SM2263XT-based OEM SSD [1d97:2263] (rev
+03)
+05:00.0 Non-Volatile memory controller [0108]: Shenzhen Longsys
+Electronics Co., Ltd. SM2263EN/SM2263XT-based OEM SSD [1d97:2263] (rev
+03)
+=E2=9E=9C  ~
 
-  out_wait_freeze_timed_out:
-         nvme_stop_queues(&ctrl->ctrl);
-         nvme_sync_io_queues(&ctrl->ctrl);
-         nvme_rdma_stop_io_queues(ctrl);
--out_cleanup_connect_q:
-         nvme_cancel_tagset(&ctrl->ctrl);
-         if (new)
-                 blk_cleanup_queue(ctrl->ctrl.connect_q);
--- 
-> is to go with v1.
-> 
-> Maybe there is another way but I haven't figured it out yet.
-> .
-> 
+Ref: https://bugzilla.kernel.org/show_bug.cgi?id=3D216394
+
+Please take a look at the attached test patch and hope someone can
+help me to merge it to the upcoming kernel updates.
+
+Regards,
+Shyamin Ayesh
+
+--00000000000071e12505e721f62d
+Content-Type: application/octet-stream; 
+	name="lexar-nm610-duplicate-ids.patch"
+Content-Disposition: attachment; filename="lexar-nm610-duplicate-ids.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_l7aawusj0>
+X-Attachment-Id: f_l7aawusj0
+
+ZGlmZiAtLWdpdCBhL3BjaS5jIGIvcGNpLmMKaW5kZXggM2ExYzM3Zi4uOTg4NjRiOCAxMDA2NDQK
+LS0tIGEvcGNpLmMKKysrIGIvcGNpLmMKQEAgLTM1MTcsNiArMzUxNyw4IEBAIHN0YXRpYyBjb25z
+dCBzdHJ1Y3QgcGNpX2RldmljZV9pZCBudm1lX2lkX3RhYmxlW10gPSB7CiAJCS5kcml2ZXJfZGF0
+YSA9IE5WTUVfUVVJUktfTk9fREVFUEVTVF9QUywgfSwKIAl7IFBDSV9ERVZJQ0UoMHhjMGE5LCAw
+eDU0MGEpLCAgIC8qIENydWNpYWwgUDIgKi8KIAkJLmRyaXZlcl9kYXRhID0gTlZNRV9RVUlSS19C
+T0dVU19OSUQsIH0sCisJeyBQQ0lfREVWSUNFKDB4MWQ5NywgMHgyMjYzKSwgLyogTGV4YXIgTk02
+MTAgKi8KKwkJLmRyaXZlcl9kYXRhID0gTlZNRV9RVUlSS19CT0dVU19OSUQsIH0sCiAJeyBQQ0lf
+REVWSUNFKFBDSV9WRU5ET1JfSURfQU1BWk9OLCAweDAwNjEpLAogCQkuZHJpdmVyX2RhdGEgPSBO
+Vk1FX1FVSVJLX0RNQV9BRERSRVNTX0JJVFNfNDgsIH0sCiAJeyBQQ0lfREVWSUNFKFBDSV9WRU5E
+T1JfSURfQU1BWk9OLCAweDAwNjUpLAo=
+--00000000000071e12505e721f62d--
 
