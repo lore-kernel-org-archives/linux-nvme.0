@@ -4,67 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CAF98C0502A
-	for <linux-nvme@archiver.kernel.org>; Sun, 28 Aug 2022 12:12:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8DCFEECAAD2
+	for <linux-nvme@archiver.kernel.org>; Sun, 28 Aug 2022 12:22:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=y4kq9NLY5RZw/knlpZ/iNxECmmAbxdCQQoN8yer4S0c=; b=ZwECDwMPsSRLK5SJU+eiUQMt2p
-	+jBUCbGX2Y7egmbilJG3jUwQ07CF9dGPFnJONRylR/br+vW6RQLhJEpA5+SD1lFn4mKaUFx0xkzW2
-	uZFfWEcvf+U5hhWimaTg+1Zld1o/d+vHzXEaujLoklRLrGCaxx/DmwS2O22buQKIfdyePxmvbT1/D
-	jLtVv0OOOoWPzCYnfaTyVAVepHGOj9MLuwgVv3F1TSEUzAmdIRLIJajajSpuS8mCRKJ80qtraAfEa
-	Cwe8vM+PewL/l3vdEgGPFuELK1doFhjwEcXN9gJSW9W2bCmqw8Uu1G4p8fHMrng1zZqblunYNqIAX
-	Fd1Zmv8A==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=4F4SlN2ubDUUfrP2jDYcHrqz3BYSEFszdPCIylJqtdc=; b=z65vyEFcCCuZ5XAu4/yYhyijy9
+	8fs/MnbckJrQOh99XjXee++TmkEACJfbQxl4/TjLoBhyYfv2Yo99/2oJ/AKU+BCKs4k+NQg5IItr2
+	bNaRvRjQom2OnU1AO0iwt6EXob1/06VgXayYcQyc5avw5VLwVOlAAaju3MoCLcOK0RjLrN6LAV209
+	JLAKkYXRq6YstrfY7Qzd+nqdq9Y6iHyZKSoSfQkzTZEyUkXSts2MEbug3j60XYWYJI0wn1hvTtKt+
+	nroSO5CgkAYP3kdfzs+LhybNT01vRY0WMs+XmGdaVPZIINGdN7i+pmcrR72lUeymAD8BZKkzCljyI
+	5tqaiwgw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oSH9V-00Gguy-UY; Sun, 28 Aug 2022 12:12:33 +0000
-Received: from mail-wm1-f41.google.com ([209.85.128.41])
+	id 1oSHIi-00GjgO-8i; Sun, 28 Aug 2022 12:22:04 +0000
+Received: from mail-wm1-f49.google.com ([209.85.128.49])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oSH9T-00GgtP-1h
-	for linux-nvme@lists.infradead.org; Sun, 28 Aug 2022 12:12:32 +0000
-Received: by mail-wm1-f41.google.com with SMTP id k6-20020a05600c1c8600b003a54ecc62f6so3085070wms.5
-        for <linux-nvme@lists.infradead.org>; Sun, 28 Aug 2022 05:12:30 -0700 (PDT)
+	id 1oSHIg-00GjfI-5i
+	for linux-nvme@lists.infradead.org; Sun, 28 Aug 2022 12:22:03 +0000
+Received: by mail-wm1-f49.google.com with SMTP id k6-20020a05600c1c8600b003a54ecc62f6so3092965wms.5
+        for <linux-nvme@lists.infradead.org>; Sun, 28 Aug 2022 05:21:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc;
-        bh=y4kq9NLY5RZw/knlpZ/iNxECmmAbxdCQQoN8yer4S0c=;
-        b=1iKy7cTxRTcPjeiRMtJKLkAZbvnAqBaIjHWaQTZ1SAvMie4wE0jFtF1kUy0ahkhElm
-         NtmQsXurGStauQbf6FWhxahhOd3cANqb4yyZwrIqU//Wo4RfufrrVI+HTl3ymid/POvm
-         coRY7DrUfBpFRMsp2tKevPwsq3eRJtFP3e22Wr+UyxTSrh9xCE/W0ZzuZstJGD6VDVZQ
-         e7hb9uXujrqPSxQiKUGl3Q9f/9KHPdtNaZBNv7f3/DvJBahjrBo6V3VJTeJ987veIBmW
-         Jwlj+MZ7NsU5DOqIgrzHm7/Qiu+NGOePCstgefCIIXT+CijFjLgbLTp5y+fwCDcxLeFD
-         XW3w==
-X-Gm-Message-State: ACgBeo0fbQrVS0dC6A2+IJ4o/FSI6+8u7HcZ9CRdCjB6H7eQneDMYoqO
-	SyQsOJ6V9ezggSoldog2vt9OnJtu1BIo8Q==
-X-Google-Smtp-Source: AA6agR6+c9ocPeIILjDGiNRBIzeDIcGgsrH8don4mvZolrMwe5+G120dte2hSs9YoBpj27wHyyLlOA==
-X-Received: by 2002:a05:600c:224d:b0:3a6:5533:ccca with SMTP id a13-20020a05600c224d00b003a65533cccamr4453800wmm.153.1661688749810;
-        Sun, 28 Aug 2022 05:12:29 -0700 (PDT)
+        bh=4F4SlN2ubDUUfrP2jDYcHrqz3BYSEFszdPCIylJqtdc=;
+        b=Ye1kCUQb8BZpJKr6GtympIL+qxe9Q50sFHwNCbYMXY9El/G6F2fWFHx4HwNxMROFJo
+         bsMj1JDxqWMPrYxIDRxdErAH597yQz3/ETUa7WE4ROYQnl30+lNmDr3ODyNW0/q+TbSh
+         rVniCyDduWAa4eN+ewFOlMJTQKmTCfo/geFY0ac33BSAr8Y3v4KBYRvAncXWicG4G8NW
+         ICblp/wD12v0BCQ7wy2mqyWfworYKi8BljfdztiCP1PC2XSe8ESW0xtzFPX0e9+gCEEf
+         ixDUN1G11RwZwCNL/MproKWPhQ9JYcy7kFDST5wjc0+0OCCI/WQnz/N9DeQPlA4FLYEa
+         gpWQ==
+X-Gm-Message-State: ACgBeo3jD1FpXUyPl6ndci9KTFe15Yzoh4bOQINu6iC74AUr/f2BSi+H
+	lt3Hp6KBECboZqecXbjmIDjPhqorCyYA7Q==
+X-Google-Smtp-Source: AA6agR5ojkjd4rNUi30s3Ac3xlB6/LyGe2TgbBR0BbE5d9aGOtwIgJFiD4PY4YKuo5KXcOBfdUKPjg==
+X-Received: by 2002:a05:600c:22d2:b0:3a8:3e8c:d914 with SMTP id 18-20020a05600c22d200b003a83e8cd914mr2976267wmg.128.1661689318815;
+        Sun, 28 Aug 2022 05:21:58 -0700 (PDT)
 Received: from [192.168.64.104] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id i8-20020a5d5228000000b00225232154d7sm4369454wra.110.2022.08.28.05.12.28
+        by smtp.gmail.com with ESMTPSA id f24-20020a1c6a18000000b003a541d893desm5637308wmc.38.2022.08.28.05.21.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Aug 2022 05:12:29 -0700 (PDT)
-Message-ID: <b45b7843-55c4-1aed-593e-0466b693959a@grimberg.me>
-Date: Sun, 28 Aug 2022 15:12:28 +0300
+        Sun, 28 Aug 2022 05:21:17 -0700 (PDT)
+Message-ID: <15f9917a-2629-8bbf-501e-56378315a1ea@grimberg.me>
+Date: Sun, 28 Aug 2022 15:20:52 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 1/3] nvmet: Expose max queues to sysfs
+Subject: Re: [PATCH v2 3/3] nvme-rdma: Handle number of queue changes
 Content-Language: en-US
-To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
+To: Chao Leng <lengchao@huawei.com>, Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org
 References: <20220823074451.12170-1-dwagner@suse.de>
- <20220823074451.12170-2-dwagner@suse.de>
+ <20220823074451.12170-4-dwagner@suse.de>
+ <17886a4c-8443-19a1-c2fa-d7ea0f2e5a1f@huawei.com>
+ <20220825105550.3hxjveuex4nmup54@carbon.lan>
+ <a232a477-b2a3-af6e-58fd-265d8f10bb25@huawei.com>
+ <20220826063024.tndzjp7j6xhx3234@carbon.lan>
+ <e9caacd6-033a-3f93-e9d5-2ad80fa07cfe@huawei.com>
+ <20220826113341.nac4rgu3goa4enfq@carbon.lan>
+ <f7b6548b-8277-a52b-43c1-989b40b0a99b@huawei.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220823074451.12170-2-dwagner@suse.de>
+In-Reply-To: <f7b6548b-8277-a52b-43c1-989b40b0a99b@huawei.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220828_051231_213401_71838B5B 
-X-CRM114-Status: GOOD (  15.41  )
+X-CRM114-CacheID: sfid-20220828_052202_235439_F806775C 
+X-CRM114-Status: GOOD (  16.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,39 +88,53 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-> Allow to set the max queues the target supports. This is useful for
-> testing the reconnect attempt of the host with chaning numbers of
-> supported queues.
-> 
-> Signed-off-by: Daniel Wagner <dwagner@suse.de>
-> ---
->   drivers/nvme/target/configfs.c | 25 +++++++++++++++++++++++++
->   1 file changed, 25 insertions(+)
-> 
-> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-> index 2bcd60758919..ba9f3209f848 100644
-> --- a/drivers/nvme/target/configfs.c
-> +++ b/drivers/nvme/target/configfs.c
-> @@ -1281,6 +1281,30 @@ static ssize_t nvmet_subsys_attr_pi_enable_store(struct config_item *item,
->   CONFIGFS_ATTR(nvmet_subsys_, attr_pi_enable);
->   #endif
->   
-> +static ssize_t nvmet_subsys_attr_qid_max_show(struct config_item *item,
-> +					      char *page)
-> +{
-> +	return snprintf(page, PAGE_SIZE, "%u\n", to_subsys(item)->max_qid);
-> +}
-> +
-> +static ssize_t nvmet_subsys_attr_qid_max_store(struct config_item *item,
-> +					       const char *page, size_t cnt)
-> +{
-> +	u16 qid_max;
-> +
-> +	if (sscanf(page, "%hu\n", &qid_max) != 1)
-> +		return -EINVAL;
-> +
-> +	if (qid_max == 0)
-> +		return -EINVAL;
+>> On Fri, Aug 26, 2022 at 03:31:15PM +0800, Chao Leng wrote:
+>>>> After seeing both version I tend to do say the first one keeps the
+>>>> 'wierd' stuff more closer together and doesn't make the callside of
+>>>> nvme_rdma_start_io_queues() do the counting. So my personal preference
+>>> I don't understand "do the counting".
+>>
+>> Sorry. I meant we fist start only queues for which have resources
+>> allocated (nr_queues in my patch). And then we only need to start
+>> potentially added queues.
+>>
+>>> Show the code:
+>>> ---
+>>>   drivers/nvme/host/rdma.c | 9 ++++-----
+>>>   1 file changed, 4 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+>>> index 7d01fb770284..8dfb79726e13 100644
+>>> --- a/drivers/nvme/host/rdma.c
+>>> +++ b/drivers/nvme/host/rdma.c
+>>> @@ -980,10 +980,6 @@ static int nvme_rdma_configure_io_queues(struct 
+>>> nvme_rdma_ctrl *ctrl, bool new)
+>>>                          goto out_free_tag_set;
+>>>          }
+>>>
+>>> -       ret = nvme_rdma_start_io_queues(ctrl);
+>>> -       if (ret)
+>>> -               goto out_cleanup_connect_q;
+>>
+>> Again, these need to start so that...
+>>
+>>> -
+>>>          if (!new) {
+>>>                  nvme_start_queues(&ctrl->ctrl);
+>>>                  if (!nvme_wait_freeze_timeout(&ctrl->ctrl,
+>>
+>> ... this here has a chance to work.
+> Some request will be submited, and will failed, and then retry
+> or failover. It is similar to nvme_cancel_tagset in 
+> nvme_rdma_teardown_io_queues.
+> I think it is acceptable.
 
-This needs an upper limit.
+Not really...
+
+In order for the queue freeze to complete, all pending IOs need
+to complete or error out, and that cannot be guaranteed without
+restarting the queues as some may be waiting on tags and need to
+be restarted in order to complete.
+
+See 9f98772ba307 ("nvme-rdma: fix controller reset hang during traffic")
 
