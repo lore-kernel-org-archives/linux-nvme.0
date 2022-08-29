@@ -4,62 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE86CECAAD2
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Aug 2022 16:42:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DB11ECAAD2
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Aug 2022 18:46:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Yn+Q2JUYV0tj6l3dYBorscdD+XiI9UMJVe9ukb7HUwE=; b=pivClDakbxGf+yz+51NCtefCvd
-	iRBt7CamNHs3GuSLPjHqdmXw0KZUmpuqywGaNIaTHyeAP/8+Lcx8UcdWfMG3R9DojgqwJgR/yH9sq
-	oujF5c5BRC+8Sev8R4jhF4QXHWQlKFJ+fRhvYlRfNhZ0imzWXYyKlykUUJkQlCGVFBEX4sg6zZYq7
-	/NiPEt+hazPkTbKWofy4PSYOoGNu9C/Un1YqXjrds0g3CdJI+iXtUBJl8J4Sd/YDyGhNoyOGVWsED
-	wSIh+0ds3VVjvJQlmwBtby7ia20wPHNNVTOZ5IEcSRW0cLbSLb4TmQgdt+LGOpkCJBLwmRvqypgvT
-	OzjgUcNQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=plewtFTqSvvjikxwMXdnwKyZnCUz+CyO1lbBHJXtMF0=; b=KXBuZbdo18OmdlVU8vLM5gfyQ/
+	qJRuTtdZmQLlPjP7n6Q4vTwtI+vUytEwrYHAb8kqT22ErwwOVRw4FlRBlkR6q6JxBvgZ4qd2HI9Fy
+	HheMt4ieuU4LvrOzP53/2uJstrAP1chkH4dyXjrbwkDQRyv8of1o0V8kei/4o7jhFkzLjuoDMsFwB
+	5w/Ej2VTvZw3ewV+qrV5dyX+qO/qMj9p9fxwZ4FLp2ZnGYH5UQ75aYFm6jma5xIrhwHatSVDWInog
+	zQuKVg9tBUyoyL866kUKnBTtiw03y3nFy2QAzQwnOCuoXOXTTB7DHSh0IfHfN31veikBRsgjpzirj
+	MNuGaDsQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oShpm-00BqDU-2T; Mon, 29 Aug 2022 16:41:58 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1oSjlw-00CIpk-Ho; Mon, 29 Aug 2022 18:46:08 +0000
+Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oShdj-00BkiD-Cc
-	for linux-nvme@lists.infradead.org; Mon, 29 Aug 2022 16:29:32 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id BB94F61216;
-	Mon, 29 Aug 2022 16:29:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B308CC433D6;
-	Mon, 29 Aug 2022 16:29:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1661790569;
-	bh=ETuaT/8fwD32DuXL1Z5VAZuIwL5iYZAIwh8cJ5wbTbo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=inlH0wuM6qThE7nZ6ek33AT6cswQd93XgSi+0mJn+LGOGeTtjiSqqTz6bIK956+/r
-	 yus5kCwrhsiEGD3NgRKl4+mgGE5bMi/GmMzOLq5sEfiFOVKFoJwkofq4mFidxqht2I
-	 dGuuFUSji52JBXUW/iDqrrJBZxzspPCcQfxQco0pUbDDWW7pZdriL6OJLxO0fIkB86
-	 Ow7fshsBzOsi/gWQu0CC5hVpTJ3+qDWcEQpZ31b39TD3CQt0/3wZjCmaMgYyF8wN3+
-	 jxMCOdkfKPS30l+unFJ6LoQSkeNhA+XE72IRutUcRUJLbtpkJKE/8YCK3OfqVj2Nwh
-	 dsrt9NwJhdhjQ==
-Date: Mon, 29 Aug 2022 10:29:26 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Thorsten Leemhuis <regressions@leemhuis.info>,
-	Christoph Hellwig <hch@lst.de>, lixingyuan@inspur.com,
-	linux-nvme@lists.infradead.org
-Subject: Re: [Regression] Bug 216400 - Firmware activation starting AEN
- processing prevents further AER commands sent to the NVMe controller.
-Message-ID: <YwzpZpBgXM/U9GEP@kbusch-mbp.dhcp.thefacebook.com>
-References: <5e8c01cb-2dc1-e460-6bb2-c9861080154f@leemhuis.info>
- <dfe23fad-671f-f3fc-4a99-52690b2c1bf2@grimberg.me>
+	id 1oSjkb-00CI3x-Pw
+	for linux-nvme@lists.infradead.org; Mon, 29 Aug 2022 18:44:47 +0000
+Received: by mail-qt1-x82b.google.com with SMTP id cr9so6830251qtb.13
+        for <linux-nvme@lists.infradead.org>; Mon, 29 Aug 2022 11:44:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=plewtFTqSvvjikxwMXdnwKyZnCUz+CyO1lbBHJXtMF0=;
+        b=IjyqZQk4L+UILjWZqabz5YQ6ipR9TkImCRUHfqgDEGXWwJSaiNXI9oNib6h334Iw6N
+         kou4KTQSJAX8uMTvQmTS1hLDQSw9vlVXgx2jDfzQlwrNGwp78jgQMIV0OW5tlRUQPahX
+         CYImdpaIKmyfBnh5ZjHqIvKNvTtetudbrgYYqCc8+AXXpNJyriWzuAIOSco1pOe3fDn2
+         //dQtJcSAFOM4hNqrMsTrVKTH/ZxiL9WLjqAWoEiBtCG3Ynt8p0cIyn+OHjP8wbz6Vsq
+         ELDVJuLvG4MWr0Fp4q71UcoVxvlGcNb2eGZQhfnplNeb36A2Hg+j8iJMkb2e4AWhuqj4
+         y8vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=plewtFTqSvvjikxwMXdnwKyZnCUz+CyO1lbBHJXtMF0=;
+        b=eeMyLRimVqAWNQtdHH3rCmh4sJ9PFrJdZ7uNw08mXNLEf8IA0ugleUdRVATJupPwkT
+         T/4ZLxqYrw2VpKIIuKHuw+QoDW6ezsq7Sm1Gdha9x/jDEbJEZbzfTPVDMMvGiGhJ231g
+         dNoLZ1zxii+1HaXDfeFHn96Y+BdVy+YcJBOKkZ1GvOd95thF8CUjbA9jvP3uXVh7+doP
+         RzTafPEfCw8gZsUWdZNv3pFvp/aWQeXaRHpkthlR1qUsUQbsCX2+R5MnnLcpL8CHGci3
+         2cLNgwoACM21FA5dFHXv1l3ELZo+j9OnuTzNYgOtSIEb/CDIR9zZyOT0GSi2gINZQTiR
+         EY8Q==
+X-Gm-Message-State: ACgBeo3qoffh3qFDHrtn6FXFnmwa1OyOEZpkgA3A8bSCYI50NdnCRxKc
+	XWmL7G6VZvMkaUV28LevoRc=
+X-Google-Smtp-Source: AA6agR42BTR8e2O+CV4U3UH2eM0qJgDOAv8H2UK7NTBX8Qm3BNCLiD4RjXm+0ixn4e8Lfe1r7m4PpQ==
+X-Received: by 2002:ac8:5a96:0:b0:344:b3be:6931 with SMTP id c22-20020ac85a96000000b00344b3be6931mr11474557qtc.509.1661798683797;
+        Mon, 29 Aug 2022 11:44:43 -0700 (PDT)
+Received: from [192.168.50.208] (ip98-164-255-77.oc.oc.cox.net. [98.164.255.77])
+        by smtp.gmail.com with ESMTPSA id s16-20020ac85290000000b0034305a91aaesm5639217qtn.83.2022.08.29.11.44.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Aug 2022 11:44:43 -0700 (PDT)
+Message-ID: <0ef532ad-819f-0e7b-402f-3ca20831109b@gmail.com>
+Date: Mon, 29 Aug 2022 11:44:41 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dfe23fad-671f-f3fc-4a99-52690b2c1bf2@grimberg.me>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v3 0/3] Handle number of queue changes
+Content-Language: en-US
+To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
+Cc: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
+ Chao Leng <lengchao@huawei.com>
+References: <20220829083856.1850-1-dwagner@suse.de>
+From: James Smart <jsmart2021@gmail.com>
+In-Reply-To: <20220829083856.1850-1-dwagner@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220829_092931_548222_84F703E6 
-X-CRM114-Status: GOOD (  25.29  )
+X-CRM114-CacheID: sfid-20220829_114445_910870_0F0324D0 
+X-CRM114-Status: GOOD (  20.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,40 +92,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Aug 29, 2022 at 12:14:21PM +0300, Sagi Grimberg wrote:
+On 8/29/2022 1:38 AM, Daniel Wagner wrote:
+> Updated this series to a proper patch series with Hannes and Sagi's
+> feedback addressed.
+> 
+> I tested this with nvme-tcp but due to lack of hardware the nvme-rdma
+> is only compile tested.
+> 
+> Daniel
 > 
 > 
-> On 8/26/22 15:19, Thorsten Leemhuis wrote:
-> > Hi, this is your Linux kernel regression tracker.
-> > 
-> > I noticed a regression report in bugzilla.kernel.org that afaics nobody
-> > acted upon since it was reported. That's why I decided to forward it by
-> > mail to those that afaics should handle this.
-> > 
-> > To quote from https://bugzilla.kernel.org/show_bug.cgi?id=216400 :
-> > 
-> > >   lixingyuan 2022-08-23 01:14:50 UTC
-> > > 
-> > > This bug is related to these two commits:
-> > > 
-> > > 1. https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v6.0-rc2&id=4c75f877853cfa81b12374a07208e07b077f39b8
-> > > 
-> > > These codes will set the controller state to NVME_CTRL_RESETTING while handling the firmware activation staring AEN
-> > > 
-> > > 2. https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v6.0-rc2&id=0fa0f99fc84e41057cbdd2efbfe91c6b2f47dd9d
-> > > 
-> > > When submitting a new AER command to the controller, this code checks if the controller state is NVME_CTRL_LIVE. This caused the problem. When the firmware activation staring AEN was processed before, the controller state was already set to NVME_CTRL_RESETTING, which resulted in no new AER commands being sent to the controller.
+>  From the previous cover letter:
 > 
-> I see.
+> We got a report from our customer that a firmware upgrade on the
+> storage array is able to 'break' host. This is caused a change of
+> number of queues which the target supports after a reconnect.
 > 
-> I can modify this code to check in the drivers instead of the core.
+> Let's assume the number of queues is 8 and all is working fine. Then
+> the connection is dropped and the host starts to try to
+> reconnect. Eventually, this succeeds but now the new number of queues
+> is 10:
 > 
-> Keith, pci does not risk submitting an async event on a freed admin
-> queue? if not, I can add a proper check there as well...
+> nvme0: creating 8 I/O queues.
+> nvme0: mapped 8/0/0 default/read/poll queues.
+> nvme0: new ctrl: NQN "nvmet-test", addr 10.100.128.29:4420
+> nvme0: queue 0: timeout request 0x0 type 4
+> nvme0: starting error recovery
+> nvme0: failed nvme_keep_alive_end_io error=10
+> nvme0: Reconnecting in 10 seconds...
+> nvme0: failed to connect socket: -110
+> nvme0: Failed reconnect attempt 1
+> nvme0: Reconnecting in 10 seconds...
+> nvme0: creating 10 I/O queues.
+> nvme0: Connect command failed, error wo/DNR bit: -16389
+> nvme0: failed to connect queue: 9 ret=-5
+> nvme0: Failed reconnect attempt 2
+> 
+> As you can see queue number 9 is not able to connect.
+> 
+> As the order of starting and unfreezing is important we can't just
+> move the start of the queues after the tagset update. So my stupid
+> idea was to start just the older number of queues and then the rest.
 
-I don't think we'd attempt to issue an admin command while the queue is down,
-at least not in pci driver.
+Since you're in the area....
 
-I think it should be sufficient to requeue the ctrl->async_event_work after the
-activation work complete, no?
+I recommend adding something to ensure that after a reconnect that if 
+I/O queues were present in the prior association, the new controller 
+must return support for at least 1 io queue or the reconnect fails and 
+retries. This was a bug we hit on a subsystem in FC.
+
+-- james
+
 
