@@ -4,68 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B842ECAAD4
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Aug 2022 09:02:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12958ECAAD5
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Aug 2022 09:06:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=X6JT6ip7Nn6a2G1O9BmdIQj80J
-	Jw6Hp2sH8BL9V3o1RuVv7QV9p3bMC+k/d7rBlcxvoha4vxq/4UoyotvUox7m1kIayTEU4sjyKcO/7
-	ulsSBfOzdNjQIL5kTkSEmCnu9yDfrbq777lrmac8qd7emeTWfHCP9eMW3OJ/PoNsyoPWleSOpnKlA
-	tYOpt4mbuo0ECJyTLWw5iFuMIHL+zAQ4rkiFLsYVULGfXJrMfiYvXHaF7lwZv9k7w+QO2Ja+jGytX
-	mHvPhECbfh/bxLmlrY67RLuuhHws2ejQ+xPVIt5FTXtjbt5vfNqhYfSY+8HvgwBg/qihLPJUIScMQ
-	0pQKdfow==;
+	bh=e2piUmCvjezYkVv37eL1/W71897LTJov3uvI5Lv/KIQ=; b=cM2MJbHMEVBX1+kenHSr73AjrM
+	PKjd9dlR8q6qBF/HeHQa339QqoTyRfGuH4vjxtsJnnDuvPqId8e7S++ugjMA/RAQ0dWnn1bqQU1z7
+	O9WwgAtXaCautpjs6cewTlDiZX2FdW3CWb3WlsWd8zCRiTzaKJMJCeLcep0rT7JPLz4xXmUOg5J9B
+	3RA9w6Ud7sbLCsMW6dEJ4eRcUOGFtBGlWn+cx8FjYa8ryRoVtLw6eN7rq+XJZo25uXGh51Vgl79hS
+	mX63KR1jkFBIOYZBOgC2EfKsuTr1Ik50R2cXKNpFoLj0mWiWZ2EpYHrCU3ehA6izteZ4J8SyQIl5N
+	rPgwEa4g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oSaf4-006UEo-KA; Mon, 29 Aug 2022 09:02:26 +0000
-Received: from mail-wr1-f42.google.com ([209.85.221.42])
+	id 1oSaik-006WJU-UG; Mon, 29 Aug 2022 09:06:14 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oSaey-006TsD-Qs
-	for linux-nvme@lists.infradead.org; Mon, 29 Aug 2022 09:02:24 +0000
-Received: by mail-wr1-f42.google.com with SMTP id bu22so8967919wrb.3
-        for <linux-nvme@lists.infradead.org>; Mon, 29 Aug 2022 02:02:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=O8opa00w9KW0S0yDJOBo0cUAwFO223h/8bK5pt+rIWmDSuy6IR40tKuj4Z6b28aZpM
-         dAxMGtEs/zx0Cu6vkK2aw5sM2Rucc6eVh9ikujAdnvvZwb5IYqgE97AG9iOjp0y5H+KO
-         BQB7wBMfv71MQK0JzRU9tHo+6FeoFohnEImYJC8iz+IAO7IIJ9KplVtQ4kzzyazlBj6t
-         tnPBEhX9qiR3rIw/wH0Gaq9OEvuY23gnzs3558JpyZWen9szNcS/5Way8fNQm1jzfRSk
-         Vt1hvSS0zdmi26ZQP3oztTofkCzmpUassYPzGPo5sNj85I5pIoEELs4rArOxp9C40zOQ
-         ruVw==
-X-Gm-Message-State: ACgBeo1M957MDaP792/9iuAgiZLtVebC2Dzjw54fFurxVRfVMtTFZPL0
-	LzUm53qJcUz2baz7TUOu8b0=
-X-Google-Smtp-Source: AA6agR7WuD7C0bj4zfklMBbQ6xtvBSeXiJ2ACOWG/VqnkuAbpx3U9/tEwkSq5TzJz43O7+z73fMf8g==
-X-Received: by 2002:a05:6000:1848:b0:225:586b:e64f with SMTP id c8-20020a056000184800b00225586be64fmr5878445wri.173.1661763740420;
-        Mon, 29 Aug 2022 02:02:20 -0700 (PDT)
-Received: from [192.168.64.104] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id m3-20020a05600c4f4300b003a84375d0d1sm4594705wmq.44.2022.08.29.02.02.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Aug 2022 02:02:19 -0700 (PDT)
-Message-ID: <c6db2d34-26a2-8927-a9ab-a6ad788d30a3@grimberg.me>
-Date: Mon, 29 Aug 2022 12:02:18 +0300
+	id 1oSaig-006WFI-3e
+	for linux-nvme@lists.infradead.org; Mon, 29 Aug 2022 09:06:11 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 87F4D336E7;
+	Mon, 29 Aug 2022 09:06:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1661763966; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e2piUmCvjezYkVv37eL1/W71897LTJov3uvI5Lv/KIQ=;
+	b=rVs4RA2dtwFxKgQ2ThK7xqmquQD5egV3oEqrXZbsyEst9vNrXd3keXL2i7qNZVMnfJxWO3
+	q21LIGj9gy+NUehIla/rImet2c9asZdEexQkW916hxUR4vTEpBouv1grjyw0Kr4wbF8JYM
+	hRjJKbAbcGThtQRb24QC+LweNF7eBzI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1661763966;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e2piUmCvjezYkVv37eL1/W71897LTJov3uvI5Lv/KIQ=;
+	b=kMst4v+WNrlEVIM3/hrPeTCVG6uZKJDFneZH8lOptqC6XLYHIdMp+nkEsRTl4XkEnxZzU6
+	9lrpbz3s5ezG2OCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7089E1352A;
+	Mon, 29 Aug 2022 09:06:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 0TjFGn6BDGMRIAAAMHmgww
+	(envelope-from <hare@suse.de>); Mon, 29 Aug 2022 09:06:06 +0000
+Message-ID: <d93ede38-f2b0-9731-3889-a27de65d3530@suse.de>
+Date: Mon, 29 Aug 2022 11:06:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] nvme: add DIX support for nvme-rdma
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v3 1/3] nvmet: Expose max queues to sysfs
 Content-Language: en-US
-To: Chao Leng <lengchao@huawei.com>, linux-nvme@lists.infradead.org
-Cc: hch@lst.de, kbusch@kernel.org, mgurtovoy@nvidia.com
-References: <20220829081256.24570-1-lengchao@huawei.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220829081256.24570-1-lengchao@huawei.com>
+To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
+Cc: Sagi Grimberg <sagi@grimberg.me>, Chao Leng <lengchao@huawei.com>
+References: <20220829083856.1850-1-dwagner@suse.de>
+ <20220829083856.1850-2-dwagner@suse.de>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20220829083856.1850-2-dwagner@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220829_020220_915077_7A0E62E5 
-X-CRM114-Status: UNSURE (   6.79  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220829_020610_339496_7018AD87 
+X-CRM114-Status: GOOD (  19.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,5 +91,75 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+On 8/29/22 10:38, Daniel Wagner wrote:
+> Allow to set the max queues the target supports. This is useful for
+> testing the reconnect attempt of the host with changing numbers of
+> supported queues.
+> 
+> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+> ---
+>   drivers/nvme/target/configfs.c | 28 ++++++++++++++++++++++++++++
+>   1 file changed, 28 insertions(+)
+> 
+> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+> index 2bcd60758919..a415c2987393 100644
+> --- a/drivers/nvme/target/configfs.c
+> +++ b/drivers/nvme/target/configfs.c
+> @@ -1281,6 +1281,33 @@ static ssize_t nvmet_subsys_attr_pi_enable_store(struct config_item *item,
+>   CONFIGFS_ATTR(nvmet_subsys_, attr_pi_enable);
+>   #endif
+>   
+> +static ssize_t nvmet_subsys_attr_qid_max_show(struct config_item *item,
+> +					      char *page)
+> +{
+> +	return snprintf(page, PAGE_SIZE, "%u\n", to_subsys(item)->max_qid);
+> +}
+> +
+> +static ssize_t nvmet_subsys_attr_qid_max_store(struct config_item *item,
+> +					       const char *page, size_t cnt)
+> +{
+> +	u16 qid_max;
+> +
+> +	if (nvmet_is_port_enabled(port, __func__))
+> +		return -EACCES;
+> +
+> +	if (sscanf(page, "%hu\n", &qid_max) != 1)
+> +		return -EINVAL;
+> +
+> +	if (qid_max < 1 || qid_max > NVMET_NR_QUEUES)
+> +		return -EINVAL;
+> +
+> +	down_write(&nvmet_config_sem);
+> +	to_subsys(item)->max_qid = qid_max;
+> +	up_write(&nvmet_config_sem);
+> +	return cnt;
+> +}
+> +CONFIGFS_ATTR(nvmet_subsys_, attr_qid_max);
+> +
+>   static struct configfs_attribute *nvmet_subsys_attrs[] = {
+>   	&nvmet_subsys_attr_attr_allow_any_host,
+>   	&nvmet_subsys_attr_attr_version,
+> @@ -1291,6 +1318,7 @@ static struct configfs_attribute *nvmet_subsys_attrs[] = {
+>   #ifdef CONFIG_BLK_DEV_INTEGRITY
+>   	&nvmet_subsys_attr_attr_pi_enable,
+>   #endif
+> +	&nvmet_subsys_attr_attr_qid_max,
+>   	NULL,
+>   };
+>   
+Minor nit: I would add the new field prior to the 'ifdef' stuff; as it 
+stands the layout of the resulting structure changes depending on the 
+configuration, which tends to cause all sorts of issues for distributions.
+But otherwise:
+
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke		           Kernel Storage Architect
+hare@suse.de			                  +49 911 74053 688
+SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
 
