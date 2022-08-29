@@ -4,78 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8F771C0502C
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Aug 2022 08:41:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1B48CECAAD2
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Aug 2022 08:41:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AQz/+7Hv45LcCkG5G7Kz01M/h/RS99nK9qnOzhi1bx8=; b=qGEcluzlTu6YplLCcusXAdXHzF
-	/hbxvfjYeA2F0R1ZeOpm4ixNyVSwKTvxBeeXT9b3STfIQAbf8Um1kzCgermGpLrPf21OFtQgbtC52
-	gBeOsX/L05DV1OJGEai7rZyGHpZ/9Fr/LVt5/9Bw+OiK6fN1BsAqAN421fKTNiKN1WUZv8nkcsxde
-	Le99wuDdhthGPmXgli1m/g6thuc5UGxzvzcVllSiuDqUbl41TuRSf/pl/Pe0Wbjlx9gnXf9tbtMZ3
-	HJAVn+5lOZ34DP9ovWaFBbD/FoDW9jak/57pKV/4JTZj0P8enycL9D04heTmYXUcf3vx7adGg4Kym
-	8Ed7PFbw==;
+	bh=F4jJIyWZp2GfbA6/9qrdjz96ETpzYrQaD9124m6ensU=; b=StT4qXfnmuStPT9fKiwAGhHsvQ
+	okZRmoBQ0bRtc+NWSkt8ue5Nveo1T77d2U93piYT1jJPXrd2c012M7dhA/YgT2YXeqlvGzbsrOFvA
+	kYh9mqChlyRaRywdz4xIMr/tOIhThO1wX6tmXexLu9TqGOEitQ8Sou7xLL5k7uYfI6M0IiIjEjkEa
+	DhUi8pnhSHcBVO1hSEaqvWa6FJjN7nTwNHaLHCa7k5QzBuDoxpaWIkGJQdsI7ND8T0Uj4gI2OFVBs
+	c7N/ukY5yoT1apM4BMjx4bCFOAfOQqDE+zs6FySrA5OULXvqlq+Oi9UPvySFGrTPQqNBWZLzOjtFu
+	DnYlmDNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oSaKJ-006JIP-Cq; Mon, 29 Aug 2022 08:40:59 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1oSaKX-006JS4-O4; Mon, 29 Aug 2022 08:41:13 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oSaIN-006HmD-Ve
-	for linux-nvme@lists.infradead.org; Mon, 29 Aug 2022 08:39:01 +0000
+	id 1oSaIO-006Hn8-MY
+	for linux-nvme@lists.infradead.org; Mon, 29 Aug 2022 08:39:05 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 700711F90A;
-	Mon, 29 Aug 2022 08:38:58 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1C3ED1F961;
+	Mon, 29 Aug 2022 08:38:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1661762338; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1661762339; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AQz/+7Hv45LcCkG5G7Kz01M/h/RS99nK9qnOzhi1bx8=;
-	b=q+0RKweo6Z12tytPO9orcUnN/JvFZuQqeo2ZCIyDSmYRCPuSMbYzbRJRF6gWQly4fKCCeL
-	5itz8267y0ji/bbEs5n8aSY9JDr8lDor9F4BchQTO8KwpL2Lx25O7fJ57p4RNPp0rsBjhN
-	MVT2Za5pA9iE6AJPGW3znMUF6A+heUM=
+	bh=F4jJIyWZp2GfbA6/9qrdjz96ETpzYrQaD9124m6ensU=;
+	b=AD9AhNih/efV0fby2C13fAIkWBcMGllSG95T89IlH9aiUBZypulRmfhNcbuotCDoLxy6u0
+	sCUcbjVZv9kixlZboketMdJ564KVVZEEVLzjFIYdU7T8obZOS35S4WY0QZuZQy5qqa547h
+	xlphR9Nw5rMspdARH8cXVNAI9+qLltk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1661762338;
+	s=susede2_ed25519; t=1661762339;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AQz/+7Hv45LcCkG5G7Kz01M/h/RS99nK9qnOzhi1bx8=;
-	b=8bpKrxx5n37a1IDzswF6WhmUwPgpr25nfhujlVck2LngCSxemzshEywlIp9N8ZHFwvDFxz
-	kzlb+gwxpQNB36AQ==
+	bh=F4jJIyWZp2GfbA6/9qrdjz96ETpzYrQaD9124m6ensU=;
+	b=wYb8akfx1kKqLXfLEwx5fcAVGxAnnmQPkn0zTqNTRioZXvhHxb+t3xp45OSMAOrSd8KqcX
+	XPYoN0i1sgNoA5Cw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5D29A1352A;
-	Mon, 29 Aug 2022 08:38:58 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0B2ED1352A;
+	Mon, 29 Aug 2022 08:38:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id t0jlFiJ7DGOKEwAAMHmgww
-	(envelope-from <dwagner@suse.de>); Mon, 29 Aug 2022 08:38:58 +0000
+	id jDq6AiN7DGOOEwAAMHmgww
+	(envelope-from <dwagner@suse.de>); Mon, 29 Aug 2022 08:38:59 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Hannes Reinecke <hare@suse.de>,
 	Chao Leng <lengchao@huawei.com>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH v3 1/3] nvmet: Expose max queues to sysfs
-Date: Mon, 29 Aug 2022 10:38:54 +0200
-Message-Id: <20220829083856.1850-2-dwagner@suse.de>
+Subject: [PATCH v3 2/3] nvme-tcp: Handle number of queue changes
+Date: Mon, 29 Aug 2022 10:38:55 +0200
+Message-Id: <20220829083856.1850-3-dwagner@suse.de>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220829083856.1850-1-dwagner@suse.de>
 References: <20220829083856.1850-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220829_013900_272493_484DD002 
-X-CRM114-Status: GOOD (  11.73  )
+X-CRM114-CacheID: sfid-20220829_013901_609381_CD4A5A9B 
+X-CRM114-Status: GOOD (  16.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,61 +90,92 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Allow to set the max queues the target supports. This is useful for
-testing the reconnect attempt of the host with changing numbers of
-supported queues.
+On reconnect, the number of queues might have changed.
+
+In the case where we have more queues available than previously we try
+to access queues which are not initialized yet.
+
+The other case where we have less queues than previously, the
+connection attempt will fail because the target doesn't support the
+old number of queues and we end up in a reconnect loop.
+
+Thus, only start queues which are currently present in the tagset
+limited by the number of available queues. Then we update the tagset
+and we can start any new queue.
 
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- drivers/nvme/target/configfs.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ drivers/nvme/host/tcp.c | 26 +++++++++++++++++++++-----
+ 1 file changed, 21 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 2bcd60758919..a415c2987393 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -1281,6 +1281,33 @@ static ssize_t nvmet_subsys_attr_pi_enable_store(struct config_item *item,
- CONFIGFS_ATTR(nvmet_subsys_, attr_pi_enable);
- #endif
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 044da18c06f5..d97b0b6369b5 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1762,11 +1762,12 @@ static void nvme_tcp_stop_io_queues(struct nvme_ctrl *ctrl)
+ 		nvme_tcp_stop_queue(ctrl, i);
+ }
  
-+static ssize_t nvmet_subsys_attr_qid_max_show(struct config_item *item,
-+					      char *page)
-+{
-+	return snprintf(page, PAGE_SIZE, "%u\n", to_subsys(item)->max_qid);
-+}
-+
-+static ssize_t nvmet_subsys_attr_qid_max_store(struct config_item *item,
-+					       const char *page, size_t cnt)
-+{
-+	u16 qid_max;
-+
-+	if (nvmet_is_port_enabled(port, __func__))
-+		return -EACCES;
-+
-+	if (sscanf(page, "%hu\n", &qid_max) != 1)
-+		return -EINVAL;
-+
-+	if (qid_max < 1 || qid_max > NVMET_NR_QUEUES)
-+		return -EINVAL;
-+
-+	down_write(&nvmet_config_sem);
-+	to_subsys(item)->max_qid = qid_max;
-+	up_write(&nvmet_config_sem);
-+	return cnt;
-+}
-+CONFIGFS_ATTR(nvmet_subsys_, attr_qid_max);
-+
- static struct configfs_attribute *nvmet_subsys_attrs[] = {
- 	&nvmet_subsys_attr_attr_allow_any_host,
- 	&nvmet_subsys_attr_attr_version,
-@@ -1291,6 +1318,7 @@ static struct configfs_attribute *nvmet_subsys_attrs[] = {
- #ifdef CONFIG_BLK_DEV_INTEGRITY
- 	&nvmet_subsys_attr_attr_pi_enable,
- #endif
-+	&nvmet_subsys_attr_attr_qid_max,
- 	NULL,
- };
+-static int nvme_tcp_start_io_queues(struct nvme_ctrl *ctrl)
++static int nvme_tcp_start_io_queues(struct nvme_ctrl *ctrl,
++				    int first, int last)
+ {
+ 	int i, ret;
  
+-	for (i = 1; i < ctrl->queue_count; i++) {
++	for (i = first; i < last; i++) {
+ 		ret = nvme_tcp_start_queue(ctrl, i);
+ 		if (ret)
+ 			goto out_stop_queues;
+@@ -1775,7 +1776,7 @@ static int nvme_tcp_start_io_queues(struct nvme_ctrl *ctrl)
+ 	return 0;
+ 
+ out_stop_queues:
+-	for (i--; i >= 1; i--)
++	for (i--; i >= first; i--)
+ 		nvme_tcp_stop_queue(ctrl, i);
+ 	return ret;
+ }
+@@ -1901,7 +1902,7 @@ static void nvme_tcp_destroy_io_queues(struct nvme_ctrl *ctrl, bool remove)
+ 
+ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+ {
+-	int ret;
++	int ret, nr_queues;
+ 
+ 	ret = nvme_tcp_alloc_io_queues(ctrl);
+ 	if (ret)
+@@ -1917,7 +1918,13 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+ 			goto out_free_tag_set;
+ 	}
+ 
+-	ret = nvme_tcp_start_io_queues(ctrl);
++	/*
++	 * Only start IO queues for which we have allocated the tagset
++	 * and limitted it to the available queues. On reconnects, the
++	 * queue number might have changed.
++	 */
++	nr_queues = min(ctrl->tagset->nr_hw_queues + 1, ctrl->queue_count);
++	ret = nvme_tcp_start_io_queues(ctrl, 1, nr_queues);
+ 	if (ret)
+ 		goto out_cleanup_connect_q;
+ 
+@@ -1937,6 +1944,15 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+ 		nvme_unfreeze(ctrl);
+ 	}
+ 
++	/*
++	 * If the number of queues has increased (reconnect case)
++	 * start all new queues now.
++	 */
++	ret = nvme_tcp_start_io_queues(ctrl, nr_queues,
++				       ctrl->tagset->nr_hw_queues + 1);
++	if (ret)
++		goto out_wait_freeze_timed_out;
++
+ 	return 0;
+ 
+ out_wait_freeze_timed_out:
 -- 
 2.37.2
 
