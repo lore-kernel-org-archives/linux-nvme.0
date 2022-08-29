@@ -4,81 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 68CA3ECAAD4
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Aug 2022 09:20:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9355EECAAD2
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Aug 2022 09:23:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tBJPPwC6qCsQKigCyaDrz/0HRDORoX1i5rFmhJheEx4=; b=tWx6RwrEue8YYz86u242+GAq2H
-	DN30PqvWiUgXrTmcKWbk+TE8gCvnxOCa1rUSjaT7ER55iDXrKuqBmmcrpY6K9hDfhxTXAdG40b2fO
-	tpSym/c8nzL8KVbOiFvQb3rEfv8zHXnTDeRU+LGSy0xtwRTj0aVwVSPR0xpPzqpKY/wiUqWFPrVo4
-	6ERQNh1QeF9/C3At83bvnh4ygGi72Jvzr/vGwqOHNdc7aHQWc7RvwHG66lORbIg0picm9DylMBv7j
-	z4OqRJ+y36CqHCkhD+k3dkXwVfU4OmBfM89xFrA1S0jShTyBZxA58ZTYjzwAeqzuaCY1JxF+bvUBJ
-	dIKvAexA==;
+	bh=dYmMm9D82/FNL7fMZ/3XW+aAfFGmL7y6iMLg4qR62E0=; b=uAsqxbI2faxy83dfg6mgLq5ATb
+	MEWFugfdVslUM9tO7Y+u4vfg8d8qSKJwbab7IjeBMeEcW/yqhSz+ZT+R+aH9ZhE/V04NPGqk/js+d
+	Yy+Y3cQ9QZxDwPvfQPW3VoebEFhOe6jTDIcp/Rb16HlSSZCRqRcYiYW5YeiX+6tp86GI0Sf/BRpE1
+	MsVRJtnmlYzcBVgVuZqhUw8hWQOf/1dAQKQ24tIS/Ev+wMQ5r9lDUnUq5jgIa7HgxHRo049Zd20UO
+	r6WJmtv0tyvn/R/EEig+DEmte+L+7dpOwZZWSI7Myg5VgtDvhSW0J2ey0ci/TybSVYka+IoWorYB1
+	tmWelx+w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oSawD-006f7x-D7; Mon, 29 Aug 2022 09:20:09 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1oSaz0-006gVa-Ev; Mon, 29 Aug 2022 09:23:02 +0000
+Received: from szxga01-in.huawei.com ([45.249.212.187])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oSawA-006f50-6X
-	for linux-nvme@lists.infradead.org; Mon, 29 Aug 2022 09:20:07 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 85E6F33698;
-	Mon, 29 Aug 2022 09:20:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1661764803; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tBJPPwC6qCsQKigCyaDrz/0HRDORoX1i5rFmhJheEx4=;
-	b=kFmLWqwI7INXw6K8TkZL3mNs7/r2US5mqlP7qFfqpcuJInLrNPAPJ/JcmWDnx06YY4pW04
-	Y8r4Ih9W5sVeZL8vrREKTdGyGu9yqOunCCrwye5eHQ2nOuN2D/Sh5uDQ3lCWdb1PlguUFm
-	mbkzFWBRuRO34Yc/toZzjgSdJpefY/U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1661764803;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tBJPPwC6qCsQKigCyaDrz/0HRDORoX1i5rFmhJheEx4=;
-	b=J9hDu0Fzp7HM7vXRPtei/+4vN8azLZzvZyuh5zHjUhHXGO/a5sQfL7x/M5NEyezR41QuBa
-	es3M1VsAUvdEdmDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 705701352A;
-	Mon, 29 Aug 2022 09:20:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id oWkoG8OEDGNfJgAAMHmgww
-	(envelope-from <hare@suse.de>); Mon, 29 Aug 2022 09:20:03 +0000
-Message-ID: <40c3d840-88ca-18c8-40a7-030bdf3964a5@suse.de>
-Date: Mon, 29 Aug 2022 11:20:03 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v3 0/3] Handle number of queue changes
-Content-Language: en-US
-To: Daniel Wagner <dwagner@suse.de>
-Cc: linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>,
- Chao Leng <lengchao@huawei.com>
+	id 1oSayu-006gRI-KQ
+	for linux-nvme@lists.infradead.org; Mon, 29 Aug 2022 09:23:00 +0000
+Received: from canpemm500002.china.huawei.com (unknown [172.30.72.56])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MGPyV3240zkWj3;
+	Mon, 29 Aug 2022 17:19:14 +0800 (CST)
+Received: from [10.169.59.127] (10.169.59.127) by
+ canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 29 Aug 2022 17:22:51 +0800
+Subject: Re: [PATCH v3 3/3] nvme-rdma: Handle number of queue changes
+To: Daniel Wagner <dwagner@suse.de>, <linux-nvme@lists.infradead.org>
+CC: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>
 References: <20220829083856.1850-1-dwagner@suse.de>
- <f8ee0fd3-45c2-7848-aa5a-6627c7672349@suse.de>
- <20220829091752.keztco4tonustfj4@carbon.lan>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20220829091752.keztco4tonustfj4@carbon.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ <20220829083856.1850-4-dwagner@suse.de>
+From: Chao Leng <lengchao@huawei.com>
+Message-ID: <5cc0b557-7e56-36c9-cfe4-05ca76f5e83e@huawei.com>
+Date: Mon, 29 Aug 2022 17:22:50 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
+MIME-Version: 1.0
+In-Reply-To: <20220829083856.1850-4-dwagner@suse.de>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.169.59.127]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ canpemm500002.china.huawei.com (7.192.104.244)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220829_022006_589176_46075B71 
-X-CRM114-Status: GOOD (  10.27  )
+X-CRM114-CacheID: sfid-20220829_022257_472824_D0984113 
+X-CRM114-Status: GOOD (  23.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,21 +68,95 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/29/22 11:17, Daniel Wagner wrote:
-> On Mon, Aug 29, 2022 at 11:07:00AM +0200, Hannes Reinecke wrote:
->> One does wonder: what about FC?
->> Does it suffer from the same problems?
+
+
+On 2022/8/29 16:38, Daniel Wagner wrote:
+> On reconnect, the number of queues might have changed.
 > 
-> No idea, I'll look into it.
-
-And while we're at it, a blktest would be grand...
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
+> In the case where we have more queues available than previously we try
+> to access queues which are not initialized yet.
+> 
+> The other case where we have less queues than previously, the
+> connection attempt will fail because the target doesn't support the
+> old number of queues and we end up in a reconnect loop.
+> 
+> Thus, only start queues which are currently present in the tagset
+> limited by the number of available queues. Then we update the tagset
+> and we can start any new queue.
+> 
+> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+> ---
+>   drivers/nvme/host/rdma.c | 26 +++++++++++++++++++++-----
+>   1 file changed, 21 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 3100643be299..0d1d29e644d9 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -696,11 +696,12 @@ static int nvme_rdma_start_queue(struct nvme_rdma_ctrl *ctrl, int idx)
+>   	return ret;
+>   }
+>   
+> -static int nvme_rdma_start_io_queues(struct nvme_rdma_ctrl *ctrl)
+> +static int nvme_rdma_start_io_queues(struct nvme_rdma_ctrl *ctrl,
+> +				     int first, int last)
+>   {
+>   	int i, ret = 0;
+>   
+> -	for (i = 1; i < ctrl->ctrl.queue_count; i++) {
+> +	for (i = first; i < last; i++) {
+>   		ret = nvme_rdma_start_queue(ctrl, i);
+>   		if (ret)
+>   			goto out_stop_queues;
+> @@ -709,7 +710,7 @@ static int nvme_rdma_start_io_queues(struct nvme_rdma_ctrl *ctrl)
+>   	return 0;
+>   
+>   out_stop_queues:
+> -	for (i--; i >= 1; i--)
+> +	for (i--; i >= first; i--)
+>   		nvme_rdma_stop_queue(&ctrl->queues[i]);
+>   	return ret;
+>   }
+> @@ -964,7 +965,7 @@ static void nvme_rdma_destroy_io_queues(struct nvme_rdma_ctrl *ctrl,
+>   
+>   static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+>   {
+> -	int ret;
+> +	int ret, nr_queues;
+>   
+>   	ret = nvme_rdma_alloc_io_queues(ctrl);
+>   	if (ret)
+> @@ -980,7 +981,13 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+>   			goto out_free_tag_set;
+>   	}
+>   
+> -	ret = nvme_rdma_start_io_queues(ctrl);
+> +	/*
+> +	 * Only start IO queues for which we have allocated the tagset
+> +	 * and limitted it to the available queues. On reconnects, the
+> +	 * queue number might have changed.
+> +	 */
+> +	nr_queues = min(ctrl->tag_set.nr_hw_queues + 1, nctrl->queue_count);
+> +	ret = nvme_rdma_start_io_queues(ctrl, 1, nr_queues);
+>   	if (ret)
+>   		goto out_cleanup_connect_q;
+>   
+> @@ -1000,6 +1007,15 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+>   		nvme_unfreeze(&ctrl->ctrl);
+>   	}
+>   
+> +	/*
+> +	 * If the number of queues has increased (reconnect case)
+> +	 * start all new queues now.
+> +	 */
+> +	ret = nvme_rdma_start_io_queues(ctrl, nr_queues,
+> +					ctrl->tag_set.nr_hw_queues + 1);
+> +	if (ret)
+> +		goto out_wait_freeze_timed_out;
+nvme_rdma_start_io_queues(ctrl, 1, nr_queues) need to clean.
+> +
+>   	return 0;
+>   
+>   out_wait_freeze_timed_out:
+> 
 
