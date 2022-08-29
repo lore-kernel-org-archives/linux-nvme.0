@@ -4,64 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 43B99ECAAD2
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Aug 2022 13:48:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B848ECAAD5
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Aug 2022 13:55:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DNGfEIma1a+f7zdzyqF/ApVufC8MdISGq9I2Zb+TzfY=; b=oTpKIg2LDDKmAGpuiu1mspG+Ho
-	qFb2GkX0+pWO0n+/NDXh/1Ilm1HHD2sjCqVRAK1ehFMxZTvGWexw7rbwucIVkC750HfBcgVqS4H4V
-	xQ/UIoys6EaFHCtI1FWybarTjxtfiuqfvtT1LEVrncJDIW5ku8uXOhpiFLkDYNHtw8E4JTMbdE07K
-	d/y1CGqpXuIHkGv+wZLL68ttwR2qF4VX4IPOibS7+3OhCQ79aLyWCdPNXiGkbElH25+MG13qdiAKF
-	oIMG1tBqtAgQ+M+e+ghUB3HUwMNwHwZQzmfKPwVhQfSMr18LfKon2HbBgcf2sqPjbVQUIzMtoqvt3
-	w0lkhhWA==;
+	bh=tbVLFarkq7sCNfRDKII53vpd7diSz1XniHfFx25Dd78=; b=TBbU/lN94UramrZQWlNhaUyywN
+	xuNxjv+AkIFuabCRcXR4x0Lo/Jv4WTp7MFmA/NKy+0DQQHHi1d2aHmCJu4TTdQIf42yavgkE7wugn
+	vq9zJerIlbraFifK68lFSJPqaLjYOYqRYqqV88GW3yFwjZihljy3p+2tVma4MxqzB6BpMItWwQ+ON
+	1Q+riqo3tJfSLAZfM/DAaasrZhkl2+ax5zuHVIfVlpLMLzX8aN7JS43MFnxwLkZAwdPVWVaRX2qrP
+	950Hzt+L+dke8WidKygFTRMlLA7jfSmA5zGh01R3vNS5hs5xIOjCIDI1clbDh+c9++917e1F49ML7
+	r9S4urng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oSf7N-00ApJn-J1; Mon, 29 Aug 2022 13:47:57 +0000
+	id 1oSfEC-00ArgG-1M; Mon, 29 Aug 2022 13:55:00 +0000
 Received: from szxga02-in.huawei.com ([45.249.212.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oSecP-00AbZR-Dm
-	for linux-nvme@lists.infradead.org; Mon, 29 Aug 2022 13:16:02 +0000
+	id 1oSed1-00Abw1-OK
+	for linux-nvme@lists.infradead.org; Mon, 29 Aug 2022 13:16:45 +0000
 Received: from canpemm500002.china.huawei.com (unknown [172.30.72.54])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MGW7d6xTkzlWWH;
-	Mon, 29 Aug 2022 21:12:29 +0800 (CST)
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MGW7G5xS8zYcy6;
+	Mon, 29 Aug 2022 21:12:10 +0800 (CST)
 Received: from [10.169.59.127] (10.169.59.127) by
  canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 29 Aug 2022 21:15:51 +0800
-Subject: Re: [PATCH] nvme-rdma: set ack timeout of RoCE to 262ms
-To: Sagi Grimberg <sagi@grimberg.me>, Max Gurtovoy <mgurtovoy@nvidia.com>,
-	Christoph Hellwig <hch@lst.de>
-CC: <linux-nvme@lists.infradead.org>, <kbusch@kernel.org>,
-	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
-References: <20220819075825.21231-1-lengchao@huawei.com>
- <20220821062016.GA26553@lst.de>
- <83992e8f-b18a-ccd3-e0ee-a5802043f161@huawei.com>
- <86e9fc3b-aded-220d-1ee0-4d5928097104@nvidia.com>
- <f7254cc2-88e0-e91f-e4f1-788c5889fcf1@huawei.com>
- <fbee7c67-fd7b-12c8-5685-066b1974aadb@grimberg.me>
- <550d4612-0041-3d84-b1cb-786d0c8e0d11@huawei.com>
- <3030fbb2-5c63-54ea-5be3-b88cf63c6b75@grimberg.me>
+ 15.1.2375.24; Mon, 29 Aug 2022 21:16:32 +0800
+Subject: Re: [PATCH v3 3/3] nvme-rdma: Handle number of queue changes
+To: Daniel Wagner <dwagner@suse.de>
+CC: <linux-nvme@lists.infradead.org>, Sagi Grimberg <sagi@grimberg.me>, Hannes
+ Reinecke <hare@suse.de>
+References: <20220829083856.1850-1-dwagner@suse.de>
+ <20220829083856.1850-4-dwagner@suse.de>
+ <5cc0b557-7e56-36c9-cfe4-05ca76f5e83e@huawei.com>
+ <20220829093219.6ii76hne6pjzxjws@carbon.lan>
 From: Chao Leng <lengchao@huawei.com>
-Message-ID: <c86a6cea-09b5-c04c-aa7b-adc6a457acf6@huawei.com>
-Date: Mon, 29 Aug 2022 21:15:50 +0800
+Message-ID: <8df0c325-0215-4019-d4cf-c7516863dbe4@huawei.com>
+Date: Mon, 29 Aug 2022 21:16:32 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.1
 MIME-Version: 1.0
-In-Reply-To: <3030fbb2-5c63-54ea-5be3-b88cf63c6b75@grimberg.me>
+In-Reply-To: <20220829093219.6ii76hne6pjzxjws@carbon.lan>
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.169.59.127]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
  canpemm500002.china.huawei.com (7.192.104.244)
 X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220829_061557_801513_B8D0C338 
-X-CRM114-Status: GOOD (  13.64  )
+X-CRM114-CacheID: sfid-20220829_061644_097836_41DBC414 
+X-CRM114-Status: UNSURE (   9.48  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,35 +74,23 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 2022/8/29 17:06, Sagi Grimberg wrote:
+On 2022/8/29 17:32, Daniel Wagner wrote:
+> On Mon, Aug 29, 2022 at 05:22:50PM +0800, Chao Leng wrote:
+>>> +	ret = nvme_rdma_start_io_queues(ctrl, nr_queues,
+>>> +					ctrl->tag_set.nr_hw_queues + 1);
+>>> +	if (ret)
+>>> +		goto out_wait_freeze_timed_out;
+>> nvme_rdma_start_io_queues(ctrl, 1, nr_queues) need to clean.
 > 
->>>>> If so, which devices did you use ?
->>>> The host HBA is Mellanox Technologies MT27800 Family [ConnectX-5];
->>>> The switch and storage are huawei equipments.
->>>> In principle, switches and storage devices from other vendors
->>>> have the same problem.
->>>> If you think it is necessary, we can test the other vendor switchs
->>>> and linux target.
->>>
->>> Why is the 2s default chosen, what is the downside for a 250ms seconds ack timeout? and why is nvme-rdma different than all other kernel rdma
->> The downside is redundant retransmit if the packets delay more than
->> 250ms in the networks and finally reaches the receiver.
->> Only in extreme scenarios, the packet delay may exceed 250 ms.
+> the teardown path in nvme_rdma_stop_io_queus() is using
 > 
-> Sounds like the default needs to be changed if it only addresses the
-> extreme scenarios...
+>     test_and_clear_bit(NVME_RDMA_Q_LIVE, &queue->flags)
 > 
->>> consumers that it needs to set this explicitly?
->> The real-time transaction services are sensitive to the delay.
->> nvme-rdma will be used in real-time transactions.
->> The real-time transaction services do not allow that the packets
->> delay more than 250ms in the networks.
->> So we need to set the ack timeout to 262ms.
-> 
-> While I don't disagree with the change itself, I do disagree why this
-> needs to be driven by nvme-rdma locally. If all kernel rdma consumers
-> need this (and if not, I'd like to understand why), this needs to be set in the rdma core.Changing the default set in the rdma core is another option.
-But it will affect all application based on RDMA.
-Max, what do you think? Thank you.
+> when iterating over all nr_hw_queues.
+I mean that we need realloc the ctrl->queues for
+nvme_rdma_start_io_queues(ctrl, 1, nr_queues).
+Otherwise, unallocated memory will be accessed when
+the new queue_count is bigger than the old one.
 > .
+> 
 
