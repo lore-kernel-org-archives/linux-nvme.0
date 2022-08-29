@@ -4,69 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5DC2CECAAD4
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Aug 2022 09:14:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CB3CEECAAD2
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Aug 2022 09:18:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WsBjD45oyqkccDUHbH5jaBbYU2odQn8a/CV/U2fhlhM=; b=EiHWH5KS0bMlPJTXZXjrv38XPO
-	Ky8DGZ9+C5lQRs7Is4iCGDplWEFx3ya43eFm0rGJgS/umyD0ra9qb3J6rhOXid+S14ThxYj6r7VVz
-	YRwyucVb0d83vfgxUsFByrNJEqhTCfxt0iXH1gCsJ0s0EN+0mi3IZL9TRcMiyutMJK0sP+PiXjgfm
-	7tP+fcsGGB5LA1AWEE0mBKZzx2p26QyLSmOr9V7pI4jartlpSUHwMz1r4T6SObY/e2zlzwRDWPXkg
-	fXjZPK167rZi47kDTjwIsxjvPFKdl5JhGXDZgVj0FW3WFoZwchAgocMUk1RrftPFxFdJykSBJWWLp
-	l31m4T9w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=SNnXs2A3MvLukEVHhQUTxvuhJ4DfChZopwJYNrPskBg=; b=D71f3pMqXlKc9DOdjVft3FmbG3
+	woWk+5nPr6CFdzXo502JXRF80kdJVq2SwZKlEK+Wdns+ISPJyFzv8BWIrR3h7htgcLr32rHMi0z1q
+	hEiauwGjSb4deLQz6oAUHbC22iAJfVx4/V03QJxDMmIKcnUVB8yOqU1GY30GhuwMbeooPCMOYldbi
+	HnGRd8fiQGZGc0SYeuqd8upkV9QVlOwlmYzUCbhkbndw+klZkteRva7C61iKsLISEwqgg3fz5PIYN
+	RxekhwOXo5f2arjw6UgVfyEWAKt0xdwzhFi4SET8JMG2IB8QDDuS/RGKkGxG4v4u1Ag2M+0/JIkOD
+	NN8u7hwQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oSaqn-006bYp-L2; Mon, 29 Aug 2022 09:14:33 +0000
-Received: from mail-wm1-f43.google.com ([209.85.128.43])
+	id 1oSau6-006dr3-E5; Mon, 29 Aug 2022 09:17:58 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oSaqj-006bTZ-3f
-	for linux-nvme@lists.infradead.org; Mon, 29 Aug 2022 09:14:30 +0000
-Received: by mail-wm1-f43.google.com with SMTP id r187-20020a1c44c4000000b003a84b160addso258199wma.2
-        for <linux-nvme@lists.infradead.org>; Mon, 29 Aug 2022 02:14:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=WsBjD45oyqkccDUHbH5jaBbYU2odQn8a/CV/U2fhlhM=;
-        b=c7BcRSGZmJ1i3YBfar9hN0ybmg06AR1JwBcNKzQ7RwQAKkF2SaIhA2QdAKW67WMh8G
-         KH9HQByBZrR/kaO3z/1ZiURoODYCR7O1JWICC2wmbW4fOEhxu30yoFCJLEB3FrkZm73+
-         LHc8XIOLWcbqni8davd91Kj0HRGVaWeB5FrTsp9GzGlyMuPSU73CXxwgC127b9MGsZP8
-         i44OMjJxe2jQ7UEkMg+ntDlugPviR5Z3WiVldQMJBh0CJYmbuyOTTq+Wm7UoEhCx3VeT
-         mBuqA2SOSGCJJ/LCch/6lwDz6s+ysAh7oLennkEGMN8QkYLKbQ5E9f3ETwB63qHKvMly
-         58Qg==
-X-Gm-Message-State: ACgBeo2iXwBsJI7kmaEpF8zmfrQgHUF4bcUHmEPk0UyYx6De/3NKtGpN
-	yoNFE1E5R0XLubbc2+sHuAD3AzZCid8=
-X-Google-Smtp-Source: AA6agR4kLqzoD45nDRMFlWQznFjlqYE5QlhM8pL8svFFkC8BOpt3Cse/ts0B5gljvD1k0ysnkzdYTQ==
-X-Received: by 2002:a05:600c:3c96:b0:3a6:59b1:5eb5 with SMTP id bg22-20020a05600c3c9600b003a659b15eb5mr6268755wmb.187.1661764466137;
-        Mon, 29 Aug 2022 02:14:26 -0700 (PDT)
-Received: from [192.168.64.104] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id p13-20020a05600c358d00b003a8418ee646sm5443372wmq.12.2022.08.29.02.14.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Aug 2022 02:14:23 -0700 (PDT)
-Message-ID: <dfe23fad-671f-f3fc-4a99-52690b2c1bf2@grimberg.me>
-Date: Mon, 29 Aug 2022 12:14:21 +0300
+	id 1oSau3-006dme-54
+	for linux-nvme@lists.infradead.org; Mon, 29 Aug 2022 09:17:56 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 30C4233698;
+	Mon, 29 Aug 2022 09:17:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1661764673; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SNnXs2A3MvLukEVHhQUTxvuhJ4DfChZopwJYNrPskBg=;
+	b=pYnVX/QNUl8bsunt0svzOJyxYyUDWu+as9lQUoLCqyNMmKflnlGd9tvPuMqO0JZ1IfpaTV
+	zUz4Zw7HcwjQrraOXtQHa53bwUR8UukK8ZV0i/OnORxhMHyv1QQzAN5rjk5DpDDt7OJgPk
+	R68+S2JbPqxPL+GZYX/elomS++YP6QA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1661764673;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SNnXs2A3MvLukEVHhQUTxvuhJ4DfChZopwJYNrPskBg=;
+	b=2BXocKDz7aFBqpsqu2aHSUWtjTOXjEP311VrpMBWyMZlWqczSpBc+c/fgJB5uXfEOF93Ce
+	daKz+yNu1R6dQMBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 228B7139C4;
+	Mon, 29 Aug 2022 09:17:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id qky7B0GEDGNOJQAAMHmgww
+	(envelope-from <dwagner@suse.de>); Mon, 29 Aug 2022 09:17:53 +0000
+Date: Mon, 29 Aug 2022 11:17:52 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Hannes Reinecke <hare@suse.de>
+Cc: linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>,
+	Chao Leng <lengchao@huawei.com>
+Subject: Re: [PATCH v3 0/3] Handle number of queue changes
+Message-ID: <20220829091752.keztco4tonustfj4@carbon.lan>
+References: <20220829083856.1850-1-dwagner@suse.de>
+ <f8ee0fd3-45c2-7848-aa5a-6627c7672349@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [Regression] Bug 216400 - Firmware activation starting AEN
- processing prevents further AER commands sent to the NVMe controller.
-Content-Language: en-US
-To: Thorsten Leemhuis <regressions@leemhuis.info>
-Cc: Christoph Hellwig <hch@lst.de>, lixingyuan@inspur.com,
- linux-nvme@lists.infradead.org
-References: <5e8c01cb-2dc1-e460-6bb2-c9861080154f@leemhuis.info>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <5e8c01cb-2dc1-e460-6bb2-c9861080154f@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f8ee0fd3-45c2-7848-aa5a-6627c7672349@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220829_021429_267255_B6BCA338 
-X-CRM114-Status: GOOD (  16.47  )
+X-CRM114-CacheID: sfid-20220829_021755_375970_A11E7BF8 
+X-CRM114-Status: UNSURE (   8.51  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,33 +88,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Mon, Aug 29, 2022 at 11:07:00AM +0200, Hannes Reinecke wrote:
+> One does wonder: what about FC?
+> Does it suffer from the same problems?
 
-
-On 8/26/22 15:19, Thorsten Leemhuis wrote:
-> Hi, this is your Linux kernel regression tracker.
-> 
-> I noticed a regression report in bugzilla.kernel.org that afaics nobody
-> acted upon since it was reported. That's why I decided to forward it by
-> mail to those that afaics should handle this.
-> 
-> To quote from https://bugzilla.kernel.org/show_bug.cgi?id=216400 :
-> 
->>   lixingyuan 2022-08-23 01:14:50 UTC
->>
->> This bug is related to these two commits:
->>
->> 1. https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v6.0-rc2&id=4c75f877853cfa81b12374a07208e07b077f39b8
->>
->> These codes will set the controller state to NVME_CTRL_RESETTING while handling the firmware activation staring AEN
->>
->> 2. https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v6.0-rc2&id=0fa0f99fc84e41057cbdd2efbfe91c6b2f47dd9d
->>
->> When submitting a new AER command to the controller, this code checks if the controller state is NVME_CTRL_LIVE. This caused the problem. When the firmware activation staring AEN was processed before, the controller state was already set to NVME_CTRL_RESETTING, which resulted in no new AER commands being sent to the controller.
-
-I see.
-
-I can modify this code to check in the drivers instead of the core.
-
-Keith, pci does not risk submitting an async event on a freed admin
-queue? if not, I can add a proper check there as well...
+No idea, I'll look into it.
 
