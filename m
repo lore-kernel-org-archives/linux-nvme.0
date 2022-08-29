@@ -4,64 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D645ECAAD4
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Aug 2022 08:40:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8F771C0502C
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Aug 2022 08:41:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=0ZQbSIsprE03487lAD31MmeAFY1RsNZL8nmax2eWXLA=; b=XvqMz6F0EED20fRNApF1pmtANh
-	v5NdkFvwhuUEUmiIfwQmAwnredp0olRFS1lZeBop+CL+ZEjMmRgNVvRoHyp740QBzV1NeGfv+pYne
-	7990ZzLkGEoM5EJhvXJt1zLZAGoC2tttQ1iESWbJRy28AhYFe2VTYjXdkUpNTrVYIRdVP8AzixJuI
-	ANqteQz90rbeGskBU/MjemciJa6LoK/35YU2y9GSL7dx5LplbUIr0xsd+55D7vrCWgaf/D/PHYfJv
-	mu0Oi7eoiGijxm+pe67IdXoMVTYd3O+Fng1sEXOc6a6AOTLTtiiCyBxk145aEYlJx4msGqW7ul5zo
-	Bbxz7NKA==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=AQz/+7Hv45LcCkG5G7Kz01M/h/RS99nK9qnOzhi1bx8=; b=qGEcluzlTu6YplLCcusXAdXHzF
+	/hbxvfjYeA2F0R1ZeOpm4ixNyVSwKTvxBeeXT9b3STfIQAbf8Um1kzCgermGpLrPf21OFtQgbtC52
+	gBeOsX/L05DV1OJGEai7rZyGHpZ/9Fr/LVt5/9Bw+OiK6fN1BsAqAN421fKTNiKN1WUZv8nkcsxde
+	Le99wuDdhthGPmXgli1m/g6thuc5UGxzvzcVllSiuDqUbl41TuRSf/pl/Pe0Wbjlx9gnXf9tbtMZ3
+	HJAVn+5lOZ34DP9ovWaFBbD/FoDW9jak/57pKV/4JTZj0P8enycL9D04heTmYXUcf3vx7adGg4Kym
+	8Ed7PFbw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oSaJH-006IYM-5D; Mon, 29 Aug 2022 08:39:55 +0000
-Received: from mail-wr1-f41.google.com ([209.85.221.41])
+	id 1oSaKJ-006JIP-Cq; Mon, 29 Aug 2022 08:40:59 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oSaFm-006G9N-Oj
-	for linux-nvme@lists.infradead.org; Mon, 29 Aug 2022 08:36:21 +0000
-Received: by mail-wr1-f41.google.com with SMTP id e13so8307007wrm.1
-        for <linux-nvme@lists.infradead.org>; Mon, 29 Aug 2022 01:36:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=0ZQbSIsprE03487lAD31MmeAFY1RsNZL8nmax2eWXLA=;
-        b=FGRA0tLzbMfd8I6rVy9MIYALxWjsQB4EpIq5Jeuc+W36mQ5sgqfaLeLB8B5XlO5Gfm
-         EbUC8R83zBZ0ZHmxllJoJwu53Jd86sVaeX0uMHebDTjQvF8O8pHeDHORiVtlN0Aiqqo1
-         l/2aKeo+lS3fi3pSFFd33HhFfvxfUGbgSFjIJriml6//Qqd4Jg8SQ6k4XoFiaSTyiFzH
-         zWe1xdr9jltLKWjFsWI8yB4eKDvJkZ62KwGvvSA5+bEjW8IxbQP3GoqBVZqDMnJApUsR
-         /gg+4CjZvwQr2HjaBhotWMIoiLiFVWVUsRV7ODUrbtiE4vGzIClB/XZghfwjn4P2ySaL
-         Y4kg==
-X-Gm-Message-State: ACgBeo11g9PaSZhysaZsiMgKxEWmo6P5LwnkDFoWhGKtfKBvUi4W0FgE
-	DyUYMcYyIIzU4+CkW6YB4s9XMB0xWug=
-X-Google-Smtp-Source: AA6agR5/20gTWtc8lQJooG49YIjcQRyLGZnAyvagYX+Lc5zfuiiCSx/QZyE2RqJNyhyiFVCvuyqRIw==
-X-Received: by 2002:a5d:47c9:0:b0:225:5a4f:8f82 with SMTP id o9-20020a5d47c9000000b002255a4f8f82mr5977615wrc.0.1661762176435;
-        Mon, 29 Aug 2022 01:36:16 -0700 (PDT)
-Received: from localhost.localdomain (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id l6-20020adff486000000b0021e13efa17esm6553341wro.70.2022.08.29.01.36.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Aug 2022 01:36:15 -0700 (PDT)
-From: Sagi Grimberg <sagi@grimberg.me>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH blktests] nvme: add dh module requirement for tests that involve dh groups
-Date: Mon, 29 Aug 2022 11:36:14 +0300
-Message-Id: <20220829083614.874878-1-sagi@grimberg.me>
-X-Mailer: git-send-email 2.34.1
+	id 1oSaIN-006HmD-Ve
+	for linux-nvme@lists.infradead.org; Mon, 29 Aug 2022 08:39:01 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 700711F90A;
+	Mon, 29 Aug 2022 08:38:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1661762338; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AQz/+7Hv45LcCkG5G7Kz01M/h/RS99nK9qnOzhi1bx8=;
+	b=q+0RKweo6Z12tytPO9orcUnN/JvFZuQqeo2ZCIyDSmYRCPuSMbYzbRJRF6gWQly4fKCCeL
+	5itz8267y0ji/bbEs5n8aSY9JDr8lDor9F4BchQTO8KwpL2Lx25O7fJ57p4RNPp0rsBjhN
+	MVT2Za5pA9iE6AJPGW3znMUF6A+heUM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1661762338;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AQz/+7Hv45LcCkG5G7Kz01M/h/RS99nK9qnOzhi1bx8=;
+	b=8bpKrxx5n37a1IDzswF6WhmUwPgpr25nfhujlVck2LngCSxemzshEywlIp9N8ZHFwvDFxz
+	kzlb+gwxpQNB36AQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5D29A1352A;
+	Mon, 29 Aug 2022 08:38:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id t0jlFiJ7DGOKEwAAMHmgww
+	(envelope-from <dwagner@suse.de>); Mon, 29 Aug 2022 08:38:58 +0000
+From: Daniel Wagner <dwagner@suse.de>
+To: linux-nvme@lists.infradead.org
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Hannes Reinecke <hare@suse.de>,
+	Chao Leng <lengchao@huawei.com>,
+	Daniel Wagner <dwagner@suse.de>
+Subject: [PATCH v3 1/3] nvmet: Expose max queues to sysfs
+Date: Mon, 29 Aug 2022 10:38:54 +0200
+Message-Id: <20220829083856.1850-2-dwagner@suse.de>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20220829083856.1850-1-dwagner@suse.de>
+References: <20220829083856.1850-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220829_013618_849010_1821D6F3 
-X-CRM114-Status: UNSURE (   8.86  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220829_013900_272493_484DD002 
+X-CRM114-Status: GOOD (  11.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,50 +90,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
- tests/nvme/043 | 1 +
- tests/nvme/044 | 1 +
- tests/nvme/045 | 1 +
- 3 files changed, 3 insertions(+)
+Allow to set the max queues the target supports. This is useful for
+testing the reconnect attempt of the host with changing numbers of
+supported queues.
 
-diff --git a/tests/nvme/043 b/tests/nvme/043
-index 381ae755f140..87273e5b414d 100755
---- a/tests/nvme/043
-+++ b/tests/nvme/043
-@@ -16,6 +16,7 @@ requires() {
- 	_have_kernel_option NVME_TARGET_AUTH
- 	_require_nvme_trtype_is_fabrics
- 	_require_nvme_cli_auth
-+	_have_driver dh_generic
- }
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+---
+ drivers/nvme/target/configfs.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 2bcd60758919..a415c2987393 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -1281,6 +1281,33 @@ static ssize_t nvmet_subsys_attr_pi_enable_store(struct config_item *item,
+ CONFIGFS_ATTR(nvmet_subsys_, attr_pi_enable);
+ #endif
  
- 
-diff --git a/tests/nvme/044 b/tests/nvme/044
-index 046553198ce3..13019659b951 100755
---- a/tests/nvme/044
-+++ b/tests/nvme/044
-@@ -16,6 +16,7 @@ requires() {
- 	_have_kernel_option NVME_TARGET_AUTH
- 	_require_nvme_trtype_is_fabrics
- 	_require_nvme_cli_auth
-+	_have_driver dh_generic
- }
- 
- 
-diff --git a/tests/nvme/045 b/tests/nvme/045
-index b60f18fc9f87..264f21053921 100755
---- a/tests/nvme/045
-+++ b/tests/nvme/045
-@@ -16,6 +16,7 @@ requires() {
- 	_have_kernel_option NVME_TARGET_AUTH
- 	_require_nvme_trtype_is_fabrics
- 	_require_nvme_cli_auth
-+	_have_driver dh_generic
- }
- 
++static ssize_t nvmet_subsys_attr_qid_max_show(struct config_item *item,
++					      char *page)
++{
++	return snprintf(page, PAGE_SIZE, "%u\n", to_subsys(item)->max_qid);
++}
++
++static ssize_t nvmet_subsys_attr_qid_max_store(struct config_item *item,
++					       const char *page, size_t cnt)
++{
++	u16 qid_max;
++
++	if (nvmet_is_port_enabled(port, __func__))
++		return -EACCES;
++
++	if (sscanf(page, "%hu\n", &qid_max) != 1)
++		return -EINVAL;
++
++	if (qid_max < 1 || qid_max > NVMET_NR_QUEUES)
++		return -EINVAL;
++
++	down_write(&nvmet_config_sem);
++	to_subsys(item)->max_qid = qid_max;
++	up_write(&nvmet_config_sem);
++	return cnt;
++}
++CONFIGFS_ATTR(nvmet_subsys_, attr_qid_max);
++
+ static struct configfs_attribute *nvmet_subsys_attrs[] = {
+ 	&nvmet_subsys_attr_attr_allow_any_host,
+ 	&nvmet_subsys_attr_attr_version,
+@@ -1291,6 +1318,7 @@ static struct configfs_attribute *nvmet_subsys_attrs[] = {
+ #ifdef CONFIG_BLK_DEV_INTEGRITY
+ 	&nvmet_subsys_attr_attr_pi_enable,
+ #endif
++	&nvmet_subsys_attr_attr_qid_max,
+ 	NULL,
+ };
  
 -- 
-2.34.1
+2.37.2
 
 
