@@ -4,62 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04150ECAAD5
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Aug 2022 15:10:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE86CECAAD2
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Aug 2022 16:42:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5NHyhfhnQ8KDlBmUfwnggZyr3m6gJNtac4NIBXddULo=; b=TSwNX1LyR2YJAxwqZUMtSsKwNF
-	7VhXvEZ9PD35L3EzRhfDf/0uNr+VfqM3rR5v9oZBtkzN+hLh8Mo5ODLIaRYzLdNTQw8J78PBuJW9v
-	gPBK2TVLLmO3ZrsNPcFSXUbjsMsGlO+IUfCIqW/SsTA01C7eqnF7vQiVwCN7S+uFXNInEYnxPmLJx
-	pKziSsGDdBfm2ZGhsWyyZooNsVyWQp0nCMPCM0xamvHG9NZGbahLb7VtxUGKCLLhajmNLBL3brDmr
-	/Hw+4ao8xt14FcS0PDWmCe76HQq2Xgg+WYuO/cGgpBn5pYazTGpUilBW+WVCbIa/889npkBt8Kmvc
-	mijvGAhg==;
+	bh=Yn+Q2JUYV0tj6l3dYBorscdD+XiI9UMJVe9ukb7HUwE=; b=pivClDakbxGf+yz+51NCtefCvd
+	iRBt7CamNHs3GuSLPjHqdmXw0KZUmpuqywGaNIaTHyeAP/8+Lcx8UcdWfMG3R9DojgqwJgR/yH9sq
+	oujF5c5BRC+8Sev8R4jhF4QXHWQlKFJ+fRhvYlRfNhZ0imzWXYyKlykUUJkQlCGVFBEX4sg6zZYq7
+	/NiPEt+hazPkTbKWofy4PSYOoGNu9C/Un1YqXjrds0g3CdJI+iXtUBJl8J4Sd/YDyGhNoyOGVWsED
+	wSIh+0ds3VVjvJQlmwBtby7ia20wPHNNVTOZ5IEcSRW0cLbSLb4TmQgdt+LGOpkCJBLwmRvqypgvT
+	OzjgUcNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oSgOw-00BHNH-3n; Mon, 29 Aug 2022 15:10:10 +0000
+	id 1oShpm-00BqDU-2T; Mon, 29 Aug 2022 16:41:58 +0000
 Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oSgOu-00BHLz-0f
-	for linux-nvme@lists.infradead.org; Mon, 29 Aug 2022 15:10:09 +0000
+	id 1oShdj-00BkiD-Cc
+	for linux-nvme@lists.infradead.org; Mon, 29 Aug 2022 16:29:32 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id D775161055;
-	Mon, 29 Aug 2022 15:10:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCA1DC433D6;
-	Mon, 29 Aug 2022 15:10:05 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id BB94F61216;
+	Mon, 29 Aug 2022 16:29:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B308CC433D6;
+	Mon, 29 Aug 2022 16:29:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1661785806;
-	bh=a5fmWaWeaASCn9rRtbokZR+t98Sgv0zH8DSDDO5JftE=;
+	s=k20201202; t=1661790569;
+	bh=ETuaT/8fwD32DuXL1Z5VAZuIwL5iYZAIwh8cJ5wbTbo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pvG6WtAgve2NEbSAZcbZY0nkQq53lBuKfFQ0BNOri4nAZXCaUN56tih1q49X7gUJn
-	 zgOz/CChunerTwRjtXN1cunkD9MLatLpaT7WU22uML+QYk9Cnv58fZ++4hxD4hxayN
-	 QoMQBMVSyMjtOB52sRlXZr6kom5qCBcUPSaoiMPknoV2jS8xynBMALP89P5jOI5eQM
-	 ou8iYZz2r6fN5xBgYy2zwNDWj21t83Bj3GNap7Mmuvl5o9DkEo7/LHdZQenVPhGvm3
-	 HWo6j+hUictfhwU5I901/UlK9Bpp8RnbRqKp53ebbFdV1XIHPOegwUrbJIZUwwrpgk
-	 +ZnfI7XumRYIw==
-Date: Mon, 29 Aug 2022 09:10:03 -0600
+	b=inlH0wuM6qThE7nZ6ek33AT6cswQd93XgSi+0mJn+LGOGeTtjiSqqTz6bIK956+/r
+	 yus5kCwrhsiEGD3NgRKl4+mgGE5bMi/GmMzOLq5sEfiFOVKFoJwkofq4mFidxqht2I
+	 dGuuFUSji52JBXUW/iDqrrJBZxzspPCcQfxQco0pUbDDWW7pZdriL6OJLxO0fIkB86
+	 Ow7fshsBzOsi/gWQu0CC5hVpTJ3+qDWcEQpZ31b39TD3CQt0/3wZjCmaMgYyF8wN3+
+	 jxMCOdkfKPS30l+unFJ6LoQSkeNhA+XE72IRutUcRUJLbtpkJKE/8YCK3OfqVj2Nwh
+	 dsrt9NwJhdhjQ==
+Date: Mon, 29 Aug 2022 10:29:26 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Max Gurtovoy <mgurtovoy@nvidia.com>
-Cc: Chao Leng <lengchao@huawei.com>, linux-nvme@lists.infradead.org,
-	hch@lst.de, sagi@grimberg.me
-Subject: Re: [PATCH] nvme: add DIX support for nvme-rdma
-Message-ID: <YwzWyrFahUlqs2fx@kbusch-mbp.dhcp.thefacebook.com>
-References: <20220829081256.24570-1-lengchao@huawei.com>
- <673f2871-3c0d-3910-c9b7-7cb4913c7cd5@nvidia.com>
- <59dc78d8-c91d-6a7a-339e-b191cb77fd31@huawei.com>
- <ddc4d332-2a86-af1b-6627-547673c44721@nvidia.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Thorsten Leemhuis <regressions@leemhuis.info>,
+	Christoph Hellwig <hch@lst.de>, lixingyuan@inspur.com,
+	linux-nvme@lists.infradead.org
+Subject: Re: [Regression] Bug 216400 - Firmware activation starting AEN
+ processing prevents further AER commands sent to the NVMe controller.
+Message-ID: <YwzpZpBgXM/U9GEP@kbusch-mbp.dhcp.thefacebook.com>
+References: <5e8c01cb-2dc1-e460-6bb2-c9861080154f@leemhuis.info>
+ <dfe23fad-671f-f3fc-4a99-52690b2c1bf2@grimberg.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ddc4d332-2a86-af1b-6627-547673c44721@nvidia.com>
+In-Reply-To: <dfe23fad-671f-f3fc-4a99-52690b2c1bf2@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220829_081008_142633_DF67E0C7 
-X-CRM114-Status: GOOD (  20.14  )
+X-CRM114-CacheID: sfid-20220829_092931_548222_84F703E6 
+X-CRM114-Status: GOOD (  25.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,36 +74,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Aug 29, 2022 at 05:56:39PM +0300, Max Gurtovoy wrote:
-> On 8/29/2022 4:16 PM, Chao Leng wrote:
-> > On 2022/8/29 18:43, Max Gurtovoy wrote:
-> > > On 8/29/2022 11:12 AM, Chao Leng wrote:
+On Mon, Aug 29, 2022 at 12:14:21PM +0300, Sagi Grimberg wrote:
+> 
+> 
+> On 8/26/22 15:19, Thorsten Leemhuis wrote:
+> > Hi, this is your Linux kernel regression tracker.
+> > 
+> > I noticed a regression report in bugzilla.kernel.org that afaics nobody
+> > acted upon since it was reported. That's why I decided to forward it by
+> > mail to those that afaics should handle this.
+> > 
+> > To quote from https://bugzilla.kernel.org/show_bug.cgi?id=216400 :
+> > 
+> > >   lixingyuan 2022-08-23 01:14:50 UTC
 > > > 
-> > > You can mention that also in iser, if supported, the default is to
-> > > use IP_CHECKSUM for DIX and not CRC.
-> > According to DIX define:DIX = IP_CHECKSUM.
-> > To reduce CPU utilization, the end-to-end DIF for SCSI protocols is
-> > DIX-DIF when supported by hardware.
+> > > This bug is related to these two commits:
+> > > 
+> > > 1. https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v6.0-rc2&id=4c75f877853cfa81b12374a07208e07b077f39b8
+> > > 
+> > > These codes will set the controller state to NVME_CTRL_RESETTING while handling the firmware activation staring AEN
+> > > 
+> > > 2. https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v6.0-rc2&id=0fa0f99fc84e41057cbdd2efbfe91c6b2f47dd9d
+> > > 
+> > > When submitting a new AER command to the controller, this code checks if the controller state is NVME_CTRL_LIVE. This caused the problem. When the firmware activation staring AEN was processed before, the controller state was already set to NVME_CTRL_RESETTING, which resulted in no new AER commands being sent to the controller.
 > 
-> From what I re-call DIX was protection between host_buff -> host_device and
-> DIF was protection between host_device -> target_device.
+> I see.
 > 
-> If now its defined as DIX == IP_CHECKSUM and DIF == CRC please mention it
-> somehow in the commit message.
+> I can modify this code to check in the drivers instead of the core.
+> 
+> Keith, pci does not risk submitting an async event on a freed admin
+> queue? if not, I can add a proper check there as well...
 
-Where is this coming from? The NVMe command set spec says this is the
-difference between DIF and DIX:
+I don't think we'd attempt to issue an admin command while the queue is down,
+at least not in pci driver.
 
-  The primary difference between these two mechanisms is the location of the
-  protection information. In DIF, the protection information is contiguous with
-  the logical block data and creates an extended logical block, while in DIX,
-  the protection information is stored in a separate buffer.
-
-Regarding CRC vs IP Checksum, the spec also says this:
-
-  In addition to a CRC-16, DIX also specifies an optional IP checksum that is
-  not supported by the NVM Express interface.
-
-So DIX support doesn't imply IP checksum. Even if the host device can support
-it, the target device can not report it uses that guard type.
+I think it should be sufficient to requeue the ctrl->async_event_work after the
+activation work complete, no?
 
