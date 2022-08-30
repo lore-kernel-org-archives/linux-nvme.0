@@ -4,60 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BB28ECAAA1
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Aug 2022 12:39:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97F54ECAAD4
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Aug 2022 12:49:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
-	Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yr56wgVw/lc4eCtUycnJRtrmrLT6TwzKqaLt6RPs62w=; b=0g8Z/hSUCYksZtdmT3nbwqkkON
-	UT2t7FMDrE4mhmHnVqcjms8cr/0xm0/U5NAxUcF42y/PBQrOmBYsEmJV0MvI/kMfWFRMsCx7zYbqW
-	EX3J+1T9zuPN8HDX0NmVN4rHHotcnAN1XfAjqOoHZqiNUHcmvstGW5cX312wQ3TW2cm//SbDAueM+
-	1bB4kc4WGHQAZbL70bh48OECgHPseNZD7zXoiM0AFQ/sCqA+RpE5dh+B7EYv3CvIk+d4rpH0+lxBe
-	asbFCcWi1y8tYSyG4J5Zrpg39xLgCkF3jQe4HeXCeLx0VazXiXipFo/f5oVoJcr8CQRVNdFfBl47Z
-	MEMmeqZA==;
+	bh=miz5dyzjNMitdloMFsUfrk2aHvWlfa9L/nhJJbYEKm8=; b=4FKRv1UEAZQa69uygEfGCXMOxy
+	wlEcfNGON4yQ83VylZxZ5jCz7DNe8V8XHC6l5HBGmbVIJhpoXCWQdbr722OfgM8UCDAi4cGy1Z6Ps
+	VVQSMc3s126SUd9QJ9TI79LKSPFngIYZIFomKif6oNNhqr70cuuNelzq1NOjZ2ieHpEiExEBu1i/+
+	qMj0+Y3PZ87ruHsuUZuILfZy3ETyl08zEpGaD/1v7n/9L2OHLJUi/Crny5ix+GeiO7cDrRX4GJtbF
+	dOv+k44RO9XmtMQXVUqHiZjb2XNQy+bbEkecTXEp8sC4U849WoBnqpu9STgUcp63An5ZbM5H7+sWT
+	hfwm+dAg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oT0WV-00GsWS-GK; Tue, 30 Aug 2022 12:39:19 +0000
-Received: from szxga02-in.huawei.com ([45.249.212.188])
+	id 1oT0gU-00Gx2r-Qb; Tue, 30 Aug 2022 12:49:38 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oT0WS-00GsUr-9v
-	for linux-nvme@lists.infradead.org; Tue, 30 Aug 2022 12:39:17 +0000
-Received: from canpemm500002.china.huawei.com (unknown [172.30.72.53])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MH6Fk5LRTzYcn9
-	for <linux-nvme@lists.infradead.org>; Tue, 30 Aug 2022 20:34:50 +0800 (CST)
-Received: from [10.169.59.127] (10.169.59.127) by
- canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 30 Aug 2022 20:39:13 +0800
-Subject: Re: [PATCH v3 3/3] nvme-rdma: Handle number of queue changes
-To: <linux-nvme@lists.infradead.org>
-References: <20220829083856.1850-1-dwagner@suse.de>
- <20220829083856.1850-4-dwagner@suse.de>
- <5cc0b557-7e56-36c9-cfe4-05ca76f5e83e@huawei.com>
- <20220829093219.6ii76hne6pjzxjws@carbon.lan>
- <8df0c325-0215-4019-d4cf-c7516863dbe4@huawei.com>
- <301f2b4e-9c7f-875f-e066-e9c3f4bfc9e7@grimberg.me>
- <c046d4c6-49c9-afa4-1740-656517413941@huawei.com>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <6fac6c0c-0399-adad-5098-455ab593c8d5@huawei.com>
-Date: Tue, 30 Aug 2022 20:39:13 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+	id 1oT0gO-00Gwvw-61
+	for linux-nvme@lists.infradead.org; Tue, 30 Aug 2022 12:49:33 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out1.suse.de (Postfix) with ESMTP id 3CE13221FB;
+	Tue, 30 Aug 2022 12:49:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1661863767; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=miz5dyzjNMitdloMFsUfrk2aHvWlfa9L/nhJJbYEKm8=;
+	b=dvbI9dwZIn/wEVpqE5F6/4P1Tg/3LktFrffytQ4YtmbwLJX8J5H4hMdiMBomQ2Lv+si9Wi
+	6Y6q90DoOrOEW+HVRsIuF3UwNnd/ixmtx6ARgOlctH5P5r5mBKsdoewUUf/ESzA65cs79h
+	aaaPki5BRvKeEfnKn3TdXBJ48I9RlkI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1661863767;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=miz5dyzjNMitdloMFsUfrk2aHvWlfa9L/nhJJbYEKm8=;
+	b=sgRwOfJGzSyPxN0lMybreSFRvaizeHsUUNrVJSbV2u50VyoOSYbmQDN+LYPyiARyKYxo1g
+	Io3tbRVqrYUzqkCQ==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+	by relay2.suse.de (Postfix) with ESMTP id 0AA2E2C141;
+	Tue, 30 Aug 2022 12:49:27 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+	id F11D151AA5BA; Tue, 30 Aug 2022 14:49:26 +0200 (CEST)
+From: Hannes Reinecke <hare@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@suse.de>,
+	Martin George <marting@netapp.com>
+Subject: [PATCH 1/2] nvme-auth: retry command if DNR bit is not set
+Date: Tue, 30 Aug 2022 14:49:24 +0200
+Message-Id: <20220830124925.40711-2-hare@suse.de>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20220830124925.40711-1-hare@suse.de>
+References: <20220830124925.40711-1-hare@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <c046d4c6-49c9-afa4-1740-656517413941@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.169.59.127]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- canpemm500002.china.huawei.com (7.192.104.244)
-X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220830_053916_542907_67E2E624 
-X-CRM114-Status: GOOD (  12.04  )
+X-CRM114-CacheID: sfid-20220830_054932_411649_89B59E8F 
+X-CRM114-Status: GOOD (  15.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,44 +83,90 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+If the cqe returns a status with the DNR bit not set we should
+retry the command; otherwise we might incur spurious failures.
 
+Reported-by: Martin George <marting@netapp.com>
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/nvme/host/auth.c |  2 +-
+ drivers/nvme/host/core.c | 20 ++++++++++++++++++--
+ include/linux/blk-mq.h   |  2 ++
+ 3 files changed, 21 insertions(+), 3 deletions(-)
 
-On 2022/8/30 20:22, Chao Leng wrote:
-> 
-> 
-> On 2022/8/30 16:21, Sagi Grimberg wrote:
->>
->>>> On Mon, Aug 29, 2022 at 05:22:50PM +0800, Chao Leng wrote:
->>>>>> +    ret = nvme_rdma_start_io_queues(ctrl, nr_queues,
->>>>>> +                    ctrl->tag_set.nr_hw_queues + 1);
->>>>>> +    if (ret)
->>>>>> +        goto out_wait_freeze_timed_out;
->>>>> nvme_rdma_start_io_queues(ctrl, 1, nr_queues) need to clean.
->>>>
->>>> the teardown path in nvme_rdma_stop_io_queus() is using
->>>>
->>>>     test_and_clear_bit(NVME_RDMA_Q_LIVE, &queue->flags)
->>>>
->>>> when iterating over all nr_hw_queues.
->>> I mean that we need realloc the ctrl->queues for
->>> nvme_rdma_start_io_queues(ctrl, 1, nr_queues).
->>> Otherwise, unallocated memory will be accessed when
->>> the new queue_count is bigger than the old one.
->>
->> That can't happen. ctrl->queues is allocated at the start
->> of the controller lifetime and will never exceed this queue
->> count.
-> I don't understand why it can't happen.
-> nvme_rdma_start_io_queues(ctrl, nr_queues, ctrl->tag_set.nr_hw_queues + 1)
-> is designed for dealing with the scenario that the new queue_count is
-> bigger than the old one. it will access the unallocated memory.
-> ctrl->queues is just allocated the first queue count buffers at the start
-> of the controller lifetime, if the new queue count is bigger than the
-> first queue count, ctrl-queues will be insufficient.
-Please ignore this.
-ctrl->queues is allocated the max buffers.
-So you are right.
->> .
-> 
-> .
+diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+index c8a6db7c4498..4ca3f7d042f1 100644
+--- a/drivers/nvme/host/auth.c
++++ b/drivers/nvme/host/auth.c
+@@ -69,7 +69,7 @@ static int nvme_auth_submit(struct nvme_ctrl *ctrl, int qid,
+ 
+ 	ret = __nvme_submit_sync_cmd(q, &cmd, NULL, data, data_len,
+ 				     qid == 0 ? NVME_QID_ANY : qid,
+-				     0, flags);
++				     0, BLK_MQ_REQ_RETRY | flags);
+ 	if (ret > 0)
+ 		dev_warn(ctrl->device,
+ 			"qid %d auth_send failed with status %d\n", qid, ret);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 66ae23e9cb0e..a77f406512eb 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -355,7 +355,8 @@ static inline enum nvme_disposition nvme_decide_disposition(struct request *req)
+ 	if (likely(nvme_req(req)->status == 0))
+ 		return COMPLETE;
+ 
+-	if ((nvme_req(req)->status & 0x7ff) == NVME_SC_AUTH_REQUIRED)
++	if ((nvme_req(req)->status & 0x7ff) == NVME_SC_AUTH_REQUIRED &&
++	    !(nvme_req(req)->status & NVME_SC_DNR))
+ 		return AUTHENTICATE;
+ 
+ 	if (blk_noretry_request(req) ||
+@@ -1037,15 +1038,30 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
+ 	nvme_init_request(req, cmd);
++	if (flags & BLK_MQ_REQ_RETRY)
++		nvme_req(req)->retries = nvme_max_retries;
+ 
+ 	if (buffer && bufflen) {
+ 		ret = blk_rq_map_kern(q, req, buffer, bufflen, GFP_KERNEL);
+ 		if (ret)
+ 			goto out;
+ 	}
+-
++retry:
+ 	req->rq_flags |= RQF_QUIET;
+ 	ret = nvme_execute_rq(req, at_head);
++	if (ret > 0) {
++		struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
++
++		if (ctrl->kas)
++			ctrl->comp_seen = true;
++
++		switch (nvme_decide_disposition(req)) {
++		case COMPLETE:
++			break;
++		default:
++			goto retry;
++		}
++	}
+ 	if (result && ret >= 0)
+ 		*result = nvme_req(req)->result;
+  out:
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index effee1dc715a..acd833f37cd4 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -713,6 +713,8 @@ enum {
+ 	BLK_MQ_REQ_RESERVED	= (__force blk_mq_req_flags_t)(1 << 1),
+ 	/* set RQF_PM */
+ 	BLK_MQ_REQ_PM		= (__force blk_mq_req_flags_t)(1 << 2),
++	/* Retry reserved commands */
++	BLK_MQ_REQ_RETRY	= (__force blk_mq_req_flags_t)(1 << 3),
+ };
+ 
+ struct request *blk_mq_alloc_request(struct request_queue *q, blk_opf_t opf,
+-- 
+2.35.3
+
 
