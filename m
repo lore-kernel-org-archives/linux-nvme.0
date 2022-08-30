@@ -4,70 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5B1BECAAA1
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Aug 2022 12:49:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22524ECAAD4
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Aug 2022 13:22:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ngJzpoRNA9Z/7R414vcrZldjDhowsYPCgcln0pOXvw8=; b=Dq9tX06ymOOy+0QfGvxp5zj46w
-	QbY8KcE2bQQY9loE6YSJSRd6RIzUvoOr2M55hh5p64n0kevjdrgwtQ3zaiBOUvF5w1zTse1a6VNE9
-	+arnbtU4FuGxGLu+Vd6NenQixCyNAfBfLG7qXyjQLknS0zScXls1473ICtls33WoDfc0LsOjHl69w
-	kzPmS3pF7wZ46Z7ZLxUsQZqlPVOu7W9go6kPdlcbB0uI+5C+95XyUu8/G9vn/GcITaILCK+12ZXkI
-	Oklbbpg8JjniNMgcHYepFOnzKTpS4GezEnULuNDOMyBdNRmUu3RAM1rHt9q50KHF5zE+VdMMaXc+f
-	qsYAa8Bg==;
+	bh=+6ybMWm+nJfaMsa9REP+Ibn60VIAbbZOs3JbQXwrqEM=; b=SMmzBrq9n28FpLb41j5L23ZMp4
+	TdHeMgNrRrlj1TVQbuZQsP46NAXUgbW9ohCkzfMrnOwT4JutkMPuLhvNVFVdSCC8++F8Gq5alFmFi
+	kStQVpCZYjb6WvPnQUHDec4ExciMc2IGxGGM7gbtqbmqDOC7klubd4WAkshBqr+KSEZusAWQnfvls
+	wAD7+F9fAhKPcjOcve8fd+HJulLcgJ7ledNtGSFYflGnhxP6p3hxJT7Jr3Li+Vprp1kOwrV65j9Ma
+	eLwUELS7/lyidKfSGYacko42DMnEkTjF6M0WhfrWHs2aAx9RwuTkei1M0t7ak3EANHdPj1RUkfdbB
+	citBlQ/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oT0gd-00Gx9A-Ha; Tue, 30 Aug 2022 12:49:47 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1oT1CB-00HLvs-5G; Tue, 30 Aug 2022 13:22:23 +0000
+Received: from mail-wm1-f51.google.com ([209.85.128.51])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oT0gO-00Gwvz-4K
-	for linux-nvme@lists.infradead.org; Tue, 30 Aug 2022 12:49:35 +0000
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id 1657F1FA77;
-	Tue, 30 Aug 2022 12:49:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1661863767; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ngJzpoRNA9Z/7R414vcrZldjDhowsYPCgcln0pOXvw8=;
-	b=hi160e0fsLDmUkNDkeaDpueFI/1LSMIpJuHD6cnrJQrV5Lx+nu7ehQM5cGijaVv4N6Kyuy
-	FMo89yvpy6pdxdhXL1kjAR+rRgKAcmKiBj3KDuk+NWF2XdFZx2wyOOzAuYqHqIxGRPwzbA
-	E64flPgWtYLeOq9CUnEFI/8TlAWK2wQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1661863767;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ngJzpoRNA9Z/7R414vcrZldjDhowsYPCgcln0pOXvw8=;
-	b=ti9A1lMs/LH+Jlz6Yhek6wZW0Xp8L+wPI1AHDB9EJqxEidyGaBmkJs/2SsqcuqHOvQJQYw
-	ZChxBxVgP3O0dhBA==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 0C21B2C143;
-	Tue, 30 Aug 2022 12:49:27 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 063A351AA5BC; Tue, 30 Aug 2022 14:49:27 +0200 (CEST)
-From: Hannes Reinecke <hare@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 2/2] nvme-auth: set the DNR bit if authentication failed
-Date: Tue, 30 Aug 2022 14:49:25 +0200
-Message-Id: <20220830124925.40711-3-hare@suse.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220830124925.40711-1-hare@suse.de>
-References: <20220830124925.40711-1-hare@suse.de>
+	id 1oT1C8-00HLuz-6S
+	for linux-nvme@lists.infradead.org; Tue, 30 Aug 2022 13:22:21 +0000
+Received: by mail-wm1-f51.google.com with SMTP id k6-20020a05600c1c8600b003a54ecc62f6so6128273wms.5
+        for <linux-nvme@lists.infradead.org>; Tue, 30 Aug 2022 06:22:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=+6ybMWm+nJfaMsa9REP+Ibn60VIAbbZOs3JbQXwrqEM=;
+        b=a6VgK8PwVd2uL0b0uVx53Jbi6Tdv/Q8v9uP13Bcop1k+UJFpCqZBHj4FCOcva1YkOP
+         0UqDCNNAyHqTNRwBMGn7wi1K1BsGc4UBDMzyy2sehzV2sOA8wasxU9pcPDn+JT2wDh1U
+         aSrBdKcBNSN5oLiYG7+MsoBQUgP2tzgT8vUQ14dGtSB2BsnRxDq9ukx+rM/9lI1eFpXU
+         IEEotXOXXX6zeL/WvFq1eqdTZkCKH2PdOI8lmVhGxATti6RQe/8S7mohNOz8sWmfFFGC
+         NST6w5gDiTzV5kKTA8TqAvxyE1df4TO4ESKQsyoHJfuanAOQ2pvck/o3FAO2Wx7o/ca9
+         v1HQ==
+X-Gm-Message-State: ACgBeo0dkQXtUI0YCCZvMhzSfLbcmPSlEh4UUvNjPFGHjk3X+ece9GGd
+	KrfYo4K9Pjab9DSA/3bwAHM=
+X-Google-Smtp-Source: AA6agR4EVj13b3Q8Etlia3N8OyLNfJuF1efZvAokNsQECAn/Kptf5xcxuz9G+XtdEtXZAgxGw2ahGA==
+X-Received: by 2002:a05:600c:4fc2:b0:3a5:c491:5ee1 with SMTP id o2-20020a05600c4fc200b003a5c4915ee1mr9301593wmq.62.1661865736235;
+        Tue, 30 Aug 2022 06:22:16 -0700 (PDT)
+Received: from [10.100.102.14] (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
+        by smtp.gmail.com with ESMTPSA id c191-20020a1c35c8000000b003a608d69a64sm12212210wma.21.2022.08.30.06.22.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Aug 2022 06:22:12 -0700 (PDT)
+Message-ID: <0f7249a9-9e37-0f53-9624-be0ba3932392@grimberg.me>
+Date: Tue, 30 Aug 2022 16:22:09 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 3/3] nvme-rdma: Handle number of queue changes
+Content-Language: en-US
+To: Chao Leng <lengchao@huawei.com>, Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
+References: <20220829083856.1850-1-dwagner@suse.de>
+ <20220829083856.1850-4-dwagner@suse.de>
+ <5cc0b557-7e56-36c9-cfe4-05ca76f5e83e@huawei.com>
+ <20220829093219.6ii76hne6pjzxjws@carbon.lan>
+ <8df0c325-0215-4019-d4cf-c7516863dbe4@huawei.com>
+ <301f2b4e-9c7f-875f-e066-e9c3f4bfc9e7@grimberg.me>
+ <c046d4c6-49c9-afa4-1740-656517413941@huawei.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <c046d4c6-49c9-afa4-1740-656517413941@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220830_054932_514646_58E86CF2 
-X-CRM114-Status: GOOD (  14.74  )
+X-CRM114-CacheID: sfid-20220830_062220_259832_94A8C239 
+X-CRM114-Status: GOOD (  12.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,133 +85,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If authentication failed we should be setting the 'DNR' bit, as
-each retry will yield exactly the same result; we rather should
-change the parameters to 'nvme connect' to fixup the situation.
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- drivers/nvme/host/auth.c    | 20 ++++++++++----------
- drivers/nvme/host/fabrics.c |  4 ++--
- 2 files changed, 12 insertions(+), 12 deletions(-)
+>>>> when iterating over all nr_hw_queues.
+>>> I mean that we need realloc the ctrl->queues for
+>>> nvme_rdma_start_io_queues(ctrl, 1, nr_queues).
+>>> Otherwise, unallocated memory will be accessed when
+>>> the new queue_count is bigger than the old one.
+>>
+>> That can't happen. ctrl->queues is allocated at the start
+>> of the controller lifetime and will never exceed this queue
+>> count.
+> I don't understand why it can't happen.
+> nvme_rdma_start_io_queues(ctrl, nr_queues, ctrl->tag_set.nr_hw_queues + 1)
+> is designed for dealing with the scenario that the new queue_count is
+> bigger than the old one. it will access the unallocated memory.
+> ctrl->queues is just allocated the first queue count buffers at the start
+> of the controller lifetime, if the new queue count is bigger than the
+> first queue count, ctrl-queues will be insufficient.
 
-diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-index 4ca3f7d042f1..ad0decc5523f 100644
---- a/drivers/nvme/host/auth.c
-+++ b/drivers/nvme/host/auth.c
-@@ -158,7 +158,7 @@ static int nvme_auth_process_dhchap_challenge(struct nvme_ctrl *ctrl,
- 			 "qid %d: invalid HASH ID %d\n",
- 			 chap->qid, data->hashid);
- 		chap->status = NVME_AUTH_DHCHAP_FAILURE_HASH_UNUSABLE;
--		return NVME_SC_INVALID_FIELD;
-+		return NVME_SC_DNR | NVME_SC_INVALID_FIELD;
- 	}
- 
- 	if (chap->hash_id == data->hashid && chap->shash_tfm &&
-@@ -194,7 +194,7 @@ static int nvme_auth_process_dhchap_challenge(struct nvme_ctrl *ctrl,
- 		crypto_free_shash(chap->shash_tfm);
- 		chap->shash_tfm = NULL;
- 		chap->status = NVME_AUTH_DHCHAP_FAILURE_HASH_UNUSABLE;
--		return NVME_SC_AUTH_REQUIRED;
-+		return NVME_SC_DNR | NVME_SC_AUTH_REQUIRED;
- 	}
- 
- 	/* Reset host response if the hash had been changed */
-@@ -216,7 +216,7 @@ static int nvme_auth_process_dhchap_challenge(struct nvme_ctrl *ctrl,
- 			 chap->qid, data->dhgid);
- 		chap->status = NVME_AUTH_DHCHAP_FAILURE_DHGROUP_UNUSABLE;
- 		/* Leave previous dh_tfm intact */
--		return NVME_SC_AUTH_REQUIRED;
-+		return NVME_SC_DNR | NVME_SC_AUTH_REQUIRED;
- 	}
- 
- 	/* Clear host and controller key to avoid accidental reuse */
-@@ -247,7 +247,7 @@ static int nvme_auth_process_dhchap_challenge(struct nvme_ctrl *ctrl,
- 				 "qid %d: empty DH value\n",
- 				 chap->qid);
- 			chap->status = NVME_AUTH_DHCHAP_FAILURE_DHGROUP_UNUSABLE;
--			return NVME_SC_INVALID_FIELD;
-+			return NVME_SC_DNR | NVME_SC_INVALID_FIELD;
- 		}
- 
- 		chap->dh_tfm = crypto_alloc_kpp(kpp_name, 0, 0);
-@@ -268,7 +268,7 @@ static int nvme_auth_process_dhchap_challenge(struct nvme_ctrl *ctrl,
- 			 "qid %d: invalid DH value for NULL DH\n",
- 			 chap->qid);
- 		chap->status = NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
--		return NVME_SC_INVALID_FIELD;
-+		return NVME_SC_DNR | NVME_SC_INVALID_FIELD;
- 	}
- 	chap->dhgroup_id = data->dhgid;
- 
-@@ -357,7 +357,7 @@ static int nvme_auth_process_dhchap_success1(struct nvme_ctrl *ctrl,
- 			 "qid %d: invalid hash length %u\n",
- 			 chap->qid, data->hl);
- 		chap->status = NVME_AUTH_DHCHAP_FAILURE_HASH_UNUSABLE;
--		return NVME_SC_INVALID_FIELD;
-+		return NVME_SC_DNR | NVME_SC_INVALID_FIELD;
- 	}
- 
- 	/* Just print out information for the admin queue */
-@@ -381,7 +381,7 @@ static int nvme_auth_process_dhchap_success1(struct nvme_ctrl *ctrl,
- 			 "qid %d: controller authentication failed\n",
- 			 chap->qid);
- 		chap->status = NVME_AUTH_DHCHAP_FAILURE_FAILED;
--		return NVME_SC_AUTH_REQUIRED;
-+		return NVME_SC_DNR | NVME_SC_AUTH_REQUIRED;
- 	}
- 
- 	/* Just print out information for the admin queue */
-@@ -733,7 +733,7 @@ static void __nvme_auth_work(struct work_struct *work)
- 					 NVME_AUTH_DHCHAP_MESSAGE_CHALLENGE);
- 	if (ret) {
- 		chap->status = ret;
--		chap->error = NVME_SC_AUTH_REQUIRED;
-+		chap->error = NVME_SC_DNR | NVME_SC_AUTH_REQUIRED;
- 		return;
- 	}
- 
-@@ -797,7 +797,7 @@ static void __nvme_auth_work(struct work_struct *work)
- 					 NVME_AUTH_DHCHAP_MESSAGE_SUCCESS1);
- 	if (ret) {
- 		chap->status = ret;
--		chap->error = NVME_SC_AUTH_REQUIRED;
-+		chap->error = NVME_SC_DNR | NVME_SC_AUTH_REQUIRED;
- 		return;
- 	}
- 
-@@ -815,7 +815,7 @@ static void __nvme_auth_work(struct work_struct *work)
- 	ret = nvme_auth_process_dhchap_success1(ctrl, chap);
- 	if (ret) {
- 		/* Controller authentication failed */
--		chap->error = NVME_SC_AUTH_REQUIRED;
-+		chap->error = ret;
- 		goto fail2;
- 	}
- 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 83b505358859..633e5fe8e832 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -416,7 +416,7 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
- 		if (ret) {
- 			dev_warn(ctrl->device,
- 				 "qid 0: authentication setup failed\n");
--			ret = NVME_SC_AUTH_REQUIRED;
-+			ret = NVME_SC_DNR | NVME_SC_AUTH_REQUIRED;
- 			goto out_free_data;
- 		}
- 		ret = nvme_auth_wait(ctrl, 0);
-@@ -492,7 +492,7 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
- 		if (ret) {
- 			dev_warn(ctrl->device,
- 				 "qid %d: authentication setup failed\n", qid);
--			ret = NVME_SC_AUTH_REQUIRED;
-+			ret = NVME_SC_DNR | NVME_SC_AUTH_REQUIRED;
- 		} else {
- 			ret = nvme_auth_wait(ctrl, qid);
- 			if (ret)
--- 
-2.35.3
-
+queue_count cannot be larger than what the user asked for, and that is
+the number of entries ctrl->queues is spanning.
 
