@@ -4,73 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1B5BFECAAA1
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Aug 2022 13:26:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9BE4DECAAD4
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Aug 2022 13:29:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zQxbCXG01Qvb3BtvrymBoUiMedeZJvELFPv8dZYnP74=; b=3eVPSsXPqTgRaQn0hiBd0PMxqX
-	xutNbvSsNz/lcIYqqL2Qrw1vEmWB/fPiVka86Sr/aU4rzF1Q2gZLw1SeRyiMZeJQ9nvgLkk6V2QU8
-	aMOcYb+DLzWuC4JBjuGo0o8n/H1ZG1Bia72QdgXREbuBoTyWLo1hhnYmO+sZAJ0KbE0nglJCg6ju5
-	9pslwYeYcTHyntSKuscJlP6zMbmr9zl+/z6HA0qptt5iDWO9V/98OeQEaYnMCfv1ldo+OAbq01HDF
-	mTeQxOaBQ0m60hmYTkGl1pddic2sp+c1KoQFt/GwvZuolsRsSmWdiHGbHFhKh1vCp3buk8Crm/y17
-	UYOHlFEQ==;
+	bh=rshYd4dUtWMzJUNDvjpHRZD3bgRUnkncQnT1dG/c594=; b=RDgEjDWt6Ix66iHRLKrJ+kquBM
+	qFxAuIBhJ/X3bdjBei7Wdm2UaFtgIDw4KvTeyVxYoZ+1DJzzZehSnp7bcZsbYSHgqAt548ikwgz/x
+	HdKl/CC/XNTvQ+j0XbqukcLWyXOXqADbYY7XRF5tFbTowXx+NXCo82ueNXohjt/Dqqbwv/vQTafFi
+	KGDWbrlCnsROQ+vmqjTKFrRTs/Ygk08UztljJ/+gegQhS6KhMlEq48oRwMYiseZH7R44NKun5U510
+	GKMzYOlHbSxEzlmET/HicOetMsluysusPN90OdOBlyLpOWBl/GtMLuD8WkTlDiAmImtwvUj3RayqJ
+	OOBfV5lw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oT1G3-00HMxE-9e; Tue, 30 Aug 2022 13:26:23 +0000
-Received: from mail-wm1-f44.google.com ([209.85.128.44])
+	id 1oT1J9-00HNai-E5; Tue, 30 Aug 2022 13:29:35 +0000
+Received: from mail-wr1-f42.google.com ([209.85.221.42])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oT1G0-00HMvy-N3
-	for linux-nvme@lists.infradead.org; Tue, 30 Aug 2022 13:26:21 +0000
-Received: by mail-wm1-f44.google.com with SMTP id r204-20020a1c44d5000000b003a84b160addso1848712wma.2
-        for <linux-nvme@lists.infradead.org>; Tue, 30 Aug 2022 06:26:18 -0700 (PDT)
+	id 1oT1J6-00HNZO-40
+	for linux-nvme@lists.infradead.org; Tue, 30 Aug 2022 13:29:33 +0000
+Received: by mail-wr1-f42.google.com with SMTP id bq11so14219230wrb.12
+        for <linux-nvme@lists.infradead.org>; Tue, 30 Aug 2022 06:29:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc;
-        bh=zQxbCXG01Qvb3BtvrymBoUiMedeZJvELFPv8dZYnP74=;
-        b=C2WC3C3LmwD7adKfT2bjJWbmR2c0LBsobQQycJcpgq50IDYEdgAJC/4w9F+yHjevgC
-         qATpxAJr+ybrTcmDLqGMcuUrFADmnILk3DBz9Gm1Zj0aVxsR3Fyi9sUXqwhmSjDWu2/T
-         mUJJSFUDI9EgZIB3X5lJ2rUXqOpUkgDFAbHsgG99OSmkks61mxeiD/RIYCBLzlF1u3v0
-         yabgH4xrRWG5DMvrHRE1tnlSDc5maM3aP6sP0txQ3pk+Pc5hSSn1iewa/SnOKsfa87Nd
-         bn9Vq73VENO2NU5d5/wF6wc9CBUw2Awd23TehADhWhH0/0n2b5MHVxXgSc6mcXU9I5JF
-         bpDQ==
-X-Gm-Message-State: ACgBeo0HIImB6GWzfr0z9AoY57yZIt9LqBGSoyslceNUQVKKzd7xl9xF
-	V+3paJ4umFW7X/Sef4jGxss=
-X-Google-Smtp-Source: AA6agR6X4HcsJAi+hUWO7TTyNoO6Mk1pXCbji4Sk2MXQOwBLni+N5wBknafR+02LYgIr8Oj8YB8ZgQ==
-X-Received: by 2002:a1c:4c03:0:b0:3a5:d65c:c1e7 with SMTP id z3-20020a1c4c03000000b003a5d65cc1e7mr10054436wmf.4.1661865977761;
-        Tue, 30 Aug 2022 06:26:17 -0700 (PDT)
+        bh=rshYd4dUtWMzJUNDvjpHRZD3bgRUnkncQnT1dG/c594=;
+        b=LDwbneRLthQReE7DZIdkbwZ7Vvh5lTaJ8FXnzWBdG9l1EFx3FVt9yr/Rtwu7Gi+x1K
+         KKQk/Yir++yCMf1/XepJrvkHXs/ve5x2LdijnSNtGVGQ4Qhhu1Z/yjz41jywxV2r40kr
+         /XwiRYiEzTfp0SBIDXGUgrGnVVkGAs6bYsL9O4emIOxD4d1I1Aa8dHX/Ue+GO6O1gnFy
+         jxu1WL1wsLgMsM9N+v7fn3gJLkw09VtNE01GJZhIha2/5e4xPUYTDY6iZuXL4mtW3YbH
+         +YlzFvpiMYnOpmvco5a73HJ9JmZKhapNemVh7U+DlB2VUJ0+kCNBHYwmUzrDb59vahqK
+         XIVQ==
+X-Gm-Message-State: ACgBeo2dHP7RNUnuWoRsiT6VtuWRMLfT8hGvz3ZF7niEBoXVrSx5aT6b
+	N55qAZjDr+By5NjcVhXiTuL/cpP10FI=
+X-Google-Smtp-Source: AA6agR5MGTWN0mrrVYC+h8g/kkurbZkP+cd2N0epztHYidcPtnlfCnh70/GQyMofYvL9T2UfO3UANg==
+X-Received: by 2002:a5d:64e5:0:b0:220:7859:7bc with SMTP id g5-20020a5d64e5000000b00220785907bcmr8502943wri.669.1661866170257;
+        Tue, 30 Aug 2022 06:29:30 -0700 (PDT)
 Received: from [10.100.102.14] (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
-        by smtp.gmail.com with ESMTPSA id o6-20020a05600c510600b003a5de95b105sm10696248wms.41.2022.08.30.06.26.08
+        by smtp.gmail.com with ESMTPSA id c6-20020adffb06000000b002250c35826dsm9544008wrr.104.2022.08.30.06.29.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Aug 2022 06:26:09 -0700 (PDT)
-Message-ID: <a5c3c8e7-4b0a-9930-8f90-e534d2a82bdf@grimberg.me>
-Date: Tue, 30 Aug 2022 16:26:06 +0300
+        Tue, 30 Aug 2022 06:29:25 -0700 (PDT)
+Message-ID: <dd59a485-3ff0-86f8-5675-073174931c80@grimberg.me>
+Date: Tue, 30 Aug 2022 16:29:21 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH blktests] nvme: add dh module requirement for tests that
- involve dh groups
+Subject: Re: [PATCH] nvmet-tcp: Fix NULL pointer dereference during release
 Content-Language: en-US
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- Hannes Reinecke <hare@suse.de>
-References: <20220829083614.874878-1-sagi@grimberg.me>
- <20220830044632.j7k45lhdlyvksrxh@shindev>
- <05548286-8d18-e3b4-06db-640c9d6b1399@grimberg.me>
- <20220830102357.yahkv5qfr2ewa7uh@shindev>
+To: zhenwei pi <pizhenwei@bytedance.com>, hch@lst.de
+Cc: kch@nvidia.com, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20220830083628.499028-1-pizhenwei@bytedance.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220830102357.yahkv5qfr2ewa7uh@shindev>
+In-Reply-To: <20220830083628.499028-1-pizhenwei@bytedance.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220830_062620_779482_440FC51F 
-X-CRM114-Status: GOOD (  16.12  )
+X-CRM114-CacheID: sfid-20220830_062932_204369_15E5260D 
+X-CRM114-Status: GOOD (  22.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,61 +80,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
->>
->>> Hi Sagi,
->>>
->>> On Aug 29, 2022 / 11:36, Sagi Grimberg wrote:
->>>> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
->>>> ---
->>>>    tests/nvme/043 | 1 +
->>>>    tests/nvme/044 | 1 +
->>>>    tests/nvme/045 | 1 +
->>>>    3 files changed, 3 insertions(+)
->>>>
->>>> diff --git a/tests/nvme/043 b/tests/nvme/043
->>>> index 381ae755f140..87273e5b414d 100755
->>>> --- a/tests/nvme/043
->>>> +++ b/tests/nvme/043
->>>> @@ -16,6 +16,7 @@ requires() {
->>>>    	_have_kernel_option NVME_TARGET_AUTH
->>>>    	_require_nvme_trtype_is_fabrics
->>>>    	_require_nvme_cli_auth
->>>> +	_have_driver dh_generic
->>>>    }
->>>
->>> Do you see failure without this check?
->>
->> Yes, if dh_generic is built as a module (CONFIG_CRYPTO_DH=m).
-> 
-> Thanks. I was able to recreate the failure setting CONFIG_CRYPTO_DH=m.
-> 
-> Unfortunately, your patch does not avoid the failure after the recent commit
-> 06a0ba866d90 ("common/rc: avoid module load in _have_driver()"). As the commit
-> title says, _have_driver no longer has the side-effect to leave the dh_generic
-> module loaded. Instead, I suggest to load dh_generic in the test() function:
-> 
-> diff --git a/tests/nvme/043 b/tests/nvme/043
-> index 381ae75..dbe9d3f 100755
-> --- a/tests/nvme/043
-> +++ b/tests/nvme/043
-> @@ -40,6 +40,8 @@ test() {
-> 
->          _setup_nvmet
-> 
-> +       modprobe -q dh_generic
-> +
->          truncate -s 512M "${file_path}"
-> 
->          _create_nvmet_subsystem "${subsys_name}" "${file_path}"
-> @@ -88,5 +90,7 @@ test() {
-> 
->          rm "${file_path}"
-> 
-> +       modprobe -qr dh_generic
-> +
->          echo "Test complete"
->   }
-> 
 
-That's fine with me, can you prepare an alternative patch for it?
+
+On 8/30/22 11:36, zhenwei pi wrote:
+> nvmet-tcp frees CMD buffers in nvmet_tcp_uninit_data_in_cmds(),
+> and waits the inflight IO requests in nvmet_sq_destroy(). During wait
+> the inflight IO requests, the callback nvmet_tcp_queue_response()
+> is called from backend after IO complete, this leads a typical
+> Use-After-Free issue like this:
+> 
+>   BUG: kernel NULL pointer dereference, address: 0000000000000008
+>   #PF: supervisor read access in kernel mode
+>   #PF: error_code(0x0000) - not-present page
+>   PGD 0 P4D 0
+>   Oops: 0000 [#1] PREEMPT SMP NOPTI
+>   CPU: 14 PID: 207 Comm: kworker/14:1H Kdump: loaded Tainted: G            E      6.0.0-rc2.bm.1-amd64 #12
+>   Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014
+>   Workqueue: nvmet_tcp_wq nvmet_tcp_io_work [nvmet_tcp]
+>   RIP: 0010:shash_ahash_digest+0x2b/0x110
+
+This data access is specific to data-digest, because at this point there
+is no way for the data to be sent down the wire as the socket is shut
+down.
+
+>   Code: 1f 44 00 00 41 57 41 56 41 55 41 54 55 48 89 fd 53 48 89 f3 48 83 ec 08 44 8b 67 30 45 85 e4 74 1c 48 8b 57 38 b8 00 10 00 00 <44> 8b 7a 08 44 29 f8 39 42 0c 0f 46 42 0c 41 39 c4 76 43 48 8b 03
+>   RSP: 0018:ffffc900006e3dd8 EFLAGS: 00010206
+>   RAX: 0000000000001000 RBX: ffff888104ac1650 RCX: 0000000000000000
+>   RDX: 0000000000000000 RSI: ffff888104ac1650 RDI: ffff888104ac1600
+>   RBP: ffff888104ac1600 R08: ffff8881073980c8 R09: ffff8881057798b8
+>   R10: 8080808080808080 R11: 0000000000000000 R12: 0000000000001000
+>   R13: 0000000000000000 R14: ffff88810601a1cc R15: ffff888107398000
+>   FS:  0000000000000000(0000) GS:ffff88823fd80000(0000) knlGS:0000000000000000
+>   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>   CR2: 0000000000000008 CR3: 000000010a8e8000 CR4: 0000000000350ee0
+>   Call Trace:
+>    <TASK>
+>    nvmet_tcp_io_work+0xa1c/0xb1c [nvmet_tcp]
+>    ? __switch_to+0x106/0x420
+>    process_one_work+0x1ae/0x380
+>    ? process_one_work+0x380/0x380
+>    worker_thread+0x30/0x360
+>    ? process_one_work+0x380/0x380
+>    kthread+0xe6/0x110
+>    ? kthread_complete_and_exit+0x20/0x20
+>    ret_from_fork+0x1f/0x30
+> 
+> To fix this issue, free CMD buffers until all the inflight IO
+> complete.
+> 
+> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+> ---
+>   drivers/nvme/target/tcp.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+> index dc3b4dc8fe08..2325246e3b4d 100644
+> --- a/drivers/nvme/target/tcp.c
+> +++ b/drivers/nvme/target/tcp.c
+> @@ -1449,8 +1449,8 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
+>   	/* stop accepting incoming data */
+>   	queue->rcv_state = NVMET_TCP_RECV_ERR;
+>   
+> -	nvmet_tcp_uninit_data_in_cmds(queue);
+>   	nvmet_sq_destroy(&queue->nvme_sq);
+> +	nvmet_tcp_uninit_data_in_cmds(queue);
+
+We still need to uninit the nvmet request so nvmet_sq_destroy()
+can complete. Please separate nvmet_tcp_uninit_data_in_cmds to
+uninit and free potions, only the free should go after the sq_destroy.
 
