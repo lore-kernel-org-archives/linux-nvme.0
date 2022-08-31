@@ -4,66 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27FB0ECAAA1
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Aug 2022 23:11:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BEDD7ECAAD5
+	for <linux-nvme@archiver.kernel.org>; Wed, 31 Aug 2022 01:34:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
-	Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=IR7B/d0eJCK2vNY7OigjOUl7RJKQlLAex9+T57Rn88g=; b=26DkCdpm8d22Ma32wz3iwBNpWe
-	Rjn9CrdGj055/JifCM093c1aQJyuUEjMAFYkRWxKAcCCTk+pJ9gKvSn7dQGsAFGRIWeVOVwmp+9IT
-	Re8RxNzMntSfKdWvLfnMG3vmAGYIJz5yjegECUPiyivKOsdUayWUmtlSYzFuvWCpwBjSJlDY1IMDm
-	fQu60IBOcZIgaNNqFkcg19OU6u+FNTqpNgoH9toba4eGnKRUFuo6wYmUwdv/SaNhIrip4y5EBrltH
-	UR5sdXuNEqTezex3aM9cYrj4kqXM9mTe51XzFf5F2xOBdl31ZWIRvjmTt9cCu+wqVcgkDoZryw9Dr
-	cyUFYv1Q==;
+	bh=JVftubc6KuRp3jMxakTu7sb8RAmy7skK2pVT1PxM25o=; b=LRC21Q4qKQ1LrVl3VCVmTUGCxG
+	rFTfCLSoecVXGoV931K7E7ycOQzEcY/8DXwvFMuj+kVJppzNmewXVfDcB4XLWk/XmcQMwtiVA0Ve3
+	Zpc3UpePY4/5mxBr/AEd27lzpZ2pzor3kDbqDbLXfdstPhO02Pv2uuxYhQUL70LEl6/KFY74buXyM
+	P8n9pi8joSba0xKg86ZAQQEiqCxnjpYrqmHB398KPdEhmR6JIS0LysvBk4bEJy3UuetaO0oT4QM6K
+	1MZ7fYSPPK8UvI6W/cosY7snhs9hHH4gQyE/ujujvKJNPXPca1qDIUfRRcP1Ax0UDfCMCbI2MUX/5
+	uZa70H0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oTAOO-002OIr-Gk; Tue, 30 Aug 2022 23:11:36 +0000
-Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134])
+	id 1oTCcy-00329w-82; Wed, 31 Aug 2022 01:34:48 +0000
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oTAOM-002OHl-32
-	for linux-nvme@lists.infradead.org; Tue, 30 Aug 2022 23:11:35 +0000
-Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-33dce2d4bc8so292638717b3.4
-        for <linux-nvme@lists.infradead.org>; Tue, 30 Aug 2022 16:11:29 -0700 (PDT)
+	id 1oTCcr-00327B-PW
+	for linux-nvme@lists.infradead.org; Wed, 31 Aug 2022 01:34:46 +0000
+Received: by mail-pj1-x1033.google.com with SMTP id j9-20020a17090a3e0900b001fd9568b117so9945292pjc.3
+        for <linux-nvme@lists.infradead.org>; Tue, 30 Aug 2022 18:34:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=blockbridge.com; s=google;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc;
-        bh=IR7B/d0eJCK2vNY7OigjOUl7RJKQlLAex9+T57Rn88g=;
-        b=Lkea76LRMhv0wEoFVyjmTrtkqeET4FiggblvjEsR43uBlM9klQH3GiDyxq98nXMm1u
-         BdVJ3SBgndM6XYDWi8mH/PLCsFUeL/o2MHy/3bXVI9xrn5gWP9VR8JuVaeUUSC1/fVGn
-         09Itt3M7BEbhXYxJRFnGFGumHNbTBwUQp0naLzdxjuONwM2dx62mjzlePCexmANnZATI
-         8WhCZNscMeMSujAdEbeA1HtTALFzc7Z+6/HfQuXWv5XgIy8THhKNx6W+0y7Y9oFvAi5f
-         lNv1kf2PkHkvSTEThUqbKIuuu438jxmtHVhs2JpNilGqkVSWK8Z5y3SF4uv08ICdYKmS
-         rwQQ==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=JVftubc6KuRp3jMxakTu7sb8RAmy7skK2pVT1PxM25o=;
+        b=cMy3guYSxEFyWIHVXlr8oksM36Y3sMAwvAgvJHSo7Wc1VgjW0Tayprba0syLeZ/G5J
+         5oRhiSiUwE047aaS8BCbsZBML6KkQCztALGvE4m+VrIP0kx78DRCzZMeMowoqChwJTpc
+         2KqR7aDDTZO5uEd94b0SJVXgH5E8ZeYAyiKLXVZRdKQyBicUHmESRsubf5/ff7VAi20A
+         DCsIZxfaUZej7nnN1WAsjJ0psocbT+vG4E+b7IqkHAzF2/C691SDO9AeN0KEWozeW0og
+         yfegvHcRl1LRDdWAo9Vg8mtwwF3GlQcs3Kl4LwNH/3ukRlP4Q1KT16Rzq3dxNJYKQjEH
+         hIeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc;
-        bh=IR7B/d0eJCK2vNY7OigjOUl7RJKQlLAex9+T57Rn88g=;
-        b=rKkzLv3CzPpk9cM9YuefjZWYii+G5WaqTEG7EJEjutrUOTykBxAx5jbSsOLN1kq12j
-         ogFWX0F8v+ng/TgbXTptALLv8QHrfhGml3UpG4QU5khxp7iwJFCaTnMZJWR9nP4rIEV2
-         PIrlFGMhO4TdGzcosSJfpu/eumek6JNBWtH5WZRhPiMkr8MjtI19aLboktflEZsx0O5d
-         yIEZ3Aokj9KaZDrkYMQ9hdyTA3h+00ICT2SMeEIHuJlbdXmYv5snTXYLICr4Goil8DLB
-         sS7Bzld9mMG1ySJTeiJ/g6747PbT7pnpo1u57DuTFS0sprQnHpf2CdMWMjlwcrg6xlhA
-         LS/Q==
-X-Gm-Message-State: ACgBeo1qvbv7dE5Y5t/I9uy1RL19lbPhmMlhFeRV/btUvFDE7EaPLHZe
-	B3rs8C3+LAubosUQAWna10/4+R48oWhBOX/UYTvw9lk0SQglKUqn
-X-Google-Smtp-Source: AA6agR7K5pQ3+zllfq2A+nCqIVjZLo0y722zrph90IbgrEkozWDogitIl8XQjJwXODmvdNiUeR+p/KBPwBOy+5hn0Rg=
-X-Received: by 2002:a81:a93:0:b0:340:ad44:589c with SMTP id
- 141-20020a810a93000000b00340ad44589cmr16568382ywk.163.1661901088112; Tue, 30
- Aug 2022 16:11:28 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=JVftubc6KuRp3jMxakTu7sb8RAmy7skK2pVT1PxM25o=;
+        b=Lzqy8+ncEp3q8tNQMyfXW9KY/5bu4oYTVG34kPOvvDozIyhhliARkS/y12J3acVVjx
+         3KbuxEE0gW5Ta9q+KQ+zHNKr6vU+893q4XPXqJMCiCe/30YcuDkzXuRXOMCKLO43ii0+
+         ecMIm1dIEBDxbjC6rjJrW9GD4fcUbpCFlGt/cx4LHtK4rJviUagbAmXoxn9JqEG01yVc
+         5s6OWW7Bv05KPZlUl4fl0Bo3WvbQuPEBcjfndyVruGLq1JJPWhazKoqK5nle8Pr/KtgI
+         ouPtCU1Vpq013JSI/aqbriwRGTTfxWWVjFuxtnMnoZjPeYTWenBQb+3J3+HJYbRcwTIK
+         6w4A==
+X-Gm-Message-State: ACgBeo1z6fz9N3aiJjA0Xs6zhGqOD1vY1Vf55YsoTUAReMiK6ZiYIWRQ
+	1FY4DnFxtXK0paQ0MbRXbPI/cQ==
+X-Google-Smtp-Source: AA6agR4MBVEJ8wrauAtQ76q7SlsBGMsjHuUkXJsmX0qQMM4J+5MZoeAks2bsWSO2lUtOPY5tNWbySA==
+X-Received: by 2002:a17:902:b603:b0:174:8a6b:8e0d with SMTP id b3-20020a170902b60300b001748a6b8e0dmr16461501pls.105.1661909680224;
+        Tue, 30 Aug 2022 18:34:40 -0700 (PDT)
+Received: from always-x1.bytedance.net ([61.120.150.74])
+        by smtp.gmail.com with ESMTPSA id r36-20020a17090a43a700b001f50e4c43c4sm202891pjg.22.2022.08.30.18.34.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Aug 2022 18:34:39 -0700 (PDT)
+From: zhenwei pi <pizhenwei@bytedance.com>
+To: hch@lst.de,
+	sagi@grimberg.me
+Cc: kch@nvidia.com,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	zhenwei pi <pizhenwei@bytedance.com>
+Subject: [PATCH v2 0/1] nvmet-tcp: Fix NULL pointer dereference during release
+Date: Wed, 31 Aug 2022 09:34:01 +0800
+Message-Id: <20220831013402.514055-1-pizhenwei@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-From: Jonathan Nicklin <jnicklin@blockbridge.com>
-Date: Tue, 30 Aug 2022 19:10:52 -0400
-Message-ID: <CAHex0cqr8Sn1ydFjRbwkG8LOMqBXEHL2YpYu_vO8658xLzouww@mail.gmail.com>
-Subject: nvme-tcp: i/o errors and stalled host from failure to send command pdus
-To: linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220830_161134_168343_8BB0CD71 
-X-CRM114-Status: GOOD (  10.65  )
+X-CRM114-CacheID: sfid-20220830_183442_069444_F98ED0B8 
+X-CRM114-Status: UNSURE (   6.25  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,90 +89,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello,
+v1 -> v2:
+- Seperate nvmet_tcp_uninit_data_in_cmds() into nvmet_tcp_uninit_req()
+  & nvmet_tcp_uninit_data_in_cmds()(free buffers only).
 
-We've seen sporadic I/O errors with nvme-tcp in our lab when testing
-with kernel versions 5.15 through 5.19. Using a combination of tracing
-events and network traces, we can see nvme_setup_cmd() trace events
-that do not result in transmitted commands PDUs.
+v1:
+- Move nvmet_tcp_uninit_data_in_cmds() after nvmet_sq_destroy()
 
-Here's a snippet of the relevant portion of the nvme trace. The
-following events are the last of tens of thousands of successully
-executed reads...
+zhenwei pi (1):
+  nvmet-tcp: Fix NULL pointer dereference during release
 
-tar-9004    [004] ..... 22457.614117: nvme_setup_cmd:
-  nvme1: disk=nvme1c1n1, qid=5, cmdid=53272, nsid=1, flags=0x0, meta=0x0,
-  cmd=(nvme_cmd_read slba=15760448, len=55, ctrl=0x8000, dsmgmt=7, reftag=0)
-tar-9004    [004] ..... 22457.614118: nvme_setup_cmd:
-  nvme1: disk=nvme1c1n1, qid=5, cmdid=61463, nsid=1, flags=0x0, meta=0x0,
-  cmd=(nvme_cmd_read slba=15760384, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-tar-9004    [004] ..... 22457.614119: nvme_setup_cmd:
-  nvme1: disk=nvme1c1n1, qid=5, cmdid=16406, nsid=1, flags=0x0, meta=0x0,
-  cmd=(nvme_cmd_read slba=15760376, len=7, ctrl=0x8000, dsmgmt=7, reftag=0)
-tar-9004    [004] ..... 22457.614119: nvme_setup_cmd:
-  nvme1: disk=nvme1c1n1, qid=5, cmdid=28693, nsid=1, flags=0x0, meta=0x0,
-  cmd=(nvme_cmd_read slba=15760312, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-tar-9004    [004] ..... 22457.614119: nvme_setup_cmd:
-  nvme1: disk=nvme1c1n1, qid=5, cmdid=40980, nsid=1, flags=0x0, meta=0x0,
-  cmd=(nvme_cmd_read slba=15760248, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
+ drivers/nvme/target/tcp.c | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
 
-The following 5 commands are issued to nvme, but never make it to the
-wire. The wire state was verified manually using tcpdump on the host and
-trace events on the target. Perhaps the "need-resched" marker in the
-trace and the context switch to the kernel worker are relevant
-to the failure?
+-- 
+2.20.1
 
-tar-9004    [004] .n... 22457.614171: nvme_setup_cmd:
-  nvme1: disk=nvme1c1n1, qid=5, cmdid=61469, nsid=1, flags=0x0, meta=0x0,
-  cmd=(nvme_cmd_read slba=15760704, len=55, ctrl=0x8000, dsmgmt=7, reftag=0)
-kworker/4:1H-8668    [004] ..... 22457.614183: nvme_setup_cmd:
-  nvme1: disk=nvme1c1n1, qid=5, cmdid=45084, nsid=1, flags=0x0, meta=0x0,
-  cmd=(nvme_cmd_read slba=15760640, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-kworker/4:1H-8668    [004] ..... 22457.614184: nvme_setup_cmd:
-  nvme1: disk=nvme1c1n1, qid=5, cmdid=28699, nsid=1, flags=0x0, meta=0x0,
-  cmd=(nvme_cmd_read slba=15760632, len=7, ctrl=0x8000, dsmgmt=7, reftag=0)
-kworker/4:1H-8668    [004] ..... 22457.614184: nvme_setup_cmd:
-  nvme1: disk=nvme1c1n1, qid=5, cmdid=40986, nsid=1, flags=0x0, meta=0x0,
-  cmd=(nvme_cmd_read slba=15760568, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-kworker/4:1H-8668    [004] ..... 22457.614184: nvme_setup_cmd:
-  nvme1: disk=nvme1c1n1, qid=5, cmdid=16409, nsid=1, flags=0x0, meta=0x0,
-  cmd=(nvme_cmd_read slba=15760504, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-
-The reads above eventually timeout and recover after reset. Here are
-the related reset messages.
-
-[22486.420606] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760568, 64 blocks, I/O
-Error (sct 0x3 / sc 0x71)
-[22486.429326] I/O error, dev nvme1c1n1, sector 15760568 op 0x0:(READ)
-flags 0x4084700 phys_seg 1 prio class 0
-[22486.439262] nvme nvme1: queue 5: timeout request 0x1b type 4
-[22486.461788] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760632, 8 blocks, I/O
-Error (sct 0x3 / sc 0x71)
-[22486.470440] I/O error, dev nvme1c1n1, sector 15760632 op 0x0:(READ)
-flags 0x4084700 phys_seg 1 prio class 0
-[22486.480386] nvme nvme1: queue 5: timeout request 0x1c type 4
-[22486.486256] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760640, 64 blocks, I/O
-Error (sct 0x3 / sc 0x71)
-[22486.494994] I/O error, dev nvme1c1n1, sector 15760640 op 0x0:(READ)
-flags 0x4084700 phys_seg 2 prio class 0
-[22486.504946] nvme nvme1: queue 5: timeout request 0x1d type 4
-[22486.510822] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760704, 56 blocks, I/O
-Error (sct 0x3 / sc 0x71)
-[22486.519563] I/O error, dev nvme1c1n1, sector 15760704 op 0x0:(READ)
-flags 0x4080700 phys_seg 2 prio class 0
-[22486.529723] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760504, 64 blocks, I/O
-Error (sct 0x3 / sc 0x71)
-[22486.538610] I/O error, dev nvme1c1n1, sector 15760504 op 0x0:(READ)
-flags 0x4084700 phys_seg 2 prio class 0
-
-To further aid in debugging, I resurrected Keith's nvme_tcp tracing event
-patch from a ways back. If my understanding is correct,
-nvme_tcp_cmd_pdu() is being called for the commands in question.
-
-I've isolated the failure to a scenario we can reproduce at will
-in about a minute of runtime. Is there any additional debug that we can
-provide to help locate the bug?
-
-Thanks,
--Jonathan
 
