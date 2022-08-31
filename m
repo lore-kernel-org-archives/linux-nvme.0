@@ -4,68 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14511ECAAD3
-	for <linux-nvme@archiver.kernel.org>; Wed, 31 Aug 2022 09:03:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51089ECAAD3
+	for <linux-nvme@archiver.kernel.org>; Wed, 31 Aug 2022 09:05:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZY1N7hN1ZoxkNF5F9W6OLAUSDaQlgbo0fMLLqjUSprQ=; b=SVlD8UVslOKM9thknCmg6RKm8l
-	b731rBKtrWCOFbZmXf1WyYK0xaJPJQhHtnHihmGFBSxJun7+M4O5keg9/jtIGeWq6i3vVr7beNwDL
-	1xv8FzKsBuJiyiKoV9HZOvH9OB5ykgjSUBfJIlxMwo8PufwF85UqLgp+EZ8jF+SBvINO+ems7xdML
-	m0R5AYhkpWDC8enIb1ZfQvbwpJkOZ/h+O7op13Sd9+aILHBIaL7C+AOCneNtX6XTLQU+0mb5bM81w
-	Ssun7bN91apWbc20k62lLWU+w4l/0SHGAi5qudDLt3drvuBBBoVdnosVcauQAGdboBHzTfCtXF1iE
-	fw/rU0tA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=IyNZcbNw3x+HqDlBuzflKEvvsa8NH5xBmE8tQFR5GSQ=; b=3ne8dhAZt9eVA+ZKPIuBqTNMUn
+	TlxycAUql3g4lUATcqVrRxe/xMtVesHsB6UERYqUT+PVaQtqRex6FPlgg2u7pg4Se9rKyi/rxp+sd
+	fcv0sg66NvIF/ieuuMX7kN7aQFbAaEyvTNcUqDZCkTiPrZia+NR+R2Bitxgmbq8bt2LPttHgEoJxp
+	fRDzFByMeXScXH2JNzjL3TmZjlI26+fLTv28KzWgs8V8sYv++NtgKdCFB1FUv9kEA/jv83c3KY+Po
+	dJm29eudEXG19AsFNtBrrvicEY4ztx8aAgkJybA3zshziIb5pkStn6pk23MdzrT2t70OpbMTOrhgW
+	ew3FaiUg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oTJcm-0058uI-3w; Wed, 31 Aug 2022 09:03:04 +0000
-Received: from mail-wr1-f49.google.com ([209.85.221.49])
+	id 1oTJer-0059fH-Jq; Wed, 31 Aug 2022 09:05:13 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oTJcg-0058pZ-Ai
-	for linux-nvme@lists.infradead.org; Wed, 31 Aug 2022 09:03:02 +0000
-Received: by mail-wr1-f49.google.com with SMTP id m16so17316562wru.9
-        for <linux-nvme@lists.infradead.org>; Wed, 31 Aug 2022 02:02:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=ZY1N7hN1ZoxkNF5F9W6OLAUSDaQlgbo0fMLLqjUSprQ=;
-        b=CQtlJDgMVgIPQDmFE/f8nW6YuRV7fKaRChKstDFjO2SXcN/0j8mkuwGmFfxxIJWoJy
-         ptQEhPbxuhgmNYhvwfLmbsCy9Qb1W24uzwhKMA7TKAzgdL/4A90hEpP2sp3iRZhiMSAk
-         vdBNDEJEW21AfU14Vg818XpabtL27lC+k5tud5OyRkfccabnVbA2r3mrCfbEiOfIcZ05
-         SkDgwN/9kMiG+MXf+1IKwFa9ATY2Y/++bJca3wYmRGC5BWSAdp30zDggfS4MEzI7t0dO
-         ThIbwfqWVmhr/Yp3oMhVRnAAJE72O798Z4RMLCvqjHBeRXpG0Cer7xbEucVmPSpgdG/9
-         WatA==
-X-Gm-Message-State: ACgBeo2zbVO5Q/nlPmQu420tVRMpS62eFTZYJK0iEu44XfjEwbT69DK3
-	UBLYTZlcDNKaXYz7w1qCeYEeUA0TIW8=
-X-Google-Smtp-Source: AA6agR6ya5PHtyNu0O0seAhWNz11C7O4aPWqOO4PP0AxWJaw9DM/Fmzyq8Y+puwqyBeIk1pNSxid4w==
-X-Received: by 2002:adf:f90d:0:b0:20c:de32:4d35 with SMTP id b13-20020adff90d000000b0020cde324d35mr11226266wrr.583.1661936574869;
-        Wed, 31 Aug 2022 02:02:54 -0700 (PDT)
-Received: from [10.100.102.14] (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
-        by smtp.gmail.com with ESMTPSA id k25-20020adfd239000000b0021e43b4edf0sm11370607wrh.20.2022.08.31.02.02.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Aug 2022 02:02:53 -0700 (PDT)
-Message-ID: <eb6b09b6-c899-e3b8-3217-02f8833818cd@grimberg.me>
-Date: Wed, 31 Aug 2022 12:02:52 +0300
+	id 1oTJep-0059c8-7o
+	for linux-nvme@lists.infradead.org; Wed, 31 Aug 2022 09:05:12 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3B4B52223F;
+	Wed, 31 Aug 2022 09:05:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1661936706; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IyNZcbNw3x+HqDlBuzflKEvvsa8NH5xBmE8tQFR5GSQ=;
+	b=Wc4B7eydriI8ZSpMIq0ms0A1NH5LBPgkQOUvkjJNJARXuMSdJQo8evAhw8NcjJ7UqT7l2x
+	F4FzDfcGmtJpCTahD+v7bRemkT+UN/LvHP7clkYzBfz04aEEso7qpo9dkd9pfoZqqHBoQf
+	HUWgIJK7WUMykhYqwX6vRXEXDjlZmk0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1661936706;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IyNZcbNw3x+HqDlBuzflKEvvsa8NH5xBmE8tQFR5GSQ=;
+	b=GDp6ZABC8h6Mi1vrcHsSqMcSAdmVXqxXyKc0lSxtsblHGpUBlZKfH9JVGd3RVLia1WKE6F
+	3mUul6bVoSmdC+Ag==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1E9F31332D;
+	Wed, 31 Aug 2022 09:05:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id oxJPB0IkD2OSOwAAMHmgww
+	(envelope-from <dwagner@suse.de>); Wed, 31 Aug 2022 09:05:06 +0000
+Date: Wed, 31 Aug 2022 11:05:05 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: James Smart <jsmart2021@gmail.com>
+Cc: linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>,
+	Hannes Reinecke <hare@suse.de>, Chao Leng <lengchao@huawei.com>
+Subject: Re: [PATCH v3 0/3] Handle number of queue changes
+Message-ID: <20220831090505.fnuaiczzmx65qyoc@carbon.lan>
+References: <20220829083856.1850-1-dwagner@suse.de>
+ <0ef532ad-819f-0e7b-402f-3ca20831109b@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: nvme-tcp: i/o errors and stalled host from failure to send
- command pdus
-Content-Language: en-US
-To: Jonathan Nicklin <jnicklin@blockbridge.com>,
- linux-nvme@lists.infradead.org
-References: <CAHex0cqr8Sn1ydFjRbwkG8LOMqBXEHL2YpYu_vO8658xLzouww@mail.gmail.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <CAHex0cqr8Sn1ydFjRbwkG8LOMqBXEHL2YpYu_vO8658xLzouww@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0ef532ad-819f-0e7b-402f-3ca20831109b@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220831_020258_445333_5830750B 
-X-CRM114-Status: GOOD (  19.57  )
+X-CRM114-CacheID: sfid-20220831_020511_491682_6605FCBA 
+X-CRM114-Status: GOOD (  14.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,95 +87,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Mon, Aug 29, 2022 at 11:44:41AM -0700, James Smart wrote:
+> Since you're in the area....
+> 
+> I recommend adding something to ensure that after a reconnect that if I/O
+> queues were present in the prior association, the new controller must return
+> support for at least 1 io queue or the reconnect fails and retries. This was
+> a bug we hit on a subsystem in FC.
 
-> Hello,
+I suppose this is the fix for the problem you describe:
 
-Hey Jonathan,
+  834d3710a093 ("nvme-fc: reject reconnect if io queue count is reduced to zero")
 
-> We've seen sporadic I/O errors with nvme-tcp in our lab when testing
-> with kernel versions 5.15 through 5.19. Using a combination of tracing
-> events and network traces, we can see nvme_setup_cmd() trace events
-> that do not result in transmitted commands PDUs.
-> 
-> Here's a snippet of the relevant portion of the nvme trace. The
-> following events are the last of tens of thousands of successully
-> executed reads...
-> 
-> tar-9004    [004] ..... 22457.614117: nvme_setup_cmd:
->    nvme1: disk=nvme1c1n1, qid=5, cmdid=53272, nsid=1, flags=0x0, meta=0x0,
->    cmd=(nvme_cmd_read slba=15760448, len=55, ctrl=0x8000, dsmgmt=7, reftag=0)
-> tar-9004    [004] ..... 22457.614118: nvme_setup_cmd:
->    nvme1: disk=nvme1c1n1, qid=5, cmdid=61463, nsid=1, flags=0x0, meta=0x0,
->    cmd=(nvme_cmd_read slba=15760384, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> tar-9004    [004] ..... 22457.614119: nvme_setup_cmd:
->    nvme1: disk=nvme1c1n1, qid=5, cmdid=16406, nsid=1, flags=0x0, meta=0x0,
->    cmd=(nvme_cmd_read slba=15760376, len=7, ctrl=0x8000, dsmgmt=7, reftag=0)
-> tar-9004    [004] ..... 22457.614119: nvme_setup_cmd:
->    nvme1: disk=nvme1c1n1, qid=5, cmdid=28693, nsid=1, flags=0x0, meta=0x0,
->    cmd=(nvme_cmd_read slba=15760312, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> tar-9004    [004] ..... 22457.614119: nvme_setup_cmd:
->    nvme1: disk=nvme1c1n1, qid=5, cmdid=40980, nsid=1, flags=0x0, meta=0x0,
->    cmd=(nvme_cmd_read slba=15760248, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> 
-> The following 5 commands are issued to nvme, but never make it to the
-> wire. The wire state was verified manually using tcpdump on the host and
-> trace events on the target. Perhaps the "need-resched" marker in the
-> trace and the context switch to the kernel worker are relevant
-> to the failure?
-> 
-> tar-9004    [004] .n... 22457.614171: nvme_setup_cmd:
->    nvme1: disk=nvme1c1n1, qid=5, cmdid=61469, nsid=1, flags=0x0, meta=0x0,
->    cmd=(nvme_cmd_read slba=15760704, len=55, ctrl=0x8000, dsmgmt=7, reftag=0)
-> kworker/4:1H-8668    [004] ..... 22457.614183: nvme_setup_cmd:
->    nvme1: disk=nvme1c1n1, qid=5, cmdid=45084, nsid=1, flags=0x0, meta=0x0,
->    cmd=(nvme_cmd_read slba=15760640, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> kworker/4:1H-8668    [004] ..... 22457.614184: nvme_setup_cmd:
->    nvme1: disk=nvme1c1n1, qid=5, cmdid=28699, nsid=1, flags=0x0, meta=0x0,
->    cmd=(nvme_cmd_read slba=15760632, len=7, ctrl=0x8000, dsmgmt=7, reftag=0)
-> kworker/4:1H-8668    [004] ..... 22457.614184: nvme_setup_cmd:
->    nvme1: disk=nvme1c1n1, qid=5, cmdid=40986, nsid=1, flags=0x0, meta=0x0,
->    cmd=(nvme_cmd_read slba=15760568, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> kworker/4:1H-8668    [004] ..... 22457.614184: nvme_setup_cmd:
->    nvme1: disk=nvme1c1n1, qid=5, cmdid=16409, nsid=1, flags=0x0, meta=0x0,
->    cmd=(nvme_cmd_read slba=15760504, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> 
-> The reads above eventually timeout and recover after reset. Here are
-> the related reset messages.
-> 
-> [22486.420606] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760568, 64 blocks, I/O
-> Error (sct 0x3 / sc 0x71)
-> [22486.429326] I/O error, dev nvme1c1n1, sector 15760568 op 0x0:(READ)
-> flags 0x4084700 phys_seg 1 prio class 0
-> [22486.439262] nvme nvme1: queue 5: timeout request 0x1b type 4
-> [22486.461788] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760632, 8 blocks, I/O
-> Error (sct 0x3 / sc 0x71)
-> [22486.470440] I/O error, dev nvme1c1n1, sector 15760632 op 0x0:(READ)
-> flags 0x4084700 phys_seg 1 prio class 0
-> [22486.480386] nvme nvme1: queue 5: timeout request 0x1c type 4
-> [22486.486256] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760640, 64 blocks, I/O
-> Error (sct 0x3 / sc 0x71)
-> [22486.494994] I/O error, dev nvme1c1n1, sector 15760640 op 0x0:(READ)
-> flags 0x4084700 phys_seg 2 prio class 0
-> [22486.504946] nvme nvme1: queue 5: timeout request 0x1d type 4
-> [22486.510822] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760704, 56 blocks, I/O
-> Error (sct 0x3 / sc 0x71)
-> [22486.519563] I/O error, dev nvme1c1n1, sector 15760704 op 0x0:(READ)
-> flags 0x4080700 phys_seg 2 prio class 0
-> [22486.529723] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760504, 64 blocks, I/O
-> Error (sct 0x3 / sc 0x71)
-> [22486.538610] I/O error, dev nvme1c1n1, sector 15760504 op 0x0:(READ)
-> flags 0x4084700 phys_seg 2 prio class 0
-> 
-> To further aid in debugging, I resurrected Keith's nvme_tcp tracing event
-> patch from a ways back. If my understanding is correct,
-> nvme_tcp_cmd_pdu() is being called for the commands in question.
-> 
-> I've isolated the failure to a scenario we can reproduce at will
-> in about a minute of runtime. Is there any additional debug that we can
-> provide to help locate the bug?
+A test with v4 gives this
 
-Would be interesting to understand if for these requests,
-nvme_tcp_queue_request scheduled io_work or not (can be marked on the
-command and printed during the timeout expiration). If not, would be
-interesting to understand why.
+ nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+ nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+ nvmet: creating nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:.
+ nvme nvme1: creating 8 I/O queues.
+ nvme nvme1: mapped 8/0/0 default/read/poll queues.
+ nvme nvme1: new ctrl: NQN "blktests-subsystem-1", addr 127.0.0.1:4420
+ nvmet: remove subystem from port
+ nvme nvme1: failed to send request -32
+ nvme nvme1: failed nvme_keep_alive_end_io error=4
+ nvme nvme1: starting error recovery
+ nvme nvme1: Reconnecting in 10 seconds...
+ nvmet: set qid_max to 0
+ nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+ nvmet: creating nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:.
+ nvme nvme1: creating 1 I/O queues.
+ nvmet: invalid queue id (1)
+ nvme nvme1: Connect Invalid SQE Parameter, qid 1
+ nvme nvme1: failed to connect queue: 1 ret=16770
+ nvme nvme1: Failed reconnect attempt 1
+ nvme nvme1: Reconnecting in 10 seconds...
+ nvmet: remove subsystem from port
+ nvme nvme1: failed to connect socket: -111
+ nvme nvme1: Failed reconnect attempt 2
+ nvme nvme1: Reconnecting in 10 seconds...
+ nvmet: set qid_max to 2
+ nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+ nvmet: creating nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:.
+ nvme nvme1: creating 2 I/O queues.
+ nvme nvme1: mapped 2/0/0 default/read/poll queues.
+ nvme nvme1: Successfully reconnected (3 attempt)
+
+It looks like the host is able to recover correctly even though the IO
+queue count is 0.
 
