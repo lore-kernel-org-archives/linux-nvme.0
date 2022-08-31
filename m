@@ -4,73 +4,138 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDECBECAAD4
-	for <linux-nvme@archiver.kernel.org>; Wed, 31 Aug 2022 19:06:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B5F1ECAAD1
+	for <linux-nvme@archiver.kernel.org>; Wed, 31 Aug 2022 19:13:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hdEHGqd8KAgofzdw1p1Iejyc+IrshbLjmA2nos/5mA8=; b=LOiqcaSHLun5vsjvRtu3kxjKYn
-	QD5M4vvd6AG0HXYcKNkbRx3+BOuK/l3Azpng0rwaA+z+q1YZqzsEoxmEaY9yRjn8k5J0rVpTTDuVb
-	vj9BbEjgIt8MVTLJM30hdVnCTnhNYQ3AY0euONs9doKWLdnPbF8yq9GaulBjwNtmaSTPbgvrTjfKl
-	RZQVavAtMwPnwbXv7oX2guGgwLFDFHSMalUE0F/sCq6GRiQqKwUchHjW/CU4CzfTcbsNVmP4z2Gye
-	5fyrEcYo1LlN2mrt86k38pVVaDW5lQonkxASXB8YFdxoCFmdiurI2YwHnK3JqoBaf6Tlqtc9VIV4b
-	dEswpwgQ==;
+	bh=24tbC8FDH0GSGZRbxMAsAvDQ7qVrQl3rdU+fiiccpF8=; b=KGTk/Bwlk3vFk+MaLf82+NbpDh
+	LpasgYzeOI/CMEW9tsrXrXQoqCq7h/UIrATxu2ss4rVCvxPQ2epaIuzezkRGh1Mdvp2YdOxiQh02O
+	2OA55xNgePTsvvZO/qHnsUNdTFFn7XL0Dp/AhLlSFiXbbHMHtj5ozeOls7dnpnD+lOSNPTWl66vnR
+	bgdOVBKZIi9nKojhO06mWkLpU2a+i2hIrgtrn6+WcA0BXDrXCDuiAUt5ELAXFXS7T/D8ZJPoZsjKQ
+	lxMaj0o87JabGuHvDp3xR4p9rSDGoIIWUgtySxwE3JmSNXaGerTU9GS2U8iuSVHhgxr0oNvOCyeRi
+	ouaGRSEQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oTT30-007lCe-G9; Wed, 31 Aug 2022 19:06:46 +0000
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d])
+	id 1oTT9O-007nNm-Ai; Wed, 31 Aug 2022 19:13:22 +0000
+Received: from mail-dm6nam04on2052.outbound.protection.outlook.com ([40.107.102.52] helo=NAM04-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oTT2w-007lAl-Av
-	for linux-nvme@lists.infradead.org; Wed, 31 Aug 2022 19:06:45 +0000
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-33dc345ad78so316389937b3.3
-        for <linux-nvme@lists.infradead.org>; Wed, 31 Aug 2022 12:06:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=blockbridge.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=hdEHGqd8KAgofzdw1p1Iejyc+IrshbLjmA2nos/5mA8=;
-        b=opZpS9xhtk7u8SfrTt4Q+zZkuQ81Efrgq6fw+YYLcAtPb5AnUhJQFf8+L4qTN7Wh0M
-         xYWE4j1DKHDnJJWVTfPT98Xz6IQsMyEaOPDCSsQcI0mWh+qQVQkabK1QmcBwEIuqGf7S
-         hAt0L7vDe2/6TONVAe0BUr018WBMo/YB3TRVOg7paZ3jGc9eOf44e6jNBc1wkzV4dQQH
-         p19SnLYKnAlmbW0vT+sbk9kcXpryZFs3TvexWsBO6dE/ubqQ+l9f3CY64DgnzZlhVY2W
-         PrMG8xL6+0ZiHwnYFgWOcjiDPwXt+4u3CAsKueuMEbc9mQTfMF9D7OfgeY+XYWZG2FSA
-         kXwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=hdEHGqd8KAgofzdw1p1Iejyc+IrshbLjmA2nos/5mA8=;
-        b=O+qDImnXhHgD2s+tvlw1WzHxexwFHMF0rCsTOsC53TUZhNN2kecpx/6urds4iYu/Db
-         65y+OjCsohVk2k9XDLKAiiLAb2q3uLOJ641qx4iItifTIpPb+8Ej3pyEzMguLYNOh8wj
-         7lPdjRS3N3s0pqHLq3kindeURp8wZq2suts+huAjSIYT4DwtD+f1cGpiN22ISNd2kWKc
-         vkzMorYPC5jUINtHrgd5soo79s9v+Mc8UvaWG7zb+sLToB1qjD1QouGF2Xn8UCtV67os
-         Ib2shznouodofko6Dbpcm61LzdyUPYBlM2Ol81PNmFPy2EeMV2yY7Yvxpkyc6rXA5St+
-         o/gQ==
-X-Gm-Message-State: ACgBeo2XXsbHeph6Ggfcud7iWr/u3vr7rJkuMc9DJb08nUtXP8E1QwOC
-	jkZ5kkWGsyBiFpp0HlKrFK4SgjV6XwUWeD3KsmT62JiJmBVpXuxs
-X-Google-Smtp-Source: AA6agR626EVhmeNdnuuKMGNTQFcdx/fZLjWTtg/4aOX3yR3Xnkaarqp10Y86p12o6bK3bnDOsd5Q+MokdTMnRP0Ot+g=
-X-Received: by 2002:a81:60a:0:b0:31f:8a7f:9108 with SMTP id
- 10-20020a81060a000000b0031f8a7f9108mr19518780ywg.152.1661972800144; Wed, 31
- Aug 2022 12:06:40 -0700 (PDT)
+	id 1oTT9L-007nMk-JC
+	for linux-nvme@lists.infradead.org; Wed, 31 Aug 2022 19:13:21 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NHn5kMczLUGL89Bs8a8XHhq0vxgGlZq5A+aq2E4TY0yYQugm3L8ysheXJrkf+4pDD8/9wSuiX5S9XsWV+KmncWtqwsHsgAUNjhxPUJJ0USv2IN3umQmfChKTWKoAgA98cNEbRyuYEvaNrSiHIQFx1fOAbrMd6shPFAbU/RW4f+GEBYkX2bEqYVpDFYaeWlh8RPRk9IcgG2EL65qnQYyquE7+h+gZUSGzuS51RyR47O6kpnHhRbV1uRHh20sstF7U+0JI7uW/XygqV9lzSYxtdmzjO9JrnmOwcVVBQELKMZoNu+5TMZVs4UcC9i/mabhlD73J8nK7kr/DF+GCr7jaAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=24tbC8FDH0GSGZRbxMAsAvDQ7qVrQl3rdU+fiiccpF8=;
+ b=ZbaHBmxSevDxKUbF40EsnypZK1nLPvZrHXW9QvX5pvUHNsCAFuzKnEljrZUfDvVY0G4x8BHvJLxBOU/qyUhv/HAs/ha+Dqv9cywQBoX4wMmqTnWM8Im5BE5CY05K88ANub0XoZcuWry9LuI4OL3hY5H4S1n/8VfWOgdfUgGFONDFr7PY2avt8I2abVLpGu70Ouvr6zxCswy0EP3zZlPW5k3OvVBM/S7/IDdiNeLS4fnZFoyIOOhfrO5xGPqEBzkB87BAad4siFCXJeV0ieuj/Cs/X5J9YS1D9nXf3zkG4KFeub/Ozj19anhdfaDYcNIa/3zdYMId74fHgexLEjCxIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=24tbC8FDH0GSGZRbxMAsAvDQ7qVrQl3rdU+fiiccpF8=;
+ b=S4atq9WIzUqLNJqI0TBg5HXQ8vn9pJWsB7Rie7BXksIG2QwHpxJYTYNy/80vCb/rEEC7f2zQR5kUbTaGMEahRy95P5plkrh198kyK2A+2Yrwqylj8RezVZe7gU92f+Y75poi62lkqgLIbUDcckfu0HlDl1G4jMv0M/JE/c3lrwheBs/Fme3cAPejzJ/D3EIInhLcia7D4CA5q8q0o0NAB9p1URm/hS/s0SlEcfAMcdaQz7tfuAcu/9YJBs6Sn75oMyT27JJ/ppZ70tL616i3koGIRfMh2Y1M/2nRt3iQ+2CWaqbZvOH/Ya8BWEDkcnSyRkVPEybg8+NF6eXqgcD3nw==
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
+ by MN2PR12MB4222.namprd12.prod.outlook.com (2603:10b6:208:19a::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Wed, 31 Aug
+ 2022 19:13:15 +0000
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::c04:1bde:6484:efd2]) by MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::c04:1bde:6484:efd2%4]) with mapi id 15.20.5588.010; Wed, 31 Aug 2022
+ 19:13:15 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Martin Belanger <nitram_67@hotmail.com>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>
+CC: "kbusch@kernel.org" <kbusch@kernel.org>, "hare@suse.de" <hare@suse.de>,
+	"axboe@fb.com" <axboe@fb.com>, "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me"
+	<sagi@grimberg.me>, Martin Belanger <martin.belanger@dell.com>
+Subject: Re: [PATCH] nvme-tcp: Print actual source IP address in address
+ attribute
+Thread-Topic: [PATCH] nvme-tcp: Print actual source IP address in address
+ attribute
+Thread-Index: AQHYvWq53gYP6tR9BkaNP+6b8nc8Qa3JYJoA
+Date: Wed, 31 Aug 2022 19:13:15 +0000
+Message-ID: <e75c7e55-ca67-6c77-a31a-82040386b0c4@nvidia.com>
+References:  <BL0PR13MB4291FE38A1741F311081106B9C789@BL0PR13MB4291.namprd13.prod.outlook.com>
+In-Reply-To:  <BL0PR13MB4291FE38A1741F311081106B9C789@BL0PR13MB4291.namprd13.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 76c1f6c1-c5b3-4415-971f-08da8b84dafe
+x-ms-traffictypediagnostic: MN2PR12MB4222:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  5oGOEnfGlx5YchNI+w9Io2EU5k8/oHD1Wq0dhy5ZI0af79Np/kkgZ2tTHQSU0Tv5Sfh0B8Z83x/3CBzuVqWI0OIbMK4rTPFecoc0MON2h2iDTCPMkvEC03wbPBWrUg+VD+LDYfWsZUP1++K49vcp7lfV62kJChRSTXoXuLj95KiZmWowtm8DE5SepMv7z6KKdojs0oyknVMBsHIZh/QtC0r6yesNaz8fuSlrzcibhDNPOgqw0aJuitoDw+XXlXfyQBCl81ptGbfx0VjoqrvGDWnBOdPTCPjs7vM1yggiH0S6C5uShRcgs7EctBiaT6VDGEUZvC+bsjgrJmLkmZSA4wWnl6moRB1bE/jkeB5nJzLvP0++hnsVv9Ifjqt4yPop13aiqWhVBEpZg8+MQAE3eHZFR+Kwr193V3VnMD9+DpcV2V8zUcMxuQ+kQ+qSuaQDtFAFv16XW4j/7i42/nJrG22SpA9wjGgcgJHs80WdBX8ybRyiZCjAJDfGnQ285yTSjlvmQGUen2dU0KQa9Q+gVRD3OzPrSIMY2hB6lLmK8ktyRlG94utaHcBQHPRhjSBjpedILjRy3LOGZ6YZC3rxDnMlBVxfIUT36bnTJuCWJhWgH8KQP5Cv6s1it898oJjbekYK9c5fxP4rX+Xs0JiP40Uw0UZWjzLCsWJluPpS6FLHo1fGpCVo8FV7yRxlx5dGQBJqXTA7PPW67LHwefkGsayh4B+wssoXSyVlUsJAtLAnQWsuSjU8BLYNPYz3t+g1TIStwEf71Ek9ZIa6vJSO/ENhvn2VchPtsoEEJls6iaAfbn56H5UY8IYBktBqUYsE9T/LXqjYO29O9h/lTtkvdg==
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(396003)(39860400002)(376002)(346002)(366004)(31686004)(76116006)(64756008)(66446008)(2906002)(91956017)(66946007)(4326008)(6506007)(66556008)(8676002)(66476007)(6512007)(8936002)(316002)(41300700001)(71200400001)(54906003)(6486002)(478600001)(110136005)(53546011)(36756003)(86362001)(186003)(2616005)(122000001)(83380400001)(38070700005)(5660300002)(31696002)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?dFVCYWdYZUFWYXhNclN4bXpGbk9lSDlVNGhVNUlTYmpkVU5ZeUZ2TWN2cDlu?=
+ =?utf-8?B?UVZtbk4ydUtTbVpFRzNaVEFtRW9ZUHI5NURjRVVkbkQ5Z0JHck43WXR3d2Iv?=
+ =?utf-8?B?dHdrZUhnVGFQSDErdUoyZ0ZkYmZyZE5sdjJxckU2WFJIbFRtb2NQTE5xS2Fk?=
+ =?utf-8?B?bUhMSlpWc2V1UEdDWGEyd3FnaUJ5cllobjgxSVdrSllWdTd4dnhnVy9tWGxn?=
+ =?utf-8?B?QW4vQm1WSGpKYm9IZ3hGSDBRcGZCVFVydkZ2c3BSUjMrZ0t5cmVkcUhnNVho?=
+ =?utf-8?B?SjBva0Y5Q2FpbzdSSmt5VjByRkdqaHRaZnZteGxtRUNKT3ozL3pLdlpOQi9m?=
+ =?utf-8?B?akZuNXN0M1g0S1orZTJQd0dPd3l0dnVVYnhMYjI1c0NvREk2Y2QxRFVUZ3pD?=
+ =?utf-8?B?NjJ0ZTlMRlZPT3J5U3pJRmdTdDZHSEJGSDFUWGN2ZGdPSzN5Rno4YWNvNUd1?=
+ =?utf-8?B?YjYyVmUzRHNWR2Z6Zjk0UEtaTDR5YTRDbVBRczVCWHBRSStURFQ4cEpsTEps?=
+ =?utf-8?B?TUM4dGttblJDb1A3eWFrNU50SGYyKy9rdDBzT2xFTG9jR2FsY1VOaFYreDFj?=
+ =?utf-8?B?TDgzMWFMZzc0VjJpSmNuN20yUEhlSnltTVp5QW1XV25PdmZsekJ1U0Vud3B0?=
+ =?utf-8?B?Q0hyeXI2Y0Q0MHl6dXc4aHF6SE9HZGVSY3kyVWlJMEZpYUpaUUNpTmo1d2dm?=
+ =?utf-8?B?Y2xQLzNXT1czQmE4d2FUVVBWa2pLRWFWVmpEa056N3V6UlljRzJBaW84aVFm?=
+ =?utf-8?B?S3Q1ZzZHL1ZYUG91Y0NqYWpOYm5GV1M2MkRrYUlNblAyS0ZVSjh1R0E0cGFp?=
+ =?utf-8?B?WGZzL0dsV0Q1REtTVWFaSnBVRitxcWltTzg1WFRDUWhkUHhDbEpmd1B4WkJr?=
+ =?utf-8?B?Q2I2ZTJzdnRseUs2ZDl4NzhtS3FlcGhzM2hXZGdwTFFRbGxjMG1LWCtncVZs?=
+ =?utf-8?B?eDhsVFZFNHJ1OXlYcE96UGxzL3ZFMUVvaERaZUtuRTlUditHaWZ5UDdwSFBH?=
+ =?utf-8?B?NERmNXdWR1Z2bWNEYTRKUmRpL2t2Qmswb3hQaVpFQ1Bsay83VDNCZnZFVEtt?=
+ =?utf-8?B?VWpIMjRQVmo5RThZK0s3dXRxRjlJYms0UGFWV0xRMFNlbEw2dHFhS05vUmhI?=
+ =?utf-8?B?QnFmMEUrVDU0bVlabXpqbUtONWZ1UGJieHBNS2xObm80azRxMVFTVkhCMFdv?=
+ =?utf-8?B?YVc0UTdDWXlsWWpRMGJGdjdqc2lvYUxkUkRlYmlibUkxZHllOTRJWVZBZ1Nx?=
+ =?utf-8?B?V2NUYVhjbEVBcEtvWUR4WHliS2Q1Rm9zTkk0RVV3bENjbDU0VHVTSUh0WEVF?=
+ =?utf-8?B?YTRUbmFyNm5vZmFSYmp3SWdML3Q2NTgwYi92ckpoWDVoRGpBQ1pxYUZhSGVV?=
+ =?utf-8?B?MnQ5QUFqaUVxV3kvLyt5aWlvZExEaEZJVHZRQmhwSERtQWJXZWlSZ1hqZmhP?=
+ =?utf-8?B?U2pBYlBMUTNvSDVNWXpGRkVYR2lVOTV5MVpkbWRlWDdRdHErUHZpZmhRaE9Y?=
+ =?utf-8?B?MERtOG1Dek9NMnBKSUtQZkFvaEg1RExVSStEMXJLa2xqbHE2NkNQblZRVEpQ?=
+ =?utf-8?B?Q3ExRFJ2Qm43SzVBQVJ3OXVIQWZuU2dnQzJZOG1xNC9aVjJ6T3RVZGgvUkFH?=
+ =?utf-8?B?ekxqNWdBelNyeEJoajM4ZHhNYyt4aXZsdlNhOVY0WkFuMmh5aktGUGE2ekdC?=
+ =?utf-8?B?SHJIYW1kbTI5N1g2dmNnSTUrVzVPaFhIVSs4UjdTRU9FRFZUVEdZNm0vbW9j?=
+ =?utf-8?B?S1JzN1VrM0JFUStsTUh3U1JsWm5CM2JneHdPVitvU2gvbVNRZ2UvTTFWcndO?=
+ =?utf-8?B?bTc2TVc3SDZTbFBETHE4WDRZSk9UWVl0SzhyL2dodmoyL3RBVmN0Qm40eUtj?=
+ =?utf-8?B?aHc1UmU5MDc2N0RlMFg1bEJ5ZmNHcFh0dS9CREdVWkQ5K1hFUDJHb0tyc1d4?=
+ =?utf-8?B?TWFTMGp3NzVJNnBBQWdWOG56TXJ5R1haS0NzVDRTQWEyOHREY0xOUXZxMVdu?=
+ =?utf-8?B?MjZONDhNZ1Q3dG9CWDRiN1hTd05qbUZ0MWpPZmZXTXZnZzV1U003Z084NVU2?=
+ =?utf-8?B?bnhZZ05nWWI2dWsrcHlaZDRwNTVyMTYxdzVJRzZLMWI2ZkZUQXJPN2FlamFJ?=
+ =?utf-8?B?dEpPdm5yMmd6QmU3cE5aR1Z0RUNaR3I3UVpOR0lmNHdicnpMSlNuMUZ0Zi9Z?=
+ =?utf-8?B?SVE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <3C35899ABC1AED458022D6E964ABF42A@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <CAHex0cqr8Sn1ydFjRbwkG8LOMqBXEHL2YpYu_vO8658xLzouww@mail.gmail.com>
- <eb6b09b6-c899-e3b8-3217-02f8833818cd@grimberg.me> <CAHex0coajr37Xe_XE3sx+kgNosOD_d8N_SQcK=hT4NDAM8suBg@mail.gmail.com>
- <ca7d5545-4630-59eb-3e50-6ca0594ba7c7@grimberg.me>
-In-Reply-To: <ca7d5545-4630-59eb-3e50-6ca0594ba7c7@grimberg.me>
-From: Jonathan Nicklin <jnicklin@blockbridge.com>
-Date: Wed, 31 Aug 2022 15:06:04 -0400
-Message-ID: <CAHex0coXdbR28S1PPSGuqJRH2JFZ4VpTg8NzfWFpHyBehK2urw@mail.gmail.com>
-Subject: Re: nvme-tcp: i/o errors and stalled host from failure to send
- command pdus
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 76c1f6c1-c5b3-4415-971f-08da8b84dafe
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Aug 2022 19:13:15.2095
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: lyWuSTxvmscIMWFU1x+f94Q7bNJYwKxwQETUvSemWBLNVzvOIikOd+IWDoBqTohYGhiexMVD2Rl2rGI8U4PHtw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4222
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220831_120642_447789_BFF29FA0 
-X-CRM114-Status: GOOD (  41.05  )
+X-CRM114-CacheID: sfid-20220831_121319_872491_39D1CD90 
+X-CRM114-Status: GOOD (  33.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,463 +150,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Something about the logged state didn't make sense to me. Sure enough,
-I had a bug in the state tracking. Here's another attempt.
-
-I also added in"smp_id2", which is raw_smp_processor_id() recorded
-immediately after the direct send case. Is it interesting to point out that the
-CPU appears to change for the first command to go missing.
-
-Here's the arrangement of smp_id and smp_id2.
-
-    smp_id = raw_smp_processor_id();
-if (queue->io_cpu == smp_id && sync && empty) {
-        lock = mutex_trylock(&queue->send_mutex);
-        if (lock) {
-            queue->more_requests = !last;
-            nvme_tcp_send_all(queue);
-            queue->more_requests = false;
-            mutex_unlock(&queue->send_mutex);
-        }
-}
-    smp_id2 = raw_smp_processor_id();
-
-Here's the new trace with dmesg outputs:
-
-tar-1825    [005] .....   430.572846: nvme_tcp_queue_rq:
- nvme1: qid=6 tag=2f op=0 data_len=32768
-tar-1825    [005] .N...   430.572849: nvme_setup_cmd:
- nvme1: disk=nvme1c1n1, qid=6, cmdid=45103, nsid=1, flags=0x0, meta=0x0,
-  cmd=(nvme_cmd_read slba=9917888, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-
-dmesg.out [  459.626849] nvme nvme1:
- state: tag 0x2f io_cpu 5 smp_id 5 smp_id2 2 sync 1 empty 1 lock 1 last 0 more 0
-                 ^^^^^^^^ ^^^^^^^^ ^^^^^^^^^
-
-kworker/5:2H-1827    [005] .....   430.572913: nvme_tcp_queue_rq:
- nvme1: qid=6 tag=2e op=0 data_len=32768
-kworker/5:2H-1827    [005] .....   430.572913: nvme_setup_cmd:
- nvme1: disk=nvme1c1n1, qid=6, cmdid=16430, nsid=1, flags=0x0, meta=0x0,
-  cmd=(nvme_cmd_read slba=9917824, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-
-dmesg.out [  459.593681] nvme nvme1:
- state: tag 0x2e io_cpu 5 smp_id 5 smp_id2 5 sync 1 empty 0 lock 0 last 0 more 1
-
-
-kworker/5:2H-1827    [005] .....   430.572914: nvme_tcp_queue_rq:
- nvme1: qid=6 tag=2d op=0 data_len=32768
-kworker/5:2H-1827    [005] .....   430.572914: nvme_setup_cmd:
- nvme1: disk=nvme1c1n1, qid=6, cmdid=28717, nsid=1, flags=0x0, meta=0x0,
-  cmd=(nvme_cmd_read slba=9917760, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-
-dmest.out [  459.560506] nvme nvme1:
- state: tag 0x2d io_cpu 5 smp_id 5 smp_id2 5 sync 1 empty 0 lock 0 last 0 more 1
-
-
-kworker/5:2H-1827    [005] .....   430.572914: nvme_tcp_queue_rq:
- nvme1: qid=6 tag=29 op=0 data_len=32768
-kworker/5:2H-1827    [005] .....   430.572914: nvme_setup_cmd:
- nvme1: disk=nvme1c1n1, qid=6, cmdid=24617, nsid=1, flags=0x0, meta=0x0,
-  cmd=(nvme_cmd_read slba=9917696, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-dmest.out [  459.540904] nvme nvme1:
- state: tag 0x29 io_cpu 5 smp_id 5 smp_id2 5 sync 1 empty 0 lock 0 last 1 more 1
-
-
-On Wed, Aug 31, 2022 at 2:50 PM Sagi Grimberg <sagi@grimberg.me> wrote:
->
->
->
-> On 8/31/22 19:04, Jonathan Nicklin wrote:
-> > On Wed, Aug 31, 2022 at 5:02 AM Sagi Grimberg <sagi@grimberg.me> wrote:
-> >>
-> >>
-> >>> Hello,
-> >>
-> >> Hey Jonathan,
-> >>
-> >>> We've seen sporadic I/O errors with nvme-tcp in our lab when testing
-> >>> with kernel versions 5.15 through 5.19. Using a combination of tracing
-> >>> events and network traces, we can see nvme_setup_cmd() trace events
-> >>> that do not result in transmitted commands PDUs.
-> >>>
-> >>> Here's a snippet of the relevant portion of the nvme trace. The
-> >>> following events are the last of tens of thousands of successully
-> >>> executed reads...
-> >>>
-> >>> tar-9004    [004] ..... 22457.614117: nvme_setup_cmd:
-> >>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=53272, nsid=1, flags=0x0, meta=0x0,
-> >>>     cmd=(nvme_cmd_read slba=15760448, len=55, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >>> tar-9004    [004] ..... 22457.614118: nvme_setup_cmd:
-> >>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=61463, nsid=1, flags=0x0, meta=0x0,
-> >>>     cmd=(nvme_cmd_read slba=15760384, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >>> tar-9004    [004] ..... 22457.614119: nvme_setup_cmd:
-> >>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=16406, nsid=1, flags=0x0, meta=0x0,
-> >>>     cmd=(nvme_cmd_read slba=15760376, len=7, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >>> tar-9004    [004] ..... 22457.614119: nvme_setup_cmd:
-> >>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=28693, nsid=1, flags=0x0, meta=0x0,
-> >>>     cmd=(nvme_cmd_read slba=15760312, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >>> tar-9004    [004] ..... 22457.614119: nvme_setup_cmd:
-> >>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=40980, nsid=1, flags=0x0, meta=0x0,
-> >>>     cmd=(nvme_cmd_read slba=15760248, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >>>
-> >>> The following 5 commands are issued to nvme, but never make it to the
-> >>> wire. The wire state was verified manually using tcpdump on the host and
-> >>> trace events on the target. Perhaps the "need-resched" marker in the
-> >>> trace and the context switch to the kernel worker are relevant
-> >>> to the failure?
-> >>>
-> >>> tar-9004    [004] .n... 22457.614171: nvme_setup_cmd:
-> >>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=61469, nsid=1, flags=0x0, meta=0x0,
-> >>>     cmd=(nvme_cmd_read slba=15760704, len=55, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >>> kworker/4:1H-8668    [004] ..... 22457.614183: nvme_setup_cmd:
-> >>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=45084, nsid=1, flags=0x0, meta=0x0,
-> >>>     cmd=(nvme_cmd_read slba=15760640, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >>> kworker/4:1H-8668    [004] ..... 22457.614184: nvme_setup_cmd:
-> >>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=28699, nsid=1, flags=0x0, meta=0x0,
-> >>>     cmd=(nvme_cmd_read slba=15760632, len=7, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >>> kworker/4:1H-8668    [004] ..... 22457.614184: nvme_setup_cmd:
-> >>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=40986, nsid=1, flags=0x0, meta=0x0,
-> >>>     cmd=(nvme_cmd_read slba=15760568, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >>> kworker/4:1H-8668    [004] ..... 22457.614184: nvme_setup_cmd:
-> >>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=16409, nsid=1, flags=0x0, meta=0x0,
-> >>>     cmd=(nvme_cmd_read slba=15760504, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >>>
-> >>> The reads above eventually timeout and recover after reset. Here are
-> >>> the related reset messages.
-> >>>
-> >>> [22486.420606] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760568, 64 blocks, I/O
-> >>> Error (sct 0x3 / sc 0x71)
-> >>> [22486.429326] I/O error, dev nvme1c1n1, sector 15760568 op 0x0:(READ)
-> >>> flags 0x4084700 phys_seg 1 prio class 0
-> >>> [22486.439262] nvme nvme1: queue 5: timeout request 0x1b type 4
-> >>> [22486.461788] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760632, 8 blocks, I/O
-> >>> Error (sct 0x3 / sc 0x71)
-> >>> [22486.470440] I/O error, dev nvme1c1n1, sector 15760632 op 0x0:(READ)
-> >>> flags 0x4084700 phys_seg 1 prio class 0
-> >>> [22486.480386] nvme nvme1: queue 5: timeout request 0x1c type 4
-> >>> [22486.486256] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760640, 64 blocks, I/O
-> >>> Error (sct 0x3 / sc 0x71)
-> >>> [22486.494994] I/O error, dev nvme1c1n1, sector 15760640 op 0x0:(READ)
-> >>> flags 0x4084700 phys_seg 2 prio class 0
-> >>> [22486.504946] nvme nvme1: queue 5: timeout request 0x1d type 4
-> >>> [22486.510822] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760704, 56 blocks, I/O
-> >>> Error (sct 0x3 / sc 0x71)
-> >>> [22486.519563] I/O error, dev nvme1c1n1, sector 15760704 op 0x0:(READ)
-> >>> flags 0x4080700 phys_seg 2 prio class 0
-> >>> [22486.529723] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760504, 64 blocks, I/O
-> >>> Error (sct 0x3 / sc 0x71)
-> >>> [22486.538610] I/O error, dev nvme1c1n1, sector 15760504 op 0x0:(READ)
-> >>> flags 0x4084700 phys_seg 2 prio class 0
-> >>>
-> >>> To further aid in debugging, I resurrected Keith's nvme_tcp tracing event
-> >>> patch from a ways back. If my understanding is correct,
-> >>> nvme_tcp_cmd_pdu() is being called for the commands in question.
-> >>>
-> >>> I've isolated the failure to a scenario we can reproduce at will
-> >>> in about a minute of runtime. Is there any additional debug that we can
-> >>> provide to help locate the bug?
-> >>
-> >> Would be interesting to understand if for these requests,
-> >> nvme_tcp_queue_request scheduled io_work or not (can be marked on the
-> >> command and printed during the timeout expiration). If not, would be
-> >> interesting to understand why.
-> >
-> > Okay, here's a repro with a bit more context. I recorded the state
-> > from nvme_tcp_queue_request() in the request and printed it out as you
-> > suggested. I also added trace events for nvme_tcp_queue_rq() to make
-> > it easier to match the state.
-> >
-> > - lock is the return value of trylock() (if executed)
-> > - more is the return value of nvme_tcp_queue_more(if executed)
-> > - this_cpu is raw_smp_processor_id();
-> >
-> > Here's the trace output for the failed requests with the associated
-> > completion messages (from dmesg) stitched in.
-> >
-> >    tar-2153 [001] .....   536.383588: nvme_tcp_queue_rq:
-> >      nvme1: qid=2 tag=5 op=0 data_len=32768
-> >    tar-2153 [001] .....   536.383588: nvme_setup_cmd:
-> >      nvme1: disk=nvme1c1n1, qid=2, cmdid=8197, nsid=1, flags=0x0, meta=0x0,
-> >        cmd=(nvme_cmd_read slba=9950336, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >    dmesg.out           [  565.574700] nvme_tcp_queue_request()
-> >      state: tag 0x5 io_cpu 1 this_cpu 1 lock 1 sync 1 empty 1 last 0 more 1
->
-> This is strange...
-> cpu matches, and the lock is taken, this means that the request should
-> have been sent immediately to the wire...
->
-> However last=0, this will make the send marked with MSG_SENDPAGE_NOTLAST
-> which means the network stack will not send it right away...
->
-> >
-> >   tar-2153  [001] .N...   536.383594: nvme_tcp_queue_rq:
-> >     nvme1: qid=2 tag=4 op=0 data_len=32768
-> >   tar-2153  [001] .N...   536.383594: nvme_setup_cmd:
-> >     nvme1: disk=nvme1c1n1, qid=2, cmdid=16388, nsid=1, flags=0x0, meta=0x0,
-> >       cmd=(nvme_cmd_read slba=9950272, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >   dmesg.out            [  565.540965] nvme_tcp_queue_request()
-> >     state: tag 0x4 io_cpu 1 this_cpu 5 lock 1 sync 1 empty 1 last 0 more 1
->
-> Same here... sent down the network stack, but with MSG_SENDPAGE_NOTLAST.
->
-> > kworker/1:0H-23  [001] .....   536.383619: nvme_tcp_queue_rq:
-> >    nvme1: qid=2 tag=3 op=0 data_len=32768
-> > kworker/1:0H-23  [001] .....   536.383619: nvme_setup_cmd:
-> >    nvme1: disk=nvme1c1n1, qid=2, cmdid=24579, nsid=1, flags=0x0, meta=0x0,
-> >      cmd=(nvme_cmd_read slba=9950208, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> > dmesg.out              [  565.490597] nvme_tcp_queue_request()
-> >    state: tag 0x3 io_cpu 1 this_cpu 1 lock 0 sync 1 empty 0 last 0 more 1
->
-> Here, the queue is not empty, so we are not sending right away, and its
-> also not the last in the batch, so we are also not queueing io_work, we
-> will wait for the last request in the batch to schedule io_work, to send
-> the batch to the network.
->
-> > kworker/1:0H-23  [001] .....   536.383620: nvme_tcp_queue_rq:
-> >    nvme1: qid=2 tag=2 op=0 data_len=32768
-> > kworker/1:0H-23  [001] .....   536.383620: nvme_setup_cmd:
-> >    nvme1: disk=nvme1c1n1, qid=2, cmdid=40962, nsid=1, flags=0x0, meta=0x0,
-> >      cmd=(nvme_cmd_read slba=9950144, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> > dmesg.out                   [  565.470687] nvme_tcp_queue_request()
-> >    state: tag 0x2 io_cpu 1 this_cpu 1 lock 0 sync 1 empty 0 last 1 more 1
->
-> Here again, the queue is not empty, and its the last request in the
-> batch, so we should have scheduled io_work to send the queued requests
-> in the send_list along.
->
-> These are not necessarily requests that were one after the other,
-> however the last request, should have flushed all the prior ones...
->
-> Can you add an indication that a command was actually sent to the wire
-> (i.e. nvme_tcp_try_send_cmd_pdu() sends the entire cmd pdu).
-
-Something about the logged state didn't make sense to me. Sure enough,
-I had a bug in the state tracking. Here's another attempt.
-
-I also added in"smp_id2", which is raw_smp_processor_id() recorded
-immediately after the direct send case. Is it interesting to point out that the
-CPU appears to change for the first command to go missing.
-
-Here's the arrangement of smp_id and smp_id2.
-
-    smp_id = raw_smp_processor_id();
-if (queue->io_cpu == smp_id && sync && empty) {
-        lock = mutex_trylock(&queue->send_mutex);
-        if (lock) {
-            queue->more_requests = !last;
-            nvme_tcp_send_all(queue);
-            queue->more_requests = false;
-            mutex_unlock(&queue->send_mutex);
-        }
-}
-    smp_id2 = raw_smp_processor_id();
-
-Here's the new trace with dmesg outputs:
-
-tar-1825    [005] .....   430.572846: nvme_tcp_queue_rq:
- nvme1: qid=6 tag=2f op=0 data_len=32768
-tar-1825    [005] .N...   430.572849: nvme_setup_cmd:
- nvme1: disk=nvme1c1n1, qid=6, cmdid=45103, nsid=1, flags=0x0, meta=0x0,
-  cmd=(nvme_cmd_read slba=9917888, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-
-dmesg.out [  459.626849] nvme nvme1:
- state: tag 0x2f io_cpu 5 smp_id 5 smp_id2 2 sync 1 empty 1 lock 1 last 0 more 0
-                 ^^^^^^^^ ^^^^^^^^ ^^^^^^^^^
-
-kworker/5:2H-1827    [005] .....   430.572913: nvme_tcp_queue_rq:
- nvme1: qid=6 tag=2e op=0 data_len=32768
-kworker/5:2H-1827    [005] .....   430.572913: nvme_setup_cmd:
- nvme1: disk=nvme1c1n1, qid=6, cmdid=16430, nsid=1, flags=0x0, meta=0x0,
-  cmd=(nvme_cmd_read slba=9917824, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-
-dmesg.out [  459.593681] nvme nvme1:
- state: tag 0x2e io_cpu 5 smp_id 5 smp_id2 5 sync 1 empty 0 lock 0 last 0 more 1
-
-
-kworker/5:2H-1827    [005] .....   430.572914: nvme_tcp_queue_rq:
- nvme1: qid=6 tag=2d op=0 data_len=32768
-kworker/5:2H-1827    [005] .....   430.572914: nvme_setup_cmd:
- nvme1: disk=nvme1c1n1, qid=6, cmdid=28717, nsid=1, flags=0x0, meta=0x0,
-  cmd=(nvme_cmd_read slba=9917760, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-
-dmest.out [  459.560506] nvme nvme1:
- state: tag 0x2d io_cpu 5 smp_id 5 smp_id2 5 sync 1 empty 0 lock 0 last 0 more 1
-
-
-kworker/5:2H-1827    [005] .....   430.572914: nvme_tcp_queue_rq:
- nvme1: qid=6 tag=29 op=0 data_len=32768
-kworker/5:2H-1827    [005] .....   430.572914: nvme_setup_cmd:
- nvme1: disk=nvme1c1n1, qid=6, cmdid=24617, nsid=1, flags=0x0, meta=0x0,
-  cmd=(nvme_cmd_read slba=9917696, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-dmest.out [  459.540904] nvme nvme1:
- state: tag 0x29 io_cpu 5 smp_id 5 smp_id2 5 sync 1 empty 0 lock 0 last 1 more 1
-
-
-On Wed, Aug 31, 2022 at 2:50 PM Sagi Grimberg <sagi@grimberg.me> wrote:
->
->
->
-> On 8/31/22 19:04, Jonathan Nicklin wrote:
-> > On Wed, Aug 31, 2022 at 5:02 AM Sagi Grimberg <sagi@grimberg.me> wrote:
-> >>
-> >>
-> >>> Hello,
-> >>
-> >> Hey Jonathan,
-> >>
-> >>> We've seen sporadic I/O errors with nvme-tcp in our lab when testing
-> >>> with kernel versions 5.15 through 5.19. Using a combination of tracing
-> >>> events and network traces, we can see nvme_setup_cmd() trace events
-> >>> that do not result in transmitted commands PDUs.
-> >>>
-> >>> Here's a snippet of the relevant portion of the nvme trace. The
-> >>> following events are the last of tens of thousands of successully
-> >>> executed reads...
-> >>>
-> >>> tar-9004    [004] ..... 22457.614117: nvme_setup_cmd:
-> >>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=53272, nsid=1, flags=0x0, meta=0x0,
-> >>>     cmd=(nvme_cmd_read slba=15760448, len=55, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >>> tar-9004    [004] ..... 22457.614118: nvme_setup_cmd:
-> >>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=61463, nsid=1, flags=0x0, meta=0x0,
-> >>>     cmd=(nvme_cmd_read slba=15760384, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >>> tar-9004    [004] ..... 22457.614119: nvme_setup_cmd:
-> >>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=16406, nsid=1, flags=0x0, meta=0x0,
-> >>>     cmd=(nvme_cmd_read slba=15760376, len=7, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >>> tar-9004    [004] ..... 22457.614119: nvme_setup_cmd:
-> >>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=28693, nsid=1, flags=0x0, meta=0x0,
-> >>>     cmd=(nvme_cmd_read slba=15760312, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >>> tar-9004    [004] ..... 22457.614119: nvme_setup_cmd:
-> >>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=40980, nsid=1, flags=0x0, meta=0x0,
-> >>>     cmd=(nvme_cmd_read slba=15760248, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >>>
-> >>> The following 5 commands are issued to nvme, but never make it to the
-> >>> wire. The wire state was verified manually using tcpdump on the host and
-> >>> trace events on the target. Perhaps the "need-resched" marker in the
-> >>> trace and the context switch to the kernel worker are relevant
-> >>> to the failure?
-> >>>
-> >>> tar-9004    [004] .n... 22457.614171: nvme_setup_cmd:
-> >>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=61469, nsid=1, flags=0x0, meta=0x0,
-> >>>     cmd=(nvme_cmd_read slba=15760704, len=55, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >>> kworker/4:1H-8668    [004] ..... 22457.614183: nvme_setup_cmd:
-> >>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=45084, nsid=1, flags=0x0, meta=0x0,
-> >>>     cmd=(nvme_cmd_read slba=15760640, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >>> kworker/4:1H-8668    [004] ..... 22457.614184: nvme_setup_cmd:
-> >>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=28699, nsid=1, flags=0x0, meta=0x0,
-> >>>     cmd=(nvme_cmd_read slba=15760632, len=7, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >>> kworker/4:1H-8668    [004] ..... 22457.614184: nvme_setup_cmd:
-> >>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=40986, nsid=1, flags=0x0, meta=0x0,
-> >>>     cmd=(nvme_cmd_read slba=15760568, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >>> kworker/4:1H-8668    [004] ..... 22457.614184: nvme_setup_cmd:
-> >>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=16409, nsid=1, flags=0x0, meta=0x0,
-> >>>     cmd=(nvme_cmd_read slba=15760504, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >>>
-> >>> The reads above eventually timeout and recover after reset. Here are
-> >>> the related reset messages.
-> >>>
-> >>> [22486.420606] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760568, 64 blocks, I/O
-> >>> Error (sct 0x3 / sc 0x71)
-> >>> [22486.429326] I/O error, dev nvme1c1n1, sector 15760568 op 0x0:(READ)
-> >>> flags 0x4084700 phys_seg 1 prio class 0
-> >>> [22486.439262] nvme nvme1: queue 5: timeout request 0x1b type 4
-> >>> [22486.461788] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760632, 8 blocks, I/O
-> >>> Error (sct 0x3 / sc 0x71)
-> >>> [22486.470440] I/O error, dev nvme1c1n1, sector 15760632 op 0x0:(READ)
-> >>> flags 0x4084700 phys_seg 1 prio class 0
-> >>> [22486.480386] nvme nvme1: queue 5: timeout request 0x1c type 4
-> >>> [22486.486256] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760640, 64 blocks, I/O
-> >>> Error (sct 0x3 / sc 0x71)
-> >>> [22486.494994] I/O error, dev nvme1c1n1, sector 15760640 op 0x0:(READ)
-> >>> flags 0x4084700 phys_seg 2 prio class 0
-> >>> [22486.504946] nvme nvme1: queue 5: timeout request 0x1d type 4
-> >>> [22486.510822] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760704, 56 blocks, I/O
-> >>> Error (sct 0x3 / sc 0x71)
-> >>> [22486.519563] I/O error, dev nvme1c1n1, sector 15760704 op 0x0:(READ)
-> >>> flags 0x4080700 phys_seg 2 prio class 0
-> >>> [22486.529723] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760504, 64 blocks, I/O
-> >>> Error (sct 0x3 / sc 0x71)
-> >>> [22486.538610] I/O error, dev nvme1c1n1, sector 15760504 op 0x0:(READ)
-> >>> flags 0x4084700 phys_seg 2 prio class 0
-> >>>
-> >>> To further aid in debugging, I resurrected Keith's nvme_tcp tracing event
-> >>> patch from a ways back. If my understanding is correct,
-> >>> nvme_tcp_cmd_pdu() is being called for the commands in question.
-> >>>
-> >>> I've isolated the failure to a scenario we can reproduce at will
-> >>> in about a minute of runtime. Is there any additional debug that we can
-> >>> provide to help locate the bug?
-> >>
-> >> Would be interesting to understand if for these requests,
-> >> nvme_tcp_queue_request scheduled io_work or not (can be marked on the
-> >> command and printed during the timeout expiration). If not, would be
-> >> interesting to understand why.
-> >
-> > Okay, here's a repro with a bit more context. I recorded the state
-> > from nvme_tcp_queue_request() in the request and printed it out as you
-> > suggested. I also added trace events for nvme_tcp_queue_rq() to make
-> > it easier to match the state.
-> >
-> > - lock is the return value of trylock() (if executed)
-> > - more is the return value of nvme_tcp_queue_more(if executed)
-> > - this_cpu is raw_smp_processor_id();
-> >
-> > Here's the trace output for the failed requests with the associated
-> > completion messages (from dmesg) stitched in.
-> >
-> >    tar-2153 [001] .....   536.383588: nvme_tcp_queue_rq:
-> >      nvme1: qid=2 tag=5 op=0 data_len=32768
-> >    tar-2153 [001] .....   536.383588: nvme_setup_cmd:
-> >      nvme1: disk=nvme1c1n1, qid=2, cmdid=8197, nsid=1, flags=0x0, meta=0x0,
-> >        cmd=(nvme_cmd_read slba=9950336, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >    dmesg.out           [  565.574700] nvme_tcp_queue_request()
-> >      state: tag 0x5 io_cpu 1 this_cpu 1 lock 1 sync 1 empty 1 last 0 more 1
->
-> This is strange...
-> cpu matches, and the lock is taken, this means that the request should
-> have been sent immediately to the wire...
->
-> However last=0, this will make the send marked with MSG_SENDPAGE_NOTLAST
-> which means the network stack will not send it right away...
->
-> >
-> >   tar-2153  [001] .N...   536.383594: nvme_tcp_queue_rq:
-> >     nvme1: qid=2 tag=4 op=0 data_len=32768
-> >   tar-2153  [001] .N...   536.383594: nvme_setup_cmd:
-> >     nvme1: disk=nvme1c1n1, qid=2, cmdid=16388, nsid=1, flags=0x0, meta=0x0,
-> >       cmd=(nvme_cmd_read slba=9950272, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> >   dmesg.out            [  565.540965] nvme_tcp_queue_request()
-> >     state: tag 0x4 io_cpu 1 this_cpu 5 lock 1 sync 1 empty 1 last 0 more 1
->
-> Same here... sent down the network stack, but with MSG_SENDPAGE_NOTLAST.
->
-> > kworker/1:0H-23  [001] .....   536.383619: nvme_tcp_queue_rq:
-> >    nvme1: qid=2 tag=3 op=0 data_len=32768
-> > kworker/1:0H-23  [001] .....   536.383619: nvme_setup_cmd:
-> >    nvme1: disk=nvme1c1n1, qid=2, cmdid=24579, nsid=1, flags=0x0, meta=0x0,
-> >      cmd=(nvme_cmd_read slba=9950208, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> > dmesg.out              [  565.490597] nvme_tcp_queue_request()
-> >    state: tag 0x3 io_cpu 1 this_cpu 1 lock 0 sync 1 empty 0 last 0 more 1
->
-> Here, the queue is not empty, so we are not sending right away, and its
-> also not the last in the batch, so we are also not queueing io_work, we
-> will wait for the last request in the batch to schedule io_work, to send
-> the batch to the network.
->
-> > kworker/1:0H-23  [001] .....   536.383620: nvme_tcp_queue_rq:
-> >    nvme1: qid=2 tag=2 op=0 data_len=32768
-> > kworker/1:0H-23  [001] .....   536.383620: nvme_setup_cmd:
-> >    nvme1: disk=nvme1c1n1, qid=2, cmdid=40962, nsid=1, flags=0x0, meta=0x0,
-> >      cmd=(nvme_cmd_read slba=9950144, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> > dmesg.out                   [  565.470687] nvme_tcp_queue_request()
-> >    state: tag 0x2 io_cpu 1 this_cpu 1 lock 0 sync 1 empty 0 last 1 more 1
->
-> Here again, the queue is not empty, and its the last request in the
-> batch, so we should have scheduled io_work to send the queued requests
-> in the send_list along.
->
-> These are not necessarily requests that were one after the other,
-> however the last request, should have flushed all the prior ones...
->
-> Can you add an indication that a command was actually sent to the wire
-> (i.e. nvme_tcp_try_send_cmd_pdu() sends the entire cmd pdu).
+T24gOC8zMS8yMiAxMTo1MCwgTWFydGluIEJlbGFuZ2VyIHdyb3RlOg0KPiBGcm9tOiBNYXJ0aW4g
+QmVsYW5nZXIgPG1hcnRpbi5iZWxhbmdlckBkZWxsLmNvbT4NCj4gDQo+IFRDUCB0cmFuc3BvcnQg
+cmVsaWVzIG9uIHRoZSByb3V0aW5nIHRhYmxlIHRvIGRldGVybWluZSB3aGljaA0KPiBzb3VyY2Ug
+YWRkcmVzcyBhbmQgaW50ZXJmYWNlIHRvIHVzZSB3aGVuIG1ha2luZyBhIGNvbm5lY3Rpb24uDQo+
+IEN1cnJlbnRseSwgdGhlcmUgaXMgbm8gd2F5IHRvIHRlbGwgZnJvbSB1c2Vyc3BhY2Ugd2hlcmUg
+YQ0KPiBjb25uZWN0aW9uIHdhcyBtYWRlLiBUaGlzIHBhdGNoIGFsbG93cyBleHBvc2luZyB0aGUg
+YWN0dWFsIHNvdXJjZQ0KPiBhZGRyZXNzIHVzaW5nIHRoZSBob3N0X3RyYWRkciBmaWVsZCBvZiB0
+aGUgYWRkcmVzcyBhdHRyaWJ1dGUuDQo+IA0KPiBXaHkgaXMgdGhpcyBpbXBvcnRhbnQ/IFRoaXMg
+d2lsbCBtYWtlIGl0IHBvc3NpYmxlIHRvIGRpYWdub3NlIGFuZA0KPiBpZGVudGlmeSBjb25uZWN0
+aXZpdHkgaXNzdWVzLiBXaXRoIHRoaXMsIHdlJ2xsIGJlIGFibGUgdG8gdGVsbA0KPiB3aGljaCBp
+bnRlcmZhY2UgYW5kIHNvdXJjZSBhZGRyZXNzIGlzIGFzc29jaWF0ZWQgd2l0aCBlYWNoDQo+IGNv
+bm5lY3Rpb24uDQo+IA0KDQpQZXJoYXBzIHJlbW92ZSBxdWVzdGlvbiBpbiB0aGUgY29tbWl0IGxv
+ZyBhbmQgcmVwaHJhc2UgaXQgOi0NCg0KVGhpcyBpcyBuZWVkZWQgdG8gZGlhZ25vc2UgYW5kIGlk
+ZW50aWZ5IGNvbm5lY3Rpdml0eSBpc3N1ZXMgc2luY2UNCml0IGFsbG93cyB1cyB0byB0ZWxsIHdo
+aWNoIGludGVyZmFjZSBhbmQgc291cmNlIGFkZHJlc3MgaXMgYXNzb2NpYXRlZA0Kd2l0aCBlYWNo
+IGNvbm5lY3Rpb24uDQoNCj4gU2lnbmVkLW9mZi1ieTogTWFydGluIEJlbGFuZ2VyIDxtYXJ0aW4u
+YmVsYW5nZXJAZGVsbC5jb20+DQo+IC0tLQ0KPiAgIGRyaXZlcnMvbnZtZS9ob3N0L3RjcC5jIHwg
+MzQgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLQ0KPiAgIDEgZmlsZSBjaGFuZ2Vk
+LCAzMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9udm1lL2hvc3QvdGNwLmMgYi9kcml2ZXJzL252bWUvaG9zdC90Y3AuYw0KPiBpbmRleCAw
+NDRkYTE4YzA2ZjUuLmFkYmI3NjQ4M2E3NCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9udm1lL2hv
+c3QvdGNwLmMNCj4gKysrIGIvZHJpdmVycy9udm1lL2hvc3QvdGNwLmMNCj4gQEAgLTE2NSw2ICsx
+NjUsNyBAQCBzdHJ1Y3QgbnZtZV90Y3BfY3RybCB7DQo+ICAgCXN0cnVjdCBibGtfbXFfdGFnX3Nl
+dAlhZG1pbl90YWdfc2V0Ow0KPiAgIAlzdHJ1Y3Qgc29ja2FkZHJfc3RvcmFnZSBhZGRyOw0KPiAg
+IAlzdHJ1Y3Qgc29ja2FkZHJfc3RvcmFnZSBzcmNfYWRkcjsNCj4gKwlzdHJ1Y3Qgc29ja2FkZHJf
+c3RvcmFnZSBzb2NrX2FkZHI7DQo+ICAgCXN0cnVjdCBudm1lX2N0cmwJY3RybDsNCj4gICANCj4g
+ICAJc3RydWN0IHdvcmtfc3RydWN0CWVycl93b3JrOw0KPiBAQCAtMTU5Nyw2ICsxNTk4LDEyIEBA
+IHN0YXRpYyBpbnQgbnZtZV90Y3BfYWxsb2NfcXVldWUoc3RydWN0IG52bWVfY3RybCAqbmN0cmws
+DQo+ICAgCQlnb3RvIGVycl9yY3ZfcGR1Ow0KPiAgIAl9DQo+ICAgDQo+ICsJLyogUmV0cmlldmUg
+dGhlIGFjdHVhbCBzb3VyY2UgYWRkcmVzcyBmcm9tIHRoZSBzb2NrZXQgKi8NCj4gKwlyZXQgPSBr
+ZXJuZWxfZ2V0c29ja25hbWUocXVldWUtPnNvY2ssDQo+ICsJCShzdHJ1Y3Qgc29ja2FkZHIgKikm
+Y3RybC0+c29ja19hZGRyKTsNCj4gKwlpZiAocmV0IDwgMCkNCj4gKwkJbWVtc2V0KCZjdHJsLT5z
+b2NrX2FkZHIsIDAsIHNpemVvZihjdHJsLT5zb2NrX2FkZHIpKTsNCj4gKw0KDQp3aXRob3V0IGxv
+b2tpbmcgaW50byB0aGUgZGV0YWlsZWQgY29kZSwgcXVpY2sgcXVlc3Rpb24gaXMgdGhlcmUgYSBo
+YXJkDQpyZXF1aXJlbWVudCB0aGF0IHdlIG5lZWQgdG8gZG8gYWJvdmUgd29yayBpbiAgbnZtZV90
+Y3BfYWxsb2NfcXVldWUoKQ0KYmVmb3JlIHdlIGNhbGwgbnZtZV90Y3BfaW5pdF9jb25uZWN0aW9u
+KCkgPw0KDQpJZiBub3QgdGhlbiBjYW4gd2UgbW92ZSBhYm92ZSBjb2RlIHRvIHRoZSBudm1lX3Rj
+cF9nZXRfYWRkcmVzcygpIHRvDQphdm9pZCBhZGRpbmcgYSBuZXcgbWVtYmVyIG52bWVfdGNwX2N0
+cmwgc3RydWN0dXJlID8NCg0KPiAgIAlyZXQgPSBudm1lX3RjcF9pbml0X2Nvbm5lY3Rpb24ocXVl
+dWUpOw0KPiAgIAlpZiAocmV0KQ0KPiAgIAkJZ290byBlcnJfaW5pdF9jb25uZWN0Ow0KPiBAQCAt
+MjUzMiw2ICsyNTM5LDMxIEBAIHN0YXRpYyBpbnQgbnZtZV90Y3BfcG9sbChzdHJ1Y3QgYmxrX21x
+X2h3X2N0eCAqaGN0eCwgc3RydWN0IGlvX2NvbXBfYmF0Y2ggKmlvYikNCj4gICAJcmV0dXJuIHF1
+ZXVlLT5ucl9jcWU7DQo+ICAgfQ0KPiAgIA0KPiArc3RhdGljIGludCBudm1lX3RjcF9nZXRfYWRk
+cmVzcyhzdHJ1Y3QgbnZtZV9jdHJsICpjdHJsLCBjaGFyICpidWYsIGludCBzaXplKQ0KPiArew0K
+PiArCWludCBsZW4gPSAwOw0KPiArCXN0cnVjdCBzb2NrYWRkcl9zdG9yYWdlICpzYSA9ICZ0b190
+Y3BfY3RybChjdHJsKS0+c29ja19hZGRyOw0KPiArDQoNCm5pY2UgdG8gaGF2ZSA6LQ0KDQoJc3Ry
+dWN0IHNvY2thZGRyX3N0b3JhZ2UgKnNhID0gJnRvX3RjcF9jdHJsKGN0cmwpLT5zb2NrX2FkZHI7
+DQoJaW50IGxlbiA9IDA7DQoNCj4gKwlpZiAoY3RybC0+b3B0cy0+bWFzayAmIE5WTUZfT1BUX1RS
+QUREUikNCj4gKwkJbGVuICs9IHNjbnByaW50ZihidWYsIHNpemUsICJ0cmFkZHI9JXMiLCBjdHJs
+LT5vcHRzLT50cmFkZHIpOw0KPiArCWlmIChjdHJsLT5vcHRzLT5tYXNrICYgTlZNRl9PUFRfVFJT
+VkNJRCkNCj4gKwkJbGVuICs9IHNjbnByaW50ZihidWYgKyBsZW4sIHNpemUgLSBsZW4sICIlc3Ry
+c3ZjaWQ9JXMiLA0KPiArCQkJCShsZW4pID8gIiwiIDogIiIsIGN0cmwtPm9wdHMtPnRyc3ZjaWQp
+Ow0KPiArCWlmICgoc2EtPnNzX2ZhbWlseSA9PSBBRl9JTkVUKSB8fCAoc2EtPnNzX2ZhbWlseSA9
+PSBBRl9JTkVUNikpIHsNCj4gKwkJbGVuICs9IHNjbnByaW50ZihidWYgKyBsZW4sIHNpemUgLSBs
+ZW4sICIlc2hvc3RfdHJhZGRyPSVwSVNjIiwNCj4gKwkJCQkobGVuKSA/ICIsIiA6ICIiLCBzYSk7
+DQo+ICsJfSBlbHNlIGlmIChjdHJsLT5vcHRzLT5tYXNrICYgTlZNRl9PUFRfSE9TVF9UUkFERFIp
+IHsNCj4gKwkJbGVuICs9IHNjbnByaW50ZihidWYgKyBsZW4sIHNpemUgLSBsZW4sICIlc2hvc3Rf
+dHJhZGRyPSVzIiwNCj4gKwkJCQkobGVuKSA/ICIsIiA6ICIiLCBjdHJsLT5vcHRzLT5ob3N0X3Ry
+YWRkcik7DQo+ICsJfQ0KPiArCWlmIChjdHJsLT5vcHRzLT5tYXNrICYgTlZNRl9PUFRfSE9TVF9J
+RkFDRSkNCj4gKwkJbGVuICs9IHNjbnByaW50ZihidWYgKyBsZW4sIHNpemUgLSBsZW4sICIlc2hv
+c3RfaWZhY2U9JXMiLA0KPiArCQkJCShsZW4pID8gIiwiIDogIiIsIGN0cmwtPm9wdHMtPmhvc3Rf
+aWZhY2UpOw0KPiArCWxlbiArPSBzY25wcmludGYoYnVmICsgbGVuLCBzaXplIC0gbGVuLCAiXG4i
+KTsNCj4gKw0KPiArCXJldHVybiBsZW47DQoNCm5pdDotIGhvdyBhYm91dCBmb2xsb3dpbmcgPw0K
+DQpyZXR1cm4gbGVuICsgc2NucHJpbnRmKGJ1ZiArIGxlbiwgc2l6ZSAtIGxlbiwgIlxuIik7DQoN
+Cj4gK30NCj4gKw0KPiAgIHN0YXRpYyBjb25zdCBzdHJ1Y3QgYmxrX21xX29wcyBudm1lX3RjcF9t
+cV9vcHMgPSB7DQo+ICAgCS5xdWV1ZV9ycQk9IG52bWVfdGNwX3F1ZXVlX3JxLA0KPiAgIAkuY29t
+bWl0X3Jxcwk9IG52bWVfdGNwX2NvbW1pdF9ycXMsDQo+IEBAIC0yNTYzLDcgKzI1OTUsNyBAQCBz
+dGF0aWMgY29uc3Qgc3RydWN0IG52bWVfY3RybF9vcHMgbnZtZV90Y3BfY3RybF9vcHMgPSB7DQo+
+ICAgCS5mcmVlX2N0cmwJCT0gbnZtZV90Y3BfZnJlZV9jdHJsLA0KPiAgIAkuc3VibWl0X2FzeW5j
+X2V2ZW50CT0gbnZtZV90Y3Bfc3VibWl0X2FzeW5jX2V2ZW50LA0KPiAgIAkuZGVsZXRlX2N0cmwJ
+CT0gbnZtZV90Y3BfZGVsZXRlX2N0cmwsDQo+IC0JLmdldF9hZGRyZXNzCQk9IG52bWZfZ2V0X2Fk
+ZHJlc3MsDQo+ICsJLmdldF9hZGRyZXNzCQk9IG52bWVfdGNwX2dldF9hZGRyZXNzLA0KPiAgIAku
+c3RvcF9jdHJsCQk9IG52bWVfdGNwX3N0b3BfY3RybCwNCj4gICB9Ow0KPiAgIA0KDQo=
 
