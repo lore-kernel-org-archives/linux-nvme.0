@@ -4,70 +4,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3151ECAAD1
-	for <linux-nvme@archiver.kernel.org>; Wed, 31 Aug 2022 18:50:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6BA15ECAAD1
+	for <linux-nvme@archiver.kernel.org>; Wed, 31 Aug 2022 18:51:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=diN0L+J4H81TvQbIYTfvEWCjK9q8m/EMK0tdXWtLRrQ=; b=R/FWFvBXTQatMY728ElHBz0nAt
-	FQJiuT/BLKC8UXdaUgGOdmEsb2DRgXJWFkMgLW82QKGDmKXq7N7F1VHDJLJRtRzu9YvgQF/p37vGs
-	uArEdn4GZAGmR10okPBuyN+hCttxQiZkpSoRdjYiLS06Lfi9hGPQH0Pf/kD+vJi1Plf5+BdodIXLE
-	ejd6xbdL8TbHOJzfLqbI3x0degnrqn52tr4I3Ixs6t+pyxHhL01ERX2jG1weeKiksH5Rh9Ynye4p8
-	pRUKivxnFvzF1cjQM9eThiXz667rMze0VzTRzPrH39y1g62HrVtZlXTykI8ZZVRu89H3HavSN4SFx
-	tGxGTshg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=v69ia9+Qq+66O0yla8u7te465MhQTuDEeMX5gmxAvCQ=; b=nIeLZSSsp+ACsPDT6LzFx9Rm5/
+	4F4TLWCa7tuL5o+PmL7H/q47ou+nOq6zazYjTsME7l96sH0PJU7M4asxzU6A0eBa6nLBzFVv2ooUq
+	h/Z2e0P0dG5HaEQAJ7cA0aSYFUonhcdkSPPFHlODtRPw6fURIzSEa9AC+3Bi5oBw2ZZ0SfvzIZL8O
+	YzhYwz01YkfPtZrUFCzeX3szY6umgaVQdoND8VPrlP4ynmjEqKXYBAWAI2zzJ02rxdb4NRlWlwVbe
+	MG1eKsD4UqAL/Y+7BHOFOF7tC0cUcjxJVLVQfFZoAPgLN9v6VXzIGXQwqzkWPpHZwAIgIaiv+gR+4
+	RDr2QyzQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oTSnM-007gHG-V2; Wed, 31 Aug 2022 18:50:36 +0000
-Received: from mail-wm1-f47.google.com ([209.85.128.47])
+	id 1oTSnr-007gNt-8M; Wed, 31 Aug 2022 18:51:07 +0000
+Received: from mail-bn8nam11olkn2010.outbound.protection.outlook.com ([40.92.20.10] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oTSnK-007gGK-4f
-	for linux-nvme@lists.infradead.org; Wed, 31 Aug 2022 18:50:36 +0000
-Received: by mail-wm1-f47.google.com with SMTP id bd26-20020a05600c1f1a00b003a5e82a6474so98409wmb.4
-        for <linux-nvme@lists.infradead.org>; Wed, 31 Aug 2022 11:50:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=diN0L+J4H81TvQbIYTfvEWCjK9q8m/EMK0tdXWtLRrQ=;
-        b=gPG4ZfD1+n7dAJgq+/ge1isdfzBMdkUGUXJc6fRhp+sBd9SzEMlaLF9s++0rSRFkAa
-         aja0tkSfD8oNEhbODcvV4zI1sfDFaLche+6L+0mKwtNGvoulg27DZUhTGfu1YaFSaQob
-         uiVxvsCYZzLctFysItQPyfyuQusJqjfN1ckwJ3nyx6Xh3gyc0dHjApHecKvgCxR2Eqyx
-         F1es3JP03mRgnkaXpj8wNMpJneZKuimHr0eFa8pRM+vJgzrcB4IPj0qs/udfI8vExb4X
-         ENEicDE2jwVHCj4SwP7fDbCeMVw9e1Fnrpqm0q3fmfDok6KOe/JKGBTeRWJWGAGSHHw/
-         WekA==
-X-Gm-Message-State: ACgBeo1Z3FgvNpwY1f/L0KfWEZsBTFzwXTd42oPN8m3eW44MmGPxBYoE
-	UJUHlAhglMyHCudnShk78gBT4hdFzDo=
-X-Google-Smtp-Source: AA6agR5QVFIeHsSkmzmPO/6OYxuTnlZLTDhBO9IxGyivmJt/JLjr4g3XS5vwWhz/++AtRwdMZ+IS8w==
-X-Received: by 2002:a05:600c:1f0f:b0:3a5:c132:66e9 with SMTP id bd15-20020a05600c1f0f00b003a5c13266e9mr2851723wmb.205.1661971831238;
-        Wed, 31 Aug 2022 11:50:31 -0700 (PDT)
-Received: from [10.100.102.14] (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
-        by smtp.gmail.com with ESMTPSA id v7-20020adfe287000000b002250f9abdefsm14771823wri.117.2022.08.31.11.50.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Aug 2022 11:50:30 -0700 (PDT)
-Message-ID: <ca7d5545-4630-59eb-3e50-6ca0594ba7c7@grimberg.me>
-Date: Wed, 31 Aug 2022 21:50:29 +0300
+	id 1oTSnp-007gLl-04
+	for linux-nvme@lists.infradead.org; Wed, 31 Aug 2022 18:51:06 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kIXZp4v1nD8VjTvoJSLBU+6qdl1O/d/f7geavbTyGmW3RjKqEHIgJVuFN6R6fmJo8Sadkri88SfVTDR5L+hyyBm2J3nq6CbayQpLpTlx3qbaqPyboYG0lmPyz9V6p138GrJXXE3RAec5dBm2ssLRsm5Q6hFMNDeyLBFuyCgKqu7kZ9St5oaZ4QUkzIgDOpoIcRFnNxHPulUAjrKkRrhnif1iMHfFjBkHO8WfJsG/EF3LgV//ByqaxcmEOi0ovatRF+YUTF2RxBENCeNWXcgqd1evMUQJ81mwWPQ8BVP5hJtqgSljEMk+gQIfNC0o/uh40Y+frAGDrzjd6sT3bjd3xw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=v69ia9+Qq+66O0yla8u7te465MhQTuDEeMX5gmxAvCQ=;
+ b=haNI3hOzdZuwTV+IS1AtfYfxuk6laUKyWltD7X9SrE1aIo7t12cg/PdbYHLQHJCzHbidi+XuGY23yETKUtTBmoo1DGkbll061Ojy9TFOalN3Q95jezYmEHDdtna4O93cOpg2pbnwrc7A5WJLY5ztJJLXPBSxb02g8+VBRuujlflqzXpnceVWX6SAWKxPzyE0ArNSsL6szkYLSFl0EYpiSH6sMtIcHU7E7kJN8cLfTGb3kDdH03AN/Ls8f2kD6L9z9VrL9jAZZIeya+q/Y+1y1REU28I/9GSg9tbFCmudrj7FOR9UNJ1tqjETqskVSDHSAn65BDKoSnRdM66eWhuh6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=v69ia9+Qq+66O0yla8u7te465MhQTuDEeMX5gmxAvCQ=;
+ b=cQXYzqGaMQvX7vABicnMi1nxRnwJS1YL4JjsfTaAB193ZCKpULVmPRe+cZL3RHXMgN+IypscR/S8ys3QybVIP7HW0jw3zpjKPYUWirlJGuGQ37wiTYTtV21mKhb8fBVHVeN2DAcOEz6ATYnFAMRzL71z8AylP1yj/b2TK5EQHC1rPwebM2qtlIbpxpjCZc+vXFRrjGTG7dyth7TpcssZGwQ/g/19YVlWhmdaxMp6nggdj//TENphIanD+PIsbKiL9gS8vCfV6k5kTzbQPoyxEu0TS3SCxh4+ajGGfqvCOHjfke6zITsbGzSd6Zzz3dx5MErXAATbR58osK0VK+yIzg==
+Received: from BL0PR13MB4291.namprd13.prod.outlook.com (2603:10b6:208:8e::12)
+ by BYAPR13MB2231.namprd13.prod.outlook.com (2603:10b6:a02:c7::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Wed, 31 Aug
+ 2022 18:50:57 +0000
+Received: from BL0PR13MB4291.namprd13.prod.outlook.com
+ ([fe80::99a0:3364:b3a8:f5fd]) by BL0PR13MB4291.namprd13.prod.outlook.com
+ ([fe80::99a0:3364:b3a8:f5fd%4]) with mapi id 15.20.5588.010; Wed, 31 Aug 2022
+ 18:50:57 +0000
+From: Martin Belanger <nitram_67@hotmail.com>
+To: linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org,
+	hare@suse.de,
+	axboe@fb.com,
+	hch@lst.de,
+	sagi@grimberg.me,
+	Martin Belanger <martin.belanger@dell.com>
+Subject: [PATCH] nvme-tcp: Print actual source IP address in address attribute
+Date: Wed, 31 Aug 2022 14:50:36 -0400
+Message-ID:  <BL0PR13MB4291FE38A1741F311081106B9C789@BL0PR13MB4291.namprd13.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [avhzLENTm9lKBGwTdk+QBw+bDP/ChAAY]
+X-ClientProxiedBy: SA9PR10CA0011.namprd10.prod.outlook.com
+ (2603:10b6:806:a7::16) To BL0PR13MB4291.namprd13.prod.outlook.com
+ (2603:10b6:208:8e::12)
+X-Microsoft-Original-Message-ID:  <20220831185036.31860-1-nitram_67@hotmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: nvme-tcp: i/o errors and stalled host from failure to send
- command pdus
-Content-Language: en-US
-To: Jonathan Nicklin <jnicklin@blockbridge.com>
-Cc: linux-nvme@lists.infradead.org
-References: <CAHex0cqr8Sn1ydFjRbwkG8LOMqBXEHL2YpYu_vO8658xLzouww@mail.gmail.com>
- <eb6b09b6-c899-e3b8-3217-02f8833818cd@grimberg.me>
- <CAHex0coajr37Xe_XE3sx+kgNosOD_d8N_SQcK=hT4NDAM8suBg@mail.gmail.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <CAHex0coajr37Xe_XE3sx+kgNosOD_d8N_SQcK=hT4NDAM8suBg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 63e9a7a2-880b-42da-b712-08da8b81bccb
+X-MS-TrafficTypeDiagnostic: BYAPR13MB2231:EE_
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	yk4SJmUDrqTVX0NSd1sw/k4Fcp0COxPDt8+8lPYb7xoYy0WmyhRucZnQ9lMX6fKGSphVh3v2s0JkWcZijsMnGVoivwME0D8pVIQIYeyzBYY+HE9tSj+SZyGuVbtYMYRHzQntCIq23pMRhwVX3HOzAftiHdC3iMc/4m3FB+tFwUmgeFDv17SJ2lb22QSiUX4RJ5PUF7L3GDT/wk/1LzpxCnv581dhQirXFJvWyLe/fBlRizk/6FJZU6eW+JXCX31as84EM/HF9eO2wVRCINCIQdKPa/WyVrnf//3wJlhamsBWs28qM0Gx7oInqG/pOWmMpD4TK4HlvhEfJTDJN++D5u4p8tY9JSycCW7jIfNK3Dawszv9Rq0pmNf5GOL+r2eB5Sa1gg5757IUtqX00tO/G5+ExImkKwvCTUDt4TiTTuWONmarTilS59/IFPX42iU3vusMGz3/N4HQiTi7DJjAwDfP1xe/AXnCUXNJAcHchfceAEKVNDlP98UDpvs3WIuO6OZCrVTcR53VZOwbGC4jzUsrVf7+cdShJXC658x9hDWu2dwqhnYGorjk7rEkVypzWcuSJIyHbJR1mtARvZPaAmQzbPyXt0bUzmaXZSO0I14kyrZsTnCuV2RLVfYUh9EZ
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?Xh3/7HNs6CwzQxw5F5G4/c0wgoYqdj5VvC3B+G21OqANI1a/Vb5cimLi80h1?=
+ =?us-ascii?Q?Vlcxs6xeBndZoJ8CFmDgbXuqVkmnc/No3e+FuCJv6LUhREOijIjHosMtX7YC?=
+ =?us-ascii?Q?vRhNfonjGyOFvt+cXa1hXrTy/6xYhBPzxYhW7jlE/f9TiwTsnlBICv61UAaw?=
+ =?us-ascii?Q?6mp+NLe4LZRVKHvAVeKUmzUli3ausZX/MMe4mEZNTJ1dQC19YicRq2nTaeOS?=
+ =?us-ascii?Q?E5pepAdmF184+sOL15XchIF4+IfRBNTnMcEhS/GPhHv0KEAhNwz5A39O4CI8?=
+ =?us-ascii?Q?AVEVvmdG398h3LgV8eoSj+JZOpOS+6OS+dY8Iz5F7iptN/m3xX6BLEy2APfc?=
+ =?us-ascii?Q?HWlTWR0yYv7Gkb6KzSyPcNVabIocU1zLoZ8UoOmb66MWSKXNWgOeb3ti2w3G?=
+ =?us-ascii?Q?5rhdLqucUiUETxzzZnH+H9Vr56FZujUdZiyMSt33HzF/Lkcr7ltAxh46oGXr?=
+ =?us-ascii?Q?8B6TW6muQUsa/Vb6isjByMLrOYiHcqXicBub5IySkY7dzngyjuyaz2JnYBYQ?=
+ =?us-ascii?Q?DEqst8M25ogvf8KfeRlYiTt0xfFvSbibDs5c/XSjgjylMyqT7wOLwh/sgjlO?=
+ =?us-ascii?Q?Zvfr9Y8PZREXnHbUPnOLFEaMmDv25C+bPk36/YVCotRKPMBlsGoEMhVfnAkw?=
+ =?us-ascii?Q?dQsUR2YqIpIzfnJxvRgjqxUOXcg/P6Xj4Paw0Kqxp5uy8KrAVVu1dd/EZ9Bq?=
+ =?us-ascii?Q?nS86PDSkGB4zZpH9v2cO1r2w5r/nWtbWrE5iRWeu2l4y0eGQbiugGPq4IvkW?=
+ =?us-ascii?Q?NKHC9JZwpjSnYk44HefPN+5PvdpCsM2MPJDiz8cis1iWIZkl8ldLuPQBeYd4?=
+ =?us-ascii?Q?89msVFqtqqeWa2m75+jhs6BWeIO04PeEHzjLTdWJYs1KIMUPH5t7lD1clx3V?=
+ =?us-ascii?Q?xTbVYmU7SlhPE0BM1yPCsJhyUopA4XdFAoU9aUUqlzuvW/l28v5IeRIQIS0f?=
+ =?us-ascii?Q?abf9jBxyxDd1HGL4vPRu60URPkDM4KMqLbcsyLXLZHuVDCiQj6anie5eZkaH?=
+ =?us-ascii?Q?OjVh4eBx1jYuqd6H9Z1tmiAVFv98ThG4Qk9gDSxMo35EnR0xBX9RLlVjXmBD?=
+ =?us-ascii?Q?RmIhcsfDUvi3hbLVOwkVFQeciOMs8yIX6c+goOZk4RELQsTwASs9bsMtIVMS?=
+ =?us-ascii?Q?EZ8YzveExXHh0SGfqSUst+ZKGsKNy2xiOXGqB1X2pV44S1Qks89uc+vFqi2D?=
+ =?us-ascii?Q?k66bi1h/xhNjauOjeBK2H7mb/vCXOhY9rNzzFcjf8GpADhTvKhhXI/bmu3wo?=
+ =?us-ascii?Q?pqxiPeAe04VEXfYnYoxpFLSU9o7eCuOOL2tPE+8leQ=3D=3D?=
+X-OriginatorOrg: sct-15-20-4778-2-msonline-outlook-da780.templateTenant
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR13MB2231
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220831_115034_221157_1512EE67 
-X-CRM114-Status: GOOD (  27.58  )
+X-CRM114-CacheID: sfid-20220831_115105_161540_8D15B144 
+X-CRM114-Status: GOOD (  18.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,169 +115,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+From: Martin Belanger <martin.belanger@dell.com>
 
+TCP transport relies on the routing table to determine which
+source address and interface to use when making a connection.
+Currently, there is no way to tell from userspace where a
+connection was made. This patch allows exposing the actual source
+address using the host_traddr field of the address attribute.
 
-On 8/31/22 19:04, Jonathan Nicklin wrote:
-> On Wed, Aug 31, 2022 at 5:02 AM Sagi Grimberg <sagi@grimberg.me> wrote:
->>
->>
->>> Hello,
->>
->> Hey Jonathan,
->>
->>> We've seen sporadic I/O errors with nvme-tcp in our lab when testing
->>> with kernel versions 5.15 through 5.19. Using a combination of tracing
->>> events and network traces, we can see nvme_setup_cmd() trace events
->>> that do not result in transmitted commands PDUs.
->>>
->>> Here's a snippet of the relevant portion of the nvme trace. The
->>> following events are the last of tens of thousands of successully
->>> executed reads...
->>>
->>> tar-9004    [004] ..... 22457.614117: nvme_setup_cmd:
->>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=53272, nsid=1, flags=0x0, meta=0x0,
->>>     cmd=(nvme_cmd_read slba=15760448, len=55, ctrl=0x8000, dsmgmt=7, reftag=0)
->>> tar-9004    [004] ..... 22457.614118: nvme_setup_cmd:
->>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=61463, nsid=1, flags=0x0, meta=0x0,
->>>     cmd=(nvme_cmd_read slba=15760384, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
->>> tar-9004    [004] ..... 22457.614119: nvme_setup_cmd:
->>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=16406, nsid=1, flags=0x0, meta=0x0,
->>>     cmd=(nvme_cmd_read slba=15760376, len=7, ctrl=0x8000, dsmgmt=7, reftag=0)
->>> tar-9004    [004] ..... 22457.614119: nvme_setup_cmd:
->>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=28693, nsid=1, flags=0x0, meta=0x0,
->>>     cmd=(nvme_cmd_read slba=15760312, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
->>> tar-9004    [004] ..... 22457.614119: nvme_setup_cmd:
->>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=40980, nsid=1, flags=0x0, meta=0x0,
->>>     cmd=(nvme_cmd_read slba=15760248, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
->>>
->>> The following 5 commands are issued to nvme, but never make it to the
->>> wire. The wire state was verified manually using tcpdump on the host and
->>> trace events on the target. Perhaps the "need-resched" marker in the
->>> trace and the context switch to the kernel worker are relevant
->>> to the failure?
->>>
->>> tar-9004    [004] .n... 22457.614171: nvme_setup_cmd:
->>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=61469, nsid=1, flags=0x0, meta=0x0,
->>>     cmd=(nvme_cmd_read slba=15760704, len=55, ctrl=0x8000, dsmgmt=7, reftag=0)
->>> kworker/4:1H-8668    [004] ..... 22457.614183: nvme_setup_cmd:
->>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=45084, nsid=1, flags=0x0, meta=0x0,
->>>     cmd=(nvme_cmd_read slba=15760640, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
->>> kworker/4:1H-8668    [004] ..... 22457.614184: nvme_setup_cmd:
->>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=28699, nsid=1, flags=0x0, meta=0x0,
->>>     cmd=(nvme_cmd_read slba=15760632, len=7, ctrl=0x8000, dsmgmt=7, reftag=0)
->>> kworker/4:1H-8668    [004] ..... 22457.614184: nvme_setup_cmd:
->>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=40986, nsid=1, flags=0x0, meta=0x0,
->>>     cmd=(nvme_cmd_read slba=15760568, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
->>> kworker/4:1H-8668    [004] ..... 22457.614184: nvme_setup_cmd:
->>>     nvme1: disk=nvme1c1n1, qid=5, cmdid=16409, nsid=1, flags=0x0, meta=0x0,
->>>     cmd=(nvme_cmd_read slba=15760504, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
->>>
->>> The reads above eventually timeout and recover after reset. Here are
->>> the related reset messages.
->>>
->>> [22486.420606] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760568, 64 blocks, I/O
->>> Error (sct 0x3 / sc 0x71)
->>> [22486.429326] I/O error, dev nvme1c1n1, sector 15760568 op 0x0:(READ)
->>> flags 0x4084700 phys_seg 1 prio class 0
->>> [22486.439262] nvme nvme1: queue 5: timeout request 0x1b type 4
->>> [22486.461788] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760632, 8 blocks, I/O
->>> Error (sct 0x3 / sc 0x71)
->>> [22486.470440] I/O error, dev nvme1c1n1, sector 15760632 op 0x0:(READ)
->>> flags 0x4084700 phys_seg 1 prio class 0
->>> [22486.480386] nvme nvme1: queue 5: timeout request 0x1c type 4
->>> [22486.486256] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760640, 64 blocks, I/O
->>> Error (sct 0x3 / sc 0x71)
->>> [22486.494994] I/O error, dev nvme1c1n1, sector 15760640 op 0x0:(READ)
->>> flags 0x4084700 phys_seg 2 prio class 0
->>> [22486.504946] nvme nvme1: queue 5: timeout request 0x1d type 4
->>> [22486.510822] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760704, 56 blocks, I/O
->>> Error (sct 0x3 / sc 0x71)
->>> [22486.519563] I/O error, dev nvme1c1n1, sector 15760704 op 0x0:(READ)
->>> flags 0x4080700 phys_seg 2 prio class 0
->>> [22486.529723] nvme1c1n1: I/O Cmd(0x2) @ LBA 15760504, 64 blocks, I/O
->>> Error (sct 0x3 / sc 0x71)
->>> [22486.538610] I/O error, dev nvme1c1n1, sector 15760504 op 0x0:(READ)
->>> flags 0x4084700 phys_seg 2 prio class 0
->>>
->>> To further aid in debugging, I resurrected Keith's nvme_tcp tracing event
->>> patch from a ways back. If my understanding is correct,
->>> nvme_tcp_cmd_pdu() is being called for the commands in question.
->>>
->>> I've isolated the failure to a scenario we can reproduce at will
->>> in about a minute of runtime. Is there any additional debug that we can
->>> provide to help locate the bug?
->>
->> Would be interesting to understand if for these requests,
->> nvme_tcp_queue_request scheduled io_work or not (can be marked on the
->> command and printed during the timeout expiration). If not, would be
->> interesting to understand why.
-> 
-> Okay, here's a repro with a bit more context. I recorded the state
-> from nvme_tcp_queue_request() in the request and printed it out as you
-> suggested. I also added trace events for nvme_tcp_queue_rq() to make
-> it easier to match the state.
-> 
-> - lock is the return value of trylock() (if executed)
-> - more is the return value of nvme_tcp_queue_more(if executed)
-> - this_cpu is raw_smp_processor_id();
-> 
-> Here's the trace output for the failed requests with the associated
-> completion messages (from dmesg) stitched in.
-> 
->    tar-2153 [001] .....   536.383588: nvme_tcp_queue_rq:
->      nvme1: qid=2 tag=5 op=0 data_len=32768
->    tar-2153 [001] .....   536.383588: nvme_setup_cmd:
->      nvme1: disk=nvme1c1n1, qid=2, cmdid=8197, nsid=1, flags=0x0, meta=0x0,
->        cmd=(nvme_cmd_read slba=9950336, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
->    dmesg.out           [  565.574700] nvme_tcp_queue_request()
->      state: tag 0x5 io_cpu 1 this_cpu 1 lock 1 sync 1 empty 1 last 0 more 1
+Why is this important? This will make it possible to diagnose and
+identify connectivity issues. With this, we'll be able to tell
+which interface and source address is associated with each
+connection.
 
-This is strange...
-cpu matches, and the lock is taken, this means that the request should
-have been sent immediately to the wire...
+Signed-off-by: Martin Belanger <martin.belanger@dell.com>
+---
+ drivers/nvme/host/tcp.c | 34 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 33 insertions(+), 1 deletion(-)
 
-However last=0, this will make the send marked with MSG_SENDPAGE_NOTLAST
-which means the network stack will not send it right away...
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 044da18c06f5..adbb76483a74 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -165,6 +165,7 @@ struct nvme_tcp_ctrl {
+ 	struct blk_mq_tag_set	admin_tag_set;
+ 	struct sockaddr_storage addr;
+ 	struct sockaddr_storage src_addr;
++	struct sockaddr_storage sock_addr;
+ 	struct nvme_ctrl	ctrl;
+ 
+ 	struct work_struct	err_work;
+@@ -1597,6 +1598,12 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+ 		goto err_rcv_pdu;
+ 	}
+ 
++	/* Retrieve the actual source address from the socket */
++	ret = kernel_getsockname(queue->sock,
++		(struct sockaddr *)&ctrl->sock_addr);
++	if (ret < 0)
++		memset(&ctrl->sock_addr, 0, sizeof(ctrl->sock_addr));
++
+ 	ret = nvme_tcp_init_connection(queue);
+ 	if (ret)
+ 		goto err_init_connect;
+@@ -2532,6 +2539,31 @@ static int nvme_tcp_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
+ 	return queue->nr_cqe;
+ }
+ 
++static int nvme_tcp_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
++{
++	int len = 0;
++	struct sockaddr_storage *sa = &to_tcp_ctrl(ctrl)->sock_addr;
++
++	if (ctrl->opts->mask & NVMF_OPT_TRADDR)
++		len += scnprintf(buf, size, "traddr=%s", ctrl->opts->traddr);
++	if (ctrl->opts->mask & NVMF_OPT_TRSVCID)
++		len += scnprintf(buf + len, size - len, "%strsvcid=%s",
++				(len) ? "," : "", ctrl->opts->trsvcid);
++	if ((sa->ss_family == AF_INET) || (sa->ss_family == AF_INET6)) {
++		len += scnprintf(buf + len, size - len, "%shost_traddr=%pISc",
++				(len) ? "," : "", sa);
++	} else if (ctrl->opts->mask & NVMF_OPT_HOST_TRADDR) {
++		len += scnprintf(buf + len, size - len, "%shost_traddr=%s",
++				(len) ? "," : "", ctrl->opts->host_traddr);
++	}
++	if (ctrl->opts->mask & NVMF_OPT_HOST_IFACE)
++		len += scnprintf(buf + len, size - len, "%shost_iface=%s",
++				(len) ? "," : "", ctrl->opts->host_iface);
++	len += scnprintf(buf + len, size - len, "\n");
++
++	return len;
++}
++
+ static const struct blk_mq_ops nvme_tcp_mq_ops = {
+ 	.queue_rq	= nvme_tcp_queue_rq,
+ 	.commit_rqs	= nvme_tcp_commit_rqs,
+@@ -2563,7 +2595,7 @@ static const struct nvme_ctrl_ops nvme_tcp_ctrl_ops = {
+ 	.free_ctrl		= nvme_tcp_free_ctrl,
+ 	.submit_async_event	= nvme_tcp_submit_async_event,
+ 	.delete_ctrl		= nvme_tcp_delete_ctrl,
+-	.get_address		= nvmf_get_address,
++	.get_address		= nvme_tcp_get_address,
+ 	.stop_ctrl		= nvme_tcp_stop_ctrl,
+ };
+ 
+-- 
+2.37.2
 
-> 
->   tar-2153  [001] .N...   536.383594: nvme_tcp_queue_rq:
->     nvme1: qid=2 tag=4 op=0 data_len=32768
->   tar-2153  [001] .N...   536.383594: nvme_setup_cmd:
->     nvme1: disk=nvme1c1n1, qid=2, cmdid=16388, nsid=1, flags=0x0, meta=0x0,
->       cmd=(nvme_cmd_read slba=9950272, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
->   dmesg.out            [  565.540965] nvme_tcp_queue_request()
->     state: tag 0x4 io_cpu 1 this_cpu 5 lock 1 sync 1 empty 1 last 0 more 1
-
-Same here... sent down the network stack, but with MSG_SENDPAGE_NOTLAST.
-
-> kworker/1:0H-23  [001] .....   536.383619: nvme_tcp_queue_rq:
->    nvme1: qid=2 tag=3 op=0 data_len=32768
-> kworker/1:0H-23  [001] .....   536.383619: nvme_setup_cmd:
->    nvme1: disk=nvme1c1n1, qid=2, cmdid=24579, nsid=1, flags=0x0, meta=0x0,
->      cmd=(nvme_cmd_read slba=9950208, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> dmesg.out              [  565.490597] nvme_tcp_queue_request()
->    state: tag 0x3 io_cpu 1 this_cpu 1 lock 0 sync 1 empty 0 last 0 more 1
-
-Here, the queue is not empty, so we are not sending right away, and its
-also not the last in the batch, so we are also not queueing io_work, we
-will wait for the last request in the batch to schedule io_work, to send
-the batch to the network.
-
-> kworker/1:0H-23  [001] .....   536.383620: nvme_tcp_queue_rq:
->    nvme1: qid=2 tag=2 op=0 data_len=32768
-> kworker/1:0H-23  [001] .....   536.383620: nvme_setup_cmd:
->    nvme1: disk=nvme1c1n1, qid=2, cmdid=40962, nsid=1, flags=0x0, meta=0x0,
->      cmd=(nvme_cmd_read slba=9950144, len=63, ctrl=0x8000, dsmgmt=7, reftag=0)
-> dmesg.out                   [  565.470687] nvme_tcp_queue_request()
->    state: tag 0x2 io_cpu 1 this_cpu 1 lock 0 sync 1 empty 0 last 1 more 1
-
-Here again, the queue is not empty, and its the last request in the 
-batch, so we should have scheduled io_work to send the queued requests
-in the send_list along.
-
-These are not necessarily requests that were one after the other,
-however the last request, should have flushed all the prior ones...
-
-Can you add an indication that a command was actually sent to the wire
-(i.e. nvme_tcp_try_send_cmd_pdu() sends the entire cmd pdu).
 
