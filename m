@@ -4,67 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD13AECAAD4
-	for <linux-nvme@archiver.kernel.org>; Wed, 31 Aug 2022 21:20:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11408ECAAD4
+	for <linux-nvme@archiver.kernel.org>; Wed, 31 Aug 2022 23:42:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+e2KyNq8htAbaRkJoJGIVXxX+Vbj7WX7arDayr4Vf1c=; b=F6zepUbLts6Yn0qUdvQp6yVIXP
-	luv5rIeF1ZGVuwFnbo7wTQDtIKbjMaIqViCWZXSDanWMObLmONprv1UYSoLM310mUQ3DETEBarue2
-	f4wI0VEudTl34t4HSvlwQNl0NixpDoplJCf3U26/XGMnX8FOF77OglsD2jueKkialflRfwFeHBOzf
-	6V3cp6FJ6cHwgoVqFxMjtvgh1IjUTOlFgSJcXhMPVXfkKcZrVcJWUOC2iiGPMCosA855KHexnNUkV
-	GbKGaW8vKyy0t/gITDB3LYnHuTdZhX4LxHHnr3cgKM8/A/LXuo0fp9LOSaBSABaAnghEqTYhnqAqk
-	71QEeBAg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=PAKB8jhmEF/GRWdf3uTU2kfzS6KcGIJ8MzfMRxjhBJE=; b=0N2wPCZa6DEVtt82OQIUdY6wFx
+	SYSM4XQYFSiCAk5arhaWwDBrJzqEv4vqNbmbivZOMgVOIWpXTm2SQQbOvpIXlRVLPPPIgj9J8qfqM
+	BgSdMAhvxibCbcNdImcqnzcaV9UBNlrHMsVfty+9aN0rNOYbNs1HSByafcOQGmt2yJwYJTAYtwcox
+	QXZcSOOuMpVqp0PH8C/0zvy/AGCXisdQysHIUtXr8JhNCi0CV5lQXHPqfmFmEpqudmIOA/q2XO3Jr
+	bpU8XbEVTSMV2q1x9103n+6lkvBtL4CMmdm74wxbM9q60AUxZrDMTxl1rxl1wlW4Q/PGBiLv3G9RW
+	BW5QgcAg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oTV7u-008Is4-Cs; Wed, 31 Aug 2022 21:19:58 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1oTXLa-008efe-5U; Wed, 31 Aug 2022 23:42:14 +0000
+Received: from mail-wr1-f46.google.com ([209.85.221.46])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oTV7r-008IrT-0S
-	for linux-nvme@lists.infradead.org; Wed, 31 Aug 2022 21:19:56 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 6A2A2619D6;
-	Wed, 31 Aug 2022 21:19:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8826FC433D6;
-	Wed, 31 Aug 2022 21:19:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1661980793;
-	bh=EuFVtF27UHzZ95m2iAVZr88pBg2NFFrI0iNLOelRyrg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Wljct3mBAodbROj8O/9kcBwlEJPrCw4g2YpmVaVswGofxdOZBYvrIE8+6eh9YfBir
-	 klg/v3l7dfsHdTX/SQxogCaudW9U6u7Wz+t1mLOORCl8zws8d83jAwrHCCgFVtw+X0
-	 +MIS81RaFP9pSm2aLQVGY1p5T8j/tr8Yu3ob9Tkj5O+2h8lSEX6jzIYeIknePODM2x
-	 zXXQak7U22takWnvrBDyCc2LOBM6JxjOEi98IUOj5EBTrxZgddGU0lVtKQwNxHlrzG
-	 VZVwDYklnwrT8kqS+2ziWX65x4wuzl5efs6oClsQnV+pbWPGo0XPFuGaJBfCtgiRk5
-	 zpw1BC5hLlrAQ==
-Date: Wed, 31 Aug 2022 15:19:49 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@fb.com>, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, io-uring@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, axboe@kernel.dk,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Kernel Team <Kernel-team@fb.com>
-Subject: Re: [PATCHv3 0/7] dma mapping optimisations
-Message-ID: <Yw/Qdf+280vZSYU4@kbusch-mbp.dhcp.thefacebook.com>
-References: <20220805162444.3985535-1-kbusch@fb.com>
- <20220809064613.GA9040@lst.de>
- <YvKPTGf56v/3iSxg@kbusch-mbp.dhcp.thefacebook.com>
- <20220809184137.GB15107@lst.de>
- <YvPzUSx87VkwSH2C@kbusch-mbp.dhcp.thefacebook.com>
- <20220811072232.GA13803@lst.de>
+	id 1oTXLX-008efH-MY
+	for linux-nvme@lists.infradead.org; Wed, 31 Aug 2022 23:42:13 +0000
+Received: by mail-wr1-f46.google.com with SMTP id b16so12556097wru.7
+        for <linux-nvme@lists.infradead.org>; Wed, 31 Aug 2022 16:42:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=PAKB8jhmEF/GRWdf3uTU2kfzS6KcGIJ8MzfMRxjhBJE=;
+        b=ZdtFrxpuhC66+kCqxtcFZIsPg8q6cQtVwrHb/h86VpE6khIzTZDk/1JTfgxWlyX9eN
+         ruucOL132ld2I0pkSWYw+kD/qGUUjrBcdcryvnNAuE9evgoo9uAPUM7OmtRyPOE60jbN
+         3e3iG9Kb3FGsct41PTC3m+uRKLr+CJwmv1gNAiJnJBr7+Nr22AaMDtuyuOOwqIUfSWB0
+         dtvpWuH0YNkhB+OKToT5e2PhiSLIcCBAPElttd8USSGcQNeE0TGkXW2IzjV/ON+Y1G6b
+         EMxXkrHD1Vo2fdtkZJRftj1fzgAU3D1ETC/dR/fTeTdk8M+EYPT0Mq8YNcrnbSDr8S/M
+         nnlg==
+X-Gm-Message-State: ACgBeo2s8MeOE8Ja9YczXzESAvQQ/jqgcfhtAJ+Ky+FvmhE7a8Ksua5l
+	G1xlvNQtwPq6yGXfMCilRLSbcFeqZc4=
+X-Google-Smtp-Source: AA6agR7a04DjBgxrpqdaPY1LPi8xqVH14VOfhlorPbDAGVHf7b2HBU9CoKMDpFJIdcaiXNB3u+BS0A==
+X-Received: by 2002:adf:f387:0:b0:225:3d19:adf1 with SMTP id m7-20020adff387000000b002253d19adf1mr12511572wro.520.1661989327971;
+        Wed, 31 Aug 2022 16:42:07 -0700 (PDT)
+Received: from [10.100.102.14] (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
+        by smtp.gmail.com with ESMTPSA id k27-20020a05600c1c9b00b003a845fa1edfsm9167828wms.3.2022.08.31.16.42.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 Aug 2022 16:42:07 -0700 (PDT)
+Message-ID: <715a183c-f888-74f2-9217-b9b430f16d1e@grimberg.me>
+Date: Thu, 1 Sep 2022 02:42:06 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220811072232.GA13803@lst.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: nvme-tcp: i/o errors and stalled host from failure to send
+ command pdus
+Content-Language: en-US
+To: Jonathan Nicklin <jnicklin@blockbridge.com>
+Cc: linux-nvme@lists.infradead.org
+References: <CAHex0cqr8Sn1ydFjRbwkG8LOMqBXEHL2YpYu_vO8658xLzouww@mail.gmail.com>
+ <eb6b09b6-c899-e3b8-3217-02f8833818cd@grimberg.me>
+ <CAHex0coajr37Xe_XE3sx+kgNosOD_d8N_SQcK=hT4NDAM8suBg@mail.gmail.com>
+ <ca7d5545-4630-59eb-3e50-6ca0594ba7c7@grimberg.me>
+ <CAHex0coXdbR28S1PPSGuqJRH2JFZ4VpTg8NzfWFpHyBehK2urw@mail.gmail.com>
+ <CAHex0cqVOuSXf759Wdr3NS5gGCve+J-TUSNsvvbEpS7ONvFhMw@mail.gmail.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <CAHex0cqVOuSXf759Wdr3NS5gGCve+J-TUSNsvvbEpS7ONvFhMw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220831_141955_171723_88579D76 
-X-CRM114-Status: GOOD (  28.94  )
+X-CRM114-CacheID: sfid-20220831_164211_786950_AB15A906 
+X-CRM114-Status: GOOD (  11.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,88 +85,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 11, 2022 at 09:22:32AM +0200, Christoph Hellwig wrote:
-> On Wed, Aug 10, 2022 at 12:05:05PM -0600, Keith Busch wrote:
-> > The functions are implemented under 'include/linux/', indistinguishable from
-> > exported APIs. I think I understand why they are there, but they look the same
-> > as exported functions from a driver perspective.
+
 > 
-> swiotlb.h is not a driver API.  There's two leftovers used by the drm
-> code I'm trying to get fixed up, but in general the DMA API is the
-> interface and swiotlb is just an implementation detail.
+> Here's a trace including state from nvme_tcp_try_send_cmd_pdu(), like so.
 > 
-> > Perhaps I'm being daft, but I'm totally missing why I should care if swiotlb
-> > leverages this feature. If you're using that, you've traded performance for
-> > security or compatibility already. If this idea can be used to make it perform
-> > better, then great, but that shouldn't be the reason to hold this up IMO.
+> req->dbg.send = 1;
+> ret = kernel_sendpage(queue->sock, virt_to_page(pdu), offset, len, flags);
+> req->dbg.sendpage = ret;
 > 
-> We firstly need to make sure that everything actually works on swiotlb, or
-> any other implementation that properly implements the DMA API.
 > 
-> And the fact that I/O performance currently sucks and we can fix it on
-> the trusted hypervisor is an important consideration.  At least as
-> importantant as micro-optimizing performance a little more on setups
-> not using them.  So not taking care of both in one go seems rather silly
-> for a feature that is in its current form pretty intrusive and thus needs
-> a really good justification.
+> nvme-trace.out
+> 
+> tar-1785    [005] .....   232.768892:nvme_tcp_queue_rq:
+>   nvme1: qid=6 tag=18 op=0 data_len=20480
+> tar-1785    [005] .....   232.768894: nvme_tcp_queue_rq:
+>   nvme1: qid=6 tag=17 op=0 data_len=32768
+> tar-1785    [005] .N...   232.768895: nvme_tcp_queue_rq:
+>   nvme1: qid=6 tag=14 op=0 data_len=32768
+> kworker/5:1H-475     [005] .....   232.768923: nvme_tcp_queue_rq:
+>   nvme1: qid=6 tag=13 op=0 data_len=32768
+> kworker/5:1H-475     [005] .....   232.768924: nvme_tcp_queue_rq:
+>   nvme1: qid=6 tag=12 op=0 data_len=12288
+> tar-1785    [007] .....   232.769141: nvme_tcp_queue_rq:
+>   nvme1: qid=8 tag=69 op=0 data_len=20480
+> 
+> 
+> dmesg.out (reordered to match nvme-trace.out)
+> 
+> [  262.889536] nvme nvme1: state: tag 0x18 io_cpu 5 smp_id 5 smp_id2 5 sync 1
+>   empty 1 lock 1 last 0 more 0 send 0 sendpage -1
 
-Sorry for the delay response; I had some trouble with test setup.
+Something is not adding up...
+lock=1, means that we get into nvme_tcp_send_all(), but somehow we are 
+not able to send it to the wire?
 
-Okay, I will restart developing this with swiotlb in mind.
+I'd look into this and add indication that it is pulled from the
+req_list, and in turn from the send_list. It looks like it is somehow
+picked out and silteny dropped, because as long as it is on the list(s)
+another context should have picked it up at some point...
 
-In the mean time, I wanted to share some results with this series because I'm
-thinking this might be past the threshold for when we can drop the "micro-"
-prefix on optimisations.
-
-The most significant data points are these:
-
-  * submission latency stays the same regardless of the transfer size or depth
-  * IOPs is always equal or better (usually better) with up to 50% reduced
-    cpu cost
-
-Based on this, I do think this type of optimisation is worth having a something
-like a new bio type. I know this introduces some complications in the io-path,
-but it is pretty minimal and doesn't add any size penalties to common structs
-for drivers that don't use them.
-
-Test details:
-
-  fio with ioengine=io_uring
-    'none': using __user void*
-    'bvec': using buf registered with IORING_REGISTER_BUFFERS
-    'dma': using buf registered with IORING_REGISTER_MAP_BUFFERS (new)
-
-  intel_iommu=on
-
-Results:
-
-(submission latency [slat] in nano-seconds)
-Q-Depth 1:
-
- Size |  Premap  |   IOPs  |  slat  | sys-cpu%
- .....|..........|.........|........|.........
- 4k   |    none  |  41.4k  |  2126  |   16.47%
-      |    bvec  |  43.8k  |  1843  |   15.79%
-      |     dma  |  46.8k  |  1504  |   14.94%
- 16k  |    none  |  33.3k  |  3279  |   17.78%
-      |    bvec  |  33.9k  |  2607  |   14.59%
-      |     dma  |  40.2k  |  1490  |   12.57%
- 64k  |    none  |  18.7k  |  6778  |   18.22%
-      |    bvec  |  20.0k  |  4626  |   13.80%
-      |     dma  |  22.6k  |  1586  |    7.58%
-
-Q-Depth 16:
-
- Size |  Premap  |   IOPs  |  slat  | sys-cpu%
- .....|..........|.........|........|.........
- 4k   |    none  |   207k  |  3657  |   72.81%
-      |    bvec  |   219k  |  3369  |   71.55%
-      |     dma  |   310k  |  2237  |   60.16%
- 16k  |    none  |   164k  |  5024  |   78.38%
-      |    bvec  |   177k  |  4553  |   76.29%
-      |     dma  |   186k  |  1880  |   43.56%
- 64k  |    none  |  46.7k  |  4424  |   30.51%
-      |    bvec  |  46.7k  |  4389  |   29.42%
-      |     dma  |  46.7k  |  1574  |   15.61%
-
+> [  262.889337] nvme nvme1: state: tag 0x17 io_cpu 5 smp_id 5 smp_id2 5 sync 1
+>   empty 1 lock 1 last 0 more 0 send 0 sendpage -1
+> [  262.889110] nvme nvme1: state: tag 0x14 io_cpu 5 smp_id 5 smp_id2 7 sync 1
+>   empty 1 lock 1 last 0 more 0 send 0 sendpage -1
+> [  262.888864] nvme nvme1: state: tag 0x13 io_cpu 5 smp_id 5 smp_id2 5 sync 1
+>   empty 0 lock 0 last 0 more 1 send 1 sendpage 72
+> [  262.888727] nvme nvme1: state: tag 0x12 io_cpu 5 smp_id 5 smp_id2 5 sync 1
+>   empty 0 lock 0 last 1 more 1 send 1 sendpage 72
 
