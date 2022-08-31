@@ -4,46 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0B2AECAAD3
-	for <linux-nvme@archiver.kernel.org>; Wed, 31 Aug 2022 04:58:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44589ECAAD8
+	for <linux-nvme@archiver.kernel.org>; Wed, 31 Aug 2022 04:59:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bc9/3RFQ3/BYv5GKcvhxJWM/+fz93rvd/+K14B4oPhk=; b=T/rYEC5v0fansJqDZrGtiNB0hi
-	HSVrhrg9beZy/nrwaF89RRaJ+u0tW9pFQFfWBC34dYaKmo40ITSlpFrYf7BBusr+jSRrI4LAoH7JF
-	UfxX0xur6hvjmsd1on2TA7s3hUQLIQau67fJNoAyyM9kpAvk7vCwJb8J7WsMRcS7hDIFazh1wNXOA
-	i/AvOi5BL4V/XKiPjO1s6yNVOumYKUoBEv4T/O1tJeDHCsoqeT7p736ozemncHA9mU16uvnEVKjRI
-	5yI6x3vkYmKKIolVaCwddmDgEEpQacVP7G4VuGbJIiAwh2E8IijVZ4cXFxcAAh0c9my8QYyrNI/LN
-	AJnOe6ow==;
+	bh=bc9/3RFQ3/BYv5GKcvhxJWM/+fz93rvd/+K14B4oPhk=; b=tdo7awS5As0wTwqOlFACFegDIb
+	KmpMgg457D8l3O2fzuFWDNBwEpOkANM3qhjztY6aoVGRqmrRWj5u+PMsdeKQpdEnDSlqxvxyMG5X9
+	a+dPxrJT9vT3PV11hrIgNKZ1pHddwLzmcawxdY4rgKyfz4GsovV0N5j/KxbvSHUr8x0qeZvt9ZMLI
+	CQdL2IbWWICbOZpTtMdDkq2lOyPmZ5WYZqa9AuCA7xMf6XkypYM+FxT6LL+NbtFV+Wy2gKRo3h1tl
+	K5cpJ5e7cLnQgCThZCw2aIy2Xf3U0Ez73hE+NMdVxicjdTgg5FS1E+6On8+XqJNPyk2Sbveusjzmw
+	88qHsBqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oTFoS-003o6l-9m; Wed, 31 Aug 2022 04:58:52 +0000
+	id 1oTFon-003oDt-LQ; Wed, 31 Aug 2022 04:59:13 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oTFoO-003o48-JD
-	for linux-nvme@lists.infradead.org; Wed, 31 Aug 2022 04:58:49 +0000
+	id 1oTFol-003oCa-Lb
+	for linux-nvme@lists.infradead.org; Wed, 31 Aug 2022 04:59:13 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id DF96368BEB; Wed, 31 Aug 2022 06:58:45 +0200 (CEST)
-Date: Wed, 31 Aug 2022 06:58:45 +0200
+	id 002B768BEB; Wed, 31 Aug 2022 06:59:08 +0200 (CEST)
+Date: Wed, 31 Aug 2022 06:59:08 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Maurizio Lombardi <mlombard@redhat.com>
-Cc: sagi@grimberg.me, linux-nvme@lists.infradead.org, hch@lst.de,
-	kbusch@kernel.org
-Subject: Re: [PATCH v2] nvmet-tcp: fix unhandled tcp states in
- nvmet_tcp_state_change()
-Message-ID: <20220831045845.GB18042@lst.de>
-References: <20220829124030.1194759-1-mlombard@redhat.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+	Tal Lossos <tallossos@gmail.com>
+Subject: Re: [PATCH] nvme-target: add missing goto in nvmet_setup_auth()
+Message-ID: <20220831045908.GC18042@lst.de>
+References: <20220824072316.44389-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220829124030.1194759-1-mlombard@redhat.com>
+In-Reply-To: <20220824072316.44389-1-hare@suse.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220830_215848_812953_E71C3059 
-X-CRM114-Status: UNSURE (   7.97  )
+X-CRM114-CacheID: sfid-20220830_215911_856287_FE37F7F5 
+X-CRM114-Status: UNSURE (   8.81  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
