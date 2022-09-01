@@ -4,70 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4EBB3ECAAD3
-	for <linux-nvme@archiver.kernel.org>; Thu,  1 Sep 2022 10:52:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA04BECAAD3
+	for <linux-nvme@archiver.kernel.org>; Thu,  1 Sep 2022 11:03:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sbZuit16Rc0zI5u98BaM2zsbVhm1qvudsap/QYXGNuA=; b=0FinyizvEtSv/vagLjqb4ZQY8F
-	7oNqMbG3dxGXtUwBS6zi6SkpVXyHGxVwdgwCRVu5Vfv4Z38vYDX87faCAzm30vat33xsshipN8ohM
-	G3gWZsrHZybxRfaiGDBfkMIA7akrjvt0klKlOnDm/E8U6ownfvdxQiTfB5pTvT73LZjWJAB0IXWXh
-	hdZ5bQIr3zochxkGS4eghOhwVZcpU4/8mNZubQxld34yqLduGBR5sGthtE5Oma/KPhUqbgL8aPlR3
-	ThsTLqOGqp66rhu28GH1BBENmujdWWqu1q2BlWT2FzfUBcbsV8ix/MgQdSSagkMflrIAlAUBiAjpH
-	OCSzeGWQ==;
+	bh=XrHxI6t4Dj2JAtg+uu0daAVbi/0TARHiEDVmd3GE4Tk=; b=AH4OGIWPTOyYyfzyEctILqOna3
+	YRLsVej8xMmM6nnRe+SOAKzKXketLZKe0uLnIvizRuKiILsQIkAjACCNUbWW729UX9/NKJegp2XkG
+	v1X3Wi4hdSLESnIiWl86R5DppRrjzss5Otg8tCk1J3MKNUYkjGM22pHHqo8IPGdxVCe4UUljYfEd7
+	6xl6ozkOA1yUrxxjmx20oYu8MqDOlgGptsntWHI7WGKrRSOmaP9eXrfFezL6dYUqE+Ctte0WwFwAE
+	9rlfD/5A0MF3MOyTbRYt7XqL97k0tIcTAOSx7RD4vWWnl5UL4KPGHuj3r3jQl6hILn3FhAsNQXePh
+	znIz/5QQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oTho3-00B9CU-9e; Thu, 01 Sep 2022 10:52:19 +0000
-Received: from mail-wm1-f44.google.com ([209.85.128.44])
+	id 1oThz1-00BE1M-VD; Thu, 01 Sep 2022 11:03:39 +0000
+Received: from mail-wr1-f43.google.com ([209.85.221.43])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oTho0-00B99O-94
-	for linux-nvme@lists.infradead.org; Thu, 01 Sep 2022 10:52:17 +0000
-Received: by mail-wm1-f44.google.com with SMTP id az24-20020a05600c601800b003a842e4983cso1212387wmb.0
-        for <linux-nvme@lists.infradead.org>; Thu, 01 Sep 2022 03:52:10 -0700 (PDT)
+	id 1oThyy-00BDvC-Sr
+	for linux-nvme@lists.infradead.org; Thu, 01 Sep 2022 11:03:38 +0000
+Received: by mail-wr1-f43.google.com with SMTP id k9so21883856wri.0
+        for <linux-nvme@lists.infradead.org>; Thu, 01 Sep 2022 04:03:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=sbZuit16Rc0zI5u98BaM2zsbVhm1qvudsap/QYXGNuA=;
-        b=YVDoH61maXYAHgon1FlBQQKl4lhvuZSJ6g2/7DLH1VpRZhPFqqc0C/4ApyJs4aoimY
-         qlNIsQ59JXKNbaXiaGVzvYqgF/7YA/pqGHun9jz4M+PEnTXIy1ie8+CQiuDgjA5Crhaw
-         CxL2GiPJUsywl4LzGLj436+MegnZ5aNSrL+zcWEZA7DgaeuTITGR5mzJW/3qCfyH1zco
-         zz9nKLWi1P/0yKuAUxHsWT/p0PRDN00pIDTeSbfCrxPb/sukb7VlrGsiw2GjXRrnkKQi
-         L+0Q/Uf05jAtTwTz/k+d6o/GZo0CdCA2DdhRmLxgeov7A5alWNHXXPEoYR/07HiPZ9d6
-         xqKw==
-X-Gm-Message-State: ACgBeo3ZUtTOELUrAet5vaATaLOKUpCshunTcfiKyT6EUMAwK5QNuduN
-	M1vMMATdRxCpzFbpp/lGm5Q=
-X-Google-Smtp-Source: AA6agR66Sy2afyp5Dnsdz30Q+iKmu4lwGVJZyjxbW5znZWN1ZXQieYgVsKOj9MZ1yLfXmj3AEh+a8g==
-X-Received: by 2002:a05:600c:2317:b0:3a5:a3b7:31f with SMTP id 23-20020a05600c231700b003a5a3b7031fmr4822871wmo.6.1662029529653;
-        Thu, 01 Sep 2022 03:52:09 -0700 (PDT)
+        bh=XrHxI6t4Dj2JAtg+uu0daAVbi/0TARHiEDVmd3GE4Tk=;
+        b=skQB4nexlJGpa/afV8M3QFt8xQGg6uqZuRTIt/EsR4MpaSZEow7mNEwMhXz+qGojqq
+         HYz6i3B9wCgciAu+S7DsyToly0tf4PGe3R2Fn9JMqpOHuUmYf+RJBsexsT0sudxXdXIF
+         OyvqEzwfFGpffRfcbyNoFufaFvQGCLVjLHOTSGWyMmJV3bEimTSqmeuG8EhO2JAM1Tlu
+         Uhq/gI/eryosg06xQ6FLrCFXAto9dZ+mTAkPxOlMiemfetMnsAN4sHRvIvK1ofrz5tBo
+         R4D3fVPEVMv02UNAJcsGVgQPELKUgn/i2hJCEs97bbkaQeJDeTuBSRfZeOpAxSpLlF8Q
+         l3xw==
+X-Gm-Message-State: ACgBeo2rRtG3XqFFJhP8rk3cyD9rrPXqUTHyxcGlYA3antQLX8w8u72N
+	ZsAwQxPTukAYgLlfvNLZg1Q=
+X-Google-Smtp-Source: AA6agR4JQCc56wSZYRVKVvQAKhLhwrcpzRL1h7RIwlwxScc1YSQwW79B3HdO6yev2X/TSMpH6hRShw==
+X-Received: by 2002:a5d:63ca:0:b0:225:899f:4e5c with SMTP id c10-20020a5d63ca000000b00225899f4e5cmr14657142wrw.697.1662030204476;
+        Thu, 01 Sep 2022 04:03:24 -0700 (PDT)
 Received: from [192.168.64.104] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id c8-20020a05600c0a4800b003a5f3f5883dsm6105503wmq.17.2022.09.01.03.52.08
+        by smtp.gmail.com with ESMTPSA id n26-20020a7bcbda000000b003a331c6bffdsm4606273wmi.47.2022.09.01.04.03.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Sep 2022 03:52:09 -0700 (PDT)
-Message-ID: <33269462-f989-c4ba-a9ac-846b629cd360@grimberg.me>
-Date: Thu, 1 Sep 2022 13:52:08 +0300
+        Thu, 01 Sep 2022 04:03:23 -0700 (PDT)
+Message-ID: <f9a17bb8-a101-6478-db5f-6573c8a472ef@grimberg.me>
+Date: Thu, 1 Sep 2022 14:03:21 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v3 1/1] nvmet-tcp: Fix NULL pointer dereference during
- release
+Subject: Re: [PATCH v2] nvme-tcp: Print actual source IP address in address
+ attribute
 Content-Language: en-US
-To: zhenwei pi <pizhenwei@bytedance.com>, hch@lst.de
-Cc: kch@nvidia.com, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20220901061409.545456-1-pizhenwei@bytedance.com>
- <20220901061409.545456-2-pizhenwei@bytedance.com>
+To: Martin Belanger <nitram_67@hotmail.com>, linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, hare@suse.de, axboe@fb.com, hch@lst.de,
+ Martin Belanger <martin.belanger@dell.com>
+References: <BL0PR13MB429186CED76BA96A2AD3D7AE9C789@BL0PR13MB4291.namprd13.prod.outlook.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220901061409.545456-2-pizhenwei@bytedance.com>
+In-Reply-To: <BL0PR13MB429186CED76BA96A2AD3D7AE9C789@BL0PR13MB4291.namprd13.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220901_035216_348358_636D319D 
-X-CRM114-Status: GOOD (  23.85  )
+X-CRM114-CacheID: sfid-20220901_040336_968226_68F01211 
+X-CRM114-Status: GOOD (  32.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,105 +83,100 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 9/1/22 09:14, zhenwei pi wrote:
-> nvmet-tcp frees CMD buffers in nvmet_tcp_uninit_data_in_cmds(),
-> and waits the inflight IO requests in nvmet_sq_destroy(). During wait
-> the inflight IO requests, the callback nvmet_tcp_queue_response()
-> is called from backend after IO complete, this leads a typical
-> Use-After-Free issue like this:
+On 8/31/22 22:38, Martin Belanger wrote:
+> From: Martin Belanger <martin.belanger@dell.com>
 > 
->   BUG: kernel NULL pointer dereference, address: 0000000000000008
->   #PF: supervisor read access in kernel mode
->   #PF: error_code(0x0000) - not-present page
->   PGD 0 P4D 0
->   Oops: 0000 [#1] PREEMPT SMP NOPTI
->   CPU: 14 PID: 207 Comm: kworker/14:1H Kdump: loaded Tainted: G            E      6.0.0-rc2.bm.1-amd64 #12
->   Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014
->   Workqueue: nvmet_tcp_wq nvmet_tcp_io_work [nvmet_tcp]
->   RIP: 0010:shash_ahash_digest+0x2b/0x110
->   Code: 1f 44 00 00 41 57 41 56 41 55 41 54 55 48 89 fd 53 48 89 f3 48 83 ec 08 44 8b 67 30 45 85 e4 74 1c 48 8b 57 38 b8 00 10 00 00 <44> 8b 7a 08 44 29 f8 39 42 0c 0f 46 42 0c 41 39 c4 76 43 48 8b 03
->   RSP: 0018:ffffc900006e3dd8 EFLAGS: 00010206
->   RAX: 0000000000001000 RBX: ffff888104ac1650 RCX: 0000000000000000
->   RDX: 0000000000000000 RSI: ffff888104ac1650 RDI: ffff888104ac1600
->   RBP: ffff888104ac1600 R08: ffff8881073980c8 R09: ffff8881057798b8
->   R10: 8080808080808080 R11: 0000000000000000 R12: 0000000000001000
->   R13: 0000000000000000 R14: ffff88810601a1cc R15: ffff888107398000
->   FS:  0000000000000000(0000) GS:ffff88823fd80000(0000) knlGS:0000000000000000
->   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->   CR2: 0000000000000008 CR3: 000000010a8e8000 CR4: 0000000000350ee0
->   Call Trace:
->    <TASK>
->    nvmet_tcp_io_work+0xa1c/0xb1c [nvmet_tcp]
->    ? __switch_to+0x106/0x420
->    process_one_work+0x1ae/0x380
->    ? process_one_work+0x380/0x380
->    worker_thread+0x30/0x360
->    ? process_one_work+0x380/0x380
->    kthread+0xe6/0x110
->    ? kthread_complete_and_exit+0x20/0x20
->    ret_from_fork+0x1f/0x30
+> TCP transport relies on the routing table to determine which
+> source address and interface to use when making a connection.
+> Currently, there is no way to tell from userspace where a
+> connection was made. This patch allows exposing the actual source
+> address using the host_traddr field of the address attribute.
 > 
-> Suggested by Sagi, separate nvmet_tcp_uninit_data_in_cmds() into two
-> steps:
->    uninit data in cmds                  <- new step 1
->    nvmet_sq_destroy();
->    cancel_work_sync(&queue->io_work);
->    free CMD buffers                     <- new step 2
+> This is needed to diagnose and identify connectivity issues since it will
+> allow us to tell which interface and source address is associated with each
+> connection.
 > 
-> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+> Signed-off-by: Martin Belanger <martin.belanger@dell.com>
 > ---
->   drivers/nvme/target/tcp.c | 18 ++++++++++++++++--
->   1 file changed, 16 insertions(+), 2 deletions(-)
+>   drivers/nvme/host/tcp.c | 34 +++++++++++++++++++++++++++++++++-
+>   1 file changed, 33 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> index a3694a32f6d5..e18eae5ef90b 100644
-> --- a/drivers/nvme/target/tcp.c
-> +++ b/drivers/nvme/target/tcp.c
-> @@ -1423,14 +1423,27 @@ static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
->   	for (i = 0; i < queue->nr_cmds; i++, cmd++) {
->   		if (nvmet_tcp_need_data_in(cmd))
->   			nvmet_req_uninit(&cmd->req);
-> +	}
-> +
-> +	if (!queue->nr_cmds && nvmet_tcp_need_data_in(&queue->connect)) {
-> +		/* failed in connect */
-> +		nvmet_req_uninit(&queue->connect.req);
-> +	}
-> +}
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 044da18c06f5..adbb76483a74 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -165,6 +165,7 @@ struct nvme_tcp_ctrl {
+>   	struct blk_mq_tag_set	admin_tag_set;
+>   	struct sockaddr_storage addr;
+>   	struct sockaddr_storage src_addr;
+> +	struct sockaddr_storage sock_addr;
+>   	struct nvme_ctrl	ctrl;
 >   
-> +static void nvmet_tcp_free_cmd_data_in_buffers(struct nvmet_tcp_queue *queue)
-> +{
-> +	struct nvmet_tcp_cmd *cmd = queue->cmds;
-> +	int i;
-> +
-> +	for (i = 0; i < queue->nr_cmds; i++, cmd++) {
-
-		if (nvmet_tcp_need_data_in(cmd))
-
->   		nvmet_tcp_unmap_pdu_iovec(cmd);
-
-This function should no longer exist in the code.
-
->   		nvmet_tcp_free_cmd_buffers(cmd);
+>   	struct work_struct	err_work;
+> @@ -1597,6 +1598,12 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+>   		goto err_rcv_pdu;
 >   	}
 >   
->   	if (!queue->nr_cmds && nvmet_tcp_need_data_in(&queue->connect)) {
-> -		/* failed in connect */
-> -		nvmet_tcp_finish_cmd(&queue->connect);
-> +		nvmet_tcp_unmap_pdu_iovec(&queue->connect);
+> +	/* Retrieve the actual source address from the socket */
+> +	ret = kernel_getsockname(queue->sock,
+> +		(struct sockaddr *)&ctrl->sock_addr);
+> +	if (ret < 0)
+> +		memset(&ctrl->sock_addr, 0, sizeof(ctrl->sock_addr));
+> +
 
-This function should no longer exist in the code.
+For every queue?
 
-> +		nvmet_tcp_free_cmd_buffers(&queue->connect);
->   	}
+>   	ret = nvme_tcp_init_connection(queue);
+>   	if (ret)
+>   		goto err_init_connect;
+> @@ -2532,6 +2539,31 @@ static int nvme_tcp_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
+>   	return queue->nr_cqe;
 >   }
 >   
-> @@ -1452,6 +1465,7 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
->   	nvmet_tcp_uninit_data_in_cmds(queue);
->   	nvmet_sq_destroy(&queue->nvme_sq);
->   	cancel_work_sync(&queue->io_work);
-> +	nvmet_tcp_free_cmd_data_in_buffers(queue);
->   	sock_release(queue->sock);
->   	nvmet_tcp_free_cmds(queue);
->   	if (queue->hdr_digest || queue->data_digest)
+> +static int nvme_tcp_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
+> +{
+> +	int len = 0;
+> +	struct sockaddr_storage *sa = &to_tcp_ctrl(ctrl)->sock_addr;
+
+You can just retrieve the sock_addr from the admin queue here locally. I
+don't think we need a struct member for it.
+
+> +
+> +	if (ctrl->opts->mask & NVMF_OPT_TRADDR)
+> +		len += scnprintf(buf, size, "traddr=%s", ctrl->opts->traddr);
+> +	if (ctrl->opts->mask & NVMF_OPT_TRSVCID)
+> +		len += scnprintf(buf + len, size - len, "%strsvcid=%s",
+> +				(len) ? "," : "", ctrl->opts->trsvcid);
+> +	if ((sa->ss_family == AF_INET) || (sa->ss_family == AF_INET6)) {
+> +		len += scnprintf(buf + len, size - len, "%shost_traddr=%pISc",
+> +				(len) ? "," : "", sa);
+
+It is confusing to expose that if it was not specified, that is creating
+a different behavior from the existing behavior and from other
+transports.
+
+> +	} else if (ctrl->opts->mask & NVMF_OPT_HOST_TRADDR) {
+> +		len += scnprintf(buf + len, size - len, "%shost_traddr=%s",
+> +				(len) ? "," : "", ctrl->opts->host_traddr);
+> +	}
+> +	if (ctrl->opts->mask & NVMF_OPT_HOST_IFACE)
+> +		len += scnprintf(buf + len, size - len, "%shost_iface=%s",
+> +				(len) ? "," : "", ctrl->opts->host_iface);
+> +	len += scnprintf(buf + len, size - len, "\n");
+> +
+> +	return len;
+> +}
+> +
+>   static const struct blk_mq_ops nvme_tcp_mq_ops = {
+>   	.queue_rq	= nvme_tcp_queue_rq,
+>   	.commit_rqs	= nvme_tcp_commit_rqs,
+> @@ -2563,7 +2595,7 @@ static const struct nvme_ctrl_ops nvme_tcp_ctrl_ops = {
+>   	.free_ctrl		= nvme_tcp_free_ctrl,
+>   	.submit_async_event	= nvme_tcp_submit_async_event,
+>   	.delete_ctrl		= nvme_tcp_delete_ctrl,
+> -	.get_address		= nvmf_get_address,
+> +	.get_address		= nvme_tcp_get_address,
+>   	.stop_ctrl		= nvme_tcp_stop_ctrl,
+>   };
+>   
 
