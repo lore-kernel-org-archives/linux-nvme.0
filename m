@@ -4,71 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04366ECAAD1
-	for <linux-nvme@archiver.kernel.org>; Thu,  1 Sep 2022 10:49:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4EBB3ECAAD3
+	for <linux-nvme@archiver.kernel.org>; Thu,  1 Sep 2022 10:52:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WjC5MMmeXT3QbFNucFQXnhs+/PC/vM67wXqw/sIvdOk=; b=VSK6qqo9CgLzzlcMfqO1g4NMAO
-	zMiplwXDkSGQDz3pBm2d9ob2HwZ04SzLonUYpWsCD6o3XNhayucTUinFXqulWx/CMeYEVuI0bEsJb
-	DwUEAWAv4LH8gqsDqjwM0GoVge8phCmZz6zMaHH9kUun2mGA8xQXYhelfmwtHDt86u+Mzk1Tv4JwT
-	Ow5fT3wIeYN5Q8YH4nP/IPh2vfDJNYimXbXYEFa5/mtDPRa9XyAgUC2Bek6o+mpDuYqxePYSdKKDo
-	Tx4SpcV9CvkL3mmmln9NWYCpl59zL0wOkaEUk7q+3qXxfzHzETvV59xQn98+fcXpFbnFjrze74pwD
-	HVfBl9Bw==;
+	bh=sbZuit16Rc0zI5u98BaM2zsbVhm1qvudsap/QYXGNuA=; b=0FinyizvEtSv/vagLjqb4ZQY8F
+	7oNqMbG3dxGXtUwBS6zi6SkpVXyHGxVwdgwCRVu5Vfv4Z38vYDX87faCAzm30vat33xsshipN8ohM
+	G3gWZsrHZybxRfaiGDBfkMIA7akrjvt0klKlOnDm/E8U6ownfvdxQiTfB5pTvT73LZjWJAB0IXWXh
+	hdZ5bQIr3zochxkGS4eghOhwVZcpU4/8mNZubQxld34yqLduGBR5sGthtE5Oma/KPhUqbgL8aPlR3
+	ThsTLqOGqp66rhu28GH1BBENmujdWWqu1q2BlWT2FzfUBcbsV8ix/MgQdSSagkMflrIAlAUBiAjpH
+	OCSzeGWQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oThlX-00B8E8-3o; Thu, 01 Sep 2022 10:49:43 +0000
-Received: from mail-wr1-f50.google.com ([209.85.221.50])
+	id 1oTho3-00B9CU-9e; Thu, 01 Sep 2022 10:52:19 +0000
+Received: from mail-wm1-f44.google.com ([209.85.128.44])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oThlU-00B89P-9q
-	for linux-nvme@lists.infradead.org; Thu, 01 Sep 2022 10:49:41 +0000
-Received: by mail-wr1-f50.google.com with SMTP id u17so2529483wrp.3
-        for <linux-nvme@lists.infradead.org>; Thu, 01 Sep 2022 03:49:36 -0700 (PDT)
+	id 1oTho0-00B99O-94
+	for linux-nvme@lists.infradead.org; Thu, 01 Sep 2022 10:52:17 +0000
+Received: by mail-wm1-f44.google.com with SMTP id az24-20020a05600c601800b003a842e4983cso1212387wmb.0
+        for <linux-nvme@lists.infradead.org>; Thu, 01 Sep 2022 03:52:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=WjC5MMmeXT3QbFNucFQXnhs+/PC/vM67wXqw/sIvdOk=;
-        b=biqROz2CnSGZzQjsEK/zxgbnXcLfdDb5EdXRVz77FuZyVAvu4v18rQ5ycN/yefQXdO
-         r+0dG6aiBYrvBhyUHrUicIPou7aI7d2g2O14YoezclcoG6dZCfjoKBlRI2cxpS65sNnK
-         dNTW/KqHaArsZ9WY4RkgBua4u3EiNoWTlZ0fzQX9bS3ej1kuUexBJvR3BZRCNPNpa6CC
-         ZNkE49i+eK9jIuOgTI4FGD4JaZ6VGTXySlwJHJqQiCQpPvmOpSfKMQ7C30T3jqU80xQ6
-         ckGUVa8yO9S9UqwSy7Y7anuLcgX/v5uFCeR8/+x6mq+dR1xQa/h6cgxrVMEVbf5dT4+K
-         XDwQ==
-X-Gm-Message-State: ACgBeo3CHdH3plnncbofsxzNVi6j4EOIkuEYVKxww3hoWtipDwUyxCv4
-	mfkynbm+pySHNaNs6oTJHe8=
-X-Google-Smtp-Source: AA6agR6XN6fPghRY6m4UvfSO/a5VgaXvSdaPKgEJQvnTeiC3Bbq5mbrSMkaXumOd0Qm7oJF4IfpbCQ==
-X-Received: by 2002:adf:f911:0:b0:21e:c0f6:fd26 with SMTP id b17-20020adff911000000b0021ec0f6fd26mr14153824wrr.361.1662029375141;
-        Thu, 01 Sep 2022 03:49:35 -0700 (PDT)
+        bh=sbZuit16Rc0zI5u98BaM2zsbVhm1qvudsap/QYXGNuA=;
+        b=YVDoH61maXYAHgon1FlBQQKl4lhvuZSJ6g2/7DLH1VpRZhPFqqc0C/4ApyJs4aoimY
+         qlNIsQ59JXKNbaXiaGVzvYqgF/7YA/pqGHun9jz4M+PEnTXIy1ie8+CQiuDgjA5Crhaw
+         CxL2GiPJUsywl4LzGLj436+MegnZ5aNSrL+zcWEZA7DgaeuTITGR5mzJW/3qCfyH1zco
+         zz9nKLWi1P/0yKuAUxHsWT/p0PRDN00pIDTeSbfCrxPb/sukb7VlrGsiw2GjXRrnkKQi
+         L+0Q/Uf05jAtTwTz/k+d6o/GZo0CdCA2DdhRmLxgeov7A5alWNHXXPEoYR/07HiPZ9d6
+         xqKw==
+X-Gm-Message-State: ACgBeo3ZUtTOELUrAet5vaATaLOKUpCshunTcfiKyT6EUMAwK5QNuduN
+	M1vMMATdRxCpzFbpp/lGm5Q=
+X-Google-Smtp-Source: AA6agR66Sy2afyp5Dnsdz30Q+iKmu4lwGVJZyjxbW5znZWN1ZXQieYgVsKOj9MZ1yLfXmj3AEh+a8g==
+X-Received: by 2002:a05:600c:2317:b0:3a5:a3b7:31f with SMTP id 23-20020a05600c231700b003a5a3b7031fmr4822871wmo.6.1662029529653;
+        Thu, 01 Sep 2022 03:52:09 -0700 (PDT)
 Received: from [192.168.64.104] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id q28-20020a056000137c00b002205cbc1c74sm14250469wrz.101.2022.09.01.03.49.32
+        by smtp.gmail.com with ESMTPSA id c8-20020a05600c0a4800b003a5f3f5883dsm6105503wmq.17.2022.09.01.03.52.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Sep 2022 03:49:33 -0700 (PDT)
-Message-ID: <62e78a2f-998a-b340-9dcd-7d5c12c96fe9@grimberg.me>
-Date: Thu, 1 Sep 2022 13:49:32 +0300
+        Thu, 01 Sep 2022 03:52:09 -0700 (PDT)
+Message-ID: <33269462-f989-c4ba-a9ac-846b629cd360@grimberg.me>
+Date: Thu, 1 Sep 2022 13:52:08 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2] drivers/nvme/host: Fix namespace duplication check
- rule
+Subject: Re: [PATCH v3 1/1] nvmet-tcp: Fix NULL pointer dereference during
+ release
 Content-Language: en-US
-To: sungup.moon@samsung.com, "kbusch@kernel.org" <kbusch@kernel.org>,
- "axboe@fb.com" <axboe@fb.com>, "hch@lst.de" <hch@lst.de>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <CGME20220901002815epcms2p6ae137d9de49bef5764f19c0fa7f3536e@epcms2p4>
- <20220901004941epcms2p4e5e1c53484889619f050a02d8e671eca@epcms2p4>
+To: zhenwei pi <pizhenwei@bytedance.com>, hch@lst.de
+Cc: kch@nvidia.com, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20220901061409.545456-1-pizhenwei@bytedance.com>
+ <20220901061409.545456-2-pizhenwei@bytedance.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220901004941epcms2p4e5e1c53484889619f050a02d8e671eca@epcms2p4>
+In-Reply-To: <20220901061409.545456-2-pizhenwei@bytedance.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220901_034940_380064_445F3E73 
-X-CRM114-Status: GOOD (  25.00  )
+X-CRM114-CacheID: sfid-20220901_035216_348358_636D319D 
+X-CRM114-Status: GOOD (  23.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,87 +84,105 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 9/1/22 03:49, Sungup Moon wrote:
-> Some NVMe device, use EUI64 and NGUID, has fixed value EUI64 on a
-> sub-system because of the bit size of ID. Current kernel check the
-> all IDs should have unique value in a sub-system and globally.
-> However, if an namespace has duplicate IDs (not all) in a sub-system,
-> current kernel raise "duplicate IDs in subsystem for nsid" error. But
-> NVMe Specification defines the namespace unique identifier like this:
+On 9/1/22 09:14, zhenwei pi wrote:
+> nvmet-tcp frees CMD buffers in nvmet_tcp_uninit_data_in_cmds(),
+> and waits the inflight IO requests in nvmet_sq_destroy(). During wait
+> the inflight IO requests, the callback nvmet_tcp_queue_response()
+> is called from backend after IO complete, this leads a typical
+> Use-After-Free issue like this:
 > 
-> When creating a namespace, the controller shall indicate a globally
-> unique value in one or more of the following:
-> a) the EUI64 field;
-> b) the NGUID field; or
-> c) a Namespace Identification Descriptor with the Namespace Identifier
-> Type field set to 3h
-> (reference: 7.11 Unique Identifier; NVM Express 1.4c spec)
+>   BUG: kernel NULL pointer dereference, address: 0000000000000008
+>   #PF: supervisor read access in kernel mode
+>   #PF: error_code(0x0000) - not-present page
+>   PGD 0 P4D 0
+>   Oops: 0000 [#1] PREEMPT SMP NOPTI
+>   CPU: 14 PID: 207 Comm: kworker/14:1H Kdump: loaded Tainted: G            E      6.0.0-rc2.bm.1-amd64 #12
+>   Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014
+>   Workqueue: nvmet_tcp_wq nvmet_tcp_io_work [nvmet_tcp]
+>   RIP: 0010:shash_ahash_digest+0x2b/0x110
+>   Code: 1f 44 00 00 41 57 41 56 41 55 41 54 55 48 89 fd 53 48 89 f3 48 83 ec 08 44 8b 67 30 45 85 e4 74 1c 48 8b 57 38 b8 00 10 00 00 <44> 8b 7a 08 44 29 f8 39 42 0c 0f 46 42 0c 41 39 c4 76 43 48 8b 03
+>   RSP: 0018:ffffc900006e3dd8 EFLAGS: 00010206
+>   RAX: 0000000000001000 RBX: ffff888104ac1650 RCX: 0000000000000000
+>   RDX: 0000000000000000 RSI: ffff888104ac1650 RDI: ffff888104ac1600
+>   RBP: ffff888104ac1600 R08: ffff8881073980c8 R09: ffff8881057798b8
+>   R10: 8080808080808080 R11: 0000000000000000 R12: 0000000000001000
+>   R13: 0000000000000000 R14: ffff88810601a1cc R15: ffff888107398000
+>   FS:  0000000000000000(0000) GS:ffff88823fd80000(0000) knlGS:0000000000000000
+>   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>   CR2: 0000000000000008 CR3: 000000010a8e8000 CR4: 0000000000350ee0
+>   Call Trace:
+>    <TASK>
+>    nvmet_tcp_io_work+0xa1c/0xb1c [nvmet_tcp]
+>    ? __switch_to+0x106/0x420
+>    process_one_work+0x1ae/0x380
+>    ? process_one_work+0x380/0x380
+>    worker_thread+0x30/0x360
+>    ? process_one_work+0x380/0x380
+>    kthread+0xe6/0x110
+>    ? kthread_complete_and_exit+0x20/0x20
+>    ret_from_fork+0x1f/0x30
 > 
-> So, I suggest the modified nvme_subsys_check_duplicate_ids function
-> checking uniqueness from all IDS to one more IDs.
+> Suggested by Sagi, separate nvmet_tcp_uninit_data_in_cmds() into two
+> steps:
+>    uninit data in cmds                  <- new step 1
+>    nvmet_sq_destroy();
+>    cancel_work_sync(&queue->io_work);
+>    free CMD buffers                     <- new step 2
 > 
-> I missed the initializing of "duplicated" variable, so I reissue the
-> version2 patch.
-> 
-> Signed-off-by: Sungup Moon <sungup.moon@samsung.com>
+> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
 > ---
->   drivers/nvme/host/core.c | 25 ++++++++++++++++++-------
->   1 file changed, 18 insertions(+), 7 deletions(-)
+>   drivers/nvme/target/tcp.c | 18 ++++++++++++++++--
+>   1 file changed, 16 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index af367b22871b..8c2faa2881a4 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3902,24 +3902,35 @@ static struct nvme_ns_head *nvme_find_ns_head(struct nvme_ctrl *ctrl,
->          return NULL;
+> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+> index a3694a32f6d5..e18eae5ef90b 100644
+> --- a/drivers/nvme/target/tcp.c
+> +++ b/drivers/nvme/target/tcp.c
+> @@ -1423,14 +1423,27 @@ static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
+>   	for (i = 0; i < queue->nr_cmds; i++, cmd++) {
+>   		if (nvmet_tcp_need_data_in(cmd))
+>   			nvmet_req_uninit(&cmd->req);
+> +	}
+> +
+> +	if (!queue->nr_cmds && nvmet_tcp_need_data_in(&queue->connect)) {
+> +		/* failed in connect */
+> +		nvmet_req_uninit(&queue->connect.req);
+> +	}
+> +}
+>   
+> +static void nvmet_tcp_free_cmd_data_in_buffers(struct nvmet_tcp_queue *queue)
+> +{
+> +	struct nvmet_tcp_cmd *cmd = queue->cmds;
+> +	int i;
+> +
+> +	for (i = 0; i < queue->nr_cmds; i++, cmd++) {
+
+		if (nvmet_tcp_need_data_in(cmd))
+
+>   		nvmet_tcp_unmap_pdu_iovec(cmd);
+
+This function should no longer exist in the code.
+
+>   		nvmet_tcp_free_cmd_buffers(cmd);
+>   	}
+>   
+>   	if (!queue->nr_cmds && nvmet_tcp_need_data_in(&queue->connect)) {
+> -		/* failed in connect */
+> -		nvmet_tcp_finish_cmd(&queue->connect);
+> +		nvmet_tcp_unmap_pdu_iovec(&queue->connect);
+
+This function should no longer exist in the code.
+
+> +		nvmet_tcp_free_cmd_buffers(&queue->connect);
+>   	}
 >   }
-> 
-> +#define IDS_EQUAL(A, B) (memcmp(&(A), &(B), sizeof(A)) == 0)
-
-No need for this macro IMO.
-
-> +
->   static int nvme_subsys_check_duplicate_ids(struct nvme_subsystem *subsys,
->                  struct nvme_ns_ids *ids)
->   {
->          bool has_uuid = !uuid_is_null(&ids->uuid);
->          bool has_nguid = memchr_inv(ids->nguid, 0, sizeof(ids->nguid));
->          bool has_eui64 = memchr_inv(ids->eui64, 0, sizeof(ids->eui64));
-> +       bool duplicated;
->          struct nvme_ns_head *h;
-> 
->          lockdep_assert_held(&subsys->lock);
-> 
->          list_for_each_entry(h, &subsys->nsheads, entry) {
-> -               if (has_uuid && uuid_equal(&ids->uuid, &h->ids.uuid))
-> -                       return -EINVAL;
-> -               if (has_nguid &&
-> -                   memcmp(&ids->nguid, &h->ids.nguid, sizeof(ids->nguid)) == 0)
-> -                       return -EINVAL;
-> -               if (has_eui64 &&
-> -                   memcmp(&ids->eui64, &h->ids.eui64, sizeof(ids->eui64)) == 0)
-> +               duplicated = has_uuid || has_nguid || has_eui64;
-> +
-> +               if (has_uuid)
-> +                       duplicated = duplicated &&
-> +                               uuid_equal(&ids->uuid, &h->ids.uuid);
-> +
-> +               if (has_nguid)
-> +                       duplicated = duplicated &&
-> +                               IDS_EQUAL(ids->nguid, h->ids.nguid);
-> +
-> +               if (has_eui64)
-> +                       duplicated = duplicated &&
-> +                               IDS_EQUAL(ids->eui64, h->ids.eui64);
-> +
-> +               if (duplicated)
->                          return -EINVAL;
-
-That is very confusing.
-
-So a ns can have an identifier that does not have to be unique? or that
-every identifier that exist should be unique but at least one identifier
-should exist?
-
-The former seems weird...
+>   
+> @@ -1452,6 +1465,7 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
+>   	nvmet_tcp_uninit_data_in_cmds(queue);
+>   	nvmet_sq_destroy(&queue->nvme_sq);
+>   	cancel_work_sync(&queue->io_work);
+> +	nvmet_tcp_free_cmd_data_in_buffers(queue);
+>   	sock_release(queue->sock);
+>   	nvmet_tcp_free_cmds(queue);
+>   	if (queue->hdr_digest || queue->data_digest)
 
