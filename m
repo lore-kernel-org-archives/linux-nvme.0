@@ -4,83 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BC76BC001B5
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Sep 2022 16:32:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 027F8C6FA82
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Sep 2022 18:43:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=P71PQXWfMeET9rAMhMnbA2YOGMCwyBz9FWAbE+ia6CM=; b=jNFlkmvr6THn7H3JZv+2k6/e4S
-	L7hvuVhl+Jk0Q7owBQk+Jz5v9aJLCxM6uPARKK7X8tGDeVdSMRsY9/qnNn4WI62VItHcvSHKlUIFz
-	NMX67Cu6cyYYXTZeuwSrqp5xpETEVNQ+eVksgiyDdyQWKErScNh9GtpdBvPaYtble2S7tPjSFv9w9
-	Yy4JwqO96Xvfa5loOrxqbJLwctISpXeQshhp+BpKqzlQeYzPCJXm07r4WTJy45MAgxkmMendxmqWg
-	aL3/rtkdnnDufIHmPS6wpnHvGzK7+h/NfJsQ+AZw2BkU4GTK8MfxkMgfA5K0IO8FXTmt3eR3+sOjx
-	lT7leHiQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=7Ygx506LgmFK7L1KUAyuf5pe5qs+tRV+yvCiaInsACw=; b=indu3WKnvRz9xHhYjS/MidZA+c
+	yjRtlIXN/Q5hizesgINIHt/t7hV2xFEYm+bdbSkcRr2A2xggihwBIxPF1SEdh7MoOwZ4C5WNgxmW4
+	ZD9TQ1hc8KfRK0H1qSROIihiRJAk549fVAUUwF1mZu+LV4Ijvm0yfZEEPnt+CzSK7MR5PnL260Bdr
+	CUhkJhxG+NkIMPOPyN3h8/NKRAPrXae04c33N5pmNC2/8A93BkIFG8ra0a5q3pTtYwVu43Uf4dTNY
+	jMjgnyHtjYvi1SLW8IuQbnSFva+SKLB4xNOWmmpymACY30aiCAybMX9AWKsV3KMJO+UY+cHO/mu1t
+	7rQgBeCA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oU9ai-0073uj-V6; Fri, 02 Sep 2022 16:32:24 +0000
-Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b])
+	id 1oUBde-009gbz-B1; Fri, 02 Sep 2022 18:43:34 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oU9af-0073me-MU
-	for linux-nvme@lists.infradead.org; Fri, 02 Sep 2022 16:32:23 +0000
-Received: by mail-io1-xd2b.google.com with SMTP id i77so2044868ioa.7
-        for <linux-nvme@lists.infradead.org>; Fri, 02 Sep 2022 09:32:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=P71PQXWfMeET9rAMhMnbA2YOGMCwyBz9FWAbE+ia6CM=;
-        b=vbLAECgY8YiLQlt98OatJfJLII0Jpj11iKaaL+5iZa7pJ+fq+GMSMzHOJWXgUc0/7x
-         JPLzIVnctYIOeCRSj2M2bufoGd/6YbirudlP4T9rX48BRZZ3KxMSgBLnaZEcYkCeVzH8
-         n7Qn6WTQuawON+uwEYrqPAX/sO25n9yiIPujWt5nP7dtx3JxXqEO9DqHGXsjoxRozvGb
-         Ucybbzq152zLm/aRUTYOwoo+vy3RmtM+mRuRAxfzJhZgZn3wYRYktiZDUSSVGWGSH+El
-         NBxm23v80X3GtUDd7JbbCHza2U3vj40A184b2LKyG4jCFbOTs90HxJ8/pNlzQo67qbfy
-         dKow==
+	id 1oUBdY-009gV6-Mt
+	for linux-nvme@lists.infradead.org; Fri, 02 Sep 2022 18:43:33 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1662144206;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7Ygx506LgmFK7L1KUAyuf5pe5qs+tRV+yvCiaInsACw=;
+	b=JweQv4mpthRJ2JK5IxWu6Q4Bryn/BdJdJ6hqGWAxsCv1dByAzWBiqyoj/i/8wd2gci7cFN
+	k932ZiUodqlmlz8pCe0jgoaP/RiTPvHkRrD37MQvUBSQoqupLyaeiz7cXSmERwkwDxZtb2
+	4K8e8mblY0PDhcrvjMXs2NzkV8UW1F4=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-651-nfrHuhu9NPu1FIjGN9GY3w-1; Fri, 02 Sep 2022 14:43:25 -0400
+X-MC-Unique: nfrHuhu9NPu1FIjGN9GY3w-1
+Received: by mail-qt1-f198.google.com with SMTP id h19-20020ac85493000000b00343408bd8e5so2166411qtq.4
+        for <linux-nvme@lists.infradead.org>; Fri, 02 Sep 2022 11:43:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=P71PQXWfMeET9rAMhMnbA2YOGMCwyBz9FWAbE+ia6CM=;
-        b=jcRUiuY9ugoLqpBaKvcCmz5+13rBR2iifyo4PLmgdlqV/7OoIsT0TXEqW7n7qUe+PW
-         rhaFisZ27ZEjjYdBhE+MCvgUtn8dap9+ve+rEzpHvm1pJDEqM2HVOV23hd2khfmOiMNP
-         0X82wxqVziJPztWeKOvv8H2ZSUjDEDAOEltnLQCG0bJkUGwsjtfBabjHvE1+1zBFk8f0
-         +nTJoaVjCRO6hRoWUB39uqfEB/mXyWSxhr5Vgqq+OTQ0igg4JgspU9ypRnXIPEIOHtdi
-         3Qhn173uRYnO8sBYlv0BpYecD3dE0V/PrI78emdBe0M4xiHv+YVC1YkXuJnCxkbomT5i
-         mPHw==
-X-Gm-Message-State: ACgBeo02AbTFPNuludl7N+wXxdrcpi/sdYu3/ge9N4/KfJGKQtOy1dZP
-	d9dkS19rHqD5rMfaNwkVOmYYcg==
-X-Google-Smtp-Source: AA6agR5t0hiYdcQSzlOQvgxYMtgGqRrkAxAwKlh2pBZDsfLxA9RcQtKvtayVkimGdSxSjCsZrltZWw==
-X-Received: by 2002:a05:6602:14c1:b0:689:34d0:a0ef with SMTP id b1-20020a05660214c100b0068934d0a0efmr17291360iow.69.1662136338200;
-        Fri, 02 Sep 2022 09:32:18 -0700 (PDT)
-Received: from [192.168.1.94] ([207.135.234.126])
-        by smtp.gmail.com with ESMTPSA id n33-20020a056602342100b00689007ec164sm1004408ioz.48.2022.09.02.09.32.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Sep 2022 09:32:17 -0700 (PDT)
-Message-ID: <2b4a935c-a6b1-6e42-ceca-35a8f09d8f46@kernel.dk>
-Date: Fri, 2 Sep 2022 10:32:16 -0600
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=7Ygx506LgmFK7L1KUAyuf5pe5qs+tRV+yvCiaInsACw=;
+        b=Vj1mzBttGZ7Uqi1edVvZeoivhqrnG0tvJ0IsMiNNSVQDz4N2sqsdZ8X4ydz7UcA6B3
+         J6nGc7HY8p7SnErZL1LLmQ78kF/rB7XzJsCgLUc5lOVif2VbNfWXld33aBshk1ykbvY4
+         J015Ox1lVjaiT8mQNaK/yEIkptI1tTgY0YH63mB/r4unoEq8OmC7CQGbMhBcehg03LVe
+         v5qxiPLhJplvSyPlLJoLiUHx0aTuLbITImBePQuDBozyo7h77d+r369xkcrcih8smdpO
+         l94GHuuE98ALi6+ggcYPgKMsz9YXA0mdaZkocH+QPJ6yd3xhpUeh3h7SrivtHo8Wnc8m
+         1SmQ==
+X-Gm-Message-State: ACgBeo3xLdnrAubJQpAzLa6HBlf9AOzsmZP76yg+LcirmQ41l9G7s8M8
+	ChariRnZj/NNEVomYJ4xJWHdrzmGNFOBBHbVYgYZYN28elNRgFH3e0AmyTxDBJSxsKbXENpO/h+
+	Rs8GyZQim7x22hAz1ZKpMgoU7Gw==
+X-Received: by 2002:a05:6214:c8f:b0:499:21eb:ba3b with SMTP id r15-20020a0562140c8f00b0049921ebba3bmr11683321qvr.97.1662144204585;
+        Fri, 02 Sep 2022 11:43:24 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7K6nBjFNlybScTP7Kemi+J2G3yUcqV9Mva+4TXiBdaw+VSNZOrU4SppDL6kJQ3vHr68+qN5A==
+X-Received: by 2002:a05:6214:c8f:b0:499:21eb:ba3b with SMTP id r15-20020a0562140c8f00b0049921ebba3bmr11683298qvr.97.1662144204338;
+        Fri, 02 Sep 2022 11:43:24 -0700 (PDT)
+Received: from localhost (pool-68-160-173-162.bstnma.fios.verizon.net. [68.160.173.162])
+        by smtp.gmail.com with ESMTPSA id c4-20020ac84e04000000b00344f936bfc0sm1406919qtw.33.2022.09.02.11.43.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Sep 2022 11:43:23 -0700 (PDT)
+Date: Fri, 2 Sep 2022 14:43:22 -0400
+From: Mike Snitzer <snitzer@redhat.com>
+To: Pankaj Raghav <p.raghav@samsung.com>
+Cc: agk@redhat.com, snitzer@kernel.org, axboe@kernel.dk,
+	damien.lemoal@opensource.wdc.com, hch@lst.de, pankydev8@gmail.com,
+	Johannes.Thumshirn@wdc.com, linux-block@vger.kernel.org,
+	dm-devel@redhat.com, hare@suse.de, jaegeuk@kernel.org,
+	linux-kernel@vger.kernel.org, matias.bjorling@wdc.com,
+	gost.dev@samsung.com, bvanassche@acm.org,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v12 12/13] dm: introduce DM_EMULATED_ZONES target type
+Message-ID: <YxJOyq8Pf2vIExFf@redhat.com>
+References: <20220823121859.163903-1-p.raghav@samsung.com>
+ <CGME20220823121914eucas1p2f4445066c23cdae4fca80f7b0268815b@eucas1p2.samsung.com>
+ <20220823121859.163903-13-p.raghav@samsung.com>
+ <YxFOS8fq8AeE5mkf@redhat.com>
+ <96f90e1d-aa0f-1c76-bfc9-a87e978ad655@samsung.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH for-next v3 0/4] fixed-buffer for uring-cmd/passthrough
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-To: Kanchan Joshi <joshi.k@samsung.com>, hch@lst.de, kbusch@kernel.org,
- asml.silence@gmail.com
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, gost.dev@samsung.com
-References: <CGME20220902152701epcas5p1d4aca8eebc90fb96ac7ed5a8270816cf@epcas5p1.samsung.com>
- <20220902151657.10766-1-joshi.k@samsung.com>
- <f1e8a7fa-a1f8-c60a-c365-b2164421f98d@kernel.dk>
-In-Reply-To: <f1e8a7fa-a1f8-c60a-c365-b2164421f98d@kernel.dk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <96f90e1d-aa0f-1c76-bfc9-a87e978ad655@samsung.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220902_093221_990260_3C6781F3 
-X-CRM114-Status: GOOD (  19.91  )
+X-CRM114-CacheID: sfid-20220902_114328_838543_8E14D715 
+X-CRM114-Status: GOOD (  18.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,68 +104,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/2/22 10:06 AM, Jens Axboe wrote:
-> On 9/2/22 9:16 AM, Kanchan Joshi wrote:
->> Hi,
->>
->> Currently uring-cmd lacks the ability to leverage the pre-registered
->> buffers. This series adds the support in uring-cmd, and plumbs
->> nvme passthrough to work with it.
->>
->> Using registered-buffers showed peak-perf hike from 1.85M to 2.17M IOPS
->> in my setup.
->>
->> Without fixedbufs
->> *****************
->> # taskset -c 0 t/io_uring -b512 -d128 -c32 -s32 -p0 -F1 -B0 -O0 -n1 -u1 /dev/ng0n1
->> submitter=0, tid=5256, file=/dev/ng0n1, node=-1
->> polled=0, fixedbufs=0/0, register_files=1, buffered=1, QD=128
->> Engine=io_uring, sq_ring=128, cq_ring=128
->> IOPS=1.85M, BW=904MiB/s, IOS/call=32/31
->> IOPS=1.85M, BW=903MiB/s, IOS/call=32/32
->> IOPS=1.85M, BW=902MiB/s, IOS/call=32/32
->> ^CExiting on signal
->> Maximum IOPS=1.85M
-> 
-> With the poll support queued up, I ran this one as well. tldr is:
-> 
-> bdev (non pt)	122M IOPS
-> irq driven	51-52M IOPS
-> polled		71M IOPS
-> polled+fixed	78M IOPS
-> 
-> Looking at profiles, it looks like the bio is still being allocated
-> and freed and not dipping into the alloc cache, which is using a
-> substantial amount of CPU. I'll poke a bit and see what's going on...
+On Fri, Sep 02 2022 at  8:02P -0400,
+Pankaj Raghav <p.raghav@samsung.com> wrote:
 
-It's using the fs_bio_set, and that doesn't have the PERCPU alloc cache
-enabled. With the below, we then do:
+> On 2022-09-02 02:28, Mike Snitzer wrote:
+> > On Tue, Aug 23 2022 at  8:18P -0400,
+> > Pankaj Raghav <p.raghav@samsung.com> wrote:
+> > 
+> >> Introduce a new target type DM_EMULATED_ZONES for targets with
+> >> a different number of sectors per zone (aka zone size) than the underlying
+> >> device zone size.
+> >>
+> >> This target type is introduced as the existing zoned targets assume
+> >> that the target and the underlying device have the same zone size.
+> >> The new target: dm-po2zone will use this new target
+> >> type as it emulates the zone boundary that is different from the
+> >> underlying zoned device.
+> >>
+> >> Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+> >> Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+> > 
+> > This patch's use of "target type" jargon isn't valid. 
+> > 
+> > Please say "target feature flag" and rename DM_EMULATED_ZONES to
+> > DM_TARGET_EMULATED_ZONES in the subject and header.
+> > Good catch. I will fix it up for the next version.
+> > But, with those fixed:
+> > 
+> > Signed-off-by: Mike Snitzer <snitzer@kernel.org>
+> > 
+> You mean <Reviewed-By> ? :)
 
-polled+fixed	82M
+Ah, yes Reviewed-By, force of habit ;)
 
-I suspect the remainder is due to the lack of batching on the request
-freeing side, at least some of it. Haven't really looked deeper yet.
-
-One issue I saw - try and use passthrough polling without having any
-poll queues defined and it'll stall just spinning on completions. You
-need to ensure that these are processed as well - look at how the
-non-passthrough io_uring poll path handles it.
-
-
-diff --git a/block/bio.c b/block/bio.c
-index 3d3a2678fea2..cba6b1c02eb8 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -1754,7 +1754,7 @@ static int __init init_bio(void)
- 	cpuhp_setup_state_multi(CPUHP_BIO_DEAD, "block/bio:dead", NULL,
- 					bio_cpu_dead);
- 
--	if (bioset_init(&fs_bio_set, BIO_POOL_SIZE, 0, BIOSET_NEED_BVECS))
-+	if (bioset_init(&fs_bio_set, BIO_POOL_SIZE, 0, BIOSET_NEED_BVECS | BIOSET_PERCPU_CACHE))
- 		panic("bio: can't allocate bios\n");
- 
- 	if (bioset_integrity_create(&fs_bio_set, BIO_POOL_SIZE))
-
--- 
-Jens Axboe
 
