@@ -4,132 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E1E1C38145
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Sep 2022 12:05:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8F9D8ECAAD5
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Sep 2022 13:48:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ksjAwLWGNl6eTSiZxyGsY95CwqFsiCy8PT3NAtpouPk=; b=n5OOYC2A5K97bc
-	snbFr8Q1YpQbAg7cKxR8Tkupi2TLsufO4zPX3X0tgyriAqs8zngJnOsRy1XzXMLVOMDXNyBXsRJKk
-	iHZQuumNmzb93txNHULsqoA8GTdv5jkV0OkZD37Fqh7pbn3BIWQumC+e+1RxDJgAcNmaUOSIlQWES
-	1wW/4FsxpXx/pvzFSWCIfrjpVNUZzLY4Ko2UQAq9BcudSjL4I5ekgJ9fxsv3QazblQ8pImjb3FTFP
-	fqn1gC+YKr2faK+10k+3oQ3bZZLoHsHm6CLiJnnWCZ7xLCKHu0gggqQVNsGMUTX2o2B0wm24XCslO
-	KIXNteqO5zZvh9H+oTYw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Kc7MD3vwQjwW5tIa6EOiXPJosi9jFwiRxk6g3yTCQdc=; b=0NtL40HwV/4gcJtQIxTWE8mJD9
+	0K1C+L/IYJGip/l2bibwd9okS/xMhuMdkMf3kQAu4liAU2fLQC2F8wQHryVi9NeZIlvulXILAb+/B
+	Ql8CMg4GV3F5h71Ft2A+mPqcdFXVPJBaAIS1A0EIxy1pOrdMf1b7K5xImKLlZr0C3TnCLPzwTc2oV
+	DZ+H+VQALbJz311h5430QLE8PwhMffuDuf+ExQiBqcv5GKJEf/vEo0UmSGn6dWH8OTpLAY/sLBBFI
+	eF3V67LfMchtQae3DMv1FedWH+mBj0e8aabbAWCnaZTxAgpakmDq+QgbXI9zvmXWiai7yHkRxvtcv
+	2FuwCQYg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oU5QI-004LKa-EX; Fri, 02 Sep 2022 12:05:22 +0000
-Received: from mailout1.w1.samsung.com ([210.118.77.11])
+	id 1oU72C-005Fir-Cw; Fri, 02 Sep 2022 13:48:36 +0000
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oU5Q4-004L7H-C8
-	for linux-nvme@lists.infradead.org; Fri, 02 Sep 2022 12:05:12 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20220902120504euoutp01de5da341990a424be42643424a719fb9~RCZxp9G4H2675726757euoutp014
-	for <linux-nvme@lists.infradead.org>; Fri,  2 Sep 2022 12:05:04 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20220902120504euoutp01de5da341990a424be42643424a719fb9~RCZxp9G4H2675726757euoutp014
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1662120304;
-	bh=ksjAwLWGNl6eTSiZxyGsY95CwqFsiCy8PT3NAtpouPk=;
-	h=Date:Subject:To:CC:From:In-Reply-To:References:From;
-	b=CPGVnw7J4MYWgkYbXefzy32YlcSG7AcLRNH/TbP4paNpWUjSTJq0cev5IRy6rqknn
-	 5A1gKhx5HsptKQyB/iPICG7ag54OxbpySQM7ogdIiJUNCKrPWEQgR27d47QTxdnQlF
-	 YILuCSkaDU1tzsh1ESc/MYnv+b0bJxzMTWiBgvE0=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20220902120504eucas1p124b40b28956f8aa1e5c36afa91283ea9~RCZxURROJ2730127301eucas1p1W;
-	Fri,  2 Sep 2022 12:05:04 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-	eusmges3new.samsung.com (EUCPMTA) with SMTP id C4.5E.19378.071F1136; Fri,  2
-	Sep 2022 13:05:04 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20220902120503eucas1p15a51efdda30e44ecc7b93e5e990e3249~RCZwyYJ0h0807808078eucas1p1i;
-	Fri,  2 Sep 2022 12:05:03 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20220902120503eusmtrp2b35aa3ab5c6b82570eaeb872404b2f55~RCZwxZ7ae0472204722eusmtrp2T;
-	Fri,  2 Sep 2022 12:05:03 +0000 (GMT)
-X-AuditID: cbfec7f5-a35ff70000014bb2-7e-6311f170f347
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-	eusmgms1.samsung.com (EUCPMTA) with SMTP id 91.94.07473.F61F1136; Fri,  2
-	Sep 2022 13:05:03 +0100 (BST)
-Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20220902120503eusmtip1ee0971ca79428ee096867b3b155cb72a~RCZwnOMVF0453604536eusmtip1-;
-	Fri,  2 Sep 2022 12:05:03 +0000 (GMT)
-Received: from [192.168.8.130] (106.210.248.27) by CAMSVWEXC01.scsc.local
-	(2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Fri, 2 Sep 2022 13:05:02 +0100
-Message-ID: <6906b295-f043-2f6c-8860-216b07ab86df@samsung.com>
-Date: Fri, 2 Sep 2022 14:05:00 +0200
+	id 1oU729-005FZR-Ux
+	for linux-nvme@lists.infradead.org; Fri, 02 Sep 2022 13:48:35 +0000
+Received: by mail-yb1-xb32.google.com with SMTP id 130so3160677ybw.8
+        for <linux-nvme@lists.infradead.org>; Fri, 02 Sep 2022 06:48:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=blockbridge.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=Kc7MD3vwQjwW5tIa6EOiXPJosi9jFwiRxk6g3yTCQdc=;
+        b=L5W4qk6PrGtnvXCEZUooExRIWfiHmTobZz4jAWp8e4ARTEcHtCowVnV8O5WbSljLt9
+         xiT14Q0T0XmOYeS86lqLyTMPtyC5DYWMQPG8HPTAZYdkfq/Ul/KbVRFkPjmPEoFcmGWa
+         EQ7JUv62T5uRcRh/zGGOYN+nBfcPxA2Sb1rt52Ioj+ekGQH4UJZfEyj/K/GZZNiN5FEp
+         8rUlxROhnVf19N21k2hoQqiFbPfY/HrLtaVWi4yaF429bp7eAwEe4Jc2PLga7uk+rwkz
+         b2z6byEgCcQ1c68L2C7zamryOZinPUA3ms39Yy8f5oKUIVilqWnpXDByJiDSbh2PcuSC
+         Ef1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=Kc7MD3vwQjwW5tIa6EOiXPJosi9jFwiRxk6g3yTCQdc=;
+        b=GiZWIr83XgD63uLl64k4oknl/Psd9YMx6RFVPkHw1rj7stkwZMDL+9cQsR+xZtMupw
+         iUyCqslfME8Nb1hhxqrKPQauv/7Qa9AqjT9d0g3ORJAxo58YQ/1pIIyqGtm2Lbk90yAI
+         FDwMVfFG5u6QTcHIt9PnmnpHT5QVuhzqSdgFSnThlf6WkXiijXEG1XA0IyQuUV+TFVnY
+         4uSaspz5V0PSAxpn06HhgtMgQAzmCoKf+/Kt6LoGb55t7gc3sRAaao/r1KFT0yGQqScO
+         55us+95ymI/TaKGbZjqbtFqxo2cKAMeIP7Ip6ilFTYfwlE6ocCQbVRMde2PMZzmzx94q
+         DScw==
+X-Gm-Message-State: ACgBeo1FyAzGxd5Gp/KBw+3A0Uo7yoLcG/tD19XzzhSja9xZ3VZXGFF/
+	O4UjBRVfDiL/gVsCMj4lJMnfbh4bEbIMRnsLQ5n3Yw==
+X-Google-Smtp-Source: AA6agR76rO/zLv2yvFNyNpNiGQTuOfEIwVKAgaum4VMn2lwgjREYRySJUwNlx97dRhDm5EP4u3JVVqz8ukacDhhYdwg=
+X-Received: by 2002:a25:40c9:0:b0:69a:ba91:9fc with SMTP id
+ n192-20020a2540c9000000b0069aba9109fcmr20111579yba.443.1662126495107; Fri, 02
+ Sep 2022 06:48:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
-	Thunderbird/91.11.0
-Subject: Re: [PATCH v12 13/13] dm: add power-of-2 target for zoned devices
- with non power-of-2 zone sizes
-Content-Language: en-US
-To: <agk@redhat.com>, <snitzer@kernel.org>, <axboe@kernel.dk>,
-	<damien.lemoal@opensource.wdc.com>, <hch@lst.de>
-CC: <pankydev8@gmail.com>, <Johannes.Thumshirn@wdc.com>,
-	<linux-block@vger.kernel.org>, <dm-devel@redhat.com>, <hare@suse.de>,
-	<jaegeuk@kernel.org>, <linux-kernel@vger.kernel.org>,
-	<matias.bjorling@wdc.com>, <gost.dev@samsung.com>, <bvanassche@acm.org>,
-	<linux-nvme@lists.infradead.org>, Damien Le Moal <damien.lemoal@wdc.com>
-From: Pankaj Raghav <p.raghav@samsung.com>
-In-Reply-To: <20220823121859.163903-14-p.raghav@samsung.com>
+References: <CAHex0cqr8Sn1ydFjRbwkG8LOMqBXEHL2YpYu_vO8658xLzouww@mail.gmail.com>
+ <eb6b09b6-c899-e3b8-3217-02f8833818cd@grimberg.me> <CAHex0coajr37Xe_XE3sx+kgNosOD_d8N_SQcK=hT4NDAM8suBg@mail.gmail.com>
+ <ca7d5545-4630-59eb-3e50-6ca0594ba7c7@grimberg.me> <CAHex0coXdbR28S1PPSGuqJRH2JFZ4VpTg8NzfWFpHyBehK2urw@mail.gmail.com>
+ <CAHex0cqVOuSXf759Wdr3NS5gGCve+J-TUSNsvvbEpS7ONvFhMw@mail.gmail.com>
+ <715a183c-f888-74f2-9217-b9b430f16d1e@grimberg.me> <CAHex0crz1FGrQKnWCrWTCWJ_GsMn5iMmNMtq-BN+nDDUajshdg@mail.gmail.com>
+ <CAHex0co9JNwFkDpNvPitESYX6-2F8_n8phxzVsZFq2kieYLGJQ@mail.gmail.com>
+ <CAHex0cr80EyJXN1gOgEXF9r=_Y8Z5N6=jxw=je_8Px3vab+qtg@mail.gmail.com>
+ <376e2073-439b-7113-48f4-862d3404c328@grimberg.me> <CAHex0cq-YzgKVH6RazgPRFi0mJ7n+CsS+Cr-NqLEszZGen8dKg@mail.gmail.com>
+ <CAHex0co8NidmjzMoeQp8GXy8t6B9cJCA-DoSwO-H5Prae=ZSMg@mail.gmail.com>
+In-Reply-To: <CAHex0co8NidmjzMoeQp8GXy8t6B9cJCA-DoSwO-H5Prae=ZSMg@mail.gmail.com>
+From: Jonathan Nicklin <jnicklin@blockbridge.com>
+Date: Fri, 2 Sep 2022 09:47:39 -0400
+Message-ID: <CAHex0cpGJoq7Lf-VgtT3hnUZhLLoenGqK3OTqTKkPg8UpjaDuw@mail.gmail.com>
+Subject: Re: nvme-tcp: i/o errors and stalled host from failure to send
+ command pdus
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [106.210.248.27]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
-	CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMKsWRmVeSWpSXmKPExsWy7djP87oFHwWTDR60SlqsP3WM2WL13X42
-	i2kffjJb/D57ntmitf0bk8Xed7NZLfYsmsRksXL1USaLJ+tnMVv87boHlLilbXF51xw2i/nL
-	nrJbTGj7ymyx5uZTFosTt6QdBDwuX/H22DnrLrvH5bOlHptWdbJ5bF5S77H7ZgObx87W+6we
-	7/ddBQqdrvb4vEnOo/1AN1MAdxSXTUpqTmZZapG+XQJXxvFPT5kL2rkqtvx6ztzAOIOji5GT
-	Q0LAROLNpI/MILaQwApGiY/rgOJcQPYXRon5+6YwQjifGSVWt7xlh+k4fvYCO0RiOaPEgRkv
-	WOGqXs49zQbh7GSUWHv+AthgXgE7iRcP97GA2CwCKhKrf71lgogLSpyc+QQsLioQKbFm91mw
-	FcIC2RJL+46D2cwC4hK3nswHqxcRKJS4O+kUE8gCZoFzTBI3OzqBVnNwsAloSTR2gtVzCthI
-	fH7QywrRqynRuv031Bx5ie1v5zBDvKAkcXLZSiYIu1Zi7bEzUK/d45R49dsNZKSEgIvElpXQ
-	MBKWeHV8C1SJjMT/nfOhWqslnt74zQxyjoRAC6NE/871bBC91hJ9Z3Igahwl9i84zwwR5pO4
-	8VYQ4ho+iUnbpjNPYFSdhRQQs5A8PAvJA7OQPLCAkWUVo3hqaXFuemqxcV5quV5xYm5xaV66
-	XnJ+7iZGYDo8/e/41x2MK1591DvEyMTBeIhRgoNZSYR36mGBZCHelMTKqtSi/Pii0pzU4kOM
-	0hwsSuK8yZkbEoUE0hNLUrNTUwtSi2CyTBycUg1MJc22xz3X+dumbHbez24vamzR+GpnUNZq
-	3uKpR0texyz5Xix75t6sj7Nmh8nlrJnD28PIcv2jg9Lb3yKN5x3PXZx/J4Pv6Y3uVQaHXZ1L
-	3uVt6F8dEDRxh8GmJXHXPZTjVvyzdfkyf4KNjt1n7nWc6mmbTCxf7Uqt/PrkoBqPdSin+v7Z
-	q7ry6lYVK37/pLHT5/xT7z/m2Su9V1eenH/b4XLH+tbfNYs73guLRejqRzt8bij5L35ZlP8f
-	f+1UV8NDbe0LMqOSGjTOG7+Y0Hb+x4tS96NVjVHRAdyN3tr7mWu1bH118vivnVqfkDunX+Hu
-	/euPP7B2X5s3ef+uTqb8rcuVFbzn31FYVM8l8rpXiaU4I9FQi7moOBEAYdOZT/YDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprNKsWRmVeSWpSXmKPExsVy+t/xu7r5HwWTDSa+N7FYf+oYs8Xqu/1s
-	FtM+/GS2+H32PLNFa/s3Jou972azWuxZNInJYuXqo0wWT9bPYrb423UPKHFL2+LyrjlsFvOX
-	PWW3mND2ldlizc2nLBYnbkk7CHhcvuLtsXPWXXaPy2dLPTat6mTz2Lyk3mP3zQY2j52t91k9
-	3u+7ChQ6Xe3xeZOcR/uBbqYA7ig9m6L80pJUhYz84hJbpWhDCyM9Q0sLPSMTSz1DY/NYKyNT
-	JX07m5TUnMyy1CJ9uwS9jOOfnjIXtHNVbPn1nLmBcQZHFyMnh4SAicTxsxfYuxi5OIQEljJK
-	TGuYzQyRkJH4dOUjO4QtLPHnWhcbRNFHRol9V+9CdexklPi4+yBYB6+AncSLh/tYQGwWARWJ
-	1b/eMkHEBSVOznwCFhcViJR4uKwJLC4skC2xtO842AZmAXGJW0/mg8VFBAol7k46xQSygFng
-	HJPEzY5OVohtBxglFi5fC5Th4GAT0JJo7ARr5hSwkfj8oJcVYpCmROv231BD5SW2v50D9Y6S
-	xMllK5kg7FqJV/d3M05gFJ2F5L5ZSO6YhWTULCSjFjCyrGIUSS0tzk3PLTbUK07MLS7NS9dL
-	zs/dxAhMJduO/dy8g3Heq496hxiZOBgPMUpwMCuJ8E49LJAsxJuSWFmVWpQfX1Sak1p8iNEU
-	GEgTmaVEk/OBySyvJN7QzMDU0MTM0sDU0sxYSZzXs6AjUUggPbEkNTs1tSC1CKaPiYNTqoHp
-	qGkqe+Yrn+lXVaa525ofc1W4/nrj6bKDr7mfamjvjLOb0NlZoX4sLfbrwgkC4oUtenYTJab7
-	3TieraZYa6Fd4x7ua/VM49pZ9lmVNjq/9e8xFM1ctGC1QmVH9Hq2aTucI/sj3GRPXNTn7vvC
-	3+Pk0plok273/kri8fQ/1dws889VXnH8Uit8VTTw1Ym5XK51ztxsS/Tkb3T1Bp1NXFbyR22i
-	8dwzK7/9UZlxRzX2X0Yc14KGgzf7TA0em1x+dmNbv95EYfHC+KgLniqrI5odVCe+4DIUvOT+
-	5VC2yiz/ZzVl9YpRDQdDnqp/E3SxDnJelyDX56U4X+1U2b+XcYwTl9yzfOEqUb7jcv/lLiWW
-	4oxEQy3mouJEAH4bd6euAwAA
-X-CMS-MailID: 20220902120503eucas1p15a51efdda30e44ecc7b93e5e990e3249
-X-Msg-Generator: CA
-X-RootMTR: 20220823121915eucas1p10296d6a2ab00de5e73791a7d6b8e39de
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220823121915eucas1p10296d6a2ab00de5e73791a7d6b8e39de
-References: <20220823121859.163903-1-p.raghav@samsung.com>
-	<CGME20220823121915eucas1p10296d6a2ab00de5e73791a7d6b8e39de@eucas1p1.samsung.com>
-	<20220823121859.163903-14-p.raghav@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220902_050508_778221_C86DB3FF 
-X-CRM114-Status: GOOD (  13.41  )
+X-CRM114-CacheID: sfid-20220902_064834_033401_9E211C62 
+X-CRM114-Status: GOOD (  24.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -144,50 +91,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2022-08-23 14:18, Pankaj Raghav wrote:
+On Thu, Sep 1, 2022 at 6:56 PM Jonathan Nicklin
+<jnicklin@blockbridge.com> wrote:
+>
+> On Thu, Sep 1, 2022 at 1:46 PM Jonathan Nicklin
+> <jnicklin@blockbridge.com> wrote:
+> >
+> > nvme_tcp_queue_more() reads queue->mode_requests. So, I supposed
+> > nvme_tcp_queue_request() is an example where queue->more_requests gets
+> > read without the send_mutex? queue_work_on() is conditionalized on this.
+> >
+> > Apologies in advance if I'm misunderstanding the code.
+> >
+> > On Thu, Sep 1, 2022 at 1:02 PM Sagi Grimberg <sagi@grimberg.me> wrote:
+> > >
+> > >
+> > > > Question: queue->more_requests is updated under a lock. However, not
+> > > > all readers of queue->more_requests acquire the lock. The smp_id/smp_id2
+> > > > values seem to show that the same queue was being processed on
+> > > > different CPUs. Is this a race between the kworker and inline
+> > > > submission?
+> > >
+> > > The entire send path in io_work is wrapped with the send_mutex. Which
+> > > part is not protected with the lock?
+>
+> Okay, maybe some progress?! What appears to be happening is that
+> the request marked "last" is being picked up via nvme_tcp_send_all() when
+> processing the previous command. Consider another trace:
+>
+>                  CPU
+> tar-2263    [004] .....   680.671184: nvme_tcp_queue_rq: nvme1: qid=5
+> tag=5e op=0 data_len=16384
+> tar-2263    [004] .....   680.671185: nvme_tcp_cmd_pdu: nvme1: qid=5
+> tag=5e op=0 page_offset=1352 send_len=72
+> tar-2263    [004] .....   680.671186: nvme_tcp_queue_rq: nvme1: qid=5
+> tag=5d op=0 data_len=32768
+> tar-2263    [004] .....   680.671186: nvme_tcp_cmd_pdu: nvme1: qid=5
+> tag=5d op=0 page_offset=1424 send_len=72
+> tar-2263    [004] .....   680.671186: nvme_tcp_queue_rq: nvme1: qid=5
+> tag=5c op=0 data_len=32768
+> tar-2263    [004] .....   680.671187: nvme_tcp_cmd_pdu: nvme1: qid=5
+> tag=5c op=0 page_offset=1496 send_len=72
+> tar-2263    [004] .N...   680.671188: nvme_tcp_queue_rq: nvme1: qid=5
+> tag=5b op=0 data_len=32768
+> tar-2263    [004] .N...   680.671189: nvme_tcp_cmd_pdu: nvme1: qid=5
+> tag=5b op=0 page_offset=1568 send_len=72
+> kworker/4:0H-38 [004] .....   680.671198: nvme_tcp_queue_rq: nvme1:
+> qid=5 tag=5a op=0 data_len=16384
+> tar-2263        [000] .....   680.671199: nvme_tcp_cmd_pdu: nvme1:
+> qid=5 tag=5a op=0 page_offset=1640 send_len=72
+>
+> I've added some additional state to the request to print out on
+> timeout. First, queue->more_requests now tracks the command tag
+> that asserted more_requests. Second, I recorded the number of commands
+> issued via nvme_tcp_send_all(). As you can see, when tag 0x5b was
+> issued, it ended up sending 0x5a as well. More_requests was asserted
+> by 0x5b when nvme_tcp_try_send_cmd_pdu() processed 0x5a, so we never
+> actually pushed it out onto the wire.
+>
+> [  709.457051] nvme nvme1: state: tag 0x5e io_cpu 4 smp_id 4 smp_id2 4 sync 1
+>  empty 1 lock 1 last 0 more 0 send 1 send_ret 72 send_flags 0x28040
+> q_send_list 0
+>  q_req_list 0 q_more_requests 0x5e req_sent 1
+> [  709.414327] nvme nvme1: state: tag 0x5d io_cpu 4 smp_id 4 smp_id2 4 sync 1
+>  empty 1 lock 1 last 0 more 0 send 1 send_ret 72 send_flags 0x28040
+> q_send_list 0
+>  q_req_list 0 q_more_requests 0x5d req_sent 1
+> [  709.371665] nvme nvme1: state: tag 0x5c io_cpu 4 smp_id 4 smp_id2 4 sync 1
+>  empty 1 lock 1 last 0 more 0 send 1 send_ret 72 send_flags 0x28040
+> q_send_list 0
+>  q_req_list 0 q_more_requests 0x5c req_sent 1
+> [  709.312298] nvme nvme1: state: tag 0x5b io_cpu 4 smp_id 4 smp_id2 0 sync 1
+>  empty 1 lock 1 last 0 more 0 send 1 send_ret 72 send_flags 0x28040
+> q_send_list 0
+>  q_req_list 0 q_more_requests 0x5b req_sent 2 !!!
+> [  709.283534] nvme nvme1: state: tag 0x5a io_cpu 4 smp_id 4 smp_id2 4 sync 1
+>  empty 0 lock 0 last 1 more 1 send 1 send_ret 72 send_flags 0x28040
+> q_send_list 0
+>  q_req_list 0 q_more_requests 0x5b !!! req_sent 0
 
-> +static int dm_po2z_iterate_devices(struct dm_target *ti,
-> +				   iterate_devices_callout_fn fn, void *data)
-> +{
-> +	struct dm_po2z_target *dmh = ti->private;
-> +	sector_t len = dmh->nr_zones * dmh->zone_size;
-> +
-> +	return fn(ti, dmh->dev, 0, len, data);
-> +}
-> +
-> +static struct target_type dm_po2z_target = {
-> +	.name = "po2zone",
-> +	.version = { 1, 0, 0 },
-> +	.features = DM_TARGET_ZONED_HM | DM_TARGET_EMULATED_ZONES,
+I'm not quite sure of all of the mechanics of command submission... but it
+looks like if we are preempted in nvme_tcp_queue_request(), subsequent commands
+pile up on the req_list. When rescheduled, we drain the req_list with
+more_reqests set, which prevents us from pushing the bits onto the wire.
 
-This target also supports DM_TARGET_NOWAIT feature flag. I will add it in
-the next version.
-
-> +	.map = dm_po2z_map,
-> +	.end_io = dm_po2z_end_io,
-> +	.report_zones = dm_po2z_report_zones,
-> +	.iterate_devices = dm_po2z_iterate_devices,
-> +	.module = THIS_MODULE,
-> +	.io_hints = dm_po2z_io_hints,
-> +	.ctr = dm_po2z_ctr,
-> +};
-> +
-> +static int __init dm_po2z_init(void)
-> +{
-> +	return dm_register_target(&dm_po2z_target);
-> +}
-> +
-> +static void __exit dm_po2z_exit(void)
-> +{
-> +	dm_unregister_target(&dm_po2z_target);
-> +}
-> +
-> +/* Module hooks */
-> +module_init(dm_po2z_init);
-> +module_exit(dm_po2z_exit);
-> +
-> +MODULE_DESCRIPTION(DM_NAME "power-of-2 zoned target");
-> +MODULE_AUTHOR("Pankaj Raghav <p.raghav@samsung.com>");
-> +MODULE_LICENSE("GPL");
-> +
+Take notice of the "N" flag in the traces and the fact that the
+starting cpu "smp_id" is different from the ending cpu "smp_id2" for
+the associated tag.
 
