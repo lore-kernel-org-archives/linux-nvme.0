@@ -4,104 +4,118 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9427EC38145
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Sep 2022 14:23:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 128D6C001B5
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Sep 2022 15:27:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Message-ID:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=I/kkB7z2aDmcp35vjcs27rWjrbTK6LbNEM8kyDOaP28=; b=YayVIQM9P/UYsylIsNpaH6jGrI
-	I9yS2N/Uo8/goKSnMOtc1/RG0BQqpXNyijCD24a/D/FQ1kEotL3KnaCJfVFfnOtLk51CKNGgCwV/K
-	QSxEAstzYMAbnml2TBbvBOrj9/ndcN7KAzLmjEuEto/nGsTOIj44FDbRJoHDRj/7KvMesL/xwVpiu
-	PojtJz4hCYaFrmyL/OSGWER+D7177eqtlKr7GAPs2e/eh1Wa2R+vTw3jEa6tkC9vTiJAm+gC1bShm
-	gvRl846rLzeKATC/4hVHvhx1QAINb3i+9QK6viUy9o4PidpAHuI0BqNilJhkBEwCWrgf2d0qecdwb
-	M3OuIAlw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=KbluhO1edFwLkVxT5mMJM4Fz5H4uRnTUISzGxIYAGu4=; b=XUpZr3GVMHbCHTf+JsZZy70VHZ
+	nUovj7N1u4SfShSj4fWyS5Ta3bTgpbvGzVx7kwEiAYr8Zo3XgqAZxoscO049QAeYqYDzI4PNf9rqF
+	WkY/5o2AFJTSjCknnlW1vfUji1QjebQDDb3zPqGjxTyAhJtVvyMFV+HXLmWsFYJS7LSl0gkyZo3Pk
+	AlXSUUYfjQOG/UcYMPiQxU+oUFCaj4PIw7778CQqoYpcydzzzzbLSU3SlS8iga5QPDYDkuT0a7fvs
+	FO9hRBaunZnJOwf677hGMKxuP1jbR92yYcz1gOAf5HyssuKAVRPaii9nrKjXPPikOjqtWA3K80lvO
+	RVErtwDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oU7aE-005WWq-Tb; Fri, 02 Sep 2022 14:23:46 +0000
-Received: from mail-mw2nam10olkn2028.outbound.protection.outlook.com ([40.92.42.28] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+	id 1oU8Zr-006AKk-Ed; Fri, 02 Sep 2022 15:27:27 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oU7a9-005WU9-Fk
-	for linux-nvme@lists.infradead.org; Fri, 02 Sep 2022 14:23:42 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NKxp4jjEAaER/IuA9BXfBcsRvt59Lq86dp1MoE0K/KJ7osJybziVsV8hK7zeK8hwbS571E3x6xf/aBcPypXkBf2fCwcq1hjCLDvk3G8JycyvzpJy6yytgRmE2Et/xQMehVspn2lcbCgWH8jfJ3k0Sw5r7wfVmeVDkTAMiQ5taKh2fLgGGHjzV6l0Dh0ogVmNnmz6SFpdVpvsZMJQKsvr2mzInmj1jF888BAUKgUIsYEU69l0IUUH9Ciw/K69IkJy/BN4FVyF8h5L6vssS7eH3DgS8qjX8h9bmJXUqwBTgoSmr2AuyF2/q2o0ij4InCLX4ejC1Lvjuy1P/eSP3Jex7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I/kkB7z2aDmcp35vjcs27rWjrbTK6LbNEM8kyDOaP28=;
- b=SrdoQn+9N3cM35zDEe6NmqUIkxa61JVG6t6SPAq6Px2Of/zOiiEzL6ygI3qDlE5ZRkxCUpq8fQNEHhubqzSFyAD95PwnbcdBsOYWR8iUkOQkjRc35ErhQhT3bxGFydq6RU/WQzt5FAndZaTk/jx1iBpbfYnDf6sWJsYfnwUh11ui5xCGgDpz6GOfZt0x/cT5Vabn6sZrlguT03wZajnekZv7k3bY4nJnIIa50d2KQA2wGVqj5ryVb6C9azL+Vl4YQ2iFmvk/k8ixK4BXZdMqyqIZ7cVorkZL8896vlZ29ISEe/18iRrOyRKTK1MnywNjDSaw7mQGwD/8J1e4CFwH5g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I/kkB7z2aDmcp35vjcs27rWjrbTK6LbNEM8kyDOaP28=;
- b=Xoiy6XU149Fzv6SuYPPk1yXf59/9CSczFPzcgirEKHuS1nsJ3cFh558WNpg+2yK9xm97Ppwgo2HhW2UoV9KmNbA+XJPzqoztlgEcvVJhJq1qEbhknK2vtf7dTh9Iup2s/YG7GLykA3kKf5SWKk5x5tHoL7l/XaIHF3F9pazHrKRiRVVh0KXSF2+GGlOoi4b1P91XNvua5wzdy3/GzacL+3MJPTrrQicEI39gBshEYivVGtuJrIiAWRmWXowVymyev1cozaNPSVVHLWgYZoNDzlSVudnzFn4jBl2JnTdY9oz3gkd+KrI686y+p0DGATWC3X3h04HJLtJJN7nhqhS9OA==
-Received: from BL0PR13MB4291.namprd13.prod.outlook.com (2603:10b6:208:8e::12)
- by MW3PR13MB4123.namprd13.prod.outlook.com (2603:10b6:303:53::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.6; Fri, 2 Sep
- 2022 14:23:35 +0000
-Received: from BL0PR13MB4291.namprd13.prod.outlook.com
- ([fe80::99a0:3364:b3a8:f5fd]) by BL0PR13MB4291.namprd13.prod.outlook.com
- ([fe80::99a0:3364:b3a8:f5fd%4]) with mapi id 15.20.5612.005; Fri, 2 Sep 2022
- 14:23:35 +0000
-From: Martin Belanger <nitram_67@hotmail.com>
-To: linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org,
-	hare@suse.de,
-	axboe@fb.com,
-	hch@lst.de,
-	sagi@grimberg.me,
-	Martin Belanger <martin.belanger@dell.com>
-Subject: [PATCH v3] nvme-tcp: Print actual source IP address through sysfs "address" attr
-Date: Fri,  2 Sep 2022 10:23:16 -0400
-Message-ID:  <BL0PR13MB42919EA6B50B34A1A60455969C7A9@BL0PR13MB4291.namprd13.prod.outlook.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [ZT9muoWrXqH9dPwTdJ3v+vKgG3Vbu+UN]
-X-ClientProxiedBy: BN9PR03CA0198.namprd03.prod.outlook.com
- (2603:10b6:408:f9::23) To BL0PR13MB4291.namprd13.prod.outlook.com
- (2603:10b6:208:8e::12)
-X-Microsoft-Original-Message-ID: <20220902142316.7225-1-nitram_67@hotmail.com>
+	id 1oU8Zo-006A6Q-52
+	for linux-nvme@lists.infradead.org; Fri, 02 Sep 2022 15:27:26 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20220902152705epoutp03a550e52582abb2e651ad4d9fd41f0b6e~RFKJcOP7V0351203512epoutp03v
+	for <linux-nvme@lists.infradead.org>; Fri,  2 Sep 2022 15:27:05 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20220902152705epoutp03a550e52582abb2e651ad4d9fd41f0b6e~RFKJcOP7V0351203512epoutp03v
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1662132425;
+	bh=KbluhO1edFwLkVxT5mMJM4Fz5H4uRnTUISzGxIYAGu4=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=EWGGcnVVFPqwnC2x20PpuqHWnO3+fAUs1YuCQ8t+foaQtHA9iW2ZxuWlu7tjkabRy
+	 KFadz8vW1rB9Mr7dx2yr25LsOxTOh4c9m4+wjdP6XAkhjCXV1LoUR7IhswSnm3Xca7
+	 5GF5MOMw3DUWYRbKRXPHgBiEU5SIR/mprql4UD1g=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20220902152704epcas5p480164d19695cdb4b61615647c7e9e542~RFKIxJmGB1345413454epcas5p4N;
+	Fri,  2 Sep 2022 15:27:04 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.176]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4MK1x171w4z4x9Pr; Fri,  2 Sep
+	2022 15:27:01 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	75.30.53458.5C022136; Sat,  3 Sep 2022 00:27:01 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20220902152701epcas5p1d4aca8eebc90fb96ac7ed5a8270816cf~RFKGHShBc2163521635epcas5p1X;
+	Fri,  2 Sep 2022 15:27:01 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20220902152701epsmtrp1c55eea15537ee18ce95745447b46fd4b~RFKGGLkxW2718227182epsmtrp1S;
+	Fri,  2 Sep 2022 15:27:01 +0000 (GMT)
+X-AuditID: b6c32a4a-a5bff7000000d0d2-19-631220c5aed8
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	20.2C.14392.5C022136; Sat,  3 Sep 2022 00:27:01 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.110.206.5]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20220902152700epsmtip2be7b74f69c8476632caad5661afd2cd0~RFKExW0xs1295812958epsmtip22;
+	Fri,  2 Sep 2022 15:26:59 +0000 (GMT)
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org, asml.silence@gmail.com
+Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com, Kanchan Joshi
+	<joshi.k@samsung.com>
+Subject: [PATCH for-next v3 0/4] fixed-buffer for uring-cmd/passthrough
+Date: Fri,  2 Sep 2022 20:46:53 +0530
+Message-Id: <20220902151657.10766-1-joshi.k@samsung.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR13MB4291:EE_|MW3PR13MB4123:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8b4decca-14fd-4a1c-6527-08da8ceeb877
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	HkopJft4okiEtprHC4IyLpKuxgoV+n2ss7LnrkFbHyqK8Lbo5spykLPBsmHr6F5RCw6bGfKaL05ZVARxn7CX1TfnE0gc5E1J0rYqD5cCeK2al0lq5yJwLfqN/k5dtT4QPGvMP1Q93Col0cbvaz/djVRvxc85w8EgUpzpDVDUOSRiJu8HXtcCjiSDg+Gfi0FnwzvQHiycXyFRXGgq/GUtCrbEOh981uUwM6PSZjVDlxakMgyBu5uY6/g0VVugheLRTfFfB5B7cyvwp4Kfnku+B9nPOqtc07xp1ELQEKbAsGV5eRySiJgfV9ou/YqfjgOky4J/ndY3laBjg2KeWqTTo6qU9/0NB9fTcG6fi4rpexOvd8Ca3GDr0ZwpuksJMXC6BJVNioXi1sGx7Ws+HssQypZ6Jhc+yDMAx+oACCV7lowj9JklOhS5da/Pl50PGioUWvd5QPQAsja4zCLgFPYKDKUxE6ij0SJ18FJxXwEvuvXk1ZxHs9f5M5JAb+6SX0IwYGmmhWvOGH5kmMvqAAWxpMFMbRswMzB9wuuorlXb1+bmIJAfil1AXOY4Z1zH5h05avTH6oxDIogspZj1TZExfIoFVLfai90TS3nQAsvmW1l1IwjKKWNrJTtZv5JiNV0x
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?e5dqz6YX4UxCz53Y5zzszge7ZqbG6kiZKBFLMeCF6qOmFEeaplnitrtetwoN?=
- =?us-ascii?Q?Rgm4ctuVzS+yhsO7jXfyNNwg5Z2Rr7QV1PfWxEHX6zXAebpwLmde6w9F4kyv?=
- =?us-ascii?Q?g0U1YMSISuQ76Oah0r13LFuJtVL2FF69gweOE/z/3+t0y6hvPf+rHz9s8hkL?=
- =?us-ascii?Q?ZbZmWLvuH6VWwrQIIao5EFABYO9CyzzL7l0yYT+BsFvLmoy01WLEKOtaz3Pm?=
- =?us-ascii?Q?zh5W7S+DQyH8DscmTITbJpCCzoiI2sqHasvUVd94bJCFx/4yIGD1of6qp6bO?=
- =?us-ascii?Q?wBo6MjtzdATlMC+X99pgWlrimK4Xi4wHoWVLmSGRpdnGM/Lsa25aZR8GjzdU?=
- =?us-ascii?Q?bNNo8xoFFC8IEjUms4lQMVM23TOkyRCN3gHLVWU3docvlcCirOTXD1UUgpZu?=
- =?us-ascii?Q?kv0rcPzfWQzVr4VyRpk94hlL9L2yZK2zf9zpnh/ubqLaqrkDVmCV9JSESpZI?=
- =?us-ascii?Q?G8OANKCl1b10VV2NO8tWhpfOJ5Lsdt9Q3gSnonECvIjH71yg4N3hRY/tzEMy?=
- =?us-ascii?Q?DiLkKbTjjmfiHburqsqougjr5qRqWomtKMQoEbJ5siLZn0sYSS/+Gq9fpFIE?=
- =?us-ascii?Q?CkmI1U6sPUUWabaSBn1KPQFyj6G07ipvGdwY9hUBbc9HtRVqZPPxTKknilw3?=
- =?us-ascii?Q?PGHwKtMb+TpxGMfYYx4tvWSt8A9JdfmhZ5fr2AA5lCYTtE6zly+5n1uo+P3V?=
- =?us-ascii?Q?VIJrTWQ195dZ7AczqTAr0HxncBeEQrLxdRr7FD6g2ca8IxpDoQECiQTgRjnc?=
- =?us-ascii?Q?vP+jJdwlbe7Jnyb0vIkoBBI6x5I6O+AAASCsmCD64Z/R53lFa8Kec5HHvWUu?=
- =?us-ascii?Q?t13Q/mIB54n6VOIrqylcKTqCbcTIdDd5UC819Xq+jjuKA66XcAG7dmC6X0Tc?=
- =?us-ascii?Q?2tNmFDZYtWTBetnZoU7klQuWjy5SX8Xw0awKMDIYPhTkRrs+up1NAYiK3ezF?=
- =?us-ascii?Q?c9vJ6pPKffUtC63hB2fA1fqM2R7taXWIe4fAg2M36mfasPkY5FCS30yop8Dx?=
- =?us-ascii?Q?4HDq6Z08924Ws9p3npiyV5jSgCfHLirMb31Kmwn2vF4q+LfG/LAn2laMYXp3?=
- =?us-ascii?Q?S2xPLi7JfC9K7npgLKWew1TP2yKIYJFvDt66/I983zXRSj2ZfrbWCeSRwc95?=
- =?us-ascii?Q?2zS1kSkDVdolvF2RlCvUXGkeYrxwLAhipytsI7bTqeQM7rrE2vZROaViXf25?=
- =?us-ascii?Q?kClHbsiaMevudbGwb+dzh2JNduuUsccWVX+j/X4nzKgLdk/XY1KTh+XElUbh?=
- =?us-ascii?Q?rPtBg4tdElEqR0KIYw87hp+YbtklkRWWleci0QG7Sg=3D=3D?=
-X-OriginatorOrg: sct-15-20-4778-2-msonline-outlook-da780.templateTenant
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR13MB4123
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpnk+LIzCtJLcpLzFFi42LZdlhTU/eoglCywaIX5hZzVm1jtFh9t5/N
+	4uaBnUwWK1cfZbJ413qOxeLo/7dsFpMOXWO02HtL22L+sqfsDpweO2fdZfe4fLbUY9OqTjaP
+	zUvqPXbfbGDz6NuyitHj8ya5APaobJuM1MSU1CKF1Lzk/JTMvHRbJe/geOd4UzMDQ11DSwtz
+	JYW8xNxUWyUXnwBdt8wcoLuUFMoSc0qBQgGJxcVK+nY2RfmlJakKGfnFJbZKqQUpOQUmBXrF
+	ibnFpXnpenmpJVaGBgZGpkCFCdkZ01a/YC04I1zRvOs4ewPjHIEuRk4OCQETiZ232xi7GLk4
+	hAR2M0oc23aYDSQhJPCJUaLrmylE4hujxNKjf9lhOk53TWCFSOxllLjX/IkZwvnMKDGh9wiQ
+	w8HBJqApcWFyKUiDiICXxP3b78EamAVmMEqs7ngNNklYwF3i4pUVLCA2i4CqRNO046wgNq+A
+	hcS71wtYILbJS8y89J0dIi4ocXLmE7A4M1C8eetssMUSAm/ZJRbMWcEM0eAisXfJe1YIW1ji
+	1fEtUGdLSbzsb4OykyUuzTzHBGGXSDzecxDKtpdoPdUP9gAz0APrd+lD7OKT6P39hAkkLCHA
+	K9HRJgRRrShxb9JTqE3iEg9nLIGyPSSO9M9igYRirMTCTQ+ZJjDKzULywSwkH8xCWLaAkXkV
+	o2RqQXFuemqxaYFRXmo5PC6T83M3MYJTpJbXDsaHDz7oHWJk4mA8xCjBwawkwjv1sECyEG9K
+	YmVValF+fFFpTmrxIUZTYLBOZJYSTc4HJum8knhDE0sDEzMzMxNLYzNDJXHeKdqMyUIC6Ykl
+	qdmpqQWpRTB9TBycUg1MEbyXebzjfl5bK3vzofihRzEBxiybJB8kXFXaE84unn/beGL18i7m
+	Sazye/8xh2285yYoes9j0pYJ3+ufSwU/m302sotJ7fnK6T8+J3r1rnkusSbHcJLjSk71c1+c
+	8mwDOTeHuhksTOvY8Obhrmt8J+cdWPfpxQKb/GeBJx2W6VVK68y0dTB79Sj42b4NEzd/+Wzq
+	IPGR+c3pefeXnJudNCWKi/nIVyFd4f5H3bOecO3TFP2yctOb55vFLcR2FP/afG1GTf7D7VMl
+	574I5T809/+EnwUvN23zypn0qeTt7eJlWzM0tKY6ql7eKJzwaZWC8LMPKcx9ckU6xid+XXql
+	f6ZTZf7dA13h5ZeEby1OkxNXYinOSDTUYi4qTgQA7mr60hoEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrALMWRmVeSWpSXmKPExsWy7bCSvO5RBaFkg557ohZzVm1jtFh9t5/N
+	4uaBnUwWK1cfZbJ413qOxeLo/7dsFpMOXWO02HtL22L+sqfsDpweO2fdZfe4fLbUY9OqTjaP
+	zUvqPXbfbGDz6NuyitHj8ya5APYoLpuU1JzMstQifbsEroxpq1+wFpwRrmjedZy9gXGOQBcj
+	J4eEgInE6a4JrF2MXBxCArsZJabNOswEkRCXaL72gx3CFpZY+e85O0TRR0aJBx2LGbsYOTjY
+	BDQlLkwuBakREQiQONh4GayGWWAOo8Tly3vAmoUF3CUuXlnBAmKzCKhKNE07zgpi8wpYSLx7
+	vYAFYoG8xMxL39kh4oISJ2c+AYszA8Wbt85mnsDINwtJahaS1AJGplWMkqkFxbnpucWGBYZ5
+	qeV6xYm5xaV56XrJ+bmbGMGBrKW5g3H7qg96hxiZOBgPMUpwMCuJ8E49LJAsxJuSWFmVWpQf
+	X1Sak1p8iFGag0VJnPdC18l4IYH0xJLU7NTUgtQimCwTB6dUA5NaTrnvDI5zR4Rcuz2KPfmd
+	tYR3LWWWZLy3tW+DptvtPXl3G9ccaTH/5/ErdanclvXa97/K50pqze22SdeJW3zMxa+s8lRL
+	cbaM9ETfcy8Of5k8RW+OkiHL31ul0rJbHs/WWnHkeLmaCt/FzyJVb1bvZ13blPDxmvzt5z/f
+	LvuXmWs70Wt910RG5kghIW32+1bah90+LFw6SfqRz6pD287E77E132C385maVALj4uYLfmlK
+	n+wOnl+4u3iqyduVnx0sZxf9mHvOqjDdYVNhX/bmyWZX1q79Lqht57P64/zmJvfbez5JClw8
+	ukBnzeVtpQuenjl7RKjGYlKHa5KnZdLLBBfzuzLBt3JSjni/DfqqxFKckWioxVxUnAgAwmkt
+	NtMCAAA=
+X-CMS-MailID: 20220902152701epcas5p1d4aca8eebc90fb96ac7ed5a8270816cf
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220902152701epcas5p1d4aca8eebc90fb96ac7ed5a8270816cf
+References: <CGME20220902152701epcas5p1d4aca8eebc90fb96ac7ed5a8270816cf@epcas5p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220902_072341_631175_05493ACC 
-X-CRM114-Status: GOOD (  18.29  )
+X-CRM114-CacheID: sfid-20220902_082724_756185_CFBF5894 
+X-CRM114-Status: GOOD (  14.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,78 +130,79 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Martin Belanger <martin.belanger@dell.com>
+Hi,
 
-TCP transport relies on the routing table to determine which source
-address and interface to use when making a connection. Currently,
-there is no way to tell from userspace where a connection was made.
-This patch exposes the actual source address using a new field named
-"src_addr=" in the "address" attribute.
+Currently uring-cmd lacks the ability to leverage the pre-registered
+buffers. This series adds the support in uring-cmd, and plumbs
+nvme passthrough to work with it.
 
-This is needed to diagnose and identify connectivity issues. With
-the source address we can infer the interface associated with each
-connection.
+Using registered-buffers showed peak-perf hike from 1.85M to 2.17M IOPS
+in my setup.
 
-This was tested with nvme-cli 2.0 to verify it does not have any
-adverse effect. The new "src_addr=" field will simply be displayed in
-the output of the "list-subsys" or "list -v" commands as shown here.
+Without fixedbufs
+*****************
+# taskset -c 0 t/io_uring -b512 -d128 -c32 -s32 -p0 -F1 -B0 -O0 -n1 -u1 /dev/ng0n1
+submitter=0, tid=5256, file=/dev/ng0n1, node=-1
+polled=0, fixedbufs=0/0, register_files=1, buffered=1, QD=128
+Engine=io_uring, sq_ring=128, cq_ring=128
+IOPS=1.85M, BW=904MiB/s, IOS/call=32/31
+IOPS=1.85M, BW=903MiB/s, IOS/call=32/32
+IOPS=1.85M, BW=902MiB/s, IOS/call=32/32
+^CExiting on signal
+Maximum IOPS=1.85M
 
-$ nvme list-subsys
-nvme-subsys0 - NQN=nqn.2014-08.org.nvmexpress.discovery
-\
- +- nvme0 tcp traddr=192.168.56.1,trsvcid=8009,src_addr=192.168.56.101 live
+With fixedbufs
+**************
+# taskset -c 0 t/io_uring -b512 -d128 -c32 -s32 -p0 -F1 -B1 -O0 -n1 -u1 /dev/ng0n1
+submitter=0, tid=5260, file=/dev/ng0n1, node=-1
+polled=0, fixedbufs=1/0, register_files=1, buffered=1, QD=128
+Engine=io_uring, sq_ring=128, cq_ring=128
+IOPS=2.17M, BW=1059MiB/s, IOS/call=32/31
+IOPS=2.17M, BW=1057MiB/s, IOS/call=32/32
+IOPS=2.16M, BW=1055MiB/s, IOS/call=32/32
+^CExiting on signal
+Maximum IOPS=2.17M
 
-Changes to v2:
-Taken Sagi's comments into account
+Patch 1, 3 = prep/infrastructure
+Patch 2 = expand io_uring command to use registered-buffers
+Patch 4 = expand nvme passthrough to use registered-buffers
 
-Changes to original submission:
-Reword comments per Chaitanya's suggestion
+This series is prepared on top of:
+for-next + iopoll-passthru series [1].
+A unified branch is present here:
+https://github.com/OpenMPDK/linux/commits/feat/pt_fixedbufs_v3
 
-Signed-off-by: Martin Belanger <martin.belanger@dell.com>
----
- drivers/nvme/host/tcp.c | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+t/io_uring util with fixedbuf support is here:
+https://github.com/joshkan/fio/tree/priv/fb-v3
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 044da18c06f5..85b767a01402 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2532,6 +2532,25 @@ static int nvme_tcp_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
- 	return queue->nr_cqe;
- }
- 
-+static int nvme_tcp_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
-+{
-+	int ret, len;
-+	struct sockaddr_storage src_addr;
-+	struct nvme_tcp_queue *queue = &to_tcp_ctrl(ctrl)->queues[0];
-+
-+	len = nvmf_get_address(ctrl, buf, size);
-+
-+	/* Retrieve the actual source address from the socket */
-+	ret = kernel_getsockname(queue->sock, (struct sockaddr *)&src_addr);
-+	if (ret > 0) {
-+		len--; /* strip trailing newline */
-+		len += scnprintf(buf + len, size - len, "%ssrc_addr=%pISc\n",
-+				(len) ? "," : "", &src_addr);
-+	}
-+
-+	return len;
-+}
-+
- static const struct blk_mq_ops nvme_tcp_mq_ops = {
- 	.queue_rq	= nvme_tcp_queue_rq,
- 	.commit_rqs	= nvme_tcp_commit_rqs,
-@@ -2563,7 +2582,7 @@ static const struct nvme_ctrl_ops nvme_tcp_ctrl_ops = {
- 	.free_ctrl		= nvme_tcp_free_ctrl,
- 	.submit_async_event	= nvme_tcp_submit_async_event,
- 	.delete_ctrl		= nvme_tcp_delete_ctrl,
--	.get_address		= nvmf_get_address,
-+	.get_address		= nvme_tcp_get_address,
- 	.stop_ctrl		= nvme_tcp_stop_ctrl,
- };
- 
+Changes since v2:
+- Kill the new opcode, add a flag instead (Pavel)
+- Fix standalone build issue with patch 1 (Pavel)
+
+Changes since v1:
+- Fix a naming issue for an exported helper
+
+[1] https://lore.kernel.org/io-uring/20220823161443.49436-1-joshi.k@samsung.com/ 
+
+
+
+Anuj Gupta (2):
+  io_uring: introduce io_uring_cmd_import_fixed
+  io_uring: introduce fixed buffer support for io_uring_cmd
+
+Kanchan Joshi (2):
+  block: add helper to map bvec iterator for passthrough
+  nvme: wire up fixed buffer support for nvme passthrough
+
+ block/blk-map.c               | 71 +++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/ioctl.c     | 38 +++++++++++++------
+ include/linux/blk-mq.h        |  1 +
+ include/linux/io_uring.h      | 11 +++++-
+ include/uapi/linux/io_uring.h |  9 +++++
+ io_uring/uring_cmd.c          | 29 +++++++++++++-
+ 6 files changed, 145 insertions(+), 14 deletions(-)
+
 -- 
-2.37.2
+2.25.1
 
 
