@@ -4,83 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14611ECAAD3
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Sep 2022 02:37:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5076BC6FA83
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Sep 2022 05:54:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=21tuyaqs1vXmiWanrx2wXGnQAxkSG8CXdu407GW+pl8=; b=TNANXxfe8bMHS3IEsCTaLp497H
-	FWHXGbGdtoVjAy0KaANRb/F+70rKVqLe79gyPM4BHGA8PXEVQkU0LxgPBhQkFWCLat3NhzwmscjGU
-	+IJ+wkLuYPVwUHmgeOsBbIGpQGI1capMDkaU/nXCHJsp1+HaSSblRCNmd24q4bZqmWd279hJaWkaG
-	89INvjxVw49V/sh/Dz7NGqEZE7YB9qzl7Z8CHE6WTiAG4T6EIx4ZGQsinZV0SJVp+EtsQbjqsTdgo
-	TBcSZSlrkMAofLrvjxOxhriUiYruPzgAvNOQrlB/aghCVvujsGq1K2Bxx2/0riuGw89Oyg3klQfsa
-	uJIR51KQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9fonjwP5O3TqKHEUgulOIK6xea/cpfosEH2vg/a42mU=; b=c1ZooxgZu4wSv9zbZhC7BeaVWQ
+	jpd2wehtJR+n/4p0lkBdJEMpZkvRHCKzTrLu/2COIxqdnKQSE9w49agoOqtvqaErAUsJLjBiPreyq
+	8UPsnaJUhDgrAvh2u3kKSPEfY+l2T1MRY3pcK4NzR1kPjFiqONsLdlK8158ZTcXifCqmBx46jZy8O
+	H25uYo1B0uf27YT/kAgqV8XOewlKC6LYKfe+8jNzIQhG4cHuMUQXilaMCSKl4Pyh+/KmQcPW9lw6X
+	S4iU7VKtjSkY+YYRp17/cIhulWGD9aXmSZQt24StqpR33N09+KVu0QfgEdNNRYPbKsEFRXRJYhRe/
+	jOCTk90g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oTwZ6-00H1Xd-AB; Fri, 02 Sep 2022 02:37:52 +0000
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+	id 1oTzd0-000f6p-Fl; Fri, 02 Sep 2022 05:54:06 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oTwZ3-00H1TT-4u
-	for linux-nvme@lists.infradead.org; Fri, 02 Sep 2022 02:37:51 +0000
-Received: by mail-pj1-x102a.google.com with SMTP id p8-20020a17090ad30800b001fdfc8c7567so6690201pju.1
-        for <linux-nvme@lists.infradead.org>; Thu, 01 Sep 2022 19:37:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=21tuyaqs1vXmiWanrx2wXGnQAxkSG8CXdu407GW+pl8=;
-        b=zbMKRGazbm1KrHImUnWrYDGuiPfF7phVtFs4j0Z35FsT9/kORv31YVz2ufvqJWP1W1
-         oHlPL/Hqp4zo21FgxkC5QtmKosdv+hWChMiqh9U27SyyFQcH/W3kozIKw5V2aEd8CFKa
-         17l65BCyOF4cSZPFZLuDBkGFyF9bpIwAnajruqa6B+2eTFyNQ0kWYbSyVzM9YORi3+Xl
-         cTo+rADPXgKjccyun8G6Vn2tsH0ZquUIhfhTgGP+dVviWyIeb7O+0sKMzb4WFi3hrhjf
-         pGvX13lsc3OD6FcJxZTPUkXdijbAe3izTBG/uk/F85QsMSNhca99t+/Rn8LdI8TMFT53
-         7wAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=21tuyaqs1vXmiWanrx2wXGnQAxkSG8CXdu407GW+pl8=;
-        b=nwdIdw9Q0/RtQIzYd8kMMbDVOBcqeWmzonq/NdnLDSSKsfEs98qHEB2g5wQiKAM6MI
-         mMdJbTpiNDxoz9cKVLgJ9XT02b0UQ4p+34D8C18v6Zfy7iX43G4nW7yviyXOZMxl+zZz
-         jngo3bpE6xeeS5yBPtJ0MEWeDF68brbNmin7yIhIvMJorEnzxMyljJFg9FAkBmVsXBTP
-         NLd3ZBXmTnRb86fISs3heW4vDaeKPSCvAELCYW1DxTHh3334IC5Pb1xQQBgCqwDUpV8t
-         nitu97MqA4ifvDddQvmfAJIERQlEGcJYnsiv/nAQzSD+dRtwNHiv8oDYFth7tDz5eAmh
-         NDGA==
-X-Gm-Message-State: ACgBeo2wanJqeb56yjyGrR6m3fy/fO/Zrq+MvnNAaJlrKaufA/7tOiVw
-	w/YpqEIiaq9RsVGnCFGNUZikj8Dd2XqhOg==
-X-Google-Smtp-Source: AA6agR70lXWiSYOehD1/HyPGkVxHRBe3KA2ak/PssCKtf4wb6t+6554LN1MuiOjM/TtyZOXFEx/U9A==
-X-Received: by 2002:a17:902:c403:b0:174:3a8a:b6e3 with SMTP id k3-20020a170902c40300b001743a8ab6e3mr32022633plk.48.1662086259048;
-        Thu, 01 Sep 2022 19:37:39 -0700 (PDT)
-Received: from [10.76.15.169] ([61.120.150.74])
-        by smtp.gmail.com with ESMTPSA id l194-20020a633ecb000000b0042fe1914e26sm252411pga.37.2022.09.01.19.37.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Sep 2022 19:37:38 -0700 (PDT)
-Message-ID: <db63eaac-08e5-cb78-9aef-14b3c9955e8b@bytedance.com>
-Date: Fri, 2 Sep 2022 10:37:08 +0800
+	id 1oTzcy-000f40-0g
+	for linux-nvme@lists.infradead.org; Fri, 02 Sep 2022 05:54:05 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 4918761FC9;
+	Fri,  2 Sep 2022 05:54:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EA39C433D6;
+	Fri,  2 Sep 2022 05:54:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1662098042;
+	bh=ZCVrwOVxOedAeqF2VJSJ1MqkSUOoFJ5Np/T1O/uuDaQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GGEJaSZJ8TfObC5gfj4WAIRrRx68MXYadMFrna4EP4/bOJpTVng5KpRT9w2WMvQ9A
+	 aJ72J6pQIjZkfyU24srJC0MhvFk0SUv+cm02ezR/h5yw3zm4CbOLw6b6r+bLStgM86
+	 bnLuLeyBgv0eBlvCCB0w1mbRqh6w2xNBKZFV+Ih4=
+Date: Fri, 2 Sep 2022 07:53:59 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Logan Gunthorpe <logang@deltatee.com>
+Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-mm@kvack.org, Christoph Hellwig <hch@lst.de>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Minturn Dave B <dave.b.minturn@intel.com>,
+	Jason Ekstrand <jason@jlekstrand.net>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Xiong Jianxin <jianxin.xiong@intel.com>,
+	Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Martin Oliveira <martin.oliveira@eideticom.com>,
+	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+	Ralph Campbell <rcampbell@nvidia.com>,
+	Stephen Bates <sbates@raithlin.com>
+Subject: Re: [PATCH v9 7/8] PCI/P2PDMA: Allow userspace VMA allocations
+ through sysfs
+Message-ID: <YxGad5h2Nn/Ejslc@kroah.com>
+References: <20220825152425.6296-1-logang@deltatee.com>
+ <20220825152425.6296-8-logang@deltatee.com>
+ <YxDb2MyRx6o/wDAz@kroah.com>
+ <4a4bca1e-bebf-768f-92d4-92eb8ae714e1@deltatee.com>
+ <YxDhEO9ycZDTnbZm@kroah.com>
+ <cc9a24a8-dd3a-9d21-d9a7-5ee4b0ad7a57@deltatee.com>
+ <YxD7uZYaV75gJS9d@kroah.com>
+ <fb9d7948-43fe-87c5-5275-70f280181ad1@deltatee.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: Re: [PATCH v3 1/1] nvmet-tcp: Fix NULL pointer dereference during
- release
-Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, hch@lst.de
-Cc: kch@nvidia.com, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20220901061409.545456-1-pizhenwei@bytedance.com>
- <20220901061409.545456-2-pizhenwei@bytedance.com>
- <33269462-f989-c4ba-a9ac-846b629cd360@grimberg.me>
-From: zhenwei pi <pizhenwei@bytedance.com>
-In-Reply-To: <33269462-f989-c4ba-a9ac-846b629cd360@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fb9d7948-43fe-87c5-5275-70f280181ad1@deltatee.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220901_193749_213901_040EAFA7 
-X-CRM114-Status: GOOD (  22.26  )
+X-CRM114-CacheID: sfid-20220901_225404_157295_70272239 
+X-CRM114-Status: GOOD (  32.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,124 +93,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/1/22 18:52, Sagi Grimberg wrote:
+On Thu, Sep 01, 2022 at 01:16:54PM -0600, Logan Gunthorpe wrote:
 > 
 > 
-> On 9/1/22 09:14, zhenwei pi wrote:
->> nvmet-tcp frees CMD buffers in nvmet_tcp_uninit_data_in_cmds(),
->> and waits the inflight IO requests in nvmet_sq_destroy(). During wait
->> the inflight IO requests, the callback nvmet_tcp_queue_response()
->> is called from backend after IO complete, this leads a typical
->> Use-After-Free issue like this:
->>
->>   BUG: kernel NULL pointer dereference, address: 0000000000000008
->>   #PF: supervisor read access in kernel mode
->>   #PF: error_code(0x0000) - not-present page
->>   PGD 0 P4D 0
->>   Oops: 0000 [#1] PREEMPT SMP NOPTI
->>   CPU: 14 PID: 207 Comm: kworker/14:1H Kdump: loaded Tainted: 
->> G            E      6.0.0-rc2.bm.1-amd64 #12
->>   Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 
->> rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014
->>   Workqueue: nvmet_tcp_wq nvmet_tcp_io_work [nvmet_tcp]
->>   RIP: 0010:shash_ahash_digest+0x2b/0x110
->>   Code: 1f 44 00 00 41 57 41 56 41 55 41 54 55 48 89 fd 53 48 89 f3 48 
->> 83 ec 08 44 8b 67 30 45 85 e4 74 1c 48 8b 57 38 b8 00 10 00 00 <44> 8b 
->> 7a 08 44 29 f8 39 42 0c 0f 46 42 0c 41 39 c4 76 43 48 8b 03
->>   RSP: 0018:ffffc900006e3dd8 EFLAGS: 00010206
->>   RAX: 0000000000001000 RBX: ffff888104ac1650 RCX: 0000000000000000
->>   RDX: 0000000000000000 RSI: ffff888104ac1650 RDI: ffff888104ac1600
->>   RBP: ffff888104ac1600 R08: ffff8881073980c8 R09: ffff8881057798b8
->>   R10: 8080808080808080 R11: 0000000000000000 R12: 0000000000001000
->>   R13: 0000000000000000 R14: ffff88810601a1cc R15: ffff888107398000
->>   FS:  0000000000000000(0000) GS:ffff88823fd80000(0000) 
->> knlGS:0000000000000000
->>   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>   CR2: 0000000000000008 CR3: 000000010a8e8000 CR4: 0000000000350ee0
->>   Call Trace:
->>    <TASK>
->>    nvmet_tcp_io_work+0xa1c/0xb1c [nvmet_tcp]
->>    ? __switch_to+0x106/0x420
->>    process_one_work+0x1ae/0x380
->>    ? process_one_work+0x380/0x380
->>    worker_thread+0x30/0x360
->>    ? process_one_work+0x380/0x380
->>    kthread+0xe6/0x110
->>    ? kthread_complete_and_exit+0x20/0x20
->>    ret_from_fork+0x1f/0x30
->>
->> Suggested by Sagi, separate nvmet_tcp_uninit_data_in_cmds() into two
->> steps:
->>    uninit data in cmds                  <- new step 1
->>    nvmet_sq_destroy();
->>    cancel_work_sync(&queue->io_work);
->>    free CMD buffers                     <- new step 2
->>
->> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
->> ---
->>   drivers/nvme/target/tcp.c | 18 ++++++++++++++++--
->>   1 file changed, 16 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
->> index a3694a32f6d5..e18eae5ef90b 100644
->> --- a/drivers/nvme/target/tcp.c
->> +++ b/drivers/nvme/target/tcp.c
->> @@ -1423,14 +1423,27 @@ static void 
->> nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
->>       for (i = 0; i < queue->nr_cmds; i++, cmd++) {
->>           if (nvmet_tcp_need_data_in(cmd))
->>               nvmet_req_uninit(&cmd->req);
->> +    }
->> +
->> +    if (!queue->nr_cmds && nvmet_tcp_need_data_in(&queue->connect)) {
->> +        /* failed in connect */
->> +        nvmet_req_uninit(&queue->connect.req);
->> +    }
->> +}
->> +static void nvmet_tcp_free_cmd_data_in_buffers(struct nvmet_tcp_queue 
->> *queue)
->> +{
->> +    struct nvmet_tcp_cmd *cmd = queue->cmds;
->> +    int i;
->> +
->> +    for (i = 0; i < queue->nr_cmds; i++, cmd++) {
+> On 2022-09-01 12:36, Greg Kroah-Hartman wrote:
+> > On Thu, Sep 01, 2022 at 12:14:25PM -0600, Logan Gunthorpe wrote:
+> >> Well we haven't plugged in a remove call into p2pdma, that would be more
+> >> work and more interfaces touching the PCI code. Note: this code isn't a
+> >> driver but a set of PCI helpers available to other PCI drivers.
+> >> Everything that's setup is using the devm interfaces and gets torn down
+> >> with the same. So I don't really see the benefit of making the change
+> >> you propose.
+> > 
+> > The issue is the classic one with the devm helpers.  They do not lend
+> > themselves to resource management issues that require ordering or other
+> > sort of dependencies.  Please do not use them here, just put in a remove
+> > callback as you eventually will need it anyway, as you have a strong
+> > requirement for what gets freed when, and the devm api does not provide
+> > for that well.
 > 
->          if (nvmet_tcp_need_data_in(cmd))
-> 
->>           nvmet_tcp_unmap_pdu_iovec(cmd);
-> 
-> This function should no longer exist in the code.
-> 
+> This surprises me. Can you elaborate on this classic issue?
 
-Hi, Sagi
+There's long threads about it on the ksummit discuss mailing list and
+other places.
 
-Sorry, I didn't notice this patch is on the way...
-https://lore.kernel.org/linux-nvme/Yw%2F0cZFCQQpx3hhZ@ZenIV/T/#t
+> I've definitely seen uses of devm that expect the calls will be torn
+> down in reverse order they are added.
 
-I'll send the v4 after this patch apply. Thanks!
+Sorry, I didn't mean to imply the ordering of the devm code is
+incorrect, that's fine.
 
->>           nvmet_tcp_free_cmd_buffers(cmd);
->>       }
->>       if (!queue->nr_cmds && nvmet_tcp_need_data_in(&queue->connect)) {
->> -        /* failed in connect */
->> -        nvmet_tcp_finish_cmd(&queue->connect);
->> +        nvmet_tcp_unmap_pdu_iovec(&queue->connect);
-> 
-> This function should no longer exist in the code.
-> 
->> +        nvmet_tcp_free_cmd_buffers(&queue->connect);
->>       }
->>   }
->> @@ -1452,6 +1465,7 @@ static void nvmet_tcp_release_queue_work(struct 
->> work_struct *w)
->>       nvmet_tcp_uninit_data_in_cmds(queue);
->>       nvmet_sq_destroy(&queue->nvme_sq);
->>       cancel_work_sync(&queue->io_work);
->> +    nvmet_tcp_free_cmd_data_in_buffers(queue);
->>       sock_release(queue->sock);
->>       nvmet_tcp_free_cmds(queue);
->>       if (queue->hdr_digest || queue->data_digest)
+It's when you have things in the devm "chain" that need to be freed in a
+different order that stuff gets messy.  Like irqs and clocks and other
+types of resources that have "actions" associated with them.
 
--- 
-zhenwei pi
+> The existing p2pdma code will
+> certainly fail quite significantly if a devm_kzalloc() releases its
+> memory before the devm_memmap_pages() cleans up. There's also already an
+> action that is used to cleanup before the last devm_kzalloc() call
+> happens. If ordering is not guaranteed, then devm seems fairly broken
+> and unusable and I'd have to drop all uses from this code and go back to
+> the error prone method. Also what's the point of
+> devm_add_action_or_reset() if it doesn't guarantee the ordering or the
+> release?
+
+I have never used devm_add_action_or_reset() so I can't say why it is
+there.  I am just pointing out that manually messing with a sysfs group
+from a driver is a huge flag that something is wrong.  A driver should
+almost never be touching a raw kobject or calling any sysfs_* call if
+all is normal, which is why I questioned this.
+
+> But if it's that important I can make the change to these patches for v10.
+
+Try it the way I suggest, with a remove() callback, and see if that
+looks simpler and easier to follow and maintain over time.
+
+thanks,
+
+greg k-h
 
