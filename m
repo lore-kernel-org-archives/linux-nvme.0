@@ -4,87 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83958C38145
-	for <linux-nvme@archiver.kernel.org>; Sat,  3 Sep 2022 17:01:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83986C6FA82
+	for <linux-nvme@archiver.kernel.org>; Sun,  4 Sep 2022 17:11:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+QQA4kmqlZ35Q9KKy4uiiOptiO8D9lsejYD6WEYmE3s=; b=fTuR7RrbowooKo64hSlKd3TqL6
-	egCRkar2c4PXhpDRZe52wOInIHX9qmqyBj0TVP8TPq86/tIqC6ZZeKTuerNQC+0OJWSVmkFevKfVv
-	JZAlSmsHyUAG1I8BJTqZ2Ggp+RjSO1wUh8eflFGcGPE9mQqOjD/FVvSVGz0hGafHeRB33Oq+DLUPh
-	ADSlxKQspcGzUpl8sZE40kFdm3tGZRQgpJBRC3B7bTu4fzV+klEfrXiHvR4jtJc54RJNYjAUN2uzW
-	DeU9Q3YxAdFkep97I3wuNtphEz+QuSzqkfC5XGwOaXltdT7pY0vM7wnPypijrPvPXaC2yJXHIct+N
-	EXOSCWhQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=tsEmhgItPqXvRj7zrNCpSgjcLUOilwhKixm5RIY8Qp0=; b=tAybPcvqip1pAl3+zNmQreVsg7
+	VyWee76ZUMcQNAmGsniX1xbHE485utWo7tHp8FEpnhu6HO8uljobGCiiQunC7IKPaTDLDDinRPo2f
+	48m4BUGeObIOlPomA86mxRiDDTQX2fe2M4CA38tbFdBfu7H8thI7JSQuTSsASB4uMXDPNHjG/MVPH
+	7t0sPgTAOPqsNXlWBwsw7RJViT8MJb6UQFWwwLFQVvC+8S+7oHF8t/wTr4qVOI2Y7/P3HB++BrYAb
+	GG5tIXc6IYINWZcsqlN2YU9cRKKH9gfzfHnvOZS0y8zVT2zSJe8F4nbPe2ECqgOMZo4MOCbMzwJZF
+	76aU/nUQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oUWVt-00Dy3F-C7; Sat, 03 Sep 2022 17:00:57 +0000
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
+	id 1oUt9i-008NKQ-Lc; Sun, 04 Sep 2022 17:11:34 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oUWVl-00DxyV-OS
-	for linux-nvme@lists.infradead.org; Sat, 03 Sep 2022 17:00:51 +0000
-Received: by mail-pl1-x62d.google.com with SMTP id jm11so4711942plb.13
-        for <linux-nvme@lists.infradead.org>; Sat, 03 Sep 2022 10:00:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=+QQA4kmqlZ35Q9KKy4uiiOptiO8D9lsejYD6WEYmE3s=;
-        b=nUIquInPQF+Vuc0kBJcJtkVAOf+0nG29BJiGkM0lyLDfVbz8EUpgyOuG7jp5cJwjrF
-         uOO8Bg3yWUJ4o6OGTphq3Cq9UsujyQyNhtugvBJzHc7nPrcr0t68l8W45vOgPn6bsZsa
-         wSClzXAMiKXulUR+smYJ/DyhTbE1+Te09RQ1UqRGVh/n/f6pf94sU20k7ZfYSFXSNRRD
-         C+uEgVb1mm/zJrWXAR30KlmV8p16uL1nQFjBxWqlPWjF8NVvhjuFKaRUG2CorZ+kvmJw
-         Kdvsv9ZZUHpZjCaKMQ+gN86A2FcfShJwjdIHoP4oBsiIfIIXsBzol9hI5rNpK3NpS9r6
-         1TMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=+QQA4kmqlZ35Q9KKy4uiiOptiO8D9lsejYD6WEYmE3s=;
-        b=7Xxu9hVqiCayrCLhM1A9vdIgEqlNGosZww+/SzF+F3dm0N3YzbAr1YRdcXycpVkHkv
-         0KdimQFg+kmP6DHeOMLX9BDQNn5PY4pVGIGqJnTLDpez9eC9LvS/tk/i8UklRrlEDciz
-         hdze7iIuzf572jhfYMYYqeOZDyVoW7QzPo2kMguoBlI9q3ieYCpn2++uOoWYJrg1hWWD
-         ZIJw6MbIA1IcLhEw6PxOGandpmRNaghT66GRimnaVrbqKK5pdgs3ar3GWstyDSTinrsm
-         mb9/QQOxB9ctQUuK1tT+DF2Px5lql1Vh0RuKD+k67la6icDDuXmFduYx/6TRtzP764Ww
-         kh4Q==
-X-Gm-Message-State: ACgBeo0CeiHThd58gdQwgzgja18gYZTo5jkbFSutHTSz8PAUgNJH1M0i
-	w9TXfOm6r02L4AubcXdXbsm8aA==
-X-Google-Smtp-Source: AA6agR4TH6UeLZwuJxAnHsCNafpBxYf6GeIod3zTkM8qkV5uPlNKTQxrWMC8VWxUSFUcj2cYFBCPjA==
-X-Received: by 2002:a17:903:4043:b0:174:dd99:a589 with SMTP id n3-20020a170903404300b00174dd99a589mr27848171pla.56.1662224445803;
-        Sat, 03 Sep 2022 10:00:45 -0700 (PDT)
-Received: from [192.168.1.136] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id w29-20020aa79a1d000000b0052d24402e52sm4159231pfj.79.2022.09.03.10.00.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 03 Sep 2022 10:00:45 -0700 (PDT)
-Message-ID: <75c6c9ea-a5b4-1ef5-7ff1-10735fac743e@kernel.dk>
-Date: Sat, 3 Sep 2022 11:00:43 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH for-next v3 0/4] fixed-buffer for uring-cmd/passthrough
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-To: Kanchan Joshi <joshi.k@samsung.com>
+	id 1oUt9b-008NDl-El
+	for linux-nvme@lists.infradead.org; Sun, 04 Sep 2022 17:11:29 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20220904171113epoutp01f8719006d08ed741ae0710a47b079b65~Rt3pN9HzF2004720047epoutp01q
+	for <linux-nvme@lists.infradead.org>; Sun,  4 Sep 2022 17:11:13 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20220904171113epoutp01f8719006d08ed741ae0710a47b079b65~Rt3pN9HzF2004720047epoutp01q
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1662311473;
+	bh=tsEmhgItPqXvRj7zrNCpSgjcLUOilwhKixm5RIY8Qp0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lZrfaWVc8A2qGORD5tjB4ck3TCW6mH8e0Tr1oTaRc1SkknCqz5uLF0eSCuuyQHmwS
+	 AZqhL4q1Cy1+pMaHhggwxBTu2Y+JCSbSdpJ/QWMSs0ammfjurbgDxvACQvhBfBkGSo
+	 xjt7xMK0n1cj8i4Hip6Z7Iag5WkNlrp6wUcJ2K78=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20220904171111epcas5p3f1bd57a4222ec35ef2aab29834c1937d~Rt3n1RXNm0778507785epcas5p3Z;
+	Sun,  4 Sep 2022 17:11:11 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.181]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4MLJ8F3Kcyz4x9Pp; Sun,  4 Sep
+	2022 17:11:09 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	4C.BB.54060.D2CD4136; Mon,  5 Sep 2022 02:11:09 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20220904171108epcas5p24669be049be6fc1f1aedf84c2117e878~Rt3k6CxVy2324323243epcas5p2a;
+	Sun,  4 Sep 2022 17:11:08 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20220904171108epsmtrp22a16f3bbc02e786f73ab68e4b242c4fc~Rt3k5VZ6t1030310303epsmtrp2g;
+	Sun,  4 Sep 2022 17:11:08 +0000 (GMT)
+X-AuditID: b6c32a4b-e33fb7000000d32c-76-6314dc2d91be
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	70.DF.14392.C2CD4136; Mon,  5 Sep 2022 02:11:08 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20220904171107epsmtip235d661ffe30d0acce520a98d725d9759~Rt3jv4zJE1560915609epsmtip2r;
+	Sun,  4 Sep 2022 17:11:07 +0000 (GMT)
+Date: Sun, 4 Sep 2022 22:31:24 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: Jens Axboe <axboe@kernel.dk>
 Cc: hch@lst.de, kbusch@kernel.org, asml.silence@gmail.com,
- io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, gost.dev@samsung.com
+	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com
+Subject: Re: [PATCH for-next v3 0/4] fixed-buffer for uring-cmd/passthrough
+Message-ID: <20220904170124.GC10536@test-zns>
+MIME-Version: 1.0
+In-Reply-To: <75c6c9ea-a5b4-1ef5-7ff1-10735fac743e@kernel.dk>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprFJsWRmVeSWpSXmKPExsWy7bCmpq7uHZFkg03vRC3mrNrGaLH6bj+b
+	xc0DO5ksVq4+ymTxrvUci8WkQ9cYLfbe0raYv+wpuwOHx85Zd9k9Lp8t9di0qpPNY/OSeo/d
+	NxvYPPq2rGL0+LxJLoA9KtsmIzUxJbVIITUvOT8lMy/dVsk7ON453tTMwFDX0NLCXEkhLzE3
+	1VbJxSdA1y0zB+gkJYWyxJxSoFBAYnGxkr6dTVF+aUmqQkZ+cYmtUmpBSk6BSYFecWJucWle
+	ul5eaomVoYGBkSlQYUJ2xrxNp1kKZolUHHzWz9zA+Eugi5GTQ0LAROLh9m1sXYxcHEICuxkl
+	7v7cAOV8YpR4s/IYE4TzjVFi45/l7DAtk7c9Z4VI7GWU6HlzFKrqGaNE07rFTCBVLAIqEjd/
+	/2TuYuTgYBPQlLgwuRQkLCKgINHzeyUbiM0ssIpRYsovaRBbWMBboqnvATOIzSugK/H64xN2
+	CFtQ4uTMJywgNqeArcTVzvNgNaICyhIHth1ngjiok0Ni5UwXCNtF4uC3+8wQtrDEq+NboI6W
+	kvj8bi8bhJ0scWnmOajeEonHew5C2fYSraf6mSFuy5DYdW0uC4TNJ9H7+wkTyCsSArwSHW1C
+	EOWKEvcmPWWFsMUlHs5YAmV7SBzpn8UCCZJ1zBJ3bsxhnsAoNwvJO7OQrICwrSQ6PzSxzgJa
+	wSwgLbH8HweEqSmxfpf+AkbWVYySqQXFuempxaYFxnmp5fA4Ts7P3cQITqRa3jsYHz34oHeI
+	kYmD8RCjBAezkghvyg6RZCHelMTKqtSi/Pii0pzU4kOMpsDYmcgsJZqcD0zleSXxhiaWBiZm
+	ZmYmlsZmhkrivFO0GZOFBNITS1KzU1MLUotg+pg4OKUamCwXl53PqVjzXnAm6/kmvdRcpi97
+	LQo36u2JmrG/L+eeOOPK7OQHDKH/HXpNfpvFftzQ+M4vYuatIjOHx0opU71EyuuurJLtnJIR
+	8ihDiaVarH+R+vlntVs6vHh3XUq3NxLd66U9tcpl5t7kfx/uzW5Z5ecjxl11bOl2jbozE/00
+	8uxDkvmFVE92CEcYffad0Dn1k/7JPx6iG7f0Jxw8fc9+4rsbZqXHpqbGan2wSLjAenhdppOU
+	esbh1bevO/GLannuupPze6M812zDZs99ri/ntGX3XjscKs2z9+8D1sTT2l/Y/yn+di90Udl/
+	TuvX7d9Tcs9EftWdW79xw9HMUI1p9oZRq7k8vsvf2rp4ixJLcUaioRZzUXEiAFwV680tBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrOLMWRmVeSWpSXmKPExsWy7bCSvK7OHZFkg77NWhZzVm1jtFh9t5/N
+	4uaBnUwWK1cfZbJ413qOxWLSoWuMFntvaVvMX/aU3YHDY+esu+wel8+Wemxa1cnmsXlJvcfu
+	mw1sHn1bVjF6fN4kF8AexWWTkpqTWZZapG+XwJXx6OJ8toIzghUbe8wbGI/xdTFyckgImEhM
+	3vacFcQWEtjNKHH/lwZEXFyi+doPdghbWGLlv+dANhdQzRNGiX99B5lBEiwCKhI3f/8Esjk4
+	2AQ0JS5MLgUJiwgoSPT8XskGYjMLrGKUmPJLGsQWFvCWaOp7ANbKK6Ar8frjE6iZ65glHnz+
+	xAiREJQ4OfMJC0SzmcS8zQ/B5jMLSEss/8cBEuYUsJW42nkebI6ogLLEgW3HmSYwCs5C0j0L
+	SfcshO4FjMyrGCVTC4pz03OLDQsM81LL9YoTc4tL89L1kvNzNzGC40JLcwfj9lUf9A4xMnEw
+	HmKU4GBWEuFN2SGSLMSbklhZlVqUH19UmpNafIhRmoNFSZz3QtfJeCGB9MSS1OzU1ILUIpgs
+	EwenVANT6crIlKb/C57lft9cypr84otHX94C+0vqJ44a3asRe37MsznGkzFUawLvl2N1K+J2
+	H1Z59VpDO6tK4efcL83upWY8G9zuzvEu7bKYkc58xKDh3Pf5mnlbRA8w1pU+fhsrv27V6o3b
+	98kunr1V9K10r94DXkaTNTHX4qfo3GKQ/+K/afUW1l+fVBZ/3e/0z6Am7U/gNL33ry7Iu2lE
+	XRINOBlwoNDRZ83GxSVTm71uzLo6QVrlj4XYubNhPOdan9jc/Lp0z5TJa65+MD3rwC+m+iv9
+	/bFMmaWpz5qYL3X0de2R/yTE9m/+Dn7RXy2FG85fXsaWJ3Kz9+n139MO86Sf9Zpg0LX+tadq
+	R8r5+5x5bUosxRmJhlrMRcWJAJupLT36AgAA
+X-CMS-MailID: 20220904171108epcas5p24669be049be6fc1f1aedf84c2117e878
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----STjx0DdB5XWzR39.p0qqcVQtF-toHyOxq53rKg1ScZo20x2r=_daa78_"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220902152701epcas5p1d4aca8eebc90fb96ac7ed5a8270816cf
 References: <CGME20220902152701epcas5p1d4aca8eebc90fb96ac7ed5a8270816cf@epcas5p1.samsung.com>
- <20220902151657.10766-1-joshi.k@samsung.com>
- <f1e8a7fa-a1f8-c60a-c365-b2164421f98d@kernel.dk>
- <2b4a935c-a6b1-6e42-ceca-35a8f09d8f46@kernel.dk>
- <20220902184608.GA6902@test-zns>
- <48856ca4-5158-154e-a1f5-124aadc9780f@kernel.dk>
- <c62c977d-9e81-c84c-e17c-e057295c071e@kernel.dk>
-In-Reply-To: <c62c977d-9e81-c84c-e17c-e057295c071e@kernel.dk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+	<20220902151657.10766-1-joshi.k@samsung.com>
+	<f1e8a7fa-a1f8-c60a-c365-b2164421f98d@kernel.dk>
+	<2b4a935c-a6b1-6e42-ceca-35a8f09d8f46@kernel.dk>
+	<20220902184608.GA6902@test-zns>
+	<48856ca4-5158-154e-a1f5-124aadc9780f@kernel.dk>
+	<c62c977d-9e81-c84c-e17c-e057295c071e@kernel.dk>
+	<75c6c9ea-a5b4-1ef5-7ff1-10735fac743e@kernel.dk>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220903_100049_821245_137DEABE 
-X-CRM114-Status: GOOD (  12.66  )
+X-CRM114-CacheID: sfid-20220904_101127_867517_E450B1C9 
+X-CRM114-Status: GOOD (  17.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,70 +138,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/2/22 3:25 PM, Jens Axboe wrote:
-> On 9/2/22 1:32 PM, Jens Axboe wrote:
->> On 9/2/22 12:46 PM, Kanchan Joshi wrote:
->>> On Fri, Sep 02, 2022 at 10:32:16AM -0600, Jens Axboe wrote:
->>>> On 9/2/22 10:06 AM, Jens Axboe wrote:
->>>>> On 9/2/22 9:16 AM, Kanchan Joshi wrote:
->>>>>> Hi,
+------STjx0DdB5XWzR39.p0qqcVQtF-toHyOxq53rKg1ScZo20x2r=_daa78_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
+
+On Sat, Sep 03, 2022 at 11:00:43AM -0600, Jens Axboe wrote:
+>On 9/2/22 3:25 PM, Jens Axboe wrote:
+>> On 9/2/22 1:32 PM, Jens Axboe wrote:
+>>> On 9/2/22 12:46 PM, Kanchan Joshi wrote:
+>>>> On Fri, Sep 02, 2022 at 10:32:16AM -0600, Jens Axboe wrote:
+>>>>> On 9/2/22 10:06 AM, Jens Axboe wrote:
+>>>>>> On 9/2/22 9:16 AM, Kanchan Joshi wrote:
+>>>>>>> Hi,
+>>>>>>>
+>>>>>>> Currently uring-cmd lacks the ability to leverage the pre-registered
+>>>>>>> buffers. This series adds the support in uring-cmd, and plumbs
+>>>>>>> nvme passthrough to work with it.
+>>>>>>>
+>>>>>>> Using registered-buffers showed peak-perf hike from 1.85M to 2.17M IOPS
+>>>>>>> in my setup.
+>>>>>>>
+>>>>>>> Without fixedbufs
+>>>>>>> *****************
+>>>>>>> # taskset -c 0 t/io_uring -b512 -d128 -c32 -s32 -p0 -F1 -B0 -O0 -n1 -u1 /dev/ng0n1
+>>>>>>> submitter=0, tid=5256, file=/dev/ng0n1, node=-1
+>>>>>>> polled=0, fixedbufs=0/0, register_files=1, buffered=1, QD=128
+>>>>>>> Engine=io_uring, sq_ring=128, cq_ring=128
+>>>>>>> IOPS=1.85M, BW=904MiB/s, IOS/call=32/31
+>>>>>>> IOPS=1.85M, BW=903MiB/s, IOS/call=32/32
+>>>>>>> IOPS=1.85M, BW=902MiB/s, IOS/call=32/32
+>>>>>>> ^CExiting on signal
+>>>>>>> Maximum IOPS=1.85M
 >>>>>>
->>>>>> Currently uring-cmd lacks the ability to leverage the pre-registered
->>>>>> buffers. This series adds the support in uring-cmd, and plumbs
->>>>>> nvme passthrough to work with it.
+>>>>>> With the poll support queued up, I ran this one as well. tldr is:
 >>>>>>
->>>>>> Using registered-buffers showed peak-perf hike from 1.85M to 2.17M IOPS
->>>>>> in my setup.
->>>>>>
->>>>>> Without fixedbufs
->>>>>> *****************
->>>>>> # taskset -c 0 t/io_uring -b512 -d128 -c32 -s32 -p0 -F1 -B0 -O0 -n1 -u1 /dev/ng0n1
->>>>>> submitter=0, tid=5256, file=/dev/ng0n1, node=-1
->>>>>> polled=0, fixedbufs=0/0, register_files=1, buffered=1, QD=128
->>>>>> Engine=io_uring, sq_ring=128, cq_ring=128
->>>>>> IOPS=1.85M, BW=904MiB/s, IOS/call=32/31
->>>>>> IOPS=1.85M, BW=903MiB/s, IOS/call=32/32
->>>>>> IOPS=1.85M, BW=902MiB/s, IOS/call=32/32
->>>>>> ^CExiting on signal
->>>>>> Maximum IOPS=1.85M
->>>>>
->>>>> With the poll support queued up, I ran this one as well. tldr is:
->>>>>
->>>>> bdev (non pt)??? 122M IOPS
->>>>> irq driven??? 51-52M IOPS
->>>>> polled??????? 71M IOPS
->>>>> polled+fixed??? 78M IOPS
+>>>>>> bdev (non pt)??? 122M IOPS
+>>>>>> irq driven??? 51-52M IOPS
+>>>>>> polled??????? 71M IOPS
+>>>>>> polled+fixed??? 78M IOPS
+>
+>Followup on this, since t/io_uring didn't correctly detect NUMA nodes
+>for passthrough.
+>
+>With the current tree and the patchset I just sent for iopoll and the
+>caching fix that's in the block tree, here's the final score:
+>
+>polled+fixed passthrough	105M IOPS
+>
+>which is getting pretty close to the bdev polled fixed path as well.
+>I think that is starting to look pretty good!
+Great! In my setup (single disk/numa-node), current kernel shows-
 
-Followup on this, since t/io_uring didn't correctly detect NUMA nodes
-for passthrough.
+Block MIOPS
+***********
+command:t/io_uring -b512 -d128 -c32 -s32 -p0 -F1 -B0 -P1 -n1 /dev/nvme0n1
+plain: 1.52
+plain+fb: 1.77
+plain+poll: 2.23
+plain+fb+poll: 2.61
 
-With the current tree and the patchset I just sent for iopoll and the
-caching fix that's in the block tree, here's the final score:
-
-polled+fixed passthrough	105M IOPS
-
-which is getting pretty close to the bdev polled fixed path as well.
-I think that is starting to look pretty good!
-
-[...]
-submitter=22, tid=4768, file=/dev/ng22n1, node=8
-submitter=23, tid=4769, file=/dev/ng23n1, node=8
-polled=1, fixedbufs=1/0, register_files=1, buffered=1, QD=128
-Engine=io_uring, sq_ring=128, cq_ring=128
-IOPS=102.51M, BW=50.05GiB/s, IOS/call=32/31
-IOPS=105.29M, BW=51.41GiB/s, IOS/call=31/32
-IOPS=105.34M, BW=51.43GiB/s, IOS/call=32/31
-IOPS=105.37M, BW=51.45GiB/s, IOS/call=32/32
-IOPS=105.37M, BW=51.45GiB/s, IOS/call=31/31
-IOPS=105.38M, BW=51.45GiB/s, IOS/call=31/31
-IOPS=105.35M, BW=51.44GiB/s, IOS/call=32/32
-IOPS=105.49M, BW=51.51GiB/s, IOS/call=32/31
-^CExiting on signal
-Maximum IOPS=105.49M
+Passthru MIOPS
+**************
+command:t/io_uring -b512 -d128 -c32 -s32 -p0 -F1 -B0 -O0 -P1 -u1 -n1 /dev/ng0n1
+plain: 1.78
+plain+fb: 2.08
+plain+poll: 2.21
+plain+fb+poll: 2.69
 
 
--- 
-Jens Axboe
+------STjx0DdB5XWzR39.p0qqcVQtF-toHyOxq53rKg1ScZo20x2r=_daa78_
+Content-Type: text/plain; charset="utf-8"
 
 
+------STjx0DdB5XWzR39.p0qqcVQtF-toHyOxq53rKg1ScZo20x2r=_daa78_--
 
