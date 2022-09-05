@@ -4,76 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17C06ECAAD5
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Sep 2022 15:32:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0F40ECAAD3
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Sep 2022 15:45:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=K/HhzQQcQF0znmsCjkAykW8+2UlAaUoR1Wv0JTTHWhQ=; b=AN554DJeFer66rK6AXHI/Cizrw
-	m1pGR4svjCz3tFY6LL9NgplpK4PS9gFbx5rItrsfDhgVMHhdbOYUUbUMAM4JwGNO9IIyKf7FP3yaw
-	+O1n8axzWcO+g8JFaRZoGZoKjec2VIPM1IDNUfUWjuuAj4ME15VcZhWxGkJup6jUyWnh6OlR1n2Md
-	EIOduQVfIJb2toz7bK7LDSpYBNEF+1YGjLxa2o/ZAic8qJ2xqYWx35E86wSL/xWAalBnTEGZjfSk/
-	Uqg6N1o2DOh8i8l27ZRAlfoLaURagU3HsJzcN9sdHUNp6pCQct/VBaRzJbi6NHlHC5ndvVAhAuHVx
-	VQnCIz0A==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=VIsL7N5ljNMOCja38haH4bXMMncVeQZG5cQVF+WVtYU=; b=whuhDEBin6NThm+RIrEpBZ4L2+
+	rcqKWeqTAvCnkeQAiW2MxqEzS5Q6ydSm17ReqXDJ+3RxZc7tOc2n5CeYF8WcPGrjfrNRz8f38ktnJ
+	XacpmZZUBLqfSwPGl65+0KrMNDa1FziuMbV1wPAi2TAFlhbg/bbtRLDN0bi1L61DSbeoTMkcS3NJV
+	yqra32m9pE5cDxyfAa9EwF5GrWegi+4d8EOZPLOkkO5YlKqPaNreI4oeowHO+eaWG0SZKYHlzh717
+	xk7zH1qC7+2nzzrxibb6R9uiQKDBSbr9n38PHKFV9xGb118p5kZYFboZoqVS34mVbyOTkXjM+UWKN
+	LF397KgQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVE4u-005zw6-5J; Mon, 05 Sep 2022 15:32:00 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1oVEHR-006C6G-Km; Mon, 05 Sep 2022 15:44:57 +0000
+Received: from mail-wr1-f44.google.com ([209.85.221.44])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVB8o-0027Ss-HM
-	for linux-nvme@lists.infradead.org; Mon, 05 Sep 2022 12:23:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1662380630; x=1693916630;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ZUsJNKl9kM4XrO+bzq6rMd4l+h94hGBCGq7tktFiIIQ=;
-  b=rFiDE2p2eLzQlD1mjBLwpdnLCGpsbrBgHdgE1kgZEHQKKaS1shd2SKTG
-   oVxZUWaFhbC9qQEkIulszAkucxnJBdXq/nU44QhzuSCp/rYeYvDcoVOKy
-   gmd2fxSXJS4OZOpeQAQdlAdKwHB0BLTtcJhcH2EAAtUfmfvxKmBoD/Xmp
-   L1aB+KdxZup8xpHppO8de6mH3O/l4pPuCgimSN9nOMgyakcs9nqulcoBH
-   AnFpszk2Ls3hoCweQH+QmGct/hjY8Ba4k79RQ2tKV30dsE17xdHghIHg/
-   eOw9oCMVuxIyjUcJ/vKkPCjyMqJol7NPTtq+WfaIDaHmFga4R9FlpEyGa
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.93,291,1654531200"; 
-   d="scan'208";a="314815549"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 05 Sep 2022 20:23:46 +0800
-IronPort-SDR: rtxssDDfBAVSq2E5HQr6If/3/9QNA5+LfpXWMLvoRDYyFsEBYJhm58tMfu+o1D2+su8mvepVxs
- t21hwthONL+1x6R6SUsw+XFdqQkrlmSqwtUMuZETpDctK+1wC4M9CqaTu2o8cQ2qGXSeg3k8It
- p6wwNWt7QtjKmTwBMNMn39Xeyzzk2x+TTx2uCkTbHYHqM5l3upekx/rBh/DNhwFYqQaUH1xNtH
- 5R+lUP+HOgwmppXRxKmf3Y1UQZtjqUU3go7NkVQhNWBl9Kd6bxH0QRzXTqNI7Ryq8SvGBJmR+Y
- nTTGfOXzHBxhBlAHWgUAfXRr
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 05 Sep 2022 04:44:08 -0700
-IronPort-SDR: 8dcfSLnIvZGdzY/wgFlmxn9ul7k1JgAU4lPkFxVrWiWs3OHLEzJMFKX+hCGBOxrZJxSe98SF+i
- kOgib49keGaFjuR5lmQKiPLm+Iq+mvm2JU4aCaAIqchI60k15kdGtpNTXn+GY2cu638ZWtNyrD
- YHMldbx7IZv8fUtGtVBsZ1ETnfvs7+eY9qMVm5D+9L/HCJVKY7kXyhXoIHxgtYhDkRN2eQCtMe
- CHclfAFhL/PGcmTBrowym8Rw0WO7kQgsXTxTKHeEneqzoAad46MNzi+xqqG3rNbGRZBlyRSXAL
- 1qs=
-WDCIronportException: Internal
-Received: from dellx5.wdc.com (HELO dellx4.cphwdc) ([10.200.210.81])
-  by uls-op-cesaip02.wdc.com with ESMTP; 05 Sep 2022 05:23:44 -0700
-From: Dennis Maisenbacher <Dennis.Maisenbacher@wdc.com>
-To: linux-nvme@lists.infradead.org
-Cc: Dennis Maisenbacher <dennis.maisenbacher@wdc.com>,
-	Niklas Cassel <niklas.cassel@wdc.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] nvmet: fix mar and mor off-by-one errors
-Date: Mon,  5 Sep 2022 14:21:16 +0200
-Message-Id: <20220905122116.2678206-1-Dennis.Maisenbacher@wdc.com>
-X-Mailer: git-send-email 2.25.1
+	id 1oV9iz-000grT-0R
+	for linux-nvme@lists.infradead.org; Mon, 05 Sep 2022 10:53:06 +0000
+Received: by mail-wr1-f44.google.com with SMTP id n17so10828924wrm.4
+        for <linux-nvme@lists.infradead.org>; Mon, 05 Sep 2022 03:53:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=VIsL7N5ljNMOCja38haH4bXMMncVeQZG5cQVF+WVtYU=;
+        b=nyW4VRHU11HJPc9/jFyjMKZVj1NFL2LJOdN88AiAKs6uNhgKTc9TVHqJHRbO9FLURf
+         tUvicLH6VtMnUp/vFenmblh3cfX7Lal5fRbDpjZNzXm7gI0jkKRJfEFjdXt+d3kTO/V4
+         4+RBowsiagkb+R321AD4iNI6KkzOprRktysUDpbHRMOTKM8VyMgWZ5Y4AjzE9eimyDjI
+         Xk1pZGlpCAM0hEthiAqEKbvDkqjwoFCg3X2kdrXn5CbvfgGQjGcCzXREkFnCT3ARfxqC
+         kVI9jF9JgwO94PhFRfUo95vzEvIIPzyfWUqpXp8wwCOuoKk3Ud3pV5Q2N5/zsY5Hofrb
+         8luQ==
+X-Gm-Message-State: ACgBeo0UhQGlBz60IRmCqeB/7KTPwnNmmzfd7RYb0wIk233JB/3jg4JG
+	nZG0m14r0f7uTobDRTIl1T42a1h9Q18=
+X-Google-Smtp-Source: AA6agR5coXz/uEHT+pFH0glZiMkDPT1IYUPDQ8cYTqNVa1RzL6jXPDXROWxmghZ2lKhNDF0ssXHunQ==
+X-Received: by 2002:a5d:5d89:0:b0:226:e5ca:4bc2 with SMTP id ci9-20020a5d5d89000000b00226e5ca4bc2mr16624196wrb.310.1662375182230;
+        Mon, 05 Sep 2022 03:53:02 -0700 (PDT)
+Received: from [192.168.64.104] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id e2-20020a5d5942000000b00226f39d1a3esm8601100wri.73.2022.09.05.03.53.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Sep 2022 03:53:01 -0700 (PDT)
+Message-ID: <9803c44c-e7dd-ba06-2195-9287f8890884@grimberg.me>
+Date: Mon, 5 Sep 2022 13:53:00 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: crash at nvme_tcp_init_iter with header digest enabled
+Content-Language: en-US
+To: Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org
+References: <20220819075117.rzvbecyvh2wuwokj@carbon.lan>
+ <9a0bc2f1-b1d0-a34d-2e9f-926da3fc2ab4@grimberg.me>
+ <2913fc75-49a6-346e-136c-31b87d6487fc@grimberg.me>
+ <20220905102612.xur4ul2bhade6ccv@carbon.lan>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20220905102612.xur4ul2bhade6ccv@carbon.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220905_052351_239587_63EC9645 
-X-CRM114-Status: GOOD (  12.80  )
+X-CRM114-CacheID: sfid-20220905_035305_094020_B6D5B05B 
+X-CRM114-Status: GOOD (  11.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,51 +82,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Dennis Maisenbacher <dennis.maisenbacher@wdc.com>
 
-Maximum Active Resources (MAR) and Maximum Open Resources (MOR) are 0's
-based vales where a value of 0xffffffff indicates that there is no limit.
+>>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+>>> index e82dcfcda29b..3e3ebde4eff5 100644
+>>> --- a/drivers/nvme/host/tcp.c
+>>> +++ b/drivers/nvme/host/tcp.c
+>>> @@ -1229,7 +1229,7 @@ static void nvme_tcp_io_work(struct work_struct *w)
+>>>                   else if (unlikely(result < 0))
+>>>                           return;
+>>>
+>>> -               if (!pending)
+>>> +               if (!pending || !queue->rd_enabled)
+>>>                           return;
+>>>
+>>>           } while (!time_after(jiffies, deadline)); /* quota is exhausted */
+>>> -- 
+>>
+>> Daniel, any input here?
+> 
+> I haven't heard anything from our customer yet. Let me ping them again.
 
-Cast the unsigned int values that are returned by bdev_max_open_zones and
-bdev_max_active_zones into u32 vales which need to be decremented as the
-returned values of the block layer helpers are not 0's based.
-The cast to u32 is necessary because the size of unsigned int is
-architecture dependent and a 0 reported by the block layer helpers
-indicates no limit, thus it needs to be converted to 0xffffffff which
-happens by underflowing the u32.
+Most likely it should address the issue, but the proposed patch is a fix
+regardless.
 
-Suggested-by: Niklas Cassel <niklas.cassel@wdc.com>
-Signed-off-by: Dennis Maisenbacher <dennis.maisenbacher@wdc.com>
----
- drivers/nvme/target/zns.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
-index c7ef69f29fe4..606f21ee21bf 100644
---- a/drivers/nvme/target/zns.c
-+++ b/drivers/nvme/target/zns.c
-@@ -100,6 +100,7 @@ void nvmet_execute_identify_cns_cs_ns(struct nvmet_req *req)
- 	struct nvme_id_ns_zns *id_zns;
- 	u64 zsze;
- 	u16 status;
-+	u32 mar, mor;
- 
- 	if (le32_to_cpu(req->cmd->identify.nsid) == NVME_NSID_ALL) {
- 		req->error_loc = offsetof(struct nvme_identify, nsid);
-@@ -130,8 +131,10 @@ void nvmet_execute_identify_cns_cs_ns(struct nvmet_req *req)
- 	zsze = (bdev_zone_sectors(req->ns->bdev) << 9) >>
- 					req->ns->blksize_shift;
- 	id_zns->lbafe[0].zsze = cpu_to_le64(zsze);
--	id_zns->mor = cpu_to_le32(bdev_max_open_zones(req->ns->bdev));
--	id_zns->mar = cpu_to_le32(bdev_max_active_zones(req->ns->bdev));
-+	mor = bdev_max_open_zones(req->ns->bdev);
-+	id_zns->mor = cpu_to_le32(--mor);
-+	mar = bdev_max_active_zones(req->ns->bdev);
-+	id_zns->mar = cpu_to_le32(--mar);
- 
- done:
- 	status = nvmet_copy_to_sgl(req, 0, id_zns, sizeof(*id_zns));
--- 
-2.25.1
-
+Will send it as a proper patch, would love to get your reviewed-by, and
+when you hear from your customer, you can add Tested-by tag.
 
