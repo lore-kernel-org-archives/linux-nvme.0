@@ -4,70 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0F40ECAAD3
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Sep 2022 15:45:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6621BECAAD3
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Sep 2022 15:51:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VIsL7N5ljNMOCja38haH4bXMMncVeQZG5cQVF+WVtYU=; b=whuhDEBin6NThm+RIrEpBZ4L2+
-	rcqKWeqTAvCnkeQAiW2MxqEzS5Q6ydSm17ReqXDJ+3RxZc7tOc2n5CeYF8WcPGrjfrNRz8f38ktnJ
-	XacpmZZUBLqfSwPGl65+0KrMNDa1FziuMbV1wPAi2TAFlhbg/bbtRLDN0bi1L61DSbeoTMkcS3NJV
-	yqra32m9pE5cDxyfAa9EwF5GrWegi+4d8EOZPLOkkO5YlKqPaNreI4oeowHO+eaWG0SZKYHlzh717
-	xk7zH1qC7+2nzzrxibb6R9uiQKDBSbr9n38PHKFV9xGb118p5kZYFboZoqVS34mVbyOTkXjM+UWKN
-	LF397KgQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=OA1qT8cygRlBgWvxM1EZRhTJJYK6oEnILjsD8BmDs68=; b=KB/mJ80SVcBhC0m4DqlKt1nDKQ
+	p6fdZcebzddHEHDVOwBji+NUIiipJ2A962QdPL/EOl0rstC6j3Geu5APVAREFn/YPoRF2+LlIWIr3
+	8i8QJP3bFN6+4VQtZmQ7MSttLAjz5Q+FYyKen96yYkEJxwClc4LSsaTVsZYuvKS71Nx1tER+H4GUz
+	7c7RlV+ujc38HNuGG0T0spwr6L2H6Oov1L34RgBH/SsfKMkwpJPBctjesLqiIxcQf8cCWq4q88ke3
+	XnRAuchhSeX+ivCOPuGVsEASkt72+Z2NDL9hy90VITDYSfLrmyGF1cdYGNwA+bIavdd3Fs3/nCrbQ
+	fKE+bBOg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVEHR-006C6G-Km; Mon, 05 Sep 2022 15:44:57 +0000
-Received: from mail-wr1-f44.google.com ([209.85.221.44])
+	id 1oVENW-006KW1-Vt; Mon, 05 Sep 2022 15:51:15 +0000
+Received: from desiato.infradead.org ([90.155.92.199])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oV9iz-000grT-0R
-	for linux-nvme@lists.infradead.org; Mon, 05 Sep 2022 10:53:06 +0000
-Received: by mail-wr1-f44.google.com with SMTP id n17so10828924wrm.4
-        for <linux-nvme@lists.infradead.org>; Mon, 05 Sep 2022 03:53:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=VIsL7N5ljNMOCja38haH4bXMMncVeQZG5cQVF+WVtYU=;
-        b=nyW4VRHU11HJPc9/jFyjMKZVj1NFL2LJOdN88AiAKs6uNhgKTc9TVHqJHRbO9FLURf
-         tUvicLH6VtMnUp/vFenmblh3cfX7Lal5fRbDpjZNzXm7gI0jkKRJfEFjdXt+d3kTO/V4
-         4+RBowsiagkb+R321AD4iNI6KkzOprRktysUDpbHRMOTKM8VyMgWZ5Y4AjzE9eimyDjI
-         Xk1pZGlpCAM0hEthiAqEKbvDkqjwoFCg3X2kdrXn5CbvfgGQjGcCzXREkFnCT3ARfxqC
-         kVI9jF9JgwO94PhFRfUo95vzEvIIPzyfWUqpXp8wwCOuoKk3Ud3pV5Q2N5/zsY5Hofrb
-         8luQ==
-X-Gm-Message-State: ACgBeo0UhQGlBz60IRmCqeB/7KTPwnNmmzfd7RYb0wIk233JB/3jg4JG
-	nZG0m14r0f7uTobDRTIl1T42a1h9Q18=
-X-Google-Smtp-Source: AA6agR5coXz/uEHT+pFH0glZiMkDPT1IYUPDQ8cYTqNVa1RzL6jXPDXROWxmghZ2lKhNDF0ssXHunQ==
-X-Received: by 2002:a5d:5d89:0:b0:226:e5ca:4bc2 with SMTP id ci9-20020a5d5d89000000b00226e5ca4bc2mr16624196wrb.310.1662375182230;
-        Mon, 05 Sep 2022 03:53:02 -0700 (PDT)
-Received: from [192.168.64.104] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id e2-20020a5d5942000000b00226f39d1a3esm8601100wri.73.2022.09.05.03.53.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Sep 2022 03:53:01 -0700 (PDT)
-Message-ID: <9803c44c-e7dd-ba06-2195-9287f8890884@grimberg.me>
-Date: Mon, 5 Sep 2022 13:53:00 +0300
+	id 1oV9w2-000roB-3U
+	for linux-nvme@bombadil.infradead.org; Mon, 05 Sep 2022 11:06:42 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=OA1qT8cygRlBgWvxM1EZRhTJJYK6oEnILjsD8BmDs68=; b=Rv5sl25fFTBZlC6K3zXAm/gWUk
+	Kl15h8L5pAPnMJjwrza6lz6TLqV3SIW8fEOwOfELgigh9fjHv6r5PKkKcNsghmNqxr0k87ZSPRYJ6
+	DswYODWnJBZd0A/2/ULx+gftHT5le+BkJteLVAXKMLq9LWrdtmCpW2iQlBCb32aHS935RdhjxVZeg
+	7tqkZD7O/I7sj8MN2dgC/FRRHCOAoved0hNEjwkLs2xS1RYC8TtOwPLAzOSABYVn00jp7VUZ3uq48
+	xULL2T9t/R1kZkw4GrcaqCI0Dh6BVKB6uGJqE21uTjD6qZlfyp7d5qq429D2iQ2lXdMrI58xCiOM0
+	yZiwWnhw==;
+Received: from verein.lst.de ([213.95.11.211])
+	by desiato.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oV9t2-009YeK-4r
+	for linux-nvme@lists.infradead.org; Mon, 05 Sep 2022 11:03:29 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 64A9C68AFE; Mon,  5 Sep 2022 13:03:25 +0200 (CEST)
+Date: Mon, 5 Sep 2022 13:03:25 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Genjian <zhanggenjian123@gmail.com>
+Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Genjian Zhang <zhanggenjian@kylinos.cn>
+Subject: Re: [PATCH v2] nvmet-auth: remove redundant parameters req
+Message-ID: <20220905110325.GE21823@lst.de>
+References: <20220823021441.968488-1-zhanggenjian@kylinos.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: crash at nvme_tcp_init_iter with header digest enabled
-Content-Language: en-US
-To: Daniel Wagner <dwagner@suse.de>
-Cc: linux-nvme@lists.infradead.org
-References: <20220819075117.rzvbecyvh2wuwokj@carbon.lan>
- <9a0bc2f1-b1d0-a34d-2e9f-926da3fc2ab4@grimberg.me>
- <2913fc75-49a6-346e-136c-31b87d6487fc@grimberg.me>
- <20220905102612.xur4ul2bhade6ccv@carbon.lan>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220905102612.xur4ul2bhade6ccv@carbon.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220823021441.968488-1-zhanggenjian@kylinos.cn>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220905_035305_094020_B6D5B05B 
-X-CRM114-Status: GOOD (  11.49  )
+X-CRM114-CacheID: sfid-20220905_120328_384738_7413B695 
+X-CRM114-Status: UNSURE (   7.83  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,29 +73,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Thanks,
 
->>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
->>> index e82dcfcda29b..3e3ebde4eff5 100644
->>> --- a/drivers/nvme/host/tcp.c
->>> +++ b/drivers/nvme/host/tcp.c
->>> @@ -1229,7 +1229,7 @@ static void nvme_tcp_io_work(struct work_struct *w)
->>>                   else if (unlikely(result < 0))
->>>                           return;
->>>
->>> -               if (!pending)
->>> +               if (!pending || !queue->rd_enabled)
->>>                           return;
->>>
->>>           } while (!time_after(jiffies, deadline)); /* quota is exhausted */
->>> -- 
->>
->> Daniel, any input here?
-> 
-> I haven't heard anything from our customer yet. Let me ping them again.
-
-Most likely it should address the issue, but the proposed patch is a fix
-regardless.
-
-Will send it as a proper patch, would love to get your reviewed-by, and
-when you hear from your customer, you can add Tested-by tag.
+applied to nvme-6.1.
 
