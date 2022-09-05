@@ -4,69 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1FDEBECAAD3
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Sep 2022 15:27:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17C06ECAAD5
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Sep 2022 15:32:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+ANIC5SaRnjz9kfPIsLV+WYrkY9Kf6FbMwQz5Ec/v6M=; b=lB/BxPIi+y2/2kfQ3B8+gVpPQy
-	FiunBN+p5HDfOmuApbNjgnDRLoIyNUdeGr77ZFIEccfdwXRdkd8GEO5M+JhIl2dtgbfwFhHtRyPZn
-	kzeKN5U2EUdxb6mNB44dWjMQ2Gvn74YF7c3PpvZ+leFxLFjHbnni4adSRDXuzVivIr79Y0Iyk5w4w
-	zJujmIwPQXGnwLbR8JHZ1xgBaJ5fR8QMpoXJx8wzHdGObeIobt0tUclr56vlB/JabJfWfc2spGEYW
-	6xI6LylK1DwHzwVALk56t8wMxfTDlDYpnhWUi9B/m+6fxM61DljYVuh6gT2ky1Se9oLzHfzLBVxsn
-	ESadtP7g==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=K/HhzQQcQF0znmsCjkAykW8+2UlAaUoR1Wv0JTTHWhQ=; b=AN554DJeFer66rK6AXHI/Cizrw
+	m1pGR4svjCz3tFY6LL9NgplpK4PS9gFbx5rItrsfDhgVMHhdbOYUUbUMAM4JwGNO9IIyKf7FP3yaw
+	+O1n8axzWcO+g8JFaRZoGZoKjec2VIPM1IDNUfUWjuuAj4ME15VcZhWxGkJup6jUyWnh6OlR1n2Md
+	EIOduQVfIJb2toz7bK7LDSpYBNEF+1YGjLxa2o/ZAic8qJ2xqYWx35E86wSL/xWAalBnTEGZjfSk/
+	Uqg6N1o2DOh8i8l27ZRAlfoLaURagU3HsJzcN9sdHUNp6pCQct/VBaRzJbi6NHlHC5ndvVAhAuHVx
+	VQnCIz0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVE02-005vDX-Dp; Mon, 05 Sep 2022 15:26:58 +0000
-Received: from mail-wr1-f50.google.com ([209.85.221.50])
+	id 1oVE4u-005zw6-5J; Mon, 05 Sep 2022 15:32:00 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVArd-001n7Z-6D
-	for linux-nvme@lists.infradead.org; Mon, 05 Sep 2022 12:06:08 +0000
-Received: by mail-wr1-f50.google.com with SMTP id c11so6840345wrp.11
-        for <linux-nvme@lists.infradead.org>; Mon, 05 Sep 2022 05:06:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=+ANIC5SaRnjz9kfPIsLV+WYrkY9Kf6FbMwQz5Ec/v6M=;
-        b=gPsfI9L6rNmgegsH754dHTjE0S5Eu3P6m1i+G7R6pOuPCU25VgckN37b+PC7Uz8oJU
-         VbHIpzYQmYzYEptMVnWpbLts0uc+BLdAmJPSH+2/bIFaKxSCCzDbNmRoHbdvWl8SskaM
-         1rLqQvLhr6bO+TvKXbOnDZPv/llKKJ8NIxvogfqj79To+ymjFYO6jB+9zudEFPt0WwUG
-         Ojw5e8Z7ZQP8/RWFPRXaGSG4IZ31R6WYyxIvBFRBJXS7DSupefP9Ke1TG1iRpW1N2pek
-         Brd5I2aQ6HpLayYrY61gvwxyvJFLuHz2DMWbAqTIzpctXBi2xmPBn8iEtF44dyjgSkPU
-         xi7Q==
-X-Gm-Message-State: ACgBeo3JZPjK0XIFv9UHc63ht6nhs3RP97lICEuopWL2vXSuKJbNd9zl
-	GjHlib/cR3+KbfortxDSrZQN5JL3PIk=
-X-Google-Smtp-Source: AA6agR7EFbOXRkzZjA3LWGS5uFQyibMeXdzjwWyBo4cMfJYmDI6CT65/do9TcXcAb1KAt14bFa2Wbg==
-X-Received: by 2002:a05:6000:168d:b0:226:da6a:6d78 with SMTP id y13-20020a056000168d00b00226da6a6d78mr20175067wrd.180.1662379561921;
-        Mon, 05 Sep 2022 05:06:01 -0700 (PDT)
-Received: from [192.168.64.104] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id y1-20020adfd081000000b00228c8ed21c8sm927002wrh.17.2022.09.05.05.06.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Sep 2022 05:06:01 -0700 (PDT)
-Message-ID: <db927303-525f-6925-7b26-a0f4d8545dad@grimberg.me>
-Date: Mon, 5 Sep 2022 15:05:59 +0300
+	id 1oVB8o-0027Ss-HM
+	for linux-nvme@lists.infradead.org; Mon, 05 Sep 2022 12:23:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1662380630; x=1693916630;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ZUsJNKl9kM4XrO+bzq6rMd4l+h94hGBCGq7tktFiIIQ=;
+  b=rFiDE2p2eLzQlD1mjBLwpdnLCGpsbrBgHdgE1kgZEHQKKaS1shd2SKTG
+   oVxZUWaFhbC9qQEkIulszAkucxnJBdXq/nU44QhzuSCp/rYeYvDcoVOKy
+   gmd2fxSXJS4OZOpeQAQdlAdKwHB0BLTtcJhcH2EAAtUfmfvxKmBoD/Xmp
+   L1aB+KdxZup8xpHppO8de6mH3O/l4pPuCgimSN9nOMgyakcs9nqulcoBH
+   AnFpszk2Ls3hoCweQH+QmGct/hjY8Ba4k79RQ2tKV30dsE17xdHghIHg/
+   eOw9oCMVuxIyjUcJ/vKkPCjyMqJol7NPTtq+WfaIDaHmFga4R9FlpEyGa
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.93,291,1654531200"; 
+   d="scan'208";a="314815549"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 05 Sep 2022 20:23:46 +0800
+IronPort-SDR: rtxssDDfBAVSq2E5HQr6If/3/9QNA5+LfpXWMLvoRDYyFsEBYJhm58tMfu+o1D2+su8mvepVxs
+ t21hwthONL+1x6R6SUsw+XFdqQkrlmSqwtUMuZETpDctK+1wC4M9CqaTu2o8cQ2qGXSeg3k8It
+ p6wwNWt7QtjKmTwBMNMn39Xeyzzk2x+TTx2uCkTbHYHqM5l3upekx/rBh/DNhwFYqQaUH1xNtH
+ 5R+lUP+HOgwmppXRxKmf3Y1UQZtjqUU3go7NkVQhNWBl9Kd6bxH0QRzXTqNI7Ryq8SvGBJmR+Y
+ nTTGfOXzHBxhBlAHWgUAfXRr
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 05 Sep 2022 04:44:08 -0700
+IronPort-SDR: 8dcfSLnIvZGdzY/wgFlmxn9ul7k1JgAU4lPkFxVrWiWs3OHLEzJMFKX+hCGBOxrZJxSe98SF+i
+ kOgib49keGaFjuR5lmQKiPLm+Iq+mvm2JU4aCaAIqchI60k15kdGtpNTXn+GY2cu638ZWtNyrD
+ YHMldbx7IZv8fUtGtVBsZ1ETnfvs7+eY9qMVm5D+9L/HCJVKY7kXyhXoIHxgtYhDkRN2eQCtMe
+ CHclfAFhL/PGcmTBrowym8Rw0WO7kQgsXTxTKHeEneqzoAad46MNzi+xqqG3rNbGRZBlyRSXAL
+ 1qs=
+WDCIronportException: Internal
+Received: from dellx5.wdc.com (HELO dellx4.cphwdc) ([10.200.210.81])
+  by uls-op-cesaip02.wdc.com with ESMTP; 05 Sep 2022 05:23:44 -0700
+From: Dennis Maisenbacher <Dennis.Maisenbacher@wdc.com>
+To: linux-nvme@lists.infradead.org
+Cc: Dennis Maisenbacher <dennis.maisenbacher@wdc.com>,
+	Niklas Cassel <niklas.cassel@wdc.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] nvmet: fix mar and mor off-by-one errors
+Date: Mon,  5 Sep 2022 14:21:16 +0200
+Message-Id: <20220905122116.2678206-1-Dennis.Maisenbacher@wdc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/2] nvme-auth: retry command if DNR bit is not set
-Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Martin George <marting@netapp.com>
-References: <20220830124925.40711-1-hare@suse.de>
- <20220830124925.40711-2-hare@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220830124925.40711-2-hare@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220905_050605_361030_B8201615 
-X-CRM114-Status: GOOD (  23.69  )
+X-CRM114-CacheID: sfid-20220905_052351_239587_63EC9645 
+X-CRM114-Status: GOOD (  12.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,111 +88,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+From: Dennis Maisenbacher <dennis.maisenbacher@wdc.com>
 
+Maximum Active Resources (MAR) and Maximum Open Resources (MOR) are 0's
+based vales where a value of 0xffffffff indicates that there is no limit.
 
-On 8/30/22 15:49, Hannes Reinecke wrote:
-> If the cqe returns a status with the DNR bit not set we should
-> retry the command; otherwise we might incur spurious failures.
-> 
-> Reported-by: Martin George <marting@netapp.com>
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> ---
->   drivers/nvme/host/auth.c |  2 +-
->   drivers/nvme/host/core.c | 20 ++++++++++++++++++--
->   include/linux/blk-mq.h   |  2 ++
->   3 files changed, 21 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-> index c8a6db7c4498..4ca3f7d042f1 100644
-> --- a/drivers/nvme/host/auth.c
-> +++ b/drivers/nvme/host/auth.c
-> @@ -69,7 +69,7 @@ static int nvme_auth_submit(struct nvme_ctrl *ctrl, int qid,
->   
->   	ret = __nvme_submit_sync_cmd(q, &cmd, NULL, data, data_len,
->   				     qid == 0 ? NVME_QID_ANY : qid,
-> -				     0, flags);
-> +				     0, BLK_MQ_REQ_RETRY | flags);
+Cast the unsigned int values that are returned by bdev_max_open_zones and
+bdev_max_active_zones into u32 vales which need to be decremented as the
+returned values of the block layer helpers are not 0's based.
+The cast to u32 is necessary because the size of unsigned int is
+architecture dependent and a 0 reported by the block layer helpers
+indicates no limit, thus it needs to be converted to 0xffffffff which
+happens by underflowing the u32.
 
-Surely there is a local way to have this than to leak a flag to
-blk-mq...
+Suggested-by: Niklas Cassel <niklas.cassel@wdc.com>
+Signed-off-by: Dennis Maisenbacher <dennis.maisenbacher@wdc.com>
+---
+ drivers/nvme/target/zns.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
->   	if (ret > 0)
->   		dev_warn(ctrl->device,
->   			"qid %d auth_send failed with status %d\n", qid, ret);
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 66ae23e9cb0e..a77f406512eb 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -355,7 +355,8 @@ static inline enum nvme_disposition nvme_decide_disposition(struct request *req)
->   	if (likely(nvme_req(req)->status == 0))
->   		return COMPLETE;
->   
-> -	if ((nvme_req(req)->status & 0x7ff) == NVME_SC_AUTH_REQUIRED)
-> +	if ((nvme_req(req)->status & 0x7ff) == NVME_SC_AUTH_REQUIRED &&
-> +	    !(nvme_req(req)->status & NVME_SC_DNR))
->   		return AUTHENTICATE;
->   
->   	if (blk_noretry_request(req) ||
-> @@ -1037,15 +1038,30 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
->   	if (IS_ERR(req))
->   		return PTR_ERR(req);
->   	nvme_init_request(req, cmd);
-> +	if (flags & BLK_MQ_REQ_RETRY)
-> +		nvme_req(req)->retries = nvme_max_retries;
+diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
+index c7ef69f29fe4..606f21ee21bf 100644
+--- a/drivers/nvme/target/zns.c
++++ b/drivers/nvme/target/zns.c
+@@ -100,6 +100,7 @@ void nvmet_execute_identify_cns_cs_ns(struct nvmet_req *req)
+ 	struct nvme_id_ns_zns *id_zns;
+ 	u64 zsze;
+ 	u16 status;
++	u32 mar, mor;
+ 
+ 	if (le32_to_cpu(req->cmd->identify.nsid) == NVME_NSID_ALL) {
+ 		req->error_loc = offsetof(struct nvme_identify, nsid);
+@@ -130,8 +131,10 @@ void nvmet_execute_identify_cns_cs_ns(struct nvmet_req *req)
+ 	zsze = (bdev_zone_sectors(req->ns->bdev) << 9) >>
+ 					req->ns->blksize_shift;
+ 	id_zns->lbafe[0].zsze = cpu_to_le64(zsze);
+-	id_zns->mor = cpu_to_le32(bdev_max_open_zones(req->ns->bdev));
+-	id_zns->mar = cpu_to_le32(bdev_max_active_zones(req->ns->bdev));
++	mor = bdev_max_open_zones(req->ns->bdev);
++	id_zns->mor = cpu_to_le32(--mor);
++	mar = bdev_max_active_zones(req->ns->bdev);
++	id_zns->mar = cpu_to_le32(--mar);
+ 
+ done:
+ 	status = nvmet_copy_to_sgl(req, 0, id_zns, sizeof(*id_zns));
+-- 
+2.25.1
 
-Maybe just rename this to __nvme_submit_sync_cmd_retries() that accepts
-retries argument, and then __nvme_submit_sync_cmd becomes:
-
-int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command 
-*cmd,
-                 union nvme_result *result, void *buffer, unsigned bufflen,
-                 int qid, int at_head, blk_mq_req_flags_t flags)
-{
-	return __nvme_submit_sync_cmd_retries(q, cmd, result,
-			buffer, bufflen, qid, at_head, flags, 0)
-}
-
-And nvme_auth_submit() can call it with nvme_max_retries...
-
->   
->   	if (buffer && bufflen) {
->   		ret = blk_rq_map_kern(q, req, buffer, bufflen, GFP_KERNEL);
->   		if (ret)
->   			goto out;
->   	}
-> -
-> +retry:
->   	req->rq_flags |= RQF_QUIET;
->   	ret = nvme_execute_rq(req, at_head);
-> +	if (ret > 0) {
-> +		struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
-> +
-> +		if (ctrl->kas)
-> +			ctrl->comp_seen = true;
-> +
-> +		switch (nvme_decide_disposition(req)) {
-> +		case COMPLETE:
-> +			break;
-> +		default:
-> +			goto retry;
-> +		}
-> +	}
-
-Why is this needed? isn't nvme_complete_rq called on this request?
-
->   	if (result && ret >= 0)
->   		*result = nvme_req(req)->result;
->    out:
-> diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-> index effee1dc715a..acd833f37cd4 100644
-> --- a/include/linux/blk-mq.h
-> +++ b/include/linux/blk-mq.h
-> @@ -713,6 +713,8 @@ enum {
->   	BLK_MQ_REQ_RESERVED	= (__force blk_mq_req_flags_t)(1 << 1),
->   	/* set RQF_PM */
->   	BLK_MQ_REQ_PM		= (__force blk_mq_req_flags_t)(1 << 2),
-> +	/* Retry reserved commands */
-> +	BLK_MQ_REQ_RETRY	= (__force blk_mq_req_flags_t)(1 << 3),
-
-I don't think this is appropriate for what this is trying to do...
 
