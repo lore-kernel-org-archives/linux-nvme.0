@@ -4,60 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A80DBC38145
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Sep 2022 04:50:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51B4BECAAA1
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Sep 2022 04:59:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=05njV07sJBMDroait06pY76fcRd4k+pymsG8nnNmo8M=; b=Rv1BPNkXJKW3h+luLCzqlYXI1q
-	QN0jNhh/NCN206mIwtPuAsKH9cclqkdLOoECHtmUMkyrKjCdoL3GfguGScoSWbAqAHopDb6f0fs2y
-	VG1xNBqV2bPtYau+wga6iOH7YiZZ78S1RG2dYVUyntWOMl6ovwTpvJXM6911QpWeGDr8o1xDtRGtY
-	SOJjy6VayTOljwJTI06qUf0AprwnzODVPkdxxZ4Pr/2SY03TzjTjYmiZvA68rdDR/Yv32qXGwFEV1
-	NokpzRPoHyLM0G2EIdiU0UBC1F4j69YMxIwtZ8CglDottorjZqYBwvMg/4sc2CO3wwwpb6nPyMRki
-	InyhB9/w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=vDZiWmK8Futq3LvM+qJ5RBJCfeHNYVbLXbo217Lp6EE=; b=Ab3nblSbU61D/Io11unXoaB65v
+	1+2J80F1Db040Re4IvGSUhvQ24O1ceA38zebO1y4y7c+aCOhSGM9O634G4x2sGkjaKFHbgsI5me6K
+	FRTj41mT6cs08Ua6IMkTv2Io/v+xMkqhde3WDXKWcc7WMjHLMRAjcogsgkK4UXGzZQ2g8t5+PSU3r
+	W0cWjf9NUQrXVCuHVK3TiUAK9zWl/+3xWQjWRk0H1QjnID5PDdUt3bYv4sl26NKhCUUfkCGK5UzXE
+	GHtFI7VWxJuOT1aDmTPlB8bC2sPfY1iIh3EicvVoRhcW2dkSmIZQnAxWmrItfnLTl7KxBOJflRqW6
+	7VW7rtYQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVQXT-008Hny-6m; Tue, 06 Sep 2022 04:50:19 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1oVQgN-009IiD-3V; Tue, 06 Sep 2022 04:59:31 +0000
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVQXR-008HTy-SL
-	for linux-nvme@bombadil.infradead.org; Tue, 06 Sep 2022 04:50:17 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=05njV07sJBMDroait06pY76fcRd4k+pymsG8nnNmo8M=; b=TYYWbbKjVYP6QfnTxhI4W44na5
-	d0mP6NvWV0XoIhiwuNpfFLt5UIyCEobXdwrUE67yhjsB6plYLwsMTIWlwZUf6MVrG9Lln9ehwrnCf
-	qdGt4PCH0YHWg9a2+OG6qCTnDbzUarqIZ/ky2Ll0bruJ5JKmkjU90UqyBQRz5X6uYPIomE4fxTpEK
-	bTJNmlqw/uVWe/JtV+3XV5UyE3wnD6/h36y15Qs21HumRNuMb53g4+2yDiOp/UO1kjecQ6BnmvRnt
-	AysnKPvfJ3WQRT5/fqfD34SpwBCrp0Dj0J3tyJtxZsFgkhOKBOsnpEuTMutGwfsY6sNj0c/Fd3rEt
-	8Nyzv8kw==;
-Received: from verein.lst.de ([213.95.11.211])
-	by desiato.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVQXN-00A4zT-F9
-	for linux-nvme@lists.infradead.org; Tue, 06 Sep 2022 04:50:16 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 550CD68AFE; Tue,  6 Sep 2022 06:49:41 +0200 (CEST)
-Date: Tue, 6 Sep 2022 06:49:41 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Chao Leng <lengchao@huawei.com>
-Cc: Ming Lei <ming.lei@redhat.com>, Christoph Hellwig <hch@lst.de>,
-	linux-nvme@lists.infradead.org, Yi Zhang <yi.zhang@redhat.com>,
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH 1/2] nvme: make NVMe freeze API reliably
-Message-ID: <20220906044941.GB32525@lst.de>
-References: <20220821084754.340585-1-ming.lei@redhat.com> <20220821084754.340585-2-ming.lei@redhat.com> <e2568bdd-a3cb-7a94-8018-d1468f3dcdd4@huawei.com>
+	id 1oVQgJ-009IT2-Ig
+	for linux-nvme@lists.infradead.org; Tue, 06 Sep 2022 04:59:29 +0000
+Received: by mail-pl1-x62d.google.com with SMTP id v5so10171618plo.9
+        for <linux-nvme@lists.infradead.org>; Mon, 05 Sep 2022 21:59:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=quanta-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=vDZiWmK8Futq3LvM+qJ5RBJCfeHNYVbLXbo217Lp6EE=;
+        b=uJ65N/4/Whsp8DEc+bNF7zVfBIQZeSBcLhJl6+9TErrtPuOR6kXLUdEfsiQH+LnZWJ
+         yfFftUnS5CpiunDEB9IYn/Z0Fou/o+X5LJP7i51C/5Onq8lPetbdRW65sXfjOKyNtLFA
+         Rlqd4Foi5+WqV0DdYfPtoRwgkQx0RFBFLBVmnKSQACSpgmTrbNpsrGe7krPBtFakQAxU
+         EgHfucghywAUdujr3DtQzBcEzTSvkoBmNfNUTXsOMRqVuaQ7hesvCe5DmVXXBt73oLj3
+         GvR7rbmdcXOPZbRYllWl6bw3lUf2VyxY1z4oj5bXRhdHqbIoPUwaiscHRjuatFFmBj6d
+         caGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=vDZiWmK8Futq3LvM+qJ5RBJCfeHNYVbLXbo217Lp6EE=;
+        b=FuQjVgUUoiDjHy5Sz/Ey0viE4Gt2yw+SE1UFxOLd/g+FJ3aMAIovgU91f58uMUq0Cq
+         db4ekHvsq/JChUmgFvcL9lcCd23t7dBj+FuC2mgoErS82uDHGoAanyy82BJAG7CIu9cy
+         0n/hZjhO0q3DmFtpGk+9H/Xj6yvod4hCX4X/uAWXMavYfqV6afsni+kUvcPfCIfFEHYD
+         Qt4i1yNGNtK4pBHVN1xGg35+rZOElfUDwUp6bWsV+wIxvGn0P2WnCpKCKuxyokzikcb8
+         kkS1Hg6Uff/lushQkVKKcaNmlCoQ4G9jL3JLMG5hJRf6mL2ycSAKLbkHi88uDJ/cOFdx
+         nSrQ==
+X-Gm-Message-State: ACgBeo1N6vO+aadyv4//ownmiDj07eyfHOa6tWFN79oRypeIWfU2g0Kb
+	JL2f3hi8M1/HNH2N0CpaIzHgXxVrAxALyA==
+X-Google-Smtp-Source: AA6agR4Dn7cU5CzrJ+UhufLj5mmZ/2X8MJH/+9pdzG7U1rsz4gqy1br667iEdJP1Drb0Zs4aIsh0xg==
+X-Received: by 2002:a17:902:db07:b0:175:42e2:37f2 with SMTP id m7-20020a170902db0700b0017542e237f2mr29157932plx.13.1662440365728;
+        Mon, 05 Sep 2022 21:59:25 -0700 (PDT)
+Received: from sean-biuld-server.itotolink.net (1-34-200-211.hinet-ip.hinet.net. [1.34.200.211])
+        by smtp.gmail.com with ESMTPSA id h3-20020a170902680300b0017305e99f00sm8552560plk.107.2022.09.05.21.59.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Sep 2022 21:59:25 -0700 (PDT)
+From: Sean Hong <sean.hong@quanta.corp-partner.google.com>
+To: linux-nvme@lists.infradead.org
+Cc: Sean Hong <sean.hong@quanta.corp-partner.google.com>
+Subject: [PATCH] Test: check open list email
+Date: Tue,  6 Sep 2022 12:59:22 +0800
+Message-Id: <20220906045922.30631-1-sean.hong@quanta.corp-partner.google.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e2568bdd-a3cb-7a94-8018-d1468f3dcdd4@huawei.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220906_055014_675095_B399527D 
-X-CRM114-Status: GOOD (  12.38  )
+X-CRM114-CacheID: sfid-20220905_215927_880455_59FC4C31 
+X-CRM114-Status: UNSURE (   8.97  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,18 +85,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 25, 2022 at 06:02:33PM +0800, Chao Leng wrote:
->
->
-> On 2022/8/21 16:47, Ming Lei wrote:
->> From: Keith Busch <kbusch@kernel.org>
->>
->> In some corner cases[1], freeze wait and unfreeze API may be called on
->> unfrozen queue, add one per-ns flag of NVME_NS_FREEZE to make these
->> freeze APIs more reliably, then this kind of issues can be avoided.
->> And similar approach has been applied on stopping/quiescing nvme queues.
-> This leads to another problem: the process that needs to be
-> in the frozen state is not actually frozen.
+Just check linux-nvme@lists.infradead.org
 
-Where do frozen processes come into play here?
+Signed-off-by: Sean Hong <sean.hong@quanta.corp-partner.google.com>
+---
+ test_email | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 test_email
+
+diff --git a/test_email b/test_email
+new file mode 100644
+index 000000000000..e8084e7bc088
+--- /dev/null
++++ b/test_email
+@@ -0,0 +1 @@
++test the open list email address.
+-- 
+2.25.1
+
 
