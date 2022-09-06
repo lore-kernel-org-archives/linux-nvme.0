@@ -4,49 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 748D0ECAAA1
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Sep 2022 04:43:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7A76C38145
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Sep 2022 04:46:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bc9/3RFQ3/BYv5GKcvhxJWM/+fz93rvd/+K14B4oPhk=; b=Luj6HGI/jgbG+h7tOxPb0yQLhE
-	FQPKTQimnK7Hd1hHiyQqpTuRs5wCfRUdirrcNLTPQnPptNDKCJgSilXPz5EEZlY+oaqr3CvyoCL22
-	aNjqjGEXs0hIZCefIypllwx8751UVv4E5r+l2w/y1xUmUB4q6lNpMLkd942AC9moMIrAKHRj23hG0
-	rDvbrDu54dASsuzKxAH4i5XRpWr2G+tb0Lutqmmydn7TGe7ckqWFZZjmK0A4x1J4n+np51l2riPqC
-	E5MBxnZ5V++FLrn3MhFd0o9dWdnCuN2ua8JetiP9VNACh9xxIV4Jy20cyUo6NCRO+3nC58EJbpRS9
-	0lPnUW/g==;
+	bh=g4QYwLVwBSQMkNQtPqrGryY3aE2OppiG2yCu9oNUQe0=; b=p6qZuKkHo2v2sEfrnczfFws+Ly
+	TE3Syg6EH/c2EzsxnIT033cZJIKzWgAu63fw3+LI1ObWrTUp0h4rCJ/RuPBsFH6gp5qYD8XaZDrH2
+	nOMY82HQrxTj4p/lvwIR1LIB/aPYDFizSru3OMPkhkIzu4RxtPDR3G/ZmqFQsO290CwOK0s0cHELa
+	Lj+0cYFDRkxN4d4B1ryb1GdNRX2ZKDffuu6FfSx0SdYq9HxRifFFxMB60kboXCyuh7WC0UI4bNWa2
+	O0n9gLzpsa9HpHXsynQTcvfluaQ3Lp7YOp9T0+tEXtufjSMHiIKuot3aRNXmyHEmeXLBWX69ZK8gM
+	NdGFGqiw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVQQt-007iVD-Lq; Tue, 06 Sep 2022 04:43:31 +0000
+	id 1oVQTK-007tYg-Kv; Tue, 06 Sep 2022 04:46:02 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVQQh-007i3z-WB
-	for linux-nvme@lists.infradead.org; Tue, 06 Sep 2022 04:43:25 +0000
+	id 1oVQTA-007skZ-Lq
+	for linux-nvme@lists.infradead.org; Tue, 06 Sep 2022 04:46:01 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 534B168AFE; Tue,  6 Sep 2022 06:43:17 +0200 (CEST)
-Date: Tue, 6 Sep 2022 06:43:17 +0200
+	id 6A4AA68AA6; Tue,  6 Sep 2022 06:45:49 +0200 (CEST)
+Date: Tue, 6 Sep 2022 06:45:49 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	Jonathan Nicklin <jnicklin@blockbridge.com>
-Subject: Re: [PATCH] nvme-tcp: Fix regression that causes sporadic requests
- to time out
-Message-ID: <20220906044317.GB32413@lst.de>
-References: <20220905150706.1529358-1-sagi@grimberg.me>
+To: Dennis Maisenbacher <Dennis.Maisenbacher@wdc.com>
+Cc: linux-nvme@lists.infradead.org, Niklas Cassel <niklas.cassel@wdc.com>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvmet: fix mar and mor off-by-one errors
+Message-ID: <20220906044549.GC32413@lst.de>
+References: <20220905122116.2678206-1-Dennis.Maisenbacher@wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220905150706.1529358-1-sagi@grimberg.me>
+In-Reply-To: <20220905122116.2678206-1-Dennis.Maisenbacher@wdc.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220905_214324_772464_80039A2F 
-X-CRM114-Status: UNSURE (   9.54  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220905_214552_909982_DB99F9DE 
+X-CRM114-Status: GOOD (  16.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,7 +58,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks,
+On Mon, Sep 05, 2022 at 02:21:16PM +0200, Dennis Maisenbacher wrote:
+> Cast the unsigned int values that are returned by bdev_max_open_zones and
+> bdev_max_active_zones into u32 vales which need to be decremented as the
+> returned values of the block layer helpers are not 0's based.
+> The cast to u32 is necessary because the size of unsigned int is
+> architecture dependent and a 0 reported by the block layer helpers
+> indicates no limit, thus it needs to be converted to 0xffffffff which
+> happens by underflowing the u32.
 
-applied to nvme-6.0.
+unsigned int (in Linux, not the C standard) is not architecture
+dependent but always a 32-bit unsigned integer type.
+
+But I'd much rather see an explicit check for 0 and conversion to
+0xffffffff anyway.  Yes, unsigned integer underflow is well defined,
+but having the explicit check explains much better to the read that it
+is intentional.
+
+Can you also add a Fixes tag, please?
 
