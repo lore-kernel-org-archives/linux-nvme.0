@@ -4,58 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BCE50ECAAA1
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Sep 2022 23:58:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BFE36ECAAD3
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Sep 2022 00:21:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
 	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
 	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SmeFydYMe4iXiNmN2Q1d4YTnkM3weigNBMz80R9Hz0g=; b=jRy5bs34yGmW1idyQ29gyIyhEQ
-	YROAJT1ec68QeWOSvz8pXzAnz+Frrw6zs5yzVOsbC5woNZ4+f845fAiFhdwNoReBd6wWNsxtSo9Y1
-	jy0mZE2r9HhCOtO0DCFJyGLLhZnR2Z/4WcgDM4WGUuYsMLbS2NlmuMCD1PzabjHhsXAJg9DMxZnfI
-	AaisYFRrTsTm5RPbWIqKD+Ky/reXlDsnplgH566T2UbeGNuywhUGbZCLAbeGEzeONGgcIopjBKYN4
-	32vr2GX5ZQzWiuXyKRLwDcVQ4wqdG6jtJ2fDp89R/PFx3eVqTFIhVEfjv+jpJxs9LtQxA9wsmoGr4
-	QKKfVQWA==;
+	bh=FaK+eVi772/5Z3cw3ZCakayuFph3BZGcV8b42jCCEMk=; b=JVMfhJA6uUp1nSoytp2v68xrYv
+	S9vKbwE7Abwh2r2pzMz9pLln96FdtwwVu48KNVppklDrhyGc5ccrrnfUxpkRZL52HN/PD5odgN951
+	RxID0JYWuDIpZx0Y7ITlssYUPOlokD8vtc+Vu6ebyhPAjSLdMTJCN13Fsdylxsf7kYZtISZtCTRlM
+	5F8r0L1C9Q0mfXEoZ/45Ta+bC8XMCW/oZj6WRwKE8XYZzUiNYg6qE9Vu0YJ+yQx8pQAJKBcv675Ys
+	Zox3T6T7uE6he8wj+dMWGMJ2prTyTHji201Dp4NhAcwvZpBhHi0thtC1j++1YBQp1NqUXdbd28ng1
+	qyGf6FDg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVLz9-000UFG-JZ; Mon, 05 Sep 2022 23:58:35 +0000
-Received: from mail-mw2nam10on2080.outbound.protection.outlook.com ([40.107.94.80] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+	id 1oVML8-000gtG-Ez; Tue, 06 Sep 2022 00:21:18 +0000
+Received: from mail-bn8nam11on2040.outbound.protection.outlook.com ([40.107.236.40] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVLz6-000UD5-Im
-	for linux-nvme@lists.infradead.org; Mon, 05 Sep 2022 23:58:34 +0000
+	id 1oVML3-000goT-73
+	for linux-nvme@lists.infradead.org; Tue, 06 Sep 2022 00:21:15 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R5aq3VxJudqMnXWUmA5OVlLxry2JY8zUW4U1ogWVdrSV0vuHG9LZUFkzCobtS4DEantK20DOgr82Xsb4AxhRrAY0yEg4MAylrqGjqjGGIvVJTrAs3rleeiJ4aJ37Qnd1tQ7p+W5+EqxoqYW3PnFDbgHV5m66jG0yhhyIf5Y32jRLP4eKzLqMIDSxUlzeU1ChBzap+Ll4rW1nlPuwblU7nNCQvRWsyBNMP929eV93ZXhwUc3iBhrdTp5C+SfknB5kM0FZ3A/gEeFU3CS3BPrU0+a9ogKcWgO4fUBJamQTHuwggVXv4IlZpYVTHZs+Vr+RZT90TsJjmi6gSr3BNO8VgA==
+ b=WkLzyEacFKHWM/TtAMxh0BmyxZZagssnmgbdz5+G4YHZB2JKBN/mMGi/whvqEGDDkyv6Vs5CQoSYNOWznbZHdu8Z9MUpP3tD2AnjdK26xPeSSTlXXbVb/AUaV8ZhnnlRUlM6i6Yzqdj4e6w5jASd7RjwhUZjIX/mSstxrYHmy0rNnPi151W4cRWejw0jMVsTREUEKhiCXwHrhg/ib4CGLkpfhF3dyMDOEBVUkXDaO+KiOcMa0QVZkcWpnis3RCzMrjRFEeQ+lv+JuhViDUTsZTpAKIDxOy0UPT61oCPB/rgo7aFM2VZhgjMAtNeQPZ9zVt0vshX4NXO72wLeIQou0Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SmeFydYMe4iXiNmN2Q1d4YTnkM3weigNBMz80R9Hz0g=;
- b=GMsNQ6+V/YT+2leV+BuAE8RMUOfH8JnVNnZcn5arqcrASasvKqgYymvcTVSxfb7FkNGpKT0AADP2u0Jip5AsMCHX5Kv9YT7JanK3ofCnSfbVdTs/1Tk7PMCIL1l7YA7wYuZMuXQ6l17IH2vMDZcQtMlQXsU4R7MOlvxXjtfQAO1Wchr41M0o8NV9bWNyhvmI03Du88yvIR8sU0vRFy8z8z8pGhXjFjfWBi/769ONUPPLGRnPP+DYFcujM9pon54zZQEw8RXZj9O3xw24RC1l6NMCYTa4EH1yMuVnsB4JEHJtzLJxQFVOfQIH9Hy/6L3nnrmcYzDBp6AM8V8h4QeerA==
+ bh=FaK+eVi772/5Z3cw3ZCakayuFph3BZGcV8b42jCCEMk=;
+ b=icTGZKSfW6mTvNHTp9mh83qDNyWF51E0BxlvVuXnux3cyaXXImu7B4Kdy4NDtGrZauxUJ7idL44d6P7iVnqIqqcuc2paBMULl1QREuLkKfDygVPEjIUoVYHRlGkF6tGbYd+CyCf2PBVX6E3QYP+m1XXVUTnjJMIZIXkYrTMZygA6FRLYm+dk+PUb8kq8q4HTxqfGzpuE4s6STmqoqL6kfeq32huNYZ7M+J3G9iKIxLJYbTbG+VsJHvMJ65swvjCaWJkHYTTVt3cVpZ4VlfXlODtWQR3lGLM3nEqYVjqPCtkGMFr5nU1YF6reks60nMfGQ9BAxXneswdEIgdmRA7BHg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SmeFydYMe4iXiNmN2Q1d4YTnkM3weigNBMz80R9Hz0g=;
- b=pnBUp5NyAIKIEKHPH3/FVkuKeXhUgZs9wg21UaTfBFP9oUiX2uDf1B7HCcHFoXv8EUiRNy8M9euF7oGOLSVs5MWW6NNxvBmCAKY1FRIkcFxqeDNzIhESO0BNUUCIchQMB9hMsC2I2pr2udfsYgnE0VskkWQWASWqkCasb4nKhXmHT9HdqjLz9nf9SGx3kq6XiepMIQJSvGSXbxwhuZCiTvI2+JBD29YdRoqcBr1SYCUWo+yEWGrr+fPqgBo4bM5KXB/8N2LkBh+XnrnXvaP8QhBFpIrlQnpI9p39J3DNPBlmXvrJK4DWsXt7HNll2WQL+IR8afANT82PIyWgsdzbRg==
+ bh=FaK+eVi772/5Z3cw3ZCakayuFph3BZGcV8b42jCCEMk=;
+ b=kWb/sWn8mNplgW5dvESa2XZiCpOmdVnnZhkJXYJXnFx+phqCxtHotpS44jVRoW13N4UzTocSgE03Poqk/LsyAPGqIaBDfDnWHWnvWUX0PyKUVGNVQ9ub0o1BU3iHJAvOHoNJgsZMojUrkJOT+sXvBcfNJyjF0B8M+251hcEiRMHSo6FR+qH1LhpffPpx/thC3n0yl9+A2iVVZsBR3BZtKs06DUAzQlHSSYPK7MXPnaeRsnHNiZettRSkJ1NfWUWmSSKcuw0Cd/gR1l3AcbRrCxRuQkQ09I9ApwYtA6LHM7IGXLhezvXqTvSJEPxHK5JGKaJ7gYAw5u6hX5GKQkAKcg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from BY5PR12MB4130.namprd12.prod.outlook.com (2603:10b6:a03:20b::16)
- by BY5PR12MB4242.namprd12.prod.outlook.com (2603:10b6:a03:203::9) with
+ by SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Mon, 5 Sep
- 2022 23:58:29 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Tue, 6 Sep
+ 2022 00:21:07 +0000
 Received: from BY5PR12MB4130.namprd12.prod.outlook.com
  ([fe80::508d:221c:9c9e:e1a5]) by BY5PR12MB4130.namprd12.prod.outlook.com
- ([fe80::508d:221c:9c9e:e1a5%9]) with mapi id 15.20.5588.018; Mon, 5 Sep 2022
- 23:58:29 +0000
-Message-ID: <3d88bbf3-8c55-46fc-731e-bc81e184b8d7@nvidia.com>
-Date: Mon, 5 Sep 2022 16:58:26 -0700
+ ([fe80::508d:221c:9c9e:e1a5%9]) with mapi id 15.20.5588.018; Tue, 6 Sep 2022
+ 00:21:06 +0000
+Message-ID: <f25d6ce8-b2aa-42ce-00b3-28818cd50f34@nvidia.com>
+Date: Mon, 5 Sep 2022 17:21:03 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.0
-Subject: Re: [PATCH v9 3/8] block: add check when merging zone device pages
+Subject: Re: [PATCH v9 4/8] lib/scatterlist: add check when merging zone
+ device pages
 Content-Language: en-US
 To: Logan Gunthorpe <logang@deltatee.com>, linux-kernel@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
@@ -75,75 +76,74 @@ Cc: Christoph Hellwig <hch@lst.de>,
  Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
  Ralph Campbell <rcampbell@nvidia.com>, Stephen Bates <sbates@raithlin.com>
 References: <20220825152425.6296-1-logang@deltatee.com>
- <20220825152425.6296-4-logang@deltatee.com>
+ <20220825152425.6296-5-logang@deltatee.com>
 From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <20220825152425.6296-4-logang@deltatee.com>
+In-Reply-To: <20220825152425.6296-5-logang@deltatee.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR11CA0108.namprd11.prod.outlook.com
- (2603:10b6:a03:f4::49) To BY5PR12MB4130.namprd12.prod.outlook.com
+X-ClientProxiedBy: SJ0PR05CA0071.namprd05.prod.outlook.com
+ (2603:10b6:a03:332::16) To BY5PR12MB4130.namprd12.prod.outlook.com
  (2603:10b6:a03:20b::16)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4db04050-14db-4771-fed1-08da8f9a87ae
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4242:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4e63416c-44b1-488e-fb6d-08da8f9db0dc
+X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	1rQKCDrf8b1Kzd3o9TDxhAM1Snrp+q6ThbgkeZ09ZCRa2bE6IwdQGFCwJ9rcHvjKC+xXoNS3vc91dCwmfV/bCNCgbEPo5Kf96dbLAr2hNkOSR5I0SAsEB0f04tEfySuzYFGKYaVQ/I2TH3EhYKqXP3yUEU9E/8jMg5RaAJq/J3FTU7Mv3jEUAWUyZYG8g/VjxrW4mh8Jzj6MzXteZazUOF/uYCrUFpfdzv+FMvLgN5C4POL9npr9/M6AOvtf3vXpi7bSaErmM7zU2lBUDNynvavhq1jNggMohXF7K5ywugQAk/s/bsBgX4bYfwFf2STxT1Xz943inQoCCa1FcCCLuY9nKt4IAMrsxcEeHqQvfGi0gFM+0VK2+edX7NgQYxB920GOka29KoIPBEPz0eg0MaeSLqlqM/9fSH/KzH4M7Ttlz0Wnf//4y8MakRmoCF8B/5QtvOjU6JWf4uPZ09HVXYz30yyyGZ8NFbZUeJcxs/o5nv5lcegyVZQFM1SLuicFPVK02UHBR2+ol746gV108y87YECXpZBZmTG+pTk6E5n53ZaNnLBq07+l9Z+KLUWorZO+cXG66BnWz2Fg99EieW6AYzULHbj2CU0vW8b7d/U36hNLT64bPS08CmTQ8jmDEfQnU1ecdOqnCAWncPq4DvjYlRR13xAZ3KKsYCVXjf/aBE6DbPWtD5nx/Qu6DCQP3aXt+0RHb5S0sQhs6s/8GfDoMCZCwBJk3UNoJBivZ9npQDVlr0E7fjnT4gKHu/MId0abLvfUZoGhnCrB4xe8Qmi1DcEWwrrphF0OrBidf5E=
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB4130.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(396003)(346002)(376002)(366004)(136003)(36756003)(6512007)(41300700001)(8936002)(26005)(2906002)(6486002)(478600001)(6666004)(38100700002)(7416002)(66556008)(66946007)(66476007)(86362001)(6506007)(8676002)(4326008)(53546011)(5660300002)(31696002)(54906003)(186003)(31686004)(316002)(2616005)(83380400001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 	Etsv2v94uyDYfrm0Ik/X159klUr+WptW0gWAUdjmA+QwH9UBims2LXrKDRm6SPtDPD24G4TXRQqMo62ocgrg4QVsJW5gTYzfcZWSUDOPLZNORuKGTeX/7YQWszO3C8ax1ROa3dzIhKvtopBXXBuWlqAvFVn10au9g1PDRwSc0FhfbnQTv9dVIcX8AZ6Uqdd2EGUFy/KzNkYIQiuMVz0Ke2wKzTK4qaODTlAQtud/ol3t3kGcRzfIAb3biTxaLbhHkXCiRbc0/xAHnaAbMbMciwRz3ECIY/mPemwGJWBDv/GBkuj4bYpKrZdFp3ZKHl6vLYDJb1tu3igL2t4dCfYFTUM/CUYa3Jm/LYD+NZU9nlVkzp3sqV74iuOTdq3f2sQTm5SiUVijKAra/Z33OiVLm6JK/YOceokDOzBNuVa3Cg8HPbUXiI5IJOKrD5ZFgTWQXo6QRuSWdtvHEzca5oo3cdYuGhZka/z7WBF3RDD+YqciDOMytn+Fv2QoJQF9CX3LMSWFS3Unta/axuGoiN0Xb1WPnuJu9U5zx/efr/LfHqLFeenkFtwlEvtkWUsaTeub/92j8M0BH4GW17PaspquORYLjMvxl7AM87UEFeXeq/MkG0FYxM4H0Vfd8shtCr/wbTJObZUa1zv3GzME8JN+vZ9OZgwb9TRW8Rs7bNUsGQCzIf8+vTTowdMqrDSFoQorkJqgE2LsIk4CVIM6QSw83TcwjZdjjcQQP1F9owucrTytXCMYzFAr0bQbmoBd8OWAr84bygSnTojImILbZBqpv0KXyMLWjrF3AndykYd0A9U=
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB4130.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(39860400002)(366004)(136003)(396003)(376002)(38100700002)(31686004)(7416002)(8936002)(5660300002)(2906002)(86362001)(66946007)(54906003)(8676002)(4326008)(66556008)(316002)(31696002)(66476007)(6666004)(478600001)(6486002)(36756003)(41300700001)(2616005)(6506007)(26005)(53546011)(6512007)(83380400001)(186003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?NmNwdEhobEpXVmNHODVVRUpCVU1xbzRPWlhCZy9tbjA1UUg2b1hsS25jTHRG?=
- =?utf-8?B?Q0FlMGFHc3pTeFpBL1BybVlaK1NSNFEwNmRzL05xNzhXaG1kaHRJZkhmMkxm?=
- =?utf-8?B?N1N6alc5bHdubTZkaU9qMXVLWVZEaDhCYlZJUkFDL2xReDFLL1pnemtUeXVT?=
- =?utf-8?B?MGlxV3NON3Uwb0gydGVGZXdsZDJ0cHAyTStOUmhMTDgxdlFvalR1cVlTbURG?=
- =?utf-8?B?VFh3aFFISDFwK0VoWlBRYVltTndjUEZWTURjY3VtbnhmN2cyRGluR1RnMWVX?=
- =?utf-8?B?cmJ3eFZrVmh2eHhWU29ydkNNYUJXWDBraUJTZnNQUzBYbFM0MURCajg2T21L?=
- =?utf-8?B?VlRXVEtRcVBvQ0MwQUsycU02M0xsU1VMR09oUEN6YWtibjhkakl3Vy95cmpF?=
- =?utf-8?B?Y0NxRGl0NzVKWXNJaGlkeG9uVXNvWXlrZC9oRDd2VHFjdUlmdC8vZHF4cTlN?=
- =?utf-8?B?OURMOTBhcDh0VzE0dkc2YVZZaEZMZXRWbk1Hb1hUaStFVFUwVGM5czV6Q3cw?=
- =?utf-8?B?WkJSMjVYQk5aNUQ4TDFzSGt2NWJIMFVURVRmV24wV0ZvbUdlcFpRYVkycXkr?=
- =?utf-8?B?NlpubXB5RzE1MUpsQkxDSnVTYktvZVNHK3RhcjRSUGY2RkdrQXozd3pzd3ZN?=
- =?utf-8?B?NTFRTXNLKzE3SXFsbnJQWmVtUDJUd09EYkx3SGZzakxxYVo1Mm51NHpZc3hV?=
- =?utf-8?B?NDhuYWNva29HR0hzV1NSU1V0bWd5dDJxUllIL2xnY3ZyU0U0WDE0U2swclRo?=
- =?utf-8?B?dlY4SGsrRU50QmZXZy9VWThZRHhLclNrRXZiSEd3ODNHbkQ4bVQvaG1ZRDVm?=
- =?utf-8?B?aWpjZFJqOVJvakxEdFpUNjNaUEFhSmJuMjB6TnZVYmlwd0EzNTlqdGRnem9P?=
- =?utf-8?B?TnZsWlVOb0VBVVNLMHQ3c1FxSlpoNTh3NHFEa0JaMTlnQllHd1RlSFEyc25m?=
- =?utf-8?B?N3QwdEdxTTBKTjFSYkJTL29JLzZBTmY0eUdqZk5PZmoyY2lBZDN5VmdTUytU?=
- =?utf-8?B?OXhNeTRIcnBpcDFrZHNYOC9DMVJzNUludlkzOW1BWmMyYnFBVmgrT3J1Ynd2?=
- =?utf-8?B?V0dVeEJyZmJ5dmYzRWpjSHVpRmxxZVE3RkJKVytBam1tUFN2SEp1cUk1aDBM?=
- =?utf-8?B?VEhwYm5rQSs2N1QxcnRNSGIzcGNOZTJDaXJoOVdLOFZCd2V3bnpmbG95TE1I?=
- =?utf-8?B?QW5OT3A4RkFYaGZGeFNuZ24wZHhVcGRMeVJDT2c2aWttWGowZWMvdDZLTVNY?=
- =?utf-8?B?cS9qbmZRVGNpalVPLzBJY3p2ckhYM08veUpIT1BCUUpSc3Z4SlJ2MkRsbHFz?=
- =?utf-8?B?Q0doSGl4MVlSZGVDS0hQWlN3NWJEdnA3Z1RTNG5PL1B4aXF6OU1aMVR3TElh?=
- =?utf-8?B?MEQ3dVdJcUtiWWc1QjV6cVdiVk5XbGlNaDJhZStUeU1CNDZKUnM2azNadmJ0?=
- =?utf-8?B?SEN6anIyQnArTk0wWEQyUjljVnhFekduVXdFUFFYYmtndTRNbjVZMXAwVXRO?=
- =?utf-8?B?b1pPREg5ZGFaWWlJRmpzSXp4UjFveFR4dGV0RnNFWkMyMFl2MU93MU9OZlpq?=
- =?utf-8?B?SHE5alJGRmhrc2FIZ0hGaGtNNXdrTklsNklMTFBnOFQ4azhIZXJYTmxzWlAx?=
- =?utf-8?B?anpVZllCMS8rZFl0V2pBUGdkTEowZUxkK1dRbC9XcUFmQjhESGRQQkxGNzlI?=
- =?utf-8?B?UHgwZCtWUWx2V1RQSmptTlBheFAzckxSZTd1RFNlcE5YTmpheHBIMy9DRk1G?=
- =?utf-8?B?K3BiMnVqamYxY2twT3p0MUNuSUJ3dG9kUDlLeU1md09YT0pmV1BOL0RRR0hH?=
- =?utf-8?B?aUpjUEhmMnppWGwxeEMwVWFNMGpWd0tPNk9yVVhUM1R4V2x4SXZ3WEgyYnRt?=
- =?utf-8?B?RWJuaCtKd3VJQUkwZjltaTBoRDk4b05mRzYrNUs1M1Q1NFRrdG1WK29TeCt6?=
- =?utf-8?B?ampGWTUxcjlNdTVWM3E1a0N5KzE2N3pWa2NiRFl2cEJUWEVGR1YwREEwTmU2?=
- =?utf-8?B?Z0x5cWRPbTlJRTR3QmIwU09QeDNpNVhleGp3ZWpML3dGdnZ5MkM2dUtkOVBF?=
- =?utf-8?B?QmRwZTVydFZlWE5OL0M0R0VFVi91VkdmSlZ2QzMwbzBCQ3lsb1ZhWmhhWGRn?=
- =?utf-8?B?R2oxY3Z0bkxvWUlPRnBxUXFQK29zZEk3REZlNFozQmZwRlJRWHhBbzE5aUJn?=
- =?utf-8?B?eFE9PQ==?=
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?YnRDeXNtdE10a2NYZ1Y0eS9mbnI0dGx0bUsxY09xM1ZUaHRudmxxSkdIV0to?=
+ =?utf-8?B?S3p0SDk1L2NtQ01CNFVCRUNuR3pFckRzaU5NUkltMEFqRitReWZFY1QyVCsr?=
+ =?utf-8?B?NStBVnpQb0pCbEdDZzBYVE9BbHNCWDJ6SGF5VVZqSzdUMk9ZYklsc0NNQml6?=
+ =?utf-8?B?NEtXSHhXUjkzUEd4N0h2M0tUZ0QvdlV0OXd4UkJLejk5dHhWT1RzcTlzSzUx?=
+ =?utf-8?B?REM5NzJPaURUZG4zditxc0tSeHZ4QkxRelpxa0hKRW5UMURXa1I0c2NsYThK?=
+ =?utf-8?B?UWZ2OUlIdjdZZndTWnpWSjBqY0twbXNLTWNHeDFKQldUdzBQSmIvUGxheTJw?=
+ =?utf-8?B?V2xCMjFadHpieVp5eXVCTXB2S3lkTVFJRFNsVUNMU0Z4eFJmWUxBRVJ1QWxi?=
+ =?utf-8?B?NnFmZ1puUnUyQ2FTUUU2N2ZFeHZCeVM3VkZmOWRqNnFLWHkveW1saStrYXho?=
+ =?utf-8?B?S2M3MmlkdE1hUHhpa0pmdmxzeGdzelE3ZjlBdHcrd3ZNcDA5bHl6NzBQUlcr?=
+ =?utf-8?B?c0t2VUU1QWFLdXA0Nk9KNU5MK3VURENVT2tNVTNXdEdicXB2czlwS2ZRMEV3?=
+ =?utf-8?B?NVdkVTZNUm9HVEJ0S3o5WTF6NVUwQTRFbk9WTTFnTnNEZnNpb09EMTh1TzZv?=
+ =?utf-8?B?c2pnaURjZUxUSnpwZm16UTl0dVRHeUcwWHVkVUpmM29HS3hTUkMvOEd2cVV5?=
+ =?utf-8?B?VjY3aWJWODQ0aWk3S1AzL2lKNENjZG41Q05kdXNTSXpiOENKUlVCbGNXZEIx?=
+ =?utf-8?B?NW1uQmNSRkFsblFBdThORzRKcUM0a0VDR25QamlnQkxNdVUrRk9kTDI3c1du?=
+ =?utf-8?B?M05tTmhyMHZjMFFFNEZjUGljU094ckhhem1rZDc5U2s0TjFGSkNwS2VJbzcr?=
+ =?utf-8?B?cXhCcm4xRGwrc2cwTG5OZXJhSFF6YmpoZ2hCRmxxeE1JQkhwYzUwZXk2SmxC?=
+ =?utf-8?B?Q3d2UWlFakJMUGhvdVJ6SGsyUWY1U2dJOWNzRnRoWUplOFpSdUxqSnJWT2Fn?=
+ =?utf-8?B?ZHpVaHFDc3RBMm0zZFU2MzNqR1JjWGQzQkVYYTQveHhkQW4zTUhNTUtLN1Bt?=
+ =?utf-8?B?UjZ1Ry9iTWZhYXNhZWx0ZlliTnFQMXFXQTBRblBPKytMUFB5ZXNWUDZoMElH?=
+ =?utf-8?B?V2VtaUFDa1huZXhCd0swMU9Dd01pdndYWE54TXIxRGJhOFVRSTZHbjkwbXZy?=
+ =?utf-8?B?bWR5dGdGNFN5Vmptc1J3blBaY1hqWFBBWmh2RXU1dTNOUklmeTFORUJkd1Rz?=
+ =?utf-8?B?YmVBclUrekNGR2pEb3VINzAvQ2lKS2loWmFUYlRtZHhsRjZTMGFhN2NkcnIv?=
+ =?utf-8?B?Y0lYOW5ObGFjYXQrdmRQQUdSd0VLVmNINStpQXJFcGJXejVaOEVaeEN2bHVY?=
+ =?utf-8?B?dUZoYkdkZVordUlmR2RoTjlXZ1ExYzdxS2w3RTVRaElYR0pSQVNwV01ydG4r?=
+ =?utf-8?B?RFlHRHlWWDBsdEI4d0VDUjlRNDZGZ0ZTSVc2a2I0K3d3Ull6OUFCZU1UMmdn?=
+ =?utf-8?B?SU1GSU12VGc4cDFRZGM2SFdWeVhHM2NxRWU2dy9scHFEY0Y0VnAzcnhBWUZo?=
+ =?utf-8?B?bGo4ZVFNZXlXL3ZLb2x2TmlvWGdnemxYWjg1MXRnSW5Uc2MwODFCZURiU3Ev?=
+ =?utf-8?B?Sk5LWEVPY1UzOUl5UFJTb0tDWHRqcVNBSFV2RzU5VmltNHpFZ3ExMThJdGg4?=
+ =?utf-8?B?SFBoL09mWmFnaVBxQnNsclQ0OTlicTc3bFEvVVNqWUVqK3UrUklqUHhGTkFW?=
+ =?utf-8?B?Wit0TDRmTVhVZjdkbkVzcCtiRXdaREFtMTRUd0kyL2JYS3gxOHlHWVlBMyt3?=
+ =?utf-8?B?dkZLS1lPS2p5Mno2YnlzeU9pMGxGcXJZNUpObmh2ZzJnMTdrWkZqUllVVFNn?=
+ =?utf-8?B?enozVFp0TVc4WXlrQnp3RVovNUFVdHhaMEp4Q0x5WkVtTkxueitmTnZYaGlo?=
+ =?utf-8?B?M3BMdTNCcWp2V0RjYkpoZW9RU0tLTEo5ZVJGWEJPSm5VZ2hHRWdUVk0vS2RN?=
+ =?utf-8?B?MitJVTdBUjFUNFNyR3lsaDVuWXB4eEZmZE5XSk1MbkpWaEZUUGJLa3laelg1?=
+ =?utf-8?B?ZUFLR3lQWUR5MFc5OTV5RzFJdHhXL3lrT1FIdlZkZFA3S3R6eHlpSVpUc2lM?=
+ =?utf-8?Q?m80mnatiXvmN9JjOd+5jKl2hH?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4db04050-14db-4771-fed1-08da8f9a87ae
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e63416c-44b1-488e-fb6d-08da8f9db0dc
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4130.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2022 23:58:29.3132
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2022 00:21:06.8287
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: K4XGaPkWYDysU7o7Camec6CdIi/irl+Vm3VdKnpAC44exqtPx2ke9t/io4yXb2enajnUElXEejhkN85WRThkqw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4242
+X-MS-Exchange-CrossTenant-UserPrincipalName: doWU0Jte/LCEKTSeW7BHWrJJqC9AqGLTyKtiNvFeV8ouJWI0zkbMLZkefcs3m2UeRoA6GF8gHTtGdDWf3zJaUQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6075
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220905_165832_964544_3C1CCD21 
-X-CRM114-Status: GOOD (  20.99  )
+X-CRM114-CacheID: sfid-20220905_172113_313998_EDE212C6 
+X-CRM114-Status: GOOD (  25.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -166,48 +166,41 @@ On 8/25/22 08:24, Logan Gunthorpe wrote:
 > both pages are not zone device pages or both pages are zone device
 > pages with the same pgmap.
 > 
-> Add a helper to determine if zone device pages are mergeable and use
-> this helper in page_is_mergeable().
+> Factor out the check for page mergability into a pages_are_mergable()
+> helper and add a check with zone_device_pages_are_mergeable().
 > 
 > Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 > ---
->  block/bio.c            |  2 ++
->  include/linux/mmzone.h | 24 ++++++++++++++++++++++++
->  2 files changed, 26 insertions(+)
+>  lib/scatterlist.c | 25 +++++++++++++++----------
+>  1 file changed, 15 insertions(+), 10 deletions(-)
 > 
-> diff --git a/block/bio.c b/block/bio.c
-> index 3d3a2678fea2..969607bc1f4d 100644
-> --- a/block/bio.c
-> +++ b/block/bio.c
-> @@ -865,6 +865,8 @@ static inline bool page_is_mergeable(const struct bio_vec *bv,
->  		return false;
->  	if (xen_domain() && !xen_biovec_phys_mergeable(bv, page))
->  		return false;
-> +	if (!zone_device_pages_have_same_pgmap(bv->bv_page, page))
-> +		return false;
->  
->  	*same_page = ((vec_end_addr & PAGE_MASK) == page_addr);
->  	if (*same_page)
-> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-> index e24b40c52468..2c31915b057e 100644
-> --- a/include/linux/mmzone.h
-> +++ b/include/linux/mmzone.h
-> @@ -794,6 +794,25 @@ static inline bool is_zone_device_page(const struct page *page)
->  {
->  	return page_zonenum(page) == ZONE_DEVICE;
+> diff --git a/lib/scatterlist.c b/lib/scatterlist.c
+> index c8c3d675845c..a0ad2a7959b5 100644
+> --- a/lib/scatterlist.c
+> +++ b/lib/scatterlist.c
+> @@ -410,6 +410,15 @@ static struct scatterlist *get_next_sg(struct sg_append_table *table,
+>  	return new_sg;
 >  }
-> +
-> +/*
-> + * Consecutive zone device pages should not be merged into the same sgl
-> + * or bvec segment with other types of pages or if they belong to different
-> + * pgmaps. Otherwise getting the pgmap of a given segment is not possible
-> + * without scanning the entire segment. This helper returns true either if
-> + * both pages are not zone device pages or both pages are zone device pages
-> + * with the same pgmap.
-> + */
+>  
+> +static bool pages_are_mergeable(struct page *a, struct page *b)
+> +{
+> +	if (page_to_pfn(a) != page_to_pfn(b) + 1)
 
-Nice work on the documentation here. Approach looks correct.
+Instead of "a" and "b", how about naming these args something like
+"page" and "prev_page", in order to avoid giving the impression that
+comparing a and b is the same as comparing b and a?
 
+In other words, previously, as an unrolled function, the code made
+sense:
+
+    page_to_pfn(pages[j]) != page_to_pfn(pages[j - 1]) + 1)
+
+But now, the understanding that this *must* be called with a page and
+its previous page has gotten lost during refactoring, and we are left
+with a check that is, on its own, not understandable.
+
+Otherwise, the diffs look good. With some sort of naming change to
+the args there, please feel free to add:
 
 Reviewed-by: John Hubbard <jhubbard@nvidia.com>
 
@@ -217,31 +210,67 @@ thanks,
 John Hubbard
 NVIDIA
 
-> +static inline bool zone_device_pages_have_same_pgmap(const struct page *a,
-> +						     const struct page *b)
-> +{
-> +	if (is_zone_device_page(a) != is_zone_device_page(b))
 > +		return false;
-> +	if (!is_zone_device_page(a))
-> +		return true;
-> +	return a->pgmap == b->pgmap;
-> +}
-> +
->  extern void memmap_init_zone_device(struct zone *, unsigned long,
->  				    unsigned long, struct dev_pagemap *);
->  #else
-> @@ -801,6 +820,11 @@ static inline bool is_zone_device_page(const struct page *page)
->  {
->  	return false;
->  }
-> +static inline bool zone_device_pages_have_same_pgmap(const struct page *a,
-> +						     const struct page *b)
-> +{
+> +	if (!zone_device_pages_have_same_pgmap(a, b))
+> +		return false;
 > +	return true;
 > +}
->  #endif
+> +
+>  /**
+>   * sg_alloc_append_table_from_pages - Allocate and initialize an append sg
+>   *                                    table from an array of pages
+> @@ -447,6 +456,7 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
+>  	unsigned int chunks, cur_page, seg_len, i, prv_len = 0;
+>  	unsigned int added_nents = 0;
+>  	struct scatterlist *s = sgt_append->prv;
+> +	struct page *last_pg;
 >  
->  static inline bool folio_is_zone_device(const struct folio *folio)
+>  	/*
+>  	 * The algorithm below requires max_segment to be aligned to PAGE_SIZE
+> @@ -460,21 +470,17 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
+>  		return -EOPNOTSUPP;
+>  
+>  	if (sgt_append->prv) {
+> -		unsigned long paddr =
+> -			(page_to_pfn(sg_page(sgt_append->prv)) * PAGE_SIZE +
+> -			 sgt_append->prv->offset + sgt_append->prv->length) /
+> -			PAGE_SIZE;
+> -
+>  		if (WARN_ON(offset))
+>  			return -EINVAL;
+>  
+>  		/* Merge contiguous pages into the last SG */
+>  		prv_len = sgt_append->prv->length;
+> -		while (n_pages && page_to_pfn(pages[0]) == paddr) {
+> +		last_pg = sg_page(sgt_append->prv);
+> +		while (n_pages && pages_are_mergeable(last_pg, pages[0])) {
+>  			if (sgt_append->prv->length + PAGE_SIZE > max_segment)
+>  				break;
+>  			sgt_append->prv->length += PAGE_SIZE;
+> -			paddr++;
+> +			last_pg = pages[0];
+>  			pages++;
+>  			n_pages--;
+>  		}
+> @@ -488,7 +494,7 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
+>  	for (i = 1; i < n_pages; i++) {
+>  		seg_len += PAGE_SIZE;
+>  		if (seg_len >= max_segment ||
+> -		    page_to_pfn(pages[i]) != page_to_pfn(pages[i - 1]) + 1) {
+> +		    !pages_are_mergeable(pages[i], pages[i - 1])) {
+>  			chunks++;
+>  			seg_len = 0;
+>  		}
+> @@ -504,8 +510,7 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
+>  		for (j = cur_page + 1; j < n_pages; j++) {
+>  			seg_len += PAGE_SIZE;
+>  			if (seg_len >= max_segment ||
+> -			    page_to_pfn(pages[j]) !=
+> -			    page_to_pfn(pages[j - 1]) + 1)
+> +			    !pages_are_mergeable(pages[j], pages[j - 1]))
+>  				break;
+>  		}
+>  
 
 
 
