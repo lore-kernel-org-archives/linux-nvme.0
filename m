@@ -4,72 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BB50ECAAA1
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Sep 2022 17:34:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B44FDECAAD5
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Sep 2022 18:08:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M2uos4qcq77XyZi+QLWSsLxTIMm4PMSnC9k0cFgolUE=; b=Mse8xTy4FdjWMrTGdoGppp3yoi
-	CDP4fiL+fLpDsKGrqHiCCRNmeHUC+JArVDRIT/t5k7IyYZv668gsd9PtIuTQXfSh/Lq5pPjSc4bIv
-	05RpLhcHre3XF6nlvW0ja26+fDFzhZ3NZW9Qweb9M+XJpPOJ2EGEDMiiKA4FGhatcRFEVSU7jr4SF
-	7vFk6jXqj4DxoEgVQ0BqRDAscoPfdVM0yd2mkiNQlG25Zoc6MaK4VNZ1PQp2ay54ZS5dbVJaE3ACH
-	c9s5VjxlZkTMCelggQyL75Y95BLj6RTxy9ywq6+3y5nOV1vL+uKAnbHVneulP9ySY5kLwgouh0qjI
-	4a5yeCSg==;
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=5NCt04LeetadqvLDGvKXo5DLdqRr0De0ZqqWZxVsXA4=; b=LbgYKEBmB1m3yfR/O9V+CmpYx6
+	w53Bb9tK/r6sM+TgBXAHlAFcFSUEffZ8XWurPyLwq6YCblTEuf5teEkHVyoy3v5czP8q0VirVIATj
+	vaY6oFirot4/qmmzlLso7Cogx17jmVRxOiIu6KJO3+mEZNWNYN5s8pUxNod8OwWInD8Bg0eVR4XEo
+	95esJhzvVwiCMPR83z6wYNnzOZ0V/mwrFBe7XGMN2pRfYTNzYGp4A9Tb9TV9WtKqW1Jhe9u6vEc3H
+	KIirG/akSdLm4SP0wl04okLl39/Dks4vf1WPBeu9x4Evl3yFURH6JDqLSQQ17qAw09UKCE5ZjgmFm
+	eOVhj5Gw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVcTF-00Fzaa-4i; Tue, 06 Sep 2022 17:34:51 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1oVd0A-00GFDW-OL; Tue, 06 Sep 2022 18:08:46 +0000
+Received: from mga07.intel.com ([134.134.136.100])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVcQd-00Fxqr-6o
-	for linux-nvme@lists.infradead.org; Tue, 06 Sep 2022 17:32:05 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1662485521;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=M2uos4qcq77XyZi+QLWSsLxTIMm4PMSnC9k0cFgolUE=;
-	b=RilR1HioO2Xpu+lVlZPHVVMfUZacR0ZjuiYDG5lIFzEZo/yAjU5txgEzkYoKhPOrQ5oIl9
-	Fj2LJLA7Iqbkz89Lj5iPgwMuftHPO385wgZQeYDtlhReXmBzYc/Pc8YXWR+8GuHlRZi0AU
-	U1KXSiTfgfFTvEDRjvdAYm+8msydA3c=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-616-ddyU9z8RMQWmK8GhD_uTaQ-1; Tue, 06 Sep 2022 13:30:06 -0400
-X-MC-Unique: ddyU9z8RMQWmK8GhD_uTaQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 32A321C006AB;
-	Tue,  6 Sep 2022 17:30:06 +0000 (UTC)
-Received: from [10.22.8.246] (unknown [10.22.8.246])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id C40F340C141D;
-	Tue,  6 Sep 2022 17:30:05 +0000 (UTC)
-Message-ID: <86f1824d-72d4-72e3-0071-4a07aeb04b7b@redhat.com>
-Date: Tue, 6 Sep 2022 13:30:05 -0400
+	id 1oVd07-00GFBt-7P
+	for linux-nvme@lists.infradead.org; Tue, 06 Sep 2022 18:08:44 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662487723; x=1694023723;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=7Jyd/3fMp6mYK6LAEIM6BDg+82UXSMPwlMyYNLLV58o=;
+  b=KtjqCiFsxWb7+Dkqr9VDWhJEd6WUg/17VA0fpi2Xql0AKk5uDBzsJnKo
+   72hY0pR9UIVn16RdHPAUFRW0HPrKjZ2qZXST3e1qZVi+d6ZklCsVQkpmv
+   lDrtT9g6uMNK07e3qlUtk2Xs9Yl+0gKppFNQk9oKKIouVdsgX7l/hfWfD
+   PMt8hPRHSuoT8/1wW9henT8GDuS87b56EBFycWlnQvr3whKqF/dnr55B0
+   ekBIivWUCkHplq2QVPyhUIbeJN9UZHclLPJSv6blw3esKguKLYs7Tdwys
+   1+U7wh+2bzZKy9rGT7iPmEIZyKZFf4dP0lS/37kSWXZtdyzDdjggFaEDT
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="360614540"
+X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
+   d="scan'208";a="360614540"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2022 11:08:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
+   d="scan'208";a="942559113"
+Received: from lkp-server02.sh.intel.com (HELO 95dfd251caa2) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 06 Sep 2022 11:08:38 -0700
+Received: from kbuild by 95dfd251caa2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1oVd01-0005Rh-33;
+	Tue, 06 Sep 2022 18:08:37 +0000
+Date: Wed, 07 Sep 2022 02:08:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.1] BUILD SUCCESS
+ 500e781dc0b0586b3e5ce20486406b02d0c1a26f
+Message-ID: <63178c9f.glhFeYQOTOsdsBV+%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH] nvme-tcp: delay error recovery after link drop
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org
-References: <20220714122703.67621-1-hare@suse.de>
-From: John Meneghini <jmeneghi@redhat.com>
-Organization: RHEL Core Storge Team
-In-Reply-To: <20220714122703.67621-1-hare@suse.de>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220906_103203_502540_9530EF81 
-X-CRM114-Status: GOOD (  30.81  )
+X-CRM114-CacheID: sfid-20220906_110843_432788_D5B9E3E7 
+X-CRM114-Status: UNSURE (   6.68  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,181 +81,160 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I think the problem Hannes is trying to address with this patch is: the Spec currently says:
+tree/branch: git://git.infradead.org/nvme.git nvme-6.1
+branch HEAD: 500e781dc0b0586b3e5ce20486406b02d0c1a26f  nvme: consider also host_iface when checking ip options
 
-Base 2.0 3.3.2.4
+elapsed time: 749m
 
-If an NVMe Transport connection is lost as a result of an NVMe Transport error, then before performing
-recovery actions related to commands sent on I/O queues associated with that NVMe Transport connection,
-the host should wait for at least the longer of:
+configs tested: 138
+configs skipped: 3
 
-- the NVMe Keep Alive timeout; or
-- the underlying fabric transport timeout, if any.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-I'm not sure the NVMe/TCP host stack obeys this rule.
+gcc tested configs:
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              defconfig
+powerpc                           allnoconfig
+x86_64                        randconfig-a011
+csky                              allnoconfig
+alpha                             allnoconfig
+arc                               allnoconfig
+riscv                             allnoconfig
+arc                              allyesconfig
+i386                             allyesconfig
+i386                                defconfig
+alpha                            allyesconfig
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+x86_64                        randconfig-a013
+x86_64                        randconfig-a015
+x86_64                          rhel-8.3-func
+x86_64                         rhel-8.3-kunit
+x86_64                           rhel-8.3-kvm
+x86_64                    rhel-8.3-kselftests
+x86_64                           rhel-8.3-syz
+sh                               allmodconfig
+m68k                             allyesconfig
+mips                             allyesconfig
+m68k                             allmodconfig
+riscv                randconfig-r042-20220906
+arc                  randconfig-r043-20220906
+s390                 randconfig-r044-20220906
+powerpc                          allmodconfig
+i386                          randconfig-a014
+i386                          randconfig-a012
+i386                          randconfig-a016
+x86_64                        randconfig-a006
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+loongarch                           defconfig
+loongarch                         allnoconfig
+sparc64                             defconfig
+sh                         apsh4a3a_defconfig
+powerpc                       holly_defconfig
+powerpc                         wii_defconfig
+arm                            lart_defconfig
+sh                               j2_defconfig
+powerpc                 mpc85xx_cds_defconfig
+arm64                            allyesconfig
+arm                                 defconfig
+arm                              allyesconfig
+sh                          polaris_defconfig
+sh                   sh7770_generic_defconfig
+ia64                                defconfig
+powerpc                    klondike_defconfig
+ia64                            zx1_defconfig
+x86_64                        randconfig-c001
+arm                  randconfig-c002-20220906
+i386                          randconfig-c001
+powerpc                     tqm8541_defconfig
+powerpc                 linkstation_defconfig
+sh                           se7780_defconfig
+mips                           xway_defconfig
+arm                        trizeps4_defconfig
+arm                        multi_v7_defconfig
+powerpc                    adder875_defconfig
+arm                         lpc18xx_defconfig
+arm                            xcep_defconfig
+powerpc                     tqm8548_defconfig
+arm                          pxa3xx_defconfig
+microblaze                      mmu_defconfig
+sh                          r7785rp_defconfig
+sh                     sh7710voipgw_defconfig
+openrisc                         alldefconfig
+arm                           tegra_defconfig
+arm                          gemini_defconfig
+sh                         ecovec24_defconfig
+xtensa                generic_kc705_defconfig
+nios2                            allyesconfig
+nios2                               defconfig
+parisc                              defconfig
+parisc64                            defconfig
+parisc                           allyesconfig
+arc                        nsim_700_defconfig
+powerpc                        warp_defconfig
+arm                      footbridge_defconfig
+mips                     loongson1b_defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_k210_defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+sparc                               defconfig
+xtensa                           allyesconfig
+csky                                defconfig
+sparc                            allyesconfig
+x86_64                                  kexec
+mips                     decstation_defconfig
+powerpc                      ppc40x_defconfig
+mips                           ci20_defconfig
+arm                              allmodconfig
+arm                       aspeed_g5_defconfig
+m68k                          multi_defconfig
+arm                        shmobile_defconfig
+parisc                generic-32bit_defconfig
+arc                         haps_hs_defconfig
+i386                          debian-10.3-kvm
+i386                        debian-10.3-kunit
+i386                         debian-10.3-func
+s390                                defconfig
+s390                             allmodconfig
+arc                                 defconfig
+alpha                               defconfig
+s390                             allyesconfig
+ia64                             allmodconfig
 
-The problem is, when the host fails to follow this rule, some NVMe/TCP controllers are found to corrupt data during cable pull 
-tests.
+clang tested configs:
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+i386                          randconfig-a013
+i386                          randconfig-a011
+i386                          randconfig-a015
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+hexagon              randconfig-r041-20220906
+hexagon              randconfig-r045-20220906
+x86_64                        randconfig-a005
+x86_64                        randconfig-a003
+x86_64                        randconfig-a001
+powerpc                 mpc8313_rdb_defconfig
+arm                            mmp2_defconfig
+arm                    vt8500_v6_v7_defconfig
+mips                  cavium_octeon_defconfig
+mips                           ip27_defconfig
+arm                         orion5x_defconfig
+powerpc                      ppc64e_defconfig
+powerpc                          allyesconfig
+mips                          malta_defconfig
+arm                        vexpress_defconfig
+powerpc                    mvme5100_defconfig
+arm                             mxs_defconfig
 
-/John
-
-On 7/14/22 08:27, Hannes Reinecke wrote:
-> When the connection unexpectedly closes we must not start error
-> recovery right away, as the controller might not have registered
-> the connection failure and so retrying commands directly will
-> might lead to data corruption.
-> So wait for KATO before starting error recovery to be on the safe
-> side; chances are the commands will time out before that anyway.
-> 
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> ---
->   drivers/nvme/host/tcp.c           | 37 +++++++++++++++++++++----------
->   drivers/nvme/target/io-cmd-bdev.c | 18 +++++++++++++++
->   2 files changed, 43 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index a7848e430a5c..70096a2e8762 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -167,7 +167,7 @@ struct nvme_tcp_ctrl {
->   	struct sockaddr_storage src_addr;
->   	struct nvme_ctrl	ctrl;
->   
-> -	struct work_struct	err_work;
-> +	struct delayed_work	err_work;
->   	struct delayed_work	connect_work;
->   	struct nvme_tcp_request async_req;
->   	u32			io_queues[HCTX_MAX_TYPES];
-> @@ -522,13 +522,21 @@ static void nvme_tcp_init_recv_ctx(struct nvme_tcp_queue *queue)
->   	queue->ddgst_remaining = 0;
->   }
->   
-> -static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl)
-> +static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl, bool delay)
->   {
-> +	int tmo = delay ? (ctrl->kato ? ctrl->kato : NVME_DEFAULT_KATO) : 0;
-> +
->   	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
->   		return;
->   
-> -	dev_warn(ctrl->device, "starting error recovery\n");
-> -	queue_work(nvme_reset_wq, &to_tcp_ctrl(ctrl)->err_work);
-> +	if (tmo)
-> +		dev_warn(ctrl->device,
-> +			 "delaying error recovery by %d seconds\n", tmo);
-> +	else
-> +		dev_warn(ctrl->device,
-> +			 "starting error recovery\n");
-> +	queue_delayed_work(nvme_reset_wq, &to_tcp_ctrl(ctrl)->err_work,
-> +			   tmo * HZ);
->   }
->   
->   static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
-> @@ -542,7 +550,7 @@ static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
->   		dev_err(queue->ctrl->ctrl.device,
->   			"got bad cqe.command_id %#x on queue %d\n",
->   			cqe->command_id, nvme_tcp_queue_id(queue));
-> -		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-> +		nvme_tcp_error_recovery(&queue->ctrl->ctrl, false);
->   		return -EINVAL;
->   	}
->   
-> @@ -584,7 +592,7 @@ static int nvme_tcp_handle_c2h_data(struct nvme_tcp_queue *queue,
->   		dev_err(queue->ctrl->ctrl.device,
->   			"queue %d tag %#x SUCCESS set but not last PDU\n",
->   			nvme_tcp_queue_id(queue), rq->tag);
-> -		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-> +		nvme_tcp_error_recovery(&queue->ctrl->ctrl, false);
->   		return -EPROTO;
->   	}
->   
-> @@ -895,7 +903,7 @@ static int nvme_tcp_recv_skb(read_descriptor_t *desc, struct sk_buff *skb,
->   			dev_err(queue->ctrl->ctrl.device,
->   				"receive failed:  %d\n", result);
->   			queue->rd_enabled = false;
-> -			nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-> +			nvme_tcp_error_recovery(&queue->ctrl->ctrl, false);
->   			return result;
->   		}
->   	}
-> @@ -943,7 +951,12 @@ static void nvme_tcp_state_change(struct sock *sk)
->   	case TCP_LAST_ACK:
->   	case TCP_FIN_WAIT1:
->   	case TCP_FIN_WAIT2:
-> -		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-> +		/*
-> +		 * We cannot start error recovery right away, as we need
-> +		 * to wait for KATO to trigger to give the controller a
-> +		 * chance to detect the failure.
-> +		 */
-> +		nvme_tcp_error_recovery(&queue->ctrl->ctrl, true);
->   		break;
->   	default:
->   		dev_info(queue->ctrl->ctrl.device,
-> @@ -2171,7 +2184,7 @@ static void nvme_tcp_reconnect_ctrl_work(struct work_struct *work)
->   static void nvme_tcp_error_recovery_work(struct work_struct *work)
->   {
->   	struct nvme_tcp_ctrl *tcp_ctrl = container_of(work,
-> -				struct nvme_tcp_ctrl, err_work);
-> +				struct nvme_tcp_ctrl, err_work.work);
->   	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
->   
->   	nvme_auth_stop(ctrl);
-> @@ -2195,7 +2208,7 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
->   
->   static void nvme_tcp_teardown_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
->   {
-> -	cancel_work_sync(&to_tcp_ctrl(ctrl)->err_work);
-> +	cancel_work_sync(&to_tcp_ctrl(ctrl)->err_work.work);
->   	cancel_delayed_work_sync(&to_tcp_ctrl(ctrl)->connect_work);
->   
->   	nvme_tcp_teardown_io_queues(ctrl, shutdown);
-> @@ -2355,7 +2368,7 @@ nvme_tcp_timeout(struct request *rq, bool reserved)
->   	 * LIVE state should trigger the normal error recovery which will
->   	 * handle completing this request.
->   	 */
-> -	nvme_tcp_error_recovery(ctrl);
-> +	nvme_tcp_error_recovery(ctrl, false);
->   	return BLK_EH_RESET_TIMER;
->   }
->   
-> @@ -2596,7 +2609,7 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
->   
->   	INIT_DELAYED_WORK(&ctrl->connect_work,
->   			nvme_tcp_reconnect_ctrl_work);
-> -	INIT_WORK(&ctrl->err_work, nvme_tcp_error_recovery_work);
-> +	INIT_DELAYED_WORK(&ctrl->err_work, nvme_tcp_error_recovery_work);
->   	INIT_WORK(&ctrl->ctrl.reset_work, nvme_reset_ctrl_work);
->   
->   	if (!(opts->mask & NVMF_OPT_TRSVCID)) {
-> diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-> index 27a72504d31c..bbeeeeaedc9b 100644
-> --- a/drivers/nvme/target/io-cmd-bdev.c
-> +++ b/drivers/nvme/target/io-cmd-bdev.c
-> @@ -157,6 +157,24 @@ u16 blk_to_nvme_status(struct nvmet_req *req, blk_status_t blk_sts)
->   		req->error_loc = offsetof(struct nvme_rw_command, nsid);
->   		break;
->   	case BLK_STS_IOERR:
-> +		switch (req->cmd->common.opcode) {
-> +		case nvme_cmd_read:
-> +			status = NVME_SC_READ_ERROR;
-> +			req->error_loc = offsetof(struct nvme_rw_command,
-> +						  slba);
-> +			break;
-> +		case nvme_cmd_write:
-> +			status = NVME_SC_WRITE_FAULT;
-> +			req->error_loc = offsetof(struct nvme_rw_command,
-> +						  slba);
-> +			break;
-> +		default:
-> +			status = NVME_SC_DATA_XFER_ERROR | NVME_SC_DNR;
-> +			req->error_loc = offsetof(struct nvme_common_command,
-> +						  opcode);
-> +			break;
-> +		}
-> +		break;
->   	default:
->   		status = NVME_SC_INTERNAL | NVME_SC_DNR;
->   		req->error_loc = offsetof(struct nvme_common_command, opcode);
-
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
 
