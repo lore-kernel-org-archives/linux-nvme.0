@@ -4,121 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5AAA4ECAAA1
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Sep 2022 06:38:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4EA1AECAAA1
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Sep 2022 06:39:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xYWDawx7wbel1WJGFM9Uma0BQ13A775WPFqjMQwRzQ0=; b=myeCPStqslPFDU5YTdVm41tObI
-	+7MC7cSYmG12IwwbestYbTL6PZBTsK4G6T6zUw4pqfeQwHbPyunMd7zWSAi6RciIBHIyC/f1uErbN
-	mUj2LY9JiRtaqjWlyNWW1EUH6jmwISMhJK/b2rQVTCVkRyPjW0060ScERkhTfN7tnpFDaL/Dm5chq
-	i36glCveLUAMPZutjTjG1uMntR/0p+EoauWPxZuF63lfc11S70WuGQylWmeb/QexOUoS7Rr9gxrhH
-	15wBtLIRE0CPvpta1Ii+25dXO85eyWABDcBrbM9dp06oAsE60rUDIX1HWbtLl1mkLIb0IQVLByckx
-	iPe9pfiA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mq96mh0X1mkrRZ8hx6qwVVNZzLjA5B6LWMrAZRWCMpo=; b=oCoeotWncwFwjrVrIksiZb5eZO
+	TPFqq17SJdwEv1hEjcLrp0iAu9NHX7SLWaPZIAHFMrmD+FF8zuKigAcT6Sx3uiZYQ6dYcY1UY9F9v
+	kWO5ODDYMa5yHh9eR0b0z4aZM3A6ugmODkk85uri0hOhKbTLzkP38p43VBlu9eehvabDlMboUL1yo
+	V/iFZyiAiPPHlLuRASnn6/L3nyVSU7/F1dzKh4dfo5P3gSS4hanfulDZW0nvFQjEynePePB+2Eaqi
+	K0XZn+VXbm7dArmo8VR9DoAu8LByMYjm/Ojc71yXInpFfoVZOG3uZ+Zjjpdx9wXv0sEs1DhDRqxou
+	h3BKEZPQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVSDl-00ATKM-JP; Tue, 06 Sep 2022 06:38:05 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1oVSEq-00AU3i-25; Tue, 06 Sep 2022 06:39:12 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVSDN-00AT0b-ES
-	for linux-nvme@lists.infradead.org; Tue, 06 Sep 2022 06:37:43 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20220906063736epoutp01e5130f14529503908ec6a127a35c347f~SMg-aJe6W0815608156epoutp01Z
-	for <linux-nvme@lists.infradead.org>; Tue,  6 Sep 2022 06:37:36 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20220906063736epoutp01e5130f14529503908ec6a127a35c347f~SMg-aJe6W0815608156epoutp01Z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1662446256;
-	bh=xYWDawx7wbel1WJGFM9Uma0BQ13A775WPFqjMQwRzQ0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=t7H7gigTYaO+dqw25Bt1CkRVfcipni5RIINB9mpPy6vXizr79lRvW8qLP5+NM2izp
-	 fpmPBZwWAXFjT995t6KuZntnkV5Aw0+J+NGidJa9fZdH0pwX/Qax+AZ+jBbBtZ5wGg
-	 zVKDV7xgi/yI2EmsfJLpwGyv66sDMeYv/mY86xyk=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20220906063735epcas5p1544c2e9e38f619e77d0788936d586a38~SMg_4z6B-1555715557epcas5p1H;
-	Tue,  6 Sep 2022 06:37:35 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.181]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4MMG092VHWz4x9QJ; Tue,  6 Sep
-	2022 06:37:29 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	21.52.59633.6AAE6136; Tue,  6 Sep 2022 15:37:26 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20220906063726epcas5p42f764b4c01b841dd1fc34abebcab02e6~SMg2ha3pd1147211472epcas5p4m;
-	Tue,  6 Sep 2022 06:37:26 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20220906063726epsmtrp16a5aedf0cde5f829276a94698a138dab~SMg2gpLcr2538925389epsmtrp1K;
-	Tue,  6 Sep 2022 06:37:26 +0000 (GMT)
-X-AuditID: b6c32a49-06ffe7000000e8f1-b1-6316eaa6a56e
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	30.C7.18644.6AAE6136; Tue,  6 Sep 2022 15:37:26 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.110.206.5]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20220906063724epsmtip2784df2284d6835586dc5adf3a67c13c4~SMg1ASCNz2854328543epsmtip21;
-	Tue,  6 Sep 2022 06:37:24 +0000 (GMT)
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org, asml.silence@gmail.com
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, gost.dev@samsung.com, Anuj Gupta
-	<anuj20.g@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>
-Subject: [PATCH for-next v5 2/4] io_uring: introduce fixed buffer support
- for io_uring_cmd
-Date: Tue,  6 Sep 2022 11:57:19 +0530
-Message-Id: <20220906062721.62630-3-joshi.k@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220906062721.62630-1-joshi.k@samsung.com>
+	id 1oVSEm-00ATyT-2t
+	for linux-nvme@lists.infradead.org; Tue, 06 Sep 2022 06:39:09 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BAD363375A;
+	Tue,  6 Sep 2022 06:39:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1662446343; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mq96mh0X1mkrRZ8hx6qwVVNZzLjA5B6LWMrAZRWCMpo=;
+	b=c1/6Xn3KlYNBmt3jltoyjpaflfyI6okF1vofqmYUvfo0AQF/8iEt7InIcneqLwlSLSL+tk
+	ZM9CFz9Fcj8eri+mSFNn7e28HTEX6ZhhPcD8WOuAQmG0QVnsHWz8xviGkBEPWyCa/IPmqo
+	5MgJc4pUc+G7/q6Y6y60BlXfo7JT8c0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1662446343;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mq96mh0X1mkrRZ8hx6qwVVNZzLjA5B6LWMrAZRWCMpo=;
+	b=Su4XGXofyKuUBLBNC9plW/WnBM1FGPVmaLH5AIUO3yvFT4POoysUQs13w7stQx/q96Cttm
+	S3TPVDsr17SFzRBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AA63213A19;
+	Tue,  6 Sep 2022 06:39:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 5XBvKQfrFmM5JAAAMHmgww
+	(envelope-from <dwagner@suse.de>); Tue, 06 Sep 2022 06:39:03 +0000
+Date: Tue, 6 Sep 2022 08:39:03 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
+	linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>
+Subject: Re: [linux-nvme:nvme-6.1 9/10] drivers/nvme/host/rdma.c:989:50:
+ error: use of undeclared identifier 'nctrl'
+Message-ID: <20220906063903.snht3lkixtdt2tkq@carbon.lan>
+References: <202209060308.61PnxPmE-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJJsWRmVeSWpSXmKPExsWy7bCmhu6yV2LJBlvOmlk0TfjLbDFn1TZG
-	i9V3+9ksbh7YyWSxcvVRJot3redYLI7+f8tmMenQNUaLvbe0LeYve8ruwOWxc9Zddo/LZ0s9
-	Nq3qZPPYvKTeY/fNBjaPvi2rGD0+b5ILYI/KtslITUxJLVJIzUvOT8nMS7dV8g6Od443NTMw
-	1DW0tDBXUshLzE21VXLxCdB1y8wBOk5JoSwxpxQoFJBYXKykb2dTlF9akqqQkV9cYquUWpCS
-	U2BSoFecmFtcmpeul5daYmVoYGBkClSYkJ2xo/kMc8FbyYrlE3axNTD2iHYxcnJICJhI/Jl0
-	kK2LkYtDSGA3o8SMWctZIZxPjBKXr79gB6kSEvjMKPFluy5Mx6Grf1kginYxShw918QE4QAV
-	nVt9hbGLkYODTUBT4sLkUpAGEQEvifu334NNZQZZ8fZGI9hUYYEYiZ1ty1lAbBYBVYkfS5eB
-	2bwCFhLTd01kg9gmLzHz0newek4BS4kJJ7+wQdQISpyc+QSsnhmopnnrbGaQBRICnRwS3192
-	MEE0u0hcfrqaEcIWlnh1fAs7hC0l8bK/DcpOlrg08xxUfYnE4z0HoWx7idZT/cwgzzADPbN+
-	lz7ELj6J3t9PmEDCEgK8Eh1tQhDVihL3Jj1lhbDFJR7OWAJle0gsa2pnhIRPD6PE6v9TWCcw
-	ys9C8sIsJC/MQti2gJF5FaNkakFxbnpqsWmBYV5qOTxik/NzNzGC06iW5w7Guw8+6B1iZOJg
-	PMQowcGsJMKbskMkWYg3JbGyKrUoP76oNCe1+BCjKTCMJzJLiSbnAxN5Xkm8oYmlgYmZmZmJ
-	pbGZoZI47xRtxmQhgfTEktTs1NSC1CKYPiYOTqkGpvhu5mMPPSdqda76ndSTFrVz59G+TWHM
-	OrwZ8k27fX0ZVW9wGejzBrh1Hy93+fy4PMX/5myW98uzI3NPdZpvvLBO90QE00+nW9Fs5wR3
-	Ma9/bfbin/l+qfWLNl8QCX8RrztL6AdD0N49wldzvHNbrrJbaMgmXSxbcvbmsS89lTnXVvKX
-	anT+VhbJehS7PDLVVlx2puufm/KzzgQK75PjsbzOf3diFrfL3SOmxgxTctk8I96FiZgUKjju
-	9+F7Ep3xx/lu+v/Mtkfe5iGn2sU5FA8dsNBctsPydqHLlPBVyvrHPLi2Gew+f+e7wrlUF413
-	F20YksLvruW6Imd1/oaM6uHN3h3TyjnlP2R4nJFXYinOSDTUYi4qTgQAo4BlPiwEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrLLMWRmVeSWpSXmKPExsWy7bCSvO6yV2LJBvc3SVk0TfjLbDFn1TZG
-	i9V3+9ksbh7YyWSxcvVRJot3redYLI7+f8tmMenQNUaLvbe0LeYve8ruwOWxc9Zddo/LZ0s9
-	Nq3qZPPYvKTeY/fNBjaPvi2rGD0+b5ILYI/isklJzcksSy3St0vgytjRfIa54K1kxfIJu9ga
-	GHtEuxg5OSQETCQOXf3L0sXIxSEksINR4v7Mo6wQCXGJ5ms/2CFsYYmV/56zQxR9ZJRYf24P
-	cxcjBwebgKbEhcmlIDUiAgESBxsvg9UwCxxklLj87AkLSEJYIEri2YNrTCA2i4CqxI+ly8Di
-	vAIWEtN3TWSDWCAvMfPSd7BlnAKWEhNOfgGLCwHV3FlxlwmiXlDi5EyImcxA9c1bZzNPYBSY
-	hSQ1C0lqASPTKkbJ1ILi3PTcYsMCo7zUcr3ixNzi0rx0veT83E2M4BjQ0trBuGfVB71DjEwc
-	jIcYJTiYlUR4U3aIJAvxpiRWVqUW5ccXleakFh9ilOZgURLnvdB1Ml5IID2xJDU7NbUgtQgm
-	y8TBKdXAxDXzcalGznb91fuWhctVnVt4Jl3Sims3z8OK2gdLdHhYt/VuZF22tXb29ElfxF63
-	rxf7GXVkgc6aO7IN4fcPx0R4SovMYHc21XQv2fn9QKX7qyt3929RZZI9oLpsnbHThz2CkU9O
-	XbWq3xHl53im+8nJklT18MCb6sd4/y4o2plqd+V2RVV+k7e/pNGbVpVDEZtiPD/vuX1+12Xv
-	f6E9e6ROvuJpihA8M2vGM/njWc2qnGHuf6QSPqnU/Hsz5fv2aKP5vM+Kzy2QuNzuIHJ/uu/k
-	+UetbZVsPN2vL/2qc5ijd7FddcoazdKV3nfzT7yZuDqdZXJ2jpH8wnT3VmvHZiWBtqPlVysi
-	fROvL035qsRSnJFoqMVcVJwIAHlNCnrwAgAA
-X-CMS-MailID: 20220906063726epcas5p42f764b4c01b841dd1fc34abebcab02e6
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220906063726epcas5p42f764b4c01b841dd1fc34abebcab02e6
-References: <20220906062721.62630-1-joshi.k@samsung.com>
-	<CGME20220906063726epcas5p42f764b4c01b841dd1fc34abebcab02e6@epcas5p4.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202209060308.61PnxPmE-lkp@intel.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220905_233741_833372_04A3CC64 
-X-CRM114-Status: GOOD (  23.35  )
+X-CRM114-CacheID: sfid-20220905_233908_322985_3D8F31AB 
+X-CRM114-Status: GOOD (  14.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,114 +88,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Anuj Gupta <anuj20.g@samsung.com>
+On Tue, Sep 06, 2022 at 03:05:51AM +0800, kernel test robot wrote:
+> tree:   git://git.infradead.org/nvme.git nvme-6.1
+> head:   9951e3d984c9bf324bb7d486f42ec82727e3d777
+> commit: 1de8b481a31490d6b0217ac78b87f54bc9bfb65a [9/10] nvme-rdma: Handle number of queue changes
+> config: i386-randconfig-a015-20220905
+> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         git remote add linux-nvme git://git.infradead.org/nvme.git
+>         git fetch --no-tags linux-nvme nvme-6.1
+>         git checkout 1de8b481a31490d6b0217ac78b87f54bc9bfb65a
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/nvme/host/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> drivers/nvme/host/rdma.c:989:50: error: use of undeclared identifier 'nctrl'
+>            nr_queues = min(ctrl->tag_set.nr_hw_queues + 1, nctrl->queue_count);
 
-Add IORING_URING_CMD_FIXED flag that is to be used for sending io_uring
-command with previously registered buffers. User-space passes the buffer
-index in sqe->buf_index, same as done in read/write variants that uses
-fixed buffers.
+Argh, my devel setup(*) obviously didn't compile the rdma bits. Do you
+want me to send an fix on top of this or do you want a new version of
+the patch?
 
-Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
----
- include/linux/io_uring.h      |  3 ++-
- include/uapi/linux/io_uring.h |  9 +++++++++
- io_uring/uring_cmd.c          | 18 +++++++++++++++++-
- 3 files changed, 28 insertions(+), 2 deletions(-)
-
-diff --git a/include/linux/io_uring.h b/include/linux/io_uring.h
-index 202d90bc2c88..621b2c5469ed 100644
---- a/include/linux/io_uring.h
-+++ b/include/linux/io_uring.h
-@@ -16,6 +16,7 @@ enum io_uring_cmd_flags {
- 	IO_URING_F_SQE128		= 4,
- 	IO_URING_F_CQE32		= 8,
- 	IO_URING_F_IOPOLL		= 16,
-+	IO_URING_F_FIXEDBUFS		= 32,
- };
- 
- struct io_uring_cmd {
-@@ -28,7 +29,7 @@ struct io_uring_cmd {
- 		void *cookie;
- 	};
- 	u32		cmd_op;
--	u32		pad;
-+	u32		flags;
- 	u8		pdu[32]; /* available inline for free use */
- };
- 
-diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
-index 48e5c70e0baf..34be8dd31f17 100644
---- a/include/uapi/linux/io_uring.h
-+++ b/include/uapi/linux/io_uring.h
-@@ -56,6 +56,7 @@ struct io_uring_sqe {
- 		__u32		hardlink_flags;
- 		__u32		xattr_flags;
- 		__u32		msg_ring_flags;
-+		__u32		uring_cmd_flags;
- 	};
- 	__u64	user_data;	/* data to be passed back at completion time */
- 	/* pack this to avoid bogus arm OABI complaints */
-@@ -219,6 +220,14 @@ enum io_uring_op {
- 	IORING_OP_LAST,
- };
- 
-+/*
-+ * sqe->uring_cmd_flags
-+ * IORING_URING_CMD_FIXED	use registered buffer; pass thig flag
-+ *				along with setting sqe->buf_index.
-+ */
-+#define IORING_URING_CMD_FIXED	(1U << 0)
-+
-+
- /*
-  * sqe->fsync_flags
-  */
-diff --git a/io_uring/uring_cmd.c b/io_uring/uring_cmd.c
-index b8f4dc84c403..f9189885edec 100644
---- a/io_uring/uring_cmd.c
-+++ b/io_uring/uring_cmd.c
-@@ -3,6 +3,7 @@
- #include <linux/errno.h>
- #include <linux/file.h>
- #include <linux/io_uring.h>
-+#include <linux/nospec.h>
- 
- #include <uapi/linux/io_uring.h>
- 
-@@ -76,8 +77,21 @@ int io_uring_cmd_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
- {
- 	struct io_uring_cmd *ioucmd = io_kiocb_to_cmd(req, struct io_uring_cmd);
- 
--	if (sqe->rw_flags || sqe->__pad1)
-+	if (sqe->__pad1)
- 		return -EINVAL;
-+
-+	if (ioucmd->flags & IORING_URING_CMD_FIXED) {
-+		struct io_ring_ctx *ctx = req->ctx;
-+		u16 index;
-+
-+		ioucmd->flags = READ_ONCE(sqe->uring_cmd_flags);
-+		req->buf_index = READ_ONCE(sqe->buf_index);
-+		if (unlikely(req->buf_index >= ctx->nr_user_bufs))
-+			return -EFAULT;
-+		index = array_index_nospec(req->buf_index, ctx->nr_user_bufs);
-+		req->imu = ctx->user_bufs[index];
-+		io_req_set_rsrc_node(req, ctx, 0);
-+	}
- 	ioucmd->cmd = sqe->cmd;
- 	ioucmd->cmd_op = READ_ONCE(sqe->cmd_op);
- 	return 0;
-@@ -102,6 +116,8 @@ int io_uring_cmd(struct io_kiocb *req, unsigned int issue_flags)
- 		req->iopoll_completed = 0;
- 		WRITE_ONCE(ioucmd->cookie, NULL);
- 	}
-+	if (ioucmd->flags & IORING_URING_CMD_FIXED)
-+		issue_flags |= IO_URING_F_FIXEDBUFS;
- 
- 	if (req_has_async_data(req))
- 		ioucmd->cmd = req->async_data;
--- 
-2.25.1
-
+(*) my main devel machine was out and I had to re-setup it and forgot
+to update the config file accordingly.
 
