@@ -4,73 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51B4BECAAA1
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Sep 2022 04:59:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EAB17C38145
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Sep 2022 06:25:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=vDZiWmK8Futq3LvM+qJ5RBJCfeHNYVbLXbo217Lp6EE=; b=Ab3nblSbU61D/Io11unXoaB65v
-	1+2J80F1Db040Re4IvGSUhvQ24O1ceA38zebO1y4y7c+aCOhSGM9O634G4x2sGkjaKFHbgsI5me6K
-	FRTj41mT6cs08Ua6IMkTv2Io/v+xMkqhde3WDXKWcc7WMjHLMRAjcogsgkK4UXGzZQ2g8t5+PSU3r
-	W0cWjf9NUQrXVCuHVK3TiUAK9zWl/+3xWQjWRk0H1QjnID5PDdUt3bYv4sl26NKhCUUfkCGK5UzXE
-	GHtFI7VWxJuOT1aDmTPlB8bC2sPfY1iIh3EicvVoRhcW2dkSmIZQnAxWmrItfnLTl7KxBOJflRqW6
-	7VW7rtYQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=a2AF0aQEQSwAHqXnLm7de9orYzFVgRlo4m4m3BkOK5Y=; b=HcCiui2T9C4SDCrwOFg3OOJgUL
+	Qdowk9bnQRdVCEt2E6Zugmj1xKKDEd206s6XgVPlJ0Xzgj89nsFoEpjVgs4KYjpHJKOllMOyqPvZD
+	olZNpteA7DpcEAcnqrrdhc9JKK+V7Z73reA3heQ21ob9XfOAd1KQVgtOQaLMGgIEuxFqjGAOV8x6V
+	CAE9rpdHVBtflT2emiS0ZAZJTJbpxi3C9H/TlNzM6Syj9ls7TnYws1ejvze7veMuwbKflDgGEOu/0
+	W7NERvvuUUIAsi+U9idPxUgBUni7Xd4wQccccWXa179maHWLrinkNlVHRsJn6B6IJTI2/hU68+5Dt
+	w6v48a4A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVQgN-009IiD-3V; Tue, 06 Sep 2022 04:59:31 +0000
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
+	id 1oVS1j-00ANyp-N8; Tue, 06 Sep 2022 06:25:39 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVQgJ-009IT2-Ig
-	for linux-nvme@lists.infradead.org; Tue, 06 Sep 2022 04:59:29 +0000
-Received: by mail-pl1-x62d.google.com with SMTP id v5so10171618plo.9
-        for <linux-nvme@lists.infradead.org>; Mon, 05 Sep 2022 21:59:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=quanta-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=vDZiWmK8Futq3LvM+qJ5RBJCfeHNYVbLXbo217Lp6EE=;
-        b=uJ65N/4/Whsp8DEc+bNF7zVfBIQZeSBcLhJl6+9TErrtPuOR6kXLUdEfsiQH+LnZWJ
-         yfFftUnS5CpiunDEB9IYn/Z0Fou/o+X5LJP7i51C/5Onq8lPetbdRW65sXfjOKyNtLFA
-         Rlqd4Foi5+WqV0DdYfPtoRwgkQx0RFBFLBVmnKSQACSpgmTrbNpsrGe7krPBtFakQAxU
-         EgHfucghywAUdujr3DtQzBcEzTSvkoBmNfNUTXsOMRqVuaQ7hesvCe5DmVXXBt73oLj3
-         GvR7rbmdcXOPZbRYllWl6bw3lUf2VyxY1z4oj5bXRhdHqbIoPUwaiscHRjuatFFmBj6d
-         caGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=vDZiWmK8Futq3LvM+qJ5RBJCfeHNYVbLXbo217Lp6EE=;
-        b=FuQjVgUUoiDjHy5Sz/Ey0viE4Gt2yw+SE1UFxOLd/g+FJ3aMAIovgU91f58uMUq0Cq
-         db4ekHvsq/JChUmgFvcL9lcCd23t7dBj+FuC2mgoErS82uDHGoAanyy82BJAG7CIu9cy
-         0n/hZjhO0q3DmFtpGk+9H/Xj6yvod4hCX4X/uAWXMavYfqV6afsni+kUvcPfCIfFEHYD
-         Qt4i1yNGNtK4pBHVN1xGg35+rZOElfUDwUp6bWsV+wIxvGn0P2WnCpKCKuxyokzikcb8
-         kkS1Hg6Uff/lushQkVKKcaNmlCoQ4G9jL3JLMG5hJRf6mL2ycSAKLbkHi88uDJ/cOFdx
-         nSrQ==
-X-Gm-Message-State: ACgBeo1N6vO+aadyv4//ownmiDj07eyfHOa6tWFN79oRypeIWfU2g0Kb
-	JL2f3hi8M1/HNH2N0CpaIzHgXxVrAxALyA==
-X-Google-Smtp-Source: AA6agR4Dn7cU5CzrJ+UhufLj5mmZ/2X8MJH/+9pdzG7U1rsz4gqy1br667iEdJP1Drb0Zs4aIsh0xg==
-X-Received: by 2002:a17:902:db07:b0:175:42e2:37f2 with SMTP id m7-20020a170902db0700b0017542e237f2mr29157932plx.13.1662440365728;
-        Mon, 05 Sep 2022 21:59:25 -0700 (PDT)
-Received: from sean-biuld-server.itotolink.net (1-34-200-211.hinet-ip.hinet.net. [1.34.200.211])
-        by smtp.gmail.com with ESMTPSA id h3-20020a170902680300b0017305e99f00sm8552560plk.107.2022.09.05.21.59.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Sep 2022 21:59:25 -0700 (PDT)
-From: Sean Hong <sean.hong@quanta.corp-partner.google.com>
-To: linux-nvme@lists.infradead.org
-Cc: Sean Hong <sean.hong@quanta.corp-partner.google.com>
-Subject: [PATCH] Test: check open list email
-Date: Tue,  6 Sep 2022 12:59:22 +0800
-Message-Id: <20220906045922.30631-1-sean.hong@quanta.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
+	id 1oVS1c-00ANsD-KX
+	for linux-nvme@lists.infradead.org; Tue, 06 Sep 2022 06:25:33 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 096F468AA6; Tue,  6 Sep 2022 08:25:22 +0200 (CEST)
+Date: Tue, 6 Sep 2022 08:25:22 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org, asml.silence@gmail.com,
+	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com,
+	Anuj Gupta <anuj20.g@samsung.com>
+Subject: Re: [PATCH for-next v4 3/4] block: add helper to map bvec iterator
+ for passthrough
+Message-ID: <20220906062522.GA1566@lst.de>
+References: <20220905134833.6387-1-joshi.k@samsung.com> <CGME20220905135851epcas5p3d107b140fd6cba1feb338c1a31c4feb1@epcas5p3.samsung.com> <20220905134833.6387-4-joshi.k@samsung.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220905134833.6387-4-joshi.k@samsung.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220905_215927_880455_59FC4C31 
-X-CRM114-Status: UNSURE (   8.97  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220905_232532_840116_FE291737 
+X-CRM114-Status: GOOD (  11.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,22 +60,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Just check linux-nvme@lists.infradead.org
+On Mon, Sep 05, 2022 at 07:18:32PM +0530, Kanchan Joshi wrote:
+> +static struct bio *bio_map_get(struct request *rq, unsigned int nr_vecs,
+>  		gfp_t gfp_mask)
+>  {
+> @@ -259,13 +252,31 @@ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
+>  		bio = bio_alloc_bioset(NULL, nr_vecs, opf, gfp_mask,
+>  					&fs_bio_set);
+>  		if (!bio)
+> -			return -ENOMEM;
+> +			return NULL;
 
-Signed-off-by: Sean Hong <sean.hong@quanta.corp-partner.google.com>
----
- test_email | 1 +
- 1 file changed, 1 insertion(+)
- create mode 100644 test_email
-
-diff --git a/test_email b/test_email
-new file mode 100644
-index 000000000000..e8084e7bc088
---- /dev/null
-+++ b/test_email
-@@ -0,0 +1 @@
-+test the open list email address.
--- 
-2.25.1
-
+This context looks weird?  That bio_alloc_bioset should not be there,
+as biosets are only used for file system I/O, which this is not.
 
