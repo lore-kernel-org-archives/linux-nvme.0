@@ -4,47 +4,154 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42074C38145
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Sep 2022 06:59:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADDD6C38145
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Sep 2022 07:36:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dcUatRyVYwdp7I3xQhwzvAAM6OF5wc+GrZwTsj7YfsY=; b=xe5K+qgmxd5l5LvCwe9xmkK0dj
-	oFYd+wHuti9IMjpDdgDd1DxK/VjVx02L6cPTM2V22vB4QZin5EY9Yq1NrrAvNPmKmpzZnCbVWkQDE
-	kJ8mADRjXjRAOB8VwI4SH9IHzsBzs+7qvJEZABkwUw2WKlQBqw3xOm4BIbw2vE51KXlO6yVg2Il5l
-	TeWY0CvJExVUGVSxyyslfk0nYKPMw0UTlkAUJjNeudkAE/clBKJ6SfmQpyVnQzUkFEvrDGUkQ0dql
-	8nYyBfo/jrAIQfSqoZzPC29zEQ46emvl6KuKAH4d7Rxio8erEbJahxDht6ue2LbVRu6VhcuQfz1FB
-	Uct94u0g==;
+	bh=GfrWvqJ2Yk4lNCIi6maLCyqMCE7xuPbBeLan3hXpQA8=; b=uLp7OhM/KKR2zsIhFbF0rkTFq7
+	+QP+Poi0kgMRBVrsFwBCCYiK1fBC8Al0AFwCbnn/hsCWXPaM72wMVtSIAJSMRDNhthDqV/dehQDyd
+	fGGtfNXBTh1Cshl6uICbGtj4g8YEd4rlfr95/lUHSfsLo3gLcth4Wa1o8WwUjS94PubAfrLroP+Rd
+	SFUloO8GRxaoiEJcM1oKzjqIxydjg0jfi+eVyzvW6lgBvyGgL/m8s3Fao4mITAqA9hzpDXcizYjms
+	Gb4r27Iak6ToVkkSBcg3JOGVw8WeV4slW4rxZbQilrb5sy2RiSu2JONcicJmo515OdTtqvOMxzLko
+	KceYo1mA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVSYA-00AbtL-Pj; Tue, 06 Sep 2022 06:59:10 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1oVT8E-00Aqsw-HA; Tue, 06 Sep 2022 07:36:26 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVSY8-00AbrL-0C
-	for linux-nvme@lists.infradead.org; Tue, 06 Sep 2022 06:59:09 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 687B268AA6; Tue,  6 Sep 2022 08:59:03 +0200 (CEST)
-Date: Tue, 6 Sep 2022 08:59:03 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Chao Leng <lengchao@huawei.com>
-Cc: Christoph Hellwig <hch@lst.de>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Max Gurtovoy <mgurtovoy@nvidia.com>, linux-nvme@lists.infradead.org,
-	sagi@grimberg.me, kbusch@kernel.org
-Subject: Re: [PATCH] nvme: add DIX support for nvme-rdma
-Message-ID: <20220906065903.GA2345@lst.de>
-References: <20220829081256.24570-1-lengchao@huawei.com> <673f2871-3c0d-3910-c9b7-7cb4913c7cd5@nvidia.com> <59dc78d8-c91d-6a7a-339e-b191cb77fd31@huawei.com> <ddc4d332-2a86-af1b-6627-547673c44721@nvidia.com> <yq18rn6qxgl.fsf@ca-mkp.ca.oracle.com> <289da5df-e988-f0a9-95cd-2c437327a043@huawei.com> <20220905063759.GB2092@lst.de> <79f9829f-3337-6582-7ea7-6de5c8afc69b@huawei.com>
+	id 1oVT8A-00AqmR-LX
+	for linux-nvme@lists.infradead.org; Tue, 06 Sep 2022 07:36:25 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1662449782; x=1693985782;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=GfrWvqJ2Yk4lNCIi6maLCyqMCE7xuPbBeLan3hXpQA8=;
+  b=Tnipa1bPiErtd0KADxt7ZuyKi9FEzxk/u0zsLo2/LHBgALp2stmb/feI
+   ECe4B6M57rwQa+Jap6A4HgnKNik/VntO/OL9xPB6ropwkcEjqbUDqiaLb
+   +UFkwxNDY5gn38SSS6oz2ZS26Iio9N8Uv4DVBdoxqO1atQjvfimGzBkcL
+   Dcky6nSHHjofHW9rpjioalCkvCdaBo0/qkC4Z9U+HkaHe2/Zqwf20/xxf
+   rwUz1mE2WXjIg4By/rSftS5skMl2G/ixq2lSci6zY2u78wk2YkUMOzu9q
+   FHfbuRsjz2hmozW5ZO58HosNLneMUnsaTDiqVXG/gpqkgsNxGc593wgUG
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.93,293,1654531200"; 
+   d="scan'208";a="322708513"
+Received: from mail-bn7nam10lp2105.outbound.protection.outlook.com (HELO NAM10-BN7-obe.outbound.protection.outlook.com) ([104.47.70.105])
+  by ob1.hgst.iphmx.com with ESMTP; 06 Sep 2022 15:36:08 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MHiipqu3Nyw0MI5ZAtzc9O5WTIH43l20pTBxqiUWJTerZPVBv+Tk85SnuI17edMixkyjv+WOCJBdiE4EvR6utom1RN7xXqoyOYmFDjBZdwvG4UyOZ2lr/8a4dLx1wVumGB7VB2opUr9KLwhO0V0wzu8IG5yEDDSkbTdsm7mMR4ZZgYye2/aO8uuhyFgQIow2xm1kl+I+2pXBlPIPdJtQccvS6YD1PQ657iwvyq0D0VLcPsF7pLYez0LmL1ZVjY/ec0QP7uXam91Ua9OZm+WFPTmseA5f7lXVo7hxERx8NFNLGtE0hox7p8tWzO+ZEQSnvI5nVg60KyVYkQQOLbKv5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GfrWvqJ2Yk4lNCIi6maLCyqMCE7xuPbBeLan3hXpQA8=;
+ b=ZF1e7YUzDQRTk4m5ce8z1I+hXS1D0+eB4IYMbvrG+377WQKwCyYqSHsbTx/xCmK+7YuKYKZk4gGYULpKtBCRNs6Hpqo5WHzwqfu06BU36gbm6AcTGOV6OZqHdS1ftv285dzDUcsbKQpKhmabWaoWvqkM0qDdaP1oJ5nPbGcSF9xnQI/LPE+X1qjTJnVbhYIAF/de35uHcm2/Kepm2+RG3GzN2uLYmaQaEkbqLW66XkFtSrDjaIGQ+zzFVv8Sk/8QVzUn2VUlg7WVH9zMZBy2pMW/9p2RzE9LWYkv4wJiEffHrFTHlkDQa3Z+zKlz8z6DfBV/wQygdfQKKZ13kWts0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GfrWvqJ2Yk4lNCIi6maLCyqMCE7xuPbBeLan3hXpQA8=;
+ b=h2xPLBNgatJIHZPjhhz0a+XyhtG3oTBN2rZsZv+5OQ59eDBscVQZN8rGhGyAq0WHyMNmYaGsRFbqSx7dOETJP4+lQz3bqPz8TOLzBSstFvnAr2AiIxa9Im6n+CEWWHEu9w6mIwfOL9/Wh9c8wz9xHs8O0mJlMvtXNCpKWUEvA1o=
+Received: from BY5PR04MB6520.namprd04.prod.outlook.com (2603:10b6:a03:1c6::18)
+ by DM8PR04MB8087.namprd04.prod.outlook.com (2603:10b6:8:2::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5588.12; Tue, 6 Sep 2022 07:36:06 +0000
+Received: from BY5PR04MB6520.namprd04.prod.outlook.com
+ ([fe80::bc24:4048:67fe:b8b2]) by BY5PR04MB6520.namprd04.prod.outlook.com
+ ([fe80::bc24:4048:67fe:b8b2%5]) with mapi id 15.20.5588.018; Tue, 6 Sep 2022
+ 07:36:06 +0000
+From: Dennis Maisenbacher <dennis.maisenbacher@wdc.com>
+To: Christoph Hellwig <hch@lst.de>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Niklas
+ Cassel <Niklas.Cassel@wdc.com>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya
+ Kulkarni <kch@nvidia.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH] nvmet: fix mar and mor off-by-one errors
+Thread-Topic: [PATCH] nvmet: fix mar and mor off-by-one errors
+Thread-Index: AQHYwSJaAk5sh4abmkS2rpDann1oRK3R1M2AgABRGYA=
+Date: Tue, 6 Sep 2022 07:36:06 +0000
+Message-ID: <9A16934B-008A-415B-BBA3-8C646BD46A8B@wdc.com>
+References: <20220905122116.2678206-1-Dennis.Maisenbacher@wdc.com>
+ <20220906044549.GC32413@lst.de>
+In-Reply-To: <20220906044549.GC32413@lst.de>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Microsoft-MacOutlook/16.64.22081401
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: fab57cff-b7f4-4c89-58f6-08da8fda7580
+x-ms-traffictypediagnostic: DM8PR04MB8087:EE_
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  p/3/F+9ffBdDFKJlThK1TwC3GWUQWlGZmoav9t+MZmD6BlcVCs1waVEasOPdXxieSv2/z/nethjyjOZ7BRVgbddcctaTemWxUBhGIYu0MM+7PO4asNprVkninGqjIAPZGKBK9wkVSoeFUb2Tb7KxFD9Tm6XcYI3/t1L05ilU/OeoupBJ4wCj6GctdjjIx42Oew+s0dijK6FsR9S9oeuzQDhq9c1RIKIhZvVNVYezK59MRxQtZlsPrIyOKdfVY27LQEq71Q1Lso+HCVxEa2n9RyX3Zr2jByDaOE1BRTAv+ziZLCS/me+tuXqhy+fR82lTtWf3hi6IN58/VTbAkrApfMnlTWZDR+nDP/w+GSciKLt4CnGu8ttqZfERYjO7/qQM38zukqkyTRC1kYf1YSG4clOngxSIt/k+e11QaqFq9fPAD47le5q6NdNlzH11ou8kGCIIoMj8UDhPE8gvDcULmPkYewiqyDBHsySy3hezqC8la1w72Qb88tZd8QOBRXz4PixaAGE82szDIaW/Xj2YLp92crPQhgDxmFm/YLydDVtFiAEnuo2K8/47BHiCjR50TSYIcNrw9sR2i6QcHfW0/od1+kpGA8PhYnrEZmsZFREPn5l+HWy2Tj1ucevfQ/OWI1QXOFr2fw4WxoEPIGiFRo0I7zYv4sagvLypXCtYNP7fpAvnzSinyrSp9U52BVCowhqIao2PmWF3glAIddpRN3ugVWWSYWt/IXel4uG0wTo/1ZieVbH/wdZhbUzjW/htIGWsBHfTUIfeT5cm5Q4AQl9FQ3vTvBu72EhJWMKG88A=
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR04MB6520.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(39860400002)(396003)(136003)(346002)(366004)(54906003)(83380400001)(316002)(76116006)(64756008)(6916009)(6486002)(91956017)(36756003)(66556008)(4326008)(8676002)(66446008)(66476007)(66946007)(478600001)(41300700001)(86362001)(6506007)(186003)(6512007)(2616005)(26005)(2906002)(4744005)(71200400001)(33656002)(44832011)(8936002)(122000001)(38100700002)(5660300002)(82960400001)(38070700005)(45980500001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?KzV2dDZyOFR5WDl4SVMwZnBzUkN2S2tibmRQVUkxcm1tQUJsUE12bTIzM0Zj?=
+ =?utf-8?B?U012dUNjSHorMzJMOXdQNXRxdzdxbFlFR1dwTUJpbkcxcUZPRlNBU0JIRHht?=
+ =?utf-8?B?ci9DSzRqbzhKeVNyUkhvREFiMDlxdWZBd1FRZnJXbmF3TXhqTC9ndllXYU1E?=
+ =?utf-8?B?NTZBRDI4YXl2cnp3Z3NzRDAvcmNkM1Z1SnFYWUk0WHFzMFkvejJmbUxRMTJG?=
+ =?utf-8?B?cVFSSkhXMlIxVnNyKzRHTmgvR2ErUEV4UHNqSjI3NEFNdDVnNlkyVzllUDZE?=
+ =?utf-8?B?WEZWS1ZUS0Rrblpsbmk1TjBFRDJsT0RRYlUvRklNOE45Z2hpbWpHbzhsc0xr?=
+ =?utf-8?B?TzdjT1JWODYrWHdreVpOdmRwbXAzSTBGYXhUZHZhUGRRZEcvaUhVRmgyb2wz?=
+ =?utf-8?B?dUpiaVVmQnh0bno0NzV1QW9RNGgxL01uNlQyZTJKN2VMYXBROEZwaTlSOFNu?=
+ =?utf-8?B?R0t3OFNENzZpZmlKWTc3WlRxbVI5L1NSZWlmMjZXYy9KVkdEWnZZaE5BVkN4?=
+ =?utf-8?B?SkdEQitPcWlIOXVmZGd5YU9XUXE3cmtsQ3NZcFN6ZUtiWlE1c1IrQjlQdndO?=
+ =?utf-8?B?WjB3S1owOW13UlVJV0JSQXNScS8vWVNITHJYbmI1ZitiNURFMEg5aHplN3ZQ?=
+ =?utf-8?B?VTZLZWRxZmtrUDU0SThVOXA5VlMyWTI1aUFFTGxZL2xwQXZ4OEJOUEo1WnpH?=
+ =?utf-8?B?S01BWVFDMEIwOXNIVUJ6NndZQmMyN05vaXlWa1JsY05yMWNqbno4eU0yRHFG?=
+ =?utf-8?B?SlhsTFhIS080ZExMTXIyd2hjZnFYT0psc2tlYllpWERNZWpCQVMwRlhkd1lO?=
+ =?utf-8?B?TTcwd0lRRUQrVTlvM3BRd1hGNTErVjhkRlAyOXY2bklhZVdBdG8zSXJudXo5?=
+ =?utf-8?B?amxpNlk4VE5EWXU3Y3lTZ0VJS3h3Vi9QeHQ2ZEU0aU56dUgrUFE2Y0RFdVJs?=
+ =?utf-8?B?M20rWXhwZ290YjlldWVLNmowYWZIbFBHbjVQYzFYd3lsaG5UbTV0Z2NsYzFB?=
+ =?utf-8?B?R0lvVUY3QjAzUFcwanc5NjhmeEZoYWgrOWlMU0ZRWmgrMndyRnhxV2d4YUNr?=
+ =?utf-8?B?anlzWUQyMWRSZFIydzduR1RZZUFXWGo3MXFzb3BZS3VuUlVuSWRQS0lWeHU0?=
+ =?utf-8?B?a1BjNEhjcGFhTzk0ZzFqSEtXVzRlQVVPNWlIbzN4dENTSS80SzgvWFUxeEJt?=
+ =?utf-8?B?MUZEN3M3WnFCSE9MUFJmSzBOMzl2SWQzUUFjRDE2Y2Yva2RBTzQ0RVF0dlly?=
+ =?utf-8?B?TmRvaGRpRUxsQ2pvbURLNXBVUy9BWk1tMFRhNzk4TlBUWDZpamFIY0ZxS3dI?=
+ =?utf-8?B?QzRlblVBMUI2RUlaU004VDVHOUZwdTlwcG5qNEpYTVc1cW1vdUxpU0ppZndM?=
+ =?utf-8?B?TXZpOXY4bEk1RVRzYm5sNnRkOWZleWlxcXNJTXY4Q3plcU02c3lYSkVzNXBN?=
+ =?utf-8?B?NWc5ekEwSWFhcU5KdlRxYkZPUTZ1QVQ1Y0NxTjQ1ZGJGV3ZvVExkdlAwTU01?=
+ =?utf-8?B?bWVMVzhPTmpWZ09UYzdRVm9YKzlwVW9SQXphSFRkMjgwbVpSQ1B1cnE1VnU4?=
+ =?utf-8?B?SUZ1U1lUT0RoOTM4Vyt2cnVYZWhXSGQ2NmUvZGN4Q0Mxa0xhTlpmRXBmdk9q?=
+ =?utf-8?B?ZHgxc0MwM2FhZ2F2MGs5UENaR3BHZkNQTi9HZW84UjdYdkYvVllWVFA0VjA2?=
+ =?utf-8?B?RHY4TURUQmlrWGFoMG9TWWJpOG11TGFGQlliY0M2ZDFSZkFIUlRncVFIZTlG?=
+ =?utf-8?B?R2FXdGlQdTZYMEErSU8yNWsvM2R3ZzN0dGh6bldHZVd5L2F2bEI5ZjJRaDIz?=
+ =?utf-8?B?eXFTMlZSaVlyU1NVN3hWY0dNRzg2bjRKTHBxdzF4VFhteTdoNjFyMHBqTGhZ?=
+ =?utf-8?B?d0lCa3hyOHlFb3plYTMxVUwvRHpjN1czYjBqdncwVm5OMStGTThIQUlYNXJp?=
+ =?utf-8?B?TDljNStCUE54Q3dLcVlhOWpHWWhlNnVmR2Jtd3M1bU1vWXdva2NBUUVtTUND?=
+ =?utf-8?B?L3ZkcFhjdFNBZEFwclNsbFZNVVcrOGNnS05UMGVLa3ppTG1tYzd5MDZhU2NL?=
+ =?utf-8?B?dUxlOFdBdEliOGFFVDUxanFYUm02STltVjVybHE1cjlJM0s4a2lBL3JkVTBZ?=
+ =?utf-8?B?b0d4TXdhdG5FWFgxdWZ5eDBFeHBaeU8zOWZxQ3NJRTJXMHo0WjVPU1hiS003?=
+ =?utf-8?Q?0hrNNcSVygWtijyjOEYOKNQ=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <97B94F60DE3D6742931E2EB6F852EDC2@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <79f9829f-3337-6582-7ea7-6de5c8afc69b@huawei.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6520.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fab57cff-b7f4-4c89-58f6-08da8fda7580
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Sep 2022 07:36:06.3178
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: MfWvHrUkvXla+kg7BA20XavdibDDkWZjcBqtLRav0FdeVAXIJj7+XplZhEaPTrNcisy0CJB4oY50apQn7yoEx+Zej0sUbHULlSMsx00ivlo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR04MB8087
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220905_235908_253097_9DA7ECA0 
-X-CRM114-Status: GOOD (  14.09  )
+X-CRM114-CacheID: sfid-20220906_003622_737989_ED4C236E 
+X-CRM114-Status: GOOD (  16.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,21 +166,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 06, 2022 at 10:13:42AM +0800, Chao Leng wrote:
-> Although the NVMe protocol does not define in detail how DIX should
-> be supported.
-
-NVMe describes how protection information works very well.  It does not
-use "DIX" at all to reference those features.  And remember that even
-for SCSI DIX is not a normative on the wire protocol, but just an
-interface for HBAs on how to allow the host to interact with the actual
-wire protocol.
-
-> But The NVMe base spec says:
-> Additionally, support has been added for many Enterprise capabilities like
-> end-to-end data protection (compatible with SCSI Protection Information,
-> commonly known as T10 DIF, and SNIA DIX standards), enhanced error reporting,
-> and virtualization.
-
-None of which is normative language.
+Pj4gQ2FzdCB0aGUgdW5zaWduZWQgaW50IHZhbHVlcyB0aGF0IGFyZSByZXR1cm5lZCBieSBiZGV2
+X21heF9vcGVuX3pvbmVzIGFuZA0KPj4gYmRldl9tYXhfYWN0aXZlX3pvbmVzIGludG8gdTMyIHZh
+bGVzIHdoaWNoIG5lZWQgdG8gYmUgZGVjcmVtZW50ZWQgYXMgdGhlDQo+PiByZXR1cm5lZCB2YWx1
+ZXMgb2YgdGhlIGJsb2NrIGxheWVyIGhlbHBlcnMgYXJlIG5vdCAwJ3MgYmFzZWQuDQo+PiBUaGUg
+Y2FzdCB0byB1MzIgaXMgbmVjZXNzYXJ5IGJlY2F1c2UgdGhlIHNpemUgb2YgdW5zaWduZWQgaW50
+IGlzDQo+PiBhcmNoaXRlY3R1cmUgZGVwZW5kZW50IGFuZCBhIDAgcmVwb3J0ZWQgYnkgdGhlIGJs
+b2NrIGxheWVyIGhlbHBlcnMNCj4+IGluZGljYXRlcyBubyBsaW1pdCwgdGh1cyBpdCBuZWVkcyB0
+byBiZSBjb252ZXJ0ZWQgdG8gMHhmZmZmZmZmZiB3aGljaA0KPj4gaGFwcGVucyBieSB1bmRlcmZs
+b3dpbmcgdGhlIHUzMi4NCj4NCj51bnNpZ25lZCBpbnQgKGluIExpbnV4LCBub3QgdGhlIEMgc3Rh
+bmRhcmQpIGlzIG5vdCBhcmNoaXRlY3R1cmUNCj5kZXBlbmRlbnQgYnV0IGFsd2F5cyBhIDMyLWJp
+dCB1bnNpZ25lZCBpbnRlZ2VyIHR5cGUuDQoNClRoYW5rcyBmb3IgY2xhcmlmeWluZyENCg0KPkJ1
+dCBJJ2QgbXVjaCByYXRoZXIgc2VlIGFuIGV4cGxpY2l0IGNoZWNrIGZvciAwIGFuZCBjb252ZXJz
+aW9uIHRvDQo+MHhmZmZmZmZmZiBhbnl3YXkuICBZZXMsIHVuc2lnbmVkIGludGVnZXIgdW5kZXJm
+bG93IGlzIHdlbGwgZGVmaW5lZCwNCj5idXQgaGF2aW5nIHRoZSBleHBsaWNpdCBjaGVjayBleHBs
+YWlucyBtdWNoIGJldHRlciB0byB0aGUgcmVhZCB0aGF0IGl0DQo+aXMgaW50ZW50aW9uYWwuDQo+
+DQo+Q2FuIHlvdSBhbHNvIGFkZCBhIEZpeGVzIHRhZywgcGxlYXNlPw0KDQpTdXJlLCBtYWtlcyBz
+ZW5zZS4gSSB3aWxsIGFkZHJlc3MgeW91ciBjb21tZW50cyBpbiB2Mi4NCg0KRGVubmlzDQoNCg==
 
