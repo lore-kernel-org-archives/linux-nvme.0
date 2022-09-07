@@ -4,139 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 74ABAECAAA1
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Sep 2022 02:44:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6927BECAAD3
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Sep 2022 05:58:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Stk0ASZEmo+jh4SLMUQAWSyrJwbRahQbQn/eYZGDKpU=; b=Wwk9wQivZFl89khmv03ceYS9HJ
-	zdLdGdirK5vOaW8zPk3ZAPBgQtg4r6qXOF6uVdv+nJ8fbrKuJ5YuFYvCGyNFVD0S+JCXCo9vfDpyW
-	hQi0ATxwIkZDhjw2VJjEuvQDiXjo9z1JVpERdB4jZCuMbuoAlDN1YLsoXYv/x9G22m8CwrJM0xloF
-	82uq8znS+t1uo+gl+584oO+Y58jKwG+xA5JKa5RHIRfXqm3Sv9/33wu1g2Fm0N7QK5ucW2EseMMXs
-	jmHwmXMNYSwFKYI3bz8DUJYEGnZImmCQLd+kSr4bjqu4VV07tSZq/M6oOXAokvHi6WDcbD3apNXmC
-	9obsfnyw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=GscHZ+e8pgA+INkNqsKseMwI1/dDHoIftH77UD+x8Uc=; b=WsbYYZ5itfdFEQ1zXLtvoZ/Yb6
+	CRH2i7rDjMhPTrP4XV19nnDK6I70wL+5A591g4QH/eAvsWSqfJmfm+lObhh6Svnn0K1Anvo9/PO9g
+	UQcKqttStPDob4/fVC5N67+bLrM9PjCsqFhJUe6XPZhinavlnSa2QheK1ilc8s4A+99ctYCe5k6qZ
+	6e6etxC9HXrvdNI32Q2SfTTkg4Vy+bnhl1Ss5zR9gVHhSaxnJILsUai1YeNxZ5wrTqYOWtHbDI5xI
+	+dmdXoIor9TMLTo6VhO3J0sBIY5ttyJD/+wAQ8dJVVaz3SH50xlKyOazkTFqlMVOpRfaxM30gFkeu
+	7GBg++cA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVl2n-001iQc-1l; Wed, 07 Sep 2022 02:44:01 +0000
-Received: from mail-bn1nam07on2065.outbound.protection.outlook.com ([40.107.212.65] helo=NAM02-BN1-obe.outbound.protection.outlook.com)
+	id 1oVo5B-0030Z5-CS; Wed, 07 Sep 2022 05:58:41 +0000
+Received: from szxga02-in.huawei.com ([45.249.212.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVl2k-001iN6-0j
-	for linux-nvme@lists.infradead.org; Wed, 07 Sep 2022 02:43:59 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xn0iJr/uTlZpjHICKg9CUGEEgJg3KB+9KX3FK8uq7PW7gTzPxM1qniwnvykN4yFCq/+RG4CjIMqUlgCpj5sqos16CkauYvo22ewiei/O6sbSkh2IuNWJNtc0IixcmSU8s9Yri24pXbEr03ip29O9k8oUNFGDKIR41oySeCE2lbRd6oXHKJszYE+pFzHEY4ysOT8lFeZkIxKqFG4iQRjPm3sP6WTIM81yYDhE96/6VPE02BpkitNgtAC0+gG3Y2ko3KK/swd8HQyHCXPqVe56c+9G46wWKZ0HlMtGfa1mfu2RADpzbvB5SPkJLtxQZfkHzMt2ZO+TewgdmHyl6OoOjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Stk0ASZEmo+jh4SLMUQAWSyrJwbRahQbQn/eYZGDKpU=;
- b=c2drChDbAF/vHVCv6FV9+WuLKqwHrcBM2s5TRo8Eqt8/hQK6BDBUIdHIyTNBiXhSKdacfNqdThUEjKPzMzOoLkRq/Xc/xuwt83VU6/jlqE6Gzl0hKDK48y6qUUw7DgRPAKAt5yFVyg0BJULxp8fvw32L9E0dB/FUonlzP5C+a8IOKiZpjtis7U/r7spJWhHaLSc3omOkACDQ1uLh77lCEAKQBluwMxCVJJjq17YqFGOxE3RMnOAF8hxjj44oMgIimSCFZJ96FWBsb5KE4n1LQ58WPSWf5hIPIdPP9hKZ9x6Gc+xu+7Icow3EEVoN3z7uCq14Tir21IZ1KGNsGZw8PQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Stk0ASZEmo+jh4SLMUQAWSyrJwbRahQbQn/eYZGDKpU=;
- b=tgC0wpJ9Wqo4kYJCAv+v6HLOR1kxaTdSyweoPcnu+ezsU4mrL6lVLM1dDJsedHx6yatPE/UsPbnMkoJQyjkLCmIdoKSfj5TloRcvTzHzweqLgyUYJ2HImJF9qpr5RKnGqpBOgHE9yTUjc2r2uPrFWDBHaZkq1YBtn3RzHEnY8ESSg04OoZ7x71bsdC2U3xPlQqgiwm65+tiEBi0VKWAumRC13BVYU+BRUVgt4HH26PIyzSzmHtnUJavWCGwAz5oWKPxPZeyRD+3qIBC4uaXfivMjpxsVggaJiwqFNVvYr2Fq8/cSlBnsjOEdwkS3dwZBB006vhwVQV9sBUC4EgLC7Q==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by LV2PR12MB6014.namprd12.prod.outlook.com (2603:10b6:408:170::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Wed, 7 Sep
- 2022 02:43:47 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::c04:1bde:6484:efd2]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::c04:1bde:6484:efd2%4]) with mapi id 15.20.5588.017; Wed, 7 Sep 2022
- 02:43:47 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Damien Le Moal <damien.lemoal@opensource.wdc.com>, Dennis Maisenbacher
-	<Dennis.Maisenbacher@wdc.com>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>
-CC: Niklas Cassel <niklas.cassel@wdc.com>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Damien Le Moal <damien.lemoal@wdc.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] nvmet: fix mar and mor off-by-one errors
-Thread-Topic: [PATCH v2] nvmet: fix mar and mor off-by-one errors
-Thread-Index: AQHYwcPRcm6CrzlLu0+cYsV2b6mBrq3S8p0AgAALrACAAEV9gA==
-Date: Wed, 7 Sep 2022 02:43:47 +0000
-Message-ID: <36b16998-3720-cc30-3ee8-b4d92c3b266d@nvidia.com>
-References: <20220906073929.3292899-1-Dennis.Maisenbacher@wdc.com>
- <d3b4ef13-62fc-1bf4-3a5d-3cc740df82b8@nvidia.com>
- <8154fb0a-4cda-a4bc-29ef-8435a3edb264@opensource.wdc.com>
-In-Reply-To: <8154fb0a-4cda-a4bc-29ef-8435a3edb264@opensource.wdc.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 581ff2fc-beb1-46d6-4c13-08da907ac9ff
-x-ms-traffictypediagnostic: LV2PR12MB6014:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  2pRFAII8vyvHvwzDIkmTesHCtf3qz0fQCUCe58aKX+TakCnCXgRsfmAEHOSQW7dUxmniNJilQWu4Zjd3ZxAjY7kfLm4IeM2D1T2c6hB+JpabNY5eRUTZQpCkU88ZJizhirjNkJSnLGpUX+V3fSm7VDeor5DARNrp1nDy7yHosnxhgtdwtv5KcHRwXgmvP0vSCo+vef71O0qEveJuRMKBYaUB3zUH20kcIFPKyOUpXXnItnRWIAl+5SssdFtx2u3PGB46k95Ik96WYiNMXWeYzSb4i4OufY7e0NBkFxqj2uWaJX9ilcdKiyKx3Z6eLi2tF5TPneQZewx3yrGldI/fK98/6yKK4pSYOsh/v4htgvJoflFTcwEt62bWciDp7chyp10MC8d/FUEwtLIzOmLTp6i0KpCS85JVaeezqzRpLPbOIlu21owKAkqEibSskjs/Q+3t1RV+p9T5lQHNil4s8+Id8dwT+K/UuR+bQH3omtxGgeKvaZ94V63qq+pnrAXqbtHhANptBxkAjVrDPAYuCs1q8jqX9yJXJgaGpqOYYkCXzi3BQPxmxjn9YKQnyqZuj38u3ZqwLkK0bUQ22cygK9e/1k5KTwW+9PSt8FJ1HQ2HKEiAIundMf8TS6ke5utzX4ht4SK1pTeQA5UT5bAcrxLUu8q7hEmcfqVAZOGverpFSAoMaC7T1mtt4S7zqChMCPdnxzfU6oRXwovS+u0dycGtaKBpOOnhmDesw4+XfIz0ZSv58TWjszGcJrvRSDXI7p4SvDZaI3KjbdM3V7AgjbgexJWqCKvCYCOJLLnzR0Mx/ZiQTnRg1sHQ8oTEg4I2+9dMyIAqFnn9gj7JgIG0pw==
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(366004)(136003)(39860400002)(346002)(396003)(76116006)(110136005)(2906002)(36756003)(4326008)(66946007)(66446008)(6506007)(64756008)(478600001)(41300700001)(71200400001)(66476007)(8676002)(186003)(54906003)(6486002)(6512007)(2616005)(66556008)(122000001)(316002)(91956017)(38070700005)(5660300002)(31686004)(83380400001)(31696002)(8936002)(38100700002)(86362001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?RFRzMHlpUXUvV2wrUU5TZk1QdzRHTm5OQTczVDFGdUNmUUVPSHlucHdxTE84?=
- =?utf-8?B?L3V3QnUzbkVvUnI1Q05yYU9NS0plMzhBSW1VdUtpQnNWekJMSk9ZMGRiemJJ?=
- =?utf-8?B?KytIZmswbzJyRUFHNDd3eUcwMXBqZ0xOcVBmUnAvTEMrY0g2cjEyYnEwUkZC?=
- =?utf-8?B?UUp1OFEvQys2UFlLUG15Qm9qK2REWURQMlU1a3lmVjdzamFCZWVMN2VGblF5?=
- =?utf-8?B?N3NydVY2SDBrUFFaaDJ5RkJHSjI5R0hEeS9VWElKTVNHNDg3Zis2UU1TUnBy?=
- =?utf-8?B?a1dzdDVKZzcvZEFYQkdidG1PZG1rUURjaDVKV2p1UnFKaFNOWkFKQmNiSUxk?=
- =?utf-8?B?SUtQbVdWYStsenAyQlJnRVc2S3plbjZPMkRMZW9qd3dPSEF2RUt4bWZETmtx?=
- =?utf-8?B?Y3IwYmZNTEd5eVYxWjdnbGkwWEJaSGlzalRkMFNQaDlsbmlxUkQ5aVorb2NX?=
- =?utf-8?B?bXFhRkh0NnF3NlppK2d4eFg2QUI1N1piMDFkVlMybjNEcmcwQ3NQMnVoUmlt?=
- =?utf-8?B?ZDZoUU14Y3FmdFNYUmVIcHBZR1hzZldrUjkrQlAzM1NLbTN0S1MvR0d4K3Uv?=
- =?utf-8?B?Ni9CdC9PbVdBUFRnbnZEUURzelZvbmpwblJ3dVhMUWZISWVlYlZaTmhhY016?=
- =?utf-8?B?Z2hSRjRUZEkvYnJLWm1RMkpNSzNKeEZpQzdUZ1JvRTJmZUVlanlsNnhPYUpl?=
- =?utf-8?B?ZTJ6Z0VSUHVhbGJMU2swZXFvL2xucGdZcmVvWEFHL2FIYXkrOS9YOGZySTRU?=
- =?utf-8?B?OTBzbUVvUDhrVlpiZGVKMWlnQml4QWRlYUYzRTRMWEhZVXRhVGU4cXFEbG1K?=
- =?utf-8?B?QmJqQWwvaUV3QnZEREc3dmRNcGhpOFcrczRac2FXUHNSbEFuMVJ1Z2lka1dx?=
- =?utf-8?B?ckd2VkFzSFdLYVcwYy9ibHRIcHhOMUdzRU9zSENnL0luMDAyRDRhdEpJejdV?=
- =?utf-8?B?Y044SVlza0FvNFRDdjhJSENMc3hCdWlYajVBSnZKdXdLL2dvdGJuYSsraEpG?=
- =?utf-8?B?MHA0N2tJdEs0K1VIOUpvRnBWSHZJVHFXdElQd0FvSXpndEVCV1QwRjVPVTRS?=
- =?utf-8?B?U2JnaGw1VHdwUU15djQxTm8ydTR6RjJpN0NvV2RDZkZpSGc5V3p1WXdQRHRs?=
- =?utf-8?B?R3g5Mzk1MFN2TFEvQ0xnK0lCa1B0WHpSTUx6aUN4NVZaV2ZkRFNsemN6STZG?=
- =?utf-8?B?MlpDWDkzMkVqYmFrTjVaWHlUajU5YXpTaHdybkRzeUJtQzcyK1k2b2Y0SXc5?=
- =?utf-8?B?dDRBZkMxWTNrS2xyUW9GVitoYkFxRHhkSzNaSnZmWTJneVBIS0VibFhjV2JF?=
- =?utf-8?B?R0V3VUFtMUJCekJSVEoxQzc0VGc5d1VRczhKamRLYjQraXpJdlcyTlZMZHQv?=
- =?utf-8?B?TkFWbjBTeVk3U1dtc1E4cXkwYXB5RGJRZjZ6V3VMQk1jNWp2Nkh2dDZCMnBk?=
- =?utf-8?B?Y0NXOUdhanJwOEJ0WTlwMjZxTVlpTUVpL2dTRjhyc25LRExoTHZqR1Jha1dW?=
- =?utf-8?B?RjBJMTRFMmNuV0xDdTZtMkM5dlByZ3FBVXdlQzExWmt5TUp5ZGNWdWJ4TldT?=
- =?utf-8?B?ZktpOC93Zy9wa0krMFFmbDIvR2padWtkRDZncWdlQmZ0L1B4TGhvMjVUSjl5?=
- =?utf-8?B?a2VYbTQwWWtISk4yOHJDRUNtNEVsQUpGbkhwZWJaRE42NFBiTm1Gc2RoV015?=
- =?utf-8?B?THFnSzVtUWxCbWdJUVRFYldWQXBNaUFmaDJkOEsxZ0tnUlNrZ2NMZWpMMCs0?=
- =?utf-8?B?SkxXRVNwYjJnZ3BOLytxVXppSWpQcERDaUprL3hTdEQxdFdsUWtFTysyYTJS?=
- =?utf-8?B?NmdBb29Db0J6YzF0T3hkczR4N3hKeTV5WWkyNEVaZXdKSEtaQ2g3NWFOVVN2?=
- =?utf-8?B?b3NrWXhzK2hVUGU3NEM2VWI2MDVGcDZkME85MFZ1M3FtZGJVNWJLWE1haUtt?=
- =?utf-8?B?QkRrWFgvQ0k3c2w5OWhqb2ZaMmh0OHlyb1IxL0trTGJHcWRyUWN4Z2dWbmc2?=
- =?utf-8?B?OXUyNnE5ekdDVHBLNVM4WllNMEptZjZWdlB4MXJzVnJNbVdZVzNxOTRWVmJV?=
- =?utf-8?B?eGczelZKNjVReVc4U1JlcEczOFkzUVlBdi9yaVJ2UTJQeE4ycGtvRnB1Y0R5?=
- =?utf-8?B?Wm1tL2Yvc0lCemRJUEZVanVQSFlURlN0QkF3SHR1REpIN0paQktQNENDVTZY?=
- =?utf-8?B?clE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <1D13E1FF58A9544EA98A7D63F379F6E3@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	id 1oVo56-0030PJ-6E
+	for linux-nvme@lists.infradead.org; Wed, 07 Sep 2022 05:58:38 +0000
+Received: from canpemm500002.china.huawei.com (unknown [172.30.72.53])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MMrzF6r1NzZcff;
+	Wed,  7 Sep 2022 13:53:45 +0800 (CST)
+Received: from [10.169.59.127] (10.169.59.127) by
+ canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 7 Sep 2022 13:58:15 +0800
+Subject: Re: [PATCH 1/2] nvme: make NVMe freeze API reliably
+To: Ming Lei <ming.lei@redhat.com>
+CC: Christoph Hellwig <hch@lst.de>, <linux-nvme@lists.infradead.org>, Yi Zhang
+	<yi.zhang@redhat.com>, Sagi Grimberg <sagi@grimberg.me>, Keith Busch
+	<kbusch@kernel.org>
+References: <20220821084754.340585-1-ming.lei@redhat.com>
+ <20220821084754.340585-2-ming.lei@redhat.com>
+ <e2568bdd-a3cb-7a94-8018-d1468f3dcdd4@huawei.com> <YxcIkV2slhTR9MHX@T590>
+ <5656419a-6271-b387-3e75-4dcb70047545@huawei.com> <YxfmyvCRQiYBGkHI@T590>
+ <099899de-5914-c59c-bc2b-1d4d35c68818@huawei.com> <Yxf8kfUKRQxASeb5@T590>
+From: Chao Leng <lengchao@huawei.com>
+Message-ID: <cb979baa-77e7-bfb8-2f74-3084269ae4f1@huawei.com>
+Date: Wed, 7 Sep 2022 13:58:14 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 581ff2fc-beb1-46d6-4c13-08da907ac9ff
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Sep 2022 02:43:47.5551
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 38lFfknpyMr1LcXPt5LACZeYEwVosSzfpz82aFCHenKRqdozHm/XbfQ3ca7eqhhOagmwyMo0gThdItFdNjUbag==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB6014
+In-Reply-To: <Yxf8kfUKRQxASeb5@T590>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.169.59.127]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ canpemm500002.china.huawei.com (7.192.104.244)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220906_194358_179264_D5F5872F 
-X-CRM114-Status: GOOD (  13.75  )
+X-CRM114-CacheID: sfid-20220906_225836_825696_F57A972E 
+X-CRM114-Status: GOOD (  23.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -151,27 +73,89 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-DQo+Pj4gICAgCWlmIChsZTMyX3RvX2NwdShyZXEtPmNtZC0+aWRlbnRpZnkubnNpZCkgPT0gTlZN
-RV9OU0lEX0FMTCkgew0KPj4+ICAgIAkJcmVxLT5lcnJvcl9sb2MgPSBvZmZzZXRvZihzdHJ1Y3Qg
-bnZtZV9pZGVudGlmeSwgbnNpZCk7DQo+Pj4gQEAgLTEzMCw4ICsxMzEsMjAgQEAgdm9pZCBudm1l
-dF9leGVjdXRlX2lkZW50aWZ5X2Nuc19jc19ucyhzdHJ1Y3QgbnZtZXRfcmVxICpyZXEpDQo+Pj4g
-ICAgCXpzemUgPSAoYmRldl96b25lX3NlY3RvcnMocmVxLT5ucy0+YmRldikgPDwgOSkgPj4NCj4+
-PiAgICAJCQkJCXJlcS0+bnMtPmJsa3NpemVfc2hpZnQ7DQo+Pj4gICAgCWlkX3pucy0+bGJhZmVb
-MF0uenN6ZSA9IGNwdV90b19sZTY0KHpzemUpOw0KPj4+IC0JaWRfem5zLT5tb3IgPSBjcHVfdG9f
-bGUzMihiZGV2X21heF9vcGVuX3pvbmVzKHJlcS0+bnMtPmJkZXYpKTsNCj4+PiAtCWlkX3pucy0+
-bWFyID0gY3B1X3RvX2xlMzIoYmRldl9tYXhfYWN0aXZlX3pvbmVzKHJlcS0+bnMtPmJkZXYpKTsN
-Cj4+PiArDQo+Pj4gKwltb3IgPSBiZGV2X21heF9vcGVuX3pvbmVzKHJlcS0+bnMtPmJkZXYpOw0K
-Pj4+ICsJaWYgKCFtb3IpDQo+Pj4gKwkJbW9yID0gVTMyX01BWDsNCj4+PiArCWVsc2UNCj4+PiAr
-CQktLW1vcjsNCj4+PiArCWlkX3pucy0+bW9yID0gY3B1X3RvX2xlMzIobW9yKTsNCj4+PiArDQo+
-Pj4gKwltYXIgPSBiZGV2X21heF9hY3RpdmVfem9uZXMocmVxLT5ucy0+YmRldik7DQo+Pj4gKwlp
-ZiAoIW1hcikNCj4+PiArCQltYXIgPSBVMzJfTUFYOw0KPj4+ICsJZWxzZQ0KPj4+ICsJCS0tbWFy
-Ow0KPj4+ICsJaWRfem5zLT5tYXIgPSBjcHVfdG9fbGUzMihtYXIpOw0KPj4+ICAgIA0KPj4NCj4+
-IGFib3ZlIDE0IGxpbmVzIG9mIGNvZGUgY2FuIGJlIHNpbXBsaWZpZWQgYXMgaW4gNC01IGxpbmVz
-IDotDQo+IA0KPiBTaW1wbGlmaWVkID8gSXQgaXMgbXVjaCBoYXJkZXIgdG8gcmVhZCBpbiBteSBv
-cGluaW9uLi4uDQo+IA0KPj4NCg0KdGhlcmUgYXJlIHR3byBpZiAuLi4gZWxzZSAuLi4gZG9pbmcg
-aWRlbnRpY2FsIHRoaW5ncyBvbiBzYW1lIGRhdGENCnR5cGUgdTMyIGFuZCBpdHMgcmV0dXJuIHR5
-cGUgaXMgYWxzbyBzYW1lIGxlMzIsDQppZiBteSBzdWdnZXN0aW9uIGlzIGhhcmQgdG8gcmVhZCB0
-aGVuIGNvbW1vbiBjb2RlIG5lZWRzDQp0byBiZSBtb3ZlZCB0byB0aGUgaGVscGVyIGFzIGl0IGlz
-IG5vdCBjbGVhciB0aGUgbmVlZCBmb3INCmNvZGUgZHVwbGljYXRpb24gZnJvbSBjb21taXQgbWVz
-c2FnZS4NCg0KLWNrDQoNCg==
+
+
+On 2022/9/7 10:06, Ming Lei wrote:
+> On Wed, Sep 07, 2022 at 09:18:52AM +0800, Chao Leng wrote:
+>>
+>>
+>> On 2022/9/7 8:33, Ming Lei wrote:
+>>> On Tue, Sep 06, 2022 at 05:32:01PM +0800, Chao Leng wrote:
+>>>>
+>>>>
+>>>> On 2022/9/6 16:45, Ming Lei wrote:
+>>>>> On Thu, Aug 25, 2022 at 06:02:33PM +0800, Chao Leng wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 2022/8/21 16:47, Ming Lei wrote:
+>>>>>>> From: Keith Busch <kbusch@kernel.org>
+>>>>>>>
+>>>>>>> In some corner cases[1], freeze wait and unfreeze API may be called on
+>>>>>>> unfrozen queue, add one per-ns flag of NVME_NS_FREEZE to make these
+>>>>>>> freeze APIs more reliably, then this kind of issues can be avoided.
+>>>>>>> And similar approach has been applied on stopping/quiescing nvme queues.
+>>>>>> This leads to another problem: the process that needs to be
+>>>>>> in the frozen state is not actually frozen.
+>>>>>> It's not safe.
+>>>>>
+>>>>> The flag is just to control if queue wait is needed, blk_mq_freeze_queue_wait
+>>>>> can be done only the flag is set. Not sure how it isn't safe.
+>>>> I thought that the use of NVME_NS_FREEZE was the same as NVME_NS_STOPPED.
+>>>> If just set_bit in nvme_start_freeze, it will cause another problem in
+>>>> below scenario.
+>>>> A: start freeze and set the bit;B:start freeze and set the bit;
+>>>> and then
+>>>> A:test and clear the bit, and unfreeze;B: test and skip;
+>>>> The queue will be frozen for ever.
+>>>
+>>> One simple approach is to replace down_read(->namespaces_rwsem) with
+>>> down_write(->namespaces_rwsem) in nvme_start_freeze() and
+>>> nvme_unfreeze().
+>>>
+>>>>
+>>>> In addition, I think patch 2/2 can fix the bug well, patch 1/2 is not necessary.
+>>>> No matter how to use NVME_NS_FREEZE , it may cause problems.
+>>>> The freeze mechanism is perfect, and no additional protection mechanism is required.
+>>>
+>>> block layer requires queue freeze and unfreeze APIs to be called in
+>>> pair strictly, that is why I add the 1st patch.
+>>  From your bug analysis, the reason is that nvme_wait_freeze is called without nvme_start_freeze.
+>> patch 2/2 is already delete the nvme_wait_freeze.
+>> If there is another bug of unmatched freeze and unfreeze,
+>> can you describe the analysis of unmatched freeze and unfreeze?
+>> The current patch 1/2 will introduce the unmatched freeze and unfreeze rather than solved it.
+>> Maybe another patch is needed to fix the bug.
+> 
+> Please look at nvme_reset_work():
+> 		...
+> 		if (dev->online_queues < 2) {
+> 			...
+>          } else {
+>                  nvme_start_queues(&dev->ctrl);
+> 				nvme_wait_freeze(&dev->ctrl);
+>                  if (!dev->ctrl.tagset)
+>                          nvme_pci_alloc_tag_set(dev);
+>                  else
+>                          nvme_pci_update_nr_queues(dev);
+>                  nvme_dbbuf_set(dev);
+>                  nvme_unfreeze(&dev->ctrl);
+> 		}
+> 		...
+> 
+> nvme_wait_freeze() is called on unfrozen queue, so io hang is caused.
+> 
+> If nvme_unfreeze() is called on unfrozen queue, WARN_ON_ONCE() in
+> __blk_mq_unfreeze_queue() will be triggered.
+The bug is specific to the PCI transport layer.
+It might be a better option to fix this bug by adding flag for normal connection
+and abnormal recovery like other transport layers, and then perform different processing.
+Different processes are processed differently to avoid unexpected nvme_unfreeze.
+> 
+> 
+> 
+> Thanks,
+> Ming
+> 
+> .
+> 
 
