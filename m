@@ -4,113 +4,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95867C6FA89
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Sep 2022 12:11:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65ED0C54EE9
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Sep 2022 12:28:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:CC:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vscN0b8Py2jPWa6YILrjbAYbFBohEmbdNK5hMg7wtPk=; b=2SebCqIHaHXX2OrwhL2Nhifc6X
-	ZrvPMmaDltP2cnKfiHZIqyQux3JJ7QOkANy5GPWSzSya40jWd8DA5p3Qh8VOfVlwtYdNEMPJZ6jcs
-	kL4qtKKTqzo83o6sHcXQmY4EbNjijLotFqQMeFtStIPOiMtkk2kRVuA2tlj0Uohk3/b0sdHmVlFhv
-	XrGbIL2d/4/IAI480vTmyEs6TM2Kj+H6ZPxoKZYZU4gNkNgSJ2SyUFsCxD8WIDHeWzqBUCx30YWWA
-	1fqSTYyTjyQE6qwXg8/U8o+AecHkn4+wFO63vo7s+XW5gjS1AKu2hgVeiwL+LkbC8hqk4vk3H48oe
-	N4rpC+Rg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=t5M5fi0lPbkXfJa5zbvc/vrjUTCY9y+OkQhUP3MOH5U=; b=NY9mqvFNAacZikPQvBfaiOeGu4
+	taNYlxVKwkLBSGWonR0OgPRa8Cx2mzfIV+vk3NSnP4DIWSB25P4Rz1Sl0THFSsJUPLrbldpYT11bZ
+	Fd4cZtwIESUI0D0ZCfJgaYtHE/0jO83vcYP8IcPJSsptdCG9lk/FUKt1Nk5sSskR1it6/TynejdWR
+	pXSrJ2aNKZJ2qLDc9tpfsoqNr8462jvtYNgzsKHWjwoLmDZYr4q/kjCCUuEdIFNmvI/NvLUPEzlYi
+	k8157VQ2MoN9tGGdhmkCzYejr45AlFv/eQFSZub2jj2BpDJxretvd97NcdIXjWwivmkDZKAikWfEa
+	2UYLIm0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVttw-005z7C-Pr; Wed, 07 Sep 2022 12:11:28 +0000
-Received: from mail-bn8nam11on2041.outbound.protection.outlook.com ([40.107.236.41] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+	id 1oVuA2-0065x1-Pt; Wed, 07 Sep 2022 12:28:06 +0000
+Received: from mail-dm3nam02olkn2010.outbound.protection.outlook.com ([40.92.43.10] helo=NAM02-DM3-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVtts-005z3V-94
-	for linux-nvme@lists.infradead.org; Wed, 07 Sep 2022 12:11:27 +0000
+	id 1oVu9u-0065rG-Ta
+	for linux-nvme@lists.infradead.org; Wed, 07 Sep 2022 12:28:00 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gLRiO3QmqWGsDyvopCTm+kFZoni2wDtTsrkgWbu1snrGZJq8lpyRdRK3ngLK2+fymkX+EYXKuokb1SRYCGwARiDD3ZkLOYInWD5HTZ0QIL0Q+Gwe5NPFdmvKvfHzb7IGVfKiN8YzhGcIscpAIIz2JKv4OhIRq7faxIQdQg15qbS3OvCrjO9HS14YDxevGDRbH/jK++urA4UUR6Y+X/dgNaEWbaK8SEKEfEc448hIdRP4gTYQsb9ve5jy+k4YHyu5eQofEI8suMNom+NQrx8EA1Z4QMf/DNwtlthmhHDtvRgcaB5ocWJVeUHkW60VH5ebZYYo9ncjb5Z2+0VPOqsGEA==
+ b=PJIBGVSScam6Yni90JelPvROsJYNUJmdPHpFEAFpEET1khXYULFFA7nEB8LRYOgcxXzaQgeaRA89SMCvVDjHi8ZI57f4y1pmyfJelGRU+LlpGOoetxvVoAJ5uU7FsfBrWWS3nRcBrB8gzqFc20xQ1g1ldFVEQ8TqCV9AbcO5R7f2GDBKQ1JIc/OioUR9WRAjokz59SyZfCWLNMtAShDWDj3OGjsdAxXIIjUR10Ste6PWLYgBQYXTf4kdBH7zR9s3y0cegl7V4WnoXQ9Qx3SQYrIoxLE5Ath3QFEw3gC3wnnz8+awd3ZjO6FH+y9FcclNRCC99uh0sAH+RwSyp8yKOg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vscN0b8Py2jPWa6YILrjbAYbFBohEmbdNK5hMg7wtPk=;
- b=mZ+rdV70e5a836V0F+fdpZH9RJjYAuFNcvvJRqhU4GaZX3ICdX3epKtJB1mbM3gbLdl6Y/3PjiemeWFCrk++Lp8Ho7f4NmizFs3ivnObuW4UMon1mEd0PNdCR95zMff/9tAV1z0+Pmp4Pvqp71JbC0GE0uTrexfD3dgFWnr6KneX9vGWbb3f760Y0JFpMUucQ3Xj0eKQ+5OTR7z1hujqhBw6cRVbYR5MrbyTB40icJXeOpY3FJOeSrsX1umEbdYWthhrO6v3vax4oByMVmaYOiUvhH6vJw/9eplSlp208XICMPX07zYj/iJXMvrb3Y4KwNHcBimRA/nvc64sYxgCVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.234) smtp.rcpttodomain=lists.infradead.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=t5M5fi0lPbkXfJa5zbvc/vrjUTCY9y+OkQhUP3MOH5U=;
+ b=n/jz+50QEOsJ7AHJZTl+UsB+QmffQRc61Vmfn1blsWf/A9j+gIFWoM7/gqTrbyd4/drnTL8RKGbjeCfS6fDMD3atukAJisLXNIGCpn+d1lLJpe03MEb6k07UmxyxhWVP2njy/OHLD2ZPR1PiufsQPKPhc+/wj05Q8iAeLg2DdHTS5sxfKwb5cCMpORHtLzOAgDxcr9Ce/wtXnf0Rw4od3WJgsV0GjbCGxfkdxQBAI2FuV1oAh0sMgmItVQMeFMv9E7DIaB0iKFrAsKojmCAhmML12CGJLb5/qEeFeBVxu5iRKLK/21IptbgWLHQtnfYCCRt3Os+nQuuVcKPPeaZKKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vscN0b8Py2jPWa6YILrjbAYbFBohEmbdNK5hMg7wtPk=;
- b=E1dFxSIfWk201R03S5FLSyjx+lGIJYwrzFe+ucQzSvf0kp6NOQZiCnplcwhUXXtXKbELAe5prZ66uuSn+Xxzlwy2OiKwjsPNsR9hwZs6bLt9LUy/zgWLYMo0sD9dLf8KIKddkl4gtNWdss5YNKJWqT8a0fR3hwV7z/vTooCINWIXQrDIn8mz8FRO6dXyNhWAiGeFO88cejKvKiEBTI28CHXB5AWr4sUwQ01OcNLQQm3AFjBGUnZmZ6If/HxQsrBb+BO6ykhMjTiH4GOmH4ReoYx5sxb1sjzpQ4vyDfFMdD6nFuN1zQNySpnvUMl2RQmcPe+M/NfArd6BWF8J10PvCA==
-Received: from MW4PR03CA0090.namprd03.prod.outlook.com (2603:10b6:303:b6::35)
- by MN2PR12MB4127.namprd12.prod.outlook.com (2603:10b6:208:1d1::24) with
+ bh=t5M5fi0lPbkXfJa5zbvc/vrjUTCY9y+OkQhUP3MOH5U=;
+ b=tNIhMEx3hJH2ozh/RAW4V36RGc1g2AGCmCye/77+Nec/LxTJIfpqZ7FNVDOzG5cRP0w/kLSO594f47FQsySPVfIUl8FFrR1w/iMQJUokKAmqQWUuX4KK4toWWSmN4lZyeq0H1PJBUsPhC9anFqhzssI6nFCe33ORrI8cxYtf2APWCFYFAiU2Arrf4jduDnyXoyXbaNSLrFI6YWkWWtmYR2EKyA0xCKElPiDrkiwed2JYFA/WuCVUE0MVbKRQ48NrqF31yqibH6smCovCdjdfpFJ4Zf/zk+WZrHu87yvWX0WhsjCEoeb+mqmH0zI1lm9TTkEz4nKjeSTmYHL9nInMWQ==
+Received: from BL0PR13MB4291.namprd13.prod.outlook.com (2603:10b6:208:8e::12)
+ by PH0PR13MB4794.namprd13.prod.outlook.com (2603:10b6:510:96::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Wed, 7 Sep
- 2022 12:11:20 +0000
-Received: from CO1NAM11FT009.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:b6:cafe::73) by MW4PR03CA0090.outlook.office365.com
- (2603:10b6:303:b6::35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.12 via Frontend
- Transport; Wed, 7 Sep 2022 12:11:19 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.234)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.234 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.234; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.234) by
- CO1NAM11FT009.mail.protection.outlook.com (10.13.175.61) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5612.13 via Frontend Transport; Wed, 7 Sep 2022 12:11:19 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL101.nvidia.com
- (10.27.9.10) with Microsoft SMTP Server (TLS) id 15.0.1497.38; Wed, 7 Sep
- 2022 12:11:18 +0000
-Received: from localhost (10.126.230.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 7 Sep 2022
- 05:11:17 -0700
-Date: Wed, 7 Sep 2022 15:11:14 +0300
-From: Leon Romanovsky <leonro@nvidia.com>
-To: Christoph Hellwig <hch@lst.de>
-CC: Patrisious Haddad <phaddad@nvidia.com>, Sagi Grimberg <sagi@grimberg.me>,
-	Israel Rukshin <israelr@nvidia.com>, Linux-nvme
-	<linux-nvme@lists.infradead.org>, <linux-rdma@vger.kernel.org>, "Michael
- Guralnik" <michaelgur@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, "Max
- Gurtovoy" <mgurtovoy@nvidia.com>
-Subject: Re: [PATCH rdma-next 4/4] nvme-rdma: add more error details when a
- QP moves to an error state
-Message-ID: <YxiKYvaFWH9aKJpo@unreal>
-References: <20220907113800.22182-1-phaddad@nvidia.com>
- <20220907113800.22182-5-phaddad@nvidia.com>
- <20220907120200.GA12104@lst.de>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.12; Wed, 7 Sep
+ 2022 12:27:53 +0000
+Received: from BL0PR13MB4291.namprd13.prod.outlook.com
+ ([fe80::30bd:d7d0:61cc:50b0]) by BL0PR13MB4291.namprd13.prod.outlook.com
+ ([fe80::30bd:d7d0:61cc:50b0%5]) with mapi id 15.20.5612.012; Wed, 7 Sep 2022
+ 12:27:53 +0000
+From: Martin Belanger <nitram_67@hotmail.com>
+To: linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org,
+	hare@suse.de,
+	axboe@fb.com,
+	hch@lst.de,
+	sagi@grimberg.me,
+	Martin Belanger <martin.belanger@dell.com>
+Subject: [PATCH v4] nvme-tcp: Print actual source IP address through sysfs "address" attr
+Date: Wed,  7 Sep 2022 08:27:37 -0400
+Message-ID:  <BL0PR13MB4291260D145FAAC1B2B5C4859C419@BL0PR13MB4291.namprd13.prod.outlook.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [7DijWUgzkCOyjr87PJjCzP+xXZPUIDvh]
+X-ClientProxiedBy: BL1PR13CA0197.namprd13.prod.outlook.com
+ (2603:10b6:208:2be::22) To BL0PR13MB4291.namprd13.prod.outlook.com
+ (2603:10b6:208:8e::12)
+X-Microsoft-Original-Message-ID:  <20220907122737.11863-1-nitram_67@hotmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20220907120200.GA12104@lst.de>
-X-Originating-IP: [10.126.230.35]
-X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
+X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT009:EE_|MN2PR12MB4127:EE_
-X-MS-Office365-Filtering-Correlation-Id: 795b00cc-befd-4cae-b48e-08da90ca1278
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
+X-MS-TrafficTypeDiagnostic: BL0PR13MB4291:EE_|PH0PR13MB4794:EE_
+X-MS-Office365-Filtering-Correlation-Id: 51188bf3-69ab-4485-ed08-08da90cc625c
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	QQYoPX+TPZ86w33jt64/75UXFlJGeDnPTE7ZOr9Wq2VjNJVsa1kDnDl53iSwKMDc1q2ngg503aZp9YUZWJqgKf5UJK92azCSmPhXoYiUt0F/OsU6ZpUTFQ0sp2s04FosA6oRxRK2sqzsyhwTdaDss5q0+t6cDkhFxG6GKoXupkLk5c1GF7Yfk4+iqQBaRoKc31qhoJPFrWFRrWJSfrwXNBPtGDw75wYqYVW/xlk3lhu3VXHBpD7WFMuA0xGhUT7acPM5mwYt42qACMPNMEn1T7fSo+hZYTsQL6DCX5PjuqJrYEmxiBaZ+Fg8BzGV3RTPtlMVNyfcyQBIQg19c6+1lyRgVgkd57l4/kFV20lwMlJawKjjZrGGMYZG8lC7YhP+ru1ODnBGZ0PawnQs2iIQ4id0iKqcUYCeycYFBMizLYaotMaEehAPks8iJbUE8deJ44wsQIlJjiMFI5DJgUbwS0DtARZmOf75AikdXS0zrF07pPqEE0XaeSMDabnEQTFVRfnw8UsvqOZ8KoBoJtGxxCMiuoVjflvUOE8spkYSEipgO1IH9uM0wCF2mnefEOqQDSqLJFwEADYzMVoChHt+MsCp6xE6A1ifzNeDmQ78A5Xfzhp2TI3KQZkqNVp2VCZFcTlgi/zX1Xluo3UsdCRBEobkt2FBB3LOLgxaDu30FAF2bJfZ9SjREXsWV+fsWYNxMKIvqudE/Vty4bni7XKP8BXqjdCixWO75ZFKZfTvrEfJyTQcs7e01aNV8PJRyhIKHs44HHQChe3svhth/37IFGRwOWMntWQYd0EZOMA571vEsSjIUNjxMuPUbzV4gr90
-X-Forefront-Antispam-Report: 	CIP:12.22.5.234;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230016)(4636009)(7916004)(396003)(136003)(376002)(346002)(39860400002)(46966006)(36840700001)(40470700004)(9686003)(40460700003)(33716001)(8936002)(2906002)(26005)(478600001)(6666004)(86362001)(70206006)(107886003)(70586007)(8676002)(4326008)(4744005)(81166007)(5660300002)(41300700001)(426003)(356005)(36860700001)(40480700001)(82740400003)(54906003)(336012)(82310400005)(186003)(47076005)(16526019)(6916009)(316002)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2022 12:11:19.2946
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 795b00cc-befd-4cae-b48e-08da90ca1278
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.234];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: 	CO1NAM11FT009.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4127
+X-Microsoft-Antispam-Message-Info: 	vOTOSELs0TDzGo4+VE3fkeXlafWbdvg2nKVC5L7ns6WEPPJbsGnUOMd2gFJ9iWgY836UBDT3gG6dJskdb+J+iROAgkohfSWtALCiLyYEOoagLX0ZJ3UKZ6cY4wJMYZRDQypqrxmoS+uFzixNxKpDluJ61fbUbZHudSzLT6OCpazUPGcE9ChmQ98J9nJgQkoqwgyBlaCi0GQmAt3f0CtADb9jBEcQDBE0gzxmO2rc6A4WQBJ/23TS0G/37dd6BCh90jO3QYvk1eARbaXUMfiAjy8fTrBuQgbSCxJmZaQhImexONvkKLsVjEG6R1aDQoqqWqH48ZvY+LTzMMoIYn9DNkc1DmXrRCYq9PRrewWcHA96MRygYgMqBkx3BZCGe7oTdGt183vXaxvbQHYdqONQOVz5J4bX444CPjneA9y/7VtaSbRyzXkgC1dAawjmToFCEPJFXrJNcf8u5dpqUatPKtKafhrRyoECFxl8poGBOLEkzrAzdcvN4gOFjxxuWP9fJ4Pkd90NpsOJvyKYbNnzovxhhcbuto06O5DpL7Hu4O65zRB7oUCrEZfG/9hmKGKGK65gvjx8IipZkAh5w8ciulkltI88MjR0JLIdwwvcro0zm2uZ1gn57nFPIn4/j/m2
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?E6TbgXUgm+rwQvgtCZZtl+eyrZOmYMqazUgA/Bz5GaeOwTCjHEKzSW6E4wTF?=
+ =?us-ascii?Q?iRyxdeotDDwf4au+wJMEZnsle+bi9Cd5/2P+OblRhqZwBtW1pk9OGRPL/6cj?=
+ =?us-ascii?Q?DcO0ikAjtrq4ZOdXgZgRp/dFbe1QogqjIV4bjgm0c4zrRQ+SV0Fe1spQlUoB?=
+ =?us-ascii?Q?WX/ZQyAO5ujzSMrFxThGB2jxeli82rL4rkf0A1gVOvtfo2rMc4qAvJf+e4Uz?=
+ =?us-ascii?Q?3sGQL8+7mHSQCWGqKBnRtrAoIl20VV6IS9VzpPOpucgI5eso6SVxR/iq3y9E?=
+ =?us-ascii?Q?wDrvIosK8uUaBoHMdUR8tQf7R09TC3/3br74bHxKVhq/jWeN+fMZL/i5Bb3k?=
+ =?us-ascii?Q?tlZhSL6J8cn3pwJ9FlokgNeGbtDmpyr02bkZdeNE0MsDgBIPMITlGWReCba7?=
+ =?us-ascii?Q?90KPHGPokst7ygiWbvTVorMo6s3nRZZuVLeypVLOgf6Y+6RcF9rgrEhL56hf?=
+ =?us-ascii?Q?aRmJGLoYsI7XQY0cfGvEMN8D/As48mpjs94eQo9eS9GagbNrSoTBQnlN+n4y?=
+ =?us-ascii?Q?6+m9w1XDEgZHBgDeQReOtZnbOh2ZnzXxoKRHKGp0xKPHplymRgGXwIOw0ud+?=
+ =?us-ascii?Q?GK6qwWnH0kvnYn1GKEIXcn0CvQmyEZdm3UdYoJsUIvU1eyreTSPuiiRrged9?=
+ =?us-ascii?Q?LfJzKK17Ecaa9qZMQaGB45rReMMAb47X6uRZpK/hfJS4RENLcWg0ecoLlwSe?=
+ =?us-ascii?Q?4CEWH8xQfao53lNITvCTRQ9RXn4j8XFQSbMhl4NPyBQhau7KMkVuBE5RDA2g?=
+ =?us-ascii?Q?sKvTnwSg8gS3d6SgzDOGn70q8jaf4uFS6Vy6IprYq9ZlE7NS+Gx/ajSRX2ap?=
+ =?us-ascii?Q?8QzZ7FoJRz/XXdGIhl07ZTvh1MX0qh/BuQhucuUX+95s2M+s8+K8Ahuk7U2b?=
+ =?us-ascii?Q?NnoQlR6dkTGT1b/hC7jQPtt5NnsktRTKyCdGm0O9e7sXPY6LVf5eN564S8/Q?=
+ =?us-ascii?Q?8pcaNIRSFQO+UOtP805I8wF7Eeq/uIHFk6I+qoYmBAtdH5CD4imGNxEXcEYC?=
+ =?us-ascii?Q?AWrliDPjA1k4MoVt4O4veUfMS45wHFIVvZbQDqRWZI0iAaVUi/0OtGTBPuHn?=
+ =?us-ascii?Q?g+lzDAqbKiy+XGXe3uel8L8DdeLp/T6pQuL+IPcn3aBrHaGaT8x9MGkxwoxD?=
+ =?us-ascii?Q?WqPv8caDBjpJareW3iu+xrH99Q1PNUvwBfljt3y27khEE56Xr0NkIaQ94rF1?=
+ =?us-ascii?Q?Pxfpe9VCqciGhmD5PyRBRuov69pZXDc3hLTqlzukAlVnJnLsiDJbx/0/ffYr?=
+ =?us-ascii?Q?4ZRdGn/U9BHiE5OtOqR2rbSlv7uzBDZ7iuRide22zw=3D=3D?=
+X-OriginatorOrg: sct-15-20-4778-2-msonline-outlook-da780.templateTenant
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR13MB4794
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220907_051124_396038_09F5ADAC 
-X-CRM114-Status: GOOD (  16.09  )
+X-CRM114-CacheID: sfid-20220907_052759_201782_C683360E 
+X-CRM114-Status: GOOD (  18.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -125,22 +116,83 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Sep 07, 2022 at 02:02:00PM +0200, Christoph Hellwig wrote:
-> On Wed, Sep 07, 2022 at 02:38:00PM +0300, Patrisious Haddad wrote:
-> > From: Israel Rukshin <israelr@nvidia.com>
-> > 
-> > Add debug prints for fatal QP events that are helpful for finding the
-> > root cause of the errors. The ib_get_qp_err_syndrome is called at
-> > a work queue since the QP event callback is running on an
-> > interrupt context that can't sleep.
-> 
-> What an awkward interface.  What prevents us from allowing 
-> ib_get_qp_err_syndrome to be called from arbitrary calling contexts,
-> or even better just delivering the error directly as part of the
-> event?
+From: Martin Belanger <martin.belanger@dell.com>
 
-We need to call to our FW through command interface and unfortunately it
-is not possible to do in atomic context.
+TCP transport relies on the routing table to determine which source
+address and interface to use when making a connection. Currently, there
+is no way to tell from userspace where a connection was made. This
+patch exposes the actual source address using a new field named
+"src_addr=" in the "address" attribute.
 
-Thanks
+This is needed to diagnose and identify connectivity issues. With the
+source address we can infer the interface associated with each
+connection.
+
+This was tested with nvme-cli 2.0 to verify it does not have any
+adverse effect. The new "src_addr=" field will simply be displayed in
+the output of the "list-subsys" or "list -v" commands as shown here.
+
+$ nvme list-subsys
+nvme-subsys0 - NQN=nqn.2014-08.org.nvmexpress.discovery
+\
+ +- nvme0 tcp traddr=192.168.56.1,trsvcid=8009,src_addr=192.168.56.101 live
+
+Changes to v3:
+Per Chaitanya review comments: Change the order of the variables
+declaration. And although len can never be 0, for completeness add a
+check (lev > 0) before decrementing its value.
+
+Changes to v2:
+Taken Sagi's comments into account
+
+Changes to original submission:
+Reword comments per Chaitanya's suggestion
+
+Signed-off-by: Martin Belanger <martin.belanger@dell.com>
+---
+ drivers/nvme/host/tcp.c | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 044da18c06f5..e1e77de17f66 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2532,6 +2532,25 @@ static int nvme_tcp_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
+ 	return queue->nr_cqe;
+ }
+ 
++static int nvme_tcp_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
++{
++	struct nvme_tcp_queue *queue = &to_tcp_ctrl(ctrl)->queues[0];
++	struct sockaddr_storage src_addr;
++	int ret, len;
++
++	len = nvmf_get_address(ctrl, buf, size);
++
++	ret = kernel_getsockname(queue->sock, (struct sockaddr *)&src_addr);
++	if (ret > 0) {
++		if (len > 0)
++			len--; /* strip trailing newline */
++		len += scnprintf(buf + len, size - len, "%ssrc_addr=%pISc\n",
++				(len) ? "," : "", &src_addr);
++	}
++
++	return len;
++}
++
+ static const struct blk_mq_ops nvme_tcp_mq_ops = {
+ 	.queue_rq	= nvme_tcp_queue_rq,
+ 	.commit_rqs	= nvme_tcp_commit_rqs,
+@@ -2563,7 +2582,7 @@ static const struct nvme_ctrl_ops nvme_tcp_ctrl_ops = {
+ 	.free_ctrl		= nvme_tcp_free_ctrl,
+ 	.submit_async_event	= nvme_tcp_submit_async_event,
+ 	.delete_ctrl		= nvme_tcp_delete_ctrl,
+-	.get_address		= nvmf_get_address,
++	.get_address		= nvme_tcp_get_address,
+ 	.stop_ctrl		= nvme_tcp_stop_ctrl,
+ };
+ 
+-- 
+2.37.2
+
 
