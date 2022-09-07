@@ -4,48 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A451ECAAD3
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Sep 2022 06:49:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67C1AC54EE9
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Sep 2022 06:50:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bc9/3RFQ3/BYv5GKcvhxJWM/+fz93rvd/+K14B4oPhk=; b=yAfWYotOu8Eh/IUWgzj5dzVtD1
-	gtmY6e9BcScP6Zf8tkDVgpaktzmRrCExp39ESwnXtz9D9MNK1Djr5CAIfqXhxbSCROy0Fz6C3L5mF
-	9fv2pOUxG9OFqhm+2OtOaE8RvqNhLPYbXW8y6IpdK3jxopqm4CyVVh6h+MbckFlU0SzbvoBG9/9yY
-	yEDjdQUp8jWtSaBmG3TNkbL8nKUZu2PB308Zhl1Dmjz5vJ5uzLKMs7iqXdp3WF43Rwuy7NaVFd2rY
-	allEMgsKFXH/uP/q6CUZktKuddSHjd0GQwDjMSmEhIRYp7VKBMJNBf7+Fws40j0ds/sclf50pvXon
-	eM5htn8g==;
+	bh=bc9/3RFQ3/BYv5GKcvhxJWM/+fz93rvd/+K14B4oPhk=; b=MPHKAg3Ti9iru0rpbpWHHFGenw
+	IkpL5SRzvi+Er4ieewlsLIMbu0NbdOrGW/vu8UTHTnyAlgSZUiFDaPzXDbsif518dYo+bUW73Y8Oy
+	OSdTBt3NlR189Kux6rMp+zqQq08CqQ+xCXtsumjqv2WGInWh5zuBywyu04ILlOBIVAzzmp8Zd7Hgy
+	YKWrW4RY5fPnBTl8hP7ayUahVU73TKv7LDjIJeSz14WllzNzJ9YJMLcF97W8nrcg4ZpT3Lgk7BjfO
+	Oz8Su9ng7qemxq3+htroU6OUDmlxGkHG+J7GRyhyc+4AkoD1TPpE0aCz8s2KdXjtJ8TiwSVjKb5Hk
+	5iNdHeUg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVosP-003MPO-1Q; Wed, 07 Sep 2022 06:49:33 +0000
+	id 1oVotC-003Mkk-B0; Wed, 07 Sep 2022 06:50:22 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVoiO-003IAY-2U
-	for linux-nvme@lists.infradead.org; Wed, 07 Sep 2022 06:39:13 +0000
+	id 1oVoib-003IG9-OQ
+	for linux-nvme@lists.infradead.org; Wed, 07 Sep 2022 06:39:29 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 8E38567373; Wed,  7 Sep 2022 08:39:08 +0200 (CEST)
-Date: Wed, 7 Sep 2022 08:39:08 +0200
+	id 847CF68AFE; Wed,  7 Sep 2022 08:39:22 +0200 (CEST)
+Date: Wed, 7 Sep 2022 08:39:22 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Dennis Maisenbacher <Dennis.Maisenbacher@wdc.com>
-Cc: linux-nvme@lists.infradead.org, Niklas Cassel <niklas.cassel@wdc.com>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Damien Le Moal <damien.lemoal@wdc.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] nvmet: fix mar and mor off-by-one errors
-Message-ID: <20220907063908.GA21581@lst.de>
-References: <20220906073929.3292899-1-Dennis.Maisenbacher@wdc.com>
+To: Keith Busch <kbusch@fb.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH] nvme: requeue aen after firmware activation
+Message-ID: <20220907063922.GB21581@lst.de>
+References: <20220901153039.4162460-1-kbusch@fb.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220906073929.3292899-1-Dennis.Maisenbacher@wdc.com>
+In-Reply-To: <20220901153039.4162460-1-kbusch@fb.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220906_233912_584657_296ED9DE 
-X-CRM114-Status: UNSURE (   8.43  )
+X-CRM114-CacheID: sfid-20220906_233925_962148_D1634506 
+X-CRM114-Status: UNSURE (   7.82  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
