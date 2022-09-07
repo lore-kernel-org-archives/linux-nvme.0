@@ -4,46 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 079ADECAAD3
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Sep 2022 06:29:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A451ECAAD3
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Sep 2022 06:49:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aI47YyjJC32EjJbI+iMmyjePU/FHIg8bqrrmINUOUCA=; b=qAXHMQA0VvkGaVGGyjzf/Lt6Dc
-	jNsicH4x2lLlM2KsWJ9c/OU+8owchY+sIuh22BEfObtGCyyOgEWiZI7sEUHco2xPrfj1SCL+NdMM/
-	E1jP36RVFkczVpItUKJ/Kq4R1cLPDuEQXo80Q2WcaA36xuZUR5bixD0q2ySzHap1sffZ7TQ3NYz36
-	Ee60FKMWQ/iNjCJrSOE48vFbt/fuj8biG2BV5p0Tct2jVZdnr7/paTZtJLO3uBoA8RYyEIRRONLzn
-	GCw/oyQ1+VWXoG85XC61PaTziJ7yOPgEsN3q2w6Wblk2iyVGgWckVhG6Gr4zZtCBCNI8DNbNj5pqs
-	9h+sDRnw==;
+	bh=bc9/3RFQ3/BYv5GKcvhxJWM/+fz93rvd/+K14B4oPhk=; b=yAfWYotOu8Eh/IUWgzj5dzVtD1
+	gtmY6e9BcScP6Zf8tkDVgpaktzmRrCExp39ESwnXtz9D9MNK1Djr5CAIfqXhxbSCROy0Fz6C3L5mF
+	9fv2pOUxG9OFqhm+2OtOaE8RvqNhLPYbXW8y6IpdK3jxopqm4CyVVh6h+MbckFlU0SzbvoBG9/9yY
+	yEDjdQUp8jWtSaBmG3TNkbL8nKUZu2PB308Zhl1Dmjz5vJ5uzLKMs7iqXdp3WF43Rwuy7NaVFd2rY
+	allEMgsKFXH/uP/q6CUZktKuddSHjd0GQwDjMSmEhIRYp7VKBMJNBf7+Fws40j0ds/sclf50pvXon
+	eM5htn8g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVoZ3-003DMA-6g; Wed, 07 Sep 2022 06:29:33 +0000
+	id 1oVosP-003MPO-1Q; Wed, 07 Sep 2022 06:49:33 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVoYz-003DIx-78
-	for linux-nvme@lists.infradead.org; Wed, 07 Sep 2022 06:29:31 +0000
+	id 1oVoiO-003IAY-2U
+	for linux-nvme@lists.infradead.org; Wed, 07 Sep 2022 06:39:13 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 73FA567373; Wed,  7 Sep 2022 08:29:19 +0200 (CEST)
-Date: Wed, 7 Sep 2022 08:29:19 +0200
+	id 8E38567373; Wed,  7 Sep 2022 08:39:08 +0200 (CEST)
+Date: Wed, 7 Sep 2022 08:39:08 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Jaroslav Pulchart <jaroslav.pulchart@gooddata.com>
-Cc: linux-nvme@lists.infradead.org, niklas.cassel@wdc.com,
-	Filippo Sironi <sironi@amazon.de>
-Subject: Re: "nvme nvmeX: IO queues not created" with "Amazon.com, Inc.
- NVMe SSD Controller" from 5.19.y (issue bisected)
-Message-ID: <20220907062919.GA21266@lst.de>
-References: <CAK8fFZ5vajOJGSwA53tU=Y2-jf0rnJWOjkadgqRCTf38bF0YXw@mail.gmail.com>
+To: Dennis Maisenbacher <Dennis.Maisenbacher@wdc.com>
+Cc: linux-nvme@lists.infradead.org, Niklas Cassel <niklas.cassel@wdc.com>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Damien Le Moal <damien.lemoal@wdc.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] nvmet: fix mar and mor off-by-one errors
+Message-ID: <20220907063908.GA21581@lst.de>
+References: <20220906073929.3292899-1-Dennis.Maisenbacher@wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK8fFZ5vajOJGSwA53tU=Y2-jf0rnJWOjkadgqRCTf38bF0YXw@mail.gmail.com>
+In-Reply-To: <20220906073929.3292899-1-Dennis.Maisenbacher@wdc.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220906_232929_445989_0A977E9C 
-X-CRM114-Status: GOOD (  16.51  )
+X-CRM114-CacheID: sfid-20220906_233912_584657_296ED9DE 
+X-CRM114-Status: UNSURE (   8.43  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -58,34 +61,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Filippo,
+Thanks,
 
-can you help figuring out what is going on with this Amazon controller?
-
-On Wed, Sep 07, 2022 at 08:05:05AM +0200, Jaroslav Pulchart wrote:
-> Hello,
-> 
-> I would like to report a regression issue in 5.19.y in NVMe driver.
-> 
-> The issue is reproducible at AWS EC2 instances with local NVMe storage
-> like "r5d.*". Kernel report "IO queues not created":
-> [    2.936641] nvme nvme0: 2/0/0 default/read/poll queues  <- EBS volume
-> [    2.939493] nvme nvme1: 2/0/0 default/read/poll queues  <- EBS volume
-> [    2.940797] nvme nvme2: IO queues not created              <- Local volume
-> with 5.19.y (kernel 5.19) and the nvme storage cannot be used.
-> 
-> I bisected the issue to commit
-> "aa41d2fe60ee2e4452b0f9ca9f0f6d80a4ff9f9d" (nvme: set controller
-> enable bit in a separate write). Reverting it makes the nvme device
-> working again:
-> [    3.025599] nvme nvme0: 2/0/0 default/read/poll queues
-> [    3.032467] nvme nvme2: 8/0/0 default/read/poll queues
-> [    3.040040] nvme nvme1: 2/0/0 default/read/poll queues
-> 
-> Best,
-> --
-> Jaroslav Pulchart
-> Sr. Principal SW Engineer
-> GoodData
----end quoted text---
+applied to nvme-6.0.
 
