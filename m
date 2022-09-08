@@ -4,80 +4,137 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92CFEECAAD5
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Sep 2022 07:18:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23D18C38145
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Sep 2022 07:55:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZOgPUzVLKrUyL/90V6zm4bNGPKP7ni5MBXOB+2S9mgg=; b=ocDgL7yiZ04rj7DkDNqPLCWaJZ
-	ygDO/pr3TA0sx33VQhqVWQhmAQYjk9oeaHrgBJjotvDaIxBeHiTgHmE5b06+qI4Mng/fG6LfPqjpO
-	/sftgzV0tYR2bi6bDmEXeBs1F2aXX8hwsaVR9pOVkGjHP+tKjlTSJhDfhewn/FPDRyz4EORXYkQ1q
-	YiM5Eux3zId6Pw4VDoCDowpKWvaG2SEa310jhK9iJIVLFtdkKLqu36F0jNKftcBG2CmYQGOQYAsZ/
-	Ri2F06vh8I7zwFjl9GT5CM3wr94cw1ZC//k0InGK70zq24YGvSwHyowqQ7Wuy6IsiDC8Wiu9rUtlN
-	+rhWnuHA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=eyiCfVHlfuanGUDXqSKLYwSYyG9SKvMnL1yDmg+A2/Y=; b=ERqeLeHShaIPhLC3F+xJ9lpyDG
+	/NL73X7t7eAffWZnAUtPiwcvc4LD5qQCzqba9p9a4YczI2BMmbsEKKEGHXX3xlCbV2fONcbFVPhxr
+	a+gviN5raa41FlVw/wh1a5GwBZUchLHK9B230RwU73mhbiVZuFRdSSevna45i/2sNj6o2S974zYXp
+	SIodBEwQZclpY2GT+ikf5peFNIWYu6AWjelhcspNYGiv+xUbs5LVo4p9qQvVdTvfdo3X+Ht2og0sJ
+	GP8peFbjHQ5Ue0UgflXW9KPxmU88z8/c/HylWKh3SkPiqy7V8YzCvzRusZcpuovJ9mA/iihDsPF5Y
+	g/HqUUZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oWBne-000JCk-Ln; Thu, 08 Sep 2022 07:18:10 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1oWCO7-000ZlO-4d; Thu, 08 Sep 2022 07:55:51 +0000
+Received: from mail-dm6nam10on2074.outbound.protection.outlook.com ([40.107.93.74] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oWBnb-000J7W-LB
-	for linux-nvme@lists.infradead.org; Thu, 08 Sep 2022 07:18:09 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E046A1F8D4;
-	Thu,  8 Sep 2022 07:18:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1662621483; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZOgPUzVLKrUyL/90V6zm4bNGPKP7ni5MBXOB+2S9mgg=;
-	b=my0GEaXsez+Z4cR5SiFBCbSfaXz7V9VpG0NKGMaPJiIdZ4oWgI6h3BYMosDHLwJ3abrd3o
-	5lSmZ2yVK3Sp1B7JUTG8hRuHZ7DNryPB/uv4YX1DnE9zojp5xtE1R66TAt7dw5jLbBFf8H
-	viro9sGFYu6rd+/KJqPFknKUoU9fncQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1662621483;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZOgPUzVLKrUyL/90V6zm4bNGPKP7ni5MBXOB+2S9mgg=;
-	b=rmrBS3XUKHwwERu2kZ4HiIJ6CJVnQQU7BIq/04wkrdvlSquSb3Hcn2pi4Kz8kz7Q7qRVHJ
-	fSMkEXFd33OO5FDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2C37A13A6D;
-	Thu,  8 Sep 2022 07:18:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id nQdJBSuXGWMFDwAAMHmgww
-	(envelope-from <hare@suse.de>); Thu, 08 Sep 2022 07:18:03 +0000
-Message-ID: <d515dda3-be67-281a-31b4-138a51952c15@suse.de>
-Date: Thu, 8 Sep 2022 09:18:02 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v4] nvme-tcp: Print actual source IP address through sysfs
- "address" attr
+	id 1oWCO2-000ZcC-S9
+	for linux-nvme@lists.infradead.org; Thu, 08 Sep 2022 07:55:49 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NEssJ64g6G3M+nCboVRSpFZgc/Gx8lqtASoOqL43nvUDjvBbtd6HAvI02fVcXWEb2lKBNq4+bZSpGqmSsrqXfot5D/4LgyXN1tdOD+ppanyTZoF/U5pOg7xI7qJmXe3RppgtLLPfjaZT8TmiSqHbGT7nFnTvzw604JU+iNf7WiYfvyl5ddJc7JhOUgEcHnbEc02guRN93Bq2Zg1zOSZ3PdHWVPtcak4M+w+s+iGFWRfRgy9qGf1tkXXDVfI7UqXH/j8fbx3IGbkL5lTOOORmiak+LI0d1MRZUVMEiXUkCLxoeW/ppuAVFQiXwhKEDPz8sKHgIzqb00bK9pA84Tr7Uw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eyiCfVHlfuanGUDXqSKLYwSYyG9SKvMnL1yDmg+A2/Y=;
+ b=APy7ggxEV5TkJLQ2ofN2jdAn38QEQelzzmXHJzx5Vjur4Y9r2OVGzMlHHDo/lCMkgCYCQIsiAyn3iWPdAhmKQOi48amr5O6XX9IGuwBrgDWVpkxJ5+qdtiMlPu1RivRgxP0U11z0V9WBj6lS6YNPMXdBr+pBaJiMssRwT1l08GQE6POXx11mbWUq7tC+tf8Z5o7aoEYp32ZmhW2AogEPEuWDPNXB8dV4gqBXI4xnA4jzrjzzGnLLnfuhTMrgtJPimEhzXbpuQ8zOtoATBJFfFn+u5/1wrr1qh3uNsFmHZK1XydX3NFpHuYoTMmkaWHe+ysLO+ggh/dHgDuys0y82Fw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eyiCfVHlfuanGUDXqSKLYwSYyG9SKvMnL1yDmg+A2/Y=;
+ b=JI6JnrnxRqSCpolWTcpUKQxKe8eXdzrkj4HNkM2WdpIjN4Bii5feKR2k4qQcucB4/NOqw0BH96IWDzDvaSXmy0UWJcwedVdccZpTWc9aIrWIXCZyWot8cxtxSxi5iddTyX5JWLlrlFU9ZQrLa9m2IVeA/8m/nk9zJlo2tFqDqQZKZjfj4QPiL4zq4KFEq95X7xmYjY6ik1r7E8tAYGVf0hGBxf3ih/LBQosTDuba9OlWf4ctPf7pB0SLMlXUEz5nmh1mfAQh1h3m9IjLOUjt1TZdvbRQZK8+XT50sy5DD16PBciNse5OF3mCzxCc8CbwF6Gi0COqounZHNFxSWpMWQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH7PR12MB6660.namprd12.prod.outlook.com (2603:10b6:510:212::10)
+ by SN7PR12MB6864.namprd12.prod.outlook.com (2603:10b6:806:263::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.11; Thu, 8 Sep
+ 2022 07:55:43 +0000
+Received: from PH7PR12MB6660.namprd12.prod.outlook.com
+ ([fe80::f153:51ec:41a2:843b]) by PH7PR12MB6660.namprd12.prod.outlook.com
+ ([fe80::f153:51ec:41a2:843b%4]) with mapi id 15.20.5588.016; Thu, 8 Sep 2022
+ 07:55:43 +0000
+Message-ID: <312c6e21-2013-578e-41b2-7a83c02fe7e7@nvidia.com>
+Date: Thu, 8 Sep 2022 10:55:34 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH rdma-next 4/4] nvme-rdma: add more error details when a QP
+ moves to an error state
 Content-Language: en-US
-To: Martin Belanger <nitram_67@hotmail.com>, linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
- Martin Belanger <martin.belanger@dell.com>
-References: <BL0PR13MB4291260D145FAAC1B2B5C4859C419@BL0PR13MB4291.namprd13.prod.outlook.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <BL0PR13MB4291260D145FAAC1B2B5C4859C419@BL0PR13MB4291.namprd13.prod.outlook.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Leon Romanovsky <leon@kernel.org>, Israel Rukshin <israelr@nvidia.com>,
+ Linux-nvme <linux-nvme@lists.infradead.org>, linux-rdma@vger.kernel.org,
+ Michael Guralnik <michaelgur@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>,
+ Max Gurtovoy <mgurtovoy@nvidia.com>, Sagi Grimberg <sagi@grimberg.me>
+References: <20220907113800.22182-1-phaddad@nvidia.com>
+ <20220907113800.22182-5-phaddad@nvidia.com>
+ <facc31c4-955e-c82e-191b-150313e73f6a@grimberg.me> <YxiTxJvDWPaB9iMf@unreal>
+ <ac268c86-c013-5cc5-5e1c-71ee90111d8f@grimberg.me>
+ <20220907151818.GA26822@lst.de>
+From: Patrisious Haddad <phaddad@nvidia.com>
+In-Reply-To: <20220907151818.GA26822@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS8PR04CA0172.eurprd04.prod.outlook.com
+ (2603:10a6:20b:331::27) To PH7PR12MB6660.namprd12.prod.outlook.com
+ (2603:10b6:510:212::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ed5e3232-2fe4-4da8-863f-08da916f8785
+X-MS-TrafficTypeDiagnostic: SN7PR12MB6864:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	WmqFNH8BendyJbF+5LQs+dc1ZR6BulPagNPWtRGq9P/5G65+D9LWubuca0we68QLfOXyzVwIoIgwECOX3uaThZI0g98SbJy+my/9ggxWWUF5pNYbWgINH3zHqPGcNOumUEoQCJ50nPoIqztc/xYpJYU06FK4lKPwcpTyGr6yIby4qKMzVbYqNd8W0itBUm3+kYUPJLVQUpZDBdcHvpWA8yuYnbdMcAe66bQqmfuOz2i/3XYBvVJ2FLsvly41emk8UeN2kAeC8DkFwHALa9NMIZOxk6Ez+1Mn5jGC0IczG+/CPv2fwvOHjyW5+ZdOiC4TzlYGLowgI20eOmBhtG/wkSM1tCruJg7wp9JIqNuS71PH5zIoHGslSXcS7JKdKCGkuZqo5WlkrrobxPBPZtNcUJ+75ckPYGlh0X5KUr+rR+Qd+rcfqHA9RKKdz5bBvd1ZtjE108hEqgzmQjD6Q8VweGyyEzi0HkOvctWAovoxaVCP4VUGJj3iPsiPaS7GB7cl1n7W97sNSQKkIpqF00n1E0y2M4s/QU+r2h/EMqyvZqJOaa94gj5sllcGEIBd06cEUtMj7qlnZzI+kYUK5KtVVKjCBRUZPxU6I2Juhh7yXTpJ1Cc1Xrqc2sP0lfqH4yVpidqQ/t/JWk/BgbRY6PSrqfVUeAZF/p6AFyx6ITmbk4D34gzJvpTz0Qe5RI0ktbWT4h+0NUsZAZ1uyWehIUREiX/kW8+WX4+cIFYzvFHhHxnASbE5kxi2LPOxbNmvWK1z4A52zRTv/+HPssBxbl5fRd8xbg1MPdq+gCoTsLYwAGs=
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB6660.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(136003)(346002)(396003)(366004)(39860400002)(8676002)(26005)(36756003)(8936002)(5660300002)(186003)(4326008)(6666004)(31686004)(478600001)(31696002)(86362001)(41300700001)(53546011)(6512007)(6486002)(6506007)(2616005)(2906002)(38100700002)(6916009)(66476007)(66946007)(54906003)(66556008)(316002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?OFFKUWhhclMxaTVlK0JWUit4UDFnWjNScnM2ZTlWY3FxVDZ4Z2FheGdCbUto?=
+ =?utf-8?B?a2FIUkZ4OEtDS0VCQmdSUm0xblRBaG9FR2w2RTUrUEtOZ0kzYlZPbWtYNHNN?=
+ =?utf-8?B?MkdlaWlEZm9mNFJMWklGQmhoUkFscjZxekNQYU5LYXpmeitEY2NGdURVZWEw?=
+ =?utf-8?B?alp1TDdxUWxHbCtVYnMzM1dDR3RJbnVzZWxsNktYVHRRd0dLNlZuc2RRRkpj?=
+ =?utf-8?B?WU0xMndtbXlmOU43WGZCNEJVTU9LNi9BRzhTa1lWeFpIWDhhazc1UjhIeGZ2?=
+ =?utf-8?B?QnB4eTQ2NVpmbVdod1BCa0RvZlpWUFhzYzZFSWdkZDFMRWErU1J4YTJ2R0c3?=
+ =?utf-8?B?SE42L0hoMXFYdDNhK2NZMUpzbUY1T256dXgva3RjdkZlZUNnZ1IxdkpJQWNq?=
+ =?utf-8?B?d3RyZjVKYlFYMGl6VDU5SytVVFM1aHBtd2NHQnh6bDcxUTZsMFJxVklzVnI3?=
+ =?utf-8?B?aERKRStKY3MwMXVneUx5bFc4R1V1YmtlbTRDQmNMRHltTk1HMmd0TE5VTUxx?=
+ =?utf-8?B?NTBMNjhreTdkd3oyV2cwczZhKzBzSWxBTHZJKzJtc2YrM2F0VmRLMXZwZlNQ?=
+ =?utf-8?B?eVp2dTBoNklQZm01MUUyOWZZajg1VFA1cnpVL2pPRUloMER3MWpqaVBvaWJq?=
+ =?utf-8?B?dmdVMTN4cXFMZE1ESUVCNDBMSEE4K2xoK0g5VTZ2YW5NMFZLZEQ3MzlpaDRm?=
+ =?utf-8?B?bXVDSTBSUURON0psekJxYzBZcmlBUFJQK3VIK3EzV3pieDh2ZCtNeEVGSVky?=
+ =?utf-8?B?RURhKzhyTkdIRTl3MUtsZ0VqejFkSFV1NU1WcEljQ21qaVkyQVpOTzZBL042?=
+ =?utf-8?B?UWRaNVowUzhqQnpsUmVaOFdyVkdXRk5zUXdMakptOHBDekh6TGJiaW1BdXha?=
+ =?utf-8?B?RVlvYWxjZ2ErdjVEQjNSZDBiYmhzT2VDTC93cHVYZXloSTJCUlNzS0FIME9L?=
+ =?utf-8?B?M2IzcmNFNzFKVi94WWFCR3dQaGJ5eWNrOTNLRUV4aGtpM0tCRjVmWVh6WXBw?=
+ =?utf-8?B?bGpPbmw0ZG1GYjFDZ0QwbGlrWENkNzY0QVhnRDNUaWhpV0Flbis4SU8xZ1FX?=
+ =?utf-8?B?bUpIZldtU2ttRHcxME5vZXo1VVFrWHJQZnY3Tk5SSC9najg3S283ckFlUzVl?=
+ =?utf-8?B?SDRFMHhwTFIwMDZmZnlscWx3R0pUOUJickRaVU1HZjNFV0x2V29HR3p4azhk?=
+ =?utf-8?B?MnNDaDlYSHF3NGlocWI1UkUvRGxoM3hidTY1SEVsdTFucFhmTnhzS0poTmcw?=
+ =?utf-8?B?MnVLeVVndUNxNmdOeE1xd2JUa2JOR0hVd05zVEVINDMvK0NLUFdMbndHZDZw?=
+ =?utf-8?B?WmVBemtXbGRWVjVkamFXdDVQOXhLL0RJU3pDUWtHVlZHNUdheXoyV1ZJOVQ1?=
+ =?utf-8?B?RXlXZEtaTFV6dTE3TWlSQVJ5eUZSM2NyYkNhZzB6ayt3eXd3c1JVanVQR25X?=
+ =?utf-8?B?Vi9uNDNvZU8xV0xMTmNuakhYdnVkMmlNUmtOMTJYUnFQdVQvaFJIeTAvN0gy?=
+ =?utf-8?B?NEhoNjJqSnlUTE5TUisrYXFLV09iWFN2aVY2bmZMVVB3bG8zLzdxTFlxWHpl?=
+ =?utf-8?B?Uk8xOFEzbXlYK3lxUDRPbW9ncFJjbDArWXRUOGdOeGQ2RTBUMUZoUGZpeGpN?=
+ =?utf-8?B?Q1lleGFqMUwwZlEvOUgzMUFRcHkrZ1dWVnVBbERlcytGb3pTK3ZGenhEZHU1?=
+ =?utf-8?B?NGxJS2dsOHRTTkltVFIxUVF3Q0RCajVFeDhTYXNSZWhLWU13dmY4N0c2UDVY?=
+ =?utf-8?B?TlBCRjY1LzZOd2Erd0txQVpMQWxtU014YmVVakFjbHArQWc2QnNWaEd3SU44?=
+ =?utf-8?B?S1Z6Y3dqQ09VMm1XRjMybHJPa3l4Ni9YOWM4VFlhMXRPNDVmQUtvSDdZOXJ0?=
+ =?utf-8?B?emgrQmxUbllKeFJpSElEODJWQVJZQkdXT3lKd1VMOC8yQ2Z0UHRyVzlhYWt3?=
+ =?utf-8?B?bnMvdk01QUxRN0hCYjgvZWR3S2hxREpLZFdPNVh0WXNoZ253VE5WMjVFZ2Y3?=
+ =?utf-8?B?NTQrS1R2bkhUakVkZmY1cXBzaEdMV3dZeHYwM3VhbU9IRzU1TFFYOHlwWUxu?=
+ =?utf-8?B?VVBZMEJycmZjZXQ2bDZpaTIrdTdaRlVTcDg2ZnkvQjZQOGZ6bEJRR01leHRo?=
+ =?utf-8?Q?yx9+DGZjEQSqdTzkjHK0zBbH5?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed5e3232-2fe4-4da8-863f-08da916f8785
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB6660.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2022 07:55:42.9908
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jva6UweEE2FSTKrMcPbDd7q3aGQyEoz2ulmiV/twojLVeGmXXqh3OTrfRzIPZBtBHG6f7t0qxDRTHSrRF9puEg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6864
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220908_001807_890765_F20BB60D 
-X-CRM114-Status: GOOD (  19.56  )
+X-CRM114-CacheID: sfid-20220908_005547_171493_5B4FD28B 
+X-CRM114-Status: GOOD (  16.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,53 +149,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/7/22 14:27, Martin Belanger wrote:
-> From: Martin Belanger <martin.belanger@dell.com>
-> 
-> TCP transport relies on the routing table to determine which source
-> address and interface to use when making a connection. Currently, there
-> is no way to tell from userspace where a connection was made. This
-> patch exposes the actual source address using a new field named
-> "src_addr=" in the "address" attribute.
-> 
-> This is needed to diagnose and identify connectivity issues. With the
-> source address we can infer the interface associated with each
-> connection.
-> 
-> This was tested with nvme-cli 2.0 to verify it does not have any
-> adverse effect. The new "src_addr=" field will simply be displayed in
-> the output of the "list-subsys" or "list -v" commands as shown here.
-> 
-> $ nvme list-subsys
-> nvme-subsys0 - NQN=nqn.2014-08.org.nvmexpress.discovery
-> \
->   +- nvme0 tcp traddr=192.168.56.1,trsvcid=8009,src_addr=192.168.56.101 live
-> 
-> Changes to v3:
-> Per Chaitanya review comments: Change the order of the variables
-> declaration. And although len can never be 0, for completeness add a
-> check (lev > 0) before decrementing its value.
-> 
-> Changes to v2:
-> Taken Sagi's comments into account
-> 
-> Changes to original submission:
-> Reword comments per Chaitanya's suggestion
-> 
-> Signed-off-by: Martin Belanger <martin.belanger@dell.com>
-> ---
->   drivers/nvme/host/tcp.c | 21 ++++++++++++++++++++-
->   1 file changed, 20 insertions(+), 1 deletion(-)
-> 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-Cheers,
+On 07/09/2022 18:18, Christoph Hellwig wrote:
+> External email: Use caution opening links or attachments
+> 
+> 
+> On Wed, Sep 07, 2022 at 06:16:05PM +0300, Sagi Grimberg wrote:
+>>>>
+>>>> This entire code needs to move to the rdma core instead
+>>>> of being leaked to ulps.
+>>>
+>>> We can move, but you will lose connection between queue number,
+>>> caller and error itself.
+>>
+>> That still doesn't explain why nvme-rdma is special.
+>>
+>> In any event, the ulp can log the qpn so the context can be interrogated
+>> if that is important.
+> 
+> I also don't see why the QP event handler can't be called
+> from user context to start with.  I see absolutely no reason to
+> add boilerplate code to drivers for reporting slighly more verbose
+> errors on one specific piece of hrdware.  I'd say clean up the mess
+> that is the QP event handler first, and then once error reporting
+> becomes trivial we can just do it.
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
+I would like to emphasize that it is not just about slightly more 
+verbose error, but mainly it is about an error that wouldn't have been 
+reported at all without this feature, as I previously mentioned error 
+cases in which the remote side doesn't generate a CQE, the remote side 
+wouldn't even know why the QP was moved to error state without this feature.
 
