@@ -4,81 +4,118 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30CAEC54EE9
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Sep 2022 16:21:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1D7EC38145
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Sep 2022 18:45:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7dIs3wIU/eOuY42tjUqQIb5hvTxPnOyZmdhm58qw250=; b=o/2OV8uDGsoeZ2r7OWE/URpoVY
-	Y49g7HNOe7ltyKQhV4xmzlGYcZPdwYH/bsLzlyBIkxPr9xWlhmaw1kpj8I3/8aFBPbY0Vt8bkV11W
-	hSardhFK6xoHqW6J6W0l9lYNYjTvNI1FpSM5ECzD/t+UYZabPrOlcpLPdpG7UT0+YfhOVXv9pL32m
-	bfyWQ+e9h0p+hc+oB+GIzP0nOuCAQhf/JzY2K5ecnuCDp6Jc7xnWX1zAVBfcq4z/7HsTQFrft/0gx
-	9CFfpTDOG7xplp+XMpjjtnOVCxvjekKBj6AJKwb4y4YmdU8aItW9S2bX96DaH/ol73qUImHJCVSuC
-	uzqu4r1w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=etID3tAPfm1+JvOZ3BYza6dohn9MxI+tzX18nZ3boSI=; b=XU9pjIsgrGFOk9fLnlYo/giNc8
+	e8RS32Fo/po6FO8/3Dq088jrqEhyJoEaqthbLMnoy8gpvlqLxq7X5RY348vpwccZjxgebCJNsKCDe
+	6bD0EpajuH7BaDcURfYxNtVfl1ezRyH1xNgtKwOZWd2MWZUPrbgVK3lvAOSLxKTaq3yvawPGxBFvt
+	bS6x08c5EgRHounmaIfM3PsTnKh2Sf4UHEtfHnE2S7E0eQUw39qsM6BNvJlx4R0bDHk1zcIBlsiEU
+	9PjYMxypDTlNHeaZEXi7jmaFiPQey+Boe5UHOV+CwGJWm39wwEAeeqB+nul9mfqTbl0UQqqX55UmN
+	REQCw4Og==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oWKGu-005hpV-VV; Thu, 08 Sep 2022 16:20:57 +0000
-Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29])
+	id 1oWMX3-006upg-7V; Thu, 08 Sep 2022 18:45:45 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oWKGr-005hn3-IX
-	for linux-nvme@lists.infradead.org; Thu, 08 Sep 2022 16:20:55 +0000
-Received: by mail-io1-xd29.google.com with SMTP id p126so995772iod.4
-        for <linux-nvme@lists.infradead.org>; Thu, 08 Sep 2022 09:20:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=7dIs3wIU/eOuY42tjUqQIb5hvTxPnOyZmdhm58qw250=;
-        b=g+GRDZEFcMsYo9rekqdIoa5Hg2iXa3uKfZ46Kt+XF33CAkT5r2PuNlezw6p7CqOkRJ
-         ZTzhch5ZNm2rCTZ//ncC0HGQjZH+z4M9RE3ouRfslW3H/boUfvJjXWL2bok/ySkIqn+y
-         lkKrbLWSUCuXZtKTy0jWIKcU28JZRDDtWckN1msYo3e/WWZ4W3b2RdHYB14Z4aGMaMbR
-         sqr09sIBnlUQRR1wWiPp1FwvqVY4zFWiHaUgyMQbubzILOJqviZw3xDrqFhsOwjkOauv
-         wBR+1Yw3bSzkUEMwA6p/HuwYNEMzHU2qvnoWs9oKVOvX5Xy5i28WQkBOHo3VKtRFU1Dx
-         mCjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=7dIs3wIU/eOuY42tjUqQIb5hvTxPnOyZmdhm58qw250=;
-        b=bqSt27fctRPhJQdw0zDHhSxgd9KeUNcjwxKZ67JadvQfaSJo5/ZvK8b8JsveKP5jvK
-         JBq5bTCfPacFj7Ex/L5xJY+rjkyK88SoRT40ELw8uKkoZ8UQwzh2Kgi0OFPWcioNT9vD
-         /4mzr0VPzxheIwhprteW9fB5n0LnsDFRv/C5GAYYNXTsaYIGBfeLT36IC4170RpH/yd+
-         HxYhg6Ljc8SD5Yau9JXY0UqQvXYIPzhtO2JQwbYatKI5XiyigJRoev58EAfOklDSLNLR
-         cmMq5i67rdztLEXzeVaUQfxjC6pRMjMJePNGb24w/DKq68hdICAXEtU+tJsWSYF8QG08
-         beoQ==
-X-Gm-Message-State: ACgBeo0aG8G0HVkmXFS1nfIY/Efy/4GXPBi1U74WEwZtsygtVoYZkbDu
-	svcUc0r44tncrcq4wh7fzmb41I67wSnY2w==
-X-Google-Smtp-Source: AA6agR7VJ8j0hKXexix+zZNZGjqFwxTKwdptIZ3mwCSF5QurOjI2nsEuLfEZ2lkPEf15lqjmVu4xMg==
-X-Received: by 2002:a05:6638:3e0a:b0:34c:ff3:57ff with SMTP id co10-20020a0566383e0a00b0034c0ff357ffmr5342528jab.105.1662654051747;
-        Thu, 08 Sep 2022 09:20:51 -0700 (PDT)
-Received: from [192.168.1.94] ([207.135.234.126])
-        by smtp.gmail.com with ESMTPSA id d91-20020a0285e4000000b003584d00a0b9sm205077jai.20.2022.09.08.09.20.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Sep 2022 09:20:51 -0700 (PDT)
-Message-ID: <a2db93db-4cca-5a72-62c9-75f76f19221d@kernel.dk>
-Date: Thu, 8 Sep 2022 10:20:49 -0600
+	id 1oWMWx-006ujd-7t
+	for linux-nvme@lists.infradead.org; Thu, 08 Sep 2022 18:45:41 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20220908184529epoutp029b0a2eff65611a078df247695c24c0ed~S9vGEcrPv0702307023epoutp02b
+	for <linux-nvme@lists.infradead.org>; Thu,  8 Sep 2022 18:45:29 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20220908184529epoutp029b0a2eff65611a078df247695c24c0ed~S9vGEcrPv0702307023epoutp02b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1662662729;
+	bh=etID3tAPfm1+JvOZ3BYza6dohn9MxI+tzX18nZ3boSI=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=UawL5kRSgxYlX3FpR4GpKogkWVXyb+Sc/SyZ27cXvmZnTH3KaO3eZO/k2mdjQdbYj
+	 5PQmDliRrAPVDIc+/CRoMI1+Z5YhWqqE9UR6BFr9yOQW6AW/7NJ1JFyhaH9TUhgXHV
+	 4GEzJBWWOBPxaIQkIefn46PXMdbHpdKA5wp2ihos=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20220908184528epcas5p17ef96cc743cd7d71770211b5a6599b09~S9vE4WCel0840908409epcas5p1r;
+	Thu,  8 Sep 2022 18:45:28 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.181]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4MNp3968tBz4x9Pp; Thu,  8 Sep
+	2022 18:45:25 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	94.FE.59633.5483A136; Fri,  9 Sep 2022 03:45:25 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20220908184525epcas5p4cec88afa56beb0e5222e23c2344dbc8a~S9vCCXzVF0530505305epcas5p4Y;
+	Thu,  8 Sep 2022 18:45:25 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20220908184525epsmtrp11b511f9c926f6f2c22c31b76253a0350~S9vCBnaVe2970229702epsmtrp1e;
+	Thu,  8 Sep 2022 18:45:25 +0000 (GMT)
+X-AuditID: b6c32a49-dfdff7000000e8f1-2b-631a3845e924
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	22.DD.14392.5483A136; Fri,  9 Sep 2022 03:45:25 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.110.206.5]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20220908184523epsmtip2921bf26f848457db6323b6fe0aa52e80~S9vAuXv492343623436epsmtip2v;
+	Thu,  8 Sep 2022 18:45:23 +0000 (GMT)
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org, asml.silence@gmail.com
+Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com, Kanchan Joshi
+	<joshi.k@samsung.com>
+Subject: [PATCH for-next v6 0/5] fixed-buffer for uring-cmd/passthru
+Date: Fri,  9 Sep 2022 00:05:06 +0530
+Message-Id: <20220908183511.2253-1-joshi.k@samsung.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [GIT PULL] nvme fixes for Linux 6.0
-Content-Language: en-US
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-References: <YxoLsUEjritZcoK9@infradead.org>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <YxoLsUEjritZcoK9@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpmk+LIzCtJLcpLzFFi42LZdlhTS9fVQirZ4OIEfYs5q7YxWqy+289m
+	cfPATiaLlauPMlm8az3HYnH0/1s2i0mHrjFa7L2lbTF/2VN2B06PnbPusntcPlvqsWlVJ5vH
+	5iX1HrtvNrB59G1ZxejxeZNcAHtUtk1GamJKapFCal5yfkpmXrqtkndwvHO8qZmBoa6hpYW5
+	kkJeYm6qrZKLT4CuW2YO0F1KCmWJOaVAoYDE4mIlfTubovzSklSFjPziElul1IKUnAKTAr3i
+	xNzi0rx0vbzUEitDAwMjU6DChOyMsw8eMBZ84KnY+X4RcwNjL1cXIyeHhICJxPoTjWxdjFwc
+	QgK7GSXezpnJDuF8YpRY8uAHaxcjB5DzjVGirxqm4dCu5YwgtpDAXkaJ9j2+EPWfGSX2HbvA
+	DFLPJqApcWFyKUiNiICXxP3b71lBapgFZjBKrO54zQ5SIyzgItH/NBCkhkVAVeL5ta/sIDav
+	gLnE/vUrWSB2yUvMvPQdKi4ocXLmE7A4M1C8eetsZoial+wS3zf5Q9guEqfPvGOHsIUlXh3f
+	AmVLSbzsb4OykyUuzTzHBGGXSDzecxDKtpdoPdUPdj4z0Pnrd+lDrOKT6P39hAkkLCHAK9HR
+	JgRRrShxb9JTVghbXOLhjCVQtofEywVfmSChEytx7OdxpgmMcrOQPDALyQOzEJYtYGRexSiZ
+	WlCcm55abFpgmJdaDo/H5PzcTYzg1KjluYPx7oMPeocYmTgYDzFKcDArifCKrpVIFuJNSays
+	Si3Kjy8qzUktPsRoCgzVicxSosn5wOScVxJvaGJpYGJmZmZiaWxmqCTOO0WbMVlIID2xJDU7
+	NbUgtQimj4mDU6qByeX96c48t5d1S7IT1rh+XSLfo1KUHnFLrVWdoefuFNYLLY67yiK+Fk2f
+	xvdTbdfbb48e7RO8ZZHmmlHr80X6W1X9bN/q9fc38Eqvz1vXdlj2jR1HaqzMel6fJmPR04/F
+	Z4mLphvaxk5yLq2w7JisJFSorr419m+DpseXaaZnuT+UJO6/+UstZPMdtfcX/u++VPT90EUj
+	w5PV97pj5Xuv7wnb5e1msiiGTZ7j9cF9CYaTL3UEnJ4359y0zas9TqmqKur8zL+0j6vowKVN
+	em68iRX7uxTK5/smxfn/X3D47uvXW+V/7t+9wenXX8/vdSs+O00vO3lb6ujBaK/T/UzdoZHm
+	lQZa5Qkqf7qFCn81K7EUZyQaajEXFScCAKQ2h7gWBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrPLMWRmVeSWpSXmKPExsWy7bCSvK6rhVSywd3zPBZzVm1jtFh9t5/N
+	4uaBnUwWK1cfZbJ413qOxeLo/7dsFpMOXWO02HtL22L+sqfsDpweO2fdZfe4fLbUY9OqTjaP
+	zUvqPXbfbGDz6NuyitHj8ya5APYoLpuU1JzMstQifbsEroyzDx4wFnzgqdj5fhFzA2MvVxcj
+	J4eEgInEoV3LGbsYuTiEBHYzSqxdf48ZIiEu0XztBzuELSyx8t9zdoiij4wS7c9Os3QxcnCw
+	CWhKXJhcClIjIhAgcbDxMlgNs8AcRonLl/ewg9QIC7hI9D8NBKlhEVCVeH7tK9hMXgFzif3r
+	V7JAzJeXmHnpO1RcUOLkzCdgcWagePPW2cwTGPlmIUnNQpJawMi0ilEytaA4Nz232LDAMC+1
+	XK84Mbe4NC9dLzk/dxMjOIy1NHcwbl/1Qe8QIxMH4yFGCQ5mJRFe0bUSyUK8KYmVValF+fFF
+	pTmpxYcYpTlYlMR5L3SdjBcSSE8sSc1OTS1ILYLJMnFwSjUwbUlturF+swf3ut3SAu6eW1U7
+	t6nlrjp4t/xrMaMy7++2p5UrF4ps2BGy2E3fYc3Oc2tifpmcTvN2W97VItrjM0HJadWMH972
+	Z0/ZudR4JeiYWuh5Ngfaqp3zeLhFvm2qFEdwhrO5fBrPh9kv1JU8kv5MzmZwux1xaqlXz1TJ
+	wtTNNk6ballmKl2pzpD5nqKoOeu17dTaONXPKRw+S/6k3lo6PW3ijp+WtbeNb82Uz/i08Ncq
+	4y+PTpm/j8vP5zdd9MZxbqxxrJpkc23f54ZzvMsfrruprZP03lfTfltg/9tljV3PtI9mLApW
+	knnUvFd0QsN53v032KtexDxayPigQJW/cY+V0pliqdKzn4uVWIozEg21mIuKEwHN/4Ts0gIA
+	AA==
+X-CMS-MailID: 20220908184525epcas5p4cec88afa56beb0e5222e23c2344dbc8a
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220908184525epcas5p4cec88afa56beb0e5222e23c2344dbc8a
+References: <CGME20220908184525epcas5p4cec88afa56beb0e5222e23c2344dbc8a@epcas5p4.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220908_092053_870936_4B9EC2B4 
-X-CRM114-Status: UNSURE (   9.89  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220908_114539_657661_A7960D30 
+X-CRM114-Status: GOOD (  14.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,19 +130,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/8/22 9:35 AM, Christoph Hellwig wrote:
-> The following changes since commit 748008e1da926a814cc0a054c81ca614408b1b0c:
-> 
->   block: don't add partitions if GD_SUPPRESS_PART_SCAN is set (2022-09-03 11:29:03 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-6.0-2022-09-08
+Currently uring-cmd lacks the ability to leverage the pre-registered
+buffers. This series adds that support in uring-cmd, and plumbs
+nvme passthrough to work with it.
 
-Pulled, thanks.
+Using registered-buffers showed IOPS hike from 1.9M to 2.2M in my tests.
+
+Patch 1, 3, 4 = prep
+Patch 2 = expand io_uring command to use registered-buffers
+Patch 5 = expand nvme passthrough to use registered-buffers
+
+Changes since v5:
+- Patch 4: newly addd, to split a nvme function into two
+- Patch 3: folded cleanups in bio_map_user_iov (Chaitanya, Pankaj)
+- Rebase to latest for-next
+
+Changes since v4:
+- Patch 1, 2: folded all review comments of Jens
+
+Changes since v3:
+- uring_cmd_flags, change from u16 to u32 (Jens)
+- patch 3, add another helper to reduce code-duplication (Jens)
+
+Changes since v2:
+- Kill the new opcode, add a flag instead (Pavel)
+- Fix standalone build issue with patch 1 (Pavel)
+
+Changes since v1:
+- Fix a naming issue for an exported helper
+
+
+Anuj Gupta (2):
+  io_uring: add io_uring_cmd_import_fixed
+  io_uring: introduce fixed buffer support for io_uring_cmd
+
+Kanchan Joshi (3):
+  nvme: refactor nvme_alloc_user_request
+  block: add helper to map bvec iterator for passthrough
+  nvme: wire up fixed buffer support for nvme passthrough
+
+ block/blk-map.c               |  87 ++++++++++++++++++++---
+ drivers/nvme/host/ioctl.c     | 126 +++++++++++++++++++++-------------
+ include/linux/blk-mq.h        |   1 +
+ include/linux/io_uring.h      |  10 ++-
+ include/uapi/linux/io_uring.h |   9 +++
+ io_uring/uring_cmd.c          |  26 ++++++-
+ 6 files changed, 199 insertions(+), 60 deletions(-)
 
 -- 
-Jens Axboe
-
+2.25.1
 
 
