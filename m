@@ -4,43 +4,125 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27669C38145
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Sep 2022 10:46:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD738ECAAD5
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Sep 2022 10:57:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=xOWdfsa32WImVXqXQI8AwgmguXpI6p8y1pjRnLIo8es=; b=sEGOcdJtfkfP5/yNgPeLrp7e6W
-	LQg8kMnLN+ky4CPPi3cDXImqxDhXyIUlGkmKvq1h2q90aQjQtxED+D0HJee8ZTifD6NdhdupfO/k6
-	zWkxuGe+m+q0ar9ZZ09nds2FsjLfA14a4eeeefIFsrDtdZnIhjOZ+UQSdjPAFxOk46BJ8pOn5IynX
-	DNlxOJk4zawjD1QxrfMHDhSVtA6hdPhwV9bmfXr/oj6//0e1VAuruyKsOUA/Mce4G/VebkGe0tBpH
-	wL9mfz4CLpKGkfgHPFDUeVJzEiJPzDmgAliHO7JEjWl9wTu8zAAIYlKHk/jfELP0SQgSfcB4cR6GE
-	D8vEkP+A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=WCme1aYTyqbvRVk/gZZfUAz8p0NMlfrGWOhsd5PGpS0=; b=bnN9/USC+rLvgYLAhSnSc9oBNj
+	pNZav2AUdD0XeUJwiJuEFTeOduN9ze3mhZaPJ0CZCl6mcz7y/dOniXDzEC1pqgT3iXHAp89ftoudF
+	apThDIR1zJI2XX4gn/WNWyIoqaZcr0+aHvMn0AjeazOOaKqbBplrxioR/dec9QVopE/mU0A6ZnE7N
+	lKC8FmCo8Esp8nKgxNuEY37TiGJLxaEVBcZxQjXIfj4ndGHrXqjjoE/Je9pp4RACrSxI4Hl13DVlA
+	il87kf+JKJRrn4OyGgAAeuCLe2NjkprJLN6ODxhmJSP6k0Jv/WNSkWDvR4/48UCqRMvLEBcL/Ppif
+	ZTsDiDLA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oWF2s-002PEL-4L; Thu, 08 Sep 2022 10:46:06 +0000
-Received: from stargate.chelsio.com ([12.32.117.8])
+	id 1oWFEE-002UWm-3F; Thu, 08 Sep 2022 10:57:50 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oWF2f-002P0H-6w
-	for linux-nvme@lists.infradead.org; Thu, 08 Sep 2022 10:45:56 +0000
-Received: from fcoe-test11.blr.asicdesigners.com (fcoe-test11.blr.asicdesigners.com [10.193.185.180])
-	by stargate.chelsio.com (8.14.7/8.14.7) with ESMTP id 288AjW1h023895;
-	Thu, 8 Sep 2022 03:45:33 -0700
-From: Varun Prakash <varun@chelsio.com>
-To: sagi@grimberg.me, hch@lst.de, kch@nvidia.com
-Cc: linux-nvme@lists.infradead.org, varun@chelsio.com
-Subject: [PATCH v2] nvmet-tcp: handle ICReq PDU received in NVMET_TCP_Q_LIVE state
-Date: Thu,  8 Sep 2022 16:42:44 +0530
-Message-Id: <20220908111244.5585-1-varun@chelsio.com>
-X-Mailer: git-send-email 2.31.1
+	id 1oWFEA-002ULI-8T
+	for linux-nvme@lists.infradead.org; Thu, 08 Sep 2022 10:57:49 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20220908105722epoutp020fe3bca076a2a2b98373867681ac8f1f~S3WXsbSCb0868008680epoutp02K
+	for <linux-nvme@lists.infradead.org>; Thu,  8 Sep 2022 10:57:22 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20220908105722epoutp020fe3bca076a2a2b98373867681ac8f1f~S3WXsbSCb0868008680epoutp02K
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1662634642;
+	bh=WCme1aYTyqbvRVk/gZZfUAz8p0NMlfrGWOhsd5PGpS0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=I9ep2PtPr9VMH5RGKync8/6Mfx9TLO71X0dDah4nOs0R0tAHlzSUr9YkQ14dTj6Nm
+	 OYlq+0gwj+fhyYsHCAPmaME5dKDmYiVPNVpjigEuNlOsKbmiRNfJsUcVVl7IqD8ksV
+	 28RIcPYyKjlO+BjtUoWTzdWDvWoz7YVFakoB0Lno=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20220908105722epcas5p313b5d287914ab898af687b0676cc5aa4~S3WXbuDDe0170001700epcas5p3-;
+	Thu,  8 Sep 2022 10:57:22 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.181]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4MNbg34zbqz4x9Pr; Thu,  8 Sep
+	2022 10:57:19 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	80.55.59633.F8AC9136; Thu,  8 Sep 2022 19:57:19 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20220908105719epcas5p3188ed6057a199556851e54aa4539ead0~S3WU_mXQf2942929429epcas5p3M;
+	Thu,  8 Sep 2022 10:57:19 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20220908105719epsmtrp12f20d97a8f4983aa160adffbbcbc16f6~S3WU901751413214132epsmtrp1R;
+	Thu,  8 Sep 2022 10:57:19 +0000 (GMT)
+X-AuditID: b6c32a49-dfdff7000000e8f1-55-6319ca8f7b34
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+	74.F1.18644.F8AC9136; Thu,  8 Sep 2022 19:57:19 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20220908105718epsmtip227b1ee1a026a0bdf6e1c6049637b7b58~S3WT4_qsn0629906299epsmtip2d;
+	Thu,  8 Sep 2022 10:57:18 +0000 (GMT)
+Date: Thu, 8 Sep 2022 16:17:34 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: "axboe@kernel.dk" <axboe@kernel.dk>, "hch@lst.de" <hch@lst.de>,
+	"kbusch@kernel.org" <kbusch@kernel.org>, "io-uring@vger.kernel.org"
+	<io-uring@vger.kernel.org>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>
+Subject: Re: [PATCH for-next v5 4/4] nvme: wire up fixed buffer support for
+ nvme passthrough
+Message-ID: <20220908104734.GA15034@test-zns>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <26490329-5b51-7334-1e2a-44edfe75d8fa@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnk+LIzCtJLcpLzFFi42LZdlhTQ7f/lGSywfNVahar7/azWbw/+JjV
+	YuXqo0wW71rPsVhMOnSN0WLvLW2L+cuesjuwe1w+W+qxaVUnm8fmJfUeu282sHn0Nr9j8/i8
+	SS6ALSrbJiM1MSW1SCE1Lzk/JTMv3VbJOzjeOd7UzMBQ19DSwlxJIS8xN9VWycUnQNctMwfo
+	ECWFssScUqBQQGJxsZK+nU1RfmlJqkJGfnGJrVJqQUpOgUmBXnFibnFpXrpeXmqJlaGBgZEp
+	UGFCdsaK/jesBbudK9b/Os/SwDhBu4uRk0NCwESi4eJlti5GLg4hgd2MEg9nr2SFcD4xSmx7
+	vJsZwvnMKHG8cS1QGQdYy+22Uoj4LkaJjWuWQXU8Y5SY1zaZCaSIRUBFYv/COhCTTUBT4sLk
+	UpBtIgJ6Eldv3WAHKWcWWMUk0dm/ix0kISwQJ3F5804wm1dAV+L0wffMELagxMmZT1hAbE4B
+	O4kTFx6A2aICyhIHth1nAhkkIdDIIbH5znwmiONcJLpXx0O8Jizx6vgWdghbSuJlfxuUnSxx
+	aeY5Jgi7ROLxnoNQtr1E66l+sL3MAhkSnxonQdl8Er2/n0CN55XoaBOCKFeUuDfpKSuELS7x
+	cMYSKNtD4u/NOYyQIHnPKHH/9if2CYxys5C8MwvJCgjbSqLzQxPrLKAVzALSEsv/cUCYmhLr
+	d+kvYGRdxSiZWlCcm55abFpgmJdaDo/i5PzcTYzglKnluYPx7oMPeocYmTgYDzFKcDArifCK
+	rpVIFuJNSaysSi3Kjy8qzUktPsRoCoydicxSosn5wKSdVxJvaGJpYGJmZmZiaWxmqCTOO0Wb
+	MVlIID2xJDU7NbUgtQimj4mDU6qBKfmdU+mGL+1i85kll2kvWvNlXXfMlD89qj4r2e9Ma/dI
+	KEoMn7Z7jvo+FuPErnUnJx/+v9RzV/wvQwXNG0v4bpdNeLehhGGr5z6VoE1St9oFfzJ+PzlT
+	Pvj2+u1xJ74LxB8SnH8t8ckZs3edvMsMHuxZ2Ft54tj64OvKTmtmRzefEv9tGamg/f1NjKn4
+	xdsMzOsbl/uu26p/cKJrIStTSHfXUoabKh4WUR5Tt63a8aJhq/rxIIcfE87Gcy6eeSU7vZI1
+	/6bpKzZW5tXC0b/sOhTrg99whsh/Y+6TOvC+IOLh05pvRzfddZzlo7/fgsf2Gtf6S+p7p3QG
+	3/yS6mYvlmzSt/VW895g42P7wrdEPFBiKc5INNRiLipOBADN4K45IgQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrHLMWRmVeSWpSXmKPExsWy7bCSvG7/Kclkg3OrBCxW3+1ns3h/8DGr
+	xcrVR5ks3rWeY7GYdOgao8XeW9oW85c9ZXdg97h8ttRj06pONo/NS+o9dt9sYPPobX7H5vF5
+	k1wAWxSXTUpqTmZZapG+XQJXxsK1+9gK3jpUHNp/lrmB8Y5GFyMHh4SAicTtttIuRi4OIYEd
+	jBIvjvxg6WLkBIqLSzRf+8EOYQtLrPz3nB2i6AmjxPwjHUwgzSwCKhL7F9aBmGwCmhIXJpeC
+	lIsI6ElcvXUDrJxZYBWTxPqFjWBzhAXiJC5v3glm8wroSpw++J4ZYuZ7RomJXzezQCQEJU7O
+	fAJmMwuYSczb/JAZZAGzgLTE8n8cIGFOATuJExcegJWICihLHNh2nGkCo+AsJN2zkHTPQuhe
+	wMi8ilEytaA4Nz232LDAKC+1XK84Mbe4NC9dLzk/dxMjOAq0tHYw7ln1Qe8QIxMH4yFGCQ5m
+	JRFe0bUSyUK8KYmVValF+fFFpTmpxYcYpTlYlMR5L3SdjBcSSE8sSc1OTS1ILYLJMnFwSjUw
+	yXqs9ZKrrDm2r+nX5ic7uR8/dGfP38bC7h9m+MC1d5vbH8Gn7SvmXXwzt8J35317lqpZT/WU
+	zkts4jM5+fBl0jFHj51fky/FBnFoSq7gtLFQNmTyi/i63SZN6afqqTON2ib9exelP/y+6ZjZ
+	z7Z/nzYe8rJK/rxolV/98hsP3ZnStjI06NzfV8C1cG64SY2b01Wfcw//nYg8t+gk+ye/qm+X
+	rp9bt5kv1fb0hb2RjybPnRPnbDJBv7SxXeCWgt2isNMS/GKhed/v8FlpB585/ODYwm9cax/t
+	/V8WezBbgMOq88VMxnuSFb2qFy4IKXzSv2bR6CrUHMQien0z58e//cVf4iYfz5yyjJlfM+3A
+	FCWW4oxEQy3mouJEAGxmMO7xAgAA
+X-CMS-MailID: 20220908105719epcas5p3188ed6057a199556851e54aa4539ead0
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----3GC0G0c67CHFz-pUzO9qV37oeXJmKwYP9xQRy1YHFCjbzJ45=_f071b_"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220906063733epcas5p22984174bd6dbb2571152fea18af90924
+References: <20220906062721.62630-1-joshi.k@samsung.com>
+	<CGME20220906063733epcas5p22984174bd6dbb2571152fea18af90924@epcas5p2.samsung.com>
+	<20220906062721.62630-5-joshi.k@samsung.com>
+	<26490329-5b51-7334-1e2a-44edfe75d8fa@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220908_034553_307741_74C16D43 
-X-CRM114-Status: UNSURE (   9.47  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220908_035746_665460_E549D4E4 
+X-CRM114-Status: GOOD (  25.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -55,46 +137,231 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-As per NVMe/TCP transport specification ICReq PDU is the first PDU received
-by the controller and controller should receive only one ICReq PDU.
+------3GC0G0c67CHFz-pUzO9qV37oeXJmKwYP9xQRy1YHFCjbzJ45=_f071b_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-If controller receives more than one ICReq PDU then this can be considered
-as fatal error.
+On Wed, Sep 07, 2022 at 02:51:31PM +0000, Chaitanya Kulkarni wrote:
+>
+>>   	req = nvme_alloc_user_request(q, cmd, ubuffer, bufflen, meta_buffer,
+>> -			meta_len, meta_seed, &meta, timeout, vec, 0, 0);
+>> +			meta_len, meta_seed, &meta, timeout, vec, 0, 0, NULL, 0);
+>>   	if (IS_ERR(req))
+>>   		return PTR_ERR(req);
+>
+>14 Arguments to the function!
+>
+>Kanchan, I'm not pointing out to this patch it has happened over
+>the years, I think it is high time we find a way to trim this
+>down.
+>
+>Least we can do is to pass a structure member than 14 different
+>arguments, is everyone okay with it ?
+>
+Maybe it's just me, but there is something (unrelatedness) about these
+fields which makes packing all these into a single container feel bit 
+unnatural (or do you already have a good name for such struct?). 
 
-nvmet-tcp driver does not check for ICReq PDU opcode if queue state is
-NVMET_TCP_Q_LIVE. In LIVE state ICReq PDU is treated as CapsuleCmd PDU,
-this can result in abnormal behavior.
+So how about we split the nvme_alloc_user_request into two.
+That will also serve the purpose. 
+Here is a patch that creates
+- new nvme_alloc_user_request with 5 parameters
+- new nvme_map_user_request with 8 parameters
 
-Add a check for ICReq PDU in nvmet_tcp_done_recv_pdu() to fix this issue.
 
-Signed-off-by: Varun Prakash <varun@chelsio.com>
----
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index 548aca8b5b9f..cb2fa4db50dd 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -65,18 +65,10 @@ static int nvme_finish_user_metadata(struct request *req, void __user *ubuf,
+ }
 
-v2:
- updated commit message
+ static struct request *nvme_alloc_user_request(struct request_queue *q,
+-               struct nvme_command *cmd, void __user *ubuffer,
+-               unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
+-               u32 meta_seed, void **metap, unsigned timeout, bool vec,
++               struct nvme_command *cmd, unsigned timeout,
+                blk_opf_t rq_flags, blk_mq_req_flags_t blk_flags)
+ {
+-       bool write = nvme_is_write(cmd);
+-       struct nvme_ns *ns = q->queuedata;
+-       struct block_device *bdev = ns ? ns->disk->part0 : NULL;
+        struct request *req;
+-       struct bio *bio = NULL;
+-       void *meta = NULL;
+-       int ret;
 
- drivers/nvme/target/tcp.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+        req = blk_mq_alloc_request(q, nvme_req_op(cmd) | rq_flags, blk_flags);
+        if (IS_ERR(req))
+@@ -86,49 +78,61 @@ static struct request *nvme_alloc_user_request(struct request_queue *q,
+        if (timeout)
+                req->timeout = timeout;
+        nvme_req(req)->flags |= NVME_REQ_USERCMD;
++       return req;
++}
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index a3694a32f6d5..02df2fc7dfe7 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -976,6 +976,13 @@ static int nvmet_tcp_done_recv_pdu(struct nvmet_tcp_queue *queue)
- 		return nvmet_tcp_handle_icreq(queue);
- 	}
- 
-+	if (unlikely(hdr->type == nvme_tcp_icreq)) {
-+		pr_err("queue %d: received icreq pdu in state %d\n",
-+			queue->idx, queue->state);
-+		nvmet_tcp_fatal_error(queue);
-+		return -EPROTO;
-+	}
+-       if (ubuffer && bufflen) {
+-               if (!vec)
+-                       ret = blk_rq_map_user(q, req, NULL, ubuffer, bufflen,
+-                               GFP_KERNEL);
+-               else {
+-                       struct iovec fast_iov[UIO_FASTIOV];
+-                       struct iovec *iov = fast_iov;
+-                       struct iov_iter iter;
+-
+-                       ret = import_iovec(rq_data_dir(req), ubuffer, bufflen,
+-                                       UIO_FASTIOV, &iov, &iter);
+-                       if (ret < 0)
+-                               goto out;
+-                       ret = blk_rq_map_user_iov(q, req, NULL, &iter,
+-                                       GFP_KERNEL);
+-                       kfree(iov);
+-               }
+-               if (ret)
++static int nvme_map_user_request(struct request *req, void __user *ubuffer,
++               unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
++               u32 meta_seed, void **metap, bool vec)
++{
++       struct request_queue *q = req->q;
++       struct nvme_ns *ns = q->queuedata;
++       struct block_device *bdev = ns ? ns->disk->part0 : NULL;
++       struct bio *bio = NULL;
++       void *meta = NULL;
++       int ret;
 +
- 	if (hdr->type == nvme_tcp_h2c_data) {
- 		ret = nvmet_tcp_handle_h2c_data_pdu(queue);
- 		if (unlikely(ret))
--- 
-2.31.1
++       if (!ubuffer || !bufflen)
++               return 0;
++
++       if (!vec)
++               ret = blk_rq_map_user(q, req, NULL, ubuffer, bufflen,
++                       GFP_KERNEL);
++       else {
++               struct iovec fast_iov[UIO_FASTIOV];
++               struct iovec *iov = fast_iov;
++               struct iov_iter iter;
++
++               ret = import_iovec(rq_data_dir(req), ubuffer, bufflen,
++                               UIO_FASTIOV, &iov, &iter);
++               if (ret < 0)
+                        goto out;
+-               bio = req->bio;
+-               if (bdev)
+-                       bio_set_dev(bio, bdev);
+-               if (bdev && meta_buffer && meta_len) {
+-                       meta = nvme_add_user_metadata(bio, meta_buffer, meta_len,
+-                                       meta_seed, write);
+-                       if (IS_ERR(meta)) {
+-                               ret = PTR_ERR(meta);
+-                               goto out_unmap;
+-                       }
+-                       req->cmd_flags |= REQ_INTEGRITY;
+-                       *metap = meta;
++               ret = blk_rq_map_user_iov(q, req, NULL, &iter, GFP_KERNEL);
++               kfree(iov);
++       }
++       bio = req->bio;
++       if (ret)
++               goto out_unmap;
++       if (bdev)
++               bio_set_dev(bio, bdev);
++       if (bdev && meta_buffer && meta_len) {
++               meta = nvme_add_user_metadata(bio, meta_buffer, meta_len,
++                               meta_seed, req_op(req) == REQ_OP_DRV_OUT);
++               if (IS_ERR(meta)) {
++                       ret = PTR_ERR(meta);
++                       goto out_unmap;
+                }
++               req->cmd_flags |= REQ_INTEGRITY;
++               *metap = meta;
+        }
 
+-       return req;
++       return ret;
+
+ out_unmap:
+        if (bio)
+                blk_rq_unmap_user(bio);
+ out:
+-       blk_mq_free_request(req);
+-       return ERR_PTR(ret);
++       return ret;
+ }
+
+ static int nvme_submit_user_cmd(struct request_queue *q,
+@@ -141,13 +145,16 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+        struct bio *bio;
+        int ret;
+
+-       req = nvme_alloc_user_request(q, cmd, ubuffer, bufflen, meta_buffer,
+-                       meta_len, meta_seed, &meta, timeout, vec, 0, 0);
++       req = nvme_alloc_user_request(q, cmd, timeout, 0, 0);
+        if (IS_ERR(req))
+                return PTR_ERR(req);
+
+-       bio = req->bio;
++       ret = nvme_map_user_request(req, ubuffer, bufflen, meta_buffer,
++                       meta_len, meta_seed, &meta, vec);
++       if (ret)
++               goto out;
+
++       bio = req->bio;
+        ret = nvme_execute_passthru_rq(req);
+
+        if (result)
+@@ -157,6 +164,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+                                                meta_len, ret);
+        if (bio)
+                blk_rq_unmap_user(bio);
++out:
+        blk_mq_free_request(req);
+        return ret;
+ }
+@@ -418,6 +426,7 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+        blk_opf_t rq_flags = 0;
+        blk_mq_req_flags_t blk_flags = 0;
+        void *meta = NULL;
++       int ret;
+
+        if (!capable(CAP_SYS_ADMIN))
+                return -EACCES;
+@@ -457,13 +466,17 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+                rq_flags |= REQ_POLLED;
+
+ retry:
+-       req = nvme_alloc_user_request(q, &c, nvme_to_user_ptr(d.addr),
+-                       d.data_len, nvme_to_user_ptr(d.metadata),
+-                       d.metadata_len, 0, &meta, d.timeout_ms ?
+-                       msecs_to_jiffies(d.timeout_ms) : 0, vec, rq_flags,
+-                       blk_flags);
++       req = nvme_alloc_user_request(q, &c,
++                       d.timeout_ms ? msecs_to_jiffies(d.timeout_ms) : 0,
++                       rq_flags, blk_flags);
+        if (IS_ERR(req))
+                return PTR_ERR(req);
++
++       ret = nvme_map_user_request(req, nvme_to_user_ptr(d.addr),
++                       d.data_len, nvme_to_user_ptr(d.metadata),
++                       d.metadata_len, 0, &meta, vec);
++       if (ret)
++               goto out_err;
+        req->end_io = nvme_uring_cmd_end_io;
+        req->end_io_data = ioucmd;
+
+@@ -486,6 +499,9 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+
+        blk_execute_rq_nowait(req, false);
+        return -EIOCBQUEUED;
++out_err:
++       blk_mq_free_request(req);
++       return ret;
+ }
+
+ static bool is_ctrl_ioctl(unsigned int cmd)
+
+
+------3GC0G0c67CHFz-pUzO9qV37oeXJmKwYP9xQRy1YHFCjbzJ45=_f071b_
+Content-Type: text/plain; charset="utf-8"
+
+
+------3GC0G0c67CHFz-pUzO9qV37oeXJmKwYP9xQRy1YHFCjbzJ45=_f071b_--
 
