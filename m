@@ -4,63 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4B15ECAAA1
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 Sep 2022 16:57:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1754DECAAD3
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 Sep 2022 19:19:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fq7Hbr7SVsAkwlB8p7RXUUzk64CLPge+dDhLIyEvg0Q=; b=AbKuECIGoHfUYN1+byVnSFkLZe
-	C7DhBIRXcTKLNLxxH4ngJCtepGCwn/CPpZ2aG764RygQfw/Vu6qES+u+hm8oexE9nkQ0RVcqRHSh3
-	9p8eXCL1XaFjLL1NCdpXPEal6Ql9Br0DFQlgrKZAvETG/cnksnNPG3A0yBqCanYDRY2UHxq8Xpw3b
-	HeQPTLRy3VABHENgUJKB4jFNrFeUHEENnRFMOZSr32arg6TYRej260NaqtLdYluCrHpeGQBnELkAT
-	g0bBwHg3Z4dD20cCrpFu7WmCQsEKiLclrA0V1rmrxh0TW5BS6ipRYU8ICyDZgjW7r9iw/kne4m1il
-	8NDUYxRA==;
+	bh=g/qnbR3kmCe/hsDgvp6zCp5qkLBtvy6bgBjvx6x6e8w=; b=ExkReI6gUgcczOo4wYiUZ6mOwz
+	THJYY3qHniZRlxjIxry81D+xUDBiUS2+KB9iPC1b7fx3utvi0/gr+aS3KMBgwWYcLrLhTFOqgaFRG
+	3b46lAkEcl3S0Lnq0LwMwRR3byoknziIq2iCH4nHNwifcRqLYP1emUrEL7/mG7MvQYvMZPQo2c27s
+	y2W4Sn38BS1AwFqUWloVDkvH9ccGHZCGmoKvdvbvkc7X8OcmsEQ9gHUlE1ph6SPz59wM3KH8RZStY
+	OChLbC+//c+Xov+l5l2ST9iQQRidnWMk/P40mnzTYeIeXAYea5C1Wi+VbxaAZnvmloAIvt5GtGj5j
+	6PzXQMGg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oWhKB-000Vyr-T7; Fri, 09 Sep 2022 16:57:51 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oWhK9-000VyF-Up
-	for linux-nvme@lists.infradead.org; Fri, 09 Sep 2022 16:57:51 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id AC8B561FB0;
-	Fri,  9 Sep 2022 16:57:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89FE3C433C1;
-	Fri,  9 Sep 2022 16:57:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1662742668;
-	bh=bbFYwkLLoUMZOOVbfkzv45rrSoUFxFojJLHItk4wNTA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UDNLW33WQsDjmhrd4BNKYC4kF93gijOMoAQ+ZHpV0PNEsk/AOjHGYIw32alXmH1Wk
-	 QneYXCoj78UTWHYvNAfGMHG2qf0JR2DezhoFNt060tMpEVjh8kchusqZi5gfbBX+YM
-	 C73wV5OAnS+33zNUMILHL3yQc5UtF02iR4J7+g9/r5mkSw8UhRN2YWIgcVjxIiUS7l
-	 tyG41bO6VzTogyjYMZa5BojD61OuRosVmqwu16u5wrzOq8yRP2f9T8oWIWmVJpLPiu
-	 90IzSLR8RPFS1sqUz85oRSEA4qCqM89U0jhkOwjkTBWdX7T1oBsR6JKy4Fn5z2rm5y
-	 NHFFlmCxi9IOg==
-Date: Fri, 9 Sep 2022 10:57:44 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: hch@lst.de, axboe@kernel.dk, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, j.granados@samsung.com,
-	javier.gonz@samsung.com
-Subject: Re: [RFC 1/2] nvme: add whitelisting infrastructure
-Message-ID: <YxtwiDE0amT5DuNt@kbusch-mbp.dhcp.thefacebook.com>
-References: <20220909163307.30150-1-joshi.k@samsung.com>
- <CGME20220909164318epcas5p15d022bfc15bb4f22dbe4fb424576243d@epcas5p1.samsung.com>
- <20220909163307.30150-2-joshi.k@samsung.com>
+	id 1oWjXY-001iiG-Fw; Fri, 09 Sep 2022 19:19:48 +0000
+Received: from mail.baikalelectronics.com ([87.245.175.230])
+	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oWjXK-001iTi-WF
+	for linux-nvme@lists.infradead.org; Fri, 09 Sep 2022 19:19:39 +0000
+Received: from mail (mail.baikal.int [192.168.51.25])
+	by mail.baikalelectronics.com (Postfix) with ESMTP id E8885DBA;
+	Fri,  9 Sep 2022 22:23:10 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com E8885DBA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=baikalelectronics.ru; s=mail; t=1662751391;
+	bh=g/qnbR3kmCe/hsDgvp6zCp5qkLBtvy6bgBjvx6x6e8w=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+	b=YES6vKyJfvMMdrO20kNxAanHBoFyOZ10pFXxE7G1x4aD++ilUms+nwqjVLYPDYEDD
+	 7KE5Frp3PJ6w++pm8zZ0XWDuVTnhPWxcgWSNMuspnYaVeh+L5e5CPxHUDOR5k5Fo88
+	 C90Jhz+tvIVTQlW1sFqCSYEiGhodiDd9T0xPo0M8=
+Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 9 Sep 2022 22:19:20 +0300
+From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+To: Jonathan Derrick <jonathan.derrick@intel.com>, Revanth Rajashekar
+	<revanth.rajashekar@intel.com>, Jens Axboe <axboe@kernel.dk>, Keith Busch
+	<kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Christoph Hellwig
+	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Guenter Roeck
+	<linux@roeck-us.net>
+CC: Serge Semin <Sergey.Semin@baikalelectronics.ru>, Serge Semin
+	<fancer.lancer@gmail.com>, Alexey Malahov
+	<Alexey.Malahov@baikalelectronics.ru>, Pavel Parkhomenko
+	<Pavel.Parkhomenko@baikalelectronics.ru>, Thomas Bogendoerfer
+	<tsbogend@alpha.franken.de>, <linux-nvme@lists.infradead.org>,
+	<linux-block@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH 1/2] nvme-hwmon: Cache-line-align the NVME SMART log-buffer
+Date: Fri, 9 Sep 2022 22:19:15 +0300
+Message-ID: <20220909191916.16013-2-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20220909191916.16013-1-Sergey.Semin@baikalelectronics.ru>
+References: <20220909191916.16013-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220909163307.30150-2-joshi.k@samsung.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220909_095750_075271_5C2F5BC6 
-X-CRM114-Status: UNSURE (   9.48  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220909_121937_244963_B8C220B8 
+X-CRM114-Status: GOOD (  17.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,17 +76,68 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 09, 2022 at 10:03:06PM +0530, Kanchan Joshi wrote:
-> +bool nvme_admin_cmd_allowed(u8 opcode, fmode_t mode)
-> +{
-> +	/* allowed few read-only commands post the mode check */
-> +	switch (opcode) {
-> +	case nvme_admin_identify:
-> +	case nvme_admin_get_log_page:
-> +	case nvme_admin_get_features:
-> +		return (mode & FMODE_READ);
+Recent commit 52fde2c07da6 ("nvme: set dma alignment to dword") has caused
+a regression on our platform. It turned out that the nvme_get_log() method
+invocation caused the nvme_hwmon_data structure instance corruption. In
+particular the nvme_hwmon_data.ctrl pointer was overwritten either with
+zeros or with garbage. After some researches we discovered that the
+problem happened even before the actual NVME DMA execution, but during the
+buffer mapping. Since our platform was DMA-noncoherent the mapping implied
+the cache-lines invalidations or write-backs depending on the
+DMA-direction parameter. In case of the NVME SMART log getting the DMA
+was performed from-device-to-memory, thus the cache-invalidation was
+activated during the buffer mapping. Since the log-buffer wasn't
+cache-line aligned the cache-invalidation caused the neighbour data
+discard. The neighbouring data turned to be the data surrounding the
+buffer in the framework of the nvme_hwmon_data structure.
 
-Some log pages have read side effects, like Namespace Changed List or anything
-latched to RAE. That opcode seems a little more dangerous than the others in
-the whitelist.
+In order to fix that we need to make sure that the whole log-buffer is
+defined within the cache-line-aligned memory region so the
+cache-invalidation procedure wouldn't involve the adjacent data. By doing
+so we not only get rid from the denoted problem but also fulfill the
+requirement explicitly described in [1].
+
+After a deeper researches we found out that the denoted commit wasn't a
+root cause of the problem. It just revealed the invalidity by activating
+the DMA-based NVME SMART log getting performed in the framework of the
+NVME hwmon driver. The problem was here since the initial commit of the
+driver.
+
+[1] Documentation/core-api/dma-api.rst
+
+Fixes: 400b6a7b13a3 ("nvme: Add hardware monitoring support")
+Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+
+---
+
+Folks, I've thoroughly studied the whole NVME subsystem looking for
+similar problems. Turned out there is one more place which may cause the
+same issue. It's connected with the opal_dev.{cmd,req} buffers passed to
+the nvme_sec_submit() method. The rest of the buffers involved in the NVME
+DMA are either allocated by kmalloc (must be cache-line-aligned by design)
+or bounced-buffered if allocated on the stack (see the blk_rq_map_kern()
+method implementation).
+---
+ drivers/nvme/host/hwmon.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/hwmon.c b/drivers/nvme/host/hwmon.c
+index 0a586d712920..94192ab7a02d 100644
+--- a/drivers/nvme/host/hwmon.c
++++ b/drivers/nvme/host/hwmon.c
+@@ -10,9 +10,10 @@
+ 
+ #include "nvme.h"
+ 
++/* DMA-noncoherent platforms require the cache-aligned buffers */
+ struct nvme_hwmon_data {
++	struct nvme_smart_log log ____cacheline_aligned;
+ 	struct nvme_ctrl *ctrl;
+-	struct nvme_smart_log log;
+ 	struct mutex read_lock;
+ };
+ 
+-- 
+2.37.2
+
 
