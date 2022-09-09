@@ -4,121 +4,119 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BCF7ECAAA1
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 Sep 2022 10:32:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CDBFDC6FA82
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 Sep 2022 13:22:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hepCkLsLawcUW6NPOu6/Vf5Idoa6NAsOreUa0e5m0PY=; b=fI6w/SCPEFkmZYpZZiA3qj5I8R
-	VXJF6vcTE3qatrbYgP2JD5uk/qRwGmm70tFvBd2BzmOlZMxhMpyKv/RTbp3v5r7RKr1aSLdc1xR/C
-	bClRn1/Zx47oPxjpmJsbtaElSm5vzPOlWEJjEBoKHB2eLiKqpvn8lLfgUL7yxEjaBKPtXJ+z4S+zC
-	luRNMZFztwE75V/dZnW+hHiFDr2F57xeDnP+JuLNzp2TyjGynPCx1v0AfkRfXYBFcCDzpA5xK5BSN
-	jK0fyS5TjHZFa3fczirvV1xAwJRnZpqEmHg0csmadgpBLlWnUflmfLo0F9LJCTob04zktbeLqTNUl
-	jlcq+rBw==;
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=MkB767neFMUV5ApfT4B/wKKXyVOpkyniO4NvuSC66e0=; b=S+nPxP6g9AgO/vvjEBawLig0Im
+	bkfuGeokFV5yhJxSZb4P8bXg9ovuzN5097yLkk7QsQZSAiO3U+Ug1zC1tUxqnwdBjD2PZz1IiIZ6c
+	HZ5FfvPmfkKQ+dT5toq0vxIIhEUu8iU7sHpLFE6w/5jR1E3mvlNDI8w81xM1B+5DmI1JC0ycZvPmi
+	qT56qJOVrxa9uSWZvNoahoYk19i9Td+CH0nkfoFYZqLS7Cwf0CybuWyKhO2/LqQSWW4BPF7kRcT58
+	iORTDpkPABZeGSg5AXMQ6KrHhF4ywqRUx/eHmhgvVogK9NiSvhv9mt/+9YBxgIUpsttiJpquT8rnD
+	C4ZUTq1Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oWbJB-00FNX0-GN; Fri, 09 Sep 2022 10:32:25 +0000
+	id 1oWdxK-00GIaC-0u; Fri, 09 Sep 2022 13:22:02 +0000
 Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oWbIs-00FNKz-Tn
-	for linux-nvme@lists.infradead.org; Fri, 09 Sep 2022 10:32:09 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20220909103152epoutp01cd392d0cec853002e5311948a5df6cbb~TKpYx39Et2341123411epoutp01j
-	for <linux-nvme@lists.infradead.org>; Fri,  9 Sep 2022 10:31:51 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20220909103152epoutp01cd392d0cec853002e5311948a5df6cbb~TKpYx39Et2341123411epoutp01j
+	id 1oWdx8-00GIVO-Jf
+	for linux-nvme@lists.infradead.org; Fri, 09 Sep 2022 13:22:00 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20220909132144epoutp01b0101fed1b3c568f733aa57788814a1f~TM9thgkzo2305923059epoutp01S
+	for <linux-nvme@lists.infradead.org>; Fri,  9 Sep 2022 13:21:44 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20220909132144epoutp01b0101fed1b3c568f733aa57788814a1f~TM9thgkzo2305923059epoutp01S
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1662719512;
-	bh=hepCkLsLawcUW6NPOu6/Vf5Idoa6NAsOreUa0e5m0PY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ddutFD1Yfz1DR1yND3horf0XCZGiQSlzKI5TLhximJiS9EAksY9fUYtFQs5RXarnv
-	 lWfsfHry6KstsvmUJnWq517gYJAonaxoaEPhWzfllqC1FA5xMxOL7EB446F8jIxKwI
-	 p3kAHR3HbK2USYgpcB8ssNdbrOHpuWmRX6IB8Tyk=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20220909103151epcas5p11c4bfec887a9c1c56f3870954935e776~TKpYiMDZD0657806578epcas5p1B;
-	Fri,  9 Sep 2022 10:31:51 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.177]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4MPC391478z4x9Px; Fri,  9 Sep
-	2022 10:31:49 +0000 (GMT)
+	s=mail20170921; t=1662729704;
+	bh=MkB767neFMUV5ApfT4B/wKKXyVOpkyniO4NvuSC66e0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=gZL/qxP45EZ80eBUfsykWG3Mwi03p05Pv3zZ+cM4nSQdyW6p7STB0LL5WonzlD/zo
+	 dAG+Uvv6xSjsiZSp3KkrvuFlmTD0IX2ej1DBA637t2LBvrNMZjXA3cCuTquCNTsjzw
+	 YRzg9v396YyWGWaCnDWZ5Wd5+uH1tOeXtk32+z28=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20220909132143epcas5p2223731bdbdb9f3ede29e04646f2069db~TM9sfjSkK0677206772epcas5p2E;
+	Fri,  9 Sep 2022 13:21:43 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.179]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4MPGq86r0lz4x9Pp; Fri,  9 Sep
+	2022 13:21:40 +0000 (GMT)
 Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	2B.DB.59633.3161B136; Fri,  9 Sep 2022 19:31:47 +0900 (KST)
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	58.53.53458.4ED3B136; Fri,  9 Sep 2022 22:21:40 +0900 (KST)
 Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
 	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20220909103147epcas5p2a83ec151333bcb1d2abb8c7536789bfd~TKpUeiPhJ0487204872epcas5p24;
-	Fri,  9 Sep 2022 10:31:47 +0000 (GMT)
+	20220909132140epcas5p293e45f71b884cdb34d988c0fe056c357~TM9pQk5_p1869918699epcas5p2P;
+	Fri,  9 Sep 2022 13:21:40 +0000 (GMT)
 Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
 	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20220909103147epsmtrp251d15f3adaaef49f00bb220fdd1bfb82~TKpUbpCPC1218912189epsmtrp2T;
-	Fri,  9 Sep 2022 10:31:47 +0000 (GMT)
-X-AuditID: b6c32a49-dfdff7000000e8f1-b3-631b1613a845
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	20220909132140epsmtrp27304b16f93bb4ba2d40bcb815f303939~TM9pP6e_e1402014020epsmtrp2I;
+	Fri,  9 Sep 2022 13:21:40 +0000 (GMT)
+X-AuditID: b6c32a4a-caffb7000000d0d2-30-631b3de47434
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
 	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	DD.B1.18644.3161B136; Fri,  9 Sep 2022 19:31:47 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.110.206.5]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20220909103145epsmtip1bdea779def076df2f0443c6d2a1f1062~TKpSgLoFj3150731507epsmtip1V;
-	Fri,  9 Sep 2022 10:31:45 +0000 (GMT)
+	8F.18.18644.4ED3B136; Fri,  9 Sep 2022 22:21:40 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20220909132139epsmtip28fe5970ae9cd11350286f2274213bf55~TM9ocAgCX0640306403epsmtip2h;
+	Fri,  9 Sep 2022 13:21:39 +0000 (GMT)
+Date: Fri, 9 Sep 2022 18:41:55 +0530
 From: Kanchan Joshi <joshi.k@samsung.com>
-To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org, asml.silence@gmail.com
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, gost.dev@samsung.com, Kanchan Joshi
-	<joshi.k@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>
-Subject: [PATCH for-next v7 4/5] block: add helper to map bvec iterator for
- passthrough
-Date: Fri,  9 Sep 2022 15:51:35 +0530
-Message-Id: <20220909102136.3020-5-joshi.k@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220909102136.3020-1-joshi.k@samsung.com>
+To: Keith Busch <kbusch@fb.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me, Keith
+	Busch <kbusch@kernel.org>
+Subject: Re: [PATCH] nvme: restrict management ioctls to admin
+Message-ID: <20220909131155.GA21234@test-zns>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprFJsWRmVeSWpSXmKPExsWy7bCmlq6wmHSywZI1+hZNE/4yW8xZtY3R
-	YvXdfjaLmwd2MlmsXH2UyeJd6zkWi6P/37JZTDp0jdFi7y1ti/nLnrI7cHnsnHWX3ePy2VKP
-	Tas62Tw2L6n32H2zgc2jb8sqRo/Pm+QC2KOybTJSE1NSixRS85LzUzLz0m2VvIPjneNNzQwM
-	dQ0tLcyVFPISc1NtlVx8AnTdMnOAjlNSKEvMKQUKBSQWFyvp29kU5ZeWpCpk5BeX2CqlFqTk
-	FJgU6BUn5haX5qXr5aWWWBkaGBiZAhUmZGdMXDOTreCaUsX6fdtYGxgfSXcxcnJICJhIzLh3
-	k6mLkYtDSGA3o8SkVw1sEM4nRommtbugnM+MEo2Xl7PAtHxv72OESOxilLhz6jcrXNXVmZuA
-	hnFwsAloSlyYXArSICLgJXH/9nuwGmaQHav/vmUFSQgLREp8efoJbCqLgKrE89/nmEFsXgFz
-	iR0vvzBDbJOXmHnpOzuIzSlgITH58zV2iBpBiZMzn4D1MgPVNG+dzQyyQEKgk0PiwaJ/UM0u
-	ErdmvIY6W1ji1fEt7BC2lMTnd3vZIOxkiUszzzFB2CUSj/cchLLtJVpP9TODPMMM9Mz6XfoQ
-	u/gken8/AftRQoBXoqNNCKJaUeLepKesELa4xMMZS6BsD4k1c65AA6ubUeLi0xssExjlZyF5
-	YRaSF2YhbFvAyLyKUTK1oDg3PbXYtMAwL7UcHrPJ+bmbGMGJVMtzB+PdBx/0DjEycTAeYpTg
-	YFYS4RVdK5EsxJuSWFmVWpQfX1Sak1p8iNEUGMYTmaVEk/OBqTyvJN7QxNLAxMzMzMTS2MxQ
-	SZx3ijZjspBAemJJanZqakFqEUwfEwenVAPTREO3SvV1eRod/3tfqOW9CGhbJOsbfyDt1N1t
-	FqG2ryZW5blX84htyCi0n6cxM8zv/vn0hevWl+Zfu/DulbwYq6pi7qYXV9LsRGJZXxlXPl5Q
-	vSZFvyG7YkeI3Xa9tieTgzmfKCUKHQ/gl7BOqw+ulq8RWPx9hkj26QXr1N7HbD7SdMj+6ClP
-	2acHVth+eRJ8/nnbx8AM9dz93M2pYtPONfSx/7tV+qnu5angG0ftMm4s/FBUdUdj5ezVgZd/
-	rTcI9G8x3KEbrPJnnZr887lxyot5zBbxT51fNd9y/cmbWlbiT9y/zVYOaVutESJ0MKY+5fn6
-	XdO11H61LZ0uoqM17ektLolO+5uO/oc2rzBSYinOSDTUYi4qTgQAENMblC0EAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrLLMWRmVeSWpSXmKPExsWy7bCSnK6wmHSywe2f/BZNE/4yW8xZtY3R
-	YvXdfjaLmwd2MlmsXH2UyeJd6zkWi6P/37JZTDp0jdFi7y1ti/nLnrI7cHnsnHWX3ePy2VKP
-	Tas62Tw2L6n32H2zgc2jb8sqRo/Pm+QC2KO4bFJSczLLUov07RK4MiaumclWcE2pYv2+bawN
-	jI+kuxg5OSQETCS+t/cxdjFycQgJ7GCU+PjjDytEQlyi+doPdghbWGLlv+fsEEUfGSWa+74y
-	dzFycLAJaEpcmFwKUiMiECBxsPEyWA2zwEFGifNN31hAEsIC4RJdM04yg9gsAqoSz3+fA7N5
-	Bcwldrz8wgyxQF5i5qXvYMs4BSwkJn++BmYLAdW83vmJBaJeUOLkzCdgNjNQffPW2cwTGAVm
-	IUnNQpJawMi0ilEytaA4Nz232LDAKC+1XK84Mbe4NC9dLzk/dxMjOAa0tHYw7ln1Qe8QIxMH
-	4yFGCQ5mJRFe0bUSyUK8KYmVValF+fFFpTmpxYcYpTlYlMR5L3SdjBcSSE8sSc1OTS1ILYLJ
-	MnFwSjUw7Z5udJhvw56nxhUrLKxW/j1741jMf0f9APdXelzChz14J+fLxlVkv9B7t0GIO6//
-	oNDbrrnrLnb48932it1ycq2U2+S3/106PTe0dhi/u3lKnn35vkc1k5Pids4Lt7FlXrapfWv6
-	yTxHxkWHpoQHS1cz7njG6tQjbnDsuMzRvXU5G91T7Cs/pRysKnLPYJjpq+TSueHNucMuTp3n
-	thtv/GUjcH1ZnO83K87NH9fM7H1yTXyOy0bnqF6zP8xcOlsNm1lmS8bOqrPiuMn46bjWYxbn
-	eNH+s3cWyrGz2fccXSTdazYjt8o8NTMhJaC8crKtidjO4mMiNqJzSvv9fVSaOGZKxUvJdiXc
-	2SzkaaDEUpyRaKjFXFScCAA2MWDc8AIAAA==
-X-CMS-MailID: 20220909103147epcas5p2a83ec151333bcb1d2abb8c7536789bfd
+In-Reply-To: <20220908213517.3085323-1-kbusch@fb.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphk+LIzCtJLcpLzFFi42LZdlhTS/eJrXSywf4zRhYrVx9lsli7l91i
+	0qFrjBbzlz1lt1j3+j2LA6vHxOZ37B7n721k8di0qpPNY/OSeo/dNxvYAlijsm0yUhNTUosU
+	UvOS81My89JtlbyD453jTc0MDHUNLS3MlRTyEnNTbZVcfAJ03TJzgHYrKZQl5pQChQISi4uV
+	9O1sivJLS1IVMvKLS2yVUgtScgpMCvSKE3OLS/PS9fJSS6wMDQyMTIEKE7Izvs5/wF6wjbvi
+	YP8jpgbGe5xdjJwcEgImEhMmrWHsYuTiEBLYzSixf8JvKOcTo0TTu+ssEM5nRonX83cwwbSc
+	3n8LKrGLUWLq5nlQzjNGiQVfzrGDVLEIqEjc3rOJuYuRg4NNQFPiwuRSkLCIgLzE/Ae9bCA2
+	s0CyxNfTR8DKhQXsJF5NecYMYvMK6EpMnXCOCcIWlDg58wkLiM0pYCrxuPUamC0qoCxxYNtx
+	JpC9EgJv2SUu3rvIDHGdi8S1xzvYIGxhiVfHt7BD2FISn9/thYonS1yaeQ7qmxKJx3sOQtn2
+	Eq2n+pkhjsuQ2Lb5F5TNJ9H7+wkTyC8SArwSHW1CEOWKEvcmPWWFsMUlHs5YAmV7SOzpb2WF
+	hEkHo8TFN7NYJjDKzULyzywkKyBsK4nOD02ss4BWMAtISyz/xwFhakqs36W/gJF1FaNkakFx
+	bnpqsWmBUV5qOTySk/NzNzGCk6OW1w7Ghw8+6B1iZOJgPMQowcGsJMLLYiidLMSbklhZlVqU
+	H19UmpNafIjRFBg9E5mlRJPzgek5ryTe0MTSwMTMzMzE0tjMUEmcd4o2Y7KQQHpiSWp2ampB
+	ahFMHxMHp1QDU9nGNU+lmY05GLtPO4W3GF7p0lfaPV0kltMy69nrzVUyR3O/BU6d8uNST4LV
+	+Sd9LCs5pi2W2xD/Mvb40X1fft+L59n4YbnSz6NNs3+cc94h9HjpDCWV/vMvr8nW6oud2nvd
+	8Y1BC098T4vcdqGUysmODIWmbLNPifTzWR9Y4c72WtPG8Np1xV1BGnYbqnq7Q19FTT4u+f2H
+	+fMfUSsmyawTyPvGK5+x7aLMVaPvXbq6huEiIR41+rd+2Hj8aRMINT4TY53bMPVdx4ePXAVF
+	F7X5PY9eMamf87faf4lc/q3HiWe0d3euZT+3ZC2Pw7vkkE3KLp+EhSxSzhT9WHOXg0HZUnqb
+	sSdX/8LvZ9NllFiKMxINtZiLihMBlkenZBcEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrELMWRmVeSWpSXmKPExsWy7bCSvO4TW+lkgwmz2SxWrj7KZLF2L7vF
+	pEPXGC3mL3vKbrHu9XsWB1aPic3v2D3O39vI4rFpVSebx+Yl9R67bzawBbBGcdmkpOZklqUW
+	6dslcGV8XbGJseAFR0XL0pmsDYyr2LsYOTkkBEwkTu+/xdLFyMUhJLCDUWLX9KNMEAlxieZr
+	P6CKhCVW/nvODlH0hFHiffMqsCIWARWJ23s2MXcxcnCwCWhKXJhcChIWEZCXmP+glw3EZhZI
+	lvjd3MoKYgsL2Em8mvKMGcTmFdCVmDrhHBPEzA5GiX3n/7BBJAQlTs58wgLRbCYxb/NDsPnM
+	AtISy/9xgIQ5BUwlHrdeAysRFVCWOLDtONMERsFZSLpnIemehdC9gJF5FaNkakFxbnpusWGB
+	UV5quV5xYm5xaV66XnJ+7iZGcLBrae1g3LPqg94hRiYOxkOMEhzMSiK8LIbSyUK8KYmVValF
+	+fFFpTmpxYcYpTlYlMR5L3SdjBcSSE8sSc1OTS1ILYLJMnFwSjUwOfJefpVqpeijvVrQ58bc
+	vtuvbxUu6w2a+c6N9a5b1+mOGq6bz5c3cU3+/zxvYtSFKT9eau6JYXiwnmfKbrOtCo/vJste
+	VbhbtGL7q30r3y3a1x5eUC0WMKOnOS2kdZHVIraqOI/pb25ld4s7H1K7fj2aM6tc7Tifufud
+	otA3E25MWSNQ/C1gEe8ye4k9LatTjOZtKAucurx7I4fZ5WfO4q9ufZN95hwqovPAyDWo6pOV
+	TjHzFs5KpokbvBxZ/395fEzWeGFQWNOWb1cW5bRkStzfeos1Lcl054dZd1/dfWz5+C2L7DSH
+	owcvRth6/ZiVseRArNN8Z0/TcCepq4Kl75N2W3/jv+RgbMPtmx31RomlOCPRUIu5qDgRACBz
+	HMLlAgAA
+X-CMS-MailID: 20220909132140epcas5p293e45f71b884cdb34d988c0fe056c357
 X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
+Content-Type: multipart/mixed;
+	boundary="----3GC0G0c67CHFz-pUzO9qV37oeXJmKwYP9xQRy1YHFCjbzJ45=_f58bb_"
 CMS-TYPE: 105P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220909103147epcas5p2a83ec151333bcb1d2abb8c7536789bfd
-References: <20220909102136.3020-1-joshi.k@samsung.com>
-	<CGME20220909103147epcas5p2a83ec151333bcb1d2abb8c7536789bfd@epcas5p2.samsung.com>
+X-CMS-RootMailID: 20220908214000epcas5p1a9bf63bc35632888248e094daacbcbde
+References: <CGME20220908214000epcas5p1a9bf63bc35632888248e094daacbcbde@epcas5p1.samsung.com>
+	<20220908213517.3085323-1-kbusch@fb.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220909_033207_322684_44530313 
-X-CRM114-Status: GOOD (  27.72  )
+X-CRM114-CacheID: sfid-20220909_062155_944096_CC5D6987 
+X-CRM114-Status: GOOD (  16.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,152 +131,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add blk_rq_map_user_bvec which maps the bvec iterator into a bio and
-places that into the request. This helper will be used in nvme for
-uring-passthrough with fixed-buffer.
-While at it, create another helper bio_map_get to reduce the code
-duplication.
+------3GC0G0c67CHFz-pUzO9qV37oeXJmKwYP9xQRy1YHFCjbzJ45=_f58bb_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
----
- block/blk-map.c        | 87 +++++++++++++++++++++++++++++++++++++-----
- include/linux/blk-mq.h |  1 +
- 2 files changed, 78 insertions(+), 10 deletions(-)
+On Thu, Sep 08, 2022 at 02:35:17PM -0700, Keith Busch wrote:
+>From: Keith Busch <kbusch@kernel.org>
+>
+>The passthrough commands already have this restriction, but the other
+>operations do not. Require the same capabilities for all users as all of
+>these operations can be disruptive.
+>
+>Signed-off-by: Keith Busch <kbusch@kernel.org>
+>---
+> drivers/nvme/host/ioctl.c | 3 +++
+> 1 file changed, 3 insertions(+)
+>
+>diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+>index 27614bee7380..d23978e993c6 100644
+>--- a/drivers/nvme/host/ioctl.c
+>+++ b/drivers/nvme/host/ioctl.c
+>@@ -749,6 +749,9 @@ long nvme_dev_ioctl(struct file *file, unsigned int cmd,
+> 	struct nvme_ctrl *ctrl = file->private_data;
+> 	void __user *argp = (void __user *)arg;
+>
+>+	if (!capable(CAP_SYS_ADMIN))
+>+		return -EACCES;
+>+
 
-diff --git a/block/blk-map.c b/block/blk-map.c
-index 7693f8e3c454..5dcfa112f240 100644
---- a/block/blk-map.c
-+++ b/block/blk-map.c
-@@ -241,17 +241,10 @@ static void bio_map_put(struct bio *bio)
- 	}
- }
- 
--static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
-+static struct bio *bio_map_get(struct request *rq, unsigned int nr_vecs,
- 		gfp_t gfp_mask)
- {
--	unsigned int max_sectors = queue_max_hw_sectors(rq->q);
--	unsigned int nr_vecs = iov_iter_npages(iter, BIO_MAX_VECS);
- 	struct bio *bio;
--	int ret;
--	int j;
--
--	if (!iov_iter_count(iter))
--		return -EINVAL;
- 
- 	if (rq->cmd_flags & REQ_POLLED) {
- 		blk_opf_t opf = rq->cmd_flags | REQ_ALLOC_CACHE;
-@@ -259,13 +252,31 @@ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
- 		bio = bio_alloc_bioset(NULL, nr_vecs, opf, gfp_mask,
- 					&fs_bio_set);
- 		if (!bio)
--			return -ENOMEM;
-+			return NULL;
- 	} else {
- 		bio = bio_kmalloc(nr_vecs, gfp_mask);
- 		if (!bio)
--			return -ENOMEM;
-+			return NULL;
- 		bio_init(bio, NULL, bio->bi_inline_vecs, nr_vecs, req_op(rq));
- 	}
-+	return bio;
-+}
-+
-+static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
-+		gfp_t gfp_mask)
-+{
-+	unsigned int max_sectors = queue_max_hw_sectors(rq->q);
-+	unsigned int nr_vecs = iov_iter_npages(iter, BIO_MAX_VECS);
-+	struct bio *bio;
-+	int ret;
-+	int j;
-+
-+	if (!iov_iter_count(iter))
-+		return -EINVAL;
-+
-+	bio = bio_map_get(rq, nr_vecs, gfp_mask);
-+	if (bio == NULL)
-+		return -ENOMEM;
- 
- 	while (iov_iter_count(iter)) {
- 		struct page **pages, *stack_pages[UIO_FASTIOV];
-@@ -611,6 +622,62 @@ int blk_rq_map_user(struct request_queue *q, struct request *rq,
- }
- EXPORT_SYMBOL(blk_rq_map_user);
- 
-+/* Prepare bio for passthrough IO given an existing bvec iter */
-+int blk_rq_map_user_bvec(struct request *rq, struct iov_iter *iter)
-+{
-+	struct request_queue *q = rq->q;
-+	size_t nr_iter, nr_segs, i;
-+	struct bio *bio;
-+	struct bio_vec *bv, *bvecs, *bvprvp = NULL;
-+	struct queue_limits *lim = &q->limits;
-+	unsigned int nsegs = 0, bytes = 0;
-+
-+	nr_iter = iov_iter_count(iter);
-+	nr_segs = iter->nr_segs;
-+
-+	if (!nr_iter || (nr_iter >> SECTOR_SHIFT) > queue_max_hw_sectors(q))
-+		return -EINVAL;
-+	if (nr_segs > queue_max_segments(q))
-+		return -EINVAL;
-+
-+	/* no iovecs to alloc, as we already have a BVEC iterator */
-+	bio = bio_map_get(rq, 0, GFP_KERNEL);
-+	if (bio == NULL)
-+		return -ENOMEM;
-+
-+	bio_iov_bvec_set(bio, iter);
-+	blk_rq_bio_prep(rq, bio, nr_segs);
-+
-+	/* loop to perform a bunch of sanity checks */
-+	bvecs = (struct bio_vec *)iter->bvec;
-+	for (i = 0; i < nr_segs; i++) {
-+		bv = &bvecs[i];
-+		/*
-+		 * If the queue doesn't support SG gaps and adding this
-+		 * offset would create a gap, disallow it.
-+		 */
-+		if (bvprvp && bvec_gap_to_prev(lim, bvprvp, bv->bv_offset))
-+			goto out_err;
-+
-+		/* check full condition */
-+		if (nsegs >= nr_segs || bytes > UINT_MAX - bv->bv_len)
-+			goto out_err;
-+
-+		if (bytes + bv->bv_len <= nr_iter &&
-+				bv->bv_offset + bv->bv_len <= PAGE_SIZE) {
-+			nsegs++;
-+			bytes += bv->bv_len;
-+		} else
-+			goto out_err;
-+		bvprvp = bv;
-+	}
-+	return 0;
-+out_err:
-+	bio_map_put(bio);
-+	return -EINVAL;
-+}
-+EXPORT_SYMBOL_GPL(blk_rq_map_user_bvec);
-+
- /**
-  * blk_rq_unmap_user - unmap a request with user data
-  * @bio:	       start of bio list
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index b43c81d91892..83bef362f0f9 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -970,6 +970,7 @@ struct rq_map_data {
- 	bool from_user;
- };
- 
-+int blk_rq_map_user_bvec(struct request *rq, struct iov_iter *iter);
- int blk_rq_map_user(struct request_queue *, struct request *,
- 		struct rq_map_data *, void __user *, unsigned long, gfp_t);
- int blk_rq_map_user_iov(struct request_queue *, struct request *,
--- 
-2.25.1
+I too came across this and wondered why this check is not present here.
 
+Acked-by: Kanchan Joshi <joshi.k@samsung.com>
+
+It's a different matter that I was looking at increasing the access
+granularity (something like scsi whitelisting). Hope to have
+conversations on a RFC soon.
+>
+>
+
+------3GC0G0c67CHFz-pUzO9qV37oeXJmKwYP9xQRy1YHFCjbzJ45=_f58bb_
+Content-Type: text/plain; charset="utf-8"
+
+
+------3GC0G0c67CHFz-pUzO9qV37oeXJmKwYP9xQRy1YHFCjbzJ45=_f58bb_--
 
