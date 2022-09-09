@@ -4,70 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E54D5ECAAA1
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 Sep 2022 19:42:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A62AECAAA1
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 Sep 2022 20:36:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XYgwBLBYsogmAvUwyqojYMa2b+fW0hHsVPylUYUan7k=; b=kECm5I7OA7R0ruX5ebzCLE2b6b
-	8+e/+Z4SabTKPd4UG1T0MCnXxGHILFKo3HRP1fWwy0rGYz/1OMa97skuqlZc36YT08DDCYYW3qp4U
-	QZHzFY0J5eWbaJ2Tubf8k3LLmf7NgtIvCNTt0/2NT4ot/RfALb7DTocjqLF/AbxgoMMKOeuK1QxCt
-	Lv1e1w/wYDs8YN2dewnwxrTuV2PKvOhPVQ9pS9Rm24QLkMvC0ZXIqkgjHHorM1FsHA8nbOz/u4CGB
-	sBChZtrbjN58aiiVL4ub7iRnj4S8RiR5TqDDD8/3DyUssIkEkzT+qKzsG1aVrxDO37NsMsJSYw4/f
-	IQ9q8bzw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=snOvLccxPnDxfhbHH4+Bi4URb7HhD6z7h8GUX4GdKTA=; b=adYJKg+CI+uyqXacpM5h3HtjvX
+	jEiiA/WU8qw/uvmu03uwaUs+hy65qnB1WH0nhP3SnKiRtknqE84lpy+NJSU5STIP9FnrsMVToHp38
+	li9v84xwqxjafzNSvHKZZdx8vJHqbQJJgJ6j41Z6/5lDBngT84Ev36p0yw46WcNAsL+rYfl1mSizG
+	R3ZEdJJflx19M5K/UDy25F+kZiMSbAjiB5rdlHOBR80ny4SLfEzDG6+F39sXfMkt+KUYng8YaDqq8
+	dnIUAKT+UexNtomUxMBQfjRnoyEmTrhLCObsIo8Dp7pxPmsVOPKZ5QZ3Zgousm25uPNLiYpIsB40k
+	5ZNACiyg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oWjtk-0027RO-JE; Fri, 09 Sep 2022 19:42:44 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1oWkjo-002fEu-8b; Fri, 09 Sep 2022 20:36:32 +0000
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oWjtg-0027Eu-TW
-	for linux-nvme@lists.infradead.org; Fri, 09 Sep 2022 19:42:42 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 47133B82346;
-	Fri,  9 Sep 2022 19:42:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEE4DC433D6;
-	Fri,  9 Sep 2022 19:42:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1662752558;
-	bh=J4h0e1eeHD+F345cJw7D5vWTYQ3cTiWfm7V+L/GXkrY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mPGhEzE0ic9kseOm2K6qxxz0hcm3QgU3PIGTsapTt3Gu6YUZuEMV7JcNfIe+lT+Jj
-	 giFnL2k3y8frDA1x//9/UPSfAVNfq7/KPteflKfEKeGcNc3uQX/Lefq56eMVmJtJOG
-	 HXKiGzA4ekzDFUW5102gMIwlvxz2U2UUCr0jD/3ltTpS0Rt+nn88I+o9pM6Sw9tjaB
-	 58RQ7mjb7/ku5gfAdYxzf2OYfC4ecDPrRyPxkUMTHXGE8YVdq3mRu62R11cta9/Vo8
-	 JHjg5RHBWSKGFBqcB2qpxkTevxEhwItTGUQ9V6HJ0kNmvQK7RXIWAWt6XFw5oPNrhT
-	 0Zu4cU4jkz45A==
-Date: Fri, 9 Sep 2022 13:42:34 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Cc: Jonathan Derrick <jonathan.derrick@intel.com>,
-	Revanth Rajashekar <revanth.rajashekar@intel.com>,
-	Jens Axboe <axboe@kernel.dk>, Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
-	Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org
+	id 1oWkjl-002fE9-5p
+	for linux-nvme@lists.infradead.org; Fri, 09 Sep 2022 20:36:30 +0000
+Received: by mail-pf1-x42f.google.com with SMTP id e68so2733453pfe.1
+        for <linux-nvme@lists.infradead.org>; Fri, 09 Sep 2022 13:36:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date;
+        bh=snOvLccxPnDxfhbHH4+Bi4URb7HhD6z7h8GUX4GdKTA=;
+        b=HUY1NpdXKTUuJM4Vj7EXU5C0IV+5K20CkSDLiru/+yucQywnMU4lu8Epm0TEjxGUmh
+         FuKoTVsRvc7w2gO5KxU7hm+KKH8IbCO++6q9mz0qmRIUp7R9HcwLT7nWHGdfdqxNgD7w
+         htKtxjkWS2q4yQ8qH4BR6M7rv59bIrqJFjZ8eGisUCwBXXLsYB8eyi+3prttSEF4znWo
+         JhFhVlESRKg9yddZOej9oCSuORbugC5vxV1hCeOD23ApFd3Gy2am6QW7q+ozQhmYO0xy
+         kSzqpZI/6AkdKTSoq5JWI8mtAXYNdFX/bk1gCBccdQxgaO3xDKeGU/zqAAbmEuxmbN3c
+         c29Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date;
+        bh=snOvLccxPnDxfhbHH4+Bi4URb7HhD6z7h8GUX4GdKTA=;
+        b=UjwF2872sstm1VfEzbtsn0d9/u7oUzzT3txI1lFuKFfdiicb2hEZl4wBBHMEiugc+V
+         +fbF3nCUy5IeV48LGRBd/DRyaYo1ofzk+7T+Qa8pfqbnugcdaGyYHJZDsJdETjdFN68i
+         woFZvQmn41EJZWTWaEQX+HOOv/P0M4HqJExfhsH8fl5auLzYdZQF49L3tMTXV0lw/lM7
+         HOGGDPey41+Nn/WoYnlSvkVP7JMOz5hU51Q4Iy4BXKKuemkITHcK0nVmOs0fmLhYAsHw
+         eKLhvxVsryNc6JbcNwHdNy/CWhiuzUbA9bQc6i1eZseKHTFnQrZdsgsLGbwQNWdgOkJM
+         Ho+g==
+X-Gm-Message-State: ACgBeo1DW4BljwRRjfO8Ui0fm0QDBrr5dPTwTLZqqCyFJQeew+trOfuJ
+	zZ2YYqKJWvCr6DA3aKUkVcs=
+X-Google-Smtp-Source: AA6agR7PLQK/YFcjhqAsDqXHyHHu/FUmquz65Cp/kj0/77tFdMdOYzK/zfwJewGVjzuZc8mtive7qQ==
+X-Received: by 2002:a05:6a00:2906:b0:52a:bc7f:f801 with SMTP id cg6-20020a056a00290600b0052abc7ff801mr16503124pfb.49.1662755787647;
+        Fri, 09 Sep 2022 13:36:27 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id a1-20020aa794a1000000b005361f6a0573sm162945pfl.44.2022.09.09.13.36.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Sep 2022 13:36:26 -0700 (PDT)
+Message-ID: <5ec092d7-6a51-04cc-bd70-12462524fda0@roeck-us.net>
+Date: Fri, 9 Sep 2022 13:36:24 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
 Subject: Re: [PATCH 1/2] nvme-hwmon: Cache-line-align the NVME SMART
  log-buffer
-Message-ID: <YxuXKrkVbGBJwxRS@kbusch-mbp.dhcp.thefacebook.com>
+Content-Language: en-US
+To: Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+ Jonathan Derrick <jonathan.derrick@intel.com>,
+ Revanth Rajashekar <revanth.rajashekar@intel.com>,
+ Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: Serge Semin <fancer.lancer@gmail.com>,
+ Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+ Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 References: <20220909191916.16013-1-Sergey.Semin@baikalelectronics.ru>
  <20220909191916.16013-2-Sergey.Semin@baikalelectronics.ru>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From: Guenter Roeck <linux@roeck-us.net>
 In-Reply-To: <20220909191916.16013-2-Sergey.Semin@baikalelectronics.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220909_124241_500001_FF8A1FCA 
-X-CRM114-Status: GOOD (  21.23  )
+X-CRM114-CacheID: sfid-20220909_133629_247921_2A73382E 
+X-CRM114-Status: GOOD (  28.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,8 +103,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 09, 2022 at 10:19:15PM +0300, Serge Semin wrote:
+On 9/9/22 12:19, Serge Semin wrote:
 > Recent commit 52fde2c07da6 ("nvme: set dma alignment to dword") has caused
+> a regression on our platform. It turned out that the nvme_get_log() method
+> invocation caused the nvme_hwmon_data structure instance corruption. In
+> particular the nvme_hwmon_data.ctrl pointer was overwritten either with
+> zeros or with garbage. After some researches we discovered that the
+> problem happened even before the actual NVME DMA execution, but during the
+> buffer mapping. Since our platform was DMA-noncoherent the mapping implied
+> the cache-lines invalidations or write-backs depending on the
+> DMA-direction parameter. In case of the NVME SMART log getting the DMA
+> was performed from-device-to-memory, thus the cache-invalidation was
+> activated during the buffer mapping. Since the log-buffer wasn't
+> cache-line aligned the cache-invalidation caused the neighbour data
+> discard. The neighbouring data turned to be the data surrounding the
+> buffer in the framework of the nvme_hwmon_data structure.
+> 
+> In order to fix that we need to make sure that the whole log-buffer is
+> defined within the cache-line-aligned memory region so the
+> cache-invalidation procedure wouldn't involve the adjacent data. By doing
+> so we not only get rid from the denoted problem but also fulfill the
+> requirement explicitly described in [1].
+> 
+> After a deeper researches we found out that the denoted commit wasn't a
+> root cause of the problem. It just revealed the invalidity by activating
+> the DMA-based NVME SMART log getting performed in the framework of the
+> NVME hwmon driver. The problem was here since the initial commit of the
+> driver.
+> 
+> [1] Documentation/core-api/dma-api.rst
+> 
+> Fixes: 400b6a7b13a3 ("nvme: Add hardware monitoring support")
+> Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+
+Thanks for tracking this down and for the fix.
+
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+
+Guenter
+
+> 
+> ---
 > 
 > Folks, I've thoroughly studied the whole NVME subsystem looking for
 > similar problems. Turned out there is one more place which may cause the
@@ -92,31 +152,25 @@ On Fri, Sep 09, 2022 at 10:19:15PM +0300, Serge Semin wrote:
 > DMA are either allocated by kmalloc (must be cache-line-aligned by design)
 > or bounced-buffered if allocated on the stack (see the blk_rq_map_kern()
 > method implementation).
-
-What about user space addresses? We can map those with cacheline offsets.
-
 > ---
->  drivers/nvme/host/hwmon.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>   drivers/nvme/host/hwmon.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/nvme/host/hwmon.c b/drivers/nvme/host/hwmon.c
 > index 0a586d712920..94192ab7a02d 100644
 > --- a/drivers/nvme/host/hwmon.c
 > +++ b/drivers/nvme/host/hwmon.c
 > @@ -10,9 +10,10 @@
->  
->  #include "nvme.h"
->  
+>   
+>   #include "nvme.h"
+>   
 > +/* DMA-noncoherent platforms require the cache-aligned buffers */
->  struct nvme_hwmon_data {
+>   struct nvme_hwmon_data {
 > +	struct nvme_smart_log log ____cacheline_aligned;
->  	struct nvme_ctrl *ctrl;
+>   	struct nvme_ctrl *ctrl;
 > -	struct nvme_smart_log log;
+>   	struct mutex read_lock;
+>   };
+>   
 
-So this by chance happened to work before 52fde2c07da6 because the field
-started at a 4-byte offset on your arch?
-
-The change looks good.
-
-Reviewed-by: Keith Busch <kbusch@kernel.org>
 
