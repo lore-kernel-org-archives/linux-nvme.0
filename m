@@ -4,72 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2F3D5ECAAA1
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 Sep 2022 04:19:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6DCE6ECAAD3
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 Sep 2022 06:57:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FSGf3/K9bnABCwE5Wiph1qYBtDDTB9+t53HS6T+a4U0=; b=ZphiAbCDr9m6QkEzlvl+dagxS9
-	u2n/DsYESkGX16wNyZ7TXdj38Aesz94C/LRiJPpnXTHMeLiCXWf9oRmuL3joY1haYfLI11NfMRxAK
-	JcqIYUNq5f+SONRiDiF/fh1qty9IblYx//nhMP7Ia/XK5j2FP4Jj2xtVoSvAcN9nC9cyKcNyM/75Q
-	O5qIM9XuV4n6j7ijpYzJaEfk9yGjcXdWIEvR5hzSv5tzqNBnKy4FS5Mff2O1KOUN1XuLFbMpMDP71
-	TVeZfc3aWSXxvskHO5RRXGoZc5Qz2vLQyJMo2/YYzG2kxCnHOEi1pCVKBDDrMBTYm6gWMpTju41DL
-	PcpI7grQ==;
+	bh=HqSWiaNZZLhugGt++TUKQfWhuXpaGcilIly/Fi48aTY=; b=yCM5/w8KqIFOGd945F6eka0yqI
+	K7qUrk/1gB0sJiu7g8rcBcItyozx/9Pzek2Tyb2CR2oY7M8CuyOtpEemQpfHbmjw02umtNAoLrXOg
+	IrrKM+Cd8u6J3ACMGBZtEb0oehF9N0HVILTiZnLYtQ81k1IpIlxFL0ohtldvImlCCtaByiMEzg/Md
+	JcNn3YEuDUCfGD9603EO6UgG6jbyx5bseZnLAkK17utBoYrmKtYADxDUqRpjkD+apJwzNocoGcLL7
+	zpn0TtfF0da0q2Mqvn18NVVG5SNgGT8QwwlRytBLi5Gdiq8ATixT6gFIpmNL9jFo3Xit3J35JkuBJ
+	GaMykr3Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oWVUh-00C9nQ-Vu; Fri, 09 Sep 2022 04:19:56 +0000
-Received: from mga18.intel.com ([134.134.136.126])
+	id 1oWXwm-00DYkV-Td; Fri, 09 Sep 2022 06:57:04 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oWVUe-00C9kE-TO
-	for linux-nvme@lists.infradead.org; Fri, 09 Sep 2022 04:19:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662697192; x=1694233192;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eSrNIJmzCvQPmppednT9KsYGtdgqhbjbMBSL7ABNuFE=;
-  b=WteSb/uUGNk1oJeibWjG1kW19KpkR/NH/m0SR41t99ZcJd/MCIfBNszI
-   mEXa7ddSsNqa3Dqoy79q2BEIHTf/FgDIvPMKBH7jml/Lc5PEbXIgB5X2L
-   yX95t+xYwjLDI6P4iLaPjSlTFkANMgz/Yu8N3UmVrkuJvw4kKRYp0PwGu
-   mkZyIZCvUvfpxWJImepBoyVuaK5nLwX01UAZhN/jeWIZSFVTXXtqSZKeM
-   +DwiXQSvUhL2syi4nqzVxCMb9sauMPkmuZ9tcXdH7SWo74JsF6CDAav5r
-   bdCgxdJjJUCBAOcIbR+1Oe+TrzFEP9TtuMps5koHVpF67fuvZxlep8KgD
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="280419112"
-X-IronPort-AV: E=Sophos;i="5.93,302,1654585200"; 
-   d="scan'208";a="280419112"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 21:19:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,302,1654585200"; 
-   d="scan'208";a="704273208"
-Received: from lkp-server02.sh.intel.com (HELO b2938d2e5c5a) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 08 Sep 2022 21:19:47 -0700
-Received: from kbuild by b2938d2e5c5a with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1oWVUY-0000i7-1P;
-	Fri, 09 Sep 2022 04:19:46 +0000
-Date: Fri, 9 Sep 2022 12:19:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kanchan Joshi <joshi.k@samsung.com>, axboe@kernel.dk, hch@lst.de,
-	kbusch@kernel.org, asml.silence@gmail.com
-Cc: kbuild-all@lists.01.org, io-uring@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	gost.dev@samsung.com, Anuj Gupta <anuj20.g@samsung.com>,
-	Kanchan Joshi <joshi.k@samsung.com>
-Subject: Re: [PATCH for-next v6 1/5] io_uring: add io_uring_cmd_import_fixed
-Message-ID: <202209091233.3r9bDGWS-lkp@intel.com>
-References: <20220908183511.2253-2-joshi.k@samsung.com>
+	id 1oWXwk-00DYXV-7l
+	for linux-nvme@lists.infradead.org; Fri, 09 Sep 2022 06:57:03 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A62AE33926;
+	Fri,  9 Sep 2022 06:56:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1662706617; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HqSWiaNZZLhugGt++TUKQfWhuXpaGcilIly/Fi48aTY=;
+	b=ZfaNPxxI4aSY9Ij2MiviGcK09795/5Tg404pZkiD9MnvMQPTh5F2Po961ti8fvy2VPVu2J
+	u9nsng0cjiVC/PCwF0x563vX7Kn4pjnGIEAJ/46GHqMnPGtyu09OId4INv/UsZXvxBHpCb
+	kTivRkRDCU4oVWBWTuyEVeMZC33UREc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1662706617;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HqSWiaNZZLhugGt++TUKQfWhuXpaGcilIly/Fi48aTY=;
+	b=6586s47xgKz7DcxVCXU3PSIr9waMirAN2zbhQuIIciisQ0UUWuhPfiPR2vv4xQe/uB5kRV
+	Ae5dZfC0UhpZwQBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 935D8139D5;
+	Fri,  9 Sep 2022 06:56:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 0NrzI7njGmOzJAAAMHmgww
+	(envelope-from <dwagner@suse.de>); Fri, 09 Sep 2022 06:56:57 +0000
+Date: Fri, 9 Sep 2022 08:56:57 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+	Martin Belanger <nitram_67@hotmail.com>,
+	Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH libnvme 2/1] nvme: Add generic connect parameter support
+ detection
+Message-ID: <20220909065657.vnf6lzzfcs7y5nis@carbon.lan>
+References: <20220907142411.101950-1-sagi@grimberg.me>
+ <20220907142411.101950-3-sagi@grimberg.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220908183511.2253-2-joshi.k@samsung.com>
+In-Reply-To: <20220907142411.101950-3-sagi@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220908_211953_052776_6FE2ACF1 
-X-CRM114-Status: GOOD (  12.58  )
+X-CRM114-CacheID: sfid-20220908_235702_465634_13EDB927 
+X-CRM114-Status: GOOD (  18.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,42 +91,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Kanchan,
+On Wed, Sep 07, 2022 at 05:24:09PM +0300, Sagi Grimberg wrote:
+> --- a/src/libnvme.map
+> +++ b/src/libnvme.map
+> @@ -352,6 +352,7 @@ LIBNVME_1_0 {
+>  		nvmf_treq_str;
+>  		nvmf_trtype_str;
+>  		nvmf_update_config;
+> +		nvmf_check_param_support;
 
-Thank you for the patch! Yet something to improve:
+New entries go to the 'unreleased' section, this would be LIBNVME_1_2.
 
-[auto build test ERROR on axboe-block/for-next]
-[also build test ERROR on linus/master v6.0-rc4 next-20220908]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> +int nvmf_check_param_support(const char *param, bool *supported)
+> +{
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kanchan-Joshi/io_uring-add-io_uring_cmd_import_fixed/20220909-033508
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-config: riscv-nommu_virt_defconfig (https://download.01.org/0day-ci/archive/20220909/202209091233.3r9bDGWS-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/0b61830b28b6a720a99d34aba08d3d466fe516ec
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Kanchan-Joshi/io_uring-add-io_uring_cmd_import_fixed/20220909-033508
-        git checkout 0b61830b28b6a720a99d34aba08d3d466fe516ec
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+I was wondering if t would be better to return all supported features in
+one go. Not really sure about it though.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+> +	int ret = 0, fd, len;
+> +	char buf[0x1000];
+> +
+> +	fd = open(nvmf_dev, O_RDWR);
+> +	if (fd < 0) {
+> +		nvme_msg(NULL, LOG_ERR, "Failed to open %s: %s\n",
+> +			 nvmf_dev, strerror(errno));
 
-All errors (new ones prefixed by >>):
+'nvme_msg(NULL,' will always write to the stderr which is kind of bad
+for libraries. I think it would okay just to return the error codes in
+this function and have the caller do the logging part.
 
-   riscv64-linux-ld: kernel/exit.o: in function `io_uring_cmd_import_fixed':
->> exit.c:(.text+0x642): multiple definition of `io_uring_cmd_import_fixed'; kernel/fork.o:fork.c:(.text+0x6e8): first defined here
-   riscv64-linux-ld: fs/exec.o: in function `io_uring_cmd_import_fixed':
-   exec.c:(.text+0xc6e): multiple definition of `io_uring_cmd_import_fixed'; kernel/fork.o:fork.c:(.text+0x6e8): first defined here
+> +		return -ENVME_CONNECT_OPEN;
+> +	}
+> +
+> +	memset(buf, 0x0, sizeof(buf));
+> +	len = read(fd, buf, sizeof(buf) - 1);
+> +	if (len < 0) {
+> +		nvme_msg(NULL, LOG_ERR, "Failed to read from %s: %s\n",
+> +			 nvmf_dev, strerror(errno));
+> +		ret = -ENVME_CONNECT_READ;
+> +		goto out_close;
+> +	}
+> +	nvme_msg(NULL, LOG_DEBUG, "supported opts: '%.*s'\n",
+> (int)strcspn(buf, "\n"), buf);
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+This triggered my question above why we don't return all supported
+features up and have the caller added something like this?
+
+Thanks for doing this! This feature is rotting on my TODO list for a
+while...
 
