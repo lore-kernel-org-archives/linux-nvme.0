@@ -4,71 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5AAFBC6FA83
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Sep 2022 12:39:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A340EECAAD5
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Sep 2022 14:19:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=U6Eh5kP61tiLLsvm1MCR4BGA+cVcFydeU7cdfziTsFc=; b=p+mqtqEMTPSggrD1UqF6SNbsTe
-	QpYXDkMI2RbGzWgzxIRz8n/k50+9eHPTFXHOI8J3OB2h++2RmbRS09JVfVHcUL/4GiXaoL+TeaofP
-	oDyDBN8l0O2dzSP7cj0YKWhQLHjMaL0q9fe/5q+tDicUtuHwZ2uhPc/8ApDWcjwbpH8XKM0z4T6t9
-	lKkZ53akCtvwFOmaTkJrmIAWOhwzKLrxbk/ZraSLzob5dOXsaPySWs+1FulsjW4p++lBZ4p15FlxZ
-	2n4g51sPXwemfpVWWkU9EJzR2mYf97P5pjdjNxqu61N3mxLwvphVEXULpLC2cFp7t/Gahu4BmnPkt
-	3nNk9Hhg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=t4s/qAb7GMkAWmPpDsxHbPzlgPlt+X8LjKMU8XtxpQY=; b=1TX1J6f8vZSaC5HZFOTcCSRyVS
+	tzDJ8JBweP8aHRXXsGJM3sebfNqVXKt/UkNWXS9NMGIPPoQF8WKjUUTMyAyRJ94ikyx8mNv+ftaOu
+	caGeYeG2BkOFVZ2ZlsNzesxmkgfXFmTRFf0faeHosTjcsI5pRSH/MWlyzQ1WqgeVFmGPxOVV2XyFx
+	S7Gp2Eom6TnxUKqobVX1v17v9xWUVeRYo20j6FDV5ONwr42CnRSY1KS1CfZDr4EtEFy4ko8baRgkQ
+	YkUj55M30IBh0aOPoVE52rcWM44UhmTDhVrD+0fL7UyGGK/cthYR55QeU7kLUb1LyD0WPm+HeZIUM
+	ETddwD+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oXij6-009q5F-Nc; Mon, 12 Sep 2022 12:39:48 +0000
-Received: from mail-wr1-f48.google.com ([209.85.221.48])
+	id 1oXkHG-00Aa3G-GQ; Mon, 12 Sep 2022 14:19:10 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oXij3-009q2D-2F
-	for linux-nvme@lists.infradead.org; Mon, 12 Sep 2022 12:39:46 +0000
-Received: by mail-wr1-f48.google.com with SMTP id d2so15170063wrn.1
-        for <linux-nvme@lists.infradead.org>; Mon, 12 Sep 2022 05:39:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=U6Eh5kP61tiLLsvm1MCR4BGA+cVcFydeU7cdfziTsFc=;
-        b=fhfSqBjafTktMHvLBfkTdD+1W3fps6i/kApz1YIuihZmpYe0+33Hz8bApbjXUy5S2x
-         U9TiJIWb5voDVln7OxJrnK7EQ/BA6Ys41ZWalJ5Ztg3qBbwP16Hq1ith+UFHPMPSiYoc
-         YcQ1/01XYdY4bgQPkMrhoek0Sz6+W5NfU7C506hq1Txm2GmGS7hDgbWAYc6zh5UrN0i+
-         rlXR1l88tTgux0VP4UR5XNCfiE6GrHdkmfSU5ya3nm3xXHsDHInooEIlqd9lLy/lqkQl
-         CI38THAP0WfmYlsc4VD90L6E24Zk5vUigqSw8nTI0GG6Xmh88XiCYbnZtcZEoTUMs2MJ
-         ry+Q==
-X-Gm-Message-State: ACgBeo2VecqIvykRf25wbId+nWRMUDTPAzoRZdFa0H+IuKgVqVvR1ImG
-	BOfeKiB6uBYA1PJ0Ud6Orns=
-X-Google-Smtp-Source: AA6agR5q6fdS6fES0OiPPxXI6oXB/JYllIcgQkM6Px7F8+Np6dzQINvrXAj4PG48OZMiIKK8U96tMg==
-X-Received: by 2002:a5d:64c4:0:b0:228:e143:ddb8 with SMTP id f4-20020a5d64c4000000b00228e143ddb8mr14474253wri.148.1662986382543;
-        Mon, 12 Sep 2022 05:39:42 -0700 (PDT)
-Received: from [192.168.64.104] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id o12-20020a5d4a8c000000b002285f73f11dsm8965122wrq.81.2022.09.12.05.39.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Sep 2022 05:39:42 -0700 (PDT)
-Message-ID: <403e19c8-fec9-2d5c-157c-cdcb4fc2fbf0@grimberg.me>
-Date: Mon, 12 Sep 2022 15:39:40 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH rfc 0/1] Fix missing AENs when discovery controllers are
- disconnected
-Content-Language: en-US
-To: James Smart <jsmart2021@gmail.com>, linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- Martin Belanger <nitram_67@hotmail.com>, Hannes Reinecke <hare@suse.de>
+	id 1oXkHD-00AZym-ID
+	for linux-nvme@lists.infradead.org; Mon, 12 Sep 2022 14:19:09 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4927733903;
+	Mon, 12 Sep 2022 14:19:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1662992342; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=t4s/qAb7GMkAWmPpDsxHbPzlgPlt+X8LjKMU8XtxpQY=;
+	b=bq95XpjxAHFOXv8KcQ6xAFGzJXpGowEv32zn6KzIxi7K0a4zaD3+zIBkc/A4yZOBJDgo4s
+	apyUeBqEQjaXQ/jyYuK73Wmy87YCAW8iCqbXu1Khg2nniOBlRqIpOgHM9Xtz/lzTDKxNNO
+	caEgVspBD0sepYYeB9uM5aeQ5HxVaNw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1662992342;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=t4s/qAb7GMkAWmPpDsxHbPzlgPlt+X8LjKMU8XtxpQY=;
+	b=HpVuTLCCYbUSSjRGEEZluSwW3fLPJmGJXnBbq/uZdxWYbiKqhNlpM1Dzvw0omc/xI/9KKF
+	xZ09rdeGo716mhCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3BC8A139C8;
+	Mon, 12 Sep 2022 14:19:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id /TeUDtY/H2NtRAAAMHmgww
+	(envelope-from <dwagner@suse.de>); Mon, 12 Sep 2022 14:19:02 +0000
+Date: Mon, 12 Sep 2022 16:19:01 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+	Martin Belanger <nitram_67@hotmail.com>,
+	Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH libnvme 2/1] nvme: Add generic connect parameter support
+ detection
+Message-ID: <20220912141901.xednd4g55hr6e46h@carbon.lan>
 References: <20220907142411.101950-1-sagi@grimberg.me>
- <9eb798de-149d-a56d-ac00-dd6b7ae79a81@gmail.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <9eb798de-149d-a56d-ac00-dd6b7ae79a81@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ <20220907142411.101950-3-sagi@grimberg.me>
+ <20220909065657.vnf6lzzfcs7y5nis@carbon.lan>
+ <b709468e-56ed-a7af-6556-7ddfc4c3fea7@grimberg.me>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b709468e-56ed-a7af-6556-7ddfc4c3fea7@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220912_053945_159062_30782E38 
-X-CRM114-Status: GOOD (  20.53  )
+X-CRM114-CacheID: sfid-20220912_071907_764090_39E75316 
+X-CRM114-Status: GOOD (  17.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,42 +93,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
->> When a discovery controller is disconnected, no AENs will
->> arrive to notify the host about discovery log-page changes.
->>
->> This attempts to fix it with a new connection parameter asking
->> the kernel to send a dedicated udev event for this case. Prior
->> attempt tried to use "connected" event already sent by the kernel
->> however this also applied on the first connected, causing undesired
->> side-effects when issuing a simple 'discover' command.
->>
->> The patchset includes the nvme-cli/libnvme counter-parts as well.
+On Mon, Sep 12, 2022 at 03:32:01PM +0300, Sagi Grimberg wrote:
+> > > +int nvmf_check_param_support(const char *param, bool *supported)
+> > > +{
+> > 
+> > I was wondering if t would be better to return all supported features in
+> > one go. Not really sure about it though.
 > 
-> Sagi,
+> Why? it is already held in the kernel, why hold it again?
+
+True, I am probably making it more complex than needed.
+
+> > This triggered my question above why we don't return all supported
+> > features up and have the caller added something like this?
 > 
-> Do we really need another parameter/option ?  seems awkward to need 
-> userspace to figure it out.
+> Why? the caller doesn't need the entire array, it is just looking
+> to check if a param is supported. We can move this out if someone
+> actually needs the entire string or set of caps...
 
-It has a rather specific use though..
-
-I was looking for something more fine-grained because I initially
-used the generic "connected" uevent which had some negative side
-effects, so I decided against adding yet another generic "reconnected"
-event that nvme-cli would use, and may/may-not fit other use-cases.
-
-I thought its better to have something that is as specific as possible
-like "send me an event only when a persistent discovery-controller
-reconnects" and I also used the name to indicate the semantic of
-the event, so in the future, a possible consumer of this event will
-know exactly what it is used for before opting to use it.
-
-> The transport certainly knows the difference between 1st time connect 
-> and nth time re-connect - perhaps this should be a simple flag on the 
-> nvme ctrl struct set by the transport ?  Simple thing for rdma/tcp to 
-> set flag at end of successful xxx_create_ctrl(), while FC, given it does 
-> reconnects w/o a first successful connect needs a little more logic.
-
-I used ctrl->nr_reconnects to decide it, which introduced the constraint
-that transports would clear it _after_ calling nvme_start_ctrl(). Open
-to better suggestions though...
+Right, let's address this when there is actually a user for it.
 
