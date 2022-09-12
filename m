@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46226ECAAD5
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Sep 2022 08:25:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB93BECAAA1
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Sep 2022 08:26:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
 	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GhIDPZWMIafgE/mAZSnmKlimhg+oN7vlIbCtEzY8HQk=; b=qtyJBk1GCF5NJXvNL3wvcE+haX
-	W1VKSk2Uwl/rIs70wpmykwK+X/axoH835ig5tk2Cu96RwAByuYAiNYwz8bk6tThno+7TV8xvnp5vf
-	8FR8/A1QFDUzVj3vcSVMKI1p5/GwElvtCSniE/IqgIsKyZgXkURqTjl/jBPbJdzjwG4iSikkzDZN/
-	pTOs044hnamAzGRQCUTdPKddxq6wgh65h419MzZ7Kk7rEdHLjTmondrtxfY5vgDY5qqlYdWe8i5fU
-	8vqjhT4St+/VZ3SQ7jUsER4flvSznjxVArjT5IkDUSTmzwfsIORQR0EUaXBDhLH2KZMReKVm150nP
-	yEjx9B5Q==;
+	bh=VLoCFLXBp82iOTzKgyetXtUrw6dZfbKcf6Fwvb6vl3E=; b=TNaEy6PHNduZ+1XwsgZW9AB0bn
+	9GodcXD1hvBUGJs37wag9Whqc1Bv/gDdbUqomUZdPP3h7PhjKQXh8RNe/KOUy2Abv5Ts5wXA0B0sX
+	4f/tTUX0FtJrodBp16pjk7enO0yQ8T49DG8NTJR/NLN7faYL3+9LVKS+uI8z2w6V6WxwSWfRWZG6T
+	mQUo94kWSaZWAvAd2B/gC8TADhin2J3JCdKlSkzHI2y3uPJZipKBTvbpfYTP/SiE+VJI/+nfhzddY
+	ae7JbY5fHSza7FRI4ciJLdMaz3JAK/t/w5KzInk3atF6LDWLQkHa1T5TN2Fxfcc0VGHKjIFjv525z
+	h3ZWrKvg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oXelM-007lkx-4g; Mon, 12 Sep 2022 08:25:52 +0000
+	id 1oXely-007m3t-QP; Mon, 12 Sep 2022 08:26:30 +0000
 Received: from mailout1.w1.samsung.com ([210.118.77.11])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oXeih-007kMV-HA
-	for linux-nvme@lists.infradead.org; Mon, 12 Sep 2022 08:23:10 +0000
+	id 1oXeih-007kMT-H8
+	for linux-nvme@lists.infradead.org; Mon, 12 Sep 2022 08:23:12 +0000
 Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20220912082228euoutp018d99b9cefbf9e97d23b3c19ff26d4983~UD0RPzfGR1402414024euoutp01Z
-	for <linux-nvme@lists.infradead.org>; Mon, 12 Sep 2022 08:22:28 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20220912082228euoutp018d99b9cefbf9e97d23b3c19ff26d4983~UD0RPzfGR1402414024euoutp01Z
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20220912082229euoutp01af313e22e43121beaca9eb88334207c6~UD0R4zuud1529315293euoutp011
+	for <linux-nvme@lists.infradead.org>; Mon, 12 Sep 2022 08:22:29 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20220912082229euoutp01af313e22e43121beaca9eb88334207c6~UD0R4zuud1529315293euoutp011
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1662970948;
-	bh=GhIDPZWMIafgE/mAZSnmKlimhg+oN7vlIbCtEzY8HQk=;
+	s=mail20170921; t=1662970949;
+	bh=VLoCFLXBp82iOTzKgyetXtUrw6dZfbKcf6Fwvb6vl3E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AV9yORWBrycSC01OVCnrzGIp/7Bu8LSn42rQfrrEpM0mqaWIo/aa+jy6ukslgqtcm
-	 b0nWX9uWyhxKWy8PMqQsEtYx/QMAQlJ3hlgGNjpTWbLKZIsFifUR3bpfSWNY9Ikpz5
-	 21rjyosSDyMfWEc3udRZdrpwJDZpYX/SQyBUdDlY=
+	b=gtBoq1dFD9tkwkS5uOBCHvsnFB/AWGgatj+1zkCf+AlMW1jDPO9sPPelSv/UQRUsM
+	 7JO924ESD0rtq3rsMpoLldSOjeGpfbiZwULPMEHJGF/GZNljKMa+wEET2UcR4DkW4L
+	 usQCeJRV9cQZv2pyWRETQUSLdzxjB0oQ1MPlTNVQ=
 Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
 	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20220912082216eucas1p217f198775cbabf54dbb8af06c3a07c73~UD0Gdw1oP2081220812eucas1p2V;
-	Mon, 12 Sep 2022 08:22:16 +0000 (GMT)
+	20220912082218eucas1p25aec09241db9eba6d129d00870d39881~UD0IVRA_d2083820838eucas1p2b;
+	Mon, 12 Sep 2022 08:22:18 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges1new.samsung.com (EUCPMTA) with SMTP id 7D.98.29727.83CEE136; Mon, 12
-	Sep 2022 09:22:16 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20220912082216eucas1p1d3068e7578a88007515c2f4f5ebcc2a8~UD0FqyqF71768417684eucas1p1V;
-	Mon, 12 Sep 2022 08:22:16 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20220912082216eusmtrp278adcdd0eae8192ad23f86c36bcfd1d7~UD0Fp6fEE3116631166eusmtrp2H;
-	Mon, 12 Sep 2022 08:22:16 +0000 (GMT)
-X-AuditID: cbfec7f2-205ff7000001741f-0d-631eec381941
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-	eusmgms2.samsung.com (EUCPMTA) with SMTP id CE.33.10862.73CEE136; Mon, 12
-	Sep 2022 09:22:15 +0100 (BST)
-Received: from localhost (unknown [106.210.248.191]) by eusmtip1.samsung.com
+	eusmges1new.samsung.com (EUCPMTA) with SMTP id 31.A8.29727.A3CEE136; Mon, 12
+	Sep 2022 09:22:18 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20220912082218eucas1p23b4bcf6d76947724b9a7468a4b82a7f6~UD0H3RlcH2085220852eucas1p2X;
+	Mon, 12 Sep 2022 08:22:18 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20220912082218eusmtrp1990f88d4f6be66802adc81c7f14a6e5a~UD0H2XOxU1362613626eusmtrp1J;
+	Mon, 12 Sep 2022 08:22:18 +0000 (GMT)
+X-AuditID: cbfec7f2-21dff7000001741f-1b-631eec3a28a6
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id 16.3F.07473.A3CEE136; Mon, 12
+	Sep 2022 09:22:18 +0100 (BST)
+Received: from localhost (unknown [106.210.248.191]) by eusmtip2.samsung.com
 	(KnoxPortal) with ESMTPA id
-	20220912082215eusmtip1f09a8a5eff3926ebd36906443d538437~UD0FVcuxy1289112891eusmtip1d;
-	Mon, 12 Sep 2022 08:22:15 +0000 (GMT)
+	20220912082218eusmtip2ca44631e327ca0164a0583a8af1664a1~UD0HkB02t2962029620eusmtip2r;
+	Mon, 12 Sep 2022 08:22:18 +0000 (GMT)
 From: Pankaj Raghav <p.raghav@samsung.com>
 To: hch@lst.de, agk@redhat.com, damien.lemoal@opensource.wdc.com,
 	axboe@kernel.dk, snitzer@kernel.org
@@ -66,58 +66,58 @@ Cc: linux-kernel@vger.kernel.org, Johannes.Thumshirn@wdc.com,
 	linux-nvme@lists.infradead.org, pankydev8@gmail.com,
 	matias.bjorling@wdc.com, linux-block@vger.kernel.org, bvanassche@acm.org,
 	gost.dev@samsung.com, dm-devel@redhat.com, hare@suse.de, jaegeuk@kernel.org,
-	Pankaj Raghav <p.raghav@samsung.com>, Luis Chamberlain <mcgrof@kernel.org>
-Subject: [PATCH v13 09/13] dm-zone: use generic helpers to calculate offset
- from zone start
-Date: Mon, 12 Sep 2022 10:22:00 +0200
-Message-Id: <20220912082204.51189-10-p.raghav@samsung.com>
+	Pankaj Raghav <p.raghav@samsung.com>
+Subject: [PATCH v13 11/13] dm: call dm_zone_endio after the target endio
+ callback for zoned devices
+Date: Mon, 12 Sep 2022 10:22:02 +0200
+Message-Id: <20220912082204.51189-12-p.raghav@samsung.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220912082204.51189-1-p.raghav@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrCKsWRmVeSWpSXmKPExsWy7djPc7oWb+SSDebc1LNYf+oYs8Xqu/1s
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrPKsWRmVeSWpSXmKPExsWy7djPc7pWb+SSDWacNbZYf+oYs8Xqu/1s
 	FtM+/GS2+H32PLPF3nezWS1uHtjJZLFn0SQmi5WrjzJZPFk/i9nib9c9Jou9t7QtLu+aw2Yx
-	f9lTdosJbV+ZLW5MeMpo8XlpC7vFmptPWSxO3JJ2EPK4fMXbY+esu+wel8+Wemxa1cnmsXlJ
-	vcfumw1sHjtb77N6vN93lc2jb8sqRo/Np6s9Pm+S82g/0M0UwBPFZZOSmpNZllqkb5fAlfFq
-	9nS2gtfcFVNWTGZtYHzK2cXIySEhYCJx5dgJ5i5GLg4hgRWMEn9fTmCEcL4wShw4+ZcdwvnM
-	KHFrTTszTMvEO5OgEssZJRbeOM4G4bxklJh44CJrFyMHB5uAlkRjJztIg4hAusT36e+YQGqY
-	Be4wSTQdesEIkhAWiJWYdfUTG4jNIqAqsfvENbAGXgErieazzUwQ2+QlZl76DhbnBIq/XtXK
-	CFEjKHFy5hMWEJsZqKZ562yo6zZzSuzYXwdhu0h83XMZao6wxKvjW9ghbBmJ/zvnQ8WrJZ7e
-	+A0OAAmBFkaJ/p3r2UAekBCwlug7kwNiMgtoSqzfpQ9R7iixoKWBGaKCT+LGW0GIC/gkJm2b
-	DhXmlehoE4KoVpLY+fMJ1FIJictNc1ggbA+JJT8nME9gVJyF5JdZSH6ZhbB3ASPzKkbx1NLi
-	3PTUYsO81HK94sTc4tK8dL3k/NxNjMCEePrf8U87GOe++qh3iJGJg/EQowQHs5IIL4uhdLIQ
-	b0piZVVqUX58UWlOavEhRmkOFiVx3uTMDYlCAumJJanZqakFqUUwWSYOTqkGJg21Ne6Z8d+X
-	GayQ9GpbeHIt97kNosvvbGU9eeT2G5NWp66uA4z3jH5IR155n7W65SH3zBP9FrMObc6/W1nU
-	/rCkcx7bo+Yvmbnzizrmf3xoqX6ToSr664W/E3e0V4s6hu/X9T4yl2GeX9Fq2fNTdFNbwpqa
-	6t2OLhXrfb9xykfJlbvK9kRn7Wrb8ehz995L/2yvLZ6jseJrQEt3g2mPq8vdL0bOx999+MDg
-	KZdcUB/acOh+/16rYx3LO16mTAubtKDDo8z2kqJzzWfhddd0ja78KpPNPm+z/EREdMRjLt2T
-	++6+Tjrru1R9Uvb2MHbrs8nHEw/fP3F7pqqfW93ewCWND2btiTHqnjZb8bxA2iQlluKMREMt
-	5qLiRABUnFax9wMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrCIsWRmVeSWpSXmKPExsVy+t/xu7rmb+SSDVZMsrFYf+oYs8Xqu/1s
-	FtM+/GS2+H32PLPF3nezWS1uHtjJZLFn0SQmi5WrjzJZPFk/i9nib9c9Jou9t7QtLu+aw2Yx
-	f9lTdosJbV+ZLW5MeMpo8XlpC7vFmptPWSxO3JJ2EPK4fMXbY+esu+wel8+Wemxa1cnmsXlJ
-	vcfumw1sHjtb77N6vN93lc2jb8sqRo/Np6s9Pm+S82g/0M0UwBOlZ1OUX1qSqpCRX1xiqxRt
-	aGGkZ2hpoWdkYqlnaGwea2VkqqRvZ5OSmpNZllqkb5egl/Fq9nS2gtfcFVNWTGZtYHzK2cXI
-	ySEhYCIx8c4k9i5GLg4hgaWMEh0rn7FCJCQkbi9sYoSwhSX+XOtigyh6zijRsOMoUBEHB5uA
-	lkRjJztIjYhArsTnlT/AapgF3jBJfFkyiQkkISwQLdG//zGYzSKgKrH7xDWwBl4BK4nms81M
-	EAvkJWZe+g4W5wSKv17VCrZYSMBS4uy3G1D1ghInZz5hAbGZgeqbt85mnsAoMAtJahaS1AJG
-	plWMIqmlxbnpucVGesWJucWleel6yfm5mxiB0bvt2M8tOxhXvvqod4iRiYPxEKMEB7OSCC+L
-	oXSyEG9KYmVValF+fFFpTmrxIUZToLsnMkuJJucD00deSbyhmYGpoYmZpYGppZmxkjivZ0FH
-	opBAemJJanZqakFqEUwfEwenVAOTbcVLziRN27crviYpx0vqvRLgnqgxp1ly0YR3HTvkPm4W
-	7lWZka+1tuXTj7VX/YrXOoa+TY00P5hRqs6vYblgDWty5cuuMG2pL29K71/JOflZJmSf0Q9B
-	xmIT/QJ/vi2dc1Nfli1dKhK8vbq779LUw7/nLrNaXlL8XHjf5s2bw8T29S6YkqUrbG3H8CnD
-	/bz0XemOjZkScz76RbAqFTx6ekJzqcSVv3LC53uc9N+bdr79Wjjrz4e+C273Z70987WmtyDp
-	2HOL9n+7A4Qk99z/pXK3cAfno/orvzXvMZS4RDee1o89snN98JtZWTaT9h2b+5ahpfKFk2vJ
-	g/cnua7wqfP+vpPx4V3cu4sXzrczKrEUZyQaajEXFScCALp6AFFnAwAA
-X-CMS-MailID: 20220912082216eucas1p1d3068e7578a88007515c2f4f5ebcc2a8
+	f9lTdosJbV+ZLT4vbWG3WHPzKYvFiVvSDoIel694e+ycdZfd4/LZUo9NqzrZPDYvqffYfbOB
+	zWNn631Wj/f7rrJ59G1Zxeix+XS1x+dNch7tB7qZAniiuGxSUnMyy1KL9O0SuDLW79nAVDCP
+	r2LKou1sDYwXubsYOTkkBEwkPvd8ZOpi5OIQEljBKLH/zDVGCOcLo8TUTy3sEM5nRomrZ36z
+	w7S82rWbDSKxnFFiwf2tLBDOS0aJr5cWMncxcnCwCWhJNHaCNYgIpEt8n/4ObAezwDYmifsP
+	XzCDJIQFUiU2HT3HCGKzCKhKnHz7kRGkl1fASuLAb0GIZfISMy99B5vDCRR+vaoVrJxXQFDi
+	5MwnLCA2M1BN89bZzCDzJQRWc0rsvd/ACNHsIvH5SC/U1cISr45vgbJlJE5P7mGBsKslnt74
+	DdXcwijRv3M9G8gREgLWEn1nckBMZgFNifW79CHKHSUmrb7ADFHBJ3HjrSDECXwSk7ZNhwrz
+	SnS0CUFUK0ns/PkEaqmExOWmOVBLPSSmt25nncCoOAvJM7OQPDMLYe8CRuZVjOKppcW56anF
+	hnmp5XrFibnFpXnpesn5uZsYgWnw9L/jn3Ywzn31Ue8QIxMH4yFGCQ5mJRFeFkPpZCHelMTK
+	qtSi/Pii0pzU4kOM0hwsSuK8yZkbEoUE0hNLUrNTUwtSi2CyTBycUg1MDDteKC2vCmb3/66V
+	uar8juO1vyGc5xjPTpEzVb6y0ye+pfDWpjOV/19f1Sqe+TZk/ht9t4vJd87wLn4pULl4/psk
+	y9618ZFd06Tfzvjnq8P+wrzYRoCXbYdcdpn8KUO5WbNtbgf8tJ3606PPk/v8trvGZ7s1WMSf
+	X52z3H3r+5Kld86y/z45+dnPPwv+P1fbP33t16edelWrsr4cZAiu5Zc7dbU+5IPcqvgz/8wl
+	di2fZP/1+R2eP6anJrUlRxa0LG70+bmuedJhBU/RpZXNVSbBzd1m92bal1Y3yLcJ6XrkV7gd
+	VVzSb3nhfd+sbRlTjXMUf16q1inaUrXK83+zIceRuWe35HgEcN4zW3OuR4mlOCPRUIu5qDgR
+	AN8VzOPyAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrHIsWRmVeSWpSXmKPExsVy+t/xe7pWb+SSDQ52ClusP3WM2WL13X42
+	i2kffjJb/D57ntli77vZrBY3D+xkstizaBKTxcrVR5ksnqyfxWzxt+sek8XeW9oWl3fNYbOY
+	v+wpu8WEtq/MFp+XtrBbrLn5lMXixC1pB0GPy1e8PXbOusvucflsqcemVZ1sHpuX1HvsvtnA
+	5rGz9T6rx/t9V9k8+rasYvTYfLra4/MmOY/2A91MATxRejZF+aUlqQoZ+cUltkrRhhZGeoaW
+	FnpGJpZ6hsbmsVZGpkr6djYpqTmZZalF+nYJehnr92xgKpjHVzFl0Xa2BsaL3F2MnBwSAiYS
+	r3btZuti5OIQEljKKHHh22pmiISExO2FTYwQtrDEn2tdUEXPGSWmPLjM1MXIwcEmoCXR2MkO
+	UiMikCvxeeUPsBpmgSNMEn9frQAbJCyQLPGt6wUTiM0ioCpx8u1HRpBeXgEriQO/BSHmy0vM
+	vPQdbA4nUPj1qlawvUIClhJnv90Ai/MKCEqcnPmEBcRmBqpv3jqbeQKjwCwkqVlIUgsYmVYx
+	iqSWFuem5xYb6hUn5haX5qXrJefnbmIERuy2Yz8372Cc9+qj3iFGJg7GQ4wSHMxKIrwshtLJ
+	QrwpiZVVqUX58UWlOanFhxhNgc6eyCwlmpwPTBl5JfGGZgamhiZmlgamlmbGSuK8ngUdiUIC
+	6YklqdmpqQWpRTB9TBycUg1M83O4GKysTaWNJiuoSk5K+5R7UcOoTvDvOQeJ5IRb0azr8ioe
+	xJy9Uz/n77dVHB2hMYnplkcO1SitWr7gpvTXOa91zgnf4N8txdBw3ud+Sv60baL83S/C3Exn
+	v1oZPSlgiyiLuK5AflpZ2LMcbQbHMzmiSgE9nJ9cJT02BkSw6MqvlQ6/myiy7rPC7oxJjGxp
+	/VsUtt7ZbZdRopRR+HHV8yvOK6ddvrj1cXDzKbWL65abpJnL2S98wOtpclTfgqFjr99y0Tvu
+	XVJtfNzuU19mMXh0t/rYPODfVWKZp7e+b9mceXPZPp+Y9sq6nEf9012WFx51OQ323Nbdlx0i
+	/CM4tn4SfWhQ6M395OQONiWW4oxEQy3mouJEAJx94GNhAwAA
+X-CMS-MailID: 20220912082218eucas1p23b4bcf6d76947724b9a7468a4b82a7f6
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20220912082216eucas1p1d3068e7578a88007515c2f4f5ebcc2a8
+X-RootMTR: 20220912082218eucas1p23b4bcf6d76947724b9a7468a4b82a7f6
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20220912082216eucas1p1d3068e7578a88007515c2f4f5ebcc2a8
+X-CMS-RootMailID: 20220912082218eucas1p23b4bcf6d76947724b9a7468a4b82a7f6
 References: <20220912082204.51189-1-p.raghav@samsung.com>
-	<CGME20220912082216eucas1p1d3068e7578a88007515c2f4f5ebcc2a8@eucas1p1.samsung.com>
+	<CGME20220912082218eucas1p23b4bcf6d76947724b9a7468a4b82a7f6@eucas1p2.samsung.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -132,46 +132,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use the bdev_offset_from_zone_start() helper function to calculate
-the offset from zone start instead of using power of 2 based
-calculation.
+dm_zone_endio() updates the bi_sector of orig bio for zoned devices that
+uses either native append or append emulation, and it is called before the
+endio of the target. But target endio can still update the clone bio
+after dm_zone_endio is called, thereby, the orig bio does not contain
+the updated information anymore.
 
-Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
-Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
-Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+Currently, this is not a problem as the targets that support zoned devices
+such as dm-zoned, dm-linear, and dm-crypt do not have an endio function,
+and even if they do (such as dm-flakey), they don't modify the
+bio->bi_iter.bi_sector of the cloned bio that is used to update the
+orig_bio's bi_sector in dm_zone_endio function.
+
+This is a prep patch for the new dm-po2zoned target as it modifies
+bi_sector in the endio callback.
+
+Call dm_zone_endio for zoned devices after calling the target's endio
+function.
+
 Reviewed-by: Mike Snitzer <snitzer@kernel.org>
+Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
 ---
- drivers/md/dm-zone.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/md/dm.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/md/dm-zone.c b/drivers/md/dm-zone.c
-index 3dafc0e8b7a9..ac6fc1293d41 100644
---- a/drivers/md/dm-zone.c
-+++ b/drivers/md/dm-zone.c
-@@ -390,7 +390,8 @@ static bool dm_zone_map_bio_begin(struct mapped_device *md,
- 	case REQ_OP_WRITE_ZEROES:
- 	case REQ_OP_WRITE:
- 		/* Writes must be aligned to the zone write pointer */
--		if ((clone->bi_iter.bi_sector & (zsectors - 1)) != zwp_offset)
-+		if (bdev_offset_from_zone_start(md->disk->part0,
-+						clone->bi_iter.bi_sector) != zwp_offset)
- 			return false;
- 		break;
- 	case REQ_OP_ZONE_APPEND:
-@@ -602,11 +603,8 @@ void dm_zone_endio(struct dm_io *io, struct bio *clone)
- 		 */
- 		if (clone->bi_status == BLK_STS_OK &&
- 		    bio_op(clone) == REQ_OP_ZONE_APPEND) {
--			sector_t mask =
--				(sector_t)bdev_zone_sectors(disk->part0) - 1;
--
- 			orig_bio->bi_iter.bi_sector +=
--				clone->bi_iter.bi_sector & mask;
-+				bdev_offset_from_zone_start(disk->part0, clone->bi_iter.bi_sector);
- 		}
+diff --git a/drivers/md/dm.c b/drivers/md/dm.c
+index 7c35dea88ed1..874e1dc9fc26 100644
+--- a/drivers/md/dm.c
++++ b/drivers/md/dm.c
+@@ -1122,10 +1122,6 @@ static void clone_endio(struct bio *bio)
+ 			disable_write_zeroes(md);
+ 	}
  
- 		return;
+-	if (static_branch_unlikely(&zoned_enabled) &&
+-	    unlikely(bdev_is_zoned(bio->bi_bdev)))
+-		dm_zone_endio(io, bio);
+-
+ 	if (endio) {
+ 		int r = endio(ti, bio, &error);
+ 		switch (r) {
+@@ -1154,6 +1150,10 @@ static void clone_endio(struct bio *bio)
+ 		}
+ 	}
+ 
++	if (static_branch_unlikely(&zoned_enabled) &&
++	    unlikely(bdev_is_zoned(bio->bi_bdev)))
++		dm_zone_endio(io, bio);
++
+ 	if (static_branch_unlikely(&swap_bios_enabled) &&
+ 	    unlikely(swap_bios_limit(ti, bio)))
+ 		up(&md->swap_bios_semaphore);
 -- 
 2.25.1
 
