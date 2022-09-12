@@ -4,80 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05B35C6FA83
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Sep 2022 14:42:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF3D0C6FA83
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Sep 2022 18:16:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=K2U5yWai5Z9iDk3S5uqrDdDks71FuQSLKWyycAu3oik=; b=qfWElQAuB6XvyUvxyTfWdEw0AH
-	BzN4x3QoXuoF2CTueb0dCB4pNdqqnA7H+0PiYWjsm62aCR4Wk3jW/Ove9wM3KJZObCXSnXAsZ/d7o
-	OiseDCzVxoJ65DcrVv3fw9MLZdPAgoNdM0S/CBJqZWe9g+GURzzVhrWDyr0XH1SIWh3TXgpJH04Q+
-	N6vCtCpBbxy38VEafWBRJSd89xRa2pzPwF9C+fDKvWdbXuHb7Zk/byQ9myc/f7GOIMlmV1tSklCWG
-	wu3yN+rF0Lw36fCZMtvz5DMzZE5MA9rH6IFyaSeXjrB0yJ7/hiJicfmUlRde8G+AGh/HjwXboljzl
-	dlYsQueQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=vpdvsSQ8LWF1d8HHEZDRAgluPnDtm4thfzhmhTUjjTc=; b=Hesil37AwROAwf7u6t8fHM7eIq
+	6NEXdxSGjMLEKmcJ0tvD3Oo0MRyEELBLcGpLK6cRk2TY0clb51FMgycjuKtgFKML3amoA1xSw5Uar
+	5yZwXUAr4w7r6HlwIE1Tgj68NUL8FmpEad0EOFrkhy1ZhCINp4OP3o22CX4DEHhrdfgCYDHXXQAZe
+	NQpjIh7nStnwjjX+L5u2iw02E4jUVO0ry1GWmza+CV7rOo51HP7RbYKuxKg2sL8IhMa6fBT2nbksN
+	5YQokArroo467E5tYS4YWhkjUIFUp2xK58Jt/G7zUAM3uOcPwd06HkgdjB30li1PDC3zqXFNcqoDU
+	s0Ws9Q1Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oXkdT-00Alf5-Ly; Mon, 12 Sep 2022 14:42:07 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1oXnz7-00CPLJ-WF; Mon, 12 Sep 2022 18:16:42 +0000
+Received: from stargate.chelsio.com ([12.32.117.8])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oXkdQ-00Alcg-8G
-	for linux-nvme@lists.infradead.org; Mon, 12 Sep 2022 14:42:05 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2E2871F8C9;
-	Mon, 12 Sep 2022 14:42:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1662993722; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=K2U5yWai5Z9iDk3S5uqrDdDks71FuQSLKWyycAu3oik=;
-	b=GOOMXTv+nq4hqk4L/B6fBTAu4lH0YHK6bPjmTNwx8BapUiZcfZv/HFwNZYT0ztinVA3zNw
-	5YfHCoXG0qH5qtByhOnWeROzduFMjufytrrIrgu/lIEaLY3S+tvyJuzu0tP2CIRcfk6R7e
-	j+5PTX6n+cdnrnKQ2HhiPt/AnfCB7dA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1662993722;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=K2U5yWai5Z9iDk3S5uqrDdDks71FuQSLKWyycAu3oik=;
-	b=PidaixMwVt/RiLFfNCpO4y6v9K/6xKAmeyvj9JvCq/7qwk1t+66nepfUxNOP9k+WbFNkWj
-	YEd2uwIxVA6bmaDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1FBC5139C8;
-	Mon, 12 Sep 2022 14:42:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 2K6zBzpFH2NvTQAAMHmgww
-	(envelope-from <dwagner@suse.de>); Mon, 12 Sep 2022 14:42:02 +0000
-Date: Mon, 12 Sep 2022 16:42:01 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	Martin Belanger <nitram_67@hotmail.com>,
-	Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH libnvme 3/1] fabrics: add notify_rediscover parameter
-Message-ID: <20220912144201.dadx54vj2ntjljyy@carbon.lan>
-References: <20220907142411.101950-1-sagi@grimberg.me>
- <20220907142411.101950-4-sagi@grimberg.me>
- <20220909065846.b7fu53pvyvp6qtpp@carbon.lan>
- <51243855-b026-3dd5-163f-572d2ba43543@grimberg.me>
+	id 1oXnyv-00CPFI-Ix
+	for linux-nvme@lists.infradead.org; Mon, 12 Sep 2022 18:16:31 +0000
+Received: from fcoe-test11.blr.asicdesigners.com (fcoe-test11.blr.asicdesigners.com [10.193.185.180])
+	by stargate.chelsio.com (8.14.7/8.14.7) with ESMTP id 28CIG9gZ026423;
+	Mon, 12 Sep 2022 11:16:10 -0700
+From: Varun Prakash <varun@chelsio.com>
+To: linux-nvme@lists.infradead.org, hch@lst.de
+Cc: sagi@grimberg.me, varun@chelsio.com
+Subject: [PATCH v2 RESEND] nvmet-tcp: handle ICReq PDU received in NVMET_TCP_Q_LIVE state
+Date: Tue, 13 Sep 2022 00:13:20 +0530
+Message-Id: <20220912184320.5132-1-varun@chelsio.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <51243855-b026-3dd5-163f-572d2ba43543@grimberg.me>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220912_074204_495926_6418D05A 
-X-CRM114-Status: GOOD (  19.14  )
+X-CRM114-CacheID: sfid-20220912_111629_698885_F97D8973 
+X-CRM114-Status: UNSURE (   9.63  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,25 +55,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Sep 12, 2022 at 03:33:15PM +0300, Sagi Grimberg wrote:
-> 
-> > > @@ -481,6 +482,8 @@ static int build_options(nvme_host_t h, nvme_ctrl_t c, char **argstr)
-> > >   	    (hostid && add_argument(argstr, "hostid", hostid)) ||
-> > >   	    (discover && !discovery_nqn &&
-> > >   	     add_bool_argument(argstr, "discovery", true)) ||
-> > > +	     add_bool_argument(argstr, "notify_rediscover",
-> > > +			       cfg->notify_rediscover) ||
-> > 
-> > If notify_rediscover is not supported by the kernel, wouldn't this end
-> > up with an EINVAL when we try to connect? I thought we need to make this
-> > conditional.
-> 
-> The check is done by the callers, which check support for it. If it
-> is not supported and still passed, its a bug in the caller.
+As per NVMe/TCP transport specification ICReq PDU is the first PDU received
+by the controller and controller should receive only one ICReq PDU.
 
-Okay.
+If controller receives more than one ICReq PDU then this can be considered
+as fatal error.
 
-Another thing I was wondering if we might run into a problem with
-dependencies on the library via the kernel feature support. But I think
-we should be safe and if not, another reason for a 2.x release :)
+nvmet-tcp driver does not check for ICReq PDU opcode if queue state is
+NVMET_TCP_Q_LIVE. In LIVE state ICReq PDU is treated as CapsuleCmd PDU,
+this can result in abnormal behavior.
+
+Add a check for ICReq PDU in nvmet_tcp_done_recv_pdu() to fix this issue.
+
+Signed-off-by: Varun Prakash <varun@chelsio.com>
+---
+ drivers/nvme/target/tcp.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index a3694a32f6d5..02df2fc7dfe7 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -976,6 +976,13 @@ static int nvmet_tcp_done_recv_pdu(struct nvmet_tcp_queue *queue)
+ 		return nvmet_tcp_handle_icreq(queue);
+ 	}
+ 
++	if (unlikely(hdr->type == nvme_tcp_icreq)) {
++		pr_err("queue %d: received icreq pdu in state %d\n",
++			queue->idx, queue->state);
++		nvmet_tcp_fatal_error(queue);
++		return -EPROTO;
++	}
++
+ 	if (hdr->type == nvme_tcp_h2c_data) {
+ 		ret = nvmet_tcp_handle_h2c_data_pdu(queue);
+ 		if (unlikely(ret))
+-- 
+2.31.1
+
 
