@@ -4,137 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11794ECAAD5
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Sep 2022 08:28:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56807C6FA83
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Sep 2022 08:33:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TpfC5qsHCn42VD0VfMrShkUip45l4QnJQo5SdQLOwtI=; b=DAMvK+1MXeMMxwR1rOuuURGyxE
-	5cLcZetEQ6PULHGiSO5kuqF/zjO688IvmOne5J3orcBcoK5UF08Y06DRBYg8RjQ3KWxGXAxzZ6Hkx
-	2NQbhoQKBdyyrmf8QdIFEyqPf4M0zyJvX/9/MXlCRRruyFhbnr/JgXXF6em5hm1Gi8iE+fQvarBIQ
-	MFw4dC0EXDLhH8ypRJSEG6BeSdKzETuSeKBh2DLQ+gtJJug/Dy8jIjXcnNbJMqy2jhX/wvrbStZSr
-	ayPbYjqrri87dRDnLPzbyTbT5XlMCFoVvSslsPzwR+fi4rFVupEIGoJJ2l5L5JLrDp5g7CRi84v9m
-	knpDQtdg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=jS4gbaE25b5FwtpAi5acCSAtwOGNDfO2kXInNNv4wXw=; b=lJxXrvarA6nTO4c4zTNl5ZiFUT
+	LSIOvMwfRJa+Ws02NGFyBtYZj1pHGhz8poz4x5EK2CNORJ41sHtvn9tOuy7uw9v1fn52gQPzMZ7sU
+	qSVl0lgLk+s6ov2kbpa91uNBHb9Pnv+HQGCHe1HZX/pqW3muDXPPUYVCmIq5xGQ1x6k8s9MHW49iV
+	VMmShCDS4Nxtk64TfRluEeJWULb8oZW76xJv+GsarG1iEbrZ+26YylPv9PCQEBWpA20Ki5wqEfYgh
+	83ursg+/dgii1Eviv8CFRhm+c09kTzSaAORFhE5D0d+DqBqjvE7uV6fJvT0D+Ihr0bNTu6qWbyW/i
+	nTn+5rnA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oXenl-007mqt-My; Mon, 12 Sep 2022 08:28:21 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1oXesn-007pCE-2k; Mon, 12 Sep 2022 08:33:33 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oXejE-007kfQ-B1
-	for linux-nvme@bombadil.infradead.org; Mon, 12 Sep 2022 08:23:40 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Sender:Reply-To:Content-ID:Content-Description;
-	bh=TpfC5qsHCn42VD0VfMrShkUip45l4QnJQo5SdQLOwtI=; b=K5XEKgRNF7wT2e+98GHfKwbHru
-	K6duWT6yuZK44ZAJFuAMXAwMbrczUuBM34a+C21Ii2IQpf9OQZ76yowrqPcT+QvmEC0JAdL14KFe5
-	JD48malXSCBpZg2FIiAC/V0JhrXVgAfhVu2UL/ehLKkixkCvf6cPPkff7hR8dvP16Fpe+EFKPuyzF
-	irMh4m4tRdINhkUiMVn3YmK0zJ4up8yQBWHIXXc+nS44j0IcVgXiHMZd58JZXEAlCftx7x+hqsWQz
-	/pV7PkKpi6HPgiJrQvKLG9+F/tZMbVKxLXND3yfol+62kshSlkQ+/ZX6MNDuf1NSNhYoqQ3lll1l8
-	BAawTVUg==;
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
-	by desiato.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oXej8-00BlJz-W8
-	for linux-nvme@lists.infradead.org; Mon, 12 Sep 2022 08:23:38 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20220912082228euoutp0204007563709af2c1c7d04e3a0471a8f4~UD0RgbLu22672726727euoutp02J
-	for <linux-nvme@lists.infradead.org>; Mon, 12 Sep 2022 08:22:28 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20220912082228euoutp0204007563709af2c1c7d04e3a0471a8f4~UD0RgbLu22672726727euoutp02J
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1662970948;
-	bh=TpfC5qsHCn42VD0VfMrShkUip45l4QnJQo5SdQLOwtI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oZPoYBx2dKfdCinH2zMCwcqWzTFokBq8qrH9UUQBXq4wUNW8Kf0Xuuf92lC0AkldG
-	 T5CTEw7JiJnxKb99dRwV+ptMlCvxVKtVziDnZkUNktSOj0AfFqJEFaccF187RyLCt+
-	 92x007/LPdEoUwNUc/lZFQ9PwuBMxBcFeRn6Vag8=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20220912082217eucas1p2f7bf2d8409887d0b45bb91d5e0838a8b~UD0HPCGjb2080820808eucas1p2G;
-	Mon, 12 Sep 2022 08:22:17 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-	eusmges3new.samsung.com (EUCPMTA) with SMTP id D7.A3.19378.93CEE136; Mon, 12
-	Sep 2022 09:22:17 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20220912082217eucas1p15e4ba29d1438990db4acf5c3f6ca5d4f~UD0Gx0szG1088110881eucas1p1_;
-	Mon, 12 Sep 2022 08:22:17 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20220912082217eusmtrp2054a1249e949edbdccfec0c6c6024005~UD0Gw9xSo3116631166eusmtrp2M;
-	Mon, 12 Sep 2022 08:22:17 +0000 (GMT)
-X-AuditID: cbfec7f5-a35ff70000014bb2-6b-631eec39b733
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-	eusmgms2.samsung.com (EUCPMTA) with SMTP id 01.43.10862.93CEE136; Mon, 12
-	Sep 2022 09:22:17 +0100 (BST)
-Received: from localhost (unknown [106.210.248.191]) by eusmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20220912082216eusmtip12dbcb83e6c6a0b4a645929a361eb1f31~UD0GZZdty0898808988eusmtip1i;
-	Mon, 12 Sep 2022 08:22:16 +0000 (GMT)
-From: Pankaj Raghav <p.raghav@samsung.com>
-To: hch@lst.de, agk@redhat.com, damien.lemoal@opensource.wdc.com,
-	axboe@kernel.dk, snitzer@kernel.org
-Cc: linux-kernel@vger.kernel.org, Johannes.Thumshirn@wdc.com,
-	linux-nvme@lists.infradead.org, pankydev8@gmail.com,
-	matias.bjorling@wdc.com, linux-block@vger.kernel.org, bvanassche@acm.org,
-	gost.dev@samsung.com, dm-devel@redhat.com, hare@suse.de, jaegeuk@kernel.org,
-	Pankaj Raghav <p.raghav@samsung.com>
-Subject: [PATCH v13 10/13] dm-table: allow zoned devices with non power-of-2
- zone sizes
-Date: Mon, 12 Sep 2022 10:22:01 +0200
-Message-Id: <20220912082204.51189-11-p.raghav@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220912082204.51189-1-p.raghav@samsung.com>
+	id 1oXeok-007nDt-0Y
+	for linux-nvme@lists.infradead.org; Mon, 12 Sep 2022 08:29:40 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 5141568B05; Mon, 12 Sep 2022 10:29:10 +0200 (CEST)
+Date: Mon, 12 Sep 2022 10:29:10 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Serge Semin <fancer.lancer@gmail.com>
+Cc: Christoph Hellwig <hch@lst.de>,
+	Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+	Jonathan Derrick <jonathan.derrick@intel.com>,
+	Revanth Rajashekar <revanth.rajashekar@intel.com>,
+	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+	Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] nvme-hwmon: Cache-line-align the NVME SMART
+ log-buffer
+Message-ID: <20220912082909.GA10666@lst.de>
+References: <20220909191916.16013-1-Sergey.Semin@baikalelectronics.ru> <20220909191916.16013-2-Sergey.Semin@baikalelectronics.ru> <20220910053045.GA23052@lst.de> <20220910123542.tzxg2blegw55z5fj@mobilestation>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrHKsWRmVeSWpSXmKPExsWy7djP87qWb+SSDXbfULVYf+oYs8Xqu/1s
-	FtM+/GS2+H32PLPF3nezWS1uHtjJZLFn0SQmi5WrjzJZPFk/i9nib9c9Jou9t7QtLu+aw2Yx
-	f9lTdosJbV+ZLT4vbWG3WHPzKYvFiVvSDoIel694e+ycdZfd4/LZUo9NqzrZPDYvqffYfbOB
-	zWNn631Wj/f7rrJ59G1Zxeix+XS1x+dNch7tB7qZAniiuGxSUnMyy1KL9O0SuDIevLnKUvCO
-	t2LP7CamBsaZ3F2MnBwSAiYSq5YuZe5i5OIQEljBKPHv9ldGCOcLo8T9eYdYQKqEBD4zSkxf
-	5QjTcWv7RiaIouWMEl93NrNDOC8ZJT682QTUwcHBJqAl0djJDtIgIpAu8X36O7AGZoFtTBL3
-	H75gBkkIC0RKTPvbwARiswioSsyb3swIYvMKWEk8OryVGWKbvMTMS9/BBnECxV+vaoWqEZQ4
-	OfMJ2HXMQDXNW2dD1W/mlHg7RQjCdpHo7jvHBGELS7w6voUdwpaR+L9zPlS8WuLpjd9g/0sI
-	tDBK9O9czwbygISAtUTfmRwQk1lAU2L9Ln2IckeJ13enM0FU8EnceCsIcQGfxKRt05khwrwS
-	HW1QByhJ7Pz5BGqphMTlpjksELaHxO21b9knMCrOQvLLLCS/zELYu4CReRWjeGppcW56arFx
-	Xmq5XnFibnFpXrpecn7uJkZgEjz97/jXHYwrXn3UO8TIxMF4iFGCg1lJhJfFUDpZiDclsbIq
-	tSg/vqg0J7X4EKM0B4uSOG9y5oZEIYH0xJLU7NTUgtQimCwTB6dUA5PeA77TFkoSQvp2pZH6
-	b49wfVVeGLD+9rRTLWvDj3C8YFcrK678JbXmXcPNCkO2Wb43eZbqvxD/GT9HPmHd5QOfv4dH
-	XC294sVq8u+391n398Zic/RuvSgPlV1zJOzzCTtVju6lsx823Mts1nGQn7Pmz6y6KX6/Dy+a
-	vpPNM7BG98SuhxcOpHxiY97gfcn/4c8mGVlHweDXLxeV/Eh+XGBtXXw42Pif+s4TC1042TND
-	7ZSVv26dKiLHl7HuwQvN6Uz5G8o1zSZ3pit/W/T0EPv28tcnZbqLDivFzDSTmFVrI9v/jIcx
-	0F39odbpN0fPzumy/nlop5jU/flBj57v/7TEZIUtd/nO67eyGlIvTbBUYinOSDTUYi4qTgQA
-	DhdU2/EDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrHIsWRmVeSWpSXmKPExsVy+t/xu7qWb+SSDea8YrNYf+oYs8Xqu/1s
-	FtM+/GS2+H32PLPF3nezWS1uHtjJZLFn0SQmi5WrjzJZPFk/i9nib9c9Jou9t7QtLu+aw2Yx
-	f9lTdosJbV+ZLT4vbWG3WHPzKYvFiVvSDoIel694e+ycdZfd4/LZUo9NqzrZPDYvqffYfbOB
-	zWNn631Wj/f7rrJ59G1Zxeix+XS1x+dNch7tB7qZAnii9GyK8ktLUhUy8otLbJWiDS2M9Awt
-	LfSMTCz1DI3NY62MTJX07WxSUnMyy1KL9O0S9DIevLnKUvCOt2LP7CamBsaZ3F2MnBwSAiYS
-	t7ZvZOpi5OIQEljKKDH/yz8WiISExO2FTYwQtrDEn2tdbCC2kMBzRonjt6u7GDk42AS0JBo7
-	2UHCIgK5Ep9X/mADmcMscIRJ4u+rFcwgCWGBcInb6w+D2SwCqhLzpjeDzeQVsJJ4dHgrM8R8
-	eYmZl76DDeIEir9e1coIsctS4uy3G+wQ9YISJ2c+AbuNGai+eets5gmMArOQpGYhSS1gZFrF
-	KJJaWpybnltspFecmFtcmpeul5yfu4kRGLHbjv3csoNx5auPeocYmTgYDzFKcDArifCyGEon
-	C/GmJFZWpRblxxeV5qQWH2I0Bbp7IrOUaHI+MGXklcQbmhmYGpqYWRqYWpoZK4nzehZ0JAoJ
-	pCeWpGanphakFsH0MXFwSjUw7cmqNvL9e3jp6Sfnexp9apbMenLnXMI+mbK3XsvmsuU/DfsX
-	MUXB/Sf3EnatbOUzgryLme8v5n2/1GWOF+vuJ6Gpf34svCrVs9LQIYy3UPbcnZMzMrfP13oc
-	4qfapeomteDY586pC5q7ZV/ufrbbJSKwWfBtgdGcBTdOWkifmaWjfeL/5aj8Y1cN82Y63ec7
-	eLFl5tw90w/sv6v/b93U75rH/3atE/5jE/9Tqundg43fkh4/V5wqVqxTt9T+80INja9eS+z3
-	Hmm/GvLw/TXRzOO8JtdTORqXbX0seX1lZk+1fsWfQ4KlZYI1mfyJAWtPc516f9HM4vnNHZn1
-	PCmu+2ed2fbx2p8I1oIr93dru79UYinOSDTUYi4qTgQAPQVwpmEDAAA=
-X-CMS-MailID: 20220912082217eucas1p15e4ba29d1438990db4acf5c3f6ca5d4f
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20220912082217eucas1p15e4ba29d1438990db4acf5c3f6ca5d4f
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220912082217eucas1p15e4ba29d1438990db4acf5c3f6ca5d4f
-References: <20220912082204.51189-1-p.raghav@samsung.com>
-	<CGME20220912082217eucas1p15e4ba29d1438990db4acf5c3f6ca5d4f@eucas1p1.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220910123542.tzxg2blegw55z5fj@mobilestation>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220912_092335_612741_D0CE5902 
-X-CRM114-Status: GOOD (  13.18  )
+X-CRM114-CacheID: sfid-20220912_012922_344201_0A77E873 
+X-CRM114-Status: GOOD (  18.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -149,50 +68,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Allow dm to support zoned devices with non power-of-2(po2) zone sizes as
-the block layer now supports it.
+On Sat, Sep 10, 2022 at 03:35:42PM +0300, Serge Semin wrote:
+> Well, both approaches will solve the denoted problem. I am just
+> wondering why do you think that the kmalloc-ed buffer is more
+> preferable?
 
-Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
-Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Reviewed-by: Mike Snitzer <snitzer@kernel.org>
----
- drivers/md/dm-table.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+Because it clearly documents the intent.  Here is one buffer that is
+just a data buffer, and here is one with kernel internal structure.
+The concept of embedding on-disk / on-the-wire structures into internal
+stuctures always seemed rather weird and unexpected to me, as we now
+need to ensure that the alignment works right on both sides.  With
+the right annotations (as done in this series) this will work, but
+it feels a little fragile to me.
 
-diff --git a/drivers/md/dm-table.c b/drivers/md/dm-table.c
-index e42016359a77..38b83c383e8f 100644
---- a/drivers/md/dm-table.c
-+++ b/drivers/md/dm-table.c
-@@ -250,7 +250,7 @@ static int device_area_is_invalid(struct dm_target *ti, struct dm_dev *dev,
- 	if (bdev_is_zoned(bdev)) {
- 		unsigned int zone_sectors = bdev_zone_sectors(bdev);
- 
--		if (start & (zone_sectors - 1)) {
-+		if (!bdev_is_zone_start(bdev, start)) {
- 			DMERR("%s: start=%llu not aligned to h/w zone size %u of %pg",
- 			      dm_device_name(ti->table->md),
- 			      (unsigned long long)start,
-@@ -267,7 +267,7 @@ static int device_area_is_invalid(struct dm_target *ti, struct dm_dev *dev,
- 		 * devices do not end up with a smaller zone in the middle of
- 		 * the sector range.
- 		 */
--		if (len & (zone_sectors - 1)) {
-+		if (!bdev_is_zone_start(bdev, len)) {
- 			DMERR("%s: len=%llu not aligned to h/w zone size %u of %pg",
- 			      dm_device_name(ti->table->md),
- 			      (unsigned long long)len,
-@@ -1647,8 +1647,7 @@ static int validate_hardware_zoned_model(struct dm_table *t,
- 		return -EINVAL;
- 	}
- 
--	/* Check zone size validity and compatibility */
--	if (!zone_sectors || !is_power_of_2(zone_sectors))
-+	if (!zone_sectors)
- 		return -EINVAL;
- 
- 	if (dm_table_any_dev_attr(t, device_not_matches_zone_sectors, &zone_sectors)) {
--- 
-2.25.1
+> What would be the best solution if we had a qualifier like this:
+> #ifdef CONFIG_DMA_NONCOHERENT
+> #define ____dma_buffer ____cacheline_aligned
+> #else
+> #define ____dma_buffer
+> #endif
+> and used it instead of the direct ____cacheline_aligned utilization.
 
+So independent of my preference for separate allocations, this suggested
+additional would still be very useful for the places where we need
+to use the alignment for performance or other reasons.  I'd use
+something like __dma_alligned or similar, though.
 
