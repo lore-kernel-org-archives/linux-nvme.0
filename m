@@ -4,78 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7BA2FECAAD3
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Sep 2022 09:20:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 074ABECAAD3
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Sep 2022 10:29:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Bokhvs7sX8fh8AVbSCmXbrCGvBqK7KW80w2nfKTLhrs=; b=ENzVDqCD4/1Kg+XJOchisxrrTh
-	YHkx0x9ZbYIF3VwcUJH83CeEDrrhQJNfGeJh1DBxdkGNbl68HXybsKDH4zeBxDjlhMoXYq8gc3f7m
-	AzedOsIUUJLA4GB1QIejLIIA0auGPziu7KI9Aho/z0Gk+Hr6RVPhfVWx82pOkhmWLE/NusbGC+Uth
-	QRPNnm6zsEMwjqtHmS77ETTT4KwIn7K5mdfvExQWi2c277VidiPg4wFqmupqs5bGSJge64KXM8KvO
-	psrTuU+hGeWFCb8e8JmDqBU1a951SDXwb5Jlgla9MspRvzZS2wYFVdehSusNCB9KLKD6YtzCAZxb5
-	OEhH9oug==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HYqBd4r9IK6UEYhDzrdv9tFwcDed0lkfMRygODMDI9M=; b=4VTc1hmf3YEGID3gsSZvBStq1V
+	jaayRPHg9oCt3roJMIKDIRR2Vj2pN67Vwa2V3IfOijZ/2CErKW3JJnNIxMY6RsTWrv93R1PCfEY4E
+	vDeqAuFrfZCs1WII4NlQRKtSrMeDTk9FbqJAH7nxTZBUgIl+uz3YIUllz9/O/cs0tUODJP+dVX2/G
+	Y+lC7PVgRjmRTmZS4ONhwrBhbsA7LFPcTBMVqTxgeXxQvV31Pav3ambnuJoJlx4B1FyACM8o74CY/
+	ZfEWn6TAlb70xSuyOG2x9g4GmFGR+mNU+Nl9pfiB1DtHjz0bQun7u84JQo7Z9H3SFU98tsy7Huj/D
+	Lr+nVU6A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oYOZ2-00E6tB-6H; Wed, 14 Sep 2022 09:20:12 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1oYPe4-00F8yh-8M; Wed, 14 Sep 2022 10:29:28 +0000
+Received: from mail-wm1-f43.google.com ([209.85.128.43])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oYOFc-00DmvI-C9
-	for linux-nvme@lists.infradead.org; Wed, 14 Sep 2022 09:00:10 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8C16D5CD4D;
-	Wed, 14 Sep 2022 09:00:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1663146004; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Bokhvs7sX8fh8AVbSCmXbrCGvBqK7KW80w2nfKTLhrs=;
-	b=ZBuSfVi8EOcgWgj/6Ysob+atu3CpNG2Qo14ItKyy7X4EMBNEDCZGMH8+v0RVjL8eyUnmVQ
-	Qfq2w64gpZigLB8sbzTTP4/TM4VR2H44/gjojgS3fyId1P7L99pNrWCaJQpARg2IbmQhZN
-	J8qDyVoCipSfWuCcCqEpVaxXr8CUJGk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1663146004;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Bokhvs7sX8fh8AVbSCmXbrCGvBqK7KW80w2nfKTLhrs=;
-	b=1PpqbsazDr6CsJjx6MVyc98M/G2hQsb7zSW4Mt7xBXU0kT6qDrAOoospC1+MxmudOiWV+x
-	DbWkhd6he2cMvcBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7FDF713494;
-	Wed, 14 Sep 2022 09:00:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id P9YwHxSYIWMqHQAAMHmgww
-	(envelope-from <dwagner@suse.de>); Wed, 14 Sep 2022 09:00:04 +0000
-Date: Wed, 14 Sep 2022 11:00:03 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH blktests v3] nvme/046: test queue count changes on
- reconnect
-Message-ID: <20220914090003.jbc5xmtfxjjssuz3@carbon.lan>
-References: <20220913065758.134668-1-dwagner@suse.de>
- <20220913105743.gw2gczryymhy6x5o@shindev>
- <20220913114210.gceoxlpffhaekpk7@carbon.lan>
- <20220913171049.kgim57lu5rqb7j3g@carbon.lan>
+	id 1oYPe1-00F8sO-4a
+	for linux-nvme@lists.infradead.org; Wed, 14 Sep 2022 10:29:26 +0000
+Received: by mail-wm1-f43.google.com with SMTP id ay36so1673993wmb.0
+        for <linux-nvme@lists.infradead.org>; Wed, 14 Sep 2022 03:29:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=HYqBd4r9IK6UEYhDzrdv9tFwcDed0lkfMRygODMDI9M=;
+        b=IT665jxNlbzVo1W+M8OW38J68PbAYQd+jrdCYXJSL0vly1lmHBBAykPiXV/0rW6xF7
+         FO3Csnps4+58BhdAaoLrKRK+gZ3xBiv3IWn7/xBR2ykvfgYAHW78EnvX7WTW7HC5dvJM
+         j/yFoP0TDEQJKgEjX9hz0UTPlBzT2u+IAcT2VP/TsFerqW13QPjYRdOA4Rz/DRZ0DQ2U
+         ga8T51aVZT4ih5wwLeXNbfgnm2fyULZKA89espjCPpwM0XT/hWoQ0GEdJzhZMw4F3j6k
+         kOh/guBjK2J//L+KoaL6HWjsBbo9b5yfohFJMtxvMpa0KqViz6ADeXU+KmEQeY/4sSY/
+         4SaQ==
+X-Gm-Message-State: ACgBeo3jrFt2qQjWjEsYe6ZJ/fTLoJrm9t89n3Y/n8zWE2ZvXUOm8js8
+	kUI0L8Z5vNT2ycYttjEmLGdzZb5LT1Q=
+X-Google-Smtp-Source: AA6agR6j3hoZoerzYeXWZFenkL2ka3vfApH2hnGRJKP2+1lROe6FZjZ9liJ6FKSdSy+//Yq1/vhKTw==
+X-Received: by 2002:a05:600c:20b:b0:3b4:86ff:ce with SMTP id 11-20020a05600c020b00b003b486ff00cemr2437981wmi.179.1663151362361;
+        Wed, 14 Sep 2022 03:29:22 -0700 (PDT)
+Received: from [192.168.64.104] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id q5-20020adff945000000b00228692033dcsm12993634wrr.91.2022.09.14.03.29.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Sep 2022 03:29:21 -0700 (PDT)
+Message-ID: <bf83b747-e6b5-57fb-0de7-e2fb646633aa@grimberg.me>
+Date: Wed, 14 Sep 2022 13:29:20 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220913171049.kgim57lu5rqb7j3g@carbon.lan>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH rfc 0/1] Fix missing AENs when discovery controllers are
+ disconnected
+Content-Language: en-US
+To: James Smart <jsmart2021@gmail.com>, linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ Martin Belanger <nitram_67@hotmail.com>, Hannes Reinecke <hare@suse.de>
+References: <20220907142411.101950-1-sagi@grimberg.me>
+ <9eb798de-149d-a56d-ac00-dd6b7ae79a81@gmail.com>
+ <403e19c8-fec9-2d5c-157c-cdcb4fc2fbf0@grimberg.me>
+ <27194422-3759-928e-c88e-c5d10feeba5b@gmail.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <27194422-3759-928e-c88e-c5d10feeba5b@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220914_020008_626474_9F027282 
-X-CRM114-Status: GOOD (  16.61  )
+X-CRM114-CacheID: sfid-20220914_032925_198827_67A5F642 
+X-CRM114-Status: GOOD (  16.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,39 +85,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 13, 2022 at 07:10:49PM +0200, Daniel Wagner wrote:
-> On Tue, Sep 13, 2022 at 01:42:11PM +0200, Daniel Wagner wrote:
-> > On Tue, Sep 13, 2022 at 10:57:44AM +0000, Shinichiro Kawasaki wrote:
-> > > FYI, each blktests test case can define DMESG_FILTER not to fail with specific
-> > > keywords in dmesg. Test cases meta/011 and block/028 are reference use
-> > > cases.
-> > 
-> > Ah okay, let me look into it.
+
+> I was thinking this rather than the new option... The bit would only be 
+> set *after* the first successful link-side connect, thus the initial 
+> nvme_start_ctrl would not send the reconnect event. Every reconnect 
+> thereafter would.
 > 
-> So I made the state read function a bit more robust (test if state file
-> exists) and the it turns out this made rdma happy(??) but tcp is still
-> breaking.
+> -- james
+> 
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 2429b11eb9a8..43c8b6590164 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -4814,6 +4814,10 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl)
+> 
+>       nvme_enable_aen(ctrl);
+> 
+> +    if (nvme_discovery_ctrl(ctrl) &&
+> +        test_bit(NVME_CTRL_FABRIC_CONNECTED, &ctrl->flags))
+> +        nvme_change_uevent(ctrl, "NVME_EVENT=rediscover");
+> +
+>       if (ctrl->queue_count > 1) {
+>           nvme_queue_scan(ctrl);
+>           nvme_start_queues(ctrl);
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index 127abaf9ba5d..ff1dd8f999b0 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -2947,6 +2947,7 @@ nvme_fc_create_io_queues(struct nvme_fc_ctrl *ctrl)
+>           goto out_delete_hw_queues;
+> 
+>       ctrl->ioq_live = true;
+> +    set_bit(NVME_CTRL_FABRIC_CONNECTED, &ctrl->ctrl.flags);
 
-s/tcp/fc/
+Isn't this set before calling nvme_start_ctrl()?
 
-On closer inspection I see following sequence for fc:
-
-[399664.863585] nvmet: connect request for invalid subsystem blktests-subsystem-1!
-[399664.863704] nvme nvme0: Connect Invalid Data Parameter, subsysnqn "blktests-subsystem-1"
-[399664.863758] nvme nvme0: NVME-FC{0}: reset: Reconnect attempt failed (16770)
-[399664.863784] nvme nvme0: NVME-FC{0}: reconnect failure
-[399664.863837] nvme nvme0: Removing ctrl: NQN "blktests-subsystem-1"
-
-When the host tries to reconnect to a non existing controller (the test
-called _remove_nvmet_subsystem_from_port()) the target returns 0x4182
-(NVME_SC_DNR|NVME_SC_READ_ONLY(?)). So arguably fc behaves correct by
-stopping the reconnects. tcp and rdma just ignore the DNR.
-
-If we agree that the fc behavior is the right one, then the nvmet code
-needs to be changed so that when the qid_max attribute changes it forces
-a reconnect. The trick with calling _remove_nvmet_subsystem_from_port()
-to force a reconnect is not working. And tcp/rdma needs to honor the
-DNR.
-
-Daniel
+But this is orthogonal to the user argument, is there a specific
+reason to why not add an explicit argument requesting that?
+Because every userspace that will setup a persistent discovery
+controller will need this event?
 
