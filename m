@@ -4,70 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39FADC6FA86
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Sep 2022 10:44:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30A91ECAAD3
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Sep 2022 11:07:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QOL+oMNg0eM0tTAE71ld0QPIqQDtfEjtKFkdkyTQhU8=; b=fe86o/mvoVsZJz8Z+gqFJeTB+c
-	aavb258KeQc9hvnG3KEDiEaHwKwPYM/Wl+Z0PCpL0Gm7CDBoEU0UqyI1VWvtV/gkglk2sUStTdgde
-	DQH3YG3M++aXEKfq2Hq0GRAjfyOvIwXS4qSxW41foZVxWjhhh6XkWGvids+iDazGCZphalV3Gslxw
-	TjKjPuieK5B14JV3pR9S7TOOCC6MQc/4nT4PyFe7FTabz/U+4z/L5KnY7m2BJcqdRmuUGNIK+YScX
-	Fwcd6OfYyRi+hsnh8ZrTU9JB8CNRw79rWiNJ7CMIls2EGxnOcVBJaNaj3sekPo+f9nZC8jZSMQ7tw
-	KQAvftjg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=n8oHeLRGdXVZvmSIdgnKW+nqgcZRm6dFYE+8HfnyAdg=; b=bXMXUGsCpGWNobiJrbzINYNy+m
+	LZWE4Al48SEVNiKBVVvAG7HWl4psAuYxeWVAlsHR8OQt/bJxTuUdgzEPXk8GnZ+Iy876kA1hJdIFG
+	R2l2ac+yTanKnyRICEaOmDT3/uIBX6lVQ1zRpFnZaD4MUACmkEy0UM02mbjVHfvDUHLb+LT3SbOhf
+	vxscgHxWVK2O8+SClExvY3s0iGh8cg2b4Nlrmf06EC+44A6hDGTLnkqaXrn1TU9e3REPjrcaV6VnH
+	5R185bbn80HQlZVs9O+xkQbe/zIC0ksbuMUbeDeBPrIr00XrfVT/dcaxgfF5Y9hA4VGmMqoZ/IKn0
+	wHfjRUMA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oYPsu-00FKnj-8G; Wed, 14 Sep 2022 10:44:48 +0000
-Received: from mail-wr1-f41.google.com ([209.85.221.41])
+	id 1oYQEq-00Fcyc-9X; Wed, 14 Sep 2022 11:07:28 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oYPsr-00FKjf-Ge
-	for linux-nvme@lists.infradead.org; Wed, 14 Sep 2022 10:44:46 +0000
-Received: by mail-wr1-f41.google.com with SMTP id b5so24986587wrr.5
-        for <linux-nvme@lists.infradead.org>; Wed, 14 Sep 2022 03:44:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=QOL+oMNg0eM0tTAE71ld0QPIqQDtfEjtKFkdkyTQhU8=;
-        b=MorYCHVStmRN+7HnWKSlj1/B7fuSZGcl3TciWA2Qelh9ikSFR8GogmvnHSlnvVzsVV
-         oE8ZgVeW7R0nGU4/UCIyVbtXdvUeAte5E/U2OTdfcSQtX5aNEHeljugKOyKuqI9ty4ET
-         L2v+N2rzoWq01wquaqJy9nhDDlCnxPC0GtVmkGQv1go1wP8aZcxwExwwVmAlzhwngAau
-         Q8wGMi9EwK3E5S+SmLULiTPIY2crz/vb6u97oPPCT7RLcypu1WjbIkWl3nld0xsqpaZ9
-         KypuvxmYR0GHWI1wHCqrdBFEDdce5YT7mEBwadL+T8HtK22Jkd5x2Gvxex2E8LSgb/Wc
-         mRlQ==
-X-Gm-Message-State: ACgBeo3ZNaUelTrnLJn754glVy6S6hW22cAnVogVC98AIMnkUWJdH7US
-	R3ODtSJCcaTfjnwoiQjUaqk=
-X-Google-Smtp-Source: AA6agR5hggG1w1ie4m5/qGfpPM6I176LS3LXTZ7FXZkrQh7NWVRUy5TQGGY3eCREse2cj5hP0ldGiA==
-X-Received: by 2002:a05:6000:2c5:b0:225:618e:1708 with SMTP id o5-20020a05600002c500b00225618e1708mr22022909wry.510.1663152282539;
-        Wed, 14 Sep 2022 03:44:42 -0700 (PDT)
-Received: from [192.168.64.104] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id p19-20020a05600c205300b003b47ff307e1sm11793345wmg.31.2022.09.14.03.44.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Sep 2022 03:44:42 -0700 (PDT)
-Message-ID: <b3362f45-fcb5-4ace-16e5-97a77ca3ca10@grimberg.me>
-Date: Wed, 14 Sep 2022 13:44:40 +0300
+	id 1oYQEj-00Fcvj-QG
+	for linux-nvme@lists.infradead.org; Wed, 14 Sep 2022 11:07:23 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 30A7133881;
+	Wed, 14 Sep 2022 11:07:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1663153638; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n8oHeLRGdXVZvmSIdgnKW+nqgcZRm6dFYE+8HfnyAdg=;
+	b=TGAz/L8k3E7/aJSiZ1aoWst/MgxyFE+HKP5KnUZ3Yy4KI1du2bIohrgTIJQeUyiGescuob
+	fg3nwRluOckxrrJ5LtnLZxUfysuod19msSY/eivpxwjd+gZmeUoFp8NFH8Nfy0lm3iKrYq
+	rCwz6ME65RGXnugcxQsE5U5JI1fwJy4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1663153638;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n8oHeLRGdXVZvmSIdgnKW+nqgcZRm6dFYE+8HfnyAdg=;
+	b=3OWYMC7NV4wKQujaC4MKMxQ8hMfEi6e1d8cq+n38nZDEY9wr29umJeWCrgTacJPSmWXx7u
+	E9MkrC5oZ0mY7XBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2259B13494;
+	Wed, 14 Sep 2022 11:07:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id HPNCCOa1IWPUWAAAMHmgww
+	(envelope-from <dwagner@suse.de>); Wed, 14 Sep 2022 11:07:18 +0000
+Date: Wed, 14 Sep 2022 13:07:17 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	James Smart <jsmart2021@gmail.com>
+Subject: Re: [PATCH blktests v3] nvme/046: test queue count changes on
+ reconnect
+Message-ID: <20220914110717.pvzm2666mklkg73a@carbon.lan>
+References: <20220913065758.134668-1-dwagner@suse.de>
+ <20220913105743.gw2gczryymhy6x5o@shindev>
+ <20220913114210.gceoxlpffhaekpk7@carbon.lan>
+ <20220913171049.kgim57lu5rqb7j3g@carbon.lan>
+ <20220914090003.jbc5xmtfxjjssuz3@carbon.lan>
+ <3b58b91d-e217-86a2-b2e4-3b0656bbe0e9@grimberg.me>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v4 1/1] nvmet-tcp: Fix NULL pointer dereference during
- release
-Content-Language: en-US
-To: zhenwei pi <pizhenwei@bytedance.com>, hch@lst.de
-Cc: kch@nvidia.com, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, fmdefrancesco@gmail.com
-References: <20220913014253.931724-1-pizhenwei@bytedance.com>
- <20220913014253.931724-2-pizhenwei@bytedance.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220913014253.931724-2-pizhenwei@bytedance.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3b58b91d-e217-86a2-b2e4-3b0656bbe0e9@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220914_034445_582182_D7D5290A 
-X-CRM114-Status: GOOD (  23.04  )
+X-CRM114-CacheID: sfid-20220914_040722_019116_1B112C32 
+X-CRM114-Status: GOOD (  26.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,87 +94,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 9/13/22 04:42, zhenwei pi wrote:
-> nvmet-tcp frees CMD buffers in nvmet_tcp_uninit_data_in_cmds(),
-> and waits the inflight IO requests in nvmet_sq_destroy(). During wait
-> the inflight IO requests, the callback nvmet_tcp_queue_response()
-> is called from backend after IO complete, this leads a typical
-> Use-After-Free issue like this:
+On Wed, Sep 14, 2022 at 01:37:38PM +0300, Sagi Grimberg wrote:
 > 
->   BUG: kernel NULL pointer dereference, address: 0000000000000008
->   #PF: supervisor read access in kernel mode
->   #PF: error_code(0x0000) - not-present page
->   PGD 0 P4D 0
->   Oops: 0000 [#1] PREEMPT SMP NOPTI
->   CPU: 14 PID: 207 Comm: kworker/14:1H Kdump: loaded Tainted: G            E      6.0.0-rc2.bm.1-amd64 #12
->   Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014
->   Workqueue: nvmet_tcp_wq nvmet_tcp_io_work [nvmet_tcp]
->   RIP: 0010:shash_ahash_digest+0x2b/0x110
->   Code: 1f 44 00 00 41 57 41 56 41 55 41 54 55 48 89 fd 53 48 89 f3 48 83 ec 08 44 8b 67 30 45 85 e4 74 1c 48 8b 57 38 b8 00 10 00 00 <44> 8b 7a 08 44 29 f8 39 42 0c 0f 46 42 0c 41 39 c4 76 43 48 8b 03
->   RSP: 0018:ffffc900006e3dd8 EFLAGS: 00010206
->   RAX: 0000000000001000 RBX: ffff888104ac1650 RCX: 0000000000000000
->   RDX: 0000000000000000 RSI: ffff888104ac1650 RDI: ffff888104ac1600
->   RBP: ffff888104ac1600 R08: ffff8881073980c8 R09: ffff8881057798b8
->   R10: 8080808080808080 R11: 0000000000000000 R12: 0000000000001000
->   R13: 0000000000000000 R14: ffff88810601a1cc R15: ffff888107398000
->   FS:  0000000000000000(0000) GS:ffff88823fd80000(0000) knlGS:0000000000000000
->   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->   CR2: 0000000000000008 CR3: 000000010a8e8000 CR4: 0000000000350ee0
->   Call Trace:
->    <TASK>
->    nvmet_tcp_io_work+0xa1c/0xb1c [nvmet_tcp]
->    ? __switch_to+0x106/0x420
->    process_one_work+0x1ae/0x380
->    ? process_one_work+0x380/0x380
->    worker_thread+0x30/0x360
->    ? process_one_work+0x380/0x380
->    kthread+0xe6/0x110
->    ? kthread_complete_and_exit+0x20/0x20
->    ret_from_fork+0x1f/0x30
+> > > > > FYI, each blktests test case can define DMESG_FILTER not to fail with specific
+> > > > > keywords in dmesg. Test cases meta/011 and block/028 are reference use
+> > > > > cases.
+> > > > 
+> > > > Ah okay, let me look into it.
+> > > 
+> > > So I made the state read function a bit more robust (test if state file
+> > > exists) and the it turns out this made rdma happy(??) but tcp is still
+> > > breaking.
+> > 
+> > s/tcp/fc/
+> > 
+> > On closer inspection I see following sequence for fc:
+> > 
+> > [399664.863585] nvmet: connect request for invalid subsystem blktests-subsystem-1!
+> > [399664.863704] nvme nvme0: Connect Invalid Data Parameter, subsysnqn "blktests-subsystem-1"
+> > [399664.863758] nvme nvme0: NVME-FC{0}: reset: Reconnect attempt failed (16770)
+> > [399664.863784] nvme nvme0: NVME-FC{0}: reconnect failure
+> > [399664.863837] nvme nvme0: Removing ctrl: NQN "blktests-subsystem-1"
+> > 
+> > When the host tries to reconnect to a non existing controller (the test
+> > called _remove_nvmet_subsystem_from_port()) the target returns 0x4182
+> > (NVME_SC_DNR|NVME_SC_READ_ONLY(?)).
 > 
-> Suggested by Sagi, separate nvmet_tcp_uninit_data_in_cmds() into two
-> steps:
->    uninit data in cmds                  <- new step 1
->    nvmet_sq_destroy();
->    cancel_work_sync(&queue->io_work);
->    free CMD buffers                     <- new step 2
-> 
-> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
-> ---
->   drivers/nvme/target/tcp.c | 20 ++++++++++++++++++--
->   1 file changed, 18 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> index a3694a32f6d5..3ac9750b41ad 100644
-> --- a/drivers/nvme/target/tcp.c
-> +++ b/drivers/nvme/target/tcp.c
-> @@ -1423,14 +1423,29 @@ static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
->   	for (i = 0; i < queue->nr_cmds; i++, cmd++) {
->   		if (nvmet_tcp_need_data_in(cmd))
->   			nvmet_req_uninit(&cmd->req);
-> +	}
-> +
-> +	if (!queue->nr_cmds && nvmet_tcp_need_data_in(&queue->connect)) {
-> +		/* failed in connect */
-> +		nvmet_req_uninit(&queue->connect.req);
-> +	}
-> +}
->   
-> +static void nvmet_tcp_free_cmd_data_in_buffers(struct nvmet_tcp_queue *queue)
-> +{
-> +	struct nvmet_tcp_cmd *cmd = queue->cmds;
-> +	int i;
-> +
-> +	for (i = 0; i < queue->nr_cmds; i++, cmd++) {
-> +		if (!nvmet_tcp_need_data_in(cmd))
-> +			continue;
->   		nvmet_tcp_unmap_pdu_iovec(cmd);
+> That is not something that the target is supposed to be doing, I have no
+> idea why this is sent. Perhaps this is something specific to the fc
+> implementation?
 
-This will cause a merge conflict, because nvme-6.1
-nvmet_tcp_unmap_pdu_iovec does no longer exist.
+Okay, I'll look into this.
 
-Other than that, looks fine to me,
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+>  So arguably fc behaves correct by
+> > stopping the reconnects. tcp and rdma just ignore the DNR.
+> 
+> DNR means do not retry the command, it says nothing about do not attempt
+> a future reconnect...
+
+That makes sense.
+
+> > If we agree that the fc behavior is the right one, then the nvmet code
+> > needs to be changed so that when the qid_max attribute changes it forces
+> > a reconnect. The trick with calling _remove_nvmet_subsystem_from_port()
+> > to force a reconnect is not working. And tcp/rdma needs to honor the
+> > DNR.
+> 
+> tcp/rdma honor DNR afaik.
+
+I did interpret DNR wrongly. As you pointed out it's just about the
+command not about the reconnect attempt.
+
+So do we agree the fc host should not stop reconnecting? James?
 
