@@ -4,68 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05734C6FA82
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Sep 2022 19:44:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5F2F8ECAAD3
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Sep 2022 11:33:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
-	Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=nAY+ae4YYDmrPwboA5knbssvQe7BX+AZX/H5WnjBoCM=; b=JgGHl1ZZrv52LzZYQ31L1gKwQT
-	vmOI3KjokTNrM3cV7DP1cNEHoZmiPRJCcBlnyYJDKzGhK5z+SHOc6yApV7UsVMRPLNriYl0D9lRIZ
-	Juxy3Ap1p1JYumcegDDJp6KQ5iJ45fRjP9Kr9qDXvbLskCXD1OljD0BFdqktlR8S5JTXTawz+fk04
-	g8jCP+ge9cGt2sL/EfUOb1H0cJsque1tT89ozFzz31MCtAhUglbew1BMEy/rZ6uduW8CKgYvsuPf/
-	0SjQnNPUTicxyjdu0RdgHpTitYHFIJ/wqKXC6L6DmOFGnlvoYSW4mn0rbsnV7+TanczuYa4sLAubt
-	YrcTvRaA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0Doj1K3/bZA2+DWtI/Gb+Jvq6i/4kBiqqVu5pjUqLMQ=; b=kF4xcGfdejIxyESE6GQp7UnjrZ
+	vanRQi8NLxfFeQmBdvEgv6ZR+cwR4Fo7lh1NMxJI41430yJXzqRQOfuQpUQTbT3wwW/oE7UlUxSwN
+	pIbVg7tf9vo0N698ftulYNwfKas9aW0/mlOHXylJbHRSFfCC4/njDkY6g3O8jAl/OJcGYHh1pMq95
+	OZRXsMzlYUrYLGukKwOynFzULLDOPjFSdsLrv0Q8GVmIT4rF02i8qP16Rp0oBjACQwFGDUimGE3O/
+	R1NFgxYrnVuagLarfKh8wkn+uNz+VGzhvbNedKcyyexlL8yzh1DpeA4JVQ4A+d0LMqHhryNEQCs33
+	PPO7sZHw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oYYJ4-008XBE-8j; Wed, 14 Sep 2022 19:44:22 +0000
-Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f])
+	id 1oYn7T-007l42-75; Thu, 15 Sep 2022 11:33:23 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oYYJ1-008X7v-Et
-	for linux-nvme@lists.infradead.org; Wed, 14 Sep 2022 19:44:20 +0000
-Received: by mail-qt1-x82f.google.com with SMTP id g12so11633003qts.1
-        for <linux-nvme@lists.infradead.org>; Wed, 14 Sep 2022 12:44:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pcpartpicker.com; s=google;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date;
-        bh=nAY+ae4YYDmrPwboA5knbssvQe7BX+AZX/H5WnjBoCM=;
-        b=RIAYJT9epDNn3TDGW/PQCUrcsgT0Zmhe/JgPbW22vTl7CZ1iVfondTH4rDpbG4I0Jf
-         /IY9w7f0i5D4cF+iSXMf22hByZ/FN3GZq4keV76NBXeoKEYfT7tpN3I1cTHKB2PEuQ48
-         wT7ep2VZgwCSnih3KETbGwSyYoYrJ94JcGNcuq0jhotCUNp8JNR6vqGZsQM4uCIixN+0
-         9hs9uBxGLR0EI3QA6y/lk0nvzX/DR66QD2thLPahhQvHzUnSbTuIshD0fGj3S0LWEBZd
-         W/xceFVqtmll5Bnon0caBmAdZQlCc+LL32SLTWQNDTvbv4QNwikVHnh+l8EB1UmLo7nv
-         BqWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=nAY+ae4YYDmrPwboA5knbssvQe7BX+AZX/H5WnjBoCM=;
-        b=KCe+rwOePirWxtXgzzRXZsEx156Z1LWVbHgr2qoEW7rPtf+Y87vHRHYZats8ASj7WD
-         gVkwmpWleJX5Sbwy/Ol6UgPE8NV5uG0FLce2h6EDHzJVCzmmQpOteGzzK4ZDesWsSi3U
-         TfMxK8xJsiVsFVmF1Gs15jqUWWChKBOmd1VWCFmgxmbINJA2Ra5gMP2izRGIiHJ9/Eqv
-         dAm36/bGMJrrnvv2HiOS3MUYxK1jLN0/5lYnFuVefhCLA0YXpy49qkHPclVpOHq/na9K
-         ES0Wa2uDBrk6hE6kKBnzdX+EC8FJg9OhYwch153NsTdE2ZvPyQDAWOOFZpyIJ5178EaJ
-         kNew==
-X-Gm-Message-State: ACgBeo29/02/GmdFsh5Cyk7Ycu4ZLMQ5Q/AaP2BNx4WkAdhQeWz7RQ5l
-	UcyLZ6u3mbFlL7RAJWZN/XStVahbfMAybPTXBwf8cV5MnJZndw==
-X-Google-Smtp-Source: AA6agR7GwhR44VXa85JQ9TO9zmcgDGRWtDmI//m6oqSVLtHVcljPp+LuBUcF9fz1R/KSzP5sm8AyylvDXf0+H2YL6s8=
-X-Received: by 2002:a05:622a:144c:b0:35c:c05d:2889 with SMTP id
- v12-20020a05622a144c00b0035cc05d2889mr525868qtx.610.1663184655878; Wed, 14
- Sep 2022 12:44:15 -0700 (PDT)
+	id 1oYn7O-007l0y-1J
+	for linux-nvme@lists.infradead.org; Thu, 15 Sep 2022 11:33:19 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E689033835;
+	Thu, 15 Sep 2022 11:33:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1663241593; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0Doj1K3/bZA2+DWtI/Gb+Jvq6i/4kBiqqVu5pjUqLMQ=;
+	b=lHKOLnwnAvk916/SBwJF1UEOmu3DsP51fxXPWzGabQak/VeYa6VW17OUj31wotS6CEMGve
+	SF7U1OoQx4XhybbTsJtiUIOofqQvKuqfSlnuyebDQztSwY8aU8lPmHjqCWbe2AqyNTM61r
+	FzZCRcfKJ7jr/hyAkmjDvtZBzNxgVgQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1663241593;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0Doj1K3/bZA2+DWtI/Gb+Jvq6i/4kBiqqVu5pjUqLMQ=;
+	b=I6CI5RcnR75LMmwekc3gdxBPN+ER3Sxw1buYM4pd8GZKvni0iUOTpcMQKbyX1/wDrXzOls
+	5wShaKSZdAi7XgBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D8C7313A49;
+	Thu, 15 Sep 2022 11:33:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 0KjSNHkNI2NNKwAAMHmgww
+	(envelope-from <dwagner@suse.de>); Thu, 15 Sep 2022 11:33:13 +0000
+Date: Thu, 15 Sep 2022 13:33:13 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	James Smart <jsmart2021@gmail.com>
+Subject: Re: [PATCH blktests v3] nvme/046: test queue count changes on
+ reconnect
+Message-ID: <20220915113313.26mpn3ytnhv4oout@carbon.lan>
+References: <20220913065758.134668-1-dwagner@suse.de>
+ <20220913105743.gw2gczryymhy6x5o@shindev>
+ <20220913114210.gceoxlpffhaekpk7@carbon.lan>
+ <20220913171049.kgim57lu5rqb7j3g@carbon.lan>
+ <20220914090003.jbc5xmtfxjjssuz3@carbon.lan>
+ <3b58b91d-e217-86a2-b2e4-3b0656bbe0e9@grimberg.me>
+ <20220914110717.pvzm2666mklkg73a@carbon.lan>
 MIME-Version: 1.0
-From: Nick Neumann <nick@pcpartpicker.com>
-Date: Wed, 14 Sep 2022 14:44:03 -0500
-Message-ID: <CADqNVTpcFuPh8w3Gcx2ftYh_4EjObxpenA2Ps2y=055W0o13=A@mail.gmail.com>
-Subject: smartctl "kills" specific drives on kernel 5.13 but works fine on
- 5.15 - why?
-To: linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220914110717.pvzm2666mklkg73a@carbon.lan>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220914_124419_544289_62170ED8 
-X-CRM114-Status: GOOD (  12.63  )
+X-CRM114-CacheID: sfid-20220915_043318_260983_AA9C393C 
+X-CRM114-Status: GOOD (  14.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,34 +95,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I'm running ubuntu 20.04 LTS with HWE, which reports kernel 5.13.0-51
-generic . Both a crucial P5 1TB and Crucial P5 2TB behave rather
-poorly. With one drive installed, running
+On Wed, Sep 14, 2022 at 01:07:18PM +0200, Daniel Wagner wrote:
+> > > [399664.863585] nvmet: connect request for invalid subsystem blktests-subsystem-1!
+> > > [399664.863704] nvme nvme0: Connect Invalid Data Parameter, subsysnqn "blktests-subsystem-1"
+> > > [399664.863758] nvme nvme0: NVME-FC{0}: reset: Reconnect attempt failed (16770)
+> > > [399664.863784] nvme nvme0: NVME-FC{0}: reconnect failure
+> > > [399664.863837] nvme nvme0: Removing ctrl: NQN "blktests-subsystem-1"
+> > > 
+> > > When the host tries to reconnect to a non existing controller (the test
+> > > called _remove_nvmet_subsystem_from_port()) the target returns 0x4182
+> > > (NVME_SC_DNR|NVME_SC_READ_ONLY(?)).
+> > 
+> > That is not something that the target is supposed to be doing, I have no
+> > idea why this is sent. Perhaps this is something specific to the fc
+> > implementation?
+> 
+> Okay, I'll look into this.
 
-sudo smartctl -x /dev/nvme0
-
-will output some info, then hang for a while, and then print
-"NVME_IOCTL_ADMIN_CMD: Interrupted system call"
-
-From that point on, the drives are gone from the system until I cut
-and restore power (reboot is not enough).
-
-Running smartctl against the drives works fine in windows and in
-Ubuntu 22.04 LTS, which reports kernel 5.15.0-43
-
-I thought for sure I'd find that a quirk for the drives had been added
-between kernels 5.13 and 5.15, but alas, I don't see one. The PCI
-Vendor/Device ID is 1344:5405 for the 1TB model, and while the crucial
-P2 has a quirk in drivers/nvme/host/pci.c, it has a different vendor
-ID altogether (c0a9).
-
-Any thoughts on where I can look or what I might compare to try to
-figure out what changed to get the Crucial P5 drives behaving? I was
-hoping there was some setting I could tweak to get them going without
-having to move to 22.04 LTS. (I've tried
-"nvme_core.default_ps_max_latency_us=0" and various values for
-"pci_aspm" with no luck.)
-
-Thanks,
-Nick
+I didn't realize that the 0x182 can be overloaded. In the case of fabric
+commands it stands for NVME_SC_CONNECT_INVALID_PARAM. So all good here.
 
