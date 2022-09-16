@@ -4,62 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C37CFECAAA1
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Sep 2022 22:24:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3DD87ECAAD8
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Sep 2022 06:30:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZLUj75T80VTCd3MCk+1uA7yofZgULgc4TieYgwThZSQ=; b=1QnAMUhASChjCAXY4PSI//1v0u
-	+WxsU1/2YWJ8UkhCzu6JoKkC/OP7r/u+Xv4RPyfHVh9ofvUreGYQc/wEyQRf1q6xSdWiMcpdSTD2m
-	hGXQ6sINDhKhtlaaV0PHIBQKHcymG72kNN2984MTcbGCUYrF9mfCqUA0VJO5sHxouqOzr0W1WU6ew
-	0jd3+5YMwilvj8acvIf85Jo3mCJqZyEscSEwPKMzJANdzRYYtZoEulLoDrWiRextxLfNArB2OpYtm
-	BvEmClqrLsfb1W7WAcTWD+5zcYlxyfnrh1KWimplsLZV6YnvqGiddyDH8vJH2N9U5m6lH1qV2/o/u
-	4AEa57qw==;
+	bh=s2fX3PuJ3mKrpXZ1Ba+gT20JOe7i9oPxZrSejyfo0MI=; b=vg9jzGifDHVh/VBEY6rk3yE1DJ
+	ey+l0KAxwp+xtUgccAhxMctDZuk40sCGNe96m+AZfmYiVNfRKVVU6hNf5MapQnxSy56RA4HYzHcRH
+	JRtrIQn4nY6JvLlXqcnT9gO2fnhzITGCAJ1rn1TRv0YT0Qh468IHRi6vuIHR60/ytlU6/VM3RwoHV
+	vOQBN5sQT3cfwfzdH7yzjYNP6b5gsHBgtZWELZHtnBW09+U/XUY7NwWfS5wANtd9RqfpTgkngbcuM
+	4V8xLfiAh26OhfDvIqKRE8ZiazJl6FIeARjjX2NGNOvAPg3x1jBf3Tc1QQR7i4kVkYrJdolVf+Gnw
+	XkAii88A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oYxHw-0015Y6-Bc; Thu, 15 Sep 2022 22:24:52 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1oZ4rb-009CO8-JD; Fri, 16 Sep 2022 06:30:11 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oYxHt-0015Mz-N3
-	for linux-nvme@lists.infradead.org; Thu, 15 Sep 2022 22:24:51 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id 1oZ4rZ-009CN2-1e
+	for linux-nvme@lists.infradead.org; Fri, 16 Sep 2022 06:30:10 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 291CAB822AB;
-	Thu, 15 Sep 2022 22:24:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17D42C433D6;
-	Thu, 15 Sep 2022 22:24:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1663280686;
-	bh=36GI720A9K10qvDDcwbW2T7hsA3bBfCkivMXn8z7jsA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cvYbJkSqR1FR5vKaKL3NHyZyBcZWJEzqRj8+bT/ySR6tsw0i2zNwf3oM/Ih5uhWzY
-	 fF4DKDpLpLDmdjCmv1d40ZgOOdl+ewcx8TAyt7shheJKDT8T/rG6XdWqFTZl1yWM0/
-	 1yCWLVdT+85L6bS6sW6hZw+uf+joB2hbMt6Hb3HsGCamEg0/76gD5NWsL9NDJh9ORV
-	 Q4nsk4WaNerv0NGyOzPokKiHRsgzFYIMa8kjIx5OMvrPfsE/7vr3ewzfAsGAcCWPpd
-	 875WwmuKPLhHPWKNpbwnraZEYU1pbIc83MlZruaBOJV7v08TnRXwQDKgumLjhuoAnJ
-	 fQGqjihJMwhBw==
-Date: Thu, 15 Sep 2022 23:24:42 +0100
-From: Keith Busch <kbusch@kernel.org>
-To: Nick Neumann <nick@pcpartpicker.com>
-Cc: y@kbusch-mbp.dhcp.thefacebook.com, linux-nvme@lists.infradead.org
-Subject: Re: smartctl "kills" specific drives on kernel 5.13 but works fine
- on 5.15 - why?
-Message-ID: <YyOmKiQXdpORZwbB@kbusch-mbp.dhcp.thefacebook.com>
-References: <CADqNVTpcFuPh8w3Gcx2ftYh_4EjObxpenA2Ps2y=055W0o13=A@mail.gmail.com>
- <CADqNVTp0KfQsegsEQn09-Tuc0b76_jWuir9UbDCe44o+rHr=0w@mail.gmail.com>
- <YyOFAvJR9mWo+57C@kbusch-mbp.dhcp.thefacebook.com>
- <CADqNVTqMcQvZ8_+BPez=ti3-V0wE2jOQCuOSoy5eT43RauFPAg@mail.gmail.com>
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 652E1338C3;
+	Fri, 16 Sep 2022 06:30:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1663309804; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s2fX3PuJ3mKrpXZ1Ba+gT20JOe7i9oPxZrSejyfo0MI=;
+	b=kWhaTzmDjV5JdP+jqzspfFE6YX72/LoNC6m08iHubqF0HkZO7Gr9gp15qh/ebgYk/Jj0sR
+	cXegi0ucgbSpYPyS+DfkHNUTwOEtTWmEqXc5K5vun//z8yw9f2Ejo9p+xt+SiCwUJe643j
+	2aXGbchI+GOC9AhjI5p7H5LrQAGGvnk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1663309804;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s2fX3PuJ3mKrpXZ1Ba+gT20JOe7i9oPxZrSejyfo0MI=;
+	b=OkDm4lgfEEl9V23C/BI1Iu7fOcOX1xS8TCBF8brIv/7bh+iGT9hxbE+wFGNq7HLxLK8BFv
+	yGHVUohSlHzu8rAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5719D1346B;
+	Fri, 16 Sep 2022 06:30:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id KIY6FewXJGMhFQAAMHmgww
+	(envelope-from <dwagner@suse.de>); Fri, 16 Sep 2022 06:30:04 +0000
+Date: Fri, 16 Sep 2022 08:30:03 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	James Smart <jsmart2021@gmail.com>
+Subject: Re: [PATCH blktests v3] nvme/046: test queue count changes on
+ reconnect
+Message-ID: <20220916062027.umsj6rqp6flgic3k@carbon.lan>
+References: <20220913065758.134668-1-dwagner@suse.de>
+ <20220913105743.gw2gczryymhy6x5o@shindev>
+ <20220913114210.gceoxlpffhaekpk7@carbon.lan>
+ <20220913171049.kgim57lu5rqb7j3g@carbon.lan>
+ <20220914090003.jbc5xmtfxjjssuz3@carbon.lan>
+ <3b58b91d-e217-86a2-b2e4-3b0656bbe0e9@grimberg.me>
+ <20220914110717.pvzm2666mklkg73a@carbon.lan>
+ <20220915125037.fqhcokdn4scnklyq@carbon.lan>
+ <381b003e-3510-8cbf-031d-b5314b17560d@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CADqNVTqMcQvZ8_+BPez=ti3-V0wE2jOQCuOSoy5eT43RauFPAg@mail.gmail.com>
+In-Reply-To: <381b003e-3510-8cbf-031d-b5314b17560d@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220915_152449_935436_1D8FB2DB 
-X-CRM114-Status: GOOD (  25.81  )
+X-CRM114-CacheID: sfid-20220915_233009_259309_98CDE15E 
+X-CRM114-Status: GOOD (  20.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,40 +98,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 15, 2022 at 03:48:01PM -0500, Nick Neumann wrote:
-> On Thu, Sep 15, 2022 at 3:03 PM Keith Busch <kbusch@kernel.org> wrote:
-> > Not sure what MDTS has to do with this. The error log was originally defined to
-> > be a max 4k size which is below the smallest possible MDTS.
-> >
-> > My guess is smartclt tricked the driver into allocating a PRP List, but the
-> > controller instead accessed it as a PRP entry, which could corrupt memory or
-> > fail the transaction if data direction is enforced by the memory controller.
-> > Why that causes the nvme controller to fail as you've described is weird,
-> > though.
-> 
-> I definitely don't know this stuff very well - the smartctl bug
-> commentary was referencing the nvme-cli commit where log pages are
-> transferred in 4k chunks to avoid having to worry about exceeding the
-> MDTS value. The problematic drives have error logs larger than 4K.
-> 
-> I believe the logic in the smartctl commentary was along the lines of
-> "well, the MDTS is large enough that we should be able to transfer
-> more than 4k at a time, but we're currently crashing. And nvme-cli
-> does it 4k at a time always, and if we change to that, the crash goes
-> away, so let's do that."
-> 
-> As to the allocation, smartctl calls into nvme with
-> nvme_admin_get_log_page and passes a buffer (that smartctl allocates)
-> of size n * sizeof(nvme_error_log_page), where n is the number of
-> error log entries it is trying to read. The fix in smarmontools moved
-> from trying to read all of the error log entries at once via a single
-> call to nvme_adming_get_log_page, to doing 4K bytes at a time.
-> 
-> Not sure how helpful any of that is; it's where my current understanding is at.
+On Thu, Sep 15, 2022 at 05:41:46PM +0200, Hannes Reinecke wrote:
+> > It looks like the reasoning here didn't take into consideration the
+> > scenario we have here. I'd say we should not do it and handle it similar
+> > as with have with tcp/rdma.
+> > 
+> But that is wrong.
+> When we are evaluating the NVMe status we _need_ to check the DNR bit;
+> that's precisely what it's for.
 
-If 'n' is > 64, then that would tell the driver to allocate a PRP list, and I
-am pretty sure based on the observations that the drive believes the address is
-a PRP entry. That doesn't readily explain why your ssd became unresponsive
-immediately after dispatching the command, but the drive definitely sounds
-broken.
+I asked what the desired behavior is and Sagi pointed out:
+
+> DNR means do not retry the command, it says nothing about do not attempt
+> a future reconnect...
+
+I really don't care too much, it just that fc and tcp/rdma do not behave
+the same in this regard which makes this test trip over. As long you two
+can agree on a the 'correct' behavior, I can do the work.
+
+> The real reason here is a queue inversion with fcloop; we've had them for
+> ages, and I'm not surprised that it pops off now.
+
+Could you elaborate?
+
+> In fact, I was quite surprised that I didn't hit it when updating blktests;
+> in previous versions I had to insert an explicit 'sleep 2' before disconnect
+> to make it work.
+> 
+> I'd rather fix that than reverting FC to the (wrong) behaviour.
+
+Sure, no problem with this approach.
 
