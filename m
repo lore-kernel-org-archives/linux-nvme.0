@@ -4,81 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92737ECAAA1
-	for <linux-nvme@archiver.kernel.org>; Sat, 17 Sep 2022 16:50:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2164FC32771
+	for <linux-nvme@archiver.kernel.org>; Sun, 18 Sep 2022 05:48:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OD9XT4CR5VyRMAIbcP4aYEY263YSrvWXbcu+RkRlk4I=; b=VUfdOY/Aw85h4L8UcuIs7q74fy
-	/tlkTJYEKW3EQZfL2EpkdKqV9OGubH+gmD/mdD89/zqbRSxH9+7IC7dgDvRpT83tA+g6cfLie/NBt
-	fxFPjfUCid45tguTJdminD/SKS7OhL76M1H526xo8PmpT/MC9BDdA2lR/+9MHd+i3yNYypUNtF8Eh
-	d2XopbjrMFDlQur1hDnQHmQLhe/2Euq9/9OQD5HFvLk8TRPXalEW5NGjlVXovnrA3H+sHBHGyTTAh
-	xKE9dyuwFy/fo3EHna1rxPXedFu7VnfadE4A6mb7tmbSxFPYur6TNQ2AxpXMFTAxFRyIckwbXjDz0
-	oP0v/7vA==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=XOndsD3PjUa8LyFYJzyKjY1yNsjpkmqRmuhKkebimFY=; b=Fwz4r8zGoHsq+Uypqb8onTgdnW
+	x15wDNOx9VGItZ/LytpphLGQYP87E+srj4I0sm0MfD9dc5oqeQcg1sxrYqhcSN+stbBOSOpoiivXc
+	kfJSjL05zqeIHOrN4eBfnZP0tYMA7Yo+kITIqJ8G9bJy6wUGOBNgMv6224vhYKReq3pI+cZT+KzTq
+	5NbYSLh/90QgV11nLRwxSCILaQNrACw6KlsaRENp1qQ2p3ZFkiGQjFcLbFrwcre1qGnCDdVBlqU8H
+	Y6F/GtMHa0EJq6IZtcqMvus3WuKtGPW0rcSebhYA1K/t8g5qnBYMZLJs+ptimKUbN3C9l7q2bwecP
+	Wf6scsdQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oZb1U-007Kpd-7g; Sat, 17 Sep 2022 16:50:32 +0000
-Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d])
+	id 1oZnAa-00CjfA-SA; Sun, 18 Sep 2022 05:48:44 +0000
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oZb1R-007KoP-UG
-	for linux-nvme@lists.infradead.org; Sat, 17 Sep 2022 16:50:31 +0000
-Received: by mail-io1-xd2d.google.com with SMTP id z191so19830301iof.10
-        for <linux-nvme@lists.infradead.org>; Sat, 17 Sep 2022 09:50:28 -0700 (PDT)
+	id 1oZnAR-00CjbZ-BT
+	for linux-nvme@lists.infradead.org; Sun, 18 Sep 2022 05:48:37 +0000
+Received: by mail-pj1-x102e.google.com with SMTP id x1-20020a17090ab00100b001fda21bbc90so3730451pjq.3
+        for <linux-nvme@lists.infradead.org>; Sat, 17 Sep 2022 22:48:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=OD9XT4CR5VyRMAIbcP4aYEY263YSrvWXbcu+RkRlk4I=;
-        b=aRVZwMRSorHTW051GLhPP5Qn0nfy4sTH/jVXgVHI2zdJhX3AmR/VWE9Iuzm5lWp2gq
-         +valD+bvQ2wXpLZb6szOuIDOjN2wXk1hczGfCJdwLafcqN3YXhvgXEFNZjhtvqC/AW/4
-         EP8w8J1PrOytikqdxGIjKCk1/pKpII+4tJBeOVFTyKFHoOvkv0yl/ovrwZlAht2xgnFb
-         gpSTV4+AYsHqTqXbGIkbzsKqnobAfG38uw6Bm17b+52rpKqe67akJpGHCmKzvCBf78oH
-         l1/kdR3eaVApM2K0W4aIaQPchZYlnFHrfsRLPfBRtIhsN088GAVllZdte1QuA5U5ZQwK
-         FQTQ==
+        d=purestorage.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=XOndsD3PjUa8LyFYJzyKjY1yNsjpkmqRmuhKkebimFY=;
+        b=PZWPG4B1GccIM2IbGrvfFQfE2XOCCYd7u3OA+lgQf6erK2FV4v882WBOFwyNuuDguc
+         oLiN/AafXRx1AIz7D6P/OBhMcUp1tuZyFrzOw4pp4qu3VYiMFMEQYAsON/R/FF2lVOqG
+         JfbUp7x8nlwpjhGoWDSWv3+E1nuVVtNhorVeY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=OD9XT4CR5VyRMAIbcP4aYEY263YSrvWXbcu+RkRlk4I=;
-        b=qSdH/0/WjslV0VZ+rUUVgZiYt9pQWkRwyM5q+FZfuXDurAsEkExz+2YUYA0YpZoAhq
-         G98QLrUCL+EYgbxYx10WC9k4gwSy71rzJIXYzYoFtDHs4S/8a8B+mNgL8ui0rU4YE9v1
-         VxgJrrH1steMESKJIdrUB1Q5A/T6lzlrPfOgjwGuqp1d5xUa26cKbZmDLZut9h38oNyS
-         wHFT6ZRegl8UXJ3L7N8B1sV0eptmXeC5+n1gcmcgFnLROE5JBntlD9uuBL8Rxih4M+Ml
-         zRuoIMbEm7m9lzT9pN0PzN+iQUMPWCPtCBlNQmhKBPEdaDnVFD1eb3wTTCsNiLNMNrR+
-         5SDg==
-X-Gm-Message-State: ACrzQf35aTTA+Gk9z0Gn+PigpZkIYFCT3YNNA4PJo/AxwGRHIRqyyQTT
-	Yy4rgqEEwoP1vbVyrPadoO1oLA==
-X-Google-Smtp-Source: AMsMyM5nlAPcgFEuypzcXVI6oequYsaj02FmYE5rWtc2/Q4m94D0ndSgXO8fPwVmq/KM98zJpYMKFw==
-X-Received: by 2002:a05:6602:15ca:b0:66d:9f5:4535 with SMTP id f10-20020a05660215ca00b0066d09f54535mr3999054iow.66.1663433428208;
-        Sat, 17 Sep 2022 09:50:28 -0700 (PDT)
-Received: from [192.168.1.94] ([207.135.234.126])
-        by smtp.gmail.com with ESMTPSA id t14-20020a92c90e000000b002f5024d8543sm1580861ilp.38.2022.09.17.09.50.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 17 Sep 2022 09:50:27 -0700 (PDT)
-Message-ID: <d8e43495-0959-2b47-b0af-be46d7ad57ea@kernel.dk>
-Date: Sat, 17 Sep 2022 10:50:26 -0600
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=XOndsD3PjUa8LyFYJzyKjY1yNsjpkmqRmuhKkebimFY=;
+        b=YivfqKdkzyht7AUW40HemBNxk+bQeO/orqnZiXwdvxboidY5woAnkwiHw1NkzNW/Dr
+         1mkZtEhIjYxt//eC/ljV8ff7j6+y4BJxh09BOmAOhxyqP8I4x/1tyxY3/Y1p/wJaRpMr
+         f994elqaIubyU1mVXiZit9+zzb65SdKMrQuVaNNTDLpQYFYnoJbD/8G39S/01gFkAG8i
+         MHBWfVtptCU4GA933MQ4UUY4VVoTH33708UQER2Vj8r7Tqw3BO/HeR0AazcF1ZSXIduI
+         O60y/CHQmfsc7eoSS9hl/DLDLoERx+glOwkJvziAp13jNvJMBqLv63JB1IrOe7FD5E//
+         LklA==
+X-Gm-Message-State: ACrzQf045SkfaKg/14aIxFOlpuauikPF+5SmeKgQNt3ht8NArSWVgwd5
+	mAmtAn3QaEJpWGB+76fLtara5Q==
+X-Google-Smtp-Source: AMsMyM7Or294lI/U4UnyF1S77l+pUsEJrrenHM3B0ZR5BwEbYQNN64WKvvyJBh60bMk8I+qnHYm0zQ==
+X-Received: by 2002:a17:90b:1e45:b0:202:fbc9:3df1 with SMTP id pi5-20020a17090b1e4500b00202fbc93df1mr25068654pjb.72.1663480112265;
+        Sat, 17 Sep 2022 22:48:32 -0700 (PDT)
+Received: from oceanus.lab.kspace.sh (c-98-207-191-243.hsd1.ca.comcast.net. [98.207.191.243])
+        by smtp.googlemail.com with ESMTPSA id rv11-20020a17090b2c0b00b001fb3522d53asm4100105pjb.34.2022.09.17.22.48.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Sep 2022 22:48:31 -0700 (PDT)
+From: Mohamed Khalfella <mkhalfella@purestorage.com>
+To: mkhalfella@purestorage.com
+Cc: stable@vger.kernel.org,
+	Eric Badger <ebadger@purestorage.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@fb.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Tao Chiu <taochiu@synology.com>,
+	Leon Chien <leonchien@synology.com>,
+	Cody Wong <codywong@synology.com>,
+	linux-nvme@lists.infradead.org (open list:NVM EXPRESS DRIVER),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] nvme-pci: Make sure to ring doorbell when last request is short-circuited
+Date: Sun, 18 Sep 2022 05:48:16 +0000
+Message-Id: <20220918054816.936669-1-mkhalfella@purestorage.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [RFC PATCH] nvme: request remote is usually not involved for nvme
- devices
-Content-Language: en-US
-To: Liu Song <liusong@linux.alibaba.com>, kbusch@kernel.org, axboe@fb.com,
- hch@lst.de, sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <1663432858-99743-1-git-send-email-liusong@linux.alibaba.com>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <1663432858-99743-1-git-send-email-liusong@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220917_095030_219144_9D1D5C1C 
-X-CRM114-Status: GOOD (  10.15  )
+X-CRM114-CacheID: sfid-20220917_224835_944803_694E2063 
+X-CRM114-Status: GOOD (  17.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,18 +91,70 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/17/22 10:40 AM, Liu Song wrote:
-> From: Liu Song <liusong@linux.alibaba.com>
-> 
-> NVMe devices usually have a 1:1 mapping between "ctx" and "hctx",
-> so when "nr_ctx" is equal to 1, there is no possibility of remote
-> request, so the corresponding process can be simplified.
+When processing a batch of requests, it is possible that nvme_queue_rq()
+misses to ring nvme queue doorbell if the last request fails because the
+controller is not ready. As a result of that, previously queued requests
+will timeout because the device had not chance to know about the commands
+existence. This failure can cause nvme controller reset to timeout if
+there was another App using adminq while nvme reset was taking place.
 
-If the worry is the call overhead of blk_mq_complete_request_remote(),
-why don't we just make that available as an inline instead? That seems
-vastly superior to providing a random shortcut in a driver to avoid
-calling it.
+Consider this case:
+- App is hammering adminq with NVME_ADMIN_IDENTIFY commands
+- Controller reset triggered by "echo 1 > /sys/.../nvme0/reset_controller"
 
+nvme_reset_ctrl() will change controller state to NVME_CTRL_RESETTING.
+From that point on all requests from App will be forced to fail because
+the controller is no longer ready. More importantly these requests will
+not make it to adminq and will be short-circuited in nvme_queue_rq().
+Unlike App requests, requests issued by reset code path will be allowed
+to go through adminq in order to carry out the reset process. The problem
+happens when blk-mq decides to mix requests from reset code path and App
+in one batch, in particular when the last request in such batch happens
+to be from App.
+
+In this case the last request will have bd->last set to true telling the
+driver to ring doorbell after queuing this request. However, since the
+controller is not ready, this App request will be completed without going
+through adminq, and nvme_queue_rq() will miss the opportunity to ring
+adminq doorbell leaving earlier queued requests unknown to the device.
+
+Fixes: d4060d2be1132 ("nvme-pci: fix controller reset hang when racing with nvme_timeout")
+Cc: stable@vger.kernel.org
+Reported-by: Eric Badger <ebadger@purestorage.com>
+Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+Reviewed-by: Eric Badger <ebadger@purestorage.com>
+---
+ drivers/nvme/host/pci.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 98864b853eef..f6b1ae593e8e 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -946,8 +946,12 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	if (unlikely(!test_bit(NVMEQ_ENABLED, &nvmeq->flags)))
+ 		return BLK_STS_IOERR;
+ 
+-	if (unlikely(!nvme_check_ready(&dev->ctrl, req, true)))
+-		return nvme_fail_nonready_command(&dev->ctrl, req);
++	if (unlikely(!nvme_check_ready(&dev->ctrl, req, true))) {
++		ret = nvme_fail_nonready_command(&dev->ctrl, req);
++		if (ret == BLK_STS_OK && bd->last)
++			nvme_commit_rqs(hctx);
++		return ret;
++	}
+ 
+ 	ret = nvme_prep_rq(dev, req);
+ 	if (unlikely(ret))
+@@ -1724,6 +1728,7 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid, bool polled)
+ static const struct blk_mq_ops nvme_mq_admin_ops = {
+ 	.queue_rq	= nvme_queue_rq,
+ 	.complete	= nvme_pci_complete_rq,
++	.commit_rqs	= nvme_commit_rqs,
+ 	.init_hctx	= nvme_admin_init_hctx,
+ 	.init_request	= nvme_pci_init_request,
+ 	.timeout	= nvme_timeout,
 -- 
-Jens Axboe
+2.25.1
+
 
