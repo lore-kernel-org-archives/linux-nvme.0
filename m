@@ -4,79 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2164FC32771
-	for <linux-nvme@archiver.kernel.org>; Sun, 18 Sep 2022 05:48:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 298ECC54EE9
+	for <linux-nvme@archiver.kernel.org>; Sun, 18 Sep 2022 14:13:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=XOndsD3PjUa8LyFYJzyKjY1yNsjpkmqRmuhKkebimFY=; b=Fwz4r8zGoHsq+Uypqb8onTgdnW
-	x15wDNOx9VGItZ/LytpphLGQYP87E+srj4I0sm0MfD9dc5oqeQcg1sxrYqhcSN+stbBOSOpoiivXc
-	kfJSjL05zqeIHOrN4eBfnZP0tYMA7Yo+kITIqJ8G9bJy6wUGOBNgMv6224vhYKReq3pI+cZT+KzTq
-	5NbYSLh/90QgV11nLRwxSCILaQNrACw6KlsaRENp1qQ2p3ZFkiGQjFcLbFrwcre1qGnCDdVBlqU8H
-	Y6F/GtMHa0EJq6IZtcqMvus3WuKtGPW0rcSebhYA1K/t8g5qnBYMZLJs+ptimKUbN3C9l7q2bwecP
-	Wf6scsdQ==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=bZnMUV6EF7Jbt2PC9BgNu63JVRVPMLc0poDkd2j39CE=; b=SFzH9p9NPGvPOSYGWVSGDnESc1
+	J0o4D01W3WrzauMSxVn2dmqIV9ddYgVUZDhfCx0Ymi5imqflAKMuU8v8OH/IfcY8VgkpcvfdrMyFD
+	fFr18zlTv82+qCUt2kVw60GLXPaBdW1eCCG2ZkfKmF2sI5B8TetH/YOueaa8ThUHwHspJWAs4Hi7O
+	nHFHAE9sJfLKSK03muIKo8pm3vvFZ74YMkVRJ+q7fb64o+5usDBjpkYUkQN7ODk17Nu8JhepSbr3L
+	5tBw93Eya21gFmD3eWzOM82SsNNiaOqYysTJNp9QKatX3KW0m8lJhmcsR1TDQQo/6Z1Xr9Dn5UkyX
+	bkk1+7ww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oZnAa-00CjfA-SA; Sun, 18 Sep 2022 05:48:44 +0000
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+	id 1oZv2V-00GtQa-FF; Sun, 18 Sep 2022 14:12:55 +0000
+Received: from mail-wr1-f42.google.com ([209.85.221.42])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oZnAR-00CjbZ-BT
-	for linux-nvme@lists.infradead.org; Sun, 18 Sep 2022 05:48:37 +0000
-Received: by mail-pj1-x102e.google.com with SMTP id x1-20020a17090ab00100b001fda21bbc90so3730451pjq.3
-        for <linux-nvme@lists.infradead.org>; Sat, 17 Sep 2022 22:48:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=XOndsD3PjUa8LyFYJzyKjY1yNsjpkmqRmuhKkebimFY=;
-        b=PZWPG4B1GccIM2IbGrvfFQfE2XOCCYd7u3OA+lgQf6erK2FV4v882WBOFwyNuuDguc
-         oLiN/AafXRx1AIz7D6P/OBhMcUp1tuZyFrzOw4pp4qu3VYiMFMEQYAsON/R/FF2lVOqG
-         JfbUp7x8nlwpjhGoWDSWv3+E1nuVVtNhorVeY=
+	id 1oZv2R-00GtLY-Jh
+	for linux-nvme@lists.infradead.org; Sun, 18 Sep 2022 14:12:53 +0000
+Received: by mail-wr1-f42.google.com with SMTP id n10so12666002wrw.12
+        for <linux-nvme@lists.infradead.org>; Sun, 18 Sep 2022 07:12:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=XOndsD3PjUa8LyFYJzyKjY1yNsjpkmqRmuhKkebimFY=;
-        b=YivfqKdkzyht7AUW40HemBNxk+bQeO/orqnZiXwdvxboidY5woAnkwiHw1NkzNW/Dr
-         1mkZtEhIjYxt//eC/ljV8ff7j6+y4BJxh09BOmAOhxyqP8I4x/1tyxY3/Y1p/wJaRpMr
-         f994elqaIubyU1mVXiZit9+zzb65SdKMrQuVaNNTDLpQYFYnoJbD/8G39S/01gFkAG8i
-         MHBWfVtptCU4GA933MQ4UUY4VVoTH33708UQER2Vj8r7Tqw3BO/HeR0AazcF1ZSXIduI
-         O60y/CHQmfsc7eoSS9hl/DLDLoERx+glOwkJvziAp13jNvJMBqLv63JB1IrOe7FD5E//
-         LklA==
-X-Gm-Message-State: ACrzQf045SkfaKg/14aIxFOlpuauikPF+5SmeKgQNt3ht8NArSWVgwd5
-	mAmtAn3QaEJpWGB+76fLtara5Q==
-X-Google-Smtp-Source: AMsMyM7Or294lI/U4UnyF1S77l+pUsEJrrenHM3B0ZR5BwEbYQNN64WKvvyJBh60bMk8I+qnHYm0zQ==
-X-Received: by 2002:a17:90b:1e45:b0:202:fbc9:3df1 with SMTP id pi5-20020a17090b1e4500b00202fbc93df1mr25068654pjb.72.1663480112265;
-        Sat, 17 Sep 2022 22:48:32 -0700 (PDT)
-Received: from oceanus.lab.kspace.sh (c-98-207-191-243.hsd1.ca.comcast.net. [98.207.191.243])
-        by smtp.googlemail.com with ESMTPSA id rv11-20020a17090b2c0b00b001fb3522d53asm4100105pjb.34.2022.09.17.22.48.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Sep 2022 22:48:31 -0700 (PDT)
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: mkhalfella@purestorage.com
-Cc: stable@vger.kernel.org,
-	Eric Badger <ebadger@purestorage.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Tao Chiu <taochiu@synology.com>,
-	Leon Chien <leonchien@synology.com>,
-	Cody Wong <codywong@synology.com>,
-	linux-nvme@lists.infradead.org (open list:NVM EXPRESS DRIVER),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] nvme-pci: Make sure to ring doorbell when last request is short-circuited
-Date: Sun, 18 Sep 2022 05:48:16 +0000
-Message-Id: <20220918054816.936669-1-mkhalfella@purestorage.com>
-X-Mailer: git-send-email 2.25.1
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=bZnMUV6EF7Jbt2PC9BgNu63JVRVPMLc0poDkd2j39CE=;
+        b=fGtlQu0tDmd7gi8IDl6KGc3uXcv+e/QMW/KpwwwFHIhnAbW1KLjzkVs0znQYeMmgzj
+         C0PNdkqSRP0bOEsAi7WkkfjcCt23dF8MtSw+M0AZxMildoZ/XPmbAGrBOo0Zd3brofbM
+         YOyA8oqTnMwzj8L3Dkn9whzO1iN8j6r8PAz4ajF1T87HuwIPcUpJhaeNiNrW+c55HBD8
+         SHM5Ft3c+9IVCB0HgEqf+7jW1AaiiDMyfGeIAVEeKkfY6H9BevMX0ga8JHcvrj99vd2p
+         MmEYvzNuvnubFhKVTkk3tyRtTgYML6uk8aFiqWRZxUFwhtzqi+P6rsXtWekQsu1g9lhu
+         4Pow==
+X-Gm-Message-State: ACrzQf0865p81YLGJoojXgmiIpvD540lYh57C7oenJoYr/2wkCzHRNEH
+	flSR37rAOBzKl04WjKODRms=
+X-Google-Smtp-Source: AMsMyM6cHQj8Quyp5bi0CPt6kmBw3oQOHpgv5KiFE1YxXjYUUtsSqIt5J1eofsjbXRuTVtJKlaqsiQ==
+X-Received: by 2002:a5d:6852:0:b0:228:c94b:a5b0 with SMTP id o18-20020a5d6852000000b00228c94ba5b0mr7822721wrw.540.1663510368855;
+        Sun, 18 Sep 2022 07:12:48 -0700 (PDT)
+Received: from [192.168.64.104] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id c2-20020a1c3502000000b003b4935f04a4sm11846820wma.5.2022.09.18.07.12.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 18 Sep 2022 07:12:47 -0700 (PDT)
+Message-ID: <6d1ac60b-a4f3-5886-8653-35c66900f7e8@grimberg.me>
+Date: Sun, 18 Sep 2022 17:12:46 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH rfc 0/1] Fix missing AENs when discovery controllers are
+ disconnected
+Content-Language: en-US
+To: James Smart <jsmart2021@gmail.com>, linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ Martin Belanger <nitram_67@hotmail.com>, Hannes Reinecke <hare@suse.de>
+References: <20220907142411.101950-1-sagi@grimberg.me>
+ <9eb798de-149d-a56d-ac00-dd6b7ae79a81@gmail.com>
+ <403e19c8-fec9-2d5c-157c-cdcb4fc2fbf0@grimberg.me>
+ <27194422-3759-928e-c88e-c5d10feeba5b@gmail.com>
+ <bf83b747-e6b5-57fb-0de7-e2fb646633aa@grimberg.me>
+ <73b6631a-1ec5-5a46-8f2a-f816acdeb97d@gmail.com>
+ <0d34d7e9-b5e1-149c-aefd-aa3bf182ad94@grimberg.me>
+ <917848e1-5650-bf1e-7dce-3a994c453c38@gmail.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <917848e1-5650-bf1e-7dce-3a994c453c38@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220917_224835_944803_694E2063 
-X-CRM114-Status: GOOD (  17.72  )
+X-CRM114-CacheID: sfid-20220918_071251_663172_2AE9E103 
+X-CRM114-Status: GOOD (  13.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,70 +89,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When processing a batch of requests, it is possible that nvme_queue_rq()
-misses to ring nvme queue doorbell if the last request fails because the
-controller is not ready. As a result of that, previously queued requests
-will timeout because the device had not chance to know about the commands
-existence. This failure can cause nvme controller reset to timeout if
-there was another App using adminq while nvme reset was taking place.
 
-Consider this case:
-- App is hammering adminq with NVME_ADMIN_IDENTIFY commands
-- Controller reset triggered by "echo 1 > /sys/.../nvme0/reset_controller"
+>> The fact that the event is called rediscover semantically means that
+>> this is the discovery controller. It would be weird coming on any other
+>> controller, even if userspace happened to ask for it. If at all, I'd
+>> prefer to fail the parameter for controllers that are not discovery
+>> controller, which is strict, but at least not resulting in a weird
+>> event...
+> 
+> yeah... I guess I fell into is "rediscover" because the controller was 
+> "rediscovered" on the link ?   vs "please rediscover on a discovery 
+> controller"
+> 
+> either way - based on other people's input is fine with me.
 
-nvme_reset_ctrl() will change controller state to NVME_CTRL_RESETTING.
-From that point on all requests from App will be forced to fail because
-the controller is no longer ready. More importantly these requests will
-not make it to adminq and will be short-circuited in nvme_queue_rq().
-Unlike App requests, requests issued by reset code path will be allowed
-to go through adminq in order to carry out the reset process. The problem
-happens when blk-mq decides to mix requests from reset code path and App
-in one batch, in particular when the last request in such batch happens
-to be from App.
-
-In this case the last request will have bd->last set to true telling the
-driver to ring doorbell after queuing this request. However, since the
-controller is not ready, this App request will be completed without going
-through adminq, and nvme_queue_rq() will miss the opportunity to ring
-adminq doorbell leaving earlier queued requests unknown to the device.
-
-Fixes: d4060d2be1132 ("nvme-pci: fix controller reset hang when racing with nvme_timeout")
-Cc: stable@vger.kernel.org
-Reported-by: Eric Badger <ebadger@purestorage.com>
-Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
-Reviewed-by: Eric Badger <ebadger@purestorage.com>
----
- drivers/nvme/host/pci.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 98864b853eef..f6b1ae593e8e 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -946,8 +946,12 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	if (unlikely(!test_bit(NVMEQ_ENABLED, &nvmeq->flags)))
- 		return BLK_STS_IOERR;
- 
--	if (unlikely(!nvme_check_ready(&dev->ctrl, req, true)))
--		return nvme_fail_nonready_command(&dev->ctrl, req);
-+	if (unlikely(!nvme_check_ready(&dev->ctrl, req, true))) {
-+		ret = nvme_fail_nonready_command(&dev->ctrl, req);
-+		if (ret == BLK_STS_OK && bd->last)
-+			nvme_commit_rqs(hctx);
-+		return ret;
-+	}
- 
- 	ret = nvme_prep_rq(dev, req);
- 	if (unlikely(ret))
-@@ -1724,6 +1728,7 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid, bool polled)
- static const struct blk_mq_ops nvme_mq_admin_ops = {
- 	.queue_rq	= nvme_queue_rq,
- 	.complete	= nvme_pci_complete_rq,
-+	.commit_rqs	= nvme_commit_rqs,
- 	.init_hctx	= nvme_admin_init_hctx,
- 	.init_request	= nvme_pci_init_request,
- 	.timeout	= nvme_timeout,
--- 
-2.25.1
-
+Didn't hear from anyone, guess it doesn't really matter.
+I'll lose the user parameter, make the event fire for
+any discovery controller that reconnects.
 
