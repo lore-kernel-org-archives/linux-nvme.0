@@ -4,65 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5F9B0ECAAA1
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Sep 2022 17:35:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0930AECAAD3
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Sep 2022 17:57:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KGInNetjF+7vl6b4xWiryqiOKapTk5YDeUOTrBtwbA0=; b=YCnoc85rS5pl60YKdjXkEMf647
-	sIodkVSr8ndajO5K3HO6giTufSzaGzpK//JoV1Ul04t7JgRkLtbS2l/WFeWhTEIZTH0yWCiLfwpC4
-	W8LFK2c45tAkhndDqoYUQzXJmxwZtl1yW+RezaCq1S5ca//Mk1tOxXoowfdpf/9yEfCOGYukqcpuT
-	b3Drx0C227y5hHp5NcXY53lEPMowy+Es9l0vV5wZx2jZn+EAC/+3PARTQnotYnBBvGKutTAF7iHZs
-	ZlKo6JTN1qPg/fn4TCxjit2VBZCLQpQgDSwmfBuuZILOkLxKM3BTb/vuFU5MA+CyW2pm8EWeOW4HZ
-	dbVMTqLw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=uutyCtcX/2LNEyVDlQFzRn2LRT7dUshU/FZisT8ltcU=; b=LX5iU5h1Wtw45ZsYYusUBEWuoe
+	8R3zPXjx9Rub5sdb8GXmEiAL1NLBdvn6cvsmfT5pWMj8XbVMpkVIbP0/X1HFcCa7wyE3KSGXTVUW/
+	9c+nc+BR+kcNBfIiMvR3mmnK7EFMHG7jy4olzkPrIOWhklT99Kcba62nOZUWo0LUJlbEqWPMsM2AZ
+	+gC01HAiKAQBerMgoEPVr1TW/UqimaVojtJlJa3d8pqOQMHnu4217tz2iG9t2F46EsC+ajbCGXZCu
+	sYVdJ+E+2gLMk5Z+iEnAuYNmLAODivslz1WFBToxN7DUbgL11/8bTA7rjOc+X2h4MrwPqF/Nm/Gsx
+	xx+C9aaw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaKfw-00DJp6-8J; Mon, 19 Sep 2022 17:35:20 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1oaL1B-00DSKs-32; Mon, 19 Sep 2022 17:57:17 +0000
+Received: from mail-qv1-xf30.google.com ([2607:f8b0:4864:20::f30])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaKfs-00DJmN-4L
-	for linux-nvme@lists.infradead.org; Mon, 19 Sep 2022 17:35:17 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 05601B81F0D;
-	Mon, 19 Sep 2022 17:35:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6AE3C433C1;
-	Mon, 19 Sep 2022 17:35:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1663608912;
-	bh=Qn6lr5IB3mFwwVXJMM+ZIl3PLXb1MwJ4yPUQA0hFbmM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M8/FKIAiuBZAp10nMBMVg2zTLKneDQZrw9lgelOHFRDdgy732FgfhrjZKhcwdyYA1
-	 G/TCJjptG4/uYRAt0oauQE7zpHbC0LZvAz0aPx/23soZNCQf5KBA0+AXak/laXnrZP
-	 fa7Z2Rnqn9lAV0tS+HvIYF/8bTSxG+RpbYn3JVn6refrGDAlbxN1bIzsFQktiUSA4g
-	 tb1RwHs0TnnxJrkofLCFP9R4cZMaC+DTwAugizfGt4Wn/O205zFQx+lF0ny+oBSH0W
-	 4zPLeP87aa3Z3g1iSJUVP3DqybE1JxvgtVvCUaLIAZi27VfxLO3dIhlCh/RRuNATHv
-	 jmdtOKdwUS75A==
-Date: Mon, 19 Sep 2022 11:35:09 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Mohamed Khalfella <mkhalfella@purestorage.com>
-Cc: stable@vger.kernel.org, Eric Badger <ebadger@purestorage.com>,
-	Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Tao Chiu <taochiu@synology.com>,
-	Leon Chien <leonchien@synology.com>,
-	Cody Wong <codywong@synology.com>,
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] nvme-pci: Make sure to ring doorbell when last request
- is short-circuited
-Message-ID: <YyioTUV/Td+yf0Z6@kbusch-mbp>
-References: <20220918054816.936669-1-mkhalfella@purestorage.com>
+	id 1oaL17-00DSH7-6O
+	for linux-nvme@lists.infradead.org; Mon, 19 Sep 2022 17:57:14 +0000
+Received: by mail-qv1-xf30.google.com with SMTP id z9so264805qvn.9
+        for <linux-nvme@lists.infradead.org>; Mon, 19 Sep 2022 10:57:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=uutyCtcX/2LNEyVDlQFzRn2LRT7dUshU/FZisT8ltcU=;
+        b=Jk0CyBTmicWaTFAwTJHt8Nzm6jj2teSSINFaGIaKXMSEil0ghHvXHp6BRiQPpDL352
+         w5snkvQf7Clwv7mAXXosfM+gEJw+NjUSceGuQ37v2uyX+IE/VrM7Q81GoxTwnxFo5Lu7
+         xBdb5DgX1sPDw7ou0Kdlp7YFbETX14pWdsoJlH+GDiZ9dZEPB1SF6eTMwJCNRmkLxyDs
+         dom+vOoLUeS4CmSaQ/Bg4F5zeJ+KxJqchPwNmlfHTIswqPGy9Udu/uDPedVkIIF46eOY
+         LFzHL/LBm6PUHi7Hf3s+GB77zFrysITratHxX1Yle6keTbnsc4jeEGm0KwTUx6xXBB18
+         oDFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=uutyCtcX/2LNEyVDlQFzRn2LRT7dUshU/FZisT8ltcU=;
+        b=om4jyQ998x/F1gZt0YkIm+zscIyTy+X38Sb+vhPItbThjxcRPK0GQvNHznyVGzLSDv
+         psgBxoTQRoqjxSCqY4/Pv6os4x0wE2gvqZs1DCknajf7AbkuWa4yUKmeIlpg69mKcL7h
+         S8lKQGgKi3wS/TeMpLACHPiYydNRRDfdaaSsQt6v57lnwuHiYNsmI5W1gREFgmhCbTRE
+         v6Xfy0aPp+DoufdMOvQNqpf6qcxiyvn7cCPLoZ+D5ugIiMtL80BFK8WqN1RLACnr8wW5
+         oJNYiRLaeILAhZW/EX8rt92wyuOj/q3/Q4XXjfOMAo5K0hQQaVc785v3KSMVyHoGiajo
+         TZNw==
+X-Gm-Message-State: ACrzQf2Ckck3HPwwZZIr+2/wnkgRmWPnI5UZtd0z5rBQ6FT6eljKyXt/
+	bqap8F8fLz1WaSbJbPhSCRg=
+X-Google-Smtp-Source: AMsMyM415iM0g/ejH9fCtYT9Talq4T+D5Diok+g12E3/w9bw8vHNiNBN1w3//0ctyXdOCaojPo5yFQ==
+X-Received: by 2002:a05:6214:250b:b0:4ad:3338:bed9 with SMTP id gf11-20020a056214250b00b004ad3338bed9mr7012101qvb.13.1663610227884;
+        Mon, 19 Sep 2022 10:57:07 -0700 (PDT)
+Received: from [10.69.46.142] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id m22-20020a05620a291600b006bba46e5eeasm13740273qkp.37.2022.09.19.10.57.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Sep 2022 10:57:07 -0700 (PDT)
+Message-ID: <35339637-846a-2c7d-d414-fa05527a8cf6@gmail.com>
+Date: Mon, 19 Sep 2022 10:57:05 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220918054816.936669-1-mkhalfella@purestorage.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] nvmet-fc: Fix potential Use-after-free bug in
+ nvmet_fc_delete_target_queue()
+Content-Language: en-US
+To: Liang He <windhl@126.com>, james.smart@broadcom.com, hch@lst.de,
+ sagi@grimberg.me, kch@nvidia.com, linux-nvme@lists.infradead.org
+References: <20220916082953.4095940-1-windhl@126.com>
+ <5c965e81.13d6.183536d5bba.Coremail.windhl@126.com>
+From: James Smart <jsmart2021@gmail.com>
+In-Reply-To: <5c965e81.13d6.183536d5bba.Coremail.windhl@126.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220919_103516_497873_EC697A7E 
-X-CRM114-Status: GOOD (  22.70  )
+X-CRM114-CacheID: sfid-20220919_105713_275732_14631095 
+X-CRM114-Status: GOOD (  10.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,44 +93,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Sep 18, 2022 at 05:48:16AM +0000, Mohamed Khalfella wrote:
-> When processing a batch of requests, it is possible that nvme_queue_rq()
-> misses to ring nvme queue doorbell if the last request fails because the
-> controller is not ready. As a result of that, previously queued requests
-> will timeout because the device had not chance to know about the commands
-> existence. This failure can cause nvme controller reset to timeout if
-> there was another App using adminq while nvme reset was taking place.
+On 9/18/2022 6:46 PM, Liang He wrote:
+>>
+>> 		kfree(deferfcp);
+>>
+>> -		spin_lock_irqsave(&queue->qlock, flags);
+>> +		spin_lock_irqsave(q_lock, flags);
+>> 	}
+>> 	spin_unlock_irqrestore(&queue->qlock, flags);
+>>
+>> -- 
+>> 2.25.1
 > 
-> Consider this case:
-> - App is hammering adminq with NVME_ADMIN_IDENTIFY commands
-> - Controller reset triggered by "echo 1 > /sys/.../nvme0/reset_controller"
+> Sorry, my patch is totally wrong as the 'qlock' is embeded into queue.
+> So if queue is freed, the 'qlock' will also be freed.
 > 
-> nvme_reset_ctrl() will change controller state to NVME_CTRL_RESETTING.
-> From that point on all requests from App will be forced to fail because
-> the controller is no longer ready. More importantly these requests will
-> not make it to adminq and will be short-circuited in nvme_queue_rq().
-> Unlike App requests, requests issued by reset code path will be allowed
-> to go through adminq in order to carry out the reset process. The problem
-> happens when blk-mq decides to mix requests from reset code path and App
-> in one batch, in particular when the last request in such batch happens
-> to be from App.
-> 
-> In this case the last request will have bd->last set to true telling the
-> driver to ring doorbell after queuing this request. However, since the
-> controller is not ready, this App request will be completed without going
-> through adminq, and nvme_queue_rq() will miss the opportunity to ring
-> adminq doorbell leaving earlier queued requests unknown to the device.
-> 
-> Fixes: d4060d2be1132 ("nvme-pci: fix controller reset hang when racing with nvme_timeout")
+> Now, we can only hope the 'nvmet_fc_tgt_q_put' in lin 941 will never really free the 'queue'.
 
-I revisted that commit, and it doesn't sound correct. Specifically this part:
+Did you actually see that occur (line 941 freed the queue) ?
 
-    5) reset_work() continues to setup_io_queues() as it observes no error
-       in init_identify(). However, the admin queue has already been
-       quiesced in dev_disable(). Thus, any following commands would be
-       blocked forever in blk_execute_rq().
-
-When a timeout occurs in the CONNECTING state, the timeout handler unquiesces
-the queue specifically to flush out any blocked requests. Is that commit really
-necessary? I'd rather just revert it to save the extra per-IO checks if not.
+-- james
 
