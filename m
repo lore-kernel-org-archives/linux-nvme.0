@@ -4,59 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6E4BBC54EE9
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Sep 2022 01:48:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8FC4ECAAD3
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Sep 2022 07:33:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:MIME-Version:
-	Content-Type:Content-Transfer-Encoding:References:In-Reply-To:Subject:To:From
-	:Date:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SCvkpvK48dt0RorK9oFh11/dJY6Ke91+ljyUVARvrp4=; b=1JN1Q9n4YTlxOhEUTlLTgTcsNf
-	Uhk9pnLzn5Pq3pdD2mE3Q9p/Jn151zTbxKXNVMYQJyB8GGPDkMLeGkh2Xdcg5sOEVqjmZCdpFnQSg
-	r9e9OIyFlzfGd8BcsKyD20BUy9CFLwekxThANfaSor9ePFJU0LdOYo5BT6vGX6a/HzQEVbL0hm6oP
-	g8FB5QNnQeKpzTka95+i0lnw1pvwzsCeAx8GVGPBRnS/8IKTZtEpCVjM0Ml7hjKjoevL87QJZRMLx
-	b5cr5LObaI7KAILt0CnCKLd1DepZ6dDmkA4iEO5wTPbtc/KFczlv727eBMUmJGozMu6WfxNpwhbWT
-	OGw2OqOw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ukVRPzxF564A7MDYuDGy+jZnYYdHXZuwKBB+pwcFuDk=; b=OKZJaNvEvYohezcxLkBLu8iKUp
+	1dkok3KLwoCjCqHCA1u6kSuNm9La7VLtYxLDuLtmXmxaO1uc6Ix5lkZfFJQc4tbSi/m/DAsuphFpC
+	6AfzDv0Qfvi3QHXkGOEKIz+SSmsPjL9uf/xQ5dZV/Db8ZMBQ7AGqQwJWVTOOni/2bUWCzMoKPEgys
+	gf8nNgYT5yCik69wI7ZLrNtQwkLFlj24m+hWjHUZ6PsLIHSNgcM5W3jIwv37gimqudp7w4ZO4tQ2f
+	6fgE4ICip6BbQuZ/aIVvj+ojn9nQjFwmYz4dk5qSw9wd+Fs/5ELv5H/y2ChLiAlWWBQEmm//tcc2f
+	PZ2zV4VQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oa5tM-005fE0-PY; Mon, 19 Sep 2022 01:48:12 +0000
-Received: from m1564.mail.126.com ([220.181.15.64])
-	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oa5tI-005f7k-SC
-	for linux-nvme@lists.infradead.org; Mon, 19 Sep 2022 01:48:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
-	s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=fLebM
-	RKl+CypIgX/ABfUk3zfg1bZt89agwxxfxZ7cRU=; b=QaZ3yAit1mLEhfCbfXVDT
-	2GGGN0zhiZUKl+i38n27eaa4FR3lwI7pKPM185mw7yquueFcLg3cPRUejs5fqBLK
-	IagncMt37wScXw1B6egIXN5zgDMXEUSo8f3pB3Z0xlK8mCKwCb794SuVqUa//Jnl
-	w1W253HCWrysS/HyySb0Po=
-Received: from windhl$126.com ( [124.16.139.61] ) by ajax-webmail-wmsvr64
- (Coremail) ; Mon, 19 Sep 2022 09:46:59 +0800 (CST)
-X-Originating-IP: [124.16.139.61]
-Date: Mon, 19 Sep 2022 09:46:59 +0800 (CST)
-From: "Liang He" <windhl@126.com>
-To: james.smart@broadcom.com, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
-	linux-nvme@lists.infradead.org
-Subject: Re:[PATCH] nvmet-fc: Fix potential Use-after-free bug in
- nvmet_fc_delete_target_queue()
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
- Copyright (c) 2002-2022 www.mailtech.cn 126com
-In-Reply-To: <20220916082953.4095940-1-windhl@126.com>
-References: <20220916082953.4095940-1-windhl@126.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+	id 1oaBHT-009Hh9-SR; Mon, 19 Sep 2022 07:33:27 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oaBHN-009HZp-A9
+	for linux-nvme@lists.infradead.org; Mon, 19 Sep 2022 07:33:23 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 76095220EA;
+	Mon, 19 Sep 2022 07:33:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1663572793; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ukVRPzxF564A7MDYuDGy+jZnYYdHXZuwKBB+pwcFuDk=;
+	b=MvRcgcuGJRVyM7sYW/I7TbuyPlTKU7rxEcasYNPVKyzoGVQz552NQy+u2WsSyLY8a1Gdbi
+	NhmtuiZqzvJBHddYcsyDnCflQ6aAR6E9HkCDxs07uEKg0eQJHrmL65U5aie6oWPQsdrBCW
+	1s26eBfn8UB5zM549c3kZhrb8UAAy5I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1663572793;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ukVRPzxF564A7MDYuDGy+jZnYYdHXZuwKBB+pwcFuDk=;
+	b=KaSSaO/2dwQ4ZzIsLorVDD6lIvZZ0iCYn5MyTqLIr449E9l+t7Tl96/UKETYNqtrX0BGJ8
+	7K/jWYLK5DNcTIDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 66DF513ABD;
+	Mon, 19 Sep 2022 07:33:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id EDMJGTkbKGNSIgAAMHmgww
+	(envelope-from <dwagner@suse.de>); Mon, 19 Sep 2022 07:33:13 +0000
+Date: Mon, 19 Sep 2022 09:33:12 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: Re: [PATCH] nvme-tcp: Fix UAF when detecting digest errors
+Message-ID: <20220919073312.2aoefykkekeuhiz6@carbon.lan>
+References: <20220905105417.1241304-1-sagi@grimberg.me>
+ <20220905120421.kxqtjtxcdpadi4na@carbon.lan>
 MIME-Version: 1.0
-Message-ID: <5c965e81.13d6.183536d5bba.Coremail.windhl@126.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: QMqowAB3f3MUyidjk45yAA--.968W
-X-CM-SenderInfo: hzlqvxbo6rjloofrz/1tbiuBiAF2JVlbFiEwACsX
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220905120421.kxqtjtxcdpadi4na@carbon.lan>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220918_184809_433942_EAAC6150 
-X-CRM114-Status: UNSURE (   7.58  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220919_003321_532382_840D7964 
+X-CRM114-Status: GOOD (  18.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,31 +88,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-CgpBdCAyMDIyLTA5LTE2IDE2OjI5OjUzLCAiTGlhbmcgSGUiIDx3aW5kaGxAMTI2LmNvbT4gd3Jv
-dGU6Cj5JbiBudm1ldF9mY19kZWxldGVfdGFyZ2V0X3F1ZXVlKCksIHRoZSBudm1ldF9mY190Z3Rf
-cV9wdXQoKSBtYXkgZnJlZQo+cXVldWUgaWYgaXRzIHJlZmNvdW50IGhpdHMgMC4gQW5kIHRoZSBm
-b2xsb3dpbmcgY29kZSB3aWxsIGRlcmVmZXJlbmNlCj5pdCB0byBnZXQgcWNsb2NrIGJ5ICdxdWV1
-ZS0+cWxvY2snLCBzbyB0aGVyZSBpcyBhIHBvdGVudGlhbCBVQUYgYnVnLgo+Cj5GaXhlczogNjE5
-YzYyZGNjNjJiICgibnZtZXQtZmM6IGNvcnJlY3QgcmVmIGNvdW50aW5nIGVycm9yIHdoZW4gZGVm
-ZXJyZWQgcmN2IHVzZWQiKQo+U2lnbmVkLW9mZi1ieTogTGlhbmcgSGUgPHdpbmRobEAxMjYuY29t
-Pgo+LS0tCj4gZHJpdmVycy9udm1lL3RhcmdldC9mYy5jIHwgMyArKy0KPiAxIGZpbGUgY2hhbmdl
-ZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4KPmRpZmYgLS1naXQgYS9kcml2ZXJz
-L252bWUvdGFyZ2V0L2ZjLmMgYi9kcml2ZXJzL252bWUvdGFyZ2V0L2ZjLmMKPmluZGV4IGFiMjYy
-N2UxN2JiOS4uMzJlMWQ2MjAxN2QyIDEwMDY0NAo+LS0tIGEvZHJpdmVycy9udm1lL3RhcmdldC9m
-Yy5jCj4rKysgYi9kcml2ZXJzL252bWUvdGFyZ2V0L2ZjLmMKPkBAIC04ODEsNiArODgxLDcgQEAg
-bnZtZXRfZmNfZGVsZXRlX3RhcmdldF9xdWV1ZShzdHJ1Y3QgbnZtZXRfZmNfdGd0X3F1ZXVlICpx
-dWV1ZSkKPiAJc3RydWN0IG52bWV0X2ZjX3RndHBvcnQgKnRndHBvcnQgPSBxdWV1ZS0+YXNzb2Mt
-PnRndHBvcnQ7Cj4gCXN0cnVjdCBudm1ldF9mY19mY3BfaW9kICpmb2QgPSBxdWV1ZS0+Zm9kOwo+
-IAlzdHJ1Y3QgbnZtZXRfZmNfZGVmZXJfZmNwX3JlcSAqZGVmZXJmY3AsICp0ZW1wcHRyOwo+Kwlz
-cGlubG9ja190ICpxX2xvY2sgPSAmcXVldWUtPnFsb2NrOwo+IAl1bnNpZ25lZCBsb25nIGZsYWdz
-Owo+IAlpbnQgaTsKPiAJYm9vbCBkaXNjb25uZWN0Owo+QEAgLTk0Miw3ICs5NDMsNyBAQCBudm1l
-dF9mY19kZWxldGVfdGFyZ2V0X3F1ZXVlKHN0cnVjdCBudm1ldF9mY190Z3RfcXVldWUgKnF1ZXVl
-KQo+IAo+IAkJa2ZyZWUoZGVmZXJmY3ApOwo+IAo+LQkJc3Bpbl9sb2NrX2lycXNhdmUoJnF1ZXVl
-LT5xbG9jaywgZmxhZ3MpOwo+KwkJc3Bpbl9sb2NrX2lycXNhdmUocV9sb2NrLCBmbGFncyk7Cj4g
-CX0KPiAJc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmcXVldWUtPnFsb2NrLCBmbGFncyk7Cj4gCj4t
-LSAKPjIuMjUuMQoKU29ycnksIG15IHBhdGNoIGlzIHRvdGFsbHkgd3JvbmcgYXMgdGhlICdxbG9j
-aycgaXMgZW1iZWRlZCBpbnRvIHF1ZXVlLgpTbyBpZiBxdWV1ZSBpcyBmcmVlZCwgdGhlICdxbG9j
-aycgd2lsbCBhbHNvIGJlIGZyZWVkLgoKTm93LCB3ZSBjYW4gb25seSBob3BlIHRoZSAnbnZtZXRf
-ZmNfdGd0X3FfcHV0JyBpbiBsaW4gOTQxIHdpbGwgbmV2ZXIgcmVhbGx5IGZyZWUgdGhlICdxdWV1
-ZScuCg==
+Hi Sagi,
+
+On Mon, Sep 05, 2022 at 02:04:21PM +0200, Daniel Wagner wrote:
+> On Mon, Sep 05, 2022 at 01:54:17PM +0300, Sagi Grimberg wrote:
+> > We should also bail from the io_work loop when we
+> > set rd_enabled to true, so we don't attempt to read
+> > data from the socket when the tcp stream is already
+> > out-of-sync or corrupted.
+> > 
+> > Fixes: 3f2304f8c6d6 ("nvme-tcp: add NVMe over TCP host driver")
+> > Reported-by: Daniel Wagner <dwagner@suse.de>
+> > Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+> 
+> Makes sense independent of my bug report. I let you know what the
+> outcome of our customers testing is.
+
+Finally got feedback on this patch. It fixes the reported problem. The
+host doesn't crash anymore:
+
+  nvme nvme10: data digest error: recv 0x0 expected 0x7b844ccf
+  nvme nvme10: data digest error: recv 0x0 expected 0x7b844ccf
+  nvme nvme10: data digest error: recv 0x0 expected 0x7b844ccf
+  nvme nvme10: data digest error: recv 0x0 expected 0xee74c89b
+  nvme nvme10: data digest error: recv 0x0 expected 0xee74c89b
+  nvme nvme10: data digest error: recv 0x0 expected 0x7b844ccf
+
+Thanks!
+Daniel
 
