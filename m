@@ -4,68 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D23DFECAAD3
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Sep 2022 19:37:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 118C6ECAAA1
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Sep 2022 19:46:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:CC:To:From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=fknC6DakP1y9/qWOC673CDlp6f9DsbYasEs92PkknTc=; b=TJOfIxQthLJmbK7UpXt1HqC9AB
-	0Ppf6PZOdtfg6vnVxCRq2LouaQC2ZwdKDfKtKC7QqUyJ9heFiEl2ABVorvYUfNkiyvJXjj5ef0rX2
-	Tdw6CeXN7ScOleUDZri5Qm3EmHREOgtUHhQsopK2z/oPnqoU5uWbBSVH83HJ23gOt3nAFyP9wYYRY
-	/9xI20PkQk/Zi1f68HH3Ikqymgom9Z4U2g2cVExmE88qQ5Ze+VgamytdElqlbZ8JiLDGHsu9aM8Cu
-	r8CBUj1HKnwgRZfeev0QIpjjhxI0kPmr7tRGFArXQQUC3BZvThOZsL6DA21AkPtRqUkLAliCDnY2j
-	D5E9zT8A==;
+	bh=Mjop2Ge0xW1RcpqEMqkH5YcqNeWQ8UkZxkBVMw0vPMk=; b=tc8L09HB51uZkKPwOpUOaYIJMp
+	YF7J2GgRHQsYAqZJ7cWvmIGFDZTVzSAvseyBVlmoJ+Q42Z9pJwLr0pBLDR6GNoysbsnHV2xdJKtGc
+	gN/08dIkDg6iP5YqgnYnpqXRnsPyFQYJsEYvGmCQlgbXnzw2DywkWia+R36oTWUp+16iHZIWKvl/C
+	tTeRXP2AjeqXZzydC0SMGT8WG5zwrJSe7m/vr1Q6qwuFSXc1lXhIyFkJM6oKGvkaC3NTlgRj9FBD5
+	MEcMir06M39jeeOr0PPJLKmOKWBjCTGKadTFrQKZvinQ/QHEsly8+r2mymQvA9o+1IvXTMgNzYqTN
+	Wc2TGsvA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaMaN-00EYky-OT; Mon, 19 Sep 2022 19:37:43 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1oaMiO-00Ekss-Uj; Mon, 19 Sep 2022 19:46:00 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaMZu-00EX8q-CP
-	for linux-nvme@lists.infradead.org; Mon, 19 Sep 2022 19:37:16 +0000
-Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28JJMOFP020896
-	for <linux-nvme@lists.infradead.org>; Mon, 19 Sep 2022 12:37:03 -0700
+	id 1oaMiL-00Eknq-UZ
+	for linux-nvme@lists.infradead.org; Mon, 19 Sep 2022 19:45:59 +0000
+Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
+	by m0089730.ppops.net (8.17.1.5/8.17.1.5) with ESMTP id 28JIDZT7011016
+	for <linux-nvme@lists.infradead.org>; Mon, 19 Sep 2022 12:45:56 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=facebook; bh=fknC6DakP1y9/qWOC673CDlp6f9DsbYasEs92PkknTc=;
- b=ZlUDF27VDO3u0lUHU2DIZxhFBUNmAk1rgPuTqGfxqCq9sk0iCQHji/whJvDHZHUgKCJV
- oqHcrtwND/KF/KSh3NJ7j7Ww3dNMvvkSHSMNocYZudTjkyMWEYKBKFXGPyB2X1Q5JoeH
- 75dyfjOdw7Dx5mEQNLp3Vzux/frgReKDuYg= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3jnbyxnbpr-1
+ : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=facebook; bh=Mjop2Ge0xW1RcpqEMqkH5YcqNeWQ8UkZxkBVMw0vPMk=;
+ b=Fwrpm4fzBdRl3WsRr74OryruAVR8wshEhVnZe3VIfKhkASyYoURcBkw/fj294IAsKjI9
+ u78PqdQXplomV5tuRWCO/7R2/HAgrSvdRRVxvbAYzj/h0x9vwS8CQ3dO13trR0ga0rqM
+ +0Tgjx4Hz1o4FuQp8hROrT11phgJtQNxnhw= 
+Received: from mail.thefacebook.com ([163.114.132.120])
+	by m0089730.ppops.net (PPS) with ESMTPS id 3jpm35cx3n-3
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Mon, 19 Sep 2022 12:37:02 -0700
-Received: from twshared6240.04.ash8.facebook.com (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:83::4) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Mon, 19 Sep 2022 12:45:56 -0700
+Received: from snc-exhub201.TheFacebook.com (2620:10d:c085:21d::7) by
+ snc-exhub102.TheFacebook.com (2620:10d:c085:11d::6) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 19 Sep 2022 12:45:52 -0700
+Received: from twshared14494.08.ash8.facebook.com (2620:10d:c085:208::11) by
+ mail.thefacebook.com (2620:10d:c085:21d::7) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 19 Sep 2022 12:37:00 -0700
+ 15.1.2375.31; Mon, 19 Sep 2022 12:45:14 -0700
 Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id 4D39A8CCA657; Mon, 19 Sep 2022 12:36:47 -0700 (PDT)
+	id 808DE8CCBA0B; Mon, 19 Sep 2022 12:45:11 -0700 (PDT)
 From: Keith Busch <kbusch@fb.com>
 To: <linux-nvme@lists.infradead.org>, <hch@lst.de>, <sagi@grimberg.me>
-CC: Keith Busch <kbusch@kernel.org>,
-        Jonathan Derrick
-	<Jonathan.Derrick@solidigm.com>
-Subject: [PATCHv2] nvme: handle effects after freeing the request
-Date: Mon, 19 Sep 2022 12:36:46 -0700
-Message-ID: <20220919193646.1599162-1-kbusch@fb.com>
+CC: Keith Busch <kbusch@kernel.org>, Jeff Lien <jeff.lien@wdc.com>
+Subject: [PATCH] nvme: copy firmware_rev on each init
+Date: Mon, 19 Sep 2022 12:45:08 -0700
+Message-ID: <20220919194508.1704346-1-kbusch@fb.com>
 X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-GUID: arBjK7EHCpDedHBooTSXrl_XFXMP3lhc
-X-Proofpoint-ORIG-GUID: arBjK7EHCpDedHBooTSXrl_XFXMP3lhc
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
-MIME-Version: 1.0
+X-Proofpoint-ORIG-GUID: x1WC-i7hAGYgPBDa8p9zWc-iD42W4fDv
+X-Proofpoint-GUID: x1WC-i7hAGYgPBDa8p9zWc-iD42W4fDv
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
  definitions=2022-09-19_05,2022-09-16_01,2022-06-22_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220919_123714_626466_9A82B674 
-X-CRM114-Status: GOOD (  21.43  )
+X-CRM114-CacheID: sfid-20220919_124558_124996_310509BC 
+X-CRM114-Status: GOOD (  15.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,161 +83,40 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-If a reset occurs after the scan work attempts to issue a command, the
-reset may quisce the admin queue, which blocks the scan work's command
-from dispatching. The scan work will not be able to complete while the
-queue is quiesced.
+The firmware revision can change on after a reset so copy the most
+recent info each time instead of just the first time, otherwise the
+sysfs firmware_rev entry may contain stale data.
 
-Meanwhile, the reset work will cancel all outstanding admin tags and
-wait until all requests have transitioned to idle, which includes the
-passthrough request. But the passthrough request won't be set to idle
-until after the scan_work flushes, so we're deadlocked.
-
-Fix this by handling the end effects after the request has been freed.
-
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D216354
-Reported-by: Jonathan Derrick <Jonathan.Derrick@solidigm.com>
+Reported-by: Jeff Lien <jeff.lien@wdc.com>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
-v1->v2:
-
-  Open code the effects end handling in each of the callers instead of
-  special casing just the 'flush_work' part.
-
- drivers/nvme/host/core.c       | 17 ++++++-----------
- drivers/nvme/host/ioctl.c      |  9 ++++++++-
- drivers/nvme/host/nvme.h       |  4 +++-
- drivers/nvme/target/passthru.c |  7 ++++++-
- 4 files changed, 23 insertions(+), 14 deletions(-)
+ drivers/nvme/host/core.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 8c9c1176624d..ea6694fd550f 100644
+index ea6694fd550f..e56ecc7fda2d 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1111,8 +1111,8 @@ static u32 nvme_passthru_start(struct nvme_ctrl *ctrl=
-, struct nvme_ns *ns,
- 	return effects;
- }
+@@ -2893,7 +2893,6 @@ static int nvme_init_subsystem(struct nvme_ctrl *ct=
+rl, struct nvme_id_ctrl *id)
+ 	nvme_init_subnqn(subsys, ctrl, id);
+ 	memcpy(subsys->serial, id->sn, sizeof(subsys->serial));
+ 	memcpy(subsys->model, id->mn, sizeof(subsys->model));
+-	memcpy(subsys->firmware_rev, id->fr, sizeof(subsys->firmware_rev));
+ 	subsys->vendor_id =3D le16_to_cpu(id->vid);
+ 	subsys->cmic =3D id->cmic;
 =20
--static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects,
--			      struct nvme_command *cmd, int status)
-+void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects,
-+		       struct nvme_command *cmd, int status)
- {
- 	if (effects & NVME_CMD_EFFECTS_CSE_MASK) {
- 		nvme_unfreeze(ctrl);
-@@ -1148,21 +1148,16 @@ static void nvme_passthru_end(struct nvme_ctrl *ctr=
-l, u32 effects,
- 		break;
+@@ -3112,6 +3111,8 @@ static int nvme_init_identify(struct nvme_ctrl *ctr=
+l)
+ 				ctrl->quirks |=3D core_quirks[i].quirks;
+ 		}
  	}
- }
-+EXPORT_SYMBOL_NS_GPL(nvme_passthru_end, NVME_TARGET_PASSTHRU);
++	memcpy(ctrl->subsys->firmware_rev, id->fr,
++	       sizeof(ctrl->subsys->firmware_rev));
 =20
--int nvme_execute_passthru_rq(struct request *rq)
-+int nvme_execute_passthru_rq(struct request *rq, u32 *effects)
- {
- 	struct nvme_command *cmd =3D nvme_req(rq)->cmd;
- 	struct nvme_ctrl *ctrl =3D nvme_req(rq)->ctrl;
- 	struct nvme_ns *ns =3D rq->q->queuedata;
--	u32 effects;
--	int  ret;
-=20
--	effects =3D nvme_passthru_start(ctrl, ns, cmd->common.opcode);
--	ret =3D nvme_execute_rq(rq, false);
--	if (effects) /* nothing to be done for zero cmd effects */
--		nvme_passthru_end(ctrl, effects, cmd, ret);
--
--	return ret;
-+	*effects =3D nvme_passthru_start(ctrl, ns, cmd->common.opcode);
-+	return nvme_execute_rq(rq, false);
- }
- EXPORT_SYMBOL_NS_GPL(nvme_execute_passthru_rq, NVME_TARGET_PASSTHRU);
-=20
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 27614bee7380..d3281f87cd6e 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -136,9 +136,11 @@ static int nvme_submit_user_cmd(struct request_queue *=
-q,
- 		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
- 		u32 meta_seed, u64 *result, unsigned timeout, bool vec)
- {
-+	struct nvme_ctrl *ctrl;
- 	struct request *req;
- 	void *meta =3D NULL;
- 	struct bio *bio;
-+	u32 effects;
- 	int ret;
-=20
- 	req =3D nvme_alloc_user_request(q, cmd, ubuffer, bufflen, meta_buffer,
-@@ -147,8 +149,9 @@ static int nvme_submit_user_cmd(struct request_queue *q,
- 		return PTR_ERR(req);
-=20
- 	bio =3D req->bio;
-+	ctrl =3D nvme_req(req)->ctrl;
-=20
--	ret =3D nvme_execute_passthru_rq(req);
-+	ret =3D nvme_execute_passthru_rq(req, &effects);
-=20
- 	if (result)
- 		*result =3D le64_to_cpu(nvme_req(req)->result.u64);
-@@ -158,6 +161,10 @@ static int nvme_submit_user_cmd(struct request_queue *=
-q,
- 	if (bio)
- 		blk_rq_unmap_user(bio);
- 	blk_mq_free_request(req);
-+
-+	if (effects)
-+		nvme_passthru_end(ctrl, effects, cmd, ret);
-+
- 	return ret;
- }
-=20
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 1bdf714dcd9e..a0bf9560cf67 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -1023,7 +1023,9 @@ static inline void nvme_auth_free(struct nvme_ctrl *c=
-trl) {};
-=20
- u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 			 u8 opcode);
--int nvme_execute_passthru_rq(struct request *rq);
-+int nvme_execute_passthru_rq(struct request *rq, u32 *effects);
-+void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects,
-+		       struct nvme_command *cmd, int status);
- struct nvme_ctrl *nvme_ctrl_from_file(struct file *file);
- struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid);
- void nvme_put_ns(struct nvme_ns *ns);
-diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index 6f39a29828b1..94d3153bae54 100644
---- a/drivers/nvme/target/passthru.c
-+++ b/drivers/nvme/target/passthru.c
-@@ -215,9 +215,11 @@ static void nvmet_passthru_execute_cmd_work(struct wor=
-k_struct *w)
- {
- 	struct nvmet_req *req =3D container_of(w, struct nvmet_req, p.work);
- 	struct request *rq =3D req->p.rq;
-+	struct nvme_ctrl *ctrl =3D nvme_req(rq)->ctrl;
-+	u32 effects;
- 	int status;
-=20
--	status =3D nvme_execute_passthru_rq(rq);
-+	status =3D nvme_execute_passthru_rq(rq, &effects);
-=20
- 	if (status =3D=3D NVME_SC_SUCCESS &&
- 	    req->cmd->common.opcode =3D=3D nvme_admin_identify) {
-@@ -238,6 +240,9 @@ static void nvmet_passthru_execute_cmd_work(struct work=
-_struct *w)
- 	req->cqe->result =3D nvme_req(rq)->result;
- 	nvmet_req_complete(req, status);
- 	blk_mq_free_request(rq);
-+
-+	if (effects)
-+		nvme_passthru_end(ctrl, effects, req->cmd, status);
- }
-=20
- static void nvmet_passthru_req_done(struct request *rq,
+ 	if (force_apst && (ctrl->quirks & NVME_QUIRK_NO_DEEPEST_PS)) {
+ 		dev_warn(ctrl->device, "forcibly allowing all power states due to nvme=
+_core.force_apst -- use at your own risk\n");
 --=20
 2.30.2
 
