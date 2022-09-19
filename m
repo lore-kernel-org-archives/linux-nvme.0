@@ -4,69 +4,136 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 118C6ECAAA1
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Sep 2022 19:46:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A00BC6FA82
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Sep 2022 23:05:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Mjop2Ge0xW1RcpqEMqkH5YcqNeWQ8UkZxkBVMw0vPMk=; b=tc8L09HB51uZkKPwOpUOaYIJMp
-	YF7J2GgRHQsYAqZJ7cWvmIGFDZTVzSAvseyBVlmoJ+Q42Z9pJwLr0pBLDR6GNoysbsnHV2xdJKtGc
-	gN/08dIkDg6iP5YqgnYnpqXRnsPyFQYJsEYvGmCQlgbXnzw2DywkWia+R36oTWUp+16iHZIWKvl/C
-	tTeRXP2AjeqXZzydC0SMGT8WG5zwrJSe7m/vr1Q6qwuFSXc1lXhIyFkJM6oKGvkaC3NTlgRj9FBD5
-	MEcMir06M39jeeOr0PPJLKmOKWBjCTGKadTFrQKZvinQ/QHEsly8+r2mymQvA9o+1IvXTMgNzYqTN
-	Wc2TGsvA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=271vvUCXSgNlfij0m2PG9WJ3HtHaGD0Z4/Loqr/o4sM=; b=hcU3WnOaxBsvj6PBpOGKeuwZPG
+	cP4+2LIV+TiaWB0a8ICE6cONQIZm9etHRNe6J7+gLO6pdjTukBJ7b7bW7sWh+O3fbiWAD+VVYNA7u
+	Ps2frFq6gM1i+P92RbRzkW8SXvfDST7I2kmjs1+l3RMSDtyYw7nMRXLqtDuMwiXyyD4JRR2TKjUAL
+	4nMXF1HXQyWpylWA+Pqcv2S/T+kKnxClZsufob2JfB4GCcR8BnZHG7HSOcZEn55eQCxYvuALhYn4m
+	b1s4BPOxe8I1C/3BGvnMTfjOSS7SG7y6xXFVM7rtrjl2rMPCnNfEZgIU7d4ioT5at02ZY5O9EM5Rh
+	C6RJe0kw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaMiO-00Ekss-Uj; Mon, 19 Sep 2022 19:46:00 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
+	id 1oaPou-00G7io-Kv; Mon, 19 Sep 2022 23:04:56 +0000
+Received: from mail-mw2nam04on2042.outbound.protection.outlook.com ([40.107.101.42] helo=NAM04-MW2-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaMiL-00Eknq-UZ
-	for linux-nvme@lists.infradead.org; Mon, 19 Sep 2022 19:45:59 +0000
-Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
-	by m0089730.ppops.net (8.17.1.5/8.17.1.5) with ESMTP id 28JIDZT7011016
-	for <linux-nvme@lists.infradead.org>; Mon, 19 Sep 2022 12:45:56 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=facebook; bh=Mjop2Ge0xW1RcpqEMqkH5YcqNeWQ8UkZxkBVMw0vPMk=;
- b=Fwrpm4fzBdRl3WsRr74OryruAVR8wshEhVnZe3VIfKhkASyYoURcBkw/fj294IAsKjI9
- u78PqdQXplomV5tuRWCO/7R2/HAgrSvdRRVxvbAYzj/h0x9vwS8CQ3dO13trR0ga0rqM
- +0Tgjx4Hz1o4FuQp8hROrT11phgJtQNxnhw= 
-Received: from mail.thefacebook.com ([163.114.132.120])
-	by m0089730.ppops.net (PPS) with ESMTPS id 3jpm35cx3n-3
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Mon, 19 Sep 2022 12:45:56 -0700
-Received: from snc-exhub201.TheFacebook.com (2620:10d:c085:21d::7) by
- snc-exhub102.TheFacebook.com (2620:10d:c085:11d::6) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 19 Sep 2022 12:45:52 -0700
-Received: from twshared14494.08.ash8.facebook.com (2620:10d:c085:208::11) by
- mail.thefacebook.com (2620:10d:c085:21d::7) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 19 Sep 2022 12:45:14 -0700
-Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id 808DE8CCBA0B; Mon, 19 Sep 2022 12:45:11 -0700 (PDT)
-From: Keith Busch <kbusch@fb.com>
-To: <linux-nvme@lists.infradead.org>, <hch@lst.de>, <sagi@grimberg.me>
-CC: Keith Busch <kbusch@kernel.org>, Jeff Lien <jeff.lien@wdc.com>
-Subject: [PATCH] nvme: copy firmware_rev on each init
-Date: Mon, 19 Sep 2022 12:45:08 -0700
-Message-ID: <20220919194508.1704346-1-kbusch@fb.com>
-X-Mailer: git-send-email 2.30.2
+	id 1oaPor-00G7eP-SZ
+	for linux-nvme@lists.infradead.org; Mon, 19 Sep 2022 23:04:55 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VXPZQMvE8YIhV38R0Dke8d0EEkLn4z3ElM2R5UsYGYuMs1vTFcKujRn9DBRbUdjU8J2Bh4wOZQXEUchhLSHlcNjxtssEdKtTlMi4Sx/oIvLWIc4nuYMuT/XDOu7BQBMSEOBv2F+u3SJgaaBInfjMLnd8aiSODlt5JGf0Hq2SlgozIKLSkSTTdy5uI0sxRyjki6NysHxIbzdZODdZuIvTDISs8e5QzXmebPwzpwiMByfzwdktKGAUcufuOvgRx2fq7+rf4fyqC4LLkS79XpGm5W2hs47cCDKTe0a2uvZr/Uyq8/oafSvMS4vsUTeuqQtijSZ18HjD/zA9lkVR9AxThA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=271vvUCXSgNlfij0m2PG9WJ3HtHaGD0Z4/Loqr/o4sM=;
+ b=YwX76KXL+tD6ZBO0uw+4orP09OKGvqflkHNmIprQhkHks9xHT7ASR2NkXjwu6L6m2olP8eM/64YdKpgxJaMGLVJ0GudobEogs3M53Nb3Fp5afNWKrx1ieTRPow4doEV2vYQMFfM6Zxz3M31yvRzmdLKEE1dF4ofzAbUdnsEGIwLARxK5BEhX+N3tOJx72D8aUewApwlhozIXe1HVOl4H2dQlrjB80CanvgnnDU7BiPlj3maWCzUnvWeEVBSyB8E2gnQ309iDrhxf1Bp5cG7z8y/0IN/Pc/ZuyGUoIjTUaLIcabCwp/p5NT+DZQLIYEs6dbT+q1RyPmVmpbh8N4yTpg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=271vvUCXSgNlfij0m2PG9WJ3HtHaGD0Z4/Loqr/o4sM=;
+ b=EU+bfvz7ZNLmVRyJD9sDD0T/i8Zoqs8rt95IX+T8en9Q5OGum2GqEYYnomKb2VUJKJmR5rCxeGThsUbSq7DiHq++yANsN+L3SBjJBmGfv7T30qqICVozlLfuVVsiUuGqGi/Xctfy6lHBKad5VyP1oiM/CmS4/pWpA0MglVQuNDqPTP6xT7yT+5mIoLFCdMKMZ5sNIJc2Zb+d560ShOCNUudAQ68O+8ZVF6DCOcgaxySUn+GHf/UEE0OsdmdvJ3dkFDhbhralGv5Yk0Qz+AU2ETKxBNog6GB6DQBw0tcLJEsd4jkHsTuRNPYRdTQHQ4ZSh9VzVeCnyzYCtXZ1nNX5Ow==
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
+ by DM4PR12MB5390.namprd12.prod.outlook.com (2603:10b6:5:389::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.21; Mon, 19 Sep
+ 2022 23:04:46 +0000
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::3d10:f869:d83:c266]) by MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::3d10:f869:d83:c266%4]) with mapi id 15.20.5632.021; Mon, 19 Sep 2022
+ 23:04:45 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Keith Busch <kbusch@fb.com>
+CC: Keith Busch <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>,
+	"sagi@grimberg.me" <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH] nvme: copy firmware_rev on each init
+Thread-Topic: [PATCH] nvme: copy firmware_rev on each init
+Thread-Index: AQHYzGCLpy4iw8DUk0eZg8STqlRfBK3nX6mA
+Date: Mon, 19 Sep 2022 23:04:45 +0000
+Message-ID: <a849175f-82d9-7c06-f606-0020a752d20a@nvidia.com>
+References: <20220919194508.1704346-1-kbusch@fb.com>
+In-Reply-To: <20220919194508.1704346-1-kbusch@fb.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|DM4PR12MB5390:EE_
+x-ms-office365-filtering-correlation-id: d0881f5e-f9b8-436b-a4cc-08da9a93584f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  KT6QfNtiLPm+V0nHb1WP8dy/9ABF3t0LGcZH5FafLZDz4VnkYS72NZZSaFTnQeCwyiw9xxkPQFKd9QQWwPQA3pTxG7Da7ajcV3ZSKsfXLNabvseoXAc6XvTSsoIGyKSV/1x9DrWRfGsMajoDgT9H83pZGUKFZSQoAMPHUYyoIxZ3Awz1RqUQfnuoq6NhzTQrUdyevRYcV8VdMZVPfc4CItFJ6gUVYk86VcppB1DRyMns8w4a1moQT38JQ2ccrCpSyUatfRlZ52RNmAxAb09waJMG8Y1bpBLjNUtS48BNeliMxWssSJNDEdhaEY6AsXnyRs1jRff8gxoY9q8tQHG1Oc2tthTe1/tvCuXPF4tpdB/UxrPAOxD9wfauzfvDlvaFNjvaVCeROw8Ea5xr1dfO6JaPf8zFsPebakwrqGxfvMgNU1HPkRNxmaPCUxfyZ5wTBbRD2WuQD1L+FFZfId1bTzqQsXYVMyHp4y5TkeWFL0va6c4HZIBMGjBEzxqjQd/oMNOgsQ/WzffKEPRDojtUJQ1FAWlF5hQnN4ZvRlZbzGyOmbQOssLSXbt1yc9j+61LHb+39ibKHwJcpXYAue8GF57/LWOBLS5nzlcMnK4WnJVuBYBj9tzf+cEWZ21dg8Ay0mFTrGjZTey58zbgW8kIPTmvBhh5/sT7yWxvwNauZjYbOtr8uTFbqWqzds+VOX93o066etfiUhIhr1oRNugKhlbYdANs4cSN+3P4zcPzPnUO7HJYknZH3ppBIZ872UvR2pCFyAgfOr6KbrpEZlOi0pk4AfMiJx/fRTcwmPznoEMQmF0SEL5M0i6W+nsOvAA+xeiWuAw6+62MPn4TOkaK6w==
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(136003)(396003)(39860400002)(346002)(376002)(451199015)(2616005)(2906002)(4744005)(38070700005)(53546011)(41300700001)(6506007)(4326008)(91956017)(76116006)(8676002)(66946007)(6916009)(64756008)(66476007)(66556008)(66446008)(316002)(54906003)(71200400001)(6486002)(5660300002)(31696002)(86362001)(186003)(8936002)(36756003)(478600001)(6512007)(38100700002)(122000001)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?bUF3R0UxK1JYWU5vL2pqQ05CemkxYU55R3Bxc2U3aHA2ZTNPa3diUE9hZHFr?=
+ =?utf-8?B?WWZaM1YvUmlvMWNuaGdEOVlYK2V2VDliVlR3b0hRWExPMnp3UnMxLzVWaXF3?=
+ =?utf-8?B?MEhTM0tsNzNNZGZoWmU5VUtEelc5ZzJtTnN1SmpTem11MitQYlJ2eEg5UFdJ?=
+ =?utf-8?B?SmY1d0M4MHpTVDREZysyRHNpeXhrMDlCNk1YdnBRcHMxQVFkSlk5c0RFRmh4?=
+ =?utf-8?B?V213UWdIeFV0SzNMWXQ2eDU4TjJYRmN4Zzhydm9JSlpSV3dwR0Q5citsYTZl?=
+ =?utf-8?B?NmRZZWttUFRueU9pcXd3Sklsa1ZsaU1DRmxyTmNobk9lTkM2SVZoL0d6ZW4z?=
+ =?utf-8?B?eG1UcjI3NVhNTStGNHlNMXJkNTVCRnViNDVHaUFRek1TS0pWUGVvVHRwWERm?=
+ =?utf-8?B?WTdZR0I2Z3VSbm9QVGJHTkI5YWJ1QjNjcXpHQkFrS2pYZll1R0FYUzY1VHZx?=
+ =?utf-8?B?Z2JUTENTNkc0Zmo1Q3FXbmFmUmRxWVBvU3Q4Y1hqdStMUDJwR0ZybmJwVVdo?=
+ =?utf-8?B?WnAxVkxQVm9MMFpSRytFY3U5TTJqRGtGS2d6VU8zUmZEaGJ6VVdteUdzL3lF?=
+ =?utf-8?B?aGlQeGQwM3ZHemhEL3NodVR1eWxtV0gwMGhEczJFYVFqR1liRlVqc3ZvcDNh?=
+ =?utf-8?B?VkxjaUhoblVpZitTYnNQT3NNRVI3dCtqSWxqYnZWa3pQVmFxL2dLMk12L3F0?=
+ =?utf-8?B?WTRYK1M1dUxYUmtBbStuNVpwN1VKQ2l3M3RqS2crQXpVcXpERXcyYnM2YlVk?=
+ =?utf-8?B?aGFKNGsrN2VWWEg5SG9yN0p4TWVmbUJ6WXVYMTJWYmVXVTNMRHFINm95c3Ft?=
+ =?utf-8?B?TG40U1htVDBpOHkyVkw2UFpQNFczR1hIT3A5RmVrbW5tMHlndmpYaWMyUTd6?=
+ =?utf-8?B?Z1JJbmJ3SzUyYWhpNmcxclBtT0tlL1F2WitaU1FlbkFqeCs4UkVCZlovYWdC?=
+ =?utf-8?B?NkxIOW1MOTR1Sk9kV1BJRHhxcUZ3bkZWdHNwbTlZbW5lMEJEWkJJN1Rqc1JW?=
+ =?utf-8?B?b1U3N21DdWhQeEZGcFZKRkQxV0lySEE1WmxkakQ2NW00RVR4K1ljUmd3UDJO?=
+ =?utf-8?B?ZkxNcEtna2RyQ3lBaEo5YkNqbGU3UUFST3UyTUtKOXpzU3JtaU5KMjI5ZTRs?=
+ =?utf-8?B?SjIzL2thMGo2Njl2YnpEWWc5N09oU0ZQVTJXcGYwa2V1dTBZU3dkYkpGS0o4?=
+ =?utf-8?B?TjR5VVI0bk5hVTdRVnh6MFQyL2gwWllsZUc1VTluTmM0OTRQT0hDd3prWEdn?=
+ =?utf-8?B?V3RwTzc4R1RmUzRpK1EvQjIyUDNYZENyOTBwQWdzNUFGRkMvVkJKS1RBVXEv?=
+ =?utf-8?B?dFBPTHQxOEYyVGxOc2tSdDAyZ0t0emVkcEUzbFl5dmVRTWRDcWsrUDZmQXQy?=
+ =?utf-8?B?QTc3TDdOWkJsUE9lYXUyOEtHenZIbHBxSFhlbzhwQVR4Z2xTMTkyREZKUDMr?=
+ =?utf-8?B?VnQ1N2ZYUTAwL0ZNaEo3OTIyaUhEbVlFeXoxOWVSUTBsblVkemd0NXRWNWpM?=
+ =?utf-8?B?M0srcU5yTWNyNThuRnZ1L3NsYThtQUlCQzU2UE4ySFNWMS9rYjVoWnBXZUlO?=
+ =?utf-8?B?YVdoZm5VUVRhaFNJemxxUGRjUGtXUkVFL3dsM1RVeTM1cDhUbkRDbUVreUNo?=
+ =?utf-8?B?ZDVoWVo4Mlk2LzVLOCtHNHJKY1ZKM3hDV3NhUXpvQmU2Y2htdmp2Z2dQaDNC?=
+ =?utf-8?B?NklPeFJEc2lmSXFVYW9KNzQwRW1QVGxxanNub29jR2EvbE5JT0NiVzFDN3lP?=
+ =?utf-8?B?WURJTDRCZXo2UExPaXZuTHpXZHFBY0Q5L0RNSUhTNlpUYVVreWMyNVp3WmJL?=
+ =?utf-8?B?WEppUDc4K0JFTTNlay9sVmNVU0thVGxFTWFCazBpS2hsMU5YQ0NkTVFadzBv?=
+ =?utf-8?B?UTJCQks4TEkzTG5JUFlLbDVFVU5TMVpSYWtnUVFRV2RudFNpM1VIa1Z1U09s?=
+ =?utf-8?B?SHlidlJKNkxqZmtIa0ppek8xdHBEb1ZQS1I0RXpVVytSRFN6WVVHMUZpejBU?=
+ =?utf-8?B?ZGNRdlJkc2hkaE4reUtWRkwzYXJsTTZLSngyZnZwTG40U2dVbUY3NmZud0tI?=
+ =?utf-8?B?N0JSZjEwS0owVk9IKzZETkVzNlVkVHlTbW5tbVR3Z3lRYWk4RnFjaC9ld3Nm?=
+ =?utf-8?B?ZitVaXpHYUw1QUtlUmV3RjdCTFhQTVJWRWRmRTFROWo0MnlaTkVqeExQMzRw?=
+ =?utf-8?Q?eBSGdL/qRVdYB3dYC/f+deLs8mYsnHioLNzcO39Dbwom?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <74835930D38B1141B583944C31ADC7CD@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: x1WC-i7hAGYgPBDa8p9zWc-iD42W4fDv
-X-Proofpoint-GUID: x1WC-i7hAGYgPBDa8p9zWc-iD42W4fDv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-19_05,2022-09-16_01,2022-06-22_01
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0881f5e-f9b8-436b-a4cc-08da9a93584f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Sep 2022 23:04:45.8518
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: bKm3fWDWiHbvDNQse26KCoEfjSltdk8XA2ObmpwjkL3/GNqVExZu9vJ8fOwKV/2m5VwP+0k1e/pYXCaDJYReCA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5390
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220919_124558_124996_310509BC 
-X-CRM114-Status: GOOD (  15.74  )
+X-CRM114-CacheID: sfid-20220919_160454_167495_66792070 
+X-CRM114-Status: UNSURE (   9.87  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,43 +148,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
-
-The firmware revision can change on after a reset so copy the most
-recent info each time instead of just the first time, otherwise the
-sysfs firmware_rev entry may contain stale data.
-
-Reported-by: Jeff Lien <jeff.lien@wdc.com>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index ea6694fd550f..e56ecc7fda2d 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2893,7 +2893,6 @@ static int nvme_init_subsystem(struct nvme_ctrl *ct=
-rl, struct nvme_id_ctrl *id)
- 	nvme_init_subnqn(subsys, ctrl, id);
- 	memcpy(subsys->serial, id->sn, sizeof(subsys->serial));
- 	memcpy(subsys->model, id->mn, sizeof(subsys->model));
--	memcpy(subsys->firmware_rev, id->fr, sizeof(subsys->firmware_rev));
- 	subsys->vendor_id =3D le16_to_cpu(id->vid);
- 	subsys->cmic =3D id->cmic;
-=20
-@@ -3112,6 +3111,8 @@ static int nvme_init_identify(struct nvme_ctrl *ctr=
-l)
- 				ctrl->quirks |=3D core_quirks[i].quirks;
- 		}
- 	}
-+	memcpy(ctrl->subsys->firmware_rev, id->fr,
-+	       sizeof(ctrl->subsys->firmware_rev));
-=20
- 	if (force_apst && (ctrl->quirks & NVME_QUIRK_NO_DEEPEST_PS)) {
- 		dev_warn(ctrl->device, "forcibly allowing all power states due to nvme=
-_core.force_apst -- use at your own risk\n");
---=20
-2.30.2
-
+T24gOS8xOS8yMiAxMjo0NSwgS2VpdGggQnVzY2ggd3JvdGU6DQo+IEZyb206IEtlaXRoIEJ1c2No
+IDxrYnVzY2hAa2VybmVsLm9yZz4NCj4gDQo+IFRoZSBmaXJtd2FyZSByZXZpc2lvbiBjYW4gY2hh
+bmdlIG9uIGFmdGVyIGEgcmVzZXQgc28gY29weSB0aGUgbW9zdA0KPiByZWNlbnQgaW5mbyBlYWNo
+IHRpbWUgaW5zdGVhZCBvZiBqdXN0IHRoZSBmaXJzdCB0aW1lLCBvdGhlcndpc2UgdGhlDQo+IHN5
+c2ZzIGZpcm13YXJlX3JldiBlbnRyeSBtYXkgY29udGFpbiBzdGFsZSBkYXRhLg0KPiANCj4gUmVw
+b3J0ZWQtYnk6IEplZmYgTGllbiA8amVmZi5saWVuQHdkYy5jb20+DQo+IFNpZ25lZC1vZmYtYnk6
+IEtlaXRoIEJ1c2NoIDxrYnVzY2hAa2VybmVsLm9yZz4NCj4NCg0KDQpMb29rcyBnb29kLg0KDQpS
+ZXZpZXdlZC1ieTogQ2hhaXRhbnlhIEt1bGthcm5pIDxrY2hAbnZpZGlhLmNvbT4NCg0KLWNrDQoN
+Cg0K
 
