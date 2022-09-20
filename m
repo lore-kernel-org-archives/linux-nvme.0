@@ -4,68 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 282F7ECAAD8
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Sep 2022 15:34:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71555ECAAD8
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Sep 2022 15:53:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EgvGrc7uFwyZpQCtIPUuCJ8XPMVMcqHNXt6gEKSa27U=; b=YgSmeLQKY5xvU8244cvyERzxmx
-	Q8yfKIdWrtAkQEyQe7CQBOt8nLoTNaUNZTT8EucrI29hb1fcyuun4fwWe7Au04JOkZoJcC2pUlgR1
-	4u4+LERrGJgDbt3aB1rRJ+ohSTZ6iw4vHyfU8RrEbmqF7mRajfNh+gRviGatCyxAa6esXHfuNU5Ir
-	XNtPl7yNtnWEnnZnfU8AGEAz5TTPNU7oa+mCQ92Cm+uROyM54cyEJZP80PmjYPMR7QJ6YOsR2RgMk
-	PlxVGr0mxILBkYqDrORlYGw8y9RCc9PDYwRTA70tLWXsfNxkyD7IzP8DPbhaCnlzfmNuXdqCpAJ9P
-	WcvsLsKg==;
+	bh=zsoYNuKP3QpmgzC9FFiiHSP/WEa5pMQzXimPu0ydcOE=; b=vFb7VpFeEZ8dKn2sm2fLA1jNrR
+	0cf2TP9n7KqhdhVDz9eANYS9IZJphibisJAiSmqW5g+eTbrYpWTlK0QSGCURHJKwx6Si50quVhtkW
+	ECoatIMLKvm50zltl9kWfbxbB/UPhdxnrhIetgvWT3dyYpWsbDVf68v8nRCNLr30DLXxWPEQKifCM
+	j7xJQdPY8oF3021oyNrlKEcFN4dQLINPv5BDGJqgAyvxNynJJPZ6Pz/JMoNDWH0RFnFpJS6y7vsb5
+	N013Bq+MvdX1eHnmn1U14PbYB7npLMIXdP7DaLwEM12VaLGYYKAkC9Ceq1/gLII4VcQbw3hqYjeze
+	9m8JGI3g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oafGj-004uK0-3d; Tue, 20 Sep 2022 15:34:42 +0000
-Received: from mail-wm1-f50.google.com ([209.85.128.50])
+	id 1oafYv-0050HW-BK; Tue, 20 Sep 2022 15:53:29 +0000
+Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oafGf-004uEx-NH
-	for linux-nvme@lists.infradead.org; Tue, 20 Sep 2022 15:34:39 +0000
-Received: by mail-wm1-f50.google.com with SMTP id az6so2215354wmb.4
-        for <linux-nvme@lists.infradead.org>; Tue, 20 Sep 2022 08:34:36 -0700 (PDT)
+	id 1oafYp-0050FQ-8i
+	for linux-nvme@lists.infradead.org; Tue, 20 Sep 2022 15:53:24 +0000
+Received: by mail-qt1-x836.google.com with SMTP id c11so1993367qtw.8
+        for <linux-nvme@lists.infradead.org>; Tue, 20 Sep 2022 08:53:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=zsoYNuKP3QpmgzC9FFiiHSP/WEa5pMQzXimPu0ydcOE=;
+        b=kjU6l6JfRRZbDTNquAyOaWSz6dvfZpAU9BZRsbZZbdj6f7hkJruG66++Cwe2SZIcmn
+         0diHioaUv1FZpwAiHGr90/kmJNOSHaJ7P7zhMdeHIzzCjALNeoUWcchLaEBV+PZLA7qk
+         skiGzHyA6shPXwtI92TjtmQFY1WnLN+gBbjdAI3xsERpiKi1YRy2nRPCL9eNJaZdLeNy
+         HjagSkL/gjaegg4KAkYBCRTSCsi1wHVGGQyoDdjzH4Uvsvflqh1+H9EgMNXRAuJHmdiq
+         u9mLqI7E2jkWCd52Mb+pYZDeSOIAy3Wam+8DpxGyRz92cztPBzgU5hxtPqCxxYIQxvF3
+         N0Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=EgvGrc7uFwyZpQCtIPUuCJ8XPMVMcqHNXt6gEKSa27U=;
-        b=fKsXqci9SFHd9CdvmjNTi9x5FtyfcNJfJFuBIhCIC0f7DuFK9FSrEr4u10q8012ts1
-         uwyLiFfB58M5ATIujHnj4i7yg7Bx6SXl6Srfpt/N+J2NF3SN0Mtcvcw9J9Vy8jRFetIY
-         a5+RILeBe4XbgDDGDFWSkCxTnD0eQ/iqR2pbfd4yleVn9M0hnv4u2gl/f4LeZfgu4KH9
-         STCH6zOBKU6sdsyzC0SFqnfiwRg2C6lJ/K8u639qKPHEZCBk7N3gB/yJgFKbTo7BHDBe
-         ac0aP3hQzC4aY+Hmu+0d3llzwibXO+BOt2Pg+porentFkIXDjoxE8K6SrFXSJ9f/iCGR
-         wjhA==
-X-Gm-Message-State: ACrzQf0sLMHyhTG5y/26LG+Eg3GPb7QVMcvTGBfvo4LtQDsbq1shEPhs
-	N4T0TEa3/0aPYMWEMvrhLsGw259ZWJ0=
-X-Google-Smtp-Source: AMsMyM5zBp3CeTPiQl6qw371jYWYxxIgBnszBw7oeE0WR9CNw4Kkq6AGRvUgjRfsuVyYlz8NWKmJZA==
-X-Received: by 2002:a05:600c:3d15:b0:3b4:8bd9:3905 with SMTP id bh21-20020a05600c3d1500b003b48bd93905mr2875459wmb.173.1663688074995;
-        Tue, 20 Sep 2022 08:34:34 -0700 (PDT)
-Received: from [10.100.102.14] (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
-        by smtp.gmail.com with ESMTPSA id w8-20020a1cf608000000b003a5fa79007fsm139919wmc.7.2022.09.20.08.34.33
+        bh=zsoYNuKP3QpmgzC9FFiiHSP/WEa5pMQzXimPu0ydcOE=;
+        b=ixbffStEgYEQLaLCQhNHSg0W9Lx3hp2tpV+Uh7nX8W8hE6joYr956HXNBCcuDJNHzl
+         ghrlYzsZH2gMy/w5b7Y2/AIvGYXUgkVNr7MpKTD7JHACGSgbRmFgCGeSQovsTbmFF70q
+         xBD2pC3r+L6tdVXimTYVaG/J0oA5B594xSzW143wILB80b8LPgu4V1G8MTUhcN5nrJ8B
+         cE67YPkpQucU8fWgYgGN2yL/MCEshqMHzRkIIb/74dTpfWT6FMJFQDNq+c51en0GEVzU
+         uqCHhNfxc/JVV3Aq+TmmpO4RDZP80U0roEwv+T53tb5of80+hMgs12ZYPlYwFf2+HcPq
+         EcZg==
+X-Gm-Message-State: ACrzQf0+2otUBt504cxvNQuMPhmf5Xj3RISdnpkNXSt+8UIVGW0guO8V
+	zuShywBoHv6F3VfipGg8mDo=
+X-Google-Smtp-Source: AMsMyM4N5qbEKcE+I8eLN1XXrW1dRC1SgDn4ovgCmx8sOLWYsMQbAWkCJB7DW1C8KN1M2tdbBQmZsw==
+X-Received: by 2002:ac8:4e46:0:b0:35c:f374:d686 with SMTP id e6-20020ac84e46000000b0035cf374d686mr6043551qtw.188.1663689200066;
+        Tue, 20 Sep 2022 08:53:20 -0700 (PDT)
+Received: from [192.168.50.208] (ip98-164-255-77.oc.oc.cox.net. [98.164.255.77])
+        by smtp.gmail.com with ESMTPSA id f6-20020a05620a20c600b006b949afa980sm75626qka.56.2022.09.20.08.53.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Sep 2022 08:34:34 -0700 (PDT)
-Message-ID: <325841d0-16a5-a8dd-fb06-332e7b37721e@grimberg.me>
-Date: Tue, 20 Sep 2022 18:34:32 +0300
+        Tue, 20 Sep 2022 08:53:19 -0700 (PDT)
+Message-ID: <43dd5538-1d5e-73bf-c78a-48e1beaabe9b@gmail.com>
+Date: Tue, 20 Sep 2022 08:53:17 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [RESEND for nvme-6.1] nvmet-tcp: Fix NULL pointer dereference
- during release
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] nvmet-fc: Fix potential Use-after-free bug in
+ nvmet_fc_delete_target_queue()
 Content-Language: en-US
-To: zhenwei pi <pizhenwei@bytedance.com>, hch@lst.de
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20220920131617.63540-1-pizhenwei@bytedance.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220920131617.63540-1-pizhenwei@bytedance.com>
+To: Liang He <windhl@126.com>
+Cc: james.smart@broadcom.com, hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+ linux-nvme@lists.infradead.org
+References: <20220916082953.4095940-1-windhl@126.com>
+ <5c965e81.13d6.183536d5bba.Coremail.windhl@126.com>
+ <35339637-846a-2c7d-d414-fa05527a8cf6@gmail.com>
+ <71e21f4.78db.1835af68bbc.Coremail.windhl@126.com>
+From: James Smart <jsmart2021@gmail.com>
+In-Reply-To: <71e21f4.78db.1835af68bbc.Coremail.windhl@126.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220920_083437_791084_1FF61FE7 
-X-CRM114-Status: GOOD (  20.38  )
+X-CRM114-CacheID: sfid-20220920_085323_543177_781DF4FE 
+X-CRM114-Status: GOOD (  15.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,77 +96,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 9/20/22 16:16, zhenwei pi wrote:
-> nvmet-tcp frees CMD buffers in nvmet_tcp_uninit_data_in_cmds(),
-> and waits the inflight IO requests in nvmet_sq_destroy(). During wait
-> the inflight IO requests, the callback nvmet_tcp_queue_response()
-> is called from backend after IO complete, this leads a typical
-> Use-After-Free issue like this:
+On 9/20/2022 5:54 AM, Liang He wrote:
 > 
->   BUG: kernel NULL pointer dereference, address: 0000000000000008
->   #PF: supervisor read access in kernel mode
->   #PF: error_code(0x0000) - not-present page
->   PGD 107f80067 P4D 107f80067 PUD 10789e067 PMD 0
->   Oops: 0000 [#1] PREEMPT SMP NOPTI
->   CPU: 1 PID: 123 Comm: kworker/1:1H Kdump: loaded Tainted: G            E      6.0.0-rc2.bm.1-amd64 #15
->   Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014
->   Workqueue: nvmet_tcp_wq nvmet_tcp_io_work [nvmet_tcp]
->   RIP: 0010:shash_ahash_digest+0x2b/0x110
->   Code: 1f 44 00 00 41 57 41 56 41 55 41 54 55 48 89 fd 53 48 89 f3 48 83 ec 08 44 8b 67 30 45 85 e4 74 1c 48 8b 57 38 b8 00 10 00 00 <44> 8b 7a 08 44 29 f8 39 42 0c 0f 46 42 0c 41 39 c4 76 43 48 8b 03
->   RSP: 0018:ffffc9000051bdd8 EFLAGS: 00010206
->   RAX: 0000000000001000 RBX: ffff888100ab5470 RCX: 0000000000000000
->   RDX: 0000000000000000 RSI: ffff888100ab5470 RDI: ffff888100ab5420
->   RBP: ffff888100ab5420 R08: ffff8881024d08c8 R09: ffff888103e1b4b8
->   R10: 8080808080808080 R11: 0000000000000000 R12: 0000000000001000
->   R13: 0000000000000000 R14: ffff88813412bd4c R15: ffff8881024d0800
->   FS:  0000000000000000(0000) GS:ffff88883fa40000(0000) knlGS:0000000000000000
->   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->   CR2: 0000000000000008 CR3: 0000000104b48000 CR4: 0000000000350ee0
->   Call Trace:
->    <TASK>
->    nvmet_tcp_io_work+0xa52/0xb52 [nvmet_tcp]
->    ? __switch_to+0x106/0x420
->    process_one_work+0x1ae/0x380
->    ? process_one_work+0x380/0x380
->    worker_thread+0x30/0x360
->    ? process_one_work+0x380/0x380
->    kthread+0xe6/0x110
->    ? kthread_complete_and_exit+0x20/0x20
->    ret_from_fork+0x1f/0x30
+> At 2022-09-20 01:57:05, "James Smart" <jsmart2021@gmail.com> wrote:
+>> On 9/18/2022 6:46 PM, Liang He wrote:
+>>>>
+>>>> 		kfree(deferfcp);
+>>>>
+>>>> -		spin_lock_irqsave(&queue->qlock, flags);
+>>>> +		spin_lock_irqsave(q_lock, flags);
+>>>> 	}
+>>>> 	spin_unlock_irqrestore(&queue->qlock, flags);
+>>>>
+>>>> -- 
+>>>> 2.25.1
+>>>
+>>> Sorry, my patch is totally wrong as the 'qlock' is embeded into queue.
+>>> So if queue is freed, the 'qlock' will also be freed.
+>>>
+>>> Now, we can only hope the 'nvmet_fc_tgt_q_put' in lin 941 will never really free the 'queue'.
+>>
+>> Did you actually see that occur (line 941 freed the queue) ?
+>>
+>> -- james
 > 
-> Suggested by Sagi, separate nvmet_tcp_uninit_data_in_cmds() into two
-> steps:
->    uninit data in cmds                  <- new step 1
->    nvmet_sq_destroy();
->    cancel_work_sync(&queue->io_work);
->    free CMD buffers                     <- new step 2
+> Hi, James,
 > 
-> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
-> ---
->   drivers/nvme/target/tcp.c | 19 ++++++++++++++++---
->   1 file changed, 16 insertions(+), 3 deletions(-)
+> I actually have not seen this as I use static method to detect it.
 > 
-> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> index c07de4f4f719..70baeab6af30 100644
-> --- a/drivers/nvme/target/tcp.c
-> +++ b/drivers/nvme/target/tcp.c
-> @@ -1406,14 +1406,26 @@ static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
->   	for (i = 0; i < queue->nr_cmds; i++, cmd++) {
->   		if (nvmet_tcp_need_data_in(cmd))
->   			nvmet_req_uninit(&cmd->req);
-> -
-> -		nvmet_tcp_free_cmd_buffers(cmd);
->   	}
->   
->   	if (!queue->nr_cmds && nvmet_tcp_need_data_in(&queue->connect)) {
->   		/* failed in connect */
-> -		nvmet_tcp_finish_cmd(&queue->connect);
+> While there will be no UAF in current version, I think we should not use the
+> reference after we put it, right?
+> 
+> Liang
 
-I think that nvmet_tcp_finish_cmd is now redundant and can be removed
-if we fold it to its single remaining call-site.
+there are multiple gets thus puts for it. All depends on the heirarchy 
+of what's happening. Have to track that through. Expectation, based on 
+the implementation, is that wouldn't be the last reference so it 
+wouldn't free it. now need to prove the truth of that.
 
-Other than that,
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+-- james
 
