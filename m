@@ -4,34 +4,34 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12478C6FA82
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Sep 2022 17:16:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53F66C6FA82
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Sep 2022 17:16:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JDwrSlrC8szOWeEtDkH9gr3J7WfUZvm/R+1BZ5T3tZY=; b=OLWOSzwHjX8jUXpd8pFQMZPRXF
-	03f24ee4scLgSim3OQY0O1qctkmmg43tnMZWGv6GPqeX37Fosljg82qeq8G8U9JSRsyYGsXPTk9HQ
-	H4bMTk4hhMWTAPt4SNu03v5+phMmzB1wdJac/D0gg+HitYMmRMpSyOyIx6aSSWLsbElJaO3QDoOn0
-	zOj+o0HranUXojy381DiJxeaLUWMbqlfH2ERXxunqZ+gXUNIGi0sWDIe5lkCirtDAQYrs4eezq40m
-	ELdI+f/E7Sr2vPZR7s7JctAu+zhTauFc4TsXoYO69ywwFFvSNh1feZ9XEvcEOe03RQc655wA4IZMl
-	wMg+6ZYA==;
+	bh=9q0d/mfOI6cotsCSNwjQV8SyH3XpuqKmdmVzf6mCd84=; b=d7FSPVJjRPy7yz6+bSB6CQjw2P
+	08DkiOg1PcZhz0XPk9sEAERCTAVot3bjhWLZnQDE8sGyRBcXb6766eg0Hghz+vITbazuNPsZn3jK1
+	mytP0RJ3eztfflxkv8+W4Uu6YH1voVVSuX3njwW5MFbBAuTRJg7s3I44kwm+C4AiLWRub2Q2zi3jg
+	PnmeO1x4XwzusxVWitpXPLKDhECZEc447BBf/xF0pDRH6wHS70We3d6gi71p2ZnY+NlGI9grqcAKG
+	yPQ5Kv1H1JBHnyIW+RJMjRF5HIywitKRH+bCR7zMM65ETXBRA/S2KBU6DnUilA374TNnPekmozEHM
+	UjvsiMvA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oagrL-005LYY-2f; Tue, 20 Sep 2022 17:16:35 +0000
+	id 1oagrQ-005Lb9-Cc; Tue, 20 Sep 2022 17:16:40 +0000
 Received: from [77.247.85.102] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oagr8-005LTA-Fv; Tue, 20 Sep 2022 17:16:23 +0000
+	id 1oagrB-005LUK-DF; Tue, 20 Sep 2022 17:16:28 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	James Smart <james.smart@broadcom.com>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH 02/13] nvme-tcp: remove the unused queue_size member in nvme_tcp_queue
-Date: Tue, 20 Sep 2022 19:16:00 +0200
-Message-Id: <20220920171611.1289361-3-hch@lst.de>
+Subject: [PATCH 03/13] nvme-tcp: store the generic nvme_ctrl in set->driver_data
+Date: Tue, 20 Sep 2022 19:16:01 +0200
+Message-Id: <20220920171611.1289361-4-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220920171611.1289361-1-hch@lst.de>
 References: <20220920171611.1289361-1-hch@lst.de>
@@ -51,61 +51,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-->nvme_tcp_queue is not used anywhere, so remove it.
+Point the private data to the generic controller structure in preparation
+of using the common tagset init/exit code.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/tcp.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/nvme/host/tcp.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index b5f22ceaae823..8a749ef63afee 100644
+index 8a749ef63afee..863e985085d4d 100644
 --- a/drivers/nvme/host/tcp.c
 +++ b/drivers/nvme/host/tcp.c
-@@ -134,7 +134,6 @@ struct nvme_tcp_queue {
- 	/* send state */
- 	struct nvme_tcp_request *request;
- 
--	int			queue_size;
- 	u32			maxh2cdata;
- 	size_t			cmnd_capsule_len;
- 	struct nvme_tcp_ctrl	*ctrl;
-@@ -1479,8 +1478,7 @@ static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
- 	queue->io_cpu = cpumask_next_wrap(n - 1, cpu_online_mask, -1, false);
- }
- 
--static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
--		int qid, size_t queue_size)
-+static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
+@@ -465,7 +465,7 @@ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
+ 		struct request *rq, unsigned int hctx_idx,
+ 		unsigned int numa_node)
  {
- 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
- 	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
-@@ -1492,7 +1490,6 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	INIT_LIST_HEAD(&queue->send_list);
- 	mutex_init(&queue->send_mutex);
- 	INIT_WORK(&queue->io_work, nvme_tcp_io_work);
--	queue->queue_size = queue_size;
- 
- 	if (qid > 0)
- 		queue->cmnd_capsule_len = nctrl->ioccsz * 16;
-@@ -1785,7 +1782,7 @@ static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
+-	struct nvme_tcp_ctrl *ctrl = set->driver_data;
++	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(set->driver_data);
+ 	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+ 	struct nvme_tcp_cmd_pdu *pdu;
+ 	int queue_idx = (set == &ctrl->tag_set) ? hctx_idx + 1 : 0;
+@@ -489,7 +489,7 @@ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
+ static int nvme_tcp_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+ 		unsigned int hctx_idx)
  {
- 	int ret;
+-	struct nvme_tcp_ctrl *ctrl = data;
++	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(data);
+ 	struct nvme_tcp_queue *queue = &ctrl->queues[hctx_idx + 1];
  
--	ret = nvme_tcp_alloc_queue(ctrl, 0, NVME_AQ_DEPTH);
-+	ret = nvme_tcp_alloc_queue(ctrl, 0);
- 	if (ret)
- 		return ret;
+ 	hctx->driver_data = queue;
+@@ -499,7 +499,7 @@ static int nvme_tcp_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+ static int nvme_tcp_init_admin_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+ 		unsigned int hctx_idx)
+ {
+-	struct nvme_tcp_ctrl *ctrl = data;
++	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(data);
+ 	struct nvme_tcp_queue *queue = &ctrl->queues[0];
  
-@@ -1805,7 +1802,7 @@ static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
- 	int i, ret;
+ 	hctx->driver_data = queue;
+@@ -1700,7 +1700,7 @@ static int nvme_tcp_alloc_admin_tag_set(struct nvme_ctrl *nctrl)
+ 	set->numa_node = nctrl->numa_node;
+ 	set->flags = BLK_MQ_F_BLOCKING;
+ 	set->cmd_size = sizeof(struct nvme_tcp_request);
+-	set->driver_data = ctrl;
++	set->driver_data = &ctrl->ctrl;
+ 	set->nr_hw_queues = 1;
+ 	set->timeout = NVME_ADMIN_TIMEOUT;
+ 	ret = blk_mq_alloc_tag_set(set);
+@@ -1722,7 +1722,7 @@ static int nvme_tcp_alloc_tag_set(struct nvme_ctrl *nctrl)
+ 	set->numa_node = nctrl->numa_node;
+ 	set->flags = BLK_MQ_F_SHOULD_MERGE | BLK_MQ_F_BLOCKING;
+ 	set->cmd_size = sizeof(struct nvme_tcp_request);
+-	set->driver_data = ctrl;
++	set->driver_data = &ctrl->ctrl;
+ 	set->nr_hw_queues = nctrl->queue_count - 1;
+ 	set->timeout = NVME_IO_TIMEOUT;
+ 	set->nr_maps = nctrl->opts->nr_poll_queues ? HCTX_MAX_TYPES : 2;
+@@ -2486,7 +2486,7 @@ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
  
- 	for (i = 1; i < ctrl->queue_count; i++) {
--		ret = nvme_tcp_alloc_queue(ctrl, i, ctrl->sqsize + 1);
-+		ret = nvme_tcp_alloc_queue(ctrl, i);
- 		if (ret)
- 			goto out_free_queues;
- 	}
+ static void nvme_tcp_map_queues(struct blk_mq_tag_set *set)
+ {
+-	struct nvme_tcp_ctrl *ctrl = set->driver_data;
++	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(set->driver_data);
+ 	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
+ 
+ 	if (opts->nr_write_queues && ctrl->io_queues[HCTX_TYPE_READ]) {
 -- 
 2.30.2
 
