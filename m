@@ -4,39 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A644BC6FA82
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Sep 2022 17:21:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CCC72C6FA90
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Sep 2022 18:08:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5K8BYUYhAIGTgYdE0nguQ0OVupxJffgDyHmdUrma0lw=; b=SXJ3QxKJ0Uwcl7dzuPFocznOx5
-	VpvXwe/tijJ9fraslYZDxRLf/NCjA+WvtRstnPPQeRdz7xJnH4NwlW/A7q+rH0kVYrvAiW2ptTqGy
-	NkKNF867sYjXjhc1JJNYOKRgHx0g1PByOCilzCFvIG1/L6KEJnXQwtx1flKnixGq4Cz02RNr5Lpvm
-	2/oQO/9BEJ3z3nb3VFPK62FtPGD05B3ES+XUgWbx6n2f5Bz0Ld8JuX8Gm2in3bvFtbYMu3IFg8q/V
-	9/bjR357amiw9BjTa0vgZro1Xwj8Cgxqp3JRKrE+caRIHh/a+Oyan6HxY6Hb2TFSdP7Jld4pdYaiX
-	QefZhk5w==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=vpdvsSQ8LWF1d8HHEZDRAgluPnDtm4thfzhmhTUjjTc=; b=CRA/84qDTFJanm/iyIPBp0t3tz
+	I7BF3Dgx2s77HEQOxHQ16mL1GftvmkKkmmmlot3n1PtCZob6H1Dkm072bx/66L4PrXOtNYFByzXzW
+	uYa1n56rxr4v7MKZL4h1K3+WKqaz8IfvY9jxrrxonfDVWGEH6cYAgncNCemqrXePcQ6OOByTQee0o
+	AenRuS6Iufk5xtUWw/Ay9W2/oFHMdQHM5TFIdHJ4U+HAt92svx4DtOTygdIti9t+C0dn+oQRKM9Mo
+	T9yb/vPhn1001GX27kk1+ZqioxOPKpmltsKyJTgQmSZrnoMmFXvAIUt4f50i268ACmgb2JSwaTKU6
+	RuU7SSnA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oagw5-005OWR-UP; Tue, 20 Sep 2022 17:21:30 +0000
-Received: from [77.247.85.102] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaguP-005NT2-P8; Tue, 20 Sep 2022 17:19:46 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>,
-	Hannes Reinecke <hare@suse.de>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH 3/3] nvmet: add helpers to set the result field for connect commands
-Date: Tue, 20 Sep 2022 19:19:31 +0200
-Message-Id: <20220920171931.1289669-4-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220920171931.1289669-1-hch@lst.de>
-References: <20220920171931.1289669-1-hch@lst.de>
+	id 1oahfQ-005dUF-6G; Tue, 20 Sep 2022 18:08:20 +0000
+Received: from stargate.chelsio.com ([12.32.117.8])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oahfN-005dPq-96
+	for linux-nvme@lists.infradead.org; Tue, 20 Sep 2022 18:08:18 +0000
+Received: from fcoe-test11.blr.asicdesigners.com (fcoe-test11.blr.asicdesigners.com [10.193.185.180])
+	by stargate.chelsio.com (8.14.7/8.14.7) with ESMTP id 28KI7jxx032399;
+	Tue, 20 Sep 2022 11:07:46 -0700
+From: Varun Prakash <varun@chelsio.com>
+To: sagi@grimberg.me, hch@lst.de
+Cc: linux-nvme@lists.infradead.org, varun@chelsio.com
+Subject: [PATCH v2 RESEND] nvmet-tcp: handle ICReq PDU received in NVMET_TCP_Q_LIVE state
+Date: Wed, 21 Sep 2022 00:04:44 +0530
+Message-Id: <20220920183444.5115-1-varun@chelsio.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20220920_110817_370674_31318499 
+X-CRM114-Status: UNSURE (   9.88  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -51,63 +55,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The code to set the result field for the admin and I/O connect commands
-is not only verbose and duplicated, but also violates the aliasing
-rules as it accesses both the u16 and u32 members in the union.
+As per NVMe/TCP transport specification ICReq PDU is the first PDU received
+by the controller and controller should receive only one ICReq PDU.
 
-Add a little helper to sort all that out.
+If controller receives more than one ICReq PDU then this can be considered
+as fatal error.
 
- Fixes: db1312dd9548 ("nvmet: implement basic In-Band Authentication")
-Signed-off-by: Christoph Hellwig <hch@lst.de>
+nvmet-tcp driver does not check for ICReq PDU opcode if queue state is
+NVMET_TCP_Q_LIVE. In LIVE state ICReq PDU is treated as CapsuleCmd PDU,
+this can result in abnormal behavior.
+
+Add a check for ICReq PDU in nvmet_tcp_done_recv_pdu() to fix this issue.
+
+Signed-off-by: Varun Prakash <varun@chelsio.com>
 ---
- drivers/nvme/target/fabrics-cmd.c | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+ drivers/nvme/target/tcp.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
-index 618f7adca70fd..43b5bd8bb6a52 100644
---- a/drivers/nvme/target/fabrics-cmd.c
-+++ b/drivers/nvme/target/fabrics-cmd.c
-@@ -198,6 +198,12 @@ static u16 nvmet_install_queue(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
- 	return ret;
- }
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index a3694a32f6d5..02df2fc7dfe7 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -976,6 +976,13 @@ static int nvmet_tcp_done_recv_pdu(struct nvmet_tcp_queue *queue)
+ 		return nvmet_tcp_handle_icreq(queue);
+ 	}
  
-+static u32 nvmet_connect_result(struct nvmet_ctrl *ctrl)
-+{
-+	return (u32)ctrl->cntlid |
-+		(nvmet_has_auth(ctrl) ? NVME_CONNECT_AUTHREQ_ATR : 0);
-+}
++	if (unlikely(hdr->type == nvme_tcp_icreq)) {
++		pr_err("queue %d: received icreq pdu in state %d\n",
++			queue->idx, queue->state);
++		nvmet_tcp_fatal_error(queue);
++		return -EPROTO;
++	}
 +
- static void nvmet_execute_admin_connect(struct nvmet_req *req)
- {
- 	struct nvmf_connect_command *c = &req->cmd->connect;
-@@ -269,10 +275,7 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
- 		ctrl->cntlid, ctrl->subsys->subsysnqn, ctrl->hostnqn,
- 		ctrl->pi_support ? " T10-PI is enabled" : "",
- 		nvmet_has_auth(ctrl) ? " with DH-HMAC-CHAP" : "");
--	req->cqe->result.u16 = cpu_to_le16(ctrl->cntlid);
--
--	if (nvmet_has_auth(ctrl))
--		req->cqe->result.u32 |= cpu_to_le32(NVME_CONNECT_AUTHREQ_ATR);
-+	req->cqe->result.u32 = cpu_to_le32(nvmet_connect_result(ctrl));
- out:
- 	kfree(d);
- complete:
-@@ -328,13 +331,8 @@ static void nvmet_execute_io_connect(struct nvmet_req *req)
- 	if (status)
- 		goto out_ctrl_put;
- 
--	/* pass back cntlid for successful completion */
--	req->cqe->result.u16 = cpu_to_le16(ctrl->cntlid);
--
- 	pr_debug("adding queue %d to ctrl %d.\n", qid, ctrl->cntlid);
--	if (nvmet_has_auth(ctrl))
--		req->cqe->result.u32 |= cpu_to_le32(NVME_CONNECT_AUTHREQ_ATR);
--
-+	req->cqe->result.u32 = cpu_to_le32(nvmet_connect_result(ctrl));
- out:
- 	kfree(d);
- complete:
+ 	if (hdr->type == nvme_tcp_h2c_data) {
+ 		ret = nvmet_tcp_handle_h2c_data_pdu(queue);
+ 		if (unlikely(ret))
 -- 
-2.30.2
+2.31.1
 
 
