@@ -4,37 +4,35 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C06BBC54EE9
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Sep 2022 17:18:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 937A5C6FA82
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Sep 2022 17:19:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YMVnKlllckbg/mfZwmKEmkrKwt/6fjwpK+NQy0uEjv0=; b=suGroFPUD6eeUOfo9rd5cNcdFQ
-	WCRtF5i4GejyK6kbtz4qEEC0wC+nGLWiaPmY6PxXDSSPbN+h8BguW8JTIxafbEQMqLgJJVc5yVsVt
-	PBvtsP2U3Wl08+AkHYZTfflrK0XKAHp0SqlqvTksfVSTeOeK5RcduZJxMSOLzVM8kSdBM/MqV+k9J
-	d++9jVzWY1dm4mtjRvUyuUiUBXpCXL1MxzymCPzsC/qEEFeyMUH4pAyqX1awuHNLbZHrl1ixBhVFR
-	Kv+Cz+/nGuo0oVfIViMpO57DV+OIMOsRu0wMISZlro5Jboi/IzPaocc5UVsc+pm1l+AKqPug0I5ot
-	9XROLZhg==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=oM+405BEQkBFDNlhDQU9OSDLk8UPzWyy5EMFLMdN+2E=; b=K1f3r8nRlWqSvI4pHN1cKB+9A7
+	+mLC2xvppjKW4HrAxyAtSyBSd1GJZDo2nC1iXr6X1JyPGUwCNwjIyO6fvwwChlPyjQ5HnRfwGZ8lr
+	mGyc78PdPS58h9Y6hXyTz/1QsAvOYtqK52nH7NqPfIW/ixHlwqCfd2jSjflH6Q2l8qQd1CIKsysxn
+	C1A1H92b7lR7EbvJ82vmVsmnttTc8dKjywrwqQnfBacJnINhZTjm1ZoX/QRFUkVnKfEPxYTfycWHk
+	giVV8I1foulNbH3yX5dbIC/SR6RxuBETYPMmfSrYnsFdl9CilCKnfub1e6Z1YtpHU1pLAIFQ42VgF
+	2A+3F+4Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oagsi-005MRS-Bq; Tue, 20 Sep 2022 17:18:00 +0000
+	id 1oaguK-005NQO-W8; Tue, 20 Sep 2022 17:19:41 +0000
 Received: from [77.247.85.102] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oagrj-005LlI-Cd; Tue, 20 Sep 2022 17:16:59 +0000
+	id 1oaguE-005NLi-J0; Tue, 20 Sep 2022 17:19:35 +0000
 From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	James Smart <james.smart@broadcom.com>
+To: Sagi Grimberg <sagi@grimberg.me>,
+	Hannes Reinecke <hare@suse.de>,
+	Chaitanya Kulkarni <kch@nvidia.com>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH 13/13] nvme: remove nvme_ctrl_init_connect_q
-Date: Tue, 20 Sep 2022 19:16:11 +0200
-Message-Id: <20220920171611.1289361-14-hch@lst.de>
+Subject: nvme fabrics authentication fixups
+Date: Tue, 20 Sep 2022 19:19:28 +0200
+Message-Id: <20220920171931.1289669-1-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220920171611.1289361-1-hch@lst.de>
-References: <20220920171611.1289361-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -51,33 +49,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Unused now.
+Hi all,
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/nvme/host/nvme.h | 8 --------
- 1 file changed, 8 deletions(-)
+this little series fixed a debugobjects complaint with the new
+authentication code, and some other bits while looking at it.
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 6dec8a3bef1aa..4a845e9f17e47 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -976,14 +976,6 @@ static inline int nvme_update_zone_info(struct nvme_ns *ns, unsigned lbaf)
- }
- #endif
- 
--static inline int nvme_ctrl_init_connect_q(struct nvme_ctrl *ctrl)
--{
--	ctrl->connect_q = blk_mq_init_queue(ctrl->tagset);
--	if (IS_ERR(ctrl->connect_q))
--		return PTR_ERR(ctrl->connect_q);
--	return 0;
--}
--
- static inline struct nvme_ns *nvme_get_ns_from_dev(struct device *dev)
- {
- 	return dev_to_disk(dev)->private_data;
--- 
-2.30.2
+Btw: Hannes, can we add you as a co-maintainer for the auth code?
 
+Diffstat:
+ drivers/nvme/target/core.c             |    1 +
+ drivers/nvme/target/fabrics-cmd-auth.c |   13 ++++---------
+ drivers/nvme/target/fabrics-cmd.c      |   18 ++++++++----------
+ drivers/nvme/target/nvmet.h            |    7 ++++---
+ include/linux/nvme.h                   |    4 ++--
+ 5 files changed, 19 insertions(+), 24 deletions(-)
 
