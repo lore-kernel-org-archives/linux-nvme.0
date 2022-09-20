@@ -4,64 +4,36 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 621B4C6FA90
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Sep 2022 06:46:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BC19C54EE9
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Sep 2022 08:04:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0eI6bLgn3/DJJ8ZOqBOldBpi+03tuH4j/rw5ztudXR4=; b=sDyg68H44+WgOF9aThr3nU23ZQ
-	S+bNbBo14wH+o1VCo6r/uxsEK0NR8irWD1clQyXRYTIdBu91qqAAPQTyaJguW1J/QUNeI1FGDzm4R
-	ZoK7Rxu24ZcZIUxKy2aTtbcNjfnY+PdmrJJ+/hJ2Uy2m1G43dYvliD+mibxOGZxqy1NNIjpR0jw5u
-	eDA4J6liPBzQTrn+odm1Rt3lxmhTrYZuDE6oEaXifQiV/bXYwnrQKjkrOrtuI4nedJnA8OgNq09Uq
-	vVki/czJL0lVNgXjdXf1YPMf3pBX24rHXLaD6IKHR4YPIQ9yZN9ZTu0LDVmc+PuB+EzM3PjBXTOcc
-	jPNdKeIA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=esF+HXZdlARYQPg7/MAFN+XNPN0Myox5IB5R3zI3vSY=; b=SbD3wXViXXo6C/zYQIr7JCtKcs
+	e1gAl7v6FXM/Tw2ht4kbDQO25wOzmAhKSPz/26sPAcqxz720Zu5nDcqcnpO2xtsZ4lfI0XGqOp6wh
+	nYsctRhuVD70iMCFrFi6Z9ADcxRHT9V7NVw99SPAf3fa7HR1Huz/I2TA6NVw0JBlaeK1tqH1hXzOF
+	NP6tjav9uTDas1nLxMp3O1fzmpVpB0QfwjeYnYR9JsxrkUaTJ4VEVmsWlyhlLucDl00a4qwtxda2w
+	stw8DCalTL4rSRbbLH6tDx1MiKZdBXx5AHrwVTbg9ltHaxux1Sf2SP11b2eJqFJpTLngPmROEzQfS
+	VoVj8R/w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaX1Z-0017bt-3M; Tue, 20 Sep 2022 06:46:29 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaX1S-0017Ww-KP
-	for linux-nvme@lists.infradead.org; Tue, 20 Sep 2022 06:46:25 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 8272368BEB; Tue, 20 Sep 2022 08:46:14 +0200 (CEST)
-Date: Tue, 20 Sep 2022 08:46:13 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Logan Gunthorpe <logang@deltatee.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-mm@kvack.org, Christoph Hellwig <hch@lst.de>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	Minturn Dave B <dave.b.minturn@intel.com>,
-	Jason Ekstrand <jason@jlekstrand.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Xiong Jianxin <jianxin.xiong@intel.com>,
-	Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Martin Oliveira <martin.oliveira@eideticom.com>,
-	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
-	Ralph Campbell <rcampbell@nvidia.com>,
-	Stephen Bates <sbates@raithlin.com>
-Subject: Re: [PATCH v9 7/8] PCI/P2PDMA: Allow userspace VMA allocations
- through sysfs
-Message-ID: <20220920064613.GB17325@lst.de>
-References: <20220825152425.6296-1-logang@deltatee.com> <20220825152425.6296-8-logang@deltatee.com> <YxDb2MyRx6o/wDAz@kroah.com> <4a4bca1e-bebf-768f-92d4-92eb8ae714e1@deltatee.com> <YxDhEO9ycZDTnbZm@kroah.com> <cc9a24a8-dd3a-9d21-d9a7-5ee4b0ad7a57@deltatee.com> <YxD7uZYaV75gJS9d@kroah.com> <fb9d7948-43fe-87c5-5275-70f280181ad1@deltatee.com> <YxGad5h2Nn/Ejslc@kroah.com> <db8cd049-c78b-1aa0-dcd0-0feb8c6cb25c@deltatee.com>
+	id 1oaYEm-001adU-Kf; Tue, 20 Sep 2022 08:04:12 +0000
+Received: from [2001:4bb8:189:f4ee:2681:1838:8166:a6f8] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oaYEh-001aRl-6R; Tue, 20 Sep 2022 08:04:07 +0000
+Date: Tue, 20 Sep 2022 10:04:05 +0200
+From: Christoph Hellwig <hch@infradead.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Subject: [GIT PULL] first round of nvme updates for Linux 6.1
+Message-ID: <Yylz9ST3BJeXmQCU@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <db8cd049-c78b-1aa0-dcd0-0feb8c6cb25c@deltatee.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220919_234622_964200_A1349776 
-X-CRM114-Status: GOOD (  13.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,13 +48,84 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 02, 2022 at 12:46:54PM -0600, Logan Gunthorpe wrote:
-> See the diff at the bottom of this email. I can apply it on top of this
-> patch, but IMO it is neither easier to follow nor maintain. Unless you 
-> have a different suggestion...
+Hi Jens,
 
-Greg, can you chime in on this?  Besides this item we just have a few
-cosmetic bits left I think, and I'd really like to get the series into
-this merge window.
+here is currently queue up nvme patches for 6.1, which are not a lot.
+There are a few more patches under discussion that will follow later.
 
+The following changes since commit 91418cc4fd8f8e2e21b409eb8983d074359c8be6:
+
+  block/drbd: remove unused w_start_resync declaration (2022-09-12 01:47:57 -0600)
+
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git tags/nvme-6.1-2022-09-20
+
+for you to fetch changes up to 02c57a82c0081141abc19150beab48ef47f97f18:
+
+  nvme-tcp: print actual source IP address through sysfs "address" attr (2022-09-19 17:55:28 +0200)
+
+----------------------------------------------------------------
+nvme updates for Linux 6.1
+
+ - handle number of queue changes in the TCP and RDMA drivers
+   (Daniel Wagner)
+ - allow changing the number of queues in nvmet (Daniel Wagner)
+ - also consider host_iface when checking ip options (Daniel Wagner)
+ - don't map pages which can't come from HIGHMEM (Fabio M. De Francesco)
+ - avoid unnecessary flush bios in nvmet (Guixin Liu)
+ - shrink and better pack the nvme_iod structure (Keith Busch)
+ - add comment for unaligned "fake" nqn (Linjun Bao)
+ - print actual source IP address through sysfs "address" attr
+   (Martin Belanger)
+ - various cleanups (Jackie Liu, Wolfram Sang, Genjian Zhang)
+
+----------------------------------------------------------------
+Daniel Wagner (4):
+      nvmet: expose max queues to configfs
+      nvme-tcp: handle number of queue changes
+      nvme-rdma: handle number of queue changes
+      nvme: consider also host_iface when checking ip options
+
+Fabio M. De Francesco (1):
+      nvmet-tcp: don't map pages which can't come from HIGHMEM
+
+Genjian Zhang (1):
+      nvmet-auth: remove redundant parameters req
+
+Guixin Liu (1):
+      nvmet: avoid unnecessary flush bio
+
+Jackie Liu (2):
+      nvme-auth: remove the redundant req->cqe->result.u16 assignment operation
+      nvmet-auth: clean up with done_kfree
+
+Keith Busch (4):
+      nvme-pci: remove nvme_queue from nvme_iod
+      nvme-pci: iod's 'aborted' is a bool
+      nvme-pci: iod npages fits in s8
+      nvme-pci: move iod dma_len fill gaps
+
+Linjun Bao (1):
+      nvme: add comment for unaligned "fake" nqn
+
+Martin Belanger (1):
+      nvme-tcp: print actual source IP address through sysfs "address" attr
+
+Wolfram Sang (1):
+      nvme: move from strlcpy with unused retval to strscpy
+
+ drivers/nvme/host/core.c               |  8 +++--
+ drivers/nvme/host/fabrics.c            | 25 +++++++++----
+ drivers/nvme/host/pci.c                | 65 +++++++++++++++++-----------------
+ drivers/nvme/host/rdma.c               | 26 +++++++++++---
+ drivers/nvme/host/tcp.c                | 47 ++++++++++++++++++++----
+ drivers/nvme/target/admin-cmd.c        |  2 +-
+ drivers/nvme/target/configfs.c         | 29 +++++++++++++++
+ drivers/nvme/target/discovery.c        |  2 +-
+ drivers/nvme/target/fabrics-cmd-auth.c | 10 +++---
+ drivers/nvme/target/fabrics-cmd.c      |  1 -
+ drivers/nvme/target/io-cmd-bdev.c      |  8 +++++
+ drivers/nvme/target/tcp.c              | 44 +++++++----------------
+ 12 files changed, 176 insertions(+), 91 deletions(-)
 
