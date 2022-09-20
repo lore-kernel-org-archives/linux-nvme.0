@@ -4,71 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C413BECAAD8
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Sep 2022 11:38:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ED1ACC54EE9
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Sep 2022 12:02:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=URWCXNQ5YHvkyCvX5bdKcCLQ4Piclp57iUCltD9+ciE=; b=A/Zi62UXJ0led6fW+oMffsrBEL
-	yydN5AJFNSxD2X8x/yAlsVeT3hLF+InwNC+h9Bi/U1AecjsssdXR4JCkG8jdO9RwRzcEzV4YyR8fV
-	srbtfDhawYTPMezAJknb8khMJI3SWdcK7rT9MVDV4LcpETgIj2mkOgC+9WkLxZceK1zdDLBIYxMHp
-	/R+p1LaCCXKw+ZLdeZ+WX4qthNog5v3YtBvUM9hT3RpuVFMDJxbLE8/QkkPyE97M+/iWNT1YIJr8V
-	/S5RWtc3mrja845sTnZ7syaF3tBaPCmxveGKxotZVPbBLMPT2/IDVvYEbTC5H8LdF+PYLQsoQdtVH
-	ifmq6pHQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=yYII2cr2LDNGOtjEY7cbCL0IS5FnGHixjIFZ4ppEPnM=; b=wH1XKom8TgPcnr0OVIWHZBz58W
+	SJP9iH7tkk3bUVxbsR7xwzHdgjZpdTxln1UBh8QxMPsnMvgB7uFOguUe7rxf3PjWRup8FGX+1kNFD
+	Isg+7E9xrbNLwD8XBxF9woWBdNm2JzDqF2aJIHJ61cHjIsok7OKBzK07c5Jj1pE4rQI7meDdfy45m
+	y+Tya1ZuCfetjiaz3IsHayj9zc7W4hNnVrpTAGOOvKUkl2C2ODovt6ugE67VTiyCp+G/oAqeA3l3J
+	faW7ZaBvqZThR8r1/7j6Hj4kS0PGq7ygojjb3yTA80zAjN7SKYRYKHhUIRrkxqAHr2rI8zDePX0LP
+	Hp3khzGw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oabaI-003Obz-ET; Tue, 20 Sep 2022 11:38:38 +0000
-Received: from mail-wm1-f49.google.com ([209.85.128.49])
+	id 1oabxY-003Yz9-EY; Tue, 20 Sep 2022 12:02:40 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oabRg-003J5f-Jn
-	for linux-nvme@lists.infradead.org; Tue, 20 Sep 2022 11:29:46 +0000
-Received: by mail-wm1-f49.google.com with SMTP id e18so1687238wmq.3
-        for <linux-nvme@lists.infradead.org>; Tue, 20 Sep 2022 04:29:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=URWCXNQ5YHvkyCvX5bdKcCLQ4Piclp57iUCltD9+ciE=;
-        b=teWzDsbETkztQKCU/3fZtHX06A/8GYIlpEJuhTsywB/qVSLDnBnd2+znWRtaO14Dim
-         IC4KT1q9O9qjGu55ozYhEXcVaC74+tbV0gqTLzIbxb9uk1PqR1GiOuGAqbyjX/AfJPWj
-         tOtLl4n46CdVSWjJeS4XuJKYKLHnJ8oFuwVRa/m7NpaBp+bG8I+Jxyaubag29SG37/vP
-         5QutX7nf5O9ipNypms7XvIUMly9/ivG7JsgyRbXK3A4kButKdpHAjJqUFspdqWf8v+A7
-         t0Wux6TmG28pTweo8WIgmz9t4eV268XP9OXeFVESeWDc2JqbFcTRknECg9AczGXJVxKd
-         5JUQ==
-X-Gm-Message-State: ACrzQf2rrbJeTNlvPmunk/k0/igpkOc1zmjpiie96vF237IR6NkF95pB
-	UE5JBD1Ii/CcWIMCf8zyJ/Cm03du5/s=
-X-Google-Smtp-Source: AMsMyM67dmckDdLq7F5wSsz+U8zB0mfdBBfKguo9pV4uQ9FyZiAr6SpKsl3ZxyomPp1YxslmdEEkOg==
-X-Received: by 2002:a05:600c:4e94:b0:3b4:baf8:cf18 with SMTP id f20-20020a05600c4e9400b003b4baf8cf18mr2078891wmq.170.1663673380152;
-        Tue, 20 Sep 2022 04:29:40 -0700 (PDT)
-Received: from [10.100.102.14] (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
-        by smtp.gmail.com with ESMTPSA id n34-20020a05600c502200b003b47a99d928sm2174187wmr.18.2022.09.20.04.29.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Sep 2022 04:29:39 -0700 (PDT)
-Message-ID: <c4f7f644-9dc9-48ed-a411-5074fc51f9cd@grimberg.me>
-Date: Tue, 20 Sep 2022 14:29:37 +0300
+	id 1oabxU-003Yvt-4P
+	for linux-nvme@lists.infradead.org; Tue, 20 Sep 2022 12:02:38 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 213FE68AA6; Tue, 20 Sep 2022 14:02:27 +0200 (CEST)
+Date: Tue, 20 Sep 2022 14:02:26 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org, asml.silence@gmail.com,
+	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com
+Subject: Re: [PATCH for-next v7 3/5] nvme: refactor nvme_alloc_user_request
+Message-ID: <20220920120226.GB2809@lst.de>
+References: <20220909102136.3020-1-joshi.k@samsung.com> <CGME20220909103143epcas5p2eda60190cd23b79fb8f48596af3e1524@epcas5p2.samsung.com> <20220909102136.3020-4-joshi.k@samsung.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v4 1/1] nvmet-tcp: Fix NULL pointer dereference during
- release
-Content-Language: en-US
-To: zhenwei pi <pizhenwei@bytedance.com>, hch@lst.de
-Cc: kch@nvidia.com, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, fmdefrancesco@gmail.com
-References: <20220913014253.931724-1-pizhenwei@bytedance.com>
- <20220913014253.931724-2-pizhenwei@bytedance.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220913014253.931724-2-pizhenwei@bytedance.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220909102136.3020-4-joshi.k@samsung.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220920_042945_207425_280B187C 
-X-CRM114-Status: UNSURE (   9.61  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220920_050236_365065_A6801F0F 
+X-CRM114-Status: GOOD (  26.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,12 +58,89 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Fri, Sep 09, 2022 at 03:51:34PM +0530, Kanchan Joshi wrote:
+> Separate this out to two functions with reduced number of arguments.
+> _
+> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+> ---
+>  drivers/nvme/host/ioctl.c | 116 ++++++++++++++++++++++----------------
+>  1 file changed, 66 insertions(+), 50 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+> index 548aca8b5b9f..cb2fa4db50dd 100644
+> --- a/drivers/nvme/host/ioctl.c
+> +++ b/drivers/nvme/host/ioctl.c
+> @@ -65,18 +65,10 @@ static int nvme_finish_user_metadata(struct request *req, void __user *ubuf,
+>  }
+>  
+>  static struct request *nvme_alloc_user_request(struct request_queue *q,
+> +		struct nvme_command *cmd, unsigned timeout,
+>  		blk_opf_t rq_flags, blk_mq_req_flags_t blk_flags)
 
-> nvmet-tcp frees CMD buffers in nvmet_tcp_uninit_data_in_cmds(),
-> and waits the inflight IO requests in nvmet_sq_destroy(). During wait
-> the inflight IO requests, the callback nvmet_tcp_queue_response()
-> is called from backend after IO complete, this leads a typical
-> Use-After-Free issue like this:
+I think we can also drop the timeout flag here, which seems like it
+can be handled cleaner in the callers.
+to set it can just do that.
 
-Would it be possible to resend this patch rebased on top of nvme-6.1?
+> +static int nvme_map_user_request(struct request *req, void __user *ubuffer,
+> +		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
+> +		u32 meta_seed, void **metap, bool vec)
+> +{
+> +	struct request_queue *q = req->q;
+> +	struct nvme_ns *ns = q->queuedata;
+> +	struct block_device *bdev = ns ? ns->disk->part0 : NULL;
+> +	struct bio *bio = NULL;
+> +	void *meta = NULL;
+> +	int ret;
+> +
+> +	if (!ubuffer || !bufflen)
+> +		return 0;
+
+I'd leave these in the callers and not call the helper if there is
+no data to transfer.
+
+> +
+> +	if (!vec)
+> +		ret = blk_rq_map_user(q, req, NULL, ubuffer, bufflen,
+> +			GFP_KERNEL);
+> +	else {
+> +		struct iovec fast_iov[UIO_FASTIOV];
+> +		struct iovec *iov = fast_iov;
+> +		struct iov_iter iter;
+> +
+> +		ret = import_iovec(rq_data_dir(req), ubuffer, bufflen,
+> +				UIO_FASTIOV, &iov, &iter);
+> +		if (ret < 0)
+>  			goto out;
+> +		ret = blk_rq_map_user_iov(q, req, NULL, &iter, GFP_KERNEL);
+> +		kfree(iov);
+
+To me some of this almost screams like lifting the vectored vs
+not to the block layer into a separate helper.
+
+> +	}
+> +	bio = req->bio;
+> +	if (ret)
+> +		goto out_unmap;
+
+This seems incorrect, we don't need to unmap if blk_rq_map_user*
+failed.
+
+> +	if (bdev)
+> +		bio_set_dev(bio, bdev);
+
+I think we can actually drop this now - bi_bdev should only be used
+by the non-passthrough path these days.
+
+> +	if (bdev && meta_buffer && meta_len) {
+> +		meta = nvme_add_user_metadata(bio, meta_buffer, meta_len,
+> +				meta_seed, req_op(req) == REQ_OP_DRV_OUT);
+> +		if (IS_ERR(meta)) {
+> +			ret = PTR_ERR(meta);
+> +			goto out_unmap;
+>  		}
+> +		req->cmd_flags |= REQ_INTEGRITY;
+> +		*metap = meta;
+
+And if we pass the request to nvme_add_user_metadata, that can set
+REQ_INTEGRITY.  And we don't need this second helper at all.
 
