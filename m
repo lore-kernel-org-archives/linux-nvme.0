@@ -4,69 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 084CFC54EE9
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Sep 2022 04:59:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 621B4C6FA90
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Sep 2022 06:46:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=e2yjJAGfOFAiKVU31vc/zjdvB3ymd+rTW8x9FZYGb/4=; b=BdathYMZA55NN4buXRkGpwO06y
-	EFRcVYNJlrLzEbXy4YG2vfSNqTIuV/OocS+oTkq9jfViM6AX5wls2mgYuukhZP5e0yGLJorXsFJGu
-	T8XqUEZwurzgma3bYAfZF5OdDAeYWamdPwdiG44s03Rv29W8L/zmfXsDQIFlC7EkZLEi1e5sKno5h
-	bjgxdfxO90F0YF8zlYziDaOQcu0b02bt4n0yH2IaQTJIB5e3KLYVN/dBpnUnQ6h18ntz/52Mwz75C
-	FWJsaCXQ7xGdi1N3ENzn3eRQ/aebOPdiBuNAsDPeudLfGc4WhSt7fLjblZOiRICKBLJAiS5PY4lcH
-	VbSjWgjw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0eI6bLgn3/DJJ8ZOqBOldBpi+03tuH4j/rw5ztudXR4=; b=sDyg68H44+WgOF9aThr3nU23ZQ
+	S+bNbBo14wH+o1VCo6r/uxsEK0NR8irWD1clQyXRYTIdBu91qqAAPQTyaJguW1J/QUNeI1FGDzm4R
+	ZoK7Rxu24ZcZIUxKy2aTtbcNjfnY+PdmrJJ+/hJ2Uy2m1G43dYvliD+mibxOGZxqy1NNIjpR0jw5u
+	eDA4J6liPBzQTrn+odm1Rt3lxmhTrYZuDE6oEaXifQiV/bXYwnrQKjkrOrtuI4nedJnA8OgNq09Uq
+	vVki/czJL0lVNgXjdXf1YPMf3pBX24rHXLaD6IKHR4YPIQ9yZN9ZTu0LDVmc+PuB+EzM3PjBXTOcc
+	jPNdKeIA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaVLk-000Z8Q-0L; Tue, 20 Sep 2022 04:59:12 +0000
-Received: from mga02.intel.com ([134.134.136.20])
+	id 1oaX1Z-0017bt-3M; Tue, 20 Sep 2022 06:46:29 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaVLg-000Z23-KD
-	for linux-nvme@lists.infradead.org; Tue, 20 Sep 2022 04:59:10 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663649948; x=1695185948;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Q962UNz8q52zHH8y8Tr4QkswQ0XH+KKW2R2B2NuuwZo=;
-  b=KUku4SEVyBZr50spCGxUYvCJXk3zdGLvcOvb895mTRhdJqyHp6mufF2C
-   TIiLpBLM6VSx69JqBCkCQgh/N0SXCJ//sSiIvEZcaNXv1f7AjjSQvltO2
-   9wwTtH3ckC6fCG/nkypLcxEXazsXyF/ksFG3iuS33EmFfUgM1+52/p8Q1
-   ioZON4zny8WqpWUeb7+rGDWi4RgU+w1YlV9qY4KFDWnQauWHxD7npuaxf
-   ztCWjRUoSoon8Mxf4tqqtOE1cZ7QvW5sOyVre9OfBnbro/4iQSSerZ2Xf
-   mdoCuWlovvMzGn7yRNMNlzf9tjoWQp66TXMoMiGLYEH0k/CGVV9wXjNcl
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="286644084"
-X-IronPort-AV: E=Sophos;i="5.93,329,1654585200"; 
-   d="scan'208";a="286644084"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2022 21:59:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,329,1654585200"; 
-   d="scan'208";a="569931907"
-Received: from lkp-server01.sh.intel.com (HELO c0a60f19fe7e) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 19 Sep 2022 21:59:02 -0700
-Received: from kbuild by c0a60f19fe7e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1oaVLZ-0002U6-15;
-	Tue, 20 Sep 2022 04:59:01 +0000
-Date: Tue, 20 Sep 2022 12:58:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.1] BUILD SUCCESS
- 02c57a82c0081141abc19150beab48ef47f97f18
-Message-ID: <63294883.Cf9fCrJ2ERGf7xRt%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+	id 1oaX1S-0017Ww-KP
+	for linux-nvme@lists.infradead.org; Tue, 20 Sep 2022 06:46:25 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 8272368BEB; Tue, 20 Sep 2022 08:46:14 +0200 (CEST)
+Date: Tue, 20 Sep 2022 08:46:13 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Logan Gunthorpe <logang@deltatee.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-mm@kvack.org, Christoph Hellwig <hch@lst.de>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Minturn Dave B <dave.b.minturn@intel.com>,
+	Jason Ekstrand <jason@jlekstrand.net>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Xiong Jianxin <jianxin.xiong@intel.com>,
+	Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Martin Oliveira <martin.oliveira@eideticom.com>,
+	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+	Ralph Campbell <rcampbell@nvidia.com>,
+	Stephen Bates <sbates@raithlin.com>
+Subject: Re: [PATCH v9 7/8] PCI/P2PDMA: Allow userspace VMA allocations
+ through sysfs
+Message-ID: <20220920064613.GB17325@lst.de>
+References: <20220825152425.6296-1-logang@deltatee.com> <20220825152425.6296-8-logang@deltatee.com> <YxDb2MyRx6o/wDAz@kroah.com> <4a4bca1e-bebf-768f-92d4-92eb8ae714e1@deltatee.com> <YxDhEO9ycZDTnbZm@kroah.com> <cc9a24a8-dd3a-9d21-d9a7-5ee4b0ad7a57@deltatee.com> <YxD7uZYaV75gJS9d@kroah.com> <fb9d7948-43fe-87c5-5275-70f280181ad1@deltatee.com> <YxGad5h2Nn/Ejslc@kroah.com> <db8cd049-c78b-1aa0-dcd0-0feb8c6cb25c@deltatee.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <db8cd049-c78b-1aa0-dcd0-0feb8c6cb25c@deltatee.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220919_215908_740038_2F5FCA07 
-X-CRM114-Status: UNSURE (   9.03  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220919_234622_964200_A1349776 
+X-CRM114-Status: GOOD (  13.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,80 +76,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.1
-branch HEAD: 02c57a82c0081141abc19150beab48ef47f97f18  nvme-tcp: print actual source IP address through sysfs "address" attr
+On Fri, Sep 02, 2022 at 12:46:54PM -0600, Logan Gunthorpe wrote:
+> See the diff at the bottom of this email. I can apply it on top of this
+> patch, but IMO it is neither easier to follow nor maintain. Unless you 
+> have a different suggestion...
 
-elapsed time: 725m
+Greg, can you chime in on this?  Besides this item we just have a few
+cosmetic bits left I think, and I'd really like to get the series into
+this merge window.
 
-configs tested: 58
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-i386                 randconfig-a012-20220919
-um                             i386_defconfig
-i386                 randconfig-a011-20220919
-um                           x86_64_defconfig
-i386                 randconfig-a013-20220919
-arc                                 defconfig
-i386                 randconfig-a014-20220919
-alpha                               defconfig
-i386                 randconfig-a016-20220919
-mips                             allyesconfig
-s390                                defconfig
-x86_64                              defconfig
-i386                 randconfig-a015-20220919
-powerpc                           allnoconfig
-s390                             allmodconfig
-powerpc                          allmodconfig
-x86_64                               rhel-8.3
-sh                               allmodconfig
-s390                             allyesconfig
-m68k                             allmodconfig
-arc                              allyesconfig
-x86_64                           allyesconfig
-riscv                randconfig-r042-20220919
-alpha                            allyesconfig
-arc                  randconfig-r043-20220919
-x86_64                          rhel-8.3-func
-x86_64                         rhel-8.3-kunit
-s390                 randconfig-r044-20220919
-x86_64                           rhel-8.3-kvm
-m68k                             allyesconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                           rhel-8.3-syz
-x86_64               randconfig-a012-20220919
-i386                                defconfig
-arm                                 defconfig
-x86_64               randconfig-a016-20220919
-x86_64               randconfig-a011-20220919
-x86_64               randconfig-a014-20220919
-x86_64               randconfig-a015-20220919
-x86_64               randconfig-a013-20220919
-arm64                            allyesconfig
-arm                              allyesconfig
-ia64                             allmodconfig
-i386                             allyesconfig
-
-clang tested configs:
-hexagon              randconfig-r041-20220919
-i386                 randconfig-a001-20220919
-x86_64               randconfig-a003-20220919
-hexagon              randconfig-r045-20220919
-x86_64               randconfig-a001-20220919
-x86_64               randconfig-a005-20220919
-i386                 randconfig-a002-20220919
-x86_64               randconfig-a002-20220919
-i386                 randconfig-a003-20220919
-x86_64               randconfig-a004-20220919
-x86_64               randconfig-a006-20220919
-i386                 randconfig-a004-20220919
-i386                 randconfig-a005-20220919
-i386                 randconfig-a006-20220919
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
 
