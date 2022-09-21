@@ -4,134 +4,108 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6C81ECAAD8
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Sep 2022 17:33:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 650C7ECAAD8
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Sep 2022 23:56:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=3Ci10O2BVi/HktN0SRzO4buCtgT/msmMdQxBp8IfR8Y=; b=SueWIuB4gVe913
-	UlBMOVO6emUCeOovKlGI86U/Y/pTrRqx54tRuSYCkloJq7+7ExP1id78sEeSTxOPORcIyVr3WQaNq
-	FGTwPJqrCEJ/wQCHOhQtSs7QJQPQNEv+J0bpSDMwL0wQwQYatYx6HIry70B9GJLZ7sYuH8pqZYL43
-	IqsyQWWsptZGo9dd3i0o14Uairkpn7qVQwWCI2knv9R/853wvcOopI1R1hl2LPpsZZCvdJpl/J+MG
-	3oxUTYY0yvRQLdhdA+uLHgfmgi7u7T1rD1gM8Ts2HdUkdpFXeMic7bkQlzDZjOuEDqMhwhrqCHch2
-	B/eVH3DL+vrmeptD/anw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=DQODntuSPK012nmP5PmMy4RF3OQ07j3h/TvZoDNXtPU=; b=Oieck6LDH7bT8ZwFYkTp2XSqmQ
+	zEL2GscoYrTyi+hxK/0/RY7YbqGEJoXVQbv3wd5NHTUICrLAFUs4XY2AD+yorILhHq2qgSw7iErNZ
+	k5BPKT6H7MfylgNAbBpSJH2Xo06kYB1k/MWWN/g/kbg3kAt4oPdCYWp0NxbW0kd+RxWZyxMrwMauv
+	TXJANu38xByXHrfWDrY/Bbkp8h1jRb2d+dUNzuOdh3gRKv6ek7Z5kbHv6KIcZAGMoecKpDW7+7ooH
+	209LhmUI1GM2rGqBBCHiKEUMXaaUxdM3cnb3ESudV3OHST/uQLmnfA0O2vUsTVKZasY0Z8GOt8EMi
+	HgSPUEsA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ob3al-00CCc3-RD; Wed, 21 Sep 2022 17:32:59 +0000
-Received: from mailout1.w1.samsung.com ([210.118.77.11])
+	id 1ob9Zb-00Czaq-Re; Wed, 21 Sep 2022 23:56:11 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ob3ag-00CCZc-SU
-	for linux-nvme@lists.infradead.org; Wed, 21 Sep 2022 17:32:59 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20220921173250euoutp01b625fe1d4b2e07c16c9c2cd4d9703790~W8IXg-pc42635226352euoutp011
-	for <linux-nvme@lists.infradead.org>; Wed, 21 Sep 2022 17:32:50 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20220921173250euoutp01b625fe1d4b2e07c16c9c2cd4d9703790~W8IXg-pc42635226352euoutp011
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1663781570;
-	bh=3Ci10O2BVi/HktN0SRzO4buCtgT/msmMdQxBp8IfR8Y=;
-	h=Date:Subject:To:CC:From:In-Reply-To:References:From;
-	b=jFi1QKww3b6OGjZPqJJFuVmrch3IxUK9rBO4jjLJafGHkWikJOOUb7TDJvenuAiM5
-	 lB1cu5h5/F/WW4RQQK/3drIjzlIfwFi9VibTd+eu1vEpgAaKr6hJnxBynJJg9x3Cdo
-	 WnEewb/A/jYp6lE29W6DyYDM5aNQDwYRPafSeiZw=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20220921173249eucas1p205c67c6120e3314a1324332e3c725528~W8IWuikMW0485404854eucas1p2f;
-	Wed, 21 Sep 2022 17:32:49 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-	eusmges3new.samsung.com (EUCPMTA) with SMTP id 52.87.19378.1CA4B236; Wed, 21
-	Sep 2022 18:32:49 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20220921173248eucas1p23403baa578aa335747fb8a62145a577f~W8IWL9LNd0562805628eucas1p2p;
-	Wed, 21 Sep 2022 17:32:48 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20220921173248eusmtrp1119dd3978522ddbd060337edcc92edd2~W8IWLHoqA1591515915eusmtrp1V;
-	Wed, 21 Sep 2022 17:32:48 +0000 (GMT)
-X-AuditID: cbfec7f5-a4dff70000014bb2-1a-632b4ac1bb46
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-	eusmgms2.samsung.com (EUCPMTA) with SMTP id 0A.7B.10862.0CA4B236; Wed, 21
-	Sep 2022 18:32:48 +0100 (BST)
-Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20220921173248eusmtip2825416e5fdc058383a65eb9819720136~W8IWAmJkC2186421864eusmtip20;
-	Wed, 21 Sep 2022 17:32:48 +0000 (GMT)
-Received: from [192.168.8.130] (106.210.248.192) by CAMSVWEXC01.scsc.local
-	(2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Wed, 21 Sep 2022 18:32:46 +0100
-Message-ID: <fc7d88a5-f65b-3962-22e5-cc393535d66d@samsung.com>
-Date: Wed, 21 Sep 2022 19:32:45 +0200
+	id 1ob9ZY-00CzZl-Ob
+	for linux-nvme@lists.infradead.org; Wed, 21 Sep 2022 23:56:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1663804567; x=1695340567;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=R6QuspugV33sv/Nyw/jFGeLxlZk7c4W6yvVLK3L2FAo=;
+  b=UGO5sJidJmui3OLi5HC8OFaKzkvRqubxoiSqQhyYqWQTkkBW4cSiXyk+
+   aKWqF2wVo4FaWCvCkxZa7d0iPhbfebE6eiCMtmeNZKyL+L3bJ0PiEbman
+   5YKuJXcNWeHU8ZrckE5VoTxvBKs/C8/OIrsf/ssYvOOAWDIcLw0nsCwAE
+   LEOBNhTl9EHr1gKBd5MGCAqudCQUJzgf7o77mSvQ02U9jXENTdKaKbOAF
+   dLUR2xpJGh/lKx+cBrGqo4SZm+WyUuDhHsNwLQpm3JVhFD1QS9Qigd5aB
+   NZ5QoyJtT2TEZkGBb+rvGkLZ/HPBrF4dqA1CyfiW9jVrqKvZnng3U6ayN
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.93,334,1654531200"; 
+   d="scan'208";a="217137259"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 22 Sep 2022 07:55:57 +0800
+IronPort-SDR: aU4RqpHhjIoorBQ6RpBBJ2iC9CvREarnvw4UkAnbmTQnoKNUVIBb33WwKbCjuQmD9cc6lQSLDA
+ X9Z/ce7Uw7wHmAXVuyCEz97yJjCNjKFoJBao6/YSTQQJ/SI2bm7YnV2EqpEMdtczdUUU1QuxNo
+ dN6O611yK/9VtinOt104HTlmiM3RQ0F+B7F3lZOI+IbzR3q3jfDMooL/xVd40lCweNNKICAVaB
+ pJrTYq2I4MPFDfqFxOzLQBWpcm1EPt1dR5BPAvjoZoZEGtUdsrP66oYwqgeVVrHcUXLc8DTM6r
+ GmfrOVB2qkn2p9UArNkzU1CH
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 21 Sep 2022 16:16:02 -0700
+IronPort-SDR: BtUS/Dz/PXZ/e03twFOHEFmRwGCchBGAAUJf3R+S2kTwth/f17TGV1T4aW9ZOrPXqA7Q+FNSJU
+ cy8j16XCFp0JtIVSt6kmxmSvsJRoFztsTpcWfKcnLUDiO+do14T2Qk6xJEZndna1sop63VU76I
+ 9fIW+TbZ2QtJkRaZLEg1BLOTkj9TZLRbs94Qg/lx9FpQ57A4hhhB7pCkGwoTm50q6jQmEut0UJ
+ 7FhXSaDy2cUSp8pBCMawO3pwRMTLRVEb1U3ZexB9XTWXN0izgyKEZjGK51yi8JzAuvPDtBLkF2
+ Ij4=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 21 Sep 2022 16:55:58 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4MXwKT5xlwz1Rx15
+	for <linux-nvme@lists.infradead.org>; Wed, 21 Sep 2022 16:55:57 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+	reason="pass (just generated, assumed good)"
+	header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+	opensource.wdc.com; h=content-transfer-encoding:content-type
+	:in-reply-to:organization:from:references:to:content-language
+	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
+	1663804554; x=1666396555; bh=R6QuspugV33sv/Nyw/jFGeLxlZk7c4W6yvV
+	LK3L2FAo=; b=eNHxOBlVsoK+cUKCyD9rk9mD9UapAH8S50Gd/aF6G73xvEjiVFt
+	IPahmf+oO/PfuDBsbPev/J9gy4p41ePyNN7c+o2/mYyRfizL5IHCu/hofli6rSP/
+	X7m3nvMbNqPklHHZONhKe2aPHooH/Ri3nAtu8SYFpP0/lzyapsY9A0z0R2f5z79f
+	N4wg1kGcM0kGtkYxKveO6fwtrE8KfBaNOwg9cEI429jNWkhytreX3pgs/WfiwAJ9
+	askQpSeu44kr/gQRw7bPMi3D6YQOMll8FLIYvljLueSh/4KSAk3fWlmIS+CTmklT
+	XyUJHKxgM4gbQ0Lq196ni2r5gA/K/iAQ9KQ==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id ofIr7Gb_eOfp for <linux-nvme@lists.infradead.org>;
+	Wed, 21 Sep 2022 16:55:54 -0700 (PDT)
+Received: from [10.225.163.81] (unknown [10.225.163.81])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4MXwKJ1tkpz1RvLy;
+	Wed, 21 Sep 2022 16:55:47 -0700 (PDT)
+Message-ID: <7dd9dbc0-b08b-fa47-5452-d448d86ca56b@opensource.wdc.com>
+Date: Thu, 22 Sep 2022 08:55:45 +0900
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
-	Thunderbird/91.11.0
-Subject: Re: [PATCH v14 13/13] dm: add power-of-2 target for zoned devices
- with non power-of-2 zone sizes
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: Please further explain Linux's "zoned storage" roadmap [was: Re:
+ [PATCH v14 00/13] support zoned block devices with non-power-of-2 zone sizes]
 Content-Language: en-US
-To: Mike Snitzer <snitzer@redhat.com>
-CC: <agk@redhat.com>, <snitzer@kernel.org>, <axboe@kernel.dk>,
-	<damien.lemoal@opensource.wdc.com>, <hch@lst.de>, Damien Le Moal
-	<damien.lemoal@wdc.com>, <bvanassche@acm.org>, <pankydev8@gmail.com>,
-	<gost.dev@samsung.com>, <linux-kernel@vger.kernel.org>,
-	<linux-nvme@lists.infradead.org>, <linux-block@vger.kernel.org>,
-	<dm-devel@redhat.com>, Johannes Thumshirn <johannes.thumshirn@wdc.com>,
-	<jaegeuk@kernel.org>, <matias.bjorling@wdc.com>
-From: Pankaj Raghav <p.raghav@samsung.com>
-In-Reply-To: <Yys9sTqCIzxVFwyX@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Mike Snitzer <snitzer@redhat.com>, Pankaj Raghav <p.raghav@samsung.com>
+Cc: agk@redhat.com, snitzer@kernel.org, axboe@kernel.dk, hch@lst.de,
+ bvanassche@acm.org, pankydev8@gmail.com, gost.dev@samsung.com,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, dm-devel@redhat.com,
+ Johannes.Thumshirn@wdc.com, jaegeuk@kernel.org, matias.bjorling@wdc.com
+References: <CGME20220920091120eucas1p2c82c18f552d6298d24547cba2f70b7fc@eucas1p2.samsung.com>
+ <20220920091119.115879-1-p.raghav@samsung.com> <YytJhEywBhqcr7MX@redhat.com>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <YytJhEywBhqcr7MX@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [106.210.248.192]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
-	CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrPKsWRmVeSWpSXmKPExsWy7djP87oHvbSTDT4c4rNYf+oYs8Xqu/1s
-	FtM+/GS2+H32PLNFa/s3Jou972azWqxcfZTJ4sn6WcwWf7vuAcVuaVtc3jWHzWL+sqfsFhPa
-	vjJbrLn5lMXixC1pi7aNXxkdBDwuX/H22DnrLrvH5bOlHptWdbJ5bF5S77H7ZgObx87W+6we
-	7/ddZfP4vEnOo/1AN1MAVxSXTUpqTmZZapG+XQJXRsuJSSwFLcIVt+9MYGxgbOHvYuTkkBAw
-	kTh3bgtbFyMXh5DACkaJXSv3s0I4XxglGpdeYoJwPjNK9De/ZINpWTHnMSOILSSwnFHiw2E/
-	uKKPPxrYIZzdjBJ91zYAdXBw8ArYSbSvkAVpYBFQlXi29BgTiM0rIChxcuYTFhBbVCBSYs3u
-	s+wgtrBAtsSrC9PAFjALiEvcejKfCWSMCFDvrWkuIOOZBQ4xS6xrew0WZxPQkmjsBGvlBDIP
-	vvzKAtGqKdG6/Tc7hC0vsf3tHGaI+5UlZt6cCmXXSqw9dgbsZAmBR5wSv873QD3pInG28yQj
-	hC0s8er4FnYIW0bi9OQeFgi7WuLpjd/MEM0twBDauR7sXwkBa4m+MzkQNY4S565uYocI80nc
-	eCsIcQ+fxKRt05knMKrOQgqJWUg+noXkhVlIXljAyLKKUTy1tDg3PbXYOC+1XK84Mbe4NC9d
-	Lzk/dxMjMA2e/nf86w7GFa8+6h1iZOJgPMQowcGsJMI7+45mshBvSmJlVWpRfnxRaU5q8SFG
-	aQ4WJXFethlayUIC6YklqdmpqQWpRTBZJg5OqQamlun7tzMdF9oxaYZZlnzYkncdod/m51V4
-	btu54+2p8HLrC/f1+m8cyV7kUf/64ErVmdM4PlbOWHdi7buJX/JCe5s/zrTh+c+qsE/0PMec
-	FbLrivoPG/rPlYpk/PvX9ON79eveJ+ICjqpMcWt71qJ8qO+Wg4OT5ocSle2rWt4VXA1bV6nE
-	7To/6L7O7KDo+6bikmaGVzeZTIrN5j8vs+Bj+7PuWWKiJR/C/H7PeHr/QHDXVLEwhnWMXR9F
-	hPr0Io9c+3Rm3Y5Hro4zb2e/0WZyPz+L52T43CDr3t5rr5X4BBYtFb9kMvGfnfyzb0oBx53F
-	T002eWetZXX6i/La3zLe1xand6/zYL2v13Odq+THCSWW4oxEQy3mouJEAGmuP8jyAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKKsWRmVeSWpSXmKPExsVy+t/xe7oHvLSTDX62aFisP3WM2WL13X42
-	i2kffjJb/D57ntmitf0bk8Xed7NZLVauPspk8WT9LGaLv133gGK3tC0u75rDZjF/2VN2iwlt
-	X5kt1tx8ymJx4pa0RdvGr4wOAh6Xr3h77Jx1l93j8tlSj02rOtk8Ni+p99h9s4HNY2frfVaP
-	9/uusnl83iTn0X6gmymAK0rPpii/tCRVISO/uMRWKdrQwkjP0NJCz8jEUs/Q2DzWyshUSd/O
-	JiU1J7MstUjfLkEvo+XEJJaCFuGK23cmMDYwtvB3MXJySAiYSKyY85ixi5GLQ0hgKaPE3et/
-	WSESMhKfrnxkh7CFJf5c62KDKPrIKPH+6FVmCGc3o8S2B/OAqjg4eAXsJNpXyII0sAioSjxb
-	eowJxOYVEJQ4OfMJC4gtKhAp8XBZE1hcWCBb4tWFaYwgNrOAuMStJ/OZQMaIAPXemuYCMp5Z
-	4BCzxLq210wQu+4xSmzufc0GUsQmoCXR2Al2HCeQefDlVxaIOZoSrdt/s0PY8hLb385hhnhA
-	WWLmzalQdq3Eq/u7GScwis5Cct4sJGfMQjJqFpJRCxhZVjGKpJYW56bnFhvpFSfmFpfmpesl
-	5+duYgSmj23Hfm7Zwbjy1Ue9Q4xMHIyHGCU4mJVEeGff0UwW4k1JrKxKLcqPLyrNSS0+xGgK
-	DKOJzFKiyfnABJZXEm9oZmBqaGJmaWBqaWasJM7rWdCRKCSQnliSmp2aWpBaBNPHxMEp1cDk
-	K6PW+rD/4XSJvANHuOwzNaXkbr7S3JDJtf/hrVPCPDPYJ+bsMw1WvSDQeC5+CY8MG+NbVXmH
-	61PmGh2YlWG83Id5c5/T/IgPBeHzrVifWz9ZbClnPPdAmInT4XD7yLTfoQoszSsjNlUcWp3t
-	dC5Yys8yo1bwBsOPJZ/LuA6GZbcVuf9+9+yJX6ZlTrEDm9TWD5rNLT2fTzqdZF66bkPY8o65
-	qaFs5mm55REn4s7UND6c2pY+a+fKtUxGoTKpEV1K/35nvRA+89IzWdv5tGP1P5fpXq4z9FO4
-	nt1/rjybeUKB+PHXLkd9tPkj395alNSYwGN6O2PJ9OWvNl7fPuVxR1eq1R33f3tu8xlmPVBi
-	Kc5INNRiLipOBAATeEQ9qAMAAA==
-X-CMS-MailID: 20220921173248eucas1p23403baa578aa335747fb8a62145a577f
-X-Msg-Generator: CA
-X-RootMTR: 20220920091134eucas1p275585b70fab48ba1f19eb5d2cc515b6d
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220920091134eucas1p275585b70fab48ba1f19eb5d2cc515b6d
-References: <20220920091119.115879-1-p.raghav@samsung.com>
-	<CGME20220920091134eucas1p275585b70fab48ba1f19eb5d2cc515b6d@eucas1p2.samsung.com>
-	<20220920091119.115879-14-p.raghav@samsung.com>
-	<Yys9sTqCIzxVFwyX@redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220921_103255_219370_69C7CA15 
-X-CRM114-Status: GOOD (  18.66  )
+X-CRM114-CacheID: sfid-20220921_165608_868605_83F7CE58 
+X-CRM114-Status: GOOD (  57.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -146,79 +120,211 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
->> +/*
->> + * This target works on the complete zoned device. Partial mapping is not
->> + * supported.
->> + * Construct a zoned po2 logical device: <dev-path>
->> + */
->> +static int dm_po2z_ctr(struct dm_target *ti, unsigned int argc, char **argv)
->> +{
->> +	struct dm_po2z_target *dmh = NULL;
->> +	int ret;
->> +	sector_t zone_size;
->> +	sector_t dev_capacity;
->> +
->> +	if (argc != 1)
->> +		return -EINVAL;
->> +
->> +	dmh = kmalloc(sizeof(*dmh), GFP_KERNEL);
->> +	if (!dmh)
->> +		return -ENOMEM;
->> +
->> +	ret = dm_get_device(ti, argv[0], dm_table_get_mode(ti->table),
->> +			    &dmh->dev);
->> +	if (ret) {
->> +		ti->error = "Device lookup failed";
->> +		goto bad;
->> +	}
->> +
->> +	if (!bdev_is_zoned(dmh->dev->bdev)) {
->> +		DMERR("%pg is not a zoned device", dmh->dev->bdev);
->> +		ret = -EINVAL;
->> +		goto bad;
->> +	}
->> +
->> +	zone_size = bdev_zone_sectors(dmh->dev->bdev);
->> +	dev_capacity = get_capacity(dmh->dev->bdev->bd_disk);
->> +	if (ti->len != dev_capacity) {
->> +		DMERR("%pg Partial mapping of the target is not supported",
->> +		      dmh->dev->bdev);
->> +		ret = -EINVAL;
->> +		goto bad;
->> +	}
->> +
->> +	if (is_power_of_2(zone_size))
->> +		DMWARN("%pg: underlying device has a power-of-2 number of sectors per zone",
->> +		       dmh->dev->bdev);
->> +
->> +	dmh->zone_size = zone_size;
->> +	dmh->zone_size_po2 = 1 << get_count_order_long(zone_size);
->> +	dmh->zone_size_po2_shift = ilog2(dmh->zone_size_po2);
->> +	dmh->zone_size_diff = dmh->zone_size_po2 - dmh->zone_size;
->> +	ti->private = dmh;
->> +	ti->max_io_len = dmh->zone_size_po2;
->> +	dmh->nr_zones = npo2_zone_no(dmh, ti->len);
->> +	ti->len = dmh->zone_size_po2 * dmh->nr_zones;
->> +	return 0;
->> +
->> +bad:
->> +	kfree(dmh);
->> +	return ret;
->> +}
+On 9/22/22 02:27, Mike Snitzer wrote:
+> On Tue, Sep 20 2022 at  5:11P -0400,
+> Pankaj Raghav <p.raghav@samsung.com> wrote:
 > 
-> This error handling still isn't correct.  You're using
-> dm_get_device().  If you return early due to error, _after_
-> dm_get_device(), you need to dm_put_device().
+>> - Background and Motivation:
+>>
+>> The zone storage implementation in Linux, introduced since v4.10, first
+>> targetted SMR drives which have a power of 2 (po2) zone size alignment
+>> requirement. The po2 zone size was further imposed implicitly by the
+>> block layer's blk_queue_chunk_sectors(), used to prevent IO merging
+>> across chunks beyond the specified size, since v3.16 through commit
+>> 762380ad9322 ("block: add notion of a chunk size for request merging").
+>> But this same general block layer po2 requirement for blk_queue_chunk_sectors()
+>> was removed on v5.10 through commit 07d098e6bbad ("block: allow 'chunk_sectors'
+>> to be non-power-of-2").
+>>
+>> NAND, which is the media used in newer zoned storage devices, does not
+>> naturally align to po2. In these devices, zone capacity(cap) is not the
+>> same as the po2 zone size. When the zone cap != zone size, then unmapped
+>> LBAs are introduced to cover the space between the zone cap and zone size.
+>> po2 requirement does not make sense for these type of zone storage devices.
+>> This patch series aims to remove these unmapped LBAs for zoned devices when
+>> zone cap is npo2. This is done by relaxing the po2 zone size constraint
+>> in the kernel and allowing zoned device with npo2 zone sizes if zone cap
+>> == zone size.
+>>
+>> Removing the po2 requirement from zone storage should be possible
+>> now provided that no userspace regression and no performance regressions are
+>> introduced. Stop-gap patches have been already merged into f2fs-tools to
+>> proactively not allow npo2 zone sizes until proper support is added [1].
+>>
+>> There were two efforts previously to add support to npo2 devices: 1) via
+>> device level emulation [2] but that was rejected with a final conclusion
+>> to add support for non po2 zoned device in the complete stack[3] 2)
+>> adding support to the complete stack by removing the constraint in the
+>> block layer and NVMe layer with support to btrfs, zonefs, etc which was
+>> rejected with a conclusion to add a dm target for FS support [0]
+>> to reduce the regression impact.
+>>
+>> This series adds support to npo2 zoned devices in the block and nvme
+>> layer and a new **dm target** is added: dm-po2zoned-target. This new
+>> target will be initially used for filesystems such as btrfs and
+>> f2fs until native npo2 zone support is added.
 > 
-> Basically you need a new label above "bad:" that calls dm_put_device()
-> then falls through to "bad:".  Or you need to explcitly call
-> dm_put_device() before "goto bad;" in the if (ti->len != dev_capacity)
-> error branch.
+> As this patchset nears the point of being "ready for merge" and DM's
+> "zoned" oriented targets are multiplying, I need to understand: where
+> are we collectively going?  How long are we expecting to support the
+> "stop-gap zoned storage" layers we've constructed?
 > 
+> I know https://zonedstorage.io/docs/introduction exists... but it
+> _seems_ stale given the emergence of ZNS and new permutations of zoned
+> hardware. Maybe that isn't quite fair (it does cover A LOT!) but I'm
+> still left wanting (e.g. "bring it all home for me!")...
+> 
+> Damien, as the most "zoned storage" oriented engineer I know, can you
+> please kick things off by shedding light on where Linux is now, and
+> where it's going, for "zoned storage"?
 
-Ah. I naively assumed dtr will be called to cleanup but not in this case as
-the ctr itself fails.
+Let me first start with what we have seen so far with deployments in the
+field.
 
-I will add an extra label on top of `bad` and use it for errors that
-happens after `dm_get_device`. Thanks for pointing it out Mike.
+The largest user base for zoned storage is for now hyperscalers (cloud
+services) deploying SMR disks. E.g. Dropbox has many times publicized its
+use of SMR HDDs. ZNS is fairly new, and while it is being actively
+evaluated by many, there are not yet any large scale deployments that I am
+aware of.
+
+Most of the large scale SMR users today mainly use the zoned storage
+drives directly, without a file system, similarly to their use of regular
+block devices. Some erasure coded object store sits on top of the zoned
+drives and manage them. The interface used for that has now switched to
+using the kernel API, from libzbc pass-through in the early days of SMR
+support. With the inclusion of zonefs in kernel 5.6, many are now
+switching to using that instead of directly accessing the block device
+file. zonefs makes the application development somewhat easier (there is
+no need for issuing zone management ioctls) and can also result in
+applications that can actually run almost as-is on top of regular block
+devices with a file system. That is a very interesting property,
+especially in development phase for the user.
+
+Beside these large scale SMR deployments, there are also many smaller
+users. For these cases, dm-zoned seemed to be used a lot. In particular,
+the Chia cryptocurrency boom (now fading ?) did generate a fair amount of
+new SMR users relying on dm-zoned. With btrfs zoned storage support
+maturing, dm-zoned is not as needed as it used to though. SMR drives can
+be used directly under btrfs and I certainly am always recommending this
+approach over dm-zoned+ext4 or dm-zoned+xfs as performance is much better
+for write intensive workloads.
+
+For Linux kernel overall, zoned storage is in a very good shape for raw
+block device use and zonefs use. Production deployments we are seeing are
+a proof of that. Currently, my team effort is mostly focused on btrfs and
+zonefs and increasing zoned storage use cases.
+
+1) For btrfs, Johannes and Naohiro are working on stabilizing support for
+ZNS (we still have some issues with the management of active zones) and
+implementing de-clustered parity RAID support so that zoned drives can be
+used in RAID 0, 1, 10, 5, 6 and erasure coded volumes. This will address
+use cases such as home NAS boxes, backup servers, small file servers,
+video applications (e.g. video surveillance) etc. Essentially, any
+application with large storage capacity needs that is not a distributed
+setup. There are many.
+
+2) For zonefs, I have some to-do items lined up to improve performance
+(better read IO tail latency) and further improve ease of use (e.g. remove
+the O_DIRECT write constraint).
+
+3) At the block device level, we are also working on adding zoned block
+device specifications to virtio and implementing that support in qemu and
+the kernel. Patches are floating around now but not yet merged. This
+addresses the use of zoned storage in VM environments through virtio
+interface instead of directly attaching devices to guests.
+
+> To give some additional context to help me when you answer: I'm left
+> wondering what, if any, role dm-zoned has to play moving forward given
+> ZNS is "the future" (and yeah "the future" is now but...)?  E.g.: Does
+> it make sense to stack dm-zoned ontop of dm-po2zoned!?
+
+That is a lot to unfold in a small paragraph :)
+
+First of all, I would rephrase "ZNS is the future" into "ZNS is a very
+interesting alternative to generic NVMe SSDs". The reason being that HDD
+are not dead, far from it. They still are way cheaper than SSDs in $/TB :)
+So ZNS is not really in competition with SMR HDDs jere. The 2 are
+complementary, exactly like regular SSDs are complementary to regular HDDs.
+
+dm-zoned serves some use cases for SMR HDDs (see above) but does not
+address ZNS (more on this below). And given that all SMR HDD on the market
+today have a zone size that is a power of 2 number of LBAs (256MB zone
+size is by far the most common), dm-po2zoned is not required at all for SMR.
+
+Pankaj patch series is all about supporting ZNS devices that have a zone
+size that is not a power of 2 number of LBAs as some vendors want to
+produce such drives. There is no such move happening in the SMR world as
+all users are happy with the current zone sizes which match the kernel
+support (which currently requires power-of-2 number of LBAs for the zone
+size).
+
+I do not think we have yet reached a consensus on if we really want to
+accept any zone size for zoned storage. I personally am not a big fan of
+removing the existing constraint as that makes the code somewhat heavier
+(multiplication & divisions instead of bit shifts) without introducing any
+benefit to the user that I can see (or agree with). And there is also a
+risk of forcing onto the users to redesign/change their code to support
+different devices in the same system. That is never nice to fragment
+support like this for the same device class. This is why several people,
+including me, requested something like dm-po2zoned, to avoid breaking user
+applications if non-power-of-2 zone size drives support is merged. Better
+than nothing for sure, but not ideal either. That is only my opinion.
+There are different opinions out there.
+
+> Yet more context: When I'm asked to add full-blown support for
+> dm-zoned to RHEL my gut is "please no, why!?".  And if we really
+> should add dm-zoned is dm-po2zoned now also a requirement (to support
+> non-power-of-2 ZNS devices in our never-ending engineering of "zoned
+> storage" compatibility stop-gaps)?
+
+Support for dm-zoned in RHEL really depends on if your customers need it.
+Having SMR and ZNS block device (CONFIG_BLK_DEV_ZONED) and zonefs support
+enabled would already cover a lot of use cases on their own, at least the
+ones we see in the field today.
+
+Going forward, we expect more use cases to rely on btrfs rather than
+dm-zoned or any equivalent DM target for ZNS. And that can also include
+non power of 2 zone size drives as btrfs should normally be able to handle
+such devices, if the support for them is merged. But we are not there yet
+with btrfs support, hence dm-po2zoned.
+
+But again, that all depends on if Pankaj patch series is accepted, that
+is, on everybody accepting that we lift the power-of-2 zone size constraint.
+> In addition, it was my understanding that WDC had yet another zoned DM
+> target called "dm-zap" that is for ZNS based devices... It's all a bit
+> messy in my head (that's on me for not keeping up, but I think we need
+> a recap!)
+
+Since the ZNS specification does not define conventional zones, dm-zoned
+cannot be used as a standalone DM target (read: single block device) with
+NVMe zoned block devices. Furthermore, due to its block mapping scheme,
+dm-zoned does not support devices with zones that have a capacity lower
+than the zone size. So ZNS is really a big *no* for dm-zoned. dm-zap is a
+prototype and in a nutshell is the equivalent of dm-zoned for ZNS. dm-zap
+can deal with the smaller zone capacity and does not require conventional
+zones. We are not trying to push for dm-zap to be merged for now as we are
+still evaluating its potential use cases. We also have a different but
+functionally equivalent approach implemented as a block device driver that
+we are evaluating internally.
+
+Given the above mentioned usage pattern we have seen so far for zoned
+storage, it is not yet clear if something like dm-zap for ZNS is needed
+beside some niche use cases.
+
+> So please help me, and others, become more informed as quickly as
+> possible! ;)
+
+I hope the above helps. If you want me to develop further any of the
+points above, feel free to let me know.
+
+> ps. I'm asking all this in the open on various Linux mailing lists
+> because it doesn't seem right to request a concall to inform only
+> me... I think others may need similar "zoned storage" help.
+
+All good with me :)
+
+-- 
+Damien Le Moal
+Western Digital Research
+
 
