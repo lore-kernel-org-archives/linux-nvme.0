@@ -4,71 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E519BC32771
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Sep 2022 09:35:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EBF61C32771
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Sep 2022 10:03:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=XvSyrTS/T7ownHui2qE7emhkso
-	qnrY9+pqUB58qthNqZdpudZT6SdsG8UYOSNe0P7//huGdzfAiHacdNieb1vJlF5IKiCZ2iYkmxi1F
-	JWzeg3x+OA21rQ3DiXSIOqL1R+Sf5xbuksl3hGvkbzWOZCMv6NpMgzejkCOeYKSB58wvphopwVSEY
-	wIByUpaj69bR0CNc7PWFH9uPiAvOjmMIdYT4uXiB20CDUOrBHpQ2CsQ7SAW7qls5DHH0lczP4JX9K
-	Ri8VDsZHTcB6jH1Y9MmRvuN1t0IwZBitigffot+I4QdN3EJALPRgOD6xJ/iwnota3mW48ktAYh+wQ
-	mYdh7yYQ==;
+	bh=qZixGkfzqI/2LNbOOCB87XTtFWzs3bCYglVrktfOzw4=; b=tEibEQnTwh0Ok/exWpuaaUOq6Q
+	pHtwfCeb2efSxx51E3Ln9eIqdjKioKs6xFVAWn6asl28Hs76oZtIcs8mBTkpl8PS/3kEdlaOfqNvG
+	jpkmE0J0H0T43tIXD14v5HdUkYNACLVlWwlxVvX4u9P93Ojz8OzHkejMGouIWoy+ZmzfETtEa2QRr
+	zkvBb+sNGckTKp0D4KzgwsUq7/yufnN9B5I+pK0wSKrVSMzWe2m8scl71Sn2n/uo9mjWTNDL+f+Dc
+	nX5WyuXCyp8Wc18ih5aDe9fxFNhqDUscsYoVT7gKbPOZJzB3nMSkuuahb47nkwqS47zLEIcFj8rr8
+	NxG1+B7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaw8n-00AS45-8L; Wed, 21 Sep 2022 09:35:37 +0000
-Received: from mail-wm1-f51.google.com ([209.85.128.51])
+	id 1oawa2-00AiJa-O0; Wed, 21 Sep 2022 10:03:46 +0000
+Received: from wp530.webpack.hosteurope.de ([2a01:488:42:1000:50ed:8234::])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaw01-00AOA3-Pg
-	for linux-nvme@lists.infradead.org; Wed, 21 Sep 2022 09:26:35 +0000
-Received: by mail-wm1-f51.google.com with SMTP id v3-20020a1cac03000000b003b4fd0fe6c0so128047wme.5
-        for <linux-nvme@lists.infradead.org>; Wed, 21 Sep 2022 02:26:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=x615azNTPZ2mI9r6SUfVOS5RAQEsXxouPQp0OgsrzvowMdTtFQiwsdJT07hwXdDDyf
-         7Ue+2QgK+OTpClSOk6x7ELpdSv+8ONnrP/CFCDNNxyI0zgPbYkycD2iEREW2TUuYFjqV
-         gM+b2UAXJr96BoNzTYI3hFY5t9ZbtTUVMzPsNaZnxeI0nUbvRKrVUD+5Fm24j551qneH
-         Mv6werr/MVYtV0BXQ2vwJ8VVN5fUzToYqodbpS+YzqbNm8ur1Prst+wULve6nI1BhCHT
-         xQIq8FyP5cmKRu3AWC9bpFuCx4Evo2gsmUQjk/tefEjz37iAscVzeq8IrOOaAVQ4FTvB
-         QDqg==
-X-Gm-Message-State: ACrzQf29qsIANBa4P1D2gg8gcXuJqwt3wNUTP88IRyms1mfpVREGkGkU
-	fceUa42fw2YtSwoPT8Kv7mg=
-X-Google-Smtp-Source: AMsMyM6pgUvPLYM74j5BVopSnI29AfqININ/ZSEr7GauBBxaeXF7kpgetpj7ehhTqW8F4AGnOu+8Fg==
-X-Received: by 2002:a05:600c:3d8f:b0:3b4:aab6:4a97 with SMTP id bi15-20020a05600c3d8f00b003b4aab64a97mr5296691wmb.82.1663752389780;
-        Wed, 21 Sep 2022 02:26:29 -0700 (PDT)
-Received: from [192.168.64.53] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id i18-20020adfb652000000b002253d865715sm1949821wre.87.2022.09.21.02.26.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Sep 2022 02:26:29 -0700 (PDT)
-Message-ID: <6f89012e-1e79-f57b-9cee-9946b4602e77@grimberg.me>
-Date: Wed, 21 Sep 2022 12:26:28 +0300
+	id 1oawZy-00AiGA-LP
+	for linux-nvme@lists.infradead.org; Wed, 21 Sep 2022 10:03:44 +0000
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1oawZs-0007eK-Bn; Wed, 21 Sep 2022 12:03:36 +0200
+Message-ID: <d6dd7b47-2c32-2de2-7282-0112ab73dc15@leemhuis.info>
+Date: Wed, 21 Sep 2022 12:03:36 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 05/13] nvme-rdma: store the generic nvme_ctrl in
- set->driver_data
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- James Smart <james.smart@broadcom.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: "nvme nvmeX: IO queues not created" with "Amazon.com, Inc. NVMe
+ SSD Controller" from 5.19.y (issue bisected) #forregzbot
+Content-Language: en-US, de-DE
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+To: "regressions@lists.linux.dev" <regressions@lists.linux.dev>
 Cc: linux-nvme@lists.infradead.org
-References: <20220920171611.1289361-1-hch@lst.de>
- <20220920171611.1289361-6-hch@lst.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220920171611.1289361-6-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+References: <CAK8fFZ5vajOJGSwA53tU=Y2-jf0rnJWOjkadgqRCTf38bF0YXw@mail.gmail.com>
+ <7883f05d-9ed8-2be3-3f9f-4f814aefe55a@leemhuis.info>
+In-Reply-To: <7883f05d-9ed8-2be3-3f9f-4f814aefe55a@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1663754622;aa14fda4;
+X-HE-SMSGID: 1oawZs-0007eK-Bn
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220921_022633_845786_2560328C 
-X-CRM114-Status: UNSURE (   7.40  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220921_030342_869126_89FCBE13 
+X-CRM114-Status: GOOD (  10.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,5 +63,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+On 08.09.22 12:41, Thorsten Leemhuis wrote:
+> TWIMC: this mail is primarily send for documentation purposes and for
+> regzbot, my Linux kernel regression tracking bot. These mails usually
+> contain '#forregzbot' in the subject, to make them easy to spot and filter.
+> 
+> On 07.09.22 08:05, Jaroslav Pulchart wrote:
+>> Hello,
+>>
+>> I would like to report a regression issue in 5.19.y in NVMe driver.
+>>
+>> The issue is reproducible at AWS EC2 instances with local NVMe storage
+>> like "r5d.*". Kernel report "IO queues not created":
+>> [    2.936641] nvme nvme0: 2/0/0 default/read/poll queues  <- EBS volume
+>> [    2.939493] nvme nvme1: 2/0/0 default/read/poll queues  <- EBS volume
+>> [    2.940797] nvme nvme2: IO queues not created              <- Local volume
+>> with 5.19.y (kernel 5.19) and the nvme storage cannot be used.
+>>
+>> I bisected the issue to commit
+>> "aa41d2fe60ee2e4452b0f9ca9f0f6d80a4ff9f9d" (nvme: set controller
+>> enable bit in a separate write). Reverting it makes the nvme device
+>> working again:
+>> [    3.025599] nvme nvme0: 2/0/0 default/read/poll queues
+>> [    3.032467] nvme nvme2: 8/0/0 default/read/poll queues
+>> [    3.040040] nvme nvme1: 2/0/0 default/read/poll queues
+> 
+> #regzbot ^introduced aa41d2fe60ee2e4
+> #regzbot title block: nvme: AWS EC2 instances with local NVMe storage fail
+> #regzbot ignore-activity
+
+#regzbot invalid: will be fixed by a rollout of a new firmware, for
+details see the answers to this mail:
+https://lore.kernel.org/linux-nvme/18e67378-1365-5e36-981b-13cada73bcda@leemhuis.info/
 
