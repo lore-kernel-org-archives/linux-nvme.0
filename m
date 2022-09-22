@@ -4,79 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D1C0C6FA8B
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 08:38:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6ECF3C6FA8B
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 08:38:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kYaoXyL+LaxNVrMzONAvFhzEYM3kzS7CwYSLX9nJFRE=; b=eau2wl8ZvQ17vfl1XiWax1uank
-	rpP/Uaow8lfy9LrTJWR6D/0bQP7fJgGAbM83isIY4+f0d4l5Qdh+igVj16rq15NavaKUkquAY2zUA
-	e64qH9rf3gjkws3NU6Ws7QJIpIqNKpuFy+YZMmjxk3LrOFyNkQ7mb+5IweYRcwxihNFKIqD+kLQ/Y
-	TXUxIzRyNui+Tb3YFTptGMvS0IhDDfKOo8Ch7oE3hKawpDooM9dGnhPKZ20v01CjQ/FA4RvXXPdug
-	tDBjLH/OQwYA1Mk8LFBthhe0p4eE5PbrgyBSwpuv3Axg3/NjY6saByn0pjEt2lPXbY6DpheRqT6KE
-	5FD+6F3g==;
+	bh=trZicizV5RAXoqUClYp5XBQih2RaGE9BTyB7WSRM56c=; b=jyRp8e5jJw+dTJETJCfmEJmaJt
+	bU0/OcQCWLse32Sqn6JIG+v3Jl91WCnroGSdHbzyba9q3BhNOK0SIn26rrvb0GJlKXdU0YwYa9Yqg
+	yKezc1SV9cJDsm8T8JhwxBDIWlcCHL63TKb+ERtfnNQsKm+CMs5c2gBqoLyjpH2q2ArqEHOREt3aM
+	JhYij+YgeEeiQ8XTYKUCKrinTJiNAIYxJgm1cwSmh6gPz+f7MrpwSE+U7aO0Qv/oyBIxiuLXTwSn1
+	GpAO60K3aw82nYhwtwxOZsMPrqFzDcy6U8qVcTg3wD9C1jK/2BqDvQOw5NjP/zUA4eJAxBgwqwWl6
+	11zVd+oA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obHiW-00ECpq-KF; Thu, 22 Sep 2022 08:37:56 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1obHjH-00ED8d-EF; Thu, 22 Sep 2022 08:38:43 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obHiC-00EChn-3q
-	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 08:37:37 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	id 1obHiu-00ECzK-Q0
+	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 08:38:22 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A882B1F37F;
-	Thu, 22 Sep 2022 08:37:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1663835854; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kYaoXyL+LaxNVrMzONAvFhzEYM3kzS7CwYSLX9nJFRE=;
-	b=yYSaz+C9u4bVDvsuS5u6SpGAdAEkb/8ZJ852VaHOXsnYhFO8rl/nLFGuwot+IRsvE+fHOb
-	Oc6dmbgdlxpAcqksTiVqFWh0BH2loNlRtygjwvhsYlVshAoQfxsQTgbYybh1hDyS3KfrJt
-	7HivddykX8D7oz0/2nr5Ss/p13Q3Ojo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1663835854;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kYaoXyL+LaxNVrMzONAvFhzEYM3kzS7CwYSLX9nJFRE=;
-	b=7BH4HkDqIh7cy470gHae20X4/b0pORvJxTpbCBZzCo59WviSIQ2bBOsLzpK7lxcf1rvJJ/
-	kIvCd3nsCOSPf0DQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9B81313AA5;
-	Thu, 22 Sep 2022 08:37:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id o7NlJc4eLGPwZgAAMHmgww
-	(envelope-from <dwagner@suse.de>); Thu, 22 Sep 2022 08:37:34 +0000
-Date: Thu, 22 Sep 2022 10:37:34 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	Hannes Reinecke <hare@suse.de>,
-	James Smart <james.smart@broadcom.com>
-Subject: Re: [PATCH v2 3/2 nvme-cli] fabrics: re-read the discovery log page
- when a discovery controller reconnected
-Message-ID: <20220922083734.sdt35cmmaxnv74ok@carbon.lan>
-References: <20220922081538.13364-1-sagi@grimberg.me>
- <20220922081538.13364-4-sagi@grimberg.me>
+	by ams.source.kernel.org (Postfix) with ESMTPS id 04615B830E1;
+	Thu, 22 Sep 2022 08:38:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F6B2C433D6;
+	Thu, 22 Sep 2022 08:38:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1663835896;
+	bh=ZXqrm8nedeHyjJHSE+1GJ5DZF7ttxhR/iupCB+jykP4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sLVTqeua8VBBS9O2uBUp1F+RCRb3jzgT/qYn8/Erj5crjgRsyAtxSy76D5wqSuehI
+	 ky9/I44ksfKvi5sSHy7PazF5U81CS9thdVN+6Zzm6o2+vNMFMFDT7elLAZup43khua
+	 W/eR3vgb0Y3Make/VdghCWlJmdQ8796Skliks+5Q=
+Date: Thu, 22 Sep 2022 10:38:14 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Logan Gunthorpe <logang@deltatee.com>, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-mm@kvack.org,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Minturn Dave B <dave.b.minturn@intel.com>,
+	Jason Ekstrand <jason@jlekstrand.net>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Xiong Jianxin <jianxin.xiong@intel.com>,
+	Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Martin Oliveira <martin.oliveira@eideticom.com>,
+	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+	Ralph Campbell <rcampbell@nvidia.com>,
+	Stephen Bates <sbates@raithlin.com>
+Subject: Re: [PATCH v9 7/8] PCI/P2PDMA: Allow userspace VMA allocations
+ through sysfs
+Message-ID: <Yywe9rBMB6hlUwqw@kroah.com>
+References: <20220825152425.6296-8-logang@deltatee.com>
+ <YxDb2MyRx6o/wDAz@kroah.com>
+ <4a4bca1e-bebf-768f-92d4-92eb8ae714e1@deltatee.com>
+ <YxDhEO9ycZDTnbZm@kroah.com>
+ <cc9a24a8-dd3a-9d21-d9a7-5ee4b0ad7a57@deltatee.com>
+ <YxD7uZYaV75gJS9d@kroah.com>
+ <fb9d7948-43fe-87c5-5275-70f280181ad1@deltatee.com>
+ <YxGad5h2Nn/Ejslc@kroah.com>
+ <db8cd049-c78b-1aa0-dcd0-0feb8c6cb25c@deltatee.com>
+ <20220920064613.GB17325@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220922081538.13364-4-sagi@grimberg.me>
+In-Reply-To: <20220920064613.GB17325@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220922_013736_364429_34D90AA1 
-X-CRM114-Status: GOOD (  12.71  )
+X-CRM114-CacheID: sfid-20220922_013821_045681_928534DF 
+X-CRM114-Status: GOOD (  18.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,17 +95,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 22, 2022 at 11:15:38AM +0300, Sagi Grimberg wrote:
-> When using persistent discovery controllers, if the discovery controller
-> loses connectivity and manage to reconnect after a while, we need to
-> retrieve again the discovery log page in order to learn about possible
-> changes that may have occurred during this time as discovery log change
-> events were lost.
+On Tue, Sep 20, 2022 at 08:46:13AM +0200, Christoph Hellwig wrote:
+> On Fri, Sep 02, 2022 at 12:46:54PM -0600, Logan Gunthorpe wrote:
+> > See the diff at the bottom of this email. I can apply it on top of this
+> > patch, but IMO it is neither easier to follow nor maintain. Unless you 
+> > have a different suggestion...
 > 
-> Upon reception of a udev EVENT=rediscover we can kickstart discovery on
-> the existing discovery controller device node that generated the event.
+> Greg, can you chime in on this?  Besides this item we just have a few
+> cosmetic bits left I think, and I'd really like to get the series into
+> this merge window.
 > 
-> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 
-Reviewed-by: Daniel Wagner <dwagner@suse.de>
+I don't seem to have this in my inbox at all anymore, sorry.
+
+The original should be fine, Logan, thanks for trying to split it out a
+bit more.  So this can be taken as-is for 6.1-rc1.
+
+thanks,
+
+greg k-h
 
