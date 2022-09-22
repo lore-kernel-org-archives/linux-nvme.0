@@ -4,66 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C29EEC6FA86
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 15:21:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B33AAC6FA82
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 15:26:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=UMtCSuBUiMR06RzflJB8pm+tqpYIjSzqR9RfydtTnTI=; b=W2o9nR4zKW8W56ceGrWBP8vLgI
-	3GTIgMhO0Abor8LimtO0CN++oDAwKifm8lUiDrKBf04vLYj+koybSaaONqGxhKQ6hoApRdIQ8L2Nx
-	Wvmw+3jC8Yl0zzsTJbt3zi1qY6IyuaAC2qxhEAjSNqJZkAePdM3PtprGyC1SUFqmzZ+E50tnatIHq
-	0e2oWVPrzdoB7H02cu/qUgORR4KRleSQDKRQxeJOmEHEosR5lrHLeBk949mrTHaxZkV2EF+lc+orz
-	GAa0smKb7C0c3zjUidOpqc1/Pd2nhhzxCKmRwXAM+KnqOgZWTNGsZrMSGbiBWg1/3irwKC6Z2ZM+i
-	f3LMPfAw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=aZS4m1wJ5siZy3uQhnyxxollDJ0LGTwY6AUsvXN/fsM=; b=P2gbhYtfbO0DNCg6JuePVy0ZiP
+	tP6E/9sAxbqpJutXadTho4WM04Qgynh6udCFD7jukWFzkcqLHcLsb69pAF+oUIo0CyqwOkm14KEm/
+	EVC1Es6KffjYL2iUI7P2GLd5l0ysN69GhNhAhkDJl1t8RAW6PTN4eaXue4pF7N4VJD1SrOmg8RZVb
+	lmt5H4HHluLPjY51kKfcWod1jSS6mQ+YGOFy5Igl30/4srUl0HPF+eTzgYTSUQiOMah7YWgxwQArR
+	/ql6Ya+3LVcHuG6zd+TKmn6hUDo6fs8l6bdk4e459K3rTsQzBWmWZIiEVFzTPDzrZ3PpYwLerCUPf
+	mYMeJ89w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obO18-00GOuQ-NU; Thu, 22 Sep 2022 15:21:34 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1obO5T-00GR02-AS; Thu, 22 Sep 2022 15:26:03 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obNth-00GLPu-I3
-	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 15:13:55 +0000
-Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28MEvPtk014166
-	for <linux-nvme@lists.infradead.org>; Thu, 22 Sep 2022 08:13:51 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=facebook; bh=UMtCSuBUiMR06RzflJB8pm+tqpYIjSzqR9RfydtTnTI=;
- b=dsDRuyhgxP1P0uevRZrCjZvDVDrUNNxCXFl34/jevO+eNp1XPUHKcENZ0T233VoKEnC2
- dPJ8oWVeP2g2BWooGPvy6GPJ2ijI04+mQnSUjNvIgHPge6SHO4bQo5NbgNzy3OoE3Q/n
- zqeczhnXpB9fNnBqknKhn+rkmtk/fozkPxM= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3jr6s3qcb2-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Thu, 22 Sep 2022 08:13:51 -0700
-Received: from twshared3307.37.frc1.facebook.com (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:82::c) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 22 Sep 2022 08:13:49 -0700
-Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id 3EF548E894EF; Thu, 22 Sep 2022 08:13:48 -0700 (PDT)
-From: Keith Busch <kbusch@fb.com>
-To: <linux-nvme@lists.infradead.org>, <hch@lst.de>, <sagi@grimberg.me>
-CC: Keith Busch <kbusch@kernel.org>
-Subject: [PATCH] nvme: ensure subsystem reset is single threaded
-Date: Thu, 22 Sep 2022 08:13:47 -0700
-Message-ID: <20220922151347.764639-1-kbusch@fb.com>
-X-Mailer: git-send-email 2.30.2
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: RquUXWtyHwM2mPr8LSFVpH28d2pJ-JGh
-X-Proofpoint-GUID: RquUXWtyHwM2mPr8LSFVpH28d2pJ-JGh
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	id 1obO5P-00GQxx-3g
+	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 15:26:00 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 135B3B80D18;
+	Thu, 22 Sep 2022 15:25:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3438CC433D6;
+	Thu, 22 Sep 2022 15:25:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1663860355;
+	bh=poznrY4CTrw8KA9LGkTIZ6sSA44ugDWcov0/KS8+M/g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sWk/ygaO7gSszVEY5gVieV573+Yz6kbT33bu2cGRGwJYYfBPV10e/2x/vEPQTuC00
+	 TTVuAZtBrQXaPfLMBVcNG0XKtX6k1nIHhYTF2sltUBxTneRlVwPlAshuZMLwhOEF/z
+	 Y55knOqMfiO36LmCFGlbv7Df8rqf1a59cLgoPDrDU8oZWIMIQVvl88BSrWS0kvBxg/
+	 HElLWaMXwFJ1beySPboXZDDMLBhbzWH6HwQd/sg8LjeLhDn0R7pW5HvumlegmD8iR7
+	 e4G02G6GXSc5rF0ZCJvwI7HCiy8my1Ck7bEulsSVv8CP63gfYwGSGhOc6jqDsNt0ww
+	 ourTnHOmSh+IA==
+Date: Thu, 22 Sep 2022 09:25:52 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+	Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>,
+	James Smart <james.smart@broadcom.com>
+Subject: Re: [PATCH v2 1/2] nvme: enumerate controller flags
+Message-ID: <Yyx+gBKsWiYjwpW8@kbusch-mbp.dhcp.thefacebook.com>
+References: <20220922081538.13364-1-sagi@grimberg.me>
+ <20220922081538.13364-2-sagi@grimberg.me>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-22_08,2022-09-22_01,2022-06-22_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220922081538.13364-2-sagi@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220922_081353_768106_8E00E599 
-X-CRM114-Status: GOOD (  18.04  )
+X-CRM114-CacheID: sfid-20220922_082559_380645_CF30FBAE 
+X-CRM114-Status: GOOD (  18.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,69 +74,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On Thu, Sep 22, 2022 at 11:15:36AM +0300, Sagi Grimberg wrote:
+> We expect to grow a few of these flags for various purposes
+> so make them a proper enumeration.
+> 
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+> ---
+>  drivers/nvme/host/nvme.h | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index bdc0ff7ed9ab..fcf891467e68 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -233,6 +233,11 @@ struct nvme_fault_inject {
+>  #endif
+>  };
+>  
+> +enum nvme_ctrl_flags {
+> +	NVME_CTRL_FAILFAST_EXPIRED	= (1 << 0),
+> +	NVME_CTRL_ADMIN_Q_STOPPED	= (1 << 1),
+> +};
 
-The subsystem reset writes to a register, so we have to ensure the
-device state is capable of handling that otherwise the driver may access
-unmapped registers. Use the state machine to ensure the subsystem reset
-doesn't try to write registers on a device already undergoing this type
-of reset.
+Don't shift these. They are used with set/clear/test_bit() APIs, which take the
+bit position rather than the value.
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D214771
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/nvme.h | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a0bf9560cf67..70555022cb44 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -602,11 +602,23 @@ static inline void nvme_fault_inject_fini(struct nvme=
-_fault_inject *fault_inj)
- static inline void nvme_should_fail(struct request *req) {}
- #endif
-=20
-+bool nvme_wait_reset(struct nvme_ctrl *ctrl);
-+int nvme_try_sched_reset(struct nvme_ctrl *ctrl);
-+
- static inline int nvme_reset_subsystem(struct nvme_ctrl *ctrl)
- {
-+	int ret;
-+
- 	if (!ctrl->subsystem)
- 		return -ENOTTY;
--	return ctrl->ops->reg_write32(ctrl, NVME_REG_NSSR, 0x4E564D65);
-+	if (!nvme_wait_reset(ctrl))
-+		return -EBUSY;
-+
-+	ret =3D ctrl->ops->reg_write32(ctrl, NVME_REG_NSSR, 0x4E564D65);
-+	if (ret)
-+		return ret;
-+
-+	return nvme_try_sched_reset(ctrl);
- }
-=20
- /*
-@@ -712,7 +724,6 @@ void nvme_cancel_tagset(struct nvme_ctrl *ctrl);
- void nvme_cancel_admin_tagset(struct nvme_ctrl *ctrl);
- bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 		enum nvme_ctrl_state new_state);
--bool nvme_wait_reset(struct nvme_ctrl *ctrl);
- int nvme_disable_ctrl(struct nvme_ctrl *ctrl);
- int nvme_enable_ctrl(struct nvme_ctrl *ctrl);
- int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl);
-@@ -802,7 +813,6 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *c=
-ount);
- void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
- int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
- int nvme_reset_ctrl_sync(struct nvme_ctrl *ctrl);
--int nvme_try_sched_reset(struct nvme_ctrl *ctrl);
- int nvme_delete_ctrl(struct nvme_ctrl *ctrl);
- void nvme_queue_scan(struct nvme_ctrl *ctrl);
- int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page, u8 lsp, u8=
- csi,
---=20
-2.30.2
-
+> +
+>  struct nvme_ctrl {
+>  	bool comp_seen;
+>  	enum nvme_ctrl_state state;
+> @@ -354,8 +359,6 @@ struct nvme_ctrl {
+>  	u16 maxcmd;
+>  	int nr_reconnects;
+>  	unsigned long flags;
+> -#define NVME_CTRL_FAILFAST_EXPIRED	0
+> -#define NVME_CTRL_ADMIN_Q_STOPPED	1
+>  	struct nvmf_ctrl_options *opts;
+>  
+>  	struct page *discard_page;
 
