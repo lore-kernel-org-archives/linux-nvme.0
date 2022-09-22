@@ -4,69 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE902C54EE9
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 18:26:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 853A8C54EE9
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 18:27:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=aGp71ljERwU/Y84a+S6dfd/IB/Rtuf1ame0Dnx4d53k=; b=wJIV4VQlyqOwm23+HdGLyiei8P
-	ERzVTriHGZV6ZyhrRmIHlh5CwmiaZcxgBLiq6zHN2jzE0MZL3HsII7zh0RFpeYO2PGBv+YGdCnglc
-	DmTxsW96nGG171aCOSbZzHWGZSmEE2HC9U7iST+whouyl7MMII/gBxq82O1DcvS54WjplhHJe30JX
-	jE0H+fPAsqZ8KTe2IQL4qBPq7xdc79DXMwQPqaWtLBkrXSSf92RcT383CI/Wy8c1CZNdZStnScN/X
-	GjnUTRN2zlBclgL4LVB/wVWP4L9l6G9G2K53MDEygv2rvP8sZZYAFvSjwLsxyFL8Sg0NVdpjXec7s
-	Y+bjlJ9A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=hujV+pLrZphSf6wHw7PMT2/FwNfUuvSyfdd2DG/zB6g=; b=1KicrXNmyBeCoL
+	om+dsaWymYVHmH6+2mHqj6bXI6vL8QH19zLj6kV22vMZbOhJvqCmXIEafd3qBF6BB+lD0FqRwloov
+	WxpQnUySlX1EY9T52OZ/u0BjfPv1htTEX32cgKde/vHUANQ+q7O7cudTfk4u9+1LajdcHLAnOEuuL
+	lMwFtOFKENtLlkFIDrnxBob3cn5kj+3YeJzygrNr+2E42oNsuLA78Hbi2Mn6JjvRJI3xK/HlhDncW
+	1w/5xrvGKeti9Av/yLrxP52YTeJXEM8UyamkPypz1KGXTCUSBLILnZ9UBfhZAAdvQPs2gBM+r7wdJ
+	j4+jMF+/PJ7MPBJFawoA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obQuK-00HKkN-3W; Thu, 22 Sep 2022 18:26:44 +0000
-Received: from mga09.intel.com ([134.134.136.24])
+	id 1obQvG-00HKyp-RC; Thu, 22 Sep 2022 18:27:42 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obQuG-00HKjC-Lf
-	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 18:26:42 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663871200; x=1695407200;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Ff67gfNT+3AxrKjuuQFctOgGFSLwHz2nxN6iI5M5ezk=;
-  b=cvz6FAR3btZEHQ3co2yLcVcOxI3G4NcMBGMlkxVZdAQLbNJ9s8mm7h0A
-   IPpXGviSc5UkdQIPYNgzVRVexBi5ao+HdYzY3rNgmbxqeMu7jFV9YYeEt
-   d8nEG8Ievrwo0VaNJci51LYEEN3WatOV0umOwT8l6trL1pTARX+Zm8OYI
-   PafLizMz+kBJjJAawIuW7tFx8ul9gpuowO0PPrpdML/cCnWpC29LqsGlT
-   be96qmfxa0ToJuXyoVxa3wNcwxASmCUM2+06dw4U4CFJfK36eEZTQVE1/
-   zjB2pVCt+pvq+fquNuo16bVIu2CVbFqGYn9sgca3C/qF3coprrJd6dYPY
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="301245187"
-X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
-   d="scan'208";a="301245187"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 11:23:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
-   d="scan'208";a="795204025"
-Received: from lkp-server01.sh.intel.com (HELO c0a60f19fe7e) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 22 Sep 2022 11:23:35 -0700
-Received: from kbuild by c0a60f19fe7e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1obQrH-0004rq-0l;
-	Thu, 22 Sep 2022 18:23:35 +0000
-Date: Fri, 23 Sep 2022 02:23:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.1] BUILD SUCCESS
- ed37c779b715b13fa51f9d6c465744cb2b979998
-Message-ID: <632ca81c.HuXZOtnqSa+IzpY2%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+	id 1obQvE-00HKxI-48
+	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 18:27:41 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 588AB63757;
+	Thu, 22 Sep 2022 18:27:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 797E5C433C1;
+	Thu, 22 Sep 2022 18:27:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1663871258;
+	bh=8xWBJ6Sj6BfVo4gfoi/4G8CBQ6Jx/wBwvklLiTjCFyM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=s69F1omKgr2HrO0nTiXgJhVXfkTHk5wTJUcaIeSmJ0XajGhhyPnrb1bU/nv2iQqnN
+	 W3caY/I9YU693aup6abaVXXxOFAj5HnEaV+f+mW+USOTiKdT5VDbo4vuDdzlh8z/UU
+	 /aynRJSNuS5OFlAEr08CcXQvqXNzvH82QeBvZ+svaWrWgwoCxBjDhgoTF3HxxGsr2B
+	 RHfBlVJJXlQsVDWYkXMPCMh5RNtGs9PdgdSwZvN31BFVKmmjE2hbJ0hP4xDdk1DbDF
+	 q+MOFeJrCKHHXBIH9N+ZEVDqAQyriFbate7Mnvp6ebI677UzOy6UvVkYaYR7jIvUKc
+	 AWYISuH7tO4Gw==
+Date: Thu, 22 Sep 2022 13:27:37 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Logan Gunthorpe <logang@deltatee.com>
+Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-mm@kvack.org, Christoph Hellwig <hch@lst.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Minturn Dave B <dave.b.minturn@intel.com>,
+	Jason Ekstrand <jason@jlekstrand.net>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Xiong Jianxin <jianxin.xiong@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Martin Oliveira <martin.oliveira@eideticom.com>,
+	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+	Ralph Campbell <rcampbell@nvidia.com>,
+	Stephen Bates <sbates@raithlin.com>
+Subject: Re: [PATCH v10 7/8] PCI/P2PDMA: Allow userspace VMA allocations
+ through sysfs
+Message-ID: <20220922182737.GA1326059@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20220922163926.7077-8-logang@deltatee.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220922_112640_785611_8654D3C8 
-X-CRM114-Status: UNSURE (   7.73  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220922_112740_270001_8C4EDF9E 
+X-CRM114-Status: GOOD (  38.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,80 +89,199 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.1
-branch HEAD: ed37c779b715b13fa51f9d6c465744cb2b979998  nvmet: add helpers to set the result field for connect commands
+On Thu, Sep 22, 2022 at 10:39:25AM -0600, Logan Gunthorpe wrote:
+> Create a sysfs bin attribute called "allocate" under the existing
+> "p2pmem" group. The only allowable operation on this file is the mmap()
+> call.
+> 
+> When mmap() is called on this attribute, the kernel allocates a chunk of
+> memory from the genalloc and inserts the pages into the VMA. The
+> dev_pagemap .page_free callback will indicate when these pages are no
+> longer used and they will be put back into the genalloc.
+> 
+> On device unbind, remove the sysfs file before the memremap_pages are
+> cleaned up. This ensures unmap_mapping_range() is called on the files
+> inode and no new mappings can be created.
+> 
+> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 
-elapsed time: 721m
+Not sure which tree this should go through, so:
 
-configs tested: 58
-configs skipped: 2
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-um                           x86_64_defconfig
-arc                                 defconfig
-um                             i386_defconfig
-alpha                               defconfig
-x86_64                              defconfig
-arc                  randconfig-r043-20220921
-s390                             allmodconfig
-riscv                randconfig-r042-20220921
-s390                 randconfig-r044-20220921
-s390                                defconfig
-x86_64                           allyesconfig
-powerpc                          allmodconfig
-x86_64                               rhel-8.3
-i386                                defconfig
-sh                               allmodconfig
-x86_64                        randconfig-a015
-mips                             allyesconfig
-powerpc                           allnoconfig
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-i386                          randconfig-a014
-s390                             allyesconfig
-i386                          randconfig-a012
-i386                          randconfig-a016
-m68k                             allmodconfig
-arc                              allyesconfig
-arm                                 defconfig
-x86_64                        randconfig-a002
-alpha                            allyesconfig
-x86_64                           rhel-8.3-kvm
-m68k                             allyesconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                        randconfig-a006
-x86_64                           rhel-8.3-syz
-x86_64                          rhel-8.3-func
-x86_64                        randconfig-a004
-x86_64                         rhel-8.3-kunit
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                             allyesconfig
-arm                              allyesconfig
-i386                          randconfig-a005
-arm64                            allyesconfig
-ia64                             allmodconfig
-
-clang tested configs:
-x86_64                        randconfig-a014
-hexagon              randconfig-r041-20220921
-i386                          randconfig-a013
-hexagon              randconfig-r045-20220921
-i386                          randconfig-a015
-i386                          randconfig-a011
-x86_64                        randconfig-a016
-x86_64                        randconfig-a012
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-i386                          randconfig-a002
-i386                          randconfig-a004
-i386                          randconfig-a006
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> ---
+>  drivers/pci/p2pdma.c | 124 +++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 124 insertions(+)
+> 
+> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+> index 4496a7c5c478..a6ed6bbca214 100644
+> --- a/drivers/pci/p2pdma.c
+> +++ b/drivers/pci/p2pdma.c
+> @@ -89,6 +89,90 @@ static ssize_t published_show(struct device *dev, struct device_attribute *attr,
+>  }
+>  static DEVICE_ATTR_RO(published);
+>  
+> +static int p2pmem_alloc_mmap(struct file *filp, struct kobject *kobj,
+> +		struct bin_attribute *attr, struct vm_area_struct *vma)
+> +{
+> +	struct pci_dev *pdev = to_pci_dev(kobj_to_dev(kobj));
+> +	size_t len = vma->vm_end - vma->vm_start;
+> +	struct pci_p2pdma *p2pdma;
+> +	struct percpu_ref *ref;
+> +	unsigned long vaddr;
+> +	void *kaddr;
+> +	int ret;
+> +
+> +	/* prevent private mappings from being established */
+> +	if ((vma->vm_flags & VM_MAYSHARE) != VM_MAYSHARE) {
+> +		pci_info_ratelimited(pdev,
+> +				     "%s: fail, attempted private mapping\n",
+> +				     current->comm);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (vma->vm_pgoff) {
+> +		pci_info_ratelimited(pdev,
+> +				     "%s: fail, attempted mapping with non-zero offset\n",
+> +				     current->comm);
+> +		return -EINVAL;
+> +	}
+> +
+> +	rcu_read_lock();
+> +	p2pdma = rcu_dereference(pdev->p2pdma);
+> +	if (!p2pdma) {
+> +		ret = -ENODEV;
+> +		goto out;
+> +	}
+> +
+> +	kaddr = (void *)gen_pool_alloc_owner(p2pdma->pool, len, (void **)&ref);
+> +	if (!kaddr) {
+> +		ret = -ENOMEM;
+> +		goto out;
+> +	}
+> +
+> +	/*
+> +	 * vm_insert_page() can sleep, so a reference is taken to mapping
+> +	 * such that rcu_read_unlock() can be done before inserting the
+> +	 * pages
+> +	 */
+> +	if (unlikely(!percpu_ref_tryget_live_rcu(ref))) {
+> +		ret = -ENODEV;
+> +		goto out_free_mem;
+> +	}
+> +	rcu_read_unlock();
+> +
+> +	for (vaddr = vma->vm_start; vaddr < vma->vm_end; vaddr += PAGE_SIZE) {
+> +		ret = vm_insert_page(vma, vaddr, virt_to_page(kaddr));
+> +		if (ret) {
+> +			gen_pool_free(p2pdma->pool, (uintptr_t)kaddr, len);
+> +			return ret;
+> +		}
+> +		percpu_ref_get(ref);
+> +		put_page(virt_to_page(kaddr));
+> +		kaddr += PAGE_SIZE;
+> +		len -= PAGE_SIZE;
+> +	}
+> +
+> +	percpu_ref_put(ref);
+> +
+> +	return 0;
+> +out_free_mem:
+> +	gen_pool_free(p2pdma->pool, (uintptr_t)kaddr, len);
+> +out:
+> +	rcu_read_unlock();
+> +	return ret;
+> +}
+> +
+> +static struct bin_attribute p2pmem_alloc_attr = {
+> +	.attr = { .name = "allocate", .mode = 0660 },
+> +	.mmap = p2pmem_alloc_mmap,
+> +	/*
+> +	 * Some places where we want to call mmap (ie. python) will check
+> +	 * that the file size is greater than the mmap size before allowing
+> +	 * the mmap to continue. To work around this, just set the size
+> +	 * to be very large.
+> +	 */
+> +	.size = SZ_1T,
+> +};
+> +
+>  static struct attribute *p2pmem_attrs[] = {
+>  	&dev_attr_size.attr,
+>  	&dev_attr_available.attr,
+> @@ -96,11 +180,32 @@ static struct attribute *p2pmem_attrs[] = {
+>  	NULL,
+>  };
+>  
+> +static struct bin_attribute *p2pmem_bin_attrs[] = {
+> +	&p2pmem_alloc_attr,
+> +	NULL,
+> +};
+> +
+>  static const struct attribute_group p2pmem_group = {
+>  	.attrs = p2pmem_attrs,
+> +	.bin_attrs = p2pmem_bin_attrs,
+>  	.name = "p2pmem",
+>  };
+>  
+> +static void p2pdma_page_free(struct page *page)
+> +{
+> +	struct pci_p2pdma_pagemap *pgmap = to_p2p_pgmap(page->pgmap);
+> +	struct percpu_ref *ref;
+> +
+> +	gen_pool_free_owner(pgmap->provider->p2pdma->pool,
+> +			    (uintptr_t)page_to_virt(page), PAGE_SIZE,
+> +			    (void **)&ref);
+> +	percpu_ref_put(ref);
+> +}
+> +
+> +static const struct dev_pagemap_ops p2pdma_pgmap_ops = {
+> +	.page_free = p2pdma_page_free,
+> +};
+> +
+>  static void pci_p2pdma_release(void *data)
+>  {
+>  	struct pci_dev *pdev = data;
+> @@ -152,6 +257,19 @@ static int pci_p2pdma_setup(struct pci_dev *pdev)
+>  	return error;
+>  }
+>  
+> +static void pci_p2pdma_unmap_mappings(void *data)
+> +{
+> +	struct pci_dev *pdev = data;
+> +
+> +	/*
+> +	 * Removing the alloc attribute from sysfs will call
+> +	 * unmap_mapping_range() on the inode, teardown any existing userspace
+> +	 * mappings and prevent new ones from being created.
+> +	 */
+> +	sysfs_remove_file_from_group(&pdev->dev.kobj, &p2pmem_alloc_attr.attr,
+> +				     p2pmem_group.name);
+> +}
+> +
+>  /**
+>   * pci_p2pdma_add_resource - add memory for use as p2p memory
+>   * @pdev: the device to add the memory to
+> @@ -198,6 +316,7 @@ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
+>  	pgmap->range.end = pgmap->range.start + size - 1;
+>  	pgmap->nr_range = 1;
+>  	pgmap->type = MEMORY_DEVICE_PCI_P2PDMA;
+> +	pgmap->ops = &p2pdma_pgmap_ops;
+>  
+>  	p2p_pgmap->provider = pdev;
+>  	p2p_pgmap->bus_offset = pci_bus_address(pdev, bar) -
+> @@ -209,6 +328,11 @@ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
+>  		goto pgmap_free;
+>  	}
+>  
+> +	error = devm_add_action_or_reset(&pdev->dev, pci_p2pdma_unmap_mappings,
+> +					 pdev);
+> +	if (error)
+> +		goto pages_free;
+> +
+>  	p2pdma = rcu_dereference_protected(pdev->p2pdma, 1);
+>  	error = gen_pool_add_owner(p2pdma->pool, (unsigned long)addr,
+>  			pci_bus_address(pdev, bar) + offset,
+> -- 
+> 2.30.2
+> 
 
