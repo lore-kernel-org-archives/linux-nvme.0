@@ -4,124 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA1CDC54EE9
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 15:33:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 705A1C6FA82
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 15:37:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=C81qtWO5E2zgqe+FAcHdBTKT4T0bT/5nCLsYZNOSs0I=; b=Eh/g/PEk/uzrOpZNgw7Y34jPVt
-	zgnKzPoDY4YX1vr+du1SgCQzzUdwmE4HrylQ1ePxi7VpDA8ik/A1ueF1BmxI4QvqQYYKcRCpHcZMs
-	csvHWRu/Pc57AQK+WnrGRTzGRwn3Yz8CAt0giSKO3pHv0v/ZWXsTHzqDMGYuVL2XCPy4qVs4N1Kpv
-	XeBQCzz6hq+4R2VYj0pKK3XvXj1f1fJGCrtKoqTbBJVvisjR+VZ1tJhypMgiEbBukG0aywoTYvk65
-	89/xkPRJterDMxiMbsP4d5rGwtb8Ac4yCKbWZGwVPs2fkhs0kGl8iz/N+da30oEdsNqYsRr+byH3b
-	2win4kbw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
+	Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=yU26Qt2PCpBQu+bVI9RnI0+6tkQx21KPs3IdXAh6GEU=; b=NI++HU+OS+B2drr8o4pX2bn21p
+	Ej9Vw9+OlqL04OSr175b1WpjQMCLu8Vt/TMD16G6UAC6dWczTbgZlQZ6d1E9VugitYHjYtuB4ytV1
+	vf2EHm+xEWG6L4uZBw44qbkMAU7hYYIW0mUIXjy2AygK8uG7cYXPUdeGNgCAClIszFHrOmP4oFD6w
+	MHVm5ogTdzhbbYQa8aLcgLZ8OXGSV5YBrILyDa0HFSaHdyLC+eJQSprVuecpGn77M9eFduAL91n45
+	2hneC1gWQdA/2CdDDPZujbXqr+NsX5rLY8nlMoCiBWAisefHye4WAjpsziziPi7KjsUAmda8S76qO
+	Pc7/RkiA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obOCl-00GT2S-IK; Thu, 22 Sep 2022 15:33:35 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1obOGp-00GUEY-Rj; Thu, 22 Sep 2022 15:37:47 +0000
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obOCf-00GSzf-Kh
-	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 15:33:33 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20220922153323epoutp0380df076a0ea0c38dd6d771061736fef3~XOJXfFa490366303663epoutp03x
-	for <linux-nvme@lists.infradead.org>; Thu, 22 Sep 2022 15:33:23 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20220922153323epoutp0380df076a0ea0c38dd6d771061736fef3~XOJXfFa490366303663epoutp03x
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1663860803;
-	bh=C81qtWO5E2zgqe+FAcHdBTKT4T0bT/5nCLsYZNOSs0I=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=K0s54Ba7TN+MawLq2p/1j0r1y2hNuclSuXKy7k3Jerqd6p7kHyAkwKmPSLqvo86vL
-	 WqFIfIgZRsOEXAo1X5LV9MY9fMvHhThmH09h9kTxW+O5ptSHbZI50B5cbfkb5rYP4X
-	 xxDRs7UpoAHWAEyoWPST1LwrUrc0C3ofWrP8SPYQ=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20220922153323epcas5p493e554822c3858b4612676a7039a3951~XOJXLsMDE2442124421epcas5p4z;
-	Thu, 22 Sep 2022 15:33:23 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.175]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4MYK744wR0z4x9Pv; Thu, 22 Sep
-	2022 15:33:20 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	9A.48.39477.0408C236; Fri, 23 Sep 2022 00:33:20 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20220922153319epcas5p1edab5d5bc06594d0ffa1c89944c2bc83~XOJT7-7sp1909019090epcas5p1H;
-	Thu, 22 Sep 2022 15:33:19 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20220922153319epsmtrp2569d97d2764b73dd09e3208c254ba3f4~XOJT7Nfg21775817758epsmtrp2y;
-	Thu, 22 Sep 2022 15:33:19 +0000 (GMT)
-X-AuditID: b6c32a4a-007ff70000019a35-77-632c80409203
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	BC.5F.14392.F308C236; Fri, 23 Sep 2022 00:33:19 +0900 (KST)
-Received: from test-zns (unknown [107.110.206.5]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20220922153317epsmtip143a075c61865f5cf72b75201a9d95020~XOJSET6Fr1695316953epsmtip1g;
-	Thu, 22 Sep 2022 15:33:17 +0000 (GMT)
-Date: Thu, 22 Sep 2022 20:53:31 +0530
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: axboe@kernel.dk, kbusch@kernel.org, asml.silence@gmail.com,
-	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, gost.dev@samsung.com, Anuj Gupta
-	<anuj20.g@samsung.com>
-Subject: Re: [PATCH for-next v7 4/5] block: add helper to map bvec iterator
- for passthrough
-Message-ID: <20220922152331.GA24701@test-zns>
+	id 1obOGm-00GUCr-Pk
+	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 15:37:46 +0000
+Received: by mail-wr1-x42d.google.com with SMTP id n12so16144906wrx.9
+        for <linux-nvme@lists.infradead.org>; Thu, 22 Sep 2022 08:37:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=pcpartpicker.com; s=google;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date;
+        bh=yU26Qt2PCpBQu+bVI9RnI0+6tkQx21KPs3IdXAh6GEU=;
+        b=RbsjDHhddjRwga/jr3ElW+ArF1IGeIqZIkv2wPMHBS1EH1DCzmjvCZFwhFpy2XHWqr
+         7JyGeoLiBfXa4Jr/D1DRUJguLrFKQiwpoqEKG6s5hSANc9D2ulJqywz2MXxylKMJyh1u
+         bb9nSff1zsQx/97IdZSlqT3uLf6Y32mPKRUBc6CwCOMv62WDlQUXYi2jBsz3fLpm8bUe
+         z6WAjUo1Bg/W9yg4Ct+YKAOFcG2imPOaDa2q+1X7mRp9oPN5SgC6iVop+PBKWqj2WE/h
+         Ph4BSCIMVn4iDI+nnCy2R4vZ8l8q+XRbeM/nm/6sNmhk74IDsu/saoliLmQz8oHwLWno
+         57xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=yU26Qt2PCpBQu+bVI9RnI0+6tkQx21KPs3IdXAh6GEU=;
+        b=6VPa1XHTKDvi4JFIUq+bGvxEWsssFwwEX2W75nnju7rG/lGUfc8vPGNTwAKFGwxTun
+         smHX1AIXMPIirScHC/qqdHeZc/Sbvy5dOqo9NxNcBwhGVFtunZgmZF9+IhoT34Z7xyIO
+         ZENu3ESlQFu9IK6ZLClF4uvVXaGuCUSUdGSnuiUI2L71pRXjvnPK5o7WQwnvg5mHk3c1
+         Wrhg1urd/Xim2FGs/m2uHzkXLqBYvH+5rs0lWa5+Uzeea0aIsk1mmcivxf7Ieh3p5usr
+         Y1wxKJOwR3Rw6pkE3s6ayB398mwJhQp7xWwwUtwvjmcLFKf2qokpMxyqXwbgIzCJHje1
+         nmTA==
+X-Gm-Message-State: ACrzQf14gIUNlHCpVIBaZrLtXrtxKeQEgI+al0TAPzPgsQMNcQfRpzg4
+	AK0sNT1uA0Wrnf/wmSOvNVfIMWO8tiPfiHt1yQwQcGWCGSZxpcV9
+X-Google-Smtp-Source: AMsMyM50fpveg7oAyxbNNkwkBA7o8Sgy1HBTPqQctuFR3dHWOfIMkoyMykueZr7lGFDhdYC3sPJnuUIXSGGIigFSLZo=
+X-Received: by 2002:adf:f804:0:b0:228:62fd:6e9a with SMTP id
+ s4-20020adff804000000b0022862fd6e9amr2484964wrp.697.1663861061156; Thu, 22
+ Sep 2022 08:37:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20220920120802.GC2809@lst.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SfVCTdRzA/T3Pw8MD1+px6PFzxsCHeR4vA4YDHhYQXeTNNIOzw85O4bnx
-	tHF7vb1kdl2tGYWcBEEXMKzsRIktZgyYEoxsTmdceBVqo2sSx+CMK44TsxPC2niw87/P9/2V
-	QPm9uICo1ZlZo47RUHg85rmUli4utWYqckZ/FNG25lWUPunwANoZasLpyYtDCN3jvIzQC3XX
-	MLrFdxPQ3l8y6M/OzsaWxsmH7KFY+cS4Re52HMfl/V1vy4cnrbj8gwEHkC+5heWxB9VFKpap
-	YY0prE6hr6nVKYupPfurnq3Ky8+RiCWFdAGVomO0bDFVtrdcvKtWE+mLSnmN0VgiqnLGZKKy
-	S4qMeouZTVHpTeZiijXUaAxSQ5aJ0ZosOmWWjjXLJDk5uXkRx2q1qjP8TYyhbdvrN09cwqzg
-	7y0NII6ApBR6+39GG0A8wSeHAVy9ugg44Q6AjdN+jBPuRSz+LvAwZPn8CZwzeAF0nJ9ZF+YA
-	vPVJBx71wsjtcNEViiQmCJxMgz+0WqLqTSQFZ+fH10qg5HUAww0uJGpIIA/BPv8KGmUeKYZn
-	7PdjON4Iv+sIY1GOIzNgoLl/jTeTqfCiJ4BEE0Gyh4DBtnAs114ZdF6+gnGcAOcDA+t6AVxa
-	8OIcK+BPHdcQjs1wZuTbdX4a1o01rTWBkq9C319+jOPHYeNKGIkOA0kerH+Pz7lvg7daZmM4
-	ToTT7V3rLIdfnry+vscggMFBB9YMhPZH5rE/UoJjGTy+aIvhOBkeG+xE7ZFyKLkVdj8gOEyD
-	577OPgVwB9jCGkxaJWvKM+Tq2CP/X1yh17rB2t+mP38BTP+2mOUDCAF8ABIotYnX+Wuags+r
-	YY6+wRr1VUaLhjX5QF7kVh+igs0KfeTxdeYqibQwR5qfny8t3JkvoRJ5p9vTFXxSyZhZNcsa
-	WOPDOISIE1gRoeP9bpFnVeZd3LH748x3W38v6D4w1lgyFHYVTUwd6ut5pmKaPHu790Vj02rv
-	OxsHLhxxtyaa/xh5arUaFxfcpx6MocnKGVGI3IB9lJrbNrpUOues/ly5oeKf+MpByWNHDfgB
-	6H4l+/t9AdnOeutp0cJkS83++sMu/tgxm0corVdLbYbBWdz11d7OTM+TvDtv2fZ4k7Q7Ru5O
-	vfzvCys3BOpxVZtIZJ769NTt0bp4YSj1cDBwT6woWxrxFM3J4Bfbw0nWyq3DsnPl7Rn253a1
-	vrmcpC2+emZfhdmpQ5bvgnBB+hN92TO4vzkzq5Ka0JZ4kPmDyTfwP68EW3cPziW8RGEmFSNJ
-	R40m5j81oTy8QAQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpnkeLIzCtJLcpLzFFi42LZdlhJTte+QSfZ4PBhA4umCX+ZLeas2sZo
-	sfpuP5vFzQM7mSxWrj7KZPGu9RyLxaRD1xgt9t7Stpi/7Cm7A6fHzll32T0uny312LSqk81j
-	85J6j903G9g8+rasYvT4vEkugD2KyyYlNSezLLVI3y6BK6P/83S2gnVyFZ///mNuYFwt3sXI
-	ySEhYCLxa3sPWxcjF4eQwG5GiQWdB1khEuISzdd+sEPYwhIr/z1nhyh6wijxZ/UHsCIWAVWJ
-	D+vuMncxcnCwCWhKXJhcChIWEVCSePrqLCNIPbPAFaD6/UvA6oUFYiU2HvnNDGLzCuhKLJ31
-	kxVi6C1GiY2rlrJDJAQlTs58wgJiMwuYSczb/BBsAbOAtMTyfxwQYXmJ5q2zweZwCmhLHJ+w
-	GaxcVEBZ4sC240wTGIVmIZk0C8mkWQiTZiGZtICRZRWjZGpBcW56brFhgWFearlecWJucWle
-	ul5yfu4mRnBcaWnuYNy+6oPeIUYmDsZDjBIczEoivLPvaCYL8aYkVlalFuXHF5XmpBYfYpTm
-	YFES573QdTJeSCA9sSQ1OzW1ILUIJsvEwSnVwFQoMV30tejC2qSLBVI52ybNXha0VDruxfx1
-	ps8i66VOvXzAa3BYaH5hlrXGIQspCcXYbTksH7YEGM4XsV0memxp7pnLXQUTg3vYT5xLmrOH
-	ccqxC62bNQ8u9lL7oGJ9cK+V/ef9HTlX/BZsCfx8wu971g1DvS0SBTeMkt5mXmGfKs8m3L/j
-	raupqofJ3FOd5l3/FmUUMfkHfpBLzlpbI8lz//3dF7dCOw15ZCxe6a69+SyCRyshO7/AXODY
-	7N+id49EHv3z0XH+y+n+L/NPumx0rLtkHSvczzvrO2sd59q8b0Ivrn3jdNzx8+0ViQyd+54/
-	GWMXpJ9fc26P32StM5Nfbr3bosAw97PZpZXKaxSUWIozEg21mIuKEwFGDvG0GgMAAA==
-X-CMS-MailID: 20220922153319epcas5p1edab5d5bc06594d0ffa1c89944c2bc83
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----Iofw26EFbNSGL_UgXoU1XVs5LxhMn2U4r7Cvdd9q_.3L.-0Y=_cd5_"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220909103147epcas5p2a83ec151333bcb1d2abb8c7536789bfd
-References: <20220909102136.3020-1-joshi.k@samsung.com>
-	<CGME20220909103147epcas5p2a83ec151333bcb1d2abb8c7536789bfd@epcas5p2.samsung.com>
-	<20220909102136.3020-5-joshi.k@samsung.com> <20220920120802.GC2809@lst.de>
+From: Nick Neumann <nick@pcpartpicker.com>
+Date: Thu, 22 Sep 2022 10:37:29 -0500
+Message-ID: <CADqNVToq+rxkZTmagWcW5s2g+pVpfwBX17wS6C4xm6wszHkGTA@mail.gmail.com>
+Subject: nvme smart-log intermittently corrupt from family of SSDs
+To: linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220922_083330_171752_A9D1598E 
-X-CRM114-Status: GOOD (  29.69  )
+X-CRM114-CacheID: sfid-20220922_083744_861553_A83263D2 
+X-CRM114-Status: UNSURE (   7.06  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,118 +80,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------Iofw26EFbNSGL_UgXoU1XVs5LxhMn2U4r7Cvdd9q_.3L.-0Y=_cd5_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
+I noticed something odd with the smart data from various sized HP
+FX900 Pro SSDs. Intermittently, after hours of use, host_writes would
+be 0 (but data_units_written would not). After experimenting, I'm
+seeing that intermittently, when running either "smartctl -x" or "nvme
+smart-log", the data coming back is, uh, junk?
 
-On Tue, Sep 20, 2022 at 02:08:02PM +0200, Christoph Hellwig wrote:
->> -static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
->> +static struct bio *bio_map_get(struct request *rq, unsigned int nr_vecs,
->>  		gfp_t gfp_mask)
->
->bio_map_get is a very confusing name.
+sudo nvme smart-log /dev/nvme0n1
+Smart Log for NVME device:nvme0n1 namespace-id:ffffffff
+critical_warning                    : 0
+temperature                         : 48 C
+available_spare                     : 100%
+available_spare_threshold           : 25%
+percentage_used                     : 0%
+data_units_read                     : 793353
+data_units_written                  : 4938926
+host_read_commands                  : 18675956
+host_write_commands                 : 40381344
+controller_busy_time                : 0
+power_cycles                        : 9
+power_on_hours                      : 15
+unsafe_shutdowns                    : 1
+media_errors                        : 0
+num_err_log_entries                 : 217026295083295649698117473405925064704
+Warning Temperature Time            : 1323299686
+Critical Composite Temperature Time : 4108885430
+Temperature Sensor 1                : 38041 C
+Temperature Sensor 2                : 55225 C
+Temperature Sensor 3                : 23326 C
+Temperature Sensor 4                : 38685 C
+Temperature Sensor 5                : 57125 C
+Temperature Sensor 6                : 45486 C
+Temperature Sensor 7                : 59856 C
+Temperature Sensor 8                : 2107 C
+Thermal Management T1 Trans Count   : 1702871148
+Thermal Management T2 Trans Count   : 312071619
+Thermal Management T1 Total Time    : 406823074
+Thermal Management T2 Total Time    : 468107429
 
-So I chose that name because functionality is opposite of what we do
-inside existing bio_map_put helper. In that way it is symmetric.
+Even odder, when the host_write_commands was 0, the rest of the data
+was sane. So the incorrectness is not always obvious...
 
->And I also still think this is
->the wrong way to go.  If plain slab allocations don't use proper
->per-cpu caches we have a MM problem and need to talk to the slab
->maintainers and not use the overkill bio_set here.
-
-This series is not about using (or not using) bio-set. Attempt here has
-been to use pre-mapped buffers (and bvec) that we got from io_uring.
-
->> +/* Prepare bio for passthrough IO given an existing bvec iter */
->> +int blk_rq_map_user_bvec(struct request *rq, struct iov_iter *iter)
->
->I'm a little confused about the interface we're trying to present from
->the block layer to the driver here.
->
->blk_rq_map_user_iov really should be able to detect that it is called
->on a bvec iter and just do the right thing rather than needing different
->helpers.
-
-I too explored that possibility, but found that it does not. It maps the
-user-pages into bio either directly or by doing that copy (in certain odd
-conditions) but does not know how to deal with existing bvec.
-Reason, I guess, is no one felt the need to try passthrough for bvecs
-before. It makes sense only in context of io_uring passthrough.
-And it really felt cleaner to me write a new function rather than 
-overloading the blk_rq_map_user_iov with multiple if/else canals.
-I tried that again after your comment, but it does not seem to produce
-any good-looking code.
-The other factor is - it seemed safe to go this way as I am more sure
-that I will not break something else (using blk_rq_map_user_iov).
-
->> +		/*
->> +		 * If the queue doesn't support SG gaps and adding this
->> +		 * offset would create a gap, disallow it.
->> +		 */
->> +		if (bvprvp && bvec_gap_to_prev(lim, bvprvp, bv->bv_offset))
->> +			goto out_err;
->
->So now you limit the input that is accepted?  That's not really how
->iov_iters are used.   We can either try to reshuffle the bvecs, or
->just fall back to the copy data version as blk_rq_map_user_iov does
->for 'weird' iters˙
-
-Since I was writing a 'new' helper for passthrough only, I thought it
-will not too bad to just bail out (rather than try to handle it using
-copy) if we hit this queue_virt_boundary related situation. 
-
-To handle it the 'copy data' way we would need this -
-
-585         else if (queue_virt_boundary(q))
-586                 copy = queue_virt_boundary(q) & iov_iter_gap_alignment(iter);
-587
-
-But iov_iter_gap_alignment does not work on bvec iters. Line #1274 below
-
-1264 unsigned long iov_iter_gap_alignment(const struct iov_iter *i)
-1265 {
-1266         unsigned long res = 0;
-1267         unsigned long v = 0;
-1268         size_t size = i->count;
-1269         unsigned k;
-1270
-1271         if (iter_is_ubuf(i))
-1272                 return 0;
-1273
-1274         if (WARN_ON(!iter_is_iovec(i)))
-1275                 return ~0U;
-
-Do you see a way to overcome this. Or maybe this can be revisted as we
-are not missing a lot?
-
->> +
->> +		/* check full condition */
->> +		if (nsegs >= nr_segs || bytes > UINT_MAX - bv->bv_len)
->> +			goto out_err;
->> +
->> +		if (bytes + bv->bv_len <= nr_iter &&
->> +				bv->bv_offset + bv->bv_len <= PAGE_SIZE) {
->> +			nsegs++;
->> +			bytes += bv->bv_len;
->> +		} else
->> +			goto out_err;
->
->Nit: This would read much better as:
->
->		if (bytes + bv->bv_len > nr_iter)
->			goto out_err;
->		if (bv->bv_offset + bv->bv_len > PAGE_SIZE)
->			goto out_err;
->
->		bytes += bv->bv_len;
->		nsegs++;
-
-Indeed, cleaner. Thanks.
-
-------Iofw26EFbNSGL_UgXoU1XVs5LxhMn2U4r7Cvdd9q_.3L.-0Y=_cd5_
-Content-Type: text/plain; charset="utf-8"
-
-
-------Iofw26EFbNSGL_UgXoU1XVs5LxhMn2U4r7Cvdd9q_.3L.-0Y=_cd5_--
+Any recommendations or thoughts on dealing with this? Or am I just out
+of luck when it comes to relying on anything from these drives' smart
+logs?
 
