@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80FD5C6FA82
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 16:41:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3BDEAC6FA82
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 16:41:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
-	:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ItJ8m+lleZiH/D7kr9kZGMa9/tjBgpeVzB8HkP75IQA=; b=1Kt/INtbSL0bdYKXie+gG9WlLe
-	/JphZnjFweNqUahN8lu56MwjzAucdDb2uMwCP5K8PVv4YILdymk4WpL/VvRNnOAuNCyt+feU6JZjj
-	hxsgx7STWvb7G6/SlowcdjT9sqn6BFAeJ0nNMxoLc1Z6nS8citLd3dp4XiSO2fCQGL/Ung/rFaII+
-	eX5CK/0ptEOpIiI14wTqHNU57Q/9dNB6XX+BAPeOf/KV1BOKHMuT2MemD9zt/VI81FO1WO+YBNET/
-	BTWDR3y225+xJONSQBuzwawtlD/itQqHISz/zWF3QSUfPvlyoeGhUm9umeW/yHVNVAv8KaEc5x9YT
-	BgvuzK9A==;
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Cc:To:From:Reply-To:
+	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=yEbEthdEqMoR6vIi3uu8gJTStkK9xaZth0zL3JgYr6M=; b=XHiOwXsYgxY66Y
+	iyuvvZoldzXsbZfUa+VJDtJV+efyhaK4gutNJT72PndmylcjeZ67PnMyQkb3pGMtSgxcIcNsMcqpA
+	o+Yugx6z51V+miXWgwleGcSOc+Sxhr8sDodquUPQHTX8RSMzFHw6k3huqzmz905v1ubrqRI36mtkz
+	fkc1OePwjx9tgMl0lFQSYrioQBvGNbuvHTwpkyhe95rKCLCl5hTI/eG7xzu/CHlUavn2BhJcAOCD4
+	ImOi1qGMGWnhKxz2/4P6x8TltiRdujGbg2KGIO8jdt4dKo9heX4GorFLxHI0331drbcKJSqKzFYo0
+	JkeFuj4Zx2C6HlGOWbrA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obPG3-00Gpzw-Mm; Thu, 22 Sep 2022 16:41:03 +0000
+	id 1obPGK-00Gq9U-0X; Thu, 22 Sep 2022 16:41:20 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obPEk-00Gp5V-KW
-	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 16:39:46 +0000
+	id 1obPEl-00Gp5j-55
+	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 16:39:48 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Cc:To:From:content-disposition;
-	bh=ItJ8m+lleZiH/D7kr9kZGMa9/tjBgpeVzB8HkP75IQA=; b=i85S0w54THJ/szqoMR3ZacShUv
-	a3GTE6oGOI/VG2h9xDPtebfYgBwmX1XmrkRIQhemgp0Phm8eYDKuLxvuJFO9eBcPY7yuSw+kRZ0ED
-	vYZw4u66yNlD8hsoNco9ZGPhRt1Ypz5B0/PmIyvsmcVYhzRboMrhqL0oB1mC4USezlKo2AE7obNR0
-	b19WDFcJQiAJbV1NW7TMHoMeNDHb2IwNni4rmJIc9jAmlmSq6TIAa8MWHKK8H02ozzkB3M8ExcUob
-	+YZnm6uzE1jQovPZr8i5AU9V0YsG1X/yvDy0alQ6/CL2cQm/73TQ1KmSPz12Z2zt+bt4kKDbUPGgM
-	CI8cs/cA==;
+	d=deltatee.com; s=20200525; h=Subject:MIME-Version:Message-Id:Date:Cc:To:From
+	:references:content-disposition:in-reply-to;
+	bh=yEbEthdEqMoR6vIi3uu8gJTStkK9xaZth0zL3JgYr6M=; b=HifliSh6mq7K6mv42Jxq4CspDZ
+	PkfMY8i6TXWHUNH9Z7BsQdRo98oHauuGD9OK2FxaBH9ZUI7u5U0ZI+N1IHu2w0GMw0/7+qWfFMftP
+	hEIfoXcx1Fly+YRtzCoLOEAozIs/P8m6VHdqGDDLcbj8XfGUi3ry4QtwCI1qa45J5i7LIMWfjoe33
+	+nr1T0dc+PHilZ37pf3KFAWa35qRHgp2qQH2xgytuwRQkgXHHFJ6xh7i7mtad2u+JP8Mco19YfnYF
+	9o06j4joMdjFys+iEYyk/ajwU6F8vR6nqX2olmK+uVF1E5YS3fesLcwJm6NEZnko2XLzLwe2Oor09
+	A88X9GAQ==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
 	by ale.deltatee.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <gunthorp@deltatee.com>)
-	id 1obPEf-00862c-HN; Thu, 22 Sep 2022 10:39:38 -0600
+	id 1obPEf-00862a-HO; Thu, 22 Sep 2022 10:39:39 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.94.2)
 	(envelope-from <gunthorp@deltatee.com>)
-	id 1obPEa-0001rm-Va; Thu, 22 Sep 2022 10:39:33 -0600
+	id 1obPEa-0001rh-MA; Thu, 22 Sep 2022 10:39:32 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
@@ -69,22 +69,20 @@ Cc: Christoph Hellwig <hch@lst.de>,
 	Ralph Campbell <rcampbell@nvidia.com>,
 	Stephen Bates <sbates@raithlin.com>,
 	Logan Gunthorpe <logang@deltatee.com>
-Date: Thu, 22 Sep 2022 10:39:20 -0600
-Message-Id: <20220922163926.7077-3-logang@deltatee.com>
+Date: Thu, 22 Sep 2022 10:39:18 -0600
+Message-Id: <20220922163926.7077-1-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220922163926.7077-1-logang@deltatee.com>
-References: <20220922163926.7077-1-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 172.16.1.31
 X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, hch@lst.de, gregkh@linuxfoundation.org, jgg@ziepe.ca, christian.koenig@amd.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, jason@jlekstrand.net, dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, jhubbard@nvidia.com, rcampbell@nvidia.com, sbates@raithlin.com, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v10 2/8] iov_iter: introduce iov_iter_get_pages_[alloc_]flags()
+Subject: [PATCH v10 0/8] Userspace P2PDMA with O_DIRECT NVMe devices
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220922_093942_791769_7F1CEEB2 
-X-CRM114-Status: GOOD (  12.18  )
+X-CRM114-CacheID: sfid-20220922_093943_313296_5A8F1D79 
+X-CRM114-Status: GOOD (  13.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,115 +97,85 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add iov_iter_get_pages_flags() and iov_iter_get_pages_alloc_flags()
-which take a flags argument that is passed to get_user_pages_fast().
+Hi,
 
-This is so that FOLL_PCI_P2PDMA can be passed when appropriate.
+This is the latest P2PDMA userspace patch set. This version includes
+some cleanup from feedback of the last posting[1].
 
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
----
- include/linux/uio.h |  6 ++++++
- lib/iov_iter.c      | 32 ++++++++++++++++++++++++--------
- 2 files changed, 30 insertions(+), 8 deletions(-)
+This patch set enables userspace P2PDMA by allowing userspace to mmap()
+allocated chunks of the CMB. The resulting VMA can be passed only
+to O_DIRECT IO on NVMe backed files or block devices. A flag is added
+to GUP() in Patch 1, then Patches 2 through 6 wire this flag up based
+on whether the block queue indicates P2PDMA support. Patches 7
+creates the sysfs resource that can hand out the VMAs and Patch 8
+adds brief documentation for the new interface.
 
-diff --git a/include/linux/uio.h b/include/linux/uio.h
-index 5896af36199c..5d976d01ccb9 100644
---- a/include/linux/uio.h
-+++ b/include/linux/uio.h
-@@ -247,8 +247,14 @@ void iov_iter_pipe(struct iov_iter *i, unsigned int direction, struct pipe_inode
- void iov_iter_discard(struct iov_iter *i, unsigned int direction, size_t count);
- void iov_iter_xarray(struct iov_iter *i, unsigned int direction, struct xarray *xarray,
- 		     loff_t start, size_t count);
-+ssize_t iov_iter_get_pages(struct iov_iter *i, struct page **pages,
-+		size_t maxsize, unsigned maxpages, size_t *start,
-+		unsigned gup_flags);
- ssize_t iov_iter_get_pages2(struct iov_iter *i, struct page **pages,
- 			size_t maxsize, unsigned maxpages, size_t *start);
-+ssize_t iov_iter_get_pages_alloc(struct iov_iter *i,
-+		struct page ***pages, size_t maxsize, size_t *start,
-+		unsigned gup_flags);
- ssize_t iov_iter_get_pages_alloc2(struct iov_iter *i, struct page ***pages,
- 			size_t maxsize, size_t *start);
- int iov_iter_npages(const struct iov_iter *i, int maxpages);
-diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index 4b7fce72e3e5..8f089d661a41 100644
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -1427,7 +1427,8 @@ static struct page *first_bvec_segment(const struct iov_iter *i,
- 
- static ssize_t __iov_iter_get_pages_alloc(struct iov_iter *i,
- 		   struct page ***pages, size_t maxsize,
--		   unsigned int maxpages, size_t *start)
-+		   unsigned int maxpages, size_t *start,
-+		   unsigned int gup_flags)
- {
- 	unsigned int n;
- 
-@@ -1439,7 +1440,6 @@ static ssize_t __iov_iter_get_pages_alloc(struct iov_iter *i,
- 		maxsize = MAX_RW_COUNT;
- 
- 	if (likely(user_backed_iter(i))) {
--		unsigned int gup_flags = 0;
- 		unsigned long addr;
- 		int res;
- 
-@@ -1489,33 +1489,49 @@ static ssize_t __iov_iter_get_pages_alloc(struct iov_iter *i,
- 	return -EFAULT;
- }
- 
--ssize_t iov_iter_get_pages2(struct iov_iter *i,
-+ssize_t iov_iter_get_pages(struct iov_iter *i,
- 		   struct page **pages, size_t maxsize, unsigned maxpages,
--		   size_t *start)
-+		   size_t *start, unsigned gup_flags)
- {
- 	if (!maxpages)
- 		return 0;
- 	BUG_ON(!pages);
- 
--	return __iov_iter_get_pages_alloc(i, &pages, maxsize, maxpages, start);
-+	return __iov_iter_get_pages_alloc(i, &pages, maxsize, maxpages,
-+					  start, gup_flags);
-+}
-+EXPORT_SYMBOL_GPL(iov_iter_get_pages);
-+
-+ssize_t iov_iter_get_pages2(struct iov_iter *i, struct page **pages,
-+		size_t maxsize, unsigned maxpages, size_t *start)
-+{
-+	return iov_iter_get_pages(i, pages, maxsize, maxpages, start, 0);
- }
- EXPORT_SYMBOL(iov_iter_get_pages2);
- 
--ssize_t iov_iter_get_pages_alloc2(struct iov_iter *i,
-+ssize_t iov_iter_get_pages_alloc(struct iov_iter *i,
- 		   struct page ***pages, size_t maxsize,
--		   size_t *start)
-+		   size_t *start, unsigned gup_flags)
- {
- 	ssize_t len;
- 
- 	*pages = NULL;
- 
--	len = __iov_iter_get_pages_alloc(i, pages, maxsize, ~0U, start);
-+	len = __iov_iter_get_pages_alloc(i, pages, maxsize, ~0U, start,
-+					 gup_flags);
- 	if (len <= 0) {
- 		kvfree(*pages);
- 		*pages = NULL;
- 	}
- 	return len;
- }
-+EXPORT_SYMBOL_GPL(iov_iter_get_pages_alloc);
-+
-+ssize_t iov_iter_get_pages_alloc2(struct iov_iter *i,
-+		struct page ***pages, size_t maxsize, size_t *start)
-+{
-+	return iov_iter_get_pages_alloc(i, pages, maxsize, start, 0);
-+}
- EXPORT_SYMBOL(iov_iter_get_pages_alloc2);
- 
- size_t csum_and_copy_from_iter(void *addr, size_t bytes, __wsum *csum,
--- 
+Feedback welcome.
+
+This series is based on v6.0-rc6. A git branch is available here:
+
+  https://github.com/sbates130272/linux-p2pmem/  p2pdma_user_cmb_v10
+
+Thanks,
+
+Logan
+
+[1] https://lkml.kernel.org/r/20220825152425.6296-1-logang@deltatee.com
+
+--
+
+Changes since v8:
+  - Rebased onto v6.0-rc6
+  - Reworked iov iter changes to reuse the code better and
+    name them without the _flags() prefix (per Christoph)
+  - Renamed a number of flags variables to gup_flags (per John)
+  - Minor fixups to the last documentation patch (from Greg and John)
+
+Changes since v7:
+  - Rebased onto v6.0-rc2, included reworking the iov_iter patch
+    due to changes there
+  - Drop the char device mmap implementation in favour of a sysfs
+    based interface. (per Christoph)
+
+Changes since v6:
+  - Rebase onto v5.19-rc1
+  - Rework how the pages are stored in the VMA per Jason's suggestion
+
+Changes since v5:
+  - Rebased onto v5.18-rc1 which includes Christophs cleanup to
+    free_zone_device_page() (similar to Ralph's patch).
+  - Fix bug with concurrent first calls to pci_p2pdma_vma_fault()
+    that caused a double allocation and lost p2p memory. Noticed
+    by Andrew Maier.
+  - Collected a Reviewed-by tag from Chaitanya.
+  - Numerous minor fixes to commit messages
+
+--
+
+Logan Gunthorpe (8):
+  mm: introduce FOLL_PCI_P2PDMA to gate getting PCI P2PDMA pages
+  iov_iter: introduce iov_iter_get_pages_[alloc_]flags()
+  block: add check when merging zone device pages
+  lib/scatterlist: add check when merging zone device pages
+  block: set FOLL_PCI_P2PDMA in __bio_iov_iter_get_pages()
+  block: set FOLL_PCI_P2PDMA in bio_map_user_iov()
+  PCI/P2PDMA: Allow userspace VMA allocations through sysfs
+  ABI: sysfs-bus-pci: add documentation for p2pmem allocate
+
+ Documentation/ABI/testing/sysfs-bus-pci |  10 ++
+ block/bio.c                             |  11 ++-
+ block/blk-map.c                         |   7 +-
+ drivers/pci/p2pdma.c                    | 124 ++++++++++++++++++++++++
+ include/linux/mm.h                      |   1 +
+ include/linux/mmzone.h                  |  24 +++++
+ include/linux/uio.h                     |   6 ++
+ lib/iov_iter.c                          |  32 ++++--
+ lib/scatterlist.c                       |  25 +++--
+ mm/gup.c                                |  22 ++++-
+ 10 files changed, 240 insertions(+), 22 deletions(-)
+
+
+base-commit: 521a547ced6477c54b4b0cc206000406c221b4d6
+--
 2.30.2
-
 
