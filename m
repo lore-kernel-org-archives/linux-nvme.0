@@ -4,77 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 853A8C54EE9
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 18:27:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4EDEFC54EE9
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 18:28:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=hujV+pLrZphSf6wHw7PMT2/FwNfUuvSyfdd2DG/zB6g=; b=1KicrXNmyBeCoL
-	om+dsaWymYVHmH6+2mHqj6bXI6vL8QH19zLj6kV22vMZbOhJvqCmXIEafd3qBF6BB+lD0FqRwloov
-	WxpQnUySlX1EY9T52OZ/u0BjfPv1htTEX32cgKde/vHUANQ+q7O7cudTfk4u9+1LajdcHLAnOEuuL
-	lMwFtOFKENtLlkFIDrnxBob3cn5kj+3YeJzygrNr+2E42oNsuLA78Hbi2Mn6JjvRJI3xK/HlhDncW
-	1w/5xrvGKeti9Av/yLrxP52YTeJXEM8UyamkPypz1KGXTCUSBLILnZ9UBfhZAAdvQPs2gBM+r7wdJ
-	j4+jMF+/PJ7MPBJFawoA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ZXkuoJN7DK7qQfm5r7ECOHzIgNY6d3HZTieo4WxgmDg=; b=uYBHVLqYqeobDGVSZM5xBxHCyN
+	uIx8LAT/zrv/KCMyg48rzWVjvPWPP2IR2zpOqhcAtVKEKIVfKteIcgGkSnHWJ+7Atl+nQvwUHXoaa
+	AbCGm8FRJs+n6FZV619o0yWe7ew1JHDHYXC5RSZhAh8Zijq1nSVg1HH69dzro3dZ04PctfNK53z1+
+	yhi6zKccU5MNaOiNbe3Edwh0ZdhYZ8xYaOgRBEUIEJSe7/LY79gsFPi2TRjOuKstZ7OAbP1yG2ppP
+	19wj8V9ZBO4oBwIpC0AWG4s+csP3Szb7aVzLY2r/6QqwD59e684XbnhBCyuUlIOkmp9um+N8q3K0E
+	LIBCgW0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obQvG-00HKyp-RC; Thu, 22 Sep 2022 18:27:42 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1obQvk-00HL9d-Nr; Thu, 22 Sep 2022 18:28:12 +0000
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obQvE-00HKxI-48
-	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 18:27:41 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 588AB63757;
-	Thu, 22 Sep 2022 18:27:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 797E5C433C1;
-	Thu, 22 Sep 2022 18:27:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1663871258;
-	bh=8xWBJ6Sj6BfVo4gfoi/4G8CBQ6Jx/wBwvklLiTjCFyM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=s69F1omKgr2HrO0nTiXgJhVXfkTHk5wTJUcaIeSmJ0XajGhhyPnrb1bU/nv2iQqnN
-	 W3caY/I9YU693aup6abaVXXxOFAj5HnEaV+f+mW+USOTiKdT5VDbo4vuDdzlh8z/UU
-	 /aynRJSNuS5OFlAEr08CcXQvqXNzvH82QeBvZ+svaWrWgwoCxBjDhgoTF3HxxGsr2B
-	 RHfBlVJJXlQsVDWYkXMPCMh5RNtGs9PdgdSwZvN31BFVKmmjE2hbJ0hP4xDdk1DbDF
-	 q+MOFeJrCKHHXBIH9N+ZEVDqAQyriFbate7Mnvp6ebI677UzOy6UvVkYaYR7jIvUKc
-	 AWYISuH7tO4Gw==
-Date: Thu, 22 Sep 2022 13:27:37 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Logan Gunthorpe <logang@deltatee.com>
-Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-mm@kvack.org, Christoph Hellwig <hch@lst.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	Minturn Dave B <dave.b.minturn@intel.com>,
-	Jason Ekstrand <jason@jlekstrand.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Xiong Jianxin <jianxin.xiong@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Martin Oliveira <martin.oliveira@eideticom.com>,
-	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
-	Ralph Campbell <rcampbell@nvidia.com>,
-	Stephen Bates <sbates@raithlin.com>
-Subject: Re: [PATCH v10 7/8] PCI/P2PDMA: Allow userspace VMA allocations
- through sysfs
-Message-ID: <20220922182737.GA1326059@bhelgaas>
+	id 1obQvi-00HL77-Te
+	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 18:28:12 +0000
+Received: by mail-io1-xd32.google.com with SMTP id y141so8456656iof.5
+        for <linux-nvme@lists.infradead.org>; Thu, 22 Sep 2022 11:28:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=ZXkuoJN7DK7qQfm5r7ECOHzIgNY6d3HZTieo4WxgmDg=;
+        b=TC+pJhfEN/PyAXFz9y6nGede4tCH/WFNjMjWPIjHTuEQpw8cxk7XrbKNF2DJmY48jP
+         OMXtozYtcQaXjwXQIh5dyupZ3vsYSgI3pgg54c3aV1P0/lVY5wsRWyr3OjpKpoupjlif
+         xHeHXkQHHz9zloxEyG/49pm8yN6eRu4Z+6bll/V6pIjIYBC8iar5KFGGbanhuD827JQJ
+         zLfsxwUt2iPe7PTqqrqNLFDdgeavsSr69K+zKE1VqxLJwY8YLHH6EfGDkXi7mK6UVC8H
+         GX0VrV6IEWs24StfNrAtfWZrKGeTBhtsmuxiH/X7MuV+/Mw0FvM1uleEODvJNUFG722z
+         1LEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=ZXkuoJN7DK7qQfm5r7ECOHzIgNY6d3HZTieo4WxgmDg=;
+        b=LixqiMKNUUburOtDeI0v/FGIvZUa3vH344URnUQh3TyEaK22sX3Av+7jNQrCtovTbA
+         D4UsS/ZCV9zTul7DrJ2RJ01i8nmEQqorDsZc8ghTwlOuV4pqcs/eGAgwajCrh8P/wbh+
+         2E9G7+khKI1cKYYXUvVxlgowObFNys9l77YMc2dTjm2tJtSmjI7F3NQ2LuHDNDFmEiQq
+         ybr38KDpAdUL9WOMUm2w1nUhycojGA92jAVPxkolCW6XQO0yqs5Lclf82ZE6bfsror4t
+         ldWqwlNKarZ949lCUErQs+iGNfW7g7WpQPFo1iX+6JYR1DysXRID6oK8B1PHu/xi6mgH
+         rRgA==
+X-Gm-Message-State: ACrzQf2W+DnbFozN0ebAInWM03N9gZiqZTVqIOyhnn0P8We8tPfje4sn
+	xDXfCHuD6T2EqxXzqK5nNo+C9g==
+X-Google-Smtp-Source: AMsMyM5/mw+f8DSISvPa79cGNBFPKxngRjSrKI07M17BHrjwAKNBmZT/eBpWILXqY0PAsnK6yyWCzQ==
+X-Received: by 2002:a05:6638:300e:b0:35a:ab7a:4509 with SMTP id r14-20020a056638300e00b0035aab7a4509mr2787464jak.82.1663871287586;
+        Thu, 22 Sep 2022 11:28:07 -0700 (PDT)
+Received: from m1max.localdomain ([207.135.234.126])
+        by smtp.gmail.com with ESMTPSA id q20-20020a05663810d400b0035a468b7fbesm2440646jad.71.2022.09.22.11.28.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Sep 2022 11:28:07 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: linux-block@vger.kernel.org
+Cc: linux-scsi@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: [PATCHSET 0/5] Enable alloc caching and batched freeing for passthrough
+Date: Thu, 22 Sep 2022 12:28:00 -0600
+Message-Id: <20220922182805.96173-1-axboe@kernel.dk>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220922163926.7077-8-logang@deltatee.com>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220922_112740_270001_8C4EDF9E 
-X-CRM114-Status: GOOD (  38.53  )
+X-CRM114-CacheID: sfid-20220922_112810_978937_64561B78 
+X-CRM114-Status: UNSURE (   6.46  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,199 +86,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 22, 2022 at 10:39:25AM -0600, Logan Gunthorpe wrote:
-> Create a sysfs bin attribute called "allocate" under the existing
-> "p2pmem" group. The only allowable operation on this file is the mmap()
-> call.
-> 
-> When mmap() is called on this attribute, the kernel allocates a chunk of
-> memory from the genalloc and inserts the pages into the VMA. The
-> dev_pagemap .page_free callback will indicate when these pages are no
-> longer used and they will be put back into the genalloc.
-> 
-> On device unbind, remove the sysfs file before the memremap_pages are
-> cleaned up. This ensures unmap_mapping_range() is called on the files
-> inode and no new mappings can be created.
-> 
-> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+Hi,
 
-Not sure which tree this should go through, so:
+The passthrough IO path currently doesn't do any request allocation
+batching like we do for normal IO. Wire this up through the usual
+blk_mq_alloc_request() allocation helper.
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+Similarly, we don't currently supported batched completions for
+passthrough IO. Allow the request->end_io() handler to return back
+whether or not it retains ownership of the request. By default all
+handlers are converted to returning RQ_END_IO_NONE, which retains
+the existing behavior. But with that in place, we can tweak the
+nvme uring_cmd end_io handler to pass back ownership, and hence enable
+completion batching for passthrough requests as well.
 
-> ---
->  drivers/pci/p2pdma.c | 124 +++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 124 insertions(+)
-> 
-> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-> index 4496a7c5c478..a6ed6bbca214 100644
-> --- a/drivers/pci/p2pdma.c
-> +++ b/drivers/pci/p2pdma.c
-> @@ -89,6 +89,90 @@ static ssize_t published_show(struct device *dev, struct device_attribute *attr,
->  }
->  static DEVICE_ATTR_RO(published);
->  
-> +static int p2pmem_alloc_mmap(struct file *filp, struct kobject *kobj,
-> +		struct bin_attribute *attr, struct vm_area_struct *vma)
-> +{
-> +	struct pci_dev *pdev = to_pci_dev(kobj_to_dev(kobj));
-> +	size_t len = vma->vm_end - vma->vm_start;
-> +	struct pci_p2pdma *p2pdma;
-> +	struct percpu_ref *ref;
-> +	unsigned long vaddr;
-> +	void *kaddr;
-> +	int ret;
-> +
-> +	/* prevent private mappings from being established */
-> +	if ((vma->vm_flags & VM_MAYSHARE) != VM_MAYSHARE) {
-> +		pci_info_ratelimited(pdev,
-> +				     "%s: fail, attempted private mapping\n",
-> +				     current->comm);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (vma->vm_pgoff) {
-> +		pci_info_ratelimited(pdev,
-> +				     "%s: fail, attempted mapping with non-zero offset\n",
-> +				     current->comm);
-> +		return -EINVAL;
-> +	}
-> +
-> +	rcu_read_lock();
-> +	p2pdma = rcu_dereference(pdev->p2pdma);
-> +	if (!p2pdma) {
-> +		ret = -ENODEV;
-> +		goto out;
-> +	}
-> +
-> +	kaddr = (void *)gen_pool_alloc_owner(p2pdma->pool, len, (void **)&ref);
-> +	if (!kaddr) {
-> +		ret = -ENOMEM;
-> +		goto out;
-> +	}
-> +
-> +	/*
-> +	 * vm_insert_page() can sleep, so a reference is taken to mapping
-> +	 * such that rcu_read_unlock() can be done before inserting the
-> +	 * pages
-> +	 */
-> +	if (unlikely(!percpu_ref_tryget_live_rcu(ref))) {
-> +		ret = -ENODEV;
-> +		goto out_free_mem;
-> +	}
-> +	rcu_read_unlock();
-> +
-> +	for (vaddr = vma->vm_start; vaddr < vma->vm_end; vaddr += PAGE_SIZE) {
-> +		ret = vm_insert_page(vma, vaddr, virt_to_page(kaddr));
-> +		if (ret) {
-> +			gen_pool_free(p2pdma->pool, (uintptr_t)kaddr, len);
-> +			return ret;
-> +		}
-> +		percpu_ref_get(ref);
-> +		put_page(virt_to_page(kaddr));
-> +		kaddr += PAGE_SIZE;
-> +		len -= PAGE_SIZE;
-> +	}
-> +
-> +	percpu_ref_put(ref);
-> +
-> +	return 0;
-> +out_free_mem:
-> +	gen_pool_free(p2pdma->pool, (uintptr_t)kaddr, len);
-> +out:
-> +	rcu_read_unlock();
-> +	return ret;
-> +}
-> +
-> +static struct bin_attribute p2pmem_alloc_attr = {
-> +	.attr = { .name = "allocate", .mode = 0660 },
-> +	.mmap = p2pmem_alloc_mmap,
-> +	/*
-> +	 * Some places where we want to call mmap (ie. python) will check
-> +	 * that the file size is greater than the mmap size before allowing
-> +	 * the mmap to continue. To work around this, just set the size
-> +	 * to be very large.
-> +	 */
-> +	.size = SZ_1T,
-> +};
-> +
->  static struct attribute *p2pmem_attrs[] = {
->  	&dev_attr_size.attr,
->  	&dev_attr_available.attr,
-> @@ -96,11 +180,32 @@ static struct attribute *p2pmem_attrs[] = {
->  	NULL,
->  };
->  
-> +static struct bin_attribute *p2pmem_bin_attrs[] = {
-> +	&p2pmem_alloc_attr,
-> +	NULL,
-> +};
-> +
->  static const struct attribute_group p2pmem_group = {
->  	.attrs = p2pmem_attrs,
-> +	.bin_attrs = p2pmem_bin_attrs,
->  	.name = "p2pmem",
->  };
->  
-> +static void p2pdma_page_free(struct page *page)
-> +{
-> +	struct pci_p2pdma_pagemap *pgmap = to_p2p_pgmap(page->pgmap);
-> +	struct percpu_ref *ref;
-> +
-> +	gen_pool_free_owner(pgmap->provider->p2pdma->pool,
-> +			    (uintptr_t)page_to_virt(page), PAGE_SIZE,
-> +			    (void **)&ref);
-> +	percpu_ref_put(ref);
-> +}
-> +
-> +static const struct dev_pagemap_ops p2pdma_pgmap_ops = {
-> +	.page_free = p2pdma_page_free,
-> +};
-> +
->  static void pci_p2pdma_release(void *data)
->  {
->  	struct pci_dev *pdev = data;
-> @@ -152,6 +257,19 @@ static int pci_p2pdma_setup(struct pci_dev *pdev)
->  	return error;
->  }
->  
-> +static void pci_p2pdma_unmap_mappings(void *data)
-> +{
-> +	struct pci_dev *pdev = data;
-> +
-> +	/*
-> +	 * Removing the alloc attribute from sysfs will call
-> +	 * unmap_mapping_range() on the inode, teardown any existing userspace
-> +	 * mappings and prevent new ones from being created.
-> +	 */
-> +	sysfs_remove_file_from_group(&pdev->dev.kobj, &p2pmem_alloc_attr.attr,
-> +				     p2pmem_group.name);
-> +}
-> +
->  /**
->   * pci_p2pdma_add_resource - add memory for use as p2p memory
->   * @pdev: the device to add the memory to
-> @@ -198,6 +316,7 @@ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
->  	pgmap->range.end = pgmap->range.start + size - 1;
->  	pgmap->nr_range = 1;
->  	pgmap->type = MEMORY_DEVICE_PCI_P2PDMA;
-> +	pgmap->ops = &p2pdma_pgmap_ops;
->  
->  	p2p_pgmap->provider = pdev;
->  	p2p_pgmap->bus_offset = pci_bus_address(pdev, bar) -
-> @@ -209,6 +328,11 @@ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
->  		goto pgmap_free;
->  	}
->  
-> +	error = devm_add_action_or_reset(&pdev->dev, pci_p2pdma_unmap_mappings,
-> +					 pdev);
-> +	if (error)
-> +		goto pages_free;
-> +
->  	p2pdma = rcu_dereference_protected(pdev->p2pdma, 1);
->  	error = gen_pool_add_owner(p2pdma->pool, (unsigned long)addr,
->  			pci_bus_address(pdev, bar) + offset,
-> -- 
-> 2.30.2
-> 
+This is good for a 10% improvement for passthrough performance. For
+a non-drive limited test case, passthrough IO is now more efficient
+than the regular bdev O_DIRECT path.
+
+-- 
+Jens Axboe
+
+
 
