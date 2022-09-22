@@ -4,62 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B33AAC6FA82
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 15:26:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA1CDC54EE9
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 15:33:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aZS4m1wJ5siZy3uQhnyxxollDJ0LGTwY6AUsvXN/fsM=; b=P2gbhYtfbO0DNCg6JuePVy0ZiP
-	tP6E/9sAxbqpJutXadTho4WM04Qgynh6udCFD7jukWFzkcqLHcLsb69pAF+oUIo0CyqwOkm14KEm/
-	EVC1Es6KffjYL2iUI7P2GLd5l0ysN69GhNhAhkDJl1t8RAW6PTN4eaXue4pF7N4VJD1SrOmg8RZVb
-	lmt5H4HHluLPjY51kKfcWod1jSS6mQ+YGOFy5Igl30/4srUl0HPF+eTzgYTSUQiOMah7YWgxwQArR
-	/ql6Ya+3LVcHuG6zd+TKmn6hUDo6fs8l6bdk4e459K3rTsQzBWmWZIiEVFzTPDzrZ3PpYwLerCUPf
-	mYMeJ89w==;
+	bh=C81qtWO5E2zgqe+FAcHdBTKT4T0bT/5nCLsYZNOSs0I=; b=Eh/g/PEk/uzrOpZNgw7Y34jPVt
+	zgnKzPoDY4YX1vr+du1SgCQzzUdwmE4HrylQ1ePxi7VpDA8ik/A1ueF1BmxI4QvqQYYKcRCpHcZMs
+	csvHWRu/Pc57AQK+WnrGRTzGRwn3Yz8CAt0giSKO3pHv0v/ZWXsTHzqDMGYuVL2XCPy4qVs4N1Kpv
+	XeBQCzz6hq+4R2VYj0pKK3XvXj1f1fJGCrtKoqTbBJVvisjR+VZ1tJhypMgiEbBukG0aywoTYvk65
+	89/xkPRJterDMxiMbsP4d5rGwtb8Ac4yCKbWZGwVPs2fkhs0kGl8iz/N+da30oEdsNqYsRr+byH3b
+	2win4kbw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obO5T-00GR02-AS; Thu, 22 Sep 2022 15:26:03 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1obOCl-00GT2S-IK; Thu, 22 Sep 2022 15:33:35 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obO5P-00GQxx-3g
-	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 15:26:00 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 135B3B80D18;
-	Thu, 22 Sep 2022 15:25:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3438CC433D6;
-	Thu, 22 Sep 2022 15:25:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1663860355;
-	bh=poznrY4CTrw8KA9LGkTIZ6sSA44ugDWcov0/KS8+M/g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sWk/ygaO7gSszVEY5gVieV573+Yz6kbT33bu2cGRGwJYYfBPV10e/2x/vEPQTuC00
-	 TTVuAZtBrQXaPfLMBVcNG0XKtX6k1nIHhYTF2sltUBxTneRlVwPlAshuZMLwhOEF/z
-	 Y55knOqMfiO36LmCFGlbv7Df8rqf1a59cLgoPDrDU8oZWIMIQVvl88BSrWS0kvBxg/
-	 HElLWaMXwFJ1beySPboXZDDMLBhbzWH6HwQd/sg8LjeLhDn0R7pW5HvumlegmD8iR7
-	 e4G02G6GXSc5rF0ZCJvwI7HCiy8my1Ck7bEulsSVv8CP63gfYwGSGhOc6jqDsNt0ww
-	 ourTnHOmSh+IA==
-Date: Thu, 22 Sep 2022 09:25:52 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>,
-	James Smart <james.smart@broadcom.com>
-Subject: Re: [PATCH v2 1/2] nvme: enumerate controller flags
-Message-ID: <Yyx+gBKsWiYjwpW8@kbusch-mbp.dhcp.thefacebook.com>
-References: <20220922081538.13364-1-sagi@grimberg.me>
- <20220922081538.13364-2-sagi@grimberg.me>
+	id 1obOCf-00GSzf-Kh
+	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 15:33:33 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20220922153323epoutp0380df076a0ea0c38dd6d771061736fef3~XOJXfFa490366303663epoutp03x
+	for <linux-nvme@lists.infradead.org>; Thu, 22 Sep 2022 15:33:23 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20220922153323epoutp0380df076a0ea0c38dd6d771061736fef3~XOJXfFa490366303663epoutp03x
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1663860803;
+	bh=C81qtWO5E2zgqe+FAcHdBTKT4T0bT/5nCLsYZNOSs0I=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=K0s54Ba7TN+MawLq2p/1j0r1y2hNuclSuXKy7k3Jerqd6p7kHyAkwKmPSLqvo86vL
+	 WqFIfIgZRsOEXAo1X5LV9MY9fMvHhThmH09h9kTxW+O5ptSHbZI50B5cbfkb5rYP4X
+	 xxDRs7UpoAHWAEyoWPST1LwrUrc0C3ofWrP8SPYQ=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20220922153323epcas5p493e554822c3858b4612676a7039a3951~XOJXLsMDE2442124421epcas5p4z;
+	Thu, 22 Sep 2022 15:33:23 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.175]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4MYK744wR0z4x9Pv; Thu, 22 Sep
+	2022 15:33:20 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	9A.48.39477.0408C236; Fri, 23 Sep 2022 00:33:20 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20220922153319epcas5p1edab5d5bc06594d0ffa1c89944c2bc83~XOJT7-7sp1909019090epcas5p1H;
+	Thu, 22 Sep 2022 15:33:19 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20220922153319epsmtrp2569d97d2764b73dd09e3208c254ba3f4~XOJT7Nfg21775817758epsmtrp2y;
+	Thu, 22 Sep 2022 15:33:19 +0000 (GMT)
+X-AuditID: b6c32a4a-007ff70000019a35-77-632c80409203
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	BC.5F.14392.F308C236; Fri, 23 Sep 2022 00:33:19 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20220922153317epsmtip143a075c61865f5cf72b75201a9d95020~XOJSET6Fr1695316953epsmtip1g;
+	Thu, 22 Sep 2022 15:33:17 +0000 (GMT)
+Date: Thu, 22 Sep 2022 20:53:31 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: axboe@kernel.dk, kbusch@kernel.org, asml.silence@gmail.com,
+	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com, Anuj Gupta
+	<anuj20.g@samsung.com>
+Subject: Re: [PATCH for-next v7 4/5] block: add helper to map bvec iterator
+ for passthrough
+Message-ID: <20220922152331.GA24701@test-zns>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220922081538.13364-2-sagi@grimberg.me>
+In-Reply-To: <20220920120802.GC2809@lst.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfVCTdRzA/T3Pw8MD1+px6PFzxsCHeR4vA4YDHhYQXeTNNIOzw85O4bnx
+	tHF7vb1kdl2tGYWcBEEXMKzsRIktZgyYEoxsTmdceBVqo2sSx+CMK44TsxPC2niw87/P9/2V
+	QPm9uICo1ZlZo47RUHg85rmUli4utWYqckZ/FNG25lWUPunwANoZasLpyYtDCN3jvIzQC3XX
+	MLrFdxPQ3l8y6M/OzsaWxsmH7KFY+cS4Re52HMfl/V1vy4cnrbj8gwEHkC+5heWxB9VFKpap
+	YY0prE6hr6nVKYupPfurnq3Ky8+RiCWFdAGVomO0bDFVtrdcvKtWE+mLSnmN0VgiqnLGZKKy
+	S4qMeouZTVHpTeZiijXUaAxSQ5aJ0ZosOmWWjjXLJDk5uXkRx2q1qjP8TYyhbdvrN09cwqzg
+	7y0NII6ApBR6+39GG0A8wSeHAVy9ugg44Q6AjdN+jBPuRSz+LvAwZPn8CZwzeAF0nJ9ZF+YA
+	vPVJBx71wsjtcNEViiQmCJxMgz+0WqLqTSQFZ+fH10qg5HUAww0uJGpIIA/BPv8KGmUeKYZn
+	7PdjON4Iv+sIY1GOIzNgoLl/jTeTqfCiJ4BEE0Gyh4DBtnAs114ZdF6+gnGcAOcDA+t6AVxa
+	8OIcK+BPHdcQjs1wZuTbdX4a1o01rTWBkq9C319+jOPHYeNKGIkOA0kerH+Pz7lvg7daZmM4
+	ToTT7V3rLIdfnry+vscggMFBB9YMhPZH5rE/UoJjGTy+aIvhOBkeG+xE7ZFyKLkVdj8gOEyD
+	577OPgVwB9jCGkxaJWvKM+Tq2CP/X1yh17rB2t+mP38BTP+2mOUDCAF8ABIotYnX+Wuags+r
+	YY6+wRr1VUaLhjX5QF7kVh+igs0KfeTxdeYqibQwR5qfny8t3JkvoRJ5p9vTFXxSyZhZNcsa
+	WOPDOISIE1gRoeP9bpFnVeZd3LH748x3W38v6D4w1lgyFHYVTUwd6ut5pmKaPHu790Vj02rv
+	OxsHLhxxtyaa/xh5arUaFxfcpx6MocnKGVGI3IB9lJrbNrpUOues/ly5oeKf+MpByWNHDfgB
+	6H4l+/t9AdnOeutp0cJkS83++sMu/tgxm0corVdLbYbBWdz11d7OTM+TvDtv2fZ4k7Q7Ru5O
+	vfzvCys3BOpxVZtIZJ769NTt0bp4YSj1cDBwT6woWxrxFM3J4Bfbw0nWyq3DsnPl7Rn253a1
+	vrmcpC2+emZfhdmpQ5bvgnBB+hN92TO4vzkzq5Ka0JZ4kPmDyTfwP68EW3cPziW8RGEmFSNJ
+	R40m5j81oTy8QAQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpnkeLIzCtJLcpLzFFi42LZdlhJTte+QSfZ4PBhA4umCX+ZLeas2sZo
+	sfpuP5vFzQM7mSxWrj7KZPGu9RyLxaRD1xgt9t7Stpi/7Cm7A6fHzll32T0uny312LSqk81j
+	85J6j903G9g8+rasYvT4vEkugD2KyyYlNSezLLVI3y6BK6P/83S2gnVyFZ///mNuYFwt3sXI
+	ySEhYCLxa3sPWxcjF4eQwG5GiQWdB1khEuISzdd+sEPYwhIr/z1nhyh6wijxZ/UHsCIWAVWJ
+	D+vuMncxcnCwCWhKXJhcChIWEVCSePrqLCNIPbPAFaD6/UvA6oUFYiU2HvnNDGLzCuhKLJ31
+	kxVi6C1GiY2rlrJDJAQlTs58wgJiMwuYSczb/BBsAbOAtMTyfxwQYXmJ5q2zweZwCmhLHJ+w
+	GaxcVEBZ4sC240wTGIVmIZk0C8mkWQiTZiGZtICRZRWjZGpBcW56brFhgWFearlecWJucWle
+	ul5yfu4mRnBcaWnuYNy+6oPeIUYmDsZDjBIczEoivLPvaCYL8aYkVlalFuXHF5XmpBYfYpTm
+	YFES573QdTJeSCA9sSQ1OzW1ILUIJsvEwSnVwFQoMV30tejC2qSLBVI52ybNXha0VDruxfx1
+	ps8i66VOvXzAa3BYaH5hlrXGIQspCcXYbTksH7YEGM4XsV0memxp7pnLXQUTg3vYT5xLmrOH
+	ccqxC62bNQ8u9lL7oGJ9cK+V/ef9HTlX/BZsCfx8wu971g1DvS0SBTeMkt5mXmGfKs8m3L/j
+	raupqofJ3FOd5l3/FmUUMfkHfpBLzlpbI8lz//3dF7dCOw15ZCxe6a69+SyCRyshO7/AXODY
+	7N+id49EHv3z0XH+y+n+L/NPumx0rLtkHSvczzvrO2sd59q8b0Ivrn3jdNzx8+0ViQyd+54/
+	GWMXpJ9fc26P32StM5Nfbr3bosAw97PZpZXKaxSUWIozEg21mIuKEwFGDvG0GgMAAA==
+X-CMS-MailID: 20220922153319epcas5p1edab5d5bc06594d0ffa1c89944c2bc83
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----Iofw26EFbNSGL_UgXoU1XVs5LxhMn2U4r7Cvdd9q_.3L.-0Y=_cd5_"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220909103147epcas5p2a83ec151333bcb1d2abb8c7536789bfd
+References: <20220909102136.3020-1-joshi.k@samsung.com>
+	<CGME20220909103147epcas5p2a83ec151333bcb1d2abb8c7536789bfd@epcas5p2.samsung.com>
+	<20220909102136.3020-5-joshi.k@samsung.com> <20220920120802.GC2809@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220922_082559_380645_CF30FBAE 
-X-CRM114-Status: GOOD (  18.87  )
+X-CRM114-CacheID: sfid-20220922_083330_171752_A9D1598E 
+X-CRM114-Status: GOOD (  29.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,42 +136,118 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 22, 2022 at 11:15:36AM +0300, Sagi Grimberg wrote:
-> We expect to grow a few of these flags for various purposes
-> so make them a proper enumeration.
-> 
-> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
-> ---
->  drivers/nvme/host/nvme.h | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index bdc0ff7ed9ab..fcf891467e68 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -233,6 +233,11 @@ struct nvme_fault_inject {
->  #endif
->  };
->  
-> +enum nvme_ctrl_flags {
-> +	NVME_CTRL_FAILFAST_EXPIRED	= (1 << 0),
-> +	NVME_CTRL_ADMIN_Q_STOPPED	= (1 << 1),
-> +};
+------Iofw26EFbNSGL_UgXoU1XVs5LxhMn2U4r7Cvdd9q_.3L.-0Y=_cd5_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
 
-Don't shift these. They are used with set/clear/test_bit() APIs, which take the
-bit position rather than the value.
+On Tue, Sep 20, 2022 at 02:08:02PM +0200, Christoph Hellwig wrote:
+>> -static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
+>> +static struct bio *bio_map_get(struct request *rq, unsigned int nr_vecs,
+>>  		gfp_t gfp_mask)
+>
+>bio_map_get is a very confusing name.
 
-> +
->  struct nvme_ctrl {
->  	bool comp_seen;
->  	enum nvme_ctrl_state state;
-> @@ -354,8 +359,6 @@ struct nvme_ctrl {
->  	u16 maxcmd;
->  	int nr_reconnects;
->  	unsigned long flags;
-> -#define NVME_CTRL_FAILFAST_EXPIRED	0
-> -#define NVME_CTRL_ADMIN_Q_STOPPED	1
->  	struct nvmf_ctrl_options *opts;
->  
->  	struct page *discard_page;
+So I chose that name because functionality is opposite of what we do
+inside existing bio_map_put helper. In that way it is symmetric.
+
+>And I also still think this is
+>the wrong way to go.  If plain slab allocations don't use proper
+>per-cpu caches we have a MM problem and need to talk to the slab
+>maintainers and not use the overkill bio_set here.
+
+This series is not about using (or not using) bio-set. Attempt here has
+been to use pre-mapped buffers (and bvec) that we got from io_uring.
+
+>> +/* Prepare bio for passthrough IO given an existing bvec iter */
+>> +int blk_rq_map_user_bvec(struct request *rq, struct iov_iter *iter)
+>
+>I'm a little confused about the interface we're trying to present from
+>the block layer to the driver here.
+>
+>blk_rq_map_user_iov really should be able to detect that it is called
+>on a bvec iter and just do the right thing rather than needing different
+>helpers.
+
+I too explored that possibility, but found that it does not. It maps the
+user-pages into bio either directly or by doing that copy (in certain odd
+conditions) but does not know how to deal with existing bvec.
+Reason, I guess, is no one felt the need to try passthrough for bvecs
+before. It makes sense only in context of io_uring passthrough.
+And it really felt cleaner to me write a new function rather than 
+overloading the blk_rq_map_user_iov with multiple if/else canals.
+I tried that again after your comment, but it does not seem to produce
+any good-looking code.
+The other factor is - it seemed safe to go this way as I am more sure
+that I will not break something else (using blk_rq_map_user_iov).
+
+>> +		/*
+>> +		 * If the queue doesn't support SG gaps and adding this
+>> +		 * offset would create a gap, disallow it.
+>> +		 */
+>> +		if (bvprvp && bvec_gap_to_prev(lim, bvprvp, bv->bv_offset))
+>> +			goto out_err;
+>
+>So now you limit the input that is accepted?  That's not really how
+>iov_iters are used.   We can either try to reshuffle the bvecs, or
+>just fall back to the copy data version as blk_rq_map_user_iov does
+>for 'weird' iters˙
+
+Since I was writing a 'new' helper for passthrough only, I thought it
+will not too bad to just bail out (rather than try to handle it using
+copy) if we hit this queue_virt_boundary related situation. 
+
+To handle it the 'copy data' way we would need this -
+
+585         else if (queue_virt_boundary(q))
+586                 copy = queue_virt_boundary(q) & iov_iter_gap_alignment(iter);
+587
+
+But iov_iter_gap_alignment does not work on bvec iters. Line #1274 below
+
+1264 unsigned long iov_iter_gap_alignment(const struct iov_iter *i)
+1265 {
+1266         unsigned long res = 0;
+1267         unsigned long v = 0;
+1268         size_t size = i->count;
+1269         unsigned k;
+1270
+1271         if (iter_is_ubuf(i))
+1272                 return 0;
+1273
+1274         if (WARN_ON(!iter_is_iovec(i)))
+1275                 return ~0U;
+
+Do you see a way to overcome this. Or maybe this can be revisted as we
+are not missing a lot?
+
+>> +
+>> +		/* check full condition */
+>> +		if (nsegs >= nr_segs || bytes > UINT_MAX - bv->bv_len)
+>> +			goto out_err;
+>> +
+>> +		if (bytes + bv->bv_len <= nr_iter &&
+>> +				bv->bv_offset + bv->bv_len <= PAGE_SIZE) {
+>> +			nsegs++;
+>> +			bytes += bv->bv_len;
+>> +		} else
+>> +			goto out_err;
+>
+>Nit: This would read much better as:
+>
+>		if (bytes + bv->bv_len > nr_iter)
+>			goto out_err;
+>		if (bv->bv_offset + bv->bv_len > PAGE_SIZE)
+>			goto out_err;
+>
+>		bytes += bv->bv_len;
+>		nsegs++;
+
+Indeed, cleaner. Thanks.
+
+------Iofw26EFbNSGL_UgXoU1XVs5LxhMn2U4r7Cvdd9q_.3L.-0Y=_cd5_
+Content-Type: text/plain; charset="utf-8"
+
+
+------Iofw26EFbNSGL_UgXoU1XVs5LxhMn2U4r7Cvdd9q_.3L.-0Y=_cd5_--
 
