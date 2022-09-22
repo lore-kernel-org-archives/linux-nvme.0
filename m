@@ -4,77 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8BE91C54EE9
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 18:28:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DB79DECAAD8
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 18:28:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KOdha0xZ2/QYkK5YkfhyDv4n+7NP1qIjesr4vuNTao8=; b=tqvJd5X/ecZTMOYVAZaaObnSR2
-	glnL4nFbpkj9rzOs4cOkj3IKcHneNZ3ad20JLwJtvK7YugnyMHBiPhqaMsFha1K2mr2WWrTTCfI7y
-	qblLJfaXJB10vqRYq/Mm4XE/clqBfhkblXHUV6DzQlQ1mKnVPNrCHzPi61D7p0gOgQr3v59vE0nrZ
-	7VjmUFpSXfxmDKihFpHcVhE3RIOvEFfF8Altr1NvEwm0N+JtvbIcs0V/BYe3MovPGr2MH2VrEeUCj
-	xL6ZuPZxGkVAvk6EOmik91Rx+1ISkjapwhW1cPfSitwVXGcbxkek17SwAJlFQDmyI8puAhv5afOvW
-	01HPrH7g==;
+	bh=Or6y/P+wCgw7ERLdnKk9k3MTRgFakhY9VTpCDMSU5NU=; b=MMOF6LxVeWyniGdqgyL+u7rNjw
+	cdSN3b7aedxfMQi3GMfI0/UNVdUfrw+gOjb7//ljgV9O1LP6ZDZJXADQtdJxVaZVw4DPaIM3ix92q
+	ZTabWPN4cf92X07CQXel/b0dAjOeuL7z5mt9MmEbHpobMOBMnKj4LMVk3ciUC5mw/mtGVA3X4SqHm
+	JbL1dXj0SNddyZjI0Q3iLz41MBSI7DqWFeF+XWnnDGnLIW4K7FofcRh0or6eXQBBty9Cg7taGANxT
+	KEYK1kc9T/FrZO3PSwubWfd5IMEK85AVOU932G54/ni1iqDbu7uIqAUCCdBzC+9+u1VhFEy6e0Bdz
+	ZuVp74mw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obQvq-00HLD3-46; Thu, 22 Sep 2022 18:28:18 +0000
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31])
+	id 1obQvu-00HLEj-OH; Thu, 22 Sep 2022 18:28:22 +0000
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obQvi-00HL7Q-72
-	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 18:28:12 +0000
-Received: by mail-io1-xd31.google.com with SMTP id d8so8436357iof.11
-        for <linux-nvme@lists.infradead.org>; Thu, 22 Sep 2022 11:28:08 -0700 (PDT)
+	id 1obQvk-00HL8B-8K
+	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 18:28:13 +0000
+Received: by mail-io1-xd2e.google.com with SMTP id v128so8424955ioe.12
+        for <linux-nvme@lists.infradead.org>; Thu, 22 Sep 2022 11:28:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kernel-dk.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=KOdha0xZ2/QYkK5YkfhyDv4n+7NP1qIjesr4vuNTao8=;
-        b=I3ozfRpCO+8sfk1czHqJkuud5fbhOBBjBPNani3SoWO5IZrr+n/xykd4BYCj6iF/yZ
-         YUgMhkihNpdD90pGDqffGeTVe1Lb9NSQnHeRoD8cgg2gFQ/EmHGBP46WBRkepSKacBe9
-         0/BDSuaDvLg45rQ8CzKBSAt8/NtYunQdrfrc0/qYd/SHmQXOTUhVkzxgGGcPxLM8Q6yG
-         Pnxpp3iPWxoszKqZD6piQndRMfFxGNQXSl6LEm2shcEG/V1F+VDWoYsayPrD5S/hJS3w
-         /DgQMp06IIBo+G6qQyJy0W2qJ9hcQXFC9VwcVse6SFsPWkJYASV0uNPVG/clm0ofomyV
-         cjPQ==
+        bh=Or6y/P+wCgw7ERLdnKk9k3MTRgFakhY9VTpCDMSU5NU=;
+        b=DdaRIUVcXAC0PQL+apg/G+AjI2f67CbJodcek5ww9nFAO2BwNSHNCCxyA69h3aCoaM
+         c8dFUovgd1Drm3MhsG5dCul89+q4n+Khw1JhESY3iHgB4ShRhp9VEMVUp57yjQm5v28v
+         oSJnU2H3CgZTZONneZYK83VfiSHtzbfpxiz1QfnQqD0bs1K+5tmyijIqbnz6upfKVw3x
+         lt4B+nt231UmP2KsK7u07z92rMmNfhf8WijKOrp2pSBhiq43clWLg1ATlroeeG6Z4C9l
+         qkGtMckF44rjRNra0MuENekYeSNfiaLmxzoJ9wF2FaIxyxduFLHw9EDTkoOIEt05q2eq
+         KFdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=KOdha0xZ2/QYkK5YkfhyDv4n+7NP1qIjesr4vuNTao8=;
-        b=jjTABJxDYHkcyv2IMu1BXDSJyq0eOyNfuQzd+EgKZoEWEBGQiUG7knV2ASjbTYXZMw
-         zGmvRdofFJGmVxHKa3zyfqWAOVojH/VvjhwCreFBBf8P1MmTgWxB06jRWxaLhIhTDexN
-         dd0ggpO2rcNIX9ZbFGyEfWvyXmFarCGA928kUls3BaAocxMMybotCEcIkaSDR6mVqmon
-         +/xccgCSXGd5ToWAN9c3ISWcKKp6w6tFCkxn17P+L7GEflZXejukBuR85fZVmBQy9Z+S
-         LVKdRRfujZNxQzIPz0dtacWLeKR565wLf2PblmMHXN2R+vj1CHk+0JQaruFhD1CsAepu
-         FKtw==
-X-Gm-Message-State: ACrzQf2Ljg8fRkflwRDkuXF8A2Vmpj51wvnttYA8mYipRUDkDlExRRKV
-	k3lYXFsGiyuVzA0PjLBH3wDH3FSJ6YIHgA==
-X-Google-Smtp-Source: AMsMyM6q1U2zUDZ6fq1ZHALNlDos6d1f2IhUDrAzg+XF/fY3dxFEtLxvEozxHX6pNVp/47zfuhfqkg==
-X-Received: by 2002:a05:6602:2d09:b0:688:f387:aab5 with SMTP id c9-20020a0566022d0900b00688f387aab5mr2274193iow.107.1663871288335;
-        Thu, 22 Sep 2022 11:28:08 -0700 (PDT)
+        bh=Or6y/P+wCgw7ERLdnKk9k3MTRgFakhY9VTpCDMSU5NU=;
+        b=34yQCLR7jMMocu6ihl1YyrEq/Y5cm91Ujr/I+nDsmmp35AG4ylvb8vqnGTDIG2iT+i
+         On/t2dHePGxtwNhbi+nwrvQqTp+q0ZOEegvi5YGzSKHsnxmWNX74gbFK/UA6g8NSZqm3
+         RNrErDD+zV/v/+1s+kM8fs2duDKpSUQ8Zgm1p4MlZWTq+/nRU4i+2AKVl4wqpflZk6Uk
+         taynj354aGO2YIkWcz11G2DWJeEMHjTPcpo2Rw/uanboR6ERPrpG/OMYBOZx14CC6hgO
+         rE3m3yl/mcgDT8muXzS2RBcYdfDNWOaOdQFSWieilfb3seFaxPsCMtima4rwOZ0o6hd7
+         MiWg==
+X-Gm-Message-State: ACrzQf3XRuIdXf+xvQxriWSHW/wTyY/JioQ9Vf3la2Se6VfdrdnOBAGp
+	+l8qaLvir2RYQJIQzD9E8fiH3Q==
+X-Google-Smtp-Source: AMsMyM7+Xxg8rN7mARF8H/zFcQ5I90sT+zv1UiDqHoKrC8RjleUl2bwORbdfdB60pONvnVH5WKhLUQ==
+X-Received: by 2002:a05:6602:2a42:b0:678:84be:c9ec with SMTP id k2-20020a0566022a4200b0067884bec9ecmr2211543iov.64.1663871290172;
+        Thu, 22 Sep 2022 11:28:10 -0700 (PDT)
 Received: from m1max.localdomain ([207.135.234.126])
-        by smtp.gmail.com with ESMTPSA id q20-20020a05663810d400b0035a468b7fbesm2440646jad.71.2022.09.22.11.28.07
+        by smtp.gmail.com with ESMTPSA id q20-20020a05663810d400b0035a468b7fbesm2440646jad.71.2022.09.22.11.28.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Sep 2022 11:28:07 -0700 (PDT)
+        Thu, 22 Sep 2022 11:28:09 -0700 (PDT)
 From: Jens Axboe <axboe@kernel.dk>
 To: linux-block@vger.kernel.org
 Cc: linux-scsi@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
-	Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 1/5] block: enable batched allocation for blk_mq_alloc_request()
-Date: Thu, 22 Sep 2022 12:28:01 -0600
-Message-Id: <20220922182805.96173-2-axboe@kernel.dk>
+	Jens Axboe <axboe@kernel.dk>,
+	Stefan Roesch <shr@fb.com>
+Subject: [PATCH 3/5] block: allow end_io based requests in the completion batch handling
+Date: Thu, 22 Sep 2022 12:28:03 -0600
+Message-Id: <20220922182805.96173-4-axboe@kernel.dk>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220922182805.96173-1-axboe@kernel.dk>
 References: <20220922182805.96173-1-axboe@kernel.dk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220922_112810_473323_AD601172 
-X-CRM114-Status: GOOD (  15.49  )
+X-CRM114-CacheID: sfid-20220922_112812_354587_6D537D54 
+X-CRM114-Status: GOOD (  13.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,121 +90,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The filesystem IO path can take advantage of allocating batches of
-requests, if the underlying submitter tells the block layer about it
-through the blk_plug. For passthrough IO, the exported API is the
-blk_mq_alloc_request() helper, and that one does not allow for
-request caching.
+With end_io handlers now being able to potentially pass ownership of
+the request upon completion, we can allow requests with end_io handlers
+in the batch completion handling.
 
-Wire up request caching for blk_mq_alloc_request(), which is generally
-done without having a bio available upfront.
-
+Co-developed-by: Stefan Roesch <shr@fb.com>
 Signed-off-by: Jens Axboe <axboe@kernel.dk>
 ---
- block/blk-mq.c | 80 ++++++++++++++++++++++++++++++++++++++++++++------
- 1 file changed, 71 insertions(+), 9 deletions(-)
+ block/blk-mq.c         | 13 +++++++++++--
+ include/linux/blk-mq.h |  3 ++-
+ 2 files changed, 13 insertions(+), 3 deletions(-)
 
 diff --git a/block/blk-mq.c b/block/blk-mq.c
-index c11949d66163..d3a9f8b9c7ee 100644
+index a4e018c82b7c..523a201b9acf 100644
 --- a/block/blk-mq.c
 +++ b/block/blk-mq.c
-@@ -510,25 +510,87 @@ static struct request *__blk_mq_alloc_requests(struct blk_mq_alloc_data *data)
- 					alloc_time_ns);
+@@ -823,8 +823,10 @@ static void blk_complete_request(struct request *req)
+ 	 * can find how many bytes remain in the request
+ 	 * later.
+ 	 */
+-	req->bio = NULL;
+-	req->__data_len = 0;
++	if (!req->end_io) {
++		req->bio = NULL;
++		req->__data_len = 0;
++	};
  }
  
--struct request *blk_mq_alloc_request(struct request_queue *q, blk_opf_t opf,
--		blk_mq_req_flags_t flags)
-+static struct request *blk_mq_rq_cache_fill(struct request_queue *q,
-+					    struct blk_plug *plug,
-+					    blk_opf_t opf,
-+					    blk_mq_req_flags_t flags)
+ /**
+@@ -1055,6 +1057,13 @@ void blk_mq_end_request_batch(struct io_comp_batch *iob)
+ 
+ 		rq_qos_done(rq->q, rq);
+ 
++		/*
++		 * If end_io handler returns NONE, then it still has
++		 * ownership of the request.
++		 */
++		if (rq->end_io && rq->end_io(rq, 0) == RQ_END_IO_NONE)
++			continue;
++
+ 		WRITE_ONCE(rq->state, MQ_RQ_IDLE);
+ 		if (!req_ref_put_and_test(rq))
+ 			continue;
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index e6fa49dd6196..50811d0fb143 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -853,8 +853,9 @@ static inline bool blk_mq_add_to_batch(struct request *req,
+ 				       struct io_comp_batch *iob, int ioerror,
+ 				       void (*complete)(struct io_comp_batch *))
  {
- 	struct blk_mq_alloc_data data = {
- 		.q		= q,
- 		.flags		= flags,
- 		.cmd_flags	= opf,
--		.nr_tags	= 1,
-+		.nr_tags	= plug->nr_ios,
-+		.cached_rq	= &plug->cached_rq,
- 	};
- 	struct request *rq;
--	int ret;
- 
--	ret = blk_queue_enter(q, flags);
--	if (ret)
--		return ERR_PTR(ret);
-+	if (blk_queue_enter(q, flags))
-+		return NULL;
+-	if (!iob || (req->rq_flags & RQF_ELV) || req->end_io || ioerror)
++	if (!iob || (req->rq_flags & RQF_ELV) || ioerror)
+ 		return false;
 +
-+	plug->nr_ios = 1;
- 
- 	rq = __blk_mq_alloc_requests(&data);
--	if (!rq)
--		goto out_queue_exit;
-+	if (unlikely(!rq))
-+		blk_queue_exit(q);
-+	return rq;
-+}
-+
-+static struct request *blk_mq_alloc_cached_request(struct request_queue *q,
-+						   blk_opf_t opf,
-+						   blk_mq_req_flags_t flags)
-+{
-+	struct blk_plug *plug = current->plug;
-+	struct request *rq;
-+
-+	if (!plug)
-+		return NULL;
-+	if (rq_list_empty(plug->cached_rq)) {
-+		if (plug->nr_ios == 1)
-+			return NULL;
-+		rq = blk_mq_rq_cache_fill(q, plug, opf, flags);
-+		if (rq)
-+			goto got_it;
-+		return NULL;
-+	}
-+	rq = rq_list_peek(&plug->cached_rq);
-+	if (!rq || rq->q != q)
-+		return NULL;
-+
-+	if (blk_mq_get_hctx_type(opf) != rq->mq_hctx->type)
-+		return NULL;
-+	if (op_is_flush(rq->cmd_flags) != op_is_flush(opf))
-+		return NULL;
-+
-+	plug->cached_rq = rq_list_next(rq);
-+got_it:
-+	rq->cmd_flags = opf;
-+	INIT_LIST_HEAD(&rq->queuelist);
-+	return rq;
-+}
-+
-+struct request *blk_mq_alloc_request(struct request_queue *q, blk_opf_t opf,
-+		blk_mq_req_flags_t flags)
-+{
-+	struct request *rq;
-+
-+	rq = blk_mq_alloc_cached_request(q, opf, flags);
-+	if (!rq) {
-+		struct blk_mq_alloc_data data = {
-+			.q		= q,
-+			.flags		= flags,
-+			.cmd_flags	= opf,
-+			.nr_tags	= 1,
-+		};
-+		int ret;
-+
-+		ret = blk_queue_enter(q, flags);
-+		if (ret)
-+			return ERR_PTR(ret);
-+
-+		rq = __blk_mq_alloc_requests(&data);
-+		if (!rq)
-+			goto out_queue_exit;
-+	}
- 	rq->__data_len = 0;
- 	rq->__sector = (sector_t) -1;
- 	rq->bio = rq->biotail = NULL;
+ 	if (!iob->complete)
+ 		iob->complete = complete;
+ 	else if (iob->complete != complete)
 -- 
 2.35.1
 
