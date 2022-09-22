@@ -4,51 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F008CC6FA82
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 05:31:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9CDBCC6FA8B
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 05:45:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aKo4o5xU+rFN7JmlD4QwtxVBzOd7zs+OL+4rxnqxRNk=; b=Hvddkj3i5I62fwwB6GwhvRYbmI
-	56kzgBoTOT20mT+GHcHvU2JyG6QG6fzn8v5jE0Gs/mVX5jpaQ065gG4S4BhUjmLZ9S4A2jgsmYUs6
-	UxxSuR49eZHERiC7CL/zRcC3hwf7JQe3mHCQ5g0dWEzK/RJlGHTKIzkrhsFnFgz0c1IwYTSK/5qmw
-	ZCKMLVwDZFpPkfHKE26mUZdykc1rwkE+ZadWV0wixV4b6JnlPYfI+bNLO7h7R/1oLjsGhhfXMeEQi
-	m42zXfNoLFBnVoSGhsrh2oAfZPA7o5JBCDS/iC1UcjGrXKDGAPmXSvXKgqchbsXYjkrspuv5AeSGb
-	tz4KRHsA==;
+	bh=XUnKYtObNMFbyVscw/xnJ9ggE3pFmwJj1a9hRrGBILo=; b=tjD/ME7WDeWX2hpHaJqis+x6lZ
+	/w4WfOYF4xBxpOYiR0Ykal6+moRyggbfNs+6SuVAsYpQH84IDCKkJCll3XS7RpxsMKhhZI+yve65H
+	eRMebX7/4OqwH4h7ayMu5LT+jmwEHisqqx0TIxt+syIUx6NK8YiVyn//H0B10KcrcCtVwu1rvRekR
+	PbOj59ARV28HsHgmoHVV83JAplgZggOTAutE/OtwSKjnCHbQ0aAQb704WBosxd+hHN18d2iVatfMj
+	dv0dncXlx6eN0XFnS5JCSs6Jc2LaZEmRbFOsWZuFyvMdH3S772tv4tnHERbM+PScA56HeTCx3qdo0
+	NvYXIU0g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obEoP-00DQ5P-LF; Thu, 22 Sep 2022 05:31:49 +0000
+	id 1obF24-00DRmc-HV; Thu, 22 Sep 2022 05:45:56 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obEoM-00DQ4A-Fr
-	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 05:31:48 +0000
+	id 1obF22-00DRm6-41
+	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 05:45:55 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 6D3BC68AFE; Thu, 22 Sep 2022 07:31:37 +0200 (CEST)
-Date: Thu, 22 Sep 2022 07:31:37 +0200
+	id 4574468AFE; Thu, 22 Sep 2022 07:45:50 +0200 (CEST)
+Date: Thu, 22 Sep 2022 07:45:49 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Rita Lin <ritach_lin@phison.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	=?utf-8?B?77+9U+aZn++/vXw=?= <redd_huang@phison.com>,
-	Tina Hsu <tina_hsu@phison.com>,
-	Vita Hsueh =?utf-8?B?KOiWm+S8iuWAqSk=?= <Vita.Hsueh@quantatw.com>,
-	"Wang, Audrey" <audrey.wang@hp.com>
-Subject: Re: nvme-pci: disable write zeros support on SSDs
-Message-ID: <20220922053137.GA27191@lst.de>
-References: <36fd82e8780742c2881f078f98110e5e@ExMBX2.phison.com>
+To: Chao Leng <lengchao@huawei.com>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	James Smart <james.smart@broadcom.com>,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 01/13] nvme: add common helpers to allocate and free
+ tagsets
+Message-ID: <20220922054549.GB27338@lst.de>
+References: <20220920171611.1289361-1-hch@lst.de> <20220920171611.1289361-2-hch@lst.de> <c9bc8a76-94aa-5a4c-526e-f92204635a22@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <36fd82e8780742c2881f078f98110e5e@ExMBX2.phison.com>
+In-Reply-To: <c9bc8a76-94aa-5a4c-526e-f92204635a22@huawei.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220921_223146_709250_0FCF73F5 
-X-CRM114-Status: GOOD (  12.99  )
+X-CRM114-CacheID: sfid-20220921_224554_326544_EB61BF3B 
+X-CRM114-Status: GOOD (  18.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,11 +60,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 22, 2022 at 02:03:01AM +0000, Rita Lin wrote:
-> Dear receivers,
-> 
-> We would like to apply to disable write zeros support on Phison SSDs.
+On Wed, Sep 21, 2022 at 11:37:08AM +0800, Chao Leng wrote:
+>> +	ctrl->connect_q = blk_mq_init_queue(set);
+>> +        if (IS_ERR(ctrl->connect_q)) {
+>> +		ret = PTR_ERR(ctrl->connect_q);
+>> +		goto out_free_tag_set;
+>> +	}
+> Maybe we should move the connect_q related code to nvme_alloc_admin_tag_set.
+> Thus we don't need to set NVMF_RESERVED_TAGS for tagset,
+> if there are large amount of ns queues, it will save resources.
+> At the same time, it will simplify tagset-based implementation.
+> According to the behavior logic, connect_q is a management resource.
+> However, connect_q use the I/O tagset.
+> As a result, it is difficult to process some logic based on tagset.
 
-Can you explain why these SSDs do claim write Zeroes but it doesn't
-actually work, and why this is not fixable in a firmware update?
+The fabrics connect command needs to be sent on each of the I/O
+queues in addition to the admin queue, which means the admin tag_set
+can't be used.
+
 
