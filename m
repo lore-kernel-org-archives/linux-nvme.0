@@ -4,58 +4,122 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE1A1C6FA82
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 15:43:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A228C6FA90
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 15:56:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Aw6/ylk7up2YyH4/ExR70uFOxXE2DGUdspXzt97n8dI=; b=yNhkobF5wZ3EtO+xoatQpvkEAN
-	7oydA6p8XgHqDV/ua9RB3jE7C6RYgBNj0JGYq2IoR0jSN2LwOJvgR+rfFa+2WUnGtBi0gNaNZ6YOG
-	vjXthPZNVwJdv6jkoa8nCf0u0+YmUtfHonrGbhMGzVMSPtVCY4v6cvvW/3ogJse8N+kIf3/XinqU/
-	booCCwzEA014KyY3eXy9dzPKp9M1zrzm2/vVG7Mx5L/Q8Sfx9HU2P8hehSHr+JcWYHO2gYKSq85/5
-	73VvkX0JxMtT4m3sBT+pfmqtU2IEtYY8/ZHy/VTnhRQ9DkCXEoVcnrKuJHtwNbkivaBjQbK1g81HZ
-	Kii81TUg==;
+	bh=UkxivZhau5LRH0K8tFZwpqXYL8OFy1DA3kVYajQnwgY=; b=iYRmkqeaYGzo8hRroxSCEoO34q
+	uUxGLNKvkoaogFfvNK4RAj4thpZQJasWhuU7YqrAIdPZ/KAc1mcA7OTue7isheEXzY0+azefNyM61
+	udqd1pJuIFtWiPAHCStHAhSk878AQnpL4AngOUmdRkKn/xhr/EW7oVNkvbIAhJvl0kls+YiQ59ALu
+	KwK71sh6pu9dBgof/2ZNoG6n81TN7sKlWOu7EkFzXkctHkCeCOZJMrtQg9O15m78DF3xvHQeoybs6
+	d2749yObvzlN/lM1lWqwTkCo5PDt7zNVHbJk/2OrbTQOzYkwJYA5NWPCe7k5sdwAvZURd8yZJognr
+	LTnUjQTQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obOMQ-00GW7b-1K; Thu, 22 Sep 2022 15:43:34 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1obOYv-00GZZv-6y; Thu, 22 Sep 2022 15:56:29 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obOMM-00GW6e-PA
-	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 15:43:32 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 19FEE6363B;
-	Thu, 22 Sep 2022 15:43:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B3CFC433D6;
-	Thu, 22 Sep 2022 15:43:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1663861409;
-	bh=yDZI/Bm7QY2X8kejE0Tl2XJQmzPy96219KJwqJ30Kdc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b6ADD/65r3MeQwJpdPbhxV/SslZR54K0BLDqBVsqxqz74TdEgDx4LwGZDrbYAo3xP
-	 zwCxsnlJ1w+8QX6HsEj1r15VseNGBQmuMFPgQVkK7GJpbkX23wF5pKeZ7lgTvvzRty
-	 sPDKhND9HAk0Tto3OHE/PU20qCl1qKCOc+ckxZrUhILrZlK0ppzCFVJHDFXxmOkGO8
-	 HD22sQIyjRcEQcnF7SLlC57s8kdbD1M25n7gvBFl4ePg4IoFMAuoTuDa9w6SXC1v5u
-	 Df+ZIhYRfdVjcJ8NKsY9YoaPa6EjHPrt2/RIoKdINIUBEUdKx09SkPTGTIGVdsh52s
-	 m/z4EMMp2E2fg==
-Date: Thu, 22 Sep 2022 09:43:26 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Nick Neumann <nick@pcpartpicker.com>
-Cc: linux-nvme@lists.infradead.org
-Subject: Re: nvme smart-log intermittently corrupt from family of SSDs
-Message-ID: <YyyCnknAK2oCCcRH@kbusch-mbp.dhcp.thefacebook.com>
-References: <CADqNVToq+rxkZTmagWcW5s2g+pVpfwBX17wS6C4xm6wszHkGTA@mail.gmail.com>
+	id 1obOYr-00GZX6-S5
+	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 15:56:27 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20220922155610epoutp01d163ab046cb618c9c7e773110f2cb682~XOdQgdlKP2311723117epoutp01b
+	for <linux-nvme@lists.infradead.org>; Thu, 22 Sep 2022 15:56:10 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20220922155610epoutp01d163ab046cb618c9c7e773110f2cb682~XOdQgdlKP2311723117epoutp01b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1663862170;
+	bh=UkxivZhau5LRH0K8tFZwpqXYL8OFy1DA3kVYajQnwgY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=QzTyqb/jcQewfXFhQ8iT2ieBJC8u1mIlFmxuQwE3FEbnPHxHtXS6Y06Vrz36uVb0x
+	 CuDF5FPCaOEov+Pq1waBHnBqjIi/3fKVU4O1BBtH4Zustc2vJ3j9O5rbLmz/bPnjEa
+	 xrfShK84cjaMUzZE2wPd6l3XJ9PQXXL3iMRCz5ck=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20220922155609epcas5p3c3bb0961d63d9046cb14a00197a0f17a~XOdPcEl8S1990919909epcas5p3D;
+	Thu, 22 Sep 2022 15:56:09 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.174]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4MYKdM5h8Tz4x9Pv; Thu, 22 Sep
+	2022 15:56:07 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	28.F8.26992.7958C236; Fri, 23 Sep 2022 00:56:07 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20220922155607epcas5p15acde484ad3637e2abf5a954474ab40c~XOdNgdlZi0856508565epcas5p1z;
+	Thu, 22 Sep 2022 15:56:07 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20220922155607epsmtrp1c79cb6ce4f60d7de06b684c2fcfe990f~XOdNfv2aZ2191221912epsmtrp1M;
+	Thu, 22 Sep 2022 15:56:07 +0000 (GMT)
+X-AuditID: b6c32a49-0c7ff70000016970-f2-632c85973619
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	65.EF.14392.7958C236; Fri, 23 Sep 2022 00:56:07 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20220922155606epsmtip2ad8c87efd291f8363997959e7066677b~XOdMTBdQZ2539425394epsmtip2G;
+	Thu, 22 Sep 2022 15:56:05 +0000 (GMT)
+Date: Thu, 22 Sep 2022 21:16:19 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: axboe@kernel.dk, kbusch@kernel.org, asml.silence@gmail.com,
+	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com
+Subject: Re: [PATCH for-next v7 3/5] nvme: refactor nvme_alloc_user_request
+Message-ID: <20220922154619.GB24701@test-zns>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CADqNVToq+rxkZTmagWcW5s2g+pVpfwBX17wS6C4xm6wszHkGTA@mail.gmail.com>
+In-Reply-To: <20220920120226.GB2809@lst.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprFJsWRmVeSWpSXmKPExsWy7bCmlu70Vp1kg2nLNSzmrNrGaLH6bj+b
+	xc0DO5ksVq4+ymTxrvUci8WkQ9cYLfbe0raYv+wpuwOHx85Zd9k9Lp8t9di0qpPNY/OSeo/d
+	NxvYPPq2rGL0+LxJLoA9KtsmIzUxJbVIITUvOT8lMy/dVsk7ON453tTMwFDX0NLCXEkhLzE3
+	1VbJxSdA1y0zB+gkJYWyxJxSoFBAYnGxkr6dTVF+aUmqQkZ+cYmtUmpBSk6BSYFecWJucWle
+	ul5eaomVoYGBkSlQYUJ2xu2PR9kLTjJXTPxznrmBcTJzFyMnh4SAiUTLt2NANheHkMBuRomL
+	239AOZ8YJWZ/Pc8GUiUk8I1R4vdUYZiOBeca2CCK9jJK9K78B+U8Y5RYuOc4I0gVi4CqxKId
+	p5i6GDk42AQ0JS5MLgUJiwgoSTx9dZYRpJ5ZYD3QhrXzGUFqhAW8Jc4e8gOp4RXQldhzqZkd
+	whaUODnzCQuIzSmgLbGx/zQriC0qoCxxYNtxJpA5EgITOSRe73oA9Y+LxKLWBUwQtrDEq+Nb
+	2CFsKYmX/W1QdrLEpZnnoGpKJB7vOQhl20u0nuoHm8MskCYxY9YkFgibT6L39xOwXyQEeCU6
+	2oQgyhUl7k16ygphi0s8nLEEyvaQaFzzjgUSJjcYJQ69vM46gVFuFpJ/ZiFZAWFbSXR+aGKd
+	BbSCWUBaYvk/DghTU2L9Lv0FjKyrGCVTC4pz01OLTQsM81LL4XGcnJ+7iRGcSLU8dzDeffBB
+	7xAjEwfjIUYJDmYlEd7ZdzSThXhTEiurUovy44tKc1KLDzGaAqNnIrOUaHI+MJXnlcQbmlga
+	mJiZmZlYGpsZKonzLp6hlSwkkJ5YkpqdmlqQWgTTx8TBKdXA5LZ9JvOiKXnxkzfVf9Rm/sRo
+	63DUu7p6oXC56OkNfyLro174/nBhDvh7iWH73jtyvbpHMsK4vPnqVFyNLQyX7ZgjZzdndVTz
+	/F3PuUU05zrc4Fl+udgsqurMoRfaXi1Bc9q5L0avePQo17r5kNMdm+3LZQrU0gNeXXQ8EL5h
+	5ewq58QrXnF/6kWkC4zc1NzOuX/ivaF984h6u3n4K98/Dxs//Dise/bRjU8Lu9ak37384sJ6
+	LweO1rZ71rXTr/xkl9R/vfmDx0nzl1Mt4qauu8Zi5rW5sKSovjnC8dn0/5du10Wrf3v1VHqF
+	SngA3/S+8JLHFhdd9aRmLmrYMulC0kX7lI5Mud8MLScmNhR9UGIpzkg01GIuKk4EAGyABjot
+	BAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrBLMWRmVeSWpSXmKPExsWy7bCSvO70Vp1kg8m3+C3mrNrGaLH6bj+b
+	xc0DO5ksVq4+ymTxrvUci8WkQ9cYLfbe0raYv+wpuwOHx85Zd9k9Lp8t9di0qpPNY/OSeo/d
+	NxvYPPq2rGL0+LxJLoA9issmJTUnsyy1SN8ugSvj2tRLLAWNjBXzG7+xNjCmdjFyckgImEgs
+	ONfA1sXIxSEksJtR4tmB56wQCXGJ5ms/2CFsYYmV/56zQxQ9YZToONYElmARUJVYtOMUUxcj
+	BwebgKbEhcmlIGERASWJp6/OMoLUMwusZ5SYvXY+I0iNsIC3xNlDfiA1vAK6EnsuNUPNvMUo
+	cXTiGnaIhKDEyZlPWEBsZgEziXmbHzKD9DILSEss/8cBEuYU0JbY2H8a7E5RAWWJA9uOM01g
+	FJyFpHsWku5ZCN0LGJlXMUqmFhTnpucWGxYY5qWW6xUn5haX5qXrJefnbmIER4aW5g7G7as+
+	6B1iZOJgPMQowcGsJMI7+45mshBvSmJlVWpRfnxRaU5q8SFGaQ4WJXHeC10n44UE0hNLUrNT
+	UwtSi2CyTBycUg1MUYcm/Vk89ch99XV58vHnyvszEvs3zt5Tta7vmMbm6NxHV59sa1n8pO9M
+	ibTmHaf9j3+ql6o9Petx27g3akn4Ywlt5ez2m0vPPPhb8OzFqm2pm2ZG3dytfpzDoNduHeu5
+	xf6X7n3NfXLzSIbt2vmRq/0LxFj+uEw4OIdtqUHSjqp4U2nVS6W/WZ3m1FZ39v1i0p5ha+9b
+	tzs9TPn6dCXZ8y/Vtihz7T4lH7g8QP8u4/89Kx4xVoa78GV7M2WqWk6Nmif+ovtt4a3UlpVM
+	tx07L07Kf3XG18bjvfJRLy/G6dvnN144K3Xx+G3WaeqK/nt+pkYnXQ5Xu/9r9/WJCbdudlXN
+	vfFW+abo//wPviJ/TJRYijMSDbWYi4oTAW85nLn7AgAA
+X-CMS-MailID: 20220922155607epcas5p15acde484ad3637e2abf5a954474ab40c
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----MqMoGWHj7w70ixSxIQQUJpQDpxeWNW7xlUV_NBkU4rXoYOVD=_d71_"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220909103143epcas5p2eda60190cd23b79fb8f48596af3e1524
+References: <20220909102136.3020-1-joshi.k@samsung.com>
+	<CGME20220909103143epcas5p2eda60190cd23b79fb8f48596af3e1524@epcas5p2.samsung.com>
+	<20220909102136.3020-4-joshi.k@samsung.com> <20220920120226.GB2809@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220922_084330_878198_4A06AC3B 
-X-CRM114-Status: GOOD (  14.76  )
+X-CRM114-CacheID: sfid-20220922_085626_393091_D1D5C34D 
+X-CRM114-Status: GOOD (  13.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,55 +134,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 22, 2022 at 10:37:29AM -0500, Nick Neumann wrote:
-> I noticed something odd with the smart data from various sized HP
-> FX900 Pro SSDs. Intermittently, after hours of use, host_writes would
-> be 0 (but data_units_written would not). After experimenting, I'm
-> seeing that intermittently, when running either "smartctl -x" or "nvme
-> smart-log", the data coming back is, uh, junk?
+------MqMoGWHj7w70ixSxIQQUJpQDpxeWNW7xlUV_NBkU4rXoYOVD=_d71_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-I'd recommend taking this sighting to the device vendor. Either the drive is
-returning garbage, or possibly nothing at all and the tool is reporting stale
-data from where ever the buffer was allocated. The drive did respond to the
-command with a success, otherwise the tooling wouldn't attempt to print the
-data.
- 
-> sudo nvme smart-log /dev/nvme0n1
-> Smart Log for NVME device:nvme0n1 namespace-id:ffffffff
-> critical_warning                    : 0
-> temperature                         : 48 C
-> available_spare                     : 100%
-> available_spare_threshold           : 25%
-> percentage_used                     : 0%
-> data_units_read                     : 793353
-> data_units_written                  : 4938926
-> host_read_commands                  : 18675956
-> host_write_commands                 : 40381344
-> controller_busy_time                : 0
-> power_cycles                        : 9
-> power_on_hours                      : 15
-> unsafe_shutdowns                    : 1
-> media_errors                        : 0
-> num_err_log_entries                 : 217026295083295649698117473405925064704
-> Warning Temperature Time            : 1323299686
-> Critical Composite Temperature Time : 4108885430
-> Temperature Sensor 1                : 38041 C
-> Temperature Sensor 2                : 55225 C
-> Temperature Sensor 3                : 23326 C
-> Temperature Sensor 4                : 38685 C
-> Temperature Sensor 5                : 57125 C
-> Temperature Sensor 6                : 45486 C
-> Temperature Sensor 7                : 59856 C
-> Temperature Sensor 8                : 2107 C
-> Thermal Management T1 Trans Count   : 1702871148
-> Thermal Management T2 Trans Count   : 312071619
-> Thermal Management T1 Total Time    : 406823074
-> Thermal Management T2 Total Time    : 468107429
-> 
-> Even odder, when the host_write_commands was 0, the rest of the data
-> was sane. So the incorrectness is not always obvious...
-> 
-> Any recommendations or thoughts on dealing with this? Or am I just out
-> of luck when it comes to relying on anything from these drives' smart
-> logs?
+On Tue, Sep 20, 2022 at 02:02:26PM +0200, Christoph Hellwig wrote:
+
+I should be able to fold all the changes you mentioned.
+
+
+------MqMoGWHj7w70ixSxIQQUJpQDpxeWNW7xlUV_NBkU4rXoYOVD=_d71_
+Content-Type: text/plain; charset="utf-8"
+
+
+------MqMoGWHj7w70ixSxIQQUJpQDpxeWNW7xlUV_NBkU4rXoYOVD=_d71_--
 
