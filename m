@@ -4,122 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A228C6FA90
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 15:56:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 103F4C6FA9B
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 16:39:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
+	:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UkxivZhau5LRH0K8tFZwpqXYL8OFy1DA3kVYajQnwgY=; b=iYRmkqeaYGzo8hRroxSCEoO34q
-	uUxGLNKvkoaogFfvNK4RAj4thpZQJasWhuU7YqrAIdPZ/KAc1mcA7OTue7isheEXzY0+azefNyM61
-	udqd1pJuIFtWiPAHCStHAhSk878AQnpL4AngOUmdRkKn/xhr/EW7oVNkvbIAhJvl0kls+YiQ59ALu
-	KwK71sh6pu9dBgof/2ZNoG6n81TN7sKlWOu7EkFzXkctHkCeCOZJMrtQg9O15m78DF3xvHQeoybs6
-	d2749yObvzlN/lM1lWqwTkCo5PDt7zNVHbJk/2OrbTQOzYkwJYA5NWPCe7k5sdwAvZURd8yZJognr
-	LTnUjQTQ==;
+	bh=Xu2yIyQMXVEwJTJBi/e/+Dcdu4SpQWsBgv2SjQYCf/A=; b=a0oWvQqs67bQNxxDlMdS0rZ6T8
+	tW/juFYiWoeQ5qXhpF7KZkz2opvLXZXhYbMkwY4CzA+4FAGR3SSMWUKEWeUqU9lyeI2slr9Q3Oife
+	1Rj+UQ8glIh8ozLRMBMYfC8K/1QvQUTAY03BXWgPyb5LFn2fOYwDkX2hsfw/Ai10FfUN+R1pKgrc5
+	oVFg3ovhWIOxa+CTnQrpLAv2bqR/FLDOcq4rnbKuDYPuFxatQgZCe1GiiLj7Pl2ZFbNB/GeddmzvK
+	pKV3xmZepxzv5uNpydPcFAshMfY67L8N8fk2Wj9bpSHufeBPGDS/Af/WB8LQ82VGkV8z7miFg/PA6
+	BYV3QzFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obOYv-00GZZv-6y; Thu, 22 Sep 2022 15:56:29 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1obPEp-00GpAw-9w; Thu, 22 Sep 2022 16:39:47 +0000
+Received: from ale.deltatee.com ([204.191.154.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obOYr-00GZX6-S5
-	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 15:56:27 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20220922155610epoutp01d163ab046cb618c9c7e773110f2cb682~XOdQgdlKP2311723117epoutp01b
-	for <linux-nvme@lists.infradead.org>; Thu, 22 Sep 2022 15:56:10 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20220922155610epoutp01d163ab046cb618c9c7e773110f2cb682~XOdQgdlKP2311723117epoutp01b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1663862170;
-	bh=UkxivZhau5LRH0K8tFZwpqXYL8OFy1DA3kVYajQnwgY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=QzTyqb/jcQewfXFhQ8iT2ieBJC8u1mIlFmxuQwE3FEbnPHxHtXS6Y06Vrz36uVb0x
-	 CuDF5FPCaOEov+Pq1waBHnBqjIi/3fKVU4O1BBtH4Zustc2vJ3j9O5rbLmz/bPnjEa
-	 xrfShK84cjaMUzZE2wPd6l3XJ9PQXXL3iMRCz5ck=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20220922155609epcas5p3c3bb0961d63d9046cb14a00197a0f17a~XOdPcEl8S1990919909epcas5p3D;
-	Thu, 22 Sep 2022 15:56:09 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.174]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4MYKdM5h8Tz4x9Pv; Thu, 22 Sep
-	2022 15:56:07 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	28.F8.26992.7958C236; Fri, 23 Sep 2022 00:56:07 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20220922155607epcas5p15acde484ad3637e2abf5a954474ab40c~XOdNgdlZi0856508565epcas5p1z;
-	Thu, 22 Sep 2022 15:56:07 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20220922155607epsmtrp1c79cb6ce4f60d7de06b684c2fcfe990f~XOdNfv2aZ2191221912epsmtrp1M;
-	Thu, 22 Sep 2022 15:56:07 +0000 (GMT)
-X-AuditID: b6c32a49-0c7ff70000016970-f2-632c85973619
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	65.EF.14392.7958C236; Fri, 23 Sep 2022 00:56:07 +0900 (KST)
-Received: from test-zns (unknown [107.110.206.5]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20220922155606epsmtip2ad8c87efd291f8363997959e7066677b~XOdMTBdQZ2539425394epsmtip2G;
-	Thu, 22 Sep 2022 15:56:05 +0000 (GMT)
-Date: Thu, 22 Sep 2022 21:16:19 +0530
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: axboe@kernel.dk, kbusch@kernel.org, asml.silence@gmail.com,
-	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, gost.dev@samsung.com
-Subject: Re: [PATCH for-next v7 3/5] nvme: refactor nvme_alloc_user_request
-Message-ID: <20220922154619.GB24701@test-zns>
+	id 1obPEk-00Gp6A-KO
+	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 16:39:44 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Cc:To:From:content-disposition;
+	bh=Xu2yIyQMXVEwJTJBi/e/+Dcdu4SpQWsBgv2SjQYCf/A=; b=KIM9BmSYlsQIvRYsL18F9XObE/
+	h9K2RvGbiPiu0mHHmMkUhiAqk9yFVgN1wVYbbnrJ+wMgXhIf9tivWOVs+0x4Cm2mtSxt09t9IGMzf
+	qZwCWRkjt5Jt7mb7o/BUrp5yrqOPWcCDLjLeeZj9NaoSlSuB8/0i1yS7YQaAPsG1XSg+8Z/RMlVp1
+	yg1YzKI4UHt6uViSw3psbwMmrRTBLIEy9FTM6rRXprG69Xz+XYC1H9il/H7q+gYoJV2xjY0KATv0R
+	XKGNkY31WRLGXWmMVcTmzf032nnL5gBkMFZtmZxKGX2ug9Me5TXLuA2FPKztRt/gV5bP6spbeo1PE
+	nyAuTHpw==;
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+	by ale.deltatee.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <gunthorp@deltatee.com>)
+	id 1obPEf-00862b-HN; Thu, 22 Sep 2022 10:39:39 -0600
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.94.2)
+	(envelope-from <gunthorp@deltatee.com>)
+	id 1obPEa-0001rj-Qe; Thu, 22 Sep 2022 10:39:32 -0600
+From: Logan Gunthorpe <logang@deltatee.com>
+To: linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-mm@kvack.org
+Cc: Christoph Hellwig <hch@lst.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Don Dutile <ddutile@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Minturn Dave B <dave.b.minturn@intel.com>,
+	Jason Ekstrand <jason@jlekstrand.net>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Xiong Jianxin <jianxin.xiong@intel.com>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Martin Oliveira <martin.oliveira@eideticom.com>,
+	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+	Ralph Campbell <rcampbell@nvidia.com>,
+	Stephen Bates <sbates@raithlin.com>,
+	Logan Gunthorpe <logang@deltatee.com>
+Date: Thu, 22 Sep 2022 10:39:19 -0600
+Message-Id: <20220922163926.7077-2-logang@deltatee.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220922163926.7077-1-logang@deltatee.com>
+References: <20220922163926.7077-1-logang@deltatee.com>
 MIME-Version: 1.0
-In-Reply-To: <20220920120226.GB2809@lst.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprFJsWRmVeSWpSXmKPExsWy7bCmlu70Vp1kg2nLNSzmrNrGaLH6bj+b
-	xc0DO5ksVq4+ymTxrvUci8WkQ9cYLfbe0raYv+wpuwOHx85Zd9k9Lp8t9di0qpPNY/OSeo/d
-	NxvYPPq2rGL0+LxJLoA9KtsmIzUxJbVIITUvOT8lMy/dVsk7ON453tTMwFDX0NLCXEkhLzE3
-	1VbJxSdA1y0zB+gkJYWyxJxSoFBAYnGxkr6dTVF+aUmqQkZ+cYmtUmpBSk6BSYFecWJucWle
-	ul5eaomVoYGBkSlQYUJ2xu2PR9kLTjJXTPxznrmBcTJzFyMnh4SAiUTLt2NANheHkMBuRomL
-	239AOZ8YJWZ/Pc8GUiUk8I1R4vdUYZiOBeca2CCK9jJK9K78B+U8Y5RYuOc4I0gVi4CqxKId
-	p5i6GDk42AQ0JS5MLgUJiwgoSTx9dZYRpJ5ZYD3QhrXzGUFqhAW8Jc4e8gOp4RXQldhzqZkd
-	whaUODnzCQuIzSmgLbGx/zQriC0qoCxxYNtxJpA5EgITOSRe73oA9Y+LxKLWBUwQtrDEq+Nb
-	2CFsKYmX/W1QdrLEpZnnoGpKJB7vOQhl20u0nuoHm8MskCYxY9YkFgibT6L39xOwXyQEeCU6
-	2oQgyhUl7k16ygphi0s8nLEEyvaQaFzzjgUSJjcYJQ69vM46gVFuFpJ/ZiFZAWFbSXR+aGKd
-	BbSCWUBaYvk/DghTU2L9Lv0FjKyrGCVTC4pz01OLTQsM81LL4XGcnJ+7iRGcSLU8dzDeffBB
-	7xAjEwfjIUYJDmYlEd7ZdzSThXhTEiurUovy44tKc1KLDzGaAqNnIrOUaHI+MJXnlcQbmlga
-	mJiZmZlYGpsZKonzLp6hlSwkkJ5YkpqdmlqQWgTTx8TBKdXA5LZ9JvOiKXnxkzfVf9Rm/sRo
-	63DUu7p6oXC56OkNfyLro174/nBhDvh7iWH73jtyvbpHMsK4vPnqVFyNLQyX7ZgjZzdndVTz
-	/F3PuUU05zrc4Fl+udgsqurMoRfaXi1Bc9q5L0avePQo17r5kNMdm+3LZQrU0gNeXXQ8EL5h
-	5ewq58QrXnF/6kWkC4zc1NzOuX/ivaF984h6u3n4K98/Dxs//Dise/bRjU8Lu9ak37384sJ6
-	LweO1rZ71rXTr/xkl9R/vfmDx0nzl1Mt4qauu8Zi5rW5sKSovjnC8dn0/5du10Wrf3v1VHqF
-	SngA3/S+8JLHFhdd9aRmLmrYMulC0kX7lI5Mud8MLScmNhR9UGIpzkg01GIuKk4EAGyABjot
-	BAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrBLMWRmVeSWpSXmKPExsWy7bCSvO70Vp1kg8m3+C3mrNrGaLH6bj+b
-	xc0DO5ksVq4+ymTxrvUci8WkQ9cYLfbe0raYv+wpuwOHx85Zd9k9Lp8t9di0qpPNY/OSeo/d
-	NxvYPPq2rGL0+LxJLoA9issmJTUnsyy1SN8ugSvj2tRLLAWNjBXzG7+xNjCmdjFyckgImEgs
-	ONfA1sXIxSEksJtR4tmB56wQCXGJ5ms/2CFsYYmV/56zQxQ9YZToONYElmARUJVYtOMUUxcj
-	BwebgKbEhcmlIGERASWJp6/OMoLUMwusZ5SYvXY+I0iNsIC3xNlDfiA1vAK6EnsuNUPNvMUo
-	cXTiGnaIhKDEyZlPWEBsZgEziXmbHzKD9DILSEss/8cBEuYU0JbY2H8a7E5RAWWJA9uOM01g
-	FJyFpHsWku5ZCN0LGJlXMUqmFhTnpucWGxYY5qWW6xUn5haX5qXrJefnbmIER4aW5g7G7as+
-	6B1iZOJgPMQowcGsJMI7+45mshBvSmJlVWpRfnxRaU5q8SFGaQ4WJXHeC10n44UE0hNLUrNT
-	UwtSi2CyTBycUg1MUYcm/Vk89ch99XV58vHnyvszEvs3zt5Tta7vmMbm6NxHV59sa1n8pO9M
-	ibTmHaf9j3+ql6o9Petx27g3akn4Ywlt5ez2m0vPPPhb8OzFqm2pm2ZG3dytfpzDoNduHeu5
-	xf6X7n3NfXLzSIbt2vmRq/0LxFj+uEw4OIdtqUHSjqp4U2nVS6W/WZ3m1FZ39v1i0p5ha+9b
-	tzs9TPn6dCXZ8y/Vtihz7T4lH7g8QP8u4/89Kx4xVoa78GV7M2WqWk6Nmif+ovtt4a3UlpVM
-	tx07L07Kf3XG18bjvfJRLy/G6dvnN144K3Xx+G3WaeqK/nt+pkYnXQ5Xu/9r9/WJCbdudlXN
-	vfFW+abo//wPviJ/TJRYijMSDbWYi4oTAW85nLn7AgAA
-X-CMS-MailID: 20220922155607epcas5p15acde484ad3637e2abf5a954474ab40c
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----MqMoGWHj7w70ixSxIQQUJpQDpxeWNW7xlUV_NBkU4rXoYOVD=_d71_"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220909103143epcas5p2eda60190cd23b79fb8f48596af3e1524
-References: <20220909102136.3020-1-joshi.k@samsung.com>
-	<CGME20220909103143epcas5p2eda60190cd23b79fb8f48596af3e1524@epcas5p2.samsung.com>
-	<20220909102136.3020-4-joshi.k@samsung.com> <20220920120226.GB2809@lst.de>
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, hch@lst.de, gregkh@linuxfoundation.org, jgg@ziepe.ca, christian.koenig@amd.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, jason@jlekstrand.net, dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, jhubbard@nvidia.com, rcampbell@nvidia.com, sbates@raithlin.com, logang@deltatee.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+Subject: [PATCH v10 1/8] mm: introduce FOLL_PCI_P2PDMA to gate getting PCI P2PDMA pages
+X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220922_085626_393091_D1D5C34D 
-X-CRM114-Status: GOOD (  13.60  )
+X-CRM114-CacheID: sfid-20220922_093942_725251_78998D8F 
+X-CRM114-Status: GOOD (  16.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,18 +99,94 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------MqMoGWHj7w70ixSxIQQUJpQDpxeWNW7xlUV_NBkU4rXoYOVD=_d71_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+GUP Callers that expect PCI P2PDMA pages can now set FOLL_PCI_P2PDMA to
+allow obtaining P2PDMA pages. If GUP is called without the flag and a
+P2PDMA page is found, it will return an error.
 
-On Tue, Sep 20, 2022 at 02:02:26PM +0200, Christoph Hellwig wrote:
+FOLL_PCI_P2PDMA cannot be set if FOLL_LONGTERM is set.
 
-I should be able to fold all the changes you mentioned.
+Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: John Hubbard <jhubbard@nvidia.com>
+---
+ include/linux/mm.h |  1 +
+ mm/gup.c           | 22 +++++++++++++++++++++-
+ 2 files changed, 22 insertions(+), 1 deletion(-)
 
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 21f8b27bd9fd..3cea77c8a9ea 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -2897,6 +2897,7 @@ struct page *follow_page(struct vm_area_struct *vma, unsigned long address,
+ #define FOLL_SPLIT_PMD	0x20000	/* split huge pmd before returning */
+ #define FOLL_PIN	0x40000	/* pages must be released via unpin_user_page */
+ #define FOLL_FAST_ONLY	0x80000	/* gup_fast: prevent fall-back to slow gup */
++#define FOLL_PCI_P2PDMA	0x100000 /* allow returning PCI P2PDMA pages */
+ 
+ /*
+  * FOLL_PIN and FOLL_LONGTERM may be used in various combinations with each
+diff --git a/mm/gup.c b/mm/gup.c
+index 5abdaf487460..108848b67f6f 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -601,6 +601,12 @@ static struct page *follow_page_pte(struct vm_area_struct *vma,
+ 		goto out;
+ 	}
+ 
++	if (unlikely(!(flags & FOLL_PCI_P2PDMA) &&
++		     is_pci_p2pdma_page(page))) {
++		page = ERR_PTR(-EREMOTEIO);
++		goto out;
++	}
++
+ 	VM_BUG_ON_PAGE((flags & FOLL_PIN) && PageAnon(page) &&
+ 		       !PageAnonExclusive(page), page);
+ 
+@@ -1039,6 +1045,9 @@ static int check_vma_flags(struct vm_area_struct *vma, unsigned long gup_flags)
+ 	if ((gup_flags & FOLL_LONGTERM) && vma_is_fsdax(vma))
+ 		return -EOPNOTSUPP;
+ 
++	if ((gup_flags & FOLL_LONGTERM) && (gup_flags & FOLL_PCI_P2PDMA))
++		return -EOPNOTSUPP;
++
+ 	if (vma_is_secretmem(vma))
+ 		return -EFAULT;
+ 
+@@ -2383,6 +2392,10 @@ static int gup_pte_range(pmd_t pmd, unsigned long addr, unsigned long end,
+ 		VM_BUG_ON(!pfn_valid(pte_pfn(pte)));
+ 		page = pte_page(pte);
+ 
++		if (unlikely(!(flags & FOLL_PCI_P2PDMA) &&
++			     is_pci_p2pdma_page(page)))
++			goto pte_unmap;
++
+ 		folio = try_grab_folio(page, 1, flags);
+ 		if (!folio)
+ 			goto pte_unmap;
+@@ -2462,6 +2475,12 @@ static int __gup_device_huge(unsigned long pfn, unsigned long addr,
+ 			undo_dev_pagemap(nr, nr_start, flags, pages);
+ 			break;
+ 		}
++
++		if (!(flags & FOLL_PCI_P2PDMA) && is_pci_p2pdma_page(page)) {
++			undo_dev_pagemap(nr, nr_start, flags, pages);
++			break;
++		}
++
+ 		SetPageReferenced(page);
+ 		pages[*nr] = page;
+ 		if (unlikely(!try_grab_page(page, flags))) {
+@@ -2950,7 +2969,8 @@ static int internal_get_user_pages_fast(unsigned long start,
+ 
+ 	if (WARN_ON_ONCE(gup_flags & ~(FOLL_WRITE | FOLL_LONGTERM |
+ 				       FOLL_FORCE | FOLL_PIN | FOLL_GET |
+-				       FOLL_FAST_ONLY | FOLL_NOFAULT)))
++				       FOLL_FAST_ONLY | FOLL_NOFAULT |
++				       FOLL_PCI_P2PDMA)))
+ 		return -EINVAL;
+ 
+ 	if (gup_flags & FOLL_PIN)
+-- 
+2.30.2
 
-------MqMoGWHj7w70ixSxIQQUJpQDpxeWNW7xlUV_NBkU4rXoYOVD=_d71_
-Content-Type: text/plain; charset="utf-8"
-
-
-------MqMoGWHj7w70ixSxIQQUJpQDpxeWNW7xlUV_NBkU4rXoYOVD=_d71_--
 
