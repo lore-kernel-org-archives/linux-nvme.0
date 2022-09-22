@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 103F4C6FA9B
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 16:39:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F404C6FA82
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 16:40:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
 	:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Xu2yIyQMXVEwJTJBi/e/+Dcdu4SpQWsBgv2SjQYCf/A=; b=a0oWvQqs67bQNxxDlMdS0rZ6T8
-	tW/juFYiWoeQ5qXhpF7KZkz2opvLXZXhYbMkwY4CzA+4FAGR3SSMWUKEWeUqU9lyeI2slr9Q3Oife
-	1Rj+UQ8glIh8ozLRMBMYfC8K/1QvQUTAY03BXWgPyb5LFn2fOYwDkX2hsfw/Ai10FfUN+R1pKgrc5
-	oVFg3ovhWIOxa+CTnQrpLAv2bqR/FLDOcq4rnbKuDYPuFxatQgZCe1GiiLj7Pl2ZFbNB/GeddmzvK
-	pKV3xmZepxzv5uNpydPcFAshMfY67L8N8fk2Wj9bpSHufeBPGDS/Af/WB8LQ82VGkV8z7miFg/PA6
-	BYV3QzFQ==;
+	bh=5j6xtapvwUdhGQNeqeFIKOu/eta4czgVaM1iHN6JS40=; b=r4j8APOBL4V15pGAkDw+Apirit
+	86bQwoU0gDR2UmvOGcqw0T5Acy8NuYs1t67Iz2fOfRC5PAAxEwUcrBUGJCqZ4ZeY6FuyoDDyx0Ivi
+	jq2gAx0RkNefS3F/BCeyhXew2GNSzLKtObJHv7pmvRk7IexyFGU/myIhAkMsD5tH6IflfGhrQorB8
+	+6wV8hCM4hm4YuZl5IJrldd0AjjguRys820Gf08xfglZW36v2NHWEJcN7JNvroZH1fTfcACEn0M4+
+	qh5wpcVAFkEOFcDNmTNTisMiLt52W44wr235UvKAmbbuNfUIL0JsSTqBtMpiQtYQ86Fo9KvGKlkhJ
+	8A/WUhEw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obPEp-00GpAw-9w; Thu, 22 Sep 2022 16:39:47 +0000
+	id 1obPFF-00GpVQ-MT; Thu, 22 Sep 2022 16:40:13 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obPEk-00Gp6A-KO
+	id 1obPEk-00Gp5T-K0
 	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 16:39:44 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Cc:To:From:content-disposition;
-	bh=Xu2yIyQMXVEwJTJBi/e/+Dcdu4SpQWsBgv2SjQYCf/A=; b=KIM9BmSYlsQIvRYsL18F9XObE/
-	h9K2RvGbiPiu0mHHmMkUhiAqk9yFVgN1wVYbbnrJ+wMgXhIf9tivWOVs+0x4Cm2mtSxt09t9IGMzf
-	qZwCWRkjt5Jt7mb7o/BUrp5yrqOPWcCDLjLeeZj9NaoSlSuB8/0i1yS7YQaAPsG1XSg+8Z/RMlVp1
-	yg1YzKI4UHt6uViSw3psbwMmrRTBLIEy9FTM6rRXprG69Xz+XYC1H9il/H7q+gYoJV2xjY0KATv0R
-	XKGNkY31WRLGXWmMVcTmzf032nnL5gBkMFZtmZxKGX2ug9Me5TXLuA2FPKztRt/gV5bP6spbeo1PE
-	nyAuTHpw==;
+	bh=5j6xtapvwUdhGQNeqeFIKOu/eta4czgVaM1iHN6JS40=; b=j0vqgm/DwRC8SWD3vRC35kKrKn
+	uvfa2jRx/R29IzSGfeppQ2WS0arvUBbIfqu5Mbzep3uO08icfhEwzYXuMcyZJ6a9MbcDWKyM9ONge
+	KnhFVA3Erg/CMa9dY3fHmXaXT40ijCcVrA0FGTQ7gskqRHdBGdOkAguEuSrZ/gCkRYOdHMFS6BCHp
+	C82hZtdx5yNbWQnnYvFDBUS0FT9AN1oMnLoTYzUabH8HebiHHmkWw1VrhX46zKsdKwC69CfclGnG3
+	QwnTjPgVlg810r2MiXFKgPMZjvKoAtA1kHUc/ELqK/faE/mQAd4mZVFap16DC6VLzpevIorfii6eJ
+	/1/Jr2rg==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
 	by ale.deltatee.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <gunthorp@deltatee.com>)
-	id 1obPEf-00862b-HN; Thu, 22 Sep 2022 10:39:39 -0600
+	id 1obPEf-00862e-HK; Thu, 22 Sep 2022 10:39:38 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.94.2)
 	(envelope-from <gunthorp@deltatee.com>)
-	id 1obPEa-0001rj-Qe; Thu, 22 Sep 2022 10:39:32 -0600
+	id 1obPEb-0001rs-As; Thu, 22 Sep 2022 10:39:33 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
@@ -69,8 +69,8 @@ Cc: Christoph Hellwig <hch@lst.de>,
 	Ralph Campbell <rcampbell@nvidia.com>,
 	Stephen Bates <sbates@raithlin.com>,
 	Logan Gunthorpe <logang@deltatee.com>
-Date: Thu, 22 Sep 2022 10:39:19 -0600
-Message-Id: <20220922163926.7077-2-logang@deltatee.com>
+Date: Thu, 22 Sep 2022 10:39:22 -0600
+Message-Id: <20220922163926.7077-5-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220922163926.7077-1-logang@deltatee.com>
 References: <20220922163926.7077-1-logang@deltatee.com>
@@ -79,12 +79,12 @@ Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 172.16.1.31
 X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, hch@lst.de, gregkh@linuxfoundation.org, jgg@ziepe.ca, christian.koenig@amd.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, jason@jlekstrand.net, dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, jhubbard@nvidia.com, rcampbell@nvidia.com, sbates@raithlin.com, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v10 1/8] mm: introduce FOLL_PCI_P2PDMA to gate getting PCI P2PDMA pages
+Subject: [PATCH v10 4/8] lib/scatterlist: add check when merging zone device pages
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220922_093942_725251_78998D8F 
-X-CRM114-Status: GOOD (  16.63  )
+X-CRM114-CacheID: sfid-20220922_093942_719931_35FAA1F7 
+X-CRM114-Status: GOOD (  16.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,93 +99,94 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-GUP Callers that expect PCI P2PDMA pages can now set FOLL_PCI_P2PDMA to
-allow obtaining P2PDMA pages. If GUP is called without the flag and a
-P2PDMA page is found, it will return an error.
+Consecutive zone device pages should not be merged into the same sgl
+or bvec segment with other types of pages or if they belong to different
+pgmaps. Otherwise getting the pgmap of a given segment is not possible
+without scanning the entire segment. This helper returns true either if
+both pages are not zone device pages or both pages are zone device
+pages with the same pgmap.
 
-FOLL_PCI_P2PDMA cannot be set if FOLL_LONGTERM is set.
+Factor out the check for page mergability into a pages_are_mergable()
+helper and add a check with zone_device_pages_are_mergeable().
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: John Hubbard <jhubbard@nvidia.com>
 ---
- include/linux/mm.h |  1 +
- mm/gup.c           | 22 +++++++++++++++++++++-
- 2 files changed, 22 insertions(+), 1 deletion(-)
+ lib/scatterlist.c | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 21f8b27bd9fd..3cea77c8a9ea 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2897,6 +2897,7 @@ struct page *follow_page(struct vm_area_struct *vma, unsigned long address,
- #define FOLL_SPLIT_PMD	0x20000	/* split huge pmd before returning */
- #define FOLL_PIN	0x40000	/* pages must be released via unpin_user_page */
- #define FOLL_FAST_ONLY	0x80000	/* gup_fast: prevent fall-back to slow gup */
-+#define FOLL_PCI_P2PDMA	0x100000 /* allow returning PCI P2PDMA pages */
+diff --git a/lib/scatterlist.c b/lib/scatterlist.c
+index c8c3d675845c..a0ad2a7959b5 100644
+--- a/lib/scatterlist.c
++++ b/lib/scatterlist.c
+@@ -410,6 +410,15 @@ static struct scatterlist *get_next_sg(struct sg_append_table *table,
+ 	return new_sg;
+ }
  
- /*
-  * FOLL_PIN and FOLL_LONGTERM may be used in various combinations with each
-diff --git a/mm/gup.c b/mm/gup.c
-index 5abdaf487460..108848b67f6f 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -601,6 +601,12 @@ static struct page *follow_page_pte(struct vm_area_struct *vma,
- 		goto out;
- 	}
- 
-+	if (unlikely(!(flags & FOLL_PCI_P2PDMA) &&
-+		     is_pci_p2pdma_page(page))) {
-+		page = ERR_PTR(-EREMOTEIO);
-+		goto out;
-+	}
++static bool pages_are_mergeable(struct page *a, struct page *b)
++{
++	if (page_to_pfn(a) != page_to_pfn(b) + 1)
++		return false;
++	if (!zone_device_pages_have_same_pgmap(a, b))
++		return false;
++	return true;
++}
 +
- 	VM_BUG_ON_PAGE((flags & FOLL_PIN) && PageAnon(page) &&
- 		       !PageAnonExclusive(page), page);
+ /**
+  * sg_alloc_append_table_from_pages - Allocate and initialize an append sg
+  *                                    table from an array of pages
+@@ -447,6 +456,7 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
+ 	unsigned int chunks, cur_page, seg_len, i, prv_len = 0;
+ 	unsigned int added_nents = 0;
+ 	struct scatterlist *s = sgt_append->prv;
++	struct page *last_pg;
  
-@@ -1039,6 +1045,9 @@ static int check_vma_flags(struct vm_area_struct *vma, unsigned long gup_flags)
- 	if ((gup_flags & FOLL_LONGTERM) && vma_is_fsdax(vma))
+ 	/*
+ 	 * The algorithm below requires max_segment to be aligned to PAGE_SIZE
+@@ -460,21 +470,17 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
  		return -EOPNOTSUPP;
  
-+	if ((gup_flags & FOLL_LONGTERM) && (gup_flags & FOLL_PCI_P2PDMA))
-+		return -EOPNOTSUPP;
-+
- 	if (vma_is_secretmem(vma))
- 		return -EFAULT;
+ 	if (sgt_append->prv) {
+-		unsigned long paddr =
+-			(page_to_pfn(sg_page(sgt_append->prv)) * PAGE_SIZE +
+-			 sgt_append->prv->offset + sgt_append->prv->length) /
+-			PAGE_SIZE;
+-
+ 		if (WARN_ON(offset))
+ 			return -EINVAL;
  
-@@ -2383,6 +2392,10 @@ static int gup_pte_range(pmd_t pmd, unsigned long addr, unsigned long end,
- 		VM_BUG_ON(!pfn_valid(pte_pfn(pte)));
- 		page = pte_page(pte);
- 
-+		if (unlikely(!(flags & FOLL_PCI_P2PDMA) &&
-+			     is_pci_p2pdma_page(page)))
-+			goto pte_unmap;
-+
- 		folio = try_grab_folio(page, 1, flags);
- 		if (!folio)
- 			goto pte_unmap;
-@@ -2462,6 +2475,12 @@ static int __gup_device_huge(unsigned long pfn, unsigned long addr,
- 			undo_dev_pagemap(nr, nr_start, flags, pages);
- 			break;
+ 		/* Merge contiguous pages into the last SG */
+ 		prv_len = sgt_append->prv->length;
+-		while (n_pages && page_to_pfn(pages[0]) == paddr) {
++		last_pg = sg_page(sgt_append->prv);
++		while (n_pages && pages_are_mergeable(last_pg, pages[0])) {
+ 			if (sgt_append->prv->length + PAGE_SIZE > max_segment)
+ 				break;
+ 			sgt_append->prv->length += PAGE_SIZE;
+-			paddr++;
++			last_pg = pages[0];
+ 			pages++;
+ 			n_pages--;
  		}
-+
-+		if (!(flags & FOLL_PCI_P2PDMA) && is_pci_p2pdma_page(page)) {
-+			undo_dev_pagemap(nr, nr_start, flags, pages);
-+			break;
-+		}
-+
- 		SetPageReferenced(page);
- 		pages[*nr] = page;
- 		if (unlikely(!try_grab_page(page, flags))) {
-@@ -2950,7 +2969,8 @@ static int internal_get_user_pages_fast(unsigned long start,
+@@ -488,7 +494,7 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
+ 	for (i = 1; i < n_pages; i++) {
+ 		seg_len += PAGE_SIZE;
+ 		if (seg_len >= max_segment ||
+-		    page_to_pfn(pages[i]) != page_to_pfn(pages[i - 1]) + 1) {
++		    !pages_are_mergeable(pages[i], pages[i - 1])) {
+ 			chunks++;
+ 			seg_len = 0;
+ 		}
+@@ -504,8 +510,7 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
+ 		for (j = cur_page + 1; j < n_pages; j++) {
+ 			seg_len += PAGE_SIZE;
+ 			if (seg_len >= max_segment ||
+-			    page_to_pfn(pages[j]) !=
+-			    page_to_pfn(pages[j - 1]) + 1)
++			    !pages_are_mergeable(pages[j], pages[j - 1]))
+ 				break;
+ 		}
  
- 	if (WARN_ON_ONCE(gup_flags & ~(FOLL_WRITE | FOLL_LONGTERM |
- 				       FOLL_FORCE | FOLL_PIN | FOLL_GET |
--				       FOLL_FAST_ONLY | FOLL_NOFAULT)))
-+				       FOLL_FAST_ONLY | FOLL_NOFAULT |
-+				       FOLL_PCI_P2PDMA)))
- 		return -EINVAL;
- 
- 	if (gup_flags & FOLL_PIN)
 -- 
 2.30.2
 
