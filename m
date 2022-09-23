@@ -4,75 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 319D3C07E9D
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 17:39:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 043B8C07E9D
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 17:39:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
 	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WU1oSYYifuddX9yyjx4QFQJb3f/txF5tBxB5+RepGko=; b=eG8RDgNYTfE4rH0HdQyJvDSf/d
-	pkMlXv9WJqqUpe9XcXjHocJgiF+SRVXYsrB0UbYWwmVjBnNOsaL8VToBLTLsC8VLlumsxEmatc2gc
-	G7AN/3aNxiDh5wkvA1FMjVDW+MOSYRV8UAQzBR6e2ihqpVNhbCB9dquk/fg1gG/em+KA1/U2ZYMSg
-	HxnoKrIz1HESxNSYKu0TMskjJiT6nEyUQaZuqkscnA25Yo6i6m9qPd12uSGJVPJedeFHoLo2kd+/W
-	O4JQa+y97ekpQrvP/HUd1OJ1opTqJYbbMD2Sgo8usQ/+T4ncbgh5tAsbjyC1Zc4WAKM3oYLgc+SWi
-	ZNM22MMg==;
+	bh=uWKwk/Zw9bFSyQrcJcSCU7+huozs0FwbWylJN85xRgw=; b=pzQrJtGJOe0hLix5syY1Nq4KC7
+	MgQCtfKioHxnqeZHsx3k8idyMi6L7n+WIgqLpIFCj6SuMUzY81Kse4HYBVE2pS93yvsRXy5oXowxQ
+	0YDt6LiuE3e/YOIA19a2gpzY72bx41ygA0Yrvsu8Zc4VZLh12ncEweMhDxr8PPtrNgLXJR5G0tJ9U
+	wooI2WADIWN4ofKayjd5rklcIp9nIFN6Xuz3f4ycei/MdmCF20oBdXsIrO/zeModdG+a3sfPQ37Vz
+	fd38VjQxYLdSIbl9FXPvN6RoP2Ec7QOPoAfhdeeVktMdFUrEm7m2NyvtkLonHnXAlPisUl9fraf9U
+	vwEgjbtA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obmdx-005Awx-T8; Fri, 23 Sep 2022 17:39:17 +0000
+	id 1obmeW-005B9q-2b; Fri, 23 Sep 2022 17:39:52 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obmbY-0059s3-Hy
+	id 1obmbY-0059sE-O1
 	for linux-nvme@bombadil.infradead.org; Fri, 23 Sep 2022 17:36:48 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=References:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
 	:To:From:Sender:Reply-To:Content-ID:Content-Description;
-	bh=WU1oSYYifuddX9yyjx4QFQJb3f/txF5tBxB5+RepGko=; b=GcuNi/LUU3wJksNjyVrgkqMtK8
-	6fwQKv9zcztwrx6ae/tEDVxuMG/fn28VP/peCjqaurMjeJWol8DXtqaBO275wjYSZeI25TzgnpLDl
-	GkHmvYTmuxyuAq+WTVCNWRpjnFYqllibPy+mDgU3lT3xz4F03H+wAdIlSjho8YlBKlA9Dt+MfpIUG
-	df6kWq0tWOttIc8oCHDmiBp17WoWE009ZY9zn4SF60Op0FdLuVGLxAfHRKawrO1SgTiMkFKQwUeDL
-	+FUMOJWextBJT1g+YwSmyjqgfKq9gUfopFllHrl85Q9dsibkT+Q+kGoPTZ1mAtUfXARmUpw0898Lh
-	a/40sN1w==;
+	bh=uWKwk/Zw9bFSyQrcJcSCU7+huozs0FwbWylJN85xRgw=; b=jo3rMX8ph1Jc3xPX+u0G+eS57e
+	rillubXUGQSHQddcrs8vncGqkp4s2lKTKLIqXcujQV/VtzhuK9z/pL+LTNptq/LIqLW/y6tapX24J
+	+WOoQ1TLafyVmjB40pJvfWDfsB74AglriGe6zqRwkar3xFDiuzdjFcv7iWL7jyrmqim1AC8E9tCFp
+	ST0616wLUI1AwGPSMCO5pUuP0gpEQcW1HPWeAbkGq1nWlRDqBA9jZg6z7yJ42bq0PT7VKecGzTjtt
+	bkEDrqd6qaxdLIA9I/VAy0D2mWU3xsFxbJGqIvqiAD5BQmcFQGOz+6svgqHV1DMYR62psdGXUXCbA
+	jnY68nyg==;
 Received: from mailout1.w1.samsung.com ([210.118.77.11])
 	by desiato.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obmbS-00FGyM-BQ
+	id 1obmbS-00FGyK-BQ
 	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 17:36:47 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20220923173635euoutp01ca702f9739281a21c2d049e6325882a3~XjeOH_Esh1802418024euoutp01T
-	for <linux-nvme@lists.infradead.org>; Fri, 23 Sep 2022 17:36:35 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20220923173635euoutp01ca702f9739281a21c2d049e6325882a3~XjeOH_Esh1802418024euoutp01T
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20220923173632euoutp016e56afcc0855034c9b3c28f2c13eac77~XjeKurRlX0810708107euoutp01S
+	for <linux-nvme@lists.infradead.org>; Fri, 23 Sep 2022 17:36:32 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20220923173632euoutp016e56afcc0855034c9b3c28f2c13eac77~XjeKurRlX0810708107euoutp01S
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1663954595;
-	bh=WU1oSYYifuddX9yyjx4QFQJb3f/txF5tBxB5+RepGko=;
+	s=mail20170921; t=1663954592;
+	bh=uWKwk/Zw9bFSyQrcJcSCU7+huozs0FwbWylJN85xRgw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dG14cCngW8i+T7xaFBtMjfsbBsepQOsGKy8TBEfBO1tvCVFxDvhjOwYRjfIZHjTMe
-	 bSskj1PB1FEn2lqwO2SLocw3avHJIsdQx0QPZBTwac3jRwep/ygAClx5mggZg1Xz8R
-	 f6aAjrm3GPSq279AH+VJOodgQNswssLUM8XmM/Ns=
+	b=XYF/8rocAiFLNkVqNyHyBblxVZgb8ckYzFu4hnbYT0N3/EU9vEhUj8T+gI33ft89h
+	 dqUbc56uHD/484b7LwfDcITGQLVWJIv4rHuDMww8QYNDBb/295h3GYca4bITgwd4J3
+	 ffBkoe3YPRpc4p/AKooIG6bcMuS5u3FMTs9gKYsk=
 Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
 	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20220923173634eucas1p15d0c1608b4c0efd95f989e325a915af0~XjeM1-aSI2513525135eucas1p1r;
-	Fri, 23 Sep 2022 17:36:34 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges1new.samsung.com (EUCPMTA) with SMTP id 5E.6E.29727.2AEED236; Fri, 23
-	Sep 2022 18:36:34 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20220923173632eucas1p1a4b8cba427f5caf649009073233f8c76~XjeLimBqq2513525135eucas1p1q;
-	Fri, 23 Sep 2022 17:36:32 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20220923173632eusmtrp13854486833f22d618200f13baf4c2cd5~XjeLh37De1032310323eusmtrp1d;
-	Fri, 23 Sep 2022 17:36:32 +0000 (GMT)
-X-AuditID: cbfec7f2-205ff7000001741f-39-632deea2fe1a
+	20220923173630eucas1p1a489121322cbc8d3112fd1dc005e72be~XjeJZVNTw2512925129eucas1p1p;
+	Fri, 23 Sep 2022 17:36:30 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+	eusmges1new.samsung.com (EUCPMTA) with SMTP id 2D.6E.29727.E9EED236; Fri, 23
+	Sep 2022 18:36:30 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20220923173629eucas1p27c1ebffb55c2f1a52fad913840b16d02~XjeIYpAeJ3127531275eucas1p2C;
+	Fri, 23 Sep 2022 17:36:29 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20220923173629eusmtrp2589da37c46d342f75699d90733786591~XjeIX5tQg1023410234eusmtrp29;
+	Fri, 23 Sep 2022 17:36:29 +0000 (GMT)
+X-AuditID: cbfec7f2-21dff7000001741f-34-632dee9e21e2
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-	eusmgms1.samsung.com (EUCPMTA) with SMTP id 9E.78.07473.0AEED236; Fri, 23
-	Sep 2022 18:36:32 +0100 (BST)
+	eusmgms2.samsung.com (EUCPMTA) with SMTP id 9A.5F.10862.D9EED236; Fri, 23
+	Sep 2022 18:36:29 +0100 (BST)
 Received: from localhost (unknown [106.210.248.168]) by eusmtip2.samsung.com
 	(KnoxPortal) with ESMTPA id
-	20220923173632eusmtip211f1590d2e57e40d00dcceafdff445f6~XjeLM6tMh2300023000eusmtip2m;
-	Fri, 23 Sep 2022 17:36:32 +0000 (GMT)
+	20220923173629eusmtip2de3703de13204c51bab5ebfcae6c9dff~XjeIEVREQ1628216282eusmtip2a;
+	Fri, 23 Sep 2022 17:36:29 +0000 (GMT)
 From: Pankaj Raghav <p.raghav@samsung.com>
 To: snitzer@kernel.org, axboe@kernel.dk, agk@redhat.com, hch@lst.de,
 	damien.lemoal@opensource.wdc.com
@@ -80,61 +80,62 @@ Cc: jaegeuk@kernel.org, gost.dev@samsung.com, bvanassche@acm.org,
 	linux-kernel@vger.kernel.org, hare@suse.de, matias.bjorling@wdc.com,
 	Johannes.Thumshirn@wdc.com, linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org, pankydev8@gmail.com, dm-devel@redhat.com,
-	Pankaj Raghav <p.raghav@samsung.com>
-Subject: [PATCH v15 12/13] dm: introduce DM_EMULATED_ZONES target feature
- flag
-Date: Fri, 23 Sep 2022 19:36:17 +0200
-Message-Id: <20220923173618.6899-13-p.raghav@samsung.com>
+	Pankaj Raghav <p.raghav@samsung.com>, Luis Chamberlain <mcgrof@kernel.org>,
+	Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Subject: [PATCH v15 09/13] dm-zone: use generic helpers to calculate offset
+ from zone start
+Date: Fri, 23 Sep 2022 19:36:14 +0200
+Message-Id: <20220923173618.6899-10-p.raghav@samsung.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220923173618.6899-1-p.raghav@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Sf0xTVxjNfbf0Pao1rwXlBjZ1zZbNGlDTLXtmzK0bi88tmbC4P6aL0rQv
-	gGuLebUTdHPoGJudCgFFWnUah8WWkSatAkWrTY1tAdFoLaHyu5ZAWURn1yzMAePxWOZ/5zvf
-	Od/5vptLQGl/SiZRot/LsHqVViYUCVr903eyL0xlq9ebL5KUo8sPqebBaiFV/3QaUs977kLK
-	M3U6hYp43Rh17UItRtmab2FUzGGB1IxpCKM8D9dSoY4zQuqcdQynaqqSkEpcrMSp3yJjAir4
-	MOt9CR168AnttgzidKjHSDvtR4S0q/E7+mqkQki7fxhOoZ9cDwvp45ftgHZ1H6ATzpX0j96f
-	sfyl20W5GkZb8jXDrttUKCr+OzwC93StKJtzVMEKMCM1AYJA5JtoqGa3CYgIKXkJIH98AvLF
-	nwD1VB8GJpA6XyQAehaUcJgzjEejGC9qAujJIwvkRXGABp6u4qYKSTk6dATn6HSyCAWuRHBO
-	D8lWDFWZ3QKukUbmozrfwEKAgHwN3bDehZxXTG5Eo64lfNYqZL7/F87RqfN09aFvOFpMSlCn
-	ObYwBc5Lvr9yemFnRDpS0U2PE+O9eciXOAF4nIYmA5dxHr+EuuuOCnh8AI31PV80VwJU7XYI
-	+Vd5Bx2/reUgJNcgR8c6Xq5E8X+CGK9YhvoeS/gVlqHa1lOQp8Xopyopr5Yh93RsMRSh0OEz
-	i6E06h3tBzXgFcsLx1heOMbyf+55AO0ggzEadEWMYYOe2ZdjUOkMRn1RjrpU5wTz/697NvCs
-	HZyd/CPHBzAC+AAioCxdrLmXrZaKNary/Qxbuos1ahmDD2QRAlmGWNggV0vJItVe5iuG2cOw
-	/3UxIjWzArPoT1kVO77tvX2j5zOb7eTnU72e8daymY/v7wisVuV88G5By+tJrE3rqls/NNK8
-	NNkuz2//dVL5yC/PDA5Hx28yJWz67i/f2rxP1jWRa49GZkuHjykGO+dqP5w56FzeONd0KaMt
-	t+OLJdvrt06fAyA9YcPPV86qw9YHmvhI24nCky97P5ImC6+ZjNtqvE3Drk/LJeHHZZpdv3sV
-	oq2s5mD5yuz9TPJVZZqCCDesWbuFMd3bpsP63IG8+omjWXlvl29WVL7XMNBfXMZODCk7PcrR
-	RF80ris4Zl/xS1bLxvydDdY3mr1Xg2rflgJX7GzIJsfCLY2xO2ZU4V+9aQRnZQJDsWqDHLIG
-	1b/TLN9G7gMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrLIsWRmVeSWpSXmKPExsVy+t/xe7oL3ukmGyzeb2Kx/tQxZovVd/vZ
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrEKsWRmVeSWpSXmKPExsWy7djP87rz3ukmG7x4oWSx/tQxZovVd/vZ
 	LKZ9+Mls8fvseWaLve9ms1rcPLCTyWLPoklMFitXH2WyeLJ+FrPF3657TBZ7b2lbXN41h81i
-	/rKn7BYT2r4yW3xe2sJusebmUxaLE7ekHQQ9Ll/x9tg56y67x+WzpR6bVnWyeWxeUu+x+2YD
-	m8fO1vusHu/3XWXz6NuyitFj8+lqj8+b5DzaD3QzBfBE6dkU5ZeWpCpk5BeX2CpFG1oY6Rla
-	WugZmVjqGRqbx1oZmSrp29mkpOZklqUW6dsl6GX8uvqAueCUWMX/9W3MDYx/hboYOTkkBEwk
-	nj96xNTFyMUhJLCUUeL9la+sEAkJidsLmxghbGGJP9e62CCKnjNKHDp1n7mLkYODTUBLorGT
-	HaRGRCBX4tjae6wgNcwCR5gk2nbfB0sIC/hJLGq9AWazCKhK7F92HqyXV8BS4uFmboj58hIz
-	L31nBwlzAoX7G2tAwkICFhLnFz8C6+QVEJQ4OfMJC4jNDFTevHU28wRGgVlIUrOQpBYwMq1i
-	FEktLc5Nzy021CtOzC0uzUvXS87P3cQIjNdtx35u3sE479VHvUOMTByMhxglOJiVRHhTLuom
-	C/GmJFZWpRblxxeV5qQWH2I0Bbp6IrOUaHI+MGHklcQbmhmYGpqYWRqYWpoZK4nzehZ0JAoJ
-	pCeWpGanphakFsH0MXFwSjUw8Zutv11bxcCZvtZkrdK8HZuvz+lo+uhzbbpmYJ2At8dfngtB
-	SatnHd3rkTX7RXxnu1Dah8m+su7LLOomfVhScsBrVWZbsPt7ZzvutoJVE7ee3mBbGr7baGuk
-	7nPec2mhGYu3qSdJXOUp6s7o47eP+OR8k1v1OnNNfVC+e6nwfaVH74rKOJWE1i8Rzqtwui9t
-	cnHuEps1E/eWqbgJWu07ftC3dP1/fb5Jhb9O3dlouGT1ik8Fx44umftlkUTecYGFXK1ezucy
-	reQebymqObJkgvT6G/+y5iwUen6V/eQ6d5EmZ51r/wMjhS1vro3Wu785QNVL1HvXYl3Db9zz
-	Lvy8p/P9fJrhvwOevvMMZ/9oVmIpzkg01GIuKk4EAHsGhVBgAwAA
-X-CMS-MailID: 20220923173632eucas1p1a4b8cba427f5caf649009073233f8c76
+	/rKn7BYT2r4yW9yY8JTR4vPSFnaLNTefslicuCXtIORx+Yq3x85Zd9k9Lp8t9di0qpPNY/OS
+	eo/dNxvYPHa23mf1eL/vKptH35ZVjB6bT1d7fN4k59F+oJspgCeKyyYlNSezLLVI3y6BK2Pd
+	kSWsBSt5KnpXvWVuYJzH1cXIySEhYCLxbvJvli5GLg4hgRWMEo9/LGWFcL4wSsxY/4AZwvnM
+	KPF+5ik2mJbnk64xQSSWM0rM6rsJ5bxklJjX9ACoioODTUBLorGTHaRBRCBd4vjWm2A2s0A/
+	s8TtfbkgJcICsRIHX+eAhFkEVCU+LloPNp9XwFKiceoSVohd8hIzL31nBynnBIr3N9ZAlAhK
+	nJz5hAViorxE89bZYHdKCGznlPj++DnUnS4SHVuuMkPYwhKvjm9hh7BlJP7vnM8EYVdLPL3x
+	G6q5hVGif+d6sPMlBKwl+s7kgJjMApoS63fpQ5Q7SqyZNYUFooJP4sZbQYgT+CQmbZvODBHm
+	lehoE4KoVpLY+fMJ1FIJictNc1ggbA+JKctfMU5gVJyF5JlZSJ6ZhbB3ASPzKkbx1NLi3PTU
+	YsO81HK94sTc4tK8dL3k/NxNjMBkePrf8U87GOe++qh3iJGJg/EQowQHs5IIb8pF3WQh3pTE
+	yqrUovz4otKc1OJDjNIcLErivGwztJKFBNITS1KzU1MLUotgskwcnFINTM072iOcoxY1+NgF
+	L/F/IrX62BnHhvO7k0Ob7giX1kj9+yulk9l8YS5Lw0p93j9rt0TLbun2brpzT+H5gn1OG6T7
+	1HWunxXasUG38HvU5YJG29yWudmVNcFK0rbrV4bye4d9EHLdW1I1yVJHJm7xccdYtemVWqEM
+	oWbC01fPUdgqeUO9R/vSqwLNLdLTNnyr+XH3uIJymd2bKgZ23dSfybyZv56yu2krnkg31IhQ
+	cc1RevPs2bQbwnpH1Wuyc+NOxK95F+8n4Pp35cZHVoULQgWZglqlky4c610go5TE+1Jkxdfk
+	VlbX0t2h7BsqDLrYlc5P5RA6usbtUoK/UGP0ceZSB+Frup7NFddV2ZVYijMSDbWYi4oTAfG1
+	05b1AwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrMIsWRmVeSWpSXmKPExsVy+t/xe7pz3+kmGzx7J2ux/tQxZovVd/vZ
+	LKZ9+Mls8fvseWaLve9ms1rcPLCTyWLPoklMFitXH2WyeLJ+FrPF3657TBZ7b2lbXN41h81i
+	/rKn7BYT2r4yW9yY8JTR4vPSFnaLNTefslicuCXtIORx+Yq3x85Zd9k9Lp8t9di0qpPNY/OS
+	eo/dNxvYPHa23mf1eL/vKptH35ZVjB6bT1d7fN4k59F+oJspgCdKz6Yov7QkVSEjv7jEVina
+	0MJIz9DSQs/IxFLP0Ng81srIVEnfziYlNSezLLVI3y5BL2PdkSWsBSt5KnpXvWVuYJzH1cXI
+	ySEhYCLxfNI1pi5GLg4hgaWMEov3HGSCSEhI3F7YxAhhC0v8udbFBlH0nFHi3+N+1i5GDg42
+	AS2Jxk52kBoRgVyJY2vvsYLUMAvMZ5b4OvkQG0hCWCBaYv2lmWCDWARUJT4uWg8W5xWwlGic
+	uoQVYoG8xMxL39lBZnICxfsba0DCQgIWEucXP2KHKBeUODnzCQuIzQxU3rx1NvMERoFZSFKz
+	kKQWMDKtYhRJLS3OTc8tNtIrTswtLs1L10vOz93ECIzdbcd+btnBuPLVR71DjEwcjIcYJTiY
+	lUR4Uy7qJgvxpiRWVqUW5ccXleakFh9iNAU6eyKzlGhyPjB55JXEG5oZmBqamFkamFqaGSuJ
+	83oWdCQKCaQnlqRmp6YWpBbB9DFxcEo1MDEk7ytmVecxkAk9ueicifybpGXH9xqtverd+qln
+	i4Vn5pvFr2+pbS1vqVQp/mtzaLNMj+G8r28u+i5MbWXPUW9znTlpnYj4fTZfNTHtNI+kKQFz
+	Cp5NN87xWX7UqiFPSK+nMVzI/7bqVkZ1kWVZnR/czr7Uf/dzYqdfyeXnH/OUxbPC3hYvz+Hy
+	LTNaF3qhRsbGbjNT2surO6YuKPqc8+TRJLZlv5f1Nt7Tfycur7s2o8TJtfTK7xu7Tsf9vffH
+	UPaq4puU54/ES7sOn2rnT14nw20698qrnxV3NyhwVQtv8+pyPcRV2FK2LPxEieHeg4fbTaR/
+	aT3aOttyBqdU125pQ+1wrq/NUjFTi7ymKLEUZyQaajEXFScCAP6WLIpmAwAA
+X-CMS-MailID: 20220923173629eucas1p27c1ebffb55c2f1a52fad913840b16d02
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20220923173632eucas1p1a4b8cba427f5caf649009073233f8c76
+X-RootMTR: 20220923173629eucas1p27c1ebffb55c2f1a52fad913840b16d02
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20220923173632eucas1p1a4b8cba427f5caf649009073233f8c76
+X-CMS-RootMailID: 20220923173629eucas1p27c1ebffb55c2f1a52fad913840b16d02
 References: <20220923173618.6899-1-p.raghav@samsung.com>
-	<CGME20220923173632eucas1p1a4b8cba427f5caf649009073233f8c76@eucas1p1.samsung.com>
+	<CGME20220923173629eucas1p27c1ebffb55c2f1a52fad913840b16d02@eucas1p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220923_183642_613340_0448E1C6 
-X-CRM114-Status: GOOD (  16.14  )
+X-CRM114-CacheID: sfid-20220923_183642_606049_54FA39A9 
+X-CRM114-Status: GOOD (  13.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -149,80 +150,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Introduce a new target feature flag: DM_EMULATED_ZONES for targets with
-a different number of sectors per zone (aka zone size) than the underlying
-device zone size.
-
-This target feature flag is introduced as the existing zoned targets assume
-that the target and the underlying device have the same zone size.
-The new target: dm-po2zoned will use this new target feature flag
-as it emulates the zone boundary that is different from the underlying
-zoned device.
+Use the bdev_offset_from_zone_start() helper function to calculate
+the offset from zone start instead of using power of 2 based
+calculation.
 
 Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
 Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
 Reviewed-by: Mike Snitzer <snitzer@kernel.org>
 ---
- drivers/md/dm-table.c         | 13 ++++++++++---
- include/linux/device-mapper.h |  9 +++++++++
- 2 files changed, 19 insertions(+), 3 deletions(-)
+ drivers/md/dm-zone.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/md/dm-table.c b/drivers/md/dm-table.c
-index 38b83c383e8f..8324bd660f09 100644
---- a/drivers/md/dm-table.c
-+++ b/drivers/md/dm-table.c
-@@ -1619,13 +1619,20 @@ static bool dm_table_supports_zoned_model(struct dm_table *t,
- 	return true;
- }
+diff --git a/drivers/md/dm-zone.c b/drivers/md/dm-zone.c
+index 3dafc0e8b7a9..ac6fc1293d41 100644
+--- a/drivers/md/dm-zone.c
++++ b/drivers/md/dm-zone.c
+@@ -390,7 +390,8 @@ static bool dm_zone_map_bio_begin(struct mapped_device *md,
+ 	case REQ_OP_WRITE_ZEROES:
+ 	case REQ_OP_WRITE:
+ 		/* Writes must be aligned to the zone write pointer */
+-		if ((clone->bi_iter.bi_sector & (zsectors - 1)) != zwp_offset)
++		if (bdev_offset_from_zone_start(md->disk->part0,
++						clone->bi_iter.bi_sector) != zwp_offset)
+ 			return false;
+ 		break;
+ 	case REQ_OP_ZONE_APPEND:
+@@ -602,11 +603,8 @@ void dm_zone_endio(struct dm_io *io, struct bio *clone)
+ 		 */
+ 		if (clone->bi_status == BLK_STS_OK &&
+ 		    bio_op(clone) == REQ_OP_ZONE_APPEND) {
+-			sector_t mask =
+-				(sector_t)bdev_zone_sectors(disk->part0) - 1;
+-
+ 			orig_bio->bi_iter.bi_sector +=
+-				clone->bi_iter.bi_sector & mask;
++				bdev_offset_from_zone_start(disk->part0, clone->bi_iter.bi_sector);
+ 		}
  
--static int device_not_matches_zone_sectors(struct dm_target *ti, struct dm_dev *dev,
-+/*
-+ * Callback function to check for device zone sector across devices. If the
-+ * DM_TARGET_EMULATED_ZONES target feature flag is not set, then the target
-+ * should have the same zone sector as the underlying devices.
-+ */
-+static int check_valid_device_zone_sectors(struct dm_target *ti, struct dm_dev *dev,
- 					   sector_t start, sector_t len, void *data)
- {
- 	unsigned int *zone_sectors = data;
- 
--	if (!bdev_is_zoned(dev->bdev))
-+	if (!bdev_is_zoned(dev->bdev) ||
-+	    dm_target_supports_emulated_zones(ti->type))
- 		return 0;
-+
- 	return bdev_zone_sectors(dev->bdev) != *zone_sectors;
- }
- 
-@@ -1650,7 +1657,7 @@ static int validate_hardware_zoned_model(struct dm_table *t,
- 	if (!zone_sectors)
- 		return -EINVAL;
- 
--	if (dm_table_any_dev_attr(t, device_not_matches_zone_sectors, &zone_sectors)) {
-+	if (dm_table_any_dev_attr(t, check_valid_device_zone_sectors, &zone_sectors)) {
- 		DMERR("%s: zone sectors is not consistent across all zoned devices",
- 		      dm_device_name(t->md));
- 		return -EINVAL;
-diff --git a/include/linux/device-mapper.h b/include/linux/device-mapper.h
-index f8e3a96b97b0..8504da98e829 100644
---- a/include/linux/device-mapper.h
-+++ b/include/linux/device-mapper.h
-@@ -294,6 +294,15 @@ struct target_type {
- #define dm_target_supports_mixed_zoned_model(type) (false)
- #endif
- 
-+#ifdef CONFIG_BLK_DEV_ZONED
-+#define DM_TARGET_EMULATED_ZONES	0x00000400
-+#define dm_target_supports_emulated_zones(type) \
-+	((type)->features & DM_TARGET_EMULATED_ZONES)
-+#else
-+#define DM_TARGET_EMULATED_ZONES	0x00000000
-+#define dm_target_supports_emulated_zones(type) (false)
-+#endif
-+
- struct dm_target {
- 	struct dm_table *table;
- 	struct target_type *type;
+ 		return;
 -- 
 2.25.1
 
