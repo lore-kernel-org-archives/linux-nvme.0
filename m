@@ -4,87 +4,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26F3EC04A95
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 20:54:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 803BCC07E9D
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 22:59:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/K/GOu02xfTZ/9xI05vqPiDNx5hkxNdjNt0qyrC4Qyw=; b=Ks0m7ZAyGjyPUoX1opuU5/I/T1
-	p/N39mcMYSnojBkbMguxu5aRGHR4PkfRT5hVr6TRjam+uO67ST3tcQtLIkmh+US0UeSuieho6bU4Q
-	yfzZZlBVs3jfiPC93qR3X0BiJhb0sZD9E000LJ4wqJsaAtZaaJIAgHkySUG4E6xpd7h2G4igRszlI
-	bvt4oBWAQ4i6Mv4b8caI3vVZKRFk6CYSuSNecD4Ut/0hZQ9wJ6ulvD5qvcMdyGAniW3e/4UQETXII
-	wWBIl4MmwaI5/Dyc8mMHDvb29SujE78+FtdyE96oWXMqpiVrBlIuzGMqJ6RwcwGgDfC+l0TI+LAhm
-	lNt28txg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=FNVLh7QhTGQ0fcTY+ctZvZZG3IwOkyYDgRdATbQqFOE=; b=IYh2+IvcGKjUJw3Pt/QwVo+wc8
+	DrbWiQj2w7VX0vLJsbGCsYw5ldJZiRySmmL9WTP/F/tNsGkX++EQr7NzVO7dP7c54bNLTRucn03Q2
+	BgD42GjZLNxhpvdhbGS+dOFYS7eM2VlS6MJZyoMmeISyhQVyOcKLFIQ/nOO64iXgtRyOTuueNF3To
+	crVuHmConFRteKV2Ntk2GgaAPjQHBwe4L3HO1TBMBsaFsrhC/b+Ud48+zt0+FT2ROrazLlVkMwKSH
+	5IjpLYphGY4wWghiCpIlJyNQIO4nawO1CRF9KeRIJxefmWrzDqzl57Q2WcTkrm98o1OEnbDK3rGGx
+	QN92395g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obpgg-005h5D-5k; Fri, 23 Sep 2022 20:54:18 +0000
-Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32])
+	id 1obrdJ-005ue2-7H; Fri, 23 Sep 2022 22:58:57 +0000
+Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obpgd-005h4V-CH
-	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 20:54:16 +0000
-Received: by mail-io1-xd32.google.com with SMTP id h194so897870iof.4
-        for <linux-nvme@lists.infradead.org>; Fri, 23 Sep 2022 13:54:12 -0700 (PDT)
+	id 1obrdF-005ucn-Ep
+	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 22:58:55 +0000
+Received: by mail-qt1-x833.google.com with SMTP id h21so988550qta.3
+        for <linux-nvme@lists.infradead.org>; Fri, 23 Sep 2022 15:58:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=/K/GOu02xfTZ/9xI05vqPiDNx5hkxNdjNt0qyrC4Qyw=;
-        b=nvLIB0RJXe73WL+xXeF3BnfdKLnrKGY8ZDslI6lmL0cQeakLC6BCZhPiuK243GoOB4
-         4c8WWHLlshW3gZOfu4mYXdYgFCEVijcufrrV3yk7klbW+ebOtX34BSloqb33h3lWwgDj
-         BZ3lJ/bXZbnQnIMovtT87ZG0Y4Aii4Xf4atHWFoRryKMtvYl6VJHhJ9dkNRPfjF/UrDU
-         xCpD2eFIQIb6Qb+lUeMaAAl4IgolpacRuJSWRKROeEWNyrB8gwl/OZzwwc2/GFVRH3SY
-         YT/Xan5f47fBd5dlECLqU4y8pUy5sIlubvt0nLaLlHI80v8k25j3U+KF5sKm24pBmCGc
-         r9Hg==
+        d=ziepe.ca; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=FNVLh7QhTGQ0fcTY+ctZvZZG3IwOkyYDgRdATbQqFOE=;
+        b=K6ThUhwaPxzE2uNJlUneDV+lEcb3sOSkMme+uJcOlA6PYnkzlx9eWnQI1++F4JHPTq
+         6r5PK01FmTenaqwabhqB54wtpEtSh4q/f93LAarupwwOtTOjD+IgB/VnY7DUeuIhnkQC
+         ueJpGrhUyrDSBys3KiQqSXiiBkciEmtt9rHzEbu8riWDZ48ZSyiWrSiPky8YDf3TxmTw
+         JUiu1YmBDldxsDnWcSHllSPx0BxlwyOXe/lppV6D0S4dxlwZK9P4DpsQeTWyB8t6HwzK
+         z3SSHJoW/95nBFxiW6hEVkAM1qDx4k+3uHGKOmgxxq5NvqNGbvm3e45Zg2lFjxXsyWRU
+         k//Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=/K/GOu02xfTZ/9xI05vqPiDNx5hkxNdjNt0qyrC4Qyw=;
-        b=L1Az6IHZUegGNk9o1ogh0hjnpW78x7gBrIKYxAxj1qeheA1m7MkKtCj83mI6ZV7h5c
-         SAazVas/o6WQSMhQP/4bhtX5Bfetyz0tltzPhohwa0mfmesm9TCQU3snd0I7xc7TJ0Ax
-         2jgXVXpWZsxEXhIAF5v4HYF/FRbtWw2xJbJl0IHnRIdrttVzpy3XZzX7Hrbl0E8LwsGw
-         y1IvScBs0ytQp9ESXAgFPYuZKtyqSmiuhAUcQ4LOm31gtIMU8eJ/tjaX0SyQAnZWuPLw
-         M2NUpPVFTk1lGwEj8y2XY4gq57NtR7bMMeoXyDD8XZ2OKInMVdNRazUZz7pcR5T4CYZn
-         LYwg==
-X-Gm-Message-State: ACrzQf2pgmyML131Fh68irJTnn3R0JypLugUIE/TtHyr8zBfrQR9O6N5
-	mBG+8o+KjMHkAIwEYMN8S6xHjg==
-X-Google-Smtp-Source: AMsMyM7fQ9X8DI4XxBLuNaKvje1XDwW71d2cJffEU6cwqjPF4VEwKC+YAJvorV6dYRuBCbuSX+CV7Q==
-X-Received: by 2002:a6b:1c7:0:b0:6a3:2e71:2a91 with SMTP id 190-20020a6b01c7000000b006a32e712a91mr4959223iob.158.1663966452346;
-        Fri, 23 Sep 2022 13:54:12 -0700 (PDT)
-Received: from [192.168.1.94] ([207.135.234.126])
-        by smtp.gmail.com with ESMTPSA id d194-20020a0262cb000000b0035a42c43e3bsm3820406jac.81.2022.09.23.13.54.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Sep 2022 13:54:11 -0700 (PDT)
-Message-ID: <2e484ccb-b65b-2991-e259-d3f7be6ad1a6@kernel.dk>
-Date: Fri, 23 Sep 2022 14:54:11 -0600
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=FNVLh7QhTGQ0fcTY+ctZvZZG3IwOkyYDgRdATbQqFOE=;
+        b=uYVx3TOPrj7+L+u8YyhJ1tLxZpgWxwzJKw4c3ryCpZDxOeT0+b0Gm7EVze664BKAbR
+         bDj3shb3l5JLWkseRiW0VSVkJpte2CRSM9gde4NzfDqhIBh/gQTDTXaDPQktVUIFmvF6
+         ZYOB6St/vl6RNEBDURAF1rsPhdJMlcgnhuU9/rvOreoPgYBTKPV6wVZa7NUIAI75wd+f
+         2f8pBPzAPsbDBjURZLXg/CAI7X33lAf59jbOB3fH22oYypyfx8iRems1BlJzdQrDp2lP
+         Nvg8PbHDlsd5ybexYq6HZmpniOScYv0Kcy/tTHNmjh2cw/kM5GvFYO4bTA34bnT9rrGB
+         ntew==
+X-Gm-Message-State: ACrzQf1RnWaNuW3DiqsJaX8bN786h1fJ+G+Z2dXSRYlVwR4PA4or3OMv
+	fCMmlIzLBjDrYfLOy6lLbZwVlw==
+X-Google-Smtp-Source: AMsMyM47dsm4TxegiRkZUeLCH+5O+Wr8H54uLORgq4Q+/7wXo2aoGW0gmLRhcDSR3jPPk1osSOqTXA==
+X-Received: by 2002:ac8:5a8b:0:b0:35b:f5c0:d5c9 with SMTP id c11-20020ac85a8b000000b0035bf5c0d5c9mr9233331qtc.14.1663973931136;
+        Fri, 23 Sep 2022 15:58:51 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
+        by smtp.gmail.com with ESMTPSA id s5-20020a05620a254500b006b98315c6fbsm7255492qko.1.2022.09.23.15.58.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Sep 2022 15:58:50 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1obrdB-00316G-At;
+	Fri, 23 Sep 2022 19:58:49 -0300
+Date: Fri, 23 Sep 2022 19:58:49 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Logan Gunthorpe <logang@deltatee.com>
+Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-mm@kvack.org, Christoph Hellwig <hch@lst.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Minturn Dave B <dave.b.minturn@intel.com>,
+	Jason Ekstrand <jason@jlekstrand.net>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Xiong Jianxin <jianxin.xiong@intel.com>,
+	Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Martin Oliveira <martin.oliveira@eideticom.com>,
+	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+	Ralph Campbell <rcampbell@nvidia.com>,
+	Stephen Bates <sbates@raithlin.com>
+Subject: Re: [PATCH v10 1/8] mm: introduce FOLL_PCI_P2PDMA to gate getting
+ PCI P2PDMA pages
+Message-ID: <Yy46KbD/PvhaHA6X@ziepe.ca>
+References: <20220922163926.7077-1-logang@deltatee.com>
+ <20220922163926.7077-2-logang@deltatee.com>
+ <Yy33LUqvDLSOqoKa@ziepe.ca>
+ <64f8da81-7803-4db4-73da-a158295cbc9c@deltatee.com>
+ <Yy4Ot5MoOhsgYLTQ@ziepe.ca>
+ <2327d393-af5c-3f4c-b9b9-6852b9d72f90@deltatee.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 1/5] block: enable batched allocation for
- blk_mq_alloc_request()
-Content-Language: en-US
-To: Pankaj Raghav <p.raghav@samsung.com>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Cc: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-nvme@lists.infradead.org, joshi.k@samsung.com,
- Pankaj Raghav <pankydev8@gmail.com>, Bart Van Assche <bvanassche@acm.org>
-References: <20220922182805.96173-1-axboe@kernel.dk>
- <20220922182805.96173-2-axboe@kernel.dk>
- <CGME20220923145245eucas1p107655755f446bb1e1318539a3f82d301@eucas1p1.samsung.com>
- <20220923145236.pr7ssckko4okklo2@quentin>
- <c7b76fa1-f7e3-3ac6-c92d-35baa0d9a40a@samsung.com>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <c7b76fa1-f7e3-3ac6-c92d-35baa0d9a40a@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2327d393-af5c-3f4c-b9b9-6852b9d72f90@deltatee.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220923_135415_447550_CA36DF76 
-X-CRM114-Status: GOOD (  18.58  )
+X-CRM114-CacheID: sfid-20220923_155853_848273_255DB5BD 
+X-CRM114-Status: GOOD (  24.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,66 +114,90 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/23/22 9:13 AM, Pankaj Raghav wrote:
-> On 2022-09-23 16:52, Pankaj Raghav wrote:
->> On Thu, Sep 22, 2022 at 12:28:01PM -0600, Jens Axboe wrote:
->>> The filesystem IO path can take advantage of allocating batches of
->>> requests, if the underlying submitter tells the block layer about it
->>> through the blk_plug. For passthrough IO, the exported API is the
->>> blk_mq_alloc_request() helper, and that one does not allow for
->>> request caching.
->>>
->>> Wire up request caching for blk_mq_alloc_request(), which is generally
->>> done without having a bio available upfront.
->>>
->>> Signed-off-by: Jens Axboe <axboe@kernel.dk>
->>> ---
->>>  block/blk-mq.c | 80 ++++++++++++++++++++++++++++++++++++++++++++------
->>>  1 file changed, 71 insertions(+), 9 deletions(-)
->>>
->> I think we need this patch to ensure correct behaviour for passthrough:
->>
->> diff --git a/block/blk-mq.c b/block/blk-mq.c
->> index c11949d66163..840541c1ab40 100644
->> --- a/block/blk-mq.c
->> +++ b/block/blk-mq.c
->> @@ -1213,7 +1213,7 @@ void blk_execute_rq_nowait(struct request *rq, bool at_head)
->>         WARN_ON(!blk_rq_is_passthrough(rq));
->>  
->>         blk_account_io_start(rq);
->> -       if (current->plug)
->> +       if (blk_mq_plug(rq->bio))
->>                 blk_add_rq_to_plug(current->plug, rq);
->>         else
->>                 blk_mq_sched_insert_request(rq, at_head, true, false);
->>
->> As the passthrough path can now support request caching via blk_mq_alloc_request(),
->> and it uses blk_execute_rq_nowait(), bad things can happen at least for zoned
->> devices:
->>
->> static inline struct blk_plug *blk_mq_plug( struct bio *bio)
->> {
->> 	/* Zoned block device write operation case: do not plug the BIO */
->> 	if (bdev_is_zoned(bio->bi_bdev) && op_is_write(bio_op(bio)))
->> 		return NULL;
->> ..
+On Fri, Sep 23, 2022 at 02:11:03PM -0600, Logan Gunthorpe wrote:
 > 
-> Thinking more about it, even this will not fix it because op is
-> REQ_OP_DRV_OUT if it is a NVMe write for passthrough requests.
 > 
-> @Damien Should the condition in blk_mq_plug() be changed to:
+> On 2022-09-23 13:53, Jason Gunthorpe wrote:
+> > On Fri, Sep 23, 2022 at 01:08:31PM -0600, Logan Gunthorpe wrote:
+> > I'm encouraging Dan to work on better infrastructure in pgmap core
+> > because every pgmap implementation has this issue currently.
+> > 
+> > For that reason it is probably not so relavent to this series.
+> > 
+> > Perhaps just clarify in the commit message that the FOLL_LONGTERM
+> > restriction is to copy DAX until the pgmap page refcounts are fixed.
 > 
-> static inline struct blk_plug *blk_mq_plug( struct bio *bio)
-> {
-> 	/* Zoned block device write operation case: do not plug the BIO */
-> 	if (bdev_is_zoned(bio->bi_bdev) && !op_is_read(bio_op(bio)))
-> 		return NULL;
+> Ok, I'll add that note.
+> 
+> Per the fix for the try_grab_page(), to me it doesn't fit well in 
+> try_grab_page() without doing a bunch of cleanup to change the
+> error handling, and the same would have to be added to try_grab_folio().
+> So I think it's better to leave it where it was, but move it below the 
+> respective grab calls. Does the incremental patch below look correct?
 
-That looks reasonable to me. It'll prevent plug optimizations even
-for passthrough on zoned devices, but that's probably fine.
+Oh? I was thinking of just a very simple thing:
 
--- 
-Jens Axboe
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -225,6 +225,11 @@ bool __must_check try_grab_page(struct page *page, unsigned int flags)
+                node_stat_mod_folio(folio, NR_FOLL_PIN_ACQUIRED, 1);
+        }
+ 
++       if (unlikely(!(flags & FOLL_PCI_P2PDMA) && is_pci_p2pdma_page(page))) {
++               gup_put_folio(page_folio(page), 1, flags);
++              return false;
++       }
++
+        return true;
+ }
 
+
+> I am confused about what happens if neither FOLL_PIN or FOLL_GET 
+> are set (which the documentation for try_grab_x() says is possible, but
+> other documentation suggests that FOLL_GET is automatically set). 
+> In which case it'd be impossible to do the check if we can't 
+> access the page.
+
+try_grab_page is operating under the PTL so it can probably touch the
+page OK (though perhaps we don't need to even check anything)
+
+try_grab_folio cannot be called without PIN/GET, so like this perhaps:
+
+@@ -123,11 +123,14 @@ static inline struct folio *try_get_folio(struct page *page, int refs)
+  */
+ struct folio *try_grab_folio(struct page *page, int refs, unsigned int flags)
+ {
++       struct folio *folio;
++
++       if (WARN_ON((flags & (FOLL_GET | FOLL_PIN)) == 0))
++               return NULL;
++
+        if (flags & FOLL_GET)
+-               return try_get_folio(page, refs);
++               folio = try_get_folio(page, refs);
+        else if (flags & FOLL_PIN) {
+-               struct folio *folio;
+-
+                /*
+                 * Can't do FOLL_LONGTERM + FOLL_PIN gup fast path if not in a
+                 * right zone, so fail and let the caller fall back to the slow
+@@ -160,11 +163,14 @@ struct folio *try_grab_folio(struct page *page, int refs, unsigned int flags)
+                                        refs * (GUP_PIN_COUNTING_BIAS - 1));
+                node_stat_mod_folio(folio, NR_FOLL_PIN_ACQUIRED, refs);
+ 
+-               return folio;
+        }
+ 
+-       WARN_ON_ONCE(1);
+-       return NULL;
++       if (unlikely(!(flags & FOLL_PCI_P2PDMA) && is_pci_p2pdma_page(page))) {
++               gup_put_folio(page, 1, flags);
++               return NULL;
++       }
++
++       return folio;
+ }
+
+Jason
 
 
