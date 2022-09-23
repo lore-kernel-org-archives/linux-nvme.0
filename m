@@ -4,138 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 043B8C07E9D
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 17:39:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EBE08C04A95
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 18:13:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uWKwk/Zw9bFSyQrcJcSCU7+huozs0FwbWylJN85xRgw=; b=pzQrJtGJOe0hLix5syY1Nq4KC7
-	MgQCtfKioHxnqeZHsx3k8idyMi6L7n+WIgqLpIFCj6SuMUzY81Kse4HYBVE2pS93yvsRXy5oXowxQ
-	0YDt6LiuE3e/YOIA19a2gpzY72bx41ygA0Yrvsu8Zc4VZLh12ncEweMhDxr8PPtrNgLXJR5G0tJ9U
-	wooI2WADIWN4ofKayjd5rklcIp9nIFN6Xuz3f4ycei/MdmCF20oBdXsIrO/zeModdG+a3sfPQ37Vz
-	fd38VjQxYLdSIbl9FXPvN6RoP2Ec7QOPoAfhdeeVktMdFUrEm7m2NyvtkLonHnXAlPisUl9fraf9U
-	vwEgjbtA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ESjxMV4FxoH+Qzt/uSGYOPflTsCgLENu7dcc3YowE6k=; b=KETa6g2Mz8zWzwLbVz53ye0A1Y
+	OmVWxcOiPBpwx9qK0AtCBRK8N/hCuPOGHjozpsmw9HkgxiG6QZ0LKfebc5JQOIyTnQBBwWFTeFzyn
+	CIwZSedreMoT1qwOdze6y7ZmCpUqcz3NRwtrwP/4ZuH41AQRgNGA+hgPBjI7tOcyNO980Zw/li+OY
+	0LyOt7V6SenoM/0h6a85BjQEYxdTkPBD8LapvNeW39Wx/B0xYtFJuSGCqIq2gDEcwWv9I9z9CkvFi
+	acN8S3VuwrSdBD5Wqc98YDiFoqrWQMAYUSytE69u8rkBU1/SYUcWCDwcS7vijSGyyoBCBr034I0rw
+	1G6T1Bvw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obmeW-005B9q-2b; Fri, 23 Sep 2022 17:39:52 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1obnAk-005Ifw-8l; Fri, 23 Sep 2022 18:13:10 +0000
+Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obmbY-0059sE-O1
-	for linux-nvme@bombadil.infradead.org; Fri, 23 Sep 2022 17:36:48 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Sender:Reply-To:Content-ID:Content-Description;
-	bh=uWKwk/Zw9bFSyQrcJcSCU7+huozs0FwbWylJN85xRgw=; b=jo3rMX8ph1Jc3xPX+u0G+eS57e
-	rillubXUGQSHQddcrs8vncGqkp4s2lKTKLIqXcujQV/VtzhuK9z/pL+LTNptq/LIqLW/y6tapX24J
-	+WOoQ1TLafyVmjB40pJvfWDfsB74AglriGe6zqRwkar3xFDiuzdjFcv7iWL7jyrmqim1AC8E9tCFp
-	ST0616wLUI1AwGPSMCO5pUuP0gpEQcW1HPWeAbkGq1nWlRDqBA9jZg6z7yJ42bq0PT7VKecGzTjtt
-	bkEDrqd6qaxdLIA9I/VAy0D2mWU3xsFxbJGqIvqiAD5BQmcFQGOz+6svgqHV1DMYR62psdGXUXCbA
-	jnY68nyg==;
-Received: from mailout1.w1.samsung.com ([210.118.77.11])
-	by desiato.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obmbS-00FGyK-BQ
-	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 17:36:47 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20220923173632euoutp016e56afcc0855034c9b3c28f2c13eac77~XjeKurRlX0810708107euoutp01S
-	for <linux-nvme@lists.infradead.org>; Fri, 23 Sep 2022 17:36:32 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20220923173632euoutp016e56afcc0855034c9b3c28f2c13eac77~XjeKurRlX0810708107euoutp01S
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1663954592;
-	bh=uWKwk/Zw9bFSyQrcJcSCU7+huozs0FwbWylJN85xRgw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XYF/8rocAiFLNkVqNyHyBblxVZgb8ckYzFu4hnbYT0N3/EU9vEhUj8T+gI33ft89h
-	 dqUbc56uHD/484b7LwfDcITGQLVWJIv4rHuDMww8QYNDBb/295h3GYca4bITgwd4J3
-	 ffBkoe3YPRpc4p/AKooIG6bcMuS5u3FMTs9gKYsk=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20220923173630eucas1p1a489121322cbc8d3112fd1dc005e72be~XjeJZVNTw2512925129eucas1p1p;
-	Fri, 23 Sep 2022 17:36:30 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-	eusmges1new.samsung.com (EUCPMTA) with SMTP id 2D.6E.29727.E9EED236; Fri, 23
-	Sep 2022 18:36:30 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20220923173629eucas1p27c1ebffb55c2f1a52fad913840b16d02~XjeIYpAeJ3127531275eucas1p2C;
-	Fri, 23 Sep 2022 17:36:29 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20220923173629eusmtrp2589da37c46d342f75699d90733786591~XjeIX5tQg1023410234eusmtrp29;
-	Fri, 23 Sep 2022 17:36:29 +0000 (GMT)
-X-AuditID: cbfec7f2-21dff7000001741f-34-632dee9e21e2
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-	eusmgms2.samsung.com (EUCPMTA) with SMTP id 9A.5F.10862.D9EED236; Fri, 23
-	Sep 2022 18:36:29 +0100 (BST)
-Received: from localhost (unknown [106.210.248.168]) by eusmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20220923173629eusmtip2de3703de13204c51bab5ebfcae6c9dff~XjeIEVREQ1628216282eusmtip2a;
-	Fri, 23 Sep 2022 17:36:29 +0000 (GMT)
-From: Pankaj Raghav <p.raghav@samsung.com>
-To: snitzer@kernel.org, axboe@kernel.dk, agk@redhat.com, hch@lst.de,
-	damien.lemoal@opensource.wdc.com
-Cc: jaegeuk@kernel.org, gost.dev@samsung.com, bvanassche@acm.org,
-	linux-kernel@vger.kernel.org, hare@suse.de, matias.bjorling@wdc.com,
-	Johannes.Thumshirn@wdc.com, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, pankydev8@gmail.com, dm-devel@redhat.com,
-	Pankaj Raghav <p.raghav@samsung.com>, Luis Chamberlain <mcgrof@kernel.org>,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Subject: [PATCH v15 09/13] dm-zone: use generic helpers to calculate offset
- from zone start
-Date: Fri, 23 Sep 2022 19:36:14 +0200
-Message-Id: <20220923173618.6899-10-p.raghav@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220923173618.6899-1-p.raghav@samsung.com>
+	id 1obnAh-005IdZ-At
+	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 18:13:08 +0000
+Received: by mail-qt1-x835.google.com with SMTP id g23so574804qtu.2
+        for <linux-nvme@lists.infradead.org>; Fri, 23 Sep 2022 11:13:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=ESjxMV4FxoH+Qzt/uSGYOPflTsCgLENu7dcc3YowE6k=;
+        b=kY7MMNDmdRDXgBREGl1n+cj9EEOun4Jy+ls14IMPSV0csWh1NDhj6Y4IB13T7BfdUg
+         Wi26eUp33Pa5tk7zFyBI2Mq+szalxQ6Q7xLkG63kAED5icqyWvausogbFqMjBz0Q3OAh
+         8jqc4H2+05KPQwocTeDkku8kSoajsIwV/5IYLvCARPSewr33UpGNeEeIiU9QvvDqKKWA
+         39NJUXg4YGPg3p8VI/Tc5XyFrJVFGr/E8X/vqYnNdWZ2ScfDLSTdMHKUBAKg0NCPBOg6
+         IuCIVAumakjRmdj960aYL4S9ORJZ+CwZb7srEB3nY3ZBFIp+qJ2V46gkbAaTq221ryrS
+         b8jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=ESjxMV4FxoH+Qzt/uSGYOPflTsCgLENu7dcc3YowE6k=;
+        b=E0wjeV+oFTSyqgrhxdqgHBFTSUH0eHEOIyYw29NwIgi+ov3ffkwFhsNZTcmUUoVHJg
+         G7xVAiLd/zXDm30AXout0UKK3Swakw7IHGElCSYsr2ieTeyPnCXFRpDkGoVXeTLKe9po
+         Xc5kviC+q+AA1lqqbvbdAEPBLtD/NwCFdpi66XfhSEhCeNzBNU6pdhSJwXE6+GbetHte
+         dgoIax4kxJfD+Rnp6PI+KpRfQxW1m0rDrzz5gio+h6ei/fjocsJJ9xFMPQLl7i9AdcFE
+         YpUTgJ5lgj7ZzgPrMGAzUL2upmxAr1AZQObIwmVkQ+eyYWuEpA3ORZqN8SZ/+kUjk2Kp
+         hKxQ==
+X-Gm-Message-State: ACrzQf0smAGZQqpcaKSbx1LQhXZygRbJtrp3QSgvVzLAHLrkceVkMZmp
+	N0U5gOZCNSsvzR+h8m/fKVyL+g==
+X-Google-Smtp-Source: AMsMyM70jy04UOYomyiLCRjAafYD9I2h2rthRpjbDcZ+gaI+Pe3GK1nBzDBvaI6cptEThcPFiSijKQ==
+X-Received: by 2002:a05:622a:1053:b0:35c:bab4:bd80 with SMTP id f19-20020a05622a105300b0035cbab4bd80mr8343380qte.189.1663956782680;
+        Fri, 23 Sep 2022 11:13:02 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
+        by smtp.gmail.com with ESMTPSA id r13-20020ac87eed000000b0034035e73be0sm5730575qtc.4.2022.09.23.11.13.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Sep 2022 11:13:01 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1obnAb-002jAI-6N;
+	Fri, 23 Sep 2022 15:13:01 -0300
+Date: Fri, 23 Sep 2022 15:13:01 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Logan Gunthorpe <logang@deltatee.com>
+Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-mm@kvack.org, Christoph Hellwig <hch@lst.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Minturn Dave B <dave.b.minturn@intel.com>,
+	Jason Ekstrand <jason@jlekstrand.net>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Xiong Jianxin <jianxin.xiong@intel.com>,
+	Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Martin Oliveira <martin.oliveira@eideticom.com>,
+	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+	Ralph Campbell <rcampbell@nvidia.com>,
+	Stephen Bates <sbates@raithlin.com>
+Subject: Re: [PATCH v10 1/8] mm: introduce FOLL_PCI_P2PDMA to gate getting
+ PCI P2PDMA pages
+Message-ID: <Yy33LUqvDLSOqoKa@ziepe.ca>
+References: <20220922163926.7077-1-logang@deltatee.com>
+ <20220922163926.7077-2-logang@deltatee.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrEKsWRmVeSWpSXmKPExsWy7djP87rz3ukmG7x4oWSx/tQxZovVd/vZ
-	LKZ9+Mls8fvseWaLve9ms1rcPLCTyWLPoklMFitXH2WyeLJ+FrPF3657TBZ7b2lbXN41h81i
-	/rKn7BYT2r4yW9yY8JTR4vPSFnaLNTefslicuCXtIORx+Yq3x85Zd9k9Lp8t9di0qpPNY/OS
-	eo/dNxvYPHa23mf1eL/vKptH35ZVjB6bT1d7fN4k59F+oJspgCeKyyYlNSezLLVI3y6BK2Pd
-	kSWsBSt5KnpXvWVuYJzH1cXIySEhYCLxbvJvli5GLg4hgRWMEo9/LGWFcL4wSsxY/4AZwvnM
-	KPF+5ik2mJbnk64xQSSWM0rM6rsJ5bxklJjX9ACoioODTUBLorGTHaRBRCBd4vjWm2A2s0A/
-	s8TtfbkgJcICsRIHX+eAhFkEVCU+LloPNp9XwFKiceoSVohd8hIzL31nBynnBIr3N9ZAlAhK
-	nJz5hAViorxE89bZYHdKCGznlPj++DnUnS4SHVuuMkPYwhKvjm9hh7BlJP7vnM8EYVdLPL3x
-	G6q5hVGif+d6sPMlBKwl+s7kgJjMApoS63fpQ5Q7SqyZNYUFooJP4sZbQYgT+CQmbZvODBHm
-	lehoE4KoVpLY+fMJ1FIJictNc1ggbA+JKctfMU5gVJyF5JlZSJ6ZhbB3ASPzKkbx1NLi3PTU
-	YsO81HK94sTc4tK8dL3k/NxNjMBkePrf8U87GOe++qh3iJGJg/EQowQHs5IIb8pF3WQh3pTE
-	yqrUovz4otKc1OJDjNIcLErivGwztJKFBNITS1KzU1MLUotgskwcnFINTM072iOcoxY1+NgF
-	L/F/IrX62BnHhvO7k0Ob7giX1kj9+yulk9l8YS5Lw0p93j9rt0TLbun2brpzT+H5gn1OG6T7
-	1HWunxXasUG38HvU5YJG29yWudmVNcFK0rbrV4bye4d9EHLdW1I1yVJHJm7xccdYtemVWqEM
-	oWbC01fPUdgqeUO9R/vSqwLNLdLTNnyr+XH3uIJymd2bKgZ23dSfybyZv56yu2krnkg31IhQ
-	cc1RevPs2bQbwnpH1Wuyc+NOxK95F+8n4Pp35cZHVoULQgWZglqlky4c610go5TE+1Jkxdfk
-	VlbX0t2h7BsqDLrYlc5P5RA6usbtUoK/UGP0ceZSB+Frup7NFddV2ZVYijMSDbWYi4oTAfG1
-	05b1AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrMIsWRmVeSWpSXmKPExsVy+t/xe7pz3+kmGzx7J2ux/tQxZovVd/vZ
-	LKZ9+Mls8fvseWaLve9ms1rcPLCTyWLPoklMFitXH2WyeLJ+FrPF3657TBZ7b2lbXN41h81i
-	/rKn7BYT2r4yW9yY8JTR4vPSFnaLNTefslicuCXtIORx+Yq3x85Zd9k9Lp8t9di0qpPNY/OS
-	eo/dNxvYPHa23mf1eL/vKptH35ZVjB6bT1d7fN4k59F+oJspgCdKz6Yov7QkVSEjv7jEVina
-	0MJIz9DSQs/IxFLP0Ng81srIVEnfziYlNSezLLVI3y5BL2PdkSWsBSt5KnpXvWVuYJzH1cXI
-	ySEhYCLxfNI1pi5GLg4hgaWMEov3HGSCSEhI3F7YxAhhC0v8udbFBlH0nFHi3+N+1i5GDg42
-	AS2Jxk52kBoRgVyJY2vvsYLUMAvMZ5b4OvkQG0hCWCBaYv2lmWCDWARUJT4uWg8W5xWwlGic
-	uoQVYoG8xMxL39lBZnICxfsba0DCQgIWEucXP2KHKBeUODnzCQuIzQxU3rx1NvMERoFZSFKz
-	kKQWMDKtYhRJLS3OTc8tNtIrTswtLs1L10vOz93ECIzdbcd+btnBuPLVR71DjEwcjIcYJTiY
-	lUR4Uy7qJgvxpiRWVqUW5ccXleakFh9iNAU6eyKzlGhyPjB55JXEG5oZmBqamFkamFqaGSuJ
-	83oWdCQKCaQnlqRmp6YWpBbB9DFxcEo1MDEk7ytmVecxkAk9ueicifybpGXH9xqtverd+qln
-	i4Vn5pvFr2+pbS1vqVQp/mtzaLNMj+G8r28u+i5MbWXPUW9znTlpnYj4fTZfNTHtNI+kKQFz
-	Cp5NN87xWX7UqiFPSK+nMVzI/7bqVkZ1kWVZnR/czr7Uf/dzYqdfyeXnH/OUxbPC3hYvz+Hy
-	LTNaF3qhRsbGbjNT2surO6YuKPqc8+TRJLZlv5f1Nt7Tfycur7s2o8TJtfTK7xu7Tsf9vffH
-	UPaq4puU54/ES7sOn2rnT14nw20698qrnxV3NyhwVQtv8+pyPcRV2FK2LPxEieHeg4fbTaR/
-	aT3aOttyBqdU125pQ+1wrq/NUjFTi7ymKLEUZyQaajEXFScCAP6WLIpmAwAA
-X-CMS-MailID: 20220923173629eucas1p27c1ebffb55c2f1a52fad913840b16d02
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20220923173629eucas1p27c1ebffb55c2f1a52fad913840b16d02
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220923173629eucas1p27c1ebffb55c2f1a52fad913840b16d02
-References: <20220923173618.6899-1-p.raghav@samsung.com>
-	<CGME20220923173629eucas1p27c1ebffb55c2f1a52fad913840b16d02@eucas1p2.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220922163926.7077-2-logang@deltatee.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220923_183642_606049_54FA39A9 
-X-CRM114-Status: GOOD (  13.59  )
+X-CRM114-CacheID: sfid-20220923_111307_393312_50DCB019 
+X-CRM114-Status: GOOD (  15.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,48 +110,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use the bdev_offset_from_zone_start() helper function to calculate
-the offset from zone start instead of using power of 2 based
-calculation.
+On Thu, Sep 22, 2022 at 10:39:19AM -0600, Logan Gunthorpe wrote:
+> GUP Callers that expect PCI P2PDMA pages can now set FOLL_PCI_P2PDMA to
+> allow obtaining P2PDMA pages. If GUP is called without the flag and a
+> P2PDMA page is found, it will return an error.
+> 
+> FOLL_PCI_P2PDMA cannot be set if FOLL_LONGTERM is set.
 
-Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
-Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
-Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
-Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Reviewed-by: Mike Snitzer <snitzer@kernel.org>
----
- drivers/md/dm-zone.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+What is causing this? It is really troublesome, I would like to fix
+it. eg I would like to have P2PDMA pages in VFIO iommu page tables and
+in RDMA MR's - both require longterm.
 
-diff --git a/drivers/md/dm-zone.c b/drivers/md/dm-zone.c
-index 3dafc0e8b7a9..ac6fc1293d41 100644
---- a/drivers/md/dm-zone.c
-+++ b/drivers/md/dm-zone.c
-@@ -390,7 +390,8 @@ static bool dm_zone_map_bio_begin(struct mapped_device *md,
- 	case REQ_OP_WRITE_ZEROES:
- 	case REQ_OP_WRITE:
- 		/* Writes must be aligned to the zone write pointer */
--		if ((clone->bi_iter.bi_sector & (zsectors - 1)) != zwp_offset)
-+		if (bdev_offset_from_zone_start(md->disk->part0,
-+						clone->bi_iter.bi_sector) != zwp_offset)
- 			return false;
- 		break;
- 	case REQ_OP_ZONE_APPEND:
-@@ -602,11 +603,8 @@ void dm_zone_endio(struct dm_io *io, struct bio *clone)
- 		 */
- 		if (clone->bi_status == BLK_STS_OK &&
- 		    bio_op(clone) == REQ_OP_ZONE_APPEND) {
--			sector_t mask =
--				(sector_t)bdev_zone_sectors(disk->part0) - 1;
--
- 			orig_bio->bi_iter.bi_sector +=
--				clone->bi_iter.bi_sector & mask;
-+				bdev_offset_from_zone_start(disk->part0, clone->bi_iter.bi_sector);
- 		}
- 
- 		return;
--- 
-2.25.1
+Is it just because ZONE_DEVICE was created for DAX and carried that
+revocable assumption over? Does anything in your series require
+revocable?
 
+> @@ -2383,6 +2392,10 @@ static int gup_pte_range(pmd_t pmd, unsigned long addr, unsigned long end,
+>  		VM_BUG_ON(!pfn_valid(pte_pfn(pte)));
+>  		page = pte_page(pte);
+>  
+> +		if (unlikely(!(flags & FOLL_PCI_P2PDMA) &&
+> +			     is_pci_p2pdma_page(page)))
+> +			goto pte_unmap;
+> +
+>  		folio = try_grab_folio(page, 1, flags);
+>  		if (!folio)
+>  			goto pte_unmap;
+
+On closer look this is not in the right place, we cannot touch the
+content of *page without holding a ref, and that doesn't happen until
+until try_grab_folio() completes.
+
+It would be simpler to put this check in try_grab_folio/try_grab_page
+after the ref has been obtained. That will naturally cover all the
+places that need it.
+
+Jason
 
