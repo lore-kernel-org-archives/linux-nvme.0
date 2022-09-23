@@ -4,76 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E168C54EE9
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Sep 2022 23:56:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B9FBC6FA8B
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 03:19:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=W2+hY5lHfF8Yuo41plQsF/0eXxPmqJupnSDFH4YELL4=; b=TSZEB94btKi3gz9M3X25K2VzuN
-	ezzWxGqBPf2LUUnN17j52FKtNQyYtVl4rv9J6DwEsL1qMhYZ6CpC0UiaubcKq/uggOICXyDDMcwl1
-	XpFUZ1IBzVbqYFWq1k/7nhNW6oOt2TqrcbL5Q6RW6NIFSZZsoeAQIOoUPE04+TljjbemAISOYtfpB
-	9M7XYIFoFycUsFEhkfqORyHY6n+ri8OQtfWw4Ah8G67D1Lq0p+3hM2Rhx+3MADKFLagXoHEKe8nIF
-	hk00KzRAJPkZzO4I8spF4nvLALY/dWG9nUwUZtb6PfOhVjH1qARWI93kLDnmSExX6V5h0sL2hNJIw
-	7JbZ/SSw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	In-Reply-To:References:Message-ID:Date:Subject:CC:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=otF4rhrmcOYp7dLLn2R8+mZ4XcPCBxZj6r221pbzPLA=; b=piRvpgEinRORCtUMAzD1kRG2UA
+	b2l2vzhhW+LWeNAH4Tx4qMhHYqp7IYQkCnoSss/5kQvNp4KroNXyAwSw1LVEf9BQZMWR92RaQ0Z+s
+	B7JyVQEoV4YKXIStX1MoufIq/In6xQcCm6/9nMTOXLhjO8wuzgmc5nuGNEIEhKZ3/jl3978w1b4fJ
+	qMRFaXOXQ7nAT1SbfkQfW1MK8lMyxW/iAkm6yY0WQd+8OAIdF4ySHKGrBu3KfMnBOV3JnwSiEInRa
+	NBORk1TQ4b15T64WjS8ElZoTL7elerEfw+YcXEz2Nds30lT1V/xQ3eO8ceJrIxZ4tHV7jFEKt3l0Z
+	MqpMcWMw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obW3F-000enN-FZ; Thu, 22 Sep 2022 23:56:17 +0000
-Received: from mail-pl1-f175.google.com ([209.85.214.175])
+	id 1obZDv-001i2j-8I; Fri, 23 Sep 2022 03:19:31 +0000
+Received: from spam1.phison.com ([60.249.103.136])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obW3C-000elz-6v
-	for linux-nvme@lists.infradead.org; Thu, 22 Sep 2022 23:56:15 +0000
-Received: by mail-pl1-f175.google.com with SMTP id v1so10265842plo.9
-        for <linux-nvme@lists.infradead.org>; Thu, 22 Sep 2022 16:56:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=W2+hY5lHfF8Yuo41plQsF/0eXxPmqJupnSDFH4YELL4=;
-        b=MMkX1wj/Z3sROIsTlGy5hNSbF6TTIA/pHYZSFaGV9Ws/WcI8n2lls7eT5bpIyYymh8
-         QPVwo+dVxImBC3YY7bWgeJLgNchqvOvnB9/O0Yia/bk8X10YD9zlBrq6HQ4G6XNxYayN
-         Twgb4mF7MbSTDARvlLNQtwUMLlWjaXK7k29R7KShq0iYI3gPUyiPgrLxhkgys1Ip/Oes
-         4CxHpJi/QPfxswtqPUr9MjvHkwxGOt3SqchAK0UEQfAWCYn/x1hS98XkqIPKPRlE7Hpz
-         MAIwtf/xqMePhKASJyj+nVqJWVkHheZm+P55Ar3FXl+bRp5+yeZMVVd/Yzs9KS0zTnGr
-         dgHw==
-X-Gm-Message-State: ACrzQf0ThXLfQig0qfBu6MgEK5W4ZUQoVO7e5cIMGC8Ew1Vg7LJcnWCi
-	8Sj+cuKKrUnbu5XjKcMwq3o=
-X-Google-Smtp-Source: AMsMyM7DnGl8Usys7cprZQSwOFa/NlnQp69DKqLnRIqNLOSTU/oMTFEKEH4OrfofFw1WRmQVRwtsKg==
-X-Received: by 2002:a17:902:d58f:b0:179:b756:6f5e with SMTP id k15-20020a170902d58f00b00179b7566f5emr4818263plh.1.1663890971926;
-        Thu, 22 Sep 2022 16:56:11 -0700 (PDT)
-Received: from [192.168.3.219] ([98.51.102.78])
-        by smtp.gmail.com with ESMTPSA id u10-20020a170903124a00b001782a0d3eeasm4698194plh.115.2022.09.22.16.56.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Sep 2022 16:56:10 -0700 (PDT)
-Message-ID: <8fd1d8b1-9f43-eb03-4a7f-187723d1c483@acm.org>
-Date: Thu, 22 Sep 2022 16:56:08 -0700
+	id 1obZDr-001hzD-SI
+	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 03:19:29 +0000
+X-UUID: df5d27741db544aca526f1b9a8177122-20220923
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.11,REQID:e28a0c00-9859-410f-91b3-6104cc68d46c,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-META: VersionHash:39a5ff1,CLOUDID:c91fc006-1cee-4c38-b21b-a45f9682fdc0,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: df5d27741db544aca526f1b9a8177122-20220923
+Received: from mail.phison.com [(192.168.1.112)] by spam1.phison.com
+	(envelope-from <ritach_lin@phison.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+	with ESMTP id 2047599724; Fri, 23 Sep 2022 11:18:54 +0800
+Received: from ExMBX2.phison.com (192.168.1.113) by ExMBX1.phison.com
+ (192.168.1.112) with Microsoft SMTP Server (TLS) id 15.0.1497.38; Fri, 23 Sep
+ 2022 11:18:52 +0800
+Received: from ExMBX2.phison.com ([fe80::1518:aa7a:367f:18f7]) by
+ ExMBX2.phison.com ([fe80::1518:aa7a:367f:18f7%23]) with mapi id
+ 15.00.1497.040; Fri, 23 Sep 2022 11:18:52 +0800
+From: Rita Lin <ritach_lin@phison.com>
+To: Christoph Hellwig <hch@lst.de>
+CC: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Sagi Grimberg
+	<sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, =?gb2312?B?/FPqyax8?=
+	<redd_huang@phison.com>, Tina Hsu <tina_hsu@phison.com>,
+	=?gb2312?B?Vml0YSBIc3VlaCAo0abSwdm7KQ==?= <Vita.Hsueh@quantatw.com>, "Wang,
+ Audrey" <audrey.wang@hp.com>
+Subject: RE: nvme-pci: disable write zeros support on SSDs
+Thread-Topic: nvme-pci: disable write zeros support on SSDs
+Thread-Index: AQHYzo9mLRoycnw5e06F0MlERwYXUq3sWP0A
+Date: Fri, 23 Sep 2022 03:18:52 +0000
+Message-ID: <97217d166814421d9de587e84c328580@ExMBX2.phison.com>
+References: <36fd82e8780742c2881f078f98110e5e@ExMBX2.phison.com>
+ <20220922053137.GA27191@lst.de>
+ <53e4a6192bf746af839d8da90917a248@ExMBX2.phison.com>
+ <20220922055231.GA27560@lst.de>
+ <1c9807fea3424be486190a99c923a228@ExMBX2.phison.com>
+ <20220922142626.GB28397@lst.de>
+In-Reply-To: <20220922142626.GB28397@lst.de>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.168.1.3]
+Content-Type: multipart/mixed;
+	boundary="_002_97217d166814421d9de587e84c328580ExMBX2phisoncom_"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: Please further explain Linux's "zoned storage" roadmap [was: Re:
- [PATCH v14 00/13] support zoned block devices with non-power-of-2 zone sizes]
-Content-Language: en-US
-To: Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Mike Snitzer <snitzer@redhat.com>, Pankaj Raghav <p.raghav@samsung.com>
-Cc: agk@redhat.com, snitzer@kernel.org, axboe@kernel.dk, hch@lst.de,
- pankydev8@gmail.com, gost.dev@samsung.com, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- dm-devel@redhat.com, Johannes.Thumshirn@wdc.com, jaegeuk@kernel.org,
- matias.bjorling@wdc.com
-References: <CGME20220920091120eucas1p2c82c18f552d6298d24547cba2f70b7fc@eucas1p2.samsung.com>
- <20220920091119.115879-1-p.raghav@samsung.com> <YytJhEywBhqcr7MX@redhat.com>
- <7dd9dbc0-b08b-fa47-5452-d448d86ca56b@opensource.wdc.com>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <7dd9dbc0-b08b-fa47-5452-d448d86ca56b@opensource.wdc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220922_165614_294551_F9B875A3 
-X-CRM114-Status: UNSURE (   8.20  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220922_201928_245940_9CE215D9 
+X-CRM114-Status: GOOD (  17.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,14 +91,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/21/22 16:55, Damien Le Moal wrote:
-> But again, that all depends on if Pankaj patch series is accepted, that
-> is, on everybody accepting that we lift the power-of-2 zone size constraint.
+--_002_97217d166814421d9de587e84c328580ExMBX2phisoncom_
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-The companies that are busy with implementing zoned storage for UFS 
-devices are asking for kernel support for non-power-of-2 zone sizes.
+RGVhciBDaHJpc3RvcGgsDQoNCldlIGhhZCBpbmNsdWRlZCBzaWduZWQgb2ZmIGJ5IGluZm9ybWF0
+aW9uIGluIHRoZSBwYXRjaC4NCldlIHdpbGwgdXNlIHBoaXNvbi5jb3JwLXBhcnRuZXIuZ29vZ2xl
+LmNvbSBmb3IgdGhpcyBjYXNlLg0KVGhhbmsgeW91Lg0KDQpSaXRhIExpbsHW3b3s0w0KKzg4Ni0z
+Ny01ODYtODk2IEV4dC44MDA1MQ0Kcml0YWNoX2xpbkBwaGlzb24uY29tDQoNCg0KLS0tLS1Pcmln
+aW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IENocmlzdG9waCBIZWxsd2lnIFttYWlsdG86aGNoQGxz
+dC5kZV0NClNlbnQ6IFRodXJzZGF5LCBTZXB0ZW1iZXIgMjIsIDIwMjIgMTA6MjYgUE0NClRvOiBS
+aXRhIExpbiA8cml0YWNoX2xpbkBwaGlzb24uY29tPg0KQ2M6IENocmlzdG9waCBIZWxsd2lnIDxo
+Y2hAbHN0LmRlPjsgS2VpdGggQnVzY2ggPGtidXNjaEBrZXJuZWwub3JnPjsgSmVucyBBeGJvZSA8
+YXhib2VAZmIuY29tPjsgU2FnaSBHcmltYmVyZyA8c2FnaUBncmltYmVyZy5tZT47IGxpbnV4LW52
+bWVAbGlzdHMuaW5mcmFkZWFkLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsg/FPq
+yax8IDxyZWRkX2h1YW5nQHBoaXNvbi5jb20+OyBUaW5hIEhzdSA8dGluYV9oc3VAcGhpc29uLmNv
+bT47IFZpdGEgSHN1ZWggKNGm0sHZuykgPFZpdGEuSHN1ZWhAcXVhbnRhdHcuY29tPjsgV2FuZywg
+QXVkcmV5IDxhdWRyZXkud2FuZ0BocC5jb20+DQpTdWJqZWN0OiBSZTogbnZtZS1wY2k6IGRpc2Fi
+bGUgd3JpdGUgemVyb3Mgc3VwcG9ydCBvbiBTU0RzDQoNCkNhbiB5b3UgZ2l2ZSBtZSBhIFNpZ25l
+ZC1vZmYtYnk6IGZvciB0aGlzIHBhdGNoIGFzIHdlbGw/DQoNCkFsc28gc2hvdWxkIHRoaXMgcmVh
+bGx5IHVzZSB0aGUgcGhpc29uLmNvcnAtcGFydG5lci5nb29nbGUuY29tIG9yIHBoaXNvbi5jb20g
+Zm9yIHRoZSBBdXRob3IgaWRlbnRpZmljYXRpb24/ICAoU2FtZSBmb3IgdGhlIHNpZ25vZmYpLg0K
+DQoNCg0KVGhpcyBtZXNzYWdlIGFuZCBhbnkgYXR0YWNobWVudHMgYXJlIGNvbmZpZGVudGlhbCBh
+bmQgbWF5IGJlIGxlZ2FsbHkgcHJpdmlsZWdlZC4gQW55IHVuYXV0aG9yaXplZCByZXZpZXcsIHVz
+ZSBvciBkaXN0cmlidXRpb24gYnkgYW55b25lIG90aGVyIHRoYW4gdGhlIGludGVuZGVkIHJlY2lw
+aWVudCBpcyBzdHJpY3RseSBwcm9oaWJpdGVkLiBJZiB5b3UgYXJlIG5vdCB0aGUgaW50ZW5kZWQg
+cmVjaXBpZW50LCBwbGVhc2UgaW1tZWRpYXRlbHkgbm90aWZ5IHRoZSBzZW5kZXIsIGNvbXBsZXRl
+bHkgZGVsZXRlIHRoZSBtZXNzYWdlIGFuZCBhbnkgYXR0YWNobWVudHMsIGFuZCBkZXN0cm95IGFs
+bCBjb3BpZXMuIFlvdXIgY29vcGVyYXRpb24gd2lsbCBiZSBoaWdobHkgYXBwcmVjaWF0ZWQuDQo=
 
-Thanks,
+--_002_97217d166814421d9de587e84c328580ExMBX2phisoncom_
+Content-Type: application/octet-stream;
+	name="0001-PATCH-Add-Phison-E3C-E4C-Disable-Write-Zero.patch"
+Content-Description: 0001-PATCH-Add-Phison-E3C-E4C-Disable-Write-Zero.patch
+Content-Disposition: attachment;
+	filename="0001-PATCH-Add-Phison-E3C-E4C-Disable-Write-Zero.patch"; size=1421;
+	creation-date="Fri, 23 Sep 2022 03:18:49 GMT";
+	modification-date="Fri, 23 Sep 2022 03:18:49 GMT"
+Content-Transfer-Encoding: base64
 
-Bart.
+RnJvbSAyNWEzMmE4NWZmYTI2Y2JiZjA2NDlkMmI1NDU3ZjZlMTNlYzg1OTAzIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBUaW5hIEhzdSA8dGluYV9oc3VAcGhpc29uLmNvcnAtcGFydG5l
+ci5nb29nbGUuY29tPgpEYXRlOiBUaHUsIDIyIFNlcCAyMDIyIDE0OjE2OjMwICswODAwClN1Ympl
+Y3Q6IFtQQVRDSF0gW1BBVENIXSBBZGQgUGhpc29uIEUzQy9FNEMgRGlzYWJsZSBXcml0ZSBaZXJv
+CgpFM0MvRTRDIFNTRHMgZG8gc3VwcG9ydCB3cml0ZSAwIGNvbW1hbmQgYW5kIHRoZSBmdW5jdGlv
+biB3YXMgdGVzdGVkIHdpdGhvdXQgaXNzdWUuCkJ1dCBzaW5jZSB0aGVzZSBTU0RzIGFyZSBEUkFN
+bGVzcyBwcm9kdWN0cywgdGhlIHdyaXRlIDAgY29tbWFuZCB3aWxsIHRha2UgYSBsb3QgbG9uZ2Vy
+IHRvIGNvbXBsZXRlIHdoaWNoIGhhZCBpbXBhY3RlZCB0aGUgcHJvZHVjdCBwZXJmb3JtYW5jZS4K
+RHVlIHRvIHRoZSBGVyBoYWQgYmVlbiBmcm96ZW4sIHdlIHdvdWxkIGxpa2UgdG8gY2hlY2sgaWYg
+d2UgY291bGQgYXBwbHkgQ0wgZm9yIHRoZXNlIDIgcHJvZHVjdHMuCgpzaWduZWQtb2ZmLWJ5OiBU
+aW5hIEhzdSA8dGluYV9oc3VAcGhpc29uLmNvcnAtcGFydG5lci5nb29nbGUuY29tPgotLS0KIGRy
+aXZlcnMvbnZtZS9ob3N0L3BjaS5jIHwgNCArKysrCiAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRp
+b25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3QvcGNpLmMgYi9kcml2ZXJzL252
+bWUvaG9zdC9wY2kuYwppbmRleCA5ODg2NGI4NTNlZWYuLjY3ZDMzMzVlOWNjOCAxMDA2NDQKLS0t
+IGEvZHJpdmVycy9udm1lL2hvc3QvcGNpLmMKKysrIGIvZHJpdmVycy9udm1lL2hvc3QvcGNpLmMK
+QEAgLTM0NzAsNiArMzQ3MCwxMCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IHBjaV9kZXZpY2VfaWQg
+bnZtZV9pZF90YWJsZVtdID0gewogCXsgUENJX0RFVklDRSgweDE5ODcsIDB4NTAxNiksCS8qIFBo
+aXNvbiBFMTYgKi8KIAkJLmRyaXZlcl9kYXRhID0gTlZNRV9RVUlSS19JR05PUkVfREVWX1NVQk5R
+TiB8CiAJCQkJTlZNRV9RVUlSS19CT0dVU19OSUQsIH0sCisJeyBQQ0lfREVWSUNFKDB4MTk4Nywg
+MHg1MDE5KSwgIC8qIHBoaXNvbiBFMTkgKi8KKwkJLmRyaXZlcl9kYXRhID0gTlZNRV9RVUlSS19E
+SVNBQkxFX1dSSVRFX1pFUk9FUywgfSwKKwl7IFBDSV9ERVZJQ0UoMHgxOTg3LCAweDUwMjEpLCAg
+IC8qIFBoaXNvbiBFMjEgKi8KKwkJLmRyaXZlcl9kYXRhID0gTlZNRV9RVUlSS19ESVNBQkxFX1dS
+SVRFX1pFUk9FUywgfSwKIAl7IFBDSV9ERVZJQ0UoMHgxYjRiLCAweDEwOTIpLAkvKiBMZXhhciAy
+NTYgR0IgU1NEICovCiAJCS5kcml2ZXJfZGF0YSA9IE5WTUVfUVVJUktfTk9fTlNfREVTQ19MSVNU
+IHwKIAkJCQlOVk1FX1FVSVJLX0lHTk9SRV9ERVZfU1VCTlFOLCB9LAotLSAKMi4yNS4xCgo=
+
+--_002_97217d166814421d9de587e84c328580ExMBX2phisoncom_--
+
 
