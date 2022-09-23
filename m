@@ -4,161 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CA64DECAAD8
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 06:35:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25915ECAAD8
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 07:34:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=v2iYqvCPRr/dGj/xWiETCjB9OLX80CoYbn7ickw0Fvw=; b=qLg8Huv6I0ZmGwffLyiyHk0tK9
-	uNqr53uMs12vOYc2iMN6oWgqg78dSUlMnU29xB3k6rEqdyg0kiBWOqc8JaMjcdU90htcd0q323MGK
-	LOHwqCJibcX4Im6yI8hx1T+nDooBIcxYv1AaSvTEIbXM5BRn5w+a0N8gHLc0Ec40peAz5fVtQpgLd
-	NLb7X0gEMsdffNjxbu6b0fiY3DdWYWmoZP0JpeDEnkYwV3eYJ6ymaRCwch6aCYQNfR4Ut8aph012R
-	Wm5NVCuIVHuTEZszHhgKqLuXYIqwzcoqfoWPj8uWMldt9ttaRvraIWfUUjvvEu5lKUjpZ4u3ZNKt0
-	7YmZQKgQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:MIME-Version:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Aa9eT3/nlIqJee07pmYdPkP0VMs8PyHMV64c9/YvCkY=; b=UgiKJm49jwLjYMUnFyOHkwk8JA
+	ou06j/j07V1wCI8280DutlbuwchKVYEE7IiwfqgFFRDFveY4x9UC/38n+QKml/yZfrR3vQ3CoEZeI
+	NHIIt41iggIQ2qsILrTqnSKL5vYf/iwdOH0t4y+heriGcmxTnhzw34lEvtdccsCasq6RZgBn3lFcc
+	sYukvkz45D8Ug9E3oN1iNK6Ffp84vN4r6uVPDW2rT1DpckXHmkos0sO0X8JOWSJ8/x5S+rtXupxe5
+	c5EzZ3Hv/iDSvwvQaUquXVGaSCwu4MXcv0qleucPA7UWISWbZ7Yq5dv7gMcFG0f1FlJdAXh526kMl
+	kiqi82VA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obcH6-002W4o-NB; Fri, 23 Sep 2022 06:35:00 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1obdCc-002irt-GL; Fri, 23 Sep 2022 07:34:26 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obcC4-002Tan-BT
-	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 06:29:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1663914587; x=1695450587;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=v2iYqvCPRr/dGj/xWiETCjB9OLX80CoYbn7ickw0Fvw=;
-  b=XgmzlW0U1sDnB2J+l8e0EjvunMems4LdkKHyFm18uIS5ONVgt0D7sJ6q
-   kURBGwSCSiPsgVFbxn/hOXvx2TJH0ypqRtX9dkEV/8PJAwXXvFH8XLuA2
-   MOLfkfhPSvBv66OB1f+hqsEj4R5lsBGIu31Jnjc47av1DfE1Q1E5/bmz6
-   AQXrm6SKiRIN9YyRU8WWP1+qcmdbZngUPYbAyLNrMlC0Mabhc4C249rys
-   Vti/fcHkrBFAldnAvya1N+iaZH/WlhVKb7VcQOHdXaOzmKnHMMO6lP8Z6
-   +FL3LNwvpq7oB6/jIBbI4snQs74EBqQFT+THRD4j7LLIY5piM7IGWzMtT
-   w==;
-X-IronPort-AV: E=Sophos;i="5.93,337,1654531200"; 
-   d="scan'208";a="212093524"
-Received: from mail-co1nam11lp2176.outbound.protection.outlook.com (HELO NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.176])
-  by ob1.hgst.iphmx.com with ESMTP; 23 Sep 2022 14:29:43 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BFp6FQw0WKxELE05k0etYQPRBV1rqxb/SeUs4kXp1KLYO4euqFN32ali5gw3WTQpPbryjW/SkoRDWoP4PP6nOb1BeOe7SuToSNHpe+B37vibE58VXoPCXQ+I+MRWUmzOKZVdOHkJWB4DvBRLGN58uOHo/0T/ABNVFWOdmxjik9hdz901xULWjDffnsSecR0zjY5HV7IWw34QVVlTGGUXvJq53QtkvN7egId8tyno37klroosj2OkeHjjytn3l0ymjZQlLNV6ER4tu5lCR4aGr5r1sLMPeQ5TBKnIAXW+FAIza8ik0F2xKohVmKfdJrxiNleEPeRGHa+tD47WnZdXQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=v2iYqvCPRr/dGj/xWiETCjB9OLX80CoYbn7ickw0Fvw=;
- b=IAyE9IfuI7JrvqCS0fY+TieI7B0n3UxjlNweWJlDlynRrtJ4UiIND/iqMaN6LwN6MP9bVLUr+1zx9v/zcPCt4FUpz/DQ0Fdd9dA5E3Oa05t0f468+outm2uM1KvEIakudjPG20zXnRlo3doPJgAoaX1yAMocuUlE3N1f7H7i8TsXVHaifnwn4xIn20sAXrdL5o1uyFJsrL0oYypnzKxj/YowKra40fadIsdV4GRsQ+wwaRcXLnq/4VFwdhOVTEH+Tk+EYEzUsq4UcEXHRkjtAKakK2lnWVVIuV9yu/UUK/TSUyUIBFUtT8zpT1prqRPERYrSv+UTTiOCy2stUTdFRA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=v2iYqvCPRr/dGj/xWiETCjB9OLX80CoYbn7ickw0Fvw=;
- b=XKpQDvHVFUXtrY+gOWRc2foBlk9csWMBHkVucI7cVirHwnTI1HNuUC/RTZsaTlCS7HEvEkM9TgpfifqVj+ehUB6kObjvB1zn8n4Ixw1OdBLfvkoL8snQrIHRNjEbMvKiLWR4tDWhP9kK0DR9VvutGH2DCbnV1bz+raq82TFfE60=
-Received: from BYAPR04MB4968.namprd04.prod.outlook.com (2603:10b6:a03:42::29)
- by DM5PR04MB0395.namprd04.prod.outlook.com (2603:10b6:3:a7::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5654.18; Fri, 23 Sep 2022 06:29:42 +0000
-Received: from BYAPR04MB4968.namprd04.prod.outlook.com
- ([fe80::971b:edb2:b548:362e]) by BYAPR04MB4968.namprd04.prod.outlook.com
- ([fe80::971b:edb2:b548:362e%5]) with mapi id 15.20.5632.021; Fri, 23 Sep 2022
- 06:29:42 +0000
-From: =?utf-8?B?TWF0aWFzIEJqw7hybGluZw==?= <Matias.Bjorling@wdc.com>
-To: Bart Van Assche <bvanassche@acm.org>, Damien Le Moal
-	<damien.lemoal@opensource.wdc.com>, Mike Snitzer <snitzer@redhat.com>, Pankaj
- Raghav <p.raghav@samsung.com>
-CC: "agk@redhat.com" <agk@redhat.com>, "snitzer@kernel.org"
-	<snitzer@kernel.org>, "axboe@kernel.dk" <axboe@kernel.dk>, "hch@lst.de"
-	<hch@lst.de>, "pankydev8@gmail.com" <pankydev8@gmail.com>,
-	"gost.dev@samsung.com" <gost.dev@samsung.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, "dm-devel@redhat.com" <dm-devel@redhat.com>,
-	Johannes Thumshirn <Johannes.Thumshirn@wdc.com>, "jaegeuk@kernel.org"
-	<jaegeuk@kernel.org>
-Subject: RE: Please further explain Linux's "zoned storage" roadmap [was: Re:
- [PATCH v14 00/13] support zoned block devices with non-power-of-2 zone sizes]
-Thread-Topic: Please further explain Linux's "zoned storage" roadmap [was: Re:
- [PATCH v14 00/13] support zoned block devices with non-power-of-2 zone sizes]
-Thread-Index: AQHYzhW1Mb/B0wZcH0CBE49f2UQ9X63sIZgAgABnTfA=
-Date: Fri, 23 Sep 2022 06:29:41 +0000
-Message-ID:  <BYAPR04MB4968EB5E341049DFF973B9B1F1519@BYAPR04MB4968.namprd04.prod.outlook.com>
-References:  <CGME20220920091120eucas1p2c82c18f552d6298d24547cba2f70b7fc@eucas1p2.samsung.com>
- <20220920091119.115879-1-p.raghav@samsung.com> <YytJhEywBhqcr7MX@redhat.com>
- <7dd9dbc0-b08b-fa47-5452-d448d86ca56b@opensource.wdc.com>
- <8fd1d8b1-9f43-eb03-4a7f-187723d1c483@acm.org>
-In-Reply-To: <8fd1d8b1-9f43-eb03-4a7f-187723d1c483@acm.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BYAPR04MB4968:EE_|DM5PR04MB0395:EE_
-x-ms-office365-filtering-correlation-id: 6a1f9abb-662d-4ee6-9807-08da9d2cffbf
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  StPIXNNFIg6qZ95lEXTtcJubeIvZaRaJuS6JhEZlkTzRrOQdjhxnGZBDdvrcL7EpV7igHp90jzZKPeIXpp2ubG/cFxzK0FGDdHot3kHCXOs8PDJK9nnPL1DCCGCdMGlwoupg21oJYLkm3vzLQk2JdajXAjCnWSm0pMZf1mLt09JqQbE+pQ5CufAab0mETwH6d7lEgYk5qOVOIefBAwBmAqCXPOihgDfeSyb8h1zwkvnmsoNbrAZXvXtBJju2qLByr7ESzB/RlY8oaTohnnOCohX2JnFCgv4p6PeY355yl3OafRjfKbyqHndGQeWCRm9nXfd68afaS9h4dBR03sSchrq7mTffd5BA2UIZyg66vaHNQpM9QWVqiDaRVhnFGLLeQc86zov1UtGKgLnOeRZuWeTrRmtiCaln736dYoUnLiIeTMbmAMw8DoE+l0rhEI/tKgDI+XGcXfUqgnIX3ti271otTCE23DpatxPt3d6iPyjfuMsR4lW/n36V9xxSjzBq3cd6Cq7mz44FevnkunuYuTqk2cFjUfi2xDYqeSwY2/e2p3F6pDpjwJ75QUakRg3HjfNGke2puWgj0D/TC5DcnobeYqMgVA+RtAjGnjMLx4ml/GLnE8K+C4qv49AkwS6MudaL0gUMJe+0HR7NnSjbVY3t3jE3jqMSHn1r+W1sW0vvdoke5lI+w8BHEjDI8N+KWGIoxssCVX2R5kyil8Zcke5/uRtVkwH7eNhCLmDZUduPtLxVE6KhtuhKY67CspzVJ5OwlZ8CZwpBIuYVGxLkDQ==
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR04MB4968.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(136003)(376002)(366004)(396003)(39860400002)(451199015)(55016003)(54906003)(71200400001)(82960400001)(110136005)(186003)(86362001)(38100700002)(2906002)(53546011)(5660300002)(7416002)(66556008)(66574015)(316002)(33656002)(66446008)(8936002)(66946007)(6506007)(7696005)(85202003)(9686003)(478600001)(83380400001)(76116006)(52536014)(38070700005)(66476007)(41300700001)(26005)(122000001)(4326008)(64756008)(8676002)(85182001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?WGVFbnAyU09mdUpBNWhXclNjWDduUUw4T0YrNFBEQjYrL1VhN24xSDBZUW1C?=
- =?utf-8?B?QUVFYUl0R1gxSnF4T1JIb1JpQVhhdERRSWZCUTJscVdia0s1aE9ENWpNcGJm?=
- =?utf-8?B?dDEzN2FjbHVuVit1Z21MVTRvY0E4NkU5Q0l0WXBuZllsSWxVVzNOTzh3eEFB?=
- =?utf-8?B?UE1DRlJJUWNVYThMV2FqN2xkOWNiVVFiMjRza0JESU9JcDYrSVhUZEorZzRu?=
- =?utf-8?B?SldNcmZUendtVkNTcGcyRmN5YWNpdmlHOW9NUTVNV2lDUmtBVE1Xa2s0Wkhs?=
- =?utf-8?B?U3l5YWozaUdjR25SS0Ivd0FHWnI4SlF5Vy9TUUljeWt5dVliMzRpVEkzV3RZ?=
- =?utf-8?B?dFdWZkcrZzZyUWRPVDFBNE1wUDg2TW5uV0hXanY0bERGZ1haeDU0VHd6N0hw?=
- =?utf-8?B?NmV6NFhiSkIxUjJnZGR2LzNremNtb1o4Y2U1TmIvUUVJSkxlYkRNeVhOZjRF?=
- =?utf-8?B?MVdiOEI5M3I3dUJlM0h2RHpVVzZNK0duNlNaeVRNdlF5L3Vsb28xMnE5bzZ1?=
- =?utf-8?B?U01wV1Q5Ymc3b0VzK2lvaENBdFNCOCtrRXpBNlFhcE5BYUgzdkpjUnVuL2lB?=
- =?utf-8?B?THZaZllIZjNHZlVSOVlOT1ZZUjZ6c0FHTDFua3BPWC9oby9mN3pudURvcVF0?=
- =?utf-8?B?ZjNsaXNWZFBEdE54NFM5YUtVZU12dWh6Z3ZlRkdyN2psYWhmNjVNQlJHVGdy?=
- =?utf-8?B?SGY0RzFiVzlQdXlsKzBmMmtwY2FyWGV0TkJlVXJwMWlDRWdRZ1o0U3dxTysr?=
- =?utf-8?B?Um9SMzhTcmhTdEpRamZZMnJxM0tlODA3SHBwODYzNG1iMkZoTk1ickIwcTVS?=
- =?utf-8?B?SFNIKzhVdnN2alR0R1VEaHRweGxJVU9haHh3c0FwMGpTTTVOUEhDQ2VaQ3N5?=
- =?utf-8?B?ZTFmVGlWZWhNT2lKZXh5SUI2cmxpa1BSRkRVMXhvR01ld3ZvS05QaUg2Y21V?=
- =?utf-8?B?a3FNQXlUY2NoU1JHQWszWEowZUxnRVI2UVBRWVJSU1NJUmdQOWVuK2kzblJ6?=
- =?utf-8?B?WGcyZGJrNzF4VFRWV04xTm5RYzhseDNaQ0xOZFMxUExEb2E2OXF2MG9zNC9H?=
- =?utf-8?B?cFBPRVAwbE5VVFF2OHVGcnNSemppd0h6QXZXRUIyd0tRcEFrUUo3MzlSeFI4?=
- =?utf-8?B?dXFtMzZPUUtXRUdUbjJPOVBpQUxLUndpc2haNjl5ZnVKL0dSOTJSRlk4VGV6?=
- =?utf-8?B?dW51SVh3bWV0bTF6L2Q2WjE5R2EwZlNzR095R3FjWFNHdXUxYjdBYXlId1FP?=
- =?utf-8?B?dkYrMU5jNFVzSnFLdDY0cENTMFMxRStPNVdPNTI5a2pBemtRVHFoVzhxdnkx?=
- =?utf-8?B?c3BQMWJKUktHUndBLzQwTjEvRHowVld4VzkvMjk0SVpnKzRXdHdhWDg0QlJ4?=
- =?utf-8?B?cStSRlkyaGR2Y1pYVXR4NHY5MHdDV2g2d3BjSDdIc3FlZ3poWUJ0UG9tSUFr?=
- =?utf-8?B?NEs2ZUVwa2l2dEt1WEtjZ3pUbDEzaTVYTWVBaUJRc2lkYjN0NDJPUDExcGxX?=
- =?utf-8?B?dk12TVVsSTVlakY2QkY5QkFBb0R4TXlaQ1FlL3FDRlhSdzZURURGVmR3UUFx?=
- =?utf-8?B?ZDdwdDFFcVFGMnhrNCtuN0dQMkY3QUlycmRDOVV4MHZHajFVT3B3T3MwendJ?=
- =?utf-8?B?NkxPNUJ3Y01QZHYydGp4YlBSQmRSSXo1MVVQR25sY3J5eGNVZGtod1RGS3JN?=
- =?utf-8?B?NGQrS2ZWbU1BVkwyZGRxcVR3elQyWFIrY1VLaXV6N0FRN1hON2R2aTNaQXVq?=
- =?utf-8?B?Z1EvLzQzVFNlSTVrSDFaTGt5R21mMEJTUW9EM29QNVBxb3RPbDhWVzN4bHpx?=
- =?utf-8?B?NHBwdnl4OSs2WGdOUm9BZWI5Rkp1ajBHTmpXTjErTXVHKzc5YUpycmpaQkJr?=
- =?utf-8?B?V081WFY3V1BxdEo0YnM5RXUySHQ0YkFKVGZxNXpuaU1ub1hVL3BrVlMvN09w?=
- =?utf-8?B?ck1pd244T1BqRUVpRHRDT25QcTBPanQ2eTdVWGJPUit3QnFPRFBxZFhUTytr?=
- =?utf-8?B?WS82dGRvaGFwVmw3MHVkSlZvR2cwMnk5cjViekhQaHdITFJ6ejdqem9uU2VE?=
- =?utf-8?B?QlVsZVh2WkxqQVhIV0Zzc0xEcGpSamcrWmduUWZFNXErWUJLTDU1UU5RWnZO?=
- =?utf-8?Q?sCdG2WAEJtxCMU3x3nKa2WE67?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	id 1obdCX-002iqm-V0
+	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 07:34:25 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1663918459;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=Aa9eT3/nlIqJee07pmYdPkP0VMs8PyHMV64c9/YvCkY=;
+	b=BtK6vnYtR4IGbpfbM/sZ+TXGMSSbNIGcslqqP2t5roGTQhelINT/XKbYGpnk5qoWk4MIMu
+	osKJS+dukC0gIbIa68Adq+bEkpE5z4ueOMBm00XXcssB9pYXAN9CNPIqQ+PGIdw6Lzixcb
+	ddUjTZSgxBjU62bI9Xde/48ZBCGI0iE=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-220-Wo7Zyv2dPDeas0KAvkbGtQ-1; Fri, 23 Sep 2022 03:34:18 -0400
+X-MC-Unique: Wo7Zyv2dPDeas0KAvkbGtQ-1
+Received: by mail-pg1-f199.google.com with SMTP id i25-20020a635859000000b0042bbb74be8bso6448732pgm.5
+        for <linux-nvme@lists.infradead.org>; Fri, 23 Sep 2022 00:34:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=Aa9eT3/nlIqJee07pmYdPkP0VMs8PyHMV64c9/YvCkY=;
+        b=lmS3tKUNZq5yG4/XoLOi8yWPVr9usWI+u7GfSBT2eUIqtcIkQjZHi8ELE94jYuVhqe
+         sSyPVusfFRZDPalwUM+9sEetO3fFZMNes5OZNiSUzkBHFuYwsbhrCAITTYQY7hMac/hU
+         ASiRZZvJhza9jwSQmyRgF2ZjCIlcIpJJkK06dbbat3KTZ+hD8T4GGRh1yE5HCEkVTVLf
+         BaY0gmZtw1SvDXZYoOuDw5ARRomuriaqb3H995ohS7hM3ok/CaFIk1/R/p2905HO10/h
+         Hbyll95PQPLe3kWBUxZYUAVKSOpij+sbRr1yMRDLRsRQGy9NkbHWhP4Hqq3kVmsL4h8D
+         b9ew==
+X-Gm-Message-State: ACrzQf0nhtCIFftT7rdxqOywOzhqcmRCagRAysOSrUhBuo0eWP8TRNdy
+	i7PoFXQkoLrfXjimUtrlkpOI6ITCfOHCLeRTZ8CjuuhSOWVgkyVYZLZTwtncW0EpSPVo2RLscq7
+	J/v5/UV0IgAlBupgjn3sJaqfiXbZJoDVxUMlP1VBay2I=
+X-Received: by 2002:a63:ff59:0:b0:439:db5:5da9 with SMTP id s25-20020a63ff59000000b004390db55da9mr6426155pgk.88.1663918456107;
+        Fri, 23 Sep 2022 00:34:16 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6AKQH1K8gRyOSKVP9pf9JrlX1VifKdU3+zelnYUQNQh8zZaWoKSFfm6TffoV//HGn6k2s8qK5XsXAIyivJQVg=
+X-Received: by 2002:a63:ff59:0:b0:439:db5:5da9 with SMTP id
+ s25-20020a63ff59000000b004390db55da9mr6426125pgk.88.1663918455458; Fri, 23
+ Sep 2022 00:34:15 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4968.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6a1f9abb-662d-4ee6-9807-08da9d2cffbf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2022 06:29:42.0902
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: g5aRRx3fXll3UuhnKrMRjWxmp1RoQWZrmGWzhiXrU1pNbImagaRgDZ58IcdBgAKhUMDTzahV3RONbCavmRmKIw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR04MB0395
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Fri, 23 Sep 2022 15:34:03 +0800
+Message-ID: <CAHj4cs_5=0DGhe5W5oQ1OA+eBy64MX9gRpA8-3N8Qk3Wh-Dwzg@mail.gmail.com>
+Subject: [bug report] workqueue: WQ_MEM_RECLAIM nvmet-wq:nvmet_rdma_release_queue_work
+ [nvmet_rdma] is flushing !WQ_MEM_RECLAIM events:nvmet_keep_alive_timer [nvmet]
+To: "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
+Cc: Sagi Grimberg <sagi@grimberg.me>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220922_232948_644140_578F9A20 
-X-CRM114-Status: GOOD (  18.81  )
+X-CRM114-CacheID: sfid-20220923_003422_193257_A76642FF 
+X-CRM114-Status: GOOD (  12.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -173,48 +88,578 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBCYXJ0IFZhbiBBc3NjaGUgPGJ2
-YW5hc3NjaGVAYWNtLm9yZz4NCj4gU2VudDogRnJpZGF5LCAyMyBTZXB0ZW1iZXIgMjAyMiAwMS41
-Ng0KPiBUbzogRGFtaWVuIExlIE1vYWwgPGRhbWllbi5sZW1vYWxAb3BlbnNvdXJjZS53ZGMuY29t
-PjsgTWlrZSBTbml0emVyDQo+IDxzbml0emVyQHJlZGhhdC5jb20+OyBQYW5rYWogUmFnaGF2IDxw
-LnJhZ2hhdkBzYW1zdW5nLmNvbT4NCj4gQ2M6IGFna0ByZWRoYXQuY29tOyBzbml0emVyQGtlcm5l
-bC5vcmc7IGF4Ym9lQGtlcm5lbC5kazsgaGNoQGxzdC5kZTsNCj4gcGFua3lkZXY4QGdtYWlsLmNv
-bTsgZ29zdC5kZXZAc2Ftc3VuZy5jb207IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7DQo+
-IGxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZzsgbGludXgtYmxvY2tAdmdlci5rZXJuZWwu
-b3JnOyBkbS0NCj4gZGV2ZWxAcmVkaGF0LmNvbTsgSm9oYW5uZXMgVGh1bXNoaXJuIDxKb2hhbm5l
-cy5UaHVtc2hpcm5Ad2RjLmNvbT47DQo+IGphZWdldWtAa2VybmVsLm9yZzsgTWF0aWFzIEJqw7hy
-bGluZyA8TWF0aWFzLkJqb3JsaW5nQHdkYy5jb20+DQo+IFN1YmplY3Q6IFJlOiBQbGVhc2UgZnVy
-dGhlciBleHBsYWluIExpbnV4J3MgInpvbmVkIHN0b3JhZ2UiIHJvYWRtYXAgW3dhczogUmU6DQo+
-IFtQQVRDSCB2MTQgMDAvMTNdIHN1cHBvcnQgem9uZWQgYmxvY2sgZGV2aWNlcyB3aXRoIG5vbi1w
-b3dlci1vZi0yIHpvbmUNCj4gc2l6ZXNdDQo+IA0KPiBPbiA5LzIxLzIyIDE2OjU1LCBEYW1pZW4g
-TGUgTW9hbCB3cm90ZToNCj4gPiBCdXQgYWdhaW4sIHRoYXQgYWxsIGRlcGVuZHMgb24gaWYgUGFu
-a2FqIHBhdGNoIHNlcmllcyBpcyBhY2NlcHRlZCwNCj4gPiB0aGF0IGlzLCBvbiBldmVyeWJvZHkg
-YWNjZXB0aW5nIHRoYXQgd2UgbGlmdCB0aGUgcG93ZXItb2YtMiB6b25lIHNpemUNCj4gY29uc3Ry
-YWludC4NCj4gDQo+IFRoZSBjb21wYW5pZXMgdGhhdCBhcmUgYnVzeSB3aXRoIGltcGxlbWVudGlu
-ZyB6b25lZCBzdG9yYWdlIGZvciBVRlMgZGV2aWNlcw0KPiBhcmUgYXNraW5nIGZvciBrZXJuZWwg
-c3VwcG9ydCBmb3Igbm9uLXBvd2VyLW9mLTIgem9uZSBzaXplcy4NCj4gDQo+IFRoYW5rcywNCj4g
-DQo+IEJhcnQuDQoNCkhpIEJhcnQsDQoNCldpdGggVUZTLCBpbiB0aGUgcHJvcG9zZWQgY29weSBJ
-IGhhdmUgKG1heSBiZWVuIGNoYW5nZWQpIC0gdGhlcmUncyB0aGUgY29uY2VwdCBvZiBnYXAgem9u
-ZXMsIHdoaWNoIGlzIHpvbmVzIHRoYXQgY2Fubm90IGJlIGFjY2Vzc2VkIGJ5IHRoZSBob3N0LiBU
-aGUgZ2FwIHpvbmVzIGFyZSBlc3NlbnRpYWxseSAiTEJBIGZpbGxlcnMiLCBlbmFibGluZyB0aGUg
-bmV4dCB3cml0ZWFibGUgem9uZSB0byBzdGFydCBhdCBhIFggKiBwb3cyIHNpemUgb2Zmc2V0LiBN
-eSB1bmRlcnN0YW5kaW5nIGlzIHRoYXQgdGhpcyBzcGVjaWZpYyBhcHByb2FjaCB3YXMgY2hvc2Vu
-IHRvIHNpbXBsaWZ5IHN0YW5kYXJkaXphdGlvbiBpbiBVRlMgYW5kIGF2b2lkIHVwZGF0aW5nIFQx
-MCdzIFpCQyB3aXRoIHpvbmUgY2FwYWNpdHkgc3VwcG9ydC4gDQoNCldoaWxlIFVGUyB3b3VsZCB0
-ZWNobmljYWxseSBleHBvc2Ugbm9uLXBvd2VyIG9mIDIgem9uZSBzaXplcywgdGhleSdyZSBhbHNv
-LCBkdWUgdG8gdGhlIGdhcCB6b25lcywgY291bGQgYWxzbyBiZSBjb25zaWRlcmVkIHBvd2VyIG9m
-IDIgem9uZXMgaWYgb25lIGNvbnNpZGVycyB0aGUgc2VxLiB3cml0ZSB6b25lICsgdGhlIGdhcCB6
-b25lIGFzIGEgc2luZ2xlIHVuaXQuIA0KDQpXaGVuIEkgdGhpbmsgYWJvdXQgaGF2aW5nIFVGUyBz
-dXBwb3J0IGluIHRoZSBrZXJuZWwsIHRoZSBTV1IgYW5kIHRoZSBnYXAgem9uZSBjb3VsZCBiZSBy
-ZXByZXNlbnRlZCBhcyBhIHNpbmdsZSB1bml0LiBGb3IgZXhhbXBsZToNCg0KVUZTIC0gWm9uZSBS
-ZXBvcnQNCiAgWm9uZSAwOiBTV1IsIExCQSAwLTExDQogIFpvbmUgMTogR2FwLCBMQkEgMTItMTUN
-CiAgWm9uZSAyOiBTV1IsIExCQSAxNi0yNw0KICBab25lIDM6IEdhcCwgTEJBIDI4LTMxDQogIC4u
-Lg0KDQpLZXJuZWwgcmVwcmVzZW50YXRpb24gLSBab25lIFJlcG9ydCAoYXMgc3VwcG9ydGVkIHRv
-ZGF5KQ0KICBab25lIDA6IFNXUiwgTEJBIDAtMTUsIFpvbmUgQ2FwYWNpdHkgMTINCiAgWm9uZSAx
-OiBTV1IsIExCQSAxNi0zMSwgWm9uZSBDYXBhY2l0eSAxMg0KICAuLi4NCg0KSWYgZG9pbmcgaXQg
-dGhpcyB3YXksIGl0IHJlbW92ZXMgdGhlIG5lZWQgZm9yIGZpbGVzeXN0ZW1zLCBkZXZpY2UtbWFw
-cGVycywgdXNlci1zcGFjZSBhcHBsaWNhdGlvbnMgaGF2aW5nIHRvIHVuZGVyc3RhbmQgZ2FwIHpv
-bmVzLCBhbmQgYWxsb3dzIFVGUyB0byB3b3JrIG91dCBvZiB0aGUgYm94IHdpdGggbm8gY2hhbmdl
-cyB0byB0aGUgcmVzdCBvZiB0aGUgem9uZWQgc3RvcmFnZSBlY28tc3lzdGVtLiANCg0KSGFzIHRo
-ZSBhYm92ZSByZXByZXNlbnRhdGlvbiBiZWVuIGNvbnNpZGVyZWQ/DQoNCkJlc3QsIE1hdGlhcw0K
+Hello
+
+Below issue was triggered with blktests nvmeof-mp/012 on 5.19.10, pls
+help check it, feel free to let me know if you need any info/test.
+
+
+It can be reproduced within 100 cycles run with ."/check nvmeof-mp/012"
+dmesg log:
+[  350.579057] run blktests nvmeof-mp/012 at 2022-09-23 03:07:21
+[  350.660517] null_blk: module loaded
+[  350.668386] null_blk: disk nullb0 created
+[  350.670913] null_blk: disk nullb1 created
+[  350.691777] device-mapper: table: 253:0: multipath: error getting
+device (-EBUSY)
+[  350.691799] device-mapper: ioctl: error adding target to table
+[  350.746159] rdma_rxe: loaded
+[  350.753345] infiniband env3_rxe: set active
+[  350.753356] infiniband env3_rxe: added env3
+[  350.892769] nvmet: adding nsid 1 to subsystem nvme-test
+[  350.901787] nvmet_rdma: enabling port 1 (10.0.2.222:7777)
+[  350.940242] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: address
+resolved (0): status 0 id 0000000017d82f43
+[  350.940886] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: route
+resolved  (2): status 0 id 0000000017d82f43
+[  350.940983] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: connect
+request (4): status 0 id 00000000286b8895
+[  350.940989] nvmet_rdma:nvmet_rdma_find_get_device: nvmet_rdma:
+added env3_rxe.
+[  350.941605] nvmet_rdma:nvmet_rdma_create_queue_ib: nvmet_rdma:
+nvmet_rdma_create_queue_ib: max_cqe= 8191 max_sge= 32 sq_size = 289
+cm_id= 00000000286b8895
+[  350.941659] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: established
+(9): status 0 id 0000000017d82f43
+[  350.941713] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+established (9): status 0 id 00000000286b8895
+[  350.941778] nvmet:nvmet_start_keep_alive_timer: nvmet: ctrl 1 start
+keep-alive timer for 5 secs
+[  350.941781] nvmet: creating nvm controller 1 for subsystem
+nvme-test for NQN
+nqn.2014-08.org.nvmexpress:uuid:4721a245-d23f-4c00-b1d0-8d273c3db004.
+[  350.942139] nvme nvme0: creating 8 I/O queues.
+[  350.942158] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: address
+resolved (0): status 0 id 00000000c5dbee70
+[  350.942354] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: route
+resolved  (2): status 0 id 00000000c5dbee70
+[  350.942412] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: connect
+request (4): status 0 id 000000000c220555
+[  350.942416] nvmet_rdma:nvmet_rdma_find_get_device: nvmet_rdma:
+added env3_rxe.
+[  350.942636] nvmet_rdma:nvmet_rdma_create_queue_ib: nvmet_rdma:
+nvmet_rdma_create_queue_ib: max_cqe= 8191 max_sge= 32 sq_size = 1153
+cm_id= 000000000c220555
+[  350.942697] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: established
+(9): status 0 id 00000000c5dbee70
+[  350.942740] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: address
+resolved (0): status 0 id 000000004eb27b13
+[  350.942747] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+established (9): status 0 id 000000000c220555
+[  350.942935] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: route
+resolved  (2): status 0 id 000000004eb27b13
+[  350.942992] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: connect
+request (4): status 0 id 00000000e169966e
+[  350.942995] nvmet_rdma:nvmet_rdma_find_get_device: nvmet_rdma:
+added env3_rxe.
+[  350.943213] nvmet_rdma:nvmet_rdma_create_queue_ib: nvmet_rdma:
+nvmet_rdma_create_queue_ib: max_cqe= 8191 max_sge= 32 sq_size = 1153
+cm_id= 00000000e169966e
+[  350.943259] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: established
+(9): status 0 id 000000004eb27b13
+[  350.943302] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: address
+resolved (0): status 0 id 0000000025dab642
+[  350.943308] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+established (9): status 0 id 00000000e169966e
+[  350.943443] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: route
+resolved  (2): status 0 id 0000000025dab642
+[  350.943484] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: connect
+request (4): status 0 id 00000000a5657f4f
+[  350.943487] nvmet_rdma:nvmet_rdma_find_get_device: nvmet_rdma:
+added env3_rxe.
+[  350.943677] nvmet_rdma:nvmet_rdma_create_queue_ib: nvmet_rdma:
+nvmet_rdma_create_queue_ib: max_cqe= 8191 max_sge= 32 sq_size = 1153
+cm_id= 00000000a5657f4f
+[  350.943715] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: established
+(9): status 0 id 0000000025dab642
+[  350.943746] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: address
+resolved (0): status 0 id 00000000eb92556a
+[  350.943748] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+established (9): status 0 id 00000000a5657f4f
+[  350.943880] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: route
+resolved  (2): status 0 id 00000000eb92556a
+[  350.943916] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: connect
+request (4): status 0 id 0000000026cb2a8f
+[  350.943919] nvmet_rdma:nvmet_rdma_find_get_device: nvmet_rdma:
+added env3_rxe.
+[  350.944127] nvmet_rdma:nvmet_rdma_create_queue_ib: nvmet_rdma:
+nvmet_rdma_create_queue_ib: max_cqe= 8191 max_sge= 32 sq_size = 1153
+cm_id= 0000000026cb2a8f
+[  350.944170] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: established
+(9): status 0 id 00000000eb92556a
+[  350.944199] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: address
+resolved (0): status 0 id 0000000046325928
+[  350.944202] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+established (9): status 0 id 0000000026cb2a8f
+[  350.944336] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: route
+resolved  (2): status 0 id 0000000046325928
+[  350.944376] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: connect
+request (4): status 0 id 00000000b31e4e71
+[  350.944378] nvmet_rdma:nvmet_rdma_find_get_device: nvmet_rdma:
+added env3_rxe.
+[  350.944568] nvmet_rdma:nvmet_rdma_create_queue_ib: nvmet_rdma:
+nvmet_rdma_create_queue_ib: max_cqe= 8191 max_sge= 32 sq_size = 1153
+cm_id= 00000000b31e4e71
+[  350.944604] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: established
+(9): status 0 id 0000000046325928
+[  350.944634] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: address
+resolved (0): status 0 id 00000000e1a31e4f
+[  350.944636] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+established (9): status 0 id 00000000b31e4e71
+[  350.944769] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: route
+resolved  (2): status 0 id 00000000e1a31e4f
+[  350.944804] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: connect
+request (4): status 0 id 00000000c3020c44
+[  350.944807] nvmet_rdma:nvmet_rdma_find_get_device: nvmet_rdma:
+added env3_rxe.
+[  350.945029] nvmet_rdma:nvmet_rdma_create_queue_ib: nvmet_rdma:
+nvmet_rdma_create_queue_ib: max_cqe= 8191 max_sge= 32 sq_size = 1153
+cm_id= 00000000c3020c44
+[  350.945078] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: established
+(9): status 0 id 00000000e1a31e4f
+[  350.945115] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: address
+resolved (0): status 0 id 000000006accc65c
+[  350.945121] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+established (9): status 0 id 00000000c3020c44
+[  350.945267] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: route
+resolved  (2): status 0 id 000000006accc65c
+[  350.945312] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: connect
+request (4): status 0 id 00000000ca3d146d
+[  350.945314] nvmet_rdma:nvmet_rdma_find_get_device: nvmet_rdma:
+added env3_rxe.
+[  350.945510] nvmet_rdma:nvmet_rdma_create_queue_ib: nvmet_rdma:
+nvmet_rdma_create_queue_ib: max_cqe= 8191 max_sge= 32 sq_size = 1153
+cm_id= 00000000ca3d146d
+[  350.945555] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: established
+(9): status 0 id 000000006accc65c
+[  350.945591] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: address
+resolved (0): status 0 id 00000000b0b8d1eb
+[  350.945598] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+established (9): status 0 id 00000000ca3d146d
+[  350.945735] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: route
+resolved  (2): status 0 id 00000000b0b8d1eb
+[  350.945781] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: connect
+request (4): status 0 id 00000000969b9167
+[  350.945783] nvmet_rdma:nvmet_rdma_find_get_device: nvmet_rdma:
+added env3_rxe.
+[  350.945980] nvmet_rdma:nvmet_rdma_create_queue_ib: nvmet_rdma:
+nvmet_rdma_create_queue_ib: max_cqe= 8191 max_sge= 32 sq_size = 1153
+cm_id= 00000000969b9167
+[  350.946025] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: established
+(9): status 0 id 00000000b0b8d1eb
+[  350.946051] nvme nvme0: mapped 8/0/0 default/read/poll queues.
+[  350.946073] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+established (9): status 0 id 00000000969b9167
+[  350.946285] nvmet:nvmet_execute_io_connect: nvmet: adding queue 1 to ctrl 1.
+[  350.946337] nvmet:nvmet_execute_io_connect: nvmet: adding queue 2 to ctrl 1.
+[  350.946378] nvmet:nvmet_execute_io_connect: nvmet: adding queue 3 to ctrl 1.
+[  350.946427] nvmet:nvmet_execute_io_connect: nvmet: adding queue 4 to ctrl 1.
+[  350.946479] nvmet:nvmet_execute_io_connect: nvmet: adding queue 5 to ctrl 1.
+[  350.946540] nvmet:nvmet_execute_io_connect: nvmet: adding queue 6 to ctrl 1.
+[  350.946595] nvmet:nvmet_execute_io_connect: nvmet: adding queue 7 to ctrl 1.
+[  350.946650] nvmet:nvmet_execute_io_connect: nvmet: adding queue 8 to ctrl 1.
+[  350.946708] nvme nvme0: new ctrl: NQN "nvme-test", addr 10.0.2.222:7777
+[  350.946739] nvmet:nvmet_req_cns_error_complete: nvmet: unhandled
+identify cns 6 on qid 0
+[  350.960438] device-mapper: table: 253:0: multipath: error getting
+device (-EBUSY)
+[  350.960452] device-mapper: ioctl: error adding target to table
+[  351.074392] device-mapper: table: 253:1: multipath: error getting
+device (-EBUSY)
+[  351.074405] device-mapper: ioctl: error adding target to table
+[  355.638030] nvme nvme0: Removing ctrl: NQN "nvme-test"
+[  355.825297] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+disconnected (10): status 0 id 000000000c220555
+[  355.825306] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma:
+cm_id= 000000000c220555 queue->state= 1
+[  355.825316] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 1
+[  355.825360] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+disconnected (10): status 0 id 00000000e169966e
+[  355.825365] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma:
+cm_id= 00000000e169966e queue->state= 1
+[  355.825375] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 2
+[  355.825387] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0:
+disconnected (10): status 0 id 00000000c5dbee70
+[  355.825392] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: disconnect
+received - connection closed
+[  355.825419] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+disconnected (10): status 0 id 00000000a5657f4f
+[  355.825422] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma:
+cm_id= 00000000a5657f4f queue->state= 1
+[  355.825430] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 3
+[  355.825438] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0:
+disconnected (10): status 0 id 000000004eb27b13
+[  355.825443] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: disconnect
+received - connection closed
+[  355.825504] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0:
+disconnected (10): status 0 id 0000000025dab642
+[  355.825509] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: disconnect
+received - connection closed
+[  355.825513] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+disconnected (10): status 0 id 0000000026cb2a8f
+[  355.825517] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma:
+cm_id= 0000000026cb2a8f queue->state= 1
+[  355.825525] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 4
+[  355.825556] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+disconnected (10): status 0 id 00000000b31e4e71
+[  355.825560] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma:
+cm_id= 00000000b31e4e71 queue->state= 1
+[  355.825569] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 5
+[  355.825577] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0:
+disconnected (10): status 0 id 00000000eb92556a
+[  355.825582] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: disconnect
+received - connection closed
+[  355.825640] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0:
+disconnected (10): status 0 id 0000000046325928
+[  355.825645] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: disconnect
+received - connection closed
+[  355.825648] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+disconnected (10): status 0 id 00000000c3020c44
+[  355.825651] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma:
+cm_id= 00000000c3020c44 queue->state= 1
+[  355.825657] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 6
+[  355.825702] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+disconnected (10): status 0 id 00000000ca3d146d
+[  355.825705] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma:
+cm_id= 00000000ca3d146d queue->state= 1
+[  355.825712] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 7
+[  355.825719] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0:
+disconnected (10): status 0 id 00000000e1a31e4f
+[  355.825721] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: disconnect
+received - connection closed
+[  355.825775] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0:
+disconnected (10): status 0 id 000000006accc65c
+[  355.825779] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: disconnect
+received - connection closed
+[  355.825782] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+disconnected (10): status 0 id 00000000969b9167
+[  355.825785] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma:
+cm_id= 00000000969b9167 queue->state= 1
+[  355.825791] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 8
+[  355.825839] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0:
+disconnected (10): status 0 id 00000000b0b8d1eb
+[  355.825844] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: disconnect
+received - connection closed
+[  355.945236] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+disconnected (10): status 0 id 00000000286b8895
+[  355.945244] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma:
+cm_id= 00000000286b8895 queue->state= 1
+[  355.945253] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 0
+[  355.968634] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: address
+resolved (0): status 0 id 000000003d55212b
+[  355.968712] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: route
+resolved  (2): status 0 id 000000003d55212b
+[  355.968794] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: connect
+request (4): status 0 id 000000008fee8ffd
+[  355.968799] nvmet_rdma:nvmet_rdma_find_get_device: nvmet_rdma:
+added env3_rxe.
+[  355.968887] nvmet_rdma:nvmet_rdma_create_queue_ib: nvmet_rdma:
+nvmet_rdma_create_queue_ib: max_cqe= 8191 max_sge= 32 sq_size = 289
+cm_id= 000000008fee8ffd
+[  356.005186] nvmet:nvmet_stop_keep_alive_timer: nvmet: ctrl 1 stop keep-alive
+[  356.005186] nvmet:nvmet_keep_alive_timer: nvmet: ctrl 1 reschedule
+traffic based keep-alive timer
+[  356.005192] ------------[ cut here ]------------
+[  356.005204] workqueue: WQ_MEM_RECLAIM
+nvmet-wq:nvmet_rdma_release_queue_work [nvmet_rdma] is flushing
+!WQ_MEM_RECLAIM events:nvmet_keep_alive_timer [nvmet]
+[  356.005226] WARNING: CPU: 3 PID: 1086 at kernel/workqueue.c:2628
+check_flush_dependency+0x16c/0x1e0
+[  356.005240] Modules linked in: nvme nvmet_rdma nvmet rdma_rxe
+ib_uverbs ip6_udp_tunnel udp_tunnel null_blk nvme_rdma nvme_fabrics
+rdma_cm iw_cm ib_cm crc32_generic dm_service_time scsi_dh_rdac
+scsi_dh_emc scsi_dh_alua dm_multipath ib_core nvme_core rfkill bonding
+tls sunrpc ibmveth pseries_rng crct10dif_vpmsum fuse zram xfs ibmvscsi
+vmx_crypto scsi_transport_srp crc32c_vpmsum
+[  356.005520] CPU: 3 PID: 1086 Comm: kworker/3:4 Not tainted
+5.19.10-200.fc36.ppc64le #1
+[  356.005526] Workqueue: nvmet-wq nvmet_rdma_release_queue_work [nvmet_rdma]
+[  356.005531] NIP:  c000000000177adc LR: c000000000177ad8 CTR: 00000000ffffffe1
+[  356.005536] REGS: c000000015353660 TRAP: 0700   Not tainted
+(5.19.10-200.fc36.ppc64le)
+[  356.005540] MSR:  800000000282b033
+<SF,VEC,VSX,EE,FP,ME,IR,DR,RI,LE>  CR: 48002222  XER: 20040005
+[  356.005553] CFAR: c00000000014d18c IRQMASK: 1
+               GPR00: c000000000177ad8 c000000015353900
+c0000000028ddb00 000000000000008f
+               GPR04: 00000000ffffdfff c0000000153536b8
+c0000000153536b0 00000001fd6a0000
+               GPR08: 0000000000000027 c0000001ff807f98
+0000000000000001 0000000000002000
+               GPR12: 0000000000000000 c00000001ecaae80
+c000000000187028 c000000039a48140
+               GPR16: 0000000000000000 0000000000000000
+0000000000000000 0000000000000000
+               GPR20: 0000000000000000 0000000000000000
+c0000000026600d0 c00000000f47c018
+               GPR24: 5deadbeef0000100 5deadbeef0000122
+c00000000f47c0a0 c00000000f47c000
+               GPR28: c0000001ff790c00 c008000003c10ad8
+c000000010bae940 c000000003074200
+[  356.005604] NIP [c000000000177adc] check_flush_dependency+0x16c/0x1e0
+[  356.005609] LR [c000000000177ad8] check_flush_dependency+0x168/0x1e0
+[  356.005613] Call Trace:
+[  356.005616] [c000000015353900] [c000000000177ad8]
+check_flush_dependency+0x168/0x1e0 (unreliable)
+[  356.005622] [c000000015353980] [c00000000017b908]
+__flush_work.isra.0+0x2b8/0x390
+[  356.005628] [c000000015353a10] [c00000000017bb78]
+__cancel_work_timer+0x138/0x1e0
+[  356.005633] [c000000015353a90] [c008000003c13418]
+nvmet_stop_keep_alive_timer+0x80/0xa0 [nvmet]
+[  356.005642] [c000000015353b00] [c008000003c135c8]
+nvmet_ctrl_free+0x190/0x380 [nvmet]
+[  356.005650] [c000000015353b90] [c008000003c13938]
+nvmet_sq_destroy+0x180/0x2b0 [nvmet]
+[  356.005658] [c000000015353bf0] [c008000003c81888]
+nvmet_rdma_free_queue+0x30/0x170 [nvmet_rdma]
+[  356.005664] [c000000015353c60] [c008000003c82518]
+nvmet_rdma_release_queue_work+0x30/0xc0 [nvmet_rdma]
+[  356.005671] [c000000015353c90] [c00000000017a38c]
+process_one_work+0x2ac/0x570
+[  356.005676] [c000000015353d30] [c00000000017ad58] worker_thread+0xa8/0x630
+[  356.005681] [c000000015353dc0] [c000000000187144] kthread+0x124/0x130
+[  356.005687] [c000000015353e10] [c00000000000ce54]
+ret_from_kernel_thread+0x5c/0x64
+[  356.005692] Instruction dump:
+[  356.005695] 4082ffcc e8be0018 39200001 3c62fed1 3d42fff5 7fa7eb78
+38df00b0 388400b0
+[  356.005704] 38631af0 992ab7ee 4bfd5651 60000000 <0fe00000> 3d22fff5
+8929b7ed 2c090000
+[  356.005713] ---[ end trace 0000000000000000 ]---
+[  356.005860] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: established
+(9): status 0 id 000000003d55212b
+[  356.005892] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+established (9): status 0 id 000000008fee8ffd
+[  356.005964] nvmet:nvmet_start_keep_alive_timer: nvmet: ctrl 1 start
+keep-alive timer for 5 secs
+[  356.005967] nvmet: creating nvm controller 1 for subsystem
+nvme-test for NQN
+nqn.2014-08.org.nvmexpress:uuid:4721a245-d23f-4c00-b1d0-8d273c3db004.
+[  356.006304] nvme nvme0: creating 8 I/O queues.
+[  356.006330] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: address
+resolved (0): status 0 id 0000000002113af3
+[  356.006490] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: route
+resolved  (2): status 0 id 0000000002113af3
+[  356.006544] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: connect
+request (4): status 0 id 000000005313c31f
+[  356.006549] nvmet_rdma:nvmet_rdma_find_get_device: nvmet_rdma:
+added env3_rxe.
+[  356.006782] nvmet_rdma:nvmet_rdma_create_queue_ib: nvmet_rdma:
+nvmet_rdma_create_queue_ib: max_cqe= 8191 max_sge= 32 sq_size = 1153
+cm_id= 000000005313c31f
+[  356.006841] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: established
+(9): status 0 id 0000000002113af3
+[  356.006887] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: address
+resolved (0): status 0 id 0000000061b71c81
+[  356.006890] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+established (9): status 0 id 000000005313c31f
+[  356.007085] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: route
+resolved  (2): status 0 id 0000000061b71c81
+[  356.007137] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: connect
+request (4): status 0 id 000000009c7cb2a7
+[  356.007141] nvmet_rdma:nvmet_rdma_find_get_device: nvmet_rdma:
+added env3_rxe.
+[  356.007367] nvmet_rdma:nvmet_rdma_create_queue_ib: nvmet_rdma:
+nvmet_rdma_create_queue_ib: max_cqe= 8191 max_sge= 32 sq_size = 1153
+cm_id= 000000009c7cb2a7
+[  356.007420] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: established
+(9): status 0 id 0000000061b71c81
+[  356.007463] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: address
+resolved (0): status 0 id 00000000a113333f
+[  356.007463] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+established (9): status 0 id 000000009c7cb2a7
+[  356.007635] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: route
+resolved  (2): status 0 id 00000000a113333f
+[  356.007674] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: connect
+request (4): status 0 id 0000000012f56b3a
+[  356.007676] nvmet_rdma:nvmet_rdma_find_get_device: nvmet_rdma:
+added env3_rxe.
+[  356.007867] nvmet_rdma:nvmet_rdma_create_queue_ib: nvmet_rdma:
+nvmet_rdma_create_queue_ib: max_cqe= 8191 max_sge= 32 sq_size = 1153
+cm_id= 0000000012f56b3a
+[  356.007907] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: established
+(9): status 0 id 00000000a113333f
+[  356.007940] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+established (9): status 0 id 0000000012f56b3a
+[  356.007942] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: address
+resolved (0): status 0 id 000000003b95f75b
+[  356.008075] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: route
+resolved  (2): status 0 id 000000003b95f75b
+[  356.008109] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: connect
+request (4): status 0 id 0000000088a63ce3
+[  356.008112] nvmet_rdma:nvmet_rdma_find_get_device: nvmet_rdma:
+added env3_rxe.
+[  356.008303] nvmet_rdma:nvmet_rdma_create_queue_ib: nvmet_rdma:
+nvmet_rdma_create_queue_ib: max_cqe= 8191 max_sge= 32 sq_size = 1153
+cm_id= 0000000088a63ce3
+[  356.008342] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: established
+(9): status 0 id 000000003b95f75b
+[  356.008375] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+established (9): status 0 id 0000000088a63ce3
+[  356.008376] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: address
+resolved (0): status 0 id 00000000233271c9
+[  356.008508] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: route
+resolved  (2): status 0 id 00000000233271c9
+[  356.008541] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: connect
+request (4): status 0 id 0000000087be52f6
+[  356.008544] nvmet_rdma:nvmet_rdma_find_get_device: nvmet_rdma:
+added env3_rxe.
+[  356.008733] nvmet_rdma:nvmet_rdma_create_queue_ib: nvmet_rdma:
+nvmet_rdma_create_queue_ib: max_cqe= 8191 max_sge= 32 sq_size = 1153
+cm_id= 0000000087be52f6
+[  356.008771] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: established
+(9): status 0 id 00000000233271c9
+[  356.008801] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+established (9): status 0 id 0000000087be52f6
+[  356.008805] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: address
+resolved (0): status 0 id 00000000d4d8d6d9
+[  356.008937] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: route
+resolved  (2): status 0 id 00000000d4d8d6d9
+[  356.008966] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: connect
+request (4): status 0 id 00000000a9e79829
+[  356.008969] nvmet_rdma:nvmet_rdma_find_get_device: nvmet_rdma:
+added env3_rxe.
+[  356.009158] nvmet_rdma:nvmet_rdma_create_queue_ib: nvmet_rdma:
+nvmet_rdma_create_queue_ib: max_cqe= 8191 max_sge= 32 sq_size = 1153
+cm_id= 00000000a9e79829
+[  356.009196] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: established
+(9): status 0 id 00000000d4d8d6d9
+[  356.009226] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+established (9): status 0 id 00000000a9e79829
+[  356.009231] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: address
+resolved (0): status 0 id 00000000616f9de0
+[  356.009360] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: route
+resolved  (2): status 0 id 00000000616f9de0
+[  356.009389] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: connect
+request (4): status 0 id 000000005b82f663
+[  356.009391] nvmet_rdma:nvmet_rdma_find_get_device: nvmet_rdma:
+added env3_rxe.
+[  356.009579] nvmet_rdma:nvmet_rdma_create_queue_ib: nvmet_rdma:
+nvmet_rdma_create_queue_ib: max_cqe= 8191 max_sge= 32 sq_size = 1153
+cm_id= 000000005b82f663
+[  356.009617] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: established
+(9): status 0 id 00000000616f9de0
+[  356.009647] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+established (9): status 0 id 000000005b82f663
+[  356.009651] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: address
+resolved (0): status 0 id 0000000016cb5f81
+[  356.009784] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: route
+resolved  (2): status 0 id 0000000016cb5f81
+[  356.009813] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: connect
+request (4): status 0 id 00000000ce50a3b3
+[  356.009815] nvmet_rdma:nvmet_rdma_find_get_device: nvmet_rdma:
+added env3_rxe.
+[  356.010005] nvmet_rdma:nvmet_rdma_create_queue_ib: nvmet_rdma:
+nvmet_rdma_create_queue_ib: max_cqe= 8191 max_sge= 32 sq_size = 1153
+cm_id= 00000000ce50a3b3
+[  356.010042] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: established
+(9): status 0 id 0000000016cb5f81
+[  356.010067] nvme nvme0: mapped 8/0/0 default/read/poll queues.
+[  356.010072] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+established (9): status 0 id 00000000ce50a3b3
+[  356.010278] nvmet:nvmet_execute_io_connect: nvmet: adding queue 1 to ctrl 1.
+[  356.010326] nvmet:nvmet_execute_io_connect: nvmet: adding queue 2 to ctrl 1.
+[  356.010370] nvmet:nvmet_execute_io_connect: nvmet: adding queue 3 to ctrl 1.
+[  356.010420] nvmet:nvmet_execute_io_connect: nvmet: adding queue 4 to ctrl 1.
+[  356.010461] nvmet:nvmet_execute_io_connect: nvmet: adding queue 5 to ctrl 1.
+[  356.010508] nvmet:nvmet_execute_io_connect: nvmet: adding queue 6 to ctrl 1.
+[  356.010551] nvmet:nvmet_execute_io_connect: nvmet: adding queue 7 to ctrl 1.
+[  356.010601] nvmet:nvmet_execute_io_connect: nvmet: adding queue 8 to ctrl 1.
+[  356.010657] nvme nvme0: new ctrl: NQN "nvme-test", addr 10.0.2.222:7777
+[  356.010683] nvmet:nvmet_req_cns_error_complete: nvmet: unhandled
+identify cns 6 on qid 0
+[  356.023878] device-mapper: table: 253:0: multipath: error getting
+device (-EBUSY)
+[  356.023894] device-mapper: ioctl: error adding target to table
+[  356.137306] device-mapper: table: 253:1: multipath: error getting
+device (-EBUSY)
+[  356.137318] device-mapper: ioctl: error adding target to table
+[  361.045345] nvmet:nvmet_keep_alive_timer: nvmet: ctrl 1 reschedule
+traffic based keep-alive timer
+[  361.209034] nvme nvme0: Removing ctrl: NQN "nvme-test"
+[  361.365478] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+disconnected (10): status 0 id 000000005313c31f
+[  361.365491] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma:
+cm_id= 000000005313c31f queue->state= 1
+[  361.365505] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 0
+[  361.365540] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+disconnected (10): status 0 id 000000009c7cb2a7
+[  361.365544] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma:
+cm_id= 000000009c7cb2a7 queue->state= 1
+[  361.365553] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 2
+[  361.365602] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0:
+disconnected (10): status 0 id 0000000002113af3
+[  361.365605] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: disconnect
+received - connection closed
+[  361.365616] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0:
+disconnected (10): status 0 id 0000000061b71c81
+[  361.365622] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: disconnect
+received - connection closed
+[  361.365628] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+disconnected (10): status 0 id 0000000012f56b3a
+[  361.365634] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma:
+cm_id= 0000000012f56b3a queue->state= 1
+[  361.365645] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 3
+[  361.365662] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+disconnected (10): status 0 id 0000000088a63ce3
+[  361.365665] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma:
+cm_id= 0000000088a63ce3 queue->state= 1
+[  361.365673] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 4
+[  361.365681] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0:
+disconnected (10): status 0 id 00000000a113333f
+[  361.365685] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: disconnect
+received - connection closed
+[  361.365713] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0:
+disconnected (10): status 0 id 000000003b95f75b
+[  361.365719] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: disconnect
+received - connection closed
+[  361.365742] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+disconnected (10): status 0 id 0000000087be52f6
+[  361.365746] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma:
+cm_id= 0000000087be52f6 queue->state= 1
+[  361.365754] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 5
+[  361.365809] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0:
+disconnected (10): status 0 id 00000000233271c9
+[  361.365813] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: disconnect
+received - connection closed
+[  361.365818] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+disconnected (10): status 0 id 00000000a9e79829
+[  361.365820] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma:
+cm_id= 00000000a9e79829 queue->state= 1
+[  361.365827] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 6
+[  361.365850] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+disconnected (10): status 0 id 000000005b82f663
+[  361.365853] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma:
+cm_id= 000000005b82f663 queue->state= 1
+[  361.365862] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 7
+[  361.365871] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0:
+disconnected (10): status 0 id 00000000d4d8d6d9
+[  361.365876] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: disconnect
+received - connection closed
+[  361.365912] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+disconnected (10): status 0 id 00000000ce50a3b3
+[  361.365915] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma:
+cm_id= 00000000ce50a3b3 queue->state= 1
+[  361.365924] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 8
+[  361.365932] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0:
+disconnected (10): status 0 id 00000000616f9de0
+[  361.365936] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: disconnect
+received - connection closed
+[  361.365982] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0:
+disconnected (10): status 0 id 0000000016cb5f81
+[  361.365986] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: disconnect
+received - connection closed
+[  361.485420] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
+disconnected (10): status 0 id 000000008fee8ffd
+[  361.485433] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma:
+cm_id= 000000008fee8ffd queue->state= 1
+[  361.485446] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 1
+[  361.535383] nvmet:nvmet_stop_keep_alive_timer: nvmet: ctrl 1 stop keep-alive
+[  362.033078] rdma_rxe: unloaded
+
+-- 
+Best Regards,
+  Yi Zhang
+
 
