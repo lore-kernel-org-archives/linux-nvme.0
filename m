@@ -4,84 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D020C6FA90
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 15:23:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 119EAC6FA90
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 15:26:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aj427EoyOIOpXGm7xFat3kqE/v++sDMs91pMGtHoDng=; b=BopbwufLjylFDcWOwJTkxpWVkt
-	dmdm2qL4cNTbl23fuCTsg5pbhnNJCKf++WHb8l5OPrsYVV9VnXGQ16P9fLxP+kWrPw3sjZ4V6LgQo
-	sNXmUU44AmUT9PDgKvMec/Z9kJvdLQJeFS66OIxoGruXupoMASYWwOJ2xpJuxbw7fh0sqUUiv5alm
-	8/NtFnHT+KfM0byEKCgB8+8YEFlGxilxoq7DsnJHzaorsw1iSso0r/NnGo+d+ALJ3WKq+SdAAC1jb
-	tqz85o2vyrSuolV7hdJ1EQlcPqXi+NcbaUyqx1BEXPFy5ahQKbrB+ZEp2UDl8bmUkWYIfjadyAlhy
-	36+ddnZw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=C81BnwO1LLn7rzdtw/smuBPO9/byip/ucPGw7WJmXyg=; b=R+1oo7dY9wIli5
+	UsZVi6yXVD4zZZYVXxK4Xc4IDyW4Vtd6a2boPHePYVC4NDH3BkvzjYALf+fpi84V4L4FaVrOp8pMB
+	NdRPh252aR4+fBCfJ8yuW5QScJVyFGESqTpBxgNw7e9XRlq/3AgUt80yTyUxg1J/N1fYtqezDJLbF
+	MBJT0H9NuqoBa4nNRoCpxS3FRnwRBmKlFo9R+hL7TxLBqUQDVPpy//XQsidl/J7gtR9j7NXPXf6aq
+	jZEGwq7O/p5Bx+LoaJCy5I0EnkFwwjjHxhow+nKVaAWS2rOdWR10l6ltbq3Q0Kh2xLDsIoZ9uIlDH
+	KONeB7bkMoSYyEpF3Pig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obkW1-004nau-VZ; Fri, 23 Sep 2022 15:22:58 +0000
-Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32])
+	id 1obkZ8-004oDR-Sp; Fri, 23 Sep 2022 15:26:10 +0000
+Received: from ale.deltatee.com ([204.191.154.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obkVz-004nZd-VI
-	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 15:22:57 +0000
-Received: by mail-io1-xd32.google.com with SMTP id q83so173425iod.7
-        for <linux-nvme@lists.infradead.org>; Fri, 23 Sep 2022 08:22:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=aj427EoyOIOpXGm7xFat3kqE/v++sDMs91pMGtHoDng=;
-        b=RuQ488wvYkdtTlucK5RLBdMTThXD3sbSSbXW2cXsiqxLGIQK9mZXy5XJwisC727RR2
-         v1mOFOB7KncwMOjpCHSAXz3qJc2PzLN0zAd98/cbaGvOlm+ps5VKAnLSRfoJV34OlrrG
-         JFdo/85HBFYbI6eFHMMj1Th5685EbncE1VUJ6bizqOlthoM+mwyji6AGoxxTRvpyQncm
-         +SSO5GLwHgMMD8fKQ3gaCWhXQJQvkMJCt2NX3QddiRi23dN7pVD+rPrYWNE4oqp81NKM
-         OQIa9oXnaJZYufjF49owWISPcocZ781LqwxyhEOPEcT8FOD8SiV4w1FitmMR9Oo0QFqr
-         +9OA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=aj427EoyOIOpXGm7xFat3kqE/v++sDMs91pMGtHoDng=;
-        b=tFMTHCZCr/xO7ifwLL1hQOloV8Jz16PU/8Nc5USUSpTJGrbETQJNY8dHxdTwPcR35n
-         ECuM1qP/WiX7XJ6PYdsyw0HfLQD5TaCYa+98IVIwLak6+XZ8Tp+43DkevXOQRL+8yy2Y
-         3h1iW+89XCTQdSdZ36cdrE3y7D0hBSjvYF7ikZ7/xFZSy9DVjM6NiAkSA4DKEIAmveX8
-         8fKTdGNfk67//K2I77fVtezSsPj1jCGXdCALgpyR6u3CHC1ALSZlQyjwVoE3P9jTYCtq
-         iAYj1vMIoyMH7OyOMpUYduwGLhXaycJGursmgvOm0iADyxSEWLqGKKJbncuUPTDgAsU1
-         j7tQ==
-X-Gm-Message-State: ACrzQf1DN8ZfVyKhkHT8w/JBVkA2olNEqStsEyoX2Lj4Sin8MNfzZSSZ
-	Hw0nUFYorfgTD5wpluBjqsTtew==
-X-Google-Smtp-Source: AMsMyM66wPHtkFQ9IeC/C8z8JolIyiwSxGByINDT3QSo+pKmW5TeLs+OL/+8aAXBzDYx8annuJPNzA==
-X-Received: by 2002:a05:6602:2d44:b0:6a1:b558:272d with SMTP id d4-20020a0566022d4400b006a1b558272dmr4127633iow.7.1663946572978;
-        Fri, 23 Sep 2022 08:22:52 -0700 (PDT)
-Received: from [192.168.1.94] ([207.135.234.126])
-        by smtp.gmail.com with ESMTPSA id x3-20020a056602160300b006a19872663bsm3575750iow.53.2022.09.23.08.22.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Sep 2022 08:22:52 -0700 (PDT)
-Message-ID: <11a6e8c4-690c-d1bc-70fd-8dd33825fadf@kernel.dk>
-Date: Fri, 23 Sep 2022 09:22:51 -0600
+	id 1obkZ5-004oCD-LD
+	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 15:26:09 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:content-disposition;
+	bh=C81BnwO1LLn7rzdtw/smuBPO9/byip/ucPGw7WJmXyg=; b=EJgXMvWjdf974BGnhZ/H5B5xwv
+	NXJvfp4f6oUfUKuWpK1vn1hJDJ0w7XSUyC8/69ObFbcR/PleMfld5liF8hFbsFBeRRknZIjUPWs3X
+	yXCrUnVnYpYjPoX7DA9F2T28JKXXJEIV7eTiD4lUYvbR+CyKq571MvlRFoZLyNdx9mPjUl2mvtlUo
+	4fENvdIPwCyPgnqLNKCqyCRjsdhyoNHJAHPEzP7urRTm3wzaZDx02UPRrCfibr/1UFAwFMnP9bcfC
+	s6eTzyHYgenOqLfahifc1Kx60xlysc8n5Vi/VtS1oTf1H5v275xPlJz5io+LMX8mSVIvh25GxjhUK
+	dq0M7DHg==;
+Received: from s0106a84e3fe8c3f3.cg.shawcable.net ([24.64.144.200] helo=[192.168.0.10])
+	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.94.2)
+	(envelope-from <logang@deltatee.com>)
+	id 1obkYz-008uiH-2J; Fri, 23 Sep 2022 09:26:01 -0600
+Message-ID: <47004362-15ec-5356-6c1e-ba69b1910cef@deltatee.com>
+Date: Fri, 23 Sep 2022 09:25:51 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCHSET 0/5] Enable alloc caching and batched freeing for
- passthrough
-Content-Language: en-US
-To: Christoph Hellwig <hch@infradead.org>
-Cc: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-nvme@lists.infradead.org
-References: <20220922182805.96173-1-axboe@kernel.dk>
- <Yy3NyACongSfayY+@infradead.org>
- <6f7600be-d4b9-aeac-7dd1-71992a4dd5e8@kernel.dk>
- <Yy3PEjD2pkSq84RW@infradead.org>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <Yy3PEjD2pkSq84RW@infradead.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-CA
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
+ Matthew Wilcox <willy@infradead.org>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>, Minturn Dave B <dave.b.minturn@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>,
+ Martin Oliveira <martin.oliveira@eideticom.com>,
+ Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+ Ralph Campbell <rcampbell@nvidia.com>, Stephen Bates <sbates@raithlin.com>
+References: <20220922163926.7077-1-logang@deltatee.com>
+ <20220923060123.GA15698@lst.de>
+From: Logan Gunthorpe <logang@deltatee.com>
+In-Reply-To: <20220923060123.GA15698@lst.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 24.64.144.200
+X-SA-Exim-Rcpt-To: hch@lst.de, linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, dan.j.williams@intel.com, jgg@ziepe.ca, christian.koenig@amd.com, jhubbard@nvidia.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, dave.b.minturn@intel.com, jason@jlekstrand.net, dave.hansen@linux.intel.com, jianxin.xiong@intel.com, helgaas@kernel.org, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, rcampbell@nvidia.com, sbates@raithlin.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [PATCH v10 0/8] Userspace P2PDMA with O_DIRECT NVMe devices
+X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220923_082256_035664_82C480FB 
-X-CRM114-Status: GOOD (  14.15  )
+X-CRM114-CacheID: sfid-20220923_082607_719714_0B269677 
+X-CRM114-Status: GOOD (  14.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,29 +90,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/23/22 9:21 AM, Christoph Hellwig wrote:
-> On Fri, Sep 23, 2022 at 09:19:15AM -0600, Jens Axboe wrote:
->> On 9/23/22 9:16 AM, Christoph Hellwig wrote:
->>> On Thu, Sep 22, 2022 at 12:28:00PM -0600, Jens Axboe wrote:
->>>> This is good for a 10% improvement for passthrough performance. For
->>>> a non-drive limited test case, passthrough IO is now more efficient
->>>> than the regular bdev O_DIRECT path.
->>>
->>> How so?  If it ends up faster we are doing something wrong in the
->>> normal path as there should be no fundamental difference in the work
->>> that is being done.
->>
->> There's no fundamental difference, but the bdev path is more involved
->> than the simple passthrough path.
+
+
+
+On 2022-09-23 00:01, Christoph Hellwig wrote:
+> Thanks, the entire series looks good to me now:
 > 
-> Well, I guess that means there is some more fat we need to trim
-> then..
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> 
+> Given that this is spread all over, what tree do we want to take it
+> through?
 
-Yes and no, there's always more fat to trim. But some of it is
-inevitable, so...
+Yes, while this is ostensibly a feature for NVMe it turns out we didn't
+need to touch any NVMe code at all.
 
--- 
-Jens Axboe
+The most likely patch in my mind to have conflicts is the iov_iter patch
+as there's been a lot of churn there in the last few cycles and there
+are continued discussions.
 
+There are 2 PCI patches, but Bjorn's aware of them and has acked them.
+I'm also fairly confident this shouldn't conflict with anything in his tree.
 
+Besides that, there is one mm/gup patch which is the next likely to
+conflict; one scatterlist patch and three block layer patches which have
+largely been stable when I've done rebases.
+
+Logan
 
