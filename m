@@ -4,125 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6174C6FA83
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 18:53:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF35FC04A95
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 19:08:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uM84Skvb/lRIMqt2ZdoRJ2okqVHu0nNFPbVFptCjlSA=; b=g5kBt7OviA8h/q3DVUg64kx65T
-	J6Z3S2f2uZlxjPZKCuJ6Tst1yHLVHEa+tp2cjG9U5d9kv9AmL1fI9/cpQZCxkkqe3mQeNhBgyp3+r
-	Ji8B/rCMRToNUGYv9KEWXfdbi4zoNmE626rsMCKP5AktOy01WNx/ZkLHZo/fdtOuSSk21dWtO4xMH
-	R3CRoQZxbE6joaynA9BiyOYK4c+uqgyYxUXCAfwHrC+Sizh5fIqrgwgqc0alqlnt3EuGbgLMEYS3m
-	mUMtZfaJ7o7mXBTAzUjRu7Z0HRT/E59bpGISVmnxA/5UHteGK5koQNmhGqmaXMukjtAnn5EY0O7nf
-	M+XzzEew==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=ZQmZb+lXFhX7pnMcsk23AOR4qV5DlMOOudYTRaQuI38=; b=A1k4cCk3uECPWQ
+	ePlANWuY95W8fRUUuv0WD6Qc/Xhtkk1QyfH+v740AOceh9iAlLesnbzSnI1+oGkBiLrBYU+k0eKY0
+	YoNvfvB3AOYQbxzx4XLgOVNwmYhJnvwjKAziN2cuHTayuMBkVjHgQkHof2+uodmwS/2w+kOJcysHM
+	H6kiu4xPkor09928BO/hP2IUq1cMhBunhA7rCi31OWIkTE7F2fD0dKdwc/IlcKGQl1agPSBu6NoSY
+	/il9hFcBkzUoLYKn1Zh9C+SYc31tOCet80ExbuDM1WHBb377I2Qt6YYtTZhB2K3itZ/rKE6+JtNyn
+	2zp9FAc+87zpiPqBYwaA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obnoA-005Pfv-TE; Fri, 23 Sep 2022 18:53:54 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1obo2Y-005UjZ-Bo; Fri, 23 Sep 2022 19:08:46 +0000
+Received: from ale.deltatee.com ([204.191.154.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obno8-005PeS-3x
-	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 18:53:54 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20220923185343epoutp04b595a36261d4d2861eaef15ccfd70c99~XkhjrgW461759417594epoutp04h
-	for <linux-nvme@lists.infradead.org>; Fri, 23 Sep 2022 18:53:43 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20220923185343epoutp04b595a36261d4d2861eaef15ccfd70c99~XkhjrgW461759417594epoutp04h
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1663959223;
-	bh=uM84Skvb/lRIMqt2ZdoRJ2okqVHu0nNFPbVFptCjlSA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=iwBLYFPbD2Iw0ZPTiKPRXx+KFiX4WVkr48cmE2awcLxiwhb2i98H4xOnDGKkV1X2s
-	 ds02KRnUswNA7KGbLBcgLVv/S8PH4Xh1/7K0vUauExZIJae4DWAAS6SLqr54XQNpMc
-	 cKxhu2ICRjjqhNxuKQStNynTABDTgOC2qhg3Cgdc=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20220923185341epcas5p28f5a293ae8acbf001b9a7e930f504036~XkhifnNj41621916219epcas5p2U;
-	Fri, 23 Sep 2022 18:53:41 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.174]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4MZ1Wl0Ydjz4x9Pv; Fri, 23 Sep
-	2022 18:53:39 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	FD.D1.39477.2B00E236; Sat, 24 Sep 2022 03:53:38 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20220923185338epcas5p1766084406eb5fd62187d63e05c4f33d5~XkhfehYkm2437624376epcas5p1I;
-	Fri, 23 Sep 2022 18:53:38 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20220923185338epsmtrp18ea8edcf19d5cabef34a41c6b5338fde~XkhfdB4To1275312753epsmtrp1l;
-	Fri, 23 Sep 2022 18:53:38 +0000 (GMT)
-X-AuditID: b6c32a4a-007ff70000019a35-91-632e00b2d9cd
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	D4.7B.18644.2B00E236; Sat, 24 Sep 2022 03:53:38 +0900 (KST)
-Received: from test-zns (unknown [107.110.206.5]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20220923185336epsmtip2002cf5076170b5e8da216385c2231ae1~XkheBDJdV0241902419epsmtip2Q;
-	Fri, 23 Sep 2022 18:53:36 +0000 (GMT)
-Date: Sat, 24 Sep 2022 00:13:49 +0530
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: axboe@kernel.dk, kbusch@kernel.org, asml.silence@gmail.com,
-	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, gost.dev@samsung.com, Anuj Gupta
-	<anuj20.g@samsung.com>
-Subject: Re: [PATCH for-next v7 4/5] block: add helper to map bvec iterator
- for passthrough
-Message-ID: <20220923184349.GA3394@test-zns>
+	id 1obo2V-005UiE-BD
+	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 19:08:44 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:content-disposition;
+	bh=ZQmZb+lXFhX7pnMcsk23AOR4qV5DlMOOudYTRaQuI38=; b=iyj5atjf9mY5DRHI6pWs1X4Bi6
+	i7VWXXFHJq6mQF3UhKDCt1azxiYmU/3In5EAKRjGznKha0IhkHuKd/7hnByYfIMa0A10xryy3cNSI
+	9/HmYFmTyE4XR1neliZtOrRXXnkaJ9R21hyg32c9fhQFArWvSxFVueJNleIU1j2erseIiSoUWDXbG
+	tOhWjlXnaPU8ESbjgzqPj71YG3maPzlUvgOVWPqFkAVKrS7NJZv9TfQKrhcACp5dMGStbB6KGjxO+
+	eKaMDd7tJjeaipjxYkgs+FEV1joq4uNiT2sAhEOHHWDyXHWLYIghjVmN8Fujqsk6/dLFSMh9Fta85
+	HjoSW77g==;
+Received: from s0106a84e3fe8c3f3.cg.shawcable.net ([24.64.144.200] helo=[192.168.0.10])
+	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.94.2)
+	(envelope-from <logang@deltatee.com>)
+	id 1obo2O-008xXP-NI; Fri, 23 Sep 2022 13:08:37 -0600
+Message-ID: <64f8da81-7803-4db4-73da-a158295cbc9c@deltatee.com>
+Date: Fri, 23 Sep 2022 13:08:31 -0600
 MIME-Version: 1.0
-In-Reply-To: <20220923152941.GA21275@lst.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprHJsWRmVeSWpSXmKPExsWy7bCmlu4mBr1kg1uNZhZNE/4yW8xZtY3R
-	YvXdfjaLmwd2MlmsXH2UyeJd6zkWi0mHrjFa7L2lbTF/2VN2B06PnbPusntcPlvqsWlVJ5vH
-	5iX1HrtvNrB59G1ZxejxeZNcAHtUtk1GamJKapFCal5yfkpmXrqtkndwvHO8qZmBoa6hpYW5
-	kkJeYm6qrZKLT4CuW2YO0F1KCmWJOaVAoYDE4mIlfTubovzSklSFjPziElul1IKUnAKTAr3i
-	xNzi0rx0vbzUEitDAwMjU6DChOyMv2f2shXMl6s4N7GVqYHxtngXIyeHhICJxJTzU5i7GLk4
-	hAR2M0rcu7GEEcL5xCjR2nUWyvnMKLH9zXZmmJZnX96xQyR2MUo82baWESQhJPCMUeLY21gQ
-	m0VAVWL/9WUsXYwcHGwCmhIXJpeChEUElCSevoIYyixwBai3ax0TSEJYIFZi45HfYAt4BXQk
-	lj37wwhhC0qcnPmEBcTmBIo//XALzBYVUJY4sO04E8ggCYGZHBIneq4yQlznIvH2+E8mCFtY
-	4tXxLewQtpTEy/42KDtZ4tLMc1A1JRKP9xyEsu0lWk/1M4MczSyQLvHnVB1ImFmAT6L39xMm
-	kLCEAK9ER5sQRLWixL1JT1khbHGJhzOWQNkeEmvmXIEG3BwmibVXrzNOYJSbheSdWQgbZoFt
-	sJLo/NDEChGWllj+jwPC1JRYv0t/ASPrKkbJ1ILi3PTUYtMCo7zUcngUJ+fnbmIEJ1Qtrx2M
-	Dx980DvEyMTBeIhRgoNZSYQ35aJushBvSmJlVWpRfnxRaU5q8SFGU2DsTGSWEk3OB6b0vJJ4
-	QxNLAxMzMzMTS2MzQyVx3sUztJKFBNITS1KzU1MLUotg+pg4OKUamDapnXr78UWU6gqLKJsI
-	tYSn5yVCPvudXSn+6ezyJJfItGM7dX/63md4Gcv/+9zZH/L/6tkPHNzZOfdHc5erg2qQ96bF
-	jzI+Fb4Nqmhk31YabsylIikfedmsePPMr+yTwmcb3bmUHHnslcXNQ3y7gnMLpzvP8MhIauUN
-	iQ9vfLvhf/nGrIC2L99MvAuO5789Zr2G/Urp3Lj4aQqmxlqecqzzi11LOf78/HzoBperd4Y5
-	78yfhtn7vp5bc3Ti1/lHGTbb5ZqVVcp3Ry2yYNgQkBjsc7+FYZoSe/np17uWTzgz8a+jXqp+
-	xZqnz2+r6QUfSjzmxPbao92uVf8Ri9EqQUXfivYzGzRT+E5syGy1VmIpzkg01GIuKk4EAFuT
-	ad8xBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrPLMWRmVeSWpSXmKPExsWy7bCSvO4mBr1kgy+7JC2aJvxltpizahuj
-	xeq7/WwWNw/sZLJYufook8W71nMsFpMOXWO02HtL22L+sqfsDpweO2fdZfe4fLbUY9OqTjaP
-	zUvqPXbfbGDz6NuyitHj8ya5APYoLpuU1JzMstQifbsErowJHw8zF1yRrti3dDNrA+Mq0S5G
-	Tg4JAROJZ1/esXcxcnEICexglFh3ahMzREJcovnaD3YIW1hi5b/nUEVPGCU6ftxhBEmwCKhK
-	7L++jKWLkYODTUBT4sLkUpCwiICSxNNXZxlB6pkFrjBK/Nm/hBUkISwQK7HxyG+wBbwCOhLL
-	nv1hhBi6gEni2ObHjBAJQYmTM5+wgNjMAmYS8zY/ZAZZwCwgLbH8HwdImBOo9+mHW2AlogLK
-	Ege2HWeawCg4C0n3LCTdsxC6FzAyr2KUTC0ozk3PLTYsMMpLLdcrTswtLs1L10vOz93ECI4T
-	La0djHtWfdA7xMjEwXiIUYKDWUmEN+WibrIQb0piZVVqUX58UWlOavEhRmkOFiVx3gtdJ+OF
-	BNITS1KzU1MLUotgskwcnFINTCv2tk/acPfPgzlJR1TOr1uW4ZqaqtL92azGbAfjLDnbJKlV
-	j8J0NG/4SDvN6bWcV9iy+C3D1jXTEnwYz8qqxclcZYrRW9O+IzP53/ZSzZ03Du5dUFVx/jnn
-	x6uHU7fL3OQ8EcfdrZ2waLaXXotB4vUN+oarzWSD1347reU+aWeI5kkZY6uyrSGPVi+KO7lE
-	Iz74zVTnKnaeCu7ctWJZzfmyGslfl1ZsvWTTnC/VM3nLV9tNDLs+n4yZ+3rhupmJhwpvy6sV
-	+Zj/fHSg0aGqoHOK6UdpZpFl2jILdp8KObuEMWj3m698V9T/VSakLIpLXxUUaSOxf0lF0NzF
-	2v2mC9O4t6ziq5La7DHdoMY7SomlOCPRUIu5qDgRAA+qbd0CAwAA
-X-CMS-MailID: 20220923185338epcas5p1766084406eb5fd62187d63e05c4f33d5
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----hXhhLlTPEJEAuBfojHalMaoqUrqdtcRK870WvTI8zmI2Z-rh=_6b63_"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220909103147epcas5p2a83ec151333bcb1d2abb8c7536789bfd
-References: <20220909102136.3020-1-joshi.k@samsung.com>
-	<CGME20220909103147epcas5p2a83ec151333bcb1d2abb8c7536789bfd@epcas5p2.samsung.com>
-	<20220909102136.3020-5-joshi.k@samsung.com> <20220920120802.GC2809@lst.de>
-	<20220922152331.GA24701@test-zns> <20220923152941.GA21275@lst.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-CA
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ Christoph Hellwig <hch@lst.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
+ Matthew Wilcox <willy@infradead.org>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>, Minturn Dave B <dave.b.minturn@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>,
+ Martin Oliveira <martin.oliveira@eideticom.com>,
+ Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+ Ralph Campbell <rcampbell@nvidia.com>, Stephen Bates <sbates@raithlin.com>
+References: <20220922163926.7077-1-logang@deltatee.com>
+ <20220922163926.7077-2-logang@deltatee.com> <Yy33LUqvDLSOqoKa@ziepe.ca>
+From: Logan Gunthorpe <logang@deltatee.com>
+In-Reply-To: <Yy33LUqvDLSOqoKa@ziepe.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 24.64.144.200
+X-SA-Exim-Rcpt-To: jgg@ziepe.ca, linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, hch@lst.de, gregkh@linuxfoundation.org, dan.j.williams@intel.com, christian.koenig@amd.com, jhubbard@nvidia.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, dave.b.minturn@intel.com, jason@jlekstrand.net, dave.hansen@linux.intel.com, jianxin.xiong@intel.com, helgaas@kernel.org, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, rcampbell@nvidia.com, sbates@raithlin.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [PATCH v10 1/8] mm: introduce FOLL_PCI_P2PDMA to gate getting PCI
+ P2PDMA pages
+X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220923_115352_660840_BCE2878B 
-X-CRM114-Status: GOOD (  27.46  )
+X-CRM114-CacheID: sfid-20220923_120843_475025_A72D2470 
+X-CRM114-Status: GOOD (  20.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -137,102 +92,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------hXhhLlTPEJEAuBfojHalMaoqUrqdtcRK870WvTI8zmI2Z-rh=_6b63_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
 
-On Fri, Sep 23, 2022 at 05:29:41PM +0200, Christoph Hellwig wrote:
->On Thu, Sep 22, 2022 at 08:53:31PM +0530, Kanchan Joshi wrote:
->>> blk_rq_map_user_iov really should be able to detect that it is called
->>> on a bvec iter and just do the right thing rather than needing different
->>> helpers.
+
+On 2022-09-23 12:13, Jason Gunthorpe wrote:
+> On Thu, Sep 22, 2022 at 10:39:19AM -0600, Logan Gunthorpe wrote:
+>> GUP Callers that expect PCI P2PDMA pages can now set FOLL_PCI_P2PDMA to
+>> allow obtaining P2PDMA pages. If GUP is called without the flag and a
+>> P2PDMA page is found, it will return an error.
 >>
->> I too explored that possibility, but found that it does not. It maps the
->> user-pages into bio either directly or by doing that copy (in certain odd
->> conditions) but does not know how to deal with existing bvec.
->
->What do you mean with existing bvec?  We allocate a brand new bio here
->that we want to map the next chunk of the iov_iter to, and that
->is exactly what blk_rq_map_user_iov does.  What blk_rq_map_user_iov
->currently does not do is to implement this mapping efficiently
->for ITER_BVEC iters
+>> FOLL_PCI_P2PDMA cannot be set if FOLL_LONGTERM is set.
+> 
+> What is causing this? It is really troublesome, I would like to fix
+> it. eg I would like to have P2PDMA pages in VFIO iommu page tables and
+> in RDMA MR's - both require longterm.
 
-It is clear that it was not written for ITER_BVEC iters.
-Otherwise that WARN_ON would not have hit.
+You had said it was required if we were relying on unmap_mapping_range()...
 
-And efficency is the concern as we are moving to more heavyweight
-helper that 'handles' weird conditions rather than just 'bails out'.
-These alignment checks end up adding a loop that traverses
-the entire ITER_BVEC.
-Also blk_rq_map_user_iov uses bio_iter_advance which also seems
-cycle-consuming given below code-comment in io_import_fixed():
+https://lore.kernel.org/all/20210928200506.GX3544071@ziepe.ca/T/#u
 
-if (offset) {
-        /*
-         * Don't use iov_iter_advance() here, as it's really slow for
-         * using the latter parts of a big fixed buffer - it iterates
-         * over each segment manually. We can cheat a bit here, because
-         * we know that:
+> Is it just because ZONE_DEVICE was created for DAX and carried that
+> revocable assumption over? Does anything in your series require
+> revocable?
 
-So if at all I could move the code inside blk_rq_map_user_iov, I will
-need to see that I skip doing iov_iter_advance.
+We still rely on unmap_mapping_range() indirectly in the unbind path.
+So I expect if something takes a LONGERM mapping that would block until
+whatever process holds the pin releases it. That's less than ideal and
+I'm not sure what can be done about it.
 
-I still think it would be better to take this route only when there are
-other usecases/callers of this. And that is a future thing. For the current
-requirement, it seems better to prioritze efficency.
+>> @@ -2383,6 +2392,10 @@ static int gup_pte_range(pmd_t pmd, unsigned long addr, unsigned long end,
+>>  		VM_BUG_ON(!pfn_valid(pte_pfn(pte)));
+>>  		page = pte_page(pte);
+>>  
+>> +		if (unlikely(!(flags & FOLL_PCI_P2PDMA) &&
+>> +			     is_pci_p2pdma_page(page)))
+>> +			goto pte_unmap;
+>> +
+>>  		folio = try_grab_folio(page, 1, flags);
+>>  		if (!folio)
+>>  			goto pte_unmap;
+> 
+> On closer look this is not in the right place, we cannot touch the
+> content of *page without holding a ref, and that doesn't happen until
+> until try_grab_folio() completes.
+> 
+> It would be simpler to put this check in try_grab_folio/try_grab_page
+> after the ref has been obtained. That will naturally cover all the
+> places that need it.
 
->, but that is something that could and should
->be fixed.
->
->> And it really felt cleaner to me write a new function rather than
->> overloading the blk_rq_map_user_iov with multiple if/else canals.
->
->No.  The whole point of the iov_iter is to support this "overload".
+Ok, I can make that change.
 
-Even if I try taking that route, WARN_ON is a blocker that  prevents 
-me to put this code inside blk_rq_map_user_iov.
-
->> But iov_iter_gap_alignment does not work on bvec iters. Line #1274 below
->
->So we'll need to fix it.
-
-Do you see good way to trigger this virt-alignment condition? I have
-not seen this hitting (the SG gap checks) when running with fixebufs.
-
->> 1264 unsigned long iov_iter_gap_alignment(const struct iov_iter *i)
->> 1265 {
->> 1266         unsigned long res = 0;
->> 1267         unsigned long v = 0;
->> 1268         size_t size = i->count;
->> 1269         unsigned k;
->> 1270
->> 1271         if (iter_is_ubuf(i))
->> 1272                 return 0;
->> 1273
->> 1274         if (WARN_ON(!iter_is_iovec(i)))
->> 1275                 return ~0U;
->>
->> Do you see a way to overcome this. Or maybe this can be revisted as we
->> are not missing a lot?
->
->We just need to implement the equivalent functionality for bvecs.  It
->isn't really hard, it just wasn't required so far.
-
-Can the virt-boundary alignment gap exist for ITER_BVEC iter in first
-place? Two reasons to ask this question:
-
-1. Commit description of this code (from Al viro) says -
-
-"iov_iter_gap_alignment(): get rid of iterate_all_kinds()
-
-For one thing, it's only used for iovec (and makes sense only for
-those)."
-
-2. I did not hit it so far as I mentioned above.
-
-------hXhhLlTPEJEAuBfojHalMaoqUrqdtcRK870WvTI8zmI2Z-rh=_6b63_
-Content-Type: text/plain; charset="utf-8"
+Logan
 
 
-------hXhhLlTPEJEAuBfojHalMaoqUrqdtcRK870WvTI8zmI2Z-rh=_6b63_--
 
