@@ -4,78 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 119EAC6FA90
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 15:26:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17297C6FA90
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 15:29:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=C81BnwO1LLn7rzdtw/smuBPO9/byip/ucPGw7WJmXyg=; b=R+1oo7dY9wIli5
-	UsZVi6yXVD4zZZYVXxK4Xc4IDyW4Vtd6a2boPHePYVC4NDH3BkvzjYALf+fpi84V4L4FaVrOp8pMB
-	NdRPh252aR4+fBCfJ8yuW5QScJVyFGESqTpBxgNw7e9XRlq/3AgUt80yTyUxg1J/N1fYtqezDJLbF
-	MBJT0H9NuqoBa4nNRoCpxS3FRnwRBmKlFo9R+hL7TxLBqUQDVPpy//XQsidl/J7gtR9j7NXPXf6aq
-	jZEGwq7O/p5Bx+LoaJCy5I0EnkFwwjjHxhow+nKVaAWS2rOdWR10l6ltbq3Q0Kh2xLDsIoZ9uIlDH
-	KONeB7bkMoSYyEpF3Pig==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2DdeVd3Vc2InoDjFb6lBXalNzTVoSGEubdgSPrYIVJQ=; b=TdIf4KMFRHaU356t/rsxHxQ/KY
+	3zZWRTwDl5n9ahHDoSuRxDKgS8YQD0Sfcedl2Mqybrab7tjSmoS6/TyXQ9+Nr1qgL3oU0u/jDNdFn
+	I/9xoW1NNrOwK1IETn5GaAqyaN37XuHkKPRHdbG2Q1XIcNJDXy0XEvUfPYfxnQzVD4xWl2QOFe3rX
+	UnXbALidXMlb8DeDAarNzSOayZAC+8a5h3sjaq078yPKgUCeY6qjdgBNdQCE/Pc9nKtVaHqTFt4fK
+	cbk1e9agfL5fCAO+lhZwmCJhflbrJ/u6UkcC/e9g9qzv8JA50uMUGJua3i0XxN7seOJ25/nCHZzzN
+	c96pfKbg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obkZ8-004oDR-Sp; Fri, 23 Sep 2022 15:26:10 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1obkcf-004ojN-Gr; Fri, 23 Sep 2022 15:29:49 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obkZ5-004oCD-LD
-	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 15:26:09 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:content-disposition;
-	bh=C81BnwO1LLn7rzdtw/smuBPO9/byip/ucPGw7WJmXyg=; b=EJgXMvWjdf974BGnhZ/H5B5xwv
-	NXJvfp4f6oUfUKuWpK1vn1hJDJ0w7XSUyC8/69ObFbcR/PleMfld5liF8hFbsFBeRRknZIjUPWs3X
-	yXCrUnVnYpYjPoX7DA9F2T28JKXXJEIV7eTiD4lUYvbR+CyKq571MvlRFoZLyNdx9mPjUl2mvtlUo
-	4fENvdIPwCyPgnqLNKCqyCRjsdhyoNHJAHPEzP7urRTm3wzaZDx02UPRrCfibr/1UFAwFMnP9bcfC
-	s6eTzyHYgenOqLfahifc1Kx60xlysc8n5Vi/VtS1oTf1H5v275xPlJz5io+LMX8mSVIvh25GxjhUK
-	dq0M7DHg==;
-Received: from s0106a84e3fe8c3f3.cg.shawcable.net ([24.64.144.200] helo=[192.168.0.10])
-	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.94.2)
-	(envelope-from <logang@deltatee.com>)
-	id 1obkYz-008uiH-2J; Fri, 23 Sep 2022 09:26:01 -0600
-Message-ID: <47004362-15ec-5356-6c1e-ba69b1910cef@deltatee.com>
-Date: Fri, 23 Sep 2022 09:25:51 -0600
+	id 1obkcd-004oie-6j
+	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 15:29:48 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 9479867373; Fri, 23 Sep 2022 17:29:41 +0200 (CEST)
+Date: Fri, 23 Sep 2022 17:29:41 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: Christoph Hellwig <hch@lst.de>, axboe@kernel.dk, kbusch@kernel.org,
+	asml.silence@gmail.com, io-uring@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	gost.dev@samsung.com, Anuj Gupta <anuj20.g@samsung.com>
+Subject: Re: [PATCH for-next v7 4/5] block: add helper to map bvec iterator
+ for passthrough
+Message-ID: <20220923152941.GA21275@lst.de>
+References: <20220909102136.3020-1-joshi.k@samsung.com> <CGME20220909103147epcas5p2a83ec151333bcb1d2abb8c7536789bfd@epcas5p2.samsung.com> <20220909102136.3020-5-joshi.k@samsung.com> <20220920120802.GC2809@lst.de> <20220922152331.GA24701@test-zns>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-CA
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
- Matthew Wilcox <willy@infradead.org>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, Minturn Dave B <dave.b.minturn@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
- Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>,
- Martin Oliveira <martin.oliveira@eideticom.com>,
- Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
- Ralph Campbell <rcampbell@nvidia.com>, Stephen Bates <sbates@raithlin.com>
-References: <20220922163926.7077-1-logang@deltatee.com>
- <20220923060123.GA15698@lst.de>
-From: Logan Gunthorpe <logang@deltatee.com>
-In-Reply-To: <20220923060123.GA15698@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 24.64.144.200
-X-SA-Exim-Rcpt-To: hch@lst.de, linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, dan.j.williams@intel.com, jgg@ziepe.ca, christian.koenig@amd.com, jhubbard@nvidia.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, dave.b.minturn@intel.com, jason@jlekstrand.net, dave.hansen@linux.intel.com, jianxin.xiong@intel.com, helgaas@kernel.org, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, rcampbell@nvidia.com, sbates@raithlin.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v10 0/8] Userspace P2PDMA with O_DIRECT NVMe devices
-X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220922152331.GA24701@test-zns>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220923_082607_719714_0B269677 
-X-CRM114-Status: GOOD (  14.08  )
+X-CRM114-CacheID: sfid-20220923_082947_405811_CD174058 
+X-CRM114-Status: GOOD (  22.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,30 +60,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Thu, Sep 22, 2022 at 08:53:31PM +0530, Kanchan Joshi wrote:
+>> blk_rq_map_user_iov really should be able to detect that it is called
+>> on a bvec iter and just do the right thing rather than needing different
+>> helpers.
+>
+> I too explored that possibility, but found that it does not. It maps the
+> user-pages into bio either directly or by doing that copy (in certain odd
+> conditions) but does not know how to deal with existing bvec.
 
+What do you mean with existing bvec?  We allocate a brand new bio here
+that we want to map the next chunk of the iov_iter to, and that
+is exactly what blk_rq_map_user_iov does.  What blk_rq_map_user_iov
+currently does not do is to implement this mapping efficiently
+for ITER_BVEC iters, but that is something that could and should
+be fixed.
 
+> And it really felt cleaner to me write a new function rather than 
+> overloading the blk_rq_map_user_iov with multiple if/else canals.
 
-On 2022-09-23 00:01, Christoph Hellwig wrote:
-> Thanks, the entire series looks good to me now:
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> 
-> Given that this is spread all over, what tree do we want to take it
-> through?
+No.  The whole point of the iov_iter is to support this "overload".
 
-Yes, while this is ostensibly a feature for NVMe it turns out we didn't
-need to touch any NVMe code at all.
+> But iov_iter_gap_alignment does not work on bvec iters. Line #1274 below
 
-The most likely patch in my mind to have conflicts is the iov_iter patch
-as there's been a lot of churn there in the last few cycles and there
-are continued discussions.
+So we'll need to fix it.
 
-There are 2 PCI patches, but Bjorn's aware of them and has acked them.
-I'm also fairly confident this shouldn't conflict with anything in his tree.
+> 1264 unsigned long iov_iter_gap_alignment(const struct iov_iter *i)
+> 1265 {
+> 1266         unsigned long res = 0;
+> 1267         unsigned long v = 0;
+> 1268         size_t size = i->count;
+> 1269         unsigned k;
+> 1270
+> 1271         if (iter_is_ubuf(i))
+> 1272                 return 0;
+> 1273
+> 1274         if (WARN_ON(!iter_is_iovec(i)))
+> 1275                 return ~0U;
+>
+> Do you see a way to overcome this. Or maybe this can be revisted as we
+> are not missing a lot?
 
-Besides that, there is one mm/gup patch which is the next likely to
-conflict; one scatterlist patch and three block layer patches which have
-largely been stable when I've done rebases.
-
-Logan
+We just need to implement the equivalent functionality for bvecs.  It
+isn't really hard, it just wasn't required so far.
 
