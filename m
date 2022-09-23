@@ -4,98 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EBE08C04A95
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 18:13:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9CD15C04A95
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 18:47:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ESjxMV4FxoH+Qzt/uSGYOPflTsCgLENu7dcc3YowE6k=; b=KETa6g2Mz8zWzwLbVz53ye0A1Y
-	OmVWxcOiPBpwx9qK0AtCBRK8N/hCuPOGHjozpsmw9HkgxiG6QZ0LKfebc5JQOIyTnQBBwWFTeFzyn
-	CIwZSedreMoT1qwOdze6y7ZmCpUqcz3NRwtrwP/4ZuH41AQRgNGA+hgPBjI7tOcyNO980Zw/li+OY
-	0LyOt7V6SenoM/0h6a85BjQEYxdTkPBD8LapvNeW39Wx/B0xYtFJuSGCqIq2gDEcwWv9I9z9CkvFi
-	acN8S3VuwrSdBD5Wqc98YDiFoqrWQMAYUSytE69u8rkBU1/SYUcWCDwcS7vijSGyyoBCBr034I0rw
-	1G6T1Bvw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=v7x+EWE7AU8pVOFbPrGq7P6msqFnukbvssEB0p3yuvA=; b=OrgaK5+A9jn8uRzNTa2QdJJHiO
+	697IP+fukpLxIiwWPJKQx/YJAxKCRzwtahz7sSAVsSUVK3PV7LbuGRIBYVOrx28XMD0OYIMqbq2lA
+	K3jC6GeEz3YjVpMYcUZ+KDbqMwWbAIGjJr1kg2VYM1mXcnGXgZfClp4QbW380k9tnmFtiWHPVo25d
+	k2ElSPkSp8b4zU9PYsUArtK9lXr3IQx3sRV1KWo8tKEIcZQ2RmTeh9fEGOL0t8aXMEtANXKDXtTFb
+	yAxlPL4SlzZhO+erU4L4aGaCfQQ9aLUP0Amw0lj3V+AOHX5Yn7IScv9ZNgshva1rw6h7uhuJGJI7k
+	iv3jBcfg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obnAk-005Ifw-8l; Fri, 23 Sep 2022 18:13:10 +0000
-Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835])
+	id 1obnhr-005OC2-HT; Fri, 23 Sep 2022 18:47:23 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obnAh-005IdZ-At
-	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 18:13:08 +0000
-Received: by mail-qt1-x835.google.com with SMTP id g23so574804qtu.2
-        for <linux-nvme@lists.infradead.org>; Fri, 23 Sep 2022 11:13:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=ESjxMV4FxoH+Qzt/uSGYOPflTsCgLENu7dcc3YowE6k=;
-        b=kY7MMNDmdRDXgBREGl1n+cj9EEOun4Jy+ls14IMPSV0csWh1NDhj6Y4IB13T7BfdUg
-         Wi26eUp33Pa5tk7zFyBI2Mq+szalxQ6Q7xLkG63kAED5icqyWvausogbFqMjBz0Q3OAh
-         8jqc4H2+05KPQwocTeDkku8kSoajsIwV/5IYLvCARPSewr33UpGNeEeIiU9QvvDqKKWA
-         39NJUXg4YGPg3p8VI/Tc5XyFrJVFGr/E8X/vqYnNdWZ2ScfDLSTdMHKUBAKg0NCPBOg6
-         IuCIVAumakjRmdj960aYL4S9ORJZ+CwZb7srEB3nY3ZBFIp+qJ2V46gkbAaTq221ryrS
-         b8jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=ESjxMV4FxoH+Qzt/uSGYOPflTsCgLENu7dcc3YowE6k=;
-        b=E0wjeV+oFTSyqgrhxdqgHBFTSUH0eHEOIyYw29NwIgi+ov3ffkwFhsNZTcmUUoVHJg
-         G7xVAiLd/zXDm30AXout0UKK3Swakw7IHGElCSYsr2ieTeyPnCXFRpDkGoVXeTLKe9po
-         Xc5kviC+q+AA1lqqbvbdAEPBLtD/NwCFdpi66XfhSEhCeNzBNU6pdhSJwXE6+GbetHte
-         dgoIax4kxJfD+Rnp6PI+KpRfQxW1m0rDrzz5gio+h6ei/fjocsJJ9xFMPQLl7i9AdcFE
-         YpUTgJ5lgj7ZzgPrMGAzUL2upmxAr1AZQObIwmVkQ+eyYWuEpA3ORZqN8SZ/+kUjk2Kp
-         hKxQ==
-X-Gm-Message-State: ACrzQf0smAGZQqpcaKSbx1LQhXZygRbJtrp3QSgvVzLAHLrkceVkMZmp
-	N0U5gOZCNSsvzR+h8m/fKVyL+g==
-X-Google-Smtp-Source: AMsMyM70jy04UOYomyiLCRjAafYD9I2h2rthRpjbDcZ+gaI+Pe3GK1nBzDBvaI6cptEThcPFiSijKQ==
-X-Received: by 2002:a05:622a:1053:b0:35c:bab4:bd80 with SMTP id f19-20020a05622a105300b0035cbab4bd80mr8343380qte.189.1663956782680;
-        Fri, 23 Sep 2022 11:13:02 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
-        by smtp.gmail.com with ESMTPSA id r13-20020ac87eed000000b0034035e73be0sm5730575qtc.4.2022.09.23.11.13.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Sep 2022 11:13:01 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1obnAb-002jAI-6N;
-	Fri, 23 Sep 2022 15:13:01 -0300
-Date: Fri, 23 Sep 2022 15:13:01 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Logan Gunthorpe <logang@deltatee.com>
-Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-mm@kvack.org, Christoph Hellwig <hch@lst.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	Minturn Dave B <dave.b.minturn@intel.com>,
-	Jason Ekstrand <jason@jlekstrand.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Xiong Jianxin <jianxin.xiong@intel.com>,
-	Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Martin Oliveira <martin.oliveira@eideticom.com>,
-	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
-	Ralph Campbell <rcampbell@nvidia.com>,
-	Stephen Bates <sbates@raithlin.com>
-Subject: Re: [PATCH v10 1/8] mm: introduce FOLL_PCI_P2PDMA to gate getting
- PCI P2PDMA pages
-Message-ID: <Yy33LUqvDLSOqoKa@ziepe.ca>
-References: <20220922163926.7077-1-logang@deltatee.com>
- <20220922163926.7077-2-logang@deltatee.com>
+	id 1obmbI-0059dE-F2
+	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 17:36:35 +0000
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20220923173623euoutp013c7bc337262cfc2562612cb81444bde4~XjeCz9EAc0811408114euoutp017
+	for <linux-nvme@lists.infradead.org>; Fri, 23 Sep 2022 17:36:23 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20220923173623euoutp013c7bc337262cfc2562612cb81444bde4~XjeCz9EAc0811408114euoutp017
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1663954583;
+	bh=v7x+EWE7AU8pVOFbPrGq7P6msqFnukbvssEB0p3yuvA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=fFnvurnr4lidaIhXJBa3jnmsAlfaLFIZfQTx/tr1T0alj4M44JwnrX5CKVZ//Ed0w
+	 1pdVZG8EIRdIq79vsKwMP4o74ZUZlAuGBr49+RQs+HrOOcbGgJvOXHt7JIKkZQie3B
+	 OSwYLrSY8BWJVDeEoWdvKuZf6BwaMqru6bYPlZwo=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+	20220923173621eucas1p17d30e53271c0a8d1a6f8cd3aef28ecc2~XjeA48gU12513525135eucas1p1k;
+	Fri, 23 Sep 2022 17:36:21 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+	eusmges2new.samsung.com (EUCPMTA) with SMTP id DB.1F.07817.59EED236; Fri, 23
+	Sep 2022 18:36:21 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20220923173620eucas1p2ba21805261fe5ad86c38c0f52daeaa3a~XjeAXaocG2090220902eucas1p2f;
+	Fri, 23 Sep 2022 17:36:20 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20220923173620eusmtrp2d1dfa588e7f09e828991d9b888e7353a~XjeAWS-Vr1023410234eusmtrp23;
+	Fri, 23 Sep 2022 17:36:20 +0000 (GMT)
+X-AuditID: cbfec7f4-893ff70000011e89-29-632dee952942
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms2.samsung.com (EUCPMTA) with SMTP id E1.5F.10862.49EED236; Fri, 23
+	Sep 2022 18:36:20 +0100 (BST)
+Received: from localhost (unknown [106.210.248.168]) by eusmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20220923173620eusmtip23695d8acf12f1f42b8f948364ae14283~Xjd-_-sLF2221022210eusmtip2b;
+	Fri, 23 Sep 2022 17:36:20 +0000 (GMT)
+From: Pankaj Raghav <p.raghav@samsung.com>
+To: snitzer@kernel.org, axboe@kernel.dk, agk@redhat.com, hch@lst.de,
+	damien.lemoal@opensource.wdc.com
+Cc: jaegeuk@kernel.org, gost.dev@samsung.com, bvanassche@acm.org,
+	linux-kernel@vger.kernel.org, hare@suse.de, matias.bjorling@wdc.com,
+	Johannes.Thumshirn@wdc.com, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, pankydev8@gmail.com, dm-devel@redhat.com,
+	Pankaj Raghav <p.raghav@samsung.com>, Luis Chamberlain <mcgrof@kernel.org>,
+	Adam Manzanares <a.manzanares@samsung.com>, Chaitanya Kulkarni
+	<kch@nvidia.com>, Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Subject: [PATCH v15 01/13] block: make bdev_nr_zones and disk_zone_no
+ generic for npo2 zone size
+Date: Fri, 23 Sep 2022 19:36:06 +0200
+Message-Id: <20220923173618.6899-2-p.raghav@samsung.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220923173618.6899-1-p.raghav@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220922163926.7077-2-logang@deltatee.com>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrAKsWRmVeSWpSXmKPExsWy7djP87pT3+kmG0z8K2Ex/bCixfpTx5gt
+	Vt/tZ7OY9uEns8Xvs+eZLfa+m81qcfPATiaLPYsmMVmsXH2UyeLJ+lnMFn+77jFZPL06i8li
+	7y1ti8u75rBZzF/2lN1iQttXZosbE54yWnxe2sJusebmUxaLE7ekHUQ8Ll/x9tg56y67x+Wz
+	pR6bVnWyeWxeUu+x+2YDm0dv8zs2j52t91k93u+7yubRt2UVo8fm09UenzfJebQf6GYK4I3i
+	sklJzcksSy3St0vgyjh98yNLwVHRioWPV7A2MDYIdTFyckgImEjseH6drYuRi0NIYAWjxK2P
+	c1khnC+MEt/Xb2WEcD4zSsw9uY0NpmXp7X0sEInljBLv/11lgnBeMkr8nbgYqJ+Dg01AS6Kx
+	kx2kQUQgXeL41pvsIDXMAo+YJbbd+c0EkhAWSJJY+76NEcRmEVCVWPaljRnE5hWwkHj06iPU
+	NnmJmZe+s4PM5BSwlOhvrIEoEZQ4OfMJC4jNDFTSvHU2M8h8CYFznBJzpzUwg9RLCLhIXO4o
+	gxgjLPHq+BZ2CFtG4v/O+UwQdrXE0xu/oXpbGCX6d65ng+i1lug7kwNiMgtoSqzfpQ9R7iix
+	Yns3I0QFn8SNt4IQF/BJTNo2HWopr0RHGzRwlSR2/nwCtVRC4nLTHBaIEg+JnWsDJzAqzkLy
+	yiwkr8xCWLuAkXkVo3hqaXFuemqxUV5quV5xYm5xaV66XnJ+7iZGYKI8/e/4lx2My1991DvE
+	yMTBeIhRgoNZSYQ35aJushBvSmJlVWpRfnxRaU5q8SFGaQ4WJXFethlayUIC6YklqdmpqQWp
+	RTBZJg5OqQamous8yazrJ6gnb2xx3RDm6bbPxzaiqEjqLcuG9sP2da52K04t/rjBsaKj+cHU
+	ELXiJ1GODCbz7c8dfJrdVWbj++riN4V5ZtNj7F884Xr3V/j1/5K850m7w66IPm7+s6S3fKu0
+	LWdxnWfUg64lHc+sH/+eqct8Y7qTCv/Rb6JbM5Ub51r/keQRSNhlqr/O2Dw2odY14PCiV6su
+	XD41Qch566WZEkrOMdbvJOODXvlzXe78max2jz+Dc8HMk5M27y9e7OGxumnDws0v5B8Uvb7G
+	nDCxNp7n899/O+9tLrunE7RjoZSI5c2LJddnc3FslNNLrdjBxXjQMHde9m2lGJmUXD09q909
+	i1TX3Xe9+bBaiaU4I9FQi7moOBEAcv0nEQMEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrIIsWRmVeSWpSXmKPExsVy+t/xe7pT3ukmG2z7b2gx/bCixfpTx5gt
+	Vt/tZ7OY9uEns8Xvs+eZLfa+m81qcfPATiaLPYsmMVmsXH2UyeLJ+lnMFn+77jFZPL06i8li
+	7y1ti8u75rBZzF/2lN1iQttXZosbE54yWnxe2sJusebmUxaLE7ekHUQ8Ll/x9tg56y67x+Wz
+	pR6bVnWyeWxeUu+x+2YDm0dv8zs2j52t91k93u+7yubRt2UVo8fm09UenzfJebQf6GYK4I3S
+	synKLy1JVcjILy6xVYo2tDDSM7S00DMysdQzNDaPtTIyVdK3s0lJzcksSy3St0vQyzh98yNL
+	wVHRioWPV7A2MDYIdTFyckgImEgsvb2PpYuRi0NIYCmjRPOqFjaIhITE7YVNjBC2sMSfa11s
+	EEXPGSX2HPrF2sXIwcEmoCXR2MkOUiMikCtxbO09VpAaZoEvzBK7L21hBUkICyRI3Pi7lxnE
+	ZhFQlVj2pQ3M5hWwkHj06iPUMnmJmZe+s4PM5BSwlOhvrAEJCwGVnF/8iB2iXFDi5MwnLCA2
+	M1B589bZzBMYBWYhSc1CklrAyLSKUSS1tDg3PbfYSK84Mbe4NC9dLzk/dxMjMK63Hfu5ZQfj
+	ylcf9Q4xMnEwHmKU4GBWEuFNuaibLMSbklhZlVqUH19UmpNafIjRFOjsicxSosn5wMSSVxJv
+	aGZgamhiZmlgamlmrCTO61nQkSgkkJ5YkpqdmlqQWgTTx8TBKdXApGBVE9AbM7VIKufo1csf
+	Lp6JE9ZflLIvyOGewGoJKXuZWy+uJ//t1MhwW+zUwnZ4oW573X2v76fTZJ8YzVv4e1vCjWh/
+	p9NBD6TPLHZ1v6Gxi71wd9kMJ4NI1pZGv8npDoIx34uSGIv0vvj+1MpmU72lnPFVuFLt7Z/8
+	R3N1v6btjfJba7Iwv3S1l+Lcn5FrxVLk93hnmDgVa/w5ZZaQNyf6IvfE4LufdNVfss8veKHW
+	NsnkW3rNW+mejMmrLwSe3H1d8D+bxJ+J3bet1bdvjNkhNEGns/6QQ4d8ZfmB2ao256aVF+d4
+	JF88I274TqBiz3KTuoOS4ifYq7bxvWB85iDx89uyhI3HGfNmCgcosRRnJBpqMRcVJwIAhzAU
+	vXQDAAA=
+X-CMS-MailID: 20220923173620eucas1p2ba21805261fe5ad86c38c0f52daeaa3a
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20220923173620eucas1p2ba21805261fe5ad86c38c0f52daeaa3a
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220923173620eucas1p2ba21805261fe5ad86c38c0f52daeaa3a
+References: <20220923173618.6899-1-p.raghav@samsung.com>
+	<CGME20220923173620eucas1p2ba21805261fe5ad86c38c0f52daeaa3a@eucas1p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220923_111307_393312_50DCB019 
-X-CRM114-Status: GOOD (  15.01  )
+X-CRM114-CacheID: sfid-20220923_103632_805844_DB51F7B1 
+X-CRM114-Status: GOOD (  15.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,40 +138,81 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 22, 2022 at 10:39:19AM -0600, Logan Gunthorpe wrote:
-> GUP Callers that expect PCI P2PDMA pages can now set FOLL_PCI_P2PDMA to
-> allow obtaining P2PDMA pages. If GUP is called without the flag and a
-> P2PDMA page is found, it will return an error.
-> 
-> FOLL_PCI_P2PDMA cannot be set if FOLL_LONGTERM is set.
+Adapt bdev_nr_zones and disk_zone_no functions so that they can
+also work for non-power-of-2 zone sizes.
 
-What is causing this? It is really troublesome, I would like to fix
-it. eg I would like to have P2PDMA pages in VFIO iommu page tables and
-in RDMA MR's - both require longterm.
+As the existing deployments assume that a device zone size is a power of
+2 number of sectors, power-of-2 optimized calculation is used for those
+devices.
 
-Is it just because ZONE_DEVICE was created for DAX and carried that
-revocable assumption over? Does anything in your series require
-revocable?
+There are no direct hot paths modified and the changes just
+introduce one new branch per call.
 
-> @@ -2383,6 +2392,10 @@ static int gup_pte_range(pmd_t pmd, unsigned long addr, unsigned long end,
->  		VM_BUG_ON(!pfn_valid(pte_pfn(pte)));
->  		page = pte_page(pte);
->  
-> +		if (unlikely(!(flags & FOLL_PCI_P2PDMA) &&
-> +			     is_pci_p2pdma_page(page)))
-> +			goto pte_unmap;
-> +
->  		folio = try_grab_folio(page, 1, flags);
->  		if (!folio)
->  			goto pte_unmap;
+Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+Reviewed-by: Adam Manzanares <a.manzanares@samsung.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+---
+ block/blk-zoned.c      | 13 +++++++++----
+ include/linux/blkdev.h |  8 +++++++-
+ 2 files changed, 16 insertions(+), 5 deletions(-)
 
-On closer look this is not in the right place, we cannot touch the
-content of *page without holding a ref, and that doesn't happen until
-until try_grab_folio() completes.
+diff --git a/block/blk-zoned.c b/block/blk-zoned.c
+index a264621d4905..dce9c95b4bcd 100644
+--- a/block/blk-zoned.c
++++ b/block/blk-zoned.c
+@@ -111,17 +111,22 @@ EXPORT_SYMBOL_GPL(__blk_req_zone_write_unlock);
+  * bdev_nr_zones - Get number of zones
+  * @bdev:	Target device
+  *
+- * Return the total number of zones of a zoned block device.  For a block
+- * device without zone capabilities, the number of zones is always 0.
++ * Return the total number of zones of a zoned block device, including the
++ * eventual small last zone if present. For a block device without zone
++ * capabilities, the number of zones is always 0.
+  */
+ unsigned int bdev_nr_zones(struct block_device *bdev)
+ {
+ 	sector_t zone_sectors = bdev_zone_sectors(bdev);
++	sector_t capacity = bdev_nr_sectors(bdev);
+ 
+ 	if (!bdev_is_zoned(bdev))
+ 		return 0;
+-	return (bdev_nr_sectors(bdev) + zone_sectors - 1) >>
+-		ilog2(zone_sectors);
++
++	if (is_power_of_2(zone_sectors))
++		return (capacity + zone_sectors - 1) >> ilog2(zone_sectors);
++
++	return DIV_ROUND_UP_SECTOR_T(capacity, zone_sectors);
+ }
+ EXPORT_SYMBOL_GPL(bdev_nr_zones);
+ 
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 8038c5fbde40..6c6bf4dd5709 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -674,9 +674,15 @@ static inline unsigned int disk_nr_zones(struct gendisk *disk)
+ 
+ static inline unsigned int disk_zone_no(struct gendisk *disk, sector_t sector)
+ {
++	sector_t zone_sectors = disk->queue->limits.chunk_sectors;
++
+ 	if (!blk_queue_is_zoned(disk->queue))
+ 		return 0;
+-	return sector >> ilog2(disk->queue->limits.chunk_sectors);
++
++	if (is_power_of_2(zone_sectors))
++		return sector >> ilog2(zone_sectors);
++
++	return div64_u64(sector, zone_sectors);
+ }
+ 
+ static inline bool disk_zone_is_seq(struct gendisk *disk, sector_t sector)
+-- 
+2.25.1
 
-It would be simpler to put this check in try_grab_folio/try_grab_page
-after the ref has been obtained. That will naturally cover all the
-places that need it.
-
-Jason
 
