@@ -4,82 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59C25C6FA82
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 14:15:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF249C6FA82
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 14:52:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UWmSkIcj2Zi0W95Qe0q25OStbn3befeirPvCr4MRQSQ=; b=t6mn1eWSPrkxoslx3Y1zWPIsp8
-	fBWqqsIjKx1M1ZfAK3VaAqNPcyLwra7NegGyG3BYKRl4ygfxhKRuNgGVcPHIiyaMtjQiOVrlxvyfi
-	mIllnu+W2pjxUM4GKNtNMvJf9R/LUCOKUG4+Fa5xwjMG/koaeb5IHY13l7BQ1fdnvYMaQmgMbnwyx
-	jqHQdBWU82QoLow7Vgz8h36Q9kNtGlAkrGdU3jBN0H1mJzS46IbTrJlJCE0UtIyXkkkCW3TCxnDnW
-	MAPcaG2mrsYtYROIAwSzI/XDgrRU4ibz1m2CbDQ98SvfhkdNeUVb2s6SoNqqQMDCcZ3WsdbwDQTSu
-	TzezDZjw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9en01QcZoVRB/nyuHix8atR26FaNJkFbsXv8c0H0Ewc=; b=qxTEI38G6iLZxEg4yyZPTDt6Wi
+	drNaCH7x763SX3jxkTZX3m0rGeqdkSAhcPG1PiBqzrM4Bb9G7PFpVnFS3jBaosQ1Qhwj2BuYiFYft
+	VKDAyFLWLLXmSOiyWMoAh63uZWfcnqOgfillS0vI+qU24/O1O4uKNOnsGl0BuiJ3R4Asnc1ymbaWr
+	nWzohDpmIRFHXacCvvbQboMqi/psH37MXoDCVONYQhcU3h9nOw/iWJGxwrHnntc2RDmWaV0TEn44T
+	cFVq9eY7yU9qCmDhAgjlUMG4olOwq7f6paYtgYpbCg9PTEe3idFafuAWnGE5MCHJwSnrXraGePKsj
+	oipm2uGA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1objT5-004bcg-9c; Fri, 23 Sep 2022 14:15:51 +0000
-Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e])
+	id 1obk2o-004hRg-T2; Fri, 23 Sep 2022 14:52:46 +0000
+Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1objSp-004bW3-BZ
-	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 14:15:38 +0000
-Received: by mail-io1-xd2e.google.com with SMTP id q83so930iod.7
-        for <linux-nvme@lists.infradead.org>; Fri, 23 Sep 2022 07:15:32 -0700 (PDT)
+	id 1obk2l-004hOg-IK
+	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 14:52:44 +0000
+Received: by mail-lf1-x12b.google.com with SMTP id a3so645532lfk.9
+        for <linux-nvme@lists.infradead.org>; Fri, 23 Sep 2022 07:52:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=UWmSkIcj2Zi0W95Qe0q25OStbn3befeirPvCr4MRQSQ=;
-        b=D2yf3TlFalE7EQgO4dw4+/YaX1DhboXIHpiQ3fxco/I0FzbFXMnkI9U2xiatkh9t2c
-         nLQASI0sqeJwJmqy0E/wtVtgC5vep4UieANkH0I9W+I9WGrki+D76hbN6Fp/9Pw5dp6x
-         mHDFqkjHesmdGr8jaIw2/O7AclhwSxCIZk2vlreVNrOngHhTBr2RigHvgR8mMR83xHVc
-         15f4/Op6S+4vymQP3tWaR4DgF8plZoCLH35Biwinj73bIpozGDLUX2UUle7+TxE7VGAc
-         vb1P0oFzD1imNOhDp9l3X75Uaqt5Kx5GNBoTfyBHWJ1gHgJEgKBk1mjJ/3iVZa/r7C3r
-         FY6Q==
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=9en01QcZoVRB/nyuHix8atR26FaNJkFbsXv8c0H0Ewc=;
+        b=PVuPZKBRqWaUP5aS/sM77IUimjHSDr9CQTadF85aA5q4O90CpCTMdaFBCYFy7EUFXz
+         h2GNkjwON4xJaInS2D1O6t9ZUYI3n0jPsgeRluS3TCyfw6hB+baKudhs603HocyP4RWZ
+         uA/S+BxHmq1DEjRf0na3JK9q171ECwNyKC/yRhSCmt2mpExCxJRLc0nqHtgVc7z5p33D
+         dYFbTwIxvEIWV3ALkDpzQV3KNMjl82CdJikqWLsqO2zBZgiH8GBJWzoM0uyU/5LHQsYZ
+         W0MtIBbrUaeQMxhsby/3QPjlPoUirew/kZRvI4Ts1vqlEWn4hAJlVxqKaPj3u2oHq6Pe
+         tZTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=UWmSkIcj2Zi0W95Qe0q25OStbn3befeirPvCr4MRQSQ=;
-        b=TIsNhV0ggoJHk8NAMB8Iw80vyIRc/NjH3soHmQSACOCAs3RoJeG6ZwwZuN2x+w3t2r
-         SCzRtb0/TiXOJdZBqy1PKM8lTx7h1tE3mQz+rroB4AFJY79P02liv9QghYl/xRBGFOE/
-         5i6zJu+vb41F+bo7dk/lTOQnCPXSTthWND03g+ALwocQkj7pKVrAwpIvuMp9Wb9uzYXW
-         DWV4mWze+gufk3PfphoHxPkzxsVfQWYqpdTFnztog7P+B5M/IFLmw7C7XkQ8nBztam4y
-         PJGFyb/X+MXdgKRyaNOtsSx6TZdR8idopVTQZW/qvvUQ1c7qsD7ws25NTEcxp0QCV889
-         Hd1w==
-X-Gm-Message-State: ACrzQf1z0eo+lHK8YGOFxnwXoyHXKAXnsGmB4fRmh32Gs8RUqWKdwpPK
-	7AgrKewLdmnIvrsG7ThFP1f8kKt+t0Qi1w==
-X-Google-Smtp-Source: AMsMyM53Z12Kuv8H+dqvBgr3DBBg4AIRzLDXTvx9NPbXSHl0B74YnwyuZKRp6Ju5owk5lxsokGhe1Q==
-X-Received: by 2002:a02:cc83:0:b0:35a:1461:5be8 with SMTP id s3-20020a02cc83000000b0035a14615be8mr4925685jap.32.1663942531405;
-        Fri, 23 Sep 2022 07:15:31 -0700 (PDT)
-Received: from [192.168.1.94] ([207.135.234.126])
-        by smtp.gmail.com with ESMTPSA id k10-20020a6bba0a000000b006a19152b3f0sm3653752iof.5.2022.09.23.07.15.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Sep 2022 07:15:30 -0700 (PDT)
-Message-ID: <c9750503-b16b-a756-b3e3-c9dfa0c482c3@kernel.dk>
-Date: Fri, 23 Sep 2022 08:15:28 -0600
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=9en01QcZoVRB/nyuHix8atR26FaNJkFbsXv8c0H0Ewc=;
+        b=YvQDl3+vnabZRgufjfnOgxHN7VsGtT4ZY2PrIIhQu1sWAjugMB0WDfkyaynq1/GNAW
+         uF3fTa5Cup7HdSD5QxjMwULGjB+l8fVKNZ7CzhCiUOq2mmb2TRyMgtF6O6eGtBRfQWxF
+         2KPsx/dhoffvgtcy3WPXJzuCiprER2dx5KHtfvC+OjgyQ4QP3drAEZ+IhuU2p+2zbDlZ
+         8sAQI8CeC8axi57fm5pkF4j8UsPdDdEwBfq/7mbhXDkjGDeyVyaoJBikHzrGzEfjDqi8
+         o5u2RZI4yo5TmH0g71Wf6R38UoeFD1nkfMH/WR8SRzDMQaVFXWjHYH/wkmqHnZjRYSdw
+         N+Kg==
+X-Gm-Message-State: ACrzQf1Y75Bh3fMJfRqv3JGgJ/NX33OaB9Q4U8NvPLO8y78wnNhSrrUB
+	UPUPBtCJS65p2mt0gWfbW4w=
+X-Google-Smtp-Source: AMsMyM6oT3NunHaRFH/pM9NAACYneBSq+ek5ly7lVSal3ZJ0a4JDlTxrbOSd4U+7r34vtj5BJRZzOA==
+X-Received: by 2002:a05:6512:10d6:b0:49a:1fc0:cc62 with SMTP id k22-20020a05651210d600b0049a1fc0cc62mr3653475lfg.138.1663944760226;
+        Fri, 23 Sep 2022 07:52:40 -0700 (PDT)
+Received: from localhost (80-62-116-219-mobile.dk.customer.tdc.net. [80.62.116.219])
+        by smtp.gmail.com with ESMTPSA id i16-20020a2ea230000000b0026aba858fbfsm1032999ljm.137.2022.09.23.07.52.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Sep 2022 07:52:39 -0700 (PDT)
+Date: Fri, 23 Sep 2022 16:52:36 +0200
+From: Pankaj Raghav <pankydev8@gmail.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	Pankaj Raghav <p.raghav@samsung.com>, joshi.k@samsung.com
+Subject: Re: [PATCH 1/5] block: enable batched allocation for
+ blk_mq_alloc_request()
+Message-ID: <20220923145236.pr7ssckko4okklo2@quentin>
+References: <20220922182805.96173-1-axboe@kernel.dk>
+ <20220922182805.96173-2-axboe@kernel.dk>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH for-next v8 0/5] fixed-buffer for uring-cmd/passthru
-To: Kanchan Joshi <joshi.k@samsung.com>, hch@lst.de, kbusch@kernel.org
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, gost.dev@samsung.com
-References: <CGME20220923093906epcas5p1308a262f3de722a923339c2e804fc5ee@epcas5p1.samsung.com>
- <20220923092854.5116-1-joshi.k@samsung.com>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20220923092854.5116-1-joshi.k@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220922182805.96173-2-axboe@kernel.dk>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220923_071535_682301_9766612C 
-X-CRM114-Status: UNSURE (   8.18  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220923_075243_628428_A314DCF6 
+X-CRM114-Status: GOOD (  16.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,31 +90,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/23/22 3:28 AM, Kanchan Joshi wrote:
-> Currently uring-cmd lacks the ability to leverage the pre-registered
-> buffers. This series adds that support in uring-cmd, and plumbs
-> nvme passthrough to work with it.
+On Thu, Sep 22, 2022 at 12:28:01PM -0600, Jens Axboe wrote:
+> The filesystem IO path can take advantage of allocating batches of
+> requests, if the underlying submitter tells the block layer about it
+> through the blk_plug. For passthrough IO, the exported API is the
+> blk_mq_alloc_request() helper, and that one does not allow for
+> request caching.
 > 
-> Using registered-buffers showed IOPS hike from 1.9M to 2.2M in my tests.
+> Wire up request caching for blk_mq_alloc_request(), which is generally
+> done without having a bio available upfront.
+> 
+> Signed-off-by: Jens Axboe <axboe@kernel.dk>
+> ---
+>  block/blk-mq.c | 80 ++++++++++++++++++++++++++++++++++++++++++++------
+>  1 file changed, 71 insertions(+), 9 deletions(-)
+> 
+I think we need this patch to ensure correct behaviour for passthrough:
 
-Ran my peak test on this, specifically:
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index c11949d66163..840541c1ab40 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -1213,7 +1213,7 @@ void blk_execute_rq_nowait(struct request *rq, bool at_head)
+        WARN_ON(!blk_rq_is_passthrough(rq));
+ 
+        blk_account_io_start(rq);
+-       if (current->plug)
++       if (blk_mq_plug(rq->bio))
+                blk_add_rq_to_plug(current->plug, rq);
+        else
+                blk_mq_sched_insert_request(rq, at_head, true, false);
 
-t/io_uring -pX -d128 -b512 -s32 -c32 -F1 -B0 -R1 -X1 -n24 -P1 -u1 -O0 /dev/ng0n1 /dev/ng1n1 /dev/ng2n1 /dev/ng3n1 /dev/ng4n1 /dev/ng5n1 /dev/ng6n1 /dev/ng7n1 /dev/ng8n1 /dev/ng9n1 /dev/ng10n1 /dev/ng11n1 /dev/ng12n1 /dev/ng13n1 /dev/ng14n1 /dev/ng15n1 /dev/ng16n1 /dev/ng17n1 /dev/ng18n1 /dev/ng19n1 /dev/ng20n1 /dev/ng21n1 /dev/ng22n1 /dev/ng23n1
+As the passthrough path can now support request caching via blk_mq_alloc_request(),
+and it uses blk_execute_rq_nowait(), bad things can happen at least for zoned
+devices:
 
-Before:
+static inline struct blk_plug *blk_mq_plug( struct bio *bio)
+{
+	/* Zoned block device write operation case: do not plug the BIO */
+	if (bdev_is_zoned(bio->bi_bdev) && op_is_write(bio_op(bio)))
+		return NULL;
+..
 
-Polled (-p1): 96.8M IOPS
-IRQ driven (-p0): 56.2M IOPS
-
-With patches, set -B1 in the above:
-
-Polled (-p1): 121.8M IOPS
-IRQ driven (-p0): 68.7M IOPS
-
-+22-26% improvement, which is not unexpected.
-
--- 
-Jens Axboe
-
-
+Am I missing something?
 
