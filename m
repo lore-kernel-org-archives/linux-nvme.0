@@ -4,46 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DE742ECAAD8
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 15:38:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48E8BC6FA82
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 15:40:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=umzBjJEJkSUQcPWG+0UTCw3HwNEr3VSV7emP0v1eNI8=; b=bNS88TPfbksAnfXMPKi8a8v6Ko
-	vbDMfewnkMg6+ngiWTVI5tUBb0Zo67LVJEUMgmNuMsvR2fn65eV3v6Oa1VSb94++nLJdJha9BkaSK
-	E8QokWn/Gf4x98wJ19hWVEJduz4pWcMNya01swbQI5LJrzJHV0FXpLBiENXQjjeOGb/pt7M/57pRY
-	v7Dn/k+gsvmkY9mrZGz79i7JJtfDM31IzeqbzYVuruncSOaHtpLHmJssl+1lvUYN97u9uAWzk3cLM
-	Qk/NzI8qBmzsZV9aZ613Ys5hW4qTNSRnEwD43x+02RHYXKO+Nj9INjYmf06H6OVII+ZvZLOcmC7rp
-	N0UPwa/A==;
+	bh=ZiGSfOuqjgKOkE0d4Nz0aG6n0kWFrbNrtEAma4LspFw=; b=S61+eOBEqwMbsrhGqYwWNfmWZ2
+	a1gQWmjLm804doFHXNv4GmiyxyKNLtfBsPezD2BxBdKYIIxxK5khFumfmfoaRk8I8e6Iy01IdYFZi
+	9eKqqZB35e7HOvuoj6hm1TUowwWaE0lEa7Ap7AprpjehnKrb0g5IbZym26wXZ+E/Tk8H+CRq9f0Gt
+	PM0As63hFC1gsoJ6zFxrTAfNURoxYa9Gwb038QodcIdwbYkylccTgGmro7WQIowuVjGdMpSfzYBqh
+	COFMBXT0NTT4UAHNGMEQccIj5sQlTMeUKBqUJP9ZTvebb0VfpBYpgATDjB0D0ikymVeVEtXqoZypu
+	kOb91dLQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obkl0-004pvp-CQ; Fri, 23 Sep 2022 15:38:26 +0000
+	id 1obknI-004qYx-Nk; Fri, 23 Sep 2022 15:40:48 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obkkx-004puy-Cf
-	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 15:38:24 +0000
+	id 1obknF-004qVs-PT
+	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 15:40:47 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id A093767373; Fri, 23 Sep 2022 17:38:19 +0200 (CEST)
-Date: Fri, 23 Sep 2022 17:38:19 +0200
+	id 4425467373; Fri, 23 Sep 2022 17:40:42 +0200 (CEST)
+Date: Fri, 23 Sep 2022 17:40:41 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Kanchan Joshi <joshi.k@samsung.com>
 Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
 	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org, gost.dev@samsung.com
-Subject: Re: [PATCH for-next v8 3/5] nvme: refactor nvme_alloc_user_request
-Message-ID: <20220923153819.GC21275@lst.de>
-References: <20220923092854.5116-1-joshi.k@samsung.com> <CGME20220923093916epcas5p387fdd905413f6d90babecf5d14da5b67@epcas5p3.samsung.com> <20220923092854.5116-4-joshi.k@samsung.com>
+Subject: Re: [PATCH for-next v8 5/5] nvme: wire up fixed buffer support for
+ nvme passthrough
+Message-ID: <20220923154041.GD21275@lst.de>
+References: <20220923092854.5116-1-joshi.k@samsung.com> <CGME20220923093924epcas5p1e1723a3937cb3331c77e55bd1a785e57@epcas5p1.samsung.com> <20220923092854.5116-6-joshi.k@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220923092854.5116-4-joshi.k@samsung.com>
+In-Reply-To: <20220923092854.5116-6-joshi.k@samsung.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220923_083823_595026_5814BB52 
-X-CRM114-Status: GOOD (  19.32  )
+X-CRM114-CacheID: sfid-20220923_084045_983979_6AF2476E 
+X-CRM114-Status: GOOD (  12.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -58,77 +59,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> -static void *nvme_add_user_metadata(struct bio *bio, void __user *ubuf,
-> -		unsigned len, u32 seed, bool write)
-> +static void *nvme_add_user_metadata(struct request *req, void __user *ubuf,
-> +		unsigned len, u32 seed)
-
-Please split out a separate patch just for the changes to
-nvme_add_user_metadata.
-
-> -	if (ret == len)
-> +	if (ret == len) {
-> +		req->cmd_flags |= REQ_INTEGRITY;
->  		return buf;
-> +	}
->  	ret = -ENOMEM;
-
-Nit: Please keep the successful path in line and branch out for the
-errors, i.e.
-
-
-	if (ret != len) {
-	 	ret = -ENOMEM;
-		goto out_free_meta;
-	}
-
-	req->cmd_flags |= REQ_INTEGRITY;
-	return buf;
-
-We should have done this already with the old code, but now that more
-is added to the success path it becomes even more important:.
-
-> +	else {
-> +		struct iovec fast_iov[UIO_FASTIOV];
-> +		struct iovec *iov = fast_iov;
-> +		struct iov_iter iter;
+On Fri, Sep 23, 2022 at 02:58:54PM +0530, Kanchan Joshi wrote:
+>  	if (!vec)
+> +		if (!fixedbufs)
+> +			ret = blk_rq_map_user(q, req, NULL,
+> +					nvme_to_user_ptr(ubuffer), bufflen,
+> +					GFP_KERNEL);
+> +		else {
+> +			struct iov_iter iter;
 > +
-> +		ret = import_iovec(rq_data_dir(req), ubuffer, bufflen,
-> +				UIO_FASTIOV, &iov, &iter);
-> +		if (ret < 0)
->  			goto out;
-> +		ret = blk_rq_map_user_iov(q, req, NULL, &iter, GFP_KERNEL);
-> +		kfree(iov);
-> +	}
+> +			ret = io_uring_cmd_import_fixed(ubuffer, bufflen,
+> +					rq_data_dir(req), &iter, ioucmd);
+> +			if (ret < 0)
+> +				goto out;
+> +			ret = blk_rq_map_user_bvec(req, &iter);
+> +		}
 
-While you touch this:  I think thi block of code would also be a good
-separate helper.  Maybe even in the block layer given the the scsi
-ioctl code and sg duplicate it, and already missed the fast_iov
-treatment due to the duplication.  Having this in a separate function
-is also nice to keep the fast_iov stack footprint isolated.
+Given that the fixedufs case doesn't handle the vec case we can
+do with some untangling and a single level of indentation here.
 
-> +	if (ret)
-> +		goto out;
-> +	bio = req->bio;
-
-I think we can also do away with this bio local variable now.
-
-> +	if (bdev)
-> +		bio_set_dev(bio, bdev);
-
-We don't need the bio_set_dev here as mentioned last time, so I think
-we should remove it in a prep patch.
-
-> +		ret = nvme_map_user_request(req, ubuffer, bufflen, meta_buffer,
-> +			meta_len, meta_seed, &meta, vec);
-
-Nit: Add an extra tab for indentation here please.
-
->  	if (IS_ERR(req))
->  		return PTR_ERR(req);
-> +	req->timeout = d.timeout_ms ? msecs_to_jiffies(d.timeout_ms) : 0;
-
-	if (d.timeout_ms)
-		req->timeout = msecs_to_jiffies(d.timeout_ms);
-
+Even with that a WARN_ON_ONCE() for that impossible case would be good
+to have, though.
 
