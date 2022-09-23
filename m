@@ -4,129 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A6D6ECAAD8
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 15:13:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B677ECAAD8
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 15:16:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=PbaKVH+mq65Axg6jk4sDVyJCePjLdPZHFFHJqJEkjcc=; b=kESLZ0uiml1yvD
-	0PRPpAiZObJs+K3PmaqfcKla50OON5Bs+nN8lp4yZOpGLygWsS6yNJkL5Fw+310s6jVWrQQNcHfSa
-	OER9kztprujdjgVtQyOL+2VfbrkMn5S1CAYjmFCh17O2+SRJPjwkgNEHKG+PmZKCX8WF4zvN9kYwg
-	AjW4yVxP3Kb4qMM9r8hjE6Um9ePDt8hYeX85u69wUj1od6c/7AFrTfiJ2zAW+LolRZ47nqhgd1mQf
-	JnV/w1tWcwcJWBMUH+lMTBcya6Vqs08n/rs7pKfkY0UZlZS42GzXFPpQvnDRdE1Fer2WnlPt2QRbB
-	Zoffe9d/ZlTlMBGSqbVA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=UorYsw2Q0RA5v1p3DScoB0Hc2dP1ZUZpZTV/kkTX85E=; b=46bo3llYG/fZxMkutwtdlsrhcP
+	SjJuwI2/dGy7IHD2E7PDfH059GRBtkLYcy+N7d5zjR37XM/tL7sX6Y67RRD9phe63SgEYtvkHixTT
+	E9vRd/WGsJwM7m8Ff8VqUpac6YSpoT4baC9PbpDCs7cxotSUktkb1s1Q0LZPtPqzIEXZB/2dLoSTd
+	/FNuWzdpK9keLg0L6cePi4ortwQpQnPVBXaFko0PdEXPPSadfzYkMdFN9T5/2y4FycPWQ1q/0vrjy
+	TNAa5A+MLJEQqgKbBsB/l/B2f6Pxpn6sLFVlov8fqZAmpul4kvJP8DZWvuvS2e4tjbMiAaxapy0RQ
+	+PH+4jNg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obkMz-004lLC-Nw; Fri, 23 Sep 2022 15:13:37 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obkMw-004lJi-La
-	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 15:13:36 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20220923151323euoutp02eb898791540e5477d8854651316f2ab1~XhhMdOD1c1512015120euoutp02y
-	for <linux-nvme@lists.infradead.org>; Fri, 23 Sep 2022 15:13:23 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20220923151323euoutp02eb898791540e5477d8854651316f2ab1~XhhMdOD1c1512015120euoutp02y
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1663946004;
-	bh=PbaKVH+mq65Axg6jk4sDVyJCePjLdPZHFFHJqJEkjcc=;
-	h=Date:Subject:To:CC:From:In-Reply-To:References:From;
-	b=NEfKNNk8NvcLHFjfDfAJZH6kCBQ399MRKhfWaw7oVyWD+TAz6pgdzzR8RcJ+baNNg
-	 ByBabXD67M3w70CgiAhl18QpCsQXD6JvL55MU3ug5gKJ/fl+XC1u3BysNpCcsMgY+U
-	 ehSx2l657TNyQfg8w7xenGJGZ3a1uXGu2jI4V/nE=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20220923151323eucas1p2c3c02010f5d671894c4050c21e665e18~XhhMTRtld1569215692eucas1p2W;
-	Fri, 23 Sep 2022 15:13:23 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-	eusmges1new.samsung.com (EUCPMTA) with SMTP id 8B.21.29727.31DCD236; Fri, 23
-	Sep 2022 16:13:23 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20220923151323eucas1p2b38577ffa0c445120d086e5eb5c4b306~XhhLpt7Mo2402124021eucas1p26;
-	Fri, 23 Sep 2022 15:13:23 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20220923151323eusmtrp22258127ff30a888aafae215e8136c5e6~XhhLo5p_Y2350823508eusmtrp2k;
-	Fri, 23 Sep 2022 15:13:23 +0000 (GMT)
-X-AuditID: cbfec7f2-21dff7000001741f-c3-632dcd13ebde
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-	eusmgms1.samsung.com (EUCPMTA) with SMTP id 87.DF.07473.21DCD236; Fri, 23
-	Sep 2022 16:13:22 +0100 (BST)
-Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20220923151322eusmtip186acab0d3c79ccf624463b80d53dead2~XhhLbpa6q1469214692eusmtip1g;
-	Fri, 23 Sep 2022 15:13:22 +0000 (GMT)
-Received: from [192.168.8.130] (106.210.248.168) by CAMSVWEXC01.scsc.local
-	(2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Fri, 23 Sep 2022 16:13:20 +0100
-Message-ID: <c7b76fa1-f7e3-3ac6-c92d-35baa0d9a40a@samsung.com>
-Date: Fri, 23 Sep 2022 17:13:20 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
-	Thunderbird/91.11.0
-Subject: Re: [PATCH 1/5] block: enable batched allocation for
- blk_mq_alloc_request()
-Content-Language: en-US
-To: Jens Axboe <axboe@kernel.dk>, Damien Le Moal
-	<damien.lemoal@opensource.wdc.com>
-CC: <linux-block@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
-	<linux-nvme@lists.infradead.org>, <joshi.k@samsung.com>, Pankaj Raghav
-	<pankydev8@gmail.com>, Bart Van Assche <bvanassche@acm.org>
-From: Pankaj Raghav <p.raghav@samsung.com>
-In-Reply-To: <20220923145236.pr7ssckko4okklo2@quentin>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [106.210.248.168]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
-	CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrIKsWRmVeSWpSXmKPExsWy7djP87rCZ3WTDX526VmsvtvPZjHtw09m
-	i99nzzNb7L2lbTF/2VN2i+7rO9gs1tx8yuLA7nH5irfHzll3gYyzpR6bl9R77Gy9z+rxeZNc
-	AFsUl01Kak5mWWqRvl0CV8aPfetZCqYKVvQs+cXawHiLt4uRk0NCwESiY9lL5i5GLg4hgRWM
-	EttmNLOCJIQEvjBK7FtYBJH4zChxYvISVpiO/Q9Os0MkljNK/Jq5ghGu6tLS+1CzdjNKdHz8
-	wwTSwitgJ3Gj9SoziM0ioCrxZ+8GZoi4oMTJmU9YQGxRgUiJNbvPsoPYwgJhEvvfrwXrZRYQ
-	l7j1ZD6YLSIQKnGn6TkbyAJmgeOMEvfPXQW6iYODTUBLorETrJdTwEziwvWjLBC9mhKt23+z
-	Q9jyEtvfzmGGeEFZYvnpmVB2rcTaY2fA3pEQaOaUaD34gR0i4SJx9d0hqJ+FJV4d3wIVl5H4
-	vxPiIAmBaomnN34zQzS3MEr071zPBnKQhIC1RN+ZHIgaR4n++zOhwnwSN94KQtzDJzFp23Tm
-	CYyqs5CCYhaSl2cheWEWkhcWMLKsYhRPLS3OTU8tNsxLLdcrTswtLs1L10vOz93ECExFp/8d
-	/7SDce6rj3qHGJk4GA8xSnAwK4nwzr6jmSzEm5JYWZValB9fVJqTWnyIUZqDRUmcl22GVrKQ
-	QHpiSWp2ampBahFMlomDU6qBSXe5WJLcJOFVDN6/12YoL+piPvM1mcHzX4Zyb7iu5fSadsnV
-	B/44rJu40yWcWXOVwZ6bXdNjBZp3ZWtv+VI44ZdizlSeleo3nueGaV2cl3uv4WyggdOls5OL
-	Npaz2KYvDntXzfBDd9YCu4jlZTrCneXcMg73uv5MPL075pJ+3grnkO38Qn+bFM3WFL0Jem0u
-	0u9U9Ozz1+fzH1xhnNX48ZlFvbwp56tMBldHnn9dBfd+5ceHObq132ZyOsZ9ee/zjVtq/sgV
-	P23ReVB34diKXr+l9TOYj3DGzroxZen+ua8P3FTtqT3NICPep/K7P3niBpZ5uXVTNJ9K6mUw
-	3zWT2R7xmWPeKqYsjzD5zRr3lFiKMxINtZiLihMBVgfjqrQDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrGIsWRmVeSWpSXmKPExsVy+t/xu7pCZ3WTDXY9sbFYfbefzWLah5/M
-	Fr/Pnme22HtL22L+sqfsFt3Xd7BZrLn5lMWB3ePyFW+PnbPuAhlnSz02L6n32Nl6n9Xj8ya5
-	ALYoPZui/NKSVIWM/OISW6VoQwsjPUNLCz0jE0s9Q2PzWCsjUyV9O5uU1JzMstQifbsEvYwf
-	+9azFEwVrOhZ8ou1gfEWbxcjJ4eEgInE/gen2bsYuTiEBJYySrSd3sICkZCR+HTlIzuELSzx
-	51oXG0TRR0aJz1s3skA4uxklDh78B9bBK2AncaP1KjOIzSKgKvFn7wZmiLigxMmZT8BqRAUi
-	JR4ua2ICsYUFwiT2v18LZjMLiEvcejIfzBYRCJW40/QcbBuzwHFGifvnrrKCJIQE7jNKtO9x
-	6GLk4GAT0JJo7AS7jlPATOLC9aMsEHM0JVq3/2aHsOUltr+dwwzxgbLE8tMzoexaiVf3dzNO
-	YBSdheS8WUjOmIVk1CwkoxYwsqxiFEktLc5Nzy021CtOzC0uzUvXS87P3cQIjOBtx35u3sE4
-	79VHvUOMTByMhxglOJiVRHhn39FMFuJNSaysSi3Kjy8qzUktPsRoCgyjicxSosn5wBSSVxJv
-	aGZgamhiZmlgamlmrCTO61nQkSgkkJ5YkpqdmlqQWgTTx8TBKdXAxPV3d91Oj5MNqWofH+hL
-	5d40YmWZUsretL5ouozOKVW9O2tK2xxWqTme05mw5cwv2Z/SB+0X7+iws5741JdhyWL+C1Gm
-	vVETvjsVVrKduH3mQduvb1t3sbswe/IdDk58OWvj15CkK47sajGR7jsOrPZuS0uYv35b7rH3
-	XFHLly19mrlVbKHB229X0wTNQ63yTA4cnyXT0p9UvSZGYPX2r+cuPUz4KLW96P+kmadCHcoy
-	Lpe6r9lb3Vryq9q9RvPlZe/TVk4uRQJXpCI7XmSu7k7eXRtx/bTXnLt/5aaYKXNIJKrPcXn6
-	4tFJZzmzQr7JS64v6pmsZrgwt7ZYbaXR0X+TdSP3T68JuWR9b6+zlRJLcUaioRZzUXEiACXE
-	TSNpAwAA
-X-CMS-MailID: 20220923151323eucas1p2b38577ffa0c445120d086e5eb5c4b306
-X-Msg-Generator: CA
-X-RootMTR: 20220923145245eucas1p107655755f446bb1e1318539a3f82d301
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220923145245eucas1p107655755f446bb1e1318539a3f82d301
+	id 1obkPj-004lwt-20; Fri, 23 Sep 2022 15:16:27 +0000
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1obkPg-004lw7-Tj; Fri, 23 Sep 2022 15:16:24 +0000
+Date: Fri, 23 Sep 2022 08:16:24 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCHSET 0/5] Enable alloc caching and batched freeing for
+ passthrough
+Message-ID: <Yy3NyACongSfayY+@infradead.org>
 References: <20220922182805.96173-1-axboe@kernel.dk>
-	<20220922182805.96173-2-axboe@kernel.dk>
-	<CGME20220923145245eucas1p107655755f446bb1e1318539a3f82d301@eucas1p1.samsung.com>
-	<20220923145236.pr7ssckko4okklo2@quentin>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220923_081335_007128_B29A564E 
-X-CRM114-Status: GOOD (  24.07  )
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220922182805.96173-1-axboe@kernel.dk>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -141,59 +50,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2022-09-23 16:52, Pankaj Raghav wrote:
-> On Thu, Sep 22, 2022 at 12:28:01PM -0600, Jens Axboe wrote:
->> The filesystem IO path can take advantage of allocating batches of
->> requests, if the underlying submitter tells the block layer about it
->> through the blk_plug. For passthrough IO, the exported API is the
->> blk_mq_alloc_request() helper, and that one does not allow for
->> request caching.
->>
->> Wire up request caching for blk_mq_alloc_request(), which is generally
->> done without having a bio available upfront.
->>
->> Signed-off-by: Jens Axboe <axboe@kernel.dk>
->> ---
->>  block/blk-mq.c | 80 ++++++++++++++++++++++++++++++++++++++++++++------
->>  1 file changed, 71 insertions(+), 9 deletions(-)
->>
-> I think we need this patch to ensure correct behaviour for passthrough:
-> 
-> diff --git a/block/blk-mq.c b/block/blk-mq.c
-> index c11949d66163..840541c1ab40 100644
-> --- a/block/blk-mq.c
-> +++ b/block/blk-mq.c
-> @@ -1213,7 +1213,7 @@ void blk_execute_rq_nowait(struct request *rq, bool at_head)
->         WARN_ON(!blk_rq_is_passthrough(rq));
->  
->         blk_account_io_start(rq);
-> -       if (current->plug)
-> +       if (blk_mq_plug(rq->bio))
->                 blk_add_rq_to_plug(current->plug, rq);
->         else
->                 blk_mq_sched_insert_request(rq, at_head, true, false);
-> 
-> As the passthrough path can now support request caching via blk_mq_alloc_request(),
-> and it uses blk_execute_rq_nowait(), bad things can happen at least for zoned
-> devices:
-> 
-> static inline struct blk_plug *blk_mq_plug( struct bio *bio)
-> {
-> 	/* Zoned block device write operation case: do not plug the BIO */
-> 	if (bdev_is_zoned(bio->bi_bdev) && op_is_write(bio_op(bio)))
-> 		return NULL;
-> ..
+On Thu, Sep 22, 2022 at 12:28:00PM -0600, Jens Axboe wrote:
+> This is good for a 10% improvement for passthrough performance. For
+> a non-drive limited test case, passthrough IO is now more efficient
+> than the regular bdev O_DIRECT path.
 
-Thinking more about it, even this will not fix it because op is
-REQ_OP_DRV_OUT if it is a NVMe write for passthrough requests.
-
-@Damien Should the condition in blk_mq_plug() be changed to:
-
-static inline struct blk_plug *blk_mq_plug( struct bio *bio)
-{
-	/* Zoned block device write operation case: do not plug the BIO */
-	if (bdev_is_zoned(bio->bi_bdev) && !op_is_read(bio_op(bio)))
-		return NULL;
-> 
-> Am I missing something?
+How so?  If it ends up faster we are doing something wrong in the
+normal path as there should be no fundamental difference in the work
+that is being done.
 
