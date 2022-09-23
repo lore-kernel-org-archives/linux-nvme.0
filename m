@@ -4,124 +4,125 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5A2FC07E9D
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 18:47:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6174C6FA83
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Sep 2022 18:53:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Sh2RcKnh/5VuMjs8+3FpX3d+pxMwsjOCK/0VaM6mGeA=; b=RdKNUGDsqMhPbm48r/oZXvYhZz
-	m2aLYg77Q0Qb/xgdtGbuUqkRMFzt1uk/SXgpFMnJsb3MPcvBgIJKCtFDxJbyJDkLWcV+9xfvBTmEd
-	evQ0G81YlYyVlTgxr0tdfgrztnfS7mEeD+pxoxLvHW7W8pujF/bYqqXgpBPhzSm7qUjAw7vkMVX00
-	omeMJb6SU0/TDKQGu/M9D1Nz88UI9N56DfiR8ydaRIG00unbaw5jv7Yyura4IEVN4kicv5TMovdeE
-	y3T8P++HwOb+EdZSA/79L/v9j6TaZbHtdWzdVmcWdniNCL8+1tDJ5lbLDdmj12iW6vEZVcmguwbUR
-	WGL0VDQQ==;
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=uM84Skvb/lRIMqt2ZdoRJ2okqVHu0nNFPbVFptCjlSA=; b=g5kBt7OviA8h/q3DVUg64kx65T
+	J6Z3S2f2uZlxjPZKCuJ6Tst1yHLVHEa+tp2cjG9U5d9kv9AmL1fI9/cpQZCxkkqe3mQeNhBgyp3+r
+	Ji8B/rCMRToNUGYv9KEWXfdbi4zoNmE626rsMCKP5AktOy01WNx/ZkLHZo/fdtOuSSk21dWtO4xMH
+	R3CRoQZxbE6joaynA9BiyOYK4c+uqgyYxUXCAfwHrC+Sizh5fIqrgwgqc0alqlnt3EuGbgLMEYS3m
+	mUMtZfaJ7o7mXBTAzUjRu7Z0HRT/E59bpGISVmnxA/5UHteGK5koQNmhGqmaXMukjtAnn5EY0O7nf
+	M+XzzEew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obnhn-005OBB-6Z; Fri, 23 Sep 2022 18:47:19 +0000
-Received: from mailout1.w1.samsung.com ([210.118.77.11])
+	id 1obnoA-005Pfv-TE; Fri, 23 Sep 2022 18:53:54 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1obmbI-0059dg-F2
-	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 17:36:35 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20220923173629euoutp010e311a006351b4922d4262e37a5ae44e~XjeIl5DRb0810708107euoutp01O
-	for <linux-nvme@lists.infradead.org>; Fri, 23 Sep 2022 17:36:29 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20220923173629euoutp010e311a006351b4922d4262e37a5ae44e~XjeIl5DRb0810708107euoutp01O
+	id 1obno8-005PeS-3x
+	for linux-nvme@lists.infradead.org; Fri, 23 Sep 2022 18:53:54 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20220923185343epoutp04b595a36261d4d2861eaef15ccfd70c99~XkhjrgW461759417594epoutp04h
+	for <linux-nvme@lists.infradead.org>; Fri, 23 Sep 2022 18:53:43 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20220923185343epoutp04b595a36261d4d2861eaef15ccfd70c99~XkhjrgW461759417594epoutp04h
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1663954589;
-	bh=Sh2RcKnh/5VuMjs8+3FpX3d+pxMwsjOCK/0VaM6mGeA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oa0FnbqlYw8XITmegdkbI6NUERsqttiBVUuxxgmC9tL4BKRRiokxTDWuv7jALeImx
-	 EzE1DgV2t4o8D5ZlY/myqUuRxz3EeSDSftuBzKO01rZGft3D/VSmWlC5n0QqnR9MGw
-	 /pYqOXmDCQNLd2wpwHLWe6tBm3dDCCUSUjYfdmwM=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20220923173628eucas1p18fb85791e90b4d490e510567060c7a77~XjeG_NuqU2512925129eucas1p1n;
-	Fri, 23 Sep 2022 17:36:28 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges1new.samsung.com (EUCPMTA) with SMTP id EB.6E.29727.B9EED236; Fri, 23
-	Sep 2022 18:36:27 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20220923173627eucas1p2f134d9cb331e4a8f0fca8431eeb0f0b0~XjeGaf4Wm2090220902eucas1p2i;
-	Fri, 23 Sep 2022 17:36:27 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20220923173627eusmtrp1aee1e9e64ae111179bc934a5d4095dad~XjeGZuJZk1032310323eusmtrp1b;
-	Fri, 23 Sep 2022 17:36:27 +0000 (GMT)
-X-AuditID: cbfec7f2-21dff7000001741f-30-632dee9b3c4d
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-	eusmgms1.samsung.com (EUCPMTA) with SMTP id CC.78.07473.B9EED236; Fri, 23
-	Sep 2022 18:36:27 +0100 (BST)
-Received: from localhost (unknown [106.210.248.168]) by eusmtip1.samsung.com
+	s=mail20170921; t=1663959223;
+	bh=uM84Skvb/lRIMqt2ZdoRJ2okqVHu0nNFPbVFptCjlSA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=iwBLYFPbD2Iw0ZPTiKPRXx+KFiX4WVkr48cmE2awcLxiwhb2i98H4xOnDGKkV1X2s
+	 ds02KRnUswNA7KGbLBcgLVv/S8PH4Xh1/7K0vUauExZIJae4DWAAS6SLqr54XQNpMc
+	 cKxhu2ICRjjqhNxuKQStNynTABDTgOC2qhg3Cgdc=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20220923185341epcas5p28f5a293ae8acbf001b9a7e930f504036~XkhifnNj41621916219epcas5p2U;
+	Fri, 23 Sep 2022 18:53:41 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.174]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4MZ1Wl0Ydjz4x9Pv; Fri, 23 Sep
+	2022 18:53:39 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	FD.D1.39477.2B00E236; Sat, 24 Sep 2022 03:53:38 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20220923185338epcas5p1766084406eb5fd62187d63e05c4f33d5~XkhfehYkm2437624376epcas5p1I;
+	Fri, 23 Sep 2022 18:53:38 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20220923185338epsmtrp18ea8edcf19d5cabef34a41c6b5338fde~XkhfdB4To1275312753epsmtrp1l;
+	Fri, 23 Sep 2022 18:53:38 +0000 (GMT)
+X-AuditID: b6c32a4a-007ff70000019a35-91-632e00b2d9cd
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+	D4.7B.18644.2B00E236; Sat, 24 Sep 2022 03:53:38 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip2.samsung.com
 	(KnoxPortal) with ESMTPA id
-	20220923173627eusmtip14c74415ab09453de0caf11795fffa12b~XjeGAqtpe2755327553eusmtip14;
-	Fri, 23 Sep 2022 17:36:27 +0000 (GMT)
-From: Pankaj Raghav <p.raghav@samsung.com>
-To: snitzer@kernel.org, axboe@kernel.dk, agk@redhat.com, hch@lst.de,
-	damien.lemoal@opensource.wdc.com
-Cc: jaegeuk@kernel.org, gost.dev@samsung.com, bvanassche@acm.org,
-	linux-kernel@vger.kernel.org, hare@suse.de, matias.bjorling@wdc.com,
-	Johannes.Thumshirn@wdc.com, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, pankydev8@gmail.com, dm-devel@redhat.com,
-	Pankaj Raghav <p.raghav@samsung.com>, Luis Chamberlain <mcgrof@kernel.org>,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>, Chaitanya Kulkarni
-	<kch@nvidia.com>
-Subject: [PATCH v15 07/13] zonefs: allow non power of 2 zoned devices
-Date: Fri, 23 Sep 2022 19:36:12 +0200
-Message-Id: <20220923173618.6899-8-p.raghav@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220923173618.6899-1-p.raghav@samsung.com>
+	20220923185336epsmtip2002cf5076170b5e8da216385c2231ae1~XkheBDJdV0241902419epsmtip2Q;
+	Fri, 23 Sep 2022 18:53:36 +0000 (GMT)
+Date: Sat, 24 Sep 2022 00:13:49 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: axboe@kernel.dk, kbusch@kernel.org, asml.silence@gmail.com,
+	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com, Anuj Gupta
+	<anuj20.g@samsung.com>
+Subject: Re: [PATCH for-next v7 4/5] block: add helper to map bvec iterator
+ for passthrough
+Message-ID: <20220923184349.GA3394@test-zns>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrNKsWRmVeSWpSXmKPExsWy7djPc7qz3+kmG5zYZmGx/tQxZovVd/vZ
-	LKZ9+Mls8fvseWaLve9ms1rcPLCTyWLPoklMFitXH2WyeLJ+FrPF3657TBZPr85isth7S9vi
-	8q45bBbzlz1lt5jQ9pXZ4saEp4wWn5e2sFusufmUxeLELWkHYY/LV7w9ds66y+5x+Wypx6ZV
-	nWwem5fUe+y+2cDm0dv8js1jZ+t9Vo/3+66yefRtWcXosfl0tcfnTXIe7Qe6mQJ4o7hsUlJz
-	MstSi/TtErgyTvz4zFTwRbDi8uc29gbGH3xdjBwcEgImEu3dzF2MXBxCAisYJf7snM7YxcgJ
-	5HxhlPj10wsi8ZlRYvfGr+wgCZCG06uOMEEkljNKPDuxFar9JaPEna52NpCxbAJaEo2dYA0i
-	AukSx7feZAepYRbYxizR+b+ZGSQhLOAq8fHsP7B1LAKqEtO+HmcC6eUVsJDY9dQRYpm8xMxL
-	39lBwpwClhL9jTUgYV4BQYmTM5+wgNjMQCXNW2eDnSAhcJhT4vahVkaIXheJ1vP7WCBsYYlX
-	x7dAPSAjcXpyD1S8WuLpjd9QzS2MEv0717NBgsVaou9MDojJLKApsX6XPkS5o8Sqhj5GiAo+
-	iRtvBSFO4JOYtG06M0SYV6KjTQiiWkli588nUEslJC43zYFa6iHRf3kh4wRGxVlInpmF5JlZ
-	CHsXMDKvYhRPLS3OTU8tNsxLLdcrTswtLs1L10vOz93ECEyPp/8d/7SDce6rj3qHGJk4GA8x
-	SnAwK4nwplzUTRbiTUmsrEotyo8vKs1JLT7EKM3BoiTOyzZDK1lIID2xJDU7NbUgtQgmy8TB
-	KdXA1Kb4f/++r946myy03spMyFyis048f4+mi8FhH5f6HzvuRE+4WhNloW88waK5KHS9z+lT
-	6m80T+2f6Cgd8Nhd9plFnu6/E9NV/lb5PBZ5EqLLOPm4H++3mIeszLv2a8ZYdah/faax7FjE
-	3dN13ac2ROhEr934sqDwiKkm36aFbS9XvNlyJHbCc5EN/RPe9ZjUZcgGzDvz40ZQ7mnpxW+C
-	Xgaulp2TW7vSQuqw//Ud/xNFV4QoSJzTKl3WyzddQWtdQ2x+rWaFXdnGxw6h349IZc/ds3Hl
-	CllWm/8fPqw5wHFo+uqjdoUarmoddg9fHKvykjtmfn57A+++H0oiD/Szi/U9XV9JvU0vZl/o
-	wxUdpMRSnJFoqMVcVJwIAFCRYOL+AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrDIsWRmVeSWpSXmKPExsVy+t/xu7qz3+kmG2xtFLJYf+oYs8Xqu/1s
-	FtM+/GS2+H32PLPF3nezWS1uHtjJZLFn0SQmi5WrjzJZPFk/i9nib9c9JounV2cxWey9pW1x
-	edccNov5y56yW0xo+8pscWPCU0aLz0tb2C3W3HzKYnHilrSDsMflK94eO2fdZfe4fLbUY9Oq
-	TjaPzUvqPXbfbGDz6G1+x+axs/U+q8f7fVfZPPq2rGL02Hy62uPzJjmP9gPdTAG8UXo2Rfml
-	JakKGfnFJbZK0YYWRnqGlhZ6RiaWeobG5rFWRqZK+nY2Kak5mWWpRfp2CXoZJ358Zir4Ilhx
-	+XMbewPjD74uRk4OCQETidOrjjB1MXJxCAksZZT4O3EVE0RCQuL2wiZGCFtY4s+1LjaIoueM
-	Eksa9gM5HBxsAloSjZ3sIDUiArkSx9beYwWpYRY4xizx6V0fWLOwgKvEx7P/wGwWAVWJaV+P
-	M4H08gpYSOx66ggxX15i5qXv7CBhTgFLif7GGpCwEFDF+cWPwMbzCghKnJz5hAXEZgYqb946
-	m3kCo8AsJKlZSFILGJlWMYqklhbnpucWG+oVJ+YWl+al6yXn525iBEbztmM/N+9gnPfqo94h
-	RiYOxkOMEhzMSiK8KRd1k4V4UxIrq1KL8uOLSnNSiw8xmgJdPZFZSjQ5H5hO8kriDc0MTA1N
-	zCwNTC3NjJXEeT0LOhKFBNITS1KzU1MLUotg+pg4OKUamKJyS467vDr82euO2Ydt9XNPtKvv
-	e9d6bsZD5f13gyeaOV1qE1DvjZz3QEH6tnMyC7eG/B9XgbDo+CPTfywULRTj3Li1SulD21GN
-	Qxd83gbUbopIn9TZzaH1TidDTNrQ4Yn4lmcv5V+FVyourubZZBphn83zJaVxmV1PRNCTX467
-	/V5eTGSac/2ylNklA58+qaDpRkfK4tasfif0WlWv0nqDrxbfxffRj0ynzU9e9fXJjzqVbR0i
-	p15pfIt93cy4t8lpf4n3iQ3qzwxkele9WheTH+ywQ9/2wHF5d2bGgM6PzzgOzFjNHaH36VG4
-	sGzer+SsH2fvOxj+vLKs7cbBlU4d/zME/GfIzuN9f/FqgBJLcUaioRZzUXEiAMkXmtVvAwAA
-X-CMS-MailID: 20220923173627eucas1p2f134d9cb331e4a8f0fca8431eeb0f0b0
+In-Reply-To: <20220923152941.GA21275@lst.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprHJsWRmVeSWpSXmKPExsWy7bCmlu4mBr1kg1uNZhZNE/4yW8xZtY3R
+	YvXdfjaLmwd2MlmsXH2UyeJd6zkWi0mHrjFa7L2lbTF/2VN2B06PnbPusntcPlvqsWlVJ5vH
+	5iX1HrtvNrB59G1ZxejxeZNcAHtUtk1GamJKapFCal5yfkpmXrqtkndwvHO8qZmBoa6hpYW5
+	kkJeYm6qrZKLT4CuW2YO0F1KCmWJOaVAoYDE4mIlfTubovzSklSFjPziElul1IKUnAKTAr3i
+	xNzi0rx0vbzUEitDAwMjU6DChOyMv2f2shXMl6s4N7GVqYHxtngXIyeHhICJxJTzU5i7GLk4
+	hAR2M0rcu7GEEcL5xCjR2nUWyvnMKLH9zXZmmJZnX96xQyR2MUo82baWESQhJPCMUeLY21gQ
+	m0VAVWL/9WUsXYwcHGwCmhIXJpeChEUElCSevoIYyixwBai3ax0TSEJYIFZi45HfYAt4BXQk
+	lj37wwhhC0qcnPmEBcTmBIo//XALzBYVUJY4sO04E8ggCYGZHBIneq4yQlznIvH2+E8mCFtY
+	4tXxLewQtpTEy/42KDtZ4tLMc1A1JRKP9xyEsu0lWk/1M4MczSyQLvHnVB1ImFmAT6L39xMm
+	kLCEAK9ER5sQRLWixL1JT1khbHGJhzOWQNkeEmvmXIEG3BwmibVXrzNOYJSbheSdWQgbZoFt
+	sJLo/NDEChGWllj+jwPC1JRYv0t/ASPrKkbJ1ILi3PTUYtMCo7zUcngUJ+fnbmIEJ1Qtrx2M
+	Dx980DvEyMTBeIhRgoNZSYQ35aJushBvSmJlVWpRfnxRaU5q8SFGU2DsTGSWEk3OB6b0vJJ4
+	QxNLAxMzMzMTS2MzQyVx3sUztJKFBNITS1KzU1MLUotg+pg4OKUamDapnXr78UWU6gqLKJsI
+	tYSn5yVCPvudXSn+6ezyJJfItGM7dX/63md4Gcv/+9zZH/L/6tkPHNzZOfdHc5erg2qQ96bF
+	jzI+Fb4Nqmhk31YabsylIikfedmsePPMr+yTwmcb3bmUHHnslcXNQ3y7gnMLpzvP8MhIauUN
+	iQ9vfLvhf/nGrIC2L99MvAuO5789Zr2G/Urp3Lj4aQqmxlqecqzzi11LOf78/HzoBperd4Y5
+	78yfhtn7vp5bc3Ti1/lHGTbb5ZqVVcp3Ry2yYNgQkBjsc7+FYZoSe/np17uWTzgz8a+jXqp+
+	xZqnz2+r6QUfSjzmxPbao92uVf8Ri9EqQUXfivYzGzRT+E5syGy1VmIpzkg01GIuKk4EAFuT
+	ad8xBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrPLMWRmVeSWpSXmKPExsWy7bCSvO4mBr1kgy+7JC2aJvxltpizahuj
+	xeq7/WwWNw/sZLJYufook8W71nMsFpMOXWO02HtL22L+sqfsDpweO2fdZfe4fLbUY9OqTjaP
+	zUvqPXbfbGDz6NuyitHj8ya5APYoLpuU1JzMstQifbsErowJHw8zF1yRrti3dDNrA+Mq0S5G
+	Tg4JAROJZ1/esXcxcnEICexglFh3ahMzREJcovnaD3YIW1hi5b/nUEVPGCU6ftxhBEmwCKhK
+	7L++jKWLkYODTUBT4sLkUpCwiICSxNNXZxlB6pkFrjBK/Nm/hBUkISwQK7HxyG+wBbwCOhLL
+	nv1hhBi6gEni2ObHjBAJQYmTM5+wgNjMAmYS8zY/ZAZZwCwgLbH8HwdImBOo9+mHW2AlogLK
+	Ege2HWeawCg4C0n3LCTdsxC6FzAyr2KUTC0ozk3PLTYsMMpLLdcrTswtLs1L10vOz93ECI4T
+	La0djHtWfdA7xMjEwXiIUYKDWUmEN+WibrIQb0piZVVqUX58UWlOavEhRmkOFiVx3gtdJ+OF
+	BNITS1KzU1MLUotgskwcnFINTCv2tk/acPfPgzlJR1TOr1uW4ZqaqtL92azGbAfjLDnbJKlV
+	j8J0NG/4SDvN6bWcV9iy+C3D1jXTEnwYz8qqxclcZYrRW9O+IzP53/ZSzZ03Du5dUFVx/jnn
+	x6uHU7fL3OQ8EcfdrZ2waLaXXotB4vUN+oarzWSD1347reU+aWeI5kkZY6uyrSGPVi+KO7lE
+	Iz74zVTnKnaeCu7ctWJZzfmyGslfl1ZsvWTTnC/VM3nLV9tNDLs+n4yZ+3rhupmJhwpvy6sV
+	+Zj/fHSg0aGqoHOK6UdpZpFl2jILdp8KObuEMWj3m698V9T/VSakLIpLXxUUaSOxf0lF0NzF
+	2v2mC9O4t6ziq5La7DHdoMY7SomlOCPRUIu5qDgRAA+qbd0CAwAA
+X-CMS-MailID: 20220923185338epcas5p1766084406eb5fd62187d63e05c4f33d5
 X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20220923173627eucas1p2f134d9cb331e4a8f0fca8431eeb0f0b0
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220923173627eucas1p2f134d9cb331e4a8f0fca8431eeb0f0b0
-References: <20220923173618.6899-1-p.raghav@samsung.com>
-	<CGME20220923173627eucas1p2f134d9cb331e4a8f0fca8431eeb0f0b0@eucas1p2.samsung.com>
+Content-Type: multipart/mixed;
+	boundary="----hXhhLlTPEJEAuBfojHalMaoqUrqdtcRK870WvTI8zmI2Z-rh=_6b63_"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220909103147epcas5p2a83ec151333bcb1d2abb8c7536789bfd
+References: <20220909102136.3020-1-joshi.k@samsung.com>
+	<CGME20220909103147epcas5p2a83ec151333bcb1d2abb8c7536789bfd@epcas5p2.samsung.com>
+	<20220909102136.3020-5-joshi.k@samsung.com> <20220920120802.GC2809@lst.de>
+	<20220922152331.GA24701@test-zns> <20220923152941.GA21275@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220923_103632_808158_4CDA7086 
-X-CRM114-Status: GOOD (  15.10  )
+X-CRM114-CacheID: sfid-20220923_115352_660840_BCE2878B 
+X-CRM114-Status: GOOD (  27.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,66 +137,102 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The zone size shift variable is useful only if the zone sizes are known
-to be power of 2. Remove that variable and use generic helpers from
-block layer to calculate zone index in zonefs.
+------hXhhLlTPEJEAuBfojHalMaoqUrqdtcRK870WvTI8zmI2Z-rh=_6b63_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-Acked-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
-Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
----
- fs/zonefs/super.c  | 6 ++----
- fs/zonefs/zonefs.h | 1 -
- 2 files changed, 2 insertions(+), 5 deletions(-)
+On Fri, Sep 23, 2022 at 05:29:41PM +0200, Christoph Hellwig wrote:
+>On Thu, Sep 22, 2022 at 08:53:31PM +0530, Kanchan Joshi wrote:
+>>> blk_rq_map_user_iov really should be able to detect that it is called
+>>> on a bvec iter and just do the right thing rather than needing different
+>>> helpers.
+>>
+>> I too explored that possibility, but found that it does not. It maps the
+>> user-pages into bio either directly or by doing that copy (in certain odd
+>> conditions) but does not know how to deal with existing bvec.
+>
+>What do you mean with existing bvec?  We allocate a brand new bio here
+>that we want to map the next chunk of the iov_iter to, and that
+>is exactly what blk_rq_map_user_iov does.  What blk_rq_map_user_iov
+>currently does not do is to implement this mapping efficiently
+>for ITER_BVEC iters
 
-diff --git a/fs/zonefs/super.c b/fs/zonefs/super.c
-index 860f0b1032c6..e549ef16738c 100644
---- a/fs/zonefs/super.c
-+++ b/fs/zonefs/super.c
-@@ -476,10 +476,9 @@ static void __zonefs_io_error(struct inode *inode, bool write)
- {
- 	struct zonefs_inode_info *zi = ZONEFS_I(inode);
- 	struct super_block *sb = inode->i_sb;
--	struct zonefs_sb_info *sbi = ZONEFS_SB(sb);
- 	unsigned int noio_flag;
- 	unsigned int nr_zones =
--		zi->i_zone_size >> (sbi->s_zone_sectors_shift + SECTOR_SHIFT);
-+		bdev_zone_no(sb->s_bdev, zi->i_zone_size >> SECTOR_SHIFT);
- 	struct zonefs_ioerr_data err = {
- 		.inode = inode,
- 		.write = write,
-@@ -1401,7 +1400,7 @@ static int zonefs_init_file_inode(struct inode *inode, struct blk_zone *zone,
- 	struct zonefs_inode_info *zi = ZONEFS_I(inode);
- 	int ret = 0;
- 
--	inode->i_ino = zone->start >> sbi->s_zone_sectors_shift;
-+	inode->i_ino = bdev_zone_no(sb->s_bdev, zone->start);
- 	inode->i_mode = S_IFREG | sbi->s_perm;
- 
- 	zi->i_ztype = type;
-@@ -1776,7 +1775,6 @@ static int zonefs_fill_super(struct super_block *sb, void *data, int silent)
- 	 * interface constraints.
- 	 */
- 	sb_set_blocksize(sb, bdev_zone_write_granularity(sb->s_bdev));
--	sbi->s_zone_sectors_shift = ilog2(bdev_zone_sectors(sb->s_bdev));
- 	sbi->s_uid = GLOBAL_ROOT_UID;
- 	sbi->s_gid = GLOBAL_ROOT_GID;
- 	sbi->s_perm = 0640;
-diff --git a/fs/zonefs/zonefs.h b/fs/zonefs/zonefs.h
-index 4b3de66c3233..39895195cda6 100644
---- a/fs/zonefs/zonefs.h
-+++ b/fs/zonefs/zonefs.h
-@@ -177,7 +177,6 @@ struct zonefs_sb_info {
- 	kgid_t			s_gid;
- 	umode_t			s_perm;
- 	uuid_t			s_uuid;
--	unsigned int		s_zone_sectors_shift;
- 
- 	unsigned int		s_nr_files[ZONEFS_ZTYPE_MAX];
- 
--- 
-2.25.1
+It is clear that it was not written for ITER_BVEC iters.
+Otherwise that WARN_ON would not have hit.
 
+And efficency is the concern as we are moving to more heavyweight
+helper that 'handles' weird conditions rather than just 'bails out'.
+These alignment checks end up adding a loop that traverses
+the entire ITER_BVEC.
+Also blk_rq_map_user_iov uses bio_iter_advance which also seems
+cycle-consuming given below code-comment in io_import_fixed():
+
+if (offset) {
+        /*
+         * Don't use iov_iter_advance() here, as it's really slow for
+         * using the latter parts of a big fixed buffer - it iterates
+         * over each segment manually. We can cheat a bit here, because
+         * we know that:
+
+So if at all I could move the code inside blk_rq_map_user_iov, I will
+need to see that I skip doing iov_iter_advance.
+
+I still think it would be better to take this route only when there are
+other usecases/callers of this. And that is a future thing. For the current
+requirement, it seems better to prioritze efficency.
+
+>, but that is something that could and should
+>be fixed.
+>
+>> And it really felt cleaner to me write a new function rather than
+>> overloading the blk_rq_map_user_iov with multiple if/else canals.
+>
+>No.  The whole point of the iov_iter is to support this "overload".
+
+Even if I try taking that route, WARN_ON is a blocker that  prevents 
+me to put this code inside blk_rq_map_user_iov.
+
+>> But iov_iter_gap_alignment does not work on bvec iters. Line #1274 below
+>
+>So we'll need to fix it.
+
+Do you see good way to trigger this virt-alignment condition? I have
+not seen this hitting (the SG gap checks) when running with fixebufs.
+
+>> 1264 unsigned long iov_iter_gap_alignment(const struct iov_iter *i)
+>> 1265 {
+>> 1266         unsigned long res = 0;
+>> 1267         unsigned long v = 0;
+>> 1268         size_t size = i->count;
+>> 1269         unsigned k;
+>> 1270
+>> 1271         if (iter_is_ubuf(i))
+>> 1272                 return 0;
+>> 1273
+>> 1274         if (WARN_ON(!iter_is_iovec(i)))
+>> 1275                 return ~0U;
+>>
+>> Do you see a way to overcome this. Or maybe this can be revisted as we
+>> are not missing a lot?
+>
+>We just need to implement the equivalent functionality for bvecs.  It
+>isn't really hard, it just wasn't required so far.
+
+Can the virt-boundary alignment gap exist for ITER_BVEC iter in first
+place? Two reasons to ask this question:
+
+1. Commit description of this code (from Al viro) says -
+
+"iov_iter_gap_alignment(): get rid of iterate_all_kinds()
+
+For one thing, it's only used for iovec (and makes sense only for
+those)."
+
+2. I did not hit it so far as I mentioned above.
+
+------hXhhLlTPEJEAuBfojHalMaoqUrqdtcRK870WvTI8zmI2Z-rh=_6b63_
+Content-Type: text/plain; charset="utf-8"
+
+
+------hXhhLlTPEJEAuBfojHalMaoqUrqdtcRK870WvTI8zmI2Z-rh=_6b63_--
 
