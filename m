@@ -4,121 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01C8FC54EE9
-	for <linux-nvme@archiver.kernel.org>; Sun, 25 Sep 2022 20:34:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CC266C6FA82
+	for <linux-nvme@archiver.kernel.org>; Sun, 25 Sep 2022 22:23:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3A/lgcvkDGVjeLIHZ4//Y527GGsAiDQHEVnPedJDOak=; b=e781T9SAjGMn5ei+ER0sdB0ahe
-	BasRlFl+eiwLs9hNkx1RIT5+248v2nANClVHodm0SxNlwV9NfmZUUi+LFC14EHrgDrUVcx/G9qZsd
-	mWiK8qTdmHoKagGVUyGAWsy1PYM//DCgcPVTcPc9sGlJ3oaDPDer5+clfqcT9asF5xadxlmhQaw89
-	GEgbgLp3trtgLkgELZ9sHGiEZKNSuydYcT+qwwT5t0R5Va4L3Xnl29gL5iH9AvEWv9gGVwbR4QUp7
-	sZHh2WlTAL4SG0uJsb5Vzzw1GX3u+5SnoFUbdLbwpSbt477H4hTgwyKYbzjilc0WQPTWHzRp6dA4y
-	V1G2bFVQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=FtEqwG/K5xL9hXf+ZrP/wIckLjWw253tSx59CJRjURo=; b=QZWA23tunmBq7IWvpar0a8UQtV
+	ErQl7fXg+EBXpjqSG7KTCnqX9zVA0B/k015EhAzx3qTi9iie0wlMwsm5yUpHAyRwD47pe3cMMg3Om
+	Ek7Ah1DHDAxuBZFEH/KS0uu6i5/Qtn+uDuRdZrJZe7mV9pu+wGCa6oTdYm+gzeMi87IznHtrCAymb
+	dk3kv5teebj8naEA58qQBcQT6nuw5mtEq5dnyqvEPHJ82q8k879Rumeez+qH2axPy/H6jPo1XuGzL
+	WKjdbqqlKFz8j+3r938kyNRBwEOkyK6MJCqEd56/9tSA+gQBMokIQirV2sl7vcKidThAeEhUgyQV1
+	wOPnNq5w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ocYKW-00GSGp-QD; Sun, 25 Sep 2022 20:34:24 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1oca2F-00HBxj-1I; Sun, 25 Sep 2022 22:23:39 +0000
+Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ocYJu-00GRuY-3v
-	for linux-nvme@lists.infradead.org; Sun, 25 Sep 2022 20:33:49 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20220925203344epoutp01263f07bd1aeb11f57a7dc2fb67e8f5b9~YNLdcWwS81070710707epoutp01i
-	for <linux-nvme@lists.infradead.org>; Sun, 25 Sep 2022 20:33:44 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20220925203344epoutp01263f07bd1aeb11f57a7dc2fb67e8f5b9~YNLdcWwS81070710707epoutp01i
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1664138024;
-	bh=3A/lgcvkDGVjeLIHZ4//Y527GGsAiDQHEVnPedJDOak=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BTO6wvIjGoc/6gToX9oFuSDO/RwibMHGuoR1HD9IrM2PtDcpUyWHIUxqIzMTnzn/x
-	 ZkqWzfSI7ALRKQyz/1GmIW7ua9jAmf3//0FvbTiQoeHIY/18WBpGTijYuklLsssRps
-	 4rq5WYz0dZB9MphJ4F5tBq2/KJTYjHxj4dKjbYow=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20220925203343epcas5p43cb2a8a5a1be684719c3999ac01d90e0~YNLcXUpGs2832328323epcas5p4C;
-	Sun, 25 Sep 2022 20:33:43 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.176]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4MbHfF1NmBz4x9Pq; Sun, 25 Sep
-	2022 20:33:41 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	52.AF.26992.42BB0336; Mon, 26 Sep 2022 05:33:41 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20220925203340epcas5p21bd73962a73c36c7bd56841299c0d229~YNLZy-Zs10635906359epcas5p2b;
-	Sun, 25 Sep 2022 20:33:40 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20220925203340epsmtrp21c70fa682ece6af7df1b29015edba3b1~YNLZyUb9Q1586315863epsmtrp2N;
-	Sun, 25 Sep 2022 20:33:40 +0000 (GMT)
-X-AuditID: b6c32a49-319fb70000016970-33-6330bb245163
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	8C.1A.18644.42BB0336; Mon, 26 Sep 2022 05:33:40 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.110.206.5]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20220925203338epsmtip1f20161add80368655d19994a5028e4c0~YNLXi3WkZ3161131611epsmtip1X;
-	Sun, 25 Sep 2022 20:33:37 +0000 (GMT)
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, gost.dev@samsung.com, Kanchan Joshi
-	<joshi.k@samsung.com>
-Subject: [PATCH for-next v9 7/7] nvme: wire up fixed buffer support for nvme
- passthrough
-Date: Mon, 26 Sep 2022 01:53:04 +0530
-Message-Id: <20220925202304.28097-8-joshi.k@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220925202304.28097-1-joshi.k@samsung.com>
+	id 1oca2C-00HBsB-J0
+	for linux-nvme@lists.infradead.org; Sun, 25 Sep 2022 22:23:38 +0000
+Received: by mail-lf1-x12c.google.com with SMTP id bu25so6279422lfb.3
+        for <linux-nvme@lists.infradead.org>; Sun, 25 Sep 2022 15:23:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=FtEqwG/K5xL9hXf+ZrP/wIckLjWw253tSx59CJRjURo=;
+        b=N3zreAPfbahoEwQV/C8efRAOUCuOnhdFwUg8hikd4a1/01yPQNnPcCpOsb7gLEPng6
+         rn16dNKQol45mqFmIneUl4ARey1O/Ac7Oxx1N+hgHC+69ZLn/nOrvF6pqQim3i4ygx5t
+         qCh9zb5P5C2gs8MgWrmeBFZCx/huBngE7tMhCW7JVwdjGTvfemIsTbMTde+hkI6ydsGD
+         Y8tSALjoT+bEbAav394L9zBxwsaB8eI7Fuu8PJWwI6VuPXtbvjVNtA7CBL23meDH3zw/
+         SQFR+be4EQnNerC9or4kS9qwx+M2jTJbpwg20BcvjwmVRKTMhknskmZkn2Cvi24zLIej
+         lgcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=FtEqwG/K5xL9hXf+ZrP/wIckLjWw253tSx59CJRjURo=;
+        b=nBxmLXxVme6ZbnsAZF0z6SEXjLRCdWBeC0fiiguZeHl6nqYyfX5F59A6RKcNZ0pfFh
+         X+Sl6LuPdgzkQaugisegEHSgNVSq9w6eEf7mC1aiCmhnLti4QeIkF/wCszS1EMwW2C8q
+         BRAM9zrsHr3ESpU5of2flo5vtcQwDAUOwz3Uh+B+PDrqA126b4tbSKv3P2ZufVq6zMEY
+         T49plyW+QGMf1d7a16S5g5555niszE/acfkZX/t5Vbwuxlj65zIVFPMWkjkH82kdKmR4
+         lu0Kvsi6RA+Qd0THSxOqYd1cV2VTCEPFEUeDtLe7Vhvpinnaiif2Nnvx0UaOWHOmeWZD
+         rCJw==
+X-Gm-Message-State: ACrzQf2tMVvQEvk3yBBYQ6pAHooJIKEDEtNaxG2a0i52/eIC7wbJ8Z/P
+	Yb7gWZBYj9ryk46q9FjMSX8=
+X-Google-Smtp-Source: AMsMyM5qFMDgU027/Sm9muPHKDgrE5SpekpER+jHiBO95ZmOUdyFKex46JvtxCjMFbSXa2HOzzYqrQ==
+X-Received: by 2002:a05:6512:3ba:b0:497:a116:3f86 with SMTP id v26-20020a05651203ba00b00497a1163f86mr7296009lfp.142.1664144608290;
+        Sun, 25 Sep 2022 15:23:28 -0700 (PDT)
+Received: from mobilestation ([95.79.140.178])
+        by smtp.gmail.com with ESMTPSA id g6-20020a19e046000000b004978e51b691sm2327682lfj.266.2022.09.25.15.23.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Sep 2022 15:23:27 -0700 (PDT)
+Date: Mon, 26 Sep 2022 01:23:25 +0300
+From: Serge Semin <fancer.lancer@gmail.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+	Jonathan Derrick <jonathan.derrick@intel.com>,
+	Revanth Rajashekar <revanth.rajashekar@intel.com>,
+	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+	Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] nvme-hwmon: Cache-line-align the NVME SMART
+ log-buffer
+Message-ID: <20220925222325.irltbraf4e2j4vtq@mobilestation>
+References: <20220909191916.16013-1-Sergey.Semin@baikalelectronics.ru>
+ <20220909191916.16013-2-Sergey.Semin@baikalelectronics.ru>
+ <20220910053045.GA23052@lst.de>
+ <20220910123542.tzxg2blegw55z5fj@mobilestation>
+ <20220912082909.GA10666@lst.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupgk+LIzCtJLcpLzFFi42LZdlhTQ1d1t0Gywdt9zBar7/azWdw8sJPJ
-	YuXqo0wW71rPsVgc/f+WzWLSoWuMFntvaVvMX/aU3YHD4/LZUo9NqzrZPDYvqffYfbOBzaNv
-	yypGj8+b5ALYorJtMlITU1KLFFLzkvNTMvPSbZW8g+Od403NDAx1DS0tzJUU8hJzU22VXHwC
-	dN0yc4CuUVIoS8wpBQoFJBYXK+nb2RTll5akKmTkF5fYKqUWpOQUmBToFSfmFpfmpevlpZZY
-	GRoYGJkCFSZkZ7y/2s5e8EO14vSXFSwNjG/luhg5OSQETCS2zdzL0sXIxSEksJtRYtuS+UwQ
-	zidGiR+r1jJCOJ8ZJb6ensUK03Jj7gpmEFtIYBejxJ2HqXBF1443s3UxcnCwCWhKXJhcClIj
-	ImAksf/TSVaQGmaBGYwSqztes4PUCAtESaz7XQFSwyKgKrHs3VcWEJtXwEJi6bRpTBC75CVm
-	XvrODmJzClhKPJm7lRmiRlDi5MwnYPXMQDXNW2czg8yXEPjILvH8aRfYDRICLhILdplBzBGW
-	eHV8CzuELSXx+d1eNgg7WeLSzHNQu0okHu85CGXbS7Se6mcGGcMM9Mr6XfoQq/gken8/YYKY
-	zivR0SYEUa0ocW/SU2joiEs8nLEEyvaQ2NfVxA4JnR5GibVTH7FNYJSfheSDWUg+mIWwbQEj
-	8ypGydSC4tz01GLTAsO81HJ4tCbn525iBCdJLc8djHcffNA7xMjEwXiIUYKDWUmEN+WibrIQ
-	b0piZVVqUX58UWlOavEhRlNgEE9klhJNzgem6bySeEMTSwMTMzMzE0tjM0Mlcd7FM7SShQTS
-	E0tSs1NTC1KLYPqYODilGpgsS7wSdi/Wm/2OzVVXb32gw7ZiqT+cl9s2Xbup9dVD8+239SrB
-	Bi5MTLO4Gxmeres2WazWuvz7khfCc6+2MqnxL203zuSTOeysW+c7a0WfYt2sU5JH5+3coPRL
-	i1d02+PXLh01CmlC5rJFH5xfXH7FIsm1fGniX8F/8Z+m/T12KyzlJF9VjKF5EEdSzandrgWP
-	hCa+rGOxEgzYHRG0z2cNe/261LiTk65/DywQerHjjFnwVecpPIIe6pnq8bsrlN4tuPcvKEPL
-	pvSBjumyqL9hbBkp09qm39my7PKupO8zbK1yHO0e+jzQ8+9IXcO6Ys5f9YUXDp8PCo0Ndl+V
-	q1Wx7NXP5VbTWYxTOE5OnaHEUpyRaKjFXFScCAD9rXHUGwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrLLMWRmVeSWpSXmKPExsWy7bCSnK7KboNkg4UTJCxW3+1ns7h5YCeT
-	xcrVR5ks3rWeY7E4+v8tm8WkQ9cYLfbe0raYv+wpuwOHx+WzpR6bVnWyeWxeUu+x+2YDm0ff
-	llWMHp83yQWwRXHZpKTmZJalFunbJXBlvL/azl7wQ7Xi9JcVLA2Mb+W6GDk5JARMJG7MXcHc
-	xcjFISSwg1Fi39wdTBAJcYnmaz/YIWxhiZX/nrNDFH1klJjX/xHI4eBgE9CUuDC5FKRGRMBM
-	YunhNSwgNcwCcxglLl/eA9YsLBAhsWrSO2YQm0VAVWLZu68sIDavgIXE0mnToJbJS8y89B2s
-	nlPAUuLJ3K3MIPOFgGq2nteCKBeUODnzCVgrM1B589bZzBMYBWYhSc1CklrAyLSKUTK1oDg3
-	PbfYsMAoL7Vcrzgxt7g0L10vOT93EyM4xLW0djDuWfVB7xAjEwfjIUYJDmYlEd6Ui7rJQrwp
-	iZVVqUX58UWlOanFhxilOViUxHkvdJ2MFxJITyxJzU5NLUgtgskycXBKNTBJ8Pc/82H/9q9j
-	3VPdl/+iNy09xMbVMVM5Nv7N8e2yN0U+vlLR6edlSTh7+KEES9er6G/SLQuaYvwivY8xfQty
-	u18m9n7XLP2d/+TnTXRuV1dXda87tXbXXp7A7k7ljYHC9Zqtb/fxxhUZXKlsuCY6abFHzhIO
-	gzaRZ2xrl82rK/zHts6zotBi0o/OU89v8VSuWNaaJbTCKfkY6wWmp9f/LGO6KBPIbcN2dGLz
-	9r7UsEqJk9O0ZNuLNQxeidjN4Gy+E1LynzvNWc99QZMmZ526y5P50vrRLP6KCwWy9XpW2U1b
-	3qY28wRXZPeZBMHoSS0s83fwu3Kd/cejVpN1IeexSN7xKAXFeoXjvo5rlViKMxINtZiLihMB
-	yUEp0eACAAA=
-X-CMS-MailID: 20220925203340epcas5p21bd73962a73c36c7bd56841299c0d229
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220925203340epcas5p21bd73962a73c36c7bd56841299c0d229
-References: <20220925202304.28097-1-joshi.k@samsung.com>
-	<CGME20220925203340epcas5p21bd73962a73c36c7bd56841299c0d229@epcas5p2.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220912082909.GA10666@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220925_133347_778334_5729259F 
-X-CRM114-Status: GOOD (  21.91  )
+X-CRM114-CacheID: sfid-20220925_152336_709399_82EC01FC 
+X-CRM114-Status: GOOD (  24.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,136 +101,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-if io_uring sends passthrough command with IORING_URING_CMD_FIXED flag,
-use the pre-registered buffer for IO (non-vectored variant). Pass the
-buffer/length to io_uring and get the bvec iterator for the range. Next,
-pass this bvec to block-layer helper and obtain a bio/request for
-subsequent processing.
-While at it, modify nvme_submit_user_cmd to take ubuffer as plain integer
-argument, and do away with nvme_to_user_ptr conversion in callers.
+Hello Christoph,
 
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
----
- drivers/nvme/host/ioctl.c | 44 +++++++++++++++++++++++++--------------
- 1 file changed, 28 insertions(+), 16 deletions(-)
+Sorry for the delay with response.
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index b9f17dc87de9..505a548d4da5 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -83,9 +83,10 @@ static struct request *nvme_alloc_user_request(struct request_queue *q,
- 	return req;
- }
- 
--static int nvme_map_user_request(struct request *req, void __user *ubuffer,
-+static int nvme_map_user_request(struct request *req, u64 ubuffer,
- 		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
--		u32 meta_seed, void **metap, bool vec)
-+		u32 meta_seed, void **metap, struct io_uring_cmd *ioucmd,
-+		bool vec)
- {
- 	struct request_queue *q = req->q;
- 	struct nvme_ns *ns = q->queuedata;
-@@ -93,23 +94,34 @@ static int nvme_map_user_request(struct request *req, void __user *ubuffer,
- 	struct bio *bio = NULL;
- 	void *meta = NULL;
- 	int ret;
-+	bool fixedbufs = ioucmd && (ioucmd->flags & IORING_URING_CMD_FIXED);
- 
--	if (!vec)
--		ret = blk_rq_map_user(q, req, NULL, ubuffer, bufflen,
--			GFP_KERNEL);
--	else {
-+	if (vec) {
- 		struct iovec fast_iov[UIO_FASTIOV];
- 		struct iovec *iov = fast_iov;
- 		struct iov_iter iter;
- 
--		ret = import_iovec(rq_data_dir(req), ubuffer, bufflen,
--				UIO_FASTIOV, &iov, &iter);
-+		/* fixedbufs is only for non-vectored io */
-+		WARN_ON_ONCE(fixedbufs);
-+		ret = import_iovec(rq_data_dir(req), nvme_to_user_ptr(ubuffer),
-+				bufflen, UIO_FASTIOV, &iov, &iter);
- 		if (ret < 0)
- 			goto out;
- 
- 		ret = blk_rq_map_user_iov(q, req, NULL, &iter, GFP_KERNEL);
- 		kfree(iov);
--	}
-+	} else if (fixedbufs) {
-+		struct iov_iter iter;
-+
-+		ret = io_uring_cmd_import_fixed(ubuffer, bufflen,
-+				rq_data_dir(req), &iter, ioucmd);
-+		if (ret < 0)
-+			goto out;
-+		ret = blk_rq_map_user_bvec(req, &iter);
-+	} else
-+		ret = blk_rq_map_user(q, req, NULL,
-+					nvme_to_user_ptr(ubuffer), bufflen,
-+					GFP_KERNEL);
- 	if (ret)
- 		goto out;
- 	bio = req->bio;
-@@ -136,7 +148,7 @@ static int nvme_map_user_request(struct request *req, void __user *ubuffer,
- }
- 
- static int nvme_submit_user_cmd(struct request_queue *q,
--		struct nvme_command *cmd, void __user *ubuffer,
-+		struct nvme_command *cmd, u64 ubuffer,
- 		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
- 		u32 meta_seed, u64 *result, unsigned timeout, bool vec)
- {
-@@ -152,7 +164,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
- 	req->timeout = timeout;
- 	if (ubuffer && bufflen) {
- 		ret = nvme_map_user_request(req, ubuffer, bufflen, meta_buffer,
--				meta_len, meta_seed, &meta, vec);
-+				meta_len, meta_seed, &meta, NULL, vec);
- 		if (ret)
- 			goto out;
- 	}
-@@ -231,7 +243,7 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 	c.rw.appmask = cpu_to_le16(io.appmask);
- 
- 	return nvme_submit_user_cmd(ns->queue, &c,
--			nvme_to_user_ptr(io.addr), length,
-+			io.addr, length,
- 			metadata, meta_len, lower_32_bits(io.slba), NULL, 0,
- 			false);
- }
-@@ -285,7 +297,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 		timeout = msecs_to_jiffies(cmd.timeout_ms);
- 
- 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
--			nvme_to_user_ptr(cmd.addr), cmd.data_len,
-+			cmd.addr, cmd.data_len,
- 			nvme_to_user_ptr(cmd.metadata), cmd.metadata_len,
- 			0, &result, timeout, false);
- 
-@@ -331,7 +343,7 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 		timeout = msecs_to_jiffies(cmd.timeout_ms);
- 
- 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
--			nvme_to_user_ptr(cmd.addr), cmd.data_len,
-+			cmd.addr, cmd.data_len,
- 			nvme_to_user_ptr(cmd.metadata), cmd.metadata_len,
- 			0, &cmd.result, timeout, vec);
- 
-@@ -475,9 +487,9 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	req->timeout = d.timeout_ms ? msecs_to_jiffies(d.timeout_ms) : 0;
- 
- 	if (d.addr && d.data_len) {
--		ret = nvme_map_user_request(req, nvme_to_user_ptr(d.addr),
-+		ret = nvme_map_user_request(req, d.addr,
- 			d.data_len, nvme_to_user_ptr(d.metadata),
--			d.metadata_len, 0, &meta, vec);
-+			d.metadata_len, 0, &meta, ioucmd, vec);
- 		if (ret)
- 			goto out_err;
- 	}
--- 
-2.25.1
+On Mon, Sep 12, 2022 at 10:29:10AM +0200, Christoph Hellwig wrote:
+> On Sat, Sep 10, 2022 at 03:35:42PM +0300, Serge Semin wrote:
+> > Well, both approaches will solve the denoted problem. I am just
+> > wondering why do you think that the kmalloc-ed buffer is more
+> > preferable?
+> 
 
+> Because it clearly documents the intent.  Here is one buffer that is
+> just a data buffer, and here is one with kernel internal structure.
+> The concept of embedding on-disk / on-the-wire structures into internal
+> stuctures always seemed rather weird and unexpected to me, as we now
+> need to ensure that the alignment works right on both sides.  With
+> the right annotations (as done in this series) this will work, but
+> it feels a little fragile to me.
+
+IMO both the approaches seem unclear if a reader doesn't know what
+they have been introduced for. Anyway do you insist on using the
+kmalloc-ed buffer here instead? If so I'll resubmit the series with
+this patch updated accordingly.
+
+-Sergey
+
+> 
+> > What would be the best solution if we had a qualifier like this:
+> > #ifdef CONFIG_DMA_NONCOHERENT
+> > #define ____dma_buffer ____cacheline_aligned
+> > #else
+> > #define ____dma_buffer
+> > #endif
+> > and used it instead of the direct ____cacheline_aligned utilization.
+> 
+> So independent of my preference for separate allocations, this suggested
+> additional would still be very useful for the places where we need
+> to use the alignment for performance or other reasons.  I'd use
+> something like __dma_alligned or similar, though.
 
