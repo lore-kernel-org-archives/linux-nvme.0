@@ -4,86 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3FF39C07E9D
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Sep 2022 14:50:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5D3CC07E9D
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Sep 2022 14:52:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pTDxk9oXLcyzLIlge9oEls0XIl60bM4FjSB09bCJi7I=; b=hgV2TKjs0DJB02zqBbI/2nPg7N
-	OY1cJFx7FqftEHRr3LoIgOe3/ztLsoTJJZ0/g1LYcxkPk+RzBBUHvY7VtsKBwVaViNSTx62hcUCFu
-	4yf6Oe5JxrY8vzM1IjRJrtduYXWiWXqnAIqwM+WeWyeVPh8sXyNfxUbxsvIdDoI77z6sOrr2Zw4Jt
-	9YcivrjCAO6zL/nrSa68sCbJopxzX9TnveZC7/u9eA6WDwEgSqAzKgZCwpoukngluEhv192wJjhtN
-	Jaj8+NtIHwfl9cg5ji8D6GLKUoNAana2+sm5Df4ozpnC+ysWotHJFF6FMy+Fy+4pyNGZcb7HOWXqb
-	kg8Vr38A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=m7+pn4X8U00ASpeRaDMsH/D+hAAvfLdhTETm9qg7Hik=; b=H+zu875RvKrevuVvft7zQRmo5i
+	5HHQ8Nr24lo4NHPNo70ZkzuTJYmZ3p15z7ZjTGKmMQjNHKSvcntG+9QNzYaOl8U0Pnr+OJOD8yVeJ
+	+ylKVIoCSvQn33McEkCGllrziRaBIrIjL1+YhzOJJbeksc2lxFCK+i1geqQx/jtpWgdc9hAOBcVei
+	go1PYze21/BBu17KJoMbX3k7Vrkw9/BAAyIq2RYaNF9YVyK8NXPwkQqtW+LRSJt1URdqschj9wJBz
+	OcSTwqS4t+zu8qpQjVxuIGmXNVAWFqLcu4Z++AAJFH96Em01Y2ieJbL6jict0kvwPM/4rl/UJQp9R
+	nQrhSHXg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ocpRc-005VA2-0q; Mon, 26 Sep 2022 14:50:52 +0000
-Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f])
+	id 1ocpSo-005VXN-5Y; Mon, 26 Sep 2022 14:52:06 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ocpRW-005V3P-9a
-	for linux-nvme@lists.infradead.org; Mon, 26 Sep 2022 14:50:47 +0000
-Received: by mail-io1-xd2f.google.com with SMTP id p3so5380965iof.13
-        for <linux-nvme@lists.infradead.org>; Mon, 26 Sep 2022 07:50:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=pTDxk9oXLcyzLIlge9oEls0XIl60bM4FjSB09bCJi7I=;
-        b=HYvDGszNu1gu6URMqy5VyPO0q1CjLZEc24iAopQm0fNr/8L0QweBd44p9s0Sy+yCiB
-         ugqpaw+OzNCG5QFs9LmXrwSLt+OFDxXFtU4qrSW5Mq0MX75/UGFUftTXqK0UyXjEvFdh
-         ZeP3ryaZrtP2yaocnW4b6ax+wiab+q3J3a23bPfNR12QrJRBe0vsqZMWHh4geLH+zGNv
-         MdXBFXHKqXiFB0Dr9J4bRDOIJj2sfngS7KX7Y037Im/Fw/LEQdF6a5q6XT1ypWs7P+Jb
-         JuwmSEAcV/ZQ4/YnWr3LwJEHbMHze15ZmdqBs68ASLe4yJWt1rSMDR4ipzZbTmfoTGpC
-         6shg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=pTDxk9oXLcyzLIlge9oEls0XIl60bM4FjSB09bCJi7I=;
-        b=WKnab8yhsrXkfGMKRPKe45ItRXk0ccxdlc1YOc33moxYwPMrRJva7LO/LoV+OdrvRV
-         LMLxjVGtGt0MqKN6A6ado+lB3Yh6u2s1ALDmzXARbZtB+Y/aEn8LCeONl/l0TuUSHohi
-         x1bkB1KSrwYF8r7W9/crMGZUF46SI/vdJJcHtVF/deb5GhVcsNgDWArqE6VFOOryIHVO
-         4+7WpsdQhXa5lOrnzQfNfye62ov3jURxJUl1dVqcyxlkqEeb3xLbVeW4VL1EWtqHuIeB
-         u5i6wk2RnlHhCS/pvUKCSIENtjbjOiGdcOB+oxO7TpZ9nWWuhvhUWSfIP5i9Sa4Zlull
-         FBfA==
-X-Gm-Message-State: ACrzQf2zsIkAZ1hFkf/Atct2mc7CBaQtQy+VbkdokQOdSzHBB9xBsz89
-	fvQb9qDNUWRfjj9jH6KwFS3bSw==
-X-Google-Smtp-Source: AMsMyM4ezesDcR/VrCIT8c4MqwXXAKedbbvzEcJmc1qxfhQgzw/YFvqad1860zJhGdYZ9FeErmdgJw==
-X-Received: by 2002:a02:b681:0:b0:349:b7d5:7c25 with SMTP id i1-20020a02b681000000b00349b7d57c25mr11526271jam.228.1664203844319;
-        Mon, 26 Sep 2022 07:50:44 -0700 (PDT)
-Received: from [192.168.1.94] ([207.135.234.126])
-        by smtp.gmail.com with ESMTPSA id e21-20020a056602159500b0067ba7abc4cesm7638553iow.50.2022.09.26.07.50.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Sep 2022 07:50:43 -0700 (PDT)
-Message-ID: <25b9899f-0c60-39f2-179b-789b914e0f0a@kernel.dk>
-Date: Mon, 26 Sep 2022 08:50:41 -0600
+	id 1ocpSk-005VVa-Q7
+	for linux-nvme@lists.infradead.org; Mon, 26 Sep 2022 14:52:04 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 14ACD68AFE; Mon, 26 Sep 2022 16:52:00 +0200 (CEST)
+Date: Mon, 26 Sep 2022 16:51:59 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: Christoph Hellwig <hch@lst.de>, axboe@kernel.dk, kbusch@kernel.org,
+	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com
+Subject: Re: [PATCH for-next v8 3/5] nvme: refactor nvme_alloc_user_request
+Message-ID: <20220926145159.GB20424@lst.de>
+References: <20220923092854.5116-1-joshi.k@samsung.com> <CGME20220923093916epcas5p387fdd905413f6d90babecf5d14da5b67@epcas5p3.samsung.com> <20220923092854.5116-4-joshi.k@samsung.com> <20220923153819.GC21275@lst.de> <20220925194354.GA29911@test-zns>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 4/5] nvme: split out metadata vs non metadata end_io
- uring_cmd completions
-Content-Language: en-US
-To: Christoph Hellwig <hch@infradead.org>
-Cc: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-nvme@lists.infradead.org, Stefan Roesch <shr@fb.com>
-References: <20220922182805.96173-1-axboe@kernel.dk>
- <20220922182805.96173-5-axboe@kernel.dk> <Yy3O7wH16t6AhC3j@infradead.org>
- <d09e1645-919f-9239-f86d-a8e85a133e5c@kernel.dk>
- <YzG5/1zSdiMlMLnB@infradead.org>
- <69598e37-fb91-5b92-bb80-b68457a7b6f8@kernel.dk>
- <YzG6mZhtd/QysvdH@infradead.org>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <YzG6mZhtd/QysvdH@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220925194354.GA29911@test-zns>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220926_075046_339346_D4870E1A 
-X-CRM114-Status: GOOD (  13.33  )
+X-CRM114-CacheID: sfid-20220926_075203_010303_2A798349 
+X-CRM114-Status: GOOD (  13.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,37 +58,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/26/22 8:43 AM, Christoph Hellwig wrote:
-> On Mon, Sep 26, 2022 at 08:41:38AM -0600, Jens Axboe wrote:
->> Sure, I don't really care. What name do you want for it?
-> 
-> Maybe slow and fast?  Or simple and meta?
+On Mon, Sep 26, 2022 at 01:13:54AM +0530, Kanchan Joshi wrote:
+>>> +	if (ret)
+>>> +		goto out;
+>>> +	bio = req->bio;
+>>
+>> I think we can also do away with this bio local variable now.
+>>
+>>> +	if (bdev)
+>>> +		bio_set_dev(bio, bdev);
+>>
+>> We don't need the bio_set_dev here as mentioned last time, so I think
+>> we should remove it in a prep patch.
+>
+> we miss completing polled io with this change.
+> bdev needs to be put in bio to complete polled passthrough IO.
+> nvme_ns_chr_uring_cmd_iopoll uses bio_poll and that in turn makes use of
+> this.
 
-So you want 'result' in a named struct too then? Because right now
-it looks like this:
-
-struct nvme_uring_cmd_pdu {
-         union {
-                 struct bio *bio;
-                 struct request *req;
-         };
-         u32 meta_len;
-         u32 nvme_status;
-         union {
-                 struct {
-                         void *meta; /* kernel-resident buffer */
-                         void __user *meta_buffer;
-                 };
-                 u64 result;
-         };
-};
-
-Or just the union named so it's clear it's a union? That'd make it
-
-pdu->u.meta
-
-and so forth. I think that might be cleaner.
-
--- 
-Jens Axboe
+Oh, indeed - polling is another and someone unexpected user in
+addition to the I/O accounting that does not apply to passthrough
+requests.  That also means we can't poll admin commands at all.
 
