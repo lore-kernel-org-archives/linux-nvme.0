@@ -4,63 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 411A0C07E9D
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Sep 2022 16:16:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D5B9C32771
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Sep 2022 19:08:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yKhpbCPeH5MLBQY101+PTVXam1b8J9RE+nxEuQcLsKU=; b=ROErxBizfNerpReKqYb9U18D5I
-	7CSfLKAYNCN9UDemf8X3HtqoprzJ7vBCpAsxPfG4qSoufv0g8Vy0qUmqdXWmjcTt+bfRB53iH7P+s
-	orlrdIz7BW3/jXuIrmMhw+6i71jlVx9xe/1Xj+ZOlK8PNyIZ8cpyzZV4D96GcejRuAKYPT558DwWl
-	ZEv0Bg5gZycp6z3FeAZCCfLje8zxKcg8OSKy7FRzj978fAgcTTDpL+ZUoWCMvUiVctMdFY3M2LGe3
-	X1HdJI+C4TTwIL9CaEmDinwJlrzrFVfLB6O6xp1Snv9eaHkRElj0BOhz3pEI5Kh1QsuASbJRRBAWK
-	6d3Xzgxg==;
+	bh=AeGYPkz2x8jcvNXUE5KPVrnPBM5osWqcHiU7r2l4Ujs=; b=puw06UdvoEi3zAcJUzUefMiPaw
+	UEgkNZdL5OX9arB1ms8ZQKZ++w8+8jALDInj3UxSjZw6qNX43p7oGMEHybCDbfjx91Y0uheTMAOYf
+	H8udPcO3XZu7atFWbuwttN3Pkrb+DzVM3Pf84gmDbtkJzd+OFEdbKlDnn8BvQd1jV32mc277jU6hO
+	L+4r/fF24onKwvLCWvF2ynV3qoqFEjDC+UhjZqWNhmh7fhrp/iJdk2ALmaDbZexpCouthXhRxFQes
+	4WlLKviHmmVZuVAemYfqzBYlDopjhDIpI92g5MSfoxlOxZn8aWumKbZgp4NknxlMlRa0gKlVcE9fz
+	Ul8vJg0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ocqmk-005qfh-87; Mon, 26 Sep 2022 16:16:46 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1octTF-006Yku-Na; Mon, 26 Sep 2022 19:08:49 +0000
+Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ocqmi-005qf3-E0
-	for linux-nvme@lists.infradead.org; Mon, 26 Sep 2022 16:16:45 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id D7D9EB80AE2;
-	Mon, 26 Sep 2022 16:16:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F290C433D7;
-	Mon, 26 Sep 2022 16:16:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1664208999;
-	bh=T/7+/g2x34GmooDLA4SqsGYXTN4EyQUnLOW/YHHUqvU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FySrRr7DAbkSYNPovyJvyFIVSJNwFQFPSdA5logehP9FMS77D/5Qr6MPT+hnwQQUj
-	 co8iJwuUkbA9ePYqyOSkhWWnCtJ03R1uIVw0F8cEPTxqNAZkR1G/WDV/sEhJETklek
-	 WO9mv95GzW9NBrY7JCs24yydX6NBJs2D9k0oo9wiiYCbjsPmh/kvy8f7ibhFdQoulb
-	 e1g0ug8mbuJT+HfR0SAttudDS5UWxcYpN59lGnwB4eMEGeaOSMWqKM8um+t3vOdxr7
-	 8RighctQ4dVRdkf80pOFKxR/HmdhCYopwbhWp5Tw5jcIDXCLxbayRNZBxXUKSqskPA
-	 ZjzTV9ieljudQ==
-Date: Mon, 26 Sep 2022 10:16:36 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Joel Granados <j.granados@samsung.com>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, hch@lst.de, axboe@kernel.dk,
-	sagi@grimberg.me, linux-nvme@lists.infradead.org,
-	javier.gonz@samsung.com
-Subject: Re: [RFC 1/2] nvme: add whitelisting infrastructure
-Message-ID: <YzHQZO/SPOIln/Tu@kbusch-mbp.dhcp.thefacebook.com>
-References: <20220909163307.30150-1-joshi.k@samsung.com>
- <CGME20220909164318epcas5p15d022bfc15bb4f22dbe4fb424576243d@epcas5p1.samsung.com>
- <20220909163307.30150-2-joshi.k@samsung.com>
- <20220918161917.mrfruzz4zd44kreu@localhost>
+	id 1octOj-006WgF-Pa
+	for linux-nvme@lists.infradead.org; Mon, 26 Sep 2022 19:04:11 +0000
+Received: by mail-lj1-x22f.google.com with SMTP id l12so8513195ljg.9
+        for <linux-nvme@lists.infradead.org>; Mon, 26 Sep 2022 12:04:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=AeGYPkz2x8jcvNXUE5KPVrnPBM5osWqcHiU7r2l4Ujs=;
+        b=XYFoUF7rhLBiYKg3bdP9IKfPBnKpMmi9C52dIyzF4IOPmFbAANkfjxNTZLk6zCMmDl
+         A3mq7wBdllf83I19p0J9fy81moHDQ6VFqmatYzDRmOiEjbRIB583+kVaLgJdlO4aESkO
+         U4WoMdBdmJrTOi0b78lJjT5+BQmSGdxUcxzYStdXcWU3OeVlGZcF5VbQRjWs5tWnEVL6
+         D96yOaTXgvA6RYsYbBtcy5275B8I9z+kV1Dup6ArESWHRsxQsObui/DPiQYR7B3toN1a
+         kkxW/r0GTnJ0Oy1OwVKXToO7oK/rjbHSOXn4K5CbpWdL0h1QKkTgDPw0Qo/0Dy/yCyyT
+         F/3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=AeGYPkz2x8jcvNXUE5KPVrnPBM5osWqcHiU7r2l4Ujs=;
+        b=mtAqxN/ow/tJe1OFDlCKNNzXO0tNwp6K0QETemliCbahw+BstXIOnhnmUMt5p68EYv
+         kZbd9Ks2gdwbqcfDCU8yjeGRaTlkIo5G0fkQUC9Dm+0t/L+HhnbPkip4SDh2z5BD79Dx
+         NvDHQiDV4PntFNgxC4DbB8nvU1Uw0c2prsHsa58dDuNO/dWovM1JAzhZkrOckBEjKUr9
+         w1uveK143JRAHRmhS5WVeKhpsDwJaUXXTofh50MQKxkXgrqKDvvh9iJ1kSLFDwWD2eWp
+         rJsUIy2dVzad/V3gesZ+y8guLYBWbh+mCHdUZS2sTGdkfemxShqIbv7TXs2x+G1hUU/6
+         N8Og==
+X-Gm-Message-State: ACrzQf0MxXHxAILpqZOo2m2C9b0I/C1isGnFEDrOFO2SQGYQS/VvfUhQ
+	2UzUkgVUHMpcaKY4DhhhVdBXHzMetkgjPA==
+X-Google-Smtp-Source: AMsMyM4Exx0LUG/MKfdR62HORsHNUq7/T8J0dlOM8Y7tMjvWP9YsMaHOr+jd54V/Yx7HRvGTYCqRHg==
+X-Received: by 2002:a2e:ba15:0:b0:26c:1798:b178 with SMTP id p21-20020a2eba15000000b0026c1798b178mr7710795lja.19.1664219045898;
+        Mon, 26 Sep 2022 12:04:05 -0700 (PDT)
+Received: from mobilestation (ip1.ibrae.ac.ru. [91.238.191.1])
+        by smtp.gmail.com with ESMTPSA id m6-20020a056512114600b004896ed8dce3sm2623603lfg.2.2022.09.26.12.04.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Sep 2022 12:04:05 -0700 (PDT)
+Date: Mon, 26 Sep 2022 22:04:02 +0300
+From: Serge Semin <fancer.lancer@gmail.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+	Jonathan Derrick <jonathan.derrick@intel.com>,
+	Revanth Rajashekar <revanth.rajashekar@intel.com>,
+	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+	Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] nvme-hwmon: Cache-line-align the NVME SMART
+ log-buffer
+Message-ID: <20220926190402.zyngr6bq6sicv6uw@mobilestation>
+References: <20220909191916.16013-1-Sergey.Semin@baikalelectronics.ru>
+ <20220909191916.16013-2-Sergey.Semin@baikalelectronics.ru>
+ <20220910053045.GA23052@lst.de>
+ <20220910123542.tzxg2blegw55z5fj@mobilestation>
+ <20220912082909.GA10666@lst.de>
+ <20220925222325.irltbraf4e2j4vtq@mobilestation>
+ <20220926143959.GA19918@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220918161917.mrfruzz4zd44kreu@localhost>
+In-Reply-To: <20220926143959.GA19918@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220926_091644_662871_291E0DCD 
-X-CRM114-Status: GOOD (  13.42  )
+X-CRM114-CacheID: sfid-20220926_120409_868625_C5420F5C 
+X-CRM114-Status: GOOD (  16.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,18 +103,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Sep 18, 2022 at 06:19:17PM +0200, Joel Granados wrote:
-> On Fri, Sep 09, 2022 at 10:03:06PM +0530, Kanchan Joshi wrote:
-> >  
-> > +bool nvme_io_cmd_allowed(u8 opcode, fmode_t mode)
-> > +{
-> > +	/* allow write/read based on what was allowed for open */
-> > +	/* TBD: try to use nvme_is_write() here */
-> > +	if (opcode & 1)
-> I know that this is an RFC, but this would eventually be nvme_cmd_write
-> instead of 1.
-> right?
+On Mon, Sep 26, 2022 at 04:39:59PM +0200, Christoph Hellwig wrote:
+> On Mon, Sep 26, 2022 at 01:23:25AM +0300, Serge Semin wrote:
+> > IMO both the approaches seem unclear if a reader doesn't know what
+> > they have been introduced for. Anyway do you insist on using the
+> > kmalloc-ed buffer here instead? If so I'll resubmit the series with
+> > this patch updated accordingly.
+> 
 
-'1' is the data direction bit of the opcdoe, and nvme_cmd_write is just an
-opcode that happens to also be '1'.
+> I don't like the __aligend version too much, but I can live with it if
+> you strongly prefer it.
+
+What about converting the NVME hwmon driver to using the kmalloc'ed
+buffer (seeing the rest of the NVME core driver prefer kmallocing the
+buffers) and adding the ____cacheline_aligned modifier to the opal_dev
+buffers?
+
+-Sergey
 
