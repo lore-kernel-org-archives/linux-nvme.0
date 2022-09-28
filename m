@@ -4,140 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8ED2BC04A95
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Sep 2022 16:02:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 940C1C32771
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Sep 2022 17:02:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nTCWIfmyNnAj+rxSL3j660DLwc3QbbeY6ekcOiqy4yo=; b=FJhOUZN/6MU/E26SScAawBw9Sv
-	hDMlZFMc08CQ2Tfza//M5Z6xihBqrXIpC4aB9ylSSWgCM1VCUKZ6nrqNKsZHdFqmy6eMVZ5qMu9iD
-	0NiU16tcoA1FMocJibmK87B0SBUqKjRoeDhmpuW5Y/aYc8T+9PXrQPgLZEqvWpYraWLd+LLVG/ygk
-	+ZLg215IY1AxUcBOTQXV2zAcj6nI3hZvkJINDFMhQscdXd0O7gbpTKOKg1i/lwoxJ6QYLGu0DhYvl
-	N1bp+Rw9GNhjCMxyp/LUi6QZIYidgR+sHRzhB88DAmpRVGjGbUqOC/cscCUwpgLcKf5vzUWPg+LRF
-	OS3HMPeQ==;
+	bh=ia4ZSrrQtLIdMz5ybT5O1T3411H4IKHJVybLh9Azdk4=; b=ffrPPdl/yZY/+M1dpcV67PCsAr
+	nUxiqlItju4f00VjOURSpMDhINsOIbg84hpQn16WkwKW1T2B1wnZm4BpLCUvY3C0Tv1P9/jmVEo5q
+	KGoO1TYh+ctNlgvD6Try+WNYYz/98D7nu72p7VJR3X/eMaFxWUAe74vKbCmakaEfWZmYzTULM9lWO
+	1eG8KGo9avYbV7+de6bO6Z1BfGPYb1oMGxOsAo3gF6QAXy9ViPXcD8jnc9b14ClGij0Z4+CHAkcO0
+	88vfN+kMwbOHJZA9c3+RvSf+iVeA3CTEQbe5SnzbCeMe0wCnD9APR/7jkI3PhkCSfd076mGWQ29/O
+	NQ+5a9RA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odZVn-00H34H-5D; Wed, 28 Sep 2022 16:02:15 +0000
-Received: from mail-mw2nam12on2085.outbound.protection.outlook.com ([40.107.244.85] helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+	id 1odaSG-00HFr0-R5; Wed, 28 Sep 2022 17:02:40 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odZVb-00H2x1-54
-	for linux-nvme@lists.infradead.org; Wed, 28 Sep 2022 16:02:04 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MWviukn3RQ5Bl2Ttt8+I1E8MRXsjoLkwXNFYF2twXPoiJKa26yZyFspvPlt5K+9pwz/XmhJHyqePVrDIFO4KmMzDgzwZxRmBufoOqiahfxgZq3EAt+cS7TepmN0y5JlqhuiprixmGKt05/3RfVGlBHJnXrvK2E9UEwFIAjLXQjBXSY2b69Trzhr8o8mBcek6V3yyUFdime7fC/bgDGyL859X1J6gU5Ep8iZlyO6npYtkKygk2QhUHfMo+Tqh0uIs2+xX6xrvgV/ntr5pX6iKDBbIZTtPErwCZaSOYCNRP2ZuahXSttd6WImunUb8+vziJxqKRRS++RBwcoTPqbY0yg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nTCWIfmyNnAj+rxSL3j660DLwc3QbbeY6ekcOiqy4yo=;
- b=hRlnp+jHGxqvo5eex92Qqz/bYVrxLogkFycbxM34J1LTjXL44CwfRfwPMJNcw1JAHrjUyEqifeWKle9l1U23vnsKKx4dStzlYiXar3lCJYfqOpioIb458txuvmGhMkGHXBLp8QKPtgh77NyN2pA8TUZRsf1QKEOuqFcASN/8tosUjozzyXtHFhrPHNvns8v/K5nrz+nLYzNUudC1Q+0oYuElm+/xtO64AkA97nqJgK1DNeAQfGqzdmrcrip6CCzyN6Jb92n2+2NutxddP3N2cmARKQpnyRUEimiUGOfuRPB4uOesepV2IECGDzdl2ubMd1xevjauAfE2XJ8uziTO+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=netapp.com; dmarc=pass action=none header.from=netapp.com;
- dkim=pass header.d=netapp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netapp.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nTCWIfmyNnAj+rxSL3j660DLwc3QbbeY6ekcOiqy4yo=;
- b=2azpHqdzAMZT+S8Yedku8Umlh/l0+ap9JvA1/emJUWqfTsqiEpSJmgLM4Df7umfcoAmjy82Ss1SiVXGrttzyBy/eRqfvVycEHy0vy4mHtVj4yOjWk9IhB2R+GHsCJZq/SCCY8JLh9EqJw+IsZ4oLWaMdHl1eCJWeeHCKoIHoDHgG7Vzg3e4nW7ICP7M9rRMYuWJuLKGuxOhuuvHwHPNgNpHGgNbLCwmTA7l0UWUKSTJx/7VvQD4JI/66qbJdGx2LYWdAaT1VRqWv+IAueMw2y49Ur5Ypp/9bBufsh2q42f4hIMogBOTyQdrmSz/lMCk9acThTw3qceCMCd7Fz9cBdQ==
-Received: from DM8PR06MB7704.namprd06.prod.outlook.com (2603:10b6:8:32::16) by
- BYAPR06MB6103.namprd06.prod.outlook.com (2603:10b6:a03:e1::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5654.17; Wed, 28 Sep 2022 16:01:57 +0000
-Received: from DM8PR06MB7704.namprd06.prod.outlook.com
- ([fe80::29cf:1ad7:d52b:6f9f]) by DM8PR06MB7704.namprd06.prod.outlook.com
- ([fe80::29cf:1ad7:d52b:6f9f%3]) with mapi id 15.20.5676.017; Wed, 28 Sep 2022
- 16:01:57 +0000
-From: "Knight, Frederick" <Frederick.Knight@netapp.com>
-To: Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>, "hare@suse.de"
-	<hare@suse.de>
-Subject: RE: [PATCH v2] nvmet: force reconnect when number of queue changes
-Thread-Topic: [PATCH v2] nvmet: force reconnect when number of queue changes
-Thread-Index: AQHY0xkW0CvFgvGYC0OqpzqIUZQ+Z630t3BwgAAlBICAAAkAAIAAFriQ
-Date: Wed, 28 Sep 2022 16:01:57 +0000
-Message-ID:  <DM8PR06MB7704D62245D1FB6949DB9CF3F1549@DM8PR06MB7704.namprd06.prod.outlook.com>
-References: <20220927143157.3659-1-dwagner@suse.de>
- <d151b0c1-d28e-faeb-03d4-ed28b9768ee2@grimberg.me>
- <20220928074850.h6rwvwgz2oje3ebg@carbon.lan>
- <f1909450-1435-9661-056f-b955d6089ca7@grimberg.me>
- <20220928090243.c4ctbj2frydwsfav@carbon.lan>
- <DM8PR06MB7704C17B1DF832A432024BE2F1549@DM8PR06MB7704.namprd06.prod.outlook.com>
- <20220928135053.s6h6xr3llhp6riwr@carbon.lan>
- <b121c092-cecc-b891-be3c-b32c2a3e611d@grimberg.me>
-In-Reply-To: <b121c092-cecc-b891-be3c-b32c2a3e611d@grimberg.me>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-reaction: no-action
-dlp-version: 11.6.600.2
-dlp-product: dlpe-windows
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=netapp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR06MB7704:EE_|BYAPR06MB6103:EE_
-x-ms-office365-filtering-correlation-id: ebe0bc09-7f83-4262-decd-08daa16ac508
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  wLjriQ7FY6xaZ3du3Ai9yzaWC725Gr8PLvjsoqdoi3+aj2EQ1Vb4gniE7toL2VUs/2jddHhKdbGWl1PVRSQov+h6al2lbFtxYkzJnM2npg4QVUluphONYPqa21aEjcTc6cjYcou6WWR5JgL53yWAt7JrcDubPwklfovdM/jULyyIVPlUpipGI1J4J82pdx386xjuiyr9BmBidu77ky9R8sS3FjuHHgeU5NsU1LuVlppD6R+aaQT5u62zKdUPzFBPyibDp4sD23pdRBXVoXag4kJzpH9IQ6P5n9eO4z9AF4dLyZHjFM72nQjmhsI0RtpUqRJ3IRLwphRD33RzDMCIG8KLq6winr3wlnplaA3cqBsZsn9v5YO4NfchMFRt7t/thO2OqGxSwBU5PTmBnipjqIQkjCrwDEwCbYWKouV5fsM9n/A6IycZmOclpOEhpEWmJuc96aXmyMmyBXHc1gBxjuPIhHhD4GcCBGcId1oyAjqMM+LEe83d10cjvSmNMdMDQrkUqooa98WD7NcSnNEFDp2lvRoJSx1s7O+tqdBL1hxTr64bIS8dFWoZMQcDiW5WLhHopE5jQqfu4qsz/AQpWnXlhxct/sWX/5aI6V6IdbM4qICp+Cw+rBn2ZDIJWPdQW1OlHTjbHS487xwVy4BOzYKUgU8QhEUE3dj25pZ18j0YlERXlWYcqwzYksMBBgd4O2iSETTLRolSiUO2VGNv6M4jSth08tgbLFrKHpTBlZhri88HYEkUbAVgbfa9k+4swRrOME6geDoYwunNFlGqAA==
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR06MB7704.namprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(366004)(136003)(346002)(376002)(39860400002)(451199015)(8676002)(66476007)(6506007)(53546011)(26005)(66446008)(9686003)(55016003)(7696005)(64756008)(4326008)(66556008)(86362001)(8936002)(110136005)(54906003)(122000001)(478600001)(38100700002)(71200400001)(186003)(52536014)(2906002)(41300700001)(38070700005)(76116006)(316002)(66946007)(5660300002)(83380400001)(33656002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?Qmg5dGVubXVLYkJMa2wxaUhxSlRwVDNHa1NFcEk3TXFJRHRwNFpMYU5nR3FZ?=
- =?utf-8?B?ZFZMWkttRVMrbnJqM0EvMEVvb1orMjAwcm8wcE1taFdDaEhmKzI1dzdLOXRw?=
- =?utf-8?B?Qmx6YW9JSkczeHVCbEhLU0tGcEtibVArdWt1dUR1ekplVmNwQ0kzNUl5b0FI?=
- =?utf-8?B?V1ppS0h0M0pBejZpWWFpdlYwcnlPcm5KSlk5VEtycFRyeUlCay8rbmpJTmxH?=
- =?utf-8?B?QjBjN3dqZXdPeVlKOGpDY293UEdnZ0hQVHAyVC9ud0JQemF6V00vR2hFcDJt?=
- =?utf-8?B?UVpjYUh1d1AvNWd6R0NoRC9nY3VOZW5lOVRjRzN1SVlGT0hxczZsVzZyUm5Z?=
- =?utf-8?B?Z1ZmSyt0UnJxbnQrTW5HSW9RZmlXLzVMMWFOczBkWEdQa0ZWeE5wTEM4UG9z?=
- =?utf-8?B?NE9VUUJxdXdmWFhPS25sWTVZdUpVZHczSmZiNk9uL2hzamJDNE5iQnBFaGV0?=
- =?utf-8?B?emR3TEFqUy9yalVwNHNhdHFVUndLY0pNVGhzZy9UbnQ0Tm4zUGtJS1dVNE5N?=
- =?utf-8?B?SjczRWtxeTVMaThmbGlRYTMwQnVwaWdTdnBKZFVMZXZGVUk2ZGZFdkM0djhZ?=
- =?utf-8?B?RHdPOHRVS1lSSHEzbHlDaTdzQk9BU2VMd2ZGRkUwU0hsK1UvN0hMazR0TWVi?=
- =?utf-8?B?ZWFCTlEydk5pRUZmekx0N0NZeGI0YlVQTFlVTTN3RjM2SHVRaTV6aHY3dmJ5?=
- =?utf-8?B?WERQZXJSTUNqb1RrNDZtTmFUTmNrbFhyMFRrREV4b2dKd0ZpOU9jTDEwM3Uz?=
- =?utf-8?B?UlJ3bzNxU2hiQkwwakI4QnN5aWEzZlhQTU92RFUzVVBVYVY4SEQvVndubXMr?=
- =?utf-8?B?TDBJb29TdE9SOE5nUmdDYkYvMHZ3SU9WTVcwM2p2aGg1aW90RVZ1cURDVmRI?=
- =?utf-8?B?eVhBUU9QWnF5UWQraThIbU5nOXhnb1gxRXQwVkQ0VlVKVnBHbS8yK1JEaHl6?=
- =?utf-8?B?djcvSFJkS3ZWNDZLTVhkSnBJbW1vY1F2QS9UcmVXR0dQZ1laRzFuQUNqSzJq?=
- =?utf-8?B?ajI4V0x6UndtSDJJeEVIbjFabFhXVlRsTS9yem8wcFNuT2x0Y0lTK2RxaWMx?=
- =?utf-8?B?dHpWbENiMXgxUjZSbzlZNjRxUUFodXlwUzIwcHVjZ3U0OWVzTTByTkw2b21q?=
- =?utf-8?B?WnVYSWdIdVBJRnZibHA2eTVtTklSTDBGWFEzVUlWRjJKQmFQNUpwNCtiNGNi?=
- =?utf-8?B?RkVTc29xQ0lHNVZ2NS96RjlRTFA1MEJKTXJRVG1SU2VORmtiaEI0Qi83ZlY3?=
- =?utf-8?B?Qy9tSjN4eFkyUEJiZUNCL1IzdmNJemdiaWtOUnM3Wlc4SDczdmJaWnFZWGFk?=
- =?utf-8?B?MGZEQUd0VmVpbEM3NnN6MmhVZTRpcUdRZWZTSHUrZ1RxelJmOU9DYXI3aGRn?=
- =?utf-8?B?dWNZVERSN05scHRodzRudVVMRWpnWGttTklqVC9RUTBjSFgzT3BLelZCRHcw?=
- =?utf-8?B?TXNiSndqZXowQW5kNlY3TzhnVDZOVU5pV3Z5clgvWjBhR1dacmZvdUNyaFNt?=
- =?utf-8?B?ODJJb2gyOG5Fa2d0bDlhNEFoYU44OFdISUFUbjhMOWhmdVgwQ3V0UFQ4VURV?=
- =?utf-8?B?ZTdXcDhZMDJ6Mll2bi81OFN0M1pvTE1OU2xTeXNOb2VpUndpcys4Wm1XOXJm?=
- =?utf-8?B?czVmRFJuSEJtMU4rd0tHTHRQMytZdFBmdTVmVHVoWVhaNTlESDhsMVNSWTdp?=
- =?utf-8?B?MHBsUk5xdkNWcGJScHNKeHAwd0R6bkpadWgxUTcrTm4za2lzM3UydlpRNjA0?=
- =?utf-8?B?SEs0VEh6a0tlVkZwVDBuN25sTXl2eWdTMW90cHl1aXVQVlkrZ2NOWEhmWnpz?=
- =?utf-8?B?NG8xLzNYcFdldjU4aFZvQkRGYWN5eFlKdEVUZCsxdExHZEk4U050UlBLVk9p?=
- =?utf-8?B?NmVBNjNXaUhYS2JOV1k2ZSsrN1crOHFKRUs2QTBQV3NMY1lER1B0d0YvRVVV?=
- =?utf-8?B?NnNkQ2tHWHJMTHBtbXRsOHloKyt6cU9tdG5TMExRenNEN1o4ZzFpeExhSEVF?=
- =?utf-8?B?OXBSaXhaN0hKcVl2WVkxT1Q1NGxJSFYzdVVVY2lna0J5VVBxaXV4bHlSeVBx?=
- =?utf-8?B?dytQMjFqOWNad0lLNHVWaGYvS0tvcWtxb2dEU0xMWEFHdEJNZFJscUdCZHNN?=
- =?utf-8?Q?nG2U=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	id 1odaSE-00HFpj-4h
+	for linux-nvme@lists.infradead.org; Wed, 28 Sep 2022 17:02:39 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CAD4221CCE;
+	Wed, 28 Sep 2022 17:02:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1664384553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ia4ZSrrQtLIdMz5ybT5O1T3411H4IKHJVybLh9Azdk4=;
+	b=ntH7wUcGf1OeQTpmHNi/DVHEUt0wklthhvbxFe+kjsd3F3ceNBbxfsVwdc2oBYPWmxHtIX
+	rwfAq4JmpetJXLhkvRao3I3VQTeWJ0X4IFLlntxgqPR3WkkDaIx4F9xHXqGK6whqUB2ZNm
+	33wiJiqxCFMmLNLYbxIMTHcml3cKsDE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1664384553;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ia4ZSrrQtLIdMz5ybT5O1T3411H4IKHJVybLh9Azdk4=;
+	b=vAPecD62W+kW9GFcaaoiFAUtror7AYJWsqldcY+yGBn01UoGrfe8CxveS1fatm9Tdj0uVj
+	Esqu2wf5il1erbAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BC66C13A84;
+	Wed, 28 Sep 2022 17:02:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id BjvyLSl+NGNaNwAAMHmgww
+	(envelope-from <dwagner@suse.de>); Wed, 28 Sep 2022 17:02:33 +0000
+Date: Wed, 28 Sep 2022 19:02:33 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+	Hannes Reinecke <hare@suse.de>,
+	Yogev Cohen <yogev@lightbitslabs.com>
+Subject: Re: [PATCH] nvme-multipath: fix possible hang in live ns resize with
+ ANA access
+Message-ID: <20220928170233.x4s5lc6qb3s4n43k@carbon.lan>
+References: <20220928135816.132213-1-sagi@grimberg.me>
 MIME-Version: 1.0
-X-OriginatorOrg: netapp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR06MB7704.namprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ebe0bc09-7f83-4262-decd-08daa16ac508
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Sep 2022 16:01:57.0332
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4b0911a0-929b-4715-944b-c03745165b3a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RcexmjpK6zRPIvf5G3D07XiPnHzATaaQWqlBLhawn4dInPw7iPJUuZvOHxJw6b3hpkFSLYOZ2OPKYkavc0PBqw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR06MB6103
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220928135816.132213-1-sagi@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220928_090203_268027_5A32AC71 
-X-CRM114-Status: GOOD (  46.16  )
+X-CRM114-CacheID: sfid-20220928_100238_348475_B25C1E86 
+X-CRM114-Status: GOOD (  18.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -152,110 +90,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-PiBTbyBJIGd1ZXNzIGl0IGlzIHZhbGlkIHRvIGFsbG93IHF1ZXVlIGNoYW5nZSB3aXRob3V0IHJl
-bW92aW5nIGl0IGZyb20gdGhlDQo+IHBvcnQsIGJ1dCB0aGF0IGRvZXMgbm90IGNoYW5nZSB0aGUg
-ZnVuZGFtZW50YWwgcXVlc3Rpb24gb24gRE5SLg0KPiBJZiB0aGUgaG9zdCBzZWVzIGEgRE5SIGVy
-cm9yIG9uIGNvbm5lY3QsIG15IGludGVycHJldGF0aW9uIGlzIHRoYXQgdGhlIGhvc3QNCj4gc2hv
-dWxkIG5vdCByZXRyeSB0aGUgY29ubmVjdCBjb21tYW5kIGl0c2VsZiwgYnV0IGl0IHNob3VsZG4n
-dCBpbXBseSBhbnl0aGluZw0KPiBvbiB0ZWFyaW5nIGRvd24gdGhlIGNvbnRyb2xsZXIgYW5kIGdp
-dmluZyB1cCBvbiBpdCBjb21wbGV0ZWx5LCBmb3JldmVyLg0KDQpJIGFncmVlIHRoYXQgRE5SIGlz
-IGNvbW1hbmQgc3BlY2lmaWMgLSB0aGUgcHJvYmxlbSBpcyB3aGVuIHRoZSBob3N0IHNlZXMgRE5S
-IG9uIGEgQ29ubmVjdCBjb21tYW5kLiAgSWYgRE5SIG1lYW5zICJEb24ndCBib3RoZXIgdG8gcmV0
-cnkgdGhlIGV4YWN0IHNhbWUgY29tbWFuZCIgLSBhbmQgdGhlIGNvbW1hbmQgaXMgYSBDb25uZWN0
-IGNvbW1hbmQgLSB3aGF0IGRvZXMgdGhhdCBtZWFuIC0gbmV2ZXIgdHJ5IHRvIGNvbm5lY3QgdG8g
-dGhhdCBOVk0gc3Vic3lzdGVtIGV2ZXIgYWdhaW4/ICBUaGF0IGRvZXNuJ3Qgc2VlbSByaWdodCBh
-bGwgdGhlIHRpbWU7IHRoZXJlIG1pZ2h0IGJlIGNhc2VzIHdoZXJlIGl0IElTIHRoZSByaWdodCB0
-aGluZyB0byBkby4NCg0KRE5SIG1ha2VzIHNlbnNlIGZvciBub24tY29ubmVjdCBjb21tYW5kcyAt
-IGRvaW5nIHRoZSBzYW1lIHRoaW5nIGFnYWluIGhhcyBhIHZlcnkgaGlnaCBsaWtlbGlob29kIG9m
-IGZhaWxpbmcgaW4gZXhhY3RseSB0aGUgc2FtZSB3YXkgaXQgZGlkIHRoZSBmaXJzdCB0aW1lLiAg
-VGhpbmdzIGxpa2UgYW4gaW52YWxpZCBMQkEgdmFsdWUgaW4gYSBSZWFkIGNvbW1hbmQgLSBubyBt
-YXR0ZXIgaG93IG1hbnkgdGltZXMgeW91IHJldHJ5IC0gdGhhdCBMQkEgaXMgc3RpbGwgZ29pbmcg
-dG8gYmUgaW52YWxpZC4gIEJ1dCwgQ29ubmVjdCBoYXMgdGhlIHBvc3NpYmlsaXR5IHRoYXQgaXQg
-Y291bGQgYmUgZGlmZmVyZW50IC0gdGhpbmdzIGNhbiBjaGFuZ2UuICBFc3BlY2lhbGx5LCBpZiB0
-aGUgZGV2aWNlIGtub3dzIGl0IGlzIGRvaW5nIGFuIHVwZGF0ZSwgYW5kIHRoYXQgaXQgd2lsbCBy
-ZXR1cm4gLSBXSFkgZGlkIHRoZSBkZXZpY2Ugc2V0IEROUj8gTWF5YmUgdGhlIGRldmljZSBzaG91
-bGQgbm90IGJlIHNldHRpbmcgRE5SIGZvciB0aGlzIGNhc2UuICBNYXliZSB0aGUgZGV2aWNlIGNv
-dWxkIGp1c3QgaG9sZCB0aGUgQ29ubmVjdCBjb21tYW5kIGZvciBhIHNob3J0IHRpbWUgKHNheSA1
-LTEwIHNlY29uZHMpLCBhbmQgdGhlbiBGQUlMIHRoZSBjb21tYW5kICh3aXRoIEROUj0wKSwgdGhl
-biB0aGUgaG9zdCB0cmllcyBhZ2Fpbi4gIFRoZSBkZXZpY2UganVzdCBpbnNlcnRzIGEgZGVsYXkg
-YmFzZWQgb24gaG93IGxvbmcgaXQgbWlnaHQgdGFrZSB0byBmaW5pc2ggcmVzdGFydGluZyAoYW5k
-IHRoZSBudW1iZXIgb2YgcmV0cmllcyB0aGUgaG9zdCB3aWxsIGRvKS4NCg0KU2hvdWxkIHdlIHRh
-bGsgYWJvdXQgdGhlIENSRCBmaWVsZD8gIFRoYXQgb25seSB3b3JrcyAxKSBpZiB5b3UgaGF2ZSBh
-biBJREVOVElGWSBDT05UUk9MTEVSIHN0cnVjdHVyZSB0byB0ZWxsIHlvdSB0aGUgZGVsYXkgdGlt
-ZXMsIGFuZCAyKSBpZiB0aGUgaG9zdCBlbmFibGVzIGl0ICh2aWEgSG9zdCBCZWhhdmlvciBFbmFi
-bGUpLiAgV2UgbmV2ZXIgcmVhbGx5IHRhbGsgKGluIHRoZSBzcGVjKSBhYm91dCBkb2luZyB0aGF0
-IGZvciBhIENvbm5lY3Qga2luZCBvZiBmdW5jdGlvbiAtIHdlIGFzc3VtZSB0aGVyZSBpcyBhbHJl
-YWR5IGEgdmFsaWQgY29ubmVjdGlvbiB0byB1c2UgdGhhdCBmZWF0dXJlLiAgVXNpbmcgdGhhdCAo
-YW5kIEkgZG8gbWVhbiB3cml0aW5nIHNwZWMgdGV4dCkgd291bGQgYWxsb3cgYSBDb25uZWN0IGNv
-bW1hbmQgdG8gc3VnZ2VzdCBhIHRpbWUgbGltaXQgZm9yIGEgcmV0cnkuDQoNCglGcmVkDQoNCj4g
-LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogU2FnaSBHcmltYmVyZyA8c2FnaUBn
-cmltYmVyZy5tZT4NCj4gU2VudDogV2VkbmVzZGF5LCBTZXB0ZW1iZXIgMjgsIDIwMjIgMTA6MjMg
-QU0NCj4gVG86IERhbmllbCBXYWduZXIgPGR3YWduZXJAc3VzZS5kZT47IEtuaWdodCwgRnJlZGVy
-aWNrDQo+IDxGcmVkZXJpY2suS25pZ2h0QG5ldGFwcC5jb20+DQo+IENjOiBsaW51eC1udm1lQGxp
-c3RzLmluZnJhZGVhZC5vcmc7IFNoaW5pY2hpcm8gS2F3YXNha2kNCj4gPHNoaW5pY2hpcm8ua2F3
-YXNha2lAd2RjLmNvbT47IGhhcmVAc3VzZS5kZQ0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYyXSBu
-dm1ldDogZm9yY2UgcmVjb25uZWN0IHdoZW4gbnVtYmVyIG9mIHF1ZXVlDQo+IGNoYW5nZXMNCj4g
-DQo+IE5ldEFwcCBTZWN1cml0eSBXQVJOSU5HOiBUaGlzIGlzIGFuIGV4dGVybmFsIGVtYWlsLiBE
-byBub3QgY2xpY2sgbGlua3Mgb3INCj4gb3BlbiBhdHRhY2htZW50cyB1bmxlc3MgeW91IHJlY29n
-bml6ZSB0aGUgc2VuZGVyIGFuZCBrbm93IHRoZSBjb250ZW50IGlzDQo+IHNhZmUuDQo+IA0KPiAN
-Cj4gDQo+IA0KPiA+PiBXb3VsZCB0aGlzIGJlIGEgY2FzZSBmb3IgYSBuZXcgQUVOIC0gY29udHJv
-bGxlciBjb25maWd1cmF0aW9uIGNoYW5nZWQ/DQo+ID4+IEknbSBhbHNvIHdvbmRlcmluZyBleGFj
-dGx5IHdoYXQgY2hhbmdlZCBpbiB0aGUgY29udHJvbGxlcj8gIEl0IGNhbid0DQo+ID4+IGJlIHRo
-ZSAiTnVtYmVyIG9mIFF1ZXVlcyIgZmVhdHVyZSAodGhhdCBjYW4ndCBjaGFuZ2UgLSBUaGUgY29u
-dHJvbGxlcg0KPiA+PiBzaGFsbCBub3QgY2hhbmdlIHRoZSB2YWx1ZSBhbGxvY2F0ZWQgYmV0d2Vl
-biByZXNldHMuKS4gIElzIGl0IHRoZQ0KPiA+PiBNUUVTIGZpZWxkIGluIHRoZSBDQVAgcHJvcGVy
-dHkgdGhhdCBjaGFuZ2VzIChxdWV1ZSBzaXplKT8NCj4gPj4NCj4gPj4gV2UgYWxyZWFkeSBoYXZl
-IGNoYW5nZSByZXBvcnRpbmcgZm9yOiBOYW1lc3BhY2UgYXR0cmlidXRlLA0KPiA+PiBQcmVkaWN0
-YWJsZSBMYXRlbmN5LCBMQkEgc3RhdHVzLCBFRyBhZ2dyZWdhdGUsIFpvbmUgZGVzY3JpcHRvciwN
-Cj4gPj4gRGlzY292ZXJ5IExvZywgUmVzZXJ2YXRpb25zLiBXZSd2ZSBxdWVzdGlvbmVkIHdoZXRo
-ZXIgd2UgbmVlZCBhDQo+ID4+IENvbnRyb2xsZXIgQXR0cmlidXRlIENoYW5nZWQuDQo+ID4+DQo+
-ID4+IFdvdWxkIHRoaXMgYmUgYSBjYXNlIGZvciBhbiBleGNlcHRpb24/ICBEb2VzIHRoZSBETlIg
-Yml0IGFwcGx5IG9ubHkNCj4gPj4gdG8gY29tbWFuZHMgc2VudCBvbiBxdWV1ZXMgdGhhdCBhbHJl
-YWR5IGV4aXN0IChpLmUuLCBOT1QgdGhlIGNvbm5lY3QNCj4gPj4gY29tbWFuZCBzaW5jZSB0aGF0
-IGNvbW1hbmQgaXMgYWN0dWFsbHkgY3JlYXRpbmcgdGhlIHF1ZXVlKT8gIEZXSVcgLSBJDQo+ID4+
-IGRvbid0IGxpa2UgZXhjZXB0aW9ucy4NCj4gPj4NCj4gPj4gQ2FuIHlvdSBlbGFib3JhdGUgb24g
-ZXhhY3RseSB3aGF0IGlzIGNoYW5naW5nPw0KPiA+DQo+ID4gVGhlIGJhY2tncm91bmQgc3Rvcnkg
-aXMsIHRoYXQgd2UgaGF2ZSBhIHNldHVwIHdpdGggdHdvIHRhcmdldHMgKCopIGFuZA0KPiA+IHRo
-ZSBob3N0IGlzIGNvbm5lY3RlZCB0d28gYm90aCBvZiB0aGVtIChIQSBzZXR1cCkuIEJvdGggc2Vy
-dmVyIHJ1biB0aGUNCj4gPiBzYW1lIHNvZnR3YXJlIHZlcnNpb24uIFRoZSBob3N0IGlzIHRvbGQg
-dmlhIE51bWJlciBvZiBRdWV1ZXMgKEZlYXR1cmUNCj4gPiBJZGVudGlmaWVyIDA3aCkgaG93IG1h
-bnkgcXVldWVzIGFyZSBzdXBwb3J0ZWQgKE4gcXVldWVzKS4NCj4gPg0KPiA+IE5vdywgYSBzb2Z0
-d2FyZSB1cGdyYWRlIGlzIHN0YXJ0ZWQgd2hpY2ggdGFrZXMgZmlyc3Qgb25lIHNlcnZlcg0KPiA+
-IG9mZmxpbmUsIHVwZGF0ZXMgaXQgYW5kIGJyaW5ncyBpdCBvbmxpbmUgYWdhaW4uIFRoZW4gdGhl
-IHNhbWUgcHJvY2Vzcw0KPiA+IHdpdGggdGhlIHNlY29uZCBzZXJ2ZXIuDQo+ID4NCj4gPiBJbiB0
-aGUgbWVhbnRpbWUgdGhlIGhvc3QgdHJpZXMgdG8gcmVjb25uZWN0LiBFdmVudHVhbGx5LCB0aGUg
-cmVjb25uZWN0DQo+ID4gaXMgc3VjY2Vzc2Z1bCBidXQgdGhlIE51bWJlciBvZiBRdWV1ZXMgKEZl
-YXR1cmUgSWRlbnRpZmllciAwN2gpIGhhcw0KPiA+IGNoYW5nZWQgdG8gYSBzbWFsbGVyIHZhbHVl
-LCBlLmcgTi0yIHF1ZXVlcy4NCj4gPg0KPiA+IE15IHRlc3QgY2FzZSBoZXJlIGlzIHRyeWluZyB0
-byByZXBsaWNhdGVkIHRoaXMgc2NlbmFyaW8gYnV0IGp1c3Qgd2l0aA0KPiA+IG9uZSB0YXJnZXQu
-IEhlbmNlIHRoZSBwcm9ibGVtIGhvdyB0byBub3RpZnkgdGhlIGhvc3QgdGhhdCBpdCBzaG91bGQN
-Cj4gPiByZWNvbm5lY3QuIEFzIHlvdSBtZW50aW9uZWQgdGhpcyBpcyBub3QgdG8gc3VwcG9zZWQg
-dG8gY2hhbmdlIGFzIGxvbmcNCj4gPiBhIGNvbm5lY3Rpb24gaXMgZXN0YWJsaXNoZWQuDQo+ID4N
-Cj4gPiBNeSB1bmRlcnN0YW5kaW5nIGlzIHRoYXQgdGhlIGN1cnJlbnQgbnZtZSB0YXJnZXQgaW1w
-bGVtZW50YXRpb24gaW4NCj4gPiBMaW51eCBkb2Vzbid0IHJlYWxseSBzdXBwb3J0IHRoaXMgSEEg
-c2V0dXAgc2NlbmFyaW8gaGVuY2UgbXkgYXR0ZW1wdA0KPiA+IHRvIGdldCBpdCBmbHlpbmcgd2l0
-aCBvbmUgdGFyZ2V0LiBUaGUgRE5SIGJpdCBjb21lcyBpbnRvIHBsYXkgYmVjYXVzZQ0KPiA+IEkg
-d2FzIHRveWluZyB3aXRoIHJlbW92aW5nIHRoZSBzdWJzeXN0ZW0gZnJvbSB0aGUgcG9ydCwgY2hh
-bmdpbmcgdGhlDQo+ID4gbnVtYmVyIG9mIHF1ZXVlcyBhbmQgcmUtYWRkaW5nIHRoZSBzdWJzeXN0
-ZW0gdG8gdGhlIHBvcnQuDQo+ID4NCj4gPiBUaGlzIHJlc3VsdGVkIGluIGFueSByZXF1ZXN0IHBv
-c3RlZCBmcm9tIHRoZSBob3N0IHNlZWluZyB0aGUgRE5SIGJpdC4NCj4gPiBUaGUgc2Vjb25kIGF0
-dGVtcHQgaGVyZSB3YXMgdG8gZGVsZXRlIHRoZSBjb250cm9sbGVyIHRvIGZvcmNlIGENCj4gPiBy
-ZWNvbm5lY3QuIEkgYWdyZWUgaXQncyBhbHNvIG5vdCByZWFsbHkgdGhlIHJpZ2h0IHRoaW5nIHRv
-IGRvLg0KPiA+DQo+ID4gQXMgZmFyIEkgY2FuIHRlbGwsIHdoYXQncyBpcyBtaXNzaW5nIGZyb20g
-YSB0ZXN0aW5nIHBvaW50IG9mIHZpZXcgaXMNCj4gPiB0aGUgYWJpbGl0eSB0byBmYWlsIHJlcXVl
-c3RzIHdpdGhvdXQgdGhlIEROUiBiaXQgc2V0IG9yIHRoZSBhYmlsaXR5IHRvDQo+ID4gdGVsbCB0
-aGUgaG9zdCB0byByZWNvbm5lY3QuIE9idmlvdXNseSwgYW4gQUVOIHdvdWxkIGJlIG5pY2UgZm9y
-IHRoaXMNCj4gPiBidXQgSSBkb24ndCBrbm93IGlmIHRoaXMgaXMgcmVhc29uIGVub3VnaCB0byBl
-eHRlbmQgdGhlIHNwZWMuDQo+IA0KPiBMb29raW5nIGludG8gdGhlIGNvZGUsIGl0cyB0aGUgY29u
-bmVjdCB0aGF0IGZhaWxzIG9uIGludmFsaWQgcGFyYW1ldGVyIHdpdGggYQ0KPiBETlIsIGJlY2F1
-c2UgdGhlIGhvc3QgaXMgYXR0ZW1wdGluZyB0byBjb25uZWN0IHRvIGEgc3Vic3lzdGVtcyB0aGF0
-IGRvZXMNCj4gbm90IGV4aXN0IG9uIHRoZSBwb3J0IChiZWNhdXNlIGl0IHdhcyB0YWtlbiBvZmZs
-aW5lIGZvciBtYWludGVuYW5jZSByZWFzb25zKS4NCj4gDQo+IFNvIEkgZ3Vlc3MgaXQgaXMgdmFs
-aWQgdG8gYWxsb3cgcXVldWUgY2hhbmdlIHdpdGhvdXQgcmVtb3ZpbmcgaXQgZnJvbSB0aGUNCj4g
-cG9ydCwgYnV0IHRoYXQgZG9lcyBub3QgY2hhbmdlIHRoZSBmdW5kYW1lbnRhbCBxdWVzdGlvbiBv
-biBETlIuDQo+IElmIHRoZSBob3N0IHNlZXMgYSBETlIgZXJyb3Igb24gY29ubmVjdCwgbXkgaW50
-ZXJwcmV0YXRpb24gaXMgdGhhdCB0aGUgaG9zdA0KPiBzaG91bGQgbm90IHJldHJ5IHRoZSBjb25u
-ZWN0IGNvbW1hbmQgaXRzZWxmLCBidXQgaXQgc2hvdWxkbid0IGltcGx5IGFueXRoaW5nDQo+IG9u
-IHRlYXJpbmcgZG93biB0aGUgY29udHJvbGxlciBhbmQgZ2l2aW5nIHVwIG9uIGl0IGNvbXBsZXRl
-bHksIGZvcmV2ZXIuDQo=
+On Wed, Sep 28, 2022 at 04:58:16PM +0300, Sagi Grimberg wrote:
+> When we revalidate paths as part of ns size change (as of commit e7d65803e2bb),
+> it is possible that during the path revalidation, the only paths that is IO
+> capable (i.e. optimized/non-optimized) are the ones that ns resize was not yet
+> informed to the host, which will cause inflight requests to be requeued (as we
+> have available paths but none are IO capable). These requests on the requeue
+> list are waiting for someone to resubmit them at some point.
+> 
+> The IO capable paths will eventually notify the ns resize change to the
+> host, but there is nothing that will kick the requeue list to resubmit the
+> queued requests.
+> 
+> Fix this by always kicking the requeue list, and if no IO capable path exists,
+> these requests will be queued again.
+> 
+> A typical log that indicates that IOs are requeued:
+> --
+> nvme nvme1: creating 4 I/O queues.
+> nvme nvme1: new ctrl: "testnqn1"
+> nvme nvme2: creating 4 I/O queues.
+> nvme nvme2: mapped 4/0/0 default/read/poll queues.
+> nvme nvme2: new ctrl: NQN "testnqn1", addr 127.0.0.1:8009
+> nvme nvme1: rescanning namespaces.
+> nvme1n1: detected capacity change from 2097152 to 4194304
+> block nvme1n1: no usable path - requeuing I/O
+> block nvme1n1: no usable path - requeuing I/O
+> block nvme1n1: no usable path - requeuing I/O
+> block nvme1n1: no usable path - requeuing I/O
+> block nvme1n1: no usable path - requeuing I/O
+> block nvme1n1: no usable path - requeuing I/O
+> block nvme1n1: no usable path - requeuing I/O
+> block nvme1n1: no usable path - requeuing I/O
+> block nvme1n1: no usable path - requeuing I/O
+> block nvme1n1: no usable path - requeuing I/O
+> nvme nvme2: rescanning namespaces.
+> --
+> 
+> Reported-by: Yogev Cohen <yogev@lightbitslabs.com>
+> Fixes: e7d65803e2bb ("nvme-multipath: revalidate paths during rescan")
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+
+Reviewed-by: Daniel Wagner <dwagner@suse.de>
 
