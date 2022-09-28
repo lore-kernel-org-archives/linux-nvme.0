@@ -4,68 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5147C04A95
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Sep 2022 07:01:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DE3C7C6FA86
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Sep 2022 07:49:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=skKyfxnzt+9oZSzW5AZfUSfMHy
-	f/W+nw6jArck9MhKJbbCzQem0wlJgpp9QRtcHoyc7cTtDQk/vyWdn4R5hAcYELLFf7ZjIZ5VQwzPA
-	Vkkim9clICnXBGzOY2QrsOtICiD46ZT/NyxHqNiSGB7JKHcarwy5D5C695ZDXt3+buZFJrTQDhZMd
-	VDm3OTCfuVJkWED3R9kJWJ0hdIcCAco9y2v253yK7PevM5U7Ww98X6QXAqB9EzaRm1Z27kiEr/NIm
-	dSWlw9f6mJauXv6xeJTDlRBbRD4f91wTTjmagVOKNT9kIo4pNAoyPWQV5Jf0eJy4GsPPp0+G0+UFy
-	wumkQ4eg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HyDG02c9cJ6gZAbqpQSke0paNWiFB9xIhGCSDaz5ZqA=; b=vfjSNLJdAqjic1c77FT72X15F8
+	uR7ZnOa3MSLyipuWYWGVvZnpwE9731Xup1aGPEb184xnlodaFQhplTDqTm/2mlZFkmJDr1sfY+gHP
+	D+ZQxIrz05eMUHASub1kq1CqggrJCKwpGrTH5/lo25Arx4/tsxcEW2aMVIj02sdOlwhgsJW575zZi
+	9gVhrXiirlln7rVpmhWF6JM78H5kI2p3KEvbjqGLIs0vhb/JWYGJiLscD8iZUmpuj+GjeX0ugS+kF
+	75thaDnOws/HIdn6sV/Uhx4MUXF2CpbGmZlMgt/Vur0Eh94izuH72HZeqM/Y48hcKS8RQ5SXQNSpb
+	06qE5xNg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odR4V-00EOqG-VD; Wed, 28 Sep 2022 07:01:31 +0000
-Received: from mail-wr1-f46.google.com ([209.85.221.46])
+	id 1odRoP-00Ef2I-Ug; Wed, 28 Sep 2022 07:48:57 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odR4U-00EOpp-10
-	for linux-nvme@lists.infradead.org; Wed, 28 Sep 2022 07:01:31 +0000
-Received: by mail-wr1-f46.google.com with SMTP id r7so18291348wrm.2
-        for <linux-nvme@lists.infradead.org>; Wed, 28 Sep 2022 00:01:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=By75q8jtz60d7o9g163RHhmc0w+VPB0VCJZGLIogavA+HfX4LVGI+VTKPcgKXwaim1
-         z0+yHIav2SC9dzsZd9PH7nj5rMloqjm7ea53qhHu4FVw+nsntrWSqkenzRo8Ei90oiRb
-         93sFjBOQnyQf0t/G5P/fwBElSjop3S879lS0BypWVUIYwbgKDfr9WnFHJTPltgYys0ag
-         /WsPfgFAm6wfIU1Lvt2lsB7aAM2Wt6cQY6kAlSJXU9KN8hl59eaoAKupFrvbdzITuTCw
-         YSgYpxY1zEns83BfL61kyJ5aR9Q+G5oOjGptc1Yk7j5NFl0PgjgGg85k3haMmK8Q98XV
-         38Fw==
-X-Gm-Message-State: ACrzQf2rKrb3L0ojyFoO/cGmV0/LMxRl1r5aM3A0U97JsJBJpPDE/IWi
-	UuSLiKwIhyTL/vRlhKuaG6Gucp+yA6Q=
-X-Google-Smtp-Source: AMsMyM6zHKphkAJuzkIbcP84tog7XKA4qS0N9c7f78Hpmj7A8qR6eGJIyeWBw5V08jkYkrG7+KPw7g==
-X-Received: by 2002:a5d:4284:0:b0:22a:291e:fa8f with SMTP id k4-20020a5d4284000000b0022a291efa8fmr19572836wrq.553.1664348488825;
-        Wed, 28 Sep 2022 00:01:28 -0700 (PDT)
-Received: from [192.168.64.53] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id q6-20020adff506000000b0022a839d053csm3357397wro.98.2022.09.28.00.01.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Sep 2022 00:01:27 -0700 (PDT)
-Message-ID: <6b5d5173-e18e-0f36-2f60-e145152835fc@grimberg.me>
-Date: Wed, 28 Sep 2022 10:01:25 +0300
+	id 1odRoM-00EeyA-Qy
+	for linux-nvme@lists.infradead.org; Wed, 28 Sep 2022 07:48:56 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A777121E4A;
+	Wed, 28 Sep 2022 07:48:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1664351330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HyDG02c9cJ6gZAbqpQSke0paNWiFB9xIhGCSDaz5ZqA=;
+	b=V/IFxsJZJU04v3aFtNrIz4OctcoS9mo1iSQfxxeBHTZO9vorSe3GoMdzjZAH/RCVh+76em
+	cuRbSsp4bziEW8PAWfKmMoyfhmlFoYpR8A7lAGr3owuHq4Hre81S6UapBe2F+WL7XMkTZ3
+	WeNvqYi2ghOYckrZgZojSAAo8klVnq8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1664351330;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HyDG02c9cJ6gZAbqpQSke0paNWiFB9xIhGCSDaz5ZqA=;
+	b=9yGPbMgpppnpuJBhtEco12Qpz5pcmBpRSiIZNTvTydnZJq297B4hC9CCpbuvrSvpATI9do
+	jS0bPpGFspgPERBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9877B13677;
+	Wed, 28 Sep 2022 07:48:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id wlbQJGL8M2MrQgAAMHmgww
+	(envelope-from <dwagner@suse.de>); Wed, 28 Sep 2022 07:48:50 +0000
+Date: Wed, 28 Sep 2022 09:48:50 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org,
+	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: Re: [PATCH v2] nvmet: force reconnect when number of queue changes
+Message-ID: <20220928074850.h6rwvwgz2oje3ebg@carbon.lan>
+References: <20220927143157.3659-1-dwagner@suse.de>
+ <d151b0c1-d28e-faeb-03d4-ed28b9768ee2@grimberg.me>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] nvme-pci: report the actual number of tagset maps
-Content-Language: en-US
-To: Keith Busch <kbusch@fb.com>, linux-nvme@lists.infradead.org
-Cc: hch@lst.de, Keith Busch <kbusch@kernel.org>
-References: <20220926210107.1677422-1-kbusch@fb.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220926210107.1677422-1-kbusch@fb.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d151b0c1-d28e-faeb-03d4-ed28b9768ee2@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220928_000130_071232_5D945712 
-X-CRM114-Status: UNSURE (   6.77  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220928_004855_038568_AAACB442 
+X-CRM114-Status: GOOD (  21.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,5 +87,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+On Wed, Sep 28, 2022 at 09:55:11AM +0300, Sagi Grimberg wrote:
+> 
+> > In order to be able to test queue number changes we need to make sure
+> > that the host reconnects.
+> > 
+> > The initial idea was to disable and re-enable the ports and have the
+> > host to wait until the KATO timer expires and enter error
+> > recovery. But in this scenario the host could see DNR for a connection
+> > attempt which results in the host dropping the connection completely.
+> > 
+> > We can force to reconnect the host by deleting all controllers
+> > connected to subsystem, which results the host observing a failing
+> > command and tries to reconnect.
+> 
+> This looks like a change that attempts to fix a host issue from the
+> target side... Why do we want to do that?
+
+It's not a host issue at all. The scenario I'd like to test a when
+target changes this property while the host is connected (e.g. software
+updated -> new configuration). I haven't found a way to signal the host
+to reset/reconnect from the target. Hannes suggested to delete all
+controllers from the given subsystem which will trigger the recovery
+process on the host on the next request. This makes this test work.
+
+Though if you have a better idea how to signal the host to reconfigure
+itself, I am glad to work on it.
 
