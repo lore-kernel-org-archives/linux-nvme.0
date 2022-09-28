@@ -4,69 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56D1AC32771
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Sep 2022 19:55:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CC9E9C04A95
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Sep 2022 20:06:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9qxjLuGoYfBY9VR8HKNz32kEKmBsh/5GPU2w8/C7NLg=; b=yZ99l1qOfaeUHZ4dArVJO99Zi2
-	/gqXo17u0Ud7OwXU4j9BXn20IpYwvmsPT6fyO2ucZ6Rz+ZQwAzVBhh0NwznEl8Hpxnw8Qpu0gk+tr
-	fceRJDxC/AJfUsdZkDFSAcd0VBRzxM2FkyOrDRESWRkzXFgl2E6aK5tTS/1SK9BZpjKRlrb02lA8a
-	Q/8eutkKSppZHuVz+ZRonFSoYW+lRbrbvzKy20h3DxCj/CkhYXZDmZNsy13mFnD/lj46N6z+olCUA
-	WnpHnwlB0TdFBqny8W0w5ID1FsyIhmzDaVLDSaAWWH0hg8+2u6nzanaU6xtw+XbLApMljW6POzG1S
-	/nGTVg3w==;
+	bh=NpdsHQEIDdCIsjS4rJOXdQLGW1MVZ2l8Zrf9pn/IUAM=; b=EBbMa15zeto/X9Jb7GlXesduzX
+	kTiJjDEfkm9V6Rh95GedlkWJXzZeJRslRwsU2t67E9CGDm6Z7kn7hD2qESQc1XKDSr1A+TvgPAcox
+	14Cu5xIwCJagZJqge5qO8LPZbCkO5hB8sxxgfZydWXRpwdeLasOOIpWOFDeNWbG+HcEPyU46dSI7W
+	uId2f5ERHfEyB6i8Kos5IgNzak5zRCGWusyiU5dOpE7ykvshTMUIeeU7NcwVfe8MNW45/ReVJtQ2j
+	vELUpp8cS3sV36wHJFt4q8BuG6PX8huQDibYAn6Q01T78URXRscwJifv2O0JaRF/8tNqN+NmLLywM
+	lBSIf38Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odd9P-000Bde-6r; Wed, 28 Sep 2022 19:55:23 +0000
-Received: from mail-ed1-f47.google.com ([209.85.208.47])
+	id 1oddKO-000Fn3-If; Wed, 28 Sep 2022 20:06:44 +0000
+Received: from mail-ed1-f54.google.com ([209.85.208.54])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odd9I-000Bc1-P7
-	for linux-nvme@lists.infradead.org; Wed, 28 Sep 2022 19:55:18 +0000
-Received: by mail-ed1-f47.google.com with SMTP id f20so18662973edf.6
-        for <linux-nvme@lists.infradead.org>; Wed, 28 Sep 2022 12:55:15 -0700 (PDT)
+	id 1oddKK-000FjS-HM
+	for linux-nvme@lists.infradead.org; Wed, 28 Sep 2022 20:06:41 +0000
+Received: by mail-ed1-f54.google.com with SMTP id v4so1385946edd.5
+        for <linux-nvme@lists.infradead.org>; Wed, 28 Sep 2022 13:06:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=9qxjLuGoYfBY9VR8HKNz32kEKmBsh/5GPU2w8/C7NLg=;
-        b=LTZpE812D3Uxc/4g/eILN0tng7KmhB9ZHvJZ2pJWjS88kDkW16Xi0CGG61p+bjeFGj
-         uUU+8cxCnkG5hNwFdG30wDShB+CJ3F/sqwctN0mv/3bvEJiv5AA+71wdB8EUCkvSetBo
-         TImlUcWyNCuJvhDgtVFmYPDYa2zCMFVMnMZ+fbu9chvC8rNsAylwiYF1BfuvElKHZHfR
-         2OnQAauK9Gjf6ShKuEOGBVIaG86qi9Db7frQuoOu3cgZeGGtc6qF0faJLmwNpIIEiIjI
-         IrMKs1zkoTF5nxuvthcMPi74MnHg4UjRd1/zHENwGty2n7+KgkBdFJqWZVcuyNdKUiO9
-         e0Cw==
-X-Gm-Message-State: ACrzQf19BHtROFYUCTWDqz7Ep2MfEvyqGGCAQjdPDiTdFDzWqG8yrH7n
-	vqbK0u0fMT7QNuDh22jUWTDqF7dvMRY=
-X-Google-Smtp-Source: AMsMyM6JT1m0ccMQzjE7GKmUitewkXolxJZjt89cuJSfMUyrqq5EfBC4cqZuX2vK5YvRsfPJqbJeIA==
-X-Received: by 2002:a05:6402:2549:b0:452:8292:b610 with SMTP id l9-20020a056402254900b004528292b610mr34895294edb.199.1664394914460;
-        Wed, 28 Sep 2022 12:55:14 -0700 (PDT)
-Received: from localhost.localdomain (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
-        by smtp.gmail.com with ESMTPSA id 16-20020a170906329000b007389c5a45f0sm2845747ejw.148.2022.09.28.12.55.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Sep 2022 12:55:13 -0700 (PDT)
-From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	linux-block@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH rfc] nvme: support io stats on the mpath device
-Date: Wed, 28 Sep 2022 22:55:10 +0300
-Message-Id: <20220928195510.165062-2-sagi@grimberg.me>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220928195510.165062-1-sagi@grimberg.me>
-References: <20220928195510.165062-1-sagi@grimberg.me>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=NpdsHQEIDdCIsjS4rJOXdQLGW1MVZ2l8Zrf9pn/IUAM=;
+        b=I+8GHSIxAWHbxISwPpePBRqAM5EYRebxVB4YslvqmlxBy4is4fVOkqCvyAUrjPv29x
+         hoqcRKp1Wu54fa07ajAHbqj3JhqLP/mZ4WLxXuYx4GpgNT06ZkZr+FD88uo8gDNsnEno
+         mtZixMUI/cv2iFmKl22TBIsdxCM+lA6OY4KeM64oqZdJR1MaohPvgW+wo+8EC37A6ifW
+         8FkSafUrhZQ+9ISjBXgNfQRJ3O+fFlLgukPL2NNRLCgeGin4lZTpkP9u9pAvzX6vrh2b
+         yHc39X1kCzVSj8GFLjaY814MWUzEZH/2mH2lZeLXNl61mSU7EOFG1Ou0EraaIIcD3gS5
+         rcEA==
+X-Gm-Message-State: ACrzQf2CnPhX0nRq7uDoJGt3r2A9r2xNrrhZiC43TkqyVVrJVeHiYEzT
+	50ZkLI/iPSNwd8/EC2b14kM=
+X-Google-Smtp-Source: AMsMyM5PJoycU8Ui4fhjygiqFC952OSDs0u8VL0XFbztoo/Ua4aXNcqWvGaZBqQN3070m8SCzwC/mQ==
+X-Received: by 2002:a05:6402:40cc:b0:452:697e:da18 with SMTP id z12-20020a05640240cc00b00452697eda18mr34024979edb.288.1664395597966;
+        Wed, 28 Sep 2022 13:06:37 -0700 (PDT)
+Received: from [10.100.102.14] (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
+        by smtp.gmail.com with ESMTPSA id 2-20020a170906318200b0078116c361d9sm2891417ejy.10.2022.09.28.13.06.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Sep 2022 13:06:37 -0700 (PDT)
+Message-ID: <79fbae63-f41e-c1ec-237c-11befc85990b@grimberg.me>
+Date: Wed, 28 Sep 2022 23:06:35 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] nvme-multipath: fix possible hang in live ns resize with
+ ANA access
+Content-Language: en-US
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ Hannes Reinecke <hare@suse.de>, Yogev Cohen <yogev@lightbitslabs.com>
+References: <20220928135816.132213-1-sagi@grimberg.me>
+ <YzSCoDP2PO7jIRLT@kbusch-mbp.dhcp.thefacebook.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <YzSCoDP2PO7jIRLT@kbusch-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220928_125516_841123_E2272DD2 
-X-CRM114-Status: GOOD (  21.53  )
+X-CRM114-CacheID: sfid-20220928_130640_625267_54DF1E45 
+X-CRM114-Status: GOOD (  11.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,216 +83,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Our mpath stack device is just a shim that selects a bottom namespace
-and submits the bio to it without any fancy splitting. This also means
-that we don't clone the bio or have any context to the bio beyond
-submission. However it really sucks that we don't see the mpath device
-io stats.
 
-Given that the mpath device can't do that without adding some context
-to it, we let the bottom device do it on its behalf (somewhat similar
-to the approach taken in nvme_trace_bio_complete);
 
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/host/apple.c     |  2 +-
- drivers/nvme/host/core.c      | 10 ++++++++++
- drivers/nvme/host/fc.c        |  2 +-
- drivers/nvme/host/multipath.c | 18 ++++++++++++++++++
- drivers/nvme/host/nvme.h      | 12 ++++++++++++
- drivers/nvme/host/pci.c       |  2 +-
- drivers/nvme/host/rdma.c      |  2 +-
- drivers/nvme/host/tcp.c       |  2 +-
- drivers/nvme/target/loop.c    |  2 +-
- 9 files changed, 46 insertions(+), 6 deletions(-)
+On 9/28/22 20:21, Keith Busch wrote:
+> On Wed, Sep 28, 2022 at 04:58:16PM +0300, Sagi Grimberg wrote:
+>> @@ -172,16 +172,18 @@ void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl)
+>>   void nvme_mpath_revalidate_paths(struct nvme_ns *ns)
+>>   {
+>>   	struct nvme_ns_head *head = ns->head;
+>> +	struct nvme_ns *n;
+>>   	sector_t capacity = get_capacity(head->disk);
+>>   	int node;
+> 
+> Cosmetic nit, the new declaration ought to be below the capacity line for
+> reverse-xmas tree goodness.
 
-diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-index 5fc5ea196b40..6df4b8a5d8ab 100644
---- a/drivers/nvme/host/apple.c
-+++ b/drivers/nvme/host/apple.c
-@@ -763,7 +763,7 @@ static blk_status_t apple_nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 			goto out_free_cmd;
- 	}
- 
--	blk_mq_start_request(req);
-+	nvme_start_request(req);
- 	apple_nvme_submit_cmd(q, cmnd);
- 	return BLK_STS_OK;
- 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9bacfd014e3d..f42e6e40d84b 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -385,6 +385,8 @@ static inline void nvme_end_req(struct request *req)
- 	nvme_end_req_zoned(req);
- 	nvme_trace_bio_complete(req);
- 	blk_mq_end_request(req, status);
-+	if (req->cmd_flags & REQ_NVME_MPATH)
-+		nvme_mpath_end_request(req);
- }
- 
- void nvme_complete_rq(struct request *req)
-@@ -419,6 +421,14 @@ void nvme_complete_rq(struct request *req)
- }
- EXPORT_SYMBOL_GPL(nvme_complete_rq);
- 
-+void nvme_start_request(struct request *rq)
-+{
-+	if (rq->cmd_flags & REQ_NVME_MPATH)
-+		nvme_mpath_start_request(rq);
-+	blk_mq_start_request(rq);
-+}
-+EXPORT_SYMBOL_GPL(nvme_start_request);
-+
- void nvme_complete_batch_req(struct request *req)
- {
- 	trace_nvme_complete_rq(req);
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 127abaf9ba5d..2cdcc7f5d0a9 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2744,7 +2744,7 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
- 	atomic_set(&op->state, FCPOP_STATE_ACTIVE);
- 
- 	if (!(op->flags & FCOP_FLAGS_AEN))
--		blk_mq_start_request(op->rq);
-+		nvme_start_request(op->rq);
- 
- 	cmdiu->csn = cpu_to_be32(atomic_inc_return(&queue->csn));
- 	ret = ctrl->lport->ops->fcp_io(&ctrl->lport->localport,
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 6ef497c75a16..9d2ff9ed8c6c 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -114,6 +114,23 @@ void nvme_failover_req(struct request *req)
- 	kblockd_schedule_work(&ns->head->requeue_work);
- }
- 
-+void nvme_mpath_start_request(struct request *rq)
-+{
-+	struct nvme_ns *ns = rq->q->queuedata;
-+
-+	nvme_req(rq)->start_time = bdev_start_io_acct(ns->head->disk->part0,
-+					blk_rq_bytes(rq) >> SECTOR_SHIFT,
-+					req_op(rq), jiffies);
-+}
-+
-+void nvme_mpath_end_request(struct request *rq)
-+{
-+	struct nvme_ns *ns = rq->q->queuedata;
-+
-+	bdev_end_io_acct(ns->head->disk->part0,
-+		req_op(rq), nvme_req(rq)->start_time);
-+}
-+
- void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
-@@ -501,6 +518,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
- 
- 	blk_queue_flag_set(QUEUE_FLAG_NONROT, head->disk->queue);
- 	blk_queue_flag_set(QUEUE_FLAG_NOWAIT, head->disk->queue);
-+	blk_queue_flag_set(QUEUE_FLAG_IO_STAT, head->disk->queue);
- 	/*
- 	 * This assumes all controllers that refer to a namespace either
- 	 * support poll queues or not.  That is not a strict guarantee,
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2d5d44a73f26..08f94c404cd8 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -162,6 +162,9 @@ struct nvme_request {
- 	u8			retries;
- 	u8			flags;
- 	u16			status;
-+#ifdef CONFIG_NVME_MULTIPATH
-+	unsigned long		start_time;
-+#endif
- 	struct nvme_ctrl	*ctrl;
- };
- 
-@@ -753,6 +756,7 @@ static inline enum req_op nvme_req_op(struct nvme_command *cmd)
- }
- 
- #define NVME_QID_ANY -1
-+void nvme_start_request(struct request *rq);
- void nvme_init_request(struct request *req, struct nvme_command *cmd);
- void nvme_cleanup_cmd(struct request *req);
- blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req);
-@@ -861,6 +865,8 @@ bool nvme_mpath_clear_current_path(struct nvme_ns *ns);
- void nvme_mpath_revalidate_paths(struct nvme_ns *ns);
- void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl);
- void nvme_mpath_shutdown_disk(struct nvme_ns_head *head);
-+void nvme_mpath_start_request(struct request *rq);
-+void nvme_mpath_end_request(struct request *rq);
- 
- static inline void nvme_trace_bio_complete(struct request *req)
- {
-@@ -946,6 +952,12 @@ static inline void nvme_mpath_start_freeze(struct nvme_subsystem *subsys)
- static inline void nvme_mpath_default_iopolicy(struct nvme_subsystem *subsys)
- {
- }
-+static inline void nvme_mpath_start_request(struct request *rq)
-+{
-+}
-+static inline void nvme_mpath_end_request(struct request *rq)
-+{
-+}
- #endif /* CONFIG_NVME_MULTIPATH */
- 
- int nvme_revalidate_zones(struct nvme_ns *ns);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 3bdb97205699..e898b9e4e6e0 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -929,7 +929,7 @@ static blk_status_t nvme_prep_rq(struct nvme_dev *dev, struct request *req)
- 			goto out_unmap_data;
- 	}
- 
--	blk_mq_start_request(req);
-+	nvme_start_request(req);
- 	return BLK_STS_OK;
- out_unmap_data:
- 	nvme_unmap_data(dev, req);
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 8e52d2362fa1..ab9d5a17704b 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -2089,7 +2089,7 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	if (ret)
- 		goto unmap_qe;
- 
--	blk_mq_start_request(rq);
-+	nvme_start_request(rq);
- 
- 	if (IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY) &&
- 	    queue->pi_support &&
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 2524b5304bfb..a1df405de7f1 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2461,7 +2461,7 @@ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	if (unlikely(ret))
- 		return ret;
- 
--	blk_mq_start_request(rq);
-+	nvme_start_request(rq);
- 
- 	nvme_tcp_queue_request(req, true, bd->last);
- 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 9750a7fca268..c327615decc2 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -145,7 +145,7 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	if (ret)
- 		return ret;
- 
--	blk_mq_start_request(req);
-+	nvme_start_request(req);
- 	iod->cmd.common.flags |= NVME_CMD_SGL_METABUF;
- 	iod->req.port = queue->ctrl->port;
- 	if (!nvmet_req_init(&iod->req, &queue->nvme_cq,
--- 
-2.34.1
-
+Will do.
 
