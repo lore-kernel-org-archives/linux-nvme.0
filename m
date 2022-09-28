@@ -4,74 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2CDCC32771
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Sep 2022 18:13:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63155C04A95
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Sep 2022 19:55:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SrqLT0kXpAlJD8TZzx8ujBa5nxZPe+zl7PnVUm+RbhE=; b=EY41zn57qyEj5K+FEYWPyKb55P
-	7nPnbEq+m/GJ4kVZhc0acpoSHybooP84MQ85bFUVRB+6z4RkUiJIN0EgHvheI5RVjPM4qmQ3Nb+Jc
-	xIsN64VePXFE+ZVBBX4L2SvEaW7vWwlquGskrkG3PiL3eu7Sg8sDCTw1fHwmalS+Dfz1WlOgPl/GH
-	w0S9WAxQZYRaBXG+Z1SEcZ83FOR9ir4/TfVx1sqcnhItbJ42yG0VhCqIIpdCGjnHVktkkRn4Mg1Dw
-	IDQku7vFcE1nsMJ+FMuh0V4px4qil5LlpkxjrAdai77+LptMqhKqfx2XrUEh+rf0xSa01JynHmx6D
-	J/bRJQ9A==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=iyycBCK0NNl8E30Z+4DtXcZiRG0olQqpTeLI0obxIz8=; b=iT/pPfZHomELDI9pSw6vW3Wsqm
+	Zt1ASbTe1657gDcta1h1lAmAjYoSq0lZSsQKJtEJGlzPh+Ezx+Zjo4m8wUZ9WrOwX5HMu4z7BIhnP
+	TjAlQ1lC9+QK5Z9UVhYM7Vmzvy10HDbUJBB2+UITRGTq6nSxJWzpo5a783E+IpbCLPvL4yUkv6LYW
+	rqRAGcpHhBk8y1Nrtp0NFX4h3wTszlw/nx6/wEqNlNRtvCmI+PohdaGQ5LbZaqYNAxZtzGfjewwDI
+	NGNb8+h8TQOk8xXv+EmMkFOpy+F7HFFzNjJhc3vJbS5xssgBu4JR/mCJ9IYF8EOC7NVaIa/SKVgVo
+	YIweI9Pg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odbYw-00HWyT-Vu; Wed, 28 Sep 2022 18:13:39 +0000
-Received: from mail-pl1-f176.google.com ([209.85.214.176])
+	id 1odd9L-000BdF-7K; Wed, 28 Sep 2022 19:55:19 +0000
+Received: from mail-ed1-f47.google.com ([209.85.208.47])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odbYt-00HWx8-Fo
-	for linux-nvme@lists.infradead.org; Wed, 28 Sep 2022 18:13:36 +0000
-Received: by mail-pl1-f176.google.com with SMTP id n7so3678174plp.1
-        for <linux-nvme@lists.infradead.org>; Wed, 28 Sep 2022 11:13:32 -0700 (PDT)
+	id 1odd9I-000Bbe-P8
+	for linux-nvme@lists.infradead.org; Wed, 28 Sep 2022 19:55:18 +0000
+Received: by mail-ed1-f47.google.com with SMTP id a13so3539856edj.0
+        for <linux-nvme@lists.infradead.org>; Wed, 28 Sep 2022 12:55:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=SrqLT0kXpAlJD8TZzx8ujBa5nxZPe+zl7PnVUm+RbhE=;
-        b=bC1pb2Qmzm1y2P+uagI4Ac+Op64Wip9qnuFpmmE0KH78XO6oCl1rmEhFQyhlJh6Ajo
-         WwQyemVNPojDlOStII+aElmX7VN3ipdI/gv2V8Q3xIUprf1hcKuCv/KrbHCPV6Nllkhw
-         4T4v3LIZkR4gcqizoExAsia5CHdjsypzbOFt1veGmfBowT9VDoT0siKBXLPcgpJUQOhL
-         XV9l6kuDqEyg+X0IystSEbhOoZ3m+RbqlpT97oEgN5QnjNKq6meMRlMmfwrmMvJF8juR
-         zqDyaFlof0I2bj3Fyb0ynAFKXQ5FRbZSNzPSropWQzNcW6oJbXHqWkF6/NDamoXSd44m
-         QjtA==
-X-Gm-Message-State: ACrzQf3KPplU/+cxw8AcUSTNzjruexGJ69byGeKiZx6ynCJaSyTBLOm6
-	ZDr7xEtU/NOP5MptNIbF8ao=
-X-Google-Smtp-Source: AMsMyM5phyXRHDoV48KwWkEssjx6POVAM7KislIcpIimObHNjJBChVYQkrXS8krHgOsN/67JiWvhEA==
-X-Received: by 2002:a17:90a:4607:b0:202:e22d:4892 with SMTP id w7-20020a17090a460700b00202e22d4892mr11629503pjg.220.1664388811703;
-        Wed, 28 Sep 2022 11:13:31 -0700 (PDT)
-Received: from ?IPV6:2620:15c:211:201:4cba:f1a9:6ef8:3759? ([2620:15c:211:201:4cba:f1a9:6ef8:3759])
-        by smtp.gmail.com with ESMTPSA id p15-20020a1709027ecf00b0016f8e8032c4sm4014341plb.129.2022.09.28.11.13.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Sep 2022 11:13:31 -0700 (PDT)
-Message-ID: <d7004ae9-ad68-cb61-9ca8-0bf61efa0c21@acm.org>
-Date: Wed, 28 Sep 2022 11:13:28 -0700
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=iyycBCK0NNl8E30Z+4DtXcZiRG0olQqpTeLI0obxIz8=;
+        b=GvMAuLeCUnQb7R5O1X99SyAghc6rv/sBknvtDomC19OQ8Y5CmAsfLg+fboiOMPNKcb
+         m9L2DOQrblhRwVm5DArbLOUBMsnfA1k7aVfAMsceX7GmiCgGUzjGbJF/Y9ae0cWXHmo2
+         drOdv28KVBHNBVLB5mtWbczghtvrLlGatvuMf6FgHMb84XCrvXBaegHmg5ucxvyPHlKH
+         FXPf9SLY79oNGxvXGjhPNLVB1OTpJZqFj0116Dsu6HUcjCJYjqMjwiBqu1/wdh1JHKxW
+         dHFPNDBMvfvlV1V+BC142qfSyDcGIxzGLawkDneYAbG9ucJssndQIMNoWIL7J89zPsoq
+         /7iA==
+X-Gm-Message-State: ACrzQf1ps/nKnhsA+gwwQSgtIu2moZopNN5FQljkXzHLdO61mjFDGNol
+	8T1ypl7JwDN/+f9kjFnDztZNT+onpIA=
+X-Google-Smtp-Source: AMsMyM61kr+zoTEsDafTgmogLbwOkf40C75jIS2C9n2L4A0G+n1bvyNSuwEzneeXIJJ+lS8s1SUJJg==
+X-Received: by 2002:aa7:cb87:0:b0:43b:e650:6036 with SMTP id r7-20020aa7cb87000000b0043be6506036mr34929160edt.350.1664394913026;
+        Wed, 28 Sep 2022 12:55:13 -0700 (PDT)
+Received: from localhost.localdomain (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
+        by smtp.gmail.com with ESMTPSA id 16-20020a170906329000b007389c5a45f0sm2845747ejw.148.2022.09.28.12.55.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Sep 2022 12:55:12 -0700 (PDT)
+From: Sagi Grimberg <sagi@grimberg.me>
+To: linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+	linux-block@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH rfc 0/1] nvme-mpath: Add IO stats support
+Date: Wed, 28 Sep 2022 22:55:09 +0300
+Message-Id: <20220928195510.165062-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v15 11/13] dm: call dm_zone_endio after the target endio
- callback for zoned devices
-Content-Language: en-US
-To: Pankaj Raghav <p.raghav@samsung.com>, snitzer@kernel.org,
- axboe@kernel.dk, agk@redhat.com, hch@lst.de, damien.lemoal@opensource.wdc.com
-Cc: jaegeuk@kernel.org, gost.dev@samsung.com, linux-kernel@vger.kernel.org,
- hare@suse.de, matias.bjorling@wdc.com, Johannes.Thumshirn@wdc.com,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- pankydev8@gmail.com, dm-devel@redhat.com
-References: <20220923173618.6899-1-p.raghav@samsung.com>
- <CGME20220923173631eucas1p23cceb8438d6b8b9c3460192c0ad2472d@eucas1p2.samsung.com>
- <20220923173618.6899-12-p.raghav@samsung.com>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20220923173618.6899-12-p.raghav@samsung.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220928_111335_552190_2CA7BA7D 
-X-CRM114-Status: GOOD (  15.74  )
+X-CRM114-CacheID: sfid-20220928_125516_840520_9AFC6F70 
+X-CRM114-Status: GOOD (  14.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,25 +78,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/23/22 10:36, Pankaj Raghav wrote:
-> dm_zone_endio() updates the bi_sector of orig bio for zoned devices that
-> uses either native append or append emulation, and it is called before the
-> endio of the target. But target endio can still update the clone bio
-> after dm_zone_endio is called, thereby, the orig bio does not contain
-> the updated information anymore.
-> 
-> Currently, this is not a problem as the targets that support zoned devices
-> such as dm-zoned, dm-linear, and dm-crypt do not have an endio function,
-> and even if they do (such as dm-flakey), they don't modify the
-> bio->bi_iter.bi_sector of the cloned bio that is used to update the
-> orig_bio's bi_sector in dm_zone_endio function.
-> 
-> This is a prep patch for the new dm-po2zoned target as it modifies
-> bi_sector in the endio callback.
-> 
-> Call dm_zone_endio for zoned devices after calling the target's endio
-> function.
+I've been hearing complaints about the fact that the nvme mpath stack
+device does not expose IO stats just like any normal block device,
+instead people need to check the bottom namespaces hidden devices,
+mapping back to the mpath device node.
 
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+This really sucks, especially for observability hooks/plugins that
+I've seen people do.
+
+This is an attempt to make the nvme mpath device expose normal IO stats.
+Given that nvme-mpath doesn't have any context after submitting the bio,
+we use the core completion path to start/end stats accounting on its
+behalf, a similar practice that we use for other multipath related stuff.
+
+Given that its not too invasive, I decided to keep it
+in a single patch, but I can certainly split it in to
+smaller patches if anyone thinks I should.
+
+Feedback is welcome.
+
+Sagi Grimberg (1):
+  nvme: support io stats on the mpath device
+
+ drivers/nvme/host/apple.c     |  2 +-
+ drivers/nvme/host/core.c      | 10 ++++++++++
+ drivers/nvme/host/fc.c        |  2 +-
+ drivers/nvme/host/multipath.c | 18 ++++++++++++++++++
+ drivers/nvme/host/nvme.h      | 13 +++++++++++++
+ drivers/nvme/host/pci.c       |  2 +-
+ drivers/nvme/host/rdma.c      |  2 +-
+ drivers/nvme/host/tcp.c       |  2 +-
+ drivers/nvme/target/loop.c    |  2 +-
+ 9 files changed, 47 insertions(+), 6 deletions(-)
+
+-- 
+2.34.1
 
 
