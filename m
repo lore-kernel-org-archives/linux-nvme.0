@@ -4,67 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1E395C04A95
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Sep 2022 06:23:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01A00C32771
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Sep 2022 06:25:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=i93gdwdJwTXNOfXoya/7WJAYlNF1iMYcRcaL8nz1gpg=; b=vDLIeSFuOFlsQLz9Ve6mvekvd1
-	mbHEQaF0bxX5LPChhtzVekGzqVoVrMrbqz1sRuVeS2vONEHKIQ+2o7UBU/0LxKwJBcFo8LFKni4M2
-	NL52UUVWrI5eyTli9POj3o0E1K48mk58LJIZufAzHp2UaznNidCK3NuosjbY183gkuLxTI2p+azx+
-	8RBuj4IKmiCHY1o72VMz2cx6FXeD15K00uAlj8g0YU+yOAum8reU4cPcxL6DT1C3gDwnqj6djWw8n
-	uDS4J+enSQtr9+BaZL66SCeYWGiIjC5Kvj3V9lPIYYDx48zFfPML0zgfxzGr6GdzPmg9WEy8Q9Oru
-	j+D2Edkg==;
+	bh=ybw3/juzrtcH5gapwTZnN/k9wsHBzLLgavnqAXc3UQY=; b=uGde9As56bZ7tcyAIEKwuUaVxE
+	WrJdw8azS6Mid4pDMr5YnRGVUvlGKCCv6MuHVAFoqqDtHrsaXAuS7FyM6Cs/fzNVB+tB44Y4EsHO+
+	dvp3FMsZYXCtwyaTLHIob4Vycq6QGno7QWT+pLNYYbqpgkhq8/9ImKWqBD0BDFSoOTjWORsgLVKPw
+	b76AEUG1Z0XYHQ07KctPNXqodB/cjHjJSzdGDbSl5wUnGfF/yJECDHj8i+WeIVF+MYJrY06R9dQDp
+	alseemR6hnWGnv904RiMsUV+IF3oVBPmYJzNtcDiNeZ6Tvb51Esi0m6GvCotWIfKWVHhmwLyEMjOT
+	46cOC/9g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odQTr-00EEjS-Fn; Wed, 28 Sep 2022 06:23:39 +0000
-Received: from mail-wm1-f45.google.com ([209.85.128.45])
+	id 1odQVE-00EF01-RL; Wed, 28 Sep 2022 06:25:04 +0000
+Received: from mail-wm1-f41.google.com ([209.85.128.41])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odQTk-00EEhw-SA
-	for linux-nvme@lists.infradead.org; Wed, 28 Sep 2022 06:23:34 +0000
-Received: by mail-wm1-f45.google.com with SMTP id n35-20020a05600c502300b003b4924c6868so1765971wmr.1
-        for <linux-nvme@lists.infradead.org>; Tue, 27 Sep 2022 23:23:32 -0700 (PDT)
+	id 1odQVC-00EEyF-78
+	for linux-nvme@lists.infradead.org; Wed, 28 Sep 2022 06:25:03 +0000
+Received: by mail-wm1-f41.google.com with SMTP id r3-20020a05600c35c300b003b4b5f6c6bdso450782wmq.2
+        for <linux-nvme@lists.infradead.org>; Tue, 27 Sep 2022 23:25:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=i93gdwdJwTXNOfXoya/7WJAYlNF1iMYcRcaL8nz1gpg=;
-        b=h1rKAMylRokVZMHtv/XaJ0rpw9MOX3edRJGwkKXhD0dtDzZMCVAx0Pvgixzp38P5zN
-         50nZyiyDn283zQJ1fIvKWnYpoXaorqR5hQJgEs+gnz4y2V/OTXq3oaPcRrqJTuA+cpus
-         QxeSwGx6Xl6+dvjx4UGfSlDzG0i0iqTnXVJ/j3JcQaIO+3lzGTPOr45rAONdZtIcEgQH
-         S1HhzpYJs7pB0/bjcCvHhMdQJAYy8ymXlzeLifZK5vDu8X0IvxT0mjcIvrtl9S2u3jm5
-         j72dEmitxfeh6IAsP0T0gqWxsPhSwmgXi9eA/Xn7GLgCgNVHgxCoKCodTq/h73LRm6G1
-         b6Zg==
-X-Gm-Message-State: ACrzQf16ZYQ/9skjv0uobKB3vYFk59TlvCurrWbuq5J21FIo3aMO0rF6
-	s/BPqzYZV+wwAOyB4vFYJtUkIUu93DY=
-X-Google-Smtp-Source: AMsMyM54xT+fbBc7sDBwThw8ju4kOI+DN7kOQUKChWp66D9BK0DEB32rxLVVgiszsu0sOjqUyOcs0g==
-X-Received: by 2002:a7b:cd14:0:b0:3b4:8680:79a7 with SMTP id f20-20020a7bcd14000000b003b4868079a7mr5585580wmj.28.1664346210621;
-        Tue, 27 Sep 2022 23:23:30 -0700 (PDT)
-Received: from localhost.localdomain (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id f13-20020a056000128d00b0022afcc11f65sm3411557wrx.47.2022.09.27.23.23.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Sep 2022 23:23:29 -0700 (PDT)
-From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	Jonathan Nicklin <jnicklin@blockbridge.com>
-Subject: [PATCH 2/2] nvme-rdma: fix possible hang caused during ctrl deletion
-Date: Wed, 28 Sep 2022 09:23:26 +0300
-Message-Id: <20220928062326.45119-2-sagi@grimberg.me>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220928062326.45119-1-sagi@grimberg.me>
-References: <20220928062326.45119-1-sagi@grimberg.me>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=ybw3/juzrtcH5gapwTZnN/k9wsHBzLLgavnqAXc3UQY=;
+        b=U4Ip4ujdG0+0ElSSX23Uhvi5KMYk8k8AnsVSKGs3J+vUtuCrCf31YoFB/znNidUIGY
+         F3FVbRnqRFjeq8K4x7XXqQ29B4DEELfEznXFKkjM1zzSRjIGAIU9My5RTrt1klxh0Ej8
+         QexA93REH4fXfYiRzPuOaedbzBiUPxHqUDIhWwz7K3NwHU/+w6MQiu7Z4KyZfUUR0KAq
+         8VBvyZejAe8JB0H9upkzPC1J9G5biqmWczYeAsOxulY2qqdgl6j/t809h8ylq7yaZpmr
+         aOAHxgcEGgZqEjnl/yMn4zYmo9r93EVDtTofg4/h6219HBVSK7irzCnXCmVDdcUXpGAH
+         3S8A==
+X-Gm-Message-State: ACrzQf3/Ayk4osGFdNkn6w1Yi/Z6qc5Y6oByC6nrQ0VkxvT2S9ukV43g
+	6OXyTRHl1/GiKaAN8++3GvhNyGxqIfc=
+X-Google-Smtp-Source: AMsMyM4EkTGOWHSSy8CW9BTVooQRdgXp0Xzddawntkx4s/hFXDpNu5ZsVZGd0OQ9YYTCAUuomDqCYg==
+X-Received: by 2002:a05:600c:46c6:b0:3b4:cad4:7d3e with SMTP id q6-20020a05600c46c600b003b4cad47d3emr5520689wmo.78.1664346298820;
+        Tue, 27 Sep 2022 23:24:58 -0700 (PDT)
+Received: from [192.168.64.53] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id bk8-20020a0560001d8800b0022af865810esm3163003wrb.75.2022.09.27.23.24.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Sep 2022 23:24:57 -0700 (PDT)
+Message-ID: <509b1722-66cc-0c16-058e-25ce1ae709f5@grimberg.me>
+Date: Wed, 28 Sep 2022 09:24:55 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: nvme/tcp: infinite loop, livelock, and OOPS issues on disconnect
+Content-Language: en-US
+To: Jonathan Nicklin <jnicklin@blockbridge.com>
+Cc: linux-nvme@lists.infradead.org
+References: <CAHex0cqsATq98N3xevr0-vEcKBaRnTV1cm8einZ925CYyJNcsw@mail.gmail.com>
+ <c7c90d39-2c4a-afea-ace4-bc3ae5f584d7@grimberg.me>
+ <CAHex0cqc0UNWz4CzzJzxRvji=89BZiVKQFG3TF=espy72Ga54Q@mail.gmail.com>
+ <dea45ad6-a5da-b9f6-a851-22fc4e5ef75e@grimberg.me>
+ <CAHex0cqz1yvN6qnrb-UcqciB6K6ZwjY_vQi06RyqKA3tUsxqRQ@mail.gmail.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <CAHex0cqz1yvN6qnrb-UcqciB6K6ZwjY_vQi06RyqKA3tUsxqRQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220927_232332_925356_E4FADB40 
-X-CRM114-Status: GOOD (  16.92  )
+X-CRM114-CacheID: sfid-20220927_232502_296068_9FD7C149 
+X-CRM114-Status: GOOD (  22.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,54 +83,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When we delete a controller, we execute the following:
-1. nvme_stop_ctrl() - stop some work elements that may be
-        inflight or scheduled (specifically also .stop_ctrl
-        which cancels ctrl error recovery work)
-2. nvme_remove_namespaces() - which first flushes scan_work
-        to avoid competing ns addition/removal
-3. continue to teardown the controller
 
-However, if err_work was scheduled to run in (1), it is designed to
-cancel any inflight I/O, particularly I/O that is originating from ns
-scan_work in (2), but because it is cancelled in .stop_ctrl(), we can
-prevent forward progress of (2) as ns scanning is blocking on I/O
-(that will never be cancelled).
+>> Thanks for moving to a recent kernel.
+>>
+>> Based on the stack trace, the reason for the hang is that
+>> disconnect is attempting to remove all the namespaces before
+>> starting to teardown the controller, before that it flushes
+>> any ns scanning to not compete with it running concurrently.
+>>
+>> but NS scanning is stuck when discovering a namespace because
+>> adding it as a disk triggers some I/O most likely for stuff
+>> like partition scanning etc.
+>>
+>> The ns scan is stuck only because its inflight I/O never completes,
+>> which is likely related to the errors you are inserting from the
+>> controller side every now and then...
+>>
+>> I do see a possible race here. that right when a transport error is
+>> observed, error recovery is scheduled (err_work) but before it is
+>> executing, delete_ctrl is starting to teardown the controller,
+>> particularly calling nvme_stop_ctrl() -> nvme_tcp_stop_ctrl()
+>> which cancels the err_work.
+>>
+>> If the error recovery is not running, nothing will fail inflight
+>> commands if they are not failed by the controller explicitly.
+>>
+>> What would be helpful, is to know that once the issue reproduced,
+>> if the ctrl->err_work, was canceled without executing.
+>>
+>> So if the theory is correct, this fix is warranted:
+>> --
+>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+>> index d5871fd6f769..2524b5304bfb 100644
+>> --- a/drivers/nvme/host/tcp.c
+>> +++ b/drivers/nvme/host/tcp.c
+>> @@ -2237,7 +2237,7 @@ static void nvme_reset_ctrl_work(struct
+>> work_struct *work)
+>>
+>>    static void nvme_tcp_stop_ctrl(struct nvme_ctrl *ctrl)
+>>    {
+>> -       cancel_work_sync(&to_tcp_ctrl(ctrl)->err_work);
+>> +       flush_work(&to_tcp_ctrl(ctrl)->err_work);
+>>           cancel_delayed_work_sync(&to_tcp_ctrl(ctrl)->connect_work);
+>>    }
+>> --
+>>
+>> This will make err_work to run, and then it is guaranteed that all
+>> inflight requests are completed/cancelled.
+> 
+> Good news. I ran with the fix proposed continuously for three days
+> without reproducing the issue.
 
-The race is:
-1. transport layer error observed -> err_work is scheduled
-2. scan_work executes, discovers ns, generate I/O to it
-3. nvme_ctop_ctrl() -> .stop_ctrl() -> cancel_work_sync(err_work)
-   - err_work never executed
-4. nvme_remove_namespaces() -> flush_work(scan_work)
---> deadlock, because scan_work is blocked on I/O that was supposed
-to be cancelled by err_work, but was cancelled before executing.
+Great, thanks for testing!
 
-Fix this by flushing err_work instead of cancelling it, to force it
-to execute and cancel all inflight I/O.
+> Is there any specific instrumentation
+> you want me to run to get direct confirmation of the bug/fix? If not,
+> I think we're all set.
 
-Fixes: b435ecea2a4d ("nvme: Add .stop_ctrl to nvme ctrl ops")
-Fixes: f6c8e432cb04 ("nvme: flush namespace scanning work just before
-removing namespaces")
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/host/rdma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 3100643be299..8e52d2362fa1 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1049,7 +1049,7 @@ static void nvme_rdma_stop_ctrl(struct nvme_ctrl *nctrl)
- {
- 	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
- 
--	cancel_work_sync(&ctrl->err_work);
-+	flush_work(&ctrl->err_work);
- 	cancel_delayed_work_sync(&ctrl->reconnect_work);
- }
- 
--- 
-2.34.1
-
+I don't think that this is necessary, the fix makes sense, and it does
+seem to address the issue.
 
