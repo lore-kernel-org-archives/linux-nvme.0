@@ -4,71 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5765C07E9D
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Sep 2022 07:34:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB0A4C04A95
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Sep 2022 07:36:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rCea+yuMNfzqHczJpD3QZa/feznAa8hp0u8kN+n1uC0=; b=UjWe7P8g2QwmEz3G3SPWSXXZEY
-	SuEmt4IujFA8XVYHEedylS0wwJGQ8xVAXjP1LKNAKGuw/ZfYemmWAm2pU8Kuly0biGJm+lV2VmkjU
-	YM5B8n35j6nji2AdFj7g9qmoMcst2HN4kZ84KBdBATvxmUnU3ewDiBhIxZmIsBZChfux3pFHHrEaW
-	Wepur4xmCcxK1DeoW/mautj8XuL1Z3iBZOLawqtuqENHXcLx9cgjdJOW1Jp5+A0WAxUE29yxMzt9R
-	Fm2qqG6oI0Ygki79EYhEVjeb2VuJ0lw47bSfIkXR7efQEeA3aewKE43HNvNrgHYReNOi5dZfQOKTJ
-	MB/NgnbA==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=PuBkx3mIKlCuv/Ez7uR3bYwFT5/uX/i3LGQCMtKRQ9A=; b=BezcrjNBYZTGyahY8AHrMthCXJ
+	zL/N0Y4J30lytktQAxb3FtCBtD2b3h+9HZ0G+2u3K8oj+rVDkggy35Yj0DK4lK2cuxdGMJkqm+yqs
+	psnGTmwWalnhm3m94UsylGZxkdyD0ZEgl6brH6IyNYoYVV0stmTfCFpLwgBPdXvpNXDfHKgNcdAtI
+	SSR+3K/PTeladR+EfCGBJLawCF1ZDL67a+TbQhR+zbprbIlfoQHwjW/KyJKt8Zz6jjQJlCSalx7p4
+	a6LBUxkcyE4sxpsxCiqXjsTx3dKxq1UZm023lZlyqGC9fDd7OGPZpHVdXUUgnlyPbgV7GEn49THeL
+	mxKEv/wA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odo45-001aim-FN; Thu, 29 Sep 2022 07:34:37 +0000
-Received: from mail-wm1-f46.google.com ([209.85.128.46])
+	id 1odo6J-001bOY-2D; Thu, 29 Sep 2022 07:36:55 +0000
+Received: from mail-wr1-f54.google.com ([209.85.221.54])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odo42-001agK-PJ
-	for linux-nvme@lists.infradead.org; Thu, 29 Sep 2022 07:34:36 +0000
-Received: by mail-wm1-f46.google.com with SMTP id z13-20020a7bc7cd000000b003b5054c6f9bso2684688wmk.2
-        for <linux-nvme@lists.infradead.org>; Thu, 29 Sep 2022 00:34:32 -0700 (PDT)
+	id 1odo6G-001bMl-5z
+	for linux-nvme@lists.infradead.org; Thu, 29 Sep 2022 07:36:53 +0000
+Received: by mail-wr1-f54.google.com with SMTP id c11so754433wrp.11
+        for <linux-nvme@lists.infradead.org>; Thu, 29 Sep 2022 00:36:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=rCea+yuMNfzqHczJpD3QZa/feznAa8hp0u8kN+n1uC0=;
-        b=vHtQCUPzKiSvWXZf5jywoH6uJHpQZwJIRPJcCIrM6zZxoqw4Kncx8uvbyef2IP4J+i
-         UmLW54DWFPCeKvCHApgkfnnKrcTO52sa2lOZfAsjViSwOoWbiQi3btTXKPqQzMH4pspD
-         zhBhHND0pVNIubYBgv1J2rnirHaPZDlrB6cpfQHq/UwoaU9ypkgzsTaPbg04khFfHN+D
-         +Yi0jt2N7h1eim+8+smexl950Ui5SKUnFx1ftvQWFY8uwfpTaNbcbASaljvV0olk28gH
-         txpqzAJSn7x/cURdkiIm6/7Ej3wviQdI6CFxSDjAGRL00cAdVtnco3EvuQuHewo1erG9
-         L+Ng==
-X-Gm-Message-State: ACrzQf3PzuAGdoI02Tg/v3CRcNMaeuUxfx6semimIuL3HVxHSU8dUxED
-	6cHv8iIzFaMAzLzL9ZoIN9A=
-X-Google-Smtp-Source: AMsMyM4Hal06sSQlltivoSRwABRZNw7j5y0WXHlKbBs7PskOstZToKQ3evFKWm0LMW5XFjXVCJG+Pg==
-X-Received: by 2002:a05:600c:1589:b0:3b4:fe4a:c225 with SMTP id r9-20020a05600c158900b003b4fe4ac225mr9923953wmf.150.1664436871216;
-        Thu, 29 Sep 2022 00:34:31 -0700 (PDT)
-Received: from [192.168.64.53] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id e6-20020a05600c4b8600b003b482fbd93bsm3450329wmp.24.2022.09.29.00.34.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Sep 2022 00:34:30 -0700 (PDT)
-Message-ID: <550f878d-8931-2264-2802-758ba0258b1d@grimberg.me>
-Date: Thu, 29 Sep 2022 10:34:29 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2] nvme-multipath: fix possible hang in live ns resize
- with ANA access
-Content-Language: en-US
-To: Chao Leng <lengchao@huawei.com>, linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- Hannes Reinecke <hare@suse.de>, Yogev Cohen <yogev@lightbitslabs.com>
-References: <20220928201031.166876-1-sagi@grimberg.me>
- <dc0c4500-957b-b7f7-0cec-b26e11a138f7@huawei.com>
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=PuBkx3mIKlCuv/Ez7uR3bYwFT5/uX/i3LGQCMtKRQ9A=;
+        b=h8FL0KtV+1Rbv2goZdV72KGVwDkjsM1ma3RuRm3GCWePOgdfdFl2XCzKDFlnAPSoLu
+         hNh3DrC67fn0ns9mLllcZ8U0iDvA83Ha2IQM8yWE5EbL1o6G3R3/VfqwTNFk3SiS2TX2
+         cUXA+hoVANcLWHjVvPC7OqoMIzDeXhHI4206B0g3VxQsyK/4JevHPW95levpx0xgglKF
+         719qL1SjOLKNFKbVWQJFGwfhs3DuTHgDtXgUM2PMFd2Wb/PuT2wtub2WupTFddtU8G+t
+         wmx3YcQ5R3T3PDFq7SSLsX9tX7j5cpwaOFaXI0YkNEMp4DwhAdqlje7xRCB0wFlAjjwW
+         YVXQ==
+X-Gm-Message-State: ACrzQf1b4h62znT+eKYLBUTr8WaRisMAG7BAstWdxS8ye/1fDwdTYf6e
+	2MmAxP6SPRAXEnfEwneW3ZIBFDN+1F0=
+X-Google-Smtp-Source: AMsMyM5Eh4EAhONhGP+f3Ll9Pq13zlG1sAtU0ruf0WHyTUYVXCRbjPNo1xoHYywY/OxcEbEJ9yjP6g==
+X-Received: by 2002:a5d:6b82:0:b0:22c:cf67:3c05 with SMTP id n2-20020a5d6b82000000b0022ccf673c05mr1172874wrx.497.1664437008944;
+        Thu, 29 Sep 2022 00:36:48 -0700 (PDT)
+Received: from localhost.localdomain (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id fc10-20020a05600c524a00b003b435c41103sm5350958wmb.0.2022.09.29.00.36.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Sep 2022 00:36:48 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <dc0c4500-957b-b7f7-0cec-b26e11a138f7@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+	Hannes Reinecke <hare@suse.de>,
+	Yogev Cohen <yogev@lightbitslabs.com>
+Subject: [PATCH v3] nvme-multipath: fix possible hang in live ns resize with ANA access
+Date: Thu, 29 Sep 2022 10:36:47 +0300
+Message-Id: <20220929073647.171775-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220929_003434_840786_457B0F20 
-X-CRM114-Status: GOOD (  22.46  )
+X-CRM114-CacheID: sfid-20220929_003652_241313_C08D8B2D 
+X-CRM114-Status: GOOD (  14.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,85 +77,70 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+When we revalidate paths as part of ns size change (as of commit
+e7d65803e2bb), it is possible that during the path revalidation, the
+only paths that is IO capable (i.e. optimized/non-optimized) are the
+ones that ns resize was not yet informed to the host, which will cause
+inflight requests to be requeued (as we have available paths but none
+are IO capable). These requests on the requeue list are waiting for
+someone to resubmit them at some point.
 
+The IO capable paths will eventually notify the ns resize change to the
+host, but there is nothing that will kick the requeue list to resubmit
+the queued requests.
 
-On 9/29/22 04:32, Chao Leng wrote:
-> 
-> 
-> On 2022/9/29 4:10, Sagi Grimberg wrote:
->> When we revalidate paths as part of ns size change (as of commit
->> e7d65803e2bb), it is possible that during the path revalidation, the
->> only paths that is IO capable (i.e. optimized/non-optimized) are the
->> ones that ns resize was not yet informed to the host, which will cause
->> inflight requests to be requeued (as we have available paths but none
->> are IO capable). These requests on the requeue list are waiting for
->> someone to resubmit them at some point.
->>
->> The IO capable paths will eventually notify the ns resize change to the
->> host, but there is nothing that will kick the requeue list to resubmit
->> the queued requests.
->>
->> Fix this by always kicking the requeue list, and if no IO capable path
->> exists, these requests will just end up being queued again.
->>
->> A typical log that indicates that IOs are requeued:
->> -- 
->> nvme nvme1: creating 4 I/O queues.
->> nvme nvme1: new ctrl: "testnqn1"
->> nvme nvme2: creating 4 I/O queues.
->> nvme nvme2: mapped 4/0/0 default/read/poll queues.
->> nvme nvme2: new ctrl: NQN "testnqn1", addr 127.0.0.1:8009
->> nvme nvme1: rescanning namespaces.
->> nvme1n1: detected capacity change from 2097152 to 4194304
->> block nvme1n1: no usable path - requeuing I/O
->> block nvme1n1: no usable path - requeuing I/O
->> block nvme1n1: no usable path - requeuing I/O
->> block nvme1n1: no usable path - requeuing I/O
->> block nvme1n1: no usable path - requeuing I/O
->> block nvme1n1: no usable path - requeuing I/O
->> block nvme1n1: no usable path - requeuing I/O
->> block nvme1n1: no usable path - requeuing I/O
->> block nvme1n1: no usable path - requeuing I/O
->> block nvme1n1: no usable path - requeuing I/O
->> nvme nvme2: rescanning namespaces.
->> -- 
->>
->> Reported-by: Yogev Cohen <yogev@lightbitslabs.com>
->> Fixes: e7d65803e2bb ("nvme-multipath: revalidate paths during rescan")
->> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
->> ---
->> Changes from v1:
->> - fix commit msg body format
->> - follow reverse-xmas declaration pattern
->>
->>   drivers/nvme/host/multipath.c | 8 +++++---
->>   1 file changed, 5 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/nvme/host/multipath.c 
->> b/drivers/nvme/host/multipath.c
->> index 6ef497c75a16..1113139c9736 100644
->> --- a/drivers/nvme/host/multipath.c
->> +++ b/drivers/nvme/host/multipath.c
->> @@ -173,15 +173,17 @@ void nvme_mpath_revalidate_paths(struct nvme_ns 
->> *ns)
->>   {
->>       struct nvme_ns_head *head = ns->head;
->>       sector_t capacity = get_capacity(head->disk);
->> +    struct nvme_ns *n;
->>       int node;
->> -    list_for_each_entry_rcu(ns, &head->list, siblings) {
->> -        if (capacity != get_capacity(ns->disk))
->> -            clear_bit(NVME_NS_READY, &ns->flags);
->> +    list_for_each_entry_rcu(n, &head->list, siblings) {
->> +        if (capacity != get_capacity(n->disk))
->> +            clear_bit(NVME_NS_READY, &n->flags);
->>       }
->>       for_each_node(node)
->>           rcu_assign_pointer(head->current_path[node], NULL);
->> +    nvme_kick_requeue_lists(ns->ctrl);
-> We just need to schedule the requeue_work of the head instead of all heads.
-> we can do like this:
->    kblockd_schedule_work(&head->requeue_work);
+Fix this by always kicking the requeue list, and if no IO capable path
+exists, these requests will be queued again.
 
-Yes, you're right, that is simpler to do. I'll send a v3.
+A typical log that indicates that IOs are requeued:
+--
+nvme nvme1: creating 4 I/O queues.
+nvme nvme1: new ctrl: "testnqn1"
+nvme nvme2: creating 4 I/O queues.
+nvme nvme2: mapped 4/0/0 default/read/poll queues.
+nvme nvme2: new ctrl: NQN "testnqn1", addr 127.0.0.1:8009
+nvme nvme1: rescanning namespaces.
+nvme1n1: detected capacity change from 2097152 to 4194304
+block nvme1n1: no usable path - requeuing I/O
+block nvme1n1: no usable path - requeuing I/O
+block nvme1n1: no usable path - requeuing I/O
+block nvme1n1: no usable path - requeuing I/O
+block nvme1n1: no usable path - requeuing I/O
+block nvme1n1: no usable path - requeuing I/O
+block nvme1n1: no usable path - requeuing I/O
+block nvme1n1: no usable path - requeuing I/O
+block nvme1n1: no usable path - requeuing I/O
+block nvme1n1: no usable path - requeuing I/O
+nvme nvme2: rescanning namespaces.
+--
+
+Reported-by: Yogev Cohen <yogev@lightbitslabs.com>
+Fixes: e7d65803e2bb ("nvme-multipath: revalidate paths during rescan")
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+---
+Changes from v2:
+- just schedule head->requeue_work instead of calling nvme_kick_requeue_list
+
+Changes from v1:
+- fix commit msg body format
+- follow reverse-xmas declaration pattern
+
+ drivers/nvme/host/multipath.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 6ef497c75a16..b9cf17cbbbd5 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -182,6 +182,7 @@ void nvme_mpath_revalidate_paths(struct nvme_ns *ns)
+ 
+ 	for_each_node(node)
+ 		rcu_assign_pointer(head->current_path[node], NULL);
++	kblockd_schedule_work(&head->requeue_work);
+ }
+ 
+ static bool nvme_path_is_disabled(struct nvme_ns *ns)
+-- 
+2.34.1
+
 
