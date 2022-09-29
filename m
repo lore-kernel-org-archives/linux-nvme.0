@@ -4,82 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE74DC433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Sep 2022 15:10:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4341EC433FE
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Sep 2022 16:14:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=w50MylxXfZ4vHg0qzFBvUsz2PdC4z5idp77wnharSgw=; b=XmaiGintTMmcOyAHUHwYGZEWsW
-	uGDaCI55faG98CV9H+RPElEMflzRP+6cDCq/z/WJSpfnMrTq+AXeP0lgNROYeo2wRCeoAzI+RI8Sk
-	8m97J9/Jl+5xWH8BgrqQnScmivgagwWuXRIuVK0sctCXbJFoz1RcC92Ln98aW6KMv4tGy/KeSiEo9
-	1ZG/zUCtmpB53kG7dMzWHYI+J9j8d+5cqPC67o9n0eKV9jwLztDFZWSakpMWBb8+Mv9jf7Eg4Ht6a
-	9AtfQIc848H4eRcuz/540lXA2hLE3g8w3p2s+uc2DloNRAeKNkj37y8t+4aO1DdS3xW1gqLzU17at
-	//nwim7g==;
+	bh=zRNiACsJhBNwJLyxdj4fXSeO8OY9w/BNHd9o7EsaQjs=; b=s2WNXmTqVbXXTf4qXV0BsHI4mR
+	xhqY7YYFTt1x/aiJqgFkPHy5aI4NZY4lzOGPRupgbK+w9lHDXIwNQWNDxtWf/kfQTMsdxyoUh8vkL
+	cEIYjWlH0HvDhpvkOFe6moT4z5JCyYxFkhThZ7k6KlYVZMZVv+VvbY7kqyqvkBnPcfrkUnRvGQYtV
+	5uTmOl0sPV2AdI1UahfRJ5l/BxZ6S0gkSCwS6Gn4+1ow62H2g0ME/RB9FLzbLsvPKVDPPWO48hXX2
+	jVUHArQQThiuMTp6zp/oi9dLODzaLSzXmF+XL4ysQuwMGaErm2Tze1DiPEfMlXOFePjekYYvN+B09
+	zKw+RBIQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odvBX-003mil-6C; Thu, 29 Sep 2022 15:10:47 +0000
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+	id 1odwBE-00455Q-Od; Thu, 29 Sep 2022 16:14:32 +0000
+Received: from mail-wr1-f51.google.com ([209.85.221.51])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odvBV-003mgg-0j
-	for linux-nvme@lists.infradead.org; Thu, 29 Sep 2022 15:10:46 +0000
-Received: by mail-pj1-x102e.google.com with SMTP id v10-20020a17090a634a00b00205e48cf845so6216227pjs.4
-        for <linux-nvme@lists.infradead.org>; Thu, 29 Sep 2022 08:10:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=w50MylxXfZ4vHg0qzFBvUsz2PdC4z5idp77wnharSgw=;
-        b=HDvQ0YaKEum0HowdgHXRtOqLXApElq2HtUWAJ/3MVCXC4neQYXCGqe2K/ziKBpWCjF
-         pjACCucLlqWu573u5O11n+0NBhF6ZvgnUy3OKppOVEkJqChMLzl0Y30f0LlWdxH2bXCr
-         S5M6OuNNdRooH3feqjQtd/IDK2PsL7c2M9qz673p99Mhrl6FtjE3PbXdgtDsv7zZ7NQg
-         dCLWzbiXJInhbF8NrwoCxY4Q6IQOaaEOHlnz3KSUUKWZ2LrCWBt1MMmHtS6xwLcDoISK
-         zGeJbZnwb9SDnq1tSRKN1D9torv656jcDMQ7nf6s+B9dQxpTQ0viC5tLc1tu9LdptDfw
-         uzlQ==
+	id 1odwBA-00451u-TP
+	for linux-nvme@lists.infradead.org; Thu, 29 Sep 2022 16:14:31 +0000
+Received: by mail-wr1-f51.google.com with SMTP id bk15so2932355wrb.13
+        for <linux-nvme@lists.infradead.org>; Thu, 29 Sep 2022 09:14:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=w50MylxXfZ4vHg0qzFBvUsz2PdC4z5idp77wnharSgw=;
-        b=LV3CVLKQSPKQ99S/fVwzJenzmiBs/5l9uRmMrGn4fHIOnahacs6N1UB85z3ayB/FmT
-         H6kgjDCu00heFpWRLR3A/CpHNJnthv5y/gYIwVu8HwXgnJl5sBgDngWMHGiTc9+WFdNQ
-         KLZUZecEvPgMDrXlQCa6vKlTnMMCiSMEnkadr/KAJ3IGayDzVbyEgf8gZO0H3YDbg3an
-         IRdheI/BUoivSMohiPxb9B8BB6aRtziQwv4//JOziXje7cBwQZBPDTfPttfrjiQpSCOA
-         nLHGtGoPYYuu6TREK45MQWioIHd5FUVYYpuQhBybg6rEDDhqK+6qF0OcXMxFy7KpmRon
-         2CNA==
-X-Gm-Message-State: ACrzQf0OAEen7Z0bR17a86kqdtG77jxmvBANfKgghmXx5og6zmics5VE
-	+fHakTncFaQ1lrmkIGSnY9jjhQ==
-X-Google-Smtp-Source: AMsMyM6ryP/KZf4Ql4/N5W72UfQpkoC2AwI6/M/ao4IXAK709OOvglJRoFV+mkbDxcPec1Xs6k5I+Q==
-X-Received: by 2002:a17:90b:2644:b0:1fa:e0be:4dcb with SMTP id pa4-20020a17090b264400b001fae0be4dcbmr4168983pjb.85.1664464241240;
-        Thu, 29 Sep 2022 08:10:41 -0700 (PDT)
-Received: from [192.168.1.136] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id s3-20020a170902ea0300b001782977fbcdsm6105629plg.206.2022.09.29.08.10.40
+        bh=zRNiACsJhBNwJLyxdj4fXSeO8OY9w/BNHd9o7EsaQjs=;
+        b=sEl6e1OzoqbphxGn0Ct3Ky8/I/C+SBJpyxBkHa64vlnTK9lmPZZd9FsZD831CwxUg7
+         d/VgLqwNCkZRoZGSCEqwiVqRanJCyW+DRUyprpd2zcu8c0QthyS33hd2vVT9gGvomgCe
+         m3kJOs4FwP19QXZZWvKB962W6x5ZayMQoHrPzf999yCTVeGzTKnC+TxHIKh7JvUCrmnK
+         pmyHUoQfAtmveaVC5lBoKuPxxyYVR+EnEoFJ0Ym9j/i8pQGk7DIsKAioIVlQ7X5rcne4
+         sXW1UkYqsRrqt1PvTgPGZXuB6qWLF7AapzAKcQWMlTQnUpQkT815klayIK1t8yuEtLK0
+         rpQg==
+X-Gm-Message-State: ACrzQf2ZsvH7y7tkkQmzhlBXHnhYESYL1BOzpsHOsAKl9a8u4/l3BfFv
+	KXkTXyKQzcewbQQSNX2YIkI=
+X-Google-Smtp-Source: AMsMyM7jLXjhnuLLrBNRhEDkP/c3459iKiT9VPPid2SuOetdwAh5j7XhdUFGfLTh523DISz98fDnXg==
+X-Received: by 2002:a5d:6da7:0:b0:226:e081:941a with SMTP id u7-20020a5d6da7000000b00226e081941amr2981557wrs.642.1664468066059;
+        Thu, 29 Sep 2022 09:14:26 -0700 (PDT)
+Received: from [192.168.64.53] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id s3-20020adff803000000b00228aea99efcsm4009634wrp.14.2022.09.29.09.14.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Sep 2022 08:10:40 -0700 (PDT)
-Message-ID: <9fa7658b-0bb3-7828-f0d9-3b9f645defa8@kernel.dk>
-Date: Thu, 29 Sep 2022 09:10:39 -0600
+        Thu, 29 Sep 2022 09:14:25 -0700 (PDT)
+Message-ID: <1b7feff8-48a4-6cd2-5a44-28a499630132@grimberg.me>
+Date: Thu, 29 Sep 2022 19:14:23 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [GIT PULL] nvme fixes for Linux 6.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH rfc] nvme: support io stats on the mpath device
 Content-Language: en-US
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org
-References: <YzWzhIAX+vtSmo39@infradead.org>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <YzWzhIAX+vtSmo39@infradead.org>
-Content-Type: text/plain; charset=UTF-8
+To: Keith Busch <kbusch@kernel.org>
+Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+ Hannes Reinecke <hare@suse.de>
+References: <20220928195510.165062-1-sagi@grimberg.me>
+ <20220928195510.165062-2-sagi@grimberg.me>
+ <760a7129-945c-35fa-6bd6-aa315d717bc5@nvidia.com>
+ <a3d619a3-ccae-69ea-3e2c-9acff7b97d92@grimberg.me>
+ <YzWzvOKgoAqltAA0@kbusch-mbp.dhcp.thefacebook.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <YzWzvOKgoAqltAA0@kbusch-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220929_081045_081903_BB676327 
-X-CRM114-Status: UNSURE (   9.54  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220929_091429_013620_5E36629F 
+X-CRM114-Status: GOOD (  13.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,19 +87,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/29/22 9:02 AM, Christoph Hellwig wrote:
-> The following changes since commit 4c66a326b5ab784cddd72de07ac5b6210e9e1b06:
+
+>>> 3. Do you have some performance numbers (we're touching the fast path
+>>> here) ?
+>>
+>> This is pretty light-weight, accounting is per-cpu and only wrapped by
+>> preemption disable. This is a very small price to pay for what we gain.
 > 
->   Revert "block: freeze the queue earlier in del_gendisk" (2022-09-20 08:15:44 -0600)
+> It does add up, though, and some environments disable stats to skip the
+> overhead. At a minimum, you need to add a check for blk_queue_io_stat() before
+> assuming you need to account for stats.
 > 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-6.0-2022-09-29
+> Instead of duplicating the accounting, could you just have the stats file report
+> the sum of its hidden devices?
 
-Pulled, thanks.
+Interesting...
 
--- 
-Jens Axboe
-
-
+How do you suggest we do that? .collect_stats() callout in fops?
 
