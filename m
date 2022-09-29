@@ -4,133 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4BC78C07E9D
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Sep 2022 06:32:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5765C07E9D
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Sep 2022 07:34:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:CC:To:Subject:From:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=0ON8/mCjr5C3yURM9hVFRUO7gNPlxFnxKjNyT/NLCT8=; b=kwsy2hczcCdxTX
-	7Sp7MiHyUC0zoJ6fYx11BPgkEWCmm16ptWP9U0G3tXOZf0SEdwjxqLckUghFiwpgmr7eLt47Wd3yz
-	xL7fzFlP44syljQOeuougaEETMQFSh4XH+ukcnSsUCCbUasXLs8RUB32NkuepXBzrF9zrC3pWSBMV
-	CM8Jg3o70kJfqkRV34rqs4JAMHYZPy8arLye+7H6IRSEH3BSFNy7huRiSjB/dvhZ2/GNMz7b5Muk1
-	aANIr8vDPh00FQz4mKh8L6jZu4aF7l/eTrh2MciSTVKVwbVv+wDEMMgzKqtiaQTc52jDhrfUUiSz6
-	lXeH5YFwqRTC9PKx9ZOw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=rCea+yuMNfzqHczJpD3QZa/feznAa8hp0u8kN+n1uC0=; b=UjWe7P8g2QwmEz3G3SPWSXXZEY
+	SuEmt4IujFA8XVYHEedylS0wwJGQ8xVAXjP1LKNAKGuw/ZfYemmWAm2pU8Kuly0biGJm+lV2VmkjU
+	YM5B8n35j6nji2AdFj7g9qmoMcst2HN4kZ84KBdBATvxmUnU3ewDiBhIxZmIsBZChfux3pFHHrEaW
+	Wepur4xmCcxK1DeoW/mautj8XuL1Z3iBZOLawqtuqENHXcLx9cgjdJOW1Jp5+A0WAxUE29yxMzt9R
+	Fm2qqG6oI0Ygki79EYhEVjeb2VuJ0lw47bSfIkXR7efQEeA3aewKE43HNvNrgHYReNOi5dZfQOKTJ
+	MB/NgnbA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odn5d-001Pkz-3L; Thu, 29 Sep 2022 06:32:09 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1odo45-001aim-FN; Thu, 29 Sep 2022 07:34:37 +0000
+Received: from mail-wm1-f46.google.com ([209.85.128.46])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odn5W-001Pk5-Ni
-	for linux-nvme@lists.infradead.org; Thu, 29 Sep 2022 06:32:04 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20220929063159euoutp02c9960d8aae477f4ff55595ea6993951c~ZQRqBWbFB1057010570euoutp02c
-	for <linux-nvme@lists.infradead.org>; Thu, 29 Sep 2022 06:31:59 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20220929063159euoutp02c9960d8aae477f4ff55595ea6993951c~ZQRqBWbFB1057010570euoutp02c
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1664433119;
-	bh=0ON8/mCjr5C3yURM9hVFRUO7gNPlxFnxKjNyT/NLCT8=;
-	h=Date:From:Subject:To:CC:In-Reply-To:References:From;
-	b=EP9zAC9LcGYRnvhaaHfv/har743gd6ShjZuscW8lFI7jdTEbX+epY957BWBXzxYRe
-	 L2FvxqgTgVFAbune9jGxhomIs7OExDB63ieadLVb4BnFBPAUkOKao9c8dnxqEW/uQN
-	 6Wql4fXVQMOLG9Sw17ofkXM8c2TEQh3V5GDfxxxc=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20220929063158eucas1p2e9dfe7e042f4407b1a8bc83acf6b1bc2~ZQRpoIge52200622006eucas1p2v;
-	Thu, 29 Sep 2022 06:31:58 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges3new.samsung.com (EUCPMTA) with SMTP id 8D.CB.19378.EDB35336; Thu, 29
-	Sep 2022 07:31:58 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20220929063158eucas1p1504a8b7423d26e3d427ff32a22f2d70b~ZQRpQs4MM1792417924eucas1p1V;
-	Thu, 29 Sep 2022 06:31:58 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20220929063158eusmtrp192f85e25440ac5cdf854e3c85b84e268~ZQRpPvFps1200512005eusmtrp1J;
-	Thu, 29 Sep 2022 06:31:58 +0000 (GMT)
-X-AuditID: cbfec7f5-a35ff70000014bb2-2b-63353bdec0a6
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-	eusmgms2.samsung.com (EUCPMTA) with SMTP id 31.79.10862.EDB35336; Thu, 29
-	Sep 2022 07:31:58 +0100 (BST)
-Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20220929063158eusmtip167fe71d619027c04012f0cb080b70c37~ZQRpBlKjj1340213402eusmtip15;
-	Thu, 29 Sep 2022 06:31:58 +0000 (GMT)
-Received: from [192.168.8.130] (106.210.248.168) by CAMSVWEXC01.scsc.local
-	(2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Thu, 29 Sep 2022 07:31:56 +0100
-Message-ID: <5e9d678f-ffea-e015-53d8-7e80f3deda1e@samsung.com>
-Date: Thu, 29 Sep 2022 08:31:55 +0200
+	id 1odo42-001agK-PJ
+	for linux-nvme@lists.infradead.org; Thu, 29 Sep 2022 07:34:36 +0000
+Received: by mail-wm1-f46.google.com with SMTP id z13-20020a7bc7cd000000b003b5054c6f9bso2684688wmk.2
+        for <linux-nvme@lists.infradead.org>; Thu, 29 Sep 2022 00:34:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=rCea+yuMNfzqHczJpD3QZa/feznAa8hp0u8kN+n1uC0=;
+        b=vHtQCUPzKiSvWXZf5jywoH6uJHpQZwJIRPJcCIrM6zZxoqw4Kncx8uvbyef2IP4J+i
+         UmLW54DWFPCeKvCHApgkfnnKrcTO52sa2lOZfAsjViSwOoWbiQi3btTXKPqQzMH4pspD
+         zhBhHND0pVNIubYBgv1J2rnirHaPZDlrB6cpfQHq/UwoaU9ypkgzsTaPbg04khFfHN+D
+         +Yi0jt2N7h1eim+8+smexl950Ui5SKUnFx1ftvQWFY8uwfpTaNbcbASaljvV0olk28gH
+         txpqzAJSn7x/cURdkiIm6/7Ej3wviQdI6CFxSDjAGRL00cAdVtnco3EvuQuHewo1erG9
+         L+Ng==
+X-Gm-Message-State: ACrzQf3PzuAGdoI02Tg/v3CRcNMaeuUxfx6semimIuL3HVxHSU8dUxED
+	6cHv8iIzFaMAzLzL9ZoIN9A=
+X-Google-Smtp-Source: AMsMyM4Hal06sSQlltivoSRwABRZNw7j5y0WXHlKbBs7PskOstZToKQ3evFKWm0LMW5XFjXVCJG+Pg==
+X-Received: by 2002:a05:600c:1589:b0:3b4:fe4a:c225 with SMTP id r9-20020a05600c158900b003b4fe4ac225mr9923953wmf.150.1664436871216;
+        Thu, 29 Sep 2022 00:34:31 -0700 (PDT)
+Received: from [192.168.64.53] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id e6-20020a05600c4b8600b003b482fbd93bsm3450329wmp.24.2022.09.29.00.34.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Sep 2022 00:34:30 -0700 (PDT)
+Message-ID: <550f878d-8931-2264-2802-758ba0258b1d@grimberg.me>
+Date: Thu, 29 Sep 2022 10:34:29 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
-	Thunderbird/91.11.0
-From: Pankaj Raghav <p.raghav@samsung.com>
-Subject: Re: [PATCH v15 00/13] support zoned block devices with
- non-power-of-2 zone sizes
-To: <axboe@kernel.dk>, <hch@lst.de>, Keith Busch <kbusch@kernel.org>
-CC: <jaegeuk@kernel.org>, <agk@redhat.com>, <gost.dev@samsung.com>,
-	<snitzer@kernel.org>, <damien.lemoal@opensource.wdc.com>,
-	<bvanassche@acm.org>, <linux-kernel@vger.kernel.org>, <hare@suse.de>,
-	<matias.bjorling@wdc.com>, <Johannes.Thumshirn@wdc.com>,
-	<linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
-	<pankydev8@gmail.com>, <dm-devel@redhat.com>
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2] nvme-multipath: fix possible hang in live ns resize
+ with ANA access
 Content-Language: en-US
-In-Reply-To: <20220923173618.6899-1-p.raghav@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [106.210.248.168]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
-	CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMKsWRmVeSWpSXmKPExsWy7djPc7r3rE2TDVY/NbZYf+oYs8Xqu/1s
-	FtM+/GS2+H32PLPF3nezWS32LJrEZLFy9VEmiyfrZzFb/O26x2Qx6dA1Rou9t7QtLu+aw2Yx
-	f9lTdosJbV+ZLdbcfMpiceKWtIOAx+Ur3h47Z91l97h8ttRj06pONo/NS+o9dt9sYPPY2Xqf
-	1eP9vqtAodPVHp83yXm0H+hmCuCO4rJJSc3JLEst0rdL4Mo4f+8dW8FlxorGPfoNjHMZuxg5
-	OSQETCQmbXvO2sXIxSEksIJR4sm1OewQzhdGif+L9zFDOJ8ZJWY+38MM09LW+ZUFIrGcUWJR
-	1xMWuKrOK01Q/bsZJXo79gK1cHDwCthJXD6bA9LNIqAq8XzHXLBJvAKCEidngjRzcogKREqs
-	2X2WHaScTUBLorGTHSQsLBAt8eDQFyYQW0TAReJm7yGwi5gFvjBJzL++mxUkwSwgLnHryXwm
-	kF5OAUuJ/sYaiLCmROv23+wQtrzE9rdzoB5Qllh+eiaUXSux9tgZsJMlBJ5xSvx5/YgNIuEi
-	8ebPOiYIW1ji1fEt7BC2jMTpyT0sEHa1xNMbv5khmlsYJfp3rmcDOUJCwFqi70wORI2jxMfD
-	T9ghwnwSN94KQtzDBwz36cwTGFVnIYXELCTfzELywiwkLyxgZFnFKJ5aWpybnlpsnJdarlec
-	mFtcmpeul5yfu4kRmA5P/zv+dQfjilcf9Q4xMnEwHmKU4GBWEuH9fdQwWYg3JbGyKrUoP76o
-	NCe1+BCjNAeLkjgv2wytZCGB9MSS1OzU1ILUIpgsEwenVAPTzLinYkkbJcWuWLmaTWic0pdS
-	Z/PB//u5c4cFrdsul/2bduqk/OqDhXFxM2ql9nyfa+sicMv4/c9v8srR8yRK51xeFbG478NJ
-	J4/OK893ijVOO1t4apeFw80g8/Taab9LF/+IuxSuvaqUxfiI9AFjruPJJw9/qlvAejv14k3e
-	cw83vl639y3/c4VnpWdFd7zOTFJtj9gg+Gk7+4qnS0NKPftDFt26yG+gxL9zf77NU70SId20
-	xiiuM22e5UbvdfOlJnVKuOd6CUgEpB891yNS9trtxZ9t/ww0p6xqmNXZFX4jtneybDTzmzaX
-	qQ9PqyufeLDJbavl8hvL+VPU6je785n4RlfZaa3+/KTj4gY9JZbijERDLeai4kQAaSGnVvYD
-	AAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBKsWRmVeSWpSXmKPExsVy+t/xu7r3rE2TDY5ekrJYf+oYs8Xqu/1s
-	FtM+/GS2+H32PLPF3nezWS32LJrEZLFy9VEmiyfrZzFb/O26x2Qx6dA1Rou9t7QtLu+aw2Yx
-	f9lTdosJbV+ZLdbcfMpiceKWtIOAx+Ur3h47Z91l97h8ttRj06pONo/NS+o9dt9sYPPY2Xqf
-	1eP9vqtAodPVHp83yXm0H+hmCuCO0rMpyi8tSVXIyC8usVWKNrQw0jO0tNAzMrHUMzQ2j7Uy
-	MlXSt7NJSc3JLEst0rdL0Ms4f+8dW8FlxorGPfoNjHMZuxg5OSQETCTaOr+ydDFycQgJLGWU
-	+LDtHRNEQkbi05WP7BC2sMSfa11sEEUfGSXOn9wA1bGbUWLWnZVAGQ4OXgE7ictnc0AaWARU
-	JZ7vmMsMYvMKCEqcnPmEBcQWFYiUeLisiQmknE1AS6KxE2y+sEC0xOUzT9hAbBEBF4mbvYeY
-	QcYzC3xhkph/fTcrxK4eRomFy7eCdTALiEvcejIfbBCngKVEf2MNRFhTonX7b6gSeYntb+cw
-	QzygLLH89Ewou1bi1f3djBMYRWchOW8WkqmzkIyahWTUAkaWVYwiqaXFuem5xUZ6xYm5xaV5
-	6XrJ+bmbGIFJZNuxn1t2MK589VHvECMTB+MhRgkOZiUR3t9HDZOFeFMSK6tSi/Lji0pzUosP
-	MZoCw2gis5Rocj4wjeWVxBuaGZgamphZGphamhkrifN6FnQkCgmkJ5akZqemFqQWwfQxcXBK
-	NTClHXvtNfHVFvEXvB5mL6dLqhZuKAlh/Wi05NxF5Z3fIv5XzDtzQCzpXpdNRDGD3K0SObZH
-	7Pwf7p0XnM/71ats1syjUdfXtVtqMij5Jr5MLHHpFzi45lBcmATjhdezFM43qYhsvFuvuPDd
-	ga2W+VekHm1Vcps1W26BR8OiLPfP5yNetqSnyq5/H52UP/Uyo4/ywvmdW/czneyaKKvosIYv
-	eP/UatPgwt/7phVNC536YI1b7OEf9tq2bT5bZytK/Xu3o6DCziLk0uqgvmi/qGjfBMM5me+/
-	b7U2EHb6E75t9Rnn5z2qijwh9ie+aRzPfKjPp2nqknCd/+tNPU9Vx2vxuR1aDaLls9d+/+4b
-	1aDEUpyRaKjFXFScCADA9Ta9qwMAAA==
-X-CMS-MailID: 20220929063158eucas1p1504a8b7423d26e3d427ff32a22f2d70b
-X-Msg-Generator: CA
-X-RootMTR: 20220923173619eucas1p13e645adbe1c8eb62fb48b52c0248ed65
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220923173619eucas1p13e645adbe1c8eb62fb48b52c0248ed65
-References: <CGME20220923173619eucas1p13e645adbe1c8eb62fb48b52c0248ed65@eucas1p1.samsung.com>
-	<20220923173618.6899-1-p.raghav@samsung.com>
+To: Chao Leng <lengchao@huawei.com>, linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ Hannes Reinecke <hare@suse.de>, Yogev Cohen <yogev@lightbitslabs.com>
+References: <20220928201031.166876-1-sagi@grimberg.me>
+ <dc0c4500-957b-b7f7-0cec-b26e11a138f7@huawei.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <dc0c4500-957b-b7f7-0cec-b26e11a138f7@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220928_233203_211097_651FEC09 
-X-CRM114-Status: UNSURE (   9.53  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220929_003434_840786_457B0F20 
+X-CRM114-Status: GOOD (  22.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -145,14 +83,85 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> Hi Jens,
->   Please consider this patch series for the 6.1 release.
+
+
+On 9/29/22 04:32, Chao Leng wrote:
 > 
+> 
+> On 2022/9/29 4:10, Sagi Grimberg wrote:
+>> When we revalidate paths as part of ns size change (as of commit
+>> e7d65803e2bb), it is possible that during the path revalidation, the
+>> only paths that is IO capable (i.e. optimized/non-optimized) are the
+>> ones that ns resize was not yet informed to the host, which will cause
+>> inflight requests to be requeued (as we have available paths but none
+>> are IO capable). These requests on the requeue list are waiting for
+>> someone to resubmit them at some point.
+>>
+>> The IO capable paths will eventually notify the ns resize change to the
+>> host, but there is nothing that will kick the requeue list to resubmit
+>> the queued requests.
+>>
+>> Fix this by always kicking the requeue list, and if no IO capable path
+>> exists, these requests will just end up being queued again.
+>>
+>> A typical log that indicates that IOs are requeued:
+>> -- 
+>> nvme nvme1: creating 4 I/O queues.
+>> nvme nvme1: new ctrl: "testnqn1"
+>> nvme nvme2: creating 4 I/O queues.
+>> nvme nvme2: mapped 4/0/0 default/read/poll queues.
+>> nvme nvme2: new ctrl: NQN "testnqn1", addr 127.0.0.1:8009
+>> nvme nvme1: rescanning namespaces.
+>> nvme1n1: detected capacity change from 2097152 to 4194304
+>> block nvme1n1: no usable path - requeuing I/O
+>> block nvme1n1: no usable path - requeuing I/O
+>> block nvme1n1: no usable path - requeuing I/O
+>> block nvme1n1: no usable path - requeuing I/O
+>> block nvme1n1: no usable path - requeuing I/O
+>> block nvme1n1: no usable path - requeuing I/O
+>> block nvme1n1: no usable path - requeuing I/O
+>> block nvme1n1: no usable path - requeuing I/O
+>> block nvme1n1: no usable path - requeuing I/O
+>> block nvme1n1: no usable path - requeuing I/O
+>> nvme nvme2: rescanning namespaces.
+>> -- 
+>>
+>> Reported-by: Yogev Cohen <yogev@lightbitslabs.com>
+>> Fixes: e7d65803e2bb ("nvme-multipath: revalidate paths during rescan")
+>> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+>> ---
+>> Changes from v1:
+>> - fix commit msg body format
+>> - follow reverse-xmas declaration pattern
+>>
+>>   drivers/nvme/host/multipath.c | 8 +++++---
+>>   1 file changed, 5 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/multipath.c 
+>> b/drivers/nvme/host/multipath.c
+>> index 6ef497c75a16..1113139c9736 100644
+>> --- a/drivers/nvme/host/multipath.c
+>> +++ b/drivers/nvme/host/multipath.c
+>> @@ -173,15 +173,17 @@ void nvme_mpath_revalidate_paths(struct nvme_ns 
+>> *ns)
+>>   {
+>>       struct nvme_ns_head *head = ns->head;
+>>       sector_t capacity = get_capacity(head->disk);
+>> +    struct nvme_ns *n;
+>>       int node;
+>> -    list_for_each_entry_rcu(ns, &head->list, siblings) {
+>> -        if (capacity != get_capacity(ns->disk))
+>> -            clear_bit(NVME_NS_READY, &ns->flags);
+>> +    list_for_each_entry_rcu(n, &head->list, siblings) {
+>> +        if (capacity != get_capacity(n->disk))
+>> +            clear_bit(NVME_NS_READY, &n->flags);
+>>       }
+>>       for_each_node(node)
+>>           rcu_assign_pointer(head->current_path[node], NULL);
+>> +    nvme_kick_requeue_lists(ns->ctrl);
+> We just need to schedule the requeue_work of the head instead of all heads.
+> we can do like this:
+>    kblockd_schedule_work(&head->requeue_work);
 
-Hi Jens, Christoph, and Keith,
- All the patches have a Reviewed-by tag at this point. Can we queue this up
-for 6.1?
-
---
-Pankaj
+Yes, you're right, that is simpler to do. I'll send a v3.
 
