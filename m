@@ -4,121 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11942C433FE
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Sep 2022 12:27:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16B6FC433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Sep 2022 13:25:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kslegbVgJtIIf+TJbQuizRtJPWkwJq7sepMKs3FyoAI=; b=iiOUYt/LzXRcJwz625l+3MvX3o
-	nm12/VJhWjHWvrfEpEfX7WE9TNLLNrcw7KLWykeJMrH2+oqJsVohZ1zSe6lepaQyhtQlw0pZXjhg/
-	sYQ/yHxaKBWljVpxYRPjA3ofuYvxfun+c881//RV4McAuM+AjEUQSsW3PQZFG4g1fNQMUgwtxrUL2
-	6ws0YbYZHioPKr9hwUpMQmZtrwzj+TiwSVt47UEYlVxoucpVNexRcmTxZS65UKPXRU9mCWwBBbNwF
-	FTwmW0m4TS3hWqT6uUkfbmrIJ7MzE/wDUMVaEShbuzUZbGCFrapzO7RVr4tkxmk8Btad50IEhcrSd
-	/LSDIz6w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3ZmYJL0Ziwt6ES9JIpqW9iPzXBfgVP93+BjsFUeivcQ=; b=OURxhomvz/3xtdughS9gMAgoLB
+	Pq7UivILyBY2QCsLwkNE8bMVqo2OuPpUsEbzcmHm3kBhQn1jSiAa0Ooohhpq+wTU+eAhK7PE2QURD
+	29zoYO87nqAcH/VkiviTl4k+sSCG1RHKk7Tm44Jy2mduKkgPL2pDEmUhvQ6/jZmZiLtnY+SM+jwpO
+	y+Ms0oUtCf2eKkTueKFqatTWx0bPuaSGtJ7zD8ZnzlvYFjVMUTHnkoUi1vnMemFVWwm/6ydz6s4kZ
+	lwSdpyb/nKAJ2WELUqQlxvvNiu665/8AA6P1YK+nsXr29cikQ4d3v4DlHCiI/eWq3Br0ZEYctPN5J
+	nlRjzCew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odsdC-002xMk-3G; Thu, 29 Sep 2022 12:27:10 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1odtXy-003GQv-Kt; Thu, 29 Sep 2022 13:25:50 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odsau-002wHq-O4
-	for linux-nvme@lists.infradead.org; Thu, 29 Sep 2022 12:24:50 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20220929122446epoutp0203b2a962e50aeb24ae012c63157d0748~ZVFr5UodC0891408914epoutp02Q
-	for <linux-nvme@lists.infradead.org>; Thu, 29 Sep 2022 12:24:46 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20220929122446epoutp0203b2a962e50aeb24ae012c63157d0748~ZVFr5UodC0891408914epoutp02Q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1664454287;
-	bh=kslegbVgJtIIf+TJbQuizRtJPWkwJq7sepMKs3FyoAI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=a6k9gGdBj2immi03/ArMkQnKrm0sMHHyoTTPR/5EIBMes3qy1RHroCRgjCo0/d/MP
-	 6a5FQ5bpDM6z27FwZzyC1DIXpBtZaeGOqH2/B0Nl4MtcWoElOU53huwCuDhh1nZmBL
-	 SddZk+2cm/Rrv3SBJe01V4XCeFvWFzXKa139SFFo=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20220929122446epcas5p2353f2f2284a5c794ab883c28b63ea082~ZVFrlMHKe2510225102epcas5p23;
-	Thu, 29 Sep 2022 12:24:46 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.176]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4MdXcD13mbz4x9Pp; Thu, 29 Sep
-	2022 12:24:44 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	27.43.26992.B8E85336; Thu, 29 Sep 2022 21:24:43 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20220929121715epcas5p488759f34f6e55d940c6dca523e24f464~ZU-Hb9wl03132331323epcas5p4J;
-	Thu, 29 Sep 2022 12:17:15 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20220929121715epsmtrp1cae91d15790f2c4884ffe2d3ef5f48e6~ZU-HbMwLp1820918209epsmtrp1_;
-	Thu, 29 Sep 2022 12:17:15 +0000 (GMT)
-X-AuditID: b6c32a49-319fb70000016970-a4-63358e8b83e7
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	B9.3C.18644.BCC85336; Thu, 29 Sep 2022 21:17:15 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.110.206.5]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20220929121714epsmtip1513c033d52b1dce33f68bee347e1822d~ZU-GHrcqK3029230292epsmtip11;
-	Thu, 29 Sep 2022 12:17:13 +0000 (GMT)
-From: Anuj Gupta <anuj20.g@samsung.com>
-To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	id 1odtXv-003GOz-KH
+	for linux-nvme@lists.infradead.org; Thu, 29 Sep 2022 13:25:49 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id B78D268BFE; Thu, 29 Sep 2022 15:25:38 +0200 (CEST)
+Date: Thu, 29 Sep 2022 15:25:38 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Anuj Gupta <anuj20.g@samsung.com>
+Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
+	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org, gost.dev@samsung.com,
-	linux-scsi@vger.kernel.org, Anuj Gupta <anuj20.g@samsung.com>
-Subject: [PATCH for-next v11 13/13] nvme: Use blk_rq_map_user_io helper
-Date: Thu, 29 Sep 2022 17:36:32 +0530
-Message-Id: <20220929120632.64749-14-anuj20.g@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220929120632.64749-1-anuj20.g@samsung.com>
+	linux-scsi@vger.kernel.org, Kanchan Joshi <joshi.k@samsung.com>
+Subject: Re: [PATCH for-next v11 04/13] nvme: refactor nvme_alloc_request
+Message-ID: <20220929132538.GA27768@lst.de>
+References: <20220929120632.64749-1-anuj20.g@samsung.com> <CGME20220929121643epcas5p4c58f6ebb794bde58981272cd33c69f9f@epcas5p4.samsung.com> <20220929120632.64749-5-anuj20.g@samsung.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprHJsWRmVeSWpSXmKPExsWy7bCmum53n2mywe4TWhZNE/4yW6y+289m
-	cfPATiaLlauPMlm8az3HYjHp0DVGi723tC3mL3vKbtF9fQebA6fH5bOlHptWdbJ5bF5S77H7
-	ZgObR9+WVYwenzfJBbBFZdtkpCampBYppOYl56dk5qXbKnkHxzvHm5oZGOoaWlqYKynkJeam
-	2iq5+AToumXmAJ2kpFCWmFMKFApILC5W0rezKcovLUlVyMgvLrFVSi1IySkwKdArTswtLs1L
-	18tLLbEyNDAwMgUqTMjOaD0xibXgBWfF2xf7GRsYf7B3MXJySAiYSBy8vZS5i5GLQ0hgN6PE
-	sp8NbBDOJ0aJfR1dTBDOZ0aJt6ePwbVsPfweKrGLUWL5kVcIVWdPTQWrYhNQlzjyvJURxBYR
-	MJLY/+kkK0gRs8AmRolf148xgSSEBdwlNm+5D1bEIqAq8ejtG1YQm1fASuLFzpVMEOvkJWZe
-	+g42lBMovvjaHKgaQYmTM5+wgNjMQDXNW2eDfSEh8JVd4tKHJhaIZheJW8+OQ90tLPHq+BYo
-	W0riZX8blJ0u8ePyU6hlBRLNx/YxQtj2Eq2n+oGGcgAt0JRYv0sfIiwrMfXUOiaIvXwSvb+f
-	QLXySuyYB2MrSbSvnANlS0jsPdcAZXtIHGzZDQ3gXkaJcx0PmCcwKsxC8s8sJP/MQli9gJF5
-	FaNkakFxbnpqsWmBYV5qOTyek/NzNzGCE6qW5w7Guw8+6B1iZOJgPMQowcGsJMIrXmCaLMSb
-	klhZlVqUH19UmpNafIjRFBjgE5mlRJPzgSk9ryTe0MTSwMTMzMzE0tjMUEmcd/EMrWQhgfTE
-	ktTs1NSC1CKYPiYOTqkGptr/n/cqFlwwOt8+b128bE0pj/E877md8zd2cn5T8LsXZXE051Ch
-	FfNDh+WXH3/00dzyfoGsR4eK0/Elh/JDmK+eO3Je6uvRewoBbzk3Mc8VNbpWkLsu1Yld8Zj7
-	PoUtHDuWHlc/GH5E1vPV5lu8CTYSTumr2BPcGfpq+hY85NY71GZxYsWE4HxPIW/f5xriu/wN
-	72ksvDi/+pCo7IW9+1LPzd/ecW7CUxFtTtamVK06C+t3n9+bzVpf9l12v7FAROb/zFb+S+WR
-	AkH2pgfeXt68VuJAfP3uy45s+jE27JceWbD9nHJWh6/aeuunAJcr+w1uTvu8pyxC49nmoyl7
-	lD04+B99EfeLVNmXPlnugxJLcUaioRZzUXEiAO9l1FwxBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrELMWRmVeSWpSXmKPExsWy7bCSnO7pHtNkg/fnpC2aJvxltlh9t5/N
-	4uaBnUwWK1cfZbJ413qOxWLSoWuMFntvaVvMX/aU3aL7+g42B06Py2dLPTat6mTz2Lyk3mP3
-	zQY2j74tqxg9Pm+SC2CL4rJJSc3JLEst0rdL4MpoPTGJteAFZ8XbF/sZGxh/sHcxcnJICJhI
-	bD38ngnEFhLYwSgx4wAXRFxC4tTLZYwQtrDEyn/Pgeq5gGo+Mkosv3QTrJlNQF3iyPNWsCIR
-	ATOJpYfXsIAUMYMMWvdsMVhCWMBdYvOW+2A2i4CqxKO3b1hBbF4BK4kXO1cyQWyQl5h56TvY
-	UE6g+OJrc4BqOIC2WUpsv6kAUS4ocXLmExYQmxmovHnrbOYJjAKzkKRmIUktYGRaxSiZWlCc
-	m55bbFhglJdarlecmFtcmpeul5yfu4kRHOxaWjsY96z6oHeIkYmD8RCjBAezkgiveIFpshBv
-	SmJlVWpRfnxRaU5q8SFGaQ4WJXHeC10n44UE0hNLUrNTUwtSi2CyTBycUg1Mi3clRk0SYV4b
-	kPrVI2qif/GzhKa2z/qCC+vU0/9P+X7tZfBhzz7f3fdymnR0lMT+FudO2vD0evUj10kvlstX
-	/5Hp/emSafP2icr2ZXttjx0P19TLnCPTn/tBYuGWxI9GmtY7Z3IdWGmj5jnVb9+phf8CFWt2
-	xfNsU/dd8SdePqqf9XXv0gD7g/Jzbs1a1+uzW6v8xWXJxOmTt329fe36jlX9Wx/yJq3R/1h4
-	5Pz/VaosB0+YrNk2d8H2bdwienN7J3bvXNkrzLJQtC8gKbfP8dpPx7Kf9esveBSJX5Tlm3P4
-	a87j9IBnqp+bmk4HcDR/fPrw4W/TaP+tizZmZDtdyxWIFGsvn39A8k/I/AlJvkosxRmJhlrM
-	RcWJALotnFDlAgAA
-X-CMS-MailID: 20220929121715epcas5p488759f34f6e55d940c6dca523e24f464
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220929121715epcas5p488759f34f6e55d940c6dca523e24f464
-References: <20220929120632.64749-1-anuj20.g@samsung.com>
-	<CGME20220929121715epcas5p488759f34f6e55d940c6dca523e24f464@epcas5p4.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220929120632.64749-5-anuj20.g@samsung.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220929_052449_189284_E150F11D 
-X-CRM114-Status: GOOD (  15.64  )
+X-CRM114-CacheID: sfid-20220929_062547_826470_9EACD324 
+X-CRM114-Status: GOOD (  10.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,45 +59,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-User blk_rq_map_user_io instead of duplicating the same code at
-different places
+On Thu, Sep 29, 2022 at 05:36:23PM +0530, Anuj Gupta wrote:
+> From: Kanchan Joshi <joshi.k@samsung.com>
+> 
+> nvme_alloc_request expects a large number of parameters.
+> Split this out into two functions to reduce number of parameters.
+> First one retains the name nvme_alloc_request, while second one is
+> named nvme_map_user_request.
 
-Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
----
- drivers/nvme/host/ioctl.c | 17 ++++-------------
- 1 file changed, 4 insertions(+), 13 deletions(-)
+Looks good:
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 25a68e8c60db..a3f22bbe511a 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -106,21 +106,12 @@ static int nvme_map_user_request(struct request *req, u64 ubuffer,
- 		if (ret < 0)
- 			goto out;
- 		ret = blk_rq_map_user_iov(q, req, NULL, &iter, GFP_KERNEL);
--	} else if (vec) {
--		struct iovec fast_iov[UIO_FASTIOV];
--		struct iovec *iov = fast_iov;
--		struct iov_iter iter;
--
--		ret = import_iovec(rq_data_dir(req), nvme_to_user_ptr(ubuffer),
--				bufflen, UIO_FASTIOV, &iov, &iter);
--		if (ret < 0)
--			goto out;
--		ret = blk_rq_map_user_iov(q, req, NULL, &iter, GFP_KERNEL);
--		kfree(iov);
- 	} else {
--		ret = blk_rq_map_user(q, req, NULL,
--				nvme_to_user_ptr(ubuffer), bufflen, GFP_KERNEL);
-+		ret = blk_rq_map_user_io(req, NULL, nvme_to_user_ptr(ubuffer),
-+				bufflen, GFP_KERNEL, vec, 0, 0,
-+				rq_data_dir(req));
- 	}
-+
- 	if (ret)
- 		goto out;
- 	bio = req->bio;
--- 
-2.25.1
-
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
