@@ -4,48 +4,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95BD5C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Sep 2022 13:29:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BF199C433FE
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Sep 2022 15:02:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dq8um0VwptWS6RMSlFJsJbhn79YmhbFxSVLGzJlDDn8=; b=dJF7ln7MmHJ0MKfUYc1VE/NerQ
-	Ss8ECzAxHyFGs4o+vW0V3yWC5ZLNnOUirvynMRYR3z7jR0C/hxGgQxu6dFaOkHDElfUXG+daNM1mZ
-	YxXA9/EDiHUw8VuIzKHJcn7vNHmyyZfzoTC+njg1Rd4wvD4T85GMqMD2wE+u2F1KfZl/p8ceJQekR
-	FiPL12WFIybXuH22O140U+Vhz0voNL+EEjajXI3maoRi6PqZ1z/Eyy3fS3TlJXCgl4wI2a+kedzqX
-	n2llZV+8MqQuSoDGyS+z9P6Ljoxghb9qvbnz+muDJh95IsKKCWTqQK1oJ9HBdjPxhkwyGxgTcPvoF
-	5rheSNTg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=1TanhPj1pvcWXIurjMX1HYDdYlrIVvvf4bEhTgkHyPM=; b=cz5XjsIa5zXvzIrJJrOZ4hx7Ko
+	ZXkcUmsNlvyvcb/2uZ/6j5QaeF0t4aXCqqTcMC1a3wpogGRaMLYYDgqaIFPMheEvjpV6bsfWUSfKs
+	FGv6rhJ16OY27ybDRnmugt7CR9p4Ylr1TIYtT4t7psDktTntSzNtnFvzeUMS7BRJlkYMOVU38VWZD
+	1hfR5c55oYEWogBLWf1KCZa/wq1FW8P6cik+Zr6vut5IQJpPPa9MkUtQS9/Y+XfQPXCmVVEzRIqmF
+	WjcAJQSQOJbZPmVHdMPoRiM+ZCk8s026KSGoHs/jsBVgFONKUBCGDGAR0PykahlSwkjzzW/GkuTfU
+	oRab+g4g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odtb0-003HLj-QK; Thu, 29 Sep 2022 13:28:58 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odtax-003HKb-Rx
-	for linux-nvme@lists.infradead.org; Thu, 29 Sep 2022 13:28:57 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 12BD568BFE; Thu, 29 Sep 2022 15:28:53 +0200 (CEST)
-Date: Thu, 29 Sep 2022 15:28:52 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Anuj Gupta <anuj20.g@samsung.com>
-Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
-	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, gost.dev@samsung.com,
-	linux-scsi@vger.kernel.org
-Subject: Re: [PATCH for-next v11 12/13] scsi: Use blk_rq_map_user_io helper
-Message-ID: <20220929132852.GF27768@lst.de>
-References: <20220929120632.64749-1-anuj20.g@samsung.com> <CGME20220929121713epcas5p1824ed0c48c9e9ceeb18954d9c23564ed@epcas5p1.samsung.com> <20220929120632.64749-13-anuj20.g@samsung.com>
+	id 1odv3Y-003jwa-SH; Thu, 29 Sep 2022 15:02:32 +0000
+Received: from [2001:4bb8:180:b903:9be8:d11a:21a0:96eb] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1odv3W-003jvq-GD; Thu, 29 Sep 2022 15:02:30 +0000
+Date: Thu, 29 Sep 2022 17:02:28 +0200
+From: Christoph Hellwig <hch@infradead.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org
+Subject: [GIT PULL] nvme fixes for Linux 6.0
+Message-ID: <YzWzhIAX+vtSmo39@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220929120632.64749-13-anuj20.g@samsung.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220929_062856_074801_EA7836F9 
-X-CRM114-Status: UNSURE (   9.53  )
-X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,14 +49,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 29, 2022 at 05:36:31PM +0530, Anuj Gupta wrote:
-> Use the new blk_rq_map_user_io helper instead of duplicating code at
-> various places.
+The following changes since commit 4c66a326b5ab784cddd72de07ac5b6210e9e1b06:
 
-Additionally this also takes advantage of the on-stack iov fast path
-which should be mentined here.
+  Revert "block: freeze the queue earlier in del_gendisk" (2022-09-20 08:15:44 -0600)
 
-Othewise looks good:
+are available in the Git repository at:
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+  git://git.infradead.org/nvme.git tags/nvme-6.0-2022-09-29
+
+for you to fetch changes up to d14c273132aec81a1a8107c9ab4865b89e7910a7:
+
+  nvme-pci: disable Write Zeroes on Phison E3C/E4C (2022-09-27 09:20:30 +0200)
+
+----------------------------------------------------------------
+nvme fixes for Linux 6.1
+
+ - fix IOC_PR_CLEAR and IOC_PR_RELEASE ioctls for nvme devices
+   (Michael Kelley)
+ - disable Write Zeroes on Phison E3C/E4C (Tina Hsu)
+
+----------------------------------------------------------------
+Michael Kelley (1):
+      nvme: Fix IOC_PR_CLEAR and IOC_PR_RELEASE ioctls for nvme devices
+
+Tina Hsu (1):
+      nvme-pci: disable Write Zeroes on Phison E3C/E4C
+
+ drivers/nvme/host/core.c | 6 +++---
+ drivers/nvme/host/pci.c  | 4 ++++
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
