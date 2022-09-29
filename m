@@ -4,65 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB0A4C04A95
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Sep 2022 07:36:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 793BBC04A95
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Sep 2022 08:18:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=PuBkx3mIKlCuv/Ez7uR3bYwFT5/uX/i3LGQCMtKRQ9A=; b=BezcrjNBYZTGyahY8AHrMthCXJ
-	zL/N0Y4J30lytktQAxb3FtCBtD2b3h+9HZ0G+2u3K8oj+rVDkggy35Yj0DK4lK2cuxdGMJkqm+yqs
-	psnGTmwWalnhm3m94UsylGZxkdyD0ZEgl6brH6IyNYoYVV0stmTfCFpLwgBPdXvpNXDfHKgNcdAtI
-	SSR+3K/PTeladR+EfCGBJLawCF1ZDL67a+TbQhR+zbprbIlfoQHwjW/KyJKt8Zz6jjQJlCSalx7p4
-	a6LBUxkcyE4sxpsxCiqXjsTx3dKxq1UZm023lZlyqGC9fDd7OGPZpHVdXUUgnlyPbgV7GEn49THeL
-	mxKEv/wA==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3ZDDjfylRAJRRzhmnDobf1BWErlBOVo9fkQS3AeMsoA=; b=nMeIkyqOdiskBVSYsJWsXaMe3o
+	Xjj160+Vkl0ccYITdjLYZ4pDMHnZvadz5HaE2MsAzyosMxyND1XXFfvzPPGGyZuFJK6i0ZHYdPaPi
+	ip1HFF+ovWzm0cCZ1tii0kWBjQ1ZamL7eJhC6ivtUvh+VG9qShUNvJg/ZilfU5Afo+9EnUpiGRAMG
+	1sITTDwbf7vTeBz+It/bGYWLkp3locVdgZpVXzGKkLXrxeSjWBpU691FRV6BBULx40y1CNFVOBPwu
+	htVQWe+MHQEHWZdlgoQ5oJYhLclz+sFvdpfrZ/8n6eKWwmGXjQHE1wsQ1KsUr9In5sFAQaDxYWeTj
+	OwA9+W+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odo6J-001bOY-2D; Thu, 29 Sep 2022 07:36:55 +0000
-Received: from mail-wr1-f54.google.com ([209.85.221.54])
+	id 1odoko-001nBt-NA; Thu, 29 Sep 2022 08:18:46 +0000
+Received: from mail-wr1-f53.google.com ([209.85.221.53])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odo6G-001bMl-5z
-	for linux-nvme@lists.infradead.org; Thu, 29 Sep 2022 07:36:53 +0000
-Received: by mail-wr1-f54.google.com with SMTP id c11so754433wrp.11
-        for <linux-nvme@lists.infradead.org>; Thu, 29 Sep 2022 00:36:50 -0700 (PDT)
+	id 1odokl-001nA2-Sw
+	for linux-nvme@lists.infradead.org; Thu, 29 Sep 2022 08:18:45 +0000
+Received: by mail-wr1-f53.google.com with SMTP id bk15so908283wrb.13
+        for <linux-nvme@lists.infradead.org>; Thu, 29 Sep 2022 01:18:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=PuBkx3mIKlCuv/Ez7uR3bYwFT5/uX/i3LGQCMtKRQ9A=;
-        b=h8FL0KtV+1Rbv2goZdV72KGVwDkjsM1ma3RuRm3GCWePOgdfdFl2XCzKDFlnAPSoLu
-         hNh3DrC67fn0ns9mLllcZ8U0iDvA83Ha2IQM8yWE5EbL1o6G3R3/VfqwTNFk3SiS2TX2
-         cUXA+hoVANcLWHjVvPC7OqoMIzDeXhHI4206B0g3VxQsyK/4JevHPW95levpx0xgglKF
-         719qL1SjOLKNFKbVWQJFGwfhs3DuTHgDtXgUM2PMFd2Wb/PuT2wtub2WupTFddtU8G+t
-         wmx3YcQ5R3T3PDFq7SSLsX9tX7j5cpwaOFaXI0YkNEMp4DwhAdqlje7xRCB0wFlAjjwW
-         YVXQ==
-X-Gm-Message-State: ACrzQf1b4h62znT+eKYLBUTr8WaRisMAG7BAstWdxS8ye/1fDwdTYf6e
-	2MmAxP6SPRAXEnfEwneW3ZIBFDN+1F0=
-X-Google-Smtp-Source: AMsMyM5Eh4EAhONhGP+f3Ll9Pq13zlG1sAtU0ruf0WHyTUYVXCRbjPNo1xoHYywY/OxcEbEJ9yjP6g==
-X-Received: by 2002:a5d:6b82:0:b0:22c:cf67:3c05 with SMTP id n2-20020a5d6b82000000b0022ccf673c05mr1172874wrx.497.1664437008944;
-        Thu, 29 Sep 2022 00:36:48 -0700 (PDT)
-Received: from localhost.localdomain (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id fc10-20020a05600c524a00b003b435c41103sm5350958wmb.0.2022.09.29.00.36.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Sep 2022 00:36:48 -0700 (PDT)
-From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	Hannes Reinecke <hare@suse.de>,
-	Yogev Cohen <yogev@lightbitslabs.com>
-Subject: [PATCH v3] nvme-multipath: fix possible hang in live ns resize with ANA access
-Date: Thu, 29 Sep 2022 10:36:47 +0300
-Message-Id: <20220929073647.171775-1-sagi@grimberg.me>
-X-Mailer: git-send-email 2.34.1
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=3ZDDjfylRAJRRzhmnDobf1BWErlBOVo9fkQS3AeMsoA=;
+        b=oMsBe89YQj27Nvv6X3/Jyrpgbz3RezDqbJCXNkBQR/DPLQcfEiqjt2ktkGRWHjNRhW
+         ej2dKuhwqPH68X1pcVgbVwNI3b2j0JXh0t81EpFSpyiO2ljWEkyuAsxqMDjp5nFZkIZR
+         o2MehvTgLXzmIZiujOD77h/SgQLM8NA+i9THwParfB7DACOPDtqVIwRmP7LHchmVvpsu
+         sKxHble2+xt3z5ZkpBvkBpViKxVZAxT+Co5cxCF8YxAnAZk9cRKQxxdsAEXxZYOWDRg7
+         vIEtDA5ZTyezWOWFtox8Zs7gKberYeMtyph5Z0MZUuJ7Tiqwg7dDWG5Z45RpDULY0ykT
+         DMcg==
+X-Gm-Message-State: ACrzQf1PWJus++33wy3XbUK4+i+gbqG5apCzSRo+XnlSfGf8GJQLF1RE
+	LfmRa+jkzPLW3wKhhQz0x1w2EnK2/Dk=
+X-Google-Smtp-Source: AMsMyM4BjIM5wEAjAHZ1MD2TkX4u8HZyGfPUcYjCymKZq2gdXzYoYVnoXl5nYFeSl0986CyCtLVqpw==
+X-Received: by 2002:a5d:46c7:0:b0:22c:c9e5:4e4e with SMTP id g7-20020a5d46c7000000b0022cc9e54e4emr1289370wrs.37.1664439519217;
+        Thu, 29 Sep 2022 01:18:39 -0700 (PDT)
+Received: from [192.168.64.53] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id bg33-20020a05600c3ca100b003a5f4fccd4asm3908685wmb.35.2022.09.29.01.18.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Sep 2022 01:18:38 -0700 (PDT)
+Message-ID: <33c9d202-550f-1cd7-3ff4-11559110d672@grimberg.me>
+Date: Thu, 29 Sep 2022 11:18:37 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] nvme: Support user mode processing of ZNS Zone Changed
+ AEN
+Content-Language: en-US
+To: clay.mayers@kioxia.com, linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>
+References: <20220929001629.2024067-1-clay.mayers@kioxia.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20220929001629.2024067-1-clay.mayers@kioxia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220929_003652_241313_C08D8B2D 
-X-CRM114-Status: GOOD (  14.04  )
+X-CRM114-CacheID: sfid-20220929_011843_959191_EF0A7DD6 
+X-CRM114-Status: GOOD (  24.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,70 +81,106 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When we revalidate paths as part of ns size change (as of commit
-e7d65803e2bb), it is possible that during the path revalidation, the
-only paths that is IO capable (i.e. optimized/non-optimized) are the
-ones that ns resize was not yet informed to the host, which will cause
-inflight requests to be requeued (as we have available paths but none
-are IO capable). These requests on the requeue list are waiting for
-someone to resubmit them at some point.
 
-The IO capable paths will eventually notify the ns resize change to the
-host, but there is nothing that will kick the requeue list to resubmit
-the queued requests.
+> The ZNS Zone-Descriptor-Changes AEN is of type notify and uses CQE.DW1
+> to convey the namespace of the log page to read. Unhandled notify AENs
+> now generate an NVME_AEN uevent and include the value of CQE.DW1 as a
+> new property when non-zero.
 
-Fix this by always kicking the requeue list, and if no IO capable path
-exists, these requests will be queued again.
+But you always send it...
 
-A typical log that indicates that IOs are requeued:
---
-nvme nvme1: creating 4 I/O queues.
-nvme nvme1: new ctrl: "testnqn1"
-nvme nvme2: creating 4 I/O queues.
-nvme nvme2: mapped 4/0/0 default/read/poll queues.
-nvme nvme2: new ctrl: NQN "testnqn1", addr 127.0.0.1:8009
-nvme nvme1: rescanning namespaces.
-nvme1n1: detected capacity change from 2097152 to 4194304
-block nvme1n1: no usable path - requeuing I/O
-block nvme1n1: no usable path - requeuing I/O
-block nvme1n1: no usable path - requeuing I/O
-block nvme1n1: no usable path - requeuing I/O
-block nvme1n1: no usable path - requeuing I/O
-block nvme1n1: no usable path - requeuing I/O
-block nvme1n1: no usable path - requeuing I/O
-block nvme1n1: no usable path - requeuing I/O
-block nvme1n1: no usable path - requeuing I/O
-block nvme1n1: no usable path - requeuing I/O
-nvme nvme2: rescanning namespaces.
---
+> 
+> All unhandled notify events are include to avoid command set specific
+> code in the aen handling.  This support is planned to be used by both
+> zone based applications and another unreleased device with an alternate
+> command set.
 
-Reported-by: Yogev Cohen <yogev@lightbitslabs.com>
-Fixes: e7d65803e2bb ("nvme-multipath: revalidate paths during rescan")
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
-Changes from v2:
-- just schedule head->requeue_work instead of calling nvme_kick_requeue_list
+This needs to be split into two patches.
 
-Changes from v1:
-- fix commit msg body format
-- follow reverse-xmas declaration pattern
+> 
+> Signed-off-by: Clay Mayers <clay.mayers@kioxia.com>
+> ---
+>   drivers/nvme/host/core.c | 19 +++++++++++--------
+>   drivers/nvme/host/nvme.h |  1 +
+>   2 files changed, 12 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 66446f1e06cf..fa865b8da1d3 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -4615,17 +4615,20 @@ static void nvme_change_uevent(struct nvme_ctrl *ctrl, char *envdata)
+>   
+>   static void nvme_aen_uevent(struct nvme_ctrl *ctrl)
+>   {
+> -	char *envp[2] = { NULL, NULL };
+> +	char *envp[3] = { NULL, NULL, NULL };
+>   	u32 aen_result = ctrl->aen_result;
+> +	u32 aen_data = ctrl->aen_data;
+>   
+>   	ctrl->aen_result = 0;
+> +	ctrl->aen_data = 0;
+>   	if (!aen_result)
+>   		return;
+>   
+>   	envp[0] = kasprintf(GFP_KERNEL, "NVME_AEN=%#08x", aen_result);
+> -	if (!envp[0])
+> -		return;
+> -	kobject_uevent_env(&ctrl->device->kobj, KOBJ_CHANGE, envp);
+> +	envp[1] = kasprintf(GFP_KERNEL, "NVME_AEN_DATA=%#08x", aen_data);
+> +	if (envp[0] && envp[1])
+> +		kobject_uevent_env(&ctrl->device->kobj, KOBJ_CHANGE, envp);
+> +	kfree(envp[1]);
+>   	kfree(envp[0]);
+>   }
+>   
+> @@ -4748,11 +4751,9 @@ static bool nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
+>   		queue_work(nvme_wq, &ctrl->ana_work);
+>   		break;
+>   #endif
+> -	case NVME_AER_NOTICE_DISC_CHANGED:
+> +	default:
+>   		ctrl->aen_result = result;
+>   		break;
+> -	default:
+> -		dev_warn(ctrl->device, "async event result %08x\n", result);
 
- drivers/nvme/host/multipath.c | 1 +
- 1 file changed, 1 insertion(+)
+I'd keep the log... and also don't know if we want to pass any unknown
+possible spam to userspace... not sure that being blindly forward
+compatible is the right choice here.
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 6ef497c75a16..b9cf17cbbbd5 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -182,6 +182,7 @@ void nvme_mpath_revalidate_paths(struct nvme_ns *ns)
- 
- 	for_each_node(node)
- 		rcu_assign_pointer(head->current_path[node], NULL);
-+	kblockd_schedule_work(&head->requeue_work);
- }
- 
- static bool nvme_path_is_disabled(struct nvme_ns *ns)
--- 
-2.34.1
+>   	}
+>   	return requeue;
+>   }
+> @@ -4799,8 +4800,10 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+>   		break;
+>   	}
+>   
+> -	if (requeue)
+> +	if (requeue) {
+> +		ctrl->aen_data = le64_to_cpu(res->u64) >> 32;
 
+Please use a helper for that.
+aen_data is not a great name... maybe use a union for that for the
+specific aen subtype?
+
+Maybe it'd be better that zoned namespace aen is handled explicitly
+and passes a AEN_NSID env veriable to the uevent.
+
+>   		queue_work(nvme_wq, &ctrl->async_event_work);
+> +	}
+>   }
+>   EXPORT_SYMBOL_GPL(nvme_complete_async_event);
+>   
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index 1bdf714dcd9e..a1bab447dc65 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -299,6 +299,7 @@ struct nvme_ctrl {
+>   	u16 cctemp;
+>   	u32 oaes;
+>   	u32 aen_result;
+> +	u32 aen_data;
+>   	u32 ctratt;
+>   	unsigned int shutdown_timeout;
+>   	unsigned int kato;
 
