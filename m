@@ -4,48 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2584EC433FE
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Sep 2022 13:26:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 021A9C433FE
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Sep 2022 13:27:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=QPFysWxMmp/oGo6nm2W31zyZGP
-	4TQI8dGNYp40jnRavXx1xkYxc1zA36DCYvyDcNETdwDXhULyYWcms8ga/+z5c7k3fW7nfrDQKWXwv
-	4u9HA95QZn0HMY8EV6pEQvw2a11r8hfaSgIYMHOVkRh7Ce+kCMI6D+kmGJrRacJYFm6+wkcbxr7db
-	kiC6aclxY/58iRMum6V+HoJUMhrmSp1U7PKcEwH1V+8ygJvzOOI5MqocA2n3uZDOKEVVIaedW8N5D
-	Zg1DPOicyRrORYu15gF3R1ko06VLRtqNIfebzO8WXTibF/MAAtb9sYC6SgFqTX4PLJZVtpxfoppzT
-	Bvy9PPZw==;
+	bh=+m5/cujKwMFAcZEzABwtD4HnEsRVQblFere0jltpC4A=; b=OZHkfKZ2WUnGKxLiNs4UmYdAIS
+	xhyfK4xiRBoOQIxmFc9NXuJBY/qiO5QEHZoJBl9jCXmyEp6tzxhXVjL4tK1fi6VUjxq9r0NDOwVdT
+	BgEXXpWMUCagiivwiz0fpwIDIpIFYHx6OY4bQYn0OrcGWRpUfRypHulr3gl9mwyLADJ8HPfrsfdvV
+	6s5knJDpgAEZTb+LE6Nr5hKpKdzTAqHUv7Vw45reJrr+0MOHzMf8lV8O2RSzhxr7JPHOcA6y5NcxC
+	mDsWLylOn9uzo0NwMtQQc9AV/wR9GDN9kkRbCHBD/J4YMmnJ9JL8qM6KLvbTuD33xCjUjJdvn4tqg
+	9oXf5V2A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odtYC-003GWI-Ct; Thu, 29 Sep 2022 13:26:04 +0000
+	id 1odtZ5-003Gon-7s; Thu, 29 Sep 2022 13:26:59 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1odtYA-003GUv-6F
-	for linux-nvme@lists.infradead.org; Thu, 29 Sep 2022 13:26:03 +0000
+	id 1odtZ2-003Gnm-P1
+	for linux-nvme@lists.infradead.org; Thu, 29 Sep 2022 13:26:57 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 7800E68BFE; Thu, 29 Sep 2022 15:25:59 +0200 (CEST)
-Date: Thu, 29 Sep 2022 15:25:59 +0200
+	id F242568BFE; Thu, 29 Sep 2022 15:26:53 +0200 (CEST)
+Date: Thu, 29 Sep 2022 15:26:53 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Anuj Gupta <anuj20.g@samsung.com>
 Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
 	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org, gost.dev@samsung.com,
-	linux-scsi@vger.kernel.org
-Subject: Re: [PATCH for-next v11 05/13] block: rename bio_map_put to
- blk_mq_map_bio_put
-Message-ID: <20220929132559.GB27768@lst.de>
-References: <20220929120632.64749-1-anuj20.g@samsung.com> <CGME20220929121647epcas5p2d4ca8ae0b83a1fce230914f586ee3cc0@epcas5p2.samsung.com> <20220929120632.64749-6-anuj20.g@samsung.com>
+	linux-scsi@vger.kernel.org, Kanchan Joshi <joshi.k@samsung.com>
+Subject: Re: [PATCH for-next v11 07/13] block: add blk_rq_map_user_bvec
+Message-ID: <20220929132653.GC27768@lst.de>
+References: <20220929120632.64749-1-anuj20.g@samsung.com> <CGME20220929121653epcas5p4ee82ef35b46d6686820dc4d870b6588e@epcas5p4.samsung.com> <20220929120632.64749-8-anuj20.g@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220929120632.64749-6-anuj20.g@samsung.com>
+In-Reply-To: <20220929120632.64749-8-anuj20.g@samsung.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220929_062602_390437_0220E007 
-X-CRM114-Status: UNSURE (   8.54  )
+X-CRM114-CacheID: sfid-20220929_062656_969793_95DF8A42 
+X-CRM114-Status: UNSURE (   8.91  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -61,7 +60,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+Please fold this into the next patch - adding a static helper without
+users will cause a compiler warning, or even an error with pinheads
+favourite -Werror setting.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 
