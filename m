@@ -4,65 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93738C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Sep 2022 22:47:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75D35C433FE
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Sep 2022 00:13:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=0F0pMI29a3JYWPRwZUHOw05fHrRq2BuL98mhBC2wW+8=; b=DgAq5iQuBr7p9q/H6MdZR4DzNc
-	dIqsUc4fLNz++J77MNX9d3/B3OSlBykUt6qFqF8Bi5Qf3cBzX8qxcyhqE03LEBGQ99cICyc2b1Y2n
-	insLCT/v8BL5sXNzpFBvoqVi6Zu8wGS4TJLVqJYyW1QHJbdyxySYNkkxJNz54+ofJONKru9DGHBwd
-	80/pmwieEtXYmLB2+kP52r35hzd2RP1tlD3oTUJL/xSJbwogajSRi7cwWXDutmK5vKoG3OnVALN+P
-	xb9bqdHUt8vHfgARipenMnOWjzq3rs7C725ZdxB9u2nXyZfymcJTv5dsnrRhejOYKd7QUw6ZvOdSu
-	mCwGWkoA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=4Bta6uh+/S8ur+ikl4X0ejv9pRv/76aMXaS+owY3HiU=; b=zlXDBUIbWYczTWCXg5Y/DtYkDM
+	fFzSz8/CgngBGbVqtGSeiNFeUCkqcuKlKqWQ5bRZeAsPZ75v43yByff59RgApytTg3R6dIvwjL8b2
+	f0mLSjiB5X2138x8J2Dk3wtsCLnToAppbcpEaE6Ys6HoTf/S4K6LNuqKoGwkKLtzRAlkCRDAUEyKx
+	bV/NNBNetnRYWZHy0bvY2AQJty1wdrbePSt0ayJe1P3BrG7tTgUujI+QGbwEfqY2aWgi53H1JiHvk
+	okYYlYHnQWk1tkFdapdo7bbCQop6eNHdsOkL+jOmh/DfKrzuQqGlwx506l5xGkQ7eBG7sDibl6xxN
+	8y4cA3pA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oe2JU-005nPz-DW; Thu, 29 Sep 2022 22:47:28 +0000
-Received: from post.baikalelectronics.com ([213.79.110.86])
-	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oe2JE-005nIb-Hm
-	for linux-nvme@lists.infradead.org; Thu, 29 Sep 2022 22:47:16 +0000
-Received: from post.baikalelectronics.com (localhost.localdomain [127.0.0.1])
-	by post.baikalelectronics.com (Proxmox) with ESMTP id 8504BE0EB2;
-	Fri, 30 Sep 2022 01:46:54 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	baikalelectronics.ru; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:from:from:message-id
-	:mime-version:reply-to:subject:subject:to:to; s=post; bh=0F0pMI2
-	9a3JYWPRwZUHOw05fHrRq2BuL98mhBC2wW+8=; b=hhryUWcjZ17wdbk7YFSJ8Jg
-	jsSzixbGL/YYeGw4TlYj2IqJxyPCW8eHrd+m0za4eFNCjzlpwlc301DwxCiWb4XU
-	uWynJqgYQU+MToyfXTtkSAkU17ZyRwuemdku2j2PppEHjko1u/imOUnTg53sloxd
-	nV5apMT/1XzM6RYuNHS0=
-Received: from mail.baikal.int (mail.baikal.int [192.168.51.25])
-	by post.baikalelectronics.com (Proxmox) with ESMTP id 6A7A4E0E6B;
-	Fri, 30 Sep 2022 01:46:54 +0300 (MSK)
-Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 01:46:55 +0300
-From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Jens Axboe
-	<axboe@fb.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
-	<sagi@grimberg.me>
-CC: Serge Semin <Sergey.Semin@baikalelectronics.ru>, Serge Semin
-	<fancer.lancer@gmail.com>, Alexey Malahov
-	<Alexey.Malahov@baikalelectronics.ru>, Pavel Parkhomenko
-	<Pavel.Parkhomenko@baikalelectronics.ru>, Thomas Bogendoerfer
-	<tsbogend@alpha.franken.de>, <linux-nvme@lists.infradead.org>,
-	<linux-block@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 0/3] block/nvme: Fix DMA-noncoherent platforms support
-Date: Fri, 30 Sep 2022 01:46:45 +0300
-Message-ID: <20220929224648.8997-1-Sergey.Semin@baikalelectronics.ru>
-X-Mailer: git-send-email 2.37.3
+	id 1oe3f5-006Hm3-BV; Fri, 30 Sep 2022 00:13:51 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oe3Lg-0068Nh-Le
+	for linux-nvme@lists.infradead.org; Thu, 29 Sep 2022 23:53:50 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id D9DDA621EF;
+	Thu, 29 Sep 2022 23:53:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68F59C433C1;
+	Thu, 29 Sep 2022 23:53:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1664495627;
+	bh=zGoeBEsQFYR1XddbT/4DDXBJnqm/WcRswhc2BoBKNsM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ei7KWbmfxEJw0h3HBiNrGSOWNuOiEfbtjZ6aLz3C+GQXZYR5ZkazD9oPv0kBuK1n7
+	 W2jsgUdNNk/ewDV565eh/s05q8gpUQRiWl2sFn+jNlH6ZpebjUsbMNwzXaw/gVQJ2x
+	 fJ8b96KylIqy1qU1FK18niUAimozIpikL3DDS9cvmlUx0V5FYCtt3bSKEO2We0eTUI
+	 5PKr/gKxyey9anLVcOyVoSUNBRiZGBnSctC6mG5ABKMJ6Ld6GZQ9UhoZVrjGm7JRh7
+	 4h6JdMMfrEvifxwtr0+lwDbXMynTptHBnu4QF0xGsHAYBfcwyjFkpbQ1OcMhwQfg/E
+	 qXYS07xGLV4Gg==
+Date: Thu, 29 Sep 2022 17:53:43 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Cc: Jens Axboe <axboe@kernel.dk>, Jens Axboe <axboe@fb.com>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Serge Semin <fancer.lancer@gmail.com>,
+	Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+	Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] nvme-hwmon: Return error on kzalloc failure
+Message-ID: <YzYwB7lRGW80r4HA@kbusch-mbp.dhcp.thefacebook.com>
+References: <20220929224648.8997-1-Sergey.Semin@baikalelectronics.ru>
+ <20220929224648.8997-2-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.168.10]
-X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220929224648.8997-2-Sergey.Semin@baikalelectronics.ru>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220929_154713_180586_481DE7CC 
-X-CRM114-Status: GOOD (  15.41  )
+X-CRM114-CacheID: sfid-20220929_165348_780174_235466F2 
+X-CRM114-Status: GOOD (  17.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,49 +78,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Our SoC doesn't have the CPU caches coherent on DMA's. After getting the
-kernel updated to the 6.0-rcX version we've discovered a problem with the
-NVME hwmon probe. It turned out that the root cause of it was connected
-with the cache-line-unaligned buffer passed to the DMA-engine. Due to the
-cache-invalidation performed on the buffer mapping stage a part of the
-structure the buffer was embedded to was lost. Here we suggest to fix the
-problem just by aligning the buffer accordingly as the
-Documentation/core-api/dma-api.rst document requires. (See the
-corresponding patch log for more details.)
+On Fri, Sep 30, 2022 at 01:46:46AM +0300, Serge Semin wrote:
+> Inability to allocate a buffer is a critical error which shouldn't be
+> tolerated since most likely the rest of the driver won't work correctly.
+> Thus instead of returning the zero status let's return the -ENOMEM error
+> if the nvme_hwmon_data structure instance couldn't be created.
 
-A potential root of a similar problem has been detected in the sed-opal
-driver too. Even though we have not got any difficulties connected with
-that part we still suggest to fix that in the same way as it is done for
-the NVME hwmon driver.
+Nak for this one. The hwmon is not necessary for the rest of the driver to
+function, so having the driver detach from the device seems a bit harsh. The
+driver can participate in memory reclaim, so failing on a low memory condition
+can make matters worse.
 
-Link: https://lore.kernel.org/linux-nvme/20220909191916.16013-1-Sergey.Semin@baikalelectronics.ru
-Changelog v2:
-- Drop Jonathan Derrick and Revanth Rajashekar from Cc-list due to
-  the email messages being bounced back.
-- Add a new preparation patch:
-[PATCH v2 1/3] nvme-hwmon: Return error on kzalloc failure
-- Convert to allocating the nvme_smart_log structure instance instead of
-  cache-aligning it. (@Christoph)
+The rest looks good, though.
 
-Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Cc: Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>
-Cc: Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc: linux-nvme@lists.infradead.org
-Cc: linux-block@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-
-Serge Semin (3):
-  nvme-hwmon: Return error on kzalloc failure
-  nvme-hwmon: Kmalloc the NVME SMART log buffer
-  block: sed-opal: Cache-line-align the cmd/resp buffers
-
- block/sed-opal.c          |  5 +++--
- drivers/nvme/host/hwmon.c | 34 ++++++++++++++++++++++++----------
- 2 files changed, 27 insertions(+), 12 deletions(-)
-
--- 
-2.37.3
-
-
+> @@ -230,7 +230,7 @@ int nvme_hwmon_init(struct nvme_ctrl *ctrl)
+>  
+>  	data = kzalloc(sizeof(*data), GFP_KERNEL);
+>  	if (!data)
+> -		return 0;
+> +		return -ENOMEM;
+>  
+>  	data->ctrl = ctrl;
+>  	mutex_init(&data->read_lock);
+> -- 
 
