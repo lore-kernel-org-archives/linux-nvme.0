@@ -4,79 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7DF2BC433FE
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Sep 2022 08:15:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60764C433FE
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Sep 2022 09:15:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iZI14wyn4OgIUCp7y8yNsNT8zd4og0MICxhTg68hXu4=; b=4H0xQ6xruxrNJctfEk/tC1LSGu
-	WLZPVLAKOng6qzEkpR0kf+LyWY1K5gi5mMDxVFQ1FR58LaVbPMDhFgEmQf/z8hc4nG9XjOZU8+h1w
-	K71TzAkfFtVNY4e+OGqEn6mZzZ6rgZUMvvx5uoSe+ufe9jbnNLxIXfVOSBcwZqxfGVbnQi1DAefTe
-	KCgxQmRlKBfqKdv9/W/FzB5+a+FzVhP1u6D7mcLF6AOnRzNjMoEyUdpVYwzJ44lDvxFCjsEg+WZ9c
-	ySuHMxhVD7PfsWuvtkiobM1MFOKP6s97IUocBrIYfSjAgkwnMfNsD4orGLIdnijWQrYO3yqFojMS/
-	e30wpa6Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=QPd9eEXSDM4l8sHCKdklGbGGizcbCpDO0CxV5alpHdk=; b=imbNuzEK/TlMDl5u+/rXSJAr/c
+	zZaTvWzeYhtoY5zTLx3NeJ8Pn6wWAx213MpGZUdkc1GMHSIrFBPS10+QyShj3KGyn4jLdd6guzdKy
+	XzsDCGZwtgUyjahs3Kt8Bw4WdmcDq6WGQDMMb7eaIZaEAIF4bOXVr7YSo9R4ZOwaLS+f02Hkg0xoF
+	wMG5tK4zMwhaBJQRPITzljVykArYp0sSnYOboS+UIQ6o6BslXcJ/PkOndQZkST8lHRLKxoKlqw9l6
+	MXF8LUD7WaNufXojTJJcpQP8dqMtUq+qk5Ua91WCVZ7fAWlzLHRYmMyRPMX9m0WJV10A1RSLnCENl
+	a3yjdLZg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oeBBZ-0081Sz-Ra; Fri, 30 Sep 2022 08:15:53 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1oeC6m-008Icf-2H; Fri, 30 Sep 2022 09:15:00 +0000
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oeBBW-0081Rk-VK
-	for linux-nvme@lists.infradead.org; Fri, 30 Sep 2022 08:15:52 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7638A21886;
-	Fri, 30 Sep 2022 08:15:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1664525748; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iZI14wyn4OgIUCp7y8yNsNT8zd4og0MICxhTg68hXu4=;
-	b=AIiSgJ+A4wab1QJWmY+sd3J2YXy9M2ypH88BQDPnK1TnTaRsSihwwBBADZgnaPaJchv0ja
-	PtRCSkThUKsqhaE7sx/5yqLBA5np+RnznWC61464rZPMnkzcrBclu8JP68jWFyp15x8OP9
-	3bF9EABdoVC0nA+ONnTgDC8W9G4oIYo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1664525748;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iZI14wyn4OgIUCp7y8yNsNT8zd4og0MICxhTg68hXu4=;
-	b=JVImaRMu6zDXiaeYtkEWi30C/XCCphVazmTsgJ9HopDmuKnAikloOIguJ7Q2wgVck9Vkx0
-	61nGMZHXSK1zhhAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6835313776;
-	Fri, 30 Sep 2022 08:15:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id nYlNGbSlNmNWPgAAMHmgww
-	(envelope-from <dwagner@suse.de>); Fri, 30 Sep 2022 08:15:48 +0000
-Date: Fri, 30 Sep 2022 10:15:47 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, yi.zhang@redhat.com,
-	Tomas Bzatek <tbzatek@redhat.com>,
-	Alan Adamson <alan.adamson@oracle.com>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	Himanshu Madhani <himanshu.madhani@oracle.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>
-Subject: Re: [RFC v0] nvme: do not log errors for user commands
-Message-ID: <20220930081547.rjcbifhvrqk7ke7m@carbon.lan>
-References: <20220929171338.10792-1-dwagner@suse.de>
- <YzXpKdR/yjzgf2My@kbusch-mbp.dhcp.thefacebook.com>
+	id 1oeC6j-008Ias-CN
+	for linux-nvme@lists.infradead.org; Fri, 30 Sep 2022 09:14:58 +0000
+Received: by mail-pl1-x62f.google.com with SMTP id w20so3442847ply.12
+        for <linux-nvme@lists.infradead.org>; Fri, 30 Sep 2022 02:14:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kingston-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=QPd9eEXSDM4l8sHCKdklGbGGizcbCpDO0CxV5alpHdk=;
+        b=yjfnBkSz5gPsFoCQBPNRLWkEwc6Yj5gcU4LKGWGBFlg5gtjLPPpePyI824obQTjKGj
+         /ip+LMsvmM8XESkCOwtta10++yxWpMv07x78xVZ10PE+dkqM0lWSksIXqO74eMIxCoR2
+         cvqPCjYwBO0Dulq21r7d4bydGf8pWlV3GgfkS2uJDIjhx1OujgaB2d7un3o+DNCnpABT
+         vZA9nbxCN3CLIoZLf6JKle6lbaaW2zgZH8EuMH15Opn6A/G6gtGQwugteIS8L9FpMaHR
+         4YST30Z+1uDXJhD3M5N97qzp9LsF+U9u6ZKs3+mOmVuz/+NnyPB6iCskwiqF4HXNQj9/
+         NM2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=QPd9eEXSDM4l8sHCKdklGbGGizcbCpDO0CxV5alpHdk=;
+        b=egciwBjOYZlFLMe0r0RppJZ7NHLHGunwWJdx453FgRhdTHYwFH1uV4ntbgBsCw2UJc
+         fRyIsN0lUsCq8ch6gHYYBGWeQGvu55oh8mF1MlBfEYkXbqPzVWMkv9LyuYMQ4yuFeoI4
+         M7Z9s7W1zV4iv97px/EF0PjWLjnmr41ynv47N2u4Ov/a8ze1IqbZkyOu5qeL8Iom5r1E
+         iYVI2gxYIRO8F8aaE4+WLFK9rifkuGGulmkwnuUESSpVP76yMFl0lXqxx3Zj8BnUePhU
+         OfuB825iQAL9kdUnpBDOmTkYJknPXUOoNIsnjBAzyeKrz2m9arKUyrIP3VbbtiJBFIRA
+         uIEQ==
+X-Gm-Message-State: ACrzQf2M4Na1SH/nNKr3lT9bz2VEB2MY6/euQR5BzCusRjWb1j61CFDU
+	Uaeruc93+c9ULpzTYhpC8czpQQ==
+X-Google-Smtp-Source: AMsMyM7wf9/ARhY4ybWJ/gXUgwD2rR6i0+3Q89cvvDVTMieCiUCoYlL1XsoklGRjdjWIVtL2NF3xDg==
+X-Received: by 2002:a17:902:e5c9:b0:178:5a6f:6eb8 with SMTP id u9-20020a170902e5c900b001785a6f6eb8mr8076240plf.42.1664529294615;
+        Fri, 30 Sep 2022 02:14:54 -0700 (PDT)
+Received: from sped.tw.kingston.corp ([123.51.141.8])
+        by smtp.gmail.com with ESMTPSA id u19-20020a634713000000b0043c84559f1bsm1221409pga.66.2022.09.30.02.14.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Sep 2022 02:14:54 -0700 (PDT)
+From: Xander Li <xander_li@kingston.corp-partner.google.com>
+To: paulburton@kernel.org,
+	kbusch@kernel.org,
+	axboe@fb.com,
+	hch@lst.de,
+	sagi@grimberg.me,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: ralf@linux-mips.org,
+	jhogan@kernel.org,
+	christian@brauner.io,
+	jeff_yang@kingston.corp-partner.google.com,
+	dora_chueh@kingston.corp-partner.google.com,
+	james_liu@kingston.corp-partner.google.com,
+	vincent_wu@kingston.com.tw,
+	xander_li@kingston.com.tw,
+	Xander Li <xander_li@kingston.corp-partner.google.com>
+Subject: [PATCH] nvme-pci-disable-write-zeros-support-on-kingston-SSD
+Date: Fri, 30 Sep 2022 02:14:01 -0700
+Message-Id: <20220930091401.14862-1-xander_li@kingston.corp-partner.google.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YzXpKdR/yjzgf2My@kbusch-mbp.dhcp.thefacebook.com>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220930_011551_169001_5831460D 
-X-CRM114-Status: GOOD (  16.71  )
+X-CRM114-CacheID: sfid-20220930_021457_793700_1E87EC09 
+X-CRM114-Status: UNSURE (   8.68  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,28 +99,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 29, 2022 at 12:51:21PM -0600, Keith Busch wrote:
-> On Thu, Sep 29, 2022 at 07:13:37PM +0200, Daniel Wagner wrote:
-> > @@ -325,6 +325,9 @@ static void nvme_log_error(struct request *req)
-> >  		return;
-> >  	}
-> >  
-> > +	if (nr->flags & NVME_REQ_USERCMD)
-> > +		return;
-> > +
-> 
-> It would be more consistent with existing usage to set RQF_QUIET in the
-> request's rq_flags before dispatching if we wanted to suppress user space admin
-> command errors. If we did that, though, there are no more admin queue users for
-> the verbose logging since internally generated commands already set RQF_QUIET.
+---
+ drivers/nvme/host/pci.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+ mode change 100644 => 100755 drivers/nvme/host/pci.c
 
-I've tried to find a way how we could pass a quiet flag from user
-land. I don't see how to add this flag on the existing IOCTL
-APIs except by adding a new IOCTL like NVME_IOCTL_SET_CONFIG or so.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+old mode 100644
+new mode 100755
+index 98864b853eef..d08c8c854f3a
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3503,6 +3503,16 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
+ 	{ PCI_DEVICE(0x2646, 0x2263),   /* KINGSTON A2000 NVMe SSD  */
+ 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
++	{ PCI_DEVICE(0x2646, 0x5018),   /* KINGSTON OM8SFP4xxxxP OS21012 NVMe SSD */
++		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
++	{ PCI_DEVICE(0x2646, 0x5016),   /* KINGSTON OM3PGP4xxxxP OS21011 NVMe SSD */
++		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
++	{ PCI_DEVICE(0x2646, 0x501A),   /* KINGSTON OM8PGP4xxxxP OS21005 NVMe SSD */
++		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
++	{ PCI_DEVICE(0x2646, 0x501B),   /* KINGSTON OM8PGP4xxxxQ OS21005 NVMe SSD */
++		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
++	{ PCI_DEVICE(0x2646, 0x501E),   /* KINGSTON OM3PGP4xxxxQ OS21011 NVMe SSD */
++		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
+ 	{ PCI_DEVICE(0x1e4B, 0x1001),   /* MAXIO MAP1001 */
+ 		.driver_data = NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_DEVICE(0x1e4B, 0x1002),   /* MAXIO MAP1002 */
+-- 
+2.25.1
 
-In my books this new logging infrastructure bd83fe6f2cd2 ("nvme: add
-verbose error logging") is causing a regression. Thus I would like to
-suggest we add the RQF_QUIET flag to the admin passthrough commands as
-well and let those who are interested in the additional logging
-figuring out a solution.
 
