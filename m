@@ -4,87 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60764C433FE
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Sep 2022 09:15:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93D85C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Sep 2022 09:53:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=QPd9eEXSDM4l8sHCKdklGbGGizcbCpDO0CxV5alpHdk=; b=imbNuzEK/TlMDl5u+/rXSJAr/c
-	zZaTvWzeYhtoY5zTLx3NeJ8Pn6wWAx213MpGZUdkc1GMHSIrFBPS10+QyShj3KGyn4jLdd6guzdKy
-	XzsDCGZwtgUyjahs3Kt8Bw4WdmcDq6WGQDMMb7eaIZaEAIF4bOXVr7YSo9R4ZOwaLS+f02Hkg0xoF
-	wMG5tK4zMwhaBJQRPITzljVykArYp0sSnYOboS+UIQ6o6BslXcJ/PkOndQZkST8lHRLKxoKlqw9l6
-	MXF8LUD7WaNufXojTJJcpQP8dqMtUq+qk5Ua91WCVZ7fAWlzLHRYmMyRPMX9m0WJV10A1RSLnCENl
-	a3yjdLZg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=5e++Bq8byiSeO9h99CYt5V1LItyqEPo3VTEHQk8BylQ=; b=ShBOEatAjXacI8CQnRrzYL+EJX
+	KD3j8HnwtEeeV2y/2TGGFzZhMw1+WLMt0OcT/6gfYk4yQ3M9Aygs/MhftsP3pIJjC8nQgtMQdYl9Q
+	zg2fLH9MUwKWqf1pn2XRVRdNbXR2AJTpOg/eU0+Gt5qSsHd3SfTKc6uvlsz1Qjnl2fgNQFPxxQif/
+	NPaT2wlMH3SgCaADJfK52vv8UmkhIHMX0IQ5Fv4BzdsS2gcdY2Qt1z/TEdA9EqJt2UUVON+Q9dGiv
+	wLhfGrYT8ze/fy1HMpVZaMpClH2m5sJG23Tj2yq5xVvQRoejaE5sJgxlGq4xZEagr5yAQh4ScWch1
+	EprVQA3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oeC6m-008Icf-2H; Fri, 30 Sep 2022 09:15:00 +0000
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+	id 1oeChU-008Qok-6X; Fri, 30 Sep 2022 09:52:56 +0000
+Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oeC6j-008Ias-CN
-	for linux-nvme@lists.infradead.org; Fri, 30 Sep 2022 09:14:58 +0000
-Received: by mail-pl1-x62f.google.com with SMTP id w20so3442847ply.12
-        for <linux-nvme@lists.infradead.org>; Fri, 30 Sep 2022 02:14:55 -0700 (PDT)
+	id 1oeChR-008Qnp-4O
+	for linux-nvme@lists.infradead.org; Fri, 30 Sep 2022 09:52:54 +0000
+Received: by mail-lj1-x22c.google.com with SMTP id a14so4233424ljj.8
+        for <linux-nvme@lists.infradead.org>; Fri, 30 Sep 2022 02:52:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kingston-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=QPd9eEXSDM4l8sHCKdklGbGGizcbCpDO0CxV5alpHdk=;
-        b=yjfnBkSz5gPsFoCQBPNRLWkEwc6Yj5gcU4LKGWGBFlg5gtjLPPpePyI824obQTjKGj
-         /ip+LMsvmM8XESkCOwtta10++yxWpMv07x78xVZ10PE+dkqM0lWSksIXqO74eMIxCoR2
-         cvqPCjYwBO0Dulq21r7d4bydGf8pWlV3GgfkS2uJDIjhx1OujgaB2d7un3o+DNCnpABT
-         vZA9nbxCN3CLIoZLf6JKle6lbaaW2zgZH8EuMH15Opn6A/G6gtGQwugteIS8L9FpMaHR
-         4YST30Z+1uDXJhD3M5N97qzp9LsF+U9u6ZKs3+mOmVuz/+NnyPB6iCskwiqF4HXNQj9/
-         NM2w==
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=5e++Bq8byiSeO9h99CYt5V1LItyqEPo3VTEHQk8BylQ=;
+        b=HwxvMPTlOzXP1QfP3zDzS7IbqRifPUtcnIIb0LaVXEe1n8584HeeBV8pTDgaEoqFFP
+         LawrtsDaBnla4Y9Nh0y6H6BypJloBhWDZ6FLzwUYBdbmj1l50NGkzyULniykfbiaw8Sj
+         E+NDJQ1izK3UOlHhKpxSvb6uRs0xUL7i/rX0a2V6a99AJw79LQYkFEKFIoXIf6pHtxTf
+         wRqtb+F4+9MAoZp56CAnTtFpaAaWP4AWMM7LaZyQzVBq94EsnvH7hhHOqJR4O3GiBGS7
+         qtb04qii52P1uk1QTF6QvtZbJRzlGOhCHqAOWTw9M6zzzx7k8ZmKcUvP86vHMW7WPnqz
+         aA9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=QPd9eEXSDM4l8sHCKdklGbGGizcbCpDO0CxV5alpHdk=;
-        b=egciwBjOYZlFLMe0r0RppJZ7NHLHGunwWJdx453FgRhdTHYwFH1uV4ntbgBsCw2UJc
-         fRyIsN0lUsCq8ch6gHYYBGWeQGvu55oh8mF1MlBfEYkXbqPzVWMkv9LyuYMQ4yuFeoI4
-         M7Z9s7W1zV4iv97px/EF0PjWLjnmr41ynv47N2u4Ov/a8ze1IqbZkyOu5qeL8Iom5r1E
-         iYVI2gxYIRO8F8aaE4+WLFK9rifkuGGulmkwnuUESSpVP76yMFl0lXqxx3Zj8BnUePhU
-         OfuB825iQAL9kdUnpBDOmTkYJknPXUOoNIsnjBAzyeKrz2m9arKUyrIP3VbbtiJBFIRA
-         uIEQ==
-X-Gm-Message-State: ACrzQf2M4Na1SH/nNKr3lT9bz2VEB2MY6/euQR5BzCusRjWb1j61CFDU
-	Uaeruc93+c9ULpzTYhpC8czpQQ==
-X-Google-Smtp-Source: AMsMyM7wf9/ARhY4ybWJ/gXUgwD2rR6i0+3Q89cvvDVTMieCiUCoYlL1XsoklGRjdjWIVtL2NF3xDg==
-X-Received: by 2002:a17:902:e5c9:b0:178:5a6f:6eb8 with SMTP id u9-20020a170902e5c900b001785a6f6eb8mr8076240plf.42.1664529294615;
-        Fri, 30 Sep 2022 02:14:54 -0700 (PDT)
-Received: from sped.tw.kingston.corp ([123.51.141.8])
-        by smtp.gmail.com with ESMTPSA id u19-20020a634713000000b0043c84559f1bsm1221409pga.66.2022.09.30.02.14.50
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=5e++Bq8byiSeO9h99CYt5V1LItyqEPo3VTEHQk8BylQ=;
+        b=Oh2XA1bOmvs+fQOwCRUFmfzxn36OikxuWh/jdA+EOFc4tKfolODQ3tswe+WOm8+3ZN
+         YBGLgxTUBJVWQOZSCnNLvdkcO1AiKF6Esr+gDkHyTTMUQ9a7WbcBEPntP4JrwYe1kC2e
+         OLcgx1VayMdrRIRe2kBFwTWaibWTNEcF0PFC8R3Qh6JDW0zH4eKJYtsIli4awvx1iFd1
+         Nzfk4lwHOTU9z0+hrNtgVqn8AeXssiYg1nk3HSBy3GLK+HhTYe8l39hwYB6WkTN+VYl2
+         QIZKIEdKzfLK3zJuT4uekRsiOWO0akHW5ER6G9S0h00ETPsj0hUOr1UTLR0nazx4L4o/
+         tGDA==
+X-Gm-Message-State: ACrzQf26JuCbvbGbb/JjkUGkZfrmu5t+ywnC7bLw/GqfLYhEc89uDv1b
+	MpppR5b8WXMUkC0K5+mxZzw=
+X-Google-Smtp-Source: AMsMyM5W3qggiqHyrqng78Ar+doOtQG5XPfZcA7kWDg4EtlNDKjdeRjPyWaF128cmsRAZ/ILfiIL2Q==
+X-Received: by 2002:a05:651c:2205:b0:26c:622e:afef with SMTP id y5-20020a05651c220500b0026c622eafefmr2879674ljq.242.1664531570503;
+        Fri, 30 Sep 2022 02:52:50 -0700 (PDT)
+Received: from mobilestation ([95.79.133.202])
+        by smtp.gmail.com with ESMTPSA id c17-20020a056512105100b004a1e592837esm242979lfb.140.2022.09.30.02.52.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Sep 2022 02:14:54 -0700 (PDT)
-From: Xander Li <xander_li@kingston.corp-partner.google.com>
-To: paulburton@kernel.org,
-	kbusch@kernel.org,
-	axboe@fb.com,
-	hch@lst.de,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org,
+        Fri, 30 Sep 2022 02:52:49 -0700 (PDT)
+Date: Fri, 30 Sep 2022 12:52:47 +0300
+From: Serge Semin <fancer.lancer@gmail.com>
+To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+	Jens Axboe <axboe@kernel.dk>, Jens Axboe <axboe@fb.com>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+	Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: ralf@linux-mips.org,
-	jhogan@kernel.org,
-	christian@brauner.io,
-	jeff_yang@kingston.corp-partner.google.com,
-	dora_chueh@kingston.corp-partner.google.com,
-	james_liu@kingston.corp-partner.google.com,
-	vincent_wu@kingston.com.tw,
-	xander_li@kingston.com.tw,
-	Xander Li <xander_li@kingston.corp-partner.google.com>
-Subject: [PATCH] nvme-pci-disable-write-zeros-support-on-kingston-SSD
-Date: Fri, 30 Sep 2022 02:14:01 -0700
-Message-Id: <20220930091401.14862-1-xander_li@kingston.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
+Subject: Re: [PATCH v2 1/3] nvme-hwmon: Return error on kzalloc failure
+Message-ID: <20220930095247.vqtdc53rr66uaiwv@mobilestation>
+References: <20220929224648.8997-1-Sergey.Semin@baikalelectronics.ru>
+ <20220929224648.8997-2-Sergey.Semin@baikalelectronics.ru>
+ <YzYwB7lRGW80r4HA@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YzYwB7lRGW80r4HA@kbusch-mbp.dhcp.thefacebook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220930_021457_793700_1E87EC09 
-X-CRM114-Status: UNSURE (   8.68  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220930_025253_213227_D23E48CB 
+X-CRM114-Status: GOOD (  23.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,35 +95,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
----
- drivers/nvme/host/pci.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
- mode change 100644 => 100755 drivers/nvme/host/pci.c
+On Thu, Sep 29, 2022 at 05:53:43PM -0600, Keith Busch wrote:
+> On Fri, Sep 30, 2022 at 01:46:46AM +0300, Serge Semin wrote:
+> > Inability to allocate a buffer is a critical error which shouldn't be
+> > tolerated since most likely the rest of the driver won't work correctly.
+> > Thus instead of returning the zero status let's return the -ENOMEM error
+> > if the nvme_hwmon_data structure instance couldn't be created.
+> 
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-old mode 100644
-new mode 100755
-index 98864b853eef..d08c8c854f3a
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3503,6 +3503,16 @@ static const struct pci_device_id nvme_id_table[] = {
- 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
- 	{ PCI_DEVICE(0x2646, 0x2263),   /* KINGSTON A2000 NVMe SSD  */
- 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
-+	{ PCI_DEVICE(0x2646, 0x5018),   /* KINGSTON OM8SFP4xxxxP OS21012 NVMe SSD */
-+		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
-+	{ PCI_DEVICE(0x2646, 0x5016),   /* KINGSTON OM3PGP4xxxxP OS21011 NVMe SSD */
-+		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
-+	{ PCI_DEVICE(0x2646, 0x501A),   /* KINGSTON OM8PGP4xxxxP OS21005 NVMe SSD */
-+		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
-+	{ PCI_DEVICE(0x2646, 0x501B),   /* KINGSTON OM8PGP4xxxxQ OS21005 NVMe SSD */
-+		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
-+	{ PCI_DEVICE(0x2646, 0x501E),   /* KINGSTON OM3PGP4xxxxQ OS21011 NVMe SSD */
-+		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
- 	{ PCI_DEVICE(0x1e4B, 0x1001),   /* MAXIO MAP1001 */
- 		.driver_data = NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x1e4B, 0x1002),   /* MAXIO MAP1002 */
--- 
-2.25.1
+> Nak for this one. The hwmon is not necessary for the rest of the driver to
+> function, so having the driver detach from the device seems a bit harsh.
 
+Even if it is as you say, neither the method semantic nor the way it's
+called imply that. Any failures except the allocation one are
+perceived as erroneous.
+
+> The
+> driver can participate in memory reclaim, so failing on a low memory condition
+> can make matters worse.
+
+Yes it can, so can many other places in the driver utilizing kmalloc
+with just GFP_KERNEL flag passed including on the same path as the
+nvme_hwmon_init() execution. Kmalloc will make sure the reclaim is
+either finished or executed in background anyway in all cases. Don't
+really see why memory allocation failure is less worse in this case
+than in many others in the same driver especially seeing as I said
+above the method semantic doesn't imply the optional feature
+detection. Moreover the allocated structure isn't huge at all. So
+failing to allocate that would indeed mean problems with the memory
+resource.
+
+> 
+> The rest looks good, though.
+
+but you ok with kmalloc in the next line. Seems like contradicting.
+
+@Christoph, what do you think about this?
+
+-Sergey
+
+> 
+> > @@ -230,7 +230,7 @@ int nvme_hwmon_init(struct nvme_ctrl *ctrl)
+> >  
+> >  	data = kzalloc(sizeof(*data), GFP_KERNEL);
+> >  	if (!data)
+> > -		return 0;
+> > +		return -ENOMEM;
+> >  
+> >  	data->ctrl = ctrl;
+> >  	mutex_init(&data->read_lock);
+> > -- 
 
