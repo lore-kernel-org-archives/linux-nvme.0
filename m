@@ -4,91 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B048C433FE
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Sep 2022 07:04:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7DF2BC433FE
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Sep 2022 08:15:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TLGRNBOhN7qPEZSAgQdORPpqx6ib0SBNqkz9JxIe1LE=; b=ibHNG93WLNjH+/dL7j6swr8Hgs
-	oXbSZs4k+6YEp+l8OrYcuQnGp5gpfsRj3+x+s8ww2OX8t+i0rJD2Ta4VFQDJxWzKiv1Bg5VC+TfI9
-	BL8hz74Vn8eJqODENfMZvAe7cXZ/Icj2dk9kY8rDpAP+4A6QSkv8MnEfawSYMYLa5vPFbkfZ0pSlB
-	+1gHT5jG6Nmr4XZmQD3WR2WL9+oR5L2OEn+3pCZB1FCGHauddzSzCrk1Oj4Z/goWc8OgS9b1+bqFN
-	66Dvbab3VzTD3szf8OEx9AKSlTVcjqZnVJXWn8HSS+MTdgTUumPPI/7g7JVqJLlpGnzCXBuuPkljY
-	FCoiIntA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=iZI14wyn4OgIUCp7y8yNsNT8zd4og0MICxhTg68hXu4=; b=4H0xQ6xruxrNJctfEk/tC1LSGu
+	WLZPVLAKOng6qzEkpR0kf+LyWY1K5gi5mMDxVFQ1FR58LaVbPMDhFgEmQf/z8hc4nG9XjOZU8+h1w
+	K71TzAkfFtVNY4e+OGqEn6mZzZ6rgZUMvvx5uoSe+ufe9jbnNLxIXfVOSBcwZqxfGVbnQi1DAefTe
+	KCgxQmRlKBfqKdv9/W/FzB5+a+FzVhP1u6D7mcLF6AOnRzNjMoEyUdpVYwzJ44lDvxFCjsEg+WZ9c
+	ySuHMxhVD7PfsWuvtkiobM1MFOKP6s97IUocBrIYfSjAgkwnMfNsD4orGLIdnijWQrYO3yqFojMS/
+	e30wpa6Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oeA42-007hYU-Ag; Fri, 30 Sep 2022 07:04:02 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1oeBBZ-0081Sz-Ra; Fri, 30 Sep 2022 08:15:53 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oeA3y-007hWh-Ue
-	for linux-nvme@lists.infradead.org; Fri, 30 Sep 2022 07:04:01 +0000
+	id 1oeBBW-0081Rk-VK
+	for linux-nvme@lists.infradead.org; Fri, 30 Sep 2022 08:15:52 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id AA9C21F88E;
-	Fri, 30 Sep 2022 07:03:55 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7638A21886;
+	Fri, 30 Sep 2022 08:15:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1664521435; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1664525748; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TLGRNBOhN7qPEZSAgQdORPpqx6ib0SBNqkz9JxIe1LE=;
-	b=q+Vy0egIgHSzHeevxGZc7+GWRBPDrzW283t8YnNzePPmYRFNuD4gAskWK7vg7tgkOu5K+u
-	Kj5TS4SegBcE/drHpE4ffuv/MFNeKRn93u1O9fCV9lPrjlXMuPx58X5LvbT/EWYhqBZxWK
-	2wPSdZ2LObbC9n972cVN1T24eJGhJ9o=
+	bh=iZI14wyn4OgIUCp7y8yNsNT8zd4og0MICxhTg68hXu4=;
+	b=AIiSgJ+A4wab1QJWmY+sd3J2YXy9M2ypH88BQDPnK1TnTaRsSihwwBBADZgnaPaJchv0ja
+	PtRCSkThUKsqhaE7sx/5yqLBA5np+RnznWC61464rZPMnkzcrBclu8JP68jWFyp15x8OP9
+	3bF9EABdoVC0nA+ONnTgDC8W9G4oIYo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1664521435;
+	s=susede2_ed25519; t=1664525748;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TLGRNBOhN7qPEZSAgQdORPpqx6ib0SBNqkz9JxIe1LE=;
-	b=Mn0KI2S4cKzgpAYwwa7GI6XizIYp19l6FB0kJ3Q6QA3Qd/NijS3PYztmxD3ACr6cvxYM87
-	toNUot82+I09drCg==
+	bh=iZI14wyn4OgIUCp7y8yNsNT8zd4og0MICxhTg68hXu4=;
+	b=JVImaRMu6zDXiaeYtkEWi30C/XCCphVazmTsgJ9HopDmuKnAikloOIguJ7Q2wgVck9Vkx0
+	61nGMZHXSK1zhhAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 74B9A13677;
-	Fri, 30 Sep 2022 07:03:55 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6835313776;
+	Fri, 30 Sep 2022 08:15:48 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id UB9oGtuUNmPQHwAAMHmgww
-	(envelope-from <hare@suse.de>); Fri, 30 Sep 2022 07:03:55 +0000
-Message-ID: <36289eb9-2605-8461-a414-fea5e4ed1211@suse.de>
-Date: Fri, 30 Sep 2022 09:03:55 +0200
+	id nYlNGbSlNmNWPgAAMHmgww
+	(envelope-from <dwagner@suse.de>); Fri, 30 Sep 2022 08:15:48 +0000
+Date: Fri, 30 Sep 2022 10:15:47 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, yi.zhang@redhat.com,
+	Tomas Bzatek <tbzatek@redhat.com>,
+	Alan Adamson <alan.adamson@oracle.com>,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Himanshu Madhani <himanshu.madhani@oracle.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>
+Subject: Re: [RFC v0] nvme: do not log errors for user commands
+Message-ID: <20220930081547.rjcbifhvrqk7ke7m@carbon.lan>
+References: <20220929171338.10792-1-dwagner@suse.de>
+ <YzXpKdR/yjzgf2My@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2] nvmet: force reconnect when number of queue changes
-Content-Language: en-US
-To: John Meneghini <jmeneghi@redhat.com>,
- "Knight, Frederick" <Frederick.Knight@netapp.com>,
- Daniel Wagner <dwagner@suse.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-References: <20220927143157.3659-1-dwagner@suse.de>
- <d151b0c1-d28e-faeb-03d4-ed28b9768ee2@grimberg.me>
- <20220928074850.h6rwvwgz2oje3ebg@carbon.lan>
- <f1909450-1435-9661-056f-b955d6089ca7@grimberg.me>
- <20220928090243.c4ctbj2frydwsfav@carbon.lan>
- <DM8PR06MB7704C17B1DF832A432024BE2F1549@DM8PR06MB7704.namprd06.prod.outlook.com>
- <6e172046-53e7-d2cb-38b8-e87d725046de@redhat.com>
- <20220928152616.inzetc3fsvnhb3o5@carbon.lan>
- <DM8PR06MB7704CA28602F1367574EB23CF1549@DM8PR06MB7704.namprd06.prod.outlook.com>
- <410aeb5c-3045-59ac-3fc8-fe80a89b9119@redhat.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <410aeb5c-3045-59ac-3fc8-fe80a89b9119@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YzXpKdR/yjzgf2My@kbusch-mbp.dhcp.thefacebook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220930_000359_153148_B8FF31EF 
-X-CRM114-Status: GOOD (  12.72  )
+X-CRM114-CacheID: sfid-20220930_011551_169001_5831460D 
+X-CRM114-Status: GOOD (  16.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,32 +91,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/29/22 04:14, John Meneghini wrote:
-> On 9/28/22 14:02, Knight, Frederick wrote:
->> Reset and Disconnect are different.
->>
->> Reset uses registers (and therefore Get Property and Set Property 
->> commands) over a valid connection.
->>
->> Disconnect causes a reset (you have to reconnect to the reset controller)
->> Reset does not cause an immediate disconnect.
+On Thu, Sep 29, 2022 at 12:51:21PM -0600, Keith Busch wrote:
+> On Thu, Sep 29, 2022 at 07:13:37PM +0200, Daniel Wagner wrote:
+> > @@ -325,6 +325,9 @@ static void nvme_log_error(struct request *req)
+> >  		return;
+> >  	}
+> >  
+> > +	if (nr->flags & NVME_REQ_USERCMD)
+> > +		return;
+> > +
 > 
-> OK, so you are saying that the rule "The controller shall not change the 
-> value allocated between resets" in NVMe 5.27.1.5 doesn't apply to fabric 
-> controllers?
-> 
-No; problem is that the linux usage of the word 'reset' really is a 
-disconnect/reconnect (for which a queue change is allowed); we never to 
-a NVMe reset via Get/Set Properties for fabrics.
+> It would be more consistent with existing usage to set RQF_QUIET in the
+> request's rq_flags before dispatching if we wanted to suppress user space admin
+> command errors. If we did that, though, there are no more admin queue users for
+> the verbose logging since internally generated commands already set RQF_QUIET.
 
-Cheers,
+I've tried to find a way how we could pass a quiet flag from user
+land. I don't see how to add this flag on the existing IOCTL
+APIs except by adding a new IOCTL like NVME_IOCTL_SET_CONFIG or so.
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
-
+In my books this new logging infrastructure bd83fe6f2cd2 ("nvme: add
+verbose error logging") is causing a regression. Thus I would like to
+suggest we add the RQF_QUIET flag to the admin passthrough commands as
+well and let those who are interested in the additional logging
+figuring out a solution.
 
