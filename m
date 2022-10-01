@@ -4,80 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D379FC433FE
-	for <linux-nvme@archiver.kernel.org>; Sat,  1 Oct 2022 02:14:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EFA14C433FE
+	for <linux-nvme@archiver.kernel.org>; Sat,  1 Oct 2022 04:23:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=39nUKBxMEtQ4k/548GHzcQvvgKYGFvJDlLo/dLbAsKs=; b=VajGrYUWCTIR8vFH/o62qToe6O
-	ivK2zvbnuPBa4GHpObKc8OupRgSSIi3FxCAelJyLjjnX1krSai4Y5r0Lp3Md/dsDEKvZdvnnmid4H
-	RomFfljMtSMm4Ps4fpB9g6vw1vP6I02TW6fzrkfHQ/fVZaCCYsRjFSDnLnsbSLQZDTHxDO3jHAsfh
-	BHabaYOEXiFBXOBnrmKtl3V6hTUS/Scee8s09RnmMFtvPSVMtbZ0sCb9oRjNUqoeWtYi3t/3KnDxz
-	oPmojAWySzBqBIQPRhndNr/jy816rYQM4Se7Q+TfZdjnX4bs5lA9TfZoxYGR5XLivT4HHKgJHXpH8
-	KQ+zoAvA==;
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=6WYj/EeZ0CtnpUUJBXkemdXTNcgS1r3/7G/Bl+0qgM0=; b=F81VNk5oOyu+58j4Tkya2m6F3Y
+	QiX0dQctvzCG8fS1c4vep7nArnlOWgZ4CdGLmTjXQ1wiWCh0MZIcQCpZUAB0UuWJsJQt/TJ6AyQvQ
+	jmkHgCZVUiGMz9W96tBKX1bbGL+ynooGG1M2qPGiRw6c9S9WuEIxrJBTR/7Vu/S7NmE0Cu4lazeQS
+	47ilk0/becR9ZlmN6hX1ZRtWghvbYUEtxLXPdFBqQo6Xjd+hZ6WQGfA0BoktiRzcSW/+UGC2y4ZOq
+	psXxSD7NFmCjuHqHV4WfFzTpXXkbc+O+uIb2fENT7vVLJbAxLYRAogJ8TKAHksws/JitExIxwzkD6
+	L62vrSzA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oeS1N-00CdHF-8V; Sat, 01 Oct 2022 02:14:29 +0000
-Received: from mail-pf1-f172.google.com ([209.85.210.172])
+	id 1oeU2H-00D4wP-2Q; Sat, 01 Oct 2022 04:23:33 +0000
+Received: from mga01.intel.com ([192.55.52.88])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oeS1L-00CdG4-2y
-	for linux-nvme@lists.infradead.org; Sat, 01 Oct 2022 02:14:28 +0000
-Received: by mail-pf1-f172.google.com with SMTP id d82so5681283pfd.10
-        for <linux-nvme@lists.infradead.org>; Fri, 30 Sep 2022 19:14:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=39nUKBxMEtQ4k/548GHzcQvvgKYGFvJDlLo/dLbAsKs=;
-        b=Gedj7VJsOHddSZYskchoWCnEfsudQSC7A2O4l5mwxIcvZAiKW0JvGNOl0vmthX/h4n
-         zCW+ssoyz/FalPZzBBk8VggU90Lb67Ta+o3iPBBbiDgagOeJ9S7SJk2AcmstLsAjxx4E
-         Iz3qwzBD4d6HFbZVj42qoBHOuz6ixHvWJ7WRBEhTC+tY52rNGalDrV17WnS/Wj7s0hBm
-         7lL4mziOP3u2efIjjOReUMzrGKg4Y7LplEw2SIlNmIJbnkFsus2TMJwnVSgg8TKXaNLr
-         UOhLee2AKj6GTq/KPYtcJ+OolgV9y7tlT3eRQSwT040efh/4kh3+HWSHSwPrr9cPW8rX
-         hw6A==
-X-Gm-Message-State: ACrzQf2kRujAlE7FnHwrVfY6+6DMmJHLvxD7FpFTP4D9iAoKVLlP5krw
-	HKmaxd/CaKUB4bloCsN86N8=
-X-Google-Smtp-Source: AMsMyM5IZ9SWdvy+3MR23M5okJI2LPj5kq09p3lxCfop3u62wqmizBiTv5Ld8kTbr49f1xoKgTuRYA==
-X-Received: by 2002:a65:42c8:0:b0:41a:8138:f47f with SMTP id l8-20020a6542c8000000b0041a8138f47fmr10062728pgp.476.1664590464635;
-        Fri, 30 Sep 2022 19:14:24 -0700 (PDT)
-Received: from [192.168.3.219] ([98.51.102.78])
-        by smtp.gmail.com with ESMTPSA id o3-20020a17090ac08300b0020a73eec389sm69517pjs.3.2022.09.30.19.14.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Sep 2022 19:14:23 -0700 (PDT)
-Message-ID: <c54b3271-1e3f-75cc-2a90-0d5b9b5e93b2@acm.org>
-Date: Fri, 30 Sep 2022 19:14:21 -0700
+	id 1oeU2E-00D4vb-Gd; Sat, 01 Oct 2022 04:23:32 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664598210; x=1696134210;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=RoWMV6YlQ3RZj1k+vWM5yUhCoz+P5pH/wqRjGcxHHpc=;
+  b=WiV5M+Gc1zpXBj5w35W0zTZVaL4TjoLNIBkQd+2rq84sUAFEQ8WlsNf3
+   g9he0jXV50yI+SuqaMcSxsiurQ7OgrrO2Ub7eBFp0/1cAQEyVzQkojd1K
+   3q4EuGhPDTKJoeDJlMHOKbpw9MQKpng8JE7PyKljxnpBZUrP3etsl17ep
+   SXP3eJlByVtHgeVyyS5TBi7jAj3uene6cbM+3wIOUpkHgKGsXdzQLQbcj
+   xfhNA4Z2fa+4vy7TRHj47C/ABKKgNYAdLT3fHibQpTmL4JX28x2NUW1HW
+   o6es6q/i9vVbR+Peh5Y6ws5yR5q2fU66SmtN+6sHIE8fZkjok/mDxwAUG
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="328724899"
+X-IronPort-AV: E=Sophos;i="5.93,359,1654585200"; 
+   d="scan'208";a="328724899"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2022 21:23:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="656176205"
+X-IronPort-AV: E=Sophos;i="5.93,359,1654585200"; 
+   d="scan'208";a="656176205"
+Received: from lkp-server01.sh.intel.com (HELO 14cc182da2d0) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 30 Sep 2022 21:23:14 -0700
+Received: from kbuild by 14cc182da2d0 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1oeU1x-0001ql-2w;
+	Sat, 01 Oct 2022 04:23:13 +0000
+Date: Sat, 01 Oct 2022 12:22:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, linuxppc-dev@lists.ozlabs.org,
+ linux-serial@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+ Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ 274d7803837da78dfc911bcda0d593412676fc20
+Message-ID: <6337c081.sOjlKX7TNksVmkN4%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v15 00/13] support zoned block devices with non-power-of-2
- zone sizes
-Content-Language: en-US
-To: Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Jens Axboe <axboe@kernel.dk>, Pankaj Raghav <p.raghav@samsung.com>,
- hch@lst.de, Keith Busch <kbusch@kernel.org>
-Cc: jaegeuk@kernel.org, agk@redhat.com, gost.dev@samsung.com,
- snitzer@kernel.org, linux-kernel@vger.kernel.org, hare@suse.de,
- matias.bjorling@wdc.com, Johannes.Thumshirn@wdc.com,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- pankydev8@gmail.com, dm-devel@redhat.com,
- "Martin K. Petersen" <martin.petersen@oracle.com>
-References: <CGME20220923173619eucas1p13e645adbe1c8eb62fb48b52c0248ed65@eucas1p1.samsung.com>
- <20220923173618.6899-1-p.raghav@samsung.com>
- <5e9d678f-ffea-e015-53d8-7e80f3deda1e@samsung.com>
- <bd9479f4-ff87-6e5d-296e-e31e669fb148@kernel.dk>
- <0e5088a5-5408-c5bd-bf97-00803cb5faed@acm.org>
- <bb2b3784-422f-fc82-e5be-e4d24412e21f@opensource.wdc.com>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <bb2b3784-422f-fc82-e5be-e4d24412e21f@opensource.wdc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220930_191427_153369_4D19EE1E 
-X-CRM114-Status: GOOD (  13.24  )
+X-CRM114-CacheID: sfid-20220930_212330_601211_679913E4 
+X-CRM114-Status: UNSURE (   9.14  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,33 +85,184 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/30/22 17:45, Damien Le Moal wrote:
-> On 10/1/22 04:38, Bart Van Assche wrote:
->> Since this has not been mentioned in the cover letter, I want to add
->> that in the near future we will need these patches for Android devices.
->> JEDEC is working on supporting zoned storage for UFS devices, the
->> storage devices used in all modern Android phones. Although it would be
->> possible to make the offset between zone starts a power of two by
->> inserting gap zones between data zones, UFS vendors asked not to do this
->> and hence need support for zone sizes that are not a power of two. An
->> advantage of not having to deal with gap zones is better filesystem
->> performance since filesystem extents cannot span gap zones. Having to
->> split filesystem extents because of gap zones reduces filesystem
->> performance.
-> 
-> As mentioned many times, my opinion is that a good implementation should
-> *not* have any extent span zone boundaries. So personally, I do not
-> consider such argument as a valid justification for the non-power-of-2
-> zone size support.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 274d7803837da78dfc911bcda0d593412676fc20  Add linux-next specific files for 20220930
 
-Hi Damien,
+Error/Warning reports:
 
-Although the filesystem extent issue probably can be solved in software, 
-the argument that UFS vendors strongly prefer not to have gap zones and 
-hence need support for zone sizes that are not a power of two remains.
+https://lore.kernel.org/linux-mm/202209150141.WgbAKqmX-lkp@intel.com
+https://lore.kernel.org/linux-mm/202210010718.2kaVANGb-lkp@intel.com
+https://lore.kernel.org/llvm/202209220019.Yr2VuXhg-lkp@intel.com
 
-Thanks,
+Error/Warning: (recently discovered and may have been fixed)
 
-Bart.
+ERROR: modpost: "devm_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
+ERROR: modpost: "devm_ioremap_resource" [drivers/dma/idma64.ko] undefined!
+ERROR: modpost: "devm_ioremap_resource" [drivers/dma/qcom/hdma.ko] undefined!
+ERROR: modpost: "devm_memremap" [drivers/misc/open-dice.ko] undefined!
+ERROR: modpost: "devm_memunmap" [drivers/misc/open-dice.ko] undefined!
+ERROR: modpost: "devm_platform_ioremap_resource" [drivers/char/xillybus/xillybus_of.ko] undefined!
+ERROR: modpost: "devm_platform_ioremap_resource" [drivers/clk/xilinx/clk-xlnx-clock-wizard.ko] undefined!
+ERROR: modpost: "ioremap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
+ERROR: modpost: "iounmap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
+ERROR: modpost: "iounmap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
+arch/arm64/kernel/alternative.c:199:6: warning: no previous prototype for 'apply_alternatives_vdso' [-Wmissing-prototypes]
+arch/arm64/kernel/alternative.c:295:14: warning: no previous prototype for 'alt_cb_patch_nops' [-Wmissing-prototypes]
+depmod: ERROR: Cycle detected: nf_conntrack -> nf_nat -> nf_conntrack
+depmod: ERROR: Found 2 modules in dependency cycles!
+drivers/nvme/target/loop.c:623 nvme_loop_create_ctrl() warn: 'opts->queue_size - 1' 18446744073709551615 can't fit into 65535 'ctrl->ctrl.sqsize'
+drivers/tty/serial/atmel_serial.c:2127: undefined reference to `__clk_is_enabled'
+pahole: .tmp_vmlinux.btf: No such file or directory
 
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- arm64-allyesconfig
+|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
+|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
+|-- arm64-randconfig-r003-20220928
+|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
+|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
+|-- arm64-randconfig-r035-20220926
+|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
+|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
+|-- parisc-randconfig-m031-20220925
+|   `-- drivers-nvme-target-loop.c-nvme_loop_create_ctrl()-warn:opts-queue_size-can-t-fit-into-ctrl-ctrl.sqsize
+|-- parisc-randconfig-r002-20220925
+|   |-- drivers-tty-serial-atmel_serial.c:undefined-reference-to-__clk_is_enabled
+|   `-- pahole:.tmp_vmlinux.btf:No-such-file-or-directory
+|-- s390-allmodconfig
+|   |-- ERROR:devm_ioremap_resource-drivers-dma-fsl-edma.ko-undefined
+|   |-- ERROR:devm_ioremap_resource-drivers-dma-idma64.ko-undefined
+|   |-- ERROR:devm_ioremap_resource-drivers-dma-qcom-hdma.ko-undefined
+|   |-- ERROR:devm_memremap-drivers-misc-open-dice.ko-undefined
+|   |-- ERROR:devm_memunmap-drivers-misc-open-dice.ko-undefined
+|   |-- ERROR:devm_platform_ioremap_resource-drivers-char-xillybus-xillybus_of.ko-undefined
+|   |-- ERROR:devm_platform_ioremap_resource-drivers-clk-xilinx-clk-xlnx-clock-wizard.ko-undefined
+|   |-- ERROR:ioremap-drivers-tty-ipwireless-ipwireless.ko-undefined
+|   |-- ERROR:iounmap-drivers-net-ethernet-pcnet_cs.ko-undefined
+|   `-- ERROR:iounmap-drivers-tty-ipwireless-ipwireless.ko-undefined
+`-- x86_64-rhel-8.3-kselftests
+    |-- depmod:ERROR:Cycle-detected:nf_conntrack-nf_nat-nf_conntrack
+    `-- depmod:ERROR:Found-modules-in-dependency-cycles
+clang_recent_errors
+|-- hexagon-randconfig-r041-20220925
+|   `-- drivers-phy-mediatek-phy-mtk-tphy.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(unsigned-c
+|-- hexagon-randconfig-r041-20220926
+|   |-- drivers-phy-mediatek-phy-mtk-hdmi-mt2701.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
+|   |-- drivers-phy-mediatek-phy-mtk-hdmi-mt8173.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
+|   `-- drivers-phy-mediatek-phy-mtk-tphy.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(unsigned-c
+|-- hexagon-randconfig-r045-20220926
+|   |-- drivers-phy-mediatek-phy-mtk-mipi-dsi-mt8173.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:
+|   `-- drivers-phy-mediatek-phy-mtk-mipi-dsi-mt8183.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:
+|-- powerpc-mpc832x_rdb_defconfig
+|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-A_c-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-B_c-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fctiw.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|   |-- arch-powerpc-math-emu-fctiwz.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|   `-- arch-powerpc-math-emu-fsel.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
+|-- s390-randconfig-r023-20220926
+|   |-- manage.c:(.text):undefined-reference-to-__tsan_memcpy
+|   |-- s39-linux-ld:affinity.c:(.text):undefined-reference-to-__tsan_memcpy
+|   |-- s39-linux-ld:topology.c:(.text):undefined-reference-to-__tsan_memcpy
+|   `-- workqueue.c:(.init.text):undefined-reference-to-__tsan_memcpy
+|-- s390-randconfig-r044-20220926
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-virtual-virtual_link_hwss.c:warning:no-previous-prototype-for-function-virtual_disable_link_output
+`-- x86_64-rhel-8.3-rust
+    |-- ld.lld:error:undefined-symbol:__rust_alloc
+    |-- ld.lld:error:undefined-symbol:__rust_dealloc
+    |-- ld.lld:error:undefined-symbol:__rust_realloc
+    |-- ld.lld:error:undefined-symbol:bool-as-core::fmt::Display::fmt
+    |-- ld.lld:error:undefined-symbol:core::fmt::Formatter::debug_list
+    |-- ld.lld:error:undefined-symbol:core::fmt::Formatter::debug_lower_hex
+    |-- ld.lld:error:undefined-symbol:core::fmt::Formatter::debug_upper_hex
+    |-- ld.lld:error:undefined-symbol:core::fmt::builders::DebugList::entry
+    |-- ld.lld:error:undefined-symbol:core::fmt::builders::DebugList::finish
+    |-- ld.lld:error:undefined-symbol:core::panicking::panic
+    |-- ld.lld:error:undefined-symbol:i32-as-core::fmt::Display::fmt
+    |-- ld.lld:error:undefined-symbol:i32-as-core::fmt::LowerHex::fmt
+    |-- ld.lld:error:undefined-symbol:i32-as-core::fmt::UpperHex::fmt
+    |-- ld.lld:error:undefined-symbol:kernel::error::Error-as-core::convert::From-alloc::collections::TryReserveError::from
+    |-- ld.lld:error:undefined-symbol:kernel::error::Error::to_kernel_errno
+    |-- ld.lld:error:undefined-symbol:kernel::print::call_printk
+    |-- ld.lld:error:undefined-symbol:kernel::print::format_strings::INFO
+    `-- ld.lld:error:undefined-symbol:rust_fmt_argument
+
+elapsed time: 732m
+
+configs tested: 64
+configs skipped: 2
+
+gcc tested configs:
+um                             i386_defconfig
+um                           x86_64_defconfig
+arc                                 defconfig
+alpha                               defconfig
+x86_64                           rhel-8.3-syz
+x86_64                         rhel-8.3-kunit
+x86_64                           rhel-8.3-kvm
+s390                             allmodconfig
+i386                                defconfig
+s390                                defconfig
+i386                 randconfig-a001-20220926
+x86_64                          rhel-8.3-func
+x86_64                              defconfig
+x86_64               randconfig-a002-20220926
+powerpc                          allmodconfig
+i386                 randconfig-a004-20220926
+arm                                 defconfig
+sh                               allmodconfig
+i386                 randconfig-a006-20220926
+x86_64                    rhel-8.3-kselftests
+s390                             allyesconfig
+x86_64                               rhel-8.3
+x86_64               randconfig-a005-20220926
+x86_64               randconfig-a004-20220926
+mips                             allyesconfig
+i386                 randconfig-a002-20220926
+arc                  randconfig-r043-20220925
+i386                 randconfig-a003-20220926
+x86_64               randconfig-a006-20220926
+i386                 randconfig-a005-20220926
+powerpc                           allnoconfig
+x86_64               randconfig-a001-20220926
+x86_64               randconfig-a003-20220926
+x86_64                           allyesconfig
+riscv                randconfig-r042-20220925
+arm64                            allyesconfig
+arm                              allyesconfig
+arc                  randconfig-r043-20220926
+s390                 randconfig-r044-20220925
+i386                             allyesconfig
+ia64                             allmodconfig
+m68k                             allmodconfig
+alpha                            allyesconfig
+arc                              allyesconfig
+m68k                             allyesconfig
+
+clang tested configs:
+i386                 randconfig-a011-20220926
+i386                 randconfig-a013-20220926
+x86_64               randconfig-a012-20220926
+i386                 randconfig-a016-20220926
+i386                 randconfig-a012-20220926
+x86_64               randconfig-a013-20220926
+hexagon              randconfig-r045-20220925
+i386                 randconfig-a015-20220926
+x86_64               randconfig-a011-20220926
+i386                 randconfig-a014-20220926
+hexagon              randconfig-r041-20220926
+x86_64               randconfig-a015-20220926
+x86_64               randconfig-a014-20220926
+x86_64               randconfig-a016-20220926
+hexagon              randconfig-r045-20220926
+hexagon              randconfig-r041-20220925
+riscv                randconfig-r042-20220926
+s390                 randconfig-r044-20220926
+x86_64                          rhel-8.3-rust
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
 
