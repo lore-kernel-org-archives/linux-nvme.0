@@ -4,68 +4,114 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B040AC433F5
-	for <linux-nvme@archiver.kernel.org>; Sat,  1 Oct 2022 00:44:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30D7CC433FE
+	for <linux-nvme@archiver.kernel.org>; Sat,  1 Oct 2022 00:45:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
-	Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=fYLStWIJy+Jlv7mm6BrR195c33v9G8mJsNoTuzBumio=; b=jY3lunB6xDx3Lx7BmEApG+nc0H
-	Z5WkjouBXUiljyjNU+KQBIHn1m59HwyJMVr2dUF8VaDLI5PUEKv+I7husmshXdelvTfnCH9LzK/tI
-	PKK61cMvFhL4jkowIUlnfwmz/uyUi4QtJGpdMZ+241f2K/9eU/Z1YYR7NrcEhnsF89cUkhXdZ2uH7
-	d9h2S91cWFXFJWsmWg9Qsj0hWJKH5l+7ktJz2yNnBjftrL0HJPNaoTXtHgkkWotET7qbiFjSAr4Xc
-	S2i9i+LE+jSrG0+4HLhkELQ2YsN7c3oToAyl8tXZoNzXHshJrNOenkq1zfv61hJ8PaRdiPhvVGy2p
-	vgrhO13w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=/OPnFwMXp4MthxK0p6Qc7SOdevksy8NVFGtOASvAaY8=; b=YKBvV4FbOW4GQPvB5YxqSTRZSV
+	/LXYl378+cfYe6yMNrKM8S/rwGMVvwIHjSqHvcFR7+pIKbnV5N6TBnpRuv7P0zNuaFA8SSyLd4hix
+	jVEqq0ICwhpH/bLtCk2eNcJs/umR8WH5F/BUu5UgGS+o3Z62qeavta9qVOJqjXj+lMAgKecWi23m8
+	p67Zc61foNGhPCgVmlTgMLaR9KhnqZKxGOTtero4iKQ2ldFOe40fZslM8RZOYInnFgE3fIHrwrHek
+	I3DyB8PPWVt+xkzOgaVgh8i4VdvMS/iAJgxKEX/+6EV82AknC0LjBR6/h41WlCMbprzeWgCeeCl/U
+	r9GSiBzQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oeQc5-00CL01-9o; Sat, 01 Oct 2022 00:44:17 +0000
-Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133])
+	id 1oeQd9-00CLHG-OP; Sat, 01 Oct 2022 00:45:23 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oeQc2-00CKyf-QD
-	for linux-nvme@lists.infradead.org; Sat, 01 Oct 2022 00:44:16 +0000
-Received: by mail-lf1-x133.google.com with SMTP id u26so581695lfk.8
-        for <linux-nvme@lists.infradead.org>; Fri, 30 Sep 2022 17:44:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pcpartpicker.com; s=google;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date;
-        bh=fYLStWIJy+Jlv7mm6BrR195c33v9G8mJsNoTuzBumio=;
-        b=QJC88LXvPJjdFg/j6qcjo6OJNjdtS2nnz2Nnu2LmyG6uYWw51Q0khWs8TAt5Zx0gpc
-         fnQccKHU3ckEeQB42OSs4L1dGpvRgsyyjW0eoQ0n5KxEKHA665TQ7iDaH/yqx+DXJHOB
-         f1ELKC8aUhH+Q17ghrNXDCdIkQ6ykNRbWqkihevhXrInV4eyC4LNY+dZqsssoJO+tmNv
-         DGGRzR89lPkeXjzF4lvG9URiyMKRT4AGtWmv+/SOnnRNzkrm0/2J4BULgST/i/FrC3lN
-         JdJkF6Cz5maDdlPwx88oTlelzjbI96jlEWS7gF5k4sZxEnC6U29mlqcpb5FcXF73yoHf
-         3O9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=fYLStWIJy+Jlv7mm6BrR195c33v9G8mJsNoTuzBumio=;
-        b=Si1qt7htPYCuupefkVjLCTjl/NfGYDJc2aPPg4H9vSGBd55ZVCcP1wdViAyi9bHB5P
-         R4GVVb41iMHZwvVhr6OwGkcJuB60hWPRW5RosS6k6+hG2zdeZcb5yMwOAfUXl9wSgyEs
-         bSwkpSVUikkFktMFhv5RLHNRqw8IzWvRoK/jS6uQdT9GiSGkJkYAcndj3n8OejrjxHKs
-         VGwHEMdT1trLbDvlbC718Zmwt8DQfLncvrT3f9QHiU5Q63p33WYgiIgI6pOvnTpsdj2G
-         yjOInySIz1mc9LJqLTQsSElU1evED/sxTWxtUo+qRK3BXFil/P4OSK6jIWdYdoGF1cpK
-         CftQ==
-X-Gm-Message-State: ACrzQf1lxSpgTOnM7pumAjwgK4oSNVNXds9BSSybK3P9b0fB7mkekO9I
-	MmfW5sQzt3zCa+r2LRDOGBCZIpLB8mq9C3S5ljTwz3+gmwEsnfsu
-X-Google-Smtp-Source: AMsMyM4p9x7tBS0Y3WpUAV6I0522VTzPJl5VNtWYcjYHgFF8OmgkzXosTYQ6XQmJOEDKtGfUdF6c3wMsQvOP+5Xo5FU=
-X-Received: by 2002:a05:6512:e8f:b0:4a2:e29:75ae with SMTP id
- bi15-20020a0565120e8f00b004a20e2975aemr2808259lfb.308.1664585049554; Fri, 30
- Sep 2022 17:44:09 -0700 (PDT)
+	id 1oeQd6-00CLEi-Bs
+	for linux-nvme@lists.infradead.org; Sat, 01 Oct 2022 00:45:22 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1664585120; x=1696121120;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=0k8Omvocy/Lmn1JNbD0D6pTNgD8xKFYnwKObyBLyY3Q=;
+  b=LcJ2Lwnf/2fuVnv4WmLTwqhr0+dQe/oXx/5T6YSjY3F+dWsgpnLVq4Qn
+   9ogb9XAoe5V/jcWbIfD0I1OgrPf+5ayGtS5ZcnlixAbY6ARgHPBHisufO
+   2sNOZOqcQbJxltWPpbD3h2VgC+Ljb9Srri1795c7kUY2CZMpLMhichszo
+   AMUEwP0Qr/nja+AIG7EW5qLVDwFQv5+KSZq9fJkbouvhTe8XtIUbcAHWC
+   Y+KJ+p+Iq7LNi/xzj/g21trvkdoaZbyeat50q5zFASvvTYWYzYI0v7QBH
+   v+YAhqlUPbM9fxo84AgV1zLZuK5UycGBC6Ui4ev5CfAp68TuvMeuTPWr2
+   w==;
+X-IronPort-AV: E=Sophos;i="5.93,359,1654531200"; 
+   d="scan'208";a="213116206"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 01 Oct 2022 08:45:16 +0800
+IronPort-SDR: CWCFfvUzGZZvj0S0f+D7HMNHbRdkdnJ+C/DfGF03kiNc3AacYX3p5+vMaGHC6xtR9ijWENbJzy
+ j8d9OlLfqjTa5dzwofx9jNq84LJnACeG/O2OM4GnOYw5Rg/h1pSqNuKQTcnk39nu2UUbwfhofj
+ 3bMaafnPtG+UYxZZ7J0lwLBF9aUvqLz/UC54kcb09IUUMXezkmSx00lNCWGnFb5+udUwROXgCe
+ ieMiKhIaayxLgmbngtxti9nTlpUDljkYU9lxHYbFEwDIF45Zr3NDvqjIY4rBWZos+tts+757/v
+ SxzoTSkQmGIvShdudddT4dvp
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 30 Sep 2022 17:05:09 -0700
+IronPort-SDR: p9XsClJ2SdotBpIS7tS6SKSPmSMcpijh1hSoKvZxAaWFyrFGaPPgGuuYuYrUmTg9vYTF2pZTYx
+ AVQAFB/1VcLoT7w+KRsiZDVBjW1igQGpOwldspZNg8U98DbfgO8Ge0UXm851UTjZLcI0SopWs6
+ KLbYZ6q4fC40vYP9yxjjCv830jdpMrA1gYz2rDGFtwfHYLi2bia3fNUTHX75S8VLOEEcM0cvl0
+ rVIPD5nhoMfwcJ+K4ofiafHEuYCH/BPagYHRt2nVaw4RikqHg0MK9a6hcxCxehja3duFuYDKZi
+ oqk=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 30 Sep 2022 17:45:17 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4MfT0D3ydmz1SHjy
+	for <linux-nvme@lists.infradead.org>; Fri, 30 Sep 2022 17:45:16 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+	reason="pass (just generated, assumed good)"
+	header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+	opensource.wdc.com; h=content-transfer-encoding:content-type
+	:in-reply-to:organization:from:references:to:content-language
+	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
+	1664585115; x=1667177116; bh=0k8Omvocy/Lmn1JNbD0D6pTNgD8xKFYnwKO
+	byBLyY3Q=; b=TBmgxUD6GnERjJmdq/0e0i+8yyLf3pp02kEDYv4DrQaFwp/O95E
+	D+qy3e2Uo87AHw1O34ZcgRE4Zlvrggr1hP2DdqpE6ihqkKd+3wMtDyqp5HPHXef2
+	PG8ulQHC7ut9HCxTvuSaNTqWuRb+F7nMkdNuLqGCpwzB47XZpTqwILKVVARsbsmw
+	pdXs48ruVM7tKnCAIMze46IRWrk/AhxTr0fSnA6fbmzB5Ioof7WfHOETwFrUUIap
+	iX73D1EoSLUH2PCw7/fX+uCpz3CEaeP9wnUBDUfsb0k7G8LM2/Jz76KhfBBTDFlW
+	uDGkZbNTsPzlXsWya34a2a72rMhzYcB+fUQ==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id Hmn0A6L0z7WA for <linux-nvme@lists.infradead.org>;
+	Fri, 30 Sep 2022 17:45:15 -0700 (PDT)
+Received: from [10.225.163.96] (unknown [10.225.163.96])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4MfT076V2Xz1RvLy;
+	Fri, 30 Sep 2022 17:45:11 -0700 (PDT)
+Message-ID: <bb2b3784-422f-fc82-e5be-e4d24412e21f@opensource.wdc.com>
+Date: Sat, 1 Oct 2022 09:45:10 +0900
 MIME-Version: 1.0
-From: Nick Neumann <nick@pcpartpicker.com>
-Date: Fri, 30 Sep 2022 19:43:57 -0500
-Message-ID: <CADqNVTrNZRGgjmZ5NNaMvp1nhbnRHA-KUO+H8VxTmdhU6iX8rw@mail.gmail.com>
-Subject: NVMe SMART Log critical warning during benchmark - is it really critical?
-To: linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v15 00/13] support zoned block devices with non-power-of-2
+ zone sizes
+Content-Language: en-US
+To: Bart Van Assche <bvanassche@acm.org>, Jens Axboe <axboe@kernel.dk>,
+ Pankaj Raghav <p.raghav@samsung.com>, hch@lst.de,
+ Keith Busch <kbusch@kernel.org>
+Cc: jaegeuk@kernel.org, agk@redhat.com, gost.dev@samsung.com,
+ snitzer@kernel.org, linux-kernel@vger.kernel.org, hare@suse.de,
+ matias.bjorling@wdc.com, Johannes.Thumshirn@wdc.com,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ pankydev8@gmail.com, dm-devel@redhat.com,
+ "Martin K. Petersen" <martin.petersen@oracle.com>
+References: <CGME20220923173619eucas1p13e645adbe1c8eb62fb48b52c0248ed65@eucas1p1.samsung.com>
+ <20220923173618.6899-1-p.raghav@samsung.com>
+ <5e9d678f-ffea-e015-53d8-7e80f3deda1e@samsung.com>
+ <bd9479f4-ff87-6e5d-296e-e31e669fb148@kernel.dk>
+ <0e5088a5-5408-c5bd-bf97-00803cb5faed@acm.org>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <0e5088a5-5408-c5bd-bf97-00803cb5faed@acm.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220930_174414_883229_04710C2C 
-X-CRM114-Status: UNSURE (   8.80  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220930_174520_551446_A405C0EF 
+X-CRM114-Status: GOOD (  23.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,31 +126,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I was running fio to fill an NVMe SSD with a sequential write. During
-this, the drive gets hot, eventually climbing to 84C or higher.
+On 10/1/22 04:38, Bart Van Assche wrote:
+> On 9/30/22 08:13, Jens Axboe wrote:
+>> On 9/29/22 12:31 AM, Pankaj Raghav wrote:
+>>>> Hi Jens,
+>>>>    Please consider this patch series for the 6.1 release.
+>>>>
+>>>
+>>> Hi Jens, Christoph, and Keith,
+>>>   All the patches have a Reviewed-by tag at this point. Can we queue this up
+>>> for 6.1?
+>>
+>> It's getting pretty late for 6.1 and I'd really like to have both Christoph
+>> and Martin sign off on these changes.
+> 
+> Hi Jens,
+> 
+> Agreed that it's getting late for 6.1.
+> 
+> Since this has not been mentioned in the cover letter, I want to add 
+> that in the near future we will need these patches for Android devices. 
+> JEDEC is working on supporting zoned storage for UFS devices, the 
+> storage devices used in all modern Android phones. Although it would be 
+> possible to make the offset between zone starts a power of two by 
+> inserting gap zones between data zones, UFS vendors asked not to do this 
+> and hence need support for zone sizes that are not a power of two. An 
+> advantage of not having to deal with gap zones is better filesystem 
+> performance since filesystem extents cannot span gap zones. Having to 
+> split filesystem extents because of gap zones reduces filesystem 
+> performance.
 
-The drive lists 84C for Warning Comp. Temp. Threshold, and 88C for
-Critical Comp. Temp. Threshold.
+As mentioned many times, my opinion is that a good implementation should
+*not* have any extent span zone boundaries. So personally, I do not
+consider such argument as a valid justification for the non-power-of-2
+zone size support.
 
-When it hits 84C, it returns Critical Warning 0x02 if I query its
-SMART log page. The NVMe docs say "when this is enabled the drive has
-a problem". But the docs also say that Critical Warning is set when
-"exceeding the temperature threshold and/or throttling".
+> 
+> Thanks,
+> 
+> Bart.
+> 
+> 
 
-These two things in the NVMe docs seem contradictory. Throttling
-happens, especially with some higher end consumer drives under
-sustained load, It seems odd to consider the drive having "a problem"
-when something that happens under unremarkable but heavy use happens.
+-- 
+Damien Le Moal
+Western Digital Research
 
-If using Critical Warning like this is appropriate, it feels out of
-place to have it bundled in with the other reasons for Critical
-Warning. Those reasons are degraded/read only mode due to media
-errors, and hardware failure
-
-I've had other drives run the same fio test and thermal throttle, and
-*not* set Critical Warning. I'd expect Critical Warning for
-temperature only if a drive got so hot that data loss could occur, and
-would expect thermal throttling to happen first.
-
-Any insight on this? How Critical is Critical Warning 0x02? Thanks in advance.
 
