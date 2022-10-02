@@ -4,63 +4,107 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF1BDC433FE
-	for <linux-nvme@archiver.kernel.org>; Sun,  2 Oct 2022 00:19:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1CE5BC433F5
+	for <linux-nvme@archiver.kernel.org>; Sun,  2 Oct 2022 08:29:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:
-	To:From:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Pr8erL9cZfyS7aBe9lpvPxYV8i8drY/Mfbf0KNI5oQM=; b=fXLumUs6JqySr3Kjh2tirxNBde
-	uP6F/1M2du2EyGLOocmOH/AnZ3ZXyh8Bx3U427gkOLjZPcXdTZFDqaqqaFu1co11YZxgCFcjtnKJE
-	21spwfEgZo/KxEg0AG6lJw+EL503PNBXp9/yHEzejHkf9Wn678ybZMX43TPy6Sgb5H2KU+ZVbyabp
-	3bBpQkugTD/PeWBQC8zpaVhRZTnKAh4WcuskPZpHoEx8fLXW/pMx0HDCbB/Wfdu5SQQ8FYdgk+N3S
-	O8QJMCXHSK8LNw5OukKH+9+xioDHqjLoSg/BdN5widVuN3Gui2X4KGEoJrzyS+w7N+d4N8/vVF5t2
-	veSwu2kQ==;
+	bh=d5PzXpBtctzyjgCE0DLke8BH3vzlVe/nLmdUwaHML4E=; b=ufLKJjblXx7at0zBoX1p5ds8aG
+	xCMsf50nBeVnuwHilT4FajSgJ9xI5SNcugfxEDRdTkf9mvvRos53MhOm6tGx74vNFIr5yMiJLcQXt
+	dMPsuERCnPiB4yzH1e+i/q3Z00gYJ8rCrB6wFcfXUc8fSgA0aCJi4l/mjbHN6HTYAAKyIbDhiE4lF
+	045/G5xZZtZVtw+QLrNvCpGEJ+bted8SsLnvI/Crazp4ZzFuCFPOnzOksLV2TuP4GRJFBOZ9d20Pw
+	yUbj4O4HJ9XpcBBlCcD/zvIHfxtd6uyH+KLAwcdPhJ1RlSbluihZlT2HEME26bM2BXKoNbE01akxL
+	vaB5iGfQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oemhz-00GepR-EF; Sun, 02 Oct 2022 00:19:51 +0000
-Received: from spam.zju.edu.cn ([61.164.42.155] helo=zju.edu.cn)
-	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oemht-00GenZ-JA
-	for linux-nvme@lists.infradead.org; Sun, 02 Oct 2022 00:19:47 +0000
-Received: from ubuntu.localdomain (unknown [10.190.65.158])
-	by mail-app4 (Coremail) with SMTP id cS_KCgAXjk3_2DhjIc_GBg--.24421S2;
-	Sun, 02 Oct 2022 08:19:20 +0800 (CST)
-From: Duoming Zhou <duoming@zju.edu.cn>
-To: linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	james.smart@broadcom.com,
-	kbusch@kernel.org,
-	axboe@fb.com,
-	hch@lst.de,
-	sagi@grimberg.me,
-	Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH] nvme-fc: fix sleep-in-atomic-context bug caused by nvme_fc_rcv_ls_req
-Date: Sun,  2 Oct 2022 08:19:09 +0800
-Message-Id: <20221002001909.20070-1-duoming@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cS_KCgAXjk3_2DhjIc_GBg--.24421S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7tw1UArWrKw13GFW8WF4Durg_yoW8Jw15pa
-	95WF9YkF17CF1jyasrGF4FvrWrZ3Z2gayUG3ZFq3y3uwnYqryFyrZ0ka4FvFWDuF97WFyr
-	XFy8Xw1UGF1DAF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUk21xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
-	w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
-	IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E
-	87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
-	8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
-	Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
-	xGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxF
-	aVAv8VW8uw4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr
-	4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxG
-	rwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8Jw
-	CI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2
-	z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgIKAVZdtbvX2gBDsA
+	id 1oeuLj-000Lvg-HL; Sun, 02 Oct 2022 08:29:23 +0000
+Received: from mail-mw2nam12on2082.outbound.protection.outlook.com ([40.107.244.82] helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oeuLg-000Lsw-8G
+	for linux-nvme@lists.infradead.org; Sun, 02 Oct 2022 08:29:21 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=msahqXEEEywzZZMMI9BF0Zx5TWchi1Q0VB4LHSK9as/U4FWM3RDBaTfGc1MpUNxBv+36vomIaMhHtBfN4Z+gJJckZ8LoWcI8N7Z7eRVYfpeVxvsWr7CMUaC6RhfJOThp8m3gMSuQLQGAAWUxYWXPUupIZB43TJnJ4ZTvqNU3V1jUTLJBQT3SaErTzTUzrt5AYeUt62ScOXZSV6hTx04zE3OV/6wTuQxJL6QAjxE4y1vi7BdLYFufumZkBxT+uJqIekAFMwgvgU9n99bkGGhCAgAj9WD2QWSieZScRHZ/AGZ2D4Cvo4DTq7+rR9DXZj58L8q4oZLS/VMMj1qzrmj5mQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=d5PzXpBtctzyjgCE0DLke8BH3vzlVe/nLmdUwaHML4E=;
+ b=R8EkhWYySo/pVrsR4bQqe9P9XR8isVA3rgdP9OEYYGvB5rTN05NX7AoH10n7Z43DR4+OOi/S41f86cwc8bi9wIOrxuFlqLwiqyKxSPodssE04vQi2dkW1R7A/uOig+hRcQdvV3sw/rH5ySAPVS6HONjw3qLTIFElHtnJbuc+IUEKiowlQzIFDw5urEeA2Cdo9TaZOL7X6xWxc5ZnPfh5UhbF13Cbj56CPDTcKTAomIz84FzBVte+I0TPPKhm40g2JXqdYn2n2Y0q27Ny5W49GnfTy3SHkonHViURiROeevVsnPa5Q8+AXMFxMUJOFvdmmQemZnsi5NW5CWtBOAuvuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=lists.infradead.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d5PzXpBtctzyjgCE0DLke8BH3vzlVe/nLmdUwaHML4E=;
+ b=gw/D0fEupyM91zPRCWfDoK5hwnaaKhDYhdRTXeTOXN5kVVmVrwObDd+IkTnLtR3fosfnnruPU0mntuoGP5bFnVMUctzVncVpB6zhD/RaXT8goGufuP4KEyd7XDbWNRy7ycoaabXKXOZSzaV2XS+0tO0U4/lv6YtIHV1OFAGViY4OqkUGuWQQl3ufM9QhQkoWE2k+Hggf+hG4xRPeAXpU1bfI2RQ9nx43O1vLtqETORJ2yMgWhBXJoM1qrJOocCeg8dLH558HwIu2uUIoO5zgxFd89MThvnv6lr1FXQCYzP9+3/F8gDq/asahuYunBolMp9JwmuL9F9vm/ZStekqh9A==
+Received: from BN9PR03CA0221.namprd03.prod.outlook.com (2603:10b6:408:f8::16)
+ by MW3PR12MB4377.namprd12.prod.outlook.com (2603:10b6:303:55::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.23; Sun, 2 Oct
+ 2022 08:29:08 +0000
+Received: from BN8NAM11FT101.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:f8:cafe::8) by BN9PR03CA0221.outlook.office365.com
+ (2603:10b6:408:f8::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.23 via Frontend
+ Transport; Sun, 2 Oct 2022 08:29:08 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ BN8NAM11FT101.mail.protection.outlook.com (10.13.177.126) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5676.17 via Frontend Transport; Sun, 2 Oct 2022 08:29:08 +0000
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Sun, 2 Oct 2022
+ 01:28:55 -0700
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail204.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Sun, 2 Oct 2022
+ 01:28:54 -0700
+Received: from r-arch-stor03.mtr.labs.mlnx (10.127.8.14) by mail.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server id 15.2.986.29 via Frontend
+ Transport; Sun, 2 Oct 2022 01:28:52 -0700
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+To: <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>, <hch@lst.de>,
+	<kbusch@kernel.org>
+CC: <oren@nvidia.com>, <chaitanyak@nvidia.com>, <linux-block@vger.kernel.org>,
+	Max Gurtovoy <mgurtovoy@nvidia.com>
+Subject: [PATCH v2 1/1] nvme: use macro definitions for setting reservation values
+Date: Sun, 2 Oct 2022 11:28:51 +0300
+Message-ID: <20221002082851.13222-1-mgurtovoy@nvidia.com>
+X-Mailer: git-send-email 2.18.1
+MIME-Version: 1.0
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT101:EE_|MW3PR12MB4377:EE_
+X-MS-Office365-Filtering-Correlation-Id: e10240b9-05ee-4405-fab5-08daa4502ccc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	C0ckwXKc+B3ZzCWnAWZRR6BY8lNjbEx9wv65ULeswzfaXh69lGembUhY7nt4efZmD0C8x45YowcTVXpCw0lpN08EcwlUxVDwU5Q9a3P464GfLhUIRFd8Y6Q9tbFF1FKStaMxv6xdn8/2x8QipfAI/FvTK7MX9t4tRGiK8y26iEXGon7Q0TdhtRo4pwZyIhJe0G7xfm+JNF3uV7I3A4+y49KHwk3bdWP9Ka5qvw8q0wJ3uLcZkhOpBiEk9LKa+5N1h4BOQsH+tGb3dxARMD7GGWrNKkZC0v5T3eWx6vzW086YLhH0xvLdgSzvGiKCNEaqQNTO/TJcNA9t4qDo4hD+j+ESf2W8UuEUhv7s0+SRMwW0VVtxbMqUspVjK9wL8aBuy4AFVHzSi6YqYYoqmBnHRMSNJoYVjJCOpXEpZdvwXfnX6hByuoY+iW5XUfw+332i3ih0BzwdTq+NMWS7krlQ/3KfR5Oiq+uoZ6DQkpFq4/tXDrJMyE5k6czIifEVIm9EkLMF6iroKFLCBtf5+rm+rMdkm6fhTOVs/3Qa3Oi93oVRf78BlTQ8hW+wnNRL7X3U1TBjmPuYWPwRP11du8TOjIAmvSBo6/PbzlYkvzCpIBAqlUOqRaUaEUZKbwGymuRImvB6mkLnJj76vEamIQ39ieYipKmmwYJr/5ybwmSspvG8Rd00JWDclgEVpa28VCTV+iD07u7X3C7/mSdxSZ8w5jBMawyqGvWu1yRm+flAS/v2B+W7564xTelDZEDcCS52va/l8cBIwgGsPKqGSP0SLg==
+X-Forefront-Antispam-Report: 	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230022)(4636009)(136003)(39860400002)(346002)(376002)(396003)(451199015)(40470700004)(36840700001)(46966006)(70206006)(4326008)(86362001)(8676002)(8936002)(41300700001)(1076003)(426003)(70586007)(2616005)(336012)(186003)(47076005)(107886003)(478600001)(82740400003)(5660300002)(83380400001)(110136005)(7636003)(26005)(40480700001)(40460700003)(316002)(356005)(36756003)(54906003)(82310400005)(36860700001)(2906002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2022 08:29:08.0129
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e10240b9-05ee-4405-fab5-08daa4502ccc
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: 	BN8NAM11FT101.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4377
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221001_171945_952146_F8107A9E 
-X-CRM114-Status: UNSURE (   9.22  )
+X-CRM114-CacheID: sfid-20221002_012920_321972_DA16D95A 
+X-CRM114-Status: UNSURE (   9.69  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -76,43 +120,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The function lpfc_poll_timeout() is a timer handler that runs in an
-atomic context, but it calls "kzalloc(.., GFP_KERNEL)" that may sleep.
-As a result, the sleep-in-atomic-context bug will happen. The processes
-is shown below:
+This makes the code more readable.
 
-lpfc_poll_timeout()
- lpfc_sli_handle_fast_ring_event()
-  lpfc_sli_process_unsol_iocb()
-   lpfc_complete_unsol_iocb()
-    lpfc_nvme_unsol_ls_handler()
-     lpfc_nvme_handle_lsreq()
-      nvme_fc_rcv_ls_req()
-       kzalloc(sizeof(.., GFP_KERNEL) //may sleep
-
-This patch changes the gfp_t parameter of kzalloc() from GFP_KERNEL to
-GFP_ATOMIC in order to mitigate the bug.
-
-Fixes: 14fd1e98afaf ("nvme-fc: Add Disconnect Association Rcv support")
-Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
 ---
- drivers/nvme/host/fc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes from v1:
+ - remove comments (Sagi/Keith)
+ - use tabs for constants alignment, similar to 'enum pr_type' (Keith)
+---
+ drivers/nvme/host/core.c | 12 ++++++------
+ include/linux/nvme.h     |  9 +++++++++
+ 2 files changed, 15 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 127abaf9ba5..36698dfc8b3 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -1754,7 +1754,7 @@ nvme_fc_rcv_ls_req(struct nvme_fc_remote_port *portptr,
- 	lsop = kzalloc(sizeof(*lsop) +
- 			sizeof(union nvmefc_ls_requests) +
- 			sizeof(union nvmefc_ls_responses),
--			GFP_KERNEL);
-+			GFP_ATOMIC);
- 	if (!lsop) {
- 		dev_info(lport->dev,
- 			"RCV %s LS failed: No memory\n",
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 3f1a7dc2a2a3..50668e1bd9f1 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2068,17 +2068,17 @@ static char nvme_pr_type(enum pr_type type)
+ {
+ 	switch (type) {
+ 	case PR_WRITE_EXCLUSIVE:
+-		return 1;
++		return NVME_PR_WRITE_EXCLUSIVE;
+ 	case PR_EXCLUSIVE_ACCESS:
+-		return 2;
++		return NVME_PR_EXCLUSIVE_ACCESS;
+ 	case PR_WRITE_EXCLUSIVE_REG_ONLY:
+-		return 3;
++		return NVME_PR_WRITE_EXCLUSIVE_REG_ONLY;
+ 	case PR_EXCLUSIVE_ACCESS_REG_ONLY:
+-		return 4;
++		return NVME_PR_EXCLUSIVE_ACCESS_REG_ONLY;
+ 	case PR_WRITE_EXCLUSIVE_ALL_REGS:
+-		return 5;
++		return NVME_PR_WRITE_EXCLUSIVE_ALL_REGS;
+ 	case PR_EXCLUSIVE_ACCESS_ALL_REGS:
+-		return 6;
++		return NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS;
+ 	default:
+ 		return 0;
+ 	}
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index ae53d74f3696..4f777d8621a7 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -238,6 +238,15 @@ enum {
+ 	NVME_CAP_CRMS_CRIMS	= 1ULL << 60,
+ };
+ 
++enum {
++	NVME_PR_WRITE_EXCLUSIVE			= 1,
++	NVME_PR_EXCLUSIVE_ACCESS		= 2,
++	NVME_PR_WRITE_EXCLUSIVE_REG_ONLY	= 3,
++	NVME_PR_EXCLUSIVE_ACCESS_REG_ONLY	= 4,
++	NVME_PR_WRITE_EXCLUSIVE_ALL_REGS	= 5,
++	NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS	= 6,
++};
++
+ struct nvme_id_power_state {
+ 	__le16			max_power;	/* centiwatts */
+ 	__u8			rsvd2;
 -- 
-2.17.1
+2.18.1
 
 
