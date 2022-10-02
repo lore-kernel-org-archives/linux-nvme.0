@@ -4,72 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EFA14C433FE
-	for <linux-nvme@archiver.kernel.org>; Sat,  1 Oct 2022 04:23:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF1BDC433FE
+	for <linux-nvme@archiver.kernel.org>; Sun,  2 Oct 2022 00:19:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:
+	To:From:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=6WYj/EeZ0CtnpUUJBXkemdXTNcgS1r3/7G/Bl+0qgM0=; b=F81VNk5oOyu+58j4Tkya2m6F3Y
-	QiX0dQctvzCG8fS1c4vep7nArnlOWgZ4CdGLmTjXQ1wiWCh0MZIcQCpZUAB0UuWJsJQt/TJ6AyQvQ
-	jmkHgCZVUiGMz9W96tBKX1bbGL+ynooGG1M2qPGiRw6c9S9WuEIxrJBTR/7Vu/S7NmE0Cu4lazeQS
-	47ilk0/becR9ZlmN6hX1ZRtWghvbYUEtxLXPdFBqQo6Xjd+hZ6WQGfA0BoktiRzcSW/+UGC2y4ZOq
-	psXxSD7NFmCjuHqHV4WfFzTpXXkbc+O+uIb2fENT7vVLJbAxLYRAogJ8TKAHksws/JitExIxwzkD6
-	L62vrSzA==;
+	bh=Pr8erL9cZfyS7aBe9lpvPxYV8i8drY/Mfbf0KNI5oQM=; b=fXLumUs6JqySr3Kjh2tirxNBde
+	uP6F/1M2du2EyGLOocmOH/AnZ3ZXyh8Bx3U427gkOLjZPcXdTZFDqaqqaFu1co11YZxgCFcjtnKJE
+	21spwfEgZo/KxEg0AG6lJw+EL503PNBXp9/yHEzejHkf9Wn678ybZMX43TPy6Sgb5H2KU+ZVbyabp
+	3bBpQkugTD/PeWBQC8zpaVhRZTnKAh4WcuskPZpHoEx8fLXW/pMx0HDCbB/Wfdu5SQQ8FYdgk+N3S
+	O8QJMCXHSK8LNw5OukKH+9+xioDHqjLoSg/BdN5widVuN3Gui2X4KGEoJrzyS+w7N+d4N8/vVF5t2
+	veSwu2kQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oeU2H-00D4wP-2Q; Sat, 01 Oct 2022 04:23:33 +0000
-Received: from mga01.intel.com ([192.55.52.88])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oeU2E-00D4vb-Gd; Sat, 01 Oct 2022 04:23:32 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664598210; x=1696134210;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=RoWMV6YlQ3RZj1k+vWM5yUhCoz+P5pH/wqRjGcxHHpc=;
-  b=WiV5M+Gc1zpXBj5w35W0zTZVaL4TjoLNIBkQd+2rq84sUAFEQ8WlsNf3
-   g9he0jXV50yI+SuqaMcSxsiurQ7OgrrO2Ub7eBFp0/1cAQEyVzQkojd1K
-   3q4EuGhPDTKJoeDJlMHOKbpw9MQKpng8JE7PyKljxnpBZUrP3etsl17ep
-   SXP3eJlByVtHgeVyyS5TBi7jAj3uene6cbM+3wIOUpkHgKGsXdzQLQbcj
-   xfhNA4Z2fa+4vy7TRHj47C/ABKKgNYAdLT3fHibQpTmL4JX28x2NUW1HW
-   o6es6q/i9vVbR+Peh5Y6ws5yR5q2fU66SmtN+6sHIE8fZkjok/mDxwAUG
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="328724899"
-X-IronPort-AV: E=Sophos;i="5.93,359,1654585200"; 
-   d="scan'208";a="328724899"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2022 21:23:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="656176205"
-X-IronPort-AV: E=Sophos;i="5.93,359,1654585200"; 
-   d="scan'208";a="656176205"
-Received: from lkp-server01.sh.intel.com (HELO 14cc182da2d0) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 30 Sep 2022 21:23:14 -0700
-Received: from kbuild by 14cc182da2d0 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1oeU1x-0001ql-2w;
-	Sat, 01 Oct 2022 04:23:13 +0000
-Date: Sat, 01 Oct 2022 12:22:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, linuxppc-dev@lists.ozlabs.org,
- linux-serial@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 274d7803837da78dfc911bcda0d593412676fc20
-Message-ID: <6337c081.sOjlKX7TNksVmkN4%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+	id 1oemhz-00GepR-EF; Sun, 02 Oct 2022 00:19:51 +0000
+Received: from spam.zju.edu.cn ([61.164.42.155] helo=zju.edu.cn)
+	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oemht-00GenZ-JA
+	for linux-nvme@lists.infradead.org; Sun, 02 Oct 2022 00:19:47 +0000
+Received: from ubuntu.localdomain (unknown [10.190.65.158])
+	by mail-app4 (Coremail) with SMTP id cS_KCgAXjk3_2DhjIc_GBg--.24421S2;
+	Sun, 02 Oct 2022 08:19:20 +0800 (CST)
+From: Duoming Zhou <duoming@zju.edu.cn>
+To: linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org,
+	james.smart@broadcom.com,
+	kbusch@kernel.org,
+	axboe@fb.com,
+	hch@lst.de,
+	sagi@grimberg.me,
+	Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH] nvme-fc: fix sleep-in-atomic-context bug caused by nvme_fc_rcv_ls_req
+Date: Sun,  2 Oct 2022 08:19:09 +0800
+Message-Id: <20221002001909.20070-1-duoming@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: cS_KCgAXjk3_2DhjIc_GBg--.24421S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tw1UArWrKw13GFW8WF4Durg_yoW8Jw15pa
+	95WF9YkF17CF1jyasrGF4FvrWrZ3Z2gayUG3ZFq3y3uwnYqryFyrZ0ka4FvFWDuF97WFyr
+	XFy8Xw1UGF1DAF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUk21xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+	w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+	IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E
+	87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+	8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
+	Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+	xGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxF
+	aVAv8VW8uw4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr
+	4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxG
+	rwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8Jw
+	CI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2
+	z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgIKAVZdtbvX2gBDsA
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220930_212330_601211_679913E4 
-X-CRM114-Status: UNSURE (   9.14  )
+X-CRM114-CacheID: sfid-20221001_171945_952146_F8107A9E 
+X-CRM114-Status: UNSURE (   9.22  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -85,184 +76,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 274d7803837da78dfc911bcda0d593412676fc20  Add linux-next specific files for 20220930
+The function lpfc_poll_timeout() is a timer handler that runs in an
+atomic context, but it calls "kzalloc(.., GFP_KERNEL)" that may sleep.
+As a result, the sleep-in-atomic-context bug will happen. The processes
+is shown below:
 
-Error/Warning reports:
+lpfc_poll_timeout()
+ lpfc_sli_handle_fast_ring_event()
+  lpfc_sli_process_unsol_iocb()
+   lpfc_complete_unsol_iocb()
+    lpfc_nvme_unsol_ls_handler()
+     lpfc_nvme_handle_lsreq()
+      nvme_fc_rcv_ls_req()
+       kzalloc(sizeof(.., GFP_KERNEL) //may sleep
 
-https://lore.kernel.org/linux-mm/202209150141.WgbAKqmX-lkp@intel.com
-https://lore.kernel.org/linux-mm/202210010718.2kaVANGb-lkp@intel.com
-https://lore.kernel.org/llvm/202209220019.Yr2VuXhg-lkp@intel.com
+This patch changes the gfp_t parameter of kzalloc() from GFP_KERNEL to
+GFP_ATOMIC in order to mitigate the bug.
 
-Error/Warning: (recently discovered and may have been fixed)
+Fixes: 14fd1e98afaf ("nvme-fc: Add Disconnect Association Rcv support")
+Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+---
+ drivers/nvme/host/fc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-ERROR: modpost: "devm_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
-ERROR: modpost: "devm_ioremap_resource" [drivers/dma/idma64.ko] undefined!
-ERROR: modpost: "devm_ioremap_resource" [drivers/dma/qcom/hdma.ko] undefined!
-ERROR: modpost: "devm_memremap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "devm_memunmap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/char/xillybus/xillybus_of.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/clk/xilinx/clk-xlnx-clock-wizard.ko] undefined!
-ERROR: modpost: "ioremap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-arch/arm64/kernel/alternative.c:199:6: warning: no previous prototype for 'apply_alternatives_vdso' [-Wmissing-prototypes]
-arch/arm64/kernel/alternative.c:295:14: warning: no previous prototype for 'alt_cb_patch_nops' [-Wmissing-prototypes]
-depmod: ERROR: Cycle detected: nf_conntrack -> nf_nat -> nf_conntrack
-depmod: ERROR: Found 2 modules in dependency cycles!
-drivers/nvme/target/loop.c:623 nvme_loop_create_ctrl() warn: 'opts->queue_size - 1' 18446744073709551615 can't fit into 65535 'ctrl->ctrl.sqsize'
-drivers/tty/serial/atmel_serial.c:2127: undefined reference to `__clk_is_enabled'
-pahole: .tmp_vmlinux.btf: No such file or directory
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- arm64-allyesconfig
-|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
-|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
-|-- arm64-randconfig-r003-20220928
-|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
-|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
-|-- arm64-randconfig-r035-20220926
-|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
-|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
-|-- parisc-randconfig-m031-20220925
-|   `-- drivers-nvme-target-loop.c-nvme_loop_create_ctrl()-warn:opts-queue_size-can-t-fit-into-ctrl-ctrl.sqsize
-|-- parisc-randconfig-r002-20220925
-|   |-- drivers-tty-serial-atmel_serial.c:undefined-reference-to-__clk_is_enabled
-|   `-- pahole:.tmp_vmlinux.btf:No-such-file-or-directory
-|-- s390-allmodconfig
-|   |-- ERROR:devm_ioremap_resource-drivers-dma-fsl-edma.ko-undefined
-|   |-- ERROR:devm_ioremap_resource-drivers-dma-idma64.ko-undefined
-|   |-- ERROR:devm_ioremap_resource-drivers-dma-qcom-hdma.ko-undefined
-|   |-- ERROR:devm_memremap-drivers-misc-open-dice.ko-undefined
-|   |-- ERROR:devm_memunmap-drivers-misc-open-dice.ko-undefined
-|   |-- ERROR:devm_platform_ioremap_resource-drivers-char-xillybus-xillybus_of.ko-undefined
-|   |-- ERROR:devm_platform_ioremap_resource-drivers-clk-xilinx-clk-xlnx-clock-wizard.ko-undefined
-|   |-- ERROR:ioremap-drivers-tty-ipwireless-ipwireless.ko-undefined
-|   |-- ERROR:iounmap-drivers-net-ethernet-pcnet_cs.ko-undefined
-|   `-- ERROR:iounmap-drivers-tty-ipwireless-ipwireless.ko-undefined
-`-- x86_64-rhel-8.3-kselftests
-    |-- depmod:ERROR:Cycle-detected:nf_conntrack-nf_nat-nf_conntrack
-    `-- depmod:ERROR:Found-modules-in-dependency-cycles
-clang_recent_errors
-|-- hexagon-randconfig-r041-20220925
-|   `-- drivers-phy-mediatek-phy-mtk-tphy.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(unsigned-c
-|-- hexagon-randconfig-r041-20220926
-|   |-- drivers-phy-mediatek-phy-mtk-hdmi-mt2701.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
-|   |-- drivers-phy-mediatek-phy-mtk-hdmi-mt8173.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(uns
-|   `-- drivers-phy-mediatek-phy-mtk-tphy.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:(unsigned-c
-|-- hexagon-randconfig-r045-20220926
-|   |-- drivers-phy-mediatek-phy-mtk-mipi-dsi-mt8173.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:
-|   `-- drivers-phy-mediatek-phy-mtk-mipi-dsi-mt8183.c:warning:result-of-comparison-of-constant-with-expression-of-type-typeof-(_Generic((mask_)-char:(unsigned-char)-unsigned-char:(unsigned-char)-signed-char:
-|-- powerpc-mpc832x_rdb_defconfig
-|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-A_c-set-but-not-used-Werror-Wunused-but-set-variable
-|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-B_c-set-but-not-used-Werror-Wunused-but-set-variable
-|   |-- arch-powerpc-math-emu-fcmpu.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
-|   |-- arch-powerpc-math-emu-fctiw.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
-|   |-- arch-powerpc-math-emu-fctiwz.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
-|   `-- arch-powerpc-math-emu-fsel.c:error:variable-_fex-set-but-not-used-Werror-Wunused-but-set-variable
-|-- s390-randconfig-r023-20220926
-|   |-- manage.c:(.text):undefined-reference-to-__tsan_memcpy
-|   |-- s39-linux-ld:affinity.c:(.text):undefined-reference-to-__tsan_memcpy
-|   |-- s39-linux-ld:topology.c:(.text):undefined-reference-to-__tsan_memcpy
-|   `-- workqueue.c:(.init.text):undefined-reference-to-__tsan_memcpy
-|-- s390-randconfig-r044-20220926
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-virtual-virtual_link_hwss.c:warning:no-previous-prototype-for-function-virtual_disable_link_output
-`-- x86_64-rhel-8.3-rust
-    |-- ld.lld:error:undefined-symbol:__rust_alloc
-    |-- ld.lld:error:undefined-symbol:__rust_dealloc
-    |-- ld.lld:error:undefined-symbol:__rust_realloc
-    |-- ld.lld:error:undefined-symbol:bool-as-core::fmt::Display::fmt
-    |-- ld.lld:error:undefined-symbol:core::fmt::Formatter::debug_list
-    |-- ld.lld:error:undefined-symbol:core::fmt::Formatter::debug_lower_hex
-    |-- ld.lld:error:undefined-symbol:core::fmt::Formatter::debug_upper_hex
-    |-- ld.lld:error:undefined-symbol:core::fmt::builders::DebugList::entry
-    |-- ld.lld:error:undefined-symbol:core::fmt::builders::DebugList::finish
-    |-- ld.lld:error:undefined-symbol:core::panicking::panic
-    |-- ld.lld:error:undefined-symbol:i32-as-core::fmt::Display::fmt
-    |-- ld.lld:error:undefined-symbol:i32-as-core::fmt::LowerHex::fmt
-    |-- ld.lld:error:undefined-symbol:i32-as-core::fmt::UpperHex::fmt
-    |-- ld.lld:error:undefined-symbol:kernel::error::Error-as-core::convert::From-alloc::collections::TryReserveError::from
-    |-- ld.lld:error:undefined-symbol:kernel::error::Error::to_kernel_errno
-    |-- ld.lld:error:undefined-symbol:kernel::print::call_printk
-    |-- ld.lld:error:undefined-symbol:kernel::print::format_strings::INFO
-    `-- ld.lld:error:undefined-symbol:rust_fmt_argument
-
-elapsed time: 732m
-
-configs tested: 64
-configs skipped: 2
-
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-arc                                 defconfig
-alpha                               defconfig
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-kvm
-s390                             allmodconfig
-i386                                defconfig
-s390                                defconfig
-i386                 randconfig-a001-20220926
-x86_64                          rhel-8.3-func
-x86_64                              defconfig
-x86_64               randconfig-a002-20220926
-powerpc                          allmodconfig
-i386                 randconfig-a004-20220926
-arm                                 defconfig
-sh                               allmodconfig
-i386                 randconfig-a006-20220926
-x86_64                    rhel-8.3-kselftests
-s390                             allyesconfig
-x86_64                               rhel-8.3
-x86_64               randconfig-a005-20220926
-x86_64               randconfig-a004-20220926
-mips                             allyesconfig
-i386                 randconfig-a002-20220926
-arc                  randconfig-r043-20220925
-i386                 randconfig-a003-20220926
-x86_64               randconfig-a006-20220926
-i386                 randconfig-a005-20220926
-powerpc                           allnoconfig
-x86_64               randconfig-a001-20220926
-x86_64               randconfig-a003-20220926
-x86_64                           allyesconfig
-riscv                randconfig-r042-20220925
-arm64                            allyesconfig
-arm                              allyesconfig
-arc                  randconfig-r043-20220926
-s390                 randconfig-r044-20220925
-i386                             allyesconfig
-ia64                             allmodconfig
-m68k                             allmodconfig
-alpha                            allyesconfig
-arc                              allyesconfig
-m68k                             allyesconfig
-
-clang tested configs:
-i386                 randconfig-a011-20220926
-i386                 randconfig-a013-20220926
-x86_64               randconfig-a012-20220926
-i386                 randconfig-a016-20220926
-i386                 randconfig-a012-20220926
-x86_64               randconfig-a013-20220926
-hexagon              randconfig-r045-20220925
-i386                 randconfig-a015-20220926
-x86_64               randconfig-a011-20220926
-i386                 randconfig-a014-20220926
-hexagon              randconfig-r041-20220926
-x86_64               randconfig-a015-20220926
-x86_64               randconfig-a014-20220926
-x86_64               randconfig-a016-20220926
-hexagon              randconfig-r045-20220926
-hexagon              randconfig-r041-20220925
-riscv                randconfig-r042-20220926
-s390                 randconfig-r044-20220926
-x86_64                          rhel-8.3-rust
-
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 127abaf9ba5..36698dfc8b3 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1754,7 +1754,7 @@ nvme_fc_rcv_ls_req(struct nvme_fc_remote_port *portptr,
+ 	lsop = kzalloc(sizeof(*lsop) +
+ 			sizeof(union nvmefc_ls_requests) +
+ 			sizeof(union nvmefc_ls_responses),
+-			GFP_KERNEL);
++			GFP_ATOMIC);
+ 	if (!lsop) {
+ 		dev_info(lport->dev,
+ 			"RCV %s LS failed: No memory\n",
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.17.1
+
 
