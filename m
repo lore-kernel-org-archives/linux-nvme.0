@@ -4,72 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26832C433FE
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Oct 2022 08:39:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B1EF7C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Oct 2022 09:32:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bI6E04hvQn6gIEf5lxXx79EdIOBf9BgYO41pl2Ql6nU=; b=1Gu1ewxsPv+GkLKDUmiIZNZcIb
-	tUWhDygN/qZGqwjqVAFQiT2OlKLjvsBqvfUDGUNdX+beUXSpL9Iz3HlTsG+ETJ7almqYqHBKc/XvN
-	+Xoybh/+KPe0/vkEzc35zF4ZxW44eaSY7u3ySI/EgRPnv1Bt0sYEOkQznhvRHrYymziHK5GbH/luJ
-	uwo8A17K5+Q44saCiL1H6DpJPbx/VBac/jeuH2ptLOy/b1JaVTsNV7EKI3Ul7xJLhRQLWApZi9Uud
-	fXx/D+X63jdRNROFooE7BzqnJvXn0QYyqpTUIsgw/x8m/KyzLvIlEF8D/9N4W2UleWQMJ5xKsF6Pb
-	ZU49w88g==;
+	bh=iuAFOrGO0x1a74yJsh51r5/pnODrj5Z9lxoSgcX0Www=; b=las3KCEIsIbxJtD/wGjDQR9Cml
+	PU0UUOWp3ytC3tbjdjx2nhBaBb1lvsM5MblZfgVkA9UII6r8R6q5tBgXn9fRVYfLpNXfopHcdERwI
+	fAsAXNjz4VEo66r3DzFkEMrvM67l1e7BHq3BdEq+py7vgTHhnPJsVzxaOE5sv5VOnq1J4hPmIWt4J
+	EDZhbELxUYPSg2TXOFObRGxFIDhvjmupfH2TQqGYT7dHrJx5x8vOwD+u4HUbDRyonmsIeTD7GizSh
+	TCGjxifwY2CMY7br/cSmKlbG+afr6lfMz8mriXaY2SI1ItrkNX9ffM7jO24+3e3pkF2YPOLw7z649
+	HJPxydXg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ofGya-004jIs-Ta; Mon, 03 Oct 2022 08:39:00 +0000
-Received: from mail-wm1-f45.google.com ([209.85.128.45])
+	id 1ofHoZ-0053si-0m; Mon, 03 Oct 2022 09:32:43 +0000
+Received: from mail-wr1-f51.google.com ([209.85.221.51])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ofGyW-004jFI-HV
-	for linux-nvme@lists.infradead.org; Mon, 03 Oct 2022 08:39:00 +0000
-Received: by mail-wm1-f45.google.com with SMTP id v128-20020a1cac86000000b003b7a6ad5ccdso2384032wme.3
-        for <linux-nvme@lists.infradead.org>; Mon, 03 Oct 2022 01:38:55 -0700 (PDT)
+	id 1ofHoW-0053qN-El
+	for linux-nvme@lists.infradead.org; Mon, 03 Oct 2022 09:32:41 +0000
+Received: by mail-wr1-f51.google.com with SMTP id bk15so15792374wrb.13
+        for <linux-nvme@lists.infradead.org>; Mon, 03 Oct 2022 02:32:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=bI6E04hvQn6gIEf5lxXx79EdIOBf9BgYO41pl2Ql6nU=;
-        b=d6WttvOzqVVoJGlUk4HZHvOjD2CVrS2+OcI9mDryykbIbF/20DYDdQ8xhvsm2WUo2N
-         YhTDpbtNdRXcp7uRzYfhaWJGyfj4z0+45jGRBDsHlN4GlvfoOeAeHWaUfGUGbnXw41ib
-         h3gXi6TghKnlGPntQSX2LIxxy1ZILE1aZ1gMGwgGH67V9KIQCn5d+unqUH2PO//q/p+Z
-         STyVDGbJmVleubIN+x9onebFDxNIqCgp8v3105SBq1xt+vYMuB5vBjVYGJnYgMFLpu4L
-         OT3S+y1oIscT8u0TCl3fS+fiaQwgWMEtTg91jK1luRU0YIlSl7GIsDsV3lP3ycmCO8Qa
-         Zoow==
-X-Gm-Message-State: ACrzQf2MT7dBTDdsyXNeVhI1MAk0mfJ/jw9HHLFdu7gp6RiPscHN8Tez
-	l+MZzVVjWDIFBCu5Euka3ZY=
-X-Google-Smtp-Source: AMsMyM7tUa5qQw15Ft7+AXJUL+6bKHQDW1aff0CYSAlzjYnomMj3mNVUrBDukUf9d81OTI8yY+uVyA==
-X-Received: by 2002:a05:600c:4f89:b0:3b4:a6fc:89e5 with SMTP id n9-20020a05600c4f8900b003b4a6fc89e5mr5844437wmq.149.1664786334045;
-        Mon, 03 Oct 2022 01:38:54 -0700 (PDT)
+        bh=iuAFOrGO0x1a74yJsh51r5/pnODrj5Z9lxoSgcX0Www=;
+        b=vNphH5w2pDqMofJTegpfE04lKSJcRnnpGE748bpZJ/m+hvEqbtKoeXSxyVDeboQxjX
+         0mb1SVqXvc+RkR9HQ2x4FpTPtjVuECv3YPcumJk4PoFPMuF1Bu4D3lrUwt/RdiUmzIsQ
+         UI63mdYscg0vRs71JbsBcZSmP0EjZrpz1xtse/NxJNL0noB/cKRHly1rzMRxgC0V8pwT
+         URoHytdP8BGTrLp12v4P/Xz3YcmANW9jknFo9mXMyN5+ETcWA3LpdLxG3JMXnvBA0CRQ
+         P1XXEnFjx9Zc+r13In941yOlF+UNusT8+aAopRsMOaxIrM2KdlJXIhSyc8cxtqB3YQut
+         vtBg==
+X-Gm-Message-State: ACrzQf3P6RmOMYWDtisimelW6zeiuqTDwqJdsAM7bQd4vA7SB3ZnXcef
+	mtpWXXrtOuXZ153zPTsIzK4=
+X-Google-Smtp-Source: AMsMyM4tbT7tRLGC/xMWM7isBXOpX9K3M1K9MYMrL0fahfaOfjd+IKul0xAFAxxmyGyu2crmfkXawg==
+X-Received: by 2002:a5d:62d2:0:b0:22e:4a7:1ab6 with SMTP id o18-20020a5d62d2000000b0022e04a71ab6mr7751475wrv.334.1664789556529;
+        Mon, 03 Oct 2022 02:32:36 -0700 (PDT)
 Received: from [192.168.64.53] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id k5-20020adff5c5000000b0022afbd02c69sm7071254wrp.56.2022.10.03.01.38.52
+        by smtp.gmail.com with ESMTPSA id m7-20020a05600c3b0700b003a1980d55c4sm17154501wms.47.2022.10.03.02.32.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Oct 2022 01:38:53 -0700 (PDT)
-Message-ID: <d55d562c-e1ac-1dd8-c756-9b7da3425e98@grimberg.me>
-Date: Mon, 3 Oct 2022 11:38:51 +0300
+        Mon, 03 Oct 2022 02:32:35 -0700 (PDT)
+Message-ID: <60a07961-0311-3c11-26b4-efa8da43d9d7@grimberg.me>
+Date: Mon, 3 Oct 2022 12:32:34 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
 Subject: Re: [PATCH rfc] nvme: support io stats on the mpath device
 Content-Language: en-US
-To: Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+From: Sagi Grimberg <sagi@grimberg.me>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>,
  Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- linux-block@vger.kernel.org, Hannes Reinecke <hare@suse.de>
+ linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+ Hannes Reinecke <hare@suse.de>
 References: <20220928195510.165062-1-sagi@grimberg.me>
  <20220928195510.165062-2-sagi@grimberg.me>
- <4588d1b8-c2e1-bebd-3aaf-29f94cff6adf@grimberg.me>
- <cfdf4e12-a855-49c1-2c65-7e49c24cd2c1@kernel.dk>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <cfdf4e12-a855-49c1-2c65-7e49c24cd2c1@kernel.dk>
+ <760a7129-945c-35fa-6bd6-aa315d717bc5@nvidia.com>
+ <a3d619a3-ccae-69ea-3e2c-9acff7b97d92@grimberg.me>
+ <YzWzvOKgoAqltAA0@kbusch-mbp.dhcp.thefacebook.com>
+ <e5299b5e-5e9a-5a2a-b7dc-30de2bf43adc@grimberg.me>
+ <YzcINzNpZ+4zkupd@kbusch-mbp.dhcp.thefacebook.com>
+ <cef09c04-17d6-c588-be9f-b33e36dfce1a@grimberg.me>
+In-Reply-To: <cef09c04-17d6-c588-be9f-b33e36dfce1a@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221003_013856_601328_1D18209E 
-X-CRM114-Status: GOOD (  12.72  )
+X-CRM114-CacheID: sfid-20221003_023240_526078_4E478190 
+X-CRM114-Status: GOOD (  13.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,23 +91,32 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->> index 9bacfd014e3d..f42e6e40d84b 100644
->>> --- a/drivers/nvme/host/core.c
->>> +++ b/drivers/nvme/host/core.c
->>> @@ -385,6 +385,8 @@ static inline void nvme_end_req(struct request *req)
->>> ????? nvme_end_req_zoned(req);
->>> ????? nvme_trace_bio_complete(req);
->>> ????? blk_mq_end_request(req, status);
->>> +??? if (req->cmd_flags & REQ_NVME_MPATH)
->>> +??????? nvme_mpath_end_request(req);
->>
->> I guess the order should probably be reversed, because after
->> blk_mq_end_request req may become invalid and create UAF?
-> 
-> Yes - blk_mq_end_request() will put the tag, it could be reused by the
-> time you call nvme_mpath_end_request(). It won't be a UAF as the
-> requests are allocated upfront and never freed, but the state will be
-> uncertain at that point.
 
-Will reverse that...
+On 10/3/22 11:02, Sagi Grimberg wrote:
+> 
+>>>>>> 3. Do you have some performance numbers (we're touching the fast path
+>>>>>> here) ?
+>>>>>
+>>>>> This is pretty light-weight, accounting is per-cpu and only wrapped by
+>>>>> preemption disable. This is a very small price to pay for what we 
+>>>>> gain.
+>>>>
+>>>> It does add up, though, and some environments disable stats to skip the
+>>>> overhead. At a minimum, you need to add a check for 
+>>>> blk_queue_io_stat() before
+>>>> assuming you need to account for stats.
+>>>
+>>> But QUEUE_FLAG_IO_STAT is set by nvme-mpath itself?
+>>> You mean disable IO stats in runtime?
+>>
+>> Yes, the user can disable it at any time. That actually makes things a 
+>> bit
+>> tricky since it can be enabled at the start of an IO and disabled by 
+>> the time
+>> it completes.
+> 
+> That is what blk_do_io_stat is for, we can definitely export that.
+
+Actually, blk_do_io_stat refers to the bottom request queue. you're
+right, we can do the same trick for nvme.
 
