@@ -4,76 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12FB3C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Oct 2022 08:36:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26832C433FE
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Oct 2022 08:39:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8DszboK9P2kLc+x/fwfSaNitxkx4T0tjN4W158nD7RQ=; b=XBxcc91ga9wsCqqtcPpOfxi1oJ
-	wa2oVGl7fRV8Zm62oD14UZcIeMuBqLiq/MS54e00d9a9gY6xHeBc1FaZry9vlU7uA89eaYCHuuhJt
-	J7sl7K54aCkSj8lH2YF2VzJgGUOhm6t2mxlEVIkUlDk3+KGfKRUdPF5CFoQzXn1rcdz+pRpRV9MX2
-	vNnKjHuTqCYpWl4tpcT3spFfcxyCWlEarrsAjbRFXC/b6KUv4kUTlVthEiEK3OUnVzfg58u3CLHEc
-	xAw0FQcqf3e86lDC3sKZfFO0btLL/cY73w3IxQrprWgkzTqmZTbK1DFS3t1VEfyVCE/Zhl8Ruqi3d
-	qOFJ2cUg==;
+	bh=bI6E04hvQn6gIEf5lxXx79EdIOBf9BgYO41pl2Ql6nU=; b=1Gu1ewxsPv+GkLKDUmiIZNZcIb
+	tUWhDygN/qZGqwjqVAFQiT2OlKLjvsBqvfUDGUNdX+beUXSpL9Iz3HlTsG+ETJ7almqYqHBKc/XvN
+	+Xoybh/+KPe0/vkEzc35zF4ZxW44eaSY7u3ySI/EgRPnv1Bt0sYEOkQznhvRHrYymziHK5GbH/luJ
+	uwo8A17K5+Q44saCiL1H6DpJPbx/VBac/jeuH2ptLOy/b1JaVTsNV7EKI3Ul7xJLhRQLWApZi9Uud
+	fXx/D+X63jdRNROFooE7BzqnJvXn0QYyqpTUIsgw/x8m/KyzLvIlEF8D/9N4W2UleWQMJ5xKsF6Pb
+	ZU49w88g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ofGvh-004i7J-Tn; Mon, 03 Oct 2022 08:36:01 +0000
-Received: from mail-wr1-f48.google.com ([209.85.221.48])
+	id 1ofGya-004jIs-Ta; Mon, 03 Oct 2022 08:39:00 +0000
+Received: from mail-wm1-f45.google.com ([209.85.128.45])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ofGvd-004i6E-3A
-	for linux-nvme@lists.infradead.org; Mon, 03 Oct 2022 08:36:01 +0000
-Received: by mail-wr1-f48.google.com with SMTP id r6so15593345wru.8
-        for <linux-nvme@lists.infradead.org>; Mon, 03 Oct 2022 01:35:56 -0700 (PDT)
+	id 1ofGyW-004jFI-HV
+	for linux-nvme@lists.infradead.org; Mon, 03 Oct 2022 08:39:00 +0000
+Received: by mail-wm1-f45.google.com with SMTP id v128-20020a1cac86000000b003b7a6ad5ccdso2384032wme.3
+        for <linux-nvme@lists.infradead.org>; Mon, 03 Oct 2022 01:38:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=8DszboK9P2kLc+x/fwfSaNitxkx4T0tjN4W158nD7RQ=;
-        b=QxJANy8ct2OCNmllOIC3YArWGd/iGEec8969j3nPb+J9PHpR+/I96qOO4qJxMKXQ2L
-         jNJZY3LqvMta2pydcvKSg6FNiszjeiiptfnqbupFIXPe0aGQ6ND7drEru7Mn9Y0cmnv0
-         WeSd+n57i33DddWZNKUVYw9d4/lE+Blwe31Vl4nMz/Wtz5KQV0L0+GesnnNvPYvTg9E4
-         1mms8zUqGQ/KJ7w/X6cw56fHQ2FGOAVZELR9UMUvbSicZqkVjoUeBlNAbINY2vcZYL6H
-         Cx3bJJf0I5oPijtbeJTHohBVLjZ6/0YHyBluFPq7vAjamDDOcH/FoZdX7IWPrwlbtJrF
-         +UdA==
-X-Gm-Message-State: ACrzQf0aIlLzMmUpYhG669knolXGy/12l/oJAXBjom69bumgnnuU3G5M
-	t1jeagF1poLF8SWQHCzfUYg=
-X-Google-Smtp-Source: AMsMyM5Gdpr6jmN+kyU1bDODzWukh5kcVfipr95CpDmAmdt4r58YxyMU7t3c5bzfSTdXVMkBt5OUdQ==
-X-Received: by 2002:adf:fb84:0:b0:21a:10f2:1661 with SMTP id a4-20020adffb84000000b0021a10f21661mr12048882wrr.2.1664786154968;
-        Mon, 03 Oct 2022 01:35:54 -0700 (PDT)
+        bh=bI6E04hvQn6gIEf5lxXx79EdIOBf9BgYO41pl2Ql6nU=;
+        b=d6WttvOzqVVoJGlUk4HZHvOjD2CVrS2+OcI9mDryykbIbF/20DYDdQ8xhvsm2WUo2N
+         YhTDpbtNdRXcp7uRzYfhaWJGyfj4z0+45jGRBDsHlN4GlvfoOeAeHWaUfGUGbnXw41ib
+         h3gXi6TghKnlGPntQSX2LIxxy1ZILE1aZ1gMGwgGH67V9KIQCn5d+unqUH2PO//q/p+Z
+         STyVDGbJmVleubIN+x9onebFDxNIqCgp8v3105SBq1xt+vYMuB5vBjVYGJnYgMFLpu4L
+         OT3S+y1oIscT8u0TCl3fS+fiaQwgWMEtTg91jK1luRU0YIlSl7GIsDsV3lP3ycmCO8Qa
+         Zoow==
+X-Gm-Message-State: ACrzQf2MT7dBTDdsyXNeVhI1MAk0mfJ/jw9HHLFdu7gp6RiPscHN8Tez
+	l+MZzVVjWDIFBCu5Euka3ZY=
+X-Google-Smtp-Source: AMsMyM7tUa5qQw15Ft7+AXJUL+6bKHQDW1aff0CYSAlzjYnomMj3mNVUrBDukUf9d81OTI8yY+uVyA==
+X-Received: by 2002:a05:600c:4f89:b0:3b4:a6fc:89e5 with SMTP id n9-20020a05600c4f8900b003b4a6fc89e5mr5844437wmq.149.1664786334045;
+        Mon, 03 Oct 2022 01:38:54 -0700 (PDT)
 Received: from [192.168.64.53] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id l18-20020a05600c2cd200b003a63a3b55c3sm16720637wmc.14.2022.10.03.01.35.53
+        by smtp.gmail.com with ESMTPSA id k5-20020adff5c5000000b0022afbd02c69sm7071254wrp.56.2022.10.03.01.38.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Oct 2022 01:35:54 -0700 (PDT)
-Message-ID: <20de260f-2cf4-4308-ba9b-5e75abde0342@grimberg.me>
-Date: Mon, 3 Oct 2022 11:35:52 +0300
+        Mon, 03 Oct 2022 01:38:53 -0700 (PDT)
+Message-ID: <d55d562c-e1ac-1dd8-c756-9b7da3425e98@grimberg.me>
+Date: Mon, 3 Oct 2022 11:38:51 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
 Subject: Re: [PATCH rfc] nvme: support io stats on the mpath device
 Content-Language: en-US
-To: Jens Axboe <axboe@kernel.dk>, Max Gurtovoy <mgurtovoy@nvidia.com>,
- linux-nvme@lists.infradead.org
+To: Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
  Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
  linux-block@vger.kernel.org, Hannes Reinecke <hare@suse.de>
 References: <20220928195510.165062-1-sagi@grimberg.me>
  <20220928195510.165062-2-sagi@grimberg.me>
- <760a7129-945c-35fa-6bd6-aa315d717bc5@nvidia.com>
- <a3d619a3-ccae-69ea-3e2c-9acff7b97d92@grimberg.me>
- <04b39974-6b55-7aca-70de-4a567f2eac8f@kernel.dk>
- <91ebc84d-c0e3-b792-4f92-79612271eb91@grimberg.me>
- <c2cab5be-658d-3c50-b1a0-1d7d86e12e0b@kernel.dk>
+ <4588d1b8-c2e1-bebd-3aaf-29f94cff6adf@grimberg.me>
+ <cfdf4e12-a855-49c1-2c65-7e49c24cd2c1@kernel.dk>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <c2cab5be-658d-3c50-b1a0-1d7d86e12e0b@kernel.dk>
+In-Reply-To: <cfdf4e12-a855-49c1-2c65-7e49c24cd2c1@kernel.dk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221003_013557_184823_9A4AE1D9 
-X-CRM114-Status: GOOD (  28.90  )
+X-CRM114-CacheID: sfid-20221003_013856_601328_1D18209E 
+X-CRM114-Status: GOOD (  12.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,70 +85,23 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-
-On 9/30/22 03:08, Jens Axboe wrote:
-> On 9/29/22 10:25 AM, Sagi Grimberg wrote:
+>> index 9bacfd014e3d..f42e6e40d84b 100644
+>>> --- a/drivers/nvme/host/core.c
+>>> +++ b/drivers/nvme/host/core.c
+>>> @@ -385,6 +385,8 @@ static inline void nvme_end_req(struct request *req)
+>>> ????? nvme_end_req_zoned(req);
+>>> ????? nvme_trace_bio_complete(req);
+>>> ????? blk_mq_end_request(req, status);
+>>> +??? if (req->cmd_flags & REQ_NVME_MPATH)
+>>> +??????? nvme_mpath_end_request(req);
 >>
->>>>> 3. Do you have some performance numbers (we're touching the fast path here) ?
->>>>
->>>> This is pretty light-weight, accounting is per-cpu and only wrapped by
->>>> preemption disable. This is a very small price to pay for what we gain.
->>>
->>> Is it? Enabling IO stats for normal devices has a very noticeable impact
->>> on performance at the higher end of the scale.
->>
->> Interesting, I didn't think this would be that noticeable. How much
->> would you quantify the impact in terms of %?
+>> I guess the order should probably be reversed, because after
+>> blk_mq_end_request req may become invalid and create UAF?
 > 
-> If we take it to the extreme - my usual peak benchmark, which is drive
-> limited at 122M IOPS, run at 113M IOPS if I have iostats enabled. If I
-> lower the queue depth (128 -> 16), then peak goes from 46M to 44M. Not
-> as dramatic, but still quite noticeable. This is just using a single
-> thread on a single CPU core per drive, so not throwing tons of CPU at
-> it.
-> 
-> Now, I have no idea how well nvme multipath currently scales or works.
+> Yes - blk_mq_end_request() will put the tag, it could be reused by the
+> time you call nvme_mpath_end_request(). It won't be a UAF as the
+> requests are allocated upfront and never freed, but the state will be
+> uncertain at that point.
 
-Should be pretty scalable and efficient. There is no bio cloning and
-the only shared state is an srcu wrapping the submission path and path
-lookup.
-
-> Would be interesting to test that separately. But if you were to double
-> (or more, I guess 3x if you're doing the exposed device and then adding
-> stats to at least two below?) the overhead, that'd certainly not be
-> free.
-
-It is not 3x, in the patch nvme-multipath is accounting separately from
-the bottom devices, so each request is accounted once for the bottom
-device and once for the upper device.
-
-But again, my working assumption is that IO stats must be exposed for
-a nvme-multipath device (unless the user disabled them). So it is a
-matter of weather we take a simple approach, where nvme-multipath does
-"double" accounting or, we come up with a scheme that allows the driver
-to collect stats on behalf of the block layer, and then add non-trivial
-logic to combine stats like iops/bw/latency accurately from the bottom
-devices.
-
-My vote would be to go with the former.
-
->> I don't have any insight on this for blk-mq, probably because I've never
->> seen any user turn IO stats off (or at least don't remember).
-> 
-> Most people don't care, but some certainly do. As per the above, it's
-> noticeable enough that it makes a difference if you're chasing latencies
-> or peak performance.
-> 
->> My (very limited) testing did not show any noticeable differences for
->> nvme-loop. All I'm saying that we need to have IO stats for the mpath
->> device node. If there is a clever way to collect this from the hidden
->> devices just for nvme, great, but we need to expose these stats.
-> 
->   From a previous message, sounds like that's just some qemu setup? Hard
-> to measure anything there with precision in my experience, and it's not
-> really peak performance territory either.
-
-It's not qemu, it is null_blk exported over nvme-loop (nvmet loop
-device). so it is faster, but definitely not something that can provide
-insight in the realm of real HW.
+Will reverse that...
 
