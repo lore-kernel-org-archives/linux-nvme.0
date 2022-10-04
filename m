@@ -4,60 +4,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D546C433FE
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Oct 2022 19:10:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 02740C4332F
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Oct 2022 22:35:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=inDVVTU0VmwGx8e0qK4BB2L0eScELSI2gq+7TIa/RFg=; b=zbaYA4iLKLP/M/W0Upt1d7EvuI
-	w6ib6VybJmVLqHq5j+/7CRZOJ+dw9LCmeZS0zz5DOog4ECp3DrgFNWcUIRry51roso+4DIdjjqAlz
-	rHYBFdZ5cVb0PHZWHK3xYK6N36aQaPwR+54zW3fc9TT7FWgIVq+dHfOr82cJxo7bpZ53FwVwGEfXu
-	rUBBH95Ag2PWIu3KgTEjf3EYStUTYgKYaXVJbbIo13xL2vs+4V1DDIrJKJ1CPiAFCQZBu192d0fSV
-	6jWzLvC9PNZtndY67pnlRF360ekp1DqpSVpyUJ+87tvfRx8XNoiFYqwbh1f+E3drS49iRYIlJwkh+
-	k5owp0DA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=DBqT85mgl04WYMAAg/V/+c1M56joYmfUFuIPgt3KBZU=; b=AlCFU5vPrQA8jsS3WgJ7OJXaDl
+	kyX86TXQalRJDM7Q3FUvsXGVk1qiBMXQVFHtOn97q4pMyw9/xCsCjNi9klT/9VOQOkuTfUz7EPFk8
+	oWFQGO0ZR5kGSs4wX0b3aObzztOIDl+7OYQfCviKA1hT/FVNqzaPTvAOQkA82Q0Zls28L5h2regax
+	3+J5jhkvUZ0Dq1xih0aBnzmuS3vIazf3l1IgfSdHlBlhmbO4A/rHrHr9BqwIX2ttC3TZMzZqnYpuj
+	WfuRltVcs4p8KTruIzzBlCHCP9il/o5ua45FOnZyP4VABKbgK3I1yl0TdobfN5XPn09e6LimrE6bo
+	UrPMbYkw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ofnIv-00AkwG-4l; Tue, 04 Oct 2022 19:10:09 +0000
-Received: from usmailhost21.kioxia.com ([12.0.68.226] helo=SJSMAIL01.us.kioxia.com)
+	id 1ofqVG-00BMZa-76; Tue, 04 Oct 2022 22:35:06 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ofnIr-00Akqv-UO
-	for linux-nvme@lists.infradead.org; Tue, 04 Oct 2022 19:10:07 +0000
-Received: from SJSMAIL01.us.kioxia.com (10.90.133.90) by
- SJSMAIL01.us.kioxia.com (10.90.133.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 4 Oct 2022 12:09:41 -0700
-Received: from SJSMAIL01.us.kioxia.com ([::1]) by SJSMAIL01.us.kioxia.com
- ([fe80::4518:affe:df36:adc9%3]) with mapi id 15.01.2375.031; Tue, 4 Oct 2022
- 12:09:41 -0700
-From: Clay Mayers <Clay.Mayers@kioxia.com>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-CC: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, "Christoph
- Hellwig" <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Subject: RE: [PATCH V2 0/2] nvme: Support user mode processing of ZNS Zone
- Changed AEN
-Thread-Topic: [PATCH V2 0/2] nvme: Support user mode processing of ZNS Zone
- Changed AEN
-Thread-Index: AQHY1FTkfGYaIXwsQECopyvrDRJ6WK3984GAgABxjaA=
-Date: Tue, 4 Oct 2022 19:09:41 +0000
-Message-ID: <6709778688ba4c58b21f832b96ddc73a@kioxia.com>
-References: <20220929223955.3275715-1-clay.mayers@kioxia.com>
- <1cef55e7-26a3-abac-315c-5f7f56f4771e@nvidia.com>
-In-Reply-To: <1cef55e7-26a3-abac-315c-5f7f56f4771e@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.93.77.43]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	id 1ofqVC-00BMYq-Cf
+	for linux-nvme@lists.infradead.org; Tue, 04 Oct 2022 22:35:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1664922902; x=1696458902;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=G0Cz013hrBxnry1hziTrqbqgGA4zQdvcqYvl1r/wTKk=;
+  b=kCX50gr3lGOBpSzNADZug+intWczvVVFlhrPG+4FpJiQ8QzwV3IxsaxS
+   awpC4ld356m0sopPhMRyScmxqu335s+xKN2c6gobRXi5Ye9LN8DQ3x/Mv
+   0uprCX/juSeFvQE9HzfZTb4gIMz1o4b27EtJ0uoQAhjzsdyFIl4J4btdU
+   BC9Xq5952XD93G7DkeeFKVUqMezMw4OCBQOxP/WUuV9zK50CPaXk8QaWk
+   oKClf3iSgm3yIwsONab2E36LNVDQaa4Mdmm14JtPDN7fceIVUwEQwvxV1
+   /IRp6+c1LR0R+YI+4CxPoRfufVxgnpDfhUCCjXOjhPXJvw4Cpdl0rZx19
+   A==;
+X-IronPort-AV: E=Sophos;i="5.95,158,1661788800"; 
+   d="scan'208";a="218172274"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 05 Oct 2022 06:34:58 +0800
+IronPort-SDR: SnioU81e5WQRKvyHeyoCRK6PunoS6O9bWOtaPnf+2ussh9FjuIMKizmwsMnaepAOTSi0he38vG
+ VsduTvmVihu1M5hk0YANIFuvfk8noe0tVT55XrTepe/8x8wL/mbP2qz06rgDevSf819HTZAeUE
+ BTmOWzECCyeDyK8ZR1Vj3qT9+lRpgc/ThRjGQd0NC8DB9TuGKqOaM2RzsOdMKIINIMvOBVuNq/
+ 0R/t4/pwSGLuA9FShIuv+RJZ/B8rIv0+S5ELpOXHIeFd2itw99m1cMEvtXksXj78qMcWaKmYoI
+ GZOeSQIMpUeF5EaQsT2SvNbf
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 04 Oct 2022 14:49:12 -0700
+IronPort-SDR: k3XOGyiIktmXt1A7fli32WSwDZ2TDTdXgycySvaiwwgWhFOcKgzDltofAjwdWOJeC0zIROhQ4+
+ lUxN7Z/c61I9UebW07xUlfWjqML7/UhdQVlgNIKtssRFM2oHqbbvALk0FBYYCHU/RA1XShxw3o
+ La4pEurWy3MgP4vsWVqHfVBIJ6MnBvtvBEUqTChGrIea09V89/vmbOYeOuVAGGmb5366EMN8PH
+ O4xRaZABBI2/GwmZb6fDzqxh6Qkh/9JXr5DZdr7g/us/HYnBquqXIhG3Y+z/1Gjr6n7SiJboMu
+ Lm0=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 04 Oct 2022 15:34:58 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Mhsw22Shxz1Rwrq
+	for <linux-nvme@lists.infradead.org>; Tue,  4 Oct 2022 15:34:58 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+	reason="pass (just generated, assumed good)"
+	header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+	opensource.wdc.com; h=content-transfer-encoding:content-type
+	:in-reply-to:organization:from:content-language:references:to
+	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
+	1664922897; x=1667514898; bh=G0Cz013hrBxnry1hziTrqbqgGA4zQdvcqYv
+	l1r/wTKk=; b=CNMOBY4wN7t1et/jHuKKGopfWerwof3RTute05VtJ4XJTDyqA7R
+	xXxuRaQ57E78lXrW+KL7r4B1LfxKj99FP32hXFh/dzoAfobLgUZTDT0IVGPeXOMF
+	hx3wHV4Okwpm1T78sXNAwXFhiuXaxuTH6VUXy1V263zlmv3hbFLk7jCzAFAqY6sa
+	Nu8RObJcv3KkTuQ1fotwrpVC7ir2UhV0KHN+uYIsqVPLGgO223+8QI1DJ6PyQY1K
+	1ijT79KgoaH9OCWnThCpc4YUwq8PX05CTMCpaF3MEo49qYcScpCRITwb4FDb7g+D
+	zd6M2wkNXt8zXtdPXO4ImFwuGPQrRBGYxJg==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id pB6lI17mGGyU for <linux-nvme@lists.infradead.org>;
+	Tue,  4 Oct 2022 15:34:57 -0700 (PDT)
+Received: from [10.225.163.106] (unknown [10.225.163.106])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Mhsw02ysnz1RvLy;
+	Tue,  4 Oct 2022 15:34:56 -0700 (PDT)
+Message-ID: <d9d9ae2f-dea1-4672-8458-c2542c1f951f@opensource.wdc.com>
+Date: Wed, 5 Oct 2022 07:34:55 +0900
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: lockdep WARNING at blktests block/011
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ Keith Busch <kbusch@kernel.org>
+Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Tejun Heo <tj@kernel.org>, Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
+References: <20220930001943.zdbvolc3gkekfmcv@shindev>
+ <313d914e-6258-50db-4317-0ffb6f936553@I-love.SAKURA.ne.jp>
+ <20221003133240.bq2vynauksivj55x@shindev>
+ <Yzr/pBvvq0NCzGwV@kbusch-mbp.dhcp.thefacebook.com>
+ <20221004104456.ik42oxynyujsu5vb@shindev>
+Content-Language: en-US
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <20221004104456.ik42oxynyujsu5vb@shindev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221004_121006_021338_03E0D532 
-X-CRM114-Status: GOOD (  15.77  )
+X-CRM114-CacheID: sfid-20221004_153502_537971_ACDCF302 
+X-CRM114-Status: GOOD (  30.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,30 +122,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-PiBGcm9tOiBDaGFpdGFueWEgS3Vsa2FybmkgPGNoYWl0YW55YWtAbnZpZGlhLmNvbT4NCj4gU2Vu
-dDogTW9uZGF5LCBPY3RvYmVyIDMsIDIwMjIgNjo0OSBQTQ0KPiBTdWJqZWN0OiBSZTogW1BBVENI
-IFYyIDAvMl0gbnZtZTogU3VwcG9ydCB1c2VyIG1vZGUgcHJvY2Vzc2luZyBvZiBaTlMgWm9uZQ0K
-PiBDaGFuZ2VkIEFFTg0KPiANCj4gT24gOS8yOS8yMiAxNTozOSwgY2xheS5tYXllcnNAa2lveGlh
-LmNvbSB3cm90ZToNCj4gPiBGcm9tOiBDbGF5IE1heWVycyA8Y2xheS5tYXllcnNAa2lveGlhLmNv
-bT4NCj4gPg0KPiA+IFRoaXMgYWRkcyBzdXBwb3J0IGZvciB0aGUgWk5TIFpvbmUtRGVzY3JpcHRv
-ci1DaGFuZ2VzIEFFTiwgd2hpY2ggaXMgb2YNCj4gPiB0eXBlIG5vdGlmeSBhbmQgdXNlcyBDUUUu
-RFcxIHRvIGNvbnZleSB0aGUgTlNJRCBvZiB0aGUgbG9nIHBhZ2UgdG8gcmVhZC4NCj4gPg0KPiA+
-IFBhdGNoIDEgYWRkcyBub24temVybyBOVk1FX0FFTl9EQVRBIHdpdGggdGhlIHZhbHVlIG9mIENR
-RS5EVzEgdG8gYWxsDQo+ID4gTlZNRV9BRU4gdWV2ZW50cy4NCj4gPg0KPiA+IFBhdGNoIDIgZ2Vu
-ZXJhdGVzIGEgdWV2ZW50IGZvciBhbGwgdW5oYW5kbGVkIEFFTiBub3RpZnkgcmVzdWx0cyBpbnN0
-ZWFkDQo+ID4gb2YgaXNzdWluZyBhIGRldiB3YXJuaW5nLg0KPiA+DQo+ID4gVGhpcyBzdXBwb3J0
-IGlzIHBsYW5uZWQgdG8gYmUgdXNlZCBieSBib3RoIHpvbmUgYmFzZWQgYXBwbGljYXRpb25zIGFu
-ZA0KPiA+IGFub3RoZXIgdW5yZWxlYXNlZCBkZXZpY2Ugd2l0aCBhbiBhbHRlcm5hdGUgY29tbWFu
-ZCBzZXQuDQo+ID4NCj4gPg0KPiANCj4gUGxlYXNlIHdyaXRlIGEgdGVzdGNhc2UgaW4gdGhlIGJs
-a3Rlc3QgdG8gdGhpcyB3aWxsIGdldCB0ZXN0ZWQgZXZlcnkNCj4gcmVsZWFzZS4NCj4gDQo+IC1j
-aw0KDQpPayAtIEknbGwgZ2l2ZSBpdCBhIGdvIHRvIGltcGxlbWVudCB0aGF0IGJ1dCBBRU5zIGJ5
-IGRlZmluaXRpb24gYXJlbid0IGENCnJlc3BvbnNlIHRvIGEgcmVxdWVzdCAobW9zdGx5KSAtIHRo
-ZXkganVzdCBoYXBwZW4uICBUaGUgY2FzZSB0aGF0IEkga25vdw0Kb2YgdGhhdCBjcmVhdGVzIGEg
-em9uZSBleGN1cnNpb24gQUVOIHRha2VzIG1hbnkgaG91cnMgdG8gbWFuaWZlc3QgYW5kDQp0aGF0
-IGR1cmF0aW9uIHdvdWxkIGJlIEZMQVNILXR5cGUgc3BlY2lmaWMuICBJIGRvbid0IGtub3cgaG93
-IHlvdSBjb3VsZA0KdXNlIGEgcmVhbCBkZXZpY2UuDQoNClRoaXMgcGF0Y2ggd2FzIHRlc3RlZCB1
-bmRlciBRRU1VIHdpdGggb3VyIGN1c3RvbSBlbXVsYXRvci4gIFRoZQ0KY3VycmVudCBRRU1VIE5W
-TWUvWk5TIGRldmljZSBkb2Vzbid0IGVtdWxhdGUgem9uZSBleGN1cnNpb25zIHNvIEknbGwNCmhh
-dmUgdG8gc3RhcnQgdGhlcmUgdW5sZXNzIHNvbWVvbmUga25vd3Mgb2YgYSBiZXR0ZXIgd2F5Lg0K
-DQo=
+On 10/4/22 19:44, Shinichiro Kawasaki wrote:
+> On Oct 03, 2022 / 09:28, Keith Busch wrote:
+>> On Mon, Oct 03, 2022 at 01:32:41PM +0000, Shinichiro Kawasaki wrote:
+>>>
+>>> BTW, I came up to another question during code read. I found nvme_reset_work()
+>>> calls nvme_dev_disable() before nvme_sync_queues(). So, I think the NVME
+>>> controller is already disabled when the reset work calls nvme_sync_queues().
+>>
+>> Right, everything previously outstanding has been reclaimed, and the queues are
+>> quiesced at this point. There's nothing for timeout work to wait for, and the
+>> sync is just ensuring every timeout work has returned.
+> 
+> Thank you Keith, good to know that we do not need to worry about the deadlock
+> scenario with nvme_reset_work() :)  I also checked nvme_reset_prepare() and
+> nvme_suspend(). They also call nvme_dev_disable() or nvme_start/wait_freeze()
+> before nvme_sync_queues(). So I think the queues are quiesced in these context
+> also, and do not worry them either.
+> 
+>>
+>> It looks like a timeout is required in order to hit this reported deadlock, but
+>> the driver ensures there's nothing to timeout prior to syncing the queues. I
+>> don't think lockdep could reasonably know that, though.
+> 
+> I see... From blktests point of view, I would like to suppress the lockdep splat
+> which triggers the block/011 failure. I created a quick patch using
+> lockdep_off() and lockdep_on() which skips lockdep check for the read lock in
+> nvme_sync_io_queues() [1] and confirmed it avoids the lockdep splat. I think
+> this lockdep check relax is fine because nvme_sync_io_queues() callers do call
+> nvme_dev_disable(), nvme_start/wait_freeze() or nvme_stop_queues(). The queues
+> are quiesced at nvme_sync_io_queues() and the deadlock scenario does not happen.
+> 
+> Any comment on this patch will be appreciated. If this action approach is ok,
+> I'll post as a formal patch for review.
+> 
+> [1]
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 66446f1e06c..9d091327a88 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -5121,10 +5121,14 @@ void nvme_sync_io_queues(struct nvme_ctrl *ctrl)
+>  {
+>         struct nvme_ns *ns;
+> 
+
+I think there should be a comment here explaining why your turn off lockdep.
+
+> +       lockdep_off();
+>         down_read(&ctrl->namespaces_rwsem);
+> +       lockdep_on();
+>         list_for_each_entry(ns, &ctrl->namespaces, list)
+>                 blk_sync_queue(ns->queue);
+> +       lockdep_off();
+>         up_read(&ctrl->namespaces_rwsem);
+> +       lockdep_on();
+>  }
+>  EXPORT_SYMBOL_GPL(nvme_sync_io_queues);
+> 
+
+-- 
+Damien Le Moal
+Western Digital Research
+
 
