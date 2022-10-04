@@ -4,89 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EFFB8C433FE
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Oct 2022 15:32:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F1B3C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Oct 2022 17:34:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LJpQSt6f76xKyg5mFA+8DKvdT5AduyXHQ9BWqHR6Jys=; b=jycTcn8rZW1cpMDfrRmpSWKoo+
-	ZFm5DcPmm9zrVCcmxGQm+sWWiHicC5EakKCAxlrNJIjDcvcvumZrHyf0fmERJH4IR57reksplcH1A
-	nyGqQf2rxrQTYy/A7CUKTcDAByqh+hYZimP8voLvXQDaBBaTw3dTSKVh0ih+asc+CTlKoCHX9Iyz/
-	9uvo5cXMIdf2lVKLyutuU7hWtXJX3TqQk+V5ekr/DPbCi3CvIbroBYlgCWJzmBwDFNRqD4mVy8rjW
-	qO5LCdOnQzka6JjxUX70PyZQQWl7+NzIbrUwLLekgmjVJ0gURgIEO+5KUMJuVrK/xCnu6tgkXFBjz
-	hScMnQUg==;
+	bh=11X6w7vEu0tjTIHKzhmOqBBDI/k81VfR7jkK8cS2SLs=; b=aBEzT8ch5caenC8iUUl+PkTrlK
+	Ish/JBb/dd4avBAj+HTl+AnJ5wMqCK1KUtAORYq0lkqCs3BPvguCXHo/Y4DeFMa1cxRxeKNiB7C/B
+	P3RMFWTzZcN8dtPajtAxFFlmj77OaG7lqhpchz3NW6on3lf8qfc87Y6M+Q3N/IEdOPQpGGg9NfmOB
+	JjFqMkXHdVquFQHUh75EJIfvgldqqUbNdpeU/cxxqJtFDafOdbdv0CgwEMHJ1T1NUR8iBBf6NlPQ4
+	pKiL2A0t2BPaEYITEMGyXqgJpJfHOEOavJaMpZSlSoGImGe/B/PuwEBz5MeKAeMjXYLJ1rlv70DeU
+	OJqhhbmw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ofjuU-00A5KE-SA; Tue, 04 Oct 2022 15:32:42 +0000
-Received: from mail-lj1-x22a.google.com ([2a00:1450:4864:20::22a])
+	id 1oflnl-00AKB8-8M; Tue, 04 Oct 2022 17:33:53 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ofjuR-00A5JC-Vj
-	for linux-nvme@lists.infradead.org; Tue, 04 Oct 2022 15:32:41 +0000
-Received: by mail-lj1-x22a.google.com with SMTP id a12so5724571ljr.7
-        for <linux-nvme@lists.infradead.org>; Tue, 04 Oct 2022 08:32:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=LJpQSt6f76xKyg5mFA+8DKvdT5AduyXHQ9BWqHR6Jys=;
-        b=NBLGR9LigeFmBloKTsH3jAyJdA2BxTIkpCCdzRtXt35tT8t77dwX8+1lCCsIzW6m1K
-         10X2ruTGY9VTmD5WOseHk2qtASOcK9oNV2yeTVycxcIH1B27teASNTL8jkogyKcnG9ja
-         lDYB/eUzTQtiog3LEROv008MKQyvrrmmHAUZqX9UiXsw5EsLKAQxgKS89IMkOyTy/SXW
-         BoeX0Gt881L/c8+qW6ay+296XSBAnQVjvtl0f7QjPoQmqj+j2HqKBQ2galI9YkGZJgxw
-         YPqPPDw1JEOrV60b/AHJzSy8+O+m/znCSzB9O4TyFBvZn2gzRfxRm/e3cyPKAHrrBq/A
-         sPSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=LJpQSt6f76xKyg5mFA+8DKvdT5AduyXHQ9BWqHR6Jys=;
-        b=krNw5M0zNDVaBUbQ5U5yuHGPWjj7klWU73Amse2WBoUKZZFyewmiCZevTw7wqAKuMZ
-         0OdTDjacuRm6GrXUyaXbFKPZ5fD8SXMZRY3mhrrmwfg+ptfoAmOWjwu4uHXrW3a7zeeZ
-         tBXRCa1oCWKPq6p56R4QjtUsrPswBH2Lw1WGIiSLvro/2qLYf2TIW6deQW7ssafh+pAf
-         6yEzwU0kRtVY5chI8n4lNfPwrpplDozLqCnxMjoT18uvn+YKo5bRmnf2yO+kMmLrZka/
-         73k5/VFoGCqltokR/ujREOJhaX+Z2TS9NAwYLs0PZfwXpZOdHfBGe236eP0YW0xjuALa
-         zvCQ==
-X-Gm-Message-State: ACrzQf37J/2Cnd9kNKptOMfdTcwdjiCRyDE1x6JJqHhwso5YWaebCxw2
-	abU+gJhU0RMHQMx1eMpRbgg=
-X-Google-Smtp-Source: AMsMyM70KCRNNDKjPyPxNz/cIaHtp4wK32laKXHtSsO/3EwAzNBVS3tfMgR6hVFHSIO9qLn8bDdbpA==
-X-Received: by 2002:a05:651c:4ca:b0:26c:50e6:a9d3 with SMTP id e10-20020a05651c04ca00b0026c50e6a9d3mr8918382lji.318.1664897555773;
-        Tue, 04 Oct 2022 08:32:35 -0700 (PDT)
-Received: from mobilestation ([95.79.133.202])
-        by smtp.gmail.com with ESMTPSA id bx30-20020a05651c199e00b0026acfbbcb7esm763543ljb.12.2022.10.04.08.32.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Oct 2022 08:32:34 -0700 (PDT)
-Date: Tue, 4 Oct 2022 18:32:33 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Jonathan Derrick <jonathan.derrick@linux.dev>
-Cc: Serge Semin <Sergey.Semin@baikalelectronics.ru>,
-	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+	id 1oflni-00AKAO-Gg
+	for linux-nvme@lists.infradead.org; Tue, 04 Oct 2022 17:33:51 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 7A251614F1;
+	Tue,  4 Oct 2022 17:33:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFAA0C4347C;
+	Tue,  4 Oct 2022 17:33:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1664904827;
+	bh=PwPs9MrC9Nnp8YuXE4YUV6t4bJoGLpNTpwSGttYa7Kk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tAixdHgrvrMRL7IegAz1OTU6UQXKZBnHxqZglxfcFTG3tW/ysYVojy0xhNtiVt2hG
+	 TgLKzPoef7vjF2ubyvUoPry8SNTQJp6iiz8jA/lwQKGvRMpHzPSzBZvknZeedb45AI
+	 ZBeYujjiZaIfaQVwP0hpr+JccVp7YYc4ilWnI/2S2E4aQDdXvwOb/a7bAUVuFY4Zmp
+	 Px+s4UxtFKdbHcakbg2lJrHk1VElDY6Vz17OKApGn61geIcpptg/oL4sadL1ymoP6D
+	 uuEOWDRi56Rq0udQDutmX9vjRdg6nd6tQFqAM34iAsDf8b5gWWUTMHoLrjqM+dnKAO
+	 AiDImc9UmloWQ==
+Date: Tue, 4 Oct 2022 11:33:44 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Serge Semin <fancer.lancer@gmail.com>
+Cc: Christoph Hellwig <hch@lst.de>,
+	Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+	Jens Axboe <axboe@kernel.dk>, Jens Axboe <axboe@fb.com>,
 	Sagi Grimberg <sagi@grimberg.me>,
-	Jonathan Derrick <jonathan.derrick@intel.com>,
-	Revanth Rajashekar <revanth.rajashekar@intel.com>,
-	Rafael Antognolli <Rafael.Antognolli@intel.com>,
-	Scott Bauer <scott.bauer@intel.com>,
 	Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
 	Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
 	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
 	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] block: sed-opal: Cache-line-align the cmd/resp
- buffers
-Message-ID: <20221004153233.bxevkwwi6kqdpyep@mobilestation>
+Subject: Re: [PATCH v2 1/3] nvme-hwmon: Return error on kzalloc failure
+Message-ID: <YzxueNRODpry8L0/@kbusch-mbp.dhcp.thefacebook.com>
 References: <20220929224648.8997-1-Sergey.Semin@baikalelectronics.ru>
- <20220929224648.8997-4-Sergey.Semin@baikalelectronics.ru>
- <cce74aec-61b1-d5eb-1b62-746e45ebfe69@linux.dev>
+ <20220929224648.8997-2-Sergey.Semin@baikalelectronics.ru>
+ <YzYwB7lRGW80r4HA@kbusch-mbp.dhcp.thefacebook.com>
+ <20220930095247.vqtdc53rr66uaiwv@mobilestation>
+ <YzcDvmlslPki8gBj@kbusch-mbp.dhcp.thefacebook.com>
+ <20221004145049.74ffhcp7wpxw4ufz@mobilestation>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cce74aec-61b1-d5eb-1b62-746e45ebfe69@linux.dev>
+In-Reply-To: <20221004145049.74ffhcp7wpxw4ufz@mobilestation>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221004_083240_058123_C7070D1F 
-X-CRM114-Status: GOOD (  25.83  )
+X-CRM114-CacheID: sfid-20221004_103350_668471_29A1917D 
+X-CRM114-Status: GOOD (  32.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,65 +83,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Oct 03, 2022 at 12:24:08PM -0600, Jonathan Derrick wrote:
-> Hi
-> 
-> On 9/29/2022 4:46 PM, Serge Semin wrote:
-> > In accordance with [1] the DMA-able memory buffers must be
-> > cacheline-aligned otherwise the cache writing-back and invalidation
-> > performed during the mapping may cause the adjacent data being lost. It's
-> > specifically required for the DMA-noncoherent platforms. Seeing the
-> > opal_dev.{cmd,resp} buffers are used for DMAs in the NVME and SCSI/SD
-> > drivers in framework of the nvme_sec_submit() and sd_sec_submit() methods
-> > respectively we must make sure the passed buffers are cacheline-aligned to
-> > prevent the denoted problem.
+On Tue, Oct 04, 2022 at 05:50:49PM +0300, Serge Semin wrote:
 > > 
-> > [1] Documentation/core-api/dma-api.rst
-> > 
-> > Fixes: 455a7b238cd6 ("block: Add Sed-opal library")
-> > Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-> > ---
-> >   block/sed-opal.c | 5 +++--
-> >   1 file changed, 3 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/block/sed-opal.c b/block/sed-opal.c
-> > index 9700197000f2..222acbd1f03a 100644
-> > --- a/block/sed-opal.c
-> > +++ b/block/sed-opal.c
-> > @@ -73,6 +73,7 @@ struct parsed_resp {
-> >   	struct opal_resp_tok toks[MAX_TOKS];
-> >   };
-> > +/* Presumably DMA-able buffers must be cache-aligned */
-> >   struct opal_dev {
-> >   	bool supported;
-> >   	bool mbr_enabled;
-> > @@ -88,8 +89,8 @@ struct opal_dev {
-> >   	u64 lowest_lba;
-> >   	size_t pos;
-> > -	u8 cmd[IO_BUFFER_LENGTH];
-> > -	u8 resp[IO_BUFFER_LENGTH];
-> > +	u8 cmd[IO_BUFFER_LENGTH] ____cacheline_aligned;
-> > +	u8 resp[IO_BUFFER_LENGTH] ____cacheline_aligned;
-
-> I'm with Christoph on this one.
-> When I see ____cacheline_aligned, I assume its for performance reasons, not
-> to work around a DMA limitation. Can we instead kmalloc (which provides
-> alignment) these buffers to make it more clear? May want to add that same
-> comment pointing out some architectures require these dma targets to be
-> cache aligned.
-
-Ok. I'll resend v3 with these buffers being kmalloc'ed.
-
-Please note the SED OPAL entry of the MAINTAINTER list contains your
-intel-email address, which bounces back the messages (so does the
-Revanth' one). I'll add your new address to my patchset' "To"-list,
-but if you want to get new OPAL-related patches sent directly to your
-linux.dev email address the entry should be updated.
-
--Sergey
-
+> > This particular condition for hwmon is not something that prevents us from
+> > making forward progress.
 > 
+> If you consider the hwmon functionality as optional (AFAIU you are),
+> then just ignore the return value no matter the reason. 
+
+That is not an option. This function does IO, and the controller may not be
+usable on the other side of that, which means initialization must abort. We
+can't just ignore errors; we just don't need to report errors that don't
+prevent forward progress.
+
+> If the problem
+> caused the hwmon initialization process to fail turns to be critical
+> it will be raised in some other place which is required for the NVME
+> driver to work properly. Otherwise the hwmon module initialization may
+> still cause the probe procedure to halt, which makes it not optional.
+> That's what I meant when was saying about "the function and its
+> caller semantics not implying that".
 > 
-> >   	struct parsed_resp parsed;
-> >   	size_t prev_d_len;
+> >  
+> > > > The
+> > > > driver can participate in memory reclaim, so failing on a low memory condition
+> > > > can make matters worse.
+> > > 
+> > > Yes it can, so can many other places in the driver utilizing kmalloc
+> > > with just GFP_KERNEL flag passed including on the same path as the
+> > > nvme_hwmon_init() execution. Kmalloc will make sure the reclaim is
+> > > either finished or executed in background anyway in all cases. 
+> > 
+> > This path is in the first initialization before we've set up a namespace that
+> > can be used as a reclaim destination.
+> > 
+> > > Don't
+> > > really see why memory allocation failure is less worse in this case
+> > > than in many others in the same driver especially seeing as I said
+> > 
+> > The other initialization kmalloc's are required to make forward progress toward
+> > setting up a namespace. This one is not required.
+> 
+> Anyway what you say seems still contradicting. First you said that the
+> hwmon functionality was optional, but the only error being ignored was
+> the no-memory one which was very rare and turned to be not ignored in
+> the most of the other places.
+
+> Second you got to accept the second
+> patch of the series, which introduced a one more kmalloc followed
+> right after the first one in the same function nvme_hwmon_init(). 
+
+My comments on this patch were intended to be applied to all similiarly added
+uses.
 
