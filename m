@@ -4,85 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46EC0C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Oct 2022 14:51:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69D45C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Oct 2022 15:30:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0Hn40CSUd9u1FNS+WIRJQMhD0PfBlmdUq9IyNX5yQ8A=; b=xn2ZaSljrRjCmjIkeWSxHKpzlt
-	W+VXOwdEb3igJb2johcT7szT1s3JrZcQlplxoMjj6CjE1lqbOLq1CEL1lCi45ZHGWqpDktv1gpttI
-	yGu6YgPHNAwI7QHuwyS9kwO3HWTPQDeMshysCxN8IGY+1/u503nzAK78JGhs1kpk9k5tuwCA1230/
-	90rE/zGqed9jz19INcMesSeNjmeRg/xd9xy6rB5nua5bR4EUZ7sbGRUF3qlrJcM8+CEPSKrIvFHWr
-	aBfS5DnP5xWIwyU2egmr7QdYWl01HLgKX35WEGY9Tu9NGNV+XRGn7p3PLcNQVGJOyeazVAaa97qEB
-	WjuxDyUA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=MIlUGZxEmiwr29TXC6rLK1RgFe5Ngz+vdiicSffGJ7E=; b=B8USxoHXkdBmvJNTbGnutuAOaF
+	t36ItDjZukW8gDL/16X6ofpIkmNGN4fPsQ8ptbaj4UgyZRdESMzsz3na+xFlVZcbrW1vUPbJ04Pll
+	wF9vopF9nDOr3u8GEjXZAAFPfjbBLkpWKzuFPYMKgoyLXSLAWU9SUA81CQpEEV8QYhELy8J4HyuQ7
+	iyGSJXE3gagkH32mH29O0Z8W+/8Qou394DYgUSqMzc4rS14miTMuZ7BNwg4lYLG18Lr1+bWq6EFav
+	0l6FglOYjj2o5T4MG5sSikKq5wf9vLeq98h8H7FLj2ZO+BOYvjeDoByXpdakbEQzeLMpDYTSJneGC
+	qhUoP2pw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ofjG5-009xpf-F3; Tue, 04 Oct 2022 14:50:57 +0000
-Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d])
+	id 1ofjsE-00A517-Mc; Tue, 04 Oct 2022 15:30:22 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ofjG2-009xoX-Ld
-	for linux-nvme@lists.infradead.org; Tue, 04 Oct 2022 14:50:56 +0000
-Received: by mail-lf1-x12d.google.com with SMTP id bp15so8012009lfb.13
-        for <linux-nvme@lists.infradead.org>; Tue, 04 Oct 2022 07:50:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=0Hn40CSUd9u1FNS+WIRJQMhD0PfBlmdUq9IyNX5yQ8A=;
-        b=EyZjjX/3GJ3YRLyk8hhn5QEWqzCFf4PlbGe41bHvbGx7TdRABf8tAe/qRNZGRRJArC
-         wO7x/JJLgqjW8NGOJsj6+6eALVIjVP0e6Z3aY7tcRZfR00DaFLkPMO22U+WFh79aeQd/
-         VQ3sBsEWwSVrz5tCizef4R5netdI9nlLvFUi9UGzSnZd647yPqgH+zCYE+GE/yQaMLmf
-         XFGRMiFUniLOKls9aO3+RKatXSBxPMzxdJWLdaBv6xc4IM6WQfkuCS1A/YZ4T0P/IcjA
-         kwZKfnr0ghw3XivtacA4oTuejHvWTBp+555zVAhLcqxPghBijq9pKOj6PZuA0ZDoieDu
-         U9mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=0Hn40CSUd9u1FNS+WIRJQMhD0PfBlmdUq9IyNX5yQ8A=;
-        b=d9oCU/LjeMo7PfCJtSJFPMolR65+BsbItTXcZ8v13j138rl4k6vMrYigL1OF/2XcPZ
-         MSn7/tT10QZ5NTJ1GCzA2H8xipvRfMtU8Dr5CXhSouwirx0eaFeXj0oRo1MVsEWnCEV2
-         PoHTZFU5V35sMC5L7mgHr8eN1nasfyvrDVjKI78cDTTdU+UrCasBo+8alLnW1bUWmc+N
-         PdTXrOSz82kae4BsRKuoF3R5+dsi+BIzRog0KAbg7dm7N/YGZeCFvbTsvbr+rpAjnA8b
-         W2SdM43OPWqRG6xjYCKByTEprLn1Wy9vUuFEgkvn2Hfjc8PNvM1aUSAiXIIxVSfoWUGm
-         6/IA==
-X-Gm-Message-State: ACrzQf1XD2drsq7YnKqXRPOkmdRsAfnkq0Soz7hb9wCuiYZ38WxZOxc5
-	9Db7pp0LGOD3K3sl9u/KxuZot2ElTN4=
-X-Google-Smtp-Source: AMsMyM5xHx121xWdjc6Jdp/Vv6LqbJIYkiwnlPad3CEaFwaOgZMjZ6vZdghrd8V0TtOKHjNcb3ytrA==
-X-Received: by 2002:a05:6512:12c8:b0:49b:817a:c2fc with SMTP id p8-20020a05651212c800b0049b817ac2fcmr9798920lfg.165.1664895051892;
-        Tue, 04 Oct 2022 07:50:51 -0700 (PDT)
-Received: from mobilestation ([95.79.133.202])
-        by smtp.gmail.com with ESMTPSA id g14-20020a056512118e00b0048b0099f40fsm1935601lfr.216.2022.10.04.07.50.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Oct 2022 07:50:51 -0700 (PDT)
-Date: Tue, 4 Oct 2022 17:50:49 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: Serge Semin <Sergey.Semin@baikalelectronics.ru>,
-	Jens Axboe <axboe@kernel.dk>, Jens Axboe <axboe@fb.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
-	Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] nvme-hwmon: Return error on kzalloc failure
-Message-ID: <20221004145049.74ffhcp7wpxw4ufz@mobilestation>
-References: <20220929224648.8997-1-Sergey.Semin@baikalelectronics.ru>
- <20220929224648.8997-2-Sergey.Semin@baikalelectronics.ru>
- <YzYwB7lRGW80r4HA@kbusch-mbp.dhcp.thefacebook.com>
- <20220930095247.vqtdc53rr66uaiwv@mobilestation>
- <YzcDvmlslPki8gBj@kbusch-mbp.dhcp.thefacebook.com>
+	id 1ofjsA-00A4zt-FV
+	for linux-nvme@lists.infradead.org; Tue, 04 Oct 2022 15:30:21 +0000
+Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 294CAiZB027519
+	for <linux-nvme@lists.infradead.org>; Tue, 4 Oct 2022 08:30:14 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=s2048-2021-q4;
+ bh=MIlUGZxEmiwr29TXC6rLK1RgFe5Ngz+vdiicSffGJ7E=;
+ b=X2wO0v7XcWF2qegkjQu6/9BfVP73kVgdOrUeX3EZeBmJz0uXbX1/28S8U8TZDKy1rCfN
+ MQUscxt+yPZ+/5YDB90516CxLi494kQ+UCvx1DSOSSRmiulhf9z3GGd+sfcSip+tg0eB
+ 1A/v8hhBhxEeM6RnJE9bKqpKoJlrIjiPTJhwJlcmbOsk7xZOMQ8m2daf/Czejz7i3saY
+ tdElKyfCFKxNCeMAI4Iop4VcgOrfn0lnMVH8sfPUcKmQuxGl+IKKAEFVxEUNEIAcnSUM
+ XEsPfepStoZznkUDZvDi2gyFYOH6SJU5D5k4DP/AKobT5BZWzYLOo958p3sFvciQUzl9 1g== 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3k0b2tbysa-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Tue, 04 Oct 2022 08:30:14 -0700
+Received: from twshared34348.07.ash9.facebook.com (2620:10d:c0a8:1b::d) by
+ mail.thefacebook.com (2620:10d:c0a8:82::c) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 4 Oct 2022 08:30:11 -0700
+Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
+	id 1C1F2961C978; Tue,  4 Oct 2022 08:30:05 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-block@vger.kernel.org>, <axboe@kernel.dk>
+CC: <linux-nvme@lists.infradead.org>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCH] blk-mq: aggregate ktime_get per request batch
+Date: Tue, 4 Oct 2022 08:30:04 -0700
+Message-ID: <20221004153004.2058994-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YzcDvmlslPki8gBj@kbusch-mbp.dhcp.thefacebook.com>
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: 6Gdov1gRIaKtW_cmZj0ozJNT-v68AHSg
+X-Proofpoint-ORIG-GUID: 6Gdov1gRIaKtW_cmZj0ozJNT-v68AHSg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-10-04_06,2022-09-29_03,2022-06-22_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221004_075054_733677_C488887F 
-X-CRM114-Status: GOOD (  36.04  )
+X-CRM114-CacheID: sfid-20221004_083018_736362_9BC13963 
+X-CRM114-Status: GOOD (  27.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,76 +80,436 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 30, 2022 at 08:57:02AM -0600, Keith Busch wrote:
-> On Fri, Sep 30, 2022 at 12:52:47PM +0300, Serge Semin wrote:
-> > On Thu, Sep 29, 2022 at 05:53:43PM -0600, Keith Busch wrote:
-> > > On Fri, Sep 30, 2022 at 01:46:46AM +0300, Serge Semin wrote:
-> > > > Inability to allocate a buffer is a critical error which shouldn't be
-> > > > tolerated since most likely the rest of the driver won't work correctly.
-> > > > Thus instead of returning the zero status let's return the -ENOMEM error
-> > > > if the nvme_hwmon_data structure instance couldn't be created.
-> > > 
-> > 
-> > > Nak for this one. The hwmon is not necessary for the rest of the driver to
-> > > function, so having the driver detach from the device seems a bit harsh.
-> > 
-> > Even if it is as you say, neither the method semantic nor the way it's
-> > called imply that. Any failures except the allocation one are
-> > perceived as erroneous.
-> 
+From: Keith Busch <kbusch@kernel.org>
 
-> This is called by nvme_init_ctrl_finish(), and returns the error to
-> nvme_reset_work() only if it's < 0, which indicates we can't go on and the
-> driver unbinds.
+The request statistics fields' precision doesn't require each get a
+timestamp at their exact location of being set. We can get the time just
+once per batch to reduce the overhead from this repeated call. This is
+only really helpful if requests are batched, but no harm done if sending
+one at a time.
 
-That's obvious. One of the my question was that what makes the no
-memory error different from the rest of the errors causing the
-nvme_hwmon_init() method to fail? 
+Using fio's t/io_uring benchmark with default settings, time spent in
+ktime_get() reduced from ~6% to <1%, and is good for ~3% IOPs boost when
+stats are enabled.
 
-> 
-> This particular condition for hwmon is not something that prevents us from
-> making forward progress.
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ block/blk-mq.c             | 88 ++++++++++++++++++++++++--------------
+ drivers/block/virtio_blk.c |  3 +-
+ drivers/nvme/host/pci.c    |  3 +-
+ include/linux/blk-mq.h     |  2 +-
+ include/linux/blkdev.h     |  7 +++
+ 5 files changed, 69 insertions(+), 34 deletions(-)
 
-If you consider the hwmon functionality as optional (AFAIU you are),
-then just ignore the return value no matter the reason. If the problem
-caused the hwmon initialization process to fail turns to be critical
-it will be raised in some other place which is required for the NVME
-driver to work properly. Otherwise the hwmon module initialization may
-still cause the probe procedure to halt, which makes it not optional.
-That's what I meant when was saying about "the function and its
-caller semantics not implying that".
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 8070b6c10e8d..c759fb36b684 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -339,7 +339,7 @@ void blk_rq_init(struct request_queue *q, struct requ=
+est *rq)
+ EXPORT_SYMBOL(blk_rq_init);
+=20
+ static struct request *blk_mq_rq_ctx_init(struct blk_mq_alloc_data *data=
+,
+-		struct blk_mq_tags *tags, unsigned int tag, u64 alloc_time_ns)
++		struct blk_mq_tags *tags, unsigned int tag, u64 now)
+ {
+ 	struct blk_mq_ctx *ctx =3D data->ctx;
+ 	struct blk_mq_hw_ctx *hctx =3D data->hctx;
+@@ -366,15 +366,11 @@ static struct request *blk_mq_rq_ctx_init(struct bl=
+k_mq_alloc_data *data,
+ 	}
+ 	rq->timeout =3D 0;
+=20
+-	if (blk_mq_need_time_stamp(rq))
+-		rq->start_time_ns =3D ktime_get_ns();
+-	else
+-		rq->start_time_ns =3D 0;
++	rq->start_time_ns =3D now;
+ 	rq->part =3D NULL;
+ #ifdef CONFIG_BLK_RQ_ALLOC_TIME
+-	rq->alloc_time_ns =3D alloc_time_ns;
++	rq->alloc_time_ns =3D now;
+ #endif
+-	rq->io_start_time_ns =3D 0;
+ 	rq->stats_sectors =3D 0;
+ 	rq->nr_phys_segments =3D 0;
+ #if defined(CONFIG_BLK_DEV_INTEGRITY)
+@@ -407,7 +403,7 @@ static struct request *blk_mq_rq_ctx_init(struct blk_=
+mq_alloc_data *data,
+=20
+ static inline struct request *
+ __blk_mq_alloc_requests_batch(struct blk_mq_alloc_data *data,
+-		u64 alloc_time_ns)
++		u64 now)
+ {
+ 	unsigned int tag, tag_offset;
+ 	struct blk_mq_tags *tags;
+@@ -426,7 +422,7 @@ __blk_mq_alloc_requests_batch(struct blk_mq_alloc_dat=
+a *data,
+ 		tag =3D tag_offset + i;
+ 		prefetch(tags->static_rqs[tag]);
+ 		tag_mask &=3D ~(1UL << i);
+-		rq =3D blk_mq_rq_ctx_init(data, tags, tag, alloc_time_ns);
++		rq =3D blk_mq_rq_ctx_init(data, tags, tag, now);
+ 		rq_list_add(data->cached_rq, rq);
+ 		nr++;
+ 	}
+@@ -440,13 +436,13 @@ __blk_mq_alloc_requests_batch(struct blk_mq_alloc_d=
+ata *data,
+ static struct request *__blk_mq_alloc_requests(struct blk_mq_alloc_data =
+*data)
+ {
+ 	struct request_queue *q =3D data->q;
+-	u64 alloc_time_ns =3D 0;
+ 	struct request *rq;
+ 	unsigned int tag;
++	u64 now =3D 0;
+=20
+ 	/* alloc_time includes depth and tag waits */
+-	if (blk_queue_rq_alloc_time(q))
+-		alloc_time_ns =3D ktime_get_ns();
++	if (blk_queue_need_ts(q))
++		now =3D ktime_get_ns();
+=20
+ 	if (data->cmd_flags & REQ_NOWAIT)
+ 		data->flags |=3D BLK_MQ_REQ_NOWAIT;
+@@ -481,7 +477,7 @@ static struct request *__blk_mq_alloc_requests(struct=
+ blk_mq_alloc_data *data)
+ 	 * Try batched alloc if we want more than 1 tag.
+ 	 */
+ 	if (data->nr_tags > 1) {
+-		rq =3D __blk_mq_alloc_requests_batch(data, alloc_time_ns);
++		rq =3D __blk_mq_alloc_requests_batch(data, now);
+ 		if (rq)
+ 			return rq;
+ 		data->nr_tags =3D 1;
+@@ -507,7 +503,7 @@ static struct request *__blk_mq_alloc_requests(struct=
+ blk_mq_alloc_data *data)
+ 	}
+=20
+ 	return blk_mq_rq_ctx_init(data, blk_mq_tags_from_data(data), tag,
+-					alloc_time_ns);
++					now);
+ }
+=20
+ static struct request *blk_mq_rq_cache_fill(struct request_queue *q,
+@@ -610,14 +606,14 @@ struct request *blk_mq_alloc_request_hctx(struct re=
+quest_queue *q,
+ 		.cmd_flags	=3D opf,
+ 		.nr_tags	=3D 1,
+ 	};
+-	u64 alloc_time_ns =3D 0;
+ 	unsigned int cpu;
+ 	unsigned int tag;
++	u64 now =3D 0;
+ 	int ret;
+=20
+ 	/* alloc_time includes depth and tag waits */
+-	if (blk_queue_rq_alloc_time(q))
+-		alloc_time_ns =3D ktime_get_ns();
++	if (blk_queue_need_ts(q))
++		now =3D ktime_get_ns();
+=20
+ 	/*
+ 	 * If the tag allocator sleeps we could get an allocation for a
+@@ -661,7 +657,7 @@ struct request *blk_mq_alloc_request_hctx(struct requ=
+est_queue *q,
+ 	if (tag =3D=3D BLK_MQ_NO_TAG)
+ 		goto out_queue_exit;
+ 	return blk_mq_rq_ctx_init(&data, blk_mq_tags_from_data(&data), tag,
+-					alloc_time_ns);
++					now);
+=20
+ out_queue_exit:
+ 	blk_queue_exit(q);
+@@ -1214,8 +1210,13 @@ void blk_mq_start_request(struct request *rq)
+=20
+ 	trace_block_rq_issue(rq);
+=20
+-	if (test_bit(QUEUE_FLAG_STATS, &q->queue_flags)) {
+-		rq->io_start_time_ns =3D ktime_get_ns();
++	if (blk_queue_stat(q) ) {
++		/*
++		 * io_start_time_ns may not have been set earlier if the stat
++		 * attribute was being changed.
++		 */
++		if (!rq->io_start_time_ns)
++			rq->io_start_time_ns =3D ktime_get_ns();
+ 		rq->stats_sectors =3D blk_rq_sectors(rq);
+ 		rq->rq_flags |=3D RQF_STATS;
+ 		rq_qos_issue(q, rq);
+@@ -1944,10 +1945,14 @@ bool blk_mq_dispatch_rq_list(struct blk_mq_hw_ctx=
+ *hctx, struct list_head *list,
+ 	blk_status_t ret =3D BLK_STS_OK;
+ 	LIST_HEAD(zone_list);
+ 	bool needs_resource =3D false;
++	u64 now =3D 0;
+=20
+ 	if (list_empty(list))
+ 		return false;
+=20
++	if (blk_queue_stat(q))
++		now =3D ktime_get_ns();
++
+ 	/*
+ 	 * Now process all the entries, sending them to the driver.
+ 	 */
+@@ -1983,6 +1988,8 @@ bool blk_mq_dispatch_rq_list(struct blk_mq_hw_ctx *=
+hctx, struct list_head *list,
+ 		 */
+ 		if (nr_budgets)
+ 			nr_budgets--;
++
++		rq->io_start_time_ns =3D now;
+ 		ret =3D q->mq_ops->queue_rq(hctx, &bd);
+ 		switch (ret) {
+ 		case BLK_STS_OK:
+@@ -2507,7 +2514,7 @@ static void blk_mq_bio_to_request(struct request *r=
+q, struct bio *bio,
+ }
+=20
+ static blk_status_t __blk_mq_issue_directly(struct blk_mq_hw_ctx *hctx,
+-					    struct request *rq, bool last)
++					    struct request *rq, bool last, u64 now)
+ {
+ 	struct request_queue *q =3D rq->q;
+ 	struct blk_mq_queue_data bd =3D {
+@@ -2521,6 +2528,7 @@ static blk_status_t __blk_mq_issue_directly(struct =
+blk_mq_hw_ctx *hctx,
+ 	 * Any other error (busy), just add it to our list as we
+ 	 * previously would have done.
+ 	 */
++	rq->io_start_time_ns =3D now;
+ 	ret =3D q->mq_ops->queue_rq(hctx, &bd);
+ 	switch (ret) {
+ 	case BLK_STS_OK:
+@@ -2541,7 +2549,7 @@ static blk_status_t __blk_mq_issue_directly(struct =
+blk_mq_hw_ctx *hctx,
+=20
+ static blk_status_t __blk_mq_try_issue_directly(struct blk_mq_hw_ctx *hc=
+tx,
+ 						struct request *rq,
+-						bool bypass_insert, bool last)
++						bool bypass_insert, bool last, u64 now)
+ {
+ 	struct request_queue *q =3D rq->q;
+ 	bool run_queue =3D true;
+@@ -2574,7 +2582,7 @@ static blk_status_t __blk_mq_try_issue_directly(str=
+uct blk_mq_hw_ctx *hctx,
+ 		goto insert;
+ 	}
+=20
+-	return __blk_mq_issue_directly(hctx, rq, last);
++	return __blk_mq_issue_directly(hctx, rq, last, now);
+ insert:
+ 	if (bypass_insert)
+ 		return BLK_STS_RESOURCE;
+@@ -2597,8 +2605,13 @@ static blk_status_t __blk_mq_try_issue_directly(st=
+ruct blk_mq_hw_ctx *hctx,
+ static void blk_mq_try_issue_directly(struct blk_mq_hw_ctx *hctx,
+ 		struct request *rq)
+ {
+-	blk_status_t ret =3D
+-		__blk_mq_try_issue_directly(hctx, rq, false, true);
++	blk_status_t ret;
++	u64 now =3D 0;
++
++	if (blk_queue_stat(rq->q))
++		now =3D ktime_get_ns();
++
++	ret =3D __blk_mq_try_issue_directly(hctx, rq, false, true, now);
+=20
+ 	if (ret =3D=3D BLK_STS_RESOURCE || ret =3D=3D BLK_STS_DEV_RESOURCE)
+ 		blk_mq_request_bypass_insert(rq, false, true);
+@@ -2606,14 +2619,15 @@ static void blk_mq_try_issue_directly(struct blk_=
+mq_hw_ctx *hctx,
+ 		blk_mq_end_request(rq, ret);
+ }
+=20
+-static blk_status_t blk_mq_request_issue_directly(struct request *rq, bo=
+ol last)
++static blk_status_t blk_mq_request_issue_directly(struct request *rq, bo=
+ol last, u64 now)
+ {
+-	return __blk_mq_try_issue_directly(rq->mq_hctx, rq, true, last);
++	return __blk_mq_try_issue_directly(rq->mq_hctx, rq, true, last, now);
+ }
+=20
+ static void blk_mq_plug_issue_direct(struct blk_plug *plug, bool from_sc=
+hedule)
+ {
+ 	struct blk_mq_hw_ctx *hctx =3D NULL;
++	u64 now =3D ktime_get_ns();
+ 	struct request *rq;
+ 	int queued =3D 0;
+ 	int errors =3D 0;
+@@ -2628,7 +2642,7 @@ static void blk_mq_plug_issue_direct(struct blk_plu=
+g *plug, bool from_schedule)
+ 			hctx =3D rq->mq_hctx;
+ 		}
+=20
+-		ret =3D blk_mq_request_issue_directly(rq, last);
++		ret =3D blk_mq_request_issue_directly(rq, last, now);
+ 		switch (ret) {
+ 		case BLK_STS_OK:
+ 			queued++;
+@@ -2656,9 +2670,14 @@ static void blk_mq_plug_issue_direct(struct blk_pl=
+ug *plug, bool from_schedule)
+ static void __blk_mq_flush_plug_list(struct request_queue *q,
+ 				     struct blk_plug *plug)
+ {
++	u64 now =3D 0;
++
+ 	if (blk_queue_quiesced(q))
+ 		return;
+-	q->mq_ops->queue_rqs(&plug->mq_list);
++	if (blk_queue_stat(q))
++		now =3D ktime_get_ns();
++
++	q->mq_ops->queue_rqs(&plug->mq_list, now);
+ }
+=20
+ static void blk_mq_dispatch_plug_list(struct blk_plug *plug, bool from_s=
+ched)
+@@ -2736,6 +2755,10 @@ void blk_mq_try_issue_list_directly(struct blk_mq_=
+hw_ctx *hctx,
+ {
+ 	int queued =3D 0;
+ 	int errors =3D 0;
++	u64 now =3D 0;
++
++	if (blk_queue_stat(hctx->queue))
++		now =3D ktime_get_ns();
+=20
+ 	while (!list_empty(list)) {
+ 		blk_status_t ret;
+@@ -2743,7 +2766,7 @@ void blk_mq_try_issue_list_directly(struct blk_mq_h=
+w_ctx *hctx,
+ 				queuelist);
+=20
+ 		list_del_init(&rq->queuelist);
+-		ret =3D blk_mq_request_issue_directly(rq, list_empty(list));
++		ret =3D blk_mq_request_issue_directly(rq, list_empty(list), now);
+ 		if (ret !=3D BLK_STS_OK) {
+ 			errors++;
+ 			if (ret =3D=3D BLK_STS_RESOURCE ||
+@@ -2938,6 +2961,7 @@ blk_status_t blk_insert_cloned_request(struct reque=
+st *rq)
+ 	struct request_queue *q =3D rq->q;
+ 	unsigned int max_sectors =3D blk_queue_get_max_sectors(q, req_op(rq));
+ 	blk_status_t ret;
++	u64 now =3D 0;
+=20
+ 	if (blk_rq_sectors(rq) > max_sectors) {
+ 		/*
+@@ -2975,6 +2999,8 @@ blk_status_t blk_insert_cloned_request(struct reque=
+st *rq)
+ 	if (blk_crypto_insert_cloned_request(rq))
+ 		return BLK_STS_IOERR;
+=20
++	if (blk_do_io_stat(rq))
++		now =3D ktime_get_ns();
+ 	blk_account_io_start(rq);
+=20
+ 	/*
+@@ -2983,7 +3009,7 @@ blk_status_t blk_insert_cloned_request(struct reque=
+st *rq)
+ 	 * insert.
+ 	 */
+ 	blk_mq_run_dispatch_ops(q,
+-			ret =3D blk_mq_request_issue_directly(rq, true));
++			ret =3D blk_mq_request_issue_directly(rq, true, now));
+ 	if (ret)
+ 		blk_account_io_done(rq, ktime_get_ns());
+ 	return ret;
+diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
+index 3f4739d52268..b3b391c56d8b 100644
+--- a/drivers/block/virtio_blk.c
++++ b/drivers/block/virtio_blk.c
+@@ -417,7 +417,7 @@ static bool virtblk_add_req_batch(struct virtio_blk_v=
+q *vq,
+ 	return kick;
+ }
+=20
+-static void virtio_queue_rqs(struct request **rqlist)
++static void virtio_queue_rqs(struct request **rqlist, u64 now)
+ {
+ 	struct request *req, *next, *prev =3D NULL;
+ 	struct request *requeue_list =3D NULL;
+@@ -426,6 +426,7 @@ static void virtio_queue_rqs(struct request **rqlist)
+ 		struct virtio_blk_vq *vq =3D get_virtio_blk_vq(req->mq_hctx);
+ 		bool kick;
+=20
++		req->io_start_time_ns =3D now;
+ 		if (!virtblk_prep_rq_batch(req)) {
+ 			rq_list_move(rqlist, &requeue_list, req, prev);
+ 			req =3D prev;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 5b796efa325b..6fc14a3f2980 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -981,7 +981,7 @@ static bool nvme_prep_rq_batch(struct nvme_queue *nvm=
+eq, struct request *req)
+ 	return nvme_prep_rq(nvmeq->dev, req) =3D=3D BLK_STS_OK;
+ }
+=20
+-static void nvme_queue_rqs(struct request **rqlist)
++static void nvme_queue_rqs(struct request **rqlist, u64 now)
+ {
+ 	struct request *req, *next, *prev =3D NULL;
+ 	struct request *requeue_list =3D NULL;
+@@ -989,6 +989,7 @@ static void nvme_queue_rqs(struct request **rqlist)
+ 	rq_list_for_each_safe(rqlist, req, next) {
+ 		struct nvme_queue *nvmeq =3D req->mq_hctx->driver_data;
+=20
++		req->io_start_time_ns =3D now;
+ 		if (!nvme_prep_rq_batch(nvmeq, req)) {
+ 			/* detach 'req' and add to remainder list */
+ 			rq_list_move(rqlist, &requeue_list, req, prev);
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index ba18e9bdb799..071ebd7fd6c9 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -562,7 +562,7 @@ struct blk_mq_ops {
+ 	 * empty the @rqlist completely, then the rest will be queued
+ 	 * individually by the block layer upon return.
+ 	 */
+-	void (*queue_rqs)(struct request **rqlist);
++	void (*queue_rqs)(struct request **rqlist, u64 now);
+=20
+ 	/**
+ 	 * @get_budget: Reserve budget before queue request, once .queue_rq is
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 49373d002631..6bda1414cca0 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -599,6 +599,7 @@ bool blk_queue_flag_test_and_set(unsigned int flag, s=
+truct request_queue *q);
+ #define blk_queue_stable_writes(q) \
+ 	test_bit(QUEUE_FLAG_STABLE_WRITES, &(q)->queue_flags)
+ #define blk_queue_io_stat(q)	test_bit(QUEUE_FLAG_IO_STAT, &(q)->queue_fl=
+ags)
++#define blk_queue_stat(q)	test_bit(QUEUE_FLAG_STATS, &(q)->queue_flags)
+ #define blk_queue_add_random(q)	test_bit(QUEUE_FLAG_ADD_RANDOM, &(q)->qu=
+eue_flags)
+ #define blk_queue_zone_resetall(q)	\
+ 	test_bit(QUEUE_FLAG_ZONE_RESETALL, &(q)->queue_flags)
+@@ -612,6 +613,12 @@ bool blk_queue_flag_test_and_set(unsigned int flag, =
+struct request_queue *q);
+ #define blk_queue_rq_alloc_time(q)	false
+ #endif
+=20
++#define blk_queue_need_ts(q)		\
++	(blk_queue_rq_alloc_time(q) ||	\
++	 blk_queue_stat(q) || 		\
++	 blk_queue_io_stat(q) || 	\
++	 q->elevator)
++
+ #define blk_noretry_request(rq) \
+ 	((rq)->cmd_flags & (REQ_FAILFAST_DEV|REQ_FAILFAST_TRANSPORT| \
+ 			     REQ_FAILFAST_DRIVER))
+--=20
+2.30.2
 
->  
-> > > The
-> > > driver can participate in memory reclaim, so failing on a low memory condition
-> > > can make matters worse.
-> > 
-> > Yes it can, so can many other places in the driver utilizing kmalloc
-> > with just GFP_KERNEL flag passed including on the same path as the
-> > nvme_hwmon_init() execution. Kmalloc will make sure the reclaim is
-> > either finished or executed in background anyway in all cases. 
-> 
-> This path is in the first initialization before we've set up a namespace that
-> can be used as a reclaim destination.
-> 
-> > Don't
-> > really see why memory allocation failure is less worse in this case
-> > than in many others in the same driver especially seeing as I said
-> 
-> The other initialization kmalloc's are required to make forward progress toward
-> setting up a namespace. This one is not required.
-
-Anyway what you say seems still contradicting. First you said that the
-hwmon functionality was optional, but the only error being ignored was
-the no-memory one which was very rare and turned to be not ignored in
-the most of the other places. Second you got to accept the second
-patch of the series, which introduced a one more kmalloc followed
-right after the first one in the same function nvme_hwmon_init(). That
-kmalloc failure wasn't ignored but caused the nvme_hwmon_init()
-function to return an error. If you suggest to forget about the first
-part (which IMO still counts, but AFAICS is a common pattern in the
-NVME core driver, i.e. nvme_configure_apst() and
-nvme_configure_host_options()), the second part still applies.
-
--Sergey
 
