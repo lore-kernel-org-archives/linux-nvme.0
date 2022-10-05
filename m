@@ -4,71 +4,131 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 03F0AC433FE
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Oct 2022 14:20:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E832CC433FE
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 Oct 2022 16:06:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/XXZ2qscynTLcIoyJYXPqnjyY+u3XLRJKK9KRZBvGnM=; b=Y+3q/WJa3Du4rk4ruHZBnZfaZE
-	/m9Zb0m1KwC1VtlUT1BHlqzkWDOCusv+mIQ4QPakHcNW7PuQvjxQJgCU3qfXlH27Y8IXfepZnSaZ5
-	vh7odgJMG6b5sKRJVxqS7tkqMzJjx/YUJV88A/6ZagcJzI5wzL4A4KnhPp3RZ+esZNPTdLumS5TIp
-	hYulZPjCFVcdez+OQAEc5Zq9Uw0Nm+clzwPC6rZIOPxUnXomMSRhCIjZ9aJkTGoVHYL6+6AFQb9h/
-	aHfdMpi7IXvtKe0fTuPSgZ0Z0L4BrhFKWlfJLFjzFy8zgcQS9GHciue6pz6N/6VuF9Vjb+wGhZq9l
-	2TFT1/Ig==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=YrgGetB/TLOjMS3vQknhv/SINTgMiPk7KqpkdclIcUs=; b=AJPo/b291NXHJSS/d0WsfR+R6e
+	t1Ft7zRwYoGw0KYgBvddQpP5W1RrFgxMTnJhxyUfOTuC8JztCpS39EIQPGii+tvrfnVTuSLM5L3b2
+	qqZdjkaDpNRzHxDOkaQnN7iIANt7HISkq+p2MdZCNtFMwh0CkNQSqHQ9PqP66zhKerPGEuDpLk/k3
+	CjHlZTiAQsEcti5mLNgQlHIzfFBHH52x3GLOe5v4mc7ozJec4L6QPE8yaikcN9eT9XovUJwV5bqU9
+	4SaQ98F+NEnCkvgr/+h8A2Jy5Xw9VyhhOH/MJDVJGQiLUsSCb3KCaw9FooOtSswOVBhhsJWgyYCFn
+	r2NqyBmw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1og5Fo-00EUTT-Lg; Wed, 05 Oct 2022 14:20:08 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1og6v4-00F1oK-C6; Wed, 05 Oct 2022 16:06:50 +0000
+Received: from mail-bn7nam10on2073.outbound.protection.outlook.com ([40.107.92.73] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1og5Fl-00EUSx-AI
-	for linux-nvme@lists.infradead.org; Wed, 05 Oct 2022 14:20:06 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id BF46C61704;
-	Wed,  5 Oct 2022 14:20:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E7A4C433C1;
-	Wed,  5 Oct 2022 14:20:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1664979604;
-	bh=J4LvHXg4Q3IG9Xuu/C8ZiHp05LrKnIyPnVCmA9dmmLo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nq6BwKm7dsAnHwKS0KOcq5hI9a+QPU1DN87g67dmrnywX8vVfUQe+6PNa7bLOrPgJ
-	 Fd7DDJZ345nRp12nKsuJEJxx2dv/QF7RhspOvUoCC+dwEy0ejZNW5/92RBDEk/hsHC
-	 QNiLThFm9V2m/xgZ9HJc/spiLmXCtokCDQCSGq9Bc/6/2k1ZT6zVmjAjWr8CflyN/x
-	 hVsZegRFDPBDXhoTVA7+7IAKBYYGKC8Dy1jpq6JBl/sLkYskgnBKyhZnJmcNWem51N
-	 ytSQrkpM1I/8yLZBTVsaBOfUedt2+nGSRr4bb3kksiK/HPD3Hu2u8OirftCOsB5+bv
-	 rxv1JZG1kUWzg==
-Date: Wed, 5 Oct 2022 08:20:00 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	Tejun Heo <tj@kernel.org>,
-	Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Subject: Re: lockdep WARNING at blktests block/011
-Message-ID: <Yz2SkNORASzmL+jq@kbusch-mbp.dhcp.thefacebook.com>
-References: <20220930001943.zdbvolc3gkekfmcv@shindev>
- <313d914e-6258-50db-4317-0ffb6f936553@I-love.SAKURA.ne.jp>
- <20221003133240.bq2vynauksivj55x@shindev>
- <Yzr/pBvvq0NCzGwV@kbusch-mbp.dhcp.thefacebook.com>
- <20221004104456.ik42oxynyujsu5vb@shindev>
- <63e14e00-e877-cb5a-a69a-ff44bed8b5a5@I-love.SAKURA.ne.jp>
- <20221004122354.xxqpughpvnisz5qs@shindev>
- <20221005083104.2k7nqohqcqcrdpn4@shindev>
- <15c6e51f-a2a4-38ff-15a4-9efee32824d3@I-love.SAKURA.ne.jp>
+	id 1ofv0F-00CAUH-P2; Wed, 05 Oct 2022 03:23:25 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EAnP4nz11d924n5Ea6rkfbTTWZkOcBMR/h7ZkQJ1oHltLxDJaeH/Iez5BS7J79qQ2VcFFwKYgIGmCiYXjOb76HvhXSy2EaAQdXrVxivVboL/NYUst26hybzA8F8XTgXAFdbEcsSJMarnV5z3mvpNv6/2qB++DsmW8q+cjiY5mYdZRhiZtGSYFd3lR+A2iFGBWA/Ij8OWKnFTulTcMU+8KAKsLHdCYRDn4ExerGOo0Cz+trXQUARNz81ypcs8fpGxbeso3FeGPHnm9ypVjlCvgTaHFSZVumbmAN2zpDwlny92lM3GEdkISUQHh9Y61BlOgXREHFsrbzCGQ5y2BJTFOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YrgGetB/TLOjMS3vQknhv/SINTgMiPk7KqpkdclIcUs=;
+ b=Xdz1XM9XgHs5tzhGy60K1VMGf7QyJWaVPAJhDsbnmp5W/XTYb8Bi8f8nb1UQ9e1IMXiPYTTYFi+RlZ3dI4B1Y65Z0QQl37FH3c1C70lf2zoeoThJTzvL5pDhglUPoxYHgg6oC5ZPXVTzZ7fI8eRAMYUPXqTcCbnYF3bAL97S2ILwtM1l2jXOjFCoIw/7vNwUKgtUw5eRwCmMqR8F6tJ6kWA6QAr1QEgGdFMtX9EEuzAUXyUW/5oQ5M9j8wHfEwj0ontzAsr9fQnTHG8LgEDXWpyAJq2jM6WEwKhEfCq2J7ZwlH6dHyJLv/NzzbtfG8MmACbtqAtD5iuTsSetceIsug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YrgGetB/TLOjMS3vQknhv/SINTgMiPk7KqpkdclIcUs=;
+ b=iW3jsrpo9QXt4SmTdh80KE4thGPDh8fejFIagobwIQSERcoWvLGWdLcnqwJhThlAROWm8mvRxQA47EVCi2eq5eIqa5WE0yHiZwRofiP/64oBAIcTBy9/FMHs0x/UhCYe76qnqD/RIxdsnzqz50SrhQQ5XHpX7WIjLrthz2kNv59+A3mkKtYd3h3MQR4rPdtfo4TK1QbuPLEW/MLJ9voFSb02DML6kB8S+aqt7c7YeYtZ6sH/cLX22f9gL/69KTjRMugSIK3H29HTjUPGFQd45Kix5z6Vce1d/4Amspy1WZOvPhvdO4CpC2PD1IOhhn2ZmJ7Dkg4nMNlIVcZcz5zeig==
+Received: from BN8PR04CA0001.namprd04.prod.outlook.com (2603:10b6:408:70::14)
+ by DM6PR12MB4863.namprd12.prod.outlook.com (2603:10b6:5:1b9::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.24; Wed, 5 Oct
+ 2022 03:23:16 +0000
+Received: from BN8NAM11FT062.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:70:cafe::c8) by BN8PR04CA0001.outlook.office365.com
+ (2603:10b6:408:70::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.26 via Frontend
+ Transport; Wed, 5 Oct 2022 03:23:16 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ BN8NAM11FT062.mail.protection.outlook.com (10.13.177.34) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5709.10 via Frontend Transport; Wed, 5 Oct 2022 03:23:16 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Tue, 4 Oct 2022
+ 20:23:08 -0700
+Received: from dev.nvidia.com (10.126.230.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 4 Oct 2022
+ 20:23:05 -0700
+From: Chaitanya Kulkarni <kch@nvidia.com>
+To: <linux-block@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-omap@vger.kernel.org>, <linux-remoteproc@vger.kernel.org>,
+	<linux-mmc@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-nvme@lists.infradead.org>,
+	<linux-s390@vger.kernel.org>, <linux-scsi@vger.kernel.org>
+CC: <axboe@kernel.dk>, <efremov@linux.com>, <josef@toxicpanda.com>,
+	<idryomov@gmail.com>, <dongsheng.yang@easystack.cn>, <haris.iqbal@ionos.com>,
+	<jinpu.wang@ionos.com>, <mst@redhat.com>, <jasowang@redhat.com>,
+	<pbonzini@redhat.com>, <stefanha@redhat.com>, <ohad@wizery.com>,
+	<andersson@kernel.org>, <baolin.wang@linux.alibaba.com>,
+	<ulf.hansson@linaro.org>, <richard@nod.at>, <miquel.raynal@bootlin.com>,
+	<vigneshr@ti.com>, <marcan@marcan.st>, <sven@svenpeter.dev>,
+	<alyssa@rosenzweig.io>, <kbusch@kernel.org>, <hch@lst.de>,
+	<sagi@grimberg.me>, <sth@linux.ibm.com>, <hoeppner@linux.ibm.com>,
+	<hca@linux.ibm.com>, <gor@linux.ibm.com>, <agordeev@linux.ibm.com>,
+	<borntraeger@linux.ibm.com>, <svens@linux.ibm.com>, <jejb@linux.ibm.com>,
+	<martin.petersen@oracle.com>, <hare@suse.de>, <kch@nvidia.com>,
+	<bhelgaas@google.com>, <john.garry@huawei.com>, <mcgrof@kernel.org>,
+	<christophe.jaillet@wanadoo.fr>, <vaibhavgupta40@gmail.com>,
+	<wsa+renesas@sang-engineering.com>, <damien.lemoal@opensource.wdc.com>,
+	<johannes.thumshirn@wdc.com>, <bvanassche@acm.org>, <ming.lei@redhat.com>,
+	<shinichiro.kawasaki@wdc.com>, <vincent.fu@samsung.com>,
+	<christoph.boehmwalder@linbit.com>, <joel@jms.id.au>,
+	<vincent.whitchurch@axis.com>, <nbd@other.debian.org>,
+	<ceph-devel@vger.kernel.org>, <virtualization@lists.linux-foundation.org>,
+	<asahi@lists.linux.dev>
+Subject: [RFC PATCH 00/21] block: add and use init tagset helper
+Date: Tue, 4 Oct 2022 20:22:36 -0700
+Message-ID: <20221005032257.80681-1-kch@nvidia.com>
+X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <15c6e51f-a2a4-38ff-15a4-9efee32824d3@I-love.SAKURA.ne.jp>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.230.35]
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT062:EE_|DM6PR12MB4863:EE_
+X-MS-Office365-Filtering-Correlation-Id: fce348ec-947a-4641-efb6-08daa680f183
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	9FlJpRPPWo/UczTdTCd5SyHamL/pqbpEL/Ib+DcXgEmnGmZ9HEQsxCsQSSaqCQcTZjccDkXjj6u6yhsKWFHSidDTY7fUyBz2KqAnbklpfj1swJc7PjxXCgzNELZVysLo4szooec2ZY8lzfdkSE6HtdY+DtVcTMVjT8/jV+DKt5E6leNDKjVvSwh8EQ+Et7lmmqiT5dBceOsWFEahHF9xDSoPAe8cAus+8SNEDsQM/6NnzlmMJLTqU3TNS2er/HUj3CSYob4ij3EhgCsbqwKE9P/opr4klhGiEvSjB3DqbxFBhoQWFGh3JkLy/bkJIE9ynCNZz144NHMITmR5CHCTeusxffP0uhFo7kUdiQBTkgxqKecyfPQnuhlX/bH6m9Szl15GpW7txUmH/1j62W3KaE9uc5ouAyMtQlwD5YGw+snHXJjYVq7VluiZGSPIx5lNKrFTs9brAjh+oHAqB/n511BLraQb8GC6Uxu2tRGuunDb47VIS8P+D/hbiblfD/8mXucfE4lBfj0SIMlLUoPlKp0fkZ4FwsXtU2X1Gkn+mFFL+PnaG2Bvhazs80UG8ITqBnJHvmm8BR0hiA5I9yOwQqNN/La6BsPmng/IjQ0jXZDQtHd5tXAwu7XpWpAsOHNrnNQejJI1nT3M/dr+3H7VZ902lZCeV4RpYrjbSktdNLt+0q4Qgde1mX3VLGrvRqUzqyMBNIPAnRd4/ehBsgzMWgL1bZOGZzvOa9nJKokVBQEo8fw8n1c1PismK7nqoMDbHtoaNR1b+Woq9GxppbdQ+Uk3j/bTNKU/oQZ46LetuLMSQ2+S8Aek1LfTGwDQtcXmq39TIGsaevKwgzMGZjrTtWGxjjuYVEglp3ZjLIPlBV0=
+X-Forefront-Antispam-Report: 	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230022)(4636009)(346002)(376002)(39860400002)(136003)(396003)(451199015)(46966006)(40470700004)(36840700001)(7696005)(41300700001)(36756003)(6666004)(82740400003)(5660300002)(7366002)(7406005)(7416002)(8936002)(26005)(8676002)(316002)(70206006)(70586007)(4326008)(336012)(40480700001)(83380400001)(47076005)(426003)(82310400005)(16526019)(186003)(1076003)(921005)(356005)(7636003)(40460700003)(2906002)(2616005)(36860700001)(478600001)(110136005)(54906003)(21314003)(2101003)(83996005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2022 03:23:16.2764
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fce348ec-947a-4641-efb6-08daa680f183
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: 	BN8NAM11FT062.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4863
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221005_072005_457026_44658982 
-X-CRM114-Status: GOOD (  24.45  )
+X-CRM114-CacheID: sfid-20221004_202323_842411_9F09FDE1 
+X-CRM114-Status: UNSURE (   7.93  )
+X-CRM114-Notice: Please train this message.
+X-Mailman-Approved-At: Wed, 05 Oct 2022 09:06:48 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,91 +143,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 05, 2022 at 07:00:30PM +0900, Tetsuo Handa wrote:
-> On 2022/10/05 17:31, Shinichiro Kawasaki wrote:
-> > @@ -5120,11 +5120,27 @@ EXPORT_SYMBOL_GPL(nvme_start_admin_queue);
-> >  void nvme_sync_io_queues(struct nvme_ctrl *ctrl)
-> >  {
-> >  	struct nvme_ns *ns;
-> > +	LIST_HEAD(splice);
-> >  
-> > -	down_read(&ctrl->namespaces_rwsem);
-> > -	list_for_each_entry(ns, &ctrl->namespaces, list)
-> > +	/*
-> > +	 * blk_sync_queues() call in ctrl->snamespaces_rwsem critical section
-> > +	 * triggers deadlock warning by lockdep since cancel_work_sync() in
-> > +	 * blk_sync_queue() waits for nvme_timeout() work completion which may
-> > +	 * lock the ctrl->snamespaces_rwsem. To avoid the deadlock possibility,
-> > +	 * call blk_sync_queues() out of the critical section by moving the
-> > +         * ctrl->namespaces list elements to the stack list head temporally.
-> > +	 */
-> > +
-> > +	down_write(&ctrl->namespaces_rwsem);
-> > +	list_splice_init(&ctrl->namespaces, &splice);
-> > +	up_write(&ctrl->namespaces_rwsem);
-> 
-> Does this work?
-> 
-> ctrl->namespaces being empty when calling blk_sync_queue() means that
-> e.g. nvme_start_freeze() cannot find namespaces to freeze, doesn't it?
+Hi,
 
-There can't be anything to timeout at this point. The controller is disabled
-prior to syncing the queues. Not only is there no IO for timeout work to
-operate on, the controller state is already disabled, so a subsequent freeze
-would be skipped.
- 
->   blk_mq_timeout_work(work) { // Is blocking __flush_work() from cancel_work_sync().
->     blk_mq_queue_tag_busy_iter(blk_mq_check_expired) {
->       bt_for_each(blk_mq_check_expired) == blk_mq_check_expired() {
->         blk_mq_rq_timed_out() {
->           req->q->mq_ops->timeout(req) == nvme_timeout(req) {
->             nvme_dev_disable() {
->               mutex_lock(&dev->shutdown_lock); // Holds dev->shutdown_lock
->               nvme_start_freeze(&dev->ctrl) {
->                 down_read(&ctrl->namespaces_rwsem); // Holds ctrl->namespaces_rwsem which might block
->                 //blk_freeze_queue_start(ns->queue); // <= Never be called because ctrl->namespaces is empty.
->                 up_read(&ctrl->namespaces_rwsem);
->               }
->               mutex_unlock(&dev->shutdown_lock);
->             }
->           }
->         }
->       }
->     }
->   }
-> 
-> Are you sure that down_read(&ctrl->namespaces_rwsem) users won't run
-> when ctrl->namespaces is temporarily made empty? (And if you are sure
-> that down_read(&ctrl->namespaces_rwsem) users won't run when
-> ctrl->namespaces is temporarily made empty, why ctrl->namespaces_rwsem
-> needs to be a rw-sem rather than a plain mutex or spinlock ?)
+Add and use the helper to initialize the common fields of the tag_set
+such as blk_mq_ops, number of h/w queues, queue depth, command size,
+numa_node, timeout, BLK_MQ_F_XXX flags, driver data. This initialization
+is spread all over the block drivers. This avoids repetation of
+inialization code of the tag set in current block drivers and any future
+ones.
 
-We iterate the list in some target fast paths, so we don't want this to be an
-exclusive section for readers.
- 
-> > +	list_for_each_entry(ns, &splice, list)
-> >  		blk_sync_queue(ns->queue);
-> > -	up_read(&ctrl->namespaces_rwsem);
-> > +
-> > +	down_write(&ctrl->namespaces_rwsem);
-> > +	list_splice(&splice, &ctrl->namespaces);
-> > +	up_write(&ctrl->namespaces_rwsem);
-> >  }
-> >  EXPORT_SYMBOL_GPL(nvme_sync_io_queues);
-> 
-> I don't know about dependency chain, but you might be able to add
-> "struct nvme_ctrl"->sync_io_queue_mutex which is held for serializing
-> nvme_sync_io_queues() and down_write(&ctrl->namespaces_rwsem) users?
-> 
-> If we can guarantee that ctrl->namespaces_rwsem => ctrl->sync_io_queue_mutex
-> is impossible, nvme_sync_io_queues() can use ctrl->sync_io_queue_mutex
-> rather than ctrl->namespaces_rwsem, and down_write(&ctrl->namespaces_rwsem)/
-> up_write(&ctrl->namespaces_rwsem) users are replaced with
->   mutex_lock(&ctrl->sync_io_queue_mutex);
->   down_write(&ctrl->namespaces_rwsem);
-> and
->   up_write(&ctrl->namespaces_rwsem);
->   mutex_unlock(&ctrl->sync_io_queue_mutex);
-> sequences respectively.
-> 
+P.S. I'm aware of the EXPORT_SYMBOL_GPL() checkpatch warn just to make
+get some feedback to so I can remove the RFC tag.
+
+-ck
+
+Chaitanya Kulkarni (21):
+  block: add and use init tagset helper
+  loop: use lib tagset init helper
+  nbd: use lib tagset init helper
+  rnbd: use lib tagset init helper
+  bsg-lib: use lib tagset init helper
+  rnbd-clt: use lib tagset init helper
+  virtio-blk: use lib tagset init helper
+  scsi: use lib tagset init helper
+  block: use lib tagset init helper
+  amiflop: use lib tagset init helper
+  floppy: use lib tagset init helper
+  mtip32xx: use lib tagset init helper
+  z3ram: use lib tagset init helper
+  scm_blk: use lib tagset init helper
+  ubi: use lib tagset init helper
+  mmc: core: use lib tagset init helper
+  dasd: use lib tagset init helper
+  nvme-core: use lib tagset init helper for I/O q
+  nvme-core: use lib tagset init helper for adminq
+  nvme-apple: use lib tagset init helper
+  nvme-pci: use lib tagset init helper
+
+ block/blk-mq.c                    | 27 ++++++++++++++++++++++-----
+ block/bsg-lib.c                   |  9 +++------
+ drivers/block/amiflop.c           |  8 +++-----
+ drivers/block/floppy.c            |  7 ++-----
+ drivers/block/loop.c              | 12 ++++--------
+ drivers/block/mtip32xx/mtip32xx.c | 13 ++++---------
+ drivers/block/nbd.c               | 11 +++--------
+ drivers/block/null_blk/main.c     | 10 +++-------
+ drivers/block/rbd.c               | 11 +++++------
+ drivers/block/rnbd/rnbd-clt.c     | 25 +++++++++++--------------
+ drivers/block/virtio_blk.c        | 14 +++++---------
+ drivers/block/z2ram.c             |  7 ++-----
+ drivers/mmc/core/queue.c          |  9 +++------
+ drivers/mtd/ubi/block.c           | 11 +++--------
+ drivers/nvme/host/apple.c         | 25 ++++++++-----------------
+ drivers/nvme/host/core.c          | 21 +++++----------------
+ drivers/nvme/host/pci.c           | 25 +++++++------------------
+ drivers/s390/block/dasd_genhd.c   |  9 +++------
+ drivers/s390/block/scm_blk.c      | 10 +++-------
+ drivers/scsi/scsi_lib.c           | 13 +++++--------
+ include/linux/blk-mq.h            |  5 +++++
+ 21 files changed, 109 insertions(+), 173 deletions(-)
+
+-- 
+2.29.0
+
 
