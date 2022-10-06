@@ -4,63 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA5B4C433FE
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Oct 2022 15:01:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B69E9C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Oct 2022 15:01:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=T7S6oIxhAYkW+alnUKWtP6uIux66B8EsW4GqVBZ8bto=; b=VYgrkXkUO9FGt2wmXmARlDFRle
-	hsDXIuR32SdvnkRhNwwzEkMlMHdcTIWRuKGvMq2AfmMNZH78/xn7jx93kqOnNAcc7LQzJg67Z0tgz
-	NEgdW6litxqjwY9DU3SrpnRJuRh3ISYURGpHBqiRezz+B68NDgZrWei2YMJsCX0rs39iNIMZbRSzw
-	ECP1TsciMrTYbpKMUh9+XAr2QkkQgJ6iEdO2EoombUn7q/ktDh9RSv3KDDDIJVmj/4IaLoM9LwIav
-	ceUR+Ec7J2c1YuKxXaaHB+lQUTdDJ/cPN47vzRT6GoUQBtJn6qdM8One+uJi4GpaFsn9cjqdoaqfV
-	oyerIRQw==;
+	bh=5CT4nH/m4137cke6a9HxB/7vcArAWSQRa4usYkfKNrg=; b=uxcblOz/bQZKm/Uf2CjcQEKnMV
+	LqhoxLygbmnaIIKgu0Jfwjpb/OI5ZPUPgVO0JSc+/QaWmcYacRhhcZcC2FY9BArThF5pa+irS2UwF
+	ESHfVsUuXbWfpwD7KmEjYm6m5Rj9KjgKDHQ0M12KGTqj2dPPbCHWbZtDfpdzosi+GYO2lJTVcluRb
+	IVwyDU+G4bU1zz5jM8nMcnCvfxeWN5cnrSsHGXDGexajHO67pshr9YxS1xxYIFHyDJ4ukd9IjfWJ1
+	ZnNqp1oY+SaZrfqLM3hCrJg/ffuadiUsU+k4s6una5iS6bsm3NjDwM5BpS9KRs5X6soIfpLm6xpY8
+	DqXpZtTA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ogSNg-003C38-Ho; Thu, 06 Oct 2022 15:01:48 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1ogSNl-003C49-PA; Thu, 06 Oct 2022 15:01:53 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ogMTj-000nBk-DS; Thu, 06 Oct 2022 08:43:41 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	id 1ogPzl-002Gxd-Rq; Thu, 06 Oct 2022 12:28:59 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1DBFC1F8EE;
-	Thu,  6 Oct 2022 08:43:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1665045812; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 9D56561943;
+	Thu,  6 Oct 2022 12:28:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C9BAC433C1;
+	Thu,  6 Oct 2022 12:28:40 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="OS8t32IG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+	t=1665059318;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=T7S6oIxhAYkW+alnUKWtP6uIux66B8EsW4GqVBZ8bto=;
-	b=C+mCUjvr8q1OQndsJbfZXZJ3gLAGbiYxpXR3vx++9btLnUp9kZq0CQX7tRJDJnNrgG7sg5
-	VElWf3eFRacsDUxORP+nZNrrB49Kgh2Bx5MZY0rmM5+1STk9bN9MDPldTLpppqJY9Iu6qN
-	Bmlx+AbYfSwFuf+/9j41GSaP+BDPvUk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1665045812;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T7S6oIxhAYkW+alnUKWtP6uIux66B8EsW4GqVBZ8bto=;
-	b=MznRw6bCrjyprmYZ/SVmvDwryyMeZenJtnn+Y1RkYEyFbKl4QJ6J7BM2yyxsWNj6DwaBEV
-	ub8/BpYJGHJ7woDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E938D13AE0;
-	Thu,  6 Oct 2022 08:43:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 7/JaODOVPmPPPAAAMHmgww
-	(envelope-from <jack@suse.cz>); Thu, 06 Oct 2022 08:43:31 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 56F62A0668; Thu,  6 Oct 2022 10:43:31 +0200 (CEST)
-Date: Thu, 6 Oct 2022 10:43:31 +0200
-From: Jan Kara <jack@suse.cz>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+	bh=5CT4nH/m4137cke6a9HxB/7vcArAWSQRa4usYkfKNrg=;
+	b=OS8t32IGu3oCxKhFrKsoTlJdA0ilidFXzfDav1WbEMtetkdGq8zG44OTpAoolbKblRE28x
+	JavSPZ213Zn0QlCC7qiV7HVuoj014/Af3MYIJXK6V6JzJ66H365IrRZBlUnLH9HyqJISSh
+	i7WOLg4+btGeRh3RwCHT+vvVoWgXHqc=
+Received: 	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 5a4d154b (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Thu, 6 Oct 2022 12:28:38 +0000 (UTC)
+Date: Thu, 6 Oct 2022 06:28:26 -0600
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Kees Cook <keescook@chromium.org>
 Cc: linux-kernel@vger.kernel.org, Ajay Singh <ajay.kathat@microchip.com>,
 	Akinobu Mita <akinobu.mita@gmail.com>,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
@@ -126,8 +112,7 @@ Cc: linux-kernel@vger.kernel.org, Ajay Singh <ajay.kathat@microchip.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Jozsef Kadlecsik <kadlec@netfilter.org>,
 	Julian Anastasov <ja@ssi.bg>, KP Singh <kpsingh@kernel.org>,
-	Kalle Valo <kvalo@kernel.org>, Kees Cook <keescook@chromium.org>,
-	Keith Busch <kbusch@kernel.org>,
+	Kalle Valo <kvalo@kernel.org>, Keith Busch <kbusch@kernel.org>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	Leon Romanovsky <leon@kernel.org>,
 	Manish Rangankar <mrangankar@marvell.com>,
@@ -211,18 +196,19 @@ Cc: linux-kernel@vger.kernel.org, Ajay Singh <ajay.kathat@microchip.com>,
 	netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
 	rds-devel@oss.oracle.com, SHA-cyfmac-dev-list@infineon.com,
 	target-devel@vger.kernel.org, tipc-discussion@lists.sourceforge.net
-Subject: Re: [PATCH v1 3/5] treewide: use get_random_u32() when possible
-Message-ID: <20221006084331.4bdktc2zlvbaszym@quack3>
+Subject: Re: [PATCH v1 2/5] treewide: use get_random_{u8,u16}() when possible
+Message-ID: <Yz7J6j3cXDLK7O6A@zx2c4.com>
 References: <20221005214844.2699-1-Jason@zx2c4.com>
- <20221005214844.2699-4-Jason@zx2c4.com>
+ <20221005214844.2699-3-Jason@zx2c4.com>
+ <202210052126.B34A2C62@keescook>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221005214844.2699-4-Jason@zx2c4.com>
+In-Reply-To: <202210052126.B34A2C62@keescook>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221006_014339_667009_9EDBD8D7 
-X-CRM114-Status: GOOD (  23.66  )
-X-Mailman-Approved-At: Thu, 06 Oct 2022 08:01:47 -0700
+X-CRM114-CacheID: sfid-20221006_052858_053228_9A19D752 
+X-CRM114-Status: GOOD (  21.02  )
+X-Mailman-Approved-At: Thu, 06 Oct 2022 08:01:46 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -237,72 +223,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed 05-10-22 23:48:42, Jason A. Donenfeld wrote:
-> The prandom_u32() function has been a deprecated inline wrapper around
-> get_random_u32() for several releases now, and compiles down to the
-> exact same code. Replace the deprecated wrapper with a direct call to
-> the real function.
+On Wed, Oct 05, 2022 at 09:38:02PM -0700, Kees Cook wrote:
+> > diff --git a/lib/test_vmalloc.c b/lib/test_vmalloc.c
+> > index 56ffaa8dd3f6..0131ed2cd1bd 100644
+> > --- a/lib/test_vmalloc.c
+> > +++ b/lib/test_vmalloc.c
+> > @@ -80,7 +80,7 @@ static int random_size_align_alloc_test(void)
+> >  	int i;
+> >  
+> >  	for (i = 0; i < test_loop_count; i++) {
+> > -		rnd = prandom_u32();
+> > +		rnd = get_random_u8();
+> >  
+> >  		/*
+> >  		 * Maximum 1024 pages, if PAGE_SIZE is 4096.
 > 
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> This wasn't obvious either, but it looks like it's because it never
+> consumes more than u8?
 
-...
+Right. The only uses of that are %23 and %10 later on down.
 
-> diff --git a/fs/ext2/ialloc.c b/fs/ext2/ialloc.c
-> index 998dd2ac8008..e439a872c398 100644
-> --- a/fs/ext2/ialloc.c
-> +++ b/fs/ext2/ialloc.c
-> @@ -277,7 +277,7 @@ static int find_group_orlov(struct super_block *sb, struct inode *parent)
->  		int best_ndir = inodes_per_group;
->  		int best_group = -1;
->  
-> -		group = prandom_u32();
-> +		group = get_random_u32();
->  		parent_group = (unsigned)group % ngroups;
->  		for (i = 0; i < ngroups; i++) {
->  			group = (parent_group + i) % ngroups;
-
-The code here is effectively doing the
-
-	parent_group = prandom_u32_max(ngroups);
-
-> diff --git a/fs/ext4/ialloc.c b/fs/ext4/ialloc.c
-> index f73e5eb43eae..954ec9736a8d 100644
-> --- a/fs/ext4/ialloc.c
-> +++ b/fs/ext4/ialloc.c
-> @@ -465,7 +465,7 @@ static int find_group_orlov(struct super_block *sb, struct inode *parent,
->  			ext4fs_dirhash(parent, qstr->name, qstr->len, &hinfo);
->  			grp = hinfo.hash;
->  		} else
-> -			grp = prandom_u32();
-> +			grp = get_random_u32();
-
-Similarly here we can use prandom_u32_max(ngroups) like:
-
-		if (qstr) {
-			...
-			parent_group = hinfo.hash % ngroups;
-		} else
-			parent_group = prandom_u32_max(ngroups);
-
-> diff --git a/fs/ext4/mmp.c b/fs/ext4/mmp.c
-> index 9af68a7ecdcf..588cb09c5291 100644
-> --- a/fs/ext4/mmp.c
-> +++ b/fs/ext4/mmp.c
-> @@ -265,7 +265,7 @@ static unsigned int mmp_new_seq(void)
->  	u32 new_seq;
->  
->  	do {
-> -		new_seq = prandom_u32();
-> +		new_seq = get_random_u32();
->  	} while (new_seq > EXT4_MMP_SEQ_MAX);
-
-OK, here we again effectively implement prandom_u32_max(EXT4_MMP_SEQ_MAX + 1).
-Just presumably we didn't want to use modulo here because EXT4_MMP_SEQ_MAX
-is rather big and so the resulting 'new_seq' would be seriously
-non-uniform.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Jason
 
