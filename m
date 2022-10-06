@@ -4,58 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83650C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Oct 2022 06:29:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2875C433FE
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Oct 2022 06:29:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=y1Ewt823HoXUJ+RVCiU5hfekdC+9m7ghxyBCLtj1eUk=; b=ehKfw9bVupGY05h2eLD5gT7V1Z
-	F6khx+G+hOJtypp3bLOQWNxYGaJ7calb8BxWnqIWY3gCeAhKPcs7r0UIlfpVd5U5W2S+bZ62PTOBC
-	hKutwj8YXCCyAd/nm9G2gjLEn61Ug7+/3K7JDVd0lIqERkfwP+l0kWhmQGQ7KhN5PQaY+jf8RZxYH
-	4ZdNm11iTE1668/ocoWHBQHM4rusLVgBWy+lDbDubMFGNoM7Q84pbQlW8V4f+MGaHPZ4qGjlvsoW5
-	DA4rvFRWsVSMM4KV9EVZyrtovuoyEG9BP68ifU3OqVIPkLyxOpJ+0PsXHxCidBVV93xVszwahszpf
-	+PIZ8vfg==;
+	bh=BXKZz/gOYpFYEK/kvAD1ks5ZMqdWWvWPR9euDTlMinY=; b=yFcrOypCOFVKKkhERs1sAuD668
+	KBdHvL5jMaci3nmFdd+/GSaaThUEmw50wn4PqcBdPWyj9Fh0hsP24skd5WSHXfNYKgGH+bLD3PK+n
+	1T/5OC71GgvRrTpL0IN6cKyZFKallBR3f2RoO+Ju0WPyyYfFp4gm4A/4m6be6kEyyA/hJtQ7ZCZwT
+	y0rPVs+OtT7Hvhn1Zbv2k/FXQ2GvWKcrGgVbYfei1gEW03+kJjwPHDkZEtmOOtbIZ3BPR+6Zw5zaF
+	BZK/6ri7sNV0FVq9hhF/pYc3uu9TCt/RewplnSzmjWqF7yKCZg4jRORol7iFHDOBtEjhet2aG4bRe
+	j856oopg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ogKNn-0009g2-HR; Thu, 06 Oct 2022 06:29:23 +0000
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+	id 1ogKO4-0009mX-1T; Thu, 06 Oct 2022 06:29:40 +0000
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ogIf8-00HPRw-6a
-	for linux-nvme@lists.infradead.org; Thu, 06 Oct 2022 04:39:12 +0000
-Received: by mail-pj1-x1032.google.com with SMTP id fw14so737757pjb.3
-        for <linux-nvme@lists.infradead.org>; Wed, 05 Oct 2022 21:39:08 -0700 (PDT)
+	id 1ogIlD-00HRrt-UZ
+	for linux-nvme@lists.infradead.org; Thu, 06 Oct 2022 04:45:30 +0000
+Received: by mail-pl1-x62a.google.com with SMTP id l4so667443plb.8
+        for <linux-nvme@lists.infradead.org>; Wed, 05 Oct 2022 21:45:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=y1Ewt823HoXUJ+RVCiU5hfekdC+9m7ghxyBCLtj1eUk=;
-        b=Fcbv6b+yCuol0AU1mIs9HnAOz2/wjXtHru3VW95DL3V7mKymOrKADEfZ1NfF0xLiTB
-         LkCGzY8eutuXPS5+afbW7jf6o9DhcYADtCDqs8Qo8xeP+lYFZISv7p7XEeNAqavCs9/t
-         xtqe21TFW/x7aAqkAHw+ftHWXMel86ys26msI=
+        bh=BXKZz/gOYpFYEK/kvAD1ks5ZMqdWWvWPR9euDTlMinY=;
+        b=Pa5J7iVIfOPPpc5FnD+VCPFKYUv3DdEsBgX8F3veGLnr0MqCAKKnFqdt9Zn7I1vA4a
+         hp/m/n+zFRiftLounW3GI1Yh9t5CRw9Qy1PoS1A+KhEfND0rtCnNn/VAYMO7oSLOURb7
+         x/xHspG9KrvXOaDvidgpTqZEY9MLlutH21Sdk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=y1Ewt823HoXUJ+RVCiU5hfekdC+9m7ghxyBCLtj1eUk=;
-        b=Opd25xQcIwV7mo3HlO9dHnXgNPDUv0FiR3uThs1hfi40I4gF9gUWXR8426TGy4Z75B
-         RFWTI0Sb5AILOVex/4ycA0o4SFv2XEu4IO3bYusmTQ6lA/sh0s+CSYyuCukZvDs5jZoJ
-         UNWCLb6VVicPk1+qXlpqD+Wm0fROnmfYxIG8DoEeuDeSl/91EWLVSSNDO4ooGzVwuvgd
-         U9Z7fRL5zY0D3nrP9l6rkHlmBSS6/LrHys61f8XN5XDHi7I/r5FpS8EpUZz7SCjJxG7r
-         Wt3bG4yPypyx5Shg43BtfDridAMlxxD6E8uQlBmP8LyI7yaLPaqlfWuizGIPOHdqRwtN
-         VlyA==
-X-Gm-Message-State: ACrzQf3ziGODkWkNf0v0+/tiUGvnx4yFIc0Rfzlunj5CnPLVfceoeffy
-	pheOGBAFkEPEYmSQmdaQzKWucg==
-X-Google-Smtp-Source: AMsMyM60ELYmxh+A5d0x30z3COx8LaynKqt9bJxGAbjfrLwodOIKXzOKJgIYAS8Aw4fmck7UQns81A==
-X-Received: by 2002:a17:902:db0f:b0:176:e70f:6277 with SMTP id m15-20020a170902db0f00b00176e70f6277mr2639160plx.13.1665031147915;
-        Wed, 05 Oct 2022 21:39:07 -0700 (PDT)
+        bh=BXKZz/gOYpFYEK/kvAD1ks5ZMqdWWvWPR9euDTlMinY=;
+        b=7v8Hntuns8r7fuMmVR89qYF2Wv+XmrblZTw2SCBZePwS1KJEWR0qMjNjYdB87RTnEw
+         AcgfHZOz43+oLUCc0t70pen7jBVIWRIYXukqCRP06+DCA8HIoVRc06BG7aCsgWKaqMB0
+         Kc6zRFzrsbSb9/+lrPIHbMOq6sXXX7CzLGixMQvJ8rJ5exhnwjRAGam30yCpckLuSsN2
+         hZR24XbvvKe/N3ScIXmGltDk4qCc/f5DMZa6vqefz+dT6wDuDWfCISqYO6Jai3lkPrv0
+         cKSOjxbko0IUi5LQLB/m1fN3BsiLgO7gA9KaD4TivMwfW8FRbflPOccNzw56CyBIFekV
+         MLqQ==
+X-Gm-Message-State: ACrzQf22ehvdH5hIss4jzMb8PwDjeAFqgpseOxSsCOx1xju7aMgCwCDF
+	uGpI0+rsyIVUPA432l60Yzuj6w==
+X-Google-Smtp-Source: AMsMyM7BFOiJDjGZF65COEMp2Clzr5vtXi0588PB1vqUCkCeq9oCGZAqcRbRAS5gmL3ROlmwc9XhOA==
+X-Received: by 2002:a17:90b:384a:b0:203:7388:64bf with SMTP id nl10-20020a17090b384a00b00203738864bfmr8697904pjb.115.1665031527009;
+        Wed, 05 Oct 2022 21:45:27 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id d12-20020a634f0c000000b00439d071c110sm673132pgb.43.2022.10.05.21.39.05
+        by smtp.gmail.com with ESMTPSA id d5-20020a62f805000000b0054124008c14sm11733797pfh.154.2022.10.05.21.45.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Oct 2022 21:39:06 -0700 (PDT)
-Date: Wed, 5 Oct 2022 21:39:03 -0700
+        Wed, 05 Oct 2022 21:45:24 -0700 (PDT)
+Date: Wed, 5 Oct 2022 21:45:22 -0700
 From: Kees Cook <keescook@chromium.org>
 To: "Jason A. Donenfeld" <Jason@zx2c4.com>
 Cc: linux-kernel@vger.kernel.org, Ajay Singh <ajay.kathat@microchip.com>,
@@ -207,17 +207,17 @@ Cc: linux-kernel@vger.kernel.org, Ajay Singh <ajay.kathat@microchip.com>,
 	netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
 	rds-devel@oss.oracle.com, SHA-cyfmac-dev-list@infineon.com,
 	target-devel@vger.kernel.org, tipc-discussion@lists.sourceforge.net
-Subject: Re: [PATCH v1 5/5] prandom: remove unused functions
-Message-ID: <202210052138.A585E4CC@keescook>
+Subject: Re: [PATCH v1 4/5] treewide: use get_random_bytes when possible
+Message-ID: <202210052144.5DA3690D@keescook>
 References: <20221005214844.2699-1-Jason@zx2c4.com>
- <20221005214844.2699-6-Jason@zx2c4.com>
+ <20221005214844.2699-5-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221005214844.2699-6-Jason@zx2c4.com>
+In-Reply-To: <20221005214844.2699-5-Jason@zx2c4.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221005_213910_255093_5A862722 
-X-CRM114-Status: GOOD (  15.26  )
+X-CRM114-CacheID: sfid-20221005_214527_999363_93579D2F 
+X-CRM114-Status: GOOD (  16.32  )
 X-Mailman-Approved-At: Wed, 05 Oct 2022 23:27:55 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -233,11 +233,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 05, 2022 at 11:48:44PM +0200, Jason A. Donenfeld wrote:
-> With no callers left of prandom_u32() and prandom_bytes(), remove these
-> deprecated wrappers.
-> 
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+On Wed, Oct 05, 2022 at 11:48:43PM +0200, Jason A. Donenfeld wrote:
+> The prandom_bytes() function has been a deprecated inline wrapper around
+> get_random_bytes() for several releases now, and compiles down to the
+> exact same code. Replace the deprecated wrapper with a direct call to
+> the real function.
+
+Global search/replace matches. :)
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
