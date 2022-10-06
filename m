@@ -4,60 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 299D7C433FE
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Oct 2022 06:30:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC318C433FE
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Oct 2022 06:30:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=51dSYIsgEywaJmdEPyI7vbp82hVQfJ6jQKHayIqsWH8=; b=jESyTQQ9iL7R19USmQVjF7B1PU
-	I2bnNr/L8m9McJFIaL+shXPc0RKHa7OODbCOY/HVibS1myx0TpInVHoqcwJVU4vCkyTCXImN8sN3q
-	Isub9GAd1rM9yhDXJZAjJMwXQunrk/Y8PYA5gXiQ1fUoMraCH20xRaDjaJxZc8ydfDIB6P+y1KDM/
-	FVTMYxEsNQ50CS2BeVpP9ht7+kEAbyZffZ/GxdkCEyI/rAq6JtEpyVOxmcnln8ajG5x3MzKXv9Kcv
-	KaZ0HjhB+u+oYfq/VZfKQPPuvYrQhVViZpEJc22xNi8kvBqQpOwi/IOfyI0+AAMAamMiJCIUIBcrz
-	OTLO6NqQ==;
+	bh=7rD76ImKhWSr9uLkAh+d+zcZYfUm0ip9Vo7hna38oSs=; b=iRl9tkTv4EluAPQgND67J00I9j
+	BTnEYlfkdjraT9CcYPpzprW3Kyolr/UOTeQSBZGPfo5fldbKYmx5cgfAif95Q7b6jItpR0Y9hh8BA
+	smVt050ZmVz2z086gTwmN3NbR+waERwEbTYOP1JoEsI53FzFRCyIoGs7hBzzFfODkg6+CHTNjdArd
+	/bX8DxlMFlSUZbmMANFZ8BV+g6naC2Ex3Ob6Ia0iSJQdsX6AdHuA+eBc6Iud778VfQEOht0xSFyd5
+	jwWDcm3cWKyanswHZ9irNm75QqkZF6NqeDS3rru3DYPbJaWGUgmlIb5kGDwLVqT1qWv9TRoazIUjp
+	FX/QKFkw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ogKOf-0009wV-QN; Thu, 06 Oct 2022 06:30:17 +0000
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
+	id 1ogKP8-000A5Z-Mp; Thu, 06 Oct 2022 06:30:46 +0000
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ogIvD-00HUNZ-PB
-	for linux-nvme@lists.infradead.org; Thu, 06 Oct 2022 04:55:49 +0000
-Received: by mail-pf1-x432.google.com with SMTP id g28so1020631pfk.8
-        for <linux-nvme@lists.infradead.org>; Wed, 05 Oct 2022 21:55:45 -0700 (PDT)
+	id 1ogJce-0000Un-IT
+	for linux-nvme@lists.infradead.org; Thu, 06 Oct 2022 05:40:42 +0000
+Received: by mail-pj1-x102c.google.com with SMTP id gf8so821235pjb.5
+        for <linux-nvme@lists.infradead.org>; Wed, 05 Oct 2022 22:40:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date;
-        bh=51dSYIsgEywaJmdEPyI7vbp82hVQfJ6jQKHayIqsWH8=;
-        b=e0wWc8f7UVTw3oXSVMh5SbOC8/ybqXORh0RfOsp37foz3bEHC+sZdUS2Cb48q2Rals
-         cLwchuP5t4lVTMm+j0edXnLdA6eiOkpTvFVeI+b/+yanhEnnWG77EYRopMXRVrLoop3K
-         nYwrVibqoZRWrTFw38o2fgxxWy4pLnB/kciNo=
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=7rD76ImKhWSr9uLkAh+d+zcZYfUm0ip9Vo7hna38oSs=;
+        b=HIlnByPTia/JV2Hio0Z3vTGHRO3pP+g3PDOdFVRfXo+4JMSWemnyOHulYs1b2f7JO3
+         4B68mkEwVVg8IQ3IkOWlhCZu1DHmNpOVf5BI7g3+ztCRosIDaXqnmyXn8NbvhlX0kAlJ
+         1+EIMZBflEmYzO5Z7VvIiaOCr5rSQzs8/emFI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=51dSYIsgEywaJmdEPyI7vbp82hVQfJ6jQKHayIqsWH8=;
-        b=Jq2HVNU0Q8ND9B5zekJrGAnWDNeSKe3HPLYQn1iNQzumjk0bCA6THRLvVmrdCKzySu
-         OqD1etXv5Q9W0o4kmpjc5kP51dKT6P3yLcJVGDtXhbZT3hiQ+TggSLhceyLr7SYwytKE
-         IujxitfK2lblVsokgHTXXxKKOhIVcky+ZmIXkzn/2Bx6/7kGr8La9G0eeG8+2w8QW5DD
-         kDabWaJT3RHC1xIzi/H8Ji94mXstckUDXa1O6B6lTGMv+XHYOKT395Wzl6HWKflT1hVd
-         oiMmENG9xve36enlnH4k50mvUCq9k9dCx9gjHTg48RqBZvMe9PWaVojs9hxqcmLgMLVR
-         xZ2g==
-X-Gm-Message-State: ACrzQf1DbhA0Kwdzs+WXMTF7q6zA5pvttHZUU831bj7OOADruCX/HtBM
-	p+g7sjI0C5/PfB1jADHAVZ6zgg==
-X-Google-Smtp-Source: AMsMyM48HYcC17YfWxdcqN47yJn5oQWwbAuWOEmTE9E3JPhKRJg4eKNbmI4Bm6DfbK3tY9AIwV8yDw==
-X-Received: by 2002:a63:d613:0:b0:45a:654:cf16 with SMTP id q19-20020a63d613000000b0045a0654cf16mr2835844pgg.611.1665032145428;
-        Wed, 05 Oct 2022 21:55:45 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=7rD76ImKhWSr9uLkAh+d+zcZYfUm0ip9Vo7hna38oSs=;
+        b=E3TIuKve3I4Miq3HMlcVFvroo2eLT5BwOACctGiyQAI9fmlBaPi7vEb4wCrAnHEPSB
+         pU8CnS5bjmKa1ul+QWW6p572se5qbbIImOHSjUomPiKttmrXedu+eTbPL/E2OTJRc57D
+         MhdeGhehJ3SaFYu5tkKgplaLlEeOG4cHZUo61l/SkiDomJwxmrqcn0YMHtcw1rwUB3G3
+         U+uwCp620TKCt17Osnp+jiQo6qae68n4K5WVDLsAPErkSqMrXZkZGDj/jDuDCJk5+PWO
+         1//b4PEc9JRAjwzxxl/XT1+V0oXd8ejG69nd5kIxwTnDFqNJk1rbKM2ZxPMiiEUnrwGx
+         yHyg==
+X-Gm-Message-State: ACrzQf0e3CDgvOTnOStjVmXYVoyZZpH4F89BaJvPCn+AxK9387EKyfD5
+	yC7ZI30ca/xTwTMlQVDwXvqfag==
+X-Google-Smtp-Source: AMsMyM5d8kq/QLGWHL1lT7d4vvr6wiHcKPw02UiifePzthTJzj01ofprelzHftcv9opKc24+zWNWRw==
+X-Received: by 2002:a17:90b:1943:b0:20a:85e9:f089 with SMTP id nk3-20020a17090b194300b0020a85e9f089mr3484011pjb.47.1665034838827;
+        Wed, 05 Oct 2022 22:40:38 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id s14-20020a17090302ce00b0017a09ebd1e2sm11252393plk.237.2022.10.05.21.55.44
+        by smtp.gmail.com with ESMTPSA id s9-20020a63ff49000000b0043be31d490dsm776833pgk.67.2022.10.05.22.40.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Oct 2022 21:55:44 -0700 (PDT)
-Date: Wed, 5 Oct 2022 21:55:43 -0700
+        Wed, 05 Oct 2022 22:40:38 -0700 (PDT)
+Date: Wed, 5 Oct 2022 22:40:36 -0700
 From: Kees Cook <keescook@chromium.org>
 To: "Jason A. Donenfeld" <Jason@zx2c4.com>
 Cc: linux-kernel@vger.kernel.org, Ajay Singh <ajay.kathat@microchip.com>,
@@ -210,16 +208,16 @@ Cc: linux-kernel@vger.kernel.org, Ajay Singh <ajay.kathat@microchip.com>,
 	rds-devel@oss.oracle.com, SHA-cyfmac-dev-list@infineon.com,
 	target-devel@vger.kernel.org, tipc-discussion@lists.sourceforge.net
 Subject: Re: [PATCH v1 0/5] treewide cleanup of random integer usage
-Message-ID: <202210052148.B11CBC60@keescook>
+Message-ID: <202210052240.23F1699@keescook>
 References: <20221005214844.2699-1-Jason@zx2c4.com>
+ <202210052148.B11CBC60@keescook>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221005214844.2699-1-Jason@zx2c4.com>
+In-Reply-To: <202210052148.B11CBC60@keescook>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221005_215547_829759_D5443315 
-X-CRM114-Status: GOOD (  37.08  )
+X-CRM114-CacheID: sfid-20221005_224040_624198_3B7E1CDD 
+X-CRM114-Status: GOOD (  16.22  )
 X-Mailman-Approved-At: Wed, 05 Oct 2022 23:27:55 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -235,94 +233,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 05, 2022 at 11:48:39PM +0200, Jason A. Donenfeld wrote:
-> Hi folks,
-> 
-> This is a five part treewide cleanup of random integer handling. The
-> rules for random integers are:
-> 
-> - If you want a secure or an insecure random u64, use get_random_u64().
-> - If you want a secure or an insecure random u32, use get_random_u32().
->   * The old function prandom_u32() has been deprecated for a while now
->     and is just a wrapper around get_random_u32().
-> - If you want a secure or an insecure random u16, use get_random_u16().
-> - If you want a secure or an insecure random u8, use get_random_u8().
-> - If you want secure or insecure random bytes, use get_random_bytes().
->   * The old function prandom_bytes() has been deprecated for a while now
->     and has long been a wrapper around get_random_bytes().
-> - If you want a non-uniform random u32, u16, or u8 bounded by a certain
->   open interval maximum, use prandom_u32_max().
->   * I say "non-uniform", because it doesn't do any rejection sampling or
->     divisions. Hence, it stays within the prandom_* namespace.
-> 
-> These rules ought to be applied uniformly, so that we can clean up the
-> deprecated functions, and earn the benefits of using the modern
-> functions. In particular, in addition to the boring substitutions, this
-> patchset accomplishes a few nice effects:
-> 
-> - By using prandom_u32_max() with an upper-bound that the compiler can
->   prove at compile-time is ≤65536 or ≤256, internally get_random_u16()
->   or get_random_u8() is used, which wastes fewer batched random bytes,
->   and hence has higher throughput.
-> 
-> - By using prandom_u32_max() instead of %, when the upper-bound is not a
->   constant, division is still avoided, because prandom_u32_max() uses
->   a faster multiplication-based trick instead.
-> 
-> - By using get_random_u16() or get_random_u8() in cases where the return
->   value is intended to indeed be a u16 or a u8, we waste fewer batched
->   random bytes, and hence have higher throughput.
-> 
-> So, based on those rules and benefits from following them, this patchset
-> breaks down into the following five steps:
-> 
-> 1) Replace `prandom_u32() % max` and variants thereof with
->    prandom_u32_max(max).
-> 
-> 2) Replace `(type)get_random_u32()` and variants thereof with
->    get_random_u16() or get_random_u8(). I took the pains to actually
->    look and see what every lvalue type was across the entire tree.
-> 
-> 3) Replace remaining deprecated uses of prandom_u32() with
->    get_random_u32(). 
-> 
-> 4) Replace remaining deprecated uses of prandom_bytes() with
->    get_random_bytes().
-> 
-> 5) Remove the deprecated and now-unused prandom_u32() and
->    prandom_bytes() inline wrapper functions.
-> 
-> I was thinking of taking this through my random.git tree (on which this
-> series is currently based) and submitting it near the end of the merge
-> window, or waiting for the very end of the 6.1 cycle when there will be
-> the fewest new patches brewing. If somebody with some treewide-cleanup
-> experience might share some wisdom about what the best timing usually
-> winds up being, I'm all ears.
+On Wed, Oct 05, 2022 at 09:55:43PM -0700, Kees Cook wrote:
+> If any of the subsystems ask you to break this up (I hope not), I've got
+> this[1], which does a reasonable job of splitting a commit up into
+> separate commits for each matching subsystem.
 
-It'd be nice to capture some (all?) of the above somewhere. Perhaps just
-a massive comment in the header?
-
-> I've CC'd get_maintainers.pl, which is a pretty big list. Probably some
-> portion of those are going to bounce, too, and everytime you reply to
-> this thread, you'll have to deal with a bunch of bounces coming
-> immediately after. And a recipient list this big will probably dock my
-> email domain's spam reputation, at least temporarily. Sigh. I think
-> that's just how it goes with treewide cleanups though. Again, let me
-> know if I'm doing it wrong.
-
-I usually stick to just mailing lists and subsystem maintainers.
-
-If any of the subsystems ask you to break this up (I hope not), I've got
-this[1], which does a reasonable job of splitting a commit up into
-separate commits for each matching subsystem.
-
-Showing that a treewide change can be reproduced mechanically helps with
-keeping it together as one bit treewide patch, too, I've found. :)
-
-Thank you for the cleanup! The "u8 rnd = get_random_u32()" in the tree
-has bothered me for a loooong time.
-
--Kees
+[1] https://github.com/kees/kernel-tools/blob/trunk/split-on-maintainer
 
 -- 
 Kees Cook
