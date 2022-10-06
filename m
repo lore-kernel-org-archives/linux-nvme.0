@@ -4,67 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6BD01C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Oct 2022 15:02:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5FDCAC433F5
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Oct 2022 15:02:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eLAvQxPTrW61bFz1sANG5Y81u18aSgNqwRKiQkasIrQ=; b=IUD6S5gxHpoazpUqNakzgfyHwX
-	hLOFTH7WbtN/2XN5uWYPDA0xqBhTAkOxCu2SCNr1s0KzjIzeJtm5p2Ij/6ZQ828MVKP9eJHbv75ya
-	Ea4vuqw6/l2oFZMx6XF5buRT4ruk0Y/JXl2VkmagAJhtpqpsFFW4VjXudYc4KXipsRh91vOhgq055
-	h8SaiyLP1abGkvzDDNJQkhmpy1OW8KJEMTg1rN+POC0K+wo+DUYG6yRi2Vk7wWagrdyftXHz57eJh
-	3tWdsPFykKwl3bx2T+BhVFYvJyUbJjn9LtXmrOY26wSnfXJ5m3pfFHUcx2k5vHfUgtg3aaZ3ONn3Z
-	D/srN3aQ==;
+	bh=+Hkd+03ZPFCZHL4SytFYjQxSlVLh/tCnsKNFxa5wK+g=; b=qN9uOxnfnKiMHM3YLsmsDk+pr+
+	IGPzeD+mf1taxt6ZqV3A3Xx703O/fsx5+zPPdy3fsjdj6Ycs120NpMqaChlEUgWOzi8d1AiAVeOVu
+	gMzbmKhHLbzx0h752jeqfdL+iSpcu+8Fyw2xQIKVCwbs6wXh25Ufm/5AJc3sLVjFzK6XOqr4mTFMX
+	MsETdTuBZIBNUGgoCLOgNuY/J4uMgUMaMNAQl7fiqF1eG+LiaRryOElirJdD+XKrnmNgYVBh07FxQ
+	QRLH7MgfHb3YDFImOwLKo+hcvgEX60eCiBSyuj0DG9pPjhbWwVp9i1oL3MErow18pnTz5KDp1GBwy
+	p9JHrfnw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ogSO1-003CAe-Oe; Thu, 06 Oct 2022 15:02:09 +0000
-Received: from mail-qv1-xf2d.google.com ([2607:f8b0:4864:20::f2d])
+	id 1ogSO9-003CD1-HN; Thu, 06 Oct 2022 15:02:17 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ogQI7-002QFj-S0
-	for linux-nvme@lists.infradead.org; Thu, 06 Oct 2022 12:47:59 +0000
-Received: by mail-qv1-xf2d.google.com with SMTP id z18so1083153qvn.6
-        for <linux-nvme@lists.infradead.org>; Thu, 06 Oct 2022 05:47:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=eLAvQxPTrW61bFz1sANG5Y81u18aSgNqwRKiQkasIrQ=;
-        b=Mjk55TEbLntyF5lT9fSI68nVndM1Msdjat/gJGZygPgfzU+WkmD3YJi9WXVGaCzM6v
-         GxLLpAA6PXTqzjvO06yw50CV42lW4n/vIEByFS591YiP94BQoBhbbWQVP56HTGxk5Zgr
-         BOk05yP29axd7oq4HdYwQK9SI5EUWt7gxVDMFJ+wkOreCPIVeriBrHDtpGfIe2ngJppN
-         JQryL8z0uIEMfGv9GgcIhdNpUKCWmtH1vAJbOQzYFsOAjpmcoQIxgv9D+phyeqT1BAZz
-         6oBo+rhyLIIlr94eqFOQOrHm5nD105nysrFzzWFdbvZC9hK7I+vgzgKfrpoAG3/bFvxl
-         ry9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=eLAvQxPTrW61bFz1sANG5Y81u18aSgNqwRKiQkasIrQ=;
-        b=SZMmhz9E10azUkPsKcfb1QdOGQl1Dy07F9fjzCMeaIreBuOTC3A6zJbOdbGUg2DtAS
-         BXiDW9KsPv+cCrQxAr7BW9BvTPSGjjlDdSlLWKwV9+pNy3GGqTReaZ+BJbXfzDJpvcEp
-         XZ8Y3jBGHEcoIPa3VpfDOiaq7tdC+PX04Me6fUEKsreikkZo+7v8RApc880rE+WJ0ZIB
-         nqgBAhGz6AaRKnP0SWU8a7vGQy6zT+UPmvPZ+lN9aQHNRrRsguty9k4X52AZ6PemCBNS
-         nWENuc65Joi9cD/HA33wa9lU84qlnIscNP2B6rqFc3NErQjVctljVRuECj5Tzuwje1B0
-         fjOw==
-X-Gm-Message-State: ACrzQf0alLuPI9SIvOMOYumurJvexVUkeXU0pMYDW+d7/1KEVe8nabsD
-	cxu8ZIoY+Imh96HBEriR2bdJKQ==
-X-Google-Smtp-Source: AMsMyM6E3yRYr1dTGqd6nAazsF/RtsoaWoD6R93kcYIR9nUQ6R8mMrLb2v1joGjgdIDD15O6MaD6sg==
-X-Received: by 2002:a05:6214:d06:b0:4ad:1fe1:9b49 with SMTP id 6-20020a0562140d0600b004ad1fe19b49mr3536957qvh.57.1665060472470;
-        Thu, 06 Oct 2022 05:47:52 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-47-55-122-23.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.122.23])
-        by smtp.gmail.com with ESMTPSA id j3-20020a05620a410300b006b5bf5d45casm20676675qko.27.2022.10.06.05.47.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Oct 2022 05:47:50 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1ogQI1-00A0xr-QZ;
-	Thu, 06 Oct 2022 09:47:49 -0300
-Date: Thu, 6 Oct 2022 09:47:49 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+	id 1ogQNm-002SJN-D8; Thu, 06 Oct 2022 12:53:49 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 90876B82089;
+	Thu,  6 Oct 2022 12:53:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65819C433D6;
+	Thu,  6 Oct 2022 12:53:28 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="JFNs4Haz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+	t=1665060806;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Hkd+03ZPFCZHL4SytFYjQxSlVLh/tCnsKNFxa5wK+g=;
+	b=JFNs4Hazt/h3DVxpbrAbzMPE9whooDcKk8uIX5aTYNyaQ0ww6ONDZEpvj0pBCk5Bkl2DLt
+	ktmEJcNw1Kn2Ot/YdbAehCwxq7qPZvj6WGsUyAnJyfFHg6BU5H6pbom+jt+FBFixHsfFyw
+	FXN6BTv1V4qGzBVuWo2f1r2ZOkBYL5M=
+Received: 	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 82a088b4 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Thu, 6 Oct 2022 12:53:26 +0000 (UTC)
+Date: Thu, 6 Oct 2022 06:53:14 -0600
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Kees Cook <keescook@chromium.org>
 Cc: linux-kernel@vger.kernel.org, Ajay Singh <ajay.kathat@microchip.com>,
 	Akinobu Mita <akinobu.mita@gmail.com>,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
@@ -120,7 +102,7 @@ Cc: linux-kernel@vger.kernel.org, Ajay Singh <ajay.kathat@microchip.com>,
 	Jamal Hadi Salim <jhs@mojatatu.com>,
 	"James E . J . Bottomley" <jejb@linux.ibm.com>,
 	James Smart <james.smart@broadcom.com>, Jan Kara <jack@suse.com>,
-	Jay Vosburgh <j.vosburgh@gmail.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Jay Vosburgh <j.vosburgh@gmail.com>,
 	Jean-Paul Roubelat <jpr@f6fbb.org>,
 	Jeff Layton <jlayton@kernel.org>, Jens Axboe <axboe@kernel.dk>,
 	Jiri Olsa <jolsa@kernel.org>, Jiri Pirko <jiri@resnulli.us>,
@@ -130,8 +112,7 @@ Cc: linux-kernel@vger.kernel.org, Ajay Singh <ajay.kathat@microchip.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Jozsef Kadlecsik <kadlec@netfilter.org>,
 	Julian Anastasov <ja@ssi.bg>, KP Singh <kpsingh@kernel.org>,
-	Kalle Valo <kvalo@kernel.org>, Kees Cook <keescook@chromium.org>,
-	Keith Busch <kbusch@kernel.org>,
+	Kalle Valo <kvalo@kernel.org>, Keith Busch <kbusch@kernel.org>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	Leon Romanovsky <leon@kernel.org>,
 	Manish Rangankar <mrangankar@marvell.com>,
@@ -215,17 +196,17 @@ Cc: linux-kernel@vger.kernel.org, Ajay Singh <ajay.kathat@microchip.com>,
 	netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
 	rds-devel@oss.oracle.com, SHA-cyfmac-dev-list@infineon.com,
 	target-devel@vger.kernel.org, tipc-discussion@lists.sourceforge.net
-Subject: Re: [PATCH v1 3/5] treewide: use get_random_u32() when possible
-Message-ID: <Yz7OdfKZeGkpZSKb@ziepe.ca>
+Subject: Re: [PATCH v1 0/5] treewide cleanup of random integer usage
+Message-ID: <Yz7PusEN5TG1PvJZ@zx2c4.com>
 References: <20221005214844.2699-1-Jason@zx2c4.com>
- <20221005214844.2699-4-Jason@zx2c4.com>
+ <202210052148.B11CBC60@keescook>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221005214844.2699-4-Jason@zx2c4.com>
+In-Reply-To: <202210052148.B11CBC60@keescook>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221006_054755_956502_1E1B9E65 
-X-CRM114-Status: GOOD (  18.10  )
+X-CRM114-CacheID: sfid-20221006_055346_769473_B6B1F6B2 
+X-CRM114-Status: GOOD (  25.50  )
 X-Mailman-Approved-At: Thu, 06 Oct 2022 08:01:46 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -241,38 +222,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 05, 2022 at 11:48:42PM +0200, Jason A. Donenfeld wrote:
+On Wed, Oct 05, 2022 at 09:55:43PM -0700, Kees Cook wrote:
+> It'd be nice to capture some (all?) of the above somewhere. Perhaps just
+> a massive comment in the header?
 
-> index 14392c942f49..499a425a3379 100644
-> --- a/drivers/infiniband/hw/cxgb4/cm.c
-> +++ b/drivers/infiniband/hw/cxgb4/cm.c
-> @@ -734,7 +734,7 @@ static int send_connect(struct c4iw_ep *ep)
->  				   &ep->com.remote_addr;
->  	int ret;
->  	enum chip_type adapter_type = ep->com.dev->rdev.lldi.adapter_type;
-> -	u32 isn = (prandom_u32() & ~7UL) - 1;
-> +	u32 isn = (get_random_u32() & ~7UL) - 1;
+I'll include (something like) this in some "how to use" documentation
+I'm working on separately.
 
-Maybe this wants to be written as
+> > I've CC'd get_maintainers.pl, which is a pretty big list. Probably some
+> > portion of those are going to bounce, too, and everytime you reply to
+> > this thread, you'll have to deal with a bunch of bounces coming
+> > immediately after. And a recipient list this big will probably dock my
+> > email domain's spam reputation, at least temporarily. Sigh. I think
+> > that's just how it goes with treewide cleanups though. Again, let me
+> > know if I'm doing it wrong.
+> 
+> I usually stick to just mailing lists and subsystem maintainers.
 
-(prandom_max(U32_MAX >> 7) << 7) | 7
+Lord have mercy I really wish I had done that. I supremely butchered the
+sending of this, and then tried to save it by resubmitting directly to
+vger with the same message ID but truncated CC, which mostly worked, but
+the whole thing is a mess. I'll trim this to subsystem maintainers and
+resubmit a v2 right away, rather than having people wade through the
+mess.
 
-?
+To any one who's reading this: no more replies to v1! It clogs the
+tubes.
 
-> diff --git a/drivers/infiniband/ulp/ipoib/ipoib_cm.c b/drivers/infiniband/ulp/ipoib/ipoib_cm.c
-> index fd9d7f2c4d64..a605cf66b83e 100644
-> --- a/drivers/infiniband/ulp/ipoib/ipoib_cm.c
-> +++ b/drivers/infiniband/ulp/ipoib/ipoib_cm.c
-> @@ -465,7 +465,7 @@ static int ipoib_cm_req_handler(struct ib_cm_id *cm_id,
->  		goto err_qp;
->  	}
->  
-> -	psn = prandom_u32() & 0xffffff;
-> +	psn = get_random_u32() & 0xffffff;
+> If any of the subsystems ask you to break this up (I hope not), I've got
 
- prandom_max(0xffffff + 1) 
-
-?
+Oh god I surely hope not. Sounds like a massive waste of time and
+paperwork.
 
 Jason
 
