@@ -4,221 +4,113 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC318C433FE
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Oct 2022 06:30:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6742C433FE
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Oct 2022 09:11:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7rD76ImKhWSr9uLkAh+d+zcZYfUm0ip9Vo7hna38oSs=; b=iRl9tkTv4EluAPQgND67J00I9j
-	BTnEYlfkdjraT9CcYPpzprW3Kyolr/UOTeQSBZGPfo5fldbKYmx5cgfAif95Q7b6jItpR0Y9hh8BA
-	smVt050ZmVz2z086gTwmN3NbR+waERwEbTYOP1JoEsI53FzFRCyIoGs7hBzzFfODkg6+CHTNjdArd
-	/bX8DxlMFlSUZbmMANFZ8BV+g6naC2Ex3Ob6Ia0iSJQdsX6AdHuA+eBc6Iud778VfQEOht0xSFyd5
-	jwWDcm3cWKyanswHZ9irNm75QqkZF6NqeDS3rru3DYPbJaWGUgmlIb5kGDwLVqT1qWv9TRoazIUjp
-	FX/QKFkw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=XWVHVdL1AFJksqVsKepY0Oyohaq4rUBE1eooB31xhPg=; b=o7wJY3eZ5XcbvgKMBl44P+7EEn
+	aDXi3aj6tYqD/pRSRA+NA1f9hv840TPCPCiB35WjSjLPlOF2gFIRnetSHqeszpPvnqj5FTrjqpxp4
+	JNIiCo8MqBaETimO9CPb/vJqWW7O5meg1BCq/b/cpJYz7o+2oPW9BLQkFo9RpFHO9L3FxhaiDNlZF
+	k9aI+KmZ3FKRzkdT9I8szFznA31cbXgAnwTNpiDEmjKdqG3yU9AbJCvpq/21ZS5836GyWXvBHdAYW
+	17NKt+Qpzprk14vrmzwA4qHYHsjWiwFV9i1OjRqjzWd/O144fllv4f92hYHFTYTipRMGVF/sIyvrG
+	BtAwNkmg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ogKP8-000A5Z-Mp; Thu, 06 Oct 2022 06:30:46 +0000
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+	id 1ogMuP-000zW2-NT; Thu, 06 Oct 2022 09:11:13 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ogJce-0000Un-IT
-	for linux-nvme@lists.infradead.org; Thu, 06 Oct 2022 05:40:42 +0000
-Received: by mail-pj1-x102c.google.com with SMTP id gf8so821235pjb.5
-        for <linux-nvme@lists.infradead.org>; Wed, 05 Oct 2022 22:40:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=7rD76ImKhWSr9uLkAh+d+zcZYfUm0ip9Vo7hna38oSs=;
-        b=HIlnByPTia/JV2Hio0Z3vTGHRO3pP+g3PDOdFVRfXo+4JMSWemnyOHulYs1b2f7JO3
-         4B68mkEwVVg8IQ3IkOWlhCZu1DHmNpOVf5BI7g3+ztCRosIDaXqnmyXn8NbvhlX0kAlJ
-         1+EIMZBflEmYzO5Z7VvIiaOCr5rSQzs8/emFI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=7rD76ImKhWSr9uLkAh+d+zcZYfUm0ip9Vo7hna38oSs=;
-        b=E3TIuKve3I4Miq3HMlcVFvroo2eLT5BwOACctGiyQAI9fmlBaPi7vEb4wCrAnHEPSB
-         pU8CnS5bjmKa1ul+QWW6p572se5qbbIImOHSjUomPiKttmrXedu+eTbPL/E2OTJRc57D
-         MhdeGhehJ3SaFYu5tkKgplaLlEeOG4cHZUo61l/SkiDomJwxmrqcn0YMHtcw1rwUB3G3
-         U+uwCp620TKCt17Osnp+jiQo6qae68n4K5WVDLsAPErkSqMrXZkZGDj/jDuDCJk5+PWO
-         1//b4PEc9JRAjwzxxl/XT1+V0oXd8ejG69nd5kIxwTnDFqNJk1rbKM2ZxPMiiEUnrwGx
-         yHyg==
-X-Gm-Message-State: ACrzQf0e3CDgvOTnOStjVmXYVoyZZpH4F89BaJvPCn+AxK9387EKyfD5
-	yC7ZI30ca/xTwTMlQVDwXvqfag==
-X-Google-Smtp-Source: AMsMyM5d8kq/QLGWHL1lT7d4vvr6wiHcKPw02UiifePzthTJzj01ofprelzHftcv9opKc24+zWNWRw==
-X-Received: by 2002:a17:90b:1943:b0:20a:85e9:f089 with SMTP id nk3-20020a17090b194300b0020a85e9f089mr3484011pjb.47.1665034838827;
-        Wed, 05 Oct 2022 22:40:38 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id s9-20020a63ff49000000b0043be31d490dsm776833pgk.67.2022.10.05.22.40.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Oct 2022 22:40:38 -0700 (PDT)
-Date: Wed, 5 Oct 2022 22:40:36 -0700
-From: Kees Cook <keescook@chromium.org>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: linux-kernel@vger.kernel.org, Ajay Singh <ajay.kathat@microchip.com>,
-	Akinobu Mita <akinobu.mita@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Amitkumar Karwar <amitkarwar@gmail.com>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Andy Gospodarek <andy@greyhouse.net>,
-	Andy Lutomirski <luto@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-	Anna Schumaker <anna@kernel.org>,
-	Arend van Spriel <aspriel@gmail.com>,
-	Ayush Sawal <ayush.sawal@chelsio.com>,
-	Borislav Petkov <bp@alien8.de>, Chao Yu <chao@kernel.org>,
-	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Cong Wang <xiyou.wangcong@gmail.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	"Darrick J . Wong" <djwong@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Ahern <dsahern@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
-	Dick Kennedy <dick.kennedy@broadcom.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Eric Dumazet <edumazet@google.com>, Florian Westphal <fw@strlen.de>,
-	Franky Lin <franky.lin@broadcom.com>,
-	Ganapathi Bhat <ganapathi017@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Gregory Greenman <gregory.greenman@intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>, Hannes Reinecke <hare@suse.de>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Hante Meuleman <hante.meuleman@broadcom.com>,
-	Hao Luo <haoluo@google.com>, Haoyue Xu <xuhaoyue1@hisilicon.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Helge Deller <deller@gmx.de>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-	Hugh Dickins <hughd@google.com>,
-	Igor Mitsyanko <imitsyanko@quantenna.com>,
-	Ilya Dryomov <idryomov@gmail.com>, Ingo Molnar <mingo@redhat.com>,
-	Jack Wang <jinpu.wang@ionos.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
-	Jaehoon Chung <jh80.chung@samsung.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jamal Hadi Salim <jhs@mojatatu.com>,
-	"James E . J . Bottomley" <jejb@linux.ibm.com>,
-	James Smart <james.smart@broadcom.com>, Jan Kara <jack@suse.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Jay Vosburgh <j.vosburgh@gmail.com>,
-	Jean-Paul Roubelat <jpr@f6fbb.org>,
-	Jeff Layton <jlayton@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Jiri Olsa <jolsa@kernel.org>, Jiri Pirko <jiri@resnulli.us>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	John Fastabend <john.fastabend@gmail.com>,
-	John Stultz <jstultz@google.com>, Jon Maloy <jmaloy@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	Julian Anastasov <ja@ssi.bg>, KP Singh <kpsingh@kernel.org>,
-	Kalle Valo <kvalo@kernel.org>, Keith Busch <kbusch@kernel.org>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Manish Rangankar <mrangankar@marvell.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
-	Marco Elver <elver@google.com>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	"Md . Haris Iqbal" <haris.iqbal@ionos.com>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michael Jamet <michael.jamet@intel.com>,
-	Michal Januszewski <spock@gentoo.org>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	"Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
-	Neil Horman <nhorman@tuxdriver.com>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Nilesh Javali <njavali@marvell.com>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Pablo Neira Ayuso <pablo@netfilter.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Potnuri Bharat Teja <bharat@chelsio.com>,
-	Pravin B Shelar <pshelar@ovn.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Richard Weinberger <richard@nod.at>,
-	Rohit Maheshwari <rohitm@chelsio.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Santosh Shilimkar <santosh.shilimkar@oracle.com>,
-	Sergey Matyukevich <geomatsi@gmail.com>,
-	Sharvari Harisangam <sharvari.harisangam@nxp.com>,
-	Simon Horman <horms@verge.net.au>, Song Liu <song@kernel.org>,
-	Stanislav Fomichev <sdf@google.com>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Stephen Hemminger <stephen@networkplumber.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Theodore Ts'o <tytso@mit.edu>, Thomas Gleixner <tglx@linutronix.de>,
-	Thomas Graf <tgraf@suug.ch>,
-	Thomas Sailer <t.sailer@alumni.ethz.ch>,
-	Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@toke.dk>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Varun Prakash <varun@chelsio.com>,
-	Veaceslav Falico <vfalico@gmail.com>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
-	Vinod Koul <vkoul@kernel.org>, Vlad Yasevich <vyasevich@gmail.com>,
-	Wenpeng Liang <liangwenpeng@huawei.com>,
-	Xinming Hu <huxinming820@gmail.com>, Xiubo Li <xiubli@redhat.com>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Ying Xue <ying.xue@windriver.com>,
-	Yishai Hadas <yishaih@nvidia.com>, Yonghong Song <yhs@fb.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	brcm80211-dev-list.pdl@broadcom.com, cake@lists.bufferbloat.net,
-	ceph-devel@vger.kernel.org, coreteam@netfilter.org,
-	dccp@vger.kernel.org, dev@openvswitch.org,
-	dmaengine@vger.kernel.org, drbd-dev@lists.linbit.com,
-	dri-devel@lists.freedesktop.org, kasan-dev@googlegroups.com,
-	linux-actions@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-fbdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-hams@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-mm@kvack.org, linux-mmc@vger.kernel.org,
-	linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-raid@vger.kernel.org,
-	linux-rdma@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-sctp@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com, linux-usb@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, lvs-devel@vger.kernel.org,
-	netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-	rds-devel@oss.oracle.com, SHA-cyfmac-dev-list@infineon.com,
-	target-devel@vger.kernel.org, tipc-discussion@lists.sourceforge.net
-Subject: Re: [PATCH v1 0/5] treewide cleanup of random integer usage
-Message-ID: <202210052240.23F1699@keescook>
-References: <20221005214844.2699-1-Jason@zx2c4.com>
- <202210052148.B11CBC60@keescook>
+	id 1ogMuI-000zOt-TB
+	for linux-nvme@lists.infradead.org; Thu, 06 Oct 2022 09:11:09 +0000
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20221006091056euoutp01a532b235eedb4806ec5b1b3943869851~bb9b5wvLM0951309513euoutp01L
+	for <linux-nvme@lists.infradead.org>; Thu,  6 Oct 2022 09:10:56 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20221006091056euoutp01a532b235eedb4806ec5b1b3943869851~bb9b5wvLM0951309513euoutp01L
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1665047456;
+	bh=XWVHVdL1AFJksqVsKepY0Oyohaq4rUBE1eooB31xhPg=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=MsMRnvMsYXm9zF4kIl1Y5R9OxFrskbDkNfMF4DCVDZ1z3+zaMDfUZQvszqBY2+Tvf
+	 zIn14IYKQecF1h/FyNn6cp89YiI4oGxF6MLNDejBKQ2FkUrgbtw8QdVYCZwYjsz8hQ
+	 LjouuKaKdLrWd0hxfKkJaA/RIUrEkYWMsA4szPPU=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+	20221006091055eucas1p1bd9926a5994ef6db2c79494326990423~bb9azg_Pt0348503485eucas1p1B;
+	Thu,  6 Oct 2022 09:10:55 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+	eusmges1new.samsung.com (EUCPMTA) with SMTP id 0E.7B.29727.E9B9E336; Thu,  6
+	Oct 2022 10:10:55 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20221006091054eucas1p1e4113b6dfd108907c2cd5ba7127a3f92~bb9aWE94x1404414044eucas1p1E;
+	Thu,  6 Oct 2022 09:10:54 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20221006091054eusmtrp28cbb51cd0b665f9bc60b526aa2366669~bb9aVYSGL2965729657eusmtrp2h;
+	Thu,  6 Oct 2022 09:10:54 +0000 (GMT)
+X-AuditID: cbfec7f2-21dff7000001741f-7b-633e9b9eebd5
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id F5.C3.07473.E9B9E336; Thu,  6
+	Oct 2022 10:10:54 +0100 (BST)
+Received: from localhost (unknown [106.210.248.47]) by eusmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20221006091054eusmtip2358fe6e276cbb94e1519f8cc497ae118~bb9Z-_AcQ0742607426eusmtip2X;
+	Thu,  6 Oct 2022 09:10:54 +0000 (GMT)
+From: Pankaj Raghav <p.raghav@samsung.com>
+To: hch@lst.de
+Cc: gost.dev@samsung.com, linux-nvme@lists.infradead.org, Pankaj Raghav
+	<p.raghav@samsung.com>
+Subject: [PATCH] nvme: ignore starting sector while error logging for
+ passthrough requests
+Date: Thu,  6 Oct 2022 11:10:53 +0200
+Message-Id: <20221006091053.36611-1-p.raghav@samsung.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202210052148.B11CBC60@keescook>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrKIsWRmVeSWpSXmKPExsWy7djP87rzZ9slGyzqYLK4eWAnk8XK1UeZ
+	LOYve8pu8XlpC7sDi8fmJfUeu282sHn0bVnFGMAcxWWTkpqTWZZapG+XwJVx7dtV5oJFPBWb
+	Lm1jbmD8xdnFyMkhIWAi0X1xO2sXIxeHkMAKRokNnT/YQBJCAl8YJX4/C4BIfGaUeDxhLTNM
+	x+ZT3ewQieWMEuv+34Jqf8Eo0fp+K1MXIwcHm4CWRGMnO4gpIsAncetWKkgvs0CCxK9z/awg
+	trBAjMSbRVNYQGwWAVWJ5h8r2EFsXgFLiWd/mlggdslLzLz0HSouKHFy5hMWiDnyEs1bZzOD
+	rJUQ+MkO9MIkqONcJJ6+mAbVLCzx6vgWdghbRuL/zvlMEHa1xNMbv6GaWxgl+neuZwM5VELA
+	WqLvTA6IySygKbF+lz5EuaPEskMtjBAVfBI33gpCnMAnMWnbdGaIMK9ER5sQRLWSxM6fT6CW
+	SkhcbpoDdYyHxKGrG5kgQRsrMXnNdfYJjAqzkDw2C8ljsxBuWMDIvIpRPLW0ODc9tdgwL7Vc
+	rzgxt7g0L10vOT93EyMwZZz+d/zTDsa5rz7qHWJk4mA8xCjBwawkwts12zZZiDclsbIqtSg/
+	vqg0J7X4EKM0B4uSOC/bDK1kIYH0xJLU7NTUgtQimCwTB6dUA5N98HfpYF+n6Pk3LSv/cu32
+	NFzh/sI7ILvQzPzD2QtfKhUmGpr+C9jNtaLc+rpD5FIPWbuSmKLPT24y2TKbS/+bFCe1yrnL
+	hseX5eWtlOutxd9z+L0tJ7x7yRJyfmr6NaYSJZYGj9Nvv378dGtHOWP1/K13YywmR290kdV+
+	Y3fT/34wk9MLBl3LYxbWzIwPJhjt2G35iunj3s5pPjpy142W3442VY1+0+96WkzOoYJNtOnB
+	qWWXZdp/aLEUrdNJ7i6LyGvKYS/5/HG9DevS12v1kns7iqbmvlb9ZXeqIHyOosGt++Fx7epO
+	nLfenXjQ5WxWFS2wL4ef/Ud+/ewjDH1Xm+eXL+f8JZZ43fihEktxRqKhFnNRcSIAo66m04gD
+	AAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrDLMWRmVeSWpSXmKPExsVy+t/xe7rzZtslG2z/pWhx88BOJouVq48y
+	Wcxf9pTd4vPSFnYHFo/NS+o9dt9sYPPo27KKMYA5Ss+mKL+0JFUhI7+4xFYp2tDCSM/Q0kLP
+	yMRSz9DYPNbKyFRJ384mJTUnsyy1SN8uQS/j2rerzAWLeCo2XdrG3MD4i7OLkZNDQsBEYvOp
+	bvYuRi4OIYGljBL7tzQzQiQkJG4vbIKyhSX+XOtigyh6xihxbdEZli5GDg42AS2Jxk52EFNE
+	gE/i1q1UEJNZIEni6l19kE5hgSiJ7Ru+MIHYLAKqEs0/VrCD2LwClhLP/jSxQEyXl5h56TtU
+	XFDi5MwnYHFmoHjz1tnMExj5ZiFJzUKSWsDItIpRJLW0ODc9t9hQrzgxt7g0L10vOT93EyMw
+	WLcd+7l5B+O8Vx/1DjEycTAeYpTgYFYS4e2abZssxJuSWFmVWpQfX1Sak1p8iNEU6L6JzFKi
+	yfnAeMkriTc0MzA1NDGzNDC1NDNWEuf1LOhIFBJITyxJzU5NLUgtgulj4uCUamAS/2YeqWpx
+	X7rB4britPebZl0KuVj/9OGlJ2nOd9a8/HE/cKPwE38FVnG2j5e4+m3+ex90/P1bZHFqjvO3
+	VcUdBiXHJpc371PMWTpx9ZeWRcVPD76qXbZv+b+ep6e10pKz13qqHqp6oPt+5c7Neq6a+Q+f
+	LfjW+SWXY/cLYcv+5SeZnnGbnw2buL5MZU+kg6PwHusLnsVv/a3/Rq7l78h9V3VIyNowcX+S
+	b0/TTq5O8VWRUR7xL+f3Tezdm9G7wvtWs929hz77Gkv0ov48dfvT3bo3/u6P4k1NZ/dJllT8
+	UHrDZC7Fx+D0ulr4r+aVsmpJA4+cU91/rgvtuil4v9HXNt1F7dau4zs3dcdmfe9VYinOSDTU
+	Yi4qTgQAzL20S98CAAA=
+X-CMS-MailID: 20221006091054eucas1p1e4113b6dfd108907c2cd5ba7127a3f92
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20221006091054eucas1p1e4113b6dfd108907c2cd5ba7127a3f92
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20221006091054eucas1p1e4113b6dfd108907c2cd5ba7127a3f92
+References: <CGME20221006091054eucas1p1e4113b6dfd108907c2cd5ba7127a3f92@eucas1p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221005_224040_624198_3B7E1CDD 
-X-CRM114-Status: GOOD (  16.22  )
-X-Mailman-Approved-At: Wed, 05 Oct 2022 23:27:55 -0700
+X-CRM114-CacheID: sfid-20221006_021107_368753_88F728DE 
+X-CRM114-Status: GOOD (  12.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -233,13 +125,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 05, 2022 at 09:55:43PM -0700, Kees Cook wrote:
-> If any of the subsystems ask you to break this up (I hope not), I've got
-> this[1], which does a reasonable job of splitting a commit up into
-> separate commits for each matching subsystem.
+Error log will print a garbage value as the starting LBA for passthrough
+requests and requests with uninitialized starting sector that return an
+error. Print LBA as 0 instead for these requests. This behaviour is
+similar what tracing does for these type of requests.
 
-[1] https://github.com/kees/kernel-tools/blob/trunk/split-on-maintainer
+Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+---
+ drivers/nvme/host/core.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 059737c1a2c1..41e0a257f1c2 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -305,6 +305,13 @@ static void nvme_retry_req(struct request *req)
+ 	blk_mq_delay_kick_requeue_list(req->q, delay);
+ }
+ 
++static inline u64 nvme_log_error_rq_lba(struct nvme_ns *ns, struct request *rq)
++{
++	if (blk_rq_is_passthrough(rq) || blk_rq_pos(rq) == (sector_t)-1)
++		return 0;
++	return nvme_sect_to_lba(ns, blk_rq_pos(rq));
++}
++
+ static void nvme_log_error(struct request *req)
+ {
+ 	struct nvme_ns *ns = req->q->queuedata;
+@@ -315,7 +322,7 @@ static void nvme_log_error(struct request *req)
+ 		       ns->disk ? ns->disk->disk_name : "?",
+ 		       nvme_get_opcode_str(nr->cmd->common.opcode),
+ 		       nr->cmd->common.opcode,
+-		       (unsigned long long)nvme_sect_to_lba(ns, blk_rq_pos(req)),
++		       (unsigned long long)nvme_log_error_rq_lba(ns, req),
+ 		       (unsigned long long)blk_rq_bytes(req) >> ns->lba_shift,
+ 		       nvme_get_error_status_str(nr->status),
+ 		       nr->status >> 8 & 7,	/* Status Code Type */
 -- 
-Kees Cook
+2.25.1
+
 
