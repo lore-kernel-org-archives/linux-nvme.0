@@ -4,50 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5FDCAC433F5
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Oct 2022 15:02:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1503EC433FE
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Oct 2022 15:02:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+Hkd+03ZPFCZHL4SytFYjQxSlVLh/tCnsKNFxa5wK+g=; b=qN9uOxnfnKiMHM3YLsmsDk+pr+
-	IGPzeD+mf1taxt6ZqV3A3Xx703O/fsx5+zPPdy3fsjdj6Ycs120NpMqaChlEUgWOzi8d1AiAVeOVu
-	gMzbmKhHLbzx0h752jeqfdL+iSpcu+8Fyw2xQIKVCwbs6wXh25Ufm/5AJc3sLVjFzK6XOqr4mTFMX
-	MsETdTuBZIBNUGgoCLOgNuY/J4uMgUMaMNAQl7fiqF1eG+LiaRryOElirJdD+XKrnmNgYVBh07FxQ
-	QRLH7MgfHb3YDFImOwLKo+hcvgEX60eCiBSyuj0DG9pPjhbWwVp9i1oL3MErow18pnTz5KDp1GBwy
-	p9JHrfnw==;
+	bh=Tn+sqw4/yCgRf+qJVvhcwv0+F43hCZc6SWcnJkISat8=; b=0Uep7/PoWNL4Mh2ziGh7K+yXSz
+	qcjJ/oqz8qqXnF8E0YWhiz+mE0he9vx3avQ4CQoN71sS9kdJ9NfX/cq/T1TriYDgYpAEBd8gGjeo8
+	xsecmecJTYr+/57kBxjfgyi+r3RG6jzAaQROuvTdJHhnWff9hafyPM6cyNlh7Odih8r0V53g1IcEY
+	qtUDvDXdwGywMDfkVumeUalhKHr+7e87uPLPWPVfnZk/w9F//JmQIcXfcVoS7ucNuYzDLvtsdz+AN
+	vlLarFnOfXAiKE4KfdtsTqGwOMq4Y5AUf3vjDQtiB/1RXEt87YjZbDQGfSh03dnqSgpin1N3IPWGU
+	epxceD1A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ogSO9-003CD1-HN; Thu, 06 Oct 2022 15:02:17 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1ogSOI-003CHU-Ci; Thu, 06 Oct 2022 15:02:26 +0000
+Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ogQNm-002SJN-D8; Thu, 06 Oct 2022 12:53:49 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 90876B82089;
-	Thu,  6 Oct 2022 12:53:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65819C433D6;
-	Thu,  6 Oct 2022 12:53:28 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="JFNs4Haz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-	t=1665060806;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+Hkd+03ZPFCZHL4SytFYjQxSlVLh/tCnsKNFxa5wK+g=;
-	b=JFNs4Hazt/h3DVxpbrAbzMPE9whooDcKk8uIX5aTYNyaQ0ww6ONDZEpvj0pBCk5Bkl2DLt
-	ktmEJcNw1Kn2Ot/YdbAehCwxq7qPZvj6WGsUyAnJyfFHg6BU5H6pbom+jt+FBFixHsfFyw
-	FXN6BTv1V4qGzBVuWo2f1r2ZOkBYL5M=
-Received: 	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 82a088b4 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Thu, 6 Oct 2022 12:53:26 +0000 (UTC)
-Date: Thu, 6 Oct 2022 06:53:14 -0600
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: linux-kernel@vger.kernel.org, Ajay Singh <ajay.kathat@microchip.com>,
+	id 1ogQPM-002T0N-Dv
+	for linux-nvme@lists.infradead.org; Thu, 06 Oct 2022 12:55:26 +0000
+Received: by mail-qt1-x82a.google.com with SMTP id d15so874035qtw.8
+        for <linux-nvme@lists.infradead.org>; Thu, 06 Oct 2022 05:55:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=Tn+sqw4/yCgRf+qJVvhcwv0+F43hCZc6SWcnJkISat8=;
+        b=fRB9gEBBoKCu8DvmgrE5jsT6iQulOo1Wq07FJ4Am2X2qPDPghUCGIGqelzq6LtOhav
+         Q3ch36mdptG+4DDNPe7LXRCCqOYd+swKkjl9ojx7+DaHms2Ps8ZhIK036brGZcmpW/UJ
+         S9x30Eavu5Tk31fMMwn3nSkBSD8/Tghiz9zSBMFnjKzScWXJY3JUjmENpKuorArjMkg6
+         rQNb/QJQWH453Lx7yVByUvRWnmkZMXKg6u7yi6uAEcrODzXacr1TQUVtDk0Ogg7EUu2A
+         PX8hy4jr/Qi4/DXYjmQMgPSxylmXfgjJuV6SX/HkBNz1t9W02fkJr+gOlTe0wIrhjOHu
+         XfWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=Tn+sqw4/yCgRf+qJVvhcwv0+F43hCZc6SWcnJkISat8=;
+        b=If3OYH7aQ/jhHNkHVp49MmGxlUNH7+Gd7dfkfRsSDM58XF9iz+atu7LLDyScA2mcqy
+         ndfXjhU4R09n0qdguWqyZtvKiwkXouJ8FjXvmZZ4pU7hbHxWRAyGPvizdE4maYyYjH6i
+         5XDjN1LuG8Pm9YPODCDmf+a3EHurtqV3t391AeUu4FzgKEd4YEjzIBd254lCErrkh4Mz
+         z9e/pcn6Kj09M/p3d57L4xMTDKieZ6N/aJNB8f11QB5tLGGeVzKzKNv87P564NLAV1qb
+         ZEkDzz/JL5EXTrpwj7OmBWPHTcIaq0xw3wrTnbI/ECsDU4Zf9TW9UK/uSn/tPnkoMWpc
+         XRyw==
+X-Gm-Message-State: ACrzQf3L3dJtbw2ISZfrmFUY5bThnEBQp0MPa0A/mcFSDBGUbQ+nh0lF
+	RxG9teXzd+Hlnq4Ip9LOY+vTbg==
+X-Google-Smtp-Source: AMsMyM6DY4Mi45rJXGQRcvjS/Cgf2XLFtfLp/9bVtPvTrZ0iTBUQxQv19mmgtcwcA6rTIK+j1eJYjA==
+X-Received: by 2002:ac8:5a05:0:b0:35b:bac9:d3ff with SMTP id n5-20020ac85a05000000b0035bbac9d3ffmr3176264qta.374.1665060922186;
+        Thu, 06 Oct 2022 05:55:22 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-47-55-122-23.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.122.23])
+        by smtp.gmail.com with ESMTPSA id a16-20020a05620a16d000b006b58d8f6181sm18923537qkn.72.2022.10.06.05.55.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Oct 2022 05:55:20 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1ogQPH-00A172-Pm;
+	Thu, 06 Oct 2022 09:55:19 -0300
+Date: Thu, 6 Oct 2022 09:55:19 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org,
+	Ajay Singh <ajay.kathat@microchip.com>,
 	Akinobu Mita <akinobu.mita@gmail.com>,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
 	Amitkumar Karwar <amitkarwar@gmail.com>,
@@ -102,7 +121,7 @@ Cc: linux-kernel@vger.kernel.org, Ajay Singh <ajay.kathat@microchip.com>,
 	Jamal Hadi Salim <jhs@mojatatu.com>,
 	"James E . J . Bottomley" <jejb@linux.ibm.com>,
 	James Smart <james.smart@broadcom.com>, Jan Kara <jack@suse.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Jay Vosburgh <j.vosburgh@gmail.com>,
+	Jay Vosburgh <j.vosburgh@gmail.com>,
 	Jean-Paul Roubelat <jpr@f6fbb.org>,
 	Jeff Layton <jlayton@kernel.org>, Jens Axboe <axboe@kernel.dk>,
 	Jiri Olsa <jolsa@kernel.org>, Jiri Pirko <jiri@resnulli.us>,
@@ -196,17 +215,19 @@ Cc: linux-kernel@vger.kernel.org, Ajay Singh <ajay.kathat@microchip.com>,
 	netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
 	rds-devel@oss.oracle.com, SHA-cyfmac-dev-list@infineon.com,
 	target-devel@vger.kernel.org, tipc-discussion@lists.sourceforge.net
-Subject: Re: [PATCH v1 0/5] treewide cleanup of random integer usage
-Message-ID: <Yz7PusEN5TG1PvJZ@zx2c4.com>
+Subject: Re: [PATCH v1 1/5] treewide: use prandom_u32_max() when possible
+Message-ID: <Yz7QN3cbKABexzoB@ziepe.ca>
 References: <20221005214844.2699-1-Jason@zx2c4.com>
- <202210052148.B11CBC60@keescook>
+ <20221005214844.2699-2-Jason@zx2c4.com>
+ <202210052035.A1020E3@keescook>
+ <Yz7N5WsqmKiUl+6b@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202210052148.B11CBC60@keescook>
+In-Reply-To: <Yz7N5WsqmKiUl+6b@zx2c4.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221006_055346_769473_B6B1F6B2 
-X-CRM114-Status: GOOD (  25.50  )
+X-CRM114-CacheID: sfid-20221006_055524_523800_9075685D 
+X-CRM114-Status: GOOD (  26.28  )
 X-Mailman-Approved-At: Thu, 06 Oct 2022 08:01:46 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -222,37 +243,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 05, 2022 at 09:55:43PM -0700, Kees Cook wrote:
-> It'd be nice to capture some (all?) of the above somewhere. Perhaps just
-> a massive comment in the header?
-
-I'll include (something like) this in some "how to use" documentation
-I'm working on separately.
-
-> > I've CC'd get_maintainers.pl, which is a pretty big list. Probably some
-> > portion of those are going to bounce, too, and everytime you reply to
-> > this thread, you'll have to deal with a bunch of bounces coming
-> > immediately after. And a recipient list this big will probably dock my
-> > email domain's spam reputation, at least temporarily. Sigh. I think
-> > that's just how it goes with treewide cleanups though. Again, let me
-> > know if I'm doing it wrong.
+On Thu, Oct 06, 2022 at 06:45:25AM -0600, Jason A. Donenfeld wrote:
+> Hi Kees,
 > 
-> I usually stick to just mailing lists and subsystem maintainers.
+> On Wed, Oct 05, 2022 at 09:16:50PM -0700, Kees Cook wrote:
+> > On Wed, Oct 05, 2022 at 11:48:40PM +0200, Jason A. Donenfeld wrote:
+> > > Rather than incurring a division or requesting too many random bytes for
+> > > the given range, use the prandom_u32_max() function, which only takes
+> > > the minimum required bytes from the RNG and avoids divisions.
+> > 
+> > Yes please!
+> > 
+> > Since this is a treewide patch, it's helpful for (me at least) doing
+> > reviews to detail the mechanism of the transformation.
+> 
+> This is hand done. There were also various wrong seds done. And then I'd
+> edit the .diff manually, and then reapply it, as an iterative process.
+> No internet on the airplane, and oddly no spatch already on my laptop (I
+> think I had some Gentoo ocaml issues at some point and removed it?).
+> 
+> > e.g. I imagine this could be done with something like Coccinelle and
+> 
+> Feel free to check the work here by using Coccinelle if you're into
+> that.
 
-Lord have mercy I really wish I had done that. I supremely butchered the
-sending of this, and then tried to save it by resubmitting directly to
-vger with the same message ID but truncated CC, which mostly worked, but
-the whole thing is a mess. I'll trim this to subsystem maintainers and
-resubmit a v2 right away, rather than having people wade through the
-mess.
+Generally these series are a lot easier to review if it is structured
+as a patches doing all the unusual stuff that had to be by hand
+followed by an unmodified Coccinelle/sed/etc handling the simple
+stuff.
 
-To any one who's reading this: no more replies to v1! It clogs the
-tubes.
+Especially stuff that is reworking the logic beyond simple
+substitution should be one patch per subsystem not rolled into a giant
+one patch conversion.
 
-> If any of the subsystems ask you to break this up (I hope not), I've got
+This makes the whole workflow better because the hand-done stuff can
+have a chance to flow through subsystem trees.
 
-Oh god I surely hope not. Sounds like a massive waste of time and
-paperwork.
-
+Thanks,
 Jason
 
