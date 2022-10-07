@@ -4,122 +4,108 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EDAC4C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Oct 2022 13:27:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 320C7C433FE
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Oct 2022 17:14:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-ID:Date:Subject:CC
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NzsQcVGR4sARDClisT40MAPNktIxThC27Aw83jqlWko=; b=K+DlleJmEsdbot1TSdM5Fu1Nbv
-	DRuhT8wx28DpfSo3COIrDjH729Q+yVL/gKiF8Du2tk21eoih/DTzAYUZM00UezzU5F9MZ/xBsJsgI
-	l7eFAvitp8XIVDvqYNJ/X9axiBfsItsu0DhRJBSVLnaRde2enqtooddaK2sgiwt7lnqEFdHR7hjBD
-	AoaQjpLRcsfgq5iqaz45n5EUqTB2TcoYiMhjM1UtYXp6TqntR8M/UWs3f7pglcHe3yvsj60WxzspG
-	OPKY08sqaSPqT8YeFjzvhPi3+D3q0JXo1zX/RZxo8kgU6GNl7StQiiXGVA5FdEYMyiQZjH8qlmjhz
-	nA4Cs24Q==;
+	bh=XWfgfYA0Y7Bsea8YsJLHPPRZpIuS1ctJ2qwzsdNXRQQ=; b=cLY1RbG0MbpmhXsGRvfWoTBjF9
+	dmeQ4/+i8EnxVYlFwRZIl27RXWfK/bQUMfWG2H714+OVetpcJWHEz6fi0z/E+UpRQeAuwAwE0jR5H
+	NdNdH/mw7+ApUs7cYlurvkozjxDTIFJuejy/3szmmuqKVnqfkYeJWnEeQjsK/M/pr13LGH84s7Ecl
+	KiOsKWp2iEepoS58nKqQsTWyj03P+yy3lZ9Q8eTqPZz6sEd18fdblWfsFFs4X1vyhlIKzIQT3acVn
+	9FdPmd9WtDVbdgXLKYxS6PMxg98eoOtpzJRFhmpOeFjUzG7phDp2bFwNvcXB44X2T72SWuvZ2F0kh
+	FI4Udi4Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ognNZ-0095uu-7U; Fri, 07 Oct 2022 13:27:05 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1ogqvO-009sAn-84; Fri, 07 Oct 2022 17:14:14 +0000
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ognNK-0095rB-1s
-	for linux-nvme@lists.infradead.org; Fri, 07 Oct 2022 13:26:54 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20221007132637euoutp02f1551ff0fdea06af2271d390a128ba48~bzF95UYJw0797607976euoutp02b
-	for <linux-nvme@lists.infradead.org>; Fri,  7 Oct 2022 13:26:37 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20221007132637euoutp02f1551ff0fdea06af2271d390a128ba48~bzF95UYJw0797607976euoutp02b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1665149197;
-	bh=NzsQcVGR4sARDClisT40MAPNktIxThC27Aw83jqlWko=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-	b=QvDc3+MfBpNG+Tl2ic8E4Tpo+S5weAs4IhdROKnxQMOab0Fdzv4efFFU3yrtjHja0
-	 Bp8zP/fIPaOK+1Bpl3qegnEHxncQ/fyG5JF6W6/1g78dKJkDBsoaoOqQmEjjw9MgId
-	 dr9EW8A6F9NHGQWubFW7pmmAiiWtmQ7JI/oefEL8=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20221007132637eucas1p1c314eee4b27912b6e86409b5c621f940~bzF9mlWY51475814758eucas1p1t;
-	Fri,  7 Oct 2022 13:26:37 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges2new.samsung.com (EUCPMTA) with SMTP id 41.99.07817.D0920436; Fri,  7
-	Oct 2022 14:26:37 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20221007132637eucas1p14146d877f7f0765fda24b2a79b171d91~bzF9Rua7e1758517585eucas1p1y;
-	Fri,  7 Oct 2022 13:26:37 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20221007132636eusmtrp216885193ffe0b415f17c9ef5035ebbf8~bzF9RB_dt2142821428eusmtrp2C;
-	Fri,  7 Oct 2022 13:26:36 +0000 (GMT)
-X-AuditID: cbfec7f4-893ff70000011e89-da-6340290dd53a
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-	eusmgms1.samsung.com (EUCPMTA) with SMTP id 52.57.07473.C0920436; Fri,  7
-	Oct 2022 14:26:36 +0100 (BST)
-Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20221007132636eusmtip2bb61d06ff4c7aacbc31c526ec4d2b677~bzF9DIo9X1419714197eusmtip2k;
-	Fri,  7 Oct 2022 13:26:36 +0000 (GMT)
-Received: from localhost (106.110.32.33) by CAMSVWEXC01.scsc.local
-	(2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Fri, 7 Oct 2022 14:26:32 +0100
-From: Joel Granados <j.granados@samsung.com>
-To: <kbusch@kernel.org>, <hch@lst.de>, <sagi@grimberg.me>
-CC: <linux-nvme@lists.infradead.org>, <javier.gonz@samsung.com>,
-	<gost.dev@samsung.com>, <joshi.k@samsung.com>, Joel Granados
-	<j.granados@samsung.com>
-Subject: [RFC 1/2] nvme : Add dynamic whitelisting for passthru
-Date: Fri, 7 Oct 2022 15:22:55 +0200
-Message-ID: <20221007132256.2543136-2-j.granados@samsung.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221007132256.2543136-1-j.granados@samsung.com>
+	id 1ogjPG-008Eeu-Q1
+	for linux-nvme@lists.infradead.org; Fri, 07 Oct 2022 09:12:38 +0000
+Received: by mail-pj1-x1031.google.com with SMTP id v10-20020a17090a634a00b00205e48cf845so6680683pjs.4
+        for <linux-nvme@lists.infradead.org>; Fri, 07 Oct 2022 02:12:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XWfgfYA0Y7Bsea8YsJLHPPRZpIuS1ctJ2qwzsdNXRQQ=;
+        b=cJidoh6H1uADw+7tISOibhEtRZw6/8LgPK8xnUPP26DeNpl86nNCrmcFETPzQcR1HU
+         EeiKEtiHa/TEq2yCVbkNPAuc0vW4RKnX+gsl1ZZdlofZ75a90WDG3Vuzc+Qbf0Eo+Zf4
+         txkWoGs9n/ABfCltcqS9/k5qefNE2E91YJPQeX59PyxFsA0iBom6oJW7gXuQRehm5R+4
+         u79Pg1a2OJi1CJGNwWNEXpxA6O24alQwdDRv7Arndr0yRXAp2xeICJvSl9kHElUmPkl2
+         afuzKnPKiHF2/N8t6hdI7rgCS5NbRQl5q0FjalEDXUOlmkHUNJaylPxO8O4zBhTsnOAY
+         fWdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XWfgfYA0Y7Bsea8YsJLHPPRZpIuS1ctJ2qwzsdNXRQQ=;
+        b=KRbQaCSxE7Tv3KZVjDTYmc9FulQYKGYl6L4huAeCjreQ8NyffsJLc/MV2mcWyYv4ap
+         HXIaXfpv2ZyZvvviKYpntgKPJj+3qKXbGow9SeuSV5XhgAfUV0d14rxUgsYdTfCJumjq
+         +rCCtDeWcXbKKSMsUoqD9Dh9vBdoMmwpX7GnelEPHLfXuRCdFYvNh2P7+RO8ie2PRn8t
+         gsOLR+JHx3sPajxoMTq/TAlW7nP7OXEpplcRqUDkDKkgfCdROnC9k0VNCiiyfjeQUdm7
+         i6c3Vgz2cvQwWbDt5Zyyge4dHLfr6IoP3XaiM6KlBdWOr6hFecz3LF3d3gFGO1MYSV2V
+         9ODQ==
+X-Gm-Message-State: ACrzQf0ob0vDAn3Z1riSVlVMWrgy+KDhy5IDoImk4XFKSZ621J5RQKjX
+	J0wwnnYG2t2+TlLPJTyf2XEcVZeFLnf/MhdUq2XMXA==
+X-Google-Smtp-Source: AMsMyM6zPtbJGyFd5+PZ/YLbHOSjqHhuMJPpmd2X/NiEKV7uyszzQEkaDQfomvJJ+WgdnhP03Ir6+teXOvtZIUZdWhs=
+X-Received: by 2002:a17:903:246:b0:179:96b5:1ad2 with SMTP id
+ j6-20020a170903024600b0017996b51ad2mr4017157plh.37.1665133951783; Fri, 07 Oct
+ 2022 02:12:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [106.110.32.33]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
-	CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrPIsWRmVeSWpSXmKPExsWy7djPc7q8mg7JBme/CVmsXH2UyWLSoWuM
-	FvOXPWW3WPf6PYsDi8f5extZPDat6mTz2Lyk3mP3zQa2AJYoLpuU1JzMstQifbsErowlyx+z
-	F0yUq7j1+hxbA+NiyS5GTg4JAROJ+w+mMHYxcnEICaxglLjS+hbK+cIoMf3hXlYI5zOjxNnl
-	V1m6GDnAWg6844OILwcq+jWBBa5o9b7jUM4mRomnX06zgSxhE9CROP/mDjOILSJgKXH4ymUm
-	kCJmgVmMEvMPTgRLCAvYS/yb1wnWwCKgIjHrUQs7iM0rYCuxou0EK8S18hJt16czgticAnYS
-	f19MZoOoEZQ4OfMJC4jNDFTTvHU2M4QtIXHwxQtmiF5FiS1zvkPNqZVYe+wMO8gREgJXOCTm
-	Xv/FBpFwkfjTcpARwhaWeHV8CzuELSPxf+d8Jgg7W2LnlF1QQwskZp2cygYJF2uJvjM5EGFH
-	iaXtL5ggwnwSN94KQpzDJzFp23RmiDCvREeb0ARGlVlIHpiF5IFZSB5YwMi8ilE8tbQ4Nz21
-	2CgvtVyvODG3uDQvXS85P3cTIzCNnP53/MsOxuWvPuodYmTiYDzEKMHBrCTCu3OnXbIQb0pi
-	ZVVqUX58UWlOavEhRmkOFiVxXrYZWslCAumJJanZqakFqUUwWSYOTqkGpmWuS+apOunFvZub
-	32zz4u7pWo0bDX73BbxXssiePdyvHsKTFHestE3CRfXTuY6VfmZ5MzovVk1/7rB/UnFHj/O5
-	5fsLv845W/bOY9mhXwnSF0NNfu0T/eQb+q7iAFudIMeDwwu1XV2OzihawbhNbZ7otoyc9W0P
-	/p7xElTM/nO2Zur/7zbbdrcc/i96vSOmxUi4y193SiyLFHv2DVbPGzF3Y55IhMncTtk0sSpT
-	3UH6mcqjr3Ne3u7LM+qZK7elX/+ifumOg9NCXOPvvX8rN/PC55QemxfyD7cZxK/+MyW74NQT
-	fq6/hj6B2poP5h2b3u5lKHSpXeFTsYdNufzcSSoG/xzefrrbfUn2i49ZgRJLcUaioRZzUXEi
-	ADsf/HuSAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrBIsWRmVeSWpSXmKPExsVy+t/xe7o8mg7JBlvnmVqsXH2UyWLSoWuM
-	FvOXPWW3WPf6PYsDi8f5extZPDat6mTz2Lyk3mP3zQa2AJYoPZui/NKSVIWM/OISW6VoQwsj
-	PUNLCz0jE0s9Q2PzWCsjUyV9O5uU1JzMstQifbsEvYwlyx+zF0yUq7j1+hxbA+NiyS5GDg4J
-	AROJA+/4uhi5OIQEljJKtFy+xd7FyAkUl5H4dOUjlC0s8edaFxtE0UdGiQPbZrKAJIQENjFK
-	HFwnAWKzCehInH9zhxnEFhGwlDh85TITSAOzwCxGifkHJ4IlhAXsJf7N62QDsVkEVCRmPWoB
-	28ArYCuxou0EK8Q2eYm269MZQWxOATuJvy8ms0Ess5VouXCfDaJeUOLkzCdgRzAD1Tdvnc0M
-	YUtIHHzxghlijqLEljnfoWbWSry6v5txAqPILCTts5C0z0LSvoCReRWjSGppcW56brGhXnFi
-	bnFpXrpecn7uJkZglG079nPzDsZ5rz7qHWJk4mA8xCjBwawkwrtzp12yEG9KYmVValF+fFFp
-	TmrxIUZToD8nMkuJJucD4zyvJN7QzMDU0MTM0sDU0sxYSZzXs6AjUUggPbEkNTs1tSC1CKaP
-	iYNTqoFp97K5mmuc9Xlunor+pvLIcNPXuWus+JUu/OUymzOj7Xncut1GOwz03tyUPR1hODND
-	ZqWz5vrfa5+6uifNdl90/UmISsnyK0uv5sznackylfU7oyZ/1GLHhz3dlWzBSvsbVqfHuSSy
-	PuwoOv4qaHWntWD+c4tPD3etKgjc+63hmlx4i597i1Cnk83sGuNbjw/IXGh71ixb7OMeuGzu
-	PfEe5vP503b+Ytl8Zg+vll9hgeI2pZzrOc8u/j/ocLXwnncBo5bgPsXtriwBZswnr0WEi84N
-	yu08VZT93TaBveg3S3vj5rLFkZwXLI6LNH9q+sqa8eqPm5imhUjTys7FFRP2sLSstRO45yq/
-	+MtCvj4lluKMREMt5qLiRABsSSMPOwMAAA==
-X-CMS-MailID: 20221007132637eucas1p14146d877f7f0765fda24b2a79b171d91
-X-Msg-Generator: CA
-X-RootMTR: 20221007132637eucas1p14146d877f7f0765fda24b2a79b171d91
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20221007132637eucas1p14146d877f7f0765fda24b2a79b171d91
-References: <20221007132256.2543136-1-j.granados@samsung.com>
-	<CGME20221007132637eucas1p14146d877f7f0765fda24b2a79b171d91@eucas1p1.samsung.com>
+References: <20221006165346.73159-1-Jason@zx2c4.com>
+In-Reply-To: <20221006165346.73159-1-Jason@zx2c4.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Fri, 7 Oct 2022 11:11:54 +0200
+Message-ID: <CAPDyKFoTLHULeGJMgDxGKci+HvHjE6K8G1JLuYmXHCch+=WUKw@mail.gmail.com>
+Subject: Re: [PATCH v3 0/5] treewide cleanup of random integer usage
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
+	Andreas Noever <andreas.noever@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Borislav Petkov <bp@alien8.de>, 
+	Catalin Marinas <catalin.marinas@arm.com>, 
+	=?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>, 
+	Christoph Hellwig <hch@lst.de>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Dave Airlie <airlied@redhat.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "David S . Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Florian Westphal <fw@strlen.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "H . Peter Anvin" <hpa@zytor.com>, 
+	Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Huacai Chen <chenhuacai@kernel.org>, 
+	Hugh Dickins <hughd@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	"James E . J . Bottomley" <jejb@linux.ibm.com>, Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Jens Axboe <axboe@kernel.dk>, Johannes Berg <johannes@sipsolutions.net>, 
+	Jonathan Corbet <corbet@lwn.net>, Jozsef Kadlecsik <kadlec@netfilter.org>, KP Singh <kpsingh@kernel.org>, 
+	Kees Cook <keescook@chromium.org>, Marco Elver <elver@google.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Pablo Neira Ayuso <pablo@netfilter.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Richard Weinberger <richard@nod.at>, 
+	Russell King <linux@armlinux.org.uk>, "Theodore Ts'o" <tytso@mit.edu>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Thomas Gleixner <tglx@linutronix.de>, 
+	Thomas Graf <tgraf@suug.ch>, Vignesh Raghavendra <vigneshr@ti.com>, WANG Xuerui <kernel@xen0n.name>, 
+	Will Deacon <will@kernel.org>, Yury Norov <yury.norov@gmail.com>, dri-devel@lists.freedesktop.org, 
+	kasan-dev@googlegroups.com, kernel-janitors@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-mm@kvack.org, linux-mmc@vger.kernel.org, 
+	linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org, 
+	linux-parisc@vger.kernel.org, linux-rdma@vger.kernel.org, 
+	linux-s390@vger.kernel.org, linux-um@lists.infradead.org, 
+	linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev, 
+	netdev@vger.kernel.org, sparclinux@vger.kernel.org, x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221007_062650_527995_3A217569 
-X-CRM114-Status: GOOD (  18.62  )
+X-CRM114-CacheID: sfid-20221007_021234_862861_CE1853D3 
+X-CRM114-Status: GOOD (  37.86  )
+X-Mailman-Approved-At: Fri, 07 Oct 2022 10:14:12 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,117 +120,357 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Drive information such as block size and total usable LBAs are needed to
-send IO down the nvme passthru path. Currently only privileged users can
-get these parameters.  This patch implements a dynamic whitelist that
-allows the privileged user to define what nvme opcodes are available for
-the unprivileged.
+On Thu, 6 Oct 2022 at 18:54, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+>
+> Changes v2->v3:
+> - Handle get_random_int() conversions too, which were overlooked before,
+>   in the same way as the rest.
+>
+> Hi folks,
+>
+> This is a five part treewide cleanup of random integer handling. The
+> rules for random integers are:
+>
+> - If you want a secure or an insecure random u64, use get_random_u64().
+> - If you want a secure or an insecure random u32, use get_random_u32().
+>   * The old function prandom_u32() has been deprecated for a while now
+>     and is just a wrapper around get_random_u32(). Same for
+>     get_random_int().
+> - If you want a secure or an insecure random u16, use get_random_u16().
+> - If you want a secure or an insecure random u8, use get_random_u8().
+> - If you want secure or insecure random bytes, use get_random_bytes().
+>   * The old function prandom_bytes() has been deprecated for a while now
+>     and has long been a wrapper around get_random_bytes().
+> - If you want a non-uniform random u32, u16, or u8 bounded by a certain
+>   open interval maximum, use prandom_u32_max().
+>   * I say "non-uniform", because it doesn't do any rejection sampling or
+>     divisions. Hence, it stays within the prandom_* namespace.
+>
+> These rules ought to be applied uniformly, so that we can clean up the
+> deprecated functions, and earn the benefits of using the modern
+> functions. In particular, in addition to the boring substitutions, this
+> patchset accomplishes a few nice effects:
+>
+> - By using prandom_u32_max() with an upper-bound that the compiler can
+>   prove at compile-time is =E2=89=A465536 or =E2=89=A4256, internally get=
+_random_u16()
+>   or get_random_u8() is used, which wastes fewer batched random bytes,
+>   and hence has higher throughput.
+>
+> - By using prandom_u32_max() instead of %, when the upper-bound is not a
+>   constant, division is still avoided, because prandom_u32_max() uses
+>   a faster multiplication-based trick instead.
+>
+> - By using get_random_u16() or get_random_u8() in cases where the return
+>   value is intended to indeed be a u16 or a u8, we waste fewer batched
+>   random bytes, and hence have higher throughput.
+>
+> So, based on those rules and benefits from following them, this patchset
+> breaks down into the following five steps, which were done mostly
+> manually:
+>
+> 1) Replace `prandom_u32() % max` and variants thereof with
+>    prandom_u32_max(max).
+>
+> 2) Replace `(type)get_random_u32()` and variants thereof with
+>    get_random_u16() or get_random_u8(). I took the pains to actually
+>    look and see what every lvalue type was across the entire tree.
+>
+> 3) Replace remaining deprecated uses of prandom_u32() and
+>    get_random_int() with get_random_u32().
+>
+> 4) Replace remaining deprecated uses of prandom_bytes() with
+>    get_random_bytes().
+>
+> 5) Remove the deprecated and now-unused prandom_u32() and
+>    prandom_bytes() inline wrapper functions.
+>
+> I was thinking of taking this through my random.git tree (on which this
+> series is currently based) and submitting it near the end of the merge
+> window, or waiting for the very end of the 6.1 cycle when there will be
+> the fewest new patches brewing. If somebody with some treewide-cleanup
+> experience might share some wisdom about what the best timing usually
+> winds up being, I'm all ears.
+>
+> Please take a look! At "379 insertions(+), 422 deletions(-)", this
+> should be a somewhat small patchset to review, despite it having the
+> scary "treewide" moniker on it.
+>
+> Thanks,
+> Jason
+>
+> Cc: Andreas Noever <andreas.noever@gmail.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Christoph B=C3=B6hmwalder <christoph.boehmwalder@linbit.com>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+> Cc: Daniel Borkmann <daniel@iogearbox.net>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: David S. Miller <davem@davemloft.net>
+> Cc: Eric Dumazet <edumazet@google.com>
+> Cc: Florian Westphal <fw@strlen.de>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+> Cc: H. Peter Anvin <hpa@zytor.com>
+> Cc: Heiko Carstens <hca@linux.ibm.com>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> Cc: Huacai Chen <chenhuacai@kernel.org>
+> Cc: Hugh Dickins <hughd@google.com>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: James E.J. Bottomley <jejb@linux.ibm.com>
+> Cc: Jan Kara <jack@suse.com>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: Johannes Berg <johannes@sipsolutions.net>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Jozsef Kadlecsik <kadlec@netfilter.org>
+> Cc: KP Singh <kpsingh@kernel.org>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Marco Elver <elver@google.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Pablo Neira Ayuso <pablo@netfilter.org>
+> Cc: Paolo Abeni <pabeni@redhat.com>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Richard Weinberger <richard@nod.at>
+> Cc: Russell King <linux@armlinux.org.uk>
+> Cc: Theodore Ts'o <tytso@mit.edu>
+> Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Thomas Graf <tgraf@suug.ch>
+> Cc: Ulf Hansson <ulf.hansson@linaro.org>
+> Cc: Vignesh Raghavendra <vigneshr@ti.com>
+> Cc: WANG Xuerui <kernel@xen0n.name>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Yury Norov <yury.norov@gmail.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: kasan-dev@googlegroups.com
+> Cc: kernel-janitors@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-block@vger.kernel.org
+> Cc: linux-crypto@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-mips@vger.kernel.org
+> Cc: linux-mm@kvack.org
+> Cc: linux-mmc@vger.kernel.org
+> Cc: linux-mtd@lists.infradead.org
+> Cc: linux-nvme@lists.infradead.org
+> Cc: linux-parisc@vger.kernel.org
+> Cc: linux-rdma@vger.kernel.org
+> Cc: linux-s390@vger.kernel.org
+> Cc: linux-um@lists.infradead.org
+> Cc: linux-usb@vger.kernel.org
+> Cc: linux-wireless@vger.kernel.org
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Cc: loongarch@lists.linux.dev
+> Cc: netdev@vger.kernel.org
+> Cc: sparclinux@vger.kernel.org
+> Cc: x86@kernel.org
+>
+> Jason A. Donenfeld (5):
+>   treewide: use prandom_u32_max() when possible
+>   treewide: use get_random_{u8,u16}() when possible
+>   treewide: use get_random_u32() when possible
+>   treewide: use get_random_bytes when possible
+>   prandom: remove unused functions
+>
+>  Documentation/networking/filter.rst           |  2 +-
+>  arch/arm/kernel/process.c                     |  2 +-
+>  arch/arm/kernel/signal.c                      |  2 +-
+>  arch/arm64/kernel/process.c                   |  2 +-
+>  arch/arm64/kernel/syscall.c                   |  2 +-
+>  arch/loongarch/kernel/process.c               |  2 +-
+>  arch/loongarch/kernel/vdso.c                  |  2 +-
+>  arch/mips/kernel/process.c                    |  2 +-
+>  arch/mips/kernel/vdso.c                       |  2 +-
+>  arch/parisc/kernel/process.c                  |  2 +-
+>  arch/parisc/kernel/sys_parisc.c               |  4 +-
+>  arch/parisc/kernel/vdso.c                     |  2 +-
+>  arch/powerpc/crypto/crc-vpmsum_test.c         |  2 +-
+>  arch/powerpc/kernel/process.c                 |  2 +-
+>  arch/s390/kernel/process.c                    |  4 +-
+>  arch/s390/kernel/vdso.c                       |  2 +-
+>  arch/s390/mm/mmap.c                           |  2 +-
+>  arch/sparc/vdso/vma.c                         |  2 +-
+>  arch/um/kernel/process.c                      |  2 +-
+>  arch/x86/entry/vdso/vma.c                     |  2 +-
+>  arch/x86/kernel/cpu/amd.c                     |  2 +-
+>  arch/x86/kernel/module.c                      |  2 +-
+>  arch/x86/kernel/process.c                     |  2 +-
+>  arch/x86/mm/pat/cpa-test.c                    |  4 +-
+>  block/blk-crypto-fallback.c                   |  2 +-
+>  crypto/async_tx/raid6test.c                   |  2 +-
+>  crypto/testmgr.c                              | 94 +++++++++----------
+>  drivers/block/drbd/drbd_receiver.c            |  4 +-
+>  drivers/char/random.c                         | 11 +--
+>  drivers/dma/dmatest.c                         |  2 +-
+>  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  2 +-
+>  drivers/gpu/drm/i915/i915_gem_gtt.c           |  6 +-
+>  .../gpu/drm/i915/selftests/i915_selftest.c    |  2 +-
+>  drivers/gpu/drm/selftests/test-drm_buddy.c    |  2 +-
+>  drivers/gpu/drm/selftests/test-drm_mm.c       |  2 +-
+>  drivers/infiniband/core/cma.c                 |  2 +-
+>  drivers/infiniband/hw/cxgb4/cm.c              |  4 +-
+>  drivers/infiniband/hw/cxgb4/id_table.c        |  4 +-
+>  drivers/infiniband/hw/hfi1/tid_rdma.c         |  2 +-
+>  drivers/infiniband/hw/hns/hns_roce_ah.c       |  5 +-
+>  drivers/infiniband/hw/mlx4/mad.c              |  2 +-
+>  drivers/infiniband/ulp/ipoib/ipoib_cm.c       |  2 +-
+>  drivers/infiniband/ulp/rtrs/rtrs-clt.c        |  3 +-
+>  drivers/md/bcache/request.c                   |  2 +-
+>  drivers/md/raid5-cache.c                      |  2 +-
+>  drivers/media/common/v4l2-tpg/v4l2-tpg-core.c |  2 +-
+>  .../media/test-drivers/vivid/vivid-radio-rx.c |  4 +-
+>  .../test-drivers/vivid/vivid-touch-cap.c      |  6 +-
+>  drivers/misc/habanalabs/gaudi2/gaudi2.c       |  2 +-
+>  drivers/mmc/core/core.c                       |  4 +-
+>  drivers/mmc/host/dw_mmc.c                     |  2 +-
+>  drivers/mtd/nand/raw/nandsim.c                |  8 +-
+>  drivers/mtd/tests/mtd_nandecctest.c           | 12 +--
+>  drivers/mtd/tests/speedtest.c                 |  2 +-
+>  drivers/mtd/tests/stresstest.c                | 19 +---
+>  drivers/mtd/ubi/debug.c                       |  2 +-
+>  drivers/mtd/ubi/debug.h                       |  6 +-
+>  drivers/net/bonding/bond_main.c               |  2 +-
+>  drivers/net/ethernet/broadcom/bnxt/bnxt.c     |  2 +-
+>  drivers/net/ethernet/broadcom/cnic.c          |  5 +-
+>  .../chelsio/inline_crypto/chtls/chtls_cm.c    |  4 +-
+>  .../chelsio/inline_crypto/chtls/chtls_io.c    |  4 +-
+>  drivers/net/ethernet/rocker/rocker_main.c     |  8 +-
+>  drivers/net/hamradio/baycom_epp.c             |  2 +-
+>  drivers/net/hamradio/hdlcdrv.c                |  2 +-
+>  drivers/net/hamradio/yam.c                    |  2 +-
+>  drivers/net/phy/at803x.c                      |  2 +-
+>  drivers/net/wireguard/selftest/allowedips.c   | 16 ++--
+>  .../broadcom/brcm80211/brcmfmac/p2p.c         |  2 +-
+>  .../broadcom/brcm80211/brcmfmac/pno.c         |  2 +-
+>  .../net/wireless/intel/iwlwifi/mvm/mac-ctxt.c |  2 +-
+>  .../net/wireless/marvell/mwifiex/cfg80211.c   |  4 +-
+>  .../wireless/microchip/wilc1000/cfg80211.c    |  2 +-
+>  .../net/wireless/quantenna/qtnfmac/cfg80211.c |  2 +-
+>  drivers/net/wireless/st/cw1200/wsm.c          |  2 +-
+>  drivers/net/wireless/ti/wlcore/main.c         |  2 +-
+>  drivers/nvme/common/auth.c                    |  2 +-
+>  drivers/scsi/cxgbi/cxgb4i/cxgb4i.c            |  4 +-
+>  drivers/scsi/fcoe/fcoe_ctlr.c                 |  4 +-
+>  drivers/scsi/lpfc/lpfc_hbadisc.c              |  6 +-
+>  drivers/scsi/qedi/qedi_main.c                 |  2 +-
+>  drivers/target/iscsi/cxgbit/cxgbit_cm.c       |  2 +-
+>  drivers/thunderbolt/xdomain.c                 |  2 +-
+>  drivers/video/fbdev/uvesafb.c                 |  2 +-
+>  fs/ceph/inode.c                               |  2 +-
+>  fs/ceph/mdsmap.c                              |  2 +-
+>  fs/exfat/inode.c                              |  2 +-
+>  fs/ext2/ialloc.c                              |  3 +-
+>  fs/ext4/ialloc.c                              |  7 +-
+>  fs/ext4/ioctl.c                               |  4 +-
+>  fs/ext4/mmp.c                                 |  2 +-
+>  fs/ext4/super.c                               |  7 +-
+>  fs/f2fs/gc.c                                  |  2 +-
+>  fs/f2fs/namei.c                               |  2 +-
+>  fs/f2fs/segment.c                             |  8 +-
+>  fs/fat/inode.c                                |  2 +-
+>  fs/nfsd/nfs4state.c                           |  4 +-
+>  fs/ntfs3/fslog.c                              |  6 +-
+>  fs/ubifs/debug.c                              | 10 +-
+>  fs/ubifs/journal.c                            |  2 +-
+>  fs/ubifs/lpt_commit.c                         | 14 +--
+>  fs/ubifs/tnc_commit.c                         |  2 +-
+>  fs/xfs/libxfs/xfs_alloc.c                     |  2 +-
+>  fs/xfs/libxfs/xfs_ialloc.c                    |  4 +-
+>  fs/xfs/xfs_error.c                            |  2 +-
+>  fs/xfs/xfs_icache.c                           |  2 +-
+>  fs/xfs/xfs_log.c                              |  2 +-
+>  include/linux/nodemask.h                      |  2 +-
+>  include/linux/prandom.h                       | 12 ---
+>  include/linux/random.h                        |  5 -
+>  include/net/netfilter/nf_queue.h              |  2 +-
+>  include/net/red.h                             |  2 +-
+>  include/net/sock.h                            |  2 +-
+>  kernel/bpf/bloom_filter.c                     |  2 +-
+>  kernel/bpf/core.c                             |  6 +-
+>  kernel/bpf/hashtab.c                          |  2 +-
+>  kernel/bpf/verifier.c                         |  2 +-
+>  kernel/kcsan/selftest.c                       |  4 +-
+>  kernel/locking/test-ww_mutex.c                |  4 +-
+>  kernel/time/clocksource.c                     |  2 +-
+>  lib/cmdline_kunit.c                           |  4 +-
+>  lib/fault-inject.c                            |  2 +-
+>  lib/find_bit_benchmark.c                      |  4 +-
+>  lib/kobject.c                                 |  2 +-
+>  lib/random32.c                                |  4 +-
+>  lib/reed_solomon/test_rslib.c                 | 12 +--
+>  lib/sbitmap.c                                 |  4 +-
+>  lib/test-string_helpers.c                     |  2 +-
+>  lib/test_fprobe.c                             |  2 +-
+>  lib/test_hexdump.c                            | 10 +-
+>  lib/test_kasan.c                              |  6 +-
+>  lib/test_kprobes.c                            |  2 +-
+>  lib/test_list_sort.c                          |  2 +-
+>  lib/test_min_heap.c                           |  6 +-
+>  lib/test_objagg.c                             |  2 +-
+>  lib/test_rhashtable.c                         |  6 +-
+>  lib/test_vmalloc.c                            | 19 +---
+>  lib/uuid.c                                    |  2 +-
+>  mm/migrate.c                                  |  2 +-
+>  mm/shmem.c                                    |  2 +-
+>  mm/slab.c                                     |  2 +-
+>  mm/slub.c                                     |  2 +-
+>  net/802/garp.c                                |  2 +-
+>  net/802/mrp.c                                 |  2 +-
+>  net/ceph/mon_client.c                         |  2 +-
+>  net/ceph/osd_client.c                         |  2 +-
+>  net/core/neighbour.c                          |  2 +-
+>  net/core/pktgen.c                             | 47 +++++-----
+>  net/core/stream.c                             |  2 +-
+>  net/dccp/ipv4.c                               |  4 +-
+>  net/ipv4/datagram.c                           |  2 +-
+>  net/ipv4/igmp.c                               |  6 +-
+>  net/ipv4/inet_connection_sock.c               |  2 +-
+>  net/ipv4/inet_hashtables.c                    |  2 +-
+>  net/ipv4/ip_output.c                          |  2 +-
+>  net/ipv4/route.c                              |  4 +-
+>  net/ipv4/tcp_cdg.c                            |  2 +-
+>  net/ipv4/tcp_ipv4.c                           |  4 +-
+>  net/ipv4/udp.c                                |  2 +-
+>  net/ipv6/addrconf.c                           |  8 +-
+>  net/ipv6/ip6_flowlabel.c                      |  2 +-
+>  net/ipv6/mcast.c                              | 10 +-
+>  net/ipv6/output_core.c                        |  2 +-
+>  net/mac80211/rc80211_minstrel_ht.c            |  2 +-
+>  net/mac80211/scan.c                           |  2 +-
+>  net/netfilter/ipvs/ip_vs_conn.c               |  2 +-
+>  net/netfilter/ipvs/ip_vs_twos.c               |  4 +-
+>  net/netfilter/nf_nat_core.c                   |  4 +-
+>  net/netfilter/xt_statistic.c                  |  2 +-
+>  net/openvswitch/actions.c                     |  2 +-
+>  net/packet/af_packet.c                        |  2 +-
+>  net/rds/bind.c                                |  2 +-
+>  net/sched/act_gact.c                          |  2 +-
+>  net/sched/act_sample.c                        |  2 +-
+>  net/sched/sch_cake.c                          |  8 +-
+>  net/sched/sch_netem.c                         | 22 ++---
+>  net/sched/sch_pie.c                           |  2 +-
+>  net/sched/sch_sfb.c                           |  2 +-
+>  net/sctp/socket.c                             |  4 +-
+>  net/sunrpc/auth_gss/gss_krb5_wrap.c           |  4 +-
+>  net/sunrpc/cache.c                            |  2 +-
+>  net/sunrpc/xprt.c                             |  2 +-
+>  net/sunrpc/xprtsock.c                         |  2 +-
+>  net/tipc/socket.c                             |  2 +-
+>  net/unix/af_unix.c                            |  2 +-
+>  net/xfrm/xfrm_state.c                         |  2 +-
+>  186 files changed, 379 insertions(+), 422 deletions(-)
+>
 
-A bitmap is added at the nvme driver level that controls what opcodes are
-allowed. The unprivileged user will be able to execute an nvme opcode
-(using passthru) when it is whitelisted and if mode matches FMODE_WRITE.
+Acked-by: Ulf Hansson <ulf.hansson@linaro.org> # For MMC
 
-This contains only the whitelist implementation and is a preparation commit
-for the ioctl calls.
-
-Signed-off-by: Joel Granados <j.granados@samsung.com>
----
- drivers/nvme/host/core.c  | 10 ++++++++++
- drivers/nvme/host/ioctl.c | 11 +++++++++--
- drivers/nvme/host/nvme.h  |  1 +
- include/linux/nvme.h      |  1 +
- 4 files changed, 21 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 13080a017ecf..05d1e6fd633d 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -107,6 +107,8 @@ EXPORT_SYMBOL_GPL(nvme_reset_wq);
- struct workqueue_struct *nvme_delete_wq;
- EXPORT_SYMBOL_GPL(nvme_delete_wq);
- 
-+DECLARE_BITMAP(nvme_admin_whitelist, nvme_admin_last);
-+
- static LIST_HEAD(nvme_subsystems);
- static DEFINE_MUTEX(nvme_subsystems_lock);
- 
-@@ -125,6 +127,12 @@ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
- static void nvme_update_keep_alive(struct nvme_ctrl *ctrl,
- 				   struct nvme_command *cmd);
- 
-+static void nvme_init_admin_whitelist(void)
-+{
-+	bitmap_zero(nvme_admin_whitelist, nvme_admin_last);
-+	__set_bit(nvme_admin_identify, nvme_admin_whitelist);
-+}
-+
- void nvme_queue_scan(struct nvme_ctrl *ctrl)
- {
- 	/*
-@@ -5231,6 +5239,8 @@ static int __init nvme_core_init(void)
- 		goto unregister_generic_ns;
- 	}
- 
-+	nvme_init_admin_whitelist();
-+
- 	return 0;
- 
- unregister_generic_ns:
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index ebe04e977baa..73e4287d2c44 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -20,6 +20,14 @@ static void __user *nvme_to_user_ptr(uintptr_t ptrval)
- 	return (void __user *)ptrval;
- }
- 
-+
-+bool nvme_admin_cmd_allowed(u8 opcode, fmode_t mode)
-+{
-+	if (test_bit(opcode, nvme_admin_whitelist))
-+		return (mode & FMODE_WRITE);
-+	return false;
-+}
-+
- bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c, fmode_t mode)
- {
- 	u8 opcode = c->common.opcode;
-@@ -27,9 +35,8 @@ bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c, fmode_t mode)
- 	if (capable(CAP_SYS_ADMIN))
- 		return true;
- 
--	/* admin commands are not allowed */
- 	if (ns == NULL)
--		return false;
-+		return nvme_admin_cmd_allowed(opcode, mode);
- 
- 	/* exclude vendor-specific io and fabrics commands */
- 	if (opcode >= nvme_cmd_vendor_start || opcode == nvme_fabrics_command)
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 216acbe953b3..18a55e3483bd 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -46,6 +46,7 @@ extern unsigned int admin_timeout;
- extern struct workqueue_struct *nvme_wq;
- extern struct workqueue_struct *nvme_reset_wq;
- extern struct workqueue_struct *nvme_delete_wq;
-+extern unsigned long nvme_admin_whitelist[];
- 
- /*
-  * List of workarounds for devices that required behavior not specified in
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 8396eb7ecb68..18a75496299c 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -1123,6 +1123,7 @@ enum nvme_admin_opcode {
- 	nvme_admin_sanitize_nvm		= 0x84,
- 	nvme_admin_get_lba_status	= 0x86,
- 	nvme_admin_vendor_start		= 0xC0,
-+	nvme_admin_last,
- };
- 
- #define nvme_admin_opcode_name(opcode)	{ opcode, #opcode }
--- 
-2.30.2
-
+Kind regards
+Uffe
 
