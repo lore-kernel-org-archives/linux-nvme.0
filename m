@@ -4,47 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55149C433FE
-	for <linux-nvme@archiver.kernel.org>; Sun,  9 Oct 2022 07:12:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EDCD0C433F5
+	for <linux-nvme@archiver.kernel.org>; Sun,  9 Oct 2022 07:13:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=P/cyFerOrVR1hjiF/QX04AV2aA5aZrHQbK/mKyxjv9I=; b=tKJYolcL2ijaXgpgdIAnc2W4c9
-	gZmsqHoRHoBCl/AfLX0yENE80xikntfXuERPM9ZtY0v3tV/+TKXB+vpH9SFnGhWgz8YbVU7RFQA2K
-	M0Z23GsQPMk8rrtmDHbBsCzWXmknGiwUmX145xTTB5lmpAHUA2livn1+SIMlFS29rFxNRf8Cr8qGS
-	AMBEtIfILVgplN4mxZBQeMKoiQMHCgWyrHaIi3FwsAbeC6KuR3eZch4Jdt6E7dvlTvcVKLxihKUTj
-	Nf+bSy3HX5phqTuwDXA2RSi8gU+VwNBVEV2g5B0Y5X0Op8IRpxH8B530WgNTxP7KfVMrU7QZz5v8s
-	W46g2bbQ==;
+	bh=KIVWIkgHNJFfTR3APACYr63A/xqCM59y71KVcO4sCaY=; b=srbXdtiP0H9o2FWMAIwxitvDhO
+	a1o76waj4wXmkzUZwe1xDz4ywfXcJiz/a8ypq9v3ScaCcvpH54JNvEYlF/0+QJNPud0XN0pKVKbRc
+	ucA1uZ6iUGCyU5zfhjGtxs+pWtxUjWLO/sxCYm8bH/QpHuYR0pr+ejeDdAUdqXNRVfJlfgQIn4kVb
+	FYfMHzU74tTOvIKbjKmP33FKgCITDaCAon+aBnRkY69uWjkCHHmTYD2XRsCRN2nRL3o29qxpiDLgz
+	NPPcX86yVfSJKN8a89NxW4s1o8ZSP5msufpu/4M0Iw5V7bh8n1VdFJ45SYgSU3v+Ae+qRd3QzJZD3
+	HdblSl1g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ohQTd-00F4N9-Ct; Sun, 09 Oct 2022 07:11:57 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1ohQUd-00F4ef-EN; Sun, 09 Oct 2022 07:12:59 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ohIB1-00ENVo-2K; Sat, 08 Oct 2022 22:20:12 +0000
+	id 1ohIRz-00EPjf-Gt; Sat, 08 Oct 2022 22:37:46 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 4A9B460B02;
-	Sat,  8 Oct 2022 22:20:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70236C433C1;
-	Sat,  8 Oct 2022 22:20:03 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 69DE260B14;
+	Sat,  8 Oct 2022 22:37:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DFC7C433C1;
+	Sat,  8 Oct 2022 22:37:35 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="QmEOahoB"
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="XGhFZP09"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-	t=1665267601;
+	t=1665268654;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=P/cyFerOrVR1hjiF/QX04AV2aA5aZrHQbK/mKyxjv9I=;
-	b=QmEOahoBx06KMjDzLtZ7ejYlSXdX3xXDEfCsWADs48NoQdJjnF97KJ2e9Xd8nbc1t03bHc
-	iLLQvFEr+bqjH8bhenqpSsnO09+GKMG/IoUml8RmXTmxGyb7ZNYDfXX5MlPSK23GrIkSgB
-	X2xrqLLCtqWzb7N/605l/YH3w7HZ3qs=
-Received: 	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 6a6d913c (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Sat, 8 Oct 2022 22:20:01 +0000 (UTC)
-Date: Sun, 9 Oct 2022 00:19:59 +0200
+	bh=KIVWIkgHNJFfTR3APACYr63A/xqCM59y71KVcO4sCaY=;
+	b=XGhFZP09vIl+/5CeKrUwcn8D5G2fzzZUueDyYoC0ioAptMgCsgW2Y/nAMxGX3+Jlr3Pqzf
+	DPqqLFSnwZy5zrGQ0qIoQsckZXAODZVAUr3JPUklU2lLbHkSxIaLy6qBIDsRl1J6fqnfqB
+	i4V7yDQrjT6b8E+OkiJdDj+99/oMH4o=
+Received: 	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id c941732b (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Sat, 8 Oct 2022 22:37:33 +0000 (UTC)
+Date: Sun, 9 Oct 2022 00:37:33 +0200
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 To: David Laight <David.Laight@ACULAB.COM>
 Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
@@ -113,19 +113,22 @@ Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
 	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
 	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
 	"sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-	"x86@kernel.org" <x86@kernel.org>, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH v4 2/6] treewide: use prandom_u32_max() when possible
-Message-ID: <Y0H3jzGE1oiwEYa5@zx2c4.com>
+	"x86@kernel.org" <x86@kernel.org>,
+	Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@toke.dk>,
+	Chuck Lever <chuck.lever@oracle.com>, Jan Kara <jack@suse.cz>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: Re: [PATCH v4 4/6] treewide: use get_random_u32() when possible
+Message-ID: <Y0H7rcJ3/JOyDYU8@zx2c4.com>
 References: <20221007180107.216067-1-Jason@zx2c4.com>
- <20221007180107.216067-3-Jason@zx2c4.com>
- <01fafe0e56554b1c9c934c458b93473a@AcuMS.aculab.com>
+ <20221007180107.216067-5-Jason@zx2c4.com>
+ <f1ca1b53bc104065a83da60161a4c7b6@AcuMS.aculab.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <01fafe0e56554b1c9c934c458b93473a@AcuMS.aculab.com>
+In-Reply-To: <f1ca1b53bc104065a83da60161a4c7b6@AcuMS.aculab.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221008_152011_197144_5557D4DB 
-X-CRM114-Status: GOOD (  20.80  )
+X-CRM114-CacheID: sfid-20221008_153743_658778_AFB3A9A7 
+X-CRM114-Status: GOOD (  22.20  )
 X-Mailman-Approved-At: Sat, 08 Oct 2022 23:55:42 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -141,40 +144,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Oct 08, 2022 at 10:08:03PM +0000, David Laight wrote:
+On Sat, Oct 08, 2022 at 10:18:45PM +0000, David Laight wrote:
 > From: Jason A. Donenfeld
 > > Sent: 07 October 2022 19:01
 > > 
-> > Rather than incurring a division or requesting too many random bytes for
-> > the given range, use the prandom_u32_max() function, which only takes
-> > the minimum required bytes from the RNG and avoids divisions.
+> > The prandom_u32() function has been a deprecated inline wrapper around
+> > get_random_u32() for several releases now, and compiles down to the
+> > exact same code. Replace the deprecated wrapper with a direct call to
+> > the real function. The same also applies to get_random_int(), which is
+> > just a wrapper around get_random_u32().
 > > 
 > ...
-> > --- a/lib/cmdline_kunit.c
-> > +++ b/lib/cmdline_kunit.c
-> > @@ -76,7 +76,7 @@ static void cmdline_test_lead_int(struct kunit *test)
-> >  		int rc = cmdline_test_values[i];
-> >  		int offset;
+> > diff --git a/net/802/garp.c b/net/802/garp.c
+> > index f6012f8e59f0..c1bb67e25430 100644
+> > --- a/net/802/garp.c
+> > +++ b/net/802/garp.c
+> > @@ -407,7 +407,7 @@ static void garp_join_timer_arm(struct garp_applicant *app)
+> >  {
+> >  	unsigned long delay;
 > > 
-> > -		sprintf(in, "%u%s", prandom_u32_max(256), str);
-> > +		sprintf(in, "%u%s", get_random_int() % 256, str);
-> >  		/* Only first '-' after the number will advance the pointer */
-> >  		offset = strlen(in) - strlen(str) + !!(rc == 2);
-> >  		cmdline_do_one_test(test, in, rc, offset);
-> > @@ -94,7 +94,7 @@ static void cmdline_test_tail_int(struct kunit *test)
-> >  		int rc = strcmp(str, "") ? (strcmp(str, "-") ? 0 : 1) : 1;
-> >  		int offset;
+> > -	delay = (u64)msecs_to_jiffies(garp_join_time) * prandom_u32() >> 32;
+> > +	delay = (u64)msecs_to_jiffies(garp_join_time) * get_random_u32() >> 32;
+> >  	mod_timer(&app->join_timer, jiffies + delay);
+> >  }
 > > 
-> > -		sprintf(in, "%s%u", str, prandom_u32_max(256));
-> > +		sprintf(in, "%s%u", str, get_random_int() % 256);
-> >  		/*
-> >  		 * Only first and leading '-' not followed by integer
-> >  		 * will advance the pointer.
+> > diff --git a/net/802/mrp.c b/net/802/mrp.c
+> > index 35e04cc5390c..3e9fe9f5d9bf 100644
+> > --- a/net/802/mrp.c
+> > +++ b/net/802/mrp.c
+> > @@ -592,7 +592,7 @@ static void mrp_join_timer_arm(struct mrp_applicant *app)
+> >  {
+> >  	unsigned long delay;
+> > 
+> > -	delay = (u64)msecs_to_jiffies(mrp_join_time) * prandom_u32() >> 32;
+> > +	delay = (u64)msecs_to_jiffies(mrp_join_time) * get_random_u32() >> 32;
+> >  	mod_timer(&app->join_timer, jiffies + delay);
+> >  }
+> > 
 > 
-> Something has gone backwards here....
-> And get_random_u8() looks a better fit.
+> Aren't those:
+> 	delay = prandom_u32_max(msecs_to_jiffies(xxx_join_time));
 
-Wrong patch version.
+Probably, but too involved and peculiar for this cleanup.
+
+Feel free to send a particular patch to that maintainer.
 
 > 
 > 	David
