@@ -4,79 +4,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA507C433F5
-	for <linux-nvme@archiver.kernel.org>; Sun,  9 Oct 2022 07:11:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55149C433FE
+	for <linux-nvme@archiver.kernel.org>; Sun,  9 Oct 2022 07:12:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:In-Reply-To:References:Message-ID:Date:Subject:CC:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QPE6Z2C7bDKI1w/an0gLLTE3rvrHgBAFGfBjPI2dPr0=; b=yWMbiSVOB5g6Sy3OXqgCwEYY3p
-	HQqOdZ/oFa4eE92Ddsd8qJgkGb+lzuVVApQPBFoS4j5F5X/kHiFDFCykkd6Pe0efFuXsTcdUXGpyH
-	v4Ze4Nt2EdYZ5HjQ5Pt+TLMCLM6NDfh83gkRCnTL4Wh8kvSV3x+QG+65BJhmwyUGeNmCiXY4ifZso
-	rGaRSbtI5HKNrIhsR/pMkz1ZzkvqBbC3TmcFY61YHEt5AHrKi1743KgSO6So09Le6PXDIMzOyfgg8
-	XtLSqb6y+w8ptaXNOSEXAzkF1rpWliYXhUem8S61eLz6Lv6ySpPn1XprIx8DVk+zEBjNILe7LsE/P
-	dQdEfhww==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=P/cyFerOrVR1hjiF/QX04AV2aA5aZrHQbK/mKyxjv9I=; b=tKJYolcL2ijaXgpgdIAnc2W4c9
+	gZmsqHoRHoBCl/AfLX0yENE80xikntfXuERPM9ZtY0v3tV/+TKXB+vpH9SFnGhWgz8YbVU7RFQA2K
+	M0Z23GsQPMk8rrtmDHbBsCzWXmknGiwUmX145xTTB5lmpAHUA2livn1+SIMlFS29rFxNRf8Cr8qGS
+	AMBEtIfILVgplN4mxZBQeMKoiQMHCgWyrHaIi3FwsAbeC6KuR3eZch4Jdt6E7dvlTvcVKLxihKUTj
+	Nf+bSy3HX5phqTuwDXA2RSi8gU+VwNBVEV2g5B0Y5X0Op8IRpxH8B530WgNTxP7KfVMrU7QZz5v8s
+	W46g2bbQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ohQSl-00F46I-RU; Sun, 09 Oct 2022 07:11:03 +0000
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.85.151])
+	id 1ohQTd-00F4N9-Ct; Sun, 09 Oct 2022 07:11:57 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ohIA1-00ENDD-TJ
-	for linux-nvme@lists.infradead.org; Sat, 08 Oct 2022 22:19:11 +0000
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-78-vsudmffZOXKo2YB6dC4dtQ-1; Sat, 08 Oct 2022 23:18:48 +0100
-X-MC-Unique: vsudmffZOXKo2YB6dC4dtQ-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.38; Sat, 8 Oct
- 2022 23:18:45 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.040; Sat, 8 Oct 2022 23:18:45 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: "'Jason A. Donenfeld'" <Jason@zx2c4.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "patches@lists.linux.dev"
-	<patches@lists.linux.dev>
-CC: Andreas Noever <andreas.noever@gmail.com>, Andrew Morton
-	<akpm@linux-foundation.org>, Andy Shevchenko
-	<andriy.shevchenko@linux.intel.com>, Borislav Petkov <bp@alien8.de>, "Catalin
- Marinas" <catalin.marinas@arm.com>, =?utf-8?B?Q2hyaXN0b3BoIELDtmhtd2FsZGVy?=
-	<christoph.boehmwalder@linbit.com>, Christoph Hellwig <hch@lst.de>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Daniel Borkmann
-	<daniel@iogearbox.net>, Dave Airlie <airlied@redhat.com>, Dave Hansen
-	<dave.hansen@linux.intel.com>, "David S . Miller" <davem@davemloft.net>,
-	"Eric Dumazet" <edumazet@google.com>, Florian Westphal <fw@strlen.de>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "H . Peter Anvin"
-	<hpa@zytor.com>, Heiko Carstens <hca@linux.ibm.com>, Helge Deller
-	<deller@gmx.de>, Herbert Xu <herbert@gondor.apana.org.au>, Huacai Chen
-	<chenhuacai@kernel.org>, Hugh Dickins <hughd@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, "James E . J . Bottomley" <jejb@linux.ibm.com>, Jan Kara
-	<jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe
-	<axboe@kernel.dk>, Johannes Berg <johannes@sipsolutions.net>, Jonathan Corbet
-	<corbet@lwn.net>, Jozsef Kadlecsik <kadlec@netfilter.org>, KP Singh
-	<kpsingh@kernel.org>, Kees Cook <keescook@chromium.org>, Marco Elver
-	<elver@google.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, "Michael
- Ellerman" <mpe@ellerman.id.au>, Pablo Neira Ayuso <pablo@netfilter.org>,
-	"Paolo Abeni" <pabeni@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
-	"Richard Weinberger" <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
-	"Theodore Ts'o" <tytso@mit.edu>, Thomas Bogendoerfer
-	<tsbogend@alpha.franken.de>, "Thomas Gleixner" <tglx@linutronix.de>, Thomas
- Graf <tgraf@suug.ch>, Ulf Hansson <ulf.hansson@linaro.org>, Vignesh
- Raghavendra <vigneshr@ti.com>, WANG Xuerui <kernel@xen0n.name>, Will Deacon
-	<will@kernel.org>, Yury Norov <yury.norov@gmail.com>,
+	id 1ohIB1-00ENVo-2K; Sat, 08 Oct 2022 22:20:12 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 4A9B460B02;
+	Sat,  8 Oct 2022 22:20:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70236C433C1;
+	Sat,  8 Oct 2022 22:20:03 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="QmEOahoB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+	t=1665267601;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P/cyFerOrVR1hjiF/QX04AV2aA5aZrHQbK/mKyxjv9I=;
+	b=QmEOahoBx06KMjDzLtZ7ejYlSXdX3xXDEfCsWADs48NoQdJjnF97KJ2e9Xd8nbc1t03bHc
+	iLLQvFEr+bqjH8bhenqpSsnO09+GKMG/IoUml8RmXTmxGyb7ZNYDfXX5MlPSK23GrIkSgB
+	X2xrqLLCtqWzb7N/605l/YH3w7HZ3qs=
+Received: 	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 6a6d913c (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Sat, 8 Oct 2022 22:20:01 +0000 (UTC)
+Date: Sun, 9 Oct 2022 00:19:59 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: David Laight <David.Laight@ACULAB.COM>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"patches@lists.linux.dev" <patches@lists.linux.dev>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Christoph =?utf-8?Q?B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Dave Airlie <airlied@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Florian Westphal <fw@strlen.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Hugh Dickins <hughd@google.com>, Jakub Kicinski <kuba@kernel.org>,
+	"James E . J . Bottomley" <jejb@linux.ibm.com>,
+	Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Jens Axboe <axboe@kernel.dk>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jozsef Kadlecsik <kadlec@netfilter.org>,
+	KP Singh <kpsingh@kernel.org>, Kees Cook <keescook@chromium.org>,
+	Marco Elver <elver@google.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Pablo Neira Ayuso <pablo@netfilter.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Richard Weinberger <richard@nod.at>,
+	Russell King <linux@armlinux.org.uk>, Theodore Ts'o <tytso@mit.edu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
+	Yury Norov <yury.norov@gmail.com>,
 	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
 	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
 	"kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, "linux-crypto@vger.kernel.org"
-	<linux-crypto@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "linux-mips@vger.kernel.org"
-	<linux-mips@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
 	"linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
 	"linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
 	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
@@ -89,32 +112,20 @@ CC: Andreas Noever <andreas.noever@gmail.com>, Andrew Morton
 	"linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
 	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
 	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>, "x86@kernel.org"
-	<x86@kernel.org>, =?utf-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?=
-	<toke@toke.dk>, Chuck Lever <chuck.lever@oracle.com>, Jan Kara
-	<jack@suse.cz>, Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: RE: [PATCH v4 4/6] treewide: use get_random_u32() when possible
-Thread-Topic: [PATCH v4 4/6] treewide: use get_random_u32() when possible
-Thread-Index: AQHY2ncqUPYFdmCx0kGKfFsfF+6dcq4FEdQw
-Date: Sat, 8 Oct 2022 22:18:45 +0000
-Message-ID: <f1ca1b53bc104065a83da60161a4c7b6@AcuMS.aculab.com>
+	"sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
+	"x86@kernel.org" <x86@kernel.org>, Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH v4 2/6] treewide: use prandom_u32_max() when possible
+Message-ID: <Y0H3jzGE1oiwEYa5@zx2c4.com>
 References: <20221007180107.216067-1-Jason@zx2c4.com>
- <20221007180107.216067-5-Jason@zx2c4.com>
-In-Reply-To: <20221007180107.216067-5-Jason@zx2c4.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+ <20221007180107.216067-3-Jason@zx2c4.com>
+ <01fafe0e56554b1c9c934c458b93473a@AcuMS.aculab.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <01fafe0e56554b1c9c934c458b93473a@AcuMS.aculab.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221008_151910_215106_7BD8AB7B 
-X-CRM114-Status: GOOD (  14.03  )
+X-CRM114-CacheID: sfid-20221008_152011_197144_5557D4DB 
+X-CRM114-Status: GOOD (  20.80  )
 X-Mailman-Approved-At: Sat, 08 Oct 2022 23:55:42 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -130,33 +141,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-RnJvbTogSmFzb24gQS4gRG9uZW5mZWxkDQo+IFNlbnQ6IDA3IE9jdG9iZXIgMjAyMiAxOTowMQ0K
-PiANCj4gVGhlIHByYW5kb21fdTMyKCkgZnVuY3Rpb24gaGFzIGJlZW4gYSBkZXByZWNhdGVkIGlu
-bGluZSB3cmFwcGVyIGFyb3VuZA0KPiBnZXRfcmFuZG9tX3UzMigpIGZvciBzZXZlcmFsIHJlbGVh
-c2VzIG5vdywgYW5kIGNvbXBpbGVzIGRvd24gdG8gdGhlDQo+IGV4YWN0IHNhbWUgY29kZS4gUmVw
-bGFjZSB0aGUgZGVwcmVjYXRlZCB3cmFwcGVyIHdpdGggYSBkaXJlY3QgY2FsbCB0bw0KPiB0aGUg
-cmVhbCBmdW5jdGlvbi4gVGhlIHNhbWUgYWxzbyBhcHBsaWVzIHRvIGdldF9yYW5kb21faW50KCks
-IHdoaWNoIGlzDQo+IGp1c3QgYSB3cmFwcGVyIGFyb3VuZCBnZXRfcmFuZG9tX3UzMigpLg0KPiAN
-Ci4uLg0KPiBkaWZmIC0tZ2l0IGEvbmV0LzgwMi9nYXJwLmMgYi9uZXQvODAyL2dhcnAuYw0KPiBp
-bmRleCBmNjAxMmY4ZTU5ZjAuLmMxYmI2N2UyNTQzMCAxMDA2NDQNCj4gLS0tIGEvbmV0LzgwMi9n
-YXJwLmMNCj4gKysrIGIvbmV0LzgwMi9nYXJwLmMNCj4gQEAgLTQwNyw3ICs0MDcsNyBAQCBzdGF0
-aWMgdm9pZCBnYXJwX2pvaW5fdGltZXJfYXJtKHN0cnVjdCBnYXJwX2FwcGxpY2FudCAqYXBwKQ0K
-PiAgew0KPiAgCXVuc2lnbmVkIGxvbmcgZGVsYXk7DQo+IA0KPiAtCWRlbGF5ID0gKHU2NCltc2Vj
-c190b19qaWZmaWVzKGdhcnBfam9pbl90aW1lKSAqIHByYW5kb21fdTMyKCkgPj4gMzI7DQo+ICsJ
-ZGVsYXkgPSAodTY0KW1zZWNzX3RvX2ppZmZpZXMoZ2FycF9qb2luX3RpbWUpICogZ2V0X3JhbmRv
-bV91MzIoKSA+PiAzMjsNCj4gIAltb2RfdGltZXIoJmFwcC0+am9pbl90aW1lciwgamlmZmllcyAr
-IGRlbGF5KTsNCj4gIH0NCj4gDQo+IGRpZmYgLS1naXQgYS9uZXQvODAyL21ycC5jIGIvbmV0Lzgw
-Mi9tcnAuYw0KPiBpbmRleCAzNWUwNGNjNTM5MGMuLjNlOWZlOWY1ZDliZiAxMDA2NDQNCj4gLS0t
-IGEvbmV0LzgwMi9tcnAuYw0KPiArKysgYi9uZXQvODAyL21ycC5jDQo+IEBAIC01OTIsNyArNTky
-LDcgQEAgc3RhdGljIHZvaWQgbXJwX2pvaW5fdGltZXJfYXJtKHN0cnVjdCBtcnBfYXBwbGljYW50
-ICphcHApDQo+ICB7DQo+ICAJdW5zaWduZWQgbG9uZyBkZWxheTsNCj4gDQo+IC0JZGVsYXkgPSAo
-dTY0KW1zZWNzX3RvX2ppZmZpZXMobXJwX2pvaW5fdGltZSkgKiBwcmFuZG9tX3UzMigpID4+IDMy
-Ow0KPiArCWRlbGF5ID0gKHU2NCltc2Vjc190b19qaWZmaWVzKG1ycF9qb2luX3RpbWUpICogZ2V0
-X3JhbmRvbV91MzIoKSA+PiAzMjsNCj4gIAltb2RfdGltZXIoJmFwcC0+am9pbl90aW1lciwgamlm
-ZmllcyArIGRlbGF5KTsNCj4gIH0NCj4gDQoNCkFyZW4ndCB0aG9zZToNCglkZWxheSA9IHByYW5k
-b21fdTMyX21heChtc2Vjc190b19qaWZmaWVzKHh4eF9qb2luX3RpbWUpKTsNCg0KCURhdmlkDQoN
-Ci0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJt
-LCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChX
-YWxlcykNCg==
+On Sat, Oct 08, 2022 at 10:08:03PM +0000, David Laight wrote:
+> From: Jason A. Donenfeld
+> > Sent: 07 October 2022 19:01
+> > 
+> > Rather than incurring a division or requesting too many random bytes for
+> > the given range, use the prandom_u32_max() function, which only takes
+> > the minimum required bytes from the RNG and avoids divisions.
+> > 
+> ...
+> > --- a/lib/cmdline_kunit.c
+> > +++ b/lib/cmdline_kunit.c
+> > @@ -76,7 +76,7 @@ static void cmdline_test_lead_int(struct kunit *test)
+> >  		int rc = cmdline_test_values[i];
+> >  		int offset;
+> > 
+> > -		sprintf(in, "%u%s", prandom_u32_max(256), str);
+> > +		sprintf(in, "%u%s", get_random_int() % 256, str);
+> >  		/* Only first '-' after the number will advance the pointer */
+> >  		offset = strlen(in) - strlen(str) + !!(rc == 2);
+> >  		cmdline_do_one_test(test, in, rc, offset);
+> > @@ -94,7 +94,7 @@ static void cmdline_test_tail_int(struct kunit *test)
+> >  		int rc = strcmp(str, "") ? (strcmp(str, "-") ? 0 : 1) : 1;
+> >  		int offset;
+> > 
+> > -		sprintf(in, "%s%u", str, prandom_u32_max(256));
+> > +		sprintf(in, "%s%u", str, get_random_int() % 256);
+> >  		/*
+> >  		 * Only first and leading '-' not followed by integer
+> >  		 * will advance the pointer.
+> 
+> Something has gone backwards here....
+> And get_random_u8() looks a better fit.
 
+Wrong patch version.
+
+> 
+> 	David
+> 
+> -
+> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+> Registration No: 1397386 (Wales)
 
