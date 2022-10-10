@@ -4,58 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8AE0C433FE
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Oct 2022 09:12:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 773C9C433FE
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Oct 2022 09:13:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:CC:To:From:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/WDxfLZOFm8LMDUhkoU7IfhmVpmZssV6SOKwzfnPuG4=; b=r7Rxcr7uJy9tskMMw72EttmKRE
-	6FwjMbCHO1iPWErvgAX8NXIx8N1NU+J1EMsGXm0WjOmZK8iZGiUKHpHugUCVmSVJ3gmdXjXq5wLLu
-	SgHLWSp/VD2azo/gsgKsw6Q8kVelwXkgC/rEAX0BbhdxVcqZRUtNDfWdDor76tH+l6J44lCWMwy4M
-	fLuw8DsKKGsA43wS26CxWao+53j1On8/9GXRAFp1OOLC7zeL/eE6P3a45nIQHkdlbMkDtuUuu/Ge6
-	L55lopt+XoCU1hlRJN9MZx8NVQMvUwrdKM1lFnzL/2oSfzdM1na/2MDkA/yku9T/Phau7VTA8cm4K
-	5I+KEoKQ==;
+	bh=EOKy715bvx/grnlZLNFKtxCAmrHiOfxeJ/a6Iu3a7RA=; b=4Etq2M6bulQoFKdqoAcF/YImVh
+	YZDjz23mBkAMyrdXjEr0wTHZZV+sNwAzPH8QV1YGyb83QjGoKL0kbdJhtsWGOp0yCk0pV1QogWoDF
+	CCLAqsW7cdZwzllgSkjZL4z6rGWOVvYxf6dMLnLswX97Jn5VMNrD+x3ksl1u0jafJlxbjGp5w4GFP
+	lgAVcXf2Pq9mBCUz3X//yAkIYOLphUa3TllIR7ef1XulWHHNuVkH/KUwdE9W223qFDM0M+VdWdrQU
+	sV/MuKjw+c3afOOCETe3GpXlChKsDz0w6unE+sMFZ2LDhU1ES0Ky1qSjPCbi4dctSN91zramq3dZx
+	IOpzKNcQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ohopN-0009Sd-UK; Mon, 10 Oct 2022 09:12:01 +0000
-Received: from szxga02-in.huawei.com ([45.249.212.188])
+	id 1ohoqQ-0009k1-Mp; Mon, 10 Oct 2022 09:13:06 +0000
+Received: from szxga01-in.huawei.com ([45.249.212.187])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ohopK-0009RJ-Qu
-	for linux-nvme@lists.infradead.org; Mon, 10 Oct 2022 09:12:00 +0000
-Received: from canpemm500002.china.huawei.com (unknown [172.30.72.57])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MmCjX7282zVj70;
-	Mon, 10 Oct 2022 17:07:28 +0800 (CST)
+	id 1ohoqN-0009gf-1O
+	for linux-nvme@lists.infradead.org; Mon, 10 Oct 2022 09:13:04 +0000
+Received: from canpemm500002.china.huawei.com (unknown [172.30.72.55])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MmCmB6v5nzpVjW;
+	Mon, 10 Oct 2022 17:09:46 +0800 (CST)
 Received: from [10.169.59.127] (10.169.59.127) by
  canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 10 Oct 2022 17:11:52 +0800
-Subject: Re: [PATCH] nvme: allow ioctl to submit io command with dif for
- NVMeoF
+ 15.1.2375.31; Mon, 10 Oct 2022 17:12:55 +0800
+Subject: Re: [PATCH] nvme-rdma: set ack timeout of RoCE to 262ms
 From: Chao Leng <lengchao@huawei.com>
-To: Keith Busch <kbusch@kernel.org>
-CC: <linux-nvme@lists.infradead.org>, <hch@lst.de>, <sagi@grimberg.me>
-References: <20220803094436.23407-1-lengchao@huawei.com>
- <YuqX7dur94Vr1PIA@kbusch-mbp.dhcp.thefacebook.com>
- <61e30057-2f2b-5f1a-371b-f6dd43d9b939@huawei.com>
-Message-ID: <2441ae85-7c9b-ae71-1b7f-6fa4fb13f682@huawei.com>
-Date: Mon, 10 Oct 2022 17:11:51 +0800
+To: Sagi Grimberg <sagi@grimberg.me>, Max Gurtovoy <mgurtovoy@nvidia.com>,
+	Christoph Hellwig <hch@lst.de>
+CC: <linux-nvme@lists.infradead.org>, <kbusch@kernel.org>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
+References: <20220819075825.21231-1-lengchao@huawei.com>
+ <20220821062016.GA26553@lst.de>
+ <83992e8f-b18a-ccd3-e0ee-a5802043f161@huawei.com>
+ <86e9fc3b-aded-220d-1ee0-4d5928097104@nvidia.com>
+ <f7254cc2-88e0-e91f-e4f1-788c5889fcf1@huawei.com>
+ <fbee7c67-fd7b-12c8-5685-066b1974aadb@grimberg.me>
+ <550d4612-0041-3d84-b1cb-786d0c8e0d11@huawei.com>
+ <3030fbb2-5c63-54ea-5be3-b88cf63c6b75@grimberg.me>
+ <c86a6cea-09b5-c04c-aa7b-adc6a457acf6@huawei.com>
+Message-ID: <328a807f-bfaf-b279-69c5-09be179891ac@huawei.com>
+Date: Mon, 10 Oct 2022 17:12:54 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.1
 MIME-Version: 1.0
-In-Reply-To: <61e30057-2f2b-5f1a-371b-f6dd43d9b939@huawei.com>
+In-Reply-To: <c86a6cea-09b5-c04c-aa7b-adc6a457acf6@huawei.com>
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.169.59.127]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
  canpemm500002.china.huawei.com (7.192.104.244)
 X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221010_021159_077261_AA1DA746 
-X-CRM114-Status: GOOD (  18.24  )
+X-CRM114-CacheID: sfid-20221010_021303_322410_E2C12FB1 
+X-CRM114-Status: GOOD (  13.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,38 +77,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi, Keith
-     Any other comments on this patch?
-     Is there any chance that this patch can be accepted?
+Hi, Max
+     Can you give some comment? Thank you.
 
-On 2022/8/4 11:00, Chao Leng wrote:
+On 2022/8/29 21:15, Chao Leng wrote:
 > 
 > 
-> On 2022/8/3 23:44, Keith Busch wrote:
->> On Wed, Aug 03, 2022 at 05:44:36PM +0800, Chao Leng wrote:
->>> If nvme over fabrics support t10dif, NVME_NS_EXT_LBAS and
->>> NVME_NS_METADATA_SUPPORTED of ns->features will be set to 1.
->>> Now nvme_submit_io do not allow the metadata if NVME_NS_EXT_LBAS of
->>> ns->features is setted. Indeed It should allow the metadata if both
->>> NVME_NS_EXT_LBAS and NVME_NS_METADATA_SUPPORTED of ns->features are setted.
+> On 2022/8/29 17:06, Sagi Grimberg wrote:
 >>
->> I'm not sure. As a passthrough interface, don't you want to set up the host
->> buffers with the inline metadata instead of relying on the HBA to splice
->> separate ones?
-> If HBA support t10DIF, we need the HBA to verify the metadata for end-to-end DIF.
-> So we need set up the metadata separately.
-> Two scenarios:
-> 1.Test whether the HBA verification meets expectations when specify data and metadata.
-> 2.The user wants to use the capability of end-to-end DIF through IOCTL.
-> If the HBA does not support T10DIF, Keep the old behavior.
+>>>>>> If so, which devices did you use ?
+>>>>> The host HBA is Mellanox Technologies MT27800 Family [ConnectX-5];
+>>>>> The switch and storage are huawei equipments.
+>>>>> In principle, switches and storage devices from other vendors
+>>>>> have the same problem.
+>>>>> If you think it is necessary, we can test the other vendor switchs
+>>>>> and linux target.
+>>>>
+>>>> Why is the 2s default chosen, what is the downside for a 250ms seconds ack timeout? and why is nvme-rdma different than all other kernel rdma
+>>> The downside is redundant retransmit if the packets delay more than
+>>> 250ms in the networks and finally reaches the receiver.
+>>> Only in extreme scenarios, the packet delay may exceed 250 ms.
 >>
->> If you really want to control this kind of thing, it would be better to use
->> NVME_IOCTL_IO_CMD instead of NVME_IOCTL_SUBMIT_IO.
-> NVME_IOCTL_IO_CMD is a universal interface, of course, it can work well.
-> But nvme-cli do not support customized commands, and it is not friendly to use.
-> We can use nvme write/read simply, it looks better.
+>> Sounds like the default needs to be changed if it only addresses the
+>> extreme scenarios...
+>>
+>>>> consumers that it needs to set this explicitly?
+>>> The real-time transaction services are sensitive to the delay.
+>>> nvme-rdma will be used in real-time transactions.
+>>> The real-time transaction services do not allow that the packets
+>>> delay more than 250ms in the networks.
+>>> So we need to set the ack timeout to 262ms.
+>>
+>> While I don't disagree with the change itself, I do disagree why this
+>> needs to be driven by nvme-rdma locally. If all kernel rdma consumers
+>> need this (and if not, I'd like to understand why), this needs to be set in the rdma core.Changing the default set in the rdma core is another option.
+> But it will affect all application based on RDMA.
+> Max, what do you think? Thank you.
 >> .
->>
 > 
 > .
 
