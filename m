@@ -4,86 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9D8AC433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Oct 2022 07:36:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4AB97C433FE
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Oct 2022 08:20:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1/NCFyQVaTFUT6HVoiuDwR4gc37VCW+/wm92rica5PQ=; b=xdEDGsU+HDAm9xYYhNS1Xittuk
-	axQA3zZ3tN4rYMxXTueWM+ShwAcz5JL3ij9T6kolZqp0+6GT83i2AuaBtupJnHHRxphgFYF7PbM2T
-	pfNogAlwH114lm3KL5rWOiQ71YsjLs02novFSy66R3cxAdcy1tGxvblV96H616QsOH3VZxMxqt0X6
-	XtXNd5rw1vyPIoK5aDSNhiupX/vVvbPrQTlIGF9TtwkeUv5/zEW31fe4jNeSJ84FOX0RpGzBJm/Qc
-	70/FIqh8kEhYvMZV2vtXEa9dJ+lkKVp0AtOSJAp2rtqrAZukLfR+uIfyGvhHYPI5fOjOdizrGGEVD
-	ie9UwXNw==;
+	bh=V+IVdOZj+IKR1vY71nwx8xVrdU6AHHZcBPA483+SabQ=; b=SEGNGtbAye0IajsXFSHptHrDa3
+	PBCJlZCSJeyq3LQosZDj7ViOikYLI1RndmnbBEPeNfa6jR/VGwY6SBRcJ/0NIk5RzapFNvp0xBYQ6
+	eIGOITMBTnixfRyD/e59T5cgw0Bxwy84ojmqcPSE/r6fmv0vmEY9bdIbmuhqL9am/i/kvQT14Cl/2
+	XqilA06ZVcLGCGrXKCFQwKmqFHpmjrk5r6nBz2KWnR918C8E6ADaLICbIJnA1HNkScxQbmQSUOLEy
+	h/g2u2R2g96wS8oGsOVlt85FcB8sGdm4qdSQ6G9TSEKuXqJEJipPL2Mmyo4Zqylb0laaj8EwQiUCL
+	VuY6Ldww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ohnKf-00HOcS-A2; Mon, 10 Oct 2022 07:36:13 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1oho1u-00HZ4U-3Y; Mon, 10 Oct 2022 08:20:54 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ohnKd-00HObL-6c
-	for linux-nvme@lists.infradead.org; Mon, 10 Oct 2022 07:36:12 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C5F5B1F37E;
-	Mon, 10 Oct 2022 07:36:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1665387364; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1/NCFyQVaTFUT6HVoiuDwR4gc37VCW+/wm92rica5PQ=;
-	b=oFCobOWxmVHB/ynk0s4/J7tTbd2w5Bf0Psd9lXrucBa+H7Af1lJcKkozzZ73dTbl3wO/4f
-	6M7U/XSYhuNIMOSY1a0OVA1u+x4Qu9i9/ap2IkwOsroDvpq5NkvrhDnoROigfrpx1o+wX8
-	B+fQzMcxBG0JHo/nCTTHjzwiPrAG3wM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1665387364;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1/NCFyQVaTFUT6HVoiuDwR4gc37VCW+/wm92rica5PQ=;
-	b=r7Op92f8KMp8wDZRehQwifiasdLF0a5ZfwFulOM5RiU7aorKTEfV8N0mh/y1XTBveTeVsc
-	kSHMZyt4nH7Di4Cg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B6BFA13ACA;
-	Mon, 10 Oct 2022 07:36:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id TzGXLGTLQ2PnVgAAMHmgww
-	(envelope-from <dwagner@suse.de>); Mon, 10 Oct 2022 07:36:04 +0000
-Date: Mon, 10 Oct 2022 09:36:04 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Alan Adamson <alan.adamson@oracle.com>
-Cc: Pankaj Raghav <pankydev8@gmail.com>,
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
-	Keith Busch <kbusch@kernel.org>, Yi Zhang <yi.zhang@redhat.com>,
-	Tomas Bzatek <tbzatek@redhat.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Martin Petersen <martin.petersen@oracle.com>,
-	"gost.dev@samsung.com" <gost.dev@samsung.com>,
-	Pankaj Raghav <p.raghav@samsung.com>
-Subject: Re: [PATCH v1] nvme: do not log errors for user commands
-Message-ID: <20221010073604.rryji23gnnxgoqrr@carbon.lan>
-References: <20221006093628.22089-1-dwagner@suse.de>
- <20221006121635.awoafzxyu6nkrqfj@quentin>
- <20221006133053.mmzw7m7wbfsapqbx@carbon.lan>
- <35A47E59-90E0-4F6C-80EA-A98F59213FA0@oracle.com>
+	id 1oho1r-00HZ2l-FN
+	for linux-nvme@lists.infradead.org; Mon, 10 Oct 2022 08:20:52 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 2F66168AA6; Mon, 10 Oct 2022 10:20:44 +0200 (CEST)
+Date: Mon, 10 Oct 2022 10:20:44 +0200
+From: "hch@lst.de" <hch@lst.de>
+To: Xander Li <Xander_Li@kingston.com.tw>
+Cc: Bart Van Assche <bvanassche@acm.org>,
+	"paulburton@kernel.org" <paulburton@kernel.org>,
+	"kbusch@kernel.org" <kbusch@kernel.org>,
+	"axboe@fb.com" <axboe@fb.com>, "hch@lst.de" <hch@lst.de>,
+	"sagi@grimberg.me" <sagi@grimberg.me>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"ralf@linux-mips.org" <ralf@linux-mips.org>,
+	"jhogan@kernel.org" <jhogan@kernel.org>,
+	"christian@brauner.io" <christian@brauner.io>,
+	"jeff_yang@kingston.corp-partner.google.com" <jeff_yang@kingston.corp-partner.google.com>,
+	"dora_chueh@kingston.corp-partner.google.com" <dora_chueh@kingston.corp-partner.google.com>,
+	"james_liu@kingston.corp-partner.google.com" <james_liu@kingston.corp-partner.google.com>,
+	Vincent Wu <Vincent_Wu@kingston.com.tw>
+Subject: Re: [patch] nvme-pci: disable Write_Zeroes on Kingston SSD
+Message-ID: <20221010082044.GA23747@lst.de>
+References: <CO1PR10MB4691DEAA88F86F001ACA5A1CCB5D9@CO1PR10MB4691.namprd10.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <35A47E59-90E0-4F6C-80EA-A98F59213FA0@oracle.com>
+In-Reply-To: <CO1PR10MB4691DEAA88F86F001ACA5A1CCB5D9@CO1PR10MB4691.namprd10.prod.outlook.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221010_003611_428910_ED9FC399 
-X-CRM114-Status: GOOD (  13.48  )
+X-CRM114-CacheID: sfid-20221010_012051_695850_5E7EC037 
+X-CRM114-Status: GOOD (  15.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,34 +69,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Alan,
-
-On Fri, Oct 07, 2022 at 09:19:08PM +0000, Alan Adamson wrote:
-> > I do get the debugging argument, but this clearly regresses production
-> > code. Ideally, this code should be opt-in. The only way I see how to make
-> > this work is by introducing a new API which allows enable this
-> > feature.
+On Wed, Oct 05, 2022 at 10:01:11AM +0000, Xander Li wrote:
 > 
-> Looks like a new API may need to be created.  I’ll investigate that.
-> With your change, there will need to be a blktests change.
+> drivers/nvme/host/pci.c | 10 ++++++++++
+> 
+> 1 file changed, 10 insertions(+)
+> 
+> 
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> 
+> index 98864b853eef..d08c8c854f3a 100644
+> 
+> --- a/drivers/nvme/host/pci.c
+> 
+> +++ b/drivers/nvme/host/pci.c
 
-Thanks for picking this up.
+This patch seems very white space damaged.
 
-> nvme/039 => nvme0n1 (test error logging)                     [failed]
->     runtime  0.120s  ...  0.118s
->     --- tests/nvme/039.out	2022-09-21 17:14:12.760890663 -0400
->     +++ /root/blktests/results/nvme0n1/nvme/039.out.bad	2022-10-06 19:11:45.846879996 -0400
->     @@ -2,6 +2,4 @@
->       Read(0x2) @ LBA 0, 1 blocks, Unrecovered Read Error (sct 0x2 / sc 0x81) DNR 
->       Read(0x2) @ LBA 0, 1 blocks, Unknown (sct 0x3 / sc 0x75) DNR 
->       Write(0x1) @ LBA 0, 1 blocks, Write Fault (sct 0x2 / sc 0x80) DNR 
->     - Identify(0x6), Access Denied (sct 0x2 / sc 0x86) DNR 
->     - Unknown(0x96), Invalid Command Opcode (sct 0x0 / sc 0x1) DNR 
->      Test complete
-
-Hmm, that is not supposed to happen. Well, obviously this needs some
-more work :)
-
-Thanks,
-Daniel
+> 
+> @@ -3503,6 +3503,16 @@ static const struct pci_device_id nvme_id_table[] = {
+> 
+>                 .driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
+> 
+>         { PCI_DEVICE(0x2646, 0x2263),   /* KINGSTON A2000 NVMe SSD  */
+> 
+>                 .driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
+> 
+> +       { PCI_DEVICE(0x2646, 0x5018),   /* KINGSTON OM8SFP4xxxxP OS21012 NVMe SSD */
+> 
+> +               .driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
+> 
+> +       { PCI_DEVICE(0x2646, 0x5016),   /* KINGSTON OM3PGP4xxxxP OS21011 NVMe SSD */
+> 
+> +               .driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
+> 
+> +       { PCI_DEVICE(0x2646, 0x501A),   /* KINGSTON OM8PGP4xxxxP OS21005 NVMe SSD */
+> 
+> +               .driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
+> 
+> +       { PCI_DEVICE(0x2646, 0x501B),   /* KINGSTON OM8PGP4xxxxQ OS21005 NVMe SSD */
+> 
+> +               .driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
+> 
+> +       { PCI_DEVICE(0x2646, 0x501E),   /* KINGSTON OM3PGP4xxxxQ OS21011 NVMe SSD */
+> 
+> +               .driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
+> 
+>         { PCI_DEVICE(0x1e4B, 0x1001),   /* MAXIO MAP1001 */
+> 
+>                 .driver_data = NVME_QUIRK_BOGUS_NID, },
+> 
+>         { PCI_DEVICE(0x1e4B, 0x1002),   /* MAXIO MAP1002 */
+> 
+> --
+> 
+> 2.25.1
+> 
+> 
+> 
+> 
+> 
+> 
+> Xander Li
+> Technical Resources Group
+> Kingston Technology Far East Corp.
+> Office Line:  +886-3-5641539 Ext.6135
+> E-mail:  xander_li@kingston.com.tw<mailto:xander_li@kingston.com.tw>
+> 
+> This email and attachment(s) may contain material that is confidential, privileged and/or attorney work product for the sole use of the intended recipient. Any review, reliance or distribution by others or forwarding without express permission is strictly prohibited. If you are not the intended recipient, please contact the sender and delete all copies.
+---end quoted text---
 
