@@ -4,78 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0E43C433FE
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Oct 2022 17:55:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2E75DC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Oct 2022 00:08:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:CC:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sLlTjQcr0Op/6Zcx8OCFNh8EO9JbDZcvu4VpyKatzLc=; b=Kco2dhlxZ+UAoyHjuM0n9/rtGu
-	q9x6UIpF0NjIp6vNzn3K0btZhXSCnEV1erd/J7zPacTgWdE08s4nr8PgsXrIJJZeTdzzyQIyNzXuU
-	l2s+n3KggmodhngC/N91b1H+d9TOh7hfopmKSinxAmXL2KszqdKTEMorTybRAmERu7OkSDeCfdb17
-	fgPJfSO4pJg1DzwkE+SOiyKE2BwQCG+j0KAuxMXIcooG+yk257OmpptOuAkI+pdwrfbAUDkomB94F
-	GLZKBtKWZxkdiF1Hiiz3h03HxRK8vtHRne0+LyMPSa2eR2pefUd7NSN/vBgnPTviOZylzFz0iFtC0
-	qR0kV2aQ==;
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=kV5iL0r5gwxaGMaMMCxLNFbniwRXJW75jS8NzkEJ6Ls=; b=qJb3qG9SpTipKq7miWYjGGbpBM
+	stsY6vCqz+m/J+wGjo3PIi5ChN8oI919GPY/kj3xsrapB/PnU4WWHBGAAVFpZdSHPDzho1s2hsAtA
+	ZalE1m7j8Leaixu6Y4oQrJv9r92oOCutQ2NJqVnEsLrWQOZvWulw26QJaWJAkQHNib4WIO7FmE8g0
+	1kpxiD1Hy8J+1iZ3S9FQFz8uXbCo0WVJbSt8fpM6CID/2en0AGafCWPdw/Mph49BeM1rMag895Fs6
+	rj4wBQMZRNpAeVT026zfvysf3EqBWZgkt9yNVYvMMgrh//0DZkhfFOttPQQwqAl/JJ1YRsRAMiAaU
+	Iw3oRULA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ohx0N-001iYW-Uu; Mon, 10 Oct 2022 17:55:56 +0000
-Received: from smtp-fw-2101.amazon.com ([72.21.196.25])
+	id 1oi2pF-002gpb-IZ; Tue, 11 Oct 2022 00:08:49 +0000
+Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ohx0L-001iWT-4e
-	for linux-nvme@lists.infradead.org; Mon, 10 Oct 2022 17:55:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1665424553; x=1696960553;
-  h=message-id:date:mime-version:subject:from:to:cc:
-   references:in-reply-to:content-transfer-encoding;
-  bh=sLlTjQcr0Op/6Zcx8OCFNh8EO9JbDZcvu4VpyKatzLc=;
-  b=rQMwrqBYTOQDBZveY0Lel3/yssp1GC3vpA4bwurygrznCES2qO185Wwx
-   xJq0JdEB9EHiPGcHu3Vy3PUh4mNcYNGlTDF70PPb19QKLU7ypNHlZ7LWU
-   VJ7YNDWSpSKHAZfTEjb/g5JeY7vCbPMC81WJL9PegKe7nonvhrfLUaTHx
-   8=;
-X-IronPort-AV: E=Sophos;i="5.95,173,1661817600"; 
-   d="scan'208";a="250379094"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-pdx-2a-6fd66c4a.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-2101.iad2.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 17:55:45 +0000
-Received: from EX13MTAUWC002.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
-	by email-inbound-relay-pdx-2a-6fd66c4a.us-west-2.amazon.com (Postfix) with ESMTPS id BBF55A25CF;
-	Mon, 10 Oct 2022 17:55:44 +0000 (UTC)
-Received: from EX19D002UWC004.ant.amazon.com (10.13.138.186) by
- EX13MTAUWC002.ant.amazon.com (10.43.162.240) with Microsoft SMTP Server (TLS)
- id 15.0.1497.38; Mon, 10 Oct 2022 17:55:44 +0000
-Received: from [192.168.25.29] (10.43.162.230) by
- EX19D002UWC004.ant.amazon.com (10.13.138.186) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1118.12;
- Mon, 10 Oct 2022 17:55:43 +0000
-Message-ID: <b73250f3-2dd6-36da-4d69-3149959f2e67@amazon.com>
-Date: Mon, 10 Oct 2022 10:55:42 -0700
+	id 1oi2pC-002gop-00
+	for linux-nvme@lists.infradead.org; Tue, 11 Oct 2022 00:08:47 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665446925; x=1696982925;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=IkZuktAvlkkpopBzMcVih3pOAXpo+0N6kBmhrWufCLk=;
+  b=Aws7gIYXCo4jb7kFUO3fIVW4PuNlncLwk7PQNXGLUxrxzeU7J2mDSn/O
+   qO2WrKn26PCDm1jj8MUx00A3EXZhq78Itb232XJTEmOBvLu9AtM/ihVjv
+   E7TCxHh5xfAjrXXWAcaHXosMrkr3Ww4UEGktq5vL0VKYtU9Kw3Sh3uG/J
+   fy0nBSIBXl1an+Oe8cBuZsC0hF9iEFw2E9GuvOOmghP7KC57/SN4MaVS0
+   QCm30e3j+VuuULykMGsWlVa3nNcfVBbYe5RcSgkNZmN1QO/Xd/Q6PL3fp
+   t/p2uGbdllhg7GmsPdy39KRKBD5Y648ss9TGFLQNksKMOOt3i7hrw5P+0
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="366356287"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
+   d="scan'208";a="366356287"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 17:08:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="955125925"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
+   d="scan'208";a="955125925"
+Received: from lkp-server01.sh.intel.com (HELO 2af0a69ca4e0) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 10 Oct 2022 17:08:42 -0700
+Received: from kbuild by 2af0a69ca4e0 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1oi2p7-0002Ir-1Y;
+	Tue, 11 Oct 2022 00:08:41 +0000
+Date: Tue, 11 Oct 2022 08:07:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.1] BUILD SUCCESS
+ c496c68157ea0939b845a72666cc27e16a404b9f
+Message-ID: <6344b3cc.PNjtT49Cdq9qKBGP%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [PATCH v2] nvme-pci: Set min align mask before calculating
- max_hw_sectors
-Content-Language: en-US
-From: "Bhatnagar, Rishabh" <risbhat@amazon.com>
-To: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-CC: "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
-	"axboe@fb.com" <axboe@fb.com>, "kbusch@kernel.org" <kbusch@kernel.org>,
-	"Bacco, Mike" <mbacco@amazon.com>, "Herrenschmidt, Benjamin"
-	<benh@amazon.com>, "Park, SeongJae" <sjpark@amazon.com>
-References: <20220929182259.22523-1-risbhat@amazon.com>
- <EB43F4D1-BFD0-408B-93E7-10643B59F766@amazon.com>
-In-Reply-To: <EB43F4D1-BFD0-408B-93E7-10643B59F766@amazon.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.43.162.230]
-X-ClientProxiedBy: EX13D38UWB003.ant.amazon.com (10.43.161.178) To
- EX19D002UWC004.ant.amazon.com (10.13.138.186)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221010_105553_368512_267B5B18 
-X-CRM114-Status: GOOD (  19.78  )
+X-CRM114-CacheID: sfid-20221010_170846_132983_00BB6F16 
+X-CRM114-Status: UNSURE (   5.69  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,61 +82,130 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+tree/branch: git://git.infradead.org/nvme.git nvme-6.1
+branch HEAD: c496c68157ea0939b845a72666cc27e16a404b9f  nvme-multipath: fix possible hang in live ns resize with ANA access
 
-On 10/4/22 9:27 AM, Bhatnagar, Rishabh wrote:
-> On 9/29/22, 11:23 AM, "Rishabh Bhatnagar" <risbhat@amazon.com> wrote:
->
->      In cases where swiotlb is enabled dma_max_mapping_size takes into
->      account the min align mask for the device. Right now the mask is
->      set after the max hw sectors are calculated which might result in
->      a request size that overflows the swiotlb buffer.
->      Set the min align mask for nvme driver before calling
->      dma_max_mapping_size while calculating max hw sectors.
->      
->      Fixes: 7637de311bd2 ("nvme-pci: limit max_hw_sectors based on the DMA max mapping size")
->      Cc: stable@vger.kernel.org
->      Signed-off-by: Rishabh Bhatnagar <risbhat@amazon.com>
->      ---
->       Changes in V2:
->       - Add Cc: <stable@vger.kernel.org> tag
->       - Improve the commit text
->       - Add patch version
->      
->       Changes in V1:
->       - Add fixes tag
->      
->       drivers/nvme/host/pci.c | 3 ++-
->       1 file changed, 2 insertions(+), 1 deletion(-)
->      
->      diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
->      index 98864b853eef..30e71e41a0a2 100644
->      --- a/drivers/nvme/host/pci.c
->      +++ b/drivers/nvme/host/pci.c
->      @@ -2834,6 +2834,8 @@ static void nvme_reset_work(struct work_struct *work)
->       		nvme_start_admin_queue(&dev->ctrl);
->       	}
->       
->      +	dma_set_min_align_mask(dev->dev, NVME_CTRL_PAGE_SIZE - 1);
->      +
->       	/*
->       	 * Limit the max command size to prevent iod->sg allocations going
->       	 * over a single page.
->      @@ -2846,7 +2848,6 @@ static void nvme_reset_work(struct work_struct *work)
->       	 * Don't limit the IOMMU merged segment size.
->       	 */
->       	dma_set_max_seg_size(dev->dev, 0xffffffff);
->      -	dma_set_min_align_mask(dev->dev, NVME_CTRL_PAGE_SIZE - 1);
->       
->       	mutex_unlock(&dev->shutdown_lock);
->       
->      --
->      2.37.1
->      
->      
+elapsed time: 855m
 
-Hi. Any review on this patch would be much appreciated!
+configs tested: 108
+configs skipped: 3
 
-Thanks
-Rishabh
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+gcc tested configs:
+um                             i386_defconfig
+um                           x86_64_defconfig
+arc                                 defconfig
+alpha                               defconfig
+arc                  randconfig-r043-20221010
+x86_64                          rhel-8.3-func
+s390                 randconfig-r044-20221010
+x86_64                              defconfig
+x86_64                    rhel-8.3-kselftests
+s390                                defconfig
+riscv                randconfig-r042-20221010
+s390                             allmodconfig
+powerpc                           allnoconfig
+mips                             allyesconfig
+x86_64                               rhel-8.3
+alpha                            allyesconfig
+arc                              allyesconfig
+i386                 randconfig-a012-20221010
+i386                 randconfig-a011-20221010
+i386                 randconfig-a013-20221010
+s390                             allyesconfig
+sh                               allmodconfig
+i386                 randconfig-a015-20221010
+m68k                             allmodconfig
+m68k                             allyesconfig
+x86_64                           allyesconfig
+i386                 randconfig-a014-20221010
+i386                 randconfig-a016-20221010
+arm                                 defconfig
+x86_64               randconfig-a011-20221010
+i386                                defconfig
+x86_64               randconfig-a014-20221010
+x86_64               randconfig-a012-20221010
+x86_64               randconfig-a013-20221010
+arm64                            allyesconfig
+x86_64               randconfig-a016-20221010
+x86_64               randconfig-a015-20221010
+arm                              allyesconfig
+x86_64                           rhel-8.3-kvm
+x86_64                           rhel-8.3-syz
+x86_64                         rhel-8.3-kunit
+i386                             allyesconfig
+ia64                             allmodconfig
+csky                              allnoconfig
+alpha                             allnoconfig
+arc                               allnoconfig
+riscv                             allnoconfig
+sh                          kfr2r09_defconfig
+m68k                        mvme16x_defconfig
+sh                         ecovec24_defconfig
+powerpc                          allmodconfig
+i386                 randconfig-c001-20221010
+i386                          debian-10.3-kvm
+i386                        debian-10.3-kunit
+i386                         debian-10.3-func
+arm                        trizeps4_defconfig
+arm                           stm32_defconfig
+arm                            pleb_defconfig
+arm                         s3c6400_defconfig
+arm                         lubbock_defconfig
+m68k                        m5272c3_defconfig
+m68k                        m5407c3_defconfig
+xtensa                  nommu_kc705_defconfig
+powerpc                     pq2fads_defconfig
+powerpc                   currituck_defconfig
+arm                      integrator_defconfig
+sh                           se7750_defconfig
+sh                             shx3_defconfig
+mips                      maltasmvp_defconfig
+arm                        clps711x_defconfig
+m68k                          hp300_defconfig
+arm                      footbridge_defconfig
+sh                     sh7710voipgw_defconfig
+loongarch                        allmodconfig
+sh                           se7206_defconfig
+sh                        edosk7760_defconfig
+x86_64               randconfig-k001-20221010
+arm                            lart_defconfig
+powerpc                 mpc837x_rdb_defconfig
+mips                      fuloong2e_defconfig
+m68k                       bvme6000_defconfig
+ia64                            zx1_defconfig
+arm                      jornada720_defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_k210_defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+powerpc                      mgcoge_defconfig
+parisc64                            defconfig
+
+clang tested configs:
+hexagon              randconfig-r045-20221010
+hexagon              randconfig-r041-20221010
+i386                 randconfig-a003-20221010
+x86_64               randconfig-a002-20221010
+i386                 randconfig-a004-20221010
+x86_64               randconfig-a001-20221010
+x86_64               randconfig-a003-20221010
+x86_64               randconfig-a006-20221010
+x86_64               randconfig-a005-20221010
+i386                 randconfig-a002-20221010
+x86_64               randconfig-a004-20221010
+i386                 randconfig-a005-20221010
+i386                 randconfig-a001-20221010
+i386                 randconfig-a006-20221010
+powerpc                  mpc885_ads_defconfig
+arm                       imx_v4_v5_defconfig
+mips                     cu1000-neo_defconfig
+arm                          ixp4xx_defconfig
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
 
