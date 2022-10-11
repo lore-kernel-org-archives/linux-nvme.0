@@ -4,147 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91836C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Oct 2022 10:00:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7129EC433FE
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Oct 2022 11:07:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rsi++8Kv70P/yyaG5N63ukoqzzaV32xXultfsAN+sgY=; b=z1TuYJdb0SzTzhYCcDCVBqQ0mG
-	c/0qzF1WW741Ww/jCFiRuO/qsbZdjZFwCG9QyWIgFFov9qhOo7wetgtiofVmTSoxj2vbcKhpqP8cV
-	T1jPXmXZFOMa/6CXnr29pPOWmtM4vtbvmD7dHnajY6l7wVYtvLUnV9TOfzL2y03NGrFQsbQ6POZYp
-	R1cru0x3vXZpwtZVtTEaMxKUD2sg5PDQOuVetC/SzpQMxsNdpzLqhEn4WKkU/Cyh1rjQ6eNt2ypoS
-	UkR5uV4PZjWTt5WyOyVNO3oECAXlj7NtW9o39u5CcqGlyLMZuTkLi4vQuTyJv5yO0lFj2YOwl8OiW
-	wiNDS6OA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=/+57ZqvNhATXLr/1cd2ohAamNcyquwTAjd/E20cKw2s=; b=oaczAeLCFFAWUA0AWPZT55i5A5
+	Z4qzmlmilbNMBwJmBt19HNrm6EG6uviitmeVxI5Ovmcsy8HSbRq0puDfuQdiEIJWipM0aeJjRc7Po
+	oCpAVj7IEMk4UUhQvwJBVI1oaPBoLeA913Esr906XANwVyVAVQpyED/rga57bsf7Ni/3XdzLdKxE9
+	Va/XEvh8g0U4wqUeW1DO9osr1UoV4dlDzRIBvk5LIY5jYiv8IWQTowcHl48/nPhU7kBIu4ts1tpuW
+	CwJMQsq1D52zs77WMTEcVPaWQPtKjSo8pTE8rIYcTL1PtHGgwD61FOp1XsxQ7c0N6YSCr0uWgUPFZ
+	I0CzgksA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oiC3N-003uop-Lc; Tue, 11 Oct 2022 10:00:01 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1oiD68-0044tX-Mu; Tue, 11 Oct 2022 11:06:56 +0000
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oiC2s-003ueK-Nw; Tue, 11 Oct 2022 09:59:32 +0000
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29B9tIKb006463;
-	Tue, 11 Oct 2022 09:59:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- content-transfer-encoding : in-reply-to; s=pp1;
- bh=rsi++8Kv70P/yyaG5N63ukoqzzaV32xXultfsAN+sgY=;
- b=b9WrKX6EJhkwDas+5wQJeAb2oflElkQO3Ljn8q8IiYGku406jhrTUM1QFFSYZPFNdFKo
- QHKpdpz+dy38RreLu0fUmM6qnpOScfAfMCKM/XDDc0eenMPRVJyB1RlO6H/T2c9TEfEu
- hK0orCiQnVvs2Xeg2cLtK5eQXHPw0hzLK43X6e9sknHM/b0YWS55t+kKmywfWSvUyDye
- YNyh/te56N5fSc0tbPKKLOp4apFrXLDvZpYTL9AYNeZvLOaJgu6ULqrutiVzLDgBe4AG
- VodfO95fsMEXeDJoBpykCHBGmpu4cocaq5++1kXg6MVP2WJiWMl8qYN+9OSEl3yDnTVx SA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k569g03km-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Oct 2022 09:59:09 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29B9tmI8010269;
-	Tue, 11 Oct 2022 09:59:08 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k569g03hx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Oct 2022 09:59:08 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-	by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29B9oZnZ003829;
-	Tue, 11 Oct 2022 09:59:05 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
-	by ppma04ams.nl.ibm.com with ESMTP id 3k30u9c3hv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Oct 2022 09:59:05 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-	by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 29B9sJie47120848
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 11 Oct 2022 09:54:19 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 10739A405B;
-	Tue, 11 Oct 2022 09:59:02 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 30E5BA4054;
-	Tue, 11 Oct 2022 09:59:00 +0000 (GMT)
-Received: from osiris (unknown [9.152.212.239])
-	by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-	Tue, 11 Oct 2022 09:59:00 +0000 (GMT)
-Date: Tue, 11 Oct 2022 11:58:59 +0200
-From: Heiko Carstens <hca@linux.ibm.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Dave Airlie <airlied@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Florian Westphal <fw@strlen.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, Helge Deller <deller@gmx.de>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Huacai Chen <chenhuacai@kernel.org>, Hugh Dickins <hughd@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E . J . Bottomley" <jejb@linux.ibm.com>,
-        Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Jens Axboe <axboe@kernel.dk>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>, KP Singh <kpsingh@kernel.org>,
-        Kees Cook <keescook@chromium.org>, Marco Elver <elver@google.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Paolo Abeni <pabeni@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        Russell King <linux@armlinux.org.uk>, "Theodore Ts'o" <tytso@mit.edu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>, WANG Xuerui <kernel@xen0n.name>,
-        Will Deacon <will@kernel.org>, Yury Norov <yury.norov@gmail.com>,
-        dri-devel@lists.freedesktop.org, kasan-dev@googlegroups.com,
-        kernel-janitors@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-mm@kvack.org, linux-mmc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org,
-        linux-parisc@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
-        netdev@vger.kernel.org, sparclinux@vger.kernel.org, x86@kernel.org,
-        Jan Kara <jack@suse.cz>, "Darrick J . Wong" <djwong@kernel.org>
-Subject: Re: [PATCH v6 1/7] treewide: use prandom_u32_max() when possible,
- part 1
-Message-ID: <Y0U+Y+VBqefDAZRG@osiris>
-References: <20221010230613.1076905-1-Jason@zx2c4.com>
- <20221010230613.1076905-2-Jason@zx2c4.com>
+	id 1oiD65-0044sY-Lk
+	for linux-nvme@lists.infradead.org; Tue, 11 Oct 2022 11:06:55 +0000
+Received: by mail-pl1-x632.google.com with SMTP id h10so12885696plb.2
+        for <linux-nvme@lists.infradead.org>; Tue, 11 Oct 2022 04:06:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kingston-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/+57ZqvNhATXLr/1cd2ohAamNcyquwTAjd/E20cKw2s=;
+        b=VcFLBz+4MS1GumDcQtPFx6tVseQBByOcIHhTXPA82TisbjpEtb65HgNCMwG6u5+jnO
+         YGgC3hTHIiRAi9EDKn69/5eRQkQ+4n8RuokPoV8062RX84Uk8nc3Jp5fvnl3PGNOtHzx
+         aXTVo3aBmiDMQtF2Fk6wsz0Mdtxm2echPDrXw+hAnkLAFAaOzu2Vqwdt3G8OyWOfC+ss
+         hUd13ApwQAeXVKvNONSN8id/jl6mT8AnBgltyO30rFDxMx8Oc+2nUWuQxIL6sBX3n6rq
+         wcIP/yqE0G9R1ZHpAoYUfMyHN5xuNNdKFxZbGC0IEuuVMfUI2vBwPzrLqFJzV3nVBqze
+         /3JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/+57ZqvNhATXLr/1cd2ohAamNcyquwTAjd/E20cKw2s=;
+        b=GYHLdx/cUj/B8XflhPUsWG7kKqh+WYCroatXN8DfeQ24iGeURQROkPp6IHEErY2UcI
+         OX4Viru/cXIoHW5+VwPiQpL7475LcC9XDbZP3Jbt/nDUVKC4is7sjCtNJjYca6TAZN6C
+         fEQPaPauIRrwUpUOcZ00RFvY1Vh2eNlrFKrIugobDRhR7F6vMYOMqfGEsMnuZHGa3Yv7
+         qnu5nh0t5qni9eT7YD/y7j9ReR9JUFJM/fqqALeWBCHoU33979jRVTKjP3IbCurFuWsS
+         WIilRlQUXtL8x0r5NKEOUYOSdFHc1WYtQ3dhVP6/jknjQX/c3onIcUyEhWTsdVGGPcQ3
+         hkoA==
+X-Gm-Message-State: ACrzQf20NHtKs6aVt7rkAVkpstSLy1crCjFLiTRJGjmV99YCgNXjgIRK
+	mMWfNbjytqvIl+h2xPKKmx1xD95AiDz2ag==
+X-Google-Smtp-Source: AMsMyM4UQwQoNpu+6donIYg/lUKUPw1egJCzLRU1XqQhLs8AcQBG6QxtKsMhD7hX5G1bCWeC4Sd/ZA==
+X-Received: by 2002:a17:902:f7c4:b0:182:25d6:fc4b with SMTP id h4-20020a170902f7c400b0018225d6fc4bmr11247623plw.63.1665486411414;
+        Tue, 11 Oct 2022 04:06:51 -0700 (PDT)
+Received: from sped.tw.kingston.corp ([123.51.141.8])
+        by smtp.gmail.com with ESMTPSA id x14-20020aa7940e000000b00562677968aesm8752001pfo.72.2022.10.11.04.06.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Oct 2022 04:06:50 -0700 (PDT)
+From: Xander Li <xander_li@kingston.corp-partner.google.com>
+To: bvanassche@acm.org,
+	paulburton@kernel.org,
+	kbusch@kernel.org,
+	axboe@fb.com,
+	hch@lst.de,
+	sagi@grimberg.me,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: ralf@linux-mips.org,
+	jhogan@kernel.org,
+	christian@brauner.io,
+	jeff_yang@kingston.corp-partner.google.com,
+	dora_chueh@kingston.corp-partner.google.com,
+	james_liu@kingston.corp-partner.google.com,
+	vincent_wu@kingston.com,
+	xander_li@kingston.com.tw,
+	Xander Li <xander_li@kingston.corp-partner.google.com>
+Subject: [PATCH] nvme-pci: disable write zeroes on Kingston SSD
+Date: Tue, 11 Oct 2022 04:06:42 -0700
+Message-Id: <20221011110642.4333-1-xander_li@kingston.corp-partner.google.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221010230613.1076905-2-Jason@zx2c4.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: e2CZuGMXbt8P1Ahw-KHczcjQF2nFCX-z
-X-Proofpoint-ORIG-GUID: wAGriSa-6j8SChamwbK6r6GTq7mVMlOg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-10-11_03,2022-10-10_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- suspectscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
- malwarescore=0 clxscore=1011 mlxscore=0 spamscore=0 mlxlogscore=427
- adultscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210110053
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221011_025930_809948_70DC2A3D 
-X-CRM114-Status: GOOD (  18.28  )
-X-Mailman-Approved-At: Tue, 11 Oct 2022 02:59:57 -0700
+X-CRM114-CacheID: sfid-20221011_040654_067271_C0DB40CF 
+X-CRM114-Status: UNSURE (   9.51  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -159,24 +101,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Oct 10, 2022 at 05:06:07PM -0600, Jason A. Donenfeld wrote:
-> Rather than incurring a division or requesting too many random bytes for
-> the given range, use the prandom_u32_max() function, which only takes
-> the minimum required bytes from the RNG and avoids divisions. This was
-...
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Reviewed-by: Yury Norov <yury.norov@gmail.com>
-> Reviewed-by: KP Singh <kpsingh@kernel.org>
-> Reviewed-by: Jan Kara <jack@suse.cz> # for ext4 and sbitmap
-> Reviewed-by: Christoph Böhmwalder <christoph.boehmwalder@linbit.com> # for drbd
-> Acked-by: Ulf Hansson <ulf.hansson@linaro.org> # for mmc
-> Acked-by: Darrick J. Wong <djwong@kernel.org> # for xfs
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> ---
->  arch/s390/kernel/process.c                    |  2 +-
->  arch/s390/kernel/vdso.c                       |  2 +-
+signed-off-by: Xander Li <xander_li@kingston.com.tw>
 
-For s390:
-Acked-by: Heiko Carstens <hca@linux.ibm.com>
+Kingston SSDs do support NVMe Write_Zeroes cmd but take long time to process.
+The firmware version is locked by these SSDs, we can not expect firmware improvement, so disable Write_Zeroes cmd.
+---
+ drivers/nvme/host/pci.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 98864b853eef..d08c8c854f3a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3503,6 +3503,16 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
+ 	{ PCI_DEVICE(0x2646, 0x2263),   /* KINGSTON A2000 NVMe SSD  */
+ 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
++	{ PCI_DEVICE(0x2646, 0x5018),   /* KINGSTON OM8SFP4xxxxP OS21012 NVMe SSD */
++		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
++	{ PCI_DEVICE(0x2646, 0x5016),   /* KINGSTON OM3PGP4xxxxP OS21011 NVMe SSD */
++		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
++	{ PCI_DEVICE(0x2646, 0x501A),   /* KINGSTON OM8PGP4xxxxP OS21005 NVMe SSD */
++		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
++	{ PCI_DEVICE(0x2646, 0x501B),   /* KINGSTON OM8PGP4xxxxQ OS21005 NVMe SSD */
++		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
++	{ PCI_DEVICE(0x2646, 0x501E),   /* KINGSTON OM3PGP4xxxxQ OS21011 NVMe SSD */
++		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
+ 	{ PCI_DEVICE(0x1e4B, 0x1001),   /* MAXIO MAP1001 */
+ 		.driver_data = NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_DEVICE(0x1e4B, 0x1002),   /* MAXIO MAP1002 */
+-- 
+2.25.1
+
 
