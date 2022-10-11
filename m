@@ -4,77 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07ECAC433FE
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Oct 2022 17:06:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47353C433FE
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Oct 2022 17:12:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:CC:To:MIME-Version:Date:Message-ID:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=07xQWyffa4Ix1g/pvcHIWfwGdtig1uyAadKbd+ed3as=; b=EDFlRMffZk/Axm8/QLmFpmCfh6
-	gIqWubzutqqlxkZ6LMUI/Q2eU10m2hWYiPW/0ZJpgAaUiI9+C4cmPrkqhIparLc0TQsnGxpJQDqjK
-	M7VPtngoTbjIYQS3YFeUj32fjl8fFE3r5dUVPH+e/oFBuLc5pYk0ZxbDxINdM8pDoUgWWMvCyp+qd
-	SzLlDwWGKf9DeYjRi4X7wTawLzG2EuyC3Vr9qS1kOgVaPVzCR2vJclBHyWnoU8HK5d6EDLOVan/yU
-	g1seWkZV19CjwMjPO+Ss9rkkY/nkecMhGDnZu4AnDhflO9iVzeJ3kExxx74xHBhm7YShucsj7uNpB
-	cCD6n7ZA==;
+	bh=DGBOU35K+KpU1OIUsCpGC0zFYG1/rNmqHGx7R/WIKhk=; b=CZUuAjXEHecDHtnoDS0qT9h765
+	0K2pa7Op+gLfFNqMD9AOtiAnxcn30MOMHHIh+CA6d8FmT17pxlmL0Js76Y6jKYPZLUIWwEJb65+UR
+	dKyDYhGUG9huY0A9RiOwKmXkuSuLQoLXQxT2aXwSX6AhVmRwhfx3Puqwt3J3kuJNl90LWIByHMGaN
+	jH82o9OluuvQnphnj+v88W992mZpRCIEvuNtS7HIDbr7AGnnb5g8899k3/JGgbSjqR7s8H7oeqvu9
+	mflXpck7vj9capuLdo6CBewTvIPrBhuLptpEgprTgw2g4dfEeTsJkvy7xSO4u+uj+UJmePtSUrR4j
+	XsA+LhKA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oiIhw-005J2J-Dy; Tue, 11 Oct 2022 17:06:20 +0000
-Received: from smtp-fw-6001.amazon.com ([52.95.48.154])
+	id 1oiInT-005Jc8-PY; Tue, 11 Oct 2022 17:12:03 +0000
+Received: from mail-pl1-f174.google.com ([209.85.214.174])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oiIht-005J1L-GG
-	for linux-nvme@lists.infradead.org; Tue, 11 Oct 2022 17:06:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1665507978; x=1697043978;
-  h=message-id:date:mime-version:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:subject;
-  bh=07xQWyffa4Ix1g/pvcHIWfwGdtig1uyAadKbd+ed3as=;
-  b=sK84kPbf+O2rivPW4J7gYunk4HavC6sgq3cSPEXmF6QOyWnnuF0QbaDk
-   cWSBQq2E8sdwoEK9KEPPJhl4v/yec/lChTH71YS2h82kxgBfCLJVTCC9q
-   jH9pA5nys8FsxPqKAXfl2ZSScIfPWEQNZ/io/hSKKOdxlNt2sJ/xa+yfX
-   c=;
-Subject: Re: [PATCH v2] nvme-pci: Set min align mask before calculating max_hw_sectors
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-iad-1d-54a073b7.us-east-1.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-6001.iad6.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2022 17:06:12 +0000
-Received: from EX13MTAUWC001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
-	by email-inbound-relay-iad-1d-54a073b7.us-east-1.amazon.com (Postfix) with ESMTPS id 5E2D49BC32;
-	Tue, 11 Oct 2022 17:06:10 +0000 (UTC)
-Received: from EX19D002UWC004.ant.amazon.com (10.13.138.186) by
- EX13MTAUWC001.ant.amazon.com (10.43.162.135) with Microsoft SMTP Server (TLS)
- id 15.0.1497.38; Tue, 11 Oct 2022 17:05:40 +0000
-Received: from [10.85.223.213] (10.43.162.213) by
- EX19D002UWC004.ant.amazon.com (10.13.138.186) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1118.12;
- Tue, 11 Oct 2022 17:05:39 +0000
-Message-ID: <8f451a9e-3324-c7d4-cf61-a105fd087192@amazon.com>
-Date: Tue, 11 Oct 2022 10:05:38 -0700
+	id 1oiInQ-005JbF-HB
+	for linux-nvme@lists.infradead.org; Tue, 11 Oct 2022 17:12:01 +0000
+Received: by mail-pl1-f174.google.com with SMTP id z20so13793650plb.10
+        for <linux-nvme@lists.infradead.org>; Tue, 11 Oct 2022 10:11:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DGBOU35K+KpU1OIUsCpGC0zFYG1/rNmqHGx7R/WIKhk=;
+        b=S2fWWB4Oo0FjVjhzmDj2baVwJKSxeoX5rFuBQcAv6TrjQRcfWbx3AP49UvEnfYTWzI
+         L6NbOds+yJ2BhAL09WDbH9g4d22/ai846zVyC4xAnke6WRdGAN6xU/jqE6uM+gJhVPHL
+         mgmb1Reos5a5091IdXt6Xa4nrhN/X0iGeR4p+OoGpelen1t09lUg8UcAcnG23YOmdQp4
+         ZLvizKXO0WOUNoI54WR/hl4b9cUq/AeE+rPakkBizAYJ6Iy0p9H9A6XC1SXaS2+p8wmu
+         wL3disCU+VP+9lp46EP6FzJ7DmK7cLFSZdWHS3+j0xtxOX2+oNs6pFqds1E/DOieFCN2
+         vTWw==
+X-Gm-Message-State: ACrzQf0U+8ngaMoMIrk/KKuCfjwiiMeWbDNCEtx4WsV0XyoGG818BnOe
+	YSR7yMfhDo+6JujPMSzxlQs=
+X-Google-Smtp-Source: AMsMyM4/i4Tq2e5dnGcCHubgr/jwsL0SEP1TPXXvOOMmOx8E+n4Q8HGaUcGsXsVndIXVwiifbhgAew==
+X-Received: by 2002:a17:90b:4a50:b0:203:1204:5bc4 with SMTP id lb16-20020a17090b4a5000b0020312045bc4mr118096pjb.79.1665508317940;
+        Tue, 11 Oct 2022 10:11:57 -0700 (PDT)
+Received: from ?IPV6:2620:15c:211:201:9f77:abf2:346f:9b6e? ([2620:15c:211:201:9f77:abf2:346f:9b6e])
+        by smtp.gmail.com with ESMTPSA id e17-20020a17090301d100b00172e19c2fa9sm9031399plh.9.2022.10.11.10.11.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Oct 2022 10:11:57 -0700 (PDT)
+Message-ID: <a9c60d24-7479-e32d-29a3-9f0dbcec767a@acm.org>
+Date: Tue, 11 Oct 2022 10:11:54 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: lockdep WARNING at blktests block/011
 Content-Language: en-US
-To: "hch@lst.de" <hch@lst.de>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>, "sagi@grimberg.me"
-	<sagi@grimberg.me>, "axboe@fb.com" <axboe@fb.com>, "kbusch@kernel.org"
-	<kbusch@kernel.org>, "Bacco, Mike" <mbacco@amazon.com>, "Herrenschmidt,
- Benjamin" <benh@amazon.com>, "Park, SeongJae" <sjpark@amazon.com>
-References: <20220929182259.22523-1-risbhat@amazon.com>
- <EB43F4D1-BFD0-408B-93E7-10643B59F766@amazon.com>
- <b73250f3-2dd6-36da-4d69-3149959f2e67@amazon.com>
- <20221011060829.GA3172@lst.de>
-From: "Bhatnagar, Rishabh" <risbhat@amazon.com>
-In-Reply-To: <20221011060829.GA3172@lst.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Keith Busch <keith.busch@gmail.com>
+Cc: Keith Busch <kbusch@kernel.org>,
+ Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Tejun Heo <tj@kernel.org>, Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>
+References: <20220930001943.zdbvolc3gkekfmcv@shindev>
+ <313d914e-6258-50db-4317-0ffb6f936553@I-love.SAKURA.ne.jp>
+ <20221003133240.bq2vynauksivj55x@shindev>
+ <Yzr/pBvvq0NCzGwV@kbusch-mbp.dhcp.thefacebook.com>
+ <b6e9a4de-3200-f4c5-0665-8e919757035d@acm.org>
+ <CAOSXXT7RVg8rNWP4cDwV6Ywtu1_DSZ=XhAyMkKrqS1uCi5UFKA@mail.gmail.com>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <CAOSXXT7RVg8rNWP4cDwV6Ywtu1_DSZ=XhAyMkKrqS1uCi5UFKA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.43.162.213]
-X-ClientProxiedBy: EX13D41UWC002.ant.amazon.com (10.43.162.127) To
- EX19D002UWC004.ant.amazon.com (10.13.138.186)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221011_100617_726624_B5C90855 
-X-CRM114-Status: GOOD (  10.77  )
+X-CRM114-CacheID: sfid-20221011_101200_599409_D68AB7FF 
+X-CRM114-Status: GOOD (  20.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,23 +90,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 10/10/22 06:31, Keith Busch wrote:
+> On Fri, Oct 7, 2022 at 10:34 PM Bart Van Assche <bvanassche@acm.org> wrote:
+>>
+>> On 10/3/22 08:28, Keith Busch wrote:
+>>> On Mon, Oct 03, 2022 at 01:32:41PM +0000, Shinichiro Kawasaki wrote:
+>>>>
+>>>> BTW, I came up to another question during code read. I found nvme_reset_work()
+>>>> calls nvme_dev_disable() before nvme_sync_queues(). So, I think the NVME
+>>>> controller is already disabled when the reset work calls nvme_sync_queues().
+>>>
+>>> Right, everything previously outstanding has been reclaimed, and the queues are
+>>> quiesced at this point. There's nothing for timeout work to wait for, and the
+>>> sync is just ensuring every timeout work has returned.
+>>>
+>>> It looks like a timeout is required in order to hit this reported deadlock, but
+>>> the driver ensures there's nothing to timeout prior to syncing the queues. I
+>>> don't think lockdep could reasonably know that, though.
+>>
+>> Hi Keith,
+>>
+>> Commit b2a0eb1a0ac7 ("nvme-pci: Remove watchdog timer") introduced the
+>> nvme_dev_disable() and nvme_reset_ctrl() calls in the nvme_timeout()
+>> function. Has it been considered to invoke these two calls asynchronously
+>> instead of synchronously from the NVMe timeout handler (queue_work())?
+>> Although it may require some work to make sure that this approach does not
+>> trigger any race conditions, do you agree that this should be sufficient to
+>> make lockdep happy?
+> 
+> We still have to sync whatever work does the reset, so that would just
+> shift which work the lockdep splat indicates.
 
-On 10/10/22 11:08 PM, hch@lst.de wrote:
-> CAUTION: This email originated from outside of the organization. Do not click links or open attachments unless you can confirm the sender and know the content is safe.
->
->
->
-> The patch already made it to Linux 6.0, so I'm not sure what we need
-> to review again.
+Hi Keith,
 
-Oh, I never got any email that this was being picked up so sent it 
-again. Anyways thanks for taking it.
-We need this patch for 5.10/5.15 stable kernels as well. I can send 
-backport patches to stable tree
-maintainers unless there is a way for you to mark it so that its 
-automatically picked for stable trees.
+It seems like my email was not clear enough? What I meant is to queue
+asynchronous work from inside the timeout handler and to wait for the
+completion of that work from *outside* the timeout handler. This is not a
+new approach. As an example, the SCSI core queues abort work from inside the
+timeout handler and only allows new SCSI commands to be queued after error
+handling has finished. I'm not claiming that this approach should be followed
+by the NVMe driver - I'm only mentioning this as an example.
 
-Thanks
-Rishabh
+Thanks,
 
+Bart.
 
