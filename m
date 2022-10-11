@@ -4,74 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C95DAC433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Oct 2022 16:14:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E8A72C433FE
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Oct 2022 16:17:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=d8q2tZFLaH6cN4jzJ8PiqM9roB7RxTaquskw2G14LOc=; b=PVYHi0Jag/2qrRoVX/zBn0Bz78
-	QHCTsF2qelx94ahLIbGnFyI4S7hrFZP18Oi9V80fwkLeRWPxJIM3t/EaKvz1HntwC8T679r86gXdu
-	JZ+Kb/EXAea1434/4WMsGqLYwgDjsrL4lsK7fMswQgExezEgX0MMZ7lJsKgilstNeFJPmx95xTIT6
-	1lwBwRsyQfpw156RfTtSYI01usfdhv2FaM6lyZlK6DMUMiqHu6XmyUzQ3qL7iMXyWduoPsNeJqD5a
-	oP0Wl1nH8gzosl9nDAXY7YhnEVOy4LWxRAl6+F4swGYcdvIPYLujubuSaJt9xURxwN5Io55752mFn
-	/mTWppmg==;
+	bh=8o7KuL/KhcGUHflFXSzoV9LkKPDBS8OCeiuPOs/6XUU=; b=0yL0Os57Of5LK0470ZsN7k4L9m
+	zTyZjnc1+4eBtF3DcGeuoJlh9QHQbOBtJBEkqxoLVEbdLY8YVPsR5m+HKkeKY3jkgNOu6UeZgQrww
+	EzAGQki/Xkd1SvN5H/nKxf+4KdSAQPO/7s4qyoxexByV7ck1RyJiKovptTIY331ncGNHr+2RHgflp
+	PyxAYX8QYTWPONVkgs+rkPgVrZwC2NcFh/Y9M+O+zFZ+Zoa8ZeZK4hrUkpaDrULzeveIcvLbeUfV+
+	xaAwpMN8ghOouIuJyGG7VNdIwEt6rRSo1MFci+mlm0lVpEoooPKO6jXp+A46g2VrtvpWXguT4zEeo
+	OPY32iFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oiHtq-00577d-IA; Tue, 11 Oct 2022 16:14:34 +0000
-Received: from mga14.intel.com ([192.55.52.115])
+	id 1oiHwF-0058PW-B9; Tue, 11 Oct 2022 16:17:03 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oiH1W-004jpI-7t; Tue, 11 Oct 2022 15:18:28 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665501506; x=1697037506;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=7wSP4TYlAxkaflihOJTFEcb8ISzoiRnXg100vqVWAvo=;
-  b=XcplcYCIAQihOEh+h195PdjjZ6zM+42yEx2cfxPfUlcA/dHedhbJ6MFW
-   ETBbItGzqVsBBOmCTFKSxNKbhm76+BbsmygX7l8IIXNfxLNsRtoXNFP+x
-   iFVwxLt4ZZTN61/hvQBdf8TtfirWtH17YO6XnuZoXlihJgq9iFUE97VoU
-   iF7yfzPY8ZxAnhRTqTUIz2wrItqcSx0Mc15CVSEmYvl0/yvJD+a0o+uDZ
-   BBA1uu9G9X3aKAuIUh6YXDAwvseaWYTJRxrgto2GMan6kRDRyHPBF9jXA
-   CbEFIh1AzOn/SRL0zmlpvQt3jzUWrVqWNjh65OuuZb/c3Hc13EpCr529e
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="304518786"
-X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; 
-   d="scan'208";a="304518786"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2022 08:18:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="695098463"
-X-IronPort-AV: E=Sophos;i="5.95,176,1661842800"; 
-   d="scan'208";a="695098463"
-Received: from lkp-server01.sh.intel.com (HELO 2af0a69ca4e0) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 11 Oct 2022 08:18:21 -0700
-Received: from kbuild by 2af0a69ca4e0 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1oiH1R-0002wR-00;
-	Tue, 11 Oct 2022 15:18:21 +0000
-Date: Tue, 11 Oct 2022 23:17:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: ntfs3@lists.linux.dev, loongarch@lists.linux.dev,
- linux-perf-users@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-mm@kvack.org, linux-iio@vger.kernel.org,
- linux-ext4@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- apparmor@lists.ubuntu.com, amd-gfx@lists.freedesktop.org,
- Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master] BUILD REGRESSION
- b9f85101cad3397ef1e509909602a90e257ab9d8
-Message-ID: <6345891e.N8YlqGQ6WJeXXn2f%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+	id 1oiHEO-004pCj-O3
+	for linux-nvme@lists.infradead.org; Tue, 11 Oct 2022 15:31:46 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id BCAC4B8124E;
+	Tue, 11 Oct 2022 15:31:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E620C433C1;
+	Tue, 11 Oct 2022 15:31:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1665502302;
+	bh=8o7KuL/KhcGUHflFXSzoV9LkKPDBS8OCeiuPOs/6XUU=;
+	h=Date:From:To:Cc:Subject:From;
+	b=RJG3nDtoIPHTuKFdM5pTfg09mq7+D2rZsjtqtR2OdZHpLVCDALoUzrkRhlL8xyHdB
+	 kYyETABDw2KZ7Pk97pCOA6tuu6e240nu34ZBW6ErdR2N+5W7H4mhbEfZQnKISNgJwg
+	 RhD8qMCk6M1toaRKYIlkYDRQenB9tFfdyR6FK9CDVGvX4j49mgEiy9YtcYfWvaYUqf
+	 XpRbDZbSJoU3KfmbfFnMxHR5eP1dmdEwKF+zM44XKZ/ygKE6TX1dY3g2CGboOqld/D
+	 2z2huk6v6qniXjF/LCQnIKbEl+qMqeQnQV21hKPuM1qRP1eKTofomdpR+uaH70AxRh
+	 5rXv8itL6ZsNw==
+Date: Tue, 11 Oct 2022 10:31:41 -0500
+From: Seth Forshee <sforshee@kernel.org>
+To: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org
+Subject: nvme-tcp request timeouts
+Message-ID: <Y0WMXSv8REysoqFy@do-x1extreme>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221011_081826_385528_872C6440 
-X-CRM114-Status: UNSURE (   7.68  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221011_083144_988026_C72C3D16 
+X-CRM114-Status: GOOD (  11.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,242 +69,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: b9f85101cad3397ef1e509909602a90e257ab9d8  Add linux-next specific files for 20221011
+Hi,
 
-Error/Warning reports:
+I'm seeing timeouts like the following from nvme-tcp:
 
-https://lore.kernel.org/linux-doc/202209201326.sY9kHOLm-lkp@intel.com
-https://lore.kernel.org/linux-doc/202210070057.NpbaMyxB-lkp@intel.com
-https://lore.kernel.org/linux-mm/202210090954.pTR6m6rj-lkp@intel.com
-https://lore.kernel.org/linux-mm/202210110857.9s0tXVNn-lkp@intel.com
-https://lore.kernel.org/linux-mm/202210111318.mbUfyhps-lkp@intel.com
-https://lore.kernel.org/llvm/202210111438.WT5u8Im6-lkp@intel.com
+[ 6369.513269] nvme nvme5: queue 102: timeout request 0x73 type 4
+[ 6369.513283] nvme nvme5: starting error recovery
+[ 6369.514379] block nvme5n1: no usable path - requeuing I/O
+[ 6369.514385] block nvme5n1: no usable path - requeuing I/O
+[ 6369.514392] block nvme5n1: no usable path - requeuing I/O
+[ 6369.514393] block nvme5n1: no usable path - requeuing I/O
+[ 6369.514401] block nvme5n1: no usable path - requeuing I/O
+[ 6369.514414] block nvme5n1: no usable path - requeuing I/O
+[ 6369.514420] block nvme5n1: no usable path - requeuing I/O
+[ 6369.514427] block nvme5n1: no usable path - requeuing I/O
+[ 6369.514430] block nvme5n1: no usable path - requeuing I/O
+[ 6369.514432] block nvme5n1: no usable path - requeuing I/O
+[ 6369.514926] nvme nvme5: Reconnecting in 10 seconds...
+[ 6379.761015] nvme nvme5: creating 128 I/O queues.
+[ 6379.944389] nvme nvme5: mapped 128/0/0 default/read/poll queues.
+[ 6379.947922] nvme nvme5: Successfully reconnected (1 attempt)
 
-Error/Warning: (recently discovered and may have been fixed)
+This is with 6.0, using nvmet-tcp on a different machine as the target.
+I've seen this sporadically with several test cases. The fio fio-rand-RW
+example test is a pretty good reproducer when numjobs in increased (I'm
+setting it equal to the number of CPUs in the system).
 
-ERROR: modpost: "dcn20_acquire_dsc" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
-ERROR: modpost: "dcn20_build_mapped_resource" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
-ERROR: modpost: "devm_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
-ERROR: modpost: "devm_ioremap_resource" [drivers/dma/idma64.ko] undefined!
-ERROR: modpost: "devm_ioremap_resource" [drivers/dma/qcom/hdma.ko] undefined!
-ERROR: modpost: "devm_memremap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "devm_memunmap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/char/xillybus/xillybus_of.ko] undefined!
-ERROR: modpost: "ioremap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
-ERROR: modpost: "ioremap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/clock/microchip,mpfs.yaml
-Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mtd/amlogic,meson-nand.txt
-arch/arm64/kernel/alternative.c:199:6: warning: no previous prototype for 'apply_alternatives_vdso' [-Wmissing-prototypes]
-arch/arm64/kernel/alternative.c:295:14: warning: no previous prototype for 'alt_cb_patch_nops' [-Wmissing-prototypes]
-arch/loongarch/mm/init.c:166:24: warning: variable 'new' set but not used [-Wunused-but-set-variable]
-dc_resource.c:(.text.dc_resource_acquire_secondary_pipe_for_mpc_odm+0x21c): undefined reference to `dcn20_acquire_dsc'
-drivers/iio/adc/mcp3911.c:252 mcp3911_write_raw() error: buffer overflow 'mcp3911_osr_table' 8 <= 31
-drivers/iio/adc/mcp3911.c:499 mcp3911_probe() warn: passing zero to 'PTR_ERR'
-drivers/nvme/target/loop.c:578 nvme_loop_create_ctrl() warn: 'opts->queue_size - 1' 18446744073709551615 can't fit into 65535 'ctrl->ctrl.sqsize'
-drivers/nvme/target/loop.c:578 nvme_loop_create_ctrl() warn: 'opts->queue_size - 1' 4294967295 can't fit into 65535 'ctrl->ctrl.sqsize'
-fs/ext4/super.c:1744:19: warning: 'deprecated_msg' defined but not used [-Wunused-const-variable=]
-fs/ntfs3/namei.c:487 ntfs_d_compare() error: uninitialized symbol 'uni1'.
-include/linux/compiler_types.h:357:45: error: call to '__compiletime_assert_422' declared with attribute error: FIELD_GET: mask is not constant
-mips-linux-ld: dc_resource.c:(.text.dc_resource_acquire_secondary_pipe_for_mpc_odm+0x304): undefined reference to `dcn20_build_mapped_resource'
-mm/mmap.c:802 __vma_adjust() error: uninitialized symbol 'next_next'.
-security/apparmor/policy_unpack.c:1089 unpack_profile() warn: passing zero to 'ERR_PTR'
-security/apparmor/policy_unpack.c:548 unpack_trans_table() error: uninitialized symbol 'table'.
+Let me know what I can do to help debug this. I'm currently adding some
+tracing to the driver to see if I can get an idea of the sequence of
+events that leads to this problem.
 
-Error/Warning ids grouped by kconfigs:
+Thanks,
+Seth
 
-gcc_recent_errors
-|-- arm64-allyesconfig
-|   |-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-alt_cb_patch_nops
-|   `-- arch-arm64-kernel-alternative.c:warning:no-previous-prototype-for-apply_alternatives_vdso
-|-- csky-randconfig-m041-20221010
-|   `-- mm-mmap.c-__vma_adjust()-error:uninitialized-symbol-next_next-.
-|-- i386-allyesconfig
-|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
-|-- i386-defconfig
-|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
-|-- i386-randconfig-a003
-|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
-|-- i386-randconfig-a005
-|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
-|-- i386-randconfig-a011-20221010
-|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
-|-- i386-randconfig-a012-20221010
-|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
-|-- i386-randconfig-a014-20221010
-|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
-|-- i386-randconfig-a016-20221010
-|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
-|-- i386-randconfig-c001-20221010
-|   `-- include-linux-compiler_types.h:error:call-to-__compiletime_assert_NNN-declared-with-attribute-error:FIELD_GET:mask-is-not-constant
-|-- i386-randconfig-c021-20221010
-|   `-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
-|-- i386-randconfig-m021-20221010
-|   |-- arch-x86-kernel-apic-apic.c-generic_processor_info()-warn:always-true-condition-(num_processors-()-)-(-u32max-)
-|   |-- drivers-iio-adc-mcp3911.c-mcp3911_probe()-warn:passing-zero-to-PTR_ERR
-|   |-- drivers-iio-adc-mcp3911.c-mcp3911_write_raw()-error:buffer-overflow-mcp3911_osr_table
-|   |-- drivers-nvme-target-loop.c-nvme_loop_create_ctrl()-warn:opts-queue_size-can-t-fit-into-ctrl-ctrl.sqsize
-|   |-- fs-ext4-super.c:warning:deprecated_msg-defined-but-not-used
-|   `-- mm-mmap.c-__vma_adjust()-error:uninitialized-symbol-next_next-.
-|-- i386-randconfig-s052-20221010
-|   |-- fs-ntfs3-index.c:sparse:sparse:restricted-__le32-degrades-to-integer
-|   |-- fs-ntfs3-namei.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__le16-const-usertype-s1-got-unsigned-short
-|   `-- fs-ntfs3-namei.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__le16-const-usertype-s2-got-unsigned-short
-|-- loongarch-randconfig-r012-20221010
-|   `-- arch-loongarch-mm-init.c:warning:variable-new-set-but-not-used
-|-- loongarch-randconfig-s032-20221010
-|   |-- arch-loongarch-kernel-perf_event.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-ptr-got-int-noderef-__percpu
-|   `-- arch-loongarch-kernel-perf_event.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-ptr-got-unsigned-int-noderef-__percpu
-|-- mips-allyesconfig
-|   |-- dc_resource.c:(.text.dc_resource_acquire_secondary_pipe_for_mpc_odm):undefined-reference-to-dcn20_acquire_dsc
-|   `-- mips-linux-ld:dc_resource.c:(.text.dc_resource_acquire_secondary_pipe_for_mpc_odm):undefined-reference-to-dcn20_build_mapped_resource
-|-- powerpc-allmodconfig
-|   |-- ERROR:dcn20_acquire_dsc-drivers-gpu-drm-amd-amdgpu-amdgpu.ko-undefined
-|   `-- ERROR:dcn20_build_mapped_resource-drivers-gpu-drm-amd-amdgpu-amdgpu.ko-undefined
-|-- s390-allmodconfig
-|   |-- ERROR:devm_ioremap_resource-drivers-dma-fsl-edma.ko-undefined
-|   |-- ERROR:devm_ioremap_resource-drivers-dma-idma64.ko-undefined
-clang_recent_errors
-|-- arm-ep93xx_defconfig
-|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|-- arm-imx_v4_v5_defconfig
-|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|-- arm-ixp4xx_defconfig
-|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|-- arm-randconfig-r026-20221010
-|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
-|-- hexagon-randconfig-r041-20221010
-|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|   |-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
-|   |-- ld.lld:error:vmlinux.a(arch-hexagon-kernel-head.o):(.init.text):relocation-R_HEX_B22_PCREL-out-of-range:is-not-in-references-__vmnewmap
-|   |-- ld.lld:error:vmlinux.a(arch-hexagon-kernel-head.o):(.init.text):relocation-R_HEX_B22_PCREL-out-of-range:is-not-in-references-__vmsetvec
-|   `-- ld.lld:error:vmlinux.a(arch-hexagon-kernel-head.o):(.init.text):relocation-R_HEX_B22_PCREL-out-of-range:is-not-in-references-memset
-|-- i386-buildonly-randconfig-r006-20221010
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn32-dcn32_fpu.c:warning:no-previous-prototype-for-function-dcn32_split_stream_for_mpc_or_odm
-|-- i386-randconfig-a002
-|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
-|-- i386-randconfig-a004
-|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
-|-- mips-cu1000-neo_defconfig
-|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|-- powerpc-fsp2_defconfig
-|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|-- riscv-randconfig-r042-20221011
-|   `-- ld.lld:error:undefined-symbol:riscv_cbom_block_size
-|-- riscv-rv32_defconfig
-|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|-- x86_64-randconfig-a001-20221010
-|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
-|-- x86_64-randconfig-a003-20221010
-|   |-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-|   `-- fs-ntfs3-namei.c:warning:variable-uni1-is-used-uninitialized-whenever-if-condition-is-true
-|-- x86_64-randconfig-a004-20221010
-|   `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-`-- x86_64-rhel-8.3-rust
-    `-- fs-ext4-super.c:warning:unused-variable-deprecated_msg
-
-elapsed time: 725m
-
-configs tested: 85
-configs skipped: 3
-
-gcc tested configs:
-x86_64                              defconfig
-arc                                 defconfig
-alpha                               defconfig
-i386                                defconfig
-x86_64                               rhel-8.3
-i386                 randconfig-a011-20221010
-um                             i386_defconfig
-arc                  randconfig-r043-20221010
-s390                             allmodconfig
-x86_64               randconfig-a011-20221010
-um                           x86_64_defconfig
-arm                                 defconfig
-i386                          randconfig-a001
-i386                 randconfig-a013-20221010
-s390                             allyesconfig
-x86_64                          rhel-8.3-func
-i386                 randconfig-a015-20221010
-x86_64               randconfig-a016-20221010
-riscv                randconfig-r042-20221010
-s390                                defconfig
-i386                          randconfig-a003
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
-i386                 randconfig-a014-20221010
-x86_64               randconfig-a014-20221010
-i386                          randconfig-a005
-powerpc                           allnoconfig
-s390                 randconfig-r044-20221010
-i386                 randconfig-a016-20221010
-x86_64               randconfig-a015-20221010
-powerpc                     redwood_defconfig
-i386                 randconfig-a012-20221010
-powerpc                          allmodconfig
-xtensa                  cadence_csp_defconfig
-x86_64               randconfig-a012-20221010
-mips                             allyesconfig
-i386                             allyesconfig
-sh                          sdk7780_defconfig
-x86_64               randconfig-a013-20221010
-arm                              allyesconfig
-arc                               allnoconfig
-x86_64                           rhel-8.3-syz
-arm64                            allyesconfig
-sh                               allmodconfig
-alpha                             allnoconfig
-um                                  defconfig
-x86_64                         rhel-8.3-kunit
-xtensa                  audio_kc705_defconfig
-m68k                             allmodconfig
-riscv                             allnoconfig
-x86_64                           rhel-8.3-kvm
-csky                              allnoconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-m68k                        stmark2_defconfig
-arc                 nsimosci_hs_smp_defconfig
-ia64                          tiger_defconfig
-powerpc                     asp8347_defconfig
-m68k                             allyesconfig
-ia64                             allmodconfig
-arm                            pleb_defconfig
-arc                      axs103_smp_defconfig
-m68k                             alldefconfig
-powerpc                  iss476-smp_defconfig
-arm                       omap2plus_defconfig
-i386                 randconfig-c001-20221010
-
-clang tested configs:
-hexagon              randconfig-r045-20221010
-hexagon              randconfig-r041-20221010
-riscv                             allnoconfig
-i386                          randconfig-a002
-x86_64               randconfig-a002-20221010
-x86_64               randconfig-a001-20221010
-x86_64               randconfig-a003-20221010
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64               randconfig-a006-20221010
-x86_64               randconfig-a004-20221010
-x86_64               randconfig-a005-20221010
-arm                          ep93xx_defconfig
-mips                          ath25_defconfig
-arm                       imx_v4_v5_defconfig
-arm                          ixp4xx_defconfig
-mips                     cu1000-neo_defconfig
-x86_64                          rhel-8.3-rust
-powerpc                        fsp2_defconfig
-riscv                          rv32_defconfig
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
 
