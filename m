@@ -4,75 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32D2DC433FE
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Oct 2022 17:30:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A28FC433FE
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Oct 2022 22:10:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3Qdky2gs9ti+MN58zZhPnPX1GtOpmZkyQgYZcEZS2CE=; b=kbYN9lgE9ij4Cnz4/v4I7rJw6V
-	aPyLWZNmzkdMLVcX86bU3LbHqaML6Torpip3MH5wt/eG3SUweLZ/6Rn5e+Pa7i40catEPhLJFJ6fZ
-	+k+aF23/yRmVdP+NL418zQvoqsbDWz3GEMXfjn6TDCI23sA2GuOutMqqp+ior/h3R8u9u7qriSUe0
-	JLLYPp+bt+MtewXhetNAcdjISr379s3H5XnJJT0WVlgYrD/AqgUnRE9fjrev8uPxxqc8ynK1P8Jqm
-	4O8CSiXDED1AJ753IFPwt9YbRjrhx4zuaDmO267yFCjqQg2r5WAGog6IsXkoNlOYZdk3X8/DiDOdu
-	GyE6j50Q==;
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=f6FyfIS9oLUH3TPPFFq4XgmugVaI7MI2OKryKxpU/eo=; b=sF9t6yoUOhSOl6/uAlA3sKaJ1D
+	aDjwPRMxYsjauQpex+w/j2f0AoiW0GQQeAAjbcfG5IWvYdZJ103VKOvVwGHCWj/qJMEkr61L4Mg9V
+	DFeOk48eUKc91BYdQAlgpQyH4f770Ek94WRUU4/t6tp1y7YGDF91GcqHB3Yi92v/aaIqFey7dQE72
+	y2xwaq5ZogeqvunyCRtd8UtUGF3tOY9TPus1NBcWj1rGI7ltoMBFKcOIjYruos9IAbZRw3uL9QPjr
+	LoUg5uAlSWQcCiH0bZbRfyZhh/EEnfzYC1VM/auL+PFjPhTQp5JzrdxrcoaVHu5Zr2ZK9k6BDvBvU
+	uG3aJ+Zw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oifYn-008r0Y-V0; Wed, 12 Oct 2022 17:30:25 +0000
-Received: from mail-wm1-f53.google.com ([209.85.128.53])
+	id 1oijvV-009Vuj-KI; Wed, 12 Oct 2022 22:10:09 +0000
+Received: from mga04.intel.com ([192.55.52.120])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oifYl-008qzh-3D
-	for linux-nvme@lists.infradead.org; Wed, 12 Oct 2022 17:30:24 +0000
-Received: by mail-wm1-f53.google.com with SMTP id c9-20020a05600c100900b003c6da0f9b62so219189wmc.1
-        for <linux-nvme@lists.infradead.org>; Wed, 12 Oct 2022 10:30:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Qdky2gs9ti+MN58zZhPnPX1GtOpmZkyQgYZcEZS2CE=;
-        b=KtcTMv1ybPo6mpvCuGjAoVF/+/hfqP+90gvuyqi6wAQQ7AMEY+DsIqfT0v3HZ7Mc7y
-         JASk28QaCxkFZThse+t/ckP0idin57ouXAbgOTD0TNiN+uX4aZbkzNqpyfH1nGK2ggP3
-         ddFJJtQF67VFR26ckFmZ6kHOSVmX+EzJV6XSLX+hlBNVe0Wutr0HI/yDHnbBG4QU2fM+
-         OLMiuU73EJGBiPP/D5vZgYkMz/D1IoySaWSjABBT9wbjYM6b+jrDoXNV1CTt9HhQ44iR
-         B1XrT8izdyQLjg57pPEna501Vq0WLR6XqX00jvxqgX58SDGHSLqEV+QdEhbZ/4ExjnoF
-         LmJQ==
-X-Gm-Message-State: ACrzQf14/+YyB0K8pIz+BPoYDp+sK2E/NvL+ffMSmNBZzmcAa9hECimb
-	pU4iSFGMTxtBGHFJnn8Fzuo=
-X-Google-Smtp-Source: AMsMyM65YhK876O1TdLDF1ozNFMKYo51sO1DsAMzEdipjWwuEvGNWQnMVTdypWbz97ubIQbcnEivag==
-X-Received: by 2002:a05:600c:4f89:b0:3b4:a6fc:89e5 with SMTP id n9-20020a05600c4f8900b003b4a6fc89e5mr3453156wmq.149.1665595820339;
-        Wed, 12 Oct 2022 10:30:20 -0700 (PDT)
-Received: from [192.168.64.53] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id 17-20020a05600c26d100b003a5537bb2besm2181483wmv.25.2022.10.12.10.30.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Oct 2022 10:30:19 -0700 (PDT)
-Message-ID: <12074b00-7c53-5867-c785-58b96247d682@grimberg.me>
-Date: Wed, 12 Oct 2022 20:30:18 +0300
+	id 1oijvS-009Vsa-36
+	for linux-nvme@lists.infradead.org; Wed, 12 Oct 2022 22:10:07 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665612606; x=1697148606;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=RR/Ot0LkExGNw0F2kgJPfR4ncyG2g97SMtB0uDT7AnI=;
+  b=V8ao3OFaHrLDMOOS8thBw5awBcfr+kvcLFW8Gm0Bv4PJ+849CNTCKSF/
+   8WRBOOybS0k1IlsRyH4XSvWda0wojTjU8oTkU5SGT9IZnYg1EV0Q2JBL5
+   ix7q4rBvrUJIeG8FLG1CDa6zsSLYfbePUR5Ul5AbcBzOULyAgv+Ez3tEW
+   eAuuxJnUkhwvSlf3IUXL9+YcBRSnCL5YnttiBCQyNSK4OorcqKNYXLuqp
+   k3YTTJSGmqAHDgsrSvTVdrqDGjxdzVCUsfbO2Uv5wML8+y+95QZT+00pj
+   RBeuC3DLHBDYrxxkYB6N66mF3XdAr7mXRm6WVOKlpB8EK/1GDrTpS7O82
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="303658540"
+X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; 
+   d="scan'208";a="303658540"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2022 15:10:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="657934871"
+X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; 
+   d="scan'208";a="657934871"
+Received: from lkp-server01.sh.intel.com (HELO 2af0a69ca4e0) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 12 Oct 2022 15:09:59 -0700
+Received: from kbuild by 2af0a69ca4e0 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1oijvK-0004ER-17;
+	Wed, 12 Oct 2022 22:09:58 +0000
+Date: Thu, 13 Oct 2022 06:09:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.1] BUILD SUCCESS
+ 72e3b8883a36e80ebfa41015c7b6926ce31ace05
+Message-ID: <63473b18.uJKwyFN/YP8U/2Wb%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: nvme-tcp request timeouts
-Content-Language: en-US
-To: Seth Forshee <sforshee@kernel.org>
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Christoph Hellwig <hch@lst.de>
-References: <Y0WMXSv8REysoqFy@do-x1extreme>
- <40c9f99f-28ab-3fc0-f90a-b24f5dabe9a1@nvidia.com>
- <Y0XOoSmfwAdfOD9g@do-x1extreme>
- <f72fa6ba-e55a-6bb6-2efe-60458802c870@nvidia.com>
- <Y0XUFGXHciDCXRTs@do-x1extreme>
- <f7b44962-09d3-c724-89bc-453c86f4c1eb@grimberg.me>
- <Y0bxdiqgNAGoxeY6@do-x1extreme>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <Y0bxdiqgNAGoxeY6@do-x1extreme>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221012_103023_169685_AF3E817A 
-X-CRM114-Status: GOOD (  30.50  )
+X-CRM114-CacheID: sfid-20221012_151006_239139_1FD6B7DF 
+X-CRM114-Status: UNSURE (   6.53  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,148 +82,146 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+tree/branch: git://git.infradead.org/nvme.git nvme-6.1
+branch HEAD: 72e3b8883a36e80ebfa41015c7b6926ce31ace05  nvme-multipath: fix possible hang in live ns resize with ANA access
 
+elapsed time: 724m
 
-On 10/12/22 19:55, Seth Forshee wrote:
-> On Wed, Oct 12, 2022 at 09:33:19AM +0300, Sagi Grimberg wrote:
->> Hey Seth, thanks for reporting.
->>
->>>>>> Hi Seth,
->>>>>>
->>>>>> On 10/11/22 08:31, Seth Forshee wrote:
->>>>>>> Hi,
->>>>>>>
->>>>>>> I'm seeing timeouts like the following from nvme-tcp:
->>>>>>>
->>>>>>> [ 6369.513269] nvme nvme5: queue 102: timeout request 0x73 type 4
->>>>>>> [ 6369.513283] nvme nvme5: starting error recovery
->>>>>>> [ 6369.514379] block nvme5n1: no usable path - requeuing I/O
->>>>>>> [ 6369.514385] block nvme5n1: no usable path - requeuing I/O
->>>>>>> [ 6369.514392] block nvme5n1: no usable path - requeuing I/O
->>>>>>> [ 6369.514393] block nvme5n1: no usable path - requeuing I/O
->>>>>>> [ 6369.514401] block nvme5n1: no usable path - requeuing I/O
->>>>>>> [ 6369.514414] block nvme5n1: no usable path - requeuing I/O
->>>>>>> [ 6369.514420] block nvme5n1: no usable path - requeuing I/O
->>>>>>> [ 6369.514427] block nvme5n1: no usable path - requeuing I/O
->>>>>>> [ 6369.514430] block nvme5n1: no usable path - requeuing I/O
->>>>>>> [ 6369.514432] block nvme5n1: no usable path - requeuing I/O
->>>>>>> [ 6369.514926] nvme nvme5: Reconnecting in 10 seconds...
->>>>>>> [ 6379.761015] nvme nvme5: creating 128 I/O queues.
->>>>>>> [ 6379.944389] nvme nvme5: mapped 128/0/0 default/read/poll queues.
->>>>>>> [ 6379.947922] nvme nvme5: Successfully reconnected (1 attempt)
->>>>>>>
->>>>>>> This is with 6.0, using nvmet-tcp on a different machine as the target.
->>>>>>> I've seen this sporadically with several test cases. The fio fio-rand-RW
->>>>>>> example test is a pretty good reproducer when numjobs in increased (I'm
->>>>>>> setting it equal to the number of CPUs in the system).
->>>>>>>
->>>>>>> Let me know what I can do to help debug this. I'm currently adding some
->>>>>>> tracing to the driver to see if I can get an idea of the sequence of
->>>>>>> events that leads to this problem.
->>>>>>>
->>>>>>> Thanks,
->>>>>>> Seth
->>>>>>>
->>>>>>
->>>>>> Can you bisect it ? that will help to understand the commit causing
->>>>>> issue.
->>>>>
->>>>> I don't know of any "good" version right now. I started with a 5.10
->>>>> kernel and saw this, and tested 6.0 and still see it. I found several
->>>>> commits since 5.10 which fix some kind of timeouts:
->>>>>
->>>>> a0fdd1418007 nvme-tcp: rerun io_work if req_list is not empty
->>>>> 70f437fb4395 nvme-tcp: fix io_work priority inversion
->>>>> 3770a42bb8ce nvme-tcp: fix regression that causes sporadic requests to time out
->>>>>
->>>>> 5.10 still has timeouts with these backported, so whatever the problem
->>>>> is it has existed at least that long. I suppose I could go back to older
->>>>> kernels with these backported if that's going to be the best path
->>>>> forward here.
->>>>>
->>>>> Thanks,
->>>>> Seth
->>>>
->>>> Can you please share the fio config you are using ?
->>>
->>> Sure. Note that I can reproduce it with a lower number of numjobs, but
->>> higher numbers make it easier, so I set it to the number of CPUs present
->>> on the system I'm using to test.
->>>
->>>
->>> [global]
->>> name=fio-rand-RW
->>> filename=fio-rand-RW
->>> rw=randrw
->>> rwmixread=60
->>> rwmixwrite=40
->>> bs=4K
->>> direct=0
->>
->> Does this happen with direct=1?
-> 
-> So far I haven't been able to reproduce it so far with direct=1.
+configs tested: 124
+configs skipped: 5
 
-It is probably because the ios are actually going through as 4k and
-blk-mq tags depth is throttling you. on direct=0 writes are batched and
-go down to the disk in larger blocks, and in bursts, which probably is
-creating longer latencies...
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> 
->>> numjobs=128
->>> time_based
->>> runtime=900
->>>
->>> [file1]
->>> size=10G
->>> ioengine=libaio
->>> iodepth=16
->>>
->>
->> Is it possible that the backend nvmet device is not fast enough?
->> Are your backend devices nvme? Can you share nvmetcli ls output?
-> 
-> Currently I have a quick-and-dirty setup. The systems I have to test
-> with don't have a spare nvme device right now but do have a lot of RAM,
-> so the backend is a loop device backed by a file in tmpfs. But it should
-> be plenty fast. I'm working on getting a setup with an nvme backend
-> device.
+gcc tested configs:
+um                           x86_64_defconfig
+um                             i386_defconfig
+m68k                             allmodconfig
+arc                              allyesconfig
+alpha                            allyesconfig
+m68k                             allyesconfig
+arc                                 defconfig
+x86_64                          rhel-8.3-func
+x86_64                    rhel-8.3-kselftests
+alpha                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+powerpc                           allnoconfig
+riscv                randconfig-r042-20221012
+powerpc                          allmodconfig
+sh                               allmodconfig
+arc                  randconfig-r043-20221012
+x86_64                              defconfig
+s390                                defconfig
+x86_64                           rhel-8.3-syz
+x86_64                               rhel-8.3
+s390                             allmodconfig
+s390                 randconfig-r044-20221012
+i386                             allyesconfig
+x86_64                         rhel-8.3-kunit
+arm64                            allyesconfig
+arm                                 defconfig
+arm                              allyesconfig
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+x86_64                           rhel-8.3-kvm
+x86_64                           allyesconfig
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+x86_64                        randconfig-a006
+i386                          randconfig-a001
+x86_64                        randconfig-a015
+i386                          randconfig-a003
+i386                          randconfig-a005
+s390                             allyesconfig
+i386                          randconfig-a012
+i386                          randconfig-a014
+i386                          randconfig-a016
+xtensa                           allyesconfig
+sh                           se7750_defconfig
+powerpc                     rainier_defconfig
+csky                              allnoconfig
+alpha                             allnoconfig
+arc                               allnoconfig
+riscv                             allnoconfig
+arm                        keystone_defconfig
+powerpc                     tqm8548_defconfig
+powerpc                 mpc834x_mds_defconfig
+mips                       bmips_be_defconfig
+sh                          landisk_defconfig
+sh                         ecovec24_defconfig
+mips                         bigsur_defconfig
+sh                           se7780_defconfig
+arm                             ezx_defconfig
+i386                          randconfig-c001
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_k210_defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+arm                        mini2440_defconfig
+powerpc                     stx_gp3_defconfig
+arm                         lpc18xx_defconfig
+powerpc                  storcenter_defconfig
+powerpc                 linkstation_defconfig
+ia64                        generic_defconfig
+powerpc                 mpc837x_mds_defconfig
+loongarch                           defconfig
+loongarch                         allnoconfig
+loongarch                        allmodconfig
+i386                          debian-10.3-kvm
+i386                        debian-10.3-kunit
+i386                         debian-10.3-func
+arm                       omap2plus_defconfig
+sparc                               defconfig
+powerpc                     tqm8541_defconfig
+arm                        spear6xx_defconfig
+powerpc                      ppc40x_defconfig
+sh                            shmin_defconfig
+sh                        apsh4ad0a_defconfig
+powerpc                       maple_defconfig
+ia64                             allmodconfig
+sh                ecovec24-romimage_defconfig
+sh                          urquell_defconfig
+arm                         at91_dt_defconfig
+arc                     nsimosci_hs_defconfig
+arm                         nhk8815_defconfig
+arm                        multi_v7_defconfig
+arc                     haps_hs_smp_defconfig
+sh                          kfr2r09_defconfig
+nios2                               defconfig
+loongarch                 loongson3_defconfig
 
-I see, note that ram drives are fast, but stall the cpu for memory copy,
-which will prevent nvme io threads from servicing new requests, this can
-be magnified with large heavy bursts...
+clang tested configs:
+hexagon              randconfig-r045-20221012
+hexagon              randconfig-r041-20221012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a005
+x86_64                        randconfig-a001
+x86_64                        randconfig-a016
+x86_64                        randconfig-a012
+x86_64                        randconfig-a003
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+i386                          randconfig-a013
+i386                          randconfig-a011
+powerpc                 mpc8560_ads_defconfig
+powerpc                      obs600_defconfig
+i386                          randconfig-a015
+mips                           mtx1_defconfig
+powerpc                      katmai_defconfig
+mips                     cu1830-neo_defconfig
+mips                      maltaaprp_defconfig
+x86_64                        randconfig-k001
+powerpc                        icon_defconfig
+powerpc                   bluestone_defconfig
+mips                           ip28_defconfig
+powerpc                  mpc866_ads_defconfig
+powerpc                     tqm5200_defconfig
+arm                           omap1_defconfig
 
-> 
-> o- / ......................................................................................................................... [...]
->    o- hosts ................................................................................................................... [...]
->    | o- hostnqn ............................................................................................................... [...]
->    o- ports ................................................................................................................... [...]
->    | o- 2 ................................................... [trtype=tcp, traddr=..., trsvcid=4420, inline_data_size=16384]
->    |   o- ana_groups .......................................................................................................... [...]
->    |   | o- 1 ..................................................................................................... [state=optimized]
->    |   o- referrals ........................................................................................................... [...]
->    |   o- subsystems .......................................................................................................... [...]
->    |     o- testnqn ........................................................................................................... [...]
->    o- subsystems .............................................................................................................. [...]
->      o- testnqn ............................................................. [version=1.3, allow_any=1, serial=2c2e39e2a551f7febf33]
->        o- allowed_hosts ....................................................................................................... [...]
->        o- namespaces .......................................................................................................... [...]
->          o- 1  [path=/dev/loop0, uuid=8a1561fb-82c3-4e9d-96b9-11c7b590d047, nguid=ef90689c-6c46-d44c-89c1-4067801309a8, grpid=1, enabled]
-
-Ohh, I'd say that would be the culprit...
-the loop driver uses only a single queue to access the disk. This means 
-that all your 100+ nvme-tcp queues are all serializing access on the 
-single loop disk queue. This heavy back-pressure bubbles all the way
-back to the host and manifests in IO timeouts when large bursts hit...
-
-I can say that loop is not the best way to benchmark performance, and
-I'd expect to see such phenomenons when attempting to drive high loads
-to a loop device...
-
-Maybe you can possibly use a tmpfs file directly instead (nvmet supports
-file backends as well).
-
-Or maybe you can try to use null_blk with memory_backed=Y modparam (may 
-need to define cache_size modparam as well, never tried it with memory
-backing...)? That would be more efficient.
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
 
