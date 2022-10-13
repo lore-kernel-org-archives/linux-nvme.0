@@ -4,41 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19814C433FE
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Oct 2022 09:45:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 291F1C4332F
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Oct 2022 09:45:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:CC:To:From:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=q/6ztCQwnZX1ihjLQ7/de3qrR3sDAg1ijVhrMcXn/1w=; b=Kfml+ftCVJMchqRQzr1P0KahT8
-	USHEsqig3V3Cio4TUmQ6uIvX3UTg3tOfMcdfeBcBcQuM0aIGf8P0HeSyPKbZ0zuCGJ20ZsNSV9W9e
-	k7KQfRj3MR/PkaKRCHVeRNXIUDuf0wUtCJYFslsywbnGJiUXcAeK2MLwzPoT3JKdOkpWUUl7iwc3q
-	2Vg7bVrgo0ptGR3fBNFvaPDMINEBUpvrpTr5fkPOJusm7a8oRAFmKTkrv3UoMdHAyPHHEsUhedSbo
-	bvhEmpZyUa5SJcfcSiBrip4dqwWaaDLGPkhV4rExZUVcedLgUxreIY4WDuxY3uzEGVODd/YljXbmy
-	sBG4c+pQ==;
+	bh=nExp95nLe2br7WGTfvrA/rzip3tpItcy59R4JQdDBZ4=; b=ioYxPCfB0sBhVs8f9VChG9JPqZ
+	2u9DY3Xeix/P46dKwPT+NFtPocvcenvDA7LDqZuusfe8Zsig4D+zD5WGHqTUuEUe2YT7chjr//aoU
+	WlvNbbCa+s6jfkqW46/AHBTexblp1ecg+MtUdu1P8Z+FraNLaM73sk3Qhls23gYzMvOePewvrl8aT
+	WlU4c3BHC2upXvLgCETMX3GLtoIAA6DM9gEvHn9xX/cP8DROHhfh9GcswO9M2GiyoL7Bb82DeA6iv
+	iIRF8PnqwXWruWiuZDqmELgHhUW6/VAL63KHRSdYoMgGVat///vJXIbkscRFvqmkdnHlQjzg7DtyM
+	BNE0Xg2w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oium4-00BKVC-5D; Thu, 13 Oct 2022 09:45:08 +0000
+	id 1oium8-00BKWU-CJ; Thu, 13 Oct 2022 09:45:12 +0000
 Received: from szxga01-in.huawei.com ([45.249.212.187])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oiulw-00BKR3-Un
+	id 1oiulw-00BKR2-VU
 	for linux-nvme@lists.infradead.org; Thu, 13 Oct 2022 09:45:03 +0000
-Received: from canpemm500002.china.huawei.com (unknown [172.30.72.57])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Mp4Kc5ZxjzpVdT;
-	Thu, 13 Oct 2022 17:41:40 +0800 (CST)
+Received: from canpemm500002.china.huawei.com (unknown [172.30.72.56])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Mp4J021yFzmVB6;
+	Thu, 13 Oct 2022 17:40:16 +0800 (CST)
 Received: from huawei.com (10.29.88.127) by canpemm500002.china.huawei.com
  (7.192.104.244) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 13 Oct
- 2022 17:44:52 +0800
+ 2022 17:44:51 +0800
 From: Chao Leng <lengchao@huawei.com>
 To: <linux-nvme@lists.infradead.org>, <linux-block@vger.kernel.org>
 CC: <hch@lst.de>, <sagi@grimberg.me>, <kbusch@kernel.org>,
 	<lengchao@huawei.com>, <ming.lei@redhat.com>, <axboe@kernel.dk>
-Subject: [PATCH v2 2/2] nvme: use blk_mq_[un]quiesce_tagset
-Date: Thu, 13 Oct 2022 17:44:50 +0800
-Message-ID: <20221013094450.5947-3-lengchao@huawei.com>
+Subject: [PATCH v2 1/2] blk-mq: add tagset quiesce interface
+Date: Thu, 13 Oct 2022 17:44:49 +0800
+Message-ID: <20221013094450.5947-2-lengchao@huawei.com>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <20221013094450.5947-1-lengchao@huawei.com>
 References: <20221013094450.5947-1-lengchao@huawei.com>
@@ -49,8 +49,8 @@ X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
  canpemm500002.china.huawei.com (7.192.104.244)
 X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221013_024501_372448_88CA5852 
-X-CRM114-Status: GOOD (  13.13  )
+X-CRM114-CacheID: sfid-20221013_024501_376052_51EEFA99 
+X-CRM114-Status: GOOD (  18.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,143 +65,155 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-All controller namespaces share the same tagset, so we can use this
-interface which does the optimal operation for parallel quiesce based on
-the tagset type(e.g. blocking tagsets and non-blocking tagsets).
+Drivers that have shared tagsets may need to quiesce potentially a lot
+of request queues that all share a single tagset (e.g. nvme). Add an interface
+to quiesce all the queues on a given tagset. This interface is useful because
+it can speedup the quiesce by doing it in parallel.
 
-Now use NVME_NS_STOPPED to ensure pairing quiescing and unquiescing.
-If use blk_mq_[un]quiesce_tagset, NVME_NS_STOPPED will be invalided,
-so introduce NVME_CTRL_STOPPED to replace NVME_NS_STOPPED.
+For tagsets that have BLK_MQ_F_BLOCKING set, we use call_srcu to all hctxs
+in parallel such that all of them wait for the same rcu elapsed period with
+a per-hctx heap allocated rcu_synchronize. for tagsets that don't have
+BLK_MQ_F_BLOCKING set, we simply call a single synchronize_rcu as this is
+sufficient.
 
-nvme connect_q should be never quiesced, so set QUEUE_FLAG_NOQUIESCED
-when init connect_q.
+Because some queues never need to be quiesced(e.g. nvme connect_q).
+So introduce QUEUE_FLAG_NOQUIESCED to tagset quiesce interface to
+skip the queue.
 
 Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 Signed-off-by: Chao Leng <lengchao@huawei.com>
 ---
- drivers/nvme/host/core.c | 42 +++++++++++++-----------------------------
- drivers/nvme/host/nvme.h |  2 +-
- 2 files changed, 14 insertions(+), 30 deletions(-)
+ block/blk-mq.c         | 75 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ include/linux/blk-mq.h |  2 ++
+ include/linux/blkdev.h |  2 ++
+ 3 files changed, 79 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 059737c1a2c1..0d07a07e02ff 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4890,6 +4890,7 @@ int nvme_alloc_io_tag_set(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
- 			ret = PTR_ERR(ctrl->connect_q);
- 			goto out_free_tag_set;
- 		}
-+		blk_queue_flag_set(QUEUE_FLAG_NOQUIESCED, ctrl->connect_q);
- 	}
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 8070b6c10e8d..ebe25da08156 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -29,6 +29,7 @@
+ #include <linux/prefetch.h>
+ #include <linux/blk-crypto.h>
+ #include <linux/part_stat.h>
++#include <linux/rcupdate_wait.h>
  
- 	ctrl->tagset = set;
-@@ -5089,20 +5090,6 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ #include <trace/events/block.h>
+ 
+@@ -311,6 +312,80 @@ void blk_mq_unquiesce_queue(struct request_queue *q)
  }
- EXPORT_SYMBOL_GPL(nvme_init_ctrl);
+ EXPORT_SYMBOL_GPL(blk_mq_unquiesce_queue);
  
--static void nvme_start_ns_queue(struct nvme_ns *ns)
--{
--	if (test_and_clear_bit(NVME_NS_STOPPED, &ns->flags))
--		blk_mq_unquiesce_queue(ns->queue);
--}
--
--static void nvme_stop_ns_queue(struct nvme_ns *ns)
--{
--	if (!test_and_set_bit(NVME_NS_STOPPED, &ns->flags))
--		blk_mq_quiesce_queue(ns->queue);
--	else
--		blk_mq_wait_quiesce_done(ns->queue);
--}
--
- /*
-  * Prepare a queue for teardown.
-  *
-@@ -5111,13 +5098,14 @@ static void nvme_stop_ns_queue(struct nvme_ns *ns)
-  * holding bd_butex.  This will end buffered writers dirtying pages that can't
-  * be synced.
-  */
--static void nvme_set_queue_dying(struct nvme_ns *ns)
-+static void nvme_set_queue_dying(struct nvme_ns *ns, bool start_queue)
- {
- 	if (test_and_set_bit(NVME_NS_DEAD, &ns->flags))
- 		return;
- 
- 	blk_mark_disk_dead(ns->disk);
--	nvme_start_ns_queue(ns);
-+	if (start_queue)
-+		blk_mq_unquiesce_queue(ns->queue);
- 
- 	set_capacity_and_notify(ns->disk, 0);
- }
-@@ -5132,6 +5120,7 @@ static void nvme_set_queue_dying(struct nvme_ns *ns)
- void nvme_kill_queues(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
-+	bool start_queue = false;
- 
- 	down_read(&ctrl->namespaces_rwsem);
- 
-@@ -5139,8 +5128,11 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
- 	if (ctrl->admin_q && !blk_queue_dying(ctrl->admin_q))
- 		nvme_start_admin_queue(ctrl);
- 
-+	if (test_and_clear_bit(NVME_CTRL_STOPPED, &ctrl->flags))
-+		start_queue = true;
++static void blk_mq_quiesce_blocking_tagset(struct blk_mq_tag_set *set)
++{
++	int i = 0;
++	int count = 0;
++	struct request_queue *q;
++	struct rcu_synchronize *rcu;
 +
- 	list_for_each_entry(ns, &ctrl->namespaces, list)
--		nvme_set_queue_dying(ns);
-+		nvme_set_queue_dying(ns, start_queue);
- 
- 	up_read(&ctrl->namespaces_rwsem);
- }
-@@ -5196,23 +5188,15 @@ EXPORT_SYMBOL_GPL(nvme_start_freeze);
- 
- void nvme_stop_queues(struct nvme_ctrl *ctrl)
++	list_for_each_entry(q, &set->tag_list, tag_set_list) {
++		if (blk_queue_noquiesced(q))
++			continue;
++
++		blk_mq_quiesce_queue_nowait(q);
++		count++;
++	}
++
++	rcu = kvmalloc(count * sizeof(*rcu), GFP_KERNEL);
++	if (rcu) {
++		list_for_each_entry(q, &set->tag_list, tag_set_list) {
++			if (blk_queue_noquiesced(q))
++				continue;
++
++			init_rcu_head(&rcu[i].head);
++			init_completion(&rcu[i].completion);
++			call_srcu(q->srcu, &rcu[i].head, wakeme_after_rcu);
++			i++;
++		}
++
++		for (i = 0; i < count; i++) {
++			wait_for_completion(&rcu[i].completion);
++			destroy_rcu_head(&rcu[i].head);
++		}
++		kvfree(rcu);
++	} else {
++		list_for_each_entry(q, &set->tag_list, tag_set_list)
++			synchronize_srcu(q->srcu);
++	}
++}
++
++static void blk_mq_quiesce_nonblocking_tagset(struct blk_mq_tag_set *set)
++{
++	struct request_queue *q;
++
++	list_for_each_entry(q, &set->tag_list, tag_set_list) {
++		if (blk_queue_noquiesced(q))
++			continue;
++
++		blk_mq_quiesce_queue_nowait(q);
++	}
++	synchronize_rcu();
++}
++
++void blk_mq_quiesce_tagset(struct blk_mq_tag_set *set)
++{
++	mutex_lock(&set->tag_list_lock);
++	if (set->flags & BLK_MQ_F_BLOCKING)
++		blk_mq_quiesce_blocking_tagset(set);
++	else
++		blk_mq_quiesce_nonblocking_tagset(set);
++
++	mutex_unlock(&set->tag_list_lock);
++}
++EXPORT_SYMBOL_GPL(blk_mq_quiesce_tagset);
++
++void blk_mq_unquiesce_tagset(struct blk_mq_tag_set *set)
++{
++	struct request_queue *q;
++
++	mutex_lock(&set->tag_list_lock);
++	list_for_each_entry(q, &set->tag_list, tag_set_list)
++		blk_mq_unquiesce_queue(q);
++	mutex_unlock(&set->tag_list_lock);
++}
++EXPORT_SYMBOL_GPL(blk_mq_unquiesce_tagset);
++
+ void blk_mq_wake_waiters(struct request_queue *q)
  {
--	struct nvme_ns *ns;
--
--	down_read(&ctrl->namespaces_rwsem);
--	list_for_each_entry(ns, &ctrl->namespaces, list)
--		nvme_stop_ns_queue(ns);
--	up_read(&ctrl->namespaces_rwsem);
-+	if (!test_and_set_bit(NVME_CTRL_STOPPED, &ctrl->flags))
-+		blk_mq_quiesce_tagset(ctrl->tagset);
- }
- EXPORT_SYMBOL_GPL(nvme_stop_queues);
+ 	struct blk_mq_hw_ctx *hctx;
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index ba18e9bdb799..1df47606d0a7 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -877,6 +877,8 @@ void blk_mq_start_hw_queues(struct request_queue *q);
+ void blk_mq_start_stopped_hw_queue(struct blk_mq_hw_ctx *hctx, bool async);
+ void blk_mq_start_stopped_hw_queues(struct request_queue *q, bool async);
+ void blk_mq_quiesce_queue(struct request_queue *q);
++void blk_mq_quiesce_tagset(struct blk_mq_tag_set *set);
++void blk_mq_unquiesce_tagset(struct blk_mq_tag_set *set);
+ void blk_mq_wait_quiesce_done(struct request_queue *q);
+ void blk_mq_unquiesce_queue(struct request_queue *q);
+ void blk_mq_delay_run_hw_queue(struct blk_mq_hw_ctx *hctx, unsigned long msecs);
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 50e358a19d98..f15544299a67 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -579,6 +579,7 @@ struct request_queue {
+ #define QUEUE_FLAG_HCTX_ACTIVE	28	/* at least one blk-mq hctx is active */
+ #define QUEUE_FLAG_NOWAIT       29	/* device supports NOWAIT */
+ #define QUEUE_FLAG_SQ_SCHED     30	/* single queue style io dispatch */
++#define QUEUE_FLAG_NOQUIESCED	31	/* queue is never quiesced */
  
- void nvme_start_queues(struct nvme_ctrl *ctrl)
- {
--	struct nvme_ns *ns;
--
--	down_read(&ctrl->namespaces_rwsem);
--	list_for_each_entry(ns, &ctrl->namespaces, list)
--		nvme_start_ns_queue(ns);
--	up_read(&ctrl->namespaces_rwsem);
-+	if (test_and_clear_bit(NVME_CTRL_STOPPED, &ctrl->flags))
-+		blk_mq_unquiesce_tagset(ctrl->tagset);
- }
- EXPORT_SYMBOL_GPL(nvme_start_queues);
+ #define QUEUE_FLAG_MQ_DEFAULT	((1UL << QUEUE_FLAG_IO_STAT) |		\
+ 				 (1UL << QUEUE_FLAG_SAME_COMP) |	\
+@@ -619,6 +620,7 @@ bool blk_queue_flag_test_and_set(unsigned int flag, struct request_queue *q);
+ #define blk_queue_pm_only(q)	atomic_read(&(q)->pm_only)
+ #define blk_queue_registered(q)	test_bit(QUEUE_FLAG_REGISTERED, &(q)->queue_flags)
+ #define blk_queue_sq_sched(q)	test_bit(QUEUE_FLAG_SQ_SCHED, &(q)->queue_flags)
++#define blk_queue_noquiesced(q)	test_bit(QUEUE_FLAG_NOQUIESCED, &(q)->queue_flags)
  
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a29877217ee6..8e2f13a1e23a 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -237,6 +237,7 @@ enum nvme_ctrl_flags {
- 	NVME_CTRL_FAILFAST_EXPIRED	= 0,
- 	NVME_CTRL_ADMIN_Q_STOPPED	= 1,
- 	NVME_CTRL_STARTED_ONCE		= 2,
-+	NVME_CTRL_STOPPED		= 3,
- };
- 
- struct nvme_ctrl {
-@@ -487,7 +488,6 @@ struct nvme_ns {
- #define NVME_NS_ANA_PENDING	2
- #define NVME_NS_FORCE_RO	3
- #define NVME_NS_READY		4
--#define NVME_NS_STOPPED		5
- 
- 	struct cdev		cdev;
- 	struct device		cdev_device;
+ extern void blk_set_pm_only(struct request_queue *q);
+ extern void blk_clear_pm_only(struct request_queue *q);
 -- 
 2.16.4
 
