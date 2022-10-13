@@ -4,44 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00984C433FE
-	for <linux-nvme@archiver.kernel.org>; Sat, 15 Oct 2022 05:51:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7323FC433FE
+	for <linux-nvme@archiver.kernel.org>; Sat, 15 Oct 2022 05:51:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2IPrBznXbTQxoJPi7gWHCx7J9OvV+m601cNw6Qc6L7g=; b=Z11rLd7XDFT0UKlg1XyGK0i8kn
-	b78UlR8S3o9iHb99NTHJK85Pl0cvyTA2zPv9Q+GI6rc8UOdqx3zVlfCIZPDPv1SJyt2eGacK29DtS
-	cYz0/wkKFi3kzgh7TC1MTDl1A+ZgkkN9ukUypgqrBHj8Ss5qe5MXj2liNfiSWIUVZHSTtDSCwYvVY
-	kmkizMPC8zgsTfohsBG1fNeHrl2P6iL1tm4fEijOzoCommTHZAO+2B0wiTGXXcAn1l0Ogaah+eYrg
-	4KBe6bcIrT1Rzp2Q06P4REgKhXhMJQ5gk7/bXEr4JvWWOOxr7Ur7MJtRAwipmi9Le7Tlxkhke71Ti
-	m3P/2DyQ==;
+	bh=kPntWr7A6bA616PExnbnx5reDbccdV4V+F7u1oTVbdw=; b=Wh8EsT6DE4JAiBEcrBQupfiU9v
+	HpLHbCdBDcPc2zzSnIaVvjx/iU3A6t5litRsCG1QbIDAeXBKBAc7agQJ+i6yGMjmx6ydfN5TWCqkU
+	3A/KXM+HhMyBinsxg5veUN0+n/HT/GxvjWHTLRSBkHZvsYOSItIu3BGhBBqsCp7Zxg/oKvQ6MJQAn
+	1Yu1ny7AvCwumbpTx96SIdvQ3ljs/WO4zA9j1xKHGVvF1Keloys73iFnOZaksssgFoldPNcCHQopF
+	YcrZ4KGqFqQxEv43TIOl9F40rZlLDi2w7aKAktdV22hKbWlxIQfu5iPwIkcmlC1PsBx+rzcWecSmt
+	3txBH9Rg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oja52-00GV9c-LN; Sat, 15 Oct 2022 05:51:28 +0000
-Received: from mail.sf-mail.de ([2a01:4f8:1c17:6fae:616d:6c69:616d:6c69])
+	id 1oja57-00GVAM-0F; Sat, 15 Oct 2022 05:51:33 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oiwa6-00BZeV-Mp
-	for linux-nvme@lists.infradead.org; Thu, 13 Oct 2022 11:40:56 +0000
-Received: (qmail 12515 invoked from network); 13 Oct 2022 11:40:25 -0000
-Received: from p200300cf070ada0076d435fffeb7be92.dip0.t-ipconnect.de ([2003:cf:70a:da00:76d4:35ff:feb7:be92]:49034 HELO eto.sf-tec.de) (auth=eike@sf-mail.de)
-	by mail.sf-mail.de (Qsmtpd 0.38dev) with (TLS_AES_256_GCM_SHA384 encrypted) ESMTPSA
-	for <fw@strlen.de>; Thu, 13 Oct 2022 13:40:25 +0200
-From: Rolf Eike Beer <eike-kernel@sf-tec.de>
-To: Florian Westphal <fw@strlen.de>
-Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev, "Jason A. Donenfeld" <Jason@zx2c4.com>, Andrew Morton <akpm@linux-foundation.org>, Florian Westphal <fw@strlen.de>, Herbert Xu <herbert@gondor.apana.org.au>, Thomas Graf <tgraf@suug.ch>, kasan-dev@googlegroups.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, kernel-janitors@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org, linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org, linux-mips@vger.kernel.org, linux-mm@kvack.org, linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org, linux-parisc@vger.kernel.org, linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org, linux-um@lists.infradead.org, linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev, netdev@vger.kernel.org, sparclinux@vger.kernel.org, x86@kernel.org
+	id 1oj0xi-00CPj5-89; Thu, 13 Oct 2022 16:21:35 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id A34AAB81F3E;
+	Thu, 13 Oct 2022 16:21:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5671C433D6;
+	Thu, 13 Oct 2022 16:21:28 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="GP4P33Go"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+	t=1665678086;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kPntWr7A6bA616PExnbnx5reDbccdV4V+F7u1oTVbdw=;
+	b=GP4P33GoTZTXwgHWO1z/FqyjryY8qsqfXNBCumID69G06rmzAbuflrmGXm0knLxOwy6AOV
+	r5Se8is8rcJ8teWZq2zoRDvfJGTZawQk7FulxMoGHupIBrT9us1rnRt6jRmg3GIbXoJ/w6
+	20UjSRmQn/6S5nyrDvb7rvSacSvCVHE=
+Received: 	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 5f752f1b (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Thu, 13 Oct 2022 16:21:25 +0000 (UTC)
+Date: Thu, 13 Oct 2022 10:21:18 -0600
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Rolf Eike Beer <eike-kernel@sf-tec.de>
+Cc: Florian Westphal <fw@strlen.de>, linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Thomas Graf <tgraf@suug.ch>, kasan-dev@googlegroups.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	kernel-janitors@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-mm@kvack.org,
+	linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-nvme@lists.infradead.org, linux-parisc@vger.kernel.org,
+	linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+	linux-um@lists.infradead.org, linux-usb@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	loongarch@lists.linux.dev, netdev@vger.kernel.org,
+	sparclinux@vger.kernel.org, x86@kernel.org
 Subject: Re: [PATCH v6 5/7] treewide: use get_random_u32() when possible
-Date: Thu, 13 Oct 2022 13:40:40 +0200
-Message-ID: <11986571.xaOnivgMc4@eto.sf-tec.de>
-In-Reply-To: <20221013101635.GB11818@breakpoint.cc>
-References: <20221010230613.1076905-1-Jason@zx2c4.com> <3026360.ZldQQBzMgz@eto.sf-tec.de> <20221013101635.GB11818@breakpoint.cc>
+Message-ID: <Y0g6/sIJMq/JRe6y@zx2c4.com>
+References: <20221010230613.1076905-1-Jason@zx2c4.com>
+ <3026360.ZldQQBzMgz@eto.sf-tec.de>
+ <20221013101635.GB11818@breakpoint.cc>
+ <11986571.xaOnivgMc4@eto.sf-tec.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart22512332.f9tG50R4rC"; micalg="pgp-sha1"; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <11986571.xaOnivgMc4@eto.sf-tec.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221013_044055_070023_5EE52DFD 
-X-CRM114-Status: GOOD (  11.70  )
+X-CRM114-CacheID: sfid-20221013_092134_455333_79A7212E 
+X-CRM114-Status: GOOD (  15.29  )
 X-Mailman-Approved-At: Fri, 14 Oct 2022 22:51:19 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -57,44 +92,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---nextPart22512332.f9tG50R4rC
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Rolf Eike Beer <eike-kernel@sf-tec.de>
-To: Florian Westphal <fw@strlen.de>
-Date: Thu, 13 Oct 2022 13:40:40 +0200
-Message-ID: <11986571.xaOnivgMc4@eto.sf-tec.de>
-In-Reply-To: <20221013101635.GB11818@breakpoint.cc>
-MIME-Version: 1.0
-
-Am Donnerstag, 13. Oktober 2022, 12:16:35 CEST schrieb Florian Westphal:
-> Rolf Eike Beer <eike-kernel@sf-tec.de> wrote:
-> > Florian, can you comment and maybe fix it?
+On Thu, Oct 13, 2022 at 01:40:40PM +0200, Rolf Eike Beer wrote:
+> Am Donnerstag, 13. Oktober 2022, 12:16:35 CEST schrieb Florian Westphal:
+> > Rolf Eike Beer <eike-kernel@sf-tec.de> wrote:
+> > > Florian, can you comment and maybe fix it?
+> > 
+> > Can't comment, do not remember -- this was 5 years ago.
+> > 
+> > > Or you wanted to move the variable before the loop and keep the random
+> > > state between the loops and only reseed when all '1' bits have been
+> > > consumed.
+> > Probably.  No clue, best to NOT change it to not block Jasons series and
+> > then just simplify this and remove all the useless shifts.
 > 
-> Can't comment, do not remember -- this was 5 years ago.
-> 
-> > Or you wanted to move the variable before the loop and keep the random
-> > state between the loops and only reseed when all '1' bits have been
-> > consumed.
-> Probably.  No clue, best to NOT change it to not block Jasons series and
-> then just simplify this and remove all the useless shifts.
+> Sure. Jason, just in case you are going to do a v7 this could move to u8 then.
 
-Sure. Jason, just in case you are going to do a v7 this could move to u8 then.
+Indeed I think this is one to send individually to netdev@ once the tree
+opens there for 6.2.
 
---nextPart22512332.f9tG50R4rC
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQSaYVDeqwKa3fTXNeNcpIk+abn8TgUCY0f5OAAKCRBcpIk+abn8
-TncNAKCia3h4AG/9IzqybWbLcwE6uVgTqACfRr3dPUK8JMrKIqGzYOiL96isZhg=
-=zppL
------END PGP SIGNATURE-----
-
---nextPart22512332.f9tG50R4rC--
-
-
-
+Jason
 
