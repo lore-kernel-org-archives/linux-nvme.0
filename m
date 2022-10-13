@@ -4,69 +4,140 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A7BBC433FE
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Oct 2022 10:28:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F106EC433FE
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Oct 2022 14:32:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZUcKJbXBOEpbBfA0pU0i0kCUvjBr6lSt0Uq5+NFkwQ8=; b=Vft7RKr6jjftqZgTd5cV/tPs/9
-	xLGhbqKdWhnQeSqNxZ1TmFarthn3Exf+h8A3w8OHyM3xhusPTuLR4116KqmaVl0u4cG2fX+I6ov1T
-	rR2mNSXx5a0o+JLfou7nXhUfYymB6IvEFMinZnxzWHI6TcQyiUioblYrbRwnBZjXaKuJDaHQAHM6V
-	g95jzddJp1MUM+Y3UDimi8y1eT0Nfw8AdAF4i5blF00+HmqUPP/M7UNtua/n6GDrzNH1O2flCHd9o
-	VlD/LLRgCEfdtypwzFqcPVDMxaPbJcuDrdTflX7u9xfhAaG9RNXx7yvXpKU+h/eorMwkpoPk9+oYv
-	SyMbpdBA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=MRZN4YEo03cJMSQkVgoe0RGaq2tgr5VLLcSPpNMh80A=; b=zjKYv8TR/96kpBaxUDkzEPzvt8
+	LoUgto7EXEanVNpCncoot7gfjxqyHP0cmyzH/wrlvwBQMlEWHMZSld6Hg0lCYbcJv7/+woiWGfeBY
+	fb195Q6GiHs5UJmWPQZQwlbCk4YcPZ8KSNT7vUq1MmNjwBDvDSUJikLLFvsmuaTQA4581p1Fs3vK6
+	uXbom/rWmIxtYxez76XF2k8XkErn/kKKGVDggrjOpWhvG9avF1m2tq3y+iK0p083E+tRRqykp3BmA
+	h+GcHDYM+6LMTwje9FBizQzHGwLKpCFbTaxPqBzNhog20ghsmANHXSUaGkQrb9MJXdWOJ6nWJRwt/
+	5gkEVM2g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oivSG-00BQIO-Dp; Thu, 13 Oct 2022 10:28:44 +0000
-Received: from mail-wr1-f41.google.com ([209.85.221.41])
+	id 1oizFz-00C9e1-Rn; Thu, 13 Oct 2022 14:32:19 +0000
+Received: from mail-dm6nam11on2070.outbound.protection.outlook.com ([40.107.223.70] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oivSD-00BQHw-Uw
-	for linux-nvme@lists.infradead.org; Thu, 13 Oct 2022 10:28:43 +0000
-Received: by mail-wr1-f41.google.com with SMTP id bv10so2124123wrb.4
-        for <linux-nvme@lists.infradead.org>; Thu, 13 Oct 2022 03:28:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZUcKJbXBOEpbBfA0pU0i0kCUvjBr6lSt0Uq5+NFkwQ8=;
-        b=NnQO76OpSM4YaoClO46TiLoS7FYmd+gOkBmQO1mwE4JEVzfrMNEexRiZDND8tfONce
-         GqXbYmyY+M7pdoSlKCDUo5M1pXvjwr2a4BEjiu6d/vUQLW07tOaPXXsYWbeiU+i65lJN
-         A7e0eUX1z+EyTzLKjlpEkrcM7QGKYB5Z4MyYkSv0MUHR/jBoI55Hloea0wmcLsDjgJbH
-         rQDNpl8c1LwLWWvxlzFlFZAQoo8udoe+1NdgSBNTGlhyO/8veLlL6Xp+dI++r4jdiC8H
-         flfjONvVMOR9QcGlEfXVtoxel+c7nI3nw3oceQlQnvcURdxdIr4ARIjwkNE1phVSQ4DZ
-         24GA==
-X-Gm-Message-State: ACrzQf2qfBqbKc0Hzdjmn1vSWn7rG3/RGmO9wjkYkxF3HnopjJDE+kx1
-	d/8x5yGaoEjqP1e7zFrg1JNSJJNUApw=
-X-Google-Smtp-Source: AMsMyM7RflpqOJLx3tuHzisp4dlDMizKRV39aONKPGY5HRvNXGWT7Srx0srIFf2dg91sCJyXcjGBgA==
-X-Received: by 2002:a05:6000:1689:b0:22e:2c03:36e7 with SMTP id y9-20020a056000168900b0022e2c0336e7mr21828088wrd.252.1665656919270;
-        Thu, 13 Oct 2022 03:28:39 -0700 (PDT)
-Received: from [192.168.64.53] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id m20-20020adfc594000000b0022abcc1e3cesm1699179wrg.116.2022.10.13.03.28.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Oct 2022 03:28:38 -0700 (PDT)
-Message-ID: <99dac305-206c-4e1b-a1ec-50e107258b6b@grimberg.me>
-Date: Thu, 13 Oct 2022 13:28:37 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 1/2] blk-mq: add tagset quiesce interface
-Content-Language: en-US
-To: Chao Leng <lengchao@huawei.com>, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org
-Cc: hch@lst.de, kbusch@kernel.org, ming.lei@redhat.com, axboe@kernel.dk
+	id 1oizFu-00C9cy-Q3
+	for linux-nvme@lists.infradead.org; Thu, 13 Oct 2022 14:32:15 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RKxX7vn3wsfuM//vcjIv35NX9jQQMl6q0mu3Sa9RdZIpqyWTFaHWaoEzlJQANoSbyRTiHQCBifXa0MTq5Ii1CnQmyFyzB0ltCmfkmVF1fxOxO3WAI4vw+uX/dHWRANZroEnG2/+5SvnAY4UeRxK8u0AU7lfu8CObNB+V7pGk/+tX95bp/mbHca58xCqU9AD5/kJ+Mq/l31COCV9F8eLjtyktAHpEbSFT+dTXKlbJFpBygh6fToo8jSIw+1Pj3Iyit3hFPiA4Ynd8SY4QM+Th1870x+zhs85Rf6haNIwdaBzNwzwt/uUD3IrGHWVuBziKum+SWEpK4NADVFFh68n2aA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MRZN4YEo03cJMSQkVgoe0RGaq2tgr5VLLcSPpNMh80A=;
+ b=QuGGWecOklAJ3dYt9qAJGT417HYTsrC6aCssZoJeLTC22QSpRe2kJQS4bn3JAScbV9nQjK0wy5vRutGORiesJdntiWEClidxrbo6dURCkY6Qo7f2A6rXQyPRwtTtw7TINzpkrK6mtsFlpV5sRV7ArB71aWJKEsSHwVZgYaiQTVBJWXGDKfCKsX271h+bOYtu9v9oT36TBQwe2mTZC2Qa1p7W0OAFMMIK4AUsBejcYHRrXNx8CvsuzJSjF/dFuyJKtuwkmuMl/23Zw6LbLzeU4exGj17CPRXh6117yNeJAMCOOrlWnPap+14w9rkf/VxNoTqTKhNzbU5WtVjd8lYlbA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MRZN4YEo03cJMSQkVgoe0RGaq2tgr5VLLcSPpNMh80A=;
+ b=oi8jzWDKGxNOvarxCrMfSm4m4zWPODLgBBAdVcTK8Rw0kqod80gmV+MMXII3IJsXIATp/7pwm5bUKx8fyacEOf5RsHLOoP7aeSqEP457VGnWnDk0uj4HU+U3TJE3OtcHBDdDa5NZoliZPBnkHSXGtwzuvhxkITkRbO+cHwJDzp81LjM7Bec/uJgEmE+47qxXEIw3D0tx94WFLD2rJ9+kzX0rwv9oVPYXX/ouOBC55jA6FCCEvw8Nw+uJAEhrWEK9SYH1Gru6EaAhc9KWGX+Q8Ab0GT/ewif1+NRBdvzHGQBg4eKKXukt4Jt9CJc8zpAIYruRVuDk1Paa6nEpBBuQEQ==
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
+ by DS7PR12MB5838.namprd12.prod.outlook.com (2603:10b6:8:79::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.20; Thu, 13 Oct
+ 2022 14:32:07 +0000
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::4470:ef9a:5126:f947]) by MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::4470:ef9a:5126:f947%4]) with mapi id 15.20.5709.015; Thu, 13 Oct 2022
+ 14:32:07 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Chao Leng <lengchao@huawei.com>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>
+CC: "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+	"kbusch@kernel.org" <kbusch@kernel.org>, "ming.lei@redhat.com"
+	<ming.lei@redhat.com>, "axboe@kernel.dk" <axboe@kernel.dk>
+Subject: Re: [PATCH v2 0/2] improve nvme quiesce time for large amount of
+ namespaces
+Thread-Topic: [PATCH v2 0/2] improve nvme quiesce time for large amount of
+ namespaces
+Thread-Index: AQHY3uh4/bADRDRv9kaOrr+lm2Kvp64MY1OA
+Date: Thu, 13 Oct 2022 14:32:07 +0000
+Message-ID: <d83c88c8-0486-072d-a03d-d0a3a8e4387c@nvidia.com>
 References: <20221013094450.5947-1-lengchao@huawei.com>
- <20221013094450.5947-2-lengchao@huawei.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20221013094450.5947-2-lengchao@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20221013094450.5947-1-lengchao@huawei.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|DS7PR12MB5838:EE_
+x-ms-office365-filtering-correlation-id: 34cef4e8-8a74-42ea-7319-08daad27b4f6
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  OROnw4P8454oaXXEx+H6DPFERBiMaA7eN3KiHrQCKZSxch+jC/kQbkCT8xYvwHmGxSEJ/IFK0ERxwfA6WYc1SeFakM/TJtn2wqO6Yz4tCkMbHPk2JvfxD1mXfITe5YEUU1vF5YF84WQvfcjxXLEz04ZqFhexS9V7k7rjSBZ41wu+a4lAg/+MOnyOkDHIQQy7ZE+qJjMLjUNnrss7Hq088Sor0l3uZtbwdVEZhacuLN5XptHRJ051baDChLaYuRkg/4SIp99y5xoA/5ddnze4xDIXkrCCMnUfOFT5qm/TWuep2ZVvzxc9s6pSMhXvULlTX2gjAQj/rXmpWYzk9NnNbqwYoukC33a6p3bmwiVsay9RAn3qhcwSYANzZK77QpfW/gyxha/tuESoSEcITkWOHBlDf3QhOOkrVEaunAkTtzKNJteh7Pblkw0Qvr368bSRDuN1aVeecUg93qSA1jEFZKf+wllpXEF5KG9kyVAxSgm1CQSrNji0oNKXl6MeiENr3aotgV9UH0euZJY9t0dv9l/1DuDhroQHHPNFY5ck9EbT5SuLzhftY63JfYG2TweA2BXVZuZDms/e2iN75zvYcKJCORnOKRYy3/38cVCrCfbL/T48k3sJ77opXaI9/VicR1JpKSpFsWp/fuK9OKSAhqhq5pVTifdrFi/zcf4DeX6fwKKUnEyw2UDF5HGKviagV2aQce5rR7sXmxz3i4YQ2iS2Yuw/vpir8uCyANALlvod6h9xPCtR/kQn3j8/lPmvDFnGJvwICOm4LyTbFEU5Rv7SRgsLvKiwEuOLSinVJiooCEq70izB5/iW7CGY62j2CSYhaI3VwG7vE5aSCrRl6w==
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(366004)(346002)(396003)(376002)(39860400002)(451199015)(316002)(110136005)(54906003)(8936002)(186003)(6512007)(122000001)(4744005)(5660300002)(2616005)(2906002)(8676002)(4326008)(66476007)(38100700002)(66446008)(76116006)(91956017)(66946007)(6506007)(66556008)(64756008)(36756003)(53546011)(41300700001)(71200400001)(31696002)(38070700005)(31686004)(6486002)(86362001)(478600001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?N1lqd0wzMVE1RkJhMEtWRUJ5RW5QZFBEVStxelVaMDMxVFNmV1FWa1VOQm53?=
+ =?utf-8?B?a3Avdk1HNmpnR1lPdFdTU3NJdjhiS3RxcXRJUHA3TEhaTnA5bllvSHArbXBL?=
+ =?utf-8?B?NlQyaDFGLzgvZFdSeXdOdm91cVc3YVBwcGVnMVZKYlBQeER3NXVhSWJZbWlx?=
+ =?utf-8?B?T3lsaUZoc2VvV0M3eWc1dmJ1K3Z3ZkRCMFEvNnF2cnRjQ1JaY05lY3lyZ2NI?=
+ =?utf-8?B?MDNvN1cvNE42bnAxRVIwS3JpWnFxZGtITGVndXhuaU5mNkRhUkQ0NUZoS3JS?=
+ =?utf-8?B?dFJZS3kxdDhVQmJMZkt0b1VQVThYWWUrYW5WbXo3cnl5US91Z3BTMFlzaHBK?=
+ =?utf-8?B?WUpIVzVRRlFUSDhvNzEwR3N1RjZyS3lUOHo5R20vTjJwa3pIWVduM3VIbU9M?=
+ =?utf-8?B?bXVwdHdjRmFMQzROVXl5UEIvcW1YbVJDQnZMTVBoZWc3clFvS0dXdWNwWXRQ?=
+ =?utf-8?B?MTlFeVhjUjNxbFk1am1TTjdlcUw2cytCS1UxRFpxYXVyREszVGFzdUI1MXpa?=
+ =?utf-8?B?K1A3K2ZIQUoyU1VrMG1kKzhUSGRvbXpUc3ZJR0Jha2dzQWhuc1daaGl1N1Mx?=
+ =?utf-8?B?bFlqYXhKT1ViRk9qNEd4cjM5ZDdHWk1BMDNJSnQ2N0VGM05FMnVFYlRFMmJB?=
+ =?utf-8?B?ZTJaMElVUUl0d2lrUXF1dWg4N3B1NXdNVlhzak9rbUwxY1ZOanNIanY0YXo4?=
+ =?utf-8?B?MU1WM3V5S0dWZnA3TkQvZXZnWFBPWE1PbVVNOXU2Q2cxU3J3bS9yWmNNck5S?=
+ =?utf-8?B?Ny80aFpjbGduZ3ZjMU0wZE00cXRHdTNwaG1VVG1UbzFIMFJCUWF2eTNtbXE4?=
+ =?utf-8?B?UnVhWGdHeEwrM1JHYitKS1MzTVJUazdmSnIxa1FacGo1K3hNWXlEbW5aeC9O?=
+ =?utf-8?B?aDlzeGt4SUd6RUtJTGExYitQbnJKN2pjZW44OGl3dFhBcmo0U3ZlWFJVaW1h?=
+ =?utf-8?B?ZkRCa1VVVTlBSFd4TkgrTkRFMWRUQ3YxdkZIZGcxSTU0OW5XZCtLbUdEcTRQ?=
+ =?utf-8?B?WWJtcURlUWo4VFBESkFGZkdBS2RySnh1Z0VlWnlyTEdrVGlzSG1kU09zb0x3?=
+ =?utf-8?B?Q0xBK001U1lUdURXZDFQOUROYlE4UWx1Y1Zod05sdVJ2aTJuWEJ2OTlrVVNO?=
+ =?utf-8?B?SlhHMDZnbFJpamhpYlh4RVlTRlArSGxwSExWNHpZbUJ2a2g5VEwyTVlwd3RP?=
+ =?utf-8?B?RlVjU1RoM0ZOWFR3RW9pYy9vdkQ0ZjBZYS81a2xxbUhrTEJlSWtVTnZZK3FZ?=
+ =?utf-8?B?Z2NSWUdxeEd3ZjVZSjhwWFZmN1AwVUZqOFQxdmlwSjdLNEFWT0dBMkc1WmIr?=
+ =?utf-8?B?a2UreXgyUVlEQ0tjRWM0L2hxRzVSb3VGVVdldGJVbE9JWmRaOW1PUmlQNXc5?=
+ =?utf-8?B?dHNKWlhYaE4yWUEvNkh3YWpwd2dFVFJnazI3OVBwVzVoM09yKzRWM0FKYjFi?=
+ =?utf-8?B?K0xsVXJ6UkpxT21QU210dTg5Sy9IVmkvTHJTbmJLWEtBeW11WndHWkRaSlE3?=
+ =?utf-8?B?djNwdFl4OUlGejZqUFNDR01FNmRnYUI0OER6Vkl4NnNVeXRmME5lU1ZRaXp5?=
+ =?utf-8?B?WFkrak14Tm40MlF0K2Z4a2tqa1NGSkl5ZG9vdytWUmhYWllOcXZxWjlyb1dY?=
+ =?utf-8?B?bnJJWWVXczRLZ1BVODNzc2Fjc2hDMmtQeEh5dDFpakFlMzhRUWNxUnZGdlU1?=
+ =?utf-8?B?cWMyVWpBT0FlREZqRExER3ZhSFZ6bEF0ME5hU0IyNTF4MUphTWVUckgxYjdX?=
+ =?utf-8?B?dUdEMVFSbFVoSkxWaTl5ZFpXaDZpcS83aTZXVEJ3cXMvMWhhOXBFV3FIbGdJ?=
+ =?utf-8?B?MXRNVDNDSzd3cFV2cW9VVDFHWjl3WkVaRHBscU55T0MrdkUyV0I4UjVZRWNK?=
+ =?utf-8?B?MytxSytTcDFOcWFYb3dFcDNac1dpaGUyVUQ4MURONXQrakdNZmdDSlgrdkdL?=
+ =?utf-8?B?cHNHeGUyYXJUMWJKRlZCOGNOK0w1czBPaDhUcURvRXVGUnB4YnZwWmFVRGVX?=
+ =?utf-8?B?L2dGTTB3SlVaTzgxN2RSNElLdmgrUGtqRW5jb0w3Z0ROdkFGKzhic3ZmWkll?=
+ =?utf-8?B?dElzYnV0YmVXU09seFJzZ2ZjMnhFRnE1ZDJ5cWM0MkVpanB3Ri9LQlJVTGlk?=
+ =?utf-8?B?cnd3TUVSMFM5SGZUbmJ5UEpuV1VJWnF3dk52cXN3VE9XVjBYM0ZpajFjSlBK?=
+ =?utf-8?Q?7rtxAUibExYAYHEnhoV1/uooVnjfsc2HWcz8sXxSw7wk?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <341349D3A0AD7E4DB0DF87207E86DA3E@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 34cef4e8-8a74-42ea-7319-08daad27b4f6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Oct 2022 14:32:07.7257
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: WXFZ8pL0zVMzLA7bGn9zhiXG8Hti2XrU428g/S0PXRxO3w/HkPbqqZkB1zOns2iyEQV+elEcrY7TpKNrcH74gg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5838
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221013_032842_051174_1460322C 
-X-CRM114-Status: GOOD (  28.38  )
+X-CRM114-CacheID: sfid-20221013_073214_889506_4BD8BAC8 
+X-CRM114-Status: UNSURE (   9.30  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,155 +152,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 10/13/22 12:44, Chao Leng wrote:
-> Drivers that have shared tagsets may need to quiesce potentially a lot
-> of request queues that all share a single tagset (e.g. nvme). Add an interface
-> to quiesce all the queues on a given tagset. This interface is useful because
-> it can speedup the quiesce by doing it in parallel.
-> 
-> For tagsets that have BLK_MQ_F_BLOCKING set, we use call_srcu to all hctxs
-> in parallel such that all of them wait for the same rcu elapsed period with
-> a per-hctx heap allocated rcu_synchronize. for tagsets that don't have
-> BLK_MQ_F_BLOCKING set, we simply call a single synchronize_rcu as this is
-> sufficient.
-> 
-> Because some queues never need to be quiesced(e.g. nvme connect_q).
-> So introduce QUEUE_FLAG_NOQUIESCED to tagset quiesce interface to
-> skip the queue.
-
-I wouldn't say it never nor will ever quiesce, we just don't happen to
-quiesce it today...
-
-> 
-> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
-> Signed-off-by: Chao Leng <lengchao@huawei.com>
-> ---
->   block/blk-mq.c         | 75 ++++++++++++++++++++++++++++++++++++++++++++++++++
->   include/linux/blk-mq.h |  2 ++
->   include/linux/blkdev.h |  2 ++
->   3 files changed, 79 insertions(+)
-> 
-> diff --git a/block/blk-mq.c b/block/blk-mq.c
-> index 8070b6c10e8d..ebe25da08156 100644
-> --- a/block/blk-mq.c
-> +++ b/block/blk-mq.c
-> @@ -29,6 +29,7 @@
->   #include <linux/prefetch.h>
->   #include <linux/blk-crypto.h>
->   #include <linux/part_stat.h>
-> +#include <linux/rcupdate_wait.h>
->   
->   #include <trace/events/block.h>
->   
-> @@ -311,6 +312,80 @@ void blk_mq_unquiesce_queue(struct request_queue *q)
->   }
->   EXPORT_SYMBOL_GPL(blk_mq_unquiesce_queue);
->   
-> +static void blk_mq_quiesce_blocking_tagset(struct blk_mq_tag_set *set)
-> +{
-> +	int i = 0;
-> +	int count = 0;
-> +	struct request_queue *q;
-> +	struct rcu_synchronize *rcu;
-> +
-> +	list_for_each_entry(q, &set->tag_list, tag_set_list) {
-> +		if (blk_queue_noquiesced(q))
-> +			continue;
-> +
-> +		blk_mq_quiesce_queue_nowait(q);
-> +		count++;
-> +	}
-> +
-> +	rcu = kvmalloc(count * sizeof(*rcu), GFP_KERNEL);
-> +	if (rcu) {
-> +		list_for_each_entry(q, &set->tag_list, tag_set_list) {
-> +			if (blk_queue_noquiesced(q))
-> +				continue;
-> +
-> +			init_rcu_head(&rcu[i].head);
-> +			init_completion(&rcu[i].completion);
-> +			call_srcu(q->srcu, &rcu[i].head, wakeme_after_rcu);
-> +			i++;
-> +		}
-> +
-> +		for (i = 0; i < count; i++) {
-> +			wait_for_completion(&rcu[i].completion);
-> +			destroy_rcu_head(&rcu[i].head);
-> +		}
-> +		kvfree(rcu);
-> +	} else {
-> +		list_for_each_entry(q, &set->tag_list, tag_set_list)
-> +			synchronize_srcu(q->srcu);
-> +	}
-> +}
-> +
-> +static void blk_mq_quiesce_nonblocking_tagset(struct blk_mq_tag_set *set)
-> +{
-> +	struct request_queue *q;
-> +
-> +	list_for_each_entry(q, &set->tag_list, tag_set_list) {
-> +		if (blk_queue_noquiesced(q))
-> +			continue;
-> +
-> +		blk_mq_quiesce_queue_nowait(q);
-> +	}
-> +	synchronize_rcu();
-> +}
-> +
-> +void blk_mq_quiesce_tagset(struct blk_mq_tag_set *set)
-> +{
-> +	mutex_lock(&set->tag_list_lock);
-> +	if (set->flags & BLK_MQ_F_BLOCKING)
-> +		blk_mq_quiesce_blocking_tagset(set);
-> +	else
-> +		blk_mq_quiesce_nonblocking_tagset(set);
-> +
-> +	mutex_unlock(&set->tag_list_lock);
-> +}
-> +EXPORT_SYMBOL_GPL(blk_mq_quiesce_tagset);
-> +
-> +void blk_mq_unquiesce_tagset(struct blk_mq_tag_set *set)
-> +{
-> +	struct request_queue *q;
-> +
-> +	mutex_lock(&set->tag_list_lock);
-> +	list_for_each_entry(q, &set->tag_list, tag_set_list)
-> +		blk_mq_unquiesce_queue(q);
-> +	mutex_unlock(&set->tag_list_lock);
-> +}
-> +EXPORT_SYMBOL_GPL(blk_mq_unquiesce_tagset);
-> +
->   void blk_mq_wake_waiters(struct request_queue *q)
->   {
->   	struct blk_mq_hw_ctx *hctx;
-> diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-> index ba18e9bdb799..1df47606d0a7 100644
-> --- a/include/linux/blk-mq.h
-> +++ b/include/linux/blk-mq.h
-> @@ -877,6 +877,8 @@ void blk_mq_start_hw_queues(struct request_queue *q);
->   void blk_mq_start_stopped_hw_queue(struct blk_mq_hw_ctx *hctx, bool async);
->   void blk_mq_start_stopped_hw_queues(struct request_queue *q, bool async);
->   void blk_mq_quiesce_queue(struct request_queue *q);
-> +void blk_mq_quiesce_tagset(struct blk_mq_tag_set *set);
-> +void blk_mq_unquiesce_tagset(struct blk_mq_tag_set *set);
->   void blk_mq_wait_quiesce_done(struct request_queue *q);
->   void blk_mq_unquiesce_queue(struct request_queue *q);
->   void blk_mq_delay_run_hw_queue(struct blk_mq_hw_ctx *hctx, unsigned long msecs);
-> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-> index 50e358a19d98..f15544299a67 100644
-> --- a/include/linux/blkdev.h
-> +++ b/include/linux/blkdev.h
-> @@ -579,6 +579,7 @@ struct request_queue {
->   #define QUEUE_FLAG_HCTX_ACTIVE	28	/* at least one blk-mq hctx is active */
->   #define QUEUE_FLAG_NOWAIT       29	/* device supports NOWAIT */
->   #define QUEUE_FLAG_SQ_SCHED     30	/* single queue style io dispatch */
-> +#define QUEUE_FLAG_NOQUIESCED	31	/* queue is never quiesced */
-
-the comment is misleading. If this is truely queue that is never
-quiescing then blk_mq_quiesce_queue() and friends need to skip it.
-
-I'd call it self_quiesce or something that would reflect that it is
-black-listed from tagset-wide quiesce.
+T24gMTAvMTMvMjIgMDI6NDQsIENoYW8gTGVuZyB3cm90ZToNCj4gVGhpcyBzZXQgaW1wcm92ZXMg
+dGhlIHF1aWVzY2UgdGltZSB3aGVuIHVzaW5nIGEgbGFyZ2Ugc2V0IG9mDQo+IG5hbWVzcGFjZXMs
+IHdoaWNoIGFsc28gaW1wcm92ZXMgSS9PIGZhaWxvdmVyIHRpbWUgaW4gYSBtdWx0aXBhdGggZW52
+aXJvbm1lbnQuDQo+IA0KDQpieSBob3cgbXVjaCBhbmQgd2hhdCBhcmUgdGhlIHByb2JsZW1zIGV4
+aXRzIHdpdGggY3VycmVudCB0aW1pbmcgbmVlZHMgdG8NCmJlIGRvY3VtZW50ZWQsIGkuZS4gYWRk
+IHF1YW50aXRhdGl2ZSBkYXRhIGlmIHlvdSBhcmUgcG9zdGluZyBwYXRjaGVzIGZvcg0KdGltZS9w
+ZXJmb3JtYW5jZSBpbXByb3ZlbWVudC4NCg0KLWNrDQoNCg==
 
