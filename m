@@ -4,69 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A4E7C4332F
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Oct 2022 00:44:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8184CC4332F
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Oct 2022 01:37:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bbQqD09h0kMDWH3J0zUV/OlX+1yLdEhK5ckTWLr8oks=; b=dlX4RkVzJsg6Hiq5yyMDXt1Azn
-	8TZ4c14JIXUlBsPsCSA0Qf/VC1I+DWSoi5+AioVCyHlK1RT3LaZeS8UGpSSIt20SyRKtTmzaikQn2
-	rI8ryqwL0lqTJjYmFP0tF5X2Oq1pn5kDTddnSBULBmGKkW8nC9PjxRWlY4zEc/LYjpVbHWU6pSL7o
-	5HrtgbiG6P3tXhrk+fLb4AFwIBbF+g5fNsDIVviqHPxZw05h2p/WYUl7P1yssYZcsI3ZjzsGwMtlB
-	1rRmfm0okVZqddynASuDVwKjF2/VUXy9lqf1ITw578phbTV9j6ThBzHk0dfkF+wxwkzoLROYB8TCx
-	rjEdLjpg==;
+	bh=1kO3DqSc+2tnF+lWc3p+2FD6YTLuY5TUbpMCxFvKDeU=; b=B3nCRlZn3fthDog9xrxqubOeum
+	dKPhEd0aEevF0M5ELQGvaNVxE8TL+HAy46E5HYmxt/HxjKt7rmJyCgdTEDl78g9hOLZ2UbAznrIwV
+	5YOsjkCXlcDhEJBncN5EeMZgUbYosK28XnKuVLQX/gSj1xwp0ginx6rpDA4Pcw6oIUr3LYEmW/+0O
+	tkmzQ+FNKHj+Pwx8pKtgBMlw/jwM7vMZPwfgVobXwrvY1VvhihsaU6G5cpZapI09xqNU5MhlPHPNQ
+	GCzwt+YWgz1/YUBdTvgYvtdbRS7SNQpx5HRrmWnPO1O3TjQkqZoyYf5Rpl7C0gNRdM2QIa3X1RhFe
+	+PYBao7Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oimKs-009zRJ-FJ; Thu, 13 Oct 2022 00:44:30 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1oinAW-00AAI0-5g; Thu, 13 Oct 2022 01:37:52 +0000
+Received: from szxga02-in.huawei.com ([45.249.212.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oim41-009rKD-8c
-	for linux-nvme@lists.infradead.org; Thu, 13 Oct 2022 00:27:06 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id C2B91616EF;
-	Thu, 13 Oct 2022 00:27:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC137C433D6;
-	Thu, 13 Oct 2022 00:27:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1665620823;
-	bh=QU5vmXNJ3Gr1SJU1WZy8eaBaS35TPYAliopPzIIp1pY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lYrXnZToejBP5QZ4ZXY0+UeR+bLy9NJ7uOlpZciag0MznXNmKzc+dkgjfV8GRbyaZ
-	 jWHN+fockDM8gAcu+kqunhrGy/VyhVna1WbThTBmKB6tIv2IKjpoCIyCAtOc4YlR/k
-	 511B6N3yNvqMp4F6FuNw8I4uvpH0b0Ee54BIhHMwfRHqCdtUTd8IMZFKdkxxhK1J6r
-	 e5jpUrMBN87DXl5Lx64s3Db7oNpeW+mlxFiDo5IgwLw9PpjIftTa3iBccoXJCNwY9Q
-	 Dqgx3gqKmLDoBDZMaBcYXKhnKn4B9NJ7wFWTT1LpCqtp+ROEiDAAnMIMh3B+12CG0+
-	 snxmTxVTl4j0g==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Keith Busch <kbusch@kernel.org>,
-	Jeff Lien <jeff.lien@wdc.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Chao Leng <lengchao@huawei.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sasha Levin <sashal@kernel.org>,
-	axboe@fb.com,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 4.19 16/19] nvme: copy firmware_rev on each init
-Date: Wed, 12 Oct 2022 20:26:15 -0400
-Message-Id: <20221013002623.1895576-16-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221013002623.1895576-1-sashal@kernel.org>
-References: <20221013002623.1895576-1-sashal@kernel.org>
+	id 1oinAN-00AADx-M5
+	for linux-nvme@lists.infradead.org; Thu, 13 Oct 2022 01:37:46 +0000
+Received: from canpemm500002.china.huawei.com (unknown [172.30.72.54])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MnsTx2NcrzQj77;
+	Thu, 13 Oct 2022 09:33:09 +0800 (CST)
+Received: from [10.169.59.127] (10.169.59.127) by
+ canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 13 Oct 2022 09:37:36 +0800
+Subject: Re: [PATCH 0/3] improve nvme quiesce time for large amount of
+ namespaces
+To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>, Ming Lei
+	<ming.lei@redhat.com>
+CC: <linux-nvme@lists.infradead.org>, <linux-block@vger.kernel.org>,
+	<kbusch@kernel.org>, <axboe@kernel.dk>
+References: <20220729073948.32696-1-lengchao@huawei.com>
+ <20220729142605.GA395@lst.de>
+ <1b3d753a-6ff5-bdf1-8c91-4b4760ea1736@huawei.com>
+ <fc7a303f-0921-f784-a559-f03511f2e4be@grimberg.me>
+ <20220802133815.GA380@lst.de>
+ <537c24ba-e984-811e-9e51-ecbc2af9895d@huawei.com>
+ <5fc61f6c-3d3e-ce0e-a090-aa5bcdb7721c@grimberg.me>
+ <f9fce880-4714-3cdb-dfd1-f1d77d033d7a@huawei.com>
+ <a44292df-ce46-828a-91a6-aa7377aa23f7@grimberg.me>
+From: Chao Leng <lengchao@huawei.com>
+Message-ID: <1c39ae7c-7b70-851c-813e-50a97ec44c50@huawei.com>
+Date: Thu, 13 Oct 2022 09:37:35 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+In-Reply-To: <a44292df-ce46-828a-91a6-aa7377aa23f7@grimberg.me>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.169.59.127]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ canpemm500002.china.huawei.com (7.192.104.244)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221012_172705_426021_1B32BB01 
-X-CRM114-Status: GOOD (  12.49  )
+X-CRM114-CacheID: sfid-20221012_183744_396400_3B980D04 
+X-CRM114-Status: GOOD (  24.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,47 +78,95 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
 
-[ Upstream commit a8eb6c1ba48bddea82e8d74cbe6e119f006be97d ]
 
-The firmware revision can change on after a reset so copy the most
-recent info each time instead of just the first time, otherwise the
-sysfs firmware_rev entry may contain stale data.
+On 2022/10/12 19:13, Sagi Grimberg wrote:
+> 
+> 
+> On 10/12/22 11:43, Chao Leng wrote:
+>> Add Ming Lei.
+>>
+>> On 2022/10/12 14:37, Sagi Grimberg wrote:
+>>>
+>>>>> On Sun, Jul 31, 2022 at 01:23:36PM +0300, Sagi Grimberg wrote:
+>>>>>> But maybe we can avoid that, and because we allocate
+>>>>>> the connect_q ourselves, and fully know that it should
+>>>>>> not be apart of the tagset quiesce, perhaps we can introduce
+>>>>>> a new interface like:
+>>>>>> -- 
+>>>>>> static inline int nvme_ctrl_init_connect_q(struct nvme_ctrl *ctrl)
+>>>>>> {
+>>>>>>     ctrl->connect_q = blk_mq_init_queue_self_quiesce(ctrl->tagset);
+>>>>>>     if (IS_ERR(ctrl->connect_q))
+>>>>>>         return PTR_ERR(ctrl->connect_q);
+>>>>>>     return 0;
+>>>>>> }
+>>>>>> -- 
+>>>>>>
+>>>>>> And then blk_mq_quiesce_tagset can simply look into a per request-queue
+>>>>>> self_quiesce flag and skip as needed.
+>>>>>
+>>>>> I'd just make that a queue flag set after allocation to keep the
+>>>>> interface simple, but otherwise this seems like the right thing
+>>>>> to do.
+>>>> Now the code used NVME_NS_STOPPED to avoid unpaired stop/start.
+>>>> If we use blk_mq_quiesce_tagset, It will cause the above mechanism to fail.
+>>>> I review the code, only pci can not ensure secure stop/start pairing.
+>>>> So there is a choice, We only use blk_mq_quiesce_tagset on fabrics, not PCI.
+>>>> Do you think that's acceptable?
+>>>> If that's acceptable, I will try to send a patch set.
+>>>
+>>> I don't think that this is acceptable. But I don't understand how
+>>> NVME_NS_STOPPED would change anything in the behavior of tagset-wide
+>>> quiesce?
+>> If use blk_mq_quiesce_tagset, it will quiesce all queues of all ns,
+>> but can not set NVME_NS_STOPPED of all ns. The mechanism of NVME_NS_STOPPED
+>> will be invalidated.
+>> NVMe-pci has very complicated quiesce/unquiesce use pattern, quiesce/unquiesce
+>> may be called unpaired.
+>> It will cause some backward. There may be some bugs in this scenario:
+>> A thread: quiesce the queue
+>> B thread: quiesce the queue
+>> A thread end, and does not unquiesce the queue.
+>> B thread: unquiesce the queue, and do something which need the queue must be unquiesed.
+>>
+>> Of course, I don't think it is a good choice to guarantee paired access through NVME_NS_STOPPED,
+>> there exist unexpected unquiesce and start queue too early.
+>> But now that the code has done so, the backward should be unacceptable.
+>> such as this scenario:
+>> A thread: quiesce the queue
+>> B thread: want to quiesce the queue but do nothing because NVME_NS_STOPPED is already set.
+>> A thread: unquiesce the queue
+>> Now the queue is unquiesced too early for B thread.
+>> B thread: do something which need the queue must be quiesced.
+>>
+>> Introduce NVME_NS_STOPPED link:
+>> https://lore.kernel.org/all/20211014081710.1871747-5-ming.lei@redhat.com/
+> 
+> I think we can just change a ns flag to a controller flag ala:
+> NVME_CTRL_STOPPED, and then do:
+> 
+> void nvme_stop_queues(struct nvme_ctrl *ctrl)
+> {
+>      if (!test_and_set_bit(NVME_CTRL_STOPPED, &ns->flags))
+>          blk_mq_quiesce_tagset(ctrl->tagset);
+> }
+> EXPORT_SYMBOL_GPL(nvme_stop_queues);
+> 
+> void nvme_start_queues(struct nvme_ctrl *ctrl)
+> {
+>      if (test_and_clear_bit(NVME_CTRL_STOPPED, &ns->flags))
+>          blk_mq_unquiesce_tagset(ctrl->tagset);
+> }
+> EXPORT_SYMBOL_GPL(nvme_start_queues);
+> 
+> Won't that achieve the same result?
+No, nvme_set_queue_dying call nvme_start_ns_queue for one ns.
+ctrl->flags can not cover this scenario.
+This still results in unpaired quiesce/unquiesce.
 
-Reported-by: Jeff Lien <jeff.lien@wdc.com>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Reviewed-by: Chao Leng <lengchao@huawei.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/nvme/host/core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 582c3b190418..986912e680d8 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2320,7 +2320,6 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 	nvme_init_subnqn(subsys, ctrl, id);
- 	memcpy(subsys->serial, id->sn, sizeof(subsys->serial));
- 	memcpy(subsys->model, id->mn, sizeof(subsys->model));
--	memcpy(subsys->firmware_rev, id->fr, sizeof(subsys->firmware_rev));
- 	subsys->vendor_id = le16_to_cpu(id->vid);
- 	subsys->cmic = id->cmic;
- 
-@@ -2481,6 +2480,8 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 				ctrl->quirks |= core_quirks[i].quirks;
- 		}
- 	}
-+	memcpy(ctrl->subsys->firmware_rev, id->fr,
-+	       sizeof(ctrl->subsys->firmware_rev));
- 
- 	if (force_apst && (ctrl->quirks & NVME_QUIRK_NO_DEEPEST_PS)) {
- 		dev_warn(ctrl->device, "forcibly allowing all power states due to nvme_core.force_apst -- use at your own risk\n");
--- 
-2.35.1
-
+Maybe it is necessary to clean up the confused quiesce/unquiesce of nvme-pci,
+Thus blk_mq_quiesce_tagset can be easy to use for nvme-pci.
+Before that, we could only optimize batched quiesce/unquiesce based on ns,
+Although I also think using blk_mq_quiesce_tagset is a better choice.
 
