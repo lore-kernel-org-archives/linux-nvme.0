@@ -4,36 +4,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8184CC4332F
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Oct 2022 01:37:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C489AC433FE
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Oct 2022 02:07:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:CC:To:From:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1kO3DqSc+2tnF+lWc3p+2FD6YTLuY5TUbpMCxFvKDeU=; b=B3nCRlZn3fthDog9xrxqubOeum
-	dKPhEd0aEevF0M5ELQGvaNVxE8TL+HAy46E5HYmxt/HxjKt7rmJyCgdTEDl78g9hOLZ2UbAznrIwV
-	5YOsjkCXlcDhEJBncN5EeMZgUbYosK28XnKuVLQX/gSj1xwp0ginx6rpDA4Pcw6oIUr3LYEmW/+0O
-	tkmzQ+FNKHj+Pwx8pKtgBMlw/jwM7vMZPwfgVobXwrvY1VvhihsaU6G5cpZapI09xqNU5MhlPHPNQ
-	GCzwt+YWgz1/YUBdTvgYvtdbRS7SNQpx5HRrmWnPO1O3TjQkqZoyYf5Rpl7C0gNRdM2QIa3X1RhFe
-	+PYBao7Q==;
+	bh=VMyYHyi1+xYPCaFAN6ZFRcSvZw4LRX3Wdls8yipzOW4=; b=bmPy8Racjxu8yUHnj5GEBKSXEq
+	BmGdoyRPMbz/9ZO1gUMRPAIqKOzS4249lXJRGxfMdKEvh1boA7wJINM2mCKOkKkEN/4V6B1BfkxeQ
+	ejsMav4QRDml8krNkWWERasww2aKWITXEM0OwzdtqZLEAqm02vF0heTvjBpDyjxu6rzlQLXrPqxcN
+	wyw8eGtDuy5YKRTuom6gNrTgYPMBdjBceqSm15Ubqkcotzgod29DMJdmXj4e6hEfVNJjG3zmqU6Qx
+	sfi6CONxnldpHbBl5UNLwamt1f4A8QxDfvMUVnSXc7B/8oNkCGoyp3zupdEKedbw3kBbJ5U+SAmNx
+	UGO3qj0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oinAW-00AAI0-5g; Thu, 13 Oct 2022 01:37:52 +0000
+	id 1oindQ-00AEri-9M; Thu, 13 Oct 2022 02:07:44 +0000
 Received: from szxga02-in.huawei.com ([45.249.212.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oinAN-00AADx-M5
-	for linux-nvme@lists.infradead.org; Thu, 13 Oct 2022 01:37:46 +0000
-Received: from canpemm500002.china.huawei.com (unknown [172.30.72.54])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MnsTx2NcrzQj77;
-	Thu, 13 Oct 2022 09:33:09 +0800 (CST)
+	id 1oinco-00AEeI-De
+	for linux-nvme@lists.infradead.org; Thu, 13 Oct 2022 02:07:09 +0000
+Received: from canpemm500002.china.huawei.com (unknown [172.30.72.56])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MntDv6Y1BzHv1M;
+	Thu, 13 Oct 2022 10:06:55 +0800 (CST)
 Received: from [10.169.59.127] (10.169.59.127) by
  canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 13 Oct 2022 09:37:36 +0800
+ 15.1.2375.31; Thu, 13 Oct 2022 10:06:57 +0800
 Subject: Re: [PATCH 0/3] improve nvme quiesce time for large amount of
  namespaces
+From: Chao Leng <lengchao@huawei.com>
 To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>, Ming Lei
 	<ming.lei@redhat.com>
 CC: <linux-nvme@lists.infradead.org>, <linux-block@vger.kernel.org>,
@@ -47,23 +48,23 @@ References: <20220729073948.32696-1-lengchao@huawei.com>
  <5fc61f6c-3d3e-ce0e-a090-aa5bcdb7721c@grimberg.me>
  <f9fce880-4714-3cdb-dfd1-f1d77d033d7a@huawei.com>
  <a44292df-ce46-828a-91a6-aa7377aa23f7@grimberg.me>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <1c39ae7c-7b70-851c-813e-50a97ec44c50@huawei.com>
-Date: Thu, 13 Oct 2022 09:37:35 +0800
+ <1c39ae7c-7b70-851c-813e-50a97ec44c50@huawei.com>
+Message-ID: <6aa3240a-7e8a-daad-2e2e-13bd573155d2@huawei.com>
+Date: Thu, 13 Oct 2022 10:06:56 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.1
 MIME-Version: 1.0
-In-Reply-To: <a44292df-ce46-828a-91a6-aa7377aa23f7@grimberg.me>
+In-Reply-To: <1c39ae7c-7b70-851c-813e-50a97ec44c50@huawei.com>
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.169.59.127]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  canpemm500002.china.huawei.com (7.192.104.244)
 X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221012_183744_396400_3B980D04 
-X-CRM114-Status: GOOD (  24.59  )
+X-CRM114-CacheID: sfid-20221012_190706_852258_368C596B 
+X-CRM114-Status: GOOD (  28.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,93 +81,145 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 2022/10/12 19:13, Sagi Grimberg wrote:
+On 2022/10/13 9:37, Chao Leng wrote:
 > 
 > 
-> On 10/12/22 11:43, Chao Leng wrote:
->> Add Ming Lei.
+> On 2022/10/12 19:13, Sagi Grimberg wrote:
 >>
->> On 2022/10/12 14:37, Sagi Grimberg wrote:
+>>
+>> On 10/12/22 11:43, Chao Leng wrote:
+>>> Add Ming Lei.
 >>>
->>>>> On Sun, Jul 31, 2022 at 01:23:36PM +0300, Sagi Grimberg wrote:
->>>>>> But maybe we can avoid that, and because we allocate
->>>>>> the connect_q ourselves, and fully know that it should
->>>>>> not be apart of the tagset quiesce, perhaps we can introduce
->>>>>> a new interface like:
->>>>>> -- 
->>>>>> static inline int nvme_ctrl_init_connect_q(struct nvme_ctrl *ctrl)
->>>>>> {
->>>>>>     ctrl->connect_q = blk_mq_init_queue_self_quiesce(ctrl->tagset);
->>>>>>     if (IS_ERR(ctrl->connect_q))
->>>>>>         return PTR_ERR(ctrl->connect_q);
->>>>>>     return 0;
->>>>>> }
->>>>>> -- 
+>>> On 2022/10/12 14:37, Sagi Grimberg wrote:
+>>>>
+>>>>>> On Sun, Jul 31, 2022 at 01:23:36PM +0300, Sagi Grimberg wrote:
+>>>>>>> But maybe we can avoid that, and because we allocate
+>>>>>>> the connect_q ourselves, and fully know that it should
+>>>>>>> not be apart of the tagset quiesce, perhaps we can introduce
+>>>>>>> a new interface like:
+>>>>>>> -- 
+>>>>>>> static inline int nvme_ctrl_init_connect_q(struct nvme_ctrl *ctrl)
+>>>>>>> {
+>>>>>>>     ctrl->connect_q = blk_mq_init_queue_self_quiesce(ctrl->tagset);
+>>>>>>>     if (IS_ERR(ctrl->connect_q))
+>>>>>>>         return PTR_ERR(ctrl->connect_q);
+>>>>>>>     return 0;
+>>>>>>> }
+>>>>>>> -- 
+>>>>>>>
+>>>>>>> And then blk_mq_quiesce_tagset can simply look into a per request-queue
+>>>>>>> self_quiesce flag and skip as needed.
 >>>>>>
->>>>>> And then blk_mq_quiesce_tagset can simply look into a per request-queue
->>>>>> self_quiesce flag and skip as needed.
->>>>>
->>>>> I'd just make that a queue flag set after allocation to keep the
->>>>> interface simple, but otherwise this seems like the right thing
->>>>> to do.
->>>> Now the code used NVME_NS_STOPPED to avoid unpaired stop/start.
->>>> If we use blk_mq_quiesce_tagset, It will cause the above mechanism to fail.
->>>> I review the code, only pci can not ensure secure stop/start pairing.
->>>> So there is a choice, We only use blk_mq_quiesce_tagset on fabrics, not PCI.
->>>> Do you think that's acceptable?
->>>> If that's acceptable, I will try to send a patch set.
+>>>>>> I'd just make that a queue flag set after allocation to keep the
+>>>>>> interface simple, but otherwise this seems like the right thing
+>>>>>> to do.
+>>>>> Now the code used NVME_NS_STOPPED to avoid unpaired stop/start.
+>>>>> If we use blk_mq_quiesce_tagset, It will cause the above mechanism to fail.
+>>>>> I review the code, only pci can not ensure secure stop/start pairing.
+>>>>> So there is a choice, We only use blk_mq_quiesce_tagset on fabrics, not PCI.
+>>>>> Do you think that's acceptable?
+>>>>> If that's acceptable, I will try to send a patch set.
+>>>>
+>>>> I don't think that this is acceptable. But I don't understand how
+>>>> NVME_NS_STOPPED would change anything in the behavior of tagset-wide
+>>>> quiesce?
+>>> If use blk_mq_quiesce_tagset, it will quiesce all queues of all ns,
+>>> but can not set NVME_NS_STOPPED of all ns. The mechanism of NVME_NS_STOPPED
+>>> will be invalidated.
+>>> NVMe-pci has very complicated quiesce/unquiesce use pattern, quiesce/unquiesce
+>>> may be called unpaired.
+>>> It will cause some backward. There may be some bugs in this scenario:
+>>> A thread: quiesce the queue
+>>> B thread: quiesce the queue
+>>> A thread end, and does not unquiesce the queue.
+>>> B thread: unquiesce the queue, and do something which need the queue must be unquiesed.
 >>>
->>> I don't think that this is acceptable. But I don't understand how
->>> NVME_NS_STOPPED would change anything in the behavior of tagset-wide
->>> quiesce?
->> If use blk_mq_quiesce_tagset, it will quiesce all queues of all ns,
->> but can not set NVME_NS_STOPPED of all ns. The mechanism of NVME_NS_STOPPED
->> will be invalidated.
->> NVMe-pci has very complicated quiesce/unquiesce use pattern, quiesce/unquiesce
->> may be called unpaired.
->> It will cause some backward. There may be some bugs in this scenario:
->> A thread: quiesce the queue
->> B thread: quiesce the queue
->> A thread end, and does not unquiesce the queue.
->> B thread: unquiesce the queue, and do something which need the queue must be unquiesed.
+>>> Of course, I don't think it is a good choice to guarantee paired access through NVME_NS_STOPPED,
+>>> there exist unexpected unquiesce and start queue too early.
+>>> But now that the code has done so, the backward should be unacceptable.
+>>> such as this scenario:
+>>> A thread: quiesce the queue
+>>> B thread: want to quiesce the queue but do nothing because NVME_NS_STOPPED is already set.
+>>> A thread: unquiesce the queue
+>>> Now the queue is unquiesced too early for B thread.
+>>> B thread: do something which need the queue must be quiesced.
+>>>
+>>> Introduce NVME_NS_STOPPED link:
+>>> https://lore.kernel.org/all/20211014081710.1871747-5-ming.lei@redhat.com/
 >>
->> Of course, I don't think it is a good choice to guarantee paired access through NVME_NS_STOPPED,
->> there exist unexpected unquiesce and start queue too early.
->> But now that the code has done so, the backward should be unacceptable.
->> such as this scenario:
->> A thread: quiesce the queue
->> B thread: want to quiesce the queue but do nothing because NVME_NS_STOPPED is already set.
->> A thread: unquiesce the queue
->> Now the queue is unquiesced too early for B thread.
->> B thread: do something which need the queue must be quiesced.
+>> I think we can just change a ns flag to a controller flag ala:
+>> NVME_CTRL_STOPPED, and then do:
 >>
->> Introduce NVME_NS_STOPPED link:
->> https://lore.kernel.org/all/20211014081710.1871747-5-ming.lei@redhat.com/
+>> void nvme_stop_queues(struct nvme_ctrl *ctrl)
+>> {
+>>      if (!test_and_set_bit(NVME_CTRL_STOPPED, &ns->flags))
+>>          blk_mq_quiesce_tagset(ctrl->tagset);
+>> }
+>> EXPORT_SYMBOL_GPL(nvme_stop_queues);
+>>
+>> void nvme_start_queues(struct nvme_ctrl *ctrl)
+>> {
+>>      if (test_and_clear_bit(NVME_CTRL_STOPPED, &ns->flags))
+>>          blk_mq_unquiesce_tagset(ctrl->tagset);
+>> }
+>> EXPORT_SYMBOL_GPL(nvme_start_queues);
+>>
+>> Won't that achieve the same result?
+> No, nvme_set_queue_dying call nvme_start_ns_queue for one ns.
+> ctrl->flags can not cover this scenario.
+> This still results in unpaired quiesce/unquiesce.
 > 
-> I think we can just change a ns flag to a controller flag ala:
-> NVME_CTRL_STOPPED, and then do:
-> 
-> void nvme_stop_queues(struct nvme_ctrl *ctrl)
-> {
->      if (!test_and_set_bit(NVME_CTRL_STOPPED, &ns->flags))
->          blk_mq_quiesce_tagset(ctrl->tagset);
-> }
-> EXPORT_SYMBOL_GPL(nvme_stop_queues);
-> 
-> void nvme_start_queues(struct nvme_ctrl *ctrl)
-> {
->      if (test_and_clear_bit(NVME_CTRL_STOPPED, &ns->flags))
->          blk_mq_unquiesce_tagset(ctrl->tagset);
-> }
-> EXPORT_SYMBOL_GPL(nvme_start_queues);
-> 
-> Won't that achieve the same result?
-No, nvme_set_queue_dying call nvme_start_ns_queue for one ns.
-ctrl->flags can not cover this scenario.
-This still results in unpaired quiesce/unquiesce.
+> Maybe it is necessary to clean up the confused quiesce/unquiesce of nvme-pci,
+> Thus blk_mq_quiesce_tagset can be easy to use for nvme-pci.
+> Before that, we could only optimize batched quiesce/unquiesce based on ns,
+> Although I also think using blk_mq_quiesce_tagset is a better choice.
+We can do some something special for nvme_set_queue_dying.
+Thus can achieve the same effect with NVME_NS_STOPPED.
+This should look acceptable.
 
-Maybe it is necessary to clean up the confused quiesce/unquiesce of nvme-pci,
-Thus blk_mq_quiesce_tagset can be easy to use for nvme-pci.
-Before that, we could only optimize batched quiesce/unquiesce based on ns,
-Although I also think using blk_mq_quiesce_tagset is a better choice.
+What do you think about this?
+
+Show the code:
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -5100,13 +5100,14 @@ static void nvme_stop_ns_queue(struct nvme_ns *ns)
+   * holding bd_butex.  This will end buffered writers dirtying pages that can't
+   * be synced.
+   */
+-static void nvme_set_queue_dying(struct nvme_ns *ns)
++static void nvme_set_queue_dying(struct nvme_ns *ns, bool start_queue)
+  {
+         if (test_and_set_bit(NVME_NS_DEAD, &ns->flags))
+                 return;
+
+         blk_mark_disk_dead(ns->disk);
+-       nvme_start_ns_queue(ns);
++       if (start_queue)
++               blk_mq_unquiesce_queue(ns->queue);
+
+         set_capacity_and_notify(ns->disk, 0);
+  }
+@@ -5121,15 +5122,18 @@ static void nvme_set_queue_dying(struct nvme_ns *ns)
+  void nvme_kill_queues(struct nvme_ctrl *ctrl)
+  {
+         struct nvme_ns *ns;
++       bool start_queue = false;
+
+         down_read(&ctrl->namespaces_rwsem);
+
+         /* Forcibly unquiesce queues to avoid blocking dispatch */
+         if (ctrl->admin_q && !blk_queue_dying(ctrl->admin_q))
+                 nvme_start_admin_queue(ctrl);
++        if (test_and_clear_bit(NVME_CTRL_STOPPED, &ctrl->flags))
++               start_queue = true;
+
+         list_for_each_entry(ns, &ctrl->namespaces, list)
+-               nvme_set_queue_dying(ns);
++               nvme_set_queue_dying(ns, start_queue);
+
+         up_read(&ctrl->namespaces_rwsem);
+  }
+
+> 
+> .
 
