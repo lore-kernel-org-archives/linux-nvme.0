@@ -4,76 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 84EF1C4332F
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Oct 2022 02:13:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1DABEC4332F
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Oct 2022 02:15:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LcjI1z1cK/h/Tavr9Qovc/OJb4JM0OSGrDs/E00EgoA=; b=xvAEUA4Ns25xSr9b00gR+zU+HD
-	5y4nEKu86Yg7jLzIxGvqd9AaahK7FG2NdNW8DaNSqWcjNJKgiWjUTAYonbKJAfyC9VY4SvNpPTS7D
-	U6UmbMiaaiPPsNgZzuqXk8jw5hoh8rbpTKGn8yXXT23VPdu8D2S+4R3id21QDyV2NXEdoSGs+SFpd
-	hhRBFBKA2uslq5VMSsiyUIuMKXlLg+Qdz/XGL+9TiBGR64+PwqLsEK+KU3WcflQqX7DU1+YNZPC/+
-	3ufHHZ2t6ZPDX3aKnq1Cs8EzjNnL3621wyLyG7aK5TQrDJPjuj3D7E/XSwBlvNjTjXzGcjEmuAq23
-	vCGSz1rg==;
+	bh=nWx2kMuyHiL+xOk0avl5Fob0eqf01LHaSlUNTyAWItk=; b=mpZTyiCaswhSm+LKxwtglk/Jla
+	EF+PKrHR857+4McehMFEl/SSoz5c0U4ie1IY8+RX4xbye5dFJNzzd1lQAY70OzuV59QTkqjR3VFbg
+	2WpNBOH0btwzylbc/ep0Ou7ILj+iPwDczNXJlvyr/kuPEN2SL9F7A59nV/2Dorf7ugdfqTVuifARl
+	G4p3ZfobhGQuolSbUeaIl+1TBwvUYCouI492V7TgeZlZKuxH5w6mebGLaY4K5ssXwsrlNXvc3HR/3
+	NMqHtWie8rdef0OeZFCrhBe7oU+v5oaS9t2N33G1iY/ZZMXcfLogAetnER2gooZVpCK4KJzZlxVwk
+	wFPOtxew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ojACo-00DO9w-Ea; Fri, 14 Oct 2022 02:13:46 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1ojAEW-00DOTW-GO; Fri, 14 Oct 2022 02:15:32 +0000
+Received: from szxga02-in.huawei.com ([45.249.212.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ojACn-00DO9X-K3
-	for linux-nvme@bombadil.infradead.org; Fri, 14 Oct 2022 02:13:45 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:Subject:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=LcjI1z1cK/h/Tavr9Qovc/OJb4JM0OSGrDs/E00EgoA=; b=nQGDLoHKCfMvfDSmaqi8f+KX8m
-	Chp3dwLLUuJqxpXvarG2BdMtM4qoja0nsJteEsA6pz+OOt1/l6dvg+d/iDO1NmARr180uPtfcvPFF
-	VvDVyBx7abGGqmBaWhT6/SoNqZS3IBVL5UaNGTjd1pZz4t+F0T9/p0rCD3cIEGWIhrwm+RNackS7H
-	i7JiwwIEcimM9SuF0obNngREeHXTjqsN1xWR/hthZX4mdAIFIm/sJtgrnzqMjh8RtdWihi4YIu4gZ
-	MKsungoXeCvg6UOOvuUfVGs81dg44WtAAX9lySX4IwomZvcpqe2Ekl9PK31hxIzh8sVvVv4Lr/F5+
-	wLZ8uIMA==;
-Received: from szxga01-in.huawei.com ([45.249.212.187])
-	by desiato.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ojACc-003Gcb-VL
-	for linux-nvme@lists.infradead.org; Fri, 14 Oct 2022 02:13:41 +0000
+	id 1ojAES-00DOSO-D4
+	for linux-nvme@lists.infradead.org; Fri, 14 Oct 2022 02:15:30 +0000
 Received: from canpemm500002.china.huawei.com (unknown [172.30.72.57])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MpVCv6jcNzmVDm;
-	Fri, 14 Oct 2022 10:08:11 +0800 (CST)
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MpVNB4ZR8zHv6h;
+	Fri, 14 Oct 2022 10:15:22 +0800 (CST)
 Received: from [10.169.59.127] (10.169.59.127) by
  canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 14 Oct 2022 10:12:48 +0800
-Subject: Re: [PATCH v2 0/2] improve nvme quiesce time for large amount of
- namespaces
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
-CC: "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
-	"kbusch@kernel.org" <kbusch@kernel.org>, "ming.lei@redhat.com"
-	<ming.lei@redhat.com>, "axboe@kernel.dk" <axboe@kernel.dk>
-References: <20221013094450.5947-1-lengchao@huawei.com>
- <d83c88c8-0486-072d-a03d-d0a3a8e4387c@nvidia.com>
+ 15.1.2375.31; Fri, 14 Oct 2022 10:15:24 +0800
+Subject: Re: [PATCH] nvme-rdma: set ack timeout of RoCE to 262ms
+To: Max Gurtovoy <mgurtovoy@nvidia.com>, Sagi Grimberg <sagi@grimberg.me>,
+	Christoph Hellwig <hch@lst.de>
+CC: <linux-nvme@lists.infradead.org>, <kbusch@kernel.org>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
+References: <20220819075825.21231-1-lengchao@huawei.com>
+ <20220821062016.GA26553@lst.de>
+ <83992e8f-b18a-ccd3-e0ee-a5802043f161@huawei.com>
+ <86e9fc3b-aded-220d-1ee0-4d5928097104@nvidia.com>
+ <f7254cc2-88e0-e91f-e4f1-788c5889fcf1@huawei.com>
+ <fbee7c67-fd7b-12c8-5685-066b1974aadb@grimberg.me>
+ <550d4612-0041-3d84-b1cb-786d0c8e0d11@huawei.com>
+ <3030fbb2-5c63-54ea-5be3-b88cf63c6b75@grimberg.me>
+ <c86a6cea-09b5-c04c-aa7b-adc6a457acf6@huawei.com>
+ <328a807f-bfaf-b279-69c5-09be179891ac@huawei.com>
+ <1bd4d4f6-fe33-7fe5-f662-cdef61acf800@nvidia.com>
 From: Chao Leng <lengchao@huawei.com>
-Message-ID: <e785f247-7ae1-ef26-6dd2-d7379fc739e6@huawei.com>
-Date: Fri, 14 Oct 2022 10:12:47 +0800
+Message-ID: <405b78aa-51b8-30b4-ff86-c46d1bc84cda@huawei.com>
+Date: Fri, 14 Oct 2022 10:15:24 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.1
 MIME-Version: 1.0
-In-Reply-To: <d83c88c8-0486-072d-a03d-d0a3a8e4387c@nvidia.com>
+In-Reply-To: <1bd4d4f6-fe33-7fe5-f662-cdef61acf800@nvidia.com>
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.169.59.127]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
  canpemm500002.china.huawei.com (7.192.104.244)
 X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221014_031339_212337_28FB0191 
-X-CRM114-Status: UNSURE (   9.20  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221013_191528_804404_F0C287E1 
+X-CRM114-Status: GOOD (  18.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,27 +81,66 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 2022/10/13 22:32, Chaitanya Kulkarni wrote:
-> On 10/13/22 02:44, Chao Leng wrote:
->> This set improves the quiesce time when using a large set of
->> namespaces, which also improves I/O failover time in a multipath environment.
->>
+On 2022/10/14 8:05, Max Gurtovoy wrote:
+> Sorry for late response, we have holiday's in my country.
 > 
-> by how much and what are the problems exits with current timing needs to
-> be documented, i.e. add quantitative data if you are posting patches for
-> time/performance improvement.
-Theoretically, every synchronize_rcu/synchronize_srcu need to wait more than 10ms.
-Now nvme quiesce all queues of namespace one by one, The more namespace,
-the longer the waiting time.
+> I still can't understand how this patch fixes your problem if you use ConnectX-5 since we use adaptive re-transmission by default and it's faster than 256msec to re-transmit.
+adaptive re-transmission? Do you mean NAK-triggered retransmission?
+NAK-triggered retransmission is very fast, but timeout-triggered retransmission
+is very slow. Because There is a possibility that all packets of a QP are lost,
+receiver HBA can not send NAK.
+ From our analysis, we didn't see any other adaptive re-transmission.
+If there is any other adaptive re-transmission, can you explain it?
 
-The test result:
-Test Scenario: nvme over roce with multipathing, 256 namespaces
-When send I/Os to all namespaces, simulate a path fault, the fail over waiting time
-is more than 20 seconds.
-After analysis, it was found that the total of quiesce waiting time for 256 namespace is
-more than 20 seconds.
-After optimization, same scenario the fail over waiting time is less than 1 second.
+This patch modify the waiting time for timeout re-transmission, Thus if all packets
+of a QP are lost, the re-transmission waiting time will become short.
 > 
-> -ck
+> Did you disable it ?
+We do not disable anything.
 > 
+> I'll try to re-spin it internally again.
+If you need more information, please feel free to contact me.
+Thank you.
+> 
+> On 10/10/2022 12:12 PM, Chao Leng wrote:
+>> Hi, Max
+>>     Can you give some comment? Thank you.
+>>
+>> On 2022/8/29 21:15, Chao Leng wrote:
+>>>
+>>>
+>>> On 2022/8/29 17:06, Sagi Grimberg wrote:
+>>>>
+>>>>>>>> If so, which devices did you use ?
+>>>>>>> The host HBA is Mellanox Technologies MT27800 Family [ConnectX-5];
+>>>>>>> The switch and storage are huawei equipments.
+>>>>>>> In principle, switches and storage devices from other vendors
+>>>>>>> have the same problem.
+>>>>>>> If you think it is necessary, we can test the other vendor switchs
+>>>>>>> and linux target.
+>>>>>>
+>>>>>> Why is the 2s default chosen, what is the downside for a 250ms seconds ack timeout? and why is nvme-rdma different than all other kernel rdma
+>>>>> The downside is redundant retransmit if the packets delay more than
+>>>>> 250ms in the networks and finally reaches the receiver.
+>>>>> Only in extreme scenarios, the packet delay may exceed 250 ms.
+>>>>
+>>>> Sounds like the default needs to be changed if it only addresses the
+>>>> extreme scenarios...
+>>>>
+>>>>>> consumers that it needs to set this explicitly?
+>>>>> The real-time transaction services are sensitive to the delay.
+>>>>> nvme-rdma will be used in real-time transactions.
+>>>>> The real-time transaction services do not allow that the packets
+>>>>> delay more than 250ms in the networks.
+>>>>> So we need to set the ack timeout to 262ms.
+>>>>
+>>>> While I don't disagree with the change itself, I do disagree why this
+>>>> needs to be driven by nvme-rdma locally. If all kernel rdma consumers
+>>>> need this (and if not, I'd like to understand why), this needs to be set in the rdma core.Changing the default set in the rdma core is another option.
+>>> But it will affect all application based on RDMA.
+>>> Max, what do you think? Thank you.
+>>>> .
+>>>
+>>> .
+> .
 
