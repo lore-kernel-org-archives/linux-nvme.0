@@ -4,67 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1DABEC4332F
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Oct 2022 02:15:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85C5DC4332F
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Oct 2022 08:02:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWx2kMuyHiL+xOk0avl5Fob0eqf01LHaSlUNTyAWItk=; b=mpZTyiCaswhSm+LKxwtglk/Jla
-	EF+PKrHR857+4McehMFEl/SSoz5c0U4ie1IY8+RX4xbye5dFJNzzd1lQAY70OzuV59QTkqjR3VFbg
-	2WpNBOH0btwzylbc/ep0Ou7ILj+iPwDczNXJlvyr/kuPEN2SL9F7A59nV/2Dorf7ugdfqTVuifARl
-	G4p3ZfobhGQuolSbUeaIl+1TBwvUYCouI492V7TgeZlZKuxH5w6mebGLaY4K5ssXwsrlNXvc3HR/3
-	NMqHtWie8rdef0OeZFCrhBe7oU+v5oaS9t2N33G1iY/ZZMXcfLogAetnER2gooZVpCK4KJzZlxVwk
-	wFPOtxew==;
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=bD6j9gIFU6CLTaCGl0Ow9oeIxtirvTfMeNZSfLEZQ+I=; b=4ZQt+ldsLr8zfuIk10jmEPoOGq
+	u6HD10RVDbjevNdc6iSHjXStEM864iBKatkwNNUk35hwdUe3ODCy7Tza5/mh1fvijG05NlDL82T0O
+	/0VDEG5O1oT+zRpc/GBW1VnThVvGXzBimoan+TszNqmi7/XWYK4TxIvp+8h6aCoF1WpyAkLtXIl5P
+	PI7p98eR1ItYUF8srndtLhdMIC7uj/aLuDCE9I2D044Y/otmV0gVUAM4w8hn+7VMb2ADGIRyqn47S
+	sVYlINO0VLloUM3Sf4c3Rvql9v+FVaZ6bdta/vV8IamBg4nPtFvu1Gdu3WydpjRRY5UYhvUbyKq+h
+	/iTkY39g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ojAEW-00DOTW-GO; Fri, 14 Oct 2022 02:15:32 +0000
-Received: from szxga02-in.huawei.com ([45.249.212.188])
+	id 1ojFe8-00Dzac-TQ; Fri, 14 Oct 2022 08:02:20 +0000
+Received: from mail.fadrush.pl ([54.37.225.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ojAES-00DOSO-D4
-	for linux-nvme@lists.infradead.org; Fri, 14 Oct 2022 02:15:30 +0000
-Received: from canpemm500002.china.huawei.com (unknown [172.30.72.57])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MpVNB4ZR8zHv6h;
-	Fri, 14 Oct 2022 10:15:22 +0800 (CST)
-Received: from [10.169.59.127] (10.169.59.127) by
- canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 14 Oct 2022 10:15:24 +0800
-Subject: Re: [PATCH] nvme-rdma: set ack timeout of RoCE to 262ms
-To: Max Gurtovoy <mgurtovoy@nvidia.com>, Sagi Grimberg <sagi@grimberg.me>,
-	Christoph Hellwig <hch@lst.de>
-CC: <linux-nvme@lists.infradead.org>, <kbusch@kernel.org>,
-	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
-References: <20220819075825.21231-1-lengchao@huawei.com>
- <20220821062016.GA26553@lst.de>
- <83992e8f-b18a-ccd3-e0ee-a5802043f161@huawei.com>
- <86e9fc3b-aded-220d-1ee0-4d5928097104@nvidia.com>
- <f7254cc2-88e0-e91f-e4f1-788c5889fcf1@huawei.com>
- <fbee7c67-fd7b-12c8-5685-066b1974aadb@grimberg.me>
- <550d4612-0041-3d84-b1cb-786d0c8e0d11@huawei.com>
- <3030fbb2-5c63-54ea-5be3-b88cf63c6b75@grimberg.me>
- <c86a6cea-09b5-c04c-aa7b-adc6a457acf6@huawei.com>
- <328a807f-bfaf-b279-69c5-09be179891ac@huawei.com>
- <1bd4d4f6-fe33-7fe5-f662-cdef61acf800@nvidia.com>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <405b78aa-51b8-30b4-ff86-c46d1bc84cda@huawei.com>
-Date: Fri, 14 Oct 2022 10:15:24 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+	id 1ojFe5-00DzZF-UZ
+	for linux-nvme@lists.infradead.org; Fri, 14 Oct 2022 08:02:19 +0000
+Received: by mail.fadrush.pl (Postfix, from userid 1002)
+	id 8419A2374C; Fri, 14 Oct 2022 08:01:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fadrush.pl; s=mail;
+	t=1665734517; bh=bD6j9gIFU6CLTaCGl0Ow9oeIxtirvTfMeNZSfLEZQ+I=;
+	h=Date:From:To:Subject:From;
+	b=mWuieBlFqgSNuDSMmbrnoi+y0e2Rqq2LhI6etv/whAiiT8aACdPG1M/3C/o1WhosR
+	 pTGPxaCvXvjHjEK0sGlPwLKp0/YIfykX/YE9rWDduhtThHVIvSAt44SZ1eKoQQj0FL
+	 VqKWVll+KqkeE7p0R7cHfyO0vclaII+/IudzAxPsd3HDrJzY9eBQlqtF5ULLWz6LrE
+	 cEqCA87E66NdAt5cQHk23GAadB04LIfdVuiM5Wn6USn4G4NznvC+WLm0egzpl59SuQ
+	 GPYweEIJDFC6cQFOsSZVaZio0nd1chqERnmeMrvVodzUBF+ie2hGwD2IEnYEdPJD+C
+	 Lh/p70m4lOVQg==
+Received: by mail.fadrush.pl for <linux-nvme@lists.infradead.org>; Fri, 14 Oct 2022 08:00:54 GMT
+Message-ID: <20221014064500-0.1.28.m7wg.0.p45q2dlx7u@fadrush.pl>
+Date: Fri, 14 Oct 2022 08:00:54 GMT
+From: "Jakub Olejniczak" <jakub.olejniczak@fadrush.pl>
+To: <linux-nvme@lists.infradead.org>
+Subject: =?UTF-8?Q?Zwi=C4=99kszenie_p=C5=82ynno=C5=9Bci_finansowej?=
+X-Mailer: mail.fadrush.pl
 MIME-Version: 1.0
-In-Reply-To: <1bd4d4f6-fe33-7fe5-f662-cdef61acf800@nvidia.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.169.59.127]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- canpemm500002.china.huawei.com (7.192.104.244)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221013_191528_804404_F0C287E1 
-X-CRM114-Status: GOOD (  18.21  )
+X-CRM114-CacheID: sfid-20221014_010218_152702_FAC9F983 
+X-CRM114-Status: UNSURE (   2.07  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,68 +64,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Dzie=C5=84 dobry,
+
+kontaktuj=C4=99 si=C4=99 z Pa=C5=84stwem, poniewa=C5=BC chcia=C5=82bym za=
+proponowa=C4=87 wygodne rozwi=C4=85zanie, kt=C3=B3re umo=C5=BCliwi Pa=C5=84=
+stwa firmie stabilny rozw=C3=B3j.=20
+
+Konkurencyjne otoczenie wymaga ci=C4=85g=C5=82ego ulepszania i poszerzeni=
+a oferty, co z kolei wi=C4=85=C5=BCe si=C4=99 z konieczno=C5=9Bci=C4=85 i=
+nwestowania. Brak odpowiedniego kapita=C5=82u powa=C5=BCnie ogranicza tem=
+po rozwoju firmy.
+
+Od wielu lat z powodzeniem pomagam firmom w uzyskaniu najlepszej formy fi=
+nansowania z banku oraz UE. Mam sta=C5=82ych Klient=C3=B3w, kt=C3=B3rzy n=
+adal ch=C4=99tnie korzystaj=C4=85 z moich us=C5=82ug, a tak=C5=BCe poleca=
+j=C4=85 je innym.
+
+Czy chcieliby Pa=C5=84stwo skorzysta=C4=87 z pomocy wykwalifikowanego i d=
+o=C5=9Bwiadczonego doradcy finansowego?
 
 
-On 2022/10/14 8:05, Max Gurtovoy wrote:
-> Sorry for late response, we have holiday's in my country.
-> 
-> I still can't understand how this patch fixes your problem if you use ConnectX-5 since we use adaptive re-transmission by default and it's faster than 256msec to re-transmit.
-adaptive re-transmission? Do you mean NAK-triggered retransmission?
-NAK-triggered retransmission is very fast, but timeout-triggered retransmission
-is very slow. Because There is a possibility that all packets of a QP are lost,
-receiver HBA can not send NAK.
- From our analysis, we didn't see any other adaptive re-transmission.
-If there is any other adaptive re-transmission, can you explain it?
-
-This patch modify the waiting time for timeout re-transmission, Thus if all packets
-of a QP are lost, the re-transmission waiting time will become short.
-> 
-> Did you disable it ?
-We do not disable anything.
-> 
-> I'll try to re-spin it internally again.
-If you need more information, please feel free to contact me.
-Thank you.
-> 
-> On 10/10/2022 12:12 PM, Chao Leng wrote:
->> Hi, Max
->>     Can you give some comment? Thank you.
->>
->> On 2022/8/29 21:15, Chao Leng wrote:
->>>
->>>
->>> On 2022/8/29 17:06, Sagi Grimberg wrote:
->>>>
->>>>>>>> If so, which devices did you use ?
->>>>>>> The host HBA is Mellanox Technologies MT27800 Family [ConnectX-5];
->>>>>>> The switch and storage are huawei equipments.
->>>>>>> In principle, switches and storage devices from other vendors
->>>>>>> have the same problem.
->>>>>>> If you think it is necessary, we can test the other vendor switchs
->>>>>>> and linux target.
->>>>>>
->>>>>> Why is the 2s default chosen, what is the downside for a 250ms seconds ack timeout? and why is nvme-rdma different than all other kernel rdma
->>>>> The downside is redundant retransmit if the packets delay more than
->>>>> 250ms in the networks and finally reaches the receiver.
->>>>> Only in extreme scenarios, the packet delay may exceed 250 ms.
->>>>
->>>> Sounds like the default needs to be changed if it only addresses the
->>>> extreme scenarios...
->>>>
->>>>>> consumers that it needs to set this explicitly?
->>>>> The real-time transaction services are sensitive to the delay.
->>>>> nvme-rdma will be used in real-time transactions.
->>>>> The real-time transaction services do not allow that the packets
->>>>> delay more than 250ms in the networks.
->>>>> So we need to set the ack timeout to 262ms.
->>>>
->>>> While I don't disagree with the change itself, I do disagree why this
->>>> needs to be driven by nvme-rdma locally. If all kernel rdma consumers
->>>> need this (and if not, I'd like to understand why), this needs to be set in the rdma core.Changing the default set in the rdma core is another option.
->>> But it will affect all application based on RDMA.
->>> Max, what do you think? Thank you.
->>>> .
->>>
->>> .
-> .
+Pozdrawiam
+Jakub Olejniczak
 
