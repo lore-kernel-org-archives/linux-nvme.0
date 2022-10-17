@@ -4,79 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0DF2CC4332F
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Oct 2022 17:38:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49492C4332F
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Oct 2022 22:41:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xYhgbc1VGoEpaUqgDbmbEHHvoLPOYPAEsYOPrfR1zzY=; b=YNYKOyTsE5WTHYD+do7WukeUg+
-	p84hiE7mAmXW8ZhnBB9jjQVh3lBf94WVRN47c+9thoUyC9R3czZLtuoyFDeXgGIRk9qT8S2z3zSIm
-	j6QO67XDw/mBT3iWhzNLIV1YaXRDft1Q8vpn4Ppc0VUO7eQKwJHgt3QJgC5gXzbRD0duZ2nH2ip2N
-	DFX6X/+eL4t3oc7La/TRI9LPpWrq+TABaTJ3xES3POI5Rv7RI0CKzVvKCefpMQrcZx1GsOZIh7eV4
-	riJi973smLLjqJFzf3hfw3CMeJP0BoEK4DLifAAgCfJU0jaCG0/E79NTQYnwl4SwNYtu0NR8setEC
-	vqQdQ0JA==;
+	bh=jZxZTQmOXtMjem0okrwKcRoMZ6Yv6+dLStS7A/7WVp4=; b=Oi8BAesET/11423knDQFpjbBf7
+	XCr9StBju2FnXWPWiW4HeWXIGpKCviAAfikSQOP26PBsDtAvu54Lm/tHDUt7rP4F2RJc7ba/n0xfs
+	p5KWkqc+PnnoZKZv8jtQxgelRMWwctgZjlQQThxS4plxqjYL8qUYMYi7hqe9+UTdYDdRkBmZ9guMX
+	q37x0dQGSc+lUjL0Iil46IB3daLfnuzzSvNzcOpXrgp8fZlk3oUaccPVb4ibRioePONjOIbJrInI/
+	efjqCY4wmxdGR91K9gvskhdyeU+RJfP7hR2DwxGvvQts3bULvnElNW3bPmrNH1JaVZh1z5MReofFg
+	wZQWDKZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1okU4H-00E3Dw-70; Mon, 17 Oct 2022 17:38:25 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1okYnO-00FDes-MP; Mon, 17 Oct 2022 22:41:18 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1okU4F-00E3C8-HH
-	for linux-nvme@lists.infradead.org; Mon, 17 Oct 2022 17:38:24 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	id 1okYnM-00FDe6-I5
+	for linux-nvme@lists.infradead.org; Mon, 17 Oct 2022 22:41:17 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E55BA338FB;
-	Mon, 17 Oct 2022 17:38:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1666028297; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xYhgbc1VGoEpaUqgDbmbEHHvoLPOYPAEsYOPrfR1zzY=;
-	b=wVLpOVCst6cCJwAl5eYOvvoEU/VR74Ojlya4azodyrsJWAaaxNr1Do5vgwGGqZO+jpnLUP
-	xoOD+vYgxRojSP3Vv5AhIvahekFFpFuJPt0hW8HqEsje8i+FMXJDiHHAWepnd69jrjREuA
-	nw5VMazth4Rc7ynDbrn9g1C1EOhNO7o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1666028297;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xYhgbc1VGoEpaUqgDbmbEHHvoLPOYPAEsYOPrfR1zzY=;
-	b=Yln7ytq/lIHelSmVfdZNANKbDGLSe8+/KMT2e5RhllCZuiXuLpGygykGJme+LvDGWtPtk5
-	eJyz0SlQ+pLYj2AA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D68C713ABE;
-	Mon, 17 Oct 2022 17:38:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id vjZeNAmTTWN0ZAAAMHmgww
-	(envelope-from <dwagner@suse.de>); Mon, 17 Oct 2022 17:38:17 +0000
-Date: Mon, 17 Oct 2022 19:38:17 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: hch@infradead.org
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	Frederick Knight <Frederick.Knight@netapp.com>,
-	Hannes Reinecke <hare@suse.de>, James Smart <jsmart2021@gmail.com>,
-	John Meneghini <jmeneghi@redhat.com>,
-	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v3] nvmet: force reconnect when number of queue changes
-Message-ID: <20221017173817.j7cjvxnvs2lcntea@carbon.lan>
-References: <20221007072934.9536-1-dwagner@suse.de>
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 244C76121A;
+	Mon, 17 Oct 2022 22:41:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85F77C433B5;
+	Mon, 17 Oct 2022 22:41:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1666046475;
+	bh=9fDxJXZK1U5womZDJo/c6FscAHDcI1ZEsc4GYARxhcU=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=NlhwvhXnMEkst0U+X3torWYjiWRmQFE2imEJmLTmGUTEHw3MwqigrAGHwi0X7+WwC
+	 o2mU7YTjFZ038Do7gF/b9hhV+sg1qLk0GshZFAN2x0fgMK1fJud1ifPwWvyaGPjZux
+	 TaNkCQXaZReqDNUM8M1oYjmQ4PL/NpfAcBnyIgFJdgx8802xlgaIobz0auU0K2bQPn
+	 cqlaVYLWLlvm8fLVeac0JNDJaou4DlbimxTeIb8h8Tj0V7gBOdft5NplZ5K1eXAh57
+	 CDk8QjvGSyhiZ+kG6g8vnrPk3SKcAz7iPPbzbYuQkb6Owk8QYEAijxMekqj36S+57M
+	 akMuagydW2GDQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 16EC05C0C34; Mon, 17 Oct 2022 15:41:15 -0700 (PDT)
+Date: Mon, 17 Oct 2022 15:41:15 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Chao Leng <lengchao@huawei.com>, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, sagi@grimberg.me, kbusch@kernel.org,
+	ming.lei@redhat.com, axboe@kernel.dk
+Subject: Re: [PATCH v2 1/2] blk-mq: add tagset quiesce interface
+Message-ID: <20221017224115.GJ5600@paulmck-ThinkPad-P17-Gen-1>
+References: <20221013094450.5947-1-lengchao@huawei.com>
+ <20221013094450.5947-2-lengchao@huawei.com>
+ <20221017133906.GA24492@lst.de>
+ <20221017152136.GI5600@paulmck-ThinkPad-P17-Gen-1>
+ <20221017153105.GA32509@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221007072934.9536-1-dwagner@suse.de>
+In-Reply-To: <20221017153105.GA32509@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221017_103823_764228_1DCB5FD1 
-X-CRM114-Status: UNSURE (   7.61  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221017_154116_658370_E3710E98 
+X-CRM114-Status: GOOD (  26.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,15 +75,46 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: paulmck@kernel.org
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Christoph,
+On Mon, Oct 17, 2022 at 05:31:05PM +0200, Christoph Hellwig wrote:
+> On Mon, Oct 17, 2022 at 08:21:36AM -0700, Paul E. McKenney wrote:
+> > The main reason for having multiple srcu_struct structures is to
+> > prevent the readers from one from holding up the updaters from another.
+> > Except that by waiting for the multiple grace periods, you are losing
+> > that property anyway, correct?  Or is this code waiting on only a small
+> > fraction of the srcu_struct structures associated with blk_queue?
+> 
+> There are a few places that do this.  SCSI and MMC could probably switch
+> to this scheme or at least and open coded version of it (if we move
+> to a per_tagsect srcu_struct open coding it might be a better idea
+> anyway).
+> 
+> del_gendisk is one where we have to go one queue at a time, and
+> that might actually matter for a device removal.  elevator_switch
+> is another one, there is a variant for it that works on the whole
+> tagset, but also those that don't.
 
-Please consider to add the patch for the current rc phase as it fixes an
-invalid memory access and I would like to avoid that the code fuzzer
-army is going after us :)
+OK, thank you for the info!
 
-Thanks,
-Daniel
+Then the big question is "how long do the SRCU readers run?"
+
+If all of the readers ran for exactly the same duration, there would be
+little point in having more than one srcu_struct.
+
+If the kernel knew up front how long the SRCU readers for a given entry
+would run, it could provide an srcu_struct structure for each duration.
+For a (fanciful) example, you could have one srcu_struct structure for
+SSDs, another for rotating rust, a third for LAN-attached storage, and
+a fourth for WAN-attached storage.  Maybe a fifth for lunar-based storage.
+
+If it is impossible to know up front which entry has what SRCU read-side
+latency characteristics, then the current approach of just giving each
+entry its own srcu_struct structure is not at all a bad plan.
+
+Does that help, or am I off in the weeds here?
+
+							Thanx, Paul
 
