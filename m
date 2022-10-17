@@ -4,47 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7390C4332F
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Oct 2022 07:07:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2365DC4332F
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Oct 2022 07:18:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6FJ8/O25BYSu1pxQAV7ISiA6qeRC4Y5Q2s3Ozn+zQZQ=; b=YIoJ52105Lxx8rw/jepC6VwXlh
-	2OM9hqz89GfOmW9VmCxml0JWav9JKhuv+mOhzUKRo00mBuk6UY8eLwd6ttpdLo1LhGjCoPiwC7bW/
-	Q/YP/Yl9ZgqONJLwpVARzjSZVpVcYJh6vOTHpOIfqtbBm11CUdWuDs0TvGB6APFaLFhA5LYOdV6/S
-	ngL9c/wKQRnD7G9pK+SLWkc1dQH1bVK38KOQeFxme4Hg2J6yVGj14BvbAJ2gFT3AUhHFFcgAXSS+p
-	PfJsf7arABwgUFSvtobY5d2MfFNxczc9nqjZ4S3rZTnVxAI8N8EjeppVB0+XCqlVGPywurXEc/2oe
-	8SuKhTWA==;
+	bh=OA1qT8cygRlBgWvxM1EZRhTJJYK6oEnILjsD8BmDs68=; b=rlfTL2E55Cp58bkfl+rAUhQ9IM
+	OOAlZw6ReHVy0EK036PzIUhk2eWIXtPV8a4x8bj4zTRhlrM0rdW7/os/DOJ75/XkHx8llbpXu4DHg
+	r7UqI1dcM0PlwSP3iapzYR6iVHwN+NnbzMRY9ZYFkP7X6YkqSpqQWka59sct0vAjFIEkBv7Xx7osX
+	XQYaydbp/Q5Me5fHaH3fGDI61TEyCr7OPRegt4lBK8/ywF4zoTn3YKI+5mbfPPfCgIvOb+oXRacHj
+	sJfZ9M05jCy8hlNiW9sG98j2Xz2Yyf9/OiHttPvZ2X8SEtg7NSVajvBM+8mCbXghm+1N2Y4XHsg2K
+	OAbINfbw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1okKDr-008LuM-Lw; Mon, 17 Oct 2022 07:07:39 +0000
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1okKDl-008Ltc-SB; Mon, 17 Oct 2022 07:07:33 +0000
-Date: Mon, 17 Oct 2022 00:07:33 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Alan Adamson <alan.adamson@oracle.com>
-Cc: Daniel Wagner <dwagner@suse.de>, Pankaj Raghav <pankydev8@gmail.com>,
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
-	Keith Busch <kbusch@kernel.org>, Yi Zhang <yi.zhang@redhat.com>,
-	Tomas Bzatek <tbzatek@redhat.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Martin Petersen <martin.petersen@oracle.com>,
-	"gost.dev@samsung.com" <gost.dev@samsung.com>,
-	Pankaj Raghav <p.raghav@samsung.com>
-Subject: Re: [PATCH v1] nvme: do not log errors for user commands
-Message-ID: <Y0z/NRKwg0SRgYiP@infradead.org>
-References: <20221006093628.22089-1-dwagner@suse.de>
- <20221006121635.awoafzxyu6nkrqfj@quentin>
- <20221006133053.mmzw7m7wbfsapqbx@carbon.lan>
- <35A47E59-90E0-4F6C-80EA-A98F59213FA0@oracle.com>
+	id 1okKOJ-008PMN-Gp; Mon, 17 Oct 2022 07:18:27 +0000
+Received: from verein.lst.de ([213.95.11.211])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1okKOH-008PKL-0N
+	for linux-nvme@lists.infradead.org; Mon, 17 Oct 2022 07:18:26 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 3DACC68C4E; Mon, 17 Oct 2022 09:18:16 +0200 (CEST)
+Date: Mon, 17 Oct 2022 09:18:15 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+	Yi Zhang <yi.zhang@redhat.com>
+Subject: Re: [PATCH] nvmet: fix workqueue MEM_RECLAIM flushing dependency
+Message-ID: <20221017071815.GA30661@lst.de>
+References: <20220928063910.46862-1-sagi@grimberg.me>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <35A47E59-90E0-4F6C-80EA-A98F59213FA0@oracle.com>
+In-Reply-To: <20220928063910.46862-1-sagi@grimberg.me>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20221017_001825_215149_731B1F6D 
+X-CRM114-Status: UNSURE (   9.02  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,17 +60,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 07, 2022 at 09:19:08PM +0000, Alan Adamson wrote:
-> > I do get the debugging argument, but this clearly regresses production
-> > code. Ideally, this code should be opt-in. The only way I see how to make
-> > this work is by introducing a new API which allows enable this
-> > feature.
-> 
-> Looks like a new API may need to be created.  I’ll investigate that.
-> With your change, there
-> will need to be a blktests change.
+Thanks,
 
-Yes, I think we need to effectively revert this for user commands and
-then add an opt in - be that from the submitter, or through a sysfs
-file for all command.
+applied to nvme-6.1.
 
