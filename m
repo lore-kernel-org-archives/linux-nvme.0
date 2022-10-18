@@ -4,53 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48EFFC4332F
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Oct 2022 14:49:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B1E8C4332F
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Oct 2022 14:58:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kZqqpe28dRRjtcj8paJMydLgJAN/mQEWo2K+PUXeBAc=; b=C5/g9dlxmctBh4CowCkQEG+krZ
-	RQwTHIMYvtYrP2yxTBZfcRsgWgQoOnDcgxJ8z7bmc1WChrGXx55wBVdRV05PJ1GcIPvw32ZTphW6W
-	eNmRo+osHMCd6Of95INRFdyVFHjyIL0/yDQUd3xVPBtHCWiGwtkXmmIfvfIvH4sqrOB9RwiSd5tgn
-	XzeeotxTg1usL0b+sO88ThubCkSeoIGcp0bp7Hcf/iBpXF7W4SN786BAWe5QUr0o3VDA+3AaJap9e
-	6AFWWGWthFfKKDkc58T1h1itEaAMnHcRIEr/bcnxsh2o3vE0QgGqKwf4K14rNAkpyLf6k0knlNz9w
-	tAzkjL9g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=UBGA1w63pnkdtsxBvIfkp5Jh6YgAdvLaSyjmIuAZI+U=; b=q4/ZlewRXZlu1b47uRGxl6YP5W
+	ZUjHZy38rRHtBTa2dEkGW5C2iEk35Z3SSA7BZXoTtG61+uulxp7oRc08yXoQELLoCE5Xt7swPRBP+
+	9o0wfp8OVHazzKskDYasSeoJFsfNs4yCxfLnjuFCCF8E6KRPTzl0t4T7fgh2RmH09OKqRDCd/0rIP
+	2UltbgZxUo7Jn20H4ncfe2GjzWJB6SUXcdcnjFeKapXr5bSbkywaewL5B3RFYrMIbpQCBX0AQwZSs
+	+a5IqYew1ywHnbPNWmXY6UqYyeoIWsfFnUOnutnfKPnQ6RplybCxdqEFVUIP2qzNOvYLXYKb+yQ0i
+	ArF9AzDw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oknuP-007NYQ-17; Tue, 18 Oct 2022 14:49:33 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oknuM-007NXC-Im
-	for linux-nvme@lists.infradead.org; Tue, 18 Oct 2022 14:49:32 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 660A068C4E; Tue, 18 Oct 2022 16:49:25 +0200 (CEST)
-Date: Tue, 18 Oct 2022 16:49:24 +0200
+	id 1oko2r-007PQi-Qa; Tue, 18 Oct 2022 14:58:17 +0000
+Received: from [2001:4bb8:199:ad84:3a05:173d:d0f5:e725] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oko2p-007PPw-9l; Tue, 18 Oct 2022 14:58:15 +0000
 From: Christoph Hellwig <hch@lst.de>
-To: Serge Semin <fancer.lancer@gmail.com>
-Cc: Christoph Hellwig <hch@lst.de>,
-	Serge Semin <Sergey.Semin@baikalelectronics.ru>,
-	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
-	Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] nvme-hwmon: Kmalloc the NVME SMART log buffer
-Message-ID: <20221018144924.GB20131@lst.de>
-References: <20220929224648.8997-1-Sergey.Semin@baikalelectronics.ru> <20220929224648.8997-3-Sergey.Semin@baikalelectronics.ru> <20221017071832.GB30661@lst.de> <20221017161656.hzmsgqpuvqpmriqs@mobilestation>
+To: kbusch@kernel.org,
+	sagi@grimberg.me,
+	fancer.lancer@gmail.com,
+	linux@roeck-us.net
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH] nvme-hwmon: don't return errors from nvme_hwmon_init
+Date: Tue, 18 Oct 2022 16:58:08 +0200
+Message-Id: <20221018145808.681327-1-hch@lst.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221017161656.hzmsgqpuvqpmriqs@mobilestation>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221018_074930_787812_7B72A5DE 
-X-CRM114-Status: GOOD (  15.29  )
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,19 +50,109 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Oct 17, 2022 at 07:16:56PM +0300, Serge Semin wrote:
-> Please note the applied patch doesn't comply with the Keith' notes
-> Link: https://lore.kernel.org/linux-nvme/YzxueNRODpry8L0%2F@kbusch-mbp.dhcp.thefacebook.com/
-> Meanwhile without patch #1 (having only the accepted by you patch
-> applied) the NVME hwmon init now seems contradicting: it ignores one
-> kmalloc failure (returns zero) but fails on another one (returns
-> -ENOMEM). I asked you to have a look at the patches #1 and #2 of the
-> series
-> Link: https://lore.kernel.org/linux-nvme/20221007100134.faaekmuqyd5vy34m@mobilestation/
-> and give your opinion whether the re-spin was required: take the
-> Keith' notes or keep the patches as is. Could you please clarify the
-> situation?
+An NVMe controller works perfectly fine even when the hwmon
+initialization fails.  Stop returning errors from nvme_hwmon_init to
+handle this case consistently.
 
-I'll fix this patch up to follow the recommendation from Keith, I somehow
-thought this was already done.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+
+This should go before the patch from Serge to document and consistently
+handle the lack of initialization failure handling for hwmon.
+
+ drivers/nvme/host/core.c  |  7 ++-----
+ drivers/nvme/host/hwmon.c | 16 +++++++++-------
+ drivers/nvme/host/nvme.h  |  5 ++---
+ 3 files changed, 13 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 9cbe7854d4883..952768966bdcd 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3261,11 +3261,8 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	if (!ctrl->identified && !nvme_discovery_ctrl(ctrl)) {
+-		ret = nvme_hwmon_init(ctrl);
+-		if (ret < 0)
+-			return ret;
+-	}
++	if (!ctrl->identified && !nvme_discovery_ctrl(ctrl))
++		nvme_hwmon_init(ctrl);
+ 
+ 	ctrl->identified = true;
+ 
+diff --git a/drivers/nvme/host/hwmon.c b/drivers/nvme/host/hwmon.c
+index 0a586d7129201..c6ddb8b46c699 100644
+--- a/drivers/nvme/host/hwmon.c
++++ b/drivers/nvme/host/hwmon.c
+@@ -221,7 +221,8 @@ static const struct hwmon_chip_info nvme_hwmon_chip_info = {
+ 	.info	= nvme_hwmon_info,
+ };
+ 
+-int nvme_hwmon_init(struct nvme_ctrl *ctrl)
++/* do not return errors - nvme works fine without hwmon registration */
++void nvme_hwmon_init(struct nvme_ctrl *ctrl)
+ {
+ 	struct device *dev = ctrl->device;
+ 	struct nvme_hwmon_data *data;
+@@ -230,7 +231,7 @@ int nvme_hwmon_init(struct nvme_ctrl *ctrl)
+ 
+ 	data = kzalloc(sizeof(*data), GFP_KERNEL);
+ 	if (!data)
+-		return 0;
++		return;
+ 
+ 	data->ctrl = ctrl;
+ 	mutex_init(&data->read_lock);
+@@ -238,8 +239,7 @@ int nvme_hwmon_init(struct nvme_ctrl *ctrl)
+ 	err = nvme_hwmon_get_smart_log(data);
+ 	if (err) {
+ 		dev_warn(dev, "Failed to read smart log (error %d)\n", err);
+-		kfree(data);
+-		return err;
++		goto out_free_data;
+ 	}
+ 
+ 	hwmon = hwmon_device_register_with_info(dev, "nvme",
+@@ -247,11 +247,13 @@ int nvme_hwmon_init(struct nvme_ctrl *ctrl)
+ 						NULL);
+ 	if (IS_ERR(hwmon)) {
+ 		dev_warn(dev, "Failed to instantiate hwmon device\n");
+-		kfree(data);
+-		return PTR_ERR(hwmon);
++		goto out_free_data;
+ 	}
+ 	ctrl->hwmon_device = hwmon;
+-	return 0;
++	return;
++
++out_free_data:
++	kfree(data);
+ }
+ 
+ void nvme_hwmon_exit(struct nvme_ctrl *ctrl)
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index a29877217ee65..4cd3e00c47a2b 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -1000,12 +1000,11 @@ static inline struct nvme_ns *nvme_get_ns_from_dev(struct device *dev)
+ }
+ 
+ #ifdef CONFIG_NVME_HWMON
+-int nvme_hwmon_init(struct nvme_ctrl *ctrl);
++void nvme_hwmon_init(struct nvme_ctrl *ctrl);
+ void nvme_hwmon_exit(struct nvme_ctrl *ctrl);
+ #else
+-static inline int nvme_hwmon_init(struct nvme_ctrl *ctrl)
++static inline void nvme_hwmon_init(struct nvme_ctrl *ctrl)
+ {
+-	return 0;
+ }
+ 
+ static inline void nvme_hwmon_exit(struct nvme_ctrl *ctrl)
+-- 
+2.30.2
+
 
