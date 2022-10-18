@@ -4,139 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6C83BC4332F
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Oct 2022 20:45:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 912E8C4332F
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Oct 2022 20:47:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OrapT9oO1GWXncBIaLT6fCoICWlBYI1DI3TUNjtGo1A=; b=ZQMdP+ySG7UdGcUqdRFTKJOxl4
-	tnJPo6Jx5eeduLSC2jTMCPG1g68/m2NIMbxVwyF1srerQOUfP3LOyVIAIpzTFv8lNYuVfCYm1RUar
-	8um29hW4vlJfq7wr3ufC0UdRz39YEfSaCf1hSjZAJE/JgPmk0RZzPaE5VRGUp9LhW1W0gFPN22/67
-	vjoYwUrki5Y1RyAtokD6wapCgdBMuUS6fM2lwb2MkG8ccudw4oEySCVZ77WTeLyUpRbJjRKS1tcY1
-	SA2m+LJR8gFH1bILhAq+f+ZC2OU/SuUD5TQiqaeDiuIM0t4Mh2nWICFOXTCLvA75x98Xi5CgcZ264
-	sDpDhq1A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=XpfA7mLhMJPlV2QW8oNIG32F6COMJ5ccO//P7gJmNYM=; b=Cz2xLhNI57bJdDJSsrLyOliAaV
+	Tdq4hEn3L+AIY7QDEccRvyViEGRIp5wKC9NbUcEqLZ3fDTXwNvwdnJTt+/PzD2iRGZzGCFtNQ4M+2
+	pknWA+hdz3ZaOniOBKQjfz4SbEPMlGtUXNW4+5WAsZKWLZl46DfAwcwgWaT8F84pPrelJyiJEYVUC
+	tmiT6BW9X/CMjne3zOFJMxtk4ADh/kSDC/ZD5nNQNZk0YvKf3qvT28s+1eCPJHovVrng7pZSbXuqi
+	sqb+jKgOp6KhpXXt1Qz9mCR3kc5J9zV205maf1D0Dp6YEHMdewNI0PazfJf5IL+N85jNqBwGdNndm
+	H37+NPpw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oktSv-00AP2D-71; Tue, 18 Oct 2022 20:45:33 +0000
-Received: from mail-mw2nam04on2040.outbound.protection.outlook.com ([40.107.101.40] helo=NAM04-MW2-obe.outbound.protection.outlook.com)
+	id 1oktUQ-00APSp-RA; Tue, 18 Oct 2022 20:47:06 +0000
+Received: from mga07.intel.com ([134.134.136.100])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oktSr-00AP0O-B5
-	for linux-nvme@lists.infradead.org; Tue, 18 Oct 2022 20:45:30 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G0h5z6f3Usn6HR4OrUEO4NC7UqhsvXgo+fg0ox5INwhEJHSZUDbcZpegTGIl0wxuAv8k7JgsDFmBhC48mnFai7cfa5B3AliC2xB4CIDn673EOga8D17/gWsJSdJ8hp5LlRc3MtTghsADJxWbvOMqfTyM0RvGOQRN5W9LlWPi1CBn+/gOD1NewU7L8mdbHe3SUYoVAkBiPS+ZkYBdx5TpJALoNbKm9PlykhgCDC9fEERPyzDDWnA20g1+Cgs2BNrglE43Q5btNDvZdXtsWMgXEzHexPQ0MCMTKvCLK7pXbV8BSILv2iLPHkf89QvItjW5AGwkwCIGg8zPf6O9bNKcng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OrapT9oO1GWXncBIaLT6fCoICWlBYI1DI3TUNjtGo1A=;
- b=JwQCJ1hwDOp777zJZZw2qoEOcWcM3GGD9mRpoIpK4aV3jSFVCCAXSkoL8Xa4PUUsh1gw1j64Oo8e96mpeAL50y3SBtfkR6jaKbGqLiUonX1Xd5JWEh+1TxIwSd98Fh9gZETlUC5ggb0GI5Bl76sylbVnXWgwXEJz5tnbzaPr3/j+XW18mFadosZQDKYZLkQbqVV/BSVtI8P+jATpQ49HImu6TCWg2n+snQwPv4T4HeQGfRvsaIHTRpiMiJQJMqyVN/Cqc/vFTSs0kd6Mzs186nFfLK/8kzT2fluoYT180QAmtkpuWfwe4NG3C+p562OvdAh2sHSTf+KrdQ4Yjd2i5g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OrapT9oO1GWXncBIaLT6fCoICWlBYI1DI3TUNjtGo1A=;
- b=aDb8RcNjjEJKYDP4ivsGwNIY/AeMTbgvmdh9EGxrHnHT6AD9IIenKdpAjPB9YE4bUnMc8/8god5Bu2iWwNlGnAGJ3+ZUQXt+wvi0SvAOGNPotg0yzl4rC62a4W8Rti3gOK12tZ4lvN/HbmS3j1XwJ+CzcMw9DHFG15oXgKRzPzOXKPI/tTS1Cd4HbntW9k8z76cG17wqg577a0HW95oS2Ox9KrEaQzgFJdMRXYIkv2ZbUmDD5H/g+iMUyMzG2LOdgjLTy9Sc9YJd4KfkuH0bnCvXTSY3ioIHadZa7l1ewBuuxP05AzFsa/arfBFfI+wCAiApkCds8KGbZr563E8ESA==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by SJ0PR12MB5663.namprd12.prod.outlook.com (2603:10b6:a03:42a::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.30; Tue, 18 Oct
- 2022 20:45:24 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::1402:a17a:71c1:25a3]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::1402:a17a:71c1:25a3%7]) with mapi id 15.20.5723.033; Tue, 18 Oct 2022
- 20:45:24 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-CC: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Keith
- Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, "Martin K.
- Petersen" <martin.petersen@oracle.com>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-scsi@vger.kernel.org"
-	<linux-scsi@vger.kernel.org>
-Subject: Re: [PATCH 4/4] nvme-apple: remove an extra queue reference
-Thread-Topic: [PATCH 4/4] nvme-apple: remove an extra queue reference
-Thread-Index: AQHY4vmj1QRbDvKubE+CL925p7g/4q4UnyOA
-Date: Tue, 18 Oct 2022 20:45:24 +0000
-Message-ID: <5ae6ee5f-f8f6-d547-1c76-a5da90cb2de8@nvidia.com>
-References: <20221018135720.670094-1-hch@lst.de>
- <20221018135720.670094-5-hch@lst.de>
-In-Reply-To: <20221018135720.670094-5-hch@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|SJ0PR12MB5663:EE_
-x-ms-office365-filtering-correlation-id: 7bd9c85f-2a61-44e1-12f3-08dab149ae45
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  oLf1izCh+W5M2gDWnvFVYB4wdp7X5iOqVlyQckOoie51IzuggnTm7gJsFWwK2IqkAp4D9LKS/G1gxDGH9ayD8Dtw8JmQmkGr7vUadr5U7yOoDTTcrMMXQOzYug2qADMcnpUT9nQ5oZ6BALLBiGNGGdAs8i95bsXlF+rD/IkejyA90k/pt0G8h/s6Vj6AyH/LYXoMZIZOGU9jSyTuEWk4/5cIqccz0//rzn40QWQLtv0hCR1PCx4+4+Yp75Ibl7KEmIUCwiaYOW7kuFZ6u0+srb1S7px7fMrhr3afqbr+/L8GolSWm5TqGPWwpJ6vq+LsVwX+B+g+DX+acfxqwimD90jEtgyEYV/QMRCVcRQ1lYR5u+yzD3E1xx7Nt0M4GzTnnAlGlKrbHR+shAoqqQ5eFk7sxlvOf3HakF0Wez8/HRwIof4VnFz1ho0+jxOjwF8Q1Rvb22NahLUZ3ZLQkbCuqtu+pQXPKuq9Mgl09dhBB6ry4QdKszNEvsVKEw2A80k+Z2fkUlwi81be7V9hzUWGdaVi0r/gVZU7XYy1L6Wjy5wq491ZDTIsv3F6wdbYm8cWDR02tGlO5fbVLj+fxFNBitm8b1EDBdZ8Zi8kuDx8MT7jSRg7MVbdYpnA/CZyze558H8pILDWlhbXs6eJasQIjR3hkjexe2T/m8tbLDIzETSx0RcEubqGWg3pyDFalExs9kTudxkmwvAeOALHaJgTxWV1YugSQU096hSluuGIt3jeZOYO3acOhfYi/gCUmONMVr9hdnkZT5X4B4LsxhrX6X1tjMJxfB/Z83uok/CyNS67mnbv8FhMwczfqi4rx2dWP3YIcGLhHYlSljhul7qwgvoyTzebmsjPU0SKe6DDDtc=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(346002)(376002)(136003)(366004)(39860400002)(47660400002)(451199015)(36756003)(122000001)(38070700005)(2906002)(8676002)(66556008)(86362001)(31696002)(66446008)(558084003)(38100700002)(2616005)(64756008)(66476007)(66946007)(91956017)(76116006)(54906003)(110136005)(478600001)(4326008)(316002)(5660300002)(41300700001)(7416002)(8936002)(186003)(83380400001)(6486002)(71200400001)(53546011)(6506007)(6512007)(31686004)(46800400005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?aDJUSXNBMTBycUhIZVVkRE0rZ3JpMm9qTURCYTVpdTVFUmZtcWhMektpRVZs?=
- =?utf-8?B?UWlkZUpBeGtTaFFxL01uQXZwUFdoT29FK2N1NFNtNWtkaHRwY21OWmNwaHU0?=
- =?utf-8?B?TnFvT0FsZzRFZ2g1a3RJNXhiRHR0WDE0WDU5dVFLUG9Cb3Y4cW1lak13WHdp?=
- =?utf-8?B?M1pzM2dyell3UFFVaVJYOHRjS0cvYTUyMVIyTkNPSEkzdUpuRTNQdlNEN0I5?=
- =?utf-8?B?SSt1Zy9ERmhDUG9nV2ZlcGJTQTNYdzFYT3c4NThzc2hERUJkVlRpNjdYeTRG?=
- =?utf-8?B?OXhkV295M09FM25GZGJiaHZrcjVvdU5lT2lmbUVqbXdQQ21BYUliZHpHbXlQ?=
- =?utf-8?B?cWh6SCtyTCtJRml3OHE2ZmdVUUlMa0hCUElMV2NaV0UweTRGTnVLaE85M1l1?=
- =?utf-8?B?SFVLbG5vcUtvUFNDU01nOWh0WW5welRPQmxzcVpPdnNnTjF4a0hQNmp6TXJ3?=
- =?utf-8?B?bWVDMGNaeWx5OXhQZE05aFRiUmIvOGFlWEI2VisyWXR2RXRTTWpaOHdha3FC?=
- =?utf-8?B?aFVtVnNSbThYVGs1S3FsNWZ3dEJyTVpQdTJCYUJpdHllVHlTUytvdWkxNTU1?=
- =?utf-8?B?OHM4eFVIOEVVSkY2QXZaUlc0WDE5bWNiMWpQTnYwSG1NTVNaNVlqRmxvaVZt?=
- =?utf-8?B?MHNYa3c5YkNiZlhWRHRyQ3hRVGdOVngxRHIxR0dkMmE3c3NNTllIVzBWcU91?=
- =?utf-8?B?TDlpMjVLMElWWndwSERwcVpzRDFVVmREMXd0N0l0bGphQzZPbXM2VHRoaEdY?=
- =?utf-8?B?MFFjdENURG1jQXNLVTg0UTYwS3U2ZjV4L0N3SktXd29OWlNpeFlTUDNYcHJR?=
- =?utf-8?B?RVpkcFFUdGZoWFhBUytHRHM0a2NDVUcxdG41d1U3SjFTOVN4M0h1akx5VGRh?=
- =?utf-8?B?OEp2RmlGZ3ZFRGMxMTZVdXIrZ3NPWmwrTnAzRlQyKzRvM1hkVHBZU1hHYnZP?=
- =?utf-8?B?czl6b1ZaNWNpWk42OE5tczJPVTYydTZ1dVhMZCtNNlRsNUxhNCtQOW9oTGhN?=
- =?utf-8?B?dTZTbFZxbWM4TUtEaWo5UlBCbEg1cmkvbzVSZG9WWXFPY2JLSnRnYmlMekYy?=
- =?utf-8?B?U0VyWVB3dHErdzhlbnNxREpZbHZLT3F5VVIySkJ6RjJnOUNadk1vSmtwMURQ?=
- =?utf-8?B?d09uYktTUkYveWFhM1NmYk1QSXppM0ZURDFKMk9CYUtTb29maWhpbGx0aHFU?=
- =?utf-8?B?ZW5OM0swYi9VWWlwZ0s2UlRhUTRQc0U1RGdOUW9wWlVJSTNwSEkvTE5Td0xN?=
- =?utf-8?B?Mm9lTGdleDVFUVRMRXpVczVPdzhsS0psNGVQZ3RyRUxtbS9VMGViQU12SXIr?=
- =?utf-8?B?ZFJxdDkxVjd4dmNGNFpDSTJ3UFU1YlhPeVZHbHJYQkJib1pCSWhNZFRLR1hz?=
- =?utf-8?B?OHcyVStXWk00bG96bThZWFpBTFhvS2xya1VTNFFMYW5nT0R5UmkyYzZFejJL?=
- =?utf-8?B?UlRuOU9yM3dZc0NWMlNHMGFPN1pkdmpkTmdTeHppTTltUkl5d2NBcmNkTUJw?=
- =?utf-8?B?TmlHMHczdkJZbENXb3h5WHdBcTZLdkRxaGpNTjlHeG1XR1ZwejVNUi9yU1R6?=
- =?utf-8?B?QnFUbHZRZDZFYzZHdHN6UmJ3NzBFcnFTYlV4TjV1ellDbFhBTTJPbUJtWFR1?=
- =?utf-8?B?RVh5QW80VlNyVy9uUkhXTFl1TXp5U1MwUXk4VkhzTkxITkRGMzhLcG1CNTcr?=
- =?utf-8?B?VkJjbkZxdU42M3h3UTlnSXJqYUZFZ1gvZEpIVTdQZlNuczNaaVUwTWw3SHdi?=
- =?utf-8?B?TVpkZ2tDeE5xaW9tdzhwSW15NzVXdDZkLzZPWE9rK0J2VXJNenJMM1FVaUla?=
- =?utf-8?B?cVZXL0tURTZjdEZyMlI1WHprdlA5eTMzVkQ1SURacjdOT04rYTRLc3Z3UTN4?=
- =?utf-8?B?TDJhMGpPZ0dKRU5EeHJlL2xuMlhBNDZrcmg3R3ZyYitHSndzUjhlWllDTmNT?=
- =?utf-8?B?aUl3dzhaT054ek93R1V6aFNwWEVTL084VTJvOGJPVlpzcnIyeVpWdWwwYXYz?=
- =?utf-8?B?RmRCcXhWc08rS1lJNk82TnRsU0dtVzJQeW45QTU5dU15RWJVejlzZlBnNHRD?=
- =?utf-8?B?ZVFyaTZkUTV2aUw2cjJ3b3g4M05ld0FYYjM4Tjk0WGl2WEpFdWM0TmdQa080?=
- =?utf-8?B?Um5mOTFRSlZUdmlaNmwvK0w4bDFFVjY0ekVtQU1qSTJMSER2c2lHNnl3MnFo?=
- =?utf-8?B?Vnc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <12EFA2767C52F645B7FBDBA9D4DEA0B0@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	id 1oktUL-00APOS-5I
+	for linux-nvme@lists.infradead.org; Tue, 18 Oct 2022 20:47:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666126021; x=1697662021;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=9AOxdo8S/Qmq9IqXGkkZOQh0Fg5Zcz8Dpi1RLr/jhMU=;
+  b=IWR+9BLdO5rQ5HBN9KiKTRH1MPTPyOjhRdFMaftt95ffKw2YZ+YwCrFY
+   K8wLnW1l6Z6W/+aJCSK90JYoe7PxrxAIw+ARBI2hawwG9Gg/OtALq4SQN
+   9DLF5sZ+gjCAxmEKUx0uIdsF9X5fxACQhO7jPDfpYoFko3d8m2oFic9zY
+   Y/puS/hG7oBk9VQec6gRc1CdqRksGgeqBn2etvUIIlvE21WhjIqilP7fI
+   RHZ11IO0Z1P4V9XIhrJuuoIxgyNnXJgpcNNZqcGPbIt1joViqX3lo0zRz
+   8lLKXGjFmJW4Ee6kzIADAb+ukYarreeqsnN0JciKdIvkWRWjF7yFM/SY2
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10504"; a="370452901"
+X-IronPort-AV: E=Sophos;i="5.95,194,1661842800"; 
+   d="scan'208";a="370452901"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2022 13:46:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10504"; a="628910258"
+X-IronPort-AV: E=Sophos;i="5.95,194,1661842800"; 
+   d="scan'208";a="628910258"
+Received: from lkp-server01.sh.intel.com (HELO 8381f64adc98) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 18 Oct 2022 13:46:57 -0700
+Received: from kbuild by 8381f64adc98 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1oktUG-00020o-2i;
+	Tue, 18 Oct 2022 20:46:56 +0000
+Date: Wed, 19 Oct 2022 04:46:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.1] BUILD SUCCESS
+ 5097d0ef33371237f9a395f03ca5c80e6849d6e5
+Message-ID: <634f109e.TJ7m/VL4zkaZqAVv%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7bd9c85f-2a61-44e1-12f3-08dab149ae45
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Oct 2022 20:45:24.0369
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: w9a3fooNNZABCuspzLyl8zDJKjpCcA9F6eGLUDO+Wm41MTeh/7kFnkYW4ARL4QCBidy97cF/iuF0ejriOY05Ug==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5663
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221018_134529_423579_153A335A 
-X-CRM114-Status: GOOD (  10.03  )
+X-CRM114-CacheID: sfid-20221018_134701_440115_028B30E0 
+X-CRM114-Status: UNSURE (   7.68  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -151,10 +82,297 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMTAvMTgvMjIgMDY6NTcsIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOg0KPiBOb3cgdGhhdCBi
-bGtfbXFfZGVzdHJveV9xdWV1ZSBkb2VzIG5vdCByZWxlYXNlIHRoZSBxdWV1ZSByZWZlcmVuY2Us
-IHRoZXJlDQo+IGlzIG5vIG5lZWQgZm9yIGEgc2Vjb25kIGFkbWluIHF1ZXVlIHJlZmVyZW5jZSB0
-byBiZSBoZWxkIGJ5IHRoZQ0KPiBhcHBsZV9udm1lIHN0cnVjdHVyZS4NCj4gDQo+IFNpZ25lZC1v
-ZmYtYnk6IENocmlzdG9waCBIZWxsd2lnIDxoY2hAbHN0LmRlPg0KDQpSZXZpZXdlZC1ieTogQ2hh
-aXRhbnlhIEt1bGthcm5pIDxrY2hAbnZpZGlhLmNvbT4NCg0KLWNrDQoNCg==
+tree/branch: git://git.infradead.org/nvme.git nvme-6.1
+branch HEAD: 5097d0ef33371237f9a395f03ca5c80e6849d6e5  nvmet: fix workqueue MEM_RECLAIM flushing dependency
+
+elapsed time: 2194m
+
+configs tested: 270
+configs skipped: 9
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+um                           x86_64_defconfig
+um                             i386_defconfig
+i386                             allyesconfig
+i386                                defconfig
+powerpc                           allnoconfig
+mips                             allyesconfig
+powerpc                          allmodconfig
+sh                               allmodconfig
+x86_64                           rhel-8.3-kvm
+x86_64                           rhel-8.3-syz
+x86_64                         rhel-8.3-kunit
+s390                                defconfig
+s390                             allmodconfig
+arc                                 defconfig
+alpha                               defconfig
+s390                             allyesconfig
+arm                        spear6xx_defconfig
+x86_64                          rhel-8.3-func
+x86_64                    rhel-8.3-kselftests
+arc                  randconfig-r043-20221017
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+i386                 randconfig-a005-20221017
+i386                 randconfig-a003-20221017
+i386                 randconfig-a004-20221017
+i386                 randconfig-a001-20221017
+i386                 randconfig-a006-20221017
+arm64                            allyesconfig
+arm                                 defconfig
+arm                              allyesconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+arc                              allyesconfig
+alpha                            allyesconfig
+sh                   secureedge5410_defconfig
+arc                        nsimosci_defconfig
+m68k                          multi_defconfig
+csky                             alldefconfig
+m68k                        m5407c3_defconfig
+powerpc                  iss476-smp_defconfig
+sh                   rts7751r2dplus_defconfig
+m68k                        mvme16x_defconfig
+x86_64               randconfig-a004-20221017
+x86_64               randconfig-a001-20221017
+x86_64               randconfig-a002-20221017
+x86_64               randconfig-a006-20221017
+x86_64               randconfig-a005-20221017
+sh                        edosk7760_defconfig
+xtensa                  cadence_csp_defconfig
+powerpc                 canyonlands_defconfig
+arc                        nsim_700_defconfig
+riscv                               defconfig
+powerpc                 mpc837x_mds_defconfig
+i386                 randconfig-c001-20221017
+sh                           se7721_defconfig
+arc                          axs103_defconfig
+powerpc                     asp8347_defconfig
+sh                ecovec24-romimage_defconfig
+arm                      footbridge_defconfig
+m68k                             alldefconfig
+arm                         assabet_defconfig
+mips                  maltasmvp_eva_defconfig
+sh                   sh7724_generic_defconfig
+sh                          rsk7264_defconfig
+mips                 decstation_r4k_defconfig
+loongarch                         allnoconfig
+microblaze                          defconfig
+arm                          gemini_defconfig
+powerpc                 mpc834x_itx_defconfig
+powerpc                 mpc8540_ads_defconfig
+sh                          kfr2r09_defconfig
+powerpc                 linkstation_defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_k210_defconfig
+riscv                             allnoconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+powerpc                    adder875_defconfig
+sh                           se7751_defconfig
+parisc                           alldefconfig
+nios2                               defconfig
+mips                        vocore2_defconfig
+arm                        keystone_defconfig
+powerpc                        cell_defconfig
+parisc                generic-32bit_defconfig
+riscv             nommu_k210_sdcard_defconfig
+m68k                         amcore_defconfig
+mips                           ci20_defconfig
+powerpc                      makalu_defconfig
+loongarch                           defconfig
+sh                             sh03_defconfig
+ia64                            zx1_defconfig
+arc                     nsimosci_hs_defconfig
+powerpc                      arches_defconfig
+arm                          iop32x_defconfig
+openrisc                  or1klitex_defconfig
+m68k                          hp300_defconfig
+sh                          rsk7203_defconfig
+arm                             ezx_defconfig
+powerpc                     mpc83xx_defconfig
+powerpc                        warp_defconfig
+sh                          polaris_defconfig
+arm                            lart_defconfig
+sh                             shx3_defconfig
+parisc                generic-64bit_defconfig
+sh                              ul2_defconfig
+powerpc                  storcenter_defconfig
+arm                        cerfcube_defconfig
+sh                          r7785rp_defconfig
+m68k                            q40_defconfig
+arc                           tb10x_defconfig
+i386                 randconfig-a002-20221017
+loongarch                        allmodconfig
+x86_64               randconfig-a003-20221017
+powerpc                         wii_defconfig
+arm                        realview_defconfig
+arc                        vdk_hs38_defconfig
+powerpc                      chrp32_defconfig
+m68k                       m5208evb_defconfig
+mips                     decstation_defconfig
+mips                        bcm47xx_defconfig
+arc                     haps_hs_smp_defconfig
+sh                           se7705_defconfig
+i386                          debian-10.3-kvm
+i386                        debian-10.3-kunit
+i386                         debian-10.3-func
+arm                           h3600_defconfig
+x86_64               randconfig-c001-20221017
+arm                  randconfig-c002-20221017
+powerpc                     taishan_defconfig
+m68k                       bvme6000_defconfig
+mips                             allmodconfig
+sparc                       sparc32_defconfig
+sparc                       sparc64_defconfig
+arm                       aspeed_g5_defconfig
+arm64                            alldefconfig
+sh                           se7724_defconfig
+powerpc                      ppc6xx_defconfig
+csky                              allnoconfig
+nios2                            allyesconfig
+parisc                              defconfig
+parisc64                            defconfig
+parisc                           allyesconfig
+sparc                               defconfig
+xtensa                           allyesconfig
+csky                                defconfig
+sparc                            allyesconfig
+x86_64                                  kexec
+i386                          randconfig-a012
+i386                          randconfig-a014
+i386                          randconfig-a016
+sh                            hp6xx_defconfig
+arc                  randconfig-r043-20221018
+s390                 randconfig-r044-20221018
+riscv                randconfig-r042-20221018
+arm                       imx_v6_v7_defconfig
+m68k                          amiga_defconfig
+m68k                        m5307c3_defconfig
+x86_64                        randconfig-a011
+x86_64                        randconfig-a013
+x86_64                        randconfig-a015
+arm                         lpc18xx_defconfig
+powerpc                 mpc85xx_cds_defconfig
+ia64                                defconfig
+powerpc                          allyesconfig
+ia64                          tiger_defconfig
+alpha                            alldefconfig
+mips                     loongson1b_defconfig
+i386                          randconfig-c001
+x86_64                        randconfig-a006
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+powerpc                      pcm030_defconfig
+arm                        shmobile_defconfig
+arc                            hsdk_defconfig
+xtensa                    xip_kc705_defconfig
+m68k                           sun3_defconfig
+mips                           gcw0_defconfig
+mips                      fuloong2e_defconfig
+xtensa                  audio_kc705_defconfig
+m68k                          atari_defconfig
+openrisc                       virt_defconfig
+sh                         ap325rxa_defconfig
+arm                          pxa3xx_defconfig
+sh                          sdk7786_defconfig
+sh                        dreamcast_defconfig
+sh                                  defconfig
+m68k                                defconfig
+powerpc                      ppc40x_defconfig
+sparc64                             defconfig
+sh                        sh7757lcr_defconfig
+sh                   sh7770_generic_defconfig
+arc                    vdk_hs38_smp_defconfig
+arm                         at91_dt_defconfig
+microblaze                      mmu_defconfig
+sh                           se7343_defconfig
+sh                  sh7785lcr_32bit_defconfig
+mips                           jazz_defconfig
+m68k                       m5275evb_defconfig
+powerpc                     pq2fads_defconfig
+arm                         cm_x300_defconfig
+openrisc                 simple_smp_defconfig
+mips                            gpr_defconfig
+sparc                             allnoconfig
+powerpc                     tqm8541_defconfig
+powerpc                     stx_gp3_defconfig
+powerpc                   currituck_defconfig
+powerpc                 mpc834x_mds_defconfig
+arm                        trizeps4_defconfig
+arm                        mvebu_v7_defconfig
+openrisc                         alldefconfig
+arm                      jornada720_defconfig
+ia64                             allmodconfig
+x86_64                        randconfig-c001
+arm                  randconfig-c002-20221018
+
+clang tested configs:
+i386                 randconfig-a013-20221017
+i386                 randconfig-a015-20221017
+i386                 randconfig-a016-20221017
+i386                 randconfig-a011-20221017
+i386                 randconfig-a014-20221017
+i386                 randconfig-a012-20221017
+x86_64               randconfig-a014-20221017
+x86_64               randconfig-a015-20221017
+x86_64               randconfig-a012-20221017
+x86_64               randconfig-a011-20221017
+x86_64               randconfig-a013-20221017
+x86_64               randconfig-a016-20221017
+s390                 randconfig-r044-20221017
+hexagon              randconfig-r045-20221017
+riscv                randconfig-r042-20221017
+hexagon              randconfig-r041-20221017
+mips                 randconfig-c004-20221017
+i386                 randconfig-c001-20221017
+s390                 randconfig-c005-20221017
+arm                  randconfig-c002-20221017
+riscv                randconfig-c006-20221017
+x86_64               randconfig-c007-20221017
+powerpc              randconfig-c003-20221017
+x86_64               randconfig-k001-20221017
+arm                          collie_defconfig
+x86_64                        randconfig-c007
+mips                 randconfig-c004-20221018
+i386                          randconfig-c001
+s390                 randconfig-c005-20221018
+arm                  randconfig-c002-20221018
+riscv                randconfig-c006-20221018
+powerpc              randconfig-c003-20221018
+arm                        mvebu_v5_defconfig
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+mips                        maltaup_defconfig
+arm                         s3c2410_defconfig
+powerpc                 mpc832x_mds_defconfig
+mips                           rs90_defconfig
+mips                          rm200_defconfig
+powerpc                      ppc44x_defconfig
+riscv                             allnoconfig
+powerpc                  mpc866_ads_defconfig
+x86_64                        randconfig-a005
+x86_64                        randconfig-a003
+x86_64                        randconfig-a001
+arm                         socfpga_defconfig
+arm                       mainstone_defconfig
+arm                          sp7021_defconfig
+powerpc                    mvme5100_defconfig
+x86_64                        randconfig-k001
+arm                      pxa255-idp_defconfig
+mips                       lemote2f_defconfig
+arm                      tct_hammer_defconfig
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
 
