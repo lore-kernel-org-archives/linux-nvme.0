@@ -4,60 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26EF1C433FE
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Oct 2022 09:51:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2ED3C433FE
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Oct 2022 09:52:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KXHp04IHa6+5JI3YI2C8K37BO/BZZXEOcA3tFRo+1PU=; b=HD3a1/4OaStGILox6hRcY5SHiW
-	A/QshwdnyUOeqGo30+a9yFx4Yr5ic07c3Cwi87CnDbooAKYRfJ9JhaOvAOsnUHRoZslca6fmpXFEk
-	ZCoCkiNCFONuYnxwzMsYRkpO3tDyo7JSoasvpmuGeiGwvtNjopjr5vYEdIqvzt/sdPssH9V3ypmCd
-	P8LEUTnMdneGgadMy009WungVfC71VwA/Q0BZObHSYXN9b1r0wLu6TQQPmk0onsOIWl0Sg8HsOLHw
-	h8Rlx+XHiDh0HCp8OjPsLR6j7MXxtcTZ0dTCWpZfTEPikA3qHotTHj1Pa+iDOuv5wj3VqRLabiGen
-	w8nl4Krw==;
+	bh=eQMw1bVbzGrYRSps/8T5tjPPZ1QuO9n0O2eGmpe9i8o=; b=jmPnmKQy6ml3pB9JwSLUmnAH6o
+	S/XHINfDANoB7wsFGOafak128Qf4NOlRXvrR53X457yLklXHs3OqCEdAxi+tRUGlNd66L734Ez6Wp
+	5+1Og5kwh7IPs8tEPk3DhtBHKcUPLaPPxJFQIQlCC37tGVfn5k4OkfcH0kn6joz1rxWX1z4BVOox0
+	BDbSI89q6wuq2T8QF+LP1znND2lfK2zLECSCooLbLr0ZBF7ApPQdUxXqCskoMH/xAvQZgUUg+ehjM
+	VNyfWEvJejB/XWyQZHctYoMO7/qXMPkPD4TYo8gDyx0Bw9NqqUfmTSQ3N8xA/Zety1GLw17Oeg6o/
+	FmR9E45w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1okjGF-005IPl-Kw; Tue, 18 Oct 2022 09:51:47 +0000
-Received: from szxga03-in.huawei.com ([45.249.212.189])
+	id 1okjGw-005JlU-DW; Tue, 18 Oct 2022 09:52:30 +0000
+Received: from szxga02-in.huawei.com ([45.249.212.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1okjGC-005IBX-Qd
-	for linux-nvme@lists.infradead.org; Tue, 18 Oct 2022 09:51:46 +0000
-Received: from canpemm500002.china.huawei.com (unknown [172.30.72.57])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Ms8Fk5HHhzJn2S;
-	Tue, 18 Oct 2022 17:48:58 +0800 (CST)
+	id 1okjGt-005JQY-ME
+	for linux-nvme@lists.infradead.org; Tue, 18 Oct 2022 09:52:29 +0000
+Received: from canpemm500002.china.huawei.com (unknown [172.30.72.55])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Ms8KX56gCz9t8P;
+	Tue, 18 Oct 2022 17:52:16 +0800 (CST)
 Received: from [10.169.59.127] (10.169.59.127) by
  canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 18 Oct 2022 17:51:04 +0800
+ 15.1.2375.31; Tue, 18 Oct 2022 17:52:19 +0800
 Subject: Re: [PATCH v2 1/2] blk-mq: add tagset quiesce interface
-To: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+To: Christoph Hellwig <hch@lst.de>
 CC: <linux-nvme@lists.infradead.org>, <linux-block@vger.kernel.org>,
-	<kbusch@kernel.org>, <ming.lei@redhat.com>, <axboe@kernel.dk>
+	<sagi@grimberg.me>, <kbusch@kernel.org>, <ming.lei@redhat.com>,
+	<axboe@kernel.dk>, "Paul E. McKenney" <paulmck@kernel.org>
 References: <20221013094450.5947-1-lengchao@huawei.com>
- <20221013094450.5947-2-lengchao@huawei.com>
- <99dac305-206c-4e1b-a1ec-50e107258b6b@grimberg.me>
- <20221017134335.GA24959@lst.de>
+ <20221013094450.5947-2-lengchao@huawei.com> <20221017133906.GA24492@lst.de>
 From: Chao Leng <lengchao@huawei.com>
-Message-ID: <50737260-4865-68f9-9bfe-a3de3d89f21d@huawei.com>
-Date: Tue, 18 Oct 2022 17:51:04 +0800
+Message-ID: <b9fd5ed5-0312-f5ba-2831-e46516a5ae49@huawei.com>
+Date: Tue, 18 Oct 2022 17:52:18 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.1
 MIME-Version: 1.0
-In-Reply-To: <20221017134335.GA24959@lst.de>
+In-Reply-To: <20221017133906.GA24492@lst.de>
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.169.59.127]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
  canpemm500002.china.huawei.com (7.192.104.244)
 X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221018_025145_061978_916AD044 
-X-CRM114-Status: UNSURE (   9.50  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221018_025228_349858_C8E3414E 
+X-CRM114-Status: GOOD (  14.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,18 +72,38 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 2022/10/17 21:43, Christoph Hellwig wrote:
-> On Thu, Oct 13, 2022 at 01:28:37PM +0300, Sagi Grimberg wrote:
->>> Because some queues never need to be quiesced(e.g. nvme connect_q).
->>> So introduce QUEUE_FLAG_NOQUIESCED to tagset quiesce interface to
->>> skip the queue.
->>
->> I wouldn't say it never nor will ever quiesce, we just don't happen to
->> quiesce it today...
+On 2022/10/17 21:39, Christoph Hellwig wrote:
+> On Thu, Oct 13, 2022 at 05:44:49PM +0800, Chao Leng wrote:
+>> +	rcu = kvmalloc(count * sizeof(*rcu), GFP_KERNEL);
+>> +	if (rcu) {
+>> +		list_for_each_entry(q, &set->tag_list, tag_set_list) {
+>> +			if (blk_queue_noquiesced(q))
+>> +				continue;
+>> +
+>> +			init_rcu_head(&rcu[i].head);
+>> +			init_completion(&rcu[i].completion);
+>> +			call_srcu(q->srcu, &rcu[i].head, wakeme_after_rcu);
+>> +			i++;
+>> +		}
+>> +
+>> +		for (i = 0; i < count; i++) {
+>> +			wait_for_completion(&rcu[i].completion);
+>> +			destroy_rcu_head(&rcu[i].head);
+>> +		}
+>> +		kvfree(rcu);
+>> +	} else {
+>> +		list_for_each_entry(q, &set->tag_list, tag_set_list)
+>> +			synchronize_srcu(q->srcu);
+>> +	}
 > 
-> Yes.  It really is a QUEUE_FLAG_SKIP_TAGSET_QUIESCE.
-I will modify it in patch V3.
+> Having to allocate a struct rcu_synchronize for each of the potentially
+> many queues here is a bit sad.
 > 
+> Pull just explained the start_poll_synchronize_rcu interfaces at ALPSS
+> last week, so I wonder if something like that would also be feasible
+> for SRCU, as that would come in really handy here.
+Using start_poll_synchronize_rcu will reduce some memory.
+This is a good idea.
 > 
 > .
 > 
