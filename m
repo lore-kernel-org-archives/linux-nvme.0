@@ -4,59 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37AB4C4332F
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Oct 2022 21:04:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 330E8C4332F
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Oct 2022 23:25:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=N88nLT4L6z/JF/RJA7o0qOw7Kf3O6B6315PPqtS9v2M=; b=DQjd81M3P1ok0NU7JQ/8mJ/jsc
-	4jOZEQ2nd1sAeFcHkGwob4YovB6eilswSXOPKCoddDW7LtbZKDJpV2se7ntwUUy4VfDBuZGpVsOP0
-	41PY+FJqikHkhYwEUEi/AfIhBBYDhara4RRnhpHWuRM6zMh8CyLH+a0LbTz0DxU6bI5rLjJdvQ2Lk
-	qiVxhy30gdsY+TvQZt22wmjA2kKuqXAlfaMN4G1XUQNpy4GHSEAw2yWW4TjqMsaSQ3piPPK85/gCf
-	UW3Tl3Q7QkPJuPRMo7sTaOl8U6meEKo0XrMWWuvPT278GoqJbEsch/Du1GuIfTceNx8SJyfM3wcja
-	j5w8WOOw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=c9Mb3V2rysf84iO0kb3yPAj0/QZ83AN7HSENEvqQ9nI=; b=dBXLrPttNhstDQlIZYnK9ZGkuf
+	70VCGX4PwmpaWvC4qY/KweDulQ8MCHBhj0KahNjQWsFqvvSiD4aZXDZ6tqhrxC4HV8eW4rNUUdgHM
+	oFApIvDfmQmaHv4O4ccPsxkm0mhP72foJ0kSQo/tAYW6RcDuEybe4PE9TlMPmzTe8AO3giMQb3IpV
+	rJHRO9qQHPbX001ehRTDgPMV24rtVzp+IKB+82uK3Ep6/LqYr8P9nKJAjrpE5ikfV5CJmBhOFG0bZ
+	iVIucgMBvsrNQYxcU3bldoTDjbdX+UO7Be2D/j021VCVCvfAKRglUfrqmCt3DXt/BcLZDyOY+lV8Q
+	TR1grtQQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oktlE-00ASpc-Hy; Tue, 18 Oct 2022 21:04:28 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1okvxM-00Avsq-7e; Tue, 18 Oct 2022 23:25:08 +0000
+Received: from mga17.intel.com ([192.55.52.151])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oktlC-00ASo3-46
-	for linux-nvme@lists.infradead.org; Tue, 18 Oct 2022 21:04:27 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id AF10FB81F7D;
-	Tue, 18 Oct 2022 21:04:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D062C433D6;
-	Tue, 18 Oct 2022 21:04:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1666127060;
-	bh=q1t1PbrlGl6iZJRB/zuNsJ66BAoVK03rUt+vkqh71e8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ustaEgG4xYIT5tmqATm6n5saQUkObLGCYZIx/Gw8DOKwJNYgWEJnyxWSV76o20iEa
-	 /BJVFME/GVb655+DOEi0bhesSHvNfc/F2yLtwcolJXgepvwhBmHpxtGfxOc/6N8Jw4
-	 4sCus/T0C2PbA1I2FH7sGkYREOSKUoRqbzHTlyuaG77vPtV+uHeGm4zt/SnGxIxyYK
-	 Px/B6b580AssWZmESEhgzrhgtu74CGf54XDTHHUOfXMz/x8bGcUla7cTLcw2nDO/Bd
-	 7e7WILOPiT8frKFVhR4a6JQ4U8QbC5nyW2NvwhW66y6IkZFNnhGyi94MTze7J7W+FS
-	 DGl6v2ZxAk78g==
-Date: Tue, 18 Oct 2022 15:04:17 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: "Munoz Ruiz, Francisco" <francisco.munoz.ruiz@linux.intel.com>
-Cc: linux-nvme@lists.infradead.org
+	id 1okvxJ-00AvrI-9R
+	for linux-nvme@lists.infradead.org; Tue, 18 Oct 2022 23:25:06 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666135505; x=1697671505;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=CnWgzw6L+sWoYU1ATlgBxxsAPYDbsPoZLaq3V8Sleyk=;
+  b=jMfMf0Z8kMAnUYaAh6PgKgsQKR2L5mT/USNk2rOdVHO9W1JUXaX8WAGO
+   uwU3/X6Gub74nhL/3NPaz79DhBihMBLdayc7ubYnpUA/X1Ixc+k+pzCQV
+   kjBcaK3ciy0NbYKG1tlRCzkP9pVQpBqLdZU8zddWI9ET8kI0SoyymddeF
+   hS5XXF97ZGKgq3RWFr0BBQEUGJt0dZb4BLHnC2Yfd1D3rQrNgtyBTQPwR
+   hU2cb4a7KN598XS+yu+YyvrwNHW78yGFouObGzSg7jXcD1eswzCaG0fuv
+   OUjR+0304sVv8GhBwLhSaLSY2GUCXf5AGmvzAw1SDbJlWSuRFuuCSDlre
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10504"; a="286649120"
+X-IronPort-AV: E=Sophos;i="5.95,194,1661842800"; 
+   d="scan'208";a="286649120"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2022 16:25:01 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10504"; a="697763571"
+X-IronPort-AV: E=Sophos;i="5.95,194,1661842800"; 
+   d="scan'208";a="697763571"
+Received: from fmmunozr-mobl1.amr.corp.intel.com (HELO [10.212.59.160]) ([10.212.59.160])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2022 16:24:57 -0700
+Message-ID: <1bff16e2-576b-f141-aee6-898649a9ffb3@linux.intel.com>
+Date: Tue, 18 Oct 2022 16:24:56 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
 Subject: Re: [Question] nvme namespace enumerated to 2 when hot-reinserted
  into a server in 5.14 kernel(RHEL 9.1)
-Message-ID: <Y08U0dr9Kgl0Pbvt@kbusch-mbp.dhcp.thefacebook.com>
+Content-Language: en-US
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
 References: <f3b75aec-d29a-8c6a-1b12-6cf7b83d9892@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f3b75aec-d29a-8c6a-1b12-6cf7b83d9892@linux.intel.com>
+ <Y08U0dr9Kgl0Pbvt@kbusch-mbp.dhcp.thefacebook.com>
+From: "Munoz Ruiz, Francisco" <francisco.munoz.ruiz@linux.intel.com>
+In-Reply-To: <Y08U0dr9Kgl0Pbvt@kbusch-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221018_140426_362220_9681207F 
-X-CRM114-Status: GOOD (  19.46  )
+X-CRM114-CacheID: sfid-20221018_162505_415081_7CDA98C4 
+X-CRM114-Status: GOOD (  15.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,50 +81,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 18, 2022 at 01:22:01PM -0700, Munoz Ruiz, Francisco wrote:
-> Hi,
-> 
-> 
-> We are hardening our tests for RHEL, and we'd like to know if this is the
-> expected behavior.
-> 
-> After a couple of tests via trace-cmd and booting with
-> nvme_core.multipath=N, we found that the number "2" presented to userspace
-> comes from nvme_init_ns_head()->nvme_alloc_ns_head() when an SSD is
-> hot-reinserted
-> 
-> 
-> ret = ida_simple_get(&ctrl->subsys->ns_ida, 1, 0, GFP_KERNEL);
-> if (ret < 0)
-> 	goto out_free_head;
-> head->instance = ret;
-> 
-> Then in nvme_alloc_ns() the string representing a disk name is assembled via
-> sprintf because nvme_mpath_set_disk_name returns immediately due to
-> multipath == false
-> /*
->  * Without the multipath code enabled, multiple controller per
->  * subsystems are visible as devices and thus we cannot use the
->  * subsystem instance.
->  */
-> if (!nvme_mpath_set_disk_name(ns, disk->disk_name, &disk->flags))
-> 	sprintf(disk->disk_name, "nvme%dn%d", ctrl->instance,
-> 		ns->head->instance);
-> ns->disk = disk;
-> 
-> 
-> We also observed that the ida API used in core.c was updated in a recent
-> commit 8b850475c08caa9545c460d7. Does this fix the namespace numbering
-> presented to the user via disk_name? if not, should we pass our tests if
-> nvmeXn2 is observed instead of nvmeXn1 when hot-reinserting an SSD?
 
-If the last number is incrementing, that means something is holding a
-reference to the older one that you removed.
 
-Assuming a reference is being held, a hot remove-insert sequence would
-expect the controller holding the namespace to be removed. The
-subsequent insertion would have the controller enumerate with a new
-instance number instead. Ex, if the namespace was nvme0n1 before, we'd
-get nvme1n1 next time instead of nvme0n2. Or are you just detaching the
-namespace without detaching the controller?
+On 10/18/2022 2:04 PM, Keith Busch wrote:
+> On Tue, Oct 18, 2022 at 01:22:01PM -0700, Munoz Ruiz, Francisco wrote:
+>> Hi,
+>>
+>>
+>> We are hardening our tests for RHEL, and we'd like to know if this is the
+>> expected behavior.
+>>
+>> After a couple of tests via trace-cmd and booting with
+>> nvme_core.multipath=N, we found that the number "2" presented to userspace
+>> comes from nvme_init_ns_head()->nvme_alloc_ns_head() when an SSD is
+>> hot-reinserted
+>>
+>>
+>> ret = ida_simple_get(&ctrl->subsys->ns_ida, 1, 0, GFP_KERNEL);
+>> if (ret < 0)
+>> 	goto out_free_head;
+>> head->instance = ret;
+>>
+>> Then in nvme_alloc_ns() the string representing a disk name is assembled via
+>> sprintf because nvme_mpath_set_disk_name returns immediately due to
+>> multipath == false
+>> /*
+>>   * Without the multipath code enabled, multiple controller per
+>>   * subsystems are visible as devices and thus we cannot use the
+>>   * subsystem instance.
+>>   */
+>> if (!nvme_mpath_set_disk_name(ns, disk->disk_name, &disk->flags))
+>> 	sprintf(disk->disk_name, "nvme%dn%d", ctrl->instance,
+>> 		ns->head->instance);
+>> ns->disk = disk;
+>>
+>>
+>> We also observed that the ida API used in core.c was updated in a recent
+>> commit 8b850475c08caa9545c460d7. Does this fix the namespace numbering
+>> presented to the user via disk_name? if not, should we pass our tests if
+>> nvmeXn2 is observed instead of nvmeXn1 when hot-reinserting an SSD?
+> 
+> If the last number is incrementing, that means something is holding a
+> reference to the older one that you removed.
+> 
+> Assuming a reference is being held, a hot remove-insert sequence would
+> expect the controller holding the namespace to be removed. The
+> subsequent insertion would have the controller enumerate with a new
+> instance number instead.
+In our test we are reinserting the SSD in a new PCI slot and this 
+enumerates the controller with a new instance like you said, however we 
+see namespace 2. Ex: nvme0n1 becomes nvme9n2
+  Ex, if the namespace was nvme0n1 before, we'd
+> get nvme1n1 next time instead of nvme0n2. Or are you just detaching the
+> namespace without detaching the controller?
+We are not running any nvme-cli command(like detach-ns) before 
+mechanical remove. (Sorry, I don't know if this is what you asked)
 
