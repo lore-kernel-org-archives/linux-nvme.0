@@ -4,69 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EDC49C433FE
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Oct 2022 10:57:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E43D6C4332F
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Oct 2022 11:06:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LGWzhkcCbHT/GlYan3Eun+hEJiWxFq+Aa5m4bxdGa10=; b=2FC21eTq4S+tUklUYopVBnUXAD
-	XBc3KPEeJVdyn/aVuhfODE/LwzBluQ+nPuparEGpUfawflyiYU9fokj+uLBzgaJV6Y3Gj75P+ZpJ6
-	cVcEjW0Xw/OPZW27dbWdMRjQvei4CqNNSGBu6VatEKw+yw922yZn+7IZNqm1jPaAC/PSe8rnstBKn
-	NcJ4igIMXxDJggfKMZVmXlNjilEora0vxcVq1TdKLYamODU8xQ5NA6zK3Wif/ijYoPdmQqFa/vBI3
-	ga8ZkjAnVIH2KyZ0tHmX/A8GmHtGXFTbYeCqMzDf2Z2hNU217QYVBuVIdjmMjHBYomM2NBX0Yk1h0
-	xwl2krkA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=BQ60lN4XHdfNtivmwoGJBfMIbR60YzEa9u0zT+J699w=; b=xi4m8/35pk9FoPtUibL2KIa1qb
+	+6PuPnLcsnoOpkQZLmyhl74n0RoS1xYXTIcQMTLnYCIICzfbMIo+1SG00OoKMKmYbYJa8o1+5Pur/
+	ONa1mjLBdN1XNH78wmt94vCNLk346hCVdwpLKri3lTq8hrbabT8j9wUVG7IjA6DEmo1DYDEpg0j51
+	MFobyUF5kOHO2l/4srlPeBZ3M/syuICmp9hcj3Yf8yAvCLitGFq+drRn8KWe5d36N3Gq+Llm/mRdJ
+	rkH6wgT3PTx4A2He8KaNJUPvV5VGG0YMLVGpZlRVoMvQvXY3qqawp8f3xJ39tGsyg3fQ3ISEkU+pJ
+	fTB4eTZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1okkI9-005p2R-Ul; Tue, 18 Oct 2022 10:57:49 +0000
-Received: from mail-wr1-f53.google.com ([209.85.221.53])
+	id 1okkQU-005znz-DG; Tue, 18 Oct 2022 11:06:26 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1okkI6-005oxV-KN
-	for linux-nvme@lists.infradead.org; Tue, 18 Oct 2022 10:57:48 +0000
-Received: by mail-wr1-f53.google.com with SMTP id bu30so22838938wrb.8
-        for <linux-nvme@lists.infradead.org>; Tue, 18 Oct 2022 03:57:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LGWzhkcCbHT/GlYan3Eun+hEJiWxFq+Aa5m4bxdGa10=;
-        b=fKdDYw9sDLzwilL8iglMOn4kpZyxaDDQRU3GOYHgVSTtu1QaKYRWnsBT0U3+NeOioe
-         r6uss5kmRh1Z5EnUHBZFIdXcWMpRSgTgQmE0xUOceU0C1q5D79qxVUL9Wbm0DIqsVte5
-         9J9NZ97PP/WYPoYcUecSt01QDa+RRMIpWISlsbVw6cK0mBKZVov3uYqFoZ9fKl3MxWuQ
-         DM6HBM/JV1rezpEjCFPItY0JfemBQ+VqVwlc7jmyD2PTUZkZK4cACFeHkJgXxigmXskF
-         7h3aLuGYHnusCJdPNMdw3cWlzV5sevwq/H1NWGX+db4jdjR2yClrC0BXpyR+Oq8WR8Tt
-         TQ3g==
-X-Gm-Message-State: ACrzQf1Q3UBab3o3NBLwjfazL4aqQpyGACMZJ+MshOq3Y42KJ876fZXB
-	ZS1cgptjg1LiGT866S2c/xuyQrytFDA=
-X-Google-Smtp-Source: AMsMyM4nTl4e6OEpC9DtTiTFq51+1xbsCSqV+V5tStWZIkdIL5U/+Iyczs+srvqA9L7q1grhRSjdbA==
-X-Received: by 2002:a5d:46d0:0:b0:22c:de2a:23e with SMTP id g16-20020a5d46d0000000b0022cde2a023emr1595429wrs.12.1666090663383;
-        Tue, 18 Oct 2022 03:57:43 -0700 (PDT)
-Received: from [192.168.64.53] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id bi20-20020a05600c3d9400b003b49ab8ff53sm12697687wmb.8.2022.10.18.03.57.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Oct 2022 03:57:42 -0700 (PDT)
-Message-ID: <93e16b0e-4fa0-c0e1-6cc5-dec018db5f5c@grimberg.me>
-Date: Tue, 18 Oct 2022 13:57:41 +0300
+	id 1okkPv-005zHU-Hj
+	for linux-nvme@lists.infradead.org; Tue, 18 Oct 2022 11:05:52 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 3957768C4E; Tue, 18 Oct 2022 13:05:44 +0200 (CEST)
+Date: Tue, 18 Oct 2022 13:05:44 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, Chao Leng <lengchao@huawei.com>,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	kbusch@kernel.org, ming.lei@redhat.com, axboe@kernel.dk
+Subject: Re: [PATCH v2 1/2] blk-mq: add tagset quiesce interface
+Message-ID: <20221018110544.GA4785@lst.de>
+References: <20221013094450.5947-1-lengchao@huawei.com> <20221013094450.5947-2-lengchao@huawei.com> <20221017133906.GA24492@lst.de> <20221017134244.GA24775@lst.de> <b0631151-4081-2fdb-fbb0-eab1db633200@grimberg.me> <20221018085557.GA28266@lst.de> <3a466711-860a-667f-b78d-daa1eedb4edf@grimberg.me>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: bad unlock balance WARNING at nvme/045
-Content-Language: en-US
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Hannes Reinecke <hare@suse.de>
-Cc: Damien Le Moal <Damien.LeMoal@wdc.com>
-References: <20221018080350.zir6xm6dnr4wgb7j@shindev>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20221018080350.zir6xm6dnr4wgb7j@shindev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3a466711-860a-667f-b78d-daa1eedb4edf@grimberg.me>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221018_035746_693756_652A1C5A 
-X-CRM114-Status: GOOD (  14.44  )
+X-CRM114-CacheID: sfid-20221018_040551_782593_AE343F5E 
+X-CRM114-Status: GOOD (  15.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,37 +59,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Tue, Oct 18, 2022 at 12:06:41PM +0300, Sagi Grimberg wrote:
+>>   +	/*
+>> +	 * Mark the disk dead to prevent new opens, and set the capacity to 0
+>> +	 * to end buffered writers dirtying pages that can't be synced.
+>> +	 */
+>>   	blk_mark_disk_dead(ns->disk);
+>> -	nvme_start_ns_queue(ns);
+>> -
+>>   	set_capacity_and_notify(ns->disk, 0);
+>> +
+>> +	/* forcibly unquiesce queues to avoid blocking dispatch */
+>> +	nvme_start_ns_queue(ns);
+>>   }
+>
+> If we no longer have this ordering requirement, then I don't see why
+> the unquiesce cannot move before or after nvme_set_queue_dying and apply
+> a tagset-wide quiesce/unquiesce...
 
-> Hello Hannes,
-> 
-> I observed "WARNING: bad unlock balance detected!" at nvme/045 [1]. As the Call
-> Trace shows, nvme_auth_reset() has unbalanced mutex lock/unlock.
-> 
-> 	mutex_lock(&ctrl->dhchap_auth_mutex);
-> 	list_for_each_entry(chap, &ctrl->dhchap_auth_list, entry) {
-> 		mutex_unlock(&ctrl->dhchap_auth_mutex);
-> 		flush_work(&chap->auth_work);
-> 		__nvme_auth_reset(chap);
-> 	}
-> 	mutex_unlock(&ctrl->dhchap_auth_mutex);
-> 
-> I tried to remove the mutex_unlock in the list iteration with a patch [2], but
-> it resulted in another "WARNING: possible recursive locking detected" [3]. I'm
-> not sure but cause of this WARN could be __nvme_auth_work and
-> nvme_dhchap_auth_work in same nvme_wq.
-> 
-> Could you take a look for fix?
+Yes.  After this patch we can simply do the tagset-wide unquiesce
+after the loop calling blk_mark_disk_dead and set_capacity_and_notify.
 
-I'm looking at the code and I think that the way the concurrent
-negotiations and how dhchap_auth_mutex is handled is very fragile,
-also why should the per-queue auth_work hold the controller-wide
-dhchap_auth_mutex? The only reason I see is because nvme_auth_negotiate
-is checking if the chap context is already queued? Why should we
-allow that?
-
-I'd suggest to splice dhchap_auth_list, to a local list and then just
-flush nvmet_wq in teardown flows. Same for renegotiations/reset flows.
-And we should prevent for the double-queuing of chap negotiations to
-begin with, instead of handling them (I still don't understand why this
-is permitted, but perhaps just return EBUSY in this case?)
+We can then also move the NЅ_DEAD flag to the controller..
 
