@@ -4,82 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8BA9BC433FE
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Oct 2022 08:49:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E472AC433FE
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Oct 2022 08:50:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Za2u9xiMwHQI7hLYUiv/WFtqJCOw820fM5EFEI9bWS0=; b=fbsogDttDSmOnQse0lHvmN7gZK
-	UAZbD4goREib06GoSiM0xsKcJzyUS2d/Tf0aWUX15N89z9g3myB+ntkf2Qmr8WaBoSBHdq1Z0lKsp
-	nuQxD3CATbPtA1VXS7xjkaDwrV4ebZrhaz/si4hOdcax3MGfzKguEhMSk5cB26erOYE7kFwqtqBwi
-	aIFKO3U9kpTQ9llkitJt1cDzosXiT6E3ynH8OF1mdZCpNHBz482j1qLmxBx0Q9NtGodeAjerXDUYi
-	NwsIM893xxCQNlP+6B2LMDtGA9xzBDh83Nrx300tnRMlVYfUBfKmkD5xbJqqgXzfOAEeZ+zuu/FDO
-	B2fukIcA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TgyujVBWfviggPeQDUWOqLsyjM0f5GYV66yVSB7k0PQ=; b=aZ/VpZUvYMhXzOGoWOHQZZPR7b
+	haqr9C1FQ18hO+H6K4zgvF+Szg5ywaw9sPDzziRKA8C8mlw84kmqctLfVEWpPwA1X83wJFZDFormW
+	rhjFaKnr0ZGe07HAnbGOhub0p5+of2s8mGq2aRfT7MfjIsxJ1IjkC81/IliC4mbWNVByMvrQ2lpXB
+	uvlHFzw08Tm6HJUHH4PSw0HVa4Mouz/ZuG5Z+YdUaLx9yK05GI2v79g7IMH9dY2VvtN1LGgUR83Jb
+	B7Ct4A4MWYa0Ny7/SIvENQKBP1sQs4lDxyN3164VrFBfBHTNwKe4S1l7pBaL1mYeYiRy1vGEy8GAO
+	FHv/tjXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ol4lJ-00GsdT-BD; Wed, 19 Oct 2022 08:49:17 +0000
-Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32])
+	id 1ol4mD-00Guno-6g; Wed, 19 Oct 2022 08:50:13 +0000
+Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ol4lF-00GsWE-Ci
-	for linux-nvme@lists.infradead.org; Wed, 19 Oct 2022 08:49:14 +0000
-Received: by mail-oa1-x32.google.com with SMTP id 586e51a60fabf-1326637be6eso19797558fac.13
-        for <linux-nvme@lists.infradead.org>; Wed, 19 Oct 2022 01:49:12 -0700 (PDT)
+	id 1ol4mA-00GuhH-P5
+	for linux-nvme@lists.infradead.org; Wed, 19 Oct 2022 08:50:12 +0000
+Received: by mail-lj1-x230.google.com with SMTP id i21so18332346ljh.12
+        for <linux-nvme@lists.infradead.org>; Wed, 19 Oct 2022 01:50:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=Za2u9xiMwHQI7hLYUiv/WFtqJCOw820fM5EFEI9bWS0=;
-        b=IY0XWTQEiEAzGedkEG9VyQgKTKBfJptCxDSdUxAZwPoGD8VHjHc+gIE4LT8t6qrlFP
-         PbqIzPvpHVvwe6doBHH/TqYzOTkEKJDg33FtRNYvXJ5xAUAqBkAV/CRKkweh5j9Kr7co
-         ZRHJda9m+qDZts9JC6lj7vn5w8HG5hna7HmuybkgSAO+Q5k+7fogF3TxVdSHz/BNQluv
-         DVsXLkE5ZGUQOpLz9g789LGIDxkHnB1c+aDNd84oqlHazHHPotjLSVQAcfdu1prJmCOJ
-         tKp5qN8AE+cSNXsef4myHEfC99U42bL9XojbRiAapxDTm+6klBoAFO/Wcpc6isn35cKl
-         863Q==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TgyujVBWfviggPeQDUWOqLsyjM0f5GYV66yVSB7k0PQ=;
+        b=lcASvWkIGYIBL1kOUmlNKRmizZXQRQCQswLcY7rtUWLD0Recpakmj4moxmyZJqQajc
+         /bjCQ77pl6OpEHcbkLCMwgdnn0URcmcvR9sgn3HQJcZpRr+U/qMGLwJf+jUyckXiAkcE
+         PS9h9Cft/8HKkwv/XLFaqE+Xr0oH9H1SEwvqRIjWIJ/3ocbNfAcLk8iTN3ltIAQNGCfl
+         zoN9xm7THLogOo2DvAg2/TbBxm6IaXZRxi1JqIXGAjcGBzTu34y+PN4QmKHQOslH0MoO
+         B/xByLm3DoUwCoB7qryimZA+c+w9lvRCkOUIxKEWTvux0q1VLvr+SCdV6RiHMDV4g+/Q
+         sbcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Za2u9xiMwHQI7hLYUiv/WFtqJCOw820fM5EFEI9bWS0=;
-        b=d5DTg2tIDDfTu7lRk69jbtLokCpruTtSXe+Hudt38DAh5XSph8ynqN+SxiA8h8dhH8
-         RJ0WQKUShntblWR+clDFU2LI7X6+Wc/4fSCUxL7GWIK8HhxxbAtqtPn8EcfM4bnQac/M
-         tFAl3WZQkkSOMmOLCCVV1PHCzSgWhoJ9JHaWeRvqgLsZ4bAykcPSeVyqHilOLEdluYyn
-         21Avbm9op7Cb/U/Dcg537gwlvFcCsyXJCbuSnkPHeCCy5g4RAc/bb9r4Lr4qH4kLiPkC
-         g2s6lRm2NeZ0L0Yv+h5f/7t+go0A9PIsiHzmFWn9am18tvPJstlSOPKOD0uv8zkgWBHo
-         Jt/w==
-X-Gm-Message-State: ACrzQf3HnI1J27kM+ckPzB3m5I++lI7/zn3tU3rpUPl1/gVJEwSZ0WZC
-	UUeUnh0Xs8afJ4nglwg7EvY=
-X-Google-Smtp-Source: AMsMyM4Q1gYSw9qX27XYyRpuP4nYAlWK3w5M94hEMIxMoOve8J72z481o0nmEv6QFYSna4wsn8Qvag==
-X-Received: by 2002:a05:6870:b512:b0:132:98fc:5b79 with SMTP id v18-20020a056870b51200b0013298fc5b79mr19771693oap.11.1666169352194;
-        Wed, 19 Oct 2022 01:49:12 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id t4-20020a4a8244000000b004805c328971sm6184661oog.42.2022.10.19.01.49.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Oct 2022 01:49:11 -0700 (PDT)
-Message-ID: <dc74a729-5f45-ffc8-96ef-dc86d43b0545@roeck-us.net>
-Date: Wed, 19 Oct 2022 01:49:10 -0700
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TgyujVBWfviggPeQDUWOqLsyjM0f5GYV66yVSB7k0PQ=;
+        b=ICxigI1QWK1e1Cug953u29NbGyUiRIDudXDWsIeGxWHrXnHM7ewdyhjyZ9ztsr6kMX
+         ERHwK/laqrvRzNe8ASdaXPbz0uCysAnxEsa6m2aoi7S3u5JDOY5gYsegpbwMdgxkACJs
+         rqnOOsKHlxEe8ASfH6K5Xf7+mnI152cDVzmj9adO7E+vkj0m54CY4w4NtRFRQedLl8kL
+         yuhhXThazEyF0Xm8Znss5NO7NH1PyheB1BWgbBYUp6OmZWClgcAalZ7yyG8IhJg5iUf3
+         njRr5DcVK0GY7bTMq4ASPcbnMIicDpves7ANAQM0CnbUQ7B3ePL37f5Rp7t9XoImjbwl
+         bWpQ==
+X-Gm-Message-State: ACrzQf04Ykiba7uK5AQ6XR9cSLUg/dkTrARd38dug1H3f6KXjk5fg9vr
+	4fiGTnL2FJ44Ex1GpUeP9Sg=
+X-Google-Smtp-Source: AMsMyM7V0jWaYMejCjjBwvos1eWkWorpojnU7u8wFu3p2iQGarhhfM5w+u+UJF18+ij6iUmRLalRAA==
+X-Received: by 2002:a2e:8186:0:b0:26e:8cc0:3d0c with SMTP id e6-20020a2e8186000000b0026e8cc03d0cmr2344263ljg.425.1666169407575;
+        Wed, 19 Oct 2022 01:50:07 -0700 (PDT)
+Received: from localhost ([2a02:aa7:4006:e2e9:da26:9eee:3340:6a5b])
+        by smtp.gmail.com with ESMTPSA id l9-20020ac25549000000b004991437990esm2211765lfk.11.2022.10.19.01.50.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Oct 2022 01:50:06 -0700 (PDT)
+Date: Wed, 19 Oct 2022 10:50:04 +0200
+From: Pankaj Raghav <pankydev8@gmail.com>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org, Arunpandian J <apj.arun@samsung.com>,
+	gost.dev@samsung.com
+Subject: Re: [PATCH nvme-cli] tests: Update license to GPL-2.0-or-later
+Message-ID: <20221019085004.54mtkhi5qoix5ef6@quentin>
+References: <20220517061456.7623-1-dwagner@suse.de>
+ <20221019070321.ra5wns3sc3dv3r74@carbon.lan>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2] nvme-hwmon: consistently ignore errors from
- nvme_hwmon_init
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, kbusch@kernel.org, sagi@grimberg.me,
- fancer.lancer@gmail.com
-Cc: linux-nvme@lists.infradead.org
-References: <20221019083744.993792-1-hch@lst.de>
-From: Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <20221019083744.993792-1-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221019070321.ra5wns3sc3dv3r74@carbon.lan>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221019_014913_563294_F4814A89 
-X-CRM114-Status: GOOD (  22.40  )
+X-CRM114-CacheID: sfid-20221019_015010_832363_08FBCE56 
+X-CRM114-Status: GOOD (  13.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,82 +89,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/19/22 01:37, Christoph Hellwig wrote:
-> An NVMe controller works perfectly fine even when the hwmon
-> initialization fails.  Stop returning errors that do not come from a
-> controller reset from nvme_hwmon_init to handle this case consistently.
+Hi Daniel,
+> > When I reviewed the tests I asked wrongly for GPL-2.0-only. The
+> > project is using the GPL-2.0-or-later license. Relax the license
+> > requirement to GPL-2.0-or-later.
+> > 
+> > Cc: Arunpandian J <apj.arun@samsung.com>
+> > Signed-off-by: Daniel Wagner <dwagner@suse.de>
+> > ---
+> > Hi Arunpandian,
+> > 
+> > Sorry for the mess, but could I get a signed-off-by from you?
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ping?
+> 
+I heard from the team that he left Samsung. Do we have any other
+alternative to get this patch in?
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-
-> ---
-> 
-> Changes since v1:
->   - switch to ignoring the errors in the caller.
-> 
->   drivers/nvme/host/core.c  |  6 +++++-
->   drivers/nvme/host/hwmon.c | 13 ++++++++-----
->   2 files changed, 13 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 9cbe7854d4883..dc42206005855 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3262,8 +3262,12 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl)
->   		return ret;
->   
->   	if (!ctrl->identified && !nvme_discovery_ctrl(ctrl)) {
-> +		/*
-> +		 * Do not return errors unless we are in a controller reset,
-> +		 * the controller works perfectly fine without hwmon.
-> +		 */
->   		ret = nvme_hwmon_init(ctrl);
-> -		if (ret < 0)
-> +		if (ret == -EINTR)
->   			return ret;
->   	}
->   
-> diff --git a/drivers/nvme/host/hwmon.c b/drivers/nvme/host/hwmon.c
-> index 0a586d7129201..23918bb7bdca2 100644
-> --- a/drivers/nvme/host/hwmon.c
-> +++ b/drivers/nvme/host/hwmon.c
-> @@ -230,7 +230,7 @@ int nvme_hwmon_init(struct nvme_ctrl *ctrl)
->   
->   	data = kzalloc(sizeof(*data), GFP_KERNEL);
->   	if (!data)
-> -		return 0;
-> +		return -ENOMEM;
->   
->   	data->ctrl = ctrl;
->   	mutex_init(&data->read_lock);
-> @@ -238,8 +238,7 @@ int nvme_hwmon_init(struct nvme_ctrl *ctrl)
->   	err = nvme_hwmon_get_smart_log(data);
->   	if (err) {
->   		dev_warn(dev, "Failed to read smart log (error %d)\n", err);
-> -		kfree(data);
-> -		return err;
-> +		goto err_free_data;
->   	}
->   
->   	hwmon = hwmon_device_register_with_info(dev, "nvme",
-> @@ -247,11 +246,15 @@ int nvme_hwmon_init(struct nvme_ctrl *ctrl)
->   						NULL);
->   	if (IS_ERR(hwmon)) {
->   		dev_warn(dev, "Failed to instantiate hwmon device\n");
-> -		kfree(data);
-> -		return PTR_ERR(hwmon);
-> +		err = PTR_ERR(hwmon);
-> +		goto err_free_data;
->   	}
->   	ctrl->hwmon_device = hwmon;
->   	return 0;
-> +
-> +err_free_data:
-> +	kfree(data);
-> +	return err;
->   }
->   
->   void nvme_hwmon_exit(struct nvme_ctrl *ctrl)
-
+-- 
+Pankaj Raghav
 
