@@ -4,68 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3636C4332F
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Oct 2022 09:34:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42B45C433FE
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Oct 2022 09:37:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sccpZFYvzNhcph+z2VBJpUseqtR95SmCVosVES2vX3I=; b=RYpSUP5OVT9yrs1oskaA4pSuNB
-	CLkhejrHt+m6kj3EY4uW9gmzP2rDJnPmJ2RXLVTS2cl6imvs7V0B3UCCp8CLyL0aGwxgxGbXUaLwm
-	Zb8BdRb9auFh0NJqpjkBwIW8/sqhLUvTHWjtl+8IfM+RxDIKdv0Ncn4iz8UXIlCcvMxFQD1BBa93v
-	rIkgIDy6p4l6PyDlDcVebi10uJxPGOhByEvTQke1ztIV0qZrfePXudGACTZoZFswq8FTK2Yo0F0pd
-	tGTwC2zm15yR8oeZ8Wmn/rG6hZvJDcB3JE6t0EoU2zr0tMWX9rQsybQ6XE1mH3LybFwASvzTGoyki
-	S1Lk9RGg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+CWpXXXyREb+amIi0zhfsuuwmT6elHeid6ihrvnTWDI=; b=DtHhwXw7DgTwSAp74nO6hFWm8R
+	7J9aHOr+MJnCXRvzmh/DTkyNqqvtYsb78exepJbBtBr1nLc2nKmcs6By2TCUUzsVVyOFsgBiDOeKw
+	E7joWf6IDiGVkv4tZuUpNlZ+lr9nG4TnxqfO36N/PbA3Wp6Vb+nCiO/iIRPgtvWfLaDEy+qPGKYvY
+	aAViIpPj/0UsHUyBpSlUGi1vge5T6MnU8QqUYq6HYMxkiyXK2DbjMscYhAdnUDCi8ud87d71Peuwy
+	cii6s9vc0cbKgWaHlEerLygyjH6khDM2QQjPBRui47e3aaX+Wno+NT20FoEfoFhMkMe4AhZOSiBAo
+	FL8FNgrQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ol5TJ-00HO6v-9P; Wed, 19 Oct 2022 09:34:45 +0000
-Received: from mail-wr1-f45.google.com ([209.85.221.45])
+	id 1ol5Vo-00HP76-Ua; Wed, 19 Oct 2022 09:37:20 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ol5TF-00HO5j-SC
-	for linux-nvme@lists.infradead.org; Wed, 19 Oct 2022 09:34:43 +0000
-Received: by mail-wr1-f45.google.com with SMTP id n12so27955209wrp.10
-        for <linux-nvme@lists.infradead.org>; Wed, 19 Oct 2022 02:34:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sccpZFYvzNhcph+z2VBJpUseqtR95SmCVosVES2vX3I=;
-        b=sTt3fqbNgPksZAd1X5BTOpuzbQ1aQgzlBTOoN0xFc3qXPh3Nu2BKTabBRXgXw8AVMl
-         tlj5jxSq4v2ANl96lCLxqY1QxFnN/PN+O8CsziLEwavmUn4RNEZ710J1xOf+FOlMbSH7
-         4pR+Tymmw7wSNvHWA5O5gHRa0Ob8au5wUeIcYgzMXs5mQGzsxEInk2VtOMxgh2ilFVpx
-         wD+zkWMyJItRdmrM771sBrOcmgqQuN+me+bp+9AR347Xl76lFU/R35nEdQrRY8u1g4EX
-         K/F6zsj3P9nrGYEUoDdzhGJwgdZlJD5RSJ6d1VkwdPTeKmATs4mYPPHifI4pBc6rzj8/
-         x31g==
-X-Gm-Message-State: ACrzQf0SFcJdTsIG7P7x2Z6oXvkjbiN6cKcPU/DVRzUSCA1ZD1GQhwlQ
-	Cp5lSY6AZ6IUat1piTOFhUAPsevh+Zo=
-X-Google-Smtp-Source: AMsMyM6L2WqbjTUIg/6SApdSBwoZQCF9ya0ePmoIYr7S71GuzBIS6yyDVRPtPIiMw6FoQ9vVodGURg==
-X-Received: by 2002:adf:cf10:0:b0:22e:4e50:9161 with SMTP id o16-20020adfcf10000000b0022e4e509161mr4231803wrj.587.1666172075218;
-        Wed, 19 Oct 2022 02:34:35 -0700 (PDT)
-Received: from [192.168.64.53] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id u12-20020a5d6acc000000b0022ae0965a8asm12892182wrw.24.2022.10.19.02.34.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Oct 2022 02:34:34 -0700 (PDT)
-Message-ID: <7d02c3b8-09df-f5d8-6065-f1caa8f5d643@grimberg.me>
-Date: Wed, 19 Oct 2022 12:34:33 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH, RFC] nvme: add Guenther as nvme-hwmon maintainer
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, kbusch@kernel.org, linux@roeck-us.net
+	id 1ol5Vl-00HP3Y-IP
+	for linux-nvme@lists.infradead.org; Wed, 19 Oct 2022 09:37:19 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9F75E20420;
+	Wed, 19 Oct 2022 09:37:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1666172233; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+CWpXXXyREb+amIi0zhfsuuwmT6elHeid6ihrvnTWDI=;
+	b=SHnfQ0rkHyufblI87rqfVF9w9KlQZtFi6ksLVpiOhDvYMjQvfJtTvN9CxaylTZcZE/plUH
+	k3/Nw9gTKOAtbvSd5pUz8PwSUU61naB5inwX31ANKds2m+K4dYKu763BtcCsbNa96BwlH1
+	j5+h4awZgERKgLW1DEQwEMI9/SiOTRQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1666172233;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+CWpXXXyREb+amIi0zhfsuuwmT6elHeid6ihrvnTWDI=;
+	b=UOtC2HNsuUOsQYHmgZ7UDMDxOfVgTFtXNLrUXmUuUNLv6lR++3IGXuDlRzeMqUR9gBZcnO
+	mFKA7sjiFHyb7MCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 91F3D13A36;
+	Wed, 19 Oct 2022 09:37:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id dpy5I0nFT2OUCAAAMHmgww
+	(envelope-from <dwagner@suse.de>); Wed, 19 Oct 2022 09:37:13 +0000
+Date: Wed, 19 Oct 2022 11:37:12 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>
 Cc: linux-nvme@lists.infradead.org
-References: <20221018150056.681478-1-hch@lst.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20221018150056.681478-1-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: lockdep warning: fs_reclaim_acquire vs tcp_sendpage
+Message-ID: <20221019093712.2d2g36wcwwcl7zat@carbon.lan>
+References: <20221019075138.ff2sfahovionh72v@carbon.lan>
+ <c30b24b9-e80f-9e8a-5754-caa7dc7bfe8b@grimberg.me>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c30b24b9-e80f-9e8a-5754-caa7dc7bfe8b@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221019_023441_935322_C9DCBDE7 
-X-CRM114-Status: UNSURE (   6.99  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221019_023717_773385_6CA10384 
+X-CRM114-Status: GOOD (  12.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,10 +86,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+> >    Possible unsafe locking scenario:
+> > 
+> >          CPU0                    CPU1
+> >          ----                    ----
+> >     lock(fs_reclaim);
+> >                                  lock(sk_lock-AF_INET-NVME);
+> >                                  lock(fs_reclaim);
+> >     lock(sk_lock-AF_INET-NVME);
+> 
+> Indeed. I see the issue.
+> kswapd is trying to swap out pages, but if someone were to delete
+> the controller (like in this case), sock_release -> tcp_disconnect
+> will alloc skb that may need to reclaim pages.
+> 
+> Two questions, the stack trace suggests that you are not using
+> nvme-mpath? is that the case?
 
-> Given that non of the overall NVMe maintainers knows this code very
+This is with a multipath setup. The fio settings are pushing the limits
+of the VM (memory size) hence the kswap process kicking in.
 
-none
+> Given that we fail all inflight requests before we free the socket,
+> I don't expect for this to be truly circular...
+> 
+> I'm assuming that we'll need the below similar to nbd/iscsi:
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Let me try this.
 
