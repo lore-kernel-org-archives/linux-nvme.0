@@ -4,59 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A8B1C4332F
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Oct 2022 09:48:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5008C4332F
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Oct 2022 09:57:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NYC02fp3nDRBCPiStZb8PTaboNUxyjE49rrVBWA1Cfs=; b=HdEtL8xh/LcMB1Q2L4FKRlq2Xe
-	diHrgvbPiEVWNiue5iaBWIDlmTJG8ixqXL3BJ64Q0NjlXHKJge/Jy/X9yYSlf5dyEWFwTh+Jk48IF
-	homoWfwuw9RmiyMgDjNt+P/fBmutq90xKrJSHe/Th8oxeA2wvYhqSkm1XRNA3wpEm+Y1xQYRnBX2N
-	O3+ebd/+Me3MgsqyaAIbbQsaCbeHszKjob5RHpm0iy6yVUMTB6Bgtb3ATaxx1LmkVqqgz8vr2pDzh
-	Wo7ljDM2q/eO8p8hFyLe7jDofDQW4BQUbE5KMxEts1cFessi7bqc1IU5kkBBf0pWdCtg2Keel0641
-	VXvBHfrQ==;
+	bh=+qlOUBPxgXsHA0igvOH1wMM9M/jIG9Z2ri2rr/IWuSw=; b=eTNY1TwqC8wsbOldNbUMuCiYvA
+	RhNfEfMT2Lxw4mhVSeczaUvkmkkzI5i/NuDWKPUQELF4600+zD1b699XmFb9e3fD5xkFvCoXCXUms
+	lcy3u+3zOcUosyGyKPnRdP+5zbYV7mb8z7ZMhGxjwY4pZ6Xcv+UoTgTbdoRmcNUVur/OIfzZZlZ1m
+	ezs8QD46sFCCEetrGHNJZoDbYPtBDXCjBimLzjfZ32R3xP9s3udey6fFN23ARV6xuwRfGtJbINaP2
+	lV8YpZe4Mc44r8LQNrWpxUf/1ig0jCz1BbQMTDaAESnnGCPgs7awXfgzwgS0nDbDFGuKEAApR1jz5
+	uGP9nKHQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1olS9d-00D9Zi-Ke; Thu, 20 Oct 2022 09:47:57 +0000
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+	id 1olSIj-00DEfw-Uk; Thu, 20 Oct 2022 09:57:21 +0000
+Received: from mail-wm1-f41.google.com ([209.85.128.41])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1olS9Z-00D9W8-OR
-	for linux-nvme@lists.infradead.org; Thu, 20 Oct 2022 09:47:56 +0000
-Received: from canpemm500002.china.huawei.com (unknown [172.30.72.53])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MtN1y3G43zmVFx;
-	Thu, 20 Oct 2022 17:43:02 +0800 (CST)
-Received: from [10.169.59.127] (10.169.59.127) by
- canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 20 Oct 2022 17:47:47 +0800
-Subject: Re: [PATCH v3 2/2] nvme: use blk_mq_[un]quiesce_tagset
-To: Sagi Grimberg <sagi@grimberg.me>, <linux-nvme@lists.infradead.org>,
-	<linux-block@vger.kernel.org>
-CC: <hch@lst.de>, <kbusch@kernel.org>, <axboe@kernel.dk>,
-	<ming.lei@redhat.com>, <paulmck@kernel.org>
-References: <20221020035348.10163-1-lengchao@huawei.com>
- <20221020035348.10163-3-lengchao@huawei.com>
- <13088882-2d1b-ca71-8420-84bb47760cff@grimberg.me>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <ffba2ecb-0c91-2960-9d83-08d7a3248cb1@huawei.com>
-Date: Thu, 20 Oct 2022 17:47:46 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+	id 1olSIh-00DEUC-Au
+	for linux-nvme@lists.infradead.org; Thu, 20 Oct 2022 09:57:20 +0000
+Received: by mail-wm1-f41.google.com with SMTP id l16-20020a05600c4f1000b003c6c0d2a445so1784799wmq.4
+        for <linux-nvme@lists.infradead.org>; Thu, 20 Oct 2022 02:57:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+qlOUBPxgXsHA0igvOH1wMM9M/jIG9Z2ri2rr/IWuSw=;
+        b=BHlGpGRa4wbf7UjoP7P+u6H91N5geuaLi0qA4lcegzbJvwgfF7w9GxpVkkHQmD/VkZ
+         EKDCDdPiI+eW1nYhB+bXcLKQa5kltxAL+wXDcA/jjlMW+KgjBp/kQ9pxqKx00Ak/bDi0
+         DyTsVYt75pxH7svbefzrgNs64YX1YXIsCBSGf4f7rj2Z4VYokbxsKrkh4c4KrYMLEErt
+         ssTh+ftPp8LUO+17qr3zOnNQEbcVdgToZN3d2JbF4EoDVLFqGHvy93lvhyoirNHc6tMB
+         eySq4/DRY4suaCfYQmp39/Hvc0kzqkEQjYaN/H5rS62GtV4rQ0j8aSSt0zg7U+ediFeG
+         n8ZA==
+X-Gm-Message-State: ACrzQf39G9i2UPpn8I2GsiSzK8FZ7vSc0Vck8CWZw1mpt+1I11FOG1gT
+	ion6UnZk/khhFh3c//EuQ8y75hB0YqY=
+X-Google-Smtp-Source: AMsMyM5UncaJ81Fi446efFqfKh3fmhioozKMEGAKq2jL9yfaOWqIFfUxVRdcL92tShDkeE52abZcyw==
+X-Received: by 2002:a05:600c:34cf:b0:3c7:84d:709 with SMTP id d15-20020a05600c34cf00b003c7084d0709mr4204882wmq.37.1666259833413;
+        Thu, 20 Oct 2022 02:57:13 -0700 (PDT)
+Received: from [192.168.64.53] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id v2-20020a5d4b02000000b0022ed6ff3a96sm15688000wrq.39.2022.10.20.02.57.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Oct 2022 02:57:12 -0700 (PDT)
+Message-ID: <930775bf-4e8f-5580-8216-d2f28e369cb3@grimberg.me>
+Date: Thu, 20 Oct 2022 12:57:11 +0300
 MIME-Version: 1.0
-In-Reply-To: <13088882-2d1b-ca71-8420-84bb47760cff@grimberg.me>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: lockdep warning: fs_reclaim_acquire vs tcp_sendpage
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.169.59.127]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- canpemm500002.china.huawei.com (7.192.104.244)
-X-CFilter-Loop: Reflected
+To: Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org
+References: <20221019075138.ff2sfahovionh72v@carbon.lan>
+ <c30b24b9-e80f-9e8a-5754-caa7dc7bfe8b@grimberg.me>
+ <20221019093712.2d2g36wcwwcl7zat@carbon.lan>
+ <20221019113517.wv27jqp7lyskfbqb@carbon.lan>
+ <96978c5e-369b-a010-f9b5-6b4675836e47@grimberg.me>
+ <20221019160147.ij3nc44n5ppmzifp@carbon.suse.asia>
+ <8c564393-f5e6-57e7-c2a2-8ddd58187a0b@grimberg.me>
+ <20221020081002.z2qvzlq3du7qef4b@carbon.lan>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20221020081002.z2qvzlq3du7qef4b@carbon.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221020_024754_187288_514A0134 
-X-CRM114-Status: GOOD (  16.29  )
+X-CRM114-CacheID: sfid-20221020_025719_400607_6505B3E4 
+X-CRM114-Status: GOOD (  12.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,70 +87,36 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
+>>>>> Still able to trigger though I figured out how I am able to
+>>>>> reproduce it:
+>>>>>
+>>>>>     VM 4M memory, 8 vCPUs
+>>>>
+>>>> thats small...
+>>>
+>>> Just a test VM. But I think this is actually the key to reproduce the
+>>> lockdep splat. The fio command is eating up a lot of ram (I guess any
+>>> other memory hog would do the job as well) and forces the mm subsystem
+>>> to use the swap.
+>>
+>> Is that 4MB of memory? or 4GB?
+> 
+> Ah sorry... it is 4GB indeed.
 
-On 2022/10/20 14:11, Sagi Grimberg wrote:
-> 
-> 
-> On 10/20/22 06:53, Chao Leng wrote:
->> All controller namespaces share the same tagset, so we can use this
->> interface which does the optimal operation for parallel quiesce based on
->> the tagset type(e.g. blocking tagsets and non-blocking tagsets).
->>
->> nvme connect_q should not be quiesced when quiesce tagset, so set the
->> QUEUE_FLAG_SKIP_TAGSET_QUIESCE to skip it when init connect_q.
->>
->> Currntely we use NVME_NS_STOPPED to ensure pairing quiescing and
->> unquiescing. If use blk_mq_[un]quiesce_tagset, NVME_NS_STOPPED will be
->> invalided, so introduce NVME_CTRL_STOPPED to replace NVME_NS_STOPPED.
->> In addition, we never really quiesce a single namespace. It is a better
->> choice to move the flag from ns to ctrl.
->>
->> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
->> Signed-off-by: Chao Leng <lengchao@huawei.com>
->> ---
->>   drivers/nvme/host/core.c | 57 +++++++++++++++++++-----------------------------
->>   drivers/nvme/host/nvme.h |  3 ++-
->>   2 files changed, 25 insertions(+), 35 deletions(-)
->>
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index 059737c1a2c1..c7727d1f228e 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -4890,6 +4890,7 @@ int nvme_alloc_io_tag_set(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
->>               ret = PTR_ERR(ctrl->connect_q);
->>               goto out_free_tag_set;
->>           }
->> +        blk_queue_flag_set(QUEUE_FLAG_SKIP_TAGSET_QUIESCE, ctrl->connect_q);
->>       }
->>       ctrl->tagset = set;
->> @@ -5013,6 +5014,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
->>       clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
->>       spin_lock_init(&ctrl->lock);
->>       mutex_init(&ctrl->scan_lock);
->> +    mutex_init(&ctrl->queue_state_lock);
-> 
-> Why is this lock needed?
-It is used to secure the process which need that the queue must be quiesced.
-The scenario:(without the lock)
-Thread A: call nvme_stop_queues and set the NVME_CTRL_STOPPED and then quiesce the tagset
-           and wait the grace period.
-Thread B: call nvme_stop_queues, because the NVME_CTRL_STOPPED is already setted,
-           continue to do something which need that the queue must be quiesced,
-           because the grace period of the queue is not ended, may cause abnormal.
-Thread A: the grace period end, and continue.
-So add a lock to ensure that all queues are quiesced after set the NVME_CTRL_STOPPED.
+Just for the experiment, can you try with this change:
+--
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index c5bea92560bd..d814be5dca1e 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1519,7 +1519,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl 
+*nctrl, int qid)
+          * close. This is done to prevent stale data from being sent should
+          * the network connection be restored before TCP times out.
+          */
+-       sock_no_linger(queue->sock->sk);
++       //sock_no_linger(queue->sock->sk);
 
-The old code was implemented by forcing a wait for the grace period. Show the code:
-	if (!test_and_set_bit(NVME_NS_STOPPED, &ns->flags))
-		blk_mq_quiesce_queue(ns->queue);
-	else
-		blk_mq_wait_quiesce_done(ns->queue);
-The old code was not absolutely safe, such as this scenario:
-Thread A: test_and_set_bit, and interrupt by hardware irq, lost chance to run.
-Thread B: test_and_set_bit, and wait the grace period, and then continue
-           to do something which need that the queue must be quiesced,
-           because the queue is not quiesced, may cause abnormal.
-Thread A: get the chance to run, blk_mq_quiesce_queue, and then continue.
-> 
-> .
+         if (so_priority > 0)
+                 sock_set_priority(queue->sock->sk, so_priority);
 
