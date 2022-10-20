@@ -4,71 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC238C4332F
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Oct 2022 13:37:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C511FC4332F
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Oct 2022 13:38:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=FrZABm24vipgv4cyJLQXTodn+U
-	ifZGA9o2MVip7uUuCjwbjiJBqS706XaKyCmsrFysz0VLqGTLrA5+EkYgTBgPHh9iXvXnSzT4XgzQS
-	uOb7d/CAX3XsJOxsZYdHcN0+lGYTkwrIW0RSNM18AuWzbXrgZFAc5ZX+xQnGJRZaZOxmJwEvMICqG
-	IjUf3yVEXD0Ye1QwMQBQbv95fbXrMvIck0TVeJAXse4qlGoM2VAUPH0ESr8K8zHqpmD1tt+I1KW5V
-	9ls4imrAMVFaESWpWz15SN7gwPYAZr73X4wPL5pfvOGxVwfJr7/a9d305pa1BQBG+UHQd26I51U8c
-	Fa1wvdyw==;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=v51wS2+GWcndCf9LrA7SEsKS2Y
+	PBWrd8yBY834YMHLv5R3x2uTEYsQBE3csqZo57mUiVzU1Mvh6e7UaDSZaMTXHiGc6U0GtWyABzhTw
+	ECp2MjhTjnKKIljyHZbW46FdPpOqX9yixGn3H7AIcB8iGTyal7yvXq1EdbcceJdNVPXjD7TrtvKaf
+	EonAF/cikgsigMoobYJYa+VeEPxItoCVEYmQiCAak31JuBC0UtkOlI7orjpua5mx2yNP0OkdbTaDU
+	2/qCjomZofXzsLdjqUVSCK95ht/R9s2iS9ao3c3K9vVK2uM8aalMqLGV5Nmh1q+0xApfyxiD0eCBU
+	aFpFGmUw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1olVjx-00FYrk-1X; Thu, 20 Oct 2022 13:37:41 +0000
-Received: from mail-wr1-f43.google.com ([209.85.221.43])
+	id 1olVkT-00FZIS-Lc; Thu, 20 Oct 2022 13:38:13 +0000
+Received: from mail-wm1-f43.google.com ([209.85.128.43])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1olVWN-00FPmM-To
-	for linux-nvme@lists.infradead.org; Thu, 20 Oct 2022 13:23:43 +0000
-Received: by mail-wr1-f43.google.com with SMTP id a3so34365047wrt.0
-        for <linux-nvme@lists.infradead.org>; Thu, 20 Oct 2022 06:23:39 -0700 (PDT)
+	id 1olVWZ-00FPsL-8l
+	for linux-nvme@lists.infradead.org; Thu, 20 Oct 2022 13:23:57 +0000
+Received: by mail-wm1-f43.google.com with SMTP id v11so4907922wmd.1
+        for <linux-nvme@lists.infradead.org>; Thu, 20 Oct 2022 06:23:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
         bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=h2r6+u4pQeEWbnORANVObFbcQJkrwpEqu3uSb8372R1Uy4nI+RwZgboG2btQBiO6T6
-         XNtnvDlEaegE2Mn5Tkr+KeglZ7NwwhRYWshA0SylpqnIzpysfRVIFZL5n3I26CntZKJn
-         68Wx0Hiij/ows+PLvqVpRkC1nz8IsBtAD+Pi6pA4KI9AXbnVsz2JsafJxsZveUX5aJfn
-         O6srB+9ZhtGk7qc4NBOfGkW8GlAVKHBxBuCBkNSncE6/h8nzIfo/W1lw3mSg8G5W0za+
-         EVcuv85O6+CUdT8rgAx/yxJ68QeaejGJhAiJ283z/tuS4WIxBkqMJ+H79FwvV+H8pbtj
-         VwKA==
-X-Gm-Message-State: ACrzQf2jpHS1r9vZJ3HoEFOoIr7OQcv00HvOxIZXBJUXawRjU/nrN+DS
-	NL+RT+XuutuCb5Ld0Q0igB8=
-X-Google-Smtp-Source: AMsMyM5FdqFqk2BFYdqRNYgpAYJFxNQAyDuUFMezEhoRv0VIpRtNWWc4DDjTtq5WsyTltEjP5zkVRw==
-X-Received: by 2002:a5d:6c62:0:b0:230:5aa7:6771 with SMTP id r2-20020a5d6c62000000b002305aa76771mr8333890wrz.158.1666272217931;
-        Thu, 20 Oct 2022 06:23:37 -0700 (PDT)
+        b=ts17DcKfzlAEuiZciC6rx8Gn0BrVQyjtmzju+RNcmCGoixAw0yJpAZjRoI1aMDOFWY
+         B0GRcSrEi+S3FGF0koDcsM7Vx8f5EkzYngalgNHZpHHDM38TYm5jZozAbF/5b1rwZMSM
+         PFTL2QrMdcvAZzbuGklABy5aJplOa2AEtuaLGQAbuXHW7bPunYzlK3BJqp+7LcJCnaEE
+         BSDMSsOnF28rg+bn2o9dvkM1evDwEphHS/NBODC93qTAqbIm1vFoQoIxFB5Wcus+JN9A
+         dkTHLBGvCO1QEYBb4kfNVTmVcZHgGOR60raGhRtN6q+yGjODkYKkcxqHMSdxzbWg3pTC
+         QAXQ==
+X-Gm-Message-State: ACrzQf2CCAih38U82tkaZJp4xgIy7D2a0m93DjEfwneHvclY+oUxsZmC
+	mOn6/UMv5jaNa3M7wnXF+vU=
+X-Google-Smtp-Source: AMsMyM7K5WQPPB1FDyFXOQr28xu12GlQmwYpYnkorVNl0FM4LrMpfMZJ7ZSzoMz4I7K7yB7Kc03c2A==
+X-Received: by 2002:a05:600c:4e8b:b0:3b4:c8ce:be87 with SMTP id f11-20020a05600c4e8b00b003b4c8cebe87mr31938678wmq.157.1666272229300;
+        Thu, 20 Oct 2022 06:23:49 -0700 (PDT)
 Received: from [192.168.64.53] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id e14-20020a5d65ce000000b0022abcc1e3cesm16358140wrw.116.2022.10.20.06.23.36
+        by smtp.gmail.com with ESMTPSA id c8-20020a5d4f08000000b0023538fb27c1sm2523871wru.85.2022.10.20.06.23.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Oct 2022 06:23:37 -0700 (PDT)
-Message-ID: <dcc13b0c-ecf7-d7a2-c7ab-43334ff4da6b@grimberg.me>
-Date: Thu, 20 Oct 2022 16:23:35 +0300
+        Thu, 20 Oct 2022 06:23:48 -0700 (PDT)
+Message-ID: <a9d28250-e231-00aa-c104-5e14b9631a02@grimberg.me>
+Date: Thu, 20 Oct 2022 16:23:47 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH 3/8] blk-mq: move the srcu_struct used for quiescing to
- the tagset
+Subject: Re: [PATCH 4/8] blk-mq: pass a tagset to blk_mq_wait_quiesce_done
 Content-Language: en-US
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
  Keith Busch <kbusch@kernel.org>, Chao Leng <lengchao@huawei.com>
 Cc: Ming Lei <ming.lei@redhat.com>, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org
 References: <20221020105608.1581940-1-hch@lst.de>
- <20221020105608.1581940-4-hch@lst.de>
+ <20221020105608.1581940-5-hch@lst.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20221020105608.1581940-4-hch@lst.de>
+In-Reply-To: <20221020105608.1581940-5-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221020_062340_000271_9B0A1AFA 
-X-CRM114-Status: UNSURE (   7.14  )
+X-CRM114-CacheID: sfid-20221020_062351_353942_261DA939 
+X-CRM114-Status: UNSURE (   6.84  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
