@@ -4,36 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25BC5C4332F
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Oct 2022 08:58:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93A4AC433FE
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Oct 2022 09:42:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=yjUpLu0+0UVRSuM7qoEkvVCRCkHDyvMSS8FiZ0/18pM=; b=H5Ertuz8BHJ74B7CI1A13/FtBc
-	nSAZlK4GHpTlwxg/+z75HQPYSv5iFmUrMxttQ2khQMxGYRS7eFbppUMd/WTAsjYMQPm6R2lGjPSPy
-	gq7QZTI+lBKRaNXOVWg5MdfrJlVqO3qj/SQjIFiVv3SiLRVu0jYPYPJv8B+k+qpx2iMeUhHyXTZ3B
-	R1Q43B2Oa3J4hKTP461GxXqzt2Oc5Uh+ne9DgC/lubADgkMz/Aj+H8si4wkMaxs5HWrDNfM+vK50d
-	6COi36EoEg51s8iO140psJ+WAygIuTG4E78jfdz10CZ9nU6prOuW8AMHsqh5i9D4B7DNKpr9JXMG1
-	56iRqOAw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dhbs22+bX7/l5Zi23/3PAU161vuDgztAw21RQs/FhxQ=; b=I9tmhR6MMwb962QSVmff73DR/D
+	amkdQv2p193JXIU7AvmkVumr+QGAADb4E5E3AMAgI23s0Lqlub18NM2cL3hEaXq7r+9w7IkJT/6Zg
+	ZHK7ueqK2KG4bJbedfuMf16YDlSiD1ZXHqQ59jvBc9BlufSxK+ATH0+iNwj4TwZGiwwxac8eph2xo
+	1k0h8EzuDPTkw9seF0Svwzjr3NBddEeJkhkGlqN3X0hi17xByg6m9WaQiBCZHwi6ng7r/gyEdMvGk
+	Jjkv1fNog+O/SnUd9JIc0c/0JRFKL+6rUMnnoCpdQj/Bw/tiFNMRWi78+WACZpnXtLTqraw2S5V9j
+	zSikZV0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1olRNF-00CZwq-Ty; Thu, 20 Oct 2022 08:57:57 +0000
-Received: from [88.128.92.117] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1olRNB-00CZwN-K5; Thu, 20 Oct 2022 08:57:53 +0000
-Date: Thu, 20 Oct 2022 10:57:47 +0200
-From: Christoph Hellwig <hch@infradead.org>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: [GIT PULL] nvme fixes for Linux 6.1
-Message-ID: <Y1ENi1X5gi7yU9VS@infradead.org>
+	id 1olS3p-00D6Y6-5Z; Thu, 20 Oct 2022 09:41:57 +0000
+Received: from szxga01-in.huawei.com ([45.249.212.187])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1olRz1-00D3Mw-Un
+	for linux-nvme@lists.infradead.org; Thu, 20 Oct 2022 09:37:01 +0000
+Received: from canpemm500002.china.huawei.com (unknown [172.30.72.57])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MtMnL59VpzmVFl;
+	Thu, 20 Oct 2022 17:32:06 +0800 (CST)
+Received: from [10.169.59.127] (10.169.59.127) by
+ canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 20 Oct 2022 17:36:22 +0800
+Subject: Re: [PATCH v2 0/2] improve nvme quiesce time for large amount of
+ namespaces
+To: Christoph Hellwig <hch@lst.de>
+CC: <linux-nvme@lists.infradead.org>, <linux-block@vger.kernel.org>,
+	<sagi@grimberg.me>, <kbusch@kernel.org>, <axboe@kernel.dk>,
+	<ming.lei@redhat.com>, <paulmck@kernel.org>
+References: <20221020035348.10163-1-lengchao@huawei.com>
+ <20221020063448.GA6246@lst.de>
+From: Chao Leng <lengchao@huawei.com>
+Message-ID: <6491f977-95f2-e40e-aa8b-d0671b517903@huawei.com>
+Date: Thu, 20 Oct 2022 17:36:21 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <20221020063448.GA6246@lst.de>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.169.59.127]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ canpemm500002.china.huawei.com (7.192.104.244)
+X-CFilter-Loop: Reflected
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20221020_023700_240490_00882C41 
+X-CRM114-Status: GOOD (  12.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -48,59 +71,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The following changes since commit e0539ae012ba5d618eb19665ff990b87b960c643:
 
-  Documentation: document ublk user recovery feature (2022-10-18 05:12:26 -0700)
 
-are available in the Git repository at:
+On 2022/10/20 14:34, Christoph Hellwig wrote:
+> I though the conclusion from last round was to move the srcu_struct to
+> the tagset?
+If move the srcu_struct to the tagset, may loss the flexibility.
+I am not sure that it is good for other modules currently using blk_mq_quiesce_queue.
+Another, I am not sure if there will be a future scenario where blk_mq_quiesce_queue
+will have to be used, and if it is good for such scenario.
+It is a acceptable cost to allocate a temporary array for SRCU, the max memory size
+is actually a few hundred KB, and most of the time it's less than a few KB.
+So I did not move the srcu_struct to the tagset in patch V3.
 
-  git://git.infradead.org/nvme.git tags/nvme-6.1-2022-10-22
-
-for you to fetch changes up to 94f5a06884074dcd99606d7b329e133ee65ea6ad:
-
-  nvmet: fix invalid memory reference in nvmet_subsys_attr_qid_max_show (2022-10-19 12:43:13 +0200)
-
-----------------------------------------------------------------
-nvme fixes for Linux 6.1
-
- - fix nvme-hwmon for DMA non-cohehrent architectures (Serge Semin)
- - add a nvme-hwmong maintainer (Christoph Hellwig)
- - fix error pointer dereference in error handling (Dan Carpenter)
- - fix invalid memory reference in nvmet_subsys_attr_qid_max_show
-   (Daniel Wagner)
- - don't limit the DMA segment size in nvme-apple (Russell King)
- - fix workqueue MEM_RECLAIM flushing dependency (Sagi Grimberg)
- - disable write zeroes on various Kingston SSDs (Xander Li)
-
-----------------------------------------------------------------
-Christoph Hellwig (2):
-      nvme: add Guenther as nvme-hwmon maintainer
-      nvme-hwmon: consistently ignore errors from nvme_hwmon_init
-
-Dan Carpenter (1):
-      nvme: fix error pointer dereference in error handling
-
-Daniel Wagner (1):
-      nvmet: fix invalid memory reference in nvmet_subsys_attr_qid_max_show
-
-Russell King (Oracle) (1):
-      nvme-apple: don't limit DMA segement size
-
-Sagi Grimberg (1):
-      nvmet: fix workqueue MEM_RECLAIM flushing dependency
-
-Serge Semin (1):
-      nvme-hwmon: kmalloc the NVME SMART log buffer
-
-Xander Li (1):
-      nvme-pci: disable write zeroes on various Kingston SSD
-
- MAINTAINERS                    |  6 ++++++
- drivers/nvme/host/apple.c      |  2 ++
- drivers/nvme/host/core.c       |  8 ++++++--
- drivers/nvme/host/hwmon.c      | 32 ++++++++++++++++++++++----------
- drivers/nvme/host/pci.c        | 10 ++++++++++
- drivers/nvme/target/configfs.c |  4 ----
- drivers/nvme/target/core.c     |  2 +-
- 7 files changed, 47 insertions(+), 17 deletions(-)
+It sounds like a good idea that explore moving the srcu_struct to the tag_set,
+But we may need more time to analysis it.
+I suggest that do the optimization in a separate patch set.
+> 
+> .
+> 
 
