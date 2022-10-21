@@ -4,68 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 670F1C4332F
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Oct 2022 06:49:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D9D6C4332F
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Oct 2022 06:50:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=d+oCJOWRzT7bRCiOMcDCqpe8bkKeLr3DWgxPnTd1uYE=; b=thpVG5st051vqoZFbb6XO37yiu
-	MovL6RjIlkHfxvQ3tKQaCUoqJTEleaMjbgS9qm+J13OBUuALDcCgRWIroYSYAFBOYmx98YXBcrqdS
-	P3aGP5Wf7gLH9qENi/LdjMg2hpGMvqhEB4a3iWwtdFLcgK9wAmS14sTDkEUKlBI011/afXM6Ri49m
-	XeYHJTaYEkzeKi89keEoCBcG3QyCZCxoUBF8zmN/TsBQhvSfDWB8ooWcnEfcjTQyUFJYMfxW3Fj8Q
-	o3HzjYLkm6tme2ceZwHNeCAujHeBhChenybGeG+FLE5fv5n2delXdJIAXTMi7oMWMIq9OB2NcTxXB
-	++9JCLUQ==;
+	bh=pwT2KXY/wGwZ1s/hzF2oWy6XQ1PJfg+yHoJqPEx0UAE=; b=y3ogZOdqzU2FSZ/DODa7AjFgz/
+	b2mF0CwV905t+8b62//rmWcqlOTiVsJ4y2pz5DHZzMn9fVezVjO12Me2smAweSNi5hwUYMtxRygwb
+	C1hl2Nzpc2tVO1mVzJSF8Y1IixWBQec2v7901dKZhTJh2wMxqft/puuEXNGZMjsyMXtRYxj3Y2FDS
+	C3tosiD5+pOLSV44JsK4o/4nEapVLIns0juqoH0RfHEyhOKYjVpQUQByKZQLLi7h6FI8wHCOFoPTo
+	AJk7aEyRx5yBm8pN8X0WakRKSeO2f/znxY0/WC3QN0sfl3coa/549cyuLf+ADyHX5ZxWEx6YnxMoh
+	VtR9Bgfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ollqe-005mDy-N2; Fri, 21 Oct 2022 06:49:40 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1ollr0-005mOm-Ql; Fri, 21 Oct 2022 06:50:02 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ollqc-005m9i-9o
-	for linux-nvme@lists.infradead.org; Fri, 21 Oct 2022 06:49:39 +0000
+	id 1ollqx-005mKw-8B
+	for linux-nvme@lists.infradead.org; Fri, 21 Oct 2022 06:50:00 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 72D861F74D;
-	Fri, 21 Oct 2022 06:49:31 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 98B0F218B1;
+	Fri, 21 Oct 2022 06:49:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1666334971; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1666334995; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=d+oCJOWRzT7bRCiOMcDCqpe8bkKeLr3DWgxPnTd1uYE=;
-	b=gj+uZJi1o43DU1hZ1/aRIgc3Kw1qwT/U/bKvFS8rToy22sWFgAKRkyY9rknQZIZrmaaXzO
-	qGiNHHRw+JHO5P7acU1EFNW0Mp0K8tGqeF5jG9APJ2n6GBsFIjqkcuKfENVk1AUUoN4vNB
-	3Ills5rUynWLUst/nMWq7KbR5q6flhg=
+	bh=pwT2KXY/wGwZ1s/hzF2oWy6XQ1PJfg+yHoJqPEx0UAE=;
+	b=KUOlbHpaITkk99sZiNtKYnzl3bIR9zWYrI2gwtWNzAcqRRwpu+e90/RNQZG6Xtnxsgn+MP
+	Y6IFuV9gYoX8pVM7rIIGxQf2gOTM8fdufNbJjQtVBLQTs1khdYwEQw9nA8pzx5NxetivOy
+	jd4AuoMAVlwmTcubmfeOe5EpaONbRso=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1666334971;
+	s=susede2_ed25519; t=1666334995;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=d+oCJOWRzT7bRCiOMcDCqpe8bkKeLr3DWgxPnTd1uYE=;
-	b=h8n5MgLrPDnmJi+dKTxPH3mKi5wXvfrKoQRC5wwoQMrPgqA9RGR7CJYgKyv8fMMaQoPauq
-	+Ubn/ayUZuXVEZBA==
+	bh=pwT2KXY/wGwZ1s/hzF2oWy6XQ1PJfg+yHoJqPEx0UAE=;
+	b=fDDPyhMlXGc8UUhPwIhYQKuSg7SSxtrbHSN+upF+ufu01EdVR6EayEBnLfPMuM6OaT0ZmV
+	+tf4yGSkvHl9TNCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 431021331A;
-	Fri, 21 Oct 2022 06:49:31 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5E05E1331A;
+	Fri, 21 Oct 2022 06:49:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 0VGtD/tAUmMHHgAAMHmgww
-	(envelope-from <hare@suse.de>); Fri, 21 Oct 2022 06:49:31 +0000
-Message-ID: <3aebc5d7-874d-ddeb-7383-79826e98fd9d@suse.de>
-Date: Fri, 21 Oct 2022 08:49:30 +0200
+	id pZ8tFhNBUmM5HgAAMHmgww
+	(envelope-from <hare@suse.de>); Fri, 21 Oct 2022 06:49:55 +0000
+Message-ID: <3298d857-f30b-6dbe-33b2-177a8ff104b0@suse.de>
+Date: Fri, 21 Oct 2022 08:49:54 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH 1/8] block: set the disk capacity to 0 in
- blk_mark_disk_dead
+Subject: Re: [PATCH 2/8] blk-mq: skip non-mq queues in blk_mq_quiesce_queue
 Content-Language: en-US
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
  Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
@@ -73,14 +72,14 @@ To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
 Cc: Ming Lei <ming.lei@redhat.com>, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org
 References: <20221020105608.1581940-1-hch@lst.de>
- <20221020105608.1581940-2-hch@lst.de>
+ <20221020105608.1581940-3-hch@lst.de>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20221020105608.1581940-2-hch@lst.de>
+In-Reply-To: <20221020105608.1581940-3-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221020_234938_524734_36538216 
-X-CRM114-Status: GOOD (  29.23  )
+X-CRM114-CacheID: sfid-20221020_234959_454128_E934CA37 
+X-CRM114-Status: GOOD (  17.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,81 +95,31 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 10/20/22 12:56, Christoph Hellwig wrote:
-> nvme and xen-blkfront are already doing this to stop buffered writes from
-> creating dirty pages that can't be written out later.  Move it to the
-> common code.  Note that this follows the xen-blkfront version that does
-> not send and uevent as the uevent is a bit confusing when the device is
-> about to go away a little later, and the the size change is just to stop
-> buffered writes faster.
-> 
-> This also removes the comment about the ordering from nvme, as bd_mutex
-> not only is gone entirely, but also hasn't been used for locking updates
-> to the disk size long before that, and thus the ordering requirement
-> documented there doesn't apply any more.
+> For submit_bio based queues there is no (S)RCU critical section during
+> I/O submission and thus nothing to wait for in blk_mq_wait_quiesce_done,
+> so skip doing any synchronization.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->   block/genhd.c                | 3 +++
->   drivers/block/xen-blkfront.c | 1 -
->   drivers/nvme/host/core.c     | 7 +------
->   3 files changed, 4 insertions(+), 7 deletions(-)
+>   block/blk-mq.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/block/genhd.c b/block/genhd.c
-> index 17b33c62423df..2877b5f905579 100644
-> --- a/block/genhd.c
-> +++ b/block/genhd.c
-> @@ -555,6 +555,9 @@ void blk_mark_disk_dead(struct gendisk *disk)
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index 33292c01875d5..df967c8af9fee 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -280,7 +280,9 @@ EXPORT_SYMBOL_GPL(blk_mq_wait_quiesce_done);
+>   void blk_mq_quiesce_queue(struct request_queue *q)
 >   {
->   	set_bit(GD_DEAD, &disk->state);
->   	blk_queue_start_drain(disk->queue);
-> +
-> +	/* stop buffered writers from dirtying pages that can't written out */
-> +	set_capacity(disk, 0);
+>   	blk_mq_quiesce_queue_nowait(q);
+> -	blk_mq_wait_quiesce_done(q);
+> +	/* nothing to wait for non-mq queues */
+> +	if (queue_is_mq(q))
+> +		blk_mq_wait_quiesce_done(q);
 >   }
->   EXPORT_SYMBOL_GPL(blk_mark_disk_dead);
+>   EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue);
 >   
-> diff --git a/drivers/block/xen-blkfront.c b/drivers/block/xen-blkfront.c
-> index 35b9bcad9db90..b28489290323f 100644
-> --- a/drivers/block/xen-blkfront.c
-> +++ b/drivers/block/xen-blkfront.c
-> @@ -2129,7 +2129,6 @@ static void blkfront_closing(struct blkfront_info *info)
->   	if (info->rq && info->gd) {
->   		blk_mq_stop_hw_queues(info->rq);
->   		blk_mark_disk_dead(info->gd);
-> -		set_capacity(info->gd, 0);
->   	}
->   
->   	for_each_rinfo(info, rinfo, i) {
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 059737c1a2c19..44a5321743128 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -5106,10 +5106,7 @@ static void nvme_stop_ns_queue(struct nvme_ns *ns)
->   /*
->    * Prepare a queue for teardown.
->    *
-> - * This must forcibly unquiesce queues to avoid blocking dispatch, and only set
-> - * the capacity to 0 after that to avoid blocking dispatchers that may be
-> - * holding bd_butex.  This will end buffered writers dirtying pages that can't
-> - * be synced.
-> + * This must forcibly unquiesce queues to avoid blocking dispatch.
->    */
->   static void nvme_set_queue_dying(struct nvme_ns *ns)
->   {
-> @@ -5118,8 +5115,6 @@ static void nvme_set_queue_dying(struct nvme_ns *ns)
->   
->   	blk_mark_disk_dead(ns->disk);
->   	nvme_start_ns_queue(ns);
-> -
-> -	set_capacity_and_notify(ns->disk, 0);
->   }
->   
->   /**
-I'm ever so slightly concerned about not sending the uevent anymore; MD 
-for one relies on that event to figure out if a device is down.
-And I'm also relatively sure that testing with MD on Xen had been 
-relatively few.
-What do we lose by using the 'notify' version instead?
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
 Cheers,
 
