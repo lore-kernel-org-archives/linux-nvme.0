@@ -4,67 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF165C433FE
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Oct 2022 01:47:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A33CC433FE
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Oct 2022 01:53:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rubxu5P5m0yu63YebC/bkr+rMDHRCz0exG7/VTY1p5I=; b=TkuYAfe1LRbMNUVRzFqXk4adHb
-	7BlOx8deiYde2HlSrOttGCzXQLm0n0H/TrzzBXlGcmBJYQsEH2YUwanPftT+wzAEO58KPyofodQ5a
-	1BZfG+3miLpnKzw4edYi+9eas7qHrnFaRoH2YIfLgjMCoNCj2JMbkCScAb9i3ZeSOZT+Cmy7VP/a4
-	Q/jZoVlTgye73InIrbJOHpge1zwpw6L7W/4X9gj6zYpYl8yQyuiKPCy9RAYX8mAMBXXzFa6dSsJRA
-	qJSf/LkA9S1m/xLazeLbtoAUJOVWOu7XQHVq2v4AppeEMhZZGTxUECibpiXsuIhN/mzvjEeu+JvWv
-	J+q00eFQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=uepnnaF/rmgIGFJ1waC7W+YqkqT3F6JJmrCu7Gd9bZE=; b=Pt/Ut+orlD6HCsxp7HtVXpt1PR
+	v8Ou/yaw4UVG/mkaej33+NKEs5ITYILh5W27S5P95yNfOnybbOIYpc2K38xSTOmHQKIJrQzkRIw9y
+	Fvfu9AsNahs7MsIxEDtADQeDeI+y+6xE+CDMwMLGW6EONaIP9WylsDv3JIiCW9ot6qZ7eDyziQTdX
+	d2zxZUiI5Eqe7xzy0xYBvcv+KtsDGWrA0qJ/A0Xknsa4rKUsPvt/TIESZVUbG5bxms/JXpL9QCMyn
+	WD0UkmJwTG5664qnc89jmlH2LokF+lyWTN8RYSTv+QKKX1NUcegXpykH2qqrjogU/+FY5x5gQImd7
+	ubrjHaFA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1olh7q-004GuM-S4; Fri, 21 Oct 2022 01:47:06 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1olhE7-004IA3-G7; Fri, 21 Oct 2022 01:53:35 +0000
+Received: from szxga02-in.huawei.com ([45.249.212.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1olh7o-004Gsx-LH
-	for linux-nvme@lists.infradead.org; Fri, 21 Oct 2022 01:47:06 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1666316822;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rubxu5P5m0yu63YebC/bkr+rMDHRCz0exG7/VTY1p5I=;
-	b=EylaCPAWZw/3njkpXP3EnCTH62q9pH2/dXmLxX3jSXja2/9T2G/yXZ4rhUCWqPmy6XR+vV
-	0uhttkZKK1t+usKalAaaVHS7N9M4jHmNZPe/Cl+8Mdsz04CVsdMNC57EwcVUmRV/R2YjsV
-	XrN+HrKZt58rWIMP0CuAD7/MrfEce4E=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-675-WYpq7VaSOFCIvvnJf5CBIA-1; Thu, 20 Oct 2022 21:46:58 -0400
-X-MC-Unique: WYpq7VaSOFCIvvnJf5CBIA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C65593810D51;
-	Fri, 21 Oct 2022 01:46:56 +0000 (UTC)
-Received: from T590 (ovpn-8-24.pek2.redhat.com [10.72.8.24])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E989D40E8B14;
-	Fri, 21 Oct 2022 01:46:42 +0000 (UTC)
-Date: Fri, 21 Oct 2022 09:46:33 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>, Chao Leng <lengchao@huawei.com>,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org
-Subject: Re: [PATCH 4/8] blk-mq: pass a tagset to blk_mq_wait_quiesce_done
-Message-ID: <Y1H5+Z5HotPo7yWV@T590>
+	id 1olhE4-004I8w-0D
+	for linux-nvme@lists.infradead.org; Fri, 21 Oct 2022 01:53:34 +0000
+Received: from canpemm500002.china.huawei.com (unknown [172.30.72.53])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MtnYP3g5zzHv7B;
+	Fri, 21 Oct 2022 09:53:13 +0800 (CST)
+Received: from [10.169.59.127] (10.169.59.127) by
+ canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 21 Oct 2022 09:53:21 +0800
+Subject: Re: [PATCH 1/8] block: set the disk capacity to 0 in
+ blk_mark_disk_dead
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, Keith Busch
+	<kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>
+CC: Ming Lei <ming.lei@redhat.com>, <linux-nvme@lists.infradead.org>,
+	<linux-block@vger.kernel.org>
 References: <20221020105608.1581940-1-hch@lst.de>
- <20221020105608.1581940-5-hch@lst.de>
+ <20221020105608.1581940-2-hch@lst.de>
+From: Chao Leng <lengchao@huawei.com>
+Message-ID: <e3ab9d31-7a9e-4bad-9a04-1f20845c6268@huawei.com>
+Date: Fri, 21 Oct 2022 09:53:20 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221020105608.1581940-5-hch@lst.de>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+In-Reply-To: <20221020105608.1581940-2-hch@lst.de>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.169.59.127]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ canpemm500002.china.huawei.com (7.192.104.244)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221020_184704_937799_01AE3A44 
-X-CRM114-Status: GOOD (  22.56  )
+X-CRM114-CacheID: sfid-20221020_185332_410865_37EA817F 
+X-CRM114-Status: GOOD (  25.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,45 +71,78 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Oct 20, 2022 at 12:56:04PM +0200, Christoph Hellwig wrote:
-> Noting in blk_mq_wait_quiesce_done needs the request_queue now, so just
-> pass the tagset, and move the non-mq check into the only caller that
-> needs it.
+Reviewed-by: Chao Leng <lengchao@huawei.com>
+
+On 2022/10/20 18:56, Christoph Hellwig wrote:
+> nvme and xen-blkfront are already doing this to stop buffered writes from
+> creating dirty pages that can't be written out later.  Move it to the
+> common code.  Note that this follows the xen-blkfront version that does
+> not send and uevent as the uevent is a bit confusing when the device is
+> about to go away a little later, and the the size change is just to stop
+> buffered writes faster.
+> 
+> This also removes the comment about the ordering from nvme, as bd_mutex
+> not only is gone entirely, but also hasn't been used for locking updates
+> to the disk size long before that, and thus the ordering requirement
+> documented there doesn't apply any more.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  block/blk-mq.c           | 10 +++++-----
->  drivers/nvme/host/core.c |  4 ++--
->  drivers/scsi/scsi_lib.c  |  2 +-
->  include/linux/blk-mq.h   |  2 +-
->  4 files changed, 9 insertions(+), 9 deletions(-)
+>   block/genhd.c                | 3 +++
+>   drivers/block/xen-blkfront.c | 1 -
+>   drivers/nvme/host/core.c     | 7 +------
+>   3 files changed, 4 insertions(+), 7 deletions(-)
 > 
-> diff --git a/block/blk-mq.c b/block/blk-mq.c
-> index 4a81a2da43328..cf8f9f9a96c35 100644
-> --- a/block/blk-mq.c
-> +++ b/block/blk-mq.c
-> @@ -254,15 +254,15 @@ EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue_nowait);
->  
->  /**
->   * blk_mq_wait_quiesce_done() - wait until in-progress quiesce is done
-> - * @q: request queue.
-> + * @set: tag_set to wait on
->   *
->   * Note: it is driver's responsibility for making sure that quiesce has
->   * been started.
->   */
-> -void blk_mq_wait_quiesce_done(struct request_queue *q)
-> +void blk_mq_wait_quiesce_done(struct blk_mq_tag_set *set)
-
-The change is fine, but the interface could confuse people, it
-looks like it is waiting for whole tagset quiesced, but it needs
-to mark all request queues as quiesced first, otherwise it is just
-wait for one specific queue's quiesce.
-
-So suggest to document such thing.
-
-
-Thanks,
-Ming
-
+> diff --git a/block/genhd.c b/block/genhd.c
+> index 17b33c62423df..2877b5f905579 100644
+> --- a/block/genhd.c
+> +++ b/block/genhd.c
+> @@ -555,6 +555,9 @@ void blk_mark_disk_dead(struct gendisk *disk)
+>   {
+>   	set_bit(GD_DEAD, &disk->state);
+>   	blk_queue_start_drain(disk->queue);
+> +
+> +	/* stop buffered writers from dirtying pages that can't written out */
+> +	set_capacity(disk, 0);
+>   }
+>   EXPORT_SYMBOL_GPL(blk_mark_disk_dead);
+>   
+> diff --git a/drivers/block/xen-blkfront.c b/drivers/block/xen-blkfront.c
+> index 35b9bcad9db90..b28489290323f 100644
+> --- a/drivers/block/xen-blkfront.c
+> +++ b/drivers/block/xen-blkfront.c
+> @@ -2129,7 +2129,6 @@ static void blkfront_closing(struct blkfront_info *info)
+>   	if (info->rq && info->gd) {
+>   		blk_mq_stop_hw_queues(info->rq);
+>   		blk_mark_disk_dead(info->gd);
+> -		set_capacity(info->gd, 0);
+>   	}
+>   
+>   	for_each_rinfo(info, rinfo, i) {
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 059737c1a2c19..44a5321743128 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -5106,10 +5106,7 @@ static void nvme_stop_ns_queue(struct nvme_ns *ns)
+>   /*
+>    * Prepare a queue for teardown.
+>    *
+> - * This must forcibly unquiesce queues to avoid blocking dispatch, and only set
+> - * the capacity to 0 after that to avoid blocking dispatchers that may be
+> - * holding bd_butex.  This will end buffered writers dirtying pages that can't
+> - * be synced.
+> + * This must forcibly unquiesce queues to avoid blocking dispatch.
+>    */
+>   static void nvme_set_queue_dying(struct nvme_ns *ns)
+>   {
+> @@ -5118,8 +5115,6 @@ static void nvme_set_queue_dying(struct nvme_ns *ns)
+>   
+>   	blk_mark_disk_dead(ns->disk);
+>   	nvme_start_ns_queue(ns);
+> -
+> -	set_capacity_and_notify(ns->disk, 0);
+>   }
+>   
+>   /**
+> 
 
