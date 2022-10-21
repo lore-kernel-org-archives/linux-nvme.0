@@ -4,67 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E6BCC43217
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Oct 2022 06:51:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 113F8C4332F
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Oct 2022 06:51:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=x49+o/RKgjGEAc9coJnQ2grOeE1itzyCUszh+Gsjga4=; b=IMvtbIGDQxvAEdBbiX4a3b/uTZ
-	f5K8VBiT3zJH/pdQ1Tj8dkM+r78lRJSDg86GLWW2NvmhKnYGlg82rZxbzJeM3Nbn/6YE/FMkxcJL8
-	OuGqyYr3tUuoJzy5W8uYgOlqaEUEbfNaMZe7wbOQvtru9Z7pm2O+QxtqMn3hrVS//8vSTe24PoF9l
-	Jl5Ypf2mkR+xlwGDO3yjbinaitvZyRJtm9XQg7V1r4j4qreE3KTj5STvWwJKQTCJEGIXwReYM8H4K
-	dnxMY/hMKCMVZUwVcOXmTbV+9b02LLP2twNgdnmiOsoHeYeAD2op7sPhPoukjpHOSjFaGifX0mILR
-	96IbUaKQ==;
+	bh=+e55qnoYClQvZEcxGwSqNGwE4xgxw7vbay5ghEmriXM=; b=dJ3K07yCSXkuED7h6D9m1TjHkC
+	xffN6NN7vYKkeVXWi7fI3eQKvDt9L8c6FHec0/ctqK3Q5Z/00tsZyeC4Aq20/97UowSaKPmj1i/UV
+	d6jSIXxktFcpql6WweGjYx7yyXV3GB8Qg5OoD8F/x8muw2KTMLodfup6e4cfMNFVLMWhkQKZNwm6m
+	xcxzsHvnWuBLsWNo9DdknVtsJSoX6/Jp2TYqoNCrKXhX/xPY/QGqBq8O81zslGEr7j/nvI9d8IUVY
+	YDZwWjZ0oYF0jYdh6zeH/EQLmox6ufnXyfHnmTysHSKX/UgxNV3X3lgIcrkdipFFQdPnPoGIL49Lg
+	pckyqVtQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ollru-005myy-Kq; Fri, 21 Oct 2022 06:50:58 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1ollsK-005nAv-3H; Fri, 21 Oct 2022 06:51:24 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ollrr-005mvY-Rw
-	for linux-nvme@lists.infradead.org; Fri, 21 Oct 2022 06:50:57 +0000
+	id 1ollsG-005n8p-Oq
+	for linux-nvme@lists.infradead.org; Fri, 21 Oct 2022 06:51:22 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 69DA821954;
-	Fri, 21 Oct 2022 06:50:54 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8924221890;
+	Fri, 21 Oct 2022 06:51:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1666335054; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1666335079; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=x49+o/RKgjGEAc9coJnQ2grOeE1itzyCUszh+Gsjga4=;
-	b=kjHjVfO/WhC+OIgXHuhQZS6RZAWn6OyaDypAEVBeuCwV8CFr1qLdri/6PVUuHsnsgUAfPr
-	aAVoL4bmqZXAtyXgiOP4JwrtRCXOSbk9j8njJA6YtaTIRRFLxZSLWJxEOMJIbDkasgC2n4
-	dBkIQyzlL/+I/Thdup/HLdI/GCkPzIw=
+	bh=+e55qnoYClQvZEcxGwSqNGwE4xgxw7vbay5ghEmriXM=;
+	b=fDCcRYr5GxhDckYqff43MGiaj9D7bKPIACx+Wkzo3m6GOW4n0/4IlVrLGCFUyO4mcFkV14
+	L+AACZKafOS6otFGvp2qv6baDlQByKs61DdrcdRkCBDUJVmBFseakEx+IceECs0aQmhh7c
+	mxQjVajNGyRwbf38xgz44gzU/DJ1nVU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1666335054;
+	s=susede2_ed25519; t=1666335079;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=x49+o/RKgjGEAc9coJnQ2grOeE1itzyCUszh+Gsjga4=;
-	b=yd6xQdJ8DarolGpSFTQqIof4eSWmUiMYNrri1xpfrCm9p5YOcCV6843EpBaLRg6v6JgGJ2
-	di6Tz0657Ub7+6Cw==
+	bh=+e55qnoYClQvZEcxGwSqNGwE4xgxw7vbay5ghEmriXM=;
+	b=5t/L7Utg4S1rRlNWB+QPOc4Pho+ILT0PhIOU4dv9cvRzUlAgwjsB9NcUVrgmbcbzo6vieS
+	3XpSgR0asir8luBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 47B0F1331A;
-	Fri, 21 Oct 2022 06:50:54 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 568431331A;
+	Fri, 21 Oct 2022 06:51:19 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id UGuUEE5BUmPuHgAAMHmgww
-	(envelope-from <hare@suse.de>); Fri, 21 Oct 2022 06:50:54 +0000
-Message-ID: <5ebbf746-e53d-e303-b8ea-565bc097e928@suse.de>
-Date: Fri, 21 Oct 2022 08:50:53 +0200
+	id dkZoFGdBUmMxHwAAMHmgww
+	(envelope-from <hare@suse.de>); Fri, 21 Oct 2022 06:51:19 +0000
+Message-ID: <66fcb7c7-47bd-b1f8-0bae-f961f4c0015c@suse.de>
+Date: Fri, 21 Oct 2022 08:51:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH 4/8] blk-mq: pass a tagset to blk_mq_wait_quiesce_done
+Subject: Re: [PATCH 5/8] blk-mq: add tagset quiesce interface
 Content-Language: en-US
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
  Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
@@ -72,14 +72,14 @@ To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
 Cc: Ming Lei <ming.lei@redhat.com>, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org
 References: <20221020105608.1581940-1-hch@lst.de>
- <20221020105608.1581940-5-hch@lst.de>
+ <20221020105608.1581940-6-hch@lst.de>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20221020105608.1581940-5-hch@lst.de>
+In-Reply-To: <20221020105608.1581940-6-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221020_235056_068877_367B9E09 
-X-CRM114-Status: GOOD (  12.81  )
+X-CRM114-CacheID: sfid-20221020_235120_984421_AF7D665F 
+X-CRM114-Status: GOOD (  16.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,17 +95,25 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 10/20/22 12:56, Christoph Hellwig wrote:
-> Noting in blk_mq_wait_quiesce_done needs the request_queue now, so just
-> pass the tagset, and move the non-mq check into the only caller that
-> needs it.
+> From: Chao Leng <lengchao@huawei.com>
 > 
+> Drivers that have shared tagsets may need to quiesce potentially a lot
+> of request queues that all share a single tagset (e.g. nvme). Add an
+> interface to quiesce all the queues on a given tagset. This interface is
+> useful because it can speedup the quiesce by doing it in parallel.
+> 
+> Because some queues should not need to be quiesced(e.g. nvme connect_q)
+> when quiesce the tagset. So introduce QUEUE_FLAG_SKIP_TAGSET_QUIESCE to
+> tagset quiesce interface to skip the queue.
+> 
+> Signed-off-by: Chao Leng <lengchao@huawei.com>
+> [hch: simplify for the per-tag_set srcu_struct]
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->   block/blk-mq.c           | 10 +++++-----
->   drivers/nvme/host/core.c |  4 ++--
->   drivers/scsi/scsi_lib.c  |  2 +-
->   include/linux/blk-mq.h   |  2 +-
->   4 files changed, 9 insertions(+), 9 deletions(-)
+>   block/blk-mq.c         | 25 +++++++++++++++++++++++++
+>   include/linux/blk-mq.h |  2 ++
+>   include/linux/blkdev.h |  3 +++
+>   3 files changed, 30 insertions(+)
 > 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
