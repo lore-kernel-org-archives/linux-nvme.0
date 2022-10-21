@@ -4,124 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7FE0AC43217
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Oct 2022 11:20:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79D48C433FE
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Oct 2022 13:12:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hVoyD1Q6EFBTA4VL7KQRJf9SC5LDmjsqm9S9JnQSXOM=; b=jMUzLuTn373L4A7WSeiiL5VfLZ
-	ZcNFmkAG/NS+bHlQPlx9TDDexoFe3/2LWk2gOLGMV07ekxwrfpA5Dt7QuR95pKlldCRgd9pslgUKe
-	kkwO6lVVt/mua+RZMSaqWFA7rbbF6HYKDTx4WHopOJ1KzGpDB6YBDQHFvdnWAXfP2cpIckO75LLUp
-	Fa+//aYCJNub16fE74EngnrHBnTROV5p+HjQMU0CvYkesUIcwBBkbBcYPwbZu982+kvlaadcCtwm5
-	PHYq08VU6Py22i15GS1Pkw0Petf6su7HsNmyBhgN9OAil+q6wSixKn/FZGoMs59BGiszjuhxR+lhE
-	9d3JKrGw==;
+	bh=8kbuzs4xiP//0iTFpWA4ja2EMtVImR4HAxViGkqSPJM=; b=xiYfa+zfTHb+qkre6SA9/zdUyN
+	m2XBFFkeB2dMo1CkDUvrW1O6Mvyd2DwhdQKioSF4/Fmqd2jcpFU4WPGb8yzXLVGPiMmumwo/beJwi
+	aAAfF0tSpgdPadxm+eJkdnpDStY2OpKkxbfQFsS8HlZu2PpL1DC4yCN2lYuojlztWYQWuTzoqjR5T
+	jjwWUxnUnyYn0fMMiP/fwkKD/JFSiVZHiN3NqdfpE6mmQGP/ySy2s6hgZ+zJFNBuNJeE/HEorckEr
+	opai9mm6JT+DOTbF2PFOaCr7K0PUbVV5TSYBJvg3AM1VQW8b7b8/tQqbcMplI+lAQem5IwDcVBSa+
+	96DquVEw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1olq4C-007LHU-9O; Fri, 21 Oct 2022 11:19:56 +0000
-Received: from mail-mw2nam04on2057.outbound.protection.outlook.com ([40.107.101.57] helo=NAM04-MW2-obe.outbound.protection.outlook.com)
+	id 1olroi-007pNF-0i; Fri, 21 Oct 2022 13:12:04 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1olq49-007LE6-O5
-	for linux-nvme@lists.infradead.org; Fri, 21 Oct 2022 11:19:55 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AFiZSvcUdt/jYuQleXJZncr616va7MMYYbV1faGMVD9/NbeKWlHLOrjxulnfTXjctMVVk/br2k8W/aPRQZqbOigKuwHrg1Mr/FvMDfE+Obx8+o74kGJPVNUAdu1gSeMPQut+YfdmEyV+uNh8cJZ1GCnegouumNQduqqQGLlk3AM2U5sICQBuxgKGDlAVwh5RyG+84AUqeZxErOl0lkfZY1HVFzZc/uiYNirkJUjlP2a7+E0stxLAhzvwdhnLUKF2+tG9R2tIgxMt1CQgjwpj8t7qKhDFkI8yfK9Z6LVHByq1ud/viLp9C1jcrygmYrz64DV1GPwdxgqI1MH+0gvl/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hVoyD1Q6EFBTA4VL7KQRJf9SC5LDmjsqm9S9JnQSXOM=;
- b=XKJo4ChACSZNpSAcqcRuyF9zPjLnL6geVs7X6eobZ91r1iSN/IStJDydWROK3SZYQ98UHScr79gVB6WMuiO6ZpO55jIOjZWXhz/Xiz8zLDdRsuXeprM2vzjh6JsoPiDHxPt2GlSRmiFcFe1TBR6aVycd1Brkxv+HdCXcSdPytumXhrqLTONwlYrU3aSmsDAQndZITwbwBIPaVjH8UIJx4B+R267QPGdbzZ6v3N4xFcVQOQprlG3DrTH7N6oxiyMLhifpf5n4rWBA/kXQySCnzKz3bw3dVSGdDFc7hSvS4Pi3dTJFhvIyw8mwSCrfdrblTREtJd0dbSioV9U3Fr8hlQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hVoyD1Q6EFBTA4VL7KQRJf9SC5LDmjsqm9S9JnQSXOM=;
- b=g9KS2Qoo4TnrUM+6dD/ZQM4RMSEkbZUtLy7R4Qu1Do1apbeEqPHQveGrEHyeM1WJKYVgczJ7khwqZTBKAIACioUWJkDBNjUWrBrZQ7zd40f9DHu5708O0whV/QIeXIbfAfMe4IMnttthoe8ZEFFjQG7adgoys27S8P38Qb481+Humw4MZFRbxHM0J685wHys4vBhKsVk9hB6ENR6ZMo6tFA1TyyF0Ep7JOMyrRAkuwa5Mq/ALJry1eBgAxw4+CMxszn07eVCQT2F6j80CsChUp1G/dgLirKO3TqeTfQswcGJpD+X8NK1OWkoMfvg6MPlGdq5UHcfDhZwMu19Y5pZnQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
- by CH2PR12MB4924.namprd12.prod.outlook.com (2603:10b6:610:6b::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.34; Fri, 21 Oct
- 2022 11:19:48 +0000
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::b8be:60e9:7ad8:c088]) by SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::b8be:60e9:7ad8:c088%3]) with mapi id 15.20.5723.033; Fri, 21 Oct 2022
- 11:19:48 +0000
-From: Aurelien Aptel <aaptel@nvidia.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
- pabeni@redhat.com, saeedm@nvidia.com, tariqt@nvidia.com,
- linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
- kbusch@kernel.org, axboe@fb.com, chaitanyak@nvidia.com, smalin@nvidia.com,
- ogerlitz@nvidia.com, yorayz@nvidia.com, borisp@nvidia.com,
- aurelien.aptel@gmail.com, malin1024@gmail.com
-Subject: Re: [PATCH v6 01/23] net: Introduce direct data placement tcp offload
-In-Reply-To: <20221020220540.363b0d02@kernel.org>
-References: <20221020101838.2712846-1-aaptel@nvidia.com>
- <20221020101838.2712846-2-aaptel@nvidia.com>
- <20221020220540.363b0d02@kernel.org>
-Date: Fri, 21 Oct 2022 14:19:43 +0300
-Message-ID: <253y1t9v2y8.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0459.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1aa::14) To SJ1PR12MB6075.namprd12.prod.outlook.com
- (2603:10b6:a03:45e::8)
+	id 1olroc-007pKl-3D
+	for linux-nvme@lists.infradead.org; Fri, 21 Oct 2022 13:12:02 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id AAF7168B05; Fri, 21 Oct 2022 15:11:48 +0200 (CEST)
+Date: Fri, 21 Oct 2022 15:11:48 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Chao Leng <lengchao@huawei.com>, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org
+Subject: Re: [PATCH 1/8] block: set the disk capacity to 0 in
+ blk_mark_disk_dead
+Message-ID: <20221021131148.GA21741@lst.de>
+References: <20221020105608.1581940-1-hch@lst.de> <20221020105608.1581940-2-hch@lst.de> <Y1HxM+3bXNpsZvzk@T590>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|CH2PR12MB4924:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8791e088-7358-4fe9-deab-08dab35629ff
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	oXDFE0KGCfk9P+Q5ehmmz9GqPSENlEK8OHo8Zt1JEosGXxa591inGl8jgKRN5H4Kke/gdFbz2geqTF/sEqKq++14omnH90XRjFJvEZAN76dbp8H7YxM9g0cuvDEJOWGjFocMVHQ4PoJS9RFVQKpl+RlIpB+IDjuGcMEXqX3BVBKbll7wJZpC24eo5S3mHKUBS2dP77HGrsAws/HaCJzlb+V1nKnB11F71/WSDL+6vwL5NcWPCH2DS02BDcrE+NODrsqWzFdFrPBT8w6EgveUJYHzHePakQd+L7kZS4fGE5iyrK1q8uOh27nd2mgFBzXjcmazTNW5+xMfZmEeTcNIeMTjpm/KF0j8ClX2IH0k4TOo9Mb+meogxWj/7pI/rQcfuk8OqJIg8qKfn75yLE0TPJuXx+k0fvevc3YLOLtxJM3SqYEu9/n9B1joU8pcHk4m/3TdHfFUt2ZC9Xz/XiZF2Ve10RfeyciIj8sm5Kud5gfEew1WEfIuwtBjfPHJamdxaBjj/vbwLVml4lbYCEagoD6O5grdAbuXYDSKwFa0Zi+QEu78Y/CcSSPlxB8QIcriydKSEdTDOqg/41XdduhEgQKG/UN3txt81gF1mH5R8iHWUHSr0mZAh1ava8Krha+VT/RzaAJCuFQJc/FfLLxuX+G2xA5qXPzOaEQqgpPC2FVMUP7cPFtKeVMpE+Ugq6Ub61m94Tm5K2aFnWu7BPwWWw==
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(366004)(396003)(376002)(39860400002)(136003)(451199015)(86362001)(38100700002)(5660300002)(6666004)(4744005)(26005)(6506007)(6512007)(186003)(83380400001)(7416002)(6486002)(316002)(66556008)(9686003)(2906002)(8676002)(478600001)(6916009)(41300700001)(66476007)(4326008)(66946007)(8936002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?cZ7oyMdpqfmZP8LBZrU8dPTfFSsesKAVcfnYnsO0gH9arPfkHp1q3a1FHaZK?=
- =?us-ascii?Q?TOt1cT+IBFVfrNPRSZdB36Abns9Iw05orL8L/R9YhErb69a9L+vFpQoNngiG?=
- =?us-ascii?Q?a693c7Pyhvybbg1etbVUb0+dKV3X6vjKfPtoB3Lys9EhSgeFq+EdaAuQDvXu?=
- =?us-ascii?Q?H3RvqYy+f5gpSkgigZFceZbalBE0ROaqukojTRnzRH7BtK4kcYOPMhxl31VW?=
- =?us-ascii?Q?UIcGyfCjh0jru8tO2GwvNqvNPeeG+zpSiGk46JW/9F8AYIyLwNlTuVZOPYV4?=
- =?us-ascii?Q?j28P7jDH2d3xlLnDQLetd4s/Py774VAlVs6InhoIqfvlLtHgY1BjL5PqVC9y?=
- =?us-ascii?Q?dt3AZvE53KuJ2ErsuRZthqAiPaPlmWo2NFvSqOKdIp8rBu2SfTrMRu3bfGSr?=
- =?us-ascii?Q?xpB35D1TBW157pl8UHaZTqPlw7N04HWjsLzCBxHC5mv3GVv9IKOahQeBRTuY?=
- =?us-ascii?Q?3AckDcbyxopcjF9tQ0Ls44k/jKtmaflBYGfN45b1IEgSF93d6DLSyJyedOaX?=
- =?us-ascii?Q?oZJoTMdG6d02m888xN5Db9yaxmim6RVoxlaKswPYYE78o0jD6OHr7EAi+dPQ?=
- =?us-ascii?Q?mVT3tXZAAtIt1vFxj86t2OrPUZYcDPaovEzKjPkJrIk0h0SjyL3c+OXFJSDc?=
- =?us-ascii?Q?IwA9xxuLc3Uc8CBMB3ketQnhmVPBPt5QQCSgMrUT37JbpNgrm7R0TbyBuerv?=
- =?us-ascii?Q?M0SsU1FkMmHtBNA8v4kNs47Sy3bpcqo5VJ0tzaVLuFTJgGKohRRvcDMVn4j8?=
- =?us-ascii?Q?X9FjlXvnE+zo6TV+SBpoa0v3QHzDap9KIwCfbAN+FfRMpxrtmNv2TkoLnPN9?=
- =?us-ascii?Q?2mLiTANXJ9fkDyobVa5CAxoeqYzPJ7Xe9TwSMTgkdR++zJgrNU4Rx9Nau9hH?=
- =?us-ascii?Q?/g29kR0b5A8xeQ21tBRE9NOxJ3Cp2UyZ8kLZb9rzRrCk5RLo9wA95lCYsNMP?=
- =?us-ascii?Q?hAw8Bjd7th7rMN5Uhc+FEXmU90aCYaXBCA2q8XwLWmLk3O7H6bmfZTsCfbls?=
- =?us-ascii?Q?uBgiVQabLPZe47njSdSgUmfCnzlBc1DUN2/3z4xmnVHmuWFOgsulQgfel6Aj?=
- =?us-ascii?Q?sjCZbu15dLOgrUPpGagnwj4RtK8tp7sHOqer70h5yq7CRDKpudGNBcAAdYn1?=
- =?us-ascii?Q?n3HrHmzKsGOAwecc7/NdFubT46wd/WMoWV8tRmJYME2Iz+SFGGuowP8PLXMB?=
- =?us-ascii?Q?ignoYJgTUo2wN+dBSF5KEAuzAbhqE4pQjG1El7+mV7afBsJy3UeKfbfrCtrW?=
- =?us-ascii?Q?YypQth+yH5XLiIO/GCLzCyp0ghYqeClhnCd0CZ/F1lZN906HgeqKDRwXgjlo?=
- =?us-ascii?Q?39ECEkEH8tesZETa/b7advTIDr43YXBvJPv6smUWPSt4Xuqf/hFulYJJGNEV?=
- =?us-ascii?Q?s4Rm9n+9gUIHkIcq3szN+vKlHn9QonzZjASk62Gq6xXP4uf84RzWD1ZJCGxX?=
- =?us-ascii?Q?HcQnSmj7bNR/rHavDJvlk4ZRZ2kuLeXCwshVz5XyyTYPr/DlRfodbWXh48hN?=
- =?us-ascii?Q?Tpiu1soL6bcUKgfnC79tY75dxuKK4xg3osXNwvT+r1AYlk+mLAQJbWt6cZpi?=
- =?us-ascii?Q?DeiDnbWW4Y9TtMo2c8Ku0EqDCkLiQxSqmvI3M06x?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8791e088-7358-4fe9-deab-08dab35629ff
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2022 11:19:48.1259
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eKSrm5J1OIw80VMWtfctiW0rIytPMw81+sNNpjPNn65Lfm30J9KzjAGUKFskSWZG/V8WeG0xGYucK+OSxp0sIg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4924
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y1HxM+3bXNpsZvzk@T590>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221021_041953_997464_7B7DA1DF 
-X-CRM114-Status: UNSURE (   7.84  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221021_061158_297137_E902FEA3 
+X-CRM114-Status: GOOD (  13.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,23 +60,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Jakub,
+On Fri, Oct 21, 2022 at 09:09:07AM +0800, Ming Lei wrote:
+> Just one small issue on mtip32xx, which may call blk_mark_disk_dead() in
+> irq context, and ->bd_size_lock is actually not irq safe.
+> 
+> But mtip32xx is already broken since blk_queue_start_drain() need mutex,
+> maybe mtip32xx isn't actively used at all.
 
-Thanks for looking at this.
-
-Jakub Kicinski <kuba@kernel.org> writes:
-> This spews 10000 sparse warnings. I think it may be because of
-> the struct_group() magic. Try moving the macros outside of the struct
-> definition. And make it a static inline while at it, dunno why you used
-> a define in the first place :S
-
-Sure, we will update it.
-
-> Please don't repost before Monday just for that, maybe someone will find
-> time to review over the weekend...
-
-Ok
-
-Thanks,
+A while ago active users were still reported.  But I bet no one
+regularly tests hot removals with these cards.
 
 
