@@ -4,59 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2DAB1C433FE
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Oct 2022 03:16:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D66FFC4332F
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Oct 2022 05:05:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:CC:To:From:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UOaPLdNPP/0FUVyO64uPXscTTF7C91TOiugnAfLQCBg=; b=MrWTozjLP64maEqywq6nH00+Zw
-	gzClWy/JlcxLM8YdiGZ+LnQT2VpBWLqfYFP1kdZ4UBT6ckdp7XEmPJhfMOhF5PdoXTqJlpL3m8w5b
-	2g1E+1wiLAxT3diP8tldUOQfJ+dHVUVyIy67qnyehojsgtNUd2fVCak442ZTN/5XAXQi88Ko7O4EX
-	dJ87TsFAkj5bziaLS37iW4lFH60rQaNvSnCWXtF2+bLqNuj6lZ4qXhFcobR89cjRmt7zt07Y8MlTf
-	p8LVvhmPhFolIKSnxjyRTeiSvshS1jg0wAsoCd1raor9uOodvjAOfGT47et3vnCgOIK3ZyngGZDkB
-	U00OKWVA==;
+	bh=l9+5cdaN2puXsYEfLSS/d99dhPF0JFNlgMNeDng7KRY=; b=c5sipZtfbzPOoRfiFhZBc4Xj5N
+	aDrr18tWR2+mmm6GfIcsT7ut1E6sm9pWizZx7hrNZnbdc/YyyED1yu4YjxruB2shk5HsFJkda+7kn
+	/lPWT77AMlrTyfK70UVBTEQXLp6Bu+Ye/B1XiMRV3pXqKJs9qYxrlpP0yPzMDwz7A746ITrk10MPg
+	AHMuOvR0Pp+FMrc08HPUffbLQHbYiANZ4kybU8jJYNazqG6E/B5ej1HNRrtzREc+3fsu9f8bMDjOw
+	bp9V/+pXMPdJOKlOHtedLXjDpPbd3TvyOF87zaLLAR2vN+dLe5pZidP6O1ldAU18t+oiXXp/sE2QA
+	RddNuMng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oliWL-004hh7-L4; Fri, 21 Oct 2022 03:16:29 +0000
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+	id 1olkE6-005HWj-MP; Fri, 21 Oct 2022 05:05:46 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oliWI-004hf9-7s
-	for linux-nvme@lists.infradead.org; Fri, 21 Oct 2022 03:16:28 +0000
-Received: from canpemm500002.china.huawei.com (unknown [172.30.72.54])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MtqHs1YvrzmVF4;
-	Fri, 21 Oct 2022 11:11:37 +0800 (CST)
-Received: from [10.169.59.127] (10.169.59.127) by
- canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 21 Oct 2022 11:16:05 +0800
-Subject: Re: [PATCH 2/8] blk-mq: skip non-mq queues in blk_mq_quiesce_queue
-From: Chao Leng <lengchao@huawei.com>
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, Keith Busch
-	<kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>
-CC: Ming Lei <ming.lei@redhat.com>, <linux-nvme@lists.infradead.org>,
-	<linux-block@vger.kernel.org>
-References: <20221020105608.1581940-1-hch@lst.de>
- <20221020105608.1581940-3-hch@lst.de>
- <25cf9a6a-9224-0b35-6dec-194440d4e58d@huawei.com>
-Message-ID: <99c31c6b-47ec-adb2-4f57-15ee8f7b3143@huawei.com>
-Date: Fri, 21 Oct 2022 11:16:05 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+	id 1olkE4-005HUU-Nr
+	for linux-nvme@lists.infradead.org; Fri, 21 Oct 2022 05:05:46 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 0D2B2B82A0A;
+	Fri, 21 Oct 2022 05:05:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 046CAC433C1;
+	Fri, 21 Oct 2022 05:05:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1666328741;
+	bh=ik0qCeO7x7gDxThiGNslgszS5S/5jn/mqyzKI9T4MjE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=LxOfCJXJhEVcsqX/X41JhyUYVsFM5/jEzN3bNwspL1wNxQuC36ujBub8Qrn0dbbff
+	 2CWEdxQph5nqFLdHEJ+OPaQ8gUYhoZibaj0t2uWdRxB2OWXJ2JlRk3krI0cKJcpaRm
+	 e0n1gZjGwKKc1QrjmABX5ba8Di36nL0z+qSl6ks7IEuuAFjprH+/IXwjgFAEr0F19d
+	 Wvw+DSAHj/c+H5mrVfe14HyAr9tAy9FmJBFmUfhWezeybWDk6pq0tURmuN57sP5P6t
+	 svpHbTROQXp8vE17MYj1CA14YhOGjhx4XME+dCQVBTvakr8166hNCoqjJOzhzkjRre
+	 ON3pLJnVUghig==
+Date: Thu, 20 Oct 2022 22:05:40 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Aurelien Aptel <aaptel@nvidia.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+ pabeni@redhat.com, saeedm@nvidia.com, tariqt@nvidia.com,
+ linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
+ kbusch@kernel.org, axboe@fb.com, chaitanyak@nvidia.com, smalin@nvidia.com,
+ ogerlitz@nvidia.com, yorayz@nvidia.com, borisp@nvidia.com,
+ aurelien.aptel@gmail.com, malin1024@gmail.com
+Subject: Re: [PATCH v6 01/23] net: Introduce direct data placement tcp
+ offload
+Message-ID: <20221020220540.363b0d02@kernel.org>
+In-Reply-To: <20221020101838.2712846-2-aaptel@nvidia.com>
+References: <20221020101838.2712846-1-aaptel@nvidia.com>
+	<20221020101838.2712846-2-aaptel@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <25cf9a6a-9224-0b35-6dec-194440d4e58d@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.169.59.127]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- canpemm500002.china.huawei.com (7.192.104.244)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221020_201626_473943_5682403B 
-X-CRM114-Status: GOOD (  13.99  )
+X-CRM114-CacheID: sfid-20221020_220544_954609_752919D7 
+X-CRM114-Status: UNSURE (   9.26  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,42 +78,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Thu, 20 Oct 2022 13:18:16 +0300 Aurelien Aptel wrote:
+> +#ifdef CONFIG_ULP_DDP
+> +	__u8                    ulp_ddp:1;
+> +	__u8			ulp_crc:1;
+> +#define IS_ULP_DDP(skb) ((skb)->ulp_ddp)
+> +#define IS_ULP_CRC(skb) ((skb)->ulp_crc)
+> +#else
+> +#define IS_ULP_DDP(skb) (0)
+> +#define IS_ULP_CRC(skb) (0)
+> +#endif
 
+This spews 10000 sparse warnings. I think it may be because of 
+the struct_group() magic. Try moving the macros outside of the struct
+definition. And make it a static inline while at it, dunno why you used
+a define in the first place :S
 
-On 2022/10/21 10:47, Chao Leng wrote:
-> 
-> 
-> On 2022/10/20 18:56, Christoph Hellwig wrote:
->> For submit_bio based queues there is no (S)RCU critical section during
->> I/O submission and thus nothing to wait for in blk_mq_wait_quiesce_done,
->> so skip doing any synchronization.
->>
->> Signed-off-by: Christoph Hellwig <hch@lst.de>
->> ---
->>   block/blk-mq.c | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/block/blk-mq.c b/block/blk-mq.c
->> index 33292c01875d5..df967c8af9fee 100644
->> --- a/block/blk-mq.c
->> +++ b/block/blk-mq.c
->> @@ -280,7 +280,9 @@ EXPORT_SYMBOL_GPL(blk_mq_wait_quiesce_done);
->>   void blk_mq_quiesce_queue(struct request_queue *q)
->>   {
->>       blk_mq_quiesce_queue_nowait(q);
->> -    blk_mq_wait_quiesce_done(q);
->> +    /* nothing to wait for non-mq queues */
->> +    if (queue_is_mq(q))
->> +        blk_mq_wait_quiesce_done(q);
-> For the non-mq queues, maybe we should add a synchronize_rcu.
->      if (queue_is_mq(q))
->          blk_mq_wait_quiesce_done(q);
->      else
->          synchronize_rcu();
-Please ignore this, synchronize_rcu is not needed.
->>   }
->>   EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue);
->>
-> 
-> .
+Please don't repost before Monday just for that, maybe someone will find
+time to review over the weekend... 
 
