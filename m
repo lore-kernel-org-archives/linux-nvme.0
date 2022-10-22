@@ -4,71 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51CFCC433FE
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Oct 2022 21:23:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3BCEC04A95
+	for <linux-nvme@archiver.kernel.org>; Sat, 22 Oct 2022 17:48:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oL1rxmsbULnQ7bVykV93AVdpvYDqMSKfMYqBHBTEVB8=; b=tbQGv3JyaNCKFM2ZDDSxZh3qN5
-	wL2teRfe9KQMuv+rcvD2fHxcvmjXog/ReV8aegTceDp8v2vdxR8squbFPmTcTYoVkMkaFEWLgVh/w
-	D5jEUBDItELQtpQqR7pXXkbJQSK+o1U2SQFnqLYdJ8zj8sF0oXQdFQLeTqTIZnVVIcWtsojO/MrBj
-	WIpUzuKE542PYv2MfEDO0VIteiHplVh4a2qpPQCkxEtshR6eoxnSLXyG6VsVH7koyxrwqvyKt76l2
-	WZ5Yjsj7Hjx8wWgf4ZCEqRk16SZh6CMdANdD4hFsq9jjqUkWdHiNZF/Yod0YsnC5RCAVK5KyrMgAv
-	zHvvO1bg==;
+	Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=kA1RUYYc/4X5sRFnjwWDavrb0+igVW51vZRNo+KLENo=; b=osmcXMQvVHu/Q27TjAcEtXZMDl
+	ySiwpeiXamfgseg+ggT6CmzZQFCIv935mUsGO+ptBRepCXWXHOoaOWLTwLD00+YGGTIct4tRa3a0c
+	MC2UmVIVjzY+dkgLVN+rLotpTOrAKB6pbhB35WRsKLlxtj7QyGEu0Dn9762oKWF6BxR1tta8FlG3I
+	ozsukNcL2GahlM5lmjO7+yYwxkTQr8/ME4Dlvi6MKnwrHeGgjZPz2gdaMY1XH5O/98TqYdGEzTIQL
+	p7iJLqd1Ed86fzkHiRBkTwBu/rlT6E6gQWRQMxkLyfuAGGvBBU2TxW2F7VhTF13SDh5w5fPDllDkj
+	7q8qjx/w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1olzTm-009zyV-1b; Fri, 21 Oct 2022 21:22:58 +0000
-Received: from mail-pf1-f175.google.com ([209.85.210.175])
+	id 1omIbh-00DRJM-GD; Sat, 22 Oct 2022 17:48:25 +0000
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1olzTi-009zxL-JX
-	for linux-nvme@lists.infradead.org; Fri, 21 Oct 2022 21:22:56 +0000
-Received: by mail-pf1-f175.google.com with SMTP id m6so3820161pfb.0
-        for <linux-nvme@lists.infradead.org>; Fri, 21 Oct 2022 14:22:53 -0700 (PDT)
+	id 1omIba-00DRIb-IX
+	for linux-nvme@lists.infradead.org; Sat, 22 Oct 2022 17:48:19 +0000
+Received: by mail-ed1-x52d.google.com with SMTP id a13so17116748edj.0
+        for <linux-nvme@lists.infradead.org>; Sat, 22 Oct 2022 10:48:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kA1RUYYc/4X5sRFnjwWDavrb0+igVW51vZRNo+KLENo=;
+        b=pk1JPaO124kD9FUXsMNgIuLUnQeM7DtqHs1KwuFroXIGt6EGsnRBXLTXcE0liY6YNM
+         QR9Z3txWC80+cz19T4MJOkXDvE2bf8gO4lrGGFyaq4hPGBH3/ZA4Hj6mNzhuvdnaEAea
+         dtcwslJnx/X2Fl80CsqK1QTxyCuGNyA3KmtpcMeXJhpDADzfdLIj1scB6BS9ixy4uQKj
+         jIQxALXTWuEBXMZloxPF861qOIXYfsdtiJbJF9ipavXB/43RBhmxXatbjtONQEXEgRgG
+         W0Z6i7wt7n+9KtVHRCfuqUrjxY2+gxsWUWE5BgwueYwNvGUZEnGO05kr+8ao873HagD2
+         8lPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oL1rxmsbULnQ7bVykV93AVdpvYDqMSKfMYqBHBTEVB8=;
-        b=IGzBZHIFv9y6AYH2EBhiQ8cx1lcWX5F6Zn1SfOOhgttEe2JwWMu4/G8y2l+KrWosXl
-         CMvO8vHLOIkxMctBMAZM+LfUVEDfPurmd+C6mV7rZhxVVp3C0YScCH0m0k0mFBqzy3HK
-         4TkvzIX8jD5bPIsYK8NQKslcdfuzqirrhdjPxZKgVQ+zBgGBWrydrA6rz1XK+65r1S1A
-         UF1NIVJBpV1fIwgeDf5zOoLZedP2XrKIri3F5L4oGItt8g9jMqktiEmt+A0FS+HSizlS
-         /w4PyJJqxXH8cz1ZX9qdwQsbMGZyT6DHd5RjW+NCSCI5VjCH+fIGU3pnuCE+9rGHofQZ
-         k1kA==
-X-Gm-Message-State: ACrzQf24s5N/DnGo/wMxy0N6dQoXqY2v+pcf8x2Sun1LEDgjfH/ccqbL
-	YNfQ6mwH+BaWMOs4O6q0V6s=
-X-Google-Smtp-Source: AMsMyM6srn2f9RgF906preCFswu5M5dN4aBh3C9WcyEJiG+QF7I4ae8DFMhHWv1JHUtUkGMPrWo3tQ==
-X-Received: by 2002:a63:1162:0:b0:450:a0e9:c996 with SMTP id 34-20020a631162000000b00450a0e9c996mr17666933pgr.140.1666387373324;
-        Fri, 21 Oct 2022 14:22:53 -0700 (PDT)
-Received: from ?IPV6:2620:15c:211:201:3bff:84a:36de:737? ([2620:15c:211:201:3bff:84a:36de:737])
-        by smtp.gmail.com with ESMTPSA id nt14-20020a17090b248e00b0020a0571b354sm1930147pjb.57.2022.10.21.14.22.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Oct 2022 14:22:52 -0700 (PDT)
-Message-ID: <01e45c37-5db8-b1a5-33c6-251da2637fb5@acm.org>
-Date: Fri, 21 Oct 2022 14:22:50 -0700
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kA1RUYYc/4X5sRFnjwWDavrb0+igVW51vZRNo+KLENo=;
+        b=nBeEDfujTq3i0aqka/CFdI/RLilQhwSCTYnrn36lnT/M6Dvc+QiiWWI5IvnxsG167C
+         lhZhaq3yX3IYopXgvq6G85dpUZyhuyWyQHamkZN0IUKTuIU6bEIH+X5OHzmOOQ1cuL6Q
+         jb9fjnUwl0XKyj6wtpZ6E/dmoait+GlwAwLAAJTmWHy3FFJkzsu5iOXbJjKMikTVzymN
+         9aYjnWoJ/Xo24TOdmsnoL32JKZdAS85jBA3dArC/rQM3sYW9YJw93eajD8F5iNYlLKiF
+         rjAXSoxt+7Z2q0sJ/fR5Eh4QtsDNpoSUkOY1eBs04ooR8uDlPUp5h63dWijb0Q4zOTz5
+         P4xg==
+X-Gm-Message-State: ACrzQf3/rUCAIOCZX5TF93DkuBnRMmkbYgIxvsxXjullNvnwEkoYeDtS
+	8RWEPo/Ka5WMn9uAf1HOD9E=
+X-Google-Smtp-Source: AMsMyM4SZU4916e1mjGvrI/QPalwjrfgQvBYyCvFSL8mRnRuFa9koJtArq77o9k2/1EDQWi8zrqhdw==
+X-Received: by 2002:a05:6402:520f:b0:45f:b7a0:a31 with SMTP id s15-20020a056402520f00b0045fb7a00a31mr15742960edd.379.1666460895540;
+        Sat, 22 Oct 2022 10:48:15 -0700 (PDT)
+Received: from localhost.localdomain (ip-217-105-46-178.ip.prioritytelecom.net. [217.105.46.178])
+        by smtp.gmail.com with ESMTPSA id r17-20020a170906351100b0078d4962a46bsm13054235eja.190.2022.10.22.10.48.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Oct 2022 10:48:15 -0700 (PDT)
+From: Nam Cao <namcaov@gmail.com>
+To: kbusch@kernel.org,
+	axboe@fb.com,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: namcaov@gmail.com,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] nvme-tcp: replace sg_init_marker() with sg_init_table()
+Date: Sat, 22 Oct 2022 19:46:36 +0200
+Message-Id: <20221022174635.15643-1-namcaov@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 5/8] blk-mq: add tagset quiesce interface
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Chao Leng <lengchao@huawei.com>
-Cc: Ming Lei <ming.lei@redhat.com>, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org
-References: <20221020105608.1581940-1-hch@lst.de>
- <20221020105608.1581940-6-hch@lst.de>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20221020105608.1581940-6-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221021_142254_673325_65C12265 
-X-CRM114-Status: GOOD (  15.16  )
+X-CRM114-CacheID: sfid-20221022_104818_649005_C1ADB89B 
+X-CRM114-Status: GOOD (  12.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,34 +91,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/20/22 03:56, Christoph Hellwig wrote:
-> From: Chao Leng <lengchao@huawei.com>
-> 
-> Drivers that have shared tagsets may need to quiesce potentially a lot
-> of request queues that all share a single tagset (e.g. nvme). Add an
-> interface to quiesce all the queues on a given tagset. This interface is
-> useful because it can speedup the quiesce by doing it in parallel.
-> 
-> Because some queues should not need to be quiesced(e.g. nvme connect_q)
+In nvme_tcp_ddgst_update(), sg_init_marker() is called with an
+uninitialized scatterlist. This is probably fine, but gcc complains:
 
-should not need -> do not have
+  CC [M]  drivers/nvme/host/tcp.o
+In file included from ./include/linux/dma-mapping.h:10,
+                 from ./include/linux/skbuff.h:31,
+                 from ./include/net/net_namespace.h:43,
+                 from ./include/linux/netdevice.h:38,
+                 from ./include/net/sock.h:46,
+                 from drivers/nvme/host/tcp.c:12:
+In function ‘sg_mark_end’,
+    inlined from ‘sg_init_marker’ at ./include/linux/scatterlist.h:356:2,
+    inlined from ‘nvme_tcp_ddgst_update’ at drivers/nvme/host/tcp.c:390:2:
+./include/linux/scatterlist.h:234:11: error: ‘sg.page_link’ is used uninitialized [-Werror=uninitialized]
+  234 |         sg->page_link |= SG_END;
+      |         ~~^~~~~~~~~~~
+drivers/nvme/host/tcp.c: In function ‘nvme_tcp_ddgst_update’:
+drivers/nvme/host/tcp.c:388:28: note: ‘sg’ declared here
+  388 |         struct scatterlist sg;
+      |                            ^~
+cc1: all warnings being treated as errors
 
-> when quiesce the tagset. So introduce QUEUE_FLAG_SKIP_TAGSET_QUIESCE to
+Use sg_init_table() instead, which basically memset the scatterlist to
+zero first before calling sg_init_marker().
 
-quiesce -> quiescing
+Signed-off-by: Nam Cao <namcaov@gmail.com>
+---
+ drivers/nvme/host/tcp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-. So -> ,
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 1eed0fc26b3a..dc2def86076d 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -387,7 +387,7 @@ static inline void nvme_tcp_ddgst_update(struct ahash_request *hash,
+ {
+ 	struct scatterlist sg;
+ 
+-	sg_init_marker(&sg, 1);
++	sg_init_table(&sg, 1);
+ 	sg_set_page(&sg, page, len, off);
+ 	ahash_request_set_crypt(hash, &sg, NULL, len);
+ 	crypto_ahash_update(hash);
+-- 
+2.25.1
 
-> tagset quiesce interface to skip the queue.
-
-Hi Christoph,
-
-Are there any drivers that may call blk_mq_quiesce_tagset() concurrently 
-from two different threads? blk_mq_quiesce_queue() supports this but 
-blk_mq_quiesce_tagset() cannot support this because of the mechanism 
-used to mark request queues that should be skipped (queue flag).
-
-Thanks,
-
-Bart.
 
