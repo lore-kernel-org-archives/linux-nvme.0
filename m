@@ -4,68 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6DA4AECAAA1
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Oct 2022 18:58:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DAA86C38A2D
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Oct 2022 18:58:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=c9JwElTAnQXCG+yXcJP+4cB3qgGWlgHuFSF8jivmkpM=; b=LWLzSIrJLGJdq30DQzFs7kXYJQ
-	CCeuvDxJKMNZCuLUXNuqfxh81gz+csBl+DTbh22+zNzy0JBqGrpj3wkpyApkHpp7oWYTFIBpCDndP
-	mEXEW+KxffEyR0Yjv//FhWDfB0RnvlD5gVSr25EeqpYoWVSrM2nHpUnW9qZCkDy6yZGLpLjT6UMMV
-	KizG1hspkcKjFD4g9s9J9Ruc7k7dpqihu0RDmyFDxDqydRvB+SUXHn/rm+Y1BPmymk81FZ+AKrSMk
-	3KbP75/otplFXbd8paTeHlh9KF0iGTQmUXwH5JvHeU48W6NHpNPr9gpvFpWEmiscrPR0+eXFMKX3K
-	v/YCpjNQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=e7xveoDu2pPHerRsXzzcK5lB9d
+	ZmARl6L0QJxEsV7OIkrzbiANNUYFzNaTf0P7yX7RYG7sP9HQKCgrbHp8OvaBHCQUQLGZYDiAuKx7w
+	/E3YzufhB6VV3cJIlBoKzzZDk+X58PMEqbJxV8tO5jlumiSQJyEUmqnz/E2UUYRpidnO8DIuj0on1
+	38N8gh1JFvOwsZ6xohobxAep3CDWgGga+EPCyndpREwsdorp961tQr122zypiTB4cWnP8GwM/HIkm
+	htxXhR+d6Wy1jQxCeCARqfOXmOdDKUrmDSo0dG/m9H8pzefHjEopWoGnCe2QRjW263P/I1ufIucLN
+	IU8FrA5Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1on2e6-002iv1-Ea; Mon, 24 Oct 2022 18:57:58 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1on2eh-002izj-Ht; Mon, 24 Oct 2022 18:58:35 +0000
+Received: from mail-wr1-f48.google.com ([209.85.221.48])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1on2e3-002iuL-Oi
-	for linux-nvme@lists.infradead.org; Mon, 24 Oct 2022 18:57:57 +0000
-Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29OG6Hn5027611
-	for <linux-nvme@lists.infradead.org>; Mon, 24 Oct 2022 11:57:52 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=s2048-2021-q4;
- bh=c9JwElTAnQXCG+yXcJP+4cB3qgGWlgHuFSF8jivmkpM=;
- b=FbWJ4LGmuPcAEf3C20EJFWrGWU4qv2M7262aqAmqbrnSwvSq/lgPkVACKTIWZW1oMO8L
- 9Ou502Ohv+7xIxs1FB2bC4bZiEAt5eNzYEYzlBENDfO5FzM0Rbm/1+/8ASUUGgKbqQfO
- b/EDqSn/KRn9MdnNWP1nikoLDFvVqVonlNt8qLlwjk5NwDMfYJV4OhtOZUNxTvosqiXK
- tKQfAOUKX9gC/wa3YaZTPY0vcREHt4PJGUhi0BXKimYdeJIJN17xDlDiVm8Hlzf8a3Xw
- L9DKDSR1ysAUl5Ujrf7JlKb17jyKxU2N+5c9+mZbWQ8lspauL0ciqf9mJlQo9pSiBPVR dQ== 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3kcfu5w93d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Mon, 24 Oct 2022 11:57:52 -0700
-Received: from twshared9088.05.ash9.facebook.com (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:82::e) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 24 Oct 2022 11:57:50 -0700
-Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id F2B24A35B27B; Mon, 24 Oct 2022 11:57:45 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>
-CC: <hch@lst.de>, <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCH] nvme-multipath: set queue dma alignment to 3
-Date: Mon, 24 Oct 2022 11:57:45 -0700
-Message-ID: <20221024185745.3164002-1-kbusch@meta.com>
-X-Mailer: git-send-email 2.30.2
+	id 1on2ee-002iyh-Ed
+	for linux-nvme@lists.infradead.org; Mon, 24 Oct 2022 18:58:33 +0000
+Received: by mail-wr1-f48.google.com with SMTP id bs21so1730964wrb.4
+        for <linux-nvme@lists.infradead.org>; Mon, 24 Oct 2022 11:58:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=e75e6X99FRrK/qzFV3fgNx3U83GAjJSYkx4LiTo+mBiOXimd5Cnlivx5gBRm5VU3we
+         gqk3Z8/BtGy4C4RFioGBlS6xx4v3GsLhMvqKZYXZpOcRtjorteiohkFLlS/3lTbA0PZi
+         Uh2vi3OZStB4GuLvu8Q8sE4sIEPMXihdq3xw0PWyAJH5FgA0BeIldZpAxINSVSJjaUpy
+         5Fa5bk8mzzEVQpV8mF+P2GMhws4EwoTIoIvS1OYkB7RXTwBEe6JSnyPb3FeSZ9Y5gpNn
+         DsCy75AmtVFSd4zhMeJ7vnlTNw/xaorhKiSOt5kv+ef0TB16a4GI7oJ17BaTiLvpsXnw
+         uY3g==
+X-Gm-Message-State: ACrzQf0Dm1yV40mJKddho/qhIEa8syEFnkOk5l8Sd4JUumYzbHFdJb1b
+	j1Z5JrtwYOwDHx2OfhU5864=
+X-Google-Smtp-Source: AMsMyM7///Z6avYgwOWExcUSGXZaRWZgeoVPGfIrJopsRLsAc7d7HHr4x+JUPlYu1gzqXT5C6mBS1w==
+X-Received: by 2002:a5d:58d9:0:b0:236:5b81:2c99 with SMTP id o25-20020a5d58d9000000b002365b812c99mr10080462wrf.494.1666637909773;
+        Mon, 24 Oct 2022 11:58:29 -0700 (PDT)
+Received: from [10.100.102.14] (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
+        by smtp.gmail.com with ESMTPSA id x9-20020a05600c420900b003b4e009deb2sm615019wmh.41.2022.10.24.11.58.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Oct 2022 11:58:29 -0700 (PDT)
+Message-ID: <0b9859f2-2216-549b-fef5-02e70a9b2141@grimberg.me>
+Date: Mon, 24 Oct 2022 21:58:27 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: 2u-zAt8dutv09b7zuSUmqDGi-qarJ2FO
-X-Proofpoint-ORIG-GUID: 2u-zAt8dutv09b7zuSUmqDGi-qarJ2FO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-24_06,2022-10-21_01,2022-06-22_01
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] nvme-multipath: set queue dma alignment to 3
+Content-Language: en-US
+To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org
+Cc: hch@lst.de, Keith Busch <kbusch@kernel.org>
+References: <20221024185745.3164002-1-kbusch@meta.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20221024185745.3164002-1-kbusch@meta.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221024_115755_845008_B4F31870 
-X-CRM114-Status: GOOD (  14.22  )
+X-CRM114-CacheID: sfid-20221024_115832_510979_D11D8748 
+X-CRM114-Status: UNSURE (   5.61  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,32 +80,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
-
-NVMe spec requires all transports support dword aligned addresses, which
-is already set in the namespace request_queue. Set the same limit in the
-multipath device's request_queue as well.
-
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/multipath.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.=
-c
-index 0ea7e441e080..93e2138a8b42 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -516,6 +516,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, str=
-uct nvme_ns_head *head)
- 	/* set to a default value of 512 until the disk is validated */
- 	blk_queue_logical_block_size(head->disk->queue, 512);
- 	blk_set_stacking_limits(&head->disk->queue->limits);
-+	blk_queue_dma_alignment(head->disk->queue, 3);
-=20
- 	/* we need to propagate up the VMC settings */
- 	if (ctrl->vwc & NVME_CTRL_VWC_PRESENT)
---=20
-2.30.2
-
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
