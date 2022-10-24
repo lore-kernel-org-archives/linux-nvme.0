@@ -4,64 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32554ECAAA1
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Oct 2022 15:03:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4504C38A2D
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Oct 2022 15:03:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ohfolVyEwTGA6dZoX6saPhP2QSTVI2PE0ZFcdleLLMw=; b=dE8zmriT8ex+Zv/mBw1MfgSOSD
-	ztBDlmkrKLXtJV+0wb8YQvV/BWA+wubK09OYuiC9MMQE+fmGQNvQZb9m5Wt9sjObXG1shxe2oImdV
-	PqTWGwsCnF6MgAilv6SjNmN7qYwRgifaR1S5Z/6+EAgOrGJhvDjt0wof3onsnyEB37TPLX7ByW3uX
-	Jq5B1KdTPWk7T9aXQCXZvqsF7i7PTVmNU0L+jKqOTb8yF1XlNIoJXsNjL/9pcEyWf3w4EA/OlNuGw
-	1zXLs5CW4UEMxo6zu+ZpUJyPBkZzQWzgYG0GreELJK5soz/LgCfKfUvgBlL1geTekrcbLuSX9n7/6
-	yhoqDhPQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=oCPF+FD9jiffBw0NtRD29UzmjHy8C95fMf0S82lcDuM=; b=FxQFI2WkD8GtfNNujAaQOiqtYN
+	5ZWczjFe75sL77Ezx/TOmGdL+ImBsFH6ROqCeidU3IOI+qIlRLRwTmcUWyd+yIycqs9xQkTpx4IRl
+	1aMAa5f5f/4/603GjDEh4VYozxHlYUOgQJI2CP3ozcjevklUjqpcD80WAE9PBeGd4KG90LsAlw3kz
+	nKJinFOJRtWRlneihwtlv9Y5Rn+z+MUcWv3PYqAdGYvR6W0tGdBOTc2vtHtvQBNAbJR2UOsr6nTPi
+	ATKCQKA5pwJm0yvogEq+p12oHCpM5DZLDLdM99EtOiRsIfWsAr2hgUAFg1bDEUYfxX/K5rN672rd5
+	40tayaIQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1omyz9-0022RR-Qj; Mon, 24 Oct 2022 15:03:27 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1omyza-0022aJ-P3; Mon, 24 Oct 2022 15:03:54 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1omyz6-0022Ph-Vq
-	for linux-nvme@lists.infradead.org; Mon, 24 Oct 2022 15:03:26 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 6EF1268BFE; Mon, 24 Oct 2022 17:03:20 +0200 (CEST)
-Date: Mon, 24 Oct 2022 17:03:20 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Logan Gunthorpe <logang@deltatee.com>
-Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-mm@kvack.org, Christoph Hellwig <hch@lst.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	Minturn Dave B <dave.b.minturn@intel.com>,
-	Jason Ekstrand <jason@jlekstrand.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Xiong Jianxin <jianxin.xiong@intel.com>,
-	Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Martin Oliveira <martin.oliveira@eideticom.com>,
-	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
-	Ralph Campbell <rcampbell@nvidia.com>,
-	Stephen Bates <sbates@raithlin.com>, viro@zeniv.linux.org.uk
-Subject: Re: [PATCH v11 0/9] Userspace P2PDMA with O_DIRECT NVMe devices
-Message-ID: <20221024150320.GA26731@lst.de>
-References: <20221021174116.7200-1-logang@deltatee.com>
+	id 1omyzX-0022W6-Oz
+	for linux-nvme@lists.infradead.org; Mon, 24 Oct 2022 15:03:53 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DC5EF1FD8F;
+	Mon, 24 Oct 2022 15:03:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1666623822; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=oCPF+FD9jiffBw0NtRD29UzmjHy8C95fMf0S82lcDuM=;
+	b=faxQ0cYUGHiVZC22tnQCPnZxUfq4aTao49W/Plz98SKImdVxJ32jIGJygLHJpVFRJ8LBhs
+	zgDfPj/2C4aVhtlxofzNRXbpgtCuw16OkRxRpyv2zB/ros0CscGP21JzbxzLU+OqxvOHWx
+	gtbj5RSFgk0BRcx4+DBXHm3IDe6+z6Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1666623822;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=oCPF+FD9jiffBw0NtRD29UzmjHy8C95fMf0S82lcDuM=;
+	b=uBg78yt41R+VlkMIadU0NZCnZe86SJuF4HHMbgHEt3AfC8zXe2n1DMycYDipxZMHZ5SLvC
+	UeHHoa4gcTm1bgCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CE57513A79;
+	Mon, 24 Oct 2022 15:03:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id M61UMk6pVmMTNwAAMHmgww
+	(envelope-from <dwagner@suse.de>); Mon, 24 Oct 2022 15:03:42 +0000
+From: Daniel Wagner <dwagner@suse.de>
+To: linux-nvme@lists.infradead.org
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	Daniel Wagner <dwagner@suse.de>,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH v2] nvme-tcp: send quota for nvme_tcp_send_all()
+Date: Mon, 24 Oct 2022 17:03:34 +0200
+Message-Id: <20221024150334.29215-1-dwagner@suse.de>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221021174116.7200-1-logang@deltatee.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221024_080325_176077_9E664F08 
-X-CRM114-Status: UNSURE (   9.09  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221024_080351_981221_6989CECB 
+X-CRM114-Status: GOOD (  14.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,11 +84,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The series looks good to me know. How do we want to handle it?  I think
-we need a special branch somewhere (maybe in the block or mm trees?)
-so that we can base the other iov_iter work from John on it.  Also
-Al has a whole bunch of iov_iter changes that we probably want on
-the same branch as well, although some of those (READ vs WRITE fixups)
-look like 6.1 material to me.
+Add a send quota in nvme_tcp_send_all() to avoid stalls when sending
+large amounts of requests.
+
+Cc: Hannes Reinecke <hare@suse.de>
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+---
+
+IMO, this patch might still be a good idea to add. At least in my test
+setup where I only have one ethernet port it makes a big difference
+when accessing the system via ssh. When nvme-tcp is pushing a lot of
+data via the network, the ssh session is completely blocked by the
+storage traffic. With it, the ssh session stays responsive.
+
+I suspect a proper storage setup would use more than one ethernet
+port.
+
+Daniel
+
+v1:
+  https://lore.kernel.org/linux-nvme/20220519062617.39715-4-hare@suse.de/
+
+ drivers/nvme/host/tcp.c | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 3e7b29d07c71..84a66ca208c8 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -308,12 +308,23 @@ static inline void nvme_tcp_advance_req(struct nvme_tcp_request *req,
+ 
+ static inline void nvme_tcp_send_all(struct nvme_tcp_queue *queue)
+ {
+-	int ret;
++	unsigned long deadline = jiffies + msecs_to_jiffies(1);
+ 
+ 	/* drain the send queue as much as we can... */
+ 	do {
+-		ret = nvme_tcp_try_send(queue);
+-	} while (ret > 0);
++		bool pending = false;
++		int result;
++
++		result = nvme_tcp_try_send(queue);
++		if (result > 0)
++			pending = true;
++		else if (unlikely(result < 0))
++			return;
++
++		if (!pending)
++			return;
++
++	} while (!time_after(jiffies, deadline)); /* quota is exhausted */
+ }
+ 
+ static inline bool nvme_tcp_queue_more(struct nvme_tcp_queue *queue)
+-- 
+2.38.0
 
 
