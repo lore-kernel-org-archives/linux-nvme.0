@@ -4,64 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B8C1DFA3740
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Oct 2022 11:40:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0228FA373E
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Oct 2022 12:19:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jJOsptVZv35L5VpbB/zbYMQlu1ugS0dNwQS+slpQtqc=; b=p+c7BF3curEN58B5zE4F4MTx0T
-	OxGTQJAXlbe9Iu2KmapPzflZYhyNMjl1UAWumRBHIPAEYr6CREXONY9tj//02APRl2w6w1EGSlBVT
-	NnrFvfAMDe/drkkEXWmGK5yvHNC4Gg1T7pj7rZayLWa6jDtCulIaB3zqJBpZWgC0hlo4Vt52DYsO0
-	Z9mrzWwMK2oprbq/yRSK2e+SN88EP1cnnJv7t1YAFOjIV/paujEua93ik/hU7ExvCL/QvLkzuFZmA
-	ZRLSTNaa3sxmQBr4d2oYOGe5alXEgccYVsAyi7eXt7LkE4yJxTYOvMGVgCE4RqLGMlV+Z5elSntYO
-	VlSVW8rA==;
+	bh=bvPuoAbeDVoOnLBP0QUVvKraWAF2FCrSPymJ3YB+DVQ=; b=hfo+Mx8OHc+TbBCZFiqxzkVZpu
+	Smrdo/kCb6VyHlEKbH39/kZcbQ1qVPel+cnssxA/ZMr3MS4kGYnwVawKJM5VTAMVWjjknRvkNomDA
+	47bGXclVBzEeU15OmMu0YCZ+9Wm/tzji/FVL6FvF+HJHHtOT33BDoAsABtKjv2dCMNCEfzGcgHHBy
+	5ByLn20iwlqMWAzEZwfXSnaVt6c2kESrpnOQieHzzlMJH+jEnhTZAu4epCfpzSE8ab9Elm89dqQ6N
+	yidlkMzB+2Zeau+p3sdikSPKj5QDkw1C6IFbZKnLKEvol0lUQIhRO3++lyrupxdCHL7Z1azGW8HZf
+	RV701LHg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1omvoR-0018dB-Lg; Mon, 24 Oct 2022 11:40:11 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1omwQn-001Kkn-Js; Mon, 24 Oct 2022 12:19:49 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1omvX3-000z2u-DN
-	for linux-nvme@lists.infradead.org; Mon, 24 Oct 2022 11:22:15 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id 1omwQf-001Ki3-QE
+	for linux-nvme@lists.infradead.org; Mon, 24 Oct 2022 12:19:43 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 5E6D261228;
-	Mon, 24 Oct 2022 11:22:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 021FCC433C1;
-	Mon, 24 Oct 2022 11:22:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1666610531;
-	bh=Tidq8AT4Pb6a6zPdoWxK0qF4MAvcDoJ7X7hx9h9HuNE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kqqDjUoRhqoCs9qZqe6V/qK41uMffB9YpgMwchup4kIQAOiQSAp/w5CPVgTW0R4id
-	 pgikDQVmLfZk2ZCf/0idr2U3yKgpZkYz4B81njY8st73Dumryu31ZsUuBFlnqNgwF+
-	 +wFat9uBDQtxyqg5eBHwY8uZV1fhnsurcEP9nyYQ0hHIuf94zrRRURMVfGMratbQVE
-	 FulcYBaiKDah2brn4sETiocHNzTivc/1yspSnDE3+khmvgG55MVckYlymmiyltyQpJ
-	 +edg4tDRI98C62kgSFnLxL8azi8pWhcHmkinureepiwfrl6/wCXZjP7KPE/IzVWHRs
-	 IVaCLVvH5+Eqw==
-Date: Mon, 24 Oct 2022 14:22:07 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Aurelien Aptel <aaptel@nvidia.com>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, kuba@kernel.org,
-	edumazet@google.com, pabeni@redhat.com, saeedm@nvidia.com,
-	tariqt@nvidia.com, linux-nvme@lists.infradead.org, sagi@grimberg.me,
-	hch@lst.de, kbusch@kernel.org, axboe@fb.com, chaitanyak@nvidia.com,
-	smalin@nvidia.com, ogerlitz@nvidia.com, yorayz@nvidia.com,
-	borisp@nvidia.com, aurelien.aptel@gmail.com, malin1024@gmail.com
-Subject: Re: [PATCH v6 01/23] net: Introduce direct data placement tcp offload
-Message-ID: <Y1Z1XzLusUVjfnLp@unreal>
-References: <20221020101838.2712846-1-aaptel@nvidia.com>
- <20221020101838.2712846-2-aaptel@nvidia.com>
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 977C91FD74;
+	Mon, 24 Oct 2022 12:19:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1666613978; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bvPuoAbeDVoOnLBP0QUVvKraWAF2FCrSPymJ3YB+DVQ=;
+	b=Hg7kN4pvOIQntEuSRqCam9nD84j/0K2Syez6+vErGAHBivByYw4Ban8HhMJE3KQhF9AMlE
+	aKCSsET74BENDO8JS3/f/KreXJ0f4kXj832dwRi57adPl84MuvQ4fzjF3loLKrt9mIocYX
+	vHUIeN3n8ZUb6dItcIB71F6qJk8tUK8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1666613978;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bvPuoAbeDVoOnLBP0QUVvKraWAF2FCrSPymJ3YB+DVQ=;
+	b=yeMIam+FB4B+Lq4y+z0P6BZkB8t5DMAhKPzqSpllRKn6qKyMw+TxRGtRG22Xj0mvyw/XWd
+	7xqpfgeReP1pZeDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8A36E13A79;
+	Mon, 24 Oct 2022 12:19:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id Jb2vIdqCVmMIVQAAMHmgww
+	(envelope-from <dwagner@suse.de>); Mon, 24 Oct 2022 12:19:38 +0000
+Date: Mon, 24 Oct 2022 14:19:38 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: Re: [PATCH] nvme-tcp: Fix possible circular locking when deleting a
+ controller under memory pressure
+Message-ID: <20221024121938.an457jsv55se3y6l@carbon.lan>
+References: <20221023080443.592097-1-sagi@grimberg.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221020101838.2712846-2-aaptel@nvidia.com>
+In-Reply-To: <20221023080443.592097-1-sagi@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221024_042213_700081_E660F1B0 
-X-CRM114-Status: GOOD (  35.39  )
+X-CRM114-CacheID: sfid-20221024_051942_032624_0897D7D3 
+X-CRM114-Status: GOOD (  19.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,169 +88,95 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Oct 20, 2022 at 01:18:16PM +0300, Aurelien Aptel wrote:
-> From: Boris Pismenny <borisp@nvidia.com>
+On Sun, Oct 23, 2022 at 11:04:43AM +0300, Sagi Grimberg wrote:
+> When destroying a queue, when calling sock_release, the network stack
+> might need to allocate an skb to send a FIN/RST. When that happens
+> during memory pressure, there is a need to reclaim memory, which
+> in turn may ask the nvme-tcp device to write out dirty pages, however
+> this is not possible due to a ctrl teardown that is going on.
 > 
-> This commit introduces direct data placement (DDP) offload for TCP.
+> Set PF_MEMALLOC to the task that releases the socket to grant access
+> to PF_MEMALLOC reserves. In addition, do the same for the nvme-tcp
+> thread as this may also originate from the swap itself and should
+> be more resilient to memory pressure situations.
 > 
-> The motivation is saving compute resources/cycles that are spent
-> to copy data from SKBs to the block layer buffers and CRC
-> calculation/verification for received PDUs (Protocol Data Units).
+> This fixes the following lockdep complaint:
+> --
+> ======================================================
+>  WARNING: possible circular locking dependency detected
+>  6.0.0-rc2+ #25 Tainted: G        W
+>  ------------------------------------------------------
+>  kswapd0/92 is trying to acquire lock:
+>  ffff888114003240 (sk_lock-AF_INET-NVME){+.+.}-{0:0}, at: tcp_sendpage+0x23/0xa0
 > 
-> The DDP capability is accompanied by new net_device operations that
-> configure hardware contexts.
+>  but task is already holding lock:
+>  ffffffff97e95ca0 (fs_reclaim){+.+.}-{0:0}, at: balance_pgdat+0x987/0x10d0
 > 
-> There is a context per socket, and a context per DDP operation.
-> Additionally, a resynchronization routine is used to assist
-> hardware handle TCP OOO, and continue the offload. Furthermore,
-> we let the offloading driver advertise what is the max hw
-> sectors/segments.
+>  which lock already depends on the new lock.
 > 
-> The interface includes five net-device ddp operations:
+>  the existing dependency chain (in reverse order) is:
 > 
->  1. sk_add - add offload for the queue represented by socket+config pair
->  2. sk_del - remove the offload for the socket/queue
->  3. ddp_setup - request copy offload for buffers associated with an IO
->  4. ddp_teardown - release offload resources for that IO
->  5. limits - query NIC driver for quirks and limitations (e.g.
->              max number of scatter gather entries per IO)
+>  -> #1 (fs_reclaim){+.+.}-{0:0}:
+>         fs_reclaim_acquire+0x11e/0x160
+>         kmem_cache_alloc_node+0x44/0x530
+>         __alloc_skb+0x158/0x230
+>         tcp_send_active_reset+0x7e/0x730
+>         tcp_disconnect+0x1272/0x1ae0
+>         __tcp_close+0x707/0xd90
+>         tcp_close+0x26/0x80
+>         inet_release+0xfa/0x220
+>         sock_release+0x85/0x1a0
+>         nvme_tcp_free_queue+0x1fd/0x470 [nvme_tcp]
+>         nvme_do_delete_ctrl+0x130/0x13d [nvme_core]
+>         nvme_sysfs_delete.cold+0x8/0xd [nvme_core]
+>         kernfs_fop_write_iter+0x356/0x530
+>         vfs_write+0x4e8/0xce0
+>         ksys_write+0xfd/0x1d0
+>         do_syscall_64+0x58/0x80
+>         entry_SYSCALL_64_after_hwframe+0x63/0xcd
 > 
-> Using this interface, the NIC hardware will scatter TCP payload
-> directly to the BIO pages according to the command_id.
+>  -> #0 (sk_lock-AF_INET-NVME){+.+.}-{0:0}:
+>         __lock_acquire+0x2a0c/0x5690
+>         lock_acquire+0x18e/0x4f0
+>         lock_sock_nested+0x37/0xc0
+>         tcp_sendpage+0x23/0xa0
+>         inet_sendpage+0xad/0x120
+>         kernel_sendpage+0x156/0x440
+>         nvme_tcp_try_send+0x48a/0x2630 [nvme_tcp]
+>         nvme_tcp_queue_rq+0xefb/0x17e0 [nvme_tcp]
+>         __blk_mq_try_issue_directly+0x452/0x660
+>         blk_mq_plug_issue_direct.constprop.0+0x207/0x700
+>         blk_mq_flush_plug_list+0x6f5/0xc70
+>         __blk_flush_plug+0x264/0x410
+>         blk_finish_plug+0x4b/0xa0
+>         shrink_lruvec+0x1263/0x1ea0
+>         shrink_node+0x736/0x1a80
+>         balance_pgdat+0x740/0x10d0
+>         kswapd+0x5f2/0xaf0
+>         kthread+0x256/0x2f0
+>         ret_from_fork+0x1f/0x30
 > 
-> To maintain the correctness of the network stack, the driver is
-> expected to construct SKBs that point to the BIO pages.
+> other info that might help us debug this:
 > 
-> The SKB passed to the network stack from the driver represents
-> data as it is on the wire, while it is pointing directly to data
-> in destination buffers.
+>  Possible unsafe locking scenario:
 > 
-> As a result, data from page frags should not be copied out to
-> the linear part. To avoid needless copies, such as when using
-> skb_condense, we mark the skb->ddp bit.
-> In addition, the skb->crc will be used by the upper layers to
-> determine if CRC re-calculation is required. The two separated skb
-> indications are needed to avoid false positives GRO flushing events.
+>        CPU0                    CPU1
+>        ----                    ----
+>   lock(fs_reclaim);
+>                                lock(sk_lock-AF_INET-NVME);
+>                                lock(fs_reclaim);
+>   lock(sk_lock-AF_INET-NVME);
 > 
-> Follow-up patches will use this interface for DDP in NVMe-TCP.
+>  *** DEADLOCK ***
 > 
-> Signed-off-by: Boris Pismenny <borisp@nvidia.com>
-> Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
-> Signed-off-by: Or Gerlitz <ogerlitz@nvidia.com>
-> Signed-off-by: Yoray Zack <yorayz@nvidia.com>
-> Signed-off-by: Shai Malin <smalin@nvidia.com>
-> Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
-> ---
->  include/linux/netdev_features.h    |   3 +-
->  include/linux/netdevice.h          |   5 +
->  include/linux/skbuff.h             |  11 ++
->  include/net/inet_connection_sock.h |   4 +
->  include/net/ulp_ddp.h              | 171 +++++++++++++++++++++++++++++
->  net/Kconfig                        |  10 ++
->  net/core/skbuff.c                  |   3 +-
->  net/ethtool/common.c               |   1 +
->  net/ipv4/tcp_input.c               |   8 ++
->  net/ipv4/tcp_ipv4.c                |   3 +
->  net/ipv4/tcp_offload.c             |   3 +
->  11 files changed, 220 insertions(+), 2 deletions(-)
->  create mode 100644 include/net/ulp_ddp.h
+> 3 locks held by kswapd0/92:
+>  #0: ffffffff97e95ca0 (fs_reclaim){+.+.}-{0:0}, at: balance_pgdat+0x987/0x10d0
+>  #1: ffff88811f21b0b0 (q->srcu){....}-{0:0}, at: blk_mq_flush_plug_list+0x6b3/0xc70
+>  #2: ffff888170b11470 (&queue->send_mutex){+.+.}-{3:3}, at: nvme_tcp_queue_rq+0xeb9/0x17e0 [nvme_tcp]
 > 
-> diff --git a/include/linux/netdev_features.h b/include/linux/netdev_features.h
-> index 7c2d77d75a88..bf7391aa04c7 100644
-> --- a/include/linux/netdev_features.h
-> +++ b/include/linux/netdev_features.h
-> @@ -14,7 +14,7 @@ typedef u64 netdev_features_t;
->  enum {
->  	NETIF_F_SG_BIT,			/* Scatter/gather IO. */
->  	NETIF_F_IP_CSUM_BIT,		/* Can checksum TCP/UDP over IPv4. */
-> -	__UNUSED_NETIF_F_1,
-> +	NETIF_F_HW_ULP_DDP_BIT,         /* ULP direct data placement offload */
->  	NETIF_F_HW_CSUM_BIT,		/* Can checksum all the packets. */
->  	NETIF_F_IPV6_CSUM_BIT,		/* Can checksum TCP/UDP over IPV6 */
->  	NETIF_F_HIGHDMA_BIT,		/* Can DMA to high memory. */
-> @@ -168,6 +168,7 @@ enum {
->  #define NETIF_F_HW_HSR_TAG_RM	__NETIF_F(HW_HSR_TAG_RM)
->  #define NETIF_F_HW_HSR_FWD	__NETIF_F(HW_HSR_FWD)
->  #define NETIF_F_HW_HSR_DUP	__NETIF_F(HW_HSR_DUP)
-> +#define NETIF_F_HW_ULP_DDP	__NETIF_F(HW_ULP_DDP)
->  
->  /* Finds the next feature with the highest number of the range of start-1 till 0.
->   */
-> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-> index a36edb0ec199..ff6f4978723a 100644
-> --- a/include/linux/netdevice.h
-> +++ b/include/linux/netdevice.h
-> @@ -1043,6 +1043,7 @@ struct dev_ifalias {
+> Reported-by: Daniel Wagner <dwagner@suse.de>
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 
-<...>
+Tested-by: Daniel Wagner <dwagner@suse.de>
 
-> @@ -982,6 +984,15 @@ struct sk_buff {
->  #endif
->  	__u8			slow_gro:1;
->  	__u8			csum_not_inet:1;
-> +#ifdef CONFIG_ULP_DDP
-> +	__u8                    ulp_ddp:1;
-> +	__u8			ulp_crc:1;
-> +#define IS_ULP_DDP(skb) ((skb)->ulp_ddp)
-> +#define IS_ULP_CRC(skb) ((skb)->ulp_crc)
-> +#else
-> +#define IS_ULP_DDP(skb) (0)
-> +#define IS_ULP_CRC(skb) (0)
-
-All users of this define are protected by ifdef CONFIG_ULP_DDP.
-It is easier to wrap user of IS_ULP_DDP() too and remove #else
-lag from here.
-
-> +#endif
->  
->  #ifdef CONFIG_NET_SCHED
->  	__u16			tc_index;	/* traffic control index */
-> diff --git a/include/net/inet_connection_sock.h b/include/net/inet_connection_sock.h
-> index c2b15f7e5516..2ba73167b3bb 100644
-> --- a/include/net/inet_connection_sock.h
-> +++ b/include/net/inet_connection_sock.h
-> @@ -68,6 +68,8 @@ struct inet_connection_sock_af_ops {
->   * @icsk_ulp_ops	   Pluggable ULP control hook
->   * @icsk_ulp_data	   ULP private data
->   * @icsk_clean_acked	   Clean acked data hook
-> + * @icsk_ulp_ddp_ops	   Pluggable ULP direct data placement control hook
-> + * @icsk_ulp_ddp_data	   ULP direct data placement private data
->   * @icsk_ca_state:	   Congestion control state
->   * @icsk_retransmits:	   Number of unrecovered [RTO] timeouts
->   * @icsk_pending:	   Scheduled timer event
-> @@ -98,6 +100,8 @@ struct inet_connection_sock {
->  	const struct tcp_ulp_ops  *icsk_ulp_ops;
->  	void __rcu		  *icsk_ulp_data;
->  	void (*icsk_clean_acked)(struct sock *sk, u32 acked_seq);
-> +	const struct ulp_ddp_ulp_ops  *icsk_ulp_ddp_ops;
-> +	void __rcu		  *icsk_ulp_ddp_data;
->  	unsigned int		  (*icsk_sync_mss)(struct sock *sk, u32 pmtu);
->  	__u8			  icsk_ca_state:5,
->  				  icsk_ca_initialized:1,
-> diff --git a/include/net/ulp_ddp.h b/include/net/ulp_ddp.h
-> new file mode 100644
-> index 000000000000..57cc4ab22e18
-> --- /dev/null
-> +++ b/include/net/ulp_ddp.h
-> @@ -0,0 +1,171 @@
-> +/* SPDX-License-Identifier: GPL-2.0
-> + *
-> + * ulp_ddp.h
-> + *	Author:	Boris Pismenny <borisp@nvidia.com>
-> + *	Copyright (C) 2022 NVIDIA CORPORATION & AFFILIATES.
-
-The official format is:
-Copyright (C) 2022, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
-                 ^^^^                  		 ^^^^^^^^^^^^^^^^^^       
-
-
-<...>
-
-> +config ULP_DDP
-> +	bool "ULP direct data placement offload"
-> +	default n
-
-No need to set "n" explicitly, it is already default.
-
-Thanks
 
