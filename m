@@ -4,30 +4,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1210C38A2D
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Oct 2022 15:00:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32554ECAAA1
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Oct 2022 15:03:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=VUA5arMU9JbqLzmlwJdJTezXjt
-	uAhprXZDA2Q99wLhrMksnV/WmHwhUfhlOdDHZIH/WepFce9ZXxuQQlLwndA8yR2Uhik9WpXR4/BkM
-	4OdI4/8b6AWrUSZ018yaFtN44NHcEmK0nB/hRMFOsTigyKwugM5eYxQOXcoXvPVkRqzpjrWEUPz61
-	kuaH/GaHSJ4SzSQcy8aaf9lejJuVSzT1XW4ds7puuM3neTI5a+PUqFv6nj9SKbW0vYU7qwJpFeoFU
-	VxcDPLKrFGOjqJQ/7gk7fUC2PGutZFcaCj8zKdy4KOSKlcc8mapXrER9vshTPqZpYICdQ+V6SkzRq
-	EOT3KCmw==;
+	bh=ohfolVyEwTGA6dZoX6saPhP2QSTVI2PE0ZFcdleLLMw=; b=dE8zmriT8ex+Zv/mBw1MfgSOSD
+	ztBDlmkrKLXtJV+0wb8YQvV/BWA+wubK09OYuiC9MMQE+fmGQNvQZb9m5Wt9sjObXG1shxe2oImdV
+	PqTWGwsCnF6MgAilv6SjNmN7qYwRgifaR1S5Z/6+EAgOrGJhvDjt0wof3onsnyEB37TPLX7ByW3uX
+	Jq5B1KdTPWk7T9aXQCXZvqsF7i7PTVmNU0L+jKqOTb8yF1XlNIoJXsNjL/9pcEyWf3w4EA/OlNuGw
+	1zXLs5CW4UEMxo6zu+ZpUJyPBkZzQWzgYG0GreELJK5soz/LgCfKfUvgBlL1geTekrcbLuSX9n7/6
+	yhoqDhPQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1omywY-0021pE-8M; Mon, 24 Oct 2022 15:00:46 +0000
+	id 1omyz9-0022RR-Qj; Mon, 24 Oct 2022 15:03:27 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1omywV-0021nf-LX
-	for linux-nvme@lists.infradead.org; Mon, 24 Oct 2022 15:00:45 +0000
+	id 1omyz6-0022Ph-Vq
+	for linux-nvme@lists.infradead.org; Mon, 24 Oct 2022 15:03:26 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id D66B668BEB; Mon, 24 Oct 2022 17:00:39 +0200 (CEST)
-Date: Mon, 24 Oct 2022 17:00:39 +0200
+	id 6EF1268BFE; Mon, 24 Oct 2022 17:03:20 +0200 (CEST)
+Date: Mon, 24 Oct 2022 17:03:20 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Logan Gunthorpe <logang@deltatee.com>
 Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
@@ -49,19 +49,18 @@ Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
 	Martin Oliveira <martin.oliveira@eideticom.com>,
 	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
 	Ralph Campbell <rcampbell@nvidia.com>,
-	Stephen Bates <sbates@raithlin.com>
-Subject: Re: [PATCH v11 2/9] mm: introduce FOLL_PCI_P2PDMA to gate getting
- PCI P2PDMA pages
-Message-ID: <20221024150039.GB26338@lst.de>
-References: <20221021174116.7200-1-logang@deltatee.com> <20221021174116.7200-3-logang@deltatee.com>
+	Stephen Bates <sbates@raithlin.com>, viro@zeniv.linux.org.uk
+Subject: Re: [PATCH v11 0/9] Userspace P2PDMA with O_DIRECT NVMe devices
+Message-ID: <20221024150320.GA26731@lst.de>
+References: <20221021174116.7200-1-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221021174116.7200-3-logang@deltatee.com>
+In-Reply-To: <20221021174116.7200-1-logang@deltatee.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221024_080043_859122_B540E088 
-X-CRM114-Status: UNSURE (   8.55  )
+X-CRM114-CacheID: sfid-20221024_080325_176077_9E664F08 
+X-CRM114-Status: UNSURE (   9.09  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -77,7 +76,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+The series looks good to me know. How do we want to handle it?  I think
+we need a special branch somewhere (maybe in the block or mm trees?)
+so that we can base the other iov_iter work from John on it.  Also
+Al has a whole bunch of iov_iter changes that we probably want on
+the same branch as well, although some of those (READ vs WRITE fixups)
+look like 6.1 material to me.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 
