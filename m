@@ -4,76 +4,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0228FA373E
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Oct 2022 12:19:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D719DC38A2D
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Oct 2022 13:09:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bvPuoAbeDVoOnLBP0QUVvKraWAF2FCrSPymJ3YB+DVQ=; b=hfo+Mx8OHc+TbBCZFiqxzkVZpu
-	Smrdo/kCb6VyHlEKbH39/kZcbQ1qVPel+cnssxA/ZMr3MS4kGYnwVawKJM5VTAMVWjjknRvkNomDA
-	47bGXclVBzEeU15OmMu0YCZ+9Wm/tzji/FVL6FvF+HJHHtOT33BDoAsABtKjv2dCMNCEfzGcgHHBy
-	5ByLn20iwlqMWAzEZwfXSnaVt6c2kESrpnOQieHzzlMJH+jEnhTZAu4epCfpzSE8ab9Elm89dqQ6N
-	yidlkMzB+2Zeau+p3sdikSPKj5QDkw1C6IFbZKnLKEvol0lUQIhRO3++lyrupxdCHL7Z1azGW8HZf
-	RV701LHg==;
+	bh=26UdGesoCp58z3sSEuteC0+nLku1JGd3KI5hEhbUEyY=; b=Exai6z+CJG8xkklCbgHqOS8m5j
+	rce97GOeUOsuavr5aCKE0OTGlARGOh5tsyIDDxQbHzQC3vvVl1k8igrLBAZfqUDxK4/eltg5wOxFP
+	EgBRakXIWHMhPIa3xqwXB2urK/5OjdFdV6Y8WQG99aEJ03BhON8Obl7R0M9VHgukKbduCTvGGC6vQ
+	VL8vOmMpz051PyJO3suwxCVqSVlhe9SRJmUiRn3w9LRKhZCBKvOJ05/ofKuXzimkOa3DiCXqJ/7fx
+	/BYfZFnTB+Yodr1YBhtaS2Bh7U7qe4LK6xMsctZDC5sYx4cXOvIgc8a9umsUiHrtyG4uqLVjOMCks
+	/sp2stcw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1omwQn-001Kkn-Js; Mon, 24 Oct 2022 12:19:49 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1omxCc-001dJS-67; Mon, 24 Oct 2022 13:09:14 +0000
+Received: from mail-dm6nam04on2043.outbound.protection.outlook.com ([40.107.102.43] helo=NAM04-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1omwQf-001Ki3-QE
-	for linux-nvme@lists.infradead.org; Mon, 24 Oct 2022 12:19:43 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 977C91FD74;
-	Mon, 24 Oct 2022 12:19:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1666613978; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bvPuoAbeDVoOnLBP0QUVvKraWAF2FCrSPymJ3YB+DVQ=;
-	b=Hg7kN4pvOIQntEuSRqCam9nD84j/0K2Syez6+vErGAHBivByYw4Ban8HhMJE3KQhF9AMlE
-	aKCSsET74BENDO8JS3/f/KreXJ0f4kXj832dwRi57adPl84MuvQ4fzjF3loLKrt9mIocYX
-	vHUIeN3n8ZUb6dItcIB71F6qJk8tUK8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1666613978;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bvPuoAbeDVoOnLBP0QUVvKraWAF2FCrSPymJ3YB+DVQ=;
-	b=yeMIam+FB4B+Lq4y+z0P6BZkB8t5DMAhKPzqSpllRKn6qKyMw+TxRGtRG22Xj0mvyw/XWd
-	7xqpfgeReP1pZeDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8A36E13A79;
-	Mon, 24 Oct 2022 12:19:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id Jb2vIdqCVmMIVQAAMHmgww
-	(envelope-from <dwagner@suse.de>); Mon, 24 Oct 2022 12:19:38 +0000
-Date: Mon, 24 Oct 2022 14:19:38 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Subject: Re: [PATCH] nvme-tcp: Fix possible circular locking when deleting a
- controller under memory pressure
-Message-ID: <20221024121938.an457jsv55se3y6l@carbon.lan>
-References: <20221023080443.592097-1-sagi@grimberg.me>
+	id 1omxCZ-001dHf-Sz
+	for linux-nvme@lists.infradead.org; Mon, 24 Oct 2022 13:09:13 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OqDv5d9EoyldvZK6/Y59le8B2f62Y2Vsk5mTIckBAc1M6++Ut/2IX3DgCtn4Q/iga4ah25QxIqD4+yJAl8laOJYMfswEdduKXLMOFB+ngJUbQ5HgQwMNheoL+Nxc5Okfv97cE9mC8esDXY5CLzKFUrN+wvLbcgImkUfe7MFG9Bib9Z40L5I45f7oXr5/tmB37lP/YaBGMLk5It6mWUHNXIo6sqCRVWwgbiHUmB0GptjDQwJZVqT1UvihgeAUUjfYB6JN7IL38AZsy2O5I5S1Dn1vgF1j/vgdkWgML6ITcKdeQ8M9JQ7pD8Ckr3H5csCOttdYn8w8UrBqtAowoFM3MQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=26UdGesoCp58z3sSEuteC0+nLku1JGd3KI5hEhbUEyY=;
+ b=Acdb6uYfbEf9DFLDCC4eHtIFngaJOUcnTeAkIZJwDjIk5KTNH3wC11tVqxQymxdK7Ye1rR0IaWOHg6QvBQc0sAIQIl8F7FZTqkpOYMdgWfjOnstLDo9dgkZDQurotGA5JrrBGRz2P+2kBs+uOXySohWpJ0FFr7Y5He9ZTCr9xEP0HlP/O3SPuHpQj+yFzXkckXg0UBcPHQQhty0aikPQYcqZxY+uNL9tHOIoFxyt7+5GoKTM2ct2hhkKdCeZNfzHiSZ+zU+jnaY85iGha6a/bKa3tKrPUeOS4tgHFrWXlKvzcYXwxkE5z5TCI/907CwhCb8HuYHFxZ2JSfMT8UnEig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=26UdGesoCp58z3sSEuteC0+nLku1JGd3KI5hEhbUEyY=;
+ b=A+01OlAEHDmG1I6rbdoyz2ZxJesBpxVb7EaeonW/aqNWVKjIP5W7gLGG8/zOkz8kxUcMtnk1sft8kByAyERZ8sPgYQON5WKnxkeHB0et/56cUZb9YHCU1Lh31eUkGEnk/CusBKgUAh5EYSEmYwdjKUqCps40dZ332mCodU0GToIU3aSsNqKZMIKSKSEHDfkyw2E6jGQnTjsa+7j9ERgro+bEaraDk9Y/xe1ieOodvqT+SJFlte7XyENaNbcp2pZqz0Ye8VlCI/XI2ZdxCP5Qj/LBCv1UJ+4EKMijhohRv7JGqCByl6GvMBa5iY46Ec8InHBMs0SsMCLiQkMWKvsccg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
+ by DM4PR12MB5986.namprd12.prod.outlook.com (2603:10b6:8:69::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.33; Mon, 24 Oct
+ 2022 13:09:07 +0000
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::b8be:60e9:7ad8:c088]) by SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::b8be:60e9:7ad8:c088%3]) with mapi id 15.20.5723.033; Mon, 24 Oct 2022
+ 13:09:07 +0000
+From: Aurelien Aptel <aaptel@nvidia.com>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, kuba@kernel.org,
+ edumazet@google.com, pabeni@redhat.com, saeedm@nvidia.com,
+ tariqt@nvidia.com, linux-nvme@lists.infradead.org, sagi@grimberg.me,
+ hch@lst.de, kbusch@kernel.org, axboe@fb.com, chaitanyak@nvidia.com,
+ smalin@nvidia.com, ogerlitz@nvidia.com, yorayz@nvidia.com,
+ borisp@nvidia.com, aurelien.aptel@gmail.com, malin1024@gmail.com
+Subject: Re: [PATCH v6 01/23] net: Introduce direct data placement tcp offload
+In-Reply-To: <Y1Z1XzLusUVjfnLp@unreal>
+References: <20221020101838.2712846-1-aaptel@nvidia.com>
+ <20221020101838.2712846-2-aaptel@nvidia.com> <Y1Z1XzLusUVjfnLp@unreal>
+Date: Mon, 24 Oct 2022 16:09:01 +0300
+Message-ID: <253y1t5weqa.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
+Content-Type: text/plain
+X-ClientProxiedBy: AS9PR06CA0500.eurprd06.prod.outlook.com
+ (2603:10a6:20b:49b::25) To SJ1PR12MB6075.namprd12.prod.outlook.com
+ (2603:10b6:a03:45e::8)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221023080443.592097-1-sagi@grimberg.me>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|DM4PR12MB5986:EE_
+X-MS-Office365-Filtering-Correlation-Id: f895abfe-3e02-4dbc-32da-08dab5c0eeba
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	BYnPDpVe+o7pDqfthW1WqW9mB9gTdNydNoVqCjpzambgKaGyheE50sAJJI013WnXE5J7gWW1Rx9LDZ5qp3Rp8vjd0dafZ4gaIG2vgWAxx9P5N4sCOc+gfpLtkh1o0iI45wd23OmLBs5Qagu4giI3E8+yQVOHw+I59qjmEK0e/0kwgfsBPA5rdbIbDIhyGbgyxbeZAPOvWTihIatZlzOvFWvdIbPZZucrhbfs5a01kdQJq0gQs4Jf7uX0anBgXICpYDVNuwcMUtn5Zyv5EL6a7w78FIbDoPFgwbWE+ohL21Ynx+7NW+XhaVBKaGIPZSBlb856Rr1Qd7NL1kGcpRvqQSVzs+snxn+JuH33ljlT3C57atche4hw4Cm0VmOWCxNLNSn3KOQeWOCbWc6o94Hcohmu4HlRtmB47FEPacUfEKdzijbRF8C5sxaTEx+bqDaYj51UbmCLWibnf9yoFZXKVeeEDx8RJs/EpOkZah8m2xD6Bbj9b6c48qB6SxZUm4zu19av/tRccM/OvIzQAhZtwLlKyMdIesdnbAKtAtMidNQaGY10sFf0Ol6S/vyDcxrMmESNsGV/5pHxh+KTsOruNdiwyNR57GaNcBe7s/P0pOZFpF3+odD2gcljSi2xEPbbCoXz4KqmJorgPk7+PHrCclLcj+sA2XEXxTYymlkHm3a0scAFaQ5ilaZnqcbd0JJEwPJ8SoO5+U68U1G99SehXg==
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(376002)(396003)(346002)(39860400002)(136003)(451199015)(316002)(66556008)(6916009)(6666004)(66946007)(8676002)(66476007)(4326008)(478600001)(6486002)(5660300002)(6512007)(41300700001)(7416002)(186003)(8936002)(83380400001)(6506007)(86362001)(26005)(9686003)(2906002)(38100700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?/PG6blt6IyYj8E9hsmqa6nQAAiNTNVw/D+UHuVDf8Xgx/Jn6/TPAEJpVr2Mh?=
+ =?us-ascii?Q?4jfDZ4ZBGR4j9PKVuZjUH0LLCqHvE1BozZ5C7Hzd8AzSFvcjSLnk6WygVjBK?=
+ =?us-ascii?Q?cocQw5Rva+aP22kLch7ugQOKdmBoM6lqSH7FVFwtG/E2bYKTmAn1x/yQXpZg?=
+ =?us-ascii?Q?4s/TDdkF2cqvNG6OgZVKHek1lbe4ryQU46kgFrqsQTrNnvlANEiotoeSj8JV?=
+ =?us-ascii?Q?NKz+CPfScoY2XBYc9GZ/nY8w/eYmbUOrzfJqzt7kG33x+6362bISiJRHtOgK?=
+ =?us-ascii?Q?ubZj6duhHvU9xkKbSgJwv1qIB/QfNMT9xH0tXeMndSK08NdUw81UeNa9CSJf?=
+ =?us-ascii?Q?nT6T7J/F4X6Pqs3lmd9VA9+YPeLOcnDr8RWNybf844baO7q1vP7TGHBHiWGE?=
+ =?us-ascii?Q?EmAt8B1SziX1DCiNQGM+YUoafjsNzGrxAYYRprF9AEoKhHqWI00wys7ql/jO?=
+ =?us-ascii?Q?DradED7FuJZK5n3vnkCe58GZsAlay9Ym2a1tzSf1pMVbyFyijnJXGc42NMQL?=
+ =?us-ascii?Q?CRc7vNQkVQPxOooQf3MbBNCx5VqxxAd5tjbqIZNEgKiLhUcxT/Y5MIWQ056l?=
+ =?us-ascii?Q?fGAPk824U5sTgMLnsD9L5ob/Sv0WlfDyM/eamqza+RncXUjQe2X32nGWwfec?=
+ =?us-ascii?Q?xNw8Z96PfQmygZcb4uV6GTL3K7gG0oDm2afIkAeYNSgI5gYpWJGCUELrRmFw?=
+ =?us-ascii?Q?fJnBXALwhDpbGRDLqqgR/usN34vnA5I45SL79NxCQ2+Y/eESXU60PIvJ8eJA?=
+ =?us-ascii?Q?7tTagUzVbEvl7mnajVvzXP7Ok7mJS2H/UHj8XnohamEgnSvDuR3q/82jw/lF?=
+ =?us-ascii?Q?AwPC2ufdNt/RcOJ9Rvd/d26vZxb53MCvH1kaVjMYcxT0yWbjtuK4kNWG5ung?=
+ =?us-ascii?Q?+A30DWJfxeAU1fdAn78uP9UypTIfMsyViZw7QQOzpuEB0amWHMb6sGVd/+6K?=
+ =?us-ascii?Q?pJSwHhoq1OyX3ePH1YZfnknblQpcg2SLNXPTzUT1k/U5JHknKG+Eu/WVCmOZ?=
+ =?us-ascii?Q?p+4j2cXrEjNr4fYnhuop+H5ESlnTdDqLjoppL+4B0+RiNpD5bU5aWApojGUt?=
+ =?us-ascii?Q?/rf2Ih7wIjL48EE97gYvSR3tTaCIftH46d54E8cC+iGBaR2ljCSwvuBlY01V?=
+ =?us-ascii?Q?8rBhZQzvqpr0ktQ4aL4PuTO8Gw9WZvHzFSw3TYdCrtzm4LCDDWsEYNjxnCXE?=
+ =?us-ascii?Q?DC5ZeJyWXGjHzjWUUpcbtQ93CvIfyTXySohEaTinoghmCIP34qpsaaEUtON3?=
+ =?us-ascii?Q?h0LKz37kQXVcLO44oE7EI1RgK/EO8xvRU7+zKb33d1ar8U6VnjJpGGkFbSY5?=
+ =?us-ascii?Q?ggq0fjD+sEg1jvWMxgnloFBujQcww5L7vdnmwBOlh4vH0R/4LpjB8eDFAInp?=
+ =?us-ascii?Q?NFWL3aDgvjD/TyTj6gVIaU3fia+mc4eqZXvE49hiCneKdAziSks9Pcgyo3P3?=
+ =?us-ascii?Q?V8MbJnJow/ZNPSsCaWDxLPNR6LvoRjHmYQtL1GyiaY4qgZlEqAeuUpNeVrks?=
+ =?us-ascii?Q?+SCbnvRy20f5MnhscPIA0uBxwZvP5BXOfq54VQ6HZYWlKdA3hM6ZUTVjTrFd?=
+ =?us-ascii?Q?VP/mr0R40P5GP5ia4BWWV6xCSoFFK3L4dPGwXhM2?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f895abfe-3e02-4dbc-32da-08dab5c0eeba
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 13:09:07.0812
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: G3rows/ZVSZp8EsR91udaCmYeb3H9ICzOJ6rZSfIgX+7u5Pzhju9owPmGDBoB9cYttMrymueytmo7U/g8jDHbA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5986
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221024_051942_032624_0897D7D3 
-X-CRM114-Status: GOOD (  19.22  )
+X-CRM114-CacheID: sfid-20221024_060911_979524_4F953AD1 
+X-CRM114-Status: UNSURE (   6.82  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,95 +135,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Oct 23, 2022 at 11:04:43AM +0300, Sagi Grimberg wrote:
-> When destroying a queue, when calling sock_release, the network stack
-> might need to allocate an skb to send a FIN/RST. When that happens
-> during memory pressure, there is a need to reclaim memory, which
-> in turn may ask the nvme-tcp device to write out dirty pages, however
-> this is not possible due to a ctrl teardown that is going on.
-> 
-> Set PF_MEMALLOC to the task that releases the socket to grant access
-> to PF_MEMALLOC reserves. In addition, do the same for the nvme-tcp
-> thread as this may also originate from the swap itself and should
-> be more resilient to memory pressure situations.
-> 
-> This fixes the following lockdep complaint:
-> --
-> ======================================================
->  WARNING: possible circular locking dependency detected
->  6.0.0-rc2+ #25 Tainted: G        W
->  ------------------------------------------------------
->  kswapd0/92 is trying to acquire lock:
->  ffff888114003240 (sk_lock-AF_INET-NVME){+.+.}-{0:0}, at: tcp_sendpage+0x23/0xa0
-> 
->  but task is already holding lock:
->  ffffffff97e95ca0 (fs_reclaim){+.+.}-{0:0}, at: balance_pgdat+0x987/0x10d0
-> 
->  which lock already depends on the new lock.
-> 
->  the existing dependency chain (in reverse order) is:
-> 
->  -> #1 (fs_reclaim){+.+.}-{0:0}:
->         fs_reclaim_acquire+0x11e/0x160
->         kmem_cache_alloc_node+0x44/0x530
->         __alloc_skb+0x158/0x230
->         tcp_send_active_reset+0x7e/0x730
->         tcp_disconnect+0x1272/0x1ae0
->         __tcp_close+0x707/0xd90
->         tcp_close+0x26/0x80
->         inet_release+0xfa/0x220
->         sock_release+0x85/0x1a0
->         nvme_tcp_free_queue+0x1fd/0x470 [nvme_tcp]
->         nvme_do_delete_ctrl+0x130/0x13d [nvme_core]
->         nvme_sysfs_delete.cold+0x8/0xd [nvme_core]
->         kernfs_fop_write_iter+0x356/0x530
->         vfs_write+0x4e8/0xce0
->         ksys_write+0xfd/0x1d0
->         do_syscall_64+0x58/0x80
->         entry_SYSCALL_64_after_hwframe+0x63/0xcd
-> 
->  -> #0 (sk_lock-AF_INET-NVME){+.+.}-{0:0}:
->         __lock_acquire+0x2a0c/0x5690
->         lock_acquire+0x18e/0x4f0
->         lock_sock_nested+0x37/0xc0
->         tcp_sendpage+0x23/0xa0
->         inet_sendpage+0xad/0x120
->         kernel_sendpage+0x156/0x440
->         nvme_tcp_try_send+0x48a/0x2630 [nvme_tcp]
->         nvme_tcp_queue_rq+0xefb/0x17e0 [nvme_tcp]
->         __blk_mq_try_issue_directly+0x452/0x660
->         blk_mq_plug_issue_direct.constprop.0+0x207/0x700
->         blk_mq_flush_plug_list+0x6f5/0xc70
->         __blk_flush_plug+0x264/0x410
->         blk_finish_plug+0x4b/0xa0
->         shrink_lruvec+0x1263/0x1ea0
->         shrink_node+0x736/0x1a80
->         balance_pgdat+0x740/0x10d0
->         kswapd+0x5f2/0xaf0
->         kthread+0x256/0x2f0
->         ret_from_fork+0x1f/0x30
-> 
-> other info that might help us debug this:
-> 
->  Possible unsafe locking scenario:
-> 
->        CPU0                    CPU1
->        ----                    ----
->   lock(fs_reclaim);
->                                lock(sk_lock-AF_INET-NVME);
->                                lock(fs_reclaim);
->   lock(sk_lock-AF_INET-NVME);
-> 
->  *** DEADLOCK ***
-> 
-> 3 locks held by kswapd0/92:
->  #0: ffffffff97e95ca0 (fs_reclaim){+.+.}-{0:0}, at: balance_pgdat+0x987/0x10d0
->  #1: ffff88811f21b0b0 (q->srcu){....}-{0:0}, at: blk_mq_flush_plug_list+0x6b3/0xc70
->  #2: ffff888170b11470 (&queue->send_mutex){+.+.}-{3:3}, at: nvme_tcp_queue_rq+0xeb9/0x17e0 [nvme_tcp]
-> 
-> Reported-by: Daniel Wagner <dwagner@suse.de>
-> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+Leon Romanovsky <leon@kernel.org> writes:
+>>       __u8                    csum_not_inet:1;
+>> +#ifdef CONFIG_ULP_DDP
+>> +     __u8                    ulp_ddp:1;
+>> +     __u8                    ulp_crc:1;
+>> +#define IS_ULP_DDP(skb) ((skb)->ulp_ddp)
+>> +#define IS_ULP_CRC(skb) ((skb)->ulp_crc)
+>> +#else
+>> +#define IS_ULP_DDP(skb) (0)
+>> +#define IS_ULP_CRC(skb) (0)
+>
+> All users of this define are protected by ifdef CONFIG_ULP_DDP.
+> It is easier to wrap user of IS_ULP_DDP() too and remove #else
+> lag from here.
 
-Tested-by: Daniel Wagner <dwagner@suse.de>
+We have changed the macros to inline functions (as suggested by Jakub).
 
+There are other users in later patches which are not wrapped.  In fact
+we could remove all the #ifdef wraps in this commit but I followed the
+conventions of the file.
+
+>> + * ulp_ddp.h
+>> + *   Author: Boris Pismenny <borisp@nvidia.com>
+>> + *   Copyright (C) 2022 NVIDIA CORPORATION & AFFILIATES.
+>
+> The official format is:
+> Copyright (C) 2022, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+>                  ^^^^                            ^^^^^^^^^^^^^^^^^^
+
+Sure, will update.
+
+>> +config ULP_DDP
+>> +     bool "ULP direct data placement offload"
+>> +     default n
+>
+> No need to set "n" explicitly, it is already default.
+
+Sure, will update.
+
+Thanks
 
