@@ -4,68 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CB772FA3740
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Oct 2022 15:41:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC7FFC38A2D
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Oct 2022 15:47:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uyWqy7uHIc7mBgvRQ500Iier3iz2OAx4o9eZyzb7XFY=; b=INcyiEt414hbGBLopYJDLRHudi
-	Wll70VSDq4QQS2lmuXTYoRKRphYok8j1JSX+1jTZk0sh6THbI+eetKSC8x6bj8TmSM76xXGPvBkRP
-	In1w5eZwsPZupx/NJL6jIOFXuux7EUHR1hMdJZkXLOulAsUZ60NLz0vPLU3IC567+yvhQU460yrXU
-	aTLWccL+ECGH4IAzA/gmg/KGre1oAJXytaLIsFuqecYcJFcW6nc/OjjRxHVlY551qmOqaCf2BDgFf
-	4Fz3guH+5l5LxRZ3fYrxFArF+23DP1T1uxfWllc/pvIcwV6pMUVbn9iexDcIe34eyDw2pYuTwVhJq
-	GosFesQw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=KV7jq2zG6veYAlgtq6p/ASA6YBq4VylV/N2M7eSg8ZQ=; b=v2MB1RGIHoLO4QdtMt1o8WNWjf
+	bEVYHX7mhwM2SUWHwA7tT8K6Zw3IM4ZSF8hG5x2T+YH0md0ATvx+dPKe7Zptb3KgwrTZCvDAkGsZC
+	HqxOS2EJS2/S3I+pRhZ5eZj/jnZzw9ubKHgC71b8estYppCHij/cdFXSrp6jYixpkhGxIJA/gBCro
+	cPXpuoWlWZVO9ilOrpqcB5GTEjML+6Hvdu95j/ymN+P9sEHX9EJdGEVSRsYHvXfi5l/r/p7zjOmB/
+	HilHhjamh6Kd10hDMIx8BTs/EvLZUNMHxdzn+DWVkfQCdV8JGI84tor8QRkjFxkoZmjMqHXvNQgKP
+	U9wPSSYQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onM3q-0069tS-3E; Tue, 25 Oct 2022 15:41:50 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1onM8u-006AnV-IJ; Tue, 25 Oct 2022 15:47:04 +0000
+Received: from mail-wr1-f47.google.com ([209.85.221.47])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onM3n-0069sl-PC
-	for linux-nvme@lists.infradead.org; Tue, 25 Oct 2022 15:41:49 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 5313B68B05; Tue, 25 Oct 2022 17:41:43 +0200 (CEST)
-Date: Tue, 25 Oct 2022 17:41:43 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Logan Gunthorpe <logang@deltatee.com>
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	Minturn Dave B <dave.b.minturn@intel.com>,
-	Jason Ekstrand <jason@jlekstrand.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Xiong Jianxin <jianxin.xiong@intel.com>,
-	Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Martin Oliveira <martin.oliveira@eideticom.com>,
-	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
-	Ralph Campbell <rcampbell@nvidia.com>,
-	Stephen Bates <sbates@raithlin.com>
-Subject: Re: [PATCH v11 3/9] iov_iter: introduce
- iov_iter_get_pages_[alloc_]flags()
-Message-ID: <20221025154143.GA25128@lst.de>
-References: <20221021174116.7200-1-logang@deltatee.com> <20221021174116.7200-4-logang@deltatee.com> <929ac68b-cf07-8df6-e589-49b0576a50c5@nvidia.com> <41e621bb-e836-4a86-e6db-0beed19f5ddc@deltatee.com>
+	id 1onM8r-006All-0p
+	for linux-nvme@lists.infradead.org; Tue, 25 Oct 2022 15:47:03 +0000
+Received: by mail-wr1-f47.google.com with SMTP id bs21so5919246wrb.4
+        for <linux-nvme@lists.infradead.org>; Tue, 25 Oct 2022 08:46:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KV7jq2zG6veYAlgtq6p/ASA6YBq4VylV/N2M7eSg8ZQ=;
+        b=HdQJVetRimhlgcGCGaU9gTqjd71ff4ju0tX6ukCxfaNvUUd1/nJqYrQ7lCCPfGSsN2
+         ovI8kXMlVbtXKxsRbn8mXD0MzN0M4xt05DXhEXhbskSn4dj7+4N8xDPxIDkuXjixDGFD
+         y/kT9S4qWSihSrLckKWlJfxDySSTZlRM0A59Ahf2nBapLqz7QZmEqsPSQCyQVJtS/A/2
+         rZv9rAkeVJN5YxXcPK5E45FsymNlseH5Hpk253zcGIETYSFqa01CGFNSgFOYUAm2SSLm
+         DOk+mTSq24G8bneH8MmzJJelPOF582k3Pq76qVPwsWNNi8nJXJix30SWH/pkL5q/hzea
+         zrZw==
+X-Gm-Message-State: ACrzQf3S8Uu3Cqk0baWFYPxHFdRcl0Za5niOOAn0usZDDQEoLEYFlEW7
+	DSGmStOufoHgnIaSweAZ5T8=
+X-Google-Smtp-Source: AMsMyM61ONdRQUXHzsFt3qzxVwR9UGT7RutXYkhuEArNwgnRFwjQQIK1C4of72mK02Pz4sm6cf/hsg==
+X-Received: by 2002:adf:cd09:0:b0:236:659a:6902 with SMTP id w9-20020adfcd09000000b00236659a6902mr10813622wrm.574.1666712814622;
+        Tue, 25 Oct 2022 08:46:54 -0700 (PDT)
+Received: from [10.100.102.14] (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
+        by smtp.gmail.com with ESMTPSA id r13-20020a05600c458d00b003c6f3f6675bsm11640778wmo.26.2022.10.25.08.46.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Oct 2022 08:46:53 -0700 (PDT)
+Message-ID: <d8d87fd0-b217-0ba8-b94a-903db9bbf070@grimberg.me>
+Date: Tue, 25 Oct 2022 18:46:51 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <41e621bb-e836-4a86-e6db-0beed19f5ddc@deltatee.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 0/6] nvme: a few nvme-auth fixes found during code
+ browsing
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ Hannes Reinecke <hare@suse.de>
+References: <20221025134330.1028352-1-sagi@grimberg.me>
+ <20221025153224.GA24369@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20221025153224.GA24369@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221025_084147_980935_F0498469 
-X-CRM114-Status: GOOD (  13.29  )
+X-CRM114-CacheID: sfid-20221025_084701_107633_26D77F80 
+X-CRM114-Status: UNSURE (   8.40  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,16 +84,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> > Just one minor question why not make following functions
-> > EXPORT_SYMBOL_GPL() ?
-> > 
-> > 1. iov_iter_get_pages2()
-> > 2. iov_iter_get_pages_alloc2()
-> 
-> They previously were not GPL, so I didn't think that should be changed
-> in this patch.
 
-Yes.  While they should have been _GPL from the start, rocking that
-boat is a bit pointless now.  We just need to make sure to do the
-right thing for the pinning variants that are going to replace them soon.
+> The changes all look reasonable to me, but I think we really need to fix
+> the grave locking bug in nvme_auth_reset before doing more changs in
+> this area.
+
+In the works... this is part one.
 
