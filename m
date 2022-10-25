@@ -4,60 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A390C38A2D
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Oct 2022 20:07:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C6E4FA3740
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Oct 2022 20:17:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/GqvRqe09WZKemmVtClMMW90NU4bWhmAczANIwpqoW0=; b=Wt5zOSZBcVoxCwtRnHPw7xOSgD
-	SajPgZm1LaqADSk5utefBgTzyCad4nP1aEzdtcvdPtog+TYZp2ni3Dd1KbgYI2qrH6fqk2JARc7Ed
-	RDum4G7Q/7rQH52hYOzTlTpOSfsc1kuUX4DyFBkCTJrPBh6Up27XxG/82Is6VjTwafqgExRtPvG1k
-	Har1OZZVOdniD9/Rx+Fr9cOagl4ASzwC/En+ZBpg115kKZAgaKNZC3Q7JhG8OPLjLfa23TXK+Bjsr
-	UPgBExkIUmU9qLVcFuB6+v4hKM37oha5ppEmjcIbtWe91nY92Ef327kjyDIkV3nWsai0Prcof+DPN
-	wM+ndfWw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=97GpEQ2+6Ykh6KgprSH5be6D6WMxByu7zMpaNrCZEeY=; b=3uoC9OdyPz30dU2sDCLMajXmEm
+	HY95ueD/eKHA9eIHaKAPNZqrd76ImKo9/i7Zl7tL29ER2CVFQ9/JUzkCtLYCkcB/ASKBF1K4y7UBq
+	Mb5ZaUrjCuKomnN4Fjkyc42xB3JOf4J3jnA5a6kifuTf9IA1iKfTZcVsYA+M/zEi0iP6eTkEUGj3n
+	pQj66zxXobign8BIwRf9OqcuAunJChJiWFqytqRZQlOz/sS6ULLmQWnYQuc5GpE2tsUj6pHnx/eZr
+	48dBZUdfZsG3fSuY2nm1PRGq2jzQdK4kPH6IzN5Bo85FuYQ70xPWM50HK+qhieqC/cBgRzrrxJqdY
+	a5E3edLQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onQDF-0072yJ-9e; Tue, 25 Oct 2022 20:07:49 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1onQMK-0074Bx-Lk; Tue, 25 Oct 2022 20:17:12 +0000
+Received: from mail-wr1-f43.google.com ([209.85.221.43])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onQDC-0072xQ-IL
-	for linux-nvme@lists.infradead.org; Tue, 25 Oct 2022 20:07:47 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 24F3561B32;
-	Tue, 25 Oct 2022 20:07:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0601DC433D6;
-	Tue, 25 Oct 2022 20:07:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1666728465;
-	bh=ld9B+PszrggddBUjPtGJtBm5QTF/Q+vm98994AZ9B1Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HGACFCXSDTVFd1Q6kMPAoRaHIGdeu1Q+g7nkOT9mOn8Mtm01OWCzaEO0pw7LXEV8Y
-	 UQfsRFqHbtmTMsnjn4M6TzQSLvESFSzYI+G48AAzAdO6Gpl7cwIYJGVtn1kM0tvVAP
-	 zCMVpA2lRIPbk8S2ehC+TNvnGYPMnFHT5XslHSzQ8B79nQZ9todN50aPjsXMZPGU3K
-	 V3POOxrwQAqeo/jdbZ2QL+64K0m/LpLqaEDKOGa3biuGzz2hrodZBemBnkjFzCqBpJ
-	 8qfb8rK4AXML1ftEwTwWdWcYfrHQyvg/uT6i3Pf36Vi/Yw8xkchJxnfoTMxcaS9VSK
-	 /JgTIO1We1CVg==
-Date: Tue, 25 Oct 2022 14:07:42 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: hch@lst.de, sagi@grimberg.me, axboe@kernel.dk,
-	linux-nvme@lists.infradead.org, gost.dev@samsung.com
-Subject: Re: [PATCH 0/2] Granular CAP_SYS_ADMIN
-Message-ID: <Y1hCDkt1dOaM3KIW@kbusch-mbp.dhcp.thefacebook.com>
-References: <CGME20221020071338epcas5p16d72f5d4d868b889e3a98688bc454a98@epcas5p1.samsung.com>
- <20221020070205.57366-1-joshi.k@samsung.com>
+	id 1onQMI-0074BU-2g
+	for linux-nvme@lists.infradead.org; Tue, 25 Oct 2022 20:17:11 +0000
+Received: by mail-wr1-f43.google.com with SMTP id l14so15768934wrw.2
+        for <linux-nvme@lists.infradead.org>; Tue, 25 Oct 2022 13:17:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=97GpEQ2+6Ykh6KgprSH5be6D6WMxByu7zMpaNrCZEeY=;
+        b=vJY/EP7KOcgAal+jSz4j4fe+WaRyVFAaWnG5Igjb75cWjkvPh5rtb0O4bow4oVXwM2
+         QbmwKaGTZjTg+M4VxqGazKXltP0aUb3570pS0f7Z2z0/nj6TUoym4aaypv3iuqlSj9M/
+         3eQwPFz7E+U4lFgQje8Ik+w26SLveTklPNEEAPh5RPwov9MIZHBSuwDDBjIGceOPKm9/
+         5+HqNQx3WcHrEPQY5P0TuMdwumVhhX9CueYSI3aUEhJ36vJpU1ZLR6WPK8vNRHcNgBR/
+         UBb/mhqLGpJUROghxDn6DMqKb116U6ap+VZXIi1KjZnWw2WAME8OsnJkR6mz7VO9g7WY
+         k0jA==
+X-Gm-Message-State: ACrzQf0HqY0per/NXf8Z7ffSk/CRV4GwoPXE/jLYpT5Q7pqFpwIMeLGD
+	eAKg3AR5IpPku8s4iR5tKCM=
+X-Google-Smtp-Source: AMsMyM5a1FeYsBbMRzCZtprCw+A2mLQrmVG/96WZ5BZLQiiu3e1XHmmXMkoH0J4o6OVBti4WBHAG2Q==
+X-Received: by 2002:a5d:51c2:0:b0:236:7000:8e82 with SMTP id n2-20020a5d51c2000000b0023670008e82mr8650982wrv.191.1666729027231;
+        Tue, 25 Oct 2022 13:17:07 -0700 (PDT)
+Received: from [10.100.102.14] (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
+        by smtp.gmail.com with ESMTPSA id c11-20020a05600c0a4b00b003c6f27d275dsm12763840wmq.33.2022.10.25.13.17.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Oct 2022 13:17:06 -0700 (PDT)
+Message-ID: <63c062dd-babb-e815-131a-bc0e513bb33e@grimberg.me>
+Date: Tue, 25 Oct 2022 23:17:04 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221020070205.57366-1-joshi.k@samsung.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 04/17] nvme: don't call nvme_kill_queues from
+ nvme_remove_namespaces
+Content-Language: en-US
+To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Chao Leng <lengchao@huawei.com>,
+ Ming Lei <ming.lei@redhat.com>, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org
+References: <20221025144020.260458-1-hch@lst.de>
+ <20221025144020.260458-5-hch@lst.de>
+ <Y1ggN68V/mbAw1q2@kbusch-mbp.dhcp.thefacebook.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <Y1ggN68V/mbAw1q2@kbusch-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221025_130746_670879_DE394064 
-X-CRM114-Status: GOOD (  11.82  )
+X-CRM114-CacheID: sfid-20221025_131710_151862_46828308 
+X-CRM114-Status: GOOD (  21.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,22 +84,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Oct 20, 2022 at 12:32:03PM +0530, Kanchan Joshi wrote:
-> #1: Two NS, one with 666 another with 600
-> $: ls -l /dev/ng*
-> crw-rw-rw- 1 root root 242, 0 Oct 20 12:04 /dev/ng0n1
-> crw------- 1 root root 242, 1 Oct 20 12:04 /dev/ng0n2
+
+
+On 10/25/22 20:43, Keith Busch wrote:
+> On Tue, Oct 25, 2022 at 07:40:07AM -0700, Christoph Hellwig wrote:
+>> @@ -4560,15 +4560,6 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+>>   	/* prevent racing with ns scanning */
+>>   	flush_work(&ctrl->scan_work);
+>>   
+>> -	/*
+>> -	 * The dead states indicates the controller was not gracefully
+>> -	 * disconnected. In that case, we won't be able to flush any data while
+>> -	 * removing the namespaces' disks; fail all the queues now to avoid
+>> -	 * potentially having to clean up the failed sync later.
+>> -	 */
+>> -	if (ctrl->state == NVME_CTRL_DEAD)
+>> -		nvme_kill_queues(ctrl);
+>> -
+>>   	/* this is a no-op when called from the controller reset handler */
+>>   	nvme_change_ctrl_state(ctrl, NVME_CTRL_DELETING_NOIO);
+>>   
+>> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+>> index ec034d4dd9eff..f971e96ffd3f6 100644
+>> --- a/drivers/nvme/host/pci.c
+>> +++ b/drivers/nvme/host/pci.c
+>> @@ -3249,6 +3249,16 @@ static void nvme_remove(struct pci_dev *pdev)
+>>   
+>>   	flush_work(&dev->ctrl.reset_work);
+>>   	nvme_stop_ctrl(&dev->ctrl);
+>> +
+>> +	/*
+>> +	 * The dead states indicates the controller was not gracefully
+>> +	 * disconnected. In that case, we won't be able to flush any data while
+>> +	 * removing the namespaces' disks; fail all the queues now to avoid
+>> +	 * potentially having to clean up the failed sync later.
+>> +	 */
+>> +	if (dev->ctrl.state == NVME_CTRL_DEAD)
+>> +		nvme_kill_queues(&dev->ctrl);
+>> +
+>>   	nvme_remove_namespaces(&dev->ctrl);
+>>   	nvme_dev_disable(dev, true);
+>>   	nvme_remove_attrs(dev);
+>> -- 
+>> 2.30.2
+>>
 > 
-> #2: this should fail
-> $: nvme id-ns /dev/ng0n2
-> /dev/ng0n2: Permission denied
+> We still need the flush_work(scan_work) prior to killing the queues. It
+> looks like it could safely be moved to nvme_stop_ctrl(), which might
+> make it easier on everyone if it were there.
 
-This looks good to me. The only additional thought I had was to restrict
-the identification's nsid parameter to ones readable to the user because
-they could just open /dev/ng0n1 instead and override the nsid with the
-'--nampespace-id=2' parameter.
+If we do end up moving it to nvme_stop_ctrl, can we make a sub-version
+of nvme_stop_ctrl that cannot block on I/O (i.e. without ana/scan/auth)?
+for multipathing where we want to teardown the controller quickly so we
+can failover I/O asap.
 
-But that doesn't look very straight now that I look at it again.
-
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+IIRC this is why scan_work is not in nvme_stop_ctrl to begin with, but
+it is also possible that there was some other deadlock caused by that.
 
