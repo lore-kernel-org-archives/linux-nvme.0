@@ -4,81 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CEDDEC38A2D
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Oct 2022 07:09:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B98BFC04A95
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Oct 2022 09:31:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lATT1ajd7XImaMdz8eWwci/eTzolvtl0532pwY/I47s=; b=QCa+rZhIWtoadKj63P/aXqfAPQ
-	6oqsNw/TVPwtYJH3gpufDVg9d8OZSGDOk16tHWH0wMEwZDibMAk/yg72oG2ST3IfCcKj0PHxt5tZf
-	HEhm+FuLwVWhHUZpyh+0JubeqJ57Nl51rZvbcuOU6kHqjaZzi+I+zXXunWTg0YsCQQDHOwZWDQeoM
-	9J/Rwnah9+kBIQmB9Ak2esPgn8L+SH36iW5IUJ5RPMcb9pRNB7hFhScu18tYLEWggXSuLp9qwLdV5
-	+Zhk5AzAyT8BtH9J3MvPWn5b23ZOHMm02aTne3aSpjIm0B85upkqNjQlakAPzdBaJDkXObUr1Xs5j
-	QapH371A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nCSyuyQGpNlpd6dhjpOf9Qc4lZVxImyObiEpJP1xQh8=; b=OSkc5z5txVElPIVsGTK7hCE0U8
+	Fm/t/aU8n1y/5ytsRpn48iBAZ/mbOXKJNM1Q6ih6D/oyUd2xdnj0spVNjwtH+YN97/sJXRn6uw+mY
+	BvEufVDR2C2fkVZQ/qi1+WcJg9+4VP01B/+7RASwhDVrWvX8G4SRy58po/a0uUod20uYPpIh3X01l
+	Q6uZR97z2bM33mE4Q5pSQOh57Vz+x7lrSxVlWMigNfXwu4m94g22WS/2C1sh7eyG7mNus/5ElTXdX
+	u5Yecw/1kuFDbO5LQ2SJOxZEqgOyL8KxmEVpyAaPQnjg8J2X3oUeqHem5i9bx22j4qqTxW+eG2CgN
+	xP9CxbGQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onE4F-0046bg-U6; Tue, 25 Oct 2022 07:09:43 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1onGHB-004bHb-Vm; Tue, 25 Oct 2022 09:31:14 +0000
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onE4C-0046bB-JM
-	for linux-nvme@lists.infradead.org; Tue, 25 Oct 2022 07:09:42 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 72C2122038;
-	Tue, 25 Oct 2022 07:09:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1666681778; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lATT1ajd7XImaMdz8eWwci/eTzolvtl0532pwY/I47s=;
-	b=NQ5ZmLpZtmwh9Cz+7k+LN2I0ugYeqms1o7nRVjI8631sW/S0lAxk1vHzfpRimlWZNuWger
-	G7KtYS4BKtk+C+C34zCqYwkWwQtLbcHo8tvkBZUOMIY87vYARVVhrQhahBJDOfYxToESHN
-	9XkyyadIhnicTO8vHjE5bYzYPcy3hyI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1666681778;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lATT1ajd7XImaMdz8eWwci/eTzolvtl0532pwY/I47s=;
-	b=u3JNn899mDqoo8a+MyY4kXbbPJszVVdYM4Xx5YYkunPG/FCQEKXFBnapzPLoJgA+/A+ID/
-	up3PTqIl7IMNTaDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4B169134CA;
-	Tue, 25 Oct 2022 07:09:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id L6A2EbKLV2MVdQAAMHmgww
-	(envelope-from <hare@suse.de>); Tue, 25 Oct 2022 07:09:38 +0000
-Message-ID: <fb22c7e1-3731-f997-1896-024745082ad7@suse.de>
-Date: Tue, 25 Oct 2022 09:09:37 +0200
+	id 1onGGV-004avM-BN
+	for linux-nvme@lists.infradead.org; Tue, 25 Oct 2022 09:30:33 +0000
+Received: by mail-ej1-x62a.google.com with SMTP id n12so5581465eja.11
+        for <linux-nvme@lists.infradead.org>; Tue, 25 Oct 2022 02:30:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=nCSyuyQGpNlpd6dhjpOf9Qc4lZVxImyObiEpJP1xQh8=;
+        b=TwXVFt1/Pqv27w/D+1kMCKoXoabMRQO3isas+A0kXa7tJPb5eSctRVpxnD6mIKJ5Lg
+         rIiT5zttRRLzyLSytPpELrTt9i32DE5wCsCN1QySp4Jrq8RpEunimrqfwbxX4djqw4sT
+         fc/nfmk8md450r262nPGyJ1AQL5iT50wFMHWOaiR/kEfFCuu8vKxUxStCIz0GEUUyxqN
+         h9oqYGBVrkj+06T9/wg2ZGv6ibRhd9Y3UT15FBHXzEEDtcbQgA80754Eoye65K3mZEyY
+         bCjwdbP2CSk1hzhmOz1m73HHV9+aRmr3woxzvBplooS1t5QXgu9tNuiu/0FoHDIphwe+
+         9w7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nCSyuyQGpNlpd6dhjpOf9Qc4lZVxImyObiEpJP1xQh8=;
+        b=NWznKUzPF9lT2lutlLlRUDhK0XHHr1rysti/ObX0wtxdhHTanYOgFiU5bkqEhjop12
+         OYlYTmgJYRS0FFjPFD3iERABFS7FRKYw1pGCP3ZWcixewbveY1M1OSgZzp+Ga8llp3BQ
+         XJwBP8s3HkRrWTdvVY9aAThFMp38kK2WxeiyuUWYASywgAziJ2QFK2cbrls7bER25CIy
+         sDxCbtOSSsLyULYDaBPV7DmmAW8y/V0q5uAgTsaNx+CPESirPYrqDmmLOtGK8B3Zk77D
+         268YAg88L4WPWKmemIqQwmUqW2wAi/0ZABKueBc4tVKoRr1SVHrVYanE6Qw9xyMTKIVY
+         8D1Q==
+X-Gm-Message-State: ACrzQf3T0D74QO7bmZHOLZHEqCO+uY/G1Y8JmIqcq+bPO42exx5wCU+z
+	xtJvciB1Tnm8J+9z0DKvfD8=
+X-Google-Smtp-Source: AMsMyM4CXGFAEp1wVI6ujd95isc8QgYUQQBOGKhUFJZxr1hHQK+nnUiXH0R6Z9XX2ofECC5OY/TUxw==
+X-Received: by 2002:a17:907:7245:b0:78d:ec9c:e743 with SMTP id ds5-20020a170907724500b0078dec9ce743mr32347841ejc.466.1666690228578;
+        Tue, 25 Oct 2022 02:30:28 -0700 (PDT)
+Received: from nam-dell (ip-217-105-46-178.ip.prioritytelecom.net. [217.105.46.178])
+        by smtp.gmail.com with ESMTPSA id ky21-20020a170907779500b00788c622fa2csm1076361ejc.135.2022.10.25.02.30.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Oct 2022 02:30:28 -0700 (PDT)
+Date: Tue, 25 Oct 2022 11:30:16 +0200
+From: Nam Cao <namcaov@gmail.com>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"sagi@grimberg.me" <sagi@grimberg.me>, "hch@lst.de" <hch@lst.de>,
+	"axboe@fb.com" <axboe@fb.com>,
+	"kbusch@kernel.org" <kbusch@kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] nvme-tcp: replace sg_init_marker() with sg_init_table()
+Message-ID: <20221025092737.GA254308@nam-dell>
+References: <20221022174635.15643-1-namcaov@gmail.com>
+ <810f1de0-769c-ce67-4ec6-007ce25acfe0@nvidia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2] nvme-tcp: send quota for nvme_tcp_send_all()
-Content-Language: en-US
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- Daniel Wagner <dwagner@suse.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
-References: <20221024150334.29215-1-dwagner@suse.de>
- <529264d7-c3a6-04dc-f705-c0ce3a49759e@nvidia.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <529264d7-c3a6-04dc-f705-c0ce3a49759e@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <810f1de0-769c-ce67-4ec6-007ce25acfe0@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221025_000940_798175_8B0D821D 
-X-CRM114-Status: GOOD (  18.55  )
+X-CRM114-CacheID: sfid-20221025_023031_461466_E1B69CEC 
+X-CRM114-Status: GOOD (  18.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,43 +94,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/25/22 02:54, Chaitanya Kulkarni wrote:
-> On 10/24/22 08:03, Daniel Wagner wrote:
->> Add a send quota in nvme_tcp_send_all() to avoid stalls when sending
->> large amounts of requests.
->>
->> Cc: Hannes Reinecke <hare@suse.de>
->> Signed-off-by: Daniel Wagner <dwagner@suse.de>
->> ---
->>
->> IMO, this patch might still be a good idea to add. At least in my test
->> setup where I only have one ethernet port it makes a big difference
->> when accessing the system via ssh. When nvme-tcp is pushing a lot of
->> data via the network, the ssh session is completely blocked by the
->> storage traffic. With it, the ssh session stays responsive. >
+On Tue, Oct 25, 2022 at 12:58:41AM +0000, Chaitanya Kulkarni wrote:
+> On 10/22/22 10:46, Nam Cao wrote:
+> > In nvme_tcp_ddgst_update(), sg_init_marker() is called with an
+> > uninitialized scatterlist. This is probably fine, but gcc complains:
+> > 
+> >    CC [M]  drivers/nvme/host/tcp.o
+> > In file included from ./include/linux/dma-mapping.h:10,
+> >                   from ./include/linux/skbuff.h:31,
+> >                   from ./include/net/net_namespace.h:43,
+> >                   from ./include/linux/netdevice.h:38,
+> >                   from ./include/net/sock.h:46,
+> >                   from drivers/nvme/host/tcp.c:12:
+> > In function ‘sg_mark_end’,
+> >      inlined from ‘sg_init_marker’ at ./include/linux/scatterlist.h:356:2,
+> >      inlined from ‘nvme_tcp_ddgst_update’ at drivers/nvme/host/tcp.c:390:2:
+> > ./include/linux/scatterlist.h:234:11: error: ‘sg.page_link’ is used uninitialized [-Werror=uninitialized]
+> >    234 |         sg->page_link |= SG_END;
+> >        |         ~~^~~~~~~~~~~
+> > drivers/nvme/host/tcp.c: In function ‘nvme_tcp_ddgst_update’:
+> > drivers/nvme/host/tcp.c:388:28: note: ‘sg’ declared here
+> >    388 |         struct scatterlist sg;
+> >        |                            ^~
+> > cc1: all warnings being treated as errors
+> > 
+> > Use sg_init_table() instead, which basically memset the scatterlist to
+> > zero first before calling sg_init_marker().
+> > 
+> > Signed-off-by: Nam Cao <namcaov@gmail.com>
 > 
-> I'm not sure whether it is possible but is there a way to gather
-> some form of quantitative data and present it here to we all know
-> exactly which aspect is improving by this patch in context of
-> "ssd session is completely blocked" ?
-> 
-Doubt that we can do it. Point is, the send code will run in a tight 
-loop, making scheduling of other processes / packets really hard.
-So if you have several processes on the same interface (as here with the 
-ssh connection) nvme-tcp will eat up the entire bandwidth sending its 
-data, and everyone else on the line will suffer.
+> Looks good to me, can you please share what version if gcc you are
+> using ? my test setup did not catch this error and I'd like to update
+> with the one that can catch these errors.
 
-I guess the same effect could be had by adding a 'schedule()' after each 
-nvme_tcp_try_send() call.
+It was just gcc12. But strange enough I cannot trigger this error again.
+I was doing randconfig test build. Probably only a specific combination
+of configs that can allow gcc to detect this...
 
-Cheers,
+And sorry but I was just start doing randconfig test and didn't think
+about saving that .config file.
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
+Best regards,
+Nam
 
 
