@@ -4,64 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13A58ECDFA1
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Oct 2022 22:40:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1C44ECDFA1
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Oct 2022 23:09:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=T3VjNiv3RRJSbP29wYxbQj9v0Our5NtrZJDWtOG5IYw=; b=oPt8pt3SdIGefFSFrb2UP+JJmG
-	xhTea9lEVi6q2ZcEvEIXTGK5UvZ69J+SVt3+8wcgK6vUUBCX67F8TYCJNyOfvi9ZoptngRDGcK6Gy
-	51Fjbz2YH1GPVwCdeuGgW9RrqbLTQ+fYdJn9VBFfc5Yj5TpI6cghZNezuY3PUvpNcfZftPzPK/oa3
-	w9uCR8lY7F/j94vpsMVgQrhEFNXRd4ufkcGauyk8Fup9nKzfDeydxtD+DgBAVgflO470JuiCqkUhN
-	op7rF4/OI6VTJau7SfTYw1b5MPk4BWSDtM/6ja0gogQD0vtAwST1deAFuPevtXvAoRtX5F88amHd6
-	IAlYHUpA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=4wkCEvbItL3WZKrzfXnbN6Oj08YbUXmiC9XsodxCFkg=; b=4IOzoQz4AIL7eDR4wSshgrg7zt
+	MyQrXU0ZNWXAeNfYwOwoY+nMBNpYXk64J+Z1B5YeT+cv6qsTZPHLQgXwNvj7toiMVcXSKA1lqziWQ
+	KFlUlEW4q0x4SP11V7H/TOp/vZndbXzC5IPAK3VaS0ijxfCN4Awe+B86qBOWcZHuS7y0ZPmMAgYT8
+	vHvDoRAA2gQg6YAdsYItta2VH9yYeSsk9a6CG1OYV+MTP4Y1PzIW4vA2MUPuSI4BLz7sQ2Jy5M+FH
+	jFHyqTXVOCYq7GhFo/EfCVMAgaKuK2SFP60bEPECJ58URPQuU8LBSftT1Y3o0rVDwE5jonaNw3yFz
+	ngLh5d4Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onSae-007Qrx-Ek; Tue, 25 Oct 2022 22:40:08 +0000
+	id 1onT34-007Vra-MX; Tue, 25 Oct 2022 23:09:30 +0000
 Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onSac-007QrC-B0
-	for linux-nvme@lists.infradead.org; Tue, 25 Oct 2022 22:40:07 +0000
+	id 1onT32-007Vqg-Kf
+	for linux-nvme@lists.infradead.org; Tue, 25 Oct 2022 23:09:29 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id B1A5161BBE;
-	Tue, 25 Oct 2022 22:40:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A4C4C433D6;
-	Tue, 25 Oct 2022 22:40:04 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 5A6E661BA9;
+	Tue, 25 Oct 2022 23:09:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31A3AC433D6;
+	Tue, 25 Oct 2022 23:09:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1666737605;
-	bh=QsLmNQLK9hrQ+9w+DGymM2b2NqUKEtn19jUXECHyZNM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Oby3UgqXWtt3rznL3m+4YgqhxRbxTKnQj69atceDrteKQp9/THJmL7oI2EcVnL/+p
-	 9Zgb3k4BQdD0N0XN9ECjCd0VZxB0zyq9SV7KXBl4wQMCwMBMGFrxMzRn4pvrvbPvLv
-	 xY4hvkOOHWED5HA69HutQ6Nmf1d2nPC801KrIAA0p+Xu0ZDDgF/UraynAYw5ZRa3R8
-	 UfusV25HfnGDGreiCBQC9FBs1Qvv4o9OdQn5V280ksllhvykew7wq8aUkfHCSisCkq
-	 KJwGUbiOCfe9igfUEElgcDfdYFry6s2cQ9MAnjtZybH0ft2p3iJWq5ApkAHp4Q+qMj
-	 Lfci2h0I73j/g==
-Date: Tue, 25 Oct 2022 15:40:03 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Aurelien Aptel <aaptel@nvidia.com>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
- pabeni@redhat.com, saeedm@nvidia.com, tariqt@nvidia.com, leon@kernel.org,
- linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
- kbusch@kernel.org, axboe@fb.com, chaitanyak@nvidia.com, smalin@nvidia.com,
- ogerlitz@nvidia.com, yorayz@nvidia.com, borisp@nvidia.com,
- aurelien.aptel@gmail.com, malin1024@gmail.com
-Subject: Re: [PATCH v7 02/23] iov_iter: DDP copy to iter/pages
-Message-ID: <20221025154003.686cb8b1@kernel.org>
-In-Reply-To: <20221025135958.6242-3-aaptel@nvidia.com>
-References: <20221025135958.6242-1-aaptel@nvidia.com>
-	<20221025135958.6242-3-aaptel@nvidia.com>
+	s=k20201202; t=1666739364;
+	bh=qXV1N5AKEWYecLSXfGCSgGxs5o9LCx1bJAfsulfc5Bk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pjDd0U0F2OoXbekqFRjqb3s/W48Cuh+oqk2oy+Ac9OxFFqoyt+ieE64Z1ucRgfMiB
+	 L2PfT0rpmyTvHtMW3eYaa/VBacQgzc5VIfxK9ntw1YYxWS/xRDUtfk/EPhT4Bw85SR
+	 AfJJEKb9rZBWfuIe4kWTJn6vFGMhMlTIx4JUvvdwxV1JutQm3zxI9J9XB5CVvWPvlt
+	 nCf2+QRvU9N1Vy8jSnUpm01UI7K1XAtZyrcYMmCHRZcrakXsKoCQcx7ahNzHodfIUk
+	 dedGaKza/pqZPMp28jvw1bD54MfB7c567risFLqF4PWEh6jygeaSzk7W5wjdmSv2S/
+	 cTh6rRfm7NtGw==
+Date: Tue, 25 Oct 2022 17:09:21 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org, oren@nvidia.com,
+	chaitanyak@nvidia.com, linux-block@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] nvme: use macro definitions for setting
+ reservation values
+Message-ID: <Y1hsoZNjDMhDbemd@kbusch-mbp.dhcp.thefacebook.com>
+References: <20221002082851.13222-1-mgurtovoy@nvidia.com>
+ <cfd01d2e-1f87-2295-13bb-c8705b3335f9@grimberg.me>
+ <3354c32d-34b3-0997-3a59-8fc199e6640a@nvidia.com>
+ <20221025151914.GA23422@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221025151914.GA23422@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221025_154006_446983_15E9F227 
-X-CRM114-Status: GOOD (  13.42  )
+X-CRM114-CacheID: sfid-20221025_160928_748621_0EF19423 
+X-CRM114-Status: GOOD (  21.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,29 +76,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, 25 Oct 2022 16:59:37 +0300 Aurelien Aptel wrote:
-> Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
-> Signed-off-by: Boris Pismenny <borisp@nvidia.com>
-> Signed-off-by: Or Gerlitz <ogerlitz@nvidia.com>
-> Signed-off-by: Yoray Zack <yorayz@nvidia.com>
-> Signed-off-by: Shai Malin <smalin@nvidia.com>
-> Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
-
-Great stuff :) Please get someone who matters to ack this.
-
-> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-> ---
->  lib/iov_iter.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Oct 25, 2022 at 05:19:14PM +0200, Christoph Hellwig wrote:
+> On Mon, Oct 03, 2022 at 01:16:36PM +0300, Max Gurtovoy wrote:
+> >> I'd make this named nvme_pr_type
+> >
+> > Most of the enums of this header are not named.
+> >
+> > I don't understand what is the convention here.
+> >
+> > Usually, if it's not a new header file I'm trying to keep the file 
+> > convention and this is what I did.
+> >
+> > If all agree on named, I'll send another version.
 > 
-> diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-> index c3ca28ca68a6..75470a4b8ab3 100644
-> --- a/lib/iov_iter.c
-> +++ b/lib/iov_iter.c
-> @@ -526,7 +526,7 @@ size_t _copy_to_iter(const void *addr, size_t bytes, struct iov_iter *i)
->  		might_fault();
->  	iterate_and_advance(i, bytes, base, len, off,
->  		copyout(base, addr + off, len),
-> -		memcpy(base, addr + off, len)
-> +		(base != addr + off) && memcpy(base, addr + off, len)
+> I think named is better, nvme has some weird unnamed enums that
+> even combine totally unrelated fields which I always found confusing.
+
+It's carry-over from the early days when structures had so few constants
+that giving each field values their own enum looked a bit silly, and
+enums were considered better than a bunch of #define's.
+
+As far as naming them goes, if the only usage is its definition, then
+what's the point? If there's a use for a named enum somewhere else, then
+yah, that improves readability.
 
