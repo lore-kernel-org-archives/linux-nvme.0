@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47A7EC38A2D
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Oct 2022 14:40:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D564ECDFA1
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Oct 2022 14:40:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2mpDjVdFpU1lYjcPmKrhMb9Fa8SDVixa54EUiiVNGzY=; b=VCA7AmIJDhV//sBywF7Hz+skg2
-	9ApOnbAjr29go/eEVd68TpmHx4xtw0pe78QyBauVacziCw+FdjR3D4+Tz9NzQkTiuos9IR8B6xqgR
-	B4NnGebF3QoJ6xyCxmm7TuklA/kJIu6fI3xJ0DdHexlVFSQ+1V+uCaCNPywEJzaStJuUf9iSgsd5O
-	ZGB/uSds74TYY2o5k3yjrqyNKjzaO1J3159TidnvSJVPZOpWKmGDMDoSJhkiIIo8FFfki0KtqAVZn
-	0uGq1/tI7yJApngA2vMf01+3UUxkNJWO+XD38nJM79jNrr/tHfkZlR5NX4MRIgtSIGdxowgoD5sC9
-	P9lK0T3Q==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Mo0I4vEOLvvjk8gjEeiZhK4hGLEZ8BanpX5CwiA8f8A=; b=NOZ/6QLNzYba6H1J2CZediBZit
+	wXxrRc9A0yTR2VBQfABrtJYpdiBxXWUvUarK009pxmUhrmLQFD0w9KlpnmKQ55W1LSxOerqXV6ABK
+	gTotkUYv2vT50zBEaeTY94lKiELHAkqcd90otzWOpG3XRubvdOB2Pf8+ddK/cDNdz94y3PBrfrk/4
+	oTQ53vCBUfHCO+fh7mPDjswReu1shYy6sO4bK1+CJdkQtIubhhhWGs7+IjjZoO6TQdAdYRwLBtTyR
+	7m4xN4chAzEbrBLIFvmam7Pc8Hjr19zyGsTwzSiEuf8bpotEoLw+3N3GrOpsiUH/WNyhrHi26tjYW
+	XvOcBlbA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onL6S-005pqB-1O; Tue, 25 Oct 2022 14:40:28 +0000
+	id 1onL6Y-005psl-6S; Tue, 25 Oct 2022 14:40:34 +0000
 Received: from [12.47.128.130] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onL6L-005pmC-In; Tue, 25 Oct 2022 14:40:21 +0000
+	id 1onL6K-005plu-JM; Tue, 25 Oct 2022 14:40:20 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>,
 	Keith Busch <kbusch@kernel.org>,
@@ -32,12 +32,10 @@ To: Jens Axboe <axboe@kernel.dk>,
 Cc: Ming Lei <ming.lei@redhat.com>,
 	linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org
-Subject: [PATCH 03/17] nvme-pci: don't warn about the lack of I/O queues for admin controllers
-Date: Tue, 25 Oct 2022 07:40:06 -0700
-Message-Id: <20221025144020.260458-4-hch@lst.de>
+Subject: per-tagset SRCU struct and quiesce v2
+Date: Tue, 25 Oct 2022 07:40:03 -0700
+Message-Id: <20221025144020.260458-1-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221025144020.260458-1-hch@lst.de>
-References: <20221025144020.260458-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -54,39 +52,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Admin controllers never have I/O queues, so don't warn about that fact.
+Hi all,
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/nvme/host/pci.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+this series moves the SRCU struct used for quiescing to the tag_set
+as the SRCU critical sections for dispatch take about the same time
+on all queues anyway, and then adopts the series from Chao that provides
+tagset-wide quiesce to use that infrastructure.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 51513d263d77a..ec034d4dd9eff 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2917,7 +2917,8 @@ static void nvme_reset_work(struct work_struct *work)
- 			nvme_dbbuf_set(dev);
- 			nvme_unfreeze(&dev->ctrl);
- 		} else {
--			dev_warn(dev->ctrl.device, "IO queues lost\n");
-+			if (dev->ctrl.cntrltype != NVME_CTRL_ADMIN)
-+				dev_warn(dev->ctrl.device, "IO queues lost\n");
- 			nvme_kill_queues(&dev->ctrl);
- 			nvme_remove_namespaces(&dev->ctrl);
- 			nvme_free_tagset(dev);
-@@ -2931,7 +2932,9 @@ static void nvme_reset_work(struct work_struct *work)
- 			nvme_pci_alloc_tag_set(dev);
- 			nvme_dbbuf_set(dev);
- 		} else {
--			dev_warn(dev->ctrl.device, "IO queues not created\n");
-+			if (dev->ctrl.cntrltype != NVME_CTRL_ADMIN)
-+				dev_warn(dev->ctrl.device,
-+					 "IO queues not created\n");
- 		}
- 	}
- 
--- 
-2.30.2
+To do so it does a fair amount of cleanups in how nvme quiesces queues.
+Even with that nvme is still a bit of a mess in how it quiesces queues,
+so further work is probably needed later.
 
+Note: testing is a bit limited as I'm travelling.  Before this proceeds
+it should get surprise removal testing for nvme-pci.
+
+Changes since v1:
+ - a whole bunch of new nvme cleanups
+ - use the notify version of set_capacity in blk_mark_disk_dead
+ - improve the documentation for blk_mq_wait_quiesce_done
+ - dynamically allocate the srcu_struct in struct blk_mq_tag_set
+ - minor spelling fixes
 
