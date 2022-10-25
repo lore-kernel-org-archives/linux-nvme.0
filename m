@@ -4,72 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC7FFC38A2D
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Oct 2022 15:47:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA100C38A2D
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Oct 2022 15:50:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KV7jq2zG6veYAlgtq6p/ASA6YBq4VylV/N2M7eSg8ZQ=; b=v2MB1RGIHoLO4QdtMt1o8WNWjf
-	bEVYHX7mhwM2SUWHwA7tT8K6Zw3IM4ZSF8hG5x2T+YH0md0ATvx+dPKe7Zptb3KgwrTZCvDAkGsZC
-	HqxOS2EJS2/S3I+pRhZ5eZj/jnZzw9ubKHgC71b8estYppCHij/cdFXSrp6jYixpkhGxIJA/gBCro
-	cPXpuoWlWZVO9ilOrpqcB5GTEjML+6Hvdu95j/ymN+P9sEHX9EJdGEVSRsYHvXfi5l/r/p7zjOmB/
-	HilHhjamh6Kd10hDMIx8BTs/EvLZUNMHxdzn+DWVkfQCdV8JGI84tor8QRkjFxkoZmjMqHXvNQgKP
-	U9wPSSYQ==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=EroC0KtZuKyAa/OOEJyLAILYRdxp/Tc/77xWQSkcMcg=; b=xZeAKyuOqOPGMKYRFM1WWl1gVz
+	JYjgfhV3jHHVyF+CppNOiztFaFq4Hns8Apf+iYHVPN9IGekdp1Y975qjctOWV2qasRsKKxH2DZ+h7
+	hFAkQmhMsugVaQTt3yz8WcrTUrywcUX7aOAWX0ALYRUzxgQSvgQ6uFISnNOnIjSG+a6/cKGisF/vN
+	uyW2L+DNt49nypbbKw6Wu7GiKuSNCa3o/CyWKeUVMZVm2rq0QHpmTN7b69w+HvSyjHoS7wf58Wkl/
+	I3o4Gi51mee8fclXBASZhz3z3QGymWzZ/gOEdelxtMD0/c61/B6kpSc49dGm709lrdI4gmjlxKxzS
+	Mv8x3yUg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onM8u-006AnV-IJ; Tue, 25 Oct 2022 15:47:04 +0000
-Received: from mail-wr1-f47.google.com ([209.85.221.47])
+	id 1onMC5-006BU0-B8; Tue, 25 Oct 2022 15:50:21 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onM8r-006All-0p
-	for linux-nvme@lists.infradead.org; Tue, 25 Oct 2022 15:47:03 +0000
-Received: by mail-wr1-f47.google.com with SMTP id bs21so5919246wrb.4
-        for <linux-nvme@lists.infradead.org>; Tue, 25 Oct 2022 08:46:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KV7jq2zG6veYAlgtq6p/ASA6YBq4VylV/N2M7eSg8ZQ=;
-        b=HdQJVetRimhlgcGCGaU9gTqjd71ff4ju0tX6ukCxfaNvUUd1/nJqYrQ7lCCPfGSsN2
-         ovI8kXMlVbtXKxsRbn8mXD0MzN0M4xt05DXhEXhbskSn4dj7+4N8xDPxIDkuXjixDGFD
-         y/kT9S4qWSihSrLckKWlJfxDySSTZlRM0A59Ahf2nBapLqz7QZmEqsPSQCyQVJtS/A/2
-         rZv9rAkeVJN5YxXcPK5E45FsymNlseH5Hpk253zcGIETYSFqa01CGFNSgFOYUAm2SSLm
-         DOk+mTSq24G8bneH8MmzJJelPOF582k3Pq76qVPwsWNNi8nJXJix30SWH/pkL5q/hzea
-         zrZw==
-X-Gm-Message-State: ACrzQf3S8Uu3Cqk0baWFYPxHFdRcl0Za5niOOAn0usZDDQEoLEYFlEW7
-	DSGmStOufoHgnIaSweAZ5T8=
-X-Google-Smtp-Source: AMsMyM61ONdRQUXHzsFt3qzxVwR9UGT7RutXYkhuEArNwgnRFwjQQIK1C4of72mK02Pz4sm6cf/hsg==
-X-Received: by 2002:adf:cd09:0:b0:236:659a:6902 with SMTP id w9-20020adfcd09000000b00236659a6902mr10813622wrm.574.1666712814622;
-        Tue, 25 Oct 2022 08:46:54 -0700 (PDT)
-Received: from [10.100.102.14] (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
-        by smtp.gmail.com with ESMTPSA id r13-20020a05600c458d00b003c6f3f6675bsm11640778wmo.26.2022.10.25.08.46.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Oct 2022 08:46:53 -0700 (PDT)
-Message-ID: <d8d87fd0-b217-0ba8-b94a-903db9bbf070@grimberg.me>
-Date: Tue, 25 Oct 2022 18:46:51 +0300
+	id 1onMC2-006BRp-17
+	for linux-nvme@lists.infradead.org; Tue, 25 Oct 2022 15:50:19 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1A84A21FC7;
+	Tue, 25 Oct 2022 15:50:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1666713011; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=EroC0KtZuKyAa/OOEJyLAILYRdxp/Tc/77xWQSkcMcg=;
+	b=vZbsgxCnRw3IkSigINrkw3JBmo0/xxO7m47sP+y6VS9U3YECNgqPxzLb/+s0qOzsCltDA4
+	fl2f89FL1tB8ZsvQmTv+1bHmoWgwBBchl3C0kok5EPRUeuVKJqF3bsn/jWiZxAmBN7Pzxj
+	WVPjiUQPO3p/qq5G+eRSJbGQ69XfOng=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1666713011;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=EroC0KtZuKyAa/OOEJyLAILYRdxp/Tc/77xWQSkcMcg=;
+	b=Y9uLjlLGM2QUVZIsH/ak8gb8esdJjix0xVU3B+Tad7idlHODfSsxj4B5IGTgwT/c3Rx4sX
+	qk2OsNYGAIO4m4AQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0B248134CA;
+	Tue, 25 Oct 2022 15:50:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id fR6uArMFWGPVCQAAMHmgww
+	(envelope-from <dwagner@suse.de>); Tue, 25 Oct 2022 15:50:11 +0000
+From: Daniel Wagner <dwagner@suse.de>
+To: linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>,
+	Daniel Wagner <dwagner@suse.de>,
+	Hannes Reinecke <hare@suse.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Subject: [PATCH v4] nvmet: force reconnect when number of queue changes
+Date: Tue, 25 Oct 2022 17:50:08 +0200
+Message-Id: <20221025155008.30028-1-dwagner@suse.de>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 0/6] nvme: a few nvme-auth fixes found during code
- browsing
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- Hannes Reinecke <hare@suse.de>
-References: <20221025134330.1028352-1-sagi@grimberg.me>
- <20221025153224.GA24369@lst.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20221025153224.GA24369@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221025_084701_107633_26D77F80 
-X-CRM114-Status: UNSURE (   8.40  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221025_085018_268653_D5819B5B 
+X-CRM114-Status: GOOD (  16.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,10 +84,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+In order to test queue number changes we need to make sure that the
+host reconnects. Because only when the host disconnects from the
+target the number of queues are allowed to change according the spec.
 
-> The changes all look reasonable to me, but I think we really need to fix
-> the grave locking bug in nvme_auth_reset before doing more changs in
-> this area.
+The initial idea was to disable and re-enable the ports and have the
+host wait until the KATO timer expires, triggering error
+recovery. Though the host would see a DNR reply when trying to
+reconnect. Because of the DNR bit the connection is dropped
+completely. There is no point in trying to reconnect with the same
+parameters according the spec.
 
-In the works... this is part one.
+We can force to reconnect the host is by deleting all controllers. The
+host will observe any newly posted request to fail and thus starts the
+error recovery but this time without the DNR bit set.
+
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Acked-by: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+---
+
+v4:
+  - Rebased on -rc2
+  - invalid memory fix went in as separate fix
+    94f5a0688407 ("nvmet: fix invalid memory reference in
+    nvmet_subsys_attr_qid_max_show")
+
+v3:
+  - Updated Fixes tag
+  - Updated commit message with some additional information
+    from the v2 discussion
+  - https://lore.kernel.org/linux-nvme/20221007072934.9536-1-dwagner@suse.de/
+
+v2:
+  - instead preventing changes, force reconnect by delete ctrls
+  - renamed patch
+  - https://lore.kernel.org/linux-nvme/20220927143157.3659-1-dwagner@suse.de/
+
+v1:
+  - initial verison
+  - https://lore.kernel.org/linux-nvme/20220913064203.133536-1-dwagner@suse.de/
+
+
+ drivers/nvme/target/configfs.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 9443ee1d4ae3..051a420d818e 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -1290,6 +1290,8 @@ static ssize_t nvmet_subsys_attr_qid_max_show(struct config_item *item,
+ static ssize_t nvmet_subsys_attr_qid_max_store(struct config_item *item,
+ 					       const char *page, size_t cnt)
+ {
++	struct nvmet_subsys *subsys = to_subsys(item);
++	struct nvmet_ctrl *ctrl;
+ 	u16 qid_max;
+ 
+ 	if (sscanf(page, "%hu\n", &qid_max) != 1)
+@@ -1299,8 +1301,13 @@ static ssize_t nvmet_subsys_attr_qid_max_store(struct config_item *item,
+ 		return -EINVAL;
+ 
+ 	down_write(&nvmet_config_sem);
+-	to_subsys(item)->max_qid = qid_max;
++	subsys->max_qid = qid_max;
++
++	/* Force reconnect */
++	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
++		ctrl->ops->delete_ctrl(ctrl);
+ 	up_write(&nvmet_config_sem);
++
+ 	return cnt;
+ }
+ CONFIGFS_ATTR(nvmet_subsys_, attr_qid_max);
+-- 
+2.38.0
+
 
