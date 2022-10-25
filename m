@@ -4,67 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2E08C38A2D
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Oct 2022 13:44:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C8CFC38A2D
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Oct 2022 13:46:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=k23ZRigiDfdD+zYIQfERIotoSKjF06R5NEGqHQY3uCU=; b=vbFwUtG83DLNAfq5UlzGt2aOog
-	Mgb7U395EW15wZG31NiXHBIg9192Skf3vDf1XHIjU6yLTlzkKAJFi8ADkOi3E7rwCTx8F3h9PHP3E
-	b8iIkoVvH7w5VWVTEgcLLldKOFfTxGJ9O4l9ICwt8ayr+zmQqIl9gfdXvvsnQr765obe8oIpu089i
-	MKsLUsFXraEtvakjlvv9BTOANwYXHfy1+JvFwGhCqshSMbr7zltLjadrlT14ERjClb2PLaGKr6DIA
-	wh72RQBNf8IbadRSUiJPW+imYwbPLQFfkAyH+llze1X9Gg3ylmxlpj5aPvJk4Lis4is2jlqXYz2D8
-	5Vwy4PjQ==;
+	bh=87UOMueoSNTje0/aDJgUGwiUI2SdOpFVV8vGxaKKCEk=; b=FAyz4o/rwn1H0vsRaKCMMEyOWr
+	bSuH6jgWnfHc24+XVxuIPcjr2AdDxqSW8Go6C2KbE6nHv7PmUWKqtV6b2bQ/9z2pPyY8aPDCAYS8a
+	V3cJOHVvonHectcVZQ0enqUd0ymeSKtm1UUPKf1hyD2Mp4/y7Hlb1vgDkcUXh50neCFuIj6eTQmSQ
+	XBfUHqlywoRnasPJs27vYPHuYro5f5v76qFZnmiEaKpjfg3tfEBzW4F5/FmdKVHL/VsnElkrvrV6u
+	+664CVPitpatSlRLjU6+kOI/lbx/7oKjk4LyzGSjKttKOXxQA/Rb6jTq7E50LhfeC+381AEaJUSFm
+	xStzRKeg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onKDy-005WoN-IM; Tue, 25 Oct 2022 13:44:10 +0000
-Received: from mail-wr1-f51.google.com ([209.85.221.51])
+	id 1onKFy-005Xez-Bw; Tue, 25 Oct 2022 13:46:14 +0000
+Received: from mail-wr1-f46.google.com ([209.85.221.46])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onKDa-005Wfj-Tb
-	for linux-nvme@lists.infradead.org; Tue, 25 Oct 2022 13:43:48 +0000
-Received: by mail-wr1-f51.google.com with SMTP id a14so18299140wru.5
-        for <linux-nvme@lists.infradead.org>; Tue, 25 Oct 2022 06:43:45 -0700 (PDT)
+	id 1onKFv-005XbX-Nv
+	for linux-nvme@lists.infradead.org; Tue, 25 Oct 2022 13:46:12 +0000
+Received: by mail-wr1-f46.google.com with SMTP id a14so18317707wru.5
+        for <linux-nvme@lists.infradead.org>; Tue, 25 Oct 2022 06:46:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=k23ZRigiDfdD+zYIQfERIotoSKjF06R5NEGqHQY3uCU=;
-        b=EXayzUR8DPiZd4Cn8jr6V5NezhDBLE3pB3+JkxCsPhC9E7YSeY6md23bUWKuq0c6vP
-         1pUYCY2pJuPSZ57IqpuG/JM2xr+l8zXuGSK7DxtVOCsONmrneZARSR1vJmVdl5A9jMdQ
-         nn8JBGuCUn4+qsZeAOJTvLKDnpv6epu/b5HupuFxyb9HXpUzOlmmy3otHsgojhN0Wjxe
-         gTeVwKuuF1ohH8apxqSk/Mj1L8wMsp666bh549xYpUKH9v+rypcFBDxELg1qtMZ+Z0p+
-         lbe1t7E5REKIwNH/ji/40MXz5CKlFh/QWg4wZMLAdGyuX75nKo3yj8wwxN7zjimrE+Cg
-         fjLQ==
-X-Gm-Message-State: ACrzQf2z2yNVbVMPzZQhaxGhRbiPHf34XKDZXXOX1MEdT9tiKs/tdpQs
-	2CnWDhdbJzaucARuRcU7+Tuo45HwJes=
-X-Google-Smtp-Source: AMsMyM6mJ7SHSzNYMdOntsw472ArJ0HFoiLhLEFeaBGZHXqDnarNnmvrDXb1IvXjTTPOJVac+YSKKw==
-X-Received: by 2002:a5d:5c11:0:b0:236:547e:a38b with SMTP id cc17-20020a5d5c11000000b00236547ea38bmr14801239wrb.221.1666705424056;
-        Tue, 25 Oct 2022 06:43:44 -0700 (PDT)
-Received: from localhost.localdomain (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
-        by smtp.gmail.com with ESMTPSA id n7-20020a05600c4f8700b003c6c1686b10sm11442239wmq.7.2022.10.25.06.43.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Oct 2022 06:43:43 -0700 (PDT)
-From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 6/6] nvme-auth: don't override ctrl keys before validation
-Date: Tue, 25 Oct 2022 16:43:30 +0300
-Message-Id: <20221025134330.1028352-7-sagi@grimberg.me>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221025134330.1028352-1-sagi@grimberg.me>
-References: <20221025134330.1028352-1-sagi@grimberg.me>
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=87UOMueoSNTje0/aDJgUGwiUI2SdOpFVV8vGxaKKCEk=;
+        b=wSgra40prWrZubul0Wk14fFaRKrULhUZ7Y0+pwM2XjqWOokbTsDcg6HPWwlyH1P2Jl
+         SD2Iyl6PIwYBUady3zKjH3P6Pv7ogegA+KOp5onOtVMY1Yx+Pi0q42zknmAgprMWSsO+
+         /7LjbsvOjGxAQFEMenMt4lKzg7rqcMU2GilTtQY42f2UVMOZVWxzuI9P4f4d9DxSY9Zk
+         K4aptQzAj2TPZklrZUnu5FZJB+Xeyx4da+M7K+jvxobnLROMSgsUkAa6qSwsfoae3gMr
+         550lwMcx7zJRo03FYiq4FiNJ0PoQ8c/f3G6sT4UducxvmWmdVghkLhs2oVveBCnv39Tp
+         BOug==
+X-Gm-Message-State: ACrzQf2yJhlAT0lpxiruzCxVUXAOzeqNbIbC+XerB0s3dpNM1cFK+nTu
+	cs6MX7UmWlZbQwRv7m3+wfE=
+X-Google-Smtp-Source: AMsMyM7VYBdqPebLTZqeQJBY4Betsac3+Kx/ZNxcULzMrTtlaC3qbuTYXT/Qx/5VgkOfRItPzTE3cw==
+X-Received: by 2002:a05:600c:4999:b0:3c4:df99:5596 with SMTP id h25-20020a05600c499900b003c4df995596mr26554964wmp.154.1666705569980;
+        Tue, 25 Oct 2022 06:46:09 -0700 (PDT)
+Received: from [10.100.102.14] (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
+        by smtp.gmail.com with ESMTPSA id l15-20020a05600c4f0f00b003b49bd61b19sm11548395wmq.15.2022.10.25.06.46.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Oct 2022 06:46:09 -0700 (PDT)
+Message-ID: <9f40e42d-7525-5644-6773-19e3b842f7f1@grimberg.me>
+Date: Tue, 25 Oct 2022 16:46:07 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2] nvme-tcp: send quota for nvme_tcp_send_all()
+To: Hannes Reinecke <hare@suse.de>, Chaitanya Kulkarni
+ <chaitanyak@nvidia.com>, Daniel Wagner <dwagner@suse.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Cc: Keith Busch <kbusch@kernel.org>
+References: <20221024150334.29215-1-dwagner@suse.de>
+ <529264d7-c3a6-04dc-f705-c0ce3a49759e@nvidia.com>
+ <fb22c7e1-3731-f997-1896-024745082ad7@suse.de>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <fb22c7e1-3731-f997-1896-024745082ad7@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221025_064346_968075_EFCE340D 
-X-CRM114-Status: GOOD (  12.38  )
+X-CRM114-CacheID: sfid-20221025_064611_809048_A524ADAB 
+X-CRM114-Status: GOOD (  16.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,57 +83,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Replace ctrl ctrl_key/host_key only after nvme_auth_generate_key is successful.
-Also, this fixes a bug where the keys are leaked.
 
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/host/core.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+>>> Add a send quota in nvme_tcp_send_all() to avoid stalls when sending
+>>> large amounts of requests.
+>>>
+>>> Cc: Hannes Reinecke <hare@suse.de>
+>>> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+>>> ---
+>>>
+>>> IMO, this patch might still be a good idea to add. At least in my test
+>>> setup where I only have one ethernet port it makes a big difference
+>>> when accessing the system via ssh. When nvme-tcp is pushing a lot of
+>>> data via the network, the ssh session is completely blocked by the
+>>> storage traffic. With it, the ssh session stays responsive. >
+>>
+>> I'm not sure whether it is possible but is there a way to gather
+>> some form of quantitative data and present it here to we all know
+>> exactly which aspect is improving by this patch in context of
+>> "ssd session is completely blocked" ?
+>>
+> Doubt that we can do it. Point is, the send code will run in a tight 
+> loop, making scheduling of other processes / packets really hard.
+> So if you have several processes on the same interface (as here with the 
+> ssh connection) nvme-tcp will eat up the entire bandwidth sending its 
+> data, and everyone else on the line will suffer.
+> 
+> I guess the same effect could be had by adding a 'schedule()' after each 
+> nvme_tcp_try_send() call.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9b0b11191ed9..ae1bc79cd712 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3756,13 +3756,17 @@ static ssize_t nvme_ctrl_dhchap_secret_store(struct device *dev,
- 	memcpy(dhchap_secret, buf, count);
- 	nvme_auth_stop(ctrl);
- 	if (strcmp(dhchap_secret, opts->dhchap_secret)) {
-+		struct nvme_dhchap_key *key, *host_key;
- 		int ret;
- 
--		ret = nvme_auth_generate_key(dhchap_secret, &ctrl->host_key);
-+		ret = nvme_auth_generate_key(dhchap_secret, &key);
- 		if (ret)
- 			return ret;
- 		kfree(opts->dhchap_secret);
- 		opts->dhchap_secret = dhchap_secret;
-+		host_key = ctrl->host_key;
-+		ctrl->host_key = key;
-+		nvme_auth_free_key(host_key);
- 		/* Key has changed; re-authentication with new key */
- 		nvme_auth_reset(ctrl);
- 	}
-@@ -3806,13 +3810,17 @@ static ssize_t nvme_ctrl_dhchap_ctrl_secret_store(struct device *dev,
- 	memcpy(dhchap_secret, buf, count);
- 	nvme_auth_stop(ctrl);
- 	if (strcmp(dhchap_secret, opts->dhchap_ctrl_secret)) {
-+		struct nvme_dhchap_key *key, *ctrl_key;
- 		int ret;
- 
--		ret = nvme_auth_generate_key(dhchap_secret, &ctrl->ctrl_key);
-+		ret = nvme_auth_generate_key(dhchap_secret, &key);
- 		if (ret)
- 			return ret;
- 		kfree(opts->dhchap_ctrl_secret);
- 		opts->dhchap_ctrl_secret = dhchap_secret;
-+		ctrl_key = ctrl->ctrl_key;
-+		ctrl->ctrl_key = key;
-+		nvme_auth_free_key(ctrl_key);
- 		/* Key has changed; re-authentication with new key */
- 		nvme_auth_reset(ctrl);
- 	}
--- 
-2.34.1
-
+Daniel, does adding cond_resched() make the system responsive again?
 
