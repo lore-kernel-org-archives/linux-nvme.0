@@ -4,30 +4,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D1CCFA373F
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Oct 2022 16:00:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F39CEC38A2D
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Oct 2022 16:02:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WvWyhnpC2sRAaAqnQYNqdUa84SMwdsUL3Ihk99h3QaE=; b=qKhZRXRErTmNT8+41MIo5otwNY
-	icjIjPQ5dx2hIGKX465eKTHGr/TqHGitQGO56sKAHZsn03tpgoCUeeFsi4ELeo+vwphLwkVQVvPVD
-	VZHp4x+jH9IHiqMJsBQ482OyLs/RjBf4XFOzNW6AFPEfg9grT9M8mbRapj4SG7M85jjr9yet1wHGa
-	kzwlo7lKoCqrYLRcg6v3A4xatGWxRYEKX9WhoZd6MZCAZhmAjD9HqsOlk6D40/fSE98f2VN4PR4NJ
-	f1wKT/GAkJjsdPGDdD9mZxInLMFqzBAFGrX+k31yFathbjauuyKCruQLEwP5cuZdimFRwtgQzziKz
-	Sbn91RSQ==;
+	bh=C6SJicJ9BucqOu96ENJp75afWx02l2PtqBTutuq4cKg=; b=iSKOT6lQ69uAfMOBiI5+1zkWRX
+	zYqbHIsgxzYHdSMfzRBjm1KCjunzAmqRQnlLafImMh2x7+PHyuW3Vcn/SmSTmQ84CRCYhmczyWXcO
+	AtFapPHTvi+mfMUw09X2gIuS2UFRm7PSgHkqgEMsOD3qprntKU2yR9JcT65svUyOWzTAlaqqOERJI
+	YQ62tBdqzkslVfllDhPX3fNw4xioNrEmWEbaGZLLWfqU2ugC66B+/F/+uXicsud5ijNc42uwhVQqh
+	qoJa6kt2RLn+dRyJcskhpM625/WymBRQZdJuJVGW/lDooy7qrtImNsgoYgDjLvwyiDAPWhlTBsTH4
+	MbI7+IEw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onMMC-006CwY-Oq; Tue, 25 Oct 2022 16:00:48 +0000
+	id 1onMNR-006DFL-Sg; Tue, 25 Oct 2022 16:02:05 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onMMA-006Cvf-2v
-	for linux-nvme@lists.infradead.org; Tue, 25 Oct 2022 16:00:47 +0000
+	id 1onMNP-006DEA-41
+	for linux-nvme@lists.infradead.org; Tue, 25 Oct 2022 16:02:04 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 0E6B768B05; Tue, 25 Oct 2022 18:00:40 +0200 (CEST)
-Date: Tue, 25 Oct 2022 18:00:39 +0200
+	id 46BD368C4E; Tue, 25 Oct 2022 18:02:00 +0200 (CEST)
+Date: Tue, 25 Oct 2022 18:01:59 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Aurelien Aptel <aaptel@nvidia.com>
 Cc: netdev@vger.kernel.org, davem@davemloft.net, kuba@kernel.org,
@@ -37,17 +37,17 @@ Cc: netdev@vger.kernel.org, davem@davemloft.net, kuba@kernel.org,
 	chaitanyak@nvidia.com, smalin@nvidia.com, ogerlitz@nvidia.com,
 	yorayz@nvidia.com, borisp@nvidia.com, aurelien.aptel@gmail.com,
 	malin1024@gmail.com
-Subject: Re: [PATCH v7 00/23] nvme-tcp receive offloads
-Message-ID: <20221025160039.GA26372@lst.de>
-References: <20221025135958.6242-1-aaptel@nvidia.com>
+Subject: Re: [PATCH v7 02/23] iov_iter: DDP copy to iter/pages
+Message-ID: <20221025160159.GB26372@lst.de>
+References: <20221025135958.6242-1-aaptel@nvidia.com> <20221025135958.6242-3-aaptel@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221025135958.6242-1-aaptel@nvidia.com>
+In-Reply-To: <20221025135958.6242-3-aaptel@nvidia.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221025_090046_290601_19BBB3A6 
-X-CRM114-Status: GOOD (  11.46  )
+X-CRM114-CacheID: sfid-20221025_090203_329269_5E8A8342 
+X-CRM114-Status: GOOD (  11.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,14 +62,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 25, 2022 at 04:59:35PM +0300, Aurelien Aptel wrote:
-> The feature will also be presented in netdev this week
-> https://netdevconf.info/0x16/session.html?NVMeTCP-Offload-%E2%80%93-Implementation-and-Performance-Gains
-
-That seems to miss slides.
-
-> Currently the series is aligned to net-next, please update us if you will prefer otherwise.
-
-Please also point to a git tree for a huge series with a dependency
-on some tree, otherwise there's no good way to review it.
+I don't think this is a good subject line.  What the patch does is
+to skip the memcpy, so something about that in the subject.  You
+can then explain the commit log why that is done.  And given that
+the behavior isn't all that obvious I think a big fat comment in the
+code would be very helpful in this case as well.
 
