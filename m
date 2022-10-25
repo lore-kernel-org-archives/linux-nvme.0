@@ -4,81 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 268E7C38A2D
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Oct 2022 17:22:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 701DDC38A2D
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Oct 2022 17:23:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ISxSsa35zicnwR8CHDBxXUC1WXX08GIzXhpcSZEyQQg=; b=kPXtJGepiqpc6+z6CVGjbrqEUU
-	TYjK9HAXKJvIaISuYVO/FqwtGrV4rnk/qc8h1YRzgmgvjxroAsQ/Bfz98qgHrzmZp1tNBBuRbO298
-	1SxWdIFfiF5sqI5+tyILZTT09GMe2Fx7s78wF80g2SzBlmQgyyigckEbwcVgtL28cfEPrJsm54Cbt
-	1JHyPMkV4gjvRnwKNLz8LExd2Si1z6bcsLDrb5g6oEeuv6ALGDKKZUj1zBofOVO6jIzh/jHg6GFEi
-	TgR/YSswiBirH4mx3ayyRfUKo/Z58QtUeq7DdwclDlwBj6z/td7mZBV3V84pFnXFFTls9hZrxnq4f
-	tcTfX4wg==;
+	bh=J20yElFyG38Yg0LxYkTM/X7iqHo6h3ZATFrgAzRNxiE=; b=f3q4FB62MG40lQ8BvZoJSP6sYE
+	YYhhfbOugilIo32QOw5m/fopMr06PUSz9Ac40z2Ahd2FUVipFjy7qqoIDX8pi8ewN/kr9+k0jepd9
+	Pm71wx4MNRH7XmURK/y/ixSkt7lNWTS3TkUXkBNVTSuRlD0I8FjyDTp76YaFFhZYF8GugvZ5m5iRZ
+	wVulQSa5kwHQVX2TMY0d9UO9OpqOQDPRpPOnkEHm5W9bRS4DrvVR7ncuXRtZQ77e4KPOoOjb+U6NZ
+	UYCH1F+G2y32DF05DNrQHygW9ez1/9+gpLJOKcfJW5Wz+/37VQ/D51Id2zWNEuOn4BHJyxPAe/F9Y
+	0kQaqlNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onNdP-006ROW-Li; Tue, 25 Oct 2022 17:22:39 +0000
+	id 1onNdv-006RXB-Rg; Tue, 25 Oct 2022 17:23:11 +0000
 Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onNdM-006RNY-Qv
-	for linux-nvme@lists.infradead.org; Tue, 25 Oct 2022 17:22:38 +0000
+	id 1onNdo-006RUp-S5
+	for linux-nvme@lists.infradead.org; Tue, 25 Oct 2022 17:23:06 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 53A6422009;
-	Tue, 25 Oct 2022 17:22:33 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9D82E21FE0;
+	Tue, 25 Oct 2022 17:23:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1666718553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1666718583; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ISxSsa35zicnwR8CHDBxXUC1WXX08GIzXhpcSZEyQQg=;
-	b=xVyYg+iPwuXh6wZ0H5+ZdNmrZZTHHCd0hFU/wK5wubnxEsBMkObfwWAUjIItezodsQzpup
-	ZKyEgs7eQhnehyEhWBLFsGdkdupKotg74HwljyMMtwVOq7LsATwlEvq1CzGUyMtUN56ppc
-	4wRuiH4CIP4wqpkvFx9P5C0Q7tytzV8=
+	bh=J20yElFyG38Yg0LxYkTM/X7iqHo6h3ZATFrgAzRNxiE=;
+	b=1QX0WqFNvNPi37VAozW9Tf+/SdFtGBG+AGSnG2MgJOvakN0sl7Nrqs+Wit7CKVu9EVC9lX
+	+P1JLuVOaJgeUzPSs1weFD2KtQzhG3YY1PmIlP6ZNWLEt9/WGH/4Op5lC4jZ3SIyv3+CO8
+	r/e0ksHdm9Jhl9zg5d5vA00NQBGGHXE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1666718553;
+	s=susede2_ed25519; t=1666718583;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ISxSsa35zicnwR8CHDBxXUC1WXX08GIzXhpcSZEyQQg=;
-	b=Mz1NomA9Sv3Sc8mp4CKfo1qi4DbsHISgKvM6icvSd8YrtwChXZdAAlRS56D8/mqPc/1Meb
-	m6kOmWmN2xKQIsDw==
+	bh=J20yElFyG38Yg0LxYkTM/X7iqHo6h3ZATFrgAzRNxiE=;
+	b=jE1a60xft1z37muQmfZQhE3nlEoVzEDKBPgzSCm+lZo+ancb7VGNB4gcrRCauvgSgokRBf
+	KWwpxFS46+pz3WAw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 34A0213A64;
-	Tue, 25 Oct 2022 17:22:33 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7A7E013A64;
+	Tue, 25 Oct 2022 17:23:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id LEa8C1kbWGN9NgAAMHmgww
-	(envelope-from <hare@suse.de>); Tue, 25 Oct 2022 17:22:33 +0000
-Message-ID: <07667003-2a31-8c82-895d-aa520fb4968c@suse.de>
-Date: Tue, 25 Oct 2022 19:22:32 +0200
+	id cbF2HHcbWGPENgAAMHmgww
+	(envelope-from <hare@suse.de>); Tue, 25 Oct 2022 17:23:03 +0000
+Message-ID: <3d3e77ae-4d58-f955-c1e4-91ff89c5574b@suse.de>
+Date: Tue, 25 Oct 2022 19:23:03 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH 3/6] nvme-auth: don't re-authenticate if the controller is
- not LIVE
+Subject: Re: [PATCH 4/6] nvme-auth: remove redundant buffer deallocations
 Content-Language: en-US
 To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
  Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
 References: <20221025134330.1028352-1-sagi@grimberg.me>
- <20221025134330.1028352-4-sagi@grimberg.me>
+ <20221025134330.1028352-5-sagi@grimberg.me>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20221025134330.1028352-4-sagi@grimberg.me>
+In-Reply-To: <20221025134330.1028352-5-sagi@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221025_102237_059051_6E3F7B58 
-X-CRM114-Status: GOOD (  18.97  )
+X-CRM114-CacheID: sfid-20221025_102305_120393_20A0131F 
+X-CRM114-Status: GOOD (  14.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,39 +93,31 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 10/25/22 15:43, Sagi Grimberg wrote:
-> The connect sequence will re-authenticate.
+> host_response, host_key, ctrl_key and sess_key are
+> freed in nvme_auth_reset_dhchap which is called from
+> nvme_auth_free_dhchap.
 > 
 > Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 > ---
->   drivers/nvme/host/auth.c | 7 +++++++
->   1 file changed, 7 insertions(+)
+>   drivers/nvme/host/auth.c | 4 ----
+>   1 file changed, 4 deletions(-)
 > 
 > diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-> index 734928282d3e..93c0fc71bc7c 100644
+> index 93c0fc71bc7c..15cddc2bb14d 100644
 > --- a/drivers/nvme/host/auth.c
 > +++ b/drivers/nvme/host/auth.c
-> @@ -939,6 +939,13 @@ static void nvme_dhchap_auth_work(struct work_struct *work)
->   		container_of(work, struct nvme_ctrl, dhchap_auth_work);
->   	int ret, q;
->   
-> +	/*
-> +	 * If the ctrl is no connected, bail as reconnect will handle
-> +	 * authentication.
-> +	 */
-> +	if (ctrl->state != NVME_CTRL_LIVE)
-> +		return;
-> +
->   	/* Authenticate admin queue first */
->   	ret = nvme_auth_negotiate(ctrl, 0);
->   	if (ret) {
-
-Hmm. That is only part of the story; the controller can be reset at any 
-time during the workqueue function.
-Doing so will invalidate the digest hash, but we only find out about 
-queue being invalid once we _send_ data. So we crash in 
-skb_copy_datagram_iter().
-I got a patch here somewhere (which is still under testing, hence I 
-didn't send it off), but can do so now if requested.
+> @@ -683,10 +683,6 @@ static void nvme_auth_free_dhchap(struct nvme_dhchap_queue_context *chap)
+>   		crypto_free_shash(chap->shash_tfm);
+>   	if (chap->dh_tfm)
+>   		crypto_free_kpp(chap->dh_tfm);
+> -	kfree_sensitive(chap->ctrl_key);
+> -	kfree_sensitive(chap->host_key);
+> -	kfree_sensitive(chap->sess_key);
+> -	kfree_sensitive(chap->host_response);
+>   	kfree(chap->buf);
+>   	kfree(chap);
+>   }
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
 Cheers,
 
