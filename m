@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D96DC04A95
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Oct 2022 14:41:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0E29C38A2D
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Oct 2022 14:42:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FTqQ35Y6lInZDNL9hi6mj+FJZNYmSPsMYxbJ0BuMq/M=; b=S9/eIKCzahmjnyS1faEFSAF0et
-	cJVXckviEonkuuSq1IvCt+///DR20/MPGvXNQK/QCRnxysEoxTTmriXb1Au4omXzrA601JpdPLcmW
-	qCO8zh6DJ6CWR9S0PIkCnkBi5VCKwLAsLh+qnLRVKoiy9GXm56L1Ov96b9mGUa6NdTpixiuxZbHxE
-	9/2FQi8rJPUYNm0UhNM5dSQo5QHMqxNxnbq6dGC8cLSTHtXYR5r9pbFMc1A/QwZV/S71ZJtsZtb9W
-	Ya3XKUAP0pH+BQ+q9GXDXZTxoSgcpvgVJAhf8JUVumDkZVZKgdh21dz937VNFXGPhRwK4UcuCH/bi
-	KIpVExCA==;
+	bh=BO8wr9Tkr8wJb0TsKSc24Yum8rIAp3tswr5IkvSTAYU=; b=VBu4rkFE/fEgrJM5v6gV3JMGub
+	WTtOFV/E7M4U44ZlCMiTXhi3WhcDZsYj6SiyZy4wsHYnH/WUNL7QTEHp4DG5rnxLK/DzntQpPvKMh
+	4KNXu7ZgCNQrOVu2ZJYJ1i73iy07At2ZLUNATHHcPJ8+rjipEwrKYNkAF5H3DDv3dHFQiyvBPbFFi
+	n2MOjOnfVUa4DbjBGejeYRKggjTwnnz+EMkWuxHMsgwMN9GF42cm0QMgnDlxfAN47RG9NwzY58q7A
+	PvV86yy8ApUXUclq0odZ79ruwUFq076D5MEgKAQrfAVO0NL7xSD9bHzNNMZ1VTH7x/mT1TTZjLFgs
+	FiBOLkIA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onL7n-005qiO-2d; Tue, 25 Oct 2022 14:41:51 +0000
+	id 1onL7x-005qpO-8r; Tue, 25 Oct 2022 14:42:01 +0000
 Received: from [12.47.128.130] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onL6P-005poU-49; Tue, 25 Oct 2022 14:40:25 +0000
+	id 1onL6P-005poo-EZ; Tue, 25 Oct 2022 14:40:25 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>,
 	Keith Busch <kbusch@kernel.org>,
@@ -33,9 +33,9 @@ Cc: Ming Lei <ming.lei@redhat.com>,
 	linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 14/17] blk-mq: move the srcu_struct used for quiescing to the tagset
-Date: Tue, 25 Oct 2022 07:40:17 -0700
-Message-Id: <20221025144020.260458-15-hch@lst.de>
+Subject: [PATCH 15/17] blk-mq: pass a tagset to blk_mq_wait_quiesce_done
+Date: Tue, 25 Oct 2022 07:40:18 -0700
+Message-Id: <20221025144020.260458-16-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221025144020.260458-1-hch@lst.de>
 References: <20221025144020.260458-1-hch@lst.de>
@@ -55,347 +55,106 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-All I/O submissions have fairly similar latencies, and a tagset-wide
-quiesce is a fairly common operation.
+Nothing in blk_mq_wait_quiesce_done needs the request_queue now, so just
+pass the tagset, and move the non-mq check into the only caller that
+needs it.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Ming Lei <ming.lei@redhat.com>
-Reviewed-by: Chao Leng <lengchao@huawei.com>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Chao Leng <lengchao@huawei.com>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- block/blk-core.c       | 27 +++++----------------------
- block/blk-mq.c         | 33 +++++++++++++++++++++++++--------
- block/blk-mq.h         | 14 +++++++-------
- block/blk-sysfs.c      |  9 ++-------
- block/blk.h            |  9 +--------
- block/genhd.c          |  2 +-
- include/linux/blk-mq.h |  4 ++++
- include/linux/blkdev.h |  9 ---------
- 8 files changed, 45 insertions(+), 62 deletions(-)
+ block/blk-mq.c           | 14 ++++++++------
+ drivers/nvme/host/core.c |  4 ++--
+ drivers/scsi/scsi_lib.c  |  2 +-
+ include/linux/blk-mq.h   |  2 +-
+ 4 files changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index 17667159482e0..3a2ed8dadf738 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -65,7 +65,6 @@ DEFINE_IDA(blk_queue_ida);
-  * For queue allocation
-  */
- struct kmem_cache *blk_requestq_cachep;
--struct kmem_cache *blk_requestq_srcu_cachep;
- 
- /*
-  * Controlling structure to kblockd
-@@ -373,26 +372,20 @@ static void blk_timeout_work(struct work_struct *work)
- {
- }
- 
--struct request_queue *blk_alloc_queue(int node_id, bool alloc_srcu)
-+struct request_queue *blk_alloc_queue(int node_id)
- {
- 	struct request_queue *q;
- 
--	q = kmem_cache_alloc_node(blk_get_queue_kmem_cache(alloc_srcu),
--			GFP_KERNEL | __GFP_ZERO, node_id);
-+	q = kmem_cache_alloc_node(blk_requestq_cachep, GFP_KERNEL | __GFP_ZERO,
-+				  node_id);
- 	if (!q)
- 		return NULL;
- 
--	if (alloc_srcu) {
--		blk_queue_flag_set(QUEUE_FLAG_HAS_SRCU, q);
--		if (init_srcu_struct(q->srcu) != 0)
--			goto fail_q;
--	}
--
- 	q->last_merge = NULL;
- 
- 	q->id = ida_alloc(&blk_queue_ida, GFP_KERNEL);
- 	if (q->id < 0)
--		goto fail_srcu;
-+		goto fail_q;
- 
- 	q->stats = blk_alloc_queue_stats();
- 	if (!q->stats)
-@@ -435,11 +428,8 @@ struct request_queue *blk_alloc_queue(int node_id, bool alloc_srcu)
- 	blk_free_queue_stats(q->stats);
- fail_id:
- 	ida_free(&blk_queue_ida, q->id);
--fail_srcu:
--	if (alloc_srcu)
--		cleanup_srcu_struct(q->srcu);
- fail_q:
--	kmem_cache_free(blk_get_queue_kmem_cache(alloc_srcu), q);
-+	kmem_cache_free(blk_requestq_cachep, q);
- 	return NULL;
- }
- 
-@@ -1184,9 +1174,6 @@ int __init blk_dev_init(void)
- 			sizeof_field(struct request, cmd_flags));
- 	BUILD_BUG_ON(REQ_OP_BITS + REQ_FLAG_BITS > 8 *
- 			sizeof_field(struct bio, bi_opf));
--	BUILD_BUG_ON(ALIGN(offsetof(struct request_queue, srcu),
--			   __alignof__(struct request_queue)) !=
--		     sizeof(struct request_queue));
- 
- 	/* used for unplugging and affects IO latency/throughput - HIGHPRI */
- 	kblockd_workqueue = alloc_workqueue("kblockd",
-@@ -1197,10 +1184,6 @@ int __init blk_dev_init(void)
- 	blk_requestq_cachep = kmem_cache_create("request_queue",
- 			sizeof(struct request_queue), 0, SLAB_PANIC, NULL);
- 
--	blk_requestq_srcu_cachep = kmem_cache_create("request_queue_srcu",
--			sizeof(struct request_queue) +
--			sizeof(struct srcu_struct), 0, SLAB_PANIC, NULL);
--
- 	blk_debugfs_root = debugfs_create_dir("block", NULL);
- 
- 	return 0;
 diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 802fdd3d737e3..6cbf34921e33f 100644
+index 6cbf34921e33f..8f88c24a55c94 100644
 --- a/block/blk-mq.c
 +++ b/block/blk-mq.c
-@@ -261,8 +261,8 @@ EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue_nowait);
+@@ -254,15 +254,17 @@ EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue_nowait);
+ 
+ /**
+  * blk_mq_wait_quiesce_done() - wait until in-progress quiesce is done
+- * @q: request queue.
++ * @set: tag_set to wait on
+  *
+  * Note: it is driver's responsibility for making sure that quiesce has
+- * been started.
++ * been started on or more of the request_queues of the tag_set.  This
++ * function only waits for the quiesce on those request_queues that had
++ * the quiesce flag set using blk_mq_quiesce_queue_nowait.
   */
- void blk_mq_wait_quiesce_done(struct request_queue *q)
+-void blk_mq_wait_quiesce_done(struct request_queue *q)
++void blk_mq_wait_quiesce_done(struct blk_mq_tag_set *set)
  {
--	if (blk_queue_has_srcu(q))
--		synchronize_srcu(q->srcu);
-+	if (q->tag_set->flags & BLK_MQ_F_BLOCKING)
-+		synchronize_srcu(q->tag_set->srcu);
+-	if (q->tag_set->flags & BLK_MQ_F_BLOCKING)
+-		synchronize_srcu(q->tag_set->srcu);
++	if (set->flags & BLK_MQ_F_BLOCKING)
++		synchronize_srcu(set->srcu);
  	else
  		synchronize_rcu();
  }
-@@ -3971,7 +3971,7 @@ static struct request_queue *blk_mq_init_queue_data(struct blk_mq_tag_set *set,
- 	struct request_queue *q;
- 	int ret;
- 
--	q = blk_alloc_queue(set->numa_node, set->flags & BLK_MQ_F_BLOCKING);
-+	q = blk_alloc_queue(set->numa_node);
- 	if (!q)
- 		return ERR_PTR(-ENOMEM);
- 	q->queuedata = queuedata;
-@@ -4138,9 +4138,6 @@ static void blk_mq_update_poll_flag(struct request_queue *q)
- int blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
- 		struct request_queue *q)
- {
--	WARN_ON_ONCE(blk_queue_has_srcu(q) !=
--			!!(set->flags & BLK_MQ_F_BLOCKING));
--
- 	/* mark the queue as mq asap */
- 	q->mq_ops = set->ops;
- 
-@@ -4398,9 +4395,19 @@ int blk_mq_alloc_tag_set(struct blk_mq_tag_set *set)
- 	 */
- 	if (set->nr_maps == 1 && set->nr_hw_queues > nr_cpu_ids)
- 		set->nr_hw_queues = nr_cpu_ids;
-+ 
-+	if (set->flags & BLK_MQ_F_BLOCKING) {
-+		set->srcu = kmalloc(sizeof(*set->srcu), GFP_KERNEL);
-+		if (!set->srcu)
-+			return -ENOMEM;
-+		ret = init_srcu_struct(set->srcu);
-+		if (ret)
-+			goto out_free_srcu;
-+	}
- 
--	if (blk_mq_alloc_tag_set_tags(set, set->nr_hw_queues) < 0)
--		return -ENOMEM;
-+	ret = blk_mq_alloc_tag_set_tags(set, set->nr_hw_queues);
-+	if (ret)
-+		goto out_cleanup_srcu;
- 
- 	ret = -ENOMEM;
- 	for (i = 0; i < set->nr_maps; i++) {
-@@ -4430,6 +4437,12 @@ int blk_mq_alloc_tag_set(struct blk_mq_tag_set *set)
- 	}
- 	kfree(set->tags);
- 	set->tags = NULL;
-+out_cleanup_srcu:
-+	if (set->flags & BLK_MQ_F_BLOCKING)
-+		cleanup_srcu_struct(set->srcu);
-+out_free_srcu:
-+	if (set->flags & BLK_MQ_F_BLOCKING)
-+		kfree(set->srcu);
- 	return ret;
- }
- EXPORT_SYMBOL(blk_mq_alloc_tag_set);
-@@ -4469,6 +4482,10 @@ void blk_mq_free_tag_set(struct blk_mq_tag_set *set)
- 
- 	kfree(set->tags);
- 	set->tags = NULL;
-+	if (set->flags & BLK_MQ_F_BLOCKING) {
-+		cleanup_srcu_struct(set->srcu);
-+		kfree(set->srcu);
-+	}
- }
- EXPORT_SYMBOL(blk_mq_free_tag_set);
- 
-diff --git a/block/blk-mq.h b/block/blk-mq.h
-index 0b2870839cdd6..ef59fee62780d 100644
---- a/block/blk-mq.h
-+++ b/block/blk-mq.h
-@@ -377,17 +377,17 @@ static inline bool hctx_may_queue(struct blk_mq_hw_ctx *hctx,
- /* run the code block in @dispatch_ops with rcu/srcu read lock held */
- #define __blk_mq_run_dispatch_ops(q, check_sleep, dispatch_ops)	\
- do {								\
--	if (!blk_queue_has_srcu(q)) {				\
--		rcu_read_lock();				\
--		(dispatch_ops);					\
--		rcu_read_unlock();				\
--	} else {						\
-+	if ((q)->tag_set->flags & BLK_MQ_F_BLOCKING) {		\
- 		int srcu_idx;					\
- 								\
- 		might_sleep_if(check_sleep);			\
--		srcu_idx = srcu_read_lock((q)->srcu);		\
-+		srcu_idx = srcu_read_lock((q)->tag_set->srcu);	\
- 		(dispatch_ops);					\
--		srcu_read_unlock((q)->srcu, srcu_idx);		\
-+		srcu_read_unlock((q)->tag_set->srcu, srcu_idx);	\
-+	} else {						\
-+		rcu_read_lock();				\
-+		(dispatch_ops);					\
-+		rcu_read_unlock();				\
- 	}							\
- } while (0)
- 
-diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-index 7b98c7074771d..02e94c4beff17 100644
---- a/block/blk-sysfs.c
-+++ b/block/blk-sysfs.c
-@@ -742,10 +742,8 @@ queue_attr_store(struct kobject *kobj, struct attribute *attr,
- 
- static void blk_free_queue_rcu(struct rcu_head *rcu_head)
- {
--	struct request_queue *q = container_of(rcu_head, struct request_queue,
--					       rcu_head);
--
--	kmem_cache_free(blk_get_queue_kmem_cache(blk_queue_has_srcu(q)), q);
-+	kmem_cache_free(blk_requestq_cachep,
-+			container_of(rcu_head, struct request_queue, rcu_head));
- }
- 
- /**
-@@ -782,9 +780,6 @@ static void blk_release_queue(struct kobject *kobj)
+@@ -282,7 +284,7 @@ void blk_mq_quiesce_queue(struct request_queue *q)
+ 	blk_mq_quiesce_queue_nowait(q);
+ 	/* nothing to wait for non-mq queues */
  	if (queue_is_mq(q))
- 		blk_mq_release(q);
- 
--	if (blk_queue_has_srcu(q))
--		cleanup_srcu_struct(q->srcu);
--
- 	ida_free(&blk_queue_ida, q->id);
- 	call_rcu(&q->rcu_head, blk_free_queue_rcu);
+-		blk_mq_wait_quiesce_done(q);
++		blk_mq_wait_quiesce_done(q->tag_set);
  }
-diff --git a/block/blk.h b/block/blk.h
-index d6ea0d1a6db0f..d259d1da4cb4e 100644
---- a/block/blk.h
-+++ b/block/blk.h
-@@ -27,7 +27,6 @@ struct blk_flush_queue {
- };
+ EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue);
  
- extern struct kmem_cache *blk_requestq_cachep;
--extern struct kmem_cache *blk_requestq_srcu_cachep;
- extern struct kobj_type blk_queue_ktype;
- extern struct ida blk_queue_ida;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 00612e6857295..012ef0772f5b3 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -5090,7 +5090,7 @@ static void nvme_stop_ns_queue(struct nvme_ns *ns)
+ 	if (!test_and_set_bit(NVME_NS_STOPPED, &ns->flags))
+ 		blk_mq_quiesce_queue(ns->queue);
+ 	else
+-		blk_mq_wait_quiesce_done(ns->queue);
++		blk_mq_wait_quiesce_done(ns->queue->tag_set);
+ }
  
-@@ -427,13 +426,7 @@ int bio_add_hw_page(struct request_queue *q, struct bio *bio,
- 		struct page *page, unsigned int len, unsigned int offset,
- 		unsigned int max_sectors, bool *same_page);
+ /* let I/O to all namespaces fail in preparation for surprise removal */
+@@ -5180,7 +5180,7 @@ void nvme_stop_admin_queue(struct nvme_ctrl *ctrl)
+ 	if (!test_and_set_bit(NVME_CTRL_ADMIN_Q_STOPPED, &ctrl->flags))
+ 		blk_mq_quiesce_queue(ctrl->admin_q);
+ 	else
+-		blk_mq_wait_quiesce_done(ctrl->admin_q);
++		blk_mq_wait_quiesce_done(ctrl->admin_q->tag_set);
+ }
+ EXPORT_SYMBOL_GPL(nvme_stop_admin_queue);
  
--static inline struct kmem_cache *blk_get_queue_kmem_cache(bool srcu)
--{
--	if (srcu)
--		return blk_requestq_srcu_cachep;
--	return blk_requestq_cachep;
--}
--struct request_queue *blk_alloc_queue(int node_id, bool alloc_srcu);
-+struct request_queue *blk_alloc_queue(int node_id);
- 
- int disk_scan_partitions(struct gendisk *disk, fmode_t mode);
- 
-diff --git a/block/genhd.c b/block/genhd.c
-index 70a25e8a64466..7bca3ee2f6702 100644
---- a/block/genhd.c
-+++ b/block/genhd.c
-@@ -1412,7 +1412,7 @@ struct gendisk *__blk_alloc_disk(int node, struct lock_class_key *lkclass)
- 	struct request_queue *q;
- 	struct gendisk *disk;
- 
--	q = blk_alloc_queue(node, false);
-+	q = blk_alloc_queue(node);
- 	if (!q)
- 		return NULL;
+diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+index 8b89fab7c4206..249757ddd8fea 100644
+--- a/drivers/scsi/scsi_lib.c
++++ b/drivers/scsi/scsi_lib.c
+@@ -2735,7 +2735,7 @@ static void scsi_stop_queue(struct scsi_device *sdev, bool nowait)
+ 			blk_mq_quiesce_queue(sdev->request_queue);
+ 	} else {
+ 		if (!nowait)
+-			blk_mq_wait_quiesce_done(sdev->request_queue);
++			blk_mq_wait_quiesce_done(sdev->request_queue->tag_set);
+ 	}
+ }
  
 diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index ba18e9bdb799b..dc189d6b1a367 100644
+index dc189d6b1a367..678ce8a661ec9 100644
 --- a/include/linux/blk-mq.h
 +++ b/include/linux/blk-mq.h
-@@ -7,6 +7,7 @@
- #include <linux/lockdep.h>
- #include <linux/scatterlist.h>
- #include <linux/prefetch.h>
-+#include <linux/srcu.h>
- 
- struct blk_mq_tags;
- struct blk_flush_queue;
-@@ -501,6 +502,8 @@ enum hctx_type {
-  * @tag_list_lock: Serializes tag_list accesses.
-  * @tag_list:	   List of the request queues that use this tag set. See also
-  *		   request_queue.tag_set_list.
-+ * @srcu:	   Use as lock when type of the request queue is blocking
-+ *		   (BLK_MQ_F_BLOCKING).
-  */
- struct blk_mq_tag_set {
- 	struct blk_mq_queue_map	map[HCTX_MAX_TYPES];
-@@ -521,6 +524,7 @@ struct blk_mq_tag_set {
- 
- 	struct mutex		tag_list_lock;
- 	struct list_head	tag_list;
-+	struct srcu_struct	*srcu;
- };
- 
- /**
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 50e358a19d986..b15b6a011c028 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -22,7 +22,6 @@
- #include <linux/blkzoned.h>
- #include <linux/sched.h>
- #include <linux/sbitmap.h>
--#include <linux/srcu.h>
- #include <linux/uuid.h>
- #include <linux/xarray.h>
- 
-@@ -543,18 +542,11 @@ struct request_queue {
- 	struct mutex		debugfs_mutex;
- 
- 	bool			mq_sysfs_init_done;
--
--	/**
--	 * @srcu: Sleepable RCU. Use as lock when type of the request queue
--	 * is blocking (BLK_MQ_F_BLOCKING). Must be the last member
--	 */
--	struct srcu_struct	srcu[];
- };
- 
- /* Keep blk_queue_flag_name[] in sync with the definitions below */
- #define QUEUE_FLAG_STOPPED	0	/* queue is stopped */
- #define QUEUE_FLAG_DYING	1	/* queue being torn down */
--#define QUEUE_FLAG_HAS_SRCU	2	/* SRCU is allocated */
- #define QUEUE_FLAG_NOMERGES     3	/* disable merge attempts */
- #define QUEUE_FLAG_SAME_COMP	4	/* complete on same CPU-group */
- #define QUEUE_FLAG_FAIL_IO	5	/* fake timeout */
-@@ -590,7 +582,6 @@ bool blk_queue_flag_test_and_set(unsigned int flag, struct request_queue *q);
- 
- #define blk_queue_stopped(q)	test_bit(QUEUE_FLAG_STOPPED, &(q)->queue_flags)
- #define blk_queue_dying(q)	test_bit(QUEUE_FLAG_DYING, &(q)->queue_flags)
--#define blk_queue_has_srcu(q)	test_bit(QUEUE_FLAG_HAS_SRCU, &(q)->queue_flags)
- #define blk_queue_init_done(q)	test_bit(QUEUE_FLAG_INIT_DONE, &(q)->queue_flags)
- #define blk_queue_nomerges(q)	test_bit(QUEUE_FLAG_NOMERGES, &(q)->queue_flags)
- #define blk_queue_noxmerges(q)	\
+@@ -881,7 +881,7 @@ void blk_mq_start_hw_queues(struct request_queue *q);
+ void blk_mq_start_stopped_hw_queue(struct blk_mq_hw_ctx *hctx, bool async);
+ void blk_mq_start_stopped_hw_queues(struct request_queue *q, bool async);
+ void blk_mq_quiesce_queue(struct request_queue *q);
+-void blk_mq_wait_quiesce_done(struct request_queue *q);
++void blk_mq_wait_quiesce_done(struct blk_mq_tag_set *set);
+ void blk_mq_unquiesce_queue(struct request_queue *q);
+ void blk_mq_delay_run_hw_queue(struct blk_mq_hw_ctx *hctx, unsigned long msecs);
+ void blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx, bool async);
 -- 
 2.30.2
 
