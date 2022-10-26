@@ -4,74 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35959C433FE
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Oct 2022 08:31:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11DEFC433FE
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Oct 2022 08:34:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/wGPh6C7pwPjkSecgvuiwWu7O15KAMPBaLRjMD0pOZ0=; b=fr553ahNZ8O7RBQUt//aLvIAhC
-	/zvfR/MeoEMGaFQcTqjUDv/q5Wg6qT+fR+kyHQOw92UPLgBVWE97JY0io8qTQ516+sMoMNBQHROlT
-	13LpT/j72NhvFWdnxBmwceHHxAF53UH75RZNnZJ2bHv9iFA8Xu/x3HKi9O7ltwjRmfawQ8i0h6Wdl
-	1sJgX95rE0cPe4NtmhE1fla1AlMe8ZKQtI6t7FlYKhKp/EMYt4b7bg9nIGPfvV1+0dARadHMngzXx
-	r6D43EqZuY0r8cTOLX/D9ijBvuItribcQgqYB1aYQod5JhS+poFlMwJ+EVibPu1+VTvg4FLHUPfVZ
-	2qx0X4rA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=LdXHMpBQc335yDmqjBJfb5u6GDq7w+Mw7JpmmsgDA2M=; b=Qgf12YLGANWrI3DdKUIo6kStqr
+	43lyiH4ZwZfdElbtNhV0ypKFkef1hW+i73hRvnYqNw1EtOpil5fpKAVEmQHmap0rsohcxpDEcU6Qn
+	09HGMnUPJTeyd3uhgJ0G3U/hJ08d8ykhU2Isie4OuEUjmJWNtLS+SvDlA1GGBws7EhC5bT/qrSb85
+	yLpaX+wKnDJGgT3tbsNpgrMSJgGA/LrePuX4LT8WXUwK0o7VdUKBIejcllX7uxRmbGSHxauPntqBv
+	XwxF5T7YcLhnQCwnhHc31ttGGRwwrgGbHj/RIGfXFkApAQ6dUeIEXmjYzAs7PwuwQ+E8IrOkSrDHq
+	mqzdLL2Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onboP-008ZOL-VO; Wed, 26 Oct 2022 08:30:58 +0000
-Received: from mail-wm1-f43.google.com ([209.85.128.43])
+	id 1onbrR-008ZcE-TB; Wed, 26 Oct 2022 08:34:05 +0000
+Received: from mta-02.yadro.com ([89.207.88.252] helo=mta-01.yadro.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onboN-008ZNb-Ca
-	for linux-nvme@lists.infradead.org; Wed, 26 Oct 2022 08:30:56 +0000
-Received: by mail-wm1-f43.google.com with SMTP id l32so9690278wms.2
-        for <linux-nvme@lists.infradead.org>; Wed, 26 Oct 2022 01:30:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/wGPh6C7pwPjkSecgvuiwWu7O15KAMPBaLRjMD0pOZ0=;
-        b=GM01vZeTz7Ay9Q5Z3y4H8gwWubpLqnOUZp9aqmb3Ro5oRG3vSxt3E1Y1dLELI3x/IK
-         91kNK+YeSNvDOR6Yezl8mbyqKdEXIGe4u7lvGk1mQjw9yofPZtMZZWVoHfA7PGzZxA+n
-         ZA0wbXmBJ5RaWokkTW0BWndMUV3pKroBio1E6O/qSqvFxrHYLOz1F2pgpD0tZNSAEdoT
-         zMCER1gaU8zfjN86DV5CSuFradkWglNYz3nTxwx2ZDCsaHGQLLi59Z1ieM01YSBBZxZy
-         PO+8yZPBIuRdZcMVfEfeUtpW8Idj0B6Zr7ozY6vDrcNyA1ndTgIppTxmJXuqSWaMC9zY
-         E7lA==
-X-Gm-Message-State: ACrzQf1e3B6GwNzNTD09v5dvQxxyc5SnRw3tSG11dBTnfV09gAeWTtRe
-	RiJdVKKmru6hCMIEtCOnnx0=
-X-Google-Smtp-Source: AMsMyM47o3tu4KpgEyR7/AtACTf+GNNo7phXX/63Vv6faXgoWElzWZqakj6VOwhdtp3OCwjWORRjuQ==
-X-Received: by 2002:a05:600c:1d95:b0:3c6:fc59:5ed0 with SMTP id p21-20020a05600c1d9500b003c6fc595ed0mr1476597wms.21.1666773052622;
-        Wed, 26 Oct 2022 01:30:52 -0700 (PDT)
-Received: from [192.168.64.94] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id f5-20020a5d58e5000000b0022e36c1113fsm4859337wrd.13.2022.10.26.01.30.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Oct 2022 01:30:52 -0700 (PDT)
-Message-ID: <202cf139-c8d2-5a55-ed83-d975c136cab2@grimberg.me>
-Date: Wed, 26 Oct 2022 11:30:50 +0300
+	id 1onbrO-008ZaU-5C
+	for linux-nvme@lists.infradead.org; Wed, 26 Oct 2022 08:34:04 +0000
+Received: from localhost (unknown [127.0.0.1])
+	by mta-01.yadro.com (Postfix) with ESMTP id 35C3640416;
+	Wed, 26 Oct 2022 08:33:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+	content-type:content-type:content-transfer-encoding:mime-version
+	:x-mailer:message-id:date:date:subject:subject:from:from
+	:received:received:received:received; s=mta-01; t=1666773233; x=
+	1668587634; bh=ddUZG5gq+jEAS5Difg0isGyw5KsE7mxd0BYnE7UPJzc=; b=h
+	BhXF9Y/FWF2QThZmhXF6nrmBKeZNWOHgV/qSCELsdAil3rrXcTCLafsBLVYPD67/
+	mLXpPLKIUl5S+fHCBaZb3kQTWtqpsehWWuB/nlc7d7/Tqj0er4J+ek7UE2MpJBCl
+	geWNjr80zvokfYZDzIgdRHUqeEsrhlnmEykVHFrxJ0=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+	by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 2hg86c0MdT4Z; Wed, 26 Oct 2022 11:33:53 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (T-EXCH-02.corp.yadro.com [172.17.10.102])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mta-01.yadro.com (Postfix) with ESMTPS id E77EE4120E;
+	Wed, 26 Oct 2022 11:33:38 +0300 (MSK)
+Received: from T-Exch-05.corp.yadro.com (172.17.10.109) by
+ T-EXCH-02.corp.yadro.com (172.17.10.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.669.32; Wed, 26 Oct 2022 11:33:38 +0300
+Received: from yadro.com (10.178.113.226) by T-Exch-05.corp.yadro.com
+ (172.17.10.109) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1118.9; Wed, 26 Oct
+ 2022 11:33:35 +0300
+From: Aleksandr Miloserdov <a.miloserdov@yadro.com>
+To: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+CC: <linux-nvme@lists.infradead.org>, <linux@yadro.com>, Aleksandr Miloserdov
+	<a.miloserdov@yadro.com>
+Subject: [PATCH 0/3] Allow user to set nvmet firmware revision and IEEE OUI
+Date: Wed, 26 Oct 2022 12:31:32 +0400
+Message-ID: <20221026083135.77125-1-a.miloserdov@yadro.com>
+X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2] nvme-tcp: send quota for nvme_tcp_send_all()
-Content-Language: en-US
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Hannes Reinecke <hare@suse.de>, Chaitanya Kulkarni
- <chaitanyak@nvidia.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Keith Busch <kbusch@kernel.org>
-References: <20221024150334.29215-1-dwagner@suse.de>
- <529264d7-c3a6-04dc-f705-c0ce3a49759e@nvidia.com>
- <fb22c7e1-3731-f997-1896-024745082ad7@suse.de>
- <9f40e42d-7525-5644-6773-19e3b842f7f1@grimberg.me>
- <20221026071340.ocqe74c6fvv52sdg@carbon.lan>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20221026071340.ocqe74c6fvv52sdg@carbon.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.178.113.226]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-Exch-05.corp.yadro.com (172.17.10.109)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221026_013055_452185_B1913EAB 
-X-CRM114-Status: GOOD (  14.03  )
+X-CRM114-CacheID: sfid-20221026_013402_738542_85A684BF 
+X-CRM114-Status: UNSURE (   8.26  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,25 +86,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+This patch series introduces changes that allow user to set nvmet
+firmware revision and IEEE OUI via configFS.
 
->> Daniel, does adding cond_resched() make the system responsive again?
-> 
-> As it turns out I can't reproduce it anymore. Our test lab got
-> restructured and the cabling between machine changed (maybe even
-> different network switches, idk). Also the target got a firmware
-> update.
-> 
-> It looks more like the real problem was caused by the network
-> infrastructure than the host itself. And adding the additional delay in
-> the send path was just reducing the load which made the ssh session
-> working.
+Signed-off-by: Aleksandr Miloserdov <a.miloserdov@yadro.com>
 
-Let's table it for now.
+Aleksandr Miloserdov (3):
+  nvmet: fix memory leak in configfs
+  nvmet: expose IEEE OUI to configfs
+  nvmet: expose firmware revision to configfs
 
-> Given this, I don't think we currently need to touch this code. Though
-> the unbounded loop makes me a bit uneasy.
+ drivers/nvme/target/admin-cmd.c |  11 ++-
+ drivers/nvme/target/configfs.c  | 122 +++++++++++++++++++++++++++++++-
+ drivers/nvme/target/core.c      |  17 ++++-
+ drivers/nvme/target/nvmet.h     |   3 +
+ 4 files changed, 143 insertions(+), 10 deletions(-)
 
-This flow only enters when there is a single request queued, so it
-should not be something that takes long. Unless there is a real
-problem, lets not add code that may produce one.
+-- 
+2.37.0
+
 
