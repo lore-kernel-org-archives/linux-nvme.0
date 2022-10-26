@@ -4,58 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F091DFA373D
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Oct 2022 08:52:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DFE6EC38A2D
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Oct 2022 10:49:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vdFBqxIpZen40xPbb3kh0LOWp7p5Ym7aI8Ytf/mNHsI=; b=3RUw4U6JSCndml89xgUkWDRMNI
-	aBYlAkIBd2Xpbu0Yk9okw/yV0s8lC5+MB3OKRTAwfaEUx6tRET0ZHeIQsL1GQUfB9RSuLE9DQ3DwC
-	KHJHKCPRQw7XUJFwLUETJDpj9iKdwn1OoJLTb8l5QHJzrE+p75bnu13se4bY76XvK0sVJnjKUoRu2
-	481pN5/6X+vqhBMRAhb+amnD4zWWkSWra3R+SFXGfHxNg65sLrtOOTtOvqaG78uXlGJrCO45sUoGA
-	cPPkNmeE9jIZXxlunA87gFt/tJLC69nCVfkbBuAI6b2OMFUXQwRNaPhntWHY4iajfOCyKlm4YqsC7
-	QwtcsH4A==;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=vwve5dP+jIkDxCzsb/nLYrd1Xi
+	Zqxm12kSDEMpTVC1mzDlr763WYE4QVp7U6VEjomTS0UmvIB3lIwhktKuna5qldQNPL65huVeodnUQ
+	0pdnm6w4MDKIbqH9mNSNlk7leYgFTBYXUYZCBlTBLtbuQBubSDduH/fLtehuZEIbW3X2uE5gs2bfY
+	DMXeq+1He20b6cu37BPNc+D5RQwoshbax6zy9RUanY2oKE5LuAtHmRMMLA9M3wPjsHQUqiMdVRNyA
+	JeGP2U81VKamBi1XIPm+KDdQ6O0F7X91020948PbqCBsCLaH82R8JZQAcx3JDGtC8KzhYXFZWmPZf
+	6pXb7JCw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onc8l-008d7o-S5; Wed, 26 Oct 2022 08:51:59 +0000
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+	id 1ondyA-008xjX-9v; Wed, 26 Oct 2022 10:49:10 +0000
+Received: from mail-wm1-f50.google.com ([209.85.128.50])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onc8i-008d5h-PM
-	for linux-nvme@lists.infradead.org; Wed, 26 Oct 2022 08:51:58 +0000
-Received: from canpemm500002.china.huawei.com (unknown [172.30.72.55])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4My2VV3WGCzmV6v;
-	Wed, 26 Oct 2022 16:46:58 +0800 (CST)
-Received: from [10.169.59.127] (10.169.59.127) by
- canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 26 Oct 2022 16:51:51 +0800
-Subject: Re: [PATCH 16/17] blk-mq: add tagset quiesce interface
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, Keith Busch
-	<kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>
-CC: Ming Lei <ming.lei@redhat.com>, <linux-nvme@lists.infradead.org>,
-	<linux-block@vger.kernel.org>, Hannes Reinecke <hare@suse.de>
-References: <20221025144020.260458-1-hch@lst.de>
- <20221025144020.260458-17-hch@lst.de>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <05e7fdd0-a2fc-2944-679a-dac3d4755f14@huawei.com>
-Date: Wed, 26 Oct 2022 16:51:50 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+	id 1ondy7-008xjE-PD
+	for linux-nvme@lists.infradead.org; Wed, 26 Oct 2022 10:49:08 +0000
+Received: by mail-wm1-f50.google.com with SMTP id y10so9937008wma.0
+        for <linux-nvme@lists.infradead.org>; Wed, 26 Oct 2022 03:49:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=55l9P3GZDbpsnCGm5mGhugMMT9yYnueXLHjMC3vOlz6zmNF8nebnSr9qDdjUxkCM6J
+         /p4E2pmE5Rpp++tTF+C/H87E1gXmBkOce1y84+c6q/CQleCP1fE1hUXBi0O+2mxrdELb
+         0FoiCrchorpUi5FHcBcS/DxZ5u+UV2fzX2Io++SlNKq1cSRmkiONsTyNefkJojk2K/HB
+         apcv1AyCg6myfngmsz03s2YfwtEWW9uESJF/NoKnWxfXj42jq5SkKgLOcS06tOmVCCOE
+         pG00V9kobGFpSaFXy9BFT/V959RKHpvDfFXDFBGxj0126fgNnZ+OzK6JbWizFoHvssmA
+         pYdw==
+X-Gm-Message-State: ACrzQf1PBBE05MbttxUnwJjP0oZ49uxeoEDKw/bSa4iWiPXAwtqYqB2u
+	0LHClJooTyie1VHWtN3FygQ=
+X-Google-Smtp-Source: AMsMyM4sebGbNtqD8R2eQtKX5uwHwRScp3A8wrgHnWupEMfhDG8eOarzi1DmwEvHmWquLjycH7zMzw==
+X-Received: by 2002:a1c:f30d:0:b0:3c3:7c80:67f4 with SMTP id q13-20020a1cf30d000000b003c37c8067f4mr1963667wmq.86.1666781344994;
+        Wed, 26 Oct 2022 03:49:04 -0700 (PDT)
+Received: from [192.168.64.94] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id o1-20020a05600c338100b003a3170a7af9sm1526927wmp.4.2022.10.26.03.49.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Oct 2022 03:49:04 -0700 (PDT)
+Message-ID: <dae55084-2168-b469-8e86-4ba7d5e12774@grimberg.me>
+Date: Wed, 26 Oct 2022 13:49:03 +0300
 MIME-Version: 1.0
-In-Reply-To: <20221025144020.260458-17-hch@lst.de>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 1/3] nvmet: fix memory leak in configfs
 Content-Language: en-US
+To: Aleksandr Miloserdov <a.miloserdov@yadro.com>,
+ Christoph Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, linux@yadro.com,
+ Konstantin Shelekhin <k.shelekhin@yadro.com>,
+ Dmitriy Bogdanov <d.bogdanov@yadro.com>
+References: <20221026083135.77125-1-a.miloserdov@yadro.com>
+ <20221026083135.77125-2-a.miloserdov@yadro.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20221026083135.77125-2-a.miloserdov@yadro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.169.59.127]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- canpemm500002.china.huawei.com (7.192.104.244)
-X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221026_015157_025798_4614EB32 
-X-CRM114-Status: UNSURE (   9.02  )
+X-CRM114-CacheID: sfid-20221026_034907_864882_A26D8BBD 
+X-CRM114-Status: UNSURE (   6.85  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -71,36 +84,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 2022/10/25 22:40, Christoph Hellwig wrote:
-> @@ -315,6 +315,31 @@ void blk_mq_unquiesce_queue(struct request_queue *q)
->   }
->   EXPORT_SYMBOL_GPL(blk_mq_unquiesce_queue);
->   
-> +void blk_mq_quiesce_tagset(struct blk_mq_tag_set *set)
-> +{
-> +	struct request_queue *q;
-> +
-> +	mutex_lock(&set->tag_list_lock);
-> +	list_for_each_entry(q, &set->tag_list, tag_set_list) {
-> +		if (!blk_queue_skip_tagset_quiesce(q))
-> +			blk_mq_quiesce_queue_nowait(q);
-> +	}
-> +	blk_mq_wait_quiesce_done(set);
-> +	mutex_unlock(&set->tag_list_lock);
-> +}
-> +EXPORT_SYMBOL_GPL(blk_mq_quiesce_tagset);
-> +
-> +void blk_mq_unquiesce_tagset(struct blk_mq_tag_set *set)
-> +{
-> +	struct request_queue *q;
-> +
-> +	mutex_lock(&set->tag_list_lock);
-> +	list_for_each_entry(q, &set->tag_list, tag_set_list)
-> +		blk_mq_unquiesce_queue(q);
-We should add the check of blk_queue_skip_tagset_quiesce() to keep consistent
-with blk_mq_quiesce_tagset(), it doesn't make much sense, but maybe look a little better.
-		if (!blk_queue_skip_tagset_quiesce(q))
-			blk_mq_unquiesce_queue(q);
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
