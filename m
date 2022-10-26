@@ -4,72 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4411FFA373E
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Oct 2022 12:58:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8295C38A2D
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Oct 2022 13:01:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=fpb3PWt/hEXf3yoJ4foTw1es95
-	i4QToxYOJ/dO5mRtZgP8sI66nC44T0xn0I1u8m/RuBSPQotAUaf5GcmvzOvel9OK4bqxpsDF0iwxk
-	mOOMy/cHafhkK8yoMKZgToYHL2JgpW18+yhjbHop7ahABXliaNaASU3K5YONfGSOoYPzQbmvmJ0ZI
-	FjbZiWG47cjA3KFnkC2QGpgSYKiyb7gOEMQblIHDB5EXIFOxVr/VPNtb6kZATAMQN2L5inqebVtR3
-	oj8+vY8HQQZEolhiNKV65Ji/pMDEFe3bSaeb3cnsF11f/dIJag8HDjSmMn1uL9BrlC3SEbpPE3rY1
-	rutMOWkQ==;
+	bh=ck2ik0fe+i8crSJiNtn0gF6zzg9wdmgr7S9E9ek1RyY=; b=nHz0QnO+zBfVMedS7U5gRy6MCC
+	WdOvbVz71J1/fHHL8H/gtwXAgoHoxs8fc2FArip5A1hhv6LwzBkWXcJBe7kovgti8/PeAQBykUELX
+	P+b4YOhdL0VbkYoVL4WvtQWD7vjSRn4Wi09q8NdQMCUpFGjv4JVT421Paqm8yuto47JD4CDrlEcfz
+	Hcc+4uzpGFMnFDsppi6P5shftfSFXM7nNHGmUfkO3dv16cj7XmWYFqhzTJn1HSo6hIvvkCgCnKByI
+	d8TLA8rIlpJ431tBvtu2/U3Im6XziQaJoJrWG0EYsuOsPgZCBCTtt7/58pzQ4r27ADgYzdets3oOP
+	LV0ACAlA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onfzk-009Ksg-IL; Wed, 26 Oct 2022 12:58:56 +0000
-Received: from mail-wm1-f43.google.com ([209.85.128.43])
+	id 1ong1w-009LqD-87; Wed, 26 Oct 2022 13:01:12 +0000
+Received: from mail-wm1-f46.google.com ([209.85.128.46])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onfzg-009Ko7-Ul
-	for linux-nvme@lists.infradead.org; Wed, 26 Oct 2022 12:58:54 +0000
-Received: by mail-wm1-f43.google.com with SMTP id bh7-20020a05600c3d0700b003c6fb3b2052so1488161wmb.2
-        for <linux-nvme@lists.infradead.org>; Wed, 26 Oct 2022 05:58:47 -0700 (PDT)
+	id 1ong1t-009LmC-1v
+	for linux-nvme@lists.infradead.org; Wed, 26 Oct 2022 13:01:10 +0000
+Received: by mail-wm1-f46.google.com with SMTP id l14-20020a05600c1d0e00b003c6ecc94285so2184033wms.1
+        for <linux-nvme@lists.infradead.org>; Wed, 26 Oct 2022 06:01:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=wjgjGFdzUhRf6RMpyta0ytKBJASihDT63RCp1I9XAjKBGJ+bu7J0yubzPrTHlOLyKU
-         x54PYqCWX9JK0q42vOMZjvdD1+rqIjW/zuTIby+tMdozTxb0qfGJ6F+yRm0TopRKtj0z
-         yiyykKGoHekXQpeoAZjM05+/2MLF+UxQd2Zv8zaZ9pS7iM5lbMl1n+o0i/vXBPEfTmkO
-         NHNbJ2pXZYClyAhTBfWUlp28RbtTh8Y8Ref3NCYSw7L3nymAZKWtVk6Y4PDA8+MJpOYI
-         Ih65MhfzwiNSIh00SQJ9RXfpXVkQCJq4lBAM7aMDZEtEHlOgxxBDT7SDpNHHI5cNXk/U
-         KtBg==
-X-Gm-Message-State: ACrzQf1rrGhOsbu+FbdR0AmlW+yHu9+v+f0/K1MOR+Dyusg512PSCvd1
-	TnwUSrEGpZjMDthvyAd2/oBL2zOFPKk=
-X-Google-Smtp-Source: AMsMyM5vTwNXD2B3fsKTpl+TMNn+mB3Xpe4zOea8a8MY9E3qVzdVXi9FabT62QrQg3zPFcNHrojVig==
-X-Received: by 2002:a05:600c:538b:b0:3c6:b66d:4027 with SMTP id hg11-20020a05600c538b00b003c6b66d4027mr2289881wmb.146.1666789126359;
-        Wed, 26 Oct 2022 05:58:46 -0700 (PDT)
+        bh=ck2ik0fe+i8crSJiNtn0gF6zzg9wdmgr7S9E9ek1RyY=;
+        b=AKEbvXM7VSGBtyv+nnYYnSFPPFzirn/E23VzR7IHSDm91iQGqNyp4ZR1AQ9svL2rEj
+         BQPj2GHd3SEAlMnJevQGXNnq/eoA7ZIMYLXzSI7vgGlBP1XJWBMgNPBgJ1Tkat7JXiQj
+         Z/+BG5t7O81nzsS1enzx1iGfMVYcntfyUTwc1G/SfkoalO4j4DCzfouCsg8PPQsmLV1M
+         3Pn0pjJnsdwebMyUpKdDdwg+AddHkklnueOoHpK0HoyUClev52NaZeXWePwMogmTRAMK
+         oFe92XIt47RtxfVo1vmDvI4gwsCAIUg/JkjWrRO7yrqEH9l+FDlruig68hqpvZqIMCnj
+         /CSA==
+X-Gm-Message-State: ACrzQf3PPU+AXEiDUz8FFtkQtXbbhxqK8sXsoW8W5saKnPBIHqqw5x5s
+	pJ0scj2GnksIt9C3FeyRj60=
+X-Google-Smtp-Source: AMsMyM5f+6HjwRJ+Gam5Jyfzk+NxsDN1TXYyMOFk+kg5W5LC2wzBbdOzLBU92n6VjKrOZzUKMpf92Q==
+X-Received: by 2002:a05:600c:4587:b0:3c6:f645:dbc2 with SMTP id r7-20020a05600c458700b003c6f645dbc2mr2393525wmo.83.1666789264226;
+        Wed, 26 Oct 2022 06:01:04 -0700 (PDT)
 Received: from [192.168.64.94] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id o16-20020a5d58d0000000b0023662d97130sm5150608wrf.20.2022.10.26.05.58.44
+        by smtp.gmail.com with ESMTPSA id d17-20020adf9b91000000b0022e55f40bc7sm5360470wrc.82.2022.10.26.06.01.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Oct 2022 05:58:45 -0700 (PDT)
-Message-ID: <5d8a1201-554c-0273-351e-c9fb7e32509b@grimberg.me>
-Date: Wed, 26 Oct 2022 15:58:43 +0300
+        Wed, 26 Oct 2022 06:01:03 -0700 (PDT)
+Message-ID: <73072365-adc5-1430-0b12-f552fd99b96e@grimberg.me>
+Date: Wed, 26 Oct 2022 16:01:02 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH 12/17] nvme-pci: don't unquiesce the I/O queues in
- apple_nvme_reset_work
+Subject: Re: [PATCH 14/17] blk-mq: move the srcu_struct used for quiescing to
+ the tagset
 Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
- Keith Busch <kbusch@kernel.org>, Chao Leng <lengchao@huawei.com>
+To: Chao Leng <lengchao@huawei.com>, Christoph Hellwig <hch@lst.de>,
+ Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>
 Cc: Ming Lei <ming.lei@redhat.com>, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org
+ linux-block@vger.kernel.org, Hannes Reinecke <hare@suse.de>
 References: <20221025144020.260458-1-hch@lst.de>
- <20221025144020.260458-13-hch@lst.de>
+ <20221025144020.260458-15-hch@lst.de>
+ <12eb7ad8-6b70-092a-978c-a2c1ba595ad4@huawei.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20221025144020.260458-13-hch@lst.de>
+In-Reply-To: <12eb7ad8-6b70-092a-978c-a2c1ba595ad4@huawei.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221026_055853_024637_C5954AC6 
-X-CRM114-Status: UNSURE (   6.99  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221026_060109_130424_231CCAFF 
+X-CRM114-Status: GOOD (  23.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,5 +84,154 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+
+
+On 10/26/22 11:48, Chao Leng wrote:
+> 
+> 
+> On 2022/10/25 22:40, Christoph Hellwig wrote:
+>> All I/O submissions have fairly similar latencies, and a tagset-wide
+>> quiesce is a fairly common operation.
+>>
+>> Signed-off-by: Christoph Hellwig <hch@lst.de>
+>> Reviewed-by: Keith Busch <kbusch@kernel.org>
+>> Reviewed-by: Ming Lei <ming.lei@redhat.com>
+>> Reviewed-by: Chao Leng <lengchao@huawei.com>
+>> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+>> Reviewed-by: Hannes Reinecke <hare@suse.de>
+>> ---
+>>   block/blk-core.c       | 27 +++++----------------------
+>>   block/blk-mq.c         | 33 +++++++++++++++++++++++++--------
+>>   block/blk-mq.h         | 14 +++++++-------
+>>   block/blk-sysfs.c      |  9 ++-------
+>>   block/blk.h            |  9 +--------
+>>   block/genhd.c          |  2 +-
+>>   include/linux/blk-mq.h |  4 ++++
+>>   include/linux/blkdev.h |  9 ---------
+>>   8 files changed, 45 insertions(+), 62 deletions(-)
+>>
+>> diff --git a/block/blk-core.c b/block/blk-core.c
+>> index 17667159482e0..3a2ed8dadf738 100644
+>> --- a/block/blk-core.c
+>> +++ b/block/blk-core.c
+>> @@ -65,7 +65,6 @@ DEFINE_IDA(blk_queue_ida);
+>>    * For queue allocation
+>>    */
+>>   struct kmem_cache *blk_requestq_cachep;
+>> -struct kmem_cache *blk_requestq_srcu_cachep;
+>>   /*
+>>    * Controlling structure to kblockd
+>> @@ -373,26 +372,20 @@ static void blk_timeout_work(struct work_struct 
+>> *work)
+>>   {
+>>   }
+>> -struct request_queue *blk_alloc_queue(int node_id, bool alloc_srcu)
+>> +struct request_queue *blk_alloc_queue(int node_id)
+>>   {
+>>       struct request_queue *q;
+>> -    q = kmem_cache_alloc_node(blk_get_queue_kmem_cache(alloc_srcu),
+>> -            GFP_KERNEL | __GFP_ZERO, node_id);
+>> +    q = kmem_cache_alloc_node(blk_requestq_cachep, GFP_KERNEL | 
+>> __GFP_ZERO,
+>> +                  node_id);
+>>       if (!q)
+>>           return NULL;
+>> -    if (alloc_srcu) {
+>> -        blk_queue_flag_set(QUEUE_FLAG_HAS_SRCU, q);
+>> -        if (init_srcu_struct(q->srcu) != 0)
+>> -            goto fail_q;
+>> -    }
+>> -
+>>       q->last_merge = NULL;
+>>       q->id = ida_alloc(&blk_queue_ida, GFP_KERNEL);
+>>       if (q->id < 0)
+>> -        goto fail_srcu;
+>> +        goto fail_q;
+>>       q->stats = blk_alloc_queue_stats();
+>>       if (!q->stats)
+>> @@ -435,11 +428,8 @@ struct request_queue *blk_alloc_queue(int 
+>> node_id, bool alloc_srcu)
+>>       blk_free_queue_stats(q->stats);
+>>   fail_id:
+>>       ida_free(&blk_queue_ida, q->id);
+>> -fail_srcu:
+>> -    if (alloc_srcu)
+>> -        cleanup_srcu_struct(q->srcu);
+>>   fail_q:
+>> -    kmem_cache_free(blk_get_queue_kmem_cache(alloc_srcu), q);
+>> +    kmem_cache_free(blk_requestq_cachep, q);
+>>       return NULL;
+>>   }
+>> @@ -1184,9 +1174,6 @@ int __init blk_dev_init(void)
+>>               sizeof_field(struct request, cmd_flags));
+>>       BUILD_BUG_ON(REQ_OP_BITS + REQ_FLAG_BITS > 8 *
+>>               sizeof_field(struct bio, bi_opf));
+>> -    BUILD_BUG_ON(ALIGN(offsetof(struct request_queue, srcu),
+>> -               __alignof__(struct request_queue)) !=
+>> -             sizeof(struct request_queue));
+>>       /* used for unplugging and affects IO latency/throughput - 
+>> HIGHPRI */
+>>       kblockd_workqueue = alloc_workqueue("kblockd",
+>> @@ -1197,10 +1184,6 @@ int __init blk_dev_init(void)
+>>       blk_requestq_cachep = kmem_cache_create("request_queue",
+>>               sizeof(struct request_queue), 0, SLAB_PANIC, NULL);
+>> -    blk_requestq_srcu_cachep = kmem_cache_create("request_queue_srcu",
+>> -            sizeof(struct request_queue) +
+>> -            sizeof(struct srcu_struct), 0, SLAB_PANIC, NULL);
+>> -
+>>       blk_debugfs_root = debugfs_create_dir("block", NULL);
+>>       return 0;
+>> diff --git a/block/blk-mq.c b/block/blk-mq.c
+>> index 802fdd3d737e3..6cbf34921e33f 100644
+>> --- a/block/blk-mq.c
+>> +++ b/block/blk-mq.c
+>> @@ -261,8 +261,8 @@ EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue_nowait);
+>>    */
+>>   void blk_mq_wait_quiesce_done(struct request_queue *q)
+>>   {
+>> -    if (blk_queue_has_srcu(q))
+>> -        synchronize_srcu(q->srcu);
+>> +    if (q->tag_set->flags & BLK_MQ_F_BLOCKING)
+>> +        synchronize_srcu(q->tag_set->srcu);
+>>       else
+>>           synchronize_rcu();
+>>   }
+>> @@ -3971,7 +3971,7 @@ static struct request_queue 
+>> *blk_mq_init_queue_data(struct blk_mq_tag_set *set,
+>>       struct request_queue *q;
+>>       int ret;
+>> -    q = blk_alloc_queue(set->numa_node, set->flags & BLK_MQ_F_BLOCKING);
+>> +    q = blk_alloc_queue(set->numa_node);
+>>       if (!q)
+>>           return ERR_PTR(-ENOMEM);
+>>       q->queuedata = queuedata;
+>> @@ -4138,9 +4138,6 @@ static void blk_mq_update_poll_flag(struct 
+>> request_queue *q)
+>>   int blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
+>>           struct request_queue *q)
+>>   {
+>> -    WARN_ON_ONCE(blk_queue_has_srcu(q) !=
+>> -            !!(set->flags & BLK_MQ_F_BLOCKING));
+>> -
+>>       /* mark the queue as mq asap */
+>>       q->mq_ops = set->ops;
+>> @@ -4398,9 +4395,19 @@ int blk_mq_alloc_tag_set(struct blk_mq_tag_set 
+>> *set)
+>>        */
+>>       if (set->nr_maps == 1 && set->nr_hw_queues > nr_cpu_ids)
+>>           set->nr_hw_queues = nr_cpu_ids;
+>> +
+>> +    if (set->flags & BLK_MQ_F_BLOCKING) {
+>> +        set->srcu = kmalloc(sizeof(*set->srcu), GFP_KERNEL);
+> Memory with contiguous physical addresses is not necessary, maybe it is 
+> a better choice to use kvmalloc,
+> because sizeof(*set->srcu) is a little large.
+> kvmalloc() is more friendly to scenarios where memory is insufficient 
+> and running for a long time.
+
+Huh?
+
+(gdb) p sizeof(struct srcu_struct)
+$1 = 392
+
 
