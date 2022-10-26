@@ -4,144 +4,144 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA7FEC433FE
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Oct 2022 11:53:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EFBCEC433FE
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Oct 2022 12:02:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qMcadjS9/OLpP08UdjP96esSZlMI7fryV3ALsvTnq10=; b=apj5yElaaFnEIcNJwQtoISmgRp
-	lXwEXtf5eeVX78bSDyEF0u6MJr92SsyPXN+l3WmUxtaLEwaQ4rzk6BiMjDjqiS5G/hVA5MHILlfxD
-	9LXNooRnzra3C/OHM0t6m5F94vgdDIfi2a5U9OyB47QuKedw3mNZlVVxt0XJh87XvKJihS9//f6xN
-	OV8RSApQHhwjrIZTsaTeYZjRl900yC2v2vd2scxf32RCcyG/XZPM7Mx0hJk22NWI+YCwPAJGNCAAB
-	v6Dg3GgMTjK2sJZ8yjgS0+O1gbXaVcqN421mI11SaIX9EDqMwrso3Yxemqj7AdS4TO8vC7pJ+71/X
-	F9gWqfbA==;
+	bh=Pw0FLMadUR8A5efZ1tZsM/1B2Rm2OJdc0zxzXCWgcmY=; b=wDLTe75C1P2ITuq5bLL/ZTDuD1
+	L1h/XqRI6ivtEkeq6wvTDlWqb9nJvfh6E+l/nhQyqpQpxH5u0Kt1YZJwDclsEeFlvMMW731dAsnwc
+	pW4yumSW171oNat1frZY9LJIdZkr93W/1/DMpKpwXv2Wyd7LFS4/jC7w+VGk88zxDxi+6+QnzCYYF
+	NTFmQEMhfTaysNaICJdQjqxlfiOm6fbtc6nHH3B4QdWjNoV4z637d+0RTAR8n3/HipJjmPvx56i1g
+	Lr6D7qH7K2fU6eeoG0tX+AUkOIxE+fPvwi7/dJr/kpMiw1pgsckQlesq48xI6wbpAysXqfp896+YA
+	4vcUMPYw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onexw-0095yw-Hn; Wed, 26 Oct 2022 11:53:00 +0000
-Received: from mail-dm6nam11on2081.outbound.protection.outlook.com ([40.107.223.81] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+	id 1onf6h-0097Oo-DD; Wed, 26 Oct 2022 12:02:03 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onexu-0095xD-CK
-	for linux-nvme@lists.infradead.org; Wed, 26 Oct 2022 11:52:59 +0000
+	id 1onf6c-0097OK-RN
+	for linux-nvme@lists.infradead.org; Wed, 26 Oct 2022 12:02:01 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1666785718; x=1698321718;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=ZmTcmrpsXKNgcJHoY6MXkW+0Apt939qapQwTplA3PAI=;
+  b=F1QHFKUxAqt4PMwGRw/CIeX0cdpFBpy80qW4eGR1II1pjw4U4XdNR89j
+   a28eKjdWjql32BH9qQdt3lwKgpz4CpgzHSYBPcFDqUxUnlvR5CTV6X52U
+   qSZQX2SJRF4QG7EpSBWbBctXFI1juwRCAQ2zOdWrbA7Gv464QEPQQBW07
+   MBm2W7C0CgLFuqoAN4GXMpjzmPO9sTYgiiDXtrmUGQ/Ja8rUMc9+96V3w
+   0twY+sDS0GU6rMYttwmM1NDLmxZvAAXplhr/phRADpXFhiYSVjpxq2tTW
+   zNR9aaQtvf9rDpBS+LvE5qyk0yG1fer9hJMQkDao3pn/yULzIY0Z2211C
+   A==;
+X-IronPort-AV: E=Sophos;i="5.95,214,1661788800"; 
+   d="scan'208";a="214773946"
+Received: from mail-bn7nam10lp2105.outbound.protection.outlook.com (HELO NAM10-BN7-obe.outbound.protection.outlook.com) ([104.47.70.105])
+  by ob1.hgst.iphmx.com with ESMTP; 26 Oct 2022 20:01:55 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Rf9A0iZuEfJIjHMtoJyeH4fIvmM780VciZibrBFCtOjKNfOYYVyIXuu/Ixyo2WQevhm++j8/OEUd4TBQrqdwv6Qwrr+cPhyprsM9yMRR7JuFuVCBiaYLQGtyOqOFmU7+6zxVwNaPqJvReKReXgg7paJNDw//kfdsqInWhC9lXlWKMpE4/VXdoQd3mM6WesZV3zoFEhafbBoI3qlSdWSM8VDqTq9JNwPLc+wvXKT/a9hATeV8xMbm8lm6geZ4gMtxdqM3CtHHe2ir5stGzyK+eUmEu79Z1XUcCTQ801ZKa7sJ4yy6EutPT9QPEdFBDFZclRh7l3COlMoi85gwadOOEA==
+ b=UWrK25kCZs3txD1aI4QCvH8jgIT1zLXXsoXSDZfjGqxtuJz1epNJrfi6EXpbK+GmOB9BEWVbC81sVO5rT6suyMRo2lQ/dP4cyxcfNPU5iYDTOksHCh2QavDYzFZTs/XmXcNx2R6qq0loJ8Xov9DDi6Y7nlt0cV54sdDPxhc1x9hFGHB5UGdWRSSMLNLIUgF11SawVwPhRftKO2BttarrRUpXhmB0+0vYi1lwcJeN+BBk+VGfC24686mwy89oTptPZoRi1odgeHk4tYo2alym4N5Yb+PO+6afJjFz9IMyju3r/J+nnThKf5hINNLbTJH5HfS6h1DUQGwmYrw1GQ7+oQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qMcadjS9/OLpP08UdjP96esSZlMI7fryV3ALsvTnq10=;
- b=czxZbkfj13OFeEmR109jjYO4uA2rA067miHzEHe97DateWQWNAQHR/06ATSb811Tx4abwOUoEDUXjaLxpOmCOT2z3BdOdSwvsc7IFz+ckg2/AhdePqY5nvpYr6C6sG1W9JA99a5xM/9gwbld1yWTBac4dAHGI+us/PUSqJ6xn3zHq9S8GpVBpA8GAC5RZJz10Siul2BxSWGb12ZRZEELE+LUegvokouvWBXqdtCv29GNaNd3eOtx/8eIjFXD1KH0Tz7L3UaYwZiwuJc/nQanP6/o4XowivyV99JWH9G98ENHnQQEgOoj5terHVMajh4L5l7L6AZZg8Ce0M5tYeXDng==
+ bh=Pw0FLMadUR8A5efZ1tZsM/1B2Rm2OJdc0zxzXCWgcmY=;
+ b=XPvDUV4w20fBSeDGK5jQQTr44K57IP8cz9ByT3QOV/uo6Yuzj0lGFJ9d4grKvmBsCjOv5lHnrc199Ab7BQN3/PXlQfDo7XBYZxH9CDygfbtE79Ultn3YiaKDCA19bGSF80GzWErEx9ofwKV1WoKaJQ6NLTYp0as8GulzzQh+nIMaHtl97ZRyyYPhc0QiICQH65tZsQbCG2p7w45bJeiu+PhmH1WwLDffLk539Y1xqRUeK1py5ZHtH+hv75xoDSXUdyd5Zps40LqcpEYs8cFz+kWMCYWO4Jwy5pHT9V4VldBYEkBNGNNmHaVvbnVS7IqPYbvzbvciqwuNzPB455qnwg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qMcadjS9/OLpP08UdjP96esSZlMI7fryV3ALsvTnq10=;
- b=oc50cA6jZnlMJxFtdUhaBo7YgMvjR7jj3xo1BUBKg+fSE5nB61E3IA4V/VLp60FaBhZeRVfrvmnpHL69VTIcpjnOUKyiM0qiTib2RL/kHdMJKrRJ4PsRO/n1uG01wmyk6q6vqtbIjkdf0u/8tmQR/3qK/VTnApGo4lv2iuBkDQLFwbECGM4JjpG+pFZDM3BEvggO9dx5Evw0kkCMXV9z7RNr81Ur307kXd4P9ZRTggwrl4y9sD+C3hJcrxFgA0g1GdoDsYOV/nbsyoGD3TgCUAW2IRAlOptHZKD/ULtCT/bG4ogUOQ2zKMNiEiPILTLdxqVm2g+Vbv6mVZmv8RsgTg==
-Received: from DM6PR12MB3564.namprd12.prod.outlook.com (2603:10b6:5:11d::14)
- by SA1PR12MB5640.namprd12.prod.outlook.com (2603:10b6:806:238::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.33; Wed, 26 Oct
- 2022 11:52:53 +0000
-Received: from DM6PR12MB3564.namprd12.prod.outlook.com
- ([fe80::76e5:c5e9:d656:b0d7]) by DM6PR12MB3564.namprd12.prod.outlook.com
- ([fe80::76e5:c5e9:d656:b0d7%7]) with mapi id 15.20.5723.029; Wed, 26 Oct 2022
- 11:52:53 +0000
-From: Shai Malin <smalin@nvidia.com>
-To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>, Aurelien
- Aptel <aaptel@nvidia.com>
-CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "davem@davemloft.net"
-	<davem@davemloft.net>, "kuba@kernel.org" <kuba@kernel.org>,
-	"edumazet@google.com" <edumazet@google.com>, "pabeni@redhat.com"
-	<pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan
-	<tariqt@nvidia.com>, "leon@kernel.org" <leon@kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>, Or Gerlitz <ogerlitz@nvidia.com>,
-	Yoray Zack <yorayz@nvidia.com>, Boris Pismenny <borisp@nvidia.com>,
-	"aurelien.aptel@gmail.com" <aurelien.aptel@gmail.com>, "malin1024@gmail.com"
-	<malin1024@gmail.com>
-Subject: RE: [PATCH v7 04/23] Revert "nvme-tcp: remove the unused queue_size
- member in nvme_tcp_queue"
-Thread-Topic: [PATCH v7 04/23] Revert "nvme-tcp: remove the unused queue_size
- member in nvme_tcp_queue"
-Thread-Index: AQHY6Hol/pxgny+zOESMfOrEJsXCfq4fSNMAgAE7HwCAAAdNYA==
-Date: Wed, 26 Oct 2022 11:52:53 +0000
-Message-ID:  <DM6PR12MB356483814D8B7D3498A157C5BC309@DM6PR12MB3564.namprd12.prod.outlook.com>
-References: <20221025135958.6242-1-aaptel@nvidia.com>
- <20221025135958.6242-5-aaptel@nvidia.com> <20221025161442.GD26372@lst.de>
- <4a721959-c3c3-4377-d1e3-7fa7d6c3e814@grimberg.me>
-In-Reply-To: <4a721959-c3c3-4377-d1e3-7fa7d6c3e814@grimberg.me>
-Accept-Language: he-IL, en-US
+ bh=Pw0FLMadUR8A5efZ1tZsM/1B2Rm2OJdc0zxzXCWgcmY=;
+ b=amO0WSw1e4TWTmqDnQwR3Lowv/57dUqUYvAXGV21EHrgCKv36h6FMnbTJTG8CRp1uQcj9/fo3pcxYDxyyGJiUlihS1RtvXPBr4G9qI8hWAAAqtjW34/Sqm5XMu7BlGTiLk/dvyHPX6B9Pz5O2vUVxgNxN1/yKmjPovtse3CWn6M=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ BYAPR04MB6135.namprd04.prod.outlook.com (2603:10b6:a03:f2::28) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5746.26; Wed, 26 Oct 2022 12:01:51 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::d4b9:86e9:4fc8:d6e0]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::d4b9:86e9:4fc8:d6e0%5]) with mapi id 15.20.5746.028; Wed, 26 Oct 2022
+ 12:01:51 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Hannes Reinecke <hare@suse.de>
+CC: Sagi Grimberg <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, Damien Le Moal <Damien.LeMoal@wdc.com>
+Subject: Re: bad unlock balance WARNING at nvme/045
+Thread-Topic: bad unlock balance WARNING at nvme/045
+Thread-Index: AQHY4sgozFGFnCMG3EKP0AQmcjycsa4T+1KAgAxLOICAAFlbAA==
+Date: Wed, 26 Oct 2022 12:01:51 +0000
+Message-ID: <20221026120150.luck4dinfvhrw7se@shindev>
+References: <20221018080350.zir6xm6dnr4wgb7j@shindev>
+ <93e16b0e-4fa0-c0e1-6cc5-dec018db5f5c@grimberg.me>
+ <853f0eb7-1f0f-eefe-fd32-0b1a1a98d3d7@suse.de>
+In-Reply-To: <853f0eb7-1f0f-eefe-fd32-0b1a1a98d3d7@suse.de>
+Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
+ header.d=none;dmarc=none action=none header.from=wdc.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR12MB3564:EE_|SA1PR12MB5640:EE_
-x-ms-office365-filtering-correlation-id: d44d1330-96ed-43c4-e45b-08dab7489d6b
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|BYAPR04MB6135:EE_
+x-ms-office365-filtering-correlation-id: 929bbee4-33ac-4f12-e162-08dab749de53
+wdcipoutbound: EOP-TRUE
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  bqIuqe1Vvcsh9/X/BqyBhNlEsnDp7IzrDb/K7f81FaCqKwp8GoCykLRjA+A1Sz/DykdcPgkk2nyA18vVVNVOGPhur//DM5qq2iogcDjObNIKb1S5yyqKhCqQUOjwZ8/m9V3Y2K5PSHIAy5+5MEQw32TtRHlltKc86fSTlXI7eDgQM4rGfmWNYFf4HLqDHH+cDPvTMWC/9XKbcZMogKMr1ALeWpH7bSgg4IVvewvk/r0s/65/mOcBAdUUcANgjPpwoMRD4nMdLclArXLf8j+asGV15rItbXadvZL75g2PR2+ZZ1tzBF3gp1GF81EuZamEilcNGsqtHkakFoGsr/7jj063e9igyHzzYLhjRGY1oDtkfR67m+YK7HKpayo0NWT5faWqebAlBd47Q1uTZSuWT1WH7Qj9PXhONYtgXDkJ99UYe815uERkn1yfpmrIDRZnykEqqqVFPJGG7mBt34qMjJcqOqnPp7U6DuNgLcuBIo+RucpulGM+kiKYdIcUaTKRGuihlsZNv++tcnRqeaiNFHXiRkgKB6HHcfimAWso7M3jOpw6H/H6S+29MpJh+rgD0HHEn1CAZ/VpcqeHrX5t7v4INT/r/kpTy+sF+zcMHyur7gZX8fCY4SIk1cKaNNDKfgWsKN+eo1BP/34/Q705ay0h61R3PbZWIcBhD8ICdKLxuDilPID4Gw51lNdj7gaPLi3lI8AbMZu0NskzI8919kmAw8nmDhAsnvx6/UhPhy0gk9AbvXRfx3amTpb8qy7Uo93SYydRV84uAnA8NJ8Pag==
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3564.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(376002)(39860400002)(346002)(136003)(366004)(451199015)(33656002)(86362001)(122000001)(38070700005)(64756008)(83380400001)(38100700002)(4744005)(9686003)(7416002)(5660300002)(26005)(55016003)(76116006)(2906002)(186003)(7696005)(6506007)(6636002)(52536014)(110136005)(66476007)(8676002)(41300700001)(54906003)(71200400001)(8936002)(66446008)(4326008)(316002)(478600001)(66946007)(66556008);DIR:OUT;SFP:1101;
+x-microsoft-antispam-message-info:  5QGBmoEGn0RnTUmjQBjSD+pAI5zhIgyX1ljVf/Spt2w2jlYK7xMzechveXodLfbto8TexLysK/D2kVqLpkc3Pticj43mvrkjYoz3z52Fg62jTu34JdYdNJat5Wgm2FL/fMfxiZFvj6bSiGXcMOcSWx0IQEI2YWovVr4u5ZER3wZW5m+b6oCBeTnNMv04YYCmPdQR7bbTln+V6Rb1vA+Fjhb2RiNATIs/6mpKh33+p4blp6uZLUa3i9uogapcL22T+RVzyQ7zl/LAXlA7vKBHVMoFRmMafbqUK1rSR+SwHdMVDIXjfv8uayDuhmfBw+IndzuttbJska/FHZJeaMmCt+4me9Ng9XB0G6a3bw0V3E+9bgkf7jSXvUNSOHsc95L3htDgyAK7AWoypQurDc/y7dKk/3vgJKZAkb6oCo5PNUHzdJB5cRfKirIZT54rA2UjDXGyPVfnAPQ6s+XMZHZlK5TUqyvdnvKi4ad19dRtfwczkq7cn9WD3ZeAOmIhMYaZVDchg/2DV/qPjAAwYbyExENl+MsqGNFTD0kfjj0QRVO5oRj9vRO6A8HDVR+J+Ti/668G4YYH10Df7rWlcUt0bq3DHJ6h0i0xza2FQzmFT1ZOZKhcRhs0nMFznR4vFhgIxCJE7IQXvJ/RoX7HfJzR+wvWsesZQKAvjrDqZCpghdtwOsx1R7gIhangedKPtGOe9oAuX/rORqwn8YsjnomvbmfsgcxSf9cZ5g3pP+o/ID7b6LdsFgHHmBhMF1I3RB38xGCcg5Xt+stOrcAOJQ/08w==
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(7916004)(346002)(366004)(136003)(39860400002)(376002)(396003)(451199015)(6916009)(122000001)(38070700005)(478600001)(54906003)(316002)(82960400001)(38100700002)(86362001)(83380400001)(71200400001)(6512007)(33716001)(186003)(53546011)(26005)(1076003)(9686003)(6506007)(66446008)(64756008)(6486002)(8676002)(8936002)(44832011)(4326008)(66476007)(66946007)(2906002)(41300700001)(76116006)(66556008)(5660300002)(91956017);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?S2oydnhkYW80RkM0azU3S2cyQ0YyVm40L2pEd2NsdStyWlZ0bElrMWFSWEJS?=
- =?utf-8?B?STB5aEc3U1V3Y3JRWVZDUGVYbS9wazd0a0pockhsa1dHZHJPR1FYUlFUL2pS?=
- =?utf-8?B?YytpVU50U0J4Y05KTmRPQ1RxeVZ2cmt4K0wzZnBGVFNWL0gzRkRzSFhycjRR?=
- =?utf-8?B?TEQxeDZwRE43Sjd5STliV0Y0STFYbjhFanV1MjlRM1YvM0FFN3BtbEZPTzcz?=
- =?utf-8?B?eUdTVWs0dDlEY2hpdzQ0UEhVQ2laMU1maG5VZkVUc3BsNTMzRGIvTlhCWnJ3?=
- =?utf-8?B?SytVV1dXMTFESk1PS25qZDYxQWRKdWh3UERBTnlkQnVmWmRqRzBEcy9MOTZR?=
- =?utf-8?B?M1lYcldLY3h3LzBXeUJ5TFd0NC84UHk1OG1ZS2hhTm9TY3N5a1VuOGtNdm1V?=
- =?utf-8?B?amJXcHAxVGh4Y0Y5bTZpYmRwMXBFOHU2NDYvVTVEUVJ4RVFINkxLR1Z1c1Bm?=
- =?utf-8?B?cHp6VVBIazhsb2lqRmxIakc4TGFlN2dqQndkNHV3azZ5ZTBXWFNrUnlIWUxT?=
- =?utf-8?B?Q0QrbXlKWGg2Szh3cjVVT2RwRTd4Z3Z3TGNMZWlCSy9RaGRndGFZdjUvMHpL?=
- =?utf-8?B?MWFlbzBZUEZHanpWT3ZsMkt3QUN6RklJVnNnNzN5UE13bUtScGdGeHJxQ2tQ?=
- =?utf-8?B?SzU3OWtZWTYzVzlvWWQzYWdLSmREbmg2cHFrZ3dxckNBcVpaaEhqY0JZN0RM?=
- =?utf-8?B?UFRIL1oydUw5N3Voa1FYNW9ZbSsxSmdXcW8wdHBnMnY3dHdMZ3duYnB1a2c3?=
- =?utf-8?B?ZzdsNTR4dEVvNjNML21tKzNKYkFmelppNEFjMEE0ZG4vcU9BTk5sTVFGQ3o4?=
- =?utf-8?B?VUVZSUNMdGI3UU1VSGpnT3pQVjRRempGNkEyb3pxbEZMZTdaNVVndnV2YWVB?=
- =?utf-8?B?dTBPMmhmZUxJWEZwVm1JVzViVi81V0tWWWVJUGc5RWNvQVBrbG9zTGw4bERH?=
- =?utf-8?B?VFVUOGwwS0EwWXlHU1MvUU00VmRJQjJucENmQ05qZHh4SDlubmJwVGVBUWxl?=
- =?utf-8?B?K1c1djgyMlZ1anRWbUxaWEpXb29qMkpWeG9BUVpBUHhiQ25PRG1pMzFHRmlP?=
- =?utf-8?B?MFBSRkllcFhtTUVlejR3bEl4Z2R0NWo0aUh5WlZWTVFYNDJ3eDNhWHV4OGJk?=
- =?utf-8?B?YUMySlFkZG1VeTVrZnVEUjI0VEdzRGJjN1p0MEd6OU1tTEhsZ2Rmc01FNmRn?=
- =?utf-8?B?UkNxM2hJRnVObnFiOXhQYVBjMGl4MGZzdW01SmFZWE5TVXZaVnEwVzNyRmti?=
- =?utf-8?B?dlZEY1dZTVJvTUdaZmJNaTNxdjI4d1R1RllPajR4N3ZKZWs3OTlWdjJUQ3E3?=
- =?utf-8?B?TGFEUU5ZU1kvK2VNbytadEQvTFhBanMrei9LQithTkdyeFJJNytodmx0MDR6?=
- =?utf-8?B?a2JzZ1YwdjNvd3RsOHVtODRDN2JBMmVkYTkweXFNclVjdC9uME5nQm16aEtm?=
- =?utf-8?B?SERTNWtOWE96dmM3Skw2aHgraGQ2UUJpQmRGR1dnV1p1WTUyL0JpTHBLc2hZ?=
- =?utf-8?B?UExURCtOUWFCbC80YkNhKzBEdDZJR3ZIVFAwSEhBc3JzbVprVG80VlpUQWFE?=
- =?utf-8?B?ZDB1aUl5QkpoUTJ1VXhSdmRVY0NxT1Z6VS9vUEljeFFYdm1GanhSL2wyMnNx?=
- =?utf-8?B?dlFQRU5iaXlBR0djQ05FcU9yMDVzOCtrZWxmNWpnNUVNY0RGcDgrZWZaZTk1?=
- =?utf-8?B?ajRRK1RqK2hxYWxCZDM2MUlEWHpqN0UyaHc0c1JjUVlXUmV2RGFQSnZxbngw?=
- =?utf-8?B?VE1HQm1Vb1YydWpzL1U5aUc4bEwzNWt3bStFNERJMFpxbTdDRE1xdS8yZmll?=
- =?utf-8?B?YURZQyt4bE5jbVFJYjVqQ3JySmRsRGVXSWgzZzZxNEhwMHREVkxibzRCSUsw?=
- =?utf-8?B?bHgzVVMzQmM2YkVtRmYxZFNKemRyQ3BqRUFIWjA5YlJhUVl6WUozNk45ejFx?=
- =?utf-8?B?V0MyRlpxakV5ZEt1Y09tSCs4eVVnajgzQzh2Q2c1dHkvUjRjbXRjalpmRVhl?=
- =?utf-8?B?TjNpTWYyMlIxQlN6Q2NFbTBia3V3eEROV3kyYVptVWc3Tk4wOVkzdnVWdG1J?=
- =?utf-8?B?R0RTSG4vRVViakJpNFA0N1FZSWp1OStDcHhuZm0zTGtLVXArRGduWkFWeXFi?=
- =?utf-8?Q?kpcl9EP8h+olZlaxlHbPRMAss?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+x-ms-exchange-antispam-messagedata-0:  =?iso-8859-1?Q?RxkD8AID0M7m++rGn43bIkAktU3Jo5FJ60o8w0xb06cUGJevdYm1iJEbyD?=
+ =?iso-8859-1?Q?25MmaIbpCNVichbYGGcIXHnRowjmVkAH+aciKZBdwzTaAqHXP90Id0FnEF?=
+ =?iso-8859-1?Q?v0/IfYpuSaoMvoLLWIhhEZKcdEfGs0dUYUBfdW9HAj/unTmAcqvtMqqU4T?=
+ =?iso-8859-1?Q?6pU/jcwuo88xZmTcV4ZkTTgQDT/wE76hwuYez0tDSgP9P/8+V7+ROjX10P?=
+ =?iso-8859-1?Q?xzRcNe46z3ZaPOwkXmcDV/zysegCBRm8oDETl/UrfX4Fdrs2ibxvskqAK/?=
+ =?iso-8859-1?Q?1zsS9iYWzFBlPssgewUF7gFF/hr2FG0RMwAUC++rVd+qG/00rB6+FjmGdB?=
+ =?iso-8859-1?Q?aezgfHALwIFR+tae97+JeZavEk65f3Zyfj0fJFu9lwm1W6DojMmWS9GGFK?=
+ =?iso-8859-1?Q?mm8hYZ/X/AnSR+7ZPRt2kcTJ8gBlMn4kv+pa+IMRZJDAQkkSoF8OBlP8Ir?=
+ =?iso-8859-1?Q?c/TOYB9ZHGb3cjFi3wuJ2+1h0GtZO50c9AdtHBm9/ldmr3ifa5KP++QFi+?=
+ =?iso-8859-1?Q?hxilMFZnkvzjkTCCKCQ/SSL/JjH9jrNe/ixCsC/rGn5G3BCXCvllRywmdp?=
+ =?iso-8859-1?Q?0Ap24XMUzuU6ScLvs7BNJUosHuiGtLMrwGOPlFWs73sngbqzrIYAXCuTJZ?=
+ =?iso-8859-1?Q?WhEmgwJXfATJEy+s0CviOBJ+pI2sYWBkaPvR69Ryx3nU64LwpNHH+d8sQL?=
+ =?iso-8859-1?Q?I0TC8hb9LIpvVVHJOyIjSKvVgXEPekKh8D1xjGhHhbgw4ZhZCSH6GYF+5I?=
+ =?iso-8859-1?Q?F1wSFj0FDaGadL9WOJE0/BcppRm1tpSkwEqODuitUMffweHVx1sDfU38Tp?=
+ =?iso-8859-1?Q?RhWzJJuhh6DVrugRXEyidWYTVsd//N/Hpk36E2nctCCy6vv3/DE2AWNoe/?=
+ =?iso-8859-1?Q?GJKYe6+xdr+6ioDuZvLUEX17mAGys4XJLvDR71slp5zzQw6cHrY3IPNk3o?=
+ =?iso-8859-1?Q?EnNJoY6ESVzbOLI1LarrwvJh7vkB1QPwCC8Jnzgpk+EgpMA7ZqO1ylKJ9f?=
+ =?iso-8859-1?Q?fQjbGiObwut3ezAl73hVTgLjutv5ROTnjMMvuu3E26EcBzMRa+dS1pn0Cm?=
+ =?iso-8859-1?Q?/Dp9mc86C41TjJh7PjmMgGPWGzTVX/Gxki3MuLzB/R46OogETVdgka4Snv?=
+ =?iso-8859-1?Q?LlHVgh6d2B6gQjZ1R8OImcr+Yjt4hrNsnetcIR+4xt4FiBGiP/RnvHsFgQ?=
+ =?iso-8859-1?Q?5I7gGl3BiK7MkyXjjdFQbrCEC/IxfrgEZs6wiFK4FN28qm/0GNpYMJJJCh?=
+ =?iso-8859-1?Q?P2KKTPKOrIRYa3zS62WyO+Cvjrzjo7KxrwLCgel2h/Q5mpxajiu1zuXqf+?=
+ =?iso-8859-1?Q?vCkdZVDjvXUsZJ+FvgctkrHYBNIKz9g5x+/F1NMyt6QTXhynVvlif/wcIJ?=
+ =?iso-8859-1?Q?JwgGJKKDO7KQeioctp52SQfanTKmlv46IEWgXaXKyeT3RUUnAkBAo4e6Bf?=
+ =?iso-8859-1?Q?K9krMNXZf6R9WJ78UkJjNFfg++W3F5gBzchNnaoKibe0eGEi2cUmSSJaqt?=
+ =?iso-8859-1?Q?VYQZ7vyLNsH2TY8LPlU/mCJdqKjOqoLayt58zIf5GZBzyOWU1+49q58+Iu?=
+ =?iso-8859-1?Q?X7DvlBPazSFrSnfcYBhqKGCpg99RSI9IrdjuLmZmaqG8p67Ga4Vx7m68uC?=
+ =?iso-8859-1?Q?OHLKdqu0IcEwFCzMQllHmS34R8gGh6lYyb4KLDwM3FXWozBek6Cbm8CG1w?=
+ =?iso-8859-1?Q?5O0Ufg8zvzGFFyu+vfU=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <D5A80AA1200E104CAF920326BA995921@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
+X-OriginatorOrg: wdc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3564.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d44d1330-96ed-43c4-e45b-08dab7489d6b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Oct 2022 11:52:53.2812
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 929bbee4-33ac-4f12-e162-08dab749de53
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Oct 2022 12:01:51.6413
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: W7ck/eQaMUTe5MOJyRaWVzvk8VuYbB3jtVl+gpDZE5y4JqbLxO/3rFyIxybsDWsAO3l67kCvJuc5wtx2YG/mkw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB5640
+X-MS-Exchange-CrossTenant-userprincipalname: JKRkbbmelqVq7OI3omv0ZgC7qdXUcwAKVmBYhcy9r7FJIY7xDTjHVGNgWHNOQqr+ncTYxTwnGjzV4wsK6O27WTlJNCnX0Lo3XnfraY/EcWI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB6135
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221026_045258_470906_683F9B64 
-X-CRM114-Status: GOOD (  15.54  )
+X-CRM114-CacheID: sfid-20221026_050159_200183_5482D76B 
+X-CRM114-Status: GOOD (  38.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -156,21 +156,202 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gV2VkLCAyNiBPY3QgMjAyMiBhdCAxMjowMiwgU2FnaSBHcmltYmVyZyA8c2FnaUBncmltYmVy
-Zy5tZT4gd3JvdGU6DQo+ID4+IFRoaXMgcmV2ZXJ0cyBjb21taXQgZmI4NzQ1ZDA0MGVmNWI5MDgw
-MDAzMzI1ZTU2YjkxZmVmZTEwMjJiYi4NCj4gPj4NCj4gPj4gVGhlIG5ld2x5IGFkZGVkIE5WTWVU
-Q1Agb2ZmbG9hZCByZXF1aXJlcyB0aGUgZmllbGQNCj4gPj4gbnZtZV90Y3BfcXVldWUtPnF1ZXVl
-X3NpemUgaW4gdGhlIHBhdGNoDQo+ID4+ICJudm1lLXRjcDogQWRkIEREUCBvZmZsb2FkIGNvbnRy
-b2wgcGF0aCIgaW4gbnZtZV90Y3Bfb2ZmbG9hZF9zb2NrZXQoKS4NCj4gPj4gVGhlIHF1ZXVlIHNp
-emUgaXMgcGFydCBvZiBzdHJ1Y3QgdWxwX2RkcF9jb25maWcNCj4gPj4gcGFyYW1ldGVycy4NCj4g
-Pg0KPiA+IFBsZWFzZSBuZXZlciBkbyByZXZlcnRzIGlmIHlvdSBqdXN0IGJyaW5nIHNvbWV0aGlu
-ZyBiYWNrIGZvciBhbiBlbnRpcmVseQ0KPiA+IGRpZmZlcmVuZXQgcmVhc29uLg0KPiANCj4gQWdy
-ZWVkLg0KDQpTdXJlLg0KDQo+IA0KPiA+IEFuZCBJIHRoaW5rIHdlIG5lZWQgYSByZWFsbHkgZ29v
-ZCBqdXN0aWZpY2F0aW9uIG9mDQo+ID4gd2h5IHlvdSBoYXZlIGEgY29kZSBwYXRoIHRoYXQgY2Fu
-IGdldCB0aGUgcXVldWUgc3RydWN0IGFuZCBub3QgdGhlDQo+ID4gY29udHJvbGxlciwgd2hpY2gg
-cmVhbGx5IHNob3VsZCBub3QgaGFwcGVuLg0KPiANCj4gV2hhdCBpcyB3cm9uZyB3aXRoIGp1c3Qg
-dXNpbmcgZWl0aGVyIGN0cmwtPnNxc2l6ZS9OVk1FX0FRX0RFUFRIIGJhc2VkDQo+IG9uIHRoZSBx
-aWQ/DQoNClRoYW5rcywgd2Ugd2lsbCB1c2UgY3RybC0+c3FzaXplLg0KTm8gbmVlZCB0byB1c2Ug
-TlZNRV9BUV9ERVBUSCBhcyB0aGUgb2ZmbG9hZCBpcyB1c2VkIG9ubHkgd2l0aCBJTyBxdWV1ZXMu
-DQo=
+On Oct 26, 2022 / 08:42, Hannes Reinecke wrote:
+> On 10/18/22 12:57, Sagi Grimberg wrote:
+> >=20
+> > > Hello Hannes,
+> > >=20
+> > > I observed "WARNING: bad unlock balance detected!" at nvme/045 [1].
+> > > As the Call
+> > > Trace shows, nvme_auth_reset() has unbalanced mutex lock/unlock.
+> > >=20
+> > > =A0=A0=A0=A0mutex_lock(&ctrl->dhchap_auth_mutex);
+> > > =A0=A0=A0=A0list_for_each_entry(chap, &ctrl->dhchap_auth_list, entry)=
+ {
+> > > =A0=A0=A0=A0=A0=A0=A0 mutex_unlock(&ctrl->dhchap_auth_mutex);
+> > > =A0=A0=A0=A0=A0=A0=A0 flush_work(&chap->auth_work);
+> > > =A0=A0=A0=A0=A0=A0=A0 __nvme_auth_reset(chap);
+> > > =A0=A0=A0=A0}
+> > > =A0=A0=A0=A0mutex_unlock(&ctrl->dhchap_auth_mutex);
+> > >=20
+> > > I tried to remove the mutex_unlock in the list iteration with a
+> > > patch [2], but
+> > > it resulted in another "WARNING: possible recursive locking
+> > > detected" [3]. I'm
+> > > not sure but cause of this WARN could be __nvme_auth_work and
+> > > nvme_dhchap_auth_work in same nvme_wq.
+> > >=20
+> > > Could you take a look for fix?
+> >=20
+> > I'm looking at the code and I think that the way the concurrent
+> > negotiations and how dhchap_auth_mutex is handled is very fragile,
+> > also why should the per-queue auth_work hold the controller-wide
+> > dhchap_auth_mutex? The only reason I see is because nvme_auth_negotiate
+> > is checking if the chap context is already queued? Why should we
+> > allow that?
+> >=20
+> Well; that's partially due to the internal design of linux-nvme.
+> The controller structure itself doesn't have 'queues' per se; there just =
+is
+> a general 'ctrl' structure. So while I would have loved to have a per-que=
+ue
+> structure to hook the chap authentication into, all I have is the control=
+ler
+> structure.
+> Hence we have a controller-wide list holding all 'chap' structures for th=
+e
+> individual queues.
+> Hence the controller-wide mutex to gate list modifications.
+>=20
+> > I'd suggest to splice dhchap_auth_list, to a local list and then just
+> > flush nvmet_wq in teardown flows. Same for renegotiations/reset flows.
+> > And we should prevent for the double-queuing of chap negotiations to
+> > begin with, instead of handling them (I still don't understand why this
+> > is permitted, but perhaps just return EBUSY in this case?)
+>=20
+> We don't double queue; we're re-using the existing entries.
+
+Hannes, thanks for the explanations.
+
+>=20
+> Can you check if this fix works?
+>=20
+> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+> index c8a6db7c4498..4e824aab30eb 100644
+> --- a/drivers/nvme/host/auth.c
+> +++ b/drivers/nvme/host/auth.c
+> @@ -926,7 +926,6 @@ void nvme_auth_reset(struct nvme_ctrl *ctrl)
+>=20
+>         mutex_lock(&ctrl->dhchap_auth_mutex);
+>         list_for_each_entry(chap, &ctrl->dhchap_auth_list, entry) {
+> -               mutex_unlock(&ctrl->dhchap_auth_mutex);
+>                 flush_work(&chap->auth_work);
+>                 __nvme_auth_reset(chap);
+>         }
+
+I confirmed this hunk avoids the "WARNING: bad unlock balance detected!". A=
+s far
+as I ran blktests with this change, I observe no failure in other test case=
+s.
+
+However, I observed another new WARN at nvme/045: "WARNING: possible recurs=
+ive
+locking detected". I think it was caused by nvme_dhchap_auth_work in nvme_w=
+q
+tried to flush another work __nvme_auth_work in the same workqueue. I creat=
+ed a
+patch below which creates another workqueue nvme_auth_wq for __nvme_auth_wo=
+rk.
+Do you think this fix approach is acceptable?
+
+diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+index 4e824aab30eb..946085070223 100644
+--- a/drivers/nvme/host/auth.c
++++ b/drivers/nvme/host/auth.c
+@@ -42,6 +42,8 @@ struct nvme_dhchap_queue_context {
+ 	int sess_key_len;
+ };
+=20
++struct workqueue_struct *nvme_auth_wq;
++
+ #define nvme_auth_flags_from_qid(qid) \
+ 	(qid =3D=3D 0) ? 0 : BLK_MQ_REQ_NOWAIT | BLK_MQ_REQ_RESERVED
+ #define nvme_auth_queue_from_qid(ctrl, qid) \
+@@ -869,7 +871,7 @@ int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid=
+)
+ 			mutex_unlock(&ctrl->dhchap_auth_mutex);
+ 			flush_work(&chap->auth_work);
+ 			__nvme_auth_reset(chap);
+-			queue_work(nvme_wq, &chap->auth_work);
++			queue_work(nvme_auth_wq, &chap->auth_work);
+ 			return 0;
+ 		}
+ 	}
+@@ -896,7 +898,7 @@ int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid=
+)
+ 	INIT_WORK(&chap->auth_work, __nvme_auth_work);
+ 	list_add(&chap->entry, &ctrl->dhchap_auth_list);
+ 	mutex_unlock(&ctrl->dhchap_auth_mutex);
+-	queue_work(nvme_wq, &chap->auth_work);
++	queue_work(nvme_auth_wq, &chap->auth_work);
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(nvme_auth_negotiate);
+@@ -969,6 +971,21 @@ static void nvme_dhchap_auth_work(struct work_struct *=
+work)
+ 	 */
+ }
+=20
++int nvme_auth_init(void)
++{
++	nvme_auth_wq =3D alloc_workqueue("nvme-auth-wq",
++				       WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_SYSFS, 0);
++	if (!nvme_auth_wq)
++		return -ENOMEM;
++
++	return 0;
++}
++
++void nvme_auth_exit(void)
++{
++	destroy_workqueue(nvme_auth_wq);
++}
++
+ void nvme_auth_init_ctrl(struct nvme_ctrl *ctrl)
+ {
+ 	INIT_LIST_HEAD(&ctrl->dhchap_auth_list);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 059737c1a2c1..aa06c686ad29 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -5341,8 +5341,14 @@ static int __init nvme_core_init(void)
+ 		goto unregister_generic_ns;
+ 	}
+=20
++	result =3D nvme_auth_init();
++	if (result)
++		goto exit_nvme_auth;
++
+ 	return 0;
+=20
++exit_nvme_auth:
++	nvme_auth_exit();
+ unregister_generic_ns:
+ 	unregister_chrdev_region(nvme_ns_chr_devt, NVME_MINORS);
+ destroy_subsys_class:
+@@ -5363,6 +5369,7 @@ static int __init nvme_core_init(void)
+=20
+ static void __exit nvme_core_exit(void)
+ {
++	nvme_auth_exit();
+ 	class_destroy(nvme_ns_chr_class);
+ 	class_destroy(nvme_subsys_class);
+ 	class_destroy(nvme_class);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index a29877217ee6..472ab2d14a67 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -1019,6 +1019,8 @@ static inline bool nvme_ctrl_sgl_supported(struct nvm=
+e_ctrl *ctrl)
+ }
+=20
+ #ifdef CONFIG_NVME_AUTH
++int nvme_auth_init(void);
++void nvme_auth_exit(void);
+ void nvme_auth_init_ctrl(struct nvme_ctrl *ctrl);
+ void nvme_auth_stop(struct nvme_ctrl *ctrl);
+ int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid);
+@@ -1026,6 +1028,8 @@ int nvme_auth_wait(struct nvme_ctrl *ctrl, int qid);
+ void nvme_auth_reset(struct nvme_ctrl *ctrl);
+ void nvme_auth_free(struct nvme_ctrl *ctrl);
+ #else
++static inline int nvme_auth_init(void) {};
++static inline void nvme_auth_exit(void) {};
+ static inline void nvme_auth_init_ctrl(struct nvme_ctrl *ctrl) {};
+ static inline void nvme_auth_stop(struct nvme_ctrl *ctrl) {};
+ static inline int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid)
+
+
+--=20
+Shin'ichiro Kawasaki=
 
