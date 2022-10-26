@@ -4,71 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CCBBEC433FE
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Oct 2022 10:49:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40C41C38A2D
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Oct 2022 11:02:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yuxhxnCYm+2O8Hho+/QDCg4q9JFI5NYKA9K3jJJXa00=; b=Sbn3ZZW20JxXwITS//N9UzGLSb
-	bGGj/lx602QZGfz3tuoxXI3uoHk2+yuYU4R6YkPtE8LWyo1vW7AuIwyw60xwmed4NiVbe7hg1d7MG
-	OXcA7K241vGhNks5/r6LWuSHKO28h0zA4uV6ZdeYmpGku6WNVmCAT4nJZn9UToYqQMDfbJdek7mRx
-	RwZF5+omNhfx3iGvSAYv1NxL5q2GQEULzninZaHcBDo7B+DT9LfF1hgtFJpOJ30ybRXF/IlLVqxNX
-	A8N0U4SBWGFoM5to1gy0KlhF985ga+20C0m4s2Kq47YR5ggUYZhYUOgpdBb4zC1kEBdz5+DDPGU4b
-	+gWYnL3w==;
+	bh=LMjfY9UYMjWL6dm7905skNAQCrE1/dBAyB7CzPbBVNE=; b=sRW+cMTpCei6YdaEYKv1pB4Ez+
+	Mw73cHY9gk6yObqD/RtXSHiPHRMXMG9uYK/D63vk094H+ABt/Y8xUuxOxzQ+kXVtdB+w15xh3NOP+
+	MCMV5RONiclcqA4EyxKQaqpIyMYOG6xbB7TOBCVEuKM6KhBodrNv3fQ8xeq0Grderdf2Pb6OeJ8Ex
+	wI7ac6sCX37CukQhXYEBuQHdw3brK2tlEJuhUO5mEKwAZHizUOyztUgMhHVd16HRME7LspImr3MoQ
+	Vf8ECBy2WQ8Gx4GPZGZtsO0FpkyYqAk6d1YZGX9UIFtQlvlm7Z8qwfluoiygQdhF+B5dwzLO5Aeh4
+	/Kqj4TNA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ondyN-008xkk-Bd; Wed, 26 Oct 2022 10:49:23 +0000
-Received: from mail-wr1-f47.google.com ([209.85.221.47])
+	id 1oneBH-008zu0-QG; Wed, 26 Oct 2022 11:02:43 +0000
+Received: from mail-wr1-f49.google.com ([209.85.221.49])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ondyK-008xk6-QI
-	for linux-nvme@lists.infradead.org; Wed, 26 Oct 2022 10:49:22 +0000
-Received: by mail-wr1-f47.google.com with SMTP id v1so25621580wrt.11
-        for <linux-nvme@lists.infradead.org>; Wed, 26 Oct 2022 03:49:19 -0700 (PDT)
+	id 1oneBF-008zsX-GP
+	for linux-nvme@lists.infradead.org; Wed, 26 Oct 2022 11:02:42 +0000
+Received: by mail-wr1-f49.google.com with SMTP id v1so25675970wrt.11
+        for <linux-nvme@lists.infradead.org>; Wed, 26 Oct 2022 04:02:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yuxhxnCYm+2O8Hho+/QDCg4q9JFI5NYKA9K3jJJXa00=;
-        b=mHtFKngx7RbxFZCxUh+3Op4P0so6Zn7vZmFsjCyirx7Uet1G8wc1Oem+LsSt13VKgm
-         mMmffU6znEa41VlZ4WbDrpVsTiUd5/oauQCrG4vRphj3RUF7WzHTZ3bo6mN7yZQo5v9B
-         z5buXrx2iFxAa56OZZmk9gCLV42EYbkbkAkeDA7cRkegcyMnhHAU5KEzav2oO48EAfiv
-         Qq8YiJNfZUCb3XQltqBJwH15eQQ4Jddt6+gwQIMLTPNKHEN47tNIcteQJDPP5y6UjjPs
-         +C1ZhYnby0KmuQhGQ+SHT51MesgnWPMMoaYgRsEla1PWXAMCNINnj3N8eEDcoreIW7rw
-         my5g==
-X-Gm-Message-State: ACrzQf2RGWb8NrzOPMiOwV30rOzHzrI+lMDP6TTdf4EUru1a8PElifH3
-	nNSxRJVeWcAX2AToNY0Vm28=
-X-Google-Smtp-Source: AMsMyM4+FvdhvGc9Q9FldQeL2DNBCgVObKlw/lWCrUlwdmHs594QIxtKPlbgzUBwnFGtqwxr5lxfYQ==
-X-Received: by 2002:a5d:6dad:0:b0:22e:734f:31b1 with SMTP id u13-20020a5d6dad000000b0022e734f31b1mr28933921wrs.11.1666781358758;
-        Wed, 26 Oct 2022 03:49:18 -0700 (PDT)
+        bh=LMjfY9UYMjWL6dm7905skNAQCrE1/dBAyB7CzPbBVNE=;
+        b=oPTnT/DNstBOJpo4BekvLTRpetCWpu+sbCpkSEmAbulrnlpTNRRvd7R0L8ME7u3kFF
+         JKJhJY0tDlVscLjpBsXAngB94hdosdZbcIItiyJGgnO5guq6dcAY1BL//OydigCbrW9U
+         thnCcaQrOg0QKd1m8bluppORgPz4PYIWh9gBN5xfbjc+VnMAaPim1lTnwMn9gX2yd1Gx
+         PIgTd5mORbMq3Ni/+dcapMTZOzuDJPCAhdPBhGPbNAyQIcqe89tgpJfhw7Mjt8SwqdiV
+         OFDHPVIXjo1FmETJPa1TM4gDgNrliniF7af0K1m988rloGCfvfcGDmo/XvtoH2EFPJQN
+         EAGQ==
+X-Gm-Message-State: ACrzQf0g+Hs+RvZyKcyRA9pD2ARxzZ7FkOfKWzXwfrRL5qtES2YDLucB
+	MrHev00ybf0uDvJzBm0aVIY=
+X-Google-Smtp-Source: AMsMyM7kn+Deq53dx5kuzGh+Jm5M8zS0Nq0FyeyXkh3sz5FDwwFKHLGGVSZjt64MCyyH1k0jyN1F2w==
+X-Received: by 2002:a5d:5c13:0:b0:236:5575:a3fd with SMTP id cc19-20020a5d5c13000000b002365575a3fdmr18119108wrb.475.1666782158532;
+        Wed, 26 Oct 2022 04:02:38 -0700 (PDT)
 Received: from [192.168.64.94] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id k1-20020a05600c1c8100b003b4fe03c881sm1557627wms.48.2022.10.26.03.49.17
+        by smtp.gmail.com with ESMTPSA id n66-20020a1ca445000000b003cdf141f363sm1657727wme.11.2022.10.26.04.02.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Oct 2022 03:49:18 -0700 (PDT)
-Message-ID: <6f630727-72bc-6ae8-e23f-dece692c31e7@grimberg.me>
-Date: Wed, 26 Oct 2022 13:49:17 +0300
+        Wed, 26 Oct 2022 04:02:37 -0700 (PDT)
+Message-ID: <4a721959-c3c3-4377-d1e3-7fa7d6c3e814@grimberg.me>
+Date: Wed, 26 Oct 2022 14:02:34 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH 2/3] nvmet: expose IEEE OUI to configfs
+Subject: Re: [PATCH v7 04/23] Revert "nvme-tcp: remove the unused queue_size
+ member in nvme_tcp_queue"
 Content-Language: en-US
-To: Aleksandr Miloserdov <a.miloserdov@yadro.com>,
- Christoph Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linux-nvme@lists.infradead.org, linux@yadro.com,
- Konstantin Shelekhin <k.shelekhin@yadro.com>,
- Dmitriy Bogdanov <d.bogdanov@yadro.com>
-References: <20221026083135.77125-1-a.miloserdov@yadro.com>
- <20221026083135.77125-3-a.miloserdov@yadro.com>
+To: Christoph Hellwig <hch@lst.de>, Aurelien Aptel <aaptel@nvidia.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, kuba@kernel.org,
+ edumazet@google.com, pabeni@redhat.com, saeedm@nvidia.com,
+ tariqt@nvidia.com, leon@kernel.org, linux-nvme@lists.infradead.org,
+ kbusch@kernel.org, axboe@fb.com, chaitanyak@nvidia.com, smalin@nvidia.com,
+ ogerlitz@nvidia.com, yorayz@nvidia.com, borisp@nvidia.com,
+ aurelien.aptel@gmail.com, malin1024@gmail.com
+References: <20221025135958.6242-1-aaptel@nvidia.com>
+ <20221025135958.6242-5-aaptel@nvidia.com> <20221025161442.GD26372@lst.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20221026083135.77125-3-a.miloserdov@yadro.com>
+In-Reply-To: <20221025161442.GD26372@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221026_034920_880368_CD4DD0AC 
-X-CRM114-Status: GOOD (  14.14  )
+X-CRM114-CacheID: sfid-20221026_040241_568677_5F96D546 
+X-CRM114-Status: GOOD (  10.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,32 +87,23 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-
-On 10/26/22 11:31, Aleksandr Miloserdov wrote:
-> Allow user to set OUI for the controller vendor.
+>> This reverts commit fb8745d040ef5b9080003325e56b91fefe1022bb.
+>>
+>> The newly added NVMeTCP offload requires the field
+>> nvme_tcp_queue->queue_size in the patch
+>> "nvme-tcp: Add DDP offload control path" in nvme_tcp_offload_socket().
+>> The queue size is part of struct ulp_ddp_config
+>> parameters.
 > 
-> Reviewed-by: Konstantin Shelekhin <k.shelekhin@yadro.com>
-> Reviewed-by: Dmitriy Bogdanov <d.bogdanov@yadro.com>
-> Signed-off-by: Aleksandr Miloserdov <a.miloserdov@yadro.com>
-> ---
->   drivers/nvme/target/admin-cmd.c |  9 +++---
->   drivers/nvme/target/configfs.c  | 49 +++++++++++++++++++++++++++++++++
->   drivers/nvme/target/core.c      |  2 ++
->   drivers/nvme/target/nvmet.h     |  1 +
->   4 files changed, 56 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> index c8a061ce3ee5..0b415335bb5f 100644
-> --- a/drivers/nvme/target/admin-cmd.c
-> +++ b/drivers/nvme/target/admin-cmd.c
-> @@ -372,6 +372,10 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
->   	memcpy_and_pad(id->fr, sizeof(id->fr),
->   		       UTS_RELEASE, strlen(UTS_RELEASE), ' ');
->   
-> +	id->ieee[0] = (subsys->ieee_oui) & 0xff;
-> +	id->ieee[1] = (subsys->ieee_oui >> 8) & 0xff;
-> +	id->ieee[2] = (subsys->ieee_oui >> 16) & 0xff;
-> +
+> Please never do reverts if you just bring something back for an entirely
+> differenet reason.
 
-put_unaligned_24 ?
+Agreed.
+
+> And I think we need a really good justification of
+> why you have a code path that can get the queue struct and not the
+> controller, which really should not happen.
+
+What is wrong with just using either ctrl->sqsize/NVME_AQ_DEPTH based
+on the qid?
 
