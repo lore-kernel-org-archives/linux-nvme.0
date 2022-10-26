@@ -4,72 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C21CC38A2D
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Oct 2022 12:51:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B759BC433FE
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Oct 2022 12:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=aT3jARKKElglobONKKJmUYBg/k
-	zAVSJUjKFXbyJxNiwe62TY0J/EVzfUhijuVRtyAE8Ens5tfe+/s6XolwF5YwVnF+/dSp8CsevuNzY
-	xircJnVnBm3hti2RYzK2GPdQMpkJK/ZDjucWPjCtic3pgwg41ELCJ3P87ep8HLpH/iyQ7Qw1AXzCS
-	ayCfOY+p7JN94pNQhlHLx0DmGsxRJZ1+TjrZ5Rso079j2TNfOQdSdDQdPfP1WorgaY3wtBnNK/YBq
-	/UzRYQydH0q3yKWyoQKSkn1pJcD0tFArqnBVaeFQNJrA+NavcMt7CE8cJiCWT9PQWnvAvsQMp9K+8
-	iT1rajhA==;
+	bh=oMX25NFeojUzl7wweYcmWjYVH+c9Jz/n1YntA1yElaE=; b=prT4US0xcP9gT1vM+ofCeya1Ft
+	jOM8CqtxUA3fMU9QLS54tOlaUjcuCDt8EFrcDU/y3exod4bJx9cDZCXbh9onjoTey8+kPwLYdR3IV
+	1nBaHV7oo3od7QI6Dvx53K8MApEymftV9lp/f+mBpP2rFch3FLW7wbix5erG2wV2rPf9Ir+rzeKZF
+	d0jJxoipt42bx5e50A5HRqF1YgYQIcMq0A0wqx+UV/tQ3McHtKVwDGSIx2OXwIeJ3bGXA8IZ39F9c
+	3xn10trRD2YxZvULmt7apHblMicXXOiGYh9nt+xGQcL7aIKPvtvdzsTX9rRPqBVqyIfHAw4ZaC3Rp
+	SzOGLW9A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onfsC-009HvU-9M; Wed, 26 Oct 2022 12:51:08 +0000
-Received: from mail-wr1-f54.google.com ([209.85.221.54])
+	id 1onfu0-009IdN-Qf; Wed, 26 Oct 2022 12:53:00 +0000
+Received: from mail-wr1-f53.google.com ([209.85.221.53])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onfs2-009Hrh-Rf
-	for linux-nvme@lists.infradead.org; Wed, 26 Oct 2022 12:51:00 +0000
-Received: by mail-wr1-f54.google.com with SMTP id l14so18909785wrw.2
-        for <linux-nvme@lists.infradead.org>; Wed, 26 Oct 2022 05:50:58 -0700 (PDT)
+	id 1onftX-009IQT-4q
+	for linux-nvme@lists.infradead.org; Wed, 26 Oct 2022 12:52:32 +0000
+Received: by mail-wr1-f53.google.com with SMTP id h9so15063787wrt.0
+        for <linux-nvme@lists.infradead.org>; Wed, 26 Oct 2022 05:52:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=AQj+6c+epFDYQ26WPFZcloD+JKmte+HepAk8uuia5RFKkQsc04doHpj1v/22A6/zVp
-         WD2RisJH0yPFli5DN1Ro1rkdwnfogS2kpFalwpeuHGq9+bix5XQVig119FjaeM0g+Vyp
-         LDomYbfMSrp/KadbMuLvshFciD2bc7do2kuI0BNzjS+5Hcm1HfBHst+B22LDf4u+GQxf
-         dA7XuPgPe6fM2/UgQfXsNAifLlDut/t8NhTqguO98UeaiT1OAA39unxlMCuoC9jQb2bS
-         fCpyfTiauWCyUajkLBqhkFAdLlUSuORfAuup7MZK4COfgcdo8sIhVcjHqB4Wl0F98A7B
-         TOBA==
-X-Gm-Message-State: ACrzQf0RQi+0omdf3hvbNBo8SlqPfbcnLl+geuGfQwniV0HhLbeiTA+8
-	K2fpx4VuC/3NvEVp2rU13a8=
-X-Google-Smtp-Source: AMsMyM7j8g5gDApICIiyw1GG+VZ7Ev7hCn0g5R6rwI4IFKu5jTHbwMyG0z8s60fQO5/jPbfTL1DZnw==
-X-Received: by 2002:adf:ebcf:0:b0:22c:9eb4:d6f6 with SMTP id v15-20020adfebcf000000b0022c9eb4d6f6mr29024888wrn.251.1666788657578;
-        Wed, 26 Oct 2022 05:50:57 -0700 (PDT)
+        bh=oMX25NFeojUzl7wweYcmWjYVH+c9Jz/n1YntA1yElaE=;
+        b=gl2nF28w5wefx/N0LvaUqqugxUJQWjvg12+fG1g3KdivzFTf6wR0C367XJSZYy3gHr
+         C63SjPJblgVkstYRO4q9dDhp/G565zCunGHSw3G6Rsh1O6O+us4SiZTK1sGxSp5VBAnk
+         hXwcJiP6+ugUKF7FDbbwYQ3KcBfRTgMbZyvM2PKHD1W6WsS8mYrT+MKluZwWO4OekqYU
+         CcY/OKH4Gzb6WjKRvlA9u5AJO/YFmkSwrfLN++GuFLpTuukeh+0bEeNddMGzWko245MU
+         G/JXgIp6sNdsnPayQnUiv6c1hNtxqCnsSOrwQ7rbEci62W9G87OnpSG4cWfXnJUaMZUb
+         Pp1A==
+X-Gm-Message-State: ACrzQf2i+YDIIC4/3gtoiXIMPeE+CcU7AZl+IHvkzemnif9uRqrBcNct
+	Z3hJ+jA1tV723ek825EdhBw=
+X-Google-Smtp-Source: AMsMyM7YhzNq7Sr4UbWF18bzQw4syqt03+a1XNQZSWLb73Wv/6I7YX+1Rkf0AiUir8G3JFU7wJoUVg==
+X-Received: by 2002:adf:f743:0:b0:236:7309:1209 with SMTP id z3-20020adff743000000b0023673091209mr9791475wrp.14.1666788747515;
+        Wed, 26 Oct 2022 05:52:27 -0700 (PDT)
 Received: from [192.168.64.94] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id x21-20020a05600c421500b003c6b70a4d69sm1675224wmh.42.2022.10.26.05.50.54
+        by smtp.gmail.com with ESMTPSA id t11-20020adfdc0b000000b002365254ea42sm5266202wri.1.2022.10.26.05.52.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Oct 2022 05:50:55 -0700 (PDT)
-Message-ID: <fbd7ea75-bae6-b597-b77b-fb7df88dad8a@grimberg.me>
-Date: Wed, 26 Oct 2022 15:50:54 +0300
+        Wed, 26 Oct 2022 05:52:26 -0700 (PDT)
+Message-ID: <acc757b0-2d4d-6f1a-504e-73eadef59d35@grimberg.me>
+Date: Wed, 26 Oct 2022 15:52:25 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH 06/17] nvme: remove the NVME_NS_DEAD check in
- nvme_remove_invalid_namespaces
+Subject: Re: [PATCH 07/17] nvme: remove the NVME_NS_DEAD check in
+ nvme_validate_ns
 Content-Language: en-US
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
  Keith Busch <kbusch@kernel.org>, Chao Leng <lengchao@huawei.com>
 Cc: Ming Lei <ming.lei@redhat.com>, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org
 References: <20221025144020.260458-1-hch@lst.de>
- <20221025144020.260458-7-hch@lst.de>
+ <20221025144020.260458-8-hch@lst.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20221025144020.260458-7-hch@lst.de>
+In-Reply-To: <20221025144020.260458-8-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221026_055058_926470_71CFE4C5 
-X-CRM114-Status: UNSURE (   7.19  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221026_055231_232017_35102FF2 
+X-CRM114-Status: GOOD (  15.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,5 +83,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+
+> We never rescan namespaces after marking them dead, so this check is dead
+> now.
+
+scan_work can still run, I'd keep this one.
+
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>   drivers/nvme/host/core.c | 4 ----
+>   1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 2ec838e608509..99eabbe7fac98 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -4333,10 +4333,6 @@ static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_info *info)
+>   {
+>   	int ret = NVME_SC_INVALID_NS | NVME_SC_DNR;
+>   
+> -	if (test_bit(NVME_NS_DEAD, &ns->flags))
+> -		goto out;
+> -
+> -	ret = NVME_SC_INVALID_NS | NVME_SC_DNR;
+>   	if (!nvme_ns_ids_equal(&ns->head->ids, &info->ids)) {
+>   		dev_err(ns->ctrl->device,
+>   			"identifiers changed for nsid %d\n", ns->head->ns_id);
 
