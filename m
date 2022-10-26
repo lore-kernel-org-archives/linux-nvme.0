@@ -4,74 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40C41C38A2D
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Oct 2022 11:02:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEEEEC38A2D
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Oct 2022 11:52:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LMjfY9UYMjWL6dm7905skNAQCrE1/dBAyB7CzPbBVNE=; b=sRW+cMTpCei6YdaEYKv1pB4Ez+
-	Mw73cHY9gk6yObqD/RtXSHiPHRMXMG9uYK/D63vk094H+ABt/Y8xUuxOxzQ+kXVtdB+w15xh3NOP+
-	MCMV5RONiclcqA4EyxKQaqpIyMYOG6xbB7TOBCVEuKM6KhBodrNv3fQ8xeq0Grderdf2Pb6OeJ8Ex
-	wI7ac6sCX37CukQhXYEBuQHdw3brK2tlEJuhUO5mEKwAZHizUOyztUgMhHVd16HRME7LspImr3MoQ
-	Vf8ECBy2WQ8Gx4GPZGZtsO0FpkyYqAk6d1YZGX9UIFtQlvlm7Z8qwfluoiygQdhF+B5dwzLO5Aeh4
-	/Kqj4TNA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Y5ydupDEv0mxi5Y01KuT89oY9nwZXE12tG30xSFb47Y=; b=zScYvyLEqjNH7c6THxgxjVMai2
+	BQa6Z+/K1fJaWkUZVCrsi+iPCwq/Yp8FoMprImtaXwxaPEW35jfN4ZAfcySt54H3UxSNuT5+jeBD8
+	bOHV3msDQEzJsD/rEdCSzKID6XzNqM9nYEih2bP+dnAsWZvINh9TdJ2PcPtyre7KicRRbRkpsi5mn
+	VWadB+wgp8p3ImRJNep/k1g4ONwpTvIYZG2CVtfIxpnUvIiOwXz+31Hs1sBnsHDCmlgIVIowN14Wc
+	sNzGkyE9SsJJ7Iw9cfs6mf0CwSuHbI7kLkDeyM1+GDXoa5Ew98b7Y018pNuv5oGNqa4aefgZxi0hp
+	x8myhqew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oneBH-008zu0-QG; Wed, 26 Oct 2022 11:02:43 +0000
-Received: from mail-wr1-f49.google.com ([209.85.221.49])
+	id 1onexb-0095sw-9H; Wed, 26 Oct 2022 11:52:39 +0000
+Received: from mail-mw2nam12on2064.outbound.protection.outlook.com ([40.107.244.64] helo=NAM12-MW2-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oneBF-008zsX-GP
-	for linux-nvme@lists.infradead.org; Wed, 26 Oct 2022 11:02:42 +0000
-Received: by mail-wr1-f49.google.com with SMTP id v1so25675970wrt.11
-        for <linux-nvme@lists.infradead.org>; Wed, 26 Oct 2022 04:02:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LMjfY9UYMjWL6dm7905skNAQCrE1/dBAyB7CzPbBVNE=;
-        b=oPTnT/DNstBOJpo4BekvLTRpetCWpu+sbCpkSEmAbulrnlpTNRRvd7R0L8ME7u3kFF
-         JKJhJY0tDlVscLjpBsXAngB94hdosdZbcIItiyJGgnO5guq6dcAY1BL//OydigCbrW9U
-         thnCcaQrOg0QKd1m8bluppORgPz4PYIWh9gBN5xfbjc+VnMAaPim1lTnwMn9gX2yd1Gx
-         PIgTd5mORbMq3Ni/+dcapMTZOzuDJPCAhdPBhGPbNAyQIcqe89tgpJfhw7Mjt8SwqdiV
-         OFDHPVIXjo1FmETJPa1TM4gDgNrliniF7af0K1m988rloGCfvfcGDmo/XvtoH2EFPJQN
-         EAGQ==
-X-Gm-Message-State: ACrzQf0g+Hs+RvZyKcyRA9pD2ARxzZ7FkOfKWzXwfrRL5qtES2YDLucB
-	MrHev00ybf0uDvJzBm0aVIY=
-X-Google-Smtp-Source: AMsMyM7kn+Deq53dx5kuzGh+Jm5M8zS0Nq0FyeyXkh3sz5FDwwFKHLGGVSZjt64MCyyH1k0jyN1F2w==
-X-Received: by 2002:a5d:5c13:0:b0:236:5575:a3fd with SMTP id cc19-20020a5d5c13000000b002365575a3fdmr18119108wrb.475.1666782158532;
-        Wed, 26 Oct 2022 04:02:38 -0700 (PDT)
-Received: from [192.168.64.94] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id n66-20020a1ca445000000b003cdf141f363sm1657727wme.11.2022.10.26.04.02.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Oct 2022 04:02:37 -0700 (PDT)
-Message-ID: <4a721959-c3c3-4377-d1e3-7fa7d6c3e814@grimberg.me>
-Date: Wed, 26 Oct 2022 14:02:34 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v7 04/23] Revert "nvme-tcp: remove the unused queue_size
- member in nvme_tcp_queue"
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Aurelien Aptel <aaptel@nvidia.com>
+	id 1onexY-0095rF-NW
+	for linux-nvme@lists.infradead.org; Wed, 26 Oct 2022 11:52:38 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZKId87kINDHXO+l8NC95j36cRlUpMh1bMptnQEoD0oGJkRZBbzTS+tIHPKI0sstH6ihLdwUeX6AyafELkqJlgndkrk0zXkRAIUQn/qc1ICJ6DlRmyiaeqA1frYDlI3wtGeNP1F037QoLynrjq6VOfl/+J2NeGu1EGajKt4TgxmGsKAYTdweJQRa4XugEdNfSn6No6z/wNfO269VC+lfIQyPWc+5YUZm+b5ARXUs8ALPUvOgjTMauL1d+GkT8mOTMRn6VU1qo+Vy6T5XvZNS0fzHXrMQjnvarW31clSCO7wq+ML0rl0w5fbhUjLINOHIN7wvADhxL2JvSv0XH4XtB0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Y5ydupDEv0mxi5Y01KuT89oY9nwZXE12tG30xSFb47Y=;
+ b=T+Hh4PxvzhJnSPCMUD9GmBlWXqtjX4p71u3yuh4f9u6p9A4VdSxYguwZN0KY/RRxGvtrK4Sg45UwmtaUpNcqIhoGm5YPLYnhp2OBHI1Haul0mc86L4qsYRl5y8RdQx86l72ZLu4q3s/i6T/MI26IYXEtuYRnl3b9xJEDtiPNc+p6KvS3aAWJUluiNWbsayku1J37jvkrTJBG/T5NX6VpF5cgJDwpAtlWHG2MtZjQP+U3LFf2xxBdhIeDQlzM52iGm+MWDo62bEEmuN8DILx40/Lu6rmunoZWjwjFLhFcaGX58JgZW9uvISNUt6tS4yay6lTXY8J9C5Zt1QoQBZ2MRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Y5ydupDEv0mxi5Y01KuT89oY9nwZXE12tG30xSFb47Y=;
+ b=poBKKMOdKjbktRMNeWj2NiPygBm1V9MfVLa+6m00DsM3Q63/BOl/Z4j7l+1Ie4UKSIHEH8PzmO7J0ldwjkSoKb9rbZZSt6nrtUQ3hUCQUjqmh3Kdli0pZUvxtAr+HDsn2vEz0PR2/cM+RLK+fXkyjgCxaoGW7ub5FPUCnw254+/D70Z21Vv4DsYFvq3rK6ZPL7XqUkh6Fi5JdKXCA4m2K1Rl9Pv/B3xcj2SjEnb3K8JfIyVOi4p9+HKQ49WupNOkk2nTRY5ivXILGzOXulVYc5IJ/xDzjZhcQovfxeNXannL+j6azxPGVO7GHI8LQXrDnZK5tdi7gnvmlI3Z2ZohTg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
+ by BL1PR12MB5970.namprd12.prod.outlook.com (2603:10b6:208:399::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.21; Wed, 26 Oct
+ 2022 11:52:30 +0000
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::6713:a338:b6aa:871]) by SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::6713:a338:b6aa:871%3]) with mapi id 15.20.5746.028; Wed, 26 Oct 2022
+ 11:52:30 +0000
+From: Aurelien Aptel <aaptel@nvidia.com>
+To: Christoph Hellwig <hch@lst.de>
 Cc: netdev@vger.kernel.org, davem@davemloft.net, kuba@kernel.org,
  edumazet@google.com, pabeni@redhat.com, saeedm@nvidia.com,
  tariqt@nvidia.com, leon@kernel.org, linux-nvme@lists.infradead.org,
- kbusch@kernel.org, axboe@fb.com, chaitanyak@nvidia.com, smalin@nvidia.com,
- ogerlitz@nvidia.com, yorayz@nvidia.com, borisp@nvidia.com,
- aurelien.aptel@gmail.com, malin1024@gmail.com
+ sagi@grimberg.me, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
+ chaitanyak@nvidia.com, smalin@nvidia.com, ogerlitz@nvidia.com,
+ yorayz@nvidia.com, borisp@nvidia.com, aurelien.aptel@gmail.com,
+ malin1024@gmail.com
+Subject: Re: [PATCH v7 00/23] nvme-tcp receive offloads
+In-Reply-To: <20221025160039.GA26372@lst.de>
 References: <20221025135958.6242-1-aaptel@nvidia.com>
- <20221025135958.6242-5-aaptel@nvidia.com> <20221025161442.GD26372@lst.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20221025161442.GD26372@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <20221025160039.GA26372@lst.de>
+Date: Wed, 26 Oct 2022 14:52:25 +0300
+Message-ID: <253ilk6zts6.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
+Content-Type: text/plain
+X-ClientProxiedBy: FR3P281CA0172.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a0::10) To SJ1PR12MB6075.namprd12.prod.outlook.com
+ (2603:10b6:a03:45e::8)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|BL1PR12MB5970:EE_
+X-MS-Office365-Filtering-Correlation-Id: 62fc74eb-d748-4d19-21cf-08dab7488f7e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	isnlZg26Vf6vBn5+BzPsNXRZKTQCeA7drc6zRmjgNNVDysfObSHIlWFVS1ynseW4B/a031cJiAbdESrkRBsGUw24KDAeo+qlyFKU6+TbHVdMUm8SQHE2UnGPnQduydnQT/GxIagGsQRqZyn/zmRzpdYGUxD5p0aJbzs9mHwfebT8ox09HyF4BMBCsREt5R0wm2ExAC4ICZ68aJE8Mruj4R+7OXRpNcCSHIbMeFwImNTb9mVoimNu70o8EMB6ad9mgQvaI9XG43gKSoxVRtCoBDOWGq44UrIpPJpGkdJdNwT9gToMVCtC8jns7hu9NtqzOrUg93XU7Lcf3R6JjoyWRepo4i2i7oxFu3urrB1daDHpju6A9pUnU/p1OI54C511YY0fWCWjItBaEMV861CdSnNkrRHPkVm3jKWAoRwyuwQNkptJw7LhOc3/Ab6oeUcbIJLWfm6OsytV6S/VmoOLRNcPCgcs7bdCzway1HPPpMlk/zbZxJOHEWMg63P0QDYFVdAxxLXgmlzwv/w9h+sSrU2s9Ghc9qvR/k4naDCk/2pda06RQFAQe3M9AxrBNLnJXon3t4OTixVw4jk7DzzmBrD9HalN8/sFgXSDA9SUKQ9FXDQbwjR3xC2e73g7dFQWnpBJkXOuUtJfq2az+LAsaCSQnICBySLWqr/2SvMj1qZGq0XWij2I4u97dphX0Rp3WV//F2jfQc6/qUN5Bsr2uvmPJi+1aUVlZqck96E+K5hWllcPvSeGc/KDngCokPraxqTcl15nJF7OZMEsrEBuhSgKFzXmZVgmbJ5GYh6zbCHlV7tQzPhEXVf+bk2rmzhOng5tJiIDKvoGc0Y2jVhNIQ==
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(376002)(396003)(346002)(136003)(39860400002)(451199015)(6916009)(966005)(6666004)(66946007)(6506007)(66556008)(8676002)(316002)(66476007)(4326008)(6486002)(478600001)(8936002)(7416002)(4744005)(83380400001)(5660300002)(6512007)(26005)(9686003)(41300700001)(2906002)(186003)(38100700002)(86362001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?b7JkSO0z3Xz7c/JitreiDCCninqsn6u0hKptX+BTEg5j14Xy9Kc4aPTwl/j7?=
+ =?us-ascii?Q?s8SVB8wxUJ4t8YNhhclO8TOo3lN6Z5w5L93C9RjkOsXxvUFZ4LuSjDzQe4uz?=
+ =?us-ascii?Q?4QsGbwd09KvdCgUC/YrwzC6HAaj3TCfz0HigzxeMRzxjvFYBAvfnX6rNWqM+?=
+ =?us-ascii?Q?Qe8zcwJ4tbQg3vRq25SeGU+PbowTh8WK/sJboF2HJe8KDZgZYyRxDHn48TwE?=
+ =?us-ascii?Q?O9iVoOC5ozJcDAuh23/lKHIlHBa2+cSk+/pBdAu03ZdMW+JLadzX/dkXRWM4?=
+ =?us-ascii?Q?AoFAZ5x2SBYRtbsjZ2iDJ1IFNCo8Cw5b9t7kE3sx1LXjIBDFugGqlZZpeUxp?=
+ =?us-ascii?Q?Qa1J6nNERzhVju4WVpL7YvOqKZ9L6jruimUuoNSm9XdD8HCuri4rSXlOTA17?=
+ =?us-ascii?Q?qbdHPoyDkjWcVSSnVEEi5E9mstD+A7Y+SB6pgaK+fp1dgkFHHA5BEkNLI2VJ?=
+ =?us-ascii?Q?pefJ1P+Two+E+j7+AkqnQlZgdTp+FeSuMjGgq8rSw53uL9IJcUBhyX/cInON?=
+ =?us-ascii?Q?YcfcWmAzUo6pR4Cp6/+u3PosbjOXl2H1v7zZqoKUlwWtW8uCJJDdiCQAG6Xl?=
+ =?us-ascii?Q?AGWNgw8BUIwnBwcQH09BtTJa4RTWkZCytd3LRqksUphrfUdjE0I585/Q/wZp?=
+ =?us-ascii?Q?idXcKNM96F43syEGJ/KLQMs9EtPvMPo5+mm4557Pa6qwWPNDs6X+NXEMP+Kj?=
+ =?us-ascii?Q?6PGBHu0v4xdN2aAMX8xHGVdVUsiZP8pimW94EYWqsW8cr36AcdiQVIShcGuX?=
+ =?us-ascii?Q?TJ+zjc4WQuAobiQkp/zDFMj5BELmaMaWByVtcLK6mmoCbzOU+SAyo/W0DGEs?=
+ =?us-ascii?Q?90qv2P5irM/wMPl1gH7JDymfIDpAJzMGYKTxEs6SHGb480TQkywVB54VSZJj?=
+ =?us-ascii?Q?vfSmIGxpk9C+OQvr956neiXegST0/7crtEgtbOkXSQVQaeMJjWtn3RjGMOdD?=
+ =?us-ascii?Q?sm2nNTrXWK6hgYMIv2c+uU3Wf93dFEH0kopW4dkjQLu4T1NNwYZzupMp8RrK?=
+ =?us-ascii?Q?P1HzgqoiDVCe4aga1YHWbcRHza11hwQff/eCruQ4UwSmzyhlAc3zZPwX0ASv?=
+ =?us-ascii?Q?5EtOPbd+PXA3F0vUaD+O261Jf1uaZoO+Ls3zOTWFAdmbTlDh8KTOdnd0jMwF?=
+ =?us-ascii?Q?k1byTBU+5Sf6TWwnWGAM4dme2NutTAVWzzhSeu3kgjG0zFImPDFfbkoZQiqt?=
+ =?us-ascii?Q?qcPeTjACZLBI8dA3jhrBFamann25UauGz/N6u86MfVqlbebGGytn2jpUzvMK?=
+ =?us-ascii?Q?GR1kSKVwKmJ5PkzEw+1JGjQ3aZC3PMBryjXbCfdAvNSaQVWU7WSAwAAw7HWY?=
+ =?us-ascii?Q?dcC/j82b0zDBwkUKarqZ0kEzxBw26JgBXUjvXSNCOvEtLntl7BwPKMy4awoF?=
+ =?us-ascii?Q?aGGgiKYOm6CMlYHSGyMS1Iv+g97NZM26Klhhm5b9QKl5XzhK6/wzoLtuvVA9?=
+ =?us-ascii?Q?hs0iHCGj88HhMt0/LU4rW2bFXKx7xhQQlX7bnyzNxCO1sZAhoj9Ll8o6mxKx?=
+ =?us-ascii?Q?m3EV+cvbeUeowemZK8laWmLozQv8wP6ct0hj5sOjkZZRSsS0EocfREPHBuei?=
+ =?us-ascii?Q?J2sKDJPFWrZr6owlTZvflL6BUBFMAI8yxx5UKBu0?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 62fc74eb-d748-4d19-21cf-08dab7488f7e
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2022 11:52:30.1001
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TxWMxlGIDTIbpspAbqmRvlWXdFjQyspzy5kVL/59JwfZGsFgU9R5hRNQTITD3B2OYY//ssXmRidayvHpYxpQVg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5970
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221026_040241_568677_5F96D546 
-X-CRM114-Status: GOOD (  10.70  )
+X-CRM114-CacheID: sfid-20221026_045236_795910_193B2F08 
+X-CRM114-Status: UNSURE (   7.23  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,24 +136,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi Christoph,
 
->> This reverts commit fb8745d040ef5b9080003325e56b91fefe1022bb.
->>
->> The newly added NVMeTCP offload requires the field
->> nvme_tcp_queue->queue_size in the patch
->> "nvme-tcp: Add DDP offload control path" in nvme_tcp_offload_socket().
->> The queue size is part of struct ulp_ddp_config
->> parameters.
-> 
-> Please never do reverts if you just bring something back for an entirely
-> differenet reason.
+>> Currently the series is aligned to net-next, please update us if you will prefer otherwise.
+> Please also point to a git tree for a huge series with a dependency
+> on some tree, otherwise there's no good way to review it.
 
-Agreed.
+This series is based on top of yesterday's net-next [1] and I created a
+github tree if that's easier to use [2].
 
-> And I think we need a really good justification of
-> why you have a code path that can get the queue struct and not the
-> controller, which really should not happen.
+1: https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git
+   branch 'main' commit d6dd508080a3 ("bnx2: Use kmalloc_size_roundup() to match ksize() usage")
 
-What is wrong with just using either ctrl->sqsize/NVME_AQ_DEPTH based
-on the qid?
+2: Github: https://github.com/aaptel/linux/tree/nvme-rx-offload-v7
+   Git repo: https://github.com/aaptel/linux.git branch nvme-rx-offload-v7
 
