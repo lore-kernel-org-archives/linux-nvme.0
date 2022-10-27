@@ -4,81 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6D6B3FA3740
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Oct 2022 13:50:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06D3DFA3744
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Oct 2022 14:23:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FW8SDDyFoIgZ11fCIDEb5/njIXheP9SuXFNwX7gCdRo=; b=JapZ+cYd0kMQJ4w06ZGo5NDKIn
-	BGixO9LAcGCc80HXbaUnzfiLbfmMeZs2Gu9/ax+TxtnX0xWpTqPY5GN09u7S5zRouH2eImM1aYziZ
-	1RpJGdcFVPxlDTliir1l+/OJxMm0h17REAaAhw/ClrGaNSNTtOUDHVne9dW7JHJXC+S3lobbLAclr
-	ui3bDKo7ZJk4UhcnVV8x9yxgRFuFzNtuVwe7XHLMqumImRb3RuRI7pVbDT+PrOZI1fDZLkUnlVlrs
-	2PHJJQyMwJu1wOr87MU5f7GazVW4KrX/YP3TSbIGfz5SZtx0nd4B0DF9S5m336le7LV+NHVgYtFR0
-	0kR2RjXA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=LyOCU4xpjTTzBhxH1rdyd7TExb5ifJ5snNn8tAmKhaY=; b=ZP5NUnCWV9ZyEW
+	OEU6Olf4tW+ekOY+5Y9ZfI8gzWjOgpPxK1SiUz4IaDiUJR07DkdeRWZKWunW08khqNFdi6lIkgop2
+	bEVnhlW473d285AyCYgSWnL48X7m6tlyuTzw2oWQrmtL66EtGeHD910OT8e04Yd8qoq3/Gaon44fV
+	Nve4Kcrd7LFnxqYJ1Kp7CouXmw1osjJKlJKmPH3MtW1ZnQLFGnNRni6PfNP5gHrt2WUffwRrdFGIj
+	QQUk0YLg94q9CsX5ai+Ppyns9e4SClNHOJ83y4o0KXcXXgElZcemzL7jpSKmKj3aKQONikjRiUlZ0
+	1mrSdvb0dEDWR0dbOwXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oo3H6-00DgyX-Oy; Thu, 27 Oct 2022 13:50:24 +0000
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
+	id 1oo3mr-00Dn9w-7f; Thu, 27 Oct 2022 14:23:13 +0000
+Received: from ale.deltatee.com ([204.191.154.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oo3Gu-00Dgt9-7s
-	for linux-nvme@lists.infradead.org; Thu, 27 Oct 2022 13:50:20 +0000
-Received: by mail-pf1-x434.google.com with SMTP id 130so1565747pfu.8
-        for <linux-nvme@lists.infradead.org>; Thu, 27 Oct 2022 06:50:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FW8SDDyFoIgZ11fCIDEb5/njIXheP9SuXFNwX7gCdRo=;
-        b=ray4nfHffyq7wCaoQJ9uQlQj/pCf7S6TJAXjZhh4ad+oNuCYd/SfDjmc77hoNQ/4l+
-         4gyVN4X3rutBPHsezP22Dj+xroj0007DMiBKb3G7LW0DA7ZcDY2cPV9dAZD7s71eIbwg
-         +Ebqmfhho9ibASmGzecwP/y8ZVkp9GPDzjUaAsMqLraNIXrLDCSPuFemw+5B4CqpUKVj
-         XZeAodAb7Zjw70OddrkE8aSXCDupItRibKvLhphxLfqUN5TA0TlzKMrQzWZFxAZVjQqs
-         7Khnir2K5Xf1du6SQs+fPa5XNIGXUvvGRyiIi6CvsmlpxOphi9YHoFokDQXfSnGQCF72
-         Oteg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FW8SDDyFoIgZ11fCIDEb5/njIXheP9SuXFNwX7gCdRo=;
-        b=yz+wG7hlOMMLgqYSjyz68V3A1aXM7EFzFOGfXgcBAxlj19N3i6TP5fC2daZ4LsQ6cI
-         zD1FCgjSMzS+/GI5g57KmNZInNoBrjTyE5uhBlvAB6jMp82GIqG0cqPQOAFLDCaZBBiU
-         47/obIENW4ucpyDuUhqblt4kHP2UaghlMMiTaCXs18hNCnluMCLUnZm5acR85Q3hNLTE
-         eO4YRGgm7001kGF4Q9JN/LQtDJ+tX4Bm+IvI6tATUGQVw/BBPvxgkd9CaBszPG/5RHij
-         IBQr+zW/cs+ykFi1NafU2km6R7l4ph1p3/XifhMr6lFfVeWom8urhFb2+Masy5GNnTXv
-         mQkw==
-X-Gm-Message-State: ACrzQf0PGQ2VidDO/XUtehBpYp1l25U+9K5W3nGlMIpzGHo6rQ7EbGp7
-	LuqPf5RxA3oxFvTseCkqx4w67FRLfOQS85kg
-X-Google-Smtp-Source: AMsMyM6/UqY2wxYkRITNJDsA3m1jKb4ifNK/phsUmeXLP92Q2pWQ3mpu6Pos+qOD9W1NFosMwxYe+w==
-X-Received: by 2002:a63:ea4c:0:b0:46b:2772:40a4 with SMTP id l12-20020a63ea4c000000b0046b277240a4mr41589073pgk.342.1666878608384;
-        Thu, 27 Oct 2022 06:50:08 -0700 (PDT)
-Received: from [192.168.1.136] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id n8-20020a170902d2c800b0017f73caf588sm1226367plc.218.2022.10.27.06.50.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Oct 2022 06:50:07 -0700 (PDT)
-Message-ID: <7cb31ceb-94cc-40ae-95c2-7e26e4c9a8ac@kernel.dk>
-Date: Thu, 27 Oct 2022 07:50:06 -0600
+	id 1oo3mo-00Dn9H-BS
+	for linux-nvme@lists.infradead.org; Thu, 27 Oct 2022 14:23:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:content-disposition;
+	bh=LyOCU4xpjTTzBhxH1rdyd7TExb5ifJ5snNn8tAmKhaY=; b=MAQjGDL+n0Jp7ezjgZqNWaIPdv
+	kbAEpt3r4ap1EWC5XSVaw+OWN25y8+PPt63ZAA/BusDAV9ToTonAcRLlj3w7fE+XaTQBJ7DGoz3EM
+	SciMfLGcUvNFBUwWlWabew4Xe3Nzv082uIYP1utpislLqNawQNXRwtcU7DIddQsndpd99Ljp3ol+v
+	W95zxl5FEpr8Wp9GGLpXq/tdZHIxpM9OetLizn6UBfYQu69h8t0JlJ6xK8wINfYHzqeqgD6tYCDit
+	jMpUoU+WzmqoLrPPWbM/jNu5FXoc8kKf+w89lF6byFO6bjdU12S+7MUCGNmexF+f/TZRFmj7FoNSY
+	AOrYbDQg==;
+Received: from s0106a84e3fe8c3f3.cg.shawcable.net ([24.64.144.200] helo=[192.168.0.10])
+	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.94.2)
+	(envelope-from <logang@deltatee.com>)
+	id 1oo3mi-0012H3-V8; Thu, 27 Oct 2022 08:23:06 -0600
+Message-ID: <e27a14f9-ed4d-b98b-940c-2ede0ebcb31b@deltatee.com>
+Date: Thu, 27 Oct 2022 08:22:57 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [GIT PULL] nvme fixes for Linux 6.1
-Content-Language: en-US
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-References: <Y1qL1zsNFc6w2WTd@infradead.org>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <Y1qL1zsNFc6w2WTd@infradead.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Content-Language: en-CA
+To: Jay Fang <f.fangjian@huawei.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-mm@kvack.org
+Cc: Christoph Hellwig <hch@lst.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
+ Matthew Wilcox <willy@infradead.org>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>, Minturn Dave B <dave.b.minturn@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>,
+ Martin Oliveira <martin.oliveira@eideticom.com>,
+ Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+ Ralph Campbell <rcampbell@nvidia.com>, Stephen Bates <sbates@raithlin.com>
+References: <20221021174116.7200-1-logang@deltatee.com>
+ <20221021174116.7200-4-logang@deltatee.com>
+ <c73c426f-d9f5-2f17-bb88-b72792103703@huawei.com>
+From: Logan Gunthorpe <logang@deltatee.com>
+In-Reply-To: <c73c426f-d9f5-2f17-bb88-b72792103703@huawei.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 24.64.144.200
+X-SA-Exim-Rcpt-To: f.fangjian@huawei.com, linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, hch@lst.de, gregkh@linuxfoundation.org, dan.j.williams@intel.com, jgg@ziepe.ca, christian.koenig@amd.com, jhubbard@nvidia.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, dave.b.minturn@intel.com, jason@jlekstrand.net, dave.hansen@linux.intel.com, jianxin.xiong@intel.com, helgaas@kernel.org, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, rcampbell@nvidia.com, sbates@raithlin.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [PATCH v11 3/9] iov_iter: introduce
+ iov_iter_get_pages_[alloc_]flags()
+X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221027_065012_362577_6AFA4CEC 
-X-CRM114-Status: UNSURE (   9.19  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221027_072310_469318_2B314860 
+X-CRM114-Status: GOOD (  14.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,19 +93,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/27/22 7:47 AM, Christoph Hellwig wrote:
-> The following changes since commit 02341a08c9dec5a88527981b0bdf0fb6f7499cbf:
+
+
+On 2022-10-27 01:11, Jay Fang wrote:
+> On 2022/10/22 1:41, Logan Gunthorpe wrote:
+>> Add iov_iter_get_pages_flags() and iov_iter_get_pages_alloc_flags()
+>> which take a flags argument that is passed to get_user_pages_fast().
+>>
+>> This is so that FOLL_PCI_P2PDMA can be passed when appropriate.
+>>
+>> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+>> Reviewed-by: Christoph Hellwig <hch@lst.de>
+>> ---
+>>  include/linux/uio.h |  6 ++++++
+>>  lib/iov_iter.c      | 32 ++++++++++++++++++++++++--------
+>>  2 files changed, 30 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/include/linux/uio.h b/include/linux/uio.h
+>> index 2e3134b14ffd..9ede533ce64c 100644
+>> --- a/include/linux/uio.h
+>> +++ b/include/linux/uio.h
+>> @@ -247,8 +247,14 @@ void iov_iter_pipe(struct iov_iter *i, unsigned int direction, struct pipe_inode
+>>  void iov_iter_discard(struct iov_iter *i, unsigned int direction, size_t count);
+>>  void iov_iter_xarray(struct iov_iter *i, unsigned int direction, struct xarray *xarray,
+>>  		     loff_t start, size_t count);
+>> +ssize_t iov_iter_get_pages(struct iov_iter *i, struct page **pages,
+>> +		size_t maxsize, unsigned maxpages, size_t *start,
+>> +		unsigned gup_flags);
+>>  ssize_t iov_iter_get_pages2(struct iov_iter *i, struct page **pages,
+>>  			size_t maxsize, unsigned maxpages, size_t *start);
+>> +ssize_t iov_iter_get_pages_alloc(struct iov_iter *i,
+>> +		struct page ***pages, size_t maxsize, size_t *start,
+>> +		unsigned gup_flags);
+>>  ssize_t iov_iter_get_pages_alloc2(struct iov_iter *i, struct page ***pages,
+>>  			size_t maxsize, size_t *start);
+>>  int iov_iter_npages(const struct iov_iter *i, int maxpages);
+>> diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+>> index c3ca28ca68a6..53efad017f3c 100644
+>> --- a/lib/iov_iter.c
+>> +++ b/lib/iov_iter.c
+>> @@ -1430,7 +1430,8 @@ static struct page *first_bvec_segment(const struct iov_iter *i,
+>>  
+>>  static ssize_t __iov_iter_get_pages_alloc(struct iov_iter *i,
+>>  		   struct page ***pages, size_t maxsize,
+>> -		   unsigned int maxpages, size_t *start)
+>> +		   unsigned int maxpages, size_t *start,
+>> +		   unsigned int gup_flags)
 > 
->   block: fix memory leak for elevator on add_disk failure (2022-10-22 15:14:38 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-6.1-2022-10-27
+> Hi,
+> found some checkpatch warnings, like this:
+> WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
+> #50: FILE: lib/iov_iter.c:1497:
+> +		   size_t *start, unsigned gup_flags)
 
-Pulled, thanks.
+We usually stick with the choices of the nearby code instead of
+the warnings of checkpatch.
 
--- 
-Jens Axboe
+Thanks,
 
-
+Logan
 
