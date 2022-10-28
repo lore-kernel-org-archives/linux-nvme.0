@@ -4,65 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6E07ECAAA1
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Oct 2022 14:54:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D626EECAAA1
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Oct 2022 15:46:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nX5gWGCrasWszwJYCvHTVCSeHjSFI5dz+SyVhC2o2n4=; b=vice5oxgw4sCWAlbz/OYfgldGI
-	/E81e+48RBKKbxccb3gu9RZFDhswcZe0oWdoOSdRpq+KaqbQ9kepkDAE0MTqWGDXrYDzPblB3I+uN
-	cFdGPF7Yl6NUboc32FKuTtiEzOVnERAYF22s9C+QMSkBkURu9NnNyctT2bN6Rm98+iQOLoY/MUNT4
-	ifs176tLVHn/PIHS9BYFGd5TCiLAerMjOIKm20jVFFPX6VRoOcNuSzsGgA4dK9ijvjEr/BP8dWXO9
-	6yGZUl4ZWm01cQU0VpcubWiDLUnWMJ/moPyBKHmkEuWgyoI7One3p+USVoJ5g59T7e8g1bYdBC7Kv
-	hAyYOQIw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9Owj3EFsEPKAgbsD23p3/VjNfi/cJgkg0hwTTfp+pTE=; b=0NNquQuavqDE/AJIDJBvwug/P/
+	LWCx4XWGEDxYoaSNw/Gv+YV7y3r6DnArnxZkFNerAwDyVxYJzdsj/A/KQAdpD/N4w6BdEAskxMmpZ
+	5dokQY6HCMXtxFfBSZqvi8r4HvqFSktk1CPKHmGnh/33Jw9j8s3jSD/BWbYFo9M/4Pd70gKm6g7S8
+	fRCrLwy+1y3FE0oKa2bE8mrhY8uscpDdbywV8Bs06ESpsoKEKs95O+FzMmQhaO3v6cfEm9lghzFMl
+	gM10hsq2v47HP9yW/rvtg7IF7wOpx7BBnv8Jr13JptAwNNJNQH3LNqD2AEK1kPs5FkIc+HCsdwmKu
+	CdnDdKjw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ooQkz-000IbK-0K; Fri, 28 Oct 2022 14:54:49 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1ooRYe-000csB-Qp; Fri, 28 Oct 2022 15:46:08 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ooQiM-000HC9-4R
-	for linux-nvme@lists.infradead.org; Fri, 28 Oct 2022 14:52:07 +0000
+	id 1ooRSo-000aAa-FI
+	for linux-nvme@lists.infradead.org; Fri, 28 Oct 2022 15:40:08 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 334F46289F;
-	Fri, 28 Oct 2022 14:52:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0133DC433D6;
-	Fri, 28 Oct 2022 14:52:03 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 6259FB828BB;
+	Fri, 28 Oct 2022 15:40:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2994CC433D6;
+	Fri, 28 Oct 2022 15:40:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1666968724;
-	bh=eMzwYAZAzlCZqXn5EpY6pg239/+yDkyB9HkD9TyRmXw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BmLkAQF87ThDLf9Nu/Z6b+L1XS0epmuDuVuUVj4mc7YH3oPJ5aQ4jzQ0kim+Dbkht
-	 deJy5skrsa0b1/uoScx9kT59LqA1kyEKw/6ez1/gfSVPGqgNOEkmeqd4R6asxmyJQw
-	 zGstWylr5yxgyKZywPz0oRCQGyby5XYmQB3QpzQ+GibJLvQmb/74SfRfktqIRKIcA3
-	 TqDxP4OFZDVOE9WPNqCbBXfPt2OaNWRoUl2gEXcNFL7ro6vBKn6ZngTAx4+PWsoW4T
-	 mg5eMs9GRykIx4dpZpYoHKB/RMp2CwMfMPnnXwczw/fTgKvHknlggZ9op1rAdOh0W7
-	 OzrYcfElbbCsg==
-Date: Fri, 28 Oct 2022 08:52:01 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Joel Granados <j.granados@samsung.com>
-Cc: sagi@grimberg.me, hch@lst.de, linux-nvme@lists.infradead.org,
-	gost.dev@samsung.com, joshi.k@samsung.com, javier.gonz@samsung.com,
-	p.raghav@samsung.com
-Subject: Re: [RFC 3/3] nvme : Add ioctl to query nvme attributes
-Message-ID: <Y1vskd0uY308uSf4@kbusch-mbp.dhcp.thefacebook.com>
-References: <20221027155724.1161670-1-j.granados@samsung.com>
- <CGME20221027160108eucas1p2722b30a1be27a855e2b0f2495fed15ab@eucas1p2.samsung.com>
- <20221027155724.1161670-4-j.granados@samsung.com>
- <Y1q4Cjg1cv9w+YWR@kbusch-mbp.dhcp.thefacebook.com>
- <20221028103827.o7uhl36qavkpx22d@localhost>
+	s=k20201202; t=1666971603;
+	bh=8U47bXZSo7ZN6OiQ3u1CAVeisNjC1lkAQ5nUDGbMgHQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=vOGLXaWjVf8q4XM/QSQWOrJCgQMK2r2UZpR8ou7Bk13Tiw2bxK9ORkybsf7mNWRBv
+	 JwKbriSVgYKnGp4xxQKXLSeh8boi4OIkH3PZ08HHnWVQqNXvAcStNT6/gGMWd1M2aG
+	 msAluQTGfuHfgXE58JAI36pQvwDaTBeHq1kVhBw3ADyPYIRNSrB5Rql+C9iNzIh1RY
+	 k82fAxRZ1l8SOW2A2wiY9Npna+VhlRFXZaU2tf4l2+d7b6WEg7FLp17++2FOwFLjXK
+	 JvEsWWP7JXVXKNtrW4uSBYS8sep00gRNT/a+XvWLvxyxViH4BW+LtRWC/TrIr0nOmc
+	 J7XUsNHae+GNA==
+Date: Fri, 28 Oct 2022 08:40:01 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Shai Malin <smalin@nvidia.com>
+Cc: Aurelien Aptel <aaptel@nvidia.com>, "netdev@vger.kernel.org"
+ <netdev@vger.kernel.org>, "davem@davemloft.net" <davem@davemloft.net>,
+ "edumazet@google.com" <edumazet@google.com>, "pabeni@redhat.com"
+ <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan
+ <tariqt@nvidia.com>, "leon@kernel.org" <leon@kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "sagi@grimberg.me" <sagi@grimberg.me>, "hch@lst.de" <hch@lst.de>,
+ "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
+ Chaitanya Kulkarni <chaitanyak@nvidia.com>, Or Gerlitz
+ <ogerlitz@nvidia.com>, Yoray Zack <yorayz@nvidia.com>, Boris Pismenny
+ <borisp@nvidia.com>, "aurelien.aptel@gmail.com" <aurelien.aptel@gmail.com>,
+ "malin1024@gmail.com" <malin1024@gmail.com>
+Subject: Re: [PATCH v7 01/23] net: Introduce direct data placement tcp
+ offload
+Message-ID: <20221028084001.447a7c05@kernel.org>
+In-Reply-To: <DM6PR12MB356448156B75DD719E24E41DBC329@DM6PR12MB3564.namprd12.prod.outlook.com>
+References: <20221025135958.6242-1-aaptel@nvidia.com>
+	<20221025135958.6242-2-aaptel@nvidia.com>
+	<20221025153925.64b5b040@kernel.org>
+	<DM6PR12MB3564FB23C582CEF338D11435BC309@DM6PR12MB3564.namprd12.prod.outlook.com>
+	<20221026092449.5f839b36@kernel.org>
+	<DM6PR12MB356448156B75DD719E24E41DBC329@DM6PR12MB3564.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221028103827.o7uhl36qavkpx22d@localhost>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221028_075206_266299_CF9F9E0A 
-X-CRM114-Status: UNSURE (   8.55  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221028_084006_835581_CAED1B7F 
+X-CRM114-Status: GOOD (  21.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,11 +87,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 28, 2022 at 12:38:27PM +0200, Joel Granados wrote:
-> 3. And the variables that are not in struct nvme_ctrl. Here, we have not
->    option but to make an IO.
+On Fri, 28 Oct 2022 10:32:22 +0000 Shai Malin wrote:
+> > It's a big enough feature to add a genetlink or at least a ethtool
+> > command to control. If you add more L5 protos presumably you'll want
+> > to control disable / enable separately for them. Also it'd be cleaner
+> > to expose the full capabilities and report stats via a dedicated API.
+> > Feature bits are not a good fix for complex control-pathy features.  
+> 
+> With our existing design, we are supporting a bundle of DDP + CRC offload.
+> We don't see the value of letting the user control it individually.
 
-You do have another option: we have historically added new fields to
-nvme_ctrl to cache parameters that are repeatedly referenced in other
-contexts, and this usage appears to qualify.
+I was talking about the L5 parsing you do. I presume it won't be a huge
+challenge for you to implement support for framing different than NVMe,
+and perhaps even NVMe may have new revisions or things you don't
+support? At which point we're gonna have a bit for each protocol? :S
+Then there are stats.
+
+We should have a more expressive API here from the get go. TLS offload
+is clearly lacking in this area.
+
+> The capabilities bits were added in order to allow future devices which 
+> supported only one of the capabilities to plug into the infrastructure 
+> or to allow additional capabilities/protocols.
+> 
+> We could expose the caps via ethtool as regular netdev features, it would 
+> make everything simpler and cleaner, but the problem is that features have 
+> run out of bits (all 64 are taken, and we understand the challenge with 
+> changing that).
+
+Feature bits should be exclusively for information which needs to be
+accessed on the fast path, on per packet basis. If you have such a need
+then I'm not really opposed to you allocating bits as well, but primary
+feature discovery *for the user* should not be over the feature bits.
+
+> We could add a new ethtool command, but on the kernel side it would be 
+> quite redundant as we would essentially re-implement feature flag processing 
+> (comparing string of features names and enabling bits).
+> 
+> What do you think?
 
