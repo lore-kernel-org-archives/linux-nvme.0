@@ -4,77 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2025EECAAA1
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Oct 2022 11:33:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7429DECAAA1
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Oct 2022 13:50:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:CC:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=C8XwIILHF95ZyNJfx0L5QKq81Sq7msMrSv/FAliTVdo=; b=QCoPEsxK4cwIqXvkglcrPbLWCc
-	7ZXCEn6Vk83ooV+1PkWntekumKg5jH/L3379EQNT4zTwFlk1tmPoV0pPyUyKnC8U5qhcDT7unIr8Y
-	RCxNdomExHwtoFHGCSJdQ9z5YPSz/7r4bPwx4B+YieGZVyCUJbh5bBbpwfbIFNM3KA8omEScOvhHP
-	LabiKoy+5lNxLOEw+udb/iqwM8sZ6Qnq0ixWqPeVvsL50k3Mov/oDf+p2gCCqNBmjm0nK64N4diVY
-	2C6LtaZi+s6I3kRPMKG9W8/XXPXUPyi1F0DX4mw73spo94WVdlmObituzXJTTT3ZN1YWPtBiAKSrn
-	BjlHgjdQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=LfByY2ZEH3vA5t9jzfkKtac9gkUPV4cP+QjyySZ2GFk=; b=vU0i0gHJd/4OBul0mT2VQivfNu
+	2Fq8nI36w87Ybzhyg6oflFnN77mu2q7fOjz5N8Nbsmw/SrM7XGheh5SQhk3FCJYKx0M12JrsKEGyR
+	tzouRsuKOfBqn+dRkB4ocJeRTFUZD0ORrID3iZDuq/bmqbF6DAYgI90WmP8adFc9yHKQHNZiVZBX7
+	pRGIWrM/JP1wtM0lLCEgRTC4EQYY4pMKifvPSONR4ZvyvinXfU7TvKPFFPrLgmKtJ4Js16vLE6BwQ
+	Qpr/T6WyFS9q05Y9yShZuVqNK6PnOhxJGJdU88MhZAj6fwXBa937HInTRF5gYynrsIRa3vvIDzOKx
+	Ca3EmFdA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ooNcU-00GxkH-7b; Fri, 28 Oct 2022 11:33:50 +0000
-Received: from mta-02.yadro.com ([89.207.88.252] helo=mta-01.yadro.com)
+	id 1ooPks-00HS7k-5H; Fri, 28 Oct 2022 13:50:38 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ooNcQ-00GxgB-5A
-	for linux-nvme@lists.infradead.org; Fri, 28 Oct 2022 11:33:48 +0000
-Received: from localhost (unknown [127.0.0.1])
-	by mta-01.yadro.com (Postfix) with ESMTP id 8851E41209;
-	Fri, 28 Oct 2022 11:33:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
-	in-reply-to:content-disposition:content-type:content-type
-	:mime-version:references:message-id:subject:subject:from:from
-	:date:date:received:received:received:received; s=mta-01; t=
-	1666956816; x=1668771217; bh=glwCP650qycqQJv5FySHUCRgUrpEFqdGHAG
-	vD3nQTB8=; b=tRUypY4HsUK8AUogBu9AHT9tDwU6MmIBryZlY9FClBwWhDFRIdm
-	W/W85zZuMCHvknebSwyItssidYst6PBqoQKG2u8DMB7jHH/S3+mhjZd48os4jigD
-	6Xlt6/b6EyGFC3rzTpcc7JdhA5hP4Ofel6d3TpRNATuQ7j09ufqrHXeQ=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
-	by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Mn17wkJCmL30; Fri, 28 Oct 2022 14:33:36 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (T-EXCH-02.corp.yadro.com [172.17.10.102])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mta-01.yadro.com (Postfix) with ESMTPS id 00CAA41203;
-	Fri, 28 Oct 2022 14:33:35 +0300 (MSK)
-Received: from T-EXCH-09.corp.yadro.com (172.17.11.59) by
- T-EXCH-02.corp.yadro.com (172.17.10.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.669.32; Fri, 28 Oct 2022 14:33:35 +0300
-Received: from yadro.com (10.199.23.254) by T-EXCH-09.corp.yadro.com
- (172.17.11.59) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1118.9; Fri, 28 Oct
- 2022 14:33:34 +0300
-Date: Fri, 28 Oct 2022 14:33:35 +0300
-From: Konstantin Shelekhin <k.shelekhin@yadro.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-CC: Aleksandr Miloserdov <a.miloserdov@yadro.com>, Christoph Hellwig
-	<hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>,
-	<linux-nvme@lists.infradead.org>, <linux@yadro.com>, Dmitriy Bogdanov
-	<d.bogdanov@yadro.com>
-Subject: Re: [PATCH 2/3] nvmet: expose IEEE OUI to configfs
-Message-ID: <Y1u+D80ohMF8bbPJ@yadro.com>
-References: <20221026083135.77125-1-a.miloserdov@yadro.com>
- <20221026083135.77125-3-a.miloserdov@yadro.com>
- <6f630727-72bc-6ae8-e23f-dece692c31e7@grimberg.me>
+	id 1ooPko-00HS3M-8n
+	for linux-nvme@lists.infradead.org; Fri, 28 Oct 2022 13:50:36 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out1.suse.de (Postfix) with ESMTP id 0F13621B75;
+	Fri, 28 Oct 2022 13:50:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1666965029; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=LfByY2ZEH3vA5t9jzfkKtac9gkUPV4cP+QjyySZ2GFk=;
+	b=okxWIVipoZAkEqUOcuN0GCNdtTGseaoaOoagyAr90/ltfCIXw7ha9+KXeS6gbGV+ww4DRg
+	VYOOW0zUKz0AJb4Y+Qv6AzEJT5JyMsV/G0FghRr+SwlTBA25tzASlQxgM0/dFmZ+HEUht3
+	+nbHIi4ilUWSF1kErj83cuIaBlQJ3UY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1666965029;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=LfByY2ZEH3vA5t9jzfkKtac9gkUPV4cP+QjyySZ2GFk=;
+	b=mwVOy3LqkbWwlOwTmiWb+u/xqwrz8gzDWx/nS/tKu5XzJ8csvvrHIz6OPDrdlDiASW8LQx
+	uxNHxjTWGgUtapAg==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+	by relay2.suse.de (Postfix) with ESMTP id 0672B2C143;
+	Fri, 28 Oct 2022 13:50:28 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+	id 7E85C51AD2C5; Fri, 28 Oct 2022 15:50:28 +0200 (CEST)
+From: Hannes Reinecke <hare@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 0/2] nvme-auth: avoid locking during authentication
+Date: Fri, 28 Oct 2022 15:50:25 +0200
+Message-Id: <20221028135027.116044-1-hare@suse.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <6f630727-72bc-6ae8-e23f-dece692c31e7@grimberg.me>
-X-Originating-IP: [10.199.23.254]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-09.corp.yadro.com (172.17.11.59)
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221028_043346_884722_C35E1962 
-X-CRM114-Status: GOOD (  16.82  )
+X-CRM114-CacheID: sfid-20221028_065034_502076_8950D54E 
+X-CRM114-Status: UNSURE (   7.94  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,46 +77,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 26, 2022 at 01:49:17PM +0300, Sagi Grimberg wrote:
-> On 10/26/22 11:31, Aleksandr Miloserdov wrote:
-> > Allow user to set OUI for the controller vendor.
-> > 
-> > Reviewed-by: Konstantin Shelekhin <k.shelekhin@yadro.com>
-> > Reviewed-by: Dmitriy Bogdanov <d.bogdanov@yadro.com>
-> > Signed-off-by: Aleksandr Miloserdov <a.miloserdov@yadro.com>
-> > ---
-> >   drivers/nvme/target/admin-cmd.c |  9 +++---
-> >   drivers/nvme/target/configfs.c  | 49 +++++++++++++++++++++++++++++++++
-> >   drivers/nvme/target/core.c      |  2 ++
-> >   drivers/nvme/target/nvmet.h     |  1 +
-> >   4 files changed, 56 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> > index c8a061ce3ee5..0b415335bb5f 100644
-> > --- a/drivers/nvme/target/admin-cmd.c
-> > +++ b/drivers/nvme/target/admin-cmd.c
-> > @@ -372,6 +372,10 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
-> >       memcpy_and_pad(id->fr, sizeof(id->fr),
-> >                      UTS_RELEASE, strlen(UTS_RELEASE), ' ');
-> > 
-> > +     id->ieee[0] = (subsys->ieee_oui) & 0xff;
-> > +     id->ieee[1] = (subsys->ieee_oui >> 8) & 0xff;
-> > +     id->ieee[2] = (subsys->ieee_oui >> 16) & 0xff;
-> > +
-> 
-> put_unaligned_24 ?
+Hi all,
 
-While there: we have a little internal bikeshedding on how to actually
-name the ConfigFS parameter :D
+blktests have uncovered a possible locking issue in the authentication
+code. These patches rework the authentication context handling to
+avoid long-running allocations and switch over to using xarray.
 
-Weirdly in this part of the spec it's called IEEE instead of OUI,
-however in other parts (like EUI64 generation) it's referenced as OUI.
-To the end user it makes more sense to call it simply OUI. So basically
-we have:
+As usual, comments and reviews are welcome.
 
-  attr_ieee
-  attr_oui
-  attr_ieee_oui
+Hannes Reinecke (2):
+  nvme-auth: allocate authentication buffer only during transaction
+  nvme-auth: use xarray instead of linked list
 
-Purely a style nitpicking, but what's your stance?
+ drivers/nvme/host/auth.c | 163 +++++++++++++++++++++------------------
+ drivers/nvme/host/nvme.h |   3 +-
+ 2 files changed, 88 insertions(+), 78 deletions(-)
+
+-- 
+2.35.3
+
 
