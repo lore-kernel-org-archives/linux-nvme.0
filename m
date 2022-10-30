@@ -4,49 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3667FA3745
-	for <linux-nvme@archiver.kernel.org>; Sun, 30 Oct 2022 08:19:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12D1FFA3744
+	for <linux-nvme@archiver.kernel.org>; Sun, 30 Oct 2022 08:20:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9CqVB1JJ1vlzmHE8JQxjvlUZFxKgZKJq6LH8REyrLEs=; b=HpGWY0o9xhstDXJvK2pYpZwBNK
-	9kH0cXgp317m+tU0u3DOBawr2vwItW45bQepY1x/vjoEO/1t6Er6yGDW4Hc8DQQHklplTaS5bpbLc
-	AtGN+8zVDFVQEZBdHJqX7G11RW6+n3Yue9LsUZCBeDKaJx8KNdPlnMbuNECRTm7kyyd/9+nGExQGH
-	zDLsSoCuy2XTjOFAjkj0wnKaZb9qmJ9xndvf7TnFa6Qet0nXhr2AGd8kZgd+yxXQwCxrlT2+Mp0QK
-	nJQE3ORFpX25Jh3JbgOlngMXjIAZkciDltCBK7Z/SM3WQglKDtczioEnmnk4S5HutokGyFti8Pj8r
-	1/Y6QTMA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:MIME-Version:
+	Content-Type:Content-Transfer-Encoding:References:In-Reply-To:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=J/pDm9y/l9QUytF0IzzXyqPPAw+hmEX4PJO3u0h8oRc=; b=3GztaZwS20T7RAewjbcjX3rxeq
+	6UH04OoFHrvagfOJgYq6bxRejQ0WeNH8PYa6exzfm3+ljzU5QwIu5AXWLGEQW8oNivx7VKVe/5a5b
+	ud4YR1nR8LC0fPFwPhYAnPVVQYok3GWf6ohKuNZ3eQi+TkMaFv7DAHLnpFWMU6iOQ3Iwvv8B4z1qq
+	2Nxm34y4hNvFDLhsNHV7r7ifAiSU8mje0e4hSzGIEPVjTg6zWDJZ44soBnis/eSIYkBdtyo7aShcf
+	giIF2IC1JAgu+pV1PdPIu75R0bhCfHTbHiiHiAZdA+5VKPU4Yn0rafICQ9bMtoY8has9KWxKkW3HB
+	tXQJpXuA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1op3Wz-00E77e-WA; Sun, 30 Oct 2022 08:18:58 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1op3Ww-00E75t-VV
-	for linux-nvme@lists.infradead.org; Sun, 30 Oct 2022 08:18:56 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3CC2A68AA6; Sun, 30 Oct 2022 09:18:52 +0100 (CET)
-Date: Sun, 30 Oct 2022 09:18:51 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Mike Christie <michael.christie@oracle.com>
-Cc: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
-	linux-scsi@vger.kernel.org, james.bottomley@hansenpartnership.com,
-	linux-block@vger.kernel.org, dm-devel@redhat.com,
-	snitzer@kernel.org, axboe@kernel.dk, linux-nvme@lists.infradead.org,
-	chaitanyak@nvidia.com, kbusch@kernel.org,
-	target-devel@vger.kernel.org
-Subject: Re: [PATCH v3 11/19] nvme: Add pr_ops read_reservation support
-Message-ID: <20221030081851.GB4774@lst.de>
-References: <20221026231945.6609-1-michael.christie@oracle.com> <20221026231945.6609-12-michael.christie@oracle.com>
+	id 1op3Y8-00E7kQ-8J; Sun, 30 Oct 2022 08:20:08 +0000
+Received: from spam.zju.edu.cn ([61.164.42.155] helo=zju.edu.cn)
+	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1op3Y4-00E7eQ-GT
+	for linux-nvme@lists.infradead.org; Sun, 30 Oct 2022 08:20:06 +0000
+Received: by ajax-webmail-mail-app4 (Coremail) ; Sun, 30 Oct 2022 16:19:49
+ +0800 (GMT+08:00)
+X-Originating-IP: [10.14.30.50]
+Date: Sun, 30 Oct 2022 16:19:49 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: "Jinlong Chen" <nickyc975@zju.edu.cn>
+To: "Christoph Hellwig" <hch@lst.de>
+Cc: axboe@kernel.dk, kbusch@kernel.org, sagi@grimberg.me, bvanassche@acm.org, 
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org
+Subject: Re: [RESEND PATCH v2 3/3] block: hide back blk_freeze_queue_start
+ and export its blk-mq alias
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
+ Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
+In-Reply-To: <20221030074010.GD4131@lst.de>
+References: <cover.1667107410.git.nickyc975@zju.edu.cn>
+ <3f2b51cc7f5c21e49bfa089e594cb203a4015183.1667107410.git.nickyc975@zju.edu.cn>
+ <20221030074010.GD4131@lst.de>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221026231945.6609-12-michael.christie@oracle.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Message-ID: <2671e78e.152908.18427f9be8d.Coremail.nickyc975@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cS_KCgBXXP2lM15jsZ+fBw--.49559W
+X-CM-SenderInfo: qssqjiaqqzq6lmxovvfxof0/1tbiAgYTB1ZdtcKYKQAAsd
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221030_011855_206051_E23F9CC4 
-X-CRM114-Status: UNSURE (   8.60  )
+X-CRM114-CacheID: sfid-20221030_012004_877506_D5569904 
+X-CRM114-Status: UNSURE (   7.46  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -62,7 +72,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> +	memset(resv, 0, sizeof(*resv));
-
-Is there any good reason this isn't done by the caller?
+PiBPbiBTdW4sIE9jdCAzMCwgMjAyMiBhdCAwMToyNjo0NlBNICswODAwLCBKaW5sb25nIENoZW4g
+d3JvdGU6Cj4gPiBibGtfZnJlZXplX3F1ZXVlX3N0YXJ0IGlzIHVzZWQgaW50ZXJuYWxseSBmb3Ig
+dW5pdmVyc2FsIHF1ZXVlIGRyYWluaW5nIGFuZAo+ID4gZXh0ZXJuYWxseSBmb3IgYmxrLW1xIHNw
+ZWNpZmljIHF1ZXVlIGZyZWV6aW5nLiBLZWVwIHRoZSBub24tYmxrLW1xIG5hbWUKPiA+IHByaXZh
+dGUgYW5kIGV4cG9ydCBhIGJsay1tcSBhbGlhcyB0byB1c2Vycy4KPiAKPiBJIHJlYWxseSBkb24n
+dCBzZWUgdGhlIHBvaW50IGhlcmUuICBFdmVudHVhbGx5IGFsbCBvZiB0aGUgZnJlZXppbmcKPiBz
+aG91bGQgbW92ZSBvdXQgb2YgdGhlIG1xIG5hbWVzcGFjZS4gIEJ1dCB0aGF0IGdpdmVuIHRoYXQg
+d2UgaGF2ZQo+IGFjdHVhbCB0ZWNobmljYWwgd29yayBwZW5kaW5nIGhlcmUgSSdkIHN1Z2dlc3Qg
+dG8ganVzdCBsZWF2ZSBpdCBhbG9uZQo+IGZvciBub3csIGFuZCBqdXN0IHJlc3BpbiBhIHZlcnNp
+b24gb2YgcGF0Y2ggMSB3aXRob3V0IHRoZSBwb2ludGxlc3MKPiBjb21tZW50LgoKSSBhZ3JlZSB0
+aGF0IHRoZSBmcmVlemluZyBzdHVmZiAobWF5YmUgYWxzbyB0aGUgcXVpZXNjaW5nIHN0dWZmKSBz
+aG91bGQKbW92ZSBvdXQgb2YgdGhlIG1xIG5hbWVzcGFjZS4gSWYgbm93IGlzIG5vdCB0aGUgcHJv
+cGVyIHRpbWUsIEknbGwgbGVhdmUKdGhlbSBhbG9uZS4gSSdsbCByZXNlbmQgcGF0Y2ggMSBhbG9u
+ZSB3aXRob3V0IHRoZSBjb21tZW50LgoKVGhhbmtzIQpKaW5sb25nIENoZW4K
 
