@@ -4,59 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A867C38A02
-	for <linux-nvme@archiver.kernel.org>; Sun, 30 Oct 2022 02:27:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5225FFA3743
+	for <linux-nvme@archiver.kernel.org>; Sun, 30 Oct 2022 03:07:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:MIME-Version:
-	Content-Type:Content-Transfer-Encoding:References:In-Reply-To:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=o4jNIfBz65TgbCcHSOUBwU9wnWnimND6eRqLFO7E29E=; b=kLQOLOhgUOxinJYvNI22FneEhc
-	tPPxyPodRcX9coP3tzfVO71F82zyH4tUMg1C2C1rMIztPb+agUO+HBi5X2qQQuLHmUvfccH4tueb6
-	vebHm8iHjeS3LG6lCrRoDzO87K2iPHFdy23+7lOtiPbVHbdM1zNKvmeHnao1YXJz8dybGjMKa38o4
-	/cMP7XctHkgBqEbUm27n3AjyWs2nuix3iaGD6jmfsE/tUcthFlrBt5UhAAzayKCRLXnSedB/XDEwT
-	WywU2dSEDxo/3ol/QpNX0qpYtJm02vJ19DnluJ/AmLCG0ZUM8yDChh9qMQOnqQaCWszeb3f5M4lMo
-	8papVFtA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Ah7oCz9YH54CFoCX1EkEoJSBMdrCqyTbs8bEDIs1R6g=; b=wB0GuH1lzCzZjOnyOwWEanZWW/
+	Eg3fWR8vDhaCYYi0oRgbyr3rGPz+gilE4SlB5bUjdjcwYJlxfzICrn46LxdTCYVLvV9Z8h63EY+l0
+	PSkc+j3zvXVUFIktmE7xIKqK9akJHR1BQ4kRxyKUrepPPmxtoOqw4coEAU+Tcv9YKelQ6xPxmnGCr
+	KKu+zDJsaOF/JRk7EbGtQ04bkYpjQ0sNlrItGD0hYNLgz6u9YhgATHKY35qZa6fZdXmByQF/mo9yU
+	xX0wfANJ3aYSvlngjyVht+p+qpXSZ0UeQb2YFkKPScz//bCWd/CD/pZdlzj37jst2luLByg4pozYn
+	rIawcyOw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ooy30-00BTUu-V1; Sun, 30 Oct 2022 02:27:38 +0000
+	id 1ooyfV-00BkiQ-St; Sun, 30 Oct 2022 03:07:25 +0000
 Received: from spam.zju.edu.cn ([61.164.42.155] helo=zju.edu.cn)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ooy2w-00BTTL-SF
-	for linux-nvme@lists.infradead.org; Sun, 30 Oct 2022 02:27:38 +0000
-Received: by ajax-webmail-mail-app4 (Coremail) ; Sun, 30 Oct 2022 10:27:22
- +0800 (GMT+08:00)
-X-Originating-IP: [10.192.32.139]
-Date: Sun, 30 Oct 2022 10:27:22 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: "Jinlong Chen" <nickyc975@zju.edu.cn>
-To: "Bart Van Assche" <bvanassche@acm.org>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org
-Subject: Re: Re: [PATCH 1/3] blk-mq: remove redundant call to
- blk_freeze_queue_start in blk_mq_destroy_queue
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
-In-Reply-To: <adaea16a-c7cd-5d68-50c8-d56de851061a@acm.org>
-References: <cover.1667035519.git.nickyc975@zju.edu.cn>
- <ebd3a47a1ebf4ab518c985cdbaa1ac3afd6dfb9f.1667035519.git.nickyc975@zju.edu.cn>
- <adaea16a-c7cd-5d68-50c8-d56de851061a@acm.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	id 1ooyfS-00BkgM-8s
+	for linux-nvme@lists.infradead.org; Sun, 30 Oct 2022 03:07:24 +0000
+Received: from localhost.localdomain (unknown [10.14.30.251])
+	by mail-app3 (Coremail) with SMTP id cC_KCgAXlrpJ6l1jv9B1CA--.27265S2;
+	Sun, 30 Oct 2022 11:07:14 +0800 (CST)
+From: Jinlong Chen <nickyc975@zju.edu.cn>
+To: axboe@kernel.dk,
+	kbusch@kernel.org,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	nickyc975@zju.edu.cn
+Subject: [PATCH v2 0/3] queue freezing improvement and cleanups
+Date: Sun, 30 Oct 2022 11:06:45 +0800
+Message-Id: <cover.1667098953.git.nickyc975@zju.edu.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Message-ID: <42681e4e.15223d.18426b71124.Coremail.nickyc975@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: cS_KCgBXXP0K4V1j+p2eBw--.49366W
-X-CM-SenderInfo: qssqjiaqqzq6lmxovvfxof0/1tbiAggTB1ZdtcKM4AAAsO
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-	daVFxhVjvjDU=
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: cC_KCgAXlrpJ6l1jv9B1CA--.27265S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrZr4DCF48AF4kXr43AF15twb_yoWxtFc_ua
+	4UAFyxtrs7GF13ZFyjk3W5AFWvkw4UXr18tFWDtrW5Ar97AF45Ja1S9rWkWws8WanrC3Wk
+	Gr1UGr1xJr4xJjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbs8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+	wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+	vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
+	87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1lnxkEFVAIw20F6c
+	xK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
+	Yx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbV
+	WUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij
+	64vIr41l42xK82IY6x8ErcxFaVAv8VW8uw4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI
+	8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
+	xVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI
+	8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280
+	aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43
+	ZEXa7VUbHa0DUUUUU==
+X-CM-SenderInfo: qssqjiaqqzq6lmxovvfxof0/1tbiAggTB1ZdtcKM4AABsP
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221029_192735_251337_EC7BD0A0 
-X-CRM114-Status: GOOD (  10.92  )
+X-CRM114-CacheID: sfid-20221029_200722_649101_8D58BE39 
+X-CRM114-Status: UNSURE (   6.32  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,28 +79,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-SGksIEJhcnQuCgo+ID4gQ2FsbGluZyBibGtfZnJlZXplX3F1ZXVlIHJlc3VsdHMgaW4gYSByZWR1
-bmRhbnQgY2FsbCB0bwo+ID4gYmxrX2ZyZWV6ZV9xdWV1ZV9zdGFydCBhcyBpdCBoYXMgYmVlbiBj
-YWxsZWQgaW4gYmxrX3F1ZXVlX3N0YXJ0X2RyYWluLgo+ID4gCj4gPiBSZXBsYWNlIGJsa19mcmVl
-emVfcXVldWUgd2l0aCBibGtfbXFfZnJlZXplX3F1ZXVlX3dhaXQgdG8gYXZvaWQgdGhlCj4gPiBy
-ZWR1bmRhbnQgY2FsbC4KPiAKPiBibGtfbXFfZGVzdHJveV9xdWV1ZSgpIGhhcyBtb3JlIGNhbGxl
-cnMgdGhhbiBibGtfcXVldWVfc3RhcnRfZHJhaW4oKSBzbyAKPiB0aGUgYWJvdmUgZGVzY3JpcHRp
-b24gaXMgYXQgbGVhc3QgbWlzbGVhZGluZy4KPiAKPiBBZGRpdGlvbmFsbHksIHRoZSB3b3JkICJj
-bGVhbnVwIiBmcm9tIHRoZSBwYXRjaCBzZXJpZXMgdGl0bGUgaW5kaWNhdGVzIAo+IHRoYXQgbm8g
-cGF0Y2ggaW4gdGhpcyBzZXJpZXMgY2hhbmdlcyB0aGUgYmVoYXZpb3Igb2YgdGhlIGNvZGUuIFRo
-aXMgCj4gcGF0Y2ggaW52b2x2ZXMgYSBiZWhhdmlvciBjaGFuZ2UuCgpTb3JyeSBmb3IgbXkgcG9v
-ciBkZXNjcmlwdGlvbi4gSSdsbCBzZW5kIGEgbmV3IHNlcmllcyB3aXRoIHRoZXNlCmRlc2NyaXB0
-aW9uIHByb2JsZW1zIHJlc29sdmVkLgoKPiBJIHRoaW5rIHRoaXMgcGF0Y2ggaW50cm9kdWNlcyBh
-IGhhbmcgZm9yIGV2ZXJ5IGNhbGxlciBvZiAKPiBibGtfbXFfZGVzdHJveV9xdWV1ZSgpIG90aGVy
-IHRoYW4gYmxrX3F1ZXVlX3N0YXJ0X2RyYWluKCkuCj4gCj4gQmFydC4KCkkgZG9uJ3Qgc2VlIHdo
-eSB0aGUgcGF0Y2ggaW50cm9kdWNlcyBhIGhhbmcuIFRoZSBjYWxsaW5nIHJlbGF0aW9uc2hpcCBp
-bgpibGtfbXFfZGVzdHJveV9xdWV1ZSBpcyBhcyBmb2xsb3dzOgoKYmxrX21xX2Rlc3Ryb3lfcXVl
-dWUoKQogICAgLi4uCiAgICAtPiBibGtfcXVldWVfc3RhcnRfZHJhaW4oKQogICAgICAgIC0+IGJs
-a19mcmVlemVfcXVldWVfc3RhcnQoKSAgPC0gY2FsbGVkCiAgICAgICAgLi4uCiAgICAtPiBibGtf
-ZnJlZXplX3F1ZXVlKCkKICAgICAgICAtPiBibGtfZnJlZXplX3F1ZXVlX3N0YXJ0KCkgIDwtIGNh
-bGxlZCBhZ2FpbgogICAgICAgIC0+IGJsa19tcV9mcmVlemVfcXVldWVfd2FpdCgpCiAgICAuLi4K
-ClNvIEkgdGhpbmsgdGhlcmUgaXMgYSByZWR1bmRhbnQgY2FsbCB0byBibGtfZnJlZXplX3F1ZXVl
-X3N0YXJ0KCksIHdlCmp1c3QgbmVlZCB0byBjYWxsIGJsa19tcV9mcmVlemVfcXVldWVfd2FpdCgp
-IGFmdGVyIGNhbGxpbmcKYmxrX3F1ZXVlX3N0YXJ0X2RyYWluKCkuCgpUaGFua3MhCkppbmxvbmcg
-Q2hlbgoK
+Hi!
+
+This series of patches improves and cleans up queue freezing in blk-mq.c
+to build a clearer blk_mq_* namespace.
+
+Changes in v2:
+- improved descriptions in patch series title and patch 1.
+
+Jinlong Chen (3):
+  blk-mq: remove redundant call to blk_freeze_queue_start in
+    blk_mq_destroy_queue
+  blk-mq: remove blk_freeze_queue
+  block: hide back blk_freeze_queue_start and export its blk-mq alias
+
+ block/blk-core.c              | 13 +++++++++
+ block/blk-mq.c                | 52 ++++++++++++++---------------------
+ block/blk-pm.c                |  2 +-
+ block/blk.h                   |  2 +-
+ drivers/nvme/host/core.c      |  2 +-
+ drivers/nvme/host/multipath.c |  2 +-
+ include/linux/blk-mq.h        |  2 +-
+ 7 files changed, 39 insertions(+), 36 deletions(-)
+
+-- 
+2.31.1
+
 
