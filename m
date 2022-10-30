@@ -4,62 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75886FA3740
-	for <linux-nvme@archiver.kernel.org>; Sun, 30 Oct 2022 08:35:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 472CEC38A02
+	for <linux-nvme@archiver.kernel.org>; Sun, 30 Oct 2022 09:17:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:MIME-Version:
-	Content-Type:Content-Transfer-Encoding:References:In-Reply-To:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=se56kAYYou4UlGliCjEDQ4vmx+Kj3tKdhFsF7SF2r4k=; b=LKezo3WAi7YVNtBRaeWsSv7jYE
-	+FM8PusK8KhB6UX1eMpVpuOqQM/uM4Z5fPau35HN7FfmL1nfc5im9TsrYa+xKb9CZ6ZPu1KSx70qv
-	tCsKtLxFIK+o0bMiv7Hzsn4VFhlLQXdqg1sqIEx6oGON3cHwHL7ws128VQZec/O3pHi81hEA5A27b
-	Nh7k+9nq0a78JOASyvD5BUHXSO9Bgms808YXvHq8usC4EnKd3cPMtxWuEMN52UT8o3L9KOSoyah0F
-	pBBfiTKE4VKFZ8Fq14ldr3rxcAKKI7u80gZ71V+4zuyi31qvcBOS+JR3VNXT8i1WokTitqSUPHhFf
-	HKCZC6mQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=j2EQ9gIFWiY3mf3Sd1JKje9JAkKrlqcbGefqYBTugCQ=; b=nT6eCESkcidwBGten+fIW/2VH6
+	teOUqtjI9xq31UDcALIVLfg/Gr9wFu7uOoTUXBAmWEU/ePPtOnA5jDzyuWhq/VyF/DD9nEMkMcfVy
+	o7PMuQgoblV+gGUgvejxdFq2IFNx3gDUNUnBtxeznLlL9N8OabMw6vG1OgeR8X5THcNoSACPPEFNn
+	kqoMXfBqejHyPVyniADDjtV87ok7OfB5X6fH3d0smTDIJjCIKtRjffQ6yejsvOlaVoehtn1xWLB8A
+	YFYIQLtDYZezc27BIlkHEkeOVw4MVU2hzX3thfQZAPUgNnuneubC5OLN4OO5Njcy8i8e07Z391pmT
+	piNBDT+g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1op3nM-00EFpA-Da; Sun, 30 Oct 2022 08:35:52 +0000
-Received: from mail.zju.edu.cn ([61.164.42.155] helo=zju.edu.cn)
-	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1op3nJ-00EFlu-4K
-	for linux-nvme@lists.infradead.org; Sun, 30 Oct 2022 08:35:51 +0000
-Received: by ajax-webmail-mail-app4 (Coremail) ; Sun, 30 Oct 2022 16:35:42
- +0800 (GMT+08:00)
-X-Originating-IP: [10.14.30.50]
-Date: Sun, 30 Oct 2022 16:35:42 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: "Jinlong Chen" <nickyc975@zju.edu.cn>
-To: "Christoph Hellwig" <hch@lst.de>
-Cc: axboe@kernel.dk, kbusch@kernel.org, sagi@grimberg.me, bvanassche@acm.org, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org
-Subject: Re: Re: [RESEND PATCH v2 3/3] block: hide back
- blk_freeze_queue_start and export its blk-mq alias
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
-In-Reply-To: <20221030082130.GA4930@lst.de>
-References: <cover.1667107410.git.nickyc975@zju.edu.cn>
- <3f2b51cc7f5c21e49bfa089e594cb203a4015183.1667107410.git.nickyc975@zju.edu.cn>
- <20221030074010.GD4131@lst.de>
- <2671e78e.152908.18427f9be8d.Coremail.nickyc975@zju.edu.cn>
- <20221030082130.GA4930@lst.de>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	id 1op4Ru-00EiM0-4O; Sun, 30 Oct 2022 09:17:46 +0000
+Received: from verein.lst.de ([213.95.11.211])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1op4Rr-00EiJW-Py
+	for linux-nvme@lists.infradead.org; Sun, 30 Oct 2022 09:17:45 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 4C24C68AA6; Sun, 30 Oct 2022 10:17:39 +0100 (CET)
+Date: Sun, 30 Oct 2022 10:17:39 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>, Chao Leng <lengchao@huawei.com>,
+	Ming Lei <ming.lei@redhat.com>, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org
+Subject: Re: [PATCH 02/17] nvme-pci: refactor the tagset handling in
+ nvme_reset_work
+Message-ID: <20221030091739.GA5643@lst.de>
+References: <20221025144020.260458-1-hch@lst.de> <20221025144020.260458-3-hch@lst.de> <cafdc008-9d07-758a-bb66-1ca62b0baa50@grimberg.me>
 MIME-Version: 1.0
-Message-ID: <2e53c763.15296d.1842808478d.Coremail.nickyc975@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: cS_KCgAnYvxeN15jL6yfBw--.50915W
-X-CM-SenderInfo: qssqjiaqqzq6lmxovvfxof0/1tbiAgYTB1ZdtcKYKQAEsZ
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VW7Jw
-	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-	daVFxhVjvjDU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cafdc008-9d07-758a-bb66-1ca62b0baa50@grimberg.me>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221030_013549_495658_23FD609C 
-X-CRM114-Status: UNSURE (   3.01  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221030_021744_007767_68CC4B9E 
+X-CRM114-Status: GOOD (  16.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,11 +60,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-PiA+IEkgYWdyZWUgdGhhdCB0aGUgZnJlZXppbmcgc3R1ZmYgKG1heWJlIGFsc28gdGhlIHF1aWVz
-Y2luZyBzdHVmZikgc2hvdWxkCj4gPiBtb3ZlIG91dCBvZiB0aGUgbXEgbmFtZXNwYWNlLiBJZiBu
-b3cgaXMgbm90IHRoZSBwcm9wZXIgdGltZSwgSSdsbCBsZWF2ZQo+ID4gdGhlbSBhbG9uZS4gSSds
-bCByZXNlbmQgcGF0Y2ggMSBhbG9uZSB3aXRob3V0IHRoZSBjb21tZW50Lgo+IAo+IFRoZSBxdWll
-c2NlIGFjdHVhbGx5IGlzIGVudGlyZWx5IGJsay1tcSBzcGVjaWZpYywgd2hpY2gganVzdCBoYXZl
-IHNvbWUKPiBjYXJlbGVzcyBjYWxsZXJzLgoKR290IGl0LCB0aGFuayB5b3UhCgpUaGFua3MhCkpp
-bmxvbmcgQ2hlbgo=
+On Wed, Oct 26, 2022 at 03:46:09PM +0300, Sagi Grimberg wrote:
+> This is clearer, but what I think would be even cleaner, is if we simply
+> move the whole first time to a different probe_work and treat it like it
+> is instead of relying on resources existence as a state indicators
+> (tagset/admin_q). The shared portion can move to helpers.
+
+I started playing with that a bit on my flight home this week.
+I think the right thing is to do away with the scheduled work for probe
+entirely and set the PROBE_PREFER_ASYNCHRONOUS flag in the driver, and
+that should also really help with probe error handling.  But that's
+another fairly big set of changes over this already quite big series
+so I'd prefer to do it separately.
 
