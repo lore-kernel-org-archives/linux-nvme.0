@@ -4,168 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B96CC433FE
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Nov 2022 16:43:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6D79FC433FE
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Nov 2022 21:09:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:To:Subject
-	:Date:Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CgzCL+ZCs4K5zzF4uyDp5hBZ1chathtB9tEIF3C34HM=; b=Bnpl50DW8+Hy62DNxQTAQrZKt8
-	gcX9WKnRpzGAfAAmnm/XeYcYp3vGTy4nv2D8yT1UGP4G9PKZnSWKxKK1PTw8NZLJEqBgKpGcdoGRR
-	0Y8twl0iUhrUSqVg2bHRMYTStDjE3YgeO8+Tp54bMrQ3gmpW5wDppqIEta9Cq2CPakpVlraRaiQ5T
-	QJxBHZmu5qIcDqOtRIV+wPG+MgVRdlk55e2lH+LGuYedvYP7I74/QRtugC9fcDLtzByjxQkCYft7R
-	85p6j04dhn3FpB43R/GFTJeHG6pG1HU+Fy+NGJ0pf7LwloSgd3fvi1q9g/oiHmgnu4gmt+CcFkvPk
-	un4l17sw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=n/uqUO8T7p5gtY+Ig8FImn/Mp+G2wf7k9JvJXs8jN0c=; b=I3P8O/a/pwszmWKbGE4I7Tb4+M
+	E9F1Zc5iVmechdEh+m0DKXnTMcqEP5Cn5JDoJ0VwR2yBkr0h+3XYIp/R1CmUEZK8men+F2H1HP0Uh
+	7DPD6UmrQL/zT68MZR+QEgzqmjNwMvVUGS5g7jcKWf14F80bOpKDmhbWJqOZXdydgaXRvffZsXwA/
+	rzWZKsfYaTv8gS6MzSCdHLqNfuLuPVeAwf2Pb6hNJOq9r0xv67jW/gc+LIZ4QN/+mfD37rRN0+z5r
+	dRiSur0oW53e7wL6r8aiBVdVFsn6lhmQPTtATRJDqc8NNruCnnnw4DazrAzaPhr7D5+VOJexW7oVN
+	0s0s9ZRA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1opuMB-0064Yu-F1; Tue, 01 Nov 2022 16:43:19 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1opyVm-0075UM-Cr; Tue, 01 Nov 2022 21:09:30 +0000
+Received: from mga05.intel.com ([192.55.52.43])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1opuM8-0064Y5-Of
-	for linux-nvme@lists.infradead.org; Tue, 01 Nov 2022 16:43:18 +0000
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A1FQUau026156;
-	Tue, 1 Nov 2022 16:43:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : to : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2022-7-12;
- bh=CgzCL+ZCs4K5zzF4uyDp5hBZ1chathtB9tEIF3C34HM=;
- b=MwxnTaNw6svtO/V3yTcx5ZfKvNOtl97wZ4Cf1zhl+/B8IgEi3yr4ncn3Z+cJvsAYNWxA
- n0ZSTgOejmKd57OUQ0TZRS48C6WHHk/QqUbaT5wfKwE6lYoC5wzSH1Ry1ZKGWSKDHgFC
- lgTufAd9GCsDqtIx7zPaLkriJ2fwdQG5yWMHJKkPQnS0nip/B6cP9qq7CWhVVw+4QZA/
- mxHdvMn8HsVisFCWrxzKvoRkq6BP8GdJRmHIvPD5XkNkIbfpPRbQjfNz3kuWcb2edC1z
- 90pqxmbiDY8plYkAoqmyxQLqIPfR+A26oJ0iAvxmmseOoNZ4v0bA93Cph+06KEq0Xy9w fw== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3kgtkd703j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 01 Nov 2022 16:43:08 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 2A1FbpSf013949;
-	Tue, 1 Nov 2022 16:43:07 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2109.outbound.protection.outlook.com [104.47.70.109])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3kgtm4m2vk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 01 Nov 2022 16:43:07 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E0xeEWGJLKxK0Fe/7hzFgnT3O5N61dfc5BVzvymcmKNk5zdaBGlGB06ycUw29aKp8Kolh07NkQilIZrskYC0IJLBJoDqp/BM1KGZPqDT3FDcayEF9dD25V32XWFTJ5zWgpOKa77g2C5I4P+ZAd+TRfBNGpoTK0/VcEEOk/cmaaRs2+qcwS/IyjqdQC2z3dBB06i0mtLlOF6YS1CdMQusY8zbQWN5nY9aHv/W7c6zc23bCgCe2/Ic/cVdaIcff6677nx9qHfMGwaoQ8cdNynIN48whjR+ilqqPgwU/jLEyZqt72Lg/S9pvqEY62T6swZ4fbzm3qGTlCpBaSLcJqJs+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CgzCL+ZCs4K5zzF4uyDp5hBZ1chathtB9tEIF3C34HM=;
- b=mKzjnv7NiCQ8d4q4Dd6ps6ICPxNRQv+/dOl6BQDdzU01pS/srThqFMtWx8vDrIafL1SO2UAJGs2mTV58PMV8pFtOsVWEDIdOF8J7eQ/K0VpbEXCTL1IKFsFX4mocYdf4J2zIqNDsPE7MP3Ecdund4I8ZYC5n9QjEURtz8cTGaeb2ZNLk8EiIBj0Ew5NNzaJPRnNvyqCezQBcwkz7Y/M+1UsTLVXb0vgvfsPC62oT3G11orhZAh3GWUl9wSBllqrn4H6unu+1zc8HDaKr1w2cd8ybZJj6DVTCvnCMo6qbvfQoCTqYBOKnDp1hwLx5x95OT/H7r34qUPEf71/FC+ovHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CgzCL+ZCs4K5zzF4uyDp5hBZ1chathtB9tEIF3C34HM=;
- b=eH9vmW9+nHCqobekBtUlKUdFjEs8g9HvHlTHT18sWwu0/rRgcI/qmA+Fdv7qXOdg3izJJQWy0BDeSVTtUUUvP31dkcQGFu+u3Ijs5t3TS/Hm65aGYTtC9uiDMatHHZKaWm9Q1fHvTwI7MUVT+Oe5WItGzvOZiHsfLs8Km4EomTE=
-Received: from DM5PR10MB1466.namprd10.prod.outlook.com (2603:10b6:3:b::7) by
- SJ0PR10MB4781.namprd10.prod.outlook.com (2603:10b6:a03:2d0::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.16; Tue, 1 Nov
- 2022 16:43:04 +0000
-Received: from DM5PR10MB1466.namprd10.prod.outlook.com
- ([fe80::19f7:e081:85b4:c5df]) by DM5PR10MB1466.namprd10.prod.outlook.com
- ([fe80::19f7:e081:85b4:c5df%7]) with mapi id 15.20.5769.021; Tue, 1 Nov 2022
- 16:43:04 +0000
-Message-ID: <6d29c713-47b1-a924-651f-e54b6b1d4785@oracle.com>
-Date: Tue, 1 Nov 2022 11:43:02 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v3 03/19] scsi: Move sd_pr_type to header to share
-Content-Language: en-US
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>, "hch@lst.de" <hch@lst.de>,
-        "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "dm-devel@redhat.com" <dm-devel@redhat.com>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        "kbusch@kernel.org" <kbusch@kernel.org>,
-        "target-devel@vger.kernel.org" <target-devel@vger.kernel.org>
-References: <20221026231945.6609-1-michael.christie@oracle.com>
- <20221026231945.6609-4-michael.christie@oracle.com>
- <7f837cb5-8439-a1e6-48c5-d1df039d77ef@nvidia.com>
-From: Mike Christie <michael.christie@oracle.com>
-In-Reply-To: <7f837cb5-8439-a1e6-48c5-d1df039d77ef@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH2PR05CA0005.namprd05.prod.outlook.com (2603:10b6:610::18)
- To DM5PR10MB1466.namprd10.prod.outlook.com (2603:10b6:3:b::7)
+	id 1opyVj-0075Si-H7
+	for linux-nvme@lists.infradead.org; Tue, 01 Nov 2022 21:09:29 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667336967; x=1698872967;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=6ica9wOL6heA2ChtTtrL7bdrt7WhfXfLVHDDGclQtGg=;
+  b=Q1xgoLqFl5N49pU/UeEkJYg4CDnNEQwe1hx1QLiz1u5Kov+YW4Xwq2SX
+   yRog9DEFYjopb14VvlgmZi/Fo33JyWAjphWj56/r9ll8rv9g5FXYVIn8T
+   Wb0ZG4Pyw+NXnc9811UGVd/6J0MHSBNsABmqUCy0oJEuU/rIgN/Xb7kj4
+   7Pd7x+8PwKUSgWMvAcI7r/UoWpt7VQLLk6WjhW9M8PSb2+EKYypmHjR3V
+   ogj/DckVd4o0TE+B/t1gY3+iuFeOhD7o7dim8Q248qPN7eM2n4M6RLSJR
+   ZHQHnYxagqhcyrU90LizxtVd6C9DyiCWwCkYSZm1UoMO/Keh9xsv2juBa
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10518"; a="395554182"
+X-IronPort-AV: E=Sophos;i="5.95,232,1661842800"; 
+   d="scan'208";a="395554182"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 14:09:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10518"; a="723296076"
+X-IronPort-AV: E=Sophos;i="5.95,232,1661842800"; 
+   d="scan'208";a="723296076"
+Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 01 Nov 2022 14:09:24 -0700
+Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1opyVg-000E2V-0o;
+	Tue, 01 Nov 2022 21:09:24 +0000
+Date: Wed, 02 Nov 2022 05:09:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.1] BUILD SUCCESS
+ 48fe7dddb972e83e909f553e0ab7aa34c9598502
+Message-ID: <63618afc.oJrdFiCk9QcACoKc%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM5PR10MB1466:EE_|SJ0PR10MB4781:EE_
-X-MS-Office365-Filtering-Correlation-Id: 247e5414-fefb-4643-7c3a-08dabc2825c4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	L7F5VPa+9mWv34ckVVjcDWrIn1uLtxY8hkHJM+31ogUcxq2yqLenSnQt5h5LA4dbNySd2aSBchVgxfIZfpEu+M/BKAH+8M7Jnv+iO6vha37u1nNOx6joBQj3A9f4w/57TaKfew+LqurFXDRKz4txD8fSzw08s5MzfSzSp//Kzcf6iXE35dVvqMSE55LMFCuOcSGY2wLvEieoNyIjYjtVKUTyvOZq1Jnem3Su0eWqwDIDLXRVajl2AubNIV0fzBfhx5vCJpCgHz8ZrtD+vDmWKZWpmNkuVKwZH9Gu12xa8WcvTLu5G5+PQr/2RVE5Km4lFdH+DUSSulyjVGPdgs2Ejdkjv+3Sfpz78Ubb8NZ91AdD9KI2lLTmaPxycrfeU3RjZCJYV7QHnVsfNJnjysQWDBEM68sAuod8J9pvMqlOzZ0EZmzYHivqkz2YJYy+MMDb7lyfbavf+Pa29MiB7RV98xVjy4zgJ79krqDRWUvPmyh+X1wZARoegEI2UR/S6Tm5XclWnQVJGG5r8poyASn+CunJmIOWXQSv+gNjAnKpZEW6n7hKZD7sfmrFdKFsVyFZu8+ZLBzzA11y6jsnypLp1Tdnlzx8tzZbGeBX8UR5IvjMdY+O/+AK3Yr3jsVLDnEZEuaGzKLQ1wkZZA/THaqw65v8nTfg8fPh+5lcdn1TS9mTle6TiVBtpBk+mXDeuArKgjSh/C/CRmqbXfpQOM/rDDbotHK0wS4noNg1I/ymtf/bfz+sB7PGeazB4wqLRxKPdlUAPh0ozY2b+DK7yiAt5M8c/nBAuWy9Eq6EdpYLrMG2fZhaPV2Eb7NmcvFYaMlx
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR10MB1466.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(346002)(39860400002)(136003)(396003)(376002)(366004)(451199015)(83380400001)(66946007)(86362001)(5660300002)(31696002)(8936002)(38100700002)(8676002)(53546011)(6506007)(66556008)(66476007)(26005)(2906002)(41300700001)(186003)(316002)(6512007)(110136005)(921005)(478600001)(2616005)(36756003)(6486002)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?ZEEyaW5YVWVXcXVtWEtZeERQTnFhTGhpbG1vc2RaUm1IWGpOa09GcS9kMnZa?=
- =?utf-8?B?eVh3bnRVUWZBaEl6L293RWVZTVF5SlhrZzMwL0dGOW5keVFWRjZLYnNxTUtx?=
- =?utf-8?B?VGVkSytyaGh2TlRhNDgzWFJSdDQwczY4VFEzbGxSeG9Fa3piWTRmZWtLL0Qr?=
- =?utf-8?B?eEJRUDRDMFFvMDQ0am83aEUrK0Q4LzlHOXVMUFdibk1yN3krS08zbnMvcXAr?=
- =?utf-8?B?UGx2a1A3NFZWMHphTUJTM1RmdUM0MFR4M3FZSFd1OXNtSlhndDdtd0E5cXJi?=
- =?utf-8?B?OWZmd2lNL3M2dTZvLzlQa0ZMTllFQjZ4d0tPbzFlbDVqKzRCaE1OWnNnK3Zy?=
- =?utf-8?B?STZ2b0xxS1JVOUFOZ0FLREJwRitMMDhFUHpEZ0hyUVVTZloxYzhtY0dSSXph?=
- =?utf-8?B?bFk4Sy9XQ0VMaWhTYUZoTENzWFVHNnN0bzB6czFIVEpmYlYyYnNRb0N2OFVy?=
- =?utf-8?B?YkdWZ0ZraXNvZWF6VGNacnNHeXJPMWx0aStJRlFleEordG9pTnpDYVpra29v?=
- =?utf-8?B?Sm9yT0ZKSCtrOGdzc2VYbkJSRDFwb0VyQ24xL2lKcHFacXBUTGVOeWo3NVhn?=
- =?utf-8?B?UXZ4WnRPb2NPWHBUK255L2MxWGRuTmt5bU1oN3Z2RFVreklHaXp1TU5SNUxj?=
- =?utf-8?B?NnFhNXpnbDZncnI0VE1HRjM1MjY1NCtwS25EaWxwdG1nbVNkTk1kZzVpZ2VH?=
- =?utf-8?B?UmVHcWRSQTBjRXQ5REhFT0NBNEZlWWlOY1dKWW1KV01naFRxNDhXNHdFQlFS?=
- =?utf-8?B?c1VpZHJpNlFZbTJSaitTb1JDSWFsSHJCZDlXSmxGK2tnQ1ZpcFRIVEZXVTlx?=
- =?utf-8?B?a0YrcnR1MXNQdEhxZjZ4bEluclg4a0dTRHJHdlhnR2NtbGJWYUJKNGJ0eFk3?=
- =?utf-8?B?V2tqR0gwSUMxSUxwcnJqWklTWjkrbVpEOERpLzNOMlpUZzIwWUt6TWQ4bmV6?=
- =?utf-8?B?VldEVUNKTTB3YkdvNjVsZUxUa3diWlY0ZG9RdDQ0T3RmSUg1Z0Zrd2N2MUg5?=
- =?utf-8?B?OHphNmZEUk9TRUtScjhIVVFaNmIyenJGK3ZwLzFuMWdYR3Z5TUlNNmJCamxa?=
- =?utf-8?B?ZjAzdUlWT25lcnpTc3VqZWtaL2VabVFrVU8rQkZGQlQvczlncUl2eGJDRXJ3?=
- =?utf-8?B?dG54QVAveCtJaXUrZGN4TXVrK2dDbGM1U0cvQjBzaERKWmwrb3JON3V2K0JT?=
- =?utf-8?B?S2xLZnpvRkt4eFkyV0xHQ0V4TWJlenZkVnQ4Ym41SWhNT21acGJlaUQwcUNY?=
- =?utf-8?B?ZFhHQlFaOStwSTR5elpUbVhIeTIxdHI0ckNlaGVSWU5hT1F5ZmplSS9yWEZX?=
- =?utf-8?B?VXBsQTVoZUJzMUVhSTQ3MHpkOUhqQm5rcmFhSVlsRUtlSVJyZVl4bjF5aFBG?=
- =?utf-8?B?SnV1UUJUbzA5d2lxUHZPRkdRVUl1SFgzL29KMDlRbFowSm9Yc1R0QzNmQnFp?=
- =?utf-8?B?Nm0zaWlTVU5LdFRoYk42eko2LzFvVzhpek5xRjJaUmJQTDVDNmVVeVArTUZa?=
- =?utf-8?B?RHYvRzdHMFlUcXV2bDdyZzkySGlxV3crMUxKbi9zdGtjd2pjNVk3RUxqc2ky?=
- =?utf-8?B?WXN5QXVXSVR5TUZyUlZLTWl1eHFseDBuZDFZNVBpVTNlSmo1RWZYWnFKcElT?=
- =?utf-8?B?dzRlSERvRFluTFJyQzNUbUVUeXhnUHIzdDV2OW92RlZ1TlpVSTRkM25IOTBn?=
- =?utf-8?B?RjZGUndNWGp3NUZ6d0M1NDl3KytkaCtFVFdXUXZ1SGtsMTNrYlRaQ3J3cXAv?=
- =?utf-8?B?eW1sRllJWStwOEl1aWoxQ3ljdURMaHlreFg2NmVQajYzSDRTMHM1ZWV2NVhQ?=
- =?utf-8?B?T1h5d3lRY21UZXRRTnZ0Uk1MTFN5MnNQUDJEaTlSM05sejFpMUlQTjdPNDRN?=
- =?utf-8?B?ZWIxWWcvT3MxN0MvMFVXVStSV2w0aENoZjBEZzBOWVptS0h2Z2VBNko2RUNQ?=
- =?utf-8?B?T0gyU3Qyb29JU0FQTzN1WE1EaytsVjJNVWUyY2lWUWtsWis4OXYvN0MyUXhx?=
- =?utf-8?B?eDIwTHc2QTQ4eWU4dkpiZS9FY2YxTC8rNElQSUZ4Q3orSlhtdjZzUXZEaTY1?=
- =?utf-8?B?cy95TFVsbnNRVFljZmpUZXUrTzRjNHhLdmt0aDFUTE1jTVRwYXI0L3pSajZY?=
- =?utf-8?B?bnkzeU5COTcwU1Q1b21UZGFtL0sxOFpNUXBHaVo2Ym1NVjU2d3puQVMxMHVz?=
- =?utf-8?B?S3c9PQ==?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 247e5414-fefb-4643-7c3a-08dabc2825c4
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR10MB1466.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2022 16:43:04.6100
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SqoNJRi8X0TGdfedGlKcyQ2WtTLI1c+eQgzFlL+rok/DkU/OwfLBtgpnBe4a4r3ZhJ51+a36kRdi56MRldSdrqtk3x6rAWLUW0ZK0ekCbd8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4781
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-01_07,2022-11-01_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 spamscore=0 bulkscore=0
- suspectscore=0 phishscore=0 malwarescore=0 mlxscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2211010124
-X-Proofpoint-ORIG-GUID: uWZ_D26lFwzl5bj4tBLyHj2JRpwLij7w
-X-Proofpoint-GUID: uWZ_D26lFwzl5bj4tBLyHj2JRpwLij7w
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221101_094316_972158_6446F269 
-X-CRM114-Status: GOOD (  16.87  )
+X-CRM114-CacheID: sfid-20221101_140927_646794_479DF45A 
+X-CRM114-Status: UNSURE (   7.87  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -180,56 +82,162 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/1/22 12:43 AM, Chaitanya Kulkarni wrote:
->> +static inline enum scsi_pr_type block_pr_type_to_scsi(enum pr_type type)
->> +{
->> +	switch (type) {
->> +	case PR_WRITE_EXCLUSIVE:
->> +		return SCSI_PR_WRITE_EXCLUSIVE;
->> +	case PR_EXCLUSIVE_ACCESS:
->> +		return SCSI_PR_EXCLUSIVE_ACCESS;
->> +	case PR_WRITE_EXCLUSIVE_REG_ONLY:
->> +		return SCSI_PR_WRITE_EXCLUSIVE_REG_ONLY;
->> +	case PR_EXCLUSIVE_ACCESS_REG_ONLY:
->> +		return SCSI_PR_EXCLUSIVE_ACCESS_REG_ONLY;
->> +	case PR_WRITE_EXCLUSIVE_ALL_REGS:
->> +		return SCSI_PR_WRITE_EXCLUSIVE_ALL_REGS;
->> +	case PR_EXCLUSIVE_ACCESS_ALL_REGS:
->> +		return SCSI_PR_EXCLUSIVE_ACCESS_ALL_REGS;
->> +	default:
->> +		return 0;
->> +	}
->> +};
-> 
-> 
-> do we need above semicolon ?
+tree/branch: git://git.infradead.org/nvme.git nvme-6.1
+branch HEAD: 48fe7dddb972e83e909f553e0ab7aa34c9598502  nvmet: fix memory leak in nvmet_subsys_attr_model_store_locked
 
-No. It was a mistake.
+elapsed time: 724m
 
-> 
-> how about not using switch case pattern totally untested below ?
-> 
-> static inline enum scsi_pr_type block_pr_type_to_scsi(enum pr_type type)
-> {
->          enum pr_type pr_to_scsi_pr[] = {
->                  [PR_WRITE_EXCLUSIVE] = SCSI_PR_WRITE_EXCLUSIVE,
->                  [PR_EXCLUSIVE_ACCESS] = SCSI_PR_EXCLUSIVE_ACCESS,
->                  [PR_WRITE_EXCLUSIVE_REG_ONLY] = 
-> SCSI_PR_WRITE_EXCLUSIVE_REG_ONLY,
->                  [PR_EXCLUSIVE_ACCESS_REG_ONLY] = 
-> SCSI_PR_EXCLUSIVE_ACCESS_REG_ONLY,
->                  [PR_WRITE_EXCLUSIVE_ALL_REGS] = 
-> SCSI_PR_WRITE_EXCLUSIVE_ALL_REGS,
->                  [PR_EXCLUSIVE_ACCESS_ALL_REGS] = 
-> SCSI_PR_EXCLUSIVE_ACCESS_ALL_REGS,
->          };
-> 
->          if (type > ARRAY_SIZE(pr_to_scsi_pr))
->                  return 0;
->          return pr_to_scsi_pr[type];
-> }
-> 
+configs tested: 140
+configs skipped: 3
 
-Keith also wanted something like this for nvme so will fix up
-the scsi and nvme code.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                        randconfig-a006
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+arc                                 defconfig
+ia64                             allmodconfig
+alpha                               defconfig
+s390                                defconfig
+x86_64                          rhel-8.3-func
+x86_64                    rhel-8.3-kselftests
+s390                             allmodconfig
+s390                             allyesconfig
+x86_64                           rhel-8.3-kvm
+x86_64                           rhel-8.3-syz
+x86_64                         rhel-8.3-kunit
+i386                 randconfig-a016-20221031
+i386                 randconfig-a012-20221031
+i386                 randconfig-a015-20221031
+i386                 randconfig-a013-20221031
+i386                 randconfig-a014-20221031
+i386                 randconfig-a011-20221031
+i386                             allyesconfig
+i386                                defconfig
+sh                              ul2_defconfig
+powerpc                 mpc8540_ads_defconfig
+openrisc                       virt_defconfig
+powerpc                 canyonlands_defconfig
+arm64                            allyesconfig
+arm                                 defconfig
+arm                              allyesconfig
+powerpc                         wii_defconfig
+sh                           sh2007_defconfig
+powerpc                           allnoconfig
+mips                             allyesconfig
+powerpc                          allmodconfig
+sh                               allmodconfig
+alpha                            allyesconfig
+sparc                             allnoconfig
+xtensa                    smp_lx200_defconfig
+arm                          gemini_defconfig
+sh                 kfr2r09-romimage_defconfig
+xtensa                       common_defconfig
+arc                              allyesconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+x86_64               randconfig-k001-20221031
+mips                           jazz_defconfig
+arm                           tegra_defconfig
+mips                 decstation_r4k_defconfig
+arm                          lpd270_defconfig
+i386                          randconfig-c001
+x86_64               randconfig-a016-20221031
+x86_64               randconfig-a011-20221031
+x86_64               randconfig-a013-20221031
+x86_64               randconfig-a012-20221031
+x86_64               randconfig-a014-20221031
+x86_64               randconfig-a015-20221031
+sh                          rsk7203_defconfig
+m68k                       bvme6000_defconfig
+arm                           viper_defconfig
+arm                        mini2440_defconfig
+powerpc                      mgcoge_defconfig
+powerpc                 mpc834x_itx_defconfig
+mips                       bmips_be_defconfig
+mips                         db1xxx_defconfig
+arm                          pxa910_defconfig
+xtensa                generic_kc705_defconfig
+m68k                            mac_defconfig
+mips                            gpr_defconfig
+arm                         lubbock_defconfig
+powerpc                      chrp32_defconfig
+m68k                                defconfig
+arm                            mps2_defconfig
+i386                 randconfig-c001-20221031
+mips                 randconfig-c004-20221031
+x86_64                        randconfig-a011
+x86_64                        randconfig-a013
+x86_64                        randconfig-a015
+i386                          randconfig-a012
+i386                          randconfig-a014
+i386                          randconfig-a016
+loongarch                           defconfig
+loongarch                         allnoconfig
+loongarch                        allmodconfig
+arm64                            alldefconfig
+powerpc                 linkstation_defconfig
+m68k                        stmark2_defconfig
+um                                  defconfig
+arm                         s3c6400_defconfig
+m68k                       m5249evb_defconfig
+arm                            qcom_defconfig
+arm                      footbridge_defconfig
+powerpc                     taishan_defconfig
+sh                  sh7785lcr_32bit_defconfig
+alpha                             allnoconfig
+s390                 randconfig-r044-20221031
+riscv                randconfig-r042-20221031
+arc                  randconfig-r043-20221031
+powerpc                      arches_defconfig
+powerpc                    klondike_defconfig
+i386                          debian-10.3-kvm
+i386                        debian-10.3-kunit
+i386                         debian-10.3-func
+openrisc                            defconfig
+mips                    maltaup_xpa_defconfig
+arc                      axs103_smp_defconfig
+
+clang tested configs:
+riscv                randconfig-r042-20221101
+hexagon              randconfig-r041-20221101
+hexagon              randconfig-r045-20221101
+s390                 randconfig-r044-20221101
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64                        randconfig-a005
+x86_64                        randconfig-a003
+x86_64                        randconfig-a001
+mips                        bcm63xx_defconfig
+powerpc                          allyesconfig
+arm                    vt8500_v6_v7_defconfig
+arm                     am200epdkit_defconfig
+arm                       spear13xx_defconfig
+x86_64               randconfig-a005-20221031
+x86_64               randconfig-a006-20221031
+x86_64               randconfig-a004-20221031
+x86_64               randconfig-a001-20221031
+x86_64               randconfig-a003-20221031
+x86_64               randconfig-a002-20221031
+powerpc                   bluestone_defconfig
+arm                        magician_defconfig
+arm                        vexpress_defconfig
+powerpc                       ebony_defconfig
+powerpc                      obs600_defconfig
+mips                        qi_lb60_defconfig
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
 
