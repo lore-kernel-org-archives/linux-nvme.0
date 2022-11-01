@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48AC8C4332F
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Nov 2022 15:01:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 023F5C4332F
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Nov 2022 15:01:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=h76+5d/iC4L1V1jcubbcI5HntloJCHxklBhBHsPzTWc=; b=NU2diYOl6FdM4fUUaDB8zHFoO9
-	dUE9ffs4jHBqq0xEswWKMaUOpfkPAPwomhgezMOWI9CVbx9ciMo0SoZYKRN2/skuzUnRMiYCXmtDf
-	dn0kUYEk6Gq+sPzt4VA/wtFpoknxqIy4vbHXnZOEf5rosTiEw2OmuM4BE3HAvLVbi3WFSoOtqgvwF
-	HmG1YbFwZVtWOvYr5Vx85Qp2hZzzkjWRDZ29i5JPmY32/5ksK1j6Z/7u6WAdNjvRXTOLmRkjT5Yg6
-	g5Cp18bd8541I7usGgq09vAuubjpicKV/L7HFk9ymKgbp7rYfHLezU71XdEOKJBLzz7FUgELWSg41
-	ax4HYL5w==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=hbXzmOarrYYIi/4tfheWgFaaR6daBypbKfv0/Gh5BWg=; b=pFQq7OUQMhM12VKdli5zsRI3LO
+	C9AXI1zOJrZ7vcKgA66G35hfFSvcadn6n8Y8vzvGHolrroHpKdOPNr1oqApM12mLRLISPWYRk8tN9
+	iG2i+2pfTyISfAZjonNrCrGJpeolw0zy04cEKkVbMoUCK0Iw+Fh/Cp/UAeZQJPl/oHIc2LN0LMqtP
+	LtHr6RIa/YII0hzDW1+D03G/OVvTUKqcCZny4YZOobfpwgOC44V3C//fAG3mSxX3Gn0ba/DaKsy7S
+	U9NMTigAp2m+zoVWeOXFsmErWSYmp08mv0+BFjwh7JVHMB3M1cnWct1UaJVBmaE0SGPJUXeuSPXZt
+	5ZLZQ3aw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1opsl9-005gdQ-3j; Tue, 01 Nov 2022 15:00:59 +0000
+	id 1opslG-005gh4-4A; Tue, 01 Nov 2022 15:01:06 +0000
 Received: from [2001:4bb8:180:e42a:50da:325f:4a06:8830] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1opsl3-005gcI-N8; Tue, 01 Nov 2022 15:00:54 +0000
+	id 1opsl6-005gdH-Ik; Tue, 01 Nov 2022 15:00:57 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>,
 	Keith Busch <kbusch@kernel.org>,
@@ -32,10 +32,12 @@ To: Jens Axboe <axboe@kernel.dk>,
 Cc: Ming Lei <ming.lei@redhat.com>,
 	linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org
-Subject: per-tagset SRCU struct and quiesce v3
-Date: Tue,  1 Nov 2022 16:00:36 +0100
-Message-Id: <20221101150050.3510-1-hch@lst.de>
+Subject: [PATCH 01/14] block: set the disk capacity to 0 in blk_mark_disk_dead
+Date: Tue,  1 Nov 2022 16:00:37 +0100
+Message-Id: <20221101150050.3510-2-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20221101150050.3510-1-hch@lst.de>
+References: <20221101150050.3510-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -52,29 +54,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+nvme and xen-blkfront are already doing this to stop buffered writes from
+creating dirty pages that can't be written out later.  Move it to the
+common code.
 
-this series moves the SRCU struct used for quiescing to the tag_set
-as the SRCU critical sections for dispatch take about the same time
-on all queues anyway, and then adopts the series from Chao that provides
-tagset-wide quiesce to use that infrastructure.
+This also removes the comment about the ordering from nvme, as bd_mutex
+not only is gone entirely, but also hasn't been used for locking updates
+to the disk size long before that, and thus the ordering requirement
+documented there doesn't apply any more.
 
-To do so this series cleans up a lot of code in nvme that is related
-to quiescing queues.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Ming Lei <ming.lei@redhat.com>
+Reviewed-by: Chao Leng <lengchao@huawei.com>
+---
+ block/genhd.c                | 5 +++++
+ drivers/block/xen-blkfront.c | 1 -
+ drivers/nvme/host/core.c     | 7 +------
+ 3 files changed, 6 insertions(+), 7 deletions(-)
 
-Changes since v2:
- - check blk_queue_skip_tagset_quiesce in blk_mq_unquiesce_tagset
- - drop "nvme-pci: don't warn about the lack of I/O queues for admin
-   controllers"
- - drop "nvme: don't call nvme_kill_queues from nvme_remove_namespaces"
- - drop "nvme-pci: mark the namespaces dead earlier in nvme_remove"
- - minor fixups for the above dropped patches
- - fix up a few commit messages
+diff --git a/block/genhd.c b/block/genhd.c
+index 493b93faee9c8..e7bd036024fab 100644
+--- a/block/genhd.c
++++ b/block/genhd.c
+@@ -555,6 +555,11 @@ void blk_mark_disk_dead(struct gendisk *disk)
+ {
+ 	set_bit(GD_DEAD, &disk->state);
+ 	blk_queue_start_drain(disk->queue);
++
++	/*
++	 * Stop buffered writers from dirtying pages that can't be written out.
++	 */
++	set_capacity_and_notify(disk, 0);
+ }
+ EXPORT_SYMBOL_GPL(blk_mark_disk_dead);
+ 
+diff --git a/drivers/block/xen-blkfront.c b/drivers/block/xen-blkfront.c
+index 35b9bcad9db90..b28489290323f 100644
+--- a/drivers/block/xen-blkfront.c
++++ b/drivers/block/xen-blkfront.c
+@@ -2129,7 +2129,6 @@ static void blkfront_closing(struct blkfront_info *info)
+ 	if (info->rq && info->gd) {
+ 		blk_mq_stop_hw_queues(info->rq);
+ 		blk_mark_disk_dead(info->gd);
+-		set_capacity(info->gd, 0);
+ 	}
+ 
+ 	for_each_rinfo(info, rinfo, i) {
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 0090dc0b3ae6f..aea0f89acf409 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -5116,10 +5116,7 @@ static void nvme_stop_ns_queue(struct nvme_ns *ns)
+ /*
+  * Prepare a queue for teardown.
+  *
+- * This must forcibly unquiesce queues to avoid blocking dispatch, and only set
+- * the capacity to 0 after that to avoid blocking dispatchers that may be
+- * holding bd_butex.  This will end buffered writers dirtying pages that can't
+- * be synced.
++ * This must forcibly unquiesce queues to avoid blocking dispatch.
+  */
+ static void nvme_set_queue_dying(struct nvme_ns *ns)
+ {
+@@ -5128,8 +5125,6 @@ static void nvme_set_queue_dying(struct nvme_ns *ns)
+ 
+ 	blk_mark_disk_dead(ns->disk);
+ 	nvme_start_ns_queue(ns);
+-
+-	set_capacity_and_notify(ns->disk, 0);
+ }
+ 
+ /**
+-- 
+2.30.2
 
-Changes since v1:
- - a whole bunch of new nvme cleanups
- - use the notify version of set_capacity in blk_mark_disk_dead
- - improve the documentation for blk_mq_wait_quiesce_done
- - dynamically allocate the srcu_struct in struct blk_mq_tag_set
- - minor spelling fixes
 
