@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8935C4332F
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Nov 2022 15:01:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B63B3C4332F
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Nov 2022 15:01:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+Ufifm1k1HpMzIHQoATSkCrRQA+hWQleQGdeWF3/Tzw=; b=YF4jEEW7fvHM+fXn6R9vgTPQHj
-	mGM9HAVIh9L1nGZsJZC54n9DBC/cbmarqGWf8w6uP0bl/exlY1aTOEQxCqWrSm7GGDNlF2gyXIrph
-	PGyE5VLGon2xJ1uczZ4gjTllxPJNug0Uw+Nejj7FWBDxbeNfIcSfzkT8IMVllLCXxCnEQWebnFRwN
-	8B2hvAUT8+X9sslILRno9Wh40ZOFlJQwM2B+zEQLVmJUua3D6X5MwICPoA5eVGH/tA9YDLkqpYv2Y
-	x0XHzgzTiaBbUek5Exn3lkdhlEYFz5F9oo39uEGGRKm8Flyzocqu5ZMtAdIpTdlyh5vpripmmaf0a
-	ItgENwhA==;
+	bh=rm/IRbGeMyvZjy9/i6jToMGsSHuJMehfKODHL4Mhra0=; b=Ni5800NwvTFy2sKyIn/tfe39dM
+	GqTueAjngkY9GkC9QOKnhnDOD0L+R9B8DVr0J+voyOJGh8WH8etRbD46bRQSW7Ir3vt2aMj9eWUwZ
+	T8uCuaYbXa1iJNd/gZOMJJo99NiUDr2u1xNFCoy2LzYYG3dme6EG9btcbO7BGuZ8d1f4lxp2t2oUk
+	98Gp18WvxH/Iyb1LWoa3qICa4cHvpGZafsU2Sh51+OM9hjs1FvLumTS0M44LUJVscEgExRnBIjYB8
+	j+pFemi5/YPfhdNhUN3ZjVWkjE7f3gqsyBFmQekVGwiVie4GbpVlDiH0m3zxe0cSfxyFQE7TjdvbH
+	FbNAaXZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1opslr-005h7R-HV; Tue, 01 Nov 2022 15:01:43 +0000
+	id 1opslx-005hCY-Hr; Tue, 01 Nov 2022 15:01:49 +0000
 Received: from [2001:4bb8:180:e42a:50da:325f:4a06:8830] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1opslT-005gn8-Tq; Tue, 01 Nov 2022 15:01:20 +0000
+	id 1opslW-005gov-Tt; Tue, 01 Nov 2022 15:01:23 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>,
 	Keith Busch <kbusch@kernel.org>,
@@ -32,9 +32,9 @@ To: Jens Axboe <axboe@kernel.dk>,
 Cc: Ming Lei <ming.lei@redhat.com>,
 	linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org
-Subject: [PATCH 08/14] nvme-pci: don't unquiesce the I/O queues in nvme_remove_dead_ctrl
-Date: Tue,  1 Nov 2022 16:00:44 +0100
-Message-Id: <20221101150050.3510-9-hch@lst.de>
+Subject: [PATCH 09/14] nvme-apple: don't unquiesce the I/O queues in apple_nvme_reset_work
+Date: Tue,  1 Nov 2022 16:00:45 +0100
+Message-Id: <20221101150050.3510-10-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221101150050.3510-1-hch@lst.de>
 References: <20221101150050.3510-1-hch@lst.de>
@@ -54,25 +54,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_remove_dead_ctrl schedules nvme_remove to be called, which will
-call nvme_dev_disable and unquiesce the I/O queues.
+apple_nvme_reset_work schedules apple_nvme_remove, to be called, which
+will call apple_nvme_disable and unquiesce the I/O queues.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/pci.c | 1 -
+ drivers/nvme/host/apple.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 046fc02914a5a..159bc8918bbf0 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2789,7 +2789,6 @@ static void nvme_remove_dead_ctrl(struct nvme_dev *dev)
- 	nvme_get_ctrl(&dev->ctrl);
- 	nvme_dev_disable(dev, false);
- 	nvme_mark_namespaces_dead(&dev->ctrl);
--	nvme_start_queues(&dev->ctrl);
- 	if (!queue_work(nvme_wq, &dev->remove_work))
- 		nvme_put_ctrl(&dev->ctrl);
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index 6c09703ffe922..24e224c279a41 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -1154,7 +1154,6 @@ static void apple_nvme_reset_work(struct work_struct *work)
+ 	nvme_get_ctrl(&anv->ctrl);
+ 	apple_nvme_disable(anv, false);
+ 	nvme_mark_namespaces_dead(&anv->ctrl);
+-	nvme_start_queues(&anv->ctrl);
+ 	if (!queue_work(nvme_wq, &anv->remove_work))
+ 		nvme_put_ctrl(&anv->ctrl);
  }
 -- 
 2.30.2
