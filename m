@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 023F5C4332F
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Nov 2022 15:01:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 659B1C433FE
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Nov 2022 15:01:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hbXzmOarrYYIi/4tfheWgFaaR6daBypbKfv0/Gh5BWg=; b=pFQq7OUQMhM12VKdli5zsRI3LO
-	C9AXI1zOJrZ7vcKgA66G35hfFSvcadn6n8Y8vzvGHolrroHpKdOPNr1oqApM12mLRLISPWYRk8tN9
-	iG2i+2pfTyISfAZjonNrCrGJpeolw0zy04cEKkVbMoUCK0Iw+Fh/Cp/UAeZQJPl/oHIc2LN0LMqtP
-	LtHr6RIa/YII0hzDW1+D03G/OVvTUKqcCZny4YZOobfpwgOC44V3C//fAG3mSxX3Gn0ba/DaKsy7S
-	U9NMTigAp2m+zoVWeOXFsmErWSYmp08mv0+BFjwh7JVHMB3M1cnWct1UaJVBmaE0SGPJUXeuSPXZt
-	5ZLZQ3aw==;
+	bh=RMeBBtuZ6jN1c2xr45VBpasHrL1bqnzj0i7LLV0DoSY=; b=RyQL11cdqTIehzLhYHnCygEv1b
+	C+hEpapXTMvWkMvbHwIauQkzmcTG7ZsZQ0It/UdsSa2KfqckNwNhKq4Kqx6mHK4gMa6VaWZoQW/j0
+	k+AyEHt7F5DUanln8wyuxAslDXwXydDEoC1GcZVxpPWMMk7e9ZEYWIaMAPYqWG+IH+SYeOSm5iAKr
+	+OSHwxbSDhy2BQPSy1X4JM0/2co1XjXBOgJoq5BQQS32y/kSVmxGyMJeuvAMWIuRx6QMSrLAyNpQm
+	oeH82A6DBMJzN+CP8QYQNhW4F+c+EhtfKwIOk+MFrAgjQ9G9hWXgcoj5AJa/JjGxQfL2sHgcMQvgr
+	Hsqj72sw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1opslG-005gh4-4A; Tue, 01 Nov 2022 15:01:06 +0000
+	id 1opslM-005gke-8J; Tue, 01 Nov 2022 15:01:12 +0000
 Received: from [2001:4bb8:180:e42a:50da:325f:4a06:8830] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1opsl6-005gdH-Ik; Tue, 01 Nov 2022 15:00:57 +0000
+	id 1opsl9-005ge8-7t; Tue, 01 Nov 2022 15:00:59 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>,
 	Keith Busch <kbusch@kernel.org>,
@@ -32,9 +32,9 @@ To: Jens Axboe <axboe@kernel.dk>,
 Cc: Ming Lei <ming.lei@redhat.com>,
 	linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org
-Subject: [PATCH 01/14] block: set the disk capacity to 0 in blk_mark_disk_dead
-Date: Tue,  1 Nov 2022 16:00:37 +0100
-Message-Id: <20221101150050.3510-2-hch@lst.de>
+Subject: [PATCH 02/14] nvme-pci: refactor the tagset handling in nvme_reset_work
+Date: Tue,  1 Nov 2022 16:00:38 +0100
+Message-Id: <20221101150050.3510-3-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221101150050.3510-1-hch@lst.de>
 References: <20221101150050.3510-1-hch@lst.de>
@@ -54,79 +54,75 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme and xen-blkfront are already doing this to stop buffered writes from
-creating dirty pages that can't be written out later.  Move it to the
-common code.
-
-This also removes the comment about the ordering from nvme, as bd_mutex
-not only is gone entirely, but also hasn't been used for locking updates
-to the disk size long before that, and thus the ordering requirement
-documented there doesn't apply any more.
+The code to create, update or delete a tagset and namespaces in
+nvme_reset_work is a bit convoluted.  Refactor it with a two high-level
+conditionals for first probe vs reset and I/O queues vs no I/O queues
+to make the code flow more clear.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: Ming Lei <ming.lei@redhat.com>
-Reviewed-by: Chao Leng <lengchao@huawei.com>
 ---
- block/genhd.c                | 5 +++++
- drivers/block/xen-blkfront.c | 1 -
- drivers/nvme/host/core.c     | 7 +------
- 3 files changed, 6 insertions(+), 7 deletions(-)
+ drivers/nvme/host/pci.c | 46 ++++++++++++++++++++++++++---------------
+ 1 file changed, 29 insertions(+), 17 deletions(-)
 
-diff --git a/block/genhd.c b/block/genhd.c
-index 493b93faee9c8..e7bd036024fab 100644
---- a/block/genhd.c
-+++ b/block/genhd.c
-@@ -555,6 +555,11 @@ void blk_mark_disk_dead(struct gendisk *disk)
- {
- 	set_bit(GD_DEAD, &disk->state);
- 	blk_queue_start_drain(disk->queue);
-+
-+	/*
-+	 * Stop buffered writers from dirtying pages that can't be written out.
-+	 */
-+	set_capacity_and_notify(disk, 0);
- }
- EXPORT_SYMBOL_GPL(blk_mark_disk_dead);
- 
-diff --git a/drivers/block/xen-blkfront.c b/drivers/block/xen-blkfront.c
-index 35b9bcad9db90..b28489290323f 100644
---- a/drivers/block/xen-blkfront.c
-+++ b/drivers/block/xen-blkfront.c
-@@ -2129,7 +2129,6 @@ static void blkfront_closing(struct blkfront_info *info)
- 	if (info->rq && info->gd) {
- 		blk_mq_stop_hw_queues(info->rq);
- 		blk_mark_disk_dead(info->gd);
--		set_capacity(info->gd, 0);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 5f1d71ac00865..0e8410edb41bf 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2897,25 +2897,37 @@ static void nvme_reset_work(struct work_struct *work)
+ 	result = nvme_setup_io_queues(dev);
+ 	if (result)
+ 		goto out;
+-
+-	/*
+-	 * Keep the controller around but remove all namespaces if we don't have
+-	 * any working I/O queue.
+-	 */
+-	if (dev->online_queues < 2) {
+-		dev_warn(dev->ctrl.device, "IO queues not created\n");
+-		nvme_kill_queues(&dev->ctrl);
+-		nvme_remove_namespaces(&dev->ctrl);
+-		nvme_free_tagset(dev);
++		
++	if (dev->ctrl.tagset) {
++		/*
++		 * This is a controller reset and we already have a tagset.
++		 * Freeze and update the number of I/O queues as thos might have
++		 * changed.  If there are no I/O queues left after this reset,
++		 * keep the controller around but remove all namespaces.
++		 */
++		if (dev->online_queues > 1) {
++			nvme_start_queues(&dev->ctrl);
++			nvme_wait_freeze(&dev->ctrl);
++			nvme_pci_update_nr_queues(dev);
++			nvme_dbbuf_set(dev);
++			nvme_unfreeze(&dev->ctrl);
++		} else {
++			dev_warn(dev->ctrl.device, "IO queues lost\n");
++			nvme_kill_queues(&dev->ctrl);
++			nvme_remove_namespaces(&dev->ctrl);
++			nvme_free_tagset(dev);
++		}
+ 	} else {
+-		nvme_start_queues(&dev->ctrl);
+-		nvme_wait_freeze(&dev->ctrl);
+-		if (!dev->ctrl.tagset)
++		/*
++		 * First probe.  Still allow the controller to show up even if
++		 * there are no namespaces.
++		 */
++		if (dev->online_queues > 1) {
+ 			nvme_pci_alloc_tag_set(dev);
+-		else
+-			nvme_pci_update_nr_queues(dev);
+-		nvme_dbbuf_set(dev);
+-		nvme_unfreeze(&dev->ctrl);
++			nvme_dbbuf_set(dev);
++		} else {
++			dev_warn(dev->ctrl.device, "IO queues not created\n");
++		}
  	}
  
- 	for_each_rinfo(info, rinfo, i) {
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0090dc0b3ae6f..aea0f89acf409 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -5116,10 +5116,7 @@ static void nvme_stop_ns_queue(struct nvme_ns *ns)
- /*
-  * Prepare a queue for teardown.
-  *
-- * This must forcibly unquiesce queues to avoid blocking dispatch, and only set
-- * the capacity to 0 after that to avoid blocking dispatchers that may be
-- * holding bd_butex.  This will end buffered writers dirtying pages that can't
-- * be synced.
-+ * This must forcibly unquiesce queues to avoid blocking dispatch.
-  */
- static void nvme_set_queue_dying(struct nvme_ns *ns)
- {
-@@ -5128,8 +5125,6 @@ static void nvme_set_queue_dying(struct nvme_ns *ns)
- 
- 	blk_mark_disk_dead(ns->disk);
- 	nvme_start_ns_queue(ns);
--
--	set_capacity_and_notify(ns->disk, 0);
- }
- 
- /**
+ 	/*
 -- 
 2.30.2
 
