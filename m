@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 659B1C433FE
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Nov 2022 15:01:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3E63C433FE
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Nov 2022 15:01:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RMeBBtuZ6jN1c2xr45VBpasHrL1bqnzj0i7LLV0DoSY=; b=RyQL11cdqTIehzLhYHnCygEv1b
-	C+hEpapXTMvWkMvbHwIauQkzmcTG7ZsZQ0It/UdsSa2KfqckNwNhKq4Kqx6mHK4gMa6VaWZoQW/j0
-	k+AyEHt7F5DUanln8wyuxAslDXwXydDEoC1GcZVxpPWMMk7e9ZEYWIaMAPYqWG+IH+SYeOSm5iAKr
-	+OSHwxbSDhy2BQPSy1X4JM0/2co1XjXBOgJoq5BQQS32y/kSVmxGyMJeuvAMWIuRx6QMSrLAyNpQm
-	oeH82A6DBMJzN+CP8QYQNhW4F+c+EhtfKwIOk+MFrAgjQ9G9hWXgcoj5AJa/JjGxQfL2sHgcMQvgr
-	Hsqj72sw==;
+	bh=UWJJITfRoSb//57QGaQg0nyw7JGk+8FSnAd0y+59s9Q=; b=nh/xzi6tKjEspM3zduZGZNOUos
+	lviqd1xdZLI1GcSZj12e7bTYrGTVlXYqZp76FcDxcpyRAj7Zwg3EspjMCCY9CxCL2nhihI/xy6/eM
+	EyNMwvCQ0tPW2/gJUilfC3VdrAPsMy6rIsRpchX5Pb07Ontv+4wC5pdlZqHTlg2qOu7fX7k939V9s
+	ljmcUwrjJZNMReQnL+WTq8HLbyQXALIkX5O4wmBsagJI7FjBcga7W1JBfRGgsGz5zbKHGcJwUJ9tv
+	tMYYc8f1m99Tmc9Z7BWyXMJxWIq3EH6vQIeXnrdFdwrxhDCs9IEk5GEt/Kj0WL0O+gpodSdIk0xQk
+	tvNEmEVg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1opslM-005gke-8J; Tue, 01 Nov 2022 15:01:12 +0000
+	id 1opslQ-005gmJ-9q; Tue, 01 Nov 2022 15:01:16 +0000
 Received: from [2001:4bb8:180:e42a:50da:325f:4a06:8830] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1opsl9-005ge8-7t; Tue, 01 Nov 2022 15:00:59 +0000
+	id 1opslC-005gex-65; Tue, 01 Nov 2022 15:01:05 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>,
 	Keith Busch <kbusch@kernel.org>,
@@ -32,9 +32,9 @@ To: Jens Axboe <axboe@kernel.dk>,
 Cc: Ming Lei <ming.lei@redhat.com>,
 	linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org
-Subject: [PATCH 02/14] nvme-pci: refactor the tagset handling in nvme_reset_work
-Date: Tue,  1 Nov 2022 16:00:38 +0100
-Message-Id: <20221101150050.3510-3-hch@lst.de>
+Subject: [PATCH 03/14] nvme: don't remove namespaces in nvme_passthru_end
+Date: Tue,  1 Nov 2022 16:00:39 +0100
+Message-Id: <20221101150050.3510-4-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221101150050.3510-1-hch@lst.de>
 References: <20221101150050.3510-1-hch@lst.de>
@@ -54,75 +54,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The code to create, update or delete a tagset and namespaces in
-nvme_reset_work is a bit convoluted.  Refactor it with a two high-level
-conditionals for first probe vs reset and I/O queues vs no I/O queues
-to make the code flow more clear.
+The call to nvme_remove_invalid_namespaces made sense when
+nvme_passthru_end revalidated all namespaces and had to remove those that
+didn't exist any more.  Since we don't revalidate from nvme_passthru_end
+now, this call is entirely spurious.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/pci.c | 46 ++++++++++++++++++++++++++---------------
- 1 file changed, 29 insertions(+), 17 deletions(-)
+ drivers/nvme/host/core.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 5f1d71ac00865..0e8410edb41bf 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2897,25 +2897,37 @@ static void nvme_reset_work(struct work_struct *work)
- 	result = nvme_setup_io_queues(dev);
- 	if (result)
- 		goto out;
--
--	/*
--	 * Keep the controller around but remove all namespaces if we don't have
--	 * any working I/O queue.
--	 */
--	if (dev->online_queues < 2) {
--		dev_warn(dev->ctrl.device, "IO queues not created\n");
--		nvme_kill_queues(&dev->ctrl);
--		nvme_remove_namespaces(&dev->ctrl);
--		nvme_free_tagset(dev);
-+		
-+	if (dev->ctrl.tagset) {
-+		/*
-+		 * This is a controller reset and we already have a tagset.
-+		 * Freeze and update the number of I/O queues as thos might have
-+		 * changed.  If there are no I/O queues left after this reset,
-+		 * keep the controller around but remove all namespaces.
-+		 */
-+		if (dev->online_queues > 1) {
-+			nvme_start_queues(&dev->ctrl);
-+			nvme_wait_freeze(&dev->ctrl);
-+			nvme_pci_update_nr_queues(dev);
-+			nvme_dbbuf_set(dev);
-+			nvme_unfreeze(&dev->ctrl);
-+		} else {
-+			dev_warn(dev->ctrl.device, "IO queues lost\n");
-+			nvme_kill_queues(&dev->ctrl);
-+			nvme_remove_namespaces(&dev->ctrl);
-+			nvme_free_tagset(dev);
-+		}
- 	} else {
--		nvme_start_queues(&dev->ctrl);
--		nvme_wait_freeze(&dev->ctrl);
--		if (!dev->ctrl.tagset)
-+		/*
-+		 * First probe.  Still allow the controller to show up even if
-+		 * there are no namespaces.
-+		 */
-+		if (dev->online_queues > 1) {
- 			nvme_pci_alloc_tag_set(dev);
--		else
--			nvme_pci_update_nr_queues(dev);
--		nvme_dbbuf_set(dev);
--		nvme_unfreeze(&dev->ctrl);
-+			nvme_dbbuf_set(dev);
-+		} else {
-+			dev_warn(dev->ctrl.device, "IO queues not created\n");
-+		}
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index aea0f89acf409..35386aa24f589 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1118,7 +1118,6 @@ void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects,
+ 		nvme_unfreeze(ctrl);
+ 		nvme_mpath_unfreeze(ctrl->subsys);
+ 		mutex_unlock(&ctrl->subsys->lock);
+-		nvme_remove_invalid_namespaces(ctrl, NVME_NSID_ALL);
+ 		mutex_unlock(&ctrl->scan_lock);
  	}
- 
- 	/*
+ 	if (effects & NVME_CMD_EFFECTS_CCC)
 -- 
 2.30.2
 
