@@ -4,80 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0372FC433FE
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Nov 2022 14:19:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07B97C433FE
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Nov 2022 14:36:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:Subject:From:References:Cc:To:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ue6k6Q3rIXUI5ht3iwolA4zJAQLywzqBXrtyn2FcfoI=; b=BxYT0HTeuwYpWHEwxXjDUWKa2K
-	HCXFD8foXJJPyQFp0aYLUNoAuoB2iq32Bhjyzq8mQDF1usQdNnbT0URkK7oyY7OUUgDLMiN1A6jrr
-	gs3IafLupGSHwtK1yaseGyRavSq9mJQWa9lYZFrHAl/sCtoj43l433v6Ux18zDux2eeA4XPjNbiKR
-	E9g2QL2v2mHNIPc++yCTKMXPGyLs8OxDH0JKiZ9vywYN739xMSyUUUZ3koHj6DwuR2SCdSnskeGPA
-	WT+T8LhVqfBqQ4GNGrXLtCZAAgfXeMjr6u5P/o/yGPmC1MI35FVgOjU5R77Sxnsc3lpvax6CSY0J5
-	blXU16tg==;
+	bh=qz6ea+Kr8k2MiaKZRozhl4QfX9wlsZ49scAW5YgmpE8=; b=Vkj5DcwqIz8NCwPsVBluIXQ4GM
+	3yJwpjQ4Wjv1dvDg2rm7qH56xCt2lTkS76wc9yYS8wtjwHyk2xi4e0rqws2t8Y6OjOBT0f2fC1lnx
+	0R9/w9KDNVfSCYdLA5rDMG20KQj/lgppiSM3464R4ECY/csJ1XqKIkcbGzNZr2u6GAGN347BhC3hh
+	jbmKB0orBJZQX2wB1nrQTmALx8JbQEFJJ0BCd9tB2/R0CSVhc9kCFa1/L6nUFlaSFjC6lsmavKXuK
+	T5utebzHlJU2yKPwMa7raLwvYx4uQbWF21HmnSWiwxDNyXAXxpSgEwzuO+bJxMwl+Yo5fxTseFgUJ
+	xliBoykw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oqEaW-00BTHg-Bn; Wed, 02 Nov 2022 14:19:28 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1oqEqi-00BXC9-K1; Wed, 02 Nov 2022 14:36:12 +0000
+Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oqEaS-00BTF6-9S
-	for linux-nvme@lists.infradead.org; Wed, 02 Nov 2022 14:19:26 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2F8AB1F38A;
-	Wed,  2 Nov 2022 14:19:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1667398761; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ue6k6Q3rIXUI5ht3iwolA4zJAQLywzqBXrtyn2FcfoI=;
-	b=udFL8SJYFSWx6H1wKBf+FIy8DOj58Erg8kGGZiUdePxkphGjJfA1EEsKTiOmixQgp91Pit
-	hHvfajmdO7HemglY5akQUuLxPqE+Rb64IxfaJi8AFBm7n/k1mzJArswPDpRzHKevREQBsj
-	8pFy6OToOx4vpWm4jMyRnnnA7DteoWY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1667398761;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ue6k6Q3rIXUI5ht3iwolA4zJAQLywzqBXrtyn2FcfoI=;
-	b=GYQkZWVNtruDQz1bocVyaMCWtYMCyaIbhXI/R+alMNMJBpH2DmSm0v+mZC8eMs2hyGLWQ1
-	SY9Dbo8SWUavwhBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1FEDB13AE0;
-	Wed,  2 Nov 2022 14:19:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id WkDiBWl8YmOAVQAAMHmgww
-	(envelope-from <hare@suse.de>); Wed, 02 Nov 2022 14:19:21 +0000
-Message-ID: <208ac0eb-a7b3-9e58-8f93-f6810cad683c@suse.de>
-Date: Wed, 2 Nov 2022 15:19:20 +0100
+	id 1oqEqc-00BX9F-9e
+	for linux-nvme@lists.infradead.org; Wed, 02 Nov 2022 14:36:10 +0000
+Received: by mail-il1-x134.google.com with SMTP id 7so9525967ilg.11
+        for <linux-nvme@lists.infradead.org>; Wed, 02 Nov 2022 07:35:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qz6ea+Kr8k2MiaKZRozhl4QfX9wlsZ49scAW5YgmpE8=;
+        b=bXDUwcGlpoxz37InLUAP4K3juVLgX9H9o2uH3oek7Ir5N65Vab9M9WHD5giL4IVT6e
+         kdV7yZ9lLG9FpzZKaxdMLBfL1VHTMo7OkW0+J7nOIUByYy+LyRYgXjS1Hsv9xXNoe9os
+         5NNq+XXL8BDRiduDgqr/QmHvGJKhH3YtaynMzHWkaz225Bs3r2rYtWbUWhFCftWRSK0r
+         2tVprrlPWYdHFMC0tm+dDjb9AiHRgMZbWiUDqN+yPYIk+AnEXqkvc7EsSSqURDrjPkMR
+         XpZVxQlzDo/1u5Z/H3uxPt+JQesFceCqopobWYujLZqgrDbImVovUabBQyhb0y4amf9E
+         194w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qz6ea+Kr8k2MiaKZRozhl4QfX9wlsZ49scAW5YgmpE8=;
+        b=hap1mSmd9Y32TG/9I/LLuDvD7WFxIfLesM7huR7UM/gu4cvNmAMh2dhjz58DFalMzq
+         6aH9+BcJbU02f1lG3Dn2shBvycGd0Hlq5QNNEnS1TdVJWNVImXqlXGZi/E+i+mC6MZTc
+         AlNq7Nm3QG2kCR++jSEJGnv5MrZgZnJlvtRQ3BAUoYNhB5uir5Wg2VbexeCEivAm+KTD
+         mfGoX/LW0RMkC6qel0UHDPcaFw0tmkcgG9K+1nFyzxB8r9o3/ZyG+T4ZIkegMPbFUdvP
+         TTHwFSDb9Q4+POBL0lH6OSK44Z51pJ03Cob4E/X4B/dNJt7acpoqTDi4UHcoAhhEfm3N
+         PHdQ==
+X-Gm-Message-State: ACrzQf2Hlt3YaMHT3u0e2OuvNzUD/4ZT2e8OOTmPGxHMIuXz8ISGTA1x
+	TIWZ9XzRdwGVmERU2AIeCXhkSb5kSoogIO/y
+X-Google-Smtp-Source: AMsMyM76hs7+c9NebQPMkC81RNNN+f4ouHprG2iYyY7hXqgOWCzUfCf4ildt0w7TEmJBi6sZE8AvOQ==
+X-Received: by 2002:a92:6912:0:b0:300:c48d:19cd with SMTP id e18-20020a926912000000b00300c48d19cdmr5975428ilc.216.1667399754142;
+        Wed, 02 Nov 2022 07:35:54 -0700 (PDT)
+Received: from [127.0.0.1] ([207.135.234.126])
+        by smtp.gmail.com with ESMTPSA id ca11-20020a0566381c0b00b003711ce0dc15sm4978244jab.68.2022.11.02.07.35.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Nov 2022 07:35:52 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: Chao Leng <lengchao@huawei.com>, Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org, Ming Lei <ming.lei@redhat.com>, linux-block@vger.kernel.org
+In-Reply-To: <20221101150050.3510-2-hch@lst.de>
+References: <20221101150050.3510-1-hch@lst.de> <20221101150050.3510-2-hch@lst.de>
+Subject: Re: [PATCH 01/14] block: set the disk capacity to 0 in blk_mark_disk_dead
+Message-Id: <166739975247.45121.7499768633850018123.b4-ty@kernel.dk>
+Date: Wed, 02 Nov 2022 08:35:52 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Content-Language: en-US
-To: Chao Leng <lengchao@huawei.com>, Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org
-References: <20221102073650.58245-1-hare@suse.de>
- <88b18b60-aa99-82d0-fc7e-bc65d05792c0@huawei.com>
-From: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH] nvme: retry commands if DNR bit is not set
-In-Reply-To: <88b18b60-aa99-82d0-fc7e-bc65d05792c0@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.11.0-dev-d9ed3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221102_071924_500849_46642AD1 
-X-CRM114-Status: GOOD (  23.26  )
+X-CRM114-CacheID: sfid-20221102_073606_373850_BA20FAAA 
+X-CRM114-Status: GOOD (  13.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,102 +90,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/2/22 09:00, Chao Leng wrote:
+On Tue, 1 Nov 2022 16:00:37 +0100, Christoph Hellwig wrote:
+> nvme and xen-blkfront are already doing this to stop buffered writes from
+> creating dirty pages that can't be written out later.  Move it to the
+> common code.
 > 
+> This also removes the comment about the ordering from nvme, as bd_mutex
+> not only is gone entirely, but also hasn't been used for locking updates
+> to the disk size long before that, and thus the ordering requirement
+> documented there doesn't apply any more.
 > 
-> On 2022/11/2 15:36, Hannes Reinecke wrote:
->> Add a 'retries' argument to __nvme_submit_sync_cmd() to instruct
->> the function to retry the command if the DNR bit is not set in
->> the command result, and modify the authentication code to allow
->> for retries.
->>
->> Signed-off-by: Hannes Reinecke <hare@suse.de>
->> ---
->>   drivers/nvme/host/auth.c    |  2 +-
->>   drivers/nvme/host/core.c    | 29 ++++++++++++++++++++++++-----
->>   drivers/nvme/host/fabrics.c | 10 +++++-----
->>   drivers/nvme/host/nvme.h    |  6 +++++-
->>   4 files changed, 35 insertions(+), 12 deletions(-)
->>
->> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
->> index c8a6db7c4498..3b63aa155beb 100644
->> --- a/drivers/nvme/host/auth.c
->> +++ b/drivers/nvme/host/auth.c
->> @@ -69,7 +69,7 @@ static int nvme_auth_submit(struct nvme_ctrl *ctrl, 
->> int qid,
->>       ret = __nvme_submit_sync_cmd(q, &cmd, NULL, data, data_len,
->>                        qid == 0 ? NVME_QID_ANY : qid,
->> -                     0, flags);
->> +                     0, flags, nvme_max_retries);
->>       if (ret > 0)
->>           dev_warn(ctrl->device,
->>               "qid %d auth_send failed with status %d\n", qid, ret);
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index dc4220600585..d0de1a85596a 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -54,7 +54,7 @@ static unsigned char shutdown_timeout = 5;
->>   module_param(shutdown_timeout, byte, 0644);
->>   MODULE_PARM_DESC(shutdown_timeout, "timeout in seconds for 
->> controller shutdown");
->> -static u8 nvme_max_retries = 5;
->> +u8 nvme_max_retries = 5;
->>   module_param_named(max_retries, nvme_max_retries, byte, 0644);
->>   MODULE_PARM_DESC(max_retries, "max number of retries a command may 
->> have");
->> @@ -1016,7 +1016,7 @@ static int nvme_execute_rq(struct request *rq, 
->> bool at_head)
->>    */
->>   int __nvme_submit_sync_cmd(struct request_queue *q, struct 
->> nvme_command *cmd,
->>           union nvme_result *result, void *buffer, unsigned bufflen,
->> -        int qid, int at_head, blk_mq_req_flags_t flags)
->> +        int qid, int at_head, blk_mq_req_flags_t flags, int retries)
->>   {
->>       struct request *req;
->>       int ret;
->> @@ -1030,6 +1030,7 @@ int __nvme_submit_sync_cmd(struct request_queue 
->> *q, struct nvme_command *cmd,
->>       if (IS_ERR(req))
->>           return PTR_ERR(req);
->>       nvme_init_request(req, cmd);
->> +    nvme_req(req)->retries = retries;
->>       if (buffer && bufflen) {
->>           ret = blk_rq_map_kern(q, req, buffer, bufflen, GFP_KERNEL);
->> @@ -1037,8 +1038,18 @@ int __nvme_submit_sync_cmd(struct request_queue 
->> *q, struct nvme_command *cmd,
->>               goto out;
->>       }
->> +retry:
->>       req->rq_flags |= RQF_QUIET;
->>       ret = nvme_execute_rq(req, at_head);
->> +    if (ret > 0) {
->> +        struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
->> +
->> +        if (ctrl->kas)
->> +            ctrl->comp_seen = true;
->> +
->> +        if (retries-- && nvme_decide_disposition(req) != COMPLETE)
->> +            goto retry;
->> +    }
->>       if (result && ret >= 0)
->>           *result = nvme_req(req)->result;
-> Reusing the existing retry mechanism may be better.
-> We can do like this:
-> Do not set REQ_FAILFAST_DRIVER in nvme_init_request If need retry.
->      if (noretry)
->          req->cmd_flags |= REQ_FAILFAST_DRIVER;
-> 
-But then we still would need to set the retries; however, it's a good 
-suggestion. Will be reworking the patch.
+> [...]
 
-Cheers,
+Applied, thanks!
 
-Hannes
+[01/14] block: set the disk capacity to 0 in blk_mark_disk_dead
+        commit: 71b26083d59cd4ab22489829ffe7d4ead93f5546
+[02/14] nvme-pci: refactor the tagset handling in nvme_reset_work
+        commit: 0ffc7e98bfaa45380b800deeb9b65ce0371c652d
+[03/14] nvme: don't remove namespaces in nvme_passthru_end
+        commit: 23a908647efade186576c9628dd7bb560f6e759b
+[04/14] nvme: remove the NVME_NS_DEAD check in nvme_remove_invalid_namespaces
+        commit: 4f17344e9daeb6e9f89976d811a5373710ed1f04
+[05/14] nvme: remove the NVME_NS_DEAD check in nvme_validate_ns
+        commit: fde776afdd8467a09395a7aebdb2499f86315945
+[06/14] nvme: don't unquiesce the admin queue in nvme_kill_queues
+        commit: 6bcd5089ee1302e9ad7072ca0866f0c5a1158359
+[07/14] nvme: split nvme_kill_queues
+        commit: cd50f9b24726e9e195a0682c8d8d952396d57aef
+[08/14] nvme-pci: don't unquiesce the I/O queues in nvme_remove_dead_ctrl
+        commit: bad3e021ae2bb5ac9d650c9a04788efe753367f3
+[09/14] nvme-apple: don't unquiesce the I/O queues in apple_nvme_reset_work
+        commit: 2b4c2355c5e155cdf341d9ce2c2355b4b26c32c9
+[10/14] blk-mq: skip non-mq queues in blk_mq_quiesce_queue
+        commit: 8537380bb9882c201db60a1eb201aac6e74083e8
+[11/14] blk-mq: move the srcu_struct used for quiescing to the tagset
+        commit: 80bd4a7aab4c9ce59bf5e35fdf52aa23d8a3c9f5
+[12/14] blk-mq: pass a tagset to blk_mq_wait_quiesce_done
+        commit: 483239c75ba768e0e2c0e0c503e5fc13c3d5773a
+[13/14] blk-mq: add tagset quiesce interface
+        commit: 414dd48e882c5a39e7bd01b096ee6497eb3314b0
+[14/14] nvme: use blk_mq_[un]quiesce_tagset
+        commit: 98d81f0df70ce6fc48517d938026e3c684b9051a
+
+Best regards,
 -- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
+Jens Axboe
+
 
 
