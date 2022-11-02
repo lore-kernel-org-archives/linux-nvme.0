@@ -4,63 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11F7CC4332F
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Nov 2022 19:48:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88DC6C4332F
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Nov 2022 22:47:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IpYVQSO5UdCqCoqYOxpi6ORmYFQVrCpaiDijXOrYYnc=; b=BKJjrKjYarhhNxZhiWAC8kZNcj
-	xQOJEc9wSTF2OaRmBWSa16rIyk5LatnKgcCMV5Kum6WJpOJxvLDl3aC5+An6bO/TgTEGj6nOW/I/r
-	bV69Y+ArEbp2ykMZnKBc9HbTXTvj9TjvKCN9X4UVVS/1RtNfVNfW3Ipmhizt5wreNu5kG/NTZJpbX
-	jNUSSy4Vcu+peKS+ZBtdI+tpVY5ycFKJR2/X+inXCHNBUYDtOwiww2hwtGYBnZ2wWRFjfNzBYpoh9
-	9ACnZAlC6LakB+Z7sI4/x4tx2nQRmiulPAPYKZ0cRyT/0I3MbMGnq+SsFEU5cIb9J5KjznTjWHj4a
-	MVxNPZGA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=o4wIJC4qmLD8sZv7FELeKq1bWLCLMI4X8kEQubd/l6g=; b=TsvbJoGpE47qTfwd9a4/BHJx7I
+	IuasZrDkgH3M2PcvfJIJhPAaVb2E1d0iZKnY+oQRFMl2jzwJLNUeTsbHC9aJzBdbjEUCxi3p50ZP8
+	Smc0gbr3a3mbHph8OCEJENdU1XeB4MZt+vHAh1BtTk+x40writl3eYEJNGu4AWR6SR8q89kLh8Xb+
+	Ih15LFHvrX79L1asuVfS0HKR9+wdeyDeicqY/wGp6riRtwtALHYIW7bMjMfJT9XrhZbQz8Zr69Oh3
+	j+xPZcShdjpfjvYbue+PRjdSlVFe8K7uGEuvCRAD/C9Y88wC90J3mNFRg2BPI7vl1mdkpRRb6GO+t
+	G9ZamF/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oqJiX-00E4Bw-LF; Wed, 02 Nov 2022 19:48:05 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1oqMWT-00ElqI-WE; Wed, 02 Nov 2022 22:47:50 +0000
+Received: from mail-pj1-f43.google.com ([209.85.216.43])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oqJiU-00E4AH-Qm
-	for linux-nvme@lists.infradead.org; Wed, 02 Nov 2022 19:48:04 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 11FA0B82414;
-	Wed,  2 Nov 2022 19:48:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F31CC433C1;
-	Wed,  2 Nov 2022 19:47:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667418479;
-	bh=/rDe3PR99y2t7nmWV3U14DOyLAk5MtHgzvA+OzyVqz0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OquA22aqeZh663CEsNg81o/hefMC9y0PBbwLz963//KOOXNnI4bhfZT9zSB+XLpJf
-	 zcGy0TvvReAhC+Q1jYESWUYuUsAig17c8++o87XWzScmKePG/a8PEUA61jpKpGirrR
-	 U7jAEBxj1QRKJB0MEw9QBhCxVj/ufbf+tJs/UTODVVN2C5J+h403OxhGU9krThux1M
-	 VzTiSTm8rX4XOCNmMlizARmBJ/I2EG1wUMwuITczQERkZyMzKIWSD7B1UyqjBr3kRQ
-	 tkFWgBezbARTMaf4ERM49hDbSOaEe8Jf+El024kKa7GaoAI4ioK7cbbmGjfDHNVveF
-	 udVUh5UnrqfEA==
-Date: Wed, 2 Nov 2022 13:47:56 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Binarus <lists@binarus.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: Re: nvme-format: protection information enabled although metadata
- size is 0
-Message-ID: <Y2LJbAd5hGkvF4Bz@kbusch-mbp.dhcp.thefacebook.com>
-References: <b9ca7931-0384-d0e1-92b5-c2ffbadc195f@binarus.de>
- <Y2KN8wHy5l9HxOgW@kbusch-mbp.dhcp.thefacebook.com>
- <0865c0c4-1632-3a86-939b-feb2d2ce7f32@binarus.de>
- <Y2KT7ypZZdK4nlHq@kbusch-mbp.dhcp.thefacebook.com>
- <d75c7e0b-e8a5-5f01-05ae-3cd86b2d95bf@binarus.de>
+	id 1oqMWR-00Eloo-L9
+	for linux-nvme@lists.infradead.org; Wed, 02 Nov 2022 22:47:48 +0000
+Received: by mail-pj1-f43.google.com with SMTP id p15-20020a17090a348f00b002141615576dso3490059pjb.4
+        for <linux-nvme@lists.infradead.org>; Wed, 02 Nov 2022 15:47:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=o4wIJC4qmLD8sZv7FELeKq1bWLCLMI4X8kEQubd/l6g=;
+        b=nVFa9lAt4mVDTLi0wNbXQmfjjn5nNfSb4S6P2himTgf+R1egWdJFU+nsodPY1osB6u
+         RQ+v/1eewNcv3Yo5w062QTMMSVm+kfqQTnyq1FsiGLgQCSmQyIzzwHBLbq/THlwOpWhe
+         z/5zBCvRjqIjt0lJvynTIAZHK4ncXE5pwUY6K7/5VQJgoqXFg9Yjvr6kVO3j5ENgsOsa
+         Vkn0AnpysWOP7IZT6uvsKkBylJb4uBoqobcMu8w6hkpkhyL73Pk4q8rX0EIdFrxcGKW7
+         b7CUilfqZDnggTtre9xNOzuuZoIYA6Ah4KackC3G0H2zBJu46zci+B168v7kgEB8aGNZ
+         AaQA==
+X-Gm-Message-State: ACrzQf0BQ7/vY2Lm1dh39CpTew3Hy94uYmUN/mvQWCoUqLD/zMydzm2t
+	E9AO4PgiiE51oVhUGAWEr4dCdvnVJT4=
+X-Google-Smtp-Source: AMsMyM7oTR2d5lchMffcmjpS1vJGXh4SAt69GYPXVjFJ2dUHdIGIroDKm3Sonab/kAsDMsRgrqXqvA==
+X-Received: by 2002:a17:902:bf08:b0:178:90fb:8cda with SMTP id bi8-20020a170902bf0800b0017890fb8cdamr26566977plb.9.1667429265258;
+        Wed, 02 Nov 2022 15:47:45 -0700 (PDT)
+Received: from ?IPV6:2620:15c:211:201:22d3:f380:fa84:4b89? ([2620:15c:211:201:22d3:f380:fa84:4b89])
+        by smtp.gmail.com with ESMTPSA id w22-20020a1709027b9600b0017f7628cbddsm8842988pll.30.2022.11.02.15.47.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Nov 2022 15:47:44 -0700 (PDT)
+Message-ID: <0123db70-6217-135a-4101-0609512e723b@acm.org>
+Date: Wed, 2 Nov 2022 15:47:41 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d75c7e0b-e8a5-5f01-05ae-3cd86b2d95bf@binarus.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v3 03/19] scsi: Move sd_pr_type to header to share
+Content-Language: en-US
+To: Mike Christie <michael.christie@oracle.com>, hch@lst.de,
+ martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+ james.bottomley@hansenpartnership.com, linux-block@vger.kernel.org,
+ dm-devel@redhat.com, snitzer@kernel.org, axboe@kernel.dk,
+ linux-nvme@lists.infradead.org, chaitanyak@nvidia.com, kbusch@kernel.org,
+ target-devel@vger.kernel.org
+References: <20221026231945.6609-1-michael.christie@oracle.com>
+ <20221026231945.6609-4-michael.christie@oracle.com>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20221026231945.6609-4-michael.christie@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221102_124803_183200_23A6987C 
-X-CRM114-Status: GOOD (  31.49  )
+X-CRM114-CacheID: sfid-20221102_154747_717934_6328FFC2 
+X-CRM114-Status: GOOD (  11.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,65 +84,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Nov 02, 2022 at 08:32:19PM +0100, Binarus wrote:
-> On 02.11.2022 16:59, Keith Busch wrote:
-> > though, so I'll add that this particular model's does not work with the
-> > Linux kernel's end-to-end protection. This device supports only the
-> > "extended" metadata, not the "separate" that the Linux block stack
-> > requires. You won't be able to use the generic block layer for IO with
-> > protection information, but you should be able to use it in passthrough
-> > modes. And if you are using the 8-byte format (LBAF 4, I believe), then
-> > the driver will have the device strip/generate PI without the host ever
-> > seeing it.
-> 
-> I have a vague notion of the metadata types, and have recognized something
-> which worries me even more:
-> 
-> In the datasheet / manual for the P3700 from October 2015 (newest version I
-> could find), in table 34 on page 38 which describes the Identify Namespace
-> data structure, it clearly says that byte 27 will report value 0x3, which
-> means that both metadata types (extended and separate) are supported. From
-> the "Interpretation" column of the "MC" row:
-> 
-> "Indicated support for metadata transferred with the extended data LBA and
-> in separate buffer - both are supported."
-> 
-> However, when I execute nvme id-ns /dev/nvme0n1 on the machine in question,
-> it shows the value 0x1 for the MC, which means that it supports only the
-> extended LBA metadata.
-> 
-> That means the either the datasheet / manual or nvme is wrong. I guess that
-> the former is the case, and your statement supports that.
+On 10/26/22 16:19, Mike Christie wrote:
+> +static inline enum scsi_pr_type block_pr_type_to_scsi(enum pr_type type)
+> +{
+> +	switch (type) {
+> +	case PR_WRITE_EXCLUSIVE:
+> +		return SCSI_PR_WRITE_EXCLUSIVE;
+> +	case PR_EXCLUSIVE_ACCESS:
+> +		return SCSI_PR_EXCLUSIVE_ACCESS;
+> +	case PR_WRITE_EXCLUSIVE_REG_ONLY:
+> +		return SCSI_PR_WRITE_EXCLUSIVE_REG_ONLY;
+> +	case PR_EXCLUSIVE_ACCESS_REG_ONLY:
+> +		return SCSI_PR_EXCLUSIVE_ACCESS_REG_ONLY;
+> +	case PR_WRITE_EXCLUSIVE_ALL_REGS:
+> +		return SCSI_PR_WRITE_EXCLUSIVE_ALL_REGS;
+> +	case PR_EXCLUSIVE_ACCESS_ALL_REGS:
+> +		return SCSI_PR_EXCLUSIVE_ACCESS_ALL_REGS;
+> +	default:
+> +		return 0;
+> +	}
+> +};
 
-Your data sheet is wrong. This family of controllers never supported
-anything but interleaved metadata.
- 
-> I had absolutely no clue that the standard Linux IO does not support
-> extended LBA metadata, and thus does not support extended LBA PI. That's
-> quite disappointing.
+Please leave out "default: return 0;" from the switch statement and add 
+"return 0;" after the switch statement. That will make the compiler emit 
+a warning if a value is added in enum pr_type but not in the above function.
 
-How could it be supported? The format requires data+metadata be
-virtually contiguous, but that's impossible from the user app that only
-provides the data.
+Thanks,
 
-The only option would be for the kernel to bounce it through a new
-buffer, and that's more horrible than it sounds, not to mention a
-complete disaster for memory reclaim. This was my last attempt at it:
+Bart.
 
-  http://lists.infradead.org/pipermail/linux-nvme/2018-February/015844.html
-
-> Currently, I don't know what the passthrough mode you
-> have mentioned is, but I'll research it.
-
-From user space, you'd have to use ioctl NVME_IOCTL_IO_CMD instead of
-normal read/write.
-
-> Perhaps I am using it already, because the SSD in question acts as a cache
-> device in a ZFS pool. Since ZFS circumvents the normal I/O layer at some
-> places, maybe it can use extended LBA PI.
-
-Kernel space can also issue passthrough commands if they really really
-want to via REQ_DRV_IN/OUT requests, but I seriously doubt that's
-happening. That'd be quite fragile for an out-of-tree filesystem to
-attempt.
 
