@@ -4,167 +4,119 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AAC8BC433FE
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Nov 2022 02:25:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5BB2CC4332F
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Nov 2022 12:31:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:To:Subject
-	:Date:Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Wg8Ea+g+iHd4aSWWA6OjaA834FKkTAA5cxQh/UBmKBA=; b=vxBTCnMAUXdsjpEqVinrTP3eq2
-	RakcsFzoAxZ9W90NXoTwWlcuw53iTynOV45p31MSpSacimkacoU49ddDINt2flnXoBfkswaj5IVTM
-	g4vHmH7qbDWJkLFjAYBt9yZSdt9ntymNuHnE5i5CszxxHSZha7aI6rcGrUoRZZzPJn9DBfQHq7abQ
-	JiwCMZ0GR0z55isZ0Eca8A2MNoWcbEWVC+G4EtJsDhDDlO63Smr40UILZipKFH5iDZZnxL2t6OAvC
-	fJPt9eR44yy8yQ2MojufzGEJADkK2drIp3GA/OQ+37Jnsv0GsXCpW+Q8pxDoUiYD69pAueqMU+4XO
-	kOatkOpg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	Content-Transfer-Encoding:MIME-Version:Content-Type:Message-ID:Date:Subject:
+	CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=lW33IeClMOms7q07PqtYJL4/p7p7WXeMBOLnPkvtdwk=; b=kssoyiMw4HdBhBz7Itt4sDTsZS
+	ai+4vLflVvdo+4ND7+oyJx6JN/df8n00GS0Sr/FcbQpFGzYwI5GBZQAE2NSZ08mOP08+u0LMz9X5z
+	pmsceqwxu0eeHDmJqIsbun3YbyU637NxXP38bsSF217Rq8S0l39NJYO/emq+U/EUUOvpdPAZQbKh6
+	S3dpZ4Z3d3mHaJXKDXDsXHuRqEndeb3lkQLBhgUM+4/SmTimGRGRY1toNwwp2+ir/KJkY/BT17zB0
+	n6Ns/gFP0LpuyR+Mo/NpGD6uzr7sQZ6XgTtubEmUV4/mWwDhFGGiHtfpbJXZUBZfaZEg8KSc75aFw
+	DwpsU+Pw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oqPvT-00Fd9g-Pj; Thu, 03 Nov 2022 02:25:51 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1oqZNi-00HJpd-T4; Thu, 03 Nov 2022 12:31:38 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oqPvQ-00Fd9H-JL
-	for linux-nvme@lists.infradead.org; Thu, 03 Nov 2022 02:25:50 +0000
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A2Mc1VO002999;
-	Thu, 3 Nov 2022 02:25:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : to : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2022-7-12;
- bh=Wg8Ea+g+iHd4aSWWA6OjaA834FKkTAA5cxQh/UBmKBA=;
- b=Qk4Wi4R337bELWe4qtC41GlFyz23y9MuIUkfwVVsVV2H9PYB4JzxsOJubW6Bwu7sX5G/
- jc6wt0xTQynpRQldYTKBvTFtfpxBBk98UkUFm0Iko0bEaTmez9by5c3wHfhsg4Uf2vQ8
- /GKoIOrCigoUCkbMTbepb8igqOypKn9kxHL9Sl5mvfvpCE5CeizI+xYAIJVnHXWiPTN+
- 84pxTOKIGmSNpVboXMZ21mkeBF+Gpe2CFAlHf0joIicqb0fOgfhK89uyv+MkN1DMvsSc
- 1oRILCCHH6mK+RvdmAubxOVdqpi9CIOWBiOXMr0rrEKl8FGvDRMJkX7SOQf+kzW/VNWq lQ== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3kgty33hnw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 03 Nov 2022 02:25:40 +0000
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 2A30kGFi027286;
-	Thu, 3 Nov 2022 02:25:39 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2104.outbound.protection.outlook.com [104.47.70.104])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3kgtm65yf2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 03 Nov 2022 02:25:39 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dIFX2DW4bi+GXGFESFN8Tc12kty/RNQW7q1ZlLafKfFgjkC1BLPpNFSPhoI7gI5KCI82l8IdtsrlBm6EAMYssNNv5QnIHFeSAqC7WSX3yG6htWuYO+vBUWJnWXz6i4mdbH3jepG/FY2y0dsopOWfKhGtNnagB068LcNh8cQETk/eU2uhJ7LFJoL4qkGSTfi2vx7kztfwB6dUvBZh73gJuSo3K6lylG8PnCV+ZKcoD//liRpUSQXJ3pQRgubde8EsUvKcesGqTCQqfa5SB8JHN/DphzeFHO8yPSHAoSc0cBBfozU7lkf/O2l0/KzwwAQyC3dzK3cLffMEpaju0Pjzgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Wg8Ea+g+iHd4aSWWA6OjaA834FKkTAA5cxQh/UBmKBA=;
- b=g0QQIiPx/h2/oJ7A/kO3DH9ntjXkd85LQsGyyKr6sbJs9JOBJH6IgsTqa+VGLsd46qNpAe1NbwO15k37m2shP5yRyKMB7pIBG3j+UYNNRaynNPF6j8Z2UWsX1Xej13UDaFn+PTCPoFCrygR/dk+mX5WNnDbAqNtGkbgn/JpKRjwbS8MBGMXZfZzDjvcCIZ3F/Diq+dv92r1zQYArNtWnDZjsfuRZ9AwJB1IGNPSGoulfZAsiriOjRHpYHgDmJ7+GXMAz0XR3e/7mMUee3+bsA3IlXFxcpqSXQG/sDQRSIj0lk2laF//myjKp8IOpV8fOqHPdjs3baKnqbSlxWnG/sg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Wg8Ea+g+iHd4aSWWA6OjaA834FKkTAA5cxQh/UBmKBA=;
- b=kerd0b5lLqrzTfsdtwJ1TXf59Tf3eJfrlxfnHRgGKJ/x2XcdihLqM5IKxWanVhfuLsRMDD6dtFSrkBkSSQx5wdClL/y3ikRQADqABGkuGGSH4QrM83sBH416EZOMTQdn6M2x7lvK+lnOg8sJhktLSUrbatmIOeyQCtVEIoFP6oQ=
-Received: from DM5PR10MB1466.namprd10.prod.outlook.com (2603:10b6:3:b::7) by
- SA3PR10MB7042.namprd10.prod.outlook.com (2603:10b6:806:317::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.19; Thu, 3 Nov
- 2022 02:25:36 +0000
-Received: from DM5PR10MB1466.namprd10.prod.outlook.com
- ([fe80::19f7:e081:85b4:c5df]) by DM5PR10MB1466.namprd10.prod.outlook.com
- ([fe80::19f7:e081:85b4:c5df%7]) with mapi id 15.20.5769.021; Thu, 3 Nov 2022
- 02:25:36 +0000
-Message-ID: <0d88d3d5-1c19-5d2c-c3a6-8ff67f074117@oracle.com>
-Date: Wed, 2 Nov 2022 21:25:34 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v3 01/19] block: Add PR callouts for read keys and
- reservation
-Content-Language: en-US
-To: Bart Van Assche <bvanassche@acm.org>, hch@lst.de,
-        martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
-        james.bottomley@hansenpartnership.com, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, snitzer@kernel.org, axboe@kernel.dk,
-        linux-nvme@lists.infradead.org, chaitanyak@nvidia.com,
-        kbusch@kernel.org, target-devel@vger.kernel.org
-References: <20221026231945.6609-1-michael.christie@oracle.com>
- <20221026231945.6609-2-michael.christie@oracle.com>
- <569dfa4d-0f0e-a596-1f38-2f4ccc555fe5@acm.org>
-From: Mike Christie <michael.christie@oracle.com>
-In-Reply-To: <569dfa4d-0f0e-a596-1f38-2f4ccc555fe5@acm.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CH0PR04CA0107.namprd04.prod.outlook.com
- (2603:10b6:610:75::22) To DM5PR10MB1466.namprd10.prod.outlook.com
- (2603:10b6:3:b::7)
+	id 1oqZNc-00HJoI-H4
+	for linux-nvme@lists.infradead.org; Thu, 03 Nov 2022 12:31:36 +0000
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20221103123120euoutp0122afe4fa15fbe4f8f0ebc71d2eb185d1~kEwaHPR5l0853908539euoutp01r
+	for <linux-nvme@lists.infradead.org>; Thu,  3 Nov 2022 12:31:20 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20221103123120euoutp0122afe4fa15fbe4f8f0ebc71d2eb185d1~kEwaHPR5l0853908539euoutp01r
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1667478680;
+	bh=lW33IeClMOms7q07PqtYJL4/p7p7WXeMBOLnPkvtdwk=;
+	h=From:To:CC:Subject:Date:References:From;
+	b=dwrQ63XPGDvdn+xTiKfwGWNK2FDfpQEj9fUdn3rldyjqWwrJRNCPqCc3dMXGQjxWJ
+	 y9sYG1uttBYslOAJC+rZRq9rwQEvTSpCcEqem48lug4Zzl0IZiEe59RyHrYIyCJMfA
+	 c4PM5xi1Xi8lfmzRsezrHL+jHUvrbsTfBpMq45l0=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+	20221103123120eucas1p10db56cf1984a2d5d460d154b8a653582~kEwZn62TD2452924529eucas1p1x;
+	Thu,  3 Nov 2022 12:31:20 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+	eusmges1new.samsung.com (EUCPMTA) with SMTP id CE.24.29727.894B3636; Thu,  3
+	Nov 2022 12:31:20 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20221103123119eucas1p12e3ebbdff4e72cb73e5fc027b1de8549~kEwZNSBJe0943309433eucas1p1I;
+	Thu,  3 Nov 2022 12:31:19 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20221103123119eusmtrp282e947ec5aac98afee352b72e9e30c04~kEwZMhVj-2873828738eusmtrp2g;
+	Thu,  3 Nov 2022 12:31:19 +0000 (GMT)
+X-AuditID: cbfec7f2-205ff7000001741f-07-6363b49830eb
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms2.samsung.com (EUCPMTA) with SMTP id 82.9D.10862.794B3636; Thu,  3
+	Nov 2022 12:31:19 +0000 (GMT)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20221103123119eusmtip258a27fdf2e2181011d3a14de97a31baf~kEwY-ZpOZ2051720517eusmtip2U;
+	Thu,  3 Nov 2022 12:31:19 +0000 (GMT)
+Received: from localhost (106.110.32.33) by CAMSVWEXC02.scsc.local
+	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+	Thu, 3 Nov 2022 12:31:18 +0000
+From: Joel Granados <j.granados@samsung.com>
+To: <sagi@grimberg.me>, <hch@lst.de>, <kbusch@kernel.org>
+CC: <gost.dev@samsung.com>, <linux-nvme@lists.infradead.org>, Joel Granados
+	<j.granados@samsung.com>
+Subject: [PATCH 0/1] nvme : Add ioctl to query nvme device attributes
+Date: Thu, 3 Nov 2022 13:27:45 +0100
+Message-ID: <20221103122746.3599480-1-j.granados@samsung.com>
+X-Mailer: git-send-email 2.30.2
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM5PR10MB1466:EE_|SA3PR10MB7042:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0efb4f2b-848a-498e-7ec8-08dabd42b119
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	ag7cm1EatkNwjF2Jn9+aylpmNvSisDRKCm88sGXqXBpRZg4kKBKstFKYEkfjN5bBSWfCQnbMiUu2ZUT9PsEaHBpPj0wK/lWUW93e3YjtgeonT8uohDHJamXdaNh9abYPEkQWnPaJb6/+/xaj3b0XCRKcLBZxy8IxO3bLCKQt8tXRnNYVopEICPY656ZrKfckZQDcaQFCP2vcXe/QdfRp8jXqxowum78afCu6Ua3MbD9x5RRR/UfmTipYysaW5IDXLgjkmb79wpT88GPqhL+gUiE6S9NawpcQpwaBzcPUlUz8GhI/1iOJyCz2GbMIOkaWHh/4rcovNWITMfZr1vyC0nrEBcnn1iEYOc1LxrWe44ZwuKyqzr4iM/NmIrumQCjItV2mNLUU9AiTIeJiCnp3bn24IS8HLBt7ck5d7eatZ90WvK7mzYqGd3zw4zDNcmkMHVuROWV2v6PpSdW73jjHYrabBNZByewWXekT0GUhv8fVscekCMWijdWaGNEvl88uTZ1rk/lk2keQWsCeNYKHRhZCa+71kDpHI+ZXMpJ5P+mdG/EaVxK1/quWvxhTcVsxz0N5icrd22wHkyP26PTqTIoRQiTnP3KWN/XXsMplbztKTU/Dc858fOY8+mHiLzJ49MAG+bOTB0PaWE4Vf9uIpfSoa8KvJZqqXAhil8iW7Scfo7U3CQHGc/RIsTITTgZe6nXfRun4L1ogj0kvMWEykXw0xykRqcHvXre5gtSz7Htz2p7oKxyfTdeEZuid5AeV+SsosNKZeyt6VcYp065XHtysKeZ7lm3im5N40K2HYJEIbcedSJkdPyGsvudiYCVY
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR10MB1466.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(346002)(396003)(366004)(39860400002)(136003)(376002)(451199015)(921005)(66946007)(66476007)(8676002)(66556008)(316002)(2906002)(26005)(4744005)(186003)(6486002)(2616005)(38100700002)(5660300002)(6506007)(53546011)(478600001)(7416002)(31686004)(36756003)(6512007)(86362001)(41300700001)(31696002)(8936002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?M0IyaWRVdWRwdFYySDJLVC80SXFwa2JSZzIvVTVhQ0M3eUhWYVZITEVTc3A1?=
- =?utf-8?B?UEQrRGF6QlJyZTFYS0ZMMXpXR0lXZlZKWTd2cUNiSkszQ0JOZXBPcTVabGxL?=
- =?utf-8?B?czZURE54T3R2SmhmL29KdjltUlVQdm4xOWZSWk1tVVBjSnluOWwrd1YyQ213?=
- =?utf-8?B?bkxSUFJRTWR2TDRsM1RPKzcxYTdxVnFxVXRqYWo3YlVyQnhRdGZqSkxJbVNh?=
- =?utf-8?B?WXk1RkZhcW9rTi9ZVk5aeDFzeXBNN0w3bFhjMDVTbVJzbSswWFd6aDRlbWRs?=
- =?utf-8?B?WC8xQkh4a3NUdjlVcU5EZGtqbTl3UEF0TUhVNGxQQm83b2srTnA2L0p1a1RC?=
- =?utf-8?B?YlB2TmtRSk9DMFAzV0FxaVBRU1pZMDhwTUw3aHdvNG5GZE40Z1dUSU9Td3B6?=
- =?utf-8?B?dnpnNlMzSHhUQ1pkbzZtL3QwR2crZytDK2tCdXNYQWh2MnIvNXJUbDIxeklm?=
- =?utf-8?B?NVgyVU9mL0sremNaMERHUFd4cHFmaVJ4K0h3bkxrYXMzdnRxWmQ1NDlwY0Nr?=
- =?utf-8?B?OG9mU3JxVTEzNXUxeTdlRDUxaERDbEcwanZJMUM2Qk1SZWR1Vi9WS3lpcDRQ?=
- =?utf-8?B?cHV5cXBVWWZEWS9yT1Vsdk9oRUVjdmRhc3ptR0RvWmY2RXJyLzRYWWNRaHdz?=
- =?utf-8?B?ZGFZVm9nY3lHblNuMGxUUkJPeHRjcUVXQ3BtWGE3L0VxOGUyWEVKSm9yR2ZZ?=
- =?utf-8?B?TklXRzgybnVxRkZjaFdneWNVOFNVTmtmaUR0Y3Qxck8xM3NvU1EzKythU1lL?=
- =?utf-8?B?bWN5RFczR3dXK2U5c2tBaHF2RzhyNC9vMzRZRXR1bmsrcDNUenVPWmdlTXUv?=
- =?utf-8?B?UEZFVG1KbE5nQ0lUM0llbUpwQXB5MlZMdENadXJKdlp2Z3lKbjhuMjJoVllm?=
- =?utf-8?B?NnV0Z2ZqeExhV0JRN1c5UmttdjMzK0trUzhyZnhqQnVrbVV6SFo2YyswMG5v?=
- =?utf-8?B?NUFmVFV4c0tNT0xGc1Y0Z2pqK2Y3OFZ3TXFBTDlHU1ZjVGN2OUhubnpqTFI4?=
- =?utf-8?B?MEVUMnNBRjl1bGFyZy92YkhiUmNLczhpeFd5eXd1dTU3cEgyV1JZaXlnWGtS?=
- =?utf-8?B?SThwbkE2MzVEaXZINjFIRlczZ3d3WmRINTd2Zndyb3VBR09ZemlrUm1iZlg0?=
- =?utf-8?B?WDYwSFh3MVpEd01FRlV3U3ZKT2VvZUhCWG51MEZTMjlxTlEvdWRCMytrWW5i?=
- =?utf-8?B?SmlQWXh0VFdxRG9JYTRHOTJSWTRNWGROY2lKK0hIRGZVem1PclVnMnVPcnZp?=
- =?utf-8?B?TmlocFp4NFJ3NVZtZ2JwTXVUbFB2aEFKdU05dTFFZVFnNS96QUo1UVNzTytl?=
- =?utf-8?B?SE1vQ3FpVmR1MXJDS0p6NHVvWTVhM3J5S3ZkbWtZRGtoVlo2MEdweUdRdktn?=
- =?utf-8?B?VGtSSHpNMkFjN2lhZ2V6aWdsYmFtK2RVYTJyTW5McHBPOUVkd01ZT2Z3TTVa?=
- =?utf-8?B?WUNLc09LZXpvdzhxNGNlcEJjVHFJNkZXVUVaLytFUUhkdEpRbGVhM25qZ1dt?=
- =?utf-8?B?SHR2M0Vrb2VmVERobTNaMTVFcERVTlkzdER3RTgwdHI5K0c2Skkvd0FFWTNp?=
- =?utf-8?B?NDhSY01WRmRXajJYTmdtQldrRnJnWmZPSnp4TWVWN1VSczNJd09XckdhMmF3?=
- =?utf-8?B?d0J5aXloTnFCZCthQ0ZnNklFOWNrbFF3eHhSMlJaYStyeXA4cVFZeCtoZ2dJ?=
- =?utf-8?B?ZThmcFVVdzdaYTRYeFBHNVYrRDI5cE9WM2N4NlZSYWRET28vZ3N3TkNtR1lL?=
- =?utf-8?B?MG5VMFFVRUp6N2FtSmJsYlRXQUk3TFRXUUN3SFIzeFdPWGZNT3pTL3F2OXp0?=
- =?utf-8?B?aHcyVytydGo1N3B6YmRBcjE1dDJ6WGsvVjVaQWo1WEdPd2ZQa1F1S1RRZWpn?=
- =?utf-8?B?d2lYc0I0RS9zN21CQkxXeFhwb291V0dnTVRHYlRQZm9MT2hZRURoV2dOMXBr?=
- =?utf-8?B?SUdFaEszTkZaVjJpRkFCZS9wQ3pkNTF0VVdpcGttVkhKR0IzbERMSkhraHpL?=
- =?utf-8?B?L1RLc0w3cEE3ZjhLSkJJV3FzUWlNb2kxT2ZrRVhWR3NnUmd1U21ETWtydDZn?=
- =?utf-8?B?UHVJZE42ZGJEYVFQNkhLWlk4c2VhNWF5elFvVzczV1hGdEc4V25neDhIREZO?=
- =?utf-8?B?VWFIK2YxUHdEUjFCNys3UjJmeU5DWXliWEs0K2oyVGxpZ2x4MWZXZjArZFha?=
- =?utf-8?B?K3c9PQ==?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0efb4f2b-848a-498e-7ec8-08dabd42b119
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR10MB1466.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2022 02:25:36.4794
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Yaj9ddQFeAjJ9HfpSr/9IueS6qKJlZg1AEG+4uXEQLKOkjVURx1sBiwie0uT4lL8fKHzDbnZsoK/kcXUXvlDdaMrOZPZKWaUi2oGSJUbgVU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR10MB7042
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-02_15,2022-11-02_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0 phishscore=0
- mlxlogscore=999 suspectscore=0 spamscore=0 malwarescore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2211030014
-X-Proofpoint-ORIG-GUID: JhvFLnldbseX18_QLmdL4ZW-CXhH4v76
-X-Proofpoint-GUID: JhvFLnldbseX18_QLmdL4ZW-CXhH4v76
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [106.110.32.33]
+X-ClientProxiedBy: CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348) To
+	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrOIsWRmVeSWpSXmKPExsWy7djPc7oztiQnG7zp4LBYufook8WkQ9cY
+	LeYve8puse71exYHFo/z9zayeGxa1cnmsXlJvcfumw1sASxRXDYpqTmZZalF+nYJXBlHNtxg
+	L/jOX9G06hJjA+Ns3i5GTg4JAROJy88+MYLYQgIrGCWW7wGyuYDsL4wSNy7eYoVIfGaUOLbN
+	Fqbhzc097BBFyxkl7hydwQbhABWd27GPCaJjE6PE0vtg3WwCOhLn39xh7mLk4BARsJR4/CkV
+	JMwskCbxvvc4O0hYWMBV4sVzH5Awi4CKREdjDwuIzStgK3F/yUI2iL3yEm3XpzOClDMLaEqs
+	36UPUSIocXLmExaIifISzVtnM0OUK0psmfOdFcKuldjbfADsZAmBAxwS3X2b2EDmSAi4SLzf
+	4AVRIyzx6vgWdghbRuL/zvlMEHa2xM4pu6BmFkjMOjkVqtVaou9MDkTYUaJj+jp2iDCfxI23
+	ghDX8ElM2jadGSLMK9HRJgRRrSaxo2kr4wRG5VkIr8xC8sosJK8sYGRexSieWlqcm55abJiX
+	Wq5XnJhbXJqXrpecn7uJEZg2Tv87/mkH49xXH/UOMTJxMB5ilOBgVhLhrT8bnSzEm5JYWZVa
+	lB9fVJqTWnyIUZqDRUmcl22GVrKQQHpiSWp2ampBahFMlomDU6qBqesru3/af95p1dP++NTP
+	kLux3ucqG9dl/oMPWVxSny+ceaTB3XRRS08d31JlyatMkuuL2ePkL3C4xTXWOIn+3sXx0fOk
+	lV/83OlTIqW2WkZE5mev7ix98e/LS4m8F8csbebs198RvLHmWPFU/+0pbV+uvJMRCi9m8UpL
+	aguZ46xyTkiyiv9KS3PE17j1ovtvnrD5rG1sG8f1NjZbiCt1xRUxn9numd/nmLU+V165xIhP
+	hCVccHLLjGW97qxGO10PzP7DoH5Stu5P3Cor28OGXx7daTwxRUYvXLHgpF3Ym/kaG3ZdNI28
+	oy+7PPZRybf/yjNqYr4aV3K21Ul83rzx8tN7fSc07ZtiUn92rGpWYinOSDTUYi4qTgQAdyqg
+	MYoDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuplkeLIzCtJLcpLzFFi42I5/e/4Pd3pW5KTDXq2aVmsXH2UyWLSoWuM
+	FvOXPWW3WPf6PYsDi8f5extZPDat6mTz2Lyk3mP3zQa2AJYoPZui/NKSVIWM/OISW6VoQwsj
+	PUNLCz0jE0s9Q2PzWCsjUyV9O5uU1JzMstQifbsEvYwjG26wF3znr2hadYmxgXE2bxcjJ4eE
+	gInEm5t72LsYuTiEBJYySpy61cgEkZCR+HTlIzuELSzx51oXG0TRR0aJtseNrBDOJkaJ1U9b
+	2UCq2AR0JM6/ucPcxcjBISJgKfH4UypImFkgTeJ973F2kLCwgKvEi+c+IGEWARWJjsYeFhCb
+	V8BW4v6ShWwQu+Ql2q5PZwQpZxbQlFi/Sx+iRFDi5MwnLBAT5SWat85mhihXlNgy5zsrhF0r
+	0fnqNNsERqFZCN2zkHTPQtK9gJF5FaNIamlxbnpusZFecWJucWleul5yfu4mRmC8bDv2c8sO
+	xpWvPuodYmTiYDzEKMHBrCTCW382OlmINyWxsiq1KD++qDQntfgQoynQNxOZpUST84ERm1cS
+	b2hmYGpoYmZpYGppZqwkzutZ0JEoJJCeWJKanZpakFoE08fEwSnVwOQSsrimQFOTda7f9WI5
+	49XfWx7u1wm9e1Xz6GSzC9vez95x7HHhQfY7P07+L/3762hz7My1D7dcOjBjdWnWC6slTlO5
+	lngUb+1/KMhw6FpbjNC0BX1b7GLn7jx/1O/j+7P2vgKB956uEEhumauWO/teVmHsjI/R6gff
+	RHatsJKbd5/lkJP59EO8ao5vphgs39a46cJnu4P5z1Z/mP8r7qqpZZaXUtOxT4/Lf+kUOjAG
+	8z1bJsF/+233dsdljxx3ul5dfOeY8tmNB5xkd7ybtbLIdKN09xHd33POnU6dpL/8iXZoR5Rk
+	6oNbcj3vJWYXKrj9EaxxqO29t8Tp0q3IR9v8Gxpz2K/N3xj5YcXDHyFXXyuxFGckGmoxFxUn
+	AgBNoyHNIAMAAA==
+X-CMS-MailID: 20221103123119eucas1p12e3ebbdff4e72cb73e5fc027b1de8549
+X-Msg-Generator: CA
+X-RootMTR: 20221103123119eucas1p12e3ebbdff4e72cb73e5fc027b1de8549
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20221103123119eucas1p12e3ebbdff4e72cb73e5fc027b1de8549
+References: <CGME20221103123119eucas1p12e3ebbdff4e72cb73e5fc027b1de8549@eucas1p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221102_192549_517698_200CD031 
-X-CRM114-Status: GOOD (  13.55  )
+X-CRM114-CacheID: sfid-20221103_053133_995166_C6971D1D 
+X-CRM114-Status: GOOD (  13.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -179,16 +131,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/2/22 5:53 PM, Bart Van Assche wrote:
-> On 10/26/22 16:19, Mike Christie wrote:
->> +struct pr_keys {
->> +    u32    generation;
->> +    u32    num_keys;
->> +    u64    keys[];
->> +};
-> Is my understanding correct that keys[] is treated as opaque data by the kernel? If so, is it necessary to convert the persistent reservation keys from big endian to CPU endianness? Some SCSI stacks keep reservation keys as __be64 format.
+What?
+In this patch I add an ioctl that provides nvme controller attributes to
+the user that can open the char device file. We also provide them for the
+block devices for convenience.
 
-The pr_read_keys/reservation calls work like the pr_register/reserve/
-release calls where the scsi and nvme layer convert to/from the cpu
-endianness to the specs endiennness (big for scsi and little for nvme).
+Why?
+Applications with write permissions should not need to be privileged to
+write to the device. With Kanchan's latest patch
+(https://lore.kernel.org/linux-nvme/20221020070205.57366-1-joshi.k@samsung.com/)
+the nvme IO and identify commands in passthru now follow device
+permissions; however there are still some controller attributes like
+minimal data transfer size (MDTS) which need a privileged user to be
+queried.
+
+How?
+I have rebased this on top of Kanchans "nvme: identify-namespace without
+CAP_SYS_ADMIN"
+(https://lore.kernel.org/linux-nvme/20221020070205.57366-3-joshi.k@samsung.com)
+because this only makes sense if we can also do IO as unprivileged.
+
+Added an ioctl (NVME_IOCTL_GET_ATTR) that fetches existing and new
+attributes from nvme_ctrl struct. The new attributes are dmsl, vsl and wusl
+from the I/O command set specific identify controller data structure in the
+nvme spec.
+
+I have made the call extensible by embedding the struct size as the first
+member and using it as a version. I call copy_struct_from_user to make sure
+that struct members that are unique are zeroed out.  For this I followed
+in the steps of the openat2 system call [1] and the extensible ioctl for
+vfio [2].  Another interesting reference for this is here
+https://lwn.net/Articles/830666/
+
+feedback is greatly appreciated :)
+
+[1] https://github.com/torvalds/linux/commit/fddb5d430ad9
+[2] https://github.com/torvalds/linux/blob/master/include/uapi/linux/vfio.h#L56
+
+Joel Granados (1):
+  nvme : Add ioctl to query nvme attributes
+
+ drivers/nvme/host/core.c        |  5 ++-
+ drivers/nvme/host/ioctl.c       | 57 +++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h        | 11 +++++
+ include/uapi/linux/nvme_ioctl.h | 74 +++++++++++++++++++++++++++++++++
+ 4 files changed, 146 insertions(+), 1 deletion(-)
+
+-- 
+2.30.2
+
 
