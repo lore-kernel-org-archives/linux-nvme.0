@@ -4,68 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 533EDC4332F
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Nov 2022 21:21:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 473BCC4332F
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Nov 2022 21:22:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=c/MErsuwWcuWHOBDnRpZUToDXZo/uyhLgvgKdcFHlv0=; b=gnYhV7SaHY040sDPyvzdzHbp25
-	3rMvE+ijzbwtS3EHFL73bWTMYuNiDhv8wEhkDgXvKVxyRq6a9CPLlv5oHptg+4grunpBjJxCJJHO4
-	S6kAu/rS9ao9FOjZKGp7zMmaBrne1fPPXPeg3YYfGGlc0yR1BpkcZXZLtx83tG2PFWLkGgNT7pnPO
-	rMpQzgvhnyaMrztq2FWKc1sgp2RXKmRqsHx9CDwUoCJgcjSPCmQhDCJb1UFySVrc9KTYtSKzsmUyM
-	dr8kytnsuXs99yjzFcqxpa8UZzxzD0cSkvYrkkKFOHMWh/wxW57i6X4XIVo6lBKq+9TDm2hFlqYhf
-	qmU1K1mQ==;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=VEXZ8j2ByvWkoWbhxiTccRPl5r
+	I2fDPfRYj1Gc1SgEJGmey8PhevwLxkjsOHxTte7sWFIvwFN1gLLfhEiKjcai/NR2bkTliQfU5y9iF
+	joXYnpjIWvCTeo/WHjnCZG48fVHIWj3rBDBnGrmbDw7jJ/VgO99VCeODHvjMYVf57pMjxtqIbE/5C
+	SY8TxnOpzuVnjoZlVDvnUzNqCrDkW85DCmymIe3nfVz4m8xsguLnllv3mnHb0wz0au4zAuSydC41Q
+	ml9wPGb30uvFVrgN+aYIrUbmHqKDGxxHHsDmc3SH/c1KcRWiLhaK9ExV7e8Ab6Cm2+O62h7Kjfyp7
+	lMwuR6ew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oqheB-001jkK-6o; Thu, 03 Nov 2022 21:21:11 +0000
-Received: from mail-wr1-f48.google.com ([209.85.221.48])
+	id 1oqhfZ-001k0P-V2; Thu, 03 Nov 2022 21:22:37 +0000
+Received: from mail-wr1-f46.google.com ([209.85.221.46])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oqhe8-001jjr-S2
-	for linux-nvme@lists.infradead.org; Thu, 03 Nov 2022 21:21:10 +0000
-Received: by mail-wr1-f48.google.com with SMTP id l14so4602717wrw.2
-        for <linux-nvme@lists.infradead.org>; Thu, 03 Nov 2022 14:21:07 -0700 (PDT)
+	id 1oqhfX-001jzY-Eb
+	for linux-nvme@lists.infradead.org; Thu, 03 Nov 2022 21:22:36 +0000
+Received: by mail-wr1-f46.google.com with SMTP id w14so4570514wru.8
+        for <linux-nvme@lists.infradead.org>; Thu, 03 Nov 2022 14:22:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=c/MErsuwWcuWHOBDnRpZUToDXZo/uyhLgvgKdcFHlv0=;
-        b=yF1j57FLAHC1J/Y6Xc5jilXiuNZhyYeAEgGJYRGRkm33/tiHhGoM+xfOxiw90L0uFa
-         HpB5qtpKKvSEYsHoMr+BnmFAGGJwgfOAJmAKa+AgFFN4okboQnzy7BamHnbPH11pwwdk
-         Nmb4TieeYmm0yEle0j2ow2SbcWcsaNclk7T2I3m+iW8itbIck2wUse37CxyutUYuOnlS
-         4yNJiejMqGREEW1yTZdro2hZljbQ9BtngkmezqAyDiJdJfKvWMRDCx3dFDVJtRW6NVDJ
-         nTbKGFNJzMsrdx9gw0xj7Ovbn+zsLe5tqqvpEfjIeBySPN0IO+wsNbA2o1z4DmzWdPdP
-         bN2A==
-X-Gm-Message-State: ACrzQf2W3cRMrO4tCGYJALI/soLge38pmWK8w78EJEN+m34rlHvHmdQ1
-	bpnrNV+JMnGGkzNr9/cAtwYr2w3AuwI=
-X-Google-Smtp-Source: AMsMyM5anlDcNkiopgpcfnEDm6cmT/P9k/PuxKUa4yoZAB6V8cCdjbOyR/refqwgy39pgfFx2uLeZg==
-X-Received: by 2002:adf:dd91:0:b0:236:a261:6930 with SMTP id x17-20020adfdd91000000b00236a2616930mr19925558wrl.551.1667510466777;
-        Thu, 03 Nov 2022 14:21:06 -0700 (PDT)
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=oEtXSPvT85VcWMxvYRq4gx2RAZMIqweaxq8ZJzQac8U8HmaOcVawzBKog8Yz7qL5Os
+         xLRW0HZIxoEwLf7qzB/FXrSBPJgqZr5nnFEUTu1IA1byJowG08wkwc9H6Dwfvaf0E7Ol
+         nH1M4pr9ty4t/im2ryUD9/gdejKrFojAlYtyooHUaXUIhypq41wu3WpDGetxz1D5PTcz
+         e/FMwzoQCG1sAovAeYdNdkgJGm4p0oW4agoaqDWiFdHiEocZUn6gI1wJPuY3fakR7nLN
+         UYI5U/UFB+EAWLy7s+x1nMK0x1zYQHUboTyYWyKkLdortXw7qwT0Lix8dg5nWtYzGoRS
+         s28A==
+X-Gm-Message-State: ACrzQf13NTzbfaqL25PGsyRvAVjHcHBf+SuaQoJrqtjz5lKbA6DJ/FHw
+	wwEfExwOFD6pYZrNaD7nx0ehhooIxC8=
+X-Google-Smtp-Source: AMsMyM6vbgDg2T7zfYdN4Utblj+sLSEY6XjXjSZKMhqBNJwkvQt3LkZmrmluRB/B5YH777ofxe/10w==
+X-Received: by 2002:a05:6000:2c1:b0:236:d474:f053 with SMTP id o1-20020a05600002c100b00236d474f053mr13879235wry.517.1667510552800;
+        Thu, 03 Nov 2022 14:22:32 -0700 (PDT)
 Received: from [10.100.102.14] (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
-        by smtp.gmail.com with ESMTPSA id z3-20020a1cf403000000b003b50428cf66sm922337wma.33.2022.11.03.14.20.59
+        by smtp.gmail.com with ESMTPSA id w8-20020adfd4c8000000b0023672104c24sm1750655wrk.74.2022.11.03.14.22.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Nov 2022 14:21:00 -0700 (PDT)
-Message-ID: <c87192c9-24b6-e6fa-8912-46c812a14d47@grimberg.me>
-Date: Thu, 3 Nov 2022 23:20:59 +0200
+        Thu, 03 Nov 2022 14:22:32 -0700 (PDT)
+Message-ID: <38001177-5557-6898-7e66-06223ffd7715@grimberg.me>
+Date: Thu, 3 Nov 2022 23:22:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH 3/6] nvme-auth: use xarray instead of linked list
+Subject: Re: [PATCH 6/6] nvme-auth: use a define for chap buffer size
 Content-Language: en-US
 To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
 References: <20221102075224.70869-1-hare@suse.de>
- <20221102075224.70869-4-hare@suse.de>
+ <20221102075224.70869-7-hare@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20221102075224.70869-4-hare@suse.de>
+In-Reply-To: <20221102075224.70869-7-hare@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221103_142108_935980_893B8A8F 
-X-CRM114-Status: GOOD (  12.50  )
+X-CRM114-CacheID: sfid-20221103_142235_518614_2D19C956 
+X-CRM114-Status: UNSURE (   6.78  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,18 +81,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-> The current design of holding the chap context is slightly awkward,
-> as the context is allocated on demand, and we have to lock the list
-> when looking up contexts as we wouldn't know if the context is
-> allocated.
-> 
-> This patch moves the allocation out of the chap context before starting
-> authentication and stores it into an xarray. With that we can do
-> away with the list traversal and access the context directly
-> via the queue number.
-
-Why not just allocate the chap contexts in auth_init() ??
-its always the number of queues and is mapped 1x1. It IS
-an array effectively.
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
