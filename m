@@ -4,135 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9C03C4332F
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Nov 2022 17:29:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEEC4C4332F
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Nov 2022 18:14:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=th3uH06a+N3TtlKW8Klp3RMlezAMU9S+l17NqBMDHuo=; b=GLSBTl9xnEop7VindK2wKr3AdB
-	+oRUtU/iAwKj20a42bByV57anhv6cGWaxCKTXIcfsrg/CW0Q9pkw3ulqt64wC/J65LjkNgA+hOJ3A
-	oNV/5Owt3TOXahMuDsIru5amfBIIGXgPe88c2ygt551arpuoS3In6qXu9aIfIVTSST6Ek3CO8hIoW
-	JXUGisI1nxArekkha2IgXmBsth+ZH0WpW6IC/IJa+ckri2Xiz4VbwYrsU4X5VCr2RBRWu0bqKkxbU
-	DAmovUD4FLlMS5WIFtm41uwEd6vRRXmuA0X3d50l3ea95+8oqxl29p7ayT9oTQ9Q2cjBUNro/juRN
-	MGHVqiPA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=AAumLxLnWfAM18CUZyhLKrEQTBxFDu0Nq3UHPT8n9DM=; b=pkZ9U7A4jSdq1LY/qwJ1Qn94El
+	2990usbEUAkgxVmIKDIGLg0cs+pNEY993cHT2AD7ksPzQznfGwWUhK5fk5UBE3svUuquGzzHsJkf9
+	n1Jsy2S6+g5YR2EMZVig75RMVDug4WcnDsTfUfRc8cNJ7cK5Ck+yaIKO9K0xRpKKHmiP81fSZdFLJ
+	nyD0QkN9ydLOUY2LfyggSdNMiz4v3ZhY9D+lINn48A1GilW0vcWRUw83OfX+tBoAmRQA8cBKlVOqY
+	NPFmpCy9C6CpIBBgB80P21E85fpiTbTCioo0cb39crxUoqIy0/48Q/xA7mUOiHctQ52idktb53W5l
+	aspXebaw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oqe2I-00154v-V7; Thu, 03 Nov 2022 17:29:50 +0000
-Received: from mail-mw2nam10on2046.outbound.protection.outlook.com ([40.107.94.46] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+	id 1oqejS-001Cp8-3B; Thu, 03 Nov 2022 18:14:26 +0000
+Received: from mail-pj1-f52.google.com ([209.85.216.52])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oqe2F-00151v-6d
-	for linux-nvme@lists.infradead.org; Thu, 03 Nov 2022 17:29:48 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AbmstGmm4talHqBBb76rbt8za6qW0fsTen618YB2BhJJyBBqBXMAkzDH7QRuARjuMnnNMMMNw/At5SR2+sjGMrNjWAhktUmpFhdYcP5JDP3anXcV7Y9O7FjeYd+ZdkHLqVPpNfUEcTPWAxMZ4w9duUmZ8N/e94uvZeFBBdmBGejVoNG8AuOYwuTZaqwdOaGq3+XsPt9rP4YNTFDbCHiFnbnvsAv1fZLOwgRsSDLNxt6psNniAVWMm7F5lUwZyBNxY2dJkBH6n5w6f5TN6rnACQHW7BR8bYGx+/6FCI5d3XW7Cj9cMMPTWHL0NwIZkVS0AOOtgEESLvWV89LOTm4QEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=th3uH06a+N3TtlKW8Klp3RMlezAMU9S+l17NqBMDHuo=;
- b=Wm+s6NEaDbwaq00i6/ACvjfx1R2xtBnmHPL18VGKm0v+wsYZWyTxURuekFuSHGijOW4HdB6nboSbBqivuDQkaGgQ5H/ZSmJ4bhDFPiC4FGHRrPejEgRguIhchZ7o942XsIbAmIrJmhVXm4wdgDWTg6AiHGoYQSOobYVrQDUujEP4jAF7glbNdkI+Ui2lKxHhQqfDbIL23L5wJA+R39+fCdP21HjB/nE6jkisJyAAijQQX64BIJmYfIPAjum6LLqa1c+tAUrp+egUTpXU6rxgl8vnvJKs349Ovw8Ui7Uldm/pc0TE3dvmDvoS09HbMsjDh1fwM9cyH/O+RjadJDc+iw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=th3uH06a+N3TtlKW8Klp3RMlezAMU9S+l17NqBMDHuo=;
- b=j1GcY16zr52BOxyTdU9QJmzEQ2DpoqtCIxgyEh6cxjjY4L0UWlobM1EiQCPbJm8ZJzDnFSAT4n1ZVEA482wpM9TkeqJ+x8qIoSpny9nM3y4q3IQEKHLqwNOMYG0k49AenRwL4rJzZy/g7EW9uGvFQFDlZchpcm/1N/TuCJ4R/bndNeyH6e69SIHQ0EfnIZvvDRSU4ELswtV5i8qdXAGpWMtQGeR139wa9I4OD/moiHXYA0YvO1vAPjGf3PEbKYQtxc45xtxqqjLMPb6hReh+ucL8DdK0qNqn5qQBwBVfILARH5wXSR9N7eizX7mK+J9Q4nwpK5Az0QAXKpbJXzgPCQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
- by BN9PR12MB5289.namprd12.prod.outlook.com (2603:10b6:408:102::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.22; Thu, 3 Nov
- 2022 17:29:39 +0000
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::e7d0:29bf:78d1:87b9]) by SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::e7d0:29bf:78d1:87b9%9]) with mapi id 15.20.5769.021; Thu, 3 Nov 2022
- 17:29:39 +0000
-From: Aurelien Aptel <aaptel@nvidia.com>
-To: Shai Malin <smalin@nvidia.com>, Jakub Kicinski <kuba@kernel.org>
-Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "davem@davemloft.net"
- <davem@davemloft.net>, "edumazet@google.com" <edumazet@google.com>,
- "pabeni@redhat.com" <pabeni@redhat.com>, Saeed Mahameed
- <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, "leon@kernel.org"
- <leon@kernel.org>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>, "sagi@grimberg.me" <sagi@grimberg.me>,
- "hch@lst.de" <hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>,
- "axboe@fb.com" <axboe@fb.com>, Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- Or Gerlitz <ogerlitz@nvidia.com>, Yoray Zack <yorayz@nvidia.com>, Boris
- Pismenny <borisp@nvidia.com>, "aurelien.aptel@gmail.com"
- <aurelien.aptel@gmail.com>, "malin1024@gmail.com" <malin1024@gmail.com>
-Subject: RE: [PATCH v7 01/23] net: Introduce direct data placement tcp offload
-In-Reply-To: <DM6PR12MB35648F8F904D783E59B7CE01BC389@DM6PR12MB3564.namprd12.prod.outlook.com>
-References: <20221025135958.6242-1-aaptel@nvidia.com>
- <20221025135958.6242-2-aaptel@nvidia.com>
- <20221025153925.64b5b040@kernel.org>
- <DM6PR12MB3564FB23C582CEF338D11435BC309@DM6PR12MB3564.namprd12.prod.outlook.com>
- <20221026092449.5f839b36@kernel.org>
- <DM6PR12MB356448156B75DD719E24E41DBC329@DM6PR12MB3564.namprd12.prod.outlook.com>
- <20221028084001.447a7c05@kernel.org>
- <DM6PR12MB356475DB9921B7E8D7802C14BC379@DM6PR12MB3564.namprd12.prod.outlook.com>
- <20221031164744.43f8e83f@kernel.org>
- <DM6PR12MB35648F8F904D783E59B7CE01BC389@DM6PR12MB3564.namprd12.prod.outlook.com>
-Date: Thu, 03 Nov 2022 19:29:33 +0200
-Message-ID: <253k04ct08y.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
-Content-Type: text/plain
-X-ClientProxiedBy: FR0P281CA0097.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a9::10) To SJ1PR12MB6075.namprd12.prod.outlook.com
- (2603:10b6:a03:45e::8)
+	id 1oqejO-001Cnk-LO
+	for linux-nvme@lists.infradead.org; Thu, 03 Nov 2022 18:14:23 +0000
+Received: by mail-pj1-f52.google.com with SMTP id d13-20020a17090a3b0d00b00213519dfe4aso2581402pjc.2
+        for <linux-nvme@lists.infradead.org>; Thu, 03 Nov 2022 11:14:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AAumLxLnWfAM18CUZyhLKrEQTBxFDu0Nq3UHPT8n9DM=;
+        b=ZsCP0g6Bvh3XZ8OlDmwR+uAZcVncrLskjv4Uhv28R4El8O7rrmS4q5t7BcxfD2FVi3
+         kKxLJ7NJ2ioATNqhNmrsyaS+Zl2+SrwasuVcovXVL4JHE64+47jQeav5JqLGey3qH0K1
+         bkp1EzvqtchTB7id9NJt6JXJBs+ksmGeVDzjtn2P4RI/tmPFoaKlCWjyNqWgRZkgbC+8
+         Y2jlVs3yzVN8u6rnO3F3fzTBM0sJrw7fmDpC6OME8jWqw6UTAv4WKhyBjK/FwcXI0J1n
+         G+4ANPldvce+gqtLcQyj3vPY2H2PRJvvi+lg6zwLK44MLMzPSGJs/46zm/VPgJT2DKhc
+         0zlA==
+X-Gm-Message-State: ACrzQf3n5ZBR1zsoYDnKMXLBQZjZ4Gv8j438tygHvGSIxtZAPtxk82Qv
+	tHhKnm9KLNuNwWgnDlGbzV0=
+X-Google-Smtp-Source: AMsMyM7EErA8tHxPvzrZVcpD4tDFhNKSgLTGblrV/zcW9vCOr6QKeDAhLbttK1YYZeyphS7cjxvfow==
+X-Received: by 2002:a17:90b:4d0e:b0:1f7:ae99:4d7f with SMTP id mw14-20020a17090b4d0e00b001f7ae994d7fmr49029090pjb.200.1667499261396;
+        Thu, 03 Nov 2022 11:14:21 -0700 (PDT)
+Received: from ?IPV6:2620:15c:211:201:881a:8a80:fdae:8683? ([2620:15c:211:201:881a:8a80:fdae:8683])
+        by smtp.gmail.com with ESMTPSA id q17-20020a17090311d100b00178b77b7e71sm958760plh.188.2022.11.03.11.14.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Nov 2022 11:14:20 -0700 (PDT)
+Message-ID: <84af9938-81bc-7c58-2210-7da935312d6a@acm.org>
+Date: Thu, 3 Nov 2022 11:14:17 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|BN9PR12MB5289:EE_
-X-MS-Office365-Filtering-Correlation-Id: dc286e7e-e52e-47a1-c078-08dabdc0fc5c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	tmRMDhxsZFm3oEmSUvAvUfIHlbFlAFzj+4m3ockQKg/lfnXuYFnN2y9GstuwzJOHYB3DyrLVvpoPm2wGbWPTg6UxiFEp5ITSbnJXSwCPv/PEiByYPoDftS0bKLUoKxEAXMqNSucSLwYMt2ZITaSr95slZdTT860nhGI1F5Ng+H9h5gAY3kYo81dO0UJvjBidmVbcwtoQQ3Kylf8npyPEwM1q9FFsZmFLyZzrQt3vOBCF46bB43tehRRKk+3Q/1480DCNHxThuqi3m+2FPRaDrTC71OADskA5LxWrvt/9Ngu9U54MMrrMKakq2RlVIl6uMJbAUjZJA1FNclk5r9ts2x10an2AQuRC1E64ydGNhsr2+T++oD9jQY2b5xMFL/Ow9l52ZUvHgYu1XcnvVwXMuzmc59rv0F66/Z5jC2d6hLCzl/sc7mqaRRu9JMIGBUPo62IeayaT8Fds/1IiZZP2TyEZwO0gBHfE2Cn1dvUABGOawadDLtODqOviuWTUWnv2TY6KxKn9Wxo9mlgw0APqF4zVSUMsYmDxxPCDb6Jj+hdUTBMJ/WriTGnlU73oVq1kby6kWi88Xn8U6XpjDElHQUIk77DfVy09vz5aczCxXPubpGJCQ1e2WE3Z4CK6kFyAdSvQYiHmIcMNylNW8Ko2RhbhGRl7RXzNX+KPOgFKjhFDtNHDHEy8hU7l6dJkW8H9RoT67PUjC02Hll8T0OLh77AcY2RGpLYiW9a+/ISuW1IWsYL7eOjnf6XqS53W2JDA
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(136003)(346002)(396003)(39860400002)(376002)(451199015)(478600001)(8936002)(5660300002)(9686003)(6512007)(6486002)(41300700001)(83380400001)(26005)(7416002)(6666004)(2906002)(316002)(38100700002)(86362001)(66946007)(66476007)(8676002)(4326008)(66556008)(6506007)(54906003)(110136005)(186003)(21314003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?FGHRgiyo1c1WWLTngRI7nJ+ED9B4wjgaAdc8HMtBjRFFLuyZlKXLje/6vS7M?=
- =?us-ascii?Q?ws7L6hSNx8MfsA5SkZKOB7OXIxvNuNPImQaKhHz/4zABd5KCI0SfsUYu1pSN?=
- =?us-ascii?Q?f4wI18gCPR4vPo5LjOgVW0KH1U/+e4IsCI4ZfwsVlyNwf1EcxPVeA46OGEYF?=
- =?us-ascii?Q?VPrwgNjYQRYJB49vuhXru5AkLzpYqyIqdkz8FCHbu3xj+nkM6jErtL4p9QQQ?=
- =?us-ascii?Q?mJiTwmO5jVbVfeYcNP+2nAyMumSvIS2wmz6Jiy/szrba/l20178h3Th8NXQo?=
- =?us-ascii?Q?slTcJDtpH7KSDFf97QPpq9xgvTrkq4QsrLamVEIi+ScjMv7ZEe535phqKaJs?=
- =?us-ascii?Q?w6ieQHD9wTMRTBQonbYZHPgndVgFj8YjWlGH3eUYr5lyTdq1VXS4BN6zzkoG?=
- =?us-ascii?Q?1eNZwBAOfJ8NPM0rd3CeTOlR4nNWlq1jTBGtEnmRGyulQILdznQia9lmGISz?=
- =?us-ascii?Q?lwO6Jxclit9hb20UysSe9R3ymbuY9gu7dOtFQXD0fK/2uRYhZ2kylLWf2sJi?=
- =?us-ascii?Q?IActfzog1leV41V2eJmq3StziziN5o5qS0SoKPuwfe058qleuzmxAFuc0EpL?=
- =?us-ascii?Q?Sj9aY7sS95EYYea+E1ReQPWFcFSrbrn3M5E205aXlTvDm2ZM4Fqj/z05lScH?=
- =?us-ascii?Q?awA+2/lOzDLCAIxa8NczaBhe8Dcs5vSG6MaHYc1C908lEOJaj/9UH5IH4+T4?=
- =?us-ascii?Q?aNcwJMDnSNsOg7q3rDqNK18F0+PwgvvmMXLKSBftb0NpfN7lrgkd97YEFSI4?=
- =?us-ascii?Q?2jwedV5ZwSIrSY6VFgbNXdCV57SD4Iryfkc3tr3einI6y3IbCiduaQajt/zt?=
- =?us-ascii?Q?tpVVzJMQURrdBzJ/seeRCIQAL1MsTK7mVALOwAYLh03ncfaFDEuzvHrLejJw?=
- =?us-ascii?Q?sZjeIWeXB5yTKdRu/t1BLHbDH9JMvPHpCRpph2mNs6jknUs6s1dyGFORSpWf?=
- =?us-ascii?Q?t9XcfrlPrxctFfO+WofD4m6P4tKGmeK4fA56fY8qGtf14xXcpDKH0GhZ5WdR?=
- =?us-ascii?Q?tAwNQkD4a8fYGkn0ZTEFHeZ1u7+AGo5S7oqcC467VVCrJst5QqcMCwPBVadB?=
- =?us-ascii?Q?jhgB+56sUUr1eZzAaMemW7oYhWBaOL7DQ3AABn+H5M7iyDUqI4UBarlSaHy+?=
- =?us-ascii?Q?NKPE3NlT3VMCwZ48BiUQN6/Eac2e7DwhNpgJdKQQB5oJOPpsWaU8WY4JojQj?=
- =?us-ascii?Q?Uvv/zJXKV2lc6PL0HazG2/VBveuacteMtzARhWA0ZDTD14SsjfTJSlD7YrII?=
- =?us-ascii?Q?OKD74HxVPvSzjtCzcCepIhkbrtm5tjcc4m3lGs2xDfz1Hc34sb4USsrh7jvD?=
- =?us-ascii?Q?rmvhr0Sfiw9/35VrqPAY8iffO+JwkKZWVOK0+GkYR7Jcj+pE5lAq3/QG7ikQ?=
- =?us-ascii?Q?1i/3p76tkNP19q44sOnkZS7bRKyd6ZKq65UVOHDr1aXu4eEkOA51UeIQISpr?=
- =?us-ascii?Q?0TmYURDOQv624+/SFD7EXbtbFy9cIinsikFMtyW1LDhU7GMJRs2eIqyS+2Bx?=
- =?us-ascii?Q?a/RNcFi1BHXUyUrCPQINaafrPwtoR+GJu/Dp2PcDcsZcwtHLQXzGIq4SnIsA?=
- =?us-ascii?Q?eNU874aax+cNLcJ1zZpP9v8O5iNTXHBdEQ2DCJYi?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc286e7e-e52e-47a1-c078-08dabdc0fc5c
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2022 17:29:39.2747
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Bdh/8d7Ncpl46JDTfSCmGCd1B5/zzENXvoPBwl3IzvyT2yJZNxiUqo0HFOaj2LHRpSfHOlalwqoKzQaOAA9pnA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5289
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v3 03/19] scsi: Move sd_pr_type to header to share
+Content-Language: en-US
+To: Mike Christie <michael.christie@oracle.com>, hch@lst.de,
+ martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+ james.bottomley@hansenpartnership.com, linux-block@vger.kernel.org,
+ dm-devel@redhat.com, snitzer@kernel.org, axboe@kernel.dk,
+ linux-nvme@lists.infradead.org, chaitanyak@nvidia.com, kbusch@kernel.org,
+ target-devel@vger.kernel.org
+References: <20221026231945.6609-1-michael.christie@oracle.com>
+ <20221026231945.6609-4-michael.christie@oracle.com>
+ <0123db70-6217-135a-4101-0609512e723b@acm.org>
+ <7b8cdc82-0aca-2f41-2eed-299dacf95771@oracle.com>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <7b8cdc82-0aca-2f41-2eed-299dacf95771@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221103_102947_325955_EBE35544 
-X-CRM114-Status: GOOD (  14.58  )
+X-CRM114-CacheID: sfid-20221103_111422_715696_72D9CC85 
+X-CRM114-Status: GOOD (  18.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -147,117 +86,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Jakub,
+On 11/2/22 19:13, Mike Christie wrote:
+> On 11/2/22 5:47 PM, Bart Van Assche wrote:
+>> On 10/26/22 16:19, Mike Christie wrote:
+>>> +static inline enum scsi_pr_type block_pr_type_to_scsi(enum pr_type type)
+>>> +{
+>>> +    switch (type) {
+>>> +    case PR_WRITE_EXCLUSIVE:
+>>> +        return SCSI_PR_WRITE_EXCLUSIVE;
+>>> +    case PR_EXCLUSIVE_ACCESS:
+>>> +        return SCSI_PR_EXCLUSIVE_ACCESS;
+>>> +    case PR_WRITE_EXCLUSIVE_REG_ONLY:
+>>> +        return SCSI_PR_WRITE_EXCLUSIVE_REG_ONLY;
+>>> +    case PR_EXCLUSIVE_ACCESS_REG_ONLY:
+>>> +        return SCSI_PR_EXCLUSIVE_ACCESS_REG_ONLY;
+>>> +    case PR_WRITE_EXCLUSIVE_ALL_REGS:
+>>> +        return SCSI_PR_WRITE_EXCLUSIVE_ALL_REGS;
+>>> +    case PR_EXCLUSIVE_ACCESS_ALL_REGS:
+>>> +        return SCSI_PR_EXCLUSIVE_ACCESS_ALL_REGS;
+>>> +    default:
+>>> +        return 0;
+>>> +    }
+>>> +};
+>>
+>> Please leave out "default: return 0;" from the switch statement and add "return 0;" after the switch statement. That will make the compiler emit a warning if a value is added in enum pr_type but not in the above function.
+> 
+> Did you want that compiler warning functionality in the future code
+> or are you asking me to do the above only if we go the switch based
+> route?
+> 
+> Chaitanya requested me to make this array based in nvme/scsi. For this
+> approach, I can add a WARN or printk warning if the pr_type passed in
+> does not match a value in the array. I don't think I can do a compiler
+> warning though.
+> 
+> I didn't care, but I think the compiler warning route might be better
+> though.
 
-We came up with 2 designs for controlling the ULP DDP capability bits
-and getting the ULP DDP statistics.
+Hi Mike,
 
-Both designs share some concepts so I'm going to talk about the common
-stuff first:
+Although I do not have a strong opinion about this, keeping the switch 
+statement and moving the return statement out of the switch statement 
+has the advantage that the compiler will warn if the switch statement is 
+incomplete. I don't think that a similar warning would be emitted if the 
+switch statement would be converted into an array lookup.
 
-We drop the netdev->feature bit. To fully disable ULP DDP offload the
-caps will have to be set to 0x0.
+Thanks,
 
-In both design we replace the feature bit with a new field
-netdev->ulp_ddp_caps
-
-struct ulp_ddp_cap {
-        bitmap caps_hw;     // what the hw supports (filled by the driver, used as reference once initialized)
-        bitmap caps_active; // what is currently set for the system, can be modified from userspace
-};
-
-We add a new OP net_device_ops->ndo_set_ulp_caps() that drivers have
-to provide to fill netdev->ulp_ddp_caps.caps_hw.  We call it around
-the same time as when we call ndo_set_features().
-
-Interfacing with userspace is where the design differs.
-
-Design A ("netlink"):
-=====================
-
-# Capabilities
-
-We can expose to the users a new ethtool api using netlink.
-
-For this we want to have a dynamic system where userspace doesn't have
-to hardcode all the caps but instead can get a list.  We implement
-something similar to what is done for features bits.
-
-We add a table to map caps to string names
-
-const char *ulp_ddp_cap_names[] = {
-        [ULP_DDP_NVME_TCP_XXX] = "nvme-tcp-xxx",
-        ...
-};
-
-We add ETHTOOL messages to get and set ULP caps:
-
-- ETHTOOL_MSG_ULP_CAPS_GET: get device ulp capabilities
-- ETHTOOL_MSG_ULP_CAPS_SET: set device up capabilities
-
-The GET reply code can use ethnl_put_bitset32() which does the job of
-sending bits + their names as strings.
-
-The SET code would apply the changes to netdev->ulp_ddp_caps.caps_active.
-
-# Statistics
-
-If the ETHTOOL_MSG_ULP_CAPS_GET message requests statistics (by
-setting the header flag ETHTOOL_FLAG_STATS) the kernel will append all
-the ULP statistics of the device at the end of the reply.
-
-Those statistics will be dynamic in the sense that they will use a new
-stringset for their names that userspace will have to fetch.
-
-# Ethtool changes
-We will add the -u|-U|--ulp-get|--ulp-set options to ethtool.
-
-   # query list of caps supported and their value on device $dev
-   ethtool -u|--ulp-get <dev>
-
-   # query ULP stats of $dev
-   ethtool -u|--ulp-get --include-statistics <dev>
-
-   # set $cap to $val on device $dev
-   -U|--ulp-set <dev> <cap> [on|off]
-
-
-Design B ("procfs")
-===================
-
-In this design we add a new /proc/sys/net/ulp/* hierarchy, under which
-we will add a directory per device (e.g. /proc/sys/net/ulp/eth0/) to
-configure/query ULP DDP.
-
-# Capabilities
-
-    # set capabilities per device
-    $ echo 0x1 > /proc/sys/net/ulp/<device>/caps
-
-# Statistics
-
-    # show per device stats (global and per queue)
-    # space separated values, 1 stat per line
-    $ cat /proc/sys/net/ulp/<device>/stats
-    rx_nvmeotcp_drop 0
-    rx_nvmeotcp_resync 403
-    rx_nvmeotcp_offload_packets 75614185
-    rx_nvmeotcp_offload_bytes 107016641528
-    rx_nvmeotcp_sk_add 1
-    rx_nvmeotcp_sk_add_fail 0
-    rx_nvmeotcp_sk_del 0
-    rx_nvmeotcp_ddp_setup 3327969
-    rx_nvmeotcp_ddp_setup_fail 0
-    rx_nvmeotcp_ddp_teardown 3327969
-
-I can also suggest the existing paths:
-
-- /sys/class/net/<device>/statistics/
-- /proc/net/stat/
-
-Or any other path you will prefer.
-
-
-We will appreciate your feedback.
-Thanks
+Bart.
 
