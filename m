@@ -4,64 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6AAFEC433FE
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Nov 2022 17:23:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80A9BC4332F
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Nov 2022 17:30:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VrBtgM7L/EMiyujqSzOf/4EdwnNKHGPhzY1olMdrw40=; b=Ux8U917KjJM9D/M63xL0oI5PRN
-	MyCAC6wMfhtMWuGizqktL/RdqmqyYU5rfFdkrg5sqviynKeSSltKIXDw9qKSdkoh1be9OBPWTfLfm
-	0cBu4iGOGho2FGGEoHEyaVYcC25tOzo5YLGym3PG0j54evA5ncEdBXxP0jSZSF6IiUjQ+a5PjdZ0t
-	M/BAhxThq39WZvLPSLFWZqWzBDrQEcH2+WMhEZq9BDsoBbZ5AbkwsFw2KpRYZWKyczX1xm/YKN76p
-	wCZqVb7OT0uqnRa3EZzTI8kFGxh+tKm2ejD7kCltLOUgnPOs+QqkFQR1HXpjuG/E194LQSFpQhGML
-	vysykn7A==;
+	bh=bWo0wICwvqJmPXPuoTpa5Ov9X6wNIXJjhaYFsJ+BGYo=; b=iSPZiIQ7O0OFXUTa4AXXQWdx/j
+	vKqpvYThz5iJOJ/X/o6bjzk7IM+9lnpUr4+AZCWu+UCFWnBFfzBvthsIHzGKV3Ny7pCwsBDeamJXn
+	2oMZ25fgzkvagzKLTL9xZhdCeS9McKhcOXHOBXf2L81IQMb4HHWoqCW2tBjuMEpsCU0IRKMNERNYi
+	7D8nXM2SNyFLPCFUnODapB198Q5gyx0Ovau+G4LibC0Ip1I/3W226IQmejP9UQntBNkylC4FoHEaK
+	9TkpNSdlhLjxjcc4LY/6xn0oJKU2bGZfTlxriHlGXeThJOFiy0iecn8g8rkk0ZcdRpGd5FPzxXX0W
+	0KAyM9Jg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osSK7-0070gt-Hn; Tue, 08 Nov 2022 17:23:43 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1osSQt-00727G-Hr; Tue, 08 Nov 2022 17:30:43 +0000
+Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osSK2-0070fi-HK
-	for linux-nvme@lists.infradead.org; Tue, 08 Nov 2022 17:23:39 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 6461FB81BAC;
-	Tue,  8 Nov 2022 17:23:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B956C433D6;
-	Tue,  8 Nov 2022 17:23:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667928215;
-	bh=hQg7NoKja9TGe1uumJQDYjviyfCTnfLxmswlsfS/doA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sSd+n7EE0MNX8tHp3LUL4qUnk/MPwMLUQgiWCVIl7kax2vTSV/3xCxAlRW5WHEC0x
-	 drPFNSZrYwOh7acWU1RUVu/qXRWXj4K9KBW5Gpl2ZOfmuZd4YCl9In1ysJNm99LCkc
-	 oeacoG/asj5IgNc8yKo5f5Bsa6JQ1oXUzq/3qyXApUv26+lD0D3qDGKgFaJA52Ub/J
-	 mHYT1nLia7/P3lq7RXvHJJVbPA66HFsULrud/EBTMd1GYrJhcfbLwHNfqCxnQOm5oO
-	 th7Hrptz99tmaYorsTtnWTlKcZq2xgZ0b8XhP46c+WMveHDJirW5AqfDfkqDMcl4/J
-	 kKcPWw5HxOhNA==
-Date: Tue, 8 Nov 2022 10:23:31 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Gerd Bayer <gbayer@linux.ibm.com>, Jens Axboe <axboe@fb.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	linux-kernel@vger.kernel.org, linux-next@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: Re: nvme-pci: NULL pointer dereference in nvme_dev_disable() on
- linux-next
-Message-ID: <Y2qQk/LuiNNdmdRD@kbusch-mbp>
-References: <fad4d2d5e24eabe1a4fcab75c5d080a6229dc88b.camel@linux.ibm.com>
- <20221108074846.GA22674@lst.de>
+	id 1osSQm-00726O-MB
+	for linux-nvme@lists.infradead.org; Tue, 08 Nov 2022 17:30:38 +0000
+Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-13bd2aea61bso17049358fac.0
+        for <linux-nvme@lists.infradead.org>; Tue, 08 Nov 2022 09:30:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=arista.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bWo0wICwvqJmPXPuoTpa5Ov9X6wNIXJjhaYFsJ+BGYo=;
+        b=inpZwFESW1ZamihaSqdrc9ChUddB6Fjv4GA30UUriCnKoWNZPua4c19i62HP0o9S2a
+         qEWl1Tp7GsrnEFR1/5QI1MAS9CF6nX/bGHjx3Lk5QfR6EB6Q4YqdByIEx0PYn5SGa4F6
+         qc1DldWyqPJs1pzLWEnAx3R6itk4Fxamd6ErGvU5koAuSn+3HgoI6MX7oPMDX7/w74tm
+         UT6a8EYtym0NbjYnsulw9YHXuHNzcvyt9X9t4SPqvrzBwcXYI7p1KW53k1KjJJlm9K5j
+         I8ZT1Pfs6P/hMgzIbRnAaI/9h9kNfTxXobMUivlUo2RcAV2ZL9egrsTRPtfB8LZiyNke
+         cETg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bWo0wICwvqJmPXPuoTpa5Ov9X6wNIXJjhaYFsJ+BGYo=;
+        b=4ZxZW05dP9QO4NLuMM1SKMlbljXbPGSB92GeToMZK5ORQWSOewrHUvHD3NRl9nOtvE
+         4113BCt9XR73vcbuRdOYmrMxKdWQ4aaYGHSh1UC4y+XR7Gw4delrKeFcdBLmHcqGWZPv
+         XuyYQRFUvGyMSvyeXV5ODyn2F3CJFOTdIuzFSB42iJF3Ay8gBV17db6RxPrqIAWtcrZz
+         NeH9j52PGRcCLpUut/+dao60Vj3RzaH404ZhStyLWI4iFGAJrZ41PA7u3tQGmhqXQI3I
+         iYOIgptirRYM0LR5JruNHZXlL+Qv1g/oU2mn4rOB+4yGPH6LXq3yAk8/ahtpSE4Uv1Uz
+         u6+A==
+X-Gm-Message-State: ACrzQf2Hg65XJX3FFlU3PbfMnsfA2+GnJetSF7KqkL6YlXXUkGA1+hex
+	cyF90McOtuNgbRU/7JIXxfCgQVqaRWbqWYB/Hn8asw==
+X-Google-Smtp-Source: AMsMyM5PyRLrb7aHWWG0mjHPxLyk0Yjif/RFNPSHYipaQZ54lZuk3GTphB97+yjXW9cIHwHIwpFjeA/4v43I8HrXxPY=
+X-Received: by 2002:a05:6870:3516:b0:13b:8bc3:1140 with SMTP id
+ k22-20020a056870351600b0013b8bc31140mr42724335oah.293.1667928635061; Tue, 08
+ Nov 2022 09:30:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221108074846.GA22674@lst.de>
+References: <20221108025602.E48005EC04F9@us226.sjc.aristanetworks.com> <Y2qJE2Bpbvnf5Ejb@kbusch-mbp>
+In-Reply-To: <Y2qJE2Bpbvnf5Ejb@kbusch-mbp>
+From: Francesco Ruggeri <fruggeri@arista.com>
+Date: Tue, 8 Nov 2022 09:30:23 -0800
+Message-ID: <CA+HUmGijWOvmt_+UZyc8bArdOYMecDUbwpMiSBBjnfJsLx6ofg@mail.gmail.com>
+Subject: Re: nvme: hung task in blk_mq_freeze_queue_wait
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	sagi@grimberg.me, hch@lst.de, axboe@fb.com
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221108_092338_733121_EB06FE5F 
-X-CRM114-Status: GOOD (  15.93  )
+X-CRM114-CacheID: sfid-20221108_093036_988249_80DD7C22 
+X-CRM114-Status: GOOD (  10.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,36 +84,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 08, 2022 at 08:48:47AM +0100, Christoph Hellwig wrote:
-> Below is the minimal fix.  I'll see if I sort out the mess that is
-> probe/reset failure vs ->remove a bit better, though.
+On Tue, Nov 8, 2022 at 8:51 AM Keith Busch <kbusch@kernel.org> wrote:
+> That is an old kernel, I think it'd be worth trying something newer to
+> confirm if this observation isn't already fixed. Specifically, it looks
+> like you have multiple namespaces timing out IO near simultaneously, and
+> causing a mismatched handling. That kind of thing was fixed after the
+> follow (plus some prior dependencies):
+>
+>   commit d6135c3a1ec0cddda7b8b8e1b5b4abeeafd98289
+>   Author: Keith Busch <kbusch@kernel.org>
+>   Date:   Tue May 14 14:46:09 2019 -0600
+>
+>       nvme-pci: Sync queues on reset
 
-This looks good to go. I vote apply for 6.1, and we should consider
-merging your larger refactor for 6.2 after more test/review.
 
-Reviewed-by: Keith Busch <kbusch@kernel.org>
- 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index f94b05c585cbc..577bacdcfee08 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -5160,6 +5160,8 @@ EXPORT_SYMBOL_GPL(nvme_start_freeze);
->  
->  void nvme_stop_queues(struct nvme_ctrl *ctrl)
->  {
-> +	if (!ctrl->tagset)
-> +		return;
->  	if (!test_and_set_bit(NVME_CTRL_STOPPED, &ctrl->flags))
->  		blk_mq_quiesce_tagset(ctrl->tagset);
->  	else
-> @@ -5169,6 +5171,8 @@ EXPORT_SYMBOL_GPL(nvme_stop_queues);
->  
->  void nvme_start_queues(struct nvme_ctrl *ctrl)
->  {
-> +	if (!ctrl->tagset)
-> +		return;
->  	if (test_and_clear_bit(NVME_CTRL_STOPPED, &ctrl->flags))
->  		blk_mq_unquiesce_tagset(ctrl->tagset);
->  }
-> 
+On Tue, Nov 8, 2022 at 3:29 AM Hillf Danton <hdanton@sina.com> wrote:
+>
+> Given blk_mq_freeze_queue_wait() in the call trace, another explanation
+> may be percpu refcount [1], which can be tested with the diff attached.
+>
+> Only for thoughts.
+>
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/block/blk-mq.c?h=next-20221104#n228
+>
+> Hillf
+
+Thanks Keith, Hillf, I will look into that.
+
+Francesco
 
