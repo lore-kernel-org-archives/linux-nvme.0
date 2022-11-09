@@ -4,81 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 165EEC4332F
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Nov 2022 07:35:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD715C4332F
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Nov 2022 07:37:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=krah5v5hQa09AzAQMK67GCqmsjLUCOZSSTAXZJl1k5A=; b=DvWm1veNil2vp4yWr5sTkPP6er
-	cOpOMo2EHUlRZzrFWQhJws5mF9c2Cm/NBLtggrg2kljjw0XlIl4XjTHOhzeYrFxSQZTUKszbG6v5i
-	99HHmumk5UKh2X6+ZaFkhmQ2nk2H66fxhI+mn4NNks0WwZfHY5lrR16c0oLOYKSRJfDrNhGIR8et8
-	R0Qfvtfgqlx06Ef58Y+sf1b5KsQstBC8qUSJHOOv8RsJ1FQbp80Eq5SqZ9Mcone378Pd+LC8GYh6Q
-	/WeNgWwGV/O4pE3yl2XPXtFjr0Xk+qBt7tnSG9eezr8d059MtbC1hGmIlmx8NdC1SUVgrV+sKTEFY
-	Gc0NCZCg==;
+	bh=tTDJuG1PdiZZc31iYkCVB3IapoVoel6ZtkH5AECYvgI=; b=YSI/q6SpNHIgyj1u/bqGW96McF
+	4g3JuZRV9IwNaFuN1aypwXkU8De5gqXcm44XzKxbs6z5o7PxX5tZkbp8+JCa/zgIgiD6ZPxG4fVm4
+	f7PEq4gAevML/WBJD1l4uJ1N+A6QqfnXGIfI1lkTIJD0CN19h2fsLsb6Har7GOyNtFHOk9UF8srb6
+	wmpwZOc2iC27UUKJmC71Akx7znEcRyDjxqU1NIh4G8F0+ELAqvL/2WUwfjujtMYHCnU6rdkZxUfsS
+	SpfLr6Fl1ab5EKud3A+sK9tn4YV16/7+DpqFO0P9OycQZBDt2HzHgZyvaH7m+9CDkqgnTnKqyNzfB
+	7V/w0Gng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osfcS-00BaA1-60; Wed, 09 Nov 2022 07:35:32 +0000
+	id 1osfeL-00Batd-E0; Wed, 09 Nov 2022 07:37:29 +0000
 Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osfcI-00Ba8c-PO
-	for linux-nvme@lists.infradead.org; Wed, 09 Nov 2022 07:35:24 +0000
+	id 1osfdh-00Baca-Dr
+	for linux-nvme@lists.infradead.org; Wed, 09 Nov 2022 07:36:54 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6B7C722458;
-	Wed,  9 Nov 2022 07:35:21 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 207E322458;
+	Wed,  9 Nov 2022 07:36:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1667979321; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1667979408; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=krah5v5hQa09AzAQMK67GCqmsjLUCOZSSTAXZJl1k5A=;
-	b=NN8TR2y6lvAK/v+x9avgeixxb8UGInItPoU9Z3SIU5010n5XcW1hxZPSr6ha/270VPlgri
-	Cpon0fGmDQM8XhOXrchhcEmCgWO9N4luz6qrzcpToYZX1AdbDjEZpn7YRLkdG0kXQHTN8n
-	y/1u7BUwyPhVXUgXW/g72XPTMfqLnPg=
+	bh=tTDJuG1PdiZZc31iYkCVB3IapoVoel6ZtkH5AECYvgI=;
+	b=dNJVX4tluaTVCdQA8cVZBGk8+wYz7u7gTgqvnNdRtL71zqcLxefh5saHAPRgzEvu1D7nzZ
+	KvX5DANHlOLLyI1AsyS2Z9fV4yuJLW0vxvNhA2est+8Ecx9Zl8dUQFroySS+y5eSO5D/Xg
+	uQyhqd4QXCjbtbC5KE5qSkIHXiezDUU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1667979321;
+	s=susede2_ed25519; t=1667979408;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=krah5v5hQa09AzAQMK67GCqmsjLUCOZSSTAXZJl1k5A=;
-	b=8S77V5ZLI3fTYhE3J36U8E8EaZI5OGxfJXan6zpwnPoDaYJY82fU/iOy7bJaZaVzhMvtQf
-	ecvqaZI6yvMz1jBg==
+	bh=tTDJuG1PdiZZc31iYkCVB3IapoVoel6ZtkH5AECYvgI=;
+	b=JyL+W9QhgLREUXAyS8eudpvaame6TVLhoSydkKmrv5Eoc+f1lq2G3plD2d8SkVu3z26ZXb
+	/tfBMQLMuw3nakBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4B51B139F1;
-	Wed,  9 Nov 2022 07:35:21 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EA850139F1;
+	Wed,  9 Nov 2022 07:36:47 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 5SevETlYa2MCNgAAMHmgww
-	(envelope-from <hare@suse.de>); Wed, 09 Nov 2022 07:35:21 +0000
-Message-ID: <578e71b7-e5e5-dde4-098c-4770c0b13d1a@suse.de>
-Date: Wed, 9 Nov 2022 08:35:20 +0100
+	id 3GydN49Ya2MANwAAMHmgww
+	(envelope-from <hare@suse.de>); Wed, 09 Nov 2022 07:36:47 +0000
+Message-ID: <4a0e8af7-47a7-7810-5b81-e430d354c9bb@suse.de>
+Date: Wed, 9 Nov 2022 08:36:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH 09/16] nvme-auth: clear sensitive info right after
- authentication completes
+Subject: Re: [PATCH 11/16] nvme-auth: no need to reset chap contexts on
+ re-authentication
 Content-Language: en-US
 To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
  Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
 References: <20221109034420.1000086-1-sagi@grimberg.me>
- <20221109034420.1000086-10-sagi@grimberg.me>
+ <20221109034420.1000086-12-sagi@grimberg.me>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20221109034420.1000086-10-sagi@grimberg.me>
+In-Reply-To: <20221109034420.1000086-12-sagi@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221108_233523_004267_6AE5E3F2 
-X-CRM114-Status: GOOD (  15.36  )
+X-CRM114-CacheID: sfid-20221108_233649_662465_1D2E7FF0 
+X-CRM114-Status: GOOD (  12.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,28 +94,16 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 11/9/22 04:44, Sagi Grimberg wrote:
-> We don't want to keep authentication sensitive info in memory for unlimited
-> amount of time.
+> Now that the chap context is reset upon completion, this is no longer
+> needed. Also remove nvme_auth_reset as no callers are left.
 > 
 > Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 > ---
->   drivers/nvme/host/auth.c | 2 ++
->   1 file changed, 2 insertions(+)
+>   drivers/nvme/host/auth.c | 13 -------------
+>   drivers/nvme/host/core.c |  4 ----
+>   drivers/nvme/host/nvme.h |  1 -
+>   3 files changed, 18 deletions(-)
 > 
-> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-> index 201f25267685..484315efa0b2 100644
-> --- a/drivers/nvme/host/auth.c
-> +++ b/drivers/nvme/host/auth.c
-> @@ -908,6 +908,8 @@ int nvme_auth_wait(struct nvme_ctrl *ctrl, int qid)
->   		mutex_unlock(&ctrl->dhchap_auth_mutex);
->   		flush_work(&chap->auth_work);
->   		ret = chap->error;
-> +		/* clear sensitive info */
-> +		nvme_auth_reset_dhchap(chap);
->   		return ret;
->   	}
->   	mutex_unlock(&ctrl->dhchap_auth_mutex);
-
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
 Cheers,
