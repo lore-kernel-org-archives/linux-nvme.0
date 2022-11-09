@@ -4,61 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A067C433FE
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Nov 2022 07:41:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CA37BC433FE
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Nov 2022 07:44:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BpS60wEc4ZLku1K3DC2yeSWX8GPj9//tB/fjOARAZv0=; b=IwXskg892d39Jf0CAwwRmV0F7e
-	ByyW7SzcvJDrsS/hYq9hLP+lgUekVWe0JPVEgBfn85OSfGYSOBjTEee4wsyTC+ApGjTzqxhjgQe6U
-	oVjEU2OpFG/VUiw448JXQpfyCs3dO7jKR4bimaK32uxODcYSEL3dmP0SecMvRNkP852WvbrggYn54
-	SLNXxRvPejdloJ1dqJ0eehpvM5B3S7qDjr6OhJg5ZMb3XrxculaloYjxtIyiN04aiUQLiC++uajeg
-	mFYgJ8WsJOk8st29zvWs4Q+05RkXTSQi/cMFpLk90lC0Rwt6Caoe7ewQr8fOstisubvSncOY7OBuP
-	HpxJwhYg==;
+	bh=b6Jq+WqltgHYDIE8h1uOgHbz6klPpXh5o/pVBvCWD3U=; b=UdKziSRaL0N/O9xL9rOYezWyOB
+	CV1NyZjO6tflGX/+YwyfjFAYBuE6PUf1b5+vmj+WNpbYuLGPzD5BbWglLSrF5jHuSXZ71m/L2j+n8
+	hAC6KlZizccWs/otqtSQ1fDHQkzyok9sqf4cizVcNtbpjBjUKPz6ruzaXVF/pLpPEgkTHzQ50Y1ey
+	HlGtaxgLb4v7cJl0Yn72KKc8fsFjv+LxLPxOr1v+GLWKO3ReIH+MPfDv7wEIa9EsPtH+ah3iHdKiw
+	zjx9yePD7Eodl3AI7ulWYEt65K6E9WGB9BC+OL0q+D4mt/0pV5ZIIM3enzLHcNcPVYdTHF/M8VtE8
+	nZG0NAlA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osfiF-00BeMR-4m; Wed, 09 Nov 2022 07:41:31 +0000
-Received: from szxga08-in.huawei.com ([45.249.212.255])
+	id 1osfkr-00BjOb-Hh; Wed, 09 Nov 2022 07:44:13 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osfi4-00BeHT-Fz
-	for linux-nvme@lists.infradead.org; Wed, 09 Nov 2022 07:41:23 +0000
-Received: from canpemm500002.china.huawei.com (unknown [172.30.72.53])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4N6cMr1cSmz15MVP;
-	Wed,  9 Nov 2022 15:40:56 +0800 (CST)
-Received: from [10.169.59.127] (10.169.59.127) by
- canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 9 Nov 2022 15:41:08 +0800
-Subject: Re: nvme-pci: NULL pointer dereference in nvme_dev_disable() on
- linux-next
-To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>, Gerd
- Bayer <gbayer@linux.ibm.com>
-CC: Jens Axboe <axboe@fb.com>, Niklas Schnelle <schnelle@linux.ibm.com>,
-	<linux-kernel@vger.kernel.org>, <linux-next@vger.kernel.org>,
-	<linux-nvme@lists.infradead.org>
-References: <fad4d2d5e24eabe1a4fcab75c5d080a6229dc88b.camel@linux.ibm.com>
- <20221108074846.GA22674@lst.de>
- <65f5d26b-b0af-f9c6-e77c-e82ac969e9f9@grimberg.me>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <d6845b29-dcce-4aaf-0093-b658bf6cdf32@huawei.com>
-Date: Wed, 9 Nov 2022 15:41:07 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+	id 1osfkl-00Bj0B-6M
+	for linux-nvme@lists.infradead.org; Wed, 09 Nov 2022 07:44:08 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A68B41F6E6;
+	Wed,  9 Nov 2022 07:44:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1667979845; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b6Jq+WqltgHYDIE8h1uOgHbz6klPpXh5o/pVBvCWD3U=;
+	b=WdtWevEs+6A4nTUwMoyTgYe4CDf2cvfjfL6WsYsQHKcNMqzUl80Sc0T8Zm/bpH33yf2qTQ
+	CGqA1nLjjmZbxs8n9t6gwNJlAbJcYmwAYcAsgPVpZaPdh+eiFOHgx1Ag+VGVjULD7dL5Rp
+	hbFjuhRGxcOGQ8EvhqdaE90QRgchbxM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1667979845;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b6Jq+WqltgHYDIE8h1uOgHbz6klPpXh5o/pVBvCWD3U=;
+	b=T+9oFbCQego/QtjkKpdefCnhzLB5MxA4q3fDBsXHRedAWmiT34e/I+3Z0QaMh7okIf6SE5
+	B3nDQ7YQ8rAm8/DA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6E873139F1;
+	Wed,  9 Nov 2022 07:44:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id Bsp6F0Vaa2NXOwAAMHmgww
+	(envelope-from <hare@suse.de>); Wed, 09 Nov 2022 07:44:05 +0000
+Message-ID: <098502b9-0021-1d17-7fe0-aef101bbb745@suse.de>
+Date: Wed, 9 Nov 2022 08:44:04 +0100
 MIME-Version: 1.0
-In-Reply-To: <65f5d26b-b0af-f9c6-e77c-e82ac969e9f9@grimberg.me>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 14/16] nvme-auth: have dhchap_auth_work wait for queues
+ auth to complete
 Content-Language: en-US
+To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+References: <20221109034420.1000086-1-sagi@grimberg.me>
+ <20221109034420.1000086-15-sagi@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20221109034420.1000086-15-sagi@grimberg.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.169.59.127]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- canpemm500002.china.huawei.com (7.192.104.244)
-X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221108_234120_736423_238F63D1 
-X-CRM114-Status: GOOD (  14.10  )
+X-CRM114-CacheID: sfid-20221108_234407_403385_0579E829 
+X-CRM114-Status: GOOD (  21.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,51 +93,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The check "if (!ctrl->tagset)" is just reduce the probability.
-
-The real reason is the race of probe and remove.
-It is similar with TCP and RDMA transport.
-Israel has tried to fix it.
-The detail:
-https://github.com/torvalds/linux/commit/ce1518139e6976cf19c133b555083354fdb629b8
-Unfortunately, this patch was reverted.
-
-If it is in the process of "probe", remove should not be called.
-Maybe we can move pci_set_drvdata to the end of nvme_probe.
-Of course, the removal may not take effect if it is in the process of "probe".
-This is why the patch of Israel is reverted.
-
-Perhaps the better option would be that "remove" wait for the "probe" to complete,
-and then do the real remove.
-This requires additional mechanism to implement this.
-
-On 2022/11/9 10:54, Sagi Grimberg wrote:
+On 11/9/22 04:44, Sagi Grimberg wrote:
+> It triggered the queue authentication work elements in parallel, but
+> the ctrl authentication work itself completes when all of them
+> completes. Hence wait for queues auth completions.
 > 
->> Below is the minimal fix.  I'll see if I sort out the mess that is
->> probe/reset failure vs ->remove a bit better, though.
->>
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index f94b05c585cbc..577bacdcfee08 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -5160,6 +5160,8 @@ EXPORT_SYMBOL_GPL(nvme_start_freeze);
->>   void nvme_stop_queues(struct nvme_ctrl *ctrl)
->>   {
->> +    if (!ctrl->tagset)
->> +        return;
->>       if (!test_and_set_bit(NVME_CTRL_STOPPED, &ctrl->flags))
->>           blk_mq_quiesce_tagset(ctrl->tagset);
->>       else
->> @@ -5169,6 +5171,8 @@ EXPORT_SYMBOL_GPL(nvme_stop_queues);
->>   void nvme_start_queues(struct nvme_ctrl *ctrl)
->>   {
->> +    if (!ctrl->tagset)
->> +        return;
->>       if (test_and_clear_bit(NVME_CTRL_STOPPED, &ctrl->flags))
->>           blk_mq_unquiesce_tagset(ctrl->tagset);
->>   }
+> This also makes nvme_auth_stop simply a sync cancel of ctrl
+> dhchap_auth_work.
 > 
-> Can we do that in the pci driver and not here?
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+> ---
+>   drivers/nvme/host/auth.c | 11 ++++++-----
+>   1 file changed, 6 insertions(+), 5 deletions(-)
 > 
-> .
+> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+> index 0159179c2455..e88d6254f2f5 100644
+> --- a/drivers/nvme/host/auth.c
+> +++ b/drivers/nvme/host/auth.c
+> @@ -924,6 +924,12 @@ static void nvme_dhchap_auth_work(struct work_struct *work)
+>   	 * Failure is a soft-state; credentials remain valid until
+>   	 * the controller terminates the connection.
+>   	 */
+> +	for (q = 1; q < ctrl->queue_count; q++) {
+> +		ret = nvme_auth_wait(ctrl, q);
+> +		if (ret)
+> +			dev_warn(ctrl->device,
+> +				 "qid %d: authentication failed\n", q);
+> +	}
+>   }
+>   
+Don't we need to clear the dhchap context here?
+
+>   int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl)
+> @@ -974,12 +980,7 @@ EXPORT_SYMBOL_GPL(nvme_auth_init_ctrl);
+>   
+>   void nvme_auth_stop(struct nvme_ctrl *ctrl)
+>   {
+> -	struct nvme_dhchap_queue_context *chap;
+> -	int i;
+> -
+>   	cancel_work_sync(&ctrl->dhchap_auth_work);
+> -	nvme_foreach_dhchap(i, chap, ctrl)
+> -		cancel_work_sync(&chap->auth_work);
+>   }
+>   EXPORT_SYMBOL_GPL(nvme_auth_stop);
+>   
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
+Myers, Andrew McDonald, Martje Boudien Moerman
+
 
