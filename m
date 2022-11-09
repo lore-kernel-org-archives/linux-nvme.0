@@ -4,80 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 887F0C4332F
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Nov 2022 17:36:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 862ADC433FE
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Nov 2022 17:37:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4kOlQN+dyBIib+I+w20DK4Z8Cth/v178u0BxJZjt/1k=; b=nnYPHpVa/bP8+93P5WrbMqOV5s
-	NMv+mjag2EY0XOcRQATQW54BW5DyGYlEZ33FwKQrRrx192vyIvvx9Dadni3vo5uv/+l9R1iCfYngL
-	g+KE95e1EzJhqa/s3Wkqic99bwQvrZNrmZ0LVE8/y6MnX1aOypvVE1A3v4c8zFBd7sSr7AFl+IU8w
-	DjMqYCkdidpRNDaWpTwALMp9bGdI7L1JG1uFzu649vCUlsO6i5d9DiW9NdUyfyI8bWuj8klxGshRW
-	epgx8DWbTM8B8fCKQuzFtD8AB686x/e/sID99fswTteUOL7pcXDtxn3uf9ewgJrsDtp6KGWLmw6U0
-	YXsFGT1A==;
+	bh=k6llfxhinC14v65EC9H3YLA0PjXg+aeSgA+YOVCCaw0=; b=mHa8FZ/Iok69NrIZSwQN4TJzBO
+	pzfyydXRj/ZW6TluryKyDMmUJE98OBNJHD4vvVG/KjIZ+yvIZOTVQrQ9+PMYMrg4EQkVkQldPjiHG
+	hM3HrfB2iPczzVXvgDGzoHCZWfQZDvhuXpBw8s1fHEw0Biph3aQZ1wMzV58rxDUKORsgGXA4Y5vTt
+	KdD/d7GGcgr4uzFnCGOeQ5KG5ODKRVwdrKXmVEp3L/HddzRgxCAfguRWOwzQmemFIWCKxNLg/dNlp
+	OaYbR1ef323vLOlJ67Beg2i2bzwcqqZ5UWVaarzsg85kV/5V17fmSWVPe0J5hjhvs8/cP5AvOy8gF
+	0Z+b2Jug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osp0L-00FcMY-7Q; Wed, 09 Nov 2022 17:36:49 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1osp1D-00FcsX-1W; Wed, 09 Nov 2022 17:37:43 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osp0I-00FcIb-IY
-	for linux-nvme@lists.infradead.org; Wed, 09 Nov 2022 17:36:47 +0000
+	id 1osp19-00FcpD-WC
+	for linux-nvme@lists.infradead.org; Wed, 09 Nov 2022 17:37:41 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B9D6622C40;
-	Wed,  9 Nov 2022 17:36:41 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0F4B922C49;
+	Wed,  9 Nov 2022 17:37:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1668015401; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1668015457; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4kOlQN+dyBIib+I+w20DK4Z8Cth/v178u0BxJZjt/1k=;
-	b=XOQoW+9ocZL9xARl0nlMcjaOvELyp266/piTS34HZ4ZQu2EYcvu/BhgTCRUENqJUuvd8Nd
-	7OdrgIIdvDKoTn8HAJS7KppcC24NKD4kcLYSv6n6nncXT2cT9iSdwXDYPuZR2ppWzy26IY
-	LHICrG3X16XMCo4xL05s/AWZZYFU064=
+	bh=k6llfxhinC14v65EC9H3YLA0PjXg+aeSgA+YOVCCaw0=;
+	b=R5ehzJPbeZ3UY0aIYs8a2W8SqWvK2ZrFjA8fAgG6Gsh2nH8gbBlmCfFpiAmv/fZj4WHbmY
+	6Tm5vyLhc+mWC7P2W4wNDZahG4IsqXrqFhpopVgFx4L3LNLJlYlo2l0KPfyjv6iH098wHZ
+	RUxtxrBTYQkMVZ5SrU2v/a9/kLna0/U=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1668015401;
+	s=susede2_ed25519; t=1668015457;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4kOlQN+dyBIib+I+w20DK4Z8Cth/v178u0BxJZjt/1k=;
-	b=AyIvSWAZxNgs/4f8s2kYkfTfwmR/9ZoGlkeq5mqqCePSf3QK4Xe0c9tj+TL50+xaVINxcR
-	AtDDtwqGm9vNGOAA==
+	bh=k6llfxhinC14v65EC9H3YLA0PjXg+aeSgA+YOVCCaw0=;
+	b=tvi4kl5j2Pnlbbz8Rp6eIdeGJOomjVGScGGZ8tHsMv0aa3A/RjkKdpGnf7WVTRbQ/vrTWx
+	PMHZR73/l2gJotAw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4B187139F1;
-	Wed,  9 Nov 2022 17:36:41 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id ACA78139F1;
+	Wed,  9 Nov 2022 17:37:36 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id K6BJDynla2N8FwAAMHmgww
-	(envelope-from <hare@suse.de>); Wed, 09 Nov 2022 17:36:41 +0000
-Message-ID: <b89d0a81-4375-9763-1791-9cb4e3be49da@suse.de>
-Date: Wed, 9 Nov 2022 18:36:40 +0100
+	id CbL2JmDla2PsFwAAMHmgww
+	(envelope-from <hare@suse.de>); Wed, 09 Nov 2022 17:37:36 +0000
+Message-ID: <632d861c-a763-77fa-59bd-11a003504815@suse.de>
+Date: Wed, 9 Nov 2022 18:37:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH 04/16] nvme-auth: remove redundant buffer deallocations
+Subject: Re: [PATCH 08/16] nvme-auth: don't keep long lived 4k dhchap buffer
 Content-Language: en-US
 To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
  Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
 References: <20221109034420.1000086-1-sagi@grimberg.me>
- <20221109034420.1000086-5-sagi@grimberg.me>
+ <20221109034420.1000086-9-sagi@grimberg.me>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20221109034420.1000086-5-sagi@grimberg.me>
+In-Reply-To: <20221109034420.1000086-9-sagi@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221109_093646_811990_5CADF101 
-X-CRM114-Status: GOOD (  11.82  )
+X-CRM114-CacheID: sfid-20221109_093740_237396_2E9652AE 
+X-CRM114-Status: GOOD (  13.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,14 +93,15 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 11/9/22 04:44, Sagi Grimberg wrote:
-> host_response, host_key, ctrl_key and sess_key are
-> freed in nvme_auth_reset_dhchap which is called from
-> nvme_auth_free_dhchap.
+> dhchap structure is per-queue, it is wasteful to keep it for the entire
+> lifetime of the queue. Allocate it dynamically and get rid of it after
+> authentication. We don't need kzalloc because all accessors are clearing
+> it before writing to it.
 > 
 > Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 > ---
->   drivers/nvme/host/auth.c | 4 ----
->   1 file changed, 4 deletions(-)
+>   drivers/nvme/host/auth.c | 27 +++++++++++++--------------
+>   1 file changed, 13 insertions(+), 14 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
