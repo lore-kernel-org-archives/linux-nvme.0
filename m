@@ -4,70 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C61E4C433FE
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Nov 2022 03:51:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0925C433FE
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Nov 2022 06:21:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ra2BTy+b4bd8Xw9UWnK+BHvDsh7x8lOOkK8hYoGb6ug=; b=AfCzYQjAS5GFzFAHUCb7c+pTc6
-	hcUzd8Vif7HYyn2YVgaVCReTRpbMnCFoMk5zJKAE3QNwmvupU2oKYB09KmYBxgWIcL7TX36XbpKCr
-	000thGUJgq/u7zDw7QgKlcd4HUMHRcEI0Dk7EHqn8eAM9YKug+HfiLz0tBPSslWSJ9VcYyxOugic8
-	B49RbKmywcjBnJ8EVfUA4VJaQGLTbbOlHRUAUxEXT6IE0cVB1l/UlI/hqKEXEu2dxPNZfWyeo2Hmg
-	GsnCFdIwSSLDLyPJo0sr7H0RbFAx4I6Hx7LJbfa8x/0hkEoeic12QfJSN09L7TwFcNyjHFD+Ihm0H
-	wCTcpidw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wYJT4SSAWZ3yO4LbgN35yeFQWA0Xc1NaS26FOMl7Nt8=; b=Q6OsNtZ0z9HUrdMaQtsFQ6lknB
+	g0uhqutOrKstb4xBHPfBYTuhmDn/13JDbJvBdXjxf4z+GbZa4pjjokby28/j+viAWiap1NtMFSOjd
+	HD3pAd5yGPdKM00pO3uS4+dZuOQ8zVtE2qFQqtOZ/XlCGZiAci0ZWsBFNEl9wHXS6dxczQTZu9r0X
+	o56Np5mW1qcigF+jZMhYDwIdpJUDb6P4WWRM4k6jp0K+d8/QXYQ/nwWD+5idCAzbyFe1zee2WIsOc
+	He7SL7vhw2wULwTEmjgy6VbgVfv5MQyN69JBqfF0oqssLmHw3hzo6+nyWdP+rgMAGorlArG3eMW1/
+	2tu2i4jw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osc77-00ARVd-Rq; Wed, 09 Nov 2022 03:50:58 +0000
-Received: from mail-pl1-f173.google.com ([209.85.214.173])
+	id 1oseSH-00B6Ww-4s; Wed, 09 Nov 2022 06:20:57 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osc3z-00APfa-JY
-	for linux-nvme@lists.infradead.org; Wed, 09 Nov 2022 03:47:44 +0000
-Received: by mail-pl1-f173.google.com with SMTP id b21so15941587plc.9
-        for <linux-nvme@lists.infradead.org>; Tue, 08 Nov 2022 19:47:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ra2BTy+b4bd8Xw9UWnK+BHvDsh7x8lOOkK8hYoGb6ug=;
-        b=okPFNON7WBAwsCCagnFPzuq1CzTtFaC1vQEQFHr11RUuN+j6OgBkrqu3sYFy1cZAw4
-         RqYPkoc+V2n7Vdqwj2blRomCL/ZtSJPPSXde/N/Vzr6+vr8o3Jv3dS6MSCd6gg8Qh+3/
-         vuYPf6R3y+kNhQAgGWXf4yIfHHbVKUfVWhQGHTlGIopbwFOIsBu/EMMAAR65Rm69r+ji
-         PCfIDcxcGCNsRgUDiHmEJWPsjHJ/bTfWVVXz/POfzcPKDMA13k0cPevfvRNxiUF9Fbl0
-         JcYNFr5/ywLeggh+kCRndcmSEZdn4Vvoav6gEdknOaFCqIQLshPWpEx69gr40wDN2t5h
-         5uEQ==
-X-Gm-Message-State: ACrzQf3a25o0SbFVRy94wZ3z2Qt9EsDyFkBQXrRSgp/KM2mDtlCsfRgm
-	K7zJEN9jqNjnAKfrCoZJFgc8vvDKgII1zDSI
-X-Google-Smtp-Source: AMsMyM6LHmIo1nlkFaZbvhQ6SgUvZIH4PyDisOKI3TGgwz7hFrv9kV7qseR4HpwYkyn1nn06om3vnw==
-X-Received: by 2002:a17:902:f7d3:b0:187:ecb:20d5 with SMTP id h19-20020a170902f7d300b001870ecb20d5mr55750700plw.101.1667965662215;
-        Tue, 08 Nov 2022 19:47:42 -0800 (PST)
-Received: from [172.20.3.206] (69-170-33-158.static-ip.telepacific.net. [69.170.33.158])
-        by smtp.gmail.com with ESMTPSA id b14-20020a170903228e00b00176acd80f69sm7772537plh.102.2022.11.08.19.47.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Nov 2022 19:47:41 -0800 (PST)
-Message-ID: <dc068a33-d71f-2d13-16c1-317e471a8574@grimberg.me>
-Date: Wed, 9 Nov 2022 05:47:40 +0200
+	id 1oseSA-00B6W0-L3
+	for linux-nvme@lists.infradead.org; Wed, 09 Nov 2022 06:20:52 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 1613B68AFE; Wed,  9 Nov 2022 07:20:43 +0100 (CET)
+Date: Wed, 9 Nov 2022 07:20:42 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Gerd Bayer <gbayer@linux.ibm.com>,
+	Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	linux-kernel@vger.kernel.org, linux-next@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: Re: nvme-pci: NULL pointer dereference in nvme_dev_disable() on
+ linux-next
+Message-ID: <20221109062042.GB10528@lst.de>
+References: <fad4d2d5e24eabe1a4fcab75c5d080a6229dc88b.camel@linux.ibm.com> <20221108074846.GA22674@lst.de> <Y2qQk/LuiNNdmdRD@kbusch-mbp>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 00/16] nvme: rework dhchap authentication host code
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>, Hannes Reinecke <hare@suse.de>,
- Keith Busch <kbusch@kernel.org>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-References: <20221109034420.1000086-1-sagi@grimberg.me>
-In-Reply-To: <20221109034420.1000086-1-sagi@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y2qQk/LuiNNdmdRD@kbusch-mbp>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221108_194743_714483_4AD5E8BB 
-X-CRM114-Status: UNSURE (   8.94  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221108_222050_852733_1B351E2A 
+X-CRM114-Status: GOOD (  11.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,15 +61,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Tue, Nov 08, 2022 at 10:23:31AM -0700, Keith Busch wrote:
+> This looks good to go. I vote apply for 6.1, and we should consider
+> merging your larger refactor for 6.2 after more test/review.
 
-> Currently the authentication code is fairly fragile with respect to
-> mutual locking between secrets sysfs override, re-authentication, and
-> controller resets.
-
-
-Title is misleading... not reworking the authentication code as a whole.
-just the arrangements of how the queue chap contexts are handled...
-
-A more appropriate title would be: few cleanups, fixes and enhancements
-to the host authentication code.
+The problem doesn't exist yet in 6.1, it is caused by the recent
+quiesce rework.
 
