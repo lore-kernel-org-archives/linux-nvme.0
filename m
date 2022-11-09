@@ -4,46 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6AFEC4332F
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Nov 2022 06:49:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0D44C4332F
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Nov 2022 06:52:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Hd0uuIpbXpsJ6eRYImuDBkSgxMZwKQNOHugu8ksIqp4=; b=qZ2oSph4GZTenitEFIsyF7bmdB
-	BcJ/EDiTR61r+o5Dmy/VReTCP8H+DnC3N86Bao3mfVlCM2hTwO1h2f6DDhaoeghCAMRSq9FB8Gaou
-	R4uk4n0HXioj6mCFA6TtWdjI6nE4e4qxpJCcjHxjEMwjiXFvube9nKSlyP32WTeiE4thM1njGUVIf
-	obRQjxAnuXfkqVD36OW1S2HijlmxQM6MwiWNnx8pDPRgvT83f/WBTdcpE8eJoT6wPN1XBiUrz741E
-	52/Qdt9+K4BrbaukxbumnYGbkurNmfzKbDbU+GUMN7lEZqUxOQ/OHFeJI35jexrQK83fNU0jJLLyB
-	dJVMNtVQ==;
+	bh=L/kW3hW/JLJ5rYFCmkNDoXuNuqGLUECbxUXaHiQwyJU=; b=XeGvMrKKpyQU0cZgpFdG9TXfyO
+	gx2b5LixuQpbqbLfcmeDYgbKVF4u2KfyjTeZQ4HyxsHlep3inUCxT6QFY/jLrrP2Z7/rSE2AK7UFy
+	63YDVpmkbBAvVa2r1aSqcjpYouVogttvyWDijy5kjIzLlvWoS87ETj+BXHgBfxAOPIBac8XuBD+W7
+	PbbWno8pfSLgIwA2R5bmZdeSJcPuIJXb7IEVI6r0drNwo7CdQYeb8oCfDrCQ+HqkO/pREB+5qvT+Q
+	mPsYYB71KgbqUQS1tef0NOx3+KjETLV3KCcKHOIeCP2uXbJf4erzYLQepimHG4lLCmjg1Xnfa8o+U
+	XUaGjNYA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osetW-00BMCp-GQ; Wed, 09 Nov 2022 06:49:06 +0000
+	id 1osewp-00BO7C-S2; Wed, 09 Nov 2022 06:52:31 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osetP-00BMC3-GZ
-	for linux-nvme@lists.infradead.org; Wed, 09 Nov 2022 06:49:00 +0000
+	id 1osewi-00BO5m-7V
+	for linux-nvme@lists.infradead.org; Wed, 09 Nov 2022 06:52:25 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 68F8B68BEB; Wed,  9 Nov 2022 07:48:55 +0100 (CET)
-Date: Wed, 9 Nov 2022 07:48:55 +0100
+	id 6CDED68D05; Wed,  9 Nov 2022 07:52:17 +0100 (CET)
+Date: Wed, 9 Nov 2022 07:52:16 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Subject: Re: [PATCH 12/16] nvme-auth: convert dhchap_auth_list to an array
-Message-ID: <20221109064855.GC10893@lst.de>
-References: <20221109034420.1000086-1-sagi@grimberg.me> <20221109034420.1000086-13-sagi@grimberg.me>
+To: Mike Christie <michael.christie@oracle.com>
+Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
+	martin.petersen@oracle.com, jejb@linux.ibm.com,
+	linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org
+Subject: Re: [PATCH 1/3] block: Add error codes for common PR failures
+Message-ID: <20221109065216.GA11097@lst.de>
+References: <20221109031106.201324-1-michael.christie@oracle.com> <20221109031106.201324-2-michael.christie@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221109034420.1000086-13-sagi@grimberg.me>
+In-Reply-To: <20221109031106.201324-2-michael.christie@oracle.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221108_224859_713607_EA200389 
-X-CRM114-Status: GOOD (  20.47  )
+X-CRM114-CacheID: sfid-20221108_225224_439071_31474070 
+X-CRM114-Status: GOOD (  26.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -58,62 +59,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> Make dhchap_auth_mutex protect only the ctrl host_key and ctrl_key
-> in a fine-graned lock such that there is no long lasting acuisition
-> of the lock.
-
-Can you split that part into a separate patch?  Right now the patch
-is a bit confusing because it does multiple things.
-
-
-> +#define nvme_auth_chap_from_qid(ctrl, qid) \
-> +	&((struct nvme_dhchap_queue_context*)(ctrl)->dhchap_ctxs)[qid]
-
-Please properly type dhchap_ctxs instead of the ugly cast here.  That
-also removed the need for the macro.
-functions instead of macros.
-
-> +#define ctrl_max_dhchaps(ctrl) \
-> +	(ctrl)->opts->nr_io_queues + (ctrl)->opts->nr_write_queues + \
-> +			(ctrl)->opts->nr_poll_queues + 1
-
-This overallocates in case the controller supports less queues than
-requested, but I guess that's not a big problem in practice.
-
-Also please make this an inline function to add type safety and to make
-it more readable.
-
-> +#define nvme_foreach_dhchap(i, chap, ctrl) \
-> +	for (i = 0, chap = (ctrl)->dhchap_ctxs; \
-> +	     i < ctrl_max_dhchaps(ctrl) && chap != NULL; i++, chap++)
-
-I find this macro a bit obsfucating.  There's only three callers anyway,
-and they only use chap 1, 2 or three times respectively.
-
-So I'd just loop:
-
-	for (i = 0, i < ctrl_max_dhchaps(ctrl); i++)
-
-and then do the dereference of >dhchap_ctxs in the loop.
-
->  			    void *data, size_t data_len, bool auth_send)
-> @@ -330,7 +338,7 @@ static int nvme_auth_process_dhchap_success1(struct nvme_ctrl *ctrl,
->  	struct nvmf_auth_dhchap_success1_data *data = chap->buf;
->  	size_t size = sizeof(*data);
+On Tue, Nov 08, 2022 at 09:11:04PM -0600, Mike Christie wrote:
+> If a PR operation fails we can return a device specific error which is
+> impossible to handle in some cases because we could have a mix of devices
+> when DM is used, or future users like lio only know it's interacting with
+> a block device so it doesn't know the type.
+> 
+> This patch adds a new pr_status enum so drivers can convert errors to a
+> common type which can be handled by the caller.
+> 
+> Signed-off-by: Mike Christie <michael.christie@oracle.com>
+> ---
+>  include/uapi/linux/pr.h | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+> 
+> diff --git a/include/uapi/linux/pr.h b/include/uapi/linux/pr.h
+> index ccc78cbf1221..16b856fb8053 100644
+> --- a/include/uapi/linux/pr.h
+> +++ b/include/uapi/linux/pr.h
+> @@ -4,6 +4,30 @@
 >  
-> -	if (ctrl->ctrl_key)
-> +	if (chap->ctrl_key)
+>  #include <linux/types.h>
+>  
+> +enum pr_status {
+> +	PR_STS_SUCCESS			= 0x0,
+> +	/*
+> +	 * These error codes have no mappings to existing SCSI errors.
+> +	 */
+> +	/* The request is not supported. */
+> +	PR_STS_OP_NOT_SUPP		= 0x7fffffff,
+> +	/* The request is invalid/illegal. */
+> +	PR_STS_OP_INVALID		= 0x7ffffffe,
+> +	/*
+> +	 * The following error codes are based on SCSI, because the interface
+> +	 * was originally created for it and has existing users.
+> +	 */
+> +	/* Generic device failure. */
+> +	PR_STS_IOERR			= 0x2,
+> +	PR_STS_RESERVATION_CONFLICT	= 0x18,
+> +	/* Temporary path failure that can be retried. */
+> +	PR_STS_RETRY_PATH_FAILURE	= 0xe0000,
+> +	/* The request was failed due to a fast failure timer. */
+> +	PR_STS_PATH_FAST_FAILED		= 0xf0000,
+> +	/* The path cannot be reached and has been marked as failed. */
+> +	PR_STS_PATH_FAILED		= 0x10000,
 
-How is this related to the rest of the patch?
+Nit: I'd movee the NOT_SUPP/INVALID to the end to follow the numerical
+order.
 
-> +		INIT_WORK(&chap->auth_work, __nvme_auth_work);
+Otherwise looks good:
 
-Btw, this really should lose the __ prefix in another prep patch.
-
-> +	}
-> +
-> +out:
->  	return ret;
-
-We can just drop the out label and return directly.
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
