@@ -4,70 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 992CCC43217
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Nov 2022 19:05:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BBF2AC43217
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Nov 2022 19:06:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=g9DSJDifwWvfnsu+wxUAYqktVLjY4wGwNWbv4WTUaWg=; b=IcpJe6vWzBX/JqpqNxzcVZjHqx
-	7lcDeu5txfiq3KtZxJUu3hTIflNx78aMS8MTivuMiIfFls9DzJcL/OETsbIavxz5InbZ5gUrAG9Wl
-	PIdUbhGxea0poMkrmDOijEe2tUVg3OZPSldjAXMEwDna85f90ZuVdWXNRzIgvLQ72UQPvVpP2ye7o
-	RSVgV0NuwDcdZKFLz7WoC9e7Q7qNc1x4/5vZk079GlV0+CbcimjgNLnudVDvg5zGyCQ9VaZ6dDa8e
-	ajDPDptH6q9BfpAZ4rTqk4QzGu3ojhYGdja+sJgZ5InOLrnh8O5YkpmkKU6PyJnhNZQmEUTHULL9W
-	bkZS+b0A==;
+	bh=MfF7QODFNkKjPhpM4hkjRLL0uKW/7KEu9TFlWTm6ybI=; b=NTdhEk/+kAs+OPQs5KrWQpzzoA
+	LH1U8887TRPvHWRoSNepW89LrBk1bmItn1zfsM4sJte+PBahv+2CeRAYzZnsjpDsEnQbxLuBw0FVW
+	ICrxvy+TwQtnaSDWmUnNUf8LIHoTSYsQwbk/mTqGe0UtuB63KuKRvusgSGUtscjXQ6iOHtFPyU2f7
+	knNiYzTTmhtVjtdkYoiaOF4BDuJcFlKsVtkxKENvyZr7OokgfjknHQPkl3+vSRUflp2PPRKzI/T/i
+	UEKEc3UmFRHknOr9Tqf0HE3MrGqllZg6xz2KfN2o9dtWpSOc773kWkMY0KCpJajFqFfwMb5OQqddo
+	Zy6XV2Fw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osqOO-00GS0f-2z; Wed, 09 Nov 2022 19:05:44 +0000
-Received: from mail-qv1-f47.google.com ([209.85.219.47])
+	id 1osqP4-00GSGw-Ug; Wed, 09 Nov 2022 19:06:27 +0000
+Received: from mail-qv1-f42.google.com ([209.85.219.42])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osqOK-00GRzo-Om
-	for linux-nvme@lists.infradead.org; Wed, 09 Nov 2022 19:05:42 +0000
-Received: by mail-qv1-f47.google.com with SMTP id i12so12954105qvs.2
-        for <linux-nvme@lists.infradead.org>; Wed, 09 Nov 2022 11:05:39 -0800 (PST)
+	id 1osqP2-00GSFg-AD
+	for linux-nvme@lists.infradead.org; Wed, 09 Nov 2022 19:06:25 +0000
+Received: by mail-qv1-f42.google.com with SMTP id i12so12955560qvs.2
+        for <linux-nvme@lists.infradead.org>; Wed, 09 Nov 2022 11:06:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=g9DSJDifwWvfnsu+wxUAYqktVLjY4wGwNWbv4WTUaWg=;
-        b=Jo6YOtgUl2qfbtqBC0E341Ght8fwt4HFDYPpKw6wbbvdsB3a9EjUmwda4seXScUPvg
-         HQsS9RDeFcMWFfetgzm9TGeHM16trVhbY+zVIafqTM6kXp0DtOdwuSph/A8yvUPZtZHE
-         ANWyPXbyGtMm7pUe5sCHjtzzpDp5BQ1GiTnSmgHrduq8RjxbprcSarQoNNNvdHDKcaFP
-         ErC2Ru+E7kmRAEp08S25I4Ns8NmHtAhucS9RPtVwCORHwLqq9hfKOB1pBAvZ6YDPIczw
-         //I8T4pCfvhy1DuQ33DeSe5/xVUS8tLyyy8nUGdl/k0eW9e0tZBKfrQfk5Mpbc6XzrX3
-         reow==
-X-Gm-Message-State: ACrzQf2Ht8xtfGg4fAikKs1tCAeOU+YOX+1DFBkXel6wmb+gBHOyWsFY
-	PgLfJCh/ZAsDMQI0H0ya634=
-X-Google-Smtp-Source: AMsMyM4m2q9Jt8PguQZHCJn07b//eHfiDPtGgCx2RgjFShdJUtAL4KdHUv/RSVTIh5Q/yPqv+96d0A==
-X-Received: by 2002:a05:6214:248c:b0:4b8:fbe7:35a0 with SMTP id gi12-20020a056214248c00b004b8fbe735a0mr56357270qvb.75.1668020739240;
-        Wed, 09 Nov 2022 11:05:39 -0800 (PST)
+        bh=MfF7QODFNkKjPhpM4hkjRLL0uKW/7KEu9TFlWTm6ybI=;
+        b=2D13opGNo0Ou+dPQQ+oMZ625o4D9fU/0CUAf09TfX1/bDiLPVOBNEyxpprpr49kdhQ
+         s1hwLD3/y/Tp6DEpk0Ag+/uTjW39OTnP1Wg8fkHSuW7RbC9HXmYy3IhI+mMQSleo1AfH
+         9Y1gjE2s81Eb7UAktgnAdYy1WtSFOb9tkMaCkeT7w1gpezIcW3KhC2DGcV1+EwTWQlGC
+         XqZPgqK0i5Xf59fO66HZXTbgwX4Ugj0Fr2Z+Nba0H+vfZdz4r9BZUVKKX6iQt82iriXw
+         aGBJSbec8TrTXWt0eSCeo3CrvTeASgKHa2Mx5afZ6ykesDg0xC1bcz2oMC/Mvpu2HeOB
+         S9Tw==
+X-Gm-Message-State: ACrzQf3rDSRGpgidMnq26B8kDOb+lgKneaIdncWzIABDF+euEz8Aqt2R
+	UhSHTetgrP5kXWgpHtMDPNg=
+X-Google-Smtp-Source: AMsMyM6WqswE5lACLN6aHed/lP0otu3PxuqEE26MvlVrBn6dlXLNakrJhzflDmCJ+Y3sfnBJ3Pxl9Q==
+X-Received: by 2002:a05:6214:5181:b0:473:1a26:99f6 with SMTP id kl1-20020a056214518100b004731a2699f6mr56109860qvb.47.1668020782789;
+        Wed, 09 Nov 2022 11:06:22 -0800 (PST)
 Received: from [192.168.82.40] ([108.95.161.27])
-        by smtp.gmail.com with ESMTPSA id k7-20020a05620a414700b006fa4cac54a5sm11953888qko.72.2022.11.09.11.05.37
+        by smtp.gmail.com with ESMTPSA id ga23-20020a05622a591700b00399ad646794sm10220627qtb.41.2022.11.09.11.06.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Nov 2022 11:05:38 -0800 (PST)
-Message-ID: <630b74b7-d22d-8d6e-52ba-68cee3d610c9@grimberg.me>
-Date: Wed, 9 Nov 2022 21:05:36 +0200
+        Wed, 09 Nov 2022 11:06:22 -0800 (PST)
+Message-ID: <d86b4e19-39dd-7c29-9d7e-345d331a2080@grimberg.me>
+Date: Wed, 9 Nov 2022 21:06:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
 Subject: Re: [PATCH 12/16] nvme-auth: convert dhchap_auth_list to an array
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>,
+ Keith Busch <kbusch@kernel.org>,
  Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
 References: <20221109034420.1000086-1-sagi@grimberg.me>
- <20221109034420.1000086-13-sagi@grimberg.me>
- <a0f2868a-26dc-3742-d1e8-8483b637d2dc@suse.de>
+ <20221109034420.1000086-13-sagi@grimberg.me> <20221109064855.GC10893@lst.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <a0f2868a-26dc-3742-d1e8-8483b637d2dc@suse.de>
+In-Reply-To: <20221109064855.GC10893@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221109_110540_821115_2695CE6D 
-X-CRM114-Status: GOOD (  18.75  )
+X-CRM114-CacheID: sfid-20221109_110624_378232_42C126B1 
+X-CRM114-Status: GOOD (  25.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,52 +83,73 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-
-On 11/9/22 19:40, Hannes Reinecke wrote:
-> On 11/9/22 04:44, Sagi Grimberg wrote:
->> We know exactly how many dhchap contexts we will need, there is no need
->> to hold a list that we need to protect with a mutex. Convert to
->> a dynamically allocated array. And dhchap_context access state is
->> maintained by the chap itself.
->>
 >> Make dhchap_auth_mutex protect only the ctrl host_key and ctrl_key
 >> in a fine-graned lock such that there is no long lasting acuisition
 >> of the lock.
->>
->> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
->> ---
->>   drivers/nvme/host/auth.c | 113 +++++++++++++++++++++------------------
->>   drivers/nvme/host/core.c |   4 ++
->>   drivers/nvme/host/nvme.h |   2 +-
->>   3 files changed, 65 insertions(+), 54 deletions(-)
->>
->> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
->> index 23d486284da9..b78e0df54f6c 100644
->> --- a/drivers/nvme/host/auth.c
->> +++ b/drivers/nvme/host/auth.c
->> @@ -46,6 +46,14 @@ struct nvme_dhchap_queue_context {
->>       (qid == 0) ? 0 : BLK_MQ_REQ_NOWAIT | BLK_MQ_REQ_RESERVED
->>   #define nvme_auth_queue_from_qid(ctrl, qid) \
->>       (qid == 0) ? (ctrl)->fabrics_q : (ctrl)->connect_q
->> +#define nvme_auth_chap_from_qid(ctrl, qid) \
->> +    &((struct nvme_dhchap_queue_context*)(ctrl)->dhchap_ctxs)[qid]
->> +#define ctrl_max_dhchaps(ctrl) \
->> +    (ctrl)->opts->nr_io_queues + (ctrl)->opts->nr_write_queues + \
->> +            (ctrl)->opts->nr_poll_queues + 1
->> +#define nvme_foreach_dhchap(i, chap, ctrl) \
->> +    for (i = 0, chap = (ctrl)->dhchap_ctxs; \
->> +         i < ctrl_max_dhchaps(ctrl) && chap != NULL; i++, chap++)
->>   static int nvme_auth_submit(struct nvme_ctrl *ctrl, int qid,
->>                   void *data, size_t data_len, bool auth_send)
 > 
-> Please use an xarray (cf my patch doing the same).
-> That leads to far better readable code, and avoid having to do weird casts.
-> 
-> Also, the claim 'we know exactly how many queues' isn't quite true, as 
-> we only know the _maximum_ number of queues. The controller can (and 
-> will) decrease this number based on the target configuration.
+> Can you split that part into a separate patch?  Right now the patch
+> is a bit confusing because it does multiple things.
 
-I don't want a dynamically allocated array, this pattern of first time
-allocates a context and the rest of the time reuses is less readable and
-causes interlocking.
+I couldn't find a way to split it in a way that won't have holes in
+it. I'll try to look into this again.
+
+>> +#define nvme_auth_chap_from_qid(ctrl, qid) \
+>> +	&((struct nvme_dhchap_queue_context*)(ctrl)->dhchap_ctxs)[qid]
+> 
+> Please properly type dhchap_ctxs instead of the ugly cast here.  That
+> also removed the need for the macro.
+> functions instead of macros.
+
+If I type it, nvme_dhchap_queue_context definition needs to move to
+nvme.h, is that fine with everyone?
+
+>> +#define ctrl_max_dhchaps(ctrl) \
+>> +	(ctrl)->opts->nr_io_queues + (ctrl)->opts->nr_write_queues + \
+>> +			(ctrl)->opts->nr_poll_queues + 1
+> 
+> This overallocates in case the controller supports less queues than
+> requested, but I guess that's not a big problem in practice.
+
+It isn't, we do the same with queues.
+
+> Also please make this an inline function to add type safety and to make
+> it more readable.
+
+OK.
+
+> 
+>> +#define nvme_foreach_dhchap(i, chap, ctrl) \
+>> +	for (i = 0, chap = (ctrl)->dhchap_ctxs; \
+>> +	     i < ctrl_max_dhchaps(ctrl) && chap != NULL; i++, chap++)
+> 
+> I find this macro a bit obsfucating.  There's only three callers anyway,
+> and they only use chap 1, 2 or three times respectively.
+> 
+> So I'd just loop:
+> 
+> 	for (i = 0, i < ctrl_max_dhchaps(ctrl); i++)
+> 
+> and then do the dereference of >dhchap_ctxs in the loop.
+
+I take it that you don't like the foreach iterator...
+
+>>   			    void *data, size_t data_len, bool auth_send)
+>> @@ -330,7 +338,7 @@ static int nvme_auth_process_dhchap_success1(struct nvme_ctrl *ctrl,
+>>   	struct nvmf_auth_dhchap_success1_data *data = chap->buf;
+>>   	size_t size = sizeof(*data);
+>>   
+>> -	if (ctrl->ctrl_key)
+>> +	if (chap->ctrl_key)
+> 
+> How is this related to the rest of the patch?
+
+Here the code is dereferencing ctrl->ctrl_key which needs to synchronize
+with sysfs driven modifications, but it has a queue chap context as 
+well, which does not need a lock. Hence I changed the condition.
+
+>> +		INIT_WORK(&chap->auth_work, __nvme_auth_work);
+> 
+> Btw, this really should lose the __ prefix in another prep patch.
+
+Yes.
 
