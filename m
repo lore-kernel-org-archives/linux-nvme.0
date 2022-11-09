@@ -4,61 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C569C433FE
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Nov 2022 20:44:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 237C1C433FE
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Nov 2022 21:04:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=h5Z4x4TrHEM0QGCxwCBnlIpqGJNZ0Ok9H59ynJJgwTE=; b=BIGgCB+aU/LtAajL6JtboK1TAa
-	crsl7D+DlaVB5aq4rMqj0L++IX8rWBi6SyTKAaP7mmQMxG3FnYsIsr3kKH+6JVeGKykqFZH3YLSdz
-	4G69+UIw6e85ma/8c7DTLIHA6gAjualxV9/oudBx86O+Bklsgjw6WrY9A8fvRgv3uZejBdxBpxRj2
-	VrA7OG8wbeyzqJtlGNnE6ruLh1dXFz/rwcnLu/gcZJfZy3A5Va0SD931Xf4pTwZnB0wNJu8t95sbE
-	58XpeMIzPRajRAG/Rtk8Z3knJoqx8L6SEqfUOXbC6UO3ipV2L+et9WBuuMlnyQ7j1RMVOeZv0cw8t
-	2UPJW7uQ==;
+	bh=/V0AJh/Q00CosyYGNGaYLGxfBnu7hrJvbYjJouhTFy0=; b=bJJ9KnngtdixYFXY0K98WBSgaE
+	/eHRT6f33TcbktUX0Nt1O9KO8NBBs7fZFf9bI/D3cfr2EG0zKDQoSjojrEXG1hOdyBO+GAnGQ7YaM
+	PztdVxfr5+CvOH0/pTPEQsY+gz+qzwUw5bEdHRq1EdGJ5vDEVIg7MZ+Hat+ZOM2oXy81AY2190Mip
+	U3uVNCrFJcX61+F+94UOZauShDJpuEcQpvLxm+ACKzrRbvrFsPXaIHY8QjCBTKEmps+UvYYyQTCJa
+	NmDJ2d6dbJPZN7im3qc6n0Q57ozyEsjJowiMk+8eNcmELi8z25avdQ2z+zTs5dLM5VSEYvhJC9d9/
+	ZEuSlGeA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osrvx-00H7d0-Fi; Wed, 09 Nov 2022 20:44:29 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1ossF4-00HISK-80; Wed, 09 Nov 2022 21:04:14 +0000
+Received: from mail-oi1-x264.google.com ([2607:f8b0:4864:20::264])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osrvm-00H7OT-Gl; Wed, 09 Nov 2022 20:44:19 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id F3681B81F78;
-	Wed,  9 Nov 2022 20:44:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1145AC433D6;
-	Wed,  9 Nov 2022 20:44:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1668026655;
-	bh=krm+75IOYB/iIhFh/VU9m61Q/TCK0v9yEKPn/PEB9xo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fbl0oWDNiPapNSR7NeSHk/ICzF6ywlXQzb+V/kH1H7MbuT6A3BBFNyFyCRWmEB48V
-	 kPVgAwXkhEJUy5p+RtbYrMu2cssFZiklqtTSlMHNfO4ss4qlx9dq0ErKbNUqKjYyVP
-	 FkkRQkx64oBvup3t/HeEj79VEHTNZabq2NlVwFqXxXWytKozx59vuHVnmMq7Ybv9uZ
-	 EHJSJYlvgOqiK/EqD3z4+4pcPhd0rO3prbHhr4X5GRtr71996U26feNRaBOEHPhJIc
-	 6uO2yEppYq+Lvk7uuA31bnwoFkn3dzAatP5247dYu8qR0BQubhx+W6mOPgbuGAJMvv
-	 IpAP+ekGh6Xyw==
-Date: Wed, 9 Nov 2022 13:44:12 -0700
-From: Keith Busch <kbusch@kernel.org>
+	id 1ossF1-00HIPY-6O
+	for linux-nvme@lists.infradead.org; Wed, 09 Nov 2022 21:04:13 +0000
+Received: by mail-oi1-x264.google.com with SMTP id b124so20171016oia.4
+        for <linux-nvme@lists.infradead.org>; Wed, 09 Nov 2022 13:04:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/V0AJh/Q00CosyYGNGaYLGxfBnu7hrJvbYjJouhTFy0=;
+        b=DZfkvEL5DA5h4a0fMdmP1qgjlz+xnUGa1eRx0DYseMHUDb11te8yyOxHJIaMZZmnPr
+         tDphbtsfYNNpHHqqHd2/5lJ+Wn+xPqowLnn5ucK2My3+KMF7Fq8q/CXGMv82tWrI89bw
+         PRxKu8ZYGfS7jJdqH2tP7IkJfnwyAcbActCe8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/V0AJh/Q00CosyYGNGaYLGxfBnu7hrJvbYjJouhTFy0=;
+        b=TeZzQmR6weq2nirl8yivM8AsFA2opT0ZAOZOquYt56T5IHg6eRyinpOcXWjHyfxnOi
+         Ri5Sgk8b3if08U2UrxC/XUtQxrPaLEStPfg6hL9sFSGwoqBP3DkrcsuMb+qTqhgPIFaQ
+         7cOjmDd5qnA2igRLCTQs7o0DWBN0HbwPM446YnJWVKq7wnNOlttOyp/ZJd4ywKz2rzIR
+         lRfVowa30NUrYbX08vetMlWHBpE9dOZTB/SO1FkAOSQxrwNFgpgpzMP07nioDXdnzlsN
+         F9BhN+Nh9+pDd5vsQXDX1qffpISB8ZNIolXavuAiEtCqaN1HqOCrHnuXMhOVetchOE4w
+         dGmw==
+X-Gm-Message-State: ACrzQf1hyyNHaLaBAM/FYatrNqsVpWeSuWAU0ES1xDr/u/c3+89QO4D/
+	gIpjmQhbMJm//FgvsSW5EfrOaiVOI1HwusRhQu7ZVbg5mTSQNj4fJpJ4MFbdg0eCxg==
+X-Google-Smtp-Source: AMsMyM6+EDeSNecN+lgL15ZIthNFBD4RvNQVcvpOEHsWZ5zXHGKPspsb9t/gejn2eq1IQ9HY4j+6nDZWRSvh
+X-Received: by 2002:a05:6808:da:b0:35a:595f:7fe9 with SMTP id t26-20020a05680800da00b0035a595f7fe9mr16694537oic.147.1668027847684;
+        Wed, 09 Nov 2022 13:04:07 -0800 (PST)
+Received: from c7-smtp.dev.purestorage.com ([2620:125:9007:320:7:32:106:0])
+        by smtp-relay.gmail.com with ESMTPS id jf4-20020a0568707b8400b0013193edfb20sm898686oab.37.2022.11.09.13.04.06
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 09 Nov 2022 13:04:07 -0800 (PST)
+X-Relaying-Domain: purestorage.com
+Received: from dev-ushankar.dev.purestorage.com (dev-ushankar.dev.purestorage.com [10.7.70.36])
+	by c7-smtp.dev.purestorage.com (Postfix) with ESMTP id CAEB4221B1;
+	Wed,  9 Nov 2022 14:04:05 -0700 (MST)
+Received: by dev-ushankar.dev.purestorage.com (Postfix, from userid 1557716368)
+	id C5605E40496; Wed,  9 Nov 2022 14:04:05 -0700 (MST)
+Date: Wed, 9 Nov 2022 14:04:05 -0700
+From: Uday Shankar <ushankar@purestorage.com>
 To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
-	Gerd Bayer <gbayer@linux.ibm.com>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 02/12] nvme: move OPAL setup from PCIe to core
-Message-ID: <Y2wRHHdAGHqJA/7Q@kbusch-mbp.dhcp.thefacebook.com>
-References: <20221108150252.2123727-1-hch@lst.de>
- <20221108150252.2123727-3-hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+	Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@fb.com>
+Subject: Re: [PATCH v2] nvme: scan sequentially only when list scan
+ unsupported
+Message-ID: <20221109210405.GA2659347@dev-ushankar.dev.purestorage.com>
+References: <20221107195443.2176099-1-ushankar@purestorage.com>
+ <Y2rpIJ9lSJYnb+GG@kbusch-mbp.dhcp.thefacebook.com>
+ <20221109062330.GC10528@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221108150252.2123727-3-hch@lst.de>
+In-Reply-To: <20221109062330.GC10528@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221109_124418_723642_B6636EC8 
-X-CRM114-Status: GOOD (  14.98  )
+X-CRM114-CacheID: sfid-20221109_130411_803993_ADF13565 
+X-CRM114-Status: GOOD (  18.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,38 +94,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 08, 2022 at 04:02:42PM +0100, Christoph Hellwig wrote:
-> -#ifdef CONFIG_BLK_SED_OPAL
-> -int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
-> +static int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
->  		bool send)
->  {
->  	struct nvme_ctrl *ctrl = data;
-> @@ -2198,8 +2197,21 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
->  	return __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, NULL, buffer, len,
->  			NVME_QID_ANY, 1, 0);
->  }
-> -EXPORT_SYMBOL_GPL(nvme_sec_submit);
-> -#endif /* CONFIG_BLK_SED_OPAL */
+On Wed, Nov 09, 2022 at 07:23:30AM +0100, Christoph Hellwig wrote:
+> On Tue, Nov 08, 2022 at 04:41:20PM -0700, Keith Busch wrote:
+> > Looks fine, but I really don't look forward to finding out how many
+> > devices, if any, were secretly relying on this fallback.
+> 
+> I'm a little worried as well.  Maybe we can whitelist a few status
+> codes as suggestions that a device might just be a broken.  I.e.
+> "NVME_INVALID_FIELD | NVME_DNR" would very much be an indicator of tat.
 
-It looks like you need to keep the #ifdef. The compiler knows it's not
-used without it:
+Can we get away with just testing for the DNR bit? The practical goal of
+this patch is to prevent fallback to sequential scan when the Identify
+NS List command fails for transient reasons, and I think the error code
+returned in such cases should not have DNR set.
 
-  drivers/nvme/host/core.c:2183:12: warning: 'nvme_sec_submit' defined but not used [-Wunused-function]
-   static int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
+> Also Uday, the return value from nvme_scan_ns_list can and should be
+> dropped now.
 
-> +static void nvme_configure_opal(struct nvme_ctrl *ctrl, bool was_suspended)
-> +{
-> +	if (!IS_ENABLED(CONFIG_BLK_SED_OPAL))
-> +		return;
-> +	if (ctrl->oacs & NVME_CTRL_OACS_SEC_SUPP) {
-> +		if (!ctrl->opal_dev)
-> +			ctrl->opal_dev = init_opal_dev(ctrl, &nvme_sec_submit);
-> +		else if (was_suspended)
-> +			opal_unlock_from_suspend(ctrl->opal_dev);
-> +	} else {
-> +		free_opal_dev(ctrl->opal_dev);
-> +		ctrl->opal_dev = NULL;
-> +	}
-> +}
+We'll want to keep the return value if we go with the above suggestion.
 
