@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57E62C433FE
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Nov 2022 15:51:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0DF44C4332F
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Nov 2022 15:56:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bsrzh8jzUE4SzLM4o3FKQ+VzLtBD9J4xN0fe1W93zJY=; b=TUthPHsBr7b1CGOuBDv8ZHCKQV
-	jLaKsrdZn8y44xtajpq5pG69e/hKD5nuMscdoW1ogFjXfvLoO31mEo7lAbjFLcYDJieC0mhrm5ld8
-	9coYjZvEX7PQTRLCUIc07g295z9mwOowoNJbAmrs90PkV2naB7oM3mNuN/2iCQKKP78LYHfsfl/e1
-	NyaRNIzX3Iz6iYaRqClvZEr9KEGChPMJXd6cHo1K4Y66vFPoEdZrnJE4bMsk/KiYWdZh2u3ki1/eg
-	AW26hpUb5NcS+aIYD7ifPvCQO8Kqb+uzr+3WN9ROla7xGMk2KCwosSderYoMla5xmqFntdM60+axL
-	Aq81cuvA==;
+	bh=RwsqoTrGIY7Tbo1kKMzZTENYWfctEw96MWDcSqkrqp4=; b=Jm0YrrFfE0KLbr6+3TcIazk0zp
+	zATtsGiOvxp6PHH/QibMXhFPkcQR8iYapOiijP78Z44Ou4aGPAv9cgrbu5Za1jacnEpWtc6c+EhLm
+	Bag8gnNEOmFWiAhpM21BizTlSg6E0DO2ZCFK7mUhr9UcHzf9BoGvhuaT5oiTYnk0GD/UshEfHJtkW
+	+K300yehV9gmDWwQpYSoltBcVomKx/+BIl69oGDaCMaf+yKsu5HNKzm7HwMz7FoWzdMPQuilrgxum
+	zfhoFf4FYeKRhwh2MWKVtw+kouCUf7hJMUV7X9LqES156gH8T7i+yP+TBprQp4YAIlqPBZ6welxCd
+	6qIfOPBA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osnMe-00Emik-Hl; Wed, 09 Nov 2022 15:51:44 +0000
+	id 1osnRX-00Eqeh-Qp; Wed, 09 Nov 2022 15:56:47 +0000
 Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osnMP-00EmVC-C2; Wed, 09 Nov 2022 15:51:30 +0000
+	id 1osnRC-00Eq4j-Tt; Wed, 09 Nov 2022 15:56:28 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id D017461965;
-	Wed,  9 Nov 2022 15:51:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0A03C433D6;
-	Wed,  9 Nov 2022 15:51:27 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 55F0561B7A;
+	Wed,  9 Nov 2022 15:56:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29E61C433D6;
+	Wed,  9 Nov 2022 15:56:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1668009088;
-	bh=Vk2ZZ3agqZ4nabmZlagJmePBsOimEQy2GQK/lbJ9HbA=;
+	s=k20201202; t=1668009385;
+	bh=RwsqoTrGIY7Tbo1kKMzZTENYWfctEw96MWDcSqkrqp4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XYCBDGte88HHfnc9cGKfhc2BNWmUwzzobQugNDgpGi+A7FsvBnngRJny6JgSifEDW
-	 m3fB2FtrOMtp9P7R903WZgliqDy0wKdZKDuJ7i7ms0kIvHSj/9IwkwQwfi9oIbm7zR
-	 QFkOe2mL1zOSeIRuzzmOL+bWCk19QxzORBHRAuXO2vIgLrgi5Dnmvvi6UCWphIUnri
-	 +5UTZyf0dss1mwfOVS1roY6btvw7nkFGaLSFbUHMtPrAn0xQ0OrGwp9KBKeRmOEANz
-	 g9lXuVFg7xVrFbtWxZFJn4If0Yfe4AlnLFTD9kGDxosB+WltXmwuvf72IThvfYfjOf
-	 kXqP23r47QyRw==
-Date: Wed, 9 Nov 2022 08:51:25 -0700
+	b=Tt9qOPnv0yhHWgfeZjeB6kHUPCbU1LzCrlKCugfOk7kHj/y4kndDjaWPe+Fci/Rug
+	 L8lShhHKYVUHkCYRRnfrCNu4pZgsvQ46EMrEAvXpxskUda02gSvQ9RlkuHLPUFlTHV
+	 n4eGiMDRwRtKaAAbZFNqXNPVfsmmYvp71Fxh/EbdjREic7FgW7hmvqT06IRSB9rqnx
+	 XDn2dGzstGdRA+idym+5Ec4rFswQTzgqHzhjnT8bhVJMf5X2mRjVT0oKbLqyL+myI1
+	 pMWAMwSaHiC8lL+Vk6zy810gEl7zFAZ6Kq3gg4udvl1wmrax00fVeKnszB7Wn+rPB5
+	 DbRaC8RDYu0Dg==
+Date: Wed, 9 Nov 2022 08:56:22 -0700
 From: Keith Busch <kbusch@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
@@ -50,7 +50,7 @@ Cc: Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
 	linux-nvme@lists.infradead.org
 Subject: Re: [PATCH 11/12] nvme-pci: split the initial probe from the rest
  path
-Message-ID: <Y2vMfSCjCj8sCMj/@kbusch-mbp.dhcp.thefacebook.com>
+Message-ID: <Y2vNpi050Yoe4EZ1@kbusch-mbp.dhcp.thefacebook.com>
 References: <20221108150252.2123727-1-hch@lst.de>
  <20221108150252.2123727-12-hch@lst.de>
 MIME-Version: 1.0
@@ -58,8 +58,8 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20221108150252.2123727-12-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221109_075129_465435_1C35CB87 
-X-CRM114-Status: GOOD (  12.61  )
+X-CRM114-CacheID: sfid-20221109_075627_114168_8AC3BA72 
+X-CRM114-Status: GOOD (  11.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,14 +75,10 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On Tue, Nov 08, 2022 at 04:02:51PM +0100, Christoph Hellwig wrote:
-> nvme_reset_work is a little fragile as it needs to handle both resetting
-> a live controller and initializing one during probe.  Split out the initial
-> probe and open code it in nvme_probe and leave nvme_reset_work to just do
-> the live controller reset.
+> To make sure the system isn't single threaded on enabling nvme
+> controllers, set the PROBE_PREFER_ASYNCHRONOUS flag in the device_driver
+> structure so that the driver core probes in parallel.
 
-By enabling the controller in probe, you are blocking subsequent
-controllers from probing in parallel. Some devices take a very long time
-to complete enable, so serializing this process may significantly
-increase a system reset time for one with even a modest number of nvme
-drives.
+Please ignore my previous message; I replied before getting to this
+part. :)
 
