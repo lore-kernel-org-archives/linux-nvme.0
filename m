@@ -4,60 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4C72C433FE
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Nov 2022 23:41:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3CCFC433FE
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Nov 2022 00:56:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ktrLRS3EgqqJUjUtw7+Pojudy6iobInKbsZzH1zKINk=; b=3WjhL9JrbmSfuCIsCu6f9jJira
-	pmWPa1WNcdAToKxbadsNsqsqMEfqs6Im0hEPyytrvPOezBzQXVkXXo3C2F8WcNauTzi1XumUCFNC3
-	1uilsKSPNp5LA9ZYealnnz0Hl8RFQwL44J9wdAs/3ZtpHdY44rHIPZ2aY7s7VdDLkXeifMChxoOgV
-	mZEEK+7MTbCApVjfbGmhhjQUivfnw2IWqHP56oCh4Hu8YiPEZutWCDytNtEI/3A4+YyKKExSqA6Ii
-	x9Uxtn38N/YBE6hWTEdk/x0RCjhPz1S0nd5W3Uk6O2mZ2KNt1cXDwHj1EUANX7kIFLL3ndAzFgVPN
-	Wzp+z5IQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
+	Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=BgwnROHdjL1x0uwJ8RwYRg+FuQv4vUf55wNMEXJyT4s=; b=VrSkY83k3ORT5hP3r4dg1V+z6v
+	WX5Km1hLUu+pSpG+ADMLvsUTeX6hmgr8kawFkVfLFHmqWs/p97HyLZSdYoN3zScs3kpggzbScNwbo
+	KLidws0gEFbM7edd/Cq0RbJ7/MCLvXEmYb5gwKb24w1W7j0g5PWXxN/vPyfQUokj+gPfHFz7xwqwa
+	7ajG43jZK9yBK/nf+XYqk5wMJi88AKVP49rHe0blRpgQ/tguKB4n5/F0FD8ryRiHA4sA1nlOz3Ok3
+	E26eoU5xZCPUFJIaZJ/oRslWntRWMvDEto2f3NRDHbzKEEr6y+ZFpBBv/HU6NYw8bNyUwsX1qb/X2
+	PgA7C40g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osYDm-009BvR-Qh; Tue, 08 Nov 2022 23:41:34 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1osZNw-009T1Z-Vt; Wed, 09 Nov 2022 00:56:08 +0000
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osYDe-009Bur-4S
-	for linux-nvme@lists.infradead.org; Tue, 08 Nov 2022 23:41:28 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 8C6E6B81BAB;
-	Tue,  8 Nov 2022 23:41:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB811C433C1;
-	Tue,  8 Nov 2022 23:41:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667950883;
-	bh=ktrLRS3EgqqJUjUtw7+Pojudy6iobInKbsZzH1zKINk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r4KlmyjvX/ROCp9ybS+2ZlpuP2Z9vWUUxnG3qc+wA1Q9sItWKwdO2lZ+jiIqDg9az
-	 aLuaS1BkxrtuTKvAU+rBKwIMpnKUset9B4bpWXoYdlpAk0ylBacRVWv8oFSsr7+neF
-	 KaUEuCQhAQJbRTFs9z0NhF3qCIIa0G3rjVD7B6cr6wmj76W43oyIqh8rIwqJfd1qSS
-	 TYJVVOyficn4TZrLf7l0gEQQBPQ02nySySEx93AsGW7Gv/OkYeQKyEZXCFInPa9e7I
-	 jPgXsbSOfd1Idi9IU/j/7Mk4ok3zDMZ45Ev0ryNk5Dr4bB4xDvUsx60UN5KT9Ovdca
-	 McZKykq8fmRvQ==
-Date: Tue, 8 Nov 2022 16:41:20 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Uday Shankar <ushankar@purestorage.com>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@fb.com>
-Subject: Re: [PATCH v2] nvme: scan sequentially only when list scan
- unsupported
-Message-ID: <Y2rpIJ9lSJYnb+GG@kbusch-mbp.dhcp.thefacebook.com>
-References: <20221107195443.2176099-1-ushankar@purestorage.com>
+	id 1osZNp-009T0s-8I
+	for linux-nvme@lists.infradead.org; Wed, 09 Nov 2022 00:56:02 +0000
+Received: by mail-pg1-x535.google.com with SMTP id 136so10995260pga.1
+        for <linux-nvme@lists.infradead.org>; Tue, 08 Nov 2022 16:55:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=BgwnROHdjL1x0uwJ8RwYRg+FuQv4vUf55wNMEXJyT4s=;
+        b=l23r9UhWgKjUXu0vgbuhSfu8hx5xOaMUJyp3BqkVu56Z5l/ilbYIhMyOoApO051c9N
+         vrsvuM02dCuM27FlgYVOOKS3jnNHpUss4xv0EebEy2j/zQ9O0pK0f4ZyvEstFdB7tttI
+         RA4AbBUmM1SLJClLHte6B1Ge+9P4vSbdvaDl2v1VL0an54a503b0A58hjngLM9GuRFJi
+         jL0TOSWcoAxRmrP2yXKUPxcgrFK9Ka7vWt8R0WfJDOD4/qD6OyZzMKHGj+flNc1NdXAZ
+         9LpFkWRl4IvDDqMQTgs+a4I8pFvRc/Cs1oGWYexij2TA35oRf5ZM4Dt0lpaAinZsLeh3
+         v3Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BgwnROHdjL1x0uwJ8RwYRg+FuQv4vUf55wNMEXJyT4s=;
+        b=YVmDaYEsclmcmWE5W43nA4sSpGTN+N05wZG706NQ2XpyDaMyFcWJKDLL+fWiDQzmfk
+         oRQIre6SuUYn175CgydypIgr/FZp2QTtfzaQKHGJfUiR9Vgl5jPiNF436xXDPc/u5I1M
+         oKuxVDPy82lv7JqrAHxpoPOCqvXtpDmoJlLyr91e+UK3agBXVyFiRjlo123rk1fiGGSy
+         qOmsnaXorwQqz0GeXx+VEnjtxkz8PaukjWHj4QJP7WxlhziZ03noWQ2EzZvtltPu+TOr
+         oCxAziyW7lgCXRbgSqsOoHOAYIXlOcHkIGClFWhRes70M4Czav39hDhx5FqVHcfFQlGC
+         pDqg==
+X-Gm-Message-State: ACrzQf1dKNDj3u56qjSdagOwvqUg9YayYgqd+tyZjmGSqFXYiUaL62+2
+	IMoqxxzTVAFekch1SOxpbZOuDibUa8yAsqtj4ehSf48j6fM=
+X-Google-Smtp-Source: AMsMyM7EBpnPriLS9oJwgXOnMvT9J+mzLsJW218dK37YGVkfzZmdNTECUOXptQ5yg7f7xTNXaejxgu+K1Go20y1QD1Q=
+X-Received: by 2002:aa7:9e1c:0:b0:56c:78fa:2a2 with SMTP id
+ y28-20020aa79e1c000000b0056c78fa02a2mr59321238pfq.65.1667955359317; Tue, 08
+ Nov 2022 16:55:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221107195443.2176099-1-ushankar@purestorage.com>
+From: Tiago Dias Ferreira <tiagodfer@gmail.com>
+Date: Tue, 8 Nov 2022 21:55:48 -0300
+Message-ID: <CAJuHpLb+TVvxfcdBTMGk__vmevUa-4ZmdqO00shNvwJkuzPovw@mail.gmail.com>
+Subject: nvme-pci: netac nv7000 has bogus namespace ids
+To: linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221108_154126_333402_D9D2E997 
-X-CRM114-Status: GOOD (  12.17  )
+X-CRM114-CacheID: sfid-20221108_165601_330071_97E73C8D 
+X-CRM114-Status: UNSURE (   5.06  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,18 +80,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Nov 07, 2022 at 12:54:44PM -0700, Uday Shankar wrote:
-> Currently, if nvme_scan_ns_list fails, nvme_scan_work will fall back to
-> a sequential scan. nvme_scan_ns_list can fail for a variety of reasons,
-> e.g. transient transport issue. And the resulting sequential scan can be
-> extremely expensive on controllers reporting an NN value close to the
-> maximum allowed (>4 billion). Avoid sequential scans wherever possible
-> by only falling back to them if nvme_scan_ns_list fails due to
-> controller non-support of Identify NS List. This breaks (noncompliant)
-> devices that claim to support version NVME_VS(1, 1, 0) or later, but
-> don't support Identify NS List. Such devices can be made to work again
-> using the existing NVME_QUIRK_IDENTIFY_CNS.
+Hello,
+I'm sending this commit to fix the issue where just the first nvme is
+detected due to bogus namespace ids poorly implemented by Netac:
+https://github.com/torvalds/linux/commit/3943eaeb9ac167ff6f8d099459ab158eb1fc8bdb
 
-Looks fine, but I really don't look forward to finding out how many
-devices, if any, were secretly relying on this fallback.
+Regards,
+Tiago Dias Ferreira
 
