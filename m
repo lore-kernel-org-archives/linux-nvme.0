@@ -4,68 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3CCFC433FE
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Nov 2022 00:56:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5C1DC433FE
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Nov 2022 02:54:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
-	Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=BgwnROHdjL1x0uwJ8RwYRg+FuQv4vUf55wNMEXJyT4s=; b=VrSkY83k3ORT5hP3r4dg1V+z6v
-	WX5Km1hLUu+pSpG+ADMLvsUTeX6hmgr8kawFkVfLFHmqWs/p97HyLZSdYoN3zScs3kpggzbScNwbo
-	KLidws0gEFbM7edd/Cq0RbJ7/MCLvXEmYb5gwKb24w1W7j0g5PWXxN/vPyfQUokj+gPfHFz7xwqwa
-	7ajG43jZK9yBK/nf+XYqk5wMJi88AKVP49rHe0blRpgQ/tguKB4n5/F0FD8ryRiHA4sA1nlOz3Ok3
-	E26eoU5xZCPUFJIaZJ/oRslWntRWMvDEto2f3NRDHbzKEEr6y+ZFpBBv/HU6NYw8bNyUwsX1qb/X2
-	PgA7C40g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=fyorhJCTSS6+0hPMlFzpEuVOTIRf/zjd/ug2ks95Ljg=; b=j+1p5QVsXP6PF6bIDcx5t7R1Ae
+	oIwn0whHopfRiVyNdZ5iKaVHTJAYMQINeDbNhc9qmxZ3w9lJtlFV29DXO/SJf33QCMZYqsR4sbiho
+	miPd/WHC5PuaHFTuU2Vyn1EOo7eRJHuN1Ho952TdKXUKEJaRZe0fi7dBQKneTz/S2UON4+zNFZo9b
+	f6W8gIWrmKKd4rFRKD1P80eC2Ker9TVUAhnPberF3EdiWAOmxpRlV7Uk0Pdg3oFi4PJLcD/2JoFjx
+	iN7nMFvIw0uOi5yEDJdec7s0IglwYZB6vZ+a9Jh+On8Zlp2IrDc5/CdNDlPZ4iXmqku2E8c5dCEgK
+	xJDBqOcQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osZNw-009T1Z-Vt; Wed, 09 Nov 2022 00:56:08 +0000
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
+	id 1osbEb-00A6k9-KM; Wed, 09 Nov 2022 02:54:37 +0000
+Received: from mail-pg1-f177.google.com ([209.85.215.177])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osZNp-009T0s-8I
-	for linux-nvme@lists.infradead.org; Wed, 09 Nov 2022 00:56:02 +0000
-Received: by mail-pg1-x535.google.com with SMTP id 136so10995260pga.1
-        for <linux-nvme@lists.infradead.org>; Tue, 08 Nov 2022 16:55:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=BgwnROHdjL1x0uwJ8RwYRg+FuQv4vUf55wNMEXJyT4s=;
-        b=l23r9UhWgKjUXu0vgbuhSfu8hx5xOaMUJyp3BqkVu56Z5l/ilbYIhMyOoApO051c9N
-         vrsvuM02dCuM27FlgYVOOKS3jnNHpUss4xv0EebEy2j/zQ9O0pK0f4ZyvEstFdB7tttI
-         RA4AbBUmM1SLJClLHte6B1Ge+9P4vSbdvaDl2v1VL0an54a503b0A58hjngLM9GuRFJi
-         jL0TOSWcoAxRmrP2yXKUPxcgrFK9Ka7vWt8R0WfJDOD4/qD6OyZzMKHGj+flNc1NdXAZ
-         9LpFkWRl4IvDDqMQTgs+a4I8pFvRc/Cs1oGWYexij2TA35oRf5ZM4Dt0lpaAinZsLeh3
-         v3Dg==
+	id 1osbEQ-00A6iL-RW
+	for linux-nvme@lists.infradead.org; Wed, 09 Nov 2022 02:54:28 +0000
+Received: by mail-pg1-f177.google.com with SMTP id q1so15032132pgl.11
+        for <linux-nvme@lists.infradead.org>; Tue, 08 Nov 2022 18:54:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BgwnROHdjL1x0uwJ8RwYRg+FuQv4vUf55wNMEXJyT4s=;
-        b=YVmDaYEsclmcmWE5W43nA4sSpGTN+N05wZG706NQ2XpyDaMyFcWJKDLL+fWiDQzmfk
-         oRQIre6SuUYn175CgydypIgr/FZp2QTtfzaQKHGJfUiR9Vgl5jPiNF436xXDPc/u5I1M
-         oKuxVDPy82lv7JqrAHxpoPOCqvXtpDmoJlLyr91e+UK3agBXVyFiRjlo123rk1fiGGSy
-         qOmsnaXorwQqz0GeXx+VEnjtxkz8PaukjWHj4QJP7WxlhziZ03noWQ2EzZvtltPu+TOr
-         oCxAziyW7lgCXRbgSqsOoHOAYIXlOcHkIGClFWhRes70M4Czav39hDhx5FqVHcfFQlGC
-         pDqg==
-X-Gm-Message-State: ACrzQf1dKNDj3u56qjSdagOwvqUg9YayYgqd+tyZjmGSqFXYiUaL62+2
-	IMoqxxzTVAFekch1SOxpbZOuDibUa8yAsqtj4ehSf48j6fM=
-X-Google-Smtp-Source: AMsMyM7EBpnPriLS9oJwgXOnMvT9J+mzLsJW218dK37YGVkfzZmdNTECUOXptQ5yg7f7xTNXaejxgu+K1Go20y1QD1Q=
-X-Received: by 2002:aa7:9e1c:0:b0:56c:78fa:2a2 with SMTP id
- y28-20020aa79e1c000000b0056c78fa02a2mr59321238pfq.65.1667955359317; Tue, 08
- Nov 2022 16:55:59 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fyorhJCTSS6+0hPMlFzpEuVOTIRf/zjd/ug2ks95Ljg=;
+        b=VNWnpLppsdaWEHd//xjoZSb3gicZaBy+Z/M2GjHjvwz53MB/WNS7AUBO/ed6GHXX0r
+         VaC4/Mb4gXc+3orCNVId73x7jm4CJmTGVVkSHS5jBeXPyCacFEglebOMnNlUNUMS2I8M
+         cn6FTMnZ8V19yWvH6tA+7P0FEVRhEAt1PO4VrmoX88aK21iS04FW8HA1omuAA7x3rLYB
+         CwFd/0qZPRAiuqC/S3mxzYvvfuLNXQ2BKi8wEMFrKPRI+QujrGNdjaW8jn7nnzgTm7ma
+         QAC393ysKp2PYOHkb93vQDYbUXF1l4waP+aX4Gii1U9CSNvfgXUebkyZDTsMgOx/f/22
+         TdYw==
+X-Gm-Message-State: ACrzQf11AIAJ0xYoXBwYolb/uOesDwMEBWp0Sir8xHRRirbPxKCWstq5
+	OJh2FsYqwv+pBJSbF2O9HVg=
+X-Google-Smtp-Source: AMsMyM4prXtxl5s44uI/6xJLoeTZiIab88g/7ZFG+phWqVdgqrZxR8gRhNLQ5JxArDib8u7lOPzCUg==
+X-Received: by 2002:a63:d60e:0:b0:46f:8979:30ba with SMTP id q14-20020a63d60e000000b0046f897930bamr47702265pgg.332.1667962460883;
+        Tue, 08 Nov 2022 18:54:20 -0800 (PST)
+Received: from [172.20.3.206] (69-170-33-158.static-ip.telepacific.net. [69.170.33.158])
+        by smtp.gmail.com with ESMTPSA id ij26-20020a170902ab5a00b0017f6c9622b9sm7627594plb.183.2022.11.08.18.54.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Nov 2022 18:54:20 -0800 (PST)
+Message-ID: <65f5d26b-b0af-f9c6-e77c-e82ac969e9f9@grimberg.me>
+Date: Wed, 9 Nov 2022 04:54:18 +0200
 MIME-Version: 1.0
-From: Tiago Dias Ferreira <tiagodfer@gmail.com>
-Date: Tue, 8 Nov 2022 21:55:48 -0300
-Message-ID: <CAJuHpLb+TVvxfcdBTMGk__vmevUa-4ZmdqO00shNvwJkuzPovw@mail.gmail.com>
-Subject: nvme-pci: netac nv7000 has bogus namespace ids
-To: linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: nvme-pci: NULL pointer dereference in nvme_dev_disable() on
+ linux-next
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>, Gerd Bayer <gbayer@linux.ibm.com>
+Cc: Jens Axboe <axboe@fb.com>, Niklas Schnelle <schnelle@linux.ibm.com>,
+ linux-kernel@vger.kernel.org, linux-next@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+References: <fad4d2d5e24eabe1a4fcab75c5d080a6229dc88b.camel@linux.ibm.com>
+ <20221108074846.GA22674@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20221108074846.GA22674@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221108_165601_330071_97E73C8D 
-X-CRM114-Status: UNSURE (   5.06  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221108_185426_921165_7DA7B824 
+X-CRM114-Status: GOOD (  14.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,11 +83,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello,
-I'm sending this commit to fix the issue where just the first nvme is
-detected due to bogus namespace ids poorly implemented by Netac:
-https://github.com/torvalds/linux/commit/3943eaeb9ac167ff6f8d099459ab158eb1fc8bdb
 
-Regards,
-Tiago Dias Ferreira
+> Below is the minimal fix.  I'll see if I sort out the mess that is
+> probe/reset failure vs ->remove a bit better, though.
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index f94b05c585cbc..577bacdcfee08 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -5160,6 +5160,8 @@ EXPORT_SYMBOL_GPL(nvme_start_freeze);
+>   
+>   void nvme_stop_queues(struct nvme_ctrl *ctrl)
+>   {
+> +	if (!ctrl->tagset)
+> +		return;
+>   	if (!test_and_set_bit(NVME_CTRL_STOPPED, &ctrl->flags))
+>   		blk_mq_quiesce_tagset(ctrl->tagset);
+>   	else
+> @@ -5169,6 +5171,8 @@ EXPORT_SYMBOL_GPL(nvme_stop_queues);
+>   
+>   void nvme_start_queues(struct nvme_ctrl *ctrl)
+>   {
+> +	if (!ctrl->tagset)
+> +		return;
+>   	if (test_and_clear_bit(NVME_CTRL_STOPPED, &ctrl->flags))
+>   		blk_mq_unquiesce_tagset(ctrl->tagset);
+>   }
+
+Can we do that in the pci driver and not here?
 
