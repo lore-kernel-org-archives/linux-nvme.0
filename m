@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7A01C4332F
-	for <linux-nvme@archiver.kernel.org>; Sun, 13 Nov 2022 16:12:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 397B6C4332F
+	for <linux-nvme@archiver.kernel.org>; Sun, 13 Nov 2022 16:12:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yHpt6ED/+AEhJM5joO3jOPvLb/JsyYQ8YtKgvKmjY28=; b=ggk3X0/Mz06t0PmR7IrHaHNtRQ
-	Fz2B/wgdZQAGtXoRw1j6ji8JfiIXYLBtulPsXCM6xnc7woTCDMrd2CwsjT+3Z8SCwECAN6h0bMwP+
-	/jQoT0JXSpd4kExy/vNcQQBUPF6hXrh+hk7cazjtXOxlqcaIV5mhLgIdlKHfII2E+9gRirxAF1Es1
-	3vPH/ykfFu1qVWIJd0ttwjl7KXIMPrONgUomMR/EM2rP4PqGp7z2+IxI18ihtf5scnUK+Jp0uS3uL
-	wZROseRSDqxjqADpbP0KL80TIduFZlrxZ7zbbF1OZpS/qnOYH5hMys6AEaSEUswljy977wOMzy6/X
-	g1KSHIBw==;
+	bh=JskPbanT7ns+OWNy0b/lpfB1mdd2cepy0iLXfthLb7w=; b=F/3Yzp3cYW3MoiYJfa9xOc6Jwp
+	MvWQhX9W2fnES4aa7KEhv0poeEZOF5c/8dC4pj4wWafrqGpHPbJsYr0LH2IUC5zBbAz/21tn9Zi6V
+	2rs8ugZwBKXFFGIHccoXdD4WmsNMAXt4Uj7a8/zoV0wGPYh4vq2vlh3ntvFFCfyCoYEoHI6GP32Xt
+	VihbWqdUR+G/qv7HkrGCSv7YuqRNgJ1bZvAQ+FKigzXx9Hu4fVifwMQ4wajWqCuRWT2Xzxcp31cLj
+	RUsnCHoYQzQJQSKOWq45OI71XXWnpTZgEa5amHTGpArxa5vA33xuKvQbjoU3mzvjxv6SkHPcYZXkj
+	uy5/uGjQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ouFao-00CC7e-KV; Sun, 13 Nov 2022 16:12:22 +0000
+	id 1ouFaw-00CCDU-Ml; Sun, 13 Nov 2022 16:12:30 +0000
 Received: from 213-225-8-167.nat.highway.a1.net ([213.225.8.167] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ouFaa-00CBx0-5m; Sun, 13 Nov 2022 16:12:09 +0000
+	id 1ouFaf-00CBzw-Pn; Sun, 13 Nov 2022 16:12:14 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@kernel.org>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -31,9 +31,9 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Gerd Bayer <gbayer@linux.ibm.com>,
 	asahi@lists.linux.dev,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH 07/13] nvme-pci: factor out a nvme_pci_alloc_dev helper
-Date: Sun, 13 Nov 2022 17:11:32 +0100
-Message-Id: <20221113161138.883195-8-hch@lst.de>
+Subject: [PATCH 08/13] nvme-pci: set constant paramters in nvme_pci_alloc_ctrl
+Date: Sun, 13 Nov 2022 17:11:33 +0100
+Message-Id: <20221113161138.883195-9-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221113161138.883195-1-hch@lst.de>
 References: <20221113161138.883195-1-hch@lst.de>
@@ -53,161 +53,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a helper that allocates the nvme_dev structure up to the point where
-we can call nvme_init_ctrl.  This pairs with the free_ctrl method and can
-thus be used to cleanup the teardown path and make it more symmetric.
-
-Note that this now calls nvme_init_ctrl a lot earlier during probing,
-which also means the per-controller character device shows up earlier.
-Due to the controller state no commnds can be send on it, but it might
-make sense to delay the cdev registration until nvme_init_ctrl_finish.
+Move setting of low-level constant parameters from nvme_reset_work to
+nvme_pci_alloc_ctrl.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 Tested-by Gerd Bayer <gbayer@linxu.ibm.com>
 ---
- drivers/nvme/host/pci.c | 81 +++++++++++++++++++++++------------------
- 1 file changed, 46 insertions(+), 35 deletions(-)
+ drivers/nvme/host/pci.c | 38 +++++++++++++++++---------------------
+ 1 file changed, 17 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index f7dab65bf5042..03c83cd724ec5 100644
+index 03c83cd724ec5..9dcb35f148009 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2777,6 +2777,7 @@ static void nvme_free_tagset(struct nvme_dev *dev)
- 	dev->ctrl.tagset = NULL;
- }
- 
-+/* pairs with nvme_pci_alloc_dev */
- static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_dev *dev = to_nvme_dev(ctrl);
-@@ -3090,19 +3091,23 @@ static void nvme_async_probe(void *data, async_cookie_t cookie)
- 	nvme_put_ctrl(&dev->ctrl);
- }
- 
--static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-+static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
-+		const struct pci_device_id *id)
- {
--	int node, result = -ENOMEM;
--	struct nvme_dev *dev;
- 	unsigned long quirks = id->driver_data;
-+	int node = dev_to_node(&pdev->dev);
-+	struct nvme_dev *dev;
-+	int ret = -ENOMEM;
- 
--	node = dev_to_node(&pdev->dev);
- 	if (node == NUMA_NO_NODE)
- 		set_dev_node(&pdev->dev, first_memory_node);
- 
- 	dev = kzalloc_node(sizeof(*dev), GFP_KERNEL, node);
- 	if (!dev)
--		return -ENOMEM;
-+		return NULL;
-+	INIT_WORK(&dev->ctrl.reset_work, nvme_reset_work);
-+	INIT_WORK(&dev->remove_work, nvme_remove_dead_ctrl_work);
-+	mutex_init(&dev->shutdown_lock);
- 
- 	dev->nr_write_queues = write_queues;
- 	dev->nr_poll_queues = poll_queues;
-@@ -3110,25 +3115,11 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	dev->queues = kcalloc_node(dev->nr_allocated_queues,
- 			sizeof(struct nvme_queue), GFP_KERNEL, node);
- 	if (!dev->queues)
--		goto free;
-+		goto out_free_dev;
- 
- 	dev->dev = get_device(&pdev->dev);
--	pci_set_drvdata(pdev, dev);
--
--	result = nvme_dev_map(dev);
--	if (result)
--		goto put_pci;
--
--	INIT_WORK(&dev->ctrl.reset_work, nvme_reset_work);
--	INIT_WORK(&dev->remove_work, nvme_remove_dead_ctrl_work);
--	mutex_init(&dev->shutdown_lock);
--
--	result = nvme_setup_prp_pools(dev);
--	if (result)
--		goto unmap;
- 
- 	quirks |= check_vendor_combination_bug(pdev);
--
- 	if (!noacpi && acpi_storage_d3(&pdev->dev)) {
- 		/*
- 		 * Some systems use a bios work around to ask for D3 on
-@@ -3138,34 +3129,54 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 			 "platform quirk: setting simple suspend\n");
- 		quirks |= NVME_QUIRK_SIMPLE_SUSPEND;
+@@ -2841,21 +2841,6 @@ static void nvme_reset_work(struct work_struct *work)
+ 		nvme_start_admin_queue(&dev->ctrl);
  	}
-+	ret = nvme_init_ctrl(&dev->ctrl, &pdev->dev, &nvme_pci_ctrl_ops,
-+			     quirks);
-+	if (ret)
-+		goto out_put_device;
-+	return dev;
  
--	result = nvme_pci_alloc_iod_mempool(dev);
-+out_put_device:
-+	put_device(dev->dev);
-+	kfree(dev->queues);
-+out_free_dev:
-+	kfree(dev);
-+	return ERR_PTR(ret);
-+}
-+
-+static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-+{
-+	struct nvme_dev *dev;
-+	int result = -ENOMEM;
-+
-+	dev = nvme_pci_alloc_dev(pdev, id);
-+	if (!dev)
-+		return -ENOMEM;
-+
-+	result = nvme_dev_map(dev);
- 	if (result)
--		goto release_pools;
-+		goto out_uninit_ctrl;
- 
--	result = nvme_init_ctrl(&dev->ctrl, &pdev->dev, &nvme_pci_ctrl_ops,
--			quirks);
-+	result = nvme_setup_prp_pools(dev);
-+	if (result)
-+		goto out_dev_unmap;
-+
-+	result = nvme_pci_alloc_iod_mempool(dev);
- 	if (result)
--		goto release_mempool;
-+		goto out_release_prp_pools;
- 
- 	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
-+	pci_set_drvdata(pdev, dev);
- 
- 	nvme_reset_ctrl(&dev->ctrl);
- 	async_schedule(nvme_async_probe, dev);
+-	dma_set_min_align_mask(dev->dev, NVME_CTRL_PAGE_SIZE - 1);
 -
- 	return 0;
+-	/*
+-	 * Limit the max command size to prevent iod->sg allocations going
+-	 * over a single page.
+-	 */
+-	dev->ctrl.max_hw_sectors = min_t(u32,
+-		NVME_MAX_KB_SZ << 1, dma_max_mapping_size(dev->dev) >> 9);
+-	dev->ctrl.max_segments = NVME_MAX_SEGS;
+-
+-	/*
+-	 * Don't limit the IOMMU merged segment size.
+-	 */
+-	dma_set_max_seg_size(dev->dev, 0xffffffff);
+-
+ 	mutex_unlock(&dev->shutdown_lock);
  
-- release_mempool:
--	mempool_destroy(dev->iod_mempool);
-- release_pools:
-+out_release_prp_pools:
- 	nvme_release_prp_pools(dev);
-- unmap:
-+out_dev_unmap:
- 	nvme_dev_unmap(dev);
-- put_pci:
--	put_device(dev->dev);
-- free:
--	kfree(dev->queues);
--	kfree(dev);
-+out_uninit_ctrl:
-+	nvme_uninit_ctrl(&dev->ctrl);
- 	return result;
- }
+ 	/*
+@@ -2869,12 +2854,6 @@ static void nvme_reset_work(struct work_struct *work)
+ 		goto out;
+ 	}
  
+-	/*
+-	 * We do not support an SGL for metadata (yet), so we are limited to a
+-	 * single integrity segment for the separate metadata pointer.
+-	 */
+-	dev->ctrl.max_integrity_segments = 1;
+-
+ 	result = nvme_init_ctrl_finish(&dev->ctrl, was_suspend);
+ 	if (result)
+ 		goto out;
+@@ -3133,6 +3112,23 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
+ 			     quirks);
+ 	if (ret)
+ 		goto out_put_device;
++	
++	dma_set_min_align_mask(&pdev->dev, NVME_CTRL_PAGE_SIZE - 1);
++	dma_set_max_seg_size(&pdev->dev, 0xffffffff);
++
++	/*
++	 * Limit the max command size to prevent iod->sg allocations going
++	 * over a single page.
++	 */
++	dev->ctrl.max_hw_sectors = min_t(u32,
++		NVME_MAX_KB_SZ << 1, dma_max_mapping_size(&pdev->dev) >> 9);
++	dev->ctrl.max_segments = NVME_MAX_SEGS;
++
++	/*
++	 * There is no support for SGLs for metadata (yet), so we are limited to
++	 * a single integrity segment for the separate metadata pointer.
++	 */
++	dev->ctrl.max_integrity_segments = 1;
+ 	return dev;
+ 
+ out_put_device:
 -- 
 2.30.2
 
