@@ -4,62 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7193C4332F
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Nov 2022 20:35:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07BCAC433FE
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Nov 2022 23:09:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=tOQ2uBUDLF0h8iyRoUOUMg45l54ag5/2AuUbFTQSgiA=; b=MtqbtXlES6xAtpA6ubA5qV703K
-	SOu8Roz/Lb5/DlT+D01NSp3XBnI6BxBUQY2VM3PHBYCr8P/K8YYXgdAixAfq2E7d07hdfh1O9YzLj
-	EJ+gQtJulhF83MoAvC1jJ2hU57OxnzOiuIylwDjCcy7b4B3TS2GAB8DNj1fjjPEX7u9VFLAwBjJlY
-	YoZ4ygO3HmNB3nOdKEYBNF681e0YiQKT+UJMLZtHYWHD+jWwwS6qw9x6HRTkPB9lE2K7iGkSGIiHu
-	YiVYXVWB+KAUVoclySeVygCAE+nrRLEvq2lj8Lxqt63xgtc6HwnaxGBz5ciTHPRZU2VYmEU499gi5
-	0TFN5Hdw==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+Q14Ro4GxXqnphbHcHkAMcT3Ofe13f9JuBS+DiJ41+Y=; b=ooOFG42VDKWNv1XVqcgJqOcYzh
+	DJmvfbbxSgrqZF2u/SnCNzy2aFu8JX3VYEd6NxpXWQqiMl6/wEvkyH3gh5D+7I/fJf5nJIAv0Xh7U
+	kAFAQIRyP/AMA9XqtQhG76Vq46OGL5JC9BCClFRUATm47sn1jTYFb+mq4kI0tYdxDM5s8ciGk1tIK
+	USmx2Is5HcDYrwCqwh4T3IMU0ywTYuKhJD/SzrqnX6RxYIqEuCLggXFKmZOo+k2d6pDBO62EYzrHF
+	Ctahtcw6bKXsyIBYcBrLiR9wpBYZ8O12DesI3ZZOni6RpgYfzgsqjO1Z4HWor0DS5Ma+c55IlKUnN
+	BA6Nd8Fg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ougAi-004imc-8D; Mon, 14 Nov 2022 20:35:12 +0000
-Received: from resqmta-h1p-028592.sys.comcast.net ([2001:558:fd02:2446::5])
+	id 1ouiZr-005n03-J4; Mon, 14 Nov 2022 23:09:19 +0000
+Received: from out0.migadu.com ([94.23.1.103])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ougAf-004ilx-Bx
-	for linux-nvme@lists.infradead.org; Mon, 14 Nov 2022 20:35:11 +0000
-Received: from resomta-h1p-027908.sys.comcast.net ([96.102.179.197])
-	by resqmta-h1p-028592.sys.comcast.net with ESMTP
-	id uYh7oyGAgUsT0ugAYohQ4x; Mon, 14 Nov 2022 20:35:02 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=comcastmailservice.net; s=20211018a; t=1668458102;
-	bh=tOQ2uBUDLF0h8iyRoUOUMg45l54ag5/2AuUbFTQSgiA=;
-	h=Received:Received:From:To:Subject:Date:Message-Id:MIME-Version:
-	 Xfinity-Spam-Result;
-	b=t2Q088bZaOCJV5ExciDUPbmIRebzmdhPsEmDQoPKTuRMO21eMAjroedLJagLviD/M
-	 RSBtdCA23bBJdBmJHi4BO8QHnELSf1SBLvaf4NnvO8SqrZnlbFcnH7NrkzYqqfnp59
-	 t7r/ZsUybv8Vd6uJzPr911A0f5f16mF29qRGgUE3LaYmC3jrvai9wAKz/p5IlPHnoy
-	 gciv42W0lYbFRIAEM62M6frRQvJWgvAkv7VORokkGnyPfp8WLACxkZgZjYB48KCO3g
-	 I9kWxI9jHBpKAlo5ebNlU734hKUrrDhv2usQAeukQXzkqFFHU5wJcRnfiJyTJe+/66
-	 l/mrGWPkZGi3w==
-Received: from jderrick-mobl4.solidigmtechnology.com ([137.83.219.25])
-	by resomta-h1p-027908.sys.comcast.net with ESMTPA
-	id ug9moRZwyxQh3ug9ros9eM; Mon, 14 Nov 2022 20:34:38 +0000
-X-Xfinity-VAAS: gggruggvucftvghtrhhoucdtuddrgedvgedrgedvgdduudduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuvehomhgtrghsthdqtfgvshhipdfqfgfvpdfpqffurfetoffkrfenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomheplfhonhgrthhhrghnucffvghrrhhitghkuceojhhonhgrthhhrghnrdguvghrrhhitghksehlihhnuhigrdguvghvqeenucggtffrrghtthgvrhhnpeeugeduvedvffeffedvkeejgfeutefghffgtdeuueefvedtleefudetffdtkeeuveenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppedufeejrdekfedrvdduledrvdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehhvghlohepjhguvghrrhhitghkqdhmohgslhegrdhsohhlihguihhgmhhtvggthhhnohhlohhghidrtghomhdpihhnvghtpedufeejrdekfedrvdduledrvdehpdhmrghilhhfrhhomhepjhhonhgrthhhrghnrdguvghrrhhitghksehlihhnuhigrdguvghvpdhnsggprhgtphhtthhopeeipdhrtghpthhtoheplhhinhhugidqnhhvmhgvsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheplhhinhhugidqsghlohgtkhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehshhhinhhitghhihhrohdrkhgrfigrshgrkhhiseifuggtrdgtohhmpdhrtghpthhtohepkhgsuhhstghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehoshgrnhguohhvsehoshgrnhguohhvrdgtohhmpdhrtghpthhtohepjhhonhgrthhhrghnrdguvghrrhhitghksehlihhnuhigrdguvghv
-X-Xfinity-VMeta: sc=-100.00;st=legit
-From: Jonathan Derrick <jonathan.derrick@linux.dev>
-To: <linux-nvme@lists.infradead.org>,
-	<linux-block@vger.kernel.org>,
-	"Shin\\'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Omar Sandoval <osandov@osandov.com>,
-	Jonathan Derrick <jonathan.derrick@linux.dev>
-Subject: [PATCH] tests/nvme: Add admin-passthru+reset race test
-Date: Mon, 14 Nov 2022 13:34:12 -0700
-Message-Id: <20221114203412.383-1-jonathan.derrick@linux.dev>
-X-Mailer: git-send-email 2.30.2
+	id 1ouiZo-005mz4-5N
+	for linux-nvme@lists.infradead.org; Mon, 14 Nov 2022 23:09:18 +0000
+Message-ID: <65816415-303d-5579-4878-d8cba766f797@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1668467352;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Q14Ro4GxXqnphbHcHkAMcT3Ofe13f9JuBS+DiJ41+Y=;
+	b=xu2cyA8RSQdvsixLy39t6XZ9gfOAhEdgCleuGTGifKqtfq/I8uVBhykY6pR3nIsSPn5G5y
+	+DNVzgVGhRsS3M391sYMJksEtXHvR8vN1Ec3WvsKdodGsDyNfHr3UU92cBU90JPTd9rWZY
+	1nhgTuXIJaPMdhAqlsUCsnpSNJD5vP8=
+Date: Mon, 14 Nov 2022 16:09:08 -0700
 MIME-Version: 1.0
+Subject: Re: Resets during user commands leads to hung task and controller
+ stuck in connecting
+Content-Language: en-US
+To: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@fb.com>,
+ hch@lst.de, linux-nvme@lists.infradead.org
+References: <d4a25dc1-fd2b-8f25-9ec1-04b28dfac386@linux.dev>
+ <1ffea25b-6f67-a1e6-5b96-22bf3b4d89ec@grimberg.me>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Jonathan Derrick <jonathan.derrick@linux.dev>
+In-Reply-To: <1ffea25b-6f67-a1e6-5b96-22bf3b4d89ec@grimberg.me>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221114_123509_457119_A1E5ED1D 
-X-CRM114-Status: GOOD (  13.30  )
+X-CRM114-CacheID: sfid-20221114_150917_204665_5696DF72 
+X-CRM114-Status: GOOD (  10.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,121 +68,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Adds a test which runs many formats and reset_controllers in parallel.
-The intent is to expose timing holes in the controller state machine
-which will lead to hung task timing and the controller becoming
-unavailable.
 
-Reported by https://bugzilla.kernel.org/show_bug.cgi?id=216354
 
-Signed-off-by: Jonathan Derrick <jonathan.derrick@linux.dev>
----
- tests/nvme/046     | 85 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/046.out |  2 ++
- 2 files changed, 87 insertions(+)
- create mode 100755 tests/nvme/046
- create mode 100644 tests/nvme/046.out
+On 11/13/2022 4:03 AM, Sagi Grimberg wrote:
+> 
+> 
+> On 11/11/22 23:50, Jonathan Derrick wrote:
+>> Hi,
+>>
+>> I'm (again) seeing a hung task when doing resets and formats simultaneously.
+>> Controller state is left in 'connecting'
+>>
+>> Using nvme.git/nvme-6.2 as of 'nvme: implement the DEAC bit for the Write Zeroes command',
+>> but I have also repro'd with Christoph's latest reset/probe-split set
+>>
+>>
+>> ctrl="nvme0"
+>> nsid=1
+>> pci="/sys/block/${ctrl}n${nsid}/device/"
+>> echo 30 > /proc/sys/kernel/hung_task_timeout_secs
+>> while true; do
+>>          nvme format -f /dev/${ctrl}n${nsid} &
+> 
+> How long to it take the format to complete?
+Well it's pretty immediate but I'm under the impression that the
+nvme_dev_disable path leads to CC_EN disabling, interrupting any formats
 
-diff --git a/tests/nvme/046 b/tests/nvme/046
-new file mode 100755
-index 0000000..4b47783
---- /dev/null
-+++ b/tests/nvme/046
-@@ -0,0 +1,85 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-3.0+
-+# Copyright (C) 2022 Jonathan Derrick <jonathan.derrick@linux.dev>
-+#
-+# Test nvme reset controller during admin passthru
-+#
-+# Regression for issue reported by
-+# https://bugzilla.kernel.org/show_bug.cgi?id=216354
-+
-+. tests/nvme/rc
-+
-+#restrict test to nvme-pci only
-+nvme_trtype=pci
-+
-+DESCRIPTION="test nvme reset controller during admin passthru"
-+QUICK=1
-+CAN_BE_ZONED=1
-+
-+requires() {
-+	_nvme_requires
-+}
-+
-+device_requires() {
-+	_require_test_dev_is_nvme
-+}
-+
-+test_device() {
-+	echo "Running ${TEST_NAME}"
-+
-+	local sysfs
-+	local attr
-+	local m
-+
-+	sysfs="$TEST_DEV_SYSFS/device"
-+	timeout=$(($(cat /proc/sys/kernel/hung_task_timeout_secs) / 2))
-+
-+	sleep 5
-+
-+	if [[ ! -d "$sysfs" ]]; then
-+		echo "$sysfs doesn't exist"
-+	fi
-+
-+	# do reset controller/format loops
-+	# don't check status now because a timing race is desired
-+	i=0
-+	start=0
-+	timing_out=false
-+	while [[ $i -le 1000 ]]; do
-+		start=$SECONDS
-+		if [[ -f "$sysfs/reset_controller" ]]; then
-+			echo 1 > "$sysfs/reset_controller" 2>/dev/null &
-+			i=$((i+1))
-+		fi
-+		nvme format -l 0 -f $TEST_DEV 2>/dev/null &
-+
-+		#Assume the controller is hung and unrecoverable
-+		if [[ $(($SECONDS - $start)) -gt $timeout ]]; then
-+			echo "nvme controller timing out"
-+			timing_out=true
-+			break
-+		fi
-+	done
-+
-+	{ kill $!; wait; } &> /dev/null
-+
-+	# at this point it may have waited hung_task_timeout / 2 already, so
-+	# only wait 25% longer for a total of about 75% of allowed timeout
-+	m=0
-+	while [[ $m -le $((timeout / 2)) ]]; do
-+		if [[ $timing_out == true ]]; then
-+			break
-+		fi
-+		if grep -q live "$sysfs/state"; then
-+			break
-+		fi
-+		sleep 1
-+		m=$((m+1))
-+	done
-+	if ! grep -q live "$sysfs/state"; then
-+		echo "nvme still not live after $(($SECONDS - $start)) seconds!"
-+	fi
-+	udevadm settle
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/046.out b/tests/nvme/046.out
-new file mode 100644
-index 0000000..2b5fa6a
---- /dev/null
-+++ b/tests/nvme/046.out
-@@ -0,0 +1,2 @@
-+Running nvme/046
-+Test complete
--- 
-2.31.1
+> 
+>>          echo 1 > $pci/reset_controller &
+>> done
+> 
+> What happens if you set io_timeout to 20 instead of 30? (given
+> that you bound hung tasks at 30 seconds...
+It occurs with the standard 120s task timeout too
+Also there's no I/O occurring at the moment; just admin work
 
+I added a blktests for this:
+http://lists.infradead.org/pipermail/linux-nvme/2022-November/036475.html
 
