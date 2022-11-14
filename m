@@ -4,65 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D46D3C4332F
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Nov 2022 06:45:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1121CC433FE
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Nov 2022 06:57:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-Type:Subject:From:To:MIME-Version:Date:Message-ID:Reply-To:Cc:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=SDnwehKDfCDB3RNzwlYNGyxrCi+1dxz8DyBnuNfd2Wo=; b=zbyDnFUH6ubYXlwNB96qLrYugA
-	LHK6olyLuhwOc7nqndqxohNDimbtILv5eUjVb3i/m0khzovWMZtQQo6s4h3gqPUp80w2fpybRN4GF
-	Edju3/Rkpyi6jAsI6AcQii1DAg1E1oU3WU8mWcV5nDIrwdeFxbziPHMh0p+zrxvEIU72M2S1usQEF
-	78WgJHHNnpsee3GcPNZDukvC6faLyUEKE5Sn0QkpAvYB3QldTPD8qGRRtjix9Uxt+zC6jX2aXsx13
-	5di00RcdE3rpWnaiKadkOEcbZ0vKv+6bTUK8YU+dbuiFPYcI1QakQnQl80v/Dl1cnkvKr+tSkoKlm
-	l2aR/i0A==;
+	bh=/eeklWf1nCq4WM/A3kh6kkmdu+OcavNom6epsV8kcD0=; b=xybWWBe3I3MCXpCsK8NELfnqGZ
+	G5RuQd/F7U6q1v7kuh/5Q1AYTcQF0C+saRm5A6tYi+5l1YYSCZOIvYK2A0qQHFcZD1BD7nGA4uY2x
+	UCyrwPplD+67JodyiZI4m5q6dHtTINriFGn2j6bGdzfWWRZFZDLYOGhnCwXzo6sXWzuvwVWi+XpCu
+	T4UImYtgiDIM9e+4HYPzYPHl0SRGhn04e/SE8ie6Pr+4IOnINxO5GxArZwSDBQy203kQvyx1w77BV
+	GzcEK9pTfVw24YOXgyCGAHHq4/qdonCLzcKlDf8M32tUsNSm8TtNWXelBAOgJXRIGDbOZbDsHdpVg
+	5t/FI3jA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ouTDU-00GMXb-I1; Mon, 14 Nov 2022 06:45:12 +0000
-Received: from mail-wr1-f47.google.com ([209.85.221.47])
+	id 1ouTPf-00GRam-4n; Mon, 14 Nov 2022 06:57:47 +0000
+Received: from mail-wr1-f53.google.com ([209.85.221.53])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ouTDR-00GMWt-5C
-	for linux-nvme@lists.infradead.org; Mon, 14 Nov 2022 06:45:10 +0000
-Received: by mail-wr1-f47.google.com with SMTP id w14so16293945wru.8
-        for <linux-nvme@lists.infradead.org>; Sun, 13 Nov 2022 22:45:05 -0800 (PST)
+	id 1ouTPd-00GRaC-6h
+	for linux-nvme@lists.infradead.org; Mon, 14 Nov 2022 06:57:46 +0000
+Received: by mail-wr1-f53.google.com with SMTP id bs21so16352870wrb.4
+        for <linux-nvme@lists.infradead.org>; Sun, 13 Nov 2022 22:57:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SDnwehKDfCDB3RNzwlYNGyxrCi+1dxz8DyBnuNfd2Wo=;
-        b=CYH97ek97pNj41Nn7oGazq46tPpiET8RykTmMxt4wgcalwvrUCRHn46JL127ZlHpMG
-         oqt/ghK0QxYkomeV71puf4RebQxMwzBdgNDZur/7xd9N0NVGAAReVwYf6egYpRaNO4Lh
-         +ktgaiV7YOdGOYQZRvbMBMbBCUH6T8Qh/uRyPa4yW8qKVGKb8+QU0/JNCQ47qjlH6EIV
-         izLZcYFOMQDQx/YCUMeXn3mZdOsk+q6i1bVB/f+7ell07sFmdBB2ULU0sb7wv1uWpvUw
-         fwdDyJbcTUjsZMEYfUXc1kxFpGjuokY25251XUiAhgFNi2m144AnzGOAu76/hp3joaRc
-         cTsg==
-X-Gm-Message-State: ANoB5pkoCdgHyn24cCf4HxDh5Xy8wvSrxIoqoBIOSbBmYS70Ahasm38X
-	Kq4ZfJ0sqFJoa6PlWUegbWp+bp/7o0Q=
-X-Google-Smtp-Source: AA0mqf5JoKXQvHd6u+yBXOgSjm0yO78KWjLUxviYXVItYfbWCW/W1GveXXXVMBJvzVCI7xw9hE894A==
-X-Received: by 2002:a05:6000:16ca:b0:236:cab3:fd9e with SMTP id h10-20020a05600016ca00b00236cab3fd9emr6643708wrf.452.1668408304488;
-        Sun, 13 Nov 2022 22:45:04 -0800 (PST)
-Received: from localhost.localdomain (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
-        by smtp.gmail.com with ESMTPSA id g11-20020a5d540b000000b0022cdeba3f83sm8609227wrv.84.2022.11.13.22.45.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Nov 2022 22:45:03 -0800 (PST)
-From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH] nvmet: fix another memory leak
-Date: Mon, 14 Nov 2022 08:45:02 +0200
-Message-Id: <20221114064502.1077048-1-sagi@grimberg.me>
-X-Mailer: git-send-email 2.34.1
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=/eeklWf1nCq4WM/A3kh6kkmdu+OcavNom6epsV8kcD0=;
+        b=xSHwzhMeOvaBt9PGlEtVsnKEHGxxenaA3cPNg2K5OhHU0rLBVwQwWcMc+63CZ7H3yj
+         BVHCAf4YLryZLJr+YxpJ2lKujdaQm0bYiTD9oVAt1/80l9TOYsITkk/O/o8qUuHUr85Z
+         81OpdqkqI22Lw8JHbEL/POHw4NjUno9o1HPn+LxPGWCqxiZlNOoNESbSo6JZf88jw31y
+         TOBnU0uf0xFrwegrXn1maKnSYeFUOb+H5Ou4CDyNw6j7YnE76b3PXEvqXdIPpMNX+Hrc
+         aPkKq71qjrHQwNRo+4pFF+yT7d16i/KvIo4GfFCRs8UESQeOFjLhYOHeAXD81aeXjy5C
+         QKQg==
+X-Gm-Message-State: ANoB5pnlARTMyvE8ok81kxGUm/eRIAlK2+YK21sZGjxY3A0ik40TqECF
+	cltDPlDyS2bpywGUSkgkAVNu6fIPDqA=
+X-Google-Smtp-Source: AA0mqf5IhjvKQ1aBLgIklrtRu0vlQk0FCBJ2Hvpc82Ew+1IuMe2bsNfetWfd0NN5Am+98fctBEOnhg==
+X-Received: by 2002:adf:dcc3:0:b0:235:14dc:5e14 with SMTP id x3-20020adfdcc3000000b0023514dc5e14mr6854352wrm.252.1668409063071;
+        Sun, 13 Nov 2022 22:57:43 -0800 (PST)
+Received: from [10.100.102.14] (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
+        by smtp.gmail.com with ESMTPSA id w12-20020a05600c474c00b003b435c41103sm21776967wmo.0.2022.11.13.22.57.42
+        for <linux-nvme@lists.infradead.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 13 Nov 2022 22:57:42 -0800 (PST)
+Message-ID: <a4fd461b-7c87-5223-dcf1-1ef251076f74@grimberg.me>
+Date: Mon, 14 Nov 2022 08:57:41 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Content-Language: en-US
+To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+From: Sagi Grimberg <sagi@grimberg.me>
+Subject: dev_pm_qos memory leak again...
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221113_224509_219205_7A8AC680 
-X-CRM114-Status: GOOD (  11.41  )
+X-CRM114-CacheID: sfid-20221113_225745_268409_EB4C63FC 
+X-CRM114-Status: UNSURE (   6.21  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,49 +78,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When changing dhchap secrets we need to release the old
-secrets as well.
-
-kmemleak complaint:
+Anyone else noticed that this leak came back?
 --
-unreferenced object 0xffff8c7f44ed8180 (size 64):
-  comm "check", pid 7304, jiffies 4295686133 (age 72034.246s)
-  hex dump (first 32 bytes):
-    44 48 48 43 2d 31 3a 30 30 3a 4c 64 4c 4f 64 71  DHHC-1:00:LdLOdq
-    79 56 69 67 77 48 55 32 6d 5a 59 4c 7a 35 59 38  yVigwHU2mZYLz5Y8
-  backtrace:
-    [<00000000b6fc5071>] kstrdup+0x2e/0x60
-    [<00000000f0f4633f>] 0xffffffffc0e07ee6
-    [<0000000053006c05>] 0xffffffffc0dff783
-    [<00000000419ae922>] configfs_write_iter+0xb1/0x120
-    [<000000008183c424>] vfs_write+0x2be/0x3c0
-    [<000000009005a2a5>] ksys_write+0x5f/0xe0
-    [<00000000cd495c89>] do_syscall_64+0x38/0x90
-    [<00000000f2a84ac5>] entry_SYSCALL_64_after_hwframe+0x63/0xcd
+unreferenced object 0xffff8c7f753a5180 (size 96):
+   comm "nvme", pid 11065, jiffies 4367781021 (age 261.143s)
+   hex dump (first 32 bytes):
+     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+   backtrace:
+     [<00000000ea22ef2c>] 
+dev_pm_qos_update_user_latency_tolerance+0x6f/0x100
+     [<0000000027e49fb6>] 0xffffffffc0de066c
+     [<00000000a28f8b9e>] 0xffffffffc0e0e2ae
+     [<0000000006fcc7f8>] 0xffffffffc0c8924e
+     [<000000009fcecf5f>] 0xffffffffc0c893d1
+     [<0000000074212a7b>] vfs_write+0xc2/0x3c0
+     [<000000009005a2a5>] ksys_write+0x5f/0xe0
+     [<00000000cd495c89>] do_syscall_64+0x38/0x90
+     [<00000000f2a84ac5>] entry_SYSCALL_64_after_hwframe+0x63/0xcd
 
-Fixes: db1312dd9548 ("nvmet: implement basic In-Band Authentication")
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/target/auth.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-index c4113b43dbfe..4dcddcf95279 100644
---- a/drivers/nvme/target/auth.c
-+++ b/drivers/nvme/target/auth.c
-@@ -45,9 +45,11 @@ int nvmet_auth_set_key(struct nvmet_host *host, const char *secret,
- 	if (!dhchap_secret)
- 		return -ENOMEM;
- 	if (set_ctrl) {
-+		kfree(host->dhchap_ctrl_secret);
- 		host->dhchap_ctrl_secret = strim(dhchap_secret);
- 		host->dhchap_ctrl_key_hash = key_hash;
- 	} else {
-+		kfree(host->dhchap_secret);
- 		host->dhchap_secret = strim(dhchap_secret);
- 		host->dhchap_key_hash = key_hash;
- 	}
--- 
-2.34.1
-
+This is probably the third time that this leak is coming back (most
+likely from the gendisk-less admin queue...
 
