@@ -4,47 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8664CC433FE
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Nov 2022 10:15:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A5E4C433FE
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Nov 2022 10:21:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OA1qT8cygRlBgWvxM1EZRhTJJYK6oEnILjsD8BmDs68=; b=ASyxDRqmsFv3/7FJ7h8gQ3yhqu
-	57uYu7wy1/yQrdvJOAI5dwM6uJ+JW132Q5deKKtd+iFheDiuaJcU+HtopoNv+tValCK3x/F+zKS/E
-	YxBIOIkYPQssZCxXaLwHOkSD+QZ4ET1BX/5cc5QL9vZn6p1BkjWtSTtIjSdbnm3Xxw8HFQhBevvJi
-	LBlheJKUScnUBPi1o+xkcwhLo2ozp/vkPD6CHiLuupGYX+tqBszXsNJGtYwQ8MpDqi/LoYYnPwn0K
-	sMbuFnvgjmG/cbHmH7jKXg3TsFS3eqNmuDBOGVvFPtdRMljghUnUqoaUAdrnZ3/InD6sJuuhSiZKj
-	/4YFUs6g==;
+	bh=wHEvef8guB5hGSNGQ/OXZngSR0dMGq+JXdAL6RgLQts=; b=RDLH/ZxBMZfcQ/BmEYRP6YAKzr
+	HRc/VuT43gEKQZk/uJCarxagkx5yQ6hryBOKMCTuiKCqW8HGWYZwiZ/aJmzSZFSSYMBAMg3u5m5AD
+	RqCl9UlsQ30bKX5gW/FX0hjN/N8qETrgmHO9ZZ86rYpXczLfEMt/WwY0QSMaLuZXlrM5+kTlplGBM
+	d5LFELmi3klFmCwSzbvJzndNuzAYBelkIaey1r4pomI3CQ7vfaewQR97PJjmsTOTH4y+ygeP2lVNv
+	BccH0WYURoO8Q7svRZh7gouYBcGZb666VTp+RKnKRN73oIwZEXhS4ocm0hzVtq4urrB65VuShsoD2
+	OeTb3C7Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ousyG-009mXL-2m; Tue, 15 Nov 2022 10:15:12 +0000
+	id 1out4I-009qww-J5; Tue, 15 Nov 2022 10:21:26 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ousZN-009Zst-8p
-	for linux-nvme@lists.infradead.org; Tue, 15 Nov 2022 09:49:33 +0000
+	id 1oush8-009e4k-Cn
+	for linux-nvme@lists.infradead.org; Tue, 15 Nov 2022 09:57:31 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 5D6BB67373; Tue, 15 Nov 2022 10:49:26 +0100 (CET)
-Date: Tue, 15 Nov 2022 10:49:26 +0100
+	id ED3C367373; Tue, 15 Nov 2022 10:57:26 +0100 (CET)
+Date: Tue, 15 Nov 2022 10:57:26 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH] nvmet: fix another memory leak
-Message-ID: <20221115094926.GC25284@lst.de>
-References: <20221114064502.1077048-1-sagi@grimberg.me>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+	Gerd Bayer <gbayer@linux.ibm.com>, asahi@lists.linux.dev,
+	linux-nvme@lists.infradead.org
+Subject: Re: nvme-pci: split the probe and reset handlers v2
+Message-ID: <20221115095726.GA26021@lst.de>
+References: <20221113161138.883195-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221114064502.1077048-1-sagi@grimberg.me>
+In-Reply-To: <20221113161138.883195-1-hch@lst.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221115_014929_507166_BE4A0CEA 
-X-CRM114-Status: UNSURE (   9.78  )
+X-CRM114-CacheID: sfid-20221115_015730_602187_139996B0 
+X-CRM114-Status: UNSURE (   8.21  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -60,7 +59,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks,
-
-applied to nvme-6.1.
+I've pulled this into nvme-6.2 now.
 
