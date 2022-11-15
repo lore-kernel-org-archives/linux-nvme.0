@@ -4,56 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07BCAC433FE
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Nov 2022 23:09:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38A89C433FE
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Nov 2022 00:25:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+Q14Ro4GxXqnphbHcHkAMcT3Ofe13f9JuBS+DiJ41+Y=; b=ooOFG42VDKWNv1XVqcgJqOcYzh
-	DJmvfbbxSgrqZF2u/SnCNzy2aFu8JX3VYEd6NxpXWQqiMl6/wEvkyH3gh5D+7I/fJf5nJIAv0Xh7U
-	kAFAQIRyP/AMA9XqtQhG76Vq46OGL5JC9BCClFRUATm47sn1jTYFb+mq4kI0tYdxDM5s8ciGk1tIK
-	USmx2Is5HcDYrwCqwh4T3IMU0ywTYuKhJD/SzrqnX6RxYIqEuCLggXFKmZOo+k2d6pDBO62EYzrHF
-	Ctahtcw6bKXsyIBYcBrLiR9wpBYZ8O12DesI3ZZOni6RpgYfzgsqjO1Z4HWor0DS5Ma+c55IlKUnN
-	BA6Nd8Fg==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=mQNrjS1zNaovPA1c7UCA7u0khlPktyUNcq14/ZDUISI=; b=QoXg6PfQGgndW/BX4OY8pk3xMH
+	bA38GJydCsX8W7ae3rohsbW2fL9y3sK0AtqXzfyOzF+ZCtAZyi7Xq7vQjnLr/NDRCJ9TvMpdxVHa3
+	phJos/h0CqCSepyPEws7mKBv67sj3KVYkN8vXo6BIAUfKl4EXsRZLFWIiHc6GBsENwQPE/fpVju0G
+	1DTmAWcF9eAWlQjeU1h5roaNkOr/8ZegGNkmzRdTTUjKi88H4VbM6w2r6QPpuza1Vrw7WMxFFzP+e
+	HmcYfsnw5tB5Cld1xAq0VBkEGZiLeaWYIZoK9qTIvAG+r7t9DgGIJR188KGsD1rL7KYBaYXSEchCc
+	niL/mRcA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ouiZr-005n03-J4; Mon, 14 Nov 2022 23:09:19 +0000
-Received: from out0.migadu.com ([94.23.1.103])
+	id 1oujlB-0064OY-Su; Tue, 15 Nov 2022 00:25:05 +0000
+Received: from mail-pj1-x1064.google.com ([2607:f8b0:4864:20::1064])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ouiZo-005mz4-5N
-	for linux-nvme@lists.infradead.org; Mon, 14 Nov 2022 23:09:18 +0000
-Message-ID: <65816415-303d-5579-4878-d8cba766f797@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1668467352;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+Q14Ro4GxXqnphbHcHkAMcT3Ofe13f9JuBS+DiJ41+Y=;
-	b=xu2cyA8RSQdvsixLy39t6XZ9gfOAhEdgCleuGTGifKqtfq/I8uVBhykY6pR3nIsSPn5G5y
-	+DNVzgVGhRsS3M391sYMJksEtXHvR8vN1Ec3WvsKdodGsDyNfHr3UU92cBU90JPTd9rWZY
-	1nhgTuXIJaPMdhAqlsUCsnpSNJD5vP8=
-Date: Mon, 14 Nov 2022 16:09:08 -0700
+	id 1oujl8-0064Li-0C
+	for linux-nvme@lists.infradead.org; Tue, 15 Nov 2022 00:25:03 +0000
+Received: by mail-pj1-x1064.google.com with SMTP id v3-20020a17090ac90300b00218441ac0f6so376627pjt.0
+        for <linux-nvme@lists.infradead.org>; Mon, 14 Nov 2022 16:24:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mQNrjS1zNaovPA1c7UCA7u0khlPktyUNcq14/ZDUISI=;
+        b=mA6AjTbkzX4Z0d040mZSYzb4LSG2AUPdKwmbn2r85hpqGERpsq8/9g0cOpx6H05YHe
+         fyzdzFJUJ2ay8HrEmYWZF4ZZruTJy2/ix/FtlCcbPC2Hw77Df/QuJclOQWVHbtO9IxdS
+         D8LxXuG/+CclIROXCyG7c/FRJATntafANhGms=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mQNrjS1zNaovPA1c7UCA7u0khlPktyUNcq14/ZDUISI=;
+        b=zDt2yUvV24PvAZrJ/SJWTbeu1u4MyUwEqCFNg8Rqb7v/et6VoqV/9E8622Wvkejd2w
+         ETe5Ye3yrO0nJRQLx5Idwd6KXLDnqt5d/FDQJZEfV0RroBijOMHmnEvklwGo1G16R/KF
+         aiOoKRDHsh362dNtPxa3YV+PEFtFX+5qMSsKehOrZkMruV/7EkOB/rKyv5LJ77GnX5/2
+         8ndzCv/VdQrmfhGE8o0nbN5X1SdgDD+mcNWeU3ke2yNOfBue5M+NWbHmkxzqy3hom/6n
+         gdUTG99bfz1rs7ca1yuIaUWFyEDAzOCcDwj7jv9o1A41ls74zTYrOcVOmmnoYseKj+3g
+         teog==
+X-Gm-Message-State: ANoB5plphvRp8RL8NrlILXmudDVHvcrbh81xXScgzOxmDmKFMf35JVD1
+	W1+CHOHCEdK5joflsS6CjcAKz1Jd6Vlg4dsBBaZ4gEf16rHUmA==
+X-Google-Smtp-Source: AA0mqf4WL8SWwTQEE3lPtBAiTzSDkj28yrOpA/XHw62IIuNEYOwmwFcboL5c+15RlfA8bcSvJ3+LEVfVAC/9
+X-Received: by 2002:a17:902:b488:b0:188:bc8f:5fb2 with SMTP id y8-20020a170902b48800b00188bc8f5fb2mr1652171plr.48.1668471898606;
+        Mon, 14 Nov 2022 16:24:58 -0800 (PST)
+Received: from c7-smtp.dev.purestorage.com ([208.88.159.128])
+        by smtp-relay.gmail.com with ESMTPS id r17-20020a170902c61100b00179eaea7f55sm546061plr.47.2022.11.14.16.24.58
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 14 Nov 2022 16:24:58 -0800 (PST)
+X-Relaying-Domain: purestorage.com
+Received: from dev-ushankar.dev.purestorage.com (dev-ushankar.dev.purestorage.com [10.7.70.36])
+	by c7-smtp.dev.purestorage.com (Postfix) with ESMTP id 92CED2212A;
+	Mon, 14 Nov 2022 17:24:57 -0700 (MST)
+Received: by dev-ushankar.dev.purestorage.com (Postfix, from userid 1557716368)
+	id 8598BE40227; Mon, 14 Nov 2022 17:24:57 -0700 (MST)
+From: Uday Shankar <ushankar@purestorage.com>
+To: linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Jens Axboe <axboe@fb.com>,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Guixin Liu <kanie@linux.alibaba.com>,
+	Uday Shankar <ushankar@purestorage.com>
+Subject: [PATCH v3] nvme: avoid fallback to sequential scan due to transient issues
+Date: Mon, 14 Nov 2022 17:23:59 -0700
+Message-Id: <20221115002357.3949804-1-ushankar@purestorage.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Subject: Re: Resets during user commands leads to hung task and controller
- stuck in connecting
-Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@fb.com>,
- hch@lst.de, linux-nvme@lists.infradead.org
-References: <d4a25dc1-fd2b-8f25-9ec1-04b28dfac386@linux.dev>
- <1ffea25b-6f67-a1e6-5b96-22bf3b4d89ec@grimberg.me>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Jonathan Derrick <jonathan.derrick@linux.dev>
-In-Reply-To: <1ffea25b-6f67-a1e6-5b96-22bf3b4d89ec@grimberg.me>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221114_150917_204665_5696DF72 
-X-CRM114-Status: GOOD (  10.26  )
+X-CRM114-CacheID: sfid-20221114_162502_176766_76F64C18 
+X-CRM114-Status: GOOD (  19.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,41 +94,68 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Currently, if nvme_scan_ns_list fails, nvme_scan_work will fall back to
+a sequential scan. nvme_scan_ns_list can fail for a variety of reasons,
+e.g. a transient transport issue, and the resulting sequential scan can
+be extremely expensive on controllers reporting an NN value close to the
+maximum allowed (>4 billion). Avoid sequential scans wherever possible
+by only falling back to them in two cases:
+- When the NVMe version supported (VS) value reported by the device is
+  older than NVME_VS(1, 1, 0), before which support of Identify NS List
+  not required.
+- When the Identify NS List command fails with the DNR bit set in the
+  status. This is to accommodate (non-compliant) devices which report a
+  VS value which implies support for Identify NS List, but nevertheless
+  do not support the command. Such devices will most likely fail the
+  command with the DNR bit set.
 
+The third case is when the device claims support for Identify NS List
+but the command fails with DNR not set. In such cases, fallback to
+sequential scan is potentially expensive and likely unnecessary, as a
+retry of the list scan should succeed. So this change skips the fallback
+in this third case.
 
-On 11/13/2022 4:03 AM, Sagi Grimberg wrote:
-> 
-> 
-> On 11/11/22 23:50, Jonathan Derrick wrote:
->> Hi,
->>
->> I'm (again) seeing a hung task when doing resets and formats simultaneously.
->> Controller state is left in 'connecting'
->>
->> Using nvme.git/nvme-6.2 as of 'nvme: implement the DEAC bit for the Write Zeroes command',
->> but I have also repro'd with Christoph's latest reset/probe-split set
->>
->>
->> ctrl="nvme0"
->> nsid=1
->> pci="/sys/block/${ctrl}n${nsid}/device/"
->> echo 30 > /proc/sys/kernel/hung_task_timeout_secs
->> while true; do
->>          nvme format -f /dev/${ctrl}n${nsid} &
-> 
-> How long to it take the format to complete?
-Well it's pretty immediate but I'm under the impression that the
-nvme_dev_disable path leads to CC_EN disabling, interrupting any formats
+Signed-off-by: Uday Shankar <ushankar@purestorage.com>
+---
+ drivers/nvme/host/core.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-> 
->>          echo 1 > $pci/reset_controller &
->> done
-> 
-> What happens if you set io_timeout to 20 instead of 30? (given
-> that you bound hung tasks at 30 seconds...
-It occurs with the standard 120s task timeout too
-Also there's no I/O occurring at the moment; just admin work
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 1a87a072fbed..d8303c15c7ee 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4431,9 +4431,6 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl)
+ 	u32 prev = 0;
+ 	int ret = 0, i;
+ 
+-	if (nvme_ctrl_limited_cns(ctrl))
+-		return -EOPNOTSUPP;
+-
+ 	ns_list = kzalloc(NVME_IDENTIFY_DATA_SIZE, GFP_KERNEL);
+ 	if (!ns_list)
+ 		return -ENOMEM;
+@@ -4541,8 +4538,17 @@ static void nvme_scan_work(struct work_struct *work)
+ 	}
+ 
+ 	mutex_lock(&ctrl->scan_lock);
+-	if (nvme_scan_ns_list(ctrl) != 0)
++	if (nvme_ctrl_limited_cns(ctrl)) {
+ 		nvme_scan_ns_sequential(ctrl);
++	} else {
++		ret = nvme_scan_ns_list(ctrl);
++		// fallback to sequential scan if DNR is set to handle broken devices
++		// which should support Identify NS List (as per the VS they report)
++		// but don't actually support it
++		if (ret > 0 && ret & NVME_SC_DNR) {
++			nvme_scan_ns_sequential(ctrl);
++		}
++	}
+ 	mutex_unlock(&ctrl->scan_lock);
+ }
+ 
 
-I added a blktests for this:
-http://lists.infradead.org/pipermail/linux-nvme/2022-November/036475.html
+base-commit: b09985f97c356f1e87fe042faaa9947bb693ebeb
+-- 
+2.25.1
+
 
