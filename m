@@ -4,70 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AD37C4332F
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Nov 2022 23:32:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48291C4332F
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Nov 2022 00:12:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Fh8rqO+rqZeioGW3d78+iJ6QUriFl8owv2AvhmJ7Smk=; b=VKgYBlh6CtZ8xAPCUYyFBF4LZG
-	zMIdYGIhAA7Fv7MChFWTbVlnR+CgTgahUF2fdBguPg234wqWtNV2OXuh22OtzeQZh3t6qP/YUxhbo
-	9SPXoscSCf79dktB7O1A68metqW+Wh7XFi8kqgrIDLYSckiHzIi05yO2BB/fZJDyQQxC8+dvCfz2X
-	bblCokPkd+rfSykipKkRgT+P2plXrjbR4pLqjSyxJKsXWi1Pa+B98F5JDRgqQGN8JYWIP/PT8Umc2
-	55DMub5FwFkfGuK9wFdLmlECSIH7mLkUI9DUddsdFDzVGqF9ATwMBK+weYIdw0A2Wu0P/xlOLC28p
-	McdM8q1w==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=TfNZuRSK1rYDWpaEmMVhVZSMlQ8Ufn3t/rR4cl1Jzso=; b=cRkz7dT2VkqeD2npuCVGK/je1o
+	+D5LTUCHAaUu01hLyc/w0f0cyjBRqOdX73ixijKUJSx+GvFtV3r9SZhPlH7w+hpDyaUDtslYQUvQZ
+	BFyTZtdomjFM1QfKJJIeEvhiYBfP/3piHfWV5GwSr5GNiCPr6QSQ+MQXjYjOdY6KOzc82V8ih1ZRg
+	3+FzvSBpj+VFQra5fqFSJF8aXwrzr6rcqe56yDk6Lb5vvGOOnxXT6vvsDo+e7/+6h1CNbpJixXheA
+	16ejNjrhvI9EU3kmnLx68IXsQYm3AjVtJTKoc4bW9f/qtKGNIYNcenkhz/wMlRuU31RD2ko6cjw5U
+	PZuqCIdw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ov5Pt-00Fixa-3d; Tue, 15 Nov 2022 23:32:33 +0000
-Received: from mail-wm1-f41.google.com ([209.85.128.41])
+	id 1ov62l-00FyUZ-In; Wed, 16 Nov 2022 00:12:43 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ov5Pp-00FiwG-Bf
-	for linux-nvme@lists.infradead.org; Tue, 15 Nov 2022 23:32:31 +0000
-Received: by mail-wm1-f41.google.com with SMTP id o30so10745108wms.2
-        for <linux-nvme@lists.infradead.org>; Tue, 15 Nov 2022 15:32:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fh8rqO+rqZeioGW3d78+iJ6QUriFl8owv2AvhmJ7Smk=;
-        b=6WN0qwZ1XuQktB+DC3uHQyuVp56Mxo5o6SfqQ3qUC2ozwUUIv+kTBnI9JPFqYqnYhc
-         xNHyse+Pp2Qog/UhboVk1MXuBlikl5LAm6cwTSkBEQkAhxsLetvdbRwP39MEqo4KVOZo
-         3B1GaBeyUMv4gZ2yzJPHicA6cPZIujciAOiFGnpfrlrPlabP61wxSrZxfZoZj+O3VEBJ
-         hhxpbabIekh7/u5vJ5K5rcyKzek9o5vwwpPoYXOOCkfpDp1b36cEiRehA1Pps2fQrT26
-         /+3bbE5ooyJgrENx5ymU847/GfUnhSr+4FV2a9qRIWO7TtOtsWdnjgmQfRNXzUu8Bb0q
-         f8Zw==
-X-Gm-Message-State: ANoB5pm8Tk5hp+siO1JrDv4eJEMOHtbaIRsWD5s/XR6U53pv/Pi1YYbu
-	J1caAxJf0RmVFCLJYju0hiWDPgB+tS8=
-X-Google-Smtp-Source: AA0mqf4USUhf6605rzyKJYxvSLon61sIrE/GNTbQRY3KsthhyThfPlHkwwyWG4h3CWz0g6VBjIB8Ow==
-X-Received: by 2002:a05:600c:54ec:b0:3cf:8443:e4a with SMTP id jb12-20020a05600c54ec00b003cf84430e4amr374814wmb.27.1668555146689;
-        Tue, 15 Nov 2022 15:32:26 -0800 (PST)
-Received: from [10.100.102.14] (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
-        by smtp.gmail.com with ESMTPSA id p19-20020a05600c205300b003b497138093sm139971wmg.47.2022.11.15.15.32.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Nov 2022 15:32:26 -0800 (PST)
-Message-ID: <9c9e54d2-7ed8-0ecd-0742-4bc5e6ef7739@grimberg.me>
-Date: Wed, 16 Nov 2022 01:32:25 +0200
+	id 1ov62i-00FyU5-4c
+	for linux-nvme@lists.infradead.org; Wed, 16 Nov 2022 00:12:42 +0000
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AFME4Jo020916;
+	Wed, 16 Nov 2022 00:12:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2022-7-12; bh=TfNZuRSK1rYDWpaEmMVhVZSMlQ8Ufn3t/rR4cl1Jzso=;
+ b=ObOf2ox951EOPcH+r/r5ipq9fP8eNuO2PjT2CP8klD7wRF4fZdKwVelSyQd6rdA1Xn30
+ 2QBhQiIyyB7g9vDOycKAGED8/7df8TYLZt4wKrTOA/A+7zo5QTyJ0c2w3RoDLGoZxfVi
+ XBCwUMRnPwSvqJJmqlnbuj1WLnPcKDQgBiZwDROkHlOf/WpS14KZjLB7oVGiWVkTwybA
+ x7aGeZquHEPKw2LuodJy556UfjAgJORolMfzqrEFu2ASGut84shUIBUX1H9g3fGhoB35
+ 9gFtt0xh0KF91K3risvgldB+93Gc+jEF0S7teCTVizHL3WhmMPM0cqIMBHu16xEOUbz5 rA== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3kv8ykjmyy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 16 Nov 2022 00:12:37 +0000
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 2AFNcc7X004768;
+	Wed, 16 Nov 2022 00:12:35 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3ku3k7dqf4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 16 Nov 2022 00:12:35 +0000
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AG0CZsq013984;
+	Wed, 16 Nov 2022 00:12:35 GMT
+Received: from ca-dev94.us.oracle.com (ca-dev94.us.oracle.com [10.129.136.30])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3ku3k7dqee-1;
+	Wed, 16 Nov 2022 00:12:35 +0000
+From: Alan Adamson <alan.adamson@oracle.com>
+To: linux-block@vger.kernel.org
+Cc: alan.adamson@oracle.com, linux-nvme@lists.infradead.org,
+        shinichiro.kawasaki@wdc.com
+Subject: [PATCH] tests/nvme: Remove test output for passthrough error logging
+Date: Tue, 15 Nov 2022 16:12:34 -0800
+Message-Id: <20221116001234.581003-1-alan.adamson@oracle.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [linux-nvme:nvme-6.2 26/41] drivers/nvme/host/nvme.h:1030:1:
- error: non-void function does not return a value
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Hannes Reinecke <hare@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>
-References: <202211160745.7DFOlBj7-lkp@intel.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <202211160745.7DFOlBj7-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-15_08,2022-11-15_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0 adultscore=0
+ phishscore=0 malwarescore=0 suspectscore=0 mlxlogscore=999 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
+ definitions=main-2211150166
+X-Proofpoint-GUID: -FSbXsoXg8FdkoJdlK8wof_DkiRueA6l
+X-Proofpoint-ORIG-GUID: -FSbXsoXg8FdkoJdlK8wof_DkiRueA6l
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221115_153229_435888_7311758E 
-X-CRM114-Status: GOOD (  15.70  )
+X-CRM114-CacheID: sfid-20221115_161241_355918_B94CAE91 
+X-CRM114-Status: GOOD (  14.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,157 +89,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Commit d7ac8dca938c ("nvme: quiet user passthrough command errors")
+disabled error logging for passthrough commands so the associated
+error output in nvme/039.out should be removed.
 
+When an error logging opt-in mechanism for passthrough commands is
+provided, the error output can be added back.
 
-On 11/16/22 01:27, kernel test robot wrote:
-> tree:   git://git.infradead.org/nvme.git nvme-6.2
-> head:   26309879524a9136be01c23a3d7f7eeb94cb0264
-> commit: 1b05a0bbfb31a9c1b8e3e9abcb527301ced6d418 [26/41] nvme-auth: don't ignore key generation failures when initializing ctrl keys
-> config: hexagon-randconfig-r013-20221115
-> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 463da45892e2d2a262277b91b96f5f8c05dc25d0)
-> reproduce (this is a W=1 build):
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          git remote add linux-nvme git://git.infradead.org/nvme.git
->          git fetch --no-tags linux-nvme nvme-6.2
->          git checkout 1b05a0bbfb31a9c1b8e3e9abcb527301ced6d418
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/nvme/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
->     In file included from drivers/nvme/host/fc.c:13:
->     In file included from drivers/nvme/host/nvme.h:11:
->     In file included from include/linux/pci.h:38:
->     In file included from include/linux/interrupt.h:11:
->     In file included from include/linux/hardirq.h:11:
->     In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
->     In file included from include/asm-generic/hardirq.h:17:
->     In file included from include/linux/irq.h:20:
->     In file included from include/linux/io.h:13:
->     In file included from arch/hexagon/include/asm/io.h:334:
->     include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             val = __raw_readb(PCI_IOBASE + addr);
->                               ~~~~~~~~~~ ^
->     include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
->                                                             ~~~~~~~~~~ ^
->     include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
->     #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
->                                                       ^
->     In file included from drivers/nvme/host/fc.c:13:
->     In file included from drivers/nvme/host/nvme.h:11:
->     In file included from include/linux/pci.h:38:
->     In file included from include/linux/interrupt.h:11:
->     In file included from include/linux/hardirq.h:11:
->     In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
->     In file included from include/asm-generic/hardirq.h:17:
->     In file included from include/linux/irq.h:20:
->     In file included from include/linux/io.h:13:
->     In file included from arch/hexagon/include/asm/io.h:334:
->     include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
->                                                             ~~~~~~~~~~ ^
->     include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
->     #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
->                                                       ^
->     In file included from drivers/nvme/host/fc.c:13:
->     In file included from drivers/nvme/host/nvme.h:11:
->     In file included from include/linux/pci.h:38:
->     In file included from include/linux/interrupt.h:11:
->     In file included from include/linux/hardirq.h:11:
->     In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
->     In file included from include/asm-generic/hardirq.h:17:
->     In file included from include/linux/irq.h:20:
->     In file included from include/linux/io.h:13:
->     In file included from arch/hexagon/include/asm/io.h:334:
->     include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             __raw_writeb(value, PCI_IOBASE + addr);
->                                 ~~~~~~~~~~ ^
->     include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
->                                                           ~~~~~~~~~~ ^
->     include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
->                                                           ~~~~~~~~~~ ^
->     In file included from drivers/nvme/host/fc.c:13:
->>> drivers/nvme/host/nvme.h:1030:1: error: non-void function does not return a value [-Werror,-Wreturn-type]
->     }
->     ^
->     6 warnings and 1 error generated.
-> --
->     In file included from drivers/nvme/target/loop.c:7:
->     In file included from include/linux/scatterlist.h:9:
->     In file included from arch/hexagon/include/asm/io.h:334:
->     include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             val = __raw_readb(PCI_IOBASE + addr);
->                               ~~~~~~~~~~ ^
->     include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
->                                                             ~~~~~~~~~~ ^
->     include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
->     #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
->                                                       ^
->     In file included from drivers/nvme/target/loop.c:7:
->     In file included from include/linux/scatterlist.h:9:
->     In file included from arch/hexagon/include/asm/io.h:334:
->     include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
->                                                             ~~~~~~~~~~ ^
->     include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
->     #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
->                                                       ^
->     In file included from drivers/nvme/target/loop.c:7:
->     In file included from include/linux/scatterlist.h:9:
->     In file included from arch/hexagon/include/asm/io.h:334:
->     include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             __raw_writeb(value, PCI_IOBASE + addr);
->                                 ~~~~~~~~~~ ^
->     include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
->                                                           ~~~~~~~~~~ ^
->     include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->             __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
->                                                           ~~~~~~~~~~ ^
->     In file included from drivers/nvme/target/loop.c:13:
->>> drivers/nvme/target/../host/nvme.h:1030:1: error: non-void function does not return a value [-Werror,-Wreturn-type]
->     }
->     ^
->     6 warnings and 1 error generated.
-> 
-> 
-> vim +1030 drivers/nvme/host/nvme.h
-> 
->    1019	
->    1020	#ifdef CONFIG_NVME_AUTH
->    1021	int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl);
->    1022	void nvme_auth_stop(struct nvme_ctrl *ctrl);
->    1023	int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid);
->    1024	int nvme_auth_wait(struct nvme_ctrl *ctrl, int qid);
->    1025	void nvme_auth_reset(struct nvme_ctrl *ctrl);
->    1026	void nvme_auth_free(struct nvme_ctrl *ctrl);
->    1027	#else
->    1028	static inline int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl)
->    1029	{
+Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
+---
+ tests/nvme/039.out | 2 --
+ 1 file changed, 2 deletions(-)
 
-As pointed out, this needs a return 0;
+diff --git a/tests/nvme/039.out b/tests/nvme/039.out
+index 162935eb1d7b..139070d22240 100644
+--- a/tests/nvme/039.out
++++ b/tests/nvme/039.out
+@@ -2,6 +2,4 @@ Running nvme/039
+  Read(0x2) @ LBA 0, 1 blocks, Unrecovered Read Error (sct 0x2 / sc 0x81) DNR 
+  Read(0x2) @ LBA 0, 1 blocks, Unknown (sct 0x3 / sc 0x75) DNR 
+  Write(0x1) @ LBA 0, 1 blocks, Write Fault (sct 0x2 / sc 0x80) DNR 
+- Identify(0x6), Access Denied (sct 0x2 / sc 0x86) DNR 
+- Unknown(0x96), Invalid Command Opcode (sct 0x0 / sc 0x1) DNR 
+ Test complete
+-- 
+2.31.1
 
->> 1030	}
->    1031	static inline void nvme_auth_stop(struct nvme_ctrl *ctrl) {};
->    1032	static inline int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid)
->    1033	{
->    1034		return -EPROTONOSUPPORT;
->    1035	}
->    1036	static inline int nvme_auth_wait(struct nvme_ctrl *ctrl, int qid)
->    1037	{
->    1038		return NVME_SC_AUTH_REQUIRED;
->    1039	}
->    1040	static inline void nvme_auth_free(struct nvme_ctrl *ctrl) {};
->    1041	#endif
->    1042	
-> 
 
