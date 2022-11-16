@@ -4,140 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E09D2C43219
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Nov 2022 01:09:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0EE8C4332F
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Nov 2022 02:24:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qvzQYh0l+k41HhCT5jzsVbGtQkQNk/qfGrph7TdUyRw=; b=IFQoFIKYEZvHBFkxvgThaAZ3j5
-	XsbHf4eSpzg6ERSVfU4+hxhEVOV8EJjTgalvAeO8jVezzvRcAREKfDvTwNZe3zgi7kjdbyIR9F0NI
-	a0SXJA+JjFhHgKP8F00nbLFRgaQnnSYxO1ISHEEQcxhjGgMpKEBLhqdfr+smGLawEGmlVp8B1lRO8
-	Ay07stmAvdiqxQCYEFamIOJFyB83T43qov9gAmJbVnS7rfCyqiO3dyTlC5h282kTtJlsKzZkLV0Px
-	JWHJ2NJfAve70lWJgjBHyKpJ4aVf54r9ItbubrB4bErHFY6pBykejJT0p9JyaAw6+seYeiMDwCnpf
-	+R1ly92w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:CC:To:From:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2AQD/FXBIx2QvsjuglJoA4d0XuO7JQMYdbfSyzs3a0k=; b=ktYVaODt+kaay3PYihf64u9fk2
+	7TyIQklXGe7o+TrdPhEaNERYjc5ftuzXw4b9Vp1eP0Wo6gNLpDrIk7xT9ZC+RfADA7ZonTsPqxmJK
+	R1uH45+vnRiVfo90j2r4RCg8X8ZObfWmoDDw2baaPc8IZfHAttfQozbzPZ8nwjPr8tm3yaBcx8ewM
+	8r+UNNJ/uiSgOHjHtjQlHdhAF6GpnEHrsVXKewUyK1mTEbBFgGeL113HBssl0kztR74gjNCOa6gU1
+	ePFGUffU2/MhT5qHkqW4kyUhu5OWjHCpoKtaGGiTT5AKxUc1YElbWfR9e1JYXhEmuj/b2wKoCv4ZD
+	HJpfpfpQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ov6vo-00G653-4a; Wed, 16 Nov 2022 01:09:36 +0000
-Received: from mail-mw2nam10on20607.outbound.protection.outlook.com ([2a01:111:f400:7e89::607] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+	id 1ov86a-00GaRb-Fl; Wed, 16 Nov 2022 02:24:48 +0000
+Received: from szxga02-in.huawei.com ([45.249.212.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ov6vl-00G626-4t
-	for linux-nvme@lists.infradead.org; Wed, 16 Nov 2022 01:09:34 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eJilaok91A/FF1Cdhf5oPbiOM05UOe3KIWXj/TPXkbR0DgD5p/AQHoy9246TIdFzdBH0zlBSfN6vkEqyn5yA1dVcr7XbnZMtV5u7NLBIb8OimnOYcTPg/J0+DoagAU7MZXqWVmo0xoOjuo9e0R9ZXFDqJ/qAnBaAMyt7kC3KPt8cBYeqcYEvVOnn5cZnEuSavAj70kcrR2buH1laKNlQp4EVb8A2N96wBHAQS3sb8jhjTZMuDl1V09C4g7HIVJEmYrne05vEzC7rzp3IxhSJcWDcbZ6yLTskwAnvVu5nNiaAZcuoc44RqyH6EY+5NM2Dqf18xtyhoqCynpamZCYNzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qvzQYh0l+k41HhCT5jzsVbGtQkQNk/qfGrph7TdUyRw=;
- b=JdAQj45C77v+D0KwPV/5cV+8R9TkZ63hwPbviS1YXHbt3XjVsUeKEMfxmGik/sLnM89F7mFodQ19OAzlt4EQ12afoTNOPBBzUqMvePO/ZScNklhwKN1725fww4EUjJKZDukqXXVzTcqX1OudWJrxTAAa0+FRysijvKiquzlM4rl4UzgO/+gpfIlWs5birjsLOV1g2+PiUzh+hL/IVU6DcvtwUOKgp2IKEEebXcfjfdy7uLq8k/BHqCCHs2ltmUenF+Cg/y2OWl1hJj1li3POQxo7DiRloGr/CZJsfJohtXvIrd6fjoNmNfEo8zA1trO9Vlrs11oad4G9jkbHN3DmpA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qvzQYh0l+k41HhCT5jzsVbGtQkQNk/qfGrph7TdUyRw=;
- b=SCbjfiyk/ia9TTEa5A+aEI3UW+cKZEsgQb21FxihMsyl3KA3cQfgLQGlO4o5JlwWmnempQasU+AanyEyhKcYwVVYaoLby0XJltgMiAwzhqeAVhFSYmASmetMo965kFkALCBHy5+tEViROytfiu942WZxh3WPekCUF3dxEXuyYf/BrJ1ocsfghOvuFdfO+JHpNWtloxQicAFQrE/HXG7XlPrL0To+PLPtixNvTdXOYOX/vVK6FiNo2+PE8fN+UsrWFnHCgpwu4PkDmYpwnicJhgMc3l1x+rFn9oxnNgbg/SBezpEN0TpEttNCcyWMxQKi3pyyrgX7UA0mTG/zV02nTg==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by BY5PR12MB4114.namprd12.prod.outlook.com (2603:10b6:a03:20c::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.17; Wed, 16 Nov
- 2022 01:09:28 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::eaf1:9be8:d472:ea57]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::eaf1:9be8:d472:ea57%7]) with mapi id 15.20.5813.017; Wed, 16 Nov 2022
- 01:09:28 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Mike Christie <michael.christie@oracle.com>, "kbusch@kernel.org"
-	<kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>, "hch@lst.de"
-	<hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
-	"martin.petersen@oracle.com" <martin.petersen@oracle.com>,
-	"jejb@linux.ibm.com" <jejb@linux.ibm.com>, "linux-scsi@vger.kernel.org"
-	<linux-scsi@vger.kernel.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>
-Subject: Re: [PATCH v2 4/4] nvme: Convert NVMe errors to PR errors
-Thread-Topic: [PATCH v2 4/4] nvme: Convert NVMe errors to PR errors
-Thread-Index: AQHY+TldezKj9DwdK0OZ+K+iCM22bq5AvbMA
-Date: Wed, 16 Nov 2022 01:09:28 +0000
-Message-ID: <522549b8-d2b5-e056-fc42-e2c6e1f2afb4@nvidia.com>
-References: <20221115212825.7945-1-michael.christie@oracle.com>
- <20221115212825.7945-5-michael.christie@oracle.com>
-In-Reply-To: <20221115212825.7945-5-michael.christie@oracle.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|BY5PR12MB4114:EE_
-x-ms-office365-filtering-correlation-id: 36525046-3ac2-402c-d0cb-08dac76f35f2
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  +e4BPV28aPIVIG8ylx1bukNFke0IWnwT9G4jubGse+H2TWpN/ve2B5t0RgdmLGedjvxWka3RTndJTkf8TEp9sGmnqEuDikM2SuA9mI29XjXC55PR9VDnVhq7TkTUglSUD50OvdYpBfmJGHRAwr0vxox51vVc38oHjqYeHABNo4iHH4FGEXUMjZ/l11Yztc4GFrN0iZ8shXB+ktGRuMPXADSK4IqiD2CONP7NII8JJv8+hEIViS0GMUTO9zIZ8QOIDP52KwRPgC5jW3AAPRJuNg01VeSeKT/elSBDvzc98RH2n+qKBQO4ujJJZXcz7YCaRicjk0fNBz9qdjG9g9daDiQcAtDKPXkuGR5RB+Ovdx/pMPeuwYIhXnMbFNOkoa195lt/36Ksocqcu7scOSU3/iV9lQjeyHLawDWjnGVZsLVRTlBSN1AfzKD4M0FfF/EAAdBemxXQLp7zko1CeWRUj4baq5W8pv/LchvT4IobNKvinUL1jWjkdPm0Z9PwiLcaRPnMLxtWGTt1yKudqjTUx6JlK+8ll6HLiouQDKXDDQJS+5PRtgfsDptHCsX8DLShSwe/QBN2VpBQk++//XMXKJ3b5ABg2q+EAaFgD80YuwVhL8sDNg97TE7BEuzD5Z56z3yyvl/5aIdiCRw2Mg60ySoD/UWFiASHI+ZJ+AjXZ+OPSUgp5pBhZ2raKhAaY5TWN/Go3GywpfoQV4YYkA75ken+oQLqSDoohCayVZgDqsKQiNrOXkb4mg5rDdZFl1jfRDOk+g1c/dFmHZxGg+rG9j7wgFNvvJZfxzC7uQekwCRz85AlGVhMr8Wlay692lptUUaWPpV1WkbkCn4VURdCkmheTVC2V8fSzZg5jgaj/60=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(39860400002)(366004)(396003)(346002)(136003)(451199015)(186003)(2616005)(6512007)(71200400001)(6486002)(478600001)(53546011)(36756003)(110136005)(6506007)(316002)(38070700005)(83380400001)(86362001)(31696002)(38100700002)(122000001)(921005)(66556008)(31686004)(2906002)(66899015)(66446008)(8676002)(41300700001)(91956017)(76116006)(64756008)(66946007)(7416002)(66476007)(8936002)(5660300002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?TVVUcjFqRWtSM1VyL0dqZXluMk1pbWVZUGlOWUlRaElkT0FJSVp6Z3JWeGJ1?=
- =?utf-8?B?UHIzVTFLU1pNbDlNVDFJV2tnSk9ZWHhlK29CS2U4d2F1ckp0cnRBT05WcHlG?=
- =?utf-8?B?TGM0Zkk5dDVqNlQrNWtDdjZialphdVRGbisyTTM4Rm1Ga3o0OXJkQ0RVM2pG?=
- =?utf-8?B?d2JUVWNCNmkxcFhEWjJZRjZ6Tk9HWHNmeGFiZ2FYRExhbDBxMjVIWkRBU0RF?=
- =?utf-8?B?RzZHazlPcmI1akVmVDVGaXE4NS93UkdOZEZVRDArZ0U0RHdYWHE3NGVoNmhL?=
- =?utf-8?B?blJJR0VwdW5qQm9uMy9ZcU0wa0VCQkJoWmxyTlJlV0N0eUxyOGtjaGhEenhl?=
- =?utf-8?B?Sm1ObUdYbUJIVzhZUkYvUXU2L2l3SnNMV0lBdTRQbFlVMmtlSlBpQ3FRc3lH?=
- =?utf-8?B?STM1eFBtM0U5dGdDSmNxK2hBb3FMbDRlVDNsb2d3Uzl1bzFsR0o5NUNTUmxR?=
- =?utf-8?B?NFgxclJaMHRNR0NGNWFtMTFidzdiWVdpS2QrelV4ZjJEUUtteERDVi9od3Bo?=
- =?utf-8?B?Z3VUUmx5cndXbWdlT3dBS3dWWURMR01RdGErVUsyaTlGM0NEdTJqWi91bTJI?=
- =?utf-8?B?YWovRE1qUXpIT211VWwrb2FhRHZyOG1YQzNOUlRVYnVPK1crQTE2eklxYllR?=
- =?utf-8?B?ajk3SHExUHpYWUs4eEhKbUlsTTliQ2tFM2l1c0pudDArQUt6LzkxeVFnNVps?=
- =?utf-8?B?cFNuaHFvMDZ5cUhXN3lYNnFCcG5TMW9IUlRwdUFLRmlrMkxXYmV5THE4aHhv?=
- =?utf-8?B?WDRRa2VodkVMRlNINGtOeVRsNnZZMXNjc09iQ09UVlpvK21zbTJ2QWVmVWF0?=
- =?utf-8?B?WWVLbEhvcFZQbE44Um9GNEJhK1BLZFpNclBsS2hpSDlYT0tHRHhPL28wZzR2?=
- =?utf-8?B?emdwUEM2bFpYczZZYnRzWCtwa3JkZlBhUE43YWVnblZYdUl4OWI2OGt4cXpO?=
- =?utf-8?B?T2tzeUdpaGhnaWRpUWNsR0VRbm1DcG5ISWFCMm1iQnR3S1BSaTAvS2tadE80?=
- =?utf-8?B?eGl2ZDNQWUo5KzlvLzJYbHNGTlB3SEMxVDNEWVN3bmU1OWhvdVdNL2R6bDk5?=
- =?utf-8?B?V29iNlU1WjViUHVQRXZkS0t3WUNzTE9mY2dkK3hYWk43dXZzanN5UzdkYkVz?=
- =?utf-8?B?Y1lYQUk1N3kwSUs3bjU1MDgyNWcvMGVFM2QwUGZobTJobkxvYzVqeTZ4ZUtD?=
- =?utf-8?B?azJPRVQwM0k4U3g3eUlvUzhpa0FSOURucEtPMS8xcUhaeXA5OWZXYmo5TmNS?=
- =?utf-8?B?ejBxTkhtbGl4SXZicGtybm85QmdYUlJZUnBTUDJTQW9MMnBXSmtaQ2VwYXYz?=
- =?utf-8?B?bnJvcnJXUzFxcXQvVHJzQzJUNnlGak9nN1BLRGJDaFJLSUU2OXQ5YnNQblR6?=
- =?utf-8?B?RkFCc3VwSG9QRzNlWmd2ckxXL3lXQzRtNXpTVG00cUx5RCt1cTdGN0pNQVNm?=
- =?utf-8?B?bjdmMkc2MHE4TGlPVmNhb1ZNMVNFbmhveXFvV0VkNjV0V25jWGtsMkM2TXV0?=
- =?utf-8?B?T0VlbU8wbUFxdnBlbnpnSHpJa3pKQXNpOXJoMWZIZ2hWcDh3UnBKbENQeVFG?=
- =?utf-8?B?UkI3SjVyZG9pbGE0ZVc5S2xVb2ZETnoxOWxlZ0ZrYTV0b2gvc3cxc0U5emlz?=
- =?utf-8?B?TkdjWk9wS1dmbFpGbEZjTXNEb0R0TS90RWhLVm96VHc0SGl1T3hTRG1YVEtJ?=
- =?utf-8?B?QmJVTzl0UWhBdzBrVGN3anU1KzdtK2ZvTTdIc0l4cGp2Y2Q0dkhaNTZoYlJm?=
- =?utf-8?B?eEc5RmFhRHNMMnFjUDdhQTJjSmQxWndvcHZRWGtwT0ExNWFLMWtuVU1xbkFp?=
- =?utf-8?B?ZTFwcHloSnNBcGc0T0p3MThWOEhGY084QjNEb21WWE5JNDlYdW9BTWdzSzNO?=
- =?utf-8?B?cndBa0tidVRhdEtPaFIxSldxMVZ6cy91Mng2SGN4bkZYUjlLZGNNZDk1Z0wx?=
- =?utf-8?B?STlYbXp0c2R4T0FRc3lUWklDMGZnSzNLVlQyREp6T2diS0M5YXVldWhMUDFN?=
- =?utf-8?B?citrQ2dPZDRXbmx6S2kvZERDd1RWZTJManZNalRTallWeUFDS3pGQU11M1da?=
- =?utf-8?B?U1piVGRQeXgzNjloVFZleWVKUncyZDlkcE5sL2ZGSHZzb2s0Mk5JKytRU1lO?=
- =?utf-8?B?eGZMOWFZSUpUaHVsbHpxU3lXMmhZNi9OTlZRWVRoOE9uY3Y4UTdXYzJxaTJO?=
- =?utf-8?Q?pz3ayUn0DUW0NwSzf7xM4GwwBVYWoSbsn8mriVsHK3xf?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <367C26E303B4DF4AA10403F4F6159ECA@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	id 1ov86W-00GaQm-5w
+	for linux-nvme@lists.infradead.org; Wed, 16 Nov 2022 02:24:46 +0000
+Received: from canpemm500002.china.huawei.com (unknown [172.30.72.54])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NBn1B5y75zRpMY;
+	Wed, 16 Nov 2022 10:24:14 +0800 (CST)
+Received: from [10.169.59.127] (10.169.59.127) by
+ canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 16 Nov 2022 10:24:33 +0800
+Subject: Re: [PATCH] nvme-rdma: set ack timeout of RoCE to 262ms
+From: Chao Leng <lengchao@huawei.com>
+To: Max Gurtovoy <mgurtovoy@nvidia.com>, Sagi Grimberg <sagi@grimberg.me>,
+	Christoph Hellwig <hch@lst.de>
+CC: <linux-nvme@lists.infradead.org>, <kbusch@kernel.org>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
+References: <20220819075825.21231-1-lengchao@huawei.com>
+ <20220821062016.GA26553@lst.de>
+ <83992e8f-b18a-ccd3-e0ee-a5802043f161@huawei.com>
+ <86e9fc3b-aded-220d-1ee0-4d5928097104@nvidia.com>
+ <f7254cc2-88e0-e91f-e4f1-788c5889fcf1@huawei.com>
+ <fbee7c67-fd7b-12c8-5685-066b1974aadb@grimberg.me>
+ <550d4612-0041-3d84-b1cb-786d0c8e0d11@huawei.com>
+ <3030fbb2-5c63-54ea-5be3-b88cf63c6b75@grimberg.me>
+ <c86a6cea-09b5-c04c-aa7b-adc6a457acf6@huawei.com>
+ <328a807f-bfaf-b279-69c5-09be179891ac@huawei.com>
+ <1bd4d4f6-fe33-7fe5-f662-cdef61acf800@nvidia.com>
+ <405b78aa-51b8-30b4-ff86-c46d1bc84cda@huawei.com>
+Message-ID: <47eb747d-0b48-acc5-a833-02457817e71b@huawei.com>
+Date: Wed, 16 Nov 2022 10:24:32 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 36525046-3ac2-402c-d0cb-08dac76f35f2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Nov 2022 01:09:28.6124
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RvxYMM6e7wd7AsLjc+Zm1ULXH5LL/izABELTKfARtd71OqdKd4h9YHnGzIRRaCpIvSb30yarL1CXjuwmOAQ6WA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4114
+In-Reply-To: <405b78aa-51b8-30b4-ff86-c46d1bc84cda@huawei.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.169.59.127]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ canpemm500002.china.huawei.com (7.192.104.244)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221115_170933_212527_7E41A677 
-X-CRM114-Status: GOOD (  18.96  )
+X-CRM114-CacheID: sfid-20221115_182444_601546_8329C664 
+X-CRM114-Status: GOOD (  21.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -152,43 +80,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMTEvMTUvMjIgMTM6MjgsIE1pa2UgQ2hyaXN0aWUgd3JvdGU6DQo+IFRoaXMgY29udmVydHMg
-dGhlIE5WTWUgZXJyb3JzIHdlIGNvbW1vbmx5IHNlZSBkdXJpbmcgUFIgaGFuZGxpbmcgdG8gUFJf
-U1RTDQo+IGVycm9ycyBvciAtRXh5eiBlcnJvcnMuIHByX29wcyBjYWxsZXJzIGNhbiB0aGVuIGhh
-bmRsZSBzY3NpIGFuZCBudm1lIGVycm9ycw0KPiB3aXRob3V0IGtub3dpbmcgdGhlIGRldmljZSB0
-eXBlcy4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IE1pa2UgQ2hyaXN0aWUgPG1pY2hhZWwuY2hyaXN0
-aWVAb3JhY2xlLmNvbT4NCj4gLS0tDQo+ICAgZHJpdmVycy9udm1lL2hvc3QvY29yZS5jIHwgNDIg
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystLQ0KPiAgIDEgZmlsZSBjaGFu
-Z2VkLCA0MCBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYyBiL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYw0KPiBp
-bmRleCBkYzQyMjA2MDA1ODUuLjgxMWRlMTQxYTdlZSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9u
-dm1lL2hvc3QvY29yZS5jDQo+ICsrKyBiL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYw0KPiBAQCAt
-MjEwNCwxMSArMjEwNCw0MyBAQCBzdGF0aWMgaW50IG52bWVfc2VuZF9uc19wcl9jb21tYW5kKHN0
-cnVjdCBudm1lX25zICpucywgc3RydWN0IG52bWVfY29tbWFuZCAqYywNCj4gICAJcmV0dXJuIG52
-bWVfc3VibWl0X3N5bmNfY21kKG5zLT5xdWV1ZSwgYywgZGF0YSwgMTYpOw0KPiAgIH0NCj4gICAN
-Cj4gK3N0YXRpYyBpbnQgbnZtZV9zY190b19wcl9lcnIoaW50IG52bWVfc2MpDQo+ICt7DQo+ICsJ
-aW50IGVycjsNCj4gKw0KPiArCWlmIChudm1lX2lzX3BhdGhfZXJyb3IobnZtZV9zYykpDQo+ICsJ
-CXJldHVybiBQUl9TVFNfUEFUSF9GQUlMRUQ7DQo+ICsNCj4gKwlzd2l0Y2ggKG52bWVfc2MpIHsN
-Cj4gKwljYXNlIE5WTUVfU0NfU1VDQ0VTUzoNCj4gKwkJZXJyID0gUFJfU1RTX1NVQ0NFU1M7DQo+
-ICsJCWJyZWFrOw0KPiArCWNhc2UgTlZNRV9TQ19SRVNFUlZBVElPTl9DT05GTElDVDoNCj4gKwkJ
-ZXJyID0gUFJfU1RTX1JFU0VSVkFUSU9OX0NPTkZMSUNUOw0KPiArCQlicmVhazsNCj4gKwljYXNl
-IE5WTUVfU0NfT05DU19OT1RfU1VQUE9SVEVEOg0KPiArCQllcnIgPSAtRU9QTk9UU1VQUDsNCj4g
-KwkJYnJlYWs7DQo+ICsJY2FzZSBOVk1FX1NDX0JBRF9BVFRSSUJVVEVTOg0KPiArCWNhc2UgTlZN
-RV9TQ19JTlZBTElEX09QQ09ERToNCj4gKwljYXNlIE5WTUVfU0NfSU5WQUxJRF9GSUVMRDoNCj4g
-KwljYXNlIE5WTUVfU0NfSU5WQUxJRF9OUzoNCj4gKwkJZXJyID0gLUVJTlZBTDsNCj4gKwkJYnJl
-YWs7DQo+ICsJZGVmYXVsdDoNCj4gKwkJZXJyID0gUFJfU1RTX0lPRVJSOw0KPiArCQlicmVhazsN
-Cj4gKwl9DQo+ICsNCj4gKwlyZXR1cm4gZXJyOw0KPiArfQ0KPiArDQo+ICAgDQoNCkxpa2UgbnZt
-ZXRfYmRldl9wYXJzZV9pb19jbWQoKSBpZiB3ZSByZXR1cm4gZGlyZWN0bHkgd2UgY2FuIHJlbW92
-ZQ0KdGhlIGxvY2FsIHZhcmlhYmxlIGFuZCBicmVhayBmb3IgZWFjaCBjYXNlIFsxXSwgbm8gYmln
-IGRlYWwgZmVlbCBmcmVlDQp0byBpZ25vcmUgdGhpcyBjb21tZW50Lg0KDQpMb29rcyBnb29kLg0K
-DQpSZXZpZXdlZC1ieTogQ2hhaXRhbnlhIEt1bGthcm5pIDxrY2hAbnZpZGlhLmNvbT4NCg0KLWNr
-DQoNClsxXQ0Kc3RhdGljIGludCBudm1lX3NjX3RvX3ByX2VycihpbnQgbnZtZV9zYykNCnsNCglp
-ZiAobnZtZV9pc19wYXRoX2Vycm9yKG52bWVfc2MpKQ0KCQlyZXR1cm4gUFJfU1RTX1BBVEhfRkFJ
-TEVEOw0KDQoJc3dpdGNoIChudm1lX3NjKSB7DQoJY2FzZSBOVk1FX1NDX1NVQ0NFU1M6DQoJCXJl
-dHVybiBQUl9TVFNfU1VDQ0VTUzsNCgljYXNlIE5WTUVfU0NfUkVTRVJWQVRJT05fQ09ORkxJQ1Q6
-DQoJCXJldHVybiBQUl9TVFNfUkVTRVJWQVRJT05fQ09ORkxJQ1Q7DQoJY2FzZSBOVk1FX1NDX09O
-Q1NfTk9UX1NVUFBPUlRFRDoNCgkJcmV0dXJuIC1FT1BOT1RTVVBQOw0KCWNhc2UgTlZNRV9TQ19C
-QURfQVRUUklCVVRFUzoNCgljYXNlIE5WTUVfU0NfSU5WQUxJRF9PUENPREU6DQoJY2FzZSBOVk1F
-X1NDX0lOVkFMSURfRklFTEQ6DQoJY2FzZSBOVk1FX1NDX0lOVkFMSURfTlM6DQoJCXJldHVybiAt
-RUlOVkFMOw0KCWRlZmF1bHQ6DQoJCXJldHVybiBQUl9TVFNfSU9FUlI7DQoJfQ0KfQ0KDQo=
+Hi, Max
+    How's it going now?
+    Thank you.
+
+On 2022/10/14 10:15, Chao Leng wrote:
+> 
+> 
+> On 2022/10/14 8:05, Max Gurtovoy wrote:
+>> Sorry for late response, we have holiday's in my country.
+>>
+>> I still can't understand how this patch fixes your problem if you use ConnectX-5 since we use adaptive re-transmission by default and it's faster than 256msec to re-transmit.
+> adaptive re-transmission? Do you mean NAK-triggered retransmission?
+> NAK-triggered retransmission is very fast, but timeout-triggered retransmission
+> is very slow. Because There is a possibility that all packets of a QP are lost,
+> receiver HBA can not send NAK.
+>  From our analysis, we didn't see any other adaptive re-transmission.
+> If there is any other adaptive re-transmission, can you explain it?
+> 
+> This patch modify the waiting time for timeout re-transmission, Thus if all packets
+> of a QP are lost, the re-transmission waiting time will become short.
+>>
+>> Did you disable it ?
+> We do not disable anything.
+>>
+>> I'll try to re-spin it internally again.
+> If you need more information, please feel free to contact me.
+> Thank you.
+>>
+>> On 10/10/2022 12:12 PM, Chao Leng wrote:
+>>> Hi, Max
+>>>     Can you give some comment? Thank you.
+>>>
+>>> On 2022/8/29 21:15, Chao Leng wrote:
+>>>>
+>>>>
+>>>> On 2022/8/29 17:06, Sagi Grimberg wrote:
+>>>>>
+>>>>>>>>> If so, which devices did you use ?
+>>>>>>>> The host HBA is Mellanox Technologies MT27800 Family [ConnectX-5];
+>>>>>>>> The switch and storage are huawei equipments.
+>>>>>>>> In principle, switches and storage devices from other vendors
+>>>>>>>> have the same problem.
+>>>>>>>> If you think it is necessary, we can test the other vendor switchs
+>>>>>>>> and linux target.
+>>>>>>>
+>>>>>>> Why is the 2s default chosen, what is the downside for a 250ms seconds ack timeout? and why is nvme-rdma different than all other kernel rdma
+>>>>>> The downside is redundant retransmit if the packets delay more than
+>>>>>> 250ms in the networks and finally reaches the receiver.
+>>>>>> Only in extreme scenarios, the packet delay may exceed 250 ms.
+>>>>>
+>>>>> Sounds like the default needs to be changed if it only addresses the
+>>>>> extreme scenarios...
+>>>>>
+>>>>>>> consumers that it needs to set this explicitly?
+>>>>>> The real-time transaction services are sensitive to the delay.
+>>>>>> nvme-rdma will be used in real-time transactions.
+>>>>>> The real-time transaction services do not allow that the packets
+>>>>>> delay more than 250ms in the networks.
+>>>>>> So we need to set the ack timeout to 262ms.
+>>>>>
+>>>>> While I don't disagree with the change itself, I do disagree why this
+>>>>> needs to be driven by nvme-rdma locally. If all kernel rdma consumers
+>>>>> need this (and if not, I'd like to understand why), this needs to be set in the rdma core.Changing the default set in the rdma core is another option.
+>>>> But it will affect all application based on RDMA.
+>>>> Max, what do you think? Thank you.
+>>>>> .
+>>>>
+>>>> .
+>> .
 
