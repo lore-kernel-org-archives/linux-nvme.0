@@ -4,145 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 075BEC4332F
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Nov 2022 04:17:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CCC0BC433FE
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Nov 2022 06:07:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EzbhaKExvRrR3Gy0qCIYZ2LkX592aioGdx4X7q9FqMw=; b=y+YIPaJFcfDVgWWeONhtY78MJq
-	ZG/nOa+b7bkTnQv5u+BK5FqORk0nXUBhxDp6g9p65aD8v4fjjUBbHt7fOwf7X70aLZbFWdFYpPb3+
-	7TfR5UHObCIVxN9AuoqN6saa99iCf7lW1u9um5sn/oattFPwL1P30cs5QNDg3PqDWiD+iq/CwHvDZ
-	O0FwS0KprJFQENQBUaYWRVywyAxjzvjxwzc30xAsq7RijtQgeP0j5sjgbNL0AtIpEIAPkKMWbjl0g
-	rUf2GD1NnJ/T5p6vJXD7U6e4+YnJXxJ/wttppUUPzXHjArywBQdJgbfEsUc4EqNOGx3apJlbh/SwL
-	nKujMqiw==;
+	bh=EdvCX2GT0W6Cm/w/JCftPinES1WaQ+X1jEwXlQkLESg=; b=OpTBgtYr3yiXKm1BmAfal4Vai2
+	Qq0nwaegICaBAN2iHUnq+/ZlmQo0g+CNicVU7rEH2eWroWKr2Sv8FQz9vV56vMfdSh43d5l+4SFom
+	16uT6Nm1p3WgoE4gbV95+nepiUJ34RXfkecd7K9V8DCuZ5bbDEsZ1Usjbqq3qeXLFE5egcVPlKozp
+	tExM1se5nxHEtBNK4WakKNnHm99bneZk+fmb0Y2lR5HW8RvDDI1DNvBIiI5B1Ijhy1Cnr9MCl8aVE
+	2ARiF9Imak985L+B/TyvrHCb6IftQmNJHQvXlRXFGYPTZCA/GAA4462a3Md2cO2RvbBog7k9fBMLN
+	05u3G5+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ov9rd-00H9I4-NO; Wed, 16 Nov 2022 04:17:29 +0000
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
+	id 1ovBZu-000BME-AR; Wed, 16 Nov 2022 06:07:18 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ov9rY-00H9GM-TE
-	for linux-nvme@lists.infradead.org; Wed, 16 Nov 2022 04:17:28 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1668572244; x=1700108244;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=w0yle//ujr1lYRRM24XdIEbvJkIFJhEcRrGI86epyjI=;
-  b=YP5dOvg/jRmCILYx7OGH6MYCrZ4Ibgdcz7lwgV7bYWkbSEacthjOBVSp
-   FJIYJbLjPSJknaLjc09peAlsaFSru/Bqzc5VFlgnFVpRVQIXHl5O/oSLR
-   ftRG3SaUxQLWcQOFoIpIbMym62dYPugbhXZhVuVjq2MKDkAUPBhePXzoj
-   hMma6c0jjoYAgBr6kJvwoimZgH0VifQRmmWTorPO4zCrDnphi0McEb9as
-   5KqnPUndpdIY8Wt2o8fm3PFRoENLSWsfDrdDXVn9vr2xtoMVo2LK4ZwtY
-   bSzdUPyL+pc8plXuUxpIAyApZsQBMk+yljEg0GyYOg2ooNOHlC97mrSSf
-   A==;
-X-IronPort-AV: E=Sophos;i="5.96,167,1665417600"; 
-   d="scan'208";a="221537930"
-Received: from mail-dm6nam12lp2173.outbound.protection.outlook.com (HELO NAM12-DM6-obe.outbound.protection.outlook.com) ([104.47.59.173])
-  by ob1.hgst.iphmx.com with ESMTP; 16 Nov 2022 12:17:05 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=awA0nL1LByI5BSktt7/wHEnXgrESpsnSjtd0dTyQ5M2fyxa6BGTvgvtBRGbe9K3vrquenpA/yDVTFwx7AOgUSQH9BOQP4cwyxL3ujhT8emTkuTDcN9dC1SKZOZgHwlFPy3IA5tiiHO728PV9U6HLKaS93oAJTaJQ45m67Esb+sEl0uAQztI/5ycQGmDs7l0tRE7HLV+FHzUUtCuY4bAWIFCjoBgeLpDAkn7Qodfgz0MZS3izmmbTjs/4sCzwbn9J2pkp+pdFw8t8VBWGAAT6sThAbDTwqWHtrzksjJ1oJdTrVQZcBsWuWAGptLmE+wxMRGQZMWfGPuUqz1EzuHjC0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EzbhaKExvRrR3Gy0qCIYZ2LkX592aioGdx4X7q9FqMw=;
- b=WeH3eMbHu7FaFUIahOEtMOanE9Up1xFdUlJEFktlpCmqaWNoG1hMUk8tbvyBpAHnk64O82oLfp9Y28frU46WCAqmjh/pjFOuKYxtfkcIvI36wB+DKnq4U8ogjBA/Ee/c52f22y+stwOZi9EACADLmFLe0HumzCMNuSnhCii/GIo9vfiidwPImNO2PLh0CuV8qtDp12LoQHsMAl6KO7gP7ZcUFVKIEdYXlXBafU6DSay8/JkxSD4NRK//L6ZG9GVADhNJZO/Ic/L0kWWnR7IZm0YLKw8U62KXo0i712C5aiBAjmYcO7Wco3Xu4YBmcBbrQ/xRJR0FwKjUywNn4dD4Iw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EzbhaKExvRrR3Gy0qCIYZ2LkX592aioGdx4X7q9FqMw=;
- b=aFiRWFTNXWsTdT0LKUCTkwviMYZzgcP0EBZ/0ooSATzjWzuPQ/FVZ5Z4OwDoA23jMQ65Q8so+IY9F5WfvcjbClpt+F3fwwjU9lAy5QRiZ2qRftJ+vG5J4/Xp9kPZyZl7zUJCnb/mw78BI5h5li4Yw3+pSTVhAAkkuX16FF4Myeo=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- BN7PR04MB4130.namprd04.prod.outlook.com (2603:10b6:406:f4::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5813.18; Wed, 16 Nov 2022 04:17:03 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::d4b9:86e9:4fc8:d6e0]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::d4b9:86e9:4fc8:d6e0%6]) with mapi id 15.20.5813.017; Wed, 16 Nov 2022
- 04:17:03 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Alan Adamson <alan.adamson@oracle.com>
-CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH] tests/nvme: Remove test output for passthrough error
- logging
-Thread-Topic: [PATCH] tests/nvme: Remove test output for passthrough error
- logging
-Thread-Index: AQHY+VAqj+m0i7O+SU+q/si86nu3RK5A8eyA
-Date: Wed, 16 Nov 2022 04:17:03 +0000
-Message-ID: <20221116041701.mu4osauvwqsbvjau@shindev>
-References: <20221116001234.581003-1-alan.adamson@oracle.com>
-In-Reply-To: <20221116001234.581003-1-alan.adamson@oracle.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|BN7PR04MB4130:EE_
-x-ms-office365-filtering-correlation-id: 931e4993-fb11-462d-c360-08dac7896a4c
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  30N0NJg8aP8vEGBOWqVf5L6yshuBwsDw5UoPBu6yh4zcuUGHZZqUbw7HC25zE9vlxspYitw8BVad+HF/ajqKk7hdeAA7p0H/W6sVyxbUHdTFJ2Lg671VMXgHp2uxcYowOx3SCId8QML7fMnpEZsrxL/pVRm8mW5cjiaIFvvgQoUpq0+G3ZrqQeAwyBdT6qvqpwU070UzLfa21DuSRtetwAjjixi0Lq/iIFU0e/C+IS6/qg4+9CJUZ3elkkz7VN8R8V13XSlL4FFDHShTjvAH6LuH+wQWsmBdANwVTvoxwVY9ueHgODxE4+8vbBOXqOp454sAPl0zOGKJd+WT5hUKIDetvbr/3f5YYgR4kt+DaHJL+MQhAjW7lVYwZQl5psoaFjQoTDIPIXTIEgztHHoJMCmrrXDdWFABgMiK9ufXNJcFKRb2IuokQFHHoUID0JlWAetii5dmGyGluaJNE81dbSYeB6FSHJe9stFWgWz19z9zvDh8vWXAru7dN+njuTJG68cIJJp/U71R8xQbuzFltptIVQ0gqlu97MqgKdEm7DBtHmUtxarnQ7vceNSWEATgXDTu/KW9apMNJM3Yy8eboQAvCa4y8xvXRJ+9i6uG1rkzdF/O8c4kiRZILXZ/fkhRPeWCrv9h2T+x3jK4xzXb8g2xqL2JcRNmxMj9Bllhlp3CIor95619IoLHWkx0cgPQ8vBIL930jG2uODmUinKk8zY5F+iDObS23mN+8dIKQXop8GVZmf5ncwTGi8k+hMqfBCORmP6x2IF1srBWD87cEw==
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(7916004)(346002)(366004)(376002)(396003)(39860400002)(136003)(451199015)(76116006)(44832011)(5660300002)(6512007)(91956017)(8936002)(26005)(66556008)(4326008)(66476007)(6506007)(41300700001)(64756008)(66446008)(8676002)(66946007)(6916009)(316002)(122000001)(186003)(54906003)(82960400001)(86362001)(33716001)(71200400001)(9686003)(38100700002)(83380400001)(2906002)(38070700005)(478600001)(6486002)(1076003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?AR1usdmVfbxW3x4FyEN/VHpRczeCMBYPHzyy38cMZdd5bnPlJWV5m3aYZzkl?=
- =?us-ascii?Q?3PBT9xVX9wPt9jreY33gfYfq2z8Xx5ZDse3EmwbEEFuPMAPtmVl+zkCG09mq?=
- =?us-ascii?Q?RtJ6k2LwyKsoZMb6RIPRglHQtATWtYwdvVXPyy9r8Q20wdcWPjvgQFYmqqqo?=
- =?us-ascii?Q?2pmaTqZNyMFYKbdjnn0MkFjbwgr0vxi/4Efdz2v3Z4vHsNzRJrMI8UJnXE20?=
- =?us-ascii?Q?VJWAkuZJ59IhAZD8NJr5h3VVyLQ4H5MdJeJCeNy1wnmxuqZPfxMIrqRN5sn9?=
- =?us-ascii?Q?0IobJOGGtk4A07ua3TLu6dp3h9GeEY2aBhejZpzjRPZvPrMlkVKp+FFklBEv?=
- =?us-ascii?Q?WmqWDj88rCzoSGRlocsRRENXtSNcWqYTppQSXvjIj8TUj+12KamX1/OnQmSp?=
- =?us-ascii?Q?XRiXFi0qxwBFP2txubLwmkyFly5SMYGtBU2cI9qdLx5ZHSkx5IkriewAR7e9?=
- =?us-ascii?Q?YNqkwQ5pEkfKl9G0bMFxZ7AUcncjMJ9tOYb2bEgZhOWtBzOfBo78Ak7ZX0qX?=
- =?us-ascii?Q?tI85CZOXTsjLwutS5Yq8whBGv7ZJhxxaPc8AVNt4v2KjbM3ciLbt4BYzA1iS?=
- =?us-ascii?Q?Y4GPoxWN8eiuwfM0R0syK4gNcD2hU8Ls5NqmBR77DbjC8mXwo8tSUMTzDgYL?=
- =?us-ascii?Q?38e5RPI/qba3sy3Ia1Ab360zWq6sm4UFEwyaF1qe1yAdJqvX0t1VmEBpLXMJ?=
- =?us-ascii?Q?bpQnMK23of4OHnEck9yGP9+YXKSRI7hU2Jw3+oQwpmmpTnZhEifwbqyNiH4X?=
- =?us-ascii?Q?QN2a+XcBme0yMqC3+6/gExFsmBweAM/2n7uS6HcVi8ezPf+mBc6ftovY7zda?=
- =?us-ascii?Q?XFBs9cyteGjgzBB/I0shSvQtvmGapQwPqEWnSJP4G22n8QisOFzUu/AhIpsE?=
- =?us-ascii?Q?891GWZXCpB1sHGSr6779A0NoWSQ8KHR76cx0r3hj5zUuE+YYiVPQZVgM9ofH?=
- =?us-ascii?Q?ycw/mLDmOliSylidSw/NQPb/YcSOowy2RjfQtXkakZPE76RlEzzew6xLlQk4?=
- =?us-ascii?Q?cjHW0ZVE1H6yeWa+WxggCzOurvR4gjrGbTuFaZyw/ZWP5r1+I9YVf4HooX8B?=
- =?us-ascii?Q?CJS+bn6f8lDhgEbZfziVWMKcnZJEkFunTD7DQSzbItRhVQB60WLZMwSUPOnR?=
- =?us-ascii?Q?W7uem0kbt8+m19+rI2iEeMylMbhoOuRkDJQ6d73IwHS35I/e8OZ1Q5rG0SS6?=
- =?us-ascii?Q?ae3cRbpNvbvjV3AxPAV3/t55E5fCGGCwRfBVuIRjXSBqdxZiRfNaOHXmHKo8?=
- =?us-ascii?Q?p5DPhFfyCYIjkuHR6fK6wqzS9AAGSX9l0jJ9zUxlXSL+blVqewWqG3B22J4O?=
- =?us-ascii?Q?6Yq0Ht9g9tV+aw/yr58J3yCFn022FSG6pKYS3j/yiTZbqNO8qrwjxW+pMy/p?=
- =?us-ascii?Q?zXiOkwMkFnaOABNhEHqYWRIeBW5G0FAwRVa0qY1km41YzFRirAT6r8QtjY2p?=
- =?us-ascii?Q?OWerimvYnImg8MkFrq0py+pTEaFw7rDOu3/EIzmjSoNkUadBxwi4gumwnnTN?=
- =?us-ascii?Q?eBbS9dzvkALymVVXr+Lj96dHf7Itn3Bo0zSATmyjJWwggl7pwZ7bG78CB+He?=
- =?us-ascii?Q?ylBt3e18/qx4ViL47YfL2aoUjt7RWIMTzL0oVD4cH7SCgIVhaatUuisPBuD1?=
- =?us-ascii?Q?4Lp7/oU7qojrib0T5p41eoA=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <AE0EDD2F1914034393DF89FCBA54935D@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	id 1ovBZr-000BJv-Bg
+	for linux-nvme@lists.infradead.org; Wed, 16 Nov 2022 06:07:17 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 49CB868AA6; Wed, 16 Nov 2022 07:07:07 +0100 (CET)
+Date: Wed, 16 Nov 2022 07:07:07 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
+	Christoph Hellwig <hch@lst.de>, Hannes Reinecke <hare@suse.de>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: Re: [linux-nvme:nvme-6.2 26/41] drivers/nvme/host/nvme.h:1030:1:
+ error: non-void function does not return a value
+Message-ID: <20221116060707.GA19088@lst.de>
+References: <202211160745.7DFOlBj7-lkp@intel.com> <9c9e54d2-7ed8-0ecd-0742-4bc5e6ef7739@grimberg.me>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 	OfLpLCIAuvS0oWcMY0+6i4CuEk83OhBBi2QDm9ApBECHvoN+r8cCN9p86ve+jYCUYvTPASX4FSTp8hY8GmNYJJ7noB7w360zG9L5UAEQHuY+k3wcQUaaE/F+MjaSNj4eFlqvlsKuAElcOF+p6b76WwFoc61P1A4LSslXPyuaOLNlPLqbpRU2x3UP3pMiS+iA6AmXRqJiWH/f9qOtUP/iN+HUrjyhqcKr5FMG+ME+N6j0n9yrNSzSopxqCf3VpBhlH4/UR7EFEr9biS4MwAWfZECKY2zla0TCyrcbR+No+fKaDs0rwgOTv4OI+z4Kx1L7G5M7oDxH3WTKNNE3vYk9fpm3g6aBkerIJ0rVCypE2QHJEu3pqrbUf/bZJMvup0ur6C0WleaHJiWPbLB62GUmE2ucN2FUo8go7kwrJ43fdD0tuvML/2nij69zZViqpmUTaZRlmVglTRK5Sl+0dlBnFh5WyeNrluTMktkO8aKPIYp8/Szj6Olhy8xbofUjIF5Mx1ZboXLT86Rfp639z92O11rQN83U2yvVHsoR47zfyIUuRkVW7f2RTfK6IpOYIL4G712QzzZRibpTH7KL7Ykb3DJULgZtwGMIx4AzM/f0rzkkc1W9lfbz8IYfTax0QW9dZmF/knucQNp3CjQZ+gvMBka+ecTON4YnRkejSpAeIH00nTrtNzA2gHJN8l0M/iut6BcuWl2KNaYuTpPYs4k5MHG4DRQSTcU5i4D7RsNHjHGiVbblPw0qv1vFk5hBm3d8oDTnUaQvonLUU6kiTPauE6srtO5WZNKTHbwbGDrR+hPddBvR7Md+2QLUP0kJ2FtfkiOcsU3sqf20Swpz9zBoriKo3fNRxMdjkM/9ll3a8PU=
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 931e4993-fb11-462d-c360-08dac7896a4c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Nov 2022 04:17:03.3741
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: uYLVag7gN9CIU1g49z7JwJb4dRW6xVgPiQNxfIg6xgj7VtbxwyTgr1UXjxXnr74ZppOe22DLLwZ8HL86ba6t2TCKIQu4p36GBvpewp13Mn8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR04MB4130
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9c9e54d2-7ed8-0ecd-0742-4bc5e6ef7739@grimberg.me>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221115_201725_252737_048DD3B6 
-X-CRM114-Status: GOOD (  14.20  )
+X-CRM114-CacheID: sfid-20221115_220715_556269_3FB4259D 
+X-CRM114-Status: UNSURE (   8.54  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -157,39 +61,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Nov 15, 2022 / 16:12, Alan Adamson wrote:
-> Commit d7ac8dca938c ("nvme: quiet user passthrough command errors")
-> disabled error logging for passthrough commands so the associated
-> error output in nvme/039.out should be removed.
->=20
-> When an error logging opt-in mechanism for passthrough commands is
-> provided, the error output can be added back.
-
-Thanks for this quick action. This two-steps approach looks good for me.
-
-I confirmed the fix avoids the failure with v6.1-rc5 kernel. Also, I observ=
-e
-this fix makes the test case fail with v6.0 kernel. I suggest to skip the t=
-est
-case with kernel v6.0 or older, applying the hunk below. Could you repost v=
-2
-with this change? Or if you want, I can apply it together with v1. Please l=
-et
-me know your preference.
-
-diff --git a/tests/nvme/039 b/tests/nvme/039
-index e175055..ea626e3 100755
---- a/tests/nvme/039
-+++ b/tests/nvme/039
-@@ -14,6 +14,7 @@ QUICK=3D1
-
- requires() {
-        _have_program nvme
-+       _have_kver 6 1
-        _have_kernel_option FAULT_INJECTION && \
-            _have_kernel_option FAULT_INJECTION_DEBUG_FS
- }
-
---=20
-Shin'ichiro Kawasaki=
+Thanks, fixed up again.
 
