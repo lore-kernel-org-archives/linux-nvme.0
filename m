@@ -4,70 +4,120 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18CE9C433FE
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Nov 2022 01:20:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA8ACC433FE
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Nov 2022 03:25:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=lXm0pK13oDt869uF2DzxOk8lrMjegmJN/YqK1eWQdnE=; b=SRq4AfV2sg+XNQm+evcQEtifyP
-	AcjhHyq0sD2Fgrsef7RAoU1T+5k6PfcSpNbtEvkolPQYJJ1gUpRYUyqrZBzsAvU40cJo/CYryILjd
-	0Y7skynmIAmXHFAxQNRlRnIhG4C6stLIp/yyTGGOZIN7HigG1Rrho9h5IcNvqvJZf9kRPr/ig40jt
-	GBNq94ozqtENZltn+7zC7IVBYCVXkm56caxoAx7r3FigFndBopAjqJG/3W0uurvHrJRzwpvr1oy1q
-	z9G+PnLDg89iFePtg7X8RdruDr20gE5noprWokEP2bf3BURuRrht/bEQ8IVCwHCgaVrzFVPibQkq6
-	X8l71jfw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=llP6ogVl7HvPG8O1Sa6fIFY02qTfVnabtABKgrSQhnY=; b=Xwol7cFXiBF3YqbHVPZn4DO4MJ
+	6G7ltBxemf17sm2LAgzZS2kunnpZwiYiKH5klkG+hIJ10n5CCNggxOIPF0tcImjSAmX9/pHiZFipZ
+	KD3F5mgDwcx4z9jGZZvoULZ1kOHNgDowfHZHqnVFGQ+ekoPpX8Veg9bQc5lVXQ1HpfF9Qx+iN7wFv
+	+tCwEoo8kbVNArvDMORmFl5FuXfMzNluZxq1IO3YSyzNw8x4beJKQAVyV9Rzw0LldqAipaxP53mIa
+	otogmq+Zq11Q5BP5cym8qbyzswHsl1ybhqrn1rb/sIEorIwKRqA6PmHsgeXisULm5gwsXP1JwwlHe
+	UkmcGQlg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ovTa6-009JQV-7d; Thu, 17 Nov 2022 01:20:42 +0000
-Received: from mga17.intel.com ([192.55.52.151])
+	id 1ovVWf-009qjk-BX; Thu, 17 Nov 2022 03:25:17 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ovTa3-009JPa-AS
-	for linux-nvme@lists.infradead.org; Thu, 17 Nov 2022 01:20:40 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668648039; x=1700184039;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=nE8o/JshxVbViOapv9D5cOv6JZaPrjLpc6S2C/JO4fY=;
-  b=SUAjLhiUSWUSwsHVuz6a59BiSPCXVWhhHrReZQAvogHuVZuaY6INLbRn
-   HY2ppyoCOZxCb7dj3FJ/RC6PH35zCH1fYoKLXHMZ3SMUtux1MT28naKda
-   yKFkwYV2eaCIODdkjYcx83f31Fpt3Yy5VARN9h46zGipezyH7WgHTCilh
-   CBcNnzrcjqN614Yw1iZIWDETat7PAfheKvY1VwATNsWWqRnBvP8YUiP4g
-   1kQtjItUpZlrz5kgq00uxSg2yzoFub4CguXf63lyILeL6+XvklPetWmgw
-   hyMltEqEqUiZ9edbKHJfeu9E1r3QhF/zc8FouRXlJNFJCXysclg3WxLU7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="293114707"
-X-IronPort-AV: E=Sophos;i="5.96,169,1665471600"; 
-   d="scan'208";a="293114707"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2022 17:20:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="745303520"
-X-IronPort-AV: E=Sophos;i="5.96,169,1665471600"; 
-   d="scan'208";a="745303520"
-Received: from lkp-server01.sh.intel.com (HELO ebd99836cbe0) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 16 Nov 2022 17:20:27 -0800
-Received: from kbuild by ebd99836cbe0 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ovTZq-0002v5-2X;
-	Thu, 17 Nov 2022 01:20:26 +0000
-Date: Thu, 17 Nov 2022 09:19:43 +0800
-From: kernel test robot <lkp@intel.com>
+	id 1ovVWZ-009qho-C2
+	for linux-nvme@lists.infradead.org; Thu, 17 Nov 2022 03:25:16 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20221117032504epoutp040939924947c1fe7d66bf2275d654d214~oQVcU31iM0682906829epoutp04E
+	for <linux-nvme@lists.infradead.org>; Thu, 17 Nov 2022 03:25:04 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20221117032504epoutp040939924947c1fe7d66bf2275d654d214~oQVcU31iM0682906829epoutp04E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1668655504;
+	bh=llP6ogVl7HvPG8O1Sa6fIFY02qTfVnabtABKgrSQhnY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Jbnq9H3wJY3NSS9LIwA7JMmXufpXaFfVQnL7Gz2m70+hGaRTX7yScXdN8HZT8sFjg
+	 YhueqE6Chy6rn+vsTHPt3he5dwPgLv+0SeKUhklabx/xLKSPSKuMHpvyLRlK4uRU6v
+	 90nys6Jk8zydglYHmvt3viH++s4F74fgn2RDegOo=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20221117032503epcas5p183639d4031e580d59b03b4c484195930~oQVb6NuNf1734917349epcas5p1n;
+	Thu, 17 Nov 2022 03:25:03 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.175]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4NCQJt02d2z4x9Pr; Thu, 17 Nov
+	2022 03:25:02 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	76.77.56352.989A5736; Thu, 17 Nov 2022 12:24:57 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20221117032456epcas5p34d72cbcdde00c69b0c14fb7c18f3dd3b~oQVVBsvlz2327223272epcas5p3J;
+	Thu, 17 Nov 2022 03:24:56 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20221117032456epsmtrp25c54532c98ff1dacde0cc79db50197d7~oQVVBHJNP2798927989epsmtrp27;
+	Thu, 17 Nov 2022 03:24:56 +0000 (GMT)
+X-AuditID: b6c32a4b-383ff7000001dc20-28-6375a9898243
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	F0.57.14392.889A5736; Thu, 17 Nov 2022 12:24:56 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20221117032455epsmtip2f63fab338bd648c3b3aaa6258fdfda51~oQVTx1xUT0410704107epsmtip2y;
+	Thu, 17 Nov 2022 03:24:54 +0000 (GMT)
+Date: Thu, 17 Nov 2022 08:43:36 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
 To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.2] BUILD SUCCESS
- 891961df73e4dc8b2c69a5f790d5233f93d7c239
-Message-ID: <63758c2f.R2IcV/7/n26G0Z+Y%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org
+Subject: Re: block dangerous passthrough operation
+Message-ID: <20221117031336.GA392@test-zns>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20221116154415.GA18491@lst.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrNKsWRmVeSWpSXmKPExsWy7bCmhm7nytJkg9tH5SxWrj7KZDHp0DVG
+	i/nLnrJbrHv9nsWBxeP8vY0sHptWdbJ5bF5S77H7ZgNbAEtUtk1GamJKapFCal5yfkpmXrqt
+	kndwvHO8qZmBoa6hpYW5kkJeYm6qrZKLT4CuW2YO0EolhbLEnFKgUEBicbGSvp1NUX5pSapC
+	Rn5xia1SakFKToFJgV5xYm5xaV66Xl5qiZWhgYGRKVBhQnbGhdf3mAp2c1V8WnyTsYHxBkcX
+	IyeHhICJxIYXd9m6GLk4hAR2M0osuT6dGcL5xCjx8Mh0qMw3RolNi2aywrS8PrQBqmovo8Sl
+	XxtYIJxnjBK/D99jBqliEVCV6Hu/FSjBwcEmoClxYXIpSFhEQEni6auzjCA2s0C6xJxF38HK
+	hQWMJHac3Adm8wpoSyzpPgBlC0qcnPmEBcTmFNCROPr+DVhcVEBZ4sC240wgeyUE7rFLfF26
+	hRniOheJM09/s0DYwhKvjm9hh7ClJD6/28sGYSdLXJp5jgnCLpF4vOcglG0v0XqqnxniuAyJ
+	7V/+sEPYfBK9v58wgfwiIcAr0dEmBFGuKHFv0lNooIhLPJyxBMr2kDi15gA7JEy6mCSuzGhn
+	mcAoNwvJP7OQrICwrSQ6PzSxzgJawSwgLbH8HweEqSmxfpf+AkbWVYySqQXFuempxaYFxnmp
+	5fBITs7P3cQIToVa3jsYHz34oHeIkYmD8RCjBAezkghviXppshBvSmJlVWpRfnxRaU5q8SFG
+	U2D0TGSWEk3OBybjvJJ4QxNLAxMzMzMTS2MzQyVx3sUztJKFBNITS1KzU1MLUotg+pg4OKUa
+	mJxlyrM9HHdmyE9WP5jObbSG09l428T/t28ucNrXbOZ++E8a422JzL+Tb12YrqK11Tf6HVuS
+	WKPRx7vbO85Vz08V5Mj48iJskejt5AdvPd5+fR7goFEb4mzt42x+QuNceGz/TvbcQFev6wlF
+	W5guNuz4aHKt/o9PxPva7c0v3keIX3zbqxyV+uX1GfaFRjmvD63YnbvTfUbO5jQb9SsV9fxa
+	NmG1x99ffJawNuG+0mkR49KEhv0iU0zXbKhe3Kui2+l52tyereym9x+pAy1LEqTE5YT7vi3c
+	ldN5M/nxqqNCUe/KhQ5NPLNho6C05L/S03Ml3Z5G1bX9yJ9+MsHOvj38sUuZRJaUi47Eanct
+	JZbijERDLeai4kQASJrPQw4EAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJLMWRmVeSWpSXmKPExsWy7bCSvG7HytJkg6Pb+C1Wrj7KZDHp0DVG
+	i/nLnrJbrHv9nsWBxeP8vY0sHptWdbJ5bF5S77H7ZgNbAEsUl01Kak5mWWqRvl0CV8bUOTPY
+	Ct6yV0y81sbcwLiErYuRk0NCwETi9aENzF2MXBxCArsZJTb9msQEkRCXaL72gx3CFpZY+e85
+	O0TRE0aJfxtWsYIkWARUJfreb2XpYuTgYBPQlLgwuRQkLCKgJPH01VlGEJtZIF1izqLvzCC2
+	sICRxI6T+8BsXgFtiSXdB6AW9zFJzLk4hQkiIShxcuYTFohmM4l5mx8yg8xnFpCWWP6PAyTM
+	KaAjcfT9G7A5ogLKEge2HWeawCg4C0n3LCTdsxC6FzAyr2KUTC0ozk3PLTYsMMxLLdcrTswt
+	Ls1L10vOz93ECA5tLc0djNtXfdA7xMjEwXiIUYKDWUmEt0S9NFmINyWxsiq1KD++qDQntfgQ
+	ozQHi5I474Wuk/FCAumJJanZqakFqUUwWSYOTqkGptOTDjhlWB/xLlK8tiry+7t9d5Rs7vjN
+	TZ8kt88soccs/ZPL5bdJrQpJsiueXsmaKvNvU+GCuiVrSj657rhTzPNQeSrnpX3H+ffl/PkZ
+	7uiWLPJbu3ZHRAWL/LQN5Y9zwjb+uyEidfCIeFgJY2utW4DConlaXr6LpMSSHbcZnQi12Zzh
+	NOOHwH/jx0e/Vdpt3J/IJpQ4VW3ePv2sWsbafO7LHXfdH33ISFC1MeswuH3RwFw2hNHRwt5D
+	+m6FQcZSkevfkl02y3ndOP5+w4eCIIX/mxY+6ZwxM4aZ6yGX6zuezE02Mt2vHj18Fil8+3w3
+	v+LmVc/MP7jZTBftPv4t/0jgmbkbDj1Mmf/fn0l4ixJLcUaioRZzUXEiAHvxb+rcAgAA
+X-CMS-MailID: 20221117032456epcas5p34d72cbcdde00c69b0c14fb7c18f3dd3b
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----GsYAgckb8ZPIB7TqR4NYyp-jgnPv5c.LE-kW9H5hDU_d1TDU=_4ca2f_"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20221116130636epcas5p39a586e15d27045752f18d022f4efd74a
+References: <CGME20221116130636epcas5p39a586e15d27045752f18d022f4efd74a@epcas5p3.samsung.com>
+	<20221116130104.2186334-1-hch@lst.de> <20221116132502.GA5094@test-zns>
+	<20221116133839.GA9364@lst.de> <20221116134322.GB5094@test-zns>
+	<20221116154415.GA18491@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221116_172039_440556_C5DB5148 
-X-CRM114-Status: UNSURE (   7.67  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221116_192512_880008_B8F13082 
+X-CRM114-Status: GOOD (  15.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,96 +132,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.2
-branch HEAD: 891961df73e4dc8b2c69a5f790d5233f93d7c239  nvme: rename the queue quiescing helpers
+------GsYAgckb8ZPIB7TqR4NYyp-jgnPv5c.LE-kW9H5hDU_d1TDU=_4ca2f_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-elapsed time: 724m
+On Wed, Nov 16, 2022 at 04:44:15PM +0100, Christoph Hellwig wrote:
+>On Wed, Nov 16, 2022 at 07:13:22PM +0530, Kanchan Joshi wrote:
+>> I see, good to know. I am still missing something.
+>> This series is on top of nvme-6.2, since nvme_cmd_allowed did not exist
+>> earlier.
+>> In that case having this series or not having - gives the same effect,
+>> no?
+>
+>Yes, no change due to the series introducing nvme_cmd_allowed.
+>It is just a convenient place to put the checks.
 
-configs tested: 74
-configs skipped: 2
+Got it now. The series is about restricting root/admin itself from doing
+certain things.
+If we end up going this route, putting a new helper seems clearer to me.
+Something like this: 
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+if (capable(CAP_SYS_ADMIN)) {
+	return admin_only_checks();
+}
+/* regular user checks as before */
 
-gcc tested configs:
-arc                                 defconfig
-alpha                               defconfig
-s390                                defconfig
-s390                             allmodconfig
-s390                             allyesconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                          rhel-8.3-func
-x86_64                    rhel-8.3-kselftests
-arc                              allyesconfig
-ia64                             allmodconfig
-mips                             allyesconfig
-alpha                            allyesconfig
-powerpc                           allnoconfig
-m68k                             allmodconfig
-powerpc                          allmodconfig
-m68k                             allyesconfig
-sh                               allmodconfig
-i386                          randconfig-a001
-i386                          randconfig-a003
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-kvm
-i386                          randconfig-a005
-i386                          randconfig-a014
-i386                          randconfig-a012
-i386                          randconfig-a016
-x86_64                        randconfig-a015
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-x86_64                              defconfig
-sh                          r7785rp_defconfig
-x86_64                               rhel-8.3
-i386                             allyesconfig
-i386                                defconfig
-x86_64                           allyesconfig
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-x86_64                            allnoconfig
-i386                          randconfig-c001
-microblaze                          defconfig
-sh                          rsk7203_defconfig
-sparc64                          alldefconfig
-sh                            titan_defconfig
-powerpc                 mpc85xx_cds_defconfig
-mips                            ar7_defconfig
-arm                            zeus_defconfig
-arm                             ezx_defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-i386                          debian-10.3-kvm
-i386                        debian-10.3-kunit
-i386                         debian-10.3-func
 
-clang tested configs:
-i386                          randconfig-a002
-i386                          randconfig-a004
-i386                          randconfig-a013
-i386                          randconfig-a015
-i386                          randconfig-a006
-i386                          randconfig-a011
-x86_64                        randconfig-a014
-x86_64                        randconfig-a012
-x86_64                        randconfig-a016
-x86_64                        randconfig-a005
-powerpc                     pseries_defconfig
-hexagon              randconfig-r041-20221117
-hexagon              randconfig-r045-20221117
+But if there are people using the upstream driver for testing
+nvme-hardware, restricting may not go well. Stuff like creating SQ/CQ
+in early stages of new SSD/controller development may just be
+the thing they want to test.
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+
+------GsYAgckb8ZPIB7TqR4NYyp-jgnPv5c.LE-kW9H5hDU_d1TDU=_4ca2f_
+Content-Type: text/plain; charset="utf-8"
+
+
+------GsYAgckb8ZPIB7TqR4NYyp-jgnPv5c.LE-kW9H5hDU_d1TDU=_4ca2f_--
 
