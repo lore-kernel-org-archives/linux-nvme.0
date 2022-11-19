@@ -4,81 +4,138 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5EFAC433FE
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Nov 2022 23:28:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19387C4332F
+	for <linux-nvme@archiver.kernel.org>; Sat, 19 Nov 2022 00:04:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=GKWU5emOEwGwA0WI4eCG9Dk/AXUEXVS9yrhYI8olhd8=; b=zINbLVpMEHDycqy6fQ6RqwVQwo
-	LbL13Ym+hdoV1dLIuxRkXq2lBjXSIiPVQ12bdxGzaLHwBe/4y5i4h63taxvMj5duX8mfge39Y+ztE
-	eXFCLspos9CDh6JEeUxXHWsklocX8Bf/UTCVsfkAWrygahggB2qlf7zo03/NUiSuNgI9e7sTFoCeV
-	ERjHs16/gCwEpKiYFnqlGZwpCDdWhG6PAMOXNUGQHqAindSKDYs+U3PbH9AAkJEZFTzLVUCb1QLV0
-	RyxUdid5358tHFpuK38YZLl3xNDZ1EndElSm0clst4oaqJ7XuJWee1v/ccGS/Fu4e3PPn1Y3mq1yC
-	AWUySIxA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=T3HoByuUEq/Udj2GoX7mBV24tUb1R2SYv29kpdiUpvQ=; b=aSaqUlnYiA/+8ql87ZA+2NRKE7
+	ioZaz6NPjcizMdNeVoRt8WHAxucF9vkycQ7Fbn7jrZ1p1lb6mRoUBm1DAdNZUJ1IPwP+JsRVsjpPq
+	nBsWlIu54dih0rlhWGgkGWs65Y0xVBg5QAUhVTG/ImrvsV4cDbkct9e9DoWZdvonLkuOV4yksoh2U
+	xDUtSxqBvtyGESVstr6nt4llxp8l7CItt+N3Mxs/o/cqn+bm0wefQ1HtLELdMvB135Twr9C24DXqr
+	8iMSu7ze4ueP8AK2Rr9qKNdAyNTElqo6VFZT2TVI02Ev0Akf9zDQBeuR1kq3pAFvZAM9mjEuimdaR
+	g8eoA26A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1owAmX-009BFa-Hx; Fri, 18 Nov 2022 23:28:25 +0000
-Received: from mail-oa1-x64.google.com ([2001:4860:4864:20::64])
+	id 1owBLq-009VlI-Bn; Sat, 19 Nov 2022 00:04:54 +0000
+Received: from mail-bn1nam02on20602.outbound.protection.outlook.com ([2a01:111:f400:7eb2::602] helo=NAM02-BN1-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1owAmU-009BDg-OF
-	for linux-nvme@lists.infradead.org; Fri, 18 Nov 2022 23:28:24 +0000
-Received: by mail-oa1-x64.google.com with SMTP id 586e51a60fabf-13be3ef361dso7687710fac.12
-        for <linux-nvme@lists.infradead.org>; Fri, 18 Nov 2022 15:28:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GKWU5emOEwGwA0WI4eCG9Dk/AXUEXVS9yrhYI8olhd8=;
-        b=UcjcNncWyuuwW2TkmXP+YSLH4cN45ID0txgytFuuHvGVVDKHXkfWmpcYwMmNkgdor+
-         ltcM2IMCfBexCSfb0D0WJWUu0TpKpwBCiSo2y+7bFv+9MFTXWbl6wzIQro25bb4iuUFq
-         LX5zB0l3V5wwu6GA96frYhkdW3u6PePvqx1Rg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GKWU5emOEwGwA0WI4eCG9Dk/AXUEXVS9yrhYI8olhd8=;
-        b=Z3ptTxjsLJH8tq9HE0UdNXdEfoZuJMP9taGVYBkdNvCavtndXfgoWp4UmsOQrHIeJn
-         MiX/jZVWeGOQMxjCsVn8H3QZRgOoZa2rGxopIYbzgfFnM9xrR53OoQdOAh7CLV4bUBkc
-         L2XZtP0/P+Mk7mXbpFPlDyM6JTi6nM12C2tLRV+hggy94Ua/Qe/xLWVHR4uRn9SIIX3T
-         d2GJF9W9fYAzBzxGpik/xFzSE6gv1FCxGNYvzlniyHCECvE6GVBTQ3q7yyLVIJgBzmDH
-         t5/3KQWxviwMfxxyyTfMz7ONn1pILjmN79VrWnp4/lRgBu2632Qw5Kx5K1iZsOEopRA+
-         3tTQ==
-X-Gm-Message-State: ANoB5plCMiAl/cClXzGSDzT7hOWt+u95cgdyg4ZYQmgO2/5YRgzb+qgI
-	A4Pqb9IImpY64X7/jgW4NZa/KUR35UJZb2mYRF7+i768o1ZkGg==
-X-Google-Smtp-Source: AA0mqf5OTXKylMnrjqgvptuTnQlQmkFLrEr+ICbH8Zl09QqWLWVEitjkIo/rbgjEj/T8iV+MrKYhIYDFCb3e
-X-Received: by 2002:a05:6870:ed95:b0:141:8986:3acc with SMTP id fz21-20020a056870ed9500b0014189863accmr8174241oab.13.1668814099431;
-        Fri, 18 Nov 2022 15:28:19 -0800 (PST)
-Received: from c7-smtp.dev.purestorage.com ([208.88.159.129])
-        by smtp-relay.gmail.com with ESMTPS id a19-20020a056870b15300b001422eda72ddsm338659oal.25.2022.11.18.15.28.19
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 18 Nov 2022 15:28:19 -0800 (PST)
-X-Relaying-Domain: purestorage.com
-Received: from dev-csander.dev.purestorage.com (dev-csander.dev.purestorage.com [10.7.70.37])
-	by c7-smtp.dev.purestorage.com (Postfix) with ESMTP id 88AB6221B1;
-	Fri, 18 Nov 2022 16:28:18 -0700 (MST)
-Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
-	id 7DB56E40609; Fri, 18 Nov 2022 16:28:18 -0700 (MST)
-From: Caleb Sander <csander@purestorage.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org
-Cc: Uday Shankar <ushankar@purestorage.com>,
-	Caleb Sander <csander@purestorage.com>
-Subject: [PATCH] nvme: fix SRCU protection of nvme_ns_head list
-Date: Fri, 18 Nov 2022 16:27:56 -0700
-Message-Id: <20221118232756.1457075-1-csander@purestorage.com>
-X-Mailer: git-send-email 2.25.1
+	id 1owBLn-009VkQ-Fy
+	for linux-nvme@lists.infradead.org; Sat, 19 Nov 2022 00:04:53 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=b/RF208suJYcxeItZKUIoSpUSNk/B2Fat7NIS6AZHhOp9tCN5PNy5AjydoTuZEhrhfI/Y70YQTyKULuBjNVXAw92TY6Tc3U8gKNlb+nRH2a1shby8vh1X5xBgTW4ILKEZfYjUCvL20NRUWWzDf16CdbA//3+pWYcSLJsRS5f/TVG9qLh9UEE+7HsZz+AcrpRqf7C4s1Ezkpb9C8Xl2VGOQLS67E0lSvZJee1lPne8LrybnkCKXIhgjbPSATy+kCz6vG1K5ucoZiiwlVmaV3/x1kkYYDQzVCWqZpw7sgUM+zXriRk4qDW5MROkr8Ac8+Ol0iIreGu0mqLHNyxthJuVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=T3HoByuUEq/Udj2GoX7mBV24tUb1R2SYv29kpdiUpvQ=;
+ b=WHpaZtWYWCxHe+atYXR2l7sPc+CGGm3yoEuXRzfcuhYMWaw1kA55wq9mRNdgOPRqWJ2wQhmld/AoxQQnLR8T5ZQ9blguXbNT3HbYNM2eNIhRTJIGic2XzQK8dkdRVxGAoS+j94J9ScZEflLZXdEZ9QmO/c4dXJR/WeJxoJTbFo1I6pMttEmU8pEBDHiPMIHhpHfStWZHAX1e8UqsTsEAUibIitewZdx8wAkl/Gfh+l2iUTxkKPuUJV9r+vCvYUzxCH+ZjzwXQyqX+KaK5iZpcY/ymEhUOQ4Red4JalkmtFvbQV39unmNzx21AjXp9puObkuGKJKhp6y8PczH2pYiyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T3HoByuUEq/Udj2GoX7mBV24tUb1R2SYv29kpdiUpvQ=;
+ b=fzDbt3qCCoVquXMJHc/JPtcHR3HZjblvc+YXRueX594JNNZ5qcjhIPwED/cBLdqzwZBuf271ZRuIKmi+LoGT6Mlumbe01jTPq8jgTbNgp72VHNXxp3l/FiU5uQKu3HY6uY+v8NoFj+N63CxAqkcXs9w5E6rsQ2DKi1seCoyF43h1Faux0yvFgw6Fxulifzpdsad2ib0pbO77w4o+ueUSvTFidE7zYDscOuDVxjOsHxV6iJ3zJLJG1TpzAcxSr4bq69HzM0B2wYOArev9KxkyNxzw/WgBCPOCO5cfAuVqKAyWMwtZP0QLSURad2a0W/mHT8Xz8hrMIjkUv4a9Y9QxlQ==
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
+ by IA1PR12MB7662.namprd12.prod.outlook.com (2603:10b6:208:425::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.18; Sat, 19 Nov
+ 2022 00:04:44 +0000
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::eaf1:9be8:d472:ea57]) by MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::eaf1:9be8:d472:ea57%7]) with mapi id 15.20.5834.009; Sat, 19 Nov 2022
+ 00:04:43 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Keith Busch <kbusch@kernel.org>, Joel Granados <j.granados@samsung.com>
+CC: "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"gost.dev@samsung.com" <gost.dev@samsung.com>
+Subject: Re: [PATCH v3 1/1] nvme : Add ioctl to query nvme attributes
+Thread-Topic: [PATCH v3 1/1] nvme : Add ioctl to query nvme attributes
+Thread-Index: AQHY+o9PblnQORIe5Uu8xeLinr6Z9q5FRuGAgAAZDYA=
+Date: Sat, 19 Nov 2022 00:04:43 +0000
+Message-ID: <150ffa65-3798-3f8c-8594-e8b29f7511be@nvidia.com>
+References: <20221117141337.3719372-1-j.granados@samsung.com>
+ <CGME20221117141718eucas1p11d0b9f10ff4c0ca6ba865251af775fc8@eucas1p1.samsung.com>
+ <20221117141337.3719372-2-j.granados@samsung.com>
+ <Y3gIl1d8tVsx/+NG@kbusch-mbp.dhcp.thefacebook.com>
+In-Reply-To: <Y3gIl1d8tVsx/+NG@kbusch-mbp.dhcp.thefacebook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|IA1PR12MB7662:EE_
+x-ms-office365-filtering-correlation-id: 2e566f44-7dd3-44e9-14d0-08dac9c1a979
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  bQkokNUM9SlNOxYAVk+bkKlHZJCRcpZkIlaBW2pQ44ryNITPp5bacyy208GL85009Mxf88SfoL9RJY9moRdBYwte3gIsS50K+VjbkXrwj3CstoaStli0XgFSioR8iJ7G1IjVdfIl8j4/9mNEsiOYul7UnjMglhexslYdfouX0+AjRTyP2G6odMlDqlMc5eJcPZQQcqDzQjNl0i+Rsc+haqObD96PGvawUdw2ity/5cNggbAOIONoJTwzN+aHuJ8sOiiX+oceFiIF7FAYlDXfx+FPOvQeQDSDY76hKvXh+PBWCdyCNof+uG2JJv4ZecdYvpaIyoVeybOYmLO+okRac2WZXUBnJ+u0YTHidjLtoubA2ECavbIskMLi3m9I5bcGIJlo0BviEWzYAj+TMOVluMxM8cp1Unos8QNYlBMxSptGpNvqw00croGWwj3ToXB0Pp9whZbMLvYcaPICobYgyjxQUXJq8BM+NtDnmcA0hDVU0U0BJ+vdU2AJqUynFVJwH7H0FyPCSzDtw8Y+xhJsiA/dO1w11tBX7tgmlxIXH+10u5+gDaLFRpmdt3WgCHJ9t0Wfp/1ZLhOL4EL9PuvNVlAP0AnSLrKI0iQCwowu0bY6XqxWizOddQ+X2N3elseD7aof2j706lOm0QOFZH2pjXEwQ8ziBia000F4kuyAEha6rwf0yAEH9oXnzzI20DJB8FO6+OY6K58R6WYEVFIa4fu+RdhuBA2opl9xataJj191E2VawL47F7Re2pWfvHY7UTdKD1gGL+C6zmeWKxCz8g==
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(366004)(136003)(39860400002)(376002)(346002)(451199015)(2906002)(31686004)(66556008)(2616005)(8676002)(66946007)(64756008)(66476007)(41300700001)(36756003)(76116006)(31696002)(86362001)(6506007)(38070700005)(38100700002)(91956017)(66446008)(83380400001)(110136005)(71200400001)(316002)(186003)(4744005)(53546011)(5660300002)(6512007)(122000001)(8936002)(4326008)(478600001)(54906003)(6486002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?WDR3dkpRNllxN2ROYmlhd2hDWXEzVTFsei9vOEM0WXprRE5mVXl5WWJZSFJZ?=
+ =?utf-8?B?ekplZEl6aWtqODZNNWc1dGVuMFBEK29adk5PVk9HNGlFbjNGUkJPcE5TKzBp?=
+ =?utf-8?B?UXJDSGFsczR6eG1rV2ZDNGhGdG1Kd1hVZnZjRiswaGVPSEJpSlE2bzVRSmxY?=
+ =?utf-8?B?eHhnTTB5aWFhelpRQ0RhRkY4RFoxdUFQWVN4dTFzdkZNU0lXcm5PQjQwd0c5?=
+ =?utf-8?B?QzZMa2VLWTkvbnJOVk93MFBraUNseDI5NXFtN2h4QngzbjhuWWtDaWl2TTc5?=
+ =?utf-8?B?aXo4QmQ5TFJZWkZjZFg3TEZabWhOY21oVWZ0V24rY0ZOSzVjOHNsUHc5QVk3?=
+ =?utf-8?B?b2h4UXNBRFc0cG12ZWNNeGpkZy9oN3Frcmd4dW05WnQxNDZ1U3JQRkJsejB4?=
+ =?utf-8?B?K1kvejE0WFJ1Mi9KUkdpSjd5SGRKUEJ6Y0hEYll2M0d5SVpYUXk1M0I2c1Bx?=
+ =?utf-8?B?NTBCWXZFdVZkN2ZoempVc2VNVnJrRzZTWU1pRWhtbEpYTU1NMFg3L1ZWM0pt?=
+ =?utf-8?B?M0xBcWpFR25ySlViaDJ2TlNFVTdtQXJIS21rZjZhVFIrYkVGQUdEZ3dKTGRw?=
+ =?utf-8?B?aWZhKzlNRm1qaFJtNUFPZi9QdmpKWGFXbFdPUGN5T3dSR1pETUVDa04rK1Y2?=
+ =?utf-8?B?UUhtbWNaMTd4VVgwMUtVaWptTzBWZE5xcnRyeGh1Z2dCbzgwSjQwOVA0NHp6?=
+ =?utf-8?B?bEc2ZklCbURwbDZaRE1UUlcxWVllQUFEZ2FGcDZOVWdNaDdhREVWM1RpTFhO?=
+ =?utf-8?B?cjU4cm9HSUEyZElnS2VrVGR0STVrN1hEUXV1d3RnSCtWempWMHZWZWg3Lyt2?=
+ =?utf-8?B?UkNFemM0WEx1QXlGYVVoVzFSTWtsNGt5cmZqV2pZN2NWWExjbXdFSHdMY0VH?=
+ =?utf-8?B?akwwRk9YQ0N6Wmg1QThrSHBMbi85YVh6S2Y2QUVEdUtSWFJraXB3UmN3ZVd6?=
+ =?utf-8?B?c1dpV203cHgzS0ZvVUhSTlU5Mm8rbjh5QXM0a3BhdllTUkZCNmtEa1d6OWxm?=
+ =?utf-8?B?RUU3YWFQck9hV3cxMXhNdk1talhNeU1qSTdsTFZhNGl0WDdrajNsbXg0WmRN?=
+ =?utf-8?B?ejAwODNaaDU0UTdwcDB2WlZLdVZuMVAwWVFjekwvMnA3VzErU3YvanZxR1J4?=
+ =?utf-8?B?Z2c5UXMxMkZXOGFmaDBmMDl2VUZ0b1BHVHR5Nm50SDB1ZmhPd3R1M3h5dElO?=
+ =?utf-8?B?SGhYaTRqdzJNQVNsUkVrcjhSczYvMnVTRWpjLzUxckFIR0FGQ2xXV0tjWjJX?=
+ =?utf-8?B?R3hZUUgyRWM3SUh6bms5TW9hRGxQblpLZk5NMW43VXErR0V2WXMwc3ZQL1VM?=
+ =?utf-8?B?cWZiZ0h3UXh6V1VsYVRvWmtCU05UUTZqa0x4TVUvRDQ5eDhoQWJpUmI4NGY2?=
+ =?utf-8?B?djk3c1AybGMyRklIV3MrSzMrRUlDa2x6ejIxYjlDZFJVcXNlVWxTSHYwN1E3?=
+ =?utf-8?B?am1EM2dlc1NGZTRudGhpakFKVVU3b3VqeEpJbHpCK3RxTWRHdFlNQWNsaHY2?=
+ =?utf-8?B?RWlBb3EwUGhRVURpaFNLT21qQ3g2UXJQRTBKaUMvNTRuTWluSWJiZkpEM09k?=
+ =?utf-8?B?YzRGV3VraWdOMEMzcjVmWU9OZEovNDZnaUs0WDVtcEVESnAzMzdDUy91KzhD?=
+ =?utf-8?B?SWFqbGF4SzFwR0lZcHJCZ0JuRFgxMnROZGFQajNtOHowaDYvVjRrbThDeGg0?=
+ =?utf-8?B?WHQxNGNneEp4TXZsYnBKaTZTTmZEY09sMFNOZTQ5Y3RFR0Fkc1kvUWxLeU1k?=
+ =?utf-8?B?L2hvd2ZtdEhwa0pkZWZuRyttN3BGQWdEVys1MjErblJOeXZ6bjJublJybC94?=
+ =?utf-8?B?bitCdzU3dTU5dklFQTBUZnVoVmpBbXFPQy9GNmE4YUlBdXZFVjJ6OGlXLy9J?=
+ =?utf-8?B?cGwzazVaZkxvZGNUYmV5UlliWFdhZlVQRDhzaW1DTW0relNNNlpsZUN6RHli?=
+ =?utf-8?B?bTQwZWxxcFlHN3FSNUJCRU5mTjdTVlF4OUE4c0ZOZW1tN3dFcEdFdS9DYm9Z?=
+ =?utf-8?B?WGJsVG1sR1dXWXdneGE2b3Y5NEhha201ZXRBSW1iSHpkRm5BczREN1Z2N2lD?=
+ =?utf-8?B?UUN3ZmpkUXRmN0drbjRUc3R2dVluclpicDYxQU9MMytwb3I4R2JjcHRvTWRM?=
+ =?utf-8?B?QzVzOExucFM0QnFHa2xIb2J2c29tT3lGZEtVa2hnUXlkOEJGZnEwYlJVd1V0?=
+ =?utf-8?B?V0E9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <144984A1137EC344AF6369DBF69AFF88@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e566f44-7dd3-44e9-14d0-08dac9c1a979
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Nov 2022 00:04:43.4877
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: J26QDxXglOZAhbm6eS4/iwZimhe3O5Kg8TBJVpmKCc71IMwrQg1XMJzO5KkSxbs6vMjnfii0eYjYv5GIQlF5MQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7662
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221118_152823_071337_1B12AA88 
-X-CRM114-Status: GOOD (  17.19  )
+X-CRM114-CacheID: sfid-20221118_160451_780883_ABE621EA 
+X-CRM114-Status: GOOD (  13.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,124 +150,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Walking the nvme_ns_head siblings list is protected by the head's srcu
-in nvme_ns_head_submit_bio() but not nvme_mpath_revalidate_paths().
-Removing namespaces from the list also fails to synchronize the srcu.
-Concurrent scan work can therefore cause use-after-frees.
-
-Hold the head's srcu lock in nvme_mpath_revalidate_paths() and
-synchronize with the srcu, not the global RCU, in nvme_ns_remove().
-
-Observed the following panic when making NVMe/RDMA connections
-with native multipath on the Rocky Linux 8.6 kernel
-(it seems the upstream kernel has the same race condition).
-Disassembly shows the faulting instruction is cmp 0x50(%rdx),%rcx;
-computing capacity !=3D get_capacity(ns->disk).
-Address 0x50 is dereferenced because ns->disk is NULL.
-The NULL disk appears to be the result of concurrent scan work
-freeing the namespace (note the log line in the middle of the panic).
-
-[37314.206036] BUG: unable to handle kernel NULL pointer dereference at 000=
-0000000000050
-[37314.206036] nvme0n3: detected capacity change from 0 to 11811160064
-[37314.299753] PGD 0 P4D 0
-[37314.299756] Oops: 0000 [#1] SMP PTI
-[37314.299759] CPU: 29 PID: 322046 Comm: kworker/u98:3 Kdump: loaded Tainte=
-d: G        W      X --------- -  - 4.18.0-372.32.1.el8test86.x86_64 #1
-[37314.299762] Hardware name: Dell Inc. PowerEdge R720/0JP31P, BIOS 2.7.0 0=
-5/23/2018
-[37314.299763] Workqueue: nvme-wq nvme_scan_work [nvme_core]
-[37314.299783] RIP: 0010:nvme_mpath_revalidate_paths+0x26/0xb0 [nvme_core]
-[37314.299790] Code: 1f 44 00 00 66 66 66 66 90 55 53 48 8b 5f 50 48 8b 83 =
-c8 c9 00 00 48 8b 13 48 8b 48 50 48 39 d3 74 20 48 8d 42 d0 48 8b 50 20 <48=
-> 3b 4a 50 74 05 f0 80 60 70 ef 48 8b 50 30 48 8d 42 d0 48 39 d3
-[37315.058803] RSP: 0018:ffffabe28f913d10 EFLAGS: 00010202
-[37315.121316] RAX: ffff927a077da800 RBX: ffff92991dd70000 RCX: 00000000016=
-00000
-[37315.206704] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffff92991b7=
-19800
-[37315.292106] RBP: ffff929a6b70c000 R08: 000000010234cd4a R09: c0000000fff=
-f7fff
-[37315.377501] R10: 0000000000000001 R11: ffffabe28f913a30 R12: 00000000000=
-00000
-[37315.462889] R13: ffff92992716600c R14: ffff929964e6e030 R15: ffff92991dd=
-70000
-[37315.548286] FS:  0000000000000000(0000) GS:ffff92b87fb80000(0000) knlGS:=
-0000000000000000
-[37315.645111] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[37315.713871] CR2: 0000000000000050 CR3: 0000002208810006 CR4: 00000000000=
-606e0
-[37315.799267] Call Trace:
-[37315.828515]  nvme_update_ns_info+0x1ac/0x250 [nvme_core]
-[37315.892075]  nvme_validate_or_alloc_ns+0x2ff/0xa00 [nvme_core]
-[37315.961871]  ? __blk_mq_free_request+0x6b/0x90
-[37316.015021]  nvme_scan_work+0x151/0x240 [nvme_core]
-[37316.073371]  process_one_work+0x1a7/0x360
-[37316.121318]  ? create_worker+0x1a0/0x1a0
-[37316.168227]  worker_thread+0x30/0x390
-[37316.212024]  ? create_worker+0x1a0/0x1a0
-[37316.258939]  kthread+0x10a/0x120
-[37316.297557]  ? set_kthread_struct+0x50/0x50
-[37316.347590]  ret_from_fork+0x35/0x40
-[37316.390360] Modules linked in: nvme_rdma nvme_tcp(X) nvme_fabrics nvme_c=
-ore netconsole iscsi_tcp libiscsi_tcp dm_queue_length dm_service_time nf_co=
-nntrack_netlink br_netfilter bridge stp llc overlay nft_chain_nat ipt_MASQU=
-ERADE nf_nat xt_addrtype xt_CT nft_counter xt_state xt_conntrack nf_conntra=
-ck nf_defrag_ipv6 nf_defrag_ipv4 xt_comment xt_multiport nft_compat nf_tabl=
-es libcrc32c nfnetlink dm_multipath tg3 rpcrdma sunrpc rdma_ucm ib_srpt ib_=
-isert iscsi_target_mod target_core_mod ib_iser libiscsi scsi_transport_iscs=
-i ib_umad rdma_cm ib_ipoib iw_cm ib_cm intel_rapl_msr iTCO_wdt iTCO_vendor_=
-support dcdbas intel_rapl_common sb_edac x86_pkg_temp_thermal intel_powercl=
-amp coretemp kvm_intel ipmi_ssif kvm irqbypass crct10dif_pclmul crc32_pclmu=
-l mlx5_ib ghash_clmulni_intel ib_uverbs rapl intel_cstate intel_uncore ib_c=
-ore ipmi_si joydev mei_me pcspkr ipmi_devintf mei lpc_ich wmi ipmi_msghandl=
-er acpi_power_meter ext4 mbcache jbd2 sd_mod t10_pi sg mgag200 mlx5_core dr=
-m_kms_helper syscopyarea
-[37316.390419]  sysfillrect ahci sysimgblt fb_sys_fops libahci drm crc32c_i=
-ntel libata mlxfw pci_hyperv_intf tls i2c_algo_bit psample dm_mirror dm_reg=
-ion_hash dm_log dm_mod fuse [last unloaded: nvme_core]
-[37317.645908] CR2: 0000000000000050
-
-Fixes: e7d65803e2bb ("nvme-multipath: revalidate paths during rescan")
-Signed-off-by: Caleb Sander <csander@purestorage.com>
----
- drivers/nvme/host/core.c      | 2 +-
- drivers/nvme/host/multipath.c | 3 +++
- 2 files changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index da55ce45ac70..69e333922bea 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4304,7 +4304,7 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 	mutex_unlock(&ns->ctrl->subsys->lock);
-=20
- 	/* guarantee not available in head->list */
--	synchronize_rcu();
-+	synchronize_srcu(&ns->head->srcu);
-=20
- 	if (!nvme_ns_head_multipath(ns->head))
- 		nvme_cdev_del(&ns->cdev, &ns->cdev_device);
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 93e2138a8b42..7e025b8948cb 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -174,11 +174,14 @@ void nvme_mpath_revalidate_paths(struct nvme_ns *ns)
- 	struct nvme_ns_head *head =3D ns->head;
- 	sector_t capacity =3D get_capacity(head->disk);
- 	int node;
-+	int srcu_idx;
-=20
-+	srcu_idx =3D srcu_read_lock(&head->srcu);
- 	list_for_each_entry_rcu(ns, &head->list, siblings) {
- 		if (capacity !=3D get_capacity(ns->disk))
- 			clear_bit(NVME_NS_READY, &ns->flags);
- 	}
-+	srcu_read_unlock(&head->srcu, srcu_idx);
-=20
- 	for_each_node(node)
- 		rcu_assign_pointer(head->current_path[node], NULL);
---=20
-2.25.1
-
+T24gMTEvMTgvMjIgMTQ6MzUsIEtlaXRoIEJ1c2NoIHdyb3RlOg0KPiBPbiBUaHUsIE5vdiAxNywg
+MjAyMiBhdCAwMzoxMzozN1BNICswMTAwLCBKb2VsIEdyYW5hZG9zIHdyb3RlOg0KPj4gKyNkZWZp
+bmUgTlZNRV9JT0NUTF9HRVRfQVRUUglfSU9XUignTicsIDB4NTAsIHN0cnVjdCBudm1lX2dldF9h
+dHRyKQ0KPiANCj4gSXNuJ3QgdGhlIGlvY3RsJ3MgbnVtYmVyIGRlcml2ZWQgZnJvbSB0aGUgc2l6
+ZW9mIHRoZSBwYXJhbWV0ZXI/IElPVywgaWYNCj4geW91IGFkZCBuZXcgZmllbGRzIHRvIHRoZSBz
+dHJ1Y3QgaW4gdGhlIGZ1dHVyZSwgdGhlIGlvY3RsIG51bWJlciB3aWxsDQo+IGNoYW5nZSwgYnJl
+YWtpbmcgb2xkZXIgYXBwbGljYXRpb25zIHRoYXQgd2VyZSB1c2luZyBpdC4gSSBkb24ndCB0aGlu
+ayB3ZQ0KPiB3YW50IHRvIGtlZXAgYWRkaW5nIG5ldyBpb2N0bCdzIHRvIHN1cHBvcnQgbGVnYWN5
+IHVzZXJzLCBzbyBwcm9iYWJseQ0KPiBwYWRkaW5nIHRoYXQgc3RydWN0IHdpdGggcGxlbnR5IG9m
+IHJlc2VydmVkIHNwYWNlIGlzIHRoZSB3YXkgdG8gZ28uDQoNClRoaXMgaXMgZXhhY3RseSBJJ3Zl
+IGFza2VkIGV4cGxpY2l0bHkgdG8gbWFrZSB0aGUgc2l6ZSBvZiB0aGUgc3RydWN0dXJlDQpjbG9z
+ZSB0byBudm1lIGNvbW1hbmQgc2l6ZSAob3IgZXZlbiBiZXR0ZXIgdG8gbnZtZSBpZGVudGlmeSBj
+b250cm9sbGVyDQpkYXRhIHN0cnVjdHVyZSBzaXplKSBzbyBpdCB3aWxsIGJlIGZ1dHVyZSBwcm9v
+ZiBhbmQgd2UgY2FuIGFkZCBuZXcNCnBhcmFtZXRlcnMuDQoNCkluc3RlYWQgdGhlIHJzdmQgZmll
+bGQgc2VlbXMgdG8gYmUgcmVtb3ZlZCBpbiB0aGlzIHBhdGNoLg0KDQotY2sNCg0K
 
