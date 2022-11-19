@@ -4,61 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDB8BC43217
-	for <linux-nvme@archiver.kernel.org>; Sat, 19 Nov 2022 02:12:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA395C4321E
+	for <linux-nvme@archiver.kernel.org>; Sat, 19 Nov 2022 02:12:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kluZAhZ9G/C93TSaVT7yTsxvzMMpTU7jtRpo6auW2kI=; b=JM2qZH8dyEZgbG5gfdOEYkANaC
-	xxfA/LR6F8XK6wvOzchJo1X4CaNWCGsBKN5hMOnYCauJS592qNDHWIougVu2axF+tkKnolGoDxUhA
-	XHslEKehzQNLRvW8NV6u4j7l0BZ0TEykf7VV9kKnt9CmSp7JmVwOSrNcK6x8EOkl5v9Z1kYbH4BNU
-	KRDZl1TsN0Rtl+5GWiaPtxmgWM2Fk3852WzJqPlvFY3wnBFyTAzQ02SDQZc9jo0RJcop4pMSYsx3X
-	kG8d94eBDchwY73VILi2JnRBsYPALS7YzqsIPi4oHjpeJhfSDBHZmeYQDX6gax2wtsdsDOOvpfbCC
-	nlhmTxbQ==;
+	bh=sUaI3jU8qrPRLLKSqUHH5g9VELtyzAawDkgmnlgHQB8=; b=fbgrSWG/CCunfr64/O8+OvoWZ3
+	hdrhA8PLSMkT1cl/pF3a5cBIQBrjhgL0eF88mG2QHixCYSntS65R4L2vTmQGHQ2Gx0oS675QZrYId
+	2SqdC0NnJhyYZZDGrBbMWZ9ZX66OUYm1dDHQVGrbVclWWQUVS1IkgUo/lG+qzwdIMx5oNi8W0JHXf
+	SChayGeEuR3KlC67sWg+GOaTH7kaVSktKCcpna0vb0ValxBQk7xcY41rgaq/6ICdWKDo9Xkg7cSFz
+	b6jBK4qRzC6p0ykaJ8TXvitsh7COHXq0PTev41OJ0JH6acSVL80qtvQwWeSd4JqMghW/hxHUq1D+j
+	W932qmgA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1owDLY-00AFT2-3F; Sat, 19 Nov 2022 02:12:44 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1owDLg-00AFYB-Bl; Sat, 19 Nov 2022 02:12:52 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1owDLL-00AFNl-EF
-	for linux-nvme@lists.infradead.org; Sat, 19 Nov 2022 02:12:33 +0000
+	id 1owDLQ-00AFPr-Gw
+	for linux-nvme@lists.infradead.org; Sat, 19 Nov 2022 02:12:37 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 2A641B82679;
-	Sat, 19 Nov 2022 02:12:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84651C433C1;
-	Sat, 19 Nov 2022 02:12:27 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTPS id 0684ACE2237;
+	Sat, 19 Nov 2022 02:12:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47176C43151;
+	Sat, 19 Nov 2022 02:12:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1668823948;
-	bh=FeaKcLN1S4XmFshriQOuOyCx2NqwtkX1LXyM/ywyDIg=;
+	s=k20201202; t=1668823950;
+	bh=wx+cZ/J7M+blFaEXEUjPx5yDIGj7Mpl3HkIHjrXyaCU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fV2qqx09Ky/ia4p1FzmqP6g+YZYVvDfg4iyS02+jUtuQS4+zw01g79ThB8P8CEoFi
-	 tGX3XTlbIRTm+uEvFlXMH9vAr1NkIkV6l/qqhTqbdJv1OPK4AOZc1ZDGgGWkO09/g5
-	 zq1IMSI0VbP1vb4f941LnVL6aiJu/kBA+bAgJg79nsxXAct3fJbVTOBvywHXVjcpsm
-	 5r8sXe5cB6lOaV4peYGPfxmnSvzmXPaV3VTe5b5bNiW5tGR4aqcD2DxtIo91VUlgFd
-	 sT0bZzo0BGOaVyxVzBj2a0WOkNdf86EX6Q5FCCt7shYxCvGWTNWWOZ3IIKxTlgPIbv
-	 du8FMDmWPIM3Q==
+	b=d+xmA3DaNldruGzJHXNpnkiATecUqV0L/mMQ/UZstivvSE2w0+PErLQgNhCMPFjfz
+	 l8kGG3dfjdF+9vYBuEriYV85g5cAJxiZz0HtDabiWaaq8PjPm2YSy1zoYhLFi5XTcn
+	 pxvKSHQpnOohdRgPQ39ZR6xnZS1MLXbZQyQ8qWXYjjFkFgSFuMK4r9DXmuvwxPmiLF
+	 AOipWX3Qn5XhfKKsmo5Bzb4jU0I49Lm3L/CR6MAoEEGoWM7nvw6ZZNw2HsVNxvR1Wi
+	 wMvocyzliGKCBOaodArdGtdqxzpu5/uh3g4OzZbkMR5C01mheas+OhNL5iOYqVWf0n
+	 8aUMnW/7bl/8g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Keith Busch <kbusch@kernel.org>,
-	Alan Adamson <alan.adamson@oracle.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Daniel Wagner <dwagner@suse.de>,
+Cc: Aleksandr Miloserdov <a.miloserdov@yadro.com>,
+	Konstantin Shelekhin <k.shelekhin@yadro.com>,
+	Dmitriy Bogdanov <d.bogdanov@yadro.com>,
+	Sagi Grimberg <sagi@grimberg.me>,
 	Christoph Hellwig <hch@lst.de>,
 	Sasha Levin <sashal@kernel.org>,
-	axboe@fb.com,
-	sagi@grimberg.me,
+	kch@nvidia.com,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.0 31/44] nvme: quiet user passthrough command errors
-Date: Fri, 18 Nov 2022 21:11:11 -0500
-Message-Id: <20221119021124.1773699-31-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.0 32/44] nvmet: fix memory leak in nvmet_subsys_attr_model_store_locked
+Date: Fri, 18 Nov 2022 21:11:12 -0500
+Message-Id: <20221119021124.1773699-32-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221119021124.1773699-1-sashal@kernel.org>
 References: <20221119021124.1773699-1-sashal@kernel.org>
@@ -67,8 +64,8 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221118_181231_820427_37202C98 
-X-CRM114-Status: GOOD (  14.59  )
+X-CRM114-CacheID: sfid-20221118_181236_772859_B03E929A 
+X-CRM114-Status: GOOD (  13.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,80 +80,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+From: Aleksandr Miloserdov <a.miloserdov@yadro.com>
 
-[ Upstream commit d7ac8dca938cd60cf7bd9a89a229a173c6bcba87 ]
+[ Upstream commit becc4cac309dc867571f0080fde4426a6c2222e0 ]
 
-The driver is spamming the kernel logs for entirely harmless errors from
-user space submitting unsupported commands. Just silence the errors.
-The application has direct access to command status, so there's no need
-to log these.
+Since model_number is allocated before it needs to be freed before
+kmemdump_nul.
 
-And since every passthrough command now uses the quiet flag, move the
-setting to the common initializer.
-
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Alan Adamson <alan.adamson@oracle.com>
-Reviewed-by: Jens Axboe <axboe@kernel.dk>
-Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Reviewed-by: Daniel Wagner <dwagner@suse.de>
-Tested-by: Alan Adamson <alan.adamson@oracle.com>
+Reviewed-by: Konstantin Shelekhin <k.shelekhin@yadro.com>
+Reviewed-by: Dmitriy Bogdanov <d.bogdanov@yadro.com>
+Signed-off-by: Aleksandr Miloserdov <a.miloserdov@yadro.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/core.c | 3 +--
- drivers/nvme/host/pci.c  | 2 --
- 2 files changed, 1 insertion(+), 4 deletions(-)
+ drivers/nvme/target/configfs.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index ed47c256dbd2..01c36284e542 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -675,6 +675,7 @@ void nvme_init_request(struct request *req, struct nvme_command *cmd)
- 	if (req->mq_hctx->type == HCTX_TYPE_POLL)
- 		req->cmd_flags |= REQ_POLLED;
- 	nvme_clear_nvme_request(req);
-+	req->rq_flags |= RQF_QUIET;
- 	memcpy(nvme_req(req)->cmd, cmd, sizeof(*cmd));
- }
- EXPORT_SYMBOL_GPL(nvme_init_request);
-@@ -1037,7 +1038,6 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 			goto out;
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 2bcd60758919..962b64b7447e 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -1215,6 +1215,7 @@ static ssize_t nvmet_subsys_attr_model_store_locked(struct nvmet_subsys *subsys,
+ 		const char *page, size_t count)
+ {
+ 	int pos = 0, len;
++	char *val;
+ 
+ 	if (subsys->subsys_discovered) {
+ 		pr_err("Can't set model number. %s is already assigned\n",
+@@ -1237,9 +1238,11 @@ static ssize_t nvmet_subsys_attr_model_store_locked(struct nvmet_subsys *subsys,
+ 			return -EINVAL;
  	}
  
--	req->rq_flags |= RQF_QUIET;
- 	ret = nvme_execute_rq(req, at_head);
- 	if (result && ret >= 0)
- 		*result = nvme_req(req)->result;
-@@ -1225,7 +1225,6 @@ static void nvme_keep_alive_work(struct work_struct *work)
- 	rq->timeout = ctrl->kato * HZ;
- 	rq->end_io = nvme_keep_alive_end_io;
- 	rq->end_io_data = ctrl;
--	rq->rq_flags |= RQF_QUIET;
- 	blk_execute_rq_nowait(rq, false);
+-	subsys->model_number = kmemdup_nul(page, len, GFP_KERNEL);
+-	if (!subsys->model_number)
++	val = kmemdup_nul(page, len, GFP_KERNEL);
++	if (!val)
+ 		return -ENOMEM;
++	kfree(subsys->model_number);
++	subsys->model_number = val;
+ 	return count;
  }
  
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 554468ea5a2a..73c464d68777 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1438,7 +1438,6 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req)
- 
- 	abort_req->end_io = abort_endio;
- 	abort_req->end_io_data = NULL;
--	abort_req->rq_flags |= RQF_QUIET;
- 	blk_execute_rq_nowait(abort_req, false);
- 
- 	/*
-@@ -2489,7 +2488,6 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
- 	req->end_io_data = nvmeq;
- 
- 	init_completion(&nvmeq->delete_done);
--	req->rq_flags |= RQF_QUIET;
- 	blk_execute_rq_nowait(req, false);
- 	return 0;
- }
 -- 
 2.35.1
 
