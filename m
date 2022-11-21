@@ -4,72 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53B02C433FE
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Nov 2022 11:40:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 865CEC4332F
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Nov 2022 11:54:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CJP7h+npxhO5VKykB8xYMm/E4EmA3Cz1dZUrnS/FoMw=; b=GETvYncTw3gH9IosYUbLj+ooiL
-	h6UU5fezc7aWYtBygow1/FpaWB5Y33Bb68Z4uUFPbG9mhxw67R6xc4IigSMOpmeL3nc1xOlzbiSbQ
-	HqnXlqcsc5hWrsVwNgtzlhyOTK94bEUFblhRkZM7eulJlGakqSKhoQd6VQpA4DKHH6bELHPH9k8zz
-	FVf0B28yXFsZ1BEzErTG0ZvClLVlIz0TB8Ob9xn4eHhzRzbnEzaEUAzrnh18Dcbf6hWiEHsbngDkt
-	yxv6AcEzLg56rSEl8PynRxD/DEkzqMS498I4H8Pry5oO2l7l0DlHn+Rp2bt5UnE+k0ZcVSrrQ9AKb
-	1iEeThBg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nfVhAYiSrMrFOLyXEkvuYsZWDQVZCgM3mxAGCqdv/L4=; b=feHEjXS+wjDEU0rYtKZteD/osF
+	ayVpsYLemndVytiB4kLlpEzwuSELa1IqCa+VeIc3aceFl6qzoYJ32ePpHULxR2ZNphQkB5+Fvr0K3
+	sCDjNjxRPkeFb9RIz/jud+DzvXJ1h8DPfle3mslgCTljXKPJtUv8BnMJreAZiSE6b4ukgBPK9+SeT
+	7yD0SBEmLfFriha3rz2NIOv+hg/0O3UL47MBVjLc3DHTAUDqXPTA6+W6mreb1frce6+/o+6SEuuLm
+	/dLbzjl+SdxynGY+QbAOuYCoLe/sGaaXIaJx9D7SP2zcYOkCjzJb7I2U3n9ZC166+ANH6w9UgGLSU
+	mIcaBetA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ox59m-00D06u-O9; Mon, 21 Nov 2022 11:40:10 +0000
-Received: from mail-wr1-f53.google.com ([209.85.221.53])
+	id 1ox5Nf-00D6jq-Pm; Mon, 21 Nov 2022 11:54:31 +0000
+Received: from szxga08-in.huawei.com ([45.249.212.255])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ox59g-00D03I-CM
-	for linux-nvme@lists.infradead.org; Mon, 21 Nov 2022 11:40:05 +0000
-Received: by mail-wr1-f53.google.com with SMTP id bs21so19431236wrb.4
-        for <linux-nvme@lists.infradead.org>; Mon, 21 Nov 2022 03:40:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CJP7h+npxhO5VKykB8xYMm/E4EmA3Cz1dZUrnS/FoMw=;
-        b=NN22NTJxSFfGqaV+m1pGZrpT3/9NrIPLcf/6VyINV90uUXSt3CG7sJ2rp7skCH6KLG
-         hESn/278lSUIAGImF5DDG1Jkj5okIij8rpwMovCDJFGucpquChZFsaJRtrjlCBewBR8Z
-         qL0gXHD2RN9Zm2mKiZfW+A4Czd5hegRGr4xYAUp8CpBdqAZuRwhM0j0PdXuAQncM1wSk
-         7LrPF8duuCd/hdqkR2x2tK70I+PT1g03/hnV8tjQZzPbYAvjHJpvAGRAX5S1CivetSF0
-         c6LHjGlVnuw5zltjFQfnpUxinldz2MiLEznOQif8R7kxLoH+i71hu6VNk/5mTigWEkwk
-         BDMg==
-X-Gm-Message-State: ANoB5pnbSij0t3uwJK3GGWoumyy2Bg47NHtB02q/5bDAU1syIlTZSxm3
-	iH5oJS+fgReLoPAw8IqgXw11fM9arrk=
-X-Google-Smtp-Source: AA0mqf4hpBjwb/hEz7rDkEiVuMpH2HcZczWkf8KCOvnrZyps7ty68/8P8DAqcXqh2NjVg80vKDGMCA==
-X-Received: by 2002:a05:6000:501:b0:22c:d27d:12e4 with SMTP id a1-20020a056000050100b0022cd27d12e4mr10452507wrf.546.1669030801398;
-        Mon, 21 Nov 2022 03:40:01 -0800 (PST)
-Received: from [192.168.64.178] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id o7-20020a056000010700b002366f9bd717sm13261248wrx.45.2022.11.21.03.40.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Nov 2022 03:40:01 -0800 (PST)
-Message-ID: <9a9512de-1bbc-fafb-74d1-3bd0a156ab81@grimberg.me>
-Date: Mon, 21 Nov 2022 13:39:59 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: =?UTF-8?B?UmU6IOetlOWkjTogW1BBVENIXSBudm1lOiBmaXggbWVtbGVhayBpbiBu?=
- =?UTF-8?B?dm1lX2N0cmxfZGhjaGFwX3NlY3JldF9zdG9yZSgp?=
-Content-Language: en-US
-To: zhangqilong <zhangqilong3@huawei.com>, "hare@suse.de" <hare@suse.de>,
- "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
- "hch@lst.de" <hch@lst.de>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+	id 1ox5Nb-00D6gO-SU
+	for linux-nvme@lists.infradead.org; Mon, 21 Nov 2022 11:54:30 +0000
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.56])
+	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4NG5QB2kx6z15MmC;
+	Mon, 21 Nov 2022 19:53:54 +0800 (CST)
+Received: from kwepemm600014.china.huawei.com (7.193.23.54) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 21 Nov 2022 19:54:22 +0800
+Received: from kwepemm600014.china.huawei.com (7.193.23.54) by
+ kwepemm600014.china.huawei.com (7.193.23.54) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 21 Nov 2022 19:54:22 +0800
+Received: from kwepemm600014.china.huawei.com ([7.193.23.54]) by
+ kwepemm600014.china.huawei.com ([7.193.23.54]) with mapi id 15.01.2375.031;
+ Mon, 21 Nov 2022 19:54:22 +0800
+From: zhangqilong <zhangqilong3@huawei.com>
+To: Sagi Grimberg <sagi@grimberg.me>, "hare@suse.de" <hare@suse.de>,
+	"kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
+	"hch@lst.de" <hch@lst.de>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: =?utf-8?B?562U5aSNOiDnrZTlpI06IFtQQVRDSF0gbnZtZTogZml4IG1lbWxlYWsgaW4g?=
+ =?utf-8?B?bnZtZV9jdHJsX2RoY2hhcF9zZWNyZXRfc3RvcmUoKQ==?=
+Thread-Topic: =?utf-8?B?562U5aSNOiBbUEFUQ0hdIG52bWU6IGZpeCBtZW1sZWFrIGluIG52bWVfY3Ry?=
+ =?utf-8?B?bF9kaGNoYXBfc2VjcmV0X3N0b3JlKCk=?=
+Thread-Index: AQHY/Y7V6+qG/4VcjkiWJOn1jmhu+a5JPohA//98NoCAAIacgA==
+Date: Mon, 21 Nov 2022 11:54:21 +0000
+Message-ID: <3e04d64de5bc4891b67b97f8fc8f9023@huawei.com>
 References: <20221121062113.84721-1-zhangqilong3@huawei.com>
- <b86df48d-2fd2-fe90-a1c2-721cb51d826e@grimberg.me>
- <dacd7300dfe54845b6a5ef2ee8f940d7@huawei.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <dacd7300dfe54845b6a5ef2ee8f940d7@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+	<b86df48d-2fd2-fe90-a1c2-721cb51d826e@grimberg.me>
+	<dacd7300dfe54845b6a5ef2ee8f940d7@huawei.com>
+ <9a9512de-1bbc-fafb-74d1-3bd0a156ab81@grimberg.me>
+In-Reply-To: <9a9512de-1bbc-fafb-74d1-3bd0a156ab81@grimberg.me>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.177.246]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221121_034004_501380_5C99C739 
-X-CRM114-Status: GOOD (  15.35  )
+X-CRM114-CacheID: sfid-20221121_035428_281560_917B58A6 
+X-CRM114-Status: GOOD (  13.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,63 +82,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 11/21/22 13:33, zhangqilong wrote:
->>
->>> If dhchap_secret is not consistent with options or
->>> nvme_auth_generate_key() fails, we should free the memory of
->>> dhchap_secret to avoid memleak.
->>>
->>> Fixes: f50fff73d620 ("nvme: implement In-Band authentication")
->>> Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
->>
->> Please have a look at nvme-6.2, if there is still a leak, please send a patch
->> against it.
->>
-> 
-> Hi
->       I have checked it,  there is still a leak at nvme-6.2.
-
-Cool. Thanks
-
-> 
-> Thanks.
-> 
->> Thanks.
->>
->>> ---
->>>    drivers/nvme/host/core.c | 7 +++++--
->>>    1 file changed, 5 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c index
->>> da55ce45ac70..e06d1b3961fe 100644
->>> --- a/drivers/nvme/host/core.c
->>> +++ b/drivers/nvme/host/core.c
->>> @@ -3748,13 +3748,16 @@ static ssize_t
->> nvme_ctrl_dhchap_secret_store(struct device *dev,
->>>    		int ret;
->>>
->>>    		ret = nvme_auth_generate_key(dhchap_secret, &ctrl-
->>> host_key);
->>> -		if (ret)
->>> +		if (ret) {
->>> +			kfree(dhchap_secret);
->>>    			return ret;
->>> +		}
->>>    		kfree(opts->dhchap_secret);
->>>    		opts->dhchap_secret = dhchap_secret;
->>>    		/* Key has changed; re-authentication with new key */
->>>    		nvme_auth_reset(ctrl);
->>> -	}
->>> +	} else
->>> +		kfree(dhchap_secret);
-
-Perhaps lets change the check above to strncmp directly against buf and
-allocate inside the clause.
-
->>>    	/* Start re-authentication */
->>>    	dev_info(ctrl->device, "re-authenticating controller\n");
->>>    	queue_work(nvme_wq, &ctrl->dhchap_auth_work);
-> 
+PiA+Pj4gICAgZHJpdmVycy9udm1lL2hvc3QvY29yZS5jIHwgNyArKysrKy0tDQo+ID4+PiAgICAx
+IGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiA+Pj4NCj4g
+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMgYi9kcml2ZXJzL252bWUv
+aG9zdC9jb3JlLmMNCj4gPj4+IGluZGV4IGRhNTVjZTQ1YWM3MC4uZTA2ZDFiMzk2MWZlIDEwMDY0
+NA0KPiA+Pj4gLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jDQo+ID4+PiArKysgYi9kcml2
+ZXJzL252bWUvaG9zdC9jb3JlLmMNCj4gPj4+IEBAIC0zNzQ4LDEzICszNzQ4LDE2IEBAIHN0YXRp
+YyBzc2l6ZV90DQo+ID4+IG52bWVfY3RybF9kaGNoYXBfc2VjcmV0X3N0b3JlKHN0cnVjdCBkZXZp
+Y2UgKmRldiwNCj4gPj4+ICAgIAkJaW50IHJldDsNCj4gPj4+DQo+ID4+PiAgICAJCXJldCA9IG52
+bWVfYXV0aF9nZW5lcmF0ZV9rZXkoZGhjaGFwX3NlY3JldCwgJmN0cmwtDQo+IGhvc3Rfa2V5KTsN
+Cj4gPj4+IC0JCWlmIChyZXQpDQo+ID4+PiArCQlpZiAocmV0KSB7DQo+ID4+PiArCQkJa2ZyZWUo
+ZGhjaGFwX3NlY3JldCk7DQo+ID4+PiAgICAJCQlyZXR1cm4gcmV0Ow0KPiA+Pj4gKwkJfQ0KPiA+
+Pj4gICAgCQlrZnJlZShvcHRzLT5kaGNoYXBfc2VjcmV0KTsNCj4gPj4+ICAgIAkJb3B0cy0+ZGhj
+aGFwX3NlY3JldCA9IGRoY2hhcF9zZWNyZXQ7DQo+ID4+PiAgICAJCS8qIEtleSBoYXMgY2hhbmdl
+ZDsgcmUtYXV0aGVudGljYXRpb24gd2l0aCBuZXcga2V5ICovDQo+ID4+PiAgICAJCW52bWVfYXV0
+aF9yZXNldChjdHJsKTsNCj4gPj4+IC0JfQ0KPiA+Pj4gKwl9IGVsc2UNCj4gPj4+ICsJCWtmcmVl
+KGRoY2hhcF9zZWNyZXQpOw0KPiANCj4gUGVyaGFwcyBsZXRzIGNoYW5nZSB0aGUgY2hlY2sgYWJv
+dmUgdG8gc3RybmNtcCBkaXJlY3RseSBhZ2FpbnN0IGJ1ZiBhbmQNCj4gYWxsb2NhdGUgaW5zaWRl
+IHRoZSBjbGF1c2UuDQo+IA0KDQpHb29kIHN1Z2dlc3Rpb24gYW5kIEkgaGF2ZSB1cGRhdGVkIGZp
+eGVzIGxpa2U6DQoNCi0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYw0KKysrIGIvZHJpdmVy
+cy9udm1lL2hvc3QvY29yZS5jDQpAQCAtMzczMCw3ICszNzMwLDYgQEAgc3RhdGljIHNzaXplX3Qg
+bnZtZV9jdHJsX2RoY2hhcF9zZWNyZXRfc3RvcmUoc3RydWN0IGRldmljZSAqZGV2LA0KIHsNCiAg
+ICAgICAgc3RydWN0IG52bWVfY3RybCAqY3RybCA9IGRldl9nZXRfZHJ2ZGF0YShkZXYpOw0KICAg
+ICAgICBzdHJ1Y3QgbnZtZl9jdHJsX29wdGlvbnMgKm9wdHMgPSBjdHJsLT5vcHRzOw0KLSAgICAg
+ICBjaGFyICpkaGNoYXBfc2VjcmV0Ow0KDQogICAgICAgIGlmICghY3RybC0+b3B0cy0+ZGhjaGFw
+X3NlY3JldCkNCiAgICAgICAgICAgICAgICByZXR1cm4gLUVJTlZBTDsNCkBAIC0zNzM5LDE3ICsz
+NzM4LDIwIEBAIHN0YXRpYyBzc2l6ZV90IG52bWVfY3RybF9kaGNoYXBfc2VjcmV0X3N0b3JlKHN0
+cnVjdCBkZXZpY2UgKmRldiwNCiAgICAgICAgaWYgKG1lbWNtcChidWYsICJESEhDLTE6IiwgNykp
+DQogICAgICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7DQoNCi0gICAgICAgZGhjaGFwX3NlY3Jl
+dCA9IGt6YWxsb2MoY291bnQgKyAxLCBHRlBfS0VSTkVMKTsNCi0gICAgICAgaWYgKCFkaGNoYXBf
+c2VjcmV0KQ0KLSAgICAgICAgICAgICAgIHJldHVybiAtRU5PTUVNOw0KLSAgICAgICBtZW1jcHko
+ZGhjaGFwX3NlY3JldCwgYnVmLCBjb3VudCk7DQogICAgICAgIG52bWVfYXV0aF9zdG9wKGN0cmwp
+Ow0KLSAgICAgICBpZiAoc3RyY21wKGRoY2hhcF9zZWNyZXQsIG9wdHMtPmRoY2hhcF9zZWNyZXQp
+KSB7DQorICAgICAgIGlmIChzdHJuY21wKGJ1Ziwgb3B0cy0+ZGhjaGFwX3NlY3JldCwgY291bnQp
+KSB7DQogICAgICAgICAgICAgICAgaW50IHJldDsNCisgICAgICAgICAgICAgICBjaGFyICpkaGNo
+YXBfc2VjcmV0Ow0KDQorICAgICAgICAgICAgICAgZGhjaGFwX3NlY3JldCA9IGt6YWxsb2MoY291
+bnQgKyAxLCBHRlBfS0VSTkVMKTsNCisgICAgICAgICAgICAgICBpZiAoIWRoY2hhcF9zZWNyZXQp
+DQorICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gLUVOT01FTTsNCisgICAgICAgICAgICAg
+ICBtZW1jcHkoZGhjaGFwX3NlY3JldCwgYnVmLCBjb3VudCk7DQogICAgICAgICAgICAgICAgcmV0
+ID0gbnZtZV9hdXRoX2dlbmVyYXRlX2tleShkaGNoYXBfc2VjcmV0LCAmY3RybC0+aG9zdF9rZXkp
+Ow0KLSAgICAgICAgICAgICAgIGlmIChyZXQpDQorICAgICAgICAgICAgICAgaWYgKHJldCkgew0K
+KyAgICAgICAgICAgICAgICAgICAgICAga2ZyZWUoZGhjaGFwX3NlY3JldCk7DQogICAgICAgICAg
+ICAgICAgICAgICAgICByZXR1cm4gcmV0Ow0KKyAgICAgICAgICAgICAgIH0NCiAgICAgICAgICAg
+ICAgICBrZnJlZShvcHRzLT5kaGNoYXBfc2VjcmV0KTsNCg0KRG8geW91IHRoaW5rIGlzIGl0IHRo
+YXQgb2s/DQoNCg==
 
