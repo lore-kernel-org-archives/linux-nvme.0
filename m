@@ -4,59 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65E50C433FE
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Nov 2022 22:50:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4722C433FE
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Nov 2022 23:05:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Vjlz97aL/TKdxSLuP55Wz1sOalHXhaCNvKjwbOHrxzo=; b=3tCECur0JFt81RVwRaoWFaI1/p
-	kytHAlLk70enOt2YNk0VszZJA9ffJMWDaDIewR+/eyQ0TlwXRMApADh6TAThvR0NSgBlJ/KP/z+ib
-	csIn5k+QWUx24IBWCavpByMvlSiXgllr5XHQTLxtQISlmb7clldH1goi46/nKuLGKxXmYbX83Zu8V
-	/5XtPZid/37AI6dbQWonvoJb/MprjY2AxsHDYFTeOpDVE8/iaqJTh3ZOALg0vjtoZ2YLEABkOLJyR
-	QDOvsWUxxbFrvoK7O9obmLkWc4OC3pHytxCA+2A/QDHC3x8Q2YPWZ3IrNf2La+POVrKr/Qzhm4HMn
-	Lh9be9pw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=D9Qumb5vkQhj4kn1oIkSiexnUiIAkN0jA1d+NfHZYdU=; b=Ty0zRScy/pXgrKzeeJsOXpgxc4
+	TuGRA1hsVE3gxBd1Et29MiuHNxGQVGndnUpeD6JHCU+QkIuiY5hHGemE1qNOI5dUf2bY9vieSxcc2
+	GCTKU8kcbIPpk1J6OSx8ke4nf/pDmN9h5aA8/knxxmBMOsX0p08C+UvXZ8RODuLXV5qwNmCzVRFad
+	X/oM+gTvVvIZRiluiL8BlcPsbp3wbKqwS7x66JGQ8COezYmWr34F4P9gR+/uxfGBrp8qL/AK1kUZa
+	x7y9Wo2DgOO07JSaDBXAd8Lke6HgSRpUiupFrAQYMJAO8TFkWxB9lip4jsJ36RjnybmyOFhC3uwrz
+	dIggz2ig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oxFbw-000wYN-3A; Mon, 21 Nov 2022 22:49:56 +0000
-Received: from out2.migadu.com ([2001:41d0:2:aacc::])
+	id 1oxFqW-0017Lc-No; Mon, 21 Nov 2022 23:05:00 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oxFbt-000wV0-B7
-	for linux-nvme@lists.infradead.org; Mon, 21 Nov 2022 22:49:55 +0000
-Message-ID: <7dcb9e3c-aa3e-b7b9-fc30-59281d581fd0@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1669070988;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vjlz97aL/TKdxSLuP55Wz1sOalHXhaCNvKjwbOHrxzo=;
-	b=LYfiAROylvJXRVvUOuIzB1CCRPF0ff5n7vAs47qvW+HCOcrbiTpy4sBp7Ht0Z/fzkTUopy
-	ywgg4JxRajmW2pTYPcyKvxitl0QandnPQ288efyH1EZTL6OJS5DvnT7Rhgm2dFdflLm3wn
-	MIsFh2zZtWncLlTaRJ0xf6OmJLROhrU=
-Date: Mon, 21 Nov 2022 15:49:45 -0700
-MIME-Version: 1.0
-Subject: Re: [PATCH v2] tests/nvme: Add admin-passthru+reset race test
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Jonathan Derrick <jonathan.derrick@linux.dev>
-To: Keith Busch <kbusch@kernel.org>
+	id 1oxFqT-0017J7-Ha
+	for linux-nvme@lists.infradead.org; Mon, 21 Nov 2022 23:04:59 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 50694B8169E;
+	Mon, 21 Nov 2022 23:04:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 664DDC433C1;
+	Mon, 21 Nov 2022 23:04:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1669071891;
+	bh=9G6Gabmxkd9zjTROmGV/ZqWq0G1Ria+xFxePpTMyFj4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=My8xk8Coeyc/SidD1iB3d24XNr4MLmCOB57f4LKw58jPks9nhB/9YU0gXPRhYi6sT
+	 vPzIa/6fsrGX4Gusu8hwbK3bjNXl7LthNpOaRkDvKfFEUjtmFbhr05vwsKU+bfMwJH
+	 vDS82Zu0zpHTX/FxLzC5b58x/8RrkZIHGnn9Lu3Vla3xm6HrRKHoI7qCTiVGzdLLJI
+	 /aqXr29ny8I8LT/U/xW1XcODDu921IwUS5taaWIvBz0C408/eWl1yozDCkaEpNkfjO
+	 5s/3FiPVS3Ba4FjJcJNvxuEsDPvNeM1NsgfvEnfatOLCV2D1hbmQhUNNXghhERuV7x
+	 pBflXwlMCU+lA==
+Date: Mon, 21 Nov 2022 16:04:47 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Jonathan Derrick <jonathan.derrick@linux.dev>
 Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- Chaitanya Kulkarni <chaitanyak@nvidia.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	its@irrelevant.dk
+Subject: Re: [PATCH v2] tests/nvme: Add admin-passthru+reset race test
+Message-ID: <Y3wED5m5JHOFMMg2@kbusch-mbp>
 References: <20221117212210.934-1-jonathan.derrick@linux.dev>
  <Y3vlsF7KcRrY7vCW@kbusch-mbp>
  <e99fef7c-1b48-61e2-b503-a2363968d5fc@linux.dev>
-In-Reply-To: <e99fef7c-1b48-61e2-b503-a2363968d5fc@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+ <7dcb9e3c-aa3e-b7b9-fc30-59281d581fd0@linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7dcb9e3c-aa3e-b7b9-fc30-59281d581fd0@linux.dev>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221121_144953_591611_9C05A963 
-X-CRM114-Status: GOOD (  18.46  )
+X-CRM114-CacheID: sfid-20221121_150457_752468_F63158A0 
+X-CRM114-Status: GOOD (  20.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,69 +77,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+[cc'ing Klaus]
 
-
-On 11/21/2022 3:34 PM, Jonathan Derrick wrote:
+On Mon, Nov 21, 2022 at 03:49:45PM -0700, Jonathan Derrick wrote:
+> On 11/21/2022 3:34 PM, Jonathan Derrick wrote:
+> > On 11/21/2022 1:55 PM, Keith Busch wrote:
+> >> On Thu, Nov 17, 2022 at 02:22:10PM -0700, Jonathan Derrick wrote:
+> >>> I seem to have isolated the error mechanism for older kernels, but 6.2.0-rc2
+> >>> reliably segfaults my QEMU instance (something else to look into) and I don't
+> >>> have any 'real' hardware to test this on at the moment. It looks like several
+> >>> passthru commands are able to enqueue prior/during/after resetting/connecting.
+> >>
+> >> I'm not seeing any problem with the latest nvme-qemu after several dozen
+> >> iterations of this test case. In that environment, the formats and
+> >> resets complete practically synchronously with the call, so everything
+> >> proceeds quickly. Is there anything special I need to change?
+> >>  
+> > I can still repro this with nvme-fixes tag, so I'll have to dig into it myself
+> Here's a backtrace:
 > 
-> 
-> On 11/21/2022 1:55 PM, Keith Busch wrote:
->> On Thu, Nov 17, 2022 at 02:22:10PM -0700, Jonathan Derrick wrote:
->>> I seem to have isolated the error mechanism for older kernels, but 6.2.0-rc2
->>> reliably segfaults my QEMU instance (something else to look into) and I don't
->>> have any 'real' hardware to test this on at the moment. It looks like several
->>> passthru commands are able to enqueue prior/during/after resetting/connecting.
->>
->> I'm not seeing any problem with the latest nvme-qemu after several dozen
->> iterations of this test case. In that environment, the formats and
->> resets complete practically synchronously with the call, so everything
->> proceeds quickly. Is there anything special I need to change?
->>  
-> I can still repro this with nvme-fixes tag, so I'll have to dig into it myself
-Here's a backtrace:
+> Thread 1 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
+> [Switching to Thread 0x7ffff7554400 (LWP 531154)]
+> 0x000055555597a9d5 in nvme_ctrl (req=0x7fffec892780) at ../hw/nvme/nvme.h:539
+> 540         return sq->ctrl;
+> (gdb) backtrace
+> #0  0x000055555597a9d5 in nvme_ctrl (req=0x7fffec892780) at ../hw/nvme/nvme.h:539
+> #1  0x0000555555994360 in nvme_format_bh (opaque=0x5555579dd000) at ../hw/nvme/ctrl.c:5852
 
-Thread 1 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
-[Switching to Thread 0x7ffff7554400 (LWP 531154)]
-0x000055555597a9d5 in nvme_ctrl (req=0x7fffec892780) at ../hw/nvme/nvme.h:539
-539         return sq->ctrl;
-(gdb) backtrace
-#0  0x000055555597a9d5 in nvme_ctrl (req=0x7fffec892780) at ../hw/nvme/nvme.h:539
-#1  0x0000555555994360 in nvme_format_bh (opaque=0x5555579dd000) at ../hw/nvme/ctrl.c:5852
-#2  0x0000555555f4db15 in aio_bh_call (bh=0x7fffec279910) at ../util/async.c:150
-#3  0x0000555555f4dc24 in aio_bh_poll (ctx=0x55555688fa00) at ../util/async.c:178
-#4  0x0000555555f34df0 in aio_dispatch (ctx=0x55555688fa00) at ../util/aio-posix.c:421
-#5  0x0000555555f4e083 in aio_ctx_dispatch (source=0x55555688fa00, callback=0x0, user_data=0x0) at ../util/async.c:320
-#6  0x00007ffff7bd717d in g_main_context_dispatch () at /lib/x86_64-linux-gnu/libglib-2.0.so.0
-#7  0x0000555555f600c2 in glib_pollfds_poll () at ../util/main-loop.c:297
-#8  0x0000555555f60140 in os_host_main_loop_wait (timeout=0) at ../util/main-loop.c:320
-#9  0x0000555555f60251 in main_loop_wait (nonblocking=0) at ../util/main-loop.c:596
-#10 0x0000555555a8f27c in qemu_main_loop () at ../softmmu/runstate.c:739
-#11 0x000055555582b77a in qemu_default_main () at ../softmmu/main.c:37
-#12 0x000055555582b7b4 in main (argc=53, argv=0x7fffffffdf88) at ../softmmu/main.c:48
-
-
-
-> Does the tighter loop in the test comment header produce results?
-> 
-> 
->>> The issue seems to be very heavily timing related, so the loop in the header is
->>> a lot more forceful in this approach.
->>>
->>> As far as the loop goes, I've noticed it will typically repro immediately or
->>> pass the whole test.
->>
->> I can only get possible repro in scenarios that have multi-second long,
->> serialized format times. Even then, it still appears that everything
->> fixes itself after a waiting. Are you observing the same, or is it stuck
->> forever in your observations?
-> In 5.19, it gets stuck forever with lots of formats outstanding and
-> controller stuck in resetting. I'll keep digging. Thanks Keith
-> 
->>
->>> +remove_and_rescan() {
->>> +	local pdev=$1
->>> +	echo 1 > /sys/bus/pci/devices/"$pdev"/remove
->>> +	echo 1 > /sys/bus/pci/rescan
->>> +}
->>
->> This function isn't called anywhere.
+Thanks, looks like a race between the admin queue format's bottom half,
+and the controller reset tearing down that queue. I'll work with Klaus
+on that qemu side (looks like a well placed qemu_bh_cancel() should do
+it).
 
