@@ -4,173 +4,120 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E51D0C433FE
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Nov 2022 12:12:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDBD3C4332F
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Nov 2022 13:38:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
-	:Subject:To:From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6xHfMRsSjSfEDbTSoG8bpEXdzXK52YpTYr91FSPJkrc=; b=g+u6V4wxzxZG4sqr444YfMpLVJ
-	Iw2+GwDmj3iCBItmVrd40i3QqY9Tlxcxl7LpCRbwsIHzMenSR/tK4dUjD2l28E2Zdp7qtkmESxPpN
-	WbFQgMCH/SAmzAZGBdW753aykiYCznDp9P8MDhuTTabCDZfc5Psfc0Uz7KpSklNOoI9uSi1JUMoxC
-	kBX1LwQGIPY+iewJt0M5knQ5sd/iyQHcmTU0WHtZD5SbX/1Ll9Yt4JYawDRvDQ802D4A2mozV6ZZl
-	9wMe1J28hK+ifqtJw8Ep+DbNVtJpamUAsMcBqYNOLp9Fvi4wIboGjREyBE//+I/iDcIv23EkMdQqT
-	BWZsIjMQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0PNVVbxIqYIMNHfObHOmGwpKRDt3WRR+KlB649CkZdU=; b=Po4F6GEkFv0SrJy9EwaIWE3IBm
+	W9GihqyoOZDehAVPJr8suv2Y4KWAl6Ubx/AQ8iIni9O2hzimKsA2KHVF40N8Ti9aVBxiO7USAcccA
+	Do+FeX2Ep8pr+ZXx/lgNKAftuRWeR7LMTUhS9qlDdfHVswQg420+VvwVZ5IjdpWojYzPEKUUWcJ0E
+	RRv6hz238n5dZ3/diDbn80Yv9u0voiYpJeae+gmd6qbbWBEfls+//5U42eFG2OT1p26327qFe8lcV
+	4ckX/YcgWHMXzaWt4QCvw94NL98SGLdBIeinOrkqBbbHDWH9FbAcxh5m9IupMPjeXNtbAPH21E/XM
+	9dEY6bPQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ox5ei-00DJb6-Oz; Mon, 21 Nov 2022 12:12:08 +0000
-Received: from mx0a-00154904.pphosted.com ([148.163.133.20])
+	id 1ox70M-00E1Zt-0J; Mon, 21 Nov 2022 13:38:34 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ox5ef-00DJHm-Md
-	for linux-nvme@lists.infradead.org; Mon, 21 Nov 2022 12:12:07 +0000
-Received: from pps.filterd (m0170393.ppops.net [127.0.0.1])
-	by mx0a-00154904.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AL7BP7D025784;
-	Mon, 21 Nov 2022 07:11:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : subject :
- date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=smtpout1;
- bh=6xHfMRsSjSfEDbTSoG8bpEXdzXK52YpTYr91FSPJkrc=;
- b=AllHMfM0jasInkihHHfJd4a0rpvf5f9VSEmVKZHfWIom2/8+5Wg0FglqR8Wt+qGbfYt7
- yIbTOdqjE1jOjTvaMWlpaXS2G78jdxxXmdFHhK8FUiuvbMFLmI5T42Jawu4Fw2l+UI7/
- pzXg02qEiGKJOeXrUVHnX1uBi2VNY/24VCjdDSr5c3T4NaS21sx2IDEHUgi8ZiQMCUC5
- Di6Ign/HO2bmwocRTjFewUjnPmTp5c3b3LoT4oAK3LTiaQ32T6INFoCVdyH9mMYXCop1
- Rvf1ajOvLu27xLlTl2d69THcntKXzjjw3pPDLEVS/2r5I+hh3YNzuAY22BBJ6yLF66j3 ew== 
-Received: from mx0b-00154901.pphosted.com (mx0a-00154901.pphosted.com [67.231.149.39])
-	by mx0a-00154904.pphosted.com (PPS) with ESMTPS id 3kxubp6afb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 21 Nov 2022 07:11:58 -0500
-Received: from pps.filterd (m0090350.ppops.net [127.0.0.1])
-	by mx0b-00154901.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2ALC6ubD005209;
-	Mon, 21 Nov 2022 07:11:58 -0500
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
-	by mx0b-00154901.pphosted.com (PPS) with ESMTPS id 3m05m93dbm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 21 Nov 2022 07:11:58 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XmY9IS/ffuolE5g/tgR7jwvTBeMpLClOrEBtMrQxLCGBYpq+6OKbx7qXg+Tz1bKxmJK+JufnQoO1EPXyFbkq9Np+vxPNNZ8LgTWYpigeDUiFDYHncp1CQrq2TlgOOv1jSBh/WZyFZJjDxYTPRqRgn0iSWDpE0AiMAujbjh5C2Vbqfs3jhUDTQYWjmDXK0ZEbMrpEo5n9zD2gNDd8NSz1HICvSydu4fs3ODP/QAqm8Q4MbIlkLjKEf8V9sS1RKZXN8kGj7qyNXtnDhovkoPJnbL8ARdNrTguPvWS36oZNWjTSQih6R3f1tPR0YU3ZZYsnHQDCHInxYCSh1pbTwwwzxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6xHfMRsSjSfEDbTSoG8bpEXdzXK52YpTYr91FSPJkrc=;
- b=FtRtb1U7L2SI0HO1Vuli+CNQmNlNrJ62o0c50kLUHnqBdZWFE6Zxhq0FVcY79DEQPZmsbhxpFFNzDTw8Mddc6+k429bM92IBFxN9tG9kXP/NdZwcc276SAExHTRMcWln2+mZSo+7dbaulfAVkrXT9vtLONUIysWpIrmPQn58eJiijbIlZloujlYmYS4bMnFaE8AllmBV+QD7W7Yul6kCzOR2jp3JKCCtDZKXeSXkZIURv1bfhM+Z5+5g4sUVxBnzUlhXuvQkNn+jtFhpYRM18bqWfCUUzxa8ztYHe1/cFMKENvzLSeDRw8lGJAOQvdqfj+r0Ikt0vOknGfXUGCRm7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=dell.com; dmarc=pass action=none header.from=dell.com;
- dkim=pass header.d=dell.com; arc=none
-Received: from CO1PR19MB4885.namprd19.prod.outlook.com (2603:10b6:303:f5::17)
- by SJ0PR19MB5611.namprd19.prod.outlook.com (2603:10b6:a03:42b::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15; Mon, 21 Nov
- 2022 12:11:55 +0000
-Received: from CO1PR19MB4885.namprd19.prod.outlook.com
- ([fe80::404:85:b6d7:86fd]) by CO1PR19MB4885.namprd19.prod.outlook.com
- ([fe80::404:85:b6d7:86fd%3]) with mapi id 15.20.5834.015; Mon, 21 Nov 2022
- 12:11:55 +0000
-From: "Engel, Amit" <Amit.Engel@Dell.com>
-To: Sagi Grimberg <sagi@grimberg.me>,
-        "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>
-Subject: RE: [PATCH] nvme-tcp: add additional info for nvme_tcp_timeout log
-Thread-Topic: [PATCH] nvme-tcp: add additional info for nvme_tcp_timeout log
-Thread-Index: AQHY+oZ3D5fYZrPgTEKaaKTSawClOq5HuhEAgAGKjLCAAAFEAIAABSLQ
-Date: Mon, 21 Nov 2022 12:11:55 +0000
-Message-ID:  <CO1PR19MB4885EADF8C1E970867C71487EE0A9@CO1PR19MB4885.namprd19.prod.outlook.com>
-References: <1668607073-1814545-1-git-send-email-amit.engel@dell.com>
- <1668690824-2034939-1-git-send-email-amit.engel@dell.com>
- <4effaa95-0357-7d65-1701-8ec67ce7cc11@grimberg.me>
- <CO1PR19MB4885EB9E323178E235681F9EEE0A9@CO1PR19MB4885.namprd19.prod.outlook.com>
- <8e6fb5af-2992-dfe2-10dd-383c2c058f8b@grimberg.me>
-In-Reply-To: <8e6fb5af-2992-dfe2-10dd-383c2c058f8b@grimberg.me>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_Enabled=true;
- MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_SetDate=2022-11-21T12:11:52Z;
- MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_Method=Standard;
- MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_Name=No Protection (Label
- Only) - Internal Use;
- MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
- MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_ActionId=44cf28a8-5934-4f6c-8042-54ded2c44bde;
- MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_ContentBits=2
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CO1PR19MB4885:EE_|SJ0PR19MB5611:EE_
-x-ms-office365-filtering-correlation-id: 19f87aa7-93a7-40ce-1b99-08dacbb994ea
-x-exotenant: 2khUwGVqB6N9v58KS13ncyUmMJd8q4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  segvcJ2E+KimL2b0T0Yqt13bDZlfP/MmG3zjNhT83Nryee+CovC5L27C2VjK7qooJBjYgyktX4/ygV4tt/Fg/S/gGaalGpAtM8FLHrQ9RPBDz6rVlSDmRl99Mwsg+hyn7KDf6QTT/g+ChMnsAlYhQdfPZNuChqp5J+CEcx5B5LEsQXSBCXVvSIvF11mxEauYK/F8AG9SzFQRF3i6KUALPCQ32awoojZ6NqX9PeMBHpzq3YxVidoFlrEuozKCZfoOOwuxNfoYA1jJIU7qMY8InXrtqKhyAMCestjSo9uZOEM1kuUCVMfnGo7F3qevIcRaSfnbc92XQntWGl4YbKLtIqvo9FbxfzDk9QTzIsk4txdPR+lGSGV1Db+FutC4Rr10da5lD3iP9qY8/Zc2fNvlBqLHToin/Kak2swebAP3dYAXPTIpsjrzSgP2T5IXtIIpufLBIv9VCo3w4LgB+fl1XO0S4xDsAVTfPI+ZpDlpVgUvw/WBXgHddE8+oM+1rngoYrOw4rlXBnbV10W/oZ0N4UCqDI7r67Yi+XvWQjdjhgHf9VuCq0kPIGW1wR36qHWDG+QUbHyxNWidJqye9C+SPxYUWv1lA2uCyGLhWAlK6qGt6r9raY0EbRX67FQfobcjYvU6uGjXtuYKRQ4f3f447SdBy34Caby1kspf2msydPi4wCUpBCnr/i+hDVN803MCLb3SuTSuk2qAkbhPyN00lw==
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR19MB4885.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(376002)(366004)(396003)(346002)(136003)(451199015)(52536014)(8936002)(786003)(110136005)(5660300002)(66556008)(316002)(76116006)(66946007)(66446008)(66476007)(64756008)(186003)(83380400001)(8676002)(41300700001)(38070700005)(82960400001)(86362001)(55016003)(2906002)(38100700002)(7696005)(122000001)(9686003)(6506007)(53546011)(33656002)(26005)(71200400001)(478600001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?QzFBaXpNanNnVkdwbm5SYVcrOGxQR2MzOThWWnpVL1hGK28rSmNpdXVuUFRr?=
- =?utf-8?B?cFJIMFo3enE2WGJVazV4UWVGRTJSbnFLZkxsbWEzclRYZzBmRVF5S3VvbDJD?=
- =?utf-8?B?aFJINWZZcUQ2VGQ4czA4eTNUSUxOdWpRVkhYdWN3elQ4dnJiY2p2OHUwR2V6?=
- =?utf-8?B?R0tRSjAra1FpWWFndnpqL2RhM3JDUGRvZmVaWForNWY5UDVsZXFmV3NyN2Yy?=
- =?utf-8?B?eDhTQ0F3a2NzT3VrY2VucDlGalF5ajdDZGtRTy9tSmM1RlVPSTBER2MwWE5Y?=
- =?utf-8?B?ME1WdDZueTE1eFVhLzhTTHV5YnVUK0luVDBTT1pIOTU0Y0t5MXB1Y0x4SlFB?=
- =?utf-8?B?SWRvdE1Lc1NyQ0I4YlFzbW54aDhzUEg0VGdDOUZEdExMM1ZOalNWNm5PWlFI?=
- =?utf-8?B?YnJuWnExQ3pNeS9LT0Q3eXpIR0xYRnJXaDBIZ0VCMDFzdFhXQko2akc0dTVa?=
- =?utf-8?B?VHhRenpNQkllbVZYVUxORFYrSUNydWNIQi9zMFhnYjUzSTRwTmxJVGpScGt3?=
- =?utf-8?B?ejhOQWM2cDlSSVJOY2Q2SHUzZFRVTVkzL1FMcG55b05sZ3lCRUM5S2Z4LytS?=
- =?utf-8?B?M0VPRU9qQk55emwzYW1iVkZjbUdzVG5sM0xWdk5DR3hVUk1FYVljS1BDRGpl?=
- =?utf-8?B?S2kwaUFWV3RUZVRKaGs1R3R6NHhBWWNjaXd2NENhTFhpSHpDSmRzYnZmaXpp?=
- =?utf-8?B?UHNub2crbmQ1Rm83dVZvT1YzTFZsRHJRb2hLYTN6ZDJDaVdMdU42M0g2Yktr?=
- =?utf-8?B?K1ZBT1RRUFVQSWZReWUyakJQdHdSY3FCUUVDT2pLOGgrMG9RRzFTRkgxTG5h?=
- =?utf-8?B?blpOamNUY0p3c08zS1JpVmJJRUZwclFEU2IvNEpmNW4wN214RUZvUlVlWWZI?=
- =?utf-8?B?Ukc1R3JWNFFDTDczd3Ftd1ZVWHlDLzU0WDVFbnQxdkZyRFJ3UmJianpNeU1j?=
- =?utf-8?B?R3d6LzVQQnlwNjFYbEJCbm95cEVhVFhFRmh1cFptT0NMNGtUckIzWDI4Y1Qz?=
- =?utf-8?B?RU9CYkU3UlNLQ0hwRHgzeW9oZmZmS0hJc2hnYTJnLzVKMU5PTytXeHNTN2tp?=
- =?utf-8?B?WkhrbWxLUTBBU2pwTE1rSjdRNkR4ci8xRUtvSWpMczBwdkZ0ZDEwNDNOVkpI?=
- =?utf-8?B?QzUrWFcvRUlyTHJqdkd2OVBwWWR5ZGtic2NrbHVGNWlJZHNyMm54ZzE5NFph?=
- =?utf-8?B?SlgvNGJCU0ZRbDBGTXdoQXpsdXE1N2s0cXNvdmxwMEZSMmNSMk1rQUFGTVVv?=
- =?utf-8?B?VExUam5XRnpTWmMrRDhoY0hCcktCWWkwTmM2ZjFOQ2dhN00rcGszVTN6UzBi?=
- =?utf-8?B?RzZ0M3RhZVptazlTWkRFNEJ6cTZWMWtycnp1b1VjSm11S2VhVUFKd1FVUThs?=
- =?utf-8?B?M2dwQVNBb2k4VGZ3c3k0TjZ3b1VYdFF1c1NWT3JwWElaZjJoMzcxalJERlZa?=
- =?utf-8?B?cFk0eHBuQVdFMmk2YjhjSzV4aE9wWGVJekFEQkxPd3FZdUN4TWRBNXFqbi82?=
- =?utf-8?B?amdjbk1jOU8weGgzNFIvUE1NNmFHVFcxUmJrSmpWbndEbm8zUktFYU1mWUZV?=
- =?utf-8?B?WFBCK292WnFEOGhwVS8zWHFXVy9NSFhuSjNDVFd2di9TalM0RU5OSTc2RHZo?=
- =?utf-8?B?Q2IxVkN5VXBHdlQxM1RXZlpqdTdMRUtrSGk1cG9hQ1g1K2tBNHQ2Snd4NXZS?=
- =?utf-8?B?ZGpVWTRxY0w5NnlDdE82MnF5dy9YUDcvSHZVVjN1dmxUcnoxUFZDWVRLY0Fy?=
- =?utf-8?B?cmk3QTJoTnZGSG10TDFXckQrZFp4ZFB0WWVTM0JkZitiVmxlSFZyUEM1L0d0?=
- =?utf-8?B?aXBtZjVkNW1iT1VzTnN1V3ZNeHpsSGFXTW1kQ1hYOEVCeVRTVnYzbzFNQ2Uv?=
- =?utf-8?B?MFRtQ2FqUTQ3QVNBWkxvRUpJa0VmTnI5ckJ6YklYNVNaTkxYWHdTaW9ZVEZh?=
- =?utf-8?B?ZHZSNXp0aHEvdzQ0TElmd0FROFQyeDFkbm51Tjh3WjFpQ0Q0UXNDZTlsVkxG?=
- =?utf-8?B?em1aOEw1bmcxMDYrU2FOdzB6RjN0UXRTdWltMW1yaUhCM1R5RTVkSVRtb2Fo?=
- =?utf-8?B?RzVUdWhndTcyUk96VGJ2V1p0aXI5M25idXpEK0x4c0FLeG9WTUhqOGpxaFZK?=
- =?utf-8?Q?MrcPDXeURmN7Lz0Fm4x7aQFeN?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	id 1ox6zG-00E0oz-3G
+	for linux-nvme@lists.infradead.org; Mon, 21 Nov 2022 13:37:30 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1669037843;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0PNVVbxIqYIMNHfObHOmGwpKRDt3WRR+KlB649CkZdU=;
+	b=Kyz3aNy4SjHmUULvb9RHtn+JOB+JxldoHV0WWhsOWTzkjiLUEwLuGZ3IZ7gGr2TeDrQfNL
+	2FdxB9Bhp7cpeP1BhdITvvAwIv08SlvbfdXRUgOw092YaFkn60WWlP1FYZVKipzwkG97jF
+	N3O9UYxQSKiag1MgKgTtMCO3m+W9+1Y=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-660-rlO582ulOneUVS_CgfihtA-1; Mon, 21 Nov 2022 08:35:38 -0500
+X-MC-Unique: rlO582ulOneUVS_CgfihtA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5B278185A79C;
+	Mon, 21 Nov 2022 13:35:36 +0000 (UTC)
+Received: from bcodding.csb (unknown [10.22.50.7])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 791E2492CA2;
+	Mon, 21 Nov 2022 13:35:35 +0000 (UTC)
+Received: by bcodding.csb (Postfix, from userid 24008)
+	id 19AFF10C30E3; Mon, 21 Nov 2022 08:35:35 -0500 (EST)
+From: Benjamin Coddington <bcodding@redhat.com>
+To: netdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Lee Duncan <lduncan@suse.com>,
+	Chris Leech <cleech@redhat.com>,
+	Mike Christie <michael.christie@oracle.com>,
+	"James E.J. Bottomley" <jejb@linux.ibm.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Valentina Manea <valentina.manea.m@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	David Howells <dhowells@redhat.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Steve French <sfrench@samba.org>,
+	Christine Caulfield <ccaulfie@redhat.com>,
+	David Teigland <teigland@redhat.com>,
+	Mark Fasheh <mark@fasheh.com>,
+	Joel Becker <jlbec@evilplan.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Eric Van Hensbergen <ericvh@gmail.com>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Ilya Dryomov <idryomov@gmail.com>,
+	Xiubo Li <xiubli@redhat.com>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	Anna Schumaker <anna@kernel.org>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	drbd-dev@lists.linbit.com,
+	linux-block@vger.kernel.org,
+	nbd@other.debian.org,
+	linux-nvme@lists.infradead.org,
+	open-iscsi@googlegroups.com,
+	linux-scsi@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-afs@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	samba-technical@lists.samba.org,
+	cluster-devel@redhat.com,
+	ocfs2-devel@oss.oracle.com,
+	v9fs-developer@lists.sourceforge.net,
+	ceph-devel@vger.kernel.org,
+	linux-nfs@vger.kernel.org
+Subject: [PATCH v1 2/3] Treewide: Stop corrupting socket's task_frag
+Date: Mon, 21 Nov 2022 08:35:18 -0500
+Message-Id: <c2ec184226acd21a191ccc1aa46a1d7e43ca7104.1669036433.git.bcodding@redhat.com>
+In-Reply-To: <cover.1669036433.git.bcodding@redhat.com>
+References: <cover.1669036433.git.bcodding@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: Dell.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR19MB4885.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 19f87aa7-93a7-40ce-1b99-08dacbb994ea
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Nov 2022 12:11:55.3480
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 945c199a-83a2-4e80-9f8c-5a91be5752dd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rzxlLXe+eam0xcU0MkQCwrS5Pjg5KKphYrLtKYq7jqWJZzsgkvbU+Jh/9EV9X0VEz+g7t75K/N9AVfcBkV20dQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR19MB5611
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-21_13,2022-11-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 adultscore=0
- impostorscore=0 spamscore=0 suspectscore=0 phishscore=0 malwarescore=0
- mlxscore=0 mlxlogscore=999 priorityscore=1501 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211210095
-X-Proofpoint-ORIG-GUID: fSUprX3jqpfzgWA0hGounK6Z1XumRC8g
-X-Proofpoint-GUID: fSUprX3jqpfzgWA0hGounK6Z1XumRC8g
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxlogscore=999
- bulkscore=0 phishscore=0 mlxscore=0 spamscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211210095
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221121_041205_776570_BFD563A1 
-X-CRM114-Status: GOOD (  19.61  )
+X-CRM114-CacheID: sfid-20221121_053726_318492_EFBDF2E4 
+X-CRM114-Status: GOOD (  21.78  )
+X-Mailman-Approved-At: Mon, 21 Nov 2022 05:38:32 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -185,26 +132,266 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-SGkgU2FnaS4NCg0KVGhlIHByZXZpb3VzIG1zZzoNCm52bWUgbnZtZTA6IHF1ZXVlIDA6IHRpbWVv
-dXQgcmVxdWVzdCAweDAgdHlwZSA0DQoNCldlIGZvdW5kIGl0IG1vcmUgdXNlZnVsIHRvIGhhdmUg
-YWxzbzoNCmNtZCBvcGMgdGhhdCB3YXMgdGltZWQgb3V0DQpjb21tYW5kIGlkIHRoYXQgd2FzIHRp
-bWVkIG91dA0KVGhlIHRpbWVvdXQgdmFsdWUgZm9yIHRoaXMgc3BlY2lmaWMgaW8gLSBpbiBjYXNl
-IG9mIGEgdGltZW91dCAtIGl0IG1ha2Ugc2Vuc2UgdG8ga25vdyB0aGUgdGltZW91dCB2YWx1ZSBp
-dHNlbGYNCm1vcmUgaW5mbyBhYm91dCB0aGUgYmxrIHJxIC0gc3VjaCBhczoNCglhLiB0aW1lIG9m
-IGEgcmVxdWVzdCB0aGF0IHdhcyBhbGxvY2F0ZWQgZm9yIHRoZSBJTyB0aGF0IHdhcyB0aW1lZCBv
-dXQNCgliLiB0aW1lIG9mIHRoZSB0aW1lZCBvdXQgSU8gdGhhdCB3YXMgc3VibWl0dGVkIHRvIHRo
-ZSBkZXZpY2UNCg0KVGhlIGxvZyBpcyBhbHJlYWR5IGV4aXN0cywgd2h5IG5vdCBwcm92aWRlIGFk
-ZGl0aW9uYWwgaW5mbyB0aGF0IGNhbiBoZWxwIHdpdGggaW8gdGltZW91dHMgZGVidWc/DQoNClRo
-YW5rcywNCkFtaXQNCg0KDQpJbnRlcm5hbCBVc2UgLSBDb25maWRlbnRpYWwNCg0KLS0tLS1Pcmln
-aW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IFNhZ2kgR3JpbWJlcmcgPHNhZ2lAZ3JpbWJlcmcubWU+
-IA0KU2VudDogTW9uZGF5LCAyMSBOb3ZlbWJlciAyMDIyIDEzOjM2DQpUbzogRW5nZWwsIEFtaXQg
-PEFtaXQuRW5nZWxARGVsbC5jb20+OyBsaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcNClN1
-YmplY3Q6IFJlOiBbUEFUQ0hdIG52bWUtdGNwOiBhZGQgYWRkaXRpb25hbCBpbmZvIGZvciBudm1l
-X3RjcF90aW1lb3V0IGxvZw0KDQoNCltFWFRFUk5BTCBFTUFJTF0gDQoNCg0KPiBIaSBTYWdpLA0K
-PiANCj4gQmVsb3cgaXMgYW4gZXhhbXBsZSBwcmludCBvZiBhIHJlYWQgY21kIHRoYXQgaXMgdGlt
-ZWQgb3V0IFNob3VsZCBJIGFkZCANCj4gdGhpcyBhbHNvIHRvIHRoZSBjb21taXQgbXNnPw0KPiBu
-dm1lIG52bWUwOiBxdWV1ZSAxOiBjbnRsaWQgMSB0aW1lb3V0IHJlcXVlc3QgMHg3IHR5cGUgNCBj
-aWQgMjg2NzkgDQo+IG9wY29kZSAweDEgc3RhcnQgdGltZSA1MDIyMDA4ODIwbnMgaW8gc3RhcnQg
-dGltZSA1MDIyMDA4MTMybnMgcmVxdWVzdCANCj4gdGltZW91dCA1MDAwbXMNCg0KVGhpcyBpcyBu
-b3QgYW4gaW1wcm92ZW1lbnQgZnJvbSB0aGUgZXhpc3RpbmcgbXNnLg0K
+Since moving to memalloc_nofs_save/restore, SUNRPC has stopped setting the
+GFP_NOIO flag on sk_allocation which the networking system uses to decide
+when it is safe to use current->task_frag.  The results of this are
+unexpected corruption in task_frag when SUNRPC is involved in memory
+reclaim.
+
+The corruption can be seen in crashes, but the root cause is often
+difficult to ascertain as a crashing machine's stack trace will have no
+evidence of being near NFS or SUNRPC code.  I believe this problem to
+be much more pervasive than reports to the community may indicate.
+
+Fix this by having kernel users of sockets that may corrupt task_frag due
+to reclaim set sk_use_task_frag = false.  Preemptively correcting this
+situation for users that still set sk_allocation allows them to convert to
+memalloc_nofs_save/restore without the same unexpected corruptions that are
+sure to follow, unlikely to show up in testing, and difficult to bisect.
+
+CC: Philipp Reisner <philipp.reisner@linbit.com>
+CC: Lars Ellenberg <lars.ellenberg@linbit.com>
+CC: "Christoph Böhmwalder" <christoph.boehmwalder@linbit.com>
+CC: Jens Axboe <axboe@kernel.dk>
+CC: Josef Bacik <josef@toxicpanda.com>
+CC: Keith Busch <kbusch@kernel.org>
+CC: Christoph Hellwig <hch@lst.de>
+CC: Sagi Grimberg <sagi@grimberg.me>
+CC: Lee Duncan <lduncan@suse.com>
+CC: Chris Leech <cleech@redhat.com>
+CC: Mike Christie <michael.christie@oracle.com>
+CC: "James E.J. Bottomley" <jejb@linux.ibm.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Valentina Manea <valentina.manea.m@gmail.com>
+CC: Shuah Khan <shuah@kernel.org>
+CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: David Howells <dhowells@redhat.com>
+CC: Marc Dionne <marc.dionne@auristor.com>
+CC: Steve French <sfrench@samba.org>
+CC: Christine Caulfield <ccaulfie@redhat.com>
+CC: David Teigland <teigland@redhat.com>
+CC: Mark Fasheh <mark@fasheh.com>
+CC: Joel Becker <jlbec@evilplan.org>
+CC: Joseph Qi <joseph.qi@linux.alibaba.com>
+CC: Eric Van Hensbergen <ericvh@gmail.com>
+CC: Latchesar Ionkov <lucho@ionkov.net>
+CC: Dominique Martinet <asmadeus@codewreck.org>
+CC: "David S. Miller" <davem@davemloft.net>
+CC: Eric Dumazet <edumazet@google.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Paolo Abeni <pabeni@redhat.com>
+CC: Ilya Dryomov <idryomov@gmail.com>
+CC: Xiubo Li <xiubli@redhat.com>
+CC: Chuck Lever <chuck.lever@oracle.com>
+CC: Jeff Layton <jlayton@kernel.org>
+CC: Trond Myklebust <trond.myklebust@hammerspace.com>
+CC: Anna Schumaker <anna@kernel.org>
+CC: drbd-dev@lists.linbit.com
+CC: linux-block@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: nbd@other.debian.org
+CC: linux-nvme@lists.infradead.org
+CC: open-iscsi@googlegroups.com
+CC: linux-scsi@vger.kernel.org
+CC: linux-usb@vger.kernel.org
+CC: linux-afs@lists.infradead.org
+CC: linux-cifs@vger.kernel.org
+CC: samba-technical@lists.samba.org
+CC: cluster-devel@redhat.com
+CC: ocfs2-devel@oss.oracle.com
+CC: v9fs-developer@lists.sourceforge.net
+CC: netdev@vger.kernel.org
+CC: ceph-devel@vger.kernel.org
+CC: linux-nfs@vger.kernel.org
+
+Suggested-by: Guillaume Nault <gnault@redhat.com>
+Signed-off-by: Benjamin Coddington <bcodding@redhat.com>
+---
+ drivers/block/drbd/drbd_receiver.c | 3 +++
+ drivers/block/nbd.c                | 1 +
+ drivers/nvme/host/tcp.c            | 1 +
+ drivers/scsi/iscsi_tcp.c           | 1 +
+ drivers/usb/usbip/usbip_common.c   | 1 +
+ fs/afs/rxrpc.c                     | 1 +
+ fs/cifs/connect.c                  | 1 +
+ fs/dlm/lowcomms.c                  | 2 ++
+ fs/ocfs2/cluster/tcp.c             | 1 +
+ net/9p/trans_fd.c                  | 1 +
+ net/ceph/messenger.c               | 1 +
+ net/sunrpc/xprtsock.c              | 3 +++
+ 12 files changed, 17 insertions(+)
+
+diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
+index af4c7d65490b..09ad8d82c200 100644
+--- a/drivers/block/drbd/drbd_receiver.c
++++ b/drivers/block/drbd/drbd_receiver.c
+@@ -1030,6 +1030,9 @@ static int conn_connect(struct drbd_connection *connection)
+ 	sock.socket->sk->sk_allocation = GFP_NOIO;
+ 	msock.socket->sk->sk_allocation = GFP_NOIO;
+ 
++	sock.socket->sk->sk_use_task_frag = false;
++	msock.socket->sk->sk_use_task_frag = false;
++
+ 	sock.socket->sk->sk_priority = TC_PRIO_INTERACTIVE_BULK;
+ 	msock.socket->sk->sk_priority = TC_PRIO_INTERACTIVE;
+ 
+diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
+index 2a709daefbc4..815ee631ed30 100644
+--- a/drivers/block/nbd.c
++++ b/drivers/block/nbd.c
+@@ -514,6 +514,7 @@ static int sock_xmit(struct nbd_device *nbd, int index, int send,
+ 	noreclaim_flag = memalloc_noreclaim_save();
+ 	do {
+ 		sock->sk->sk_allocation = GFP_NOIO | __GFP_MEMALLOC;
++		sock->sk->sk_use_task_frag = false;
+ 		msg.msg_name = NULL;
+ 		msg.msg_namelen = 0;
+ 		msg.msg_control = NULL;
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index d5871fd6f769..e01d78858cb4 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1531,6 +1531,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+ 	queue->sock->sk->sk_rcvtimeo = 10 * HZ;
+ 
+ 	queue->sock->sk->sk_allocation = GFP_ATOMIC;
++	queue->sock->sk->sk_use_task_frag = false;
+ 	nvme_tcp_set_queue_io_cpu(queue);
+ 	queue->request = NULL;
+ 	queue->data_remaining = 0;
+diff --git a/drivers/scsi/iscsi_tcp.c b/drivers/scsi/iscsi_tcp.c
+index 29b1bd755afe..733e540d0abf 100644
+--- a/drivers/scsi/iscsi_tcp.c
++++ b/drivers/scsi/iscsi_tcp.c
+@@ -733,6 +733,7 @@ iscsi_sw_tcp_conn_bind(struct iscsi_cls_session *cls_session,
+ 	sk->sk_reuse = SK_CAN_REUSE;
+ 	sk->sk_sndtimeo = 15 * HZ; /* FIXME: make it configurable */
+ 	sk->sk_allocation = GFP_ATOMIC;
++	sk->sk_use_task_frag = false;
+ 	sk_set_memalloc(sk);
+ 	sock_no_linger(sk);
+ 
+diff --git a/drivers/usb/usbip/usbip_common.c b/drivers/usb/usbip/usbip_common.c
+index 2ab99244bc31..76bfc6e43881 100644
+--- a/drivers/usb/usbip/usbip_common.c
++++ b/drivers/usb/usbip/usbip_common.c
+@@ -315,6 +315,7 @@ int usbip_recv(struct socket *sock, void *buf, int size)
+ 
+ 	do {
+ 		sock->sk->sk_allocation = GFP_NOIO;
++		sock->sk->sk_use_task_frag = false;
+ 
+ 		result = sock_recvmsg(sock, &msg, MSG_WAITALL);
+ 		if (result <= 0)
+diff --git a/fs/afs/rxrpc.c b/fs/afs/rxrpc.c
+index eccc3cd0cb70..ac75ad18db83 100644
+--- a/fs/afs/rxrpc.c
++++ b/fs/afs/rxrpc.c
+@@ -46,6 +46,7 @@ int afs_open_socket(struct afs_net *net)
+ 		goto error_1;
+ 
+ 	socket->sk->sk_allocation = GFP_NOFS;
++	socket->sk->sk_use_task_frag = false;
+ 
+ 	/* bind the callback manager's address to make this a server socket */
+ 	memset(&srx, 0, sizeof(srx));
+diff --git a/fs/cifs/connect.c b/fs/cifs/connect.c
+index 7ae6f2c08153..c2b0d6f59f79 100644
+--- a/fs/cifs/connect.c
++++ b/fs/cifs/connect.c
+@@ -2935,6 +2935,7 @@ generic_ip_connect(struct TCP_Server_Info *server)
+ 		cifs_dbg(FYI, "Socket created\n");
+ 		server->ssocket = socket;
+ 		socket->sk->sk_allocation = GFP_NOFS;
++		socket->sk->sk_use_task_frag = false;
+ 		if (sfamily == AF_INET6)
+ 			cifs_reclassify_socket6(socket);
+ 		else
+diff --git a/fs/dlm/lowcomms.c b/fs/dlm/lowcomms.c
+index a4e84e8d94c8..4cf29ac3c428 100644
+--- a/fs/dlm/lowcomms.c
++++ b/fs/dlm/lowcomms.c
+@@ -699,6 +699,7 @@ static void add_listen_sock(struct socket *sock, struct listen_connection *con)
+ 
+ 	sk->sk_user_data = con;
+ 	sk->sk_allocation = GFP_NOFS;
++	sk->sk_use_task_frag = false;
+ 	/* Install a data_ready callback */
+ 	sk->sk_data_ready = lowcomms_listen_data_ready;
+ 	release_sock(sk);
+@@ -718,6 +719,7 @@ static void add_sock(struct socket *sock, struct connection *con)
+ 	sk->sk_write_space = lowcomms_write_space;
+ 	sk->sk_state_change = lowcomms_state_change;
+ 	sk->sk_allocation = GFP_NOFS;
++	sk->sk_use_task_frag = false;
+ 	sk->sk_error_report = lowcomms_error_report;
+ 	release_sock(sk);
+ }
+diff --git a/fs/ocfs2/cluster/tcp.c b/fs/ocfs2/cluster/tcp.c
+index f660c0dbdb63..3eaafa5e5ec4 100644
+--- a/fs/ocfs2/cluster/tcp.c
++++ b/fs/ocfs2/cluster/tcp.c
+@@ -1604,6 +1604,7 @@ static void o2net_start_connect(struct work_struct *work)
+ 	sc->sc_sock = sock; /* freed by sc_kref_release */
+ 
+ 	sock->sk->sk_allocation = GFP_ATOMIC;
++	sock->sk->sk_use_task_frag = false;
+ 
+ 	myaddr.sin_family = AF_INET;
+ 	myaddr.sin_addr.s_addr = mynode->nd_ipv4_address;
+diff --git a/net/9p/trans_fd.c b/net/9p/trans_fd.c
+index e758978b44be..96f803499323 100644
+--- a/net/9p/trans_fd.c
++++ b/net/9p/trans_fd.c
+@@ -851,6 +851,7 @@ static int p9_socket_open(struct p9_client *client, struct socket *csocket)
+ 		return -ENOMEM;
+ 
+ 	csocket->sk->sk_allocation = GFP_NOIO;
++	csocket->sk->sk_use_task_frag = false;
+ 	file = sock_alloc_file(csocket, 0, NULL);
+ 	if (IS_ERR(file)) {
+ 		pr_err("%s (%d): failed to map fd\n",
+diff --git a/net/ceph/messenger.c b/net/ceph/messenger.c
+index d3bb656308b4..cad8e0ca8432 100644
+--- a/net/ceph/messenger.c
++++ b/net/ceph/messenger.c
+@@ -446,6 +446,7 @@ int ceph_tcp_connect(struct ceph_connection *con)
+ 	if (ret)
+ 		return ret;
+ 	sock->sk->sk_allocation = GFP_NOFS;
++	sock->sk->sk_use_task_frag = false;
+ 
+ #ifdef CONFIG_LOCKDEP
+ 	lockdep_set_class(&sock->sk->sk_lock, &socket_class);
+diff --git a/net/sunrpc/xprtsock.c b/net/sunrpc/xprtsock.c
+index e976007f4fd0..d3170b753dfc 100644
+--- a/net/sunrpc/xprtsock.c
++++ b/net/sunrpc/xprtsock.c
+@@ -1882,6 +1882,7 @@ static int xs_local_finish_connecting(struct rpc_xprt *xprt,
+ 		sk->sk_write_space = xs_udp_write_space;
+ 		sk->sk_state_change = xs_local_state_change;
+ 		sk->sk_error_report = xs_error_report;
++		sk->sk_use_task_frag = false;
+ 
+ 		xprt_clear_connected(xprt);
+ 
+@@ -2083,6 +2084,7 @@ static void xs_udp_finish_connecting(struct rpc_xprt *xprt, struct socket *sock)
+ 		sk->sk_user_data = xprt;
+ 		sk->sk_data_ready = xs_data_ready;
+ 		sk->sk_write_space = xs_udp_write_space;
++		sk->sk_use_task_frag = false;
+ 
+ 		xprt_set_connected(xprt);
+ 
+@@ -2250,6 +2252,7 @@ static int xs_tcp_finish_connecting(struct rpc_xprt *xprt, struct socket *sock)
+ 		sk->sk_state_change = xs_tcp_state_change;
+ 		sk->sk_write_space = xs_tcp_write_space;
+ 		sk->sk_error_report = xs_error_report;
++		sk->sk_use_task_frag = false;
+ 
+ 		/* socket options */
+ 		sock_reset_flag(sk, SOCK_LINGER);
+-- 
+2.31.1
+
 
