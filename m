@@ -4,97 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4EB8DC4332F
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Nov 2022 08:26:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0CE92C4332F
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Nov 2022 09:00:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PADjG1qRGw8ap41PGbGNiTgnuCFlHH3z9MLyTMnsN0s=; b=QyfHD6TKN96ULN9+eMnAWnsOyJ
-	AJYdIjSo6ON+rXz4yhn2b11ecIVgmVa8TLEcJSoUsj4LKEDYH5zvDhY7UJpIdSijDN8YV5HtrfkaO
-	GVmfNpcpeYfy+wQHOKUq1GLGb0UOrTbOqMrARC6zoem6dIZXN3qYxhJtMMY5xM4Kvk1JunZlJqwZL
-	wXXrVgPzRc9juv84/2ZdwE8xcsej3Vhd6Q6skiXwLvVEq6Gi5ahmn7IXBJl69uIXY4+rF7qglKlH3
-	8i3ZrZLyw5jJv7NtRY5DMSNGkcz5eoA1RUpJrshBAcEMD1rFj+O8ppVm6e8LUn66Xt7pGYdHYD99Y
-	bEFdUnAQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=0BgaW9t8GFER5QecxVkFsHrVi3gO/4V5KAZgJaiRYBs=; b=1Jorq+WmeUG+ajNV//MNMoQhzc
+	ffDOxgii9yztqCoTrbeNsBidqtbSp3EVyVNtJHALl7e5pUEw4X+TieRTFhAFM0knPPjN4V2b0fVt+
+	SAYodcwtrxQSR8nddM6gi2U78q+QLb6ATgEj0pUlQZp2Xaxy6IMGLS9S+R2kaPA9tTqvQmAzacIZT
+	9vVuR9JYpEb5L2tnWXga2acXndrdrW5hoA7MYe8gPsyaxkzuVwLBf0HeeMzr1is5B3Qn2Vr3u7cKZ
+	7r1hjFqdKk9SMaBRqDTBHiVGGfL+cW35AhB+W/iTtXRCkB1mPwSmZhkmd7mwPETR+Jz2LIBA5ueBv
+	cN/yHQ7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oxOcG-006EnY-LJ; Tue, 22 Nov 2022 08:26:52 +0000
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
+	id 1oxP8t-006fgU-DD; Tue, 22 Nov 2022 09:00:35 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oxOcD-006Ek7-DX
-	for linux-nvme@lists.infradead.org; Tue, 22 Nov 2022 08:26:51 +0000
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id 94D9132003AC;
-	Tue, 22 Nov 2022 03:26:42 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Tue, 22 Nov 2022 03:26:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
-	 h=cc:cc:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1669105602; x=1669192002; bh=PA
-	DjG1qRGw8ap41PGbGNiTgnuCFlHH3z9MLyTMnsN0s=; b=gPcLfii5rKYW4d5JnX
-	P7EZqCRvRgXYneZuLO/7itIHDe+fkCcSdKXCgK2CJIXS5CytIJmH+j8T8jKkyogv
-	+icHU2t3hMbJTQETV8SwermbygMzBEOnGsqHDLk5WPjXALzBgC2DlqWv99ZMxr5U
-	9abRG0gqFMaFkdYcuObPdK3mPAddWCOwIkV6oZwONVyqITifwie19K1OUaM8wk1O
-	z9Z8osfAJ+8nVtGM/CL4o2SFK7s+DkGDpqnL/efAKQaie0POSJznI5jMkVL4+U9W
-	yS5Ujx+W6Kzya2Gw+ZKeXLFoLDSXgJYu6mrUbRZjozECU3VgyDeejhHG8FbMlJ5b
-	Lsvg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1669105602; x=1669192002; bh=PADjG1qRGw8ap41PGbGNiTgnuCFl
-	HH3z9MLyTMnsN0s=; b=StGQRgoA7kKBmgX05AV2sqFECVJkmEESvfREQmLuUdBT
-	rfrsi0NhyFfmRKRDt504Bl3hLVEx9szEBM96kSNE7aInUbZRQ+0rXpcpzLRaGEHB
-	Bt/GKAKUwAt9+Fz2E7tS+p6JcLt6IaeoGU2TIJP4mPsqtz33enSBTvCyZW+JXrDz
-	+g0B+CXjX7Uv/aAkfY744FAGXpkLen5edSMLqOxCVwO83TwLbaxgfjbsQUVj4Boh
-	DW1SL0alcTEjCpxhPI5nJ4EpgJiaMzVjcuHe+EjnVoMZm1ikKre90nj+lCGNaf8x
-	hmPTXVSt4Wdt2coHGf7hQiAkZNaT1A7cbn5sarIHww==
-X-ME-Sender: <xms:wYd8Yw9pUMZLIu41_Py8UuWvhyBRb1tnjbDilfW2eWxImIJ2pMYJfQ>
-    <xme:wYd8Y4tRatKbNs_Gbw1WkIY7d7EUeNNUFDbaszQCW-2Fc-ze_xsdWonaelfR1i9K6
-    WJJnPAIf0-nkGliDRk>
-X-ME-Received: <xmr:wYd8Y2DyC8oLZYyeb13g9PPXXRjFXQWZqMKfOhZn-JJky3lMNI9zxfQnaYzEOets3EXA6fcM34flsSAEl0qt_IKlnldlbg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrheejgdduvddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
-    shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
-    htvghrnhepffduvdfhheejudfgieejueeileegveduvdelhfekhffgteetffdtvdekveei
-    leefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:wYd8YwffO7iAQ1J3Vc2wZMMIM7oPPZ_jMgjQRaKf8kUNDJ_MTHffqw>
-    <xmx:wYd8Y1MEliTg9-jd0JGdyLaZjAj4IKsZYHMAr6eIPKCh44GvTCSLuA>
-    <xmx:wYd8Y6kFLdOsw6wiZGF3x2QGgmSpeo51YgwektltzI5qfiV5hdGiuA>
-    <xmx:wod8Y4dUB0f5OuSbuzDyaL7nVgq6balCKPEShp5pJjLk1JXg-hYnOw>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 22 Nov 2022 03:26:39 -0500 (EST)
-Date: Tue, 22 Nov 2022 09:26:38 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Jonathan Derrick <jonathan.derrick@linux.dev>,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH v2] tests/nvme: Add admin-passthru+reset race test
-Message-ID: <Y3yHvg27tKo11YCF@cormorant.local>
-References: <20221117212210.934-1-jonathan.derrick@linux.dev>
- <Y3vlsF7KcRrY7vCW@kbusch-mbp>
- <e99fef7c-1b48-61e2-b503-a2363968d5fc@linux.dev>
- <7dcb9e3c-aa3e-b7b9-fc30-59281d581fd0@linux.dev>
- <Y3wED5m5JHOFMMg2@kbusch-mbp>
+	id 1oxP8r-006fe0-P8
+	for linux-nvme@bombadil.infradead.org; Tue, 22 Nov 2022 09:00:33 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:MIME-Version:Subject:To:From:Date:Message-ID:Sender:Reply-To:Cc:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=0BgaW9t8GFER5QecxVkFsHrVi3gO/4V5KAZgJaiRYBs=; b=iBrsqKTHZC+xJyCtTAHs1TPMmT
+	XJKHAAyQwT3fUH+CNahZMct0i+0yQRNiyT4u//Zecs5Gxy+FSeswpU3Dz43iLZCoIY2cbITb2fTWU
+	85YHXnei92xxXObyB/N3Wmz2AbQrqBQg4Kxv1+Xkmp2SKOMZzh1sexyZJA+OFdKlz+i3eoAXZWmRX
+	QzADoOmRMibBkKwtFF3To6VjlgBkqsPH4iCLDtLR08YTeA3lr2pdCaKdURlnQsR7PB53QSu2DMeST
+	H+jMsnhNpHaF8YAz/OxoUKWit4/ENEAM0ChvkDNnNMaENWLjV+GJe2ZTpin46mtjIwMaWrjdbU2fN
+	FgZQlCUQ==;
+Received: from mail.axisfairfi.com ([94.177.230.134])
+	by desiato.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oxP8o-003Nu2-5A
+	for linux-nvme@lists.infradead.org; Tue, 22 Nov 2022 09:00:31 +0000
+Received: by mail.axisfairfi.com (Postfix, from userid 1001)
+	id 3C9AE8245E; Tue, 22 Nov 2022 09:00:24 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=axisfairfi.com;
+	s=mail; t=1669107626;
+	bh=0BgaW9t8GFER5QecxVkFsHrVi3gO/4V5KAZgJaiRYBs=;
+	h=Date:From:To:Subject:From;
+	b=PJeruhXJo8TqO1qHd5Qsgmr9f4RI7oSw6/k82Z8FtoCkJBoIRlHlWm4v8KMrs8HMh
+	 yZvv1oE337zpFM2qe7YYbA2VhzeF9aP2KSFaFXtsgqPftkTyG09yLfEGiqK50cPItG
+	 mCRVK4JIGTyTOY+UXuw0AZ4+4Yh+LcJFF4PJ3IsPo35aG48l4IViVMv2DOx1ID3Cp9
+	 /7P5bmspeBcg/QziZAfVhxsG5atzHnR6vpJ5c+OBEatgXj2R6w1IsDtQ1qXVsg0qej
+	 4rNw6oUHUiUqqb2437nZcgTgI9DIb7JJu+OKyxaPatLby5zNY/aVNDorBXB6fSrjtP
+	 8PX/LcfFyhLtw==
+Received: by mail.axisfairfi.com for <linux-nvme@lists.infradead.org>; Tue, 22 Nov 2022 09:00:23 GMT
+Message-ID: <20221122074500-0.1.d.nbg.0.fu4mmthd4v@axisfairfi.com>
+Date: Tue, 22 Nov 2022 09:00:23 GMT
+From: "Zbynek Spacek" <zbynek.spacek@axisfairfi.com>
+To: <linux-nvme@lists.infradead.org>
+Subject: Silikonmischungen
+X-Mailer: mail.axisfairfi.com
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="w41FLNgbXu+RbZ/D"
-Content-Disposition: inline
-In-Reply-To: <Y3wED5m5JHOFMMg2@kbusch-mbp>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221122_002649_805647_2EDE7E45 
-X-CRM114-Status: GOOD (  24.21  )
+X-CRM114-CacheID: sfid-20221122_090030_350273_F84BBD9D 
+X-CRM114-Status: UNSURE (   2.31  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,86 +79,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Good morning,
 
---w41FLNgbXu+RbZ/D
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+do you need intermediates for processing, plastics (e.g. rubber) or silic=
+one mixtures?
 
-On Nov 21 16:04, Keith Busch wrote:
-> [cc'ing Klaus]
->=20
-> On Mon, Nov 21, 2022 at 03:49:45PM -0700, Jonathan Derrick wrote:
-> > On 11/21/2022 3:34 PM, Jonathan Derrick wrote:
-> > > On 11/21/2022 1:55 PM, Keith Busch wrote:
-> > >> On Thu, Nov 17, 2022 at 02:22:10PM -0700, Jonathan Derrick wrote:
-> > >>> I seem to have isolated the error mechanism for older kernels, but =
-6.2.0-rc2
-> > >>> reliably segfaults my QEMU instance (something else to look into) a=
-nd I don't
-> > >>> have any 'real' hardware to test this on at the moment. It looks li=
-ke several
-> > >>> passthru commands are able to enqueue prior/during/after resetting/=
-connecting.
-> > >>
-> > >> I'm not seeing any problem with the latest nvme-qemu after several d=
-ozen
-> > >> iterations of this test case. In that environment, the formats and
-> > >> resets complete practically synchronously with the call, so everythi=
-ng
-> > >> proceeds quickly. Is there anything special I need to change?
-> > >> =20
-> > > I can still repro this with nvme-fixes tag, so I'll have to dig into =
-it myself
-> > Here's a backtrace:
-> >=20
-> > Thread 1 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
-> > [Switching to Thread 0x7ffff7554400 (LWP 531154)]
-> > 0x000055555597a9d5 in nvme_ctrl (req=3D0x7fffec892780) at ../hw/nvme/nv=
-me.h:539
-> > 540         return sq->ctrl;
-> > (gdb) backtrace
-> > #0  0x000055555597a9d5 in nvme_ctrl (req=3D0x7fffec892780) at ../hw/nvm=
-e/nvme.h:539
-> > #1  0x0000555555994360 in nvme_format_bh (opaque=3D0x5555579dd000) at .=
-=2E/hw/nvme/ctrl.c:5852
->=20
-> Thanks, looks like a race between the admin queue format's bottom half,
-> and the controller reset tearing down that queue. I'll work with Klaus
-> on that qemu side (looks like a well placed qemu_bh_cancel() should do
-> it).
->=20
+We provide a wide range of silicone rubbers with various properties, sili=
+cone mixtures from renowned manufacturers such as Wacker, Elastosil LR an=
+d dyes, stabilizers, primers and anti-adhesive additives.
 
-Yuck. Bug located and quelched I think.
+We also produce technical silicone compounds with increased resistance to=
+ oils, resistant to high temperatures and water vapor, conductive and man=
+y more.
 
-Jonathan, please try
+We provide fast order fulfillment, timely deliveries and cost optimizatio=
+n.
 
-  https://lore.kernel.org/qemu-devel/20221122081348.49963-2-its@irrelevant.=
-dk/
+Can I introduce what we can offer you?
 
-This fixes the qemu crash, but I still see a "nvme still not live after
-42 seconds!" resulting from the test. I'm seeing A LOT of invalid
-submission queue doorbell writes:
 
-  pci_nvme_ub_db_wr_invalid_sq in nvme_process_db: submission queue doorbel=
-l write for nonexistent queue, sqid=3D0, ignoring
-
-Tested on a 6.1-rc4.
-
---w41FLNgbXu+RbZ/D
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmN8h70ACgkQTeGvMW1P
-Del4HAf9HmpKjKKpmkVjwjX5KgJ6sEc5C0Uk4yo65S75JRYGaTWBqqPbUvKDfUHX
-W1qZW3cKohqXU0FjVbRxFdcieBVXCRt6BaHG/0ICFO9qDf7R7YJR/dQo7JyHkVuM
-T+mWXl6xcVE5JbgyE+6s1wYaqtJv+v+zTCMFiHCuXvmGtVDjtnkaSggYy5l0bXKI
-rjn7AhSQqI/FIFCKK/J03Cq9q8AZoN5QdP35kKg26lzFyvxjgNFKq/29EWu9LX1e
-c88iWyrKod/6poMv3dHVWcvTMJUqsYOG0d3kihdbicoCuqlEPUFRauHxv7ji7pMK
-0U+O5S+bykNNIvxi5DLPgZ09D0nFIQ==
-=SbmM
------END PGP SIGNATURE-----
-
---w41FLNgbXu+RbZ/D--
+Zbynek Spacek
 
