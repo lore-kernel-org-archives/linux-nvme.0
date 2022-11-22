@@ -4,70 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26E1CC4332F
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Nov 2022 03:59:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51F3EC4332F
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Nov 2022 04:44:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=qktsaFFuSx1pO6QGqDQduBxXmFUkOdff41NrUZ+WH7I=; b=VuNTTFnlH5wApXniYIHw8GC6AT
-	JpcBQcYme9OkZ0LoOX5UvpvvIDOCgyOLHXFd3TQ4Dy0sUtSLpf0c2fy0k0vxC58E+GCfWXjz6GkuP
-	xSaj3w2Uwn0IwTiwuEys3tSFMMp+paB4YW6ZVdqa0pWzQGVE0NSiH6AUOWfB53QhYiivmL7AWEF2M
-	yrw/4MVtq3ZT/inwCN+0uSau9bYEBR1nfTGGU93Hnjh4mZMJwrrySMYZe3bnrhCQQBj6XYctJJ6lH
-	gIgynya96wPdQuZj1DUTOqtX4BnUID0wqJIZqwWyLVTmu1Epem1I0sn0gyqGTTaeNb3A3nM72JTFL
-	tp4+VJhw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=jKZAKo/Sogm21G3uoqrsq/AUW+bDQIg97U8vU0myIxM=; b=h0aKiQtv3NTIhJ0yMc0HZ94Wy1
+	FH+XHjRX2pF5QdK95Pw/VbsiMtWi70hxG6g/1znRYu3G0ZjNeFxOoPqwsHRlbujHGJrC+Cfq+VhUd
+	xl7JIvcrWs7/xuKuBIhnTZNf46Z/vQLL8FCZVYpHK6FMjFzm1Q8W9cvDn8QrINFbKqVzDCmiH2n60
+	hcxFfKqrxu+2vLET2L+xF++abPw91yft/5JtgWMgMtTqrIzGAsQqEN7BMTw0cjZn1qr4pqPlMrX/N
+	3PFnrbTCk3D9g8CtyANcXZ46W69NP34T9zuFuqWI14rk1cJRkfbvvb40DaRc8eLd7q2Kfuxe9lMf/
+	zhhd3hLA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oxKR2-003W9f-30; Tue, 22 Nov 2022 03:59:00 +0000
-Received: from mga14.intel.com ([192.55.52.115])
+	id 1oxL99-003qTj-Vv; Tue, 22 Nov 2022 04:44:36 +0000
+Received: from szxga01-in.huawei.com ([45.249.212.187])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oxKQz-003W86-8M
-	for linux-nvme@lists.infradead.org; Tue, 22 Nov 2022 03:58:58 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669089537; x=1700625537;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=5+HtXyGmJYBNSiyLsX/1M4KHps23PJylZX/jd6ELkao=;
-  b=HmFse6mkl9CPE3+DdkYI2MuRQ2As2MeXdAXy4Tb51hUkfQq3GPR+5i9D
-   V5ropFKMLJq84jCLLVHUfJnJ6ga4V1Y3BK8V0lwZyzycoPB5pZ18Wzl08
-   1HJI7Pf3oN0SOk6gjsGRvrPAhToZPwk3ss7EnF8yjGo1XyS0+rhbYfSpn
-   6sBxDMM80P2rZtbrKj/fbpYfJFJivpYXF06kvjOq5LhOeND0L8dEVkcL+
-   wkqFN1NFtbJJy0MquCMFVCFy3H00IxAzDX5HFQfiVfeZ/ZbhPSOLE7shB
-   r8CeO250vd6Hsm972mXBs3U/AC4zvTO7NZKio2qN9ZTI7BxXLBrkVoJ8E
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="313750655"
-X-IronPort-AV: E=Sophos;i="5.96,182,1665471600"; 
-   d="scan'208";a="313750655"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2022 19:58:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="641269030"
-X-IronPort-AV: E=Sophos;i="5.96,182,1665471600"; 
-   d="scan'208";a="641269030"
-Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 21 Nov 2022 19:58:55 -0800
-Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1oxKQw-00012k-2Y;
-	Tue, 22 Nov 2022 03:58:54 +0000
-Date: Tue, 22 Nov 2022 11:58:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.2] BUILD SUCCESS
- 68c5444c317208f5a114f671140373f47f0a2cf6
-Message-ID: <637c48e8.OiSNqXj65RJpgGt9%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+	id 1oxL96-003qR0-0T
+	for linux-nvme@lists.infradead.org; Tue, 22 Nov 2022 04:44:34 +0000
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NGWlh4gJHzqSYG;
+	Tue, 22 Nov 2022 12:40:32 +0800 (CST)
+Received: from kwepemm600014.china.huawei.com (7.193.23.54) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 22 Nov 2022 12:44:26 +0800
+Received: from huawei.com (10.90.53.225) by kwepemm600014.china.huawei.com
+ (7.193.23.54) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 22 Nov
+ 2022 12:44:26 +0800
+From: Zhang Qilong <zhangqilong3@huawei.com>
+To: <sagi@grimberg.me>, <hare@suse.de>, <kbusch@kernel.org>, <hch@lst.de>,
+	<axboe@fb.com>
+CC: <linux-nvme@lists.infradead.org>
+Subject: [PATCH v2] nvme: fix memleak in nvme_ctrl_dhchap_secret_store()
+Date: Tue, 22 Nov 2022 12:49:29 +0800
+Message-ID: <20221122044929.27600-1-zhangqilong3@huawei.com>
+X-Mailer: git-send-email 2.26.0.106.g9fadedd
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.90.53.225]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemm600014.china.huawei.com (7.193.23.54)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221121_195857_374702_C8BB2AE9 
-X-CRM114-Status: UNSURE (   7.93  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221121_204432_245083_F3CC4FD4 
+X-CRM114-Status: GOOD (  11.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,85 +68,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.2
-branch HEAD: 68c5444c317208f5a114f671140373f47f0a2cf6  nvmet: expose firmware revision to configfs
+If dhchap_secret is not consistent with options or
+nvme_auth_generate_key() fails, we should free the
+memory of dhchap_secret to avoid memleak.
 
-elapsed time: 1184m
+We fix it by changing the check strcmp to strncmp
+directly against buf and moving allocating inside
+to the clause.
 
-configs tested: 63
-configs skipped: 2
+Fixes: f50fff73d620 ("nvme: implement In-Band authentication")
+Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
+---
+v2:
+- changing checking function and allocating location.
+---
+ drivers/nvme/host/core.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-mips                             allyesconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-sh                               allmodconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-arc                                 defconfig
-s390                             allmodconfig
-alpha                               defconfig
-s390                                defconfig
-s390                             allyesconfig
-ia64                             allmodconfig
-x86_64                          rhel-8.3-func
-x86_64                    rhel-8.3-kselftests
-i386                 randconfig-a011-20221121
-i386                 randconfig-a015-20221121
-i386                 randconfig-a013-20221121
-i386                 randconfig-a012-20221121
-i386                 randconfig-a014-20221121
-i386                 randconfig-a016-20221121
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                           rhel-8.3-syz
-x86_64                           rhel-8.3-kvm
-x86_64                         rhel-8.3-kunit
-x86_64               randconfig-a012-20221121
-x86_64               randconfig-a011-20221121
-x86_64               randconfig-a013-20221121
-x86_64               randconfig-a014-20221121
-x86_64               randconfig-a016-20221121
-x86_64               randconfig-a015-20221121
-arc                  randconfig-r043-20221120
-x86_64                           allyesconfig
-riscv                randconfig-r042-20221121
-m68k                             allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-arc                  randconfig-r043-20221121
-s390                 randconfig-r044-20221121
-m68k                             allyesconfig
-arm                                 defconfig
-i386                                defconfig
-arm64                            allyesconfig
-arm                              allyesconfig
-i386                             allyesconfig
-
-clang tested configs:
-i386                 randconfig-a004-20221121
-i386                 randconfig-a001-20221121
-i386                 randconfig-a003-20221121
-i386                 randconfig-a005-20221121
-i386                 randconfig-a002-20221121
-i386                 randconfig-a006-20221121
-hexagon              randconfig-r041-20221120
-hexagon              randconfig-r041-20221121
-hexagon              randconfig-r045-20221120
-x86_64               randconfig-a004-20221121
-hexagon              randconfig-r045-20221121
-x86_64               randconfig-a001-20221121
-x86_64               randconfig-a003-20221121
-riscv                randconfig-r042-20221120
-x86_64               randconfig-a002-20221121
-s390                 randconfig-r044-20221120
-x86_64               randconfig-a005-20221121
-x86_64               randconfig-a006-20221121
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index da55ce45ac70..bfec2a63d0d8 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3730,7 +3730,6 @@ static ssize_t nvme_ctrl_dhchap_secret_store(struct device *dev,
+ {
+ 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+ 	struct nvmf_ctrl_options *opts = ctrl->opts;
+-	char *dhchap_secret;
+ 
+ 	if (!ctrl->opts->dhchap_secret)
+ 		return -EINVAL;
+@@ -3739,17 +3738,19 @@ static ssize_t nvme_ctrl_dhchap_secret_store(struct device *dev,
+ 	if (memcmp(buf, "DHHC-1:", 7))
+ 		return -EINVAL;
+ 
+-	dhchap_secret = kzalloc(count + 1, GFP_KERNEL);
+-	if (!dhchap_secret)
+-		return -ENOMEM;
+-	memcpy(dhchap_secret, buf, count);
+ 	nvme_auth_stop(ctrl);
+-	if (strcmp(dhchap_secret, opts->dhchap_secret)) {
++	if (strncmp(buf, opts->dhchap_secret, count)) {
+ 		int ret;
++		char *dhchap_secret;
+ 
++		dhchap_secret = kmemdup(buf);
++		if (!dhchap_secret)
++			return -ENOMEM;
+ 		ret = nvme_auth_generate_key(dhchap_secret, &ctrl->host_key);
+-		if (ret)
++		if (ret) {
++			kfree(dhchap_secret);
+ 			return ret;
++		}
+ 		kfree(opts->dhchap_secret);
+ 		opts->dhchap_secret = dhchap_secret;
+ 		/* Key has changed; re-authentication with new key */
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.25.1
+
 
