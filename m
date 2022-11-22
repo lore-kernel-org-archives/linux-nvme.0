@@ -4,75 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B03BC4332F
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Nov 2022 16:40:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1585DC433FE
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Nov 2022 20:31:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=D2zYvqvXjbGs5C4WInuhh3U2C66flVl4taaDYYUBAVA=; b=owksW/rwNTsY5deUKlQoHk2Iai
-	NpnsVVlzQF7+7R6xpkLlBNOHEhu18tOcQMO3wCyB+yl+vMBBnYD00PjZ54Xy1fxmTfJDKepDcnuje
-	BWKRg/2EMKONse9mAWiQVsnZEnKizh0dTOLD+ahR4P2tkx9sU5+NINvfcjXyA8W75rqeIrRGTwaIE
-	IJNK6XP9jGATP5O4ooVi2WZM3ckiGmrDOtzpAEyX6QRLsikZQd6yUujvAjZMr88kzHJzJtOXk6Fx2
-	+uvIcZbtxIQvJ/qKHoT4ho/nPZ7HCsnyGnApcxMQEGYV1x3rJ5fB1Je8b8sJm+5fLTPBhaO7YtQcA
-	fevfZ7Xg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=su4lExLppv6Rxu//8H+gMwaH+VUYLFFC4wdHiMQwUBQ=; b=VKT8Frgv6Oq12molQyWIKWxUt0
+	3qsdAKeB0BLFUDD1g1Hvc/oP+9sGyvqd8WTeBLNmJ+HUJcVggUZeyK9D7rGKRhAyOmW0pWrn2kHnU
+	pW6pnZh+YrWES1aD6L8qrGRm+gDeFwQAj3onTtYxGBi2xxuR50fhmPHWNJg5X9JqFgo8vmang5V+G
+	bk0EmNL8GA2zxc8jMrcKiebu1hKiJHiDC+8qnsu936xAcLZ2miEaVGA5jcP3FXdHBqdHjhpGsYWxZ
+	rxmVLBBZgDfX+mpDlZjtrZwexiKgK+AToNSEry6hhKACfacXmR6g/0U9XBZJjXBQwfe0v3SRidWG+
+	wNHU57Zg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oxWK3-00Anuw-JO; Tue, 22 Nov 2022 16:40:35 +0000
-Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136])
+	id 1oxZuz-00BokH-Gc; Tue, 22 Nov 2022 20:30:57 +0000
+Received: from out2.migadu.com ([188.165.223.204])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oxWJy-00AnqH-Us
-	for linux-nvme@lists.infradead.org; Tue, 22 Nov 2022 16:40:32 +0000
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-3a4c2c83300so53956587b3.13
-        for <linux-nvme@lists.infradead.org>; Tue, 22 Nov 2022 08:40:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=D2zYvqvXjbGs5C4WInuhh3U2C66flVl4taaDYYUBAVA=;
-        b=UaPYWxjEdnLjXhU3WdNH0ejVKdY6kJXtscrlYGI69kfDiXTFnkEFSR46W2T3RsVTP5
-         txRxDRJTQ5DGe1K0fZYS21f3clsrdGw1OmUM57d/xnboggySp77gI/he4O487ft97Vme
-         WjL5PCnk+w6qZV6gSZ5h2mCoCKhm4FCXTP2xmNiSQtU3F3GIbxDFq7JKpYSU6wP2r8aj
-         XF3xQD/+sfPTM13ufbByfB62otc+u+lBsqKTJ7YGmdX62IlF6ErreeTKbQsO0GDLWdSb
-         uJoPEapG5MKQI1G39sCxzblmndinWn12RMatkEK5M/uOEUhP2wtZt9eh0uL14R7rZ3Tb
-         XQdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=D2zYvqvXjbGs5C4WInuhh3U2C66flVl4taaDYYUBAVA=;
-        b=vwYYKavEqoHHJEmOtUoLz4bXfx2H73WxmgwPwjWF4SpkLunoWlNYpw4a8YXeEc3xLt
-         nXmHsNCep/hch1iYj/pXJcXq8jQORQbRhEodM1CiZiEu9eYAoe+dchzZf6VTFmoN2Waz
-         5Kb3WvP/J2WZToQA0wgaRHaaxZPRbu2ZMMplneWSuMCYIBJbf977IyVJ4kaRTLcnA1PN
-         JNsYlP8xPBvJaTU4wgujuF7qVx/4cs2eJ2mp3o0AaY9dx9rXNuk4bAXzK8icv2Fr/Xvf
-         2tSknvu7J9keiCL3LXRqAZYI1aMFCnrIVIyQfh5XJhRvuXNTaUC8ZOsHGo+S3P4R69hd
-         Ta7Q==
-X-Gm-Message-State: ANoB5plSG28DcIiZ7232DB5CSNH3NqtyN0VuCtOC69hC3o57IQXkn7Mx
-	KaZ1nWZOErBSaYuaUaSRZcC5wT4bcL3E0SgCTorb1Q==
-X-Google-Smtp-Source: AA0mqf4mkW4nuiEh4N+hOrMH9u/+FRLT0Zho1JaAfLTjdPVXW3dNj6y1yEg0KGDKXO2qAlyN170k/W4HmBBv8EvuyBs=
-X-Received: by 2002:a81:acf:0:b0:391:48c6:3eb with SMTP id 198-20020a810acf000000b0039148c603ebmr22657111ywk.93.1669135225214;
- Tue, 22 Nov 2022 08:40:25 -0800 (PST)
+	id 1oxZuu-00Boh5-G2
+	for linux-nvme@lists.infradead.org; Tue, 22 Nov 2022 20:30:55 +0000
+Message-ID: <4f3c32a5-54cf-dcba-afe2-1f08b3f48b16@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1669149047;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=su4lExLppv6Rxu//8H+gMwaH+VUYLFFC4wdHiMQwUBQ=;
+	b=aC5vDIEsyoiFi9pCRocHFiWqyEh3pbkUkpAOEqKDkcF4fcAMu6mrQtBi52fBs0dmb4Cp++
+	hzt46IjzkwWnE6Q1IdlNRRhiSqeWhk2FZcss/C7foCl3PjjXAWpwbbDQSB2XMu98dpFf/D
+	DGf0V6BfPjLr6mBxLAm4UoscVXzQdlc=
+Date: Tue, 22 Nov 2022 13:30:43 -0700
 MIME-Version: 1.0
-References: <20221101150050.3510-1-hch@lst.de> <20221101150050.3510-15-hch@lst.de>
- <20221121204450.6vyg6gixsz4unpaz@google.com> <a8e3d7a4-c5f6-13d0-a517-72097daa2a7b@huawei.com>
- <20221122060855.GA14111@lst.de>
-In-Reply-To: <20221122060855.GA14111@lst.de>
-From: Shakeel Butt <shakeelb@google.com>
-Date: Tue, 22 Nov 2022 08:40:13 -0800
-Message-ID: <CALvZod7AFOSyN7pz0+B2rbQrzepTD+QLwmSYSNUa5jyaXEfKfg@mail.gmail.com>
-Subject: Re: [PATCH 14/14] nvme: use blk_mq_[un]quiesce_tagset
-To: Christoph Hellwig <hch@lst.de>
-Cc: Chao Leng <lengchao@huawei.com>, Jens Axboe <axboe@kernel.dk>, 
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Ming Lei <ming.lei@redhat.com>, 
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
-	Hannes Reinecke <hare@suse.de>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v2] tests/nvme: Add admin-passthru+reset race test
+Content-Language: en-US
+To: Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ Chaitanya Kulkarni <chaitanyak@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>
+References: <20221117212210.934-1-jonathan.derrick@linux.dev>
+ <Y3vlsF7KcRrY7vCW@kbusch-mbp>
+ <e99fef7c-1b48-61e2-b503-a2363968d5fc@linux.dev>
+ <7dcb9e3c-aa3e-b7b9-fc30-59281d581fd0@linux.dev>
+ <Y3wED5m5JHOFMMg2@kbusch-mbp> <Y3yHvg27tKo11YCF@cormorant.local>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Jonathan Derrick <jonathan.derrick@linux.dev>
+In-Reply-To: <Y3yHvg27tKo11YCF@cormorant.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221122_084031_067119_3F2A996D 
-X-CRM114-Status: GOOD (  17.81  )
+X-CRM114-CacheID: sfid-20221122_123053_589602_0319A111 
+X-CRM114-Status: GOOD (  18.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,22 +73,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Nov 21, 2022 at 10:08 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Tue, Nov 22, 2022 at 10:53:17AM +0800, Chao Leng wrote:
-> >> This patch is causing the following crash at the boot and reverting it
-> >> fixes the issue. This is next-20221121 kernel.
-> > This patch can fix it.
-> > https://lore.kernel.org/linux-nvme/20221116072711.1903536-1-hch@lst.de/
->
-> Yes,  But I'm a little curious how it happened.  Shakeel, do you
-> have a genuine admin controller that does not have any I/O queues
-> to start with, or did we have other setup time errors?  Can youpost the
-> full dmesg?
 
-Sorry, I don't know about the admin controller and its I/O queues. For
-dmesg, it was an early crash, so not in /var/log/message. I was able
-to get the crash dump through the remote serial console but there is
-no easy way to get it to give full dmesg. I will see if I can get more
-info.
+
+On 11/22/2022 1:26 AM, Klaus Jensen wrote:
+> On Nov 21 16:04, Keith Busch wrote:
+>> [cc'ing Klaus]
+>>
+>> On Mon, Nov 21, 2022 at 03:49:45PM -0700, Jonathan Derrick wrote:
+>>> On 11/21/2022 3:34 PM, Jonathan Derrick wrote:
+>>>> On 11/21/2022 1:55 PM, Keith Busch wrote:
+>>>>> On Thu, Nov 17, 2022 at 02:22:10PM -0700, Jonathan Derrick wrote:
+>>>>>> I seem to have isolated the error mechanism for older kernels, but 6.2.0-rc2
+>>>>>> reliably segfaults my QEMU instance (something else to look into) and I don't
+>>>>>> have any 'real' hardware to test this on at the moment. It looks like several
+>>>>>> passthru commands are able to enqueue prior/during/after resetting/connecting.
+>>>>>
+>>>>> I'm not seeing any problem with the latest nvme-qemu after several dozen
+>>>>> iterations of this test case. In that environment, the formats and
+>>>>> resets complete practically synchronously with the call, so everything
+>>>>> proceeds quickly. Is there anything special I need to change?
+>>>>>  
+>>>> I can still repro this with nvme-fixes tag, so I'll have to dig into it myself
+>>> Here's a backtrace:
+>>>
+>>> Thread 1 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
+>>> [Switching to Thread 0x7ffff7554400 (LWP 531154)]
+>>> 0x000055555597a9d5 in nvme_ctrl (req=0x7fffec892780) at ../hw/nvme/nvme.h:539
+>>> 540         return sq->ctrl;
+>>> (gdb) backtrace
+>>> #0  0x000055555597a9d5 in nvme_ctrl (req=0x7fffec892780) at ../hw/nvme/nvme.h:539
+>>> #1  0x0000555555994360 in nvme_format_bh (opaque=0x5555579dd000) at ../hw/nvme/ctrl.c:5852
+>>
+>> Thanks, looks like a race between the admin queue format's bottom half,
+>> and the controller reset tearing down that queue. I'll work with Klaus
+>> on that qemu side (looks like a well placed qemu_bh_cancel() should do
+>> it).
+>>
+> 
+> Yuck. Bug located and quelched I think.
+> 
+> Jonathan, please try
+> 
+>   https://lore.kernel.org/qemu-devel/20221122081348.49963-2-its@irrelevant.dk/
+> 
+> This fixes the qemu crash, but I still see a "nvme still not live after
+> 42 seconds!" resulting from the test. I'm seeing A LOT of invalid
+> submission queue doorbell writes:
+> 
+>   pci_nvme_ub_db_wr_invalid_sq in nvme_process_db: submission queue doorbell write for nonexistent queue, sqid=0, ignoring
+> 
+> Tested on a 6.1-rc4.
+
+Good change, just defers it a bit for me:
+
+Thread 1 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
+[Switching to Thread 0x7ffff7554400 (LWP 559269)]
+0x000055555598922e in nvme_enqueue_req_completion (cq=0x0, req=0x7fffec141310) at ../hw/nvme/ctrl.c:1390
+1390        assert(cq->cqid == req->sq->cqid);
+(gdb) backtrace
+#0  0x000055555598922e in nvme_enqueue_req_completion (cq=0x0, req=0x7fffec141310) at ../hw/nvme/ctrl.c:1390
+#1  0x000055555598a7a7 in nvme_misc_cb (opaque=0x7fffec141310, ret=0) at ../hw/nvme/ctrl.c:2002
+#2  0x000055555599448a in nvme_do_format (iocb=0x55555770ccd0) at ../hw/nvme/ctrl.c:5891
+#3  0x00005555559942a9 in nvme_format_ns_cb (opaque=0x55555770ccd0, ret=0) at ../hw/nvme/ctrl.c:5828
+#4  0x0000555555dda018 in blk_aio_complete (acb=0x7fffec1fccd0) at ../block/block-backend.c:1501
+#5  0x0000555555dda2fc in blk_aio_write_entry (opaque=0x7fffec1fccd0) at ../block/block-backend.c:1568
+#6  0x0000555555f506b9 in coroutine_trampoline (i0=-331119632, i1=32767) at ../util/coroutine-ucontext.c:177
+#7  0x00007ffff77c84e0 in __start_context () at ../sysdeps/unix/sysv/linux/x86_64/__start_context.S:91
+#8  0x00007ffff4ff2bd0 in  ()
+#9  0x0000000000000000 in  ()
+
 
