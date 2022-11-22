@@ -4,120 +4,122 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 101DAC43219
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Nov 2022 09:28:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 869C5C4332F
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Nov 2022 09:28:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Transfer-Encoding:MIME-Version:Content-Type:Message-ID:Date:Subject:
-	CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=0U5lbWgR/xgBdBcQ6cf1yCIcbPX5uUV5fZhczu/TlAg=; b=fEZevnjkAA8I1jTRrniPGVaUaF
-	/mbIvehrGBTCpLlUdlbECWxenBJaxlmLRDif+z4tgQmzejDxyxr+KQTYaizYLlvOJSDWzD+ToOvpI
-	yUD7BADGVrLQ1XOkecUn/1n8VQdrTkSWAZnusd/PDTrGdJgBmPsTpInJSNrvjStaNr7iSwjFkZFh6
-	4pGinMWNOEydKLfn5cvE90SA28fxqUWQwAjjTsCe1SRcrUcWm8Iyl8XEgqchULCGWQ5Uc/e1uFHPN
-	X31hlIuKsedq0LLsVGwedlY7WFsf1hmmDlNECFVl1FmyIUYow5LG5d9VXtU11RzIm86FD3/5kMohm
-	lwKXLN+Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-ID:Date:Subject:CC
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dWkdLccAFgwEs4tz72UdzMTYczUIeztfzuP+CwAkd30=; b=zhFvrOXCZzwBX99S+JGN2wopW4
+	aWI82QK5vq1Y/meY75vuVK3hmFrNvT8ob+QzWjTqyf+PBOGaUilhk1sQ3aGv1iipj9nE85ExKkCX/
+	ADASEWYx7T9R9qIYNs9xnB3C/HAQoMIn8WgjknyzJD/HVj5ULlMcFHbWTyibymcrt3rTmXum3DUvS
+	L7lQNammqYhIi/LglJUccRLMsrTLTlZAf8ygDNgUu4gxlXfOKO1NZ0nOngI6Dkrj/6t1oRe2XdDCo
+	yGxLNMaotI7OV/FAXWBU+nDzCcG1jfSgquMk/jSp2OUUArqR08ZS8Isg7zXXGpSuhC3HzKD4W9nBO
+	5Xi7nVMw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oxPZi-0070Ah-EZ; Tue, 22 Nov 2022 09:28:18 +0000
-Received: from mailout1.w1.samsung.com ([210.118.77.11])
+	id 1oxPa1-0070LC-9K; Tue, 22 Nov 2022 09:28:37 +0000
+Received: from mailout2.w1.samsung.com ([210.118.77.12])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oxPY6-006yya-Dh
-	for linux-nvme@lists.infradead.org; Tue, 22 Nov 2022 09:26:41 +0000
+	id 1oxPY7-006yy6-J4
+	for linux-nvme@lists.infradead.org; Tue, 22 Nov 2022 09:26:44 +0000
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20221122092632euoutp018e2ab6fe417fd94de813bd3cbf536fa2~p3feN5Ojf0316503165euoutp01m
-	for <linux-nvme@lists.infradead.org>; Tue, 22 Nov 2022 09:26:32 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20221122092632euoutp018e2ab6fe417fd94de813bd3cbf536fa2~p3feN5Ojf0316503165euoutp01m
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20221122092633euoutp02c571f516c2fa2dfe59f1a2b228cde04d~p3ffWnKxs1993319933euoutp02K
+	for <linux-nvme@lists.infradead.org>; Tue, 22 Nov 2022 09:26:33 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20221122092633euoutp02c571f516c2fa2dfe59f1a2b228cde04d~p3ffWnKxs1993319933euoutp02K
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1669109192;
-	bh=0U5lbWgR/xgBdBcQ6cf1yCIcbPX5uUV5fZhczu/TlAg=;
-	h=From:To:CC:Subject:Date:References:From;
-	b=BYP/pgYOLVLH02zbetFNNk3PuYp55xjOTyMb9FHRTKnBMmEFO0ptOPTXhcid1ri6H
-	 ib1tqwcFYMW/s9sRW5ii9Zj7BbOI7J6qYDQJOT77ef65csHVEeCjy6MW6W+BFBiSes
-	 paPh0wUjE/AfycO5aJN0cTqljPYHqhe71VXGF5qY=
+	s=mail20170921; t=1669109193;
+	bh=dWkdLccAFgwEs4tz72UdzMTYczUIeztfzuP+CwAkd30=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+	b=mbm1hAPnQ15hgj3H0bRF0GVGrQKc0KP1TJmHrHrne8zByLxEdIjUqYYFKJiXicv1A
+	 y6r8lwG8V3MEPmQRZsghIl9eQmDLYHS+ZJv2Y2uXkNYt1wG8gA/MxQbKmnvn3jFN8b
+	 NOmTPNZaCQQT873N9JosJoMSLLGYsWsgpcRf6Rks=
 Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
 	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20221122092632eucas1p1a629118d01160d1857b984ce1a25e84c~p3feDRJnJ1926919269eucas1p1x;
-	Tue, 22 Nov 2022 09:26:32 +0000 (GMT)
+	20221122092633eucas1p1a453cae301e491979e0e4cdef4b8ef69~p3ffK118e2585725857eucas1p1R;
+	Tue, 22 Nov 2022 09:26:33 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges1new.samsung.com (EUCPMTA) with SMTP id ED.CC.09561.7C59C736; Tue, 22
-	Nov 2022 09:26:31 +0000 (GMT)
+	eusmges1new.samsung.com (EUCPMTA) with SMTP id BE.CC.09561.9C59C736; Tue, 22
+	Nov 2022 09:26:33 +0000 (GMT)
 Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
 	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20221122092631eucas1p2c60b7bca62b950b8f41367af79ff018c~p3fdsVZvO2130721307eucas1p23;
-	Tue, 22 Nov 2022 09:26:31 +0000 (GMT)
+	20221122092632eucas1p2648479360860fa80e35c964d99b54f0b~p3fezun7w3120131201eucas1p2H;
+	Tue, 22 Nov 2022 09:26:32 +0000 (GMT)
 Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
 	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20221122092631eusmtrp24ded5361e04a8631c7f8e2227a886713~p3fdrkHPW0180001800eusmtrp28;
-	Tue, 22 Nov 2022 09:26:31 +0000 (GMT)
-X-AuditID: cbfec7f2-0b3ff70000002559-51-637c95c79c74
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-	eusmgms2.samsung.com (EUCPMTA) with SMTP id DB.9F.09026.7C59C736; Tue, 22
-	Nov 2022 09:26:31 +0000 (GMT)
+	20221122092632eusmtrp27b9393dc92fd76e399d897256dd0a511~p3fezLKwx0180001800eusmtrp2A;
+	Tue, 22 Nov 2022 09:26:32 +0000 (GMT)
+X-AuditID: cbfec7f2-0b3ff70000002559-55-637c95c95319
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms2.samsung.com (EUCPMTA) with SMTP id BC.9F.09026.8C59C736; Tue, 22
+	Nov 2022 09:26:32 +0000 (GMT)
 Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20221122092631eusmtip12e7a595136bde5b96b422edfdf58f1a0~p3fdhxlUN0227802278eusmtip1h;
-	Tue, 22 Nov 2022 09:26:31 +0000 (GMT)
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20221122092632eusmtip2e8e0045f9ac47c0bc6ffa3510ebbd0cc~p3femZfd21859018590eusmtip29;
+	Tue, 22 Nov 2022 09:26:32 +0000 (GMT)
 Received: from localhost (106.110.32.33) by CAMSVWEXC02.scsc.local
 	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Tue, 22 Nov 2022 09:26:30 +0000
+	Tue, 22 Nov 2022 09:26:32 +0000
 From: Joel Granados <j.granados@samsung.com>
 To: <sagi@grimberg.me>, <hch@lst.de>, <kbusch@kernel.org>,
 	<chaitanyak@nvidia.com>
 CC: <gost.dev@samsung.com>, <linux-nvme@lists.infradead.org>, Joel Granados
 	<j.granados@samsung.com>
-Subject: [PATCH v4 0/1] nvme : Add ioctl to query nvme device attributes
-Date: Tue, 22 Nov 2022 10:22:43 +0100
-Message-ID: <20221122092244.899894-1-j.granados@samsung.com>
+Subject: [PATCH v4 1/1] nvme : Add ioctl to query nvme attributes
+Date: Tue, 22 Nov 2022 10:22:44 +0100
+Message-ID: <20221122092244.899894-2-j.granados@samsung.com>
 X-Mailer: git-send-email 2.30.2
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20221122092244.899894-1-j.granados@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [106.110.32.33]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+X-ClientProxiedBy: CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348) To
 	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpjleLIzCtJLcpLzFFi42LZduznOd3jU2uSDToPWlu8P/iY1WLl6qNM
-	FpMOXWO0mL/sKbvFutfvWRxYPc7f28jisWlVJ5vH5iX1HrtvNrB59Da/YwtgjeKySUnNySxL
-	LdK3S+DKmLb8LltBo3DF+SerGRsYj/B3MXJySAiYSOz6cImxi5GLQ0hgBaPEp2f3mSCcL4wS
-	Pz/ehMp8ZpSY9XYCK0zLtA8zoBLLGSXe3PjDDle16s8DZpAqIYHNjBKX10mD2GwCOhLn39wB
-	i4sIhEh83PIbbBKzQJrE+97j7CC2sICHxLVvC1lAbBYBVYkZU3+C1fAK2EhMP/oMarO8RNv1
-	6UCbOYB6NSXW79KHKBGUODnzCQvESHmJ5q2zmSHKFSW2zPkO1VorcWrLLbDXJASOcEh8OvGL
-	HSLhIrH87hEWCFtY4tXxLVBxGYn/O+czQdjZEjun7IIaWiAx6+RUNpAbJASsJfrO5ECEHSWW
-	TZ3KAhHmk7jxVhDiHD6JSdumM0OEeSU62oQgqtUkdjRtZZzAqDwL4ZdZSH6ZheSXBYzMqxjF
-	U0uLc9NTiw3zUsv1ihNzi0vz0vWS83M3MQKTyul/xz/tYJz76qPeIUYmDsZDjBIczEoivPWe
-	NclCvCmJlVWpRfnxRaU5qcWHGKU5WJTEedlmaCULCaQnlqRmp6YWpBbBZJk4OKUamDrThKZL
-	brj87aKmkFiO8/Wa7EffxGbv+i/sv+435+2L3LJHblhO2B7e6+FltC/5jJm6hICbs0b5iSDn
-	v7JVU5V/Z+uVNf9kDOG2ff1Sa9ftlIkV3i+lOhMS21t+7zBmP7xr+oOlfELfMlzUg/46Zp5U
-	/n3hqGHu21c8C/4d/LSVidXmfNeB1rWnNn99euzer1/nzTKO3YzfsI8531Yv3sbTbl7DhNUq
-	x/a2Hf+qyKy1UtOn8r7bW/cn0xau//O6WGBue7WtweHDtesPNLfvO+cpdPEbf5g924GHvYks
-	D9T69n5h8nnB8EnysOHCxw4+YgmeqlOSnGwjPz9zOs59ObZ5+fRqR0WVPbFTSw6HhSuxFGck
-	GmoxFxUnAgAiZc7emQMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOIsWRmVeSWpSXmKPExsVy+t/xu7rHp9YkG1y4pWzx/uBjVouVq48y
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmplleLIzCtJLcpLzFFi42LZduznOd2TU2uSDS7/Z7N4f/Axq8XK1UeZ
+	LCYdusZoMX/ZU3aLda/fsziwepy/t5HFY9OqTjaPzUvqPXbfbGDz6G1+xxbAGsVlk5Kak1mW
+	WqRvl8CVsfBnD0vBEtuKUxNlGxhvGnUxcnJICJhIrD56n72LkYtDSGAFo8StPdugnC+MEtO/
+	dDNBOJ8ZJa492ccO0/Lp/C5miMRyRomP/3cygSTAqrrn+0EkNjNKdM3YywaSYBPQkTj/5g4z
+	iC0iECLxcctvVhCbWSBN4n3vcbCpwgKOEjPP72UEsVkEVCV6519g6WLk4OAVsJHo384PsVhe
+	ou36dLASTgFbiXtHusFsXgFBiZMzn7BAjJSXaN46mxnClpA4+OIFM0SvosSWOd9ZIexaib3N
+	B8DelBC4wyHx+vAqdpBdEgIuEhO/R0HUCEu8Or4F6mEZif875zNB2NkSO6fsgppZIDHr5FQ2
+	iFZrib4zORBhR4lLM7YxQoT5JG68FYS4hk9i0rbpzBBhXomONqEJjCqzkNw/C8n9s5Dcv4CR
+	eRWjeGppcW56arFhXmq5XnFibnFpXrpecn7uJkZgSjn97/inHYxzX33UO8TIxMF4iFGCg1lJ
+	hLfesyZZiDclsbIqtSg/vqg0J7X4EKM0B4uSOC/bDK1kIYH0xJLU7NTUgtQimCwTB6dUA5Mz
+	R1RH3smdp6fJTxK5ErcicO6iu+6CHPotEl8i/FpV6zTW1J44bnGDyTksRr+iala9W/LOHzWP
+	Fks47Nh0dfbK78d2KD9amiq5kKuf4WXNrgm73iQd5a86mTKj40aS3O/ME5y8fYdvTuwIfHXh
+	1VqPi1JCXxsDKlhLM6dcWqiUuEUhNOCdu9UNAcdtBdMadV/XOl9mOFXfWbX/AOf6mbeetMxi
+	CHD7eedcdOIdmZ256r3XT+03uHN5/eYv3bavi5bX+TToca/ffHr24/V3LO/7/ZW6fIYvffat
+	Np86/dkTliq7aIgf77dymeYnNuNhwzu+ra+tp1sVzjrJkuZh3ldQbFKk6flMQ669vEz5naoS
+	S3FGoqEWc1FxIgCIzWQUmAMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrIIsWRmVeSWpSXmKPExsVy+t/xe7onptYkG6yYq2vx/uBjVouVq48y
 	WUw6dI3RYv6yp+wW616/Z3Fg9Th/byOLx6ZVnWwem5fUe+y+2cDm0dv8ji2ANUrPpii/tCRV
-	ISO/uMRWKdrQwkjP0NJCz8jEUs/Q2DzWyshUSd/OJiU1J7MstUjfLkEvY9ryu2wFjcIV55+s
-	ZmxgPMLfxcjJISFgIjHtwwzGLkYuDiGBpYwSb3smM0MkZCQ+XfnIDmELS/y51sUGYgsJfGSU
-	WNboAWFvZpRY3m8KYrMJ6Eicf3MHrFdEIETi45bfrCA2s0CaxPve42BzhAU8JK59W8gCYrMI
-	qErMmPoTrIZXwEZi+tFnrBC75CXark8HOogDqFdTYv0ufYgSQYmTM5+wQIyUl2jeOhvqTEWJ
-	LXO+Q7XWSnz++4xxAqPQLITuWUi6ZyHpXsDIvIpRJLW0ODc9t9hIrzgxt7g0L10vOT93EyMw
-	hrYd+7llB+PKVx/1DjEycTAeYpTgYFYS4a33rEkW4k1JrKxKLcqPLyrNSS0+xGgK9M1EZinR
-	5HxgFOeVxBuaGZgamphZGphamhkrifN6FnQkCgmkJ5akZqemFqQWwfQxcXBKNTBxHk/7bLPH
-	IULtZsrCM8tvmSypvDOP432cYPTPF68Xm/2yvxk94fWce9kqSnO2Cs5IalcwfmVpeD20oduc
-	LevJyYvM7/2CbPInWvfy/JuheFEx3279+e2Z8z+efbfiS0jHv98hMaIzdkUJVBhHszBO+vu8
-	UVJxj2XQq8Z6tyfXtrM/t9+TOfmi0SetN5wCwnP/HpM2EklxZUw9c+nGnleG3331T/65s6GS
-	76cyZ+ShzfODTV0yLyhk6THuX+7QvydNQM4wad8BB6PaydO+LUnavv7YbB31O54Hjq1fc/bP
-	a5mjP9uCVZc8OWvL/mozg+Kyp1VO34+590h+SPNhYZaYlh3y5tLO3sz8M4/MH+sFKLEUZyQa
-	ajEXFScCAA43cx0qAwAA
-X-CMS-MailID: 20221122092631eucas1p2c60b7bca62b950b8f41367af79ff018c
+	ISO/uMRWKdrQwkjP0NJCz8jEUs/Q2DzWyshUSd/OJiU1J7MstUjfLkEvY+HPHpaCJbYVpybK
+	NjDeNOpi5OSQEDCR+HR+F3MXIxeHkMBSRolHXVMZIRIyEp+ufGSHsIUl/lzrYoMo+sgo8WLh
+	ZiYIZzOjxKffzawgVWwCOhLn39xhBrFFBEIkPm75DRZnFkiTeN97HGySsICjxMzze8E2sAio
+	SvTOv8DSxcjBwStgI9G/nR9imbxE2/XpYCWcArYS9450g9lCQCV7mpvZQGxeAUGJkzOfsECM
+	l5do3jqbGcKWkDj44gUzxBxFiS1zvrNC2LUSna9Os01gFJmFpH0WkvZZSNoXMDKvYhRJLS3O
+	Tc8tNtIrTswtLs1L10vOz93ECIy7bcd+btnBuPLVR71DjEwcjIcYJTiYlUR46z1rkoV4UxIr
+	q1KL8uOLSnNSiw8xmgK9OZFZSjQ5Hxj5eSXxhmYGpoYmZpYGppZmxkrivJ4FHYlCAumJJanZ
+	qakFqUUwfUwcnFINTDqrN39uu358Tbbwf7YrCTdXVBzK+biYlb9KTmF9Qp6i+MyzNrkzvJrX
+	lUUcTrW6Oe8oZ9aPrM3KM57+/FfOvndywOGjV9xrffgrb0bdOiV/cQV/1MLbZwKqd23hbL8s
+	/6ag/XLrSmX1aQlTuG4kPHOzcmWfLbvK6iXj5zkT9tqzH3aYWNmy579hkFKrVtgEp5vcSWer
+	jIrqutQt3s+1mX3AqOmr7uv5EpIxmwqCTS0vvZuVesMzd+nuFL/LYflXvzvMtPJNv5p6NcFD
+	rrJJZbHPyh8TGvbotS7a7/Sgov3/TM9Jz//PXW3rJ57vk1u5vKm0amJI2xL5h9tCvu/Qu6ov
+	WcZ1L0fK5U+I1HUeRSWW4oxEQy3mouJEAGRhPTBEAwAA
+X-CMS-MailID: 20221122092632eucas1p2648479360860fa80e35c964d99b54f0b
 X-Msg-Generator: CA
-X-RootMTR: 20221122092631eucas1p2c60b7bca62b950b8f41367af79ff018c
+X-RootMTR: 20221122092632eucas1p2648479360860fa80e35c964d99b54f0b
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20221122092631eucas1p2c60b7bca62b950b8f41367af79ff018c
-References: <CGME20221122092631eucas1p2c60b7bca62b950b8f41367af79ff018c@eucas1p2.samsung.com>
+X-CMS-RootMailID: 20221122092632eucas1p2648479360860fa80e35c964d99b54f0b
+References: <20221122092244.899894-1-j.granados@samsung.com>
+	<CGME20221122092632eucas1p2648479360860fa80e35c964d99b54f0b@eucas1p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221122_012639_101018_02F2EB8E 
-X-CRM114-Status: GOOD (  16.24  )
+X-CRM114-CacheID: sfid-20221122_012640_030094_68156559 
+X-CRM114-Status: GOOD (  24.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -132,64 +134,229 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-What?
-In this patch I add an ioctl that provides nvme controller attributes to
-the user that can open the char device file. We also provide them for the
-block devices for convenience.
+An ioctl (NVME_IOCTL_GET_ATTR) is added to query nvme controller
+attributes needed to effectively write to the char device without needing
+to be a privileged user.  They are also provided on block devices for
+convenience. The attributes here are meant to complement what you can
+already get with the allowed identify commands.
 
-Why?
-Applications with write permissions should not need to be privileged to
-write to the device. With Kanchan's latest patch
-(https://lore.kernel.org/linux-nvme/20221020070205.57366-1-joshi.k@samsung.com/)
-the nvme IO and identify commands in passthru now follow device
-permissions; however there are still some controller attributes like
-minimal data transfer size (MDTS) which need a privileged user to be
-queried.
+New members are added to the nvme_ctrl struct: dmsl, vsl and wusl from
+the I/O Command Set Specific Identify Controller Data Structure in the nvme
+spec.
 
-How?
-Added an ioctl (NVME_IOCTL_GET_ATTR) that fetches existing and new
-attributes from nvme_ctrl struct. The new attributes are dmsl, vsl and wusl
-from the I/O command set specific identify controller data structure in the
-nvme spec.
+We add NVME_IOCTL_GET_ATTR_{V0SZ,CURZS} in order to make the ioctl
+extensible. These serve as both size and version. The caller is expected to
+pass the structure size as the first member of the struct. For example:
 
-I have made the call extensible by embedding the struct size as the first
-member and using it as a version. I call copy_struct_from_user to make sure
-that struct members that are unique are zeroed out.  For this I followed
-in the steps of the openat2 system call [1] and the extensible ioctl for
-vfio [2].  Another interesting reference for this is here
-https://lwn.net/Articles/830666/
+	{...
+	struct nvme_get_attr nvme_get_attr = {0};
+	nvme_get_attr.argsz = sizeof(struct nvme_get_attr);
+	...}
 
-Feedback is greatly appreciated :)
-
-[1] https://github.com/torvalds/linux/commit/fddb5d430ad9
-[2] https://github.com/torvalds/linux/blob/master/include/uapi/linux/vfio.h#L56
-
-V4:
-* Fixed an error where the ioctl number would change if new members were
-  added. Now I use _IO instead of _IOWR to avoid leave the ioctl number
-  static. This is very similar to the implementation contained in
-  https://github.com/torvalds/linux/blob/master/include/uapi/linux/vfio.h
-
-V3:
-* Removed unneeded comments in nvme_ioctl.h
-* Added a comment to the nvme_sectors_to_mps function
-* Moved size checks to nvme_check_size in core.h
-* Changed struct initialization to match what we use in nvme driver {} vs
-  {0}
-
-V2:
-* Changed comment from // to /**/
-* Took a call out from an if condition and assigned it to ret var.
-
-Joel Granados (1):
-  nvme : Add ioctl to query nvme attributes
-
+Signed-off-by: Joel Granados <j.granados@samsung.com>
+---
  drivers/nvme/host/core.c        |  8 ++++-
  drivers/nvme/host/ioctl.c       | 61 +++++++++++++++++++++++++++++++++
  drivers/nvme/host/nvme.h        | 11 ++++++
  include/uapi/linux/nvme_ioctl.h | 23 +++++++++++++
  4 files changed, 102 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f94b05c585cb..51c99302786b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3061,9 +3061,12 @@ static int nvme_init_non_mdts_limits(struct nvme_ctrl *ctrl)
+ 
+ 	if (id->dmrl)
+ 		ctrl->max_discard_segments = id->dmrl;
+-	ctrl->dmrsl = le32_to_cpu(id->dmrsl);
+ 	if (id->wzsl)
+ 		ctrl->max_zeroes_sectors = nvme_mps_to_sectors(ctrl, id->wzsl);
++	ctrl->dmrsl = le32_to_cpu(id->dmrsl);
++	ctrl->dmsl = le64_to_cpu(id->dmsl);
++	ctrl->vsl = id->vsl;
++	ctrl->wusl = id->wusl;
+ 
+ free_data:
+ 	kfree(id);
+@@ -5246,6 +5249,9 @@ static inline void _nvme_check_size(void)
+ 	BUILD_BUG_ON(sizeof(struct nvme_dbbuf) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_directive_cmd) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_feat_host_behavior) != 512);
++	BUILD_BUG_ON(sizeof(struct nvme_get_attr) < NVME_IOCTL_GET_ATTR_V0SZ);
++	BUILD_BUG_ON(sizeof(struct nvme_get_attr) != NVME_IOCTL_GET_ATTR_CURSZ);
++
+ }
+ 
+ 
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index 9273db147872..daafea38d39b 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -53,6 +53,61 @@ static void __user *nvme_to_user_ptr(uintptr_t ptrval)
+ 	return (void __user *)ptrval;
+ }
+ 
++/*
++ * Reverse conversion from sectors to original NVMe values expressed in units
++ * of MPSMIN. Use ilog2 to change to power of 2 values and then reverse what
++ * was done in nvme_mps_to_sectors. 9 is the kernel sectors size and 12 is part
++ * of how mpsmin is defined in the NVMe spec (2^(12 + mpsmin))
++ */
++static inline u32 nvme_sectors_to_mps(struct nvme_ctrl *ctrl, u32 unit)
++{
++	return ilog2(unit) + 9 - 12 - NVME_CAP_MPSMIN(ctrl->cap);
++}
++
++static int nvme_ctrl_export_attrs(struct nvme_ctrl *ctrl,
++				  struct nvme_get_attr __user *arg)
++{
++	struct nvme_get_attr nvme_get_attr = { };
++	__u32 usize, retsize;
++	int ret;
++
++	if (copy_from_user(&nvme_get_attr, arg, 2 * sizeof(__u32)))
++		return -EFAULT;
++
++	if (nvme_get_attr.flags != 0)
++		return -EINVAL;
++
++	if (nvme_get_attr.argsz < NVME_IOCTL_GET_ATTR_V0SZ)
++		return -EINVAL;
++	usize = nvme_get_attr.argsz;
++
++	/* Enforce backwards compatibility */
++	ret = copy_struct_from_user(&nvme_get_attr, NVME_IOCTL_GET_ATTR_CURSZ,
++				    arg, usize);
++	if (ret)
++		return ret;
++
++	nvme_get_attr.argsz = NVME_IOCTL_GET_ATTR_CURSZ;
++	nvme_get_attr.mpsmin = NVME_CAP_MPSMIN(ctrl->cap);
++	nvme_get_attr.vsl = ctrl->vsl;
++	nvme_get_attr.wusl = ctrl->wusl;
++	nvme_get_attr.dmrl = ctrl->max_discard_segments;
++	nvme_get_attr.dmsl = ctrl->dmsl;
++	nvme_get_attr.dmrsl = ctrl->dmrsl;
++	nvme_get_attr.oncs = ctrl->oncs;
++	if (ctrl->max_zeroes_sectors > 0)
++		nvme_get_attr.wzsl = nvme_sectors_to_mps(ctrl, ctrl->max_zeroes_sectors);
++	if (ctrl->max_hw_sectors > 0)
++		nvme_get_attr.mdts = nvme_sectors_to_mps(ctrl, ctrl->max_hw_sectors);
++
++	retsize = min(usize, NVME_IOCTL_GET_ATTR_CURSZ);
++	ret = copy_to_user((struct nvme_get_attr __user *)arg, &nvme_get_attr, retsize);
++	if (ret)
++		return -EFAULT;
++
++	return 0;
++}
++
+ static void *nvme_add_user_metadata(struct request *req, void __user *ubuf,
+ 		unsigned len, u32 seed)
+ {
+@@ -613,6 +668,8 @@ static int nvme_ctrl_ioctl(struct nvme_ctrl *ctrl, unsigned int cmd,
+ 		return nvme_user_cmd(ctrl, NULL, argp, mode);
+ 	case NVME_IOCTL_ADMIN64_CMD:
+ 		return nvme_user_cmd64(ctrl, NULL, argp, false, mode);
++	case NVME_IOCTL_GET_ATTR:
++		return nvme_ctrl_export_attrs(ctrl, argp);
+ 	default:
+ 		return sed_ioctl(ctrl->opal_dev, cmd, argp);
+ 	}
+@@ -659,6 +716,8 @@ static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned int cmd,
+ 		return nvme_user_cmd64(ns->ctrl, ns, argp, false, mode);
+ 	case NVME_IOCTL_IO64_CMD_VEC:
+ 		return nvme_user_cmd64(ns->ctrl, ns, argp, true, mode);
++	case NVME_IOCTL_GET_ATTR:
++		return nvme_ctrl_export_attrs(ns->ctrl, argp);
+ 	default:
+ 		return -ENOTTY;
+ 	}
+@@ -950,6 +1009,8 @@ long nvme_dev_ioctl(struct file *file, unsigned int cmd,
+ 			return -EACCES;
+ 		nvme_queue_scan(ctrl);
+ 		return 0;
++	case NVME_IOCTL_GET_ATTR:
++		return nvme_ctrl_export_attrs(ctrl, argp);
+ 	default:
+ 		return -ENOTTY;
+ 	}
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index f9df10653f3c..0f36259a7992 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -292,6 +292,9 @@ struct nvme_ctrl {
+ 	u16 crdt[3];
+ 	u16 oncs;
+ 	u32 dmrsl;
++	u64 dmsl;
++	u8 vsl;
++	u8 wusl;
+ 	u16 oacs;
+ 	u16 sqsize;
+ 	u32 max_namespaces;
+@@ -814,6 +817,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 		union nvme_result *result, void *buffer, unsigned bufflen,
+ 		int qid, int at_head,
+ 		blk_mq_req_flags_t flags);
++
+ int nvme_set_features(struct nvme_ctrl *dev, unsigned int fid,
+ 		      unsigned int dword11, void *buffer, size_t buflen,
+ 		      u32 *result);
+@@ -1071,4 +1075,11 @@ static inline const unsigned char *nvme_get_admin_opcode_str(u8 opcode)
+ }
+ #endif /* CONFIG_NVME_VERBOSE_ERRORS */
+ 
++/*
++ * List of all nvme ioctl controller attribute calls. Use size of nvme_get_attr
++ * as the version which enables us to use copy_struct_from_user
++ */
++#define NVME_IOCTL_GET_ATTR_V0SZ		32u
++#define NVME_IOCTL_GET_ATTR_CURSZ		NVME_IOCTL_GET_ATTR_V0SZ
++
+ #endif /* _NVME_H */
+diff --git a/include/uapi/linux/nvme_ioctl.h b/include/uapi/linux/nvme_ioctl.h
+index 2f76cba67166..5ad2fe1951e4 100644
+--- a/include/uapi/linux/nvme_ioctl.h
++++ b/include/uapi/linux/nvme_ioctl.h
+@@ -92,6 +92,28 @@ struct nvme_uring_cmd {
+ 	__u32   rsvd2;
+ };
+ 
++/*
++ * This struct is populated from the following nvme commands:
++ * [1] Identify Controller Data Structure
++ * [2] I/O Command Set Specific Identify Controller Data Structure for the
++ *     NVME Command Set. Usually contained in struct nvme_id_ctrl_nvm
++ * [3] Controller capabilities on controller initialization
++ */
++struct nvme_get_attr {
++	__u32	argsz;
++	__u32	flags;
++
++	__u32	mpsmin;
++	__u8	vsl;
++	__u8	wzsl;
++	__u8	wusl;
++	__u8	dmrl;
++	__u64	dmsl;
++	__u32	dmrsl;
++	__u16	oncs;
++	__u8	mdts;
++};
++
+ #define nvme_admin_cmd nvme_passthru_cmd
+ 
+ #define NVME_IOCTL_ID		_IO('N', 0x40)
+@@ -104,6 +126,7 @@ struct nvme_uring_cmd {
+ #define NVME_IOCTL_ADMIN64_CMD	_IOWR('N', 0x47, struct nvme_passthru_cmd64)
+ #define NVME_IOCTL_IO64_CMD	_IOWR('N', 0x48, struct nvme_passthru_cmd64)
+ #define NVME_IOCTL_IO64_CMD_VEC	_IOWR('N', 0x49, struct nvme_passthru_cmd64)
++#define NVME_IOCTL_GET_ATTR	_IO('N', 0x50)
+ 
+ /* io_uring async commands: */
+ #define NVME_URING_CMD_IO	_IOWR('N', 0x80, struct nvme_uring_cmd)
 -- 
 2.30.2
 
