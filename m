@@ -4,80 +4,150 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 716B3C4332F
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Nov 2022 12:41:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD6ECC4167D
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Nov 2022 22:56:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=23ZKjQivDaJ6vcJyWC4uv5Yzkf6ZjHvU8yFz/P5RXg4=; b=inkYTN+RZAuEm9HPWBsNKIiZ9X
-	Bzb/RNJIk6kBaq+VNyBQK8xU7bKLiMZ2Mc/k8wKpxAMpoc6e6V7MhUh3BcEPk/3b+e34uwtN7FmpD
-	xdKzLfJrgUEHP/cX5MfMZW+QIpWpPMAJegNbLqyBHvPb1V90QAx0a+wB3us/dPO5DBULaz76uYOSD
-	39EHyrGY7to5EHTsY+lb1+B48o/f4T+Lm+aMn1MGgiZ2MYaWmvXTtm1+Wm9kzWQ1NkxYcht/KhIQh
-	MlUj1MFvO8Q2DouEDJi+cJ2Hw4iTwfEa+Rm+BLgPw5cbETfZzYGUlqfCoH3wN2TC3ua8TjFqobtzk
-	BjadzGWw==;
+	bh=nsdbbK8MOvDKdQZllD/Rzr6ETl6lyot5ErW8HVcSaSA=; b=LAwW68Bx5YFlGVNuvCjIZRkcQJ
+	OfRPLb7qDl2B9nXr8lIcIGOlqsEiamKVWzd7Ef06dcIlNH/SE8SpyzFMFA0pCJgdgCSEDBseRYua2
+	6FXZyx9tQ5Onn1y+YgxTRCbnczjroKpnSF5wme2uvHZdUV4kXHNwUxgbkqa3ma66Y5nA5Y+ghPslB
+	9D8eoU1vrjQuqaGg5VGwKVCrZ9XKIShV+2V5NXPbSYDqng8w+b5pWAnLAIo1KtJgA2I5IemBxzIzO
+	dufGB8Bbkur+PJFAbX+mGv8t36rbHcdi/Z+WyOU25ATAhzLTEZf2s8hfM3+P4ApF7OcSgQI7L0RoV
+	uNInn/eQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oxp3i-00GyjY-17; Wed, 23 Nov 2022 12:40:58 +0000
-Received: from mail-qk1-f177.google.com ([209.85.222.177])
+	id 1oxyfP-002mjF-9Y; Wed, 23 Nov 2022 22:56:31 +0000
+Received: from mail-bn8nam11on20600.outbound.protection.outlook.com ([2a01:111:f400:7eae::600] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oxp1z-00Gy7P-2V
-	for linux-nvme@lists.infradead.org; Wed, 23 Nov 2022 12:39:15 +0000
-Received: by mail-qk1-f177.google.com with SMTP id k2so12249527qkk.7
-        for <linux-nvme@lists.infradead.org>; Wed, 23 Nov 2022 04:39:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=23ZKjQivDaJ6vcJyWC4uv5Yzkf6ZjHvU8yFz/P5RXg4=;
-        b=oItHDVGTZoVWZynlv0eOvNOT9YO/LRg/WhC4liJQsYWOaP9elqcMiXM3XD+vLe+ZRe
-         E/DQ9dudvivQ831qIlDMEHtcGCxHbcmYPbVNUvYSELBmv27vADsPavX+BsoQGQvWKLL+
-         xIerdhGTx5/rzJtFdxXDFNINgraFUxXrQNgZTL6s4jRYM8+fSdFI6c/4bkcsE1OOzktr
-         Bj3msbkHuF54RXJ5HPXwKCpiyZfgeitrkfMTvvNcyoKa3S5R4QphSBxZXn1KWPOxmdN7
-         tMFGrBSZtppcyAJUpyfdQ2WeBPbvY4PaVJB9eN2LcFVrjbtwF+2liSliEj/YbjNjyjzK
-         3Ezw==
-X-Gm-Message-State: ANoB5plOejzqV8HeYDFUPP763xTD+4CbZPyIYPxp5g9nH40vXihtz95P
-	plAaBfcSt/SmBVGR2XMaOaIrlebXOK2QFVHVlwA=
-X-Google-Smtp-Source: AA0mqf41PAaYKSESBcDnkru4EJGZZF66sfFYKXsivNVokGnQ1/TrWtjCKB7G2DKR5wuyuaIubXDR0TK1CxhTvz3zwMc=
-X-Received: by 2002:a05:620a:51ca:b0:6ec:fa04:d97c with SMTP id
- cx10-20020a05620a51ca00b006ecfa04d97cmr8572791qkb.764.1669207148628; Wed, 23
- Nov 2022 04:39:08 -0800 (PST)
+	id 1oxyfM-002miT-Q4
+	for linux-nvme@lists.infradead.org; Wed, 23 Nov 2022 22:56:30 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=m7NL8HoHULqjTiMMuhV1Jl1489oNXHsDB0ivaAXA8s0Z8waSnK3jEbV/x9YlR/FPQOAfUisXEWCxE/jnKT7HgugYkO3Se7B0uqzAJ5SILw9TNyhcMBwBwSVsidUOKw6lGzTdS3ndbYXu6yJH7deMV31O3d8ycWBNqNzAdBbjP6GfpTjGc0iQaSuXPlxX7alweurlKpCWVXvlV8OvXzX5pI7YMm+AKbvDHhsAoveKFtARkHqDZspdfU81pd2XksTa0wyyk0ZCvmgoBqBWZyomwoT+70qJQH/p6ZnsbgCrXcwrAgR3BP6qyojLyUXXNlmQrl1ZZ/4SpUs6FouE9vvaTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nsdbbK8MOvDKdQZllD/Rzr6ETl6lyot5ErW8HVcSaSA=;
+ b=lBH7yRcA3+K6niWKNLk7lGO52ywaD+YFTRlxc3borcmXRvYPpSVI4eQxKaBIlOsVH3sPHqJSvurm5lfd500UYu/MBg9pHSCsxbY70PjzGzm9ZZWYglkBj3d50k6BqQ0qHqgv4bIpldXQxj+UBKocRuzpeIohLdaD2b7g3/TmPdUDxxhh5oNAzWyq+cgql9jgwqk115pldVHOkiXSJQfnHDeA0MBcOcDrfU9PI9sh3Rf9gFrtAM3bImvR2MTGj+yCMUrwGZooKZl9UZqYWW96P+K0hY7uLQe9MRRqCNSSZ8uno31/gNOrgvL4Rnz7gBHlylh2aRhlz4+s+GRQk9eWzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nsdbbK8MOvDKdQZllD/Rzr6ETl6lyot5ErW8HVcSaSA=;
+ b=LfOqQJbj7JQsY+njtzSyYSaGc5/JN0pLPsHdGj/uapDi/P+KU6ur58zKdfYhSRwPgVvxX1WAtCvHcbSjBjGssez0U8m63s9fuZB1FyGn4OpfAfGfNNJaMTcW/qeIk5uzs4t+pC87yOrh4cb/lqXWhmSgo5RMp2kq588K2YBJt6wVQn7b5pEnXvoxCezs8OjI5Qx8M2O3DvOHqRUquLlYNCz+THEc+u0BDkCKcStTq2ZBKLWHboLv1JKC5Jb0q7wkF2BqzjMPr1Wpik8XXptwM77ZTxthjGv6QkigIHWvM+4wxSovXIkHAKDQAp8vgBM880628g4n3Uu8mCdsg6ZsYQ==
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
+ by CY5PR12MB6033.namprd12.prod.outlook.com (2603:10b6:930:2f::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15; Wed, 23 Nov
+ 2022 22:56:23 +0000
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::f02:bf13:2f64:43bc]) by MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::f02:bf13:2f64:43bc%7]) with mapi id 15.20.5834.015; Wed, 23 Nov 2022
+ 22:56:23 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Nitesh Shetty <nj.shetty@samsung.com>
+CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"agk@redhat.com" <agk@redhat.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "axboe@kernel.dk" <axboe@kernel.dk>,
+	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "sagi@grimberg.me"
+	<sagi@grimberg.me>, "anuj20.g@samsung.com" <anuj20.g@samsung.com>,
+	"joshi.k@samsung.com" <joshi.k@samsung.com>, "p.raghav@samsung.com"
+	<p.raghav@samsung.com>, "naohiro.aota@wdc.com" <naohiro.aota@wdc.com>,
+	"damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>, "snitzer@kernel.org"
+	<snitzer@kernel.org>, "kbusch@kernel.org" <kbusch@kernel.org>,
+	"jth@kernel.org" <jth@kernel.org>, "nitheshshetty@gmail.com"
+	<nitheshshetty@gmail.com>, "james.smart@broadcom.com"
+	<james.smart@broadcom.com>, "gost.dev@samsung.com" <gost.dev@samsung.com>,
+	"dm-devel@redhat.com" <dm-devel@redhat.com>, "hch@lst.de" <hch@lst.de>,
+	"shinichiro.kawasaki@wdc.com" <shinichiro.kawasaki@wdc.com>
+Subject: Re: [PATCH v5 00/10] Implement copy offload support
+Thread-Topic: [PATCH v5 00/10] Implement copy offload support
+Thread-Index: AQHY/wLEUhEocurOikWuV2dsph+j+a5NH5cA
+Date: Wed, 23 Nov 2022 22:56:23 +0000
+Message-ID: <cd772b6c-90ae-f2d1-b71c-5d43f10891bf@nvidia.com>
+References:  <CGME20221123061010epcas5p21cef9d23e4362b01f2b19d1117e1cdf5@epcas5p2.samsung.com>
+ <20221123055827.26996-1-nj.shetty@samsung.com>
+In-Reply-To: <20221123055827.26996-1-nj.shetty@samsung.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|CY5PR12MB6033:EE_
+x-ms-office365-filtering-correlation-id: fd5d6bae-c707-423f-64d3-08dacda5f185
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  BcTNfeNaGyCRY7FCma5ImA3PnmKcmpWaPpG0wGZYW90QcQ8qcVzzF0pbBI55wqv3rBgRzXUOT4VNWPhqWw7Vy5hgAkrjilo1sAH70q3JYD6gp8CyphvG6c1tYxURXty/noygTZuCdlHp1wYo0TNbNHCTUg+LFLeAXdTJEpLsQi5cTzs7dN8qxNk2dKroRN1XP9Vekvbf3XHBDc2ReeUsN04+TYWYxnFo2blCFeU8lWjrEdMZm3I5FeHV/YNAHSxZEPJAdr3818xGozT2angYYny11yFlmit+tNTZepAMEdRrXJi1yZyu6KJYei4osU5kJ9LUQR64m8jn9oR5kGhkJexqle3xB44PB/kwHpW47CsdXyWkCFgKiT6F9pMllZPfyfjFVBLvZXPXOZLKPfzrYYhckF4lUsdZuJrbSrTQgmksY8HnEh3vyMmNpA9AQ/Nluxx6Q/BksyGQSB1r91DE5g/bcyaYOtu64IhIoPCYEEQReTjDwvaGX9VnVifteytwZaTS1ciXLu63SXmXpAKO90yXCLwV2H65tDlm4TqafaA+Fk9mK3QyeRPa5/6AF95XuBmEkoj0XW3wa4G4EO4XL8r74r06OkeRSrfIDPVA7dWVZlK6wBzpaj4QaPyOpusyuCSHvP6xUUrsET3ZaI069w3rJCwKRNmR7Ug7734KFe+ivoen52ioDbhBZcqIt5bhUUSLlAfaLWsL9R86IjsJp69Vbld0kFw/AZRgNvaqNolYWeqAnLg0N+xjL51u/Tx1o7Jis/c+VoqenOP+RCnzRg==
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(39860400002)(376002)(396003)(346002)(136003)(451199015)(91956017)(38100700002)(36756003)(6486002)(86362001)(4326008)(66946007)(76116006)(478600001)(64756008)(8676002)(66556008)(41300700001)(66446008)(54906003)(6916009)(2616005)(186003)(2906002)(83380400001)(6512007)(316002)(71200400001)(6506007)(122000001)(66476007)(38070700005)(31696002)(53546011)(4744005)(31686004)(5660300002)(8936002)(7416002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?ZVc3eDRIM1pEeEhuN082VkFVU3hMM0U5RDk2QThWdGkzemUydEp5Q1NzUzFT?=
+ =?utf-8?B?YWNjS1Q2bmJQbFA3ZjIrUEx4Vlh4ZS9vOUUxVG9xelViR3VENGtTM041ZDdZ?=
+ =?utf-8?B?U0RxZnhjRHU0VHp1QzFZaVlDYTRsVnN4VmU4aWQ1aUl1cXRuMENqNGppMWVh?=
+ =?utf-8?B?K0JGc3d2cmc4Vkw2QTVZSFpBLzhYTFdwdVpRU0ZkZ3V5SER3YlpSbXVLNCtC?=
+ =?utf-8?B?aVBpaGp4QmRVNkxWVDdHeC9jN2FnU1JJdzBpOW9RTTJ0RGUvKy9oOXFWRU4r?=
+ =?utf-8?B?MXVCemF3YTMvWVVVaEM1SUFtRkxEeUJFd0xtK3JoeU5lMmJ0VTNNV3ZSOEpF?=
+ =?utf-8?B?UnMzblMrblh1YW5aVlN1SExkSVhMWmpJQisyZXVCZWx0WXNlaGlMcUx3MmxX?=
+ =?utf-8?B?Qjk0bzBiZytpSWNiTVpsZ2FxOXM2dkV4UzZyYnNEUlpvY2VPMnVHVzYyUnhI?=
+ =?utf-8?B?aVdqcml0QmhKb1lld2s1d1l6Vmc3TFNPVXlYcmZDOC8yRXpHbS8rS3hQTC9S?=
+ =?utf-8?B?NllHdXJtWktpWUp4dGlWK2FCUXRrU0t4MmtVR0hYM1dYYUFnZHBNMWRCT0dK?=
+ =?utf-8?B?eXpVUFVjODQxTEtNS205b0NuckpMRGJtZXZ5UGhXMWUxckdLS1hDWEM4SlY1?=
+ =?utf-8?B?Nk83Um9SaWVHZU9sRTRLT0JVK2NYMlZSYW5oYyt1SDRQQlNEUVdZRitteW82?=
+ =?utf-8?B?azNKZmcyUE5oWWcybFcwcXNmUUJUUFdKTjlyMnpEVFdJYXFyV2p0K2RlelJ3?=
+ =?utf-8?B?VVdxK2V1VzhDWjRONGNVSzFra0JoUlRQZGZja2NUaDdGSWFFYjdNdmNFY1cr?=
+ =?utf-8?B?NHJua0htV1VGZlZNODVIKzNLTDVtSjVOdzlJWFFBVi9zbE5zN01xK0dUaUhj?=
+ =?utf-8?B?ZnhHellWeU03UFJ1d2h6SVRVUUEvQy93dXFXMEpmT0UrWHY4Znp4N0U2S3dV?=
+ =?utf-8?B?YnVJbjRMa091L1ZtVHc0M1FhRUtMYUVRMndsaXJzS1V0UERGV1NQZjl5RFFl?=
+ =?utf-8?B?dVZsYjlUV1JBWmgxMDlaYXA5SlB5a3lSMmVDMmRmMnBiS0Y0QWx2TWE2bVhh?=
+ =?utf-8?B?cmVLL0RlUUtrUVJhQmd2TjZ3ZE5CNFZxRGxsOGFkSXY4VTVONnhvSm1TS3BQ?=
+ =?utf-8?B?ZWxlNUloeGpJTWxzWVJPYmlYYko0VDJVRmE0UDdTUXRQSGlSemZMWHJya0lK?=
+ =?utf-8?B?NWNuNS9JTFdTelRHallZUG9nY21JckUrOGxjRGJFTm5CTDVPSzJRdytHUmRq?=
+ =?utf-8?B?S3J1aUJPNTJUSTNRUjRqS0R4a0Y3NE5oRUZObDNJTGk1VUJnSmZGVytBb1RM?=
+ =?utf-8?B?MktoYlZtbTlsZjFxaXp0ODdhZ1kySWsyaTdObzh4aGlXYWYxVUwzVUd3Q1JS?=
+ =?utf-8?B?bEh2Q093eVlZV3N1ajBNRllpbFZRZy9RcWZSQlIwUWhJUmVNN2EvTmZ0YWxS?=
+ =?utf-8?B?L3VUQjNtcXBINWx2NTFhWG52OU1NL3N4MFgxSWpzN1dqKzNCNmM5VmkxVGZH?=
+ =?utf-8?B?eXpseVB2VFBjd3FwbFlSclNiYUZXSTQzNForWTU5eGVyRkxTMG1MT0FuQkhN?=
+ =?utf-8?B?RHJNeXFaMm5uYkVkZWZXT1FnR2xGajU3dldtV3lGUFB1QTZvM1l2eHFqL2o3?=
+ =?utf-8?B?VjBmdms3Ui9xU1NBcWVsUmRQRWUwbzVwbjhhSzY3S2QwZnpMQXUwdTZubDcw?=
+ =?utf-8?B?eXd3QTRTVFcxc2h5SGROWFFDRlFRZjNhOUdqbDB0NndyOEVSaEQxUTVnQVlp?=
+ =?utf-8?B?SkZEVmhjMXAxT2J6Vy9mdG1oeFZ4MXZKdmF4bmpod29oMGx1VTN2Mlgrd1FF?=
+ =?utf-8?B?KzFCSlgrSmJLWFc3RUFWUkpxMjlRQ3l4bFZhYld1UXRCeFBtQnN3U1dtdmZt?=
+ =?utf-8?B?aUF0czdGeDdFRlZOeXF0eTMvRkYrbzlRTVZwQjlrYmpNcHdoU1ZaVUJvWkEy?=
+ =?utf-8?B?N005MGlEK0Z6dWdjZkxUM3ljMVczSDFuSFAxMDYxMHdjcnN2WklKczhmVzJN?=
+ =?utf-8?B?UzZFQlgxbDZ1QWpRRjY1Z3dzL25UblFrR0Z0aEhuWjBodG42aWJnVldoeW0v?=
+ =?utf-8?B?Nzh6Z090c1dhVlN1WXhMUFU1UG5MRnE0Zm41QUR3WWYyN0YraExKVjZ3NDhu?=
+ =?utf-8?B?YXRzU0E1NDFMZFErajJFQ3hrRHlVeVhmQVB5UmVBOHM5THBTQllyUEhCaVFw?=
+ =?utf-8?B?amc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <11DE156DC86B9F40A76435524E1C3AFE@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20221123122523.1332370-1-gregkh@linuxfoundation.org>
-In-Reply-To: <20221123122523.1332370-1-gregkh@linuxfoundation.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 23 Nov 2022 13:38:57 +0100
-Message-ID: <CAJZ5v0grLAZQbZTfMNo-O+o8OJ1prhXVQ0aaS1P4O2dO_A35fg@mail.gmail.com>
-Subject: Re: [PATCH 1/5] driver core: make struct class.dev_uevent() take a
- const *
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russell.h.weight@intel.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Jean Delvare <jdelvare@suse.com>, Johan Hovold <johan@kernel.org>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, Karsten Keil <isdn@linux-pingi.de>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, Dominik Brodowski <linux@dominikbrodowski.net>, 
-	Sebastian Reichel <sre@kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Johannes Berg <johannes@sipsolutions.net>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Raed Salem <raeds@nvidia.com>, Chen Zhongjin <chenzhongjin@huawei.com>, 
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Avihai Horon <avihaih@nvidia.com>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Alan Stern <stern@rowland.harvard.edu>, 
-	Colin Ian King <colin.i.king@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Jakob Koschel <jakobkoschel@gmail.com>, Antoine Tenart <atenart@kernel.org>, 
-	Frederic Weisbecker <frederic@kernel.org>, Wang Yufen <wangyufen@huawei.com>, linux-block@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org, 
-	netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fd5d6bae-c707-423f-64d3-08dacda5f185
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Nov 2022 22:56:23.1539
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: tdLNY1HocNbd1GhZ2pHzlefYRYL6R6hljE7MiwoYwdgZkKY06hkE5xEGe4JxF42wj7NvU/4Kbv4Bi9xl3XH0Fw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6033
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221123_043911_128655_B0D7D5F9 
-X-CRM114-Status: GOOD (  29.08  )
-X-Mailman-Approved-At: Wed, 23 Nov 2022 04:40:52 -0800
+X-CRM114-CacheID: sfid-20221123_145628_884959_2D8D5E73 
+X-CRM114-Status: GOOD (  12.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,386 +162,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Nov 23, 2022 at 1:25 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> The dev_uevent() in struct class should not be modifying the device that
-> is passed into it, so mark it as a const * and propagate the function
-> signature changes out into all relevant subsystems that use this
-> callback.
->
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Cc: Luis Chamberlain <mcgrof@kernel.org>
-> Cc: Russ Weight <russell.h.weight@intel.com>
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Jean Delvare <jdelvare@suse.com>
-> Cc: Johan Hovold <johan@kernel.org>
-> Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: Leon Romanovsky <leon@kernel.org>
-> Cc: Karsten Keil <isdn@linux-pingi.de>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Keith Busch <kbusch@kernel.org>
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Sagi Grimberg <sagi@grimberg.me>
-> Cc: Dominik Brodowski <linux@dominikbrodowski.net>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Eric Dumazet <edumazet@google.com>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Paolo Abeni <pabeni@redhat.com>
-> Cc: Johannes Berg <johannes@sipsolutions.net>
-> Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Cc: Raed Salem <raeds@nvidia.com>
-> Cc: Chen Zhongjin <chenzhongjin@huawei.com>
-> Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> Cc: Avihai Horon <avihaih@nvidia.com>
-> Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-> Cc: Alan Stern <stern@rowland.harvard.edu>
-> Cc: Colin Ian King <colin.i.king@gmail.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Jakob Koschel <jakobkoschel@gmail.com>
-> Cc: Antoine Tenart <atenart@kernel.org>
-> Cc: Frederic Weisbecker <frederic@kernel.org>
-> Cc: Wang Yufen <wangyufen@huawei.com>
-> Cc: linux-block@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-nvme@lists.infradead.org
-> Cc: linux-pm@vger.kernel.org
-> Cc: linux-rdma@vger.kernel.org
-> Cc: linux-usb@vger.kernel.org
-> Cc: linux-wireless@vger.kernel.org
-> Cc: netdev@vger.kernel.org
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-Acked-by: Rafael J. Wysocki <rafael@kernel.org>
-
-> ---
->  block/genhd.c                             | 4 ++--
->  drivers/base/firmware_loader/sysfs.c      | 6 +++---
->  drivers/base/firmware_loader/sysfs.h      | 2 +-
->  drivers/firmware/dmi-id.c                 | 2 +-
->  drivers/gnss/core.c                       | 6 +++---
->  drivers/infiniband/core/device.c          | 2 +-
->  drivers/isdn/mISDN/core.c                 | 4 ++--
->  drivers/media/dvb-core/dvbdev.c           | 4 ++--
->  drivers/nvme/host/core.c                  | 4 ++--
->  drivers/pcmcia/cs.c                       | 4 ++--
->  drivers/power/supply/power_supply.h       | 2 +-
->  drivers/power/supply/power_supply_sysfs.c | 8 ++++----
->  drivers/usb/gadget/udc/core.c             | 4 ++--
->  include/linux/device/class.h              | 2 +-
->  include/linux/mISDNif.h                   | 2 +-
->  net/atm/atm_sysfs.c                       | 4 ++--
->  net/core/net-sysfs.c                      | 4 ++--
->  net/rfkill/core.c                         | 2 +-
->  18 files changed, 33 insertions(+), 33 deletions(-)
->
-> diff --git a/block/genhd.c b/block/genhd.c
-> index 0f9769db2de8..3f1124713442 100644
-> --- a/block/genhd.c
-> +++ b/block/genhd.c
-> @@ -1181,9 +1181,9 @@ static void disk_release(struct device *dev)
->         iput(disk->part0->bd_inode);    /* frees the disk */
->  }
->
-> -static int block_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int block_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -       struct gendisk *disk = dev_to_disk(dev);
-> +       const struct gendisk *disk = dev_to_disk(dev);
->
->         return add_uevent_var(env, "DISKSEQ=%llu", disk->diskseq);
->  }
-> diff --git a/drivers/base/firmware_loader/sysfs.c b/drivers/base/firmware_loader/sysfs.c
-> index 5b66b3d1fa16..56911d75b90a 100644
-> --- a/drivers/base/firmware_loader/sysfs.c
-> +++ b/drivers/base/firmware_loader/sysfs.c
-> @@ -64,7 +64,7 @@ static struct attribute *firmware_class_attrs[] = {
->  };
->  ATTRIBUTE_GROUPS(firmware_class);
->
-> -static int do_firmware_uevent(struct fw_sysfs *fw_sysfs, struct kobj_uevent_env *env)
-> +static int do_firmware_uevent(const struct fw_sysfs *fw_sysfs, struct kobj_uevent_env *env)
->  {
->         if (add_uevent_var(env, "FIRMWARE=%s", fw_sysfs->fw_priv->fw_name))
->                 return -ENOMEM;
-> @@ -76,9 +76,9 @@ static int do_firmware_uevent(struct fw_sysfs *fw_sysfs, struct kobj_uevent_env
->         return 0;
->  }
->
-> -static int firmware_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int firmware_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -       struct fw_sysfs *fw_sysfs = to_fw_sysfs(dev);
-> +       const struct fw_sysfs *fw_sysfs = to_fw_sysfs(dev);
->         int err = 0;
->
->         mutex_lock(&fw_lock);
-> diff --git a/drivers/base/firmware_loader/sysfs.h b/drivers/base/firmware_loader/sysfs.h
-> index df1d5add698f..fd0b4ad9bdbb 100644
-> --- a/drivers/base/firmware_loader/sysfs.h
-> +++ b/drivers/base/firmware_loader/sysfs.h
-> @@ -81,7 +81,7 @@ struct fw_sysfs {
->         void *fw_upload_priv;
->  };
->
-> -static inline struct fw_sysfs *to_fw_sysfs(struct device *dev)
-> +static inline struct fw_sysfs *to_fw_sysfs(const struct device *dev)
->  {
->         return container_of(dev, struct fw_sysfs, dev);
->  }
-> diff --git a/drivers/firmware/dmi-id.c b/drivers/firmware/dmi-id.c
-> index 940ddf916202..5f3a3e913d28 100644
-> --- a/drivers/firmware/dmi-id.c
-> +++ b/drivers/firmware/dmi-id.c
-> @@ -155,7 +155,7 @@ static const struct attribute_group* sys_dmi_attribute_groups[] = {
->         NULL
->  };
->
-> -static int dmi_dev_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int dmi_dev_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
->         ssize_t len;
->
-> diff --git a/drivers/gnss/core.c b/drivers/gnss/core.c
-> index 1e82b7967570..77a4b280c552 100644
-> --- a/drivers/gnss/core.c
-> +++ b/drivers/gnss/core.c
-> @@ -337,7 +337,7 @@ static const char * const gnss_type_names[GNSS_TYPE_COUNT] = {
->         [GNSS_TYPE_MTK]         = "MTK",
->  };
->
-> -static const char *gnss_type_name(struct gnss_device *gdev)
-> +static const char *gnss_type_name(const struct gnss_device *gdev)
->  {
->         const char *name = NULL;
->
-> @@ -365,9 +365,9 @@ static struct attribute *gnss_attrs[] = {
->  };
->  ATTRIBUTE_GROUPS(gnss);
->
-> -static int gnss_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int gnss_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -       struct gnss_device *gdev = to_gnss_device(dev);
-> +       const struct gnss_device *gdev = to_gnss_device(dev);
->         int ret;
->
->         ret = add_uevent_var(env, "GNSS_TYPE=%s", gnss_type_name(gdev));
-> diff --git a/drivers/infiniband/core/device.c b/drivers/infiniband/core/device.c
-> index fa65c5d3d395..4186dbf9377f 100644
-> --- a/drivers/infiniband/core/device.c
-> +++ b/drivers/infiniband/core/device.c
-> @@ -511,7 +511,7 @@ static void ib_device_release(struct device *device)
->         kfree_rcu(dev, rcu_head);
->  }
->
-> -static int ib_device_uevent(struct device *device,
-> +static int ib_device_uevent(const struct device *device,
->                             struct kobj_uevent_env *env)
->  {
->         if (add_uevent_var(env, "NAME=%s", dev_name(device)))
-> diff --git a/drivers/isdn/mISDN/core.c b/drivers/isdn/mISDN/core.c
-> index 90ee56d07a6e..9120be590325 100644
-> --- a/drivers/isdn/mISDN/core.c
-> +++ b/drivers/isdn/mISDN/core.c
-> @@ -139,9 +139,9 @@ static struct attribute *mISDN_attrs[] = {
->  };
->  ATTRIBUTE_GROUPS(mISDN);
->
-> -static int mISDN_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int mISDN_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -       struct mISDNdevice *mdev = dev_to_mISDN(dev);
-> +       const struct mISDNdevice *mdev = dev_to_mISDN(dev);
->
->         if (!mdev)
->                 return 0;
-> diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
-> index 675d877a67b2..6ef18bab9648 100644
-> --- a/drivers/media/dvb-core/dvbdev.c
-> +++ b/drivers/media/dvb-core/dvbdev.c
-> @@ -1008,9 +1008,9 @@ void dvb_module_release(struct i2c_client *client)
->  EXPORT_SYMBOL_GPL(dvb_module_release);
->  #endif
->
-> -static int dvb_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int dvb_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -       struct dvb_device *dvbdev = dev_get_drvdata(dev);
-> +       const struct dvb_device *dvbdev = dev_get_drvdata(dev);
->
->         add_uevent_var(env, "DVB_ADAPTER_NUM=%d", dvbdev->adapter->num);
->         add_uevent_var(env, "DVB_DEVICE_TYPE=%s", dnames[dvbdev->type]);
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index da55ce45ac70..b4778b970dd4 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -4580,9 +4580,9 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
->  }
->  EXPORT_SYMBOL_GPL(nvme_remove_namespaces);
->
-> -static int nvme_class_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int nvme_class_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -       struct nvme_ctrl *ctrl =
-> +       const struct nvme_ctrl *ctrl =
->                 container_of(dev, struct nvme_ctrl, ctrl_device);
->         struct nvmf_ctrl_options *opts = ctrl->opts;
->         int ret;
-> diff --git a/drivers/pcmcia/cs.c b/drivers/pcmcia/cs.c
-> index f70197154a36..e3224e49c43f 100644
-> --- a/drivers/pcmcia/cs.c
-> +++ b/drivers/pcmcia/cs.c
-> @@ -810,10 +810,10 @@ int pcmcia_reset_card(struct pcmcia_socket *skt)
->  EXPORT_SYMBOL(pcmcia_reset_card);
->
->
-> -static int pcmcia_socket_uevent(struct device *dev,
-> +static int pcmcia_socket_uevent(const struct device *dev,
->                                 struct kobj_uevent_env *env)
->  {
-> -       struct pcmcia_socket *s = container_of(dev, struct pcmcia_socket, dev);
-> +       const struct pcmcia_socket *s = container_of(dev, struct pcmcia_socket, dev);
->
->         if (add_uevent_var(env, "SOCKET_NO=%u", s->sock))
->                 return -ENOMEM;
-> diff --git a/drivers/power/supply/power_supply.h b/drivers/power/supply/power_supply.h
-> index c310d4f36c10..645eee4d6b6a 100644
-> --- a/drivers/power/supply/power_supply.h
-> +++ b/drivers/power/supply/power_supply.h
-> @@ -16,7 +16,7 @@ struct power_supply;
->  #ifdef CONFIG_SYSFS
->
->  extern void power_supply_init_attrs(struct device_type *dev_type);
-> -extern int power_supply_uevent(struct device *dev, struct kobj_uevent_env *env);
-> +extern int power_supply_uevent(const struct device *dev, struct kobj_uevent_env *env);
->
->  #else
->
-> diff --git a/drivers/power/supply/power_supply_sysfs.c b/drivers/power/supply/power_supply_sysfs.c
-> index 5369abaceb5c..6ca7d3985a40 100644
-> --- a/drivers/power/supply/power_supply_sysfs.c
-> +++ b/drivers/power/supply/power_supply_sysfs.c
-> @@ -427,7 +427,7 @@ void power_supply_init_attrs(struct device_type *dev_type)
->         }
->  }
->
-> -static int add_prop_uevent(struct device *dev, struct kobj_uevent_env *env,
-> +static int add_prop_uevent(const struct device *dev, struct kobj_uevent_env *env,
->                            enum power_supply_property prop, char *prop_buf)
->  {
->         int ret = 0;
-> @@ -438,7 +438,7 @@ static int add_prop_uevent(struct device *dev, struct kobj_uevent_env *env,
->         pwr_attr = &power_supply_attrs[prop];
->         dev_attr = &pwr_attr->dev_attr;
->
-> -       ret = power_supply_show_property(dev, dev_attr, prop_buf);
-> +       ret = power_supply_show_property((struct device *)dev, dev_attr, prop_buf);
->         if (ret == -ENODEV || ret == -ENODATA) {
->                 /*
->                  * When a battery is absent, we expect -ENODEV. Don't abort;
-> @@ -458,9 +458,9 @@ static int add_prop_uevent(struct device *dev, struct kobj_uevent_env *env,
->                               pwr_attr->prop_name, prop_buf);
->  }
->
-> -int power_supply_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +int power_supply_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -       struct power_supply *psy = dev_get_drvdata(dev);
-> +       const struct power_supply *psy = dev_get_drvdata(dev);
->         int ret = 0, j;
->         char *prop_buf;
->
-> diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
-> index c63c0c2cf649..b5994a0604f6 100644
-> --- a/drivers/usb/gadget/udc/core.c
-> +++ b/drivers/usb/gadget/udc/core.c
-> @@ -1723,9 +1723,9 @@ static const struct attribute_group *usb_udc_attr_groups[] = {
->         NULL,
->  };
->
-> -static int usb_udc_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int usb_udc_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -       struct usb_udc          *udc = container_of(dev, struct usb_udc, dev);
-> +       const struct usb_udc    *udc = container_of(dev, struct usb_udc, dev);
->         int                     ret;
->
->         ret = add_uevent_var(env, "USB_UDC_NAME=%s", udc->gadget->name);
-> diff --git a/include/linux/device/class.h b/include/linux/device/class.h
-> index 20103e0b03c3..94b1107258e5 100644
-> --- a/include/linux/device/class.h
-> +++ b/include/linux/device/class.h
-> @@ -59,7 +59,7 @@ struct class {
->         const struct attribute_group    **dev_groups;
->         struct kobject                  *dev_kobj;
->
-> -       int (*dev_uevent)(struct device *dev, struct kobj_uevent_env *env);
-> +       int (*dev_uevent)(const struct device *dev, struct kobj_uevent_env *env);
->         char *(*devnode)(struct device *dev, umode_t *mode);
->
->         void (*class_release)(struct class *class);
-> diff --git a/include/linux/mISDNif.h b/include/linux/mISDNif.h
-> index 7dd1f01ec4f9..7aab4a769736 100644
-> --- a/include/linux/mISDNif.h
-> +++ b/include/linux/mISDNif.h
-> @@ -586,7 +586,7 @@ extern struct mISDNclock *mISDN_register_clock(char *, int, clockctl_func_t *,
->                                                 void *);
->  extern void    mISDN_unregister_clock(struct mISDNclock *);
->
-> -static inline struct mISDNdevice *dev_to_mISDN(struct device *dev)
-> +static inline struct mISDNdevice *dev_to_mISDN(const struct device *dev)
->  {
->         if (dev)
->                 return dev_get_drvdata(dev);
-> diff --git a/net/atm/atm_sysfs.c b/net/atm/atm_sysfs.c
-> index 0fdbdfd19474..466353b3dde4 100644
-> --- a/net/atm/atm_sysfs.c
-> +++ b/net/atm/atm_sysfs.c
-> @@ -108,9 +108,9 @@ static struct device_attribute *atm_attrs[] = {
->  };
->
->
-> -static int atm_uevent(struct device *cdev, struct kobj_uevent_env *env)
-> +static int atm_uevent(const struct device *cdev, struct kobj_uevent_env *env)
->  {
-> -       struct atm_dev *adev;
-> +       const struct atm_dev *adev;
->
->         if (!cdev)
->                 return -ENODEV;
-> diff --git a/net/core/net-sysfs.c b/net/core/net-sysfs.c
-> index 9cfc80b8ed25..03a61d1dffbd 100644
-> --- a/net/core/net-sysfs.c
-> +++ b/net/core/net-sysfs.c
-> @@ -1873,9 +1873,9 @@ const struct kobj_ns_type_operations net_ns_type_operations = {
->  };
->  EXPORT_SYMBOL_GPL(net_ns_type_operations);
->
-> -static int netdev_uevent(struct device *d, struct kobj_uevent_env *env)
-> +static int netdev_uevent(const struct device *d, struct kobj_uevent_env *env)
->  {
-> -       struct net_device *dev = to_net_dev(d);
-> +       const struct net_device *dev = to_net_dev(d);
->         int retval;
->
->         /* pass interface to uevent. */
-> diff --git a/net/rfkill/core.c b/net/rfkill/core.c
-> index dac4fdc7488a..b390ff245d5e 100644
-> --- a/net/rfkill/core.c
-> +++ b/net/rfkill/core.c
-> @@ -832,7 +832,7 @@ static void rfkill_release(struct device *dev)
->         kfree(rfkill);
->  }
->
-> -static int rfkill_dev_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int rfkill_dev_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
->         struct rfkill *rfkill = to_rfkill(dev);
->         unsigned long flags;
-> --
-> 2.38.1
->
+KCsgU2hpbmljaGlybykNCg0KT24gMTEvMjIvMjIgMjE6NTgsIE5pdGVzaCBTaGV0dHkgd3JvdGU6
+DQo+IFRoZSBwYXRjaCBzZXJpZXMgY292ZXJzIHRoZSBwb2ludHMgZGlzY3Vzc2VkIGluIE5vdmVt
+YmVyIDIwMjEgdmlydHVhbA0KPiBjYWxsIFtMU0YvTU0vQkZQIFRPUElDXSBTdG9yYWdlOiBDb3B5
+IE9mZmxvYWQgWzBdLg0KPiBXZSBoYXZlIGNvdmVyZWQgdGhlIGluaXRpYWwgYWdyZWVkIHJlcXVp
+cmVtZW50cyBpbiB0aGlzIHBhdGNoc2V0IGFuZA0KPiBmdXJ0aGVyIGFkZGl0aW9uYWwgZmVhdHVy
+ZXMgc3VnZ2VzdGVkIGJ5IGNvbW11bml0eS4NCj4gUGF0Y2hzZXQgYm9ycm93cyBNaWt1bGFzJ3Mg
+dG9rZW4gYmFzZWQgYXBwcm9hY2ggZm9yIDIgYmRldg0KPiBpbXBsZW1lbnRhdGlvbi4NCj4gDQo+
+IFRoaXMgaXMgb24gdG9wIG9mIG91ciBwcmV2aW91cyBwYXRjaHNldCB2NFsxXS4NCg0KTm93IHRo
+YXQgc2VyaWVzIGlzIGNvbnZlcmdpbmcsIHNpbmNlIHBhdGNoLXNlcmllcyB0b3VjaGVzDQpkcml2
+ZXJzIGFuZCBrZXkgY29tcG9uZW50cyBpbiB0aGUgYmxvY2sgbGF5ZXIgeW91IG5lZWQgYWNjb21w
+YW55DQp0aGUgcGF0Y2gtc2VyaWVzIHdpdGggdGhlIGJsa3Rlc3RzIHRvIGNvdmVyIHRoZSBjb3Ju
+ZXIgY2FzZXMgaW4gdGhlDQpkcml2ZXJzIHdoaWNoIHN1cHBvcnRzIHRoaXMgb3BlcmF0aW9ucywg
+YXMgSSBtZW50aW9uZWQgdGhpcyBpbiB0aGUNCmNhbGwgbGFzdCB5ZWFyLi4uLg0KDQpJZiB5b3Ug
+bmVlZCBhbnkgaGVscCB3aXRoIHRoYXQgZmVlbCBmcmVlIHRvIHNlbmQgYW4gZW1haWwgdG8gbGlu
+dXgtYmxvY2sNCmFuZCBDQyBtZSBvciBTaGluaWNoaXJvIChhZGRlZCBpbiBDQyApLi4uDQoNCi1j
+aw0KDQo=
 
