@@ -4,76 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 625FDC433FE
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Nov 2022 00:04:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 231A5C433FE
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Nov 2022 00:12:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Swuw4Srtq7ILJ+Sr28sVCP8NRm0onxfQ8iNTcMfZrZ0=; b=39AMId3mTV1AEXWFUe0X/uEW00
-	Jcq0SEXKZOYXMmhaWEJnMGvUnj55H8h2VafquPzlFO7nlqPrauVEe8JZB693amX3A3zuOJ/mTK0MA
-	WEIrU6Ixx82Jn+mWS+Brx6xSdMuhQIxN4PJT4CzxXmLi/78Lg5+aIlYcBFU6oYTmKhWMoTFvNvnO8
-	PRpJU0GwwENz8ABws73V4g+12ZSR2ROmYYFtqkwKZbKSa/GgKRTtovpEURmyOMSaByj/d5WY9R17a
-	6m+xWo9y1Qd0QLyyDKPNOaHJfxflv5oeDL2O/xwYZhfTCAePBnEfBNyYdkfGD3gdHnVDF6d7K97nm
-	nMRhEAAg==;
+	bh=NRnjdwy4q/rC7EfchU6ozNrwG5Ch1IJiLDHlOz3WFDM=; b=3D8ReT03l8XKRJiGk4QD4H2XRh
+	484cEV98rpahJfA7h+nTDQ8xxJE8nSBeGzCLB0UcLgRLc3oT5VKrauaqiDAuEY+jv2tNy8P88Jars
+	XgwGlkj5DNGwruKQ1HWct2VzjwtHhB8WgGUwebDIXgQ/IBlMPL4QPsPSC7WzyNL3G0Qbtvz/n3xPs
+	J6OpX+kN+QAJJcZO/nTA4yliMaOmLD+a7gcocrzaY/YVrFYKdfC1ks0MVG4d3hFOQ/6CUicv21Ujv
+	RPgJ2+zrTBCvjPhiBBbvuwgR45CYs0ttbGqWJHY/UUHUX4RBd9jLuvnPrDLSESyuIEGGpesJUWUUa
+	zogwqqcw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oxzjF-002zOO-EF; Thu, 24 Nov 2022 00:04:33 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1oxzqz-0031PD-C3; Thu, 24 Nov 2022 00:12:33 +0000
+Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oxzjB-002zNh-Mq
-	for linux-nvme@lists.infradead.org; Thu, 24 Nov 2022 00:04:31 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1669248266;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Swuw4Srtq7ILJ+Sr28sVCP8NRm0onxfQ8iNTcMfZrZ0=;
-	b=UBdYMvbehhfSVImegvfMb0mP8yd+zOXotHCEBJdSGYiqFvf6GEZj3q9SqSfQlSI5A1Fsqo
-	1da88ruJ6IYW4lYXuwQcrXh4I8/qfLVLX1bNnIEAYBLUN38AY1/36HHdSaF3CcChKolrE+
-	Om+258S7gLbvebkUh+I2VGY2E/8kTnY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-655-eMnJ2nuQPZ63mU3GdK9XLA-1; Wed, 23 Nov 2022 19:04:21 -0500
-X-MC-Unique: eMnJ2nuQPZ63mU3GdK9XLA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3935F29AB3E1;
-	Thu, 24 Nov 2022 00:04:20 +0000 (UTC)
-Received: from T590 (ovpn-8-17.pek2.redhat.com [10.72.8.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5DF81C15BB1;
-	Thu, 24 Nov 2022 00:04:03 +0000 (UTC)
-Date: Thu, 24 Nov 2022 08:03:56 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Nitesh Shetty <nj.shetty@samsung.com>
-Cc: axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
-	dm-devel@redhat.com, kbusch@kernel.org, hch@lst.de,
-	sagi@grimberg.me, james.smart@broadcom.com, kch@nvidia.com,
-	damien.lemoal@opensource.wdc.com, naohiro.aota@wdc.com,
-	jth@kernel.org, viro@zeniv.linux.org.uk,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-	anuj20.g@samsung.com, joshi.k@samsung.com, p.raghav@samsung.com,
-	nitheshshetty@gmail.com, gost.dev@samsung.com, ming.lei@redhat.com
-Subject: Re: [PATCH v5 02/10] block: Add copy offload support infrastructure
-Message-ID: <Y3607N6lDRK6WU7/@T590>
-References: <20221123055827.26996-1-nj.shetty@samsung.com>
- <CGME20221123061017epcas5p246a589e20eac655ac340cfda6028ff35@epcas5p2.samsung.com>
- <20221123055827.26996-3-nj.shetty@samsung.com>
- <Y33UAp6ncSPO84XI@T590>
- <20221123100712.GA26377@test-zns>
+	id 1oxzqv-0031OD-Ng
+	for linux-nvme@lists.infradead.org; Thu, 24 Nov 2022 00:12:32 +0000
+Received: by mail-io1-xd2d.google.com with SMTP id r81so272043iod.2
+        for <linux-nvme@lists.infradead.org>; Wed, 23 Nov 2022 16:12:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=NRnjdwy4q/rC7EfchU6ozNrwG5Ch1IJiLDHlOz3WFDM=;
+        b=V8KEdoPxaKYzy/MCPicIumM2hNXshq57wuspdkv9V03cGonKdNlSqBFGJkpjJOpHeh
+         BbR9OLtJ/kL3bim6DXb7Hys7lK1CdRLcj1p3NXMoBVDhlqrguOsbh6o/NMU7IWBtt3T1
+         wdOKQn5g6opbYy34m3yOrH2h6yJUe2dZldVgw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NRnjdwy4q/rC7EfchU6ozNrwG5Ch1IJiLDHlOz3WFDM=;
+        b=77SS2l8ZHKTrmlcaGaNzyKKldM8l1J+qs2UWBQd4eSnHJI1+b8kW78kGlfiUxD2wMp
+         6Zhsf50YaKtQ6EkSnqbtg5am+i4/mGiaDBypmQwzEPvW9RnhDwrB0v/2bedaE6P06v4Q
+         ZfaYf4gvjlD6s2mFPq0RezNEEKnk3OjR59uY3N7NKkSQe8qIWAoQRLYEW6JoLVcTgfmF
+         83otavvXEWaE0Xmpl38lnrhMp5C6iY/L2d8ZycaK4ugTKW6eiTdxrJBE0VaM+/liRd8f
+         vtyqf0WxFxYsL2+mzT746rwOr2FXh7a/eBoNn3eXhscbCwcxB1eZnW2vMaNiwhlXrzD2
+         18mQ==
+X-Gm-Message-State: ANoB5pngdDBi93x6MCGSObzwug5RQxfo8lhM2dnbq9c3Xqe0YKC/bjO/
+	SF/4mn0o37Uiva0u4Tnm/SJDBNoItPzeclAVhOfZ/g==
+X-Google-Smtp-Source: AA0mqf65P/8YhuTIzB5uOtVFB/e5B8K82sjfNMuq3STcy75R+2yf1SLivtkeBUcBKbJjdIFHznw4OxMAJliDGgQmaHM=
+X-Received: by 2002:a02:2ace:0:b0:363:a77e:369e with SMTP id
+ w197-20020a022ace000000b00363a77e369emr14055792jaw.53.1669248745942; Wed, 23
+ Nov 2022 16:12:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221123100712.GA26377@test-zns>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+References: <dfcd682c-126d-34ab-3858-a7a7fc0afcb3@grimberg.me>
+ <20221121074039.GA24507@lst.de> <CADUfDZraHB6=i77i9Mivdf5cbUHpKxHofSZFnGhsywb=k-+y_w@mail.gmail.com>
+ <20221121175932.GM4001@paulmck-ThinkPad-P17-Gen-1> <CADUfDZrVT2tCnUkorJ94Mzd20n-Ch-8cZaSeT0LbowH3dwQ=yw@mail.gmail.com>
+ <b42a8825-a263-22fc-9f86-5c3dada173f1@grimberg.me> <20221122121449.GA3888@lst.de>
+ <6a72cb78-8f23-a612-adab-10f4fe2a2174@grimberg.me>
+In-Reply-To: <6a72cb78-8f23-a612-adab-10f4fe2a2174@grimberg.me>
+From: Caleb Sander <csander@purestorage.com>
+Date: Wed, 23 Nov 2022 16:12:15 -0800
+Message-ID: <CADUfDZpv43JmNiriEVQ_mFxZVS8QAcmbJaG3rK5KoUBaC9s17g@mail.gmail.com>
+Subject: Re: [PATCH] nvme: fix SRCU protection of nvme_ns_head list
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, paulmck@kernel.org, Keith Busch <kbusch@kernel.org>, 
+	Jens Axboe <axboe@fb.com>, linux-nvme@lists.infradead.org, 
+	Uday Shankar <ushankar@purestorage.com>
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221123_160430_048954_86C5681A 
-X-CRM114-Status: GOOD (  29.57  )
+X-CRM114-CacheID: sfid-20221123_161229_872353_ACB410F4 
+X-CRM114-Status: GOOD (  36.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,80 +86,123 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Nov 23, 2022 at 03:37:12PM +0530, Nitesh Shetty wrote:
-> On Wed, Nov 23, 2022 at 04:04:18PM +0800, Ming Lei wrote:
-> > On Wed, Nov 23, 2022 at 11:28:19AM +0530, Nitesh Shetty wrote:
-> > > Introduce blkdev_issue_copy which supports source and destination bdevs,
-> > > and an array of (source, destination and copy length) tuples.
-> > > Introduce REQ_COPY copy offload operation flag. Create a read-write
-> > > bio pair with a token as payload and submitted to the device in order.
-> > > Read request populates token with source specific information which
-> > > is then passed with write request.
-> > > This design is courtesy Mikulas Patocka's token based copy
-> > 
-> > I thought this patchset is just for enabling copy command which is
-> > supported by hardware. But turns out it isn't, because blk_copy_offload()
-> > still submits read/write bios for doing the copy.
-> > 
-> > I am just wondering why not let copy_file_range() cover this kind of copy,
-> > and the framework has been there.
-> > 
-> 
-> Main goal was to enable copy command, but community suggested to add
-> copy emulation as well.
-> 
-> blk_copy_offload - actually issues copy command in driver layer.
-> The way read/write BIOs are percieved is different for copy offload.
-> In copy offload we check REQ_COPY flag in NVMe driver layer to issue
-> copy command. But we did missed it to add in other driver's, where they
-> might be treated as normal READ/WRITE.
-> 
-> blk_copy_emulate - is used if we fail or if device doesn't support native
-> copy offload command. Here we do READ/WRITE. Using copy_file_range for
-> emulation might be possible, but we see 2 issues here.
-> 1. We explored possibility of pulling dm-kcopyd to block layer so that we 
-> can readily use it. But we found it had many dependecies from dm-layer.
-> So later dropped that idea.
+On Tue, Nov 22, 2022 at 7:08 AM Sagi Grimberg <sagi@grimberg.me> wrote:
+>
+>
+> >> 3. removes ns from head sibling list + synchronize rcu
+> >>     -> this should fence non-sleeping traversals (like revalidate_paths)
+> >
+> > Well, non-sleeping would only matter if those non-sleeping travesals
+> > are under rcu_read_lock(), but they are not.  They are either part of
+> > a longer srcu critical section because other code can sleep, or in
+> > case of revalidate_paths unprotected at all (which this patch fixes).
+>
+> The original patch comment was that rcu_read_lock/unlock would be
+> sufficient and we don't need to touch nvme_ns_remove()
+>
+> >
+> >> Maybe it is OK to have it also srcu locked and just accept that
+> >> nshead sibling list is srcu protected. In that case, your patch
+> >> needs to extend the srcu also the clearing of current_head pointer.
+> >
+> > I don't see how nvme_mpath_clear_current_path needs (S)RCU protection.
+> > It never dereferences the current_path, it just checks is for pointer
+> > equality and if they match clears it to NULL.  (I wonder if it should
+> > use cmpxchg though).
+>
+> Agree. it can stay out. because at this point it does not compete with
+> concurrent submissions due to prior synchronizations. The list traversal
+> needs to be under rcu lock.
+>
+>
+> >
+> >> But looking again at your bug report, you mention that there are
+> >> concurrent scans, one removing the ns and another accessing it.
+> >> That cannot happen due to the scan_lock held around this section afaict.
+> >>
+> >> I guess it can be that in general ns removal can compete with a scan
+> >> if due to some controller behavior that failed an identify command
+> >> transiently in a prior scan, and a subsequent scan finds it? worth
+> >> pinning down exactly what happened in the race you got because maybe we
+> >> have a different issue that may manifest in other issues.
+> >
+> > So scanning itself should be single threaded as it only happens from
+> > the workqueue.  But nvme_ns_remove can be called from
+> > nvme_remove_namespaces in in 6.1 and earlier from the passthrough
+> > handler.
+>
+> The original patch report did not include any sequence that removes all
+> namespaces, and given that it came from RockyLinux 8.6 kernel, it is not
+> 6.1... Hence I think that we need to understand how a namespace removal
+> happened at the same time that the namespace is being scanned. Maybe
+> something else is broken.
 
-Is it just because dm-kcopyd supports async copy? If yes, I believe we
-can reply on io_uring for implementing async copy_file_range, which will
-be generic interface for async copy, and could get better perf.
+We can reliably cause the panic by sending a "NS Changed" AEN
+from multiple controllers at the same time, resulting in multiple scan works
+running concurrently for the same namespace heads.
+In our test, we have 4 controllers for the same subsystem, with 9 namespaces
+that are added one at a time, resulting in many AENs for each controller.
+We can see from the dmesg logs that the controllers' scan works overlap:
+[37311.530367] nvme nvme0: queue_size 128 > ctrl sqsize 32, clamping down
+[37311.530398] nvme nvme0: creating 32 I/O queues.
+[37311.819883] nvme nvme0: mapped 32/0/0 default/read/poll queues.
+[37311.828129] nvme nvme0: new ctrl: NQN
+"nqn.2010-06.com.purestorage:flasharray.7896f4eca47b4dea", addr
+192.168.1.110:4420
+[37311.924908] nvme nvme1: queue_size 128 > ctrl sqsize 32, clamping down
+[37311.924935] nvme nvme1: creating 32 I/O queues.
+[37312.298561] nvme nvme1: mapped 32/0/0 default/read/poll queues.
+[37312.306296] nvme nvme1: new ctrl: NQN
+"nqn.2010-06.com.purestorage:flasharray.7896f4eca47b4dea", addr
+192.168.3.110:4420
+[37312.400143] nvme nvme2: queue_size 128 > ctrl sqsize 32, clamping down
+[37312.400180] nvme nvme2: creating 32 I/O queues.
+[37312.671861] nvme nvme2: mapped 32/0/0 default/read/poll queues.
+[37312.678318] nvme nvme2: new ctrl: NQN
+"nqn.2010-06.com.purestorage:flasharray.7896f4eca47b4dea", addr
+192.168.2.110:4420
+[37312.760833] nvme nvme3: queue_size 128 > ctrl sqsize 32, clamping down
+[37312.760860] nvme nvme3: creating 32 I/O queues.
+[37313.123490] nvme nvme3: mapped 32/0/0 default/read/poll queues.
+[37313.130407] nvme nvme3: new ctrl: NQN
+"nqn.2010-06.com.purestorage:flasharray.7896f4eca47b4dea", addr
+192.168.4.110:4420
+[37313.654120] nvme nvme3: rescanning namespaces.
+[37313.654152] nvme nvme2: rescanning namespaces.
+[37313.654867] nvme0n1: detected capacity change from 0 to 11811160064
+[37313.654876] nvme0n1: detected capacity change from 0 to 11811160064
+[37313.655573] nvme nvme0: rescanning namespaces.
+[37313.655694] nvme nvme1: rescanning namespaces.
+[37313.656405] nvme0n1: detected capacity change from 0 to 11811160064
+[37313.656445] nvme0n1: detected capacity change from 0 to 11811160064
+[37313.897745] nvme nvme3: rescanning namespaces.
+[37313.897748] nvme nvme2: rescanning namespaces.
+[37313.898614] nvme0n2: detected capacity change from 0 to 11811160064
+[37313.907348] nvme nvme0: rescanning namespaces.
+[37313.907409] nvme nvme1: rescanning namespaces.
+[37314.191586] nvme nvme2: rescanning namespaces.
+[37314.191589] nvme nvme3: rescanning namespaces.
+[37314.193241] nvme nvme0: rescanning namespaces.
+[37314.193303] nvme nvme1: rescanning namespaces.
+[37314.205965] nvme0n3: detected capacity change from 0 to 11811160064
+[37314.206026] nvme0n3: detected capacity change from 0 to 11811160064
+[37314.206036] BUG: unable to handle kernel NULL pointer dereference
+at 0000000000000050
+[37314.206036] nvme0n3: detected capacity change from 0 to 11811160064
 
-> 2. copy_file_range, for block device atleast we saw few check's which fail
-> it for raw block device. At this point I dont know much about the history of
-> why such check is present.
+I don't see any mechanism to prevent scan work from running concurrently.
+scan_lock is per-controller, but there are 4 controllers in our test.
+I'm not very familiar with work queues in Linux, but it looks like they can run
+multiple pieces of work concurrently.
+The nvme-wq appears not CPU bound and has a high max concurrency:
+$ cat /sys/bus/workqueue/devices/nvme-wq/per_cpu
+0
+$ cat /sys/bus/workqueue/devices/nvme-wq/max_active
+256
 
-Got it, but IMO the check in generic_copy_file_checks() can be
-relaxed to cover blkdev cause splice does support blkdev.
+At the end of the scan, nvme_remove_invalid_namespaces() is called,
+which I think explains how we end up with namespace removals during the scans.
 
-Then your bdev offload copy work can be simplified into:
-
-1) implement .copy_file_range for def_blk_fops, suppose it is
-blkdev_copy_file_range()
-
-2) inside blkdev_copy_file_range()
-
-- if the bdev supports offload copy, just submit one bio to the device,
-and this will be converted to one pt req to device
-
-- otherwise, fallback to generic_copy_file_range()
-
-> 
-> > When I was researching pipe/splice code for supporting ublk zero copy[1], I
-> > have got idea for async copy_file_range(), such as: io uring based
-> > direct splice, user backed intermediate buffer, still zero copy, if these
-> > ideas are finally implemented, we could get super-fast generic offload copy,
-> > and bdev copy is really covered too.
-> > 
-> > [1] https://lore.kernel.org/linux-block/20221103085004.1029763-1-ming.lei@redhat.com/
-> > 
-> 
-> Seems interesting, We will take a look into this.
-
-BTW, that is probably one direction of ublk's async zero copy IO too.
-
-
-Thanks, 
-Ming
-
+Thanks,
+Caleb
 
