@@ -4,65 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A2B6C433FE
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Nov 2022 03:09:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 227B7C433FE
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Nov 2022 09:21:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mzGT2mQrVWHnWoQIAeUusaLtcvrKM1m3onE3Ahgy4sA=; b=T/ChTqHEiugmMQ5FAYrRgJsYRZ
-	xTPLVNw3BiZ98gzlKn/yVdsTiEpBU807ULD+CVZLlGsyhiWGdLg2t5WObBFYHNUo2bdiQ+bcHIBb5
-	n6OY5/gYNeF/OYK0/jJwnon93fU6sJoV5Fo3Md1cObBRoBpS7goqSPb11kp5qyCW+HXcrHxs5cOHr
-	UqkkjZxgkoV1WwBP1uyZxxFnLE6zWlF9UprKUl/SuKYhRoV5n/KvbTFK4NToMCAvljWdY4Za8PfHM
-	34XhGHrQtwVwCTgrKybcX/5VOnqDzNbBN2jKLNUsSg/nXtD3uy5n+wJ2wYOdZ0iQU7h736G5lkq3/
-	+PJ6Px9g==;
+	bh=QsKJOGKIbg80tTKBjJ/rrifEqPiEPWzu4lpqlu/8xho=; b=rwSCDrNRnsIk4ZakMasp/nPBoB
+	DfmsvcbnIgZo2TQQpqIoTzGxR8U+1qto1gb/Vewz6Zh9Hfdu3w028eKmqoizvwEZuvTRbeEGDp8jr
+	/2YsPv4U/n/x7b1IC9UpdMXu0lgMpmZs6MwzRAv+wTXdDPI1jEoBo8CFqgurHw0LKiLZxY5WrZIBU
+	UNmFXc8sIozjCYtSItWjIw2h2ptJ9xbKa2kte2RIuyt355WjEBC8ema2bONR3aNNLkqxdd6WnDQTZ
+	YJFy6TbsERp7OOB1uHNFilx8ZPK5ZHYA4jS+TfxFZJghQn29DO0jH/86xvM8aFr9KvqnTXa8tN6aq
+	R7PkfiVQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oy2bu-0049iC-Us; Thu, 24 Nov 2022 03:09:10 +0000
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+	id 1oy8QM-0071V9-CT; Thu, 24 Nov 2022 09:21:38 +0000
+Received: from szxga02-in.huawei.com ([45.249.212.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oy2br-0049cj-9H
-	for linux-nvme@lists.infradead.org; Thu, 24 Nov 2022 03:09:09 +0000
-Received: from canpemm500002.china.huawei.com (unknown [172.30.72.55])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NHjcT1l8mzmVxP;
-	Thu, 24 Nov 2022 11:08:25 +0800 (CST)
-Received: from [10.169.59.127] (10.169.59.127) by
- canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
+	id 1oy8QF-0071Q6-Kg
+	for linux-nvme@lists.infradead.org; Thu, 24 Nov 2022 09:21:33 +0000
+Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.56])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NHstC6XH3zRpGg;
+	Thu, 24 Nov 2022 17:20:51 +0800 (CST)
+Received: from dggpeml500003.china.huawei.com (7.185.36.200) by
+ dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 24 Nov 2022 11:08:57 +0800
-Subject: Re: [PATCH] nvme: fix SRCU protection of nvme_ns_head list
-To: Caleb Sander <csander@purestorage.com>, Sagi Grimberg <sagi@grimberg.me>
-CC: Christoph Hellwig <hch@lst.de>, <paulmck@kernel.org>, Keith Busch
-	<kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
-	<linux-nvme@lists.infradead.org>, Uday Shankar <ushankar@purestorage.com>
-References: <dfcd682c-126d-34ab-3858-a7a7fc0afcb3@grimberg.me>
- <20221121074039.GA24507@lst.de>
- <CADUfDZraHB6=i77i9Mivdf5cbUHpKxHofSZFnGhsywb=k-+y_w@mail.gmail.com>
- <20221121175932.GM4001@paulmck-ThinkPad-P17-Gen-1>
- <CADUfDZrVT2tCnUkorJ94Mzd20n-Ch-8cZaSeT0LbowH3dwQ=yw@mail.gmail.com>
- <b42a8825-a263-22fc-9f86-5c3dada173f1@grimberg.me>
- <20221122121449.GA3888@lst.de>
- <6a72cb78-8f23-a612-adab-10f4fe2a2174@grimberg.me>
- <CADUfDZpv43JmNiriEVQ_mFxZVS8QAcmbJaG3rK5KoUBaC9s17g@mail.gmail.com>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <74744cc8-037f-7329-7337-5dd180d6e9a5@huawei.com>
-Date: Thu, 24 Nov 2022 11:08:56 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+ 15.1.2375.31; Thu, 24 Nov 2022 17:21:23 +0800
+Received: from [10.174.179.247] (10.174.179.247) by
+ dggpeml500003.china.huawei.com (7.185.36.200) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 24 Nov 2022 17:21:22 +0800
+Message-ID: <e91b4ece-8f93-2029-8d3d-e93411dea9bf@huawei.com>
+Date: Thu, 24 Nov 2022 17:21:22 +0800
 MIME-Version: 1.0
-In-Reply-To: <CADUfDZpv43JmNiriEVQ_mFxZVS8QAcmbJaG3rK5KoUBaC9s17g@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.169.59.127]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- canpemm500002.china.huawei.com (7.192.104.244)
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: question about CVE-2022-3169
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <144969fe-3764-d5eb-587a-79c4fd195076@huawei.com>
+ <b583ecf6-950f-b681-054d-3a4ebaee7e73@nvidia.com>
+From: "linan (AK)" <linan122@huawei.com>
+In-Reply-To: <b583ecf6-950f-b681-054d-3a4ebaee7e73@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.179.247]
+X-ClientProxiedBy: dggpeml500020.china.huawei.com (7.185.36.88) To
+ dggpeml500003.china.huawei.com (7.185.36.200)
 X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221123_190907_711468_707DFDC7 
-X-CRM114-Status: GOOD (  34.92  )
+X-CRM114-CacheID: sfid-20221124_012131_897982_F55643AE 
+X-CRM114-Status: UNSURE (   9.15  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,145 +72,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 2022/11/24 8:12, Caleb Sander wrote:
-> On Tue, Nov 22, 2022 at 7:08 AM Sagi Grimberg <sagi@grimberg.me> wrote:
->>
->>
->>>> 3. removes ns from head sibling list + synchronize rcu
->>>>      -> this should fence non-sleeping traversals (like revalidate_paths)
->>>
->>> Well, non-sleeping would only matter if those non-sleeping travesals
->>> are under rcu_read_lock(), but they are not.  They are either part of
->>> a longer srcu critical section because other code can sleep, or in
->>> case of revalidate_paths unprotected at all (which this patch fixes).
->>
->> The original patch comment was that rcu_read_lock/unlock would be
->> sufficient and we don't need to touch nvme_ns_remove()
->>
->>>
->>>> Maybe it is OK to have it also srcu locked and just accept that
->>>> nshead sibling list is srcu protected. In that case, your patch
->>>> needs to extend the srcu also the clearing of current_head pointer.
->>>
->>> I don't see how nvme_mpath_clear_current_path needs (S)RCU protection.
->>> It never dereferences the current_path, it just checks is for pointer
->>> equality and if they match clears it to NULL.  (I wonder if it should
->>> use cmpxchg though).
->>
->> Agree. it can stay out. because at this point it does not compete with
->> concurrent submissions due to prior synchronizations. The list traversal
->> needs to be under rcu lock.
->>
->>
->>>
->>>> But looking again at your bug report, you mention that there are
->>>> concurrent scans, one removing the ns and another accessing it.
->>>> That cannot happen due to the scan_lock held around this section afaict.
->>>>
->>>> I guess it can be that in general ns removal can compete with a scan
->>>> if due to some controller behavior that failed an identify command
->>>> transiently in a prior scan, and a subsequent scan finds it? worth
->>>> pinning down exactly what happened in the race you got because maybe we
->>>> have a different issue that may manifest in other issues.
->>>
->>> So scanning itself should be single threaded as it only happens from
->>> the workqueue.  But nvme_ns_remove can be called from
->>> nvme_remove_namespaces in in 6.1 and earlier from the passthrough
->>> handler.
->>
->> The original patch report did not include any sequence that removes all
->> namespaces, and given that it came from RockyLinux 8.6 kernel, it is not
->> 6.1... Hence I think that we need to understand how a namespace removal
->> happened at the same time that the namespace is being scanned. Maybe
->> something else is broken.
+在 2022/11/11 9:37, Chaitanya Kulkarni 写道:
+> Lian,
 > 
-> We can reliably cause the panic by sending a "NS Changed" AEN
-> from multiple controllers at the same time, resulting in multiple scan works
-> running concurrently for the same namespace heads.
-> In our test, we have 4 controllers for the same subsystem, with 9 namespaces
-> that are added one at a time, resulting in many AENs for each controller.
-> We can see from the dmesg logs that the controllers' scan works overlap:
-> [37311.530367] nvme nvme0: queue_size 128 > ctrl sqsize 32, clamping down
-> [37311.530398] nvme nvme0: creating 32 I/O queues.
-> [37311.819883] nvme nvme0: mapped 32/0/0 default/read/poll queues.
-> [37311.828129] nvme nvme0: new ctrl: NQN
-> "nqn.2010-06.com.purestorage:flasharray.7896f4eca47b4dea", addr
-> 192.168.1.110:4420
-> [37311.924908] nvme nvme1: queue_size 128 > ctrl sqsize 32, clamping down
-> [37311.924935] nvme nvme1: creating 32 I/O queues.
-> [37312.298561] nvme nvme1: mapped 32/0/0 default/read/poll queues.
-> [37312.306296] nvme nvme1: new ctrl: NQN
-> "nqn.2010-06.com.purestorage:flasharray.7896f4eca47b4dea", addr
-> 192.168.3.110:4420
-> [37312.400143] nvme nvme2: queue_size 128 > ctrl sqsize 32, clamping down
-> [37312.400180] nvme nvme2: creating 32 I/O queues.
-> [37312.671861] nvme nvme2: mapped 32/0/0 default/read/poll queues.
-> [37312.678318] nvme nvme2: new ctrl: NQN
-> "nqn.2010-06.com.purestorage:flasharray.7896f4eca47b4dea", addr
-> 192.168.2.110:4420
-> [37312.760833] nvme nvme3: queue_size 128 > ctrl sqsize 32, clamping down
-> [37312.760860] nvme nvme3: creating 32 I/O queues.
-> [37313.123490] nvme nvme3: mapped 32/0/0 default/read/poll queues.
-> [37313.130407] nvme nvme3: new ctrl: NQN
-> "nqn.2010-06.com.purestorage:flasharray.7896f4eca47b4dea", addr
-> 192.168.4.110:4420
-> [37313.654120] nvme nvme3: rescanning namespaces.
-> [37313.654152] nvme nvme2: rescanning namespaces.
-> [37313.654867] nvme0n1: detected capacity change from 0 to 11811160064
-> [37313.654876] nvme0n1: detected capacity change from 0 to 11811160064
-> [37313.655573] nvme nvme0: rescanning namespaces.
-> [37313.655694] nvme nvme1: rescanning namespaces.
-> [37313.656405] nvme0n1: detected capacity change from 0 to 11811160064
-> [37313.656445] nvme0n1: detected capacity change from 0 to 11811160064
-> [37313.897745] nvme nvme3: rescanning namespaces.
-> [37313.897748] nvme nvme2: rescanning namespaces.
-> [37313.898614] nvme0n2: detected capacity change from 0 to 11811160064
-> [37313.907348] nvme nvme0: rescanning namespaces.
-> [37313.907409] nvme nvme1: rescanning namespaces.
-> [37314.191586] nvme nvme2: rescanning namespaces.
-> [37314.191589] nvme nvme3: rescanning namespaces.
-> [37314.193241] nvme nvme0: rescanning namespaces.
-> [37314.193303] nvme nvme1: rescanning namespaces.
-> [37314.205965] nvme0n3: detected capacity change from 0 to 11811160064
-> [37314.206026] nvme0n3: detected capacity change from 0 to 11811160064
-> [37314.206036] BUG: unable to handle kernel NULL pointer dereference
-> at 0000000000000050
-> [37314.206036] nvme0n3: detected capacity change from 0 to 11811160064
+> On 11/10/22 02:23, linan (AK) wrote:
+>> Hi,
+>> 1e866afd4bcd("nvme: ensure subsystem reset is single threaded")
+>> fixed CVE-2022-3169.
+>>
+>> IIUC, ERROR path I got in this CVE:
+>>              CPU1                                CPU2
+>> nvme_dev_ioctl                            nvme_dev_ioctl
+>>     nvme_reset_ctrl_sync                      nvme_reset_subsystem
+>>         reset_work
+>>           nvme_reset_work
+>>             nvme_setup_io_queues
+>>               nvme_remap_bar(dev, size)
+>>                 if (size <= dev->bar_mapped_size)
+>>                   return 0;
+>>                 iounmap
+>>                                                 reg_write32   //error
+>>                 ioremap
+>>
+>> In nvme_remap_bar(), the premise of ioremap is "size >
+>> dev->bar_mapped_size".
+>>     size = NVME_REG_DBS + ((nr_io_queues + 1) * 8 * dev->db_stride);
+>>       1)nr_io_queue = dev->nr_allocated_queues - 1, Onece set to
+>> "nvme_max_io_queues(dev) + 1" during probe time, it could not change.
+>>       2)db_stride is doorbell stride, it didn't change during my test
+>> Therefore, I cant find a way to make iounmap happen.
+>>
+>> Could you tell me how you trigger the ERROR?
+>>
+>> Thanks,
+>> Nan.
+>>
 > 
-> I don't see any mechanism to prevent scan work from running concurrently.
-> scan_lock is per-controller, but there are 4 controllers in our test.
-> I'm not very familiar with work queues in Linux, but it looks like they can run
-> multiple pieces of work concurrently.
-> The nvme-wq appears not CPU bound and has a high max concurrency:
-> $ cat /sys/bus/workqueue/devices/nvme-wq/per_cpu
-> 0
-> $ cat /sys/bus/workqueue/devices/nvme-wq/max_active
-> 256
+> Do you have a script to reproduce this ?
 > 
-> At the end of the scan, nvme_remove_invalid_namespaces() is called,
-> which I think explains how we end up with namespace removals during the scans.
-work should not concurrent.
-ctrl->scan_lock also should not ineffective.
-I guess the reason is that the nsid of ns_list reported by the target is not in ascending order.
-Of course, there is a problem with the robustness of the code on the host side.
-You can try this patch:
-  drivers/nvme/host/core.c | 2 ++
-  1 file changed, 2 insertions(+)
+> -ck
+> 
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index c78a5825a057..ebf751cc3855 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4467,6 +4467,8 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl)
-
-                         if (!nsid)      /* end of the list? */
-                                 goto out;
-+                       if (nsid <= prev)
-+                               continue;
-                         nvme_scan_ns(ctrl, nsid);
-                         while (++prev < nsid)
-                                 nvme_ns_remove_by_nsid(ctrl, prev);
-
+I can't reproduce it. "cause the driver to unbind from the device at the 
+same time as sending a subsystem reset", you can have a try like Keith said.
 
