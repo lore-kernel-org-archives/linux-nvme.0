@@ -4,45 +4,141 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16192C4321E
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Nov 2022 13:40:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39D04C4321E
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Nov 2022 13:41:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iDCaGNbhJBpYKaYvf32Z+3xmSoCEeB5oRomEJngpDq0=; b=zZp2cv/M/S8LFZwewk1OMF6IEn
-	/Uk+YMYTMb33i7ZI4Xm3rSV26y29NQs+bH9m6a0eMSoxu6dMn+Lr93ine3t3n/RWpDxT8jwMw7Ujl
-	hLo2AZqHprbxHZKtdv6sWUivad4USpYrNFfOqyHzDvHsv4o3K50Oz2u0Pnu43cRDt6tByfL/QACb4
-	g9TFFcg3pL31VVkff6Ra/D2nOgDhyMnoODm7X28rMctUtpiC0/q8NbKwPGyi+LjowkelwdUlndIlK
-	eGD8RNC5ePLqbGW2P4q0PwfQTxMUl0pugrSK218i/EMyuXLgHUMzgav7T/Poqa5bCWXOZIdvob+65
-	4vczp+lg==;
+	bh=0pWGjvANPUvTa3dYIQwedngLsOojYGWVDq6llT6gHoU=; b=zV0wG5zxrRzeC73HXGEfBZD/PE
+	QVzbJwAFTdhOjXCDqskQfb/UR+JkIAbjHAVEDeJltbtznegoKIyjJdvf+1qRu//+6inmKBqd85y2j
+	ulWFDwKQlSOAyTk2aOuxrBXFwDwsNFwOTTNpNH7swlWMW1ZHzk0P60UlEgotij+KGe/DAAZQprOmH
+	vEqrAK41CCz861hAPLLtMvI3JKlSIs2eHgP9gLjlp1XGwa4zTnBMgBr1r0RX3ikILq5rUY0ZjMNDa
+	nfHpW7F0hK1Ukp+hnund4z/S2m/55HxfEazVspDO+PFqmST6+bdb+zljjWqnuw3DVcSGOMJh06EBF
+	qKkDHy8A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p00r1-008tPf-W6; Tue, 29 Nov 2022 13:40:56 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1p00rT-008tho-Mw; Tue, 29 Nov 2022 13:41:23 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p00qt-008tMi-Ev
-	for linux-nvme@lists.infradead.org; Tue, 29 Nov 2022 13:40:48 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id A49156732D; Tue, 29 Nov 2022 14:40:42 +0100 (CET)
-Date: Tue, 29 Nov 2022 14:40:42 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Zhang Qilong <zhangqilong3@huawei.com>
-Cc: sagi@grimberg.me, hare@suse.de, kbusch@kernel.org, hch@lst.de,
-	axboe@fb.com, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2] nvme: fix memleak in nvme_ctrl_dhchap_secret_store()
-Message-ID: <20221129134042.GB13668@lst.de>
-References: <20221122044929.27600-1-zhangqilong3@huawei.com> <20221129084725.GB26082@lst.de>
+	id 1p00rO-008tdA-C3
+	for linux-nvme@lists.infradead.org; Tue, 29 Nov 2022 13:41:20 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20221129134113epoutp03ccbe73e4422a5a8ae77f2d5e3c6d9cfe~sEe1xn3DQ2130621306epoutp03v
+	for <linux-nvme@lists.infradead.org>; Tue, 29 Nov 2022 13:41:13 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20221129134113epoutp03ccbe73e4422a5a8ae77f2d5e3c6d9cfe~sEe1xn3DQ2130621306epoutp03v
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1669729273;
+	bh=0pWGjvANPUvTa3dYIQwedngLsOojYGWVDq6llT6gHoU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=WnYR49PujOqcUbiHT1RsfR9NGbw/ww/QHo2efH49uqDTPTNR2MldCFUTw7isLX7Ey
+	 NeTFIRmSkybGzGUSoXnZSWc26bhvIcDQGaBbJ8y+GhEN9VelO8J9VoWzloph/5EBVM
+	 0wHWribQWa/h8QWdzxZAsIGsmP5GSTtXIfkf52+w=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20221129134112epcas5p3952d6737265a7cced70c5b9b42f44fb7~sEe1UCJyF1247612476epcas5p3C;
+	Tue, 29 Nov 2022 13:41:12 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.175]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4NM3QH1RHTz4x9Pt; Tue, 29 Nov
+	2022 13:41:11 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	F9.D7.39477.6FB06836; Tue, 29 Nov 2022 22:41:11 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20221129122758epcas5p4903125cb05fb36a5fdd4d89dd7c4a0a2~sDe5LYffZ1886718867epcas5p4I;
+	Tue, 29 Nov 2022 12:27:58 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20221129122758epsmtrp213e89db4e58bd0a233dd3b860258c1bf~sDe5Iyxd20446004460epsmtrp2E;
+	Tue, 29 Nov 2022 12:27:58 +0000 (GMT)
+X-AuditID: b6c32a4a-007ff70000019a35-c9-63860bf62376
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+	3D.0B.18644.ECAF5836; Tue, 29 Nov 2022 21:27:58 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20221129122755epsmtip1895a7d26f3d2b28585636e34b555dfa4~sDe2Jo09q2443424434epsmtip1U;
+	Tue, 29 Nov 2022 12:27:55 +0000 (GMT)
+Date: Tue, 29 Nov 2022 17:46:34 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"agk@redhat.com" <agk@redhat.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "axboe@kernel.dk" <axboe@kernel.dk>,
+	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "sagi@grimberg.me"
+	<sagi@grimberg.me>, "anuj20.g@samsung.com" <anuj20.g@samsung.com>,
+	"joshi.k@samsung.com" <joshi.k@samsung.com>, "p.raghav@samsung.com"
+	<p.raghav@samsung.com>, "naohiro.aota@wdc.com" <naohiro.aota@wdc.com>,
+	"damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
+	"snitzer@kernel.org" <snitzer@kernel.org>, "kbusch@kernel.org"
+	<kbusch@kernel.org>, "jth@kernel.org" <jth@kernel.org>,
+	"nitheshshetty@gmail.com" <nitheshshetty@gmail.com>,
+	"james.smart@broadcom.com" <james.smart@broadcom.com>,
+	"gost.dev@samsung.com" <gost.dev@samsung.com>, "dm-devel@redhat.com"
+	<dm-devel@redhat.com>, "hch@lst.de" <hch@lst.de>,
+	"shinichiro.kawasaki@wdc.com" <shinichiro.kawasaki@wdc.com>
+Subject: Re: [PATCH v5 00/10] Implement copy offload support
+Message-ID: <20221129121634.GB16802@test-zns>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221129084725.GB26082@lst.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <cd772b6c-90ae-f2d1-b71c-5d43f10891bf@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Ta0xTZxjH857TnrbccgSUVxTBOhNAi9SV7kWBYQQ5MmKIzixxWVhXjoVA
+	L7RFkS9yVbkoQsRt3QRUwHGZhMK4CsOiq0AImQwGjIowZozMdlCWRhFYS8vit9/zz/N/Lu+T
+	l427l7O82ckyNa2UiVK5hBOjrT/An2dxviQObjRiqGnwFxzlXF/FUYOhhECmh38y0crwCI56
+	jN8x0WRfJ4bqGh5jqPv2IoYer78m0OzyFAOV6cYB6pnahx70DDDQaNf3BKqs/YuFSvUtTNQx
+	nw2QuSaPhe4vmBioV3McPZnagUZW9cxIL0ozM0xQnRoDixp51sygRofTKW19AUG1VF+kuiez
+	COpqrtGakD/DpEy9YwR1rbUeUGbtLupyXxFGaedfY/FuZ1LCkmhRIq30o2VieWKyTBLO/eRU
+	wtGEEGEwn8cPRR9x/WQiKR3OjYqL5x1LTrWuz/U7J0pNt0rxIpWKeyAiTClPV9N+SXKVOpxL
+	KxJTFQJFkEokVaXLJEEyWn2IHxx8MMSa+GVK0g3dBKawOGcsXWsnssAcpxBw2JAUQEvdBF4I
+	nNjuZDeAlWv9LHuwBOCt4mpgD8wAro5ZWJuWCf20w9IFoH7hR0fWCwCXm7QMWxaD3Au1T5uJ
+	QsBmE+Q+OLTOtsmeZBAcm5rYaIGTz9iwfOjpRlUPMgy2/PoTYWNXkgff5LQ7eAsc+HZ+oyaH
+	jIB5hrdMG28l98C+Nj1mKwTJBg78Y+E2sI8XBSdmZx3sAV/pWx1je0OzsYew83lYd+MHwm7O
+	A1Dzu8Zh+BjmD5bgNsbJJNi0lOPQfWD54H3MrrvBqyvzmF13hR0Vm7wHNjZVORpsh+OWbAdT
+	8O9G08YG7qQOwPGfna8DX817y2nea2fn/bCqe4nQWB8PJ3fAe2tsOwbApq4DVYBZD7bTCpVU
+	QqtCFAdl9Pn/Ty6WS7Vg438ExnaA2ef/BOkAxgbWrmyc6+m6eDJf7O6aKLqQSSvlCcr0VFql
+	AyHWY5Xi3lvFcusHk6kT+ILQYIFQKBSEfijkc71c734TKHYnJSI1nULTClq56cPYHO8s7ALn
+	zWc1BjQuPRVtqiUsKK1997YZXu7ipwXCw2tHmCdYt0yec4dc/Avno97FlNVkyn0D+nfHCI8n
+	Fivq38kqlqsvR8Qad9ZlRIWHeky9vFOs/eIr4mgFZ/ql5wq/oSsje+9D4vOLZ58cDoiWCwXO
+	206UnnFhFv2r/41qGepbKbsSV3C6k5qT17jEZnEnTTuxR70+016+BobEgE9/ra58EOk/G2vQ
+	+YAXTrNb1i89z0uoTclb0kkCzZKz+1+NdZC72j849/bezbS2TOIu9DjZdqeyXFMijK5eTDMn
+	ZUdKjVrekZioRstoeisjoPl0hFOmc1rcwFzglVyPjmMZRXy3R1yGKknED8SVKtF/MTinN6gE
+	AAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA02RfUhTYRTGe++9u7sbrK5f+aplsIpi4cpa9v4hkUZ0g4ioiDBIl97UdCa7
+	fqQhmWnRJLOIylVUpsVmaG5Z2tpalk1naiWGWW6lSzOZ32Bfc7VZ1H8P5/k9zzlwKNz3DRFM
+	JadlsMo0eaqYFBL3n4pDw9q/F8WvcrvDUY31OY4KSl04quo9Q6LRJ/089KOtA0fGkcs89Nbc
+	gCFNVROGDDfGMdTkdpLo41QPgc41vgHI2LMCPTK2EKjz4RUSXbv1iY/OWvQ8VO84BtBkZSEf
+	VQ+PEsik3oKae0JQh8vC2xDIqO1tJNOg7uUzHbZagulsy2R02lMko684yhje5pPM6eMjv4Ei
+	O48ZNXWRTMk9LWAmdaHMSXMxxugcTmz73BhhZAKbmpzFKleujxMm9VmukukPBIddpVd5+cDA
+	VwEBBWkZ7La8x1VASPnS9QDWdo6AWSMI3nI9w2e1H9TMDPJnIQeA181TXoigl0Ld61pSBSiK
+	pFfAVjflGfvTUtjV0+3lcfozBcsnBr1FfnQk1L+qIz1aRIfBbwUPyNnSRgCrvhX/MXxgS5mD
+	8GiclsDumSHMswCnQ+DtGe8CAb0eFvZ+53l0AL0Ymu9bsFLgo/4vrf4vrf6Xvg5wLQhi0zlF
+	ooILT1+dxmZLObmCy0xLlMYfUuiA9/USST14pB2TNgKMAr9Po3Cxv2h8R1G8ryhBnpPLKg/F
+	KjNTWa4RhFCEOFD0UtUS60snyjPYFJZNZ5V/XYwSBOdjzQa9LXrx8MIjp6wG1dD5cyfmJ8F4
+	WV5ZrFWaE5WUykXJ7ZVrYdc75zrZdPlQeYNTZGvXhOl2RGC7L9Zxoxnm22sW9OmnKkTtu5ML
+	Qq0uTVa21v9CgtzHdqI5Yq0BtBp3KezrNI8L907XzJNIddoocc6ca2Fx+9iInZvGBhbQugGF
+	aTAWE7ps1NZ+ILhkuXPTfmb/orqsEv6mn4vuEheDA4wHR4jhVdGKyurAFPcBmWwJuTFgvjNm
+	Tu3mmqZtL9Z8KAjKOelnLcmN00wv25brH32vZbJyaKpto+lnRV6Gq3fuxzEHPs9UvOdLoOKL
+	ZMmEmpjRLhd+xcokBy81iQkuSR4uwZWc/Be6kX6QaQMAAA==
+X-CMS-MailID: 20221129122758epcas5p4903125cb05fb36a5fdd4d89dd7c4a0a2
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----GsYAgckb8ZPIB7TqR4NYyp-jgnPv5c.LE-kW9H5hDU_d1TDU=_7d164_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20221123061010epcas5p21cef9d23e4362b01f2b19d1117e1cdf5
+References: <CGME20221123061010epcas5p21cef9d23e4362b01f2b19d1117e1cdf5@epcas5p2.samsung.com>
+	<20221123055827.26996-1-nj.shetty@samsung.com>
+	<cd772b6c-90ae-f2d1-b71c-5d43f10891bf@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221129_054047_692960_0CBDDD29 
-X-CRM114-Status: GOOD (  12.92  )
+X-CRM114-CacheID: sfid-20221129_054118_802253_FC9CBE91 
+X-CRM114-Status: GOOD (  22.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -57,14 +153,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 29, 2022 at 09:47:25AM +0100, Christoph Hellwig wrote:
-> Thanks,
+------GsYAgckb8ZPIB7TqR4NYyp-jgnPv5c.LE-kW9H5hDU_d1TDU=_7d164_
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+
+On Wed, Nov 23, 2022 at 10:56:23PM +0000, Chaitanya Kulkarni wrote:
+> (+ Shinichiro)
 > 
-> applied to nvme-6.1.
+> On 11/22/22 21:58, Nitesh Shetty wrote:
+> > The patch series covers the points discussed in November 2021 virtual
+> > call [LSF/MM/BFP TOPIC] Storage: Copy Offload [0].
+> > We have covered the initial agreed requirements in this patchset and
+> > further additional features suggested by community.
+> > Patchset borrows Mikulas's token based approach for 2 bdev
+> > implementation.
+> > 
+> > This is on top of our previous patchset v4[1].
+> 
+> Now that series is converging, since patch-series touches
+> drivers and key components in the block layer you need accompany
+> the patch-series with the blktests to cover the corner cases in the
+> drivers which supports this operations, as I mentioned this in the
+> call last year....
+> 
+> If you need any help with that feel free to send an email to linux-block
+> and CC me or Shinichiro (added in CC )...
+> 
+> -ck
+>
 
-And I had to fix it to actually pass all the correct paramters to
-kmemdup, so it looks like this code wasn't even compile test.
+Yes any help would be appreciated. I am not familiar with blktest 
+development/testing cycle. Do we need add blktests along with patch 
+series or do we need to add after patch series gets merged(to be merged)?
 
-Btw, how can nvme_ctrl_dhchap_secret_store work without any kind
-of locking?
+Thanks
+Nitesh
+
+------GsYAgckb8ZPIB7TqR4NYyp-jgnPv5c.LE-kW9H5hDU_d1TDU=_7d164_
+Content-Type: text/plain; charset="utf-8"
+
+
+------GsYAgckb8ZPIB7TqR4NYyp-jgnPv5c.LE-kW9H5hDU_d1TDU=_7d164_--
 
