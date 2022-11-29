@@ -4,64 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A02AC433FE
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Nov 2022 15:44:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9346EC433FE
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Nov 2022 16:04:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tG4T1xWKob7yml10DfZ3BDvmY7iemrYhXge2pLvvfuw=; b=oZ3dwUWPD1Lj8sUEGNYhH6q6RD
-	o6ftbmNwu3+g1QdeaXYFF49WE67lb1QQLhVuR24nDHytoc0D+bkTKbbbn907YsljS4UUxEeM9AFY5
-	C0oZzsHxC0W3mRxEtGZaXYScusPpyi4JNJBtaz74tc9uBUA9PzWmY0qe6U9jliq6AcIZSul8NHsb9
-	/lgLNGkAURpXDszfNjqfVkx36nosi4KF6uOqGoidT//QTx2XuA3PuXAkVJrxqEx85Eh+i+GIqYB0t
-	nKN9L+Eyl9ztiW9PIrlgHNmmPcXp5WhqN4w+dqRTT1jCd/2DKdOnx6aZDwCvd+esLI6z+dRwu7a+N
-	/ulBOT9Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dxMrIRuI8XL9/2L/5QCWGQzHb14K/VQG03dRspTYCG8=; b=U8ODV2/iF5aePjkZeXv+i8QU9K
+	CZwiC8ao5zrD5Q46n7bDF6lSf9VTlWxXnYgLT5cPTputCyhjuxM1Zuoqlg0EHIF9E58N40vJVYix5
+	U+j7yEcFMzVHA1dPLtTMMPsq8rbHiXZt9U3hBtwE/qonS0ZcK4RwZNDH959yfRA+vqzWafuAAJctX
+	bkghdw8e1eb6ty7cf/XjWZhOEgEzn08gBHb+0l/NHaOAzSTc3xHzDnvDFMeR2qihTmNuEl11plSB1
+	G05M4MEAxzLto1Iuem1jBr+Y5HxdSUQ7icDQd1FkdhKuxM9kEm9aHdsV/oZa8vLpQ1pD+Oqo2Dv3n
+	89T3J+vw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p02n0-009ovy-1d; Tue, 29 Nov 2022 15:44:54 +0000
-Received: from marcansoft.com ([212.63.210.85] helo=mail.marcansoft.com)
+	id 1p035T-009wPF-I8; Tue, 29 Nov 2022 16:03:59 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p02mw-009otA-TA
-	for linux-nvme@lists.infradead.org; Tue, 29 Nov 2022 15:44:52 +0000
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 354AD3FB17;
-	Tue, 29 Nov 2022 15:44:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1669736685; bh=IfCJDDsMxLt3kfJAUMqL3Z5NTpKU0kkU/7mULCjG3/c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=b0VCUKLCOQx9ZwxMoDrbbRz3phbpMxUcdB/NcyXHeRfHp0UiBRQDJAEglxY9p/VBe
-	 zysSMswCoTy3xEIaDh6anjk9BCGKhkDoJCX5b5VTUxBeScxEmq+iz3zQvaAS6WGEyt
-	 MwYuPb1i9ZN1PWgFGRRExzNUS1uS/0hSChvsWkHRCOAjcxlq48wiKNkHIbiU21Xh03
-	 32i9jOWLJG9MO+PiVVRdmI+Q1OZTsbxsnBZGABnOgqCctS3KBrKbHFjFdLhP6GFIwW
-	 z+hTxRqus18bgYUdTyXyTW3YShyEuzjkMNP+Z6+FHf4DK6Wsgsn6jeHIPX0WGkjyY+
-	 dft2sxN5ABHWQ==
-Message-ID: <19d69d30-6bf9-aa4a-8f75-4e8f1163bfaf@marcan.st>
-Date: Wed, 30 Nov 2022 00:44:38 +0900
+	id 1p01CC-0092YJ-92; Tue, 29 Nov 2022 14:02:49 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 7710168BEB; Tue, 29 Nov 2022 15:02:42 +0100 (CET)
+Date: Tue, 29 Nov 2022 15:02:42 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Benjamin Coddington <bcodding@redhat.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
+	Jens Axboe <axboe@kernel.dk>, Josef Bacik <josef@toxicpanda.com>,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, Lee Duncan <lduncan@suse.com>,
+	Chris Leech <cleech@redhat.com>,
+	Mike Christie <michael.christie@oracle.com>,
+	"James E.J. Bottomley" <jejb@linux.ibm.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Valentina Manea <valentina.manea.m@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	David Howells <dhowells@redhat.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Steve French <sfrench@samba.org>,
+	Christine Caulfield <ccaulfie@redhat.com>,
+	David Teigland <teigland@redhat.com>, Mark Fasheh <mark@fasheh.com>,
+	Joel Becker <jlbec@evilplan.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Eric Van Hensbergen <ericvh@gmail.com>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Ilya Dryomov <idryomov@gmail.com>, Xiubo Li <xiubli@redhat.com>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	Anna Schumaker <anna@kernel.org>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>, drbd-dev@lists.linbit.com,
+	linux-block@vger.kernel.org, nbd@other.debian.org,
+	linux-nvme@lists.infradead.org, open-iscsi@googlegroups.com,
+	linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org,
+	samba-technical@lists.samba.org, cluster-devel@redhat.com,
+	ocfs2-devel@oss.oracle.com, v9fs-developer@lists.sourceforge.net,
+	ceph-devel@vger.kernel.org, linux-nfs@vger.kernel.org
+Subject: Re: [PATCH v1 2/3] Treewide: Stop corrupting socket's task_frag
+Message-ID: <20221129140242.GA15747@lst.de>
+References: <cover.1669036433.git.bcodding@redhat.com> <c2ec184226acd21a191ccc1aa46a1d7e43ca7104.1669036433.git.bcodding@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 3/9] nvme: merge nvme_shutdown_ctrl into nvme_disable_ctrl
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>
-Cc: James Smart <james.smart@broadcom.com>,
- Chaitanya Kulkarni <kch@nvidia.com>, Sven Peter <sven@svenpeter.dev>,
- asahi@lists.linux.dev, linux-nvme@lists.infradead.org
-References: <20221129132208.4337-1-hch@lst.de>
- <20221129132208.4337-4-hch@lst.de>
-From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <20221129132208.4337-4-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c2ec184226acd21a191ccc1aa46a1d7e43ca7104.1669036433.git.bcodding@redhat.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221129_074451_139522_BF793EAB 
-X-CRM114-Status: GOOD (  14.80  )
+X-CRM114-CacheID: sfid-20221129_060248_484292_CFB42CCE 
+X-CRM114-Status: GOOD (  10.83  )
+X-Mailman-Approved-At: Tue, 29 Nov 2022 08:03:57 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,27 +94,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 29/11/2022 22.22, Christoph Hellwig wrote:
-> Many of the callers decide which one to use based on a bool argument and
-> there is at least some code to be shared, so merge these two.  Also
-> move a comment specific to a single callsite to that callsite.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  drivers/nvme/host/apple.c  |  5 +----
->  drivers/nvme/host/core.c   | 33 ++++++++++-----------------------
->  drivers/nvme/host/fc.c     |  2 +-
->  drivers/nvme/host/nvme.h   |  3 +--
->  drivers/nvme/host/pci.c    | 15 +++++++++------
->  drivers/nvme/host/rdma.c   |  5 +----
->  drivers/nvme/host/tcp.c    |  5 +----
->  drivers/nvme/target/loop.c |  2 +-
->  8 files changed, 25 insertions(+), 45 deletions(-)
-> 
-
-For the Apple and core bits:
-
-Reviewed-by: Hector Martin <marcan@marcan.st>
-
-- Hector
+Hmm.  Having to set a flag to not accidentally corrupt per-task
+state seems a bit fragile.  Wouldn't it make sense to find a way to opt
+into the feature only for sockets created from the syscall layer?
 
