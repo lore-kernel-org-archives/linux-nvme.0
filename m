@@ -4,108 +4,118 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7082EC47089
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Nov 2022 21:34:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42005C4321E
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Nov 2022 23:53:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=j5dSiEfZXrgF/LMgEv4I0Fn9ajmE4Ab+nBYmbzDgNsw=; b=D1Lwm6/wwbnJAymrJ/Ri3LHq/u
-	N39N+ErgFIDVsLlYRxkAg1PE7ylbxvzfQFtLU68FAyicSkAuOD8cL3w1P5QRuxxrg6bLgkj/lF8SY
-	NiHXBt3tZjT7P14HnjLqGcnLq/t8NaGWNcDE2s0lYrkHLfy0o69VrIUEwt4OSsPIjv2JDGwUsOoqR
-	371/Gcnd2djA3UlUShxStW6uk5VXjmOnWmXi984d6Mc3nsx4hLyR/f1ErffxZrvLgsDMTSR4FbhWu
-	/aDxWXLtxmlTJxPJSk7jJPrbolqPogGFv//MHbjWCcwHfrx8OKbeBzLl1NHVPqZQMgNh/+wueK003
-	NVl0C2RQ==;
+	bh=mTHt/2+87rUcVFZbYnoj92K24ThZt9NPz43YkmvkwXA=; b=YLgWrrXOHZ3WWDgOQKfLKSbs/H
+	+6XRtawXXgy3aupqcPdDs3PM6GEPf0KUCTNkrUvFfMdsmVxfumBcHZmI5kz2jo1odQgBi2SZXveCX
+	bdixXcfj7bth95ZeYk14MxacxKKs61k6d+tALWw4VKa8fXkm+PlfJ50Dbyt8lbJ+4lukjWlYXEDZM
+	fi/96mpR2gbEJHzOQ6kki7t3eXxtU9LzIT2rr18ASYpBVq2P6gDDH8G+UWX5m7iu9sZbbKYeeHF8Q
+	0Yc3YDypzX1b3hg/9oWHmuyt9/ffeBw+6wtWj9uxi5iEYmtIy4XhGiH64NdB5JPvPZnAoWDHTZYR2
+	00YHpQqQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p0Uih-002qbp-6t; Wed, 30 Nov 2022 21:34:19 +0000
-Received: from mail-bn8nam11on20601.outbound.protection.outlook.com ([2a01:111:f400:7eae::601] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+	id 1p0WtV-003Ot4-3X; Wed, 30 Nov 2022 23:53:37 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p0Uid-002qZx-DC
-	for linux-nvme@lists.infradead.org; Wed, 30 Nov 2022 21:34:16 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Nf4A/csKbjWT3O/eNn/BQstuLlg17iz72qNCgr8FN0DvGrkNQ+Klbn/uG8sMOqnoLLnKe2vvsxa9XOAjHaOeycQ+iDsdxgBeDBBp+SW11koynaQumUMMTaXf7WIlEI2FPjrkwTOHaZ0ka/zocN9lr6Lk55KlgvMVAtvJqlUBpWp+/49TpGS3SVdSVbG/MzFcKMI2aqPJTzzVj8YVN3aoQQxwGbZdHtpJoXptpIRTmA6wo5TGeIml+PszhXM6BeRFIapXM4wSfh5R3BDb5P1r/2ynT7UV2hnQjwh0+TtBQaC/ercs53i/LvZ2DCPkTuqzINPHU40eMjtlz6zCMHlk8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j5dSiEfZXrgF/LMgEv4I0Fn9ajmE4Ab+nBYmbzDgNsw=;
- b=G7s15wU4S7xJSUzTc8ONe9YY9UykcpQmcrK6zw7mdnURyVj0ZsrtPckRoyFohvWJye0u0cHhi8stqvq4eW3tPWIzZJkDpDYnu2o1JNqQZkNVh0W5Z1f+XpxxLBXX8iOcwN0+TVwiO4rP4Q+MQ9R/trQQxn0g7PunQSoyvNNDKirNiysyxgh4YNMZ7TqaQRJjgVeowGF8QnNQMm5hKzGCW67+vdjemcW7+OfIviMf+FoDc1prIwCd4BrrBxeP/b4XtjzXVuGE3hELoluNcdy3/Eyuk8PU9jLPuThu1p759dQ7N/z6MAgxV8kq+cDBjdDf90OKrcws0yT50r3ese1M9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=lists.infradead.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j5dSiEfZXrgF/LMgEv4I0Fn9ajmE4Ab+nBYmbzDgNsw=;
- b=qda6RT9MmH+/ALhPt0loA60EADSzSZFND/Nd+4x3s9fO/f3sE2kK9mOJXXiiyfdLOAOCytBmYkxiKgrycg5zxtsodUVsuzoBzp4m71N4CWLMBcTKcNh0TK4GKr1NHrIaS2pl6DwDF/aLOzE8IE1WQKG9ikCkatUoyY4oiAfP2LqWXte5PKT1yTAMeF5WtOx/i09/npp4dQ2h52TKaPuq4RXL8Z6FmER8KcFBfadAHT8LjxzYRn+T19vh7lLgxBBTr6Ao0KZNpFjUnIrLgeLfL2Wn5UmxCe5c9tiyrHrsh7QAPZKYn9kFjPGLtiijWsoBRZ4TaUmUjdJAuAPtK2MiCg==
-Received: from DS7PR03CA0341.namprd03.prod.outlook.com (2603:10b6:8:55::23) by
- CY5PR12MB6035.namprd12.prod.outlook.com (2603:10b6:930:2d::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5857.21; Wed, 30 Nov 2022 21:34:09 +0000
-Received: from DM6NAM11FT059.eop-nam11.prod.protection.outlook.com
- (2603:10b6:8:55:cafe::66) by DS7PR03CA0341.outlook.office365.com
- (2603:10b6:8:55::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23 via Frontend
- Transport; Wed, 30 Nov 2022 21:34:09 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- DM6NAM11FT059.mail.protection.outlook.com (10.13.172.92) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5857.23 via Frontend Transport; Wed, 30 Nov 2022 21:34:09 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 30 Nov
- 2022 13:34:01 -0800
-Received: from dev.nvidia.com (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 30 Nov
- 2022 13:34:00 -0800
-From: Chaitanya Kulkarni <kch@nvidia.com>
-To: <linux-nvme@lists.infradead.org>
-CC: <james.smart@broadcom.com>, <kbusch@kernel.org>, <hch@lst.de>,
-	<sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH 2/2] nvme-fc: move common code into helper
-Date: Wed, 30 Nov 2022 13:33:41 -0800
-Message-ID: <20221130213341.9625-2-kch@nvidia.com>
-X-Mailer: git-send-email 2.29.0
-In-Reply-To: <20221130213341.9625-1-kch@nvidia.com>
-References: <20221130213341.9625-1-kch@nvidia.com>
+	id 1p0WYK-003FY9-Q1
+	for linux-nvme@lists.infradead.org; Wed, 30 Nov 2022 23:31:49 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20221130233137epoutp0431f3fdfc54cc75a1060e603440901e75~sgLnf1UvO1130211302epoutp049
+	for <linux-nvme@lists.infradead.org>; Wed, 30 Nov 2022 23:31:37 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20221130233137epoutp0431f3fdfc54cc75a1060e603440901e75~sgLnf1UvO1130211302epoutp049
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1669851097;
+	bh=mTHt/2+87rUcVFZbYnoj92K24ThZt9NPz43YkmvkwXA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lAi7F1gTB0RP9tj62w0PPMICOEk3nK0kfrco4/2rlO5JjuV5lQgExPSInrxeHrUH+
+	 441PLNADsjDg1//jufCQ4xXEIaWJm+08gRoDdKYLoZwdW9p8OQ9zeMJDAiTI3yitFF
+	 yAcDSAf3hdmPE5MVVZLJp306OE9kY9UrxoLHztek=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20221130233137epcas5p203d9444bfe180a08ded258dc29ad4394~sgLm5cjRl2201022010epcas5p2s;
+	Wed, 30 Nov 2022 23:31:37 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.176]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4NMwT35cZtz4x9Pv; Wed, 30 Nov
+	2022 23:31:35 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	F3.60.56352.7D7E7836; Thu,  1 Dec 2022 08:31:35 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20221130233135epcas5p1be60f4ebdc912545d3b0cabcb2619569~sgLlZWmrn2270122701epcas5p1E;
+	Wed, 30 Nov 2022 23:31:35 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20221130233135epsmtrp292d3349abf357d54484abe6b46b9a48d~sgLlYnw7c1401414014epsmtrp2k;
+	Wed, 30 Nov 2022 23:31:35 +0000 (GMT)
+X-AuditID: b6c32a4b-383ff7000001dc20-c6-6387e7d77f57
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+	23.D9.18644.7D7E7836; Thu,  1 Dec 2022 08:31:35 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20221130233134epsmtip1031810cb09c3d927c072a062131d35ef~sgLkpdUXz1384413844epsmtip1H;
+	Wed, 30 Nov 2022 23:31:34 +0000 (GMT)
+Date: Thu, 1 Dec 2022 04:50:12 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: kbusch@kernel.org, sagi@grimberg.me, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme: don't allow unprivileged Write Zeroes passthrough
+ on read-only FDs
+Message-ID: <20221130232012.GA24451@test-zns>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.126.231.35]
-X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT059:EE_|CY5PR12MB6035:EE_
-X-MS-Office365-Filtering-Correlation-Id: 269460ef-c4c9-43b7-c99f-08dad31a9dc4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	Pw1x+UMQA8KgnY54u3+U2Vh16vYb5IGb725v1gXNG+8Kohil3BhMiej9EYwycQz9o7rAj1RfPj5MPZwoXIrnRkvjVAtUTtzqrOdrmrfw+IGZyFDXxjrZsJVwCMM6qzgRWiemXRbRqUfDP4RUqgsE4J23Th28yKGfjf61o3bQmnCVieEFmEwiw/wqXjIM5aQIJhKGdZgKyBzls+uLoAtA64NCo6mZJYOoCn6wzrERZCpI54YZ5EIIH+Yt1foR5zIbnklo3MsoDSwIcgIK98vaI4rzXKBMtfzo5EPKeTumagtXfRdvWBDXINe9DoQagg/oL5BnjkdP6dtgk6JCOodLh7c954aX9CrVrKGqoJFI12wMmoRuPvzoH6qfV1MH0CfWri86370wzWhCJgrvRDiYJz3PVsayJw3J5ZhiSUEmOFnso1OAoBHcDoqaSvkHSvYtetkH95hs9EiQMxFhGKcNhIlkLP2RFHZ+BvghgwgWvYwWEetY9+M2NnjGXxUp2DDGTf/Ku1RmvVTdM/JT2ifFuJeFEVavewSdPKudcoBzjwSCp59QKDqlTw34u0UnPiCmW2LsC0sA1A/rkpAOh8wHsyP7PYmczhAyN6Bs/LaiHdt2xslegig4ZfLHgZXPuLU3JHX0BUpAasqvvFQ/DYKVCMaCQYhY7/8XxU9eHR7DCj0XXItl3tyOBMfLmurazusngVyDQ2a8LXobORRgCThiww==
-X-Forefront-Antispam-Report: 	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(376002)(346002)(136003)(396003)(451199015)(40470700004)(36840700001)(46966006)(36860700001)(70586007)(7636003)(41300700001)(40460700003)(2906002)(356005)(47076005)(83380400001)(82310400005)(40480700001)(7696005)(2616005)(186003)(26005)(5660300002)(336012)(8936002)(16526019)(8676002)(4326008)(6666004)(107886003)(316002)(478600001)(1076003)(6916009)(426003)(82740400003)(70206006)(36756003)(54906003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2022 21:34:09.4470
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 269460ef-c4c9-43b7-c99f-08dad31a9dc4
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: 	DM6NAM11FT059.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6035
+In-Reply-To: <20221129090016.1311006-1-hch@lst.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrBKsWRmVeSWpSXmKPExsWy7bCmlu715+3JBl1XtS1Wrj7KZDHp0DVG
+	i/nLnrJbrHv9nsWBxeP8vY0sHptWdbJ5bF5S77H7ZgNbAEtUtk1GamJKapFCal5yfkpmXrqt
+	kndwvHO8qZmBoa6hpYW5kkJeYm6qrZKLT4CuW2YO0EolhbLEnFKgUEBicbGSvp1NUX5pSapC
+	Rn5xia1SakFKToFJgV5xYm5xaV66Xl5qiZWhgYGRKVBhQnbG3vWlBWf4KvYsOsDawLiMp4uR
+	k0NCwETizsPNTF2MXBxCArsZJXoX3WCFcD4xSjzZOoEVpEpI4DOjxIU/sTAdc36vYIQo2sUo
+	8e/GDxYI5xmjxJUdjWAdLAIqEk2PXwLN5eBgE9CUuDC5FCQsIqAk8fTVWUYQm1nAXWLpsU/s
+	ILawQLzEqq5lbCA2r4CuxPqvx1kgbEGJkzOfgNmcAkYSG09OZgaxRQWUJQ5sOw52toTAPXaJ
+	h7PXs0Jc5yKxePJzZghbWOLV8S3sELaUxOd3e9kg7GSJSzPPMUHYJRKP9xyEsu0lWk/1M0Mc
+	lyHx9vYPKJtPovf3E7BfJAR4JTrahCDKFSXuTXoKtVZc4uGMJVC2h8Tc+9OgAdfKKDGrQXEC
+	o9wsJO/MQrIBwraS6PzQxDoLaAOzgLTE8n8cEKamxPpd+gsYWVcxSqYWFOempxabFhjnpZbD
+	Yzg5P3cTIzgJannvYHz04IPeIUYmDsZDjBIczEoivB2f25KFeFMSK6tSi/Lji0pzUosPMZoC
+	Y2cis5Rocj4wDeeVxBuaWBqYmJmZmVgamxkqifMunqGVLCSQnliSmp2aWpBaBNPHxMEp1cDk
+	Nc2/qubudMFqhQ2l6z4t+Fe8bIvAObEUjxc7XrDHuE9aOO3orwOyu+QWKK9Zwb6dp+Dy1apT
+	gV6zZ3M3hjn6dJ71vSO/98YVtpyuOXz/oxh/Tlq1POpTwT2WhI0eiapZp558YF4U+LFe713o
+	yxrpmro9cU6882vWz4u0zI6a73n+5ZJK0c6CuGCJhKAVoSc1D2gfbXMQ8/y2xY77QCFXnhHr
+	jmx3rSVHNxyZ2f2a4fKny7nJMvu70vK4FKfVPLrgWBGlzv4gft90hoywo5a12yU39XckfxFc
+	//a3Q97Mrqmv4vMs1nw/Iq/TtMXY+k601btd1YbLJNesWpn9yPS8Ftcvie956wxfmaxOfbRb
+	iaU4I9FQi7moOBEAYoXYRQsEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrBLMWRmVeSWpSXmKPExsWy7bCSnO715+3JBlO/iFisXH2UyWLSoWuM
+	FvOXPWW3WPf6PYsDi8f5extZPDat6mTz2Lyk3mP3zQa2AJYoLpuU1JzMstQifbsErowvp/IL
+	/nFXnD+0gq2B8RNnFyMnh4SAicSc3ysYuxi5OIQEdjBKPJ94ixUiIS7RfO0HO4QtLLHy33N2
+	iKInjBJHD+9mA0mwCKhIND1+ydTFyMHBJqApcWFyKUhYREBJ4umrs4wgNrOAu8TSY5/A5ggL
+	xEus6loG1soroCux/utxFoiZrYwSUz/uZIJICEqcnPmEBaLZTGLe5ofMIPOZBaQllv/jAAlz
+	ChhJbDw5mRnEFhVQljiw7TjTBEbBWUi6ZyHpnoXQvYCReRWjZGpBcW56brFhgVFearlecWJu
+	cWleul5yfu4mRnBga2ntYNyz6oPeIUYmDsZDjBIczEoivB2f25KFeFMSK6tSi/Lji0pzUosP
+	MUpzsCiJ817oOhkvJJCeWJKanZpakFoEk2Xi4JRqYArVMxCom7Lla0JdgoY2+7Knm19lJa/y
+	tN6SKf7W58HtoCDOjfXlmVo/39Q1zfdxTq4/M8/AYO6c0zoe6e+qvVPqQrvrRTZNf5MafsWb
+	V4P5cEmH48EP9Zv3PY85OsOK0fiNflX3NtlVXgknbfQ36aU3BnEKf5/LJ2zz03zXvCStRaZv
+	xPsvX7RP2bRw2YkfNsfe121h0xA+LSUaPYv/a9+aDoF/P36+OFqka32ndeInu0C9eZ7ba0+f
+	yKpf4CXrVy6yLnvDhWP9vR0/AuZI100/FVNbFRrbtYLTalvzvpjmJ1LvVV9UqUucyOqwNHld
+	+TrG/dX+HJ113wKWvWjLijgQFvGxUfau6puwKV7ZSizFGYmGWsxFxYkAgcIwv9sCAAA=
+X-CMS-MailID: 20221130233135epcas5p1be60f4ebdc912545d3b0cabcb2619569
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----G62UEJgdyo2JOumF_Do4Y7B7G39M5PuLVzFwfXKQiOy3iUJg=_837c0_"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20221129090709epcas5p21176e0faa7914cea52aab2e8fa95c2db
+References: <CGME20221129090709epcas5p21176e0faa7914cea52aab2e8fa95c2db@epcas5p2.samsung.com>
+	<20221129090016.1311006-1-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221130_133415_469309_939D0F6F 
-X-CRM114-Status: GOOD (  10.29  )
+X-CRM114-CacheID: sfid-20221130_153145_530661_8E96F1F4 
+X-CRM114-Status: GOOD (  20.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,59 +130,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a helper to move the duplicate code for error message
-from nvme_fc_rcv_ls_req() to nvme_fc_rcv_ls_req_err_msg().
+------G62UEJgdyo2JOumF_Do4Y7B7G39M5PuLVzFwfXKQiOy3iUJg=_837c0_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
----
- drivers/nvme/host/fc.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 06bae7150087..42fa450187f8 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -1701,6 +1701,15 @@ nvme_fc_handle_ls_rqst_work(struct work_struct *work)
- 	spin_unlock_irqrestore(&rport->lock, flags);
- }
+On Tue, Nov 29, 2022 at 10:00:16AM +0100, Christoph Hellwig wrote:
+>Unfortunately Write Zeroes is coded as a no data transfer opcode in NVMe,
+>so don't allow it on a read-only FD for unprivileged users.
+>
+>Fixes: 855b7717f44b ("nvme: fine-granular CAP_SYS_ADMIN for nvme io commands")
+>Signed-off-by: Christoph Hellwig <hch@lst.de>
+>---
+> drivers/nvme/host/ioctl.c | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+>index 9550a69029b368..8aefe9c904dc9a 100644
+>--- a/drivers/nvme/host/ioctl.c
+>+++ b/drivers/nvme/host/ioctl.c
+>@@ -45,7 +45,7 @@ static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
+> 	 * special file is open for writing, but always allow I/O commands that
+> 	 * transfer data from the controller.
+> 	 */
+>-	if (nvme_is_write(c))
+>+	if (nvme_is_write(c) || c->common.opcode == nvme_cmd_write_zeroes)
+> 		return mode & FMODE_WRITE;
  
-+static
-+void nvme_fc_rcv_ls_req_err_msg(struct nvme_fc_lport *lport,
-+				struct fcnvme_ls_rqst_w0 *w0)
-+{
-+	dev_info(lport->dev, "RCV %s LS failed: No memory\n",
-+		(w0->ls_cmd <= NVME_FC_LAST_LS_CMD_VALUE) ?
-+			nvmefc_ls_names[w0->ls_cmd] : "");
-+}
-+
- /**
-  * nvme_fc_rcv_ls_req - transport entry point called by an LLDD
-  *                       upon the reception of a NVME LS request.
-@@ -1755,10 +1764,7 @@ nvme_fc_rcv_ls_req(struct nvme_fc_remote_port *portptr,
- 
- 	lsop = kzalloc(sizeof(*lsop), GFP_KERNEL);
- 	if (!lsop) {
--		dev_info(lport->dev,
--			"RCV %s LS failed: No memory\n",
--			(w0->ls_cmd <= NVME_FC_LAST_LS_CMD_VALUE) ?
--				nvmefc_ls_names[w0->ls_cmd] : "");
-+		nvme_fc_rcv_ls_req_err_msg(lport, w0);
- 		ret = -ENOMEM;
- 		goto out_put;
- 	}
-@@ -1766,10 +1772,7 @@ nvme_fc_rcv_ls_req(struct nvme_fc_remote_port *portptr,
- 	lsop->rqstbuf = kzalloc(sizeof(*lsop->rqstbuf), GFP_KERNEL);
- 	lsop->rspbuf = kzalloc(sizeof(*lsop->rspbuf), GFP_KERNEL);
- 	if (!lsop->rqstbuf || !lsop->rspbuf) {
--		dev_info(lport->dev,
--			"RCV %s LS failed: No memory\n",
--			(w0->ls_cmd <= NVME_FC_LAST_LS_CMD_VALUE) ?
--				nvmefc_ls_names[w0->ls_cmd] : "");
-+		nvme_fc_rcv_ls_req_err_msg(lport, w0);
- 		ret = -ENOMEM;
- 		goto out_free;
- 	}
--- 
-2.29.0
 
+I was thinking why check for write_zeroes should not go inside nvme_is_write
+itself. Then I saw various callers of nvme_is_write, and that killed the
+thought.
+
+Another thought is - does it make sense to include nvme_cmd_flush too?
+That is also declared as no-data-transfer in spec. Flush alone can't
+make any difference when writes are not allowed in first place. So this
+is about whether we care for empty flushes.
+
+And on spec - not sure whether the criteria has changed of late. copy
+command also does not involve data-transfer but bit is set there.
+
+
+------G62UEJgdyo2JOumF_Do4Y7B7G39M5PuLVzFwfXKQiOy3iUJg=_837c0_
+Content-Type: text/plain; charset="utf-8"
+
+
+------G62UEJgdyo2JOumF_Do4Y7B7G39M5PuLVzFwfXKQiOy3iUJg=_837c0_--
 
