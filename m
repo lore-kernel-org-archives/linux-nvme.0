@@ -4,47 +4,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0CB7BC4332F
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Dec 2022 09:27:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4DA0C4332F
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Dec 2022 09:35:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zqUjnYXlEwhbxE3A8YGbV8fAmLHhG2SwAzV0KcF7CZc=; b=4WWwnuf9CXYvhwPsftgQdBUtFL
-	lI/QK8i+9bws9D5CfsKB/mWwPQgJNumpPbsKk7SdgaAKFsXK60jt5AcxJ5tCvhdJqdX+ADtr2qQ9f
-	Ytdl/iCUBR4mMvYU5R0zCBE/xLaZSte2J2wGnxHK6TQbY7eVI+ckDPCv3drD3QydIiWH33vOQnaPO
-	mZUCkZHnChwsC+G3HNvPvUA4s4vw7fB8wyPJ4+PKb7yMkIQtp4c5zrVAI2euZ+0vHsATGccd3mH8q
-	teJb3To/jPXZevd88+UxlxhJ/cTrfpkIFtwLOHKmsmIVH98VPPfzjPUJhmMGI6cu/masyx51Zj8P2
-	sFoUqDqg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=rH8MM7ztjz32yvM18t1XgQUk0Ikrcd9m0/ls9NFDjpk=; b=Q5e+EzI4GAYKJSwNrf1Z7LJusr
+	UtdheuBCD0i0NaPe1wodJnIDdTlYgHZSNeQoISodIEgvDvPkg3oYq9N4rdORYSVLcitDIZnxKzbeN
+	Z2Wdd/XGN3RLWTxMkBZiW3rMaX0T/bvT6r8HY/lJGZYvcvuGNxIPTtOpu7VwUNZ+khjdYCaHLb38+
+	oTCw7CXjykgtuN8AQieXdSi357SAEJGKXwOOEPHDJaoGFWXd9XD1Vv1wKD+K7aZdIfx+LPcUN6gaS
+	LBdURJ6epBdWOJ/xh3Wv1FRT2d4rXEQBCaSeWH9+Jctb4b4n/4zicPVOwEjBUbbNTvOpN4JtEIpAI
+	Fm6OXsXA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p12KO-00EwkI-7a; Fri, 02 Dec 2022 09:27:28 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p12Gd-00EuK3-1x
-	for linux-nvme@lists.infradead.org; Fri, 02 Dec 2022 09:23:37 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 0205B67373; Fri,  2 Dec 2022 10:23:22 +0100 (CET)
-Date: Fri, 2 Dec 2022 10:23:22 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Pankaj Raghav <p.raghav@samsung.com>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
-	gost.dev@samsung.com, Monish Kumar <monish.kumar.r@intel.com>
-Subject: Re: [PATCH] nvme:core: initialize core quirks before calling
- nvme_init_subsystem()
-Message-ID: <20221202092322.GB14667@lst.de>
-References: <CGME20221201125412eucas1p17da85d566e9786dba7d76230f396eb57@eucas1p1.samsung.com> <20221201125233.41094-1-p.raghav@samsung.com>
+	id 1p12SL-00F1Ph-6g; Fri, 02 Dec 2022 09:35:41 +0000
+Received: from [2001:4bb8:192:26e7:bcd3:7e81:e7de:56fd] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1p12SJ-00F1P3-KY; Fri, 02 Dec 2022 09:35:40 +0000
+Date: Fri, 2 Dec 2022 10:35:37 +0100
+From: Christoph Hellwig <hch@infradead.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: [GIT PULL] nvme fixes for Linux 6.1
+Message-ID: <Y4nG6f7QDhcmbldD@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221201125233.41094-1-p.raghav@samsung.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221202_012335_293298_8669B424 
-X-CRM114-Status: GOOD (  14.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,17 +49,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Dec 01, 2022 at 01:52:34PM +0100, Pankaj Raghav wrote:
-> A device might have a core quirk for NVME_QUIRK_IGNORE_DEV_SUBNQN(such as
-> Samsung X5) but it would still give a warning "missing or invalid
-> SUBNQN field" as core quirks are filled after calling nvme_init_subnqn().
-> 
-> Fill ctrl->quirks from struct core_quirks before calling
-> nvme_init_subsystem().
-> 
-> Tested it on a Samsung X5:
+The following changes since commit 7d4a93176e0142ce16d23c849a47d5b00b856296:
 
-Yes, this looks reasonable.  But it won't help with the CSTS
-corruption reported by Monish, so it seems like the SSD doesn't actually
-show that issue in all systems?
+  ublk_drv: don't forward io commands in reserve order (2022-11-23 20:36:57 -0700)
+
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git tags/nvme-6.1-2022-01-02
+
+for you to fetch changes up to 899d2a05dc14733cfba6224083c6b0dd5a738590:
+
+  nvme: fix SRCU protection of nvme_ns_head list (2022-11-30 14:37:46 +0100)
+
+----------------------------------------------------------------
+nvme fixes for Linux 6.1
+
+ - fix SRCU protection of nvme_ns_head list (Caleb Sander)
+ - clear the prp2 field when not used (Lei Rao)
+
+----------------------------------------------------------------
+Caleb Sander (1):
+      nvme: fix SRCU protection of nvme_ns_head list
+
+Lei Rao (1):
+      nvme-pci: clear the prp2 field when not used
+
+ drivers/nvme/host/core.c      | 2 +-
+ drivers/nvme/host/multipath.c | 3 +++
+ drivers/nvme/host/pci.c       | 2 ++
+ 3 files changed, 6 insertions(+), 1 deletion(-)
 
