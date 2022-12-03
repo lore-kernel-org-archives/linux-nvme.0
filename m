@@ -4,80 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B238C4321E
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Dec 2022 16:10:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5258C352A1
+	for <linux-nvme@archiver.kernel.org>; Sat,  3 Dec 2022 04:19:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:To:In-Reply-To:Cc:References
+	:Message-Id:Date:Subject:Mime-Version:From:Content-Transfer-Encoding:
+	Content-Type:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Wbhd+Z2+Aih/sGy1KHtTn/ZBXAB3S7OAmdwgL/cp8Rc=; b=Z/W8rsTMfcxbgmECGrpOVUCDOD
-	FGFkPy97YPVXAdJDj3Wbt4n+SGYgDWV/Km4bdhbSuTm+KvNRyJ/Ea/iOIaPB6qmIk8AYx4ts//zr0
-	xmnvzMRGnUn8NRhl006VhxVHnHtOjWwLBckDEaPudTtE/iTP+z6yktcxqQKtBoLjGk7ViIvl+chsU
-	NnY6hJWQ0D0b+xmjVWHNtL9du17j6Un8NGXHIKR83who1+PLNSP6+8oWDe8WT3UZhlbkBbvCoZMwd
-	u+M2IIDWtJrOd/YY5/cSDdd45TzLro1bvd679TPC7R9/IVkN8Raq3pQQ2sqooNi6NJI4e/a/d2GEW
-	OOkmGPVA==;
+	bh=ccD2JrUqoo8dGTQE9lIA6Ic8NF4n65yiBkZdSFL8aqk=; b=WNYT3+EUgRtCh5t76yLzNgwele
+	GsD7PefeeeiZ0VEghF3OfNcWfKPxkiv2twlf8+mQohMSokH0oqiSoOBCuVrtGnaNOJEHByuvYoKz0
+	mC4iXraCTmcMuwNyOujQXkM5D5b4C3Ix+yXSVyu/Lks/kDpTVgsG+lirjxC1zM31Z6BPK0o+0H7sg
+	+nCWt4jJEOx9DwIBCxAb1istHqVXlauhyHLk2yk+CuwcgCa6V4CpmFq9aeCMNKjQbOW+3rx2ThwIX
+	YXmHTKX3GDUxWsEW1P0qLZBPsEMx3ITkR9GmOiV3byxTCNPUx6HyeowX0qrIGcekAp18MbJrB7+x+
+	I0de7Mrw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p18cg-00HN0E-NM; Fri, 02 Dec 2022 16:10:46 +0000
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+	id 1p1K00-002Lhd-KE; Sat, 03 Dec 2022 04:19:36 +0000
+Received: from mail-lj1-x229.google.com ([2a00:1450:4864:20::229])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p18bW-00HMPm-Ay
-	for linux-nvme@lists.infradead.org; Fri, 02 Dec 2022 16:09:35 +0000
-Received: by mail-pj1-x102e.google.com with SMTP id o12so5334130pjo.4
-        for <linux-nvme@lists.infradead.org>; Fri, 02 Dec 2022 08:09:31 -0800 (PST)
+	id 1p1Jzy-002Lh0-4g
+	for linux-nvme@lists.infradead.org; Sat, 03 Dec 2022 04:19:35 +0000
+Received: by mail-lj1-x229.google.com with SMTP id r8so7476930ljn.8
+        for <linux-nvme@lists.infradead.org>; Fri, 02 Dec 2022 20:19:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Wbhd+Z2+Aih/sGy1KHtTn/ZBXAB3S7OAmdwgL/cp8Rc=;
-        b=PW337XFnXEKFH3MvwKo63QpjCMtNRbkmcgQf9AgRsCgEUn8YkiZK4ziuv0Tbpi2Mhz
-         O6upUniuVr6yYzFZGID0QEGpzM0F+NYIshOMoTH88zZ4w3pcBIpWc3QLZGUcd622FdJ7
-         z+MQmntSrHylM8uXfUX/iCt6maHcbKgBkuZawbZfUFoR1Ylpng1/dK1x6LBDVh4xmeys
-         6FV23NqXRpmx0nzh7949tIIMKekpGuYsMgcut0abvZ+aR1UamwF0lSBEmICQ3KfdkkQv
-         ufY91oXbww53QCaAbN5D4Pkd92XTwAWjRNlXiwGV56dhF/Mhr8arHfe0yBx366qbW2nD
-         LzrA==
+        d=javigon-com.20210112.gappssmtp.com; s=20210112;
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ccD2JrUqoo8dGTQE9lIA6Ic8NF4n65yiBkZdSFL8aqk=;
+        b=CABa0c6Z8GB68LpfcT6ifNmMsRl7DojSt4Fz1SE0rQ5YTWctV66UCulvr3VgqKgoPM
+         C8XUke796Bj/HUETpCMj69/cGSEj0lU8xCpBLAHjeANAQ07/qld/hw+W732EEmu5Ghtw
+         ob24fAgs3ragUTh6oQvWZHvxqpi01iWPHK9X+81oVWSvCBtue4daxQkaz9pdB1B0Qc3z
+         PYnL5RsoKUmqc9z+sum4t4NTPJwft9tylToWPiTLf3kPle1ukpBEeQwlZOYto9xy4ATd
+         8jTZ5KbajYSifVbIbmsKlcBeDvSgPI/dFKN38mEqDjt4LyeVg6xPThyCiWzBnvK8UQ/q
+         SQKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wbhd+Z2+Aih/sGy1KHtTn/ZBXAB3S7OAmdwgL/cp8Rc=;
-        b=ACtdZAl+1pfHMj68zDOUacr0hlCOQMaT+IF9n0Ke8Gdz7BQOWDew2lWIhc9d9Ry5fe
-         bfBhUwP8RVnyyZmF/ypwc571IH8j/B3Z55p6fBlxbjn0VNofyw3mjsqMFtRXiS3m+FNR
-         PIY13+O6nX0UnvR/TpMCsQGCQSNdtIU9yx7w5MVHVkSdJ+EhYLoNiXXpu7Eb1Mfo+xy5
-         rCabOh6vPjH2RW6TvvDgWk1BNr0bebfhn5P5x6XopI4TAN4dBT4ZMVAFquDx8y3s5ClQ
-         GLekvJoIUteFwclOaGPX7KqLNvfsgk5lZ6eW9M5H7wcR50h83twPuHDj7dDXmxCELNYp
-         1koA==
-X-Gm-Message-State: ANoB5pkrot4/2pV5+e+EYGPnbzBM4cfbbC/T4zB21t3Dhcypv7UqJerd
-	FGOo/CNSrsx4AgYl+Fsb1IE=
-X-Google-Smtp-Source: AA0mqf7GrwLu8LM4f2YAy2IA7LJSrPc+HJbKkiukntwg7SRZCr7qiKIUcaLzZsBuATUNS2Ump3fnnQ==
-X-Received: by 2002:a17:90b:2686:b0:218:bb0a:e295 with SMTP id pl6-20020a17090b268600b00218bb0ae295mr59966778pjb.80.1669997371144;
-        Fri, 02 Dec 2022 08:09:31 -0800 (PST)
-Received: from [192.168.50.208] (ip68-109-79-27.oc.oc.cox.net. [68.109.79.27])
-        by smtp.gmail.com with ESMTPSA id md22-20020a17090b23d600b00218fa115f83sm6860402pjb.57.2022.12.02.08.09.30
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ccD2JrUqoo8dGTQE9lIA6Ic8NF4n65yiBkZdSFL8aqk=;
+        b=G/iy6yTgPtW6tWccXpYrYINTRC/e3vhJ8MszIScIlfLLvJUMx3SHd5pDplkXHs/mUv
+         D2Tmvq2emT8DgGTwEq1JdDkatccOLm1r6kIFqBFc6h3FBCno0RUccuyORbDA5ly/40Ei
+         NPgJzruLW2/0lWsK3zCtDzNsaXQYfY3VtgESbxjJ2IWi0C1ylz4qD1JmYyGTGCYcre9m
+         WhxQuknnuW0GnKBmqnqgVzIz0oKm/YIYRaDUCdJsPUVkvvbGDmhRWkHYnNnIfR8GQ4Wr
+         b1a2wEwtIq4TvPtytw2A6fzlhrjoaXL7D+ZBZRxL0INmzI6QqsjXfWqKu2I1b5ST+J86
+         rD2w==
+X-Gm-Message-State: ANoB5pnnS1Ufi2tMRNVRDTpHL9ldsBbVXjCOTt6ZY3eV9xDv8eUvKSkr
+	wKB3skLQg6nR4DuJVAyC1TBbtg==
+X-Google-Smtp-Source: AA0mqf7wH0C0pDIAs+KLfjhRNQCtQ/GYw24Q7zFEM++AAYMYahqX8fgtbDrgd5iOVZMlUmFCMtte/A==
+X-Received: by 2002:a2e:be08:0:b0:277:857:87ab with SMTP id z8-20020a2ebe08000000b00277085787abmr16751284ljq.442.1670041170764;
+        Fri, 02 Dec 2022 20:19:30 -0800 (PST)
+Received: from smtpclient.apple (77.241.136.54.bredband.3.dk. [77.241.136.54])
+        by smtp.gmail.com with ESMTPSA id z8-20020a056512370800b004a91d1b3070sm1243597lfr.308.2022.12.02.20.19.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Dec 2022 08:09:30 -0800 (PST)
-Message-ID: <f1f9041d-90d4-c483-84cb-d2c48e544c82@gmail.com>
-Date: Fri, 2 Dec 2022 08:09:29 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 2/2] nvme-fc: move common code into helper
-Content-Language: en-US
-To: Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org
-Cc: james.smart@broadcom.com, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me
-References: <20221130213341.9625-1-kch@nvidia.com>
- <20221130213341.9625-2-kch@nvidia.com>
-From: James Smart <jsmart2021@gmail.com>
-In-Reply-To: <20221130213341.9625-2-kch@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Fri, 02 Dec 2022 20:19:30 -0800 (PST)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: =?utf-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH 0/6] block: add support for REQ_OP_VERIFY
+Date: Sat, 3 Dec 2022 07:19:17 +0300
+Message-Id: <4F15C752-AE73-4F10-B5DD-C37353782111@javigon.com>
+References: <Y4oSiPH0ENFktioQ@kbusch-mbp.dhcp.thefacebook.com>
+Cc: Hannes Reinecke <hare@suse.de>, Matthew Wilcox <willy@infradead.org>,
+ Chaitanya Kulkarni <chaitanyak@nvidia.com>, linux-block@vger.kernel.org,
+ linux-raid@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, axboe@kernel.dk, djwong@kernel.org, hch@lst.de,
+ sagi@grimberg.me, jejb@linux.ibm.com, martin.petersen@oracle.com,
+ Johannes.Thumshirn@wdc.com, bvanassche@acm.org, dongli.zhang@oracle.com,
+ jefflexu@linux.alibaba.com, josef@toxicpanda.com, clm@fb.com, dsterba@suse.com,
+ jack@suse.com, tytso@mit.edu, adilger.kernel@dilger.ca, jlayton@kernel.org,
+ idryomov@gmail.com, danil.kipnis@cloud.ionos.com, ebiggers@google.com,
+ jinpu.wang@cloud.ionos.com
+In-Reply-To: <Y4oSiPH0ENFktioQ@kbusch-mbp.dhcp.thefacebook.com>
+To: Keith Busch <kbusch@kernel.org>
+X-Mailer: iPhone Mail (20B82)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221202_080934_423046_753D9E91 
-X-CRM114-Status: GOOD (  14.61  )
+X-CRM114-CacheID: sfid-20221202_201934_433598_1CB89FC7 
+X-CRM114-Status: GOOD (  10.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,65 +98,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/30/2022 1:33 PM, Chaitanya Kulkarni wrote:
-> Add a helper to move the duplicate code for error message
-> from nvme_fc_rcv_ls_req() to nvme_fc_rcv_ls_req_err_msg().
-> 
-> Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
-> ---
->   drivers/nvme/host/fc.c | 19 +++++++++++--------
->   1 file changed, 11 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index 06bae7150087..42fa450187f8 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -1701,6 +1701,15 @@ nvme_fc_handle_ls_rqst_work(struct work_struct *work)
->   	spin_unlock_irqrestore(&rport->lock, flags);
->   }
->   
-> +static
-> +void nvme_fc_rcv_ls_req_err_msg(struct nvme_fc_lport *lport,
-> +				struct fcnvme_ls_rqst_w0 *w0)
-> +{
-> +	dev_info(lport->dev, "RCV %s LS failed: No memory\n",
-> +		(w0->ls_cmd <= NVME_FC_LAST_LS_CMD_VALUE) ?
-> +			nvmefc_ls_names[w0->ls_cmd] : "");
-> +}
-> +
->   /**
->    * nvme_fc_rcv_ls_req - transport entry point called by an LLDD
->    *                       upon the reception of a NVME LS request.
-> @@ -1755,10 +1764,7 @@ nvme_fc_rcv_ls_req(struct nvme_fc_remote_port *portptr,
->   
->   	lsop = kzalloc(sizeof(*lsop), GFP_KERNEL);
->   	if (!lsop) {
-> -		dev_info(lport->dev,
-> -			"RCV %s LS failed: No memory\n",
-> -			(w0->ls_cmd <= NVME_FC_LAST_LS_CMD_VALUE) ?
-> -				nvmefc_ls_names[w0->ls_cmd] : "");
-> +		nvme_fc_rcv_ls_req_err_msg(lport, w0);
->   		ret = -ENOMEM;
->   		goto out_put;
->   	}
-> @@ -1766,10 +1772,7 @@ nvme_fc_rcv_ls_req(struct nvme_fc_remote_port *portptr,
->   	lsop->rqstbuf = kzalloc(sizeof(*lsop->rqstbuf), GFP_KERNEL);
->   	lsop->rspbuf = kzalloc(sizeof(*lsop->rspbuf), GFP_KERNEL);
->   	if (!lsop->rqstbuf || !lsop->rspbuf) {
-> -		dev_info(lport->dev,
-> -			"RCV %s LS failed: No memory\n",
-> -			(w0->ls_cmd <= NVME_FC_LAST_LS_CMD_VALUE) ?
-> -				nvmefc_ls_names[w0->ls_cmd] : "");
-> +		nvme_fc_rcv_ls_req_err_msg(lport, w0);
->   		ret = -ENOMEM;
->   		goto out_free;
->   	}
 
-OK
+> On 2 Dec 2022, at 17.58, Keith Busch <kbusch@kernel.org> wrote:
+>=20
+> =EF=BB=BFOn Fri, Dec 02, 2022 at 08:16:30AM +0100, Hannes Reinecke wrote:
+>>> On 12/1/22 20:39, Matthew Wilcox wrote:
+>>> On Thu, Dec 01, 2022 at 06:12:46PM +0000, Chaitanya Kulkarni wrote:
+>>>> So nobody can get away with a lie.
+>>>=20
+>>> And yet devices do exist which lie.  I'm not surprised that vendors
+>>> vehemently claim that they don't, or "nobody would get away with it".
+>>> But, of course, they do.  And there's no way for us to find out if
+>>> they're lying!
+>>>=20
+>> But we'll never be able to figure that out unless we try.
+>>=20
+>> Once we've tried we will have proof either way.
+>=20
+> As long as the protocols don't provide proof-of-work, trying this
+> doesn't really prove anything with respect to this concern.
 
-Reviewed-by: James Smart <jsmart2021@gmail.com>
+Is this something we should bring to NVMe? Seems like the main disagreement c=
+an be addressed there.=20
 
--- james
-
-
+I will check internally if there is any existing proof-of-work that we are m=
+issing.=20=
 
