@@ -4,82 +4,177 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2568C4332F
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Dec 2022 16:20:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0353EC4332F
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Dec 2022 18:01:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ficp9YnxtYUVosXmAWDNlYqnWO69Vk0MG7GW8V0nNo4=; b=WEHZZg+t76OWI4TeQ4ge8hYbUb
-	JgopVpgdrOHB5T/ipICbImK6OWgKK3MSTSwGuYjxHR7pnQTUrCmZKxTiEUP8crdxTW1orpYLWhynN
-	T931B5hlnFsyeb20tsRwyZip7oeWdigKqwM7LfL9HYDS8xRTUeATSJTYX18lDeJLrS/6kaqzL11nA
-	7eKMyVzha+ey8jLUdJbTG/KLLVZ6jsZFCW9r8mXpfdTkUMfqbSVphkG6tG73M1kkG/Y9SURf6nUOZ
-	FzMZQqxg0P+E2oLASFFU6dz2xCvYDUxxYNU9I4W8CNKkp0HSgqCXYGadAbMCxvkGSk87fiZgIKt+F
-	ae6U6eQg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=7lASPvc9rjZK1clILiyAsN94dScOu3F/YVT1UUS0FvE=; b=1+cLyolUtUXVNjCzUa/gzqAlck
+	dxzJBsO8P2NBevO8TH5C6pWVV/iUGt9nzKNtpNl9fo5J6pD8XKNwDR6x5bbh25tlH2r2MxfH2fuYD
+	INpSpxdBxy6G1VJmhEkuWaNvV9EftFtHzECXa7h76trDThifaUowXaa554zLfy4muzBMfsDNz9DXT
+	vEailAJ075Zk4REczw6SoHgT+S2uUcEsFsMWiuUMXMIR+b487MDkldcpeQu4sZG2A+ORH6PjSPqsD
+	M4ijRl2bmNZ9n4I34gV+9pI8+LBnS9YTBnI5RdEjrAj8klM3rYyUVwW/LQjNDqEDAH0JO4LTA9tic
+	JgLfMjEA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2ED1-006RZH-9X; Mon, 05 Dec 2022 16:20:47 +0000
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+	id 1p2FmL-0082PX-Rz; Mon, 05 Dec 2022 18:01:21 +0000
+Received: from mx0b-00154904.pphosted.com ([148.163.137.20])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2ECx-006RXu-34
-	for linux-nvme@lists.infradead.org; Mon, 05 Dec 2022 16:20:45 +0000
-Received: by mail-wr1-x435.google.com with SMTP id d1so19357747wrs.12
-        for <linux-nvme@lists.infradead.org>; Mon, 05 Dec 2022 08:20:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=solid-run-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ficp9YnxtYUVosXmAWDNlYqnWO69Vk0MG7GW8V0nNo4=;
-        b=L6XDMvs5y72VwZ+hJbbJCeY6uEkjV7yGvT3o2KU3CngYCoXS/tsUIZTc7piZ9W2Xug
-         Hoh8eu7wOVlALCSnDq/1cJeTvPsAetfHT4Y0XI+qM+3OFCgHavmUvrOZR4SZ/q00Omps
-         ataPrsuv0Lp1GGafViym93soHyHipmEEF4I6n9joXP1HGuGMf42ybu3zVXq+p+e2b83n
-         BuiC659II3YNws0++EK3BafQ6y1KAQY7gz3nWHDSyw6gHXYcC4VxHVTOAVY9cOP0n58Q
-         Yh0TjikQ7mcNn5KbuDv5R2a+1bRkdN3iR7EDdLvvTd7T1PW1wbG3zvX9e/2tQbLgiL9A
-         cjHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ficp9YnxtYUVosXmAWDNlYqnWO69Vk0MG7GW8V0nNo4=;
-        b=yrmJEjLBjZTgfz5MeUe9kMFhICbDy0FRYm/syKbT3VC/Q+HJTvNDNXt2vovfhQZ5DN
-         2Ofimiqs0DTTRHWiKS74aMsBeKskjGpZO5jeJqfLZKxKXfOtLhFZYOUoTQmb+P9PWN+r
-         Ephb1HVwB2SUmUolzdFl0DPgfaYcvXqGWHOnrZglvU4dadtVTFf2LjAVcU/d6x1rb9lW
-         xJDjyKodQvBQezFJLTUkxqvidmEJO91AMI5uLdk6SLsZm/2eZDY6L0L3iXBu6nCWLEYW
-         yrccCbZl0ytoakTEV733PlYtI3KlHehl5XrAxYJkLDK9S54JVySj8w3sSUZLAceXoi6X
-         +YTg==
-X-Gm-Message-State: ANoB5pll4KKrlT/B8pcTXYWQSbhe/COoEMW9KA37zLI9VuIdy2dqTmfO
-	AEAhy5aMWV6NQCUv42eXc5MYkA==
-X-Google-Smtp-Source: AA0mqf49u7SktyNNs0t8+g6HVZk+8T/Ivq5svMIZrXvPl798MUnRShoJMB1JcN8K1mqX6Fote2xpBQ==
-X-Received: by 2002:a5d:5957:0:b0:22e:3e9:ba15 with SMTP id e23-20020a5d5957000000b0022e03e9ba15mr48747236wri.180.1670257238839;
-        Mon, 05 Dec 2022 08:20:38 -0800 (PST)
-Received: from localhost.localdomain (bzq-84-110-153-254.static-ip.bezeqint.net. [84.110.153.254])
-        by smtp.gmail.com with ESMTPSA id bg9-20020a05600c3c8900b003cf483ee8e0sm23775783wmb.24.2022.12.05.08.20.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Dec 2022 08:20:38 -0800 (PST)
-From: Alvaro Karsz <alvaro.karsz@solid-run.com>
-To: virtualization@lists.linux-foundation.org
-Cc: linux-block@vger.kernel.org,
-	dm-devel@redhat.com,
-	linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org,
-	Alvaro Karsz <alvaro.karsz@solid-run.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH v3] virtio_blk: add VIRTIO_BLK_F_LIFETIME feature support
-Date: Mon,  5 Dec 2022 18:20:34 +0200
-Message-Id: <20221205162035.2261037-1-alvaro.karsz@solid-run.com>
-X-Mailer: git-send-email 2.32.0
+	id 1p2FmF-0082Jn-AT
+	for linux-nvme@lists.infradead.org; Mon, 05 Dec 2022 18:01:17 +0000
+Received: from pps.filterd (m0170395.ppops.net [127.0.0.1])
+	by mx0b-00154904.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2B5GF0pK022632;
+	Mon, 5 Dec 2022 13:01:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=smtpout1;
+ bh=7lASPvc9rjZK1clILiyAsN94dScOu3F/YVT1UUS0FvE=;
+ b=ZuBf+r0Uk4c2o7YPg/Z+bP9NdStOUTBSzVUmNEX256NHzqx5t0NshXDiG2f9isBj2wWG
+ JxGlzBAY+1T1F3wQYkpww1Y7eZ3vXqOsiS4T221o73vA+UwQ6cSfMSMW41Qx1N2OvPy8
+ gxhRx8+ogZghPFPG+tA9J0f5iQawq0h1xBXwjNgcXrPGUv3Q2fuc+Nnnkdy4D5ccS05k
+ ny96lwBd+Abc1717h0R4ZsVGym2VH248lsjXozHwWu0yglIO1HXL335wfLHPVmHWd4JH
+ zkxxpxJi2bvfIU2sYH8EWcIZC0J3QUSYriNmzgKGFG7xyj04zTk3ifKjU5l+W2gVKRQs 2A== 
+Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com [67.231.149.39])
+	by mx0b-00154904.pphosted.com (PPS) with ESMTPS id 3m840uc5w7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 05 Dec 2022 13:01:03 -0500
+Received: from pps.filterd (m0133268.ppops.net [127.0.0.1])
+	by mx0a-00154901.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2B5Hw7fh001564;
+	Mon, 5 Dec 2022 13:01:03 -0500
+Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2049.outbound.protection.outlook.com [104.47.73.49])
+	by mx0a-00154901.pphosted.com (PPS) with ESMTPS id 3m9msugth1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 05 Dec 2022 13:01:02 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Peb+laHfeQPGwo4L93Z5aNWwiKPcRgGz+xgWpbpxEzI1ZeOochFMkNc7H7z4xOm32C28YVcWWqtdltWHc4xssdFNFqH190OLKBns4m8l5JWx5qJkv6YASghNeKhzhgk3ogc+OmeuWBaIMD9r4zxjUoMpXX9lzTTDhvFnIYo9LGXcqJmLZMhRFrZNUBB3MQFXAlGBL7PZ93zCHWpCcSv5aEEKxbDYkKTJ0YqKVJfIDNSb3EZws73IUZO3lXRtRO9/5lIlvXJearwDSTLRo4/+GhBaLKUaYTUlcFH5iklzDP2fSlkU27TpDVWqkCDMIrpoWq/R3JW7q6RFinJjaTLcJQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7lASPvc9rjZK1clILiyAsN94dScOu3F/YVT1UUS0FvE=;
+ b=m2D30vPriSOdub4LqEUjJwdsUfgzWEWqjw79w2+cOrFEhKvsOn3UOTXUo+9E/Goy5dwXJUfP3x8nI8LI8JdHiTt2V15tQcBFKpkyx/nGowZrGYGwXRfKKRXGbAa+ZIAnArwKG6CUUCIwx+rjWGU39b/Op0tgm+Dc6WCMxpA+1bAnyinCgsrPO+YXmJDMxZkYcr3LRKD0lehFrhNBA7gEeZUN5SJLjkxNeROGGn8+bGOC+mQYCteha7fnoEOz8jzVcG73oRd9E8zQIatWupomqgBuJQv4ZfjgY3xV/kbt2HLOubxyN1AK8o4wr6th5dD+CT75CthMXTA3jb0a63hwOA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=dell.com; dmarc=pass action=none header.from=dell.com;
+ dkim=pass header.d=dell.com; arc=none
+Received: from CO1PR19MB4885.namprd19.prod.outlook.com (2603:10b6:303:f5::17)
+ by SA1PR19MB7087.namprd19.prod.outlook.com (2603:10b6:806:2b8::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.13; Mon, 5 Dec
+ 2022 18:00:59 +0000
+Received: from CO1PR19MB4885.namprd19.prod.outlook.com
+ ([fe80::404:85:b6d7:86fd]) by CO1PR19MB4885.namprd19.prod.outlook.com
+ ([fe80::404:85:b6d7:86fd%3]) with mapi id 15.20.5880.014; Mon, 5 Dec 2022
+ 18:00:59 +0000
+From: "Engel, Amit" <Amit.Engel@Dell.com>
+To: Sagi Grimberg <sagi@grimberg.me>,
+        "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>
+CC: "Grupi, Elad" <Elad.Grupi@dell.com>
+Subject: RE: [PATCH] nvme-tcp: add additional info for nvme_tcp_timeout log
+Thread-Topic: [PATCH] nvme-tcp: add additional info for nvme_tcp_timeout log
+Thread-Index:  AQHY+oZ3D5fYZrPgTEKaaKTSawClOq5HuhEAgAGKjLCAAAFEAIAABSLQgAAsj4CAFIQ9EIABL5iAgABoTmA=
+Date: Mon, 5 Dec 2022 18:00:59 +0000
+Message-ID:  <CO1PR19MB48854117F203A43ABFFDB17FEE189@CO1PR19MB4885.namprd19.prod.outlook.com>
+References: <1668607073-1814545-1-git-send-email-amit.engel@dell.com>
+ <1668690824-2034939-1-git-send-email-amit.engel@dell.com>
+ <4effaa95-0357-7d65-1701-8ec67ce7cc11@grimberg.me>
+ <CO1PR19MB4885EB9E323178E235681F9EEE0A9@CO1PR19MB4885.namprd19.prod.outlook.com>
+ <8e6fb5af-2992-dfe2-10dd-383c2c058f8b@grimberg.me>
+ <CO1PR19MB4885EADF8C1E970867C71487EE0A9@CO1PR19MB4885.namprd19.prod.outlook.com>
+ <a6fbc43b-7f7f-91f6-a157-186f2663b734@grimberg.me>
+ <CO1PR19MB488579DCD958B74B2C8E38AEEE199@CO1PR19MB4885.namprd19.prod.outlook.com>
+ <9021ae71-646f-8183-7772-7dae38a60d47@grimberg.me>
+In-Reply-To: <9021ae71-646f-8183-7772-7dae38a60d47@grimberg.me>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_Enabled=true;
+ MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_SetDate=2022-12-05T16:12:47Z;
+ MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_Method=Privileged;
+ MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_Name=Public No Visual Label;
+ MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
+ MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_ActionId=b15678a4-1610-4d77-b82d-5451f0291268;
+ MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_ContentBits=0
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CO1PR19MB4885:EE_|SA1PR19MB7087:EE_
+x-ms-office365-filtering-correlation-id: b376cdb8-8a76-471d-ab05-08dad6eaaa25
+x-exotenant: 2khUwGVqB6N9v58KS13ncyUmMJd8q4
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  yy+apRKdtC3iqHUkfOUJwdSbZ5kwZ0aPMGVh0H91Xu1m2csfL9mGbdfz50UdmjT8zeI90TCXNhuQNVVJmF74s7UiV43watHvtqCCCHcX5S5F0iQAHnK3kqqL/D4r2XEL1KD5sasLKoWcJXZ4LQQfsgiDOyOQ8M+LDcfQreCld9w5FFsoN1AlDqbzzwi/fbq93ZEeK5WqJdFEk9IyKm4t5P0KoHVnIFm/gS9oDkqZt7IXjqA1mHqEvotULZkaKDMNXxhRWjvTBMHq6vec77OJrIC7UT/WlRO5IJOLIg7UxpkAPyQfJVvH+2sqzkevxRVdSwtK1A+t02EhHhN0jSaTWUlyUHv1NkUFhclyzzpqARl4u2D5rjIa6b9oYQEEoFt8d8R7TJe+1Fm+2HWr0/LIkOpk/Jj0Q66Nl0IA8icCH1dviOZERgOQC8wiZwGTFEWrMVNT5CkbrP9QMl8Wg9vzPLQl9m5U4MtDhV53DRm12XyPLx8vSc1BIVXyz20DZn1SX7GUpDHqypIdwuzJtzAgwHB/HBiUi6lnVSimg6W/7/SUfaE3C4fAh6YWlqSb+82PBMoDaRLG1pxfzNQ2vBt9muS3W+Fz5h2wHU678x4Xf3BCs+giW3wegp3LGzzTurjY8mmt4k/Fl5ZwO2vW9bd6CNoUfjYxY/paZRbyclkVB64u1S5Yt6OxVDaHgwWEQHetEYK4ZVE0nzkpx/rb0pbmPg==
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR19MB4885.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(376002)(346002)(39860400002)(136003)(396003)(451199015)(8936002)(52536014)(8676002)(64756008)(76116006)(66446008)(66556008)(4326008)(33656002)(66946007)(110136005)(66476007)(316002)(786003)(2906002)(82960400001)(186003)(83380400001)(71200400001)(7696005)(55016003)(86362001)(9686003)(26005)(478600001)(38100700002)(6506007)(53546011)(122000001)(38070700005)(107886003)(41300700001)(5660300002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?c2VXYURQMFRSaHVYbmV4RjlzNjVHblZVa1JzSjlMVWlXVTFETW1HUWltaGdk?=
+ =?utf-8?B?UUFwUENrdG5FTmY5TkROVHhwcjNXeUdiSzRCS0FFc1hmUXNmUThIU2hjOWlL?=
+ =?utf-8?B?bkdNYXJHTkI0d2pnaVdkeWRxTythT0hJM2NYNWZreTRPV1h4alBnRVByaUlP?=
+ =?utf-8?B?T291R0h1YnpkalJvRjlTSG5VWlBveGVab2lxM0hub1c2THR4cGNSYkcvWGdi?=
+ =?utf-8?B?V3pGVjMzREg0aWtYYXRwdmkrc29iaHU5SE9zRlExOFRWZnJZTHljSk9OSEhs?=
+ =?utf-8?B?K09LdjBUU21NREZ3UjYzVlg5K1RYNGhwelM0Ykx4OHdQL2FZRnhuNmVrM2Q3?=
+ =?utf-8?B?SE1xMmdGLzhjUGJVR25lMG5pS2lMVFJDdm1Qa0xWQjZBak1qd1o4Mm5DcHVv?=
+ =?utf-8?B?aSt2WDhCNUR5NkJnbXNHd0xZazVCS0QrVDVRK0ZYZ1VBT243UGxEVUNJZlRl?=
+ =?utf-8?B?OFRKVWhmWkM5L3Bvd1FYMUtUcFZxNVo4VG5OeUR6aURLSDMrTklyNUxQRGpx?=
+ =?utf-8?B?cFZVNDcybHJtSnVGKzQ5ZEZPZnlRZ0ZJdStYNmNscVZvYThURERYV2FRMUtU?=
+ =?utf-8?B?eEZSaHpEaVRab095YjQ3ZkNXYm1jOTVydG1icEFzRXpXRkgvMFpNSWZ1Qmcy?=
+ =?utf-8?B?YkRzbWwwUHNjMzVtMzRRanZIT2htbDd1ZEpGZDdjN2F3NytaN3g5WXowdTlv?=
+ =?utf-8?B?d3N1ZnlYaUlRZUZ2V3pWQnpGNGwxeEhxa1htWDJidUJyZWdUOHlpek1DbzUr?=
+ =?utf-8?B?TUR3V0hRUmRtTjdYcWRwZ1phQkQ1ZjF6b3d1VXRiaG5VcnZPSE5odnFHUTJv?=
+ =?utf-8?B?RDB2aWlNQmRUaGZ4OVZNNHRFK2NYN3RLdVJoOFVXeHpsU3d1M3ZXNndjWHR0?=
+ =?utf-8?B?UHNCODFpWGZ2VWNYUFd5QXFUT0U2anovR0duVzlwQUxUUjVVR0V5RC9ZYWFi?=
+ =?utf-8?B?Yjh5OXNUT1VRUUdZUitQd0VVdHlZeFYvYUtBa0Z1NXpxZWNqVk42RklNYW9O?=
+ =?utf-8?B?Z05mN25mbVNFNGFLclVOUFlGa2ZEWDdiR0lOeDlTZmliejZwRTFlZXFvWEVr?=
+ =?utf-8?B?d3EwTmcyelJlRmg0OU9RWW1XSHl3MXFzVW4wUjZBWFp4SlA4YWxXVVV1b2J1?=
+ =?utf-8?B?aXRFRmdzSTAxd09OQmhtUzlrc1JYOGF5VzZDRGNjaXVBZ1pUZnQzSG94MVo1?=
+ =?utf-8?B?Nk1IeDlIOVdndWpQUWJwYjFHU0VLN3FQcnV2SFRmNTRjWHNIeno5QkJSUWJr?=
+ =?utf-8?B?UWhSM0JEMzNWQVFZbS9xMnpwYXpMU3ZMK2R3TVVkTHRMR2Q5aXh3d1VCcGZL?=
+ =?utf-8?B?djlOR090cndCUi8yZk5EZnpaZkFvaEZ2a01SenVITXphUmZNdTBZTHhZSUN0?=
+ =?utf-8?B?Vnc5RTd0RUt0U1dERDluWEtFdVdTNDBUc2hvSlY0VW1SK08ybGx3d1ZnbjU5?=
+ =?utf-8?B?R3RVTDJnQTZKQXF6ZFVSVG1Na04xNG9jL0IzK3FPSUpZSitCYWdMenBvc2N6?=
+ =?utf-8?B?Q2tNV0NyZUpyTVVnR0JVd0pLTmtSdjhLYWtvUkk1MmZGTVc4M3orVDZSNU44?=
+ =?utf-8?B?L0VtZU50Y2VzNTRIVkhiVUlKbTFiYXZIY2lMWXREWm1yTEJxY1JQUXBrNDJO?=
+ =?utf-8?B?Y1hhY0hLTWVob2N5WlppdkRiT0RpSFhPUHRWWFVSVEFLR2lmWndFTkgrbTFS?=
+ =?utf-8?B?dmlhTXdBa1NGVDBNWXpLeHdqZWhQZWFCWmx5WTVKWmZQcCtEK2k0SzNxdEs4?=
+ =?utf-8?B?R1czWEpKQjJrQTNDT3BKeUtpSGpoRFVVSFhrOERXbDg3NUlpei9yeTl6cGtF?=
+ =?utf-8?B?N0xVODJGTE9YVVBMUUY3NDNTMGNFOW40bjlmenJBQTdieEs1cWNqRURDNldt?=
+ =?utf-8?B?SVJHQTVxNnVadzVnNUtVd1FVWDRVMmZoRTZKYmNXdGZRRXRjd2FPSVlYbmpQ?=
+ =?utf-8?B?S0xrQjVhVU9xdUdVRzlMQkdibGxTWkNPcVFRdncwQjZ0V1dla0tOWk9mLytk?=
+ =?utf-8?B?ZUE5bStpUVIvUHkxN01EU0Z1ZG5FYzFuQWh5aXRhYjR3ZFhHN3J4OU1sWFo2?=
+ =?utf-8?B?NG92ZVFNV3U2SS9XUm5EdlFHRUIwdUpUVVc5aTFxVUJPdnB6cktXemt0MVJX?=
+ =?utf-8?Q?T77VxWtByYNO/Z82wQnC9l9kR?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: Dell.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR19MB4885.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b376cdb8-8a76-471d-ab05-08dad6eaaa25
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Dec 2022 18:00:59.1476
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 945c199a-83a2-4e80-9f8c-5a91be5752dd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: m2Umro/od1hcq6wIBwdezDMfDcuil3VISQrLuCUuF2NU20vXTm4nau0wDuuyjnnSx5SRTTNa2SEDm5FeX8jPXQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR19MB7087
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-05_01,2022-12-05_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ impostorscore=0 suspectscore=0 spamscore=0 clxscore=1015 adultscore=0
+ phishscore=0 bulkscore=0 malwarescore=0 mlxscore=0 mlxlogscore=999
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212050148
+X-Proofpoint-ORIG-GUID: fbeoa2KdFGWL6g3NpMXoxrQHGETJLZvy
+X-Proofpoint-GUID: fbeoa2KdFGWL6g3NpMXoxrQHGETJLZvy
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0
+ mlxlogscore=999 suspectscore=0 bulkscore=0 mlxscore=0 phishscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212050148
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221205_082043_367640_847EDE71 
-X-CRM114-Status: GOOD (  29.44  )
+X-CRM114-CacheID: sfid-20221205_100115_558043_B1326427 
+X-CRM114-Status: GOOD (  25.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,296 +189,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Implement the VIRTIO_BLK_F_LIFETIME feature for VirtIO block devices.
-
-This commit introduces a new ioctl command, VBLK_LIFETIME.
-
-VBLK_LIFETIME ioctl asks for the block device to provide lifetime
-information by sending a VIRTIO_BLK_T_GET_LIFETIME command to the device.
-
-lifetime information fields:
-
-- pre_eol_info: specifies the percentage of reserved blocks that are
-		consumed.
-		optional values following virtio spec:
-		*) 0 - undefined.
-		*) 1 - normal, < 80% of reserved blocks are consumed.
-		*) 2 - warning, 80% of reserved blocks are consumed.
-		*) 3 - urgent, 90% of reserved blocks are consumed.
-
-- device_lifetime_est_typ_a: this field refers to wear of SLC cells and
-			     is provided in increments of 10used, and so
-			     on, thru to 11 meaning estimated lifetime
-			     exceeded. All values above 11 are reserved.
-
-- device_lifetime_est_typ_b: this field refers to wear of MLC cells and is
-			     provided with the same semantics as
-			     device_lifetime_est_typ_a.
-
-The data received from the device will be sent as is to the user.
-No data check/decode is done by virtblk.
-
-Signed-off-by: Alvaro Karsz <alvaro.karsz@solid-run.com>
---
-v2:
-	- Remove (void *) casting.
-	- Fix comments format in virtio_blk.h.
-	- Set ioprio value for legacy devices for REQ_OP_DRV_IN
-	  operations.
-
-v3:
-	- Initialize struct virtio_blk_lifetime to 0 instead of memset.
-	- Rename ioctl from VBLK_LIFETIME to VBLK_GET_LIFETIME.
-	- Return EOPNOTSUPP insted of ENOTTY if ioctl is not supported.
-	- Check if process is CAP_SYS_ADMIN capable in lifetime ioctl.
-	- Check if vdev is not NULL before accessing it in lifetime ioctl.
---
----
- drivers/block/virtio_blk.c      | 106 ++++++++++++++++++++++++++++++--
- include/uapi/linux/virtio_blk.h |  32 ++++++++++
- 2 files changed, 133 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-index 19da5defd73..392d57fd6b7 100644
---- a/drivers/block/virtio_blk.c
-+++ b/drivers/block/virtio_blk.c
-@@ -101,6 +101,18 @@ static inline blk_status_t virtblk_result(struct virtblk_req *vbr)
- 	}
- }
- 
-+static inline int virtblk_ioctl_result(struct virtblk_req *vbr)
-+{
-+	switch (vbr->status) {
-+	case VIRTIO_BLK_S_OK:
-+		return 0;
-+	case VIRTIO_BLK_S_UNSUPP:
-+		return -EOPNOTSUPP;
-+	default:
-+		return -EIO;
-+	}
-+}
-+
- static inline struct virtio_blk_vq *get_virtio_blk_vq(struct blk_mq_hw_ctx *hctx)
- {
- 	struct virtio_blk *vblk = hctx->queue->queuedata;
-@@ -218,6 +230,7 @@ static blk_status_t virtblk_setup_cmd(struct virtio_device *vdev,
- 	u32 type;
- 
- 	vbr->out_hdr.sector = 0;
-+	vbr->out_hdr.ioprio = cpu_to_virtio32(vdev, req_get_ioprio(req));
- 
- 	switch (req_op(req)) {
- 	case REQ_OP_READ:
-@@ -244,15 +257,14 @@ static blk_status_t virtblk_setup_cmd(struct virtio_device *vdev,
- 		type = VIRTIO_BLK_T_SECURE_ERASE;
- 		break;
- 	case REQ_OP_DRV_IN:
--		type = VIRTIO_BLK_T_GET_ID;
--		break;
-+		/* type is set in virtblk_get_id/virtblk_ioctl_lifetime */
-+		return 0;
- 	default:
- 		WARN_ON_ONCE(1);
- 		return BLK_STS_IOERR;
- 	}
- 
- 	vbr->out_hdr.type = cpu_to_virtio32(vdev, type);
--	vbr->out_hdr.ioprio = cpu_to_virtio32(vdev, req_get_ioprio(req));
- 
- 	if (type == VIRTIO_BLK_T_DISCARD || type == VIRTIO_BLK_T_WRITE_ZEROES ||
- 	    type == VIRTIO_BLK_T_SECURE_ERASE) {
-@@ -459,12 +471,16 @@ static int virtblk_get_id(struct gendisk *disk, char *id_str)
- 	struct virtio_blk *vblk = disk->private_data;
- 	struct request_queue *q = vblk->disk->queue;
- 	struct request *req;
-+	struct virtblk_req *vbr;
- 	int err;
- 
- 	req = blk_mq_alloc_request(q, REQ_OP_DRV_IN, 0);
- 	if (IS_ERR(req))
- 		return PTR_ERR(req);
- 
-+	vbr = blk_mq_rq_to_pdu(req);
-+	vbr->out_hdr.type = cpu_to_virtio32(vblk->vdev, VIRTIO_BLK_T_GET_ID);
-+
- 	err = blk_rq_map_kern(q, req, id_str, VIRTIO_BLK_ID_BYTES, GFP_KERNEL);
- 	if (err)
- 		goto out;
-@@ -508,6 +524,85 @@ static int virtblk_getgeo(struct block_device *bd, struct hd_geometry *geo)
- 	return ret;
- }
- 
-+/* Get lifetime information from device */
-+static int virtblk_ioctl_lifetime(struct virtio_blk *vblk, unsigned long arg)
-+{
-+	struct request_queue *q = vblk->disk->queue;
-+	struct request *req = NULL;
-+	struct virtblk_req *vbr;
-+	struct virtio_blk_lifetime lifetime = {};
-+	int ret;
-+
-+	if (!capable(CAP_SYS_ADMIN))
-+		return -EPERM;
-+
-+	/* The virtio_blk_lifetime struct fields follow virtio spec.
-+	 * There is no check/decode on values received from the device.
-+	 * The data is sent as is to the user.
-+	 */
-+
-+	/* This ioctl is allowed only if VIRTIO_BLK_F_LIFETIME
-+	 * feature is negotiated.
-+	 */
-+	if (!virtio_has_feature(vblk->vdev, VIRTIO_BLK_F_LIFETIME))
-+		return -EOPNOTSUPP;
-+
-+	req = blk_mq_alloc_request(q, REQ_OP_DRV_IN, 0);
-+	if (IS_ERR(req))
-+		return PTR_ERR(req);
-+
-+	/* Write the correct type */
-+	vbr = blk_mq_rq_to_pdu(req);
-+	vbr->out_hdr.type = cpu_to_virtio32(vblk->vdev, VIRTIO_BLK_T_GET_LIFETIME);
-+
-+	ret = blk_rq_map_kern(q, req, &lifetime, sizeof(lifetime), GFP_KERNEL);
-+	if (ret)
-+		goto out;
-+
-+	blk_execute_rq(req, false);
-+
-+	ret = virtblk_ioctl_result(blk_mq_rq_to_pdu(req));
-+	if (ret)
-+		goto out;
-+
-+	/* Pass the data to the user */
-+	if (copy_to_user((void __user *)arg, &lifetime, sizeof(lifetime))) {
-+		ret = -EFAULT;
-+		goto out;
-+	}
-+
-+out:
-+	blk_mq_free_request(req);
-+	return ret;
-+}
-+
-+static int virtblk_ioctl(struct block_device *bd, fmode_t mode,
-+			 unsigned int cmd, unsigned long arg)
-+{
-+	struct virtio_blk *vblk = bd->bd_disk->private_data;
-+	int ret;
-+
-+	mutex_lock(&vblk->vdev_mutex);
-+
-+	if (!vblk->vdev) {
-+		ret = -ENXIO;
-+		goto exit;
-+	}
-+
-+	switch (cmd) {
-+	case VBLK_GET_LIFETIME:
-+		ret = virtblk_ioctl_lifetime(vblk, arg);
-+		break;
-+	default:
-+		ret = -EOPNOTSUPP;
-+		break;
-+	}
-+
-+exit:
-+	mutex_unlock(&vblk->vdev_mutex);
-+	return ret;
-+}
-+
- static void virtblk_free_disk(struct gendisk *disk)
- {
- 	struct virtio_blk *vblk = disk->private_data;
-@@ -520,6 +615,7 @@ static void virtblk_free_disk(struct gendisk *disk)
- static const struct block_device_operations virtblk_fops = {
- 	.owner  	= THIS_MODULE,
- 	.getgeo		= virtblk_getgeo,
-+	.ioctl		= virtblk_ioctl,
- 	.free_disk	= virtblk_free_disk,
- };
- 
-@@ -1239,7 +1335,7 @@ static unsigned int features_legacy[] = {
- 	VIRTIO_BLK_F_RO, VIRTIO_BLK_F_BLK_SIZE,
- 	VIRTIO_BLK_F_FLUSH, VIRTIO_BLK_F_TOPOLOGY, VIRTIO_BLK_F_CONFIG_WCE,
- 	VIRTIO_BLK_F_MQ, VIRTIO_BLK_F_DISCARD, VIRTIO_BLK_F_WRITE_ZEROES,
--	VIRTIO_BLK_F_SECURE_ERASE,
-+	VIRTIO_BLK_F_SECURE_ERASE, VIRTIO_BLK_F_LIFETIME,
- }
- ;
- static unsigned int features[] = {
-@@ -1247,7 +1343,7 @@ static unsigned int features[] = {
- 	VIRTIO_BLK_F_RO, VIRTIO_BLK_F_BLK_SIZE,
- 	VIRTIO_BLK_F_FLUSH, VIRTIO_BLK_F_TOPOLOGY, VIRTIO_BLK_F_CONFIG_WCE,
- 	VIRTIO_BLK_F_MQ, VIRTIO_BLK_F_DISCARD, VIRTIO_BLK_F_WRITE_ZEROES,
--	VIRTIO_BLK_F_SECURE_ERASE,
-+	VIRTIO_BLK_F_SECURE_ERASE, VIRTIO_BLK_F_LIFETIME,
- };
- 
- static struct virtio_driver virtio_blk = {
-diff --git a/include/uapi/linux/virtio_blk.h b/include/uapi/linux/virtio_blk.h
-index 58e70b24b50..e755d62d2ea 100644
---- a/include/uapi/linux/virtio_blk.h
-+++ b/include/uapi/linux/virtio_blk.h
-@@ -40,6 +40,7 @@
- #define VIRTIO_BLK_F_MQ		12	/* support more than one vq */
- #define VIRTIO_BLK_F_DISCARD	13	/* DISCARD is supported */
- #define VIRTIO_BLK_F_WRITE_ZEROES	14	/* WRITE ZEROES is supported */
-+#define VIRTIO_BLK_F_LIFETIME	15 /* Storage lifetime information is supported */
- #define VIRTIO_BLK_F_SECURE_ERASE	16 /* Secure Erase is supported */
- 
- /* Legacy feature bits */
-@@ -165,6 +166,9 @@ struct virtio_blk_config {
- /* Get device ID command */
- #define VIRTIO_BLK_T_GET_ID    8
- 
-+/* Get lifetime information command */
-+#define VIRTIO_BLK_T_GET_LIFETIME 10
-+
- /* Discard command */
- #define VIRTIO_BLK_T_DISCARD	11
- 
-@@ -206,6 +210,30 @@ struct virtio_blk_discard_write_zeroes {
- 	__le32 flags;
- };
- 
-+/* Get lifetime information struct for each request */
-+struct virtio_blk_lifetime {
-+	/*
-+	 * specifies the percentage of reserved blocks that are consumed.
-+	 * optional values following virtio spec:
-+	 * 0 - undefined
-+	 * 1 - normal, < 80% of reserved blocks are consumed
-+	 * 2 - warning, 80% of reserved blocks are consumed
-+	 * 3 - urgent, 90% of reserved blocks are consumed
-+	 */
-+	__le16 pre_eol_info;
-+	/*
-+	 * this field refers to wear of SLC cells and is provided in increments of 10used,
-+	 * and so on, thru to 11 meaning estimated lifetime exceeded. All values above 11
-+	 * are reserved
-+	 */
-+	__le16 device_lifetime_est_typ_a;
-+	/*
-+	 * this field refers to wear of MLC cells and is provided with the same semantics as
-+	 * device_lifetime_est_typ_a
-+	 */
-+	__le16 device_lifetime_est_typ_b;
-+};
-+
- #ifndef VIRTIO_BLK_NO_LEGACY
- struct virtio_scsi_inhdr {
- 	__virtio32 errors;
-@@ -219,4 +247,8 @@ struct virtio_scsi_inhdr {
- #define VIRTIO_BLK_S_OK		0
- #define VIRTIO_BLK_S_IOERR	1
- #define VIRTIO_BLK_S_UNSUPP	2
-+
-+/* Virtblk ioctl commands */
-+#define VBLK_GET_LIFETIME	_IOR('r', 0, struct virtio_blk_lifetime)
-+
- #endif /* _LINUX_VIRTIO_BLK_H */
--- 
-2.32.0
-
+WWVzLCBpbyB0aW1lb3V0IGlzIG9idGFpbmFibGUgdmlhIHN5c2ZzLg0KQnV0IHRoaXMgaW9fdGlt
+ZW91dCBwYXJhbSBpcyB3cml0YWJsZSBhbmQgdGhlIHVzZXIgY2FuIG1vZGlmeSB0aGlzIHZhbHVl
+IGF0IGFueSB0aW1lLg0KU28gSSBzdGlsbCBmaW5kIGl0IHVzdWZsIHRvIGhhdmUgdGhpcyB2YWx1
+ZSBhcyBwYXJ0IG9mIHRoaXMgbG9nLg0KDQpSZWdhcmRpbmcgdGhlIGNudGxpZCwgSSBhZ3JlZSAt
+IHdlIGNhbiByZW1vdmUgaXQuDQoNClRoYW5rcw0KQW1pdA0KDQotLS0tLU9yaWdpbmFsIE1lc3Nh
+Z2UtLS0tLQ0KRnJvbTogU2FnaSBHcmltYmVyZyA8c2FnaUBncmltYmVyZy5tZT4gDQpTZW50OiBN
+b25kYXksIDUgRGVjZW1iZXIgMjAyMiAxMTo1OQ0KVG86IEVuZ2VsLCBBbWl0IDxBbWl0LkVuZ2Vs
+QERlbGwuY29tPjsgbGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnDQpDYzogR3J1cGksIEVs
+YWQgPEVsYWQuR3J1cGlAZGVsbC5jb20+DQpTdWJqZWN0OiBSZTogW1BBVENIXSBudm1lLXRjcDog
+YWRkIGFkZGl0aW9uYWwgaW5mbyBmb3IgbnZtZV90Y3BfdGltZW91dCBsb2cNCg0KDQpbRVhURVJO
+QUwgRU1BSUxdIA0KDQoNCj4gSGkgU2FnaSwgdGhhbmsgeW91IGZvciB5b3VyIGlucHV0cw0KPiAN
+Cj4gSXQgc2VlbXMgdG8gbWUgdGhhdCBsb2dnaW5nIG52bWUgY29tbWFuZCBpZCBpcyBzdWZmaWNp
+ZW50IGFuZCB0aGVyZSBpcyANCj4gbm8gbmVlZCB0byBsb2cgYWxzbyB0YWcgYW5kIGdlbmN0ciBz
+ZXBhcmF0ZWx5IFRoaXMgaXMgZHVlIHRvIHRoZSBmYWN0IHRoYXQgY29tbWFuZCBpZCBpcyBjb25z
+dHJ1Y3RlZCBhcyBzdWNoOg0KPiANCj4gfCB4eHh4IHwgeHh4eHh4eHh4eHh4IHwNCj4gICAgZ2Vu
+ICAgIHJlcXVlc3QgdGFnDQo+IA0KPiBXaGF0IGRvIHlvdSB0aGluaz8NCg0KWWVzLCB0aGF0IGlz
+IGZpbmUgSSBndWVzcy4NCg0KPiBSZWdhcmRpbmcgdGhlIGlvIHRpbWVvdXQgdmFsdWUsIEkgZ290
+IHlvdXIgcG9pbnQuLg0KPiBsb2dnaW5nIHRoZSBpbyB0aW1lb3V0IHRocmVzaG9sZCAod2hpY2gg
+aXMgdGhlIGRlbHRhIGZyb20gYWxsb2NhdGlvbiANCj4gdG8gc3VibWlzc2lvbikgaXMgc3VmZmlj
+aWVudA0KPiANCj4gcmVnYXJkaW5nIG52bWUtdGNwIHRyYWNlIHBvaW50cyAtICBJIGRvbuKAmXQg
+YmVsaWV2ZSB0aGF0IHdvdWxkIGhlbHAuDQo+IFRoaXMgdGltZW91dCBsb2cgaXMgb24gdGhlIGhv
+c3Qgc2lkZSwgYW5kIHdlIGNhbid0IGVuc3VyZSB0aGF0IGEgDQo+IGN1c3RvbWVyIHRoYXQgaXMg
+cnVubmluZyBudm1lIGhvc3Qgd2lsbCBlbmFibGUvdXNlIHRyYWNlIHBvaW50cyBJbiBhZGRpdGlv
+biwgdGhlIHdob2xlIHBvaW50IG9mIHRoaXMgc3BlY2lmaWMgbG9nIGlzIGZvciBkZWJ1ZywgSSBn
+dWVzcyAtIHJpZ2h0Pw0KDQpUbyBzb21lIGV4dGVudC4NCg0KPiANCj4gSG93IGRvZXMgdGhpcyBs
+b2cgbG9vaz8NCj4ga2VybmVsOiBudm1lIG52bWUwOiBxdWV1ZSA0OiBjbnRsaWQgMSB0eXBlIDQg
+Y2lkIDQxNjMgb3Bjb2RlIDB4MiBpbyANCj4gdGltZW91dCB0aHJlc2hvbGQgMzAwMDBtcyAoSW5j
+bHVkaW5nIHRoZSBjbnRsaWQsIGNpZCAod2hpY2ggaW5jbHVkZXMgDQo+IGdlbmN0cit0YWcpLCBv
+cGMsIGFuZCB0aW1lb3V0IHRocmVzaG9sZCB2YWx1ZSBpbiBtcykNCg0KQm90aCB0aGUgY250bGlk
+IGFuZCB0aGUgaW8gdGltZW91dCBhcmUgb2J0YWluYWJsZSB2aWEgc3lzZnMsIHdoeSBhZGQgdGhl
+c2UgdG8gdGhlIGxvZz8gVGhlIGNudGxpZCBpcyBvZnRlbiBqdXN0IGFuIGVwaGVtZXJhbCB2YWx1
+ZSBhc3NpZ25lZCBieSB0aGUgY29udHJvbGxlci4NCg0Kb3Bjb2RlIGlzIGZpbmUgdG8gYWRkLg0K
 
