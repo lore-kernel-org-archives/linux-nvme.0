@@ -4,121 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0CCAFC4321E
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Dec 2022 14:31:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C183C4332F
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Dec 2022 15:35:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Transfer-Encoding:MIME-Version:Content-Type:Message-ID:Date:Subject:
-	CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=dUWarxBgIIGvMT0WcZqTP1J4oIKzS7HhegeJjIwkJT8=; b=SHnCit4I5kXFTWbXgbHpmU0kNR
-	XwLLekQ/r6ZW1+KJlITUSHKPyuzMMrkrSYu47D03ev6AUcneSQbzoPsxDnThEc5ora0DZ/QYkSK4h
-	y/96q6QeT8yI6/rO8FuSrznDPGj4QRt91BIQrbCwmn9lgndO9L7iGzjKZP69Tiyxi6POGn6rUrnUh
-	iEBf2T7wyLDMTFFgXQVjNDcTxdEdCLO6TSvmXqexybpdKOulewoVpnwzANIJxfHWu4ceEXDDmlCGe
-	Zj+YbrVglqu+ENolmfyNnq3pGxb6n2uvsT6DH9r5sI2FqGYJaZGj2TZ9nJBwbdC9lWaaRx3awock6
-	sKcitwFA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=zgGtpVP+iIo5tSB5DTf8/1qr3KZlO2K3XZ60QlXU2sQ=; b=sPR46B8EGt+oFNgm0ef7ZBmc45
+	W02PYogJqkWh97DcTICytkw91rLhzGBfpI7g1HTSAbBpz4hSdn6s/F3Y76jkMztN87ykMWGtCQmBV
+	QdcVrosSuO9Aq/s6TT35N8BXbcG/BSx7sOEZ2DlE51YBu/OaSR8pBZS4ujfhqHm/YiBpEpfO7uCCY
+	gsk/3GbToPKp2b2svwyyqBPGz1L594BbwuWdW+02aFgSu8URUoiJLEdFR/K8KsE+TW53WaiLn4rA0
+	EVyoz7S/VPHPzSMr3Yf7sZcpUodtYCrGhxPiiaiqF37xYMFwhWgtaVSelxf/kSyB8rtf4DTX3s11Q
+	pItulZ6w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2CVf-0045lN-J8; Mon, 05 Dec 2022 14:31:55 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1p2DV8-004wpR-Gy; Mon, 05 Dec 2022 15:35:26 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2CVX-0045ju-KD
-	for linux-nvme@lists.infradead.org; Mon, 05 Dec 2022 14:31:50 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20221205143144euoutp02a9929d2224c2b131c60f8e73b75a610f~t7CqCrwO91438814388euoutp02L
-	for <linux-nvme@lists.infradead.org>; Mon,  5 Dec 2022 14:31:44 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20221205143144euoutp02a9929d2224c2b131c60f8e73b75a610f~t7CqCrwO91438814388euoutp02L
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1670250704;
-	bh=dUWarxBgIIGvMT0WcZqTP1J4oIKzS7HhegeJjIwkJT8=;
-	h=From:To:CC:Subject:Date:References:From;
-	b=X1TO+XKLhek8awzkgOHap4xCul1UY2jKSlrGunegCCiYGrIiqA/oe18Q+G+BDByQ7
-	 cj/eAeSQMfsK5oT/vfZdP8GjLNQ5+KoDHagZlCd3pK7rE1t7yqIRZq0FB+MAnRc7KS
-	 +XvYE4lgowp6oKZpGdQqWcTpbz909kUhvEwSYPEo=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20221205143143eucas1p27996e81a2943756d43e0c5f2d4d9ba65~t7Cp5sZqM3246232462eucas1p2p;
-	Mon,  5 Dec 2022 14:31:43 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges1new.samsung.com (EUCPMTA) with SMTP id 06.C3.09561.FC00E836; Mon,  5
-	Dec 2022 14:31:43 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20221205143143eucas1p2f5dd4e56ff5ab515fca60ecc0a10350c~t7Cpd3wza3245332453eucas1p2G;
-	Mon,  5 Dec 2022 14:31:43 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20221205143143eusmtrp1e4061d2859e6b4eda3a103e08cf40963~t7CpdQl2w1752117521eusmtrp1O;
-	Mon,  5 Dec 2022 14:31:43 +0000 (GMT)
-X-AuditID: cbfec7f2-0c9ff70000002559-9e-638e00cf77bc
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-	eusmgms2.samsung.com (EUCPMTA) with SMTP id 38.99.09026.FC00E836; Mon,  5
-	Dec 2022 14:31:43 +0000 (GMT)
-Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20221205143143eusmtip101a20425f642eef85c131f891ab99742~t7CpUgx6M0124201242eusmtip1M;
-	Mon,  5 Dec 2022 14:31:43 +0000 (GMT)
-Received: from localhost (106.110.32.33) by CAMSVWEXC02.scsc.local
-	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Mon, 5 Dec 2022 14:31:38 +0000
-From: Joel Granados <j.granados@samsung.com>
-To: <hch@lst.de>, <chaitanyak@nvidia.com>, <sagi@grimberg.me>,
-	<kbusch@kernel.org>
-CC: <p.raghav@samsung.com>, <javier.gonz@samsung.com>,
-	<joshi.k@samsung.com>, <linux-nvme@lists.infradead.org>, Joel Granados
-	<j.granados@samsung.com>
-Subject: [PATCH v5 0/1] nvme : Add ctrl id to allowed passthru commands
-Date: Mon, 5 Dec 2022 15:27:45 +0100
-Message-ID: <20221205142746.1026912-1-j.granados@samsung.com>
-X-Mailer: git-send-email 2.30.2
-Content-Type: text/plain; charset="utf-8"
+	id 1p2DV5-004wlB-3e
+	for linux-nvme@lists.infradead.org; Mon, 05 Dec 2022 15:35:25 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 87CD761188;
+	Mon,  5 Dec 2022 15:35:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 545DEC433D6;
+	Mon,  5 Dec 2022 15:35:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1670254522;
+	bh=Yv+NuKym0hvYAxNdUhOJfpVZAp1KJ2uafez95xj/bEA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fneJSiwMe1MWg4wE+/2VJbn061da4GPgVAe7o5b8Omc1VXUOB3+00lZmVuiv80zIx
+	 KZtZYmbwa9pQ81HcpWUGq9c2aZ1Oo1mcINNmZudW5VgGY9mMjbsRolepUGtDnVEV20
+	 28+8C7eFHeGDNqK2m2CPhJ5pVUuxg84cTe9JuZinvBK7rs0v2g/rcEXq6ts0e7dlSN
+	 SS2haYsMtuHnSnBmZPXrWSkBG/9qK8JqtQoEcGESh7I1C+vr1mm0O8f7+vIAjtYCfW
+	 M0Qgr97jL9ZT38A/Lznef+N2JpS4po3Qgg3+rcC+PxWYVBbhI/41WTpEt7W6dyXA1q
+	 gYvPE4WcPI7/g==
+Date: Mon, 5 Dec 2022 15:35:17 +0000
+From: Keith Busch <kbusch@kernel.org>
+To: Joel Granados <j.granados@samsung.com>
+Cc: hch@lst.de, chaitanyak@nvidia.com, sagi@grimberg.me,
+	p.raghav@samsung.com, javier.gonz@samsung.com, joshi.k@samsung.com,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v5 1/1] nvme : Add ctrl id to allowed passthru commands
+Message-ID: <Y44PtQ1uWtbBhx4X@kbusch-mbp.dhcp.thefacebook.com>
+References: <20221205142746.1026912-1-j.granados@samsung.com>
+ <CGME20221205143143eucas1p2c4044196a8ff0cb9b563f99d2a5183ce@eucas1p2.samsung.com>
+ <20221205142746.1026912-2-j.granados@samsung.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [106.110.32.33]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
-	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpnleLIzCtJLcpLzFFi42LZduznOd3zDH3JBl83WFm8P/iY1WLl6qNM
-	FpMOXWO0mL/sKbvFutfvWRxYPc7f28jisWlVJ5vH5iX1HrtvNrB59Da/YwtgjeKySUnNySxL
-	LdK3S+DK+PdwBUtBK3/FmttvGBsYJ/J0MXJwSAiYSGz5zNXFyMUhJLCCUeJkw2cWCOcLo8TD
-	dVPZIJzPjBIf5y5l6mLkBOu4+HIiO0RiOaPEvmMbWeCqbjTcYYZwNjFKdHzdxg7SwiagI3H+
-	DUiCk0NEIETix+29YO3MArOANl7qZgFJCAu4Szw8fIMNxGYRUJE41bsSzOYVsJWYfPkqM8Ru
-	eYm269MZQS5nFtCUWL9LH6JEUOLkzCdgY5iBSpq3zoYqV5TYMuc7K4RdK3Fqyy0mkL0SAic4
-	JF4evMsGkXCR6D2wmQXCFpZ4dXwLO4QtI3F6cg9UPFti55RdUEMLJGadBAUMKPSsJfrO5ECE
-	HSUmN69lhgjzSdx4KwhxDp/EpG3TocK8Eh1tQhDVahI7mrYyTmBUnoXwyywkv8xC8ssCRuZV
-	jOKppcW56anFhnmp5XrFibnFpXnpesn5uZsYgWnl9L/jn3Ywzn31Ue8QIxMH4yFGCQ5mJRHe
-	Fxt7k4V4UxIrq1KL8uOLSnNSiw8xSnOwKInzrpjSkSwkkJ5YkpqdmlqQWgSTZeLglGpgSuZt
-	e5LM0zrtwbtD05uu20kIuMpObltzu46/+637FeXs5A/xx7hb6i0zTZ59/xzeWyM1PcDuQWLC
-	2pPCJamz9dcV984wum8q7idzw1TPsuCrZOrmmnmdi92XN284qZ0km7x0cvKHym2Rrul2k/MY
-	Yg0LT2QpBJy9vJAtbUaXRCnHs48Jayv/vJYOWCJkey3qVfLX+5GF82c/E5x9ZWc5Qxrvy91/
-	mrbbnfwyQ+yZYFdX3q7v63m2cbZ8075hsPOgzjbD28wL2ZemLHSQ0vv/Lfdf1OZJ28vf8qXs
-	5911l+fDlbvr36916u7OL2w5dse2/4Hy4eMFtxNmCz7ef+Dqwb3pbKVHVvA2KUyZNnOfuBJL
-	cUaioRZzUXEiABgVBXOaAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJIsWRmVeSWpSXmKPExsVy+t/xu7rnGfqSDX59l7F4f/Axq8XK1UeZ
-	LCYdusZoMX/ZU3aLda/fsziwepy/t5HFY9OqTjaPzUvqPXbfbGDz6G1+xxbAGqVnU5RfWpKq
-	kJFfXGKrFG1oYaRnaGmhZ2RiqWdobB5rZWSqpG9nk5Kak1mWWqRvl6CX8e/hCpaCVv6KNbff
-	MDYwTuTpYuTkkBAwkbj4ciJ7FyMXh5DAUkaJaadeskMkZCQ+XfkIZQtL/LnWxQZiCwl8ZJSY
-	czAYomETo8Sr72dYQBJsAjoS59/cYQaxRQRCJH7c3gs2lVlgBqPEqrULWUESwgLuEg8P3wCb
-	xCKgInGqdyWYzStgKzH58lVmiG3yEm3XpzN2MXIANWtKrN+lD1EiKHFy5hOwXcxAJc1bZ0OV
-	K0psmfOdFcKulfj89xnjBEahWQjds5B0z0LSvYCReRWjSGppcW56brGRXnFibnFpXrpecn7u
-	JkZgHG079nPLDsaVrz7qHWJk4mA8xCjBwawkwvtiY2+yEG9KYmVValF+fFFpTmrxIUZToG8m
-	MkuJJucDIzmvJN7QzMDU0MTM0sDU0sxYSZzXs6AjUUggPbEkNTs1tSC1CKaPiYNTqoHJyPmE
-	nwbbdElWaynVvsUrb1/g6uP/dy/n13upx+VCR4xaImcUSR/ZoJe+T0HV9c3CR4uyL23nW+R1
-	4sKv3sqslnvMay1dd37Ztu0nY1D2Rpdr+va51UWVvtaHLh1QCV9qLZLPtS1Htvmk/gyVa927
-	V/yqCo4V4HLdeePzhCb7P3EJD1vOXJls+jeYd4HO3ppTl+rP3jNh+3bWZaL0QWeuqOsRPDuu
-	SX7U/M4YvYvVqL88Pj081ofVsqp+3tqwwIdTlxq59TT773x8d7vzc/XojDD2HPmDh50ivq8X
-	S6sJ/H7uiPHkv8nfxKt7IltLHbfP+SFc1BfzfMapbWw7ZA9aP/o8edskc3Xxuxt8d1xTYinO
-	SDTUYi4qTgQA0O6XAiwDAAA=
-X-CMS-MailID: 20221205143143eucas1p2f5dd4e56ff5ab515fca60ecc0a10350c
-X-Msg-Generator: CA
-X-RootMTR: 20221205143143eucas1p2f5dd4e56ff5ab515fca60ecc0a10350c
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20221205143143eucas1p2f5dd4e56ff5ab515fca60ecc0a10350c
-References: <CGME20221205143143eucas1p2f5dd4e56ff5ab515fca60ecc0a10350c@eucas1p2.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221205142746.1026912-2-j.granados@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221205_063148_274254_73DBE3AA 
-X-CRM114-Status: GOOD (  14.17  )
+X-CRM114-CacheID: sfid-20221205_073523_226891_91401424 
+X-CRM114-Status: GOOD (  17.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,55 +74,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-What?
-In this patch I add NVME_ID_CNS_CS_CTRL and NVME_ID_CNS_CTRL to the nvme
-admin commands that are allowed in unprivileged passthru.
+On Mon, Dec 05, 2022 at 03:27:46PM +0100, Joel Granados wrote:
+> Add NVME_ID_CNS_CS_CTRL and NVME_ID_CNS_CTRL to the nvme admin commands
+> that are allowed in unprivileged passthru. This will allow access to
+> attributes that are needed to effectively write to the char device in
+> passthru.
+> 
+> Signed-off-by: Joel Granados <j.granados@samsung.com>
 
-Why?
-This will allow access to attributes that are needed to effectively write
-to the char device in passthru.  Applications with write permissions should
-not need to be privileged to write to the device. With Kanchan's latest patch
-(https://lore.kernel.org/linux-nvme/20221020070205.57366-1-joshi.k@samsung.com/)
-the nvme IO and identify commands in passthru now follow device
-permissions; however there are still some controller attributes like
-minimal data transfer size (MDTS) which need a privileged user to be
-queried.
+I initially thought just open the entire nvme_identify_controller
+opcode, but this looks good to me.
 
-How?
-Add NVME_ID_CNS_CS_CTRL and NVME_ID_CNS_CTRL to the allow list in
-nvme_cmd_allowed.
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
-V5:
-* Drop the ioclt implementation in favor of just adding the controller id
-  commands to the allow list in nvme_cmd_allowed. This resulted after a
-  comment from Kieth Busch pointing out that adding a struct and an ioctl
-  for stuff that is already there, makes no sense.  IMO the ioctl
-  patch is mostly done and is there if we need it.
-
-V4:
-* Fixed an error where the ioctl number would change if new members were
-  added. Now I use _IO instead of _IOWR to avoid leave the ioctl number
-  static. This is very similar to the implementation contained in
-  https://github.com/torvalds/linux/blob/master/include/uapi/linux/vfio.h
-
-V3:
-* Removed unneeded comments in nvme_ioctl.h
-* Added a comment to the nvme_sectors_to_mps function
-* Moved size checks to nvme_check_size in core.h
-* Changed struct initialization to match what we use in nvme driver {} vs
-  {0}
-
-V2:
-* Changed comment from // to /**/
-* Took a call out from an if condition and assigned it to ret var.
-
-Joel Granados (1):
-  nvme : Add ctrl id to allowed passthru commands
-
- drivers/nvme/host/ioctl.c | 2 ++
- 1 file changed, 2 insertions(+)
-
--- 
-2.30.2
-
+> ---
+>  drivers/nvme/host/ioctl.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+> index 9550a69029b3..9ddda571f046 100644
+> --- a/drivers/nvme/host/ioctl.c
+> +++ b/drivers/nvme/host/ioctl.c
+> @@ -34,6 +34,8 @@ static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
+>  			case NVME_ID_CNS_NS:
+>  			case NVME_ID_CNS_CS_NS:
+>  			case NVME_ID_CNS_NS_CS_INDEP:
+> +			case NVME_ID_CNS_CS_CTRL:
+> +			case NVME_ID_CNS_CTRL:
+>  				return true;
+>  			}
+>  		}
+> -- 
+> 2.30.2
+> 
 
