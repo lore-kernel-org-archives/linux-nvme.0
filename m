@@ -4,85 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7CA3C3A5A7
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Dec 2022 06:00:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35004C3A5A7
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Dec 2022 06:11:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MJd2bU2D+lm0WG5JeREqwz/gTrRZIL3tJNevpv7COSI=; b=tlW2/7jTDJWoQi18LHlSBw19iW
-	0RCXeSpSuyy9uq4is6i5smZGKxolEkhwEjav6QSjJAgE+tu5cJTicOnNT+W/N78UB5u0KqnMOY6NY
-	24BWvzlLTEQGOEPPd/3PPNR7fURhdg8nDa+mHtV/LoNYqRHTfVit6CGO4d0ite7LhS5UR/u1uzcyA
-	PPiWLrZnnR0X9SVfflVkYsQkvfXIBGq9Q+S3xDehwcnNldgJAVOfMvI27vW/j6eqbcdoZsFMixn9q
-	VLVqKc5V+rA8JTt4sOvGL/ceg0QWm6suNmgFqXJV5mEIsscO+pO2j+v/9Evlnhn9uIcsSa/I/yTku
-	A3h8z1LA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YRkdxDKfaxTkF+MyXVmuWuX1mS3ATnAd+MKPKnTYZR0=; b=LeifFWyHrTg4mCh9CSwL0eiTOk
+	xN4jP6o1t7hlGiU03U9340kN/JZ5B3+J8mV+Hjzk+X5L/tdVwdSsqlbXYF3VTEwiZjJ1/32CxcpoV
+	kChKm4I7lAStU8YtPIxl5Z2X+EiFP3O9TXb1UzfNaDU6xZre6Os0HXSe2jsC1JZOI86megXO/2jbb
+	nMOuz99BHbHCMZ00E4Jn0VIxqrZeZWVWxRDo5yjNxnGlaMCa4jS5ZAQoafcMRTprtS/mkxJWX9JG5
+	lL5xxeSkIVBNZbLOINTL+2/vN2ksslt6TXb/90MpLVzC/ibxAw79uKSPSzYcn/ZCNVWPpIFk71xMl
+	BD/LaI/w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2Qzq-001gMb-3F; Tue, 06 Dec 2022 06:00:02 +0000
-Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
+	id 1p2RAY-001nNx-67; Tue, 06 Dec 2022 06:11:06 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2Qyt-001fet-4G
-	for linux-nvme@lists.infradead.org; Tue, 06 Dec 2022 05:59:05 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670306343; x=1701842343;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=VBnJVd+Hc6al1XaW5PlQfaxbMT88bR8HJInkPCC3JHA=;
-  b=Z/ViasqnQqyBblNRbZcs1vo2s4chp4Cz5wHK8mp5I0MqM2frOl3oI0WX
-   jZXXv2tk1lO/pROgyyhKmWytO1FFbVo40jZ9ITA9fhD4ANaltUn9AN4Nl
-   D/TDzCG8A7Lq+LDg1Pis/O9eMCe5IN+ebkWaQoCxGA7bD6+GiYbUDh30/
-   SRcrEDRaKw677NOvOeqnGJjMxt+rE4oNEhCCZklmj8cOVkkonEMKlcP7L
-   AOz11i732Qy0GDLY5IaSgxXzFhIq7+vS7/TnIFeDjInJPRXTOomUaToNb
-   yh72XPL3r59P50/7Cd4rIvcw82+Wkoc8PtGjayJhh15rEGwInqJ3w8tBD
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="378706765"
-X-IronPort-AV: E=Sophos;i="5.96,220,1665471600"; 
-   d="scan'208";a="378706765"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2022 21:59:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="648211414"
-X-IronPort-AV: E=Sophos;i="5.96,220,1665471600"; 
-   d="scan'208";a="648211414"
-Received: from leirao-pc.bj.intel.com ([10.238.156.101])
-  by fmsmga007.fm.intel.com with ESMTP; 05 Dec 2022 21:58:54 -0800
-From: Lei Rao <lei.rao@intel.com>
-To: kbusch@kernel.org,
-	axboe@fb.com,
-	kch@nvidia.com,
-	hch@lst.de,
-	sagi@grimberg.me,
-	alex.williamson@redhat.com,
-	cohuck@redhat.com,
-	jgg@ziepe.ca,
-	yishaih@nvidia.com,
-	shameerali.kolothum.thodi@huawei.com,
-	kevin.tian@intel.com,
-	mjrosato@linux.ibm.com,
-	linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	kvm@vger.kernel.org
-Cc: eddie.dong@intel.com,
-	yadong.li@intel.com,
-	yi.l.liu@intel.com,
-	Konrad.wilk@oracle.com,
-	stephen@eideticom.com,
-	hang.yuan@intel.com,
-	Lei Rao <lei.rao@intel.com>
-Subject: [RFC PATCH 5/5] nvme-vfio: Add a document for the NVMe device
-Date: Tue,  6 Dec 2022 13:58:16 +0800
-Message-Id: <20221206055816.292304-6-lei.rao@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221206055816.292304-1-lei.rao@intel.com>
-References: <20221206055816.292304-1-lei.rao@intel.com>
+	id 1p2RAU-001nDf-5U
+	for linux-nvme@lists.infradead.org; Tue, 06 Dec 2022 06:11:04 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20221206061056epoutp04ebdebdaef13e49993234dec375d4d0d9~uH2sYMhX71690016900epoutp04g
+	for <linux-nvme@lists.infradead.org>; Tue,  6 Dec 2022 06:10:56 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20221206061056epoutp04ebdebdaef13e49993234dec375d4d0d9~uH2sYMhX71690016900epoutp04g
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1670307056;
+	bh=YRkdxDKfaxTkF+MyXVmuWuX1mS3ATnAd+MKPKnTYZR0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=BtpSUKyBfp+Zres+geyV3LXQyPK7Ek+dbJaBSGU0wvcm1XBMimEOTEB7cD0uJ0opC
+	 7fxsoEML8V32GYOAv2Fg4JqtNgOtDnWvCrdoCq3CwRWw3Fb8GHdwu92Ey24wT+4PL8
+	 fUUc/5zBson5g089bZc8HW+EMTH+cSUTQrgW5fWk=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20221206061056epcas5p3735ebef6999a44ae080d4d25dd843b1e~uH2r62DCc2381023810epcas5p3D;
+	Tue,  6 Dec 2022 06:10:56 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.179]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4NR95V71Ctz4x9QC; Tue,  6 Dec
+	2022 06:10:54 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	BD.18.01710.DECDE836; Tue,  6 Dec 2022 15:10:53 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20221206061052epcas5p307bc1fe7ac01651a113342f758d6d248~uH2op1Ab82634126341epcas5p35;
+	Tue,  6 Dec 2022 06:10:52 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20221206061052epsmtrp10586b33e59641aebc957d334dfd2e9d2~uH2ooyEOD1016110161epsmtrp1_;
+	Tue,  6 Dec 2022 06:10:52 +0000 (GMT)
+X-AuditID: b6c32a49-a41ff700000006ae-60-638edced2705
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+	F5.0E.18644.CECDE836; Tue,  6 Dec 2022 15:10:52 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20221206061051epsmtip1e8e423e99f03478673032f0e614d3dec~uH2nW3VER0130401304epsmtip1C;
+	Tue,  6 Dec 2022 06:10:51 +0000 (GMT)
+Date: Tue, 6 Dec 2022 11:29:28 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: August Wikerfors <git@augustwikerfors.se>, Keith Busch
+	<kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Sagi Grimberg
+	<sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme-pci: add NVME_QUIRK_BOGUS_NID for Samsung PM9B1
+ 256G and 512G
+Message-ID: <20221206055928.GB24451@test-zns>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221117031951.GB392@test-zns>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKJsWRmVeSWpSXmKPExsWy7bCmpu7bO33JBhueS1r833OMzWLCv0VM
+	FitXH2WymHToGqPF5V1z2CzmL3vKbrHu9XsWB3aPnsmr2T0mNr9j9zh/byOLx6ZVnWwem5fU
+	e+y+2cDm8XmTXAB7VLZNRmpiSmqRQmpecn5KZl66rZJ3cLxzvKmZgaGuoaWFuZJCXmJuqq2S
+	i0+ArltmDtA9SgpliTmlQKGAxOJiJX07m6L80pJUhYz84hJbpdSClJwCkwK94sTc4tK8dL28
+	1BIrQwMDI1OgwoTsjE8b29gKLnJVvFz7n6mB8TNHFyMnh4SAicTOvxdZQGwhgd2MEvtvR3Qx
+	cgHZnxgljq+5wQThfGaU2PD6KRtMx95dM1kgErsYJWbfncsO4TxjlFhz+DlYFYuAisTv8zdZ
+	uxg5ONgENCUuTC4FCYsIKEk8fXWWEaSeWeA8o8TlZ8sZQRLCApESj1ZcZwKp5xXQlTj5Qx8k
+	zCsgKHFy5hOw8zgFdCSa+pewgtiiAsoSB7YdZ4I4aCKHRMfMHAjbReLH4x6oQ4UlXh3fwg5h
+	S0m87G+DspMlLs08B9VbIvF4z0Eo216i9VQ/M4jNLJAhMf/pfkYIm0+i9/cTsNMkBHglOtqE
+	IMoVJe5NesoKYYtLPJyxBMr2kFj58iEbJEQvAMPnZ8YERrlZSL6ZhWQDhG0l0fmhiXUW0AZm
+	AWmJ5f84IExNifW79Bcwsq5ilEwtKM5NTy02LTDMSy2Hx3Byfu4mRnD61PLcwXj3wQe9Q4xM
+	HIyHGCU4mJVEeF9s7E0W4k1JrKxKLcqPLyrNSS0+xGgKjJyJzFKiyfnABJ5XEm9oYmlgYmZm
+	ZmJpbGaoJM67dEpHspBAemJJanZqakFqEUwfEwenVAOT69SDO+Z+2Pj/YUjlPk72c9LmV2P0
+	NjB/uFllW1B9guewQ4OlivXS/6oriiI9F3S8vdPI8f7yMemltx+bMvi/4rrHc+ttkL9JLH/h
+	57UVz/iPBW8w/+adYH7jDfvPTUcPvORd/D2y45iykKzi6W8tUw4f+7lip+2hKzJ9i160PLSY
+	M2XTzcWv4rQ+Tb0d+LP7trljUP7nlBCdG6zL/ZntO1leq6yWSAhYcyo3t+hWRdqWXx9eHnR4
+	7NV27uMupTWXJ2VlPf85wU828/udZBX3PRfLejdnf+DY+JsnfJvg7aWHl9ptLtfamPRy9Vcv
+	Wfs3X13eSaivujrHepWZ9ewa9seX/mWd65jlLXVCnfVNlocSS3FGoqEWc1FxIgBFzgsCKAQA
+	AA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrGLMWRmVeSWpSXmKPExsWy7bCSnO6bO33JBqeXK1v833OMzWLCv0VM
+	FitXH2WymHToGqPF5V1z2CzmL3vKbrHu9XsWB3aPnsmr2T0mNr9j9zh/byOLx6ZVnWwem5fU
+	e+y+2cDm8XmTXAB7FJdNSmpOZllqkb5dAlfGlLcrmQuaOSo6tjxka2Dcz9bFyMkhIWAisXfX
+	TJYuRi4OIYEdjBJzdlxjhUiISzRf+8EOYQtLrPz3nB2i6AmjxPMVvWAJFgEVid/nbwI1cHCw
+	CWhKXJhcChIWEVCSePrqLCNIPbPAeUaJm20rGUESwgKREo9WXGcCqecV0JU4+UMfYuYlRol9
+	7yeDLeYVEJQ4OfMJC4jNLGAmMW/zQ2aQemYBaYnl/zhAwpwCOhJN/UvAykUFlCUObDvONIFR
+	cBaS7llIumchdC9gZF7FKJlaUJybnltsWGCUl1quV5yYW1yal66XnJ+7iREcFVpaOxj3rPqg
+	d4iRiYPxEKMEB7OSCO+Ljb3JQrwpiZVVqUX58UWlOanFhxilOViUxHkvdJ2MFxJITyxJzU5N
+	LUgtgskycXBKNTBdWfLO9qPM6ou20wJPsn1tbAjQXbmx/iDjP0/2hdIbHGImL1vwOOjnLtfv
+	CpdtOT9qOISzy1+ueBnxYGJj5rbZ0k9+VG6+ejfk8zoXA5Eii7NH9t64Z8GtsfjmxWa1sA2B
+	reH77ky9FDw7+cgdcbU3d2y+fV9/93E8m950mez8qzPO+/OnGb0+OP9mlPuFx3Y6S1P/nNLb
+	8Xqv0vSyr6p1+y5dMnu/PHpnxapmc0YhP2V5+cyJJd9Ws3t7Sxj7bd3/+Zq7OGeGzxqteJF1
+	nhe4nedGsOis+ND3SGPxzvylwkyr2Y8qtQeZ3SrdlJjHpxuY0/rAZM/E6MvBPnNd+cLKvi5x
+	ChApKeyQYPsocnayEktxRqKhFnNRcSIALqB1gvkCAAA=
+X-CMS-MailID: 20221206061052epcas5p307bc1fe7ac01651a113342f758d6d248
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----vu1s6p.wgdQE3gZrnomxJkzeTvd9c8sIFt7LU8e8l4OokKPH=_1070a_"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20221116172324epcas5p3d9877249797ac741ead5785cba27e00e
+References: <20221116171727.4083-1-git@augustwikerfors.se>
+	<CGME20221116172324epcas5p3d9877249797ac741ead5785cba27e00e@epcas5p3.samsung.com>
+	<20221116171935.GA24524@lst.de> <20221117031951.GB392@test-zns>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221205_215903_373949_849EB8C6 
-X-CRM114-Status: GOOD (  14.31  )
+X-CRM114-CacheID: sfid-20221205_221102_575281_385618EB 
+X-CRM114-Status: GOOD (  14.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,304 +136,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The documentation describes the details of the NVMe hardware
-extension to support VFIO live migration.
+------vu1s6p.wgdQE3gZrnomxJkzeTvd9c8sIFt7LU8e8l4OokKPH=_1070a_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-Signed-off-by: Lei Rao <lei.rao@intel.com>
-Signed-off-by: Yadong Li <yadong.li@intel.com>
-Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
-Reviewed-by: Eddie Dong <eddie.dong@intel.com>
-Reviewed-by: Hang Yuan <hang.yuan@intel.com>
----
- drivers/vfio/pci/nvme/nvme.txt | 278 +++++++++++++++++++++++++++++++++
- 1 file changed, 278 insertions(+)
- create mode 100644 drivers/vfio/pci/nvme/nvme.txt
+On Thu, Nov 17, 2022 at 08:49:51AM +0530, Kanchan Joshi wrote:
+>On Wed, Nov 16, 2022 at 06:19:35PM +0100, Christoph Hellwig wrote:
+>>On Wed, Nov 16, 2022 at 06:17:27PM +0100, August Wikerfors wrote:
+>>>The Samsung PM9B1 512G SSD found in some Lenovo Yoga 7 14ARB7 laptop units
+>>>reports eui as 0001000200030004 when resuming from s2idle, causing the
+>>>device to be removed with this error in dmesg:
+>>>
+>>>nvme nvme0: identifiers changed for nsid 1
+>>
+>>What EUI did it report before? Is the identifier stable after
+>>multiple resume cycles?
+>>
+>>Can some of the Samsung folks here reach out to the relevant firmware
+>>team to see if they have any clues?
+>
+>I will check.
 
-diff --git a/drivers/vfio/pci/nvme/nvme.txt b/drivers/vfio/pci/nvme/nvme.txt
-new file mode 100644
-index 000000000000..eadcf2082eed
---- /dev/null
-+++ b/drivers/vfio/pci/nvme/nvme.txt
-@@ -0,0 +1,278 @@
-+===========================
-+NVMe Live Migration Support
-+===========================
-+
-+Introduction
-+------------
-+To support live migration, NVMe device designs its own implementation,
-+including five new specific admin commands and a capability flag in
-+the vendor-specific field in the identify controller data structure to
-+support VF's live migration usage. Software can use these live migration
-+admin commands to get device migration state data size, save and load the
-+data, suspend and resume the given VF device. They are submitted by software
-+to the NVMe PF device's admin queue and ignored if placed in the VF device's
-+admin queue. This is due to the NVMe VF device being passed to the virtual
-+machine in the virtualization scenario. So VF device's admin queue is not
-+available for the hypervisor to submit VF device live migration commands.
-+The capability flag in the identify controller data structure can be used by
-+software to detect if the NVMe device supports live migration. The following
-+chapters introduce the detailed format of the commands and the capability flag.
-+
-+Definition of opcode for live migration commands
-+------------------------------------------------
-+
-++---------------------------+-----------+-----------+------------+
-+|                           |           |           |            |
-+|     Opcode by Field       |           |           |            |
-+|                           |           |           |            |
-++--------+---------+--------+           |           |            |
-+|        |         |        | Combined  | Namespace |            |
-+|    07  |  06:02  | 01:00  |  Opcode   | Identifier|  Command   |
-+|        |         |        |           |    used   |            |
-++--------+---------+--------+           |           |            |
-+|Generic | Function|  Data  |           |           |            |
-+|command |         |Transfer|           |           |            |
-++--------+---------+--------+-----------+-----------+------------+
-+|                                                                |
-+|                     Vendor SpecificOpcode                      |
-++--------+---------+--------+-----------+-----------+------------+
-+|        |         |        |           |           | Query the  |
-+|   1b   |  10001  |  00    |   0xC4    |           | data size  |
-++--------+---------+--------+-----------+-----------+------------+
-+|        |         |        |           |           | Suspend the|
-+|   1b   |  10010  |  00    |   0xC8    |           |    VF      |
-++--------+---------+--------+-----------+-----------+------------+
-+|        |         |        |           |           | Resume the |
-+|   1b   |  10011  |  00    |   0xCC    |           |    VF      |
-++--------+---------+--------+-----------+-----------+------------+
-+|        |         |        |           |           | Save the   |
-+|   1b   |  10100  |  10    |   0xD2    |           |device data |
-++--------+---------+--------+-----------+-----------+------------+
-+|        |         |        |           |           | Load the   |
-+|   1b   |  10101  |  01    |   0xD5    |           |device data |
-++--------+---------+--------+-----------+-----------+------------+
-+
-+Definition of QUERY_DATA_SIZE command
-+-------------------------------------
-+
-++---------+------------------------------------------------------------------------------------+
-+|         |                                                                                    |
-+|   Bytes |                                    Description                                     |
-+|         |                                                                                    |
-++---------+------------------------------------------------------------------------------------+
-+|         |                                                                                    |
-+|         |                                                                                    |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  Bits     |Description                                                         | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  07:00    |Opcode(OPC):set to 0xC4 to indicate a qeury command                 | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  09:08    |Fused Operation(FUSE):Please see NVMe SPEC for more details[1]      | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|  03:00  | |  13:10    |Reserved                                                            | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  15:14    |PRP or SGL for Data Transfer(PSDT): See NVMe SPEC for details[1]    | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  31:16    |Command Identifier(CID)                                             | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         |                                                                                    |
-+|         |                                                                                    |
-++---------+------------------------------------------------------------------------------------+
-+|  39:04  |  Reserved                                                                          |
-++---------+------------------------------------------------------------------------------------+
-+|  41:40  |  VF index: means which VF controller internal data size to query                   |
-++---------+------------------------------------------------------------------------------------+
-+|  63:42  |  Reserved                                                                          |
-++---------+------------------------------------------------------------------------------------+
-+
-+The QUERY_DATA_SIZE command is used to query the NVMe VF internal data size for live migration.
-+When the NVMe firmware receives the command, it will return the size of NVMe VF internal
-+data. The data size depends on how many IO queues are created.
-+
-+Definition of SUSPEND command
-+-----------------------------
-+
-++---------+------------------------------------------------------------------------------------+
-+|         |                                                                                    |
-+|   Bytes |                                    Description                                     |
-+|         |                                                                                    |
-++---------+------------------------------------------------------------------------------------+
-+|         |                                                                                    |
-+|         |                                                                                    |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  Bits     |Description                                                         | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  07:00    |Opcode(OPC):set to 0xC8 to indicate a suspend command               | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  09:08    |Fused Operation(FUSE):Please see NVMe specification for details[1]  | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|  03:00  | |  13:10    |Reserved                                                            | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  15:14    |PRP or SGL for Data Transfer(PSDT):See NVMe SPEC for details[1]     | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  31:16    |Command Identifier(CID)                                             | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         |                                                                                    |
-+|         |                                                                                    |
-++---------+------------------------------------------------------------------------------------+
-+|  39:04  |  Reserved                                                                          |
-++---------+------------------------------------------------------------------------------------+
-+|  41:40  |  VF index: means which VF controller to suspend                                    |
-++---------+------------------------------------------------------------------------------------+
-+|  63:42  |  Reserved                                                                          |
-++---------+------------------------------------------------------------------------------------+
-+
-+The SUSPEND command is used to suspend the NVMe VF controller. When the NVMe firmware receives
-+this command, it will suspend the NVMe VF controller.
-+
-+Definition of RESUME command
-+----------------------------
-+
-++---------+------------------------------------------------------------------------------------+
-+|         |                                                                                    |
-+|   Bytes |                                    Description                                     |
-+|         |                                                                                    |
-++---------+------------------------------------------------------------------------------------+
-+|         |                                                                                    |
-+|         |                                                                                    |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  Bits     |Description                                                         | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  07:00    |Opcode(OPC):set to 0xCC to indicate a resume command                | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  09:08    |Fused Operation(FUSE):Please see NVMe SPEC for details[1]           | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|  03:00  | |  13:10    |Reserved                                                            | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  15:14    |PRP or SGL for Data Transfer(PSDT):See NVMe SPEC for details[1]     | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  31:16    |Command Identifier(CID)                                             | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         |                                                                                    |
-+|         |                                                                                    |
-++---------+------------------------------------------------------------------------------------+
-+|  39:04  |  Reserved                                                                          |
-++---------+------------------------------------------------------------------------------------+
-+|  41:40  |  VF index: means which VF controller to resume                                     |
-++---------+------------------------------------------------------------------------------------+
-+|  63:42  |  Reserved                                                                          |
-++---------+------------------------------------------------------------------------------------+
-+
-+The RESUME command is used to resume the NVMe VF controller. When firmware receives this command,
-+it will restart the NVMe VF controller.
-+
-+Definition of SAVE_DATA command
-+--------------------------
-+
-++---------+------------------------------------------------------------------------------------+
-+|         |                                                                                    |
-+|   Bytes |                                    Description                                     |
-+|         |                                                                                    |
-++---------+------------------------------------------------------------------------------------+
-+|         |                                                                                    |
-+|         |                                                                                    |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  Bits     |Description                                                         | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  07:00    |Opcode(OPC):set to 0xD2 to indicate a save command                  | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  09:08    |Fused Operation(FUSE):Please see NVMe SPEC for details[1]           | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|  03:00  | |  13:10    |Reserved                                                            | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  15:14    |PRP or SGL for Data Transfer(PSDT):See NVMe SPEC for details[1]     | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  31:16    |Command Identifier(CID)                                             | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         |                                                                                    |
-+|         |                                                                                    |
-++---------+------------------------------------------------------------------------------------+
-+|  23:04  | Reserved                                                                           |
-++---------+------------------------------------------------------------------------------------+
-+|  31:24  | PRP Entry1:the first PRP entry for the commmand or a PRP List Pointer              |
-++---------+------------------------------------------------------------------------------------+
-+|  39:32  | PRP Entry2:the second address entry(reserved,page base address or PRP List Pointer)|
-++---------+------------------------------------------------------------------------------------+
-+|  41:40  | VF index: means which VF controller internal data to save                          |
-++---------+------------------------------------------------------------------------------------+
-+|  63:42  | Reserved                                                                           |
-++---------+------------------------------------------------------------------------------------+
-+
-+The SAVE_DATA command is used to save the NVMe VF internal data for live migration. When firmware
-+receives this command, it will save the admin queue states, save some registers, drain IO SQs
-+and CQs, save every IO queue state, disable the VF controller, and transfer all data to the
-+host memory through DMA.
-+
-+Definition of LOAD_DATA command
-+--------------------------
-+
-++---------+------------------------------------------------------------------------------------+
-+|         |                                                                                    |
-+|   Bytes |                                    Description                                     |
-+|         |                                                                                    |
-++---------+------------------------------------------------------------------------------------+
-+|         |                                                                                    |
-+|         |                                                                                    |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  Bits     |Description                                                         | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  07:00    |Opcode(OPC):set to 0xD5 to indicate a load command                  | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  09:08    |Fused Operation(FUSE):Please see NVMe SPEC for details[1]           | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|  03:00  | |  13:10    |Reserved                                                            | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  15:14    |PRP or SGL for Data Transfer(PSDT): See NVMe SPEC for details[1]    | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         | |  31:16    |Command Identifier(CID)                                             | |
-+|         | +-----------+--------------------------------------------------------------------+ |
-+|         |                                                                                    |
-+|         |                                                                                    |
-++---------+------------------------------------------------------------------------------------+
-+|  23:04  | Reserved                                                                           |
-++---------+------------------------------------------------------------------------------------+
-+|  31:24  | PRP Entry1:the first PRP entry for the commmand or a PRP List Pointer              |
-++---------+------------------------------------------------------------------------------------+
-+|  39:32  | PRP Entry2:the second address entry(reserved,page base address or PRP List Pointer)|
-++---------+------------------------------------------------------------------------------------+
-+|  41:40  | VF index: means which VF controller internal data to load                          |
-++---------+------------------------------------------------------------------------------------+
-+|  47:44  | Size: means the size of the device's internal data to be loaded                    |
-++---------+------------------------------------------------------------------------------------+
-+|  63:48  | Reserved                                                                           |
-++---------+------------------------------------------------------------------------------------+
-+
-+The LOAD_DATA command is used to restore the NVMe VF internal data. When firmware receives this
-+command, it will read the device internal's data from the host memory through DMA, restore the
-+admin queue states and some registers, and restore every IO queue state.
-+
-+Extensions of the vendor-specific field in the identify controller data structure
-+---------------------------------------------------------------------------------
-+
-++---------+------+------+------+-------------------------------+
-+|         |      |      |      |                               |
-+|  Bytes  | I/O  |Admin | Disc |        Description            |
-+|         |      |      |      |                               |
-++---------+------+------+------+-------------------------------+
-+|         |      |      |      |                               |
-+| 01:00   |  M   |  M   |  R   | PCI Vendor ID(VID)            |
-++---------+------+------+------+-------------------------------+
-+|         |      |      |      |                               |
-+| 03:02   |  M   |  M   |  R   | PCI Subsytem Vendor ID(SSVID) |
-++---------+------+------+------+-------------------------------+
-+|         |      |      |      |                               |
-+|  ...    | ...  | ...  | ...  |  ...                          |
-++---------+------+------+------+-------------------------------+
-+|         |      |      |      |                               |
-+|  3072   |  O   |  O   |  O   | Live Migration Support        |
-++---------+------+------+------+-------------------------------+
-+|         |      |      |      |                               |
-+|4095:3073|  O   |  O   |  O   | Vendor Specific               |
-++---------+------+------+------+-------------------------------+
-+
-+According to NVMe specification, the bytes from 3072 to 4095 are vendor-specific fields.
-+NVMe device uses the 3072 bytes in the identify controller data structure to indicate
-+whether live migration is supported. 0x0 means live migration is not supported. 0x01 means
-+live migration is supported, and other values are reserved.
-+
-+[1] https://nvmexpress.org/wp-content/uploads/NVMe-NVM-Express-2.0a-2021.07.26-Ratified.pdf
--- 
-2.34.1
+Took more time than I wanted. Firmware team mentioned that issue existed
+in this firmware. This is fixed in new firmware, but bit of travel time
+is involved when official release from OEM (Lenovo) comes out.
 
+Hope the information is sufficient, and quirk can go in.
+
+If required, 
+Acked-by: Kanchan Joshi <joshi.k@samsung.com>
+
+------vu1s6p.wgdQE3gZrnomxJkzeTvd9c8sIFt7LU8e8l4OokKPH=_1070a_
+Content-Type: text/plain; charset="utf-8"
+
+
+------vu1s6p.wgdQE3gZrnomxJkzeTvd9c8sIFt7LU8e8l4OokKPH=_1070a_--
 
