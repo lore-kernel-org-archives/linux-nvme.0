@@ -4,51 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB8D2C4708E
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Dec 2022 13:09:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D202AC4708E
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Dec 2022 13:33:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JuClYPutvs1ch2ceEAMGrA7+Pm2rYxeETYueKiMRxUc=; b=NzcFqqXVKVpBFqryZs3VFrGX5q
-	+tMC2ca87vSqw1KYEu2WNZ3hBacvnt6kfbBUZInRL67Vrum30W8mrkf3uY2+SrA2Bn9L8dvUG463N
-	m5zUxGfPb30DZqoxr/DI8nx1EfsUaJN2TrBPqQ9/FhWV5KCk/0kk+Mbxes7+5XTdkvC7ZWlE5w+Ug
-	SwS7g9bLy09suS1L00GurrBMt9nd93yPcaKMurLg/fgHoKw3mUeC9mK4y5clzR+YCQOIl0cfrYW+A
-	orQTtu6dTh+INMRIZ2u6QjlhyrSx/ym1S5MEa6AuLSClL2guyRodVMkQx4X0DQHiSRKYudrvBuESS
-	YkT+HxOw==;
+	bh=4cJRUz2PNxpZaNnFrZTAgq/OfrUNuayCrqNpBAQX3+k=; b=tc2ukKxqqfcxVwdzYc0yYKXbla
+	GV62qPTuOKSXIBwZqpT3Z3eay/HZaLs7I2mYQbG0pxLVg4zOLRffVkuJeLUmDQkDDtjy68WKRsxKa
+	RGS2q+9NltoG7YTi0g9ass29b8805RSxbb7ji+fMFnTAwAbCm4EmwF+xYn3Oj1TP7YG0oPsuc+TlZ
+	NN2Hi8HG545yBe9+iAN/LqDbkSOl1RqQHNaYDiQSFLQFikBFyy05g9hZMCdx61t9WSOLts039kPiV
+	PwcTHVPnA9MXngGDhTWWbgg+tDOeJjbgxwXnXhQdqjko/D7TBHnu4fEoomAHfxwifGedo8kPfYerU
+	2XiVr1NA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2XhG-009XgT-1L; Tue, 06 Dec 2022 13:09:18 +0000
+	id 1p2Y4b-009g1o-M2; Tue, 06 Dec 2022 13:33:25 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2Xh9-009XZa-T3
-	for linux-nvme@lists.infradead.org; Tue, 06 Dec 2022 13:09:15 +0000
+	id 1p2Y4Z-009g0H-39
+	for linux-nvme@lists.infradead.org; Tue, 06 Dec 2022 13:33:24 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id B000068B05; Tue,  6 Dec 2022 14:09:01 +0100 (CET)
-Date: Tue, 6 Dec 2022 14:09:01 +0100
+	id A576E68B05; Tue,  6 Dec 2022 14:33:12 +0100 (CET)
+Date: Tue, 6 Dec 2022 14:33:12 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Christoph Hellwig <hch@lst.de>, Lei Rao <lei.rao@intel.com>,
-	kbusch@kernel.org, axboe@fb.com, kch@nvidia.com, sagi@grimberg.me,
-	alex.williamson@redhat.com, cohuck@redhat.com, yishaih@nvidia.com,
-	shameerali.kolothum.thodi@huawei.com, kevin.tian@intel.com,
-	mjrosato@linux.ibm.com, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, kvm@vger.kernel.org,
-	eddie.dong@intel.com, yadong.li@intel.com, yi.l.liu@intel.com,
-	Konrad.wilk@oracle.com, stephen@eideticom.com, hang.yuan@intel.com
-Subject: Re: [RFC PATCH 5/5] nvme-vfio: Add a document for the NVMe device
-Message-ID: <20221206130901.GB24358@lst.de>
-References: <20221206055816.292304-1-lei.rao@intel.com> <20221206055816.292304-6-lei.rao@intel.com> <20221206062604.GB6595@lst.de> <Y48+AaG5rSCviIhl@ziepe.ca>
+To: Pankaj Raghav <p.raghav@samsung.com>
+Cc: Christoph Hellwig <hch@lst.de>, Pankaj Raghav <pankydev8@gmail.com>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	James Smart <james.smart@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	asahi@lists.linux.dev, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 2/9] nvme: use nvme_wait_ready in nvme_shutdown_ctrl
+Message-ID: <20221206133312.GA25727@lst.de>
+References: <20221129132208.4337-1-hch@lst.de> <20221129132208.4337-3-hch@lst.de> <20221129155718.poqztp4zudt47zmq@quentin> <CGME20221130135758eucas1p2aaf96c2c7bee29c0f44e5714b0b159bc@eucas1p2.samsung.com> <20221130135749.GA4786@lst.de> <fc5d0a74-e4e9-38c7-3a93-ff1eb71e0054@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y48+AaG5rSCviIhl@ziepe.ca>
+In-Reply-To: <fc5d0a74-e4e9-38c7-3a93-ff1eb71e0054@samsung.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221206_050912_151173_E3516A51 
-X-CRM114-Status: GOOD (  16.51  )
+X-CRM114-CacheID: sfid-20221206_053323_334321_D5319E69 
+X-CRM114-Status: GOOD (  11.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,30 +61,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Dec 06, 2022 at 09:05:05AM -0400, Jason Gunthorpe wrote:
-> In this case Intel has a real PCI SRIOV VF to expose to the guest,
-> with a full VF RID.
+> One minor nit: I also notice that nvme_wait_ready busy loop sleeps for
+> 1~2ms, while the existing shutdown code busy loop sleeps for 100ms. Though,
+> I don't think it is an issue.
 
-RID?
-
-> The proper VFIO abstraction is the variant PCI
-> driver as this series does. We want to use the variant PCI drivers
-> because they properly encapsulate all the PCI behaviors (MSI, config
-> space, regions, reset, etc) without requiring re-implementation of this
-> in mdev drivers.
-
-I don't think the code in this series has any chance of actually
-working.  There is a lot of state associated with a NVMe subsystem,
-controller and namespace, such as the serial number, subsystem NQN,
-namespace uniqueue identifiers, Get/Set features state, pending AENs,
-log page content.  Just migrating from one device to another without
-capturing all this has no chance of actually working.
-
-> I don't think we know enough about this space at the moment to fix a
-> specification to one path or the other, so I hope the TPAR will settle
-> on something that can support both models in SW and people can try
-> things out.
-
-I've not seen anyone from Intel actually contributing to the live
-migration TPAR, which is almost two month old by now.
+Thanks, I've added a note about that, and a reference to the commit
+that changed from the msleep(100) to the usleep_range for the
+enable/disable path.
 
