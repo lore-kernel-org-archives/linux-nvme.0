@@ -4,72 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5815C3A5A7
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Dec 2022 18:44:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9F6DAC4708C
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Dec 2022 19:15:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kkdpynN3ZZxXXoC+/B2qsqOUkzGgxT1EtXnN9c8yuhc=; b=DIYbKFE9dGeJpgSqsck3hDPfHq
-	N+7H6+87OTjb1PF0JxLzKZOcneLf+DRW4scAxRRmiDjzHCibwE96br1KkOWGTwXZcIDturSKgE606
-	lbAImRcbxjubVfA7ICy2Z7r0WYnrKRPe6yeGxFBp7WmZmBe+pRtR84K8koI9Td+pqMZrU1fDd8Tbc
-	MC5j78le4jGc7Ta33YR+S92JHkXgiVPUAaOUXoSjy6SW2ulF4EwIj072CFy+j3BY0mjnQP/iC7Vzf
-	dKFX4jLVpbOD0l9/hFYC/H57fHDC2ZHQbiFMauw8SFAtq+6910aS3l9aRce7xzBPQnrXQdakADZMU
-	HR6Kn+5w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=GG73iLTCO/uw4M1Ylg2jcMVxqfgJjKpsiaTSmU2EXGA=; b=B5kXfzjc0XQb+l6SMzAqysPvMr
+	fTJi+jfMPp7WxUKVKX1Xs+QnlVrFmDy34jA7ZFZyobHU2aJ3SEyLaDJncFxhb36PMWS061dnozvH4
+	XRgHH2PRA003sCU7j7GILrUQEdXKadWmEd41Ks5gg6CYCqZdXvVgfNoMtAIpOjQJiE6ut4XTZCyTb
+	MIzvcp0kIAWF9K73H3KDSo/HRjWKZZjzF8Ww2qFab8keEG0nMFRFJFia/Ru9X0T0sreVQozo0eG3m
+	Y+3byzIW6I/1/3e1oO3pZq8NzMod/m2FffG6zUp23FqBHySkuopjkhvyMrv4bETEc6bZuCqwb3r/+
+	esWQsAXg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2cvB-00HROq-3F; Tue, 06 Dec 2022 18:44:01 +0000
-Received: from mail-pl1-f174.google.com ([209.85.214.174])
+	id 1p2dPx-000QBg-PL; Tue, 06 Dec 2022 19:15:49 +0000
+Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2cv7-00HRFi-Tx
-	for linux-nvme@lists.infradead.org; Tue, 06 Dec 2022 18:43:59 +0000
-Received: by mail-pl1-f174.google.com with SMTP id jl24so14801144plb.8
-        for <linux-nvme@lists.infradead.org>; Tue, 06 Dec 2022 10:43:55 -0800 (PST)
+	id 1p2dPu-000Q21-II
+	for linux-nvme@lists.infradead.org; Tue, 06 Dec 2022 19:15:48 +0000
+Received: by mail-qt1-x82d.google.com with SMTP id h24so14497131qta.9
+        for <linux-nvme@lists.infradead.org>; Tue, 06 Dec 2022 11:15:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GG73iLTCO/uw4M1Ylg2jcMVxqfgJjKpsiaTSmU2EXGA=;
+        b=JIXO4eFgOaT8ujjjyeXvuO8qQ+yypxhZOimo6XQPj9ykjHnpz42lA0hxwRS2CqALlP
+         InZ5KniMwf4gL2CkysIfWTSK/zRhcKpgYW1h7jk80RV72fs+TIGlADEs1qMbux4LzQXs
+         kgFo0jiGF80V8ESdg6/Y8ivo2WWI0dTsZ+SjdqyptOk2b/5s3bOyMy2Cjfh133fw5t7P
+         inVYux5ZW6ridMLq77+CizaOGY5xhsgGqo/Q+axhpiXkSy3h5saQm0aOlMTavw/1Z53L
+         RwcTU+ikujUo3UDBcOg37Tvhuh6FiRok4lYQDG1ACo4Agcpan+pZrTeBeKsNDB9ShmHe
+         G8Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kkdpynN3ZZxXXoC+/B2qsqOUkzGgxT1EtXnN9c8yuhc=;
-        b=wFFq3TMHQ8TmjpSFof3HtJaDumjkTckKJsn6Qdn73NxQqQkrzQKrYRYRm5Qf9UcTp1
-         uLE9F1epPcj2B1Vk4jopmZVpup2e7mTkmjl9rpEfsV25bsnpWpfBEInM1MLZkK7W4Tyy
-         bGLf0n0BfPScsC3gGjkGp5CysjBn/2/ZghlJvDYr2l5FAGIbhRJa/FO9EP2RBo0Kb5MK
-         RcxLV2192bYdMjY07goVueXeXeIfqM8/ojGla0KXhZPCiUQg5b0x0L4rdUz8Ca9QR1Jx
-         Txs4zZSbjP4VeAE1Q8oOVT+g6vJson4smdaN09UU1FwS/Dv8sDlwBa4bqgVvgstAVDYO
-         En4A==
-X-Gm-Message-State: ANoB5pmLa0hmJkSEITOO9q7w7UXv14GOtJT1h2SqjNS5NTQrgYxYgMud
-	asNvSZm2tkV/n5wkuP4Uiq6gMAKJ52w=
-X-Google-Smtp-Source: AA0mqf7j+ouvNKByY6CjriE3yqeB9gzC2l06X8kaUAU+HcxR8ONUrkX2oxkDdJixvxaJgsfMp5zJAA==
-X-Received: by 2002:a17:90a:bd96:b0:219:3553:4ff5 with SMTP id z22-20020a17090abd9600b0021935534ff5mr45767962pjr.22.1670352235149;
-        Tue, 06 Dec 2022 10:43:55 -0800 (PST)
-Received: from ?IPV6:2620:15c:211:201:6220:45e1:53d2:e1cb? ([2620:15c:211:201:6220:45e1:53d2:e1cb])
-        by smtp.gmail.com with ESMTPSA id a1-20020a63cd41000000b0045dc85c4a5fsm10068334pgj.44.2022.12.06.10.43.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Dec 2022 10:43:54 -0800 (PST)
-Message-ID: <1d1c946d-2739-6347-f453-8ccf92c6a0cc@acm.org>
-Date: Tue, 6 Dec 2022 10:43:52 -0800
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GG73iLTCO/uw4M1Ylg2jcMVxqfgJjKpsiaTSmU2EXGA=;
+        b=wy2pYM7/l9LVr/Kj/xr+JGccjxi531/qwzBN8gDie/3P+aVG9lojJ5PgzFyB/LQ9ht
+         ag09O9ml/ln9TRdcOttzq1K1wpKLwysjV69slmkgJWOGR0gjCTL6V4J8D7p739Ik4wdP
+         hxtg91fVmCfNmU9A0KT9lxrNa7pa4syDdOJaEDnccma15ecns/9y84eeSUX4xYD8wk3c
+         BiIAKyY/XH/dia6Mlqa5Mk/V67t8Zaz1GJLeajgSYGiQg2pFdrBbGLHkekX0tUIMzhCk
+         EqTCgVb259K8EMK5z59UP/j8XHU5+WF7uGGSQoAxjxtN8AnJCSOSyIH7KPucmmlSKoq0
+         NoBQ==
+X-Gm-Message-State: ANoB5plu9DbClCHfJRNtktnxSzlN1zHQiQDWSlxkaQ8lmbjmLFo2d7TH
+	eIQdJdxV4j4M2f1WLsGupE1WnQ==
+X-Google-Smtp-Source: AA0mqf6eCv+InVfKA4sHLrootqXhgKbPCqZwr/BHpgt/6iwDstlRrCS04XbrZWyIdohBA+R6Gq2t/Q==
+X-Received: by 2002:ac8:5892:0:b0:3a5:3d08:9fdd with SMTP id t18-20020ac85892000000b003a53d089fddmr82236079qta.684.1670354143281;
+        Tue, 06 Dec 2022 11:15:43 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-47-55-122-23.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.122.23])
+        by smtp.gmail.com with ESMTPSA id y14-20020a37f60e000000b006fbaf9c1b70sm14752500qkj.133.2022.12.06.11.15.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Dec 2022 11:15:42 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1p2dPp-004gjs-T7;
+	Tue, 06 Dec 2022 15:15:41 -0400
+Date: Tue, 6 Dec 2022 15:15:41 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Lei Rao <lei.rao@intel.com>, kbusch@kernel.org, axboe@fb.com,
+	kch@nvidia.com, sagi@grimberg.me, alex.williamson@redhat.com,
+	cohuck@redhat.com, yishaih@nvidia.com,
+	shameerali.kolothum.thodi@huawei.com, kevin.tian@intel.com,
+	mjrosato@linux.ibm.com, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, kvm@vger.kernel.org,
+	eddie.dong@intel.com, yadong.li@intel.com, yi.l.liu@intel.com,
+	Konrad.wilk@oracle.com, stephen@eideticom.com, hang.yuan@intel.com
+Subject: Re: [RFC PATCH 1/5] nvme-pci: add function nvme_submit_vf_cmd to
+ issue admin commands for VF driver.
+Message-ID: <Y4+U3VR2LeEh2S7B@ziepe.ca>
+References: <20221206055816.292304-1-lei.rao@intel.com>
+ <20221206055816.292304-2-lei.rao@intel.com>
+ <20221206061940.GA6595@lst.de>
+ <Y49HKHP9NrId39iH@ziepe.ca>
+ <20221206135810.GA27689@lst.de>
+ <Y49eObpI7QoSnugu@ziepe.ca>
+ <20221206153811.GB2266@lst.de>
+ <Y49k++D3i8DfLOLL@ziepe.ca>
+ <20221206165503.GA8677@lst.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v3] virtio_blk: add VIRTIO_BLK_F_LIFETIME feature support
-Content-Language: en-US
-To: Alvaro Karsz <alvaro.karsz@solid-run.com>,
- virtualization@lists.linux-foundation.org
-Cc: linux-block@vger.kernel.org, dm-devel@redhat.com,
- linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Jens Axboe <axboe@kernel.dk>
-References: <20221205162035.2261037-1-alvaro.karsz@solid-run.com>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20221205162035.2261037-1-alvaro.karsz@solid-run.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221206165503.GA8677@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221206_104358_009616_4196530E 
-X-CRM114-Status: GOOD (  11.34  )
+X-CRM114-CacheID: sfid-20221206_111546_900124_3D02C15F 
+X-CRM114-Status: GOOD (  24.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,39 +107,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/5/22 08:20, Alvaro Karsz wrote:
-> +/* Get lifetime information struct for each request */
-> +struct virtio_blk_lifetime {
-> +	/*
-> +	 * specifies the percentage of reserved blocks that are consumed.
-> +	 * optional values following virtio spec:
-> +	 * 0 - undefined
-> +	 * 1 - normal, < 80% of reserved blocks are consumed
-> +	 * 2 - warning, 80% of reserved blocks are consumed
-> +	 * 3 - urgent, 90% of reserved blocks are consumed
-> +	 */
-> +	__le16 pre_eol_info;
-> +	/*
-> +	 * this field refers to wear of SLC cells and is provided in increments of 10used,
-> +	 * and so on, thru to 11 meaning estimated lifetime exceeded. All values above 11
-> +	 * are reserved
-> +	 */
-> +	__le16 device_lifetime_est_typ_a;
-> +	/*
-> +	 * this field refers to wear of MLC cells and is provided with the same semantics as
-> +	 * device_lifetime_est_typ_a
-> +	 */
-> +	__le16 device_lifetime_est_typ_b;
-> +};
+On Tue, Dec 06, 2022 at 05:55:03PM +0100, Christoph Hellwig wrote:
+> On Tue, Dec 06, 2022 at 11:51:23AM -0400, Jason Gunthorpe wrote:
+> > That is a big deviation from where VFIO is right now, the controlled
+> > function is the one with the VFIO driver, it should be the one that
+> > drives the migration uAPI components.
+> 
+> Well, that is one way to see it, but I think the more natural
+> way to deal with it is to drive everyting from the controlling
+> function, because that is by definition much more in control.
 
-Why does the above data structure only refer to SLC and MLC but not to
-TLC or QLC?
+Sure, the controlling function should (and does in mlx5) drive
+everything here.
 
-How will this data structure be extended without having to introduce a
-new ioctl?
+What the kernel is doing is providing the abstraction to link the
+controlling function to the VFIO device in a general way.
 
-Thanks,
+We don't want to just punt this problem to user space and say 'good
+luck finding the right cdev for migration control'. If the kernel
+struggles to link them then userspace will not fare better on its own.
 
-Bart.
+Especially, we do not want every VFIO device to have its own crazy way
+for userspace to link the controlling/controlled functions
+together. This is something the kernel has to abstract away.
 
+So, IMHO, we must assume the kernel is aware of the relationship,
+whatever algorithm it uses to become aware.
+
+It just means the issue is doing the necessary cross-subsystem
+locking.
+
+That combined with the fact they really are two halfs of the same
+thing - operations on the controlling function have to be sequenced
+with operations on the VFIO device - makes me prefer the single uAPI.
+
+> More importantly any sane design will have easy ways to list and
+> manipulate all the controlled functions from the controlling
+> functions, while getting from the controlled function to the
+> controlling one is extremely awkward, as anything that can be
+> used for that is by definition and information leak.  
+
+We have spend some time looking at this for mlx5. It is a hard
+problem. The VFIO driver cannot operate the device, eg it cannot do
+MMIO and things, so it is limited to items in the PCI config space to
+figure out the device identity.
+
+> It seems mlx5 just gets away with that by saying controlled
+> functions are always VFs, and the controlling function is a PF, but
+> that will break down very easily, 
+
+Yes, that is part of the current mlx5 model. It is not inherent to the
+device design, but the problems with arbitary nesting were hard enough
+they were not tackled at this point.
+
+Jason
 
