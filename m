@@ -4,75 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EFF81C3A5A7
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Dec 2022 19:56:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79054C63704
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Dec 2022 20:51:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Pr5A82QMDS3439cV/l0TiwyD6oe8HTmjdxBAYHIenkw=; b=oetS4XWXW0OoX5gq2vSjdeE2bi
-	L7q2uSbG72tclY2JVgTqMpbLlAIw23L/1r9sHpB+BUlcyNVv7YkVGfsJoYuWXuOigTx5MkwpDkgdt
-	FKAltM3ne+cPQwzTs1+BsSheOd5CYqvFSoJZ7S46HnTSgCAnT0Dbnj6MhytycJ28XFZT+dpu5RJPx
-	6eRdIT9ap4/piU3Eh53WK9f/4ZtGjXO+MU6DWOX8WS5XmdyQlW/4woE5ezeNf4SV5cBX2LipvarXI
-	RocNq34zcE/XUTNR7p4bTUfI5P0pWrOlK+YdDSoOnpUswV63FG94VWFNCVPYklNwTvk/1Q3dSd49L
-	2YolEH3A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=AzyLDvxcdqrUEvwuWl2EmfZ1MRD+N/xfy5/oHj0leA8=; b=07Md1yr6KinY1XDr+5f51pfQ5z
+	VTG4uXBW60vl5GB6+gN6I8SiI5VafRMJZS1hmHVl/zEZ7kgCWfpMjKBSZBFyzWfj7Th9h+GgfHc26
+	c7Q6ur/sbD4pVlweJkVLSgjKGYLiXR5n8Q5qRNBEB/itTAtUWoxafmIx65PGYh75vG2CNjxo1kpA1
+	EzmDp5ZtZfm8RZ+zjUuMUferNAtONFuPlTy2EYwILX3ngMNN3BXJEdCuATU4PBGgMHB+a2oM3ShCA
+	TJIXygQW1PeftB8laqNtE9Eq8znTLAFgZz+O1Mu0XC96NkwvNWBUV0pUvlkb4qlgCUbv44u3Yy2d3
+	rtl+GC1w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2e3Z-001QCI-2K; Tue, 06 Dec 2022 19:56:45 +0000
-Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133])
+	id 1p2euV-002Kjv-88; Tue, 06 Dec 2022 20:51:27 +0000
+Received: from mga07.intel.com ([134.134.136.100])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2e3V-001QBC-Lq
-	for linux-nvme@lists.infradead.org; Tue, 06 Dec 2022 19:56:43 +0000
-Received: by mail-il1-x133.google.com with SMTP id a18so4447174ilk.9
-        for <linux-nvme@lists.infradead.org>; Tue, 06 Dec 2022 11:56:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=solid-run-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pr5A82QMDS3439cV/l0TiwyD6oe8HTmjdxBAYHIenkw=;
-        b=5gZ4Gpu/Xoh5ChxX8vn4yDQ839Y02gORAbRJKicZwrHFBH0NIchUZDW6Y615MW8Cuo
-         ZdO4L3CqvKD9JNcgHJjpe9/mjrs85Al83QInqMzjcK62pr1wgEqU8ZhTAJi4Ib3ahj7k
-         BZlEtq3KfssqlsY9tZQIx0vaLlC9u3vbxT8LvjuAL1GnsClNkR2tm4WIKQeodHoXdkZE
-         KiPCEIcEoxIg4QSjQNTqtlAXIew+2ghnCH4ev8+TU75YzUKjhKWJSMnNxTy27fwj8JCb
-         XWwul5V7p/Z+1rXby5ETA9G2t4IWGRXtyRcQ3Cmi0XJKOmS3YkN3oRqED74z2Db+6nws
-         ZSgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Pr5A82QMDS3439cV/l0TiwyD6oe8HTmjdxBAYHIenkw=;
-        b=UhbbAZpNZs3s1DzGteBuR6xnXQ09a5lbT3fK6+rHt57c0mkIFtxXqOp0d1ZV307uR3
-         shjSd6f4ULaAma4oLzNvmKLACfquwv/BS7dafGXnhU1LuBTmFxBQTPi1N1wwoL0YX/VB
-         Qy3STZngF0WtMnQkzw0N+vEnz3y7CwaAVEf0Tr75Bz/sCL+5t5oW082qKBkDzp984Muw
-         /RsD2lAusatKnjJjMMJjMiGFTlBCnZ36hBcg0/FQA7Z3/kb7cA2T1ohUODIOy1U331/8
-         OZSGgG5x8Z7IZLsz9vudArKHKiCeM7gKHLZ96knL7JK8B4ycKPyUnv4v1KtVrIs0MNl7
-         Dadg==
-X-Gm-Message-State: ANoB5pn/LLOVTLlgB4tMSCdR/aCZW3fx7DSRf+Fh900AdVhuCx/YXm3u
-	KjU2xKqBuuw0GJvIdleDC0n5dGt8XRbpCN7m3icljQ==
-X-Google-Smtp-Source: AA0mqf5weYpfxnfmeNEaWEQd5GuamfhCWZUc6GKCqEjTgjj47RKtDegoyGS/7Ff3WUue6RAch00gS/qlXcQ0t/Pzp84=
-X-Received: by 2002:a05:6e02:1c8d:b0:303:71ee:7b6b with SMTP id
- w13-20020a056e021c8d00b0030371ee7b6bmr2852396ill.147.1670356600505; Tue, 06
- Dec 2022 11:56:40 -0800 (PST)
+	id 1p2euT-002Khk-07
+	for linux-nvme@lists.infradead.org; Tue, 06 Dec 2022 20:51:26 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1670359884; x=1701895884;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ST4j2qHmsk/+z6wK/qPsm2J18p4LC9q+DhHbPQFMq2E=;
+  b=gX0MA7y+Aewdht8vNf3c+CrXFLXxO1mQZ0FsU4wG9cmdSpv++tXUapNF
+   Kb9YC2CkI1vtJFKct+AfFLnVDU8YwgJtRpOL9Fj/6UgmRMH2T8Abj4Zkd
+   rGIJdVnvNAQeJgQS28Lc6hpccTpmUWDe1VGVXVty9UFbI2N5c/KsirsW7
+   0BSPt/tSvzwqWxZinNgnIYDbQXuumbP+CwAuUEHpIWnp4sCKXkRF3fp/E
+   12SvU/x7xMKA8NrnhIitDFyzKoQEVHdvwuT9QYpEFjFt4sjl2Q449DO9p
+   RwFtyEIJ7dptwKqaInx7U23ul8XUNw0nIPOZELTw4cEbPmMVb+1YXUaOe
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="381021229"
+X-IronPort-AV: E=Sophos;i="5.96,223,1665471600"; 
+   d="scan'208";a="381021229"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2022 12:51:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="648470306"
+X-IronPort-AV: E=Sophos;i="5.96,223,1665471600"; 
+   d="scan'208";a="648470306"
+Received: from lkp-server01.sh.intel.com (HELO b3c45e08cbc1) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 06 Dec 2022 12:51:19 -0800
+Received: from kbuild by b3c45e08cbc1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1p2euM-0001ET-1N;
+	Tue, 06 Dec 2022 20:51:18 +0000
+Date: Wed, 07 Dec 2022 04:50:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.1] BUILD SUCCESS
+ 6f2d71524bcfdeb1fcbd22a4a92a5b7b161ab224
+Message-ID: <638fab0e.Uhf+kiOC3ol8PtLx%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20221205162035.2261037-1-alvaro.karsz@solid-run.com> <1d1c946d-2739-6347-f453-8ccf92c6a0cc@acm.org>
-In-Reply-To: <1d1c946d-2739-6347-f453-8ccf92c6a0cc@acm.org>
-From: Alvaro Karsz <alvaro.karsz@solid-run.com>
-Date: Tue, 6 Dec 2022 21:56:05 +0200
-Message-ID: <CAJs=3_CWrO34KBxN_eNVyibRNYUP9tzmywnmq2W+9uMYwbQdBA@mail.gmail.com>
-Subject: Re: [PATCH v3] virtio_blk: add VIRTIO_BLK_F_LIFETIME feature support
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: virtualization@lists.linux-foundation.org, linux-block@vger.kernel.org, 
-	dm-devel@redhat.com, linux-nvme@lists.infradead.org, 
-	linux-scsi@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221206_115641_955570_CC2EA3BB 
-X-CRM114-Status: UNSURE (   8.86  )
+X-CRM114-CacheID: sfid-20221206_125125_149833_ECD9D587 
+X-CRM114-Status: UNSURE (   5.36  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -88,18 +82,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Bart,
+tree/branch: git://git.infradead.org/nvme.git nvme-6.1
+branch HEAD: 6f2d71524bcfdeb1fcbd22a4a92a5b7b161ab224  nvme initialize core quirks before calling nvme_init_subsystem
 
-> Why does the above data structure only refer to SLC and MLC but not to
-> TLC or QLC?
+elapsed time: 728m
 
-This has been discussed before.
-The data structure follows the virtio spec
-(https://docs.oasis-open.org/virtio/virtio/v1.2/csd01/virtio-v1.2-csd01.html)
+configs tested: 69
+configs skipped: 3
 
-> How will this data structure be extended without having to introduce a
-> new ioctl?
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-There are no more lifetime parameters defined in the virtio spec.
-Please note that this is a virtio block specific ioctl, not a block generic one.
+gcc tested configs:
+um                             i386_defconfig
+um                           x86_64_defconfig
+arc                                 defconfig
+s390                             allmodconfig
+alpha                               defconfig
+s390                                defconfig
+x86_64                               rhel-8.3
+x86_64                           rhel-8.3-kvm
+x86_64                         rhel-8.3-kunit
+x86_64                           rhel-8.3-syz
+s390                             allyesconfig
+x86_64                              defconfig
+ia64                             allmodconfig
+x86_64                          rhel-8.3-func
+x86_64                    rhel-8.3-kselftests
+i386                                defconfig
+x86_64               randconfig-a011-20221205
+x86_64               randconfig-a012-20221205
+x86_64               randconfig-a014-20221205
+x86_64               randconfig-a013-20221205
+x86_64               randconfig-a015-20221205
+x86_64               randconfig-a016-20221205
+arc                              allyesconfig
+alpha                            allyesconfig
+mips                             allyesconfig
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+m68k                             allyesconfig
+sh                               allmodconfig
+i386                             allyesconfig
+x86_64                           allyesconfig
+arm                  randconfig-r046-20221206
+arc                  randconfig-r043-20221206
+arm                                 defconfig
+i386                 randconfig-a014-20221205
+i386                 randconfig-a013-20221205
+i386                 randconfig-a012-20221205
+i386                 randconfig-a011-20221205
+i386                 randconfig-a016-20221205
+i386                 randconfig-a015-20221205
+arm                              allyesconfig
+arm64                            allyesconfig
+i386                          randconfig-a001
+i386                          randconfig-a003
+i386                          randconfig-a005
+x86_64                          rhel-8.3-rust
+m68k                             allmodconfig
+i386                          randconfig-a012
+i386                          randconfig-a014
+i386                          randconfig-a016
+
+clang tested configs:
+x86_64               randconfig-a003-20221205
+x86_64               randconfig-a004-20221205
+x86_64               randconfig-a006-20221205
+hexagon              randconfig-r045-20221206
+x86_64               randconfig-a005-20221205
+hexagon              randconfig-r041-20221206
+x86_64               randconfig-a001-20221205
+x86_64               randconfig-a002-20221205
+riscv                randconfig-r042-20221206
+s390                 randconfig-r044-20221206
+i386                          randconfig-a002
+i386                          randconfig-a004
+i386                          randconfig-a006
+x86_64                        randconfig-a005
+x86_64                        randconfig-a003
+x86_64                        randconfig-a001
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
 
