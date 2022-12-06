@@ -4,67 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BF7D8C63705
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Dec 2022 09:52:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D364C352A1
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Dec 2022 10:00:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=r6bDmubpSl8tUlgzkgDWtOqtlVz8r+PkQm+zH66kAv8=; b=pRhl2PJVx2Fdm+bnIiYmU5oMes
-	06MrG48MdI0CiGpadMySLJOGq7wsMY8YneYDXIldpO1qGfEIVSqBvIuPF0510mmiieHICFa87fLFz
-	vlVQ4hD5NX9jZgkGUFnTKTtV0YPUdj7owCbKlJOGoALls1W7n0O35Dmqsf1ZNdojNeRn2X86rd20L
-	ihHn38UHWn+YqaFGiVtLFPQLqlWiVfnUJ2K3luLS6Xuo1hVFnOQSY3+0cFe5hEPZ0gv1yILbObboe
-	4c/PnJ80pNfKJgmf+985MRoqlejYhRboqr/KFrobkmqDPmGPuXSn5+5Dvrlswke6Hp+cd2X5FERsB
-	ygcDGIhg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YmBS4RKWsLzxqB/oMm5ccTAkis22K/i79HZasZnsIvg=; b=tsvAv3NUnIKX8ZJP/ShoGFS6sN
+	I7pKv3ZcYuhT4NOxu0l4kPlTC/ZIA851jA1dPPPnR1vPYZpH0jSYU60/lb4H/Rb3k3Is3WKrGqH3Z
+	VqBrG3wESo0iNLAbqSB0JqwqpviqfVbyf6fS1vkL2vk58D3dhpGPJnI7CDvBkDQkOJzxhZ5ImiS7S
+	msaB1NGVOP1pSxePxTDCfXMGtyofHjfKurQEmXVETmPyQ3yT2z0RAr+Gs1CRQrhcONOGr9BfeD50M
+	L1w91C8YzQjqRLoOc649Mr7KtV8pSXZmub6ARr+8kz5y3s8gjkmT+tPqYfz4maePbTKouTDYPgNlu
+	0K2iLxkg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2Ucf-006UoM-Kg; Tue, 06 Dec 2022 09:52:21 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1p2Ukb-006ZwP-99; Tue, 06 Dec 2022 10:00:33 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2UbH-006Tip-PM
-	for linux-nvme@lists.infradead.org; Tue, 06 Dec 2022 09:50:57 +0000
+	id 1p2Ujj-006ZPx-8N
+	for linux-nvme@lists.infradead.org; Tue, 06 Dec 2022 09:59:40 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 49C9361616;
-	Tue,  6 Dec 2022 09:50:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66613C43143;
-	Tue,  6 Dec 2022 09:50:53 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 2DDA3B81711;
+	Tue,  6 Dec 2022 09:59:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEA74C433D6;
+	Tue,  6 Dec 2022 09:59:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1670320255;
-	bh=lqVU3SBmQ1eCIYMlGUwkPNT1E5x77hO70+K76rh3sNQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qqNeANjpZGiJzUXeYQCRXUFj2XtD43ysfM9ul5m1EQMi2qjahDppFBV8XAhODb1Pv
-	 SS72aRV4W+BI6bhdJRFgh+sguBBVRmB+LEyV+bYDLiWGjw7Q/Z0JYdwBykP64VR3DS
-	 UEaFEvpzn45078sxmTW5VZSRsGyF+UxVRWk/49B9bVOD95FUv7B2Zvr0M7UviAUu20
-	 h8wOeYph4h0sJuyA1117yIvlx+7X16fAVmhMJDjKquOdArVS9LiR9XCVO33DDlLMgS
-	 dJAgnaLG1c+MRkSkygY90n2BFaoUb+2Ybj4jK8DJO4K9qahy+gosYkhq/KmRbFdnbh
-	 Es9hamSJ3gbQA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Lei Rao <lei.rao@intel.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sasha Levin <sashal@kernel.org>,
-	kbusch@kernel.org,
-	axboe@fb.com,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.10 10/10] nvme-pci: clear the prp2 field when not used
-Date: Tue,  6 Dec 2022 04:50:27 -0500
-Message-Id: <20221206095027.987587-10-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221206095027.987587-1-sashal@kernel.org>
-References: <20221206095027.987587-1-sashal@kernel.org>
+	s=k20201202; t=1670320776;
+	bh=dHWmPs8X95+/KnvC04cJNU7is9xdsAnns4bZ7XpK1jM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aH4M/wEYX4YAYz5YCppY6ezDNfZyXj/OAiNKYp4rnwLCtw8WHuWKrhFZfjU0wbpfM
+	 GNXuvT3pUl2rWZzS9bvrSmnLcXbpOmeAMDXZdRECjRak/PYVmdddZ7MoJsnheaSfpR
+	 rSM12pI4FR/L9Oorjni6xGH2P88HbkIyzZlF81CTOiBvZBZVIvfupLnNw9NCyu7W0H
+	 cxdW34TDyJjrMBYY2J41I6J1lvfCU+SmOcdAXyWiGf03hhqBMEY7RbKik7mMyPXDen
+	 dA3jDVo4ji9ve7ks4OKe7xdW+1yZgiXH49EkQVWUR9wkRQzljbuCct2THK0N9blesx
+	 D8/cn9O+QQNaA==
+Date: Tue, 6 Dec 2022 09:59:31 +0000
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	James Smart <james.smart@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 5/5] nvme-pci: use the tagset alloc/free helpers
+Message-ID: <Y48Sg275HL0jmzkM@kbusch-mbp>
+References: <20221130174240.227616-1-hch@lst.de>
+ <20221130174240.227616-6-hch@lst.de>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221130174240.227616-6-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221206_015055_897402_0289BFDB 
-X-CRM114-Status: GOOD (  13.31  )
+X-CRM114-CacheID: sfid-20221206_015939_493097_F663EB66 
+X-CRM114-Status: GOOD (  10.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,36 +73,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Lei Rao <lei.rao@intel.com>
+On Wed, Nov 30, 2022 at 06:42:39PM +0100, Christoph Hellwig wrote:
+> Use the common helpers to allocate and free the tagsets.  To make this
+> work the generic nvme_ctrl now needs to be stored in the hctx private
+> data instead of the nvme_dev.
 
-[ Upstream commit a56ea6147facce4ac1fc38675455f9733d96232b ]
+Looks good.
 
-If the prp2 field is not filled in nvme_setup_prp_simple(), the prp2
-field is garbage data. According to nvme spec, the prp2 is reserved if
-the data transfer does not cross a memory page boundary, so clear it to
-zero if it is not used.
-
-Signed-off-by: Lei Rao <lei.rao@intel.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/nvme/host/pci.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 089f39103584..c222d7bf6ce1 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -817,6 +817,8 @@ static blk_status_t nvme_setup_prp_simple(struct nvme_dev *dev,
- 	cmnd->dptr.prp1 = cpu_to_le64(iod->first_dma);
- 	if (bv->bv_len > first_prp_len)
- 		cmnd->dptr.prp2 = cpu_to_le64(iod->first_dma + first_prp_len);
-+	else
-+		cmnd->dptr.prp2 = 0;
- 	return BLK_STS_OK;
- }
- 
--- 
-2.35.1
-
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
