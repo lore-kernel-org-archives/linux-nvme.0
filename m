@@ -4,70 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6B38C352A1
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Dec 2022 12:00:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25157C4708C
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Dec 2022 12:00:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=HFcsNtIoROVWjJ0a+CkafMOXQf
-	Wvq8888v7YpMd0NdkByrocuRXbkwjj/5UraUdx3f8sz/cp+frOt/rTD+02zgKK1vrN5rFN0/SlBqK
-	ciYtb/1x17JE9OpAEnmYFLR8fZzzPDMldJnH7SErEXXHe2Tc56mR4n9JIkIE9+FI3uOzlfDxUCmw1
-	A60bdrJsaY7G1FDhBIBvAljsobXAndZOE/+1LTqR5d3l4ZA0Z+egtbyQXCkHHNx6Z88nyY5EqV3Ql
-	2HVZvKvc8L9E/N8ZX15X8l0tk+E79mzIjVPRSGVgylR750crMONnYrdZQTZJol7TG74CvF4zpQASF
-	uEmfNW8Q==;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=UGSiYagy4XSTneKCjaLCynV7B0
+	RuEMRAGD22qJ8+N0Ue4dcJd+9OzIrzotmje/J1BlXwaxJg5VqUynrbidKNJ87PwNUcghUMY/j132u
+	Tvo4bSVVRJTq3daVxKj25uEbsy/+KZaBTkkXy9OstbyQTQooBe7TCwdLYbmSFWkU0415aP8yQRlKF
+	05zyJLu6G3FPdNIAGHsT8ORzEfTXnePB5OFHUw9S/XmFj7Ou84a709zcEebFn1l19DEtBkfG72fWx
+	7lOz8tI1KeIp7ibQEfnlnmfTnjQe/QiyRhcfTza4FsRD+h+fgOxhwCQngAJ2qd2cx1UWSmSiT20iF
+	wnoJDI1Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2WcD-008tDW-5p; Tue, 06 Dec 2022 12:00:01 +0000
-Received: from mail-wr1-f54.google.com ([209.85.221.54])
+	id 1p2Wca-008teB-NC; Tue, 06 Dec 2022 12:00:24 +0000
+Received: from mail-wm1-f51.google.com ([209.85.128.51])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2WcA-008t86-JV
-	for linux-nvme@lists.infradead.org; Tue, 06 Dec 2022 11:59:59 +0000
-Received: by mail-wr1-f54.google.com with SMTP id h10so13583623wrx.3
-        for <linux-nvme@lists.infradead.org>; Tue, 06 Dec 2022 03:59:57 -0800 (PST)
+	id 1p2WcY-008tXT-BQ
+	for linux-nvme@lists.infradead.org; Tue, 06 Dec 2022 12:00:23 +0000
+Received: by mail-wm1-f51.google.com with SMTP id h8-20020a1c2108000000b003d1efd60b65so630631wmh.0
+        for <linux-nvme@lists.infradead.org>; Tue, 06 Dec 2022 04:00:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
         bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=OuxMY6LNGzjnoREOHUaw2fFec+MBSglCHCOY1cB6JF1CH3SKOUl1mFbHh3L7xOJiaN
-         OvMJAnnDmhu3Wey+a8ofeWy3Gt06LRy9ii2qNCcDD5j3hAg5FNLHnL5p3bCUlCuCrIiS
-         uTgX68xbUrXK3JR5Z8GC5DM5AkLtR0TUp4fQPfQf/z+qkrck6XA7vFSFf7lHrWy6zch+
-         kZMfTa8/TzQDcPelBvY0o80KftNTrgn22od2DnKEKlVKk1RhLeatuqG/HAfsTb9oqSWW
-         jA7EyYjnJHtIFkuTjWC4cbbZ5u2s2j3XWNkaRYQSaBopDUXO6SxkLE17jGjFhXyRf4WL
-         IT2Q==
-X-Gm-Message-State: ANoB5pmRy+VGdGq53ryeCwhZt4NszYVI6I74/3IoXlAatl8PeHgCdGJk
-	oqsI1S+ygmxfOQjqiaP/nuNjhdhVOpo=
-X-Google-Smtp-Source: AA0mqf4r/slh6LVyCJ17jyjgco3L5gFfKXMc4lIKtU61TdyaBcmOSSj0j6dcl99MZkTloZYdPUYivA==
-X-Received: by 2002:adf:d235:0:b0:242:2bbe:1059 with SMTP id k21-20020adfd235000000b002422bbe1059mr16623209wrh.496.1670327996002;
-        Tue, 06 Dec 2022 03:59:56 -0800 (PST)
+        b=rPdGEK3QF/5ogex78qBeTBHW7HYclgpMRK4U026UQNRoqjUQJgGQjYT1VGyOxR6Q1Q
+         5SChb4per7ec2wuVmVyV+ekrkm4Sk8guv3MZpMYehvhI708OIZqt6Meh5x6PjAZ724/T
+         W0SAvf5JLge3ijv/mu5ULqavJW7DQNmalQjAiwTNb9uNOIwfId9OI4EFHb3X/w8qg+1v
+         q2v+/HlPp+lUWwhhjXj/Ex+2j7PJwcgwdB3SBiPAF+N+8NaASjMBTKG8ujPOmaYnW4QL
+         fMjrq9sMKhR7JXgKnkFTSNlQvCahLfLSJWtrN60yW1jPdSUFMmF9CXYRWJlLLBW4hHes
+         v9eA==
+X-Gm-Message-State: ANoB5pm9m9Abmrv9jmYapodx6I+ENnOEKSovcyaujfxMCn0z1zZOa3T1
+	lzRlUvGNIkBZWf9RoDqS2fy60pzSAeo=
+X-Google-Smtp-Source: AA0mqf4tQt3eO2J8DTOJRJ1tdErciFtJob6G843ecbRqnh/LVpgFPb7z0Pw7mQ0ZQXUiU0EBqO1Low==
+X-Received: by 2002:a05:600c:4f01:b0:3cf:8952:2fd2 with SMTP id l1-20020a05600c4f0100b003cf89522fd2mr54211358wmq.9.1670328019716;
+        Tue, 06 Dec 2022 04:00:19 -0800 (PST)
 Received: from [10.100.102.14] (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
-        by smtp.gmail.com with ESMTPSA id o22-20020a05600c2e1600b003d1e051f671sm4423130wmf.9.2022.12.06.03.59.55
+        by smtp.gmail.com with ESMTPSA id h12-20020a05600c314c00b003cfa81e2eb4sm23557728wmo.38.2022.12.06.04.00.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Dec 2022 03:59:55 -0800 (PST)
-Message-ID: <bd85499c-310a-1403-4ea2-a577ae375117@grimberg.me>
-Date: Tue, 6 Dec 2022 13:59:54 +0200
+        Tue, 06 Dec 2022 04:00:19 -0800 (PST)
+Message-ID: <df9b2f94-1e37-b253-6cdb-c9cdb0e1663d@grimberg.me>
+Date: Tue, 6 Dec 2022 14:00:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 1/5] nvme: pass nr_maps explicitly to
- nvme_alloc_io_tag_set
+Subject: Re: [PATCH 3/5] nvme: only set reserved_tags in nvme_alloc_io_tag_set
+ for fabrics controllers
 Content-Language: en-US
 To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
 Cc: James Smart <james.smart@broadcom.com>,
  Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org
 References: <20221130174240.227616-1-hch@lst.de>
- <20221130174240.227616-2-hch@lst.de>
+ <20221130174240.227616-4-hch@lst.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20221130174240.227616-2-hch@lst.de>
+In-Reply-To: <20221130174240.227616-4-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221206_035958_674108_C691AC47 
-X-CRM114-Status: UNSURE (   7.41  )
+X-CRM114-CacheID: sfid-20221206_040022_399052_36D1C679 
+X-CRM114-Status: UNSURE (   7.11  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
