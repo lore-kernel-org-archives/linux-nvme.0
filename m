@@ -4,47 +4,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB504C352A1
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Dec 2022 14:05:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDC8DC352A1
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Dec 2022 14:09:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Lsy9K5NFAda7MQAC4/uMyCagRtBadcZcXPFHN+mvW3U=; b=wOkriY+sY/3Icja8O+1J/hNcBL
-	zFcMEuGWKcGqylkQTv5vl+8WOrWp38DNVgy8dFj1HJX6H2bQ4FtQnjWwrZk5ZRo46Pj9vhffJYXa/
-	I91k/4fIBf5RKNnoA576R3qBTbRNF9Aw+vUHjS/bEPe9Z+mhiClWTbuXDDH59gq1KDWbvLo62kEHE
-	SvFiqww++9qcfnuBfF+UXPiG65u/EUCtQ/ddBk/EYSi8UO33nMF3m698ZTmMBnh68gMW00e44Y1+F
-	0/0N804MhoM0ecLy3b0jmnLeOjMdecdEe3/vw5hxJsR7mizQN4DyvWQ2tQPREDFeuEItsGf8RrkRd
-	Gcivy5fQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Ega/ymHiohwYqmOVO0xNlbAF7Cc6uCydw63WlUlCezo=; b=DgTTKA6vwDG4iOgVb2jzxDBEfD
+	i0bXLLdbYyp2AB9zqqv++SFnq3R9A3HH82Rw5QlO3hallb4cylw03HpPENANB/5SHUoztl9lvM1CQ
+	qzT5cfiorOT+ebYbhjMmiqIPXekNVEQbEtPdZQNLbcdVsvbXFaU5dSDaFldXNmu/MYjl/TwtW9swl
+	WwezyibUSM25vClMd6l7mRqUWqR1Im515/zHFgTwvU/mzgaaGzyyITnT+Rt09WCMwhaRFVopf5uhW
+	zN/tf/Nvz18dLQw+B2B5fsBjuUawTGQpJd3ENtSjoeHzHOLmCtd6/exm3oW6F+QdpNcQBdYELzSVi
+	24N6yjBw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2v2h-004RWX-Ah; Wed, 07 Dec 2022 14:04:59 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2v2e-004RPM-OQ
-	for linux-nvme@lists.infradead.org; Wed, 07 Dec 2022 14:04:57 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id EA0BB67373; Wed,  7 Dec 2022 15:04:52 +0100 (CET)
-Date: Wed, 7 Dec 2022 15:04:52 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH] nvmet: don't open-code NVME_NS_ATTR_RO enumeration
-Message-ID: <20221207140452.GA23719@lst.de>
-References: <20221207112823.1212380-1-sagi@grimberg.me>
+	id 1p2v7F-004Xs2-Bt; Wed, 07 Dec 2022 14:09:41 +0000
+Received: from [2001:4bb8:19a:6deb:1e50:ef0a:649d:fd9d] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1p2v7D-004XpL-Sv; Wed, 07 Dec 2022 14:09:40 +0000
+Date: Wed, 7 Dec 2022 15:09:37 +0100
+From: Christoph Hellwig <hch@infradead.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: [GIT PULL] nvme fixes for Linux 6.1
+Message-ID: <Y5CeoZZcOCYaS/P9@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221207112823.1212380-1-sagi@grimberg.me>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221207_060456_951369_1895D581 
-X-CRM114-Status: UNSURE (   8.41  )
-X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,7 +49,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks,
+The following changes since commit 899d2a05dc14733cfba6224083c6b0dd5a738590:
 
-applied to nvme-6.2.
+  nvme: fix SRCU protection of nvme_ns_head list (2022-11-30 14:37:46 +0100)
+
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git tags/nvme-6.1-2022-12-07
+
+for you to fetch changes up to 6f2d71524bcfdeb1fcbd22a4a92a5b7b161ab224:
+
+  nvme initialize core quirks before calling nvme_init_subsystem (2022-12-06 09:05:59 +0100)
+
+----------------------------------------------------------------
+nvme fixes for Linux 6.1
+
+ - initialize core quirks before calling nvme_init_subsystem
+   (Pankaj Raghav)
+
+----------------------------------------------------------------
+Pankaj Raghav (1):
+      nvme initialize core quirks before calling nvme_init_subsystem
+
+ drivers/nvme/host/core.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
