@@ -4,144 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D433CC352A1
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Dec 2022 14:50:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A5AFC4708E
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Dec 2022 15:16:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=alIEnyvyuWfs3wUHyAimL7vmw1ZIf2GKS8TPqDPpe/U=; b=iC8+B6lSwe3kAmxgG07Q1SyFie
-	c5Kf5oZoFXev7jhp43xVaQ42Ryzx1EgUQt0l+6wzsa571fk9ijuDswHn1UfzNVI+tOOvUn9Goxpq/
-	IOGesINC0WqsLbfE4MjcfV06EoklVpAWS2OC+zOPaVxPb5SJsLs2r0fiFycWV7XAKbBIAj+zLb8u+
-	he55HisyuYrZSZA0vk35AzYXPqiAu4+X6g3b7zFLfKMLdUAKvDViSp6xdbWlzFUYmn3TikgGsx6Tn
-	C+De5KPaumFCsPynzOuu0Ur3N3vym5q4Uk3G/KKJvg2slA7ICsyFmZHRrkbNCCdDQtI1S2JvplKR6
-	YARKndHQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=7XsRuZ7qY1tD0l/2EkMQdpZq+4s50uESfZplCDbUFE0=; b=RugiIxnQ60Elq5qqg/n35r8FaR
+	lTmX3pFnuTHwV66tXjwA1dLqS2ppgVXvPe3HRd2lPBTru4ywbwaZHDs5ah45wTMhAzdg+W9/9pN3k
+	H0wQnc4KMorj9nfCxUBZNzhNYhjohTwgUC1sqmM+71qm8J/gIiTqr85hVGuh8haqmh+xYPlyFU/Cl
+	9Uthuw02/KibIXSLX0nVvVUeCGJ5OPcnjc/WgYqAA9JFjEe47gODXOAf3kcf4cC9v0qHLSsaVPQ3y
+	z3ClLODJVRZsJXGWUoZ3xDeaeLThuRtfDpA3NHT4OzZZfSvHrsFgxtCe/+4l91p05AMxPhUoAmOxv
+	Zg8NCbCQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2vkY-005JXI-W3; Wed, 07 Dec 2022 14:50:19 +0000
-Received: from mail-dm6nam12on2061b.outbound.protection.outlook.com ([2a01:111:f400:fe59::61b] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+	id 1p2wA4-005gf6-8Q; Wed, 07 Dec 2022 15:16:40 +0000
+Received: from mail-wm1-f46.google.com ([209.85.128.46])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2vkW-005JOC-4w
-	for linux-nvme@lists.infradead.org; Wed, 07 Dec 2022 14:50:17 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mQ7jyeySMhH+ej2mhpHxUxHflR8KH1K5zaNXgG9f4T46oZE+9bDg/7G0AmQ3gKRFFSb1Kr7+jc6yM/E6aOJYsAuxrvqAPIqtK65uZ3UXWlIHmASmcvfZZ15GNfYUnLQD85TE190mFeTHGs9SUYMzQuz05qQfEMqvHClOutq38bGTiPXgtQpGAHp4IanS1NQRBd5HakHd+zSN19rtH04efsts7iXJ0YQwgMBcJZBQ9KKO2d6xxa6WQVKotm9qBGdzhgi5o3ZKGMUriqAyyPdH162AYffTjxcAqq5LbWamfqOjE/AJ15etHMxiabERxzEjFtnbdjqd1WrLr1NFr2YSHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=alIEnyvyuWfs3wUHyAimL7vmw1ZIf2GKS8TPqDPpe/U=;
- b=gB+XgjIf0o+Es73nLaE2QOLVEcUd6ILl5OW8A6QVqmjUFc5paEp/JrWroSc/TNsvyBmWytzitXEQ69rrOU5Azgl327/db8dPPyCOKe8ckorFZ2NC5a2tJoYZ7Gxrd6WXrbFXehI8ChVj018Y4QJpAflYncQP66YPirWDyYKCaCeho54z+iOF873ElowMLCv1M6BmYdQs6RQZP3MZ3bjHVr7tNPn0Y7Scv6zqidl7fGafAWWyAKKVy/6vIWdhWJEdyCmFm3N7izLbQs4SMS6PT92XmH1RR6tDUiJ+WJSMynjLqa7P5xV3/j7ADu0W885O5+wA3xYVhLbW+vvrgqIwVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=alIEnyvyuWfs3wUHyAimL7vmw1ZIf2GKS8TPqDPpe/U=;
- b=is3QpAIwpnkuKwFMRnKK3v462sB0rCvTJdBFFifaEE33IMDsDypFGFEJXViRiX0o4JXBpjvRLw7DVk9I7llaAUQhkm3+m/7/kXRs7NfPOwqU4wGW+CIXqT6cR00tvzXQmDIkBTZkoeHjHC1U41zpon55Sm3MkrNha9o45U75rb7w3PnQ4MjVbbK7DvT/XH754wxcM6IRIckaL0qhl3CFfx63kLqsbLpylDCfpCTOsLkcCMFxMK00EyVgdfUzounImwmPUT8XfRjO7zATt6o6qFVzM4RjvJiJVZ/83h2VlPWuZdj/Lkq1qVqfgbO2X+n4ZHfi/lJnaNuLGFicomMpXA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
- by LV2PR12MB5847.namprd12.prod.outlook.com (2603:10b6:408:174::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Wed, 7 Dec
- 2022 14:50:11 +0000
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::3fb9:3266:7937:44fc]) by DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::3fb9:3266:7937:44fc%9]) with mapi id 15.20.5880.014; Wed, 7 Dec 2022
- 14:50:11 +0000
-Message-ID: <d28a7848-b284-6c86-a2ae-ab79de3675d4@nvidia.com>
-Date: Wed, 7 Dec 2022 16:50:00 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [RFC PATCH 1/5] nvme-pci: add function nvme_submit_vf_cmd to
- issue admin commands for VF driver.
+	id 1p2wA1-005gWO-64
+	for linux-nvme@lists.infradead.org; Wed, 07 Dec 2022 15:16:39 +0000
+Received: by mail-wm1-f46.google.com with SMTP id bg10so13879849wmb.1
+        for <linux-nvme@lists.infradead.org>; Wed, 07 Dec 2022 07:16:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7XsRuZ7qY1tD0l/2EkMQdpZq+4s50uESfZplCDbUFE0=;
+        b=j693yaLemvgTFdCKmniQBpA/A5nSkLW+E+KrGUtRau7BmxGDJTooE6lcEuwz60Pfhl
+         kTQsLwBUf/DLhXR7L1USsQcDybEjdjVxoNEENSl50NRd20I+BwfhH/Jip6sEz//ATB7M
+         tgW3VFGHvQPWhVB5NoKIBv5V0JE2QnWU2JZj3fsiN+uEniBh2L7Ec1CvRzaT47KNTg50
+         u6mRSPytUJkNFd4VIz3V1RsnEmVA28PJhAzPtMChtfg7oD/LFTGbkUbwvWV12xbf9l1o
+         vkuXheRucnADbCTO3f4QAFrwEhCIGPf5gYWpodgsnAn8LnBW4rquCfJp0q5WSNw6NDlv
+         /Xdg==
+X-Gm-Message-State: ANoB5plEMrWu5pnz/M2/NrTKXvk2xRSel7DffnW3op+y+iYM+7R/XmM9
+	q7HRfqy87NAIBPz4LiyzNeDuvH76ORs=
+X-Google-Smtp-Source: AA0mqf5rYO3HPJsYt+Rm0v8XOPItuhom4UsraN0ocHtn8OCccl58zm/+zCwP8fEp8B2uE3Nj6OZ/6A==
+X-Received: by 2002:a05:600c:1f1b:b0:3cf:35c8:289f with SMTP id bd27-20020a05600c1f1b00b003cf35c8289fmr59229629wmb.153.1670426192361;
+        Wed, 07 Dec 2022 07:16:32 -0800 (PST)
+Received: from [192.168.64.178] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id h41-20020a05600c49a900b003c6bd91caa5sm1895834wmp.17.2022.12.07.07.16.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Dec 2022 07:16:31 -0800 (PST)
+Message-ID: <769ace6a-4eac-bef5-12f2-8f1f45875c6d@grimberg.me>
+Date: Wed, 7 Dec 2022 17:16:30 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] nvme-tcp: add additional info for nvme_tcp_timeout log
 Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Lei Rao <lei.rao@intel.com>,
- kbusch@kernel.org, axboe@fb.com, kch@nvidia.com, sagi@grimberg.me,
- alex.williamson@redhat.com, cohuck@redhat.com, yishaih@nvidia.com,
- shameerali.kolothum.thodi@huawei.com, kevin.tian@intel.com,
- mjrosato@linux.ibm.com, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, kvm@vger.kernel.org, eddie.dong@intel.com,
- yadong.li@intel.com, yi.l.liu@intel.com, Konrad.wilk@oracle.com,
- stephen@eideticom.com, hang.yuan@intel.com
-References: <20221206061940.GA6595@lst.de> <Y49HKHP9NrId39iH@ziepe.ca>
- <20221206135810.GA27689@lst.de> <Y49eObpI7QoSnugu@ziepe.ca>
- <20221206153811.GB2266@lst.de> <Y49k++D3i8DfLOLL@ziepe.ca>
- <20221206165503.GA8677@lst.de> <Y4+U3VR2LeEh2S7B@ziepe.ca>
- <20221207075415.GB2283@lst.de>
- <4f11e0bb-e090-bf9b-4f98-578273865200@nvidia.com>
- <20221207134644.GB21691@lst.de>
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-In-Reply-To: <20221207134644.GB21691@lst.de>
+To: "Engel, Amit" <Amit.Engel@Dell.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <1669889667-1034818-1-git-send-email-amit.engel@dell.com>
+ <1670410707-2278352-1-git-send-email-amit.engel@dell.com>
+ <40ec518c-db1b-8fa2-af66-3b2f3dcc235d@grimberg.me>
+ <CO1PR19MB4885380AC6E687A3FC8A858EEE1A9@CO1PR19MB4885.namprd19.prod.outlook.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <CO1PR19MB4885380AC6E687A3FC8A858EEE1A9@CO1PR19MB4885.namprd19.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO2P265CA0255.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:8a::27) To DM4PR12MB5040.namprd12.prod.outlook.com
- (2603:10b6:5:38b::19)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|LV2PR12MB5847:EE_
-X-MS-Office365-Filtering-Correlation-Id: e0332c3d-2158-489f-5ac7-08dad862573e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	Qz4g+HpZKP8PXaZ39q27Iljdl7BEA4PZx6nIeHBCKn5DBcZZQG9bCV/QqH/MChXtVkXbyEzCZxw7h8FvV7xkPDWUo2qnSra97DkE9rqD+oSsQtDUrXN6FIt5mpF3iCvAwQMR4qvRouYErz7q6pWsHo2zNVQH4LMYpKIcBdsIWmCd5X0vWLMVOYSkv3FQx9BTwFOTBnYUflGPQwgrhVyYlQqWrFHAZUmEmDXUbBuVyVEYGKVfOep7fg/3p+gthvyW3RdKbNTfrR1m5eFj2ZiPS6zmq4XL0Izyln4m+ltNgNNgD7cA0Sk16hoWb3R4IlGy0vobbzIuSR+YJYo+OoPUBQxhvekKZl4HXGS3gjKmvEunx4x/p7/XzDqKe2vN2I5knSlUqJP5z4x6Uv97E+PUTc8I8jzHh9GxG50aKUYD0Xv+y1uSmQTd1zjafOA6h2mixRW/xolRyRFnG6EcHNzr264QLTOQ0ZcCuTJWliRvCngxJ/Al1JVvOBEwIIBFQgm1Qgp+xnW56xtBTBMeKEBfSt335ZzBieB4A1jZKJIAOvyJE5wAkBQcI0Eaze5B3mRdWVEZwKhKCnHr9/qhLGP4FbrtuREEifs4+Wc4Ck+UcrPD00SpBHIriWElwgNiH4s7tXhooQ+3T1LnZ9EaJkr98jf5+cHcDsyK5F68Klj6Cf4BO0rWEeTqpPtNp61ef1NqddFOGTvMgr53f3yv37QIHhocDu+NcHs5QCeCn+QSsl4=
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(136003)(366004)(396003)(39860400002)(346002)(451199015)(2906002)(41300700001)(83380400001)(5660300002)(8936002)(36756003)(31696002)(86362001)(38100700002)(6916009)(316002)(31686004)(26005)(6506007)(186003)(53546011)(54906003)(6512007)(66946007)(66556008)(66476007)(4326008)(2616005)(6486002)(478600001)(6666004)(8676002)(7416002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?RC9mYmVoMG9ydklJSkFkTkUwVjlweUNkMXVycFdVK3d4ck9ZNmgxbkJvWGF0?=
- =?utf-8?B?cDZrblRrQklOeFNxellFRW9FaGY3SG4xdFBMN3ZCZ1k5d1pkODhpdkZucUgw?=
- =?utf-8?B?blF2ODc0WU40Q2I3TldMRFdqQ2NTTmJOdy8rbXdYeHpzVThYYkVOa1NiR2U4?=
- =?utf-8?B?cm9oK1F6NW1ZMGVuMG54TFJlQXpOWnN5RHBMenk0WGVxWGlKbklZdWc4UU5x?=
- =?utf-8?B?NXVqMHM4SDdHVTNHYTIwOXRqNkFjTTN6RXZ5R3BIdkc5YUFIY1UzdU1Fc1Ru?=
- =?utf-8?B?TFJIVWNEeW9hamRHaWVrTCttYXFyWUVIZko1SnpaTkdmV2d0S05XaE9QM21U?=
- =?utf-8?B?Q1huWG1TeCsvWlRBcENSQWhlZnNnTDkrenRoZ1NjQzVyU0pSYVg4Q2lvRXpn?=
- =?utf-8?B?aDhzTStmYTdiZDZyakJ1Wk91YmJjcGNsbUtFWnRPS3orUGVXMXoyeE1iMldx?=
- =?utf-8?B?b2trRFdHSmZ4UklxNnFaRUQyNW1OaFJybjFlcyt0UUJyTWZlNW51VHZ1dy83?=
- =?utf-8?B?aXpZM0FQZ1NCRHF1cUE3N1hlSW5iSTB0dU5vSEJOcE9ZRlVFVlZWVXZQSEVq?=
- =?utf-8?B?WVFxaDcrV3ZldDhBcG10S3RFY3FPZHcrS2k1SlRhczlWenBwNHhvdXRxa29V?=
- =?utf-8?B?UXowR3VSYnAwNFFoWHpqN3BOdVpnbDRxeWVvZlBiMzVSL0lwNDBza09WN2xu?=
- =?utf-8?B?VVZnNjZDRVprZENYWnlNWmNXZzA5N2h2eVpIZ3ZFQjdJc1ZpcFM0UzI2SUh6?=
- =?utf-8?B?YkNOQ2tId1RBTzk1a2J5aHhhK0lQSWo3QWlZNk9DblVYQnFjNEVhQ0dqT2VO?=
- =?utf-8?B?NGlpZVB5c0pvTXQwVmpZcG51UlJPTk5ZZXI4NTZrMHpVMDlKSEs5eS9DTjdI?=
- =?utf-8?B?MndMaEJuSXBhOXYySndkeTZ4d3k5ZkczRXNLTTZXZ0t3TEpkUFI3STgyeGVy?=
- =?utf-8?B?dHJPWnZYM05KbjZqNjBGOVRZTGNzZkNJVE5IY3JsdllScUR3RVFmcUErYlND?=
- =?utf-8?B?NTV0TzBzMXhmUEw2eDQxMU5yeXRNQ08xcVJRM3IvVXVtMDFydE5nUTNlWWF5?=
- =?utf-8?B?Z3FPZGhYZzhPL1czZEUvaythTnpFcE4rZzg5S2dVWjVkTnVWQmhvTnVHRERK?=
- =?utf-8?B?MHJwZWlYOWszSlE4SkxrR0dEOS9FU0k2YW1aOFg2Z3lyTjU0V2drcTY4VlZm?=
- =?utf-8?B?YXpEd1NCVGNJeUZ5ZEx5Z0FmaGRTdlU4cmMvTGFnNWl6ODg5NktQVktGd0ZO?=
- =?utf-8?B?VDVEUXpSVlpJbmprU29wRm5iK1pXSngvWkNFS3FiK1NnNVpVVjdjTjNxUFdh?=
- =?utf-8?B?N0pndmhVU3lLK0ErSXdWTWp3N3NyUnJLbkF1RXlkNDAyaUhvZkJWTXV0Qm1m?=
- =?utf-8?B?blNDRUZhV3c2YUY5WE12bDgzbUk1LzJFcGJQN3BOS3ZJTU5UaElVV1lVVWdZ?=
- =?utf-8?B?NnMvSUkvcktjQU93a2piTDI3SnRMK2V0TkhueHlPZjZFM1M5QzBTRGdnNUJZ?=
- =?utf-8?B?cGZvYlB6U3BPYVU2M0plZ045K1VJS1h2R3N5dUpiem1lOS9lTXlKUkpCTzFC?=
- =?utf-8?B?cEZiMkJsb0tuQ3ZhUFlKM1YrRkdpWi9JVmtELzBGWUp4aFRDNzBhTEh1Rjg1?=
- =?utf-8?B?N0g0THRSRndWU0x2MUFpa1k2V2VSdUpyRXhXSGZoVGJjT2QwamtHU3BVOVUy?=
- =?utf-8?B?YnNBSWpCbkpwdGhtaUpPLzU1Rkx3czZUbHBGdjl6ajlZd1dOWVpUUjdJcGwx?=
- =?utf-8?B?NnJQaDRneUNRTE1HeFdkcTZHZkNtT3FFRnpZNjlFclZ2YzUwSjFyQnFiRmor?=
- =?utf-8?B?OCtqaFo3dXRtNG40T0FMTlFkT0ZUUHFGSzF6ejdGdFk2VXM0WitJbDR3UHpC?=
- =?utf-8?B?M2cyYlAvUy9PTnlHOUpIOEhRN24xQTVyQ1BoK3diTEREaFk2L0JMeXBmQll5?=
- =?utf-8?B?VmdOSVZFYlZ4Z1VOY2RvWEc0NmhJbUlHZHlLVHIrcG5QbDlkR0xXaWplNE0w?=
- =?utf-8?B?Uy9nNjIwK2xxbldXb3ZWRkQ4dGhhMHVmVUVaSTNuWjZ0MVJwZ01TNGhkaFRD?=
- =?utf-8?B?eFl0SGN2NWdlNXZhMm9nbDFHdjM1NlVvWU5YNzdlWnMwZEJCejU1MXF5YmpR?=
- =?utf-8?B?Q0VycnJ2MVM3eERaVWRuQ1Ixa2FMRGNZeEd4Vy9PRS8yYTNjOU1sZTh1ck9P?=
- =?utf-8?B?a1E9PQ==?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0332c3d-2158-489f-5ac7-08dad862573e
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2022 14:50:11.1102
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yY1NzTZwMJVvEnxIrQOTLxjJol+0U+FIjcu01eGroV573me17FOeVGTcFKabCVBs7hMY9n+NsYVWGuQ15TXlhA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5847
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221207_065016_238361_8D936DF5 
-X-CRM114-Status: GOOD (  28.14  )
+X-CRM114-CacheID: sfid-20221207_071637_252705_B7C156FC 
+X-CRM114-Status: GOOD (  15.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -157,77 +83,113 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-On 12/7/2022 3:46 PM, Christoph Hellwig wrote:
-> On Wed, Dec 07, 2022 at 12:59:00PM +0200, Max Gurtovoy wrote:
->> Why is it preferred that the migration SW will talk directly to the PF and
->> not via VFIO interface ?
-> It should never talk directly to any hardware, but through a kernel
-> interface, and that's probably vfio.  But that interface needs to
-> centered around the controlling function for all the reasons I've
-> written down multiple times now.
->
->> It's just an implementation detail.
-> No, it's not.  While you could come up with awkward ways to map how
-> the hardware interface must work to a completely contrary kernel
-> interface that's just going to create the need for lots of boilerplate
-> code _and_ confuses users.  The function that is beeing migrated can
-> fundamentally not be in control of itself.  Any interface that pretends
-> it is broken and a long term nightmare for users and implementers.
+> Hi Sagi,
+> 
+> Do you mean show_opcode_name() macro which is defined as part of TRACE_EVENT?
+> 
+> As far as I understand, I can't use show_opcode_name() directly outside of TRACE_EVENT
+> 
+> Can you please share an example?
 
-We're defining the SPEC and interfaces now :)
+Sorry, I meant something like nvme_get_opcode_str()...
 
-Bellow is some possible direction I can think of.
+Something like (untested and needs a split):
+--
+diff --git a/drivers/nvme/host/constants.c b/drivers/nvme/host/constants.c
+index e958d5015585..eacf282f04d8 100644
+--- a/drivers/nvme/host/constants.c
++++ b/drivers/nvme/host/constants.c
+@@ -54,6 +54,14 @@ static const char * const nvme_admin_ops[] = {
+         [nvme_admin_get_lba_status] = "Get LBA Status",
+  };
 
->> I feel like it's even sounds more reasonable to have a common API like we
->> have today to save_state/resume_state/quiesce_device/freeze_device and each
->> device implementation will translate this functionality to its own SPEC.
-> Absolutely.
->
->> If I understand your direction is to have QEMU code to talk to
->> nvmecli/new_mlx5cli/my_device_cli to do that and I'm not sure it's needed.
-> No.
-great.
->
->> The controlled device is not aware of any of the migration process. Only
->> the migration SW, system admin and controlling device.
-> Exactly.
->
->> So in the source:
->>
->> 1. We enable SRIOV on the NVMe driver
-> Again.  Nothing in live migration is tied to SR-IOV at all.  SR-IOV
-> is just one way to get multiple functions.
++static const char * const nvme_fabrics_ops[] = {
++       [nvme_fabrics_type_property_set] = "Property Set",
++       [nvme_fabrics_type_connect] = "Connect",
++       [nvme_fabrics_type_property_get] = "Property Get",
++       [nvme_fabrics_type_auth_send] = "Authentication Send",
++       [nvme_fabrics_type_auth_receive] = "Authentication Receive",
++};
++
+  static const char * const nvme_statuses[] = {
+         [NVME_SC_SUCCESS] = "Success",
+         [NVME_SC_INVALID_OPCODE] = "Invalid Command Opcode",
+@@ -185,3 +193,12 @@ const unsigned char *nvme_get_admin_opcode_str(u8 
+opcode)
+                 return nvme_admin_ops[opcode];
+         return "Unknown";
+  }
++EXPORT_SYMBOL_GPL(nvme_get_admin_opcode_str);
++
++const unsigned char *nvme_get_fabrics_opcode_str(u8 opcode)
++{
++       if (opcode < ARRAY_SIZE(nvme_admin_ops) && nvme_fabrics_ops[opcode])
++               return nvme_fabrics_ops[opcode];
++       return "Unknown";
++}
++EXPORT_SYMBOL_GPL(nvme_get_fabrics_opcode_str);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index e01fa9f696fa..56f2cec6e5b1 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -1086,19 +1086,30 @@ static inline bool nvme_multi_css(struct 
+nvme_ctrl *ctrl)
+  const unsigned char *nvme_get_error_status_str(u16 status);
+  const unsigned char *nvme_get_opcode_str(u8 opcode);
+  const unsigned char *nvme_get_admin_opcode_str(u8 opcode);
++const unsigned char *nvme_get_fabrics_opcode_str(u8 opcode);
+  #else /* CONFIG_NVME_VERBOSE_ERRORS */
+  static inline const unsigned char *nvme_get_error_status_str(u16 status)
+  {
+-       return "I/O Error";
++       return __stringify(status);
+  }
+  static inline const unsigned char *nvme_get_opcode_str(u8 opcode)
+  {
+-       return "I/O Cmd";
++       return __stringify(opcode);
+  }
+  static inline const unsigned char *nvme_get_admin_opcode_str(u8 opcode)
+  {
+-       return "Admin Cmd";
++       return __stringify(opcode);
++}
++static inline const unsigned char *nvme_get_fabrics_opcode_str(u8 opcode)
++{
++       return __stringify(opcode);
+  }
+  #endif /* CONFIG_NVME_VERBOSE_ERRORS */
+-
++static inline const unsigned char *nvme_opcode_str(int qid, u8 opcode, 
+u8 fctype)
++{
++       if (opcode == nvme_fabrics_command)
++               return nvme_get_fabrics_opcode_str(fctype);
++       return qid ? nvme_get_opcode_str(opcode) :
++               nvme_get_admin_opcode_str(opcode);
++}
+  #endif /* _NVME_H */
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 79789daddeac..77450f52c146 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2275,10 +2275,13 @@ static enum blk_eh_timer_return 
+nvme_tcp_timeout(struct request *rq)
+         struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+         struct nvme_ctrl *ctrl = &req->queue->ctrl->ctrl;
+         struct nvme_tcp_cmd_pdu *pdu = req->pdu;
++       u8 opcode = pdu->cmd.common.opcode, fctype = 
+pdu->cmd.fabrics.fctype;
++       int qid = nvme_tcp_queue_id(req->queue);
 
-Sure.
+         dev_warn(ctrl->device,
+-               "queue %d: timeout request %#x type %d\n",
+-               nvme_tcp_queue_id(req->queue), rq->tag, pdu->hdr.type);
++               "queue %d: timeout cid %#x type %d op %s\n",
++               qid, nvme_cid(rq), pdu->hdr.type,
++               nvme_opcode_str(qid, opcode, fctype));
 
-It's just an example. It can be some mdev.
-
->
->> 2. We list all the secondary controllers: nvme1, nvme2, nvme3
->>
->> 3. We allow migrating nvme1, nvme2, nvme3 - now these VFs are migratable
->> (controlling to controlled).
->>
->> 4. We bind nvme1, nvme2, nvme3 to VFIO NVMe driver
->>
->> 5. We pass these functions to VM
-> And you need to pass the controlling function (or rather a handle for
-> it), because there is absolutely no sane way to discover that from
-> the controlled function as it can't have that information by the
-> fact that it is beeing passed to unprivilged VMs.
-
-Just thinking out loud:
-
-When we perform step #3 we are narrowing it's scope and maybe some caps 
-that you're concerned of. After this setting, the controlled function is 
-in LM mode (we should define what does that mean in order to be able to 
-migrate it correctly) and the controlling function is the migration 
-master of it. Both can be aware of that. The only one that can master 
-the controlled function is the controlling function in LM mode. Thus, it 
-will be easy to keep that handle inside the kernel for VFs and for MDEVs 
-as well.
-Although I'm not against passing this handle to migration SW somehow in 
-the command line of the QEMU but I still can't completely agree it's 
-necessary.
-
+         if (ctrl->state != NVME_CTRL_LIVE) {
+                 /*
+--
 
