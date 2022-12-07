@@ -4,96 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 28476C63703
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Dec 2022 15:33:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44378C352A1
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Dec 2022 15:56:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Wjikf8BONkNBHq/mdSHMPb1S0WDsfH+RsTxDU14w2U8=; b=brZkCmCfEsHboDv9dz5xQUpvYd
-	zPPrwesAx4y4N3X5iqzWWadBNLLHAkHE/t9LI1BxcYH8BQR4qyukmcUlLErMa1SHZxKdzLRM70O7k
-	ErgQPkSIgKVS2sHBQXv9prs0aNK/ym5duX7BDl3bc0eU4OQXcgozg4qcy20806DEkLoDThkaGNFYQ
-	rcF3oUdzfBJapFRzzhoS2NOIwOzQHUZQU605mhpjHR9gOqos67o3ffDe+6t4YCnb8S5QWsprhv3WV
-	NBDcSRB6IteHipyhXNIdbUFY+uggFWlkB99hx56odNNMvQIq+r9LF+zOOhuUU7O9di4kwAcq41iX7
-	TRHVlD8g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=vY3sTW09olG5iwk17y/KR4D0PYJv7DXQwuDqwAnD9N0=; b=xVceVYR1/CtqE6uaWkD2SWn120
+	4PJCgkIE76lnmyZXU63yI5P/KYTePc3YFFR27n7rjxL7naU7yqdNneMej5CWpfF8aF2bwK53lVSyg
+	cmfHsy+7i0so2DKCUSII21uP/PljVcm+WUIGAvsbtJzYyTvjN4POQzKZnfCOtzkFlqj2/4mY1BCqp
+	xauAVEjACtqY8RVxA5++aq4uEf/Anu70dCRsrIK9ZPXWGNJsm67dKD1aTYBcBBrJvRoRytVyWnOeN
+	+qE2UmsDeBmJJJJiqx+BhwCrLinxfwOedh7bTr9ff4vYKD34xXH2y7YTbDSz5LlWIZ/REtWCbg/7C
+	ROAlaF/g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2wQW-005rvj-TK; Wed, 07 Dec 2022 15:33:40 +0000
-Received: from mail-qk1-x72a.google.com ([2607:f8b0:4864:20::72a])
+	id 1p2wmA-006F61-Ci; Wed, 07 Dec 2022 15:56:02 +0000
+Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2wQU-005rpD-3G
-	for linux-nvme@lists.infradead.org; Wed, 07 Dec 2022 15:33:39 +0000
-Received: by mail-qk1-x72a.google.com with SMTP id j26so10219022qki.10
-        for <linux-nvme@lists.infradead.org>; Wed, 07 Dec 2022 07:33:36 -0800 (PST)
+	id 1p2wm6-006F0k-U5
+	for linux-nvme@lists.infradead.org; Wed, 07 Dec 2022 15:56:00 +0000
+Received: by mail-io1-xd2b.google.com with SMTP id n188so12011025iof.8
+        for <linux-nvme@lists.infradead.org>; Wed, 07 Dec 2022 07:55:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wjikf8BONkNBHq/mdSHMPb1S0WDsfH+RsTxDU14w2U8=;
-        b=WLyP/sfOhBiMsNF2s65Gxuq7n9uP2ESaakKI/3HI1+vYUOiel9xaoXz4rrPACjE1t6
-         BcAHNJCIpzJ3DcERjul4uyDvWESyrxasi3bBWJGFp3W+fkHrf9Jvg3wGOJa8qBdBJbJJ
-         r+a2klUQv/qyzv7o81LiM0UrHNEE9sgzO2I00mp1FAqrnsn7/8TsfzUYJP+u3SP3Viab
-         XmkrnQPBMqktuVRXx1NySaLMv9T14aEYK0Pbr6gyMRycrQEN+aT528SEbc/byp3iOQh+
-         jGD3RhcmDgwvBvuaUIpDQq/WhR4jfDsEHX27fFvpg5PNbyPfHtWh4Iksxi/ZxJUi38g5
-         RaAg==
+        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vY3sTW09olG5iwk17y/KR4D0PYJv7DXQwuDqwAnD9N0=;
+        b=NkggO5F8DoFYdKtn1k6ejKKSlg5bK57Iwa0ddvFWyT325M6hyXtfDm1Wq0TXYtxPBA
+         nwhAnxfhlCOrGL/Sr86Nl845ukAtYsvSBAY7lsJcm9zC15xloOrjhgpKLQHRjYO8BH3Y
+         iTNfn4ocRb/MGgmXS76CgXifN7frB1m03xDcOLWSjW+ROzDb5QDzNZolr4nij4rIBvzf
+         QgNN9NV+FmuUZzi4a5vEgH5IoGTaTy35U8nBYvJw4mrXWs4Fc5qHnnmNGmLXuETGfoqN
+         ewg0fG+MeqjhmxOTaJyFzFXwKtoFwb8+7S3oOjQg9vUXIeCGK2PYQgiq1fBSbgWK9h0e
+         7dnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wjikf8BONkNBHq/mdSHMPb1S0WDsfH+RsTxDU14w2U8=;
-        b=TqLhWNS4Uv+vZxttu6al9O3ewNl8D14ZuTsiuWfMLqLhLq3tJOiMn07kS9AUX+J9lp
-         3Am9yEwCHJ82Lkvr0PvziquaB3ipJSMRO8ib1mMeyBmXB1HbPx1EYTi82NKZENh9m5ot
-         fkOs35FljY5BeQS2MNBIgGjKCD1gtUqVTN6vb4+H0gYymyIz6hEBW6gGFDCbgKopMQKI
-         ixeQj2FbqayTTeI+JB3oLVwAKMeF/2Zu6mG7w0iU99wfIRWsXoc2UrCmWPO/OjdU/aIN
-         PlXogflX7n2gZWtteOLO3xJFKznadKskGTsEfKlI68pQ2I7Thm5H7mLDS5XKBC+XDL7h
-         jpUQ==
-X-Gm-Message-State: ANoB5pncifeRfjHW4RWcA7OQCupJnv2q4WLBfTnmvEO8MU1mKXISaAqs
-	giH3SN8pwA/C0QNC7VS9xNN5Ng==
-X-Google-Smtp-Source: AA0mqf6H3CUbZahGNznYB0JQYDxDw79bxzgM/h4A32ynuBG2ju5kK/9OhXvFJpvphgAQq9r/tBJFwA==
-X-Received: by 2002:ae9:e919:0:b0:6fe:c7a2:b2d0 with SMTP id x25-20020ae9e919000000b006fec7a2b2d0mr8631309qkf.317.1670427215720;
-        Wed, 07 Dec 2022 07:33:35 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-47-55-122-23.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.122.23])
-        by smtp.gmail.com with ESMTPSA id o21-20020a05620a2a1500b006eeb3165554sm17830112qkp.19.2022.12.07.07.33.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Dec 2022 07:33:35 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.95)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1p2w0t-005E3g-AJ;
-	Wed, 07 Dec 2022 11:07:11 -0400
-Date: Wed, 7 Dec 2022 11:07:11 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Lei Rao <lei.rao@intel.com>, kbusch@kernel.org, axboe@fb.com,
-	kch@nvidia.com, sagi@grimberg.me, alex.williamson@redhat.com,
-	cohuck@redhat.com, yishaih@nvidia.com,
-	shameerali.kolothum.thodi@huawei.com, kevin.tian@intel.com,
-	mjrosato@linux.ibm.com, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, kvm@vger.kernel.org,
-	eddie.dong@intel.com, yadong.li@intel.com, yi.l.liu@intel.com,
-	Konrad.wilk@oracle.com, stephen@eideticom.com, hang.yuan@intel.com
-Subject: Re: [RFC PATCH 1/5] nvme-pci: add function nvme_submit_vf_cmd to
- issue admin commands for VF driver.
-Message-ID: <Y5CsH5PqMYAWYatw@ziepe.ca>
-References: <Y49HKHP9NrId39iH@ziepe.ca>
- <20221206135810.GA27689@lst.de>
- <Y49eObpI7QoSnugu@ziepe.ca>
- <20221206153811.GB2266@lst.de>
- <Y49k++D3i8DfLOLL@ziepe.ca>
- <20221206165503.GA8677@lst.de>
- <Y4+U3VR2LeEh2S7B@ziepe.ca>
- <20221207075415.GB2283@lst.de>
- <Y5CWVu08abcOuEQH@ziepe.ca>
- <20221207135203.GA22803@lst.de>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vY3sTW09olG5iwk17y/KR4D0PYJv7DXQwuDqwAnD9N0=;
+        b=kZYTzbVa1oL21mJo4r95sNWZugvvU7X1kQGb7Z8EoyTb6klrPGWRoIh0kGnuh/HNy3
+         FsnqSFqzk073jntIqKJmSH0auYO6QwDw7vDfe6nNrbClxx6bp4ppQ99DT44sThirsn5E
+         8R+1sa5CyhTe6Wk38ae2yQfw/QUGyBU9iN8URNbyh/YKYAI3XLMGGp3jKKs69U7PEiqp
+         ahy+35tbB/FNvEfSRSe+bIWj11v682a/oRV967dSEelgo9vdKfKb6anB4cR+pPxo4a8N
+         llnZMdK7rYtuqgJvlvhtT06e5ieA485GzSdRS08yoRr5zLWMZZiRvvvi+9t2Mt9C4un9
+         5Esg==
+X-Gm-Message-State: ANoB5pkRXCw19JrqIvxmC8iBk0wT4q9pW9ynr7CG8JzAl4He6zOIlUx4
+	uOggJEXghhOaq39tPUJVhdcePQ==
+X-Google-Smtp-Source: AA0mqf581SVve8KUfSOdCN+l1E4b+gi1ZlHBtixl5dJR3Q6aRCQATAq1lSIK4Ft+p/OfTVGxc59MpQ==
+X-Received: by 2002:a02:7164:0:b0:38a:e96:862f with SMTP id n36-20020a027164000000b0038a0e96862fmr13427756jaf.214.1670428556311;
+        Wed, 07 Dec 2022 07:55:56 -0800 (PST)
+Received: from [192.168.1.94] ([207.135.234.126])
+        by smtp.gmail.com with ESMTPSA id u188-20020a0223c5000000b003762308fe54sm7780959jau.93.2022.12.07.07.55.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Dec 2022 07:55:55 -0800 (PST)
+Message-ID: <a3829d8a-9db5-d92d-7e41-dbc59e092e38@kernel.dk>
+Date: Wed, 7 Dec 2022 08:55:53 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221207135203.GA22803@lst.de>
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [GIT PULL] nvme fixes for Linux 6.1
+Content-Language: en-US
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+References: <Y5CeoZZcOCYaS/P9@infradead.org>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <Y5CeoZZcOCYaS/P9@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221207_073338_215308_8E9309C1 
-X-CRM114-Status: GOOD (  29.00  )
+X-CRM114-CacheID: sfid-20221207_075558_985936_270A773E 
+X-CRM114-Status: GOOD (  11.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,65 +93,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Dec 07, 2022 at 02:52:03PM +0100, Christoph Hellwig wrote:
-> On Wed, Dec 07, 2022 at 09:34:14AM -0400, Jason Gunthorpe wrote:
-> > The VFIO design assumes that the "vfio migration driver" will talk to
-> > both functions under the hood, and I don't see a fundamental problem
-> > with this beyond it being awkward with the driver core.
+On 12/7/22 7:09 AM, Christoph Hellwig wrote:
+> The following changes since commit 899d2a05dc14733cfba6224083c6b0dd5a738590:
 > 
-> And while that is a fine concept per see, the current incarnation of
-> that is fundamentally broken is it centered around the controlled
-> VM.  Which really can't work.
-
-I don't see why you keep saying this. It is centered around the struct
-vfio_device object in the kernel, which is definately NOT the VM.
-
-The struct vfio_device is the handle for the hypervisor to control
-the physical assigned device - and it is the hypervisor that controls
-the migration.
-
-We do not need the hypervisor userspace to have a handle to the hidden
-controlling function. It provides no additional functionality,
-security or insight to what qemu needs to do. Keeping that
-relationship abstracted inside the kernel is a reasonable choice and
-is not "fundamentally broken".
-
-> > Even the basic assumption that there would be a controlling/controlled
-> > relationship is not universally true. The mdev type drivers, and 
-> > SIOV-like devices are unlikely to have that. Once you can use PASID
-> > the reasons to split things at the HW level go away, and a VF could
-> > certainly self-migrate.
+>   nvme: fix SRCU protection of nvme_ns_head list (2022-11-30 14:37:46 +0100)
 > 
-> Even then you need a controlling and a controlled entity.  The
-> controlling entity even in SIOV remains a PCIe function.  The
-> controlled entity might just be a bunch of hardware resoures and
-> a PASID.  Making it important again that all migration is driven
-> by the controlling entity.
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git tags/nvme-6.1-2022-12-07
+> 
+> for you to fetch changes up to 6f2d71524bcfdeb1fcbd22a4a92a5b7b161ab224:
+> 
+>   nvme initialize core quirks before calling nvme_init_subsystem (2022-12-06 09:05:59 +0100)
+> 
+> ----------------------------------------------------------------
+> nvme fixes for Linux 6.1
+> 
+>  - initialize core quirks before calling nvme_init_subsystem
+>    (Pankaj Raghav)
+> 
+> ----------------------------------------------------------------
 
-If they are the same driver implementing vfio_device you may be able
-to claim they conceptually exist, but it is pretty artificial to draw
-this kind of distinction inside a single driver.
+Pulled, thanks.
 
-> Also the whole concept that only VFIO can do live migration is
-> a little bogus.  With checkpoint and restart it absolutely
-> does make sense to live migrate a container, and with that
-> the hardware interface (e.g. nvme controller) assigned to it.
+-- 
+Jens Axboe
 
-I agree people may want to do this, but it is very unclear how SRIOV
-live migration can help do this.
 
-SRIOV live migration is all about not disturbing the kernel driver,
-assuming it is the same kernel driver on both sides. If you have two
-different kernel's there is nothing worth migrating. There isn't even
-an assurance the dma API will have IOMMU mapped the same objects to
-the same IOVAs. eg so you have re-establish your admin queue, IO
-queues, etc after migration anyhow.
-
-Let alone how to solve the security problems of allow userspace to
-load arbitary FW blobs into a device with potentially insecure DMA
-access..
-
-At that point it isn't really the same kind of migration.
-
-Jason
 
