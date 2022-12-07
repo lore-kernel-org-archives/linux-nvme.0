@@ -4,79 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17F32C4708E
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Dec 2022 11:19:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14B86C352A1
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Dec 2022 11:20:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=q1W3rW8sfu1CjgInkH0nXkYcONTUPfXA2GwC5iI72uc=; b=cZ780rOmQ+uSf5+jjDNGEnmdD9
-	sbC9HXwSSmhrii/ZRXz2/5QmEgTj7Lvqpkgfl6AmBdPvvkj3WIitmc5IHPtXzdsMHrelTSza88wAo
-	Kz6s3ulY0diLInPvsi4Qyo7ykH6ySdwBnMsaksxEi7Rp+eORk7d53jo68Ou79DT2nXuFoJ90qheEU
-	UQ0v0h/+BSzLIm9JbBU6fp1MTzr/6t/h1kAs2ZfNTGSP2NdOG6LcmKkQm4Fl0BH3cTSzlc+EL8Add
-	ISN1T5NaviCeVzgdfthcKPVmU9wkuiaMCasZ1yYVe1gpcsm7tFQJbN5iNJ6pIrP4Kvis0QH5e+KCB
-	VhaFJFaw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2C8iITfXyqrGSSelF6ORCsVtQLkFzsmpKhnPxYjSV6k=; b=x5rMgdssWQlgTd0fUXQVjYdJLA
+	rKog5EFbz7KNNRDOxQZjuDHPmyBe1TWQRIBVPca9ooxkYdu+ezEwlxYIlfGRVTzbSgbtaIpkiVbkJ
+	ffU/FpWMwHvcgorLVZTFOTq2wRH8Nuk1ObRxKKoJCXqLgD0wmROc5HJ2DPAc/Hj8wOGVDVd8UQMzT
+	uNL1ste5tBsNsyGSwgtVuPH4xZem6nuzjKUkXJ1M5vn/oUQnV33AchT+xBRtK1NnsvW9Gj74a0BDT
+	PLhmWDuJfrhvWy2G5HUvgaoVwbyTxdUeyrvTumwFqtx2eWoRc2yZZmRrnnMy1eTnWd2LE9Evw7Diu
+	ttZelo3Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2sSa-000bLt-Qw; Wed, 07 Dec 2022 11:19:32 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1p2sTD-000c8i-3u; Wed, 07 Dec 2022 11:20:11 +0000
+Received: from mail-wm1-f47.google.com ([209.85.128.47])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2sSV-000bCC-MD
-	for linux-nvme@lists.infradead.org; Wed, 07 Dec 2022 11:19:31 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1670411965;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q1W3rW8sfu1CjgInkH0nXkYcONTUPfXA2GwC5iI72uc=;
-	b=W6ds2bGUMbolM9VSHYLiuFwx8XHQoAsuLgBqWXd5dnqTAjuC3iyB2FzSXiVbZHKy4urhdW
-	yWESV54W2VjS3lvwxC1pfNVspSZjH0poZOy8uSRJsCeIVNQiDJAA+lXNNyTyfIBVmF++rd
-	c1o+zaKaJHIVAdOH0/iXFs07qNlyG4w=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-271-ONNDL37xNUGJ1j6tr2z1XQ-1; Wed, 07 Dec 2022 06:19:20 -0500
-X-MC-Unique: ONNDL37xNUGJ1j6tr2z1XQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0264C85A5B6;
-	Wed,  7 Dec 2022 11:19:19 +0000 (UTC)
-Received: from T590 (ovpn-8-28.pek2.redhat.com [10.72.8.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DE9B2027061;
-	Wed,  7 Dec 2022 11:19:05 +0000 (UTC)
-Date: Wed, 7 Dec 2022 19:19:00 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Nitesh Shetty <nj.shetty@samsung.com>
-Cc: axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
-	dm-devel@redhat.com, kbusch@kernel.org, hch@lst.de,
-	sagi@grimberg.me, james.smart@broadcom.com, kch@nvidia.com,
-	damien.lemoal@opensource.wdc.com, naohiro.aota@wdc.com,
-	jth@kernel.org, viro@zeniv.linux.org.uk,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-	anuj20.g@samsung.com, joshi.k@samsung.com, p.raghav@samsung.com,
-	nitheshshetty@gmail.com, gost.dev@samsung.com
-Subject: Re: [PATCH v5 02/10] block: Add copy offload support infrastructure
-Message-ID: <Y5B2pCiYsWb5hdrI@T590>
-References: <20221123055827.26996-1-nj.shetty@samsung.com>
- <CGME20221123061017epcas5p246a589e20eac655ac340cfda6028ff35@epcas5p2.samsung.com>
- <20221123055827.26996-3-nj.shetty@samsung.com>
- <Y33UAp6ncSPO84XI@T590>
- <20221123100712.GA26377@test-zns>
- <Y3607N6lDRK6WU7/@T590>
- <20221129114428.GA16802@test-zns>
- <20221207055400.GA6497@test-zns>
+	id 1p2sT9-000c1K-DS
+	for linux-nvme@lists.infradead.org; Wed, 07 Dec 2022 11:20:09 +0000
+Received: by mail-wm1-f47.google.com with SMTP id h8-20020a1c2108000000b003d1efd60b65so813384wmh.0
+        for <linux-nvme@lists.infradead.org>; Wed, 07 Dec 2022 03:20:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2C8iITfXyqrGSSelF6ORCsVtQLkFzsmpKhnPxYjSV6k=;
+        b=TOVv2Td/FD0GhdI3a9Ekpj6P8DdgTWwwuGJ7kyKtvQAcHZrr9YBDU1wcOnKETiCGpU
+         tssDI9Cedk1BtfGT1iF51qdwQ0aUIlB/z/s7Cw+WotXCDWCkupWwgIGlFJt25I+y2i0o
+         FiXDZpii5EsIdcGoj1RgsKaXaIqhgYc1+eexax7GNJ6dYVK2bnDKIj213fAkdmEzHjFg
+         K3Ks6Z99kL4l9PYPHaGh6jrDEpGAjOWIUM3xzXKt1Nkbk09ihNGKFKr/ieneQRJz1+ey
+         qDsJo11PvoGsQG3DHmecBQF5N1Wd8EfJXihHgvaomz215+u1G1xMhO1lXpdRVNpOztpk
+         1xpg==
+X-Gm-Message-State: ANoB5pkCBBhc9KoAlcmAGTiw8GoUgBgsWBoHh8dBsAy7jAdaJ0SiJdkh
+	1E4KnUNLKdCi6OoMY5sZt5k=
+X-Google-Smtp-Source: AA0mqf6qn/0sToPXA92fF1/foq1DVLL+CFf4Kq1JwLTVKCD4Q4u3I5UIho4spVc/oB/Uggq59RuSGg==
+X-Received: by 2002:a05:600c:6012:b0:3cf:cb16:f242 with SMTP id az18-20020a05600c601200b003cfcb16f242mr58389564wmb.82.1670412003120;
+        Wed, 07 Dec 2022 03:20:03 -0800 (PST)
+Received: from [192.168.64.178] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id f4-20020a05600c44c400b003cfa80443a0sm1253051wmo.35.2022.12.07.03.20.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Dec 2022 03:20:02 -0800 (PST)
+Message-ID: <40ec518c-db1b-8fa2-af66-3b2f3dcc235d@grimberg.me>
+Date: Wed, 7 Dec 2022 13:20:01 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221207055400.GA6497@test-zns>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] nvme-tcp: add additional info for nvme_tcp_timeout log
+To: amit.engel@dell.com, linux-nvme@lists.infradead.org
+References: <1669889667-1034818-1-git-send-email-amit.engel@dell.com>
+ <1670410707-2278352-1-git-send-email-amit.engel@dell.com>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <1670410707-2278352-1-git-send-email-amit.engel@dell.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221207_031927_864981_204C7056 
-X-CRM114-Status: GOOD (  45.18  )
+X-CRM114-CacheID: sfid-20221207_032007_502858_540ADCE5 
+X-CRM114-Status: GOOD (  13.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,111 +79,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Dec 07, 2022 at 11:24:00AM +0530, Nitesh Shetty wrote:
-> On Tue, Nov 29, 2022 at 05:14:28PM +0530, Nitesh Shetty wrote:
-> > On Thu, Nov 24, 2022 at 08:03:56AM +0800, Ming Lei wrote:
-> > > On Wed, Nov 23, 2022 at 03:37:12PM +0530, Nitesh Shetty wrote:
-> > > > On Wed, Nov 23, 2022 at 04:04:18PM +0800, Ming Lei wrote:
-> > > > > On Wed, Nov 23, 2022 at 11:28:19AM +0530, Nitesh Shetty wrote:
-> > > > > > Introduce blkdev_issue_copy which supports source and destination bdevs,
-> > > > > > and an array of (source, destination and copy length) tuples.
-> > > > > > Introduce REQ_COPY copy offload operation flag. Create a read-write
-> > > > > > bio pair with a token as payload and submitted to the device in order.
-> > > > > > Read request populates token with source specific information which
-> > > > > > is then passed with write request.
-> > > > > > This design is courtesy Mikulas Patocka's token based copy
-> > > > > 
-> > > > > I thought this patchset is just for enabling copy command which is
-> > > > > supported by hardware. But turns out it isn't, because blk_copy_offload()
-> > > > > still submits read/write bios for doing the copy.
-> > > > > 
-> > > > > I am just wondering why not let copy_file_range() cover this kind of copy,
-> > > > > and the framework has been there.
-> > > > > 
-> > > > 
-> > > > Main goal was to enable copy command, but community suggested to add
-> > > > copy emulation as well.
-> > > > 
-> > > > blk_copy_offload - actually issues copy command in driver layer.
-> > > > The way read/write BIOs are percieved is different for copy offload.
-> > > > In copy offload we check REQ_COPY flag in NVMe driver layer to issue
-> > > > copy command. But we did missed it to add in other driver's, where they
-> > > > might be treated as normal READ/WRITE.
-> > > > 
-> > > > blk_copy_emulate - is used if we fail or if device doesn't support native
-> > > > copy offload command. Here we do READ/WRITE. Using copy_file_range for
-> > > > emulation might be possible, but we see 2 issues here.
-> > > > 1. We explored possibility of pulling dm-kcopyd to block layer so that we 
-> > > > can readily use it. But we found it had many dependecies from dm-layer.
-> > > > So later dropped that idea.
-> > > 
-> > > Is it just because dm-kcopyd supports async copy? If yes, I believe we
-> > > can reply on io_uring for implementing async copy_file_range, which will
-> > > be generic interface for async copy, and could get better perf.
-> > >
-> > 
-> > It supports both sync and async. But used only inside dm-layer.
-> > Async version of copy_file_range can help, using io-uring can be helpful
-> > for user , but in-kernel users can't use uring.
-> > 
-> > > > 2. copy_file_range, for block device atleast we saw few check's which fail
-> > > > it for raw block device. At this point I dont know much about the history of
-> > > > why such check is present.
-> > > 
-> > > Got it, but IMO the check in generic_copy_file_checks() can be
-> > > relaxed to cover blkdev cause splice does support blkdev.
-> > > 
-> > > Then your bdev offload copy work can be simplified into:
-> > > 
-> > > 1) implement .copy_file_range for def_blk_fops, suppose it is
-> > > blkdev_copy_file_range()
-> > > 
-> > > 2) inside blkdev_copy_file_range()
-> > > 
-> > > - if the bdev supports offload copy, just submit one bio to the device,
-> > > and this will be converted to one pt req to device
-> > > 
-> > > - otherwise, fallback to generic_copy_file_range()
-> > >
-> > 
+
+> From: Amit Engel <Amit.Engel@dell.com>
 > 
-> Actually we sent initial version with single bio, but later community
-> suggested two bio's is must for offload, main reasoning being
-
-Is there any link which holds the discussion?
-
-> dm-layer,Xcopy,copy across namespace compatibilty.
-
-But dm kcopy has supported bdev copy already, so once your patch is
-ready, dm kcopy can just sends one bio with REQ_COPY if the device
-supports offload command, otherwise the current dm kcopy code can work
-as before.
-
+> This provides additional details about the rq/cmd that is timed out
 > 
-> > We will check the feasibilty and try to implement the scheme in next versions.
-> > It would be helpful, if someone in community know's why such checks were
-> > present ? We see copy_file_range accepts only regular file. Was it
-> > designed only for regular files or can we extend it to regular block
-> > device.
-> >
+> Signed-off-by: Amit Engel <Amit.Engel@dell.com>
+> ---
+>   drivers/nvme/host/tcp.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> As you suggested we were able to integrate def_blk_ops and
-> run with user application, but we see one main issue with this approach.
-> Using blkdev_copy_file_range requires having 2 file descriptors, which
-> is not possible for in kernel users such as fabrics/dm-kcopyd which has
-> only bdev descriptors.
-> Do you have any plumbing suggestions here ?
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 1eed0fc26b3a..f2be7c23ace5 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -2277,8 +2277,9 @@ static enum blk_eh_timer_return nvme_tcp_timeout(struct request *rq)
+>   	struct nvme_tcp_cmd_pdu *pdu = req->pdu;
+>   
+>   	dev_warn(ctrl->device,
+> -		"queue %d: timeout request %#x type %d\n",
+> -		nvme_tcp_queue_id(req->queue), rq->tag, pdu->hdr.type);
+> +		"queue %d: timeout cid %#x opcode %#x type %d\n",
 
-What is the fabrics kernel user? Any kernel target code(such as nvme target)
-has file/bdev path available, vfs_copy_file_range() should be fine.
-
-Also IMO, kernel copy user shouldn't be important long term, especially if
-io_uring copy_file_range() can be supported, forwarding to userspace not
-only gets better performance, but also cleanup kernel related copy code
-much.
-
-
-thanks, 
-Ming
-
+How about using show_opcode_name() instead (or in addition).
 
