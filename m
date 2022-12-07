@@ -4,53 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A0C5C352A1
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Dec 2022 07:58:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 243A3C352A1
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Dec 2022 10:22:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iZBMyZDbc7QumwwSL0lohTnnIwNe3YkrpMxmaWTYx1A=; b=k8woiIbzjFBc3esZk++sHfpmvl
-	xgPVsAsuvDa8okfxtRPBE9Xz9/dNQefk3Ews+ROGbp0tWOVl8PQzW4RvLLUlBH5ib1zMEUeR7pfWB
-	NKoGLYxhce3YGns0TMh4hyT2gYi3WURqpLcCAqrjpbPLT4mxRZpmmJbCD/MoeBoGKkKkD8UUPm7wc
-	Jw6M3nUdnHsANFh0LkABMozEIdtvxxdIW3o12jExmXV4rvPgtk9bqLDSBFlPV5IYpk6oND4q6bv1o
-	ZCZN60VsPHnYXuxwHDQjb+q/p4sucTN4BV9Vrv1+2egahKSEJ2BVo8JcAvbh58u8ppz0Us808PLbD
-	08hlNm5A==;
+	bh=lPzI0+evVSHS3ztOGGIP3CFHgC5aN3okr0QkVN6UmJ0=; b=NomaOQ6WMZzx8+U6n91iKKAcTF
+	eBSozRZgeesSQw1uuw/2ivM3vLMyw6QNy2vdKfLI76Rga2zLvn2ehXCZ41bWZMnwQHZz9BQX6UkYM
+	PZyHFPCkBhkyAzf7XvPI2vvk7eyx043cVpKD1t1aQIjYQL8361etuLWtlRzmBfm3kNElIGfAvX0Pq
+	7mpCmx7ooBIuGj5TcDy22t7ZoDm2glWtYEKmkFt7LZCnf6w0uI0Y5nSBcXxnWomSN1erHtezOq97i
+	5tRhvEtfS3IGoGAZ21YDQVWL+om78n6dF3myWMKgkg2sFGYxjUMMJ7RmXVTCiG0Jn8fGlghq5ILeY
+	3EEAQvXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2pKE-00EVsw-Q0; Wed, 07 Dec 2022 07:58:42 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1p2rYy-00H9g7-Ic; Wed, 07 Dec 2022 10:22:04 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2pKB-00EVp9-3b
-	for linux-nvme@lists.infradead.org; Wed, 07 Dec 2022 07:58:40 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id DB37E68AA6; Wed,  7 Dec 2022 08:58:34 +0100 (CET)
-Date: Wed, 7 Dec 2022 08:58:34 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Max Gurtovoy <mgurtovoy@nvidia.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Christoph Hellwig <hch@lst.de>,
-	Lei Rao <lei.rao@intel.com>, kbusch@kernel.org, axboe@fb.com,
-	kch@nvidia.com, sagi@grimberg.me, alex.williamson@redhat.com,
-	cohuck@redhat.com, yishaih@nvidia.com,
-	shameerali.kolothum.thodi@huawei.com, kevin.tian@intel.com,
-	mjrosato@linux.ibm.com, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, kvm@vger.kernel.org,
-	eddie.dong@intel.com, yadong.li@intel.com, yi.l.liu@intel.com,
-	Konrad.wilk@oracle.com, stephen@eideticom.com, hang.yuan@intel.com
-Subject: Re: [RFC PATCH 1/5] nvme-pci: add function nvme_submit_vf_cmd to
- issue admin commands for VF driver.
-Message-ID: <20221207075834.GC2283@lst.de>
-References: <20221206055816.292304-2-lei.rao@intel.com> <20221206061940.GA6595@lst.de> <Y49HKHP9NrId39iH@ziepe.ca> <20221206135810.GA27689@lst.de> <Y49eObpI7QoSnugu@ziepe.ca> <20221206153811.GB2266@lst.de> <Y49k++D3i8DfLOLL@ziepe.ca> <20221206165503.GA8677@lst.de> <Y4+U3VR2LeEh2S7B@ziepe.ca> <2975e217-749b-6929-cd2d-4b6276ef33d1@nvidia.com>
+	id 1p2rYs-00H9R4-Re
+	for linux-nvme@lists.infradead.org; Wed, 07 Dec 2022 10:22:03 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1670408516;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lPzI0+evVSHS3ztOGGIP3CFHgC5aN3okr0QkVN6UmJ0=;
+	b=IO6KDsRpg4sTvdXWK7fEUUcKPXZpFqw/BqIJdPQab2p+F45dm23lqSOQsKAs3uoPy8l6CS
+	Rt4Ds/qqJECZBqP+gQof8DmV7vFfhY45Fn4rHBtAf0nUnAOUlGq1HUu/vvW/iORxmoJaw8
+	gsnCcAD48cf0Irx56OqDusjXhsST9xI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-654-rv7gHYUePVKsfk0LCykSIw-1; Wed, 07 Dec 2022 05:21:54 -0500
+X-MC-Unique: rv7gHYUePVKsfk0LCykSIw-1
+Received: by mail-wm1-f70.google.com with SMTP id i205-20020a1c3bd6000000b003d1d8d7f266so3900217wma.7
+        for <linux-nvme@lists.infradead.org>; Wed, 07 Dec 2022 02:21:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lPzI0+evVSHS3ztOGGIP3CFHgC5aN3okr0QkVN6UmJ0=;
+        b=TCyAvt/UzzSDUtSLjaCsL40vOHjFr1cITuvaM7WMbPBuEKymPlkBwUX5asHDZLUrfk
+         QAcMfKtNcD0brKzYNP4y4EIoVfWq7sSELq4+ngDTNZxqIPO02WTLbveuThjG8xrCdC2o
+         CJN8ggpjXwcImKnoz3Mu34wU6v1d0A88bycD8RXCXLlwDdKhNoWEdAVUfXKyb+g4Yu9z
+         V1JfDk8icg5ZvGphp5PNvTfALbgxzlKR+5+MaFzAaRiBYjnynTkANrc8Izx8dD7KOmk3
+         yeGwbLKdaOqNkhqCRzJ7vPYJ+I2WzzoMhFfhmHutQLU64XzzB/LlU+SQG09jSpREojYj
+         rFKQ==
+X-Gm-Message-State: ANoB5pmtXHO2RPN7z+m9HoiZ3K0GdcrbF/HrDs4FyiCv/cMgV2A+QJoA
+	g7wzaFg4Gz63ww0QvRE+an9MczB9uUx85yvdb6fkUQ5FUqWqze2a9BgbjccG39QvRZj7cJhWqUk
+	rRTrigeGAs6VngYPBSO8oD+sQyYQ=
+X-Received: by 2002:a5d:6745:0:b0:242:7e6:a0a0 with SMTP id l5-20020a5d6745000000b0024207e6a0a0mr32733378wrw.512.1670408513092;
+        Wed, 07 Dec 2022 02:21:53 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7DMVf3SQ+wTGuF0LUdq4DNgtoQvJFTl9h4t7vhp8I5BZbj8QdljNko1W2iVKGLUD6JkmsMhA==
+X-Received: by 2002:a5d:6745:0:b0:242:7e6:a0a0 with SMTP id l5-20020a5d6745000000b0024207e6a0a0mr32733365wrw.512.1670408512850;
+        Wed, 07 Dec 2022 02:21:52 -0800 (PST)
+Received: from redhat.com ([2.52.154.114])
+        by smtp.gmail.com with ESMTPSA id a3-20020adffac3000000b0024245e543absm13739316wrs.88.2022.12.07.02.21.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Dec 2022 02:21:52 -0800 (PST)
+Date: Wed, 7 Dec 2022 05:21:48 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Alvaro Karsz <alvaro.karsz@solid-run.com>,
+	virtualization@lists.linux-foundation.org,
+	linux-block@vger.kernel.org, dm-devel@redhat.com,
+	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+	Jason Wang <jasowang@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH v3] virtio_blk: add VIRTIO_BLK_F_LIFETIME feature support
+Message-ID: <20221207052001-mutt-send-email-mst@kernel.org>
+References: <20221205162035.2261037-1-alvaro.karsz@solid-run.com>
+ <Y5BCQ/9/uhXdu35W@infradead.org>
 MIME-Version: 1.0
+In-Reply-To: <Y5BCQ/9/uhXdu35W@infradead.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2975e217-749b-6929-cd2d-4b6276ef33d1@nvidia.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221206_235839_331123_DD154F97 
-X-CRM114-Status: GOOD (  19.64  )
+X-CRM114-CacheID: sfid-20221207_022158_998492_FF50D2F3 
+X-CRM114-Status: GOOD (  13.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,33 +102,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Dec 07, 2022 at 04:30:20AM +0200, Max Gurtovoy wrote:
-> I'm not sure how awkward is for migration driver to ask the controlling 
-> device driver to operate a migration action.
+On Tue, Dec 06, 2022 at 11:35:31PM -0800, Christoph Hellwig wrote:
+> This just seems like a horrible interface.  And virtio-blk should be
+> a simple passthrough and not grow tons of side-band crap like this.
+> 
+> If you want to pass through random misc information use virtio-scsi
+> or nvme with shadow doorbell buffers.
 
-It can't.  That's the whole point.  The controlled function that is
-being migrate must be absolutely unaware of that (except for things
-like quiescing access or FLRs that could happen anyway), because
-otherwise your have a fundamental information leak.
+Christoph you acked the spec patch adding this to virtio blk:
 
-> The controlling device driver can expose limited API for that matter.
+	Still not a fan of the encoding, but at least it is properly documented
+	now:
 
-No, it can't.  It must be in charge.
+	Acked-by: Christoph Hellwig <hch@lst.de>
 
-> Also the concept of primary controller that control it's secondary 
-> controllers is already in the SPEC so we can use it. It's not introduced in 
-> this RFC but we're here to fix it.
+Did you change your mind then? Or do you prefer a different encoding for
+the ioctl then? could you help sugesting what kind?
 
-Yes, it is as I've pointed out multiple times.  But, that relationship
-is only visible to the primary controller.  It also doesn't help with
-the general problem where the secondary controller must be able to
-completely change it's identify and thus the subsystem.
+Thanks,
 
-> In our case the primary controller is the PF and the secondary controllers 
-> are the VFs.
+-- 
+MST
 
-Yes, that's your case, and probably a very common one.  But also far from
-the only one, so there is no way Linux or the specification can rely
-on that dumb fact.  Never mind that there are virtualization schemes
-(look at the s390 code) where the PF to VF relationship gets lost.
 
