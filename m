@@ -4,77 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62D36C4332F
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Dec 2022 06:24:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88EB0C4332F
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Dec 2022 06:24:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Date:Cc:To:From:Subject:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kKcc7XQPg0UZn1AHNfQ4N2d5zF9JzBW3g3hPGFAB4Kc=; b=mdZtvNWtqJ8a5mCkcERQoVoHeD
-	v5Owjo6H0VGSI8ZowDfvpIgoapFvFvIoQh0TxrjsWUBThujQmBacHAEVyBRGUXA4l6m7JeEtNsNGJ
-	yz0LJEj4bC4QSGizsYfCwu/bY+9KKFueqlEtq4oga25EAZtk6T1NIoz6hpBI5tHVGVzsWHMWkCMy7
-	+j6xBoKeatKzqt14dgMJoa/x1yQ/0XAuE7gXeC0ZEoE1ZcQ9YtR+uO5uGXgkriJ++hG2tf4/x8NcC
-	pXxZBBN8Y66ebNWxJIfWaluvSokIPz2CKsbBY3lN7Mj/HUF0XtcSXWChgcmklA6UITAGyYKCufWMX
-	AI8UXOCQ==;
+	bh=hEHtknj7G67yuPB9tWefZgr9ALjA/T5Vl29gdCA8cwI=; b=LSso8fpYGcCesdsbgbzvOioXAg
+	Yr54BkNyU6x7zb5Abq7hcgiPTk7LgV2NdgdYy8IlFE0bImoN6PkUpebW0ve52vCTdhBqC0ZOpZS4s
+	bfa+Y0k6WGrJepBIHY3I/99QJCz+FQLc5mgCpfn6TeriDdWIkXExTgsiiu3rtNNQ9hPKU0CPFG4JH
+	/zNmDzwn0phbupEyWh9Z1zK2a+j3IYwHyX+5+HyJODU/FqLgP43V7FVrqKVfi34dpJdMfur1Jagsf
+	53HDAU+ezXOEPrPmu3iPLP8Z18sUc7F3rwG9PTY6y2HwV9RbZRdO/Yz2tXNJPC3BPCqocB4xTVOuh
+	WX6nvlfg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p4cEP-008kxn-Oh; Mon, 12 Dec 2022 06:24:05 +0000
+	id 1p4cEV-008l0T-J4; Mon, 12 Dec 2022 06:24:12 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p3ccv-007Zkl-Ns
-	for linux-nvme@lists.infradead.org; Fri, 09 Dec 2022 12:37:19 +0000
+	id 1p3gai-009nam-Qn
+	for linux-nvme@lists.infradead.org; Fri, 09 Dec 2022 16:51:18 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1670589435;
+	s=mimecast20190719; t=1670604673;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kKcc7XQPg0UZn1AHNfQ4N2d5zF9JzBW3g3hPGFAB4Kc=;
-	b=ZG3qqAatQhAgpOboJAhhAnXOsAls6GT3djKhXpAx8qhAmpWP+j5Ewoo4/diUxYxZxAhmAx
-	IsB4N7gRUZDNj5yOs+yBwaGHPcGpIAQwcjkCOeZuP6frx+KIOVT+ppWBotynfu9bGbnIWY
-	PFnFWXmmPhUxIB2B9Yq/ZGaPsueGibY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=hEHtknj7G67yuPB9tWefZgr9ALjA/T5Vl29gdCA8cwI=;
+	b=cPRI/kR8AIBHENzdjGP712YpUpmzrnR0h3fuN+pIP+/u6CWbJLpt3jMyrt44ENSnjvuz9o
+	fmkFnR3u2jOo5cESzoteQXGs/Kpd3d1K9yTrFGwajlCcoqwhqWtImOPeWZQmzp1oCerDT7
+	fajW5URBIu/oXApIAtl0n9k3xeaYTAc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-115-iGjEsqRvMTCbEACw47Equw-1; Fri, 09 Dec 2022 07:37:14 -0500
-X-MC-Unique: iGjEsqRvMTCbEACw47Equw-1
-Received: by mail-wm1-f71.google.com with SMTP id h81-20020a1c2154000000b003d1c8e519fbso3894891wmh.2
-        for <linux-nvme@lists.infradead.org>; Fri, 09 Dec 2022 04:37:13 -0800 (PST)
+ us-mta-13-TYzD3qhsMPSfzV1ToohmRA-1; Fri, 09 Dec 2022 11:51:10 -0500
+X-MC-Unique: TYzD3qhsMPSfzV1ToohmRA-1
+Received: by mail-wm1-f72.google.com with SMTP id bi19-20020a05600c3d9300b003cf9d6c4016so114585wmb.8
+        for <linux-nvme@lists.infradead.org>; Fri, 09 Dec 2022 08:51:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:user-agent:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=kKcc7XQPg0UZn1AHNfQ4N2d5zF9JzBW3g3hPGFAB4Kc=;
-        b=qcMApl+9ZdotF4tbld63C2vW3aYWtqlXzcSxOL4T5+H32Zhg0v+UI3Tk1tFhOeMeBn
-         WLCt1eFToCP1N4YwMK2VaV3ef/eIOsbvufXrO4Fcoy6OmB70KjGGPdSaBLHFZCndG7q2
-         Xpxp0rvorwbExQJhvYCSxRzMLW9wbFSJRhVyoOLyH2Q5p6zTOk45zbQjRuTzP3r1Hr9N
-         8LfSRfjDVHY6kU+rorva9gnJv/tbiqR83EsvZfqTtzDITehn8b7/ibInUYZqc8MTKNKZ
-         FFK3cxl5rOQE6VOsHsj4+uc7nJ695esyezq4nA0/TEw6ger+Vh9TbXkfEP9NxQikrlT4
-         6+zQ==
-X-Gm-Message-State: ANoB5pmxPhMbjBKdjzypygdRbixTtRB2kbUf+bHaV+csAcaNSzNz1dEY
-	UkqytoBysE2nkuCoPSAduZqmMSlfJi1RvJ5AXZivGhN/3DcB3diEnpwxmOEkIPMgKQzAXOSjhEX
-	Peb+piGAlOM8TCQr1CptphK4mp08=
-X-Received: by 2002:a05:600c:4fd0:b0:3d1:c0a1:4804 with SMTP id o16-20020a05600c4fd000b003d1c0a14804mr4752781wmq.17.1670589432861;
-        Fri, 09 Dec 2022 04:37:12 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5DyMiYpWNcqaQueb0cVh7tJ5lH4JY75MZjLcmrbwYgfM+x/au0sr5C4m2hvq8cZrZMVyWo5g==
-X-Received: by 2002:a05:600c:4fd0:b0:3d1:c0a1:4804 with SMTP id o16-20020a05600c4fd000b003d1c0a14804mr4752714wmq.17.1670589432518;
-        Fri, 09 Dec 2022 04:37:12 -0800 (PST)
-Received: from gerbillo.redhat.com (146-241-106-22.dyn.eolo.it. [146.241.106.22])
-        by smtp.gmail.com with ESMTPSA id j10-20020a05600c1c0a00b003b49bd61b19sm9284355wms.15.2022.12.09.04.37.09
+        bh=hEHtknj7G67yuPB9tWefZgr9ALjA/T5Vl29gdCA8cwI=;
+        b=lYD/oi0+0VlKxYni405mOwz6pzY6P9JC3Bsjvr2vp5xs6UvXl90RkbSE/HpqhtocKj
+         fudN83CxwMMtX5p3t6lt+raF1ZLKifg8asgsRD2COhnyxxDZ5YoKPowa60HKLO4Ls5p7
+         gB4u1GnSDkuIeS9vQnYRuFAxdUhwTbcBocz0Y8mE1NSHnzOSn1jHYDNKMiNrKTBeeIko
+         7EOwXupU2ynMNXwaNoeBOE5SrOazSsuyUV6OEx6IRZGTx2NaTA3F+zqgLx2sxAgh8mre
+         24I19W/E4hWggJwvXIK5DtxH/Vh0BXFjKCnyqd5Sn2f0iruU44FqrRYR30R/aohTbonh
+         sntg==
+X-Gm-Message-State: ANoB5pnXR5ETUL1RDpfceHNvn1JAya1JX+MtEKhdpDMs4AvXYqJZtNuq
+	VrMKjm/OlmagzfKXMG/Yq9LL6QKet7Tns0egRVdi7xrYaYf695+IiGEsDew5AFg9VyJ+Mlv9uK8
+	3CuB3zRipsfPtqJ8VnK95MVj+C30=
+X-Received: by 2002:a05:600c:4f48:b0:3cf:e850:4435 with SMTP id m8-20020a05600c4f4800b003cfe8504435mr5700771wmq.13.1670604669135;
+        Fri, 09 Dec 2022 08:51:09 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4vPLwblTckd8B2URRNRbKIW7VqMLQd/PWlQAHufJr6jh2xD5egmlwfWsaGwQofLy1f6L/9tQ==
+X-Received: by 2002:a05:600c:4f48:b0:3cf:e850:4435 with SMTP id m8-20020a05600c4f4800b003cfe8504435mr5700758wmq.13.1670604668951;
+        Fri, 09 Dec 2022 08:51:08 -0800 (PST)
+Received: from gerbillo.redhat.com (146-241-105-105.dyn.eolo.it. [146.241.105.105])
+        by smtp.gmail.com with ESMTPSA id ay13-20020a05600c1e0d00b003c6bd91caa5sm302339wmb.17.2022.12.09.08.50.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Dec 2022 04:37:11 -0800 (PST)
-Message-ID: <d220402a232e204676d9100d6fe4c2ae08f753ee.camel@redhat.com>
+        Fri, 09 Dec 2022 08:51:08 -0800 (PST)
+Message-ID: <73186bd6e1ad62da16726b95b1a266c0aeb39719.camel@redhat.com>
 Subject: Re: [PATCH v1 2/3] Treewide: Stop corrupting socket's task_frag
 From: Paolo Abeni <pabeni@redhat.com>
-To: Benjamin Coddington <bcodding@redhat.com>, netdev@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Philipp Reisner
- <philipp.reisner@linbit.com>,  Lars Ellenberg <lars.ellenberg@linbit.com>,
- Christoph =?ISO-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
- Jens Axboe <axboe@kernel.dk>, Josef Bacik <josef@toxicpanda.com>, Keith
- Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Benjamin Coddington <bcodding@redhat.com>, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Philipp Reisner <philipp.reisner@linbit.com>,
+  Lars Ellenberg <lars.ellenberg@linbit.com>, Christoph
+ =?ISO-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>, Jens
+ Axboe <axboe@kernel.dk>, Josef Bacik <josef@toxicpanda.com>, Keith Busch
+ <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
  <sagi@grimberg.me>, Lee Duncan <lduncan@suse.com>,  Chris Leech
  <cleech@redhat.com>, Mike Christie <michael.christie@oracle.com>, "James
  E.J. Bottomley" <jejb@linux.ibm.com>, "Martin K. Petersen"
@@ -87,31 +88,33 @@ Cc: linux-kernel@vger.kernel.org, Philipp Reisner
  <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, Eric Van
  Hensbergen <ericvh@gmail.com>, Latchesar Ionkov <lucho@ionkov.net>,
  Dominique Martinet <asmadeus@codewreck.org>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Ilya Dryomov <idryomov@gmail.com>, Xiubo Li
- <xiubli@redhat.com>, Trond Myklebust <trond.myklebust@hammerspace.com>,
- Anna Schumaker <anna@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
- Jeff Layton <jlayton@kernel.org>, drbd-dev@lists.linbit.com, 
- linux-block@vger.kernel.org, nbd@other.debian.org, 
- linux-nvme@lists.infradead.org, open-iscsi@googlegroups.com, 
- linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org, 
- samba-technical@lists.samba.org, cluster-devel@redhat.com, 
- ocfs2-devel@oss.oracle.com, v9fs-developer@lists.sourceforge.net, 
- ceph-devel@vger.kernel.org, linux-nfs@vger.kernel.org
-Date: Fri, 09 Dec 2022 13:37:08 +0100
-In-Reply-To: <c2ec184226acd21a191ccc1aa46a1d7e43ca7104.1669036433.git.bcodding@redhat.com>
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Ilya Dryomov
+ <idryomov@gmail.com>, Xiubo Li <xiubli@redhat.com>, Trond Myklebust
+ <trond.myklebust@hammerspace.com>, Anna Schumaker <anna@kernel.org>, Chuck
+ Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, 
+ drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
+ nbd@other.debian.org,  linux-nvme@lists.infradead.org,
+ open-iscsi@googlegroups.com,  linux-scsi@vger.kernel.org,
+ linux-usb@vger.kernel.org,  linux-afs@lists.infradead.org,
+ linux-cifs@vger.kernel.org,  samba-technical@lists.samba.org,
+ cluster-devel@redhat.com,  ocfs2-devel@oss.oracle.com,
+ v9fs-developer@lists.sourceforge.net,  ceph-devel@vger.kernel.org,
+ linux-nfs@vger.kernel.org
+Date: Fri, 09 Dec 2022 17:50:53 +0100
+In-Reply-To: <20221209081101.7500478c@kernel.org>
 References: <cover.1669036433.git.bcodding@redhat.com>
 	 <c2ec184226acd21a191ccc1aa46a1d7e43ca7104.1669036433.git.bcodding@redhat.com>
+	 <d220402a232e204676d9100d6fe4c2ae08f753ee.camel@redhat.com>
+	 <20221209081101.7500478c@kernel.org>
 User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221209_043717_921736_8895B2EB 
-X-CRM114-Status: GOOD (  20.41  )
+X-CRM114-CacheID: sfid-20221209_085116_952494_A6F6221A 
+X-CRM114-Status: GOOD (  12.65  )
 X-Mailman-Approved-At: Sun, 11 Dec 2022 22:24:04 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -127,87 +130,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, 2022-11-21 at 08:35 -0500, Benjamin Coddington wrote:
-> Since moving to memalloc_nofs_save/restore, SUNRPC has stopped setting the
-> GFP_NOIO flag on sk_allocation which the networking system uses to decide
-> when it is safe to use current->task_frag.  The results of this are
-> unexpected corruption in task_frag when SUNRPC is involved in memory
-> reclaim.
+On Fri, 2022-12-09 at 08:11 -0800, Jakub Kicinski wrote:
+> On Fri, 09 Dec 2022 13:37:08 +0100 Paolo Abeni wrote:
+> > I think this is the most feasible way out of the existing issue, and I
+> > think this patchset should go via the networking tree, targeting the
+> > Linux 6.2.
 > 
-> The corruption can be seen in crashes, but the root cause is often
-> difficult to ascertain as a crashing machine's stack trace will have no
-> evidence of being near NFS or SUNRPC code.  I believe this problem to
-> be much more pervasive than reports to the community may indicate.
-> 
-> Fix this by having kernel users of sockets that may corrupt task_frag due
-> to reclaim set sk_use_task_frag = false.  Preemptively correcting this
-> situation for users that still set sk_allocation allows them to convert to
-> memalloc_nofs_save/restore without the same unexpected corruptions that are
-> sure to follow, unlikely to show up in testing, and difficult to bisect.
-> 
-> CC: Philipp Reisner <philipp.reisner@linbit.com>
-> CC: Lars Ellenberg <lars.ellenberg@linbit.com>
-> CC: "Christoph Böhmwalder" <christoph.boehmwalder@linbit.com>
-> CC: Jens Axboe <axboe@kernel.dk>
-> CC: Josef Bacik <josef@toxicpanda.com>
-> CC: Keith Busch <kbusch@kernel.org>
-> CC: Christoph Hellwig <hch@lst.de>
-> CC: Sagi Grimberg <sagi@grimberg.me>
-> CC: Lee Duncan <lduncan@suse.com>
-> CC: Chris Leech <cleech@redhat.com>
-> CC: Mike Christie <michael.christie@oracle.com>
-> CC: "James E.J. Bottomley" <jejb@linux.ibm.com>
-> CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-> CC: Valentina Manea <valentina.manea.m@gmail.com>
-> CC: Shuah Khan <shuah@kernel.org>
-> CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> CC: David Howells <dhowells@redhat.com>
-> CC: Marc Dionne <marc.dionne@auristor.com>
-> CC: Steve French <sfrench@samba.org>
-> CC: Christine Caulfield <ccaulfie@redhat.com>
-> CC: David Teigland <teigland@redhat.com>
-> CC: Mark Fasheh <mark@fasheh.com>
-> CC: Joel Becker <jlbec@evilplan.org>
-> CC: Joseph Qi <joseph.qi@linux.alibaba.com>
-> CC: Eric Van Hensbergen <ericvh@gmail.com>
-> CC: Latchesar Ionkov <lucho@ionkov.net>
-> CC: Dominique Martinet <asmadeus@codewreck.org>
-> CC: "David S. Miller" <davem@davemloft.net>
-> CC: Eric Dumazet <edumazet@google.com>
-> CC: Jakub Kicinski <kuba@kernel.org>
-> CC: Paolo Abeni <pabeni@redhat.com>
-> CC: Ilya Dryomov <idryomov@gmail.com>
-> CC: Xiubo Li <xiubli@redhat.com>
-> CC: Chuck Lever <chuck.lever@oracle.com>
-> CC: Jeff Layton <jlayton@kernel.org>
-> CC: Trond Myklebust <trond.myklebust@hammerspace.com>
-> CC: Anna Schumaker <anna@kernel.org>
-> CC: drbd-dev@lists.linbit.com
-> CC: linux-block@vger.kernel.org
-> CC: linux-kernel@vger.kernel.org
-> CC: nbd@other.debian.org
-> CC: linux-nvme@lists.infradead.org
-> CC: open-iscsi@googlegroups.com
-> CC: linux-scsi@vger.kernel.org
-> CC: linux-usb@vger.kernel.org
-> CC: linux-afs@lists.infradead.org
-> CC: linux-cifs@vger.kernel.org
-> CC: samba-technical@lists.samba.org
-> CC: cluster-devel@redhat.com
-> CC: ocfs2-devel@oss.oracle.com
-> CC: v9fs-developer@lists.sourceforge.net
-> CC: netdev@vger.kernel.org
-> CC: ceph-devel@vger.kernel.org
-> CC: linux-nfs@vger.kernel.org
-> 
-> Suggested-by: Guillaume Nault <gnault@redhat.com>
-> Signed-off-by: Benjamin Coddington <bcodding@redhat.com>
+> FWIW some fields had been moved so this will not longer apply cleanly,
+> see b534dc46c8ae016. But I think we can apply it to net since the merge
+> window is upon us? Just a heads up.
 
-I think this is the most feasible way out of the existing issue, and I
-think this patchset should go via the networking tree, targeting the
-Linux 6.2.
-
-If someone has disagreement with the above, please speak! 
+We will need an additional revision, see my reply to patch 3/3. I think
+the -net tree should be the appropriate target.
 
 Thanks,
 
