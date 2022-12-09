@@ -4,52 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB926C4332F
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Dec 2022 16:08:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58287C4332F
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Dec 2022 16:11:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jkkE5/Yn3ya8Oplicw+bkmkivZpDOt6LbHEz395iCHo=; b=MbD6TCl1oxkRsg6DS4Q9gWciVz
-	tu68zxNBrQrV55cRLkX+85oxNTC6kBlpn1Wpvr9MqaygeUBn7fYrT/m9USBQKBMHkVLCbNZERp6Ho
-	Z5CepT+aglzanvhXe1qnRfGLj9WU7OLcS0YmFy7H5qJkt+Y2ELYxIt0OMtrZfIRAIBGccxuJOyMuM
-	AVfNmtKn8tEZDYjc8dxzKcYxSQN1cwNESb3FSp9bc7l9JXZ2ikUqPaTYV9pRXl7u0MrS2cRDGaXIt
-	mPGC71IQeXEEgGTXoo0DBLFdxSURldYu23EPh6fDIGEfHtc++nOSPrTB9oNvAvwGdhj1VgFGgPL2r
-	14bBBhbg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=OclmnU1jYcdMFqciE3c6RyUB6hgvanpdH2l220bFhz4=; b=moCs61PBVlJjHqTU5g7VGZU08M
+	v/qw6HKQJdXveiB3HIytXk0t8W9cwjS564UeI+Ysm4wAePCtocFiSmAdpKlcpF97X9i76+T9q8U7G
+	unvWDHMt4x+EV+goHIyoyCc/VHq+fDndLqYceqmrv4iUe7QtlxDn7bQtw5yUuddcbAV4e6lJg2Ba5
+	bW7NT89NPTue7iyzT4QtxU/Jhl95ZhcR4UYQHGpw3SwaTj1hIQc7h5aHIsJ1cCO+yyt0PrSpLRPwZ
+	FtaMKs+WoSG+o1yLiR2uNn5WMdrC1UhPRD3hIhA1CsbTCzibs7wTTnb+QxbivA2P+29dKMEBqLiYl
+	MjOS/RVA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p57pM-002ZIW-8S; Tue, 13 Dec 2022 16:08:20 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1p57s0-002cps-Fk; Tue, 13 Dec 2022 16:11:04 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p57pI-002ZFa-VT
-	for linux-nvme@lists.infradead.org; Tue, 13 Dec 2022 16:08:19 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id C5A8867373; Tue, 13 Dec 2022 17:08:07 +0100 (CET)
-Date: Tue, 13 Dec 2022 17:08:07 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Christoph Hellwig <hch@lst.de>, Lei Rao <lei.rao@intel.com>,
-	kbusch@kernel.org, axboe@fb.com, kch@nvidia.com, sagi@grimberg.me,
-	alex.williamson@redhat.com, cohuck@redhat.com, yishaih@nvidia.com,
-	shameerali.kolothum.thodi@huawei.com, kevin.tian@intel.com,
-	mjrosato@linux.ibm.com, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, kvm@vger.kernel.org,
-	eddie.dong@intel.com, yadong.li@intel.com, yi.l.liu@intel.com,
-	Konrad.wilk@oracle.com, stephen@eideticom.com, hang.yuan@intel.com
-Subject: Re: [RFC PATCH 1/5] nvme-pci: add function nvme_submit_vf_cmd to
- issue admin commands for VF driver.
-Message-ID: <20221213160807.GA626@lst.de>
-References: <20221207075415.GB2283@lst.de> <Y5CWVu08abcOuEQH@ziepe.ca> <20221207135203.GA22803@lst.de> <Y5CsH5PqMYAWYatw@ziepe.ca> <20221207163857.GB2010@lst.de> <Y5DOAKArjyfb6Mcz@ziepe.ca> <20221207183333.GA7049@lst.de> <Y5DyorZJPdtN5WcX@ziepe.ca> <20221212075046.GB11162@lst.de> <Y5iFnw5i3vI9iMFY@ziepe.ca>
+	id 1p3fxr-009J7c-UD; Fri, 09 Dec 2022 16:11:10 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 45F48B8289C;
+	Fri,  9 Dec 2022 16:11:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B20FEC433EF;
+	Fri,  9 Dec 2022 16:11:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1670602264;
+	bh=OclmnU1jYcdMFqciE3c6RyUB6hgvanpdH2l220bFhz4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lP5pQ24T3IT2YBfVVAYFE/vlA14kPUGpHI19DQSbfMFFqcLV6yfVQX2yzf3FWU9BJ
+	 DEPOy15CleSzGVLHHvdVrCdctgS6AMOlWyxNMtd1UP4Jl6EFRe7WSmHsdwacu3KmIi
+	 3gphHYn83fw+acEzH9vRCOj48wMtBY8ejFf/mJMd7kxsJCGH1dwZt2JHDO6M2WNy+F
+	 RxYdcuexGpRtzv/r3df/M1OzYPk521V8CVwEXUXt0ZTCVSTYNw6OFG3RfFVHJS6f4s
+	 Cy+bJUuWARFf6RP5DMfx0m0W7Y2ou/9vrV6yP2gJYTEe5AantjuQErI6+6QNzX5szc
+	 v2qI3ygfSsAtw==
+Date: Fri, 9 Dec 2022 08:11:01 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: Benjamin Coddington <bcodding@redhat.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Philipp Reisner <philipp.reisner@linbit.com>,
+ Lars Ellenberg <lars.ellenberg@linbit.com>, Christoph =?UTF-8?B?QsO2aG13?=
+ =?UTF-8?B?YWxkZXI=?= <christoph.boehmwalder@linbit.com>, Jens Axboe
+ <axboe@kernel.dk>, Josef Bacik <josef@toxicpanda.com>, Keith Busch
+ <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
+ <sagi@grimberg.me>, Lee Duncan <lduncan@suse.com>, Chris Leech
+ <cleech@redhat.com>, Mike Christie <michael.christie@oracle.com>, "James
+ E.J. Bottomley" <jejb@linux.ibm.com>, "Martin K. Petersen"
+ <martin.petersen@oracle.com>, Valentina Manea
+ <valentina.manea.m@gmail.com>, Shuah Khan <shuah@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, David Howells
+ <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, Steve French
+ <sfrench@samba.org>, Christine Caulfield <ccaulfie@redhat.com>, David
+ Teigland <teigland@redhat.com>, Mark Fasheh <mark@fasheh.com>, Joel Becker
+ <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, Eric Van
+ Hensbergen <ericvh@gmail.com>, Latchesar Ionkov <lucho@ionkov.net>,
+ Dominique Martinet <asmadeus@codewreck.org>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Ilya Dryomov
+ <idryomov@gmail.com>, Xiubo Li <xiubli@redhat.com>, Trond Myklebust
+ <trond.myklebust@hammerspace.com>, Anna Schumaker <anna@kernel.org>, Chuck
+ Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>,
+ drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
+ nbd@other.debian.org, linux-nvme@lists.infradead.org,
+ open-iscsi@googlegroups.com, linux-scsi@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-afs@lists.infradead.org,
+ linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+ cluster-devel@redhat.com, ocfs2-devel@oss.oracle.com,
+ v9fs-developer@lists.sourceforge.net, ceph-devel@vger.kernel.org,
+ linux-nfs@vger.kernel.org
+Subject: Re: [PATCH v1 2/3] Treewide: Stop corrupting socket's task_frag
+Message-ID: <20221209081101.7500478c@kernel.org>
+In-Reply-To: <d220402a232e204676d9100d6fe4c2ae08f753ee.camel@redhat.com>
+References: <cover.1669036433.git.bcodding@redhat.com>
+	<c2ec184226acd21a191ccc1aa46a1d7e43ca7104.1669036433.git.bcodding@redhat.com>
+	<d220402a232e204676d9100d6fe4c2ae08f753ee.camel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y5iFnw5i3vI9iMFY@ziepe.ca>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221213_080817_326356_49E8A064 
-X-CRM114-Status: GOOD (  38.96  )
+X-CRM114-CacheID: sfid-20221209_081108_151068_2BBDA162 
+X-CRM114-Status: GOOD (  10.01  )
+X-Mailman-Approved-At: Tue, 13 Dec 2022 08:11:03 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,84 +101,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Dec 13, 2022 at 10:01:03AM -0400, Jason Gunthorpe wrote:
-> > So now we need to write a vfio shim for every function even if there
-> > is absolutely nothing special about that function?  Migrating really
-> > is the controlling functions behavior, and writing a new vfio bit
-> > for every controlled thing just does not scale.
-> 
-> Huh? "does not scale?" We are looking at boilerplates of around 20-30
-> lines to make a VFIO driver for a real PCI device. Why is that even
-> something we should worry about optimizing?
+On Fri, 09 Dec 2022 13:37:08 +0100 Paolo Abeni wrote:
+> I think this is the most feasible way out of the existing issue, and I
+> think this patchset should go via the networking tree, targeting the
+> Linux 6.2.
 
-But we need a new driver for every controlled function now, which
-is very different from the classic VFIO model where we had one
-vfio_pci.
-
-> And when you get into exciting future devices like SIOV you already
-> need to make a special VFIO driver anyhow.
-
-You need to special support for it.  It's probably not another
-Linux driver but part of the parent one, though.
-
-> So far 100% of the drivers that have been presented, including the two
-> RFC ones, have entanglements between live migration and vfio. Shifting
-> things to dev/live_migration doesn't make the "communication problem"
-> away, it just shifted it into another subsystem.
-
-The main entanglement seems to be that it needs to support a vfio
-interface for live migration while the actual commands go to the
-parent device.
-
-> This is my point, I've yet to even see a driver that meets your
-> theoretical standard that it can exist without vfio entanglement.
-
-It can't right now due to the VFIO design.
-
-> > While creating the VFs from the PF driver makes a lot more sense,
-> > remember that vfio is absolutely not the only use case for VFs.
-> > There are plenty use cases where you want to use them with the normal
-> > kernel driver as well.  So the interface to create VFs needs a now
-> > to decide if it should be vfio exported, or use the normal kernel
-> > binding.
-> 
-> Yes, that is why this problem has been open for so long. Fixing it
-> well requires some reconsideration of how the driver core works :(
-> 
-> It is worse than just VFIO vs one kernel driver, like mlx5 could spawn
-> a controlled function that is NVMe, VDPA, mlx5, virtio-net, VFIO,
-> etc.
-
-This seems to violate the PCIe spec, which says:
-
-"All VFs associated with a PF must be the same device type as the PF,
-(e.g., the same network device type or the same storage device type.)",
-
-which is also enforced by not allowing to read vendor/device/class
-fields from VFs.
-
-(not that I'm arguing that this is a good limit, but that's how
-PCIe does it).
-
-> When we create the function we really want to tell the device what
-> kind of function it is, and that also tells the kernel what driver
-> should be bound to it.
-
-I'd rather have different ways to probe by passing a "kind" or "type"
-argument along the device IDs during probing.  E.g. "driver"
-and "vfio", and then only match for the kind the creator of the device
-added them to the device model for. 
-
-> mlx5 even has weird limitations, like a controlled function that is
-> live migration capable has fewer features than a function that is
-> not. So the user must specify what parameters it wants the controlled
-> function to have..
-
-I don't think that is weird.  If you want to live migrate, you need to
-
- a) make sure the feature set is compatible with the other side
- b) there is only state that actually is migratable
-
-so I'd expect that for any other sufficiently complex device.  NVMe
-for sure will have limits like this.
+FWIW some fields had been moved so this will not longer apply cleanly,
+see b534dc46c8ae016. But I think we can apply it to net since the merge
+window is upon us? Just a heads up.
 
