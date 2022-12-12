@@ -4,142 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F1C0C4332F
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Dec 2022 14:49:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46A8BC4332F
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Dec 2022 15:03:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+UVND6nMICg84qUkr/FXv9fXh4J9CCfjx3I7HFJ7H6w=; b=tUjITohI2zK1Fl4hlPCx6Sw4lc
-	tKdRt1JQCmXJA1hpDcUHLIycn0x/e7yRLd16mPsokHMxf+1J8FFmOEPrl9lV3LXod11VkEUQEw4fq
-	l1RgHB1e7aEtMCZVxe3xLIB+1A8GkhjAnWhhQP0BCpB3YllN2+fnHsTuXbMwNooKXl5gGQqdk47Bn
-	g6qC3aKF7RTNDpxFzRRhgZGpg6usMQ5YapFFaLyFNSbxBNljzZRNkWllqXp4oi/yyn5Qi1q/GrxHR
-	0oCiesSiLBmOQ5h+4yTdDpAb9JO4NVrp9ckHfVjRlHuUER6pUGG/ariiFlq/Vhh0BY2pyiKqHb9gx
-	zefNvYJg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=+CpXX8ix7k82jmDw1nqAMg5CCW8sIBQI4jIZJeEyI2s=; b=z5EvxEpSTqJh9FCtTWP5BDhZSK
+	72pzEm8w70sA2uK9M4GJ9nUaDVHvsBhyk8IAPuKpn7lk3oLqBynGbF91QpOVCYi0PgysgcvgWz5fZ
+	eurAbUyDefVsciAuuY5J6qlg3uztqM8U2RjugLnEehT2RG/dvBke7+zcl5kcI/JBTJamm5BELfUvi
+	u54nNYDQ4xC3h/sEzbrLQP1Uwq4Xm1hLTZNTyAURWpmfjeZcmJILjy3Xe05NQttxCOaJqfP4lfW57
+	JsUqTpKmlKAUOLQArGUGWKssuxPCINrlfueroA1VfJ7qlhj4nYxMYtwQsn9swv9tYQw2VnSHcy4cb
+	jQ6S/XNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p4k7i-000IGQ-7u; Mon, 12 Dec 2022 14:49:42 +0000
-Received: from mail-bn1nam02on2066.outbound.protection.outlook.com ([40.107.212.66] helo=NAM02-BN1-obe.outbound.protection.outlook.com)
+	id 1p4kKr-000ggJ-Sk; Mon, 12 Dec 2022 15:03:17 +0000
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p4k7d-000I6g-0g
-	for linux-nvme@lists.infradead.org; Mon, 12 Dec 2022 14:49:40 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j1tMzTSeiVn8dDsiH+leGXPR0JOSOVI1d17fMyoRVozXXYQprKW8GCmgaN/RSbS2nYVYpOE+BHFIkT9WVpCA6emj76o9w5t7F8fz97vyplaAcB5+JvMzca7JBzuPEK7nS62XvrjtyFNcCZR/7iodgehWN4sslFzbBwJ5yC3lui1/EbdNuCXKUVuWhS0rxzi555UYm7BlbpdKiYHQDyoo5I1C1pl+lXizyoSR+Y5FjaxVy8xhTBTglUvubsNzSH7nPJ8Fr0Q8h3FRqBHydJFgrYkDaDZeGSp/h4cgWjkfLVg3MjW52jPSm//fzGBqvXFUPvotdLDJY+WxiHjSHYes5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+UVND6nMICg84qUkr/FXv9fXh4J9CCfjx3I7HFJ7H6w=;
- b=YzZvYng54kPLpPn7VTHs4N6y6PDIR/Q6DcnwN7/TUdMEnMQW1GOQKHlbSVTr4fcMp3nxhOJzF0Jk0mL53gZJCMKeuohOOzDkmeiYRtWSRYwn9tWRia/XcoyIWvlWbo+Yi7O7PUBJRcRIQuNtL/zEG2WdjT+CZfsFix6mtvR3eLuU3WTSyJxjBN+cNphRhQCySZ25G0UumFGZgqmT87DVYk0q97siAyJlJ0UvFC+2Ls1WGuJpNs0nth8F6xR4Uo4x3OD73VY+nY4Zneonf4oXjp9c5uFfltvmnfVTxM7YvWIiZQzXtUU7gGqGNLtODs2CZRiGyZ0q6AngbmjvgkWJ7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+UVND6nMICg84qUkr/FXv9fXh4J9CCfjx3I7HFJ7H6w=;
- b=gPwQLrHFitWd0MlDfaw1I1G79mZwPg1aoM/+PpTNIxV84V0iDQRmjrXwH9rLnxRObiCQqtPNQzg2H9W546xu3MkLP3hkHW8zIUafAKRE83m4uyeA8W9ZdtXQ/bHJvDqgkFlGdkVKv7Xzh74a0biS8GPgOkpMtiqEDFTntVcP3qmnXOIPxMfsKWCMwpzI3NbvAGWVkMKTfArXpN1qiY3KlipII7R3TngkwqtFk5MDyi2tMNt0Gj0bZNPVMaD0OiqCk1GxTxdCKxpfpI51S37zP5jmW08Bcos4g078OzTf/dM7Cj6fnr8USn60MW1dP+bqRpbOzcdnDNu4A6KbInYxMw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
- by MW4PR12MB7360.namprd12.prod.outlook.com (2603:10b6:303:22b::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.19; Mon, 12 Dec
- 2022 14:49:30 +0000
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::3fb9:3266:7937:44fc]) by DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::3fb9:3266:7937:44fc%8]) with mapi id 15.20.5880.019; Mon, 12 Dec 2022
- 14:49:30 +0000
-Message-ID: <588a8c42-b597-1c9b-f7d3-2ac10ead7ac2@nvidia.com>
-Date: Mon, 12 Dec 2022 16:49:19 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [RFC PATCH 1/5] nvme-pci: add function nvme_submit_vf_cmd to
- issue admin commands for VF driver.
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Lei Rao <lei.rao@intel.com>,
- kbusch@kernel.org, axboe@fb.com, kch@nvidia.com, sagi@grimberg.me,
- alex.williamson@redhat.com, cohuck@redhat.com, yishaih@nvidia.com,
- shameerali.kolothum.thodi@huawei.com, kevin.tian@intel.com,
- mjrosato@linux.ibm.com, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, kvm@vger.kernel.org, eddie.dong@intel.com,
- yadong.li@intel.com, yi.l.liu@intel.com, Konrad.wilk@oracle.com,
- stephen@eideticom.com, hang.yuan@intel.com, Oren Duer <oren@nvidia.com>
-References: <Y4+U3VR2LeEh2S7B@ziepe.ca> <20221207075415.GB2283@lst.de>
- <Y5CWVu08abcOuEQH@ziepe.ca> <20221207135203.GA22803@lst.de>
- <Y5CsH5PqMYAWYatw@ziepe.ca> <20221207163857.GB2010@lst.de>
- <Y5DOAKArjyfb6Mcz@ziepe.ca> <20221207183333.GA7049@lst.de>
- <Y5DyorZJPdtN5WcX@ziepe.ca> <b2ade627-0abb-08a0-c28b-2bf8eb8e4973@nvidia.com>
- <20221212075541.GC11162@lst.de>
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-In-Reply-To: <20221212075541.GC11162@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0120.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9d::13) To DM4PR12MB5040.namprd12.prod.outlook.com
- (2603:10b6:5:38b::19)
+	id 1p4kKo-000gZu-6z
+	for linux-nvme@lists.infradead.org; Mon, 12 Dec 2022 15:03:16 +0000
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 18E98320096C;
+	Mon, 12 Dec 2022 10:03:06 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Mon, 12 Dec 2022 10:03:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+	 h=cc:cc:content-transfer-encoding:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to; s=fm1; t=1670857385; x=1670943785; bh=+CpXX8ix7k
+	82jmDw1nqAMg5CCW8sIBQI4jIZJeEyI2s=; b=hMqTNI2YoDdj8qMuqQMZU5X0+u
+	QfNbVuXc0PpydR2jwiq65wYmAHSlmrfAMsXXogFuaKstLcUV2XDqDTOiBTRwCr4l
+	bRSAhd+BkxuPdHjNXeLN04d0cgkfve7gFkmXnZQlrRS9HddR15ZXLq5uBUvtVpLT
+	Kv08xTpVxiFNMWi6zcJW6z9Tgv4+sXdRRJQFIakKBE1n5ibEzJ3GcVeBRP7C2fiN
+	XRgHNu+CavIazWYyugp6GXoxVVxUwjhOYUutgGqC/GaZkTNgCIsYJSZY+QzvkXMQ
+	ULrJB8eRe+Rmz7yWNY3uiEXdaRI/8KtQXLVMpkpWmFrCooYAsYL5nlU9NOZA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1670857385; x=1670943785; bh=+CpXX8ix7k82jmDw1nqAMg5CCW8sIBQI4jI
+	ZJeEyI2s=; b=NSh60PpcgpOdNtajtNTZci/2MnW4JO6a7Ab8BmmsUhZAhqg142Z
+	qj5HLeJ2fQW+IWX45BIwAEACm0ZwlNRm4L5QZMswwhgYTNAfwLXrCVF4g7KkVQGh
+	m//j3J3kf0XrXukq7jHGWHUweRSdlpdq8IpOXpx5sK8a5MSc92ImTitKKUXHW+GU
+	wJfYt7zJnS3ar5CIXVrP4uQnMvF4A+HFHn0O5JHNWrzjp8AYkOLRmh/IfhNTk2pH
+	mTS3N8qe96l1a/aOeCKnmOufOEVFPaZ8IZ8l5gVPTqNBqPO59qSgKAqxcYAO42kw
+	Lqf99dT2imE0Kbe/nhFsEj6z2CH0xqlxi/w==
+X-ME-Sender: <xms:p0KXY9L7jVGRecdtV1BsrpGHX5RZIuAq_hOo3KnAkW-F-kpVN7bJsw>
+    <xme:p0KXY5IAQdMyZFucVMcC_XOmwJvVmH-WeZ-oIRxqQhgT6aRBkA8wxa6X43Uwe8ZbA
+    APkFDtbcN6mekLqEXU>
+X-ME-Received: <xmr:p0KXY1vCKHMWIABoHo5LTf47XWWrg3P8E4jTJdnb6Lf-IuRJbDPVUXLFTRXFl7ate8lDa_XRW89uIvIFgnEX9x9ZTREHL5Fs-W-Y4Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekgdegkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhsucfl
+    vghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtthgvrh
+    hnpeehkeevvdelueejteeffeevgfeiueegleduhedtheeltdefteegkeejkeehffekteen
+    ucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:p0KXY-buvwHA7HSMp70Id30aucwRcPklGX2Ugr7oOUWQ3b4BHN2fYQ>
+    <xmx:p0KXY0YgpxuXYlP-PuMUkjnPElIt0fYiLVlexQOyxxk9sd8FSGzGaw>
+    <xmx:p0KXYyA-luIp-6PvRcC9QBWwv44OjB9gpdc2fnxBl0piEvyZTt2zOA>
+    <xmx:qUKXY07TExrqh8sQZz13bgtJRr4tnaMNOz21G5Xqc1qWmNKZ7-e8wg>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 12 Dec 2022 10:03:01 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@fb.com>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-kernel@vger.kernel.org,
+	Klaus Jensen <its@irrelevant.dk>,
+	Klaus Jensen <k.jensen@samsung.com>,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: [PATCH] nvme-pci: fix doorbell buffer value endianness
+Date: Mon, 12 Dec 2022 16:02:43 +0100
+Message-Id: <20221212150243.41283-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|MW4PR12MB7360:EE_
-X-MS-Office365-Filtering-Correlation-Id: 14675c9c-def5-4fec-8bf5-08dadc5012b5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	myolgMUUOodi5FLGwHOisMtdY06B1HWqDM7C2hK25NBcG1HZbFOXIiHYp325wWAVB8SjKgm9daWyh/dziAAqGaBWsE6sge5FyJrd71kQfrVMWtyXHIePkJrQVS7zDTn4El4a+Ig8mF6EUgymPiUBgbN8JQ66kYLMcOtgOaHcsLIzgV0fXB5HTHARX6OryMxZDWQjLlKeIWWPXsY6e0udcN5IK6/SFbbyXoSLMmhl/LR85/CKISsi/AfnGWDsRwHop3y51t3vLiI7CeYW14KP6A3D5rc/qmmjLmHomMkMCetOI7yIYHk2EZLSV4OY7/MltVE+6dN9suw69pPZBfE+eUs5+ICBy6QUff7y0qOdhQ6L0leRKiUTYNtEGahiDie498x6yLYryykIgnGimtuhfQ1j34j+3o77Hw6p1Ui8fA9PxCQ8IE8zN7LVNMx3usAbdJ/NDP/9Q4nnXyhwqOB7J6c0gjL+VJmSG93p9EKvfgyqc5L15g3QdsQJq8Q9dziWeGgU53rbldhwWlnkj+2Gnuiw6K40DE6Xd33tSkVJBBV/Bm2tfbDxOsmIfBCFMdkByl39oZpIPk0+mPlUtRad4UW77u0otsvtqoD/mxjewKSTdz+aeLD4vy5POHsCODeWpj3d9UwHnjIJLYqjTQUpmL3BzNMVwCvxcRd1I78kd0JGmOQl3ws5TZdxc0MyEDC57IRNspAavcRbJERVAvXqSKABb4vJtliim29ShUIypicnAnQAaucVyXMt7gz5rFv0uMlaszgZsGoCWJLJ43pCNA==
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(366004)(136003)(396003)(39860400002)(346002)(451199015)(31686004)(38100700002)(2906002)(478600001)(66476007)(7416002)(5660300002)(6666004)(31696002)(66556008)(53546011)(107886003)(41300700001)(36756003)(4326008)(8676002)(26005)(6506007)(8936002)(86362001)(6512007)(186003)(6486002)(83380400001)(316002)(54906003)(6916009)(2616005)(66946007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?TTRmbkdHajllUnRVcWxXK2FiRkZ2ZkMrMkdaUXNnUGdxS2prZWFzRnZibWlt?=
- =?utf-8?B?QW1aRVAyME9vOGpDbXdkOGZwY2I5REpSN3NYZCs3VGpPVzU1QXlubVhLTHFi?=
- =?utf-8?B?RGdaK1pTYnFGZy9Dc3o2dFZ0dDZlR1ZvYVF1RXIzaDQzZTU0Q2U5NHFla3RG?=
- =?utf-8?B?Q0VEZUNHaDBBSFAvWFA5OEJEQ2dQNmtPNFNFeGREOWNJUUV6U2ljMXUvZ3Rn?=
- =?utf-8?B?R0VoVkwxMHNhcGZhRkRUbWZWMGlFR28wQVVsc0lCZ1dqZGxYeWQ3SHl1dFcv?=
- =?utf-8?B?M3dqQVZ0K0pXL2l6ZzdPbDVvblVudE9KTytGeis4UHFzUldpcWRGTnFab2t3?=
- =?utf-8?B?OU5GMkF0Q1F0ajM4Y3ZUOXhPY2xrd05OYURrZ1Zqb2xEb3FiZGpjYUh3cktN?=
- =?utf-8?B?a2lPZ05KZEJSdTg2cFExZlZZN2tXMG9Vc200cXFUTC9VR2V2b1REUW1sek1v?=
- =?utf-8?B?aWhreFRKdVNqL0M0dFgzei81dXVGM2NoRnRna3dFNnh3YnFtRm4vQnhuc0xJ?=
- =?utf-8?B?R1d6ZnNkeWhMc2srL1FlejU5d1g3eU9BTEpvVTc4dENyaDZjZXFCVStuVjZz?=
- =?utf-8?B?QlQxWEdaTlRJUkFPUEtjNDRURHp6OFJIUnJwTGUzeS9UQ0p0WkZZZEdaTGVr?=
- =?utf-8?B?NUFuNEQ1cGloMCt5NDJwR3p6NTMyTDRJbDNEV1dqaTg2ZFYvZ21hTnd6cTMw?=
- =?utf-8?B?NS9VUFNoNFBoYkZPVFlhU3lFUkphZ2lCYVpHNFJkTnpSUXZmOFE1cUlSUG9V?=
- =?utf-8?B?WkRaNEdPcWZ4Q0EyRXhSU2tQaENuZUtpMzQ4N2hHWUZaRm1ZMUNaSEpQbHpN?=
- =?utf-8?B?ZGNUUjJNN3dOZ0pDRFRreVdkcVUrUHh0U3ZLQU9YL2xtOGpDNWN3K2xqQkgz?=
- =?utf-8?B?SVB1UmY3SkI1M3ZQbnJXeEM1OXFMN2FMaTdRV2hEWDVtKzdCMVpPSmsrMElM?=
- =?utf-8?B?M3hydTQ2OFFOY09STUdkY1c0M0kzMVU3RzNlOHV4Wjc1MU1NTkJDYzU5Zmpw?=
- =?utf-8?B?MWRYckRBWHZKWXZTa2owQlgxNEVmcEw5WTRVUkNuYWM5MzJ1Sm03VU1wTURp?=
- =?utf-8?B?eU5JMGVjUGl0ZTUxcktwYXlIUEppZjd1R09XRDJybDBPMHhqcFFiWUF0NFFk?=
- =?utf-8?B?ZG93U0V6UU13T0k3UFpTT2Q3bFdwSzQ1YTB1c203b25aOGdBYlFVMUE5Y2ZT?=
- =?utf-8?B?SWhNdlYvSlUvQ2hEbHBzZ3owVTBwRElacXlVQkVkNHBZQ0dzendCaE1hcHk2?=
- =?utf-8?B?YnZmTlBidjIydWhPSFVCcWNucjZIYy9qRjZTc0ZEb2FQbE5DWG1JOWdTMmV2?=
- =?utf-8?B?NEpuNUJvd1JCVG9wbEd5ZEpJc0pEWkttYkc5ZmozVG1qcmtuME5lQzhjbWVN?=
- =?utf-8?B?S1dQSHExSlI3a3FaMGh6bkFwUWJHaDFSWGFZeU8weHB5YTZJYkptUktqSUx1?=
- =?utf-8?B?T0MrK201UWVtYjY3Vm9DbHZnVjFzM1JDaERMRTczMkZVSTVaeG1JYXlOdVRZ?=
- =?utf-8?B?eWFnSFBCMlpIZ2lzd2NPeG5WYlBkOU0vbmtsZUdkaXdvNU5sQkFMb3RJVUhz?=
- =?utf-8?B?ejhiT3dURjNDUkgrbHo3VG9Xd2JYZWdxRnc2MFVjVGdTeSt0bkpKclVlNGRj?=
- =?utf-8?B?SFI2OWVOVXZXelpGcHFCVGhleTA0MVNuWTI3NnMwdElLa3JFUGRpVktOMWNF?=
- =?utf-8?B?QlpyYzRGV2JhbW9SZXNDRzhUKzRPZmt1ZytlZDUxeUpkQXQrYmY2Vi9MOTRj?=
- =?utf-8?B?dkZFa3NpVWNNeGNiNkJCZi8zdFdJdUIvTXh3d3VDaGZVa1F0S29ueVlVR1ZE?=
- =?utf-8?B?QThPWlc2QlY1bzFZVlhhOUNUT3I5dGN1TjR3VDBqNUtoNnZRWmozeWpYSjV1?=
- =?utf-8?B?cW9ubU9ZZ2haajg2Z3JGVUVzSXhOYUNJelp4TW1lK0xZTlBRd2VmUW05S09Y?=
- =?utf-8?B?emVvTzhkN0tPQUw5dENJWEcxd2NkKzVienQwaTNtd2Jib1FXWTYwNlBiVU02?=
- =?utf-8?B?VURQdmZoTnpkTzNXODBDbERSeVhrVmpaVEJxYUNIcEZSR0ZpTy9XbmhKekhP?=
- =?utf-8?B?cVpjNS9aSnBJZ1VEQTBkZ2liTHRrRGtBVjIzeGlYdmlFN05nZkE3NXBLekcy?=
- =?utf-8?Q?T26g9vWYv7I9kKQQlpQsI/uZ8?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 14675c9c-def5-4fec-8bf5-08dadc5012b5
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2022 14:49:29.8540
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eh1zXKoL8+d6Pl3x1IudSa4lf5l2edjrv2MBPBes+pT4jIsxviGvyDMmuBsHszDHGOCb3xvTMX8DZcoRNJPGUw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7360
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1971; i=k.jensen@samsung.com; h=from:subject; bh=pxJNDl8z/idTl/CswBiokgDVOX6TDTlQcOByQIFgEs8=; b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGOXMchwq1RBbre4jil8uMe7uh7Elh6G4BXztt+w Ocm9dCjel4kBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjlzHIAAoJEE3hrzFtTw3pXW YH/1255wB1gfHisAM9eUIme2xEgthZVQugLOJyBqXCq5FJa+/oVw6273qSuBBffp008C4tlkUfgAB8 TjgD1tN1vgALVrHKmoIGCMebymjxrSH9EU93HYFXPRq0RGADgnWiOMo6Ucbg/M5SYOHJ1iDgQIB19l vCjLwDGyinwepk2KQrQCmf82ELy8lPLKQuP1E4AqXltCUFGT9ehTSnsKL9kO6qWcIERNG1oCLsph/y ZVI2USj35vR/8qiwIlJ5nNGZ7zrQ3g9KJVcRrlM04WYVHHLnBim0ul/uu0lKS5EKi40ETH2kpn1jle /PfqvfJUWdzYeBj0xWbVVm9k3dM/AUteAm6Khn
+X-Developer-Key: i=k.jensen@samsung.com; a=openpgp; fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221212_064937_148251_941584CB 
-X-CRM114-Status: GOOD (  14.91  )
+X-CRM114-CacheID: sfid-20221212_070314_638961_6B980516 
+X-CRM114-Status: GOOD (  12.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -154,36 +106,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+From: Klaus Jensen <k.jensen@samsung.com>
 
-On 12/12/2022 9:55 AM, Christoph Hellwig wrote:
-> On Sun, Dec 11, 2022 at 01:39:37PM +0200, Max Gurtovoy wrote:
->> 1. Need to define a concept of a "virtual subsystem". A primary controller
->> will be able to create a virtual subsystem. Inside this subsystem the
->> primary controller will be the master ("the controlling") of the migration
->> process. It will also be able to add secondary controllers to this virtual
->> subsystem and assign "virtual controller ID" to it.
->> something like:
->> - nvme virtual_subsys_create --dev=/dev/nvme1 --virtual_nqn="my_v_nqn_1"
->> --dev_vcid = 1
->> - nvme virtual_subsys_add --dev=/dev/nvme1 --virtual_nqn="my_v_nqn_1"
->> --secondary_dev=/dev/nvme2 --secondary_dev_vcid=20
-> Yes. Note that there is a bit more state than just the NQN.  You also
-> need at least a serial number, and also probably a different vendor
-> ID (the PCI vendor ID that is also mirror in Identify Controller and
-> the IEEE OUI), and new unique namespace identifier.
+When using shadow doorbells, the event index and the doorbell values are
+written to host memory. Prior to this patch, the values written would
+erroneously be written in host endianness. This causes trouble on
+big-endian platforms. Fix this by adding missing endian conversions.
 
-Yes for sure there is more bits we should consider.
+This issue was noticed by Guenter while testing various big-endian
+platforms under QEMU[1]. A similar fix required for hw/nvme in QEMU is
+up for review as well[2].
 
-I wanted to describe the high level.
+  [1]: https://lore.kernel.org/qemu-devel/20221209110022.GA3396194@roeck-us.net/
+  [2]: https://lore.kernel.org/qemu-devel/20221212114409.34972-4-its@irrelevant.dk/
 
-I think that we can maybe say the when a secondary function is moved to 
-a virtual subsystem its feature set of the virtual ctrl is narrowed to 
-mandatory NVMe features set.
-And we'll provide an API to set/extend it's feature set to a maximum of 
-the feature set that the original ctrl of the secondary function had.
-Then the sys admin will configure the virtual ctrl in both src/dst hosts.
+Fixes: f9f38e33389c ("nvme: improve performance for virtual NVMe devices")
+Reported-by: Guenter Roeck <linux@roeck-us.net>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ drivers/nvme/host/pci.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-The high level idea is to have a programmable way to set the features of 
-a virtual controller inside a virtual subsystem that is also programmable.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index f005e8569266..d12d4c3cb6d0 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -347,7 +347,7 @@ static bool nvme_dbbuf_update_and_check_event(u16 value, u32 *dbbuf_db,
+ 					      volatile u32 *dbbuf_ei)
+ {
+ 	if (dbbuf_db) {
+-		u16 old_value;
++		u16 old_value, event_idx;
+ 
+ 		/*
+ 		 * Ensure that the queue is written before updating
+@@ -355,8 +355,8 @@ static bool nvme_dbbuf_update_and_check_event(u16 value, u32 *dbbuf_db,
+ 		 */
+ 		wmb();
+ 
+-		old_value = *dbbuf_db;
+-		*dbbuf_db = value;
++		old_value = le32_to_cpu(*dbbuf_db);
++		*dbbuf_db = cpu_to_le32(value);
+ 
+ 		/*
+ 		 * Ensure that the doorbell is updated before reading the event
+@@ -366,7 +366,9 @@ static bool nvme_dbbuf_update_and_check_event(u16 value, u32 *dbbuf_db,
+ 		 */
+ 		mb();
+ 
+-		if (!nvme_dbbuf_need_event(*dbbuf_ei, value, old_value))
++		event_idx = le32_to_cpu(*dbbuf_ei);
++
++		if (!nvme_dbbuf_need_event(event_idx, value, old_value))
+ 			return false;
+ 	}
+ 
+-- 
+2.38.1
 
 
