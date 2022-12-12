@@ -4,61 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2933DC04FDE
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Dec 2022 08:11:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 776B2C4332F
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Dec 2022 09:43:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=c4d7/iJve2JRdCjgVOhYmb7Bw9eBUNAGReYZ99FlBEY=; b=eTjqbP497nxwkOtvwo/beM6V1w
-	dJaX1jb4bNPJrgPuAOjaoJpTnMOAg7nO58GqgvJ0byDxzrUVf3rpyRRPVN/EE2l2uY7kCdwCcvszj
-	K61BQAvWJbyMLH4zl/nR2bBXa3u0gQ6npjieAOtzTZWOI6evIPG1DU6TJPOr8s7mtdm1IYmqfP3iQ
-	jvdBEMt6tEAiTOEPgIgceh6oOvEm/hRRU/SyjSqzkJ54oX2tiMva25SsN0HQgeECLG2hNJyiPyE66
-	kEpfT8cuNAMsXCx+JP0BdMOehrkM9dTgyh/LBLz5eer0DsKet8n9bJq+htvMZjOmnTRZtpyK6Vg7C
-	Vp9CQr7g==;
+	bh=HipqxmwVjPNb97n9V5rBkPA4LruCJsniyVKWkKTZKGU=; b=Sn6WZO6eYJ89rSkm+2aO/ldta1
+	YzUhE0/EDofKh33XkCnQ+wTcPPRQAvQ7fOm2gPU7xV+xMHIp37jvvizB/pPR+YglhuSkXnf2GwrGD
+	0rz1ueP3JM9WEnXGU2v5OQI1n8t9XWMa5Wv93FPPna8YUg1Dco7cJ4xKiHU8mXdUNcs+kv282RT4G
+	ehTpUAkuqi+63B5yBlE3skIf0fao8i6FjKKwnulu4BbCCutGyJNAfmyhB5rhnJkvM+v7dqzBXigHx
+	WovyAVDwhcLgfzHQ1+nrywioJJX1X5ukubTUvIa1jzHZWeMTHbM2pBfKto07/2EBktE2J2TEwRoTf
+	iaTymPEA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p4du5-009sVW-EK; Mon, 12 Dec 2022 08:11:13 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1p4fLA-00BevC-FP; Mon, 12 Dec 2022 09:43:16 +0000
+Received: from mx0a-00154904.pphosted.com ([148.163.133.20])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p4du2-009sSd-0q
-	for linux-nvme@lists.infradead.org; Mon, 12 Dec 2022 08:11:11 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 2A70467373; Mon, 12 Dec 2022 09:11:07 +0100 (CET)
-Date: Mon, 12 Dec 2022 09:11:06 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: "Li, Yadong" <yadong.li@intel.com>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Christoph Hellwig <hch@lst.de>,
-	Jason Gunthorpe <jgg@ziepe.ca>, "Rao, Lei" <lei.rao@intel.com>,
-	"kbusch@kernel.org" <kbusch@kernel.org>,
-	"axboe@fb.com" <axboe@fb.com>, "kch@nvidia.com" <kch@nvidia.com>,
-	"sagi@grimberg.me" <sagi@grimberg.me>,
-	"alex.williamson@redhat.com" <alex.williamson@redhat.com>,
-	"cohuck@redhat.com" <cohuck@redhat.com>,
-	"yishaih@nvidia.com" <yishaih@nvidia.com>,
-	"shameerali.kolothum.thodi@huawei.com" <shameerali.kolothum.thodi@huawei.com>,
-	"mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"Dong, Eddie" <eddie.dong@intel.com>,
-	"Liu, Yi L" <yi.l.liu@intel.com>,
-	"Wilk, Konrad" <konrad.wilk@oracle.com>,
-	"stephen@eideticom.com" <stephen@eideticom.com>,
-	"Yuan, Hang" <hang.yuan@intel.com>
-Subject: Re: [RFC PATCH 5/5] nvme-vfio: Add a document for the NVMe device
-Message-ID: <20221212081106.GB11892@lst.de>
-References: <20221206055816.292304-1-lei.rao@intel.com> <20221206055816.292304-6-lei.rao@intel.com> <20221206062604.GB6595@lst.de> <Y48+AaG5rSCviIhl@ziepe.ca> <20221206130901.GB24358@lst.de> <BN9PR11MB5276EBF06791EF7B39648FA48C1C9@BN9PR11MB5276.namprd11.prod.outlook.com> <BL1PR11MB602591A00CE052373BB47EBCFE1C9@BL1PR11MB6025.namprd11.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BL1PR11MB602591A00CE052373BB47EBCFE1C9@BL1PR11MB6025.namprd11.prod.outlook.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+	id 1p4fKd-00BeV5-Nw
+	for linux-nvme@lists.infradead.org; Mon, 12 Dec 2022 09:43:07 +0000
+Received: from pps.filterd (m0170389.ppops.net [127.0.0.1])
+	by mx0a-00154904.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2BC426I9018035
+	for <linux-nvme@lists.infradead.org>; Mon, 12 Dec 2022 04:42:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=smtpout1;
+ bh=HipqxmwVjPNb97n9V5rBkPA4LruCJsniyVKWkKTZKGU=;
+ b=feFc11tncyGb8o/RHaSvbBWP2wkgqxz3lQh1INZlI7pjVMjSyz4LGr56UPKYdMEooGdA
+ B5Jjgs3LI04QxogeyLePBPq43HixFwpPI2g9EWJpRWYQN6n/ttEQ/7CxnfLdg6zjbMTG
+ VRrdhyKCjKpMKhslgVKRCUggNpVTOxYb8YhJE65qQYVoXvIcq/W1fskhbSRo2YjtNLic
+ Vyd7oD5SP9c5pDCn3HO+9BRD6835PTIBKu5ZiEJiy9TfH2ZIGB/f/AXY3YnPU+4BxqFh
+ vFXos5T98S6ZvxMKuCF2IIANNWlocr1ZF2ZT01pGsmDeRJi8Ta9dm9twQkLdpgCIQA13 hg== 
+Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com [67.231.157.37])
+	by mx0a-00154904.pphosted.com (PPS) with ESMTPS id 3mcq0r844q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Mon, 12 Dec 2022 04:42:37 -0500
+Received: from pps.filterd (m0144104.ppops.net [127.0.0.1])
+	by mx0b-00154901.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2BC9fnVl036154
+	for <linux-nvme@lists.infradead.org>; Mon, 12 Dec 2022 04:42:36 -0500
+Received: from esaploutpc102.us.dell.com (smtp-outbound-pc1.dell.com [143.166.24.15])
+	by mx0b-00154901.pphosted.com (PPS) with ESMTPS id 3md8hfdbgq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <linux-nvme@lists.infradead.org>; Mon, 12 Dec 2022 04:42:36 -0500
+X-PREM-Routing: D-Outbound
+X-LoopCount0: from 10.55.227.144
+X-IronPort-AV: E=McAfee;i="6500,9779,10558"; a="163138967"
+Received: from unknown (HELO vd-engela.xiolab.lab.emc.com) ([10.55.227.144])
+  by esaploutpc102.us.dell.com with ESMTP; 12 Dec 2022 03:42:34 -0600
+From: amit.engel@dell.com
+To: sagi@grimberg.me, linux-nvme@lists.infradead.org
+Cc: amit.engel@dell.com, Amit Engel <Amit.Engel@dell.com>
+Subject: [PATCH] nvme-tcp: add additional info for nvme_tcp_timeout log
+Date: Mon, 12 Dec 2022 11:42:29 +0200
+Message-Id: <1670838149-3147431-1-git-send-email-amit.engel@dell.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <1670410707-2278352-1-git-send-email-amit.engel@dell.com>
+References: <1670410707-2278352-1-git-send-email-amit.engel@dell.com>
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-12_02,2022-12-08_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 clxscore=1015
+ priorityscore=1501 spamscore=0 impostorscore=0 mlxscore=0 bulkscore=0
+ adultscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212120089
+X-Proofpoint-ORIG-GUID: -Z_lvn-tytdoERjKgtbH-EszQEXMcoeq
+X-Proofpoint-GUID: -Z_lvn-tytdoERjKgtbH-EszQEXMcoeq
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 spamscore=0 bulkscore=0
+ malwarescore=0 mlxscore=0 phishscore=0 suspectscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
+ definitions=main-2212120090
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221212_001110_223063_E7A44D27 
-X-CRM114-Status: GOOD (  11.58  )
+X-CRM114-CacheID: sfid-20221212_014259_680712_EA8FED04 
+X-CRM114-Status: GOOD (  18.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,10 +92,100 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Dec 09, 2022 at 04:53:47PM +0000, Li, Yadong wrote:
-> The key leadership in NVMe WG, Peter and Nick (from Intel), are on top of this TPAR,
-> and help influence the scope of the TPAR to better support IPU/DPUs.
+From: Amit Engel <Amit.Engel@dell.com>
 
-You guys should talk more to each other.  I think Peter especially has
-been vocal to reduce the scope and not include this.
+This provides additional details about the rq/cmd that is timed out
+
+Signed-off-by: Amit Engel <Amit.Engel@dell.com>
+---
+ drivers/nvme/host/constants.c | 16 ++++++++++++++++
+ drivers/nvme/host/nvme.h      | 13 +++++++++++++
+ drivers/nvme/host/tcp.c       |  7 +++++--
+ 3 files changed, 34 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/constants.c b/drivers/nvme/host/constants.c
+index e958d5015585..81a1d1d8d506 100644
+--- a/drivers/nvme/host/constants.c
++++ b/drivers/nvme/host/constants.c
+@@ -54,6 +54,14 @@ static const char * const nvme_admin_ops[] = {
+ 	[nvme_admin_get_lba_status] = "Get LBA Status",
+ };
+ 
++static const char * const nvme_fabrics_ops[] = {
++	[nvme_fabrics_type_property_set] = "Property Set",
++	[nvme_fabrics_type_property_get] = "Property Get",
++	[nvme_fabrics_type_connect] = "Connect",
++	[nvme_fabrics_type_auth_send] = "Authentication Send",
++	[nvme_fabrics_type_auth_receive] = "Authentication Receive",
++};
++
+ static const char * const nvme_statuses[] = {
+ 	[NVME_SC_SUCCESS] = "Success",
+ 	[NVME_SC_INVALID_OPCODE] = "Invalid Command Opcode",
+@@ -185,3 +193,11 @@ const unsigned char *nvme_get_admin_opcode_str(u8 opcode)
+ 		return nvme_admin_ops[opcode];
+ 	return "Unknown";
+ }
++EXPORT_SYMBOL_GPL(nvme_get_admin_opcode_str);
++
++const unsigned char *nvme_get_fabrics_opcode_str(u8 opcode) {
++	if (opcode < ARRAY_SIZE(nvme_admin_ops) && nvme_fabrics_ops[opcode])
++		return nvme_fabrics_ops[opcode];
++	return "Unknown";
++}
++EXPORT_SYMBOL_GPL(nvme_get_fabrics_opcode_str);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 16b34a491495..c247daf8c86a 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -1057,6 +1057,7 @@ static inline bool nvme_multi_css(struct nvme_ctrl *ctrl)
+ const unsigned char *nvme_get_error_status_str(u16 status);
+ const unsigned char *nvme_get_opcode_str(u8 opcode);
+ const unsigned char *nvme_get_admin_opcode_str(u8 opcode);
++const unsigned char *nvme_get_fabrics_opcode_str(u8 opcode);
+ #else /* CONFIG_NVME_VERBOSE_ERRORS */
+ static inline const unsigned char *nvme_get_error_status_str(u16 status)
+ {
+@@ -1070,6 +1071,18 @@ static inline const unsigned char *nvme_get_admin_opcode_str(u8 opcode)
+ {
+ 	return "Admin Cmd";
+ }
++
++static inline const unsigned char *nvme_get_fabrics_opcode_str(u8 opcode)
++{
++	return "Fabrics Cmd";
++}
+ #endif /* CONFIG_NVME_VERBOSE_ERRORS */
+ 
++static inline const unsigned char *nvme_opcode_str(int qid, u8 opcode, u8 fctype)
++{
++	if (opcode == nvme_fabrics_command)
++		return nvme_get_fabrics_opcode_str(fctype);
++	return qid ? nvme_get_opcode_str(opcode) :
++		nvme_get_admin_opcode_str(opcode);
++}
+ #endif /* _NVME_H */
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 1eed0fc26b3a..2676f6787d30 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2275,10 +2275,13 @@ static enum blk_eh_timer_return nvme_tcp_timeout(struct request *rq)
+ 	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+ 	struct nvme_ctrl *ctrl = &req->queue->ctrl->ctrl;
+ 	struct nvme_tcp_cmd_pdu *pdu = req->pdu;
++	u8 opc = pdu->cmd.common.opcode, fctype = pdu->cmd.fabrics.fctype;
++	int qid = nvme_tcp_queue_id(req->queue);
+ 
+ 	dev_warn(ctrl->device,
+-		"queue %d: timeout request %#x type %d\n",
+-		nvme_tcp_queue_id(req->queue), rq->tag, pdu->hdr.type);
++		"queue %d: timeout cid %#x type %d opcode %#x (%s)\n",
++		nvme_tcp_queue_id(req->queue), nvme_cid(rq), pdu->hdr.type,
++		opc, nvme_opcode_str(qid, opc, fctype));
+ 
+ 	if (ctrl->state != NVME_CTRL_LIVE) {
+ 		/*
+-- 
+2.31.1
+
 
