@@ -4,40 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1255EC4332F
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Dec 2022 16:25:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57919C4332F
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Dec 2022 17:49:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wjvnRk0279Ufwv1hmYJwX0c9p8kU2ItlBx94Iee+tH0=; b=DW99QaF8EZa0HNJ1PE7l5pNd/V
-	bdoOon0olL6dXVyOUwfH2jaAwqsIe8rK1O0J7nhCUL6ytwQnEUrU5ssaOlAyNA0tIq9sTpT5MlbHG
-	8ySKMtQr/askS3A58+e1T7v9UK6S/rfqc15WQ2XfyKQPMi5tXyqlxdVMRpRmzOHUyvUufgSidJFd+
-	E/9aodCzmMvIoxX7S1CnnS/F58kwu8GFozMzOFF6leA9s9ASSpWhzc08tvHR8hMvq6i7h7h/CQOml
-	Cb8REaeudRWN+PC2ve+bBzIT63PEus2JXLGdnnGRQ+Ltzmt3cv/rsU04CcOWYOEtj7puQtQzQO26T
-	+RzWq9Hw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=DqUM+ax68zeF7mzrZWkiSzr04RQkjlAcu7L4ga5z5vQ=; b=vJUdZRMEmgwvJv1dp5EGBGIuFk
+	89jD4Iy7NbdRJExuOhSa+autaMxuej5f4rl1jtfzUoPFKt9Uwl4yfeyJTzaLCe1M9+YpOUXreE4Qf
+	1Xk6x/uENsHj25gtyk/FdehYZuKMkuxARardw4oUqDxcL19Gsbm1ozXffHcPPKn/oxADEx6H2OGFj
+	ECx5V9hJeg4ZIlWD7/6Ijytj+PUdTdwYF1cFb8mGo46KyIhzvuwH0S2FHB/5zHy9pzZquIy1F7BtD
+	QOP8rXzVqvAuDzORefKj7JYzLzHc+XARsZK1AvEbs0bP2ygf6Hu2qmwSAHXT8t/frKvZiM2SiOo72
+	udL7cG/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p5863-002ovq-L5; Tue, 13 Dec 2022 16:25:35 +0000
-Received: from [2001:4bb8:192:2f53:30b:ddad:22aa:f9f9] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p585i-002oiY-Rd; Tue, 13 Dec 2022 16:25:15 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: Kanchan Joshi <joshi.k@samsung.com>,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH 7/7] nvme: don't allow unprivileged passthrough of commands that have effects
-Date: Tue, 13 Dec 2022 17:24:53 +0100
-Message-Id: <20221213162453.584965-8-hch@lst.de>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221213162453.584965-1-hch@lst.de>
-References: <20221213162453.584965-1-hch@lst.de>
+	id 1p59Pb-003xZE-U4; Tue, 13 Dec 2022 17:49:51 +0000
+Received: from mail-vs1-xe33.google.com ([2607:f8b0:4864:20::e33])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1p59PY-003xSH-Th
+	for linux-nvme@lists.infradead.org; Tue, 13 Dec 2022 17:49:51 +0000
+Received: by mail-vs1-xe33.google.com with SMTP id h26so15412808vsr.5
+        for <linux-nvme@lists.infradead.org>; Tue, 13 Dec 2022 09:49:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DqUM+ax68zeF7mzrZWkiSzr04RQkjlAcu7L4ga5z5vQ=;
+        b=ktRYLWBpOGbOKfZVS/0xpk76+a38y7Wpzto5CjLdt4788k8Y3bOGbtipl342O/g0hx
+         TLD/pNbgM0dgC/LHlCcbCMdKiBf/0M/+7n/zflkBlTrk+PCKRbrrFsBaFrD6DOYVxiHp
+         ZdqPaz4LeOpmfoaXf5jhCNuFZ8na5t8kNMpeb+3h152Y5XDbDPY6qXLG0O56LboT+A4w
+         2NJ9WerWsjMmSMTT0Hco/TFw7geDjMFD/D9YaymwvI2cXBwTPGgcxWmOU/wmm2mn1Bdf
+         uorQetiunr2GozfXGjySFaCH0Pq7DwrcePInpAqq3lv/O4ouZNj1X7BxmnlOFD9s8vJv
+         b+oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DqUM+ax68zeF7mzrZWkiSzr04RQkjlAcu7L4ga5z5vQ=;
+        b=YdfmDzlK+BUJIWJpyecnQTCJO6BKLMCW9vO8CViZKWxOC4Ujk7kjjTSpiXtBQN6Jgb
+         PRE0eYwt5RuH/Xd+y/64qNm1p2xZQtxpCXMKWsOFeKvZFqxXN5Wh9NzVu/759Ht+smws
+         AjEmY6n/hZ+7j5bfdE9V/Oc5/fIceJagYqnhOH4Qvxxl9T2cINCXP059m3Zj1ShsZEny
+         81MnilGQh6ccdqC5AIohOkfG4s+l2IrHuNEG/4E+pbavGVycS+89llTbj+MWA07HQ4s5
+         Go6SQcxIPhuGdy9qyPQhbQoymEzqjJrWPDAwB/Eb+7wtaMxj3EHtGwUXFTqVkmg79rwK
+         Kz0g==
+X-Gm-Message-State: ANoB5plNWfFr6wdTcHpyYrqrR8dH3vjkJMYVRzOQrgbFglxCKD+AIlMr
+	IKrPKY+sR4bgGPPvFhV7Fug2XA==
+X-Google-Smtp-Source: AA0mqf7YIh3+smLA9KO0wwiAj3WR2RyFhWmCYelRuDl0ZOT9GaC17ZkDDK5gZFzR7Sju/EDkQ3Lv4g==
+X-Received: by 2002:a05:6102:94c:b0:3b0:78cc:bfaf with SMTP id a12-20020a056102094c00b003b078ccbfafmr14776004vsi.15.1670953786450;
+        Tue, 13 Dec 2022 09:49:46 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-68-50-193.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.50.193])
+        by smtp.gmail.com with ESMTPSA id bm25-20020a05620a199900b006fa4cac54a5sm8288324qkb.72.2022.12.13.09.49.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Dec 2022 09:49:45 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1p59PV-00AKeD-1G;
+	Tue, 13 Dec 2022 13:49:45 -0400
+Date: Tue, 13 Dec 2022 13:49:45 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Lei Rao <lei.rao@intel.com>, kbusch@kernel.org, axboe@fb.com,
+	kch@nvidia.com, sagi@grimberg.me, alex.williamson@redhat.com,
+	cohuck@redhat.com, yishaih@nvidia.com,
+	shameerali.kolothum.thodi@huawei.com, kevin.tian@intel.com,
+	mjrosato@linux.ibm.com, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, kvm@vger.kernel.org,
+	eddie.dong@intel.com, yadong.li@intel.com, yi.l.liu@intel.com,
+	Konrad.wilk@oracle.com, stephen@eideticom.com, hang.yuan@intel.com
+Subject: Re: [RFC PATCH 1/5] nvme-pci: add function nvme_submit_vf_cmd to
+ issue admin commands for VF driver.
+Message-ID: <Y5i7OWihTNCKXGEJ@ziepe.ca>
+References: <Y5CWVu08abcOuEQH@ziepe.ca>
+ <20221207135203.GA22803@lst.de>
+ <Y5CsH5PqMYAWYatw@ziepe.ca>
+ <20221207163857.GB2010@lst.de>
+ <Y5DOAKArjyfb6Mcz@ziepe.ca>
+ <20221207183333.GA7049@lst.de>
+ <Y5DyorZJPdtN5WcX@ziepe.ca>
+ <20221212075046.GB11162@lst.de>
+ <Y5iFnw5i3vI9iMFY@ziepe.ca>
+ <20221213160807.GA626@lst.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221213160807.GA626@lst.de>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20221213_094949_331390_181D3746 
+X-CRM114-Status: GOOD (  54.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -52,67 +108,151 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Commands like Write Zeros can change the contents of a namespaces without
-actually transferring data.  To protect against this check the Commands
-Supported and Effects log and refuse unprivileged passthrough if the
-command has any effects.  This also includes more intrusive effects which
-currently can't happen for I/O commands.
+On Tue, Dec 13, 2022 at 05:08:07PM +0100, Christoph Hellwig wrote:
+> On Tue, Dec 13, 2022 at 10:01:03AM -0400, Jason Gunthorpe wrote:
+> > > So now we need to write a vfio shim for every function even if there
+> > > is absolutely nothing special about that function?  Migrating really
+> > > is the controlling functions behavior, and writing a new vfio bit
+> > > for every controlled thing just does not scale.
+> > 
+> > Huh? "does not scale?" We are looking at boilerplates of around 20-30
+> > lines to make a VFIO driver for a real PCI device. Why is that even
+> > something we should worry about optimizing?
+> 
+> But we need a new driver for every controlled function now, which
+> is very different from the classic VFIO model where we had one
+> vfio_pci.
 
-Fixes: e4fbcf32c860 ("nvme: identify-namespace without CAP_SYS_ADMIN")
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/nvme/host/ioctl.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+To be fair, mainly vfio_pci had that model. Other uses of VFIO have
+device specific drivers already. We have the reset drivers in vfio
+platform, and the mdevs already. SIOV drivers are coming and they will
+not be general either. I know a few coming non-migration VFIO PCI
+variant drivers as well to deal with HW issues.
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 2ed8fdd09bb35a..e71d136816eae0 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -11,6 +11,8 @@
- static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
- 		fmode_t mode)
- {
-+	u8 opcode = c->common.opcode;
-+
- 	if (capable(CAP_SYS_ADMIN))
- 		return true;
- 
-@@ -18,8 +20,7 @@ static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
- 	 * Do not allow unprivileged processes to send vendor specific or fabrics
- 	 * commands as we can't be sure about their effects.
- 	 */
--	if (c->common.opcode >= nvme_cmd_vendor_start ||
--	    c->common.opcode == nvme_fabrics_command)
-+	if (opcode >= nvme_cmd_vendor_start || opcode == nvme_fabrics_command)
- 		return false;
- 
- 	/*
-@@ -29,7 +30,7 @@ static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
- 	 * potentially sensitive information.
- 	 */
- 	if (!ns) {
--		if (c->common.opcode == nvme_admin_identify) {
-+		if (opcode == nvme_admin_identify) {
- 			switch (c->identify.cns) {
- 			case NVME_ID_CNS_NS:
- 			case NVME_ID_CNS_CS_NS:
-@@ -43,11 +44,11 @@ static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
- 	}
- 
- 	/*
--	 * Only allow I/O commands that transfer data to the controller if the
--	 * special file is open for writing, but always allow I/O commands that
--	 * transfer data from the controller.
-+	 * Only allow I/O commands that transfer data to the controller, change
-+	 * the logical block content or have any other intrusive effects if the
-+	 * special file is open for writing. 
- 	 */
--	if (nvme_is_write(c))
-+	if (nvme_is_write(c) || nvme_command_effects(ns->ctrl, ns, opcode))
- 		return mode & FMODE_WRITE;
- 	return true;
- }
--- 
-2.35.1
+Remember, we did a bunch of work to make this reasonable. Userspace
+can properly probe the correct VFIO driver for the HW it wants to use,
+just like normal devices. If we spawn the VFIO from the controlling
+function then it obviously will bring the correct driver along too.
 
+The mental model I have for VFIO is that every vfio_device has a
+driver, and we have three "universal" drivers that wildcard match to
+many devices (pci, fsl, and platform acpi reset). Otherwise VFIO is
+like every other driver subsystem out there, with physical devices and
+matching drivers that support them.
+
+Creating drivers for HW is not a problem, that is what a driver
+subsystem is for. We already invested effort in VFIO to make this
+scalable.
+
+> > And when you get into exciting future devices like SIOV you already
+> > need to make a special VFIO driver anyhow.
+> 
+> You need to special support for it.  It's probably not another
+> Linux driver but part of the parent one, though.
+
+The designs we have done in mlx5 are split. The "parent" has just
+enough shim to describe what the SIOV is in terms of a 'slice of the
+parents resources' and then we layer another driver, located in the
+proper subsystem, to operate that slice. VDPA makes a
+/dev/virtio-whatever, VFIO would make a fake PCI function, mlx5 makes
+a netdev, etc.
+
+It is not so different from how a PF/VF relationship works, just that
+the SIOV is described by a struct auxillary_device not a struct
+pci_dev.
+
+I don't really like implementing VFIO drivers outside drivers/vfio, I
+think that has historically had bad outcomes in other subsystems.
+
+> > So far 100% of the drivers that have been presented, including the two
+> > RFC ones, have entanglements between live migration and vfio. Shifting
+> > things to dev/live_migration doesn't make the "communication problem"
+> > away, it just shifted it into another subsystem.
+> 
+> The main entanglement seems to be that it needs to support a vfio
+> interface for live migration while the actual commands go to the
+> parent device.
+
+Not at all, that is only a couple function calls in 4 of the drivers
+so far.
+
+The entanglement is that the live migration FSM and the VFIO device
+operation are not isolated. I keep repeating this - mlx5 and the two
+RFC drivers must trap VFIO operations and relay them to their
+migration logic. hns has to mangle its BARs. These are things that
+only exist on the VFIO side.
+
+So, you are viewing live migration as orthogonal and separable to
+VFIO, and I don't agree with this because I haven't yet seen any proof
+in implementations.
+
+Let's go through the nvme spec process and see how it works out. If
+NVMe can address things which are tripping up other implemenations,
+like FLR of the controlled function. Then we may have the first
+example. If not, then it is just how things are.
+
+FLR is trickey, it not obvious to me that you want a definition of
+migration that isolates controlled function FLR from the migration
+FSM..
+
+There are advantages to having a reliable, universal, way to bring a
+function back to a clean slate, including restoring it to full
+operation (ie canceling any migration operation). The current
+definition of FLR provides this.
+
+> > It is worse than just VFIO vs one kernel driver, like mlx5 could spawn
+> > a controlled function that is NVMe, VDPA, mlx5, virtio-net, VFIO,
+> > etc.
+> 
+> This seems to violate the PCIe spec, which says:
+> 
+> "All VFs associated with a PF must be the same device type as the PF,
+> (e.g., the same network device type or the same storage device type.)",
+
+For VFs there are multiple PFs to follow the above, and for SIOV this
+language doesn't apply.
+
+It seems the PDS RFC driver does violate this spec requirement though..
+
+> > When we create the function we really want to tell the device what
+> > kind of function it is, and that also tells the kernel what driver
+> > should be bound to it.
+> 
+> I'd rather have different ways to probe by passing a "kind" or "type"
+> argument along the device IDs during probing.  E.g. "driver"
+> and "vfio", and then only match for the kind the creator of the device
+> added them to the device model for. 
+
+Not everything can be done during driver probing. There are certainly
+steps at SIOV instantiation time or VF provisioning that impact what
+exactly is available on the controlled function. Eg on mlx5 when we
+create a VDPA device it actually is different from a full-function
+mlx5 device and that customization was done before any driver was
+probed.
+
+In fact, not only is it done before driver binding, but it can be
+enforced as a security property from the DPU side when the DPU is the
+thing creating the function.
+
+I like the general idea of type to help specify the driver to probe,
+we tried to work on something like that once and it didn't go far, but
+I did like the concept of it.
+
+> > mlx5 even has weird limitations, like a controlled function that is
+> > live migration capable has fewer features than a function that is
+> > not. So the user must specify what parameters it wants the controlled
+> > function to have..
+> 
+> I don't think that is weird.  If you want to live migrate, you need to
+> 
+>  a) make sure the feature set is compatible with the other side
+>  b) there is only state that actually is migratable
+> 
+> so I'd expect that for any other sufficiently complex device.  NVMe
+> for sure will have limits like this.
+
+Oy, this has been pretty hard to define in mlx5 already :( Hopefully
+nvme-cli can sort it out for NVMe configurables.
+
+Jason
 
