@@ -4,40 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C4B1C4332F
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Dec 2022 16:14:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 28790C4167B
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Dec 2022 16:34:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Z89vQxKKQ708KxeGRwH7/yGVdMnN4OZQQ0bJRtCR/6Q=; b=0FvgXDM6krZASSPjxqIEDgkbhL
-	7k1yysuyZO+PfSxSREFoJ0F9V+OH+L7Ak7wagODaQ9pcXDX4DbW+nLOhGJjY0gCPqeqsZm5CsVk7S
-	G9jKKhkyav36sDPnOT+fXQQhBBTIxVk79+a4ykhI7UK9buleoqkCSf5RhR0iMRqvO/SLk39BleGkF
-	hjRLE/aCqas/J1oBLxKZKSm2ePkrGBGcDJNZtZ1YbzVYZoCwmVhAySpvPhRvJ/LE7OcTaqz7/Pgrz
-	+PX3s/x+a016a+6hnmGtzs12WWH9pWphe/iHtL/gqgbC1BeCXInat0IWJnBuCddN4i5ei1gl/ZCrS
-	TR7oXE1Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=tToWoykwXkP4MoNaylr4diAaLmps8mWrPxzjavOk7Ns=; b=cKBBIyc3XTWHlqwF8mPyNx34hQ
+	N3+sHu+inWZMsGwfa7zxvToURWjS4t3+iOUzlo4qlfLBbNyzb+XtCAzIfy6Pe4OtAiNRqvplBE+g2
+	mQXAS7Yauxfl0EIok15B8mt7itWwd6ukLO5OoH5ArVY3mJ88ZT7IIpVyeTEXsd6b1fTAVhACs0azt
+	pzv937ndVKeRInrDEguSUFAP2MVsIAeAW02RDYps+y+bKK0C8hyVzn6VF7HZIzHG7ZMAWY2r34aB8
+	G/8HrX+4K7vcnDHBnFLMiyba0gRebBh0Gh3zWeaJIEwNi5V2MuO9jclnS1xzpmary4XLjTNgfeV4V
+	TmDGw9Eg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p5UP7-000Vsf-Qn; Wed, 14 Dec 2022 16:14:45 +0000
-Received: from [2001:4bb8:192:2f53:94cc:fc26:a27c:8f96] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p5UOd-000VTf-1I; Wed, 14 Dec 2022 16:14:15 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: Kanchan Joshi <joshi.k@samsung.com>,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH 9/9] nvme: don't allow unprivileged passthrough of commands that have effects
-Date: Wed, 14 Dec 2022 17:13:47 +0100
-Message-Id: <20221214161347.764071-10-hch@lst.de>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221214161347.764071-1-hch@lst.de>
+	id 1p5Ui7-000fq4-OP; Wed, 14 Dec 2022 16:34:23 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1p5Ui5-000fod-6Q
+	for linux-nvme@lists.infradead.org; Wed, 14 Dec 2022 16:34:22 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id BE94761881;
+	Wed, 14 Dec 2022 16:34:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE7E0C433EF;
+	Wed, 14 Dec 2022 16:34:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1671035660;
+	bh=075edqSoC5eSRsJ5OJeh1GS5gC7Z0xW+1dUNNdmhXCA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GQs6zuAj67wuWO6HuTmYICv24qvSs1oFSLGPtQJmtxD8cXp+hfQrbvsIGEYIIvb3r
+	 sP/MK1sNqszMqcbs3vDKCGUi0xRZCeX6UW8rrRt+1MlqJo/Nnmlhi7yCFPrXCNX4hu
+	 DMzV9pmtsnT1IbrOkoTJJ+4Ael/TrFWGrzw5fkK/eISjbYWxscRPA9OOvMJs5v3JmN
+	 QLdoNk/GRk1Hnj4z/1N8tH1vTxKrD4AAbltLE7kzvVpzb7CGs5iUcuwDr9K9iLY6uO
+	 UH7+I56YSNNdWPhyUPP2p/XU/OaWLCNCKPtp+XQlnPuH2tOrncjrptXwPqIa1PWTaa
+	 yrX3sSppqCdAQ==
+Date: Wed, 14 Dec 2022 09:34:17 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+	Kanchan Joshi <joshi.k@samsung.com>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 7/9] nvme: assign known effects at controller
+ initialization time
+Message-ID: <Y5n7CVj7b3Jr8dWY@kbusch-mbp.dhcp.thefacebook.com>
 References: <20221214161347.764071-1-hch@lst.de>
+ <20221214161347.764071-8-hch@lst.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221214161347.764071-8-hch@lst.de>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20221214_083421_290637_5743ED28 
+X-CRM114-Status: GOOD (  14.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -52,67 +73,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Commands like Write Zeros can change the contents of a namespaces without
-actually transferring data.  To protect against this check the Commands
-Supported and Effects log and refuse unprivileged passthrough if the
-command has any effects.  This also includes more intrusive effects which
-currently can't happen for I/O commands.
+On Wed, Dec 14, 2022 at 05:13:45PM +0100, Christoph Hellwig wrote:
+>  
+> +static int nvme_init_effects(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+> +{
+> +	int ret;
+> +
+> +	if (id->lpa & NVME_CTRL_LPA_CMD_EFFECTS_LOG) {
+> +		ret = nvme_get_effects_log(ctrl, NVME_CSI_NVM, &ctrl->effects);
+> +		if (ret < 0)
+> +			return ret;
 
-Fixes: e4fbcf32c860 ("nvme: identify-namespace without CAP_SYS_ADMIN")
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/nvme/host/ioctl.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+In the unlikely case where ret > 0, like the controller is very
+confused, we need to fall through to allocate the default ctrl->effects.
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index a371209ee5e6d4..90e3a4a711bd17 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -11,6 +11,8 @@
- static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
- 		fmode_t mode)
- {
-+	u8 opcode = c->common.opcode;
-+
- 	if (capable(CAP_SYS_ADMIN))
- 		return true;
- 
-@@ -18,8 +20,7 @@ static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
- 	 * Do not allow unprivileged processes to send vendor specific or fabrics
- 	 * commands as we can't be sure about their effects.
- 	 */
--	if (c->common.opcode >= nvme_cmd_vendor_start ||
--	    c->common.opcode == nvme_fabrics_command)
-+	if (opcode >= nvme_cmd_vendor_start || opcode == nvme_fabrics_command)
- 		return false;
- 
- 	/*
-@@ -29,7 +30,7 @@ static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
- 	 * potentially sensitive information.
- 	 */
- 	if (!ns) {
--		if (c->common.opcode == nvme_admin_identify) {
-+		if (opcode == nvme_admin_identify) {
- 			switch (c->identify.cns) {
- 			case NVME_ID_CNS_NS:
- 			case NVME_ID_CNS_CS_NS:
-@@ -43,11 +44,11 @@ static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
- 	}
- 
- 	/*
--	 * Only allow I/O commands that transfer data to the controller if the
--	 * special file is open for writing, but always allow I/O commands that
--	 * transfer data from the controller.
-+	 * Only allow I/O commands that transfer data to the controller, change
-+	 * the logical block content or have any other intrusive effects if the
-+	 * special file is open for writing. 
- 	 */
--	if (nvme_is_write(c))
-+	if (nvme_is_write(c) || nvme_command_effects(ns->ctrl, ns, opcode))
- 		return mode & FMODE_WRITE;
- 	return true;
- }
--- 
-2.35.1
-
+> +	} else {
+> +		ctrl->effects = kzalloc(sizeof(*ctrl->effects), GFP_KERNEL);
+> +		if (!ctrl->effects)
+> +			return -ENOMEM;
+> +	}
 
