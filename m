@@ -4,52 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC30EC001B2
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Dec 2022 09:07:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4582CC4332F
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Dec 2022 16:14:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=; b=bl1cu2JrI3lTijuLgJrp9Mk9wh
-	kKRLnMbSzSLxS0TfF/Y0XE/hHQzJ3M8fdM43mJvOOIZ5C4wA6OYZLytKp7/ZQOBjmL7PWj45+s5W9
-	IZcix/cpBX/CMeHf59N6ugruZfxO8yx/B5omRoCZYvOHdYxel8/nQYxwTF9XGt3QO6WQDI//gzLUi
-	43yvge8428hA35+ky0fmo/NPPxn0JV6d8RwhH4EVCZMP61Z2RG0NHQR4JK0r6vU99D5N71XTCM58W
-	lABIHRwh+kHztImY2/es/tUGnHFMi6Q7QE+Ktkx6hnzL0mXHQ/blKgAcOs4q5mlzr8LfvzfwNigIu
-	59GWtOiw==;
+	bh=InL1o4jKSWjKIEI1aNwx6pCIWRPyZ3QTqivmJuoeMvY=; b=oSkKwiA0BBDWAqGG9oxJR1hUMP
+	hYVMKi4qSNAEqj6IEYxMpC0aEucAre6D2TnaWoclhE4OoYK7UHKRRPJsmCm522DUCObr0oPWXErux
+	Fg55ih1PjMg8o8yW+ur94mKgkrskhDIGWQnFvWNu0SHphCpvFL5KebbaGMU4MlPYuNkTuyTftIp4Q
+	0y868gTNPDh+KvopeW5WEbJF54T9zDb9KWTikEvrEJT/7G+Alg+acBCxOQ1ABmNI/5tp4EKHHQ4X2
+	LATycS396sBD1NTNnNx5QAF9Hj4JBFaUVwv4vPYsnMj4IqKUoqrOLo9I6WgL1LDU5/Nw6LkWAimHZ
+	CbqJFzRw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p5NjQ-00EwEX-CK; Wed, 14 Dec 2022 09:07:16 +0000
-Received: from mail.lokoho.com ([217.61.105.98])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p5NjN-00EwBH-N3
-	for linux-nvme@lists.infradead.org; Wed, 14 Dec 2022 09:07:14 +0000
-Received: by mail.lokoho.com (Postfix, from userid 1001)
-	id B3DF6867FF; Wed, 14 Dec 2022 09:06:19 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
-	t=1671008831; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
-	h=Date:From:To:Subject:From;
-	b=WyEIa2BRUBKWaiMf4zuQ7QFDjOOYc5GVhUt5fScXdyF3/aVExil8COCEXr6t8SYTS
-	 QJhGa+KpgeI/nEcji0cBUzvtumLYv8gYplNmLe/SFfjLikK25fkjRMX88+4OSm0zBC
-	 uIdtwo+C2KSGWSm3uuhF+Oiz1y+c7glOeiJKM87RknBSDd6pr/CkNz5B1pd7QStUDv
-	 0u1pBAJWsYVgsPDcE1zEei0Rd67URQwzHQEMXSPEha6uWRdzd0tDxQ7606x1rhwV8P
-	 1Up1OQiDVZixghUY2kw3AgBScx/Pqf0G4slKUiD0E51+BLxOBFM3YZju1PyzB+w8FY
-	 W2ArGWiHQSrpg==
-Received: by mail.lokoho.com for <linux-nvme@lists.infradead.org>; Wed, 14 Dec 2022 09:05:06 GMT
-Message-ID: <20221214074502-0.1.2t.9rdk.0.8q722x2mjg@lokoho.com>
-Date: Wed, 14 Dec 2022 09:05:06 GMT
-From: "Adam Charachuta" <adam.charachuta@lokoho.com>
-To: <linux-nvme@lists.infradead.org>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
-X-Mailer: mail.lokoho.com
+	id 1p5UOK-000VKg-47; Wed, 14 Dec 2022 16:13:56 +0000
+Received: from [2001:4bb8:192:2f53:94cc:fc26:a27c:8f96] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1p5UOE-000VIm-Im; Wed, 14 Dec 2022 16:13:51 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Kanchan Joshi <joshi.k@samsung.com>,
+	linux-nvme@lists.infradead.org
+Subject: only allow unprivileged passthrough for commands without effects v2
+Date: Wed, 14 Dec 2022 17:13:38 +0100
+Message-Id: <20221214161347.764071-1-hch@lst.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221214_010713_893503_590FBFA7 
-X-CRM114-Status: UNSURE (   2.40  )
-X-CRM114-Notice: Please train this message.
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,20 +50,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Dzie=C5=84 dobry,
+Hi all,
 
-zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
-=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
-o dalszych rozm=C3=B3w.=20
+this series first fixes a few minor issues in the CES log support in the
+host and target drivers and then uses the log to deny unprivileged
+passthrough of commands that have effects, where the only practically
+relevant effect is the modification of contents of the data stored in the
+namespace.
 
-Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
-=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
-=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
-strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
+Changes since v1:
+ - make sure ctrl->effects an nshead->effects is always available
+ - initializse known effects at init time
+ - remove the use_workqueue field in nvmet_req
+ - fix up a commit message
 
-Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
-
-
-Pozdrawiam
-Adam Charachuta
+Diffstat:
+ host/core.c        |   95 ++++++++++++++++++++++++++++-------------------------
+ host/ioctl.c       |   20 ++++++-----
+ host/nvme.h        |    3 +
+ target/admin-cmd.c |   37 +++++++++++---------
+ target/nvmet.h     |    1 
+ target/passthru.c  |   61 ++++++++++++++++++++--------------
+ 6 files changed, 122 insertions(+), 95 deletions(-)
 
