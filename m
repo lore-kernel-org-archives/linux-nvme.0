@@ -4,47 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5366AC4332F
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Dec 2022 08:18:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 08FD8C4332F
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Dec 2022 08:23:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fQ/eYZ6882Gk1ZdIwinew4uPUskAxjeG0smvjv7xve4=; b=u5J/GNoHrpZmvQo82pHdzyYy48
-	iGge2Nrrl5qLnaxKcjfMMNvAJyRFKSKRCaGKc+SaCAsW9lG/1SnsGF9Hsmt/lNtnQAURsRXswe9zQ
-	DZGxhongLtb6ib/vuQQfnaNjtJUXiupfaFsB6/9dXdI6YCnD+1L65jcHgHM+6gAjSELfRwa35fA5g
-	GZr9dzJuWzawYYCvf/glBnuuOmeXKFnns/mjXzDV1nkLsi3ez324Ae0/cD8KNFPB8Pg5RPi0YvEbe
-	i9cnX7FZxitZgU8R5WFeuUOTKduqA3RIx1pbcvaYWlD3W5D2HRpbsjkQqrMEoqqWd0LLPNoznk7fu
-	VMkbfszA==;
+	bh=+HVvbFw8D+v+jhFr5miEbhT3XfrnbE2QwwtJC3dcjMI=; b=Czt8v55m99p7v/EiCe+awKd+uH
+	H64CgJwE7270UMp0m1BWKCrJLX8BuQThHPqi1CTMu4eRXJS3CzIu/+TaYkSXh7wGEIlJBREeLO0t5
+	9qIvZ00jJxKAU+oq+djul9t77UCk3QIeNk+ArxSPwdIvXGDayDYow6Imahks5CbrR/8Slso0Ypx3O
+	jXoqofbifsRTPlTjpHztGBYbgymXL1+622vstN95wNLbs8MqhZHXJEuWYM25yhb08FasD3YgybnoL
+	YilKSDjSrpvEUjSULNrqD39qUNcqNHaAeb5G4G8tCFSnYZCWNYj+h7CFD+kvJUn1zogb3gYDwqdOs
+	fCVkJemQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p5jRz-007cB9-5C; Thu, 15 Dec 2022 08:18:43 +0000
+	id 1p5jWx-007epa-B4; Thu, 15 Dec 2022 08:23:51 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p5jRv-007c6d-VT
-	for linux-nvme@lists.infradead.org; Thu, 15 Dec 2022 08:18:41 +0000
+	id 1p5jWv-007enL-BP
+	for linux-nvme@lists.infradead.org; Thu, 15 Dec 2022 08:23:50 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 5EEEC68AA6; Thu, 15 Dec 2022 09:18:29 +0100 (CET)
-Date: Thu, 15 Dec 2022 09:18:29 +0100
+	id 098E168AA6; Thu, 15 Dec 2022 09:23:45 +0100 (CET)
+Date: Thu, 15 Dec 2022 09:23:44 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 9/9] nvme: don't allow unprivileged passthrough of
- commands that have effects
-Message-ID: <20221215081829.GA3816@lst.de>
-References: <20221214161347.764071-1-hch@lst.de> <CGME20221214161926epcas5p49ec1cfa4cdc583b00bf6b8b066eb1964@epcas5p4.samsung.com> <20221214161347.764071-10-hch@lst.de> <20221215071405.GA27656@test-zns>
+To: "J. Hart" <jfhart085@gmail.com>
+Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, axboe@fb.com,
+	hch@lst.de, sagi@grimberg.me
+Subject: Re: nvme nvme0: I/O 0 (I/O Cmd) QID 1 timeout, aborting, source
+ drive corruption observed
+Message-ID: <20221215082344.GB3816@lst.de>
+References: <fe013f52-ac3c-4be2-6f1e-e68fea46e4c2@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221215071405.GA27656@test-zns>
+In-Reply-To: <fe013f52-ac3c-4be2-6f1e-e68fea46e4c2@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221215_001840_196427_FCEDA219 
-X-CRM114-Status: GOOD (  12.38  )
+X-CRM114-CacheID: sfid-20221215_002349_553135_29174760 
+X-CRM114-Status: GOOD (  22.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,14 +58,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Dec 15, 2022 at 12:44:05PM +0530, Kanchan Joshi wrote:
-> So even for operation that do not alter anything (e.g. nvme_cmd_read)
-> nvme_is_write will return false, but nvme_command_effects will return
-> true and we will ask for FMODE_WRITE. Is that intentional?
+On Thu, Dec 15, 2022 at 10:38:33AM +0900, J. Hart wrote:
+> I am attempting to load an nvme device (nvme0n1) to use as main system 
+> drive using the following command:
 >
-> I think doing "nvme_command_effects(ctrl, ns, opcode) & 
-> ~NVME_CMD_EFFECTS_CSUPP"
-> is better to avoid that?
+> rsync -axvH /. --exclude=/lost+found --exclude=/var/log.bu 
+> --exclude=/usr/var/log.bu --exclude=/usr/X11R6/var/log.bu 
+> --exclude=/home/jhart/.cache/mozilla/firefox/are7uokl.default-release/cache2.bu 
+> --exclude=/home/jhart/.cache/thunderbird/7zsnqnss.default/cache2.bu 
+> /mnt/root_new 2>&1 | tee root.log
+>
+> The total transfer would be approximately 50 GB.  This is being done at run 
+> level 1, and only the kernel threads and the root shell are observed to be 
+> active.
+>
+> The following log messages appear after a minute or so, and rsync hangs. 
+> The nvme drive cannot be unmounted without a reboot.
 
-Take a look at patch 6.
+Ok, this looks like the driver has firmware / hardware problems and
+can't copy wit hthe load.
+
+>
+> dmesg reports the following:
+
+nvme0 is the destination driver I guess?
+
+>
+> [Dec14 19:24] nvme nvme0: I/O 0 (I/O Cmd) QID 1 timeout, aborting
+
+Can you enable CONFIG_NVME_VERBOSE_ERRORS so that we can see what
+commands are hanging?
+
+> I have also observed file system corruption on the source drive of the 
+> transfer.  I would not normally think this to be related, except that after 
+> the first time I observed it, I made certain that I corrected the file 
+> content before any additional attempts, but have seen this again after 
+> every attempt.  The modification dates and file sizes did not change, but 
+> the file content on the source drive did.  I confirmed this using the 
+> "diff" utility, and again using a rsync dry run with the check sum test 
+> enabled.
+
+Ok, that's really odd.  The only way I could think of that happening
+is if the driver does stay DMAs, which would be really grave.
+
+Do you have CONFIG_INTEL_IOMMU and CONFIG_INTEL_IOMMU_DEFAULT_ON enabled?
+If not, it would be good to enable those to see if the iommu catches
+any stray DMAs.
 
