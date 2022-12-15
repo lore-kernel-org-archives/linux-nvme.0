@@ -4,79 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A2CC3C4332F
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Dec 2022 01:38:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E8F5DC4332F
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Dec 2022 07:25:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	Content-Transfer-Encoding:Content-Type:Cc:To:Subject:From:MIME-Version:Date:
-	Message-ID:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=AsgWPb1o6UZ8leNyj/obDYvA9PD2V1YL0BkxUMr0PWE=; b=4L8HyKQ2mLU41t
-	wZ1W+UcC+knGSO9iHoiid5RlPsVLxeaW6nS62bUo1TRHuV9RTnKHEHmuQZddVCipVGBR6gY/AH+3f
-	F5utd7TjNMh9cbCiBOdMXAj83NMWx+L9AGCog+2kYeV2PgO9RRwcZN6HbblcQCAWytBRzgwBbfhCP
-	YC0+IkwAaMh4j20owsvZ4HiUDe2Etg14mtmT3rSYWRmhn7zuJ3DFpUnpICjvdOvT5cS82dswTQlXJ
-	quJInWx+GcxxHSt5P9S6JbyPoRsYu6XBI6HU4aNJiMxwI6JntyZ91WbYKPIqZYw/RLw60RVd2DaKW
-	/kIS49Wfa/OtaJz8Klhw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mupzPIX2SljVVEf2MaGmqai7ObDT2H6SxmFRHi29TkA=; b=Z+o0T9muc5496+HYmND0pEnsTU
+	BgsKXAA1qACEnZdz5n8WjSt1L9STSC6vu+5E72x34fRzH/jAgH4FbQjvPCux6z6b8BIvdMMcd71RW
+	AN39AlU3SyUSr9Zbtjj1w6mtYWk35DvlxBjmj/ylmae1m4DTUgHU334fJf1dqZ2oRxtLsz37oVh+H
+	+FEXTlBSXLJFBSECjAoqC5M7KJuKngr3oAEwuZ4W5t6QPFYr4OvPhOUvbn0HTHRr6uBn43V/PP50I
+	bYbiMJu9iYQajYxY+BKEbD05ar75N3GeWwaelg3Zy2tqhKf+syzEKSWOdHlWVDUu3W5ARNVsTbLxp
+	FgVs5WRw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p5dCr-005UjK-Gk; Thu, 15 Dec 2022 01:38:41 +0000
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
+	id 1p5icp-007CnD-Od; Thu, 15 Dec 2022 07:25:51 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p5dCp-005UiD-1M
-	for linux-nvme@lists.infradead.org; Thu, 15 Dec 2022 01:38:40 +0000
-Received: by mail-pl1-x62b.google.com with SMTP id w23so5265866ply.12
-        for <linux-nvme@lists.infradead.org>; Wed, 14 Dec 2022 17:38:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:from:content-language
-         :reply-to:user-agent:mime-version:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=AsgWPb1o6UZ8leNyj/obDYvA9PD2V1YL0BkxUMr0PWE=;
-        b=kUgwVZGRkXd6mgcfNSyTGuk+Im48CgjAYL2WJmhQcQWiV8xP9R7lVx1bzgiim5vixO
-         a1xnMZHQMvXsJ1IAVOl1QIy04KVEWPb5wOb6MrzTwZF5sDoPZy3bC7KPtCDoE1A4iRNK
-         OfOpF3BmVKX56+qNlx4kSoFiFUDm9uYejMaVW/rws6aM6FwiwWP1yQl7mYt0daWy1A2z
-         3snQOe4ikQA1m6uBRrkKJmzJA1d16xgYmZNAC4wkNLRzhEUAdTBECY9q6FvdQvjGmsmv
-         IrpVf47aYSRC37tj45WQoyH7ANnuDb3fPt3caqNDKE1RQX8y9hUxFAQqS880NkfCuVqt
-         Pf3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:from:content-language
-         :reply-to:user-agent:mime-version:date:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AsgWPb1o6UZ8leNyj/obDYvA9PD2V1YL0BkxUMr0PWE=;
-        b=n9W158c88iiBk2Ah5pCzk94+Ax8aKUHDZPJuYlDlOyhj0wM7jMyXb8yVqx/i4J3YIb
-         TMzHfvd8rrKUX2W3SBzG77fnLdGkIu0yhPSkT9r4YZVAJXOaoyw/JnanPoGgWABSNmLf
-         7EfpKz/+2WfYdbdpmmfYZFbhXBTXf0EOF6iE5TxgLT35SxXycI2z6d/VLn7YqOrbg3C0
-         mImuKDN27QtnAuzt+nxWaCH+PYwTLXVyUycSgowmDuvcY2Be65jM4oYpfqKBfvQ69p4Y
-         IThl873F/ay4rAwZcNimp4SIN8XUuG9EHG5lYVV7OMOcj44vLzUJV7tJE0fBc+P+vZhj
-         X+tA==
-X-Gm-Message-State: ANoB5pnj3jkRL9/5J9qS9bg9KjjeClBS3o1HqYOay7k1pYVidGOix7in
-	b3z9jnMzIAcUQFSnc0iDtpJUnT9hjayVWg==
-X-Google-Smtp-Source: AA0mqf4WbDaw2dQVwyYSxOoVMQeI/OIYLlsvEL8QWhia7mn37kw5ykVlTNj86iJcL1zLw8lTiKqjmw==
-X-Received: by 2002:a17:902:6bcc:b0:188:5b7d:738a with SMTP id m12-20020a1709026bcc00b001885b7d738amr26545486plt.29.1671068317267;
-        Wed, 14 Dec 2022 17:38:37 -0800 (PST)
-Received: from [192.168.0.23] (q014251.dynamic.ppp.asahi-net.or.jp. [203.181.14.251])
-        by smtp.gmail.com with ESMTPSA id u3-20020a170902e80300b00176ab6a0d5fsm2494788plg.54.2022.12.14.17.38.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Dec 2022 17:38:36 -0800 (PST)
-Message-ID: <fe013f52-ac3c-4be2-6f1e-e68fea46e4c2@gmail.com>
-Date: Thu, 15 Dec 2022 10:38:33 +0900
+	id 1p5icl-007Cjz-9s
+	for linux-nvme@lists.infradead.org; Thu, 15 Dec 2022 07:25:50 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20221215072535epoutp03b7c02bbef1119b42244be3049f206fda~w5rcVGXe91035410354epoutp03o
+	for <linux-nvme@lists.infradead.org>; Thu, 15 Dec 2022 07:25:35 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20221215072535epoutp03b7c02bbef1119b42244be3049f206fda~w5rcVGXe91035410354epoutp03o
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1671089135;
+	bh=mupzPIX2SljVVEf2MaGmqai7ObDT2H6SxmFRHi29TkA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=PgBGR3SIlIjdzpB/wI7TS0DjNjeXcMBQbrb5jKgjtSmUhrmcUVyHXiyO4X/7SZSle
+	 lqpKLtlM7PHDQy8x+QpblxcRiPhBCXx8KZwggv7qiPpB3hebmzF9g46o00EX0AUQD+
+	 YuOpkqP25I+WySO6uooxG7y/+HWPTq8yekmhWZS8=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20221215072535epcas5p2d7d2c5b4630a27f2d557dfd94907d659~w5rcJ68_s1623816238epcas5p2J;
+	Thu, 15 Dec 2022 07:25:35 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.177]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4NXkKV2NtHz4x9QN; Thu, 15 Dec
+	2022 07:25:34 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	46.9F.56352.DEBCA936; Thu, 15 Dec 2022 16:25:33 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20221215072533epcas5p2c6d6857a6e90ad299e2a99a81bc18301~w5rZ6DS5L0323803238epcas5p2H;
+	Thu, 15 Dec 2022 07:25:33 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20221215072533epsmtrp1bfde8568069e615ac0e004dfef8a9977~w5rZ5ZMJP1021410214epsmtrp1f;
+	Thu, 15 Dec 2022 07:25:33 +0000 (GMT)
+X-AuditID: b6c32a4b-383ff7000001dc20-12-639acbed8273
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+	9E.8B.18644.CEBCA936; Thu, 15 Dec 2022 16:25:33 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20221215072531epsmtip12c848bc0c2924bae1fe3d2276b389d94~w5rYEdwqN1418514185epsmtip1J;
+	Thu, 15 Dec 2022 07:25:30 +0000 (GMT)
+Date: Thu, 15 Dec 2022 12:44:05 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 9/9] nvme: don't allow unprivileged passthrough of
+ commands that have effects
+Message-ID: <20221215071405.GA27656@test-zns>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Content-Language: en-US
-From: "J. Hart" <jfhart085@gmail.com>
-Subject: nvme nvme0: I/O 0 (I/O Cmd) QID 1 timeout, aborting, source drive
- corruption observed
-To: linux-nvme@lists.infradead.org
-Cc: jfhart085@gmail.com, kbusch@kernel.org, axboe@fb.com, hch@lst.de,
- sagi@grimberg.me
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221214161347.764071-10-hch@lst.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpmk+LIzCtJLcpLzFFi42LZdlhTQ/ft6VnJBrOa5SxWrj7KZDHp0DVG
+	i6dXZzFZzF/2lN1i3ev3LA6sHufvbWTx2LSqk81j85J6j903G9g8epvfsQWwRmXbZKQmpqQW
+	KaTmJeenZOal2yp5B8c7x5uaGRjqGlpamCsp5CXmptoqufgE6Lpl5gAtV1IoS8wpBQoFJBYX
+	K+nb2RTll5akKmTkF5fYKqUWpOQUmBToFSfmFpfmpevlpZZYGRoYGJkCFSZkZ+w45llwS6Li
+	2ZMmpgbGfSJdjJwcEgImEsfWLWXuYuTiEBLYzShxpu0WG4TziVFiz78OVgjnM6PEqqd3WGBa
+	Zs37xQ6R2MUo0X7tHlT/M0aJq73b2ECqWARUJZbP+Q7UzsHBJqApcWFyKUhYREBJ4umrs4wg
+	9cwCPYwS59pXsoIkhAWSJZa+Pglm8wroSjQ+WAplC0qcnPkEbDOngJHElb7F7CC2qICyxIFt
+	x5lABkkIfGSXuLLlIhPEeS4SJyd/YYOwhSVeHd/CDmFLSbzsb4OykyUuzTwHVV8i8XjPQSjb
+	XqL1VD8zyNHMAhkS9877goSZBfgken8/YQIJSwjwSnS0CUFUK0rcm/SUFcIWl3g4YwmU7SFx
+	f0snEyRM1jBKXGhdwziBUW4WkndmIWyYBbbBSqLzQxMrRFhaYvk/DghTU2L9Lv0FjKyrGCVT
+	C4pz01OLTQuM81LL4VGcnJ+7iRGcGrW8dzA+evBB7xAjEwfjIUYJDmYlEd79MrOShXhTEiur
+	Uovy44tKc1KLDzGaAmNnIrOUaHI+MDnnlcQbmlgamJiZmZlYGpsZKonzLp3SkSwkkJ5Ykpqd
+	mlqQWgTTx8TBKdXApMt2+K7PTjUmdrOVdYnnnno3aM2SyeYOq9ff1sbpovZew14xIKrxUbv3
+	GoP2IFNml19mWVP52m0Wa85cHrai9X+5xjZx7f9vj+Qyfbt/ViXQK/xhmsFBXSeFhn+eIYkW
+	XAp2rp4Wymy8GzZMFlhe9dZh29NV/y41fFF5kKCgWyLqK+hqbWu8td/8rcnq8OIfhg90Mnoc
+	ImZq/Voh1d94hF/Ja92Pld0di8/aej6dvu3QptC+tU2uwpyLzzrV6HxdZmnHvLEk6c2lO+0H
+	pgWfLg3jFip4sP7XcgaHSbca/0vcvX7/7cNZGfLT652KzstyMF2Iuj6DXeP9JYUdU49ut9xo
+	2xnhXXpMfL2Q7BYlluKMREMt5qLiRADst3E7FgQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrCLMWRmVeSWpSXmKPExsWy7bCSnO7b07OSDW58YrJYufook8WkQ9cY
+	LZ5encVkMX/ZU3aLda/fsziwepy/t5HFY9OqTjaPzUvqPXbfbGDz6G1+xxbAGsVlk5Kak1mW
+	WqRvl8CVsffoTMaCHrGKHY1X2BsYu4S6GDk5JARMJGbN+8XexcjFISSwg1Hi0LPtLBAJcYnm
+	az/YIWxhiZX/nkMVPWGUOLmmlwkkwSKgKrF8znfWLkYODjYBTYkLk0tBwiICShJPX51lBKln
+	FuhhlDjXvpIVJCEskCyx9PVJMJtXQFei8cFSVoihaxgl7k2eA5UQlDg58wnYFcwCZhLzNj9k
+	BlnALCAtsfwfB0iYU8BI4krfYrDjRAWUJQ5sO840gVFwFpLuWUi6ZyF0L2BkXsUomVpQnJue
+	W2xYYJSXWq5XnJhbXJqXrpecn7uJERzwWlo7GPes+qB3iJGJg/EQowQHs5II736ZWclCvCmJ
+	lVWpRfnxRaU5qcWHGKU5WJTEeS90nYwXEkhPLEnNTk0tSC2CyTJxcEo1MF3MnOqdc3uKAOe5
+	Bxn3n3mvU9paUmedGMStf/YPI/+pT1/We9jz/eB3zS/0sC1UbIpbrfXrP4u68Swdqcjg4+Kb
+	9P8sf5tW8Un07zexHK2Aovu9e7njsjfoV53+1BF/M2R/cS1rUUClkAVPdHuG8uVd7lsqW4wq
+	jopOvmGTJh936sGTAj+1hI2/Pmmf1uHl+by40a74jmjFmettDdb+S5Zpxe7tkJPS6W40L05U
+	cD957VPhreflKUo/eS4uFpu6+4aTxfz5+48qB2of2C93YXWkxPTze4Qfd3+KreY4uudLeNpl
+	s29LGDvcXMrfZV6MutRzaPtpf/k7r62YuI83n7lu81b20AaHK1s+TUvkV2Ipzkg01GIuKk4E
+	AEsQRvHnAgAA
+X-CMS-MailID: 20221215072533epcas5p2c6d6857a6e90ad299e2a99a81bc18301
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----d7wgNpQcY-y3Wxr.o4x8P.ZM-s8jhIouQULCgAQexljrVMsg=_35d6a_"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20221214161926epcas5p49ec1cfa4cdc583b00bf6b8b066eb1964
+References: <20221214161347.764071-1-hch@lst.de>
+	<CGME20221214161926epcas5p49ec1cfa4cdc583b00bf6b8b066eb1964@epcas5p4.samsung.com>
+	<20221214161347.764071-10-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221214_173839_119007_9C5F8548 
-X-CRM114-Status: GOOD (  12.49  )
+X-CRM114-CacheID: sfid-20221214_232548_018037_A11A0483 
+X-CRM114-Status: GOOD (  20.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,124 +130,87 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: jfhart085@gmail.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I am attempting to load an nvme device (nvme0n1) to use as main system 
-drive using the following command:
+------d7wgNpQcY-y3Wxr.o4x8P.ZM-s8jhIouQULCgAQexljrVMsg=_35d6a_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-rsync -axvH /. --exclude=/lost+found --exclude=/var/log.bu 
---exclude=/usr/var/log.bu --exclude=/usr/X11R6/var/log.bu 
---exclude=/home/jhart/.cache/mozilla/firefox/are7uokl.default-release/cache2.bu 
---exclude=/home/jhart/.cache/thunderbird/7zsnqnss.default/cache2.bu 
-/mnt/root_new 2>&1 | tee root.log
+On Wed, Dec 14, 2022 at 05:13:47PM +0100, Christoph Hellwig wrote:
+>Commands like Write Zeros can change the contents of a namespaces without
+>actually transferring data.  To protect against this check the Commands
+>Supported and Effects log and refuse unprivileged passthrough if the
+>command has any effects.  This also includes more intrusive effects which
+>currently can't happen for I/O commands.
+>
+>Fixes: e4fbcf32c860 ("nvme: identify-namespace without CAP_SYS_ADMIN")
+>Signed-off-by: Christoph Hellwig <hch@lst.de>
+>---
+> drivers/nvme/host/ioctl.c | 15 ++++++++-------
+> 1 file changed, 8 insertions(+), 7 deletions(-)
+>
+>diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+>index a371209ee5e6d4..90e3a4a711bd17 100644
+>--- a/drivers/nvme/host/ioctl.c
+>+++ b/drivers/nvme/host/ioctl.c
+>@@ -11,6 +11,8 @@
+> static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
+> 		fmode_t mode)
+> {
+>+	u8 opcode = c->common.opcode;
+>+
+> 	if (capable(CAP_SYS_ADMIN))
+> 		return true;
+>
+>@@ -18,8 +20,7 @@ static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
+> 	 * Do not allow unprivileged processes to send vendor specific or fabrics
+> 	 * commands as we can't be sure about their effects.
+> 	 */
+>-	if (c->common.opcode >= nvme_cmd_vendor_start ||
+>-	    c->common.opcode == nvme_fabrics_command)
+>+	if (opcode >= nvme_cmd_vendor_start || opcode == nvme_fabrics_command)
+> 		return false;
+>
+> 	/*
+>@@ -29,7 +30,7 @@ static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
+> 	 * potentially sensitive information.
+> 	 */
+> 	if (!ns) {
+>-		if (c->common.opcode == nvme_admin_identify) {
+>+		if (opcode == nvme_admin_identify) {
+> 			switch (c->identify.cns) {
+> 			case NVME_ID_CNS_NS:
+> 			case NVME_ID_CNS_CS_NS:
+>@@ -43,11 +44,11 @@ static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
+> 	}
+>
+> 	/*
+>-	 * Only allow I/O commands that transfer data to the controller if the
+>-	 * special file is open for writing, but always allow I/O commands that
+>-	 * transfer data from the controller.
+>+	 * Only allow I/O commands that transfer data to the controller, change
+>+	 * the logical block content or have any other intrusive effects if the
+>+	 * special file is open for writing.
 
-The total transfer would be approximately 50 GB.  This is being done at 
-run level 1, and only the kernel threads and the root shell are observed 
-to be active.
+nit: trailing whitespace at the end of above line.
 
-The following log messages appear after a minute or so, and rsync hangs. 
-The nvme drive cannot be unmounted without a reboot.
+> 	 */
+>-	if (nvme_is_write(c))
+>+	if (nvme_is_write(c) || nvme_command_effects(ns->ctrl, ns, opcode))
+> 		return mode & FMODE_WRITE;
 
-dmesg reports the following:
+So even for operation that do not alter anything (e.g. nvme_cmd_read)
+nvme_is_write will return false, but nvme_command_effects will return
+true and we will ask for FMODE_WRITE. Is that intentional?
 
-[Dec14 19:24] nvme nvme0: I/O 0 (I/O Cmd) QID 1 timeout, aborting
-[Dec14 19:25] nvme nvme0: I/O 0 QID 1 timeout, reset controller
-[ +30.719985] nvme nvme0: I/O 8 QID 0 timeout, reset controller
-[Dec14 19:28] nvme nvme0: Device not ready; aborting reset, CSTS=0x1
-[  +0.031803] nvme nvme0: Abort status: 0x371
-[Dec14 19:30] nvme nvme0: Device not ready; aborting reset, CSTS=0x1
-[  +0.000019] nvme nvme0: Removing after probe failure status: -19
+I think doing 
+"nvme_command_effects(ctrl, ns, opcode) & ~NVME_CMD_EFFECTS_CSUPP"
+is better to avoid that?
 
-I have also observed file system corruption on the source drive of the 
-transfer.  I would not normally think this to be related, except that 
-after the first time I observed it, I made certain that I corrected the 
-file content before any additional attempts, but have seen this again 
-after every attempt.  The modification dates and file sizes did not 
-change, but the file content on the source drive did.  I confirmed this 
-using the "diff" utility, and again using a rsync dry run with the check 
-sum test enabled.
-
-kernel/distro:
-
-Linux DellXPS 6.1.0 #1 SMP Tue Dec 13 21:48:51 JST 2022 x86_64 GNU/Linux
-custom distribution built entirely from source
-
-nvme controller:
-
-MZHOU M.2 NVME SSD-PCIe 4.0 X4 adaptor
-Key-M NGFF PCI-E 3.0、2.0 or 1.0 controller expansion cards
-(2230 2242 2260 2280 22110 M.2 SSD）
-
-02:00.0 Non-Volatile memory controller: Kingston Technologies Device 
-500f (rev 03) (prog-if 02)
-         Subsystem: Kingston Technologies Device 500f
-         Flags: bus master, fast devsel, latency 0, IRQ 16
-         Memory at ef9fc000 (64-bit, non-prefetchable) [size=16K]
-         Capabilities: [40] Power Management version 3
-         Capabilities: [50] MSI: Enable- Count=1/8 Maskable+ 64bit+
-         Capabilities: [70] Express Endpoint, MSI 00
-         Capabilities: [b0] MSI-X: Enable- Count=16 Masked-
-         Kernel driver in use: nvme
-
-nvme drive:
-
-Model Number:                       KINGSTON SNVSE500G
-Serial Number:                      50026B7685D8EE42
-Firmware Version:                   S8542105
-PCI Vendor/Subsystem ID:            0x2646
-IEEE OUI Identifier:                0x0026b7
-Controller ID:                      1
-NVMe Version:                       1.3
-Number of Namespaces:               1
-Namespace 1 Size/Capacity:          500,107,862,016 [500 GB]
-Namespace 1 Formatted LBA Size:     512
-Namespace 1 IEEE EUI-64:            0026b7 685d8ee425
-Local Time is:                      Tue Nov 29 20:31:21 2022 JST
-Firmware Updates (0x12):            1 Slot, no Reset required
-Optional Admin Commands (0x0016):   Format Frmw_DL Self_Test
-Optional NVM Commands (0x005f):     Comp Wr_Unc DS_Mngmt Wr_Zero 
-Sav/Sel_Feat Timestmp
-Log Page Attributes (0x03):         S/H_per_NS Cmd_Eff_Lg
-Maximum Data Transfer Size:         64 Pages
-Warning  Comp. Temp. Threshold:     85 Celsius
-Critical Comp. Temp. Threshold:     90 Celsius
-
-CPU (quad core, cpu 0 shown, others the same):
-
-processor	: 0
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 23
-model name	: Intel(R) Core(TM)2 Quad  CPU   Q9550  @ 2.83GHz
-stepping	: 7
-microcode	: 0x705
-cpu MHz		: 1999.839
-cache size	: 6144 KB
-physical id	: 0
-siblings	: 4
-core id		: 0
-cpu cores	: 4
-apicid		: 0
-initial apicid	: 0
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 10
-wp		: yes
-flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov 
-pat pse36 clflush dts acpi mmx fxsr sse sse2 ht tm pbe syscall nx lm 
-constant_tsc arch_perfmon pebs bts rep_good nopl cpuid aperfmperf pni 
-dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm sse4_1 
-lahf_lm pti tpr_shadow vnmi flexpriority vpid dtherm
-vmx flags	: vnmi flexpriority tsc_offset vtpr vapic
-bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds 
-swapgs itlb_multihit mmio_unknown
-bogomips	: 5666.43
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 36 bits physical, 48 bits virtual
-power management:
+------d7wgNpQcY-y3Wxr.o4x8P.ZM-s8jhIouQULCgAQexljrVMsg=_35d6a_
+Content-Type: text/plain; charset="utf-8"
 
 
+------d7wgNpQcY-y3Wxr.o4x8P.ZM-s8jhIouQULCgAQexljrVMsg=_35d6a_--
 
