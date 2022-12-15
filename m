@@ -4,57 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48672C4332F
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Dec 2022 13:09:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DF515C4332F
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Dec 2022 13:26:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ToUWiIXSQPRI5dpDtsV5SElyAS3W+l1iyq2mJws9KlM=; b=rG+YtV7G6OwnzLH1vK1NJZa8/Q
-	aJJsoWCDOmkbF1BcNh5TuJtzvVea/HHuhzDiFEy87bWqH+zr9zVBBczvkutgwtTbXCB07b/iia6Jh
-	rW+DbU9LBMpUdaj8tzhcrsYL8S1+eD1f6LssIoPNVmA4ao5y/2sMoe7gNQIj25eU/3VOi1llf4ADu
-	vcngLIJUDXEFxuYzLmSl1TIMJAQWpkMhrIYlLscU6CBf6HolnCZXQsgYiotH8V2VUDMa3yabQEHKr
-	QqFgG/Ee6zy5TeDnRIyDcgSypKpu05j05aYL21xtGmVhR0QAcfFGHMWDHbaj+DdJmY+BYYtiAPDw8
-	tr9rW/9w==;
+	bh=Lfyznicvu9wmSkoueir3T1fux28G3gsvbbw7dQBRnKs=; b=rop6Iz9DdS/Uix7kmz9NfQ60XZ
+	XfpsHRs2XmlCzTgbKZ4XHMIHHGv4o7ZdcB7bItx6+jQqkk3RuUY90PlJ3xZbGitLr5RykHXMCYIdQ
+	2Lrr2YX0VmYmwhPoTUry6EPi/lme5WT5J4PLCqcwuivMUID4QAdqv5dN2cSY1qbZHJZtLJQ9/C3x8
+	ICT8iarRuptrn9FMKnpha3spdzk5kHrMbwdLnbMes3VEurRtNg9s8hXdXjVY0t5mDuF7bkaSrI7Zt
+	osM6gfbeTdp5NT6zycnEAA4IN8WMvvKadEKr4V49Fg7M+UcvXon/lbthr8FXvqPvcFYZXCbYFmsrE
+	JplR8O0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p5nys-009VQ2-2N; Thu, 15 Dec 2022 13:08:58 +0000
-Received: from ms.lwn.net ([2600:3c01:e000:3a1::42])
+	id 1p5oFt-009YKU-2a; Thu, 15 Dec 2022 13:26:33 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p5nyq-009VOD-Ag
-	for linux-nvme@lists.infradead.org; Thu, 15 Dec 2022 13:08:57 +0000
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C2338735;
-	Thu, 15 Dec 2022 13:08:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C2338735
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1671109728; bh=ToUWiIXSQPRI5dpDtsV5SElyAS3W+l1iyq2mJws9KlM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=iICZvmolEZyTiuzGZ2Lq0O3x31bvfgE8MW1ww6GdThWTmIqlGkC3ceb8fvIJWvONl
-	 RnBAOD95lCbJUP16U+jK/+EwcK9syCEl9MHEQOZNE5eEn3BLtyuNnaG5DCfg8uN/wL
-	 Wpglw1kWHZA9Vgtm5vdU31nr21w/X7ZgXTU6kn7gyKlo1ZS0i2WJ6i5jI1DXpEhV+J
-	 b52pO3yNReNIQNYjv651z44RPY54p1i2FTxCsEIbrODhNHWjpgFfEbbYvpSG0s6JZA
-	 KM0ivYeevv/amnq3hR3G1KW6Eooige1y8jniO117LqmcGEVJjQqt6yJJOqWzjsShDe
-	 dXL3QEzpp5xag==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Christoph Hellwig <hch@lst.de>, axboe@meta.com, sagi@grimberg.me,
- kbusch@kernel.org
-Cc: linux-nvme@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
+	id 1p5oFp-009YIy-VA
+	for linux-nvme@lists.infradead.org; Thu, 15 Dec 2022 13:26:31 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id F1E9E68AA6; Thu, 15 Dec 2022 14:26:22 +0100 (CET)
+Date: Thu, 15 Dec 2022 14:26:22 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Christoph Hellwig <hch@lst.de>, axboe@meta.com, sagi@grimberg.me,
+	kbusch@kernel.org, linux-nvme@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>
 Subject: Re: [PATCH] docs, nvme: add a feature and quirk policy document
-In-Reply-To: <20221215125130.261098-1-hch@lst.de>
-References: <20221215125130.261098-1-hch@lst.de>
-Date: Thu, 15 Dec 2022 06:08:44 -0700
-Message-ID: <87zgboddb7.fsf@meer.lwn.net>
+Message-ID: <20221215132622.GA21083@lst.de>
+References: <20221215125130.261098-1-hch@lst.de> <87zgboddb7.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87zgboddb7.fsf@meer.lwn.net>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221215_050856_384514_167A5352 
-X-CRM114-Status: GOOD (  13.68  )
+X-CRM114-CacheID: sfid-20221215_052630_168516_7B5C0227 
+X-CRM114-Status: GOOD (  11.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,27 +59,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Christoph Hellwig <hch@lst.de> writes:
+On Thu, Dec 15, 2022 at 06:08:44AM -0700, Jonathan Corbet wrote:
+> The document looks fine, but I do wonder if it wouldn't be better placed
+> with the other maintainer entries in Documentation/maintainer?
 
-> This adds a document about what specification features are supported by
-> the Linux NVMe driver, and what qualifies for a quirk if an implementation
-> has problems following the specification.
->
-> Signed-off-by: Jens Axboe <axboe@kernel.dk>
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  Documentation/process/index.rst               |  1 +
->  .../process/nvme-feature-and-quirk-policy.rst | 77 +++++++++++++++++++
->  MAINTAINERS                                   |  1 +
->  3 files changed, 79 insertions(+)
->  create mode 100644 Documentation/process/nvme-feature-and-quirk-policy.rst
-
-The document looks fine, but I do wonder if it wouldn't be better placed
-with the other maintainer entries in Documentation/maintainer?
-
-Thanks,
-
-jon
+Hmm, nothing in there looks very similar to me, while process
+seems to have real policy documents.  But we can live with either
+place.
 
