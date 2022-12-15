@@ -4,42 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B414CC4167B
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Dec 2022 17:04:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17424C4332F
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Dec 2022 17:34:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/AMHjS2IjbcijjovBD6i5h4XxYqdhXTlZ7Bp+d3CoLA=; b=VFtyGWSyGHarrkMz4co28Qq/Lb
-	NRSjDFTOKWuenKSRFF4I3VVImKVfV3J1SozUI0oqZ+TT7heNUOfkpJBL18sycZfuP9AxRCv49FpXV
-	ecgFxJJsl69zk938TQHC3uCxJzMoLHPwgDIWrDBxRb/OPuZsQ60dyyDMwzhW56YIliN6lr8G/CkQa
-	lFkOE3/otYjsun6V7Atp9pM6yhEZ94BY0vrCQQmFh7CZAy0NgxvwaF7wFNpcatbh3Jd15kxzbkT0h
-	WjYS1x/nqxYH4awoQ0thyB1qVtoe2UthLWjrJn55v1n1/Vy+Q3j0gLTQqWYT79Tr/ChexfHmine5Y
-	iNkayngg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Y9KYzF4BhQqvtnv+0YNM4AnjYPUg53FLlvPZu0nHcyQ=; b=roU27ItLN6YyF2tZiS1PGNqAh0
+	UZPGoaIe+BCQXXL3ky0JlMp7JIeMZevQRVX2p2yk9koPHc4dAS9ZOoTwokSrvveBlqJp5U+iHR8mi
+	BNuwnMQcyG1qFp/HPbw1gOjF12jRFp9AuAFajlX8jYT3Ru/bA4NopG/iNhaJpTUKhwMuuTiz4G+kd
+	Xfiq8qzfsqMe4ABZllYIqE2GjacbcSKhOTkOEVJTtQnMMSg5LPcQNen4TL8xU01CVsm6bAduUPfEJ
+	fg4x9kI63CdVSw4u+4shXC1lDz3D+XBDjWri8zFYpcfAE5kg61oRUfq5i3Q14u0rNHH2EpTX2KbYu
+	M7mD0qIA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p5reo-00ATEl-PS; Thu, 15 Dec 2022 17:04:30 +0000
-Received: from [2601:1c2:d80:3110::a2e7]
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p5rej-00ATDS-FC; Thu, 15 Dec 2022 17:04:25 +0000
-Message-ID: <fac7f8be-58da-f588-f6e4-4cf64529d55d@infradead.org>
-Date: Thu, 15 Dec 2022 09:04:23 -0800
+	id 1p5s7l-00AaY2-7x; Thu, 15 Dec 2022 17:34:25 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1p5s7i-00AaVL-N5
+	for linux-nvme@lists.infradead.org; Thu, 15 Dec 2022 17:34:24 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 5827B61E63;
+	Thu, 15 Dec 2022 17:34:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B9D6C433D2;
+	Thu, 15 Dec 2022 17:34:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1671125660;
+	bh=yw4uz2eLuZgGnF14wa6C87SbhDDrGqPmpYj/psOowDE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gi5PKVHc8okRurg5DvbSv2gdmHDuQBs0fejFcdcYAnaBB5lG0GOd4fP4Vkghn2TEA
+	 AnjkWquzIkvTLiPEEmq0v8FeW6Lvylo4ZpQN2Ve2d4TgcTf2VDen4UctVLPkJdPpsC
+	 g0NBqSMtX+Go3vsHVWAHbs2t6bREoiChN7ozEVUTRLQvDH4ooKAimQlW+h9irRIluE
+	 w8/Dembva4GnVjOJhDb/UyGHbJtPWvJAbrN6V/J7L3O9tSFDDVlO4wleIuZXoZhRJs
+	 imWsz25G2r7Brh3U6ZEpPwi0dstStMdrto79l9N6NyYPvB5uUJiPRhEJ0ZQIw77MmR
+	 lk8iViYeiK2Lw==
+Date: Thu, 15 Dec 2022 10:34:17 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: "J. Hart" <jfhart085@gmail.com>
+Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+	axboe@fb.com, sagi@grimberg.me
+Subject: Re: nvme nvme0: I/O 0 (I/O Cmd) QID 1 timeout, aborting, source
+ drive corruption observed
+Message-ID: <Y5tambspBYRHU5B4@kbusch-mbp.dhcp.thefacebook.com>
+References: <fe013f52-ac3c-4be2-6f1e-e68fea46e4c2@gmail.com>
+ <20221215082344.GB3816@lst.de>
+ <d4c4eea9-e573-df0c-cca5-536bcff6c0a9@gmail.com>
+ <20221215090941.GA5062@lst.de>
+ <3c22a234-f042-4859-a3ab-f911874696b1@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH] docs, nvme: add a feature and quirk policy document
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
- axboe@meta.com, sagi@grimberg.me, kbusch@kernel.org
-Cc: linux-nvme@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
-References: <20221215125130.261098-1-hch@lst.de>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20221215125130.261098-1-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3c22a234-f042-4859-a3ab-f911874696b1@gmail.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20221215_093422_832466_224C1D97 
+X-CRM114-Status: UNSURE (   8.77  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -54,144 +77,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi--
+On Thu, Dec 15, 2022 at 10:33:30PM +0900, J. Hart wrote:
+> [ +26.890018] nvme nvme0: I/O 0 (Write) QID 1 timeout, aborting
+> [Dec15 21:35] nvme nvme0: I/O 0 QID 1 timeout, reset controller
+> [ +30.719998] nvme nvme0: I/O 13 QID 0 timeout, reset controller
+> [Dec15 21:38] nvme nvme0: Device not ready; aborting reset, CSTS=0x1
+> [  +0.014796] nvme nvme0: Abort status: 0x371
+> [Dec15 21:40] nvme nvme0: Device not ready; aborting reset, CSTS=0x1
+> [  +0.000024] nvme nvme0: Removing after probe failure status: -19
+> [Dec15 21:42] nvme nvme0: Device not ready; aborting reset, CSTS=0x1
+> [  +0.000324] nvme0n1: detected capacity change from 976773168 to 0
 
-Just a couple of small nits below...
-
-On 12/15/22 04:51, Christoph Hellwig wrote:
-> This adds a document about what specification features are supported by
-> the Linux NVMe driver, and what qualifies for a quirk if an implementation
-> has problems following the specification.
-> 
-> Signed-off-by: Jens Axboe <axboe@kernel.dk>
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  Documentation/process/index.rst               |  1 +
->  .../process/nvme-feature-and-quirk-policy.rst | 77 +++++++++++++++++++
->  MAINTAINERS                                   |  1 +
->  3 files changed, 79 insertions(+)
->  create mode 100644 Documentation/process/nvme-feature-and-quirk-policy.rst
-> 
-> diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
-> index d4b6217472b0a0..0dc33994ddefc5 100644
-> --- a/Documentation/process/index.rst
-> +++ b/Documentation/process/index.rst
-> @@ -50,6 +50,7 @@ Other guides to the community that are of interest to most developers are:
->     embargoed-hardware-issues
->     maintainers
->     researcher-guidelines
-> +   nvme-feature-and-quirk-policy
->  
->  These are some overall technical guides that have been put here for now for
->  lack of a better place.
-> diff --git a/Documentation/process/nvme-feature-and-quirk-policy.rst b/Documentation/process/nvme-feature-and-quirk-policy.rst
-> new file mode 100644
-> index 00000000000000..eee19f3d9904bd
-> --- /dev/null
-> +++ b/Documentation/process/nvme-feature-and-quirk-policy.rst
-> @@ -0,0 +1,77 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=======================================
-> +Linux NVMe feature and and quirk policy
-> +=======================================
-> +
-> +This file explains the policy used to decide what is supported by the
-> +Linux NVMe driver and what is not.
-> +
-> +
-> +Introduction
-> +============
-> +
-> +NVM Express is an open collection of standards and information.
-> +
-> +The Linux NVMe host driver in drivers/nvme/host/ supports devices
-> +implementing the NVM Express (NVMe) family of specifications, which
-> +currently consists of a number of documents:
-> +
-> + - the NVMe Base specification
-> + - various Command Set specifications (e.g. NVM Command Set)
-> + - various Transport specifications (e.g. PCIe, Fibre Channel, RDMA, TCP)
-> + - the NVMe Management Interface specification
-> +
-> +See https://nvmexpress.org/developers/ for the NVMe specifications.
-> +
-> +
-> +Supported features
-> +==================
-> +
-> +NVMe is a large suite of specifications, and contains features that are only
-> +useful or suitable for specific use-cases. It is important to note that Linux
-> +does not aim to implement every feature in the specification.  Every additional
-> +feature implemented introduces more code, more maintenance and potentially more
-> +bugs.  Hence there is an inherent tradeoff between functionality and
-> +maintainability of the NVMe host driver.
-> +
-> +Any feature implemented in the Linux NVMe host driver must support the
-> +following requirements:
-> +
-> +  1. The feature is specified in a release version of an official NVMe
-> +     specification, or in a ratified Technical Proposal (TP) that is
-> +     available on NVMe website. Or if it is not directly related to the
-> +     on-wire protocol, does not contradict any of the NVMe specifications.
-> +  2. Does not conflict with the Linux architecture, nor the design of the
-> +     NVMe host driver.
-> +  3. Has a clear, indisputable value-proposition and a wide consensus across
-> +     the community.
-> +
-> +Vendor specific extensions are generally not supported in the NVMe host
-> +driver.
-> +
-> +It is strongly recommended to work with the Linux NVMe and block layer
-> +maintainers and get feedback on specification changes that are intended
-> +to be used by the Linux NVMe host driver in order to avoid conflict at a
-> +later stage.
-> +
-> +
-> +Quirks
-> +======
-> +
-> +Sometimes implementations of open standards fail to correctly implement parts
-> +of the standards.  Linux uses identifiers based quirks to work around such
-
-                      Linux uses identifier-based quirks
-
-> +implementation bugs.  The intent of quirks is to deal with widely available
-> +hardware, usually consumer, which Linux users can't use without these quirks.
-> +Typically these implementations are not or only superficially tested with Linux
-> +by the hardware manufacturer.
-> +
-> +The Linux NVMe maintainers decide ad hoc whether to quirk implementations
-> +based on the impact of the problem to Linux users and how it impacts
-> +maintainability of the driver.  In general quirks are a last resort, if no
-> +firmware updates or other workarounds are available from the vendor.
-> +
-> +Quirks will not be added to the Linux kernel for hardware that isn't available
-> +on the mass market.  Hardware that fails qualification for enterprise Linux
-> +distributions, ChromeOS, Android or other consumers of the Linux kernel
-> +should be fixed before it is shipped instead of rely on Linux quirk.
-
-I would s/rely/relying/, but either way:
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index bb77a3ed9d5423..59e9f2dfa842ad 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -14827,6 +14827,7 @@ L:	linux-nvme@lists.infradead.org
->  S:	Supported
->  W:	http://git.infradead.org/nvme.git
->  T:	git://git.infradead.org/nvme.git
-> +F:	Documentation/process/nvme-feature-and-quirk-policy.rst
->  F:	drivers/nvme/host/
->  F:	drivers/nvme/common/
->  F:	include/linux/nvme*
-
--- 
-~Randy
+This looks like your device is completely unresponsive: no ack to IO
+commands, admin commands, or reset sequences. Unfortunately these are
+typically firmware bugs. Without additional guidance from the vendor,
+we don't really have many options to try from the driver: just disabling
+some optional power and performance capabilities, though that often
+doesn't help either.
 
