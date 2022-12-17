@@ -4,64 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8432BC4332F
-	for <linux-nvme@archiver.kernel.org>; Sat, 17 Dec 2022 15:17:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F30AFC4332F
+	for <linux-nvme@archiver.kernel.org>; Sat, 17 Dec 2022 15:18:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
 	Content-Transfer-Encoding:Content-Type:Cc:To:Subject:From:MIME-Version:Date:
 	Message-ID:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=vu8TV454cOhVOMVqKVfXfRenv85rc0qVEFVFBfvvQIo=; b=aOiFyKCbRj3IGW
-	rWP2bCnNSALJ50XR2NASwYyFZDly3vA+KS0scr38JhKx7KP3PS3Tfk7XjwhHnNAg2WwxopMgz+UAl
-	xydTB25Db8WMzEzktbF9KbLIppKO0SYEzSaApGL94QPeZXjzZ5fa76tfBc/gWVh2KUo7CWHlRBN7+
-	sCpuKCPxuuPKxEtUDKoj7j/NxpVroj+CaJniBfFAyyyyrbSQiwtLRly27sQwrjbHF1PdVvpoTpu1c
-	MY9u+CpK0zwY7U8cpLYbY4wwlVa6KbUPmHTUA251AFKt6+2GCL6rFmKdCg7egaCjGwk8AmLV0dK+u
-	9jaDZI26+EYhMQTT6C3g==;
+	List-Owner; bh=w0nnRUK/hY8LYzIO5tTkJ0BP/nBa6PWbTnCZuekGWCY=; b=CjuSQp/Ub2n5nn
+	0KzqBqYH5YVzJ+KMGkiUpAkoxRp5NMIQpZFhtPlJ20bgRFPCQ8yNxrgRWw+DkLMaTly0dVpfmtEhv
+	dkaNLR5rmYM7AFjKH/rtte/nTM+JuY+wYOc3Gt2pzxa4X5eyqI/gEL/XLU6BhX6ylVg73CFvIs8fB
+	oVbJwbJV87CVcUlYOAM4qjkcK4tiU2QdlZ51JEW3q3bdJYfN4mQGXnyD0f7yVjPgnGVPitSuafnqC
+	IIcL1lIaLjsWVGuaUIRYsZmyX7vz5c35GZkR0NkR8fRME0lhKVTzDR8u3iGypx5EOQNjdUdx9XpsD
+	MioXR6l1tl6Vrxa/lcDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p6Ywk-00AXzQ-Cr; Sat, 17 Dec 2022 15:17:54 +0000
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+	id 1p6Ywp-00AY0P-CO; Sat, 17 Dec 2022 15:17:59 +0000
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p6VyF-009G3C-A3
-	for linux-nvme@lists.infradead.org; Sat, 17 Dec 2022 12:07:17 +0000
-Received: by mail-pl1-x635.google.com with SMTP id n4so4814120plp.1
-        for <linux-nvme@lists.infradead.org>; Sat, 17 Dec 2022 04:07:14 -0800 (PST)
+	id 1p6Yn2-00AWKh-8i
+	for linux-nvme@lists.infradead.org; Sat, 17 Dec 2022 15:07:53 +0000
+Received: by mail-pg1-x536.google.com with SMTP id b12so3569244pgj.6
+        for <linux-nvme@lists.infradead.org>; Sat, 17 Dec 2022 07:07:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:content-language:cc:to:reply-to:subject
          :from:user-agent:mime-version:date:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=vu8TV454cOhVOMVqKVfXfRenv85rc0qVEFVFBfvvQIo=;
-        b=XwwLIaJAUuDJCydZsoodoYXXc10ic55z2fIo8r9aJb6yM87pk8Cg1BnNmNfOHn6tvF
-         a2DyWBTdhauXSn/C+4gS/fnlN7ejUSdEI30iC9YfzPqmLpjBPObgotj+qlU/xMJeS95g
-         tdjnLkmW+d4giZs1Jd/Zcp+G5bk2qKBU/RkOZQUURp5ey7SRgOUg8WB6NCchfZE4CIHg
-         b9HqtwDTxBa8Eh6Z/y4C6tSHg/g3Cdkf1hEQ5+t0NEUgNP2Nq7R3SUwxzYNaD11IzYAi
-         tbggQOe2h5C2LVT0pEUg5kqbB/gQSjqTsOPeATf9BSw2HTlNzdie9KyDhNyMCEa3FE6j
-         Fe/Q==
+        bh=w0nnRUK/hY8LYzIO5tTkJ0BP/nBa6PWbTnCZuekGWCY=;
+        b=iGViFTSNyVJRPl3l2rCXE8miA2PTx4SFMqbeJvDGjPXKkpaMKDp44XgC4lk1BFCQSQ
+         S/adRR4nD8Jnyy9fl4fQBSg9Xs9HbyETRbQeYi/rlhoaOeX7q1ly/Ey0fGc/gzkLjb5n
+         7yBhn1SL8hwGM2NnsBNnsSjr1eesq6pl0cwVeEMWlT5571sv+fYjhjbNmwkCcLThwtS0
+         ZlT4VrWiEVuYc2FQHXYLSdLc2y2j5j9uTIn7q4tXEbvMuyNC95YTTIlhTayqtCf4fZPp
+         7XNDM2IWhhGGcWcmx7EC+3P8NNBcFUQxe3Ti9/+pze+KASkoENsqgAnB4nlsORi+M6w7
+         HbZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:content-language:cc:to:reply-to:subject
          :from:user-agent:mime-version:date:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=vu8TV454cOhVOMVqKVfXfRenv85rc0qVEFVFBfvvQIo=;
-        b=VdIv7nM1487jklvdDXBJVDoti3VBbVYPQK9ouR5LvRz8y89WOZZTN4TOdnTms9cnAp
-         wQJwzPhvfKw6L+/fi5Th4rB4ozN+817SdmnNSNDRgn7ijfFti310fJ9Ls8+AqmzmcgeF
-         qrefjTyF0BMb1Hal1q4hwqlWhWo5wFbM/4iwYHL5SuruXciqQzmdlaP42LuHaHuArp3U
-         ALrn6bOPOYpgQFELNx1xuAhdbSjuiW5+IMb13HQZezGfrjNOORUOdBUjZ2gcuf8eHHlj
-         DuMc0NZ7RRwjzM2BAok4LZstddtrIKWGxYEQ9WkTHyS7mkBpXV2VuonP8MaN+/XhgHSP
-         qkfw==
-X-Gm-Message-State: ANoB5pm7zAGtqlfqLJYbUBilqUf+77nEj9wtUE+jJkhQzunGctV6ZDRX
-	q3xbCgHiAYLwhKDhlQ0iHop49UZE5+s=
-X-Google-Smtp-Source: AA0mqf5J3WJRHC58cLtO0Rj6UV9JvPAuf6uecSmDGD8oz6P0B71l6HTXQ9PVsqcEid7cxTpQ8Eq/Hg==
-X-Received: by 2002:a17:902:b494:b0:188:635d:4ca9 with SMTP id y20-20020a170902b49400b00188635d4ca9mr36678095plr.2.1671278833577;
-        Sat, 17 Dec 2022 04:07:13 -0800 (PST)
+        bh=w0nnRUK/hY8LYzIO5tTkJ0BP/nBa6PWbTnCZuekGWCY=;
+        b=EJ9kiuQf+OPxQebUgt+Mc+X25NHJx1mcJm6tqXbBB90DwkvFwPg5ne5p6hNTNS9HAi
+         /qyYlSf9v6cHUQCH/B2esbvQUImtKaA16fVUKnvk4Y5/r4rLY2V0KxLoyTB1HiAw8+pK
+         5VziYUL2N6hc/3Fiayf8e5lKpBV7WKd3cbKl0CYAIyZ5QdFzUu4MqZeIszDMfsEgCoZ7
+         OC/a4gCPkYoQ8oYV9BRiV+1Xtk6bfbCdpjgU13Rjd8x3x5sRkw8IJgG1LbuepN9SenfD
+         wwLP9fOBQewdxTCpSpUpXmioJogQ3bUxrFh1m+s+xDCeaXeGXq08DRFu5kyHOzF6APOi
+         Ow1w==
+X-Gm-Message-State: ANoB5pmEClpGzsoHSwC0LvIEE06FuDHoBG6SolSaSNayOqKUK6GzgRlp
+	26dwoVuBD/Joa7hwLchrtI4xrDp29Kg=
+X-Google-Smtp-Source: AA0mqf4daUJAGbTfOKhcaE0QLqnps9cR7KDruEbso0CM+c1jQqp7bVFehtbloawYkuT50YFqkcPTlw==
+X-Received: by 2002:a05:6a00:1c9d:b0:577:753a:6af with SMTP id y29-20020a056a001c9d00b00577753a06afmr37829595pfw.31.1671289670153;
+        Sat, 17 Dec 2022 07:07:50 -0800 (PST)
 Received: from [192.168.0.23] (q014251.dynamic.ppp.asahi-net.or.jp. [203.181.14.251])
-        by smtp.gmail.com with ESMTPSA id l7-20020a170903244700b001894198d0ebsm3416923pls.24.2022.12.17.04.07.11
+        by smtp.gmail.com with ESMTPSA id c129-20020a624e87000000b0056cea9530b6sm3241854pfb.202.2022.12.17.07.07.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 17 Dec 2022 04:07:13 -0800 (PST)
-Message-ID: <34a2e147-7073-52f0-a52c-f93c26d819dc@gmail.com>
-Date: Sat, 17 Dec 2022 21:07:09 +0900
+        Sat, 17 Dec 2022 07:07:49 -0800 (PST)
+Message-ID: <26d4d46f-0ffe-44dc-de40-b18729ab3783@gmail.com>
+Date: Sun, 18 Dec 2022 00:07:46 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.1
@@ -76,9 +76,8 @@ Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Bad-Reply: 'Re:' in Subject but no References or In-Reply-To headers
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221217_040716_129851_9B9BF76A 
-X-CRM114-Status: UNSURE (   4.78  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221217_070752_370234_5EDE387D 
+X-CRM114-Status: GOOD (  11.18  )
 X-Mailman-Approved-At: Sat, 17 Dec 2022 07:17:52 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -95,7 +94,89 @@ Reply-To: jfhart085@gmail.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I have replaced the Kingston NV1-E 500 GB NVME SSD drive with a Samsung 970 EVO Plus 500GB NVME SSD drive.  I retained the same PCIe controller (Mzhou M.2 NVME SSD-PCIe 4.0 X4 adapter).  I then attempted the same rsync transfer at single user run level as I had done before with the Kingston NVME SSD.  The transfer has apparently completed successfully and without incident. No unusual log messages or corruption was observed.
+I have done an fsck check on the /dev/nvme0n1p3 file system after the 
+rsync invocation referenced earlier.  In the first run I found errors 
+which fsck should have repaired if I understand correctly.  In repeating 
+the fsck invocation immediately afterwards, I found errors again each time.
+This was done using the replacement Samsung nvme ssd (Samsung 970 EVO 
+Plus 500G).
+
+Here is the output :
+
+-bash-3.2# fsck -f -C /dev/nvme0n1p3
+fsck from util-linux 2.34
+e2fsck 1.42.12 (29-Aug-2014)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure 
+
+Pass 3: Checking directory connectivity 
+
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information 
+
+Block bitmap differences:  -87163220 -87163384 -87187960 -122079572 
+-122079736
+Fix<y>? yes
+ 
+
+/dev/nvme0n1p3: ***** FILE SYSTEM WAS MODIFIED *****
+/dev/nvme0n1p3: 699563/30523392 files (0.1% non-contiguous), 
+13841458/122079744 blocks
+-bash-3.2# fsck -f -C /dev/nvme0n1p3
+fsck from util-linux 2.34
+e2fsck 1.42.12 (29-Aug-2014)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure 
+
+Pass 3: Checking directory connectivity 
+
+Pass 4: Checking reference counts 
+
+Pass 5: Checking group summary information 
+
+Block bitmap differences:  -87163220 -87163384 -122079736 
+
+Fix<y>? yes
+ 
+
+/dev/nvme0n1p3: ***** FILE SYSTEM WAS MODIFIED *****
+/dev/nvme0n1p3: 699563/30523392 files (0.1% non-contiguous), 
+13841458/122079744 blocks
+-bash-3.2# fsck -f -C /dev/nvme0n1p3
+fsck from util-linux 2.34
+e2fsck 1.42.12 (29-Aug-2014)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure 
+
+Pass 3: Checking directory connectivity 
+
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information 
+
+Block bitmap differences:  -87163220 -87163384 -122079572 -122079736 
+
+Fix<y>? yes
+ 
+
+/dev/nvme0n1p3: ***** FILE SYSTEM WAS MODIFIED *****
+/dev/nvme0n1p3: 699563/30523392 files (0.1% non-contiguous), 
+13841458/122079744 blocks
+
+
+I also tried loading a smaller partition on the Samsung card at 
+/dev/nvme0n1p3.  The copy stopped with a "no space left on device" 
+error, which should not have been possible as the source device is a 
+32MB partition, and the destination partition on the nvme ssd is a 64MB 
+partition.  The two files to be transferred were very small and could 
+not have accounted for this as they totaled less than 5MB. I found file 
+system damage on the nvme destination partition in this case as well. 
+It also occurred repeatedly. I am still investigating this last case.
+
+In no instance did I note any otherwise unusual log messages or errors 
+from the nvme driver.
+
+I do not yet know if there has been any damage to any other filesystems, 
+but I will check.
 
 J. Hart
 
