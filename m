@@ -4,64 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F1AE2C4332F
-	for <linux-nvme@archiver.kernel.org>; Sun, 18 Dec 2022 14:48:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8332EC4167B
+	for <linux-nvme@archiver.kernel.org>; Sun, 18 Dec 2022 16:04:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=AOPn6y10bYOSxvVF27RXRz7Hz8uLMe73TNRJFqTrkts=; b=plwdYqTCk6JL1KUhMFfj2c7OEg
-	3OqJCXAFevqKGXGQHNUaxywgSCpsBmh6Z9FgIvrVWQmnng6Yjp2KFc70PXkzrSvlQIZRW4v4dNYen
-	yaQcEg1GtyOso8t4ruBr/9c+5UgWVR0VNiQRn0O7prLxLoWiDuOLiefESTODpB9SuDM53ZyNl72nF
-	N83UdWgDATQ+ioqhLs4MY48PkigcVWockKhwl+shmTldW41dfVB2WVw1NKas8PnZCJVQo1dfizaqd
-	3x9rfOLe0W5ert9B9z+3nVteZrIUuhoEozG5pxQGcqwmlmMM55cX6pxdGrLTUNTW7N5IbOuvklzHP
-	QY8Ljd3A==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HxQqVF7aS8U+VXB9qqStHMuH4Hjq4oE4ZYJVyCIYQIg=; b=SHjci8PEQ2FiWNzpm1cel/8oO8
+	K0BLRtwYt+u5642t5UwlIiZKxIaFdOFqH8WEmpNkvmyy/o8a+EgWpFEw4K2OkSA6ED52VMLZ63BsT
+	hgCg/bNNZKZTB32IA1wRT8AcbwgfREcuP7qBKFj7zTsobbD6hm6hFws/PTjeNuQcymfOkfJJyDi54
+	P9DgtxQM3VwnHvYMVoAj16/IsBS4tiHKhcr4He+IQY482V/1LZ/8olMaDktaZcBt1w8KzHdU/3LI8
+	ubDENp0w2CJDMWpeAtpCXo+DWjLYuByX/rrLMfQnSLuYXXSaDyEvks2KUmRADu1JeCDlUJRJvJ4f+
+	5R+wvVxg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p6uxp-002K11-Lb; Sun, 18 Dec 2022 14:48:29 +0000
-Received: from [106.39.185.57] (helo=smtp.cecloud.com)
-	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p6uxk-002Jmv-Bk
-	for linux-nvme@lists.infradead.org; Sun, 18 Dec 2022 14:48:27 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by smtp.cecloud.com (Postfix) with ESMTP id 3556FFC0211;
-	Sun, 18 Dec 2022 22:48:08 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ANTISPAM-LEVEL: 2
-X-ABS-CHECKED: 0
-Received: from localhost.localdomain (unknown [111.48.58.13])
-	by smtp.cecloud.com (postfix) whith ESMTP id P51403T281471008829808S1671374887345492_;
-	Sun, 18 Dec 2022 22:48:08 +0800 (CST)
-X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <53abd23ad80099375099aef9b99e5955>
-X-RL-SENDER: zhangyanjun@cestc.cn
-X-SENDER: zhangyanjun@cestc.cn
-X-LOGIN-NAME: zhangyanjun@cestc.cn
-X-FST-TO: kbusch@kernel.org
-X-RCPT-COUNT: 7
-X-SENDER-IP: 111.48.58.13
-X-ATTACHMENT-NUM: 0
-X-System-Flag: 0
-From: zhangyanjun@cestc.cn
-To: kbusch@kernel.org,
+	id 1p6w9l-002nRQ-0i; Sun, 18 Dec 2022 16:04:53 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1p6w9h-002nOj-Ec
+	for linux-nvme@lists.infradead.org; Sun, 18 Dec 2022 16:04:51 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 1215460DD5;
+	Sun, 18 Dec 2022 16:04:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5A19C433F1;
+	Sun, 18 Dec 2022 16:04:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1671379488;
+	bh=payr6Zz9b7V+tYyl8ijR5b+RPG29xwu55hsg8ntU0cU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=plYfwaYejzj2vDU+Vhf0yDBM/QTRYwbsOP00QSb+8khbStGfRD2fDhL6eSahg+Pft
+	 VuQDpGF5A37zUaMfsHLM5b9k1aDSzhUxxSnKob7wPHOAPinjM2hqa0WX1RkEMOGqVf
+	 ibV/ZNxe3dNAySCO9HO6YStQtH16R4z7PaF/Ouy2ohKZyQphrQ9FfA4lwg6JSf4oZu
+	 QkZ2twRYixjUmbkfLvDZf5CZnHZVLoja7d2s5zX1ggb/m/BlcWXMi19lVmjq5sHCrW
+	 TxnQpSeRJt0PhiSgx6yBydPinqRUjeWnv8vfzrTNJcItdUyScpzNG6MlfW2sVzmIip
+	 Ldt/BmjJW6RhQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Hannes Reinecke <hare@suse.de>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Sasha Levin <sashal@kernel.org>,
+	kbusch@kernel.org,
 	axboe@fb.com,
-	sagi@grimberg.me,
-	hch@lst.de
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Yanjun Zhang <zhangyanjun@cestc.cn>
-Subject: [PATCH] nvme: fix multipath crash caused by flush request when blktrace is enabled
-Date: Sun, 18 Dec 2022 22:48:07 +0800
-Message-Id: <20221218144807.6383-1-zhangyanjun@cestc.cn>
-X-Mailer: git-send-email 2.31.1
+	linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.1 47/85] nvme-auth: don't override ctrl keys before validation
+Date: Sun, 18 Dec 2022 11:01:04 -0500
+Message-Id: <20221218160142.925394-47-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221218160142.925394-1-sashal@kernel.org>
+References: <20221218160142.925394-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221218_064824_771563_AADF186D 
-X-CRM114-Status: GOOD (  13.14  )
+X-CRM114-CacheID: sfid-20221218_080449_788541_51056A3C 
+X-CRM114-Status: GOOD (  11.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,77 +80,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Yanjun Zhang <zhangyanjun@cestc.cn>
+From: Sagi Grimberg <sagi@grimberg.me>
 
-The flush request initialized by blk_kick_flush has NULL bio,
-and it may be dealt with nvme_end_req during io completion.
-When blktrace is enabled, nvme_trace_bio_complete with multipath
-activated trying to access NULL pointer bio from flush request
-results in the following crash:
+[ Upstream commit 01604350e14560d4d69323eb1ba12a257a643ea8 ]
 
-[ 2517.831677] BUG: kernel NULL pointer dereference, address: 000000000000001a
-[ 2517.835213] #PF: supervisor read access in kernel mode
-[ 2517.838724] #PF: error_code(0x0000) - not-present page
-[ 2517.842222] PGD 7b2d51067 P4D 0
-[ 2517.845684] Oops: 0000 [#1] SMP NOPTI
-[ 2517.849125] CPU: 2 PID: 732 Comm: kworker/2:1H Kdump: loaded Tainted: G S                5.15.67-0.cl9.x86_64 #1
-[ 2517.852723] Hardware name: XFUSION 2288H V6/BC13MBSBC, BIOS 1.13 07/27/2022
-[ 2517.856358] Workqueue: nvme_tcp_wq nvme_tcp_io_work [nvme_tcp]
-[ 2517.859993] RIP: 0010:blk_add_trace_bio_complete+0x6/0x30
-[ 2517.863628] Code: 1f 44 00 00 48 8b 46 08 31 c9 ba 04 00 10 00 48 8b 80 50 03 00 00 48 8b 78 50 e9 e5 fe ff ff 0f 1f 44 00 00 41 54 49 89 f4 55 <0f> b6 7a 1a 48 89 d5 e8 3e 1c 2b 00 48 89 ee 4c 89 e7 5d 89 c1 ba
-[ 2517.871269] RSP: 0018:ff7f6a008d9dbcd0 EFLAGS: 00010286
-[ 2517.875081] RAX: ff3d5b4be00b1d50 RBX: 0000000002040002 RCX: ff3d5b0a270f2000
-[ 2517.878966] RDX: 0000000000000000 RSI: ff3d5b0b021fb9f8 RDI: 0000000000000000
-[ 2517.882849] RBP: ff3d5b0b96a6fa00 R08: 0000000000000001 R09: 0000000000000000
-[ 2517.886718] R10: 000000000000000c R11: 000000000000000c R12: ff3d5b0b021fb9f8
-[ 2517.890575] R13: 0000000002000000 R14: ff3d5b0b021fb1b0 R15: 0000000000000018
-[ 2517.894434] FS:  0000000000000000(0000) GS:ff3d5b42bfc80000(0000) knlGS:0000000000000000
-[ 2517.898299] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 2517.902157] CR2: 000000000000001a CR3: 00000004f023e005 CR4: 0000000000771ee0
-[ 2517.906053] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[ 2517.909930] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[ 2517.913761] PKRU: 55555554
-[ 2517.917558] Call Trace:
-[ 2517.921294]  <TASK>
-[ 2517.924982]  nvme_complete_rq+0x1c3/0x1e0 [nvme_core]
-[ 2517.928715]  nvme_tcp_recv_pdu+0x4d7/0x540 [nvme_tcp]
-[ 2517.932442]  nvme_tcp_recv_skb+0x4f/0x240 [nvme_tcp]
-[ 2517.936137]  ? nvme_tcp_recv_pdu+0x540/0x540 [nvme_tcp]
-[ 2517.939830]  tcp_read_sock+0x9c/0x260
-[ 2517.943486]  nvme_tcp_try_recv+0x65/0xa0 [nvme_tcp]
-[ 2517.947173]  nvme_tcp_io_work+0x64/0x90 [nvme_tcp]
-[ 2517.950834]  process_one_work+0x1e8/0x390
-[ 2517.954473]  worker_thread+0x53/0x3c0
-[ 2517.958069]  ? process_one_work+0x390/0x390
-[ 2517.961655]  kthread+0x10c/0x130
-[ 2517.965211]  ? set_kthread_struct+0x40/0x40
-[ 2517.968760]  ret_from_fork+0x1f/0x30
-[ 2517.975745]  <TASK>
+Replace ctrl ctrl_key/host_key only after nvme_auth_generate_key is successful.
+Also, this fixes a bug where the keys are leaked.
 
-To avoid this situation, add one more req->cmd_flags check with
-REQ_OP_FLUSH before calling trace_block_bio_complete.
-
-Signed-off-by: Yanjun Zhang <zhangyanjun@cestc.cn>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/nvme.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a29877217..69b7a2b57 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -888,7 +888,7 @@ static inline void nvme_trace_bio_complete(struct request *req)
- {
- 	struct nvme_ns *ns = req->q->queuedata;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 7e3893d06bab..c69dcc0e3d67 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3745,13 +3745,17 @@ static ssize_t nvme_ctrl_dhchap_secret_store(struct device *dev,
+ 	memcpy(dhchap_secret, buf, count);
+ 	nvme_auth_stop(ctrl);
+ 	if (strcmp(dhchap_secret, opts->dhchap_secret)) {
++		struct nvme_dhchap_key *key, *host_key;
+ 		int ret;
  
--	if (req->cmd_flags & REQ_NVME_MPATH)
-+	if (req->cmd_flags & REQ_NVME_MPATH && req_op(req) != REQ_OP_FLUSH)
- 		trace_block_bio_complete(ns->head->disk->queue, req->bio);
- }
+-		ret = nvme_auth_generate_key(dhchap_secret, &ctrl->host_key);
++		ret = nvme_auth_generate_key(dhchap_secret, &key);
+ 		if (ret)
+ 			return ret;
+ 		kfree(opts->dhchap_secret);
+ 		opts->dhchap_secret = dhchap_secret;
++		host_key = ctrl->host_key;
++		ctrl->host_key = key;
++		nvme_auth_free_key(host_key);
+ 		/* Key has changed; re-authentication with new key */
+ 		nvme_auth_reset(ctrl);
+ 	}
+@@ -3795,13 +3799,17 @@ static ssize_t nvme_ctrl_dhchap_ctrl_secret_store(struct device *dev,
+ 	memcpy(dhchap_secret, buf, count);
+ 	nvme_auth_stop(ctrl);
+ 	if (strcmp(dhchap_secret, opts->dhchap_ctrl_secret)) {
++		struct nvme_dhchap_key *key, *ctrl_key;
+ 		int ret;
  
+-		ret = nvme_auth_generate_key(dhchap_secret, &ctrl->ctrl_key);
++		ret = nvme_auth_generate_key(dhchap_secret, &key);
+ 		if (ret)
+ 			return ret;
+ 		kfree(opts->dhchap_ctrl_secret);
+ 		opts->dhchap_ctrl_secret = dhchap_secret;
++		ctrl_key = ctrl->ctrl_key;
++		ctrl->ctrl_key = key;
++		nvme_auth_free_key(ctrl_key);
+ 		/* Key has changed; re-authentication with new key */
+ 		nvme_auth_reset(ctrl);
+ 	}
 -- 
-2.31.1
-
-
+2.35.1
 
 
