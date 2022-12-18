@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8332EC4167B
-	for <linux-nvme@archiver.kernel.org>; Sun, 18 Dec 2022 16:04:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5404C4332F
+	for <linux-nvme@archiver.kernel.org>; Sun, 18 Dec 2022 16:11:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HxQqVF7aS8U+VXB9qqStHMuH4Hjq4oE4ZYJVyCIYQIg=; b=SHjci8PEQ2FiWNzpm1cel/8oO8
-	K0BLRtwYt+u5642t5UwlIiZKxIaFdOFqH8WEmpNkvmyy/o8a+EgWpFEw4K2OkSA6ED52VMLZ63BsT
-	hgCg/bNNZKZTB32IA1wRT8AcbwgfREcuP7qBKFj7zTsobbD6hm6hFws/PTjeNuQcymfOkfJJyDi54
-	P9DgtxQM3VwnHvYMVoAj16/IsBS4tiHKhcr4He+IQY482V/1LZ/8olMaDktaZcBt1w8KzHdU/3LI8
-	ubDENp0w2CJDMWpeAtpCXo+DWjLYuByX/rrLMfQnSLuYXXSaDyEvks2KUmRADu1JeCDlUJRJvJ4f+
-	5R+wvVxg==;
+	bh=77MfrguvGe4D2HvkPplX3b0KR0jAWJyZYp1qMy1kb88=; b=1aepDux6B8OH8SpbLyKKeDpih/
+	nVRegdqDvRFFCjDh7aoCbZm8TgvzCrZ2kZdcYc4ZAzg697Ot1FcKyE4XtMxO5aMtQZ1vEteOdcwc9
+	5JPQ/4tj21TQfboPGosFlLxBWS9Cf4PtnJWZN0xwgG0HZUQHNW+oO8p4s98R5uQmjW8iCYPcbNogb
+	m0TebM7tw8iNdz3DIGBEdmaAD/8Z+j/V9IAHwFjUn6AGcmcc9r/475/Dt0rjf3kpe+spGJUuJS73N
+	Qzp+AwI5H54lKpIt0ny+BSadf787My3k4bO/LV57gUbQdCysiBTH8AKb0VsxMRBR7xvBc58Tyn3s8
+	F1pZUyGQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p6w9l-002nRQ-0i; Sun, 18 Dec 2022 16:04:53 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1p6wGW-002sCX-5X; Sun, 18 Dec 2022 16:11:52 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p6w9h-002nOj-Ec
-	for linux-nvme@lists.infradead.org; Sun, 18 Dec 2022 16:04:51 +0000
+	id 1p6wF2-002rRH-Ub
+	for linux-nvme@lists.infradead.org; Sun, 18 Dec 2022 16:10:24 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 1215460DD5;
-	Sun, 18 Dec 2022 16:04:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5A19C433F1;
-	Sun, 18 Dec 2022 16:04:47 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 9812DB80BA5;
+	Sun, 18 Dec 2022 16:10:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B6FCC433D2;
+	Sun, 18 Dec 2022 16:10:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1671379488;
-	bh=payr6Zz9b7V+tYyl8ijR5b+RPG29xwu55hsg8ntU0cU=;
+	s=k20201202; t=1671379817;
+	bh=plYTi2TZNI27U9t9LXYCJAAmbOeZYQ61BCO1+T+YmE8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=plYfwaYejzj2vDU+Vhf0yDBM/QTRYwbsOP00QSb+8khbStGfRD2fDhL6eSahg+Pft
-	 VuQDpGF5A37zUaMfsHLM5b9k1aDSzhUxxSnKob7wPHOAPinjM2hqa0WX1RkEMOGqVf
-	 ibV/ZNxe3dNAySCO9HO6YStQtH16R4z7PaF/Ouy2ohKZyQphrQ9FfA4lwg6JSf4oZu
-	 QkZ2twRYixjUmbkfLvDZf5CZnHZVLoja7d2s5zX1ggb/m/BlcWXMi19lVmjq5sHCrW
-	 TxnQpSeRJt0PhiSgx6yBydPinqRUjeWnv8vfzrTNJcItdUyScpzNG6MlfW2sVzmIip
-	 Ldt/BmjJW6RhQ==
+	b=UPR2u4zdtp1JoTXjzHq3pRY+6Vk8iCGKVh+zREl4TIbbr91FxjthqywLmSPfvCNEz
+	 EjomQ+VfJ6jB5awzvmoWnSvGgU2KVGxYHJK0dT1QZwIyLnY56NZoQQQnVmuwO6Laug
+	 8kYaMaeUSyyIBcozzy9mTL9RzOitU7pO+oslLlQUSW3nm+KS0YdCyAC3lnPGwwxdzv
+	 msIKhti1NYaOBrC/nSElUNVyBuvAEZNlC3aBTobTuSMFlmUVXsJ5wMnI+B2YnYpZ13
+	 hfn7EbADjboVOKNRFT71SlTPi7IRlSl7EyIdEco8ziSO270nY0UXddYpX3sASuh26n
+	 W3ALWV9UeMNog==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -53,18 +53,18 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	kbusch@kernel.org,
 	axboe@fb.com,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.1 47/85] nvme-auth: don't override ctrl keys before validation
-Date: Sun, 18 Dec 2022 11:01:04 -0500
-Message-Id: <20221218160142.925394-47-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.0 41/73] nvme-auth: don't override ctrl keys before validation
+Date: Sun, 18 Dec 2022 11:07:09 -0500
+Message-Id: <20221218160741.927862-41-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221218160142.925394-1-sashal@kernel.org>
-References: <20221218160142.925394-1-sashal@kernel.org>
+In-Reply-To: <20221218160741.927862-1-sashal@kernel.org>
+References: <20221218160741.927862-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221218_080449_788541_51056A3C 
+X-CRM114-CacheID: sfid-20221218_081021_200234_56C30516 
 X-CRM114-Status: GOOD (  11.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -97,10 +97,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 10 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 7e3893d06bab..c69dcc0e3d67 100644
+index aca50bb93750..5413d58b3f2c 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -3745,13 +3745,17 @@ static ssize_t nvme_ctrl_dhchap_secret_store(struct device *dev,
+@@ -3739,13 +3739,17 @@ static ssize_t nvme_ctrl_dhchap_secret_store(struct device *dev,
  	memcpy(dhchap_secret, buf, count);
  	nvme_auth_stop(ctrl);
  	if (strcmp(dhchap_secret, opts->dhchap_secret)) {
@@ -119,7 +119,7 @@ index 7e3893d06bab..c69dcc0e3d67 100644
  		/* Key has changed; re-authentication with new key */
  		nvme_auth_reset(ctrl);
  	}
-@@ -3795,13 +3799,17 @@ static ssize_t nvme_ctrl_dhchap_ctrl_secret_store(struct device *dev,
+@@ -3789,13 +3793,17 @@ static ssize_t nvme_ctrl_dhchap_ctrl_secret_store(struct device *dev,
  	memcpy(dhchap_secret, buf, count);
  	nvme_auth_stop(ctrl);
  	if (strcmp(dhchap_secret, opts->dhchap_ctrl_secret)) {
