@@ -4,70 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77F9AC4332F
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Dec 2022 21:55:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56F22C4332F
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Dec 2022 00:10:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yv3uGZG51BxoKHJuxLQsy+MkPevhk5o7x0F52dyjCWk=; b=iYr4urnvJm6Op80QphiRz3qC+x
-	FwdAPEA1/RMGcbp8OQbCGjDWoD3nNoiqJunTksa6eS1btua91Sd0uq7N30nbihw03YLUS2OFQXBNt
-	8QDAitytNOeiQ2K8vMraVzmp9ID/+2oBTU8Gxa5bF/6S2scpCpTwtRm5Ff6kPu1MJHpn2tFXJ6A6h
-	DgWtttjNMXMC/gkGiLFgnyu0f9ywXMIsLIHkMyCadKFVQU1q3HpkfR2zMDT4eRfEsgVKjZ13lPyRm
-	BRqEIEHjZO4xfTHjSAomM3lpVinIW6a2z0/uMQXduHZtX97pvoON1pfkQ1CuCY+jJrukWjjDJI3X2
-	8pyl1BIQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=xLN6o2U2Q5UcOfg7HYEXDQeP/B1QpgdGyUG+UWgI3BM=; b=BcwYb36b4VPF1P
+	NRB5KCjQyM/pagjc2s4xL/WqY9/r1XJ7sOhLam2w7pydiJEkKQWjnK7xONgRVKE3R4/UdrWetfJ94
+	vzXihHrVpjSz29h4JI/iYuh8gPOImepXFQMZukcZ97TeZVwDbZSHiFG/xpkkwYTf66f4gJMBXLTjm
+	t//cpJP3DVlHe3sZwL3I++Tmp1qYVNT6/ddDhCGZsKpnG41ECrygXEk7dcpw1jtjFTldFzTOe2EZp
+	fLcadIHwAHQwXL3xj1ryEQKUT1kF/YA8+BYpGsSiBNG6Po75sEcXC3p2QSpF5CpIVzARM0wMV++D1
+	WfqTN8J3iTJrq1+WgO4Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p7O6i-0049oa-RE; Mon, 19 Dec 2022 21:55:36 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1p7QCp-005QYJ-94; Tue, 20 Dec 2022 00:10:03 +0000
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p7O6K-0049cf-Cu
-	for linux-nvme@lists.infradead.org; Mon, 19 Dec 2022 21:55:15 +0000
-Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2BJLHENX021902
-	for <linux-nvme@lists.infradead.org>; Mon, 19 Dec 2022 13:55:11 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=s2048-2021-q4;
- bh=yv3uGZG51BxoKHJuxLQsy+MkPevhk5o7x0F52dyjCWk=;
- b=cBrljh9sSl/+8Vy8zTBfrLcLVkHxNXwNSMbSRrhJGWxEjVOHfDAfW92gc316MjP7cR7t
- UoBmjD0ekPfeYA7aEcoUWBwtpAecgyreaiRP+7qq6ELot1nv5G/S+KGVpH6QTOcdI3DM
- pGP2UEIgoiNMCFlwmFhYx3C5U6RTr+kFIxYJavsITSTEWpw3myFlPprp3kU7SN2NJZaB
- mxOwlbMV/D2H9NZHq7FHTObG+AjiDHF9YjQvyzkD6oLqTsdVg1aqaiOntlHrNC7L7SnO
- ywPuWZ0Kspl72hN6J02XDstVSrEgORHgHv+ENAAdkzH6iaNqEfGFdzSlkXyoNPxlWgFJ 1Q== 
-Received: from mail.thefacebook.com ([163.114.132.120])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3mhcd41w04-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Mon, 19 Dec 2022 13:55:11 -0800
-Received: from twshared0551.06.ash8.facebook.com (2620:10d:c085:108::8) by
- mail.thefacebook.com (2620:10d:c085:21d::5) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Mon, 19 Dec 2022 13:55:10 -0800
-Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id 75A65D333B81; Mon, 19 Dec 2022 13:54:58 -0800 (PST)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>, <hch@lst.de>
-CC: <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCH 3/3] nvme-pci: use mapped entries for sgl decision
-Date: Mon, 19 Dec 2022 13:54:57 -0800
-Message-ID: <20221219215457.711617-3-kbusch@meta.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221219215457.711617-1-kbusch@meta.com>
-References: <20221219215457.711617-1-kbusch@meta.com>
+	id 1p7Pkn-00587e-G7
+	for linux-nvme@lists.infradead.org; Mon, 19 Dec 2022 23:41:06 +0000
+Received: by mail-pj1-x102e.google.com with SMTP id q17-20020a17090aa01100b002194cba32e9so14768727pjp.1
+        for <linux-nvme@lists.infradead.org>; Mon, 19 Dec 2022 15:41:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=xLN6o2U2Q5UcOfg7HYEXDQeP/B1QpgdGyUG+UWgI3BM=;
+        b=GFerkYVpijRL609EOQ3VeMKR3i63twSSNNxxopBAg6pwoETq2Tkkvs6HH/UQ2OqzAZ
+         /hFgEEGLlLfE4+pjnmt6pENlZKyOQOVL39HOTdWERipWJR0ahHWu2Ad2P2CKn+AoIvCm
+         rDZGJGQ+/3xaynI59/LjaNTYvLIyhVT+KqSV2baSeboLVC2/MCkAZuTgH3AgZF/p26ON
+         aM1Wh9KREyODsJDLQXGgA2dtquZ7KherpTzxdVLP+UAaqXtB5SwEor8ZNiEuIhuo8bmk
+         /P4Y+6NHyhE8YbGr8iNhXMdEYLAB2ZYqYeEFLFJfpyUBG1xUyEgC6nYpIxfyqEZrxUwD
+         iGCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:reply-to:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xLN6o2U2Q5UcOfg7HYEXDQeP/B1QpgdGyUG+UWgI3BM=;
+        b=c9Jew/fcNRnBGQ4Uc8c4y3PP2hd0qfN2KdlMnTqX5D7Uqzj6YIWpbs/6O1qmB8bJyD
+         HdBUYw/kw/Q2gI9CjpZl5RRNT20eJCnnzAiClxU5Y2sWDL3rQacQa7OsjZ4SFDMHThCW
+         oHjhmlZuz5OaFxCljJQ0VDa0eRbGMZRVYRZTScgs7faDcAV44pfbf6Y8Z8rLJvuCMRRr
+         EB0e5Z2Q1rIuJU0V7rrqv0AfIhzhXdxFMnMkDsyg1H3B4U5sQ/2vtF8YdLushTvFNPeb
+         sJfqiMGT/fmgDm3V6tUFXhC65/daIme+cP8MAyRd1fDIcgibg5mLm/gl1HcwAgyGUSrV
+         Pm2A==
+X-Gm-Message-State: ANoB5pkIoL9Te4AiYKJTlfwnslZzHef3CLoYn/fQLwU3QAqqkPmJ3h+4
+	ZcCiAIZuhFAEN/9IUbpxUhQ=
+X-Google-Smtp-Source: AA0mqf69PXTpqgO+/MFgfFSeI9d+nsqmEnMuHUFvfzNAZ/qLItUrbKgjBRpBAk/GIG0sMYqvIc8ZHg==
+X-Received: by 2002:a05:6a20:4494:b0:ad:87b4:948e with SMTP id co20-20020a056a20449400b000ad87b4948emr36983395pzb.12.1671493262321;
+        Mon, 19 Dec 2022 15:41:02 -0800 (PST)
+Received: from [192.168.0.23] (q014251.dynamic.ppp.asahi-net.or.jp. [203.181.14.251])
+        by smtp.gmail.com with ESMTPSA id d15-20020aa797af000000b00574345ee12csm7190449pfq.23.2022.12.19.15.41.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Dec 2022 15:41:01 -0800 (PST)
+Message-ID: <f2b6305b-ffd5-51cf-74bd-de39d50c67dc@gmail.com>
+Date: Tue, 20 Dec 2022 08:40:58 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: xZLirmpcOFq1fsbY8hHOvTVyXU0Aj3rI
-X-Proofpoint-ORIG-GUID: xZLirmpcOFq1fsbY8hHOvTVyXU0Aj3rI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-19_01,2022-12-15_02,2022-06-22_01
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: nvme nvme0: I/O 0 (I/O Cmd) QID 1 timeout, aborting, source drive
+ corruption observed
+Content-Language: en-US
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me
+References: <b302409a-f3d3-5bf8-2f84-01788d15267e@gmail.com>
+ <Y6B49qkgqmOmuLLC@kbusch-mbp.dhcp.thefacebook.com>
+From: "J. Hart" <jfhart085@gmail.com>
+In-Reply-To: <Y6B49qkgqmOmuLLC@kbusch-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221219_135512_646286_8AD66C93 
-X-CRM114-Status: GOOD (  15.53  )
+X-CRM114-CacheID: sfid-20221219_154105_604021_759DC206 
+X-CRM114-Status: GOOD (  11.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,52 +91,33 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: jfhart085@gmail.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+My apologies on that last, it was a typo. I should have said /dev/nvme0n1p2.
 
-The driver uses the dma entries for setting up its command's SGL/PRP
-lists. The dma mapping might have fewer entries than the virtual
-segments, so check the dma mapped count to determine which nvme data
-layout method is more optimal.
+There are two ext4 partitions on the nvme drive.
+One is /dev/nvme0n1p2, which is a 64 MB partition.
+The other is /dev/nvme0n1p3, which is the remainder of that 500GB drive.
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/pci.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+The 50 GB transfer was to partition 3 (/dev/nvme0n1p3)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 07c967f563788..578f384025440 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -514,10 +514,10 @@ static void **nvme_pci_iod_list(struct request *req=
-)
- 	return (void **)(iod->sgt.sgl + blk_rq_nr_phys_segments(req));
- }
-=20
--static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct reques=
-t *req)
-+static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct reques=
-t *req,
-+				     int nseg)
- {
- 	struct nvme_queue *nvmeq =3D req->mq_hctx->driver_data;
--	int nseg =3D blk_rq_nr_phys_segments(req);
- 	unsigned int avg_seg_size;
-=20
- 	avg_seg_size =3D DIV_ROUND_UP(blk_rq_payload_bytes(req), nseg);
-@@ -817,7 +817,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *de=
-v, struct request *req,
- 		goto out_free_sg;
- 	}
-=20
--	iod->use_sgl =3D nvme_pci_use_sgls(dev, req);
-+	iod->use_sgl =3D nvme_pci_use_sgls(dev, req, iod->sgt.nents);
- 	if (iod->use_sgl)
- 		ret =3D nvme_pci_setup_sgls(dev, req, &cmnd->rw);
- 	else
---=20
-2.30.2
+The consecutive fsck runs in the previous message were to the 64 MB 
+partition 2 (/dev/nvme0n1p2).
+
+I am presently updating the util-linux and e2fsprogs packages to see if 
+that makes any difference.  The versions I was using were rather old.
+
+On 12/19/22 11:45 PM, Keith Busch wrote:
+> On Sun, Dec 18, 2022 at 09:08:19PM +0900, J. Hart wrote:
+>> Here are some consecutive fsck runs done on /dev/nvme0n1p3:
+>>
+>> -bash-3.2# fsck -f -C /dev/nvme0n1p2
+> 
+> I'm having some trouble following some of this. You mentioned nvme0n1p3
+> corruption, but then show nvme0n1p2 instead. Could you possibly relay
+> your recreation steps starting from a freshly formatted nvme drive?
+> Partition setup, device mappers, filesystems, mount options, etc.?
 
 
