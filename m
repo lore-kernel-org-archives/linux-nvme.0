@@ -4,82 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C51BFC4332F
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Dec 2022 07:35:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6BAAC10F1E
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Dec 2022 11:32:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	Content-Transfer-Encoding:Content-Type:Cc:To:Subject:From:MIME-Version:Date:
-	Message-ID:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=eZvBZhSqFq43U0oKIXft+9fPwUOVfBQ5TAyrtEpczGM=; b=vlhw6AzwOGObZV
-	WqHIw/ZYxM3OEDmqwbHFndCmVpUbHlkFNrzzFFqrinvPVtiUfGAMiDkb3BAHoTGGQkrcYU3oQrtdV
-	EoJXCWESV60MkKfoCdpyDLbtGXyJRh54eANHiNXew6VDuEazHXuBIifOeD2c8pRB4lx0JBereACM9
-	9DKk0xCLSEpGdTGq2Z9RmlM7Y5JJRpgr1sHCOp4S1TTR3xGVqOW6f/dXRkpk3o/VYeqSlYD55Zbra
-	2WT20Fb6fRIspltO2pEPeeolJlvrv0ddSr78vr3mxWNnAEBrf1rYj4IzyNvXlU7CNbPR9ybHtWk3D
-	ljbSsOf6UIgSlIl2guCA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-transfer-encoding:
+	Content-type:In-reply-to:From:References:Cc:To:Subject:MIME-version:Date:
+	Message-id:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=LWl+dwuFvwHM/La+sthWt8IK+hkiLuNLi0fAV3LorRw=; b=aa4tof2vaEL6IpW05twG3e3AWS
+	Zft485QC3WTsUjVNfLBpPXMFDpO7drdarA3lSBBUJ8AXAaz0W9+50oWO+/Tnvv87djVxLHRlIjxih
+	Gn+rV7jtBjbA3pm+J8BH9qRt5vHZv4ViCA7iFpSRe9WMqdwRGAqcLcCZSNi6VSrcUkb9zXAuicWra
+	0TxuvQyQVKBqx5OwAruGPCwW+YOfVcNn6HtjVP+ngP0djalpOdc7nUSbjTG+pH5Qelu5lexqE3Gtk
+	PhgyywP4clm6TZBa5JqtTVFIwPnfx8GN2bzrqti6XaXYxvLwdbTCt7SJtg2XuRZ/jBoYfAa9sPSAw
+	DVjq901Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p7XA6-00B2Uf-50; Tue, 20 Dec 2022 07:35:42 +0000
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
+	id 1p7arZ-00Dtge-3a; Tue, 20 Dec 2022 11:32:49 +0000
+Received: from abi149hd125.arn1.oracleemaildelivery.com ([129.149.84.125])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p6sSv-001EH6-1y
-	for linux-nvme@lists.infradead.org; Sun, 18 Dec 2022 12:08:26 +0000
-Received: by mail-pg1-x533.google.com with SMTP id v3so4520737pgh.4
-        for <linux-nvme@lists.infradead.org>; Sun, 18 Dec 2022 04:08:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:content-language:cc:to:reply-to:subject
-         :from:user-agent:mime-version:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=eZvBZhSqFq43U0oKIXft+9fPwUOVfBQ5TAyrtEpczGM=;
-        b=jcKkzkgxhBsovhv3MG+jhkaNyjgkhpxo2qqkE9F/t7tcLTERKqVn9d8RRoFXdAhMAX
-         mzivCKroqbRSyJIyv+U9hVp3PK/pms8t3F6TRieVboAzILWuzJSTymhXreoNFz/etLDx
-         ehuCLp0wMbN6qFZ8qznZVWPyXhORn5cthOjLdun2gOV1WKAF9aNoetHH1denMQcoEw73
-         YDjiSj7IFJXAgSh4yb3lSqDuj97Ph5yAsPslwvZf8CKbRxffZHxKZE9KjYTuOFyP0r6l
-         0SomFJHGHEmct6I6++EXGO4LuMoCu+Rk425UMv3lkjT5jaDj8AjeL5ppy3iNXNoY8ipL
-         6Mdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:content-language:cc:to:reply-to:subject
-         :from:user-agent:mime-version:date:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eZvBZhSqFq43U0oKIXft+9fPwUOVfBQ5TAyrtEpczGM=;
-        b=ZLYHAru7EoXM9c/rxVaFfNByR+RkpQ49+Pzfi4kL54UHAc3MzJHFhzcOg0mXHm96R1
-         hgj6PinSwdXdmkIyNNdZgrJRjbZSrtCyC/lsBjiCqi4oywZyHQycuuMI2A+sXYtckxBv
-         dJ8udftav3HCjPr6CVrO3mm3hD5lK7h2HAm6n31YETl9BIfVbvAPboF3e7+K/LubACeL
-         +7f+1Didg5poPxc94DmI8bkELs2XbdUS0tTZHkFuHf2RSEpFxq6jI/vLypB4fz8Np3BO
-         S2HSgCJl/xpl6yzTl0ve5N+vDoyYwcowagVTD1waBnqr7iIeQ8himuJZVYLnp4ojEqzy
-         YrSQ==
-X-Gm-Message-State: ANoB5pl8C/Q43Of0tzRcOKvFGggRACa3zB8B+gK683VHv1oGEzYojeyK
-	eMW2/H6BgZRnvZLAFk4fj0yYfuGcw/A=
-X-Google-Smtp-Source: AA0mqf458YhRanxv2rwEcN8s2ic9cwpoWXOrSw4DPnTcQbrvW90VONli4lVug18esaKVjzf3M+6aHA==
-X-Received: by 2002:a62:1a94:0:b0:56b:dae1:e946 with SMTP id a142-20020a621a94000000b0056bdae1e946mr36723934pfa.28.1671365303898;
-        Sun, 18 Dec 2022 04:08:23 -0800 (PST)
-Received: from [192.168.0.23] (q014251.dynamic.ppp.asahi-net.or.jp. [203.181.14.251])
-        by smtp.gmail.com with ESMTPSA id d2-20020a623602000000b00576145a9bd0sm4462305pfa.127.2022.12.18.04.08.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 18 Dec 2022 04:08:23 -0800 (PST)
-Message-ID: <b302409a-f3d3-5bf8-2f84-01788d15267e@gmail.com>
-Date: Sun, 18 Dec 2022 21:08:19 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-From: "J. Hart" <jfhart085@gmail.com>
-Subject: Re: nvme nvme0: I/O 0 (I/O Cmd) QID 1 timeout, aborting, source drive
- corruption observed
-To: linux-nvme@lists.infradead.org
-Cc: jfhart085@gmail.com, kbusch@kernel.org, axboe@fb.com, hch@lst.de,
- sagi@grimberg.me, hch@lst.de
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Bad-Reply: 'Re:' in Subject but no References or In-Reply-To headers
+	id 1p7apd-00DsAo-Qx
+	for linux-nvme@lists.infradead.org; Tue, 20 Dec 2022 11:30:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=oci-arn1-20220924;
+ d=augustwikerfors.se;
+ h=Date:To:From:Subject:Message-Id:MIME-Version:Sender;
+ bh=LWl+dwuFvwHM/La+sthWt8IK+hkiLuNLi0fAV3LorRw=;
+ b=sMh80TyaViBU8f0N1VOTpbz/32r4zlEP2Jo54z0E4Qcj6yHglfzLPDMmgeNcBU2VcACkaKl/dOBD
+   bVfQPMH8MwhVjaRU2uJqElJM/FqOKafUuYNb9WpPequEdZDGNkXiFrMUgKQXPNJhjdCDRqe9P4nh
+   RJWNvb0CeEniJqXe/zkBw5PSBH24y4QzPy06E8gv9kww2Q/ld7ngL0Wo07aDHIxwSbqPoMK9GEgj
+   R3soMwhcs2YT/Ijid7R59IDFwrBtA4X7HGTsycBL0uIEsx3zY2cpBx8/9eFZzHu7QdfRmzZzjf5I
+   thdFkvY15i+cdZfA/94u5iDHOdlUp1fOnOJqzg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=prod-arn-20211201;
+ d=arn1.rp.oracleemaildelivery.com;
+ h=Date:To:From:Subject:Message-Id:MIME-Version:Sender;
+ bh=LWl+dwuFvwHM/La+sthWt8IK+hkiLuNLi0fAV3LorRw=;
+ b=auIOpP+0iiXAAS9+7sJaG9ODk1UCeEVb6T7IKc1eVzwrRWOKmqu/quNxNFrZBqOWFW2Td/ciM/nU
+   NuUoerXSUR6HIDVPShtkj0uWCfoZwhmPeBm51oTSTut0/KUr8uMrWDsbdYSRb4SU3neIBFLRlt9N
+   WByy/Uhjp7cAIwjUI/W553dJkzVMUlqex1azTeUoqLrY3irtf96vF1XRkMQ5ixRRaBB1X3nmIF3X
+   SwrxMNH9Az0iW/skZJ70RqLu7Zzw5U23OyqnP4rbyJWH1kYcolV5d7uuH0QJqHkk3PMw2TPvkbV0
+   KwQBMQltdYSjGOIwt9NfoGjicyrC8+Hyg8aJsg==
+Received: by omta-ad1-fd1-101-eu-stockholm-1.omtaad1.vcndparn.oraclevcn.com
+ (Oracle Communications Messaging Server 8.1.0.1.20221212 64bit (built Dec 12
+ 2022))
+ with ESMTPS id <0RN600LPQTB6XSB0@omta-ad1-fd1-101-eu-stockholm-1.omtaad1.vcndparn.oraclevcn.com>
+ for linux-nvme@lists.infradead.org; Tue, 20 Dec 2022 11:30:42 +0000 (GMT)
+Message-id: <a80857cb-e3a0-74b2-a7c4-a1afb34e5082@augustwikerfors.se>
+Date: Tue, 20 Dec 2022 12:30:39 +0100
+MIME-version: 1.0
+Subject: Re: [PATCH] nvme-pci: add NVME_QUIRK_BOGUS_NID for Samsung PM9B1 256G
+ and 512G
+Content-language: en-US
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Kanchan Joshi <joshi.k@samsung.com>
+References: <20221116171727.4083-1-git@augustwikerfors.se>
+ <CGME20221116172324epcas5p3d9877249797ac741ead5785cba27e00e@epcas5p3.samsung.com>
+ <20221116171935.GA24524@lst.de> <20221117031951.GB392@test-zns>
+ <20221206055928.GB24451@test-zns>
+From: August Wikerfors <git@augustwikerfors.se>
+In-reply-to: <20221206055928.GB24451@test-zns>
+Content-type: text/plain; charset=UTF-8; format=flowed
+Content-transfer-encoding: 7bit
+Reporting-Meta:  AAGILxLChfRQdNmOHagNzZxsBm++OdYCqjaY8vHGYk7FpcpdeqBieFG87sYLWtZE
+ 9KAz4qXu7D9U91Btd+Yglw6FxRtZl6XjVEJC7PBH9xotJhO9lfsidMZ5rRP3u1jW
+ fX1UixeP7JSSSqE7s3Jh/AX4dIwjIJuFmXFEpsVHSMJWG3YWOitwvSLZ2lm5PbKA
+ YrNK2W3MLVqmoA3DohMHhepdqgICVrD1jsn1JmyuEVJ6bFw6v2udLzJyJc6dDt06
+ pF/9evQAS1oBFolH33qXOOGXIZF1N7i4G9uQCOngJO+P2e0mI947C2W3b5mp0dDp
+ XdtpQB0/blpdXGKiTe6fl6UVOI86JcFxmRrCg+y7hsLgwWhXu//Rx0nhD16DubU7
+ 8IjIEBy0xkBolEXMBfimI4b54gjcUHKzOYjlTMEgApio0rcxi9oR28kB1X3FmFRX UifCQFnA
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221218_040825_127191_7B744A88 
-X-CRM114-Status: UNSURE (   4.39  )
-X-CRM114-Notice: Please train this message.
-X-Mailman-Approved-At: Mon, 19 Dec 2022 23:35:40 -0800
+X-CRM114-CacheID: sfid-20221220_033050_869755_864BF545 
+X-CRM114-Status: GOOD (  12.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,101 +87,38 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: jfhart085@gmail.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Here are some consecutive fsck runs done on /dev/nvme0n1p3:
+On 2022-12-06 06:59, Kanchan Joshi wrote:
+> On Thu, Nov 17, 2022 at 08:49:51AM +0530, Kanchan Joshi wrote:
+>> On Wed, Nov 16, 2022 at 06:19:35PM +0100, Christoph Hellwig wrote:
+>>> On Wed, Nov 16, 2022 at 06:17:27PM +0100, August Wikerfors wrote:
+>>>> The Samsung PM9B1 512G SSD found in some Lenovo Yoga 7 14ARB7 laptop 
+>>>> units
+>>>> reports eui as 0001000200030004 when resuming from s2idle, causing the
+>>>> device to be removed with this error in dmesg:
+>>>>
+>>>> nvme nvme0: identifiers changed for nsid 1
+>>>
+>>> What EUI did it report before? Is the identifier stable after
+>>> multiple resume cycles?
+>>>
+>>> Can some of the Samsung folks here reach out to the relevant firmware
+>>> team to see if they have any clues?
+>>
+>> I will check.
+> 
+> Took more time than I wanted. Firmware team mentioned that issue existed
+> in this firmware. This is fixed in new firmware, but bit of travel time
+> is involved when official release from OEM (Lenovo) comes out.
+> 
+> Hope the information is sufficient, and quirk can go in.
+> 
+> If required, Acked-by: Kanchan Joshi <joshi.k@samsung.com>
 
--bash-3.2# fsck -f -C /dev/nvme0n1p2
-fsck from util-linux 2.34
-e2fsck 1.42.12 (29-Aug-2014)
-Pass 1: Checking inodes, blocks, and sizes
-Pass 2: Checking directory structure 
+Ping, anything left for me to do before this can be merged?
 
-Pass 3: Checking directory connectivity
-Pass 4: Checking reference counts
-Pass 5: Checking group summary information
-/dev/nvme0n1p2: 335/16384 files (0.6% non-contiguous), 7496/16384 blocks 
-
--bash-3.2# fsck -f -C /dev/nvme0n1p2
-fsck from util-linux 2.34
-e2fsck 1.42.12 (29-Aug-2014)
-Pass 1: Checking inodes, blocks, and sizes
-Pass 2: Checking directory structure 
-
-Pass 3: Checking directory connectivity
-Pass 4: Checking reference counts
-Pass 5: Checking group summary information
-Block bitmap differences:  -5716
-Fix<y>? yes
- 
-
-/dev/nvme0n1p2: ***** FILE SYSTEM WAS MODIFIED *****
-/dev/nvme0n1p2: 335/16384 files (0.6% non-contiguous), 7496/16384 blocks
--bash-3.2# fsck -f -C /dev/nvme0n1p2
-fsck from util-linux 2.34
-e2fsck 1.42.12 (29-Aug-2014)
-Pass 1: Checking inodes, blocks, and sizes
-Pass 2: Checking directory structure 
-
-Pass 3: Checking directory connectivity
-Pass 4: Checking reference counts
-Pass 5: Checking group summary information
-Block bitmap differences:  -5716
-Fix<y>? yes
-
-/dev/nvme0n1p2: ***** FILE SYSTEM WAS MODIFIED *****
-/dev/nvme0n1p2: 335/16384 files (0.6% non-contiguous), 7496/16384 blocks
--bash-3.2# fsck -f -C /dev/nvme0n1p2
-fsck from util-linux 2.34
-e2fsck 1.42.12 (29-Aug-2014)
-Pass 1: Checking inodes, blocks, and sizes
-Pass 2: Checking directory structure 
-
-Pass 3: Checking directory connectivity
-Pass 4: Checking reference counts
-Pass 5: Checking group summary information
-/dev/nvme0n1p2: 335/16384 files (0.6% non-contiguous), 7496/16384 blocks 
-
--bash-3.2# fsck -f -C /dev/nvme0n1p2
-fsck from util-linux 2.34
-e2fsck 1.42.12 (29-Aug-2014)
-Pass 1: Checking inodes, blocks, and sizes
-Pass 2: Checking directory structure 
-
-Pass 3: Checking directory connectivity
-Pass 4: Checking reference counts
-Pass 5: Checking group summary information
-/dev/nvme0n1p2: 335/16384 files (0.6% non-contiguous), 7496/16384 blocks 
-
--bash-3.2# fsck -f -C /dev/nvme0n1p2
-fsck from util-linux 2.34
-e2fsck 1.42.12 (29-Aug-2014)
-Pass 1: Checking inodes, blocks, and sizes
-Pass 2: Checking directory structure 
-
-Pass 3: Checking directory connectivity
-Pass 4: Checking reference counts
-Pass 5: Checking group summary information
-/dev/nvme0n1p2: 335/16384 files (0.6% non-contiguous), 7496/16384 blocks 
-
--bash-3.2# fsck -f -C /dev/nvme0n1p2
-fsck from util-linux 2.34
-e2fsck 1.42.12 (29-Aug-2014)
-Pass 1: Checking inodes, blocks, and sizes
-Pass 2: Checking directory structure 
-
-Pass 3: Checking directory connectivity
-Pass 4: Checking reference counts
-Pass 5: Checking group summary information
-/dev/nvme0n1p2: 335/16384 files (0.6% non-contiguous), 7496/16384 blocks 
-
-
-========================================================
-There is a very similar partition (same contents) on a SATA drive on the 
-system, and this does not happen there when I test it.
-
-J. Hart
-
+Regards,
+August Wikerfors
 
