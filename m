@@ -4,65 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56F22C4332F
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Dec 2022 00:10:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C72B8C4332F
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Dec 2022 01:10:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
 	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
 	Subject:MIME-Version:Date:Message-ID:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=xLN6o2U2Q5UcOfg7HYEXDQeP/B1QpgdGyUG+UWgI3BM=; b=BcwYb36b4VPF1P
-	NRB5KCjQyM/pagjc2s4xL/WqY9/r1XJ7sOhLam2w7pydiJEkKQWjnK7xONgRVKE3R4/UdrWetfJ94
-	vzXihHrVpjSz29h4JI/iYuh8gPOImepXFQMZukcZ97TeZVwDbZSHiFG/xpkkwYTf66f4gJMBXLTjm
-	t//cpJP3DVlHe3sZwL3I++Tmp1qYVNT6/ddDhCGZsKpnG41ECrygXEk7dcpw1jtjFTldFzTOe2EZp
-	fLcadIHwAHQwXL3xj1ryEQKUT1kF/YA8+BYpGsSiBNG6Po75sEcXC3p2QSpF5CpIVzARM0wMV++D1
-	WfqTN8J3iTJrq1+WgO4Q==;
+	List-Owner; bh=dHrne/19ZjN7gnhIrvUAXLtdk5Uo+4OyMRgbNxytMDY=; b=zu+oLmOifi9er5
+	tpVcKLucp9dMlCVawunC/Iwz/x61+tSjNhzG+KY920FBogQGQIuxjD+gkrApKsG2KMrDOpjlGVaOO
+	YBZnSR2sBzYVNhhEGtYSQoYCBLxBrNoyIVU/6N0Kgfenwm76pSNKzAc+ouZHKVN3BTpdF0UtDXzvd
+	75s8VKKrvbNjwob8qe5T3lPMUBbjse1eQtOiPkSVryHuhIETkrtUi6619Ib6EFb1eghwIQfEERd65
+	PSlt7BTPE+Bxo1uQA0V8B081Jy8eQZP4mNn1vs5nyvsX6zzCOHMufsYU4eFMDDGFAToS43XTu9rQy
+	XC5pLWYaNGx81phXLb4A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p7QCp-005QYJ-94; Tue, 20 Dec 2022 00:10:03 +0000
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+	id 1p7R9S-0067A1-R8; Tue, 20 Dec 2022 01:10:38 +0000
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p7Pkn-00587e-G7
-	for linux-nvme@lists.infradead.org; Mon, 19 Dec 2022 23:41:06 +0000
-Received: by mail-pj1-x102e.google.com with SMTP id q17-20020a17090aa01100b002194cba32e9so14768727pjp.1
-        for <linux-nvme@lists.infradead.org>; Mon, 19 Dec 2022 15:41:03 -0800 (PST)
+	id 1p7R9Q-00677l-Gq
+	for linux-nvme@lists.infradead.org; Tue, 20 Dec 2022 01:10:37 +0000
+Received: by mail-pl1-x635.google.com with SMTP id n4so10763259plp.1
+        for <linux-nvme@lists.infradead.org>; Mon, 19 Dec 2022 17:10:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:reply-to:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=xLN6o2U2Q5UcOfg7HYEXDQeP/B1QpgdGyUG+UWgI3BM=;
-        b=GFerkYVpijRL609EOQ3VeMKR3i63twSSNNxxopBAg6pwoETq2Tkkvs6HH/UQ2OqzAZ
-         /hFgEEGLlLfE4+pjnmt6pENlZKyOQOVL39HOTdWERipWJR0ahHWu2Ad2P2CKn+AoIvCm
-         rDZGJGQ+/3xaynI59/LjaNTYvLIyhVT+KqSV2baSeboLVC2/MCkAZuTgH3AgZF/p26ON
-         aM1Wh9KREyODsJDLQXGgA2dtquZ7KherpTzxdVLP+UAaqXtB5SwEor8ZNiEuIhuo8bmk
-         /P4Y+6NHyhE8YbGr8iNhXMdEYLAB2ZYqYeEFLFJfpyUBG1xUyEgC6nYpIxfyqEZrxUwD
-         iGCQ==
+        bh=dHrne/19ZjN7gnhIrvUAXLtdk5Uo+4OyMRgbNxytMDY=;
+        b=jtedX9dWADx1yZ2SrvTEId/b7s+wI3DgawwWPT0fT0I0ERHS0FWyJZSHzr658ADp+e
+         hwMi5uKfaKf8BvP4OVZ86dhUyNe3tWvRGxkcfpQpqCYyCOztuU0od18EKNnqBHgyvisP
+         GdCsozUQvoQc1Nm7VgFcM1UJrN3RU4+ishzEADgTgyCUJk4jRTdVm308pjh8Y+rdLtZG
+         5Jr0AmXrxop0YmJP7K3xKdgXzThxxJKAW41jy+Eoz2g4TGrRpcdxXfTrpbEwJTDuUixT
+         7W0u7smeoIYYT8lJ2kVsSzDhUt3UnYCrFa+NDeDN9bYdviyon+icYxLqqXO6EoEnw+7o
+         b49Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:reply-to:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xLN6o2U2Q5UcOfg7HYEXDQeP/B1QpgdGyUG+UWgI3BM=;
-        b=c9Jew/fcNRnBGQ4Uc8c4y3PP2hd0qfN2KdlMnTqX5D7Uqzj6YIWpbs/6O1qmB8bJyD
-         HdBUYw/kw/Q2gI9CjpZl5RRNT20eJCnnzAiClxU5Y2sWDL3rQacQa7OsjZ4SFDMHThCW
-         oHjhmlZuz5OaFxCljJQ0VDa0eRbGMZRVYRZTScgs7faDcAV44pfbf6Y8Z8rLJvuCMRRr
-         EB0e5Z2Q1rIuJU0V7rrqv0AfIhzhXdxFMnMkDsyg1H3B4U5sQ/2vtF8YdLushTvFNPeb
-         sJfqiMGT/fmgDm3V6tUFXhC65/daIme+cP8MAyRd1fDIcgibg5mLm/gl1HcwAgyGUSrV
-         Pm2A==
-X-Gm-Message-State: ANoB5pkIoL9Te4AiYKJTlfwnslZzHef3CLoYn/fQLwU3QAqqkPmJ3h+4
-	ZcCiAIZuhFAEN/9IUbpxUhQ=
-X-Google-Smtp-Source: AA0mqf69PXTpqgO+/MFgfFSeI9d+nsqmEnMuHUFvfzNAZ/qLItUrbKgjBRpBAk/GIG0sMYqvIc8ZHg==
-X-Received: by 2002:a05:6a20:4494:b0:ad:87b4:948e with SMTP id co20-20020a056a20449400b000ad87b4948emr36983395pzb.12.1671493262321;
-        Mon, 19 Dec 2022 15:41:02 -0800 (PST)
+        bh=dHrne/19ZjN7gnhIrvUAXLtdk5Uo+4OyMRgbNxytMDY=;
+        b=l0CHTBJFBE3tqPwjcrScu3QvVTz7MXBL1eigWAxKh9v4wuqeWgGqV56eHYO15MXnDH
+         9hko2EvvljkUzWaHSzZ9imS1Uh95DL5tt4Ipz61Qvc5r3LXUguHrxfZFTj5Ht8Cncq10
+         9R29quStRI4KNFVf7/jAiChNSlOHdyahRmgIZMco6fpleUaC0sc6uL0PzXopD7DyRlIs
+         8ghEFILAzhtqaJ6M2HGq1F+RPWWsjVmGEyG+QPlMARejfOKR2EdzzAuhjEKYDLgV6zTA
+         kWJFajIdpxbhUzy3cQALxr+TQhZ45sBJxUpyRthaFIavUE/fhfS9z4YNYDwf10OKMmBh
+         UM1w==
+X-Gm-Message-State: AFqh2kqrhYx1h2EQQBGo8yDeX4NH8N7bOo5VVodtZh9Y1+TTpJnY3ip+
+	yzO2GGX4umVbz05hUa/A4jI=
+X-Google-Smtp-Source: AMrXdXvHDvlkPUSMHz7cVAlKKELbuCW6LR3oA/nzqJFC7xj4sIM99MExqCZrn9GnV48kbwKqz3ofMw==
+X-Received: by 2002:a17:90b:3947:b0:223:85a7:20c1 with SMTP id oe7-20020a17090b394700b0022385a720c1mr16206109pjb.2.1671498634056;
+        Mon, 19 Dec 2022 17:10:34 -0800 (PST)
 Received: from [192.168.0.23] (q014251.dynamic.ppp.asahi-net.or.jp. [203.181.14.251])
-        by smtp.gmail.com with ESMTPSA id d15-20020aa797af000000b00574345ee12csm7190449pfq.23.2022.12.19.15.41.00
+        by smtp.gmail.com with ESMTPSA id f2-20020a655502000000b004785d99321asm6980451pgr.86.2022.12.19.17.10.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Dec 2022 15:41:01 -0800 (PST)
-Message-ID: <f2b6305b-ffd5-51cf-74bd-de39d50c67dc@gmail.com>
-Date: Tue, 20 Dec 2022 08:40:58 +0900
+        Mon, 19 Dec 2022 17:10:33 -0800 (PST)
+Message-ID: <b82b44db-1169-6b77-4f1b-ffdf4fb7feae@gmail.com>
+Date: Tue, 20 Dec 2022 10:10:30 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.1
@@ -71,15 +71,17 @@ Subject: Re: nvme nvme0: I/O 0 (I/O Cmd) QID 1 timeout, aborting, source drive
 Content-Language: en-US
 To: Keith Busch <kbusch@kernel.org>
 Cc: linux-nvme@lists.infradead.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me
-References: <b302409a-f3d3-5bf8-2f84-01788d15267e@gmail.com>
- <Y6B49qkgqmOmuLLC@kbusch-mbp.dhcp.thefacebook.com>
+References: <fe013f52-ac3c-4be2-6f1e-e68fea46e4c2@gmail.com>
+ <Y5z8Sj+7N7HF4ZyP@kbusch-mbp.dhcp.thefacebook.com>
+ <eb882c34-7b69-e0c2-f100-35f3a90ce94c@gmail.com>
+ <Y6B4JFj5jIDs0cBI@kbusch-mbp.dhcp.thefacebook.com>
 From: "J. Hart" <jfhart085@gmail.com>
-In-Reply-To: <Y6B49qkgqmOmuLLC@kbusch-mbp.dhcp.thefacebook.com>
+In-Reply-To: <Y6B4JFj5jIDs0cBI@kbusch-mbp.dhcp.thefacebook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221219_154105_604021_759DC206 
-X-CRM114-Status: GOOD (  11.88  )
+X-CRM114-CacheID: sfid-20221219_171036_632781_6A31C830 
+X-CRM114-Status: GOOD (  16.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,29 +97,44 @@ Reply-To: jfhart085@gmail.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-My apologies on that last, it was a typo. I should have said /dev/nvme0n1p2.
+On 12/19/22 11:41 PM, Keith Busch wrote:
+> Given the potential flakiness of read corruption, I'd disable relaxed
+> ordering and see if that improves anything.
 
-There are two ext4 partitions on the nvme drive.
-One is /dev/nvme0n1p2, which is a 64 MB partition.
-The other is /dev/nvme0n1p3, which is the remainder of that 500GB drive.
+I am not familiar with this part.  How is this done ?
 
-The 50 GB transfer was to partition 3 (/dev/nvme0n1p3)
-
-The consecutive fsck runs in the previous message were to the 64 MB 
-partition 2 (/dev/nvme0n1p2).
-
-I am presently updating the util-linux and e2fsprogs packages to see if 
-that makes any difference.  The versions I was using were rather old.
-
-On 12/19/22 11:45 PM, Keith Busch wrote:
-> On Sun, Dec 18, 2022 at 09:08:19PM +0900, J. Hart wrote:
->> Here are some consecutive fsck runs done on /dev/nvme0n1p3:
->>
->> -bash-3.2# fsck -f -C /dev/nvme0n1p2
 > 
-> I'm having some trouble following some of this. You mentioned nvme0n1p3
-> corruption, but then show nvme0n1p2 instead. Could you possibly relay
-> your recreation steps starting from a freshly formatted nvme drive?
-> Partition setup, device mappers, filesystems, mount options, etc.?
+>>                          MaxPayload 128 bytes, MaxReadReq 512 bytes
+>>                  DevSta: CorrErr+ UncorrErr- FatalErr- UnsuppReq+ AuxPwr+ TransPend-
+>>                  LnkCap: Port #0, Speed 8GT/s, Width x4, ASPM L1, Latency L0 <1us, L1 <8us
+>>                          ClockPM+ Surprise- LLActRep- BwNot-
+>>                  LnkCtl: ASPM Disabled; RCB 64 bytes Disabled- Retrain- CommClk+
+>>                          ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
+>>                  LnkSta: Speed 2.5GT/s, Width x1, TrErr- Train- SlotClk+ DLActive- BWMgmt- ABWMgmt-
 
+
+> Something seems off if it's downtraining to Gen1 x1. I believe this
+> setup should be capable of Gen2 x4. It sounds like the links among these
+> components may not be reliable.
+> 
+> Your first post mentioned total transfer was 50GB. If you've deep enough
+> queues, the tail latency will exceed the default timeout values when
+> you're limited to that kind of bandwidth. You'd probably be better off
+> from a performance strand point with a cheaper SATA SSD on AHCI.
+
+It would be unfortunate I think if the linux driver could not be made to 
+implement the NVME standards on the somewhat older equipment from 
+perhaps ten or fifteen years ago.  Earlier than that is perhaps not 
+terribly practical of course.  Equipment like that which is still 
+operating does tend to be reliable, and it's something of a shame to 
+have to waste it. Some of us also do lack the wherewithal to update 
+equipment every two years, especially older people or those in areas 
+where the economy is not so good.  As I think we all know, there's more 
+of that these days then we'd like.....:-)
+
+In any case, I'm very willing to run tests on this equipment if that 
+will help.  I'm fairly familiar with building kernels, writing software 
+and that sort of thing, but perhaps less so with fixing drivers.
+
+J. Hart
 
