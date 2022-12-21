@@ -4,35 +4,35 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5643FC4332F
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Dec 2022 14:44:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51B67C4332F
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Dec 2022 14:44:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=C96H2Fbn9ksoOUJjWpQEQMQAZtcqm/WGTQH1pjzBZDA=; b=y0hcW3WLGX7aoySYzRFpsJ5IC1
-	7MclgJlSobb3v8BYGAo2dKNXukVtZAPuey169ede6rotILbMFN5NDrI95ouHBzoXjyOnpc2324hA+
-	0axutoqpNtYHO+Mo2OSdghO399hQHPTeArYqMN1/BepbGe5ErenC3j//gisAbs/3r0QXek6RJ3Gyw
-	pcjFZCjB16l9acV2kyurBBTtqZjTanxFhsH5KXiM22Tu3A85zlvrXVMQM/hZFng+25CJ9mbUCddkS
-	dUqscaBCqTtfUvIuasYjAsbgM2eCyLh0Pf3aKeXEzBYIibXjJUKh/JQw/5//1o6jnla8Yxx2rWDCu
-	blFnUx1g==;
+	bh=3v83uAmIyJSbGGyjODtcAhe6xKUqFEpFrglulznKTrE=; b=PE8oleK7qh9HLKkUOCT+0uM/q4
+	SyVBlrqrieJHDcgJJGn7l07e9uMsfSE7E1cf9XPg6Etd1fpTMwW/BALj4rX4hzTwArqOu7KqDnkQB
+	1QrEgKs2iUzYBb8yTLNTHcXeOXPkWn1pGsujvek4l6meYFpqe6uvVPfko7mCkodvJNELm0Xe94aEW
+	VeMLzF6Rl+9HCxw3ZBhF6s1oSxDOoaHFP9uuDadQMr8Ut5T88lLUfJgjGbnsgMFF7rDH3/CKt8lWR
+	j58tpwD4d9Yy31J0JkpMSNiRSAxipPdDsx2/1j+xGRiytlxOxwJv7H7QagMYQIttD62P/lSDpQMxt
+	60Tkh/4Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p80Kp-00FjCM-L6; Wed, 21 Dec 2022 14:44:43 +0000
+	id 1p80Kx-00FjLR-PL; Wed, 21 Dec 2022 14:44:51 +0000
 Received: from [2001:4bb8:199:7829:6251:5281:de26:c6d1] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p7w45-00DENV-Dw; Wed, 21 Dec 2022 10:11:09 +0000
+	id 1p7w48-00DEON-80; Wed, 21 Dec 2022 10:11:12 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Chaitanya Kulkarni <kch@nvidia.com>
 Cc: Kanchan Joshi <joshi.k@samsung.com>,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH 5/6] nvme: also return I/O command effects from nvme_command_effects
-Date: Wed, 21 Dec 2022 11:10:49 +0100
-Message-Id: <20221221101050.759606-6-hch@lst.de>
+Subject: [PATCH 6/6] nvme: consult the CSE log page for unprivileged passthrough
+Date: Wed, 21 Dec 2022 11:10:50 +0100
+Message-Id: <20221221101050.759606-7-hch@lst.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221221101050.759606-1-hch@lst.de>
 References: <20221221101050.759606-1-hch@lst.de>
@@ -52,66 +52,82 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-To be able to use the Commands Supported and Effects Log for allowing
-unprivileged passtrough, it needs to be corretly reported for I/O
-commands as well.  Return the I/O command effects from
-nvme_command_effects, and also add a default list of effects for the
-NVM command set.  For other command sets, the Commands Supported and
-Effects log is required to be present already.
+Commands like Write Zeros can change the contents of a namespaces without
+actually transferring data.  To protect against this, check the Commands
+Supported and Effects log is supported by the controller for any
+unprivileg command passthrough and refuse unprivileged passthrough if the
+command has any effects that can change data or metadata.
 
+Note: While the Commands Support and Effects log page has only been
+mandatory since NVMe 2.0, it is widely supported because Windows requires
+it for any command passthrough from userspace.
+
+Fixes: e4fbcf32c860 ("nvme: identify-namespace without CAP_SYS_ADMIN")
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/core.c | 25 +++++++++++++++++++------
- 1 file changed, 19 insertions(+), 6 deletions(-)
+ drivers/nvme/host/ioctl.c | 28 ++++++++++++++++++++++++----
+ include/linux/nvme.h      |  1 +
+ 2 files changed, 25 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index e26b085a007aea..4a04c12135702c 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1074,6 +1074,18 @@ static u32 nvme_known_admin_effects(u8 opcode)
- 	return 0;
- }
- 
-+static u32 nvme_known_nvm_effects(u8 opcode)
-+{
-+	switch (opcode) {
-+	case nvme_cmd_write:
-+	case nvme_cmd_write_zeroes:
-+	case nvme_cmd_write_uncor:
-+		 return NVME_CMD_EFFECTS_LBCC;
-+	default:
-+		return 0;
-+	}
-+}
-+
- u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns, u8 opcode)
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index 9ddda571f0461f..a8639919237e6a 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -11,6 +11,8 @@
+ static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
+ 		fmode_t mode)
  {
- 	u32 effects = 0;
-@@ -1081,17 +1093,18 @@ u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns, u8 opcode)
- 	if (ns) {
- 		if (ns->head->effects)
- 			effects = le32_to_cpu(ns->head->effects->iocs[opcode]);
-+		if (ns->head->ids.csi == NVME_CAP_CSS_NVM)
-+			effects |= nvme_known_nvm_effects(opcode);
- 		if (effects & ~(NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC))
- 			dev_warn_once(ctrl->device,
--				"IO command:%02x has unhandled effects:%08x\n",
-+				"IO command:%02x has unusual effects:%08x\n",
- 				opcode, effects);
--		return 0;
-+	} else {
-+		if (ctrl->effects)
-+			effects = le32_to_cpu(ctrl->effects->acs[opcode]);
-+		effects |= nvme_known_admin_effects(opcode);
++	u32 effects;
++
+ 	if (capable(CAP_SYS_ADMIN))
+ 		return true;
+ 
+@@ -43,11 +45,29 @@ static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
  	}
  
--	if (ctrl->effects)
--		effects = le32_to_cpu(ctrl->effects->acs[opcode]);
--	effects |= nvme_known_admin_effects(opcode);
--
- 	return effects;
+ 	/*
+-	 * Only allow I/O commands that transfer data to the controller if the
+-	 * special file is open for writing, but always allow I/O commands that
+-	 * transfer data from the controller.
++	 * Check if the controller provides a Commands Supported and Effects log
++	 * and marks this command as supported.  If not reject unprivileged
++	 * passthrough.
++	 */
++	effects = nvme_command_effects(ns->ctrl, ns, c->common.opcode);
++	if (!(effects & NVME_CMD_EFFECTS_CSUPP))
++		return false;
++
++	/*
++	 * Don't allow passthrough for command that have intrusive (or unknown)
++	 * effects.
++	 */
++	if (effects & ~(NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC |
++			NVME_CMD_EFFECTS_UUID_SEL |
++			NVME_CMD_EFFECTS_SCOPE_MASK))
++		return false;
++
++	/*
++	 * Only allow I/O commands that transfer data to the controller or that
++	 * change the logical block contents if the file descriptor is open for
++	 * writing.
+ 	 */
+-	if (nvme_is_write(c))
++	if (nvme_is_write(c) || (effects & NVME_CMD_EFFECTS_LBCC))
+ 		return mode & FMODE_WRITE;
+ 	return true;
  }
- EXPORT_SYMBOL_NS_GPL(nvme_command_effects, NVME_TARGET_PASSTHRU);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index d1cd53f2b6abd9..4fad4aa245fb06 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -642,6 +642,7 @@ enum {
+ 	NVME_CMD_EFFECTS_CCC		= 1 << 4,
+ 	NVME_CMD_EFFECTS_CSE_MASK	= GENMASK(18, 16),
+ 	NVME_CMD_EFFECTS_UUID_SEL	= 1 << 19,
++	NVME_CMD_EFFECTS_SCOPE_MASK	= GENMASK(31, 20),
+ };
+ 
+ struct nvme_effects_log {
 -- 
 2.35.1
 
