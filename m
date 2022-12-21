@@ -4,40 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51B67C4332F
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Dec 2022 14:44:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17971C4332F
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Dec 2022 14:45:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3v83uAmIyJSbGGyjODtcAhe6xKUqFEpFrglulznKTrE=; b=PE8oleK7qh9HLKkUOCT+0uM/q4
-	SyVBlrqrieJHDcgJJGn7l07e9uMsfSE7E1cf9XPg6Etd1fpTMwW/BALj4rX4hzTwArqOu7KqDnkQB
-	1QrEgKs2iUzYBb8yTLNTHcXeOXPkWn1pGsujvek4l6meYFpqe6uvVPfko7mCkodvJNELm0Xe94aEW
-	VeMLzF6Rl+9HCxw3ZBhF6s1oSxDOoaHFP9uuDadQMr8Ut5T88lLUfJgjGbnsgMFF7rDH3/CKt8lWR
-	j58tpwD4d9Yy31J0JkpMSNiRSAxipPdDsx2/1j+xGRiytlxOxwJv7H7QagMYQIttD62P/lSDpQMxt
-	60Tkh/4Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=beJP4Kkr6h/TSuOC2Qdh8B/D19ZPOqfTigW9Np05uSM=; b=3WhY7MoxLtybrB/112jNktqAcX
+	EBBFBODqbXbCAh9lBjZpfPmKPkB43fV+4Y6/efJvkaW8pvnR+IkVdmTkHiEYmgOVTkbDleuSHVMyM
+	4v4ZbMNr4FE8M6GtOWri/D19s+qvSCm9ntHv+CMqT3xwIAerXqR0YSVlaGSC2vUSpgTa0IrlNZ4nx
+	u8wUylp1GwcwYIPsYh6kUWfEPx0lrvLvd/fLDTTqPevv0rLw5FWmp03bWm+YdzQxiYxiD3n8ycrid
+	SyhlP3K40w77/PEVxPIrIYqh8XmOOqWEl3e1P1KJk7GXrtVT8o3f3xzihSO8iDilR4mfPX2ZYnKjF
+	HB5AKKWg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p80Kx-00FjLR-PL; Wed, 21 Dec 2022 14:44:51 +0000
-Received: from [2001:4bb8:199:7829:6251:5281:de26:c6d1] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p7w48-00DEON-80; Wed, 21 Dec 2022 10:11:12 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: Kanchan Joshi <joshi.k@samsung.com>,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH 6/6] nvme: consult the CSE log page for unprivileged passthrough
-Date: Wed, 21 Dec 2022 11:10:50 +0100
-Message-Id: <20221221101050.759606-7-hch@lst.de>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221221101050.759606-1-hch@lst.de>
-References: <20221221101050.759606-1-hch@lst.de>
+	id 1p80LA-00FjTv-Gy; Wed, 21 Dec 2022 14:45:04 +0000
+Received: from ms.lwn.net ([45.79.88.28])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1p7zPf-00FExf-Pa
+	for linux-nvme@lists.infradead.org; Wed, 21 Dec 2022 13:45:41 +0000
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 93009377;
+	Wed, 21 Dec 2022 13:45:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 93009377
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1671630333; bh=beJP4Kkr6h/TSuOC2Qdh8B/D19ZPOqfTigW9Np05uSM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=M/yTZSKLUuE/4gSu73sQpKftAaDPNioV00WJlWxHkM984l79P3miE6ozHL2971BcL
+	 sCpK6Vnme6hcPU4TElZkLAV9opZwnlH0NMxxkmoAPRnA+Tb4xdnNCFUsdFOKottDjK
+	 YWx9B3VyiZvBTsSnRWzOU7N0e1EZuUodYTJMg9WLS1fK1dJ6e2mxIFbOAUIHXkGIGq
+	 W+79MiRh991nxm7gL3piE2D7YszQcFSIYf0M6YA3Wr0/3jhDZZO8pORUvtZV5SDLXl
+	 pvOiSYSc14RBoTXd7e5dsj5CG+SeYa87mjkkdDwqnqNNPcKmYznwf5kvHWZaQ0WB6x
+	 s59EuAWyoFFZw==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Christoph Hellwig <hch@lst.de>, axboe@meta.com, sagi@grimberg.me,
+ kbusch@kernel.org, linux-nvme@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Jens Axboe
+ <axboe@kernel.dk>
+Subject: Re: [PATCH] docs, nvme: add a feature and quirk policy document
+In-Reply-To: <20221221083450.GA23903@lst.de>
+References: <20221215125130.261098-1-hch@lst.de>
+ <87zgboddb7.fsf@meer.lwn.net> <20221215132622.GA21083@lst.de>
+ <20221221083450.GA23903@lst.de>
+Date: Wed, 21 Dec 2022 06:45:32 -0700
+Message-ID: <87mt7g27lv.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20221221_054539_910767_3F1DDEBB 
+X-CRM114-Status: GOOD (  17.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -52,83 +72,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Commands like Write Zeros can change the contents of a namespaces without
-actually transferring data.  To protect against this, check the Commands
-Supported and Effects log is supported by the controller for any
-unprivileg command passthrough and refuse unprivileged passthrough if the
-command has any effects that can change data or metadata.
+Christoph Hellwig <hch@lst.de> writes:
 
-Note: While the Commands Support and Effects log page has only been
-mandatory since NVMe 2.0, it is widely supported because Windows requires
-it for any command passthrough from userspace.
+> On Thu, Dec 15, 2022 at 02:26:22PM +0100, Christoph Hellwig wrote:
+>> On Thu, Dec 15, 2022 at 06:08:44AM -0700, Jonathan Corbet wrote:
+>> > The document looks fine, but I do wonder if it wouldn't be better placed
+>> > with the other maintainer entries in Documentation/maintainer?
+>> 
+>> Hmm, nothing in there looks very similar to me, while process
+>> seems to have real policy documents.  But we can live with either
+>> place.
+>
+> Any strong arguments for moving it Documentation/maintainer?
+>
+> I'd like to merge this with the fixups from Randy through the nvme
+> tree ASAP, and need to decide on the location.
 
-Fixes: e4fbcf32c860 ("nvme: identify-namespace without CAP_SYS_ADMIN")
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/nvme/host/ioctl.c | 28 ++++++++++++++++++++++++----
- include/linux/nvme.h      |  1 +
- 2 files changed, 25 insertions(+), 4 deletions(-)
+Sorry, the argument is that the subsystem profiles there were created
+for the very purpose of documenting subsystem-specific patch policies
+like those found in your document.  The hope is that, someday, people
+will be able to go to one place to learn what special hoops any given
+subsystem will make them jump through.
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 9ddda571f0461f..a8639919237e6a 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -11,6 +11,8 @@
- static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
- 		fmode_t mode)
- {
-+	u32 effects;
-+
- 	if (capable(CAP_SYS_ADMIN))
- 		return true;
- 
-@@ -43,11 +45,29 @@ static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
- 	}
- 
- 	/*
--	 * Only allow I/O commands that transfer data to the controller if the
--	 * special file is open for writing, but always allow I/O commands that
--	 * transfer data from the controller.
-+	 * Check if the controller provides a Commands Supported and Effects log
-+	 * and marks this command as supported.  If not reject unprivileged
-+	 * passthrough.
-+	 */
-+	effects = nvme_command_effects(ns->ctrl, ns, c->common.opcode);
-+	if (!(effects & NVME_CMD_EFFECTS_CSUPP))
-+		return false;
-+
-+	/*
-+	 * Don't allow passthrough for command that have intrusive (or unknown)
-+	 * effects.
-+	 */
-+	if (effects & ~(NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC |
-+			NVME_CMD_EFFECTS_UUID_SEL |
-+			NVME_CMD_EFFECTS_SCOPE_MASK))
-+		return false;
-+
-+	/*
-+	 * Only allow I/O commands that transfer data to the controller or that
-+	 * change the logical block contents if the file descriptor is open for
-+	 * writing.
- 	 */
--	if (nvme_is_write(c))
-+	if (nvme_is_write(c) || (effects & NVME_CMD_EFFECTS_LBCC))
- 		return mode & FMODE_WRITE;
- 	return true;
- }
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index d1cd53f2b6abd9..4fad4aa245fb06 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -642,6 +642,7 @@ enum {
- 	NVME_CMD_EFFECTS_CCC		= 1 << 4,
- 	NVME_CMD_EFFECTS_CSE_MASK	= GENMASK(18, 16),
- 	NVME_CMD_EFFECTS_UUID_SEL	= 1 << 19,
-+	NVME_CMD_EFFECTS_SCOPE_MASK	= GENMASK(31, 20),
- };
- 
- struct nvme_effects_log {
--- 
-2.35.1
+This isn't something I'm going to dig in my heels on, though.  But at a
+minimum, could you add an entry to
+Documentation/maintainer/maintainer-entry-profile.rst ?
 
+Thanks,
+
+jon
 
