@@ -4,82 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD545C4332F
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Dec 2022 16:26:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4E842C4332F
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Dec 2022 21:53:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UXlbX1VyAp1OUkMGBpH9EiNGKAxy9fO5IsYvI0ywITo=; b=jMwlfiiUW1CFb+v6hwfxfDS6XQ
-	eLv9xMA/xMbX8uOl8dELHb5u9bLfD1aA0U2U0fOLlCCJp7feBEXe1tsGbGnTFfVnXtY9Rjn6lOvhe
-	tjKRb5Lh5bK4mU2oegNVsGYbNmEW+vuuQNXmF/Fic6kNuhWXxvKlBFQvo53MBuc0NKBILoGyhTcLu
-	+oCmAHsRpQUoF+YHHMp9lRqI/be3bntNg3V9vcRtxX3LAxyp9fIC3Fq2Q1boLeIOPXTFaKRBQEG9y
-	uaAy4G6Z/cDTGq/QN+ZSL6zhxiSIKBvsg0WT+nJLQo/YeMVH14fQcF8Z06LqBh7qYHAZtg248938d
-	DZ29wAwg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=BOl6ICJ8RqdJV/GOC1RaekskBBpoDf7iE7ORiDpKG5M=; b=a2p7XPNA2WCvOOyQKb97rYKoax
+	LcE00KFITaVmClk2HBKBHwjmEDyTrac9kOnRj47UAz7TY86IDxwM2jaGLpkkRuOeKS3xB607p+DOS
+	nNXuI9EAOMVFEPOvoKKw5/3wVRCHKFC/ovXAH4Vi2gykCyGkZttWqmVj+7tpL+2CopQwq2C6oIU2r
+	j9mEbxPyAvy6DOFDrb4Z0fsxXab/tS+F5hxATZXSw0OPODKVTrlTAZ9xHLhHYI2ILbs/Ya9wqj9Iu
+	6swqLGp4ms8LogNyifQaOwBtG2qQAMqUni2+8+JkLRaYW89H/npP3gqa7kQfXEUbUJeCanigV7v5G
+	nRZ8//8w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p8OOw-00E2hE-TE; Thu, 22 Dec 2022 16:26:35 +0000
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
+	id 1p8TVf-00HTzP-AV; Thu, 22 Dec 2022 21:53:51 +0000
+Received: from ms.lwn.net ([45.79.88.28])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p8OLm-00E0ss-GF
-	for linux-nvme@lists.infradead.org; Thu, 22 Dec 2022 16:23:21 +0000
-Received: by mail-pg1-x531.google.com with SMTP id b12so1638868pgj.6
-        for <linux-nvme@lists.infradead.org>; Thu, 22 Dec 2022 08:23:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UXlbX1VyAp1OUkMGBpH9EiNGKAxy9fO5IsYvI0ywITo=;
-        b=3GhP48iDsw7f3PN/e0bFTcv0wTw99koJKRq7qbRwENHRRKiyLXG4lVTjrlwLgrDMfK
-         m45LccLNE8dr7UUTsyzS3klT75UkUXzdYCBIHBBO51foNhFQTaS6Ph2diBUX8v8T30Wz
-         y/z3CU++6aFCJ7nU1mgRzOsD5NlKHG1+ArdJd77AdbWCCG2TNdYW6xwtBMXQAKKYxMwl
-         niR8b1PcoiGawFC2t7R6ADFbPAK++sOTnxPe5r2NveIM+HWRTdKVMioCEXDCU02ViOBW
-         vFrWlAH0QHZMHivIhLCx9VJEvZK26CktVAi0guj63kaKwWAT4cZoulHpczOf5JD3nt5j
-         nwfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UXlbX1VyAp1OUkMGBpH9EiNGKAxy9fO5IsYvI0ywITo=;
-        b=y+AcE58SkKclnJvCN341kEQGByTtwUMC4UnTMAunN+Eza9gpmZAdfKOAaiNFDFYr3s
-         Jer8GVV96wtCx+cwme6rVshKA4kdRZH6/V9K5fBYVrjOgMdCXMCxcCHy5sryN2cszI62
-         IF6RpFacMaNvxKhxD6lR2yrtEpmE2Pq1aZ0yK+TdtExSaAI1wqiB/Iy1nRvczBHJ0mTZ
-         NNblamRKiymJwVCYeX8BbLG8qITFotPAMj3u3PxtW8YOHyCSSUCX/m3ZHCRPXR+vxjmf
-         jG1KjGG5rPG9d7wJuthaIReFr7np0cRa91p56rZdnaLpUeE69goGitaAeeafOOagoMVH
-         zWgg==
-X-Gm-Message-State: AFqh2kpx/RGmY4q88/31dv26hGEIDzZSRs1aK3ptRf7cXMyx/xcvDRW4
-	lxJdZAwyhLCFpPswnYouXfdnkRWNSkZe7VJr
-X-Google-Smtp-Source: AMrXdXtgaBwVjVuK9ElEkuRLLaMFoufiteDPKp8RMN9JoNyAuUkFKncyt6MbxWyHiFtw/GNAQhz5dg==
-X-Received: by 2002:a62:3894:0:b0:56b:a661:5a5a with SMTP id f142-20020a623894000000b0056ba6615a5amr1672622pfa.2.1671726194457;
-        Thu, 22 Dec 2022 08:23:14 -0800 (PST)
-Received: from [192.168.1.136] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id z7-20020a623307000000b00576d4d69909sm952358pfz.8.2022.12.22.08.23.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Dec 2022 08:23:13 -0800 (PST)
-Message-ID: <7c253b8a-7535-51f0-5325-fb3866f7634e@kernel.dk>
-Date: Thu, 22 Dec 2022 09:23:12 -0700
+	id 1p8SaQ-00H81v-2G
+	for linux-nvme@lists.infradead.org; Thu, 22 Dec 2022 20:54:43 +0000
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id A1715774;
+	Thu, 22 Dec 2022 20:54:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A1715774
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1671742476; bh=BOl6ICJ8RqdJV/GOC1RaekskBBpoDf7iE7ORiDpKG5M=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=opBNAa42RBXIgcq6/Wg3Wpkatc+UgO6KGWwH/W1NGxg8UlxYjdfHc3b/ECEkJOA96
+	 oKIbeDIfKwNEYyBR4dF88k9GtXuVx2OKnWARuS478xNZn9ArfsmOCZm6I7OErHrmLX
+	 vh00GCngBsJY+etnO0p3KN7UaujLje7WhZbxWrcG9BUSm7eWRaNo8oC6FXGAwTNnLY
+	 uJlU22BEshbtF0J/R4NhDLGq7msohT105z0dniqiB/u9vEbnpyohLtiLNhoTJUv/4B
+	 8gAcsLIdpoI7MJDqdjomF1XRHl3AV0VWnqN8mXAh+ZedKourXzUgsqWR8nqx9b9MBG
+	 cdi3W/pIl9Kpw==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Christoph Hellwig <hch@lst.de>, axboe@meta.com, sagi@grimberg.me,
+ kbusch@kernel.org, linux-nvme@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Jens Axboe
+ <axboe@kernel.dk>
+Subject: Re: [PATCH] docs, nvme: add a feature and quirk policy document
+In-Reply-To: <20221222160920.GA10193@lst.de>
+References: <20221215125130.261098-1-hch@lst.de>
+ <87zgboddb7.fsf@meer.lwn.net> <20221215132622.GA21083@lst.de>
+ <20221221083450.GA23903@lst.de> <87mt7g27lv.fsf@meer.lwn.net>
+ <20221222160920.GA10193@lst.de>
+Date: Thu, 22 Dec 2022 13:54:35 -0700
+Message-ID: <87zgbfma5w.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [GIT PULL] nvme fixes for Linux 6.2
-Content-Language: en-US
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org
-References: <Y6R7MBrn2xzmwT1J@infradead.org>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <Y6R7MBrn2xzmwT1J@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221222_082318_585528_C22ADA96 
-X-CRM114-Status: UNSURE (   8.68  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221222_125442_179198_563B646D 
+X-CRM114-Status: GOOD (  17.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,19 +73,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/22/22 8:43 AM, Christoph Hellwig wrote:
-> The following changes since commit 53eab8e76667b124615a943a033cdf97c80c242a:
-> 
->   block: don't clear REQ_ALLOC_CACHE for non-polled requests (2022-12-16 09:18:09 -0700)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-6.2-2022-12-22
+Christoph Hellwig <hch@lst.de> writes:
 
-Pulled, thanks.
+> On Wed, Dec 21, 2022 at 06:45:32AM -0700, Jonathan Corbet wrote:
+>> Sorry, the argument is that the subsystem profiles there were created
+>> for the very purpose of documenting subsystem-specific patch policies
+>> like those found in your document.  The hope is that, someday, people
+>> will be able to go to one place to learn what special hoops any given
+>> subsystem will make them jump through.
+>> 
+>> This isn't something I'm going to dig in my heels on, though.  But at a
+>> minimum, could you add an entry to
+>> Documentation/maintainer/maintainer-entry-profile.rst ?
+>
+> What about the following?  This moves the file to a new
+> Documentation/nvme/ directory and then links it form
+> Documentation/maintainer/maintainer-entry-profile.rst:
 
--- 
-Jens Axboe
+I'm not really a fan of adding more top-level directories; one of these
+years I'd like to try to move things in the opposite direction.  That is
+a battle for another day, though; for now let's just go with this and
+get the document merged.
 
+That said, I suspect you'll add a build warning about the new document
+not being included in any toctree.  Fixing that would involve adding a
+basic index.rst to the new directory and adding that to a file like
+Documentation/subsystem-apis.rst.
 
+Thanks,
+
+jon
 
