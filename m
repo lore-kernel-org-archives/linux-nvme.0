@@ -4,64 +4,120 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E93E2C10F1B
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Dec 2022 01:58:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1E6CAC4332F
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Dec 2022 08:19:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ji3cSCoJrjHA49Utexpb24qkXXo2ez2ZiexcqcRxBGY=; b=pvFw7//hnmg/r+M8hzUxjYjd/Q
-	tCVdrnvsg4hpsb1tUGgHACizWwlTr1hGr3zwh2kTutR7HKshhcJojTxyMgdN85mTRqogB2S20DwCo
-	WvqshDsg+7zDQia23AEnrPwqXgD4hKJDFQZg2FDS6XW7IwJ416bbE1pBuJz/bgg9h/DHOLyRbQ2jy
-	b+zm5ACdrO/pkD9Q6dQBjmirgY8j4JBqsIs5nd4l/YvyQCxJRVTMWM6uQdZejMILt/aFUsTilrxLP
-	+aRpLec1jgKnUgO/4jP/fjf4pK5Ta7UfaTMg6uPjbqzV/ehXo6g/qq7bhZ9kLdhbUvnFQrixow3cH
-	grz3iR5g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pxEUt0WA5qcnBwmnPlfch5IUE/QliNoBE2mfaFNfbYo=; b=Jd/fzC4RkuoC/CJvOKN3N7zTe2
+	HxMEiUczoWvKTrlWhpMZuP4ZfHT7Y3MQBAmIVLVZhbUOAH5QfaD+ZVlrHDIgRhK0MNAD90fXfC8LQ
+	Wf+iFna7yTQfxzhsdyWNo77nIodB1TuCGcGlQRE4Ip0EEhg/BoOg+9J/Mpv7mYKfSd6RtxmYe1wVy
+	y0O8ixcCS06KmSuZObCE78L/7Jd+2yrkEBYtulEE4DtOzTEU/IkV7qfjrTGy5xCCB/9OMkhG9AlBy
+	0Wv+bTYLMMcGLqb/Ef8ijF2p0dU2+Yg2Phg2Hj2Dk4jbgweugbUFBRW/jx5jWKewd/vCOvpUUHgOg
+	fcqvk2pw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p8AqO-005KP5-Co; Thu, 22 Dec 2022 01:58:00 +0000
-Received: from [106.39.185.58] (helo=smtp.cecloud.com)
-	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p8AqJ-005KFx-20
-	for linux-nvme@lists.infradead.org; Thu, 22 Dec 2022 01:57:57 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by smtp.cecloud.com (Postfix) with ESMTP id 0D84517E0205;
-	Thu, 22 Dec 2022 09:57:42 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ANTISPAM-LEVEL: 2
-X-ABS-CHECKED: 0
-Received: from localhost.localdomain (unknown [111.48.58.13])
-	by smtp.cecloud.com (postfix) whith ESMTP id P2473742T281457543016816S1671674261238154_;
-	Thu, 22 Dec 2022 09:57:42 +0800 (CST)
-X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <7b05fc6580268c758c9c8fe1f738483b>
-X-RL-SENDER: zhangyanjun@cestc.cn
-X-SENDER: zhangyanjun@cestc.cn
-X-LOGIN-NAME: zhangyanjun@cestc.cn
-X-FST-TO: hch@lst.de
-X-RCPT-COUNT: 7
-X-SENDER-IP: 111.48.58.13
-X-ATTACHMENT-NUM: 0
-X-System-Flag: 0
-From: zhangyanjun@cestc.cn
-To: hch@lst.de,
-	sagi@grimberg.me,
-	kbusch@kernel.org,
-	axboe@fb.com
-Cc: linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	Yanjun Zhang <zhangyanjun@cestc.cn>
-Subject: [PATCH v3] nvme: fix multipath crash caused by flush request when blktrace is enabled
-Date: Thu, 22 Dec 2022 09:57:21 +0800
-Message-Id: <20221222015721.76241-1-zhangyanjun@cestc.cn>
-X-Mailer: git-send-email 2.31.1
+	id 1p8Gnb-008sic-OT; Thu, 22 Dec 2022 08:19:31 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1p8GnU-008scF-Kc
+	for linux-nvme@lists.infradead.org; Thu, 22 Dec 2022 08:19:27 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20221222081912epoutp045486afca4cf152648f6a7cd8bb9b8b26~zD7QV6G--0201602016epoutp04u
+	for <linux-nvme@lists.infradead.org>; Thu, 22 Dec 2022 08:19:12 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20221222081912epoutp045486afca4cf152648f6a7cd8bb9b8b26~zD7QV6G--0201602016epoutp04u
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1671697152;
+	bh=pxEUt0WA5qcnBwmnPlfch5IUE/QliNoBE2mfaFNfbYo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lUxgtXf7eVWs+KSdD0Sxfk6sz1vxzpPr8CW+wRT4TJmstXNfqSrvyR8kx2ODKcYFO
+	 U6VCsGQ7+7BcjN86dO7JdNYGXjKEMbrPUFJZt0ft2EdQfxpoLx5j6rh3fkPdysVDbn
+	 ssMztNI+yl6xfhXu7088iZPPsUFEuMyct18TdNhw=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20221222081912epcas5p117b318541f0de7d73c704370f7fb577a~zD7P_DvSN1556015560epcas5p1W;
+	Thu, 22 Dec 2022 08:19:12 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.183]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4Nd3B65X6Xz4x9Pr; Thu, 22 Dec
+	2022 08:19:10 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	DE.D8.62806.CF214A36; Thu, 22 Dec 2022 17:19:08 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20221222081908epcas5p2e16d1b45d2bf59db5eb538ab61918d4f~zD7MSMhRH0387403874epcas5p2t;
+	Thu, 22 Dec 2022 08:19:08 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20221222081908epsmtrp26110e210bf33580f79e1c916082fc9d9~zD7MRiymJ0694606946epsmtrp2F;
+	Thu, 22 Dec 2022 08:19:08 +0000 (GMT)
+X-AuditID: b6c32a4a-ea5fa7000000f556-1c-63a412fc8cdc
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	1F.2C.02211.CF214A36; Thu, 22 Dec 2022 17:19:08 +0900 (KST)
+Received: from green (unknown [107.110.206.5]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20221222081907epsmtip2befec5752026974d46b1c7c53acb2199~zD7LYlel00584605846epsmtip2Y;
+	Thu, 22 Dec 2022 08:19:07 +0000 (GMT)
+Date: Thu, 22 Dec 2022 13:49:04 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org
+Subject: Re: only allow unprivileged passthrough for commands without
+ effects v3
+Message-ID: <20221222081904.GA4413@green>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221221101050.759606-1-hch@lst.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpmk+LIzCtJLcpLzFFi42LZdlhTQ/eP0JJkg77n2hYrVx9lsph06Bqj
+	xdOrs5gs5i97ym6x7vV7FgdWj/P3NrJ4bFrVyeaxeUm9x+6bDWwevc3v2AJYo7JtMlITU1KL
+	FFLzkvNTMvPSbZW8g+Od403NDAx1DS0tzJUU8hJzU22VXHwCdN0yc4CWKymUJeaUAoUCEouL
+	lfTtbIryS0tSFTLyi0tslVILUnIKTAr0ihNzi0vz0vXyUkusDA0MjEyBChOyM9ZvaWMu6GWr
+	uHHUpIFxPmsXIyeHhICJxMbzLxm7GLk4hAR2M0q8+TCBCcL5xCix780TKOcbo0Tf79vMMC0N
+	i1+yQCT2Mko8n/WHHcJ5zChxvW8KC0gVi4CqxPNpe9m6GDk42AQ0JS5MLgUJiwgoSTx9dRZs
+	H7NAD6PEufaVYIcICwRJ7Hu/lhGknheo/vWVAJAwr4CgxMmZT8BGcgoYSqy41wVWLiqgLHFg
+	23Gw6yQEvrJLbNs2lR3iOheJfV+2QdnCEq+Ob4GypSQ+vwO5B8ROlrg08xwThF0i8XjPQSjb
+	XqL1VD/Yl8wCGRJLe3ezQNh8Er2/QUHBAVTDK9HRJgRRrihxb9JTaDiKSzycsQTK9pA48/0g
+	2BghgRZGiS07xScwys1C8s4sJBsgbCuJzg9NrLOANjALSEss/8cBYWpKrN+lv4CRdRWjZGpB
+	cW56arFpgVFeajk8ipPzczcxglOjltcOxocPPugdYmTiYDzEKMHBrCTCu+Xx4mQh3pTEyqrU
+	ovz4otKc1OJDjKbA2JnILCWanA9Mznkl8YYmlgYmZmZmJpbGZoZK4rypW+cnCwmkJ5akZqem
+	FqQWwfQxcXBKNTBFHb/GsOTaCp+pphePXdYP1DzurerNe9Pc5l5lVM11t5P1j54wVLwS1Nss
+	2VfELvZ87bqq66LPjkeX9jdcCH2SqnJu8vzSR+bcymF171cx7X3nK2i47pfkl9Tgieel5p87
+	WOvz6dArT7U7hnpxIV51k3IXfrq+JdtZg+Mp++vv+jX6qbtCBeNOtBX9/v3ByfXZGcEZy/rr
+	WCYtb2M7Lxk0N6bghEbk0fff9+TvyGbbKnJb//xymS+ejkoPToorb337c8a2pazfRKQ6Nh5U
+	s9324HlfeYHc0pb3G3SKPANfWPK9zuycYP2k9NADiz9bbry9XzLzwPN86Ye5FjO+7/rTmi8n
+	d3n7X9aX0+fer9+apsRSnJFoqMVcVJwIAAEqcAgWBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrMLMWRmVeSWpSXmKPExsWy7bCSvO4foSXJBnM7hC1Wrj7KZDHp0DVG
+	i6dXZzFZzF/2lN1i3ev3LA6sHufvbWTx2LSqk81j85J6j903G9g8epvfsQWwRnHZpKTmZJal
+	FunbJXBl3J29m6lgP3NF85xnbA2Mr5m6GDk5JARMJBoWv2TpYuTiEBLYzSjx6MQ3doiEuETz
+	tR9QtrDEyn/P2SGKHjJKzFrZwAqSYBFQlXg+bS9bFyMHB5uApsSFyaUgYREBJYmnr84ygtQz
+	C/QwSpxrXwlWLywQJPHy6n5mkHpeoPrXVwIgZrYwSizY/poFpIZXQFDi5MwnYDazgJnEvM0P
+	weqZBaQllv/jAAlzChhKrLjXBTZSVEBZ4sC240wTGAVnIemehaR7FkL3AkbmVYySqQXFuem5
+	xYYFhnmp5XrFibnFpXnpesn5uZsYweGupbmDcfuqD3qHGJk4GA8xSnAwK4nwbnm8OFmINyWx
+	siq1KD++qDQntfgQozQHi5I474Wuk/FCAumJJanZqakFqUUwWSYOTqkGpkq92/ssOjMiW9zm
+	7lwhtaHtwde32xZZlDjUmvyP5Or8UR1dueLzjfnnOBjm7a/223z+7HrLfJM5Wlpf/E1P77n3
+	1P9v3SuBZUvX8ojFVc9b9Fc/+9HqZV3chwTrpHuet89VUvs0Zc0RmeyoXcdiX/ZecbBJKw7z
+	vh+pOOfugg/lU9imqu+9+vWNv4AUd9kGbrXd01LN70T+3LDuweaauTFywv45rwQdeP6m7JG7
+	qfx+UWm26L5X9x6yhHyZkrbxXvb/dey75x1rOsL8JZSr+nHqpc33OLT2TOG02Mt6wEljgdtu
+	g3/bJmVP+Hjvx+Xn+jvmnmtICLZYHMf30lL5edbBXXzHwxlK//HdnsmVKxOgxFKckWioxVxU
+	nAgA90LQUeYCAAA=
+X-CMS-MailID: 20221222081908epcas5p2e16d1b45d2bf59db5eb538ab61918d4f
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----dP7Qx9dcwq0e3k-gT5OC2TLFeuRm6-MlOT8i1nwxNxOSTL6J=_50a1f_"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20221221145321epcas5p4ff234021b074bf0a513d1cb233135656
+References: <CGME20221221145321epcas5p4ff234021b074bf0a513d1cb233135656@epcas5p4.samsung.com>
+	<20221221101050.759606-1-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221221_175755_503428_F974A977 
-X-CRM114-Status: GOOD (  13.63  )
+X-CRM114-CacheID: sfid-20221222_001925_403956_01111ED2 
+X-CRM114-Status: GOOD (  14.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,77 +132,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Yanjun Zhang <zhangyanjun@cestc.cn>
+------dP7Qx9dcwq0e3k-gT5OC2TLFeuRm6-MlOT8i1nwxNxOSTL6J=_50a1f_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-The flush request initialized by blk_kick_flush has NULL bio,
-and it may be dealt with nvme_end_req during io completion.
-When blktrace is enabled, nvme_trace_bio_complete with multipath
-activated trying to access NULL pointer bio from flush request
-results in the following crash:
+On Wed, Dec 21, 2022 at 11:10:44AM +0100, Christoph Hellwig wrote:
+>Hi all,
+>
+>this series first fixes a few minor issues in the CES log support in the
+>host and target drivers and then uses the log to deny unprivileged
+>passthrough of commands that have effects, where the only practically
+>relevant effect is the modification of contents of the data stored in the
+>namespace.
 
-[ 2517.831677] BUG: kernel NULL pointer dereference, address: 000000000000001a
-[ 2517.835213] #PF: supervisor read access in kernel mode
-[ 2517.838724] #PF: error_code(0x0000) - not-present page
-[ 2517.842222] PGD 7b2d51067 P4D 0
-[ 2517.845684] Oops: 0000 [#1] SMP NOPTI
-[ 2517.849125] CPU: 2 PID: 732 Comm: kworker/2:1H Kdump: loaded Tainted: G S                5.15.67-0.cl9.x86_64 #1
-[ 2517.852723] Hardware name: XFUSION 2288H V6/BC13MBSBC, BIOS 1.13 07/27/2022
-[ 2517.856358] Workqueue: nvme_tcp_wq nvme_tcp_io_work [nvme_tcp]
-[ 2517.859993] RIP: 0010:blk_add_trace_bio_complete+0x6/0x30
-[ 2517.863628] Code: 1f 44 00 00 48 8b 46 08 31 c9 ba 04 00 10 00 48 8b 80 50 03 00 00 48 8b 78 50 e9 e5 fe ff ff 0f 1f 44 00 00 41 54 49 89 f4 55 <0f> b6 7a 1a 48 89 d5 e8 3e 1c 2b 00 48 89 ee 4c 89 e7 5d 89 c1 ba
-[ 2517.871269] RSP: 0018:ff7f6a008d9dbcd0 EFLAGS: 00010286
-[ 2517.875081] RAX: ff3d5b4be00b1d50 RBX: 0000000002040002 RCX: ff3d5b0a270f2000
-[ 2517.878966] RDX: 0000000000000000 RSI: ff3d5b0b021fb9f8 RDI: 0000000000000000
-[ 2517.882849] RBP: ff3d5b0b96a6fa00 R08: 0000000000000001 R09: 0000000000000000
-[ 2517.886718] R10: 000000000000000c R11: 000000000000000c R12: ff3d5b0b021fb9f8
-[ 2517.890575] R13: 0000000002000000 R14: ff3d5b0b021fb1b0 R15: 0000000000000018
-[ 2517.894434] FS:  0000000000000000(0000) GS:ff3d5b42bfc80000(0000) knlGS:0000000000000000
-[ 2517.898299] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 2517.902157] CR2: 000000000000001a CR3: 00000004f023e005 CR4: 0000000000771ee0
-[ 2517.906053] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[ 2517.909930] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[ 2517.913761] PKRU: 55555554
-[ 2517.917558] Call Trace:
-[ 2517.921294]  <TASK>
-[ 2517.924982]  nvme_complete_rq+0x1c3/0x1e0 [nvme_core]
-[ 2517.928715]  nvme_tcp_recv_pdu+0x4d7/0x540 [nvme_tcp]
-[ 2517.932442]  nvme_tcp_recv_skb+0x4f/0x240 [nvme_tcp]
-[ 2517.936137]  ? nvme_tcp_recv_pdu+0x540/0x540 [nvme_tcp]
-[ 2517.939830]  tcp_read_sock+0x9c/0x260
-[ 2517.943486]  nvme_tcp_try_recv+0x65/0xa0 [nvme_tcp]
-[ 2517.947173]  nvme_tcp_io_work+0x64/0x90 [nvme_tcp]
-[ 2517.950834]  process_one_work+0x1e8/0x390
-[ 2517.954473]  worker_thread+0x53/0x3c0
-[ 2517.958069]  ? process_one_work+0x390/0x390
-[ 2517.961655]  kthread+0x10c/0x130
-[ 2517.965211]  ? set_kthread_struct+0x40/0x40
-[ 2517.968760]  ret_from_fork+0x1f/0x30
-[ 2517.972285]  </TASK>
-
-To avoid this situation, add a NULL check for req->bio before
-calling trace_block_bio_complete.
-
-Signed-off-by: Yanjun Zhang <zhangyanjun@cestc.cn>
----
- drivers/nvme/host/nvme.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a29877217..41f87d970 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -888,7 +888,7 @@ static inline void nvme_trace_bio_complete(struct request *req)
- {
- 	struct nvme_ns *ns = req->q->queuedata;
- 
--	if (req->cmd_flags & REQ_NVME_MPATH)
-+	if ((req->cmd_flags & REQ_NVME_MPATH) && req->bio)
- 		trace_block_bio_complete(ns->head->disk->queue, req->bio);
- }
- 
--- 
-2.31.1
+LGTM.
+Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
 
 
+------dP7Qx9dcwq0e3k-gT5OC2TLFeuRm6-MlOT8i1nwxNxOSTL6J=_50a1f_
+Content-Type: text/plain; charset="utf-8"
 
+
+------dP7Qx9dcwq0e3k-gT5OC2TLFeuRm6-MlOT8i1nwxNxOSTL6J=_50a1f_--
 
