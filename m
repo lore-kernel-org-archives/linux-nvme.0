@@ -4,48 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 43F74C4332F
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Dec 2022 07:46:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0A46C4332F
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Dec 2022 09:34:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Xtw9z/SPI0t1LoxMjX96bH/gdzT34oDUeG6sSAiMkow=; b=2yqPRSp2iwhQLrJuXwiDU5l26l
-	HJtER69XIYndUkgWwi/ztDZJT8XUZZZuY2zInn6kNR+ULS1jw1Ylpi142d+FXntOxIR7XqQAJf3i4
-	JzlXvbNRs7sEUNA84poiHOCmpM9qvJPooQCHZdzFmdLRpBwPKFYqN3BOCGxPCtfm5sWGpTvMX3MWy
-	szpVWysOUd/fO0DR2ThruzxJu3hdzfVvvex2sH/Yk807DWsU5xTySNKFw0QopGY/MDeuaYfJEVc43
-	oJpBA5LSWvgNQ5C7p8rw/IEht3cvi1GI5P8jxSBNq5LOkxHF8TFnfWyc5g6IsCqpxSntrDqMFkFc1
-	7XxnaXgQ==;
+	bh=n/3kG28pykc52lVoRlVBzIyp5t5ScEYpCDExlpfilTU=; b=B7paGcUOKg7ayRw3/bLS2BdnpF
+	xNL/q7urP+OVhyKueNVOO4jpK1EIkJZ4LXA+r90zFtED/fJ+rqA9q6IH0RBQG1SECcm0QIWCop1gB
+	Rp4AfdECYW6vyc8VtySk6xKiVn9Ouexn9HJ7BIel589L0YcMUKZUjlYTY95gY/TMbi4kaMNXuhvAU
+	/HOLdlSgZUJxNgj7du2XgtmcJFz9RYn3o+Lptq5JZXvCGsvC8X2mFzIX8jhxlcxZvyG25rWGEKNgu
+	TLoOKNEo8mn/xvh7t/5n+J+gfUy2fDAQyq5Bjhi6F1uEo/fYTypneAs6CEZfldu5iXL1V/0NKnCpr
+	5DrHPTBQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p8ckd-004tzj-7a; Fri, 23 Dec 2022 07:45:55 +0000
+	id 1p8eRI-005lxQ-Uu; Fri, 23 Dec 2022 09:34:05 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p8cka-004tyJ-1E
-	for linux-nvme@lists.infradead.org; Fri, 23 Dec 2022 07:45:53 +0000
+	id 1p8eRG-005lpl-05
+	for linux-nvme@lists.infradead.org; Fri, 23 Dec 2022 09:34:03 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 7CC026732D; Fri, 23 Dec 2022 08:45:46 +0100 (CET)
-Date: Fri, 23 Dec 2022 08:45:45 +0100
+	id 0BB5F68AA6; Fri, 23 Dec 2022 10:33:52 +0100 (CET)
+Date: Fri, 23 Dec 2022 10:33:51 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org
-Subject: Re: only allow unprivileged passthrough for commands without
- effects v3
-Message-ID: <20221223074545.GA5356@lst.de>
-References: <CGME20221221145321epcas5p4ff234021b074bf0a513d1cb233135656@epcas5p4.samsung.com> <20221221101050.759606-1-hch@lst.de> <20221222081904.GA4413@green>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Christoph Hellwig <hch@lst.de>, axboe@meta.com, sagi@grimberg.me,
+	kbusch@kernel.org, linux-nvme@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH] docs, nvme: add a feature and quirk policy document
+Message-ID: <20221223093351.GA8028@lst.de>
+References: <20221215125130.261098-1-hch@lst.de> <87zgboddb7.fsf@meer.lwn.net> <20221215132622.GA21083@lst.de> <20221221083450.GA23903@lst.de> <87mt7g27lv.fsf@meer.lwn.net> <20221222160920.GA10193@lst.de> <87zgbfma5w.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221222081904.GA4413@green>
+In-Reply-To: <87zgbfma5w.fsf@meer.lwn.net>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221222_234552_247007_1C68F4F7 
-X-CRM114-Status: UNSURE (   8.70  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221223_013402_244209_782E1E83 
+X-CRM114-Status: GOOD (  18.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,7 +59,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Btw, any chance you could write some tests for blktests to verify
-the unprivilged passthrough operations?
+On Thu, Dec 22, 2022 at 01:54:35PM -0700, Jonathan Corbet wrote:
+> I'm not really a fan of adding more top-level directories; one of these
+> years I'd like to try to move things in the opposite direction.  That is
+> a battle for another day, though; for now let's just go with this and
+> get the document merged.
 
+I though about that, but could not thing of a good subdirectory.
+
+> 
+> That said, I suspect you'll add a build warning about the new document
+> not being included in any toctree.  Fixing that would involve adding a
+> basic index.rst to the new directory and adding that to a file like
+> Documentation/subsystem-apis.rst.
+
+The new document is included in
+Documentation/maintainer/maintainer-entry-profile.rst in this path.
+
+I also did check for new warnings and did not see any, even if that's
+a little difficult with the rather chatty shpinx output.
 
