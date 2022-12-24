@@ -4,62 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14D8DC4332F
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Dec 2022 14:16:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A907C4332F
+	for <linux-nvme@archiver.kernel.org>; Sat, 24 Dec 2022 06:23:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2To79WNMTF4K2+fkid8avf169IweySAkg3+yKw0TyYo=; b=xRKUT3OeJckizqfz3pUMFMecu9
-	dFygmLKfY9R9J6y0s9pwe5buKjCwz4N51iXShH7qm9BBt5yv4ABBAf1SdCy8WH3W0i74fWfKNisVs
-	iV2pF4soRU2g9y1ZYdQTQRK6yPL0ZsbJNFLiCImd6MoTZE5WKVc6ZozRM3FeR7v2HwNib/S9SisR7
-	gk+GXR+/B+TTZjy10WMSpsuhQvvXM93Oj5hyzsu9Vi5wDXRSxlv+2jI629VGFon2GL4RLlLqFxNEJ
-	d5PhEmF4W0bsOH5adHgRAcIHtOIAh5jOtGBMr4TaDdgXxgWD3EuUstQImzBNap+eqRijyv7WBahIm
-	tKQh8KlA==;
+	Message-ID:Subject:cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=BvE2awRwFzFbxJ18OKrhIqmcucLQ6AvTFfNUPm7G5WM=; b=gMhjT645gm/8LxjAE9KNCRdRk0
+	7kjaSnku3x1ab8+G/h5V3/PsaxmvOYl8TMOkT8pQiF4u9186dMA/37CLoO1lQZnB76llXoBuwrj0Q
+	qHo6IBRTQyKBa6ZUNy6DqmnJlSFJLTdRdvMBswnlhqx9eXaZmC8e67VNJonqGTqwNRLjpvEY01CRA
+	Rd+OHfT/5HArjLzOLLIucJKzna9YVkCenVgtwCxUXJlgIKHWXSbubaj36rTXJMeDfA3gqz1jSURoK
+	MZADLFtsN3xES07CjaM8aVhME9S/yHHu1+MKZf88v9EIez0FTg97i1KI/neYmFK5DUbqK9V8pJMGi
+	JTyaD4Tw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p8iqn-008lSW-2Y; Fri, 23 Dec 2022 14:16:41 +0000
-Received: from ms.lwn.net ([45.79.88.28])
+	id 1p8xwN-00FW3O-Oa; Sat, 24 Dec 2022 06:23:27 +0000
+Received: from mail-qt1-f181.google.com ([209.85.160.181])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p8iqk-008lQ5-F2
-	for linux-nvme@lists.infradead.org; Fri, 23 Dec 2022 14:16:39 +0000
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E78EF4E5;
-	Fri, 23 Dec 2022 14:16:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E78EF4E5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1671804992; bh=2To79WNMTF4K2+fkid8avf169IweySAkg3+yKw0TyYo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=blnjTx6Luu5jxoHHHqqqEhrSVJY3AocV2e6LZRXSggmhh4QE3rKtiLbqhYMCwVmJP
-	 z6LyNSuLmWZUq3Ez5BqefVzKlpjzKTDuQLKzhGfG9GmnJF5HducAh+uTckpxjPYHBi
-	 Q8THCAHlLWjGHoE+Xiil55euKp98gqsvcRnhGD26mUQEaudii2jjznpuCRpKoUkHTc
-	 qmL/a57NYZrQaodlFqHwcyzrKeDt0iDFQiZ4bWk2M7l5+UZuJC0mMEZhCtxX6uhXvw
-	 0ImFiIu/nP6alzxOI8LNPZL6+E+UWTsB6nY1NzRCS15b6mvhbiNeXMhVx2XfkEkfzJ
-	 VSScmSK6j/P6g==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Christoph Hellwig <hch@lst.de>, axboe@meta.com, sagi@grimberg.me,
- kbusch@kernel.org, linux-nvme@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Jens Axboe
- <axboe@kernel.dk>
-Subject: Re: [PATCH] docs, nvme: add a feature and quirk policy document
-In-Reply-To: <20221223093351.GA8028@lst.de>
-References: <20221215125130.261098-1-hch@lst.de>
- <87zgboddb7.fsf@meer.lwn.net> <20221215132622.GA21083@lst.de>
- <20221221083450.GA23903@lst.de> <87mt7g27lv.fsf@meer.lwn.net>
- <20221222160920.GA10193@lst.de> <87zgbfma5w.fsf@meer.lwn.net>
- <20221223093351.GA8028@lst.de>
-Date: Fri, 23 Dec 2022 07:16:31 -0700
-Message-ID: <87sfh6mchs.fsf@meer.lwn.net>
+	id 1p8x21-00Ezh9-Fu
+	for linux-nvme@lists.infradead.org; Sat, 24 Dec 2022 05:26:49 +0000
+Received: by mail-qt1-f181.google.com with SMTP id h21so5127353qta.12
+        for <linux-nvme@lists.infradead.org>; Fri, 23 Dec 2022 21:25:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=BvE2awRwFzFbxJ18OKrhIqmcucLQ6AvTFfNUPm7G5WM=;
+        b=k6yGb/e8VmV5KYVZsTahb9RS1DKkPk395PBpTV6Q0c0DCTyRc82+Q8HoH8NgoHMKlu
+         k0OJAqWW+dtvDsPiUy+FHoe2+HNwiRoRulbbb/udOX5BbqyGakPkGPqYwtw//+x8CJNH
+         LgqkLvXGhZp7vBGd/aGwXhmFxSo/qDjCyUXHaVuYpgTeIrv1fjIQiX83kC67SV+3rW/n
+         Prew+NQNkcr42MsV06oBUb6os+U5uPv4Ocej1jDMD9c3BVENdFVTXiv3gsleYn8W+Tlm
+         fkaLLbvNvYxPcDoryiGUIf4ka6vhmNl57zxitj1ZSgqZX6C55cy+MeUN99MLsdp/X6Ew
+         iPyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BvE2awRwFzFbxJ18OKrhIqmcucLQ6AvTFfNUPm7G5WM=;
+        b=Jrzkqx/KxzLoeQkfjCCmvRH0PB6rIQ1ABxkxsh3NSFgi1PSu++ZWXz0Dbabp0d7MZv
+         a2PsRKxYBe6sYb53vrsvvmCT7//lvy2X2Q24ilD79TJ7Bxpfc+V1ovhh3dK9tpQbRcwb
+         NWOH74oNK65MzluxXiv9MgCO8Nplssniuw7jwE03W/2FRphaPnzNSgD+yQODpbFuTAI+
+         arsETIU6GJdrBPaD1LzRsojA99zkNLrmojqKszbIw61uSBcXE5q7+gytl93PR+RfCCe6
+         mafX9EugvkHKzJIZKnuazOGXfhf9k435/YCUECbS+jzRG3Nf+Mkx7B9PPRVjyqkTQbwo
+         NTWw==
+X-Gm-Message-State: AFqh2koCzX5ZMkVpps7dXO173LcJoypOFUBls8rl9wX42ufEY5qjOMuw
+	f6tFxTwqqJd6A6PQWwIVCeUuqA==
+X-Google-Smtp-Source: AMrXdXvarlLSAFP/bDWauq4ZnQA3IIy1ziyTyivTcJn+nGyKDos6haGrFxuYk8OoGGeRKpx00w3VuA==
+X-Received: by 2002:ac8:649:0:b0:3a6:93d7:873f with SMTP id e9-20020ac80649000000b003a693d7873fmr14076523qth.49.1671859507050;
+        Fri, 23 Dec 2022 21:25:07 -0800 (PST)
+Received: from ripple.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id v2-20020a05620a440200b006fed2788751sm3654004qkp.76.2022.12.23.21.25.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Dec 2022 21:25:06 -0800 (PST)
+Date: Fri, 23 Dec 2022 21:24:56 -0800 (PST)
+From: Hugh Dickins <hughd@google.com>
+X-X-Sender: hugh@ripple.attlocal.net
+To: Christoph Hellwig <hch@infradead.org>
+cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
+    Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, 
+    Linus Torvalds <torvalds@linux-foundation.org>, 
+    Thorsten Leemhuis <regressions@leemhuis.info>, linux-block@vger.kernel.org, 
+    linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: 6.2 nvme-pci: something wrong
+Message-ID: <572cfcc0-197a-9ead-9cb-3c5bf5e735@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221223_061638_544003_67E133F7 
-X-CRM114-Status: GOOD (  18.62  )
+X-CRM114-CacheID: sfid-20221223_212514_128373_E8C5DB89 
+X-CRM114-Status: GOOD (  12.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,38 +88,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Christoph Hellwig <hch@lst.de> writes:
+Hi Christoph,
 
-> On Thu, Dec 22, 2022 at 01:54:35PM -0700, Jonathan Corbet wrote:
->> I'm not really a fan of adding more top-level directories; one of these
->> years I'd like to try to move things in the opposite direction.  That is
->> a battle for another day, though; for now let's just go with this and
->> get the document merged.
->
-> I though about that, but could not thing of a good subdirectory.
+There's something wrong with the nvme-pci heading for 6.2-rc1:
+no problem booting here on this Lenovo ThinkPad X1 Carbon 5th,
+but under load...
 
-We can paint that shed another day :)
+nvme nvme0: I/O 0 (I/O Cmd) QID 2 timeout, aborting
+nvme nvme0: I/O 1 (I/O Cmd) QID 2 timeout, aborting
+nvme nvme0: I/O 2 (I/O Cmd) QID 2 timeout, aborting
+nvme nvme0: I/O 3 (I/O Cmd) QID 2 timeout, aborting
+nvme nvme0: Abort status: 0x0
+nvme nvme0: Abort status: 0x0
+nvme nvme0: Abort status: 0x0
+nvme nvme0: Abort status: 0x0
+nvme nvme0: I/O 0 QID 2 timeout, reset controller
 
->> That said, I suspect you'll add a build warning about the new document
->> not being included in any toctree.  Fixing that would involve adding a
->> basic index.rst to the new directory and adding that to a file like
->> Documentation/subsystem-apis.rst.
->
-> The new document is included in
-> Documentation/maintainer/maintainer-entry-profile.rst in this path.
+...and more, until I just have to poweroff and reboot.
 
-Duh sorry, I'm not quite sure what I was thinking there.
+Bisection points to your
+0da7feaa5913 ("nvme-pci: use the tagset alloc/free helpers")
+And that does revert cleanly, giving a kernel which shows no problem.
 
-> I also did check for new warnings and did not see any, even if that's
-> a little difficult with the rather chatty shpinx output.
+I've spent a while comparing old nvme_pci_alloc_tag_set() and new
+nvme_alloc_io_tag_set(), I do not know my way around there at all
+and may be talking nonsense, but it did look as if there might now
+be a difference in the queue_depth, sqsize, q_depth conversions.
 
-Someday we'll get all those warnings gone...I hope...
+I'm running load successfully with the patch below, but I strongly
+suspect that the right patch will be somewhere else: over to you!
 
-Meanwhile, if it's useful:
+Hugh
 
-Acked-by: Jonathan Corbet <corbet@lwn.net>
-
-Thanks,
-
-jon
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4926,7 +4926,7 @@ int nvme_alloc_io_tag_set(struct nvme_ct
+ 
+ 	memset(set, 0, sizeof(*set));
+ 	set->ops = ops;
+-	set->queue_depth = ctrl->sqsize + 1;
++	set->queue_depth = ctrl->sqsize;
+ 	/*
+ 	 * Some Apple controllers requires tags to be unique across admin and
+ 	 * the (only) I/O queue, so reserve the first 32 tags of the I/O queue.
 
