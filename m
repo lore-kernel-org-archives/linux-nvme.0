@@ -4,41 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BC026C4332F
-	for <linux-nvme@archiver.kernel.org>; Sun, 25 Dec 2022 11:14:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4957C4332F
+	for <linux-nvme@archiver.kernel.org>; Sun, 25 Dec 2022 11:27:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NZBb3+rrPBiSndsrNQl389jDCiyxUTQ5bcI8WyA2tw4=; b=K3v/UYxj6Y6H5iy8NFaChdEwSs
-	jC4WHxS+x/iKUBswn6H65Xkr5+5ivnd+rhyvO6TiOv63+AVrdiwowzCMJsHXxlT2wfHoKPg9tYfCL
-	VwAFgDzZ2qWpdcwgl28htfjmn/wxukBSMFpmKk2GOeZA+qgIyk7BradGW+ECqJ5GVWDC4bw40WaPY
-	K/tpNLgTSBFHzHb3T+dWJ8Bfw22ptM4vPiNhLs1MINBww5nyFFlpZkALA8KKrJn4KOXDo8RqIASwI
-	UM58zc+3bIyuoSzytxcDMiHeh68V3+orFm0L+z96aPbZT5tePbaU51b14ev0MACWBWwXQ/Lji6tuG
-	hVytc84w==;
+	bh=I/nFhe7CJs+xLmc7YJtLcGvX5F5+2Z+/y0vIV3kRE3c=; b=A1NckICZHZxuHq8LMKr2L4ba85
+	AUeOnCgOxv56tOZRb0VhKBW5LAWwVEojA1AWzwaV4AmC6dSVtCjTjA2b5PMEKMc3K/tA7YdZZTFhT
+	9l9Wh3/9gUNDrmIDn/PZONXl6X31ln261XPSTJpzBqEe6nx3zKlBCwh1jMqUW8OVsrC66YAi6BkLL
+	Vk5MLg/9YMCdBQjz7BrfgAkp9C81M4/phZeuxrAitgvdqXvxblEsEuwUsvFnEX1nFaK2v081WSjW/
+	gfIoHsa5HipD3M6JqKusE5hHnKrn2wBCpN2FPuWW4WiOZoKC9lQ23sANf6+ZEmfdkuW5ghcB8fM28
+	foD4EZNg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p9OxV-00AN0z-1A; Sun, 25 Dec 2022 11:14:25 +0000
-Received: from [88.128.92.76] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p9OJH-00A2fP-Af; Sun, 25 Dec 2022 10:32:51 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
-	Jens Axboe <axboe@fb.com>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Hugh Dickins <hughd@google.com>,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH 4/4] nvme-pci: remove the dev->q_depth field
-Date: Sun, 25 Dec 2022 11:32:34 +0100
-Message-Id: <20221225103234.226794-5-hch@lst.de>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221225103234.226794-1-hch@lst.de>
-References: <20221225103234.226794-1-hch@lst.de>
+	id 1p9P9y-00ATSe-6I; Sun, 25 Dec 2022 11:27:18 +0000
+Received: from mail-wm1-f54.google.com ([209.85.128.54])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1p9ObT-00ACQ6-5Y
+	for linux-nvme@lists.infradead.org; Sun, 25 Dec 2022 10:52:14 +0000
+Received: by mail-wm1-f54.google.com with SMTP id k26-20020a05600c1c9a00b003d972646a7dso2729676wms.5
+        for <linux-nvme@lists.infradead.org>; Sun, 25 Dec 2022 02:51:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=I/nFhe7CJs+xLmc7YJtLcGvX5F5+2Z+/y0vIV3kRE3c=;
+        b=oNEumzKE2fTtwfIOH/mKiRNvD1H9pzbwbh6VCgILGlmM9OHWwZocQU/cTq8ZdydVLM
+         2BlXQZg+n3iRHX5aGq5Na5N00OCA6KE9o0mOD/jWULcO6HqcYvVRIjQZ26V74wrPBHn4
+         RPJi9WKjg9AKVdTcIUlURolHPb5vRw3wF1IPPZ0MABnGpDvRn1gshvG6eRCUZ5szOILp
+         oKlbwlUanUbRl+SC+26J8YaBxUd3kbRzAHb2w6ttwrXOfGU5j+ofGE4wOKYOPrMG7f3l
+         ecAKGJnGpQh0XN9vjwRN+FAdzJtoFps+gm3UfNGrjujLjVLzNCoHj/7zCKKghlofe9Cl
+         Ov/w==
+X-Gm-Message-State: AFqh2koX4pdVdKIqzfaBqI5lDSOZOYpeEZUpSzdU32FAkr0+7iaRgZBB
+	Rd9++ofiQAenK/0+rf8OmLc=
+X-Google-Smtp-Source: AMrXdXtqICmghPTe8fCcoLGOH7Ljg/cvl6/R5NIzeeoizbUqMkcBAfgq1m3pYBSP2Nc7cdRJCI16Ug==
+X-Received: by 2002:a05:600c:1c81:b0:3d1:e907:17cb with SMTP id k1-20020a05600c1c8100b003d1e90717cbmr11188922wms.1.1671965496691;
+        Sun, 25 Dec 2022 02:51:36 -0800 (PST)
+Received: from [192.168.64.177] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id m8-20020a05600c4f4800b003cfaae07f68sm16223060wmq.17.2022.12.25.02.51.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 25 Dec 2022 02:51:36 -0800 (PST)
+Message-ID: <a7a593fa-9a48-6f6b-a428-2fe6db694d22@grimberg.me>
+Date: Sun, 25 Dec 2022 12:51:34 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 1/4] nvme: fix setting the queue depth in
+ nvme_alloc_io_tag_set
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>,
+ Linus Torvalds <torvalds@linux-foundation.org>, Jens Axboe <axboe@fb.com>
+Cc: Keith Busch <kbusch@kernel.org>, Hugh Dickins <hughd@google.com>,
+ linux-nvme@lists.infradead.org
+References: <20221225103234.226794-1-hch@lst.de>
+ <20221225103234.226794-2-hch@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20221225103234.226794-2-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20221225_025139_292234_DC1F4C07 
+X-CRM114-Status: GOOD (  21.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -53,108 +83,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This field duplicates the sqsize field in the common nvme_ctrl structure,
-so remove it and use the common field instead.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/nvme/host/pci.c | 30 +++++++++++++-----------------
- 1 file changed, 13 insertions(+), 17 deletions(-)
+> While the CAP.MQES field in NVMe is a 0s based filed with a natural one
+> off, we also need to account for the queue wrap condition and fix undo
+> the one off again in nvme_alloc_io_tag_set.  This was never properly
+> done by the fabrics drivers, but they don't seem to care because there
+> is no actual physical queue that can wrap around, but it became a
+> problem when converting over the PCIe driver.  Also add back the
+> BLK_MQ_MAX_DEPTH check that was lost in the same commit.
+> 
+> Fixes: 0da7feaa5913 ("nvme-pci: use the tagset alloc/free helpers")
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a621dd7a0a8efa..59ef702f910efa 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -126,7 +126,6 @@ struct nvme_dev {
- 	unsigned max_qid;
- 	unsigned io_queues[HCTX_MAX_TYPES];
- 	unsigned int num_vecs;
--	u32 q_depth;
- 	int io_sqes;
- 	u32 db_stride;
- 	void __iomem *bar;
-@@ -1515,7 +1514,7 @@ static void nvme_reap_pending_cqes(struct nvme_dev *dev)
- static int nvme_cmb_qdepth(struct nvme_dev *dev, int nr_io_queues,
- 				int entry_size)
- {
--	int q_depth = dev->q_depth;
-+	u16 q_depth = dev->ctrl.sqsize;
- 	unsigned q_size_aligned = roundup(q_depth * entry_size,
- 					  NVME_CTRL_PAGE_SIZE);
- 
-@@ -1824,7 +1823,7 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
- 	int ret = 0;
- 
- 	for (i = dev->ctrl.queue_count; i <= dev->max_qid; i++) {
--		if (nvme_alloc_queue(dev, i, dev->q_depth)) {
-+		if (nvme_alloc_queue(dev, i, dev->ctrl.sqsize)) {
- 			ret = -ENOMEM;
- 			break;
- 		}
-@@ -2333,12 +2332,10 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	if (dev->cmb_use_sqes) {
- 		result = nvme_cmb_qdepth(dev, nr_io_queues,
- 				sizeof(struct nvme_command));
--		if (result > 0) {
--			dev->q_depth = result;
-+		if (result > 0)
- 			dev->ctrl.sqsize = result;
--		} else {
-+		else
- 			dev->cmb_use_sqes = false;
--		}
- 	}
- 
- 	do {
-@@ -2537,8 +2534,8 @@ static int nvme_pci_enable(struct nvme_dev *dev)
- 
- 	dev->ctrl.cap = lo_hi_readq(dev->bar + NVME_REG_CAP);
- 
--	dev->q_depth = min_t(u32, NVME_CAP_MQES(dev->ctrl.cap) + 1,
--				io_queue_depth);
-+	dev->ctrl.sqsize = min_t(u32, NVME_CAP_MQES(dev->ctrl.cap) + 1,
-+				 io_queue_depth);
- 	dev->db_stride = 1 << NVME_CAP_STRIDE(dev->ctrl.cap);
- 	dev->dbs = dev->bar + 4096;
- 
-@@ -2557,16 +2554,16 @@ static int nvme_pci_enable(struct nvme_dev *dev)
- 	 * some MacBook7,1 to avoid controller resets and data loss.
- 	 */
- 	if (pdev->vendor == PCI_VENDOR_ID_APPLE && pdev->device == 0x2001) {
--		dev->q_depth = 2;
-+		dev->ctrl.sqsize = 2;
- 		dev_warn(dev->ctrl.device, "detected Apple NVMe controller, "
- 			"set queue depth=%u to work around controller resets\n",
--			dev->q_depth);
-+			dev->ctrl.sqsize);
- 	} else if (pdev->vendor == PCI_VENDOR_ID_SAMSUNG &&
- 		   (pdev->device == 0xa821 || pdev->device == 0xa822) &&
- 		   NVME_CAP_MQES(dev->ctrl.cap) == 0) {
--		dev->q_depth = 64;
-+		dev->ctrl.sqsize = 64;
- 		dev_err(dev->ctrl.device, "detected PM1725 NVMe controller, "
--                        "set queue depth=%u\n", dev->q_depth);
-+                        "set queue depth=%u\n", dev->ctrl.sqsize);
- 	}
- 
- 	/*
-@@ -2574,12 +2571,11 @@ static int nvme_pci_enable(struct nvme_dev *dev)
- 	 * big enough so that we get 32 tags for the admin queue
- 	 */
- 	if ((dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS) &&
--	    (dev->q_depth < (NVME_AQ_DEPTH + 2))) {
--		dev->q_depth = NVME_AQ_DEPTH + 2;
-+	    (dev->ctrl.sqsize < NVME_AQ_DEPTH + 2)) {
-+		dev->ctrl.sqsize = NVME_AQ_DEPTH + 2;
- 		dev_warn(dev->ctrl.device, "IO queue depth clamped to %d\n",
--			 dev->q_depth);
-+			 dev->ctrl.sqsize);
- 	}
--	dev->ctrl.sqsize = dev->q_depth;
- 
- 	nvme_map_cmb(dev);
- 
--- 
-2.35.1
+This looks fine, but does this actually fix anything?
+How does nvme-pci ever set sqsize anywhere close to BLK_MQ_MAX_DEPTH ?
+NVME_PCI_MAX_QUEUE_SIZE is 4095...
 
+> Reported-by: Hugh Dickins <hughd@google.com>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>   drivers/nvme/host/core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index e26b085a007aea..cda1361e6d4fbb 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -4897,7 +4897,7 @@ int nvme_alloc_io_tag_set(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
+>   
+>   	memset(set, 0, sizeof(*set));
+>   	set->ops = ops;
+> -	set->queue_depth = ctrl->sqsize + 1;
+> +	set->queue_depth = min_t(unsigned, ctrl->sqsize, BLK_MQ_MAX_DEPTH - 1);
+>   	/*
+>   	 * Some Apple controllers requires tags to be unique across admin and
+>   	 * the (only) I/O queue, so reserve the first 32 tags of the I/O queue.
 
