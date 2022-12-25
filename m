@@ -4,63 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F353FC4332F
-	for <linux-nvme@archiver.kernel.org>; Sun, 25 Dec 2022 00:42:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EECBDC4332F
+	for <linux-nvme@archiver.kernel.org>; Sun, 25 Dec 2022 07:17:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:To:Message-Id:Subject:Date:
-	Mime-Version:From:Content-Transfer-Encoding:Content-Type:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=LxdG1VA/s6Kc+PkLq+n2G2ftnMuXejrhNRr0cRctLTo=; b=NxbFQAyaLeYagly1NlZfQrb8VC
-	3Zt31Q5p4ht/NRMygu3gmAluY+N9v4d+lKnyDXd4DVpKfk7en2sQm6On79jYuHDDFKMbWT13JyTUH
-	Igzisou3kfKQX9+bKJqB2ea8HGmWGjP7nu3g5xLZ82A1E2wB9mQQLmGlscyWrOe5R6NAYgIQuy/yW
-	N6hePA7R4yrMpJIfhd2prvAQJGYJp/jf8T1imEFMyHMB79o72VwGnKCNj+EvS3/iQNJD6gSzvj+4c
-	eHwVwg/W8ZvDB7piM94cz71weP+j13prhJkqP4+mnVkIeLq7RkgPxOLczWEJ3tTBPWHR8ut28sBHG
-	S1Qk9EWg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=twAXp15EP92U8CY+1GARtaxT1yyqVN5KY/uqb5CNqGE=; b=VdSt+RZYScw1zS4vc0BXxxj8TN
+	OJDL1PKDLEyFM1DDcIwpFk8Xf06JKHDkONzrVyaPuMVBgvdM5K0uNKKhHHywDKBTAm7rcS7k7DGze
+	R9AlF++FW7Zd8ob4clH0C5dtQuNcekKvrqXpIRiLaHBeCzeMDaTGcFUMU277tqnCYxydCjnh4YVN9
+	0aIhFjKNkqUkFdv5KfBm4YYnx0INi9jEfqUgo3B6uB9OrftxfTkBSxqJmSEx64mkbLkpW1t41o0yJ
+	0L8xyz7JP3i25J0xowEsdG/xbsVRyo5xRDd+jfIGD+5mhmNGe4UXUvs0RdwSyQ9OSNUS3frryrBzj
+	O00xVTYA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p9F5V-004g5F-7p; Sun, 25 Dec 2022 00:42:01 +0000
-Received: from qs51p00im-qukt01080302.me.com ([17.57.155.21])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p9Dps-00450Q-6i
-	for linux-nvme@lists.infradead.org; Sat, 24 Dec 2022 23:22:58 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
-	s=1a1hai; t=1671924104;
-	bh=LxdG1VA/s6Kc+PkLq+n2G2ftnMuXejrhNRr0cRctLTo=;
-	h=Content-Type:From:Mime-Version:Date:Subject:Message-Id:To;
-	b=SFUJ+q8wv2w0FGmSO5obBlzSdXGo1O/HqqR5lCCeU8nncemGrLElX3oo+lnnuNk9E
-	 UzxlZr+hVcJymlxxVjwOwdsHZ7ZPIYHs8rQ7rVxsfxBVLs6XF6wEBSvPcY45bosM0v
-	 HwTnHNYJ/oVmOMmivap+r75sKlbDkFCAV9N1ppD9i3wT4SbeZes6LY6bOlBQDVs/su
-	 ObUulhKX7Z1IqLVCqN3LrN6sye91mjTOf5t5F+VxGYrGcn50S3fXJ1n1TDukTuVq7e
-	 QsMTH+QllFMo7XvmVvB79r//WOjR5FUbK4YVz50MFxtKXF8BSGy2rzxEHPto22azxU
-	 G/as49L9/fHkw==
-Received: from smtpclient.apple (qs51p00im-dlb-asmtp-mailmevip.me.com [17.57.155.28])
-	by qs51p00im-qukt01080302.me.com (Postfix) with ESMTPSA id BF0E611402C7
-	for <linux-nvme@lists.infradead.org>; Sat, 24 Dec 2022 23:21:43 +0000 (UTC)
+	id 1p9LGE-008Nuf-HZ; Sun, 25 Dec 2022 07:17:30 +0000
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1p9JaM-007OWV-C7; Sun, 25 Dec 2022 05:30:10 +0000
+Date: Sat, 24 Dec 2022 21:30:10 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Hugh Dickins <hughd@google.com>, Christoph Hellwig <hch@infradead.org>,
+	Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Thorsten Leemhuis <regressions@leemhuis.info>,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: 6.2 nvme-pci: something wrong
+Message-ID: <Y6ff4tpk1Su/Q9bP@infradead.org>
+References: <572cfcc0-197a-9ead-9cb-3c5bf5e735@google.com>
+ <Y6d37vGSCKvfJhzD@kbusch-mbp.dhcp.thefacebook.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Antoinette Petko <timothythomasboyz555@icloud.com>
-Mime-Version: 1.0 (1.0)
-Date: Sat, 24 Dec 2022 18:21:42 -0500
-Subject: Identity theft and fraud 
-Message-Id: <70E42817-73F1-497C-A1AB-D52884FFEB57@icloud.com>
-To: linux-nvme@lists.infradead.org
-X-Mailer: iPhone Mail (20B110)
-X-Proofpoint-ORIG-GUID: LiV2smHO38WzxBU4p8T2DxWOZlyQE1LF
-X-Proofpoint-GUID: LiV2smHO38WzxBU4p8T2DxWOZlyQE1LF
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.425,18.0.572,17.0.605.474.0000000_definitions?=
- =?UTF-8?Q?=3D2022-01-11=5F01:2022-01-11=5F01,2020-02-14=5F11,2020-01-23?=
- =?UTF-8?Q?=5F02_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 clxscore=1011
- malwarescore=0 spamscore=0 phishscore=0 mlxscore=0 mlxlogscore=868
- adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2212240204
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221224_152148_368741_7825D331 
-X-CRM114-Status: UNSURE (   4.47  )
-X-CRM114-Notice: Please train this message.
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y6d37vGSCKvfJhzD@kbusch-mbp.dhcp.thefacebook.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,17 +56,78 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-All of this is being done without my consent by the individual who stole my i=
-dentity and is committing fraudulent activities with my information and devi=
-ces. I will have charges filed against ANYONE who continues this theft of my=
- personal information and the inability to use my devices for my own persona=
-l purposes and the theft of my phone and other devices that are being used a=
-s a source of income for other persons or =E2=80=9Cbusinesses=E2=80=9D that I=
- don=E2=80=99t have any of. There should be one person who can use my accoun=
-t and that is ME. Antoinette Petko and I don=E2=80=99t have a business, my d=
-evices are not working properly and I am not a student or a teacher or a sch=
-ool. I don=E2=80=99t have any disabilities that require special accessories f=
-or my use of my devices or my accounts.
+On Sat, Dec 24, 2022 at 03:06:38PM -0700, Keith Busch wrote:
+> Your observation is a queue-wrap condition that makes it impossible for
+> the controller know there are new commands.
+> 
+> Your patch does look like the correct thing to do. The "zero means one"
+> thing is a confusing distraction, I think. It makes more sense if you
+> consider sqsize as the maximum number of tags we can have outstanding at
+> one time and it looks like all the drivers set it that way. We're
+> supposed to leave one slot empty for a full NVMe queue, so adding one
+> here to report the total number slots isn't right since that would allow
+> us to fill all slots.
 
-Sent iPhone=20=
+Yes, and pcie did actually do the ‐ 1 from q_depth, so we should
+drop the +1 for sqsize.  And add back the missing BLK_MQ_MAX_DEPTH.
+But we still need to keep sqsize updated as well.
+
+> Fabrics drivers have been using this method for a while, though, so
+> interesting they haven't had a simiar problem.
+
+Fabrics doesn't have a real queue and thus no actual wrap, so
+I don't think they will be hit as bad by this.
+
+So we'll probably need something like this, split into two patches.
+And then for 6.2 clean up the sqsize vs q_depth mess for real.
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 95c488ea91c303..5b723c65fbeab5 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4926,7 +4926,7 @@ int nvme_alloc_io_tag_set(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
+ 
+ 	memset(set, 0, sizeof(*set));
+ 	set->ops = ops;
+-	set->queue_depth = ctrl->sqsize + 1;
++	set->queue_depth = min_t(unsigned, ctrl->sqsize, BLK_MQ_MAX_DEPTH - 1);
+ 	/*
+ 	 * Some Apple controllers requires tags to be unique across admin and
+ 	 * the (only) I/O queue, so reserve the first 32 tags of the I/O queue.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index f0f8027644bbf8..ec5e1c578a710b 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2332,10 +2332,12 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	if (dev->cmb_use_sqes) {
+ 		result = nvme_cmb_qdepth(dev, nr_io_queues,
+ 				sizeof(struct nvme_command));
+-		if (result > 0)
++		if (result > 0) {
+ 			dev->q_depth = result;
+-		else
++			dev->ctrl.sqsize = dev->q_depth - 1;
++		} else {
+ 			dev->cmb_use_sqes = false;
++		}
+ 	}
+ 
+ 	do {
+@@ -2536,7 +2538,6 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+ 
+ 	dev->q_depth = min_t(u32, NVME_CAP_MQES(dev->ctrl.cap) + 1,
+ 				io_queue_depth);
+-	dev->ctrl.sqsize = dev->q_depth - 1; /* 0's based queue depth */
+ 	dev->db_stride = 1 << NVME_CAP_STRIDE(dev->ctrl.cap);
+ 	dev->dbs = dev->bar + 4096;
+ 
+@@ -2577,7 +2578,7 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+ 		dev_warn(dev->ctrl.device, "IO queue depth clamped to %d\n",
+ 			 dev->q_depth);
+ 	}
+-
++	dev->ctrl.sqsize = dev->q_depth - 1; /* 0's based queue depth */
+ 
+ 	nvme_map_cmb(dev);
+ 
 
