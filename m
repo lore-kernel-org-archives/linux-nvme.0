@@ -4,77 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29F35C4167B
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Dec 2022 01:19:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A769BC3DA79
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Dec 2022 14:16:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QOhJqsn2I5YI8XZK+8NgG0hywtzT/xnBSalKwrrs1f0=; b=o1HO4namvuqBFwcMc4VBte1f3h
-	Vl1CmJfAKEKyeN48VF0BQj1FQpC+6hioWeszeItq2NPJTuE4TQ2kGPzXdspWuUtcbCDrnhwBEm0Nn
-	qGmZeJwmExb6o/Hwj3NJAPMv9i3iAlm79bcjedt56X2Kh5mD+KXMNFAWOjjzceUv4UBP1O793EyQM
-	D+WRc1yW0v3+7bywWq8HjrfVaOFs80irV+ZfOei8PCFrw+n8ZJUXLzNrF6ZQ6ECbs2MO/P35em5QQ
-	YlwovMI/vpPp+MN2pOsS6eqST2z24eho3BJrDPM0We/vlVm1aVaSjsT0ucQBKq5oSWOUmsMsrXy+k
-	gRgzb8iw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Message-ID:Subject:To:From:Date:MIME-Version:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=di7XCJixGjYdsK76Q312prhxoAFN/R5OgeqZejYiwfk=; b=C5iH5eYn2zfKbqPUxaYZPYhNhm
+	0OMS0455PhsmXDlX8aANDh3umZbHB7cynIvoBpAxT364u1CIbL3pmvYO9iCIwWOeWXFC5yYodN4il
+	ihSRx1nOBUNM0y2Qb+8kPvJOgsOv8pskKLuhMG/1yH3aFwjzJt8eb8+ZZ3WlLRRur9zYfR0+u/RV7
+	pFydJEPUjyILZ/ZIC0UQWAG1qIg0md96/wcAUwFqDFDptiXNFq9tbAtLquR83iFbnx5efxKVO0jkF
+	JkI//Gdy5JvdhhfZarnwHBWwdmERPJxj24mSEsB6L8hsjtYEiKmJ728zqQZ2juaQPsVELLfjDHJux
+	W96SXuSw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p9c92-0009JX-PB; Mon, 26 Dec 2022 01:19:12 +0000
-Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d])
+	id 1p9oGv-004bjs-1Q; Mon, 26 Dec 2022 14:16:09 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p9YR2-00FaaA-Fa
-	for linux-nvme@lists.infradead.org; Sun, 25 Dec 2022 21:21:33 +0000
-Received: by mail-qt1-x82d.google.com with SMTP id h26so7469574qtu.2
-        for <linux-nvme@lists.infradead.org>; Sun, 25 Dec 2022 13:21:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QOhJqsn2I5YI8XZK+8NgG0hywtzT/xnBSalKwrrs1f0=;
-        b=VcQLV6B5WyLI8K34RzYeCfEUNVX/A9hlopHVDCNRZwgsgRxxd0Zhz4HQBDIR1wyqqP
-         wDQU+nfG8ZUQp528Bl/SWBtp838oh4zn/3fqiaWFZO+y/lc/75OEGL3qas13UizeKMQz
-         Hir9MTiEqT/TJ64tGAO3ZMkL3qWKlFcD0npzdhtmhADmTrRWGPlbLxWUR0oQKIqJl6JV
-         Y1tQzE4u3M3+Y2SUd5shyAim/XTfQ9di05Jeat24omMOzPi4kJN7HmxjduJ+/E9nwTok
-         59H/KSQXmnRnp9TOYoc2bhg78CkL01ZwmLXjbNNQoDihLynBJvQfd0xhPitYf4+fAMa2
-         XOEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QOhJqsn2I5YI8XZK+8NgG0hywtzT/xnBSalKwrrs1f0=;
-        b=awN6wstfN8G/wuKF99hoyYlNWCpuc3kqqxl0r8e3QeqMpDWIyEe6ePPT5ImLJzZzTF
-         cQicFFaAz8/xTxcZAtqTq9pEh5sMa0cxdvJhqqDLfN5o+Q/M5BJWs1nCcpWjkF6rZX+D
-         SwyZRE+LD20XVg36WAOK47mX/N2UObQMRSIsf6lEvV5sjP5nxSsEaz+dEKmFQDXbjzzM
-         iubPNmpCaJzNpyyfi6QPe9tEJdoi/qQa8UW8taYSXfdLzV1mxxDQp9LBm5CxrXfu4zEB
-         421+qw2BDEFtugRB8ivSGngzmPTCG9vXxEaA6/gs8Z08HnZr4zDgcSZ/dnmoYrCFUKxC
-         Ou3A==
-X-Gm-Message-State: AFqh2koyw4FuEur/K3u6hRpfhxY8zx4s1SbCVSF9ZdfNXSn+fZEJn5d0
-	avgRncRdQV+NipQvfjSJOFCMUQ==
-X-Google-Smtp-Source: AMrXdXtxj9XeIVodCdzyySlUUBvpuW9rtXjKh1FnMx+KaWyAboAF3PsrKwkQDJEeP3hLt/qkQACITQ==
-X-Received: by 2002:a05:622a:34b:b0:3ab:6c32:800 with SMTP id r11-20020a05622a034b00b003ab6c320800mr20208641qtw.28.1672003290339;
-        Sun, 25 Dec 2022 13:21:30 -0800 (PST)
-Received: from ripple.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id bq22-20020a05622a1c1600b0039c7b9522ecsm5660379qtb.35.2022.12.25.13.21.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Dec 2022 13:21:29 -0800 (PST)
-Date: Sun, 25 Dec 2022 13:21:28 -0800 (PST)
-From: Hugh Dickins <hughd@google.com>
-X-X-Sender: hugh@ripple.attlocal.net
-To: Christoph Hellwig <hch@lst.de>
-cc: Linus Torvalds <torvalds@linux-foundation.org>, Jens Axboe <axboe@fb.com>, 
-    Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
-    Hugh Dickins <hughd@google.com>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 2/4] nvme-pci: update sqsize when adjusting the queue
- depth
-In-Reply-To: <20221225103234.226794-3-hch@lst.de>
-Message-ID: <5844a9a0-c039-6c87-914f-4d240b8a634@google.com>
-References: <20221225103234.226794-1-hch@lst.de> <20221225103234.226794-3-hch@lst.de>
+	id 1p9oGp-004bhv-Ih
+	for linux-nvme@bombadil.infradead.org; Mon, 26 Dec 2022 14:16:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	Message-ID:Subject:To:From:Date:MIME-Version:Sender:Reply-To:Cc:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=di7XCJixGjYdsK76Q312prhxoAFN/R5OgeqZejYiwfk=; b=dMWjXFLALqW8C+VGs+/pfAvRWa
+	MbLXe/iSeW4xRi4Au2mqdZzN9RiXz4hj4ZNGP+8EaFyTaUaWMYND9Mh1VTTUs4GcW9ujYMwEZlsH1
+	rWZQDwdXuH06F9XTuIlJYuV9e3TAet6XqGkVq7NpBLVSOsWUMI5+JVndU1GTvsEHxnEcw/yof3BK0
+	Ga9iil2u7suzV4NOmhvXcaPsbdrfVBP1EBCU7WUVvXQERLKVOF//uj9vl3+9nDRpw/wE4TJogZ791
+	/jqrQ6tTt8N1mTgZ7m3IE1PgQLg5Kn/Hj1GmMb4xI0ZaGjFScf73hI2YuN/WEugdHiEfSmwQoiAHH
+	S/X8U7sA==;
+Received: from mx1.riseup.net ([198.252.153.129])
+	by casper.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1p9oGs-006hz0-SI
+	for linux-nvme@lists.infradead.org; Mon, 26 Dec 2022 14:16:11 +0000
+Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (2048 bits) client-digest SHA256)
+	(Client CN "mail.riseup.net", Issuer "R3" (not verified))
+	by mx1.riseup.net (Postfix) with ESMTPS id 4Ngfvc3JR6zDqpf;
+	Mon, 26 Dec 2022 14:15:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+	t=1672064140; bh=hg4Dv/qh6/jmFMa0tnsvXEMznhhdCbJ5eOyYbMXelmI=;
+	h=Date:From:To:Subject:From;
+	b=fA79kUnXvZ8YsmFFqIFTgcgxWFoN5lMKNOxuncVHKSdzDQqLJHMFi0GWXNRDhZ5Q2
+	 dwqg3rFOKcLWbo2jtQkuwmFjf7yFwstXRRGn9/ytnyFCWUuZehInSMFXcL/Se8aEio
+	 qWomlb4Akpi6JqKAMU2L/5N8OAS5O8S9UruexefQ=
+X-Riseup-User-ID: F9433DF1D40DDC5B19D7C6B6F2D25ED52E5011F014B7CCC0D024CABA2C74333D
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	 by fews1.riseup.net (Postfix) with ESMTPSA id 4Ngfvb6Jqjz5vSS;
+	Mon, 26 Dec 2022 14:15:39 +0000 (UTC)
 MIME-Version: 1.0
+Date: Mon, 26 Dec 2022 14:15:39 +0000
+From: user090909 <fuckgithub@riseup.net>
+To: busch@kernel.org, axboe@fb.com, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org
+Subject: [PATCH] Add quirk for ADATA SX6000PNP
+Message-ID: <ed916236ae7f2823aeccc8a85230abe5@riseup.net>
 Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221225_132132_557025_7A5C058F 
-X-CRM114-Status: GOOD (  21.89  )
+X-CRM114-CacheID: sfid-20221226_141607_585258_58EEF131 
+X-CRM114-Status: UNSURE (   8.75  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,64 +83,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, 25 Dec 2022, Christoph Hellwig wrote:
+From 65e5a06268a4510f2858cbd182dbc60caf7003ff Mon Sep 17 00:00:00 2001
+From: user090909 <fuckgithub@riseup.net>
+Date: Mon, 26 Dec 2022 17:12:54 +0300
+Subject: [PATCH] Add quirk for ADATA SX6000PNP
 
-> Update the core sqsize field in addition to the PCIe-specific
-> q_depth field as the core tagset allocation helpers rely on it.
-> 
-> Fixes: 0da7feaa5913 ("nvme-pci: use the tagset alloc/free helpers")
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: user090909 <fuckgithub@riseup.net>
+---
+ drivers/nvme/host/pci.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Acked-by: Hugh Dickins <hughd@google.com>
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index f0f8027644bb..ca48d0b229e8 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3415,6 +3415,9 @@ static const struct pci_device_id nvme_id_table[]
+= {
+ 	{ PCI_DEVICE(0x10ec, 0x5762),   /* ADATA SX6000LNP */
+ 		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN |
+ 				NVME_QUIRK_BOGUS_NID, },
++	{ PCI_DEVICE(0x10ec, 0x5763),   /* ADATA SX6000PNP */
++                .driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN |
++                                NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_DEVICE(0x1cc1, 0x8201),   /* ADATA SX8200PNP 512GB */
+ 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
+ 				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
+-- 
+2.39.0
 
-(I'm not saying Tested-by, because although the equivalent of this
-was in my testing last night, I don't believe it would have been
-hitting the cases which this patch repairs.
-
-And I won't be looking at 3/4 or 4/4 today: but certainly agree
-that reducing the number of fields which need to be kept in sync
-is a good step forward.)
-
-> ---
->  drivers/nvme/host/pci.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 804b6a6cb43a9c..b13baccedb4a95 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2333,10 +2333,12 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
->  	if (dev->cmb_use_sqes) {
->  		result = nvme_cmb_qdepth(dev, nr_io_queues,
->  				sizeof(struct nvme_command));
-> -		if (result > 0)
-> +		if (result > 0) {
->  			dev->q_depth = result;
-> -		else
-> +			dev->ctrl.sqsize = result - 1;
-> +		} else {
->  			dev->cmb_use_sqes = false;
-> +		}
->  	}
->  
->  	do {
-> @@ -2537,7 +2539,6 @@ static int nvme_pci_enable(struct nvme_dev *dev)
->  
->  	dev->q_depth = min_t(u32, NVME_CAP_MQES(dev->ctrl.cap) + 1,
->  				io_queue_depth);
-> -	dev->ctrl.sqsize = dev->q_depth - 1; /* 0's based queue depth */
->  	dev->db_stride = 1 << NVME_CAP_STRIDE(dev->ctrl.cap);
->  	dev->dbs = dev->bar + 4096;
->  
-> @@ -2578,7 +2579,7 @@ static int nvme_pci_enable(struct nvme_dev *dev)
->  		dev_warn(dev->ctrl.device, "IO queue depth clamped to %d\n",
->  			 dev->q_depth);
->  	}
-> -
-> +	dev->ctrl.sqsize = dev->q_depth - 1; /* 0's based queue depth */
->  
->  	nvme_map_cmb(dev);
->  
-> -- 
-> 2.35.1
 
