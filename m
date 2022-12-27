@@ -4,47 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3F29C4167B
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Dec 2022 16:58:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 157B6C4167B
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Dec 2022 17:54:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OZET99rY5ID51nbHPaTMeAZlJRD81wvFC1CkrlPZeqo=; b=X8Bpfr6fvhJIevBBncTk1ZPHaf
-	SpbnsUX4HATsCcLIUiRNamlfUKE72du77W5j+r5TqiB7DFvD7vWBDnvWZdCFb35r2JyKUPYv8H4OA
-	NqQLKiCtQxGo1IEJDcPIX7qy0NQx5Ku3BrauDPyJl5/y16BdVgReVqAoz9SCDhXtlbnZo4MyzTW5a
-	LVZzfKxGGROPnJPE8OBJ9kBQqd3ftEqYz3YWW9qHWU491+mkveuDQbdoH7durTwiTZrMkTfeqpWye
-	67ugGz/YW3GlRv+bWdbGmrjdRDi0Zu9kEtWt/6iNgrLMbq1MgW5ePgvOrDNvef+5y1Cxa6wh0Ni3p
-	xM6U/1Vg==;
+	bh=uheutZUJ1YwGYloFam3dR5xFy5QIugd63o4Qjx3fvWw=; b=S0p12igbDNb1einXsUrKho4DPI
+	g/B2OVwcaG2iWswHyrncIxtjQ6RPAyW9flArUU7/eCx3bgQ/veZuw77+8t9abKARmMCNDe5D86OPz
+	+uXhnP3lrCVYVZPPSf1YCsoylVLYKp6VQCBAfiftbsGddREkN+8izMH9e432d7p/iFFVkcmmrD/Q/
+	8u9UbwXB9TLzjRT0TKWSWerNoYUpj/8GePvrwFmd0hE8TgI9pDANx6ebnM5CQwiKLy+EXJkSZUHJj
+	xsIjvzeyo7SqYH3ZyZVqwtu4rsL6gBrThZQfQvXc2W7A5+CKg9xs50RVGirAeP3n3J7Mh4PNWN36D
+	PpuiErgg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pADHG-00Eh5Y-9W; Tue, 27 Dec 2022 16:58:10 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1pAE9I-00F5DS-23; Tue, 27 Dec 2022 17:54:00 +0000
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pADH9-00Eh0v-Bi
-	for linux-nvme@lists.infradead.org; Tue, 27 Dec 2022 16:58:05 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id BBA286732D; Tue, 27 Dec 2022 17:57:54 +0100 (CET)
-Date: Tue, 27 Dec 2022 17:57:54 +0100
-From: Christoph Hellwig <hch@lst.de>
+	id 1pAE9D-00F5Ap-Av
+	for linux-nvme@lists.infradead.org; Tue, 27 Dec 2022 17:53:56 +0000
+Received: by mail-wr1-x432.google.com with SMTP id n3so12274897wrc.5
+        for <linux-nvme@lists.infradead.org>; Tue, 27 Dec 2022 09:53:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uheutZUJ1YwGYloFam3dR5xFy5QIugd63o4Qjx3fvWw=;
+        b=Siw6aYr3/8BkaCmmtUe0LaojsPT06VFSDLNtMj5WCnkaCNBFkOxHFfBBsaW7JtoBCS
+         sk4GOR+d/e4ZcMoKULCGfULygYjHCm1waO3l8q2M4t4cL1C90BHcxumPiN6IoZsHJ0Gm
+         553eexo/q+bqu/cts6BimMwpyHkCudj0jooFrQ3alU2b1JIWhAPppx/5SFPMX5WyLFTW
+         +FklHFpzgt2LuuGWcTe6gco/g9SNNJCrApmIGvL5G/dvZxrNdapbG3I5shKoT0YL4KPe
+         zb0M1YgE/0ja3LIFB5faKA+pDtIkomchzEKcakkBm0B1jd0qtY1gpRSApJ4FkqwuUhFu
+         n2kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uheutZUJ1YwGYloFam3dR5xFy5QIugd63o4Qjx3fvWw=;
+        b=F949jTVWjYus1lhTTrbpYVFYlWt1Ewi12lcwCup0tAYOMK3ppq6pOraHohaIEnyNdg
+         y6MRfXOnxq5GorBV9uo8jaznS2VoqSn6SgU6ju/GuV+99y+Cw51SyrBXUVclkgbSZw26
+         FPlV1Syf9OgnEjY20LcCCJtxTzcgHj8mCE0FOypTJKIq+1+sf+L63E2Gmt6HpLZa7NLu
+         nUqn0o8wrhj2biZ8S8+0uO3ZdRax2AlcAcIkmrwCBuJcGm1zUaE+lapnT9qEj4zPnjvQ
+         um1+fW4kMOybpjzhPqWUZVHpLgZexJ5lp1vW8OPzPyn922cAprlPPtjenn03p+2YZXI3
+         E/Xg==
+X-Gm-Message-State: AFqh2ko+yLrDO0CTUoNTU+kOjw14+vGso222cn4rMoauUeFGMBGCFZvg
+	uJUZdtx6kXMTtkFX76csRNw=
+X-Google-Smtp-Source: AMrXdXtmDhJoQQBCvvH/p1TRK4qXRp/Dg1m6EoksiI95Jny4X+RNPbs9LiOh50sbf96AAP3aWzlCkg==
+X-Received: by 2002:a05:6000:910:b0:242:733b:af28 with SMTP id bz16-20020a056000091000b00242733baf28mr19814253wrb.5.1672163631946;
+        Tue, 27 Dec 2022 09:53:51 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id p18-20020adf9d92000000b002383fc96509sm13314708wre.47.2022.12.27.09.53.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Dec 2022 09:53:51 -0800 (PST)
+Date: Tue, 27 Dec 2022 20:53:48 +0300
+From: Dan Carpenter <error27@gmail.com>
 To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Kanchan Joshi <joshi.k@samsung.com>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 5/6] nvme: also return I/O command effects from
- nvme_command_effects
-Message-ID: <20221227165754.GA7716@lst.de>
-References: <20221223071814.43564-1-hch@lst.de> <20221223071814.43564-6-hch@lst.de> <74cdb20e-2f38-f001-0b82-cca2b3046df9@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH] nvme-auth: fix smatch warning complaints
+Message-ID: <Y6sxLFLVvFmaxGzN@kadam>
+References: <20221225112851.351885-1-sagi@grimberg.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <74cdb20e-2f38-f001-0b82-cca2b3046df9@grimberg.me>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20221225112851.351885-1-sagi@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221227_085803_566960_A842C4E6 
-X-CRM114-Status: GOOD (  18.08  )
+X-CRM114-CacheID: sfid-20221227_095355_435203_D51D8BFC 
+X-CRM114-Status: GOOD (  10.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,32 +88,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Dec 25, 2022 at 12:26:35PM +0200, Sagi Grimberg wrote:
->> +		if (ns->head->ids.csi == NVME_CAP_CSS_NVM)
->> +			effects |= nvme_known_nvm_effects(opcode);
->>   		if (effects & ~(NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC))
->>   			dev_warn_once(ctrl->device,
->> -				"IO command:%02x has unhandled effects:%08x\n",
->> +				"IO command:%02x has unusual effects:%08x\n",
->>   				opcode, effects);
->> -		return 0;
->> -	}
->>   -	if (ctrl->effects)
->> -		effects = le32_to_cpu(ctrl->effects->acs[opcode]);
->> -	effects |= nvme_known_admin_effects(opcode);
->> +		/*
->> +		 * NVME_CMD_EFFECTS_CSE_MASK causes a freeze all I/O queues,
->> +		 * which would deadlock when done on an I/O command.  Note that
->> +		 * We already warn about an unusual effect above.
->> +		 */
->
-> I think it would be helpful to warn that we are masking it out? The
-> warning above does not directly relate to the cse mask, but rather anthing 
-> outside of NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC ?
+On Sun, Dec 25, 2022 at 01:28:51PM +0200, Sagi Grimberg wrote:
+> When initializing auth context, there may be no secrets passed
+> by the user. Make return code explicit when returning successfully.
+> 
+> smatch warnings:
+> drivers/nvme/host/auth.c:950 nvme_auth_init_ctrl() warn: missing error code? 'ret'
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <error27@gmail.com>
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 
-Well, all these effects are unusual for I/O commands, and all the
-effects really are hints to the host.  But if you think we can do
-better, can you send an incremental fixup?  We'll need to get
-these fixes in ASAP to fix the gapping security hole, or just
-revert the unprivileged passthrough for 6.2.
+Awesome.  Thanks!
+
+regards,
+dan carpenter
+
 
