@@ -4,79 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 093F8C4167B
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Dec 2022 19:11:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3F29C4167B
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Dec 2022 16:58:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nBctsEZLpgk0fs4haMIew4JBms6I8ZKU+t+ZPKxEChE=; b=uvFCf7OwzTumCvhEWYZyn8L9Ul
-	wLu9py1Cxdv7qtGsgNRGoYsOvTZYiirMRvknThRybWEGQ0AzzJ7SbNCiAp8hg0PncbDwvx+T8RSJV
-	B03O9FFxGhB1gS0tcBifaakYY6h99r6XSOxpRNUbote8EC9F6+j0YeNfD88eaKJ0FfzF2E0eqDZjL
-	Vu5KW0OrD1RdjiGo2IcXHNhuZk+XcrzXGaForint0vYIYjxigxniNS5iinrslyT3sklOIiwXKU7HD
-	3R0ZvwvzPSh0NXtbqcklE/IRKWM+qHzBAZ1CHP63cMjylgMoXm8dszFkhW5miBlvmsV7yl5SJbNcA
-	hLGn707A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=OZET99rY5ID51nbHPaTMeAZlJRD81wvFC1CkrlPZeqo=; b=X8Bpfr6fvhJIevBBncTk1ZPHaf
+	SpbnsUX4HATsCcLIUiRNamlfUKE72du77W5j+r5TqiB7DFvD7vWBDnvWZdCFb35r2JyKUPYv8H4OA
+	NqQLKiCtQxGo1IEJDcPIX7qy0NQx5Ku3BrauDPyJl5/y16BdVgReVqAoz9SCDhXtlbnZo4MyzTW5a
+	LVZzfKxGGROPnJPE8OBJ9kBQqd3ftEqYz3YWW9qHWU491+mkveuDQbdoH7durTwiTZrMkTfeqpWye
+	67ugGz/YW3GlRv+bWdbGmrjdRDi0Zu9kEtWt/6iNgrLMbq1MgW5ePgvOrDNvef+5y1Cxa6wh0Ni3p
+	xM6U/1Vg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p9ssy-006afi-8k; Mon, 26 Dec 2022 19:11:44 +0000
-Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836])
+	id 1pADHG-00Eh5Y-9W; Tue, 27 Dec 2022 16:58:10 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p9sst-006aao-Oc
-	for linux-nvme@lists.infradead.org; Mon, 26 Dec 2022 19:11:41 +0000
-Received: by mail-qt1-x836.google.com with SMTP id jr11so9027714qtb.7
-        for <linux-nvme@lists.infradead.org>; Mon, 26 Dec 2022 11:11:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nBctsEZLpgk0fs4haMIew4JBms6I8ZKU+t+ZPKxEChE=;
-        b=jFDeeXUuZ+8+aD51uBR9qcze9EJAB0MyZvPamd5k/lSWWYG+MiljcJFneCosq6HKOQ
-         3kv2BV0MHGo31Sh7yBnAcTloFCzyUYJp0tGvpwyC+/Xm5yKvwOOy6l3X/F5nGEBG883E
-         W7wakf1BVHtGaw8QpfEHIxiBYksAZOnQnShkaHHB8aFYPKnMgEXPDbnJao8HHbUA+eKM
-         4jHaVOEvNMhTD83xpvy+oXVE3EgLdP/JXYsRl4UkfadEG+IDsDMLXU0B9IgbTKVv0DM5
-         lEYZLal0oCCsd+KYOhVRI4gdIWcmQo2f6fuIDWkAF2O2PCP0iaTqDoecS3t1368nBfna
-         XS7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nBctsEZLpgk0fs4haMIew4JBms6I8ZKU+t+ZPKxEChE=;
-        b=DjMAvMVy8zNRPTGX5G2Z70o66IAvNIy2ffegZyLbOkZXlX22ewrPSnYtZ5vzEbypAd
-         j5/DVjvrq+FHaAuOf2gUD8ySAKS3QufUfgV8zImkE32loS2YA+UrB3JFgsWYoxyUAolA
-         ZbiOwSTLb7bINl4r3AcP5krXBkAXO6t3lmRbtBzlUwJSdfQq8VSHHuWEXhJj2/OKFoX8
-         1+aMYZ/DuqXoCI5SuqU7NZOn9AdGCnWHzjACv5ANuEil3+H7jF+axtX95inGWnT0m3Ys
-         Np+8grPLfs2qHpzluh+FVsppudZE7CCFw22EubUvUmpADpc/OFjp2MUjjuSFziqM+g6X
-         24Qg==
-X-Gm-Message-State: AFqh2kpIJKS+DmLZK3HpM+S/WN3E3/0sorareTMcATCWa1xz+/gS0aQJ
-	kIYqtN34+2KCCwLAVsSHkZ4/Wg==
-X-Google-Smtp-Source: AMrXdXtCOME/yjE82H+CBWAo+4DqKwsqHhzAssMXIZm/Zy/lT367X2i0Q3ZsEkymrcEgWV8KryQsLg==
-X-Received: by 2002:ac8:44cf:0:b0:39c:fdb3:a215 with SMTP id b15-20020ac844cf000000b0039cfdb3a215mr6311185qto.6.1672081893017;
-        Mon, 26 Dec 2022 11:11:33 -0800 (PST)
-Received: from [127.0.0.1] ([216.250.210.0])
-        by smtp.gmail.com with ESMTPSA id u7-20020a05620a430700b006cbc6e1478csm8145190qko.57.2022.12.26.11.11.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Dec 2022 11:11:32 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: Linus Torvalds <torvalds@linux-foundation.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Hugh Dickins <hughd@google.com>, linux-nvme@lists.infradead.org
-In-Reply-To: <20221225103234.226794-1-hch@lst.de>
-References: <20221225103234.226794-1-hch@lst.de>
-Subject: Re: (subset) fix nvme sqsize on off regression
-Message-Id: <167208189004.23141.7632996379426634411.b4-ty@kernel.dk>
-Date: Mon, 26 Dec 2022 12:11:30 -0700
+	id 1pADH9-00Eh0v-Bi
+	for linux-nvme@lists.infradead.org; Tue, 27 Dec 2022 16:58:05 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id BBA286732D; Tue, 27 Dec 2022 17:57:54 +0100 (CET)
+Date: Tue, 27 Dec 2022 17:57:54 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Kanchan Joshi <joshi.k@samsung.com>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 5/6] nvme: also return I/O command effects from
+ nvme_command_effects
+Message-ID: <20221227165754.GA7716@lst.de>
+References: <20221223071814.43564-1-hch@lst.de> <20221223071814.43564-6-hch@lst.de> <74cdb20e-2f38-f001-0b82-cca2b3046df9@grimberg.me>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12-dev-05166
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <74cdb20e-2f38-f001-0b82-cca2b3046df9@grimberg.me>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221226_111140_093461_F36C3633 
-X-CRM114-Status: GOOD (  12.30  )
+X-CRM114-CacheID: sfid-20221227_085803_566960_A842C4E6 
+X-CRM114-Status: GOOD (  18.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,35 +59,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Sun, Dec 25, 2022 at 12:26:35PM +0200, Sagi Grimberg wrote:
+>> +		if (ns->head->ids.csi == NVME_CAP_CSS_NVM)
+>> +			effects |= nvme_known_nvm_effects(opcode);
+>>   		if (effects & ~(NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC))
+>>   			dev_warn_once(ctrl->device,
+>> -				"IO command:%02x has unhandled effects:%08x\n",
+>> +				"IO command:%02x has unusual effects:%08x\n",
+>>   				opcode, effects);
+>> -		return 0;
+>> -	}
+>>   -	if (ctrl->effects)
+>> -		effects = le32_to_cpu(ctrl->effects->acs[opcode]);
+>> -	effects |= nvme_known_admin_effects(opcode);
+>> +		/*
+>> +		 * NVME_CMD_EFFECTS_CSE_MASK causes a freeze all I/O queues,
+>> +		 * which would deadlock when done on an I/O command.  Note that
+>> +		 * We already warn about an unusual effect above.
+>> +		 */
+>
+> I think it would be helpful to warn that we are masking it out? The
+> warning above does not directly relate to the cse mask, but rather anthing 
+> outside of NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC ?
 
-On Sun, 25 Dec 2022 11:32:30 +0100, Christoph Hellwig wrote:
-> this series fixes up the sqsize regression that Hugh reported.  The first
-> two patches are the real fixes, and it might make sense if Linus just
-> picks them directly before -rc1.  The other two just clean things up a
-> bit to avoid pitfalls like this in the future.
-> 
-> Diffstat:
->  apple.c   |    3 +--
->  core.c    |   21 ++++++++++++++++++---
->  fabrics.c |    2 +-
->  fc.c      |   12 ++++++------
->  pci.c     |   27 ++++++++++++---------------
->  rdma.c    |   23 +++++++++++------------
->  tcp.c     |   12 ++++++------
->  7 files changed, 55 insertions(+), 45 deletions(-)
-> 
-> [...]
-
-Applied, thanks!
-
-[1/4] nvme: fix setting the queue depth in nvme_alloc_io_tag_set
-      commit: 33b93727ce90c8db916fb071ed13e90106339754
-[2/4] nvme-pci: update sqsize when adjusting the queue depth
-      commit: 88d356ca41ba1c3effc2d4208dfbd4392f58cd6d
-
-Best regards,
--- 
-Jens Axboe
-
-
+Well, all these effects are unusual for I/O commands, and all the
+effects really are hints to the host.  But if you think we can do
+better, can you send an incremental fixup?  We'll need to get
+these fixes in ASAP to fix the gapping security hole, or just
+revert the unprivileged passthrough for 6.2.
 
