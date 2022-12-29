@@ -4,37 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BAD35C4332F
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Dec 2022 16:41:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D27BAC4332F
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Dec 2022 18:04:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=avvqaRN2SjmRVsthHLPqt7SLtudB6a3Mbu7hhPbcWa4=; b=J00ea012JgxvaD4TYU1OF1DKM7
-	5MqkyuWVad+lPTagY3lz2tv67A06kKy/eM0qfgb/rOjaLaDiyE2NVD24ML5oiKklmWY8BknnfYnLy
-	oNqoVQGg/Mc8QFpKUZHrJI/xxjNfG4/E7gkMLg1mgqaTA9my3GNxEQXfZfA3EnWpSpNgZ2E+Yibzc
-	zAQ/1+CzaYW9SfhKGM1XnghVQEdgV8D/qvoNGoR/1FqqdDJPi0z5VBLCJs92bk/knMKCtBw7nEM5d
-	N1GJ6JZUvs9MBQz3SG9EHh71pspI67HYbHcOYf+6kEwiWWd1J757ZxxCOcIyikd8Q+UfJoKdTLfoy
-	U+8Pddpw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=xOEXS143QV3/C3dDkbpYWDD9wF91rFC08l2WJiezbn0=; b=SglvWH9ogyiJ9CyLe1D9+gtCAJ
+	Yfopym5WGisVveCFPOGFSslrSGlpnrhcVju/s03H+oz36dMRLaa4KYlrRukyMT21T9OdEOfVgoEsP
+	RqM4cJWPbJQaaYIiWOlADvIeMbxVm+u+6csiI2m3nrCijHUz3YRB7DwZJoUJizvbK8jWAiQncrUl8
+	8M/sF7PZEECq29s8m7b6hnyOjdoIPakNjBV8mZSktxfVi7NMcJhgm9jrT18V/9ir66ah0iAn78vVE
+	Sl6UM03F2JUagldXiMuTZPOS2erE9HoFiNJxJlf1SdBvvFT6evKUbvhB2k2qnK/npyWIzF3EganKl
+	b63MZd4Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pAvyP-00HaJ6-7W; Thu, 29 Dec 2022 16:41:41 +0000
-Received: from rrcs-67-53-201-206.west.biz.rr.com ([67.53.201.206] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pAvyM-00HaGJ-6u; Thu, 29 Dec 2022 16:41:38 +0000
-Date: Thu, 29 Dec 2022 06:41:37 -1000
-From: Christoph Hellwig <hch@infradead.org>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: [GIT PULL] nvme fixes for Linux 6.2
-Message-ID: <Y63DQSUSW4aQlVJ+@infradead.org>
+	id 1pAxGo-000bS1-HD; Thu, 29 Dec 2022 18:04:46 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1pAxGi-000bPk-6x
+	for linux-nvme@lists.infradead.org; Thu, 29 Dec 2022 18:04:41 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id A2ADCB81A26;
+	Thu, 29 Dec 2022 18:04:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC2A9C433D2;
+	Thu, 29 Dec 2022 18:04:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1672337077;
+	bh=zE2PL61SyVmgZLzrsWmVw2XuVVi926GhweLinTybOLw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jp2dXz3ydvsUA8LGHkb7kvEyKuTA7eYSKNmcI3tQAC3dZurUY7magETTNkkPO77aJ
+	 cMZRBW0ePy0QshrVYxKlyFloUVJiLWdWY29RLmqWsiLa3y+vbJdmK17jjMe88/UbXd
+	 4IfWVm+GnMp5JRyL/kI3qjUSNBQ+RI5iwfumvAXK4gm2aTpu/OyGmNKbv27BkfHDPe
+	 ZWjFNjICYyeHXwAoTGSUzGUyHha50E9wUG6Ofx2PJaHw7Kb6zYllRheB31iDMo4gEE
+	 dQChsry1iUXlLdNQDpsXCbg5E9AlbXLa8SpScYe5cABR/HI7hZLIPxHNEelKeyZjzy
+	 F0f5IX8yvCWLQ==
+Date: Thu, 29 Dec 2022 11:04:33 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Tong Zhang <ztong0001@gmail.com>
+Cc: Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, t.zhang2@samsung.com
+Subject: Re: [PATCH] nvme-pci: free irq properly when cannot create adminq
+Message-ID: <Y63WsX8Hvxep/dtN@kbusch-mbp.dhcp.thefacebook.com>
+References: <20221229060549.3976570-1-ztong0001@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20221229060549.3976570-1-ztong0001@gmail.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20221229_100440_423362_D77CA9CD 
+X-CRM114-Status: GOOD (  17.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -49,51 +73,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The following changes since commit 88d356ca41ba1c3effc2d4208dfbd4392f58cd6d:
+On Wed, Dec 28, 2022 at 10:05:49PM -0800, Tong Zhang wrote:
+> nvme_pci_configure_admin_queue could return -ENODEV, in this case, we
+> will need to free IRQ properly. Otherwise following warning could be
+> triggered
+> 
+> [    5.286752] WARNING: CPU: 0 PID: 33 at kernel/irq/irqdomain.c:253 irq_domain_remove+0x12d/0x140
+> [    5.290547] Call Trace:
+> [    5.290626]  <TASK>
+> [    5.290695]  msi_remove_device_irq_domain+0xc9/0xf0
+> [    5.290843]  msi_device_data_release+0x15/0x80
+> [    5.290978]  release_nodes+0x58/0x90
+> [    5.293788] WARNING: CPU: 0 PID: 33 at kernel/irq/msi.c:276 msi_device_data_release+0x76/0x80
+> [    5.297573] Call Trace:
+> [    5.297651]  <TASK>
+> [    5.297719]  release_nodes+0x58/0x90
+> [    5.297831]  devres_release_all+0xef/0x140
+> [    5.298339]  device_unbind_cleanup+0x11/0xc0
+> [    5.298479]  really_probe+0x296/0x320
+> 
+> Fixes: a6ee7f19ebfd ("nvme-pci: call nvme_pci_configure_admin_queue from nvme_pci_enable")
 
-  nvme-pci: update sqsize when adjusting the queue depth (2022-12-26 12:10:51 -0700)
+Right. It's really only needed when called from probe as the reset_work
+handles the cleanup when called from there, but this is safe for both
+cases.
 
-are available in the Git repository at:
+> @@ -2584,8 +2584,13 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+>  	pci_enable_pcie_error_reporting(pdev);
+>  	pci_save_state(pdev);
+>  
+> -	return nvme_pci_configure_admin_queue(dev);
+> +	result = nvme_pci_configure_admin_queue(dev);
+> +	if (result)
+> +		goto free_irq;
+> +	return result;
 
-  git://git.infradead.org/nvme.git tags/nvme-6.2-2022-12-29
-
-for you to fetch changes up to 76807fcd73b818eb9f245ef1035aed34ecdd9813:
-
-  nvme-auth: fix smatch warning complaints (2022-12-28 06:26:35 -1000)
-
-----------------------------------------------------------------
-nvme fixes for Linux 6.2
-
- - fix various problems in handling the Command Supported and Effects log
-   (Christoph Hellwig)
- - don't allow unprivileged passthrough of commands that don't transfer
-   data but modify logical block content (Christoph Hellwig)
- - add a features and quirks policy document (Christoph Hellwig)
- - fix some really nasty code that was correct but made smatch complain
-   (Sagi Grimberg)
-
-----------------------------------------------------------------
-Christoph Hellwig (7):
-      docs, nvme: add a feature and quirk policy document
-      nvme: fix the NVME_CMD_EFFECTS_CSE_MASK definition
-      nvmet: use NVME_CMD_EFFECTS_CSUPP instead of open coding it
-      nvmet: set the LBCC bit for commands that modify data
-      nvmet: don't defer passthrough commands with trivial effects to the workqueue
-      nvme: also return I/O command effects from nvme_command_effects
-      nvme: consult the CSE log page for unprivileged passthrough
-
-Sagi Grimberg (1):
-      nvme-auth: fix smatch warning complaints
-
- .../maintainer/maintainer-entry-profile.rst        |  1 +
- Documentation/nvme/feature-and-quirk-policy.rst    | 77 ++++++++++++++++++++++
- MAINTAINERS                                        |  1 +
- drivers/nvme/host/auth.c                           |  2 +-
- drivers/nvme/host/core.c                           | 32 +++++++--
- drivers/nvme/host/ioctl.c                          | 28 ++++++--
- drivers/nvme/target/admin-cmd.c                    | 37 ++++++-----
- drivers/nvme/target/passthru.c                     | 11 ++--
- include/linux/nvme.h                               |  4 +-
- 9 files changed, 159 insertions(+), 34 deletions(-)
- create mode 100644 Documentation/nvme/feature-and-quirk-policy.rst
+Since you're already in this function, you should also add a "goto
+disable" if pci_alloc_irq_vectors() fails. Right now it just returns
+with the pci device still enabled, and it won't get disabled from probe.
+  
+> + free_irq:
+> +	pci_free_irq_vectors(pdev);
+>   disable:
+>  	pci_disable_device(pdev);
+>  	return result;
+> -- 
 
