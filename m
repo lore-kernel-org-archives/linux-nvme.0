@@ -4,125 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A204CC4332F
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Dec 2022 05:36:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ACEFFC4332F
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Dec 2022 06:06:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=e2XnbzUBMsMbjEdzn5kg/X2SW2QCtTgLEyGFWa0T1gk=; b=jOUc4UjdRSx8eAOE6Za4H5UbmE
-	CQXJeh8AASLlIKlqoFrQ+9UNsxqVrAqhcCHRLhvVctRj4+GGN3pd4n35ilDNIFO6DLtugwhwHwxB3
-	6K9agFRS1E0r9W2NluEClKVZU65ix3iyBnWU/iqmoIeCLJvs91UIW6KzX5ukXRyUN+NJvT+HsTC3q
-	2Ig2k+Idk3/LA/gmxaRXEXgEr45jilIZeJ0+VShIyIka51Xhx+WvdviQEhpU4CHhyDcDxaPQp4Kpw
-	QxbxaN1Kw4bpUyXLJWDGZNDe6a1tyjfcxteWdKcg5r0e5Pvf9mTsV6V5qhcctQRSFF3zmMCvkb4XK
-	0PnbBHVQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=WvHrnh6Kzoj0nWwyaMrKvOTOMFA+VSrJVZRapH+1ngs=; b=MKwRLA2exeRpnabotm/3exUl9s
+	nHmvnX9szYT5D2JGPvTIZmnVRgmawTiVY2VOWk9mCxYafRpSVOr0ZOxSwIVP9rrOFHu5YL9jJUsIA
+	gU6Ljlw+B5homUDVDGeIi3kCIN/7pRRaqhLcXbphVAJZDYOFAQtFStRTp+ITKBLqZnF8wTEgmXk5m
+	G2pgdDoELx19XIC4UGX2JsyBHMkTKcUxQn8H0Dls7PFQOkm38sUGWvLMMEGdzRl4UsH87fSKRsz2Q
+	VwqSNdakV3Puh7DGNmvpVJM18zsklP+Sp2KfTUxCGExBYdFHcEN5IBr/1AzxKqGTDg4oo2d31kUWz
+	2qHgi10w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pAlaM-00CMet-JY; Thu, 29 Dec 2022 05:36:10 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1pAm3F-00Cbl6-84; Thu, 29 Dec 2022 06:06:01 +0000
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pAlZy-00CMNg-60
-	for linux-nvme@lists.infradead.org; Thu, 29 Dec 2022 05:35:53 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20221229053539epoutp01988c5b87ceeca85371cba14c0c658f92~1LNct6nd70256202562epoutp01a
-	for <linux-nvme@lists.infradead.org>; Thu, 29 Dec 2022 05:35:39 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20221229053539epoutp01988c5b87ceeca85371cba14c0c658f92~1LNct6nd70256202562epoutp01a
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1672292139;
-	bh=e2XnbzUBMsMbjEdzn5kg/X2SW2QCtTgLEyGFWa0T1gk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=PDKgMW+4PvwtIjm96cXYTWht6w5jmtk0RSDb/PIgLc4ktxoJ8wIvbuTcrv/X2S9L3
-	 YumbtsRopU/ioV5pefrSmu5H1ZCEVPSoBDPOE3kwADzPjdI2xOgaetDEzeZOoBSfRg
-	 CIIEcjlacV4mqEHLc9+PJci4CP4zc4xnT8ZAqKOY=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20221229053538epcas5p4601c266cc3f4255fc75255d1b5f0cf76~1LNcYi9Hq1573115731epcas5p44;
-	Thu, 29 Dec 2022 05:35:38 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.174]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4NjHDB1v5zz4x9Pr; Thu, 29 Dec
-	2022 05:35:38 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	58.28.03362.C172DA36; Thu, 29 Dec 2022 14:35:24 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20221229053524epcas5p403762bfeb9c5e8bf388549bc05cc2209~1LNPCUq2W1573715737epcas5p4P;
-	Thu, 29 Dec 2022 05:35:24 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20221229053524epsmtrp2b55b7f75d0f33e2f98992c0b01ce1e22~1LNO_-YXQ1977019770epsmtrp2g;
-	Thu, 29 Dec 2022 05:35:24 +0000 (GMT)
-X-AuditID: b6c32a4b-4e5fa70000010d22-b2-63ad271caae9
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	D3.D4.10542.C172DA36; Thu, 29 Dec 2022 14:35:24 +0900 (KST)
-Received: from green5 (unknown [107.110.206.5]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20221229053523epsmtip1ee2f3522f43d20622c646706f7d82231~1LNOLRXv41967019670epsmtip1J;
-	Thu, 29 Dec 2022 05:35:23 +0000 (GMT)
-Date: Thu, 29 Dec 2022 11:05:05 +0530
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 5/6] nvme: also return I/O command effects from
- nvme_command_effects
-Message-ID: <20221229053505.GA1573@green5>
+	id 1pAm3B-00Cbgv-1W
+	for linux-nvme@lists.infradead.org; Thu, 29 Dec 2022 06:05:58 +0000
+Received: by mail-pl1-x629.google.com with SMTP id t2so18070769ply.2
+        for <linux-nvme@lists.infradead.org>; Wed, 28 Dec 2022 22:05:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WvHrnh6Kzoj0nWwyaMrKvOTOMFA+VSrJVZRapH+1ngs=;
+        b=gHeW4JYgRqPC62v7wcEHkWIpBU/G/V9W2+kEV3nbqnVkgqU/4StLE+Tb4qZ7gsgxMa
+         fOCKMPaszpVfHWa90O+eHOeKrfSUBdRIN86L+OxE4TiDFmo8dw36HAvua3UEIHGb8Pv7
+         RV8kaJTJnd9eq4+rYYTngrMHmCMqZ5V3uKKDjDgse9ghe3zAJdqLvacnwL7Eujxkp3KB
+         0u54DvQQKjTzBMdQ1yU0Cjvb98JBLQwq/nNPnz3Bk3dcW+BeSzgmDTfaDD4myPwuSpyD
+         6zkQrxiuXuQXNuzZnmJzoKjQAwFu6HJCc54xqoyOs+wDa0hJOYyHY39wF8txyvFMepYy
+         2PPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WvHrnh6Kzoj0nWwyaMrKvOTOMFA+VSrJVZRapH+1ngs=;
+        b=CaDPN+hNBxVkqJ4l3ocd1JhhpcdKpx1WUSL47DGDAvoZKxlc2DSMuvicy1GCHnSwAz
+         8eR64XizYJAxuvqdmiNE7qKpIWxGTK9krqYX+boFHmFVlRj5UaHPtCNAnHXQcIDTvxoJ
+         7/D1DOHul+HP6pZ6UYDyiMpuczfC9VhcL7RCTNfZl1pZ8fKrwjKkC2K2B2bT6fnMTgXF
+         R8OTd6hYnkKQHWLhRpBjVPZib2M14Ap6DwITqirtxmSjD490VjAB5Q4+sLrCdseq0pFm
+         fbSIbrqDm81NUjcyKFeJ4AxkF6vUU1UmMlb2WaGsHwS5N9GQ9n1V1LnXEcD4sRQqNSFu
+         cEKQ==
+X-Gm-Message-State: AFqh2ko97dlEUFJklTmfFBSZpArPGWlbfuvNnainpqpGZ3smwVt5mihm
+	hegwXt42EosUXUe2ToXk06E=
+X-Google-Smtp-Source: AMrXdXu7gFAQsreFVb70AT8TyMkIkhPD8Mj81ZOfKm926upQi0YDWXAVYlwQHOwZEMDKq8E01rdEPg==
+X-Received: by 2002:a17:902:a717:b0:188:640f:f41e with SMTP id w23-20020a170902a71700b00188640ff41emr29193354plq.4.1672293953727;
+        Wed, 28 Dec 2022 22:05:53 -0800 (PST)
+Received: from ubuntu-server.local ([2600:1700:3ec7:421f:61cf:da7:ef83:e43e])
+        by smtp.googlemail.com with ESMTPSA id u9-20020a1709026e0900b0018699e6afd8sm7316431plk.265.2022.12.28.22.05.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Dec 2022 22:05:53 -0800 (PST)
+From: Tong Zhang <ztong0001@gmail.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@fb.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: t.zhang2@samsung.com,
+	Tong Zhang <ztong0001@gmail.com>
+Subject: [PATCH] nvme-pci: free irq properly when cannot create adminq
+Date: Wed, 28 Dec 2022 22:05:49 -0800
+Message-Id: <20221229060549.3976570-1-ztong0001@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20221228151255.GA32138@lst.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphk+LIzCtJLcpLzFFi42LZdlhTQ1dGfW2ywZoVZhYrVx9lsph06Bqj
-	xdOrs5gs5i97ym6x7vV7FgdWj/P3NrJ4bFrVyeaxeUm9x+6bDWwevc3v2AJYo7JtMlITU1KL
-	FFLzkvNTMvPSbZW8g+Od403NDAx1DS0tzJUU8hJzU22VXHwCdN0yc4CWKymUJeaUAoUCEouL
-	lfTtbIryS0tSFTLyi0tslVILUnIKTAr0ihNzi0vz0vXyUkusDA0MjEyBChOyM15d3sleMI+1
-	YsHqFsYGxr0sXYycHBICJhL9/e/Yuxi5OIQEdjNKvNn1hAXC+cQocaHtCBOE85lRom9PK1zL
-	vaWvGCESuxgl5l99wAbhPGGUaL1/kgmkikVAVWLb/5NAHRwcbAKaEhcml4KERQSUJJ6+OssI
-	YjML9DBK7D1bAGILC0RJzJv7ig3E5hXQkph14x0zhC0ocXLmE7DFnAI6Envn7wSLiwooSxzY
-	dhzsOgmBj+wSc/p3MoLskhBwkfh1TwTiUGGJV8e3sEPYUhKf3+1lg7CTJS7NPMcEYZdIPN5z
-	EMq2l2g91c8McVuGxPmPR9kgbD6J3t9PmCDG80p0tAlBlCtK3Jv0lBXCFpd4OGMJlO0hcXz5
-	f2jAXWOS+LtpP9MERrlZSN6ZhWQFhG0l0fmhiXUW0ApmAWmJ5f84IExNifW79Bcwsq5ilEwt
-	KM5NTy02LTDOSy2Hx3Fyfu4mRnBy1PLewfjowQe9Q4xMHIyHGCU4mJVEeDXOrk4W4k1JrKxK
-	LcqPLyrNSS0+xGgKjJ2JzFKiyfnA9JxXEm9oYmlgYmZmZmJpbGaoJM6bunV+spBAemJJanZq
-	akFqEUwfEwenVAOTpiFf6up85gALm6pNl8V8vj09aOzi17HjyxeOzxt8V61qlz/2VGG+jHH4
-	jdD8e42ZkrKHkyWfnFvxp3VW8ouFC7/k8C+3MPjjJHLL8sv5Ox5X9r356fIsIGVt06Er9jln
-	Sqdc5srtVT/9feYEzdsLyj7qry9jPXEhn6P/vxVn3avFk/4c9xR+v+zQkx8bdoRW/9q8yj2W
-	u2fulMvXFSW3N06bEcz05Q/XgX/p/7Nin7o+528Kl+GIL/rtKsmRNYGjtPyx38QbVR6T56cy
-	RYbVlTNWvDdUccor7jqW2r5HIUet/kji0f87jgfPf1q7dllQM19NtBqH8JmjrYJRJV1GsewP
-	dU12++Yxqu3ZWLxLiaU4I9FQi7moOBEAJEpDAhcEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrMLMWRmVeSWpSXmKPExsWy7bCSnK6M+tpkg2nHFSxWrj7KZDHp0DVG
-	i6dXZzFZzF/2lN1i3ev3LA6sHufvbWTx2LSqk81j85J6j903G9g8epvfsQWwRnHZpKTmZJal
-	FunbJXBlLF5yibngAlPF59UXmRsYO5m6GDk5JARMJO4tfcXYxcjFISSwg1Fi8ZU/zBAJcYnm
-	az/YIWxhiZX/nrNDFD1ilPj2dzILSIJFQFVi2/+TQDYHB5uApsSFyaUgYREBJYmnr84ygtjM
-	Aj2MEnvPFoDYwgJREvPmvmIDsXkFtCRm3XjHDDHzGpPEiilrWSESghInZz5hgWg2k5i3+SEz
-	yHxmAWmJ5f84QMKcAjoSe+fvBLtTVEBZ4sC240wTGAVnIemehaR7FkL3AkbmVYySqQXFuem5
-	xYYFRnmp5XrFibnFpXnpesn5uZsYweGupbWDcc+qD3qHGJk4GA8xSnAwK4nwapxdnSzEm5JY
-	WZValB9fVJqTWnyIUZqDRUmc90LXyXghgfTEktTs1NSC1CKYLBMHp1QD05XWZ54Gr+YefM2b
-	tHSfOfPk7gM5N3/LOv652PvftmC549SqvrXs7wpk1smqtM7ccCBsX4/luiW2jA84Iy3W+s+8
-	csUmo2HqhWjfpN9ynp8d928xfcw+pTDwy2Pdedv/2q9lMNkYs9SN69X1gCyT9gV/wko09HvS
-	d0pLPynwKuy99fFBuk3dmRqmjxcZ5dMPts1zEPfTqtgaGHVwxbYHR4tPPrOaWfEz/OgmrtKG
-	VdIZvHbdZd7CtUEO3lVcSgpc0843Witnd+xrPhk7UzB4toWT0ZkOxz3p9TqicQ8Mvi14X3fr
-	4ad3m9cZzgzonPLWK5WvI9EjI27ni8eZGSk3vu47o5Tt2ORxS/lgYOFmJZbijERDLeai4kQA
-	ekOjwuYCAAA=
-X-CMS-MailID: 20221229053524epcas5p403762bfeb9c5e8bf388549bc05cc2209
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----d7wgNpQcY-y3Wxr.o4x8P.ZM-s8jhIouQULCgAQexljrVMsg=_686b9_"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20221228151749epcas5p3fba6d56dbe6571e4c876677999881591
-References: <20221223071814.43564-1-hch@lst.de>
-	<20221223071814.43564-6-hch@lst.de>
-	<74cdb20e-2f38-f001-0b82-cca2b3046df9@grimberg.me>
-	<20221227165754.GA7716@lst.de>
-	<013abe7a-99a6-4ccd-cb62-ed28bbbc61e8@grimberg.me>
-	<CGME20221228151749epcas5p3fba6d56dbe6571e4c876677999881591@epcas5p3.samsung.com>
-	<20221228151255.GA32138@lst.de>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221228_213550_905584_6BA2B03F 
-X-CRM114-Status: GOOD (  15.72  )
+X-CRM114-CacheID: sfid-20221228_220557_331913_32A481CF 
+X-CRM114-Status: GOOD (  11.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -137,22 +92,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------d7wgNpQcY-y3Wxr.o4x8P.ZM-s8jhIouQULCgAQexljrVMsg=_686b9_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+nvme_pci_configure_admin_queue could return -ENODEV, in this case, we
+will need to free IRQ properly. Otherwise following warning could be
+triggered
 
-On Wed, Dec 28, 2022 at 04:12:55PM +0100, Christoph Hellwig wrote:
->On Wed, Dec 28, 2022 at 03:49:59PM +0200, Sagi Grimberg wrote:
->> That's fine, No need to hold this for 6.2
->
->Thanks.  Keith, Kanchan - any comments on this version of the series?
+[    5.286752] WARNING: CPU: 0 PID: 33 at kernel/irq/irqdomain.c:253 irq_domain_remove+0x12d/0x140
+[    5.290547] Call Trace:
+[    5.290626]  <TASK>
+[    5.290695]  msi_remove_device_irq_domain+0xc9/0xf0
+[    5.290843]  msi_device_data_release+0x15/0x80
+[    5.290978]  release_nodes+0x58/0x90
+[    5.293788] WARNING: CPU: 0 PID: 33 at kernel/irq/msi.c:276 msi_device_data_release+0x76/0x80
+[    5.297573] Call Trace:
+[    5.297651]  <TASK>
+[    5.297719]  release_nodes+0x58/0x90
+[    5.297831]  devres_release_all+0xef/0x140
+[    5.298339]  device_unbind_cleanup+0x11/0xc0
+[    5.298479]  really_probe+0x296/0x320
 
-This continues to look good. I am all for having this in.
-Thanks for the fix.
+Fixes: a6ee7f19ebfd ("nvme-pci: call nvme_pci_configure_admin_queue from nvme_pci_enable")
+Signed-off-by: Tong Zhang <ztong0001@gmail.com>
+---
+ drivers/nvme/host/pci.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-------d7wgNpQcY-y3Wxr.o4x8P.ZM-s8jhIouQULCgAQexljrVMsg=_686b9_
-Content-Type: text/plain; charset="utf-8"
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index f0f8027644bb..1fc2a2e130ab 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2584,8 +2584,13 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+ 	pci_enable_pcie_error_reporting(pdev);
+ 	pci_save_state(pdev);
+ 
+-	return nvme_pci_configure_admin_queue(dev);
++	result = nvme_pci_configure_admin_queue(dev);
++	if (result)
++		goto free_irq;
++	return result;
+ 
++ free_irq:
++	pci_free_irq_vectors(pdev);
+  disable:
+ 	pci_disable_device(pdev);
+ 	return result;
+-- 
+2.25.1
 
-
-------d7wgNpQcY-y3Wxr.o4x8P.ZM-s8jhIouQULCgAQexljrVMsg=_686b9_--
 
