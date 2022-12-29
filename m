@@ -4,66 +4,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C550DC4332F
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Dec 2022 16:34:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BAD35C4332F
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Dec 2022 16:41:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zPKjCf2MD/9u6J2F6S9LMXqARbQOW+dtKLIwYAFB0Wo=; b=X5cfq0qFKlqts6ALN2nDzZBWWj
-	BOC5hujhV39/HjUaVycT0XN5d4IYs0WrSZh5bBj3Wgn+lj3w8k0VQRDDkD2cEY5CHXTq9zSCO4NLy
-	VAELGZk5K6N0cjoPofO7pcQiaBTx+bJF7H0R3ETl9FjRykxURNJzPAlN6Wbk1oW3PE6w+aORDvNQ6
-	8JTBooMPsHkS6cLjepI0KiZIIllDpc3AtVterhvkgJCT8IPX8ze2jenqJoJIWqpoUJZcRgbdNicwB
-	1kU+WhL+5xBxuYXbrOEfqN/boN8bUnvl8XGCUuexSEJka3vh1mbgb68t8p5creKMRbrgs7eBCXzJp
-	iYJj64TA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=avvqaRN2SjmRVsthHLPqt7SLtudB6a3Mbu7hhPbcWa4=; b=J00ea012JgxvaD4TYU1OF1DKM7
+	5MqkyuWVad+lPTagY3lz2tv67A06kKy/eM0qfgb/rOjaLaDiyE2NVD24ML5oiKklmWY8BknnfYnLy
+	oNqoVQGg/Mc8QFpKUZHrJI/xxjNfG4/E7gkMLg1mgqaTA9my3GNxEQXfZfA3EnWpSpNgZ2E+Yibzc
+	zAQ/1+CzaYW9SfhKGM1XnghVQEdgV8D/qvoNGoR/1FqqdDJPi0z5VBLCJs92bk/knMKCtBw7nEM5d
+	N1GJ6JZUvs9MBQz3SG9EHh71pspI67HYbHcOYf+6kEwiWWd1J757ZxxCOcIyikd8Q+UfJoKdTLfoy
+	U+8Pddpw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pAvrT-00HWrb-Qs; Thu, 29 Dec 2022 16:34:31 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pAvrR-00HWpd-D9
-	for linux-nvme@lists.infradead.org; Thu, 29 Dec 2022 16:34:30 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 0140561838;
-	Thu, 29 Dec 2022 16:34:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDB1BC433EF;
-	Thu, 29 Dec 2022 16:34:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672331666;
-	bh=2bMMERLZy6NqXKUW7z0Io/XkQ5LqOprHOWLCPgEBs88=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u/RDY6PVHU8RQTxM93yibve49kLvUBOrDmK7ExmDJ+wrXxKyKfGvtGtCBSPzHuHDV
-	 lWUS8Vy5N2xBN72PBmGctcUxhf4U1UIL6cfyfiWkLbwcOsoRpyVR7rqEqFbiIOyqWW
-	 67ghMzo67Y56rrI0SfThHgFPYxJycA81rnNVj9lPpWGWvAtuCWZ8zTeI7qNXJKT/d3
-	 goD3+Gwr/vNxMFWyxUttvY94jdg3rrw/dWlsZivWaRr25eHWpTFhpUM+q0DuGKp8ZY
-	 mbfbeYHTEItrhNH2y9S+rGirmXeIUW96kL78/YfjX2ukO5svTgCxxB9u34HL6xm2e8
-	 P+Dgc+2cHfCgw==
-Date: Thu, 29 Dec 2022 09:34:23 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Jens Axboe <axboe@fb.com>, Hugh Dickins <hughd@google.com>,
+	id 1pAvyP-00HaJ6-7W; Thu, 29 Dec 2022 16:41:41 +0000
+Received: from rrcs-67-53-201-206.west.biz.rr.com ([67.53.201.206] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1pAvyM-00HaGJ-6u; Thu, 29 Dec 2022 16:41:38 +0000
+Date: Thu, 29 Dec 2022 06:41:37 -1000
+From: Christoph Hellwig <hch@infradead.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 2/4] nvme-pci: update sqsize when adjusting the queue
- depth
-Message-ID: <Y63BjxIJykWWTzOP@kbusch-mbp.dhcp.thefacebook.com>
-References: <20221225103234.226794-1-hch@lst.de>
- <20221225103234.226794-3-hch@lst.de>
- <f0d3c027-d793-8266-7c69-30a85f884b23@grimberg.me>
- <20221228161050.GA849@lst.de>
- <c1f876cb-5004-c91e-398c-83fb007bb697@grimberg.me>
+Subject: [GIT PULL] nvme fixes for Linux 6.2
+Message-ID: <Y63DQSUSW4aQlVJ+@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c1f876cb-5004-c91e-398c-83fb007bb697@grimberg.me>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221229_083429_541613_8C425218 
-X-CRM114-Status: GOOD (  22.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,24 +49,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Dec 29, 2022 at 02:07:04PM +0200, Sagi Grimberg wrote:
-> 
-> > > But if you want to patches 1+2 to be taken before 3+4, I'd make sqsize
-> > > to be a 0's based value of q_depth after we subtract one entry for queue
-> > > wraparound. So others would not get affected from patches 1+2. Then in
-> > > one batch make all assignments to sqsize 1's based like in patch 3 and
-> > > change nvme_alloc_io_tagset at the same time.
-> > 
-> > 1 doe not make any difference in the 0s based vs not values,
-> > they just reduce the queue size by 1 intentionally.
-> 
-> Not sure who is they here...
-> 
-> Anyways, I guess we'll have to wait and see if someone happens to care
-> if his/hers effective queuing is reduced by 1 all of a sudden...
+The following changes since commit 88d356ca41ba1c3effc2d4208dfbd4392f58cd6d:
 
-All nvme transports require the host driver leave one queue entry unused.
-The driver was not spec compliant prior to patches 1 and 2. I'm not sure
-if that "queue full" definition makes sense for fabrics lacking a shared
-ring, but the spec says we have to work that way.
+  nvme-pci: update sqsize when adjusting the queue depth (2022-12-26 12:10:51 -0700)
+
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git tags/nvme-6.2-2022-12-29
+
+for you to fetch changes up to 76807fcd73b818eb9f245ef1035aed34ecdd9813:
+
+  nvme-auth: fix smatch warning complaints (2022-12-28 06:26:35 -1000)
+
+----------------------------------------------------------------
+nvme fixes for Linux 6.2
+
+ - fix various problems in handling the Command Supported and Effects log
+   (Christoph Hellwig)
+ - don't allow unprivileged passthrough of commands that don't transfer
+   data but modify logical block content (Christoph Hellwig)
+ - add a features and quirks policy document (Christoph Hellwig)
+ - fix some really nasty code that was correct but made smatch complain
+   (Sagi Grimberg)
+
+----------------------------------------------------------------
+Christoph Hellwig (7):
+      docs, nvme: add a feature and quirk policy document
+      nvme: fix the NVME_CMD_EFFECTS_CSE_MASK definition
+      nvmet: use NVME_CMD_EFFECTS_CSUPP instead of open coding it
+      nvmet: set the LBCC bit for commands that modify data
+      nvmet: don't defer passthrough commands with trivial effects to the workqueue
+      nvme: also return I/O command effects from nvme_command_effects
+      nvme: consult the CSE log page for unprivileged passthrough
+
+Sagi Grimberg (1):
+      nvme-auth: fix smatch warning complaints
+
+ .../maintainer/maintainer-entry-profile.rst        |  1 +
+ Documentation/nvme/feature-and-quirk-policy.rst    | 77 ++++++++++++++++++++++
+ MAINTAINERS                                        |  1 +
+ drivers/nvme/host/auth.c                           |  2 +-
+ drivers/nvme/host/core.c                           | 32 +++++++--
+ drivers/nvme/host/ioctl.c                          | 28 ++++++--
+ drivers/nvme/target/admin-cmd.c                    | 37 ++++++-----
+ drivers/nvme/target/passthru.c                     | 11 ++--
+ include/linux/nvme.h                               |  4 +-
+ 9 files changed, 159 insertions(+), 34 deletions(-)
+ create mode 100644 Documentation/nvme/feature-and-quirk-policy.rst
 
