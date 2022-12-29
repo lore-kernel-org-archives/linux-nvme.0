@@ -4,83 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7CB57C4332F
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Dec 2022 19:08:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7C54EC4332F
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Dec 2022 19:09:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JbrQz0kg29Xa0GDRC8ClbCWM8goTDo4dB/HNu/0RBic=; b=UC9brrJVbesr1kDb6X3dfb5Zkh
-	NS4JeP1SrrI52noljZx8W54FIwLFFOJ9xQTB5lnlq2jJLoQBdYK4VwF90ii8qRQE/JeR2Cc1fHCAv
-	qDPWpleh129a/43BwlVOz45hV8x2vyXL59vsM6BfofHgAlZmvSbrMt5g30+4h0TYypLh8qsd6l/CS
-	ipfzFBhReEPGShQ0HE02EMJoNtrAwnKeZ7Rjc2nW7MvfvU8vWGy4bhPc32/+rOsDdFv9mjKEcKrP4
-	j0fqd46zhv+dSCpS+Mn9xHGMPn+jxMSKsglAVonsZ7g/UV5fro/KwQBmvoUwFD5o3njIrkYop2vEO
-	IVB6u/dA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YL1+jd+bqxEYuNhsfkKoW4Bib0tbO/GWG1d3h67uOqo=; b=FByTcM8wBjy9VkZ1ViliXjsF/1
+	kIyYf25lpssqv+D7YZtoPakpQY9AebGElfglfb+MMHybCfZm1i17p3zgsGj3eQpOKIkETofjwckfF
+	DDelEGXvjaP02uu0rjx1CBH+/uFkuqin77ZjLFvnhmXEd4EnZ4Fc1eJ0LLYoL7GOh64QI+J5wDOdO
+	079PweW700xAQS7rG1YUmLYSunrdTcjWMYjePPyOO+/02fc68RU1aeziRiV+aycx6nLPmlFC7X8u2
+	Sfejo7CdQZYZ2g+qYbXOoVUa1hQHRjz9naIMVubm7YL7hnGpzCIPXtb9+qGiv8xTCZ+puEXbe9dI4
+	BZivxn2A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pAyGn-0015zV-9J; Thu, 29 Dec 2022 19:08:49 +0000
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+	id 1pAyHV-0016Te-JW; Thu, 29 Dec 2022 19:09:33 +0000
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pAxn9-000rG6-Cy
-	for linux-nvme@lists.infradead.org; Thu, 29 Dec 2022 18:38:12 +0000
-Received: by mail-pl1-x634.google.com with SMTP id m4so19699125pls.4
-        for <linux-nvme@lists.infradead.org>; Thu, 29 Dec 2022 10:38:10 -0800 (PST)
+	id 1pAxoN-000rmt-AR
+	for linux-nvme@lists.infradead.org; Thu, 29 Dec 2022 18:39:28 +0000
+Received: by mail-oi1-x236.google.com with SMTP id s187so17750080oie.10
+        for <linux-nvme@lists.infradead.org>; Thu, 29 Dec 2022 10:39:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JbrQz0kg29Xa0GDRC8ClbCWM8goTDo4dB/HNu/0RBic=;
-        b=Iom+BzmpkbCSWAfxsPg0W4sRHVtvaB49EFLSRxp6WXmDIsMs/FCKosy/c0Ek7UxrRv
-         FLF/loNKG5Km4+1PXzUZxquGpVxkUOVz1ohxTghfGbXGnEPk+V0xnjW2wRYqp+0LtzK7
-         xTeTNEPWCbJICWJjKsz5VJ4z/yqQLJeSE/lJ/rMv8JSR0unV5xXU+9lhPFt6nlAvkH2c
-         jrzF7fBGQPH6DIgtAuGT7DUNhpx8nKKUTmsrm1c5VlzbtSh/zt3g0UpIZ8ZzZ8ATZOfb
-         UPElKwBp7h7+DqdNOfHqbxLL5uaBGf8/4OJ+BV0oCkBrKmvoGc879fepMO7/Phnggbgd
-         BNPQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=YL1+jd+bqxEYuNhsfkKoW4Bib0tbO/GWG1d3h67uOqo=;
+        b=RqetY5wq3Isg0XpDwrtgF58pMUZ91i3hZQu1kIW/923plJ95a91r8xq2bp9eQz8ztu
+         LXaqbR48IrAunbPdY/ItJ2X63rtW1mptuS+uc18XNwHqA10P7wWlBvac79bXmFvgvmst
+         D38bUiT123LS6MRFw5oPXHNBsIL7QVoxH2LR+WRb9BjM4NwWaCDAzAO3EU2vC5/BRLoI
+         x2v21MSTjSu7REXira0bwgbrODiznCOTX/M08qfqq39q1WOmKEUHZrS34aw3Q0jV7asU
+         fEa9/VDLt6g23id++bl7x/yA2FaN+4WAiCiKzfStkoUVGsh5kC+oXUxd8hGPauFxFl7q
+         QqMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JbrQz0kg29Xa0GDRC8ClbCWM8goTDo4dB/HNu/0RBic=;
-        b=6tCK+xMB1yFU4M82G+OD3Dv906QcojYA4HcUG9GQB9xPLcacQuvtmme41Wy7y9D++q
-         vL+dJ4SLxvAIVkg43U+WOm0sJRPebg+K1HYE3XKJ3Cm1cMZ43zGNMXZmJb+bsCKoAngq
-         UczRpmI/rjopTBGMrDqP5xLTQFwT6t4aV33cyqeBP7aPyw+9b7ADRpumGNSaMYRnKktm
-         g2sOeapzeymcdv3koL9lZmowe5X/kuaDDhrU63f2P7dzLd4dRlbvkjgtyY4Sixp9Pggt
-         h8TLF8LalFSp2zZJtLlVL1RgL+4Cktb9CQFYILNl7QPsmnTeXz8oFkEk0nkKyLWYVCgL
-         r/2Q==
-X-Gm-Message-State: AFqh2kr1Pyhpk+g9/hdnYn+Bg+Kii1x/j1ndoFsKFZeu8C2aPzZmBzC6
-	bBfvRdEJev9vLalpNohXuWI=
-X-Google-Smtp-Source: AMrXdXup1GjWb1k9WrctBbG+G+m+lAL5Ir5yQzr14N98Zgy349FFZFUwqsocNJ4OvcCpEjpTKmrRiQ==
-X-Received: by 2002:a17:90b:2791:b0:226:3a7c:f97a with SMTP id pw17-20020a17090b279100b002263a7cf97amr1192193pjb.26.1672339089943;
-        Thu, 29 Dec 2022 10:38:09 -0800 (PST)
-Received: from ubuntu-server.local ([2600:1700:3ec7:421f:61cf:da7:ef83:e43e])
-        by smtp.googlemail.com with ESMTPSA id mq18-20020a17090b381200b001df264610c4sm11852655pjb.0.2022.12.29.10.38.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Dec 2022 10:38:09 -0800 (PST)
-From: Tong Zhang <ztong0001@gmail.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: t.zhang2@samsung.com,
-	Tong Zhang <ztong0001@gmail.com>
-Subject: [PATCH v2] nvme-pci: fix error handling in nvme_pci_enable()
-Date: Thu, 29 Dec 2022 10:37:31 -0800
-Message-Id: <20221229183731.4013056-1-ztong0001@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <Y63WsX8Hvxep/dtN@kbusch-mbp.dhcp.thefacebook.com>
-References: <Y63WsX8Hvxep/dtN@kbusch-mbp.dhcp.thefacebook.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YL1+jd+bqxEYuNhsfkKoW4Bib0tbO/GWG1d3h67uOqo=;
+        b=Z6nKtcXWJWXD/0e+ACyZRRMyLqhmtbz9qO2ZXtfkZ6r9wn6FF8FLqoYikaaFIeEsyR
+         Fi76/3ekzTx+JmuN7mxcSn4kqhqQr0mOvQkHwJmv3tnXApPXLfJOM39Suxo0Vo752A5l
+         JRu5xNy0U6uQq3tlpitcTbe+/d2DEeuUSFigh2ndmispRhUDJIsXRrVb8u77hLx1BgZg
+         um/QRyT3BTR55SGrMG/jOFBXdkrQOwm1HyrZ3/pdA9SvMPTQC6SS1eD9jz7Grsj28EbG
+         Idluos87wqNoKaxZ7ahAzh6KYPvQFR8WnyywieD8OA21k2ylexK7iOTzQLOBi5hTMDdk
+         mZeA==
+X-Gm-Message-State: AFqh2kr+TwGqGu5XoRj/nuECVqDhOy0uMFxU3KYmLLFqDX9VgkJOjjVQ
+	5WIQSuDaSRYTEDnqg2vQLdIpTu9EzbJFi1Nfk6A=
+X-Google-Smtp-Source: AMrXdXsENIQJahUj9UFgrkh5/8IScjIPoncvjIGWSO7C76fOzgfaDskmNsrRotPE1nZcskTQO1LK7Ir95OCeh9xUqSk=
+X-Received: by 2002:a05:6808:7ce:b0:35e:250d:abc1 with SMTP id
+ f14-20020a05680807ce00b0035e250dabc1mr1194682oij.222.1672339165839; Thu, 29
+ Dec 2022 10:39:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221229060549.3976570-1-ztong0001@gmail.com> <Y63WsX8Hvxep/dtN@kbusch-mbp.dhcp.thefacebook.com>
+In-Reply-To: <Y63WsX8Hvxep/dtN@kbusch-mbp.dhcp.thefacebook.com>
+From: Tong Zhang <ztong0001@gmail.com>
+Date: Thu, 29 Dec 2022 10:39:15 -0800
+Message-ID: <CAA5qM4Djc+5p45+isj5Vn47erUR6rY32n-2Epkkx1Pv-PX8wRg@mail.gmail.com>
+Subject: Re: [PATCH] nvme-pci: free irq properly when cannot create adminq
+To: Keith Busch <kbusch@kernel.org>
+Cc: Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, t.zhang2@samsung.com
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221229_103811_544305_19224B5D 
-X-CRM114-Status: GOOD (  13.66  )
+X-CRM114-CacheID: sfid-20221229_103927_469675_A708510B 
+X-CRM114-Status: GOOD (  19.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,65 +85,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-There are two issues in nvme_pci_enable()
-1) If pci_alloc_irq_vectors() fails, device is left enabled. Fix this by
-adding a goto disable statement.
-2) nvme_pci_configure_admin_queue could return -ENODEV, in this case,
-we will need to free IRQ properly. Otherwise following warning could be
-triggered
+On Thu, Dec 29, 2022 at 10:04 AM Keith Busch <kbusch@kernel.org> wrote:
+>
+> On Wed, Dec 28, 2022 at 10:05:49PM -0800, Tong Zhang wrote:
+> > nvme_pci_configure_admin_queue could return -ENODEV, in this case, we
+> > will need to free IRQ properly. Otherwise following warning could be
+> > triggered
+> >
+> > [    5.286752] WARNING: CPU: 0 PID: 33 at kernel/irq/irqdomain.c:253 irq_domain_remove+0x12d/0x140
+> > [    5.290547] Call Trace:
+> > [    5.290626]  <TASK>
+> > [    5.290695]  msi_remove_device_irq_domain+0xc9/0xf0
+> > [    5.290843]  msi_device_data_release+0x15/0x80
+> > [    5.290978]  release_nodes+0x58/0x90
+> > [    5.293788] WARNING: CPU: 0 PID: 33 at kernel/irq/msi.c:276 msi_device_data_release+0x76/0x80
+> > [    5.297573] Call Trace:
+> > [    5.297651]  <TASK>
+> > [    5.297719]  release_nodes+0x58/0x90
+> > [    5.297831]  devres_release_all+0xef/0x140
+> > [    5.298339]  device_unbind_cleanup+0x11/0xc0
+> > [    5.298479]  really_probe+0x296/0x320
+> >
+> > Fixes: a6ee7f19ebfd ("nvme-pci: call nvme_pci_configure_admin_queue from nvme_pci_enable")
+>
+> Right. It's really only needed when called from probe as the reset_work
+> handles the cleanup when called from there, but this is safe for both
+> cases.
+>
+> > @@ -2584,8 +2584,13 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+> >       pci_enable_pcie_error_reporting(pdev);
+> >       pci_save_state(pdev);
+> >
+> > -     return nvme_pci_configure_admin_queue(dev);
+> > +     result = nvme_pci_configure_admin_queue(dev);
+> > +     if (result)
+> > +             goto free_irq;
+> > +     return result;
+>
+> Since you're already in this function, you should also add a "goto
+> disable" if pci_alloc_irq_vectors() fails. Right now it just returns
+> with the pci device still enabled, and it won't get disabled from probe.
+>
 
-[    5.286752] WARNING: CPU: 0 PID: 33 at kernel/irq/irqdomain.c:253 irq_domain_remove+0x12d/0x140
-[    5.290547] Call Trace:
-[    5.290626]  <TASK>
-[    5.290695]  msi_remove_device_irq_domain+0xc9/0xf0
-[    5.290843]  msi_device_data_release+0x15/0x80
-[    5.290978]  release_nodes+0x58/0x90
-[    5.293788] WARNING: CPU: 0 PID: 33 at kernel/irq/msi.c:276 msi_device_data_release+0x76/0x80
-[    5.297573] Call Trace:
-[    5.297651]  <TASK>
-[    5.297719]  release_nodes+0x58/0x90
-[    5.297831]  devres_release_all+0xef/0x140
-[    5.298339]  device_unbind_cleanup+0x11/0xc0
-[    5.298479]  really_probe+0x296/0x320
+Thank you Keith! I have added this fix and sent a v2.
+- Tong
 
-Fixes: a6ee7f19ebfd ("nvme-pci: call nvme_pci_configure_admin_queue from nvme_pci_enable")
-Co-developed-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Tong Zhang <ztong0001@gmail.com>
----
-v2: handle pci_alloc_irq_vectors() error
-
- drivers/nvme/host/pci.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index f0f8027644bb..3255e7a6f643 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2530,7 +2530,7 @@ static int nvme_pci_enable(struct nvme_dev *dev)
- 	 */
- 	result = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
- 	if (result < 0)
--		return result;
-+		goto disable;
- 
- 	dev->ctrl.cap = lo_hi_readq(dev->bar + NVME_REG_CAP);
- 
-@@ -2584,8 +2584,13 @@ static int nvme_pci_enable(struct nvme_dev *dev)
- 	pci_enable_pcie_error_reporting(pdev);
- 	pci_save_state(pdev);
- 
--	return nvme_pci_configure_admin_queue(dev);
-+	result = nvme_pci_configure_admin_queue(dev);
-+	if (result)
-+		goto free_irq;
-+	return result;
- 
-+ free_irq:
-+	pci_free_irq_vectors(pdev);
-  disable:
- 	pci_disable_device(pdev);
- 	return result;
--- 
-2.25.1
-
+> > + free_irq:
+> > +     pci_free_irq_vectors(pdev);
+> >   disable:
+> >       pci_disable_device(pdev);
+> >       return result;
+> > --
 
