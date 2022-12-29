@@ -4,61 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D27BAC4332F
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Dec 2022 18:04:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 589E5C4332F
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Dec 2022 18:13:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xOEXS143QV3/C3dDkbpYWDD9wF91rFC08l2WJiezbn0=; b=SglvWH9ogyiJ9CyLe1D9+gtCAJ
-	Yfopym5WGisVveCFPOGFSslrSGlpnrhcVju/s03H+oz36dMRLaa4KYlrRukyMT21T9OdEOfVgoEsP
-	RqM4cJWPbJQaaYIiWOlADvIeMbxVm+u+6csiI2m3nrCijHUz3YRB7DwZJoUJizvbK8jWAiQncrUl8
-	8M/sF7PZEECq29s8m7b6hnyOjdoIPakNjBV8mZSktxfVi7NMcJhgm9jrT18V/9ir66ah0iAn78vVE
-	Sl6UM03F2JUagldXiMuTZPOS2erE9HoFiNJxJlf1SdBvvFT6evKUbvhB2k2qnK/npyWIzF3EganKl
-	b63MZd4Q==;
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=usORqHciyFUalESiER55B7VFdgT4QAkx64KL27S0Gjs=; b=C+Qh6gRzJPAt7V
+	hRDo4iFbIyStAcpE/ogAN/qHawXlIKVwb6pRo27MOqHggHNZ24HqHykxXGmKZjQ3oay1vJR1FkwhS
+	y9aqKxuvEXhHPUETUNJ0rc9i0p2AVta3uFE4hIKpinBuIV03w8XhSUUYvc0Ut2LKoTgqg9IO7Wuhq
+	z1wr0wcuJtGQ72EX1kvyqz9WIX4YQTlSiSEy2u3eJic6LTkXTgwjqalwpWcRK2yOFw38XauMltGQD
+	yg7KEbnhIbOHHYVSXfvoyGjPdocsN3mkdvZM7rkavrIIDP7VBsV/SX6L3GUerUn8sqU+4oVP0a6S0
+	m5X7kAb3j5KZqftQXgSw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pAxGo-000bS1-HD; Thu, 29 Dec 2022 18:04:46 +0000
+	id 1pAxPS-000fxw-Ca; Thu, 29 Dec 2022 18:13:42 +0000
 Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pAxGi-000bPk-6x
-	for linux-nvme@lists.infradead.org; Thu, 29 Dec 2022 18:04:41 +0000
+	id 1pAxPP-000fvE-2Y
+	for linux-nvme@lists.infradead.org; Thu, 29 Dec 2022 18:13:41 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id A2ADCB81A26;
-	Thu, 29 Dec 2022 18:04:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC2A9C433D2;
-	Thu, 29 Dec 2022 18:04:36 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 904FEB818ED;
+	Thu, 29 Dec 2022 18:13:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 304B2C433D2;
+	Thu, 29 Dec 2022 18:13:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672337077;
-	bh=zE2PL61SyVmgZLzrsWmVw2XuVVi926GhweLinTybOLw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jp2dXz3ydvsUA8LGHkb7kvEyKuTA7eYSKNmcI3tQAC3dZurUY7magETTNkkPO77aJ
-	 cMZRBW0ePy0QshrVYxKlyFloUVJiLWdWY29RLmqWsiLa3y+vbJdmK17jjMe88/UbXd
-	 4IfWVm+GnMp5JRyL/kI3qjUSNBQ+RI5iwfumvAXK4gm2aTpu/OyGmNKbv27BkfHDPe
-	 ZWjFNjICYyeHXwAoTGSUzGUyHha50E9wUG6Ofx2PJaHw7Kb6zYllRheB31iDMo4gEE
-	 dQChsry1iUXlLdNQDpsXCbg5E9AlbXLa8SpScYe5cABR/HI7hZLIPxHNEelKeyZjzy
-	 F0f5IX8yvCWLQ==
-Date: Thu, 29 Dec 2022 11:04:33 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Tong Zhang <ztong0001@gmail.com>
-Cc: Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, t.zhang2@samsung.com
-Subject: Re: [PATCH] nvme-pci: free irq properly when cannot create adminq
-Message-ID: <Y63WsX8Hvxep/dtN@kbusch-mbp.dhcp.thefacebook.com>
-References: <20221229060549.3976570-1-ztong0001@gmail.com>
+	s=k20201202; t=1672337616;
+	bh=usORqHciyFUalESiER55B7VFdgT4QAkx64KL27S0Gjs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=oOle2ajE2r1i8AIwwtR4Xcv8pq8zt1WzFElaAb9R+2zB2NMsYC3M2vMAT6LU19EvA
+	 8GOb1NnBQEyGmafBrxNaPr5hQx8U0xGqwX5F3EwZEZnNkJpdetmeZ3ZVhf6LGJIY4r
+	 PlrrngObTMT2ad4b2jxY5Jmh6WQKdiCWECga8eP6JukGyuG/ap+YTaOJtua0iMMdBk
+	 z1oi6asC60n5CC4U+CfwSZF40Abl2Jpbl6uGYv3hNekZrZSb9FNIxQNqLuR1VGNOla
+	 IYTuW/xMIXCmrF21qEijQODtXr9gGCGQrAavV9cbF3TD8Wt1IYtp7P32CNFEiG4uQ8
+	 yyAb74VeWQudA==
+Date: Thu, 29 Dec 2022 12:13:34 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Yi Zhang <yi.zhang@redhat.com>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"mstowe@redhat.com" <mstowe@redhat.com>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	Xiao Yang <yangx.jy@fujitsu.com>, Keith Busch <kbusch@kernel.org>
+Subject: Re: blktests failures with v5.19-rc1
+Message-ID: <20221229181334.GA616694@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221229060549.3976570-1-ztong0001@gmail.com>
+In-Reply-To: <20221219112703.rlqdo33ncgmuowfm@shindev>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221229_100440_423362_D77CA9CD 
-X-CRM114-Status: GOOD (  17.47  )
+X-CRM114-CacheID: sfid-20221229_101339_694994_120AE278 
+X-CRM114-Status: GOOD (  10.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,49 +76,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Dec 28, 2022 at 10:05:49PM -0800, Tong Zhang wrote:
-> nvme_pci_configure_admin_queue could return -ENODEV, in this case, we
-> will need to free IRQ properly. Otherwise following warning could be
-> triggered
-> 
-> [    5.286752] WARNING: CPU: 0 PID: 33 at kernel/irq/irqdomain.c:253 irq_domain_remove+0x12d/0x140
-> [    5.290547] Call Trace:
-> [    5.290626]  <TASK>
-> [    5.290695]  msi_remove_device_irq_domain+0xc9/0xf0
-> [    5.290843]  msi_device_data_release+0x15/0x80
-> [    5.290978]  release_nodes+0x58/0x90
-> [    5.293788] WARNING: CPU: 0 PID: 33 at kernel/irq/msi.c:276 msi_device_data_release+0x76/0x80
-> [    5.297573] Call Trace:
-> [    5.297651]  <TASK>
-> [    5.297719]  release_nodes+0x58/0x90
-> [    5.297831]  devres_release_all+0xef/0x140
-> [    5.298339]  device_unbind_cleanup+0x11/0xc0
-> [    5.298479]  really_probe+0x296/0x320
-> 
-> Fixes: a6ee7f19ebfd ("nvme-pci: call nvme_pci_configure_admin_queue from nvme_pci_enable")
+On Mon, Dec 19, 2022 at 11:27:03AM +0000, Shinichiro Kawasaki wrote:
+> Bjorn, FYI. This lockdep warning disappeared with kernel version
+> v6.1. I bisected and found the commit 2d7f9f8c1815 ("kernfs: Improve
+> kernfs_drain() and always call on removal.") avoided the issue. This
+> commit touches kernfs_drain() and __kernfs_remove(), and modifies
+> the condition to lock kernfs_rwsem. I think it explains why the
+> lockdep disappeared. No longer need to work on this issue :)
 
-Right. It's really only needed when called from probe as the reset_work
-handles the cleanup when called from there, but this is safe for both
-cases.
+Thanks for following up on this!
 
-> @@ -2584,8 +2584,13 @@ static int nvme_pci_enable(struct nvme_dev *dev)
->  	pci_enable_pcie_error_reporting(pdev);
->  	pci_save_state(pdev);
->  
-> -	return nvme_pci_configure_admin_queue(dev);
-> +	result = nvme_pci_configure_admin_queue(dev);
-> +	if (result)
-> +		goto free_irq;
-> +	return result;
-
-Since you're already in this function, you should also add a "goto
-disable" if pci_alloc_irq_vectors() fails. Right now it just returns
-with the pci device still enabled, and it won't get disabled from probe.
-  
-> + free_irq:
-> +	pci_free_irq_vectors(pdev);
->   disable:
->  	pci_disable_device(pdev);
->  	return result;
-> -- 
+Bjorn
 
