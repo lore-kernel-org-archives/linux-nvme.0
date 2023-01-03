@@ -4,70 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6C9AAC46467
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Jan 2023 11:13:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48C57C46467
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Jan 2023 11:14:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mPRx9tVYn2kbnOeFvJNkhEjPmye4jgeCzqnGgv4X+CM=; b=JT3AwOdxOWhCOjmjTChCH/xcJI
-	gTt1xz+Tshenye5H76FPKx0+pFINQ5VJXIqYEKbmPuHSldW5XIAIM9dRnM1b1KPH2GIfys5wCaleC
-	kW4hb8iDj4YoRgF30nrmbJTxT6wqCrpwvYdn/UZmzdWZcAe++p7CVNmgQqahHLjQzghaA1SkAzM1c
-	XE3vJViwN2xVXo0atBh89mwYDdlmWEDVRPXg9zQWF/CPnW6NAIbfdIE3ULGtC7AR+K4vV2h+cHoNs
-	uivv20Nwax9g6+hzqmMO4M0025Jmc8yCEEBREYQCKiJFazavnXoQdSw8UDNJYeDnd5q2iD21OQyJZ
-	CkF0LWzQ==;
+	bh=tCxa8/bzYSVbsxyvwXILYMcXnG1Vfo460M2v6tBE9D4=; b=so2iXJhkgamh/cv66SkWbpnkAN
+	JijDacZTPtfce9dCoHsRM49Pg2tWEg6od2D38FW3ms+7qwPMez6O1YJ/L97HxLvOdjMctE0DJcoC2
+	EQ9b+egulmf4td9ATfdH+TV1v0xRpT3QoHcDy2JdQRa8VM+QESDOXBySwMpSXTchnLr8Vs+QMptkn
+	8dIVoNjZfNt+3lYGKONfHXrr7F90b7lt5RiD3ODX6UlhG6vRO7byGwk+yG/mmjTSmEyf+2yDfpTW7
+	misghUbTBfqMQMMjEH3Bb1U1DR87/+zoqj1YTlCo9b8nOLmChBnlTWWs+TCZwPjhnbLY73ghcvUuB
+	YSO43V2Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pCfEK-000vRG-9q; Tue, 03 Jan 2023 11:13:16 +0000
-Received: from mail-wm1-f53.google.com ([209.85.128.53])
+	id 1pCfFk-000via-O4; Tue, 03 Jan 2023 11:14:44 +0000
+Received: from mail-wm1-f54.google.com ([209.85.128.54])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pCeZG-000iwC-CA
-	for linux-nvme@lists.infradead.org; Tue, 03 Jan 2023 10:30:54 +0000
-Received: by mail-wm1-f53.google.com with SMTP id g25-20020a7bc4d9000000b003d97c8d4941so17192757wmk.4
-        for <linux-nvme@lists.infradead.org>; Tue, 03 Jan 2023 02:30:48 -0800 (PST)
+	id 1pCezk-000rNG-K2
+	for linux-nvme@lists.infradead.org; Tue, 03 Jan 2023 10:58:14 +0000
+Received: by mail-wm1-f54.google.com with SMTP id ay40so22390477wmb.2
+        for <linux-nvme@lists.infradead.org>; Tue, 03 Jan 2023 02:58:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mPRx9tVYn2kbnOeFvJNkhEjPmye4jgeCzqnGgv4X+CM=;
-        b=JvapBp0zVDRxZgrJYoU3OF99t9sTMGxKdx9w+NEuzVUB1hjLbDXFQuOE34nLszNi9/
-         KVzpPMt9se+IItHtQZGqXulbbvlmbkYdyjca5zel7V+ose/4cW37dcMbztLqKui2GxvK
-         o0dMUIJRKK6w/ALC9JAaX9w7sIeTz6pwMUvzEyWb3s35NaVIHXNbkyrM90WeJ32rOJLw
-         J/sl7vvJ32HYSmAOLxmjiOCN/r3YLGIyp6SOKWVzSq4wJXGVBz0bF7JEOyBI9xX/Yv16
-         mWZLB56Cq1rHUl8nkLz9R0YrVMPweNZcOnC7a58K9cwjLwzF27yG0qSbnsYwGUn1zfKF
-         i7sg==
-X-Gm-Message-State: AFqh2kq/zP5BCeZvvpABRw19kuqhtL7h/jDqeNagFRbbKCHT9PAHug1i
-	h2l7tjue06kMrn0poJDDqZY=
-X-Google-Smtp-Source: AMrXdXux6NKKE7GSsnVkUmtL+t/YdUUPxvTj3paeKCNxp9g50/501h0i4EIb2p9rCx7JTDgQCGEgmQ==
-X-Received: by 2002:a05:600c:510b:b0:3d2:392e:905f with SMTP id o11-20020a05600c510b00b003d2392e905fmr31471084wms.24.1672741847716;
-        Tue, 03 Jan 2023 02:30:47 -0800 (PST)
+        bh=tCxa8/bzYSVbsxyvwXILYMcXnG1Vfo460M2v6tBE9D4=;
+        b=rtwTokoiasC/Imd2NgOzGJT9agSidT/rPzocFJTwcqs/asdG5g3GOLZMI8kcohFdnA
+         DEaNz6/3U3F43PxKbI1Jvb7Hhcxv1nbZ8XNg+/0UqwHRpIuhsgIQBIvOMola8Z5E9ZKO
+         MWubdaYp4EcbohQoMu6OpPfTj0e0hzSrXVCw7nBFEKl30cZcd+1X+jW0V89hAHaYRefA
+         XSFDto5kPpr5V6tDnAcMyMMlxmEBzIKPoB4CXrFtFBlGTEhDDOS7m1fEl6iE0hoCUogt
+         RL9Wtu5nkl9CsOaSdhEKxpAco27DeQxwsq9qLg7CwHVXblyd1CtBw2vjL2ghFaXf265U
+         bIEQ==
+X-Gm-Message-State: AFqh2kpqeaLQJgTnWeFH/6U17Jjhe+Tr7JRl4HqSWIB7mafYz8ggwsLU
+	hvjMYDlA5MIb0Wr8D/FlYbA=
+X-Google-Smtp-Source: AMrXdXuP8RPZZ/s8kgtjhcZ0413swT+AiW4Dp1q+Va6g/6KkQqp37AeQ7gkq5KFtcN3PJHVrGSUhJA==
+X-Received: by 2002:a1c:5442:0:b0:3cf:7385:677f with SMTP id p2-20020a1c5442000000b003cf7385677fmr29902600wmi.35.1672743491202;
+        Tue, 03 Jan 2023 02:58:11 -0800 (PST)
 Received: from [192.168.64.177] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id 6-20020a05600c024600b003cfd0bd8c0asm40282865wmj.30.2023.01.03.02.30.46
+        by smtp.gmail.com with ESMTPSA id n41-20020a05600c3ba900b003d358beab9dsm46017751wms.47.2023.01.03.02.58.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Jan 2023 02:30:47 -0800 (PST)
-Message-ID: <b6b16a5a-d592-eb12-ea30-1535b80d60dc@grimberg.me>
-Date: Tue, 3 Jan 2023 12:30:45 +0200
+        Tue, 03 Jan 2023 02:58:10 -0800 (PST)
+Message-ID: <f7bbf0e6-9316-111b-585d-2b29ff95e96b@grimberg.me>
+Date: Tue, 3 Jan 2023 12:58:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 1/4] nvme: fix delete uninitialized controller
+Subject: Re: [PATCH 3/4] nvmet: fix hang in nvmet_ns_disable()
 Content-Language: en-US
 To: Taehee Yoo <ap420073@gmail.com>, linux-nvme@lists.infradead.org,
  kbusch@kernel.org, axboe@fb.com, hch@lst.de, kch@nvidia.com
-Cc: james.p.freyensee@intel.com, ming.l@ssi.samsung.com,
- larrystevenwise@gmail.com, anthony.j.knapp@intel.com, pizhenwei@bytedance.com
+Cc: larrystevenwise@gmail.com, anthony.j.knapp@intel.com,
+ pizhenwei@bytedance.com
 References: <20230103100357.875854-1-ap420073@gmail.com>
- <20230103100357.875854-2-ap420073@gmail.com>
+ <20230103100357.875854-4-ap420073@gmail.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230103100357.875854-2-ap420073@gmail.com>
+In-Reply-To: <20230103100357.875854-4-ap420073@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230103_023050_572384_54FB3BAB 
-X-CRM114-Status: GOOD (  24.13  )
+X-CRM114-CacheID: sfid-20230103_025812_798413_503CDD19 
+X-CRM114-Status: GOOD (  24.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,93 +82,222 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> nvme-fabric controllers can be deleted by
-> /sys/class/nvme/nvme<NS>/delete_controller
-> echo 1 > /sys/class/nvme/nvme<NS>/delete_controller
-> The above command will call nvme_delete_ctrl_sync().
-> This function internally tries to change ctrl->state to NVME_CTRL_DELETING.
-> NVME_CTRL_LIVE, NVME_CTRL_RESETTING, and NVME_CTRL_CONNECTING states can
-> be changed to NVME_CTRL_DELETING.
-> If the state is successfully changed, nvme_do_delete_ctrl() is called,
-> which is the actual delete logic of controller.
+
+
+On 1/3/23 12:03, Taehee Yoo wrote:
+> nvme target namespace is enabled or disabled by nvmet_ns_enable() or
+> nvmet_ns_disable().
+> The subsys->lock is used to disallow to use namespace data while
+> nvmet_ns_enable() or nvmet_ns_disable() are working.
+> The ns->enabled boolean variable prevents using namespace data in wrong
+> state such as uninitialized state.
 > 
-> controller initialization logic changes ctrl->state.
-> NEW -> CONNECTING -> LIVE.
-> NVME_CTRL_CONNECTING state doesn't ensure that initialization is done.
+> nvmet_ns_disable() acquires ns->lock and set ns->enabled false.
+> Then, it releases ns->lock for a while to wait ns->disable_done completion.
+> At this point, nvmet_ns_enable() can be worked concurrently and it calls
+> percpu_ref_init().
+> So, ns->disable_done will never be completed.
+> Therefore hang would occur at this point.
 > 
-> So, delete logic can be called before the finish of controller
-> initialization.
-> So kernel panic would occur because nvme_do_delete_ctrl() dereferences
-> uninitialized values.
+>     CPU0                                     CPU1
+>     nvmet_ns_disable();
+>     mutex_lock(&subsys->lock);               nvmet_ns_enable();
+>                                              mutex_lock(&subsys->lock);
+>     ns->enabled = false;
+>     mutex_unlock(&subsys->lock);
+>                                              percpu_ref_init();
+>     wait_for_completion(&ns->disable_done);  <-- infinite wait
 > 
-> BUG: KASAN: null-ptr-deref in do_raw_spin_trylock+0x67/0x180
-> Read of size 4 at addr 00000000000000c0 by task bash/928
+>     mutex_lock(&subsys->lock);
+>     mutex_unlock(&subsys->lock);
 > 
-> CPU: 7 PID: 928 Comm: bash Not tainted 6.1.0 #35
-> nvme nvme0: Connect command failed: host path error
+> INFO: task bash:926 blocked for more than 30 seconds.
+>        Tainted: G        W          6.1.0+ #17
+> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+> task:bash            state:D stack:27200 pid:926   ppid:911
+> flags:0x00004000
 > Call Trace:
 >   <TASK>
->   dump_stack_lvl+0x57/0x81
->   ? do_raw_spin_trylock+0x67/0x180
->   kasan_report+0xba/0x1f0
-> nvme nvme0: failed to connect queue: 0 ret=880
->   ? do_raw_spin_trylock+0x67/0x180
->   ? sysfs_file_ops+0x170/0x170
->   kasan_check_range+0x14a/0x1a0
->   do_raw_spin_trylock+0x67/0x180
->   ? do_raw_spin_lock+0x270/0x270
->   ? nvme_remove_namespaces+0x1bc/0x3d0
->   _raw_spin_lock_irqsave+0x4b/0x90
->   ? blk_mq_quiesce_queue+0x1b/0x160
->   blk_mq_quiesce_queue+0x1b/0x160
->   nvme_tcp_delete_ctrl+0x4b/0x70
->   nvme_do_delete_ctrl+0x135/0x141
->   nvme_sysfs_delete.cold+0x8/0xd
->   kernfs_fop_write_iter+0x34b/0x520
->   vfs_write+0x83a/0xd20
->   ? kernel_write+0x630/0x630
+>   __schedule+0xafc/0x2930
+>   ? io_schedule_timeout+0x160/0x160
+>   ? _raw_spin_unlock_irq+0x24/0x50
+>   ? __wait_for_common+0x39b/0x5c0
+>   ? usleep_range_state+0x190/0x190
+>   schedule+0x130/0x230
+>   schedule_timeout+0x18a/0x240
+>   ? usleep_range_state+0x190/0x190
 >   ? rcu_read_lock_sched_held+0x12/0x80
->   ? lock_acquire+0x4f4/0x630
->   ? __fget_light+0x51/0x230
->   ksys_write+0xf9/0x1d0
->   ? __ia32_sys_read+0xa0/0xa0
->   ? syscall_enter_from_user_mode+0x1d/0x50
->   do_syscall_64+0x3b/0x90
->   entry_SYSCALL_64_after_hwframe+0x63/0xcd
-> RIP: 0033:0x7fc955d10104
+>   ? lock_downgrade+0x700/0x700
+>   ? do_raw_spin_trylock+0xb5/0x180
+>   ? lock_contended+0xdf0/0xdf0
+>   ? _raw_spin_unlock_irq+0x24/0x50
+>   ? trace_hardirqs_on+0x3c/0x190
+>   __wait_for_common+0x1ca/0x5c0
+>   ? usleep_range_state+0x190/0x190
+>   ? bit_wait_io+0xf0/0xf0
+>   ? _raw_spin_unlock_irqrestore+0x59/0x70
+>   nvmet_ns_disable+0x288/0x490
+>   ? nvmet_ns_enable+0x970/0x970
+>   ? lockdep_hardirqs_on_prepare+0x410/0x410
+>   ? rcu_read_lock_sched_held+0x12/0x80
+>   ? configfs_write_iter+0x1df/0x480
+>   ? nvmet_ns_revalidate_size_store+0x220/0x220
+>   nvmet_ns_enable_store+0x85/0xe0
+> [ ... ]
 > 
-> Fixes: 1a353d85b02d ("nvme: add fabrics sysfs attributes")
+> Fixes: a07b4970f464 ("nvmet: add a generic NVMe target")
 > Signed-off-by: Taehee Yoo <ap420073@gmail.com>
 > ---
->   drivers/nvme/host/core.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   drivers/nvme/target/configfs.c | 14 +++++++-------
+>   drivers/nvme/target/core.c     | 10 ++++++----
+>   drivers/nvme/target/nvmet.h    |  8 +++++++-
+>   3 files changed, 20 insertions(+), 12 deletions(-)
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index d307ae4d8a57..cd4c80ca66d4 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -243,7 +243,8 @@ static void nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl)
->   	 * since ->delete_ctrl can free the controller.
->   	 */
->   	nvme_get_ctrl(ctrl);
-> -	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_DELETING))
-> +	if (test_bit(NVME_CTRL_STARTED_ONCE, &ctrl->flags) &&
-> +	    nvme_change_ctrl_state(ctrl, NVME_CTRL_DELETING))
->   		nvme_do_delete_ctrl(ctrl);
-
-So what is the outcome now? if the controller kept on dangling? what
-triggers the controller deletion?
-
->   	nvme_put_ctrl(ctrl);
+> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+> index 907143870da5..d878c4231d65 100644
+> --- a/drivers/nvme/target/configfs.c
+> +++ b/drivers/nvme/target/configfs.c
+> @@ -348,7 +348,7 @@ static ssize_t nvmet_ns_device_path_store(struct config_item *item,
+>   
+>   	mutex_lock(&subsys->lock);
+>   	ret = -EBUSY;
+> -	if (ns->enabled)
+> +	if (ns->state != NVMET_NS_DISABLED)
+>   		goto out_unlock;
+>   
+>   	ret = -EINVAL;
+> @@ -390,7 +390,7 @@ static ssize_t nvmet_ns_p2pmem_store(struct config_item *item,
+>   	int error;
+>   
+>   	mutex_lock(&ns->subsys->lock);
+> -	if (ns->enabled) {
+> +	if (ns->state != NVMET_NS_DISABLED) {
+>   		ret = -EBUSY;
+>   		goto out_unlock;
+>   	}
+> @@ -427,7 +427,7 @@ static ssize_t nvmet_ns_device_uuid_store(struct config_item *item,
+>   	int ret = 0;
+>   
+>   	mutex_lock(&subsys->lock);
+> -	if (ns->enabled) {
+> +	if (ns->state != NVMET_NS_DISABLED) {
+>   		ret = -EBUSY;
+>   		goto out_unlock;
+>   	}
+> @@ -458,7 +458,7 @@ static ssize_t nvmet_ns_device_nguid_store(struct config_item *item,
+>   	int ret = 0;
+>   
+>   	mutex_lock(&subsys->lock);
+> -	if (ns->enabled) {
+> +	if (ns->state != NVMET_NS_DISABLED) {
+>   		ret = -EBUSY;
+>   		goto out_unlock;
+>   	}
+> @@ -523,7 +523,7 @@ CONFIGFS_ATTR(nvmet_ns_, ana_grpid);
+>   
+>   static ssize_t nvmet_ns_enable_show(struct config_item *item, char *page)
+>   {
+> -	return sprintf(page, "%d\n", to_nvmet_ns(item)->enabled);
+> +	return sprintf(page, "%d\n", !!to_nvmet_ns(item)->state);
 >   }
+>   
+>   static ssize_t nvmet_ns_enable_store(struct config_item *item,
+> @@ -561,7 +561,7 @@ static ssize_t nvmet_ns_buffered_io_store(struct config_item *item,
+>   		return -EINVAL;
+>   
+>   	mutex_lock(&ns->subsys->lock);
+> -	if (ns->enabled) {
+> +	if (ns->state != NVMET_NS_DISABLED) {
+>   		pr_err("disable ns before setting buffered_io value.\n");
+>   		mutex_unlock(&ns->subsys->lock);
+>   		return -EINVAL;
+> @@ -587,7 +587,7 @@ static ssize_t nvmet_ns_revalidate_size_store(struct config_item *item,
+>   		return -EINVAL;
+>   
+>   	mutex_lock(&ns->subsys->lock);
+> -	if (!ns->enabled) {
+> +	if (ns->state != NVMET_NS_ENABLED) {
+>   		pr_err("enable ns before revalidate.\n");
+>   		mutex_unlock(&ns->subsys->lock);
+>   		return -EINVAL;
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index f66ed13d7c11..58a91fb9c2f7 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -563,7 +563,7 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+>   		goto out_unlock;
+>   	}
+>   
+> -	if (ns->enabled)
+> +	if (ns->state != NVMET_NS_DISABLED)
+>   		goto out_unlock;
+>   
+>   	ret = -EMFILE;
+> @@ -598,7 +598,7 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+>   	subsys->nr_namespaces++;
+>   
+>   	nvmet_ns_changed(subsys, ns->nsid);
+> -	ns->enabled = true;
+> +	ns->state = NVMET_NS_ENABLED;
+>   	ret = 0;
+>   out_unlock:
+>   	mutex_unlock(&subsys->lock);
+> @@ -621,10 +621,10 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
+>   	struct nvmet_ctrl *ctrl;
+>   
+>   	mutex_lock(&subsys->lock);
+> -	if (!ns->enabled)
+> +	if (ns->state != NVMET_NS_ENABLED)
+>   		goto out_unlock;
+>   
+> -	ns->enabled = false;
+> +	ns->state = NVMET_NS_DISABLING;
+>   	xa_erase(&ns->subsys->namespaces, ns->nsid);
+>   	if (ns->nsid == subsys->max_nsid)
+>   		subsys->max_nsid = nvmet_max_nsid(subsys);
+> @@ -652,6 +652,7 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
+>   	subsys->nr_namespaces--;
+>   	nvmet_ns_changed(subsys, ns->nsid);
+>   	nvmet_ns_dev_disable(ns);
+> +	ns->state = NVMET_NS_DISABLED;
+>   out_unlock:
+>   	mutex_unlock(&subsys->lock);
+>   }
+> @@ -689,6 +690,7 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
+>   	uuid_gen(&ns->uuid);
+>   	ns->buffered_io = false;
+>   	ns->csi = NVME_CSI_NVM;
+> +	ns->state = NVMET_NS_DISABLED;
+>   
+>   	return ns;
+>   }
+> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+> index 89bedfcd974c..e609787577c6 100644
+> --- a/drivers/nvme/target/nvmet.h
+> +++ b/drivers/nvme/target/nvmet.h
+> @@ -56,6 +56,12 @@
+>   #define IPO_IATTR_CONNECT_SQE(x)	\
+>   	(cpu_to_le32(offsetof(struct nvmf_connect_command, x)))
+>   
+> +enum nvmet_ns_state {
+> +	NVMET_NS_ENABLED,
+> +	NVMET_NS_DISABLING,
+> +	NVMET_NS_DISABLED
+> +};
+> +
+>   struct nvmet_ns {
+>   	struct percpu_ref	ref;
+>   	struct block_device	*bdev;
+> @@ -69,7 +75,7 @@ struct nvmet_ns {
+>   	u32			anagrpid;
+>   
+>   	bool			buffered_io;
+> -	bool			enabled;
+> +	enum nvmet_ns_state	state;
+>   	struct nvmet_subsys	*subsys;
+>   	const char		*device_path;
+>   
 
-I don't think this is the correct approach.
-the delete should fully fence the initialization and then delete
-the controller.
-
-In this case, the transport driver should not quiesce a non-existent
-queue.
-
-If further synchronization is needed, then it should be added so that
-delete will fully fence the initialization.
+This looks reasonable to me...
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
