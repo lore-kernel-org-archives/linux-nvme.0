@@ -4,67 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D485EC4708E
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Jan 2023 20:01:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26B01C3DA7D
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Jan 2023 20:02:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iWxb3nuVn2YspSt2RVIE4KvG+wkOTWe7xGCkLs7kB1M=; b=fd5QNVWm4B+S3DJroabQhSvxaj
-	UzsIC03WhvMZGGu1pOGFkMdMXaeNyr9SUYlPkPKpDHznmNH8F4ICFG0+mZ/coPyvl9OMXo+K63//r
-	latkAXbGv2MJsDE7eRZsn2/ZBnJ/M8n2ak38nzldazvzkFpWAceyfSvkYAYlSIO5dO55uS2CMisTW
-	Qz3JM8c1Ccz2IgL6AtzAo0TtlSgvHuTAyKEku1SRV8bixd4NPwVhQaZyUbvcLFv4UBewKu/rPxOzY
-	vccvah5ICqvTzBRhBtFkAojdFLiU/qVO9cEmhNAOsyXdncUG1d9p0D0XZJDMRZFG/YboJ2FJYYfD7
-	buFiF1zQ==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=bP3/O5B9NPzBczUMqGLLoy9B7b64JeN2Gtnk3l4ttzk=; b=WcClFwOjLs8ZnbvupRZTruyZPM
+	wViV2/BdvXnWUUAMQNkg5AQAJrGhBep0Iu3dearJ+9S8RiM1xagLTrw/YdvzV3ikXQ7QRrTb0UceU
+	BCLIvoqU6+M0L4O6BeX3dzzXqn0z3dYdN4iBIQpDrfnEoZz9CqiZGeQfMT4xyNj0GbJDMC8uxvQEn
+	9AGS9WyrX09iyBFF8+pw+jZXs1y97EHt7oheG9xE0D7/hlOGNMvOc1APodnUvkq3nT0v2HuUUmlXm
+	66ocKqz/m2+3oDTcJtk13QN26FWUiylCUzPG7sXwyFZTomgZReCAzG7sXSAEtLy9J26rXo31KTJUa
+	nmBCdWHQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pCnTY-004dPy-P6; Tue, 03 Jan 2023 20:01:32 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1pCnUA-004dcz-4B; Tue, 03 Jan 2023 20:02:10 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pCmCs-003yIx-V2
-	for linux-nvme@lists.infradead.org; Tue, 03 Jan 2023 18:40:17 +0000
+	id 1pCmCv-003yLG-PA
+	for linux-nvme@lists.infradead.org; Tue, 03 Jan 2023 18:40:19 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 57514B810AD;
-	Tue,  3 Jan 2023 18:40:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A4B3C433F2;
-	Tue,  3 Jan 2023 18:40:10 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 7BDF3614C6;
+	Tue,  3 Jan 2023 18:40:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B52FAC433AC;
+	Tue,  3 Jan 2023 18:40:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672771211;
-	bh=3iJDEg26w5JXxeO2spyA4n8QeKcUd/6tuQpHV6WNuig=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Wto7t6R7yPqo609aa5lzZx6R1F+hEKgafSqfs4jF7wrc6pBCcbHYbtby/AH88fNCC
-	 uctvD9PCWey2o3mnjikpmOwLaRoNmThbO4xgMp7HuZh3eMBfUruNRxGoMMandHaiMz
-	 ZUl2zQYzAVun8SVEPMzlkYr7IsVhej8fd8ykgrADSr+7Ebq4satC1DO7Cr6275P7vr
-	 yarUDtCJ+VSxRj3fa4j9CLZPNel7UhyMtvzqwiFF4w2pBv+tVomkvI8zDMLHBDcFQ8
-	 Q20H0jB7sNHP4ALU4hQcO6gV3OsjQKUDU78rImvyiSTdpLRGiGT6/QkC18tSxIoIvM
-	 vUg0kxqFIsY6Q==
+	s=k20201202; t=1672771215;
+	bh=SAadFUc0DNdVJesWhvWy8k2/3VqLCug9c+XVKTt0150=;
+	h=From:To:Cc:Subject:Date:From;
+	b=kfJV3ETRCxmDUKAwQ/DJyEoWfIuJiOWrzLMrs1NO1WavHqOAXfCwNte8maUSxaZlh
+	 4WQuWvyub7ukCsd9pqlwZ8cIW3RWlpMTJAe69NUL7Qnqol10YEMO/fddPlX3T9Fxzk
+	 NRmtRJdzAmXYuKK34lVSDa8Hf6LN3FfjhW1V4sTFnfrsCrLn93AYeHA0e8rO7xPL1Z
+	 Jj0Aa9LkJfVYp+vCqi5qy4dWbplJI6nZtsUM4urzn5W4NIZZZwwqztg4bGAs7DYg9i
+	 +YKFZ+BtW7Uuv+oPEMABqBgjndQsTeVy5skaEPF6qfqUPnOXZxOroHW7ISHEwNO8es
+	 QlAqY0ex/QKjg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
+Cc: Yanjun Zhang <zhangyanjun@cestc.cn>,
+	Christoph Hellwig <hch@lst.de>,
 	Sasha Levin <sashal@kernel.org>,
+	kbusch@kernel.org,
+	axboe@fb.com,
+	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.0 3/4] nvmet: use NVME_CMD_EFFECTS_CSUPP instead of open coding it
-Date: Tue,  3 Jan 2023 13:39:54 -0500
-Message-Id: <20230103183956.2022789-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 1/4] nvme: fix multipath crash caused by flush request when blktrace is enabled
+Date: Tue,  3 Jan 2023 13:40:09 -0500
+Message-Id: <20230103184013.2022849-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20230103183956.2022789-1-sashal@kernel.org>
-References: <20230103183956.2022789-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230103_104015_384787_27C9597C 
-X-CRM114-Status: GOOD (  12.77  )
+X-CRM114-CacheID: sfid-20230103_104018_012194_988DA148 
+X-CRM114-Status: GOOD (  17.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,73 +77,78 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Christoph Hellwig <hch@lst.de>
+From: Yanjun Zhang <zhangyanjun@cestc.cn>
 
-[ Upstream commit 61f37154c599cf9f2f84dcbd9be842f8645a7099 ]
+[ Upstream commit 3659fb5ac29a5e6102bebe494ac789fd47fb78f4 ]
 
-Use NVME_CMD_EFFECTS_CSUPP instead of open coding it and assign a
-single value to multiple array entries instead of repeated assignments.
+The flush request initialized by blk_kick_flush has NULL bio,
+and it may be dealt with nvme_end_req during io completion.
+When blktrace is enabled, nvme_trace_bio_complete with multipath
+activated trying to access NULL pointer bio from flush request
+results in the following crash:
 
+[ 2517.831677] BUG: kernel NULL pointer dereference, address: 000000000000001a
+[ 2517.835213] #PF: supervisor read access in kernel mode
+[ 2517.838724] #PF: error_code(0x0000) - not-present page
+[ 2517.842222] PGD 7b2d51067 P4D 0
+[ 2517.845684] Oops: 0000 [#1] SMP NOPTI
+[ 2517.849125] CPU: 2 PID: 732 Comm: kworker/2:1H Kdump: loaded Tainted: G S                5.15.67-0.cl9.x86_64 #1
+[ 2517.852723] Hardware name: XFUSION 2288H V6/BC13MBSBC, BIOS 1.13 07/27/2022
+[ 2517.856358] Workqueue: nvme_tcp_wq nvme_tcp_io_work [nvme_tcp]
+[ 2517.859993] RIP: 0010:blk_add_trace_bio_complete+0x6/0x30
+[ 2517.863628] Code: 1f 44 00 00 48 8b 46 08 31 c9 ba 04 00 10 00 48 8b 80 50 03 00 00 48 8b 78 50 e9 e5 fe ff ff 0f 1f 44 00 00 41 54 49 89 f4 55 <0f> b6 7a 1a 48 89 d5 e8 3e 1c 2b 00 48 89 ee 4c 89 e7 5d 89 c1 ba
+[ 2517.871269] RSP: 0018:ff7f6a008d9dbcd0 EFLAGS: 00010286
+[ 2517.875081] RAX: ff3d5b4be00b1d50 RBX: 0000000002040002 RCX: ff3d5b0a270f2000
+[ 2517.878966] RDX: 0000000000000000 RSI: ff3d5b0b021fb9f8 RDI: 0000000000000000
+[ 2517.882849] RBP: ff3d5b0b96a6fa00 R08: 0000000000000001 R09: 0000000000000000
+[ 2517.886718] R10: 000000000000000c R11: 000000000000000c R12: ff3d5b0b021fb9f8
+[ 2517.890575] R13: 0000000002000000 R14: ff3d5b0b021fb1b0 R15: 0000000000000018
+[ 2517.894434] FS:  0000000000000000(0000) GS:ff3d5b42bfc80000(0000) knlGS:0000000000000000
+[ 2517.898299] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 2517.902157] CR2: 000000000000001a CR3: 00000004f023e005 CR4: 0000000000771ee0
+[ 2517.906053] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[ 2517.909930] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[ 2517.913761] PKRU: 55555554
+[ 2517.917558] Call Trace:
+[ 2517.921294]  <TASK>
+[ 2517.924982]  nvme_complete_rq+0x1c3/0x1e0 [nvme_core]
+[ 2517.928715]  nvme_tcp_recv_pdu+0x4d7/0x540 [nvme_tcp]
+[ 2517.932442]  nvme_tcp_recv_skb+0x4f/0x240 [nvme_tcp]
+[ 2517.936137]  ? nvme_tcp_recv_pdu+0x540/0x540 [nvme_tcp]
+[ 2517.939830]  tcp_read_sock+0x9c/0x260
+[ 2517.943486]  nvme_tcp_try_recv+0x65/0xa0 [nvme_tcp]
+[ 2517.947173]  nvme_tcp_io_work+0x64/0x90 [nvme_tcp]
+[ 2517.950834]  process_one_work+0x1e8/0x390
+[ 2517.954473]  worker_thread+0x53/0x3c0
+[ 2517.958069]  ? process_one_work+0x390/0x390
+[ 2517.961655]  kthread+0x10c/0x130
+[ 2517.965211]  ? set_kthread_struct+0x40/0x40
+[ 2517.968760]  ret_from_fork+0x1f/0x30
+[ 2517.972285]  </TASK>
+
+To avoid this situation, add a NULL check for req->bio before
+calling trace_block_bio_complete.
+
+Signed-off-by: Yanjun Zhang <zhangyanjun@cestc.cn>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/target/admin-cmd.c | 35 ++++++++++++++++++---------------
- 1 file changed, 19 insertions(+), 16 deletions(-)
+ drivers/nvme/host/nvme.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index fc8a957fad0a..4aaa27cc8d2b 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -164,26 +164,29 @@ static void nvmet_execute_get_log_page_smart(struct nvmet_req *req)
- 
- static void nvmet_get_cmd_effects_nvm(struct nvme_effects_log *log)
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 7f52b2b179b8..39ca48babbe8 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -799,7 +799,7 @@ static inline void nvme_trace_bio_complete(struct request *req)
  {
--	log->acs[nvme_admin_get_log_page]	= cpu_to_le32(1 << 0);
--	log->acs[nvme_admin_identify]		= cpu_to_le32(1 << 0);
--	log->acs[nvme_admin_abort_cmd]		= cpu_to_le32(1 << 0);
--	log->acs[nvme_admin_set_features]	= cpu_to_le32(1 << 0);
--	log->acs[nvme_admin_get_features]	= cpu_to_le32(1 << 0);
--	log->acs[nvme_admin_async_event]	= cpu_to_le32(1 << 0);
--	log->acs[nvme_admin_keep_alive]		= cpu_to_le32(1 << 0);
--
--	log->iocs[nvme_cmd_read]		= cpu_to_le32(1 << 0);
--	log->iocs[nvme_cmd_write]		= cpu_to_le32(1 << 0);
--	log->iocs[nvme_cmd_flush]		= cpu_to_le32(1 << 0);
--	log->iocs[nvme_cmd_dsm]			= cpu_to_le32(1 << 0);
--	log->iocs[nvme_cmd_write_zeroes]	= cpu_to_le32(1 << 0);
-+	log->acs[nvme_admin_get_log_page] =
-+	log->acs[nvme_admin_identify] =
-+	log->acs[nvme_admin_abort_cmd] =
-+	log->acs[nvme_admin_set_features] =
-+	log->acs[nvme_admin_get_features] =
-+	log->acs[nvme_admin_async_event] =
-+	log->acs[nvme_admin_keep_alive] =
-+		cpu_to_le32(NVME_CMD_EFFECTS_CSUPP);
-+
-+	log->iocs[nvme_cmd_read] =
-+	log->iocs[nvme_cmd_write] =
-+	log->iocs[nvme_cmd_flush] =
-+	log->iocs[nvme_cmd_dsm]	=
-+	log->iocs[nvme_cmd_write_zeroes] =
-+		cpu_to_le32(NVME_CMD_EFFECTS_CSUPP);
+ 	struct nvme_ns *ns = req->q->queuedata;
+ 
+-	if (req->cmd_flags & REQ_NVME_MPATH)
++	if ((req->cmd_flags & REQ_NVME_MPATH) && req->bio)
+ 		trace_block_bio_complete(ns->head->disk->queue, req->bio);
  }
  
- static void nvmet_get_cmd_effects_zns(struct nvme_effects_log *log)
- {
--	log->iocs[nvme_cmd_zone_append]		= cpu_to_le32(1 << 0);
--	log->iocs[nvme_cmd_zone_mgmt_send]	= cpu_to_le32(1 << 0);
--	log->iocs[nvme_cmd_zone_mgmt_recv]	= cpu_to_le32(1 << 0);
-+	log->iocs[nvme_cmd_zone_append] =
-+	log->iocs[nvme_cmd_zone_mgmt_send] =
-+	log->iocs[nvme_cmd_zone_mgmt_recv] =
-+		cpu_to_le32(NVME_CMD_EFFECTS_CSUPP);
- }
- 
- static void nvmet_execute_get_log_cmd_effects_ns(struct nvmet_req *req)
 -- 
 2.35.1
 
