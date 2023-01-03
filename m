@@ -4,65 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A45A8C4708E
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Jan 2023 20:00:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 939BAC3DA7D
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Jan 2023 20:00:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=wjKBvzKxoe9Dzk91cJDlxYbrxbTrh5e5blz+pNdxieE=; b=bdkx8ZIuKswHKFM8+//pqbKSn4
-	egyFtxBM/MdyzGU8IMoC4k9icVL4VplA7rknPatq9rK5ZZwzz298Jljd55rvYS2CkBvlqG+77NioP
-	w0ccIquQ16lTnzK86RdkUKogBJYJaO/vOpZM9cjlQ50DFb+p5N62n0zCMy8BxKLWTfFXeQ7ukpjL8
-	CWc9UbcjGBIkoeIRwPyZiq9PqjGMICGz+l1h798DD/rVYTRE7j0V+CVgwMw4Td+exg7r1Jb4+7LpP
-	JrxLqJi95cquI1F0Zvn9PQTgPXKlp6rcDCF60E7bgZD9cEKfOXME+ujDVlwqVx48p0uCpwPurhEEO
-	uCShLCVw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=5HKjkaCDWTxJ2ZSpLB1t5GCxUa69y3dlrc7HL0Krd3E=; b=LatLd8DRf6xMwnwcIrj4SSwbCq
+	B1tPUHCMeglWE+E/wBpGoKURmfnTt2Oj4j/CkCBvRLi/JNhGC1cM08dYy6onr0UelWIxYfh7+N0rC
+	eMuCnOI2M6Sj4XwqjxWL7R7+8URq6KZIVlKKEHAxcS5AK7M/3hpIOO4oWJ+VJzXdCYODCt1ZMgWIv
+	jz88bell2w2E4D0G4D5dUte3ah+0wHN7yAUf0I2AwNKVmZFBPfuWwcGpQZzZezGGV0ymbNQtFtws9
+	XiGt7Jo63URbhvsj5+O3B56wLSDIQxABmekxJjqQPNgqg7AXt8U5zgKRf5KiatN6KiT3SYG0gCN+l
+	5C8p3a9Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pCnSA-004cnk-UQ; Tue, 03 Jan 2023 20:00:07 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1pCnSj-004d1o-BG; Tue, 03 Jan 2023 20:00:41 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pCmD4-003yR0-H6
-	for linux-nvme@lists.infradead.org; Tue, 03 Jan 2023 18:40:28 +0000
+	id 1pCkQG-0033tp-6i
+	for linux-nvme@lists.infradead.org; Tue, 03 Jan 2023 16:45:58 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id E2F0DB810B3;
-	Tue,  3 Jan 2023 18:40:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75027C433D2;
-	Tue,  3 Jan 2023 18:40:21 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 731606147A;
+	Tue,  3 Jan 2023 16:45:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6259AC433F0;
+	Tue,  3 Jan 2023 16:45:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672771222;
-	bh=OnJhvt64/8j4ZtxMuuT8R9oxhga6S4rTiUHEMYErTzs=;
-	h=From:To:Cc:Subject:Date:From;
-	b=RNZqup27sK2QnW6sc5gL9wkzoRqB/rJES1nYv5WekAlo4W8ALWsIG8aGAenZEbuuG
-	 uYaUlG4QtinRY/sIqyw+lMdJhf+s5mWHtB8c9r4vXQxqp9dUilCObtpDQRQ+aVmYwz
-	 FG3p2ZbMz5h6mWTrainVqTeBRUwZYwinIAqoOwuJS3iAdsOGQp4d9YCyYW4Hf/ddCR
-	 nHHFObMfY/lUUhkE5BWBr9qCeKLqo35Cx9cTRtF0ana39FlEh69ktsRE6P/IoyRiBw
-	 +NPynK9cuFqcvDyhJN9clasqSETETd/jWI3sprrMPF1lk/OW/HYBRb3gJDckZHTn1R
-	 pIssWGjpuf+Dw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Yanjun Zhang <zhangyanjun@cestc.cn>,
-	Christoph Hellwig <hch@lst.de>,
-	Sasha Levin <sashal@kernel.org>,
-	kbusch@kernel.org,
-	axboe@fb.com,
-	sagi@grimberg.me,
+	s=k20201202; t=1672764351;
+	bh=1vdMMNpejnZ5jZ3YE/7JRh8HEouk94oxAG3PB5o2MWU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eXjsmcxfbxFnI1FMUosFhzfU7Aqfkdz7TdQVGMVwY6mHV2+ybfnyibuldgLrnQ4rl
+	 AFPOLWBkOWDeyvQ91BwtloEJe8TJV1N+VLlZUkS4Fl61YpAJkdA1yBYcyDyxbP+QAy
+	 Nn3LS4VTFDfL0iIVz8VyiRAcqJYErGr2bB/dPpEZVtyDkLO/0S4F5sg1G4NCq0CdQ4
+	 xdaYNT/42r8As9jzp+jo7inEb+CGiX2wiAmSXatoVDIEHtZuWTQP2PiVCVpdQFwPPe
+	 qsJIGL1+nFOMqVTglOExqLal3i9bMutOUjyE3uLmNBNdU3GDOvr1pkx32Y1D9t+xz9
+	 IGF822YnqgOaw==
+Date: Tue, 3 Jan 2023 09:45:48 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jens Axboe <axboe@fb.com>, Hugh Dickins <hughd@google.com>,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.10] nvme: fix multipath crash caused by flush request when blktrace is enabled
-Date: Tue,  3 Jan 2023 13:40:19 -0500
-Message-Id: <20230103184019.2022907-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
+Subject: Re: [PATCH 2/4] nvme-pci: update sqsize when adjusting the queue
+ depth
+Message-ID: <Y7RbvL59oRvO73P0@kbusch-mbp.dhcp.thefacebook.com>
+References: <20221225103234.226794-1-hch@lst.de>
+ <20221225103234.226794-3-hch@lst.de>
+ <f0d3c027-d793-8266-7c69-30a85f884b23@grimberg.me>
+ <20221228161050.GA849@lst.de>
+ <c1f876cb-5004-c91e-398c-83fb007bb697@grimberg.me>
+ <Y63BjxIJykWWTzOP@kbusch-mbp.dhcp.thefacebook.com>
+ <bffad1f9-f379-b5f4-8d37-304edd2ba38c@grimberg.me>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bffad1f9-f379-b5f4-8d37-304edd2ba38c@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230103_104026_954997_6C4C4310 
-X-CRM114-Status: GOOD (  17.66  )
+X-CRM114-CacheID: sfid-20230103_084556_465188_7644043E 
+X-CRM114-Status: GOOD (  27.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,79 +80,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Yanjun Zhang <zhangyanjun@cestc.cn>
+On Mon, Jan 02, 2023 at 11:39:35AM +0200, Sagi Grimberg wrote:
+> 
+> > > > > But if you want to patches 1+2 to be taken before 3+4, I'd make sqsize
+> > > > > to be a 0's based value of q_depth after we subtract one entry for queue
+> > > > > wraparound. So others would not get affected from patches 1+2. Then in
+> > > > > one batch make all assignments to sqsize 1's based like in patch 3 and
+> > > > > change nvme_alloc_io_tagset at the same time.
+> > > > 
+> > > > 1 doe not make any difference in the 0s based vs not values,
+> > > > they just reduce the queue size by 1 intentionally.
+> > > 
+> > > Not sure who is they here...
+> > > 
+> > > Anyways, I guess we'll have to wait and see if someone happens to care
+> > > if his/hers effective queuing is reduced by 1 all of a sudden...
+> > 
+> > All nvme transports require the host driver leave one queue entry unused.
+> > The driver was not spec compliant prior to patches 1 and 2. I'm not sure
+> > if that "queue full" definition makes sense for fabrics lacking a shared
+> > ring, but the spec says we have to work that way.
+> 
+> fabrics already reserves one entry for a connect cmd, so effectively it
+> was reserving a slot already...
 
-[ Upstream commit 3659fb5ac29a5e6102bebe494ac789fd47fb78f4 ]
-
-The flush request initialized by blk_kick_flush has NULL bio,
-and it may be dealt with nvme_end_req during io completion.
-When blktrace is enabled, nvme_trace_bio_complete with multipath
-activated trying to access NULL pointer bio from flush request
-results in the following crash:
-
-[ 2517.831677] BUG: kernel NULL pointer dereference, address: 000000000000001a
-[ 2517.835213] #PF: supervisor read access in kernel mode
-[ 2517.838724] #PF: error_code(0x0000) - not-present page
-[ 2517.842222] PGD 7b2d51067 P4D 0
-[ 2517.845684] Oops: 0000 [#1] SMP NOPTI
-[ 2517.849125] CPU: 2 PID: 732 Comm: kworker/2:1H Kdump: loaded Tainted: G S                5.15.67-0.cl9.x86_64 #1
-[ 2517.852723] Hardware name: XFUSION 2288H V6/BC13MBSBC, BIOS 1.13 07/27/2022
-[ 2517.856358] Workqueue: nvme_tcp_wq nvme_tcp_io_work [nvme_tcp]
-[ 2517.859993] RIP: 0010:blk_add_trace_bio_complete+0x6/0x30
-[ 2517.863628] Code: 1f 44 00 00 48 8b 46 08 31 c9 ba 04 00 10 00 48 8b 80 50 03 00 00 48 8b 78 50 e9 e5 fe ff ff 0f 1f 44 00 00 41 54 49 89 f4 55 <0f> b6 7a 1a 48 89 d5 e8 3e 1c 2b 00 48 89 ee 4c 89 e7 5d 89 c1 ba
-[ 2517.871269] RSP: 0018:ff7f6a008d9dbcd0 EFLAGS: 00010286
-[ 2517.875081] RAX: ff3d5b4be00b1d50 RBX: 0000000002040002 RCX: ff3d5b0a270f2000
-[ 2517.878966] RDX: 0000000000000000 RSI: ff3d5b0b021fb9f8 RDI: 0000000000000000
-[ 2517.882849] RBP: ff3d5b0b96a6fa00 R08: 0000000000000001 R09: 0000000000000000
-[ 2517.886718] R10: 000000000000000c R11: 000000000000000c R12: ff3d5b0b021fb9f8
-[ 2517.890575] R13: 0000000002000000 R14: ff3d5b0b021fb1b0 R15: 0000000000000018
-[ 2517.894434] FS:  0000000000000000(0000) GS:ff3d5b42bfc80000(0000) knlGS:0000000000000000
-[ 2517.898299] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 2517.902157] CR2: 000000000000001a CR3: 00000004f023e005 CR4: 0000000000771ee0
-[ 2517.906053] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[ 2517.909930] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[ 2517.913761] PKRU: 55555554
-[ 2517.917558] Call Trace:
-[ 2517.921294]  <TASK>
-[ 2517.924982]  nvme_complete_rq+0x1c3/0x1e0 [nvme_core]
-[ 2517.928715]  nvme_tcp_recv_pdu+0x4d7/0x540 [nvme_tcp]
-[ 2517.932442]  nvme_tcp_recv_skb+0x4f/0x240 [nvme_tcp]
-[ 2517.936137]  ? nvme_tcp_recv_pdu+0x540/0x540 [nvme_tcp]
-[ 2517.939830]  tcp_read_sock+0x9c/0x260
-[ 2517.943486]  nvme_tcp_try_recv+0x65/0xa0 [nvme_tcp]
-[ 2517.947173]  nvme_tcp_io_work+0x64/0x90 [nvme_tcp]
-[ 2517.950834]  process_one_work+0x1e8/0x390
-[ 2517.954473]  worker_thread+0x53/0x3c0
-[ 2517.958069]  ? process_one_work+0x390/0x390
-[ 2517.961655]  kthread+0x10c/0x130
-[ 2517.965211]  ? set_kthread_struct+0x40/0x40
-[ 2517.968760]  ret_from_fork+0x1f/0x30
-[ 2517.972285]  </TASK>
-
-To avoid this situation, add a NULL check for req->bio before
-calling trace_block_bio_complete.
-
-Signed-off-by: Yanjun Zhang <zhangyanjun@cestc.cn>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/nvme/host/nvme.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 86336496c65c..c3e4d9b6f9c0 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -749,7 +749,7 @@ static inline void nvme_trace_bio_complete(struct request *req,
- {
- 	struct nvme_ns *ns = req->q->queuedata;
- 
--	if (req->cmd_flags & REQ_NVME_MPATH)
-+	if ((req->cmd_flags & REQ_NVME_MPATH) && req->bio)
- 		trace_block_bio_complete(ns->head->disk->queue, req->bio);
- }
- 
--- 
-2.35.1
-
+nvmf_connect_io_queue() sets the cmd.connect.sqsize to ctrl->sqsize, so
+doing a +1 on that value for the tagset is definitely not right. A spec
+complaint target should have been halting and setting CSTS.CFS if we
+actually used all tags.
 
