@@ -4,68 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 939BAC3DA7D
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Jan 2023 20:00:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D485EC4708E
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Jan 2023 20:01:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5HKjkaCDWTxJ2ZSpLB1t5GCxUa69y3dlrc7HL0Krd3E=; b=LatLd8DRf6xMwnwcIrj4SSwbCq
-	B1tPUHCMeglWE+E/wBpGoKURmfnTt2Oj4j/CkCBvRLi/JNhGC1cM08dYy6onr0UelWIxYfh7+N0rC
-	eMuCnOI2M6Sj4XwqjxWL7R7+8URq6KZIVlKKEHAxcS5AK7M/3hpIOO4oWJ+VJzXdCYODCt1ZMgWIv
-	jz88bell2w2E4D0G4D5dUte3ah+0wHN7yAUf0I2AwNKVmZFBPfuWwcGpQZzZezGGV0ymbNQtFtws9
-	XiGt7Jo63URbhvsj5+O3B56wLSDIQxABmekxJjqQPNgqg7AXt8U5zgKRf5KiatN6KiT3SYG0gCN+l
-	5C8p3a9Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=iWxb3nuVn2YspSt2RVIE4KvG+wkOTWe7xGCkLs7kB1M=; b=fd5QNVWm4B+S3DJroabQhSvxaj
+	UzsIC03WhvMZGGu1pOGFkMdMXaeNyr9SUYlPkPKpDHznmNH8F4ICFG0+mZ/coPyvl9OMXo+K63//r
+	latkAXbGv2MJsDE7eRZsn2/ZBnJ/M8n2ak38nzldazvzkFpWAceyfSvkYAYlSIO5dO55uS2CMisTW
+	Qz3JM8c1Ccz2IgL6AtzAo0TtlSgvHuTAyKEku1SRV8bixd4NPwVhQaZyUbvcLFv4UBewKu/rPxOzY
+	vccvah5ICqvTzBRhBtFkAojdFLiU/qVO9cEmhNAOsyXdncUG1d9p0D0XZJDMRZFG/YboJ2FJYYfD7
+	buFiF1zQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pCnSj-004d1o-BG; Tue, 03 Jan 2023 20:00:41 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1pCnTY-004dPy-P6; Tue, 03 Jan 2023 20:01:32 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pCkQG-0033tp-6i
-	for linux-nvme@lists.infradead.org; Tue, 03 Jan 2023 16:45:58 +0000
+	id 1pCmCs-003yIx-V2
+	for linux-nvme@lists.infradead.org; Tue, 03 Jan 2023 18:40:17 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 731606147A;
-	Tue,  3 Jan 2023 16:45:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6259AC433F0;
-	Tue,  3 Jan 2023 16:45:51 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 57514B810AD;
+	Tue,  3 Jan 2023 18:40:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A4B3C433F2;
+	Tue,  3 Jan 2023 18:40:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672764351;
-	bh=1vdMMNpejnZ5jZ3YE/7JRh8HEouk94oxAG3PB5o2MWU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eXjsmcxfbxFnI1FMUosFhzfU7Aqfkdz7TdQVGMVwY6mHV2+ybfnyibuldgLrnQ4rl
-	 AFPOLWBkOWDeyvQ91BwtloEJe8TJV1N+VLlZUkS4Fl61YpAJkdA1yBYcyDyxbP+QAy
-	 Nn3LS4VTFDfL0iIVz8VyiRAcqJYErGr2bB/dPpEZVtyDkLO/0S4F5sg1G4NCq0CdQ4
-	 xdaYNT/42r8As9jzp+jo7inEb+CGiX2wiAmSXatoVDIEHtZuWTQP2PiVCVpdQFwPPe
-	 qsJIGL1+nFOMqVTglOExqLal3i9bMutOUjyE3uLmNBNdU3GDOvr1pkx32Y1D9t+xz9
-	 IGF822YnqgOaw==
-Date: Tue, 3 Jan 2023 09:45:48 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
+	s=k20201202; t=1672771211;
+	bh=3iJDEg26w5JXxeO2spyA4n8QeKcUd/6tuQpHV6WNuig=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Wto7t6R7yPqo609aa5lzZx6R1F+hEKgafSqfs4jF7wrc6pBCcbHYbtby/AH88fNCC
+	 uctvD9PCWey2o3mnjikpmOwLaRoNmThbO4xgMp7HuZh3eMBfUruNRxGoMMandHaiMz
+	 ZUl2zQYzAVun8SVEPMzlkYr7IsVhej8fd8ykgrADSr+7Ebq4satC1DO7Cr6275P7vr
+	 yarUDtCJ+VSxRj3fa4j9CLZPNel7UhyMtvzqwiFF4w2pBv+tVomkvI8zDMLHBDcFQ8
+	 Q20H0jB7sNHP4ALU4hQcO6gV3OsjQKUDU78rImvyiSTdpLRGiGT6/QkC18tSxIoIvM
+	 vUg0kxqFIsY6Q==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
 Cc: Christoph Hellwig <hch@lst.de>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Jens Axboe <axboe@fb.com>, Hugh Dickins <hughd@google.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Sasha Levin <sashal@kernel.org>,
 	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 2/4] nvme-pci: update sqsize when adjusting the queue
- depth
-Message-ID: <Y7RbvL59oRvO73P0@kbusch-mbp.dhcp.thefacebook.com>
-References: <20221225103234.226794-1-hch@lst.de>
- <20221225103234.226794-3-hch@lst.de>
- <f0d3c027-d793-8266-7c69-30a85f884b23@grimberg.me>
- <20221228161050.GA849@lst.de>
- <c1f876cb-5004-c91e-398c-83fb007bb697@grimberg.me>
- <Y63BjxIJykWWTzOP@kbusch-mbp.dhcp.thefacebook.com>
- <bffad1f9-f379-b5f4-8d37-304edd2ba38c@grimberg.me>
+Subject: [PATCH AUTOSEL 6.0 3/4] nvmet: use NVME_CMD_EFFECTS_CSUPP instead of open coding it
+Date: Tue,  3 Jan 2023 13:39:54 -0500
+Message-Id: <20230103183956.2022789-3-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20230103183956.2022789-1-sashal@kernel.org>
+References: <20230103183956.2022789-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bffad1f9-f379-b5f4-8d37-304edd2ba38c@grimberg.me>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230103_084556_465188_7644043E 
-X-CRM114-Status: GOOD (  27.33  )
+X-CRM114-CacheID: sfid-20230103_104015_384787_27C9597C 
+X-CRM114-Status: GOOD (  12.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,32 +79,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jan 02, 2023 at 11:39:35AM +0200, Sagi Grimberg wrote:
-> 
-> > > > > But if you want to patches 1+2 to be taken before 3+4, I'd make sqsize
-> > > > > to be a 0's based value of q_depth after we subtract one entry for queue
-> > > > > wraparound. So others would not get affected from patches 1+2. Then in
-> > > > > one batch make all assignments to sqsize 1's based like in patch 3 and
-> > > > > change nvme_alloc_io_tagset at the same time.
-> > > > 
-> > > > 1 doe not make any difference in the 0s based vs not values,
-> > > > they just reduce the queue size by 1 intentionally.
-> > > 
-> > > Not sure who is they here...
-> > > 
-> > > Anyways, I guess we'll have to wait and see if someone happens to care
-> > > if his/hers effective queuing is reduced by 1 all of a sudden...
-> > 
-> > All nvme transports require the host driver leave one queue entry unused.
-> > The driver was not spec compliant prior to patches 1 and 2. I'm not sure
-> > if that "queue full" definition makes sense for fabrics lacking a shared
-> > ring, but the spec says we have to work that way.
-> 
-> fabrics already reserves one entry for a connect cmd, so effectively it
-> was reserving a slot already...
+From: Christoph Hellwig <hch@lst.de>
 
-nvmf_connect_io_queue() sets the cmd.connect.sqsize to ctrl->sqsize, so
-doing a +1 on that value for the tagset is definitely not right. A spec
-complaint target should have been halting and setting CSTS.CFS if we
-actually used all tags.
+[ Upstream commit 61f37154c599cf9f2f84dcbd9be842f8645a7099 ]
+
+Use NVME_CMD_EFFECTS_CSUPP instead of open coding it and assign a
+single value to multiple array entries instead of repeated assignments.
+
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/nvme/target/admin-cmd.c | 35 ++++++++++++++++++---------------
+ 1 file changed, 19 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index fc8a957fad0a..4aaa27cc8d2b 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -164,26 +164,29 @@ static void nvmet_execute_get_log_page_smart(struct nvmet_req *req)
+ 
+ static void nvmet_get_cmd_effects_nvm(struct nvme_effects_log *log)
+ {
+-	log->acs[nvme_admin_get_log_page]	= cpu_to_le32(1 << 0);
+-	log->acs[nvme_admin_identify]		= cpu_to_le32(1 << 0);
+-	log->acs[nvme_admin_abort_cmd]		= cpu_to_le32(1 << 0);
+-	log->acs[nvme_admin_set_features]	= cpu_to_le32(1 << 0);
+-	log->acs[nvme_admin_get_features]	= cpu_to_le32(1 << 0);
+-	log->acs[nvme_admin_async_event]	= cpu_to_le32(1 << 0);
+-	log->acs[nvme_admin_keep_alive]		= cpu_to_le32(1 << 0);
+-
+-	log->iocs[nvme_cmd_read]		= cpu_to_le32(1 << 0);
+-	log->iocs[nvme_cmd_write]		= cpu_to_le32(1 << 0);
+-	log->iocs[nvme_cmd_flush]		= cpu_to_le32(1 << 0);
+-	log->iocs[nvme_cmd_dsm]			= cpu_to_le32(1 << 0);
+-	log->iocs[nvme_cmd_write_zeroes]	= cpu_to_le32(1 << 0);
++	log->acs[nvme_admin_get_log_page] =
++	log->acs[nvme_admin_identify] =
++	log->acs[nvme_admin_abort_cmd] =
++	log->acs[nvme_admin_set_features] =
++	log->acs[nvme_admin_get_features] =
++	log->acs[nvme_admin_async_event] =
++	log->acs[nvme_admin_keep_alive] =
++		cpu_to_le32(NVME_CMD_EFFECTS_CSUPP);
++
++	log->iocs[nvme_cmd_read] =
++	log->iocs[nvme_cmd_write] =
++	log->iocs[nvme_cmd_flush] =
++	log->iocs[nvme_cmd_dsm]	=
++	log->iocs[nvme_cmd_write_zeroes] =
++		cpu_to_le32(NVME_CMD_EFFECTS_CSUPP);
+ }
+ 
+ static void nvmet_get_cmd_effects_zns(struct nvme_effects_log *log)
+ {
+-	log->iocs[nvme_cmd_zone_append]		= cpu_to_le32(1 << 0);
+-	log->iocs[nvme_cmd_zone_mgmt_send]	= cpu_to_le32(1 << 0);
+-	log->iocs[nvme_cmd_zone_mgmt_recv]	= cpu_to_le32(1 << 0);
++	log->iocs[nvme_cmd_zone_append] =
++	log->iocs[nvme_cmd_zone_mgmt_send] =
++	log->iocs[nvme_cmd_zone_mgmt_recv] =
++		cpu_to_le32(NVME_CMD_EFFECTS_CSUPP);
+ }
+ 
+ static void nvmet_execute_get_log_cmd_effects_ns(struct nvmet_req *req)
+-- 
+2.35.1
+
 
