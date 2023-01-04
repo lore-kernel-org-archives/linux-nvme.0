@@ -4,78 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 675AFC4332F
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Jan 2023 12:35:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4627DC4332F
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Jan 2023 14:55:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:References:List-Owner;
-	bh=gbKqkFsN4hQeaKGBwT0swWYlTLMQd/HhdjuV7OkFZck=; b=Ea8hS0USIktcUUXtkxCPJuSYbP
-	YDo7Orj/dZUmIyhQSYvFybRiBP3qrPmOSqmCaeI8xydqd3VODF0cp4gSIm0NGYhV4OKf8GpTEq59R
-	llO41uO4j6rDMsCYmHf7vxL56KgTKc5RvlYR1KlqWcMja2curosAS+NDAJyq/SV3bxfAVkUOQeDuu
-	EYZ02zw3eccgWaycCjIWm0BkcuGOEDGnTmpVt4G0PAPIj+miwk3RL9nmXj11G9Q/FdF+QqyW39y27
-	oxQAHh0OlIbpf5d+kYqtkj4bp6JqCRu/ARxf/xgfm+6xam9TeWTVzisLl8CW3qrO+KHr8xT5SiFqR
-	F3C8bMxw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
+	Content-Type:MIME-Version:Message-ID:Subject:CC:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=KIvE6X1Ez+LvnELWXdt7BNVNHjk9oBI8OtQZzZGp18Y=; b=nxp/l5Z1bBX1qlDyOSqI3UA7QV
+	Mi58fDHuM/I02U7tRPHo1qRUyncuwAghe8ZTSHnrVoWlUv5mYOU/yLI5z77w/47dVqOVYELOu5je2
+	vgjX5icDNSf943pPOJBMJeFfhyk+o7TVKqOYoLc7aSnInd6dzlXbkG3So0MEZGg/vsHm2VCL8csBZ
+	77/62QO+4eXLa+z3Odg4OE6Se/sSzTrgbQhpeNwr5zTURdouinYyURw2OGK5/mnAKSbj/U6QZ2EIt
+	Il4uQuI4KPkBe6t/po7dTZnIIxyBwuFxw5kKYT4+bTtzL7IOh1Ohm+TWmIjkOCo5nQbEWWvfnTfHN
+	KDt1hWeA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pD2zh-0093X5-SD; Wed, 04 Jan 2023 12:35:45 +0000
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+	id 1pD5AO-009sNp-Nc; Wed, 04 Jan 2023 14:54:56 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pD2U7-008wxZ-Fa
-	for linux-nvme@lists.infradead.org; Wed, 04 Jan 2023 12:03:08 +0000
-Received: by mail-pf1-x42b.google.com with SMTP id 6so19922944pfz.4
-        for <linux-nvme@lists.infradead.org>; Wed, 04 Jan 2023 04:03:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:in-reply-to:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gbKqkFsN4hQeaKGBwT0swWYlTLMQd/HhdjuV7OkFZck=;
-        b=mHVGqX8H91pzBJ3DqpDdUa8q5l+Xnziz+IY+I893b//GyPfrcaV4LyEnL5N7W5orqd
-         KhjDg2DKRkhNeg7kPMi5/Dhy3WkN7600cWS/0Yu9rxCpyqo6ycTsVO0NN2JpLSH8kMyK
-         vXORpTS7mvElXy7DsHenbpJaJVvGFX/hjwlGlF0eg94KlhEZgBDawY7WE2dRw3ar+b2i
-         KCiH4TGS/ukHVvhsiEvXeIHB87DmZkltPYIzUeRllH6xEgLaT6NJ0QPl9TZhB2tEE4Ex
-         wsFb6n+q+5/6hA8Q+vPZ5CnnwLwj2nu7jw2G2lKejRqy5shn0+KKHYefSNm2sZ/Hxh65
-         xfPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:in-reply-to:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gbKqkFsN4hQeaKGBwT0swWYlTLMQd/HhdjuV7OkFZck=;
-        b=pjWOA9U761uTtkh43tk0z49HkCAYT7dijnRhcWdqikAWcQEOaY3FF6QY32g5BZh9kc
-         j5/Fl5h0qxoqWZzq8YfFMmjlrd4D2JMTOY00kRxNHCGn1orTSx7fRtCHCDdFpDKnvkX3
-         euCDNtWY4QJb23JGAIKyh8VFLNQSqBR0Knw4zD6lAR8zDit4BHf6OiERv0uQqs0wWzoa
-         xYhgkKziw6OnNXuVmCaqUgpH7JGHgWTAQZJh0aYGOy1ldfdxy0vF0Lba9/W9W0SDMTWw
-         tcS/IZZEREm+6kT5yXhAV2NzfPQjwPOYkad2lxsGvPMyiwJruzq4vpgKN/8WmeA5JcVp
-         /dyA==
-X-Gm-Message-State: AFqh2koHomDHgwsd24vyihvDFQlz5ktkUbBc1lkpc8M4Pyqrr4M6hqx9
-	1nl9bWvjmBT/dGWEj47O+hc=
-X-Google-Smtp-Source: AMrXdXvLlycQwR2yfcSSdIDuT8mAhKbn5aH7b2zhWOcV7RFoNEz+oc6njRkxGsmdCSs+xOoNDXJDDQ==
-X-Received: by 2002:a62:e317:0:b0:581:4297:362f with SMTP id g23-20020a62e317000000b005814297362fmr33459797pfh.13.1672833785678;
-        Wed, 04 Jan 2023 04:03:05 -0800 (PST)
-Received: from redecorated-mbp ([202.53.32.211])
-        by smtp.gmail.com with ESMTPSA id d18-20020aa797b2000000b0058251b6e0e8sm6856527pfq.188.2023.01.04.04.03.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 04:03:05 -0800 (PST)
-Date: Wed, 4 Jan 2023 23:03:00 +1100
-From: Orlando Chamberlain <orlandoch.dev@gmail.com>
-To: marcan@marcan.st
-Cc: asahi@lists.linux.dev, axboe@fb.com, hch@lst.de, kbusch@kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- sagi@grimberg.me, sven@svenpeter.dev, ushankar@purestorage.com
-Subject: Re: [PATCH] nvme-pci: Add NVME_QUIRK_IDENTIFY_CNS quirk to Apple T2
- controllers
-Message-ID: <20230104230300.66b4a581@redecorated-mbp>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
-In-Reply-To: <20230104101641.12215-1-marcan@marcan.st>
+	id 1pD4zD-009nOU-BI
+	for linux-nvme@lists.infradead.org; Wed, 04 Jan 2023 14:43:29 +0000
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20230104144313euoutp01eb5d0db4c4b101ad91415e5514e242ac~3IjP9XdFi0748507485euoutp01b;
+	Wed,  4 Jan 2023 14:43:13 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20230104144313euoutp01eb5d0db4c4b101ad91415e5514e242ac~3IjP9XdFi0748507485euoutp01b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1672843393;
+	bh=KIvE6X1Ez+LvnELWXdt7BNVNHjk9oBI8OtQZzZGp18Y=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=AJKoDAbpRyB0/BBetirxNCdOIKliAuoFWPhUF0gVyKJe8UkplJ/xxaGFs3YmCzYuE
+	 OqidsjxWQ4t1Dd8JBdQOPFvzWuOuhzBATD2dImZjq5wUoXh/CBwG1M0e54VmlGa47O
+	 cB1GG8hBHCB3KL/B/BzcJfeQ4lruq2c+A9fgAPmM=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20230104144313eucas1p229772c8d2ca1555d3f72cd3b36bcbdfd~3IjP1MjD30256402564eucas1p2t;
+	Wed,  4 Jan 2023 14:43:13 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+	eusmges3new.samsung.com (EUCPMTA) with SMTP id F8.10.43884.08095B36; Wed,  4
+	Jan 2023 14:43:13 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20230104144312eucas1p2dee4a7c020b5b140e4bd0a6c83990624~3IjPfluJa0054200542eucas1p20;
+	Wed,  4 Jan 2023 14:43:12 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20230104144312eusmtrp123671ff79a6a03b7c5dc05f2213f553d~3IjPfA7ke0579505795eusmtrp1q;
+	Wed,  4 Jan 2023 14:43:12 +0000 (GMT)
+X-AuditID: cbfec7f5-25bff7000000ab6c-4b-63b590807d93
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id 60.26.23420.08095B36; Wed,  4
+	Jan 2023 14:43:12 +0000 (GMT)
+Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20230104144312eusmtip1bc64d1b8768e185d5c986dac9efbedc1~3IjPTDC_51149411494eusmtip1L;
+	Wed,  4 Jan 2023 14:43:12 +0000 (GMT)
+Received: from localhost (106.110.32.133) by CAMSVWEXC01.scsc.local
+	(2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+	Wed, 4 Jan 2023 14:43:12 +0000
+Date: Wed, 4 Jan 2023 15:43:17 +0100
+From: Joel Granados <j.granados@samsung.com>
+To: Christoph Hellwig <hch@infradead.org>
+CC: <k.jensen@samsung.com>, <qemu-devel@nongnu.org>,
+	<qemu-block@nongnu.org>, <linux-nvme@lists.infradead.org>,
+	<kbusch@kernel.org>
+Subject: Re: [PATCH v2 0/3] Add OCP extended log to nvme QEMU
+Message-ID: <20230104144317.dxvaqtcocgessnwe@localhost>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="axvto4zh4bjphurv"
+Content-Disposition: inline
+In-Reply-To: <Y6VbSjV3l+/3CWmb@infradead.org>
+X-Originating-IP: [106.110.32.133]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+	CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
+X-Brightmail-Tracker: H4sIAAAAAAAAA2WSe0hTcRTH+W1316u1uq2VB20lS3r5KHs5SEOhQCiohCIj0DGvD5zTNqc9
+	yCxDzVdrvdaozKWbWUptaVPTSjErV2bl1BDF0qipi1bLlr3crpHQf5/zPd/zO+cLP4LJucvy
+	IhIlaZRUIhTzcQ+s9qGjI+Cooka0ql6JBO0KDUOgbDYjQYl22E2gtubigrYiIxbGijBUrIjQ
+	V57AIwxlRyKGzAbGdmyPR0gsJU5Mp6QrN8Z4JFSPj7NSdbz9GlslKwt1euYjdwLItVD/apiZ
+	jzwIDlmBoK7AgdPFFwRthZ3I6eKQnxF0K5l/J0xNvW60SYegq/UbRheTpuzi+qmOAcFb2wvX
+	OEb6gr63HHMyTvpDx2if6ykuuRxe63Jdy5lkLoKr6n6WszGXDIVS4x3cyWwyGBwvT03xHHh8
+	Ycj1EJPcD409xxn5iJhkb9D9IpyyOxkAP9/m4PSpfLCPFrFoPgxVD02u44DMdoe8cROiG5tg
+	ZNjBoHkuWNpuu9G8ANpPF2I0J0Hdmfqp/KmgfnwWd+4FcgMUm8S0HA7vflhZtDwLesbm0FfO
+	AmXteSYtsyEvh0O7l4DxWA1SoMXqabnU03Kp/+WiZX+40mDD/5P9QFs6wqQ5FKqrP2JXkFsl
+	8qTksuR4SrZGQmUEyoTJMrkkPlCUkqxHk5+q/Veb3YgqLJ8CmxGDQM3Id3L4zc3rz5EXJkmR
+	UHwuW/leL+KwY4UHDlLSlGipXEzJmpE3gfE92aqaEhGHjBemUUkUlUpJ/3YZhLtXFuN4JHcQ
+	V9tubbPzyPA6Q1/3VlXB4pi6jP6mBnOPZnfVxSBOlPbbSd2PkI4bds2+IK62U/AoNkrly+6V
+	Nlbl+aiCVu84Mv92SFU3sSfh/tM+y1Awy+i1c5HimrEk3TemxaelZlf+lrgljkszzvhFfojL
+	yYze0jU8OPY9SbuOF6DLvbhUnnMpTqbyi45be+hTuJJ/eXaRT1lCUuD64MGWez+1D15GZYoH
+	CkwzRxm7v3IHLLbotFAzL9Pamkecszyy7zU/qfVeGJJo2XzA4tmV9WQj9/0r601jWG//RJMu
+	pVM+cV64SdegKcfQ78QNeu4zeTsved6yjO4To1prIyXqUvAxWYIwaAVTKhP+Acla62/PAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrNIsWRmVeSWpSXmKPExsVy+t/xu7oNE7YmG8xt17Q4PWERk8WkQ9cY
+	LeYve8puMetdO5vF8d4dLA6sHptXaHlsWtXJ5rF5Sb3Hk2ubmQJYovRsivJLS1IVMvKLS2yV
+	og0tjPQMLS30jEws9QyNzWOtjEyV9O1sUlJzMstSi/TtEvQyJr9dylywVLbi3pubTA2M58W7
+	GDk5JARMJM7su8nexcjFISSwlFHi/NHdrBAJGYlPVz6yQ9jCEn+udbFBFH1klDjwYhsrhLOZ
+	UeL48qNsIFUsAioSm24uZQGx2QR0JM6/ucMMYosIaErcWt7ODNLALNDKKLH69FawscICthIL
+	d2wHa+YVMJf4eXkimC0ksIVR4uVTJYi4oMTJmU/AhjILlEk8enUQqIYDyJaWWP6PAyTMKaAr
+	8fdxGxvEpUoSX9/0Qn1QK/Hq/m7GCYzCs5BMmoVk0iyESRBhLYkb/14yYQhrSyxb+JoZwraV
+	WLfuPcsCRvZVjCKppcW56bnFhnrFibnFpXnpesn5uZsYgTG77djPzTsY5736qHeIkYmD8RCj
+	ClDnow2rLzBKseTl56UqifBOerEpWYg3JbGyKrUoP76oNCe1+BCjKTAUJzJLiSbnA5NJXkm8
+	oZmBqaGJmaWBqaWZsZI4r2dBR6KQQHpiSWp2ampBahFMHxMHp1QDU6Pbyfxt6v387KunmWif
+	Y7m9q91bKfifxvdtS5aVTtwgLcG7t3CvRlVEV8envUlv+dNVd29clbCbQfXCkpP/5pzd8W7X
+	sweaN3bllPc+f5Xn1lbLm9vfGumQL7jym2vEi5qFp+6HFV5mXbJo0omG4lWR+aGft982Mk6d
+	vu35io6N08RerA6wmORss9xuh/kN/42qL4PrpW/yBHw8YhtUtGaViaqCwU4Pa6ZPl0P4P20P
+	uRiTYOOi27RCev/BvStylrtVr+x0rZUq/Tf1BOuGoh/NU1d+MWP3/MCot9adZaaOdxQfZ5jh
+	JV/9v4KbPuiXMDSpPb/EoGAttkYu3uUaxyJZ9f1SL9vPpASVzuY1VGIpzkg01GIuKk4EAJU+
+	THJuAwAA
+X-CMS-MailID: 20230104144312eucas1p2dee4a7c020b5b140e4bd0a6c83990624
+X-Msg-Generator: CA
+X-RootMTR: 20221114135426eucas1p271a54e44af5a53a45a7393ed34585ee0
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20221114135426eucas1p271a54e44af5a53a45a7393ed34585ee0
+References: <CGME20221114135426eucas1p271a54e44af5a53a45a7393ed34585ee0@eucas1p2.samsung.com>
+	<20221114135043.2958100-1-j.granados@samsung.com>
+	<Y6VbSjV3l+/3CWmb@infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230104_040307_682502_B6F62200 
-X-CRM114-Status: GOOD (  11.85  )
+X-CRM114-CacheID: sfid-20230104_064324_979212_D8920322 
+X-CRM114-Status: GOOD (  33.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,24 +136,105 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> This mirrors the quirk added to Apple Silicon controllers in apple.c.
-> These controllers do not support the Active NS ID List command and
-> behave identically to the SoC version judging by existing user
-> reports/syslogs, so will need the same fix. This quirk reverts
-> back to NVMe 1.0 behavior and disables the broken commands.
->
-> Fixes: 811f4de0344d ("nvme: avoid fallback to sequential scan due to transient issues")
-> Signed-off-by: Hector Martin <marcan@marcan.st>
+--axvto4zh4bjphurv
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On T2 macbookpro16,1 with 6.2.0-rc3-00010-g69b41ac87e4a I had this in
-dmesg:
+On Thu, Dec 22, 2022 at 11:39:54PM -0800, Christoph Hellwig wrote:
+> Please don't do this.  OCP is acting as a counter standard to the
+> proper NVMe standard here and should in absolutely no way be supported
+> by open source projects that needs to stick to the actual standards.
+>=20
+> Please work with the NVMe technical working group to add this (very
+> useful) functionality to NVMe proper first.
 
-nvme nvme0: 1/0/0 default/read/poll queues
-nvme nvme0: Identify NS List failed (status=0xb)
+This is a very good point. Regardless of what OCP's ultimate objective,
+having this in the NVMe specification would reach more cases. We can
+even use existing values like the "Media Bytes with Metadata Written" in
+the statistics log page of the newly ratified FDP TP.
 
-And in /dev only nvme0 existed (no nvme0n1*).
+Thx for the review
 
-This patch fixed that and /dev/nvme0n1p* existed.
+Best
 
-Tested-by: Orlando Chamberlain <orlandoch.dev@gmail.com>
+Joel
+
+>=20
+> On Mon, Nov 14, 2022 at 02:50:40PM +0100, Joel Granados wrote:
+> > The motivation and description are contained in the last patch in this =
+set.
+> > Will copy paste it here for convenience:
+> >=20
+> >     In order to evaluate write amplification factor (WAF) within the st=
+orage
+> >     stack it is important to know the number of bytes written to the
+> >     controller. The existing SMART log value of Data Units Written is t=
+oo
+> >     coarse (given in units of 500 Kb) and so we add the SMART health
+> >     information extended from the OCP specification (given in units of =
+bytes).
+> >=20
+> >     To accommodate different vendor specific specifications like OCP, w=
+e add a
+> >     multiplexing function (nvme_vendor_specific_log) which will route t=
+o the
+> >     different log functions based on arguments and log ids. We only ret=
+urn the
+> >     OCP extended smart log when the command is 0xC0 and ocp has been tu=
+rned on
+> >     in the args.
+> >=20
+> >     Though we add the whole nvme smart log extended structure, we only =
+populate
+> >     the physical_media_units_{read,written}, log_page_version and
+> >     log_page_uuid.
+> >=20
+> > V1 changes:
+> > 1. I moved the ocp parameter from the namespace to the subsystem as it =
+is
+> >    defined there in the OCP specification
+> > 2. I now accumulate statistics from all namespaces and report them back=
+ on
+> >    the extended log as per the spec.
+> > 3. I removed the default case in the switch in nvme_vendor_specific_log=
+ as
+> >    it does not have any special function.
+> >=20
+> > Joel Granados (3):
+> >   nvme: Move adjustment of data_units{read,written}
+> >   nvme: Add ocp to the subsys
+> >   nvme: Add physical writes/reads from OCP log
+> >=20
+> >  hw/nvme/ctrl.c       | 70 ++++++++++++++++++++++++++++++++++++++++----
+> >  hw/nvme/nvme.h       |  1 +
+> >  hw/nvme/subsys.c     |  4 +--
+> >  include/block/nvme.h | 36 +++++++++++++++++++++++
+> >  4 files changed, 103 insertions(+), 8 deletions(-)
+> >=20
+> > --=20
+> > 2.30.2
+> >=20
+> >=20
+> ---end quoted text---
+
+--axvto4zh4bjphurv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmO1kH8ACgkQupfNUreW
+QU94Pgv/VVbG5a11dxiOo9KnmmPZGSRii/URzIlB1ugJiyjuK88mytE1qDKIxT5z
+BI0IVpDqcDjnuFtOuNGR/TTkVNImrjF3E4OIXTf7XqyA648aFx/rs9k91EUlf4hh
+CrurVu1X5hn6plEUjxS3GNfGVUCoX+TNX7wTw0+HtlQzu9agMaXTNalA+9iMZM5q
+smd4pJDB3whTddIZUHPE0O/PzmcDKoWLd0PaBX9hE0e/WfrFUuuhrWk7tuW982qy
++KARvvC7drRBvNlfd46+gaj6gxP58UoUXkkxSjRACool62fi6+NfagaitMnRDKIE
+qi5nf6Mz2DBD2N3ht5QfghaQfoM3iQATDbsyFhoyLAbIVvtLs7Dj4LmSBdZ1HiO3
+krM4QaB0Ct+1YZJ4g92Bh1PzOUVenSa99ZVBLzwrb+RJ5vvBuV6ciJvFCHAX/ja0
+WQI38OF8zTKDMGpwKe4krCgx+82xFAO5jktKqSIldJo3+ZWMPImBISMa+6hfkf2F
+p0SQcBEx
+=2g1/
+-----END PGP SIGNATURE-----
+
+--axvto4zh4bjphurv--
 
