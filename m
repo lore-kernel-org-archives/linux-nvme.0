@@ -4,51 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF281C46467
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Jan 2023 15:37:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 663AAC3DA7A
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Jan 2023 23:21:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bUC+d41w3lM8W/7rGbcSXOsRNnEhGghHTtxwFhdSJ+A=; b=zyzteNALM0tPB+Wv9KGBx4k37d
-	oSwi6agDBA5xVWo/DOERuKRRRzCZYxT255+FaDIHuvshmdRYKxETNTE0Ltr/Q56UZ+RwmOdei2yVp
-	ZO8BuNpK1CtT91zY2c740TT4asDu2w87n5Zl7Ql0pYef90e4jNA+bb/4hSSFcKm7rEuG5ZgytgBfm
-	eGZS7fxe3aNUfJLPNMUAO/GWX6DKyDPb4yFM83o9n55Ks1sl1ZPJiLSii6QJdkGJpMXXhMi9FmXUN
-	YlKnsGRcc1iJa84+Uh1kdTWmXgNc1HhLs5KoxxsiD6JvLkknGhJQKn0fFdtfC1kvcrkJHwr8SB1az
-	ptIwvPzA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Lz8emp/RS1/APVCdAB305QHkRZMBa9uQReaPUwKsNls=; b=gBWRLX89UQfCBt3Now4X9HSvxJ
+	jac0+ewUmp5C7yZp7F9zXvdltzS9w36kgzfI2y7OXuIxRy035+NLvfG9PktVUKW3QbYae8gAfEzDB
+	A9l5yEv0Qo5URDJnFsCsNu5H+9bwPVJbdsbfWTF+gOofNVmf6MKPRAMUrr2AqI9jB/ZPlDWWxixHY
+	Uh33C5cOjmiiA2AqZe0Gx1zegjCzObEpi0vHlEkPab009qJzoGYRYj6HJfDmOJjA0ukBJWmLz2wXR
+	E1NRKrqGwaiHMaBoIiJlMeg0BLMSD5lzpSwUo7DWUCBIMxNEPPX+Guv9DmKEel1osIISo24F90U8+
+	m8C5C1pA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pD5pn-00AAj9-RI; Wed, 04 Jan 2023 15:37:43 +0000
-Received: from wp530.webpack.hosteurope.de ([80.237.130.52])
+	id 1pDZXk-00G53R-N6; Thu, 05 Jan 2023 23:21:04 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pD4LO-009Xxy-Ch
-	for linux-nvme@lists.infradead.org; Wed, 04 Jan 2023 14:02:18 +0000
-Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1pD4LI-0002Kl-EC; Wed, 04 Jan 2023 15:02:08 +0100
-Message-ID: <818ec46b-d058-d294-8b22-cea427c2911a@leemhuis.info>
-Date: Wed, 4 Jan 2023 15:02:07 +0100
+	id 1pDWr3-00EYN1-Cu
+	for linux-nvme@lists.infradead.org; Thu, 05 Jan 2023 20:28:52 +0000
+Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 305HtFsF011951
+	for <linux-nvme@lists.infradead.org>; Thu, 5 Jan 2023 12:28:47 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=s2048-2021-q4;
+ bh=Lz8emp/RS1/APVCdAB305QHkRZMBa9uQReaPUwKsNls=;
+ b=l+FB/T5Maulxex2h63wdXFyaCM2RZEHIVkkbiRabUx+G/KNfqrJ4xvOB0KIFiu6INCNF
+ mit0sM6RyToVezhcxNgg+BtjXev/RMF+GQS8XXxCiR9/ugrvo5KU4KRLnZ/jCD3rKtbx
+ G56TzVXKcFDt093KL007Gpl1THGXQV8tRSC/prPKAsnXh6mC5T9MvKLKwahM5wmhcuED
+ W1wHiDYO7ppBPl0mvuUG380pn/VFP4Qma+y6gvUCB5Qa8dGxz2RKk5HHqtEmIaKNPq5n
+ YLTRBH3SZH19FF18ClV3KSEp+G0MR1Ls9J+MhQxWT/RZaWl8a4P0di/7GRrlmn1X62KW dw== 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3mwnjyn8b5-8
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Thu, 05 Jan 2023 12:28:47 -0800
+Received: from twshared41876.03.ash8.facebook.com (2620:10d:c0a8:1b::d) by
+ mail.thefacebook.com (2620:10d:c0a8:83::4) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Thu, 5 Jan 2023 12:28:42 -0800
+Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
+	id 3FBDAE457D7D; Thu,  5 Jan 2023 12:28:35 -0800 (PST)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>, <hch@lst.de>, <sagi@grimberg.me>
+CC: Keith Busch <kbusch@kernel.org>
+Subject: [PATCH 2/4] nvme-pci: use mapped entries for sgl decision
+Date: Thu, 5 Jan 2023 12:28:31 -0800
+Message-ID: <20230105202833.3225645-3-kbusch@meta.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230105202833.3225645-1-kbusch@meta.com>
+References: <20230105202833.3225645-1-kbusch@meta.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: 6.2 nvme-pci: something wrong #forregzbot
-Content-Language: en-US, de-DE
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-To: "regressions@lists.linux.dev" <regressions@lists.linux.dev>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <572cfcc0-197a-9ead-9cb-3c5bf5e735@google.com>
- <dedcb972-e934-53c2-f933-c25afa5c65a4@leemhuis.info>
-In-Reply-To: <dedcb972-e934-53c2-f933-c25afa5c65a4@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1672840934;ed0c96da;
-X-HE-SMSGID: 1pD4LI-0002Kl-EC
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: BhR0kzRpDmw2iq4sNdXwhvZaC4ecR3tT
+X-Proofpoint-GUID: BhR0kzRpDmw2iq4sNdXwhvZaC4ecR3tT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-05_11,2023-01-05_01,2022-06-22_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230104_060214_750360_7659CC65 
-X-CRM114-Status: GOOD (  13.65  )
+X-CRM114-CacheID: sfid-20230105_122849_480940_E4BD54C7 
+X-CRM114-Status: GOOD (  16.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,38 +82,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-[TLDR: This mail in primarily relevant for Linux kernel regression
-tracking. See link in footer if these mails annoy you.]
+From: Keith Busch <kbusch@kernel.org>
 
-On 24.12.22 08:52, Thorsten Leemhuis wrote:
-> [Note: this mail contains only information for Linux kernel regression
-> tracking. Mails like these contain '#forregzbot' in the subject to make
-> then easy to spot and filter out. The author also tried to remove most
-> or all individuals from the list of recipients to spare them the hassle.]
-> 
-> On 24.12.22 06:24, Hugh Dickins wrote:
->>
->> There's something wrong with the nvme-pci heading for 6.2-rc1:
->> no problem booting here on this Lenovo ThinkPad X1 Carbon 5th,
->> but under load...> [...]
->> Bisection points to your
->> 0da7feaa5913 ("nvme-pci: use the tagset alloc/free helpers")
->> And that does revert cleanly, giving a kernel which shows no problem.
->> [...]
-> 
-> Thanks for the report. To be sure below issue doesn't fall through the
-> cracks unnoticed, I'm adding it to regzbot, my Linux kernel regression
-> tracking bot:
-> 
-> #regzbot ^introduced 0da7feaa5913
-> #regzbot title nvme-pci: problems under load
-> #regzbot ignore-activity
+The driver uses the dma entries for setting up its command's SGL/PRP
+lists. The dma mapping might have fewer entries than the physical
+segments, so check the dma mapped count to determine which nvme data
+layout method is more optimal.
 
-#regzbot fix: 88d356ca41ba1c3effc2d4208dfbd43
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+---
+ drivers/nvme/host/pci.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 693c6e5495846..08ae1d69bf8c4 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -515,10 +515,10 @@ static void **nvme_pci_iod_list(struct request *req=
+)
+ 	return (void **)(iod->sgt.sgl + blk_rq_nr_phys_segments(req));
+ }
+=20
+-static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct reques=
+t *req)
++static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct reques=
+t *req,
++				     int nseg)
+ {
+ 	struct nvme_queue *nvmeq =3D req->mq_hctx->driver_data;
+-	int nseg =3D blk_rq_nr_phys_segments(req);
+ 	unsigned int avg_seg_size;
+=20
+ 	avg_seg_size =3D DIV_ROUND_UP(blk_rq_payload_bytes(req), nseg);
+@@ -818,7 +818,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *de=
+v, struct request *req,
+ 		goto out_free_sg;
+ 	}
+=20
+-	iod->use_sgl =3D nvme_pci_use_sgls(dev, req);
++	iod->use_sgl =3D nvme_pci_use_sgls(dev, req, iod->sgt.nents);
+ 	if (iod->use_sgl)
+ 		ret =3D nvme_pci_setup_sgls(dev, req, &cmnd->rw);
+ 	else
+--=20
+2.30.2
+
 
