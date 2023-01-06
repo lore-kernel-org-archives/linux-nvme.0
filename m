@@ -4,59 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BAC0AC54EBD
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Jan 2023 19:46:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B2BCC54EBD
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Jan 2023 22:35:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dYMhyarsBRQ+VETwFMkHokLlxNy1sqp/XfO6ldjLdJ8=; b=ceAsntuYv/IZGyMyLmOrZPRvmg
-	fekAc+O+e85w2gv61AFQO7u5ne8JtM+cZtj3p2nreuA35nhOdkskEGXOxz5NVyfZOSF3x+ug4wU7W
-	nXuqGTCovmoiWT/6WvKDureIbxjMgEgWvcopCviDAseZi+ye2NaQurda0EDDL94BYqi+lYkYQ5v0z
-	bzBjAhYLpZNO4vHTtfte8fJlYMWlSZ5GYvpafl3imu4IQm8B1JkzLvqV6/jbT5pcMsdWgXcEVLHLU
-	6H4VdobK4VCC0GRvvz8MtYO8QKj8VQIyhCAqPHjcvVPU2q4ulZjX6y2Kl8Tdp6l3ZLShicbMce99Z
-	aAPPeKNw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=SL5CM6lTlaQHHI1bmsPCCVPxAY0au15n5abe/FQT3nc=; b=WMfpPez6zuer1bjxhtL5a6Xgtg
+	FU+GOqAofPOdJbdLtNerFZrkJlydZdvUSLFzfOnotMV0/vA5Yxl8yJd5O4FuR6ix6zB2dzpiSdEW+
+	7SMCHpjrO+6yvja9JNTmg4iGz6DGhKaDJ07hwlxzTeilhww7gKhMox5Of/IQz0dcOZPlycePzjyEI
+	MTIq0N2p+UdzXiaE3i/XdrrjKVT1h9AtJvWKwpf7nM7DK1qyhZcGysIzE6P5RqxvhPrwBOSAaEhDS
+	yYAJ/e9dNA1sQLHPz2G37DQrPcDEmlyuNnQAJhKLx50E8mV28uuD1J3PznQ6Wgbb4Bkxh6VCtmF37
+	YKONVjCQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pDsfy-00EeG1-7D; Fri, 06 Jan 2023 19:46:50 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1pDvIg-00FIxt-0q; Fri, 06 Jan 2023 22:34:58 +0000
+Received: from mail-pg1-f179.google.com ([209.85.215.179])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pDsfv-00EeF6-2W
-	for linux-nvme@lists.infradead.org; Fri, 06 Jan 2023 19:46:48 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id DB48C61E00;
-	Fri,  6 Jan 2023 19:46:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 172C3C433D2;
-	Fri,  6 Jan 2023 19:46:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673034405;
-	bh=RC+7jNFfz356TGtdHHoxbg8HQDc+gy6Ocwp4kB4SOc4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sP6VlBaf5AufaxGdLcOAq0OnL/jfhJ+H34TavKWv+B+MxWxV1TAsp1GwcwOG8X7Zj
-	 R/h8WqJLI0KuQvP/cxxbvJBbh4oXAnbTYmgBoHzzxtgGcqgWpvD8521HAIBkSlAXqE
-	 ggpwI1qP1rXgM6qO+hJgN220/ha7RCkc5u/KwPzK512HpToOEI7YWVvFXaZe3VW063
-	 XtK5adj2+BJNSUB8LCKmsDBGicbFmu9F3+rbSqSS6iTKrn/+fIxUN7FdFmswvTQk8+
-	 iRGj0XylP7yzJkdYwYQgFqzZ+3LUK+wDUBNftbp52BZI6kP/04n9ZHO3GVP/qwLYBu
-	 9eneQgTzjsatQ==
-Date: Fri, 6 Jan 2023 12:46:42 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Nick Neumann <nick@pcpartpicker.com>
-Cc: linux-nvme@lists.infradead.org
-Subject: Re: trying to gain understanding on BLKRRPART and "failed to re-read
- partition table" error
-Message-ID: <Y7h6okidN679ZtPh@kbusch-mbp.dhcp.thefacebook.com>
-References: <CADqNVTonXBsyG7SRzVua1rtfsySobjFyEW=zUAREZNm+Qv+h_Q@mail.gmail.com>
+	id 1pDvId-00FIw8-B2
+	for linux-nvme@lists.infradead.org; Fri, 06 Jan 2023 22:34:56 +0000
+Received: by mail-pg1-f179.google.com with SMTP id g68so1013850pgc.11
+        for <linux-nvme@lists.infradead.org>; Fri, 06 Jan 2023 14:34:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SL5CM6lTlaQHHI1bmsPCCVPxAY0au15n5abe/FQT3nc=;
+        b=bgw7Zlvyw3HshIAqa282W4sNA7nRq/1zctbKsC+cDuK5hbd/gYvY/RrotKj7iLHZCO
+         HZSAgRu6GKOo1HXzlRNMRX3glg8xpST3zwKc7bJehEl6R+tDVew+DlHaxOedUUUcNq+z
+         XdoebIOo3jZjKkPdXtmIn2arB1ji/FQnTfgLdXDhiFJn6+1CmndGppiiYJ1tJvMhq42b
+         ebk0E8M2hv1MUjfYwjXr/6TEv5z/vOQb/XjQDFmUN8x2Oh26EvwJ9uVNVOXUhD35EHSi
+         ns8BsWlN9FqSCzO+d3BmwJykRAWLT+xap1D5sTcEPqFr04t/9rTAixeLM9KilKPv+gL/
+         /vgg==
+X-Gm-Message-State: AFqh2kql09jQkGdUESf8LWAcl4DPJpxqhvdxu7xQNcW5PQwCmL7iO9x7
+	2EEG0j8zhZsKWctW2GVUWKA=
+X-Google-Smtp-Source: AMrXdXvz8DmkTBfjAMd1ozT8pHBw5/b6wdaTed0SKRZNVvC3PYsvERMHsoJSt6vghLCnFNKh8DJLdg==
+X-Received: by 2002:a62:2903:0:b0:57f:f2cd:6180 with SMTP id p3-20020a622903000000b0057ff2cd6180mr54274027pfp.0.1673044492663;
+        Fri, 06 Jan 2023 14:34:52 -0800 (PST)
+Received: from ?IPV6:2620:15c:211:201:23c3:f25b:a19d:c75a? ([2620:15c:211:201:23c3:f25b:a19d:c75a])
+        by smtp.gmail.com with ESMTPSA id a13-20020aa7970d000000b00582197fa7b4sm1597733pfg.7.2023.01.06.14.34.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Jan 2023 14:34:51 -0800 (PST)
+Message-ID: <895e27b5-60cb-39f4-ce0c-774379453418@acm.org>
+Date: Fri, 6 Jan 2023 14:34:49 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CADqNVTonXBsyG7SRzVua1rtfsySobjFyEW=zUAREZNm+Qv+h_Q@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH 1/7] block: remove superfluous check for request queue in
+ bdev_is_zoned
+Content-Language: en-US
+To: Pankaj Raghav <p.raghav@samsung.com>, axboe@kernel.dk
+Cc: kernel@pankajraghav.com, linux-kernel@vger.kernel.org, hare@suse.de,
+ snitzer@kernel.org, dm-devel@redhat.com, damien.lemoal@opensource.wdc.com,
+ linux-nvme@lists.infradead.org, hch@lst.de, linux-block@vger.kernel.org,
+ gost.dev@samsung.com
+References: <20230106083317.93938-1-p.raghav@samsung.com>
+ <CGME20230106083319eucas1p1e58f4ab0d3ff59a328a2da2922d76038@eucas1p1.samsung.com>
+ <20230106083317.93938-2-p.raghav@samsung.com>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20230106083317.93938-2-p.raghav@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230106_114647_191201_F505CFC1 
-X-CRM114-Status: GOOD (  25.54  )
+X-CRM114-CacheID: sfid-20230106_143455_413594_52007035 
+X-CRM114-Status: UNSURE (   7.85  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,40 +86,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jan 02, 2023 at 04:52:28PM -0600, Nick Neumann wrote:
-> I've been using nvme-cli 1.9 (default on ubuntu 18.04 LTS) for several
-> months formatting nvme drives repeatedly without issue before running
-> device-level benchmarks with fio. I always format passing in the block
-> device, e.g., /dev/nvme0n1, and haven't had any issues.
-> 
-> I recently started playing with creating file systems on the drives to
-> do file-based benchmarking. After doing this, I've noticed that
-> intermittently the format on a drive that has had partitions,
-> filesystem, and files created will fail with code ECOMM on the
-> re-reading of the partition table. However, I've struggled to make the
-> failure happen reliably. This is the error I'm talking about:
-> 
-> https://github.com/linux-nvme/nvme-cli/blob/c3db2bfda5346f68344a9e6d795319a7bf35d19e/nvme.c#L5212
-> 
-> The current nvme code has multiple guards on running the problematic
-> BLKRRPART, and one of them, "cfg.lbaf != prev_lbaf", is enough that
-> current nvme-cli would not run the BLKRRPART for my nvme formats.
-> 
-> But I'm hoping to understand if these guards are actually fixing the
-> issue I'm hitting in 1.9, or would just mask my issue... that is,
-> upgrading to current nvme-cli would make the error go away, but it
-> seems possible that changes to how I format cause BLKRRPART to run
-> would bring it back). Are the added protections for the block device
-> format case to avoid issues like the one I am hitting? Or is it
-> unusual that I'm seeing such an error?
-> 
-> In case it helps, the system does not have the drive or namespace
-> mounted in any way, and the format is being issued immediately after
-> the system is resuming from a suspend. Happy to provide any more
-> details that might help.
+On 1/6/23 00:33, Pankaj Raghav wrote:
+> Remove the superfluous request queue check in bdev_is_zoned() as the
+> bdev_get_queue can never return NULL.
 
-There really is no need for user space to do the BLKRRPART ioctl
-anymore. The kernel takes care of the rescan automatically, so unless
-you've a really old kernel, we might be better off just removing the
-ioctl.
+the bdev_get_queue -> bdev_get_queue()
+
+Anyway:
+
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
 
