@@ -4,70 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E18BC4708E
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Jan 2023 23:23:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F4018C5479D
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Jan 2023 08:33:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EapPQiMsu/aZ5pCwkxOFWvWIDvZb+G3xZaUG5gGAu9c=; b=Mhkr9QItGzcOZZvyU2V6ryQWD5
-	HyReD8lff0su4drDdALR6KAOrCTHHHjJqxZNClT/wiTTmfmLSUrRhHiQyTx+WIFgU1lucBR/N3gpk
-	PkXMTDoawtsK6UrcrTbzyRYOof70h4EUpJaCPRBBMRV2WrvwOWgMKQL2fIXMZCNrJF0VerYlJUjzB
-	aFFb69u1cIB/wAsXbsQFD72nS4iTvMs7EqK7uqP7LWNiu59kWgao6Do4IJo0xHjtVA5fACADOVWTf
-	hJDF760VoCjVyqnQLtPGwUmlKhJnddlgOb6UscohMxjpcIQaB7D5dSZAbIa8lOttTcOEmfJA8NXaW
-	9Pr6AlOQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=xL98W+EK2xf54BjrEuaYdsMq2UetfroxJnaNHM1J0YQ=; b=aSIP8g44zRzc55zejCHaEXselj
+	EPZI/wZbB5NUEWjxRqjZcZeGSvRByQWJiWm2vDPmQuYYCriQOPIHtkhhOzoHurQj1qOk6097W4Nbo
+	PXnp/BDuWWvnGqofdpmcem2Gmpc6ASbV8mLdSCXZH3EAOF2Ry64qf8L6f7pPNMgws2yUL8XaScGbX
+	o5a1FFRvULGBjHXkGGsMbYK0whU65UrdWYi30D8cfZaQBH84ro+M8NnHFHUhca6c90j0/nCf9uqxS
+	OEQGijneK87lvaPsi42VM2oJbGc2DFsoGhAXUKv7hgDf4EcTJjl35g+FSVddhrA5OyprWeDGOy7rb
+	xQKocWzA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pDZZo-00G67D-ND; Thu, 05 Jan 2023 23:23:12 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1pDiAQ-006e0I-0V; Fri, 06 Jan 2023 08:33:34 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pDWr5-00EYQ4-H3
-	for linux-nvme@lists.infradead.org; Thu, 05 Jan 2023 20:28:53 +0000
-Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 305KMBDQ010292
-	for <linux-nvme@lists.infradead.org>; Thu, 5 Jan 2023 12:28:51 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=s2048-2021-q4;
- bh=EapPQiMsu/aZ5pCwkxOFWvWIDvZb+G3xZaUG5gGAu9c=;
- b=iHEYkj/dGAMptBpo8ekSgjHavVp8DwTDnCGOOyrvw2YdGzH1anHDFYPbXtfk7/w/XkV2
- SNC2kDi+IBpBGNrgGQ8rZu1/EcGG3FBxR4WMzTEpXzAGw6rmvu0k0N0jndeQyoJbiVX7
- sXTSQ8p6nGkZZ2Gs3Mj9IiDsPPPpuMd2oMVLq0LKm4QUWy+ijMYFa89L6g76qIKmqVvX
- I7bXfyFa6VE32WAVUbYrnLe5j5ECYypHrAUoLEagZ+Q90ekAd0r8+zBOQDocoAlawjKr
- 7Bm6OSCaXvkJLLDBBflfUrqoxSdavkz8y68VCRAofS0e6jQPNn3Yc8GH63hEcZgR7rvA sg== 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3mx5h2r122-19
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Thu, 05 Jan 2023 12:28:51 -0800
-Received: from twshared41876.03.ash8.facebook.com (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:82::f) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Thu, 5 Jan 2023 12:28:49 -0800
-Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id 3383FE457D7B; Thu,  5 Jan 2023 12:28:35 -0800 (PST)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>, <hch@lst.de>, <sagi@grimberg.me>
-CC: Keith Busch <kbusch@kernel.org>
-Subject: [PATCH 1/4] nvme-pci: remove SGL segment descriptors
-Date: Thu, 5 Jan 2023 12:28:30 -0800
-Message-ID: <20230105202833.3225645-2-kbusch@meta.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230105202833.3225645-1-kbusch@meta.com>
-References: <20230105202833.3225645-1-kbusch@meta.com>
+	id 1pDiAK-006dvw-Nx
+	for linux-nvme@lists.infradead.org; Fri, 06 Jan 2023 08:33:32 +0000
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20230106083321euoutp01bb6d25bcff17f96c25b97321a510e7c2~3qy4Yi8qJ1990519905euoutp014
+	for <linux-nvme@lists.infradead.org>; Fri,  6 Jan 2023 08:33:21 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20230106083321euoutp01bb6d25bcff17f96c25b97321a510e7c2~3qy4Yi8qJ1990519905euoutp014
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1672994001;
+	bh=xL98W+EK2xf54BjrEuaYdsMq2UetfroxJnaNHM1J0YQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=F5Kt3ipmIqt9FPhQy71S0Xvmh86cC9Carqc/YhAA+WhVkmforjvQnKtdEXIrbVMrK
+	 IVlmC25Mcvdf09/FaahR5ulL8H1NPew4qWLZuMpX4lLZtV5EEQ33tYcKBtyVvGqlqc
+	 yu4TOC4G0GPHK3+4YgqYFlOl3vzR01T6/jKsVUsk=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20230106083319eucas1p2e3212c7c60824af430d2b887b4feb81a~3qy3WM79E3119231192eucas1p2D;
+	Fri,  6 Jan 2023 08:33:19 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+	eusmges2new.samsung.com (EUCPMTA) with SMTP id A7.14.61936.FCCD7B36; Fri,  6
+	Jan 2023 08:33:19 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20230106083319eucas1p1e58f4ab0d3ff59a328a2da2922d76038~3qy28xCRM1636916369eucas1p1N;
+	Fri,  6 Jan 2023 08:33:19 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20230106083319eusmtrp2f28926097487b7893e7b9aeafb0edc06~3qy28ACgL0987109871eusmtrp2j;
+	Fri,  6 Jan 2023 08:33:19 +0000 (GMT)
+X-AuditID: cbfec7f4-a2dff7000002f1f0-d2-63b7dccfd9b7
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+	eusmgms2.samsung.com (EUCPMTA) with SMTP id FA.AB.52424.FCCD7B36; Fri,  6
+	Jan 2023 08:33:19 +0000 (GMT)
+Received: from localhost (unknown [106.210.248.66]) by eusmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20230106083319eusmtip121f48b06b25f955e94de4a91b3bdc881~3qy2vWoUw0382103821eusmtip1Z;
+	Fri,  6 Jan 2023 08:33:19 +0000 (GMT)
+From: Pankaj Raghav <p.raghav@samsung.com>
+To: axboe@kernel.dk
+Cc: kernel@pankajraghav.com, linux-kernel@vger.kernel.org, hare@suse.de,
+	bvanassche@acm.org, snitzer@kernel.org, dm-devel@redhat.com,
+	damien.lemoal@opensource.wdc.com, linux-nvme@lists.infradead.org,
+	hch@lst.de, linux-block@vger.kernel.org, gost.dev@samsung.com, Pankaj Raghav
+	<p.raghav@samsung.com>
+Subject: [PATCH 1/7] block: remove superfluous check for request queue in
+ bdev_is_zoned
+Date: Fri,  6 Jan 2023 09:33:11 +0100
+Message-Id: <20230106083317.93938-2-p.raghav@samsung.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230106083317.93938-1-p.raghav@samsung.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: AVE71yczwERTlw_T5s72B_LKwCWDMwZc
-X-Proofpoint-ORIG-GUID: AVE71yczwERTlw_T5s72B_LKwCWDMwZc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-05_11,2023-01-05_01,2022-06-22_01
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrMKsWRmVeSWpSXmKPExsWy7djPc7rn72xPNljxy9Bi9d1+NotpH34y
+	W/w+e57ZYu+72awWNw/sZLLYs2gSk8XK1UeZLM68/MxisfeWtsXlXXPYLOYve8pu8XlpC7vF
+	iVvSDrwel694e1w+W+qxaVUnm8fmJfUeu282sHnsbL3P6nF2paPH+31X2Tz6tqxi9Nh8utrj
+	8ya5AO4oLpuU1JzMstQifbsErow1PWdYC66zVfzsucXawHiJtYuRk0NCwESi+ewili5GLg4h
+	gRWMEosWTGUDSQgJfGGUWHnUDCLxmVGi78E+FpiO98svMkIkljNKnGpcyQLR8YJR4kV7ahcj
+	BwebgJZEYyc7SFhEQFhif0cr2AZmgc1MErd/r2UESQgLRErc/7UEbBuLgKrEt7UXwOK8ApYS
+	cxa2M0Esk5eYeek72CBOASuJ59PXMEHUCEqcnPkEbC8zUE3z1tnMIAskBLo5JRafWgz1m4vE
+	/kPLmSFsYYlXx7ewQ9gyEv93zodaUC3x9MZvqOYWRon+nevZQD6QELCW6DuTA2IyC2hKrN+l
+	DxF1lLjd7Qph8knceCsIcQGfxKRt05khwrwSHW1CELOVJHb+fAK1U0LictMcaAh6SBzc94x9
+	AqPiLCS/zELyyyyEtQsYmVcxiqeWFuempxYb5aWW6xUn5haX5qXrJefnbmIEprPT/45/2cG4
+	/NVHvUOMTByMhxglOJiVRHjL+rclC/GmJFZWpRblxxeV5qQWH2KU5mBREuedsXV+spBAemJJ
+	anZqakFqEUyWiYNTqoFJd50j46ZtXbYbdGs0Nthc/Cn8+VGw3AaLjQenZHy90+B7qL16gXS0
+	qmLw33epulonpn/8/z36jJFJa8ZXsRN8pxlcbms/8Vkwu6Tnb8v706v8lh5xPRpzzEjzyMoW
+	Q/dDC/xCJs99tf/5nmfpl2P6Ozdndfqs+BWi8zxp+5HwnIRPj36KJO9Ik9uy5LK+VTT7p/a3
+	0xZ8d/ZqmPf9+66KS/YFSxsE/tldrP8h9SZoP+citY3TDLYzhVxPupJgqq5jOmvT/FlXD+25
+	cJdR91hI7JrnbEe/BHHOSGRtPPZr6YoSTddLseatWvLbxD8YZf1anhfQ+TPp9gTt+tinD4IP
+	fZm7//uZxonB6lNNVVrOeiixFGckGmoxFxUnAgCPh/C21gMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrCIsWRmVeSWpSXmKPExsVy+t/xu7rn72xPNrjzV9Ji9d1+NotpH34y
+	W/w+e57ZYu+72awWNw/sZLLYs2gSk8XK1UeZLM68/MxisfeWtsXlXXPYLOYve8pu8XlpC7vF
+	iVvSDrwel694e1w+W+qxaVUnm8fmJfUeu282sHnsbL3P6nF2paPH+31X2Tz6tqxi9Nh8utrj
+	8ya5AO4oPZui/NKSVIWM/OISW6VoQwsjPUNLCz0jE0s9Q2PzWCsjUyV9O5uU1JzMstQifbsE
+	vYw1PWdYC66zVfzsucXawHiJtYuRk0NCwETi/fKLjF2MXBxCAksZJba0NbJAJCQkbi9sYoSw
+	hSX+XOtiA7GFBJ4xSnQeiOpi5OBgE9CSaOxkBwmLAJXs72hlAZnDLHCQSeLZlO/MIAlhgXCJ
+	hVd3gNksAqoS39ZeAJvJK2ApMWdhOxPEfHmJmZe+gw3iFLCSeD59DRPELkuJjo+9bBD1ghIn
+	Zz4Bu40ZqL5562zmCYwCs5CkZiFJLWBkWsUoklpanJueW2ykV5yYW1yal66XnJ+7iREYfduO
+	/dyyg3Hlq496hxiZOBgPMUpwMCuJ8Jb1b0sW4k1JrKxKLcqPLyrNSS0+xGgKdPdEZinR5Hxg
+	/OeVxBuaGZgamphZGphamhkrifN6FnQkCgmkJ5akZqemFqQWwfQxcXBKNTCVLtpSuLt2qeJv
+	1n99F8tFAiel2m576bV1UceCicoXVrC4h7g8XZQZtX/hpz0Ld3yQ43TaoPRpwsr3b1NPrxL1
+	0GgRvyPccchFTC7nvP/eT5fcy5vupicYT05dtflryHl/dYnvdQtUXhW0zy69aLHubM8H71r3
+	eNF/rlLONxuSM53F+ZY/iBGeduiF4SS729acSdKGVW7XGAOv3fn1J/LoF1WnZ9mn5J+3XGKp
+	6J2yYuNCrzdnzv77bbnig3F0KLtG05z9JaZHtLr7ytfd/fKmVfbnr+i3T7K1fj2sqnLyadUs
+	Wp70KP3//S1fQlrP7zhw++dmg7MeqUc2PT4g/mlPV+D2QutZR1/HTFTP4Dz/XomlOCPRUIu5
+	qDgRANWNwXtHAwAA
+X-CMS-MailID: 20230106083319eucas1p1e58f4ab0d3ff59a328a2da2922d76038
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20230106083319eucas1p1e58f4ab0d3ff59a328a2da2922d76038
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20230106083319eucas1p1e58f4ab0d3ff59a328a2da2922d76038
+References: <20230106083317.93938-1-p.raghav@samsung.com>
+	<CGME20230106083319eucas1p1e58f4ab0d3ff59a328a2da2922d76038@eucas1p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230105_122851_636414_33940B22 
-X-CRM114-Status: GOOD (  17.23  )
+X-CRM114-CacheID: sfid-20230106_003329_520481_06BE8340 
+X-CRM114-Status: GOOD (  12.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,114 +133,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+Remove the superfluous request queue check in bdev_is_zoned() as the
+bdev_get_queue can never return NULL.
 
-The max segments this driver can see is 127, well below the 256
-threshold needed to add an nvme sgl segment descriptor. Remove all the
-useless checks and dead code.
-
-Signed-off-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
 ---
- drivers/nvme/host/pci.c | 47 +++++------------------------------------
- 1 file changed, 5 insertions(+), 42 deletions(-)
+ include/linux/blkdev.h | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index b13baccedb4a9..693c6e5495846 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -548,22 +548,6 @@ static void nvme_free_prps(struct nvme_dev *dev, str=
-uct request *req)
- 	}
- }
-=20
--static void nvme_free_sgls(struct nvme_dev *dev, struct request *req)
--{
--	const int last_sg =3D SGES_PER_PAGE - 1;
--	struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
--	dma_addr_t dma_addr =3D iod->first_dma;
--	int i;
--
--	for (i =3D 0; i < iod->nr_allocations; i++) {
--		struct nvme_sgl_desc *sg_list =3D nvme_pci_iod_list(req)[i];
--		dma_addr_t next_dma_addr =3D le64_to_cpu((sg_list[last_sg]).addr);
--
--		dma_pool_free(dev->prp_page_pool, sg_list, dma_addr);
--		dma_addr =3D next_dma_addr;
--	}
--}
--
- static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 43d4e073b111..0e40b014c40b 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -1283,12 +1283,7 @@ static inline enum blk_zoned_model bdev_zoned_model(struct block_device *bdev)
+ 
+ static inline bool bdev_is_zoned(struct block_device *bdev)
  {
- 	struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
-@@ -582,7 +566,8 @@ static void nvme_unmap_data(struct nvme_dev *dev, str=
-uct request *req)
- 		dma_pool_free(dev->prp_small_pool, nvme_pci_iod_list(req)[0],
- 			      iod->first_dma);
- 	else if (iod->use_sgl)
--		nvme_free_sgls(dev, req);
-+		dma_pool_free(dev->prp_page_pool, nvme_pci_iod_list(req)[0],
-+			      iod->first_dma);
- 	else
- 		nvme_free_prps(dev, req);
- 	mempool_free(iod->sgt.sgl, dev->iod_mempool);
-@@ -705,13 +690,8 @@ static void nvme_pci_sgl_set_seg(struct nvme_sgl_des=
-c *sge,
- 		dma_addr_t dma_addr, int entries)
- {
- 	sge->addr =3D cpu_to_le64(dma_addr);
--	if (entries < SGES_PER_PAGE) {
--		sge->length =3D cpu_to_le32(entries * sizeof(*sge));
--		sge->type =3D NVME_SGL_FMT_LAST_SEG_DESC << 4;
--	} else {
--		sge->length =3D cpu_to_le32(NVME_CTRL_PAGE_SIZE);
--		sge->type =3D NVME_SGL_FMT_SEG_DESC << 4;
--	}
-+	sge->length =3D cpu_to_le32(entries * sizeof(*sge));
-+	sge->type =3D NVME_SGL_FMT_LAST_SEG_DESC << 4;
+-	struct request_queue *q = bdev_get_queue(bdev);
+-
+-	if (q)
+-		return blk_queue_is_zoned(q);
+-
+-	return false;
++	return blk_queue_is_zoned(bdev_get_queue(bdev));
  }
-=20
- static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
-@@ -751,30 +731,12 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme=
-_dev *dev,
- 	iod->first_dma =3D sgl_dma;
-=20
- 	nvme_pci_sgl_set_seg(&cmd->dptr.sgl, sgl_dma, entries);
--
- 	do {
--		if (i =3D=3D SGES_PER_PAGE) {
--			struct nvme_sgl_desc *old_sg_desc =3D sg_list;
--			struct nvme_sgl_desc *link =3D &old_sg_desc[i - 1];
--
--			sg_list =3D dma_pool_alloc(pool, GFP_ATOMIC, &sgl_dma);
--			if (!sg_list)
--				goto free_sgls;
--
--			i =3D 0;
--			nvme_pci_iod_list(req)[iod->nr_allocations++] =3D sg_list;
--			sg_list[i++] =3D *link;
--			nvme_pci_sgl_set_seg(link, sgl_dma, entries);
--		}
--
- 		nvme_pci_sgl_set_data(&sg_list[i++], sg);
- 		sg =3D sg_next(sg);
- 	} while (--entries > 0);
-=20
- 	return BLK_STS_OK;
--free_sgls:
--	nvme_free_sgls(dev, req);
--	return BLK_STS_RESOURCE;
- }
-=20
- static blk_status_t nvme_setup_prp_simple(struct nvme_dev *dev,
-@@ -3525,6 +3487,7 @@ static int __init nvme_init(void)
- 	BUILD_BUG_ON(IRQ_AFFINITY_MAX_SETS < 2);
- 	BUILD_BUG_ON(DIV_ROUND_UP(nvme_pci_npages_prp(), NVME_CTRL_PAGE_SIZE) >
- 		     S8_MAX);
-+	BUILD_BUG_ON(NVME_MAX_SEGS > SGES_PER_PAGE);
-=20
- 	return pci_register_driver(&nvme_driver);
- }
---=20
-2.30.2
+ 
+ static inline bool bdev_op_is_zoned_write(struct block_device *bdev,
+-- 
+2.25.1
 
 
