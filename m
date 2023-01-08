@@ -4,35 +4,35 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04607C53210
-	for <linux-nvme@archiver.kernel.org>; Sun,  8 Jan 2023 16:50:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87BF0C54EBE
+	for <linux-nvme@archiver.kernel.org>; Sun,  8 Jan 2023 16:50:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gdHpfeKuBPRsfRKHWoFYohwc2QWqeXqQxN7IjEZ6D2o=; b=KW8tCli9HehLmfDDQQlfDaTCDr
-	BHIgvwLoylFDVVni9UzMSu8ItrHVkNHjFXgl4i2WLZPkK795GH+ZcOIUQdwyYZxGcfQ7ovIdaybGY
-	TKPAkQJJVkBjL80c8WIA99O5fIww9tn89TA63ePZBdY0G8ln6zU9HFdoBdq77k6bq7c5gc0hKomdL
-	cIWXFnCPRPBJxeyVdkUc9XST7ObPTLt5TyBCeuSlwcCp8Fgcrz3Fd65fXVb3scYWqiw/8rcEC3Ukq
-	Lje7BEoTyM4OVIoa12CMQ9tyZVDHHNzqfZ7rD8rQaR0e9K/MxBnpo0BBvsamXpSl2ldFVSd3givCl
-	XFWlIvtg==;
+	bh=Q65oXd5D1iLmsQxWkRlnOmmTkHDfVSuNIDDle6g1XFY=; b=UDUjYJQZx/GU1jBlxF9VEDU7Dz
+	z7SuPCxxGiCei5zRw1W1i2MNRRzBXfSHAe36b0Cuaxjhmw5r9R9mR6IbtnTKjBvcQMhZ9c4rwgMjh
+	4KrrVbOQzkHMkecUrCb78KnBql3/j3h+45xgWQ3Em9e0Y8kiOFLFn86tk/dLQsmE6aj09acLTglXj
+	WMAHu+Fa7PlKPJCjiE4kdpbBPeldUjgfyYjUT1/41WqqFkoF7uCE/bfRBtf9+G5tNivs+0hkt/gND
+	tsJe7+QnnDagWHC9oQXI9KhMS2thclec1OfyLrTDTS8DX/l1KMj+N4RZyC4tBObMl4/chyGxLYDay
+	kR/HJMIg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pEYsd-00EQA6-8m; Sun, 08 Jan 2023 16:50:43 +0000
+	id 1pEYsh-00EQBM-5f; Sun, 08 Jan 2023 16:50:47 +0000
 Received: from [2001:4bb8:198:a591:1c7c:bf66:af15:b282] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pEYsY-00EQ7N-SA; Sun, 08 Jan 2023 16:50:39 +0000
+	id 1pEYsb-00EQ80-ED; Sun, 08 Jan 2023 16:50:41 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Chaitanya Kulkarni <kch@nvidia.com>
 Cc: Kanchan Joshi <joshi.k@samsung.com>,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH 1/3] nvme: remove __nvme_ioctl
-Date: Sun,  8 Jan 2023 17:50:31 +0100
-Message-Id: <20230108165033.380842-2-hch@lst.de>
+Subject: [PATCH 2/3] nvme: replace the "bool vec" arguments with flags in the ioctl path
+Date: Sun,  8 Jan 2023 17:50:32 +0100
+Message-Id: <20230108165033.380842-3-hch@lst.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20230108165033.380842-1-hch@lst.de>
 References: <20230108165033.380842-1-hch@lst.de>
@@ -52,55 +52,170 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Open code __nvme_ioctl in the two callers to make future changes that
-pass down additional paramters in the ioctl path easier.
+To prepare for passing down more information, replace the boolean
+vec argument with a more extensible flags one.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/ioctl.c | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+ drivers/nvme/host/ioctl.c | 53 +++++++++++++++++++++------------------
+ 1 file changed, 28 insertions(+), 25 deletions(-)
 
 diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index a8639919237e6a..c12b7c445fc0b2 100644
+index c12b7c445fc0b2..999ebc1b700056 100644
 --- a/drivers/nvme/host/ioctl.c
 +++ b/drivers/nvme/host/ioctl.c
-@@ -695,28 +695,26 @@ static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned int cmd,
+@@ -8,6 +8,10 @@
+ #include <linux/io_uring.h>
+ #include "nvme.h"
+ 
++enum {
++	NVME_IOCTL_VEC		= (1 << 0),
++};
++
+ static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
+ 		fmode_t mode)
+ {
+@@ -150,7 +154,7 @@ static struct request *nvme_alloc_user_request(struct request_queue *q,
+ static int nvme_map_user_request(struct request *req, u64 ubuffer,
+ 		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
+ 		u32 meta_seed, void **metap, struct io_uring_cmd *ioucmd,
+-		bool vec)
++		unsigned int flags)
+ {
+ 	struct request_queue *q = req->q;
+ 	struct nvme_ns *ns = q->queuedata;
+@@ -163,7 +167,7 @@ static int nvme_map_user_request(struct request *req, u64 ubuffer,
+ 		struct iov_iter iter;
+ 
+ 		/* fixedbufs is only for non-vectored io */
+-		if (WARN_ON_ONCE(vec))
++		if (WARN_ON_ONCE(flags & NVME_IOCTL_VEC))
+ 			return -EINVAL;
+ 		ret = io_uring_cmd_import_fixed(ubuffer, bufflen,
+ 				rq_data_dir(req), &iter, ioucmd);
+@@ -172,8 +176,8 @@ static int nvme_map_user_request(struct request *req, u64 ubuffer,
+ 		ret = blk_rq_map_user_iov(q, req, NULL, &iter, GFP_KERNEL);
+ 	} else {
+ 		ret = blk_rq_map_user_io(req, NULL, nvme_to_user_ptr(ubuffer),
+-				bufflen, GFP_KERNEL, vec, 0, 0,
+-				rq_data_dir(req));
++				bufflen, GFP_KERNEL, flags & NVME_IOCTL_VEC, 0,
++				0, rq_data_dir(req));
  	}
+ 
+ 	if (ret)
+@@ -203,9 +207,9 @@ static int nvme_map_user_request(struct request *req, u64 ubuffer,
  }
  
--static int __nvme_ioctl(struct nvme_ns *ns, unsigned int cmd, void __user *arg,
+ static int nvme_submit_user_cmd(struct request_queue *q,
+-		struct nvme_command *cmd, u64 ubuffer,
+-		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
+-		u32 meta_seed, u64 *result, unsigned timeout, bool vec)
++		struct nvme_command *cmd, u64 ubuffer, unsigned bufflen,
++		void __user *meta_buffer, unsigned meta_len, u32 meta_seed,
++		u64 *result, unsigned timeout, unsigned int flags)
+ {
+ 	struct nvme_ctrl *ctrl;
+ 	struct request *req;
+@@ -221,7 +225,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+ 	req->timeout = timeout;
+ 	if (ubuffer && bufflen) {
+ 		ret = nvme_map_user_request(req, ubuffer, bufflen, meta_buffer,
+-				meta_len, meta_seed, &meta, NULL, vec);
++				meta_len, meta_seed, &meta, NULL, flags);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -304,10 +308,8 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ 	c.rw.apptag = cpu_to_le16(io.apptag);
+ 	c.rw.appmask = cpu_to_le16(io.appmask);
+ 
+-	return nvme_submit_user_cmd(ns->queue, &c,
+-			io.addr, length,
+-			metadata, meta_len, lower_32_bits(io.slba), NULL, 0,
+-			false);
++	return nvme_submit_user_cmd(ns->queue, &c, io.addr, length, metadata,
++			meta_len, lower_32_bits(io.slba), NULL, 0, 0);
+ }
+ 
+ static bool nvme_validate_passthru_nsid(struct nvme_ctrl *ctrl,
+@@ -360,9 +362,8 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 		timeout = msecs_to_jiffies(cmd.timeout_ms);
+ 
+ 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
+-			cmd.addr, cmd.data_len,
+-			nvme_to_user_ptr(cmd.metadata), cmd.metadata_len,
+-			0, &result, timeout, false);
++			cmd.addr, cmd.data_len, nvme_to_user_ptr(cmd.metadata),
++			cmd.metadata_len, 0, &result, timeout, 0);
+ 
+ 	if (status >= 0) {
+ 		if (put_user(result, &ucmd->result))
+@@ -373,8 +374,8 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ }
+ 
+ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+-			struct nvme_passthru_cmd64 __user *ucmd, bool vec,
 -			fmode_t mode)
--{
--	if (is_ctrl_ioctl(cmd))
--		return nvme_ctrl_ioctl(ns->ctrl, cmd, arg, mode);
--	return nvme_ns_ioctl(ns, cmd, arg, mode);
--}
--
- int nvme_ioctl(struct block_device *bdev, fmode_t mode,
- 		unsigned int cmd, unsigned long arg)
++		struct nvme_passthru_cmd64 __user *ucmd, unsigned int flags,
++		fmode_t mode)
  {
- 	struct nvme_ns *ns = bdev->bd_disk->private_data;
-+	void __user *argp = (void __user *)arg;
+ 	struct nvme_passthru_cmd64 cmd;
+ 	struct nvme_command c;
+@@ -408,9 +409,8 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 		timeout = msecs_to_jiffies(cmd.timeout_ms);
  
--	return __nvme_ioctl(ns, cmd, (void __user *)arg, mode);
-+	if (is_ctrl_ioctl(cmd))
-+		return nvme_ctrl_ioctl(ns->ctrl, cmd, argp, mode);
-+	return nvme_ns_ioctl(ns, cmd, argp, mode);
- }
+ 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
+-			cmd.addr, cmd.data_len,
+-			nvme_to_user_ptr(cmd.metadata), cmd.metadata_len,
+-			0, &cmd.result, timeout, vec);
++			cmd.addr, cmd.data_len, nvme_to_user_ptr(cmd.metadata),
++			cmd.metadata_len, 0, &cmd.result, timeout, flags);
  
- long nvme_ns_chr_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+ 	if (status >= 0) {
+ 		if (put_user(cmd.result, &ucmd->result))
+@@ -643,7 +643,7 @@ static int nvme_ctrl_ioctl(struct nvme_ctrl *ctrl, unsigned int cmd,
+ 	case NVME_IOCTL_ADMIN_CMD:
+ 		return nvme_user_cmd(ctrl, NULL, argp, mode);
+ 	case NVME_IOCTL_ADMIN64_CMD:
+-		return nvme_user_cmd64(ctrl, NULL, argp, false, mode);
++		return nvme_user_cmd64(ctrl, NULL, argp, 0, mode);
+ 	default:
+ 		return sed_ioctl(ctrl->opal_dev, cmd, argp);
+ 	}
+@@ -670,6 +670,8 @@ struct nvme_user_io32 {
+ static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned int cmd,
+ 		void __user *argp, fmode_t mode)
  {
- 	struct nvme_ns *ns =
- 		container_of(file_inode(file)->i_cdev, struct nvme_ns, cdev);
-+	void __user *argp = (void __user *)arg;
- 
--	return __nvme_ioctl(ns, cmd, (void __user *)arg, file->f_mode);
-+	if (is_ctrl_ioctl(cmd))
-+		return nvme_ctrl_ioctl(ns->ctrl, cmd, argp, file->f_mode);
-+	return nvme_ns_ioctl(ns, cmd, argp, file->f_mode);
- }
- 
- static int nvme_uring_cmd_checks(unsigned int issue_flags)
++	unsigned int flags = 0;
++
+ 	switch (cmd) {
+ 	case NVME_IOCTL_ID:
+ 		force_successful_syscall_return();
+@@ -686,10 +688,11 @@ static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned int cmd,
+ #endif
+ 	case NVME_IOCTL_SUBMIT_IO:
+ 		return nvme_submit_io(ns, argp);
+-	case NVME_IOCTL_IO64_CMD:
+-		return nvme_user_cmd64(ns->ctrl, ns, argp, false, mode);
+ 	case NVME_IOCTL_IO64_CMD_VEC:
+-		return nvme_user_cmd64(ns->ctrl, ns, argp, true, mode);
++		flags |= NVME_IOCTL_VEC;
++		fallthrough;
++	case NVME_IOCTL_IO64_CMD:
++		return nvme_user_cmd64(ns->ctrl, ns, argp, flags, mode);
+ 	default:
+ 		return -ENOTTY;
+ 	}
+@@ -962,7 +965,7 @@ long nvme_dev_ioctl(struct file *file, unsigned int cmd,
+ 	case NVME_IOCTL_ADMIN_CMD:
+ 		return nvme_user_cmd(ctrl, NULL, argp, file->f_mode);
+ 	case NVME_IOCTL_ADMIN64_CMD:
+-		return nvme_user_cmd64(ctrl, NULL, argp, false, file->f_mode);
++		return nvme_user_cmd64(ctrl, NULL, argp, 0, file->f_mode);
+ 	case NVME_IOCTL_IO_CMD:
+ 		return nvme_dev_user_cmd(ctrl, argp, file->f_mode);
+ 	case NVME_IOCTL_RESET:
 -- 
 2.35.1
 
