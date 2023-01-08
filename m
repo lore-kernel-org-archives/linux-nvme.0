@@ -4,47 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92B07C53210
-	for <linux-nvme@archiver.kernel.org>; Sun,  8 Jan 2023 17:05:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE846C53210
+	for <linux-nvme@archiver.kernel.org>; Sun,  8 Jan 2023 17:17:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eo/S+OaD61wC8nfVCgeTz8PgecwlYC16JvlVCJRJsZo=; b=eC2TCQ6iltN7z3kLZmgfDS8XXy
-	FWHJt1SV2qVH2VtqOweHU5Mi42zQNm+zXV2TIdv9PlYpQF2Qc/YNSiaRwJLEl3+NpY+ewwoXQrE3M
-	8ewzs8nq1zkFvjUIvrUscmSEgXEO/QX2AmCuiUuQoFNmncq4cjJs996pOLJOZZv41a7o5pkZSL6Tq
-	y+kC+wpntR8AB6ddkZzi/NfDLBJugCXtP0Y3j3mNrtg+jng1LDgQRuaXuubVBo/S5MvfZ0PpqE0Xv
-	V5u+UawecohUo90YpPlpPL5dhvS2ddAsxypVaFr48cR7kDOGmBDd6aSHhnmsKP/zT62rkC4pKk5Ka
-	VeFGazZw==;
+	bh=IWqPhXsp/bnPmXzTmZPKPNtoA9gcp/QXH0UL1m3axbM=; b=ygJZJ0PprLE4HCpDiBsv4LO3fA
+	XKPB2SWJRooHUJIrNePnfVRC1+B24DvuI2m0gOwE4B4JyykBNuj3O2Ijmp9P7yccR0mgsTZfYoWLZ
+	XZtR5LT2Xn3rhmn29LsyIcQCJjrN6yDvSO8ahDhxqNgX7Xm8AxA/NfR1ROfm4dphDUr7Gh33vQ7oR
+	QWbBkVB3oXXEfuMwr5aIwlPQYPqbvainOGdVngEL7XA9BsyFMwx13uCZUoLxrC0VO4h0b0XsPln2h
+	M8a0KnT5MLjKiMjIIY5Xbr2/WQ/n9RAFwGjh2oqNtZ8vR5ean55lbIVKkAs8OyIEl6wKlgga7kI7c
+	rK6wMaeA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pEZ6z-00ETfq-8D; Sun, 08 Jan 2023 17:05:33 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pEZ6v-00ETdw-W2
-	for linux-nvme@lists.infradead.org; Sun, 08 Jan 2023 17:05:31 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id A532E68AA6; Sun,  8 Jan 2023 18:05:20 +0100 (CET)
-Date: Sun, 8 Jan 2023 18:05:20 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: stop nvme matching for nvmem files
-Message-ID: <20230108170520.GA19739@lst.de>
-References: <E1pCkft-004hzL-0Q@rmk-PC.armlinux.org.uk>
+	id 1pEZIA-00EW4X-KW; Sun, 08 Jan 2023 17:17:06 +0000
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1pEZI8-00EW3k-9H; Sun, 08 Jan 2023 17:17:04 +0000
+Date: Sun, 8 Jan 2023 09:17:04 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Keith Busch <kbusch@kernel.org>
+Cc: user090909 <fuckgithub@riseup.net>, axboe@fb.com, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] Add quirk for ADATA SX6000PNP
+Message-ID: <Y7r6kPjbDmjovlju@infradead.org>
+References: <ed916236ae7f2823aeccc8a85230abe5@riseup.net>
+ <Y6yWS8SfrouPyeTY@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <E1pCkft-004hzL-0Q@rmk-PC.armlinux.org.uk>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230108_090530_202973_1DEB703A 
-X-CRM114-Status: GOOD (  13.33  )
+In-Reply-To: <Y6yWS8SfrouPyeTY@kbusch-mbp.dhcp.thefacebook.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,22 +50,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 0cccd40d7801..64cc6947099e 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -14711,6 +14711,7 @@ T:	git://git.infradead.org/nvme.git
->  F:	drivers/nvme/host/
->  F:	drivers/nvme/common/
->  F:	include/linux/nvme*
-> +X:	include/linux/nvmem*
+On Wed, Dec 28, 2022 at 12:20:24PM -0700, Keith Busch wrote:
+> The sign off is required to use the real name of the patch author.
+> 
+> The patch itself is mangled with line wraps.
 
-I think the proper thing to do would to just match the right files
-from the start:
-
-F:	include/linux/nvme.h
-F:	include/linux/nvme-*.h
-
-is it ok if I commit it with your original attributation with that
-change?
+Yes.  Also please check with the vendor if there is a firmware update
+available first.
 
