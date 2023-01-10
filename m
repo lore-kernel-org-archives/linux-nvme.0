@@ -4,120 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1CCCEC54EBC
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Jan 2023 14:37:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A79FC46467
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Jan 2023 17:48:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SHvT0Iim03zZBGBqzNi6q7H4Efd4JG0NRYcOMqYqopo=; b=3+kWOVOX9TS8MPg5Vfn+AW13tl
-	YqzJ41sOGCKwufv0JGA8OU8933xKaBOUMIRsJaqGCNK0b4LsRQVEiljM5nbd/S0MpuTr4re4qzuTz
-	O5J5x9R4RPZRZBJFmVD73Jah5+PbJocxZl+USltKi3rZ7tUmzygoAmCWW1KFC+vN2YQzRYaRVqzK2
-	TmWiNXaccgCRbPhTM87vA0Mz1IVa8UguyqzGpNl5FhZvxvjS5M5gDnD6KJwtfgF1t3cLezBuurnXZ
-	cD1LeSheRe8jnE/UCqDMCf+YGuWtePqjqhPHaJps7Bt6oTVzsh8WKq+n8pHw/uzx0S9sMM19kednL
-	whl9q7MQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=6hoY9vdOfXs+cESG1q0GnzI3nxnMuTlBNzEYLx50WMA=; b=hdLK8oDdAza6KXALx05u6DhNxj
+	fPsfwET/oGXJmx32pLe4oqBizQauso7rXU4mxfBDXTwu+kdF9sgTwjORw/xHqAq0HsTMUj1Sbv4ch
+	NWK33qZ7W3cp3XdM8uLUr+SQ6ZMa06CA+QufLodrt95WsjLUJ56nY2HjGQq6jzx08F0oIUo0Uqwqo
+	tb1jB5NqIQ5wVhtL1I52wOw6KPJV8cPllc3i10ooR/7D1QtiGR9pQe8r7rxa4byLov3lCUULh9MQW
+	JOoDXpMeiPQ2KJcVCl2Fsw4CajBDm0ERMfeerIiAIg3GuEcl4G8zDQspLsFzXNNVEjJ7ewy23RZpr
+	pVsJARWQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pFFkR-007KgH-Nj; Tue, 10 Jan 2023 14:37:07 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1pFIjA-0081sy-09; Tue, 10 Jan 2023 17:48:00 +0000
+Received: from soltyk.jannau.net ([144.76.91.90])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pFFk7-007KXE-Tq
-	for linux-nvme@lists.infradead.org; Tue, 10 Jan 2023 14:36:53 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20230110143638euoutp0282f3e230b1976d3602780743325d8716~4_VOUnWvd0463904639euoutp02Q
-	for <linux-nvme@lists.infradead.org>; Tue, 10 Jan 2023 14:36:38 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20230110143638euoutp0282f3e230b1976d3602780743325d8716~4_VOUnWvd0463904639euoutp02Q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1673361398;
-	bh=SHvT0Iim03zZBGBqzNi6q7H4Efd4JG0NRYcOMqYqopo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dWCasztMuU++KczJk3wou/YGrfPL9qLWTkelMrNk1oXP26nQZfx4u1itNtT0EsX3Y
-	 zk1fZQt7eSXItyECHUCGS5GjdOZMpLQYaLB/+0rCYnzG9xc1keP5cXbhxYakWdpPhy
-	 fzX0lp50LG4Vjnu322hD26WcIwL8x1hdyVXwxDzc=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20230110143638eucas1p263a3c1dfaa18b20444ab7589f281a81d~4_VNpIFwt0231602316eucas1p2k;
-	Tue, 10 Jan 2023 14:36:38 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-	eusmges1new.samsung.com (EUCPMTA) with SMTP id B6.A6.56180.6F77DB36; Tue, 10
-	Jan 2023 14:36:38 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20230110143637eucas1p1fa9ab24ea73f524dd3dcb11c10b5c11a~4_VNW5oXN2955929559eucas1p1s;
-	Tue, 10 Jan 2023 14:36:37 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20230110143637eusmtrp2099788fad2206056ff1a357ffc00c48c~4_VNV4q4T0701607016eusmtrp2V;
-	Tue, 10 Jan 2023 14:36:37 +0000 (GMT)
-X-AuditID: cbfec7f2-ab5ff7000000db74-07-63bd77f6d085
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-	eusmgms1.samsung.com (EUCPMTA) with SMTP id 63.1C.23420.5F77DB36; Tue, 10
-	Jan 2023 14:36:37 +0000 (GMT)
-Received: from localhost (unknown [106.210.248.241]) by eusmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20230110143637eusmtip27e188158996471fbce28fafe158dc88f~4_VNKnuAw3006630066eusmtip2i;
-	Tue, 10 Jan 2023 14:36:37 +0000 (GMT)
-From: Pankaj Raghav <p.raghav@samsung.com>
-To: axboe@kernel.dk
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, bvanassche@acm.org,
-	linux-block@vger.kernel.org, damien.lemoal@opensource.wdc.com,
-	gost.dev@samsung.com, snitzer@kernel.org, Pankaj Raghav
-	<p.raghav@samsung.com>, Chaitanya Kulkarni <kch@nvidia.com>, Johannes
-	Thumshirn <johannes.thumshirn@wdc.com>
-Subject: [PATCH v2 1/3] block: remove superfluous check for request queue in
- bdev_is_zoned()
-Date: Tue, 10 Jan 2023 15:36:33 +0100
-Message-Id: <20230110143635.77300-2-p.raghav@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230110143635.77300-1-p.raghav@samsung.com>
+	id 1pFIj2-0081rl-EA
+	for linux-nvme@lists.infradead.org; Tue, 10 Jan 2023 17:47:54 +0000
+Received: by soltyk.jannau.net (Postfix, from userid 1000)
+	id 59C4326F617; Tue, 10 Jan 2023 18:47:45 +0100 (CET)
+Date: Tue, 10 Jan 2023 18:47:45 +0100
+From: Janne Grunau <j@jannau.net>
+To: Hector Martin <marcan@marcan.st>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	James Smart <james.smart@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Sven Peter <sven@svenpeter.dev>, asahi@lists.linux.dev,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 1/9] nvme-apple: fix controller shutdown in
+ apple_nvme_disable
+Message-ID: <20230110174745.GA3576@jannau.net>
+References: <20221129132208.4337-1-hch@lst.de>
+ <20221129132208.4337-2-hch@lst.de>
+ <c20485ec-28aa-2a45-3eba-8fa384ce0349@marcan.st>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Se0hTcRjtd+8276ar253kh0aj9aKHTinh2rtIuFlBJPSwsNa6aLWt2DLL
-	iFY+18NHoTkzl5Ll1kOcD1z5ykiLWi9rppCZbZBCZpnVECu3u6j/zvl95/udc+AjcKqeH0zs
-	1RxitRqFSiYQ8era3M9Cvyc3KsNb0gj6xtscAV0w5MbpUfsznO5qsWG0+cYDjB473YPRrtdF
-	GN3YPZ82XXP50cPlaX70w+6Qlf5Mx6t1TIc9ibFaDAKm+uoJ5m6XXsCcSx0UMLb0d3wmu8aC
-	mGHrNCaz5Qy2URQnWrqHVe09zGrly3eJEn+P6AUHXcSRkpFkPWrzO42EBJCLwJmTP45FBEVW
-	IPja8B7nyDcEvW0WxJFhBCUt5/h/VxzWXp/qOgJDhVHAkX4E6f0j44QgBOQ8OGnwegSSEmjO
-	Sud5NDhZicGHzjO4ZyAh4+GeyYl5MI+cBXk1Ri8Wk1FwPSML59ykYHz5w/uRkFwMz/NGEaeZ
-	DI+MTp4H4+Oa1NpL3kRADhEwOlbsi7oGfr4y8jgsgYH2Gl/rqfDbZsI4fAxcb0Z9y2kIcmyV
-	3gZALoHsJyoPxMm5UHlHzslXwad+p08xEd58msxFmAjn6y7i3LMYsjIoTi0Dm9vpMwXoOFXs
-	C8NAZfmYXy6aXvRfmaL/yhT9872CcAsKYpN06gRWF6Fhk8N0CrUuSZMQpjygtqLx43r8q/1r
-	Pbo88CWsFWEEakVA4LJAsVnYoKTEexRHU1jtgZ3aJBWra0UhBE8WJC6sNSkpMkFxiN3PsgdZ
-	7d8pRgiD9RgdorSU4ds1FnfAk41bC2bbNeU/H2663x7g+NDgEMfIC/dFr2KqYqXV26XALBkq
-	M/fFOdJmqj/mYbc08gaqPWjSgmXsHLxL/aWuvMNxsy/MSaVHPWXyqweloZv5u+cP58YYrNtS
-	AiPlnbFdKcKnJRdi8KEtjcLjhIqJXhHlnxs+0Lxw9ZrS6mJ1/Fa56xraGTc4Z0a8vyLavfms
-	CasvrQhoOpZYdaJnLaWfe6vO/2ZiVcSMZkI0xZBZdmrZggkFkWOf7bnHXydkSsJr74bKFEt5
-	0Tt65JmO9/LbyavVJ/m/NphnRVKpTfESS7BR2tfb/+Lz+oxOe2G20Cxp6g6X8XSJioh5uFan
-	+APlsj4OywMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrGIsWRmVeSWpSXmKPExsVy+t/xe7pfy/cmGyzYYWSx+m4/m8W0Dz+Z
-	LX6fPc9scfPATiaLlauPMln87brHZPH06iwmi723tC3mL3vKbvF5aQu7xYlb0g7cHpeveHtc
-	PlvqsWlVJ5vH5iX1HrtvNrB59Da/Y/PY2Xqf1aNvyypGj8+b5DzaD3QzBXBF6dkU5ZeWpCpk
-	5BeX2CpFG1oY6RlaWugZmVjqGRqbx1oZmSrp29mkpOZklqUW6dsl6GX8/9rAVvCUo2Le1/IG
-	xmPsXYycHBICJhLXNj1g7mLk4hASWMoocbZpKxNEQkLi9sImRghbWOLPtS42iKLnjBKLtt4F
-	KuLgYBPQkmjsBBskAlSzv6OVBaSGWWAnk8Sizf/BmoUFYiQm/+gEG8oioCoxcctMMJtXwFJi
-	eVsHM8QCeYmZl76DDeIUsJK4MPE3I8h8IaCa/ovSEOWCEidnPmEBsZmBypu3zmaewCgwC0lq
-	FpLUAkamVYwiqaXFuem5xYZ6xYm5xaV56XrJ+bmbGIERtu3Yz807GOe9+qh3iJGJg/EQowQH
-	s5II70rOPclCvCmJlVWpRfnxRaU5qcWHGE2Bzp7ILCWanA+M8bySeEMzA1NDEzNLA1NLM2Ml
-	cV7Pgo5EIYH0xJLU7NTUgtQimD4mDk6pBibbrT9jZD7/u91/tb/FbI8Cd+pMYQHn6882WJcs
-	4tw99cpkZVm+dqV7kyNit9+8VLVm1t5iLsubsQ3L/nKvn+88TfXm7PUemlErvA8EShbOrrnL
-	O2dG4+6V52dFtoZtP/frwjvvgrJN8sE8S3wE2lJNm3aEWOixxTTGs0ezc+k4vboWs8HVLmzH
-	x/76dV0XhbM27vvg/XHjeaG+x8XuSxYrtIWv+mUVPlXu8l27OQtn/V159Vh0xTJT2/3ruJq0
-	bT+Y/ZykuKg51X75Q7MY1WUhbiLve46pF00W8Tig/8C4jv9z6rRi3wLl6m25z+XU1LabVznl
-	Mpzo+CaSPOfKHqkquRdTvXVq5m3f9M71hbkSS3FGoqEWc1FxIgDMdbZGOQMAAA==
-X-CMS-MailID: 20230110143637eucas1p1fa9ab24ea73f524dd3dcb11c10b5c11a
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20230110143637eucas1p1fa9ab24ea73f524dd3dcb11c10b5c11a
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20230110143637eucas1p1fa9ab24ea73f524dd3dcb11c10b5c11a
-References: <20230110143635.77300-1-p.raghav@samsung.com>
-	<CGME20230110143637eucas1p1fa9ab24ea73f524dd3dcb11c10b5c11a@eucas1p1.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c20485ec-28aa-2a45-3eba-8fa384ce0349@marcan.st>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230110_063648_276265_38669679 
-X-CRM114-Status: GOOD (  12.95  )
+X-CRM114-CacheID: sfid-20230110_094752_663546_AABE5D57 
+X-CRM114-Status: GOOD (  25.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -132,38 +64,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Remove the superfluous request queue check in bdev_is_zoned() as
-bdev_get_queue() can never return NULL.
+On 2022-11-30 00:41:45 +0900, Hector Martin wrote:
+> On 29/11/2022 22.22, Christoph Hellwig wrote:
+> > nvme_shutdown_ctrl already shuts the controller down, there is no
+> > need to also call nvme_disable_ctrl for the shutdown case.
+> > 
+> > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> > ---
+> >  drivers/nvme/host/apple.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+> > index 94ef797e8b4a5f..56d9e9be945b76 100644
+> > --- a/drivers/nvme/host/apple.c
+> > +++ b/drivers/nvme/host/apple.c
+> > @@ -831,7 +831,8 @@ static void apple_nvme_disable(struct apple_nvme *anv, bool shutdown)
+> >  
+> >  		if (shutdown)
+> >  			nvme_shutdown_ctrl(&anv->ctrl);
+> > -		nvme_disable_ctrl(&anv->ctrl);
+> > +		else
+> > +			nvme_disable_ctrl(&anv->ctrl);
+> >  	}
+> >  
+> >  	WRITE_ONCE(anv->ioq.enabled, false);
+> 
+> Reviewed-by: Hector Martin <marcan@marcan.st>
+> 
+> I looked at some of our other implementations and we always seem to do
+> both, but this makes sense. If it breaks something we'll notice and
+> shout loudly when it makes it into an -rc at the latest :)
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
----
- include/linux/blkdev.h | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+This breaks resume for the apple nvme controller. The immediate problem 
+is that apple_nvme_reset_work() uses NVME_CC_ENABLE to decide whether to 
+call apple_nvme_disable(). Only nvme_disable_ctrl(ctrl, false) clears 
+NVME_CC_ENABLE.
 
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index b87ed829ab94..0956bc0fb5b0 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1285,12 +1285,7 @@ static inline enum blk_zoned_model bdev_zoned_model(struct block_device *bdev)
+Even after extending the check to consider NVME_CC_SHN_NORMAL resume is 
+still broken. The host specific reset to re-enable the controller works 
+but IO is blocked. The controller logs following messages into its 
+syslog:
+
+| RTKit: syslog message: cmd.c:728: Oldest tag 12 is 19 seconds VERY OLD with cmdQe:2
+| RTKit: syslog message: cmd.c:732: Oldest tag is about to crash!!
+| RTKit: syslog message: cmd.c:720: Oldest high water mark moved up to 21,tag 12, cmdQ CQ_PRI0W
+
+This looks looks like the controller reset after/during shutdown is required
+on this controller.
+
+Below patch fixes resume for me. I can send this with comment to
+prevent repeating this regression or if preferred handle this in
+nvme_disable_ctrl() either via a quirk or an additional parameter.
+
+Janne
+
+--- 
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index e13a992b6096..82396f9486e1 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -867,7 +867,9 @@ static void apple_nvme_disable(struct apple_nvme *anv, bool shutdown)
+			apple_nvme_remove_cq(anv);
+		}
  
- static inline bool bdev_is_zoned(struct block_device *bdev)
- {
--	struct request_queue *q = bdev_get_queue(bdev);
--
--	if (q)
--		return blk_queue_is_zoned(q);
--
--	return false;
-+	return blk_queue_is_zoned(bdev_get_queue(bdev));
- }
+-               nvme_disable_ctrl(&anv->ctrl, shutdown);
++               if (shutdown)
++                       nvme_disable_ctrl(&anv->ctrl, true);
++               nvme_disable_ctrl(&anv->ctrl, false);
+	}
  
- static inline bool bdev_op_is_zoned_write(struct block_device *bdev,
--- 
-2.25.1
-
+	WRITE_ONCE(anv->ioq.enabled, false);
 
