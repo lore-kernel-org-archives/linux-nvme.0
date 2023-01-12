@@ -4,70 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4AB53C54EBD
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Jan 2023 23:47:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 68016C54EBE
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Jan 2023 23:58:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:Subject:From:References:Cc:To:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UeOOHmhB7z66aAmrJh9BWWFQ9Js0NBi7C1br34Wn7JA=; b=CyJ5JFU9DpTLWn7FF00lkJXxtX
-	ky7GP55C5NhRrzr9T4zOoNqf1UTFnrAeDGLU1om32M2aUtzGBm+rUsjMPKotiDbopafFe7PMK4qlE
-	EwlqJoE5eaozu5KpSKyWX8BwRQ37IBxUCDp3b+qEEH1JzeemmmgEVv1MlLjTrIYADFF7llZOWA6cb
-	O+LCr+A8i4V3yMfwZmf2YZp2LhZXiEVR27wbufcJLkUvVei14X3qcPQQQA0IKP/hzjVXRfTd+xrIP
-	7/J9YEfq2lwdMfCVgcQYcyMz9Xyo7Z4uMbPMiCyUy4sTjtFR55umgYkxpCdvkzdRN4WiecLFTx+dA
-	+IQa6JpA==;
+	bh=12vlNogeAjPeZ5vEuK5DcrEwh/Fjwxuilk73/GGjPfg=; b=gOP5iMRPK6kGU26AjkiI/DlAqP
+	OeYm0Va19YNzUctLT9tG1s1lo6Pnj2CKqA33xqw5BgvYppyCIm6L3D6nrzseUHVA0b07L1H2gDDNH
+	h1tsE7F+kJnGV7LfdrVlQKcFWNUuEpLG7dwPyKiZjgoRP+KuoBL2HWYj5gOoRRHS+JjSYetOhDKFo
+	1eCnQH+TItTcleK40Az6muN00QD3LvXiUgjK6GcjYEEc2r+4rioeWCGHrAD+fIAtw8Z1InAOsizaq
+	67HodGxOtDqoFMxvSUAEh8c/CxRuVBz/0lKHasqJiaiR8LUWnK/GqLaHwJpzb8U/W98HVnTtLoTXS
+	OddZM7tQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG7Ho-00HV1e-NB; Thu, 12 Jan 2023 23:47:08 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1pG7SG-00HWI0-Fo; Thu, 12 Jan 2023 23:57:56 +0000
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG7Hl-00HV0t-6b
-	for linux-nvme@lists.infradead.org; Thu, 12 Jan 2023 23:47:06 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id BC626B82034;
-	Thu, 12 Jan 2023 23:47:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC6EBC433D2;
-	Thu, 12 Jan 2023 23:47:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673567221;
-	bh=1cn4fcmsP8g2d5ZQgmZSXV/6Ieop9waXm7iOOHFPEMo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=mw8wpPXjUEK74eVKEE0kZ3JzR5rXbxTwi0dLRoA6cCUHaURR45jSzIeVTBSlTEpIX
-	 OnoQpzqHh2qazMNmTVtdIglUHcOewqzq5KvSky7HGzR+Yh9DsjSVCxWLLW/hQZtGaC
-	 tzDDGmupvpkSRpUSthvTckz6wpPoklAjToQOWJfR6wqIz8WcNMMpGnS8aALxYPLZub
-	 cZD9FkmmeAx+XG16d9ExPwoh+bIPlv5l+1JLMd+qM+InhTSyNTukLWQ9Z1AdSYZoK5
-	 4gh4UhxazoAt4kTLjj3QV9zTwBv5V4sTH1XC7ZcSavlTPyGB0PmOSsXyPztHQe1Fn3
-	 6VtvTCLbgl4aA==
-Date: Thu, 12 Jan 2023 15:47:00 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Aurelien Aptel <aaptel@nvidia.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "sagi@grimberg.me"
- <sagi@grimberg.me>, "hch@lst.de" <hch@lst.de>, "kbusch@kernel.org"
- <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>, Chaitanya Kulkarni
- <chaitanyak@nvidia.com>, "davem@davemloft.net" <davem@davemloft.net>,
- "aurelien.aptel@gmail.com" <aurelien.aptel@gmail.com>, Shai Malin
- <smalin@nvidia.com>, "malin1024@gmail.com" <malin1024@gmail.com>, Or
- Gerlitz <ogerlitz@nvidia.com>, Yoray Zack <yorayz@nvidia.com>, Boris
- Pismenny <borisp@nvidia.com>
-Subject: Re: [PATCH v8 03/25] net/ethtool: add ULP_DDP_{GET,SET} operations
- for caps and stats
-Message-ID: <20230112154700.46d148ed@kernel.org>
-In-Reply-To: <SJ1PR12MB6075B6ACD47B7707087522AAA5FD9@SJ1PR12MB6075.namprd12.prod.outlook.com>
-References: <20230109133116.20801-1-aaptel@nvidia.com>
-	<20230109133116.20801-4-aaptel@nvidia.com>
-	<20230111204644.040d0a9d@kernel.org>
-	<SJ1PR12MB6075B6ACD47B7707087522AAA5FD9@SJ1PR12MB6075.namprd12.prod.outlook.com>
+	id 1pG7SD-00HWHA-BT
+	for linux-nvme@lists.infradead.org; Thu, 12 Jan 2023 23:57:54 +0000
+Received: by mail-oi1-x22f.google.com with SMTP id o66so16571894oia.6
+        for <linux-nvme@lists.infradead.org>; Thu, 12 Jan 2023 15:57:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=12vlNogeAjPeZ5vEuK5DcrEwh/Fjwxuilk73/GGjPfg=;
+        b=NMVFE/A599F2BmvazvkAXKstwrTfcd5YqVr6z2ammKU/XWwFhhjW2BL1oZwB7fo3mS
+         lzhV8DG89EWJaMUsZcuPxD+7DuWk5X4ArFf4ZxIv8Bltw94BPIZAeLiikb1Vh8EeAYwv
+         3ED4vcEXvMRXExDirSDGvqiLdQHn9Z6bJ8y31nJqPiND3xf2MjBt1VT7EQiQfOH/nnSP
+         e6CZXERsKTdQrryg1EIwXqNVDqFa+tmSVWg34DZ77VlPFLLBSh3KT80r8Gg/N3QV+vFt
+         63cKqpGiE9lEkiHt4jg8tMqALlkRA/BI5k7DXBbfmoW1esam2MUU1P+CCcdaF60w3fDi
+         Dt6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=12vlNogeAjPeZ5vEuK5DcrEwh/Fjwxuilk73/GGjPfg=;
+        b=TnzwI0z0b0eZrM8gqnBo3jMYnF8wwSzv75UhnMQt5gdsnsNaoZVtyyPBhZqNPnpJ2E
+         T0H6zw4AqELiKXzcaflf4yCeh/qSa4ku1t0YsnkUWQllZnGtS4w86Fr0t/S9ij5YwJtN
+         WqU+xm0R+ITPsriqoj1wFg3oJ3Le8JZQq4OSoyupkCcNTE/rfiTvQF6SbyjADZRdJHpZ
+         mHPtl8ZOGaHFPbsFWb95yfXhiZRQ+zlQjjpqVGm2XRebUj8yV3n95qKOzaDhREZ4Z1Ck
+         G3fnxWGqpH6fSWmbiBy19pMvg2ItbA54tKss25x+xl76qcnfNbUHAKvSVtkz4AQAEyqK
+         dnXg==
+X-Gm-Message-State: AFqh2kqseVn4k/+jzasXkUiLRidLU962cyA+aecXH6MjxO1Vgz7VkLYQ
+	1OsTFlOSHC1HTC80lsBVvAM=
+X-Google-Smtp-Source: AMrXdXvkyOv9cX1CPAsyCOn4OyE7FHGXX+1a1Tj3qa6RccP7w8XcQw5nDA9BhkSU/8Dnp9lxA6w4Fg==
+X-Received: by 2002:a54:4e83:0:b0:363:b918:6467 with SMTP id c3-20020a544e83000000b00363b9186467mr16877321oiy.10.1673567871747;
+        Thu, 12 Jan 2023 15:57:51 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id 3-20020aca0f03000000b0035acd0a6eb2sm8568038oip.41.2023.01.12.15.57.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Jan 2023 15:57:50 -0800 (PST)
+Message-ID: <c42afb39-db63-eeb4-3f53-e9684dca5938@roeck-us.net>
+Date: Thu, 12 Jan 2023 15:57:48 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Content-Language: en-US
+To: Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>
+Cc: Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <Y8AG21o/9/3eUMIg@cormorant.local>
+ <Y8A2qdbDZPicuZfL@kbusch-mbp.dhcp.thefacebook.com>
+ <Y8BHUzcbdQ/SFBY9@cormorant.local>
+From: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
+In-Reply-To: <Y8BHUzcbdQ/SFBY9@cormorant.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230112_154705_435609_4131EE92 
-X-CRM114-Status: GOOD (  18.05  )
+X-CRM114-CacheID: sfid-20230112_155753_447610_871089EF 
+X-CRM114-Status: GOOD (  25.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,31 +95,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, 12 Jan 2023 18:50:16 +0000 Aurelien Aptel wrote:
-> > The implementation of stats is not what I had in mind.
-> > None of the stats you listed under "Statistics" in the documentation look nVidia
-> > specific. The implementation should look something like the pause frame stats
-> > (struct ethtool_pause_stats etc) but you can add the dynamic string set if you
-> > like.
-> > 
-> > If given implementation does not support one of the stats it will not fill in the
-> > value and netlink will skip over it. The truly vendor- -specific stats (if any) can go
-> > to the old ethtool -S.  
+On 1/12/23 09:45, Klaus Jensen wrote:
+> On Jan 12 09:34, Keith Busch wrote:
+>> On Thu, Jan 12, 2023 at 02:10:51PM +0100, Klaus Jensen wrote:
+>>>
+>>> The pin-based interrupt logic in hw/nvme seems sound enough to me, so I
+>>> am wondering if there is something going on with the kernel driver (but
+>>> I certainly do not rule out that hw/nvme is at fault here, since
+>>> pin-based interrupts has also been a source of several issues in the
+>>> past).
+>>
+>> Does it work if you change the pci_irq_assert() back to pci_irq_pulse()?
+>> While probably not the "correct" thing to do, it has better results in
+>> my testing.
+>>
 > 
-> Do you mean that we could use the dynamic string approach and just
-> define the counters names in netlink? Our concern is that it will not
-> allow us to have those stats per queue (as we do in the mlx patches),
-> in that case we can suggest reusing ethtool -Q option to request
-> per-queue stats. What do you think?
+> A simple s/pci_irq_assert/pci_irq_pulse broke the device. However,
+> 
+> 	diff --git i/hw/nvme/ctrl.c w/hw/nvme/ctrl.c
+> 	index 03760ddeae8c..0fc46dcb9ec4 100644
+> 	--- i/hw/nvme/ctrl.c
+> 	+++ w/hw/nvme/ctrl.c
+> 	@@ -477,6 +477,7 @@ static void nvme_irq_check(NvmeCtrl *n)
+> 		 return;
+> 	     }
+> 	     if (~intms & n->irq_status) {
+> 	+        pci_irq_deassert(&n->parent_obj);
+> 		 pci_irq_assert(&n->parent_obj);
+> 	     } else {
+> 		 pci_irq_deassert(&n->parent_obj);
+> 
+> 
+> seems to do the trick (pulse is the other way around, assert, then
+> deassert).
+> 
+> Probably not the "correct" thing to do, but I'll take it since it seems
+> to fix it. On a simple boot loop I got the timeout about 1 out of 5. I'm
+> on ~20 runs now and have not encountered it.
+> 
+> I'll see if I can set up a mips rootfs and test that. Guenter, what MIPS
+> machine/board(s) are you testing?
 
-The standard ethtool interface should expose the accumulated stats.
-The stats of finer granularity need to be reported on the object to
-which they are scoped. 
+So, for mipsel, two sets of results for the above:
 
-I'm still yet to find any practical use for per-queue stats in
-production.
+First, qemu v7.2 is already much better than qemu v7.1. With qemu v7.1,
+the boot test fails roughly every other test. Failure rate with qemu v7.2
+is much less.
 
-IOW report the cumulative per device stats in ethtool -I --your-switch.
-The per-queue stats can go to ethtool -S until someone actually finds 
-a good reason to read them in production..
+Second, my nvme boot test with qemu 7.2 fails after ~5-10 iterations.
+After the above change, I did not see a single failure in 50 boot tests.
+
+I'll test the other suggested change next.
+
+Guenter
+
 
