@@ -4,56 +4,125 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 166AFC54EBD
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Jan 2023 14:49:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8254CC54EBD
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Jan 2023 15:36:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:Cc:From:References:To:
-	Subject:MIME-Version:Date:Message-ID:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=LImgPIASdrSeNOmjJNK1OcP0wsILAbRQCgNFrDjJQx0=; b=wVgXbizda/i8hD
-	t0X81TYqEU6/38ZVDRrJBfvNU+moLtB08lQmg9SZskOZOHxeVyB2N6Pu41aa1OXX+VQN+4knN2Pgk
-	M3EEfg+xaI14ebPv3ycLdodbjkwPFdV5GR9ANNiMjgQJOFnoQlEocMH8BkDzCCQrb7HDiXxa7yWeb
-	5pddet96htB+AHT2hYvC+KYT5hRz7RuhZQgvO1YMIFgyVJK1u3ghU/rrzzcF3z3FuQxjAm4yzDm/W
-	+CJZowp3U2KxJO7EPti4QJmlPF1V2sfMgIdWNHquJZ/pFsoq4exAByQ88T04OiwIhdLT5aOR9iKOj
-	yRU7DZibb427QmIELXNA==;
+	List-Owner; bh=AxXNPCzhcRLbfvakD8TU3p2mCuLqRLlkAjJGkBiv5ss=; b=45CifTSHjHBWvt
+	0zIZBf8+5Uxfi5OO9jVbVGZWMuuJY5bAiW48cO2w3nDSurqBz0VLy1b/7tgJrjXQzWyK3QXKo4BHJ
+	f+5RKfMOl2OJ9XrXg6rhKf7Kw7OALYVn17H0mzRoL+yKaGrjWKtdCR0e2xjZrFGGJJhxZDgaotmDK
+	7iglIsunIY935KuOlDE69TL7syBBcHCP123US5+9ZqmZUl7rn/pZdJxkeF3XylW9ih0UQ3pUa3peK
+	+TCGrGIuJ9M0JDlRGqNzoidlBCbn/AmqpMwRxegsE5W6lzn0rX3E+dPkv+b4ccOzQeWOlZyjuN35u
+	X7XDLl4yv7YMcMzNOxyg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pFyt4-00FSUP-T8; Thu, 12 Jan 2023 14:49:02 +0000
-Received: from wp530.webpack.hosteurope.de ([80.237.130.52])
+	id 1pFzdI-00FhWj-ES; Thu, 12 Jan 2023 15:36:48 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pFysw-00FSQF-2B
-	for linux-nvme@lists.infradead.org; Thu, 12 Jan 2023 14:48:58 +0000
-Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1pFyso-0000Xu-Nn; Thu, 12 Jan 2023 15:48:46 +0100
-Message-ID: <9d46a35f-5830-9761-ca2c-eaa640e9cc86@leemhuis.info>
-Date: Thu, 12 Jan 2023 15:48:46 +0100
+	id 1pFzdA-00FhU6-SL
+	for linux-nvme@lists.infradead.org; Thu, 12 Jan 2023 15:36:45 +0000
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20230112153634euoutp01433ae358e0a3988c87af7e5e8f956a25~5mcHLfHL20886208862euoutp01T
+	for <linux-nvme@lists.infradead.org>; Thu, 12 Jan 2023 15:36:34 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20230112153634euoutp01433ae358e0a3988c87af7e5e8f956a25~5mcHLfHL20886208862euoutp01T
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1673537794;
+	bh=AxXNPCzhcRLbfvakD8TU3p2mCuLqRLlkAjJGkBiv5ss=;
+	h=Date:Subject:To:CC:From:In-Reply-To:References:From;
+	b=oDZ/xh7e5AohtTKdexPyowJHKVDWNffEBkyEh4yV3QIGCCR25yXIQdI/ThmcR2SYe
+	 DyH3txAI9JyBU3QQYiAbqts813vRWY+vM2aVXU/z6TqcuJkbsMmDnPQ4Ift5kGGDAy
+	 LVWKxe3xeyH0ZRUY9XQkbdxUqOU7WU82jRdGgJkk=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+	20230112153633eucas1p11fa28ce9141dad4a23d115f8b110267d~5mcHAhGBp1940819408eucas1p14;
+	Thu, 12 Jan 2023 15:36:33 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+	eusmges1new.samsung.com (EUCPMTA) with SMTP id 5D.71.56180.10920C36; Thu, 12
+	Jan 2023 15:36:33 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20230112153633eucas1p10f12606b5b4a64767a5aff1a35ac431e~5mcGwriLc2728127281eucas1p1j;
+	Thu, 12 Jan 2023 15:36:33 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20230112153633eusmtrp10ac34d34cc190a0fcb33464a721c1e67~5mcGwGZZa2225622256eusmtrp1d;
+	Thu, 12 Jan 2023 15:36:33 +0000 (GMT)
+X-AuditID: cbfec7f2-acbff7000000db74-11-63c0290119c8
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id 85.A8.23420.10920C36; Thu, 12
+	Jan 2023 15:36:33 +0000 (GMT)
+Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20230112153633eusmtip2ee025424441ad83d0b087cd2b2cb3693~5mcGmuurD0425704257eusmtip2a;
+	Thu, 12 Jan 2023 15:36:33 +0000 (GMT)
+Received: from [192.168.8.107] (106.210.248.231) by CAMSVWEXC01.scsc.local
+	(2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+	Thu, 12 Jan 2023 15:36:32 +0000
+Message-ID: <2c04a2bd-9f5d-a55f-4936-ff111e8b0305@samsung.com>
+Date: Thu, 12 Jan 2023 16:36:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: Regression in Kernel 6.0: System partially freezes with "nvme
- controller is down"
-Content-Language: en-US, de-DE
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-References: <d5d8d106-acce-e20c-827d-1b37de2b2188@posteo.de>
- <0d3206be-fae8-4bbd-4b6c-a5d1f038356d@posteo.de>
-From: "Linux kernel regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Cc: =?UTF-8?Q?Julian_Gro=c3=9f?= <julian.g@posteo.de>,
- linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
- "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
- LKML <linux-kernel@vger.kernel.org>
-In-Reply-To: <0d3206be-fae8-4bbd-4b6c-a5d1f038356d@posteo.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1673534934;ad046a82;
-X-HE-SMSGID: 1pFyso-0000Xu-Nn
+	Thunderbird/102.4.2
+Subject: Re: [PATCH v2 0/3] block zoned cleanups
+Content-Language: en-US
+To: <axboe@kernel.dk>
+CC: <linux-nvme@lists.infradead.org>, <hch@lst.de>, <bvanassche@acm.org>,
+	<linux-block@vger.kernel.org>, <damien.lemoal@opensource.wdc.com>,
+	<gost.dev@samsung.com>, <snitzer@kernel.org>
+From: Pankaj Raghav <p.raghav@samsung.com>
+In-Reply-To: <20230110143635.77300-1-p.raghav@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [106.210.248.231]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+	CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrEKsWRmVeSWpSXmKPExsWy7djP87qMmgeSDY6ctrRYfbefzWLah5/M
+	Fr/Pnme2WLn6KJPF3lvaFvOXPWW3OHFL2oHd4/IVb4/LZ0s9Nq3qZPPYvKTeY/fNBjaPna33
+	WT0+b5ILYI/isklJzcksSy3St0vgypj68gZLwV3OiqkXjjE2MN5m72Lk4JAQMJH40pnWxcjF
+	ISSwglHiwes9LBDOF0aJn1PuMEI4nxklGjbuAergBOs4tWAeO0RiOaPEv1n/EKpOP3kAldnN
+	KHHkzxs2kBZeATuJY2dmMoHYLAKqEl+f9bNAxAUlTs58AmaLCkRJNF34CWYLCxhI3N9xlxnE
+	ZhYQl7j1ZD4TyLEiAqIScxZVgsxnFtjLKLHp0SNGkDibgJZEYyfYdZwCVhIXJv5mhGjVlGjd
+	/psdwpaX2P52DjPEz8oSn54nQDxTK7H22BmwkyUEujklTszcwwiRcJE419nNDGELS7w6vgXq
+	exmJ05N7WCDsaomnN34zQzS3MEr071zPBrHAWqLvTA6E6SjRf1cRwuSTuPFWEOIaPolJ26Yz
+	T2BUnYUUDrOQ/DsLyQOzkDywgJFlFaN4amlxbnpqsWFearlecWJucWleul5yfu4mRmAyOv3v
+	+KcdjHNffdQ7xMjEwXiIUYKDWUmEd8/R/clCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeWdsnZ8s
+	JJCeWJKanZpakFoEk2Xi4JRqYDJni5R9uv397Dkq6zvb5n24kuj5rjToiuE+oVt2C95IL7kk
+	J7T3/WvLV3OWH5og1tW3p8po4yefjAvzfKYzzNqTdTWzs9fZtOUc694NerVPI+u/MAgqfrtc
+	fy9lUW3R7VeL7P3sNZ78i2ms5Sy/kvDfr8f+TM+ryyr/ig/2bUzg35relHfi/2Xnyf/EOPXF
+	vCwnda35qepa5zJR9edRjmNlNoxHrK4unfTdPn9v3a1/ewIEZj6donivJZfpjFTZgS5xxz2x
+	c8wuPf167ZTURZ+jeg9M1c5yaM002HVpUcpx9/PZJVxbjQXyvlY/nFRhe150BePnmH8s52/7
+	lToIVvIVHbeP0onZ9vfE/ce7DT4rsRRnJBpqMRcVJwIAkTIvpbUDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrJIsWRmVeSWpSXmKPExsVy+t/xe7qMmgeSDZ71aVisvtvPZjHtw09m
+	i99nzzNbrFx9lMli7y1ti/nLnrJbnLgl7cDucfmKt8fls6Uem1Z1snlsXlLvsftmA5vHztb7
+	rB6fN8kFsEfp2RTll5akKmTkF5fYKkUbWhjpGVpa6BmZWOoZGpvHWhmZKunb2aSk5mSWpRbp
+	2yXoZUx9eYOl4C5nxdQLxxgbGG+zdzFyckgImEicWjAPyObiEBJYyihx4+kLRoiEjMSnKx+h
+	ioQl/lzrYoMo+sgo8evvXSYIZzejxI6WRhaQKl4BO4ljZ2YygdgsAqoSX5/1Q8UFJU7OfAJm
+	iwpESdw8/xCsRljAQOL+jrvMIDazgLjErSfzgeIcHCICohJzFlWCzGcW2MsosenRI0aIZb2M
+	Ej//9zGCFLEJaEk0doJdxylgJXFh4m9GiDmaEq3bf7ND2PIS29/OYQYplxBQlvj0PAHimVqJ
+	V/d3M05gFJ2F5LpZSK6YhWTSLCSTFjCyrGIUSS0tzk3PLTbUK07MLS7NS9dLzs/dxAiM423H
+	fm7ewTjv1Ue9Q4xMHIyHGCU4mJVEePcc3Z8sxJuSWFmVWpQfX1Sak1p8iNEUGEQTmaVEk/OB
+	iSSvJN7QzMDU0MTM0sDU0sxYSZzXs6AjUUggPbEkNTs1tSC1CKaPiYNTqoFJty/If6reY6t5
+	8tXb9BXDVs09mSzdMDGMZS5H4MWce5XNn93qHzK965nD/6muzG7tTPE5ByP1zUO8Zs6cqOvR
+	179MTKKN1UOrM7ciUTTJJ3if2Bz/hz7C1403HboqJGjhk7ChMqDKRP8fq46cntHy3O3Pz1hz
+	8s279OB4o+DtXb/fXAyJjgrmZD597FFm3f1yDdMptefdHeb0ah5+NOFqgf/bT+f1J/Scytiq
+	uuRBYPFMrmrnOZN85H4KZ963aeuRfDdh7nzDw8fnsBnmTMi8bKrt/ujtdb60o2e407qmxf6r
+	lOtfMPvxOb6wB2sfN91UnN3i2KmSxnhV4PKGd9MjWOvfpbp5WTEoyOpsVVdiKc5INNRiLipO
+	BAAut17sbAMAAA==
+X-CMS-MailID: 20230112153633eucas1p10f12606b5b4a64767a5aff1a35ac431e
+X-Msg-Generator: CA
+X-RootMTR: 20230110143637eucas1p1d82528b632ccda1de4fb2795ff691fe2
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20230110143637eucas1p1d82528b632ccda1de4fb2795ff691fe2
+References: <CGME20230110143637eucas1p1d82528b632ccda1de4fb2795ff691fe2@eucas1p1.samsung.com>
+	<20230110143635.77300-1-p.raghav@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230112_064854_316244_245B9664 
-X-CRM114-Status: GOOD (  24.42  )
+X-CRM114-CacheID: sfid-20230112_073641_581358_C9FEA02A 
+X-CRM114-Status: GOOD (  16.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,100 +134,37 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-[adding the nvme maintainers and the regressions mailing list to the
-list of recipients]
+ping....
 
-[TLDR: I'm adding this report to the list of tracked Linux kernel
-regressions; the text you find below is based on a few templates
-paragraphs you might have encountered already in similar form.
-See link in footer if these mails annoy you.]
-
-On 11.01.23 23:11, Julian Groß wrote:
-> Dear Maintainer,
+On 2023-01-10 15:36, Pankaj Raghav wrote:
+> Hi Jens,
+>   It is still unclear whether the support for non-po2 zone size devices
+>   will be added anytime soon [1]. I have extracted out the cleanup
+>   patches that doesn't do any functional change but improves the
+>   readability by adding helpers. This also helps a bit to
+>   maintain off-tree support as there is an interest to have this feature
+>   in some companies.
 > 
-> when running Linux Kernel version 6.0.12, 6.0.10, 6.0-rc7, or 6.1.4, my
-> system seemingly randomly freezes due to the file system being set to
-> read-only due to an issue with my NVMe controller.
-> The issue does *not* appear on Linux Kernel version 5.19.11 or lower.
+> [1] https://lore.kernel.org/lkml/20220923173618.6899-1-p.raghav@samsung.com/
 > 
-> Through network logging I am able to catch the issue:
-> ```
-> Jan  8 14:50:16 x299-desktop kernel: [ 1461.259288] nvme nvme0:
-> controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0x10
-> Jan  8 14:50:16 x299-desktop kernel: [ 1461.259293] nvme nvme0: Does
-> your device have a faulty power saving mode enabled?
-> Jan  8 14:50:16 x299-desktop kernel: [ 1461.259293] nvme nvme0: Try
-> "nvme_core.default_ps_max_latency_us=0 pcie_aspm=off" and report a bug
-> Jan  8 14:50:16 x299-desktop kernel: [ 1461.331360] nvme 0000:01:00.0:
-> enabling device (0000 -> 0002)
-> Jan  8 14:50:16 x299-desktop kernel: [ 1461.331458] nvme nvme0: Removing
-> after probe failure status: -19
-> Jan  8 14:50:16 x299-desktop kernel: [ 1461.371389] nvme0n1: detected
-> capacity change from 1953525168 to 0
-> Jan  8 14:50:16 x299-desktop kernel: [ 1461.371389] BTRFS error (device
-> nvme0n1p4): bdev /dev/nvme0n1p4 errs: wr 1, rd 0, flush 0, corrupt 0, gen 0
-> Jan  8 14:50:16 x299-desktop kernel: [ 1461.371389] BTRFS error (device
-> nvme0n1p4): bdev /dev/nvme0n1p4 errs: wr 2, rd 0, flush 0, corrupt 0, gen 0
-> Jan  8 14:50:16 x299-desktop kernel: [ 1461.371392] BTRFS error (device
-> nvme0n1p4): bdev /dev/nvme0n1p4 errs: wr 3, rd 0, flush 0, corrupt 0, gen 0
-> Jan  8 14:50:16 x299-desktop kernel: [ 1461.371394] BTRFS error (device
-> nvme0n1p4): bdev /dev/nvme0n1p4 errs: wr 5, rd 0, flush 0, corrupt 0, gen 0
-> Jan  8 14:50:16 x299-desktop kernel: [ 1461.371405] BTRFS error (device
-> nvme0n1p4): bdev /dev/nvme0n1p4 errs: wr 6, rd 0, flush 0, corrupt 0, gen 0
-> Jan  8 14:50:16 x299-desktop kernel: [ 1461.371406] BTRFS error (device
-> nvme0n1p4): bdev /dev/nvme0n1p4 errs: wr 7, rd 0, flush 0, corrupt 0, gen 0
-> Jan  8 14:50:16 x299-desktop kernel: [ 1461.371411] BTRFS error (device
-> nvme0n1p4): bdev /dev/nvme0n1p4 errs: wr 8, rd 0, flush 0, corrupt 0, gen 0
-> Jan  8 14:50:16 x299-desktop kernel: [ 1461.371419] BTRFS error (device
-> nvme0n1p4): bdev /dev/nvme0n1p4 errs: wr 9, rd 0, flush 0, corrupt 0, gen 0
-> Jan  8 14:50:16 x299-desktop kernel: [ 1461.371425] BTRFS error (device
-> nvme0n1p4): bdev /dev/nvme0n1p4 errs: wr 10, rd 0, flush 0, corrupt 0,
-> gen 0
-> Jan  8 14:50:16 x299-desktop kernel: [ 1461.371426] BTRFS error (device
-> nvme0n1p4): bdev /dev/nvme0n1p4 errs: wr 11, rd 0, flush 0, corrupt 0,
-> gen 0
-> ```
+> Changes since v1:
+> - Remove blk_is_zoned() check in bdev_{is_zone_start, offset_from_zone_start} (Damien)
+> - Minor spelling and variable name changes (Bart and Johannes)
+> - Remove zonefs patch for now (Damien)
+> - Send dm patches separately(Christoph)
 > 
-> I have tried the suggestion in the log without luck.
+> Pankaj Raghav (3):
+>   block: remove superfluous check for request queue in bdev_is_zoned()
+>   block: add a new helper bdev_{is_zone_start, offset_from_zone_start}
+>   block: introduce bdev_zone_no helper
 > 
-> Attached is a log that includes two system freezes, as well as a list of
-> PCI(e) devices created by Debian reportbug.
-> The first freeze happens at "Jan  8 04:26:28" and the second freeze
-> happens at "Jan  8 14:50:16".
+>  block/blk-core.c          |  2 +-
+>  block/blk-zoned.c         |  4 ++--
+>  drivers/nvme/target/zns.c |  3 +--
+>  include/linux/blkdev.h    | 22 +++++++++++++++++-----
+>  4 files changed, 21 insertions(+), 10 deletions(-)
 > 
-> Currently, I am using git bisect to narrow down the window of possible
-> commits, but since the issue appears seemingly random, it will take many
-> months to identify the offending commit this way.
-> 
-> The original Debian bug report is here:
-> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1028309
-
-Thanks for the report. To be sure the issue doesn't fall through the
-cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
-tracking bot:
-
-#regzbot ^introduced v5.19..v6.0-rc7
-#regzbot title nvme: system partially freezes with "nvme controller is down"
-#regzbot ignore-activity
-
-This isn't a regression? This issue or a fix for it are already
-discussed somewhere else? It was fixed already? You want to clarify when
-the regression started to happen? Or point out I got the title or
-something else totally wrong? Then just reply and tell me -- ideally
-while also telling regzbot about it, as explained by the page listed in
-the footer of this mail.
-
-Developers: When fixing the issue, remember to add 'Link:' tags pointing
-to the report (the parent of this mail). See page linked in footer for
-details.
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
 
