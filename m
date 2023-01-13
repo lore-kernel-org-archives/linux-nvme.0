@@ -4,96 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EAC5FC54EBD
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Jan 2023 12:38:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E3E6C54EBD
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Jan 2023 12:43:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Awx3Ut4SGrw2bnO5rBD9JVRTiduH9lOsI4n2DNZJjiY=; b=erOJSBpJaXLneN4VENtfX4u9VR
-	9OrVIUo5QqXpcSM7NqAcTxbkuM+4bEt5JPZh0O3z9tLR3j0azxtQ8tAjxUkxMPrvDaLpJa/U2oQ4s
-	IUC9tMfUwLiNPiFs/PpHwU1lzP2ehwCLroZvDF3ul7mYhATOAZHzS3CDs9A7y9It03xZqcLk6JYv/
-	BJMUmucBNT+D2DnmaQCj/Otu49xc/NZNPfKN/Gvhsi3HFgVjnG1THgTr+OIyCg5gfDGgAy2sFOoy0
-	xy8FG+tj2WAEdCXmQgrfDJaczhMpPcVkOe/QNoCcDkIcLvE3VYQN89H041Mi3YrDqucUPV8Noi0O5
-	hhYolndQ==;
+	bh=n0W2mIawT0ydAYmN/XMBiBeNi6lSFaH2N2Ub/HPnG+o=; b=13WtGmwi8DgEz3zfEfY/BZNmfe
+	hOte9HTOKFZxuLW64sdbRhvoGiEEUKaD9ZVOBW0/L4RWAFYQPyjAMay+pQDgEc6o6L2SDx14Ev9ov
+	vZ2SaUtx3d5hE//x47pZHM/EQ6SR8nN/BkKIkG05DATXS3KuzZ1aVuNoEirW9XJNtg1QcpUbu1dYB
+	CKd2ThGRLyNDMIVXQBHyELPXS2X347fbXEYeiT2w0Ak5QTXqHvmeqSNINDJn1hszCKab0ktZquSto
+	JptOOWXsmb/ZWQtVeO39zELbuw1Nyxq09DpBf+Qg+b8Nl0EOcM6lhx562hKM5yP6r6UlMoJkJ2ggv
+	kv7wNI2w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pGJJu-002a3W-Bc; Fri, 13 Jan 2023 12:38:06 +0000
-Received: from out4-smtp.messagingengine.com ([66.111.4.28])
+	id 1pGJOi-002arm-0e; Fri, 13 Jan 2023 12:43:04 +0000
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pGJJq-002a11-Kp
-	for linux-nvme@lists.infradead.org; Fri, 13 Jan 2023 12:38:04 +0000
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id CA0905C0051;
-	Fri, 13 Jan 2023 07:37:56 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Fri, 13 Jan 2023 07:37:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
-	 h=cc:cc:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1673613476; x=1673699876; bh=Aw
-	x3Ut4SGrw2bnO5rBD9JVRTiduH9lOsI4n2DNZJjiY=; b=pzf6qZ5WJy6E/jZdLV
-	hW89Etprgi/KATrVuP9CX9/0v1eAqhh6sjxH7EYrLv22gqWrff0aU3XhyA128FD+
-	yH5DKjMTaoCZq0icpfLrdnYZ2SfU38X3KOSeUdpHROPaARt+R+FZIz19tk+kHdgb
-	sEV0qTcNlHOH7Z1xWbz42xGZ/QVMkDVRqmOGHSFgTXdQkdyzxCJmXslSkfdl0950
-	Hy9fEYfzo8nxABEG2zdWx41FKXLasMU2wr6soGt/2q4+f1v1dS82mfeBsgFm1r4s
-	LrglR6N8iKz8KSn22tadES7jVVaLKtXpE8vd9YJUr6cXzw28GP+G8cEeCI6/BrNU
-	E3/Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1673613476; x=1673699876; bh=Awx3Ut4SGrw2bnO5rBD9JVRTiduH
-	9lOsI4n2DNZJjiY=; b=SqyNWkn9Hz2NFKfM4TOi9SHK7qlvTVQePBqztIvYJrQP
-	9lr+VcXBkbI1VQcHkViRCOkbOpzRd9sC0XM7k9FqLMf42Dl89+yijg2goDDCsTnx
-	Cpy+NX0iXIsRVAcncrw9qi6PxXpJKgbQPq28QjtGhQbuX/e/wkMZpYazFEN6Jt22
-	unuwlWNWq+Uu8JxKZ3tABaM9cBfecn8umIaGXc34pRdGO7kVoFRfjeAOp9wWrO8l
-	JJNnrlMeN4c0ev66/5kXDwngnIBHj/rTMrlT7teFqV+eeexEZo8b23A6avulNYff
-	ZUHSgCQzUmckV6czHZIG2MiP0uCOg0SXx8PCajDQ6w==
-X-ME-Sender: <xms:pFDBYx426R14IP99QGNVluGi6sVTZ8A_5SWUIrpWkFlt4inwPvUIgQ>
-    <xme:pFDBY-4aiXLHpOjqXQi0C11OYCcQIlYoxLqtw5dBHRDm82DPtob4q9rf362DQGS30
-    VsNVZnqxDzsE1a_Bu4>
-X-ME-Received: <xmr:pFDBY4ejWiEaa_AFp6O_D01XdDcj1HoVHbZWdK30-wppD5JzlL1hTS8SWSVvwYq91V792vxwNov4UphqCsjrIpnj60M>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrleekgdefkecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
-    ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
-    gvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteffffej
-    veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
-    hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:pFDBY6JW2rlDLQQQ6kVv8xKyZYbGm3N43IyIMWhUT9e4PbCU46MLQA>
-    <xmx:pFDBY1IzaOGEgPfVl-6UPMVdC8cus6RsceYCRNBfGp2zAwuuMRCY0Q>
-    <xmx:pFDBYzwi-IMbzT3aPlHs3F-hdnLP5itxE4M1J0zo_j3hS4sv_qlo0A>
-    <xmx:pFDBYyA-ap3bQl1OyxwVZzA5jpWPsBINJBkh5yAjd-g5EHZMvAHdhg>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 13 Jan 2023 07:37:53 -0500 (EST)
-Date: Fri, 13 Jan 2023 13:37:50 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org, qemu-block@nongnu.org,
-	qemu-devel@nongnu.org, Guenter Roeck <linux@roeck-us.net>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
-Message-ID: <Y8FQnsxSwcTUYqYm@cormorant.local>
-References: <Y8AG21o/9/3eUMIg@cormorant.local>
- <Y8EcOFE52X5KbzO7@cormorant.local>
- <CAFEAcA9y0E=EZwmetyvymvt64BpQxAnKMHs0E=BBH9_3OfMwFA@mail.gmail.com>
+	id 1pGJOf-002aoA-I2
+	for linux-nvme@lists.infradead.org; Fri, 13 Jan 2023 12:43:02 +0000
+Received: by mail-pj1-x1031.google.com with SMTP id s13-20020a17090a6e4d00b0022900843652so5353012pjm.1
+        for <linux-nvme@lists.infradead.org>; Fri, 13 Jan 2023 04:42:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=n0W2mIawT0ydAYmN/XMBiBeNi6lSFaH2N2Ub/HPnG+o=;
+        b=xhWfcZjDj2dY/m92e6ZOVrrWzdEFJues0yxiPtnuUTYuXOg6mZT20Q74E83NuSijPq
+         w7l579nHKg54OBdOLBYTY5FrZdYZ22WF5EZ5W+taxikLrDvcaBMX7omwViPzLCjdSvqk
+         UHSNr+VA4Dj0Pda9JpQhfXEO15WPvWp1L22WRY2ECRLNcq2Wop/d/dKNRj8S0OAta9XC
+         jsKjaJp81vHIfXzMgQ6Dya6s25eM2lMKzwGK0V7xOPAyAy+lJwh+jWgj9oucziVwjLXp
+         tlSQWPekic368WNl5y5JhTGNv2UlGzhIOM7Xw38hhAgIwfkWNdmqFkRGt46o+RCoOs6j
+         bChg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=n0W2mIawT0ydAYmN/XMBiBeNi6lSFaH2N2Ub/HPnG+o=;
+        b=u2/o3KqYWQDFTUJrIXBt1QuHtZy13vNfd8L/R0E0p5q4URW5KypzNk2lmEV4nrK1Qr
+         E+TviglPf7wtu+XKtaUoPoTU4FsF/B0MuF9dWxNJgciaF94A2mH85xXhKIzz2i8xoSqZ
+         pCoqOqQGZUtVw27ssBFVR7lGX6Aal5rfhngLxJH8sbWgeZqU8/vxBJCm5SYr9w7mYtbz
+         4ykNcr3Mpd8xynKVOECd8bvUH3TTfPxZbvaEN4XEgMmkDByQ8hbDSIGgN38xrO1iEm47
+         WfFeQNuyX7P9nt7qpN7PwVtwuZEBV0nKgxX1j/94nLO8h2dCzSvTq5JKKWXNslUdCzU3
+         OmOg==
+X-Gm-Message-State: AFqh2kqF/QFvyZj0O55H3oTrUgx/JKR02zChP9fhqlE8TUK69WD79M7w
+	1v1qCWZ/9R+DK5uDXLqwJxglxg5lU9Ha95hkGXBorNSkAl7j4g==
+X-Google-Smtp-Source: AMrXdXusTyxu0htHyfjcei6wGaxy8mCHmGABGTKCNkU0eWrsHn4RmzQ89FXhw/X96KZfnedRpIaI6cY13JI/Anjov8Q=
+X-Received: by 2002:a17:90a:77c7:b0:219:e2f1:81ad with SMTP id
+ e7-20020a17090a77c700b00219e2f181admr6597272pjs.19.1673613773684; Fri, 13 Jan
+ 2023 04:42:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="GDbzrrQ6Xxiht77F"
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA9y0E=EZwmetyvymvt64BpQxAnKMHs0E=BBH9_3OfMwFA@mail.gmail.com>
+References: <Y8AG21o/9/3eUMIg@cormorant.local> <Y8EcOFE52X5KbzO7@cormorant.local>
+ <CAFEAcA9y0E=EZwmetyvymvt64BpQxAnKMHs0E=BBH9_3OfMwFA@mail.gmail.com> <Y8FQnsxSwcTUYqYm@cormorant.local>
+In-Reply-To: <Y8FQnsxSwcTUYqYm@cormorant.local>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 13 Jan 2023 12:42:42 +0000
+Message-ID: <CAFEAcA9H4bYfqmt2w_xSXS_uX9z-6NCRqdsn3tDz6h-v39cGKw@mail.gmail.com>
+Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
+To: Klaus Jensen <its@irrelevant.dk>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, qemu-block@nongnu.org, 
+	qemu-devel@nongnu.org, Guenter Roeck <linux@roeck-us.net>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230113_043803_540893_6A38A105 
-X-CRM114-Status: GOOD (  17.67  )
+X-CRM114-CacheID: sfid-20230113_044301_617683_BEEADA9B 
+X-CRM114-Status: UNSURE (   7.82  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,51 +88,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Fri, 13 Jan 2023 at 12:37, Klaus Jensen <its@irrelevant.dk> wrote:
+> There are a fair amount of uses of pci_irq_pulse() still left in the
+> tree.
 
---GDbzrrQ6Xxiht77F
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Are there? I feel like I'm missing something here:
+$ git grep pci_irq_pulse
+include/hw/pci/pci.h:static inline void pci_irq_pulse(PCIDevice *pci_dev)
+$
 
-On Jan 13 12:32, Peter Maydell wrote:
-> On Fri, 13 Jan 2023 at 08:55, Klaus Jensen <its@irrelevant.dk> wrote:
-> >
-> > +CC qemu pci maintainers
-> >
-> > Michael, Marcel,
-> >
-> > Do you have any comments on this thread? As you can see one solution is
-> > to simply deassert prior to asserting, the other is to reintroduce a
-> > pci_irq_pulse(). Both seem to solve the issue.
->=20
-> Both seem to be missing any analysis of "this is what is
-> happening, this is where we differ from hardware, this
-> is why this is the correct fix". We shouldn't put in
-> random "this seems to happen to cause the guest to boot"
-> fixes, please.
->=20
+...looks at first sight like an unused function we could delete.
 
-No, I'd like to get to the bottom of this, which is why I'm reaching out
-to the pci maintainers to get an idea about if this is a general/known
-issue with pin based interrupts on pci.
-
-There are a fair amount of uses of pci_irq_pulse() still left in the
-tree.
-
---GDbzrrQ6Xxiht77F
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmPBUJ4ACgkQTeGvMW1P
-Dek3xwf/arpcGt6Lgj2IiknKb/+M7NYjx9H90bEk28jB0sZ4MCcsOt6Ltl3CxmIf
-kImorYKhR3/Pr+jjNlMrI7b92uA1UXxSQVIMFuXioj79dS/Vk/NSnytb4Z7rGnOB
-Kxk/ePDY+bVXxS65wRay05g+f6dbxYkxYies4QZqqvQ6GCKzJAI7NLGgK46koFSz
-nwj4phUhunGlyTiOEWd4KyJQMtiaMvf8rj01VVQ0/a8o9yxaQN/PUHm/dO/R+Cpy
-PsFsmnChtMh5UfByRnm4BF0B7dk7Bjmr7mBNP2/3PBFQgPl9hBO09hsw2QFUy+yp
-vy3YwNuajIPJT8a/qorlYehyJXXV+A==
-=WpH1
------END PGP SIGNATURE-----
-
---GDbzrrQ6Xxiht77F--
+thanks
+-- PMM
 
