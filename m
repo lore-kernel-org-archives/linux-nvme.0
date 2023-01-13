@@ -4,117 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F29EEC54EBE
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Jan 2023 09:49:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9796BC61DB3
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Jan 2023 11:36:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=awrM2bJZO7LtG9l3RQfLlqNumwVGuuLUIwgvVOTQqe0=; b=Z+bG2sS6PqLv6OuiVFZHBChqai
-	uCxDxKe2TIRSzJPFODJwLn2D2bIfGw4WRVCeYfuY1VNBumxIyvM663DzmyvUcZU0WwC2Zn6oO1G2I
-	YpJx7tElDJ2HsApXop3PL/t2LIs/V8S7FdO0twlZGNwMcII20i2xyuFPyMMdZ+Kbr339JNIqtKJoi
-	baLTHjnvBfFxWS2SZzvUYpauRjNXKowerSCGmj5YfmiZeuf8zOsxu9v8DBDQCVpVTAtL36yrnnKs9
-	FuU2jrrKWqSlqZiwqFFt4c77DyY7e2Ac2JUCxbHA71Tvf170fCLlcrVSN1PoxZJvoJWQq4Tssy6Os
-	c41Y/WoA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
+	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=AOF6/bCzdZeONpvcEbuNgJGtcKjz1PvVISQlt8ZFpic=; b=Vm6LQxPfrknAOqsCa3YfhG//co
+	8D1LYLOkUJxIZTR4nLnS2QnmJySoE9q5CdCvfLwiPDcC7pR1Q7/9bGtqX78XYIKJWpPS8n3lhLFnP
+	pSoSQMmqe9hnb9r3IdB7LC/b/JaLqu2Q/XtWkkNfa3p4Vu1mNhKsZREB6/ZeWSGcB7Bz76cyV+UaI
+	a2UdThGzR8gCQCURbEhZmmDUwaKV2gsoFXTWEcS8Xy9cPCXZVXOscdITLiLkgOUH4gKJdERMEYyq6
+	egldMoPe/IQZYg+ZPyz9++VqHUceQ5jrOV5QiWhCceR4AzIbyHKkPV1uR5JWxoH09TCT7+LDiXBY2
+	/8Xjz5TA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pGGgw-001YGt-4h; Fri, 13 Jan 2023 09:49:42 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1pGIM1-002EMS-8z; Fri, 13 Jan 2023 11:36:13 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pGGgr-001YFE-4R
-	for linux-nvme@lists.infradead.org; Fri, 13 Jan 2023 09:49:39 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20230113094928epoutp045f9276719855e261e81e126b7c56da42~51WVx_b591651816518epoutp04I
-	for <linux-nvme@lists.infradead.org>; Fri, 13 Jan 2023 09:49:28 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20230113094928epoutp045f9276719855e261e81e126b7c56da42~51WVx_b591651816518epoutp04I
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1673603368;
-	bh=awrM2bJZO7LtG9l3RQfLlqNumwVGuuLUIwgvVOTQqe0=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=c0/I+UPyftoeixxsDeYJNnsF/2sewo+8EzDLyuYXbEZTeLVSrDGaynvWWWKyNUnEn
-	 aiNsQkp5HvnkbT85dJmJjmSlGlJDKV3QRVCjan3HCUUuP18WXhiUssdsxE+nMu5sxb
-	 bq9gLhdzcRISdvlgucSvVXDaNtu6kZXcZkwISTi8=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20230113094927epcas5p2af36691c10b82688985b5750d2406323~51WVfDydW2142921429epcas5p26;
-	Fri, 13 Jan 2023 09:49:27 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.183]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4Ntc8614NLz4x9Pp; Fri, 13 Jan
-	2023 09:49:26 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	8E.92.62806.62921C36; Fri, 13 Jan 2023 18:49:26 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20230113094723epcas5p2f6f81ca1ad85f4b26829b87f8ec301ce~51UiBNn0Z2258722587epcas5p2C;
-	Fri, 13 Jan 2023 09:47:23 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20230113094723epsmtrp2239a6b739f5245442ead204f5cc16bb9~51UiAkxrx2321423214epsmtrp2x;
-	Fri, 13 Jan 2023 09:47:23 +0000 (GMT)
-X-AuditID: b6c32a4a-ea5fa7000000f556-8e-63c129264f92
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	47.70.02211.BA821C36; Fri, 13 Jan 2023 18:47:23 +0900 (KST)
-Received: from green5.sa.corp.samsungelectronics.net (unknown
-	[107.110.206.5]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20230113094722epsmtip16de26d811f7db4ecfce875daac59ca63~51UhIJVql0374603746epsmtip1i;
-	Fri, 13 Jan 2023 09:47:22 +0000 (GMT)
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: lsf-pc@lists.linux-foundation.org
-Cc: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-nvme@lists.infradead.org, Nitesh Shetty <nj.shetty@samsung.com>
-Subject: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
-Date: Fri, 13 Jan 2023 15:16:48 +0530
-Message-Id: <20230113094648.15614-1-nj.shetty@samsung.com>
-X-Mailer: git-send-email 2.35.1.500.gb896f729e2
+	id 1pGICd-0029iU-8L
+	for linux-nvme@lists.infradead.org; Fri, 13 Jan 2023 11:26:33 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 667AA22447;
+	Fri, 13 Jan 2023 11:26:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1673609182; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AOF6/bCzdZeONpvcEbuNgJGtcKjz1PvVISQlt8ZFpic=;
+	b=akdJdiXOQy9VoluWMKDBoKjG1x7EHi70BWc9m7iiK2ZXJgkRCxGqNWzg0oqCJXVfLfjvlq
+	askbUS4t9+KGwapkj2GE6bxY3qs8TVEnD1nJmtWGcQWr0rn57bW7YkcAgaZJui4uGkXyF1
+	9qmcGYIz2bnhpqhVXZcqNcebDbTj108=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 47AB21358A;
+	Fri, 13 Jan 2023 11:26:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 0kDcD94/wWNRMwAAMHmgww
+	(envelope-from <mwilck@suse.com>); Fri, 13 Jan 2023 11:26:22 +0000
+Message-ID: <a23d94a592026e0d3fb5561329d30d819dd9a2cc.camel@suse.com>
+Subject: Re: nvme-fabrics: devices are uninterruptable
+From: Martin Wilck <mwilck@suse.com>
+To: linux-nvme@lists.infradead.org
+Cc: "Belanger, Martin" <Martin.Belanger@dell.com>
+Date: Fri, 13 Jan 2023 12:26:21 +0100
+In-Reply-To: <BLAPR19MB453154491C6DE9CB7C2A310BF2FC9@BLAPR19MB4531.namprd19.prod.outlook.com>
+References: 	<BLAPR19MB453154491C6DE9CB7C2A310BF2FC9@BLAPR19MB4531.namprd19.prod.outlook.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrEKsWRmVeSWpSXmKPExsWy7bCmuq6a5sFkg8nrWS323tK2mL/sKbtF
-	9/UdbBb7Xu9lttj2ez6zA6vH5iX1HpNvLGf06NuyitHj8ya5AJaobJuM1MSU1CKF1Lzk/JTM
-	vHRbJe/geOd4UzMDQ11DSwtzJYW8xNxUWyUXnwBdt8wcoK1KCmWJOaVAoYDE4mIlfTubovzS
-	klSFjPziElul1IKUnAKTAr3ixNzi0rx0vbzUEitDAwMjU6DChOyMZ7s/MhccFa9YP+8RUwPj
-	N6EuRk4OCQETiZcP9jN1MXJxCAnsZpT4sL6LBcL5xCjx9N1RVgjnG6PElc097DAtJ588h6ra
-	yyix99UqKKeZSWJq91OgKg4ONgFtidP/OUAaRARUJf6uPwJWwyzQwijx7+h3FpAaYQFXiXt3
-	eEBqWIBqFiw7zQhi8wpYSaw+1sIKUiIhoC/Rf18QIiwocXLmExYQm1lAXqJ562xmkJESAtvY
-	JU4uWcgEcZyLxMFTj1ggbGGJV8e3QB0tJfH53V42CLtcYuWUFWwQzUD3zLo+ixEiYS/Reqqf
-	GWQxs4CmxPpd+hBhWYmpp9YxQSzmk+j9/QRqF6/EjnkwtrLEmvULoOZLSlz73ghle0gsn3UM
-	7AYhgViJA29Osk5glJ+F5J9ZSP6ZhbB5ASPzKkbJ1ILi3PTUYtMCo7zUcnjEJufnbmIEJz4t
-	rx2MDx980DvEyMTBeIhRgoNZSYR3z9H9yUK8KYmVValF+fFFpTmpxYcYTYFhPJFZSjQ5H5h6
-	80riDU0sDUzMzMxMLI3NDJXEeVO3zk8WEkhPLEnNTk0tSC2C6WPi4JRqYHLdeUZQY69K/A+Z
-	nUkm9SmfV5lujd2iFlA7JW6/uq7n0vS8g0x2mxjeu3/YtvXPMpULMx++Wp98wW3e8z5DFbOC
-	pf0NCVFFfBIXJ2926um6v+fX0+0tP7mqbfN2GBg96djp67q8Yc2s+yWvGK2SXFfcLQ94cy7Q
-	qv7dFo9FtV9FKtOq9//9EB7Ear9i4/T3BbkXP7HuZd3qV7b/wKH2fn+O+M0Plib135k97azB
-	p4cPLivscNzSIj1pmZleuHNd1l2x9Yl7uLj5Oe+ait463lfhcTO4rFCTe9HDF+l1z9ZbWDz5
-	9E/04YufF1VPn5oQmShxTHb2zekKCkX2xVsZK940V879ZKo+8cWzTHHmt3eUWIozEg21mIuK
-	EwHC7/IOBQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprDLMWRmVeSWpSXmKPExsWy7bCSnO5qjYPJBod6DSz23tK2mL/sKbtF
-	9/UdbBb7Xu9lttj2ez6zA6vH5iX1HpNvLGf06NuyitHj8ya5AJYoLpuU1JzMstQifbsEroxn
-	uz8yFxwVr1g/7xFTA+M3oS5GTg4JAROJk0+es3QxcnEICexmlLjaNI8VIiEpsezvEWYIW1hi
-	5b/n7BBFjUwSr5bvBiri4GAT0JY4/Z8DpEZEQFXi7/ojYIOYBToYJVYvOcAMUiMs4Cpx7w4P
-	SA0LUM2CZacZQWxeASuJ1cdawMZICOhL9N8XhAgLSpyc+YQFxGYWkJdo3jqbeQIj3ywkqVlI
-	UgsYmVYxSqYWFOem5xYbFhjmpZbrFSfmFpfmpesl5+duYgQHoJbmDsbtqz7oHWJk4mA8xCjB
-	wawkwrvn6P5kId6UxMqq1KL8+KLSnNTiQ4zSHCxK4rwXuk7GCwmkJ5akZqemFqQWwWSZODil
-	Gpj2+f80q76dU3NC3yA/4+bNGzpVrw+s3pzGWGpaJ6ug8P+t0HvzOY+11PZYLVqunqR1+mrJ
-	OpuXjTsYK+vTlhi+N3xxsWhZiXxcA2ck17VOq4q1auePNYlGrKlv1dqQUzeh6tAbCflVsqW3
-	9xyJLRGUNY0JFRD0nKTybtGmkO7dDId+rWUxP+PXf+FRTgDLSYOcXYa1vStLshZ/eOV6oemk
-	cVdhqXhNWOekrUc3izEf5jENb9BxXmx1w61x8cZEXym/zVP+7V6yUTc2+f5UwbO9EfV/ZI6G
-	qj5s/2icGunxOszQnolTMqivuc2z7PijDAUJ4b63yVY8GSK3zxyY8kGducZ/+h+zvKV/xJlX
-	KbEUZyQaajEXFScCACufZYqvAgAA
-X-CMS-MailID: 20230113094723epcas5p2f6f81ca1ad85f4b26829b87f8ec301ce
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230113094723epcas5p2f6f81ca1ad85f4b26829b87f8ec301ce
-References: <CGME20230113094723epcas5p2f6f81ca1ad85f4b26829b87f8ec301ce@epcas5p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230113_014937_537589_8255FA49 
-X-CRM114-Status: GOOD (  13.59  )
+X-CRM114-CacheID: sfid-20230113_032631_530147_3FAC2A95 
+X-CRM114-Status: GOOD (  33.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -129,93 +79,84 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+On Wed, 2023-01-11 at 14:37 +0000, Belanger, Martin wrote:
+> POSIX.1 specifies that certain functions such as read() or write()
+> can act as cancellation points.
+>=20
+> Ref:
+> https://pubs.opengroup.org/onlinepubs/000095399/functions/xsh_chap02_09.h=
+tml#tag_02_09_05_02
+>=20
+> Cancellation point functions can be forced to terminate before
+> completion.
 
-Background:
-===========
-Copy offload is a feature that allows file-systems or storage devices
-to be instructed to copy files/logical blocks without requiring
-involvement of the local CPU.
-We are working on copy offload[1], mainly focused on NVMe Copy command
-(single NS, TP 4065) and NVMe over fabrics.
-Previously Chaitanya Kulkarni presented talk on copy offload[2].
+I think you are confusing things here. The page you mention is about
+pthreads. pthread cancellation points are points at which a
+pthread_cancel() call from another will interrupt a thread that is
+using PTHREAD_CANCEL_DEFERRED cancellability, and nothing more. The
+"cancellation point" logic applies *only* to the specific signal that
+is used for implementing pthread_cancel(). It has nothing to do with
+the cancellation of I/O requests. The spec says nothing about the
+semantics of cancelling I/O system calls. Usually the thread
+cancellation will occur either before entering or after returning from
+the system call, rather than interrupting it. The general semantics of
+signal delivery apply.
 
-Current state of work:
-======================
-	Our latest patch series[1] covers
-	1. Driver
-		- NVMe Copy command (single NS, TP 4065), including support
-		in nvme-target (for block and file back-end).
+>  Typically, sending a signal to a process/thread will cause
+> cancellation point functions to return immediately with an error
+> (e.g. -1) and with errno set to EINTR. [...]
+>=20
+> The nvme driver does not seem to allow cancellation points. In other
+> words, processes/threads blocked on read()/write() associated with a
+> nvme device (e.g. /dev/nvme-fabrics,
+> /sys/class/nvme/nvme0/delete_controller) cannot be interrupted by
+> signals. This can be problematic especially for the following cases:=20
 
-	2. Block layer
-		- Block-generic copy (REQ_COPY flag), with interface
-		accommodating two block-devs, and multi-source/destination
-		interface
-		- Emulation, when offload is natively absent
-		- dm-linear support (for cases not requiring split)
+What you actually want to refer to is (I think) the section about
+"Interruption of system calls and library functions by signal handlers"
+in signal(7): "If  a  blocked  call to one of the following interfaces
+is interrupted by a signal handler, then [...] the call fails with the
+error EINTR: ... read(2), readv(2), write(2), writev(2), and ioctl(2)
+calls on 'slow' devices." Note that this paragraph goes on saying that
+"a (local) disk is not a slow device according to this definition; I/O
+operations on disk devices are not interrupted by signals."=A0I assume
+the last sentence applies to NVMe disks, too. nvme-fabrics is a
+different topic; one could argue it should have socket-like semantics
+(and socket IO _is_ interrupted with EINTR, same man page section).
 
-	3. User-interface
-		- new ioctl
+> 1) When scaling to a large number of connections (N), applications
+> may be blocked on /dev/nvme-fabrics for long periods of time.
+> Creating a connection to a controller is typically very fast (msec).
+> However, if connectivity is down (e.g. networking issues) it takes
+> about 3 seconds for the kernel to return with an error message
+> indicating that the connection has failed. Let's say we want to
+> create N=3D100 connections while connectivity is down. Because
+> /dev/nvme-fabrics only allows one connection request at a time, it
+> will take 3 * N =3D 300 seconds (5 minutes) before all connection
+> requests get processed by the kernel. If multiple processes/threads
+> request connections in parallel, they will all be blocked (except for
+> 1) trying to write to /dev/nvme-fabrics. And there is no way to
+> stop/cancel a process/thread once it is blocked on /dev/nvme-fabrics.
+> Signals, including SIGKILL, have no effect whatsoever.
 
-	4. In-kernel user
-		- dm-kcopyd
-		
-	5. Tools:
-		- fio
-		- blktests
+I think that SIGKILL does have an effect; it will at turn the affected
+process into a zombie. See above for nvme-fabrics.
 
-	Performance:
-	With the async design of copy-emulation/offload using fio[3],
-	we were  able to see the following improvements as
-	compared to userspace read and write on a NVMeOF TCP setup:
-	Setup1: Network Speed: 1000Mb/s
-		Host PC: Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz
-		Target PC: AMD Ryzen 9 5900X 12-Core Processor
-		block size 8k, range 1:
-			635% improvement in IO BW (107 MiB/s to 787 MiB/s).
-			Network utilisation drops from  97% to 14%.
-		block-size 2M, range 16:
-			2555% improvement in IO BW (100 MiB/s to 2655 MiB/s).
-			Network utilisation drops from 89% to 0.62%.
-	Setup2: Network Speed: 100Gb/s
-		Server: Intel(R) Xeon(R) Gold 6240 CPU @ 2.60GHz, 72 cores
-			(host and target have the same configuration)
-		block-size 8k, range 1:
-			6.5% improvement in IO BW (791 MiB/s to 843 MiB/s).
-			Network utilisation drops from  6.75% to 0.14%.
-		block-size 2M, range 16:
-			15% improvement in IO BW (1027 MiB/s to 1183 MiB/s).
-			Network utilisation drops from 8.42% to ~0%.
-	Overall, in these tests, kernel copy emulation reduces network utilisation
-	drastically and improves IO bandwidth.
 
-What we will discuss in the proposed session ?
-==============================================
-Through this session I would like to discuss and get opinion of community
-on minimum set of requirement for copy offload for this phase. Also share
-some of the blockers we are facing and would get opinion on how we can
-proceed further.
+> 2) Similarly, deleting a controller by writing "1" to the
+> "delete_controller" device while connectivity to that controller is
+> down will block the calling process/thread for 1 minute (built-in
+> timeout waiting for a response). While blocked, there is no way to
+> terminate the process/thread. SIGINT (CTRL-C), SIGTERM, or even
+> SIGKILL have no effect.
+>=20
+> I wanted to ask the community if there is a reason for the nvme
+> driver to not support POSIX cancellation points? I also wanted to
+> know whether it would be possible to add support for it? Is there a
+> downside to doing so?=20
 
-Required attendees:
-===================
-	Martin K. Petersen
-	Jens Axboe
-	Christoph Hellwig
-	Mike Snitzer
-	Hannes Reinecke
-	Chaitanya Kulkarni
-	Bart Van Assche
-	Damien Le Moal
-	Mikulas Patocka
-	Keith Busch
-	Sagi Grimberg
-	Javier Gonzalez
-	Kanchan Joshi
+Repeat, this has nothing to do with cancellation points.
 
-Links:
-======
-[1] https://lore.kernel.org/lkml/20230112115908.23662-1-nj.shetty@samsung.com/T/#m91a2f506eaa214035a8596fa9aa8d2b9f46654cc
-[2] https://lore.kernel.org/all/BYAPR04MB49652C4B75E38F3716F3C06386539@BYAPR04MB4965.namprd04.prod.outlook.com/
-[3] https://github.com/vincentkfu/fio/tree/copyoffload
+Martin
 
 
