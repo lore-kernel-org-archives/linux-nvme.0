@@ -4,73 +4,109 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80382C63797
-	for <linux-nvme@archiver.kernel.org>; Sun, 15 Jan 2023 07:56:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55A30C63797
+	for <linux-nvme@archiver.kernel.org>; Sun, 15 Jan 2023 10:04:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:MIME-Version:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=7mPR+tYk06dWyheXQlcDvaKFF6VE45BY4pbiBRMyTf0=; b=o5Z0fpzDyauf6mpQ4T463zGZYn
-	rTQ/BKTPmIvOQHr8SZvrFgjR9f6QD5mnBGU8M9j/1BHCC5yzueR5G2vAWZePQ2u0G8sDfS5mxgDJW
-	IH4w1iqgbZcsu95heX5TAZUdgxVqyQgF+eH2HH9DtWfdZ8FhtncWZigy/RkM0ceESTn0xkF2B5N9T
-	ygJlFSgXFoMSdOhy2X1OiX5VAKbQ6MyFVcrAdb9qwUaTYJFFhYB8Fkht1xA7GD0MKMKeBLBLpWC2j
-	U27vrrvizQPwGrNfXM49dCoUku1s4eLM2GZ/3PxqKU9rq48vu2WAAPILrn8sO/XtitVsXuqIG/FA1
-	jBtbgp+Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:CC:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dzmWb4a5QOcLh0pMBj1iGgqX6U/wqNtKIZUD06MwM7k=; b=BU8+CFzSXTEt2ZOOOJ+jJBWDC4
+	cHdxIm1zF58FgUXkTEzCN2YD9dbc+bJN3oHK5w7gPk+FtZs20OkuNs39cc2P4zcoveqDcl/ljpgH8
+	XaXEhsnUHJPTvgtbn8jed7uGK63m0UaigROhdAyQlDpAHbV3J+f5BM16M0nyjVBoqNkowWzCqrIf6
+	QmdgyrQI4aauZLARMPDS38t+nE664uzW088KjqAh4nrmHGWj0Rux1qvlsUudKPagRMZYIrhhL25Je
+	oocoHs6VIVuCud70dGudIwzss84g0UVdNvDaMVIdFjEGojZtd0pkI9vopGqGR1Fo9EjV/9YeuF3J5
+	GIztcwrg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pGxsG-0073WT-QV; Sun, 15 Jan 2023 07:56:16 +0000
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
+	id 1pGzru-0079uT-J8; Sun, 15 Jan 2023 10:04:02 +0000
+Received: from mail-dm6nam11on2081.outbound.protection.outlook.com ([40.107.223.81] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pGxs9-0073VK-LT
-	for linux-nvme@lists.infradead.org; Sun, 15 Jan 2023 07:56:11 +0000
-Received: by mail-pf1-x429.google.com with SMTP id w2so3536236pfc.11
-        for <linux-nvme@lists.infradead.org>; Sat, 14 Jan 2023 23:56:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=solid-run-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=7mPR+tYk06dWyheXQlcDvaKFF6VE45BY4pbiBRMyTf0=;
-        b=3NkR14+qMITtW5c/bhsV3TZxEqserp/0VOuYZNP4g42CclG/xB4agcQEBFDlmIceTy
-         Dnb+Gl8ZEbazw6K9BfxSDP353kv8wFoCOzjafOmUpIbb4bA7nygi/+rMVSO+5njloKYR
-         CozVxIQlSZAJd9UjP1d+cle8o4s32xooYBqoBz9VDUN4Kv2V66W4gZ/lzxrzL1gZJnQp
-         K0Y17q39OljeeFaoVglpyHwGXhK4Mt6LJ+78vfLmrPrS6m4q6R7Fp2b5nvw978ioGuYa
-         DvfLxm5eVIN11nZKAUWWpvXXHr/Z67Zvf6tZ92vL3945LZ7OFwpYeJ/q/rEZb0zOV70O
-         U5bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7mPR+tYk06dWyheXQlcDvaKFF6VE45BY4pbiBRMyTf0=;
-        b=vQ/3pq9LfXzlSI5YGkQ3htqwA/XWyYblNU6x1SBVFvlsmz2SZUcMCbIvzK3EEGQRiT
-         4IXnQFASfJ0fKlSCcJgm/3Do45JzrVEHRJk26nh6moNqD36zIb1BRCWJZaWiN5Jns5yu
-         qA6BPaes7+b5VGNWAd1AhsKMLvZ5Ve0fBk2dZ4rK4B3l8E2l/gb/OIaRS2/rk5IF20md
-         xCNnyNYmvXUf5n424BTolk3v21d8oAyuZRvzUZPQ4w/a/ijWnMCyON4im/5BgkxRix1U
-         Ns6DaDkD7iTqQzLfJH2+mglVWSh4U+iAIG3JDPiqZIkgmAKzaeDokRS9L9cC5cfuZZtF
-         kQSg==
-X-Gm-Message-State: AFqh2kpCeFqBGPR9bsOvyJ86sIjlCld+EYPtkEdWiblro9BA7qdOci3J
-	tm5BZFgOuqVFmr1mFkZZX9UuNS5r2XUpX0uvOk3Y/A==
-X-Google-Smtp-Source: AMrXdXvAiyCmTWvJ9EHpfBDvUbeHLHSy+j5Yk8c2u2aPfRmZEEnLTIdJUxpu9gEHkkwwhxqg/OcINr2IlsC0dkOvol4=
-X-Received: by 2002:a65:45c8:0:b0:48c:5903:2f5b with SMTP id
- m8-20020a6545c8000000b0048c59032f5bmr4778556pgr.504.1673769363038; Sat, 14
- Jan 2023 23:56:03 -0800 (PST)
+	id 1pGzrp-0079sv-25
+	for linux-nvme@lists.infradead.org; Sun, 15 Jan 2023 10:03:58 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eJ/FHa/5ORucjhbEgvlS1RDiJLqW2hsJA0S+kHDXOf1hVRSMMDXWMBOxKh1WYvGwHz5n0z7SxS7vJ+2N3+nCImv2q32hy1ZHarCxHx+Xd5VwED3qd6J4vDyCZImkUSW33AP1ZR7q+YM907YvB7M8xI+al018DcBdj1GVwgn76ECjwBp0GQRvvLmpmY+Aay5Bvazh+uGMRt9XF01Ntu2I/LKJi/wC84xBv8vjz0RKQ80Tw6RStiqN0M4jrLXKF6fGoMNh0c1HUOrhk7dfsElHHf0z3fauHouNgxlBR9VN88MsOT0NVrHXw+BQl5WKSED9BuC822bzr9pU4WRz9wEOgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dzmWb4a5QOcLh0pMBj1iGgqX6U/wqNtKIZUD06MwM7k=;
+ b=dFOvaT9NbGn0+jaFeY++zExgL75vzWB8VFmE+KEhCA+c2LC5imww3i4Yo8mtMIO1ZQLihd8zCrFj8swZsuHdGFJNe4Mwn8dWn+SRS6chw7CYO0ROwiLsD2MJp47sn1cL/BztJtETGfhS2hIorh8+wYIVEUP2qq/YYJqBs6pXNgS6sAnIvX/tHy3JTEhi4cQVAUm1pcrZYzcKHh7dDKM7xPSV6X69IEZNPMOYgCb64hr1RRpd9mH5wK/YCfx7y7q9foc9zTdhO34okSIAwk5ATxJ9BGAHmBtAHgFzOi9M64WNJ1LBhZE7Ua1/N0HTSat+Kv+BcGejfNWBdB2jB9kkfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=lists.infradead.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dzmWb4a5QOcLh0pMBj1iGgqX6U/wqNtKIZUD06MwM7k=;
+ b=arc079CXAbTL1NvUUx5+jfGvtWJ/w3at2B8GmeJtFwB1G172Rh7hO9/lvYwcz/W2reaSb9NDEtrWBD/XyM2UF26qwbvr4csgCXtZAnWadG97r07V1kV7d4A/xUCzhAges+/ukxMt84TXZWOaRR3HnUfdSXMWr+JZ4P08zGWMbEYUzmt3v/17X9l4lqOSeFvuw1mGsJzgwwcnNeeGtuvk66Uda35ohE+z/zV5u4T7h2HnV4ecvazppFpRhLYBOcYTta4f2UvStZoRC4hfZKqDqym60e77537D2HMmR0oiiQmSq1IgQ8aurUOh9EmhGGUiYwpCPZCEUC0D65Vu8OhsDQ==
+Received: from MW4PR03CA0132.namprd03.prod.outlook.com (2603:10b6:303:8c::17)
+ by DS0PR12MB7509.namprd12.prod.outlook.com (2603:10b6:8:137::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.23; Sun, 15 Jan
+ 2023 10:03:51 +0000
+Received: from CO1NAM11FT074.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:8c:cafe::d2) by MW4PR03CA0132.outlook.office365.com
+ (2603:10b6:303:8c::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.19 via Frontend
+ Transport; Sun, 15 Jan 2023 10:03:51 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ CO1NAM11FT074.mail.protection.outlook.com (10.13.174.254) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6002.13 via Frontend Transport; Sun, 15 Jan 2023 10:03:51 +0000
+Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Sun, 15 Jan
+ 2023 02:03:47 -0800
+Received: from drhqmail201.nvidia.com (10.126.190.180) by
+ drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Sun, 15 Jan 2023 02:03:46 -0800
+Received: from r-arch-stor03.mtr.labs.mlnx (10.127.8.14) by mail.nvidia.com
+ (10.126.190.180) with Microsoft SMTP Server id 15.2.986.36 via Frontend
+ Transport; Sun, 15 Jan 2023 02:03:44 -0800
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+To: <linux-nvme@lists.infradead.org>, <hch@infradead.org>,
+	<kbusch@kernel.org>, <sagi@grimberg.me>
+CC: <israelr@nvidia.com>, <chaitanyak@nvidia.com>, Max Gurtovoy
+	<mgurtovoy@nvidia.com>
+Subject: [PATCH 2/3] nvme-rdma: implement existing_ctrl operation
+Date: Sun, 15 Jan 2023 12:03:40 +0200
+Message-ID: <20230115100341.40347-2-mgurtovoy@nvidia.com>
+X-Mailer: git-send-email 2.18.1
+In-Reply-To: <20230115100341.40347-1-mgurtovoy@nvidia.com>
+References: <20230115100341.40347-1-mgurtovoy@nvidia.com>
 MIME-Version: 1.0
-From: Alvaro Karsz <alvaro.karsz@solid-run.com>
-Date: Sun, 15 Jan 2023 09:55:26 +0200
-Message-ID: <CAJs=3_C+K0iumqYyKhphYLp=Qd7i6-Y6aDUgmYyY_rdnN1NAag@mail.gmail.com>
-Subject: Virtio-blk extended lifetime feature
-To: virtualization <virtualization@lists.linux-foundation.org>, linux-block@vger.kernel.org, 
-	dm-devel@redhat.com, linux-nvme@lists.infradead.org, 
-	linux-scsi@vger.kernel.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>, egranata@google.com, 
-	Bart Van Assche <bvanassche@acm.org>, Christoph Hellwig <hch@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT074:EE_|DS0PR12MB7509:EE_
+X-MS-Office365-Filtering-Correlation-Id: 65e81124-3c4c-478a-32aa-08daf6dfcdbb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	Wj7pFwsJ5WXnfZsMelaPyz2NQ8SWQKRVQ4flZSWTjVoRHfwNLyX37klFZrKWXuKEnSVNaLRm4d1rhwmtTSZXpzQHy4Jg9j4dJjF5FLCdTequ74bAe3zX/1w1D7y1Z4Gc67lbkiproS5dA1oN0A24pEMXE0yNX9ppfrn4aqQbbwgExMSL+9kX5qViCscW86b+KaRjcOHIA32cTAy9ZA0SOmdpJIxUC+hOB4a1w3v2XtBsK5NcIt5S68xtYjQOM2VcafhU6os/PienpoOsx0E3s7khEQij23OkDnb7nuQuHRMoo1t5Y8aVwWKqpZ1Nf5fXEhdL/QngkBjYjYwe48gCW/Afa5si9qJmFiUIwvnI54B6Et8YbhqBmnGkL4n0kIEwq54qwRKqWcaavi42S3kbhn+Yi1iBkeFCrfrRbFVdrXVlRxE9bMx4stKsnG9W6zLVnNidpVGarZL3rb+DB5zRM+6U6GTpMG3Q5c5W6ykliCudiP4oVgrs1oocdpf71y65jquQfP4qQ14AzVGeUecuWBVHGETOZ0K8BXlIqtcPCOCwLtEs4zxlJOzBxSBpjqmdsATl+HvLp5mHxZoysguV5XmM0GbOgHt7IUc0BVX7ybS+zKRiA3ee2BJ/7Y+CM8Z5R3taK2J2fdjHSM4ZkOBoX86k+wk4Qjbv+xBMA51C/prw1VtYxirmW5Ar/DciYysOlJuFIiGkXgdQaLGcegBdZw==
+X-Forefront-Antispam-Report: 	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230022)(4636009)(376002)(396003)(39860400002)(136003)(346002)(451199015)(46966006)(36840700001)(40470700004)(1076003)(54906003)(2616005)(186003)(4326008)(8676002)(26005)(336012)(316002)(70586007)(70206006)(110136005)(478600001)(426003)(47076005)(41300700001)(8936002)(5660300002)(6666004)(107886003)(83380400001)(2906002)(36860700001)(356005)(7636003)(82740400003)(86362001)(40480700001)(36756003)(40460700003)(82310400005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2023 10:03:51.5146
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 65e81124-3c4c-478a-32aa-08daf6dfcdbb
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: 	CO1NAM11FT074.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7509
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230114_235609_708588_E2DF9B15 
-X-CRM114-Status: UNSURE (   6.54  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230115_020357_122896_045B7EC4 
+X-CRM114-Status: GOOD (  10.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,28 +121,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi guys,
+The logic of checking matching connections moved to the core layer.
+Implement the needed optional operation and remove the common logic.
 
-While trying to upstream the implementation of VIRTIO_BLK_F_LIFETIME
-feature, many developers suggested that this feature should be
-extended to include more cell types, since its current implementation
-in virtio spec is relevant for MMC and UFS devices only.
+Reviewed-by: Israel Rukshin <israelr@nvidia.com>
+Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+---
+ drivers/nvme/host/rdma.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-The VIRTIO_BLK_F_LIFETIME defines the following fields:
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index bbad26b82b56..79412e4bfe3e 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -2326,11 +2326,6 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 		}
+ 	}
+ 
+-	if (!opts->duplicate_connect && nvme_rdma_existing_controller(opts)) {
+-		ret = -EALREADY;
+-		goto out_free_ctrl;
+-	}
+-
+ 	INIT_DELAYED_WORK(&ctrl->reconnect_work,
+ 			nvme_rdma_reconnect_ctrl_work);
+ 	INIT_WORK(&ctrl->err_work, nvme_rdma_error_recovery_work);
+@@ -2390,6 +2385,7 @@ static struct nvmf_transport_ops nvme_rdma_transport = {
+ 			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_NR_POLL_QUEUES |
+ 			  NVMF_OPT_TOS,
+ 	.create_ctrl	= nvme_rdma_create_ctrl,
++	.existing_ctrl	= nvme_rdma_existing_controller,
+ };
+ 
+ static void nvme_rdma_remove_one(struct ib_device *ib_device, void *client_data)
+-- 
+2.18.1
 
-- pre_eol_info:  the percentage of reserved blocks that are consumed.
-- device_lifetime_est_typ_a: wear of SLC cells.
-- device_lifetime_est_typ_b: wear of MLC cells.
-
-(https://docs.oasis-open.org/virtio/virtio/v1.2/virtio-v1.2.html)
-
-Following Michael's suggestion, I'd like to add to the virtio spec
-with a new, extended lifetime command.
-Since I'm more familiar with embedded type storage devices, I'd like
-to ask you guys what fields you think should be included in the
-extended command.
-
-Thanks,
-
-Alvaro
 
