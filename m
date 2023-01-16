@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78C3DC54EBE
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Jan 2023 13:10:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C970C46467
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Jan 2023 13:10:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vu/nkh3n6CUef7i0kK+BljjRoWaSv8wuL6xCYGRdJMc=; b=ErS02bK1xbdeR8fQIPAxIWzT+3
-	HXcD6RSILkUUeyzN+qyPdMGMpRxbpOghX0KvqPVRDnzkM/J+AIkLEmBV90KxqKhMDIKD5tBa8FSHr
-	JrQJ3H870N86sM8vD+oh9laCY9+xotKjMDRaNlD32YpVSrkwLMUiVIqr9rSR0RbswffKs41xLTtSG
-	KhYYk73x5cus+xuBe0y/2b+BHS2D0NGASvynNlGPEEqyolEIC97//RGBvWLLNr774UARD0M6kIUFH
-	sQfWT7VaGFy5xM1qVQBEY4cumVfildcv6rlpyCAawwN7uKdOfKAgN0gQi+kIJiaoDvG7mhgh5hIp1
-	Qm+s2ZfQ==;
+	bh=BTnnWnp7UUWhj8ee5w6z9hZcVjDAoeqkUa/6DelfCYA=; b=pQkFkjmP68/HaagE6b2+mKOwmH
+	y2E5iNcwW5h0cSKGffqXD8HWI7Vjyvwc7MPDzlUUPz/mqjiWrq3+sfwEHQXaUZkH+vMwYi/yMXfOp
+	Vy7ccpPF1ASEBoFpYDiqVTupoli4fy1c3k/SHEaCMe2nGrE62ZDnUTXtNhWKRZ/HnT0/HsgJXIBCH
+	i2hfyGVnsPzBlZHVSl7ONo7j7d6dNHQG0dcuE7ieTYplw6WMsbSwmrG8TL2MbCMvrI7vJpGxSVLB7
+	eRzZAywQsPn6j0la0hTfN4kunGnzZxCoykI+rDhovFGSrl8yMBdz6hbZZ4K8/PIt9YpD6og9KSX1I
+	pIIRUuag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHPFY-00AIty-OK; Mon, 16 Jan 2023 13:10:08 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1pHPGG-00AJC3-DK; Mon, 16 Jan 2023 13:10:52 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHPCL-00AHPW-V1
-	for linux-nvme@lists.infradead.org; Mon, 16 Jan 2023 13:06:51 +0000
+	id 1pHPCP-00AHR9-VP
+	for linux-nvme@lists.infradead.org; Mon, 16 Jan 2023 13:06:56 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id AD88FB80E37;
-	Mon, 16 Jan 2023 13:06:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84A50C433EF;
-	Mon, 16 Jan 2023 13:06:46 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 9E6F9B80D20;
+	Mon, 16 Jan 2023 13:06:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88B85C433D2;
+	Mon, 16 Jan 2023 13:06:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673874407;
-	bh=JlISh7ZpJM1JouHMtly+4IcB63O1MxsyN1Eywkp8Wsg=;
+	s=k20201202; t=1673874411;
+	bh=yXankd3ADXRZerTodbpyETr0H4Qj01JdsQgtwpw0Dpo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aEBoKJSxCjguG2DHqyA7O8qM4GE3x282g/b/CwTfZAS4zWD4B6wASQ+jEB5v/9zR/
-	 ghrEPqNMvev2QZmBhfekV3oRIuWjuTMKqu+Tzfqn8kldJwTA8QYAxUbuyHvhGL80BM
-	 QdA4d1/nx3Ly5CVTs3zgz2eyIgWBsTZ5eAcizz+q/laOZkFfW1DiI9wgCVeZrkKahJ
-	 +g3SoDr4gJw/IVa0yBpVcsJEhstqA9mYnolCld9y2SO7DzLDOhhyLv3ueEl/plNU8I
-	 RLCCMIed/IZ9bzeQdgF5gf/J2ek6Vtx4EP26J7GKfgPLdqlLQWH17T/t1+hT8LCDHf
-	 vrmptUx/xttaw==
+	b=fgIjibUjt1g+aWE/ux7w8lldiqti9MPTOYrg664GTgeLLIko4iPlQIWTchtK4PPS2
+	 E/Nj7bdo+U8PXiZB22s69BYxYSo2jkj8gYzgB/2jWsva2ntMUuI2Aq3657DptC5dE5
+	 4Jr0jMc+OseLWn678RNGP/CbyWwuU5rWZ4YS+wtBZ9xex7dzm7e7WMNr0g149oyV5g
+	 bV1mGiJJ9b8fsOyoNu+nM/BzhRhn01fxJYL0KHLx7WVH9RdBd24jGTRwxpOzoj8iDi
+	 A66sE/zByovan3DalETwgdA4lfwZfOcUxm25T0qqmVAvszBo4pnTSvZLqnjof6c1O+
+	 WQcxe4oVbyRIg==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Israel Rukshin <israelr@nvidia.com>,
@@ -65,17 +65,17 @@ Cc: Israel Rukshin <israelr@nvidia.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	Vishnu Dasa <vdasa@vmware.com>,
 	Yishai Hadas <yishaih@nvidia.com>
-Subject: [PATCH rdma-next 11/13] nvme: Introduce a local variable
-Date: Mon, 16 Jan 2023 15:05:58 +0200
-Message-Id: <cf5bc542e014f465f7ae443e52e70def2993aef1.1673873422.git.leon@kernel.org>
+Subject: [PATCH rdma-next 08/13] RDMA/mlx5: Add cryptographic device capabilities
+Date: Mon, 16 Jan 2023 15:05:55 +0200
+Message-Id: <39ba2f3cd1786e47f2541f4a7be59cc5af4b03c7.1673873422.git.leon@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <cover.1673873422.git.leon@kernel.org>
 References: <cover.1673873422.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230116_050650_171996_086C4804 
-X-CRM114-Status: GOOD (  13.15  )
+X-CRM114-CacheID: sfid-20230116_050654_359313_5CB33FC6 
+X-CRM114-Status: GOOD (  19.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,53 +92,133 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Israel Rukshin <israelr@nvidia.com>
 
-The patch doesn't change any logic.
+The capabilities provide information on general cryptographic support,
+maximum number of DEKs and status for RDMA devices. Also, they include
+the supported cryptographic engines and their import method (wrapped or
+plaintext). Wrapped crypto operational flag indicates the import method
+mode that can be used. For now, add only AES-XTS cryptographic support.
 
 Signed-off-by: Israel Rukshin <israelr@nvidia.com>
 Signed-off-by: Leon Romanovsky <leon@kernel.org>
 ---
- drivers/nvme/host/core.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/infiniband/hw/mlx5/Makefile  |  1 +
+ drivers/infiniband/hw/mlx5/crypto.c  | 31 ++++++++++++++++++++++++++++
+ drivers/infiniband/hw/mlx5/crypto.h  | 11 ++++++++++
+ drivers/infiniband/hw/mlx5/main.c    |  5 +++++
+ drivers/infiniband/hw/mlx5/mlx5_ib.h |  2 ++
+ 5 files changed, 50 insertions(+)
+ create mode 100644 drivers/infiniband/hw/mlx5/crypto.c
+ create mode 100644 drivers/infiniband/hw/mlx5/crypto.h
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 7be562a4e1aa..51a9880db6ce 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1870,6 +1870,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 	sector_t capacity = nvme_lba_to_sect(ns, le64_to_cpu(id->nsze));
- 	unsigned short bs = 1 << ns->lba_shift;
- 	u32 atomic_bs, phys_bs, io_opt = 0;
-+	struct nvme_ctrl *ctrl = ns->ctrl;
+diff --git a/drivers/infiniband/hw/mlx5/Makefile b/drivers/infiniband/hw/mlx5/Makefile
+index 612ee8190a2d..d6ae1a08b5b2 100644
+--- a/drivers/infiniband/hw/mlx5/Makefile
++++ b/drivers/infiniband/hw/mlx5/Makefile
+@@ -6,6 +6,7 @@ mlx5_ib-y := ah.o \
+ 	     cong.o \
+ 	     counters.o \
+ 	     cq.o \
++	     crypto.o \
+ 	     dm.o \
+ 	     doorbell.o \
+ 	     gsi.o \
+diff --git a/drivers/infiniband/hw/mlx5/crypto.c b/drivers/infiniband/hw/mlx5/crypto.c
+new file mode 100644
+index 000000000000..6fad9084877e
+--- /dev/null
++++ b/drivers/infiniband/hw/mlx5/crypto.c
+@@ -0,0 +1,31 @@
++// SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
++/* Copyright (c) 2022, NVIDIA CORPORATION & AFFILIATES. */
++
++#include "crypto.h"
++
++void mlx5r_crypto_caps_init(struct mlx5_ib_dev *dev)
++{
++	struct ib_crypto_caps *caps = &dev->crypto_caps;
++	struct mlx5_core_dev *mdev = dev->mdev;
++
++	if (!(MLX5_CAP_GEN_64(dev->mdev, general_obj_types) &
++	      MLX5_HCA_CAP_GENERAL_OBJECT_TYPES_ENCRYPTION_KEY))
++		return;
++
++	if (!MLX5_CAP_GEN(mdev, aes_xts_multi_block_le_tweak) &&
++	    !MLX5_CAP_GEN(mdev, aes_xts_multi_block_be_tweak))
++		return;
++
++	if (MLX5_CAP_CRYPTO(mdev, wrapped_import_method) &
++	    MLX5_CRYPTO_WRAPPED_IMPORT_METHOD_CAP_AES_XTS)
++		return;
++
++	if (MLX5_CAP_CRYPTO(mdev, failed_selftests)) {
++		mlx5_ib_warn(dev, "crypto self-tests failed with error 0x%x\n",
++			     MLX5_CAP_CRYPTO(mdev, failed_selftests));
++		return;
++	}
++
++	caps->crypto_engines |= IB_CRYPTO_ENGINES_CAP_AES_XTS;
++	caps->max_num_deks = 1 << MLX5_CAP_CRYPTO(mdev, log_max_num_deks);
++}
+diff --git a/drivers/infiniband/hw/mlx5/crypto.h b/drivers/infiniband/hw/mlx5/crypto.h
+new file mode 100644
+index 000000000000..8686ac6fb0b0
+--- /dev/null
++++ b/drivers/infiniband/hw/mlx5/crypto.h
+@@ -0,0 +1,11 @@
++/* SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB */
++/* Copyright (c) 2022, NVIDIA CORPORATION & AFFILIATES. */
++
++#ifndef _MLX5_IB_CRYPTO_H
++#define _MLX5_IB_CRYPTO_H
++
++#include "mlx5_ib.h"
++
++void mlx5r_crypto_caps_init(struct mlx5_ib_dev *dev);
++
++#endif /* _MLX5_IB_CRYPTO_H */
+diff --git a/drivers/infiniband/hw/mlx5/main.c b/drivers/infiniband/hw/mlx5/main.c
+index fb0d97bd4074..10f12e9a4dc3 100644
+--- a/drivers/infiniband/hw/mlx5/main.c
++++ b/drivers/infiniband/hw/mlx5/main.c
+@@ -39,6 +39,7 @@
+ #include "srq.h"
+ #include "qp.h"
+ #include "wr.h"
++#include "crypto.h"
+ #include "restrack.h"
+ #include "counters.h"
+ #include "umr.h"
+@@ -989,6 +990,7 @@ static int mlx5_ib_query_device(struct ib_device *ibdev,
+ 	props->max_ah = INT_MAX;
+ 	props->hca_core_clock = MLX5_CAP_GEN(mdev, device_frequency_khz);
+ 	props->timestamp_mask = 0x7FFFFFFFFFFFFFFFULL;
++	props->crypto_caps = dev->crypto_caps;
  
- 	/*
- 	 * The block layer can't support LBA sizes larger than the page size
-@@ -1892,7 +1893,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 		if (id->nsfeat & NVME_NS_FEAT_ATOMICS && id->nawupf)
- 			atomic_bs = (1 + le16_to_cpu(id->nawupf)) * bs;
- 		else
--			atomic_bs = (1 + ns->ctrl->subsys->awupf) * bs;
-+			atomic_bs = (1 + ctrl->subsys->awupf) * bs;
- 	}
+ 	if (IS_ENABLED(CONFIG_INFINIBAND_ON_DEMAND_PAGING)) {
+ 		if (dev->odp_caps.general_caps & IB_ODP_SUPPORT)
+@@ -3826,6 +3828,9 @@ static int mlx5_ib_stage_caps_init(struct mlx5_ib_dev *dev)
+ 	if (MLX5_CAP_GEN(mdev, xrc))
+ 		ib_set_device_ops(&dev->ib_dev, &mlx5_ib_dev_xrc_ops);
  
- 	if (id->nsfeat & NVME_NS_FEAT_IO_OPT) {
-@@ -1922,7 +1923,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 		if (IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY) &&
- 		    (ns->features & NVME_NS_METADATA_SUPPORTED))
- 			nvme_init_integrity(disk, ns,
--					    ns->ctrl->max_integrity_segments);
-+					    ctrl->max_integrity_segments);
- 		else if (!nvme_ns_has_pi(ns))
- 			capacity = 0;
- 	}
-@@ -1931,7 +1932,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
++	if (MLX5_CAP_GEN(mdev, crypto))
++		mlx5r_crypto_caps_init(dev);
++
+ 	if (MLX5_CAP_DEV_MEM(mdev, memic) ||
+ 	    MLX5_CAP_GEN_64(dev->mdev, general_obj_types) &
+ 	    MLX5_GENERAL_OBJ_TYPES_CAP_SW_ICM)
+diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
+index 295502692da2..8f6850539542 100644
+--- a/drivers/infiniband/hw/mlx5/mlx5_ib.h
++++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
+@@ -1100,6 +1100,8 @@ struct mlx5_ib_dev {
+ 	struct mlx5_ib_delay_drop	delay_drop;
+ 	const struct mlx5_ib_profile	*profile;
  
- 	nvme_config_discard(disk, ns);
- 	blk_queue_max_write_zeroes_sectors(disk->queue,
--					   ns->ctrl->max_zeroes_sectors);
-+					   ctrl->max_zeroes_sectors);
- }
- 
- static bool nvme_ns_is_readonly(struct nvme_ns *ns, struct nvme_ns_info *info)
++	struct ib_crypto_caps		crypto_caps;
++
+ 	struct mlx5_ib_lb_state		lb;
+ 	u8			umr_fence;
+ 	struct list_head	ib_dev_list;
 -- 
 2.39.0
 
