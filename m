@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A760BC46467
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Jan 2023 13:08:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B37CC54EBE
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Jan 2023 13:08:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aQLOweuW8aooEQuIGSBZSGWMpGK3AhwvOsoSeTCltKw=; b=MPlvYI2srkL1J5kJVnwNChLbol
-	8daO7zukEaPFVoZKtdIoKeWnS8ZBrC7Zh4CEmPhdO3hUVcGhu1litIee6U/UnvEyPiXOPXGqT5+Ki
-	I6HTurVWbFykoslexK39i17RssBXC9YLJ7xXxC+0mnWjGBAwpySalFkOKUlxyGfNc6pRJOnTMkRrf
-	KhA+e3ePy7tirw2Or/zUlJ5krvnObT3lrlxj9BtlHXJObZidbgl4vXxzTOeOlWjePjm9jwxIYPSSq
-	/kCiUDmCa4BHg/wiIkJDWqnAr/QAWYVAmGBSo+bsie5AFseCBMP5Qp6KcOcHtPrfbBX6WYpaGIk95
-	kVoaKYQQ==;
+	bh=y48sDvbF7y3bPO82ORr25sl1gzN7sHzj4zaDZpV3Ut4=; b=GJjWT/w9OkQ+yh3mJu8RaPq+WJ
+	sh6KDhS4cEgChizENQfGGeoeIPX/MLC8nzbKl/R85hgu/vBNNcE5AFDIWt8PvJ0b8hEWKf/SzUYTu
+	FFKLogD6yYtMF02go7BrEGWD6okmbLqdThinhr0srs59HUJwVt3wqPBv3/BAJF0M6w4MM8fDtpinf
+	zSwJYpnXnXBO6sjn4PZfdtrA9WinVy4kfFFrPqNFNr4KOcZwHenGS01R1WgqsF38Gxj89yr9TjgVv
+	qIbHeWvOid3Bf4B3SUwxcq4viYO3G3uQWPmLK8Guj6hrTvSq0Wz5e1a/91CnKNwMoV3yEVg+vGbH8
+	PBOsUEhw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHPDR-00AI40-Id; Mon, 16 Jan 2023 13:07:57 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1pHPDp-00AIEo-QA; Mon, 16 Jan 2023 13:08:21 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHPC3-00AHGi-IB
-	for linux-nvme@lists.infradead.org; Mon, 16 Jan 2023 13:06:33 +0000
+	id 1pHPC7-00AHId-TS
+	for linux-nvme@lists.infradead.org; Mon, 16 Jan 2023 13:06:37 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 2678B60EB5;
-	Mon, 16 Jan 2023 13:06:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5839C433EF;
-	Mon, 16 Jan 2023 13:06:29 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 7532160F8C;
+	Mon, 16 Jan 2023 13:06:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17886C433D2;
+	Mon, 16 Jan 2023 13:06:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673874390;
-	bh=IB+veTmklBKw7PiVo8v/NfpEJifNCfbu55nd+mTVPUg=;
+	s=k20201202; t=1673874394;
+	bh=AUs3KMfwul5/qoENqpBBsgdpaDQZs+4sjPEYd3EWOgw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Zq1PeBxWasNH9Dc8TC5hkRkJlGnfrUF4cWKlF4/fG9vW4QUdGsdaxsghZtSzGekgL
-	 Ql33dt1b+c8IiQ26vu0nGPhqhXCrfk9adXxFZXDxdtwDHR4x6iJ3SaSyZYBepeCwBZ
-	 Kc1h7HaqLwA7JpvpcHUpLHDiYeVw/LVwcm3Qkh0MIpAuak9cURPQnFRsQWsR/l+0Yk
-	 wUKGvViiPRzzYkrTDFpzf2TnxIG8excmNjlptAdTQM7ps0xm/RB3itb2zPmaoGw6tz
-	 ZlhHeHiLEOPWtUTi0h9Lawmhs2MdwmLgHHbEwdPoDN5CS39q3fayP03G9NKAQ6Vrgl
-	 DHhkfMNo2J7fQ==
+	b=SZ2qMwj8IZWq9M1yXgCtDldTsT2NjF+yGxfuxQc6UhuH6wTSCTXdN8hzxp4iR5+kx
+	 TAs8fTSTQeD+D8cq/Ge6NnfU1ObfO0vh8sL+fE1NrUgSUPSB/hIfwg8T8DR6cXgAN8
+	 HaZm5yn7T4ObQhbtMtAuzAPR5t3jE2eMTo9BsF3IDPB/6FuplJNv+huJKbmeS7gjdU
+	 SeeCkTOFp03faiW1jae/4mHefqoY/AR6QUy9NgxR+Co+CNVB5Y+zKNylpEHNx23pCI
+	 Nrk4md70FmjZ+U4kzzG/nNSdyRbf6vgaoj+wE+KZoYnYo0MvKynZ8kvqgNXJvkpqGQ
+	 tJOQAlFnKwrmQ==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Israel Rukshin <israelr@nvidia.com>,
@@ -65,17 +65,17 @@ Cc: Israel Rukshin <israelr@nvidia.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	Vishnu Dasa <vdasa@vmware.com>,
 	Yishai Hadas <yishaih@nvidia.com>
-Subject: [PATCH rdma-next 07/13] RDMA/core: Add support for creating crypto enabled QPs
-Date: Mon, 16 Jan 2023 15:05:54 +0200
-Message-Id: <7a772388d517a28052fa5f0b8ea507cb3fe471fe.1673873422.git.leon@kernel.org>
+Subject: [PATCH rdma-next 05/13] RDMA/core: Add DEK management API
+Date: Mon, 16 Jan 2023 15:05:52 +0200
+Message-Id: <58e678103d910efbe3481d698169af9dadf70d4b.1673873422.git.leon@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <cover.1673873422.git.leon@kernel.org>
 References: <cover.1673873422.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230116_050631_707933_0ACABD63 
-X-CRM114-Status: GOOD (  19.05  )
+X-CRM114-CacheID: sfid-20230116_050636_065615_6F96CB34 
+X-CRM114-Status: GOOD (  17.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,81 +92,146 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Israel Rukshin <israelr@nvidia.com>
 
-Add a list of crypto MRs and introduce a crypto WR type to post
-on those QPs.
+Add an API to manage Data Encryption Keys (DEKs). The API allows
+creating and destroying a DEK. DEKs allow encryption and decryption
+of transmitted data and are used in MKeys for crypto operations.
+A crypto setter for the MKey configuration API will be added in the
+following commit.
 
 Signed-off-by: Israel Rukshin <israelr@nvidia.com>
+Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
 Signed-off-by: Leon Romanovsky <leon@kernel.org>
 ---
- drivers/infiniband/core/verbs.c |  3 +++
- include/rdma/ib_verbs.h         | 12 +++++++++++-
- 2 files changed, 14 insertions(+), 1 deletion(-)
+ drivers/infiniband/core/device.c |  2 ++
+ drivers/infiniband/core/verbs.c  | 32 +++++++++++++++++++++++++++
+ include/rdma/crypto.h            | 38 ++++++++++++++++++++++++++++++++
+ include/rdma/ib_verbs.h          |  3 +++
+ 4 files changed, 75 insertions(+)
 
+diff --git a/drivers/infiniband/core/device.c b/drivers/infiniband/core/device.c
+index a666847bd714..b2016725c3d8 100644
+--- a/drivers/infiniband/core/device.c
++++ b/drivers/infiniband/core/device.c
+@@ -2615,6 +2615,7 @@ void ib_set_device_ops(struct ib_device *dev, const struct ib_device_ops *ops)
+ 	SET_DEVICE_OP(dev_ops, create_ah);
+ 	SET_DEVICE_OP(dev_ops, create_counters);
+ 	SET_DEVICE_OP(dev_ops, create_cq);
++	SET_DEVICE_OP(dev_ops, create_dek);
+ 	SET_DEVICE_OP(dev_ops, create_flow);
+ 	SET_DEVICE_OP(dev_ops, create_qp);
+ 	SET_DEVICE_OP(dev_ops, create_rwq_ind_table);
+@@ -2632,6 +2633,7 @@ void ib_set_device_ops(struct ib_device *dev, const struct ib_device_ops *ops)
+ 	SET_DEVICE_OP(dev_ops, destroy_ah);
+ 	SET_DEVICE_OP(dev_ops, destroy_counters);
+ 	SET_DEVICE_OP(dev_ops, destroy_cq);
++	SET_DEVICE_OP(dev_ops, destroy_dek);
+ 	SET_DEVICE_OP(dev_ops, destroy_flow);
+ 	SET_DEVICE_OP(dev_ops, destroy_flow_action);
+ 	SET_DEVICE_OP(dev_ops, destroy_qp);
 diff --git a/drivers/infiniband/core/verbs.c b/drivers/infiniband/core/verbs.c
-index 61473fee4b54..01aefff6760e 100644
+index 26b021f43ba4..03633d706106 100644
 --- a/drivers/infiniband/core/verbs.c
 +++ b/drivers/infiniband/core/verbs.c
-@@ -1223,6 +1223,7 @@ static struct ib_qp *create_qp(struct ib_device *dev, struct ib_pd *pd,
- 	spin_lock_init(&qp->mr_lock);
- 	INIT_LIST_HEAD(&qp->rdma_mrs);
- 	INIT_LIST_HEAD(&qp->sig_mrs);
-+	INIT_LIST_HEAD(&qp->crypto_mrs);
+@@ -2306,6 +2306,38 @@ struct ib_mr *ib_alloc_mr_integrity(struct ib_pd *pd,
+ }
+ EXPORT_SYMBOL(ib_alloc_mr_integrity);
  
- 	qp->send_cq = attr->send_cq;
- 	qp->recv_cq = attr->recv_cq;
-@@ -1363,6 +1364,8 @@ struct ib_qp *ib_create_qp_kernel(struct ib_pd *pd,
- 				 device->attrs.max_sge_rd);
- 	if (qp_init_attr->create_flags & IB_QP_CREATE_INTEGRITY_EN)
- 		qp->integrity_en = true;
-+	if (qp_init_attr->create_flags & IB_QP_CREATE_CRYPTO_EN)
-+		qp->crypto_en = true;
++/**
++ * ib_create_dek - Create a DEK (Data Encryption Key) associated with the
++ * specific protection domain.
++ * @pd: The protection domain associated with the DEK.
++ * @attr: The attributes of the DEK.
++ *
++ * Return: Allocated DEK in case of success; IS_ERR() is true in case of an
++ * error, PTR_ERR() returns the error code.
++ */
++struct ib_dek *ib_create_dek(struct ib_pd *pd, struct ib_dek_attr *attr)
++{
++	struct ib_device *device = pd->device;
++
++	if (!device->ops.create_dek || !device->ops.destroy_dek)
++		return ERR_PTR(-EOPNOTSUPP);
++
++	return device->ops.create_dek(pd, attr);
++}
++EXPORT_SYMBOL(ib_create_dek);
++
++/**
++ * ib_destroy_dek - Destroys the specified DEK.
++ * @dek: The DEK to destroy.
++ */
++void ib_destroy_dek(struct ib_dek *dek)
++{
++	struct ib_device *device = dek->pd->device;
++
++	device->ops.destroy_dek(dek);
++}
++EXPORT_SYMBOL(ib_destroy_dek);
++
+ /* Multicast groups */
  
- 	return qp;
- 
-diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
-index 7507661c78d0..1770cd30c0f0 100644
---- a/include/rdma/ib_verbs.h
-+++ b/include/rdma/ib_verbs.h
-@@ -1175,6 +1175,8 @@ enum ib_qp_create_flags {
- 	IB_QP_CREATE_INTEGRITY_EN		= 1ULL << 34,
- 	/* Create an accelerated UD QP */
- 	IB_QP_CREATE_NETDEV_USE			= 1ULL << 35,
-+	/* The created QP can carry out cryptographic handover operations */
-+	IB_QP_CREATE_CRYPTO_EN			= 1ULL << 36,
+ static bool is_valid_mcast_lid(struct ib_qp *qp, u16 lid)
+diff --git a/include/rdma/crypto.h b/include/rdma/crypto.h
+index 4779eacb000e..cdf287c94737 100644
+--- a/include/rdma/crypto.h
++++ b/include/rdma/crypto.h
+@@ -34,4 +34,42 @@ struct ib_crypto_caps {
+ 	u32 max_num_deks;
  };
  
- /*
-@@ -1352,6 +1354,12 @@ enum ib_wr_opcode {
- 	/* These are kernel only and can not be issued by userspace */
- 	IB_WR_REG_MR = 0x20,
- 	IB_WR_REG_MR_INTEGRITY,
-+	/*
-+	 * It is used to assign crypto properties to a MKey. Use the MKey in
-+	 * any RDMA transaction (SEND/RECV/READ/WRITE) to encrypt/decrypt data
-+	 * on-the-fly.
-+	 */
-+	IB_WR_REG_MR_CRYPTO,
- 
- 	/* reserve values for low level drivers' internal use.
- 	 * These values will not be used at all in the ib core layer.
-@@ -1800,6 +1808,7 @@ struct ib_qp {
- 	int			mrs_used;
- 	struct list_head	rdma_mrs;
- 	struct list_head	sig_mrs;
-+	struct list_head	crypto_mrs;
- 	struct ib_srq	       *srq;
- 	struct ib_xrcd	       *xrcd; /* XRC TGT QPs only */
- 	struct list_head	xrcd_list;
-@@ -1822,7 +1831,8 @@ struct ib_qp {
- 	struct ib_qp_security  *qp_sec;
- 	u32			port;
- 
--	bool			integrity_en;
-+	u8			integrity_en:1;
-+	u8			crypto_en:1;
- 	/*
- 	 * Implementation details of the RDMA core, don't use in drivers:
- 	 */
++/**
++ * enum ib_crypto_key_type - Cryptographic key types
++ * @IB_CRYPTO_KEY_TYPE_AES_XTS: Key of type AES-XTS, which can be used when
++ * IB_CRYPTO_AES_XTS is supported.
++ */
++enum ib_crypto_key_type {
++	IB_CRYPTO_KEY_TYPE_AES_XTS,
++};
++
++/**
++ * struct ib_dek_attr - Parameters for DEK (Data Encryption Key)
++ * @key_blob: the key blob that will be used for encryption and decryption of
++ *     transmitted data. Actual size and layout of this field depends on the
++ *     provided key_type and key_blob_size.
++ *     The layout of AES_XTS key is: key1_128b + key2_128b or key1_256b +
++ *     key2_256b.
++ * @key_blob_size: size of the key blob in bytes.
++ * @key_type: specific cryptographic key type.
++ */
++struct ib_dek_attr {
++	const void *key_blob;
++	u32 key_blob_size;
++	enum ib_crypto_key_type key_type;
++};
++
++/**
++ * struct ib_dek - Data Encryption Key
++ * @pd: The protection domain associated with the DEK.
++ * @id: DEK identifier.
++ */
++struct ib_dek {
++	struct ib_pd *pd;
++	u32 id;
++};
++
++struct ib_dek *ib_create_dek(struct ib_pd *pd, struct ib_dek_attr *attr);
++void ib_destroy_dek(struct ib_dek *dek);
++
+ #endif /* _RDMA_CRYPTO_H_ */
+diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
+index 83be7e49c5f7..5fb42d553ca1 100644
+--- a/include/rdma/ib_verbs.h
++++ b/include/rdma/ib_verbs.h
+@@ -2512,6 +2512,9 @@ struct ib_device_ops {
+ 	struct ib_mr *(*alloc_mr_integrity)(struct ib_pd *pd,
+ 					    u32 max_num_data_sg,
+ 					    u32 max_num_meta_sg);
++	struct ib_dek *(*create_dek)(struct ib_pd *pd,
++				     struct ib_dek_attr *attr);
++	void (*destroy_dek)(struct ib_dek *dek);
+ 	int (*advise_mr)(struct ib_pd *pd,
+ 			 enum ib_uverbs_advise_mr_advice advice, u32 flags,
+ 			 struct ib_sge *sg_list, u32 num_sge,
 -- 
 2.39.0
 
