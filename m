@@ -4,130 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9ADB3C677F1
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Jan 2023 17:39:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEEA2C46467
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Jan 2023 21:14:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cj7he6aEHAdV7kojaxUUo6huinQ8kqwxP++8RACu1BY=; b=cVkfh20noPr1IKjpFzJA8jTjs6
-	IelQ5yQNUc07JVEA52wr/Ect66U44PmAw35ZVZdE3x/C1BhgJtRv/69KjkNdPfuDxleIuN5Sba9v+
-	/qrQbFWOoNgyIbmM2gE2SFiqXpCxeMSWP4pVr8+QcsjMxswYHqlA/viitNuT2gWGNHOzrYXFelV3+
-	veTDUUnxsh7f9NdguNzeKcm1sybPRlh9nSEk3cxg03lCXKUMbmfxS8yHsDoeQ5QU9/OFic+St6DZR
-	oG/iPyI7j60qLG+4Uw/vp1RfMKjbxJ1mu8LjOJiQP3u51X19e/E/s3vH4xlSxouYkjUgUCsDTVHug
-	PMChRQxw==;
+	bh=zz7xUNaUOA+l+ZZyJwyYTuUW1EHckj5QcLwaaQ4qAq0=; b=ZnUTaCUvkAhFHHHOFnLfp/HIHS
+	7ZvpIm4Rlz+BL6kUY77few0KxCYBTwe5vpbKbCdgI2VpPg8DNo/hCVlM93tToaXdg26qca1zgXSu/
+	kg5x4rTlZzSp6ZwZ8/dBugAKdXM2MOUziJMkqi/jzD/w+u45IAL24pJFpG3iu90HOnmyK/HZ1LL5W
+	baxqQU0sSxxgJfx4NUZEReejJTm4X6GpVpqFQNfDxgHhiogjN0r+2TvS5NiYxZDbWJ+NOkalYhs14
+	Z+5df0iGgKZeFYCcv5t4f9lQpKydLiqEE6GWgevr5uY/FLo2JzWMCZ/6+Flwg4MuCwirzuQmd+cwm
+	AvAKY3xA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHTSY-00BYwv-Dh; Mon, 16 Jan 2023 17:39:50 +0000
-Received: from mail-mw2nam04on2060.outbound.protection.outlook.com ([40.107.101.60] helo=NAM04-MW2-obe.outbound.protection.outlook.com)
+	id 1pHWoA-00C4m7-E7; Mon, 16 Jan 2023 21:14:22 +0000
+Received: from out2-smtp.messagingengine.com ([66.111.4.26])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHTSV-00BYvv-3f
-	for linux-nvme@lists.infradead.org; Mon, 16 Jan 2023 17:39:48 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VM4FJYNDA+/qBwofI3xjWsiq5wyBDDD+TBCWf+yccNF/ix7bwrqq6Uzex4dIQWkjv8Lf7QQ2KVZlcvDobCsT9n+szYt2tCW2SoLVx1+0r5x1kjwFhRztjXtaHDu4pOlg12g9ZH2BHpzKwimVz22DKFcqRb1tk1awbsUeOV+6kNLPjkgnMhpbO58YN2K5FLcAmxg2UivpD6038mFgsgNz/uLl9WU03ZAeouJ/ImxWbdR4svvPqZZn+muk9OJZZ3bWbkQQ/4Osi2Euhi7YZeK04txzz3zqJpB7e3rhcY5Z4olxXxpOcaQcmr3t/Ptnhvvl8BATWYg76auMumtFrCbgPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cj7he6aEHAdV7kojaxUUo6huinQ8kqwxP++8RACu1BY=;
- b=lxsBYa8LTiG+Q5B6tQziR90zV5e+BMxOXx8XYWmnAP8FA/MopeFWMXWda1hcW3zzppEUc+i3lbuRss48BSlRpS1XBkdLlCgOjaslMmvKZkJxt+iXpH8RZXTsIzW0aa9dT+dk73+ZNAStdoWd1QJCxOkKhaylBpPP+6UmasaboQvXh7J3vLt0WxgxlEKE41S7uC9vov3L+cD0upRxYkmr+pdbot5oqrZ/27POTucgHNLhdI2Kh+UtOUs1Q7djGUH+fdFxNvib7XYUswDVDxp1hyOGKI2gnb6KUuH6OQLmj0ezZItZ/xvuxXcynvIMpVCTFl8o/N3Fc45NuLLs0xCt+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cj7he6aEHAdV7kojaxUUo6huinQ8kqwxP++8RACu1BY=;
- b=uQExVIfnnlp3oCDmFRY66UEWe6MytmeG+C1g1JD+Pf6s4T3IH+Y8+FLujEmbkElB2c9eQDpyXLtM0UIMdkvUCcOvt2wCwZL1r4vdTVWVGaE9M52uRCK/W3xItHm+xue+fN8dJkMacJtEeWvmRS1uPvVP6/zS/ny9egzThJZ1u2j9CLTEmRS0ciPn1MTeVieTicrEuNcxPhef8rfWKf6TLTRm8cCOUokbOKg1KOkenCuejZx8Sph9iEP3f1I0wYII6lM4ege2DAyCYEvUvfwi3QNxQX323TS+O5wIrEHTUKUpz6w1jo21usPKHZs+4I1qjIfY7fHnt6RIOv9s0BHi/g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by PH7PR12MB6564.namprd12.prod.outlook.com (2603:10b6:510:210::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Mon, 16 Jan
- 2023 17:39:40 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f8b0:df13:5f8d:12a]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f8b0:df13:5f8d:12a%9]) with mapi id 15.20.6002.013; Mon, 16 Jan 2023
- 17:39:40 +0000
-Date: Mon, 16 Jan 2023 13:39:38 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Israel Rukshin <israelr@nvidia.com>, Bryan Tan <bryantan@vmware.com>,
-	Christoph Hellwig <hch@lst.de>, Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Jens Axboe <axboe@fb.com>,
-	Keith Busch <kbusch@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Max Gurtovoy <mgurtovoy@nvidia.com>, netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Selvin Xavier <selvin.xavier@broadcom.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Vishnu Dasa <vdasa@vmware.com>, Yishai Hadas <yishaih@nvidia.com>
-Subject: Re: [PATCH rdma-next 03/13] RDMA: Split kernel-only create QP flags
- from uverbs create QP flags
-Message-ID: <Y8WL2gQqqeZdMvr6@nvidia.com>
-References: <cover.1673873422.git.leon@kernel.org>
- <6e46859a58645d9f16a63ff76592487aabc9971d.1673873422.git.leon@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6e46859a58645d9f16a63ff76592487aabc9971d.1673873422.git.leon@kernel.org>
-X-ClientProxiedBy: BL0PR01CA0026.prod.exchangelabs.com (2603:10b6:208:71::39)
- To LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+	id 1pHWo6-00C4lG-IQ
+	for linux-nvme@lists.infradead.org; Mon, 16 Jan 2023 21:14:21 +0000
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 3C4605C01E2;
+	Mon, 16 Jan 2023 16:14:12 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Mon, 16 Jan 2023 16:14:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+	 h=cc:cc:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1673903652; x=1673990052; bh=zz
+	7xUNaUOA+l+ZZyJwyYTuUW1EHckj5QcLwaaQ4qAq0=; b=l6jn/FTxo0MAFxBAkw
+	zRLDdp6Yy11TuSYkMP0KAfA2YmEPMgCKJisVsnejW0aS34GuTm5oZuzmuj1Vv0dk
+	7OKcm9V9W9uUcFUdHV4kh4ju8HanDrdvsnMuKYGPgx/+VhITAM9xw7Idopijxiab
+	vqIQoH1R+tHp9zT5UZopK0c3dUNCIw2aYJ/TXvSHZDjokGLZc52bMv5zzshz/mLD
+	/InOnNQug1boMJM62vZrb2ZZzmbcrInXsuVEEYnaZW5hvRzzlEGTQF6T+J8+n190
+	TX8NHRlIesfvvByoV5hN8Bo8l8hSxO4Uc2tx7SNLcrW9/dpHg0ijYZNohScWJve3
+	ErCg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1673903652; x=1673990052; bh=zz7xUNaUOA+l+ZZyJwyYTuUW1EHc
+	kj5QcLwaaQ4qAq0=; b=bGOCqEU3bmvo9lBygZ/UaTKt+MQuiX1JWkot9mvXJdBB
+	5CGZTlw+C/slHR+IciXvGn6BnPvuEacsYz+XN6HlumJMT1rdho0/Enyl16hKlyN0
+	h57MaBHKXtVlUSBG6Jxgl38JXM6byAV2zKD1L/cssxlmOVhA26WfnCLwrdHzWgAU
+	JQIqpVzjWvVo9GhC5IsfwrSevC7tCA9PCsRM3G2kzn3JYjQvezfGnJybQlldXQ42
+	SE9YGogefiFYEUpiglgLByCzNE5jYBVVx4bR9j9sc8pqm8U3oxGnvqM+ClPN/++j
+	SiQLPoc3Q1BC+z+dgjntA+ORXwsBRUn7SkuN02aAhw==
+X-ME-Sender: <xms:I77FYx47D863sf-x_wLVaN69fpJgRL2bOdngrr4FXmpAzy9VIweEbA>
+    <xme:I77FY-47NzdDLSeRMtlVwZPDAal6bavdz5ineGc4gFvsZsf5405OhSa4K_ZOx2fUS
+    xLqTCTtUrYgeTXQ2b4>
+X-ME-Received: <xmr:I77FY4ewJL0ry6d23tTZM6qQUCw6POnzdSKvA_T8tAWoDjW6tD1bxXqoq7yQrnOT_S-AEIyorp1-gqMbh0Rj9-aIk1ZJdg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtgedgudegjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgr
+    uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
+    htthgvrhhnpeegheekudejuddvteeuueegledtieffveeuteejkeefiefgffefieeviedu
+    leegtdenucffohhmrghinhepphgtihdrtgifnecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:I77FY6Lfj5JNYe6iPltZf0HTLKoJqV5ndru5kUyxrCTH-99mFf3X2A>
+    <xmx:I77FY1KIyYsj5TT0PQidnAlymxRBYxSCxs2EcaMe8meYScpQ-eiI5g>
+    <xmx:I77FYzxTx92lR9IxU9XvOC0qactV-yGO3hJl1uSiHmVKK9_uJLWCNA>
+    <xmx:JL7FY6qdv82udScOz8DK8HEiNxmsy-xdBUMx3QeeWkrDiLRiI9NtKQ>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 16 Jan 2023 16:14:09 -0500 (EST)
+Date: Mon, 16 Jan 2023 22:14:07 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
+Message-ID: <Y8W+H6T9DOZ08SoF@cormorant.local>
+References: <Y8AG21o/9/3eUMIg@cormorant.local>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|PH7PR12MB6564:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9709d8e8-c433-4848-edcf-08daf7e8a4d8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	dhGqcm+70oF3htcQltI+yuuirQk1+SwHi870pLn25CynUL1WwSYdWiKbPk9sqOX5N4v5IRTOn2yFdBQ0pFyd4oBl87uLRltH1N8DCeIHesFUZ8qvn19CX5OkI8oKBLk48iEhrb1GJuzCxhV8oRt4xxOniAyYS+wD1q90FpHGWO0+vspthmxd4Nt8gO/upMD/MNOtoBJ8rTQh82e/e6gGkQOnsqfWhKF/5M5KNLLwzxIM9rxknStJHsxtlBUYkJQEu3byAU6+sWyScWRfmrHma8/YSt3B0K8GirH9PHRK0LBYPfmZizmckxp9LTXEzIMWtP4552TVrFXs7BQ045a8Zd/14drU2JvKvWjF9VxsXmTMOMMQS+wJFs3+P4QVlUC669sSWfpXgowLw5SEoucvmQO4R2ayv/TO+iq3d1peo4DPY8+MWM5OdhE8ITFPnjEKh2l5B70zKxsHuZ7BFuot5DF6rsXwR+KtOuuF99ARWwC7M9WsEq4ZFlOpYmCC7VsUHzhszd6GiWE6Csc58kqQP1QnUtKjmaNzKMNmC0iKkH07SfjYjN1xhvRB6FfES4u5kKVEdzDKykWpd0VUiFY/FPHwVadp1bR/5Hlx6u0WoOCdewtwwPtaLfmu8BlojxmfSuaaLbm5HO3y/Bvt1dEnHA==
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(136003)(376002)(366004)(346002)(396003)(451199015)(6916009)(54906003)(41300700001)(2906002)(38100700002)(316002)(6486002)(107886003)(6506007)(478600001)(83380400001)(66476007)(4326008)(8676002)(66556008)(186003)(26005)(86362001)(6512007)(2616005)(5660300002)(36756003)(7416002)(66946007)(8936002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?2jhN+mgCWVdPrrtULIfZoKmWJd04av+CfUuzhvhIDTyxHDy6tXNv2VyFgAYo?=
- =?us-ascii?Q?6RGri+Z181oeoFM3pZybeX9qOnhv2pyBGypHEBsP1C4rG5xO9nKB/s+2grrx?=
- =?us-ascii?Q?1vj/WQtJefMNLTFsniOig1yF8XB8dioNVr0ntwy700wslMArXfsRowNvn9BI?=
- =?us-ascii?Q?YojU4BkcYjE7QujcdG0yLIVNJEollOG1Mhhkyosw2/qWxFpmkBUWDiRweM8h?=
- =?us-ascii?Q?PmghzLU/B6+JJ+4Lgofozx1WY/h/aLcOu96yicZQyV6u+yiQpOWN7uh65THV?=
- =?us-ascii?Q?dlB3CGOLy6B1esSDaFY0ThbtnUvAS02lS9+Lv9UzOCJ9KXxuEU04S499oB9q?=
- =?us-ascii?Q?pXhhsYP/nZ3OBi1hil0kuLY8FUBdKr0tV0k5hZIE8+3sfkPtF3Kir6ImyMIG?=
- =?us-ascii?Q?OFnCBSbnAxinVmf+jzmKc6ejQMgs/2oJ6YcZ7JFsQdq+IJAHgzYz4uaPqYfZ?=
- =?us-ascii?Q?fFqrk/HcfPE9I+yKfb+m2+ZvglyKrtTOG4gzRCmj7DTaDHka7xxo/OjEasii?=
- =?us-ascii?Q?bULCaV7e2wxZinS50BPLnXclOldbUAaykhn0abH+l3V1nffSsoxLYOVoVoGq?=
- =?us-ascii?Q?X3A9p16KR2ASb+oSr1JR4Z/cMJ2CfCzfLII/TJimEcK4FabU+5WQ8VcwvEDE?=
- =?us-ascii?Q?EquRzzKWyNSrZ8R8ELP51Sqec/qTdkdwFlv9Fpf19BNIIVFJ4bxRFhrkPpT7?=
- =?us-ascii?Q?wVP5gcx09kfQjw5o8HUXZo5s/zX9eVMLoHFqpBiuuQRytPwtGJqE/rJjaea+?=
- =?us-ascii?Q?tBVYnlyKUdnuf+85/UhDgHmLb46Q761KUrpSQKhnrLzypikVipL9dt1ajzS5?=
- =?us-ascii?Q?P+J1F0u1wJeuXPFPpnub7EN6GaCTjsJiOrHOL+fiXgB+I6DWQeIbxzJlUHxQ?=
- =?us-ascii?Q?0s+et1Go1J92LwkG9h4xdC8+GMmJhxGXpNGByRvY9OU2k2nHDAJwqDXqwpMS?=
- =?us-ascii?Q?zQdnLKcH7w4523wu4nFyFCJLeJWmESRnH8l5ou/aDBVcuSEt+lyXyuEzM6+d?=
- =?us-ascii?Q?iuZIUcAfZic8yxqcxtNRSUTD7NG9URQyCa6sPtSS7/ApKnozHRR27dAjmT8d?=
- =?us-ascii?Q?+fLXROHEtGBRP8Ufg12ZNn364tMFd2d8hK/fALjdLOmXB/c3j7QBywCNBwfn?=
- =?us-ascii?Q?JcKnfN5TUIQkK2GhHUraUX9dOk06DEkzS8JNx/y8hSRMpyjYICCbzZvUMbye?=
- =?us-ascii?Q?0kmraPecHxHiDv0NUPOsIprxxe+h8LJ9BLkr0FsZsK5NyC7kkJyyGOH6Qtbr?=
- =?us-ascii?Q?TTRMPXAEq05aIYnONqeRDS/lwpDbOq2sXftwBzHEHXsW8xwX/mAEUKpn67FK?=
- =?us-ascii?Q?ZSIQ9JrPNFbHNOAGiUI7m46cbXXFuj1bIl3MW42JbuYvX7LPJHuPDSS91zyv?=
- =?us-ascii?Q?QPjwwZLqzKDc9x798ArjzEwrOYHTTD73J01/FyCWl7n4c/es2nIRSq+Qe7nF?=
- =?us-ascii?Q?mZrBALgqrknyNPuFAV7E31WXScqttJetD+poWDplG487kj3FV562J/QkiXAn?=
- =?us-ascii?Q?cwlrl5NiAwknmr82lAlyQwSttqtT1Ff0gQ/Eu6jJ3ZYIHQB5z6qu616JI3JS?=
- =?us-ascii?Q?5rZ9VoaXaJrU1Lmhif6JdRfyGtaOGZj2n10HmcjT?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9709d8e8-c433-4848-edcf-08daf7e8a4d8
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2023 17:39:39.8999
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qZ9fbuGKhpd9XSKckBlzMqDFIbGo7YfCP1H0f5o6hPVuaC0duDmXP4bFKtgFhZOT
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6564
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cc8lRwQTP8Gv0NvM"
+Content-Disposition: inline
+In-Reply-To: <Y8AG21o/9/3eUMIg@cormorant.local>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230116_093947_178120_B8FADE93 
-X-CRM114-Status: GOOD (  13.97  )
+X-CRM114-CacheID: sfid-20230116_131419_305333_8FE31435 
+X-CRM114-Status: GOOD (  38.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,62 +104,217 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jan 16, 2023 at 03:05:50PM +0200, Leon Romanovsky wrote:
 
-> diff --git a/drivers/infiniband/hw/mlx4/mlx4_ib.h b/drivers/infiniband/hw/mlx4/mlx4_ib.h
-> index 17fee1e73a45..c553bf0eb257 100644
-> --- a/drivers/infiniband/hw/mlx4/mlx4_ib.h
-> +++ b/drivers/infiniband/hw/mlx4/mlx4_ib.h
-> @@ -184,7 +184,7 @@ enum mlx4_ib_qp_flags {
->  	/* Mellanox specific flags start from IB_QP_CREATE_RESERVED_START */
->  	MLX4_IB_ROCE_V2_GSI_QP = MLX4_IB_QP_CREATE_ROCE_V2_GSI,
->  	MLX4_IB_SRIOV_TUNNEL_QP = 1 << 30,
-> -	MLX4_IB_SRIOV_SQP = 1 << 31,
-> +	MLX4_IB_SRIOV_SQP = 1ULL << 31,
->  };
+--cc8lRwQTP8Gv0NvM
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-These should be moved to a uapi if we are saying they are userspace
-available
+On Jan 12 14:10, Klaus Jensen wrote:
+> Hi all (linux-nvme, qemu-devel, maintainers),
+>=20
+> On QEMU riscv64, which does not use MSI/MSI-X and thus relies on
+> pin-based interrupts, I'm seeing occasional completion timeouts, i.e.
+>=20
+>   nvme nvme0: I/O 333 QID 1 timeout, completion polled
+>=20
+> To rule out issues with shadow doorbells (which have been a source of
+> frustration in the past), those are disabled. FWIW I'm also seeing the
+> issue with shadow doorbells.
+>=20
+> 	diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> 	index f25cc2c235e9..28d8e7f4b56c 100644
+> 	--- a/hw/nvme/ctrl.c
+> 	+++ b/hw/nvme/ctrl.c
+> 	@@ -7407,7 +7407,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice =
+*pci_dev)
+> 	     id->mdts =3D n->params.mdts;
+> 	     id->ver =3D cpu_to_le32(NVME_SPEC_VER);
+> 	     id->oacs =3D
+> 	-        cpu_to_le16(NVME_OACS_NS_MGMT | NVME_OACS_FORMAT | NVME_OACS_DB=
+BUF);
+> 	+        cpu_to_le16(NVME_OACS_NS_MGMT | NVME_OACS_FORMAT);
+> 	     id->cntrltype =3D 0x1;
+>=20
+> 	     /*
+>=20
+>=20
+> I captured a trace from QEMU when this happens:
+>=20
+> pci_nvme_mmio_write addr 0x1008 data 0x4e size 4
+> pci_nvme_mmio_doorbell_sq sqid 1 new_tail 78
+> pci_nvme_io_cmd cid 4428 nsid 0x1 sqid 1 opc 0x2 opname 'NVME_NVM_CMD_REA=
+D'
+> pci_nvme_read cid 4428 nsid 1 nlb 32 count 16384 lba 0x1324
+> pci_nvme_map_prp trans_len 4096 len 16384 prp1 0x80aca000 prp2 0x82474100=
+ num_prps 5
+> pci_nvme_map_addr addr 0x80aca000 len 4096
+> pci_nvme_map_addr addr 0x80ac9000 len 4096
+> pci_nvme_map_addr addr 0x80ac8000 len 4096
+> pci_nvme_map_addr addr 0x80ac7000 len 4096
+> pci_nvme_io_cmd cid 4429 nsid 0x1 sqid 1 opc 0x2 opname 'NVME_NVM_CMD_REA=
+D'
+> pci_nvme_read cid 4429 nsid 1 nlb 224 count 114688 lba 0x1242
+> pci_nvme_map_prp trans_len 4096 len 114688 prp1 0x80ae6000 prp2 0x8247400=
+0 num_prps 29
+> pci_nvme_map_addr addr 0x80ae6000 len 4096
+> pci_nvme_map_addr addr 0x80ae5000 len 4096
+> pci_nvme_map_addr addr 0x80ae4000 len 4096
+> pci_nvme_map_addr addr 0x80ae3000 len 4096
+> pci_nvme_map_addr addr 0x80ae2000 len 4096
+> pci_nvme_map_addr addr 0x80ae1000 len 4096
+> pci_nvme_map_addr addr 0x80ae0000 len 4096
+> pci_nvme_map_addr addr 0x80adf000 len 4096
+> pci_nvme_map_addr addr 0x80ade000 len 4096
+> pci_nvme_map_addr addr 0x80add000 len 4096
+> pci_nvme_map_addr addr 0x80adc000 len 4096
+> pci_nvme_map_addr addr 0x80adb000 len 4096
+> pci_nvme_map_addr addr 0x80ada000 len 4096
+> pci_nvme_map_addr addr 0x80ad9000 len 4096
+> pci_nvme_map_addr addr 0x80ad8000 len 4096
+> pci_nvme_map_addr addr 0x80ad7000 len 4096
+> pci_nvme_map_addr addr 0x80ad6000 len 4096
+> pci_nvme_map_addr addr 0x80ad5000 len 4096
+> pci_nvme_map_addr addr 0x80ad4000 len 4096
+> pci_nvme_map_addr addr 0x80ad3000 len 4096
+> pci_nvme_map_addr addr 0x80ad2000 len 4096
+> pci_nvme_map_addr addr 0x80ad1000 len 4096
+> pci_nvme_map_addr addr 0x80ad0000 len 4096
+> pci_nvme_map_addr addr 0x80acf000 len 4096
+> pci_nvme_map_addr addr 0x80ace000 len 4096
+> pci_nvme_map_addr addr 0x80acd000 len 4096
+> pci_nvme_map_addr addr 0x80acc000 len 4096
+> pci_nvme_map_addr addr 0x80acb000 len 4096
+> pci_nvme_rw_cb cid 4428 blk 'd0'
+> pci_nvme_rw_complete_cb cid 4428 blk 'd0'
+> pci_nvme_enqueue_req_completion cid 4428 cqid 1 dw0 0x0 dw1 0x0 status 0x0
+> [1]: pci_nvme_irq_pin pulsing IRQ pin
+> pci_nvme_rw_cb cid 4429 blk 'd0'
+> pci_nvme_rw_complete_cb cid 4429 blk 'd0'
+> pci_nvme_enqueue_req_completion cid 4429 cqid 1 dw0 0x0 dw1 0x0 status 0x0
+> [2]: pci_nvme_irq_pin pulsing IRQ pin
+> [3]: pci_nvme_mmio_write addr 0x100c data 0x4d size 4
+> [4]: pci_nvme_mmio_doorbell_cq cqid 1 new_head 77
+> ---- TIMEOUT HERE (30s) ---
+> [5]: pci_nvme_mmio_read addr 0x1c size 4
+> [6]: pci_nvme_mmio_write addr 0x100c data 0x4e size 4
+> [7]: pci_nvme_mmio_doorbell_cq cqid 1 new_head 78
+> --- Interrupt deasserted (cq->tail =3D=3D cq->head)
+> [   31.757821] nvme nvme0: I/O 333 QID 1 timeout, completion polled
+>=20
+> Following the timeout, everything returns to "normal" and device/driver
+> happily continues.
+>=20
+> The pin-based interrupt logic in hw/nvme seems sound enough to me, so I
+> am wondering if there is something going on with the kernel driver (but
+> I certainly do not rule out that hw/nvme is at fault here, since
+> pin-based interrupts has also been a source of several issues in the
+> past).
+>=20
+> What I'm thinking is that following the interrupt in [1], the driver
+> picks up completion for cid 4428 but does not find cid 4429 in the queue
+> since it has not been posted yet. Before getting a cq head doorbell
+> write (which would cause the pin to be deasserted), the device posts the
+> completion for cid 4429 which just keeps the interrupt asserted in [2].
+> The trace then shows the cq head doorbell update in [3,4] for cid 4428
+> and then we hit the timeout since the driver is not aware that cid 4429
+> has been posted in between this (why is it not aware of this?) Timing
+> out, the driver then polls the queue and notices cid 4429 and updates
+> the cq head doorbell in [5-7], causing the device to deassert the
+> interrupt and we are "back in shape".
+>=20
+> I'm observing this on 6.0 kernels and v6.2-rc3 (have not tested <6.0).
+> Tested on QEMU v7.0.0 (to rule out all the shadow doorbell
+> optimizations) as well as QEMU nvme-next (infradead). In other words,
+> it's not a recent regression in either project and potentially it has
+> always been like this. I've not tested other platforms for now, but I
+> would assume others using pin-based interrupts would observe the same.
+>=20
+> Any ideas on how to shed any light on this issue from the kernel side of
+> things?
 
-But I'm not sure they are?
+I noticed that the Linux driver does not use the INTMS/INTMC registers
+to mask interrupts on the controller while processing CQEs. While not
+required by the spec, it is *recommended* in setups not using MSI-X to
+reduce the risk of spurious and/or missed interrupts.
+
+With the patch below, running 100 boot iterations, no timeouts were
+observed on QEMU emulated riscv64 or mips64.
+
+No changes are required in the QEMU hw/nvme interrupt logic.
 
 
-> diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
-> index 949cf4ffc536..cc2ddd4e6c12 100644
-> --- a/include/rdma/ib_verbs.h
-> +++ b/include/rdma/ib_verbs.h
-> @@ -1140,16 +1140,15 @@ enum ib_qp_type {
->  	IB_QPT_RESERVED10,
->  };
->  
-> +/*
-> + * bits 0, 5, 6 and 7 may be set by old kernels and should not be used.
-> + */
+diff --git i/drivers/nvme/host/pci.c w/drivers/nvme/host/pci.c
+index b13baccedb4a..75f6b87c4c3f 100644
+--- i/drivers/nvme/host/pci.c
++++ w/drivers/nvme/host/pci.c
+@@ -1128,6 +1128,27 @@ static inline int nvme_poll_cq(struct nvme_queue *nv=
+meq,
+ }
 
-This is backwards "bits 0 5 6 7 were understood by older kernels and
-should not be used"
+ static irqreturn_t nvme_irq(int irq, void *data)
++{
++       struct nvme_queue *nvmeq =3D data;
++       struct nvme_dev *dev =3D nvmeq->dev;
++       u32 mask =3D 1 << nvmeq->cq_vector;
++       irqreturn_t ret =3D IRQ_NONE;
++       DEFINE_IO_COMP_BATCH(iob);
++
++       writel(mask, dev->bar + NVME_REG_INTMS);
++
++       if (nvme_poll_cq(nvmeq, &iob)) {
++               if (!rq_list_empty(iob.req_list))
++                       nvme_pci_complete_batch(&iob);
++               ret =3D IRQ_HANDLED;
++       }
++
++       writel(mask, dev->bar + NVME_REG_INTMC);
++
++       return ret;
++}
++
++static irqreturn_t nvme_irq_msix(int irq, void *data)
+ {
+        struct nvme_queue *nvmeq =3D data;
+        DEFINE_IO_COMP_BATCH(iob);
+@@ -1602,12 +1623,13 @@ static int queue_request_irq(struct nvme_queue *nvm=
+eq)
+ {
+        struct pci_dev *pdev =3D to_pci_dev(nvmeq->dev->dev);
+        int nr =3D nvmeq->dev->ctrl.instance;
++       irq_handler_t handler =3D pdev->msix_enabled ? nvme_irq_msix : nvme=
+_irq;
 
->  enum ib_qp_create_flags {
-> -	IB_QP_CREATE_IPOIB_UD_LSO		= 1 << 0,
->  	IB_QP_CREATE_BLOCK_MULTICAST_LOOPBACK	=
->  		IB_UVERBS_QP_CREATE_BLOCK_MULTICAST_LOOPBACK,
->  	IB_QP_CREATE_CROSS_CHANNEL              = 1 << 2,
->  	IB_QP_CREATE_MANAGED_SEND               = 1 << 3,
->  	IB_QP_CREATE_MANAGED_RECV               = 1 << 4,
-> -	IB_QP_CREATE_NETIF_QP			= 1 << 5,
-> -	IB_QP_CREATE_INTEGRITY_EN		= 1 << 6,
-> -	IB_QP_CREATE_NETDEV_USE			= 1 << 7,
->  	IB_QP_CREATE_SCATTER_FCS		=
->  		IB_UVERBS_QP_CREATE_SCATTER_FCS,
->  	IB_QP_CREATE_CVLAN_STRIPPING		=
-> @@ -1159,7 +1158,18 @@ enum ib_qp_create_flags {
->  		IB_UVERBS_QP_CREATE_PCI_WRITE_END_PADDING,
->  	/* reserve bits 26-31 for low level drivers' internal use */
->  	IB_QP_CREATE_RESERVED_START		= 1 << 26,
-> -	IB_QP_CREATE_RESERVED_END		= 1 << 31,
-> +	IB_QP_CREATE_RESERVED_END		= 1ULL << 31,
+        if (use_threaded_interrupts) {
+                return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq_che=
+ck,
+-                               nvme_irq, nvmeq, "nvme%dq%d", nr, nvmeq->qi=
+d);
++                               handler, nvmeq, "nvme%dq%d", nr, nvmeq->qid=
+);
+        } else {
+-               return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq,
++               return pci_request_irq(pdev, nvmeq->cq_vector, handler,
+                                NULL, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
+        }
+ }
 
-And these should be shifted to the uapi header
 
-Jason
+
+--cc8lRwQTP8Gv0NvM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmPFvh4ACgkQTeGvMW1P
+DekT9wf/ei/LqtKzzs/EITjBAVKU0HG1j55VBgy5hIS8xF/DkJ+xSPBUz+2rzcjF
+XdtvTVdmsFnzJjiccCtgTdc5TiiUWxODjtlepVlI4V78EBsW4NPRcNCwZ9cHCHf2
+6axD15A6sBVkkTz6SUCzHw6TQ3+QIvghtM2wD2AyKXINlJdmI/QhKDx7hNId9drP
+XyV0Mo/TdWokjRyaoeUoLEkAYFKp+WURaXvdTgsg/U8vgLAMJU3jxfRz9nQvYa3Q
+N/hXLT+zbfCi7bmsDwl6C1Z5ty4Sa8GcXc5MzAQmKHcQtEk3QVnn8aCBF2CMQWxZ
+LHUddsiWcVfnIkwVwvT3fIYlvWSOyg==
+=yZaH
+-----END PGP SIGNATURE-----
+
+--cc8lRwQTP8Gv0NvM--
 
