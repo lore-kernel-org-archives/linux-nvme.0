@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C970C46467
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Jan 2023 13:10:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D925C46467
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Jan 2023 13:11:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BTnnWnp7UUWhj8ee5w6z9hZcVjDAoeqkUa/6DelfCYA=; b=pQkFkjmP68/HaagE6b2+mKOwmH
-	y2E5iNcwW5h0cSKGffqXD8HWI7Vjyvwc7MPDzlUUPz/mqjiWrq3+sfwEHQXaUZkH+vMwYi/yMXfOp
-	Vy7ccpPF1ASEBoFpYDiqVTupoli4fy1c3k/SHEaCMe2nGrE62ZDnUTXtNhWKRZ/HnT0/HsgJXIBCH
-	i2hfyGVnsPzBlZHVSl7ONo7j7d6dNHQG0dcuE7ieTYplw6WMsbSwmrG8TL2MbCMvrI7vJpGxSVLB7
-	eRzZAywQsPn6j0la0hTfN4kunGnzZxCoykI+rDhovFGSrl8yMBdz6hbZZ4K8/PIt9YpD6og9KSX1I
-	pIIRUuag==;
+	bh=Laqnk9EUENi3m7l9VxVXm2SrsRFkW+xOpK0jyKvLuSg=; b=ZpgCsqaKOY6YHTE/2OyWYZHC2P
+	aGlEYn5QhUJnCpcJV5VIrjr/Ba4pM7KE5NluSbiv1UsnfWdvHHZ2l/y+L9wYYCFpn81rv91xJBNDC
+	MRwi4APrY8th1qawwtqGj0NvDwcFwy0CXTFFDanjpEb1N5I9jJB0WP39hY/eM7Pxj7O7pfJKax0UO
+	eCiCuBKKcMzxzbwvrLOjG74Wr/cQXkE9XdM3wgufNTZJUQ8xTCmM37QTFJK/oGm+1ee0kkt0WHKFF
+	n3bvmcJdMY+F9AkGNxvgvAqrIua27JoBx96x8yUe8TnnWcpOIYjkKKAh18/jJ5EYhnejx8slu+Mxx
+	l2f7dgeA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHPGG-00AJC3-DK; Mon, 16 Jan 2023 13:10:52 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1pHPGf-00AJN0-99; Mon, 16 Jan 2023 13:11:17 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHPCP-00AHR9-VP
-	for linux-nvme@lists.infradead.org; Mon, 16 Jan 2023 13:06:56 +0000
+	id 1pHPCU-00AHTF-AL
+	for linux-nvme@lists.infradead.org; Mon, 16 Jan 2023 13:07:00 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 9E6F9B80D20;
-	Mon, 16 Jan 2023 13:06:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88B85C433D2;
-	Mon, 16 Jan 2023 13:06:50 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTPS id CB64CB80E3B;
+	Mon, 16 Jan 2023 13:06:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8A0EC433F0;
+	Mon, 16 Jan 2023 13:06:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673874411;
-	bh=yXankd3ADXRZerTodbpyETr0H4Qj01JdsQgtwpw0Dpo=;
+	s=k20201202; t=1673874415;
+	bh=3onQ/rBBcurHQvS6iIFYjN6t3VLGjjleEvgmJokrbgA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fgIjibUjt1g+aWE/ux7w8lldiqti9MPTOYrg664GTgeLLIko4iPlQIWTchtK4PPS2
-	 E/Nj7bdo+U8PXiZB22s69BYxYSo2jkj8gYzgB/2jWsva2ntMUuI2Aq3657DptC5dE5
-	 4Jr0jMc+OseLWn678RNGP/CbyWwuU5rWZ4YS+wtBZ9xex7dzm7e7WMNr0g149oyV5g
-	 bV1mGiJJ9b8fsOyoNu+nM/BzhRhn01fxJYL0KHLx7WVH9RdBd24jGTRwxpOzoj8iDi
-	 A66sE/zByovan3DalETwgdA4lfwZfOcUxm25T0qqmVAvszBo4pnTSvZLqnjof6c1O+
-	 WQcxe4oVbyRIg==
+	b=NUJkHjzulOFJcMkWyEr4QZGeeBrMIcy+EHSm7ZNEzgiWesNYaqRow8CXR3AlkAQ8i
+	 dJvjT8FNvlrkqVq9fs5JF1v5O8p2AJXQrGk7x8i+newd1L8Qc7oAM4Y8faxFFuMm3I
+	 qqHPzLr8ApM9FLcq0iPB+rYjUNNpKdpQ1pstknMWu7AfW0R7Y8HpZXx4Em51+CPR8b
+	 ZB3Fbt5NLbLtolW/kHQfgw1BIVr7TB3wHpobxPSgBfk55jPas04n8Oz1TpsI+e0FKC
+	 rLnD8WKyrb3HBRB++nAeBaQIanu1gD4gW6dZCc76bECmRRIMEPgYDKKGHewU0YMchi
+	 fee5Llt2FnYWA==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Israel Rukshin <israelr@nvidia.com>,
@@ -65,17 +65,17 @@ Cc: Israel Rukshin <israelr@nvidia.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	Vishnu Dasa <vdasa@vmware.com>,
 	Yishai Hadas <yishaih@nvidia.com>
-Subject: [PATCH rdma-next 08/13] RDMA/mlx5: Add cryptographic device capabilities
-Date: Mon, 16 Jan 2023 15:05:55 +0200
-Message-Id: <39ba2f3cd1786e47f2541f4a7be59cc5af4b03c7.1673873422.git.leon@kernel.org>
+Subject: [PATCH rdma-next 13/13] nvme-rdma: Add inline encryption support
+Date: Mon, 16 Jan 2023 15:06:00 +0200
+Message-Id: <ab0817fac98d498372fd32e950d1ca6e157b575d.1673873422.git.leon@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <cover.1673873422.git.leon@kernel.org>
 References: <cover.1673873422.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230116_050654_359313_5CB33FC6 
-X-CRM114-Status: GOOD (  19.91  )
+X-CRM114-CacheID: sfid-20230116_050658_703058_C4A75432 
+X-CRM114-Status: GOOD (  27.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,133 +92,405 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Israel Rukshin <israelr@nvidia.com>
 
-The capabilities provide information on general cryptographic support,
-maximum number of DEKs and status for RDMA devices. Also, they include
-the supported cryptographic engines and their import method (wrapped or
-plaintext). Wrapped crypto operational flag indicates the import method
-mode that can be used. For now, add only AES-XTS cryptographic support.
+Add support for inline encryption/decryption of the data at a
+similar way like integrity is used via a unique Mkey. The feature
+is enabled only when CONFIG_BLK_INLINE_ENCRYPTION is configured.
+There is no special configuration to enable crypto at nvme modules.
+
+The code was tested with fscrypt and BF-3 HW, which had more than
+50% CPU utilization improvement at 64K and bigger I/O sizes when
+comparing to the SW only solution at this case.
 
 Signed-off-by: Israel Rukshin <israelr@nvidia.com>
 Signed-off-by: Leon Romanovsky <leon@kernel.org>
 ---
- drivers/infiniband/hw/mlx5/Makefile  |  1 +
- drivers/infiniband/hw/mlx5/crypto.c  | 31 ++++++++++++++++++++++++++++
- drivers/infiniband/hw/mlx5/crypto.h  | 11 ++++++++++
- drivers/infiniband/hw/mlx5/main.c    |  5 +++++
- drivers/infiniband/hw/mlx5/mlx5_ib.h |  2 ++
- 5 files changed, 50 insertions(+)
- create mode 100644 drivers/infiniband/hw/mlx5/crypto.c
- create mode 100644 drivers/infiniband/hw/mlx5/crypto.h
+ drivers/nvme/host/rdma.c | 236 ++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 232 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/infiniband/hw/mlx5/Makefile b/drivers/infiniband/hw/mlx5/Makefile
-index 612ee8190a2d..d6ae1a08b5b2 100644
---- a/drivers/infiniband/hw/mlx5/Makefile
-+++ b/drivers/infiniband/hw/mlx5/Makefile
-@@ -6,6 +6,7 @@ mlx5_ib-y := ah.o \
- 	     cong.o \
- 	     counters.o \
- 	     cq.o \
-+	     crypto.o \
- 	     dm.o \
- 	     doorbell.o \
- 	     gsi.o \
-diff --git a/drivers/infiniband/hw/mlx5/crypto.c b/drivers/infiniband/hw/mlx5/crypto.c
-new file mode 100644
-index 000000000000..6fad9084877e
---- /dev/null
-+++ b/drivers/infiniband/hw/mlx5/crypto.c
-@@ -0,0 +1,31 @@
-+// SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
-+/* Copyright (c) 2022, NVIDIA CORPORATION & AFFILIATES. */
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index bbad26b82b56..8bea38eb976f 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -40,6 +40,10 @@
+ #define NVME_RDMA_METADATA_SGL_SIZE \
+ 	(sizeof(struct scatterlist) * NVME_INLINE_METADATA_SG_CNT)
+ 
++#define NVME_RDMA_NUM_CRYPTO_KEYSLOTS	(32U)
++/* Bitmask for 512B and 4K data unit sizes */
++#define NVME_RDMA_DATA_UNIT_SIZES	(512U | 4096U)
 +
-+#include "crypto.h"
+ struct nvme_rdma_device {
+ 	struct ib_device	*dev;
+ 	struct ib_pd		*pd;
+@@ -75,6 +79,7 @@ struct nvme_rdma_request {
+ 	struct nvme_rdma_sgl	data_sgl;
+ 	struct nvme_rdma_sgl	*metadata_sgl;
+ 	bool			use_sig_mr;
++	bool			use_crypto;
+ };
+ 
+ enum nvme_rdma_queue_flags {
+@@ -97,6 +102,7 @@ struct nvme_rdma_queue {
+ 	int			cm_error;
+ 	struct completion	cm_done;
+ 	bool			pi_support;
++	bool			crypto_support;
+ 	int			cq_size;
+ 	struct mutex		queue_lock;
+ };
+@@ -126,6 +132,8 @@ struct nvme_rdma_ctrl {
+ 	struct nvme_ctrl	ctrl;
+ 	bool			use_inline_data;
+ 	u32			io_queues[HCTX_MAX_TYPES];
 +
-+void mlx5r_crypto_caps_init(struct mlx5_ib_dev *dev)
++	struct ib_dek		*dek[NVME_RDMA_NUM_CRYPTO_KEYSLOTS];
+ };
+ 
+ static inline struct nvme_rdma_ctrl *to_rdma_ctrl(struct nvme_ctrl *ctrl)
+@@ -275,6 +283,8 @@ static int nvme_rdma_create_qp(struct nvme_rdma_queue *queue, const int factor)
+ 	init_attr.recv_cq = queue->ib_cq;
+ 	if (queue->pi_support)
+ 		init_attr.create_flags |= IB_QP_CREATE_INTEGRITY_EN;
++	if (queue->crypto_support)
++		init_attr.create_flags |= IB_QP_CREATE_CRYPTO_EN;
+ 	init_attr.qp_context = queue;
+ 
+ 	ret = rdma_create_qp(queue->cm_id, dev->pd, &init_attr);
+@@ -364,6 +374,77 @@ static int nvme_rdma_dev_get(struct nvme_rdma_device *dev)
+ 	return kref_get_unless_zero(&dev->ref);
+ }
+ 
++static int nvme_rdma_crypto_keyslot_program(struct blk_crypto_profile *profile,
++					    const struct blk_crypto_key *key,
++					    unsigned int slot)
 +{
-+	struct ib_crypto_caps *caps = &dev->crypto_caps;
-+	struct mlx5_core_dev *mdev = dev->mdev;
++	struct nvme_ctrl *nctrl =
++		container_of(profile, struct nvme_ctrl, crypto_profile);
++	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
++	struct ib_dek_attr dek_attr = { };
++	int err = 0;
 +
-+	if (!(MLX5_CAP_GEN_64(dev->mdev, general_obj_types) &
-+	      MLX5_HCA_CAP_GENERAL_OBJECT_TYPES_ENCRYPTION_KEY))
-+		return;
-+
-+	if (!MLX5_CAP_GEN(mdev, aes_xts_multi_block_le_tweak) &&
-+	    !MLX5_CAP_GEN(mdev, aes_xts_multi_block_be_tweak))
-+		return;
-+
-+	if (MLX5_CAP_CRYPTO(mdev, wrapped_import_method) &
-+	    MLX5_CRYPTO_WRAPPED_IMPORT_METHOD_CAP_AES_XTS)
-+		return;
-+
-+	if (MLX5_CAP_CRYPTO(mdev, failed_selftests)) {
-+		mlx5_ib_warn(dev, "crypto self-tests failed with error 0x%x\n",
-+			     MLX5_CAP_CRYPTO(mdev, failed_selftests));
-+		return;
++	if (slot > NVME_RDMA_NUM_CRYPTO_KEYSLOTS) {
++		dev_err(nctrl->device, "slot index reached the limit %d/%d",
++			slot, NVME_RDMA_NUM_CRYPTO_KEYSLOTS);
++		return -EOPNOTSUPP;
 +	}
 +
-+	caps->crypto_engines |= IB_CRYPTO_ENGINES_CAP_AES_XTS;
-+	caps->max_num_deks = 1 << MLX5_CAP_CRYPTO(mdev, log_max_num_deks);
++	if (WARN_ON_ONCE(key->crypto_cfg.crypto_mode !=
++			 BLK_ENCRYPTION_MODE_AES_256_XTS))
++		return -EOPNOTSUPP;
++
++	if (ctrl->dek[slot]) {
++		dev_dbg(nctrl->device, "slot %d is taken, free DEK ID %d\n",
++			slot, ctrl->dek[slot]->id);
++		ib_destroy_dek(ctrl->dek[slot]);
++	}
++
++	dek_attr.key_blob = key->raw;
++	dek_attr.key_blob_size = key->size;
++	dek_attr.key_type = IB_CRYPTO_KEY_TYPE_AES_XTS;
++	ctrl->dek[slot] = ib_create_dek(ctrl->device->pd, &dek_attr);
++	if (IS_ERR(ctrl->dek[slot])) {
++		err = PTR_ERR(ctrl->dek[slot]);
++		dev_err(nctrl->device,
++			"failed to create DEK at slot %d, err %d\n", slot, err);
++		ctrl->dek[slot] = NULL;
++	} else {
++		dev_dbg(nctrl->device, "DEK ID %d was created at slot %d\n",
++			ctrl->dek[slot]->id, slot);
++	}
++
++	return err;
 +}
-diff --git a/drivers/infiniband/hw/mlx5/crypto.h b/drivers/infiniband/hw/mlx5/crypto.h
-new file mode 100644
-index 000000000000..8686ac6fb0b0
---- /dev/null
-+++ b/drivers/infiniband/hw/mlx5/crypto.h
-@@ -0,0 +1,11 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB */
-+/* Copyright (c) 2022, NVIDIA CORPORATION & AFFILIATES. */
 +
-+#ifndef _MLX5_IB_CRYPTO_H
-+#define _MLX5_IB_CRYPTO_H
++static int nvme_rdma_crypto_keyslot_evict(struct blk_crypto_profile *profile,
++					  const struct blk_crypto_key *key,
++					  unsigned int slot)
++{
++	struct nvme_ctrl *nctrl =
++		container_of(profile, struct nvme_ctrl, crypto_profile);
++	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
 +
-+#include "mlx5_ib.h"
++	if (slot > NVME_RDMA_NUM_CRYPTO_KEYSLOTS) {
++		dev_err(nctrl->device, "slot index reached the limit %d/%d\n",
++			slot, NVME_RDMA_NUM_CRYPTO_KEYSLOTS);
++		return -EOPNOTSUPP;
++	}
 +
-+void mlx5r_crypto_caps_init(struct mlx5_ib_dev *dev);
++	if (!ctrl->dek[slot]) {
++		dev_err(nctrl->device, "slot %d is empty\n", slot);
++		return -EINVAL;
++	}
 +
-+#endif /* _MLX5_IB_CRYPTO_H */
-diff --git a/drivers/infiniband/hw/mlx5/main.c b/drivers/infiniband/hw/mlx5/main.c
-index fb0d97bd4074..10f12e9a4dc3 100644
---- a/drivers/infiniband/hw/mlx5/main.c
-+++ b/drivers/infiniband/hw/mlx5/main.c
-@@ -39,6 +39,7 @@
- #include "srq.h"
- #include "qp.h"
- #include "wr.h"
-+#include "crypto.h"
- #include "restrack.h"
- #include "counters.h"
- #include "umr.h"
-@@ -989,6 +990,7 @@ static int mlx5_ib_query_device(struct ib_device *ibdev,
- 	props->max_ah = INT_MAX;
- 	props->hca_core_clock = MLX5_CAP_GEN(mdev, device_frequency_khz);
- 	props->timestamp_mask = 0x7FFFFFFFFFFFFFFFULL;
-+	props->crypto_caps = dev->crypto_caps;
++	dev_dbg(nctrl->device, "Destroy DEK ID %d slot %d\n",
++		ctrl->dek[slot]->id, slot);
++
++	ib_destroy_dek(ctrl->dek[slot]);
++	ctrl->dek[slot] = NULL;
++
++	return 0;
++}
++
+ static struct nvme_rdma_device *
+ nvme_rdma_find_get_device(struct rdma_cm_id *cm_id)
+ {
+@@ -430,6 +511,8 @@ static void nvme_rdma_destroy_queue_ib(struct nvme_rdma_queue *queue)
+ 	dev = queue->device;
+ 	ibdev = dev->dev;
  
- 	if (IS_ENABLED(CONFIG_INFINIBAND_ON_DEMAND_PAGING)) {
- 		if (dev->odp_caps.general_caps & IB_ODP_SUPPORT)
-@@ -3826,6 +3828,9 @@ static int mlx5_ib_stage_caps_init(struct mlx5_ib_dev *dev)
- 	if (MLX5_CAP_GEN(mdev, xrc))
- 		ib_set_device_ops(&dev->ib_dev, &mlx5_ib_dev_xrc_ops);
++	if (queue->crypto_support)
++		ib_mr_pool_destroy(queue->qp, &queue->qp->crypto_mrs);
+ 	if (queue->pi_support)
+ 		ib_mr_pool_destroy(queue->qp, &queue->qp->sig_mrs);
+ 	ib_mr_pool_destroy(queue->qp, &queue->qp->rdma_mrs);
+@@ -553,10 +636,24 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
+ 		}
+ 	}
  
-+	if (MLX5_CAP_GEN(mdev, crypto))
-+		mlx5r_crypto_caps_init(dev);
++	if (queue->crypto_support) {
++		ret = ib_mr_pool_init(queue->qp, &queue->qp->crypto_mrs,
++				      queue->queue_size, IB_MR_TYPE_CRYPTO,
++				      pages_per_mr, 0);
++		if (ret) {
++			dev_err(queue->ctrl->ctrl.device,
++				"failed to initialize crypto MR pool sized %d for QID %d\n",
++				queue->queue_size, nvme_rdma_queue_idx(queue));
++			goto out_destroy_sig_mr_pool;
++		}
++	}
 +
- 	if (MLX5_CAP_DEV_MEM(mdev, memic) ||
- 	    MLX5_CAP_GEN_64(dev->mdev, general_obj_types) &
- 	    MLX5_GENERAL_OBJ_TYPES_CAP_SW_ICM)
-diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-index 295502692da2..8f6850539542 100644
---- a/drivers/infiniband/hw/mlx5/mlx5_ib.h
-+++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-@@ -1100,6 +1100,8 @@ struct mlx5_ib_dev {
- 	struct mlx5_ib_delay_drop	delay_drop;
- 	const struct mlx5_ib_profile	*profile;
+ 	set_bit(NVME_RDMA_Q_TR_READY, &queue->flags);
  
-+	struct ib_crypto_caps		crypto_caps;
+ 	return 0;
+ 
++out_destroy_sig_mr_pool:
++	ib_mr_pool_destroy(queue->qp, &queue->qp->sig_mrs);
+ out_destroy_mr_pool:
+ 	ib_mr_pool_destroy(queue->qp, &queue->qp->rdma_mrs);
+ out_destroy_ring:
+@@ -585,6 +682,9 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
+ 		queue->pi_support = true;
+ 	else
+ 		queue->pi_support = false;
 +
- 	struct mlx5_ib_lb_state		lb;
- 	u8			umr_fence;
- 	struct list_head	ib_dev_list;
++	queue->crypto_support = idx && ctrl->ctrl.crypto_enable;
++
+ 	init_completion(&queue->cm_done);
+ 
+ 	if (idx > 0)
+@@ -805,15 +905,109 @@ static int nvme_rdma_alloc_tag_set(struct nvme_ctrl *ctrl)
+ 
+ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl)
+ {
++	unsigned int i;
++
+ 	if (ctrl->async_event_sqe.data) {
+ 		cancel_work_sync(&ctrl->ctrl.async_event_work);
+ 		nvme_rdma_free_qe(ctrl->device->dev, &ctrl->async_event_sqe,
+ 				sizeof(struct nvme_command), DMA_TO_DEVICE);
+ 		ctrl->async_event_sqe.data = NULL;
+ 	}
++
++	for (i = 0; i < NVME_RDMA_NUM_CRYPTO_KEYSLOTS; i++) {
++		if (!ctrl->dek[i])
++			continue;
++		ib_destroy_dek(ctrl->dek[i]);
++		ctrl->dek[i] = NULL;
++	}
++
+ 	nvme_rdma_free_queue(&ctrl->queues[0]);
+ }
+ 
++#ifdef CONFIG_BLK_INLINE_ENCRYPTION
++static const struct blk_crypto_ll_ops nvme_rdma_crypto_ops = {
++	.keyslot_program	= nvme_rdma_crypto_keyslot_program,
++	.keyslot_evict		= nvme_rdma_crypto_keyslot_evict,
++};
++
++static int nvme_rdma_crypto_profile_init(struct nvme_rdma_ctrl *ctrl, bool new)
++{
++	struct blk_crypto_profile *profile = &ctrl->ctrl.crypto_profile;
++	int ret;
++
++	if (!new) {
++		blk_crypto_reprogram_all_keys(profile);
++		return 0;
++	}
++
++	ret = devm_blk_crypto_profile_init(ctrl->ctrl.device, profile,
++					   NVME_RDMA_NUM_CRYPTO_KEYSLOTS);
++	if (ret) {
++		dev_err(ctrl->ctrl.device,
++			"devm_blk_crypto_profile_init failed err %d\n", ret);
++		return ret;
++	}
++
++	profile->ll_ops = nvme_rdma_crypto_ops;
++	profile->dev = ctrl->ctrl.device;
++	profile->max_dun_bytes_supported = IB_CRYPTO_XTS_TWEAK_MAX_SIZE;
++	profile->modes_supported[BLK_ENCRYPTION_MODE_AES_256_XTS] =
++		NVME_RDMA_DATA_UNIT_SIZES;
++
++	return 0;
++}
++
++static void nvme_rdma_set_crypto_attrs(struct ib_crypto_attrs *crypto_attrs,
++		struct nvme_rdma_queue *queue, struct nvme_rdma_request *req)
++{
++	struct request *rq = blk_mq_rq_from_pdu(req);
++	u32 slot_idx = blk_crypto_keyslot_index(rq->crypt_keyslot);
++
++	memset(crypto_attrs, 0, sizeof(*crypto_attrs));
++
++	crypto_attrs->encrypt_domain = IB_CRYPTO_ENCRYPTED_WIRE_DOMAIN;
++	crypto_attrs->encrypt_standard = IB_CRYPTO_AES_XTS;
++	crypto_attrs->data_unit_size =
++		rq->crypt_ctx->bc_key->crypto_cfg.data_unit_size;
++	crypto_attrs->dek = queue->ctrl->dek[slot_idx]->id;
++	memcpy(crypto_attrs->xts_init_tweak, rq->crypt_ctx->bc_dun,
++	       sizeof(crypto_attrs->xts_init_tweak));
++}
++
++static int nvme_rdma_fill_crypto_caps(struct nvme_rdma_ctrl *ctrl, bool new)
++{
++	struct ib_crypto_caps *caps = &ctrl->device->dev->attrs.crypto_caps;
++
++	if (caps->crypto_engines & IB_CRYPTO_ENGINES_CAP_AES_XTS) {
++		ctrl->ctrl.crypto_enable = true;
++		return 0;
++	}
++
++	if (!new && ctrl->ctrl.crypto_enable) {
++		dev_err(ctrl->ctrl.device, "Must support crypto!\n");
++		return -EOPNOTSUPP;
++	}
++	ctrl->ctrl.crypto_enable = false;
++
++	return 0;
++}
++#else
++static int nvme_rdma_crypto_profile_init(struct nvme_rdma_ctrl *ctrl, bool new)
++{
++	return -EOPNOTSUPP;
++}
++
++static void nvme_rdma_set_crypto_attrs(struct ib_crypto_attrs *crypto_attrs,
++		struct nvme_rdma_queue *queue, struct nvme_rdma_request *req)
++{
++}
++
++static int nvme_rdma_fill_crypto_caps(struct nvme_rdma_ctrl *ctrl, bool new)
++{
++	return 0;
++}
++#endif /* CONFIG_BLK_INLINE_ENCRYPTION */
++
+ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 		bool new)
+ {
+@@ -835,6 +1029,10 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 	ctrl->max_fr_pages = nvme_rdma_get_max_fr_pages(ctrl->device->dev,
+ 							pi_capable);
+ 
++	error = nvme_rdma_fill_crypto_caps(ctrl, new);
++	if (error)
++		goto out_free_queue;
++
+ 	/*
+ 	 * Bind the async event SQE DMA mapping to the admin queue lifetime.
+ 	 * It's safe, since any chage in the underlying RDMA device will issue
+@@ -870,6 +1068,12 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 	else
+ 		ctrl->ctrl.max_integrity_segments = 0;
+ 
++	if (ctrl->ctrl.crypto_enable) {
++		error = nvme_rdma_crypto_profile_init(ctrl, new);
++		if (error)
++			goto out_quiesce_queue;
++	}
++
+ 	nvme_unquiesce_admin_queue(&ctrl->ctrl);
+ 
+ 	error = nvme_init_ctrl_finish(&ctrl->ctrl, false);
+@@ -1268,6 +1472,8 @@ static void nvme_rdma_unmap_data(struct nvme_rdma_queue *queue,
+ 
+ 	if (req->use_sig_mr)
+ 		pool = &queue->qp->sig_mrs;
++	else if (req->use_crypto)
++		pool = &queue->qp->crypto_mrs;
+ 
+ 	if (req->mr) {
+ 		ib_mr_pool_put(queue->qp, pool, req->mr);
+@@ -1331,9 +1537,13 @@ static int nvme_rdma_map_sg_fr(struct nvme_rdma_queue *queue,
+ 		int count)
+ {
+ 	struct nvme_keyed_sgl_desc *sg = &c->common.dptr.ksgl;
++	struct list_head *pool = &queue->qp->rdma_mrs;
+ 	int nr;
+ 
+-	req->mr = ib_mr_pool_get(queue->qp, &queue->qp->rdma_mrs);
++	if (req->use_crypto)
++		pool = &queue->qp->crypto_mrs;
++
++	req->mr = ib_mr_pool_get(queue->qp, pool);
+ 	if (WARN_ON_ONCE(!req->mr))
+ 		return -EAGAIN;
+ 
+@@ -1344,18 +1554,24 @@ static int nvme_rdma_map_sg_fr(struct nvme_rdma_queue *queue,
+ 	nr = ib_map_mr_sg(req->mr, req->data_sgl.sg_table.sgl, count, NULL,
+ 			  SZ_4K);
+ 	if (unlikely(nr < count)) {
+-		ib_mr_pool_put(queue->qp, &queue->qp->rdma_mrs, req->mr);
++		ib_mr_pool_put(queue->qp, pool, req->mr);
+ 		req->mr = NULL;
+ 		if (nr < 0)
+ 			return nr;
+ 		return -EINVAL;
+ 	}
+ 
++	if (req->use_crypto)
++		nvme_rdma_set_crypto_attrs(req->mr->crypto_attrs, queue, req);
++
+ 	ib_update_fast_reg_key(req->mr, ib_inc_rkey(req->mr->rkey));
+ 
+ 	req->reg_cqe.done = nvme_rdma_memreg_done;
+ 	memset(&req->reg_wr, 0, sizeof(req->reg_wr));
+-	req->reg_wr.wr.opcode = IB_WR_REG_MR;
++	if (req->use_crypto)
++		req->reg_wr.wr.opcode = IB_WR_REG_MR_CRYPTO;
++	else
++		req->reg_wr.wr.opcode = IB_WR_REG_MR;
+ 	req->reg_wr.wr.wr_cqe = &req->reg_cqe;
+ 	req->reg_wr.wr.num_sge = 0;
+ 	req->reg_wr.mr = req->mr;
+@@ -1571,7 +1787,7 @@ static int nvme_rdma_map_data(struct nvme_rdma_queue *queue,
+ 		goto out;
+ 	}
+ 
+-	if (count <= dev->num_inline_segments) {
++	if (count <= dev->num_inline_segments && !req->use_crypto) {
+ 		if (rq_data_dir(rq) == WRITE && nvme_rdma_queue_idx(queue) &&
+ 		    queue->ctrl->use_inline_data &&
+ 		    blk_rq_payload_bytes(rq) <=
+@@ -2052,6 +2268,18 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	else
+ 		req->use_sig_mr = false;
+ 
++#ifdef CONFIG_BLK_INLINE_ENCRYPTION
++	if (rq->crypt_ctx) {
++		if (WARN_ON_ONCE(!queue->crypto_support)) {
++			err = -EIO;
++			goto err;
++		}
++		req->use_crypto = true;
++	} else {
++		req->use_crypto = false;
++	}
++#endif
++
+ 	err = nvme_rdma_map_data(queue, rq, c);
+ 	if (unlikely(err < 0)) {
+ 		dev_err(queue->ctrl->ctrl.device,
 -- 
 2.39.0
 
