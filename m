@@ -4,92 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEEA2C46467
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Jan 2023 21:14:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE069C67871
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Jan 2023 21:57:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zz7xUNaUOA+l+ZZyJwyYTuUW1EHckj5QcLwaaQ4qAq0=; b=ZnUTaCUvkAhFHHHOFnLfp/HIHS
-	7ZvpIm4Rlz+BL6kUY77few0KxCYBTwe5vpbKbCdgI2VpPg8DNo/hCVlM93tToaXdg26qca1zgXSu/
-	kg5x4rTlZzSp6ZwZ8/dBugAKdXM2MOUziJMkqi/jzD/w+u45IAL24pJFpG3iu90HOnmyK/HZ1LL5W
-	baxqQU0sSxxgJfx4NUZEReejJTm4X6GpVpqFQNfDxgHhiogjN0r+2TvS5NiYxZDbWJ+NOkalYhs14
-	Z+5df0iGgKZeFYCcv5t4f9lQpKydLiqEE6GWgevr5uY/FLo2JzWMCZ/6+Flwg4MuCwirzuQmd+cwm
-	AvAKY3xA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=pB7OzMUP2R+eFx2+0Tb9eBFUfZ26JGznjxbwj0Je6iY=; b=yCr+0bAM5eLqgvYJdjz0abPf6m
+	mHyyawR3i/kBNW8KDcbmXkJ84veN7L0ypmGjfBDwN7nw6vZtexyAj/5Wfqvfobw0hiBaCm0u2MdsW
+	92IzK07lDXTRj9h1GPzLZBk1dd+vsHpPla+3mZaPwxMLnO4D1PzM6N/x3pgmoMrsVk6HHDcvQcUzs
+	r+BCHGaEPBoIu+DhGZ+cor/u+imec4mdH1bidMWUBV2ovJaN5srLWCqqG87+tso5ZHEUI86XUpN2/
+	9hoeVatjXmjuAzrSdONgJisDxSnAmHFwtuVF+AXivK5GJropmmWZW23GxCxKMXGqeLZItG9UICsvr
+	AQ4Oe9bg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHWoA-00C4m7-E7; Mon, 16 Jan 2023 21:14:22 +0000
+	id 1pHXTj-00C7dV-HQ; Mon, 16 Jan 2023 21:57:19 +0000
 Received: from out2-smtp.messagingengine.com ([66.111.4.26])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHWo6-00C4lG-IQ
-	for linux-nvme@lists.infradead.org; Mon, 16 Jan 2023 21:14:21 +0000
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 3C4605C01E2;
-	Mon, 16 Jan 2023 16:14:12 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Mon, 16 Jan 2023 16:14:12 -0500
+	id 1pHXTg-00C7d5-Jr
+	for linux-nvme@lists.infradead.org; Mon, 16 Jan 2023 21:57:18 +0000
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 609505C01C5;
+	Mon, 16 Jan 2023 16:57:15 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Mon, 16 Jan 2023 16:57:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
-	 h=cc:cc:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1673903652; x=1673990052; bh=zz
-	7xUNaUOA+l+ZZyJwyYTuUW1EHckj5QcLwaaQ4qAq0=; b=l6jn/FTxo0MAFxBAkw
-	zRLDdp6Yy11TuSYkMP0KAfA2YmEPMgCKJisVsnejW0aS34GuTm5oZuzmuj1Vv0dk
-	7OKcm9V9W9uUcFUdHV4kh4ju8HanDrdvsnMuKYGPgx/+VhITAM9xw7Idopijxiab
-	vqIQoH1R+tHp9zT5UZopK0c3dUNCIw2aYJ/TXvSHZDjokGLZc52bMv5zzshz/mLD
-	/InOnNQug1boMJM62vZrb2ZZzmbcrInXsuVEEYnaZW5hvRzzlEGTQF6T+J8+n190
-	TX8NHRlIesfvvByoV5hN8Bo8l8hSxO4Uc2tx7SNLcrW9/dpHg0ijYZNohScWJve3
-	ErCg==
+	 h=cc:cc:content-type:date:date:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to; s=fm2; t=
+	1673906235; x=1673992635; bh=pB7OzMUP2R+eFx2+0Tb9eBFUfZ26JGznjxb
+	wj0Je6iY=; b=K35m0ZDUtc1iU8uC+gueRpCQA3uBExWFyRcS984nW4EEtJuYe/6
+	7a+z4MtSoMnOMsLUD6z4+N4WLBWOT8ieE+c3ryAecmH+i78EoyLpnVvMPTsNGaeE
+	YRMWApj8F225J9Jj/NENmc8GVvMfipCZrx6SlZmCy1q9Z8Vm33Bwi+Z7BRWCHTaz
+	PeCWD+f/1zgBXHg04sjloOF+NOGksZ3t+ZcMiqAsdnQUny0PSNlkjNPEhwxhExSK
+	IIjybp8eINNOkwpyTsikp92TvT+Vv/QtbdVpUd3BQDUvCGfNH9G6isV600+5H2Jg
+	fZDZ6S4Su32dYeQ6lT3T7IUDo4qRcmxnNSQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1673903652; x=1673990052; bh=zz7xUNaUOA+l+ZZyJwyYTuUW1EHc
-	kj5QcLwaaQ4qAq0=; b=bGOCqEU3bmvo9lBygZ/UaTKt+MQuiX1JWkot9mvXJdBB
-	5CGZTlw+C/slHR+IciXvGn6BnPvuEacsYz+XN6HlumJMT1rdho0/Enyl16hKlyN0
-	h57MaBHKXtVlUSBG6Jxgl38JXM6byAV2zKD1L/cssxlmOVhA26WfnCLwrdHzWgAU
-	JQIqpVzjWvVo9GhC5IsfwrSevC7tCA9PCsRM3G2kzn3JYjQvezfGnJybQlldXQ42
-	SE9YGogefiFYEUpiglgLByCzNE5jYBVVx4bR9j9sc8pqm8U3oxGnvqM+ClPN/++j
-	SiQLPoc3Q1BC+z+dgjntA+ORXwsBRUn7SkuN02aAhw==
-X-ME-Sender: <xms:I77FYx47D863sf-x_wLVaN69fpJgRL2bOdngrr4FXmpAzy9VIweEbA>
-    <xme:I77FY-47NzdDLSeRMtlVwZPDAal6bavdz5ineGc4gFvsZsf5405OhSa4K_ZOx2fUS
-    xLqTCTtUrYgeTXQ2b4>
-X-ME-Received: <xmr:I77FY4ewJL0ry6d23tTZM6qQUCw6POnzdSKvA_T8tAWoDjW6tD1bxXqoq7yQrnOT_S-AEIyorp1-gqMbh0Rj9-aIk1ZJdg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtgedgudegjecutefuodetggdotefrod
+	:feedback-id:from:from:in-reply-to:message-id:mime-version
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673906235; x=
+	1673992635; bh=pB7OzMUP2R+eFx2+0Tb9eBFUfZ26JGznjxbwj0Je6iY=; b=C
+	y5pw0QGd6gFDnxTcWPFFr2oseOmzv+OErsNmA0ftXgnlEEakrpFN7EQl8aPzO5kS
+	pmmaYCsateilTsaUIDJq49YtPHa6g8jgt/3ZkT2PzDRCS3Vc7LI+g/2ha9oxHhCr
+	6rWdXfhmikza83x9v7PVrBUghGKokur0AlP2byOIpBk7Wi1bH1A8XGYAlKDmb+vr
+	CMrMKsCCGN4NNWmjkUoYGCLMWFWypZR1VOya+t4mCu8LG3CBYIAqoBMDQNGZN1ik
+	Uv8rHyK8mWYCub1x/wkAxzFDsd+LGkpK5FCGdSHxoYGZpo4DjLpzdWTdTD+PEpS/
+	IQ9n3wjNplEFR2mvNCVVg==
+X-ME-Sender: <xms:O8jFY46iJbgYI921Z-tJLlZJqCEQZy5J6-d6IermOT1DGqGIyP8cDQ>
+    <xme:O8jFY57m737goO0CwdwQ_sv6rJUXJ8KGyC1GaIwl63E6a6vHn7uibCalniMNH0VjU
+    wYfmLcHdysWR-oh4I4>
+X-ME-Received: <xmr:O8jFY3d9Xyo5fjWa-9a5keT9DNOTWj7YQdpiXsVoZbRtfSJAR7VSP4xExLHEmlPZnzMKW6LlTKS9s8w2a5wkPWzKvmc2IA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtgedgudehiecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgr
-    uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
-    htthgvrhhnpeegheekudejuddvteeuueegledtieffveeuteejkeefiefgffefieeviedu
-    leegtdenucffohhmrghinhepphgtihdrtgifnecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:I77FY6Lfj5JNYe6iPltZf0HTLKoJqV5ndru5kUyxrCTH-99mFf3X2A>
-    <xmx:I77FY1KIyYsj5TT0PQidnAlymxRBYxSCxs2EcaMe8meYScpQ-eiI5g>
-    <xmx:I77FYzxTx92lR9IxU9XvOC0qactV-yGO3hJl1uSiHmVKK9_uJLWCNA>
-    <xmx:JL7FY6qdv82udScOz8DK8HEiNxmsy-xdBUMx3QeeWkrDiLRiI9NtKQ>
+    enucfjughrpeffhffvvefukfggtggusehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+    ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+    gvrhhnpedtjefgteejuedvkeefjefgieekueetvdduheffkeehjeevleehhedvgfeiudeh
+    hfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+    hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:O8jFY9LB-PWWMz1Ccm6Uu8yTZHr01hS22F8bGPNdL1IKX73e5B_wTw>
+    <xmx:O8jFY8L26D5rtqfEaIzUyy0ivp-RTzvuqQVehm7hTi02xMwiLDtG4Q>
+    <xmx:O8jFY-z4oU76ojKZANQEs3VsDy63lCw4C2IYcV9xAlvRxz5w9vaAag>
+    <xmx:O8jFY2gqn4GXS1Ic4IAefZX8WnPfroZNrwGJggc0HYcvwlFtN4i6Hw>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 16 Jan 2023 16:14:09 -0500 (EST)
-Date: Mon, 16 Jan 2023 22:14:07 +0100
+ 16 Jan 2023 16:57:13 -0500 (EST)
+Date: Mon, 16 Jan 2023 22:57:11 +0100
 From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
-	Guenter Roeck <linux@roeck-us.net>
-Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
-Message-ID: <Y8W+H6T9DOZ08SoF@cormorant.local>
-References: <Y8AG21o/9/3eUMIg@cormorant.local>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: regression on aarch64? panic on boot
+Message-ID: <Y8XINx8fpGPKudW6@cormorant.local>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cc8lRwQTP8Gv0NvM"
+	protocol="application/pgp-signature"; boundary="Wv4oHFnziRYt8pYX"
 Content-Disposition: inline
-In-Reply-To: <Y8AG21o/9/3eUMIg@cormorant.local>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230116_131419_305333_8FE31435 
-X-CRM114-Status: GOOD (  38.06  )
+X-CRM114-CacheID: sfid-20230116_135717_038836_7FE8DC91 
+X-CRM114-Status: GOOD (  10.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,216 +101,65 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
---cc8lRwQTP8Gv0NvM
+--Wv4oHFnziRYt8pYX
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Jan 12 14:10, Klaus Jensen wrote:
-> Hi all (linux-nvme, qemu-devel, maintainers),
->=20
-> On QEMU riscv64, which does not use MSI/MSI-X and thus relies on
-> pin-based interrupts, I'm seeing occasional completion timeouts, i.e.
->=20
->   nvme nvme0: I/O 333 QID 1 timeout, completion polled
->=20
-> To rule out issues with shadow doorbells (which have been a source of
-> frustration in the past), those are disabled. FWIW I'm also seeing the
-> issue with shadow doorbells.
->=20
-> 	diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> 	index f25cc2c235e9..28d8e7f4b56c 100644
-> 	--- a/hw/nvme/ctrl.c
-> 	+++ b/hw/nvme/ctrl.c
-> 	@@ -7407,7 +7407,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice =
-*pci_dev)
-> 	     id->mdts =3D n->params.mdts;
-> 	     id->ver =3D cpu_to_le32(NVME_SPEC_VER);
-> 	     id->oacs =3D
-> 	-        cpu_to_le16(NVME_OACS_NS_MGMT | NVME_OACS_FORMAT | NVME_OACS_DB=
-BUF);
-> 	+        cpu_to_le16(NVME_OACS_NS_MGMT | NVME_OACS_FORMAT);
-> 	     id->cntrltype =3D 0x1;
->=20
-> 	     /*
->=20
->=20
-> I captured a trace from QEMU when this happens:
->=20
-> pci_nvme_mmio_write addr 0x1008 data 0x4e size 4
-> pci_nvme_mmio_doorbell_sq sqid 1 new_tail 78
-> pci_nvme_io_cmd cid 4428 nsid 0x1 sqid 1 opc 0x2 opname 'NVME_NVM_CMD_REA=
-D'
-> pci_nvme_read cid 4428 nsid 1 nlb 32 count 16384 lba 0x1324
-> pci_nvme_map_prp trans_len 4096 len 16384 prp1 0x80aca000 prp2 0x82474100=
- num_prps 5
-> pci_nvme_map_addr addr 0x80aca000 len 4096
-> pci_nvme_map_addr addr 0x80ac9000 len 4096
-> pci_nvme_map_addr addr 0x80ac8000 len 4096
-> pci_nvme_map_addr addr 0x80ac7000 len 4096
-> pci_nvme_io_cmd cid 4429 nsid 0x1 sqid 1 opc 0x2 opname 'NVME_NVM_CMD_REA=
-D'
-> pci_nvme_read cid 4429 nsid 1 nlb 224 count 114688 lba 0x1242
-> pci_nvme_map_prp trans_len 4096 len 114688 prp1 0x80ae6000 prp2 0x8247400=
-0 num_prps 29
-> pci_nvme_map_addr addr 0x80ae6000 len 4096
-> pci_nvme_map_addr addr 0x80ae5000 len 4096
-> pci_nvme_map_addr addr 0x80ae4000 len 4096
-> pci_nvme_map_addr addr 0x80ae3000 len 4096
-> pci_nvme_map_addr addr 0x80ae2000 len 4096
-> pci_nvme_map_addr addr 0x80ae1000 len 4096
-> pci_nvme_map_addr addr 0x80ae0000 len 4096
-> pci_nvme_map_addr addr 0x80adf000 len 4096
-> pci_nvme_map_addr addr 0x80ade000 len 4096
-> pci_nvme_map_addr addr 0x80add000 len 4096
-> pci_nvme_map_addr addr 0x80adc000 len 4096
-> pci_nvme_map_addr addr 0x80adb000 len 4096
-> pci_nvme_map_addr addr 0x80ada000 len 4096
-> pci_nvme_map_addr addr 0x80ad9000 len 4096
-> pci_nvme_map_addr addr 0x80ad8000 len 4096
-> pci_nvme_map_addr addr 0x80ad7000 len 4096
-> pci_nvme_map_addr addr 0x80ad6000 len 4096
-> pci_nvme_map_addr addr 0x80ad5000 len 4096
-> pci_nvme_map_addr addr 0x80ad4000 len 4096
-> pci_nvme_map_addr addr 0x80ad3000 len 4096
-> pci_nvme_map_addr addr 0x80ad2000 len 4096
-> pci_nvme_map_addr addr 0x80ad1000 len 4096
-> pci_nvme_map_addr addr 0x80ad0000 len 4096
-> pci_nvme_map_addr addr 0x80acf000 len 4096
-> pci_nvme_map_addr addr 0x80ace000 len 4096
-> pci_nvme_map_addr addr 0x80acd000 len 4096
-> pci_nvme_map_addr addr 0x80acc000 len 4096
-> pci_nvme_map_addr addr 0x80acb000 len 4096
-> pci_nvme_rw_cb cid 4428 blk 'd0'
-> pci_nvme_rw_complete_cb cid 4428 blk 'd0'
-> pci_nvme_enqueue_req_completion cid 4428 cqid 1 dw0 0x0 dw1 0x0 status 0x0
-> [1]: pci_nvme_irq_pin pulsing IRQ pin
-> pci_nvme_rw_cb cid 4429 blk 'd0'
-> pci_nvme_rw_complete_cb cid 4429 blk 'd0'
-> pci_nvme_enqueue_req_completion cid 4429 cqid 1 dw0 0x0 dw1 0x0 status 0x0
-> [2]: pci_nvme_irq_pin pulsing IRQ pin
-> [3]: pci_nvme_mmio_write addr 0x100c data 0x4d size 4
-> [4]: pci_nvme_mmio_doorbell_cq cqid 1 new_head 77
-> ---- TIMEOUT HERE (30s) ---
-> [5]: pci_nvme_mmio_read addr 0x1c size 4
-> [6]: pci_nvme_mmio_write addr 0x100c data 0x4e size 4
-> [7]: pci_nvme_mmio_doorbell_cq cqid 1 new_head 78
-> --- Interrupt deasserted (cq->tail =3D=3D cq->head)
-> [   31.757821] nvme nvme0: I/O 333 QID 1 timeout, completion polled
->=20
-> Following the timeout, everything returns to "normal" and device/driver
-> happily continues.
->=20
-> The pin-based interrupt logic in hw/nvme seems sound enough to me, so I
-> am wondering if there is something going on with the kernel driver (but
-> I certainly do not rule out that hw/nvme is at fault here, since
-> pin-based interrupts has also been a source of several issues in the
-> past).
->=20
-> What I'm thinking is that following the interrupt in [1], the driver
-> picks up completion for cid 4428 but does not find cid 4429 in the queue
-> since it has not been posted yet. Before getting a cq head doorbell
-> write (which would cause the pin to be deasserted), the device posts the
-> completion for cid 4429 which just keeps the interrupt asserted in [2].
-> The trace then shows the cq head doorbell update in [3,4] for cid 4428
-> and then we hit the timeout since the driver is not aware that cid 4429
-> has been posted in between this (why is it not aware of this?) Timing
-> out, the driver then polls the queue and notices cid 4429 and updates
-> the cq head doorbell in [5-7], causing the device to deassert the
-> interrupt and we are "back in shape".
->=20
-> I'm observing this on 6.0 kernels and v6.2-rc3 (have not tested <6.0).
-> Tested on QEMU v7.0.0 (to rule out all the shadow doorbell
-> optimizations) as well as QEMU nvme-next (infradead). In other words,
-> it's not a recent regression in either project and potentially it has
-> always been like this. I've not tested other platforms for now, but I
-> would assume others using pin-based interrupts would observe the same.
->=20
-> Any ideas on how to shed any light on this issue from the kernel side of
-> things?
+Hi,
 
-I noticed that the Linux driver does not use the INTMS/INTMC registers
-to mask interrupts on the controller while processing CQEs. While not
-required by the spec, it is *recommended* in setups not using MSI-X to
-reduce the risk of spurious and/or missed interrupts.
+I'm getting panics when booting from a QEMU hw/nvme device on an aarch64
+guest in roughly 20% of boots on v6.2-rc4. Example panic below.
 
-With the patch below, running 100 boot iterations, no timeouts were
-observed on QEMU emulated riscv64 or mips64.
+I've bisected it to commit eac3ef262941 ("nvme-pci: split the initial
+probe from the rest path").
 
-No changes are required in the QEMU hw/nvme interrupt logic.
+I'm not seeing this on any other emulated platforms that I'm currently
+testing (x86_64, riscv32/64, mips32/64 and sparc64).
 
 
-diff --git i/drivers/nvme/host/pci.c w/drivers/nvme/host/pci.c
-index b13baccedb4a..75f6b87c4c3f 100644
---- i/drivers/nvme/host/pci.c
-+++ w/drivers/nvme/host/pci.c
-@@ -1128,6 +1128,27 @@ static inline int nvme_poll_cq(struct nvme_queue *nv=
-meq,
- }
+nvme nvme0: 1/0/0 default/read/poll queues
+NET: Registered PF_VSOCK protocol family
+registered taskstats version 1
+nvme nvme0: Ignoring bogus Namespace Identifiers
+/dev/root: Can't open blockdev
+VFS: Cannot open root device "nvme0n1" or unknown-block(0,0): error -6
+Please append a correct "root=" boot option; here are the available partitions:
+103:00000      61440 nvme0n1
+ (driver?)
+Kernel panic - not syncing: VFS: Unable to mount root fs on unknown-block(0,0)
+CPU: 0 PID: 1 Comm: swapper/0 Not tainted 6.2.0-rc4 #22
+Hardware name: linux,dummy-virt (DT)
+Call trace:
+ dump_backtrace.part.0+0xdc/0xf0
+ show_stack+0x18/0x30
+ dump_stack_lvl+0x7c/0xa0
+ dump_stack+0x18/0x34
+ panic+0x17c/0x328
+ mount_block_root+0x184/0x234
+ mount_root+0x178/0x198
+ prepare_namespace+0x124/0x164
+ kernel_init_freeable+0x2a0/0x2c8
+ kernel_init+0x2c/0x130
+ ret_from_fork+0x10/0x20
+Kernel Offset: disabled
+CPU features: 0x00000,01800100,0000420b
+Memory Limit: none
+---[ end Kernel panic - not syncing: VFS: Unable to mount root fs on unknown-block(0,0) ]---
 
- static irqreturn_t nvme_irq(int irq, void *data)
-+{
-+       struct nvme_queue *nvmeq =3D data;
-+       struct nvme_dev *dev =3D nvmeq->dev;
-+       u32 mask =3D 1 << nvmeq->cq_vector;
-+       irqreturn_t ret =3D IRQ_NONE;
-+       DEFINE_IO_COMP_BATCH(iob);
-+
-+       writel(mask, dev->bar + NVME_REG_INTMS);
-+
-+       if (nvme_poll_cq(nvmeq, &iob)) {
-+               if (!rq_list_empty(iob.req_list))
-+                       nvme_pci_complete_batch(&iob);
-+               ret =3D IRQ_HANDLED;
-+       }
-+
-+       writel(mask, dev->bar + NVME_REG_INTMC);
-+
-+       return ret;
-+}
-+
-+static irqreturn_t nvme_irq_msix(int irq, void *data)
- {
-        struct nvme_queue *nvmeq =3D data;
-        DEFINE_IO_COMP_BATCH(iob);
-@@ -1602,12 +1623,13 @@ static int queue_request_irq(struct nvme_queue *nvm=
-eq)
- {
-        struct pci_dev *pdev =3D to_pci_dev(nvmeq->dev->dev);
-        int nr =3D nvmeq->dev->ctrl.instance;
-+       irq_handler_t handler =3D pdev->msix_enabled ? nvme_irq_msix : nvme=
-_irq;
-
-        if (use_threaded_interrupts) {
-                return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq_che=
-ck,
--                               nvme_irq, nvmeq, "nvme%dq%d", nr, nvmeq->qi=
-d);
-+                               handler, nvmeq, "nvme%dq%d", nr, nvmeq->qid=
-);
-        } else {
--               return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq,
-+               return pci_request_irq(pdev, nvmeq->cq_vector, handler,
-                                NULL, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
-        }
- }
-
-
-
---cc8lRwQTP8Gv0NvM
+--Wv4oHFnziRYt8pYX
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmPFvh4ACgkQTeGvMW1P
-DekT9wf/ei/LqtKzzs/EITjBAVKU0HG1j55VBgy5hIS8xF/DkJ+xSPBUz+2rzcjF
-XdtvTVdmsFnzJjiccCtgTdc5TiiUWxODjtlepVlI4V78EBsW4NPRcNCwZ9cHCHf2
-6axD15A6sBVkkTz6SUCzHw6TQ3+QIvghtM2wD2AyKXINlJdmI/QhKDx7hNId9drP
-XyV0Mo/TdWokjRyaoeUoLEkAYFKp+WURaXvdTgsg/U8vgLAMJU3jxfRz9nQvYa3Q
-N/hXLT+zbfCi7bmsDwl6C1Z5ty4Sa8GcXc5MzAQmKHcQtEk3QVnn8aCBF2CMQWxZ
-LHUddsiWcVfnIkwVwvT3fIYlvWSOyg==
-=yZaH
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmPFyDcACgkQTeGvMW1P
+DekuvwgAnzpWdriYkhJke67vy04eHNX22UnTthB8dHmz1+lqaGyqak1ih8SFrzr6
+t/v9UNJA/JJ/k6smupIOd0UA2DtbeoCEEOgnjXGoUBerRbzbJNyquc/2HtRKzprt
+lAHHUQ5Le/d93yK9jskzkyLmZQAYUClK1JKcADg+5Kz/+K/OnrxarYJ8qMOI0pLb
+I0TUBKTCEWVGOsprzfNFCJ2ug3Yjf/64wjYSohAZm9+5U+Svyl4rWTF3iHeC6eaX
+whyES8dOA7bHGGr/2gWpqU0WPbPVEdrQc4yKfShDJ2PBqfn4vEGEalFjYHqqzIEE
+LZsqcIfH2N5fkqRVfU5Hf+pwAQxiPg==
+=ifcL
 -----END PGP SIGNATURE-----
 
---cc8lRwQTP8Gv0NvM--
+--Wv4oHFnziRYt8pYX--
 
