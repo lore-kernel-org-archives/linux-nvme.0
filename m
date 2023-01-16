@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06EF0C678DA
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Jan 2023 13:07:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85555C678D9
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Jan 2023 13:07:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zU0oqy/RxYeAiO9YXueIj7bSsLmd0GljIGpZ8j6sNdo=; b=mVAqRXCY4Co3Z+xfeTw0N+kLes
-	Dk5YAZpZLC9mhN3Tvfy91jYewZJNPBlM3TAEI5F6KGlPUDZsZe0VBQCRdBD6dIqYLgRuO33/pxdNF
-	Z04O/1o4q2j3pzYxx1ypMVsSgVuVhSS10vuJGvsMvzfcOrig0BkNddqeQMdobUvRN3jzi4wYZz5e8
-	J5QJXCQF1WMIV33tKIgJiQx4W4MCUCjPi3RYK9MHXXP4m7Ww3MU2m9TbvMCdtL7NqSMMWWLGktCou
-	VPU3ai0RptyJU0g5a0yANAjxJEa8dR7iaOluQlKXL+b9v22pQFm6K2oKPKfXUdsrZCgmhOh8HAZoy
-	sqSzvXHQ==;
+	bh=ojbiO3oZks3LpFd8dr2EcbxBeTeJmJbANwLFaR6J05M=; b=JqLcIL7DcP2g8VGtgHT6g3DXOp
+	HNWxnIjFAR7lcdMBhbakYEbKKP92GI/cXANQURSG1igKL9tBCr2+FPvbfffvWHo1GehjpO8DhhiVb
+	SxJEH/vRDAaCLBbNCcF03tOdkIk6t88uwAaVmiHWwCNMw9mGx9jBf/Xn8KcWzQqKsABGXJS8wc3+B
+	ySejMMtdy6iwn5kmh0NQaV9JV0cwXucvxAU0X255gcjG5zhhC70nGNR8D6/yhtje3LyFsQrSRfwEc
+	CioL1RytR0O6mhFSwuGpXNlRvSqHjVzsp3SbcDmks7c0lVGjJzS4uthOMFCrIh1bQcNn1+FzHMw+B
+	pK6/J0QQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHPCV-00AHU6-Lb; Mon, 16 Jan 2023 13:06:59 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1pHPCh-00AHcj-Kr; Mon, 16 Jan 2023 13:07:11 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHPBt-00AHC5-08
-	for linux-nvme@lists.infradead.org; Mon, 16 Jan 2023 13:06:23 +0000
+	id 1pHPBv-00AHD3-E8
+	for linux-nvme@lists.infradead.org; Mon, 16 Jan 2023 13:06:24 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 8EEEDB80D32;
-	Mon, 16 Jan 2023 13:06:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E2E2C433D2;
-	Mon, 16 Jan 2023 13:06:17 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id ED2B460F97;
+	Mon, 16 Jan 2023 13:06:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91A16C433D2;
+	Mon, 16 Jan 2023 13:06:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673874378;
-	bh=FGqAyVpLDpa6MeOFTzSFbDozHcqVNx/tnBsc6ttpwoM=;
+	s=k20201202; t=1673874382;
+	bh=vAkRimTAOToGcO2FbKESWn7KypzSRbBcz5r9JH5CQXA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=in1GLNrzq+wqFOE9AjaQ/K0YCORb2NHrxF8tjgbcNj/kIKb2H6NHGODGVottYTQMO
-	 hSCapPblNrwwp6gJsN5FxW6/Vks9AoCr/LmQoiE/dkc4qxBb0U8Oj1ndZjy5CjDjiI
-	 PQmjUt1pRAF+CAlIhFstqLSerYxKXNovbzYn8WNAuAnfSP5IPDEBLB8xArwA+3tCn8
-	 FW/qet4RhByW7xKJPoGynWXG84hWb2hIT/wBSpa/LG7tzX6k71bUS+lW6pwuNvJB/m
-	 AyROUjPdB2yGTQpVzslf6xLN3OfmWOXVz4lISPONbX2LmTreM8inz9x683LsyBUvN3
-	 pVoCrD78rk9hw==
+	b=ADlWSkwHACNAO2DLud+o3x07DseJaWthyhMStPks9JKa3AMvFD7TCTSQ8TZM0fQ3R
+	 TXWvlPdUnDpnYl24ITlNcRdLUTeTLOuuVf9xcSA9ISNpqlNKsN/d5rGkznbmjvxyE9
+	 qZiBv/tQlQfwjsPz960Yrq13RsUph72exN6wRTnzpQyRbuVxqrZA+czP5JviwZapIH
+	 8BWLxK82/4kZPDyD8SyFfgxbcdcubFqUEE97PWhIiPLmUqRmsm2JDukeuGGnDcrUma
+	 aPQAEvN4YMtPALZapqy/W/8UppovupAUSNeAIgEwmJ4niNNuj8tJ9dq2bl4kwefxCs
+	 3BkpzLZuxGDVw==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Israel Rukshin <israelr@nvidia.com>,
@@ -65,17 +65,17 @@ Cc: Israel Rukshin <israelr@nvidia.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	Vishnu Dasa <vdasa@vmware.com>,
 	Yishai Hadas <yishaih@nvidia.com>
-Subject: [PATCH rdma-next 04/13] RDMA/core: Add cryptographic device capabilities
-Date: Mon, 16 Jan 2023 15:05:51 +0200
-Message-Id: <4be0048cfe54548acc3730d733009237d8a896f8.1673873422.git.leon@kernel.org>
+Subject: [PATCH mlx5-next 02/13] net/mlx5: Introduce crypto capabilities macro
+Date: Mon, 16 Jan 2023 15:05:49 +0200
+Message-Id: <561d70fff0ab0ebc5594e371d9faec2a2c934972.1673873422.git.leon@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <cover.1673873422.git.leon@kernel.org>
 References: <cover.1673873422.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230116_050621_405455_2836963E 
-X-CRM114-Status: GOOD (  19.56  )
+X-CRM114-CacheID: sfid-20230116_050623_594114_9D696C57 
+X-CRM114-Status: GOOD (  13.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,84 +92,68 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Israel Rukshin <israelr@nvidia.com>
 
-Some advanced RDMA devices have HW engines with cryptographic
-capabilities. Those devices can encrypt/decrypt data when transmitting
-from memory domain to wire domain and when receiving data from wire
-domain to memory domain. Expose these capabilities via common RDMA
-device attributes. For now, add only AES-XTS cryptographic support.
+Add MLX5_CAP_CRYPTO() macro to the list of capabilities.
 
 Signed-off-by: Israel Rukshin <israelr@nvidia.com>
 Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
 Signed-off-by: Leon Romanovsky <leon@kernel.org>
 ---
- include/rdma/crypto.h   | 37 +++++++++++++++++++++++++++++++++++++
- include/rdma/ib_verbs.h |  2 ++
- 2 files changed, 39 insertions(+)
- create mode 100644 include/rdma/crypto.h
+ drivers/net/ethernet/mellanox/mlx5/core/fw.c   | 6 ++++++
+ drivers/net/ethernet/mellanox/mlx5/core/main.c | 1 +
+ include/linux/mlx5/device.h                    | 4 ++++
+ 3 files changed, 11 insertions(+)
 
-diff --git a/include/rdma/crypto.h b/include/rdma/crypto.h
-new file mode 100644
-index 000000000000..4779eacb000e
---- /dev/null
-+++ b/include/rdma/crypto.h
-@@ -0,0 +1,37 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB */
-+/*
-+ * Copyright (c) 2022, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-+ */
-+
-+#ifndef _RDMA_CRYPTO_H_
-+#define _RDMA_CRYPTO_H_
-+
-+#include <linux/types.h>
-+
-+/**
-+ * Encryption and decryption operations are done by attaching crypto properties
-+ * to a memory region. Once done, every access to the memory via the crypto
-+ * memory region will result in inline encryption or decryption of the data
-+ * by the RDMA device. The crypto properties contain the Data Encryption Key
-+ * (DEK) and the crypto standard that should be used and its attributes.
-+ */
-+
-+/**
-+ * Cryptographic engines in clear text mode capabilities.
-+ * @IB_CRYPTO_ENGINES_CAP_AES_XTS: Support AES-XTS engine.
-+ */
-+enum {
-+	IB_CRYPTO_ENGINES_CAP_AES_XTS = 1 << 0,
-+};
-+
-+/**
-+ * struct ib_crypto_caps - Cryptographic capabilities
-+ * @crypto_engines: From enum ib_crypto_engines_cap_bits.
-+ * @max_num_deks: Maximum number of Data Encryption Keys.
-+ */
-+struct ib_crypto_caps {
-+	u32 crypto_engines;
-+	u32 max_num_deks;
-+};
-+
-+#endif /* _RDMA_CRYPTO_H_ */
-diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
-index cc2ddd4e6c12..83be7e49c5f7 100644
---- a/include/rdma/ib_verbs.h
-+++ b/include/rdma/ib_verbs.h
-@@ -40,6 +40,7 @@
- #include <rdma/rdma_counter.h>
- #include <rdma/restrack.h>
- #include <rdma/signature.h>
-+#include <rdma/crypto.h>
- #include <uapi/rdma/rdma_user_ioctl.h>
- #include <uapi/rdma/ib_user_ioctl_verbs.h>
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/fw.c b/drivers/net/ethernet/mellanox/mlx5/core/fw.c
+index f34e758a2f1f..4603f7ffd8d6 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/fw.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/fw.c
+@@ -147,6 +147,12 @@ int mlx5_query_hca_caps(struct mlx5_core_dev *dev)
+ 	if (err)
+ 		return err;
  
-@@ -450,6 +451,7 @@ struct ib_device_attr {
- 	u64			max_dm_size;
- 	/* Max entries for sgl for optimized performance per READ */
- 	u32			max_sgl_rd;
-+	struct ib_crypto_caps	crypto_caps;
++	if (MLX5_CAP_GEN(dev, crypto)) {
++		err = mlx5_core_get_caps(dev, MLX5_CAP_CRYPTO);
++		if (err)
++			return err;
++	}
++
+ 	if (MLX5_CAP_GEN(dev, port_selection_cap)) {
+ 		err = mlx5_core_get_caps(dev, MLX5_CAP_PORT_SELECTION);
+ 		if (err)
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/main.c b/drivers/net/ethernet/mellanox/mlx5/core/main.c
+index df134f6d32dc..81348a009666 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/main.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/main.c
+@@ -1555,6 +1555,7 @@ static const int types[] = {
+ 	MLX5_CAP_DEV_SHAMPO,
+ 	MLX5_CAP_MACSEC,
+ 	MLX5_CAP_ADV_VIRTUALIZATION,
++	MLX5_CAP_CRYPTO,
  };
  
- enum ib_mtu {
+ static void mlx5_hca_caps_free(struct mlx5_core_dev *dev)
+diff --git a/include/linux/mlx5/device.h b/include/linux/mlx5/device.h
+index 29d4b201c7b2..fd095f0ed3ec 100644
+--- a/include/linux/mlx5/device.h
++++ b/include/linux/mlx5/device.h
+@@ -1204,6 +1204,7 @@ enum mlx5_cap_type {
+ 	MLX5_CAP_VDPA_EMULATION = 0x13,
+ 	MLX5_CAP_DEV_EVENT = 0x14,
+ 	MLX5_CAP_IPSEC,
++	MLX5_CAP_CRYPTO = 0x1a,
+ 	MLX5_CAP_DEV_SHAMPO = 0x1d,
+ 	MLX5_CAP_MACSEC = 0x1f,
+ 	MLX5_CAP_GENERAL_2 = 0x20,
+@@ -1466,6 +1467,9 @@ enum mlx5_qcam_feature_groups {
+ #define MLX5_CAP_MACSEC(mdev, cap)\
+ 	MLX5_GET(macsec_cap, (mdev)->caps.hca[MLX5_CAP_MACSEC]->cur, cap)
+ 
++#define MLX5_CAP_CRYPTO(mdev, cap)\
++	MLX5_GET(crypto_cap, (mdev)->caps.hca[MLX5_CAP_CRYPTO]->cur, cap)
++
+ enum {
+ 	MLX5_CMD_STAT_OK			= 0x0,
+ 	MLX5_CMD_STAT_INT_ERR			= 0x1,
 -- 
 2.39.0
 
