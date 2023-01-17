@@ -4,74 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D289C6379F
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Jan 2023 16:18:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6691AC54E76
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Jan 2023 17:11:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=A4/5fYgXR1pyHfT5U1fw1lkncpm6Gmpw8YQoQ2kh474=; b=4Eugolh3ewNLNc1745FaDa0TzC
-	+Teg2JYC3JnoBP4pVM6Jp8HhBHMNQYaPMSPVQoenahl1cXfpfY5DCMGfny5ry2qamsZ67BvkND+yH
-	lzXXqMH7abfLsUfwLawzXq7iMDsvM4YXauFiNHCKmERrQmQL1hf3cSp4LM29KJ81kXIcp+ZOU+Gxq
-	gBA825t+WjdjlQZLmsfK5AjQBRnePuJs7DGWWw5orKTjJFlWFVdPQ0Z5RM8yARZTL5DQcUjRornhT
-	/b/9QkVQEkFa/S8dwm+Z+cfYr9KwcibtldVfaXIy7HzYkFfvsnVUMR/dKj9KQ/HdEFKrIHaQFJdgd
-	u5jVQ3TA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wywbYDdRewZbeBYdBqsQPCT3pfo92S64CwjLHS6OdeQ=; b=Dm9JTjudt1YdOPtnHqtH2dirQ8
+	sDORYm8B9+/RKXAfPcGT45whhJfcrV12vPkfV5KxZQC0OSG64HfazA37cFfpDMWyS5s+lIG9jBJ94
+	MsVNDtUjQ2ZxjHIGeQFHgEyf+kfq6Dty+lvnDFH4RdDWViAP7Zu93BKkQ3lShV/KOpxeHF4KMaW/I
+	q57u2n/MQjkAkT9z8JGbX3EptM0cVik6ficXELpp252I/7BSJavqIacfj3vZ80lFQrTrjery7AmNE
+	ToMcljeiTKoemMo69Yz3mxbL7q8BklRV7BX38++kyjxUtzV4F5m6PDyPiZOPxnz/gO9KVJezQLRQG
+	L7ONRTvg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHofO-00F5HH-DB; Tue, 17 Jan 2023 16:18:30 +0000
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+	id 1pHpUS-00FDL1-Nq; Tue, 17 Jan 2023 17:11:16 +0000
+Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHofL-00F5Gb-QO
-	for linux-nvme@lists.infradead.org; Tue, 17 Jan 2023 16:18:29 +0000
-Received: by mail-pj1-x1032.google.com with SMTP id gz9-20020a17090b0ec900b002290bda1b07so57928pjb.1
-        for <linux-nvme@lists.infradead.org>; Tue, 17 Jan 2023 08:18:26 -0800 (PST)
+	id 1pHpUO-00FDJm-W2
+	for linux-nvme@lists.infradead.org; Tue, 17 Jan 2023 17:11:14 +0000
+Received: by mail-io1-xd35.google.com with SMTP id y69so671772iof.3
+        for <linux-nvme@lists.infradead.org>; Tue, 17 Jan 2023 09:11:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=A4/5fYgXR1pyHfT5U1fw1lkncpm6Gmpw8YQoQ2kh474=;
-        b=g6kqHK46iC0TL4hFdx4Ejv/5Jc9hvF+LpfPvYELv7OYWvz4EY7SoJjKFOkDtckAFHv
-         WRORMaSYSz8jHfKdXPtZlc2kFKd3PTQBHcpJmCIzvpPVUuGtyB3eLDebJSIo1LLYgVOI
-         ZusFKbMxtipRVcuxX6NTRt3+YRliDKaGQEP0OS0xXQoElWZtA80La+AUPv13qrOGSlJ6
-         kSeYBqWykh1lseEM0+JVNPdTIZf82Dkw7SPW90PYA0vB6Zf9O6lb12YSmuqEUArPVdVQ
-         x+wAk/Zwk97gfjapn4AZfYRvhfq7awhb3n1fH+/HyXtOb04G8bWvWvorX87m39T7mSaj
-         un/w==
+        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wywbYDdRewZbeBYdBqsQPCT3pfo92S64CwjLHS6OdeQ=;
+        b=FHQzA+SB1PjLtYDocMcaQu5ERZlfgETSf3c+RoL6zvzVfhmdguW8sINbIv0wDEirVD
+         MPNNkk03+hwWl9H7z8x+7JDXDwUi7/TsCreHXebPgL7k8OcPG3lpH44HIFh4FtRHP9P7
+         7dpEJxhY2F+sm1kvPsqzQ3BP5QZ86SC4dwmGfbelIeb35tODo8f1BvcATovtijxhug3E
+         EIuycqfh4KTyQQsJqveGukZeBccVVJ4rpg3RQKzPgyxCPBkVJuEejLYYL3J38uU1WZg/
+         H4uv/FkYRhCOpaqDPBkoE/0rzJZo7bkn9bE3J2oH10TbbxVAg1Sw1POFsrZhuVevJzzu
+         V20g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=A4/5fYgXR1pyHfT5U1fw1lkncpm6Gmpw8YQoQ2kh474=;
-        b=GF1B8RnWXa8MUGGrQKU3S6mqQu/dSU4ENIJhqfgsQcixoFX8xWHfdTPFVRV40thKDa
-         ABzLQ/ItC9AzP+zqIu7EoNkXuQy58aKDWwiRklLWew0FybFsncOUILuV7cTBTjpQI2CE
-         ztnRHA+mxJ4i+xDt4lqo/DDWQr/8fLtChdy+9fWHhuZKUm5HeO35Wb0r6APBPEYxgGo2
-         YrqcYphsH+T5GKmcPmHAA1J8A1d/fPenubD12lwoy/4zXV81eu4+P+W+JulIthDh2PZi
-         FrELHIf9PItatQUDKYtAqD5cc7/GHOn1VulkOxH7PFVL9CulGZvO5zalZ6mp1BpZByvU
-         K8iQ==
-X-Gm-Message-State: AFqh2krilYpr6wg8x61xpDH9np296P8kj5Zi6FdWhrvL7aW7LHJs3hV5
-	fC0tAMIwRB47lz1bM9HUGTkhQ+jttpQvuCaEz1/Yog==
-X-Google-Smtp-Source: AMrXdXtmWyVfgJzmesu3dQ5gV8JtyaZEVyUkSSwHvXyWTabM8rQvvLSthYn27JPMpSrQzyPc6LZsxPem3F33nNJprIM=
-X-Received: by 2002:a17:90b:46c9:b0:219:e2f1:81ad with SMTP id
- jx9-20020a17090b46c900b00219e2f181admr317716pjb.19.1673972305782; Tue, 17 Jan
- 2023 08:18:25 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wywbYDdRewZbeBYdBqsQPCT3pfo92S64CwjLHS6OdeQ=;
+        b=0HDhfkeKJtyjO5MAJZdGS6g43UHygxsZijGgbOuzc1tv9oKjL0TJvZnVepJAp+XG1f
+         f9oDgPJM3P6HXTkVyaXaT/QKgCd8nOL5YNb4rv6aqJx+uVsA3gO46pvWvIrzbu8XZ8p2
+         kNseiwkz76PIWh8J7BmQxJt+mnTXJsj195GrQ/LTRGVhYeMtqykgMgTg+b3l4Um51KJz
+         ZzBcCRTsF+lDKQeNy/+/DywXymkl4FQDkW4nvEW4PisON9+nu0T5K79LKZbjpFsp/TrP
+         8Tu8yNZ5Tu88EDujSJi7M4SZ+0A71BienJR/8MC2smVibwA+QWeJ5wYZQOsALK/UMNSp
+         am3Q==
+X-Gm-Message-State: AFqh2krTkFE8BLpTVBc2VTL4AT0GrA7sY9/QH2J0rKrs/BKd6/3f5Goi
+	UXVGX3Q1agIMSi0xV/rr7YIIpw==
+X-Google-Smtp-Source: AMrXdXuH0uUysfUh/dakMTeWj+tvfqr+wlc/wqmWBNGp6+udS4yaxUSf2d+cKDtvJ/YnZMPW1mQmDQ==
+X-Received: by 2002:a6b:b2d0:0:b0:6e2:d939:4f30 with SMTP id b199-20020a6bb2d0000000b006e2d9394f30mr592309iof.0.1673975469840;
+        Tue, 17 Jan 2023 09:11:09 -0800 (PST)
+Received: from [192.168.1.94] ([207.135.234.126])
+        by smtp.gmail.com with ESMTPSA id x20-20020a0566022c5400b006bc039e3224sm10560144iov.17.2023.01.17.09.11.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Jan 2023 09:11:09 -0800 (PST)
+Message-ID: <0e88f8e6-961e-28b2-0606-50c1a0de10fb@kernel.dk>
+Date: Tue, 17 Jan 2023 10:11:08 -0700
 MIME-Version: 1.0
-References: <Y8AG21o/9/3eUMIg@cormorant.local> <Y8W+H6T9DOZ08SoF@cormorant.local>
- <Y8Yq5faCjAKzMa9O@kbusch-mbp> <20230117160933.GB3091262@roeck-us.net>
-In-Reply-To: <20230117160933.GB3091262@roeck-us.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 17 Jan 2023 16:18:14 +0000
-Message-ID: <CAFEAcA9pS7P=SvKsOtRHPtkrNAD8LF2ZpFJ870G3B-rhWYap4g@mail.gmail.com>
-Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>, Jens Axboe <axboe@fb.com>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, 
-	qemu-block@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH for-next v1 0/2] enable pcpu bio-cache for IRQ
+ uring-passthru I/O
+Content-Language: en-US
+To: Anuj Gupta <anuj20.g@samsung.com>, hch@lst.de, kbusch@kernel.org,
+ asml.silence@gmail.com
+Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ gost.dev@samsung.com
+References: <CGME20230117120741epcas5p2c7d2a20edd0f09bdff585fbe95bdadd9@epcas5p2.samsung.com>
+ <20230117120638.72254-1-anuj20.g@samsung.com>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20230117120638.72254-1-anuj20.g@samsung.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230117_081827_877536_D45B3A96 
-X-CRM114-Status: GOOD (  27.48  )
+X-CRM114-CacheID: sfid-20230117_091113_057808_227E7774 
+X-CRM114-Status: UNSURE (   9.05  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,39 +96,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, 17 Jan 2023 at 16:10, Guenter Roeck <linux@roeck-us.net> wrote:
->
-> On Mon, Jan 16, 2023 at 09:58:13PM -0700, Keith Busch wrote:
-> > On Mon, Jan 16, 2023 at 10:14:07PM +0100, Klaus Jensen wrote:
-> > > I noticed that the Linux driver does not use the INTMS/INTMC registers
-> > > to mask interrupts on the controller while processing CQEs. While not
-> > > required by the spec, it is *recommended* in setups not using MSI-X to
-> > > reduce the risk of spurious and/or missed interrupts.
-> >
-> > That's assuming completions are deferred to a bottom half. We don't do
-> > that by default in Linux nvme, though you can ask the driver to do that
-> > if you want.
-> >
-> > > With the patch below, running 100 boot iterations, no timeouts were
-> > > observed on QEMU emulated riscv64 or mips64.
-> > >
-> > > No changes are required in the QEMU hw/nvme interrupt logic.
-> >
-> > Yeah, I can see why: it forces the irq line to deassert then assert,
-> > just like we had forced to happen within the device side patches. Still,
-> > none of that is supposed to be necessary, but this idea of using these
-> > registers is probably fine.
->
-> There is still no answer why this would be necessary in the first place,
-> on either side. In my opinion, unless someone can confirm that the problem
-> is seen with real hardware, we should assume that it happens on the qemu
-> side and address it there.
+On 1/17/23 5:06?AM, Anuj Gupta wrote:
+> This series extends bio pcpu caching for normal / IRQ-driven
+> uring-passthru I/Os. Earlier, only polled uring-passthru I/Os could
+> leverage bio-cache. After the series from Pavel[1], bio-cache can be
+> leveraged by normal / IRQ driven I/Os as well. t/io_uring with an Optane
+> SSD setup shows +7.21% for batches of 32 requests.
+> 
+> [1] https://lore.kernel.org/io-uring/cover.1666347703.git.asml.silence@gmail.com/
+> 
+> IRQ, 128/32/32, cache off
 
-Sure, but that means identifying what the divergence
-between QEMU's implementation and the hardware is first. I don't
-want a fudged fix in QEMU's code any more than you want one in
-the kernel's driver code :-)
+Tests here -
 
-thanks
--- PMM
+before:
+
+polled=0, fixedbufs=1/0, register_files=1, buffered=1, QD=128
+Engine=io_uring, sq_ring=128, cq_ring=128
+IOPS=62.88M, BW=30.70GiB/s, IOS/call=32/31
+IOPS=62.95M, BW=30.74GiB/s, IOS/call=32/31
+IOPS=62.52M, BW=30.53GiB/s, IOS/call=32/32
+IOPS=62.61M, BW=30.57GiB/s, IOS/call=31/32
+IOPS=62.52M, BW=30.53GiB/s, IOS/call=32/31
+IOPS=62.40M, BW=30.47GiB/s, IOS/call=32/32
+
+after:
+
+polled=0, fixedbufs=1/0, register_files=1, buffered=1, QD=128
+Engine=io_uring, sq_ring=128, cq_ring=128
+IOPS=76.58M, BW=37.39GiB/s, IOS/call=31/31
+IOPS=79.42M, BW=38.78GiB/s, IOS/call=32/32
+IOPS=78.06M, BW=38.12GiB/s, IOS/call=31/31
+IOPS=77.64M, BW=37.91GiB/s, IOS/call=32/31
+IOPS=77.17M, BW=37.68GiB/s, IOS/call=32/32
+IOPS=76.73M, BW=37.47GiB/s, IOS/call=31/31
+IOPS=76.94M, BW=37.57GiB/s, IOS/call=32/31
+
+Note that this includes Pavel's fix as well:
+
+https://lore.kernel.org/linux-block/80d4511011d7d4751b4cf6375c4e38f237d935e3.1673955390.git.asml.silence@gmail.com/
+
+But this mirrors the improvement seen on the non-passthrough side as
+well. I'd say that's a pass :-)
+
+-- 
+Jens Axboe
+
 
