@@ -4,118 +4,122 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B8EA6C63797
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Jan 2023 12:49:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5F7E3C63797
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Jan 2023 12:49:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=ITyqR+kOGep49QGF32BuyKqQqqH3Aby7sI+XkMDFbsE=; b=1A9CDMz2gEoDcb5Qc//iz7RVzZ
-	a50H1iqJ0uku+S9WOYTP4yQ9UGqKZEXwi20BbGaJaj1RZqsWASUKyw2VRaNtljmpPRyLutC97oCZU
-	T9KI2/aeVU5AAcuYd+4lBicRtc9LMv7XYzVhho8wQ18IuvCdQdF59LQ+bl+AtEIvz2inL4KpNH5kx
-	GwKPeraRIafBegEhwPGOpKUEdMIdom5Tm8uyVYhEKm8BgFMo6NJBQLe8pv8McbfOLHoAQunuOWeuC
-	6EQAGk82piC5F5rb8WVm2Qsw/YU8fgV6CUv39tulH8Dx6aMGIdR290IW8NbPXyg0VGxClwods/kOc
-	mHbXclLA==;
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=oeDYEXVmmnImj5v8eZVFizkvI/O2OXXucvUr8qTHeSM=; b=PNQFrMj8NJhTYIDtp445E39DyF
+	4bH6lWFVPTuIFTryHPeA+CeV5lynV6lE2ZjdAqMD4c2j29pDIOWvs4FlCALGR6JZ6+kse5druvmdy
+	AlrXFOCYYWNP7Oyw+iKlFli9+TrzQls+MjroR+WJ1ev82cwNnwIzg32ggiuXPwE3Up143PLjgdXp+
+	NqznXqb5x/FbaEd4WKxCIaTT3CRO5TEIU4zYCLwpGwgunpiLGSaxMfZh14GQwPDdJ/GYIGf0aE+p8
+	yYP0RkupxVWpLiOSHOkRt+GHuCNfcSibyvpHclbItgL67R0ghrwZAlQHCi6C8LkVdtPKCQMUGqUW2
+	tdfUG5Lg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHlP4-00EEFV-4H; Tue, 17 Jan 2023 12:49:26 +0000
+	id 1pHlP8-00EEGm-MI; Tue, 17 Jan 2023 12:49:30 +0000
 Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHlOw-00EEBP-4S
-	for linux-nvme@lists.infradead.org; Tue, 17 Jan 2023 12:49:21 +0000
+	id 1pHlP1-00EEEM-Bx
+	for linux-nvme@lists.infradead.org; Tue, 17 Jan 2023 12:49:24 +0000
 Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20230117124907epoutp017a43a3a39802a16c1a6a04ac4bc90cfd~7GYVjskGZ2682426824epoutp01I
-	for <linux-nvme@lists.infradead.org>; Tue, 17 Jan 2023 12:49:07 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20230117124907epoutp017a43a3a39802a16c1a6a04ac4bc90cfd~7GYVjskGZ2682426824epoutp01I
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20230117124916epoutp01d92ddb1644acf40f2ef2884250cd21cc~7GYeifwOq2685526855epoutp01M
+	for <linux-nvme@lists.infradead.org>; Tue, 17 Jan 2023 12:49:16 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20230117124916epoutp01d92ddb1644acf40f2ef2884250cd21cc~7GYeifwOq2685526855epoutp01M
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1673959747;
-	bh=ITyqR+kOGep49QGF32BuyKqQqqH3Aby7sI+XkMDFbsE=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=Vh0jtsJpW2OVFicRfiJZgTQUBCIzfSSQFOoQZdWDBTi5D9/6ucEPRc+hSJZBx/4G0
-	 T2qmjiCuo4SjCyk2nvGzERCoVbbM9fkrB1qmEw98PSRwMDrHvM/innoWiewwHs0elz
-	 a5lFfhUm8Fra8jXgK8alEQULEDGECd8STnWwKEGs=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20230117124906epcas5p39e48b2814e0cb546b5c6be3d451e0021~7GYVO6y-M0791307913epcas5p3g;
-	Tue, 17 Jan 2023 12:49:06 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.183]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4Nx7xY4hScz4x9Pv; Tue, 17 Jan
-	2023 12:49:05 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	s=mail20170921; t=1673959756;
+	bh=oeDYEXVmmnImj5v8eZVFizkvI/O2OXXucvUr8qTHeSM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=qhwMXsJXeNeCyjnpxaegb4uKsqIUcXj40a6u6IrsCJ192Mvh1NtAAYiJBdJn82n+p
+	 xHmnqF7Y6i2uU7ct7DNCr6GskbkNSTVPbII5L0PRlfisA/qKmXYnKvA1ttRWDW8mw/
+	 A+Sc7z0blTWhQYcHdfAI8K/AViW9BwQwDV0Re/n0=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20230117124916epcas5p197c494391b94798e953a12e2e176eb05~7GYeJvOyR1503115031epcas5p1i;
+	Tue, 17 Jan 2023 12:49:16 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.176]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4Nx7xk5VJlz4x9Pp; Tue, 17 Jan
+	2023 12:49:14 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
 	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	36.64.02301.14996C36; Tue, 17 Jan 2023 21:49:05 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20230117120741epcas5p2c7d2a20edd0f09bdff585fbe95bdadd9~7F0KhVxG73045230452epcas5p2v;
-	Tue, 17 Jan 2023 12:07:41 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20230117120741epsmtrp1e32031ff065f1ba18a0657ad264c572c~7F0Kgrew72434624346epsmtrp1B;
-	Tue, 17 Jan 2023 12:07:41 +0000 (GMT)
-X-AuditID: b6c32a49-473fd700000108fd-9c-63c699410f78
+	1B.64.02301.A4996C36; Tue, 17 Jan 2023 21:49:14 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20230117120802epcas5p4a9d1fca9d49140649a4152856b54f81f~7F0eF2U9-0962809628epcas5p4M;
+	Tue, 17 Jan 2023 12:08:02 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20230117120802epsmtrp254beb45c366894ef2ea6e58709d91fb9~7F0eFDBEJ0039100391epsmtrp2k;
+	Tue, 17 Jan 2023 12:08:02 +0000 (GMT)
+X-AuditID: b6c32a49-473fd700000108fd-b8-63c6994a43c2
 Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	81.00.10542.D8F86C36; Tue, 17 Jan 2023 21:07:41 +0900 (KST)
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	1F.24.02211.2AF86C36; Tue, 17 Jan 2023 21:08:02 +0900 (KST)
 Received: from localhost.localdomain (unknown [107.110.206.5]) by
 	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20230117120740epsmtip2d99da0d05650d118792c33caf8a1c30f~7F0JQATxN0365703657epsmtip2i;
-	Tue, 17 Jan 2023 12:07:39 +0000 (GMT)
+	20230117120801epsmtip220b1f0d83333e54782a10fed688b1a83~7F0cxCsu_0720607206epsmtip2F;
+	Tue, 17 Jan 2023 12:08:00 +0000 (GMT)
 From: Anuj Gupta <anuj20.g@samsung.com>
 To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org, asml.silence@gmail.com
 Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	gost.dev@samsung.com, Anuj Gupta <anuj20.g@samsung.com>
-Subject: [PATCH for-next v1 0/2] enable pcpu bio-cache for IRQ
- uring-passthru I/O
-Date: Tue, 17 Jan 2023 17:36:36 +0530
-Message-Id: <20230117120638.72254-1-anuj20.g@samsung.com>
+	gost.dev@samsung.com, Anuj Gupta <anuj20.g@samsung.com>, Kanchan Joshi
+	<joshi.k@samsung.com>
+Subject: [PATCH for-next v1 2/2] block: extend bio-cache for non-polled
+ requests
+Date: Tue, 17 Jan 2023 17:36:38 +0530
+Message-Id: <20230117120638.72254-3-anuj20.g@samsung.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230117120638.72254-1-anuj20.g@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuplk+LIzCtJLcpLzFFi42LZdlhTQ9dx5rFkg7l7lC2aJvxltpizahuj
-	xeq7/WwWNw/sZLJYufook8WkQ9cYLfbe0raYv+wpuwOHx85Zd9k9Lp8t9di0qpPNY/OSeo/d
-	NxvYPPq2rGL0+LxJLoA9KtsmIzUxJbVIITUvOT8lMy/dVsk7ON453tTMwFDX0NLCXEkhLzE3
-	1VbJxSdA1y0zB+gkJYWyxJxSoFBAYnGxkr6dTVF+aUmqQkZ+cYmtUmpBSk6BSYFecWJucWle
-	ul5eaomVoYGBkSlQYUJ2xteGOUwFn3gqnrybzNrA+Imri5GTQ0LAROLl4ROsXYxcHEICuxkl
-	fnx5xgzhfGKU6D76iwmkSkjgM6NE62NTmI55W1qgOnYxSly9ux7KASqatr6LEaSKTUBd4sjz
-	VjBbRMBL4v7t96wgNrNAlUTPkc3MILawQLDEpCVXgGo4OFgEVCVWPrYECfMKWEr8OP+VCWKZ
-	vMTMS9/ZIeKCEidnPmGBGCMv0bx1NtilEgL32CVOvl4P1eAicenFFhYIW1ji1fEt7BC2lMTL
-	/jYoO13ix+WnUPUFEs3H9jFC2PYSraf6mUHuYRbQlFi/Sx8iLCsx9dQ6Joi9fBK9v59AtfJK
-	7JgHYytJtK+cA2VLSOw918AEMkZCwEOi+7MKJAxjJbbfuMIygVF+FpJvZiH5ZhbC4gWMzKsY
-	JVMLinPTU4tNCwzzUsvh0Zqcn7uJEZwutTx3MN598EHvECMTB+MhRgkOZiURXr9dh5OFeFMS
-	K6tSi/Lji0pzUosPMZoCQ3gis5Rocj4wYeeVxBuaWBqYmJmZmVgamxkqifOmbp2fLCSQnliS
-	mp2aWpBaBNPHxMEp1cBU/v2skiRLtFXqw1YGoY+FZTzVCR+b31if8NeXXbdTL9Xyg5bZ1Ifx
-	T+wOnn4Tt2OnZPDmfdLT3Z68/3NT8PWJL/cqd6WcS7TI2PPX16Xq6OrD65v/V6j1J+6OzLaZ
-	GnTxssVTMa3eQmXJ/tRLikV/JH/M6W9e0BO+xIzvru2zFzP0dtS/27ljUqVf471LZdLmzDal
-	FW3VCq/ezGhcvOLPdIOS4KD+Y9mOfIIf8yqNX60KD6xLUZjM4TVRK2B7X9nxOwkZn7sfRgdW
-	zYh5PC8yW9XrYpIOB9vbZa0TF6/fGuzXWLdku1vgCf279RK7neNXi4fyvOjjzVSR6j7N5H5u
-	kmCju1Ylr9ayvlg/LiWW4oxEQy3mouJEADc1Tv8gBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJLMWRmVeSWpSXmKPExsWy7bCSvG5v/7Fkg203BS2aJvxltpizahuj
-	xeq7/WwWNw/sZLJYufook8WkQ9cYLfbe0raYv+wpuwOHx85Zd9k9Lp8t9di0qpPNY/OSeo/d
-	NxvYPPq2rGL0+LxJLoA9issmJTUnsyy1SN8ugSvja8McpoJPPBVP3k1mbWD8xNXFyMkhIWAi
-	MW9LC2sXIxeHkMAORoldN7czQiQkJE69XAZlC0us/PecHaLoI6PE6fff2EESbALqEkeet4IV
-	iQgESBxsvAwWZxaok3jc+AkozsEhLBAocXNLIojJIqAqsfKxJUgFr4ClxI/zX5kgxstLzLz0
-	nR0iLihxcuYTFogp8hLNW2czT2Dkm4UkNQtJagEj0ypGydSC4tz03GLDAqO81HK94sTc4tK8
-	dL3k/NxNjODQ1dLawbhn1Qe9Q4xMHIyHGCU4mJVEeP12HU4W4k1JrKxKLcqPLyrNSS0+xCjN
-	waIkznuh62S8kEB6YklqdmpqQWoRTJaJg1OqgSm5Uefaal0uliMxHw7aNfQw790bsPxEYKdV
-	3TW3V96JfFbvda4qv750wStT67jHXT9LRudJcw59ytwhcK+CbbeggojS5kOOB/YXOjpstG8w
-	K/QSfxt569KRexMNpzBz9RfevjhtR/bq/nqbXdViVaxOASdX996sOPMx6cjXQ5rlDkvMZ0yc
-	72zG/9TQwlNmK0NHuK6S/8FdgZ/+VsR3KMw+pVLgFT15pupnrR0xH6dEz+HKWfOq83T2LP+e
-	5xqvYwMy3u17sniJ6ZYltXOcFte/OM5o/nvrAr818lt6TkifvRWf65i5cWWl3+/Qn/ceX2io
-	mOtpNa9oes1s6wbFeVGrzb7yz9jSq/+vZWZwdq4SS3FGoqEWc1FxIgCEpp+/zAIAAA==
-X-CMS-MailID: 20230117120741epcas5p2c7d2a20edd0f09bdff585fbe95bdadd9
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprHJsWRmVeSWpSXmKPExsWy7bCmlq7XzGPJBjubNS2aJvxltpizahuj
+	xeq7/WwWNw/sZLJYufook8XR/2/ZLCYdusZosfeWtsX8ZU/ZHTg9ds66y+5x+Wypx6ZVnWwe
+	m5fUe+y+2cDm0bdlFaPH501yAexR2TYZqYkpqUUKqXnJ+SmZeem2St7B8c7xpmYGhrqGlhbm
+	Sgp5ibmptkouPgG6bpk5QHcpKZQl5pQChQISi4uV9O1sivJLS1IVMvKLS2yVUgtScgpMCvSK
+	E3OLS/PS9fJSS6wMDQyMTIEKE7Izfn85zl5wjq2id5FNA+Mm1i5GTg4JAROJHx+6mLsYuTiE
+	BHYzStw68ZMRwvnEKLFs9W82kCohgW+MEv2bpLoYOcA6jlySg6jZyyhxpasPqvszo8SnZfvB
+	GtgE1CWOPG9lBLFFBLwk7t9+zwpSxCywkFFi0vI3YEXCAkESa84fZQGZyiKgKrHoIhdImFfA
+	UmLq85lQ58lLzLz0nR3E5hSwkvh4fjYrRI2gxMmZT1hAbGagmuats8GOkBBo5JCYdXoRC8Sl
+	LhKtJwMg5ghLvDq+hR3ClpL4/G4vG4SdLvHj8lMmCLtAovnYPkYI216i9VQ/M8gYZgFNifW7
+	9CHCshJTT61jgljLJ9H7+wlUK6/EjnkwtpJE+8o5ULaExN5zDVC2h8SEVW3skLDqZZS4ceU6
+	4wRGhVlI3pmF5J1ZCKsXMDKvYpRMLSjOTU8tNi0wzEsth0dxcn7uJkZwQtXy3MF498EHvUOM
+	TByMhxglOJiVRHj9dh1OFuJNSaysSi3Kjy8qzUktPsRoCgzuicxSosn5wJSeVxJvaGJpYGJm
+	ZmZiaWxmqCTOm7p1frKQQHpiSWp2ampBahFMHxMHp1QDU4G169o/OkIJE3/o8d8/trVF/7SM
+	TqWRbUPopZYnweHu+en2Ui7SHfuF7CXs9O7O0X3hIdmd+7piGvfxyybefs5nry6PN+pZKH7Z
+	YK57tAPLgVS2uYFys59svPfwaKuWFG+K0hXfazlbjLdGX3/0xXCBzgoBJkO9i1XMu1tZXe5N
+	OXdkd5/nnFcKia6LHh9y3PhmW2/FyVsZHFM9y/a8XHUrY4vrUo3bqfOnaCZvtXddf2H36yzH
+	CW1PUr/Gh8/j/JO3JdLlRUHsE1bGkqUlf5/+El1p0qvbcJnnoHd5F7fxwdAEU900Xa3Th0xM
+	Z4fz7NzjeoXrYnbYkg9rkj1M171dyn9HLvfxQamMTX7flFiKMxINtZiLihMBHS+y3TEEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrGLMWRmVeSWpSXmKPExsWy7bCSvO6i/mPJBj8XiFk0TfjLbDFn1TZG
+	i9V3+9ksbh7YyWSxcvVRJouj/9+yWUw6dI3RYu8tbYv5y56yO3B67Jx1l93j8tlSj02rOtk8
+	Ni+p99h9s4HNo2/LKkaPz5vkAtijuGxSUnMyy1KL9O0SuDJ+fznOXnCOraJ3kU0D4ybWLkYO
+	DgkBE4kjl+S6GLk4hAR2M0pc/nSdsYuREyguIXHq5TIoW1hi5b/n7BBFHxklTm3cyg6SYBNQ
+	lzjyvBWsSEQgQOJg42WwImaBpYwSk7e3gyWEgRJT198C28YioCqx6CIXSJhXwFJi6vOZrBAL
+	5CVmXvoONpNTwEri4/nZYHEhoJoFH9oYIeoFJU7OfMICYjMD1Tdvnc08gVFgFpLULCSpBYxM
+	qxglUwuKc9Nziw0LDPNSy/WKE3OLS/PS9ZLzczcxgoNeS3MH4/ZVH/QOMTJxMB5ilOBgVhLh
+	9dt1OFmINyWxsiq1KD++qDQntfgQozQHi5I474Wuk/FCAumJJanZqakFqUUwWSYOTqkGpm5V
+	5XOpM9rX3FP7dI7/2QO51u8Tsnlkt86SlXka1sMdW/jtl/uTksNi+7Pmd0z+qzJ5Z3nmhakJ
+	S64bJS0x3L47SvUnk89tseDYhoWWTqFOCmc/qJgd6p6UY+pyrFJCzbcprX373s2HX7PP1D4c
+	phP/iOEoj23q1lsPdmcYpmx/Wvwj5EuD1/rgJdbSR80uVN85L7fG7MzBHTvPNc8/u8eBvSun
+	X2WGrLpx/AahhfHfF0yLDPdtbUr43Xf3TewS42lvi258fXn+3hPNhs1qfkHfX60UkD1UunqG
+	0lujp6Xr6l7eYos1np+w88uKF0e3HyvXfCkW7SvPxPs6j6c8u9JuJpfRVxWPl82ak6czSCux
+	FGckGmoxFxUnAgCchTDT6QIAAA==
+X-CMS-MailID: 20230117120802epcas5p4a9d1fca9d49140649a4152856b54f81f
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: REQ_APPROVE
 CMS-TYPE: 105P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230117120741epcas5p2c7d2a20edd0f09bdff585fbe95bdadd9
-References: <CGME20230117120741epcas5p2c7d2a20edd0f09bdff585fbe95bdadd9@epcas5p2.samsung.com>
+X-CMS-RootMailID: 20230117120802epcas5p4a9d1fca9d49140649a4152856b54f81f
+References: <20230117120638.72254-1-anuj20.g@samsung.com>
+	<CGME20230117120802epcas5p4a9d1fca9d49140649a4152856b54f81f@epcas5p4.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230117_044918_854812_FCAFC3E3 
-X-CRM114-Status: GOOD (  13.82  )
+X-CRM114-CacheID: sfid-20230117_044923_777894_60615C28 
+X-CRM114-Status: GOOD (  17.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -130,48 +134,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This series extends bio pcpu caching for normal / IRQ-driven
-uring-passthru I/Os. Earlier, only polled uring-passthru I/Os could
-leverage bio-cache. After the series from Pavel[1], bio-cache can be
-leveraged by normal / IRQ driven I/Os as well. t/io_uring with an Optane
-SSD setup shows +7.21% for batches of 32 requests.
+This patch modifies the present check, so that bio-cache is not limited
+to iopoll.
 
-[1] https://lore.kernel.org/io-uring/cover.1666347703.git.asml.silence@gmail.com/
+Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+---
+ block/blk-map.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-IRQ, 128/32/32, cache off
-
-# taskset -c 0 t/io_uring -b512 -d128 -c32 -s32 -p0 -F1 -B1 -P0 -O0 -u1 -n1 /dev/ng0n1
-submitter=0, tid=13207, file=/dev/ng0n1, node=-1
-polled=0, fixedbufs=1/0, register_files=1, buffered=1, QD=128
-Engine=io_uring, sq_ring=128, cq_ring=128
-IOPS=3.05M, BW=1488MiB/s, IOS/call=32/31
-IOPS=3.04M, BW=1483MiB/s, IOS/call=32/31
-IOPS=3.03M, BW=1477MiB/s, IOS/call=32/32
-IOPS=3.03M, BW=1481MiB/s, IOS/call=32/32
-^CExiting on signal
-Maximum IOPS=3.05M
-
-IRQ, 128/32/32, cache on
-
-# taskset -c 0 t/io_uring -b512 -d128 -c32 -s32 -p0 -F1 -B1 -P0 -O0 -u1 -n1 /dev/ng0n1
-submitter=0, tid=6755, file=/dev/ng0n1, node=-1
-polled=0, fixedbufs=1/0, register_files=1, buffered=1, QD=128
-Engine=io_uring, sq_ring=128, cq_ring=128
-IOPS=3.27M, BW=1596MiB/s, IOS/call=32/31
-IOPS=3.27M, BW=1595MiB/s, IOS/call=32/32
-IOPS=3.26M, BW=1592MiB/s, IOS/call=32/31
-IOPS=3.26M, BW=1593MiB/s, IOS/call=32/32
-^CExiting on signal
-Maximum IOPS=3.27M
-
-Anuj Gupta (2):
-  nvme: set REQ_ALLOC_CACHE for uring-passthru request
-  block: extend bio-cache for non-polled requests
-
- block/blk-map.c           | 6 ++----
- drivers/nvme/host/ioctl.c | 4 ++--
- 2 files changed, 4 insertions(+), 6 deletions(-)
-
+diff --git a/block/blk-map.c b/block/blk-map.c
+index f2135e6ee8f6..9ee4be4ba2f1 100644
+--- a/block/blk-map.c
++++ b/block/blk-map.c
+@@ -247,10 +247,8 @@ static struct bio *blk_rq_map_bio_alloc(struct request *rq,
+ {
+ 	struct bio *bio;
+ 
+-	if (rq->cmd_flags & REQ_POLLED) {
+-		blk_opf_t opf = rq->cmd_flags | REQ_ALLOC_CACHE;
+-
+-		bio = bio_alloc_bioset(NULL, nr_vecs, opf, gfp_mask,
++	if (rq->cmd_flags & REQ_ALLOC_CACHE) {
++		bio = bio_alloc_bioset(NULL, nr_vecs, rq->cmd_flags, gfp_mask,
+ 					&fs_bio_set);
+ 		if (!bio)
+ 			return NULL;
 -- 
 2.25.1
 
