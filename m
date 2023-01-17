@@ -4,48 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A760C63797
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Jan 2023 11:59:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E00BBC63797
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Jan 2023 12:00:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zoPU2zmqSBzAJhZ6GmrG88Td4D4zD6pTuaYSAkF7Gzc=; b=nKal8pHEW28Y+de9DphHDJFQNh
-	UOsNYT3fzlUyZCh7Ar0NSNYKCFsxfxGwB6gyhBAhUzHWB9OBNNhqIAk7I1kLfZjZ67RD2VJjY/jIQ
-	ifjd9Li4w05VWhXe/L6HvE6dW+Z+REOKXJS9pz/mZIdmGRAfsNBRyqYiHZ6z9Cv+y7WOgk22sjOb/
-	flChdB4vEagtit35F9ZV04CkYBLMTTIz1ZAxs46eANG1fCbyxo1CFJUvWzJJnC3Kp9qhQgKePVr73
-	AEVrODNoGatcVhVmvDxvXceLUcNhQzZHytf5S/r4moZdfWcXfyXycSY+cpqpmUx0sphPEzxmjZubr
-	fXM8aKSA==;
+	bh=JN1ozIPaF36z9JF2Zbf7i9N2c+vgyVY97Zt7dr1fdoE=; b=i7+oQcplBlSqbzYf0LDZpD22m9
+	duZIY/aeNEG9ZwxMS2L59liiyUaJ05fsFCLTRblBoN0BgYtlTNF1GhYf6dI1t6nnYhCj1zZ5Tn7Ub
+	T2rnTxd/EuPFhPszHNHvH3EoNX16wTmdQ2gwWYm2YqNLdi6qEJOHWYshFpw0XkLZkw5ie6bapHPGS
+	8RnpWp//FikPxfR7Tbxipl0Shuw/C+MvPvYEeEoONPUn2GgtKmMtIK9LLiKxtIhp+6nha/UCxQs+V
+	DFWqliU2S1s+yXmo93ynYo7MDa2aBkV0mPBg9y/8+nvOEHpJ9h4lBtEQNYh9dy5c78/dUVJ2X6CY6
+	ehF7X7Tw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHkcT-00E6j9-40; Tue, 17 Jan 2023 11:59:13 +0000
+	id 1pHkdD-00E6t3-Fa; Tue, 17 Jan 2023 11:59:59 +0000
 Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHkcQ-00E6iO-8F
-	for linux-nvme@lists.infradead.org; Tue, 17 Jan 2023 11:59:11 +0000
+	id 1pHkdA-00E6s4-15
+	for linux-nvme@lists.infradead.org; Tue, 17 Jan 2023 11:59:57 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 8806C612EA;
-	Tue, 17 Jan 2023 11:59:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 851B8C433EF;
-	Tue, 17 Jan 2023 11:59:08 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 64D2A612EE;
+	Tue, 17 Jan 2023 11:59:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B004C433D2;
+	Tue, 17 Jan 2023 11:59:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673956749;
-	bh=C4DWw1lnsfHjJvgG7EN7/MBLwzOtKiOqkpCYuIalGOc=;
+	s=k20201202; t=1673956794;
+	bh=aTQYYKmLmNf07nxBHwjaA+StqUovg0SS7JYEnCH+EZU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CyEJUdpmNRp0vCg9aUxD6eG2NOon+Jg4hJ1Lxm49Daa37qaahNpu1+wK/c6EB1LZq
-	 r7a6oulLUJ3AhNnHB4x1yQ6L0miJkjQ8W6kW7j2jE2H+gjJcugdZu8QcnzE/HbZ4v1
-	 HACJ5TUyBlN/IAZ0qHng1uVw9vSqWCZxAZXcbgkhwAwBrQncAzymslz5BL8QvKbcVv
-	 L+6DODA8TSGQnnK4oV9fioc7Ib8dAt6CfJYz5a1p7sT25RphdnZiB/jIT9wJIK8QMd
-	 moqGrsy8AWobu8dPl20BmSVBSU0UicFXjLLq+ItmOdmoK05h4GUGy1RQTVkSvHltlg
-	 s18hH9FMn0v8g==
-Date: Tue, 17 Jan 2023 13:59:05 +0200
+	b=JcktzRZbthNjyz+5qDuk41oZMxJYCCPDkgEXy01vFYTwlnZjxjziBy/fjRBFrmcSa
+	 E+PMfnpmsxQOvk4Nnoif+2kebtJFzsk6MLmCF0naHyrUxRwLUY0egDjGMueOewYX9U
+	 jY95uj2yF2tCHsBQgxOnBrKJInMJKFTeLLsroP9Qz+Zmb5S5ohasJ2sIlHVuXyrdKU
+	 +JQlAVyRuTN0m1l13Oc+TNnPPuP7Sr59v4b9nO4VxcqClgsxIrXN9pyrNM8z/w85BT
+	 oBD2AKo9teesJp1MkdO9eUCNiMo/mj0umhmkVIhKlpMUQYQSsiQ5U2bWLoyBYl3VOM
+	 zsK3K8o3KkQoA==
+Date: Tue, 17 Jan 2023 13:59:51 +0200
 From: Leon Romanovsky <leon@kernel.org>
 To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: Israel Rukshin <israelr@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Israel Rukshin <israelr@nvidia.com>,
 	Bryan Tan <bryantan@vmware.com>, Christoph Hellwig <hch@lst.de>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Jens Axboe <axboe@fb.com>,
@@ -62,19 +62,18 @@ Cc: Israel Rukshin <israelr@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
 	Selvin Xavier <selvin.xavier@broadcom.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	Vishnu Dasa <vdasa@vmware.com>, Yishai Hadas <yishaih@nvidia.com>
-Subject: Re: [PATCH rdma-next 12/13] nvme: Add crypto profile at nvme
- controller
-Message-ID: <Y8aNiUWu9AufXkou@unreal>
+Subject: Re: [PATCH rdma-next 11/13] nvme: Introduce a local variable
+Message-ID: <Y8aNt9YB9irSVXNo@unreal>
 References: <cover.1673873422.git.leon@kernel.org>
- <efc8dc5952baa096a14db1761f84a5ab2e76654a.1673873422.git.leon@kernel.org>
- <52fef455-fd7a-225f-c03f-b214907ce03b@nvidia.com>
+ <cf5bc542e014f465f7ae443e52e70def2993aef1.1673873422.git.leon@kernel.org>
+ <c095c9a9-0e77-c8ab-d34e-f4ab42b11938@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <52fef455-fd7a-225f-c03f-b214907ce03b@nvidia.com>
+In-Reply-To: <c095c9a9-0e77-c8ab-d34e-f4ab42b11938@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230117_035910_386514_28EBCBEB 
-X-CRM114-Status: GOOD (  18.85  )
+X-CRM114-CacheID: sfid-20230117_035956_124114_F2EDDC1F 
+X-CRM114-Status: GOOD (  20.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,65 +88,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jan 17, 2023 at 12:31:22AM +0000, Chaitanya Kulkarni wrote:
+On Tue, Jan 17, 2023 at 12:32:59AM +0000, Chaitanya Kulkarni wrote:
+> On 1/16/23 05:05, Leon Romanovsky wrote:
+> > From: Israel Rukshin <israelr@nvidia.com>
+> > 
+> > The patch doesn't change any logic.
+> > 
+> > Signed-off-by: Israel Rukshin <israelr@nvidia.com>
+> > Signed-off-by: Leon Romanovsky <leon@kernel.org>
+> > ---
+> >   drivers/nvme/host/core.c | 7 ++++---
+> >   1 file changed, 4 insertions(+), 3 deletions(-)
+> > 
 > > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index 51a9880db6ce..f09e4e0216b3 100644
+> > index 7be562a4e1aa..51a9880db6ce 100644
 > > --- a/drivers/nvme/host/core.c
 > > +++ b/drivers/nvme/host/core.c
-> > @@ -1928,6 +1928,9 @@ static void nvme_update_disk_info(struct gendisk *disk,
-> >   			capacity = 0;
-> >   	}
+> > @@ -1870,6 +1870,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
+> >   	sector_t capacity = nvme_lba_to_sect(ns, le64_to_cpu(id->nsze));
+> >   	unsigned short bs = 1 << ns->lba_shift;
+> >   	u32 atomic_bs, phys_bs, io_opt = 0;
+> > +	struct nvme_ctrl *ctrl = ns->ctrl;
 > >   
-> > +	if (ctrl->crypto_enable)
-> > +		blk_crypto_register(&ctrl->crypto_profile, disk->queue);
-> > +
-> >   	set_capacity_and_notify(disk, capacity);
-> >   
-> >   	nvme_config_discard(disk, ns);
-> > diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> > index 424c8a467a0c..591380f53744 100644
-> > --- a/drivers/nvme/host/nvme.h
-> > +++ b/drivers/nvme/host/nvme.h
-> > @@ -16,6 +16,7 @@
-> >   #include <linux/rcupdate.h>
-> >   #include <linux/wait.h>
-> >   #include <linux/t10-pi.h>
-> > +#include <linux/blk-crypto-profile.h>
-> >   
-> >   #include <trace/events/block.h>
-> >   
-> > @@ -374,6 +375,9 @@ struct nvme_ctrl {
-> >   
-> >   	enum nvme_ctrl_type cntrltype;
-> >   	enum nvme_dctype dctype;
-> > +
-> > +	bool crypto_enable;
 > 
-> why not decalre crypto_profile a pointer, allocate that at init
-> controller and NULL check against that pointer instead of using
-> an extra variable crypto_enable ?
+> I don't think this patch is needed, existing code is more readable and
+> gives much clarity that we are accessing ctrl from namespace since we
+> are in nvme_update_disk_info() which is namespace based.
 
-The embedded struct allows us to rely on container_of() macro.
-
-   377 static int nvme_rdma_crypto_keyslot_program(struct blk_crypto_profile *profile,
-   378                                             const struct blk_crypto_key *key,
-   379                                             unsigned int slot)
-   380 {
-   381         struct nvme_ctrl *nctrl =
-   382                 container_of(profile, struct nvme_ctrl, crypto_profile);
-
-> 
-> e.g. :-
-> 
-> 	if (ctrl->crypto_profile)
-> 		blk_crypto_register(ctrl->crypto_profile, disk->queue);
-> 
-> > +	struct blk_crypto_profile crypto_profile;
-> 
-> you are increasing the size of struct nvme_ctrl unconditionally,
-> why not guard above with CONFIG_BLK_INLINE_ENCRYPTION ?
-
-We can do it.
+I don't have strong opinion here.
 
 Thanks
 
