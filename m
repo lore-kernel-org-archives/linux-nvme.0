@@ -4,73 +4,140 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 843AFC32793
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Jan 2023 08:22:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4246C004D4
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Jan 2023 08:58:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zRwqDvtswpcNxL27g78WUlL6FGqpbvPDdxVCL1gDPRg=; b=UvxPU8/c4R3lZtPxd6Lwoq0MIP
-	NSvL0CiWyAncqQHo7UwkTs3wLog5Z2qTmlV1DFFnJCA04hJvoqvc5lCmhsNuD6kgf3dOpHZ1XT90+
-	LingqKLYwgS5oaibqASb7Or+XmNJnGUyapuatBDXsEeqKP2/nSLAUn2SYsb2wcjPsqKLwh/lR2FfJ
-	S7IlEGW98uFQyePkeYfbs27wVQLdtnQOC66ScPCf6UYxbPn6WlLiMeZhTrmekKmAQrcbnp+lcpe0m
-	dSUUjiDXA3jzXlYUMKt/e41bQ+ficsCzcMPHHT8NQsf9o7HApagAzqo9rSfhtvmBCOE3mHz3wSfAd
-	ekzzvmPg==;
+	bh=F2c32Ygh25XfwuNohv3aPEHfgzsmiE+Z/us/yUOHMxk=; b=jukzOOw2Y/kOzL4Dbo3MtqP85g
+	rsFF6HuMKMY/K3TxCYNOLK43EOalZa5YcHILgwlazqMJneEt9KEh92FXGrtSH1K0jOLt0uwG3fcL9
+	nwPBlOFes+Tk1MuWUi4KHCnhXY9vXub1DLT7PrRby6V5Re8F3ATefQEDPmYN5mD68L4ZRF8+7dQBu
+	niC4ujj+ZnsVxztYv0FRfXSFglgzD9BRQAkMr9GxKMBDEXucAaNJkgRXS30IT1kQuP0uq0guX6KA7
+	xtyTiwfuyjvVUT/IOaDb9TQIPGXcQuQtuzHXJSmXWx569BWHj8DjGKzMtp9Vww7+4uFzbku5KDrKR
+	NK8/KPhQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pI3iR-00HRve-JN; Wed, 18 Jan 2023 08:22:39 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1pI4Gz-00Haic-Qu; Wed, 18 Jan 2023 08:58:21 +0000
+Received: from mail-dm3nam02on2052.outbound.protection.outlook.com ([40.107.95.52] helo=NAM02-DM3-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pI3iP-00HRun-1N
-	for linux-nvme@lists.infradead.org; Wed, 18 Jan 2023 08:22:38 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 6611B616F7;
-	Wed, 18 Jan 2023 08:22:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C176C433EF;
-	Wed, 18 Jan 2023 08:22:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1674030155;
-	bh=J3P2jLNBlTxVtW6CzAaV5JkcOWy8oIduGW1AIFf0FvM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RrmsUcrdRqqVIlnk7HhrT7HkNkthDZLdAmJAbvi5YDXIY/MF7FZv7NLBXeF4D5emv
-	 5L2jF3QW8mYDpL17de3mblOvmVPuLZWT1KBQnnv6nLLYB7DdBp4hkmmA3n7yCBr8Et
-	 2abB0rQoHKGYzfmSFbLBBVVVZ4W68YsQ5XUcPY1n9Zv26lgCb7KN3n3SsJB6cI9q8v
-	 TXOSpovnW+MSNrF/HvLcd7jYv4u/vgbv9yuRPaOm7JQ8kQt5JVGfg464elsybVphlM
-	 GJILETQ0yFevJ5Bb7NB0QBJ5g6k0Qy0BpmbwvOwlvxvlybJIQdIILu94VA0iNGYJLN
-	 zZfXJgAM2Cg6Q==
-Date: Wed, 18 Jan 2023 10:22:31 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Bryan Tan <bryantan@vmware.com>,
-	Christoph Hellwig <hch@lst.de>, Eric Dumazet <edumazet@google.com>,
-	Israel Rukshin <israelr@nvidia.com>,
-	Jakub Kicinski <kuba@kernel.org>, Jens Axboe <axboe@fb.com>,
-	Keith Busch <kbusch@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Max Gurtovoy <mgurtovoy@nvidia.com>, netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Selvin Xavier <selvin.xavier@broadcom.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Vishnu Dasa <vdasa@vmware.com>, Yishai Hadas <yishaih@nvidia.com>
+	id 1pI4Gx-00Hahu-3L
+	for linux-nvme@lists.infradead.org; Wed, 18 Jan 2023 08:58:20 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jRc7yRlkyUUB+1d7HTLTPuKwmL+Esd+rhM+DM5qltUrIwUyH8r4bHYYOptoAwcpffV0D8Ccdml3ww8WEgK7bk1e3Cl/PwxUfAW82WqPqgag1ByGg7v3iCwMOzfFXh2Xk1cYj0uM3o7xYNNWrfEdRJKko4s+2Cq55NvG7aNAZ87G2s/x35M9dlWED3zGxfrQhgpMAdyV/v52LoTaz1lgJ0CH1FZYoXvVxRpaIR4F99+/BYgCcSrp5ienPurtAnebu1xgFGYVb84WGkBnJPoRxEavmwmtmB3bfETJe3WCpMgzhG6JQ7mJGJfv2e5qMorPH1lIVbsDrl1gg8Py6cDln5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=F2c32Ygh25XfwuNohv3aPEHfgzsmiE+Z/us/yUOHMxk=;
+ b=h0Els8seMxDIIKXYqPi0jGk+q7Vp5zIzJxMmHjDOCb6FobrYeQ4O7yDTd5KwmC+CmW1DRY0Jptgwy7I40WSKIqnFAwZWxOj4MWfa4V3g5q8eZAQlWHGm5sC47c5dcgkinvR9W9h6eloX7wifDwVef3Q/RWzPu8dfLLvG5zqXxK/CAxFTjbhP3hC794KbxzaxNdTLeFblkhfwO7ITVwCG6iy1Y5UO0ilJGkwj+fAF+/n0xicG3N2KqeQ76ZljUBSiUlkYNSW8rr1xvrvPtcwqWLutuH4D7Z/rP8whqm/6kEBOgo+xs8gvmUGqzgf778SyhfQnPJoMV8tshycup1XjWg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F2c32Ygh25XfwuNohv3aPEHfgzsmiE+Z/us/yUOHMxk=;
+ b=ZKE/KcigGt4hG5SdZeHwTiqK60bkQ8U2FmcmgIDuVRAW57NmDEBTSUpRoWXIL1iURA79//2PfOSBlv6Yh7Tk8VbPdUGQup2RyXw9JEVBqXj6WQE56sUa1IIWKNrrO83SbzXBNg4QQhp7/app1ZIlHsQ1AlKoh4OFRXSY2me4YaIPrg5VETc6UoIctuqR6gAXaYjUFpxaf/fSk2pq65ILr8mHzM4zsJ7eGk/D5jdd7jTDv4FoPPQrjQ5LRm3LT1fy4+BmObnTYCwqj83zvbU+teE1RE/8DpLa6C9IEbngnxMzuvOlhx593HwD3UlJx9slINayQ4CYnyIQ7d8SypMLVg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MW3PR12MB4409.namprd12.prod.outlook.com (2603:10b6:303:2d::23)
+ by MW4PR12MB6874.namprd12.prod.outlook.com (2603:10b6:303:20b::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Wed, 18 Jan
+ 2023 08:58:13 +0000
+Received: from MW3PR12MB4409.namprd12.prod.outlook.com
+ ([fe80::f803:f951:a68f:663a]) by MW3PR12MB4409.namprd12.prod.outlook.com
+ ([fe80::f803:f951:a68f:663a%5]) with mapi id 15.20.5986.023; Wed, 18 Jan 2023
+ 08:58:13 +0000
+Message-ID: <f6e661b2-f2f8-1747-2180-b7e6aa0b4bcd@nvidia.com>
+Date: Wed, 18 Jan 2023 10:58:02 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
 Subject: Re: [PATCH rdma-next 00/13] Add RDMA inline crypto support
-Message-ID: <Y8esR55x5ozo1tV6@unreal>
+Content-Language: en-US
+To: Eric Biggers <ebiggers@kernel.org>, Leon Romanovsky <leon@kernel.org>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Bryan Tan <bryantan@vmware.com>,
+ Christoph Hellwig <hch@lst.de>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Keith Busch <kbusch@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, Masami Hiramatsu <mhiramat@kernel.org>,
+ Max Gurtovoy <mgurtovoy@nvidia.com>, netdev@vger.kernel.org,
+ Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
+ Sagi Grimberg <sagi@grimberg.me>, Selvin Xavier
+ <selvin.xavier@broadcom.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Vishnu Dasa <vdasa@vmware.com>, Yishai Hadas <yishaih@nvidia.com>
 References: <cover.1673873422.git.leon@kernel.org>
  <Y8eWEPZahIFAfnoI@sol.localdomain>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+From: Israel Rukshin <israelr@nvidia.com>
 In-Reply-To: <Y8eWEPZahIFAfnoI@sol.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0120.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a8::10) To MW3PR12MB4409.namprd12.prod.outlook.com
+ (2603:10b6:303:2d::23)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4409:EE_|MW4PR12MB6874:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0e25eb8d-4f9b-435f-0dde-08daf9322188
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	ilNjqfXK6g+30eb2e5HWhGih2haJFT7Nr68dD4XjROTBrwnoRwNEvx96+8azEWxvgJCjIVNcxy10GsFj0zLPzaLFIRoI1zHfQomzzWEGQ5ybRAATwUD6sH62X7jBHAl+PkSmgd9yJDW89uuLEL7hJP+h+r5Oxy097ljg8M2fN0XZ6mNZ8ANj4gLz3/q2IEUYLCLI3x0l+thryBzJrGi96taTAjQIOSXcAXe0VZsadtdkkoN6MxL5YcKu8JQvBWs/4Tzt0pF8FB6D0k1ouUByDJW8E5uoE5pTQxFycCRq8vlIO/Umg/G5RXhPgJIyFkvZZ/tDeL29gWo7R4w3ddYat47WGimp8UXJaMLp0jebr8STGpPVw3xWQHnFSnKGDetsa4vSUruEMpEe8uUUDifktIz9Ef7Mf2MD6vBzlBXoEEZlzESYOiXdz9AzBT3lmYBt8+9X5jxmA6Pg3pHi/N5ySFZEjjYHqXdKjtVMLkms8TelxFvwT4/QuHiSPqZP6qLM5BZu+GyHcZwUhf5/qlGxQYbP5IObBmAuyvSka9DlavcjsyjQxFxgVxZnj8GFWThNIOG1k+Au7eqtXTf+An/+XtA16gybWnFuWaE2SVMLU/JtXBSB4AKPWBBsW6l+AmIm/hSN5mPuG1ntFmOqBC5LqWiugS/e+WPD4ogk0aw0drVaY3JhE2zV0lxjIM9AkQDtqXPyDKNgp6o83ThdNeiF+m3bTsaIYiqpKs5g0QXYRaY=
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4409.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(346002)(39860400002)(396003)(366004)(376002)(451199015)(66476007)(38100700002)(86362001)(8936002)(8676002)(2906002)(4326008)(7416002)(31696002)(5660300002)(107886003)(66556008)(478600001)(66946007)(41300700001)(6506007)(6512007)(26005)(186003)(2616005)(53546011)(110136005)(54906003)(6666004)(6486002)(316002)(31686004)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?UHhSZkQzdlp4SFJ2YzhudTVYeVJRTlhZZW5weDExWXFmMUM3UDlVVFBGUEow?=
+ =?utf-8?B?TDNNK0Q4MWRuc3ZYNFNKZTEySjc4a2J1dlVsWnJYZEh6SVAzWi9jeHQ0SDYy?=
+ =?utf-8?B?QnlQTThvdUZIVU9yblNJclpFZnJmVlpRUEt1NTZGV29CYys0NVV4UmZqTlEz?=
+ =?utf-8?B?Tk5Fbi9KelZlZU5WNVRZNElmVzNESGRuVkY3Z3VOaWlHWkd2SmordFR4UU13?=
+ =?utf-8?B?dFA2b3FwNUdXWGNMVVVuVzV3blFjQWE2QmZqeS9aUVJ3ckl3L29ubjdKaGJF?=
+ =?utf-8?B?cDlnbmVWdnZ5eGlvemNNOWppUFhWUW1STVp6RnlDUkF4NHFuV1dNT3gvazl5?=
+ =?utf-8?B?SUpiWHBCK0QvdUFuNXdjV1BjWEdJZWZvM1Zvb2NWY3RCMkU4aUNUd2Z6MEdO?=
+ =?utf-8?B?dEJVa28vZXIzQVAvMlRHOXZ3TEkwcXVXNFdHYmhJdGpQcjdKTTBCWUhFbVRj?=
+ =?utf-8?B?dno0U0RrM3MvUytFYTljQ0J5YU5MT2kwQ3FXbi9lZUNlQjFSNEwwaTA4QWRX?=
+ =?utf-8?B?QTZtbE8wYTlQTEJhM09DZE5QQ0pHck9PcVI1QlQzbEpFODhxb1ArMndMMEQr?=
+ =?utf-8?B?czB0d3VYZVI4MWxmQ082eTdDY3kzNkgzeU94WEdieXVSRnh4VUtZODdvTXcx?=
+ =?utf-8?B?RjUrSStPSmRtaDJVTW9TbXh4R2RyUWliTDkzTUw0eGdianlJdWFOQlJWY2Mz?=
+ =?utf-8?B?OGgzQk44enpCK05FazZMdSt2dGtqd2ZGMWZWWmxMNUg4c29FbktUUlpLOVZS?=
+ =?utf-8?B?QkZRMGVpdUZ1cGJpeTVmOTVjNXgvOW95OGNUZ1JZTUxIWnJLbEZhNThoNXlO?=
+ =?utf-8?B?WGNNWUdjUWRoTWFLd08rWG1ySG8vWUlpSGRXcDgwZC91enRhZXAwaFVPbkwr?=
+ =?utf-8?B?cmdTU1FuZC9RMnpMeU1ma2YyK29xNTNCZWs5cXoyeStpL3VVaFZDbjF5clFQ?=
+ =?utf-8?B?WGRMYTdHc2F3L3ZvVmVieTJOVFQ2ZktpZTNVUjNkT1NUWEthQmVkbTRoNElj?=
+ =?utf-8?B?aHpHYlRCVHNoa2dVUFcvZXpoS2pZZXpvVXl3RW42YUNZcGNaNHpoNzd1SEJk?=
+ =?utf-8?B?SExWRUZPMWJxUERNR3huREFqeHN4Z2oyVWNIUzZzeE02a1RjNFVVL3F4dURC?=
+ =?utf-8?B?ZWd6OUJvdUpPNjNqOWZ0R1hrYk5ESm8vTHpORlZkOW1IS0lidGgrZlM1UVJX?=
+ =?utf-8?B?azJzTDZNZGdjMzEwbEFiS1dVNmhBUXd3T1phM0NOWVFQdlkrUm14S1FtcmN3?=
+ =?utf-8?B?VVAwT1plVHdWK3owYlZXTUVQeFh6RHlabUxpTjFpMko2M0pCdlJKa290YWw1?=
+ =?utf-8?B?NFZoaDJIL0pFSDc2Y0ZxYnNYdnkvWjJ3N0VMaVNEUTJHWWFmbTFKSXJsdjlm?=
+ =?utf-8?B?YWZCdE11ajhTd1RNRWtLSkkwSXlWZ3V3N1diNWRyNXVrWXhpZVNWT1JldThO?=
+ =?utf-8?B?SjRPVTBWZ2lOUzErZFYzdWFSc0V4QzZvdCtLazVDblFORkZFQWo2RHBrUk9t?=
+ =?utf-8?B?dlFKT1pibHU0b3VnOVVpNUlxQUpGWnJPMjQ4SzgySjV3QUNsQnlOMVVoWnpJ?=
+ =?utf-8?B?Q0g1M3lZdURHVk1kLy9FalBtMG5ZS0JpSGhRQnNIREZPeXpubDdpdFh1aEVB?=
+ =?utf-8?B?dDAwUnJtZ0cxSUpESk41OWxreldzRFZPWG1lY1FJQVV5QXhqYnR2VEdvNlJh?=
+ =?utf-8?B?RkdaeU03RXRrUmdzWWd4RUwzMWJaNDhaSm5YblFRcUtDRjBBcVNQZU1YQTJJ?=
+ =?utf-8?B?Wm9TQm5aelNzcGEvdDRiRlFVZHBUUi9lRkkxVmVRbHJFWmdxc05ONEdqTVBF?=
+ =?utf-8?B?WDRDdmdHNEJIeWFMK3BkbGJJMnlQeUJ5ZXdqcjk4eHNpSWNRbFNyZDNOSTlQ?=
+ =?utf-8?B?U3YzeHdEVHFSYVBubEpERUkyRmQyL0lEbE84QytqcUVtZW9HVkJGR1BRMU9w?=
+ =?utf-8?B?SlcyVjZCdUpSbW9NdjlDSmJBc3pJL2ZWdGxhMVFvbURBSk5sUUJlRzZIOUla?=
+ =?utf-8?B?bHF1amw3VzhVdm9pUEVCTUYyZ0VDMXdJdU5BaWlnSXRmRWFsb1dHdWY2UjdW?=
+ =?utf-8?B?bFkwaGpFKzNHeTd0Rm5LdjVUc3E4U3RjbHFhZ0pmSHBRdWovQUlrSW83NTBD?=
+ =?utf-8?Q?BLyX7UkB4XAGKSByryw3h0rki?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0e25eb8d-4f9b-435f-0dde-08daf9322188
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4409.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2023 08:58:13.6028
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EMYwc1XkaAiHPcEZfSI4pEpYkL8EE/fB+DybznFbZ6R/5kSO0yzrKzqkFGGk0RG0I8+oAayALNm/jrzBJ3WC2w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6874
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230118_002237_181343_CCB7CC76 
-X-CRM114-Status: GOOD (  26.21  )
+X-CRM114-CacheID: sfid-20230118_005819_418997_9E1A4870 
+X-CRM114-Status: GOOD (  23.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,54 +152,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jan 17, 2023 at 10:47:44PM -0800, Eric Biggers wrote:
+Hi Eric,
+
+On 1/18/2023 8:47 AM, Eric Biggers wrote:
 > Hi Leon,
-> 
+>
 > On Mon, Jan 16, 2023 at 03:05:47PM +0200, Leon Romanovsky wrote:
-> > >From Israel,
-> > 
-> > The purpose of this patchset is to add support for inline
-> > encryption/decryption of the data at storage protocols like nvmf over
-> > RDMA (at a similar way like integrity is used via unique mkey).
-> > 
-> > This patchset adds support for plaintext keys. The patches were tested
-> > on BF-3 HW with fscrypt tool to test this feature, which showed reduce
-> > in CPU utilization when comparing at 64k or more IO size. The CPU utilization
-> > was improved by more than 50% comparing to the SW only solution at this case.
-> > 
-> > How to configure fscrypt to enable plaintext keys:
-> >  # mkfs.ext4 -O encrypt /dev/nvme0n1
-> >  # mount /dev/nvme0n1 /mnt/crypto -o inlinecrypt
-> >  # head -c 64 /dev/urandom > /tmp/master_key
-> >  # fscryptctl add_key /mnt/crypto/ < /tmp/master_key
-> >  # mkdir /mnt/crypto/test1
-> >  # fscryptctl set_policy 152c41b2ea39fa3d90ea06448456e7fb /mnt/crypto/test1
-> >    ** “152c41b2ea39fa3d90ea06448456e7fb” is the output of the
-> >       “fscryptctl add_key” command.
-> >  # echo foo > /mnt/crypto/test1/foo
-> > 
-> > Notes:
-> >  - At plaintext mode only, the user set a master key and the fscrypt
-> >    driver derived from it the DEK and the key identifier.
-> >  - 152c41b2ea39fa3d90ea06448456e7fb is the derived key identifier
-> >  - Only on the first IO, nvme-rdma gets a callback to load the derived DEK. 
-> > 
-> > There is no special configuration to support crypto at nvme modules.
-> > 
-> > Thanks
-> 
+>> >From Israel,
+>>
+>> The purpose of this patchset is to add support for inline
+>> encryption/decryption of the data at storage protocols like nvmf over
+>> RDMA (at a similar way like integrity is used via unique mkey).
+>>
+>> This patchset adds support for plaintext keys. The patches were tested
+>> on BF-3 HW with fscrypt tool to test this feature, which showed reduce
+>> in CPU utilization when comparing at 64k or more IO size. The CPU utilization
+>> was improved by more than 50% comparing to the SW only solution at this case.
+>>
+>> How to configure fscrypt to enable plaintext keys:
+>>   # mkfs.ext4 -O encrypt /dev/nvme0n1
+>>   # mount /dev/nvme0n1 /mnt/crypto -o inlinecrypt
+>>   # head -c 64 /dev/urandom > /tmp/master_key
+>>   # fscryptctl add_key /mnt/crypto/ < /tmp/master_key
+>>   # mkdir /mnt/crypto/test1
+>>   # fscryptctl set_policy 152c41b2ea39fa3d90ea06448456e7fb /mnt/crypto/test1
+>>     ** “152c41b2ea39fa3d90ea06448456e7fb” is the output of the
+>>        “fscryptctl add_key” command.
+>>   # echo foo > /mnt/crypto/test1/foo
+>>
+>> Notes:
+>>   - At plaintext mode only, the user set a master key and the fscrypt
+>>     driver derived from it the DEK and the key identifier.
+>>   - 152c41b2ea39fa3d90ea06448456e7fb is the derived key identifier
+>>   - Only on the first IO, nvme-rdma gets a callback to load the derived DEK.
+>>
+>> There is no special configuration to support crypto at nvme modules.
+>>
+>> Thanks
 > Very interesting work!  Can you Cc me on future versions?
-
-Sure
-
-> 
+>
 > I'm glad to see that this hardware allows all 16 IV bytes to be specified.
-> 
+>
 > Does it also handle programming and evicting keys efficiently?
-
-"efficiently" is a very subjective term. We are using FW command
-interface to program keys and this interface can do hundreds/thousands
-commands per-second.
-
-Thanks
+>
+> Also, just checking: have you tested that the ciphertext that this inline
+> encryption hardware produces is correct?  That's always super important to test.
+> There are xfstests that test for it, e.g. generic/582.  Another way to test it
+> is to just manually test whether encrypted files that were created when the
+> filesystem was mounted with '-o inlinecrypt' show the same contents when the
+> filesystem is *not* mounted with '-o inlinecrypt' (or vice versa).
+sure, I ran the manual test of comparing the encrypted files content 
+with and without the '-o inlinecrypt' at the mount command.
+>
+> - Eric
+  - Israel
 
