@@ -4,93 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1AFF3C00A5A
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Jan 2023 14:32:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC814C004D4
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Jan 2023 16:41:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OzgsiHNFafg9OuoZBVQAxwkGBmRTSBugx3N+qaA0rBI=; b=eqwg1yQVpDtqUA/trqcjMPz41G
-	w8Qw4mcS2ANYgNpUPXg5PArkG62xzdpwVW/bFJ8Ox5czpDYAd1u9Lg2L8IusO8mCC36dcmk4RyFqJ
-	GNfMeZxY1jTK9PaKNnjOj7ap1WlzgLHfD43bRZAULvYj9M+CI8IQpx36azFC8o9qjYNgGIGQEBrbb
-	NbFi8JWvfhb/l/JngwGTEAxiUN224On4P4PQQehnUdTkl9cYmCkuoSOh7ekAfU1Su9wFIkhvGaGhl
-	+m/8wLYLMWScFL2vVwOap5GRyxchBu6IWpdnS1Fgg8DS0SI6M83kalLyYGs0EHhbdkLrIg3cYcZjA
-	M636iFfA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=mNNdjqxlDmb9yw7VC7TkaauJ70dMQdMvEdky9A8HRNk=; b=l1Sn3CaopoSBKal4irHxugpF7j
+	6e8VTe9hrcNIeIYHx+u+WusL/khjxe89H9YpFTBVa6svGcZPUKjKKO0IobkGe7nRn+Z9FpBDQpYex
+	Wve4lKxapXuCqoGoQkvIhcWtNfezzFjojE/knMKn3jY6aC3lSlEe6yYuCZE+hR7azkT7OZRshMcYG
+	RQssupqDUnpVRDb0MNPYXLV/R/fSJCscXncrfLxzNgcxD/77vWxR8jxJ8JNBztf8htqBYiyo7KGac
+	lEr+k8IfYMe+ledjfyqiZizYd31/qaBvOIW+9gDMG1ncAwtTVt1/LRBWAiH/y7cIDU3k0E3KjfPNb
+	igfi5tmQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pIVy7-005KOI-Ax; Thu, 19 Jan 2023 14:32:43 +0000
-Received: from mail-oo1-xc2e.google.com ([2607:f8b0:4864:20::c2e])
+	id 1pIXyz-0063g5-0N; Thu, 19 Jan 2023 16:41:45 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pIVxg-005KFm-WB
-	for linux-nvme@lists.infradead.org; Thu, 19 Jan 2023 14:32:19 +0000
-Received: by mail-oo1-xc2e.google.com with SMTP id z12-20020a4a490c000000b004f21c72be42so531538ooa.8
-        for <linux-nvme@lists.infradead.org>; Thu, 19 Jan 2023 06:32:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=OzgsiHNFafg9OuoZBVQAxwkGBmRTSBugx3N+qaA0rBI=;
-        b=ca9PfG3z/EllduhdK6CDNGJ7qAylteR3X1AjKID79cJKs9dNOQtZfCq0WpbYeCFRpn
-         AZGBzK1xTiXHeBtUlmTEAJx4GopUssIpHcTttmqZk21lCLTyIsbOuA01LAJU6QUnnPv4
-         zppFSpWUaZFPwyxNI9OYcYU6qre5wiqE3X6UKVq3ok01tGCiv7lJwyCoD8OB8Ky3T+v5
-         +AuPj/fJtr1a2FmaNIFC3FYxkqSgA4SJ8Ya/RC7ogm3WRLtz47eUePUyBb0Z+IuzIgdI
-         yphrOLgWfpM8OLDvA4TNbkRqsxhVurzVZ219FETwgKhDAqH5WQZZceT75HU4nuZIvBUE
-         6mxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OzgsiHNFafg9OuoZBVQAxwkGBmRTSBugx3N+qaA0rBI=;
-        b=AOYKJAc1LAgJ8Bv0+VnsrRFJ4p6FEL2Vqoj7K+9VJG3ENVYq3Og0SOUtCsTIHdM3rZ
-         lYG0yRUW/fn7Yx1aPFbtaoQVTlCznGg1uNhnYcw/OVH/e7PxnzjfuE+TKtT5Mli7SxFH
-         hO4OAKPVroU6qmHi6z/dGh6vjADYLsLh/pJrc1XYtWECPQ9uwkvGIPnzM37JL/f9/v1H
-         q1pHEbwO8Qxb3hoefR9c8PqdSEHBIFIVEZSgJBPi0yVuYel/j2F7uwHCijiXVZBjjY33
-         YdHsHgMwok1hRxbNemEXPNc8n5ezGFOX0lOlFS5qzqPAjkF+rcyHBFCAt5n4D643depM
-         gqyw==
-X-Gm-Message-State: AFqh2kpmPFjHN9MU/uELGbrIa8sXa0C+b4MTPWfyHDyqa8oM9aGy5Lb5
-	rpYPqxTqkzJprghx4MDIuGE=
-X-Google-Smtp-Source: AMrXdXuzZK0/qeneeoKtkR5uanVU13P0DyIhyVKzXEDf9UVDbzHQsxVUQcff/azGPvHSfERmd5gibA==
-X-Received: by 2002:a05:6820:413:b0:49f:dba7:5e65 with SMTP id o19-20020a056820041300b0049fdba75e65mr4855150oou.3.1674138734167;
-        Thu, 19 Jan 2023 06:32:14 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id g6-20020a4aa706000000b004f9cd1e42d3sm3702525oom.26.2023.01.19.06.32.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Jan 2023 06:32:13 -0800 (PST)
-Message-ID: <01c6a8f8-881b-66b2-781b-c334e3a9fecc@roeck-us.net>
-Date: Thu, 19 Jan 2023 06:32:10 -0800
+	id 1pIXyt-0063b2-6p
+	for linux-nvme@lists.infradead.org; Thu, 19 Jan 2023 16:41:42 +0000
+Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30JCOICt018874
+	for <linux-nvme@lists.infradead.org>; Thu, 19 Jan 2023 08:41:34 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=s2048-2021-q4;
+ bh=mNNdjqxlDmb9yw7VC7TkaauJ70dMQdMvEdky9A8HRNk=;
+ b=a1en+wPj4R0ZRaWE4Z10/9aSIY15NvOAIy4828h5QmXKIDzLcH/NLFKmDGNzuV4FIE73
+ aZCoXwC+vbKdDPggOCXSLAgpVyL6LQbrndu/Ke8TGR1Q2aoBT06T7R7X0IuaGgkG7oXY
+ 0A2IPyYp2ECh7dFD9bXigqmk4JtpckOhu3/V3QDg9/Y8pcPBX7oqfcw0YbjTUdOuAHLd
+ s6qvIH/kEgwVMvZ11Xr87Sx2ljhDgKXDx1Zqkd5o0wHcWvL1BVLuMtF1XG/LrsOmrQe3
+ 3pi3XQ2xDlKbXlyggcxie5p9PTyA2oZfx3BPbOSO6Ca+GytqWJaxxtjr1pkooi7aXLoQ xw== 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3n6vy6m3yj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Thu, 19 Jan 2023 08:41:33 -0800
+Received: from twshared21680.02.ash8.facebook.com (2620:10d:c0a8:1b::d) by
+ mail.thefacebook.com (2620:10d:c0a8:83::7) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Thu, 19 Jan 2023 08:41:33 -0800
+Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
+	id E877CF580056; Thu, 19 Jan 2023 08:41:29 -0800 (PST)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>, <hch@lst.de>, <sagi@grimberg.me>
+CC: Keith Busch <kbusch@kernel.org>
+Subject: [PATCHv2] nvme: always initialize known command effects
+Date: Thu, 19 Jan 2023 08:41:28 -0800
+Message-ID: <20230119164128.2159217-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
-Content-Language: en-US
-To: Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>
-Cc: Alistair Francis <alistair23@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-References: <CAFEAcA9pS7P=SvKsOtRHPtkrNAD8LF2ZpFJ870G3B-rhWYap4g@mail.gmail.com>
- <20230117192115.GA2958104@roeck-us.net>
- <CAFEAcA_T8QqSg4SzszP+wR3pR1P1WTZg4f7mHHBGRw4UrTw+DQ@mail.gmail.com>
- <Y8gfQXPYdHKd1v4I@kbusch-mbp> <Y8h7aOuVfCb+RsAP@kbusch-mbp>
- <CAKmqyKMHs_-RgagMDYE7vn3MHEP2caBc+RERjaK0DNJw4hFYiA@mail.gmail.com>
- <Y8iulgdgOdVCjuKE@kbusch-mbp>
- <CAKmqyKMveR=RD6fgnzY0SV39tofD+Ws_AbrSZXE_o4m=M6GZHg@mail.gmail.com>
- <Y8jBG/j8w2R43kYd@kbusch-mbp> <Y8jxHuVYoTo6KcH4@cormorant.local>
- <Y8j5B+c3mM01d+Gk@cormorant.local>
-From: Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <Y8j5B+c3mM01d+Gk@cormorant.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: 0PTgb0CwYWfIYOzfxlDm9hybBekiRrLq
+X-Proofpoint-GUID: 0PTgb0CwYWfIYOzfxlDm9hybBekiRrLq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-19_11,2023-01-19_01,2022-06-22_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230119_063217_112784_4358E26C 
-X-CRM114-Status: GOOD (  22.17  )
+X-CRM114-CacheID: sfid-20230119_084139_491606_3AF28093 
+X-CRM114-Status: GOOD (  19.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,54 +80,155 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/19/23 00:02, Klaus Jensen wrote:
-> On Jan 19 08:28, Klaus Jensen wrote:
->> On Jan 18 21:03, Keith Busch wrote:
->>> On Thu, Jan 19, 2023 at 01:10:57PM +1000, Alistair Francis wrote:
->>>> On Thu, Jan 19, 2023 at 12:44 PM Keith Busch <kbusch@kernel.org> wrote:
->>>>>
->>>>> Further up, it says the "interrupt gateway" is responsible for
->>>>> forwarding new interrupt requests while the level remains asserted, but
->>>>> it doesn't look like anything is handling that, which essentially turns
->>>>> this into an edge interrupt. Am I missing something, or is this really
->>>>> not being handled?
->>>>
->>>> Yeah, that wouldn't be handled. In QEMU the PLIC relies on QEMUs
->>>> internal GPIO lines to trigger an interrupt. So with the current setup
->>>> we only support edge triggered interrupts.
->>>
->>> Thanks for confirming!
->>>
->>> Klaus,
->>> I think we can justify introducing a work-around in the emulated device
->>> now. My previous proposal with pci_irq_pulse() is no good since it does
->>> assert+deassert, but it needs to be the other way around, so please
->>> don't considert that one.
->>>
->>> Also, we ought to revisit the intms/intmc usage in the linux driver for
->>> threaded interrupts.
->>
->> +CC: qemu-riscv
->>
->> Keith,
->>
->> Thanks for digging into this!
->>
->> Yeah, you are probably right that we should only use the intms/intmc
->> changes in the use_threaded_interrupts case, not in general. While my
->> RFC patch does seem to "fix" this, it is just a workaround as your
->> analysis indicate. >
-> +CC: Philippe,
-> 
-> I am observing these timeouts/aborts on mips as well, so I guess that
-> emulation could suffer from the same issue?
+From: Keith Busch <kbusch@kernel.org>
 
-I suspect it does. In my case, I have an Ethernet controller on the same
-interrupt line as the NVME controller, and it looks like one of the
-interrupts gets lost if both controllers raise an interrupt at the same
-time. The suggested workarounds "fix" the problem, but that doesn't seem
-to be the correct solution.
+Instead of appending command effects flags per IO, set the known effects
+flags the driver needs to react to just once during initial setup.
 
-Guenter
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/core.c | 83 +++++++++++++++++++++-------------------
+ 1 file changed, 44 insertions(+), 39 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 7be562a4e1aa7..d7d2c2b342ba4 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1060,41 +1060,12 @@ int nvme_submit_sync_cmd(struct request_queue *q,=
+ struct nvme_command *cmd,
+ }
+ EXPORT_SYMBOL_GPL(nvme_submit_sync_cmd);
+=20
+-static u32 nvme_known_admin_effects(u8 opcode)
+-{
+-	switch (opcode) {
+-	case nvme_admin_format_nvm:
+-		return NVME_CMD_EFFECTS_LBCC | NVME_CMD_EFFECTS_NCC |
+-			NVME_CMD_EFFECTS_CSE_MASK;
+-	case nvme_admin_sanitize_nvm:
+-		return NVME_CMD_EFFECTS_LBCC | NVME_CMD_EFFECTS_CSE_MASK;
+-	default:
+-		break;
+-	}
+-	return 0;
+-}
+-
+-static u32 nvme_known_nvm_effects(u8 opcode)
+-{
+-	switch (opcode) {
+-	case nvme_cmd_write:
+-	case nvme_cmd_write_zeroes:
+-	case nvme_cmd_write_uncor:
+-		 return NVME_CMD_EFFECTS_LBCC;
+-	default:
+-		return 0;
+-	}
+-}
+-
+ u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns, u8 =
+opcode)
+ {
+ 	u32 effects =3D 0;
+=20
+ 	if (ns) {
+-		if (ns->head->effects)
+-			effects =3D le32_to_cpu(ns->head->effects->iocs[opcode]);
+-		if (ns->head->ids.csi =3D=3D NVME_CAP_CSS_NVM)
+-			effects |=3D nvme_known_nvm_effects(opcode);
++		effects =3D le32_to_cpu(ns->head->effects->iocs[opcode]);
+ 		if (effects & ~(NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC))
+ 			dev_warn_once(ctrl->device,
+ 				"IO command:%02x has unusual effects:%08x\n",
+@@ -1107,9 +1078,7 @@ u32 nvme_command_effects(struct nvme_ctrl *ctrl, st=
+ruct nvme_ns *ns, u8 opcode)
+ 		 */
+ 		effects &=3D ~NVME_CMD_EFFECTS_CSE_MASK;
+ 	} else {
+-		if (ctrl->effects)
+-			effects =3D le32_to_cpu(ctrl->effects->acs[opcode]);
+-		effects |=3D nvme_known_admin_effects(opcode);
++		effects =3D le32_to_cpu(ctrl->effects->acs[opcode]);
+ 	}
+=20
+ 	return effects;
+@@ -3122,6 +3091,44 @@ static int nvme_init_non_mdts_limits(struct nvme_c=
+trl *ctrl)
+ 	return ret;
+ }
+=20
++static void nvme_init_known_nvm_effects(struct nvme_ctrl *ctrl)
++{
++	struct nvme_effects_log	*log =3D ctrl->effects;
++
++	log->acs[nvme_admin_format_nvm] |=3D cpu_to_le32(NVME_CMD_EFFECTS_LBCC =
+|
++						NVME_CMD_EFFECTS_NCC |
++						NVME_CMD_EFFECTS_CSE_MASK);
++	log->acs[nvme_admin_sanitize_nvm] |=3D cpu_to_le32(NVME_CMD_EFFECTS_LBC=
+C |
++						NVME_CMD_EFFECTS_CSE_MASK);
++
++	log->iocs[nvme_cmd_write] |=3D cpu_to_le32(NVME_CMD_EFFECTS_LBCC);
++	log->iocs[nvme_cmd_write_zeroes] |=3D cpu_to_le32(NVME_CMD_EFFECTS_LBCC=
+);
++	log->iocs[nvme_cmd_write_uncor] |=3D cpu_to_le32(NVME_CMD_EFFECTS_LBCC)=
+;
++}
++
++static int nvme_init_effects(struct nvme_ctrl *ctrl, struct nvme_id_ctrl=
+ *id)
++{
++	int ret =3D 0;
++
++	if (ctrl->effects)
++		return 0;
++
++	if (id->lpa & NVME_CTRL_LPA_CMD_EFFECTS_LOG) {
++		ret =3D nvme_get_effects_log(ctrl, NVME_CSI_NVM, &ctrl->effects);
++		if (ret < 0)
++			return ret;
++	}
++
++	if (!ctrl->effects) {
++		ctrl->effects =3D kzalloc(sizeof(*ctrl->effects), GFP_KERNEL);
++		if (!ctrl->effects)
++			return -ENOMEM;
++	}
++
++	nvme_init_known_nvm_effects(ctrl);
++	return 0;
++}
++
+ static int nvme_init_identify(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_id_ctrl *id;
+@@ -3135,12 +3142,6 @@ static int nvme_init_identify(struct nvme_ctrl *ct=
+rl)
+ 		return -EIO;
+ 	}
+=20
+-	if (id->lpa & NVME_CTRL_LPA_CMD_EFFECTS_LOG) {
+-		ret =3D nvme_get_effects_log(ctrl, NVME_CSI_NVM, &ctrl->effects);
+-		if (ret < 0)
+-			goto out_free;
+-	}
+-
+ 	if (!(ctrl->ops->flags & NVME_F_FABRICS))
+ 		ctrl->cntlid =3D le16_to_cpu(id->cntlid);
+=20
+@@ -3163,6 +3164,10 @@ static int nvme_init_identify(struct nvme_ctrl *ct=
+rl)
+ 		ret =3D nvme_init_subsystem(ctrl, id);
+ 		if (ret)
+ 			goto out_free;
++
++		ret =3D nvme_init_effects(ctrl, id);
++		if (ret)
++			goto out_free;
+ 	}
+ 	memcpy(ctrl->subsys->firmware_rev, id->fr,
+ 	       sizeof(ctrl->subsys->firmware_rev));
+--=20
+2.30.2
 
 
