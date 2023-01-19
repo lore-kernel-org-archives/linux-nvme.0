@@ -4,80 +4,181 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 329B8C38159
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Jan 2023 00:42:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5E1F6C677F1
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Jan 2023 02:21:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=os8ISr1qekJC2Kdy31xqUE3rwuUYjA10vSUZ0febqKY=; b=Ou5UJXHgxXnR99uaKGbmKoXwZy
-	qKfi9qq2WRG5GaqYgOwexscHTPfR8Pc7eucf6FVtLww4/1hEUWYAHiTzCtS5tIafC0z+vKcIbBXqR
-	gc/iqcSBcDwqjB/qMt5f9rO+spIovxhQRJ5AlIcdgiGVrdyujIFYme8QsLhB4pWCLz8lMDacXd3q0
-	6JBFAaZAxOaZX3LB1OVVHZZgodn7hutqCzmV1bJRXp6fKI8Afvs8Y0XiXO+GFWdMEO/9trJ0IigiO
-	4F2xdW7Yp7fKPJQLY+uZAtG0jV0zpFRv6CX0s6pekNSLpVaqrfZ8//RwjOtc3UpnXkrFVtP0FWjI+
-	qbH1puqw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8xXfXcs4I/0dNQV95w17O5kDUdCj6JZsIfVMCXFO3WU=; b=C3seK0EnuB6WpBjpISL0RqtRSr
+	GZ+nuNvofUm1zciRap8dpETjN+D4hIBrXmb68Qsc7YThrNlrq3oR1I/KjWmvhRgvn6jqCoR4blG3o
+	oVWI0H04iP6PFTJAhIQdDa98R8/NjblVb1W6Q+LN3QXrLtj2ZWhUGEhxj7wXCXHhobujOGaKyQZ6J
+	EKQh07uY55AFT2qIO7lCDv0HWaKN7FJSEzo/KfEdLnDjVJCq93AWmle//pTARqLf/i+J8lrgCK3Iz
+	S/SiXplJ0wkzSQ4aLCICKjCrrd+6jny9T6R/RtLbhyooFAlGs4PATtr8VEX1mcI5opuk2aZQThEIS
+	BuLqNO+g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pIJ0Q-00345Y-R3; Thu, 19 Jan 2023 00:42:14 +0000
-Received: from mail-ua1-x92e.google.com ([2607:f8b0:4864:20::92e])
+	id 1pIKYG-003CdK-Ui; Thu, 19 Jan 2023 02:21:16 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pIJ0N-00344g-C4
-	for linux-nvme@lists.infradead.org; Thu, 19 Jan 2023 00:42:13 +0000
-Received: by mail-ua1-x92e.google.com with SMTP id u3so144727uae.0
-        for <linux-nvme@lists.infradead.org>; Wed, 18 Jan 2023 16:42:09 -0800 (PST)
+	id 1pIKYD-003Cby-7S
+	for linux-nvme@lists.infradead.org; Thu, 19 Jan 2023 02:21:15 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1674094873; x=1705630873;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=8xXfXcs4I/0dNQV95w17O5kDUdCj6JZsIfVMCXFO3WU=;
+  b=A+9xXLtZNx1/4FIW+8lOONxdNMI+3YuKQFEnsL57WAalexXx5sLP1MoF
+   mrv7HOsrfZxW8Xa9Ut7638KOQlllHSJPOEVoUC/p4lvzciuDoG/6h0jy5
+   abwxJLEdZzDuDiPvIAaHVLmBNhBGzGOBfPw4cXYPmfM3vjLEuRII0Cryl
+   gz44MpBslSK+WfUD5OTm5LbEYqLyQ99phPqS+eczz+XG9tyUv9qTJtIoV
+   azWE3TJUV1DrtIjcu2zWib3OCUqUoRR50OhNaJcWe1ENWnbTUD5v20hEB
+   WDKC8alG5Op3JrKR6vX4v/udEcahl9TfQFKHunEcEiSaI2o/oeJA8opjY
+   w==;
+X-IronPort-AV: E=Sophos;i="5.97,226,1669046400"; 
+   d="scan'208";a="219514541"
+Received: from mail-dm6nam10lp2104.outbound.protection.outlook.com (HELO NAM10-DM6-obe.outbound.protection.outlook.com) ([104.47.58.104])
+  by ob1.hgst.iphmx.com with ESMTP; 19 Jan 2023 10:21:05 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ndTpq28gPANe/AQIRRqmEnkdjueIB0ekRM5vnlCMTsnhl38pY4lRwVwwN4cBNyQ5p2gZ92O/Z5W6fGyuk0owtZjTiP2KroBgdXX3UVAIuiQVFZCoLJzWPkfUoQtoLV+zwtetsubhWj+whpEDbXdPxJAsxaKE5pfJ6s6Qelh7tjb8hgZDeAbzef46PBh7CXgjTYOnt+IJouojBBECnZ77dul8VPYJPXdmSGNk/LjnmbEOTA3rsWLuUoIJVD4LbXIVqVqU9wkurgm56zCLIrwWfF1qDAZdd4RTc8Fo60WF9CwlGJPsAlVAVEHmzmxUJ7qE84PGWil2l/9kV5ln6QMg8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8xXfXcs4I/0dNQV95w17O5kDUdCj6JZsIfVMCXFO3WU=;
+ b=BXzibLV41kdeQsPkUOxVmUcLCmSARpK1cxU5pilTQm/HrGZ2Fr2Xi+1e94QIdFZspjs0uHaKPIA7KJPZrDZiVDtDQGc1mjoJws3Ef24Rn+XJqn59aK7U7HGuSqlcHrTI3wCePsYMnBVEbyG8fbFM+fsXGtoxJJAWxdgjWpdD2pnIyYWlyINDxEoeLGk7fqt0jpq0CeiZxHyiAB+Yv+cKcTGibDPlhAzrB82wgCbkReqGEfdAZmz3onWV7Fxhdo6nymaDXguyL7R2HtZThT2FalwHtmZKl0c4LwV+9MSAX7j7nOB7gW1545xqbcCjHeKy+96KtEbeMdNJBT4yX/dIng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=os8ISr1qekJC2Kdy31xqUE3rwuUYjA10vSUZ0febqKY=;
-        b=E0nsc45ogFDvyQBMJqIt8nMR72wcQ/qvJZ/34T19dV1/US79uTaDKbsdvqyBtRUAxm
-         T7ghRoNhrajyyPxOFSduoU8I+bzB1KZB7ciBh0aqFvNEx1DAhbuwLeA8r3N3fpyFLaVX
-         TUpeiVfQRAp/1glIPeQUEXZwQr99BVG5LDyAc+LG9C8Fjgy7NR1f/PWF0pgqse6Cu4Bk
-         pxNGkzgwv76FlPerzGNDHtXGf9vhIY2XqLDz89xah8rCwQ6uD3ZVudyO1t55+1LTh22y
-         a7RxTzn2Fr/ZOGZZ9gHRX0CmCbBHgd3dbU2QsCA40S0V7VaPcWpKcY8ZUz3K0HCLRq6I
-         oyXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=os8ISr1qekJC2Kdy31xqUE3rwuUYjA10vSUZ0febqKY=;
-        b=seUBEZNd8oG910iyPvQN7XJVK6629SDM6NhBBGZqiis+S7steddWm0td3vMgrkOIBS
-         fgOHA1/IyJ8PEOPX/UI2uTxwuQgHI8Ii4YZ9IsmEs6LStpMLN9UCJHh8fRPsywyly7Cx
-         qMp4AX94i1CQKgB++DOy1NqlchTUGcuHCA8VGMCbDlcOes+lFzOLipVLzP0o4XyE4wfa
-         TPBJ1H7cF4B8Gv8G1931Gpciy48qI3LWN+FEevOVWVPI/1UToO8x67cAulTlxpachH0N
-         hHuYSGZW7VmEAHfyu+Chdqrc1DyZX+iUqRuW/EARsRPanUZVA7pQwsHTsje5yCKVyK+6
-         S6MA==
-X-Gm-Message-State: AFqh2krtjbtmtJqQRJg2fZAVUyRZ2TLem3sLJiGXuCDhx7Wcambenl3j
-	z0xp+Suskpqhgb+ZMOTVX1ANTCoqO+RtdnUIgO0=
-X-Google-Smtp-Source: AMrXdXupiWHmErhf/AtP1UQ1VxxIcyiGHH227P3x4dyqKu23FG5DEBpEqzuV0ErADpRUCEOTDoiOqXLBazU8ceX3DXM=
-X-Received: by 2002:ab0:3b8d:0:b0:419:2865:3ae7 with SMTP id
- p13-20020ab03b8d000000b0041928653ae7mr1072202uaw.70.1674088928508; Wed, 18
- Jan 2023 16:42:08 -0800 (PST)
-MIME-Version: 1.0
-References: <Y8AG21o/9/3eUMIg@cormorant.local> <Y8W+H6T9DOZ08SoF@cormorant.local>
- <Y8Yq5faCjAKzMa9O@kbusch-mbp> <20230117160933.GB3091262@roeck-us.net>
- <CAFEAcA9pS7P=SvKsOtRHPtkrNAD8LF2ZpFJ870G3B-rhWYap4g@mail.gmail.com>
- <20230117192115.GA2958104@roeck-us.net> <CAFEAcA_T8QqSg4SzszP+wR3pR1P1WTZg4f7mHHBGRw4UrTw+DQ@mail.gmail.com>
- <Y8gfQXPYdHKd1v4I@kbusch-mbp> <Y8h7aOuVfCb+RsAP@kbusch-mbp>
-In-Reply-To: <Y8h7aOuVfCb+RsAP@kbusch-mbp>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 19 Jan 2023 10:41:42 +1000
-Message-ID: <CAKmqyKMHs_-RgagMDYE7vn3MHEP2caBc+RERjaK0DNJw4hFYiA@mail.gmail.com>
-Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
-To: Keith Busch <kbusch@kernel.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Klaus Jensen <its@irrelevant.dk>, Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, qemu-block@nongnu.org, 
-	qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8xXfXcs4I/0dNQV95w17O5kDUdCj6JZsIfVMCXFO3WU=;
+ b=Oyy9MAnny0DwdyHO99Bq1lIPg+pEF7sa8xyn+ZSMSWKLOi+BNQcKeEspfMIzeiAY/GsCRCtqV7Itac3lro6RvdgQVO+YQL435MOy5sIBFRine66A6+r5OUGezAM+MK24Di4r+uCGrR0Y2by+TfOWr7po45FDW7/o+f7WDuPJO3Y=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ BN7PR04MB4305.namprd04.prod.outlook.com (2603:10b6:406:f9::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5986.23; Thu, 19 Jan 2023 02:20:59 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::e5db:3a3e:7571:6871]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::e5db:3a3e:7571:6871%7]) with mapi id 15.20.6002.024; Thu, 19 Jan 2023
+ 02:20:59 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+CC: "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
+	"linux-fsdevel@vger.kernel.org >> linux-fsdevel"
+	<linux-fsdevel@vger.kernel.org>, "linux-scsi@vger.kernel.org"
+	<linux-scsi@vger.kernel.org>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, Jens Axboe <axboe@kernel.dk>, Bart Van Assche
+	<bvanassche@acm.org>, "josef@toxicpanda.com" <josef@toxicpanda.com>, Amir
+ Goldstein <amir73il@gmail.com>, =?iso-8859-1?Q?Javier_Gonz=E1lez?=
+	<javier@javigon.com>, Dan Williams <dan.j.williams@intel.com>, Christoph
+ Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, Hannes Reinecke
+	<hare@suse.de>, Damien Le Moal <damien.lemoal@opensource.wdc.com>, Johannes
+ Thumshirn <Johannes.Thumshirn@wdc.com>, "jack@suse.com" <jack@suse.com>, Ming
+ Lei <ming.lei@redhat.com>, Sagi Grimberg <sagi@grimberg.me>, Theodore Ts'o
+	<tytso@mit.edu>, "snitzer@kernel.org" <snitzer@kernel.org>,
+	"dm-devel@redhat.com" <dm-devel@redhat.com>
+Subject: Re: [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] : blktests: status, an
+ expansion plan for the storage stack test framework
+Thread-Topic: [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] : blktests: status, an
+ expansion plan for the storage stack test framework
+Thread-Index: AQHZK5fyQKUFtoPftkeiJLNotrztl66lAiIA
+Date: Thu, 19 Jan 2023 02:20:58 +0000
+Message-ID: <20230119022056.plpe5wejji6gl3fp@shindev>
+References: <e24383ca-8ba8-3eb3-776c-047aba58173d@nvidia.com>
+In-Reply-To: <e24383ca-8ba8-3eb3-776c-047aba58173d@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|BN7PR04MB4305:EE_
+x-ms-office365-filtering-correlation-id: 63fee9c3-1b1f-4509-4a59-08daf9c3cd8b
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  91cLSjZxDlyJbNr/xcnas/y/VKyOnpM7eRt4HmXmzYtUTVRHLkzUJg72rwLNuib5nFuegY+L8mW85EP3pTuPOjZ8g5G1r15eKEJLF+lm8dUIx/OrBDMruYh+lXrleinRIh9QzqK231ykzTvpUJWp0NSbN/XY3ru8rjDWoYnyxPej5WTcDhDS9Dm8MB1BKQvvpMACj42LwA4WSxuQMVPvx2SOhtW6Q49gRQ/HpAtQrEyk2Fw+VBDcFu5Gc1zY7gRLFh/FgoYIhIKDiNN5L5H57K5rfIIq7KHr/r3YDN8qPIQJzl+TkXKGlqm1tqaR/G7lVHyxJEXnbD9Y899Gk8gvwZcSOnMSV3KaVQH+2mAj2Fzp5VxT3x384+GDksou2cmTrSC6lWe3yX1R2aAFRtluk3sWCKEkoQUux8g36ZUj1V89Dh60QBd25uuF8AuSBXdJ9mjQVkS+IIHVBpNrecfDbZx+lSyvN5XCHL9JDjJFfdM7hdDw+hf9r2rPTelYAOmcjdnwumFxbPL/fFeuiIA9eDbJu2Wh5RSMkDa2oarvPdlNhfmCGenWUrLDDabYIKULmlgoCvowWM7Lskhq+utbq1+w61qJFr7oePcdJyM1PNUvdH4KVv28utp42CQGyoLIrDT/f4TFmeF7kY/LGYD3CMQQSdik9PxnVl0++szO/wdVXl6qRF5muYSKODNiKGUzyh+jo4eklY7ay6P5bEHXJZ4919mAEAgB/0rSHwvURAy+A2hxmLixfs6piTSj2Y81iJViyn5MnJvjj1NYj/KN4A==
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(4636009)(366004)(346002)(136003)(396003)(376002)(39860400002)(451199015)(83380400001)(41300700001)(8936002)(54906003)(1076003)(316002)(91956017)(4326008)(66446008)(76116006)(8676002)(66556008)(6916009)(64756008)(66946007)(66476007)(82960400001)(38070700005)(38100700002)(33716001)(86362001)(44832011)(7416002)(2906002)(5660300002)(122000001)(71200400001)(6506007)(6512007)(9686003)(26005)(186003)(966005)(478600001)(6486002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?iso-8859-1?Q?m5pHjb4qS4yWHCB48dWySdcGpIUPbKBPfGcKNYR1QxDdwldxzwTnktwr0I?=
+ =?iso-8859-1?Q?XKSqwS2FhWazUfo3l1UDJZTzXXk+BCJp8v8iPfR53knl6KIrCzftDHXKDE?=
+ =?iso-8859-1?Q?ui87oxcmCw3VNA7MTdqFIzPM+UwladUY4AHUQB4b5q3y4uj/PaDzcjiS5d?=
+ =?iso-8859-1?Q?IuW7lZWFj5vssDzti5ZzBgFhxudCrEEBZwOOyOV0w2GLdjVOa45FVAd60d?=
+ =?iso-8859-1?Q?BO+Cgqn/i9oRX8JwAHMqTMgio/zGVsP3BPUjrBTgL8WGyqvhzFutAyv4kN?=
+ =?iso-8859-1?Q?DpHRHsxHCJWe2DnkxHfIYraQ4EmM6TvF6ZwW6EYp1I/r/Xmno9BxlPdIHw?=
+ =?iso-8859-1?Q?EH1Fp7dDYXepjY9Vdz8QqNb17Jkegbbz3TReDUOqzln7xEslLuACdd67N0?=
+ =?iso-8859-1?Q?UPv0e16g7NZ3KpM802UWZUMBVqWyrcAJIiQh3wJ27lvX1F94lluLXhtTtA?=
+ =?iso-8859-1?Q?mKqO8dsqXwdSruyx8OVVqBtPfeVHf9XJQ8YJtwD0dlEelS+wDwFC00/90A?=
+ =?iso-8859-1?Q?dsA5S7lDOBPmca4v4ekd4OZTy8WXOzFCOVcwGp1csNAhAcEmGxuNoZ9dsC?=
+ =?iso-8859-1?Q?EMajcAFaFhDrznNT2XafdlZ2F+lkL8ryBYIQCEb+pl5j98mdsNlcOHre/G?=
+ =?iso-8859-1?Q?GRW6ApEh3ziJph3iWJyVJF1wetKgtyMl+W786p3btXoWWCFEm2t1kGqopl?=
+ =?iso-8859-1?Q?HHoy/9kZujQh6cKt4vQBk1EEk0jebOMCxejkUhLR7xPtv+Yiw+Z2NJoeDn?=
+ =?iso-8859-1?Q?eWMG8AAL0hTRYmkVPA9A2YSbOTScYHlCFYWxQ9UJCPVyE/kLLeXpDfBu/A?=
+ =?iso-8859-1?Q?e5YZ/fyhoWAlNraCDFhEw3ClbZGUGAewLRQC//UiqaNhr+exK8VlfKpusk?=
+ =?iso-8859-1?Q?kQXt6he0/5V5riTlV2IcYsyQP4HqJ8c5bDIM1oocyUV2707hDWDLHFQ5Z6?=
+ =?iso-8859-1?Q?+k31E7B54U3qGmG7RCdhbJALQ2yr4pcV8AXo6QU8spO2hF6tGBFuQTbBEv?=
+ =?iso-8859-1?Q?gH+cqb8AoruGjQOTI9ijT+Wtvt48WPBkGlluzDBY+gl6fb3+Z0vx2l1j8j?=
+ =?iso-8859-1?Q?HQrtJBts6EuCAdXn+t5F8IOPvmo2Zn9T7hfUCsky8sUiSl2sEGPR8x2qsU?=
+ =?iso-8859-1?Q?bQP8L8yEWbBKDMeSqyfo7VyYev+7Xzeku3CRye6SCx4gnUhnHrKCnkqzvB?=
+ =?iso-8859-1?Q?Re6pSoncb8TDT5Uq394gAae27zgIPrmVuAIfaK8Y4/0LRfHuA7t8LAH3KM?=
+ =?iso-8859-1?Q?5H4pbh4ESjXZOkWLW1sGb/WPlChPkuXocos+A/h4DBHJ0ohYaiJoEqQAXz?=
+ =?iso-8859-1?Q?2eZYFDb1E7xyHOSFoZNCrN4saZSSA3H9kdm5jpQXUiDIQYjx4UPRvQxO5a?=
+ =?iso-8859-1?Q?sUUc3qGAB1s3gl12WIDTKMsBnS0/o6A2h7de7vgN9TKiSu6Rm4CDImxPfg?=
+ =?iso-8859-1?Q?/z13HQfRxQsd26fD0VTFnPNHtKr/EDq7uMEr128EaFHZDCq8YF5jaRJlXA?=
+ =?iso-8859-1?Q?rtUEEfjIZAVSABdrE9ne+3cC7eMHLjeRocum/AcudmndvOM9HjBmDXj515?=
+ =?iso-8859-1?Q?LkNmCV9wdUy6sO0/Pcz97s8v8IKpMoOAr69IZLE3YOCBcIwC/xt7lXTk84?=
+ =?iso-8859-1?Q?IX9Z0Uq9f+mcLlzomd56t9HIwoqGY3rkWEoK5dgNnuaZBy1Mdk7BedvZ/g?=
+ =?iso-8859-1?Q?eRaS3zs8fHvfwodmTUs=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <21C4C46D6B5FCF49AAC0C94BACC80191@namprd04.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 	=?iso-8859-1?Q?ubKLDmGVwjOOmZsMHFLxuYJOps3Dupxv/LmXVOdTYIRQj6IuAlYJo7c6dc?=
+ =?iso-8859-1?Q?xTxKDfFZsanS5CStpuvZOXiIvmh4sw85E9XA0JnsulF2GPFuXMTW7ABCBx?=
+ =?iso-8859-1?Q?n6hGtWXn6CGRCeP1LstQ6GNT3MK7yoikH7yKFoSQUe6bnrUwvKjJUFyytf?=
+ =?iso-8859-1?Q?hm3pm+BKKunwtZeopp9hxkMzb9h9KEOc4asryBoqhG4HjM1sRCpt9g6A+q?=
+ =?iso-8859-1?Q?11eFhNJxviZQf86H8smqlP9gyaneEHcqT6XkNcKRlCSvQuILeMWhark4kd?=
+ =?iso-8859-1?Q?NrXNeRUbqWlnLgTLUq6bF9BYjIcb3/Luw86gba0JgoVGNvpYvcA98HozAn?=
+ =?iso-8859-1?Q?9ldzVFTYj/jfuc6lave4akzVRC6VQBnmMNfUA1orZIBGEOcRagEApGTW2D?=
+ =?iso-8859-1?Q?SYLsoQcLygrPomkbJWLtYq0+I9WJbSqX4+HKL6mNGLrXQwfiiqERC7fx1d?=
+ =?iso-8859-1?Q?UL3I927koiYpefPvmIR7Mg7+dindry42RXGyOHw2Rf2fXfQK6sZhjI6s4l?=
+ =?iso-8859-1?Q?AwGa8P9JaPI2buBflLK2tVoUIqjGGVRvzFWiO19AoUMovd7Yng/ogU/0YS?=
+ =?iso-8859-1?Q?RglEUxZIQsCoEp50G6LlnSfznIsZR462K55V0Pl8exS1vN1gnQyPjC8JfO?=
+ =?iso-8859-1?Q?D5U/SbAb6JUMwbvlTAh8C46lTWvjUTD2qfTCwWYnhaSFBSVp/FlP1UBb4Y?=
+ =?iso-8859-1?Q?cGPz9AJr7YfwywZsZawUHgElAWxtZ8bCVKkjoq0gkDxNHL3qmYjpVmz9fA?=
+ =?iso-8859-1?Q?H2JKn6oDa/pkPZ3EhmGuxO34wY8nTS+Fufh4gx9k1S9oRKaFeUqlNvqITi?=
+ =?iso-8859-1?Q?XI2PZQIZFUIt0cFXKFquzhaTlEHEHkMudUj6HbkDKvc3+HsUMtDi9rKdMG?=
+ =?iso-8859-1?Q?quTF58NGRZd+kWKw3KWsOVa5qBkdFYY2ZWxXl60wruhzoCaZP5NqLCgZdL?=
+ =?iso-8859-1?Q?01VVd6mDGJaNhaltHtNEpnADbud+IluX58HAXgWYBpMMNHlM0h8Yh3rjLM?=
+ =?iso-8859-1?Q?G22uq72lf1T+bBOMKlu1XDhMsAmrW8dywmh1TzL3omSDHk/6TJn+ivlexZ?=
+ =?iso-8859-1?Q?yWZ70m2iNDjFmzzsHeiyhWwQGbO7Pj5GJokwpPA9GkJGrgMlkMePmAhnuE?=
+ =?iso-8859-1?Q?U01ckpM29zhbhDDyaIE2HB1aMvZ0MygfmR5zFmyneK1V2v4mkYr5y9efYH?=
+ =?iso-8859-1?Q?N6mc7VGHkpw54fVivfFsFEcZU4tJheX8s/owVOTXPbHIUtxZHSmMiAO584?=
+ =?iso-8859-1?Q?07W8w0PifsqWP7p1F4q9H870m55eZcwitAR4NpghUm1qHAjABKKs3sWLV/?=
+ =?iso-8859-1?Q?WLbrD2aKbznd14pV3irMD2jl6g=3D=3D?=
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63fee9c3-1b1f-4509-4a59-08daf9c3cd8b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jan 2023 02:20:58.8430
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: HTfLdZ2esIRncGWFlVOlUO+neLEjMlFEpB6x+BFHChwnKdXiupwOlcKxYCIQ6DuDoPGrkOKfyQXgacu2IysOZLozvcvufGx/tO2dp5VnBFw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR04MB4305
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230118_164211_431691_58D78294 
-X-CRM114-Status: GOOD (  38.71  )
+X-CRM114-CacheID: sfid-20230118_182113_351239_8DDC17F4 
+X-CRM114-Status: GOOD (  19.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,78 +193,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jan 19, 2023 at 9:07 AM Keith Busch <kbusch@kernel.org> wrote:
->
-> On Wed, Jan 18, 2023 at 09:33:05AM -0700, Keith Busch wrote:
-> > On Wed, Jan 18, 2023 at 03:04:06PM +0000, Peter Maydell wrote:
-> > > On Tue, 17 Jan 2023 at 19:21, Guenter Roeck <linux@roeck-us.net> wrot=
-e:
-> > > > Anyway - any idea what to do to help figuring out what is happening=
- ?
-> > > > Add tracing support to pci interrupt handling, maybe ?
-> > >
-> > > For intermittent bugs, I like recording the QEMU session under
-> > > rr (using its chaos mode to provoke the failure if necessary) to
-> > > get a recording that I can debug and re-debug at leisure. Usually
-> > > you want to turn on/add tracing to help with this, and if the
-> > > failure doesn't hit early in bootup then you might need to
-> > > do a QEMU snapshot just before point-of-failure so you can
-> > > run rr only on the short snapshot-to-failure segment.
-> > >
-> > > https://translatedcode.wordpress.com/2015/05/30/tricks-for-debugging-=
-qemu-rr/
-> > > https://translatedcode.wordpress.com/2015/07/06/tricks-for-debugging-=
-qemu-savevm-snapshots/
-> > >
-> > > This gives you a debugging session from the QEMU side's perspective,
-> > > of course -- assuming you know what the hardware is supposed to do
-> > > you hopefully wind up with either "the guest software did X,Y,Z
-> > > and we incorrectly did A" or else "the guest software did X,Y,Z,
-> > > the spec says A is the right/a permitted thing but the guest got conf=
-used".
-> > > If it's the latter then you have to look at the guest as a separate
-> > > code analysis/debug problem.
-> >
-> > Here's what I got, though I'm way out of my depth here.
-> >
-> > It looks like Linux kernel's fasteoi for RISC-V's PLIC claims the
-> > interrupt after its first handling, which I think is expected. After
-> > claiming, QEMU masks the pending interrupt, lowering the level, though
-> > the device that raised it never deasserted.
->
-> I'm not sure if this is correct, but this is what I'm coming up with and
-> appears to fix the problem on my setup. The hardware that sets the
-> pending interrupt is going clear it, so I don't see why the interrupt
-> controller is automatically clearing it when the host claims it.
->
-> ---
-> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-> index c2dfacf028..f8f7af08dc 100644
-> --- a/hw/intc/sifive_plic.c
-> +++ b/hw/intc/sifive_plic.c
-> @@ -157,7 +157,6 @@ static uint64_t sifive_plic_read(void *opaque, hwaddr=
- addr, unsigned size)
->              uint32_t max_irq =3D sifive_plic_claimed(plic, addrid);
->
->              if (max_irq) {
-> -                sifive_plic_set_pending(plic, max_irq, false);
->                  sifive_plic_set_claimed(plic, max_irq, true);
->              }
->
+CC+: Mike, dm-devel,
 
-This change isn't correct. The PLIC spec
-(https://github.com/riscv/riscv-plic-spec/releases/download/1.0.0_rc5/riscv=
--plic-1.0.0_rc5.pdf)
-states:
+Hi Chaitanya, thanks for bringing this up! I definitely want to join and le=
+arn
+from the discussions. Here I note my comments about them.
 
-"""
-On receiving a claim message, the PLIC core will atomically determine
-the ID of the highest-priority pending interrupt for the target and
-then clear down the corresponding source=E2=80=99s IP bit
-"""
+On Jan 18, 2023 / 23:52, Chaitanya Kulkarni wrote:
+[...]
+> For storage track, I would like to propose a session dedicated to
+> blktests. It is a great opportunity for the storage developers to gather
+> and have a discussion about:-
+>=20
+> 1. Current status of the blktests framework.
 
-which is what we are doing here. We are clearing the pending interrupt
-inside the PLIC
+In the session, I can talk shortly about recent blktests improvements and
+failure cases.
 
-Alistair
+> 2. Any new/missing features that we want to add in the blktests.
+
+A feature I wish is to mark dangerous test cases which cause system crash, =
+in
+similar way as fstests does. I think they should be skipped by default not =
+to
+confuse new blktests users.
+
+I remember that dmesg logging was discussed at the last LSFMMBPF, but it is=
+ not
+yet implemented. It may worth revisit.
+
+> 3. Any new kernel features that could be used to make testing easier?
+> 4. DM/MD Testcases.
+
+I took a liberty to add Mike and dm-devel to CC. Recently, a patch was post=
+ed to
+add 'dm' test category [1]. I hope it will help DM/MD developers to add mor=
+e
+tests in the category. I would like to discuss if it is a good start, or if
+anything is missing in blktests to support DM/MD testing.
+
+[1] https://lore.kernel.org/linux-block/20221230065424.19998-1-yukuai1@huaw=
+eicloud.com/#t
+
+>=20
+> E.g. Implementing new features in the null_blk.c in order to have device
+> independent complete test coverage. (e.g. adding discard command for
+> null_blk or any other specific REQ_OP). Discussion about having any new
+> tracepoint events in the block layer.
+>=20
+> 4. Any new test cases/categories which are lacking in the blktests
+> framework.
+
+One thing in my mind is character device. From recent discussions [2][3], i=
+t
+looks worth adding some basic test cases for NVME character devices and SG
+devices.
+
+[2] https://lore.kernel.org/linux-block/20221221103441.3216600-1-mcgrof@ker=
+nel.org/
+[3] https://lore.kernel.org/linux-scsi/Y77J%2Fw0gf2nIDMd%2F@x1-carbon/
+
+--=20
+Shin'ichiro Kawasaki=
 
