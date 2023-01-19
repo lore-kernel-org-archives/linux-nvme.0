@@ -4,147 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A7EAC38159
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Jan 2023 23:52:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 329B8C38159
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Jan 2023 00:42:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:Message-ID:Date:Subject:CC:
-	To:From:Reply-To:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=jYuLILd2OSfCKrlKhCgBsBQTIdOgq+ZozYfbUB+P58Y=; b=heQapRlqRayfRfB9Gz9M1rwmH4
-	jT1o5eKF4N5g78poAHpzGyOl08y2SP9O1kt6h1E6f7Y2myegmDyjNucSfitVz6mlwSXxeLYPkwZKh
-	gH+nhCbAmzjEeTaNdXFPXeWurKEFaKHNlPVD31A9Ic18sO0i9YAJ4l2CAIqIxPFk4Z01oit3NqGB3
-	iZ6fKTbLzznUlKLteRPcd0ROcow41hjFOAPjrlPYyjU1hdw9fG8cPM88OB9900mpPdr/ZV5bTRP9E
-	09mIjmx+04Vcb3IiSDus0kU/mK5oHa3C/bdzZaMdj9C69En11ArElgqGlPUQMPtC34sTH+xVLpv6r
-	Dx65Ud+Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=os8ISr1qekJC2Kdy31xqUE3rwuUYjA10vSUZ0febqKY=; b=Ou5UJXHgxXnR99uaKGbmKoXwZy
+	qKfi9qq2WRG5GaqYgOwexscHTPfR8Pc7eucf6FVtLww4/1hEUWYAHiTzCtS5tIafC0z+vKcIbBXqR
+	gc/iqcSBcDwqjB/qMt5f9rO+spIovxhQRJ5AlIcdgiGVrdyujIFYme8QsLhB4pWCLz8lMDacXd3q0
+	6JBFAaZAxOaZX3LB1OVVHZZgodn7hutqCzmV1bJRXp6fKI8Afvs8Y0XiXO+GFWdMEO/9trJ0IigiO
+	4F2xdW7Yp7fKPJQLY+uZAtG0jV0zpFRv6CX0s6pekNSLpVaqrfZ8//RwjOtc3UpnXkrFVtP0FWjI+
+	qbH1puqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pIIEZ-002z2Q-GF; Wed, 18 Jan 2023 23:52:47 +0000
-Received: from mail-dm6nam11on2048.outbound.protection.outlook.com ([40.107.223.48] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+	id 1pIJ0Q-00345Y-R3; Thu, 19 Jan 2023 00:42:14 +0000
+Received: from mail-ua1-x92e.google.com ([2607:f8b0:4864:20::92e])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pIIEV-002z1w-HI
-	for linux-nvme@lists.infradead.org; Wed, 18 Jan 2023 23:52:46 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=buTdALoX2/crAAvH1Qdba5zhQa09TMTt7gi7QcBL+0D/XIAbsiMyRH8WbJwal+HyytMEMkDVW7hXYMFZHm4aiG3rwrwFEeoasOZVLPPmiyu6rLmSGjW1l+QNDOE3xXRGaAZ41ZlkawQplkSEyzUQJlJCAej7TNmnPqkNHH0eZBtd7Kycdr7PSGthEZGCNT3A+k5yql+p6s1wfk8/III91xT9076qRWWW2pnIUzBs2m3mi1vfL9uo2mn2Pw47IJIEwxHNVlPNKnKOMev66XT1Bgkw4FdRi8gkx7f0rc5upurNWVBUlcUxQ7QtHR/sf+kk40TVn0QtXpJxSu97h9jJhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jYuLILd2OSfCKrlKhCgBsBQTIdOgq+ZozYfbUB+P58Y=;
- b=gxTRRoip07ntsfzNXJNwADW0XxZG5OUUQ7mRnafQI94R+xIakEh22FiOSFjS6/QJZf8/5p+jr7r4CRaVAtvmEPKPGFeSwN79+kouiJ9iV2nCVYgT0mGePt7wFASy6bU33/Z0QnxZVc5NBoUgxofJo5OOQUd2qaI76KxKQgLRbVCG8I3Flk+M9ZCudJix+bVmZdpwq6K5dqWA+Svzt0oxsScXjDslOH90BKXuMbrNblce+VZ0gXk4DKLTXEisq64z+AXXS9YUJ6DDDz/vQCX3w75uKr3upcrUYKiCsVDyPVphXkyWYHzt9/yLN6wwm+bcM6NUrDVIyN112fAVH0+m1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jYuLILd2OSfCKrlKhCgBsBQTIdOgq+ZozYfbUB+P58Y=;
- b=ZwocqYRh5sgFyu8xjAXGM/SMFmXeLyN9r80ZP6F8MoX8UASEc7GM7zRCNN7Ha6ZBXnvWYlZGpK2IUEMhC6bPuDxnefzY6FfsPwJLUd/jGvLzAhyaNOeMPV2zD46hE/G/frlXcC+zCLgsnblHRIYHoPfHJKY5o6hGSLVuKv4/VV/V7m9Q9axe7iQFe1UwJTiz3YG4dU1ufZuQTBR10rWC0wz8qWMOl4n5Vt/whYHltHz6CLlORSPCJmTJELD7SbL2yFX1jfc1f1DS2xbjIhNNh9J2CXXzQejue3FEXow3sBMXGdJwNpnOeJ89kFd8T2c2SKg/6sxGXKCPBvp4Xp0Yiw==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by CY8PR12MB8412.namprd12.prod.outlook.com (2603:10b6:930:6f::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.13; Wed, 18 Jan
- 2023 23:52:39 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::b84c:b6e:dc0:8d7]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::b84c:b6e:dc0:8d7%2]) with mapi id 15.20.6002.024; Wed, 18 Jan 2023
- 23:52:38 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
-	"linux-fsdevel@vger.kernel.org >> linux-fsdevel"
-	<linux-fsdevel@vger.kernel.org>, "linux-scsi@vger.kernel.org"
-	<linux-scsi@vger.kernel.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>
-CC: Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>, Amir Goldstein
-	<amir73il@gmail.com>, =?utf-8?B?SmF2aWVyIEdvbnrDoWxleg==?=
-	<javier@javigon.com>, Dan Williams <dan.j.williams@intel.com>, Christoph
- Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, Hannes Reinecke
-	<hare@suse.de>, Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	"shinichiro.kawasaki@wdc.com" <shinichiro.kawasaki@wdc.com>, Johannes
- Thumshirn <Johannes.Thumshirn@wdc.com>, "jack@suse.com" <jack@suse.com>, Ming
- Lei <ming.lei@redhat.com>, Sagi Grimberg <sagi@grimberg.me>, Theodore Ts'o
-	<tytso@mit.edu>
-Subject: [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] : blktests: status, an
- expansion plan for the storage stack test framework
-Thread-Topic: [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] : blktests: status, an
- expansion plan for the storage stack test framework
-Thread-Index: AQHZK5fyQKUFtoPftkeiJLNotrztlw==
-Date: Wed, 18 Jan 2023 23:52:38 +0000
-Message-ID: <e24383ca-8ba8-3eb3-776c-047aba58173d@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|CY8PR12MB8412:EE_
-x-ms-office365-filtering-correlation-id: 61237885-2bca-4cef-d08f-08daf9af14af
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  LpAoFAqc3IE4ryqF2ky9neTp6ypBEJwRrWSbuOYqRlGGnuawyACpPw3V1USfTB9DStFSrtntzMGYz7LRL5ooF/9ZnxOzm0FG3QEUG7KQTgG82m7Vs9KPPzBNzqLbKBgCdFVF9s7fkR1obQruNWBiMBXkP8usItXyxm7XlrrxfupzdLvVWl4bKXyK2mk1tOPKiPniOCF5c7dZH81UaTVYv62sFW+s7wNRKR4oZrEvCrcLXa5HUddWnAnbf/pp2drbc4nfT3cf8r4tnkZZRkH/U1W2WO69dCs8OkXQ5en12ijezB4blyltidYSJeCFNOK69vFti73BTFQKf1UuN/Ly+K11MEYPl7CPUxRk2rkVTU7NaIPxqPfmsSMiQUHj19mebVP6dow3S8g+Nr1nPFzObvKfZUHeoE/pI+jBxs86Ms9IdibbYmoyP5TSzATQqyI4WF4dLnF1LvBJJHQ9WIZES+xhha5yCltyZNP2kTHh2VmCvX23KWYhqOWpQmYwjCz6TdNVe/a6X0X9SpMbnssFvVWeY7P+X5CcA4JOs+u3M0Ft0QeatL/vtm7zI0rKGsHMwlN7Dq7HVHha06gSCijn9l4HIjM0qUjY7+fSDF4zQULKINJSCuNQvqTMKerIb45FGbhNc9RExJ8AaJCI7LAFzFuS3Bq+96rwUJXUVJJfw7BRQ6SiMCPx9MVexRkmhTXpTFCE37PstTSkyFscllcWcTHzZtlAPWLC3yEUmRKWrT02TMMG8w99CTnug7Rm9+kC36ZVNfix5SbyNuPrb5Uc9MEAZZ8wf5sUMoKQrAAaqIByN2+iny2twd0QIgcOXA5xX93XenoIXkfdhLIA1nEW6Fynyjxurfy5dWa96E8HI5M=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(396003)(366004)(136003)(376002)(346002)(451199015)(36756003)(31686004)(8676002)(38070700005)(8936002)(76116006)(66946007)(66446008)(64756008)(66556008)(2906002)(31696002)(7416002)(86362001)(122000001)(83380400001)(38100700002)(5660300002)(91956017)(66476007)(54906003)(6486002)(71200400001)(316002)(966005)(110136005)(478600001)(4326008)(41300700001)(6506007)(2616005)(186003)(6512007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?RUNhVEUyRjJXaUxGRi9XR1BSTEhETE9rV2oyVVprUUNHUjVhQ05VVlFGQ1lH?=
- =?utf-8?B?azczVXRaV3dEUHlXd3JtZXZDdUxaYU1vTnZNMUVXNXIyZUlPck5RTGRGQzhn?=
- =?utf-8?B?Y25jVDlSTEVtOTFyOERHYlJBc3pzalV3Uk4ySDMxSFRBdVNRTzhYSWpFQkJE?=
- =?utf-8?B?TVJja1dtUXNaL3ZrS1QzQ0t5ZlhINGFhNWpGZ3RCQ3Z3bjE0aDV5WitkZlZG?=
- =?utf-8?B?OWpkUlBkNS9KclBzb1hlMVlab1ZSZWdQbkVlajM0R3NVNjZaanNBTmMrOGlP?=
- =?utf-8?B?YlJRTzlkb2hoMWZBUW1GbUxxU0dXSVorWUtTTkJVMUtORS9lTkdtSCtteFFk?=
- =?utf-8?B?aElBcnFTN3ZyUWhLT3JBQ3NvV25HbUhMM1RTamp2NlpFOXpyQTc1cVdjc0xY?=
- =?utf-8?B?MDY0d0c2ZjdRanZLZlVmUjk1bmR1bi9RTit4RWpBdDNuWkRVR0d1YUNtdzNP?=
- =?utf-8?B?ckJQVThFc3NYeWc4VXNwY1ZWV05PN1l6ZGRORjRkRE93b3ZiNGVXVnpKeW03?=
- =?utf-8?B?dkxGSGZEUDgrZXJhS1duM2IrMERtcHplKzVCZW1NclJ3dGpXbVg3b2RaWmxM?=
- =?utf-8?B?Z1poMzZscWk1UjR2UkRMWGdGNFpSeDFkTFZIOHh2eXhjTkRITkNhN1g3cGlv?=
- =?utf-8?B?UlNTODFDZXpENjJPNG1xaStyRWhzbWZrWjdIZCtNdkRzeWJRbDBXLy95ZXJF?=
- =?utf-8?B?b0FGZEVtNnBXS3EwemErcmtvTG9tRXlydUZvbzh0M0Z2OEtXYVByOXF1em5v?=
- =?utf-8?B?aWM4UktmUEtZN3UwRzMzY212amJkYTJLOFAvUHJNWEwyYldKU1VCNnEybHVE?=
- =?utf-8?B?WW5yNFh0VW00S1lCM21vZXdMQUREUCtHdGNpN0ZEVGpKT1kvRklIY0tCcXNF?=
- =?utf-8?B?SWZxNFN6ZUh2dE9oVWh6SFQ5OFZwMDFNMDNaZ1ZPcHkxdENsVDFkbTZZcXVx?=
- =?utf-8?B?amttQVJmS2tHMmVaNVJkM1R3TFRwdFhwR09NeW9sOGxBMUU3RnpabXUrNDU3?=
- =?utf-8?B?WG5YRkxIaTFEVVMzeUdmME1GL3BQSkVBRi9XeTFQL3BXOGVVRkU0QktTc0Yv?=
- =?utf-8?B?cDNLWCtHeGhseHlrMjBJYnhMT05RTkNOd0V6MWVBcnRXOFZrK29wTWZQcTJa?=
- =?utf-8?B?Vlljdll1Z2R4R1oydDdCQ01RSWJjTmd4WDN0cmgzVS9ZREdBWU4wbTVpOVdm?=
- =?utf-8?B?VzF2VmNCRDFBSzBDQjZLMmtDbHFvU3R5Z21kU2NicXNJWVlnNkZ3dHZFejdx?=
- =?utf-8?B?cWtmY3A5dDBhbTBobGVCK0swN2xWOWRjcTVkOCs0QWdQREJaUkhFU2x5TzQ3?=
- =?utf-8?B?bURXR0RrQzU0N0R2V2Y4L2VLaGNnUWJoRytPWGt0K3hqdUpXanJZTmthVkls?=
- =?utf-8?B?d3gyNmh1a1JSRW9pbWt3K2ZGOFpxUWZPZm1uM2NqWDROcGppR3JPVEJiTnA4?=
- =?utf-8?B?SXNLWVVsT0gzKzhWS3pDSTIzSWZ6U3BaSFlRd3Eydy9DMXI5V0VXOU1MQXFn?=
- =?utf-8?B?YjQ4RVUrZURRTklGOGJQUmQvZ2krSU5sQUd2NEJaMklydHZFT1RPRUdVeHFN?=
- =?utf-8?B?RjBST0FCMDIvODBaRmxzcnRpOHdTdEVmRGpXVkp3OVVyYUhzZzE1K2NZT2Jv?=
- =?utf-8?B?UEwrRDVxd0FPRk01dWNmalBmOUR5YVJoYWl1ZHcyd01ybzh6N01rWndBSE83?=
- =?utf-8?B?Ym5Vbk4vdjBoeDZtdTA2TGtMc1JjY2U4eURXTDl0YWZZdFNnQmRZWmZJK0Ny?=
- =?utf-8?B?UHpuL1QvNVZiS2ZER25ydmtrZzJ3NmtKYzhoZThLVTI5RkxObSs0VE9OUmlP?=
- =?utf-8?B?ZGpSWHB6Ny8zaEZ5ZXpGQm5KS0htVE1KS1drRktScVpxeDhRTC9SM1VQaFRx?=
- =?utf-8?B?YU5MNmVSTGpDamhKVENDOFRxSUdUeldmc01NRWZjaXZSeDRLZU16b3owMno2?=
- =?utf-8?B?d25FTzR3Q3NqeWFCb1NORUhqcHB0ZTZzTUhkMTROWjBobkVhUjVucGVZbUd0?=
- =?utf-8?B?cEtLR2NXVnR5RndNSXZubWRUSmdnVU9POGlEMXBidlBQUkdDNXNIQlNWd2FH?=
- =?utf-8?B?Q0N1OVNOL28yNFBkUDc4a1lpZ2k1NWxISUE2UmJrTmFVeW5xL2haei9UYThr?=
- =?utf-8?B?TFlxc2orYi9nNThWdlp4eEwxcUpKR1Y3bVNvSElEWEE2eDFoWlI4V1FSTzBT?=
- =?utf-8?B?b0E9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <33714CC63C24DB4C91F504C726C3B549@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	id 1pIJ0N-00344g-C4
+	for linux-nvme@lists.infradead.org; Thu, 19 Jan 2023 00:42:13 +0000
+Received: by mail-ua1-x92e.google.com with SMTP id u3so144727uae.0
+        for <linux-nvme@lists.infradead.org>; Wed, 18 Jan 2023 16:42:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=os8ISr1qekJC2Kdy31xqUE3rwuUYjA10vSUZ0febqKY=;
+        b=E0nsc45ogFDvyQBMJqIt8nMR72wcQ/qvJZ/34T19dV1/US79uTaDKbsdvqyBtRUAxm
+         T7ghRoNhrajyyPxOFSduoU8I+bzB1KZB7ciBh0aqFvNEx1DAhbuwLeA8r3N3fpyFLaVX
+         TUpeiVfQRAp/1glIPeQUEXZwQr99BVG5LDyAc+LG9C8Fjgy7NR1f/PWF0pgqse6Cu4Bk
+         pxNGkzgwv76FlPerzGNDHtXGf9vhIY2XqLDz89xah8rCwQ6uD3ZVudyO1t55+1LTh22y
+         a7RxTzn2Fr/ZOGZZ9gHRX0CmCbBHgd3dbU2QsCA40S0V7VaPcWpKcY8ZUz3K0HCLRq6I
+         oyXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=os8ISr1qekJC2Kdy31xqUE3rwuUYjA10vSUZ0febqKY=;
+        b=seUBEZNd8oG910iyPvQN7XJVK6629SDM6NhBBGZqiis+S7steddWm0td3vMgrkOIBS
+         fgOHA1/IyJ8PEOPX/UI2uTxwuQgHI8Ii4YZ9IsmEs6LStpMLN9UCJHh8fRPsywyly7Cx
+         qMp4AX94i1CQKgB++DOy1NqlchTUGcuHCA8VGMCbDlcOes+lFzOLipVLzP0o4XyE4wfa
+         TPBJ1H7cF4B8Gv8G1931Gpciy48qI3LWN+FEevOVWVPI/1UToO8x67cAulTlxpachH0N
+         hHuYSGZW7VmEAHfyu+Chdqrc1DyZX+iUqRuW/EARsRPanUZVA7pQwsHTsje5yCKVyK+6
+         S6MA==
+X-Gm-Message-State: AFqh2krtjbtmtJqQRJg2fZAVUyRZ2TLem3sLJiGXuCDhx7Wcambenl3j
+	z0xp+Suskpqhgb+ZMOTVX1ANTCoqO+RtdnUIgO0=
+X-Google-Smtp-Source: AMrXdXupiWHmErhf/AtP1UQ1VxxIcyiGHH227P3x4dyqKu23FG5DEBpEqzuV0ErADpRUCEOTDoiOqXLBazU8ceX3DXM=
+X-Received: by 2002:ab0:3b8d:0:b0:419:2865:3ae7 with SMTP id
+ p13-20020ab03b8d000000b0041928653ae7mr1072202uaw.70.1674088928508; Wed, 18
+ Jan 2023 16:42:08 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61237885-2bca-4cef-d08f-08daf9af14af
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jan 2023 23:52:38.7693
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KL09huuNo5460oMOaQTmHiLaPhjv0ELbBj0vy9/fmRCcB7bkye73Qe2HFyXijp4gbVrupgWv7adkgDQRpWZGAg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8412
+References: <Y8AG21o/9/3eUMIg@cormorant.local> <Y8W+H6T9DOZ08SoF@cormorant.local>
+ <Y8Yq5faCjAKzMa9O@kbusch-mbp> <20230117160933.GB3091262@roeck-us.net>
+ <CAFEAcA9pS7P=SvKsOtRHPtkrNAD8LF2ZpFJ870G3B-rhWYap4g@mail.gmail.com>
+ <20230117192115.GA2958104@roeck-us.net> <CAFEAcA_T8QqSg4SzszP+wR3pR1P1WTZg4f7mHHBGRw4UrTw+DQ@mail.gmail.com>
+ <Y8gfQXPYdHKd1v4I@kbusch-mbp> <Y8h7aOuVfCb+RsAP@kbusch-mbp>
+In-Reply-To: <Y8h7aOuVfCb+RsAP@kbusch-mbp>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 19 Jan 2023 10:41:42 +1000
+Message-ID: <CAKmqyKMHs_-RgagMDYE7vn3MHEP2caBc+RERjaK0DNJw4hFYiA@mail.gmail.com>
+Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
+To: Keith Busch <kbusch@kernel.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Klaus Jensen <its@irrelevant.dk>, Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, qemu-block@nongnu.org, 
+	qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230118_155244_150175_EBDDA7D0 
-X-CRM114-Status: GOOD (  14.87  )
+X-CRM114-CacheID: sfid-20230118_164211_431691_58D78294 
+X-CRM114-Status: GOOD (  38.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -159,49 +92,78 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-SGksDQoNClNpbmNlIGRpc2N1c3Npb24gb2YgdGhlIHN0b3JhZ2Ugc3RhY2sgYW5kIGRldmljZSBk
-cml2ZXIgYXQgdGhlDQpMU0ZNTSAyMDE3IChodHRwczovL2x3bi5uZXQvQXJ0aWNsZXMvNzE3Njk5
-LyksIE9tYXIgU2FuZG92YWwgaW50cm9kdWNlZCANCmEgbmV3IGZyYW1ld29yayAiYmxrdGVzdHMi
-IGRlZGljYXRlZCBmb3IgTGludXggS2VybmVsIEJsb2NrIGxheWVyDQp0ZXN0aW5nIHRoYXQgaXMg
-bWFpbnRhaW5lZCBieSBTaGluaWNoaXJvIEthd2FzYWtpIDotDQoNCmh0dHBzOi8vbHduLm5ldC9B
-cnRpY2xlcy83MjI3ODUvDQpodHRwczovL2dpdGh1Yi5jb20vb3NhbmRvdi9ibGt0ZXN0cw0KDQpB
-cyBMaW51eCBLZXJuZWwgQmxvY2sgbGF5ZXIgaXMgY2VudHJhbCB0byB0aGUgdmFyaW91cyBmaWxl
-IHN5c3RlbXMgYW5kDQp1bmRlcmx5aW5nIGxvdy1sZXZlbCBkZXZpY2UgZHJpdmVycyBpdCBpcyBp
-bXBvcnRhbnQgdG8gaGF2ZSBhIA0KY2VudHJhbGl6ZWQgdGVzdGluZyBmcmFtZXdvcmsgYW5kIG1h
-a2Ugc3VyZSBpdCBncm93cyB3aXRoIHRoZSBsYXRlc3QgDQpibG9jayBsYXllciBjaGFuZ2VzIHdo
-aWNoIGFyZSBiZWluZyBhZGRlZCBiYXNlZCBvbiB0aGUgZGlmZmVyZW50IGRldmljZSANCmZlYXR1
-cmVzIGZyb20gZGlmZmVyZW50IGRldmljZSB0eXBlcyAoZS5nLiBOVk1lIGRldmljZXMgd2l0aCBa
-b25lZA0KTmFtZXNwYWNlIHN1cHBvcnQpLg0KDQpTaW5jZSB0aGVuIGJsa3Rlc3RzIGhhcyBncm93
-biBhbmQgYmVjYW1lIGdvLXRvIGZyYW1ld29yayB3aGVyZSB3ZSBoYXZlDQppbnRlZ3JhdGVkIGRp
-ZmZlcmVudCBzdGFuZC1hbG9uZSB0ZXN0IHN1aXRlcyBsaWtlIFNSUC10ZXN0cywgTlZNRlRFU1RT
-LA0KTlZNZSBNdWx0aXBhdGggdGVzdHMsIHpvbmUgYmxvY2sgZGV2aWNlIHRlc3RzLCBpbnRvIG9u
-ZSBjZW50cmFsDQpmcmFtZXdvcmssIHdoaWNoIGhhcyBtYWRlIGFuIG92ZXJhbGwgYmxvY2sgbGF5
-ZXIgdGVzdGluZyBhbmQgZGV2ZWxvcG1lbnQNCm11Y2ggZWFzaWVyIHRoYW4gaGF2aW5nIHRvIGNv
-bmZpZ3VyZSBhbmQgZXhlY3V0ZSBkaWZmZXJlbnQgdGVzdCBjYXNlcw0KZm9yIGVhY2gga2VybmVs
-IHJlbGVhc2UgZm9yIGRpZmZlcmVudCBzdWJzeXN0ZW1zIHN1Y2ggYXMgRlMsIE5WTWUsIFpvbmUN
-CkJsb2NrIGRldmljZXMsIGV0YykuDQoNCkhlcmUgaXMgdGhlIGxpc3Qgb2YgdGhlIGV4aXN0aW5n
-IHRlc3QgY2F0ZWdvcmllczotDQogICAgIGJsb2NrICAgICAgICA6MjgNCiAgICAgIGxvb3AgICAg
-ICAgIDo4DQogICAgICBtZXRhICAgICAgICA6MTUNCiAgICAgICBuYmQgICAgICAgIDo0DQogICAg
-ICBudm1lICAgICAgICA6NDQNCm52bWVvZi1tcCAgICAgICAgOjkNCiAgICAgIHNjc2kgICAgICAg
-IDo2DQogICAgICAgc3JwICAgICAgICA6MTYNCiAgICAgICB6YmQgICAgICAgIDoxMA0KLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LQ0KOSBDYXRlZ29yaWVzICAgICA6MTQxIFRlc3RzDQoNClRoaXMgcHJvamVjdCBoYXMgZ2F0aGVy
-ZWQgbXVjaCBhdHRlbnRpb24gYW5kIHN0b3JhZ2Ugc3RhY2sgY29tbXVuaXR5IGlzDQphY3RpdmVs
-eSBwYXJ0aWNpcGF0aW5nIGFuZCBhZGRpbmcgbmV3IHRlc3QgY2FzZXMgd2l0aCBkaWZmZXJlbnQN
-CmNhdGVnb3JpZXMgdG8gdGhlIGZyYW1ld29yay4NCg0KU2luY2UgYWRkaXRpb24gb2YgdGhpcyBm
-cmFtZXdvcmsgd2UgYXJlIGNvbnNpc3RlbnRseSBmaW5kaW5nIGJ1Z3MNCnByb2FjdGl2ZWx5IHdp
-dGggdGhlIGhlbHAgb2YgYmxrdGVzdHMgdGVzdGNhc2VzLg0KDQpGb3Igc3RvcmFnZSB0cmFjaywg
-SSB3b3VsZCBsaWtlIHRvIHByb3Bvc2UgYSBzZXNzaW9uIGRlZGljYXRlZCB0bw0KYmxrdGVzdHMu
-IEl0IGlzIGEgZ3JlYXQgb3Bwb3J0dW5pdHkgZm9yIHRoZSBzdG9yYWdlIGRldmVsb3BlcnMgdG8g
-Z2F0aGVyDQphbmQgaGF2ZSBhIGRpc2N1c3Npb24gYWJvdXQ6LQ0KDQoxLiBDdXJyZW50IHN0YXR1
-cyBvZiB0aGUgYmxrdGVzdHMgZnJhbWV3b3JrLg0KMi4gQW55IG5ldy9taXNzaW5nIGZlYXR1cmVz
-IHRoYXQgd2Ugd2FudCB0byBhZGQgaW4gdGhlIGJsa3Rlc3RzLg0KMy4gQW55IG5ldyBrZXJuZWwg
-ZmVhdHVyZXMgdGhhdCBjb3VsZCBiZSB1c2VkIHRvIG1ha2UgdGVzdGluZyBlYXNpZXI/DQo0LiBE
-TS9NRCBUZXN0Y2FzZXMuDQoNCkUuZy4gSW1wbGVtZW50aW5nIG5ldyBmZWF0dXJlcyBpbiB0aGUg
-bnVsbF9ibGsuYyBpbiBvcmRlciB0byBoYXZlIGRldmljZQ0KaW5kZXBlbmRlbnQgY29tcGxldGUg
-dGVzdCBjb3ZlcmFnZS4gKGUuZy4gYWRkaW5nIGRpc2NhcmQgY29tbWFuZCBmb3INCm51bGxfYmxr
-IG9yIGFueSBvdGhlciBzcGVjaWZpYyBSRVFfT1ApLiBEaXNjdXNzaW9uIGFib3V0IGhhdmluZyBh
-bnkgbmV3DQp0cmFjZXBvaW50IGV2ZW50cyBpbiB0aGUgYmxvY2sgbGF5ZXIuDQoNCjQuIEFueSBu
-ZXcgdGVzdCBjYXNlcy9jYXRlZ29yaWVzIHdoaWNoIGFyZSBsYWNraW5nIGluIHRoZSBibGt0ZXN0
-cw0KZnJhbWV3b3JrLg0KDQotY2sNCg0K
+On Thu, Jan 19, 2023 at 9:07 AM Keith Busch <kbusch@kernel.org> wrote:
+>
+> On Wed, Jan 18, 2023 at 09:33:05AM -0700, Keith Busch wrote:
+> > On Wed, Jan 18, 2023 at 03:04:06PM +0000, Peter Maydell wrote:
+> > > On Tue, 17 Jan 2023 at 19:21, Guenter Roeck <linux@roeck-us.net> wrot=
+e:
+> > > > Anyway - any idea what to do to help figuring out what is happening=
+ ?
+> > > > Add tracing support to pci interrupt handling, maybe ?
+> > >
+> > > For intermittent bugs, I like recording the QEMU session under
+> > > rr (using its chaos mode to provoke the failure if necessary) to
+> > > get a recording that I can debug and re-debug at leisure. Usually
+> > > you want to turn on/add tracing to help with this, and if the
+> > > failure doesn't hit early in bootup then you might need to
+> > > do a QEMU snapshot just before point-of-failure so you can
+> > > run rr only on the short snapshot-to-failure segment.
+> > >
+> > > https://translatedcode.wordpress.com/2015/05/30/tricks-for-debugging-=
+qemu-rr/
+> > > https://translatedcode.wordpress.com/2015/07/06/tricks-for-debugging-=
+qemu-savevm-snapshots/
+> > >
+> > > This gives you a debugging session from the QEMU side's perspective,
+> > > of course -- assuming you know what the hardware is supposed to do
+> > > you hopefully wind up with either "the guest software did X,Y,Z
+> > > and we incorrectly did A" or else "the guest software did X,Y,Z,
+> > > the spec says A is the right/a permitted thing but the guest got conf=
+used".
+> > > If it's the latter then you have to look at the guest as a separate
+> > > code analysis/debug problem.
+> >
+> > Here's what I got, though I'm way out of my depth here.
+> >
+> > It looks like Linux kernel's fasteoi for RISC-V's PLIC claims the
+> > interrupt after its first handling, which I think is expected. After
+> > claiming, QEMU masks the pending interrupt, lowering the level, though
+> > the device that raised it never deasserted.
+>
+> I'm not sure if this is correct, but this is what I'm coming up with and
+> appears to fix the problem on my setup. The hardware that sets the
+> pending interrupt is going clear it, so I don't see why the interrupt
+> controller is automatically clearing it when the host claims it.
+>
+> ---
+> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+> index c2dfacf028..f8f7af08dc 100644
+> --- a/hw/intc/sifive_plic.c
+> +++ b/hw/intc/sifive_plic.c
+> @@ -157,7 +157,6 @@ static uint64_t sifive_plic_read(void *opaque, hwaddr=
+ addr, unsigned size)
+>              uint32_t max_irq =3D sifive_plic_claimed(plic, addrid);
+>
+>              if (max_irq) {
+> -                sifive_plic_set_pending(plic, max_irq, false);
+>                  sifive_plic_set_claimed(plic, max_irq, true);
+>              }
+>
+
+This change isn't correct. The PLIC spec
+(https://github.com/riscv/riscv-plic-spec/releases/download/1.0.0_rc5/riscv=
+-plic-1.0.0_rc5.pdf)
+states:
+
+"""
+On receiving a claim message, the PLIC core will atomically determine
+the ID of the highest-priority pending interrupt for the target and
+then clear down the corresponding source=E2=80=99s IP bit
+"""
+
+which is what we are doing here. We are clearing the pending interrupt
+inside the PLIC
+
+Alistair
 
