@@ -4,82 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2C84C05027
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Jan 2023 16:16:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2BB3C05027
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Jan 2023 17:18:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=G/R9KZW2ypRwSFYmNL3DdGEYqt1RnjYffMb7JhYlSXM=; b=ZaoeID9tb/Li0b7VGV4+P9HqHB
-	3mcZHd9Z+Juaia9juZ8yaMbL6QmwaTv1AtKle91AO5Pxw9zOJsfrvwJGyI1fIp5oz4Cfb95TLnyO/
-	1h9RuwewCj8wajgJcdOQrn1BQvTgZl9Dd1GHuhFlxPSvfQls2nsAezTLLu41oGZOAL4Gzapd4Oien
-	SqzAQ4RwCl5NnhVCOKVg3lkWz+yLG2kyBCAilpc8dmLdKpNrQqFrtzAoTdsFjN3Ekg4F+hjvEHdf5
-	5R1uSYF/rHXmubzmmgInIfE/HHf6I62h0uCmwphxwXDeNsacumpuUM/NMU29Jo24ZmBBIQF9oDBT6
-	NMbz3usg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=bh0nJjc0Uh8T5OlFvm2wDUJ4ehsRqq5hnIzvy71x1Js=; b=th0gwXwHKq25RiEPkFwLlIm+fZ
+	Mdui7lCMYnEEqcbMi6yLOPhuF5JEwHL/ysb4T9kYu7tWyW1zEvBArpBfmEKGCPq538ANYwM/L/48a
+	KNzwsTG4rEGAtAWHdiimKP5WSt9YehxSW9reL8YMBleUSSGBvIf8fY+kxtPTJskknzAnZQN87qFYv
+	qbF84SUSSmV7m3qe3JQJtbQt0J5mMAUwVId18lOzLu998HCrW7C9IPzxv0c10SDZ9tFePZuBWZDv/
+	sTaz4ilYQYONxYxUxt02EYpHvD4xwTmxN1fAmf0UhERtdEM9wPjJf7OjfV5o0gKXE75j1Jhxwsm12
+	Y0yjLldg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pIu3w-00BBbJ-66; Fri, 20 Jan 2023 16:16:20 +0000
-Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f])
+	id 1pIv1m-00BVbM-J9; Fri, 20 Jan 2023 17:18:10 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pIt15-00Av5C-Oj
-	for linux-nvme@lists.infradead.org; Fri, 20 Jan 2023 15:09:21 +0000
-Received: by mail-io1-xd2f.google.com with SMTP id s26so2552820ioa.11
-        for <linux-nvme@lists.infradead.org>; Fri, 20 Jan 2023 07:09:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=G/R9KZW2ypRwSFYmNL3DdGEYqt1RnjYffMb7JhYlSXM=;
-        b=UfMaYiIiaMMe9NQYNKdvlcBwHZjsGmkTJkAw2JgQxng/BX3fP7aJ+Z2hEhKuS9rvUs
-         57CvIFeWZYRAKV+EFOVGICIGM8syssDzylE9hvwO9FWsSSGYkv7nCDLss6GcNm2SK/eK
-         O36O7CWmUvYR29RB5c728FcWs6ikE0OZ8HnWgXqfPDgysK40Pk5XXa5edK5L3+f/V9ld
-         THbBqzyqJ625SoWFlP4QbH+wLAQ/tDGaA5yPc3wCMQl/rnQLHr1YMSiHsdNc6Yu+78l0
-         yWr+6vTRXY+UQdRwlrdpAA+rjA6CKpWvPH5APyLadwAuMVqQlN7Ziiv3f6pjGdl6jOag
-         ghTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G/R9KZW2ypRwSFYmNL3DdGEYqt1RnjYffMb7JhYlSXM=;
-        b=l7LvzJFWIVQ5qzMFg3NeuHpF1mIVj0BLd1lhPwM4zHdeWzz4uwRtgKLepSgXbVWYVa
-         mUcNawRFl7Iao5aH7+i5uhv3kWSGfLv3fEI+MbAB7v6EGVlWFbP0vA9Z4SppV+DNdMpX
-         O+qPtwMWUKdlGF8jVi9VO2uMWESYdW57sfUEbstzA/Q+C+cq1MjxJ+5Xa6zrEZzcFtCm
-         Gsv7FeyTGesPCszM6P5dzG1Zop5w7Yt6ZXlMVacbXcQyhCApn5livVPb09tVj4/Y6AiH
-         mrPI7C4zzH51IKW4SYY8OBrJ/9bxZS6AuMMWIMig7c0Qt+6XbOqrBsdJPbOTeAdjuhwu
-         CDrw==
-X-Gm-Message-State: AFqh2ko++nMd22YKj5a3IRXBOQqDCCdRIhEahhF1FAfw/xcZi+5ZEBf6
-	NpcogeI4Yq4oYYpX6mONAhUntg==
-X-Google-Smtp-Source: AMrXdXsQblyHcEqK/fT04ILN7rk3rYlA4Hz3TToRbe+MU5lipN5BkyBWLq5KUz0L4UNQ/vmjbYWIXA==
-X-Received: by 2002:a5d:9482:0:b0:6cc:8b29:9a73 with SMTP id v2-20020a5d9482000000b006cc8b299a73mr1897192ioj.1.1674227356776;
-        Fri, 20 Jan 2023 07:09:16 -0800 (PST)
-Received: from [192.168.1.94] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id i13-20020a0566022c8d00b00704d3db650bsm3050076iow.46.2023.01.20.07.09.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Jan 2023 07:09:16 -0800 (PST)
-Message-ID: <1cdd9e67-c62f-6c41-1308-5dab525e56e6@kernel.dk>
-Date: Fri, 20 Jan 2023 08:09:15 -0700
+	id 1pIv1Z-00BVMi-Ol
+	for linux-nvme@lists.infradead.org; Fri, 20 Jan 2023 17:18:04 +0000
+Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30KExbjk016078
+	for <linux-nvme@lists.infradead.org>; Fri, 20 Jan 2023 09:17:39 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=s2048-2021-q4;
+ bh=bh0nJjc0Uh8T5OlFvm2wDUJ4ehsRqq5hnIzvy71x1Js=;
+ b=UjNmG8/087osg7Z9+54A8mXweQjP2UEyLyPqFu0rq0QdFFA09b6hwP09kcLrde4DrCtQ
+ cS3FliRayVpeEmnPfcI33VFz2YDnDXQ+8E4FMun36yfXlu6WkA1BRpmgsUvZaEIrsqSb
+ HKT/6Anz4ZVp1b9H3EMbgymiMQTM7rSs+b1s5ZZhq7u8Sqm/8YZt0GLYx1dTrAfo2N3t
+ zqYNrkQ5DmDaoRVBtQ83FAyGI8/pZnRUk8naYnOK4zsVA0Yxe9k8elb0CvnAa//VuUG7
+ q8QQmZ5LImjJAd5nmQp4XAmBpq3nInrjsrfzhIRlfpzzHQ0k/XZJloT6Scdtwoc5Ak3j vg== 
+Received: from mail.thefacebook.com ([163.114.132.120])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3n6tvvm7hb-4
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Fri, 20 Jan 2023 09:17:39 -0800
+Received: from twshared21680.02.ash8.facebook.com (2620:10d:c085:208::11) by
+ mail.thefacebook.com (2620:10d:c085:11d::5) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Fri, 20 Jan 2023 09:17:36 -0800
+Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
+	id B7BE1F6C27B4; Fri, 20 Jan 2023 09:17:32 -0800 (PST)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>, <hch@lst.de>
+CC: <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+        Jens Axboe
+	<axboe@kernel.dk>
+Subject: [PATCH] nvme: mask CSE effects for security receive
+Date: Fri, 20 Jan 2023 09:17:31 -0800
+Message-ID: <20230120171731.652371-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [GIT PULL] nvme fixes for Linux 6.2
-Content-Language: en-US
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org
-References: <Y8osKhxLSgeKMrSj@infradead.org>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <Y8osKhxLSgeKMrSj@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: 5aNUuowNR7Ebb5hzvklcz_Sw4iJynOzJ
+X-Proofpoint-GUID: 5aNUuowNR7Ebb5hzvklcz_Sw4iJynOzJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-20_09,2023-01-20_01,2022-06-22_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230120_070919_840981_B466A02C 
-X-CRM114-Status: UNSURE (   9.63  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230120_091758_044775_5731E788 
+X-CRM114-Status: GOOD (  18.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,25 +82,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/19/23 10:52 PM, Christoph Hellwig wrote:
-> The following changes since commit 7746564793978fe2f43b18a302b22dca0ad3a0e8:
-> 
->   block: fix hctx checks for batch allocation (2023-01-17 09:56:52 -0700)
-> 
-> are available in the Git repository at:
-> 
->   ssh://git.infradead.org/var/lib/git/nvme.git tags/nvme-6.2-2023-01-20
+From: Keith Busch <kbusch@kernel.org>
 
-You really need to fix your script, I used:
+The nvme driver will freeze the IO queues in response to an admin
+command with CSE bits set. These bits notify the host that the command
+that's about to be executed needs to be done exclusively, hence the
+freeze.
 
-git://git.infradead.org/nvme
+The Security Receive command is often reported by multiple vendors with
+CSE bits set. The reason for this is that the result depends on the
+previous Security Send. This has nothing to do with IO queues, though,
+so the driver is taking an overly cautious response to seeing this
+passthrough command, while unable to fufill the intended admin queue
+action.
 
-as per usual (with that tag).
+Rather than freeze IO during this harmless command, mask off the
+effects. This freezing is observed to cause IO latency spikes when host
+software periodically validates the security state of the drives.
 
-Pulled, thanks.
+Cc: Jens Axboe <axboe@kernel.dk>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/core.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
--- 
-Jens Axboe
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d7d2c2b342ba4..1b10b27deb999 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3101,6 +3101,23 @@ static void nvme_init_known_nvm_effects(struct nvm=
+e_ctrl *ctrl)
+ 	log->acs[nvme_admin_sanitize_nvm] |=3D cpu_to_le32(NVME_CMD_EFFECTS_LBC=
+C |
+ 						NVME_CMD_EFFECTS_CSE_MASK);
+=20
++	/*
++	 * The spec says the result of a security receive command depends on
++	 * the previous security send command. As such, many vendors logs this
++	 * command as one to submitted only when no other commands to the same
++	 * namespace are outstanding. The intention is to tell the host to
++	 * prevent mixing security send and receive.
++	 *
++	 * This driver can only enforce such exclusive access against IO
++	 * queues, though. We are not readily able to enforce such a rule for
++	 * two commands to the admin queue, which is the only queue that
++	 * matters for this command.
++	 *
++	 * Rather than blindly freezing the IO queues for this effect that
++	 * doesn't even apply to IO, mask it off.
++	 */
++	log->acs[nvme_admin_security_recv] &=3D ~NVME_CMD_EFFECTS_CSE_MASK;
++
+ 	log->iocs[nvme_cmd_write] |=3D cpu_to_le32(NVME_CMD_EFFECTS_LBCC);
+ 	log->iocs[nvme_cmd_write_zeroes] |=3D cpu_to_le32(NVME_CMD_EFFECTS_LBCC=
+);
+ 	log->iocs[nvme_cmd_write_uncor] |=3D cpu_to_le32(NVME_CMD_EFFECTS_LBCC)=
+;
+--=20
+2.30.2
 
 
