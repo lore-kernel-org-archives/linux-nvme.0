@@ -4,68 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1430FC05027
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Jan 2023 19:52:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69C15C05027
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Jan 2023 21:42:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Subject:From:To:MIME-Version:Date:Message-ID:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=jSRSw4TNAYdfaCmLCC1d4r6gRVXm1kYXEl3NBf8MH2E=; b=j4RH/HTNjncJrgeHo6DNQ29xbx
-	tPo4dhLM3mh3joa9iRv2fpYtvNWulYUec7sIactj0CiKfH67grc8ZPTUj74h5iNua8QeG2qOxZ07J
-	hOKyKELTBCaJnq2VICUV101xxNJ1ndkDBZcjqXL078G1uAYIn9dA/11BJWy5X/0HjKFk+j2RhBGZq
-	SaWHyQfrNf7vBpa4gppwgdARzF16+eKLtHhKw9/BGPXu2OkbvBwP9y+MJsWUAXqUzC8JvBBlVPn4T
-	inMv+474ElmtIkklDH6FKVUaMtDzzeTdzkiIq5YhAXPmiaQPbm69z3exTiRYwynj/ay44Mko5APm0
-	81T7ts0g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=kNf3zXfOkcaUTRgVzaFf1lUCrh8pqGbP1uGqTNmoGBk=; b=TPLmsz631ykyJIgB+mlRh/TXix
+	rbHzxYHNHVixDL8Wey8pdXvTNlM/SZiaE60L7MM4m6C/hbPAM3N+rYK+2XaiYYA70ESbvym2jOUQr
+	lQRTsQ+W1KKOEHhn14pygpzAGw/nCTQInmkBVLiInSfhDVgRanOUjZWaXNDYQP+2HaqoRVFk3WrgB
+	EhESChlQv5Pqe47xhJKBK5qmb+lWPvGfvGoVSNV4hP1dLZW0ggRzYDI1FcumNt9s8fQGwkvSuZ+F+
+	siA69kw3hFHipKi69FK/3+2G+5sinsS7h73CS0D8g9DhKTNwDL7JXO65GWjp9YUFZIqm9xUagM/Re
+	ONLwsBtQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pIxR5-00C92X-EY; Fri, 20 Jan 2023 19:52:27 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1pIz9c-00CQxS-Ks; Fri, 20 Jan 2023 21:42:32 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pIxR2-00C91A-1s
-	for linux-nvme@lists.infradead.org; Fri, 20 Jan 2023 19:52:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674244341;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=jSRSw4TNAYdfaCmLCC1d4r6gRVXm1kYXEl3NBf8MH2E=;
-	b=NBv40Grr5egjcFQXpuImSGXdszfYAKVAIX5UAZbpCApZ0PdbkJbn2nJcnpe3NzEsAsB7BA
-	tuC44NphuhuEfq4r/RS3+Oei/3br+QtdgIh3sRzv0gJ9kjnRKvs9ijUqxeFW3ApCz2w4qd
-	8qN/HH98KA22mjgaYOh2szo5ZxdmRMw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-300-zUMcG67GPNCBaDy-HQqhDA-1; Fri, 20 Jan 2023 14:50:47 -0500
-X-MC-Unique: zUMcG67GPNCBaDy-HQqhDA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	id 1pIz9a-00CQwy-0N
+	for linux-nvme@lists.infradead.org; Fri, 20 Jan 2023 21:42:31 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BB9FA38173D8
-	for <linux-nvme@lists.infradead.org>; Fri, 20 Jan 2023 19:50:46 +0000 (UTC)
-Received: from [10.22.16.22] (unknown [10.22.16.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 9BF772026D68;
-	Fri, 20 Jan 2023 19:50:46 +0000 (UTC)
-Message-ID: <472fe309-f0f9-65bf-1ad1-8a92a349e973@redhat.com>
-Date: Fri, 20 Jan 2023 14:50:46 -0500
+	by ams.source.kernel.org (Postfix) with ESMTPS id E472DB82A67;
+	Fri, 20 Jan 2023 21:42:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54521C433D2;
+	Fri, 20 Jan 2023 21:42:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1674250946;
+	bh=fVNSkKoESPcvgGRk+AdBUaQokIOwJ+lbnnJOPqHaszo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hmi0DjjxvXG5OggJ5PdVJRdoAG86I1kLQWTq5TfsOdNaEx9NiGJMl56S79HM+kKnA
+	 105dd3896bm5Whv211D+VP9VWf+2iiL4upxwHZOOjEqUT3gwixm4OXtDzSSWkQIBSG
+	 /OLjlJlzLgYYR1N04AHuynwEJr1H+AhKs0ZoTpGWrLPeOd4tCi89PgobSTAboPJd4l
+	 JcL2OZrvAqKQyhEzDyEZDDJPKeQA4LAf/mh/Lu7w7nvvjywYyUIgfPiZZDSFwzgYR0
+	 Xv6VHvVbbbQwbnxZ4ufcV0r49+5Xw5M79UGMIGC7OEKHwc+a2rofbLgY401YUZCCtp
+	 RjK9Jk46H5lug==
+Date: Fri, 20 Jan 2023 14:42:23 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: John Meneghini <jmeneghi@redhat.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: nvme/pcie hot plug results in /dev name change
+Message-ID: <Y8sKv7q+UEbz5ddD@kbusch-mbp.dhcp.thefacebook.com>
+References: <472fe309-f0f9-65bf-1ad1-8a92a349e973@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-From: John Meneghini <jmeneghi@redhat.com>
-Subject: nvme/pcie hot plug results in /dev name change
-Organization: RHEL Core Storge Team
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <472fe309-f0f9-65bf-1ad1-8a92a349e973@redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230120_115224_219113_0DD32179 
-X-CRM114-Status: UNSURE (   8.23  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230120_134230_227388_6F97D5E1 
+X-CRM114-Status: GOOD (  15.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,23 +70,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We have a customer complaining that when they hot unplug/plug their nvme-pci device the device name changes.
+On Fri, Jan 20, 2023 at 02:50:46PM -0500, John Meneghini wrote:
+> We have a customer complaining that when they hot unplug/plug their nvme-pci device the device name changes.
+> 
+> For example, when they hot remove /dev/nvme1n1 physically, then reinsert it, it gets identified as /dev/nvme4n1.
+> 
+> IIRC there is nothing about nvme_init_ctrl that guarantees the ctrl->instance will be the same because
+> ida_alloc() will only return the next free id in the bitmap.
+> 
+> The fact that nvme_remove ->  nvme_init_ctrl many times results in the same
+> ctrl->instance is just a happen stance and there is nothing that guarantees
+> /dev name consistency in Linux. Especially in the case of hot unplug/plug
+> where the controller may very well be marked NVME_CTRL_DEAD due to the
+> ungraceful disconnect.
 
-For example, when they hot remove /dev/nvme1n1 physically, then reinsert it, it gets identified as /dev/nvme4n1.
-
-IIRC there is nothing about nvme_init_ctrl that guarantees the ctrl->instance will be the same because
-ida_alloc() will only return the next free id in the bitmap.
-
-The fact that nvme_remove ->  nvme_init_ctrl many times results in the same ctrl->instance is just a happen stance and there is 
-nothing that guarantees /dev name consistency in Linux. Especially in the case of hot unplug/plug where the controller may very 
-well be marked NVME_CTRL_DEAD due to the ungraceful disconnect.
-
-True?
-
--- 
-John A. Meneghini
-Senior Principal Platform Storage Engineer
-RHEL SST - Platform Storage Group
-jmeneghi@redhat.com
-
+That is correct. We don't know the identity of the device at the point
+we have to assign it an instance number, so the hot added one will just
+get the first available unique number. If you need a consistent name, we
+have the persistent naming rules that should create those links in
+/dev/disk/by-id/.
 
