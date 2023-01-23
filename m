@@ -4,66 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5C96C25B50
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Jan 2023 18:54:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5619C54EAA
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Jan 2023 22:33:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GP56SpQ1hC5f27gfh1Otv3MB261WrSyhft64HOD07yw=; b=1Lxiql9JFm80B0+5s3WJhozYX/
-	oZxDnE4g8nIRFINR9n8CuU/8Ny3nUNg2biIETjZ1lhfEh79vo5jgGCt1YyBrrHCDSSwY/FwhcR+uo
-	47i9mkcEbn7lIw9L9GU5kU5CSKDNVF42jKRMeqIAFnr+zWk/L+HTIVPNPIodbxC+xlMTLaYI48+dg
-	ezsCYYOlN+ateVYxCua3itBVyhXPkm9jrxbUaHK4vSfc5rf6nrxs1OaF9K8Msz+GenFKQ1OYqabN2
-	AbExBfthd4GPu6eEhE/LkKd2aW9RIZaajvHbUAU0rJWVEnw4E2fi04bfPrSKmBQaW6SsWEsaqVhXG
-	J3kMlJFQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3gwL+6PjAZ565HqhC72kb/Vc812ULcX6FAQUsIH90B4=; b=Dd4CGau81XFc5kZgK6tzgFu/HU
+	KpNf9PNIGfbnJxhcbLnX2F+hKT04y/YkPXZnVQcl5ovJkcJ/zHZBDyMQdYospuyDt7X6dM/gp4jA0
+	9PWblZgcTfzzwXXcIAHBzGVnFIus/HaBDvr9rWng3iipUJm4vWxcA80CmTGVApN3uJLjspVMeSYFP
+	9ikYA/njGCLUzzkO5hoi7QemV9MW+lMsphnFupjTuQV50cXZMl8pNs0OxMXjIJriBuin7ycsL4t//
+	h8nKvCqbe0u+QVJenHsgLVqzE0ITam55qsYAGua/pGEaeYgVVYPjlf4QwvhS9iMh3k9bNl0EXH28M
+	/DEaNXZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pK1xF-0014Qj-TI; Mon, 23 Jan 2023 18:54:05 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1pK5N7-001izj-Q3; Mon, 23 Jan 2023 22:33:01 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pK1xD-0014Pw-Ot
-	for linux-nvme@lists.infradead.org; Mon, 23 Jan 2023 18:54:04 +0000
+	id 1pK5N4-001izC-JQ
+	for linux-nvme@lists.infradead.org; Mon, 23 Jan 2023 22:32:59 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 571B86100C;
-	Mon, 23 Jan 2023 18:54:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58F26C433EF;
-	Mon, 23 Jan 2023 18:54:02 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id ED6696116E;
+	Mon, 23 Jan 2023 22:32:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46D6AC433D2;
+	Mon, 23 Jan 2023 22:32:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1674500042;
-	bh=CR3WLrmcF2kOWP+0iveujpgoavEgQyWezC/MjX/AohA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k62/pcOD/n5iOH2gL1PRAFaynp30hAraCBwLlYXzav/ASAO6979G0jJc9ARj5/LFs
-	 jRnQFZgdGI8xwK8JiYogg8RLfTtQb4Y/w53x+bePPz7j2Qe4Bzgx43AUGS0+/RDcYz
-	 WvAguliRqrZxzmJdi0lu56NdMMLtHT6Tfe6x0km9mm8jjFqRTNLH+4ILR+kJ2Fl+KO
-	 BUbE/RoKM9CgsZyvf3oNeKdqwj1L6k7VUgNacegnb6qZR9lSYBew25zAHIX5co8Cyd
-	 EXD+MtgQyCYPSsAs3mwEC2PqRc1EBxr0/4nAhrB0IRnkmXch7+4TsOvpy1FIeVz/yh
-	 UHVJ5lrthyD3w==
-Date: Mon, 23 Jan 2023 11:53:59 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, Keith Busch <kbusch@meta.com>,
-	linux-nvme@lists.infradead.org, sagi@grimberg.me
-Subject: Re: [PATCHv2] nvme: always initialize known command effects
-Message-ID: <Y87XxynP+NdShj++@kbusch-mbp.dhcp.thefacebook.com>
-References: <CGME20230119164739epcas5p17673bc9fb1b91d7c85561af220a230eb@epcas5p1.samsung.com>
- <20230119164128.2159217-1-kbusch@meta.com>
- <20230123102431.GA11000@green5>
- <Y8617zOJDMka7J0h@kbusch-mbp.dhcp.thefacebook.com>
- <20230123163536.GA7699@lst.de>
- <20230123163819.GA8009@lst.de>
- <Y87HFanyksHLp7BO@kbusch-mbp.dhcp.thefacebook.com>
- <20230123180219.GB13872@lst.de>
+	s=k20201202; t=1674513177;
+	bh=ce3Fi87oaRT9h+fNOdiAr/ICmhsILZ9XDh7dtWnGVwQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=jlXmLEiKJE1xHRWHjjmK+s9aPtkgvvj/s51G4/BZDzF2eIbGaf7U9xsbP3zI81UoP
+	 pORcl0HEMxDZM9INaStz8qmyFCysBscs6WaUqJIw583RtzqHv9uAp+8GCvWlFu3OXc
+	 kV3pmP+4rshC/wS3H7OKeYfrNnvTtxo0kS/QQi+2LbhcrZFghydH7fh9ATsWNP+EzG
+	 TBzoljJ0sgT7nRACi31PEjKXhWi2r4fAwu/JTLxZnMwLXC6C98J8vjhhVOLvK93tGL
+	 5JmxbM4VIkd0y+MvIr81V7EtkYO49tNuPI7vMc6G7rFf3XjOW+xAmBDj651qQytarw
+	 e9WyxFDdnVpag==
+Date: Mon, 23 Jan 2023 14:32:56 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Aurelien Aptel <aaptel@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
+ sagi@grimberg.me, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
+ chaitanyak@nvidia.com, davem@davemloft.net, aurelien.aptel@gmail.com,
+ smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
+ yorayz@nvidia.com, borisp@nvidia.com
+Subject: Re: [PATCH v9 02/25] net/ethtool: add new stringset
+ ETH_SS_ULP_DDP_{CAPS,STATS}
+Message-ID: <20230123143256.0666646d@kernel.org>
+In-Reply-To: <253r0vlrtld.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
+References: <20230117153535.1945554-1-aaptel@nvidia.com>
+	<20230117153535.1945554-3-aaptel@nvidia.com>
+	<20230119183646.0c85ac52@kernel.org>
+	<253r0vlrtld.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230123180219.GB13872@lst.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230123_105403_859944_F9C0A297 
-X-CRM114-Status: GOOD (  12.08  )
+X-CRM114-CacheID: sfid-20230123_143258_704144_D3CDAB86 
+X-CRM114-Status: GOOD (  12.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,13 +78,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jan 23, 2023 at 07:02:19PM +0100, Christoph Hellwig wrote:
-> On Mon, Jan 23, 2023 at 10:42:45AM -0700, Keith Busch wrote:
-> > xarray lookups are pretty slow in comparison, though. This is in a fast
-> > path now, so I think we need to keep caching it.
+On Mon, 23 Jan 2023 20:31:10 +0200 Aurelien Aptel wrote:
+> Jakub Kicinski <kuba@kernel.org> writes:
+> > This should be in uAPI and used as attribute IDs.  
 > 
-> Is it?
+> Following the discussion from [1] ("you can add the dynamic string set
+> if you like.") we deliberately did not expose the enum to userspace so
+> that ethtool doesn't have to be updated or recompiled to list newer
+> kernel ULP DDP statistics.
+> 
+> Should we change this approach?
+> 
+> 1: https://lore.kernel.org/netdev/20230111204644.040d0a9d@kernel.org/
 
-No, I was mistaken. I was thinking of uring_cmd for fast path, but that
-doesn't go through here.
+Not at all, but the names are really mostly for human consumption.
+If any programmer wants to use the stats (and assuming they use C/C++)
+it will be more convenient for them to use attribute ids from the enum.
+Without having to resolve them using stat names.
+
+This is how other stats are implemented in ethtool-netlink.
 
