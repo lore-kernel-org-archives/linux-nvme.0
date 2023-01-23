@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71345C38142
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Jan 2023 16:36:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F082C54EED
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Jan 2023 16:36:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6S0AQsWZnAN6xNeEuUvA6GlycA7qJa4b7HtGNu7mjSo=; b=tNMQt49T5YCyyNgBxa6ydFNfPe
-	6cSnjjAdmo3gEFnNMRWv1zz/j5J6fpSkJXrd5gUD8ljdKRKR2xhN9qTHricDxtu6GRtc7gLJTbXwS
-	2enzKxve3FxQtQuY1QWzIX8RCwpkyb0o6mNIC0iA5Bik2X+TsTYbOLkFg2v0bSQdua6IG/CkLMLUj
-	oLFfbEz42xeobQX0L+GEeQ2fw/bdzriAiTkdLYcIfZGVIXnWHsIcjNFN2ASDFYaZh/1LC28qsORD6
-	szacCaT+3l9EVD/nszLpLuvZFxyvSA+1WuBnLVSGltYlpwjETMBRp6B08jeCd58V+ANnNDix1pLU7
-	dFJ/g2oA==;
+	bh=8yb5acfsm0t8FtlXyeAEb2+6Isyjlh/8JbGX1Mf5rOY=; b=mQENvggMTCFkCPubptfwZKRMCh
+	pUEkD+uTgE88eALnK8ZcVPfhWzj7LXkMkSKcHTzDiawVKtW57/KUGUBH+zvLQ+FhsRU6q5bmaExLP
+	hSB3msrwrX1FQWu9dNOL8JYmi8nUUrqk8BFlHxU2JUuTCvCaHTGiHZWMi4otAPCBG4xLuhow8v+Md
+	OdpUzB+waV16UPvbQXles5KBrnC8a2hAxXcFzNpjaV7+x7L48kl77LbjHGQgMOgC4jV2vJb/C+x0x
+	mfrC+FGNiaLb/8OX4uK5nTIc9LZbryU8yflbGXP0vvFWMN3htapPAz295qoKwSFYQCHRI1/hKpGnI
+	OOS1OAUQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pJznY-000aVq-Ur; Mon, 23 Jan 2023 16:35:56 +0000
+	id 1pJznu-000afl-Dm; Mon, 23 Jan 2023 16:36:18 +0000
 Received: from ams.source.kernel.org ([145.40.68.75])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pJzhW-000Y13-AV
-	for linux-nvme@lists.infradead.org; Mon, 23 Jan 2023 16:29:43 +0000
+	id 1pJzkq-000ZQC-6K
+	for linux-nvme@lists.infradead.org; Mon, 23 Jan 2023 16:33:09 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id B8B1FB80E19;
-	Mon, 23 Jan 2023 16:29:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1079C433EF;
-	Mon, 23 Jan 2023 16:29:37 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTPS id B29CFB80DD6;
+	Mon, 23 Jan 2023 16:33:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04276C433D2;
+	Mon, 23 Jan 2023 16:33:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1674491378;
-	bh=v2c+eOnt0hzKVuZFfB8MNf1AKeo2YUXNRO8RQgUg+X4=;
+	s=k20201202; t=1674491585;
+	bh=5s076Gn5DaBOZUkNAMXnP+jtz0GoOCT5ZFZLWbSw96A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Yf23+Dps+xKmAsSNUkNj4zFROjM0N3m0J2Fxikc+mFE39Zk/ykwgq13BoUbnZ7Vp4
-	 yEp+3KuL/LfTkgOK88ggF705V5qpez8Y2stDTG5H4E96WbEELvn2igNkHfqMbV6aqX
-	 7YFP7PjanVwkDFGRQaKsma8qJDJVUbm8Fb+UopOsAav79/aRADhWPwp5MsLolcoW9r
-	 Qc9XO5CkTL8TUpJsKBID7hPZcKfDnki1ToeJYVVLfne3rDvX32Kkl+hc+cn/N6RNgK
-	 QKI+uWyoch+sfwDU58Iomta6zSVEOVaX1iti8EEQGXreA3THSd2+FLUP9z2qH9Ktwk
-	 Xzv6Keo2ajbLA==
-Date: Mon, 23 Jan 2023 09:29:35 -0700
+	b=PwRvHzwt0vNCKIpM4hdlfhdeM9l6xNR1359WS+H372WOdPWmBMn7uJIrDNVoMSb1G
+	 8JUk/5Q6tZEj9IYPOcRrObmDyxzsspZkJxMjBRWbDHRzik3P8j4jlhsE6rOkRLyLRJ
+	 e08v7LQAdG01nS44WDfDIi29onYP3L78zdGiveS1a0KsW48lOuzc59jHzHZkwOab5u
+	 KVwGc66yC42Z2WKjAjl12+3EI7OBsKyLbsJ4aW4/w4ei/QbzqitY+3qcOnSKO0WvSp
+	 +Km0y7S7nCLe8wRMKAhS5+QaNHz2xJuheyPCm2LDr9oqU9YQwjbLv24EuyvLvVrPiE
+	 eK+ayg4BKEs7Q==
+Date: Mon, 23 Jan 2023 09:33:02 -0700
 From: Keith Busch <kbusch@kernel.org>
 To: Kanchan Joshi <joshi.k@samsung.com>
 Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
 	hch@lst.de, sagi@grimberg.me
 Subject: Re: [PATCHv2] nvme: always initialize known command effects
-Message-ID: <Y8617zOJDMka7J0h@kbusch-mbp.dhcp.thefacebook.com>
+Message-ID: <Y862vnYpoi12OfaL@kbusch-mbp.dhcp.thefacebook.com>
 References: <CGME20230119164739epcas5p17673bc9fb1b91d7c85561af220a230eb@epcas5p1.samsung.com>
  <20230119164128.2159217-1-kbusch@meta.com>
  <20230123102431.GA11000@green5>
@@ -57,8 +57,8 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20230123102431.GA11000@green5>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230123_082942_540869_6F507AF0 
-X-CRM114-Status: GOOD (  12.32  )
+X-CRM114-CacheID: sfid-20230123_083308_438851_2FF26FFF 
+X-CRM114-Status: GOOD (  13.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,14 +75,21 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On Mon, Jan 23, 2023 at 03:54:31PM +0530, Kanchan Joshi wrote:
 > On Thu, Jan 19, 2023 at 08:41:28AM -0800, Keith Busch wrote:
+> > +	if (ctrl->effects)
+> > +		return 0;
+> > +
+> > +	if (id->lpa & NVME_CTRL_LPA_CMD_EFFECTS_LOG) {
+> > +		ret = nvme_get_effects_log(ctrl, NVME_CSI_NVM, &ctrl->effects);
+> > +		if (ret < 0)
+> > +			return ret;
+> > +	}
+> > +
 > > +	if (!ctrl->effects) {
 > > +		ctrl->effects = kzalloc(sizeof(*ctrl->effects), GFP_KERNEL);
 > 
 > ctrl->effects is not getting freed if controller does not support the
 > commands-supported-and-effects log page?
 
-Right. If the controller doesn't support it, the driver will make one up
-with some sane defaults. The point of this patch is that we don't want
-to re-construct the defaults for each passthrough command so we need to
-store the defaults somewhere.
+Or maybe you meant that it's never freed *ever* since it's not in the
+"cels" structure? Oops, that is indeed a leak... 
 
