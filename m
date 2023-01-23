@@ -4,37 +4,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55153C54EAA
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Jan 2023 16:51:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7563AC54E94
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Jan 2023 16:51:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=r2hgrkPgfB3GRsCK3NmF2r7zO75FK/ebcJiITpxQa4w=; b=LxqO4YKL3EO9agtsrDoPabN/u2
-	RvPO7VP0uA8VeXXmr7tfYRt66Fhu3apqaOCcqaWKWWfSTni4kPGVEqWYlqC2sfSSZw10H5230S7dI
-	uARQLTV9/hcvqh52oFPW0/brtwfYgWw5BrYTTIKXaZcfttx0OCXcCup7nviJ+E0qHRzccC4rBgac2
-	jDMmBM4iq4sQudXpNuKVldhoXpEdh/t/0XBaYtv6spk5gtNZ+RTafGxtjhU2pE51ns3J7z43d93Jg
-	3HMpu+eJW4BTMX7hdzTa/WE0IqcrXAR3fdtKDuNMPLnkMHQbzlqSQRZ1UYqkQFjvz/rt5DMJ4f1Jm
-	pbOGECIA==;
+	bh=r2hgrkPgfB3GRsCK3NmF2r7zO75FK/ebcJiITpxQa4w=; b=F5qyuaF4civTi+e+U7AvF+Mky4
+	eWOy7g01YVoH8EhDl7sBFMq9grVbvFSxaDBDGxYx4wAKkdsBphyT5rvA6nZuLBq55SvCSyemBcfCL
+	ZdiP0dJ71snjo85xUt0UShE/E5fT37Rafy1ZirCMvId6+b2wo9j1XKUGZgSwH2uZmc15XNW6/ARCy
+	lD1hJmXyOnJj53PJ4AmlXg65SsJ6UrIgrJzOnNx1R048DELwuoShrEWxqvXMBCd0Z3hXbVf/yCOqO
+	fzUgqDRfqXuE9qpF5M2rhl1tLopJyfhHHQ8rbUv3/ARYxR8AiQiyw/TQupYULUuJKgRr2zCD+1huv
+	RpUVySQQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pK02H-000h68-B6; Mon, 23 Jan 2023 16:51:09 +0000
+	id 1pK02V-000hDT-Uj; Mon, 23 Jan 2023 16:51:23 +0000
 Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pJzxQ-000f0U-0B; Mon, 23 Jan 2023 16:46:08 +0000
-Date: Mon, 23 Jan 2023 08:46:07 -0800
+	id 1pJzxc-000f6Z-Dx; Mon, 23 Jan 2023 16:46:20 +0000
+Date: Mon, 23 Jan 2023 08:46:20 -0800
 From: Christoph Hellwig <hch@infradead.org>
 To: amit.engel@dell.com
 Cc: sagi@grimberg.me, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 0/2] improve nvme error logging
-Message-ID: <Y865zzj0v+U+VEHx@infradead.org>
-References: <1670855159-3182917-3-git-send-email-amit.engel@dell.com>
- <1670874036-3222795-1-git-send-email-amit.engel@dell.com>
+Subject: Re: [PATCH] nvmet: for nvme admin set_features cmd, call
+ nvmet_check_data_len_lte()
+Message-ID: <Y8653OZILgic8rqW@infradead.org>
+References: <1672821872-3193931-1-git-send-email-amit.engel@dell.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1670874036-3222795-1-git-send-email-amit.engel@dell.com>
+In-Reply-To: <1672821872-3193931-1-git-send-email-amit.engel@dell.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -52,5 +52,4 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 Thanks,
 
 applied to nvme-6.3.
-
 
