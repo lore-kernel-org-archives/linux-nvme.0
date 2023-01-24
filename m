@@ -4,66 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8AE5C05027
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Jan 2023 22:38:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3F23C25B50
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Jan 2023 00:46:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lP9I4rq9lkWo4d2r28Gg6Jt6K7baRs9ZxHVRFURDONM=; b=Y2InJiF6Mt6ef5B2Xp0BotOq7D
-	l7Kg4PqwLmGe+CIquP/IQAg7Vx1kRDR3j+o8pTor61WAD9OzZRLm4V+XcDWY7n95yAiEi0RXwdsQt
-	eDUGf5gQ939DNbYbgJ1S8dJDfpVwrNimsXsADfKDsEofOfj72DQkZH+qnu9L4tKv6H1xbYJBW26yU
-	o3V669xC3KPCgxs6MR5mW3ej4Avwf7WDidlldyR8knWfvl6cd2OHPRd2XlsMkmVwAw31WxajARaf+
-	t+w5yeTGXtG+sp8WCKiJ7rtrioHmUodLH+85LMaDZGiU7hPk54S7skAYEdCs5bVawuzLZ99rQtvHu
-	w/irg/Fg==;
+	Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=npwpQy/HVI20kutjln5Lf2b88ckv+Ow8Vy3KUkf6Gug=; b=WszE5c8gsJ2/UQIu1qPU3JXBYO
+	Lkbm93i9Cd+ByAvQMHgAXDfUKkneO/Ni+FRU4o39KkvTFcmf2cxiU3LrBibvAdj1WB973DhEt1+3p
+	u2umttZ3yAQL5WdTBhQn5HV5EDuwv4sHjGLneonfsxv5G7YDLau88pIMs49PrXeZ5iMewCnnCbFf6
+	GkwgVYAJKgoZT4CzLjJEXDJYZz5xnYNKUTI8Qtyx35SCScxy3IAErinoL9UY+CB1j5JvaM3Ihxutv
+	2mJtdJO6k/G5LtinA5eef2L7DaB1Nb3WJQxLnt9lQ653Te87A7VQaFIoG5cLEid9+aBGtSZb5vSSd
+	AXDYBozg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pK5SW-001jPZ-IU; Mon, 23 Jan 2023 22:38:36 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1pK7Rl-001xRQ-Rj; Tue, 24 Jan 2023 00:45:57 +0000
+Received: from mga02.intel.com ([134.134.136.20])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pK5ST-001jP8-6H
-	for linux-nvme@lists.infradead.org; Mon, 23 Jan 2023 22:38:34 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 894F9610A3;
-	Mon, 23 Jan 2023 22:38:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 710B2C433EF;
-	Mon, 23 Jan 2023 22:38:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1674513512;
-	bh=zGtsi96lKIA7mIcdj4tHfh4gGANDLkW8j/WXHuUEWyw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=kz8uzRcVDUesZYyCHWc1CPgcJPxMNPO+tIByn8ErJeDzRe4umA/GnW3gegeC6SVKw
-	 A3s4acWl4vAFGccu3s2rXbfRwn9jaffLNby5sqwDlW/gVSEKE3XAUkJCr7gkd3R8fT
-	 oedXzAjw77FJPO2YJfHbEXfM2/Z3UqoUncn2SBDsM8C333QHzAq/qiS1ZXc3WrZ2mG
-	 K9M7dBG5f1xFjWAC+CvhRVxa+1w2iBk5CjyWJC8etcp5JLOdGk3CZ1GfGfA+s8IdZt
-	 P7Ihtm39Gd8QEmOB4PMDnS2PYPIklVak8w2lFDTaxa27UIKs5qFxqHawk0EvTDhKY6
-	 genWhqbBiW0yA==
-Date: Mon, 23 Jan 2023 14:38:30 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Aurelien Aptel <aaptel@nvidia.com>
-Cc: linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
- sagi@grimberg.me, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
- chaitanyak@nvidia.com, davem@davemloft.net, aurelien.aptel@gmail.com,
- smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
- yorayz@nvidia.com, borisp@nvidia.com
-Subject: Re: [PATCH v9 03/25] net/ethtool: add ULP_DDP_{GET,SET} operations
- for caps and stats
-Message-ID: <20230123143830.60f436ef@kernel.org>
-In-Reply-To: <253o7qprtcq.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
-References: <20230117153535.1945554-1-aaptel@nvidia.com>
-	<20230117153535.1945554-4-aaptel@nvidia.com>
-	<20230119184147.161a8ff4@kernel.org>
-	<253o7qprtcq.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
+	id 1pK7Rj-001xQE-5p
+	for linux-nvme@lists.infradead.org; Tue, 24 Jan 2023 00:45:56 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674521155; x=1706057155;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/wzLkEnAqdDrA9q6+UgWLb7nmAJz6Hrh36W9SoY5p20=;
+  b=bNvL4tGGdTPs6lBCmIOcZWkpFysqNzQNuuIsUtyiC7i0R661OivCU5Gu
+   Hct3FnLXcBBBD4Z9ngMA/nQIHHKq0s53pI2iademKI12oVRuowYX3o1fW
+   5WE0ATwtz9LB2NEYdZn8TRThFxn+ODPVz+pjbydBTTzY7E5xnrd6YAd0D
+   aNkHahb8Vg6dGnyq8gDUETBqOuujlQy11e2gMG70ba8LFhzLPByKrcyM6
+   neAAnb5epCfOnUOWgn2K/lgfM7dpu79B1mmHzL+MGVsefKwNxs9lL4ZI7
+   iu6PhitctbYLtDLM79p19Lx26CEir3tCaUpiEThPQb4I2WdXuC+vX4HlM
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="314101092"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
+   d="scan'208";a="314101092"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 16:45:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="611855604"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
+   d="scan'208";a="611855604"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
+  by orsmga003.jf.intel.com with SMTP; 23 Jan 2023 16:45:43 -0800
+Received: by stinkbox (sSMTP sendmail emulation); Tue, 24 Jan 2023 02:45:42 +0200
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-nvme@lists.infradead.org,
+	Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Gerd Bayer <gbayer@linux.ibm.com>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Jens Axboe <axboe@fb.com>,
+	=?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+Subject: [PATCH] nvme-pci: Switch back to sync probe to fix rootfs mount regression
+Date: Tue, 24 Jan 2023 02:45:42 +0200
+Message-Id: <20230124004542.29659-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230123_143833_316705_0E46DBCB 
-X-CRM114-Status: GOOD (  21.34  )
+X-CRM114-CacheID: sfid-20230123_164555_312388_548669BC 
+X-CRM114-Status: GOOD (  16.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,50 +84,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, 23 Jan 2023 20:36:21 +0200 Aurelien Aptel wrote:
-> >> Compact statistics are nested as follows:
-> >>
-> >>     STATS (nest)
-> >>         COUNT (u32)
-> >>         COMPACT_VALUES (array of u64)  
-> >
-> > That's not how other per-cmd stats work, why are you inventing
-> > new ways..  
-> 
-> As we commented in patch 2, dynamic strings are used for ethtool
-> forward-compability (being able to list future stats, which we are
-> planning) without updating or recompiling.
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-But this is not how they should be carried.
+Async probe caused a regression where we fail to find the
+rootfs in time, leading an unbootable machine.
 
-The string set is retrieved by a separate command, then you request
-a string based on the attribute ID (global_stringset() + get_string() 
-in ethtool CLI code).
+rootdelay=1 can be used as a workaround but that needlessly
+slows down the boot by a whole extra second.
 
-That way long running code or code dumping muliple interfaces can load
-strings once and dumps are kept smaller.
+To get the best of both worlds perhaps there should be
+some kind of async probe flush/sync just before attempting
+to mount the rootfs?
 
-> >> +     int     (*get_ulp_ddp_stats)(struct net_device *dev, struct ethtool_ulp_ddp_stats *stats);
-> >> +     int     (*set_ulp_ddp_capabilities)(struct net_device *dev, unsigned long *bits);  
-> >
-> > Why are these two callbacks not in struct ulp_ddp_dev_ops?  
-> 
-> We were trying to implement these callbacks in alignment with the
-> existing ethtool commands, for this reason we implemented it in the
-> ethtool API.
+In the meantime just switch back to a sync probe to fix
+the regression.
 
-ethtool commands mostly talk to HW, note that the feature configuration
-(ethtool -k/-K) does not use ethtool ops either.
+Cc: linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>
+Cc: Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Gerd Bayer <gbayer@linux.ibm.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>
+Cc: Jens Axboe <axboe@fb.com>
+Fixes: eac3ef262941 ("nvme-pci: split the initial probe from the rest path")
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+---
+ drivers/nvme/host/pci.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-> > Why does the ethtool API not expose limits?  
-> 
-> Originally, and before we started adding the netlink interface, we were
-> not planning to include the ability to modify the limits as part of this
-> series.  We do agree that it now makes sense, but we will add, some
-> limits reflect hardware limitations while other could be tweaked by
-> users.  Those limits will be per-device and per-protocol. We will
-> suggest how to design it.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 1ff8843bc4b3..d0f5e93d977e 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3514,7 +3514,6 @@ static struct pci_driver nvme_driver = {
+ 	.remove		= nvme_remove,
+ 	.shutdown	= nvme_shutdown,
+ 	.driver		= {
+-		.probe_type	= PROBE_PREFER_ASYNCHRONOUS,
+ #ifdef CONFIG_PM_SLEEP
+ 		.pm		= &nvme_dev_pm_ops,
+ #endif
+-- 
+2.39.1
 
-Alright, I was mostly curious, it's not a requirement for initial
-support.
 
