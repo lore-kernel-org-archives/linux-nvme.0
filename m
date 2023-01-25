@@ -4,81 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7D86C54EED
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jan 2023 18:40:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8BE52C27C76
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jan 2023 18:50:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aCu8FnWNXWV4RbQkbxOlEMF0nG9yZm5AzOji7i+P+HM=; b=Y2FlMIi+YbFIKsgfaiEkGhT77d
-	Pi8OcL714CCC3dOe+0J8oWPFI4u/plVr5T4jD144NBP34jQdHS/Yh5BhV6FmYu054/sfb+VTGlrjx
-	mLomz0P9qhIntSzkDdAz3R0HGDu6/6V1g3Qf2/AynbLrlqNOo7D6j2rWon9UqlfxN23i8HV4qRSFj
-	1SO5E9ZNa+UHpLsx+jFtKhcIfxhI9YmUSA1H6s6iHWRG97XpoiZ/nsPPAKdSR0NDWZx8m9Sb07Mtk
-	7urGzd88XsKv8ROpSDxEWu7rMcfw3xqWZgWWhltSXy2TtBAGGcG97uFB/wQyAmWFSCw6knJK88chr
-	RRIphHrw==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=m4wgDIW/eGuUYwqhMzgnbxPkAtDQk87+f75rKjSVPV0=; b=eIIzHR38QLEaqclGnneLvLvJ7o
+	SJHuBduoLDRlY+L13he0z7aGSHAtLLQiXHW/bTxVsnz6AjSal67aVdI0dx6nqT4YUbI/s2NYAV60A
+	/mqYS5NQPmmXpbWhb6Oa9Kokbr2cJ8D3Xyl1QL62JZWtdZzv7ZzgRDTXpsoycQOaW51wVUe3NuvGf
+	68R+xMgghXVb9sxft6FwnPTkvKOBO2oDYDNUA3nKr9Zx5ssom3UdiBWDNHEvUMjFLLqoNW56hCqiy
+	F5ifnFgbYi6EkEsZJqx55FWE6Kt4WOsQDuX+Jy8IQf6xXS0H7H23rtCK3Ke4L/lW1edSHoGgideLj
+	04LH/7WQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pKkhX-008MNP-M4; Wed, 25 Jan 2023 18:40:51 +0000
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+	id 1pKkqv-008NzZ-RT; Wed, 25 Jan 2023 18:50:33 +0000
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pKkhV-008MMf-5b
-	for linux-nvme@lists.infradead.org; Wed, 25 Jan 2023 18:40:50 +0000
-Received: by mail-pj1-x102a.google.com with SMTP id y3-20020a17090a390300b00229add7bb36so2978335pjb.4
-        for <linux-nvme@lists.infradead.org>; Wed, 25 Jan 2023 10:40:44 -0800 (PST)
+	id 1pKkqt-008NyH-2j
+	for linux-nvme@lists.infradead.org; Wed, 25 Jan 2023 18:50:32 +0000
+Received: by mail-pl1-x635.google.com with SMTP id jm10so18703582plb.13
+        for <linux-nvme@lists.infradead.org>; Wed, 25 Jan 2023 10:50:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=aCu8FnWNXWV4RbQkbxOlEMF0nG9yZm5AzOji7i+P+HM=;
-        b=RE0ChkX8D2HECzF3pbsI+R9nRWGXRK0dW9UH2ZH4mGGqwF3TOOM8zrtzCsqL/EzbQz
-         u/PleP+OKLgSLjDtLIBrSY756U4+HK+kGcKfp3tVzK9wPXBCFz6jKPVZA1Bye3FXtDCW
-         QxtNu9sqPRU/W/ZZqQMvOAI1ETjOSFAQ9suIBL2XzdvD0trWphj6ah+aCpQk/Gvfkr0j
-         oH6M709nDAv2vSVLW3Ff0tBoWr3MTqsgP+8MWN55VGw39VttdHl5ti0bYNhJwbUfSbQU
-         smxdOwqyn8zLXY/O0P1dj+YvrzZayC3KIN0EtUmhOQsTp6W8SDZ1FBaxD1Mbic4IZcoi
-         idCw==
+        bh=m4wgDIW/eGuUYwqhMzgnbxPkAtDQk87+f75rKjSVPV0=;
+        b=E2BxWv69dJybm6CluEOps/hlSnYM8kGqxhM5aQQFmluLDgLJvMnLscolFHOlPup4nI
+         h+R2Ov1OPQHcCeU4gYLvxlGyexquyceWvaOQU3oivMte/EthKD5bblM0y4mI+jCQSaD7
+         29e47HIHZfpqLQ41YSZY9XidI87rX8zpFDOlNrHcuml3SnF+Go6fKoKMiwP90MCyPj6D
+         yNWpAA4U8bt50vEWcc+su4SkwbFwUldv34jiggfsUkLvN8z12I+hYN3VeIMoa3q5YBe6
+         gFCTGa+m/ld4c3vbL/9cvmFCcTUBYENS0kBSGIldlF8JrtHWBhJHwmvgC9cl0WBqocVZ
+         3zrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aCu8FnWNXWV4RbQkbxOlEMF0nG9yZm5AzOji7i+P+HM=;
-        b=LB7+i+BbT5oibYOgJktnyM07krxX9f0zQOvJ20pACVPrgXvQ6PQFAZnc78iN/m3Vws
-         NW5Ch5w3XhzpWtY5x8r8VcbqupELmMPrs0rns4Y0u4TnTkQIeXOW59ZIuI9SFtSunXG6
-         k7LbiIWfGMEAVroCZAmuqq+PMeEQf8TRyaIHi0mq+Qputyuxokmo0EghIn+IJ2tQzvHb
-         E41daS7DhvDKBrx8QDPAPVXr+Cef4/76wHCSQa4KxR3t83xbMXYrlNi6v4J3pWfuNLsD
-         W7xVGIlTeZtNvsh/j0qJrU8KehPg3wy3xRtkbbMuKx7O+CRCQ4zRWB7yhup7sttvF3ge
-         w4dQ==
-X-Gm-Message-State: AFqh2krGkDV6+S2vUc1Kt0GV5zC+eGLZEIlbz8g7JOeOigGzRQ0DYN9z
-	Imbq2yydDtjEfXZMUyk8LNA=
-X-Google-Smtp-Source: AMrXdXui9SivYMz78h7nPDEJBWZ+o8+dCjlv4RtpMIS5cfdyH0FlRjhB8Lg5bepkYOKT6k9e0g/JIg==
-X-Received: by 2002:a05:6a20:8e05:b0:af:ae14:9ecb with SMTP id y5-20020a056a208e0500b000afae149ecbmr51515309pzj.17.1674672043681;
-        Wed, 25 Jan 2023 10:40:43 -0800 (PST)
+        bh=m4wgDIW/eGuUYwqhMzgnbxPkAtDQk87+f75rKjSVPV0=;
+        b=UeQ7tZolU0Aj1xt+d7oSV4wDm2HLFSUDk7+UwmCM5ORNrnG9NZ3pa0PyF3+NtkKqXi
+         /NtqNSaykGkVOjlvCESHKLvYqtwxozeXTkrf7uNjmZMcONTYjavc33HLH9ieAnsAq0r3
+         g70ZzIfqYmgbNw4LCP1hGYQc8SRSRKrE+40het/nS+kDwClSbpLRl6+TY0A5rOP3yXMl
+         xKAs5I4t50wxHJw2nGDCo0FFM7TtjzeMvGY32mLa1c4wny5SoMpoIu6IMHjH2oInIVl4
+         TIDCytSjcgroEH4+FCDj8QwLCtUAIcyEhJB3qgLhCaU/4DvHLdJYzSjDuc2FAnCz2ik6
+         aqTA==
+X-Gm-Message-State: AO0yUKXaM+LLPC/A7prKZgPNkiQWfJbrXtqN1pDYtnLLS/Ne9cZlPsUL
+	pXbR7XMnSuxvdyMfG81tjlA=
+X-Google-Smtp-Source: AK7set+Pdj6YAWdVwosN3kYQ7e4PtDO0EQbBSKdq0JjK1rDtN6JPPkNQN/t/14OMvcOFmODGm2vJ6Q==
+X-Received: by 2002:a17:903:111:b0:196:37db:b4c8 with SMTP id y17-20020a170903011100b0019637dbb4c8mr813619plc.29.1674672627426;
+        Wed, 25 Jan 2023 10:50:27 -0800 (PST)
 Received: from [10.69.46.142] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id w1-20020aa79541000000b00580fb018e4bsm3900129pfq.211.2023.01.25.10.40.42
+        by smtp.gmail.com with ESMTPSA id jl13-20020a170903134d00b0019117164732sm3970960plb.213.2023.01.25.10.50.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Jan 2023 10:40:43 -0800 (PST)
-Message-ID: <c8275d9c-0490-d4eb-e20c-3faac5d74293@gmail.com>
-Date: Wed, 25 Jan 2023 10:40:41 -0800
+        Wed, 25 Jan 2023 10:50:26 -0800 (PST)
+Message-ID: <bc26f850-6d3f-5927-0af7-b3649354c479@gmail.com>
+Date: Wed, 25 Jan 2023 10:50:25 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH] nvme-fc: Fix initialization order
-To: Ross Lagerwall <ross.lagerwall@citrix.com>, linux-nvme@lists.infradead.org
-Cc: James Smart <james.smart@broadcom.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, stable@vger.kernel.org
-References: <20230120174354.3437046-1-ross.lagerwall@citrix.com>
+Subject: Re: [PATCH] fc: add a missing release get taken in
+ nvmet_fc_alloc_target_assoc
 Content-Language: en-US
+To: amit.engel@dell.com, sagi@grimberg.me, linux-nvme@lists.infradead.org
+References: <1674477448-2455014-1-git-send-email-amit.engel@dell.com>
 From: James Smart <jsmart2021@gmail.com>
-In-Reply-To: <20230120174354.3437046-1-ross.lagerwall@citrix.com>
+In-Reply-To: <1674477448-2455014-1-git-send-email-amit.engel@dell.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230125_104049_254654_EF5E5DE4 
-X-CRM114-Status: GOOD (  17.37  )
+X-CRM114-CacheID: sfid-20230125_105031_148572_77DD9C91 
+X-CRM114-Status: GOOD (  16.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,66 +91,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/20/2023 9:43 AM, Ross Lagerwall wrote:
-> ctrl->ops is used by nvme_alloc_admin_tag_set() but set by
-> nvme_init_ctrl() so reorder the calls to avoid a NULL pointer
-> dereference.
+On 1/23/2023 4:37 AM, amit.engel@dell.com wrote:
+> From: Amit Engel <Amit.Engel@dell.com>
 > 
-> Fixes: 6dfba1c09c10 ("nvme-fc: use the tagset alloc/free helpers")
-> Signed-off-by: Ross Lagerwall <ross.lagerwall@citrix.com>
-> Cc: stable@vger.kernel.org
+> As part of nvmet_fc_ls_create_association there is a case where
+> nvmet_fc_alloc_target_queue fails right after a new
+> association with admin queue is created.
+> In this case, no one releases the get taken in nvmet_fc_alloc_target_assoc
+> This fix is adding the missing get release
+> 
+> Signed-off-by: Amit Engel <Amit.Engel@dell.com>
 > ---
->   drivers/nvme/host/fc.c | 18 ++++++++----------
->   1 file changed, 8 insertions(+), 10 deletions(-)
+>   drivers/nvme/target/fc.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index 4564f16a0b20..456ee42a6133 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -3521,13 +3521,6 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+> diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+> index ab2627e17bb9..1ab6601fdd5c 100644
+> --- a/drivers/nvme/target/fc.c
+> +++ b/drivers/nvme/target/fc.c
+> @@ -1685,8 +1685,10 @@ nvmet_fc_ls_create_association(struct nvmet_fc_tgtport *tgtport,
+>   		else {
+>   			queue = nvmet_fc_alloc_target_queue(iod->assoc, 0,
+>   					be16_to_cpu(rqst->assoc_cmd.sqsize));
+> -			if (!queue)
+> +			if (!queue) {
+>   				ret = VERR_QUEUE_ALLOC_FAIL;
+> +				nvmet_fc_tgt_a_put(iod->assoc);
+> +			}
+>   		}
+>   	}
 >   
->   	nvme_fc_init_queue(ctrl, 0);
->   
-> -	ret = nvme_alloc_admin_tag_set(&ctrl->ctrl, &ctrl->admin_tag_set,
-> -			&nvme_fc_admin_mq_ops,
-> -			struct_size((struct nvme_fcp_op_w_sgl *)NULL, priv,
-> -				    ctrl->lport->ops->fcprqst_priv_sz));
-> -	if (ret)
-> -		goto out_free_queues;
-> -
->   	/*
->   	 * Would have been nice to init io queues tag set as well.
->   	 * However, we require interaction from the controller
-> @@ -3537,10 +3530,17 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
->   
->   	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_fc_ctrl_ops, 0);
->   	if (ret)
-> -		goto out_cleanup_tagset;
-> +		goto out_free_queues;
->   
->   	/* at this point, teardown path changes to ref counting on nvme ctrl */
->   
-> +	ret = nvme_alloc_admin_tag_set(&ctrl->ctrl, &ctrl->admin_tag_set,
-> +			&nvme_fc_admin_mq_ops,
-> +			struct_size((struct nvme_fcp_op_w_sgl *)NULL, priv,
-> +				    ctrl->lport->ops->fcprqst_priv_sz));
-> +	if (ret)
-> +		goto fail_ctrl;
-> +
->   	spin_lock_irqsave(&rport->lock, flags);
->   	list_add_tail(&ctrl->ctrl_list, &rport->ctrl_list);
->   	spin_unlock_irqrestore(&rport->lock, flags);
-> @@ -3592,8 +3592,6 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
->   
->   	return ERR_PTR(-EIO);
->   
-> -out_cleanup_tagset:
-> -	nvme_remove_admin_tag_set(&ctrl->ctrl);
->   out_free_queues:
->   	kfree(ctrl->queues);
->   out_free_ida:
 
-Yep. Thanks
+looks good
 
 Reviewed-by: James Smart <jsmart2021@gmail.com>
 
