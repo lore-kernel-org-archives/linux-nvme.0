@@ -4,72 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75A65C54E94
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jan 2023 18:11:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7D86C54EED
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jan 2023 18:40:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=golsx8hCLO+i/GVnvmiue6JOKB/cCBraHBUxkUaORzA=; b=G8HXebCLNUOfox7/heRcdZUmiJ
-	iDnBCgqQQQ2Iti+FHxhAXtnuifJReHfRIBpkC9vMNOButWaUjUchw5n8tcJj+sZQmQ7zojdFMKcGU
-	53KKrh2z0gaheVzbXstPh8QFz/gRT02YrCIFEF+iXGHnjGjW+aPdZz/u5pEYMouDCPg5O9Ym1EDzy
-	XyUuBZk/bC2vsQN5tHzUirX5qDDfguRFkVIxyMtP3v+tYt5QPiAIphTFatK25E164qT8PPh6ianNu
-	8H8W5Gt84BXL23cdpN9xruHuc8miSxAuHAGp+lt33p5AsT9QQmu+MM3BWeWEKje341o71Ve8yDBCl
-	+vY9x4yA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=aCu8FnWNXWV4RbQkbxOlEMF0nG9yZm5AzOji7i+P+HM=; b=Y2FlMIi+YbFIKsgfaiEkGhT77d
+	Pi8OcL714CCC3dOe+0J8oWPFI4u/plVr5T4jD144NBP34jQdHS/Yh5BhV6FmYu054/sfb+VTGlrjx
+	mLomz0P9qhIntSzkDdAz3R0HGDu6/6V1g3Qf2/AynbLrlqNOo7D6j2rWon9UqlfxN23i8HV4qRSFj
+	1SO5E9ZNa+UHpLsx+jFtKhcIfxhI9YmUSA1H6s6iHWRG97XpoiZ/nsPPAKdSR0NDWZx8m9Sb07Mtk
+	7urGzd88XsKv8ROpSDxEWu7rMcfw3xqWZgWWhltSXy2TtBAGGcG97uFB/wQyAmWFSCw6knJK88chr
+	RRIphHrw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pKkFP-008Idm-L3; Wed, 25 Jan 2023 18:11:47 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1pKkhX-008MNP-M4; Wed, 25 Jan 2023 18:40:51 +0000
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pKkFM-008Ic1-04
-	for linux-nvme@lists.infradead.org; Wed, 25 Jan 2023 18:11:45 +0000
-Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30PGQ9Er019509
-	for <linux-nvme@lists.infradead.org>; Wed, 25 Jan 2023 10:11:43 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=s2048-2021-q4;
- bh=golsx8hCLO+i/GVnvmiue6JOKB/cCBraHBUxkUaORzA=;
- b=NNokPKn2Yq9qC7Zb9AWjaC8zb42RxEg2plJkAGzQDUC+U7kolwq1Ch4ah9uty+Feo0xI
- Kuzj7F3iPcCeEBsNZFT/Csb3H38pxBTKql1UYYJyOh14m4/PVXHPHpR/y7yXVL68d3+m
- FXMcmn5yTC7Qm1lGBxDZE9KmH2KOu4iDcUkNeENOtn4v+K83rmIpAlmICEq8C/Nda5vk
- e8hckWEjl4d61HjcGWIJUpmIRNBhScHiWjEe3pWD3BV+63kIVe+XzXEa1KZxexWjfve9
- hq2rIlETj1geRxNToU2VK0SMXSRUiexUkS6ywnocdGQOsqnOiS5PGo6v4SGAxri2zUeM Hw== 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3najv1qkym-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Wed, 25 Jan 2023 10:11:43 -0800
-Received: from twshared9608.03.ash7.facebook.com (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:82::f) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Wed, 25 Jan 2023 10:11:42 -0800
-Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id DA603FD0E9A1; Wed, 25 Jan 2023 10:11:26 -0800 (PST)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>, <hch@list.de>
-CC: <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-        Jens Axboe
-	<axboe@kernel.dk>
-Subject: [PATCHv3 2/2] nvme: mask CSE effects for security receive
-Date: Wed, 25 Jan 2023 10:11:24 -0800
-Message-ID: <20230125181124.395668-3-kbusch@meta.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230125181124.395668-1-kbusch@meta.com>
-References: <20230125181124.395668-1-kbusch@meta.com>
+	id 1pKkhV-008MMf-5b
+	for linux-nvme@lists.infradead.org; Wed, 25 Jan 2023 18:40:50 +0000
+Received: by mail-pj1-x102a.google.com with SMTP id y3-20020a17090a390300b00229add7bb36so2978335pjb.4
+        for <linux-nvme@lists.infradead.org>; Wed, 25 Jan 2023 10:40:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aCu8FnWNXWV4RbQkbxOlEMF0nG9yZm5AzOji7i+P+HM=;
+        b=RE0ChkX8D2HECzF3pbsI+R9nRWGXRK0dW9UH2ZH4mGGqwF3TOOM8zrtzCsqL/EzbQz
+         u/PleP+OKLgSLjDtLIBrSY756U4+HK+kGcKfp3tVzK9wPXBCFz6jKPVZA1Bye3FXtDCW
+         QxtNu9sqPRU/W/ZZqQMvOAI1ETjOSFAQ9suIBL2XzdvD0trWphj6ah+aCpQk/Gvfkr0j
+         oH6M709nDAv2vSVLW3Ff0tBoWr3MTqsgP+8MWN55VGw39VttdHl5ti0bYNhJwbUfSbQU
+         smxdOwqyn8zLXY/O0P1dj+YvrzZayC3KIN0EtUmhOQsTp6W8SDZ1FBaxD1Mbic4IZcoi
+         idCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aCu8FnWNXWV4RbQkbxOlEMF0nG9yZm5AzOji7i+P+HM=;
+        b=LB7+i+BbT5oibYOgJktnyM07krxX9f0zQOvJ20pACVPrgXvQ6PQFAZnc78iN/m3Vws
+         NW5Ch5w3XhzpWtY5x8r8VcbqupELmMPrs0rns4Y0u4TnTkQIeXOW59ZIuI9SFtSunXG6
+         k7LbiIWfGMEAVroCZAmuqq+PMeEQf8TRyaIHi0mq+Qputyuxokmo0EghIn+IJ2tQzvHb
+         E41daS7DhvDKBrx8QDPAPVXr+Cef4/76wHCSQa4KxR3t83xbMXYrlNi6v4J3pWfuNLsD
+         W7xVGIlTeZtNvsh/j0qJrU8KehPg3wy3xRtkbbMuKx7O+CRCQ4zRWB7yhup7sttvF3ge
+         w4dQ==
+X-Gm-Message-State: AFqh2krGkDV6+S2vUc1Kt0GV5zC+eGLZEIlbz8g7JOeOigGzRQ0DYN9z
+	Imbq2yydDtjEfXZMUyk8LNA=
+X-Google-Smtp-Source: AMrXdXui9SivYMz78h7nPDEJBWZ+o8+dCjlv4RtpMIS5cfdyH0FlRjhB8Lg5bepkYOKT6k9e0g/JIg==
+X-Received: by 2002:a05:6a20:8e05:b0:af:ae14:9ecb with SMTP id y5-20020a056a208e0500b000afae149ecbmr51515309pzj.17.1674672043681;
+        Wed, 25 Jan 2023 10:40:43 -0800 (PST)
+Received: from [10.69.46.142] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id w1-20020aa79541000000b00580fb018e4bsm3900129pfq.211.2023.01.25.10.40.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Jan 2023 10:40:43 -0800 (PST)
+Message-ID: <c8275d9c-0490-d4eb-e20c-3faac5d74293@gmail.com>
+Date: Wed, 25 Jan 2023 10:40:41 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: GgfHnuoms4XstVvXaOHKQm2ETXy57JJz
-X-Proofpoint-ORIG-GUID: GgfHnuoms4XstVvXaOHKQm2ETXy57JJz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-25_11,2023-01-25_01,2022-06-22_01
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] nvme-fc: Fix initialization order
+To: Ross Lagerwall <ross.lagerwall@citrix.com>, linux-nvme@lists.infradead.org
+Cc: James Smart <james.smart@broadcom.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, stable@vger.kernel.org
+References: <20230120174354.3437046-1-ross.lagerwall@citrix.com>
+Content-Language: en-US
+From: James Smart <jsmart2021@gmail.com>
+In-Reply-To: <20230120174354.3437046-1-ross.lagerwall@citrix.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230125_101144_183152_DD730EA0 
-X-CRM114-Status: GOOD (  19.25  )
+X-CRM114-CacheID: sfid-20230125_104049_254654_EF5E5DE4 
+X-CRM114-Status: GOOD (  17.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,64 +93,70 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On 1/20/2023 9:43 AM, Ross Lagerwall wrote:
+> ctrl->ops is used by nvme_alloc_admin_tag_set() but set by
+> nvme_init_ctrl() so reorder the calls to avoid a NULL pointer
+> dereference.
+> 
+> Fixes: 6dfba1c09c10 ("nvme-fc: use the tagset alloc/free helpers")
+> Signed-off-by: Ross Lagerwall <ross.lagerwall@citrix.com>
+> Cc: stable@vger.kernel.org
+> ---
+>   drivers/nvme/host/fc.c | 18 ++++++++----------
+>   1 file changed, 8 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index 4564f16a0b20..456ee42a6133 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -3521,13 +3521,6 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+>   
+>   	nvme_fc_init_queue(ctrl, 0);
+>   
+> -	ret = nvme_alloc_admin_tag_set(&ctrl->ctrl, &ctrl->admin_tag_set,
+> -			&nvme_fc_admin_mq_ops,
+> -			struct_size((struct nvme_fcp_op_w_sgl *)NULL, priv,
+> -				    ctrl->lport->ops->fcprqst_priv_sz));
+> -	if (ret)
+> -		goto out_free_queues;
+> -
+>   	/*
+>   	 * Would have been nice to init io queues tag set as well.
+>   	 * However, we require interaction from the controller
+> @@ -3537,10 +3530,17 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+>   
+>   	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_fc_ctrl_ops, 0);
+>   	if (ret)
+> -		goto out_cleanup_tagset;
+> +		goto out_free_queues;
+>   
+>   	/* at this point, teardown path changes to ref counting on nvme ctrl */
+>   
+> +	ret = nvme_alloc_admin_tag_set(&ctrl->ctrl, &ctrl->admin_tag_set,
+> +			&nvme_fc_admin_mq_ops,
+> +			struct_size((struct nvme_fcp_op_w_sgl *)NULL, priv,
+> +				    ctrl->lport->ops->fcprqst_priv_sz));
+> +	if (ret)
+> +		goto fail_ctrl;
+> +
+>   	spin_lock_irqsave(&rport->lock, flags);
+>   	list_add_tail(&ctrl->ctrl_list, &rport->ctrl_list);
+>   	spin_unlock_irqrestore(&rport->lock, flags);
+> @@ -3592,8 +3592,6 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+>   
+>   	return ERR_PTR(-EIO);
+>   
+> -out_cleanup_tagset:
+> -	nvme_remove_admin_tag_set(&ctrl->ctrl);
+>   out_free_queues:
+>   	kfree(ctrl->queues);
+>   out_free_ida:
 
-The nvme driver will freeze the IO queues in response to an admin
-command with CSE bits set. These bits notify the host that the command
-that's about to be executed needs to be done exclusively, hence the
-freeze.
+Yep. Thanks
 
-The Security Receive command is often reported by multiple vendors with
-CSE bits set. The reason for this is that the result depends on the
-previous Security Send. This has nothing to do with IO queues, though,
-so the driver is taking an overly cautious response to seeing this
-passthrough command, while unable to fufill the intended admin queue
-action.
+Reviewed-by: James Smart <jsmart2021@gmail.com>
 
-Rather than freeze IO during this harmless command, mask off the
-effects. This freezing is observed to cause IO latency spikes when host
-software periodically validates the security state of the drives.
+-- james
 
-Reviewed-by: Jens Axboe <axboe@kernel.dk>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/core.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index df929ba9bcc21..89ef7abb0910c 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3091,6 +3091,23 @@ static void nvme_init_known_nvm_effects(struct nvm=
-e_ctrl *ctrl)
- 	log->acs[nvme_admin_sanitize_nvm] |=3D cpu_to_le32(NVME_CMD_EFFECTS_LBC=
-C |
- 						NVME_CMD_EFFECTS_CSE_MASK);
-=20
-+	/*
-+	 * The spec says the result of a security receive command depends on
-+	 * the previous security send command. As such, many vendors log this
-+	 * command as one to submitted only when no other commands to the same
-+	 * namespace are outstanding. The intention is to tell the host to
-+	 * prevent mixing security send and receive.
-+	 *
-+	 * This driver can only enforce such exclusive access against IO
-+	 * queues, though. We are not readily able to enforce such a rule for
-+	 * two commands to the admin queue, which is the only queue that
-+	 * matters for this command.
-+	 *
-+	 * Rather than blindly freezing the IO queues for this effect that
-+	 * doesn't even apply to IO, mask it off.
-+	 */
-+	log->acs[nvme_admin_security_recv] &=3D ~NVME_CMD_EFFECTS_CSE_MASK;
-+
- 	log->iocs[nvme_cmd_write] |=3D cpu_to_le32(NVME_CMD_EFFECTS_LBCC);
- 	log->iocs[nvme_cmd_write_zeroes] |=3D cpu_to_le32(NVME_CMD_EFFECTS_LBCC=
-);
- 	log->iocs[nvme_cmd_write_uncor] |=3D cpu_to_le32(NVME_CMD_EFFECTS_LBCC)=
-;
---=20
-2.30.2
 
 
