@@ -4,48 +4,34 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12DBCC61DA7
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Jan 2023 16:51:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53D95C05027
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Jan 2023 17:38:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=St7IrS1mX9F0RKDBGEEFoebKrWt9ulX8fBNwRg7efIc=; b=RqUD7uQ26YbE8WRbr9vFarHsiT
-	VBeojFUo8ScxRUscW+S43QqDjhL6jF4jdAmVIndjv0i4sELMZdxrdcTTPJnfFUMk6psL0z/HXTP5n
-	AMrx3j0FIkMl18shh0JYhHdVOFPeo/Ck9UKJgy9W+a6FiKNzq7dAz8+h+t+7bbGGQJ0BjnREsBHGa
-	vRCnyKMMcdN8hKjn6h8AkaYrxAJlHdW4V4Kt8rdeuApvzuXjm46o6ia8n+Irbfqg0TDR7WqDRf/Ne
-	HeRvICsTFfO98wTc0DqGnLFAS84s5FHhSFSPrRLrhdbHQYvbZhmPeO4A0FLjX5DClqELZ++DM7V9u
-	s0Fa6SDg==;
+	bh=sxJBaTN19A70jHkuOMUFcmvbgXlT2VUpb4rKJphDDN8=; b=mIXXXst7Fs0t52LIKH0yI76nxK
+	KPBFHT4Z4eaZcEL6Pcfq2pCqmKL1cSn4Rw+fDlKdIKr5EVAsGN8wUnxpdOyqJcRf8qnaZ89wUQe1Z
+	GWKnq3Ns+hxTxRHeEqYnkcZnFf3/Np3c2sYTa5pDGsbV+B/Rkb3QAG36pSyKrOFKfb8dDPB3JbY4P
+	aGsgcje1dyoJAWaqiAr4Rv2ZDCEvm1GMOYtieeaCD/PNKnprCKyPdPU7YLcJK+T9ZKoflfvIPWk8Y
+	2IAjScHCl3NYKghM1spgWJpwLWLXeWUEYN3Nv3TTAu8GsmzzvPpKCJteSpA7z+5TIYlEw/an0KVCc
+	P46Yds6A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pL5Sg-00BsKr-G7; Thu, 26 Jan 2023 16:50:54 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pL5Iq-00BpKi-QZ
-	for linux-nvme@bombadil.infradead.org; Thu, 26 Jan 2023 16:40:44 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=St7IrS1mX9F0RKDBGEEFoebKrWt9ulX8fBNwRg7efIc=; b=Eg3hNBdDGz6MmWSRYZAiHki/eE
-	lqofbPItG5HE7VLsezYljzQ1GYuqfgr/xpQ/G5btMaRZLA1Y9KXs4WlRInUMGu6QuUVLsxPqcszh7
-	wkBxk+VAdUw26ftVTdoTBVoM48/XpwfRXNr6x9+1o+vpVQJCz+xENydh9aHYrOg7LGO/Bn+uCk+kZ
-	9VP6oYuzy2VNB4n5jugCQ4H3LhlJltty78aGk0qxW71KhXi/ax2RJvjjXI9+VoHsJR2k4KYIwb3hj
-	B+FIyRAUbWBFqdShQ7cCSoed4oUCdWJ9MtkfMBoVCRSN8nIyT+TP1u+FCs8pf7fyfchlVGPNxcCbn
-	2W3TJ5EA==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pL5In-006uHI-SO; Thu, 26 Jan 2023 16:40:41 +0000
-Date: Thu, 26 Jan 2023 16:40:41 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: lsf-pc@lists.linux-foundation.org
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
-	bpf@vger.kernel.org
-Subject: [LSF/MM/BPF TOPIC] State Of The Page
-Message-ID: <Y9KtCc+4n5uANB2f@casper.infradead.org>
+	id 1pL6CT-00C3zd-Ir; Thu, 26 Jan 2023 17:38:13 +0000
+Received: from 213-225-9-99.nat.highway.a1.net ([213.225.9.99] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1pL6CQ-00C3zC-L7; Thu, 26 Jan 2023 17:38:11 +0000
+Date: Thu, 26 Jan 2023 18:38:05 +0100
+From: Christoph Hellwig <hch@infradead.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: [GIT PULL] nvme fixes for Linux 6.2
+Message-ID: <Y9K6fTTrhXSWkVeZ@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -63,48 +49,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I'd like to do another session on how the struct page dismemberment
-is going and what remains to be done.  Given how widely struct page is
-used, I think there will be interest from more than just MM, so I'd
-suggest a plenary session.
+The following changes since commit 955bc12299b17aa60325e1748336e1fd1e664ed0:
 
-If I were hosting this session today, topics would include:
+  Merge tag 'nvme-6.2-2023-01-20' of git://git.infradead.org/nvme into block-6.2 (2023-01-20 08:08:29 -0700)
 
-Splitting out users:
+are available in the Git repository at:
 
- - slab (done!)
- - netmem (in progress)
- - hugetlb (in akpm)
- - tail pages (in akpm)
- - page tables
- - ZONE_DEVICE
+  git://git.infradead.org/nvme.git tags/nvme-6.2-2023-01-26
 
-Users that really should have their own types:
+for you to fetch changes up to 85eee6341abb81ac6a35062ffd5c3029eb53be6b:
 
- - zsmalloc
- - bootmem
- - percpu
- - buddy
- - vmalloc
+  nvme: fix passthrough csi check (2023-01-25 07:09:38 +0100)
 
-Converting filesystems to folios:
+----------------------------------------------------------------
+nvme fixes for Linux 6.2
 
- - XFS (done)
- - AFS (done)
- - NFS (in progress)
- - ext4 (in progress)
- - f2fs (in progress)
- - ... others?
+ - flush initial scan_work for async probe (Keith Busch)
+ - fix passthrough csi check (Keith Busch)
+ - fix nvme-fc initialization order (Ross Lagerwall)
 
-Unresolved challenges:
+----------------------------------------------------------------
+Keith Busch (2):
+      nvme-pci: flush initial scan_work for async probe
+      nvme: fix passthrough csi check
 
- - mapcount
- - AnonExclusive
- - Splitting anon & file folios apart
- - Removing PG_error & PG_private
+Ross Lagerwall (1):
+      nvme-fc: fix initialization order
 
-This will probably all change before May.
-
-I'd like to nominate Vishal Moola & Sidhartha Kumar as invitees based on
-their work to convert various functions from pages to folios.
+ drivers/nvme/host/core.c |  2 +-
+ drivers/nvme/host/fc.c   | 18 ++++++++----------
+ drivers/nvme/host/pci.c  |  1 +
+ 3 files changed, 10 insertions(+), 11 deletions(-)
 
