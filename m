@@ -4,53 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00552C05027
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Jan 2023 16:28:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92D60C54E94
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Jan 2023 16:28:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wSxMHa7YzER6/WmeunCHCpF7RS7He1WuqZJEis+t3Yo=; b=JNTCxyAGU3IOJzxkF0FaUA9WZQ
-	KdrRWgV/HJG2YTADCt4F7L5UIlwhGuWJq/GCN9Yw2LVucjZof6Z8FRA/YppLKIHFffg6WN0+p6O19
-	ciX/kgq3xEG5djZD/nxNMCRTz45sYKCevJ2xptVIbbGoa6h64wBSWQPkXzzeolXQPrgOqktGHMHGu
-	TDi7+SrHWjL1p+Q6/xLS9H39VJAn059OZBWqiK5JcNuKHQoIr00n/veFSzDkj9lN4MuiJNSj+fmHj
-	qi6mvfEJ1nH51lm9/B+0yBRm6PnmOEsrEFP5Ccku2TkuKNrvh67sx9RIgVpYpLIWY9NiXdfDzUyeG
-	HpaLUF4w==;
+	bh=e4IewiU05Hj2s0tELEgmWqWmLASDhZPV3wUJmmDmEuE=; b=o0J4mNnFH1BYmhk1Klb+zRQSd+
+	7DTGot5WapzpugImIjjw/r3RzPdbaYfrkMQLWHq6F2k2IHwZriLxvdtQ7duJOMWv/nG3YnohSxV5s
+	4RWnidAJcMVJ0j1lC7QTwUiQxAwRi3h58n1c9Td+144MNXxvXDA/KhZDp1iarRzWUmkf1+5D64NK4
+	QCUhgzK34hpgJG1tT7Nib0F5rWYGnf9yoLAUd6qgfhQ+RFl15xOAAs79d6DR+gOIdS2wS/GQgtwsK
+	7QagmmBoRVDQD584buLnUhm8fQjUVoiADNPv34JXV+aG/ALnVxGd1Ba0DNUr3c1ZdQa9XJs/NJWh9
+	qwBhkBEQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pL56S-00Blb0-NU; Thu, 26 Jan 2023 16:27:56 +0000
-Received: from mail-mw2nam12on2087.outbound.protection.outlook.com ([40.107.244.87] helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+	id 1pL57G-00BlrJ-RW; Thu, 26 Jan 2023 16:28:47 +0000
+Received: from mail-bn7nam10on20600.outbound.protection.outlook.com ([2a01:111:f400:7e8a::600] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pL51y-00Bjon-39
-	for linux-nvme@lists.infradead.org; Thu, 26 Jan 2023 16:23:22 +0000
+	id 1pL524-00Bjr0-Dz
+	for linux-nvme@lists.infradead.org; Thu, 26 Jan 2023 16:23:26 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Tof/WJNZr+p8tqnDtUgkUnrITPsKMLs9j0ydaOtFT8Z8I0V4/uTqkc/Hr5uzAJoCLm1hWynJtqP+ZEpsvcz6nJoLxxHIBUI7LgNOKse89sjM0JyktYEgsM4ZU52NqZMTduIgjnM4WOhECtDQFJiYZe9YGoBq5RGtsAjQpTSnu2Z6cBtr43w11T5irOaI+MtRqZ9id/SXkFPxWJs6X8htw7hP5ZZdwilo/7JMjfNPmtcozVJVDu4AwkKwy8mH0faZUxELG6E5Rn39DOAnW7OsW5OZurrmzJdxPSHExECjzO1UcAamzKhFhFUCt1ihxi7JAGbFdGQ3nsoh67e3F2TBIw==
+ b=Np2aeSkzPaW/7zBuoK1wVxrIBvlS+VaJ8aeHUcQWrE4/KOokOYStyYf46ICjxkDxqAPsTf31WI3uLheaRFcUvpwccImJPVBL+AQIwfXBUwtD4fnsN88/s3saNwbJDNCsgrKOXhoRSZoE2nqAtSeFMcsX+ljbnrw66lnkGTJNKTcIBjspi9QYfMYc0iUBFbHbI9SrYujChmIX5pC37iAo2MnOU4tCE9cof0jnrmhyxPQmo3OhcIxFQZy5URSD7x42b+m31fmehwVryGrGTGvUdUPevkUWC9Ceq4uVv+RkzCFLvrUOuDTd8obhf/vEf2Opvl/9KwQIFAWIQoSURQvT6Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wSxMHa7YzER6/WmeunCHCpF7RS7He1WuqZJEis+t3Yo=;
- b=J3XpoU1G57gWPkahWR7t0/+3dQevFeKNfsnt1BV5YlRe7y+3hql0DjUkC9IB75oo+tT2aaGxlj/UyApSIWHdxvV/pFsN6QjnKoSsSTVsxPl3fTKNE8xyn4T0kUW4TvwgoiNeiBAtInzi4enge/VDR4Dvoa+zrzh/bwnf2ugm3xOGgYnroQYK0MvQkT5QAET3P+fInFPfZa4ij8tyRTpWcL1R60xhtAdIo2ME/HKoudN1yi9HDw/h6r9MXFfcXeU6+600RLfrCi69PAdeAiC+OvFhv5Tmtaqtt8Ar07GRU+jWxqN8YkxAQY4LP3R/RpDTmS7LI0jW7Lwv0OHeltorDw==
+ bh=e4IewiU05Hj2s0tELEgmWqWmLASDhZPV3wUJmmDmEuE=;
+ b=j90t16Z2WLm0Gpi+SvWUsme+pv0kVUnYKROTveTbfqIUMKa1+/i91gJeBm56uHcYX81wz3bb7cDCOga8CPvfmqqe6/C6TYfDA/movUU4ilkWzgb1hOuzgR2VdArIJEK7nXhrmHc55B3pgC0AuRU30VnxCxKXoBMR6q37n7JcAMeVEmEWxz2hQCxDSDeJBUlP9zPBqrUpb1aKke8VfMlzIYYXJrpLHyVugVI7saM5CewdNOGEEHvN4FRZgqWoQk4ufawb5p018wewlr1NQhB4C6Z08CvRzJOmjA9PSVNi5rvaEa18yuNOb0Km1ghwkEwl1oJ926bw43H8Tjfq2Tv/bQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wSxMHa7YzER6/WmeunCHCpF7RS7He1WuqZJEis+t3Yo=;
- b=Q6htxWKU9e4ul50kHmuq7XXWt5UmAyI4Maut/86Z+k82+XxD2ohYL+T6eoa58EveG966e/EY9rD8rqAapEf7Q3YwAt+v6QPZGuER2b7DDVQ9Y3jDrrkGPuKYUasH8NExGzs4DzjX6onXfjXq0q+R4F2snZoqkOiYf4GtF+FBorevrV4GI7m4AldJ+H+7KbbazFzaAZK7YcSv8O3SDYTKn6O7mI7KUnxm9wUbHDwFxftINj4JDCv0vKSPUdFkCVB5POzCtWEFF8LjkGmyqBehp3B0Iuy8wuivMFPhbO1OZcli7IWvGszExfTtVPoZX/fJNRj1rhgsf9F2qd5RP6EfmQ==
+ bh=e4IewiU05Hj2s0tELEgmWqWmLASDhZPV3wUJmmDmEuE=;
+ b=YDx4xDmEhPRGTiQtKBwmAr4KPyw/SREuoHhhIMXxMEsAYYvJVOu2OU8Tb5rTjeoeER1BhfY02Xw5jyuZ5mrREnQDnOTfxL3NtC46aiuTlBcvAxG7iSqRJL/quTpxVnucmB9xJ7vyHQTQ7xZlHhqEWbaUnHKk3aZjwyisGsodpZ8AYUj5nxnAsCLX7KVto7Ar0s5NftUqD1JB5VtvpySpPdaGqvNPoZ9KAmdZskdOmy0awsUNqrcxLVheujRfcbS/grZpc4DlW2sA10ubQWafOudKVbKIBBpI2GakBMbrfIr870ukCgyhZXVBGuDdkLH8UmMNBsEQ/uAshxUN9CNPLw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
- by CY5PR12MB6180.namprd12.prod.outlook.com (2603:10b6:930:23::8) with
+ by PH0PR12MB7792.namprd12.prod.outlook.com (2603:10b6:510:281::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.22; Thu, 26 Jan
- 2023 16:23:15 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Thu, 26 Jan
+ 2023 16:23:21 +0000
 Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
  ([fe80::9fd9:dadc:4d8a:2d84]) by SJ1PR12MB6075.namprd12.prod.outlook.com
  ([fe80::9fd9:dadc:4d8a:2d84%6]) with mapi id 15.20.6043.022; Thu, 26 Jan 2023
- 16:23:15 +0000
+ 16:23:21 +0000
 From: Aurelien Aptel <aaptel@nvidia.com>
 To: linux-nvme@lists.infradead.org,
 	netdev@vger.kernel.org,
@@ -68,68 +68,68 @@ Cc: Aurelien Aptel <aaptel@nvidia.com>,
 	ogerlitz@nvidia.com,
 	yorayz@nvidia.com,
 	borisp@nvidia.com
-Subject: [PATCH v10 14/25] net/mlx5e: Refactor ico sq polling to get budget
-Date: Thu, 26 Jan 2023 18:21:25 +0200
-Message-Id: <20230126162136.13003-15-aaptel@nvidia.com>
+Subject: [PATCH v10 15/25] net/mlx5e: Have mdev pointer directly on the icosq structure
+Date: Thu, 26 Jan 2023 18:21:26 +0200
+Message-Id: <20230126162136.13003-16-aaptel@nvidia.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20230126162136.13003-1-aaptel@nvidia.com>
 References: <20230126162136.13003-1-aaptel@nvidia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: FR3P281CA0054.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4a::18) To SJ1PR12MB6075.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR3P281CA0044.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:4a::7) To SJ1PR12MB6075.namprd12.prod.outlook.com
  (2603:10b6:a03:45e::8)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|CY5PR12MB6180:EE_
-X-MS-Office365-Filtering-Correlation-Id: 416704bc-a68d-43cb-bc76-08daffb9a049
+X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|PH0PR12MB7792:EE_
+X-MS-Office365-Filtering-Correlation-Id: 17595193-ab7d-45be-f036-08daffb9a3e1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	iFU5ncHUtXwfpawc6keJ0Ujt23+htR5SuRWrbdbd6va5slx8XJQjLStQN1SCDhQRDXKE/eOUnO9bXYew/+tZJ5b542D7aJjsG4m14twIharIN9FL8yqEPxHQoLwUfMzfOpIFQqSxwwwgyyFjJXczT0aMMxFXAnr5Bz+CvobZkBHvRoYN6x7dMFVR0ws7RQQFHRMNs8SDWv9F7GSG3yubQXf2Ry1Pf4izqx7deKf/uqUuor8TqgsAtooDTFspd+yaRzZCyve2GNI4nJmK5xtUcocHx5XNC2vT49YccHb1nA3sLfh+C/W9wJBnR7nXn6ixs4ytXVZaGK7CW96YeUalU7OR0Ne6aZnc0CtqDy+HtM5ad9ZzCQTYVooSYyvjqrX6fowZSNMUAfvDIRb4qMhkeHlcPlgbrpSqUnmMFW2R3ULeyOIpJjTh18lhjXRmvQEyYWF7wo3/JQmTvOa2JoPpXiIj7yrxoA37qBVNANh/bc+TFLYCzGM8P+iHr6Syqav1vn/DaSVfekfYPiElIskAlU5+xS7arrh/XmIjAEseYRMGwm+CuOeDSWb4K/ayYKc5XMb9JsbOT/Jlq+N/5GphwbQudLV6mUTH6/8SActwVFIVedP+I4ttARhNP9HzaFnbxy6aLfoK1g68Rf7bM8QKtQ==
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(39860400002)(136003)(346002)(366004)(376002)(451199018)(36756003)(8676002)(316002)(478600001)(6666004)(107886003)(1076003)(6506007)(6486002)(5660300002)(7416002)(66946007)(2906002)(4326008)(66556008)(66476007)(8936002)(41300700001)(38100700002)(6512007)(26005)(2616005)(83380400001)(86362001)(186003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 	7b8tsym4NlJxxxeEUyEQJRK/0YnlGQ85IJxmDNKg9+/kJGPPNhsqyHEbWqh9QdwFjROeXFEvwnXU4mF+gq9VmhNRloS4JMzJXnwAKjgUjhrxSsbhG3hIFREwHY/B8fCnxW1/ah9EOQnW4UyhJkrhsk9hMcV4SMEZh7JbiMcXd+TZhfyiDkQGdyYsGfo4nHohGJl/fI8vRr5nEOO2Aje3dYubqdv9sc7fOuM63THnrd/nscJsYpIMu55r8fSe0e3kfGSqiDNfJWv/q6EUxr924fzawP60IUfkAGuxFlDTm3X1hgWf5BicBojOfDsX4zies446k+Li0VDXHIIEfTUWydIHN+u+HsnoJAC5G50+XUPawjXG++DESyTTDy9I1qOfxwQU+NcpQIQ4RRPKiJXt2GqnMCf6Sjc9Mmb2a0jyjPmlkvjmTnj8qYCyWKD6+rMKb6B+K2orTbiud9x6uzf+iiK/R0ZBo92ZUlmqhzLZMMGD8wdKeS1xtyps76EZcTivCcBaDK+oi8aejCGVWQUPzbhmsGRzivNOlUuQAcYfZWx+X8qSaliv1o/EhV+ddwNEDAcOYzRuU95j6qD7LPPE3EgF4/uW7ZgYywKDw/CNI2Cfim4AmKTlx3Q4krewABPsvCoUnVFBCz7+x4ww44CndQ==
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(39860400002)(136003)(396003)(366004)(376002)(451199018)(4326008)(66476007)(316002)(36756003)(66556008)(86362001)(66946007)(8676002)(6512007)(107886003)(478600001)(2616005)(26005)(83380400001)(8936002)(186003)(5660300002)(1076003)(6486002)(2906002)(7416002)(38100700002)(6506007)(41300700001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?N8dkcuJI45aQG34xumFAG4hmwC99xchTWdBluiarlGoAe8iHvfA09Kt2OnjR?=
- =?us-ascii?Q?48Nq/PNoo8Mbt/kUJG3qELNj3Vo8skMsH/x2xYPqi5lL0tVFSeZ4slsF4SxO?=
- =?us-ascii?Q?ZpDZDB4OLS4Lc5K6nsXj/icF8xvIZu8bgVuunk8IPHfy4A6XI8z5nPlYkWJU?=
- =?us-ascii?Q?sseq9fPEqAwvVSEe0PwURAws4OH33N6NhFv7lVW48K7pCeRCSrHkmwCrsIZ1?=
- =?us-ascii?Q?3tWIYEJtdMxxKjfdbw+IVYfcCV3mPneIxLakH+KnkfG5QrajZRIZ8f2P//SP?=
- =?us-ascii?Q?mQfEOjC7L8N/O1VdYua6txTA0kO9rP+E3qeqlH1uDOEtZGA7MuZ9bOmcCUSZ?=
- =?us-ascii?Q?YTdPhyYMYVuS8NYAfR0V/YuMESHRaDnPPnCyy+q++witTDzOAb73V9tO6zbD?=
- =?us-ascii?Q?VbV7msT+GV10d93CzIQg9KIMbluuzrPVdQu8kTIo1vxnaCtvm62b0Qw73yRC?=
- =?us-ascii?Q?s30+DxZk1uXNr4mn7aa3yGp/+HpWqoWLTRHU4pgMl/aUZkvanrjEimjxq5XU?=
- =?us-ascii?Q?JezA1nHFxRbhR3qiXkmHicpEcpmkQ4ZHLevlE8/ppJQkcvsGqMXlr9VSoGWN?=
- =?us-ascii?Q?InlOXG9Is80RIJuOLtPgQcLiggm9B5FgcftEk+ru0ZPSukQxyFtBXrymaIX4?=
- =?us-ascii?Q?7E4baeFBxsscDMHUlSILEXArGLRv5xC3L/45Fl+z9gb76N2RRArkVwzOZzPz?=
- =?us-ascii?Q?7kpIsS34Goo/FXJ2JJcF0e0ZHmFIYTFnvexaeMIAccg60MtHsrTZA4NWzy0Z?=
- =?us-ascii?Q?AvLA15fz9EVlCDPHqG4AX4XShuaVBcBCi6KDWpDYscF7xZHzVVKW7xBHKA5r?=
- =?us-ascii?Q?XNFO8w4/6+ap0y6Y7kKGJjapjYmnzpAW1u2Put9EkY0qsFDjg0krmntKHo6s?=
- =?us-ascii?Q?H80PIhiSGiQIcU2cuZU8q+dKi1vqBRR6XNa7kZON9yXTt7vUnFhBG7vpMPnW?=
- =?us-ascii?Q?4aqb3b3ABGpttAie0D+m78Oq9tQWbI5sQgdcXn4XVzSYTfuFfhQlL39Df6j/?=
- =?us-ascii?Q?WHyOULCJvdyPe6PpaZdH4OYu8Plb2oMCAHu0XL52dW5EJEowko/JW9Oqw8hs?=
- =?us-ascii?Q?jj6XpIMhQ/BmPSjbcMLIs+cXLzHuQwtofDurtBRoZLLddWqB9yGqaTZ1IjzZ?=
- =?us-ascii?Q?apZGGunUKHlK9/GBoD8PRW17YA46ggFY3NIXnoMC3ltjE1qheLDUGfGih69M?=
- =?us-ascii?Q?hKLaRr/pGvVAA/NZTIeUOdM9qyhug6My0Vf15YpzhROFUaexd+EIJsdNA5Ci?=
- =?us-ascii?Q?k0i3MDDjObsZZDZQycWTva3/6eHOeIepdrxmXriCOKOJq7/3S7Li6g/c/U2B?=
- =?us-ascii?Q?kqEnW15EpliYwOYC8B1BErRqdeCkOX87uRgKNT7Nd5sVBtvPCVspI8tzzoZt?=
- =?us-ascii?Q?5ZyBXa67OGXWod1FEIUZeLomrg+P2q5GbjgOw3kTiJ4/9RQKLkfZJdD9kici?=
- =?us-ascii?Q?zZumGqu+1+v+T+HJMT/q4Y4/qalcEmsnBtmxtEoCCecrVZvW33EbpcafABH0?=
- =?us-ascii?Q?lH/m0CTjZwRMh3BNnmj62wDMrwAkcHvEbVgnL1Vn5pAXlRY6FHk3qPKJqsaQ?=
- =?us-ascii?Q?95bw2/3WC/QQ3pALxOwZNVpbNyL7uMsQxyoJhOfC?=
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?BMsgCI/vkhzyEa1dG6WrDTpcSVxXKvPnylEmE2YFicpmkA43leTHRP5AYVvT?=
+ =?us-ascii?Q?biWVGbh7ZaZpvQI7mr19Ms0MV6CfVWVF0MZrQmxacFwwAQazwKkJRDl36u4w?=
+ =?us-ascii?Q?/3UDYsOilfplRnP9CVgjoyTFqVOFC/qr1v70TvGkAmzCw70OEQbkfNZW0UCn?=
+ =?us-ascii?Q?rl2W5TyQE88m6tL+jPx4qlJz2St7XaliJ4mFlb2iWjzGsyTVoEnCXKkstuvB?=
+ =?us-ascii?Q?AiswIZetRdmdT7lxNE74Cy5LUaftcnjadW9XDttSadGwVz9y5dq3kSnBnaXS?=
+ =?us-ascii?Q?5v0QdAC1o1V8ak2foNVBGyoVhP9ACkPfYGa3KA5dSgHIsSRss0frblEj4D4s?=
+ =?us-ascii?Q?m0CeUWN8RUt+zmPfkN6QXHiB8/NekEpDJusonusA+LmhMa71MAGIDOoHeJQN?=
+ =?us-ascii?Q?cdRQm6PLsEG50DBIhNFO/J0lRzc/zOcjMYIo4T8kUzu+MarvItX69qX1RbFh?=
+ =?us-ascii?Q?Z9KAM9665awbEBrRk8axNSpLnF/ZBe/P45mYm4zBzlQ7daY9IvVUDUe+fq0E?=
+ =?us-ascii?Q?iCIE34Cvruc+I/TmoGOW8X7EsTzbzRLlZzn4T9pbfwF4BrTdQ2SdDS5ungFy?=
+ =?us-ascii?Q?kwpwEd+hwmb6ICyxDRsO2rB6DIAjsnYodjVCoPZaeU8K9n42W3hnJF6QUlMF?=
+ =?us-ascii?Q?+ilfUJhEynCSNywjmkM+JU8y/cfavLxJlLGkiCnJdEYjJ6ff8IuDqeTn4jwh?=
+ =?us-ascii?Q?AlKt0dtlPekPIk1sEnortKYOu1YMaL0hLVz7j/zmzPKDS2jXIe4KoDvf6iqh?=
+ =?us-ascii?Q?fUAgoW07thbyhiyWDfzFGoFa8Kd1qGBjah7OIgk9N2y0tVao3Iz9c+Qh7Phv?=
+ =?us-ascii?Q?rSiXusiBFyvQWu11dSKH6jWdQHuYcNDrUul9wUQyAF4CXk9syiMQXz0VeuN6?=
+ =?us-ascii?Q?t6fWBLbr+JwUCWyiZ+tNhMxN70CtGVLTQx6ZlvMs2GcJML5zXY2sfq4wuqKc?=
+ =?us-ascii?Q?7bXwdflMSyuDetMEDlO9lWo5QREm/R+636GTbwiYmYFyt+mUKpqTGFhFV7ro?=
+ =?us-ascii?Q?OKdqYj4dQwHrdM7xwqczycdGKbcHo3K0U8fbdhjDQRz0i36BjuC8+Jfj8d7G?=
+ =?us-ascii?Q?Nt31NqjfWYONXGVpHnohEESpujD6k6NTPzwjzJ8hpT7E0bRL5vc6UWr7ctrp?=
+ =?us-ascii?Q?YyveXTFWwYHbTgOLSctubOrNlCy0KooV7g5i0YIGWmNkDmm3mWxs+1s2Umda?=
+ =?us-ascii?Q?GjikdUm2a7JkfK7WoqX7a0+1ldcMKiVMaabsOYQDUHdw8pKvzCO8LqhFXR4p?=
+ =?us-ascii?Q?/XZJ5B08HwfnII9FuDi/PEI6hwXDdY+rZVFIj9ctluW1j7lNPH8E59DrrYwK?=
+ =?us-ascii?Q?1D7r3DLbizWA/E0e9tMzNyAPAzStu1EixpMQ3z/yteFHoE/MT/4NBA8cj1ow?=
+ =?us-ascii?Q?PrWZTRCSRMaA7OKKJ+B+z00YkvDGkHt4m0aNPrPmG4HNTV52u1WtxnHg24yc?=
+ =?us-ascii?Q?lMm0YiotcCfWUanOun6UfzALOa+SmZbvFmKx8J2tb7pVBHDgyJPj8EKkhEla?=
+ =?us-ascii?Q?R5/0djJx6Mcs4dgYsjjjozs0broL2BYqzYZHMj5SqN5DpPZQoFAhtqJHuGU1?=
+ =?us-ascii?Q?NRD80amNd2vrOaSBaJovn7xkDYgGSqq1aneoP4qP?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 416704bc-a68d-43cb-bc76-08daffb9a049
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17595193-ab7d-45be-f036-08daffb9a3e1
 X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2023 16:23:15.1127
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2023 16:23:21.1590
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hds9azqyldTOn5uyzJES6ncdvQPUqqTt/GpoLZrfoeTsfNtpDXNWKYFa9VsLc4iT3EcvkX2zglIeVtLzvPIwlw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6180
+X-MS-Exchange-CrossTenant-UserPrincipalName: U38xW2m3B1CWji0rd657mMrPqFCs5hlSAMVS6dqnE9Rv3LbPPV83Peh6EL+r4Jh/ArtzuXYJiDcZPkQII6IRVg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7792
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230126_082318_192707_77CADF8F 
-X-CRM114-Status: GOOD (  13.88  )
+X-CRM114-CacheID: sfid-20230126_082324_542596_A7FED380 
+X-CRM114-Status: GOOD (  14.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -146,17 +146,8 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Or Gerlitz <ogerlitz@nvidia.com>
 
-The mlx5e driver uses ICO SQs for internal control operations which
-are not visible to the network stack, such as UMR mapping for striding
-RQ (MPWQ) and etc more cases.
-
-The upcoming nvmeotcp offload uses ico sq for umr mapping as part of the
-offload. As a pre-step for nvmeotcp ico sqs which have their own napi and
-need to comply with budget, add the budget as parameter to the polling of
-cqs related to ico sqs.
-
-The polling already stops after a limit is reached, so just have the
-caller to provide this limit as the budget.
+This provides better separation between channels to ICO SQs for use-cases
+where they are not tightly coupled (such as the upcoming nvmeotcp code).
 
 No functional change here.
 
@@ -164,61 +155,84 @@ Signed-off-by: Or Gerlitz <ogerlitz@nvidia.com>
 Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
 Reviewed-by: Tariq Toukan <tariqt@nvidia.com>
 ---
- drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h | 2 +-
- drivers/net/ethernet/mellanox/mlx5/core/en_rx.c   | 4 ++--
- drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c | 4 ++--
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/net/ethernet/mellanox/mlx5/core/en.h               | 1 +
+ drivers/net/ethernet/mellanox/mlx5/core/en/reporter_rx.c   | 4 ++--
+ drivers/net/ethernet/mellanox/mlx5/core/en_accel/ktls_rx.c | 2 +-
+ drivers/net/ethernet/mellanox/mlx5/core/en_main.c          | 5 ++---
+ 4 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h b/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h
-index 5578f92f7e0f..1d66b858db00 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h
-@@ -62,7 +62,7 @@ void mlx5e_trigger_irq(struct mlx5e_icosq *sq);
- void mlx5e_completion_event(struct mlx5_core_cq *mcq, struct mlx5_eqe *eqe);
- void mlx5e_cq_error_event(struct mlx5_core_cq *mcq, enum mlx5_event event);
- int mlx5e_napi_poll(struct napi_struct *napi, int budget);
--int mlx5e_poll_ico_cq(struct mlx5e_cq *cq);
-+int mlx5e_poll_ico_cq(struct mlx5e_cq *cq, int budget);
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en.h b/drivers/net/ethernet/mellanox/mlx5/core/en.h
+index da58322cbc3a..f3f9a5bd75fb 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en.h
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en.h
+@@ -592,6 +592,7 @@ struct mlx5e_icosq {
+ 	/* control path */
+ 	struct mlx5_wq_ctrl        wq_ctrl;
+ 	struct mlx5e_channel      *channel;
++	struct mlx5_core_dev      *mdev;
  
- /* RX */
- void mlx5e_page_dma_unmap(struct mlx5e_rq *rq, struct page *page);
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c b/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
-index 3df455f6b168..51167f000383 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
-@@ -916,7 +916,7 @@ static void mlx5e_handle_shampo_hd_umr(struct mlx5e_shampo_umr umr,
- 	shampo->ci = (shampo->ci + umr.len) & (shampo->hd_per_wq - 1);
- }
+ 	struct work_struct         recover_work;
+ } ____cacheline_aligned_in_smp;
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/reporter_rx.c b/drivers/net/ethernet/mellanox/mlx5/core/en/reporter_rx.c
+index 95edab4a1732..bfac3f09f964 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en/reporter_rx.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en/reporter_rx.c
+@@ -33,7 +33,7 @@ static int mlx5e_query_rq_state(struct mlx5_core_dev *dev, u32 rqn, u8 *state)
  
--int mlx5e_poll_ico_cq(struct mlx5e_cq *cq)
-+int mlx5e_poll_ico_cq(struct mlx5e_cq *cq, int budget)
+ static int mlx5e_wait_for_icosq_flush(struct mlx5e_icosq *icosq)
  {
- 	struct mlx5e_icosq *sq = container_of(cq, struct mlx5e_icosq, cq);
- 	struct mlx5_cqe64 *cqe;
-@@ -991,7 +991,7 @@ int mlx5e_poll_ico_cq(struct mlx5e_cq *cq)
- 						 wi->wqe_type);
- 			}
- 		} while (!last_wqe);
--	} while ((++i < MLX5E_TX_CQ_POLL_BUDGET) && (cqe = mlx5_cqwq_get_cqe(&cq->wq)));
-+	} while ((++i < budget) && (cqe = mlx5_cqwq_get_cqe(&cq->wq)));
+-	struct mlx5_core_dev *dev = icosq->channel->mdev;
++	struct mlx5_core_dev *dev = icosq->mdev;
+ 	unsigned long exp_time;
  
- 	sq->cc = sqcc;
- 
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c b/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c
-index 9a458a5d9853..9ddacb5e1bf4 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c
-@@ -176,8 +176,8 @@ int mlx5e_napi_poll(struct napi_struct *napi, int budget)
- 		busy |= work_done == budget;
+ 	exp_time = jiffies + msecs_to_jiffies(mlx5_tout_ms(dev, FLUSH_ON_ERROR));
+@@ -78,7 +78,7 @@ static int mlx5e_rx_reporter_err_icosq_cqe_recover(void *ctx)
+ 	rq = &icosq->channel->rq;
+ 	if (test_bit(MLX5E_RQ_STATE_ENABLED, &icosq->channel->xskrq.state))
+ 		xskrq = &icosq->channel->xskrq;
+-	mdev = icosq->channel->mdev;
++	mdev = icosq->mdev;
+ 	dev = icosq->channel->netdev;
+ 	err = mlx5_core_query_sq_state(mdev, icosq->sqn, &state);
+ 	if (err) {
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/ktls_rx.c b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/ktls_rx.c
+index 8551ddd500b2..fe9e04068b0f 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/ktls_rx.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/ktls_rx.c
+@@ -266,7 +266,7 @@ resync_post_get_progress_params(struct mlx5e_icosq *sq,
+ 		goto err_out;
  	}
  
--	mlx5e_poll_ico_cq(&c->icosq.cq);
--	if (mlx5e_poll_ico_cq(&c->async_icosq.cq))
-+	mlx5e_poll_ico_cq(&c->icosq.cq, MLX5E_TX_CQ_POLL_BUDGET);
-+	if (mlx5e_poll_ico_cq(&c->async_icosq.cq, MLX5E_TX_CQ_POLL_BUDGET))
- 		/* Don't clear the flag if nothing was polled to prevent
- 		 * queueing more WQEs and overflowing the async ICOSQ.
- 		 */
+-	pdev = mlx5_core_dma_dev(sq->channel->priv->mdev);
++	pdev = mlx5_core_dma_dev(sq->mdev);
+ 	buf->dma_addr = dma_map_single(pdev, &buf->progress,
+ 				       PROGRESS_PARAMS_PADDED_SIZE, DMA_FROM_DEVICE);
+ 	if (unlikely(dma_mapping_error(pdev, buf->dma_addr))) {
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
+index 1e0afaa31dd0..076a2ca43cd5 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
+@@ -1389,6 +1389,7 @@ static int mlx5e_alloc_icosq(struct mlx5e_channel *c,
+ 	int err;
+ 
+ 	sq->channel   = c;
++	sq->mdev      = mdev;
+ 	sq->uar_map   = mdev->mlx5e_res.hw_objs.bfreg.map;
+ 	sq->reserved_room = param->stop_room;
+ 
+@@ -1786,11 +1787,9 @@ void mlx5e_deactivate_icosq(struct mlx5e_icosq *icosq)
+ 
+ static void mlx5e_close_icosq(struct mlx5e_icosq *sq)
+ {
+-	struct mlx5e_channel *c = sq->channel;
+-
+ 	if (sq->ktls_resync)
+ 		mlx5e_ktls_rx_resync_destroy_resp_list(sq->ktls_resync);
+-	mlx5e_destroy_sq(c->mdev, sq->sqn);
++	mlx5e_destroy_sq(sq->mdev, sq->sqn);
+ 	mlx5e_free_icosq_descs(sq);
+ 	mlx5e_free_icosq(sq);
+ }
 -- 
 2.31.1
 
