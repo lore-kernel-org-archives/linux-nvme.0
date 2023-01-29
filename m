@@ -4,70 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00FEFC38142
-	for <linux-nvme@archiver.kernel.org>; Sat, 28 Jan 2023 01:08:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7289DC05027
+	for <linux-nvme@archiver.kernel.org>; Sun, 29 Jan 2023 10:30:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=NgNUCQBrJQBWoNVLW4QZpB32eLzfxZoTxPPgLNdKUck=; b=4R9N6Cv2aqr7xKsrDFTGtOSeeG
-	aecoUalrr3YDijbvmg8z5kxYaMpNk5/hsgPKG9cMMZXRjmc4N5+iMUVKTzc8ICZ29F7F8cX3IZtMK
-	eaBGjYN4W/mTI3zY9lJtSyix9BSII1y+009fXS4wtQxa9B/vOfKut2Zigt4ZNoVt+sIPyeoNBP3AU
-	bu+KAF9w8XQt9sH77LvkvDrmTyvWTLbrAeeSVp2boIRNQRLtoK+QuKK2KW3lW7blVO5UPWWQf+Lun
-	3GiWt4erGFqdpfgN4os1OdCRp1hlyLIgoQbd6aWI0Jt026mUAp1tD/mBXY+pFZpuPLTov4hdAooZp
-	8nVimvoQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=DD9ItJb8DAGKxE1FYa170PliQxZ0ony+4PPx8amlVDo=; b=XkU701CchejFu8cLseFsIDvgkE
+	LsBcv4nlwXrFb9qKu3nNxymvX8tVhEbW33fEehMZlC9ygL4+trVnW+qOBxXDcbY4BtXn2CO0mqAur
+	qWDxXTgAziTeRz8YZwipNWBVbUejBQQYwAWztQfRNMUBVe4Wmrswo9lXoeZIX2H+g/6iUJwwaRQRv
+	Sd7L8dpr8YQPtewuEprVOt095ndxSBM7UsKX4RYDIPMSwRo83n2dkjsiJSw4wmhy8IVV1+VgGFRXz
+	+093+4Yh9VnDgiwmb1VM4SMIcrgB3zYdjK9Xq/GHB2w2Nh2y6NpsZM47wfspr+ZrgRAyNzHqo6aNe
+	3AJvjrGg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pLZhd-00GzNQ-L8; Sat, 28 Jan 2023 01:08:21 +0000
-Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
+	id 1pM4xT-001IeM-E7; Sun, 29 Jan 2023 10:30:47 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pLZhU-00GzKX-4y
-	for linux-nvme@lists.infradead.org; Sat, 28 Jan 2023 01:08:13 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674868092; x=1706404092;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=TrRs+s/AT0su1tfAyv2Bm0P5oGj5vIy8OvVvdrXtBj4=;
-  b=kKgAiLbhSre+0QzIBdP1jqiWc4lyUpM4ghtPjRNiiYtSHuxpJKQra3Jj
-   nadtidLA/bOV7A8GYThRI6oyZkiT3iZj8+qOBaw4xlFnpGB5tKeRahuJ4
-   h4e9Cazrf9Z43d02mooCcz0NRjWt+5OaUQba5RGQRe7KeCWoi6upBswhA
-   b2bgBxNJhS12UQ4F23pue9BDWF/FH+rFIl/6PIongZEY0auQzQecWR/5L
-   wSZ5j/byy2pvFM1qgfGpZXyZLc8nk2kJjWqADrGNK/26AEEFxD/AJronV
-   /uDHEd2yi5Nl63UZpRo9lQPuVyTSWg65jxDEQ28n9al2wEPVnW0vaeXyb
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="389618944"
-X-IronPort-AV: E=Sophos;i="5.97,252,1669104000"; 
-   d="scan'208";a="389618944"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 17:08:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="656805281"
-X-IronPort-AV: E=Sophos;i="5.97,252,1669104000"; 
-   d="scan'208";a="656805281"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 27 Jan 2023 17:08:10 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pLZhR-00008q-0p;
-	Sat, 28 Jan 2023 01:08:09 +0000
-Date: Sat, 28 Jan 2023 09:07:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.2] BUILD SUCCESS
- 85eee6341abb81ac6a35062ffd5c3029eb53be6b
-Message-ID: <63d4753c.Tyh8Niiu9roDjJA0%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+	id 1pM4xG-001Id0-9U
+	for linux-nvme@lists.infradead.org; Sun, 29 Jan 2023 10:30:36 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1674988232;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DD9ItJb8DAGKxE1FYa170PliQxZ0ony+4PPx8amlVDo=;
+	b=W9CWQOp2YPoGjKjmA1tIaDVgZU4FyJhpMeyc6qyksFGpsOpTCJBCeAmwC2cRc59OHCvwG8
+	YRtxCNaSGtiUc6kE4Y9u3tuhO4FR2CHfTb3gvZzurRZzLiQZBULcb9gaoUQW9SeHk0NgnX
+	dByH9qpBzWQ5+rLN1hYGR5vP6exN3K8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-628-X8l1YA0qMNWUXtndCFjKZQ-1; Sun, 29 Jan 2023 05:28:14 -0500
+X-MC-Unique: X8l1YA0qMNWUXtndCFjKZQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1AD1D101A521;
+	Sun, 29 Jan 2023 10:28:14 +0000 (UTC)
+Received: from T590 (ovpn-8-20.pek2.redhat.com [10.72.8.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id A2141422F2;
+	Sun, 29 Jan 2023 10:28:10 +0000 (UTC)
+Date: Sun, 29 Jan 2023 18:28:05 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Keith Busch <kbusch@kernel.org>, John Meneghini <jmeneghi@redhat.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	ming.lei@redhat.com
+Subject: Re: nvme/pcie hot plug results in /dev name change
+Message-ID: <Y9ZKNb4UKwg5zF4j@T590>
+References: <472fe309-f0f9-65bf-1ad1-8a92a349e973@redhat.com>
+ <Y8sKv7q+UEbz5ddD@kbusch-mbp.dhcp.thefacebook.com>
+ <Y8uN4V8uW2qS+xHR@infradead.org>
 MIME-Version: 1.0
+In-Reply-To: <Y8uN4V8uW2qS+xHR@infradead.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230127_170812_280592_BBB709CA 
-X-CRM114-Status: UNSURE (   5.95  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230129_023034_621069_51F63E48 
+X-CRM114-Status: GOOD (  26.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,84 +82,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.2
-branch HEAD: 85eee6341abb81ac6a35062ffd5c3029eb53be6b  nvme: fix passthrough csi check
+On Fri, Jan 20, 2023 at 11:01:53PM -0800, Christoph Hellwig wrote:
+> On Fri, Jan 20, 2023 at 02:42:23PM -0700, Keith Busch wrote:
+> > That is correct. We don't know the identity of the device at the point
+> > we have to assign it an instance number, so the hot added one will just
+> > get the first available unique number. If you need a consistent name, we
+> > have the persistent naming rules that should create those links in
+> > /dev/disk/by-id/.
+> 
+> Note that this a bit of a problem under a file system or stacking driver
+> that handles failing drives (e.g. btrfs or md raid), that holds ontop
+> the "old" device file, and then fails to find the new one.  I had a
+> customer complaint for that as well :)
+> 
+> The first hack was to force run the multipath code that can keep the
+> node alive.  That works, but is really ugly especially when dealing
+> with corner cases such as overlapping nsids between different
+> controllers.
+> 
+> In the long run I think we'll need to:
+>  - send a notification to the holder if a device is hot removed from
+>    the block layer so that it can clean up
 
-elapsed time: 3986m
+When the disk is deleted, the notification has been sent to userspace
+via udev/kobj uevent, so user can umount the original FS or
+DM/MD userspace can handle the device removal.
 
-configs tested: 62
-configs skipped: 2
+>  - make the upper layers look for the replugged devie
+> 
+> I've been working on some of this for a while but haven't made much
+> progress due to other committments.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+block device persistent name is supposed to be supported by userspace,
+such as udev rule.
 
-gcc tested configs:
-x86_64                            allnoconfig
-arc                                 defconfig
-alpha                               defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-s390                                defconfig
-x86_64                              defconfig
-s390                             allmodconfig
-x86_64                               rhel-8.3
-powerpc                           allnoconfig
-i386                 randconfig-a003-20230123
-i386                 randconfig-a002-20230123
-x86_64               randconfig-a002-20230123
-i386                 randconfig-a001-20230123
-alpha                            allyesconfig
-x86_64                           allyesconfig
-m68k                             allyesconfig
-i386                 randconfig-a004-20230123
-i386                                defconfig
-x86_64               randconfig-a001-20230123
-i386                 randconfig-a005-20230123
-m68k                             allmodconfig
-arm                                 defconfig
-s390                             allyesconfig
-i386                 randconfig-a006-20230123
-x86_64               randconfig-a006-20230123
-arc                              allyesconfig
-x86_64                           rhel-8.3-syz
-x86_64               randconfig-a004-20230123
-i386                             allyesconfig
-ia64                             allmodconfig
-x86_64                         rhel-8.3-kunit
-x86_64               randconfig-a003-20230123
-x86_64                           rhel-8.3-kvm
-x86_64               randconfig-a005-20230123
-sh                               allmodconfig
-x86_64                           rhel-8.3-bpf
-mips                             allyesconfig
-powerpc                          allmodconfig
-arc                  randconfig-r043-20230123
-arm                  randconfig-r046-20230123
-x86_64                    rhel-8.3-kselftests
-arm                              allyesconfig
-x86_64                          rhel-8.3-func
-arm64                            allyesconfig
+[1] https://wiki.archlinux.org/title/persistent_block_device_naming
 
-clang tested configs:
-x86_64               randconfig-a013-20230123
-x86_64               randconfig-a011-20230123
-x86_64               randconfig-a012-20230123
-x86_64               randconfig-a016-20230123
-x86_64               randconfig-a015-20230123
-x86_64               randconfig-a014-20230123
-x86_64                          rhel-8.3-rust
-i386                 randconfig-a012-20230123
-i386                 randconfig-a013-20230123
-i386                 randconfig-a011-20230123
-i386                 randconfig-a014-20230123
-hexagon              randconfig-r041-20230123
-hexagon              randconfig-r045-20230123
-s390                 randconfig-r044-20230123
-riscv                randconfig-r042-20230123
-i386                 randconfig-a015-20230123
-i386                 randconfig-a016-20230123
+Thanks,
+Ming
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
 
