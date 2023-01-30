@@ -4,75 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 989F8C54EED
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jan 2023 09:30:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BFAB6C54EED
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jan 2023 09:47:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=H1w/sob2deIb9pxt4pAEZWp01So4kETnigr7yzrrzGg=; b=fH1413wOOnIZd+LPBixI30adbX
-	oEF++eSHyoLO1MglmtGwonSTvJP6HUOF0+qLOCF9Pef38w+pLiljeblrWbdgEMQT90RWU1mcGnnlV
-	sBDHFKAfoBIgXRph60Z3bAXuyOXBlqqNYoC8Yu05j5fJrZLUj6NK42IcgysyJaAMF5czCwzIv/oP1
-	n4ZoTJIED3TBY74cE3W2+3pvI1gOW1uZ8rf39eZz63c/8lyBvY9vlMr0SCWM4X9az2aAVB1sqcXPA
-	tufW5KWD3U3RuNEIgBYGlnsCxKOF0sHNozL+rJ1Jjf0bKp5ZTxaK83QQMa7CPEn8yPj7/9ZiAMUyD
-	JRsrKJRw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TlIov0jXlmgYydIE80yw8Gg3LBOYwxYfEsZcw7ez+1Q=; b=1ZYroxtgWSMz9t86ekZMpN94Iv
+	ZYCed7XMo/qcXLbgaJsFoMdTupjOPD9Ugwt0dyfjHrbUl48jKU8itqkJEu988dugSGLuDaFOhiaRp
+	v4/SljgQX2G0XPOEui6snTsM8gHR57WNvs98UCH3DveRAhPvzyg+53bjR8oPurqzAasIGCktoZ1Wb
+	TbV8ryfY32F0oBBULz9c2AMCsFG8HiSotFUGEpQCyBIji4LuTqsjaJAZPIWAMJSZYAtb+z+jiLv9D
+	DMCaAT/QTmbncjTZhqoOf5v45rQS2gg5yZxYrhFs8EvWGzMvmWmStoep9t23swxKZLlP+tyumSB0b
+	5j4RdZow==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pMQUW-002sa8-QI; Mon, 30 Jan 2023 09:30:20 +0000
-Received: from [2001:4bb8:19a:272a:732e:e417:47d7:2f4a] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pMQNy-002oTE-C6; Mon, 30 Jan 2023 09:23:34 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Ilya Dryomov <idryomov@gmail.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Minchan Kim <minchan@kernel.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Xiubo Li <xiubli@redhat.com>,
-	Steve French <sfrench@samba.org>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	Anna Schumaker <anna@kernel.org>,
-	Mike Marshall <hubcap@omnibond.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	linux-block@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org,
-	target-devel@vger.kernel.org,
-	kvm@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-afs@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	devel@lists.orangefs.org,
-	io-uring@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 23/23] net-ceph: use bvec_set_page to initialize bvecs
-Date: Mon, 30 Jan 2023 10:21:57 +0100
-Message-Id: <20230130092157.1759539-24-hch@lst.de>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230130092157.1759539-1-hch@lst.de>
-References: <20230130092157.1759539-1-hch@lst.de>
+	id 1pMQlF-002xpG-5m; Mon, 30 Jan 2023 09:47:37 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1pMQlC-002xnl-7K
+	for linux-nvme@lists.infradead.org; Mon, 30 Jan 2023 09:47:35 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CD4AD1FE0D;
+	Mon, 30 Jan 2023 09:47:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1675072047; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TlIov0jXlmgYydIE80yw8Gg3LBOYwxYfEsZcw7ez+1Q=;
+	b=KTro/ULo+18blSgVtBnRnI7tQyoKJF1IZzy61BKb/1KyRWrhTAXGRQkDoR1fl/8KnswBuL
+	4Tm6ZRcby2QCIMTclxD/jpqA558wXtXoYaPV1gmfvUa+qbJLHvWzdxetv04Pusz3iP2d7J
+	O1g5V70qRqTu9s5ewJF4rJvl5f5MMiw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1675072047;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TlIov0jXlmgYydIE80yw8Gg3LBOYwxYfEsZcw7ez+1Q=;
+	b=iT0bvM/vGOkrYOajS+9lCHOljX80jY7wSWjBy04lzvF+35ENNIFSSsdeo4Posiw3XbB1Ne
+	9BplOulaUVHFA2BQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BF31E13444;
+	Mon, 30 Jan 2023 09:47:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id y5FOLi+S12NEdAAAMHmgww
+	(envelope-from <dwagner@suse.de>); Mon, 30 Jan 2023 09:47:27 +0000
+Date: Mon, 30 Jan 2023 10:47:27 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Nick Neumann <nick@pcpartpicker.com>
+Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>
+Subject: Re: Option to never do BLKRRPART ioctl in nvme format?
+Message-ID: <20230130094727.vngui7phl3cltb7j@carbon.lan>
+References: <CADqNVToVWkJHSPbYqJRgnFjdMt3N_-UkCHZtHVTRhpGNThX3Wg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 30 Jan 2023 01:24:49 -0800
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CADqNVToVWkJHSPbYqJRgnFjdMt3N_-UkCHZtHVTRhpGNThX3Wg@mail.gmail.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20230130_014734_447357_563DBE55 
+X-CRM114-Status: GOOD (  16.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,104 +85,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use the bvec_set_page helper to initialize bvecs.
+Hi Nick,
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- net/ceph/messenger_v1.c |  7 ++-----
- net/ceph/messenger_v2.c | 28 +++++++++++-----------------
- 2 files changed, 13 insertions(+), 22 deletions(-)
+On Fri, Jan 06, 2023 at 01:28:52PM -0600, Nick Neumann wrote:
+> The nvme format command, as its documentation states, issues BLKRRPART
+> ioctl after successful format.
+> 
+> It feels odd that after a successful format, the format command can
+> still return an error code because BLKRRPART ioctl fails.
+> 
+> When initially added, the BLKRRPART ioctl was issued but its return
+> value was ignored. Later[1], the return value started being checked
+> and returned. And over time [2,3], cases were added where BLKRRPART is
+> not issued.
+> 
+> I'm wondering if all of this, combined with apparent race conditions
+> I've hit where BLKRRPART can fail after successful format, are a sign
+> that there should be a way to do an nvme format without BLKRRPART
+> ioctl.
 
-diff --git a/net/ceph/messenger_v1.c b/net/ceph/messenger_v1.c
-index d1787d7d33ef9a..d664cb1593a777 100644
---- a/net/ceph/messenger_v1.c
-+++ b/net/ceph/messenger_v1.c
-@@ -40,15 +40,12 @@ static int ceph_tcp_recvmsg(struct socket *sock, void *buf, size_t len)
- static int ceph_tcp_recvpage(struct socket *sock, struct page *page,
- 		     int page_offset, size_t length)
- {
--	struct bio_vec bvec = {
--		.bv_page = page,
--		.bv_offset = page_offset,
--		.bv_len = length
--	};
-+	struct bio_vec bvec;
- 	struct msghdr msg = { .msg_flags = MSG_DONTWAIT | MSG_NOSIGNAL };
- 	int r;
- 
- 	BUG_ON(page_offset + length > PAGE_SIZE);
-+	bvec_set_page(&bvec, page, length, page_offset);
- 	iov_iter_bvec(&msg.msg_iter, ITER_DEST, &bvec, 1, length);
- 	r = sock_recvmsg(sock, &msg, msg.msg_flags);
- 	if (r == -EAGAIN)
-diff --git a/net/ceph/messenger_v2.c b/net/ceph/messenger_v2.c
-index 3009028c4fa28f..301a991dc6a68e 100644
---- a/net/ceph/messenger_v2.c
-+++ b/net/ceph/messenger_v2.c
-@@ -149,10 +149,10 @@ static int do_try_sendpage(struct socket *sock, struct iov_iter *it)
- 
- 	while (iov_iter_count(it)) {
- 		/* iov_iter_iovec() for ITER_BVEC */
--		bv.bv_page = it->bvec->bv_page;
--		bv.bv_offset = it->bvec->bv_offset + it->iov_offset;
--		bv.bv_len = min(iov_iter_count(it),
--				it->bvec->bv_len - it->iov_offset);
-+		bvec_set_page(&bv, it->bvec->bv_page,
-+			      min(iov_iter_count(it),
-+				  it->bvec->bv_len - it->iov_offset),
-+			      it->bvec->bv_offset + it->iov_offset);
- 
- 		/*
- 		 * sendpage cannot properly handle pages with
-@@ -286,9 +286,8 @@ static void set_out_bvec_zero(struct ceph_connection *con)
- 	WARN_ON(iov_iter_count(&con->v2.out_iter));
- 	WARN_ON(!con->v2.out_zero);
- 
--	con->v2.out_bvec.bv_page = ceph_zero_page;
--	con->v2.out_bvec.bv_offset = 0;
--	con->v2.out_bvec.bv_len = min(con->v2.out_zero, (int)PAGE_SIZE);
-+	bvec_set_page(&con->v2.out_bvec, ceph_zero_page,
-+		      min(con->v2.out_zero, (int)PAGE_SIZE), 0);
- 	con->v2.out_iter_sendpage = true;
- 	iov_iter_bvec(&con->v2.out_iter, ITER_SOURCE, &con->v2.out_bvec, 1,
- 		      con->v2.out_bvec.bv_len);
-@@ -863,10 +862,7 @@ static void get_bvec_at(struct ceph_msg_data_cursor *cursor,
- 
- 	/* get a piece of data, cursor isn't advanced */
- 	page = ceph_msg_data_next(cursor, &off, &len);
--
--	bv->bv_page = page;
--	bv->bv_offset = off;
--	bv->bv_len = len;
-+	bvec_set_page(bv, page, len, off);
- }
- 
- static int calc_sg_cnt(void *buf, int buf_len)
-@@ -1855,9 +1851,8 @@ static void prepare_read_enc_page(struct ceph_connection *con)
- 	     con->v2.in_enc_resid);
- 	WARN_ON(!con->v2.in_enc_resid);
- 
--	bv.bv_page = con->v2.in_enc_pages[con->v2.in_enc_i];
--	bv.bv_offset = 0;
--	bv.bv_len = min(con->v2.in_enc_resid, (int)PAGE_SIZE);
-+	bvec_set_page(&bv, con->v2.in_enc_pages[con->v2.in_enc_i],
-+		      min(con->v2.in_enc_resid, (int)PAGE_SIZE), 0);
- 
- 	set_in_bvec(con, &bv);
- 	con->v2.in_enc_i++;
-@@ -2998,9 +2993,8 @@ static void queue_enc_page(struct ceph_connection *con)
- 	     con->v2.out_enc_resid);
- 	WARN_ON(!con->v2.out_enc_resid);
- 
--	bv.bv_page = con->v2.out_enc_pages[con->v2.out_enc_i];
--	bv.bv_offset = 0;
--	bv.bv_len = min(con->v2.out_enc_resid, (int)PAGE_SIZE);
-+	bvec_set_page(&bv, con->v2.out_enc_pages[con->v2.out_enc_i],
-+		      min(con->v2.out_enc_resid, (int)PAGE_SIZE), 0);
- 
- 	set_out_bvec(con, &bv, false);
- 	con->v2.out_enc_i++;
--- 
-2.39.0
+I can't really say why BLKRRPART was added initially. The comment which was
+added later on
 
+/*
+ * If block size has been changed by the format
+ * command up there, we should notify it to
+ * kernel blkdev to update its own block size
+ * to the given one because blkdev will not
+ * update by itself without re-opening fd.
+ */
+
+indicates we don't need BLKRRPART necessary. I would like to understand first
+what's going on before dropping BLKRRPART.
+
+@Keith, do you happen to remember what's the reason for BLKRRPART?
+
+Thanks,
+Daniel
 
