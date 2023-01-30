@@ -4,158 +4,111 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4E80C54EAA
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jan 2023 14:35:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8FE1C54EED
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jan 2023 15:20:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=38noOuXBRVv1yORAes3OgK5ciZ1M5aWFJaSDbjCqkBo=; b=K9kkfsNJUqyMEj29zzbfq7hFaZ
-	tTxTUAauauxWt2vQrmDeBEK5lnTKt3VcMVBSQTgouQNWT/QUnsT+fQPrghDnl24/G9sFLPJGiLemU
-	bBnPluwP67veqachYN6nrjfIoYK/1BvDru92C+RbF0OUa7AR+ywt3PG7lza812HK1BMfKtFsh98dY
-	C9EkJ0SY26oZQip9hD1rBEev/FEL66wIctee8FCXbvMLmgpRLnll3EfiAkFKtHOmKgliqJ0GDLNLu
-	H41Vt5XaBWZjp+SBrXQdlVlmofWOd5zWUh+MbRFjLF0VQ7IAYBh/FrzUQ8ocj5P0Yk5Pd0jCNZJXy
-	rt7XaiMg==;
+	bh=URESPY8B3rO6+zudqQ9a2I8Kc4P4ekxUO74igKr3Ygk=; b=dICROmqcGuBuL8xa+BrgAnBp7g
+	fvTGs2udm0hxb+oybdHL1B/tSMr+Z/nzKZZXKOmM6cgjIzpPmb/DuzWJR4Tmg23IcJpZNAaqBT7Vd
+	CwW7V319zw0WsqeK3Ls/3Znm1/ROubA8aK6ZnOWGynQ5Tw9HJKxP4yksXVb7ClnJJIVapfwjDFeIR
+	L3KDrHO4Tmc/YGLx3o4I2qsIoYwGe0utYDbEUl2swgWFrWzlxplvcMbfo/5v6/T/gqcQGDUTE3bow
+	ooWqiwkXJAReYhuk1ekNO8fSeXSB1diiZ8O2gG1w2mqa3WUI+Y7MiLl3E7qUI0PcR0noWG2k7wCYA
+	kgwi7R0g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pMVFZ-003tYS-S9; Mon, 30 Jan 2023 14:35:13 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1pMVxS-0040B0-Va; Mon, 30 Jan 2023 15:20:34 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pMVF0-003tYJ-ST
-	for linux-nvme@bombadil.infradead.org; Mon, 30 Jan 2023 14:34:39 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=MIME-Version:Content-Transfer-Encoding
-	:Content-Type:In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=38noOuXBRVv1yORAes3OgK5ciZ1M5aWFJaSDbjCqkBo=; b=PGVCU1Jm4u3SC+SasqRK1lJbIN
-	9iRFZEmjbVQIMfmo0jeQjw5WDE0cddaoxGEm/vZrejij3WS4DBoDxxVB0pazgDpQ5rkB7MjtjmlqG
-	e87dRyLWkrq9e4amWfM4kwgiH3L+LvzLf/iizmNfMzMXgNcvkrEplKUq0fXzMniG3yVdlxE74ygew
-	EcmwLKqhmZ1mlPPo06EOA6p9zpMR4W8EDbVDpcoFOa1a0dhNeYsHENmPn6Qxtn9rf/FHTFv+I51Rw
-	Cd8rPhJFdupoHmxPfZH8W2Bp4e2KfKm713p8XQTgKZAurLdFvdBKY6CCqc9UJjCb2N4j5cSTyY6l+
-	daa6qVyA==;
-Received: from mail-dm6nam10on2061e.outbound.protection.outlook.com ([2a01:111:f400:7e88::61e] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
-	by desiato.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pMVEM-003yIK-2g
-	for linux-nvme@lists.infradead.org;
-	Mon, 30 Jan 2023 14:34:03 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=djEFT30QkoJBYpA/gZAl6HAJZbyNdqzmnCH3ofGUGt7ioleaeOh5phjZ28BFRsqFDe3szh9/DKu2BPXBSiR5O7W7sLlaAcOqGRQKW2IScRwQMId8Kx3btD/6lo9q12MVLNAg5QmA98PZPCRW0Ha3sKdnyu9kzvJgtzGzjF0zyp0TZwKJCOHOZFUi1m/NbxnlunMqg0C6LIAxZnJIZC68NryQ2zmHpDoG1mZbR1JZEb58sD+5cbNmwD0IGksIkvTTVVI84M9jOuRB4jB9DTo4/+W/RXs8kZDOazyqaqK8VNi5WfT1uT8Besla0Y1zSdd/DU19Bev3EJ3+CS41zuC0Gw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=38noOuXBRVv1yORAes3OgK5ciZ1M5aWFJaSDbjCqkBo=;
- b=lX47hkSQvZbdqR+zwJXufh4NhyKIkCLgPFD4G5AQmgKnWM1/q9jvW13d81RXjW7YkXbYMpw0PiowfqU0OU/ScCw50V3asn1izCJIi8tywFe/QZQWH7eg6hbinOcyNxyE1AfykKzS3MiyWZqsU7Cu5yzRWlQxouRzq8nG2I/EM6EspTnMQvtHEm1nF1gHYAxMRUmxoK28NJqbxThCT5LRC+G4lRG/gf+JQhOSUM57XwoohcxuTFsLxL6dEvLYc80aCLsYR/MMp2FudBlA4/zAaSEuUcqDfUPHlG79tWd4N5ON5a2vTrEofQg1c9L9Xzr3PebN7icROGhP+bIhKZUN7g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=38noOuXBRVv1yORAes3OgK5ciZ1M5aWFJaSDbjCqkBo=;
- b=aIBUMCqSJk4Lf1HmhXUCAAcof/dzSKDqKd0HQtaYDFJlqCXBefdSN41UKYY1/fzO+YdDOgeFKFZZNIQaZd7tFklXf1mnMr8RvDyWAbELXdtU9lkDaUsxOZFitztxf9+RMm56jPjkbcEoBf9XYgU0d+6urdEHyJAsBSR9nzvjHG1DRMfaCBXgqAhthgIWFdbKimNzLXCPUXeZBvyfLwkeioXyYnYGUTw5qirNxn8FBIn+2GQRKq+7Y0EW6y0msCGNHiLzyTM0Ir66fLguVhXJdqNKaK2NoHv7+k5mgZdAcCj08iqQMdelYuKVgG2XZy0iTDdOt7paDk7gNRS7jIcNiA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
- by CH2PR12MB4101.namprd12.prod.outlook.com (2603:10b6:610:a8::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.36; Mon, 30 Jan
- 2023 14:34:09 +0000
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::9444:21e0:2a65:da95]) by DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::9444:21e0:2a65:da95%8]) with mapi id 15.20.6043.036; Mon, 30 Jan 2023
- 14:34:08 +0000
-Message-ID: <e8c35d5d-d855-a38c-2f3b-6887df208360@nvidia.com>
-Date: Mon, 30 Jan 2023 16:33:59 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH rdma-next 00/13] Add RDMA inline crypto support
+	id 1pMVv7-003zir-SQ
+	for linux-nvme@lists.infradead.org; Mon, 30 Jan 2023 15:18:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1675091888;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=URESPY8B3rO6+zudqQ9a2I8Kc4P4ekxUO74igKr3Ygk=;
+	b=LYj3dWN8F+7XqFa16uGwGmwWWGfX+GbOS/LpjPtQ51Nx3nd2LHEydaiX91f44faRkaSC3Y
+	R1uYLyk+HJyS749bPI3PX+GLKHIIQK2zZKAWQigAJf3Krd7mm3FC533PhAHz4V/m1FF6vY
+	GblLzMbtXXNZLMfRXFmhxX77Mxpkeew=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-125-t2AFO8AROI6q5Antz8dKLw-1; Mon, 30 Jan 2023 10:18:07 -0500
+X-MC-Unique: t2AFO8AROI6q5Antz8dKLw-1
+Received: by mail-wm1-f72.google.com with SMTP id l8-20020a05600c1d0800b003dc25f6bb5dso7744808wms.0
+        for <linux-nvme@lists.infradead.org>; Mon, 30 Jan 2023 07:18:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=URESPY8B3rO6+zudqQ9a2I8Kc4P4ekxUO74igKr3Ygk=;
+        b=M2zAKpZMojwPTnHNvfJgy/qUV8J3a0Ke1v7P5/9ogTPNRILEX59EcGRwAqq5z+7nHT
+         j8Bi9RH3qvFq+hzzp5WK02VJrpZ5EnnYOgm+OwyktfoQdHg47nFcjVq9D1sOA2jkSxDq
+         OPczCXCx4JZmGE55Hgf2XavJusSKtGA0dmn6kY0xRLAYQjOFup73PTmcYDPUygkrLjID
+         44I4TXpuhdkpegpk0h8ffmUE1BK4tS9OVK5qDKhzHt/m5cb0GmyrUKKbKPENwuXb+CLJ
+         EXVh9DxBQzkaylStKlZ1uexbZ9wWXAvKs3kkxhr2vQX3QrSPV76ed4Obv394uCFt2Lk4
+         043Q==
+X-Gm-Message-State: AO0yUKWFohp30rLJDIqeCGAO/ruQmG1gs0+3AObdXtpFr23d0XVFkPQ/
+	t0KxZghVe77YB4LGtC+XrWQKbTSvOuqF/1JFRvvnfs72uNBS0EQxP5DbBPT16PZwz+B3yHowAKk
+	cbVjKKYtKkRMEZvemYEK921ET090=
+X-Received: by 2002:a05:6000:1105:b0:2bf:b77c:df72 with SMTP id z5-20020a056000110500b002bfb77cdf72mr16512226wrw.25.1675091885693;
+        Mon, 30 Jan 2023 07:18:05 -0800 (PST)
+X-Google-Smtp-Source: AK7set9hHGYe0bnBQdwa2LZ/rAVCRbopEtGk+crtv3OHnMIQTfwimU+PtBLrc1/FzlqOKTq9Gtug2w==
+X-Received: by 2002:a05:6000:1105:b0:2bf:b77c:df72 with SMTP id z5-20020a056000110500b002bfb77cdf72mr16512171wrw.25.1675091885371;
+        Mon, 30 Jan 2023 07:18:05 -0800 (PST)
+Received: from redhat.com ([2.52.144.173])
+        by smtp.gmail.com with ESMTPSA id p6-20020a5d48c6000000b002bfc0558ecdsm11985935wrs.113.2023.01.30.07.18.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jan 2023 07:18:04 -0800 (PST)
+Date: Mon, 30 Jan 2023 10:17:58 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Christoph Hellwig <hch@lst.de>
-Cc: Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
- Bryan Tan <bryantan@vmware.com>, Eric Dumazet <edumazet@google.com>,
- Israel Rukshin <israelr@nvidia.com>, Jakub Kicinski <kuba@kernel.org>,
- Jens Axboe <axboe@fb.com>, Keith Busch <kbusch@kernel.org>,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-rdma@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- Masami Hiramatsu <mhiramat@kernel.org>, netdev@vger.kernel.org,
- Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
- Sagi Grimberg <sagi@grimberg.me>, Selvin Xavier
- <selvin.xavier@broadcom.com>, Steven Rostedt <rostedt@goodmis.org>,
- Vishnu Dasa <vdasa@vmware.com>, Yishai Hadas <yishaih@nvidia.com>
-References: <cover.1673873422.git.leon@kernel.org>
- <20230118073654.GC27048@lst.de>
- <ac48766a-b861-4fc0-3171-7b23f175c672@nvidia.com>
- <20230130123505.GA19948@lst.de>
-Content-Language: en-US
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-In-Reply-To: <20230130123505.GA19948@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR09CA0142.eurprd09.prod.outlook.com
- (2603:10a6:803:12c::26) To DM4PR12MB5040.namprd12.prod.outlook.com
- (2603:10b6:5:38b::19)
+Cc: Jens Axboe <axboe@kernel.dk>, Ilya Dryomov <idryomov@gmail.com>,
+	Jason Wang <jasowang@redhat.com>, Minchan Kim <minchan@kernel.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	David Howells <dhowells@redhat.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Xiubo Li <xiubli@redhat.com>, Steve French <sfrench@samba.org>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	Anna Schumaker <anna@kernel.org>,
+	Mike Marshall <hubcap@omnibond.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Chuck Lever <chuck.lever@oracle.com>, linux-block@vger.kernel.org,
+	ceph-devel@vger.kernel.org,
+	virtualization@lists.linux-foundation.org,
+	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+	target-devel@vger.kernel.org, kvm@vger.kernel.org,
+	netdev@vger.kernel.org, linux-afs@lists.infradead.org,
+	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+	devel@lists.orangefs.org, io-uring@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH 09/23] virtio_blk: use bvec_set_virt to initialize
+ special_vec
+Message-ID: <20230130101747-mutt-send-email-mst@kernel.org>
+References: <20230130092157.1759539-1-hch@lst.de>
+ <20230130092157.1759539-10-hch@lst.de>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|CH2PR12MB4101:EE_
-X-MS-Office365-Filtering-Correlation-Id: 382e6da5-a3ce-4b44-b22f-08db02cf0bd3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	IXI5IfNS44siFxpUOsoiNJhWzoC9siv+az9dHvPTnPc1TzLoT9amDnayVP5x5jKXW+YPJo+juBLA9fyp6Ebv+pObCQzwDrFKKU/+OKD4MCb1vCQ7wBnWjcWovGBRkX27eQ2sr/b7ZMzh7jlfcfiQfmo68IRhZnbpi6L8cZkRYTgf3kJfV5JS02cGKnRKC0PQmn23FPQV9FPdh6u2JAALRbHoMhORhGTK8DTLAVcbcImQK0vQM48O47Cxa9+rHCVEmTRfMBLdj3vJhVdLz2RivdXTq0lTYoBOlW+KARBI9cWvQAQBn9dgz027AyfhkZRsseK2M8nceWXgJR12K4ED0gm0Af7mZc5dXaWkMErn/fdlhRJc4xOguB9fGB0PXGL3b/X622aDfTPhvVge9oz7ILndILEDdR2cdl+ThjAmO23Ngx/tvG7LWs8sAA1b0uOAJHonKTbdg7O5C+/F0ZR2bJVBZM8PZZfA6vhVJl9YxAAQr66Wkn9T77d6CufLmqC9kZxIXsDSWw3pamuFVDbyMI3QicBzEmCFivJ5W6Jtd/Qs/cbGnxWskP5lcMrVRXXFmM0dks8/VVsL42QmdVCUqtQh6TBYVEyjMj+D2YsZRWnAloD6ySn2zvNe9qj0N2fesUhskdYsb/25j1jMvyYfXMMiyRbgHm8LoqtdeUgADSCmMgFubsBVSOi4FVvRav0zDKqvVn2LD482krrU6tqL1mi342gHOxY8tlvSFpR7X/8=
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(376002)(366004)(346002)(396003)(136003)(451199018)(8936002)(41300700001)(31696002)(86362001)(4744005)(5660300002)(7416002)(83380400001)(2616005)(54906003)(316002)(66556008)(66476007)(66946007)(38100700002)(6916009)(4326008)(8676002)(6666004)(6512007)(186003)(6506007)(53546011)(36756003)(6486002)(478600001)(107886003)(66899018)(31686004)(2906002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?eHgxZDR4ZTJmamFQcENpM1NwUjlSeU1rNDJjVVppc2FLSzdGUHRnb2wrUlV6?=
- =?utf-8?B?TjVncEtBVUh3VVhQMFZ5Qm0xTlBrbVNCVnJPTmM3dm9vNVlKQ016NHlydGx3?=
- =?utf-8?B?N3ZCVTB5ZzFGRWFCakdsdUd6dGdSQ1MwYnExdE1NR0JRcklhMG5VWGlTVnNC?=
- =?utf-8?B?RDRodmRGRHZnL0pPUk5BSUdLRFY4aW5ZQm4vNjJlM1dGV0ZmQzRYVnZXVEVa?=
- =?utf-8?B?eWQyYm5YZ2pMc21ESnlBcG42R0hYc2tvbjFocWtiZkdaVmhNNUt0amNxSjBC?=
- =?utf-8?B?L3JleU1wc2FHYkdpa0k5ZlJOZlRjTFpvR05jZ2xXYW5DVkZZTVZUTTRDSHNM?=
- =?utf-8?B?OW5ISHpUVXRXOVY1Smx0WlFzSjlTV1Vxbk5CeEZoYUdYdWIrc1ZyYy9aaTBX?=
- =?utf-8?B?di9yVnArOEN5QnpRZ2dPdmZPTW9qRSszc0Q2eXYzd0MvNlIxUUhET0hOZjZZ?=
- =?utf-8?B?UE1mMWdMNkJnY3dlbXI1WFpOVXdRUzA4aHFaVUJyYlB2bnRpNTFJRkZaOGg5?=
- =?utf-8?B?Z280NkpNWXpka0FvSW94UFF5T0RXWTQwSWNXZTY1RnUyQVcyM0I1QlRXcXlk?=
- =?utf-8?B?czdvcVFYM0ErMmo2OGZtVXpOUDhNUlFUOHZENUVxem9NczBLb0hVVTNpZHFF?=
- =?utf-8?B?cWVMSmE2ZU9wT2M0YWhiOHZMcnZ1dHlPVDlhNkVYYmxLT1lPRmZiU1RNNVBP?=
- =?utf-8?B?TFE1Y3ZIMG0yTkdzanR1c282eFdTL3BmcGdwdzI1TFNWeWloM0FTNThvZnNH?=
- =?utf-8?B?aFJ2M1Z5bDZURUNNa2VVNGlhU3c2OUtJdHFMMWFnL0ZVT1pZWjJDNjJzc0lk?=
- =?utf-8?B?NjY1cS9NR1B1ejlnUTRjYUJyVXRLMDBHU1JWczFCU25LS2k3bVNEOEhsQzVG?=
- =?utf-8?B?d0gxamY2akFISms1OXNjWDJlOXNveGZIeUxkTTlyWmtVVlhMQlozaVc3RGhH?=
- =?utf-8?B?RDlTZmQzbEtQQW01QUkvZ01NS0lNWjlwRXJIUmt1aENtY1NENDQ1MkFzOFMv?=
- =?utf-8?B?MjlTSkx0c2c2bVQreVlrSlRHV29sbkpweXFQMVJkbnd4MjFsRDRLbm1aYVZQ?=
- =?utf-8?B?Q2t1U2VPbFVCcjhPZmQxZlR4czhsaUtTQ1hVSUdPclI3UUpYWThrVkpxNFJr?=
- =?utf-8?B?ajMvRFdRNlBpblRPSUFoWkpBYXZQTkdqQkZJS0k0Rk1keSt0dkFCQ1BaYWxq?=
- =?utf-8?B?WWJPemJmRHJHdmlVd0syQ1QzUXgvNlUvZVJoQ01DK29sK0wzMU9YOSt1ZzND?=
- =?utf-8?B?S2tHbzhJUStqTWFWdExMZG5DeEQ5UjVBNmUzQWZ0YzlMNzFOeGpxeEpnZy9L?=
- =?utf-8?B?WFVSTnRuQ1V5WDZ6bVhyakJEMko2VXRIMWlsRDhIL2hMeC8vVTNKODkwZHF4?=
- =?utf-8?B?Rjc2Rk1pRFJGZ0J2RHhTdVdINi9XZkxsWW9zSElFK1BweTgzNzRlWUFBanM4?=
- =?utf-8?B?ZXZ5MEo3Nk02eUYzVk04QWE4ZmdyZDZPN2lTOHlkRW1iQjdHazJvdXZ5TFJx?=
- =?utf-8?B?TmNWRmlMaUxrU0I0ZU1sVlJ1U1lBb3U4cGlPUTVWZnpCRWd5SkpOY1ovWjRO?=
- =?utf-8?B?ZkU2aHpYNGQxVytHTzcrLzZ5K3phM3FadzlyS3hBdWNBN0xyNUgrSXhERXl4?=
- =?utf-8?B?RkhHNmptbGZYdUJHdlVMZHN0ZnZhdlE2a1dleDZicVFqRGRtdjlIa3phdG54?=
- =?utf-8?B?UFdmUmVYWnpwb2pFeEtWVnJselozR3NQdmNFS1czWWJYaWJSVjhreWxEa2RK?=
- =?utf-8?B?OXpJWGViQ3NmWmdpV3FLZFViMVFRUHNKRzJxTVFTdHN6U1BZanRkYzdGSCtu?=
- =?utf-8?B?aW1HL1FtMXFDQjhobnA3ZmdkOXdwSkFGanBSeHl5WEQ0cGlhQ3UwNG5naU1m?=
- =?utf-8?B?WGZLTFNHUm90QndVUnVTclhTTGY4RWM4TmVRczllOHJtK2EzSWFMa09OZitV?=
- =?utf-8?B?c3ArWUdCSmIyaFNPOG8veUt6WlhLT2RNYVJFN1gwdmZJU1FrZzNSRVgrRHhN?=
- =?utf-8?B?SjVLYWEyakFxc1l0MndncHJVbk9ra2V2UHEvRjRRL2ZPUjlpWGpaaS9IZzBx?=
- =?utf-8?B?NHlDb3kxUkFOY1BmQUwyTzN2SmhUSG9GTzFuY3Jxa0ptR2cvK2VsOW9CR0J2?=
- =?utf-8?B?V1Y0L3NQT0Z1ckl4eWY0WDlYZGF0b3JhUGNmNEhuZitkQmJtTmZER0RhU0kv?=
- =?utf-8?Q?PrvbeuqlS5LIo9t/ytOPfHuh5yhhf32YyoZC7xa7DuJ7?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 382e6da5-a3ce-4b44-b22f-08db02cf0bd3
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2023 14:34:08.7965
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gSt9M8ut6pBntc1TPioguN1P8B5qI/AN9zhdNukOk3bvfj4DF6/EDc1/HWN0UrVCp7iLAYv95J3iN0zLMFfr6A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4101
+In-Reply-To: <20230130092157.1759539-10-hch@lst.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230130_143359_305465_572F8054 
-X-CRM114-Status: GOOD (  12.79  )
+X-CRM114-CacheID: sfid-20230130_071810_013379_770B05A5 
+X-CRM114-Status: GOOD (  19.21  )
+X-Mailman-Approved-At: Mon, 30 Jan 2023 07:19:29 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -170,26 +123,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Mon, Jan 30, 2023 at 10:21:43AM +0100, Christoph Hellwig wrote:
+> Use the bvec_set_virt helper to initialize the special_vec.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-On 30/01/2023 14:35, Christoph Hellwig wrote:
-> On Wed, Jan 18, 2023 at 04:20:27PM +0200, Max Gurtovoy wrote:
->> Today, if one would like to run both features using a capable device then
->> the PI will be offloaded (no SW fallback) and the Encryption will be using
->> SW fallback.
-> It's not just running both - it's offering both as currently registering
-> these fatures is mutally incompatible.
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
-For sure we would like to offer both, but as mentioned before, this will 
-require blk layer instrumentation and ib_core instrumentation to some 
-pipeline_mr or something like that.
-We are interested in doing this IO path but doing all in 1 series 
-doesn't sounds possible.
 
-First we would like to have at least the mutual exclusive solution since 
-there are users that may want only one type of acceleration.
-
-re-designing, both blk layer and ib_core for the PI + CRYPTO case in 
-this series is not feasible IMO.
-
+> ---
+>  drivers/block/virtio_blk.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
+> index 6a77fa91742880..dc6e9b989910b0 100644
+> --- a/drivers/block/virtio_blk.c
+> +++ b/drivers/block/virtio_blk.c
+> @@ -170,9 +170,7 @@ static int virtblk_setup_discard_write_zeroes_erase(struct request *req, bool un
+>  
+>  	WARN_ON_ONCE(n != segments);
+>  
+> -	req->special_vec.bv_page = virt_to_page(range);
+> -	req->special_vec.bv_offset = offset_in_page(range);
+> -	req->special_vec.bv_len = sizeof(*range) * segments;
+> +	bvec_set_virt(&req->special_vec, range, sizeof(*range) * segments);
+>  	req->rq_flags |= RQF_SPECIAL_PAYLOAD;
+>  
+>  	return 0;
+> -- 
+> 2.39.0
 
 
