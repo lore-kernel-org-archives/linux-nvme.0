@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3FA67C63797
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jan 2023 09:25:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C3C1C54EED
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jan 2023 09:25:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qHieNPI7z3sFtodokWVnoougmLvZVnqE3Y/VparMyFY=; b=d0tYOz9OWiN4GtGRGGPT/AdjHS
-	B/uTHx7Rbffx3+jvGAZgST3DIOwQ7WMKjD7agb3REvBdykeD/DRVtGVZK5EqLrhOGTnHGp3WqVHvz
-	DNVG64s6JK/VhFTmP6GHc016IahCplB3ZRzswoxsD1SzNG0w3SIfpS68REKEtpt5OMpuZAJsXuWNA
-	MEP9uQox7ik03wy432zWQ+aIT9HmnYrV8MvzttP3owCkJolZ2MB4m1POFUAmaGM4s4tWeHtc+doav
-	TutB1xw4yrGOdp46kjoKhOmoIbQvwoAMX5xwZBYop1c7cENcV0zHdQAuO733YxRnZBfagQj5vxDfd
-	CCx4qISQ==;
+	bh=p+yCA75hP3xTA4z0JqY98N90poOlsvGyo37k4Ap2woM=; b=L5SfK2pP/4o8Olt5l7KDoMQovx
+	+GxQVpVy1KcRuBLesXtI9ilACMN82sIr27EaqZGNw6I3Qoee+qyq8h4rRh+hM3ooAC+0+c/c+1A09
+	4oUQPIM3EY3wjQYz2Gk08hO61jeL6IkUTc+V5NjnlgAOldfZxYn/dytqW2DrJ28LZ4/vfjFICswzP
+	L9huEVKse4Ze6ACFYXrovy7X9X+nkkoD8YUaDNOYEpvqLbEnXyxsOi8o3sTjT/AfqbsTp3Cqlasn4
+	4HSjY9vPihY69r0i876xAfInLAquQd4/6mlD0Nx4qoBpNMa/48ENv/woyEUP5w/I1lhI+uMQkWO5X
+	FHVVLxkQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pMQPe-002pPl-SR; Mon, 30 Jan 2023 09:25:18 +0000
+	id 1pMQPj-002pSq-Am; Mon, 30 Jan 2023 09:25:23 +0000
 Received: from [2001:4bb8:19a:272a:732e:e417:47d7:2f4a] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pMQMh-002o1D-D3; Mon, 30 Jan 2023 09:22:15 +0000
+	id 1pMQMj-002o2F-W8; Mon, 30 Jan 2023 09:22:18 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Ilya Dryomov <idryomov@gmail.com>,
@@ -64,9 +64,9 @@ Cc: Ilya Dryomov <idryomov@gmail.com>,
 	devel@lists.orangefs.org,
 	io-uring@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH 03/23] block: add a bvec_set_virt helper
-Date: Mon, 30 Jan 2023 10:21:37 +0100
-Message-Id: <20230130092157.1759539-4-hch@lst.de>
+Subject: [PATCH 04/23] sd: factor out a sd_set_special_bvec helper
+Date: Mon, 30 Jan 2023 10:21:38 +0100
+Message-Id: <20230130092157.1759539-5-hch@lst.de>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230130092157.1759539-1-hch@lst.de>
 References: <20230130092157.1759539-1-hch@lst.de>
@@ -87,37 +87,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A small wrapper around bvec_set_page for callers that have a virtual
-address.
+Add a helper for setting up the special_bvec instead of open coding it
+in three place, and use the new bvec_set_page helper to initialize
+special_vec.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- include/linux/bvec.h | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/scsi/sd.c | 36 +++++++++++++++++-------------------
+ 1 file changed, 17 insertions(+), 19 deletions(-)
 
-diff --git a/include/linux/bvec.h b/include/linux/bvec.h
-index f094512ce3bda9..7031d83af02267 100644
---- a/include/linux/bvec.h
-+++ b/include/linux/bvec.h
-@@ -63,6 +63,18 @@ static inline void bvec_set_folio(struct bio_vec *bv, struct folio *folio,
- 	bvec_set_page(bv, &folio->page, len, offset);
+diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+index 47dafe6b8a66d1..277960decc104b 100644
+--- a/drivers/scsi/sd.c
++++ b/drivers/scsi/sd.c
+@@ -831,6 +831,19 @@ static void sd_config_discard(struct scsi_disk *sdkp, unsigned int mode)
+ 	blk_queue_max_discard_sectors(q, max_blocks * (logical_block_size >> 9));
  }
  
-+/**
-+ * bvec_set_virt - initialize a bvec based on a virtual address
-+ * @bv:		bvec to initialize
-+ * @vaddr:	virtual address to set the bvec to
-+ * @len:	length of the bvec
-+ */
-+static inline void bvec_set_virt(struct bio_vec *bv, void *vaddr,
-+		unsigned int len)
++static void *sd_set_special_bvec(struct request *rq, unsigned int data_len)
 +{
-+	bvec_set_page(bv, virt_to_page(vaddr), len, offset_in_page(vaddr));
++	struct page *page;
++
++	page = mempool_alloc(sd_page_pool, GFP_ATOMIC);
++	if (!page)
++		return NULL;
++	clear_highpage(page);
++	bvec_set_page(&rq->special_vec, page, data_len, 0);
++	rq->rq_flags |= RQF_SPECIAL_PAYLOAD;
++	return bvec_virt(&rq->special_vec);
 +}
 +
- struct bvec_iter {
- 	sector_t		bi_sector;	/* device address in 512 byte
- 						   sectors */
+ static blk_status_t sd_setup_unmap_cmnd(struct scsi_cmnd *cmd)
+ {
+ 	struct scsi_device *sdp = cmd->device;
+@@ -841,19 +854,14 @@ static blk_status_t sd_setup_unmap_cmnd(struct scsi_cmnd *cmd)
+ 	unsigned int data_len = 24;
+ 	char *buf;
+ 
+-	rq->special_vec.bv_page = mempool_alloc(sd_page_pool, GFP_ATOMIC);
+-	if (!rq->special_vec.bv_page)
++	buf = sd_set_special_bvec(rq, data_len);
++	if (!buf)
+ 		return BLK_STS_RESOURCE;
+-	clear_highpage(rq->special_vec.bv_page);
+-	rq->special_vec.bv_offset = 0;
+-	rq->special_vec.bv_len = data_len;
+-	rq->rq_flags |= RQF_SPECIAL_PAYLOAD;
+ 
+ 	cmd->cmd_len = 10;
+ 	cmd->cmnd[0] = UNMAP;
+ 	cmd->cmnd[8] = 24;
+ 
+-	buf = bvec_virt(&rq->special_vec);
+ 	put_unaligned_be16(6 + 16, &buf[0]);
+ 	put_unaligned_be16(16, &buf[2]);
+ 	put_unaligned_be64(lba, &buf[8]);
+@@ -876,13 +884,8 @@ static blk_status_t sd_setup_write_same16_cmnd(struct scsi_cmnd *cmd,
+ 	u32 nr_blocks = sectors_to_logical(sdp, blk_rq_sectors(rq));
+ 	u32 data_len = sdp->sector_size;
+ 
+-	rq->special_vec.bv_page = mempool_alloc(sd_page_pool, GFP_ATOMIC);
+-	if (!rq->special_vec.bv_page)
++	if (!sd_set_special_bvec(rq, data_len))
+ 		return BLK_STS_RESOURCE;
+-	clear_highpage(rq->special_vec.bv_page);
+-	rq->special_vec.bv_offset = 0;
+-	rq->special_vec.bv_len = data_len;
+-	rq->rq_flags |= RQF_SPECIAL_PAYLOAD;
+ 
+ 	cmd->cmd_len = 16;
+ 	cmd->cmnd[0] = WRITE_SAME_16;
+@@ -908,13 +911,8 @@ static blk_status_t sd_setup_write_same10_cmnd(struct scsi_cmnd *cmd,
+ 	u32 nr_blocks = sectors_to_logical(sdp, blk_rq_sectors(rq));
+ 	u32 data_len = sdp->sector_size;
+ 
+-	rq->special_vec.bv_page = mempool_alloc(sd_page_pool, GFP_ATOMIC);
+-	if (!rq->special_vec.bv_page)
++	if (!sd_set_special_bvec(rq, data_len))
+ 		return BLK_STS_RESOURCE;
+-	clear_highpage(rq->special_vec.bv_page);
+-	rq->special_vec.bv_offset = 0;
+-	rq->special_vec.bv_len = data_len;
+-	rq->rq_flags |= RQF_SPECIAL_PAYLOAD;
+ 
+ 	cmd->cmd_len = 10;
+ 	cmd->cmnd[0] = WRITE_SAME;
 -- 
 2.39.0
 
