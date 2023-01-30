@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34EB3C54EED
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jan 2023 09:26:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EBA03C54EED
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jan 2023 09:26:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mjnWElruolPujfuaQzrOj/G3l/fBXPdeJ5vitS9FjeU=; b=rh1tw3EEXlNkqznGrUps47Bx8U
-	ErxQnMaL6vHpevmzvlt6P2najq+/Dm3mBcZ25B828leI573sQ/lkd+zwab8cBxD9pJr6EzJl00ySK
-	rGxt+cHgZQz9CMiZ7Zh+QIJo3tt6xBlkrDj4bJO3W1jfC221IsncotBi5gPsXavyz9dAyuTN2bTnq
-	o5vJgu1TdnEnlPMruY/37fmqGz9waWr8u37AHIyDeKgODekmeHl8FiUTG6MrSEdxtlFt2dvBSUL28
-	L29cEYv52NoV9eU3UuRwfZgrqPwBp4hfxQkeGoSKligjK63aeCbJFSZh8GsHJmZEugOrUa06iK19B
-	RZTXfNvA==;
+	bh=iTork4lgSqwAnNzEK3lzK1UwHk37chVOVoUGPRhe1ko=; b=RbuCpJNu9N7GmDQNM7OmTfYvCv
+	WF73Ol+kBuL/XKvYv+8NTiCLNQsuJn3p6uoy+tQbiU3aEnNvzgqcXFkEXVTOiL2FTt9ndcgDxHRS9
+	WQtOe4jXSEZYM+Bto8CWC0xxf1lkq+QEhmPNMP4VmCjBXDROAyrlRY3Ouuu/Y3k/UfxMzMlEiB5kM
+	kshRKf9XN22RQ4AxHqKf8ZcScqd5RIYa2aTyiphEi05McqVPq6PcQ5XysrNH8UaK8A3MjzgZReEys
+	j4M492EsXhh2uPadu52hbGvWjXWMuTcrnQ7EcxYBSm9OozeYGl2tdt8YVLL5fQiNeYLjeJevN4IxX
+	ThnAnF5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pMQQe-002qB6-CM; Mon, 30 Jan 2023 09:26:20 +0000
+	id 1pMQQm-002qI8-Lx; Mon, 30 Jan 2023 09:26:28 +0000
 Received: from [2001:4bb8:19a:272a:732e:e417:47d7:2f4a] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pMQNC-002oES-K9; Mon, 30 Jan 2023 09:22:47 +0000
+	id 1pMQNF-002oFW-6t; Mon, 30 Jan 2023 09:22:49 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Ilya Dryomov <idryomov@gmail.com>,
@@ -64,9 +64,9 @@ Cc: Ilya Dryomov <idryomov@gmail.com>,
 	devel@lists.orangefs.org,
 	io-uring@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH 13/23] cifs: use bvec_set_page to initialize bvecs
-Date: Mon, 30 Jan 2023 10:21:47 +0100
-Message-Id: <20230130092157.1759539-14-hch@lst.de>
+Subject: [PATCH 14/23] coredump: use bvec_set_page to initialize a bvec
+Date: Mon, 30 Jan 2023 10:21:48 +0100
+Message-Id: <20230130092157.1759539-15-hch@lst.de>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230130092157.1759539-1-hch@lst.de>
 References: <20230130092157.1759539-1-hch@lst.de>
@@ -87,107 +87,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use the bvec_set_page helper to initialize bvecs.
+Use the bvec_set_page helper to initialize a bvec.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/cifs/connect.c |  5 +++--
- fs/cifs/fscache.c | 16 ++++++----------
- fs/cifs/misc.c    |  5 ++---
- fs/cifs/smb2ops.c |  6 +++---
- 4 files changed, 14 insertions(+), 18 deletions(-)
+ fs/coredump.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/fs/cifs/connect.c b/fs/cifs/connect.c
-index b2a04b4e89a5e7..e6088d96eb04d2 100644
---- a/fs/cifs/connect.c
-+++ b/fs/cifs/connect.c
-@@ -759,8 +759,9 @@ cifs_read_page_from_socket(struct TCP_Server_Info *server, struct page *page,
- 	unsigned int page_offset, unsigned int to_read)
+diff --git a/fs/coredump.c b/fs/coredump.c
+index de78bde2991beb..0a6873a9c4d0cd 100644
+--- a/fs/coredump.c
++++ b/fs/coredump.c
+@@ -840,11 +840,7 @@ static int __dump_skip(struct coredump_params *cprm, size_t nr)
+ 
+ static int dump_emit_page(struct coredump_params *cprm, struct page *page)
  {
- 	struct msghdr smb_msg = {};
--	struct bio_vec bv = {
--		.bv_page = page, .bv_len = to_read, .bv_offset = page_offset};
-+	struct bio_vec bv;
-+
-+	bvec_set_page(&bv, page, to_read, page_offset);
- 	iov_iter_bvec(&smb_msg.msg_iter, ITER_DEST, &bv, 1, to_read);
- 	return cifs_readv_from_socket(server, &smb_msg);
- }
-diff --git a/fs/cifs/fscache.c b/fs/cifs/fscache.c
-index f6f3a6b75601be..0911327ebfdeb4 100644
---- a/fs/cifs/fscache.c
-+++ b/fs/cifs/fscache.c
-@@ -143,14 +143,12 @@ static int fscache_fallback_read_page(struct inode *inode, struct page *page)
- 	struct netfs_cache_resources cres;
- 	struct fscache_cookie *cookie = cifs_inode_cookie(inode);
- 	struct iov_iter iter;
--	struct bio_vec bvec[1];
+-	struct bio_vec bvec = {
+-		.bv_page	= page,
+-		.bv_offset	= 0,
+-		.bv_len		= PAGE_SIZE,
+-	};
 +	struct bio_vec bvec;
- 	int ret;
- 
- 	memset(&cres, 0, sizeof(cres));
--	bvec[0].bv_page		= page;
--	bvec[0].bv_offset	= 0;
--	bvec[0].bv_len		= PAGE_SIZE;
--	iov_iter_bvec(&iter, ITER_DEST, bvec, ARRAY_SIZE(bvec), PAGE_SIZE);
-+	bvec_set_page(&bvec, page, PAGE_SIZE, 0);
-+	iov_iter_bvec(&iter, ITER_DEST, &bvec, 1, PAGE_SIZE);
- 
- 	ret = fscache_begin_read_operation(&cres, cookie);
- 	if (ret < 0)
-@@ -171,16 +169,14 @@ static int fscache_fallback_write_page(struct inode *inode, struct page *page,
- 	struct netfs_cache_resources cres;
- 	struct fscache_cookie *cookie = cifs_inode_cookie(inode);
  	struct iov_iter iter;
--	struct bio_vec bvec[1];
-+	struct bio_vec bvec;
- 	loff_t start = page_offset(page);
- 	size_t len = PAGE_SIZE;
- 	int ret;
- 
- 	memset(&cres, 0, sizeof(cres));
--	bvec[0].bv_page		= page;
--	bvec[0].bv_offset	= 0;
--	bvec[0].bv_len		= PAGE_SIZE;
--	iov_iter_bvec(&iter, ITER_SOURCE, bvec, ARRAY_SIZE(bvec), PAGE_SIZE);
+ 	struct file *file = cprm->file;
+ 	loff_t pos;
+@@ -860,6 +856,7 @@ static int dump_emit_page(struct coredump_params *cprm, struct page *page)
+ 	if (dump_interrupted())
+ 		return 0;
+ 	pos = file->f_pos;
 +	bvec_set_page(&bvec, page, PAGE_SIZE, 0);
-+	iov_iter_bvec(&iter, ITER_SOURCE, &bvec, 1, PAGE_SIZE);
- 
- 	ret = fscache_begin_write_operation(&cres, cookie);
- 	if (ret < 0)
-diff --git a/fs/cifs/misc.c b/fs/cifs/misc.c
-index 2a19c7987c5bd8..95cc4d7dd806d7 100644
---- a/fs/cifs/misc.c
-+++ b/fs/cifs/misc.c
-@@ -1054,9 +1054,8 @@ setup_aio_ctx_iter(struct cifs_aio_ctx *ctx, struct iov_iter *iter, int rw)
- 
- 		for (i = 0; i < cur_npages; i++) {
- 			len = rc > PAGE_SIZE ? PAGE_SIZE : rc;
--			bv[npages + i].bv_page = pages[i];
--			bv[npages + i].bv_offset = start;
--			bv[npages + i].bv_len = len - start;
-+			bvec_set_page(&bv[npages + i], pages[i], len - start,
-+				      start);
- 			rc -= len;
- 			start = 0;
- 		}
-diff --git a/fs/cifs/smb2ops.c b/fs/cifs/smb2ops.c
-index e6bcd2baf446a9..cb2deac6b2d70e 100644
---- a/fs/cifs/smb2ops.c
-+++ b/fs/cifs/smb2ops.c
-@@ -4598,9 +4598,9 @@ init_read_bvec(struct page **pages, unsigned int npages, unsigned int data_size,
- 		return -ENOMEM;
- 
- 	for (i = 0; i < npages; i++) {
--		bvec[i].bv_page = pages[i];
--		bvec[i].bv_offset = (i == 0) ? cur_off : 0;
--		bvec[i].bv_len = min_t(unsigned int, PAGE_SIZE, data_size);
-+		bvec_set_page(&bvec[i], pages[i],
-+			      min_t(unsigned int, PAGE_SIZE, data_size),
-+			      i == 0 ? cur_off : 0);
- 		data_size -= bvec[i].bv_len;
- 	}
- 
+ 	iov_iter_bvec(&iter, ITER_SOURCE, &bvec, 1, PAGE_SIZE);
+ 	n = __kernel_write_iter(cprm->file, &iter, &pos);
+ 	if (n != PAGE_SIZE)
 -- 
 2.39.0
 
