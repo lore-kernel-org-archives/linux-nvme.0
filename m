@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2762FC636D4
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jan 2023 09:26:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7E72C64ED6
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jan 2023 09:27:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qP38AeUO0Rmk+VJkMh1f6goA+lT+IUSKmsc4pvMdtPc=; b=HVWdHI2r2iwCyQCwDlC06/THsd
-	f6SQWNFHjpcsS3x1hZemBxuJv3JLu1ewBIfbq6DLTvx2sPl7oEJ48rTN/ZXKF2t046mR3ZV2NtrxO
-	INebRs/LSlgYqZnAB9DaM9OwsDQYf3GXgNRa7IyaSq4qU+QJ0KJKk4NBF2rY09k+NeCq3LHZDxiX9
-	xi7gzF7vswmD4DpL3xSpYRo7skZPYkvMcZccZW/BMtchfL6iiEevkAI86GOmaOKnS83Kb10Ermb4Z
-	vO7ic2e+v7bSi2ryte/7nTF9R27IBZVJRynLVgF72WPTncQRd8hscqC2Gw4NsKMDiNTSewtxD8CyR
-	0qTitYJQ==;
+	bh=kORmqO/9LhO3glrNFnQu4Hg9yMGINb4dC3Y3cN2SyCY=; b=DLmLWxxZ/TpzyFdkyLB7qnNmvl
+	3L1k67QCeQkQZSK6M0JPLzzy+DqtaYl1K7y28483Jkp+vtaNj6lFmN9G9t22sVkkC+CYdo4CRBg8Y
+	DfwcpFDK86WzFW2VrEow2mE1dYb2p2zSw/t+RdrNamMymcphROVf8KAEL8wsv730omVEKnJlNj1U9
+	efQttg0BZbc9b6vFNhwW2Djb6riEhsk2dP0FR9Dgvkuexy9EgVieleNwaM6RJOdP7OSblXctluN1t
+	K8PZXlS7ht6DBEghGhclGwGoC4y6MnW4pFKPXLihzepOWiI4hV+zXcj+5/v97krnTMwv1WL6Y+TtI
+	g4QLrFAg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pMQR0-002qQl-Ha; Mon, 30 Jan 2023 09:26:42 +0000
+	id 1pMQRF-002qci-6h; Mon, 30 Jan 2023 09:26:57 +0000
 Received: from [2001:4bb8:19a:272a:732e:e417:47d7:2f4a] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pMQNH-002oGb-QE; Mon, 30 Jan 2023 09:22:52 +0000
+	id 1pMQNQ-002oHi-98; Mon, 30 Jan 2023 09:23:00 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Ilya Dryomov <idryomov@gmail.com>,
@@ -64,9 +64,9 @@ Cc: Ilya Dryomov <idryomov@gmail.com>,
 	devel@lists.orangefs.org,
 	io-uring@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH 15/23] nfs: use bvec_set_page to initialize bvecs
-Date: Mon, 30 Jan 2023 10:21:49 +0100
-Message-Id: <20230130092157.1759539-16-hch@lst.de>
+Subject: [PATCH 16/23] orangefs: use bvec_set_{page,folio} to initialize bvecs
+Date: Mon, 30 Jan 2023 10:21:50 +0100
+Message-Id: <20230130092157.1759539-17-hch@lst.de>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230130092157.1759539-1-hch@lst.de>
 References: <20230130092157.1759539-1-hch@lst.de>
@@ -87,55 +87,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use the bvec_set_page helper to initialize bvecs.
+Use the bvec_set_page and bvec_set_folio helpers to initialize bvecs.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/nfs/fscache.c | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
+ fs/orangefs/inode.c | 22 +++++++---------------
+ 1 file changed, 7 insertions(+), 15 deletions(-)
 
-diff --git a/fs/nfs/fscache.c b/fs/nfs/fscache.c
-index e731c00a9fcbc3..ea5f2976dfaba4 100644
---- a/fs/nfs/fscache.c
-+++ b/fs/nfs/fscache.c
-@@ -245,14 +245,12 @@ static int fscache_fallback_read_page(struct inode *inode, struct page *page)
- 	struct netfs_cache_resources cres;
- 	struct fscache_cookie *cookie = nfs_i_fscache(inode);
- 	struct iov_iter iter;
--	struct bio_vec bvec[1];
-+	struct bio_vec bvec;
- 	int ret;
+diff --git a/fs/orangefs/inode.c b/fs/orangefs/inode.c
+index 4df56089438664..215f6cb3dc4129 100644
+--- a/fs/orangefs/inode.c
++++ b/fs/orangefs/inode.c
+@@ -49,10 +49,8 @@ static int orangefs_writepage_locked(struct page *page,
+ 	/* Should've been handled in orangefs_invalidate_folio. */
+ 	WARN_ON(off == len || off + wlen > len);
  
- 	memset(&cres, 0, sizeof(cres));
--	bvec[0].bv_page		= page;
--	bvec[0].bv_offset	= 0;
--	bvec[0].bv_len		= PAGE_SIZE;
--	iov_iter_bvec(&iter, ITER_DEST, bvec, ARRAY_SIZE(bvec), PAGE_SIZE);
-+	bvec_set_page(&bvec, page, PAGE_SIZE, 0);
-+	iov_iter_bvec(&iter, ITER_DEST, &bvec, 1, PAGE_SIZE);
+-	bv.bv_page = page;
+-	bv.bv_len = wlen;
+-	bv.bv_offset = off % PAGE_SIZE;
+ 	WARN_ON(wlen == 0);
++	bvec_set_page(&bv, page, wlen, off % PAGE_SIZE);
+ 	iov_iter_bvec(&iter, ITER_SOURCE, &bv, 1, wlen);
  
- 	ret = fscache_begin_read_operation(&cres, cookie);
- 	if (ret < 0)
-@@ -273,16 +271,14 @@ static int fscache_fallback_write_page(struct inode *inode, struct page *page,
- 	struct netfs_cache_resources cres;
- 	struct fscache_cookie *cookie = nfs_i_fscache(inode);
- 	struct iov_iter iter;
--	struct bio_vec bvec[1];
-+	struct bio_vec bvec;
- 	loff_t start = page_offset(page);
- 	size_t len = PAGE_SIZE;
- 	int ret;
+ 	ret = wait_for_direct_io(ORANGEFS_IO_WRITE, inode, &off, &iter, wlen,
+@@ -102,15 +100,11 @@ static int orangefs_writepages_work(struct orangefs_writepages *ow,
  
- 	memset(&cres, 0, sizeof(cres));
--	bvec[0].bv_page		= page;
--	bvec[0].bv_offset	= 0;
--	bvec[0].bv_len		= PAGE_SIZE;
--	iov_iter_bvec(&iter, ITER_SOURCE, bvec, ARRAY_SIZE(bvec), PAGE_SIZE);
-+	bvec_set_page(&bvec, page, PAGE_SIZE, 0);
-+	iov_iter_bvec(&iter, ITER_SOURCE, &bvec, 1, PAGE_SIZE);
+ 	for (i = 0; i < ow->npages; i++) {
+ 		set_page_writeback(ow->pages[i]);
+-		ow->bv[i].bv_page = ow->pages[i];
+-		ow->bv[i].bv_len = min(page_offset(ow->pages[i]) + PAGE_SIZE,
+-		    ow->off + ow->len) -
+-		    max(ow->off, page_offset(ow->pages[i]));
+-		if (i == 0)
+-			ow->bv[i].bv_offset = ow->off -
+-			    page_offset(ow->pages[i]);
+-		else
+-			ow->bv[i].bv_offset = 0;
++		bvec_set_page(&ow->bv[i], ow->pages[i],
++			      min(page_offset(ow->pages[i]) + PAGE_SIZE,
++			          ow->off + ow->len) -
++			      max(ow->off, page_offset(ow->pages[i])),
++			      i == 0 ? ow->off - page_offset(ow->pages[i]) : 0);
+ 	}
+ 	iov_iter_bvec(&iter, ITER_SOURCE, ow->bv, ow->npages, ow->len);
  
- 	ret = fscache_begin_write_operation(&cres, cookie);
- 	if (ret < 0)
+@@ -300,9 +294,7 @@ static int orangefs_read_folio(struct file *file, struct folio *folio)
+ 		orangefs_launder_folio(folio);
+ 
+ 	off = folio_pos(folio);
+-	bv.bv_page = &folio->page;
+-	bv.bv_len = folio_size(folio);
+-	bv.bv_offset = 0;
++	bvec_set_folio(&bv, folio, folio_size(folio), 0);
+ 	iov_iter_bvec(&iter, ITER_DEST, &bv, 1, folio_size(folio));
+ 
+ 	ret = wait_for_direct_io(ORANGEFS_IO_READ, inode, &off, &iter,
 -- 
 2.39.0
 
