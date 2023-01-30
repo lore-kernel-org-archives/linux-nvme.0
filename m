@@ -4,111 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8FE1C54EED
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jan 2023 15:20:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F1802C54EED
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jan 2023 15:59:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=URESPY8B3rO6+zudqQ9a2I8Kc4P4ekxUO74igKr3Ygk=; b=dICROmqcGuBuL8xa+BrgAnBp7g
-	fvTGs2udm0hxb+oybdHL1B/tSMr+Z/nzKZZXKOmM6cgjIzpPmb/DuzWJR4Tmg23IcJpZNAaqBT7Vd
-	CwW7V319zw0WsqeK3Ls/3Znm1/ROubA8aK6ZnOWGynQ5Tw9HJKxP4yksXVb7ClnJJIVapfwjDFeIR
-	L3KDrHO4Tmc/YGLx3o4I2qsIoYwGe0utYDbEUl2swgWFrWzlxplvcMbfo/5v6/T/gqcQGDUTE3bow
-	ooWqiwkXJAReYhuk1ekNO8fSeXSB1diiZ8O2gG1w2mqa3WUI+Y7MiLl3E7qUI0PcR0noWG2k7wCYA
-	kgwi7R0g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Date:Content-ID:
+	Content-Type:MIME-Version:Subject:Cc:To:References:In-Reply-To:From:Reply-To:
+	Content-Transfer-Encoding:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=qLfIaYqKY5h8p0flnUU+ZUSKaufFe4Nci0Ya2wtNYRE=; b=U33Pcn009OBKaBG/5/4dhDI0tN
+	HKaDOGAYkQ2/J8b9WrWG6wMPVpP5IN0RmuqS2BZ8Wzpawc6kkIrzw7v2jx5oY4XJDkWdp0MGn24FY
+	A2oX888ZxYfv9WkqC7WuJQCx3jEtdNkzUA56pFwj/Wk3Dz10cnUOkpXpf2SQ+EmYS4B7CpDkGbHn7
+	QKEnhX6Y7Zb/pJ2hvO52CQ/D01An5s0BKMKYzu8fAoUVIBHXp06PWMpIyKWLrH4Gmv4NkaWDki28r
+	iGQVcKPoWs0I6LmboprN8dlyxQvXy4atKuNRrodFx44uTF5G+cDxDx4/BUiAzP3kQA0uIwPXkSWob
+	CZuwCszw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pMVxS-0040B0-Va; Mon, 30 Jan 2023 15:20:34 +0000
+	id 1pMWYe-00488n-JB; Mon, 30 Jan 2023 15:59:00 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pMVv7-003zir-SQ
-	for linux-nvme@lists.infradead.org; Mon, 30 Jan 2023 15:18:11 +0000
+	id 1pMWXx-00487Q-NS
+	for linux-nvme@lists.infradead.org; Mon, 30 Jan 2023 15:58:18 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1675091888;
+	s=mimecast20190719; t=1675094296;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=URESPY8B3rO6+zudqQ9a2I8Kc4P4ekxUO74igKr3Ygk=;
-	b=LYj3dWN8F+7XqFa16uGwGmwWWGfX+GbOS/LpjPtQ51Nx3nd2LHEydaiX91f44faRkaSC3Y
-	R1uYLyk+HJyS749bPI3PX+GLKHIIQK2zZKAWQigAJf3Krd7mm3FC533PhAHz4V/m1FF6vY
-	GblLzMbtXXNZLMfRXFmhxX77Mxpkeew=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-125-t2AFO8AROI6q5Antz8dKLw-1; Mon, 30 Jan 2023 10:18:07 -0500
-X-MC-Unique: t2AFO8AROI6q5Antz8dKLw-1
-Received: by mail-wm1-f72.google.com with SMTP id l8-20020a05600c1d0800b003dc25f6bb5dso7744808wms.0
-        for <linux-nvme@lists.infradead.org>; Mon, 30 Jan 2023 07:18:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=URESPY8B3rO6+zudqQ9a2I8Kc4P4ekxUO74igKr3Ygk=;
-        b=M2zAKpZMojwPTnHNvfJgy/qUV8J3a0Ke1v7P5/9ogTPNRILEX59EcGRwAqq5z+7nHT
-         j8Bi9RH3qvFq+hzzp5WK02VJrpZ5EnnYOgm+OwyktfoQdHg47nFcjVq9D1sOA2jkSxDq
-         OPczCXCx4JZmGE55Hgf2XavJusSKtGA0dmn6kY0xRLAYQjOFup73PTmcYDPUygkrLjID
-         44I4TXpuhdkpegpk0h8ffmUE1BK4tS9OVK5qDKhzHt/m5cb0GmyrUKKbKPENwuXb+CLJ
-         EXVh9DxBQzkaylStKlZ1uexbZ9wWXAvKs3kkxhr2vQX3QrSPV76ed4Obv394uCFt2Lk4
-         043Q==
-X-Gm-Message-State: AO0yUKWFohp30rLJDIqeCGAO/ruQmG1gs0+3AObdXtpFr23d0XVFkPQ/
-	t0KxZghVe77YB4LGtC+XrWQKbTSvOuqF/1JFRvvnfs72uNBS0EQxP5DbBPT16PZwz+B3yHowAKk
-	cbVjKKYtKkRMEZvemYEK921ET090=
-X-Received: by 2002:a05:6000:1105:b0:2bf:b77c:df72 with SMTP id z5-20020a056000110500b002bfb77cdf72mr16512226wrw.25.1675091885693;
-        Mon, 30 Jan 2023 07:18:05 -0800 (PST)
-X-Google-Smtp-Source: AK7set9hHGYe0bnBQdwa2LZ/rAVCRbopEtGk+crtv3OHnMIQTfwimU+PtBLrc1/FzlqOKTq9Gtug2w==
-X-Received: by 2002:a05:6000:1105:b0:2bf:b77c:df72 with SMTP id z5-20020a056000110500b002bfb77cdf72mr16512171wrw.25.1675091885371;
-        Mon, 30 Jan 2023 07:18:05 -0800 (PST)
-Received: from redhat.com ([2.52.144.173])
-        by smtp.gmail.com with ESMTPSA id p6-20020a5d48c6000000b002bfc0558ecdsm11985935wrs.113.2023.01.30.07.18.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jan 2023 07:18:04 -0800 (PST)
-Date: Mon, 30 Jan 2023 10:17:58 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
+	bh=qLfIaYqKY5h8p0flnUU+ZUSKaufFe4Nci0Ya2wtNYRE=;
+	b=eaVMwhKsIKSpZTB1Rxib2oa/Lg3NP/hBy2udtejZZg5kwP81HeNmAWmAz3vm3D7/osVVvj
+	8Mw7KGqB8tYdqjYpI6epPvY6mRzBOVcT11R5lVjaVmzvijxb+ZzWPDnK51z6hx4PfCmPSz
+	V7LmJ360IZ9MnftDsnTfum3devcs2j8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-329-LQbhBSgfPCWz-AZqI1IBMQ-1; Mon, 30 Jan 2023 10:58:12 -0500
+X-MC-Unique: LQbhBSgfPCWz-AZqI1IBMQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 64B4B3848C21;
+	Mon, 30 Jan 2023 15:58:11 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.33.36.97])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 29BD5492B05;
+	Mon, 30 Jan 2023 15:58:09 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <20230130092157.1759539-21-hch@lst.de>
+References: <20230130092157.1759539-21-hch@lst.de> <20230130092157.1759539-1-hch@lst.de>
 To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Ilya Dryomov <idryomov@gmail.com>,
-	Jason Wang <jasowang@redhat.com>, Minchan Kim <minchan@kernel.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Xiubo Li <xiubli@redhat.com>, Steve French <sfrench@samba.org>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	Anna Schumaker <anna@kernel.org>,
-	Mike Marshall <hubcap@omnibond.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Chuck Lever <chuck.lever@oracle.com>, linux-block@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-	target-devel@vger.kernel.org, kvm@vger.kernel.org,
-	netdev@vger.kernel.org, linux-afs@lists.infradead.org,
-	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
-	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
-	devel@lists.orangefs.org, io-uring@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH 09/23] virtio_blk: use bvec_set_virt to initialize
- special_vec
-Message-ID: <20230130101747-mutt-send-email-mst@kernel.org>
-References: <20230130092157.1759539-1-hch@lst.de>
- <20230130092157.1759539-10-hch@lst.de>
+Cc: dhowells@redhat.com
+Cc: Marc Dionne <marc.dionne@auristor.com>, linux-block@vger.kernel.org,
+    ceph-devel@vger.kernel.org,
+    virtualization@lists.linux-foundation.org,
+    linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+    target-devel@vger.kernel.org, kvm@vger.kernel.org,
+    netdev@vger.kernel.org, linux-afs@lists.infradead.org,
+    linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+    linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+    devel@lists.orangefs.org, io-uring@vger.kernel.org,
+    linux-mm@kvack.org
+Subject: Re: [PATCH 20/23] rxrpc: use bvec_set_page to initialize a bvec
 MIME-Version: 1.0
-In-Reply-To: <20230130092157.1759539-10-hch@lst.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <3499862.1675094288.1@warthog.procyon.org.uk>
+Date: Mon, 30 Jan 2023 15:58:08 +0000
+Message-ID: <3499863.1675094288@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230130_071810_013379_770B05A5 
-X-CRM114-Status: GOOD (  19.21  )
-X-Mailman-Approved-At: Mon, 30 Jan 2023 07:19:29 -0800
+X-CRM114-CacheID: sfid-20230130_075817_844407_50A937C8 
+X-CRM114-Status: GOOD (  15.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,34 +90,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jan 30, 2023 at 10:21:43AM +0100, Christoph Hellwig wrote:
-> Use the bvec_set_virt helper to initialize the special_vec.
+Christoph Hellwig <hch@lst.de> wrote:
+
+> Use the bvec_set_page helper to initialize a bvec.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-
-
-> ---
->  drivers/block/virtio_blk.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-> index 6a77fa91742880..dc6e9b989910b0 100644
-> --- a/drivers/block/virtio_blk.c
-> +++ b/drivers/block/virtio_blk.c
-> @@ -170,9 +170,7 @@ static int virtblk_setup_discard_write_zeroes_erase(struct request *req, bool un
->  
->  	WARN_ON_ONCE(n != segments);
->  
-> -	req->special_vec.bv_page = virt_to_page(range);
-> -	req->special_vec.bv_offset = offset_in_page(range);
-> -	req->special_vec.bv_len = sizeof(*range) * segments;
-> +	bvec_set_virt(&req->special_vec, range, sizeof(*range) * segments);
->  	req->rq_flags |= RQF_SPECIAL_PAYLOAD;
->  
->  	return 0;
-> -- 
-> 2.39.0
+Acked-by: David Howells <dhowells@redhat.com>
 
 
