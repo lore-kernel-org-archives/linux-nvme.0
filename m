@@ -4,52 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CB351C54EED
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jan 2023 17:12:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 15E19C54EAA
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jan 2023 17:25:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mHtImXE842GFSGlUdAEcDfxvRkQO3qNxiC6T6KrWecE=; b=a21EcZIilzrqD3He7lRBQ7MTKf
-	rZle4IYP4FU2u4HAAMLYwp2qfdnDu6KyiFT3F7vxo0EiBX8+zT3ri/E4/cQYSQARyu48OFVd54lVk
-	UOB1xizS5YT41/klAbBOPEKsj24BnpNCZK5+UGSiD2k9l/W5XGhZcbdl9S3q3P34BoxD7kuhq3R63
-	cJ+jYtZ+BzWoCoi9Hw1Hca/5pu5NmqE3lO/bUDSwKIB1Tpkul4CKcFwZ0d+Cn4I60wwvMfbbZGvmP
-	XU4OcaVQHYDgzqPnJxnNoQCcSPW5mgLoQRLcE7dSxyWcS5BOK4Bk6KdbQRs/+yxbalRNUW/aS6XJ/
-	IZGn46bw==;
+	bh=lZ6AL4GsCeFM3+MBoAuF6dEdidiwCj9P54Gykw2PgZI=; b=05Ski2Sns8ybalOQKKyh1NBlWS
+	oYozTvehACHu8NAT/TQblsjj/NMXIsH7Dr0tMKJ/tNQknttlMYg+3kGQa5Ez3aeuwyE3SdUIe6kIl
+	HrvoemWm7rfD0VXDYrtcXFJ8kErBswu10WdUm1uXCJ0+5rMBLcHd1oIzw4/ByuHyi28js/MxX2rOj
+	h8fp+eOl1PU4EipJ5jyDc9DK6aCWuxf8V2Nq+u644/xt5Yz+ru2NdTX/w6cOARuq+JG6DGAF7RdAW
+	bWIN0m6DtI0N+XIdnS2uuC+UVrcrCytDpSdhJK0WdQffh3Ws8/Ii2dLYxeqAOESxRgM+04BOqtO7c
+	07r0JBjg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pMXhJ-004Qgp-6V; Mon, 30 Jan 2023 17:12:01 +0000
+	id 1pMXuZ-004WrH-8s; Mon, 30 Jan 2023 17:25:43 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pMXbi-004NlE-7J; Mon, 30 Jan 2023 17:06:15 +0000
+	id 1pMXqI-004UYe-DG
+	for linux-nvme@lists.infradead.org; Mon, 30 Jan 2023 17:21:20 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 2E41068B05; Mon, 30 Jan 2023 13:18:21 +0100 (CET)
-Date: Mon, 30 Jan 2023 13:18:20 +0100
+	id 1ED3168D09; Mon, 30 Jan 2023 13:35:06 +0100 (CET)
+Date: Mon, 30 Jan 2023 13:35:05 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: David Howells <dhowells@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-	target-devel@vger.kernel.org, kvm@vger.kernel.org,
-	netdev@vger.kernel.org, linux-afs@lists.infradead.org,
-	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
-	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
-	devel@lists.orangefs.org, io-uring@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH 20/23] rxrpc: use bvec_set_page to initialize a bvec
-Message-ID: <20230130121820.GA18981@lst.de>
-References: <20230130103343.GA11663@lst.de> <20230130092157.1759539-21-hch@lst.de> <20230130092157.1759539-1-hch@lst.de> <3347459.1675074683@warthog.procyon.org.uk> <3351918.1675077855@warthog.procyon.org.uk>
+To: Max Gurtovoy <mgurtovoy@nvidia.com>
+Cc: Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leon@kernel.org>,
+	Jason Gunthorpe <jgg@nvidia.com>, Bryan Tan <bryantan@vmware.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Israel Rukshin <israelr@nvidia.com>,
+	Jakub Kicinski <kuba@kernel.org>, Jens Axboe <axboe@fb.com>,
+	Keith Busch <kbusch@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	Masami Hiramatsu <mhiramat@kernel.org>, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Selvin Xavier <selvin.xavier@broadcom.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Vishnu Dasa <vdasa@vmware.com>, Yishai Hadas <yishaih@nvidia.com>
+Subject: Re: [PATCH rdma-next 00/13] Add RDMA inline crypto support
+Message-ID: <20230130123505.GA19948@lst.de>
+References: <cover.1673873422.git.leon@kernel.org> <20230118073654.GC27048@lst.de> <ac48766a-b861-4fc0-3171-7b23f175c672@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3351918.1675077855@warthog.procyon.org.uk>
+In-Reply-To: <ac48766a-b861-4fc0-3171-7b23f175c672@nvidia.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230130_090614_434584_A13C1C22 
-X-CRM114-Status: GOOD (  15.95  )
+X-CRM114-CacheID: sfid-20230130_092118_637179_208E009E 
+X-CRM114-Status: GOOD (  13.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,17 +69,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jan 30, 2023 at 11:24:15AM +0000, David Howells wrote:
-> Seems to be something people want to do quite a lot and don't know about.
+On Wed, Jan 18, 2023 at 04:20:27PM +0200, Max Gurtovoy wrote:
+> Today, if one would like to run both features using a capable device then 
+> the PI will be offloaded (no SW fallback) and the Encryption will be using 
+> SW fallback.
 
-Hmm.  Right now there is one case where it would be used, and there's
-about three that are and should be using bio_add_page.
-
-> I've seen places where someone allocates a buffer and clears it just to use as
-> a source of zeros.  There's at least one place in cifs, for example.  I know
-> about it from wrangling arch code, but most people working on Linux haven't
-> done that.
-
-But we don't really need a helper for every possible page use for that.
-People just need to learn about ZERO_PAGE.
+It's not just running both - it's offering both as currently registering
+these fatures is mutally incompatible.
 
