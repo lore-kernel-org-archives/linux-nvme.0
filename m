@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA825C54EED
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jan 2023 09:27:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56E8CC636D3
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jan 2023 09:27:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dTKHKRVOiZxguFuEK9aGNi2iPJtbueeyhuxlyEfvmCc=; b=BxAOVmV6ZkeAtTju+fq9LQXyQW
-	DOmi13deHHPYgy9MGnser9rD96Da+EfIrrg/WXchQNHGgVz+eLS/qQPYA8npsqkUbEewM83FRf+y+
-	sgygCSYeAydafoT2PKAfg/x9/efTF4KDh7nMf5d6vOMtMaC+SaXOQI/93Q1TeBgHRgqOQH1i5LtTE
-	e+B6fVAeAiUIge70Ua76DoZV1fvStp/FS2ifIUnysioDMYfLhHbHUPwer2H3vpr2tRgCtU/dQqqFL
-	AB72fSggOKvF2oAqrJgPJG0ExggXcPjJaS9iorLdUugmx9e8aWD5znwZ+TlxPq+bZL/9wZ6J8ZVAw
-	Hj5f2GKg==;
+	bh=H8iGXniDuXNIMcEmftwucE48paWcF0Q5NpfWk1xxHIY=; b=IKNEfjhVzpk+fO387jR7uxvhHj
+	7S8b/Lzz1uCdHFKanCqgUMbidjLxdUTTjse2q2pcWQMHVc+81awtd7VOBygyc08UO2FgX9Ad8tIOr
+	5pEBjwcw+fX9+rk3GfstglOUILlYg1YwmHx/9T3ucY4XTsJ8Uk9FZ4kj/nMTRIzAHJRqrvf9FGO1W
+	94UB32jsXTbRlIJmYkdWUgtwzseTlrMBh5aPcZXn8t8FsBZ/6bOnKP4KFRg9pyK+m2PLRrhTCEdN6
+	So6SGZOxCCX1qBtElU7PV5RuP+qpUadPCxE9XeHbQIbpibDBKk+MbIdZBOLsqSOFdE10qYDA4wXXK
+	NQyDyhxQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pMQRg-002qv2-8J; Mon, 30 Jan 2023 09:27:24 +0000
+	id 1pMQS0-002r8f-Mj; Mon, 30 Jan 2023 09:27:44 +0000
 Received: from [2001:4bb8:19a:272a:732e:e417:47d7:2f4a] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pMQNT-002oJi-4d; Mon, 30 Jan 2023 09:23:03 +0000
+	id 1pMQNW-002oKh-HS; Mon, 30 Jan 2023 09:23:07 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Ilya Dryomov <idryomov@gmail.com>,
@@ -64,9 +64,9 @@ Cc: Ilya Dryomov <idryomov@gmail.com>,
 	devel@lists.orangefs.org,
 	io-uring@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH 17/23] splice: use bvec_set_page to initialize a bvec
-Date: Mon, 30 Jan 2023 10:21:51 +0100
-Message-Id: <20230130092157.1759539-18-hch@lst.de>
+Subject: [PATCH 18/23] io_uring: use bvec_set_page to initialize a bvec
+Date: Mon, 30 Jan 2023 10:21:52 +0100
+Message-Id: <20230130092157.1759539-19-hch@lst.de>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230130092157.1759539-1-hch@lst.de>
 References: <20230130092157.1759539-1-hch@lst.de>
@@ -91,25 +91,24 @@ Use the bvec_set_page helper to initialize a bvec.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/splice.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ io_uring/rsrc.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/fs/splice.c b/fs/splice.c
-index 5969b7a1d353a8..87d9b19349de63 100644
---- a/fs/splice.c
-+++ b/fs/splice.c
-@@ -675,9 +675,8 @@ iter_file_splice_write(struct pipe_inode_info *pipe, struct file *out,
- 				goto done;
- 			}
+diff --git a/io_uring/rsrc.c b/io_uring/rsrc.c
+index 18de10c68a151b..a59fc02de5983c 100644
+--- a/io_uring/rsrc.c
++++ b/io_uring/rsrc.c
+@@ -1237,9 +1237,7 @@ static int io_sqe_buffer_register(struct io_ring_ctx *ctx, struct iovec *iov,
+ 		size_t vec_len;
  
--			array[n].bv_page = buf->page;
--			array[n].bv_len = this_len;
--			array[n].bv_offset = buf->offset;
-+			bvec_set_page(&array[n], buf->page, this_len,
-+				      buf->offset);
- 			left -= this_len;
- 			n++;
- 		}
+ 		vec_len = min_t(size_t, size, PAGE_SIZE - off);
+-		imu->bvec[i].bv_page = pages[i];
+-		imu->bvec[i].bv_len = vec_len;
+-		imu->bvec[i].bv_offset = off;
++		bvec_set_page(&imu->bvec[i], pages[i], vec_len, off);
+ 		off = 0;
+ 		size -= vec_len;
+ 	}
 -- 
 2.39.0
 
