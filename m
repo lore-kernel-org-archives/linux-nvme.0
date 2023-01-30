@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 901DAC54EAA
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jan 2023 09:28:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC09EC54EAA
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jan 2023 09:29:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0OKWMBRutlSAGY543ff9AUr9eECMFxK84Mqoa+H011w=; b=0/G0G4fRpRiBVmIVZ0tBzsPBFY
-	YU6yNriPJVSTgOaXsEUFeBURSX/CbuXiCJ/CVQtSy2m2Ce3RwSytC/7pkDlyIupwj5a+NtR3bNqST
-	iaKmzIfDqf2GY+faKB72JMeKv0B6TH83DrDsD5ZyKCXnNbiPqrDrk/HZYGbe7E9cM+QeSdrrLLi8b
-	K8jOPotqzSZW72BW19mYt+oCinQPLkSngkhPBjPulYrujppzLQ1YnmgEwIpn1nlp6H6VyWDKSYVzd
-	OWsxSd86a6NS3Dqj9Bu3jmTEqiJFy+KvW+Fo1KUQK9YK1BoyLj5VQCxdIr61ByTP6yDDHqZrw2Kfl
-	PPB+Pjxw==;
+	bh=JggVdFejlVrHezfZyUPZIF+fbKFzTvLqyM6x/B/bNX0=; b=tYa8LyQF56/SOfPSRVbW1e2E0t
+	bBgfdL+nnXuX56kDt8CjXPgX30GgHpvqNsCkl03HZUfMcpkorkzqrOccq6rcplZ11hSQGpU7Evif/
+	LNYC4vF+LkNrj/2s4JG4mGgc5faKC+yMO8E5lSmvSbUfJ5sC8shpffwuE09CsMZlKzWgqaUZSHe3A
+	l4GxBB0YrRlkSfRHGJDHa4dPmeixD83Nc86hvwraDqOyFum2ZNzKpqPflekvNNhWHxxzaGFXBAPt8
+	yGvZ50jEAWTgHkEMGo/a/8MkHywtt3T99ZcfbCqQTlGaFhhawruS7yuLQx+AptEPLNitOwCpVJqF5
+	rTxsEiyA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pMQSq-002rdX-MP; Mon, 30 Jan 2023 09:28:36 +0000
+	id 1pMQTO-002rxh-NL; Mon, 30 Jan 2023 09:29:10 +0000
 Received: from [2001:4bb8:19a:272a:732e:e417:47d7:2f4a] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pMQNd-002oNl-Oa; Mon, 30 Jan 2023 09:23:15 +0000
+	id 1pMQNs-002oRV-Sa; Mon, 30 Jan 2023 09:23:29 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Ilya Dryomov <idryomov@gmail.com>,
@@ -64,9 +64,9 @@ Cc: Ilya Dryomov <idryomov@gmail.com>,
 	devel@lists.orangefs.org,
 	io-uring@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH 20/23] rxrpc: use bvec_set_page to initialize a bvec
-Date: Mon, 30 Jan 2023 10:21:54 +0100
-Message-Id: <20230130092157.1759539-21-hch@lst.de>
+Subject: [PATCH 21/23] sunrpc: use bvec_set_page to initialize bvecs
+Date: Mon, 30 Jan 2023 10:21:55 +0100
+Message-Id: <20230130092157.1759539-22-hch@lst.de>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230130092157.1759539-1-hch@lst.de>
 References: <20230130092157.1759539-1-hch@lst.de>
@@ -87,39 +87,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use the bvec_set_page helper to initialize a bvec.
+Use the bvec_set_page helper to initialize bvecs.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- net/rxrpc/rxperf.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ net/sunrpc/svcsock.c | 7 ++-----
+ net/sunrpc/xdr.c     | 5 ++---
+ 2 files changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/net/rxrpc/rxperf.c b/net/rxrpc/rxperf.c
-index 16dcabb71ebe16..4a2e90015ca72c 100644
---- a/net/rxrpc/rxperf.c
-+++ b/net/rxrpc/rxperf.c
-@@ -493,7 +493,7 @@ static int rxperf_deliver_request(struct rxperf_call *call)
- static int rxperf_process_call(struct rxperf_call *call)
- {
- 	struct msghdr msg = {};
--	struct bio_vec bv[1];
-+	struct bio_vec bv;
- 	struct kvec iov[1];
- 	ssize_t n;
- 	size_t reply_len = call->reply_len, len;
-@@ -503,10 +503,8 @@ static int rxperf_process_call(struct rxperf_call *call)
+diff --git a/net/sunrpc/svcsock.c b/net/sunrpc/svcsock.c
+index 815baf308236a9..91252adcae4696 100644
+--- a/net/sunrpc/svcsock.c
++++ b/net/sunrpc/svcsock.c
+@@ -252,11 +252,8 @@ static ssize_t svc_tcp_read_msg(struct svc_rqst *rqstp, size_t buflen,
  
- 	while (reply_len > 0) {
- 		len = min_t(size_t, reply_len, PAGE_SIZE);
--		bv[0].bv_page	= ZERO_PAGE(0);
--		bv[0].bv_offset	= 0;
--		bv[0].bv_len	= len;
--		iov_iter_bvec(&msg.msg_iter, WRITE, bv, 1, len);
-+		bvec_set_page(&bv, ZERO_PAGE(0), len, 0);
-+		iov_iter_bvec(&msg.msg_iter, WRITE, &bv, 1, len);
- 		msg.msg_flags = MSG_MORE;
- 		n = rxrpc_kernel_send_data(rxperf_socket, call->rxcall, &msg,
- 					   len, rxperf_notify_end_reply_tx);
+ 	clear_bit(XPT_DATA, &svsk->sk_xprt.xpt_flags);
+ 
+-	for (i = 0, t = 0; t < buflen; i++, t += PAGE_SIZE) {
+-		bvec[i].bv_page = rqstp->rq_pages[i];
+-		bvec[i].bv_len = PAGE_SIZE;
+-		bvec[i].bv_offset = 0;
+-	}
++	for (i = 0, t = 0; t < buflen; i++, t += PAGE_SIZE)
++		bvec_set_page(&bvec[i], rqstp->rq_pages[i], PAGE_SIZE, 0);
+ 	rqstp->rq_respages = &rqstp->rq_pages[i];
+ 	rqstp->rq_next_page = rqstp->rq_respages + 1;
+ 
+diff --git a/net/sunrpc/xdr.c b/net/sunrpc/xdr.c
+index f7767bf224069f..afe7ec02d23229 100644
+--- a/net/sunrpc/xdr.c
++++ b/net/sunrpc/xdr.c
+@@ -150,9 +150,8 @@ xdr_alloc_bvec(struct xdr_buf *buf, gfp_t gfp)
+ 		if (!buf->bvec)
+ 			return -ENOMEM;
+ 		for (i = 0; i < n; i++) {
+-			buf->bvec[i].bv_page = buf->pages[i];
+-			buf->bvec[i].bv_len = PAGE_SIZE;
+-			buf->bvec[i].bv_offset = 0;
++			bvec_set_page(&buf->bvec[i], buf->pages[i], PAGE_SIZE,
++				      0);
+ 		}
+ 	}
+ 	return 0;
 -- 
 2.39.0
 
