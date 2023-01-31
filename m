@@ -4,97 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5BF26C38142
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Jan 2023 06:04:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4EDE6C636CD
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 Jan 2023 06:04:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ltkBGnwECMJmhbD7vrl7YLMiwdLoKe7LIr5e2nHG3PQ=; b=hH35aJBN0Z1Webxe503Ed1rdkT
-	9lJqn2oUX9rK61x5jajBxsY9UrLt1Vcol5PD1GRLDneyMs/wzyxljDkBmc8GoH/WaeCSUrK2dURJ4
-	BmR0xvctriDiSqYDjAgT8WhcdqYlJcrZ3ebDth88O/9DV518SBi14BEB1W25wfW3Db3pd992MecFK
-	R5EgNzwRbO19oxURX0Tx/8zaiPM6qZhE10QRmMovLI+9D+ZnKvTVr5rfRmfK0cp8lptNwR4rMatX/
-	PWS3AaA0PPKqPFCQhJ61Oe2nIqufltUgNppnIGw0XHzVlZRg0unTRsI79hfsgKKtcS0gIq2TBMNVD
-	iUr3n97g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=SMy4AhdFGD9NV+ZMw++exFusPY18E/iROcgJAJj2buw=; b=n+lPSK7y5rYpMapdw8c3h4xbX5
+	UL4soMZfyqE6R9iNRZq5glF9Vhl1Kaps8S2cMh7WwLe/G5A1d487xmSc+K8Po40UzZ7ItjThJkulC
+	8S9ZGctJSKYTYewJtAQ2l3+YsCPfsCpF4LauEVkFd4O6CH7A8rBsZmp3CZBL8/kLoJnwLQ2yuUcON
+	U1Y62yxVTgkl4XCRReG+EO4AzMi1/gScA25OltnTsoCokTU9FMPIyU2s6+L40Tm+XGnhT+JDFK0Uw
+	UIsXHq8Tqmj1RSxFxuvha9RxuKeI7KO5G1FUbTESBj3FTDiS4xJr/QyGKD6+eNqHYKaCzmfp2a44I
+	zDvscFBg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pMjkS-006Nlr-Dr; Tue, 31 Jan 2023 06:04:04 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1pMjkb-006Nqb-7K; Tue, 31 Jan 2023 06:04:13 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pMhEn-0069wD-9i
-	for linux-nvme@lists.infradead.org; Tue, 31 Jan 2023 03:23:14 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1675135392;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ltkBGnwECMJmhbD7vrl7YLMiwdLoKe7LIr5e2nHG3PQ=;
-	b=IT/TaXZZZKYCy7F4nufb6I8iLeHMIjgwb5hvf8zEAsWROv/Rd6JJ3z+oC5OOwsimU1f3D8
-	vpNmNcKWosALB9hJxaBA78DGkgcKMRgpV+SeVkYbTwNeNcLTiTJJOi/vKtXDAkGFEkwLPD
-	tNhnY6/tGuovF+IGKesloRupkiHAdwE=
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
- [209.85.210.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-614-aFhHXYHZNOm0EmuZW3KNwg-1; Mon, 30 Jan 2023 22:23:11 -0500
-X-MC-Unique: aFhHXYHZNOm0EmuZW3KNwg-1
-Received: by mail-ot1-f69.google.com with SMTP id m56-20020a05683032b800b0068647d5f3b3so6512569ott.0
-        for <linux-nvme@lists.infradead.org>; Mon, 30 Jan 2023 19:23:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ltkBGnwECMJmhbD7vrl7YLMiwdLoKe7LIr5e2nHG3PQ=;
-        b=yis1yrH/JjmtdCJbySunuLzpZCeRGoe+jAdsrToIuhhEEQxfLI8j6yEkYyUWScctW1
-         SRmt7Tq5SATKpxZB1nZpqf5wy5uh/57y7lRzieyhVVl+D9YDNFwJx69V/3OxIk9lXvY/
-         WB2NioeFbnq3RARkr8fTtqiWc7Tp/zdg0433hZQpM4KNmF7tsmH3LclEE7lg1V56TJEo
-         juemi5zOFrwz610ZaY9Oq5kOYs+364Kk1vLYvr7B3majPW7M3iwKW0ZPXXrqih8v2rlo
-         FDxpusZqrZvTnubm8rfIE6ca/MZUWlxNsFkxFoPH2J1mojafJyz0cgjo1471p76XY68A
-         Y6CQ==
-X-Gm-Message-State: AO0yUKXaSjuIppggyIjz9Is21ea9FDUQlL7PkH5mVhRZ48/i5vZrB33Z
-	jZeyBonToFYGlfaJNdmosPdO1jbjAbu9s63Ag22mF+D0esigmlYqUpWgpZna5Q7NL9ZiUE1K6fS
-	EipMhL1a7T+jP+8hNR2hKYWodkSZsEDpyDEeAsBA8CQA=
-X-Received: by 2002:a05:6870:959e:b0:163:9cea:eea7 with SMTP id k30-20020a056870959e00b001639ceaeea7mr567843oao.35.1675135390538;
-        Mon, 30 Jan 2023 19:23:10 -0800 (PST)
-X-Google-Smtp-Source: AK7set9Hu2HFEDPiDGXCaNnCjpBr1M/3mkKYHDHH6RsQ5EtesD62XsOTK7GEj1aXmBl8gjJeRQSyQJytKuQEUWxkdJU=
-X-Received: by 2002:a05:6870:959e:b0:163:9cea:eea7 with SMTP id
- k30-20020a056870959e00b001639ceaeea7mr567795oao.35.1675135387309; Mon, 30 Jan
- 2023 19:23:07 -0800 (PST)
+	id 1pMiYv-006GmK-80; Tue, 31 Jan 2023 04:48:06 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id D2A26B81914;
+	Tue, 31 Jan 2023 04:48:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0504C433D2;
+	Tue, 31 Jan 2023 04:47:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1675140481;
+	bh=CWgleLhFsY7fdAWz2/GYSNCWb5dkQP977u3wpy/hMGw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=dARP7ELm0JDZUtfdf/aZ8jH1JD0CLl7hoXoH78TsDhjc1mmn8JFRG1IigOhyzOTIR
+	 8LpgawDRtBw86IFXj6i1YkeRts+SWuJNykJYmlH/aIgncIrOZjAf+V+/CmtP/KRDAr
+	 VQCKDZAbOX7gqYp11J79NeVN8tSKvri14UKFB/PyE8wFl5jc+kE8t46/tFsmTWzcUR
+	 7y905w/ePF+771Ea1UzytT2Miv5ypO2Q07DAhG9UQz+0Eikry/PkH6GHvO2153a1Tl
+	 gFsQ/iFj+f+SWMdPgkH2tVoOS0Nrv5jbsqd1Sdse8+GqnLYQ5xf/0l8xGGH0jIGlb6
+	 ELagiuszQyNWQ==
+Date: Mon, 30 Jan 2023 20:47:58 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Ilya Dryomov <idryomov@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Minchan Kim <minchan@kernel.org>, Sergey Senozhatsky
+ <senozhatsky@chromium.org>, Keith Busch <kbusch@kernel.org>, Sagi Grimberg
+ <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, "Martin K.
+ Petersen" <martin.petersen@oracle.com>, David Howells
+ <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, Xiubo Li
+ <xiubli@redhat.com>, Steve French <sfrench@samba.org>, Trond Myklebust
+ <trond.myklebust@hammerspace.com>, Anna Schumaker <anna@kernel.org>, Mike
+ Marshall <hubcap@omnibond.com>, Andrew Morton <akpm@linux-foundation.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Chuck Lever
+ <chuck.lever@oracle.com>, linux-block@vger.kernel.org,
+ ceph-devel@vger.kernel.org, virtualization@lists.linux-foundation.org,
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, kvm@vger.kernel.org, netdev@vger.kernel.org,
+ linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org,
+ samba-technical@lists.samba.org, linux-fsdevel@vger.kernel.org,
+ linux-nfs@vger.kernel.org, devel@lists.orangefs.org,
+ io-uring@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH 01/23] block: factor out a bvec_set_page helper
+Message-ID: <20230130204758.38f4c6b9@kernel.org>
+In-Reply-To: <20230130092157.1759539-2-hch@lst.de>
+References: <20230130092157.1759539-1-hch@lst.de>
+	<20230130092157.1759539-2-hch@lst.de>
 MIME-Version: 1.0
-References: <20230130092157.1759539-1-hch@lst.de> <20230130092157.1759539-10-hch@lst.de>
- <20230130101747-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20230130101747-mutt-send-email-mst@kernel.org>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 31 Jan 2023 11:22:56 +0800
-Message-ID: <CACGkMEuoqJP4S+jz8Tt5K72i-w5qBhuheTiCWaRLxUBfYS_jQg@mail.gmail.com>
-Subject: Re: [PATCH 09/23] virtio_blk: use bvec_set_virt to initialize special_vec
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, Ilya Dryomov <idryomov@gmail.com>, 
-	Minchan Kim <minchan@kernel.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
-	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
-	Xiubo Li <xiubli@redhat.com>, Steve French <sfrench@samba.org>, 
-	Trond Myklebust <trond.myklebust@hammerspace.com>, Anna Schumaker <anna@kernel.org>, 
-	Mike Marshall <hubcap@omnibond.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Chuck Lever <chuck.lever@oracle.com>, linux-block@vger.kernel.org, 
-	ceph-devel@vger.kernel.org, virtualization@lists.linux-foundation.org, 
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
-	target-devel@vger.kernel.org, kvm@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	samba-technical@lists.samba.org, linux-fsdevel@vger.kernel.org, 
-	linux-nfs@vger.kernel.org, devel@lists.orangefs.org, io-uring@vger.kernel.org, 
-	linux-mm@kvack.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230130_192313_435005_8955DE68 
-X-CRM114-Status: GOOD (  19.35  )
+X-CRM114-CacheID: sfid-20230130_204805_462769_9C41EBAB 
+X-CRM114-Status: GOOD (  18.20  )
 X-Mailman-Approved-At: Mon, 30 Jan 2023 22:03:19 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -110,42 +90,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jan 30, 2023 at 11:18 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Mon, Jan 30, 2023 at 10:21:43AM +0100, Christoph Hellwig wrote:
-> > Use the bvec_set_virt helper to initialize the special_vec.
-> >
-> > Signed-off-by: Christoph Hellwig <hch@lst.de>
->
-> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+On Mon, 30 Jan 2023 10:21:35 +0100 Christoph Hellwig wrote:
+> diff --git a/include/linux/bvec.h b/include/linux/bvec.h
+> index 35c25dff651a5e..9e3dac51eb26b6 100644
+> --- a/include/linux/bvec.h
+> +++ b/include/linux/bvec.h
+> @@ -35,6 +35,21 @@ struct bio_vec {
+>  	unsigned int	bv_offset;
+>  };
+>  
+> +/**
+> + * bvec_set_page - initialize a bvec based off a struct page
+> + * @bv:		bvec to initialize
+> + * @page:	page the bvec should point to
+> + * @len:	length of the bvec
+> + * @offset:	offset into the page
+> + */
+> +static inline void bvec_set_page(struct bio_vec *bv, struct page *page,
+> +		unsigned int len, unsigned int offset)
+> +{
+> +	bv->bv_page = page;
+> +	bv->bv_len = len;
+> +	bv->bv_offset = offset;
+> +}
 
-Acked-by: Jason Wang <jasowang@redhat.com>
-
-Thanks
-
->
->
-> > ---
-> >  drivers/block/virtio_blk.c | 4 +---
-> >  1 file changed, 1 insertion(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-> > index 6a77fa91742880..dc6e9b989910b0 100644
-> > --- a/drivers/block/virtio_blk.c
-> > +++ b/drivers/block/virtio_blk.c
-> > @@ -170,9 +170,7 @@ static int virtblk_setup_discard_write_zeroes_erase(struct request *req, bool un
-> >
-> >       WARN_ON_ONCE(n != segments);
-> >
-> > -     req->special_vec.bv_page = virt_to_page(range);
-> > -     req->special_vec.bv_offset = offset_in_page(range);
-> > -     req->special_vec.bv_len = sizeof(*range) * segments;
-> > +     bvec_set_virt(&req->special_vec, range, sizeof(*range) * segments);
-> >       req->rq_flags |= RQF_SPECIAL_PAYLOAD;
-> >
-> >       return 0;
-> > --
-> > 2.39.0
->
-
+kinda random thought but since we're touching this area - could we
+perhaps move the definition of struct bio_vec and trivial helpers 
+like this into a new header? bvec.h pulls in mm.h which is a right
+behemoth :S
 
