@@ -4,65 +4,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D253C38142
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Feb 2023 16:31:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19E0AC38142
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Feb 2023 19:33:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9jbne133Z4NhoGvorPPAeh0TJ1PfIN91yMH1e5Fndlg=; b=U5P6lC0oOWC7Ftb6W4O/J8ZfMB
-	V7tKxxhwjjT6uk7x3VSxfrRFsWa7pCxVSUsGKGezeH7Umv1MJXmoQkGtVhtW12SAmkQgeP9m97LkD
-	M2Tg178R4uSPPXCh6MHwmbG6a4q4kX+gzJnrQdoRgNeUo7tx/ahnMNhY7v0nVJKNtf08hPaGU+kv+
-	b8PbSddQdE18VZWSM+4H+L4gWpRgIuZ1iO7b4/dC0fDxDL1c7IQ18iygJ64wwpfkDMOQpC3nXkbfA
-	zTbOgewqdyQbyd0Kduf3IVky9RZc85lvnQQRZk50JkO11hgjbr0eU7K0RNYq0EUxEXwmOT0gdcbIk
-	dJffbwFQ==;
+	bh=Nw7ZrJUAOrSgMqyLKLJSwGMdstpDOb5HmmutNZZzTuU=; b=j7GWUQLfTeRp4ZrxhI7Gul1JaB
+	kO5VMPH0SiskDQtCzxuP/STzZrjkHAxazSjGcmSGDVwts6VFfeYgSPSFR9vxlybUFlDgSy71O/cBC
+	OHRbu3MwZxcCVvpiMFXUZDQlWwDcDMAplzQUW64VHC5FIDM0r12aLFd6bKt/vVbLCLfMXxPQ3lBLw
+	abZ3bZDwk0EBfWXsea/1nPl88822dIkAX6/I4eVQxokFse5BYx7t2xpVQHgqyzEbZZirddXIrqoVY
+	o+HUkwNPZYUb2HtVhz//xkm6HGaHr1A3CH+/aejVM83NV+BBgZ5QcINg8Q1X/aZhhYfhRZ5p97z1v
+	F2WjxBmg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pNG1N-00Cnhj-T5; Wed, 01 Feb 2023 16:31:41 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1pNIrZ-00DOT3-E9; Wed, 01 Feb 2023 19:33:45 +0000
+Received: from mail-bn7nam10on2061c.outbound.protection.outlook.com ([2a01:111:f400:7e8a::61c] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pNG1J-00Cngd-J3
-	for linux-nvme@lists.infradead.org; Wed, 01 Feb 2023 16:31:38 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id E1075B821D3;
-	Wed,  1 Feb 2023 16:31:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B73BC433EF;
-	Wed,  1 Feb 2023 16:31:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1675269094;
-	bh=8Kn/gTcre1gJT752WmhTXLJS4mD81m1J3LYGkQE9D1g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hUrLrXIUQktbXlh+gKvEZqNeO9p+6whsbJAKQUUba3ZCzBvUQyuLRlvqP4SfKH9bs
-	 Dx1m7mi2JTm7q1vccAKNwyuKPdK44NlvlDrSsa0Ws48DOYgBcRjnuONZbu5QuyOMWb
-	 6MLGMW4fIbS8tTcV8ts9zCxfzZy4F2EPFS9iFzK3dGpxXsoGiDnB3vYDr5ymtG2/M7
-	 tDq7ADFj2foM3WwOEriMxWNfuzqcLxeyl2PclRqMxEVhzkWghK1kie4eOP1lB99ibo
-	 89JjumNdA2dQ+B+KD2P024z54sjt5u8ECeaoYYnoUt9E5ekCYKVYsbNXC5Jb5vX2YC
-	 J4x9O0dvrqgiw==
-Date: Wed, 1 Feb 2023 09:31:31 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Ming Lei <ming.lei@redhat.com>, John Meneghini <jmeneghi@redhat.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: nvme/pcie hot plug results in /dev name change
-Message-ID: <Y9qT45LPnkeL8fkH@kbusch-mbp.dhcp.thefacebook.com>
-References: <472fe309-f0f9-65bf-1ad1-8a92a349e973@redhat.com>
- <Y8sKv7q+UEbz5ddD@kbusch-mbp.dhcp.thefacebook.com>
- <Y8uN4V8uW2qS+xHR@infradead.org>
- <Y9ZKNb4UKwg5zF4j@T590>
- <Y9lEF7oY+aQw2POp@kbusch-mbp.dhcp.thefacebook.com>
- <Y9nPa2ZBc80g2LcA@T590>
- <Y9oGTKCFlOscbPc2@infradead.org>
+	id 1pNIrT-00DOQh-6c
+	for linux-nvme@lists.infradead.org; Wed, 01 Feb 2023 19:33:43 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GrXTFKzfEAUjdqUqIWeMx1L19CgD5yJyWjWQKz8EcNi8ASIaUiVmJGuX5rS18H1K+VENHadrAk+oOFeJA1l6s+WPS6kEXXXhoWp2XdP6AVoFkot7FarTaBqm8K/Sduo1kZ5oCtcfWzAkBUoANWBEzw05rHjdA+DFsgHM/HcP5ElsDsIh8ANvpQn8oiOFMyvtBYwwRzQC9iMImiRpFcv7F8nZSA4qCbqXB5YJu2nPhkYH8iCfiSBaiO1QlidwfVr9P/kKJ8CVoEvNO74iB2Q5bGjIinOVy9cNyNaWxNrvs08v7QaxnX6HqwIX4c8isXamxqXbKF+I1/DxvcPI2jggpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Nw7ZrJUAOrSgMqyLKLJSwGMdstpDOb5HmmutNZZzTuU=;
+ b=Qef1QnphN2vA4/5D8BQNX06/5vDCoXZHwYE2ypCIClYirAuaUVOTVHjCuyQWhufdKu9agJhFds1qVzIoXbB9QGFU/WuE4Uyq0iO2aZK8Erj9kTYF9Z1q04tIVt50SVGnjZYhPpohD/jyVoPoIPaUnjXO0KExGMeF2SXa5P457/n36oejsv+4oKKJr7THlbMVK/EsFiUiLN6l7WCyZTNXkKYlgrZQHA8ZIIjaNUyINrV9tEZggy7QT9FKiC5z3YR8SPGHXwucatuli9wGN/aXQ6Jw0uuSnustlMpH6S7rB6FVkrSZ+m5pQWpoAjT7BhoROvOBaruXqT0/2a2yL/PwvQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Nw7ZrJUAOrSgMqyLKLJSwGMdstpDOb5HmmutNZZzTuU=;
+ b=OLMOxe0+Gs4FZG54QMZUde/NCMzLHmix6f7e5ZjxOkVpahs06p3TvNtmH6B+47EbkKO2PqBYLHXZbqdo9KRlU7FuYfbUgcS8UWastAjnO9/85CoKTBrXbQ2R/bY/kdDusyF4w05y5CRjSwl/HNelIFA63HYbXmfnqHXHM8NBRiDAFY1FLM1gd35rFJGRI8F6I2pXT71kAha1KIbnnwLwmvz2gdJzBVETDpxZtsRBNsjSMkhR1miFZSOzbygzT13EQIfr+3BT9w8K0vZAjC7/spKo9PERnZdjL6IGZXLHihMoLBErctcL0toQXTadDjgx4XoVnSEXsK6s9HHbracKJA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
+ by IA1PR12MB6555.namprd12.prod.outlook.com (2603:10b6:208:3a1::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.22; Wed, 1 Feb
+ 2023 19:18:48 +0000
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::9fd9:dadc:4d8a:2d84]) by SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::9fd9:dadc:4d8a:2d84%4]) with mapi id 15.20.6043.036; Wed, 1 Feb 2023
+ 19:18:48 +0000
+From: Aurelien Aptel <aaptel@nvidia.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
+ sagi@grimberg.me, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
+ chaitanyak@nvidia.com, davem@davemloft.net, aurelien.aptel@gmail.com,
+ smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
+ yorayz@nvidia.com, borisp@nvidia.com
+Subject: Re: [PATCH v10 03/25] net/ethtool: add ULP_DDP_{GET,SET} operations
+ for caps and stats
+In-Reply-To: <20230131205327.67adfc1f@kernel.org>
+References: <20230126162136.13003-1-aaptel@nvidia.com>
+ <20230126162136.13003-4-aaptel@nvidia.com>
+ <20230131205327.67adfc1f@kernel.org>
+Date: Wed, 01 Feb 2023 21:18:42 +0200
+Message-ID: <253k011urcd.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
+Content-Type: text/plain
+X-ClientProxiedBy: LO2P265CA0106.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:c::22) To SJ1PR12MB6075.namprd12.prod.outlook.com
+ (2603:10b6:a03:45e::8)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y9oGTKCFlOscbPc2@infradead.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|IA1PR12MB6555:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7c193fdb-210d-4df1-8d45-08db048924d5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	8AqNu9w1+Wz5m0aSy8q5xNgEabu2YFuWK8gfWVNWAzuCM2jRhsWz+jed4GbaGGLxYkQKG2ewIunU/+aTESsuOaud/GKK3s41akQGICYZjAILRWPT7a/aPZEnBeCKVSgbBPKJ10BSw2U1au2A9frhFdxoJLw86zibpLz0AfH/oKzPijkkrfyviUgp6UzusdSHbplCF/l31gj/LS6b4P5M44mxQL5An0CCHZ2U5nwFR48XQKx6V6HNfTSwZ8vNVm47aiL9nysr7bgV1alVbw5k6AHNGhMKQvLgAZ/c3UjFZ9BZ1wlkxG3XDXLcSCgpxjy1epxfQvJtaJk3ICmk1Q5ords089fZyl1fsgvmPlP0oM9p6XDsMTDdIXZjg/OP4d6Vc+Dq+ZJWhX8//eN0HvwPqGyyvTTQPZhse600COdrwcs33q6RHuR/oJB28LwfbGSKVXHGWmO2miDAKuqvy6F5pUwJj6CevvnpMQhSdCTvlAiH3zVpO4r1/kZ/9RsgsmaJKFdA6L59h+p6rDRJp3Zefnphl621j+1/eD+AkUCLIoJhUOUkfL387pjrQZ9XOhZvCEF+BH8NMIwCrevXth+/sSROY5hc6e5D/0q2rPwAoKxmbdMdhbU77GA7TWp3pHQEs9EhvhZvK6Lj1nQhz4EnW2bic+OcIIWrytythsaqilzUnAX39YcKWmAsGGJYJ+tFqvpzYu1T7z0gMhZPzFr7eQ==
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(376002)(136003)(396003)(346002)(39860400002)(366004)(451199018)(38100700002)(8936002)(6666004)(2906002)(7416002)(6486002)(316002)(186003)(41300700001)(478600001)(66476007)(6512007)(107886003)(86362001)(6506007)(26005)(8676002)(5660300002)(4326008)(66946007)(66556008)(9686003)(6916009)(83380400001)(120234004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?mMzt/A0ZLYcQG7t+CVhWSAXqOnh79ignHKSKGegYrpFGWl3fJNu4OJZhkWLX?=
+ =?us-ascii?Q?mCKsPd1a7US9XVBhZfXwCHQPZ23GjXFE3ZQFH/cct6hp9Vjr/nIrIiXmyt+O?=
+ =?us-ascii?Q?4Rw21ShZx6/lsQU86jkt5Fi924d2f6vjZ+M7a8pYxnmnmsZutsmwpRqAu0um?=
+ =?us-ascii?Q?ZTd0mhcMF6cyq6an/9RPS7WhvdyU7CGh6a6Ab8O+mdl9McIJX9QCvpWvViPI?=
+ =?us-ascii?Q?TZNu4EIwIC5LJ8lIx5lOSy/xFD8Sd8GDA2qne0ljv6wj7BdTixvXpnIJBpYy?=
+ =?us-ascii?Q?4N/OBPVQITnDxIqhLry+h2ltLk7N0Oy34iBETzhbr1KaalOlDp9j+tyoHGez?=
+ =?us-ascii?Q?/3XPRZ1He4UJ+AwtvD65+Lvp9zCZGysjhGeklAXY7niRrb/vUfpf3KIcHbfW?=
+ =?us-ascii?Q?R6U87eHIgm5IZS/3YiSyzKxIe6xqw6FjGACv1luvJ0m0d0l52+TSY3MXhMqi?=
+ =?us-ascii?Q?HlDFqKHfta4gOU4ALqvlse3fLVf0uCcHrrjYq2kXsvI4JhnZg0gS4LK9nGpT?=
+ =?us-ascii?Q?kdzkpevACakXZCJHq4bjdlGZxvWrs3FZDZ+53C2t96IMLlxlXatt3ru73n44?=
+ =?us-ascii?Q?H7xdR108T/MYvEj+nqmMvA+Dx81Xso7G2hrYm3Q8YuvfB1BaNI+vzOYxFn4L?=
+ =?us-ascii?Q?5st8PMTDPwgDbp5jNCrl2LDPqnUmciO0aQhhEM1XpYqIC1dw9SCDkTWVT9t0?=
+ =?us-ascii?Q?DE7plUp1GQUzIJlgD6kSpWNvCucK0L1hRqdgdxamWYHlCD3HsilqRNf442Cs?=
+ =?us-ascii?Q?pZn+XsTWPzSq8R103hRpDRR/q84rzjF03t5Xz5MjgjQaF441srVXIbQ3rnKU?=
+ =?us-ascii?Q?1vqetU1y6YMOn4IlvKgFJpaoiMPVVaj6h6YG4KoCPG83PAXvPopUyDBe90Ip?=
+ =?us-ascii?Q?E8ySwz7sPkcOwsjfeMXo0VaHKOHb74TjuYEWH9iT5qZa17LnUPsPM7mMllzc?=
+ =?us-ascii?Q?/+rBi28w0CVwqCEqjA+cRi5VeNiaBBE7vMIQO/iezX6NxdukeL5wNgDQl7RO?=
+ =?us-ascii?Q?O9wia9QDeYcleA4aM4uF8zGoucqnTz0AP+SBreTMWMvk6KFkPb5cUfwmRW8F?=
+ =?us-ascii?Q?/87wrPyb7aaqZthJUuW3kQOODMzrijFjcJ9V8/vo5W+e8B6LpTkcorLMXFBJ?=
+ =?us-ascii?Q?TpAy42P9YYPK5S+5IVz+oNYxpvrxqpHBQwK8pcMlSZrTEx+XCtSGIet/ED72?=
+ =?us-ascii?Q?5jjg29nxb06h+YRMEz8IleYGtD09ZK/5dRWM7iywspOYxdFXtIGlSWT7r1rP?=
+ =?us-ascii?Q?Gov60GKpfP36xGRx1DNxQtCMZzeQIcEGQEHisHGyX4gqPxO6WkS2qn6wlgvv?=
+ =?us-ascii?Q?UOQq6iUBZdUO2RKSPese3zbP2g3gOvZC6FjLDWRjjfdZ/5HVtAVqZkA+7Qhi?=
+ =?us-ascii?Q?SMoica7LntIl3Qqx/tR8t/Rxs6nXyAMC58l5HL1TKMOO7LlAsAa0cGhw8T0w?=
+ =?us-ascii?Q?co/kLYWvF64rV2DfCGt/8FDRu+VMpB85CqlXXje5KQ0OQvnP9C8oq9LeuzyO?=
+ =?us-ascii?Q?E5cNbcCoPrIpbn85Vaj/krzshbB+ODN7G1/+l7MAmMObc45pdW6RZiR13gvY?=
+ =?us-ascii?Q?scwyWhJdwzQW8Q5EvmPWWUVhYqyvG3imk+xEfd6i?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7c193fdb-210d-4df1-8d45-08db048924d5
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2023 19:18:48.1187
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ot5smt7zmNyMicUJBP7Bb+XQ+1sOFNHgZsqzFys3nZW9Tv0WtDKHw9tApoGhsg4e2wGMUxjJFbsMoQgGeredbw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6555
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230201_083137_793483_905004FA 
-X-CRM114-Status: GOOD (  23.08  )
+X-CRM114-CacheID: sfid-20230201_113339_253950_6D20C65F 
+X-CRM114-Status: GOOD (  19.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,28 +135,111 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jan 31, 2023 at 10:27:24PM -0800, Christoph Hellwig wrote:
-> On Wed, Feb 01, 2023 at 10:33:15AM +0800, Ming Lei wrote:
-> > > The native nvme multipath looks like it could be leveraged to improving that
-> > > user experience if we wanted to make that layer an option for non-multipath
-> > > devices.
-> > 
-> > Can you share the basic idea? Will nvme mulitpath hold the io error and
-> > not propagate to upper layer until new device is probed? What if the
-> > new device is probed late, and IO has been timed out and err is returned
-> > to upper layer?
-> 
-> Attached is what I did, but I'm really not sure it is the right final
-> approach.
+Hi,
 
-Also not sure if this is going to work out, but it looks like a good start to
-me.
+We noticed your recent changes and we will adapt the patch to use them.
 
-Instead of user pinning the virtual device so that it never goes away though, I
-considered a user tunable "device missing delay" parameter to debounce link
-events. New IOs would be deferred to the requeue_list while the timer is
-active, and then EIO'ed if the timer expires without a successful LIVE
-controller attachment. The use cases I'm considering are short bounces from
-transient link resets, so I'd expect timers to be from a few seconds to maybe a
-minute.
+Jakub Kicinski <kuba@kernel.org> writes:
+>>       ETHTOOL_MSG_MM_SET,
+>> +     ETHTOOL_MSG_ULP_DDP_GET,
+>> +     ETHTOOL_MSG_ULP_DDP_SET,
+>
+> Please add the definition of the command to
+> Documentation/netlink/specs/ethtool.yaml
+
+Ok.
+
+>>       /* add new constants above here */
+>>       __ETHTOOL_MSG_USER_CNT,
+>> @@ -109,6 +111,8 @@ enum {
+>>       ETHTOOL_MSG_PLCA_NTF,
+>>       ETHTOOL_MSG_MM_GET_REPLY,
+>>       ETHTOOL_MSG_MM_NTF,
+>> +     ETHTOOL_MSG_ULP_DDP_GET_REPLY,
+>> +     ETHTOOL_MSG_ULP_DDP_SET_REPLY,
+>
+> What about notifications?
+
+Ok. We will add it and use the return value introduced in your latest
+refactor commits.
+
+>> +#include "netlink.h"
+>> +#include "common.h"
+>> +#include "bitset.h"
+>
+> alphabetic order?
+
+bitset.h depends on netlink.h but it doesn't include it: it doesn't
+compile if you change the include order. We will keep it as is.
+
+>> +static int ulp_ddp_stats64_size(unsigned int count)
+>> +{
+>> +     unsigned int len = 0;
+>> +     unsigned int i;
+>> +
+>> +     for (i = 0; i < count; i++)
+>> +             len += nla_total_size(sizeof(u64));
+>
+> len = nla_total_size(sizeof(u64)) * count
+> ?
+> but it's not correct. You need nla_total_size_64bit() here
+
+Ok
+
+>> +     /* outermost nest */
+>> +     return nla_total_size(len);
+>
+> nla_total_size(0) is more common for nests.
+
+Ok
+
+>> +             if (nla_put_64bit(skb, i+1, sizeof(u64), &val[i], 0))
+>
+> nla_put_u64_64bit()
+> And you'll need to add an attr for padding.
+
+Ok
+
+>> +const struct nla_policy ethnl_ulp_ddp_set_policy[] = {
+>> +     [ETHTOOL_A_ULP_DDP_HEADER]      =
+>> +             NLA_POLICY_NESTED(ethnl_header_policy),
+>> +     [ETHTOOL_A_ULP_DDP_WANTED]      = { .type = NLA_NESTED },
+>> +};
+>
+> Let's link the policy here: NLA_POLICY_NESTED(bitset_policy).
+
+bitset_policy is not exported by bitset.c (static).
+We will rename it ethnl_bitset_policy and export it.
+
+>> +nla_put_failure:
+>> +     nlmsg_free(rskb);
+>> +     WARN_ONCE(1, "calculated message payload length (%d) not sufficient\n",
+>> +               reply_len);
+>> +err:
+>> +     GENL_SET_ERR_MSG(info, "failed to send reply message");
+>
+> Don't overwrite the message, the message should be set close to
+> the error, if needed.
+
+Ok.
+
+>> +     if (!tb[ETHTOOL_A_ULP_DDP_WANTED])
+>
+> GENL_REQ_ATTR_CHECK()
+
+Ok. We will use this macro and move it to a .set_validate() callback.
+
+> We should pass extack to the driver, so that the driver can report a
+> meaningful error
+
+Ok.
+
+>> +             if (ret)
+>> +                     netdev_err(dev, "set_ulp_ddp_capabilities() returned error %d\n", ret);
+>
+> and drop this
+
+Ok.
+
+Thanks.
 
