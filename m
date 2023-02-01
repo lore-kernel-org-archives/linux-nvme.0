@@ -4,73 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EEEABC636CC
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Feb 2023 02:33:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F255C38142
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Feb 2023 04:53:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iXngudlVZQF6YhtaLHnHhbPnMZLcu0aO/ETWxonJ2JU=; b=ni7W6PWKQRq7/WMNkX02y7P/IM
-	a6Gxvd77YNlQTNq71rQtUzcCYvPiaiFESntBNyYVtgFx3f/hpPr1fcEPGbWQJSoey0n+wkgtxluQF
-	00ErPV/JSiHSbZKrNTxg/obhwByShoTEBraByMze2fsyjEhWWYOv2mx/r3kneKmYqRs4K1giDXxed
-	q3monvn9HuVWBUbaIzVKc4kG1Xgx2rJ9LR3SZ2YK/ZClsjwUVq1+60mG/MM97dOMRFfk2d86iA6dH
-	q+iwFDAuMVJd+D/fRc5K/JVbr7yMDAAwhVMzz0mF9hiW2I7luRLmUaAmiW5qkiHviqi8RMUB5YkQS
-	+AZJUkJA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wQsORgB/+GanvRH72ztva8Yw2rbyGSH+7SYsUovgils=; b=lqpwsX0DbFOkY+utnIXD+jhQtU
+	Cj1hay3BIC+gI2IRF2WwG+mABs/o5SD4ImwUugg3ApjCx3PJDweifu3VUr33Zemsl8fY1El4jgA03
+	5REzCHRovhDgwU6Ao+knzeE7p/Zg35+BcsdI3kr1ceRX8mMo+6mywirwpH8ngElxOXGoMHB4zfPct
+	WsO2o+BwQhv8TiUu9ENNup5pNvZ1G8Cq89z3E/YBYhVVUSHHnNjzUxrlJ+ROBUbeZ9ftAl2lvmEIV
+	0H/IATQCkoqi2PvwnQn4Kan/6ZL4CpGaXZWrSNKLspwMJAePvl6j+XduXxAbqh45TyemY4tvtVqm3
+	ly8SizCA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pN2wG-00A0VS-Ib; Wed, 01 Feb 2023 02:33:32 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1pN57m-00AF4J-2c; Wed, 01 Feb 2023 04:53:34 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pN2wC-00A0UZ-RS
-	for linux-nvme@lists.infradead.org; Wed, 01 Feb 2023 02:33:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1675218806;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iXngudlVZQF6YhtaLHnHhbPnMZLcu0aO/ETWxonJ2JU=;
-	b=b8+MGBsIYT/w1iUQ5YmlPBUAbPYfQHKiDOWt2TrDCgiER5pkvnYJRoVinK/G5ryNRvSj9g
-	sK5LC+UeOKVDiiMpCt93oessWNFEwckM/8kL/kj8NtZ1tzgaWYIU4iObFuMhh1BOPsvq8m
-	aj3K6Xpueh3vnL9ZtC08wJcg/nfaSzs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-331-xTSVguyGMGiMhAHJbf5nng-1; Tue, 31 Jan 2023 21:33:24 -0500
-X-MC-Unique: xTSVguyGMGiMhAHJbf5nng-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	id 1pN57i-00AF3p-Pp
+	for linux-nvme@lists.infradead.org; Wed, 01 Feb 2023 04:53:32 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6DC1F3C025AC;
-	Wed,  1 Feb 2023 02:33:24 +0000 (UTC)
-Received: from T590 (ovpn-8-23.pek2.redhat.com [10.72.8.23])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D6F86C15BAE;
-	Wed,  1 Feb 2023 02:33:20 +0000 (UTC)
-Date: Wed, 1 Feb 2023 10:33:15 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>,
-	John Meneghini <jmeneghi@redhat.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	ming.lei@redhat.com
-Subject: Re: nvme/pcie hot plug results in /dev name change
-Message-ID: <Y9nPa2ZBc80g2LcA@T590>
-References: <472fe309-f0f9-65bf-1ad1-8a92a349e973@redhat.com>
- <Y8sKv7q+UEbz5ddD@kbusch-mbp.dhcp.thefacebook.com>
- <Y8uN4V8uW2qS+xHR@infradead.org>
- <Y9ZKNb4UKwg5zF4j@T590>
- <Y9lEF7oY+aQw2POp@kbusch-mbp.dhcp.thefacebook.com>
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 121B160B82;
+	Wed,  1 Feb 2023 04:53:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D05E5C433D2;
+	Wed,  1 Feb 2023 04:53:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1675227209;
+	bh=Ffp6AJW6lr6b17EQleBAP6GYYqIvf1HypElyd7eLhqk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=sucRY3Ft2wzoDGuCJrpfdX4D3jNfb1JFRQ8j/e0izepqmmQrhI9C4bo4ZjguXruPf
+	 WwcMSWfS/Y3r4z2scGJXvcyf3Q6AevOoaB/rxKe3LVTq1A6xIxCzlHU0D93Xdjgvag
+	 9cmxA1xHRvD2gMNlU2XtqboxZOT1AKlQIG42QPBKTebYS3Fc0mCbYn2iVSVe8zDI1l
+	 c0hLb9u5cYjovB9q9PYatGIuzliyXB4I+tpEhPdCd/oE0gKgjNkJb2CFrPC58/jvjn
+	 sqHScOujvWrj0wD7tsdP+YlwyvmeMpL9o4TuanJkrKrYilWd4ydKoa2dBHAV9sUA4A
+	 1mkzAMuYjoySg==
+Date: Tue, 31 Jan 2023 20:53:27 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Aurelien Aptel <aaptel@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
+ sagi@grimberg.me, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
+ chaitanyak@nvidia.com, davem@davemloft.net, aurelien.aptel@gmail.com,
+ smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
+ yorayz@nvidia.com, borisp@nvidia.com
+Subject: Re: [PATCH v10 03/25] net/ethtool: add ULP_DDP_{GET,SET} operations
+ for caps and stats
+Message-ID: <20230131205327.67adfc1f@kernel.org>
+In-Reply-To: <20230126162136.13003-4-aaptel@nvidia.com>
+References: <20230126162136.13003-1-aaptel@nvidia.com>
+	<20230126162136.13003-4-aaptel@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <Y9lEF7oY+aQw2POp@kbusch-mbp.dhcp.thefacebook.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230131_183329_005860_0DDD4EE8 
-X-CRM114-Status: GOOD (  40.95  )
+X-CRM114-CacheID: sfid-20230131_205330_950084_CFFF3EA6 
+X-CRM114-Status: GOOD (  25.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,68 +76,249 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jan 31, 2023 at 09:38:47AM -0700, Keith Busch wrote:
-> On Sun, Jan 29, 2023 at 06:28:05PM +0800, Ming Lei wrote:
-> > On Fri, Jan 20, 2023 at 11:01:53PM -0800, Christoph Hellwig wrote:
-> > > On Fri, Jan 20, 2023 at 02:42:23PM -0700, Keith Busch wrote:
-> > > > That is correct. We don't know the identity of the device at the point
-> > > > we have to assign it an instance number, so the hot added one will just
-> > > > get the first available unique number. If you need a consistent name, we
-> > > > have the persistent naming rules that should create those links in
-> > > > /dev/disk/by-id/.
-> > > 
-> > > Note that this a bit of a problem under a file system or stacking driver
-> > > that handles failing drives (e.g. btrfs or md raid), that holds ontop
-> > > the "old" device file, and then fails to find the new one.  I had a
-> > > customer complaint for that as well :)
-> > > 
-> > > The first hack was to force run the multipath code that can keep the
-> > > node alive.  That works, but is really ugly especially when dealing
-> > > with corner cases such as overlapping nsids between different
-> > > controllers.
-> > > 
-> > > In the long run I think we'll need to:
-> > >  - send a notification to the holder if a device is hot removed from
-> > >    the block layer so that it can clean up
-> > 
-> > When the disk is deleted, the notification has been sent to userspace
-> > via udev/kobj uevent, so user can umount the original FS or
-> > DM/MD userspace can handle the device removal.
-> > 
-> > >  - make the upper layers look for the replugged devie
-> > > 
-> > > I've been working on some of this for a while but haven't made much
-> > > progress due to other committments.
-> > 
-> > block device persistent name is supposed to be supported by userspace,
-> > such as udev rule.
-> 
-> Come to think of it, I actually have heard many complaints about this behavior.
-> Requiring user space deal with the teardown and restore of their open files and
-> mount points on a transient link loss can be inconvenient. Example use cases
+On Thu, 26 Jan 2023 18:21:14 +0200 Aurelien Aptel wrote:
+> diff --git a/include/uapi/linux/ethtool_netlink.h b/include/uapi/linux/ethtool_netlink.h
+> index 14a1858fd106..35805d8d12a3 100644
+> --- a/include/uapi/linux/ethtool_netlink.h
+> +++ b/include/uapi/linux/ethtool_netlink.h
+> @@ -57,6 +57,8 @@ enum {
+>  	ETHTOOL_MSG_PLCA_GET_STATUS,
+>  	ETHTOOL_MSG_MM_GET,
+>  	ETHTOOL_MSG_MM_SET,
+> +	ETHTOOL_MSG_ULP_DDP_GET,
+> +	ETHTOOL_MSG_ULP_DDP_SET,
 
-If IO error is returned to FS, I guess umount may have to be done since it might
-be one meta IO. But if userspace has persistent device name, it is easy for
-userspace to handle the umount and re-setup.
+Please add the definition of the command to
+Documentation/netlink/specs/ethtool.yaml
 
-> are firmware activation requiring a Subsystem Reset, or a PCIe error
-> containment event. Those cause the links to bounce, which can trigger hot plug
-> events in some platforms.
+>  	/* add new constants above here */
+>  	__ETHTOOL_MSG_USER_CNT,
+> @@ -109,6 +111,8 @@ enum {
+>  	ETHTOOL_MSG_PLCA_NTF,
+>  	ETHTOOL_MSG_MM_GET_REPLY,
+>  	ETHTOOL_MSG_MM_NTF,
+> +	ETHTOOL_MSG_ULP_DDP_GET_REPLY,
+> +	ETHTOOL_MSG_ULP_DDP_SET_REPLY,
 
-The above isn't unique for nvme, and it is just easier for nvme-pci to
-handle timeout/err by removing device, IMO.
+What about notifications?
 
-> The native nvme multipath looks like it could be leveraged to improving that
-> user experience if we wanted to make that layer an option for non-multipath
-> devices.
+> +#include "netlink.h"
+> +#include "common.h"
+> +#include "bitset.h"
 
-Can you share the basic idea? Will nvme mulitpath hold the io error and
-not propagate to upper layer until new device is probed? What if the
-new device is probed late, and IO has been timed out and err is returned
-to upper layer?
+alphabetic order?
 
+> +static int ulp_ddp_stats64_size(unsigned int count)
+> +{
+> +	unsigned int len = 0;
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < count; i++)
+> +		len += nla_total_size(sizeof(u64));
 
-Thanks, 
-Ming
+len = nla_total_size(sizeof(u64)) * count
+?
+but it's not correct. You need nla_total_size_64bit() here
+
+> +	/* outermost nest */
+> +	return nla_total_size(len);
+
+nla_total_size(0) is more common for nests.
+
+> +}
+> +
+> +static int ulp_ddp_put_stats64(struct sk_buff *skb, int attrtype, const u64 *val,
+> +			       unsigned int count)
+> +{
+> +	struct nlattr *nest;
+> +	unsigned int i;
+> +
+> +	nest = nla_nest_start(skb, attrtype);
+> +	if (!nest)
+> +		return -EMSGSIZE;
+> +
+> +	/* skip attribute 0 (unspec) */
+> +	for (i = 0 ; i < count; i++)
+> +		if (nla_put_64bit(skb, i+1, sizeof(u64), &val[i], 0))
+
+nla_put_u64_64bit()
+And you'll need to add an attr for padding.
+
+> +			goto nla_put_failure;
+> +
+> +	nla_nest_end(skb, nest);
+> +	return 0;
+> +
+> +nla_put_failure:
+> +	nla_nest_cancel(skb, nest);
+> +	return -EMSGSIZE;
+> +}
+
+> +const struct nla_policy ethnl_ulp_ddp_set_policy[] = {
+> +	[ETHTOOL_A_ULP_DDP_HEADER]	=
+> +		NLA_POLICY_NESTED(ethnl_header_policy),
+> +	[ETHTOOL_A_ULP_DDP_WANTED]	= { .type = NLA_NESTED },
+> +};
+
+Let's link the policy here: NLA_POLICY_NESTED(bitset_policy).
+
+> +static int ulp_ddp_send_reply(struct net_device *dev, struct genl_info *info,
+> +			      const unsigned long *wanted,
+> +			      const unsigned long *wanted_mask,
+> +			      const unsigned long *active,
+> +			      const unsigned long *active_mask, bool compact)
+> +{
+> +	struct sk_buff *rskb;
+> +	void *reply_payload;
+> +	int reply_len = 0;
+> +	int ret;
+> +
+> +	reply_len = ethnl_reply_header_size();
+> +	ret = ethnl_bitset_size(wanted, wanted_mask, ULP_DDP_C_COUNT,
+> +				ulp_ddp_caps_names, compact);
+> +	if (ret < 0)
+> +		goto err;
+> +	reply_len += ret;
+> +	ret = ethnl_bitset_size(active, active_mask, ULP_DDP_C_COUNT,
+> +				ulp_ddp_caps_names, compact);
+> +	if (ret < 0)
+> +		goto err;
+> +	reply_len += ret;
+> +
+> +	ret = -ENOMEM;
+> +	rskb = ethnl_reply_init(reply_len, dev, ETHTOOL_MSG_ULP_DDP_SET_REPLY,
+> +				ETHTOOL_A_ULP_DDP_HEADER, info,
+> +				&reply_payload);
+> +	if (!rskb)
+> +		goto err;
+> +
+> +	ret = ethnl_put_bitset(rskb, ETHTOOL_A_ULP_DDP_WANTED, wanted,
+> +			       wanted_mask, ULP_DDP_C_COUNT,
+> +			       ulp_ddp_caps_names, compact);
+> +	if (ret < 0)
+> +		goto nla_put_failure;
+> +	ret = ethnl_put_bitset(rskb, ETHTOOL_A_ULP_DDP_ACTIVE, active,
+> +			       active_mask, ULP_DDP_C_COUNT,
+> +			       ulp_ddp_caps_names, compact);
+> +	if (ret < 0)
+> +		goto nla_put_failure;
+> +
+> +	genlmsg_end(rskb, reply_payload);
+> +	ret = genlmsg_reply(rskb, info);
+> +	return ret;
+> +
+> +nla_put_failure:
+> +	nlmsg_free(rskb);
+> +	WARN_ONCE(1, "calculated message payload length (%d) not sufficient\n",
+> +		  reply_len);
+> +err:
+> +	GENL_SET_ERR_MSG(info, "failed to send reply message");
+
+Don't overwrite the message, the message should be set close to 
+the error, if needed.
+
+> +	return ret;
+> +}
+> +
+> +int ethnl_set_ulp_ddp(struct sk_buff *skb, struct genl_info *info)
+> +{
+> +	DECLARE_BITMAP(old_active, ULP_DDP_C_COUNT);
+> +	DECLARE_BITMAP(new_active, ULP_DDP_C_COUNT);
+> +	DECLARE_BITMAP(req_wanted, ULP_DDP_C_COUNT);
+> +	DECLARE_BITMAP(req_mask, ULP_DDP_C_COUNT);
+> +	DECLARE_BITMAP(all_bits, ULP_DDP_C_COUNT);
+> +	DECLARE_BITMAP(tmp, ULP_DDP_C_COUNT);
+> +	struct ethnl_req_info req_info = {};
+> +	const struct ulp_ddp_dev_ops *ops;
+> +	struct nlattr **tb = info->attrs;
+> +	struct ulp_ddp_netdev_caps *caps;
+> +	struct net_device *dev;
+> +	int ret;
+> +
+> +	if (!tb[ETHTOOL_A_ULP_DDP_WANTED])
+
+GENL_REQ_ATTR_CHECK()
+
+> +		return -EINVAL;
+> +	ret = ethnl_parse_header_dev_get(&req_info,
+> +					 tb[ETHTOOL_A_ULP_DDP_HEADER],
+> +					 genl_info_net(info), info->extack,
+> +					 true);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	dev = req_info.dev;
+> +	rtnl_lock();
+> +	caps = netdev_ulp_ddp_caps(dev);
+> +	ops = netdev_ulp_ddp_ops(dev);
+> +	if (!caps || !ops || !ops->set_caps) {
+> +		ret = -EOPNOTSUPP;
+> +		goto out_rtnl;
+> +	}
+> +
+> +	ret = ethnl_parse_bitset(req_wanted, req_mask, ULP_DDP_C_COUNT,
+> +				 tb[ETHTOOL_A_ULP_DDP_WANTED],
+> +				 ulp_ddp_caps_names, info->extack);
+> +	if (ret < 0)
+> +		goto out_rtnl;
+> +
+> +	/* if (req_mask & ~all_bits) */
+> +	bitmap_fill(all_bits, ULP_DDP_C_COUNT);
+> +	bitmap_andnot(tmp, req_mask, all_bits, ULP_DDP_C_COUNT);
+> +	if (!bitmap_empty(tmp, ULP_DDP_C_COUNT)) {
+> +		ret = -EINVAL;
+> +		goto out_rtnl;
+> +	}
+> +
+> +	/* new_active = (old_active & ~req_mask) | (wanted & req_mask)
+> +	 * new_active &= caps_hw
+> +	 */
+> +	bitmap_copy(old_active, caps->active, ULP_DDP_C_COUNT);
+> +	bitmap_and(req_wanted, req_wanted, req_mask, ULP_DDP_C_COUNT);
+> +	bitmap_andnot(new_active, old_active, req_mask, ULP_DDP_C_COUNT);
+> +	bitmap_or(new_active, new_active, req_wanted, ULP_DDP_C_COUNT);
+> +	bitmap_and(new_active, new_active, caps->hw, ULP_DDP_C_COUNT);
+> +	if (!bitmap_equal(old_active, new_active, ULP_DDP_C_COUNT)) {
+> +		ret = ops->set_caps(dev, new_active);
+
+We should pass extack to the driver, so that the driver can report a
+meaningful error
+
+> +		if (ret)
+> +			netdev_err(dev, "set_ulp_ddp_capabilities() returned error %d\n", ret);
+
+and drop this
+
+> +		bitmap_copy(new_active, caps->active, ULP_DDP_C_COUNT);
+> +	}
+> +
+> +	ret = 0;
+> +	if (!(req_info.flags & ETHTOOL_FLAG_OMIT_REPLY)) {
+> +		DECLARE_BITMAP(wanted_diff_mask, ULP_DDP_C_COUNT);
+> +		DECLARE_BITMAP(active_diff_mask, ULP_DDP_C_COUNT);
+> +		bool compact = req_info.flags & ETHTOOL_FLAG_COMPACT_BITSETS;
+> +
+> +		/* wanted_diff_mask = req_wanted ^ new_active
+> +		 * active_diff_mask = old_active ^ new_active -> mask of bits that have changed
+> +		 * wanted_diff_mask &= req_mask    -> mask of bits that have diff value than wanted
+> +		 * req_wanted &= wanted_diff_mask  -> bits that have diff value than wanted
+> +		 * new_active &= active_diff_mask  -> bits that have changed
+> +		 */
+> +		bitmap_xor(wanted_diff_mask, req_wanted, new_active, ULP_DDP_C_COUNT);
+> +		bitmap_xor(active_diff_mask, old_active, new_active, ULP_DDP_C_COUNT);
+> +		bitmap_and(wanted_diff_mask, wanted_diff_mask, req_mask, ULP_DDP_C_COUNT);
+> +		bitmap_and(req_wanted, req_wanted, wanted_diff_mask,  ULP_DDP_C_COUNT);
+> +		bitmap_and(new_active, new_active, active_diff_mask,  ULP_DDP_C_COUNT);
+> +		ret = ulp_ddp_send_reply(dev, info,
+> +					 req_wanted, wanted_diff_mask,
+> +					 new_active, active_diff_mask,
+> +					 compact);
+> +	}
+> +
+> +out_rtnl:
+> +	rtnl_unlock();
+> +	ethnl_parse_header_dev_put(&req_info);
+> +	return ret;
+> +}
 
 
