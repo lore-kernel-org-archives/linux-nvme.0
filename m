@@ -4,82 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4286DC38142
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Jan 2023 23:27:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EEEABC636CC
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Feb 2023 02:33:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JDJIyWRJxxyEc1PDsmkOW+Tr5RdxZDK4YmviorpWb4o=; b=W/TmnGLk5YZo1S6G930K+sNG8D
-	qO0PIQqnl0EYTAqmOsbLJ16TD4NGf416NFD7+Ww1NYHZaM7vBWShVhEOYURkDP0HTunM6h+idf1Uc
-	MzUKp1XggauRtlXCkuUqqd2s52cd5+/MuCh7O/+qotRkf7dyn1NOG2iz6OCoYHvPTuXXbFCcwjc4d
-	3QNdPNxAoRvxxlbVcxbk1ChCtWbGh8FKSX2wEoA84tvQraUp6RBPR6i4/Mg7oc4pJd7GT+5XKvDhZ
-	xBMykWcW1i4je1mGkKblKIKJcySdI27oEVopXE+QdvNsXY8t16NBr7ZRzARuRThvpuhZ+IGOByaPy
-	aKfhAt9g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=iXngudlVZQF6YhtaLHnHhbPnMZLcu0aO/ETWxonJ2JU=; b=ni7W6PWKQRq7/WMNkX02y7P/IM
+	a6Gxvd77YNlQTNq71rQtUzcCYvPiaiFESntBNyYVtgFx3f/hpPr1fcEPGbWQJSoey0n+wkgtxluQF
+	00ErPV/JSiHSbZKrNTxg/obhwByShoTEBraByMze2fsyjEhWWYOv2mx/r3kneKmYqRs4K1giDXxed
+	q3monvn9HuVWBUbaIzVKc4kG1Xgx2rJ9LR3SZ2YK/ZClsjwUVq1+60mG/MM97dOMRFfk2d86iA6dH
+	q+iwFDAuMVJd+D/fRc5K/JVbr7yMDAAwhVMzz0mF9hiW2I7luRLmUaAmiW5qkiHviqi8RMUB5YkQS
+	+AZJUkJA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pN02C-009g5Y-Ko; Tue, 31 Jan 2023 23:27:28 +0000
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+	id 1pN2wG-00A0VS-Ib; Wed, 01 Feb 2023 02:33:32 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pN029-009g52-0u
-	for linux-nvme@lists.infradead.org; Tue, 31 Jan 2023 23:27:26 +0000
-Received: by mail-pl1-x62a.google.com with SMTP id n13so1216630plf.11
-        for <linux-nvme@lists.infradead.org>; Tue, 31 Jan 2023 15:27:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JDJIyWRJxxyEc1PDsmkOW+Tr5RdxZDK4YmviorpWb4o=;
-        b=CsaAiIj/Fy41JiNKHCuBHhKWrlD7FNQxcxoJdJ+KnSNrgmSH22orjG2FjdYwlyVJza
-         miB7uIhmGmaZ3JReC2IIl/leWYFPYwrZ44OSRR3HRiNgNDHVr6GD9K5fzF+PeA6Htmh2
-         1DXL817EU9ogKjKwSdxmyGc1K5BVhU03WrF0ukZ5IG2Yiw1oueatsz1p0oOZIKf5oDYy
-         76TUbXliW/faRLyeILlll7r3OvYwEvPsq0go3aoRXBfQhiSeuTM9DgzUVwWSZE4lYyho
-         BLxPyR3kRbGeiQx3/NXlFvVphYA+ivPJc6O6QiZ5TjGbkZcQ9kbWV2KGkRR+9TVMsTTm
-         2Tdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JDJIyWRJxxyEc1PDsmkOW+Tr5RdxZDK4YmviorpWb4o=;
-        b=NHKo6C/nxmM62W97loW/sjnwKEZz96WbLHka8/WwOvDE64y6VJvkX11k1WNHgSe+QR
-         SFKXYqwARA9N9xzLXiulCupU25d4XGJmUFCuW7d0etrI/xhiZA+Sjn2TLGLEOtfHfP6H
-         rLl7FIJCAwGmSdXYSknec5MHsFzzwDmZNMcPR99xvZV/lI5JcqMjt4JJYG3AB4es0zia
-         9iH97/NRsGjzWikuSxPNz+blKqOTFYbBWxF8QCn4rl9VJGb9+Rgrs3uTpNItlYHRbQi8
-         p/5hesfsSIpTIm4IoyGKhLFAlYxlOVUGfEQsk7Q7iODfA6+QHlSSXjdf7jOG5TsUH+6J
-         eMvQ==
-X-Gm-Message-State: AO0yUKUAgpb7i4d5A9ysHWYqGv34mJfqLOD3lxIWk8lhKLE3t8pUMcgC
-	BNVOvcvzx6m5gJfS3A5/4h1CyCv7vbg=
-X-Google-Smtp-Source: AK7set/6M1j54v2wX0+fXv/dZfC+VdUTg8GYE483FhD2qXq0X+hoIYjFv58I9qKoOczcMzG3Rxj7bQ==
-X-Received: by 2002:a17:903:3014:b0:196:7f9d:7009 with SMTP id o20-20020a170903301400b001967f9d7009mr611399pla.7.1675207641882;
-        Tue, 31 Jan 2023 15:27:21 -0800 (PST)
-Received: from [10.69.46.142] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id y13-20020a17090322cd00b00192c4055e72sm10271728plg.173.2023.01.31.15.27.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Jan 2023 15:27:21 -0800 (PST)
-Message-ID: <40b14fe4-7d7f-b4ee-b058-d0d39b9fa6d4@gmail.com>
-Date: Tue, 31 Jan 2023 15:27:20 -0800
+	id 1pN2wC-00A0UZ-RS
+	for linux-nvme@lists.infradead.org; Wed, 01 Feb 2023 02:33:30 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1675218806;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iXngudlVZQF6YhtaLHnHhbPnMZLcu0aO/ETWxonJ2JU=;
+	b=b8+MGBsIYT/w1iUQ5YmlPBUAbPYfQHKiDOWt2TrDCgiER5pkvnYJRoVinK/G5ryNRvSj9g
+	sK5LC+UeOKVDiiMpCt93oessWNFEwckM/8kL/kj8NtZ1tzgaWYIU4iObFuMhh1BOPsvq8m
+	aj3K6Xpueh3vnL9ZtC08wJcg/nfaSzs=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-331-xTSVguyGMGiMhAHJbf5nng-1; Tue, 31 Jan 2023 21:33:24 -0500
+X-MC-Unique: xTSVguyGMGiMhAHJbf5nng-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6DC1F3C025AC;
+	Wed,  1 Feb 2023 02:33:24 +0000 (UTC)
+Received: from T590 (ovpn-8-23.pek2.redhat.com [10.72.8.23])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id D6F86C15BAE;
+	Wed,  1 Feb 2023 02:33:20 +0000 (UTC)
+Date: Wed, 1 Feb 2023 10:33:15 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>,
+	John Meneghini <jmeneghi@redhat.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	ming.lei@redhat.com
+Subject: Re: nvme/pcie hot plug results in /dev name change
+Message-ID: <Y9nPa2ZBc80g2LcA@T590>
+References: <472fe309-f0f9-65bf-1ad1-8a92a349e973@redhat.com>
+ <Y8sKv7q+UEbz5ddD@kbusch-mbp.dhcp.thefacebook.com>
+ <Y8uN4V8uW2qS+xHR@infradead.org>
+ <Y9ZKNb4UKwg5zF4j@T590>
+ <Y9lEF7oY+aQw2POp@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: nvme-6.3: blktests nvme/003 null pointer for fc transport
-Content-Language: en-US
-To: Daniel Wagner <dwagner@suse.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- Hannes Reinecke <hare@suse.de>
-References: <20230130111532.ez63iip4qxrh42ga@carbon.lan>
-From: James Smart <jsmart2021@gmail.com>
-In-Reply-To: <20230130111532.ez63iip4qxrh42ga@carbon.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <Y9lEF7oY+aQw2POp@kbusch-mbp.dhcp.thefacebook.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230131_152725_094847_4DFB4401 
-X-CRM114-Status: UNSURE (   9.67  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230131_183329_005860_0DDD4EE8 
+X-CRM114-Status: GOOD (  40.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,33 +85,68 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/30/2023 3:15 AM, Daniel Wagner wrote:
-> Hi,
+On Tue, Jan 31, 2023 at 09:38:47AM -0700, Keith Busch wrote:
+> On Sun, Jan 29, 2023 at 06:28:05PM +0800, Ming Lei wrote:
+> > On Fri, Jan 20, 2023 at 11:01:53PM -0800, Christoph Hellwig wrote:
+> > > On Fri, Jan 20, 2023 at 02:42:23PM -0700, Keith Busch wrote:
+> > > > That is correct. We don't know the identity of the device at the point
+> > > > we have to assign it an instance number, so the hot added one will just
+> > > > get the first available unique number. If you need a consistent name, we
+> > > > have the persistent naming rules that should create those links in
+> > > > /dev/disk/by-id/.
+> > > 
+> > > Note that this a bit of a problem under a file system or stacking driver
+> > > that handles failing drives (e.g. btrfs or md raid), that holds ontop
+> > > the "old" device file, and then fails to find the new one.  I had a
+> > > customer complaint for that as well :)
+> > > 
+> > > The first hack was to force run the multipath code that can keep the
+> > > node alive.  That works, but is really ugly especially when dealing
+> > > with corner cases such as overlapping nsids between different
+> > > controllers.
+> > > 
+> > > In the long run I think we'll need to:
+> > >  - send a notification to the holder if a device is hot removed from
+> > >    the block layer so that it can clean up
+> > 
+> > When the disk is deleted, the notification has been sent to userspace
+> > via udev/kobj uevent, so user can umount the original FS or
+> > DM/MD userspace can handle the device removal.
+> > 
+> > >  - make the upper layers look for the replugged devie
+> > > 
+> > > I've been working on some of this for a while but haven't made much
+> > > progress due to other committments.
+> > 
+> > block device persistent name is supposed to be supported by userspace,
+> > such as udev rule.
 > 
-> Hannes added support to blktest to enable the FC transport for it. And as result
-> blktests is able to crash the kernel. Haven't startet to look into it yet.
-> 
->   run blktests nvme/003 at 2023-01-30 12:08:28
->   nvmet: adding nsid 1 to subsystem blktests-subsystem-1
->   BUG: kernel NULL pointer dereference, address: 0000000000000010
->   #PF: supervisor read access in kernel mode
->   #PF: error_code(0x0000) - not-present page
->   PGD 0 P4D 0
->   Oops: 0000 [#1] PREEMPT SMP NOPTI
->   CPU: 3 PID: 14200 Comm: nvme Not tainted 6.2.0-rc4+ #1 c9afca57e89c2aa3234427c2cd6cd4dd2984ae8c
->   Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015
->   RIP: 0010:nvme_alloc_admin_tag_set+0x38/0x120 [nvme_core]
+> Come to think of it, I actually have heard many complaints about this behavior.
+> Requiring user space deal with the teardown and restore of their open files and
+> mount points on a transient link loss can be inconvenient. Example use cases
 
-bingo...
+If IO error is returned to FS, I guess umount may have to be done since it might
+be one meta IO. But if userspace has persistent device name, it is easy for
+userspace to handle the umount and re-setup.
 
-The cleanup patch "nvme-fc: use the tagset alloc/free helpers" 
-introduced it.
+> are firmware activation requiring a Subsystem Reset, or a PCIe error
+> containment event. Those cause the links to bounce, which can trigger hot plug
+> events in some platforms.
 
-See the fix patch "nvme-fc: Fix initialization order" about 10 days ago 
-that corrects it.
+The above isn't unique for nvme, and it is just easier for nvme-pci to
+handle timeout/err by removing device, IMO.
 
--- james
+> The native nvme multipath looks like it could be leveraged to improving that
+> user experience if we wanted to make that layer an option for non-multipath
+> devices.
+
+Can you share the basic idea? Will nvme mulitpath hold the io error and
+not propagate to upper layer until new device is probed? What if the
+new device is probed late, and IO has been timed out and err is returned
+to upper layer?
 
 
+Thanks, 
+Ming
 
 
