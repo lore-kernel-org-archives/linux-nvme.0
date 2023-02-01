@@ -4,78 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7B21C05027
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Feb 2023 08:04:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1B35AC05027
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Feb 2023 08:10:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=062q0IPYjRYUhKKECmadg8ie4FBj78GTqJ9X+civAxA=; b=WD/Z0qAC7GaxuNg92JKtCjq880
-	zQjXrcBYsCEe4tjQV6+MAcKVqMlJMwh/Z39WQ1dzTgsumCKeJ+4YPGPntsllbhOCMcglG610JbEy4
-	0RD5uJggi2cn6NOwAIGlqIsPF8qw5AAMEgx4JsdWZXLfjnYqwAQN9wNzxXsGmBeFJk5pdzV0yDXkL
-	X8nc4S2IGQDtwPAvpLIbDXtYYgHz+QpBjXAugMuC5aYFLI9JMe5HQPme4eae3xdP2C/lGdKcSXAQJ
-	uzoZXn31LUxjptZMW/9XfNcLip/9jmEojAD2laPyudeEYv0M4lSO/i3H4W+p4F2ld/EqJv4oqxsfL
-	JE4B8roA==;
+	bh=IhXXTAf0gDjWtGTo7u11toecIXdlZrcdx2k6ygAwHjI=; b=GeMJxtTyENWIoFSLeXVh87mT9p
+	XbSkpUHdRJ917CkvqR3jNITsZX1P43fA5pkGG7h8P63y/R4WEMJZArtaxaT9aNVPrU1fRJFL/liyH
+	hQDAf+5JUA5xGDe5e2dq6aRAull9ehG6NUrDvOWqIDzDHqJs3A95sUtku6j6+DZDGaNHpnro/40la
+	3k74K0TuhlK8J0U0BjFWkqmZ93D30APsLZO3FQU/RH3M5dGC+Gyd88zKUNZt49zAUlot7EQ3Al6na
+	r0yaPcxulJ+nk7FxgvnW3vBDX6YnJ8ux4hFGj2seWelvZ7WpG+RR7qTpYo11A/8i8CXz2NdRIUGwS
+	ojtgziBw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pN86q-00AjxV-8H; Wed, 01 Feb 2023 08:04:48 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1pN8C3-00AkZw-5X; Wed, 01 Feb 2023 08:10:11 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pN86k-00Ajvl-6I
-	for linux-nvme@lists.infradead.org; Wed, 01 Feb 2023 08:04:46 +0000
+	id 1pN8Bz-00AkZ5-47
+	for linux-nvme@lists.infradead.org; Wed, 01 Feb 2023 08:10:08 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2835120B32;
-	Wed,  1 Feb 2023 08:04:37 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2C4DE33977;
+	Wed,  1 Feb 2023 08:10:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1675238677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1675239004; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=062q0IPYjRYUhKKECmadg8ie4FBj78GTqJ9X+civAxA=;
-	b=n7ySbLB12bnwSCzrDJ2E2OliOslHt8zuv5m+3/9GBCxxuqnqRfwlEtcejPArh+iAkGwLG2
-	Vin0QlYanYfCNbxB8V5HblRDEXZxpkde8s7/Vt8Sz25EQ+mVoDMBruMPQyXXdfDO0bdMmL
-	6aqdSFeeRKQ4XZfyBUehoBsmJPxIVoA=
+	bh=IhXXTAf0gDjWtGTo7u11toecIXdlZrcdx2k6ygAwHjI=;
+	b=u57kahL+EDCRljvg5Ss386/KInrJoS9j9c6YjDI92S4eTkwtD/00aAOGMb7XgKl2IWiRu1
+	8rY7HHiI1+Kuc+Mm066egKjM/YjsV4xSyEtiiTIUog1bGeYAoP9w88oOGMTGFMzbYvSHti
+	c+V5k3x7K9NXo7ZnqI7ckY8NujFoGcU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1675238677;
+	s=susede2_ed25519; t=1675239004;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=062q0IPYjRYUhKKECmadg8ie4FBj78GTqJ9X+civAxA=;
-	b=m/IL9Ien31gIoENoQHjqEqnyUG5MsdflcjR42lNnCslJ+k9zSns9KkLYzsCbr05ans9qcY
-	/aTf+IQGm+cqNrCg==
+	bh=IhXXTAf0gDjWtGTo7u11toecIXdlZrcdx2k6ygAwHjI=;
+	b=Sdk/KUhoHkJ9BLKJpB0Un+VGjU+xSgbzMekHMFewoBXI3wQXVGa/NzIMUOsMNaBpq6Wd2p
+	e8Gxw/qCOefRDbDg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 188C41348C;
-	Wed,  1 Feb 2023 08:04:37 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1E7AF13A10;
+	Wed,  1 Feb 2023 08:10:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id iWnbBRUd2mO6PAAAMHmgww
-	(envelope-from <dwagner@suse.de>); Wed, 01 Feb 2023 08:04:37 +0000
-Date: Wed, 1 Feb 2023 09:04:36 +0100
+	id RuBtB1we2mP9PgAAMHmgww
+	(envelope-from <dwagner@suse.de>); Wed, 01 Feb 2023 08:10:04 +0000
+Date: Wed, 1 Feb 2023 09:10:03 +0100
 From: Daniel Wagner <dwagner@suse.de>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@infradead.org>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Subject: Re: [PATCH] nvme-auth: use workqueue dedicated to authentication
- works
-Message-ID: <20230201080436.eunvgvc5zcxd77oq@carbon.lan>
-References: <20230131092644.1428477-1-shinichiro.kawasaki@wdc.com>
+To: James Smart <jsmart2021@gmail.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	Hannes Reinecke <hare@suse.de>
+Subject: Re: nvme-6.3: blktests nvme/003 null pointer for fc transport
+Message-ID: <20230201081003.a6l22z3rnl6snkds@carbon.lan>
+References: <20230130111532.ez63iip4qxrh42ga@carbon.lan>
+ <40b14fe4-7d7f-b4ee-b058-d0d39b9fa6d4@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230131092644.1428477-1-shinichiro.kawasaki@wdc.com>
+In-Reply-To: <40b14fe4-7d7f-b4ee-b058-d0d39b9fa6d4@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230201_000442_387310_81158915 
-X-CRM114-Status: GOOD (  12.91  )
+X-CRM114-CacheID: sfid-20230201_001007_338275_AB8EFBEF 
+X-CRM114-Status: GOOD (  17.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,30 +88,151 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jan 31, 2023 at 06:26:44PM +0900, Shin'ichiro Kawasaki wrote:
-> NVMe In-Band authentication uses two kinds of works: chap->auth_work and
-> ctrl->dhchap_auth_work. The latter work flushes or cancels the former
-> work. However, the both works are queued to the same workqueue nvme-wq.
-> It results in the lockdep WARNING as follows:
+On Tue, Jan 31, 2023 at 03:27:20PM -0800, James Smart wrote:
+> On 1/30/2023 3:15 AM, Daniel Wagner wrote:
+> > Hi,
+> > 
+> > Hannes added support to blktest to enable the FC transport for it. And as result
+> > blktests is able to crash the kernel. Haven't startet to look into it yet.
+> > 
+> >   run blktests nvme/003 at 2023-01-30 12:08:28
+> >   nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+> >   BUG: kernel NULL pointer dereference, address: 0000000000000010
+> >   #PF: supervisor read access in kernel mode
+> >   #PF: error_code(0x0000) - not-present page
+> >   PGD 0 P4D 0
+> >   Oops: 0000 [#1] PREEMPT SMP NOPTI
+> >   CPU: 3 PID: 14200 Comm: nvme Not tainted 6.2.0-rc4+ #1 c9afca57e89c2aa3234427c2cd6cd4dd2984ae8c
+> >   Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015
+> >   RIP: 0010:nvme_alloc_admin_tag_set+0x38/0x120 [nvme_core]
 > 
->  WARNING: possible recursive locking detected
->  6.2.0-rc4+ #1 Not tainted
->  --------------------------------------------
->  kworker/u16:7/69 is trying to acquire lock:
->  ffff902d52e65548 ((wq_completion)nvme-wq){+.+.}-{0:0}, at: start_flush_work+0x2c5/0x380
+> bingo...
 > 
->  but task is already holding lock:
->  ffff902d52e65548 ((wq_completion)nvme-wq){+.+.}-{0:0}, at: process_one_work+0x210/0x410
+> The cleanup patch "nvme-fc: use the tagset alloc/free helpers" introduced
+> it.
 > 
-> To avoid the WARNING, introduce a new workqueue nvme-auth-wq dedicated
-> to chap->auth_work.
-> 
-> Reported-by: Daniel Wagner <dwagner@suse.de>
-> Link: https://lore.kernel.org/linux-nvme/20230130110802.paafkiipmitwtnwr@carbon.lan/
-> Fixes: f50fff73d620 ("nvme: implement In-Band authentication")
-> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+> See the fix patch "nvme-fc: Fix initialization order" about 10 days ago that
+> corrects it.
 
-Thanks! This patches fixes the lockdep warning.
+Good call! This is problem is gone. Now I am running into the next problem:
 
-Tested-by: Daniel Wagner <dwagner@suse.de>
+
+run blktests nvme/003 at 2023-02-01 09:01:58
+nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+debugfs: Directory 'nvme0' with parent '/' already present!
+nvme0: failed to create debugfs attr
+nvme nvme0: NVME-FC{0}: create association : host wwpn 0x20001100aa000002  rport wwpn 0x20001100aa000001: NQN "nqn.2014-08.org.nvmexpress.discovery"
+(NULL device *): {0:0} Association created
+nvmet: creating discovery controller 1 for subsystem nqn.2014-08.org.nvmexpress.discovery for NQN nqn.2014-08.org.nvmexpress:uuid:2cd2c43b-a90a-45c1-a8cd-86b33ab273b5.
+nvme nvme0: NVME-FC{0}: controller connect complete
+nvme nvme0: NVME-FC{0}: new ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery"
+nvme nvme1: NVME-FC{1}: create association : host wwpn 0x20001100aa000002  rport wwpn 0x20001100aa000001: NQN "blktests-subsystem-1"
+(NULL device *): {0:1} Association created
+nvmet: creating nvm controller 2 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:2cd2c43b-a90a-45c1-a8cd-86b33ab273b5.
+nvme nvme1: NVME-FC{1}: controller connect complete
+nvme nvme1: NVME-FC{1}: new ctrl: NQN "blktests-subsystem-1"
+nvme nvme0: Removing ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery"
+nvme nvme1: rescanning namespaces.
+(NULL device *): {0:0} Association deleted
+(NULL device *): {0:0} Association freed
+(NULL device *): Disconnect LS failed: No Association
+nvme nvme1: NVME-FC{1}: io failed due to lldd error 6
+nvme nvme1: NVME-FC{1}: transport association event: transport detected io error
+nvme nvme1: NVME-FC{1}: resetting controller
+debugfs: Directory 'nvme0' with parent '/' already present!
+nvme0: failed to create debugfs attr
+nvme nvme0: NVME-FC{0}: create association : host wwpn 0x20001100aa000002  rport wwpn 0x20001100aa000001: NQN "nqn.2014-08.org.nvmexpress.discovery"
+(NULL device *): {0:0} Association created
+nvmet: connect request for invalid subsystem nqn.2014-08.org.nvmexpress.discovery!
+nvme nvme0: Connect Invalid Data Parameter, subsysnqn "nqn.2014-08.org.nvmexpress.discovery"
+nvme nvme0: NVME-FC{0}: reset: Reconnect attempt failed (16770)
+nvme nvme0: NVME-FC{0}: reconnect failure
+nvme nvme0: NVME-FC{0}: new ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery"
+nvme nvme0: Removing ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery"
+nvme nvme1: NVME-FC{1}: create association : host wwpn 0x20001100aa000002  rport wwpn 0x20001100aa000001: NQN "blktests-subsystem-1"
+(NULL device *): {0:2} Association created
+nvmet: connect request for invalid subsystem blktests-subsystem-1!
+nvme nvme1: Connect Invalid Data Parameter, subsysnqn "blktests-subsystem-1"
+nvme nvme1: NVME-FC{1}: reset: Reconnect attempt failed (16770)
+nvme nvme1: NVME-FC{1}: reconnect failure
+nvme nvme1: Removing ctrl: NQN "blktests-subsystem-1"
+(NULL device *): {0:1} Association deleted
+(NULL device *): {0:1} Association freed
+(NULL device *): Disconnect LS failed: No Association
+(NULL device *): {0:0} Association deleted
+(NULL device *): {0:0} Association freed
+(NULL device *): Disconnect LS failed: No Association
+(NULL device *): {0:2} Association deleted
+(NULL device *): {0:2} Association freed
+===========================================
+WARNING: possible recursive locking detected
+6.2.0-rc4+ #1 Not tainted
+--------------------------------------------
+kworker/3:13/21736 is trying to acquire lock:
+ffff93fe60e251e8 ((work_completion)(&tport->ls_work)){+.+.}-{0:0}, at: __flush_work+0x38/0xc0
+
+but task is already holding lock:
+ffffa693c1a4fe68 ((work_completion)(&tport->ls_work)){+.+.}-{0:0}, at: process_one_work+0x236/0x410
+
+other info that might help us debug this:
+ Possible unsafe locking scenario:
+
+       CPU0
+       ----
+  lock((work_completion)(&tport->ls_work));
+  lock((work_completion)(&tport->ls_work));
+
+ *** DEADLOCK ***
+
+ May be due to missing lock nesting notation
+
+2 locks held by kworker/3:13/21736:
+ #0: ffff93fe9882ff48 ((wq_completion)nvmet-wq){+.+.}-{0:0}, at: process_one_work+0x210/0x410
+ #1: ffffa693c1a4fe68 ((work_completion)(&tport->ls_work)){+.+.}-{0:0}, at: process_one_work+0x236/0x410
+
+stack backtrace:
+CPU: 3 PID: 21736 Comm: kworker/3:13 Not tainted 6.2.0-rc4+ #1 c9afca57e89c2aa3234427c2cd6cd4dd2984ae8c
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015
+Workqueue: nvmet-wq fcloop_tport_lsrqst_work [nvme_fcloop]
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x5a/0x80
+ validate_chain+0x1e02/0x2730
+ ? lockdep_unlock+0x51/0xc0
+ ? lockdep_unlock+0x51/0xc0
+ ? validate_chain+0x7c8/0x2730
+ ? validate_chain+0x7c8/0x2730
+ ? lock_release+0xf7/0x400
+ ? __lock_acquire+0x8f7/0xbc0
+ ? lock_is_held_type+0x8b/0x110
+ __lock_acquire+0x8f7/0xbc0
+ ? lock_is_held_type+0x8b/0x110
+ lock_acquire+0xb0/0x180
+ ? __flush_work+0x38/0xc0
+ ? lock_is_held_type+0x8b/0x110
+ __flush_work+0x57/0xc0
+ ? __flush_work+0x38/0xc0
+ ? lockdep_hardirqs_on_prepare+0x16e/0x220
+ ? _raw_spin_unlock_irqrestore+0x32/0x50
+ ? __free_pages_ok+0x289/0x4a0
+ fcloop_targetport_delete+0x15/0xa0 [nvme_fcloop 2f0f07bf6746e7b4ec6dff8d226e919dac60e0f1]
+ nvmet_fc_tgtport_put+0x132/0x190 [nvmet_fc cec46c808c67bf2a4fefe925da2828f0b3f2334a]
+ nvmet_fc_disconnect_assoc_done+0x7c/0xa0 [nvmet_fc cec46c808c67bf2a4fefe925da2828f0b3f2334a]
+ fcloop_tport_lsrqst_work+0x6c/0xa0 [nvme_fcloop 2f0f07bf6746e7b4ec6dff8d226e919dac60e0f1]
+ process_one_work+0x26a/0x410
+ worker_thread+0x21d/0x490
+ ? rcu_lock_release+0x20/0x20
+ kthread+0xe1/0x100
+ ? kthread_blkcg+0x30/0x30
+ ret_from_fork+0x1f/0x30
+ </TASK>
+nvme_fcloop: fcloop_exit: Failed deleting target port
+nvme_fcloop: fcloop_exit: Failed deleting remote port
+nvme_fcloop: fcloop_exit: Failed deleting target port
+nvme_fcloop: fcloop_exit: Failed deleting remote port
+nvme_fcloop: fcloop_exit: Failed deleting target port
+nvme_fcloop: fcloop_exit: Failed deleting remote port
+
+
+The last last to message never stop.
 
