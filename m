@@ -4,80 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1ECDEC05027
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Feb 2023 15:43:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F17DC05027
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Feb 2023 16:22:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:Cc:References:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3EImqxv36s544qTYC0kEWPjZrJ8dC/3wm2/hDXj2ZCg=; b=eJXrL/hmTVF8u7jwPnp9TjVE5F
-	E11CiTc5gdXB6HNvKJm2nGpFqE06xnclwWAT4RiOgi0c+Z8eonIgtGc+0dN3pwCV6/kYG9UGA1SP5
-	adE2Ssysltq9zVn0hMMRsFWCAjkGfHJzKMHE4Mna3+J4wS6tGZQtyb61dAxhJH/2i64Szhw58LHgd
-	UF+pYRcRb+TsWcdthvFIsQBKBr4Bw9V94OL+y+nGHPg+h7+VgjAM/KHA5ya4g8gcHJ20ki0VRHS+N
-	jZEvhkd1+MXBsv7OBRshxS0Z74+hdtuPOqsCqZ8SAk++nIycfymER7Zs8K3QbXtkMfdQKEPXIPBA1
-	0H4dChYQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=aJKiZzoFGVjWIWu3KENtW4+5zEK7j8y6GQ2PLVX2ZBI=; b=pRRz3b6Rat0MSpBmP388OOdKX3
+	X42dpgfPrYB0bnS7+jeFAOLr6mFVdSXb3EIKNqY1Bogn5uwqMIw1zwTmcmeOl9Qt44NueYi8V8lUp
+	xgk7sIfMmjQy2OR7X6VYCTcSITR+UaL0SdskaFOqpUjQkeJK0vvadJMKmnvrxPD9jPt7F0kPlyeDn
+	hZQRxw5ri+4hcDa+My1cbF5n1+ONM4IPRONoBiPDTtymDAWcR7Bg62m2IfVhb1syFrU+5iK0oBWwn
+	M5r1pylnCDOjG4zEWZA57gXz/5QQ24dWUxvsO+xa6sdIRSTOiEDcacpUgatk7OJFwN10e2bEspCPx
+	C+M3kNbQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pNyDa-002oEb-4o; Fri, 03 Feb 2023 15:43:14 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1pNypS-002ttH-JZ; Fri, 03 Feb 2023 16:22:22 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pNyDW-002oDX-Du
-	for linux-nvme@lists.infradead.org; Fri, 03 Feb 2023 15:43:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1675438987;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3EImqxv36s544qTYC0kEWPjZrJ8dC/3wm2/hDXj2ZCg=;
-	b=JZiafokzihnDmMxOagnaSVYmgyrNJ0MXZIHFT4zcWqZNUsi/lqwhWp2mBF69b2bNhRA/qk
-	iV/K5F3twLsxUlhu9jLwaJE7J2LMZ9amtPajTsv8VSanwLmWIuvLOFNwz1el4gpUnnjb1O
-	s1FnND3e/pBtfZ8I6GgQxadYbfYypGs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-92-TsVa3t2BO4yx9RbDxNbvNg-1; Fri, 03 Feb 2023 10:43:06 -0500
-X-MC-Unique: TsVa3t2BO4yx9RbDxNbvNg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	id 1pNypO-002trb-FD
+	for linux-nvme@lists.infradead.org; Fri, 03 Feb 2023 16:22:20 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7608F882822;
-	Fri,  3 Feb 2023 15:43:05 +0000 (UTC)
-Received: from [10.18.25.182] (unknown [10.18.25.182])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id EC082492C14;
-	Fri,  3 Feb 2023 15:43:04 +0000 (UTC)
-Message-ID: <f3f3ed82-f00d-ab81-6de8-d4da01f74296@redhat.com>
-Date: Fri, 3 Feb 2023 10:43:04 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C5CD034BBB;
+	Fri,  3 Feb 2023 16:22:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1675441333; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aJKiZzoFGVjWIWu3KENtW4+5zEK7j8y6GQ2PLVX2ZBI=;
+	b=UFj3Ajla4MvBZtNLrwhvUm5iyz4cXBiNDAtiOrqiVRZwzPsM4XnRMTv5vQ2iupiqzdKWjp
+	HXB+VF5MJk1/jnb50v7kzOJ5sCgaCCosk7wkuVPHvGYOxl16mhfYapGeb522mafGfmSBPx
+	TXjHwsrXX3hGT4lgRecOAMMkoVVsMs0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1675441333;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aJKiZzoFGVjWIWu3KENtW4+5zEK7j8y6GQ2PLVX2ZBI=;
+	b=f0lHMr0xs2jr2LbC4nnYD9FrChr5MNsjiVgX9W4pKGy78Ij9rqz4UjUmR07mSQkYMrwRds
+	2wSzv1/5f7ACSJBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B62C21358A;
+	Fri,  3 Feb 2023 16:22:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id +SZwLLU03WP/VwAAMHmgww
+	(envelope-from <dwagner@suse.de>); Fri, 03 Feb 2023 16:22:13 +0000
+Date: Fri, 3 Feb 2023 17:22:13 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: John Meneghini <jmeneghi@redhat.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>,
+	Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+	"Rose, Charles" <Charles.Rose@dell.com>,
+	"Belanger, Martin" <Martin.Belanger@dell.com>,
+	Martin Wilck <mwilck@suse.com>
 Subject: Re: Timberland nvme-cli/libnvme upstream merge - dbus dependency.
-From: John Meneghini <jmeneghi@redhat.com>
-To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>,
- Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>,
- Christoph Hellwig <hch@lst.de>
+Message-ID: <20230203162213.yyzz5oq2udjzj63q@carbon.lan>
 References: <50a55e73-ae2c-8704-65a0-d47b8bd04192@redhat.com>
  <DM5PR19MB4679B0881914F4022FA5A02798D69@DM5PR19MB4679.namprd19.prod.outlook.com>
  <5dc13dcd-b67a-60b0-0bf1-b03878e0d82b@redhat.com>
  <bcfaa7e1-787f-f7cd-e7e2-5b5f591253e3@redhat.com>
  <10211ed275a0dd73f88d18f111bd4621f356ab0b.camel@suse.com>
  <b28e99b4-0459-e592-140b-61c427073abd@redhat.com>
-Cc: "Rose, Charles" <Charles.Rose@dell.com>,
- "Belanger, Martin" <Martin.Belanger@dell.com>, Martin Wilck <mwilck@suse.com>
-Organization: RHEL Core Storge Team
-In-Reply-To: <b28e99b4-0459-e592-140b-61c427073abd@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ <f3f3ed82-f00d-ab81-6de8-d4da01f74296@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f3f3ed82-f00d-ab81-6de8-d4da01f74296@redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230203_074310_579685_D9EE40C1 
-X-CRM114-Status: GOOD (  18.90  )
+X-CRM114-CacheID: sfid-20230203_082218_689721_6BA9C1A2 
+X-CRM114-Status: GOOD (  13.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,54 +96,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I have a question for the upstream nvme maintainers.
-
-Why does libnvme, as v1.3, now have a dependency on dbus?
-
-I thought the goal was to keep the nvme management plane as streamline and daemon free as possible.  We already have a 
-dependency on the udev daemon. Isn't that enough?
-
-/John
-
-On 2/3/23 08:47, John Meneghini wrote:
-> Everyone should note that I have updated the timberland-sig repositories and re-based these pull requests onto nvme-cli v2.3 and 
-> libnvme v1.3 before pushing these change upstream.
+On Fri, Feb 03, 2023 at 10:43:04AM -0500, John Meneghini wrote:
+> I have a question for the upstream nvme maintainers.
 > 
-> As a part of the re-base I noticed that the meson tool chain was updated in v2.3/v1.3 so I was no longer able to compile this 
-> stuff on my standard RHEL 8 dev plaform.  I has to switch to Fedora 37, which seems to have the needed updated tool chain to 
-> compile everything. 
- >
-> Everything was there on my fedora 37 machine except for dbus.
-> 
-> Executing subproject libnvme:dbus
-> 
-> dbus| Project name: dbus
-> dbus| Project version: 1.15.3
-> dbus| C compiler for the host machine: cc (gcc 12.2.1 "cc (GCC) 12.2.1 20221121 (Red Hat 12.2.1-4)")
-> dbus| C linker for the host machine: cc ld.bfd 2.37-37
-> dbus| Program python3 found: YES (/usr/bin/python3)
-> dbus| Message: Detected platform : Unix (linux)
-> ...
-> nvme-cli 2.3
-> 
->    Subprojects
->      dbus   : YES 5 warnings
->      libnvme: YES
+> Why does libnvme, as v1.3, now have a dependency on dbus?
 
-On 2/3/23 05:08, Martin Wilck wrote:
- > On Thu, 2023-02-02 at 17:38 -0500, John Meneghini wrote:
- >> Please see the pull requests:
- >>
- >> https://github.com/linux-nvme/libnvme/pull/572
- >>
- >> https://github.com/linux-nvme/nvme-cli/pull/1791
- >>
- >> /John
- >
- > I have followed up with
- >
- > https://github.com/dracutdevs/dracut/pull/2184
- >
- > Martin
+libnvme-mi uses a D-Bus service for discovering devices. Initially libnvme-mi
+used libsystemd as D-Bus library. libsystemd is only available as shared
+library, thus we can't build the library statically (yes, some people want to do
+this). We switch the implementation to use libdbus. I made usre that it can
+be consumed as suprojects. New library, old optional dependency.
 
+> I thought the goal was to keep the nvme management plane as streamline and
+> daemon free as possible.
+
+Yes and it is optional. The new feature is that you can compile it
+as static dependency and this is what you currently see.
+
+The current nvme-cli meson.build configuration for libnvme is always pulling the
+fallback. A workaround is to build libnvme as separate step as you would do when
+packaging.
+
+> We already have a dependency on the udev daemon.
+
+Not on code level (no library). I don't see how we can avoid this and I don't
+understand why this is now a problem.
+
+Concerning meson version: We always used features from 0.50.0 hence the min
+version of 0.47.0 was wrong. We just updated this.
+
+Daniel
 
