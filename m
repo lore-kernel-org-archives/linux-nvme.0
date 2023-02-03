@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AAF94C05027
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Feb 2023 15:22:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82948C61DA4
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Feb 2023 15:22:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ozMZvF4F/akQ9A5h2X8GtqkaNdRpJcsfIZKKgUgmw0I=; b=e6AMRNzzQehBj2xkTFQfLNMXyt
-	qkDqs9E7E99wKWWbjn9I8P61s0JnUzMbKd/O3GEyiM1QlhbE2m1/O5+rp3X4lIE18NSdBLDAYK3p7
-	1GhtPjX7zydWdh2iO/lXSnlW6cfL8/vp2cwTYdeNMOeaooGv67Uty75gUacGZftaJSN6NV9EXnbxU
-	i7lqRrYMkGe+e3jKQtngyA3yWxPIeNt9VMgV+iJtdq/zDSVwmycd60tdsjTHzJFAM6066bRBlGIW+
-	/9AD33SdAD0cP8L8VT+Y4ITJHrREoTYnAleULHiIev/CAm76q6b9Cem66/JLU32sPXtB+2W3iMdHh
-	Hcp5Esmg==;
+	bh=NE7sXkVgEfW+BeR3L//yGcuDdB7IsjAlK/DMIBSqu7s=; b=GHOPEgtNI4pTD6RQL97ll3f4zq
+	ZvLw1NxZK7jAIyyKLtCXubsvHUlJOwkpXMzTdsMWafy5IWDmGgHoJKbdlJPOsMTx8oR4edU4EMUEd
+	mkKAUixz641+wUZSEfFbtlKZobsfEBdMGQa17nsgZTBPryieToDqjpqg8OG5YB+W8nTM4OmwhcHwG
+	CiL6ezkILP6tVUssLHN6S4vFx+5BF4Ik8xO1e6Si0tCUhxVcqtMvU+QafhOOzybIXqGhzJgy7P0lF
+	J1YFL+quOfUOv//we/ggFBjS+8VynA0mvsv+Lyn0VTNiztGZ00VNRf3OjInR+gqF+hjVms5jSgTPK
+	AMmq/gvg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pNxtd-002gQE-E4; Fri, 03 Feb 2023 15:22:37 +0000
+	id 1pNxtl-002gUl-Ef; Fri, 03 Feb 2023 15:22:45 +0000
 Received: from [2001:4bb8:19a:272a:910:bb67:7287:f956] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pNxej-002at9-3V; Fri, 03 Feb 2023 15:07:13 +0000
+	id 1pNxen-002awC-7J; Fri, 03 Feb 2023 15:07:17 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Ilya Dryomov <idryomov@gmail.com>,
@@ -64,9 +64,9 @@ Cc: Ilya Dryomov <idryomov@gmail.com>,
 	devel@lists.orangefs.org,
 	io-uring@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH 11/23] afs: use bvec_set_folio to initialize a bvec
-Date: Fri,  3 Feb 2023 16:06:22 +0100
-Message-Id: <20230203150634.3199647-12-hch@lst.de>
+Subject: [PATCH 12/23] ceph: use bvec_set_page to initialize a bvec
+Date: Fri,  3 Feb 2023 16:06:23 +0100
+Message-Id: <20230203150634.3199647-13-hch@lst.de>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230203150634.3199647-1-hch@lst.de>
 References: <20230203150634.3199647-1-hch@lst.de>
@@ -87,40 +87,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use the bvec_set_folio helper to initialize a bvec.
+Use the bvec_set_page helper to initialize a bvec.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Acked-by: David Howells <dhowells@redhat.com>
 ---
- fs/afs/write.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ fs/ceph/file.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/fs/afs/write.c b/fs/afs/write.c
-index 19df10d63323d8..2d17891b618e6e 100644
---- a/fs/afs/write.c
-+++ b/fs/afs/write.c
-@@ -992,7 +992,7 @@ int afs_launder_folio(struct folio *folio)
- {
- 	struct afs_vnode *vnode = AFS_FS_I(folio_inode(folio));
- 	struct iov_iter iter;
--	struct bio_vec bv[1];
-+	struct bio_vec bv;
- 	unsigned long priv;
- 	unsigned int f, t;
- 	int ret = 0;
-@@ -1008,10 +1008,8 @@ int afs_launder_folio(struct folio *folio)
- 			t = afs_folio_dirty_to(folio, priv);
+diff --git a/fs/ceph/file.c b/fs/ceph/file.c
+index 764598e1efd91f..90b2aa7963bf29 100644
+--- a/fs/ceph/file.c
++++ b/fs/ceph/file.c
+@@ -103,14 +103,10 @@ static ssize_t __iter_get_bvecs(struct iov_iter *iter, size_t maxsize,
+ 		size += bytes;
+ 
+ 		for ( ; bytes; idx++, bvec_idx++) {
+-			struct bio_vec bv = {
+-				.bv_page = pages[idx],
+-				.bv_len = min_t(int, bytes, PAGE_SIZE - start),
+-				.bv_offset = start,
+-			};
+-
+-			bvecs[bvec_idx] = bv;
+-			bytes -= bv.bv_len;
++			int len = min_t(int, bytes, PAGE_SIZE - start);
++
++			bvec_set_page(&bvecs[bvec_idx], pages[idx], len, start);
++			bytes -= len;
+ 			start = 0;
  		}
- 
--		bv[0].bv_page = &folio->page;
--		bv[0].bv_offset = f;
--		bv[0].bv_len = t - f;
--		iov_iter_bvec(&iter, ITER_SOURCE, bv, 1, bv[0].bv_len);
-+		bvec_set_folio(&bv, folio, t - f, f);
-+		iov_iter_bvec(&iter, ITER_SOURCE, &bv, 1, bv.bv_len);
- 
- 		trace_afs_folio_dirty(vnode, tracepoint_string("launder"), folio);
- 		ret = afs_store_data(vnode, &iter, folio_pos(folio) + f, true);
+ 	}
 -- 
 2.39.0
 
