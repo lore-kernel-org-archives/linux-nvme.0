@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 50A0BC05027
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Feb 2023 15:24:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77658C61DA4
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Feb 2023 15:25:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WVeCTAFZrkMT1bjw8l1TFDAlVxNms+8mA7ykabtaeDg=; b=ZjVWeH9iBtr3H2dF4+byKCrQKn
-	JOwEqMpqrb+aX+2YzsI+uXp412VnI4WzDst10rXWWhTtoaeu0WvMkCubxMyhPer4U5WQU3XPxdgky
-	K8Fdj+HpTlei0N0QnmM7GOpn3pyQPqsWlVvXsr4JnIc2QrE8SweF3uNGs9eTwJcvcl5cvMD3syoD+
-	Nxlao/k0JO0+cRdYeAUo2E+31Phl0GhPwM+B41Aglvu8M8/zyUhpKDi+zQBPt8Y14ZytV6yni/C++
-	gRywF+RwI5++VWoXxA7SD70PNUxvGtWEA5rOZ1537PT83kkp5wWbjl2fuPCyH7TuliNImkmU6V4Y9
-	mEdRLkLA==;
+	bh=68cg5sT+53fHc5ofdY3atwSg1h/zl/AMIkCUias8WPw=; b=e7YaoTT7SOQWKTJGtuXOZbH5Cx
+	EIYxtyoWnsAh4Azy1KqnWUkC3MVmBva4i7M+3LPpFMyk5rRUUF0efnOxrI4MWd/gblchz6neO5s0l
+	VOtL6mFT9Ry3rZt3skkOMXjyupbZWTZiubrynr2IXNTh23Wxz+H2XaXnS2CGuRei+uwlkom6oARYc
+	SBCP5yPYmAG1fl9z9aXe3I/G7iHALDUZPSohwfBJaZYo2Ga49WW7+1/Uv0PVpXXEVoPiUYDl3PIEj
+	+JSvEJ68R1vemnPFCL5EIfyqaRgVz7E129MAkd4risYRPWDb3WZCOcEZ8Frzt65sEuyv/CVvcIPyQ
+	YUFC0XPQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pNxvk-002hja-9i; Fri, 03 Feb 2023 15:24:48 +0000
+	id 1pNxw0-002hsx-Bg; Fri, 03 Feb 2023 15:25:04 +0000
 Received: from [2001:4bb8:19a:272a:910:bb67:7287:f956] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pNxfM-002bR0-0P; Fri, 03 Feb 2023 15:07:52 +0000
+	id 1pNxfP-002bWg-QF; Fri, 03 Feb 2023 15:07:56 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Ilya Dryomov <idryomov@gmail.com>,
@@ -64,9 +64,9 @@ Cc: Ilya Dryomov <idryomov@gmail.com>,
 	devel@lists.orangefs.org,
 	io-uring@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH 21/23] sunrpc: use bvec_set_page to initialize bvecs
-Date: Fri,  3 Feb 2023 16:06:32 +0100
-Message-Id: <20230203150634.3199647-22-hch@lst.de>
+Subject: [PATCH 22/23] vringh: use bvec_set_page to initialize a bvec
+Date: Fri,  3 Feb 2023 16:06:33 +0100
+Message-Id: <20230203150634.3199647-23-hch@lst.de>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230203150634.3199647-1-hch@lst.de>
 References: <20230203150634.3199647-1-hch@lst.de>
@@ -87,50 +87,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use the bvec_set_page helper to initialize bvecs.
+Use the bvec_set_page helper to initialize a bvec.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Acked-by: Chuck Lever <chuck.lever@oracle.com>
-Acked-by: Trond Myklebust <trond.myklebust@hammerspace.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
 ---
- net/sunrpc/svcsock.c | 7 ++-----
- net/sunrpc/xdr.c     | 5 ++---
- 2 files changed, 4 insertions(+), 8 deletions(-)
+ drivers/vhost/vringh.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/net/sunrpc/svcsock.c b/net/sunrpc/svcsock.c
-index 815baf308236a9..91252adcae4696 100644
---- a/net/sunrpc/svcsock.c
-+++ b/net/sunrpc/svcsock.c
-@@ -252,11 +252,8 @@ static ssize_t svc_tcp_read_msg(struct svc_rqst *rqstp, size_t buflen,
- 
- 	clear_bit(XPT_DATA, &svsk->sk_xprt.xpt_flags);
- 
--	for (i = 0, t = 0; t < buflen; i++, t += PAGE_SIZE) {
--		bvec[i].bv_page = rqstp->rq_pages[i];
--		bvec[i].bv_len = PAGE_SIZE;
--		bvec[i].bv_offset = 0;
--	}
-+	for (i = 0, t = 0; t < buflen; i++, t += PAGE_SIZE)
-+		bvec_set_page(&bvec[i], rqstp->rq_pages[i], PAGE_SIZE, 0);
- 	rqstp->rq_respages = &rqstp->rq_pages[i];
- 	rqstp->rq_next_page = rqstp->rq_respages + 1;
- 
-diff --git a/net/sunrpc/xdr.c b/net/sunrpc/xdr.c
-index f7767bf224069f..afe7ec02d23229 100644
---- a/net/sunrpc/xdr.c
-+++ b/net/sunrpc/xdr.c
-@@ -150,9 +150,8 @@ xdr_alloc_bvec(struct xdr_buf *buf, gfp_t gfp)
- 		if (!buf->bvec)
- 			return -ENOMEM;
- 		for (i = 0; i < n; i++) {
--			buf->bvec[i].bv_page = buf->pages[i];
--			buf->bvec[i].bv_len = PAGE_SIZE;
--			buf->bvec[i].bv_offset = 0;
-+			bvec_set_page(&buf->bvec[i], buf->pages[i], PAGE_SIZE,
-+				      0);
- 		}
- 	}
- 	return 0;
+diff --git a/drivers/vhost/vringh.c b/drivers/vhost/vringh.c
+index 33eb941fcf1546..a1e27da544814a 100644
+--- a/drivers/vhost/vringh.c
++++ b/drivers/vhost/vringh.c
+@@ -1126,9 +1126,8 @@ static int iotlb_translate(const struct vringh *vrh,
+ 		size = map->size - addr + map->start;
+ 		pa = map->addr + addr - map->start;
+ 		pfn = pa >> PAGE_SHIFT;
+-		iov[ret].bv_page = pfn_to_page(pfn);
+-		iov[ret].bv_len = min(len - s, size);
+-		iov[ret].bv_offset = pa & (PAGE_SIZE - 1);
++		bvec_set_page(&iov[ret], pfn_to_page(pfn), min(len - s, size),
++			      pa & (PAGE_SIZE - 1));
+ 		s += size;
+ 		addr += size;
+ 		++ret;
 -- 
 2.39.0
 
