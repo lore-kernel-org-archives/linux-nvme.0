@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7525C05027
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Feb 2023 15:22:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3ED4C61DA4
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Feb 2023 15:22:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=81B+gzWiKP3dSyMHoEpejaF7sEqhUPFohDfKzzK3URY=; b=PW73sfnYYQmt+LzsdBsJI54QWS
-	uOVFdywMs4sn2VRbQ8KVBfdSrHkRhixDq3JK3aCUrl0J8DCtAfmfMyLEq9hBT8doVYWq7mOQKDzF/
-	xNQUhts2ZIr2qzQR9Wo5S4a/MbxXjUgnyPZ18O+iNeE6CyDila6O7BEYSF2G46CGQKbmki1wNaBMC
-	HrWP52Ls8be1z3fOP5w8EPmkF6seVGpgWHvHVe6IckrPccZq72zXGakCmt3domQgF3xyc+GgCk4Wk
-	Ci6CsRIYjqpsg4hcuuS9LrCog0CwXLgxC4Vw2Uyhu5u9YQDnRfEtafOOWjCAVLwcVs7/Cb/MuLfBd
-	VkiOzllw==;
+	bh=2ivuZdJU66fGeGNrDCSX2XtHVJq8+h1pLMvYDbA6wQ8=; b=NnnX+NJrHo1kW9oZy0SdYYr3cn
+	rM+X/ocNdjkU/mnqcbkOiQsaLSa9tD8wRTsgIRMuJLlVaQ8OtqL4ZSlLFj1viK8818RpvPCCePNx5
+	ioDAGIid3bOSSGsV7b1r0lhccknPCsuRlWGmE8A88CmAzj7Ia9boVPgGXhx0UN1rbh3X5Ext7WIof
+	80f5hMO5VGkjYp2Vp6ICp1mdXB9F68lQXfxd+cEU7MTpaUdl+1QfmNfTkq8iYE5lS+w//m41eaxIn
+	56cqJtfQNHea/7ntRNCixhQX1HFJnlsQwhcGY2oQnzH2syCgV97jFqu/CODNbdG+ioelq5y6YSSDj
+	jy/9g5fw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pNxtO-002gGu-Ui; Fri, 03 Feb 2023 15:22:22 +0000
+	id 1pNxtV-002gL7-8c; Fri, 03 Feb 2023 15:22:29 +0000
 Received: from [2001:4bb8:19a:272a:910:bb67:7287:f956] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pNxeb-002apl-U8; Fri, 03 Feb 2023 15:07:06 +0000
+	id 1pNxef-002ar9-Df; Fri, 03 Feb 2023 15:07:10 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Ilya Dryomov <idryomov@gmail.com>,
@@ -63,10 +63,11 @@ Cc: Ilya Dryomov <idryomov@gmail.com>,
 	linux-nfs@vger.kernel.org,
 	devel@lists.orangefs.org,
 	io-uring@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 09/23] virtio_blk: use bvec_set_virt to initialize special_vec
-Date: Fri,  3 Feb 2023 16:06:20 +0100
-Message-Id: <20230203150634.3199647-10-hch@lst.de>
+	linux-mm@kvack.org,
+	Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Subject: [PATCH 10/23] zram: use bvec_set_page to initialize bvecs
+Date: Fri,  3 Feb 2023 16:06:21 +0100
+Message-Id: <20230203150634.3199647-11-hch@lst.de>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230203150634.3199647-1-hch@lst.de>
 References: <20230203150634.3199647-1-hch@lst.de>
@@ -87,31 +88,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use the bvec_set_virt helper to initialize the special_vec.
+Use the bvec_set_page helper to initialize bvecs.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
+Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
 ---
- drivers/block/virtio_blk.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/block/zram/zram_drv.c | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-index 6a77fa91742880..dc6e9b989910b0 100644
---- a/drivers/block/virtio_blk.c
-+++ b/drivers/block/virtio_blk.c
-@@ -170,9 +170,7 @@ static int virtblk_setup_discard_write_zeroes_erase(struct request *req, bool un
+diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
+index e290d6d970474e..bd8ae4822dc3ef 100644
+--- a/drivers/block/zram/zram_drv.c
++++ b/drivers/block/zram/zram_drv.c
+@@ -703,9 +703,7 @@ static ssize_t writeback_store(struct device *dev,
+ 	for (; nr_pages != 0; index++, nr_pages--) {
+ 		struct bio_vec bvec;
  
- 	WARN_ON_ONCE(n != segments);
+-		bvec.bv_page = page;
+-		bvec.bv_len = PAGE_SIZE;
+-		bvec.bv_offset = 0;
++		bvec_set_page(&bvec, page, PAGE_SIZE, 0);
  
--	req->special_vec.bv_page = virt_to_page(range);
--	req->special_vec.bv_offset = offset_in_page(range);
--	req->special_vec.bv_len = sizeof(*range) * segments;
-+	bvec_set_virt(&req->special_vec, range, sizeof(*range) * segments);
- 	req->rq_flags |= RQF_SPECIAL_PAYLOAD;
+ 		spin_lock(&zram->wb_limit_lock);
+ 		if (zram->wb_limit_enable && !zram->bd_wb_limit) {
+@@ -1380,12 +1378,9 @@ static void zram_free_page(struct zram *zram, size_t index)
+ static int zram_bvec_read_from_bdev(struct zram *zram, struct page *page,
+ 				    u32 index, struct bio *bio, bool partial_io)
+ {
+-	struct bio_vec bvec = {
+-		.bv_page = page,
+-		.bv_len = PAGE_SIZE,
+-		.bv_offset = 0,
+-	};
++	struct bio_vec bvec;
  
- 	return 0;
++	bvec_set_page(&bvec, page, PAGE_SIZE, 0);
+ 	return read_from_bdev(zram, &bvec, zram_get_element(zram, index), bio,
+ 			      partial_io);
+ }
+@@ -1652,9 +1647,7 @@ static int zram_bvec_write(struct zram *zram, struct bio_vec *bvec,
+ 		memcpy_from_bvec(dst + offset, bvec);
+ 		kunmap_atomic(dst);
+ 
+-		vec.bv_page = page;
+-		vec.bv_len = PAGE_SIZE;
+-		vec.bv_offset = 0;
++		bvec_set_page(&vec, page, PAGE_SIZE, 0);
+ 	}
+ 
+ 	ret = __zram_bvec_write(zram, &vec, index, bio);
 -- 
 2.39.0
 
