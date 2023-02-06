@@ -4,137 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9510CC61DA4
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Feb 2023 07:15:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93F37C61DA4
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Feb 2023 09:30:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YnMZCCNQzVdGtShBUePE3hCoqtuwW9nnlXhwN4RVHxc=; b=yDEpBCgWibVA1C1V0hlOYb4HlS
-	DPQGbLMOVWCKqVGdFykluBcCtx/F656ibrVubd09u3V2QR+rkNDkjafZr8Lt8hbEpcewOiY5ty/Cj
-	6GW7UBa/MvSURfqoNfgaSvz0VN52RFW6BsrJbxmQCzmoxdImYTce8siLFcMHu2f52ms+pGH38GFEu
-	20jvEurjnJFfjWAfMsMmqHUYuB7turwOYlzzhlWSOpQVkC+qVQ4uxS6UQu6JFKOfE8uFE1kVGvwdO
-	TnqgYdmd5cKbX0QItB+YtfAyHi75uW/opS9mCm1kThi1FvWL4pLhE5eY6nPf2NIA7ZJXuse1KuDRB
-	0sa+T9zQ==;
+	bh=SimJm/Hp/22Gg0dAfx5cGztddez17nA1O+pQLYR692Y=; b=d4aKhjFAMgbhjPVuD4Hx3XUTtD
+	2jki+j3NkXAD1yDCIEuqdyby9l7KlUzZnVYqNPF+RwitSu1AgVKh15x2UA880Xig7DdWGX+jXbYNa
+	P8pLrY6gpHUfzran5tSuOJMPrp0oK8W4GPWGeCQLpATvZBUq9xHCswKFnOq981WrNQeyH5K/9hODF
+	OvyQTDdAO0gzq4oDUSvxr7ThxuHZntnTHXgKhM0oE4we4eCkn5+BreDdyEFOyTvDITGGq0B0EesrC
+	fJTCocdnp1PTxThXB3Z3BgYdmheG2hwmT3wCuEw5uE06BQnINmCqx182zqElNPQpGmcz3Cs1hWBxb
+	f/GFQ6fA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pOvij-007Xsr-OK; Mon, 06 Feb 2023 07:15:21 +0000
-Received: from mail-co1nam11on2062c.outbound.protection.outlook.com ([2a01:111:f400:7eab::62c] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+	id 1pOxpk-007tKk-F3; Mon, 06 Feb 2023 09:30:44 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pOviJ-007Xdl-RG
-	for linux-nvme@lists.infradead.org; Mon, 06 Feb 2023 07:14:57 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I0zZsa/X7Vzgl/cCJ/tVd9rwU9Btwj9iFv6yXawo/V1OQkEo9VZHSZpCYTq1sta9fc/AnNwlkWBLmLfOTJG5dBoohTeXMwEo9owp3XhQOsvhEqxcTplX9Zxy2g5u/1Q72lpbtBjPLaA86u3RTWhdB6UPsctcumB5cT4H1zioRrrFYtGNv2F4IRz2atONlR5rN62Qs8Xco2rIJ1wpToPojSkS/Op45SDsLiLqhclGMfRqOoGxcPDbVyKr/03RpAFAxp7SElpQl0vqgTZqUlNV9wSX4uhIqVTY7qG+lhEWDTp7G/2ZKPpPo4WhLBroEcUGKtANULWOEfhbGkpg3+lrkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YnMZCCNQzVdGtShBUePE3hCoqtuwW9nnlXhwN4RVHxc=;
- b=X+4eqf0GC8+89QC7lqFyCl5z6W8qjlCIW/OyrOhEudkStDiclsMUQ1WOg+vMdAkna9PUrrIpanJhBFUrA7FaFlEBExZ7CJTqUfgxel5zZVIsoO0SVPddmggGP33QmfNEPsy8KinBNsShhBwoXq9KCvNtwKH+KO5EelHbXpketmXEbqtF/4SQ2upe2doOrF4GgLyHia7iUmgPil61B9ZdczPbpbhgU5Asvm6joBSNeEtN24Dvvkq2+7jBOAnrBmBD0wpGakXm/DM+T5t+yL6te8hsWzzrM+LSuRq8PxYu51ppS5Xvh/2GCx9ApeSURMz7N4WbVp4uFu+4Kjo1rBQq7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YnMZCCNQzVdGtShBUePE3hCoqtuwW9nnlXhwN4RVHxc=;
- b=aTW263WJQBfWS37Yqw3STnav4bi//NjYMxuLHIo67W5yzeYlHGDFq+Wprc49jBAOnSfoYhfSHSTXEWwnWHg1EcTDxo0KkoxzpFXGtQygkLbjR3QI14NWF4eevAyPqZs/kC4Gz+JZdEIUmUTI4AUDHrgRfl54al1nuIMtOWUQe1gzUFu4uZV7CQG4si5TmpL6mFbudOGnWekv0JmWBgJQ0A4T/+3ez2YHsv0YP+ik6Su8pv6Fa0Z8CauTL9+JrawdS4slj2RrTl3Ik2XXdRiMir9F3KgNLK09GLdbezS4CaeoK69BvyS3ozQUloC1vArxrVGvm2JGoFkdBUSobPnmfA==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by CH0PR12MB8578.namprd12.prod.outlook.com (2603:10b6:610:18e::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.34; Mon, 6 Feb
- 2023 07:14:46 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::4aaa:495:78b4:1d7c]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::4aaa:495:78b4:1d7c%3]) with mapi id 15.20.6064.032; Mon, 6 Feb 2023
- 07:14:46 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Hannes Reinecke <hare@suse.com>
-CC: Christoph Hellwig <hch@infradead.org>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, Shinichiro Kawasaki
-	<shinichiro.kawasaki@wdc.com>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-scsi@vger.kernel.org"
-	<linux-scsi@vger.kernel.org>
-Subject: Re: blktests failures with v6.1
-Thread-Topic: blktests failures with v6.1
-Thread-Index: AQHZFoocnkF/69AeD02U/IcKNzVbOK57EfiAgEa2VIA=
-Date: Mon, 6 Feb 2023 07:14:46 +0000
-Message-ID: <aaf09ea1-9cf0-0620-2c52-7298bb3409fe@nvidia.com>
-References: <20221223045041.dl6ivxgo25eiwy33@shindev>
- <Y6VXjztUUz7GFmAW@infradead.org>
-In-Reply-To: <Y6VXjztUUz7GFmAW@infradead.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|CH0PR12MB8578:EE_
-x-ms-office365-filtering-correlation-id: 078b24db-1382-494f-ba6b-08db0811d3ab
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  /w41OFk+tu73ysFnQyqyW0jGqQ95VHM4g0yEioNrOFIRbYaFGl1cznv3LZbb4lHjvBIE7zFkmyGZpPPUBsO3lptQXQ3g5ZYt7iOZ3u21ma9SX9APx28PE667mcpxC0oRwRma2HEjvcC05UMKArviq7Y0mb89r2Qm54xONlgl5tcrAqAcZD63BacetrqPLpFWVzJezDq4gAZCEovrlomPGZfbcsmkBwbzjVrUajqAwOBf2GMYDfLXJD1VIoPM5EXUK1m6gCWJfZYzkIOGEdYNCdX5MZGqGaloUwTUm1FNuhracLdnkQMG94dN04BbphHPueniEdTpR90kB8OOP6lfB6vvDmlBld2XmrqaDLsvGkcgmbkwIDOXhRB6QfaK+NB5FR9sjP5KDaJpnxCxPTeHMGzSYFAzQPNjb/BoAhR/W40kvvk/rbLSq8yqRsD8Q+5Itqum+T4nPpvwGqo+hUWxL33MQHKi5WkiG8nG96uv1/issKS2LMIkSQnan/4UbWOmCpd9HeM89or2AgYoJHYqHHfSKKnMLPUblwzQdHntxCx5j++PqrmCdZ01GmCUSRKRIuUYbhC+dDQGvipKByT6dTUfwOiPCNXx0nniGddJ9nphLvcrf43oHnCaXlYSB0kwhXta7hxiP6HkW6xiOKosLeBRRakqhD3eGkPGi/bH08g6Yfsu920MoEruLTG2q7hsKJUe9l19mUDtsKofAP42olidT88E788Xx4f/LO2Kc/YFp32L8h2mXngImZfO0MoC6Za7eY3po2+EQBHqI97NrA==
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(136003)(376002)(39860400002)(346002)(396003)(451199018)(6506007)(2906002)(36756003)(54906003)(83380400001)(2616005)(38100700002)(71200400001)(31696002)(316002)(86362001)(38070700005)(122000001)(6486002)(478600001)(26005)(8936002)(6916009)(8676002)(4326008)(6512007)(76116006)(5660300002)(186003)(91956017)(66556008)(66946007)(64756008)(66446008)(66476007)(31686004)(4744005)(41300700001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?TFQzSGhwZ3diU3dzUWFiUGVlVjJqMitTL3FmQzRvckw0TjN0S3I1T1lidDl6?=
- =?utf-8?B?M3VzT3duaFlZQ1VaSkpReGVjQUN1M2Y1VHdnUlFnMExYLzdzWkNnNTByYzlx?=
- =?utf-8?B?ZFQ2ZHpLSjQ5ajdVTnovS0FuMm9jSWdEclJFdFkrZjJUVHUzRnN2ZmFqbUVa?=
- =?utf-8?B?NUNoZVlVTkZPRUtBQ1hIeG5VOHo5RkU1M21JV3p5QjVmcyt3SENCUDk1RURP?=
- =?utf-8?B?dlBuYmNZMzkyQ3cvMU9TNnJHUDhGWERUWDhDT3FIWmd2UlR3VWYzRE5XRWJk?=
- =?utf-8?B?TW1ST0k1enFJcFJsRWh5ZDJJWGxQejhFdkk5dnY1MnZzQVdsQ0VqWDE4WkhJ?=
- =?utf-8?B?RWJRbFhYMWpZNzRuRllVYXd2cmRwQ2FLWmRRUlpxTHNublVCMzA3NldGODhl?=
- =?utf-8?B?LzlMRTdUT2lKZ1pUV2JVMUo5ZXF6OURFTHl3UTR5V3lvOGJ2eXVacVYyemFk?=
- =?utf-8?B?aE16eERJT1pwQUdvcEJhZU95ZmgzaG1GSk1YT3hqakI2UGpxOWxBeFhrWVBV?=
- =?utf-8?B?aU80UG9CTFdRd2lHVXA0Z1A3WXVKSlE5SVpxT3ErenAwaVR2MEtDUnpGeGUy?=
- =?utf-8?B?bGFCSE9oLzcyS2UvcDdKcW1HNEV5TlhYSnR2RkkvdFNsUkFEeFJaeUh6UG9M?=
- =?utf-8?B?cmtrUG8xNzlWMzk3bFlvM3pHTDZhQmpkL1duWmhxN0FQNmV4MWEvMzFMc3Zv?=
- =?utf-8?B?eGhGc3UvMXhRVHFwYmRCbkp4OTJnZGVoWWJCVzBQVVd2b1pqN1UvOUptaXZR?=
- =?utf-8?B?SnRtMUN6MUxRaDB2VDRBSzlaRjJRa080K3dEM09hZWd5RmRNVjFGdEV4OGh5?=
- =?utf-8?B?eXlQR3pXSTdKV1dXZXNBREZ0c3dqRWRIa2M3Q0JBOGxOS090TFlOMUo1Q3lJ?=
- =?utf-8?B?LzNpNWFVVGc1VkFqQkNLK0paSEd2SkV6WEpKZ2xHTllkcXZnb0grT0l5M1Fh?=
- =?utf-8?B?M1VUbG5pNTRRZnR3U0poYlVuS3hkOXZlblp2TnNFVjYxdFVaRDd5Nk80b2NR?=
- =?utf-8?B?VDVvN2VtTzV0aDVkYlk3bXNxZXdkN0RDRXNJT2pnQ1h3clIxZVVvMThlTXc1?=
- =?utf-8?B?MkV1VVBIeUlPTkw2bHd1anNhL09XNjNiWmVIS1pnWjF6WXdZbXdCY01KTFIw?=
- =?utf-8?B?ZlRtZy9oNzZTakxCdEQ0SXgyTEl1U1hWUVRZZ24wdExZMWV3SC9vdkEzOFF3?=
- =?utf-8?B?dkE2MWQ0cHRSMkltMlR5MEhyK05ucm1ZMzJxOFI4SURiQ3ZrSkpHU1BtQmxH?=
- =?utf-8?B?SS9QWVRyblZVRWxjL2hZenVUdG8xRkJTWlU5WlFqc0xOeGFUM1d2bGlJcEVS?=
- =?utf-8?B?YkZSb0FKWnlYck9GS3ordytQY0lBNzdQV2xwbUh0N0tVS3psdkhQYm5oZktv?=
- =?utf-8?B?dGpBNUVDQVJaelB2bnFIWGRST1p5Nkg4RVJWbExQdUkvUDhzbDg2M0NBL1lR?=
- =?utf-8?B?djFUTTRleW8vMmF1ZXVrMXdka2ZzbnJ5c1FrU2tma1R0MXUyb0pkZTdaejJt?=
- =?utf-8?B?OWRQRHlDYlR0N0w1djMwVWo2UXlHbUlXVGpEdytFbGI4UXRjbzVlSUtMMEVw?=
- =?utf-8?B?TzNpT1Y5OHpOOUtQVUs4V1FLSFFneW5lWXNVaDQ0b2FRM3NVSWFnV2E3bWFq?=
- =?utf-8?B?am5WWWUzVmJSR2t3VjRSOTVHck9CeHFsNmFPdDJJaUQzTG8wUlZ5QUlKeHVK?=
- =?utf-8?B?TDdKcUdYSkVrSjNVTi9vUThGMDVKbmJiOGJYSHNlZEdVODNrVUlPeWtuQ2tB?=
- =?utf-8?B?SUJqTDBZU1hibU1Xa0poamNpTjQ0RE83aXh2VDhVcm84bXJxdEJuc3pxbVhE?=
- =?utf-8?B?Y2JtUzJrblJkZTZuSzhRdkZpWW1uNk8wc2RkZWd0bEtpRldEbElUSDdKSGVp?=
- =?utf-8?B?dE1FV2tYaW5oUnJ3QW9OL1VOalBoN2J4MW16QVF1Y3NHRmNSYmlJZjdxMlVW?=
- =?utf-8?B?UmZRU3h4eHc5UDJDbmF6WEdmNGxna0RaTFlSVWlGbzFPalJJYlpQZFJnK2xT?=
- =?utf-8?B?MUZ3MWdlanZZYzNzbXJ1NDh4anFjaUJWUUE5RVB1RURzeDdKSTVuby9XSTc3?=
- =?utf-8?B?V3pFb3I4QWxZMFdDUlBtZ01uQXkwaFpBVzd6YXEwbysvc3hTYzlqdFh5cmxF?=
- =?utf-8?Q?bBi+rZ67FdBrtWzMqKBQ1q9xs?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <97B117D83E505E42830997C57FFD457E@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	id 1pOxpc-007tGz-W9
+	for linux-nvme@lists.infradead.org; Mon, 06 Feb 2023 09:30:42 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1DE115FEAD;
+	Mon,  6 Feb 2023 09:30:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1675675832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SimJm/Hp/22Gg0dAfx5cGztddez17nA1O+pQLYR692Y=;
+	b=wFgPhfmnsu3L25a7l8jOuI8XyZrZ0cu0qwaUVhnlUJAjOvreYZSpmHfJEcs1dOQbG2tR/W
+	CL+YIzZI7NBa5p60b2pIND7vmsTxgKGCmxrJaQ6oLFJZwGl/h7f4ynsBqxrukM/vM/+Pkr
+	46NXa8+3ra9jWoVtQ+LjYhxZ5Ponko8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1675675832;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SimJm/Hp/22Gg0dAfx5cGztddez17nA1O+pQLYR692Y=;
+	b=uq6h/1FKYvle9UGHI45oAql1OAhWcMw2a2+8tJEFK2I8bvMel4vv7F34ogp+C2QRDSuP3m
+	F9FFsQxW/j/6iWCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0BC9213677;
+	Mon,  6 Feb 2023 09:30:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id zfnBArjI4GMSPgAAMHmgww
+	(envelope-from <dwagner@suse.de>); Mon, 06 Feb 2023 09:30:32 +0000
+Date: Mon, 6 Feb 2023 10:30:31 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: "Belanger, Martin" <Martin.Belanger@dell.com>
+Cc: John Meneghini <jmeneghi@redhat.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>,
+	Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+	"Rose, Charles" <Charles.Rose@dell.com>,
+	Martin Wilck <mwilck@suse.com>
+Subject: Re: Timberland nvme-cli/libnvme upstream merge - dbus dependency.
+Message-ID: <20230206093031.n34a2fduvkefsgfj@carbon.lan>
+References: <50a55e73-ae2c-8704-65a0-d47b8bd04192@redhat.com>
+ <DM5PR19MB4679B0881914F4022FA5A02798D69@DM5PR19MB4679.namprd19.prod.outlook.com>
+ <5dc13dcd-b67a-60b0-0bf1-b03878e0d82b@redhat.com>
+ <bcfaa7e1-787f-f7cd-e7e2-5b5f591253e3@redhat.com>
+ <10211ed275a0dd73f88d18f111bd4621f356ab0b.camel@suse.com>
+ <b28e99b4-0459-e592-140b-61c427073abd@redhat.com>
+ <f3f3ed82-f00d-ab81-6de8-d4da01f74296@redhat.com>
+ <20230203162213.yyzz5oq2udjzj63q@carbon.lan>
+ <SJ0PR19MB4544DB4A38A27B4D9FBA9E91F2D79@SJ0PR19MB4544.namprd19.prod.outlook.com>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 078b24db-1382-494f-ba6b-08db0811d3ab
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Feb 2023 07:14:46.1457
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jE0KvHMqrYpnq2Ns3tgKuoV2wrMSlZHHzXDhjbKFZle8UM4a0AKQNqZ+MaFVChhLYc4y7/+ygETPzVNm+o1FjQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB8578
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SJ0PR19MB4544DB4A38A27B4D9FBA9E91F2D79@SJ0PR19MB4544.namprd19.prod.outlook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230205_231455_900530_89078381 
-X-CRM114-Status: GOOD (  10.90  )
+X-CRM114-CacheID: sfid-20230206_013037_236866_6A9E845D 
+X-CRM114-Status: UNSURE (   7.49  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -149,16 +99,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-SGFubmVzLA0KDQo+PiAjMzogbnZtZS8wMDINCj4+ICM0OiBudm1lLzAxNg0KPj4gIzU6IG52bWUv
-MDE3DQo+Pg0KPj4gICAgIFRoZSB0ZXN0IGNhc2VzIGZhaWwgd2l0aCBzaW1pbGFyIG1lc3NhZ2Vz
-IGJlbG93LiBSZXBvcnRlZCBpbiBKdW5lIFszXS4NCj4+ICAgICBGaXhlcyBpbiB0aGUgdGVzdCBj
-YXNlcyBhcmUgZXhwZWN0ZWQuDQo+IA0KPiBJIHRoaW5rIHRoaXMgaXMgcmVsYXRlZCB0byB0aGUg
-Y3VycmVudCBOUU4gdGhhdCBIYW5uZXMgYWRkZWQuDQo+IEhhbm5lcywgY2FuIHlvdSBsb29rIGlu
-dG8gdGhpcz8NCj4gDQoNClRoZXNlIHRlc3RjYXNlcyBhcmUgc3RpbGwgZmFpbGluZyBvbiBsYXRl
-c3QgbnZtZS02LjMgSEVBRDotDQoNCmNvbW1pdCBiYWZmNjQ5MTQ0OGI0ODdlOTIwZmFhYTExN2U0
-MzI5ODljYmFmYTg5IChIRUFEIC0+IG52bWUtNi4zLCANCm9yaWdpbi9udm1lLTYuMykNCkF1dGhv
-cjogS2VpdGggQnVzY2ggPGtidXNjaEBrZXJuZWwub3JnPg0KRGF0ZTogICBGcmkgSmFuIDI3IDA4
-OjU2OjIwIDIwMjMgLTA4MDANCg0KICAgICBudm1lOiBtYXNrIENTRSBlZmZlY3RzIGZvciBzZWN1
-cml0eSByZWNlaXZlDQoNCmNhbiB5b3UgcGxlYXNlIGxvb2sgaW50byB0aGVzZSA/DQoNCi1jaw0K
-DQo=
+On Fri, Feb 03, 2023 at 04:27:25PM +0000, Belanger, Martin wrote:
+> In meson_options.txt we find the build option libdbus. Maybe the dependency can be disabled simply as follows:
+> 
+> $ meson .build -Dlibdbus=disabled
+
+Good point, this just need to subproject prefix to make it work:
+
+meson .build -Dlibnvme:libdbus=disabled
 
