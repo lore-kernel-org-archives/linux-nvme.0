@@ -4,64 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8539AC636CC
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Feb 2023 15:17:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8758CC05027
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Feb 2023 15:17:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=V3/w2XQBVqtYKeNnLGIYjCp6YEf+Q4EfoyyYphfnIek=; b=DK2U2AGIrHoBxE75La/wc5SrGj
-	70HOoWnU3NNOca0viD417RdhKbaWKyX3z40glPvQ5R4aNvrRIIx5RnbxtoPcEFBlLH5VTX9NM2lLD
-	jsQDtKr/OYTwy2PyS+HfI4lUo4LpxWoj5TiXg19JkMOP1vk7VGEJzBzHzUs0p82ssOWMh0wPFc8BV
-	G5ETcnv3nmkexS8059arr/gPnmSsJBnw8HY7xwW80X7okXGYn/nmponucRicXbMoVm0uHoosG69yM
-	oz3fpMJJGeJqvCMEwv1fxdQK1cfCwDb3jlb+bDzHY4S8O5ZRf/lo0AgeNNqVmB1O386iiyjak2S8q
-	bOE37teg==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=IVLthHOtJVmbJrB0ipOBImtrQMQQITY/oQQYx2cj4wE=; b=4IwxTtEJtqrVG4+Acj7d5pjL3O
+	jECMWmUTh0fmMZrUQGhCTNKKOce5sSwH3zm8hy6ARyQT5qU/MeipDfJPa/5V5+2RVLv68p7Ns5hgi
+	yY1DmxOg1kNhh1+aHHyhmWe0hs8vtkbu4F6CW0BKXpBuKI1/wy1lr1FExkhJIGKB1mKel45sfUZmt
+	i+34wRx5+JWtSxfer6FsPgzt6V9TeDPzUudE1wm1fiTyynJoogM55cQ3OQC3coQlUwQtTvP3uF+Sq
+	82Z2AC2vUNqIYnM4GyVulI/UbIzP7j43KX4qe5gngZGr9/sy+XJ6YrIYJF9DTnEjSemmT5E3isIQW
+	8jthvXeg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pPmCT-00G39E-9d; Wed, 08 Feb 2023 15:17:33 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1pPmCX-00G3AC-5k; Wed, 08 Feb 2023 15:17:37 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pPmCM-00G36Y-8M
-	for linux-nvme@lists.infradead.org; Wed, 08 Feb 2023 15:17:27 +0000
+	id 1pPmCM-00G36d-8J
+	for linux-nvme@lists.infradead.org; Wed, 08 Feb 2023 15:17:29 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id C7EAA1FED5;
+	by smtp-out2.suse.de (Postfix) with ESMTP id CB9BC1FF10;
 	Wed,  8 Feb 2023 15:17:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1675869444; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=V3/w2XQBVqtYKeNnLGIYjCp6YEf+Q4EfoyyYphfnIek=;
-	b=rJapk83+nCuEjN2Nn5srgd0+r9Onp3NmcDvgBOHs/ud0TvWqWsh+AJSrTkcrMzyz14r2vB
-	6w7TwbLt9wW8o0cGSsyblBv9APwG9Hu2TUZEfvZDFMOgMvsX5r/WEnIQOAA6ZAh/Aqv0g+
-	NuaRjM3S+qZ+ABjv1pnIW3vLcM22CCg=
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IVLthHOtJVmbJrB0ipOBImtrQMQQITY/oQQYx2cj4wE=;
+	b=dXk1E0Ndy1lXM4s6CNNN1XPFkxwNLcqp5KPGXMkPJ6ms/dR17g6D1rY2P+qvvdRRQIyQaD
+	RqSNx10XRCoYrOufojRXcg/UuI2CDgPq0L1Awu9zASM/2RW+lrs4JMT5F8WG8Q3atn/R2B
+	R/ikAScHUrF+yhMAKLQ4dU6g3AHcDsI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1675869444;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=V3/w2XQBVqtYKeNnLGIYjCp6YEf+Q4EfoyyYphfnIek=;
-	b=vSmWk87YC8oFXSdgO81K5E2FtYCUiop0x+mpU8n9PhhpAm28ibEDxbMN93FNzAxNHMNLmU
-	lZpBiqXYgVhwZlAA==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IVLthHOtJVmbJrB0ipOBImtrQMQQITY/oQQYx2cj4wE=;
+	b=hJVnh+0C5dkjWfWQtpvGnToTNdqX5NPAws881Mv5CoEKoQU4jm2RSAp1+7/3DSqaJ6QQbH
+	C5ZXO1GFvT//+eBA==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id B26082C143;
+	by relay2.suse.de (Postfix) with ESMTP id B73662C145;
 	Wed,  8 Feb 2023 15:17:24 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 9C66051BD097; Wed,  8 Feb 2023 16:17:24 +0100 (CET)
+	id A99F251BD09D; Wed,  8 Feb 2023 16:17:24 +0100 (CET)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCHv2 0/3] nvme: rework __nvme_submit_sync_cmd()
-Date: Wed,  8 Feb 2023 16:17:17 +0100
-Message-Id: <20230208151720.109130-1-hare@suse.de>
+Subject: [PATCH 3/3] nvme: make 'at_head' parameter for __nvme_submit_sync_cmd() boolean
+Date: Wed,  8 Feb 2023 16:17:20 +0100
+Message-Id: <20230208151720.109130-4-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20230208151720.109130-1-hare@suse.de>
+References: <20230208151720.109130-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230208_071726_493602_422EC3CC 
-X-CRM114-Status: GOOD (  11.54  )
+X-CRM114-CacheID: sfid-20230208_071726_501320_15D51CE9 
+X-CRM114-Status: GOOD (  13.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,34 +82,135 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+Use a boolean for the 'at_head' parameter in __nvme_submit_sync_cmd()
+to improve readability and consistency; it's being converted into a
+boolean anyway.
 
-as Jens and hch complained about the argument list to __nvme_submit_sync_cmd()
-getting too long, here's now a patchset to clean things up.
-The first patch is to split off __nvme_alloc_rq() from __nvme_submit_sync_cmd(),
-which serves to reduce the number of arguments; it's also a nice cleanup as this
-function can be utilized to replace some open-coded versions.
-The second patch is to introduce a 'retry' argument to __nvme_alloc_rq(), to
-indicate whether retries for this command should be allowd.
-And the third is another cleanup; the 'at_head' argument to __nvme_submit_sync_cmd()
-really should be a boolean, as it can take only two values, and it's being
-converted into a boolean within __nvme_submit_sync_cmd() anyway.
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/nvme/host/auth.c    |  2 +-
+ drivers/nvme/host/core.c    |  8 ++++----
+ drivers/nvme/host/fabrics.c | 12 +++++-------
+ drivers/nvme/host/nvme.h    |  2 +-
+ 4 files changed, 11 insertions(+), 13 deletions(-)
 
-As usual, comments and reviews are welcome.
-
-Hannes Reinecke (3):
-  nvme: split __nvme_submit_sync_cmd()
-  nvme: retry authentication commands if DNR status bit is not set
-  nvme: make 'at_head' parameter for __nvme_submit_sync_cmd() boolean
-
- drivers/nvme/host/auth.c       | 11 +++++--
- drivers/nvme/host/core.c       | 60 ++++++++++++++++++++++------------
- drivers/nvme/host/fabrics.c    | 38 +++++++++++++++------
- drivers/nvme/host/nvme.h       |  8 ++---
- drivers/nvme/host/pci.c        |  8 ++---
- drivers/nvme/target/passthru.c |  3 +-
- 6 files changed, 83 insertions(+), 45 deletions(-)
-
+diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+index 8a1edbf69b47..d4002845064a 100644
+--- a/drivers/nvme/host/auth.c
++++ b/drivers/nvme/host/auth.c
+@@ -83,7 +83,7 @@ static int nvme_auth_submit(struct nvme_ctrl *ctrl, int qid,
+ 
+ 	/* Clear failfast flag to allow for retries */
+ 	req->cmd_flags &= ~REQ_FAILFAST_DRIVER;
+-	ret = __nvme_submit_sync_cmd(req, NULL, data, data_len, 0);
++	ret = __nvme_submit_sync_cmd(req, NULL, data, data_len, false);
+ 	if (ret > 0)
+ 		dev_warn(ctrl->device,
+ 			"qid %d auth_send failed with status %d\n", qid, ret);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 278f7aa674c6..3a4b5e99e648 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1040,7 +1040,7 @@ EXPORT_SYMBOL_GPL(__nvme_alloc_rq);
+  * if the result is positive, it's an NVM Express status code
+  */
+ int __nvme_submit_sync_cmd(struct request *req, union nvme_result *result,
+-			   void *buffer, unsigned bufflen, int at_head)
++			   void *buffer, unsigned bufflen, bool at_head)
+ {
+ 	int ret;
+ 
+@@ -1068,7 +1068,7 @@ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
+ 
+-	return __nvme_submit_sync_cmd(req, NULL, buffer, bufflen, 0);
++	return __nvme_submit_sync_cmd(req, NULL, buffer, bufflen, false);
+ }
+ EXPORT_SYMBOL_GPL(nvme_submit_sync_cmd);
+ 
+@@ -1498,7 +1498,7 @@ static int nvme_features(struct nvme_ctrl *dev, u8 op, unsigned int fid,
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
+ 
+-	ret = __nvme_submit_sync_cmd(req, &res, buffer, buflen, 0);
++	ret = __nvme_submit_sync_cmd(req, &res, buffer, buflen, false);
+ 	if (ret >= 0 && result)
+ 		*result = le32_to_cpu(res.u32);
+ 	return ret;
+@@ -2234,7 +2234,7 @@ static int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t l
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
+ 
+-	return __nvme_submit_sync_cmd(req, NULL, buffer, len, 1);
++	return __nvme_submit_sync_cmd(req, NULL, buffer, len, true);
+ }
+ 
+ static void nvme_configure_opal(struct nvme_ctrl *ctrl, bool was_suspended)
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 7d2fd4b83bbc..db11c54b8d0e 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -157,8 +157,7 @@ int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val)
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
+ 
+-	ret = __nvme_submit_sync_cmd(req, &res, NULL, 0, 0);
+-
++	ret = __nvme_submit_sync_cmd(req, &res, NULL, 0, false);
+ 	if (ret >= 0)
+ 		*val = le64_to_cpu(res.u64);
+ 	if (unlikely(ret != 0))
+@@ -207,8 +206,7 @@ int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
+ 
+-	ret = __nvme_submit_sync_cmd(req, &res, NULL, 0, 0);
+-
++	ret = __nvme_submit_sync_cmd(req, &res, NULL, 0, false);
+ 	if (ret >= 0)
+ 		*val = le64_to_cpu(res.u64);
+ 	if (unlikely(ret != 0))
+@@ -256,7 +254,7 @@ int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val)
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
+ 
+-	ret = __nvme_submit_sync_cmd(req, NULL, NULL, 0, 0);
++	ret = __nvme_submit_sync_cmd(req, NULL, NULL, 0, false);
+ 	if (unlikely(ret))
+ 		dev_err(ctrl->device,
+ 			"Property Set error: %d, offset %#x\n",
+@@ -417,7 +415,7 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
+ 
+-	ret = __nvme_submit_sync_cmd(req, &res, data, sizeof(*data), 1);
++	ret = __nvme_submit_sync_cmd(req, &res, data, sizeof(*data), true);
+ 	if (ret) {
+ 		nvmf_log_connect_error(ctrl, ret, le32_to_cpu(res.u32),
+ 				       &cmd, data);
+@@ -507,7 +505,7 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
+ 
+-	ret = __nvme_submit_sync_cmd(req, &res, data, sizeof(*data), 1);
++	ret = __nvme_submit_sync_cmd(req, &res, data, sizeof(*data), true);
+ 	if (ret) {
+ 		nvmf_log_connect_error(ctrl, ret, le32_to_cpu(res.u32),
+ 				       &cmd, data);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index d10f930d1edb..bf984ae5cf04 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -816,7 +816,7 @@ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ struct request *__nvme_alloc_rq(struct request_queue *q,
+ 		struct nvme_command *cmd, int qid, blk_mq_req_flags_t flags);
+ int __nvme_submit_sync_cmd(struct request *req, union nvme_result *result,
+-		void *buffer, unsigned bufflen, int at_head);
++		void *buffer, unsigned bufflen, bool at_head);
+ int nvme_set_features(struct nvme_ctrl *dev, unsigned int fid,
+ 		      unsigned int dword11, void *buffer, size_t buflen,
+ 		      u32 *result);
 -- 
 2.35.3
 
