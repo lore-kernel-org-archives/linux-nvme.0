@@ -4,70 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3022FC61DA4
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Feb 2023 14:38:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39BEAC61DA4
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Feb 2023 15:12:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=45Ui2nMrGKJ5+F0Klsm1QPU5hB8CSUmjN/anJ3GkZlU=; b=kEDCYUfsc9qHOx43DPLM3sswqN
-	w/A4bcmsbXLY7G2TEePzWL6UWK7YxA4NjbHYmTRDxepKL/txWrJst7RB7LKPMhQeWu69M2wNg7l6C
-	XttU6FQ72qQBvzTs7TFEVttlaEDGLqAcD/BzKCoJIztGMHBUFxW6JdD/snxfZAinYhEtYorP2eZGC
-	3TtWtj2A6IjjaKTTOqFiWZDHLnf7xgU0sTlPBWH0FJX0XPkcHpYiAZf9ldJBW7zBfigZaHtWqHtdF
-	xNgp1vTit4gp0dGTt8sXXvH0iwVedSYkxX+HcVxJFUhNnbrnxHvoN94giK45tPyH1zzOgnfIZ+PBA
-	FtlCrGMA==;
+	bh=7PDb/mD0FNcuvevCtgRwjkKj+UfK+Lh+rlPz9oXE0/s=; b=pjgVyqEjirXU4j7bN4Wza8kjGU
+	L52SCj6mdB5BmR6RquCNW6yO2ZVMLboFudmK2CACQDqUSYg4G1nOPW6ewx+oQDjWF4Oih+bISrbO1
+	NsRB664mb3XThPuU3uU23CLJA8o84/qnsQL57KiYXSITbuAFNdBbdagE/1aErwPSHBRn4ca96l3L1
+	FqtssXIIRWcN264wrbjrT+33yGCH09yiElU9yfakpjMUQxYl+jH61L4MUCRYMOESHLpW6bIIr1vwU
+	1qJkIiddRulG0W8jsqWF/V88WEO6tP36tLCOtRgsu6BZGEFKQsblgX3yPp8pWKYKD8IM868sI4QTS
+	igHX+kkw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pQ84c-0020rf-Oe; Thu, 09 Feb 2023 14:38:54 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1pQ8bE-0027kz-Ct; Thu, 09 Feb 2023 15:12:36 +0000
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pQ84F-0020et-9I
-	for linux-nvme@lists.infradead.org; Thu, 09 Feb 2023 14:38:34 +0000
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id C756A5CAAA;
-	Thu,  9 Feb 2023 14:38:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1675953509; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=45Ui2nMrGKJ5+F0Klsm1QPU5hB8CSUmjN/anJ3GkZlU=;
-	b=t311i/CYjEZ70ekBpB4slZkJHCA0w2zkSexsiuLJKDrX53qYSP99Dbd3Xkw4ize0LZGUS/
-	Jycpfjx8VcR1LqpoG65gl/eOMy5hgFEmqKEIT+YMtkAiYjAl5I2hSpuVuU6x6eSA6bwS3J
-	YQowE86pBiMn/qjYxs0mikfhd1h7l+M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1675953509;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=45Ui2nMrGKJ5+F0Klsm1QPU5hB8CSUmjN/anJ3GkZlU=;
-	b=QRcL1bcUH0GKvWWgMkLAu/ODCiuFQD1RlZQSQ4r8qQn3ZaXjdWIXSMp+hnidUDogHsdPZP
-	y1NIdPjajyzYYyBQ==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id AAAFD2C143;
-	Thu,  9 Feb 2023 14:38:29 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 91C3C51BD138; Thu,  9 Feb 2023 15:38:29 +0100 (CET)
-From: Hannes Reinecke <hare@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 1/5] nvme: split __nvme_submit_sync_cmd()
-Date: Thu,  9 Feb 2023 15:38:16 +0100
-Message-Id: <20230209143820.118097-2-hare@suse.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20230209143820.118097-1-hare@suse.de>
-References: <20230209143820.118097-1-hare@suse.de>
+	id 1pQ8b9-0027ic-Ng
+	for linux-nvme@lists.infradead.org; Thu, 09 Feb 2023 15:12:34 +0000
+Received: by mail-pj1-x1029.google.com with SMTP id n20-20020a17090aab9400b00229ca6a4636so6550679pjq.0
+        for <linux-nvme@lists.infradead.org>; Thu, 09 Feb 2023 07:12:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7PDb/mD0FNcuvevCtgRwjkKj+UfK+Lh+rlPz9oXE0/s=;
+        b=vLNKvMiy5n65JggsJYN5SAT5Mnwr2BIypMeL0NGLQkhSzBiL5FT37klJ85/bdysSYq
+         8FBwnhmn6VF/Qjrf0v8i7zoC0U/DXfWvz+HwV+7lZySswUYZynnSsiWYOKr+cnMcH7iO
+         BiSEQjvwvHYAVc/sQMJ1cQlBXmlqLPdFgxoYv9lV6pFF4PZXK3j+8g60qVIYNDO0cKZ/
+         PPO+MJl71h/JgzU8AxTEkFguunRkIkiTQ/zhMUZ/JVpvGl0nxZFPvPahDagXs2k0vodU
+         gBfh3AW2GHZiRcIZ30JYrofz5teupArrO8v5Y/eQENUprngvIV9ZbO/hYQ0B96UGacfQ
+         br4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7PDb/mD0FNcuvevCtgRwjkKj+UfK+Lh+rlPz9oXE0/s=;
+        b=1kx3P3dXynOY5qQRZz447V/gMiSNyJdq1zCcwRhBzw2NGBE8J4ycQceCcNh8gDUeZl
+         BlJN9WZY5w6PiiJqdHHQSrkM/99JWqYoMG7O2Qt113yvJsTcyIIAUvv5EybDXr+dIL5f
+         ePnjFvFZD5egCm8kzSC99Gwy41ohzSEjFlOWEKEQGrYtdHvEAoElYKP81CP7uqOs610/
+         2vevWAXhyNrUWRi1qlciCJAW/tnPtEQuIfRdYSckdkUZ5uAsO2PvOXZWMAZlLWy2HWQF
+         iJ/jT3r432IjTm4oyGd/9vnyN4anuDN9K+bjU/HYx327jHw7nV02fmwvpxyyoQicONv/
+         zbRg==
+X-Gm-Message-State: AO0yUKVb6M32iBcJ6Jv8XFBsYzqSUagLzHNZT+5ESQiOSlKUWKzSU18q
+	B2Sml/juCiXIN7VzhE9mmvhdLw==
+X-Google-Smtp-Source: AK7set/Hp3peKbU9cWTP3s475Gtd1sd1IlOQINVNvjhBZ08vSzPAfn4wRTyIrfsIK67VvLsCOx9V4g==
+X-Received: by 2002:a17:902:680b:b0:199:3f82:ef62 with SMTP id h11-20020a170902680b00b001993f82ef62mr7912671plk.5.1675955549810;
+        Thu, 09 Feb 2023 07:12:29 -0800 (PST)
+Received: from [192.168.1.136] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id a10-20020a170902b58a00b001991e4e0bdcsm1593336pls.233.2023.02.09.07.12.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Feb 2023 07:12:29 -0800 (PST)
+Message-ID: <d3529d65-f505-a76a-7f3c-db1d8d2578a3@kernel.dk>
+Date: Thu, 9 Feb 2023 08:12:28 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [GIT PULL] nvme fixes for Linux 6.2
+Content-Language: en-US
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+References: <Y+SAN97vxJtL/l4G@infradead.org>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <Y+SAN97vxJtL/l4G@infradead.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230209_063831_660101_5E6C941A 
-X-CRM114-Status: GOOD (  18.90  )
+X-CRM114-CacheID: sfid-20230209_071232_024557_0C9DBF75 
+X-CRM114-Status: GOOD (  12.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,364 +93,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Split a nvme_alloc_request() function from __nvme_submit_sync_cmd()
-to reduce the number of arguments.
+On 2/8/23 10:10 PM, Christoph Hellwig wrote:
+> The following changes since commit e02bbac74cdde25f71a80978f5daa1d8a0aa6fc3:
+> 
+>   Merge tag 'nvme-6.2-2023-02-02' of git://git.infradead.org/nvme into block-6.2 (2023-02-02 11:02:12 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git tags/nvme-6.2-2023-02-09
+> 
+> for you to fetch changes up to 70daa5c8f001e351af174c40ac21eb0a25600483:
+> 
+>   nvme-auth: mark nvme_auth_wq static (2023-02-08 07:28:16 +0100)
+> 
+> ----------------------------------------------------------------
+> nvme fixes for Linux 6.2
+> 
+>  - fix a static checker warning for a variable introduces in the last
+>    pull request (Tom Rix)
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- drivers/nvme/host/auth.c       |  9 +++--
- drivers/nvme/host/core.c       | 60 ++++++++++++++++++++++------------
- drivers/nvme/host/fabrics.c    | 44 ++++++++++++++++++-------
- drivers/nvme/host/nvme.h       |  8 ++---
- drivers/nvme/host/pci.c        |  8 ++---
- drivers/nvme/target/passthru.c |  3 +-
- 6 files changed, 85 insertions(+), 47 deletions(-)
+Pulled, thanks.
 
-diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-index 787537454f7f..05d02ab229f7 100644
---- a/drivers/nvme/host/auth.c
-+++ b/drivers/nvme/host/auth.c
-@@ -62,6 +62,7 @@ static int nvme_auth_submit(struct nvme_ctrl *ctrl, int qid,
- 	struct nvme_command cmd = {};
- 	blk_mq_req_flags_t flags = nvme_auth_flags_from_qid(qid);
- 	struct request_queue *q = nvme_auth_queue_from_qid(ctrl, qid);
-+	struct request *req;
- 	int ret;
- 
- 	cmd.auth_common.opcode = nvme_fabrics_command;
-@@ -76,9 +77,11 @@ static int nvme_auth_submit(struct nvme_ctrl *ctrl, int qid,
- 		cmd.auth_receive.al = cpu_to_le32(data_len);
- 	}
- 
--	ret = __nvme_submit_sync_cmd(q, &cmd, NULL, data, data_len,
--				     qid == 0 ? NVME_QID_ANY : qid,
--				     0, flags);
-+	req = nvme_alloc_request(q, &cmd, qid == 0 ? NVME_QID_ANY : qid, flags);
-+	if (IS_ERR(req))
-+		return PTR_ERR(req);
-+
-+	ret = __nvme_submit_sync_cmd(req, NULL, data, data_len, 0);
- 	if (ret > 0)
- 		dev_warn(ctrl->device,
- 			"qid %d auth_send failed with status %d\n", qid, ret);
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d1c9402389f9..ad2bcb412944 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1017,29 +1017,35 @@ int nvme_execute_rq(struct request *rq, bool at_head)
- }
- EXPORT_SYMBOL_NS_GPL(nvme_execute_rq, NVME_TARGET_PASSTHRU);
- 
--/*
-- * Returns 0 on success.  If the result is negative, it's a Linux error code;
-- * if the result is positive, it's an NVM Express status code
-- */
--int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
--		union nvme_result *result, void *buffer, unsigned bufflen,
--		int qid, int at_head, blk_mq_req_flags_t flags)
-+struct request *nvme_alloc_request(struct request_queue *q,
-+				   struct nvme_command *cmd, int qid,
-+				   blk_mq_req_flags_t flags)
- {
- 	struct request *req;
--	int ret;
- 
- 	if (qid == NVME_QID_ANY)
- 		req = blk_mq_alloc_request(q, nvme_req_op(cmd), flags);
- 	else
- 		req = blk_mq_alloc_request_hctx(q, nvme_req_op(cmd), flags,
- 						qid - 1);
-+	if (!IS_ERR(req))
-+		nvme_init_request(req, cmd);
- 
--	if (IS_ERR(req))
--		return PTR_ERR(req);
--	nvme_init_request(req, cmd);
-+	return req;
-+}
-+EXPORT_SYMBOL_GPL(nvme_alloc_request);
-+
-+/*
-+ * Returns 0 on success.  If the result is negative, it's a Linux error code;
-+ * if the result is positive, it's an NVM Express status code
-+ */
-+int __nvme_submit_sync_cmd(struct request *req, union nvme_result *result,
-+			   void *buffer, unsigned bufflen, int at_head)
-+{
-+	int ret;
- 
- 	if (buffer && bufflen) {
--		ret = blk_rq_map_kern(q, req, buffer, bufflen, GFP_KERNEL);
-+		ret = blk_rq_map_kern(req->q, req, buffer, bufflen, GFP_KERNEL);
- 		if (ret)
- 			goto out;
- 	}
-@@ -1056,8 +1062,13 @@ EXPORT_SYMBOL_GPL(__nvme_submit_sync_cmd);
- int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		void *buffer, unsigned bufflen)
- {
--	return __nvme_submit_sync_cmd(q, cmd, NULL, buffer, bufflen,
--			NVME_QID_ANY, 0, 0);
-+	struct request *req;
-+
-+	req = nvme_alloc_request(q, cmd, NVME_QID_ANY, 0);
-+	if (IS_ERR(req))
-+		return PTR_ERR(req);
-+
-+	return __nvme_submit_sync_cmd(req, NULL, buffer, bufflen, 0);
- }
- EXPORT_SYMBOL_GPL(nvme_submit_sync_cmd);
- 
-@@ -1199,15 +1210,14 @@ static void nvme_keep_alive_work(struct work_struct *work)
- 		return;
- 	}
- 
--	rq = blk_mq_alloc_request(ctrl->admin_q, nvme_req_op(&ctrl->ka_cmd),
--				  BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT);
-+	rq = nvme_alloc_request(ctrl->admin_q, &ctrl->ka_cmd, NVME_QID_ANY,
-+				BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT);
- 	if (IS_ERR(rq)) {
- 		/* allocation failure, reset the controller */
- 		dev_err(ctrl->device, "keep-alive failed: %ld\n", PTR_ERR(rq));
- 		nvme_reset_ctrl(ctrl);
- 		return;
- 	}
--	nvme_init_request(rq, &ctrl->ka_cmd);
- 
- 	rq->timeout = ctrl->kato * HZ;
- 	rq->end_io = nvme_keep_alive_end_io;
-@@ -1475,6 +1485,7 @@ static int nvme_ns_info_from_id_cs_indep(struct nvme_ctrl *ctrl,
- static int nvme_features(struct nvme_ctrl *dev, u8 op, unsigned int fid,
- 		unsigned int dword11, void *buffer, size_t buflen, u32 *result)
- {
-+	struct request *req;
- 	union nvme_result res = { 0 };
- 	struct nvme_command c = { };
- 	int ret;
-@@ -1483,8 +1494,11 @@ static int nvme_features(struct nvme_ctrl *dev, u8 op, unsigned int fid,
- 	c.features.fid = cpu_to_le32(fid);
- 	c.features.dword11 = cpu_to_le32(dword11);
- 
--	ret = __nvme_submit_sync_cmd(dev->admin_q, &c, &res,
--			buffer, buflen, NVME_QID_ANY, 0, 0);
-+	req = nvme_alloc_request(dev->admin_q, &c, NVME_QID_ANY, 0);
-+	if (IS_ERR(req))
-+		return PTR_ERR(req);
-+
-+	ret = __nvme_submit_sync_cmd(req, &res, buffer, buflen, 0);
- 	if (ret >= 0 && result)
- 		*result = le32_to_cpu(res.u32);
- 	return ret;
-@@ -2206,6 +2220,7 @@ static int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t l
- {
- 	struct nvme_ctrl *ctrl = data;
- 	struct nvme_command cmd = { };
-+	struct request *req;
- 
- 	if (send)
- 		cmd.common.opcode = nvme_admin_security_send;
-@@ -2215,8 +2230,11 @@ static int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t l
- 	cmd.common.cdw10 = cpu_to_le32(((u32)secp) << 24 | ((u32)spsp) << 8);
- 	cmd.common.cdw11 = cpu_to_le32(len);
- 
--	return __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, NULL, buffer, len,
--			NVME_QID_ANY, 1, 0);
-+	req = nvme_alloc_request(ctrl->admin_q, &cmd, NVME_QID_ANY, 0);
-+	if (IS_ERR(req))
-+		return PTR_ERR(req);
-+
-+	return __nvme_submit_sync_cmd(req, NULL, buffer, len, 1);
- }
- 
- static void nvme_configure_opal(struct nvme_ctrl *ctrl, bool was_suspended)
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index bbaa04a0c502..914784b611a2 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -144,6 +144,7 @@ EXPORT_SYMBOL_GPL(nvmf_get_address);
-  */
- int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val)
- {
-+	struct request *req;
- 	struct nvme_command cmd = { };
- 	union nvme_result res;
- 	int ret;
-@@ -152,8 +153,11 @@ int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val)
- 	cmd.prop_get.fctype = nvme_fabrics_type_property_get;
- 	cmd.prop_get.offset = cpu_to_le32(off);
- 
--	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, &res, NULL, 0,
--			NVME_QID_ANY, 0, 0);
-+	req = nvme_alloc_request(ctrl->fabrics_q, &cmd, NVME_QID_ANY, 0);
-+	if (IS_ERR(req))
-+		return PTR_ERR(req);
-+
-+	ret = __nvme_submit_sync_cmd(req, &res, NULL, 0, 0);
- 
- 	if (ret >= 0)
- 		*val = le64_to_cpu(res.u64);
-@@ -189,6 +193,7 @@ EXPORT_SYMBOL_GPL(nvmf_reg_read32);
-  */
- int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
- {
-+	struct request *req;
- 	struct nvme_command cmd = { };
- 	union nvme_result res;
- 	int ret;
-@@ -198,8 +203,11 @@ int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
- 	cmd.prop_get.attrib = 1;
- 	cmd.prop_get.offset = cpu_to_le32(off);
- 
--	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, &res, NULL, 0,
--			NVME_QID_ANY, 0, 0);
-+	req = nvme_alloc_request(ctrl->fabrics_q, &cmd, NVME_QID_ANY, 0);
-+	if (IS_ERR(req))
-+		return PTR_ERR(req);
-+
-+	ret = __nvme_submit_sync_cmd(req, &res, NULL, 0, 0);
- 
- 	if (ret >= 0)
- 		*val = le64_to_cpu(res.u64);
-@@ -234,6 +242,7 @@ EXPORT_SYMBOL_GPL(nvmf_reg_read64);
-  */
- int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val)
- {
-+	struct request *req;
- 	struct nvme_command cmd = { };
- 	int ret;
- 
-@@ -243,8 +252,11 @@ int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val)
- 	cmd.prop_set.offset = cpu_to_le32(off);
- 	cmd.prop_set.value = cpu_to_le64(val);
- 
--	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, NULL, NULL, 0,
--			NVME_QID_ANY, 0, 0);
-+	req = nvme_alloc_request(ctrl->fabrics_q, &cmd, NVME_QID_ANY, 0);
-+	if (IS_ERR(req))
-+		return PTR_ERR(req);
-+
-+	ret = __nvme_submit_sync_cmd(req, NULL, NULL, 0, 0);
- 	if (unlikely(ret))
- 		dev_err(ctrl->device,
- 			"Property Set error: %d, offset %#x\n",
-@@ -374,6 +386,7 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
- 	struct nvme_command cmd = { };
- 	union nvme_result res;
- 	struct nvmf_connect_data *data;
-+	struct request *req;
- 	int ret;
- 	u32 result;
- 
-@@ -399,9 +412,12 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
- 	strncpy(data->subsysnqn, ctrl->opts->subsysnqn, NVMF_NQN_SIZE);
- 	strncpy(data->hostnqn, ctrl->opts->host->nqn, NVMF_NQN_SIZE);
- 
--	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, &res,
--			data, sizeof(*data), NVME_QID_ANY, 1,
--			BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT);
-+	req = nvme_alloc_request(ctrl->fabrics_q, &cmd, NVME_QID_ANY,
-+				 BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT);
-+	if (IS_ERR(req))
-+		return PTR_ERR(req);
-+
-+	ret = __nvme_submit_sync_cmd(req, &res, data, sizeof(*data), 1);
- 	if (ret) {
- 		nvmf_log_connect_error(ctrl, ret, le32_to_cpu(res.u32),
- 				       &cmd, data);
-@@ -465,6 +481,7 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
- 	struct nvme_command cmd = { };
- 	struct nvmf_connect_data *data;
- 	union nvme_result res;
-+	struct request *req;
- 	int ret;
- 	u32 result;
- 
-@@ -485,9 +502,12 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
- 	strncpy(data->subsysnqn, ctrl->opts->subsysnqn, NVMF_NQN_SIZE);
- 	strncpy(data->hostnqn, ctrl->opts->host->nqn, NVMF_NQN_SIZE);
- 
--	ret = __nvme_submit_sync_cmd(ctrl->connect_q, &cmd, &res,
--			data, sizeof(*data), qid, 1,
--			BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT);
-+	req = nvme_alloc_request(ctrl->fabrics_q, &cmd, NVME_QID_ANY,
-+				 BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT);
-+	if (IS_ERR(req))
-+		return PTR_ERR(req);
-+
-+	ret = __nvme_submit_sync_cmd(req, &res, data, sizeof(*data), 1);
- 	if (ret) {
- 		nvmf_log_connect_error(ctrl, ret, le32_to_cpu(res.u32),
- 				       &cmd, data);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index bf46f122e9e1..9b4b3bb69e27 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -813,10 +813,10 @@ static inline bool nvme_is_unique_nsid(struct nvme_ctrl *ctrl,
- 
- int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		void *buf, unsigned bufflen);
--int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
--		union nvme_result *result, void *buffer, unsigned bufflen,
--		int qid, int at_head,
--		blk_mq_req_flags_t flags);
-+struct request *nvme_alloc_request(struct request_queue *q,
-+		struct nvme_command *cmd, int qid, blk_mq_req_flags_t flags);
-+int __nvme_submit_sync_cmd(struct request *req, union nvme_result *result,
-+		void *buffer, unsigned bufflen, int at_head);
- int nvme_set_features(struct nvme_ctrl *dev, unsigned int fid,
- 		      unsigned int dword11, void *buffer, size_t buflen,
- 		      u32 *result);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a331fbfa9a66..94dcc9b65fec 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1376,13 +1376,12 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req)
- 		 nvme_get_opcode_str(nvme_req(req)->cmd->common.opcode),
- 		 nvmeq->qid);
- 
--	abort_req = blk_mq_alloc_request(dev->ctrl.admin_q, nvme_req_op(&cmd),
--					 BLK_MQ_REQ_NOWAIT);
-+	abort_req = nvme_alloc_request(dev->ctrl.admin_q, &cmd,
-+			NVME_QID_ANY, BLK_MQ_REQ_NOWAIT);
- 	if (IS_ERR(abort_req)) {
- 		atomic_inc(&dev->ctrl.abort_limit);
- 		return BLK_EH_RESET_TIMER;
- 	}
--	nvme_init_request(abort_req, &cmd);
- 
- 	abort_req->end_io = abort_endio;
- 	abort_req->end_io_data = NULL;
-@@ -2391,10 +2390,9 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
- 	cmd.delete_queue.opcode = opcode;
- 	cmd.delete_queue.qid = cpu_to_le16(nvmeq->qid);
- 
--	req = blk_mq_alloc_request(q, nvme_req_op(&cmd), BLK_MQ_REQ_NOWAIT);
-+	req = nvme_alloc_request(q, &cmd, NVME_QID_ANY, BLK_MQ_REQ_NOWAIT);
- 	if (IS_ERR(req))
- 		return PTR_ERR(req);
--	nvme_init_request(req, &cmd);
- 
- 	if (opcode == nvme_admin_delete_cq)
- 		req->end_io = nvme_del_cq_end;
-diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index 511c980d538d..aae6d5bb4fd8 100644
---- a/drivers/nvme/target/passthru.c
-+++ b/drivers/nvme/target/passthru.c
-@@ -316,12 +316,11 @@ static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
- 		timeout = nvmet_req_subsys(req)->admin_timeout;
- 	}
- 
--	rq = blk_mq_alloc_request(q, nvme_req_op(req->cmd), 0);
-+	rq = nvme_alloc_request(q, req->cmd, NVME_QID_ANY, 0);
- 	if (IS_ERR(rq)) {
- 		status = NVME_SC_INTERNAL;
- 		goto out_put_ns;
- 	}
--	nvme_init_request(rq, req->cmd);
- 
- 	if (timeout)
- 		rq->timeout = timeout;
 -- 
-2.35.3
+Jens Axboe
+
 
 
