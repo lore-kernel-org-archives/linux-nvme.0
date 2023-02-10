@@ -4,72 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 74719C636CD
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Feb 2023 08:58:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4371C636CD
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Feb 2023 11:13:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=PmjWtBwFu8z3teuWatWO9DtcrFQXpGgJJ5YvUUDkxBs=; b=gLFpakh2HZdWjS5RjkDc/1YpLE
-	Sg3Q1UxRUggmJjj6/PMp+gdJ74mjHg4Kb0BS5voogwkRpWnE8VUbVAfzYpuDKIYBbTcCeajBSMuwY
-	XXJb5L/fBmQ3RAw6X2cEtb40xaXwjo6pnkg5LylSXMrnbzNcoYZzhKESv08ZXTp3/Rmfk5Myrgin8
-	5t6Xvow3CvpsrwCFrS6Ygr5YpJD7OG+R8ad+Bfedz14ao9DhcjJIZh6HNkQxAflfK2nayZZQTjy6N
-	EdWEte8Udz50aShgEetksoJeqaFtFxWthabCSvU7ZbO9rUWgsasdx1xxn5sIvyzOVRcDJ8r3CUBPO
-	bSkquGlg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=t6bvHlN4nbiLV9YJIWp/6zdRxLV7CVNUvL+00278CqU=; b=NO2kzpathSnU5/y/raArbXLeur
+	Pz+vqXS14nKMw805V/BHAUDa1qwqI8zP1qtdftZSzIJpkKDDGe1nXZDpSFuMu3VW5ZA4amI6QCOv6
+	ytZHY7R4vZx2NyJOH5ZoCRlLyGNqfxBC7CllhtfuH5xsEiY/ej9VUsARODk2u01pZHL/xdRnM5QS9
+	30N23We1eaqERqwpt6cnFNizeZWAaDPoAxMKOiL+xkX5eybdBI9/W3BViw+0c5J1QCGcfRno9xSes
+	hKCl7JFwVeqG2utUVs6F7YbszBCWySXllQtf73PKORKfcCk0FSGpF9aMxMc7V3gIrMP4p4rGGKI5P
+	hSaTHu5w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pQPEi-004sRB-LT; Fri, 10 Feb 2023 08:58:28 +0000
-Received: from mail-pj1-f53.google.com ([209.85.216.53])
+	id 1pQRKr-005R9T-QP; Fri, 10 Feb 2023 11:12:57 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pQPEY-004sOt-Tv; Fri, 10 Feb 2023 08:58:23 +0000
-Received: by mail-pj1-f53.google.com with SMTP id f15-20020a17090ac28f00b00230a32f0c9eso4883612pjt.4;
-        Fri, 10 Feb 2023 00:58:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PmjWtBwFu8z3teuWatWO9DtcrFQXpGgJJ5YvUUDkxBs=;
-        b=xBV5jQQUJPT6LtZjLiGcpOxcGOmlCSr2yyOv/yTX3KTiIUtBCO8buxfFoupRP0raOB
-         P0NhxAux6+Nn6Zzx0WDaV3MwEZBY2gcwl2YBa1z6sL3hTxyyCvkZKO12b6y58I6j8Z7f
-         0SfPgTB75z8418ClTTtTLSXxVwY+94EQK/hv+od3ZwMCoKUBZKXBRfYd2oAM/VKPBLRO
-         +Dh02QF8VKEhXNxUj+bsww5hbIDja+jOqoKe+DWmpOQ44GXS/f5nBXFyKxuG57uwdxzZ
-         bd6+jPAUGEt4u0PMQnarXx/MjkLXSeGtCgiRPZUxoaYOuBMPjf2Ps/fJvjXDMHmlsBHx
-         AqqA==
-X-Gm-Message-State: AO0yUKVcpziPZmXeFtvsz8bJz9JlGbjSawE0LRQfEKHolj2ZMpuS0Nqx
-	jnKhe0E2p/LrpVgMOK+Nm0c=
-X-Google-Smtp-Source: AK7set/rlm29FTVH2EyofgCWQ9SeWWe0Pb7hoMLEPW2PWaUhaPIns/cBaaVo5zf6H44e0NGGOV5l6A==
-X-Received: by 2002:a05:6a20:8e19:b0:b8:84d2:f9aa with SMTP id y25-20020a056a208e1900b000b884d2f9aamr10260065pzj.2.1676019496095;
-        Fri, 10 Feb 2023 00:58:16 -0800 (PST)
-Received: from tgsp-ThinkPad-X280.. ([116.128.244.169])
-        by smtp.gmail.com with ESMTPSA id s17-20020a17090302d100b00198e346c35dsm2910291plk.9.2023.02.10.00.58.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Feb 2023 00:58:15 -0800 (PST)
-From: xiongxin <xiongxin@kylinos.cn>
-To: mark.rutland@arm.com,
-	lpieralisi@kernel.org,
-	kbusch@kernel.org
-Cc: axboe@fb.com,
-	hch@lst.de,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	rafael@kernel.org,
-	linux-pm@vger.kernel.org,
-	xiongxin <xiongxin@kylinos.cn>,
-	Tian Yaxiong <tianyaxiong@kylinos.cn>,
-	Wei Yufeng <weiyufeng@kylinos.cn>
-Subject: [PATCH] firmware/psci: add .begin implementation for psci_suspend_ops
-Date: Fri, 10 Feb 2023 16:58:04 +0800
-Message-Id: <20230210085804.1756449-1-xiongxin@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
+	id 1pQRKl-005R83-LQ
+	for linux-nvme@lists.infradead.org; Fri, 10 Feb 2023 11:12:55 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20230210111245epoutp01446f55ca1b630092297e827cf945d95c~CcjC-0l4C2420424204epoutp01T
+	for <linux-nvme@lists.infradead.org>; Fri, 10 Feb 2023 11:12:45 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20230210111245epoutp01446f55ca1b630092297e827cf945d95c~CcjC-0l4C2420424204epoutp01T
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1676027565;
+	bh=t6bvHlN4nbiLV9YJIWp/6zdRxLV7CVNUvL+00278CqU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=rNAF+UmchDxqmFiiZfCCWppXRdxFg0sy2JLQfaQh78D0jp6rINrcasIwMwIbe4Qob
+	 1rEp2oEI8ygos2BaB0TX91exakUqMYIplbKGmLUyUOOmKq+GEbs/cV1NYYfd/9FxPH
+	 zTne1CjvsATXRitEtyPdAMna3L4oNCwQ3o9LeY2M=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20230210111244epcas5p20db5468dcc1f9e2a3d7a4c675232c573~CcjCLrcMP3180031800epcas5p2m;
+	Fri, 10 Feb 2023 11:12:44 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.176]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4PCrgG46b6z4x9Pr; Fri, 10 Feb
+	2023 11:12:42 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	37.7D.55678.AA626E36; Fri, 10 Feb 2023 20:12:42 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20230210111242epcas5p4093904df8eca07029b7fa66bd3787d18~CcjANDHlH0200802008epcas5p4J;
+	Fri, 10 Feb 2023 11:12:42 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20230210111242epsmtrp203325759ec30575367a52658eb4370bf~CcjAMcUVS2647926479epsmtrp2a;
+	Fri, 10 Feb 2023 11:12:42 +0000 (GMT)
+X-AuditID: b6c32a4a-6a3ff7000000d97e-f0-63e626aa93d9
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	EB.FA.05839.9A626E36; Fri, 10 Feb 2023 20:12:41 +0900 (KST)
+Received: from green5 (unknown [107.110.206.5]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20230210111241epsmtip2788fdbb8dc9b81b5fb9c30c51009a2e8~Cci-aOHjP2975629756epsmtip2i;
+	Fri, 10 Feb 2023 11:12:41 +0000 (GMT)
+Date: Fri, 10 Feb 2023 16:42:12 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: "hch@lst.de" <hch@lst.de>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>
+Subject: Re: [PATCH blktests] nvme/046: add test for unprivileged
+ passthrough
+Message-ID: <20230210111212.GA17396@green5>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230210020114.zzmazatkxeomowxq@shindev>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrOKsWRmVeSWpSXmKPExsWy7bCmuu4qtWfJBj8nylmsXH2UyWLvLW2L
+	+cueslvsm+XpwOKxeUm9x+6bDWwenzfJebQf6GYKYInKtslITUxJLVJIzUvOT8nMS7dV8g6O
+	d443NTMw1DW0tDBXUshLzE21VXLxCdB1y8wB2qekUJaYUwoUCkgsLlbSt7Mpyi8tSVXIyC8u
+	sVVKLUjJKTAp0CtOzC0uzUvXy0stsTI0MDAyBSpMyM74/XEyS8FPvoq5h0UaGPfwdDFycEgI
+	mEhcOKPZxcjFISSwm1Hi+eoWFgjnE6PEm4WbWSGcb4wSrZsWM3YxcoJ1HNx1ghkisZdRYu33
+	x1AtTxgl1tzqZgKpYhFQlZjx8TI7yA42AU2JC5NLQcIiAqYST7ZsYQKpZxZYyCgxa9oUVpCE
+	sIC/xNJLO9hAbF4BbYm+g/dZIGxBiZMzn4DZnAJmEq+W/GAHsUUFlCUObDsONkhC4Bq7xI55
+	L1khznORuDrrBjuELSzx6vgWKFtK4vO7vWwQdrLEpZnnmCDsEonHew5C2fYSraf6mUFsZoEM
+	iQd/trFC2HwSvb+fMEECjFeio00IolxR4t6kp1BrxSUezlgCZXtI9LX8YoQEyk5GiYn7frBN
+	YJSbheSfWUhWQNhWEp0fmoBsDiBbWmL5Pw4IU1Ni/S79BYysqxglUwuKc9NTi00LjPJSy+Fx
+	nJyfu4kRnAK1vHYwPnzwQe8QIxMH4yFGCQ5mJRHe8rtPk4V4UxIrq1KL8uOLSnNSiw8xmgLj
+	ZyKzlGhyPjAJ55XEG5pYGpiYmZmZWBqbGSqJ86rbnkwWEkhPLEnNTk0tSC2C6WPi4JRqYJq+
+	6l7BwWWWFXxHF9hnLkhq7lipetyz6OXW23nHzrzg9GE58u2SvWG/hN0BheJfc63em0xZER+q
+	IyGxLSP+xf6wjPfqP4243ypct7oguHqpzzrGkxaC+hwbeZp10nLjgsoa13L9ezTxsfrJGLP1
+	uw+55d15/VvM7I7mgai/wcli54XWrHplMeOR2OXtGdKPzL+3OTF9Yj94bOux/UfMK1xPufh1
+	l72/vjffPLq8QzTm+IF9gjNb/6+cvGVzz+SJ0uvWzfyf2uTTrr2FXz7r5KtHSy+dfid9ep2b
+	GpPTb/WJn0vKZ7EeT/GMSXl3JSD92q8nzWyqPHvlP0VdP3Cv3rLiU+qtX8nuj5tkfKJtmPYo
+	sRRnJBpqMRcVJwIAs5CJ2woEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrCLMWRmVeSWpSXmKPExsWy7bCSvO5KtWfJBptXWVusXH2UyWLvLW2L
+	+cueslvsm+XpwOKxeUm9x+6bDWwenzfJebQf6GYKYInisklJzcksSy3St0vgyth9Wa5gNU/F
+	8lfZDYwdXF2MnBwSAiYSB3edYAaxhQR2M0qs7E6AiItLNF/7wQ5hC0us/PccyOYCqnnEKNFx
+	ZDkLSIJFQFVixsfLQAkODjYBTYkLk0tBwiICphJPtmxhAqlnFljIKPHn+mE2kISwgK/Ej84L
+	jCA2r4C2RN/B+ywQQ3cySvzuWAaVEJQ4OfMJ2AJmATOJeZsfMoMsYBaQllj+jwMkzAkUfrUE
+	4jhRAWWJA9uOM01gFJyFpHsWku5ZCN0LGJlXMUqmFhTnpucWGxYY5qWW6xUn5haX5qXrJefn
+	bmIEB7SW5g7G7as+6B1iZOJgPMQowcGsJMJbfvdpshBvSmJlVWpRfnxRaU5q8SFGaQ4WJXHe
+	C10n44UE0hNLUrNTUwtSi2CyTBycUg1MyxWeciad+Lfo26+M8ynLmjde22BULPdDdn+3b4Fp
+	85MFiVWh79ojKy90TtbQn78zvCEqu7w/WHiCStAsjUP85mdvPv7ak2/D4vk6lWejVM/PGblx
+	eyZPsFNs/ehYsDNuU4obi4H22/rMFY53I5yq7vZ9F0z0aG7ce+KM+XaFKobtFxN+bhHZdD8k
+	Sd8mk7UrwOhZ+I4fWrkh5dYO/dw3/tk5xpvtO3bnq4Rb9bRrc2b2pV82S4g4NfXl559bsmeG
+	Zs7e+CLuZ8zKZbeLMiQPsH9c+sHO9z7X6c2Ff9wnbbn5VL/l7xe9aUr7vkbdVRL/7OFh1TE9
+	7+Byxcd/ZCaVPLOtEOg677U3i+OhVamWEktxRqKhFnNRcSIAwadm49cCAAA=
+X-CMS-MailID: 20230210111242epcas5p4093904df8eca07029b7fa66bd3787d18
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----KU2CxbTk4.ftA7vvsvzLW4bt.-m_7jRTbTuK1k18jgDVn8pS=_53b04_"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230209094631epcas5p436d4f54caa91ff6d258928bba76206de
+References: <CGME20230209094631epcas5p436d4f54caa91ff6d258928bba76206de@epcas5p4.samsung.com>
+	<20230209094541.248729-1-joshi.k@samsung.com>
+	<20230210020114.zzmazatkxeomowxq@shindev>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230210_005818_985183_D3552424 
-X-CRM114-Status: GOOD (  13.36  )
+X-CRM114-CacheID: sfid-20230210_031253_197465_A6884FF7 
+X-CRM114-Status: GOOD (  19.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,105 +133,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_suspend() in the nvme pci driver will call
-pm_suspend_via_firmware() to determine whether to use the suspend to
-idle mode or other suspend, the code show as below:
+------KU2CxbTk4.ftA7vvsvzLW4bt.-m_7jRTbTuK1k18jgDVn8pS=_53b04_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-static int nvme_suspend(struct device *dev)
-{
-	...
-	if (pm_suspend_via_firmware() || !ctrl->npss ||
-	    !pcie_aspm_enabled(pdev) ||
-	    (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND))
-		return nvme_disable_prepare_reset(ndev, true);
+On Fri, Feb 10, 2023 at 02:01:14AM +0000, Shinichiro Kawasaki wrote:
+>On Feb 09, 2023 / 15:15, Kanchan Joshi wrote:
+>> Ths creates a non-root user "blktest46", alters permissions for
+>> char-device node (/dev/ngX) and runs few passthrough commands.
+>> At the end of the test, user is deleted and permissions are reverted.
+>>
+>> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+>
+>Thanks for the patch. I guess this test case exercises nvme_cmd_allowed() in
+>drivers/nvme/host/ioctl.c.
 
-	... /* suspend to idle mode */
-}
+Yes. Thanks for review.
+>The test contents look valid and good.
+>
+>This test case adds and deletes a user. For every test case run, it creates and
+>removes the user home directory and touches /etc files. It does not sound right
+>for me. It changes system set up, and sudden test case stop will leave the user.
+>
+>I suggest to ask blktests users to prepare the normal user and specify it to a
+>config file variable (it can be named NORMAL_USER or something). I also suggest
+>to add two new helper functions: _require_user() will check that the specified
+>user is valid, and _run_user() will wrap the "su $NORMAL_USER -c" command line.
 
-The current ARM64 suspend process does not call the
-pm_set_suspend_via_firmware() function, so when PCIe ASPM is enabled,
-the nvme suspend process under the ARM64 platform will enter the suspend
-to idle mode (the irq free is not called), which will cause the nvme
-driver to report the following irq warning during the resume process:
+I was trying to make this automatic for blktests users.
+Script attempts cleanup always (regardless of test-failure).
+But yes, if any command gets stuck, cleanup won't happen.
+So what you mentioned - sounds fine to me.
 
-[  189.233188] ------------[ cut here ]------------
-[  189.237791] Unbalanced enable for IRQ 52
-[  189.241705] WARNING: CPU: 0 PID: 2086 at kernel/irq/manage.c:781 __enable_irq+0x54/0x88
-[  189.249700] Modules linked in: nls_iso8859_1 dm_multipath scsi_dh_rdac scsi_dh_emc scsi_dh_alua snd_hda_codec_hdmi snd_hda_intel snd_intel_dspcfg snd_hda_codec snd_hda_core snd_hwdep snd_pcm snd_seq_midi snd_seq_midi_event snd_rawmidi snd_seq snd_seq_device snd_timer snd joydev input_leds efi_pstore soundcore sch_fq_codel ppdev lp parport ip_tables x_tables autofs4 btrfs blake2b_generic raid10 raid456 async_raid6_recov async_memcpy async_pq async_xor async_tx xor xor_neon raid6_pq libcrc32c raid1 raid0 multipath linear amdgpu gpu_sched drm_buddy radeon video drm_ttm_helper ttm i2c_algo_bit drm_display_helper cec drm_kms_helper syscopyarea sysfillrect sysimgblt hid_generic drm nvme crct10dif_ce ghash_ce usbhid sha2_ce sha256_arm64 hid nvme_core sha1_ce ahci libahci aes_neon_bs aes_neon_blk aes_ce_blk aes_ce_cipher
-[  189.321740] CPU: 0 PID: 2086 Comm: systemd-sleep Not tainted 6.2.0-rc7+ #9
-[  189.328601] Hardware name: Greatwall GW-XXXXXX-XXX/GW-XXXXXX-XXX, BIOS KunLun BIOS V4.0 01/19/2021
-[  189.337543] pstate: 604000c5 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[  189.344490] pc : __enable_irq+0x54/0x88
-[  189.348313] lr : __enable_irq+0x54/0x88
-[  189.352136] sp : ffff80000d58bb00
-[  189.355436] x29: ffff80000d58bb00 x28: ffff80000a355a54 x27: ffff001f809910dc
-[  189.362559] x26: 0000000000000000 x25: 0000000000000000 x24: 0000000000000000
-[  189.369681] x23: 0000000000000001 x22: 0000000000000000 x21: ffff80000a0d2860
-[  189.376803] x20: 0000000000000034 x19: ffff001f80991000 x18: 0000000000000010
-[  189.383924] x17: 0000000000000000 x16: 0000000000000400 x15: ffff001f87612578
-[  189.391047] x14: 0000000000000000 x13: 3235205152492072 x12: 6f6620656c62616e
-[  189.398168] x11: 00000000ffffdfff x10: 00000000ffffdfff x9 : ffff80000823788c
-[  189.405291] x8 : 000000000002ffe8 x7 : c0000000ffffdfff x6 : 0000000000000001
-[  189.412412] x5 : ffff0020f6f0cb08 x4 : 0000000000000000 x3 : 0000000000000027
-[  189.419534] x2 : ffff0020f6f0cb10 x1 : 0000000000000000 x0 : 0000000000000000
-[  189.426656] Call trace:
-[  189.429089]  __enable_irq+0x54/0x88
-[  189.432566]  resume_irqs+0x118/0x210
-[  189.436129]  resume_device_irqs+0x1c/0x48
-[  189.440125]  dpm_resume_noirq+0x1c/0x30
-[  189.443951]  suspend_devices_and_enter+0x218/0x8c8
-[  189.448731]  pm_suspend+0x31c/0x420
-[  189.452207]  state_store+0x94/0x118
-[  189.455684]  kobj_attr_store+0x18/0x30
-[  189.459421]  sysfs_kf_write+0x4c/0x60
-[  189.463073]  kernfs_fop_write_iter+0x130/0x1c0
-[  189.467504]  vfs_write+0x284/0x358
-[  189.470893]  ksys_write+0x74/0x108
-[  189.474282]  __arm64_sys_write+0x24/0x30
-[  189.478191]  invoke_syscall+0x4c/0x110
-[  189.481930]  el0_svc_common.constprop.0+0x58/0x190
-[  189.486708]  do_el0_svc+0x40/0xb8
-[  189.490011]  el0_svc+0x2c/0xb8
-[  189.493053]  el0t_64_sync_handler+0xb8/0xc0
-[  189.497223]  el0t_64_sync+0x1a4/0x1a8
-[  189.500872] ---[ end trace 0000000000000000 ]---
-...
+>If you don't mind, I can create another patch for further discussion based on
+>the suggestion above, and modify your patch to use the new helper functions.
+Sure. Please remove "_have_fio" line also in v2.
 
-Implement pm_set_suspend_via_firmware() in PSCI psci_suspend_ops.begin()
-for ARM64, so that when doing the suspend process, it will directly
-enter the nvme_disable_prepare_reset() process.
+------KU2CxbTk4.ftA7vvsvzLW4bt.-m_7jRTbTuK1k18jgDVn8pS=_53b04_
+Content-Type: text/plain; charset="utf-8"
 
-Signed-off-by: xiongxin <xiongxin@kylinos.cn>
-Signed-off-by: Tian Yaxiong <tianyaxiong@kylinos.cn>
-Signed-off-by: Wei Yufeng <weiyufeng@kylinos.cn>
 
-diff --git a/drivers/firmware/psci/psci.c b/drivers/firmware/psci/psci.c
-index 447ee4ea5c90..90d6102d45d7 100644
---- a/drivers/firmware/psci/psci.c
-+++ b/drivers/firmware/psci/psci.c
-@@ -484,6 +484,13 @@ static int psci_system_suspend(unsigned long unused)
- 			      pa_cpu_resume, 0, 0);
- }
- 
-+static int psci_system_suspend_begin(suspend_state_t state)
-+{
-+	pm_set_suspend_via_firmware();
-+
-+	return 0;
-+}
-+
- static int psci_system_suspend_enter(suspend_state_t state)
- {
- 	return cpu_suspend(0, psci_system_suspend);
-@@ -491,6 +498,7 @@ static int psci_system_suspend_enter(suspend_state_t state)
- 
- static const struct platform_suspend_ops psci_suspend_ops = {
- 	.valid          = suspend_valid_only_mem,
-+	.begin		= psci_system_suspend_begin,
- 	.enter          = psci_system_suspend_enter,
- };
- 
--- 
-2.34.1
-
+------KU2CxbTk4.ftA7vvsvzLW4bt.-m_7jRTbTuK1k18jgDVn8pS=_53b04_--
 
