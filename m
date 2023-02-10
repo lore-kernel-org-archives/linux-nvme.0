@@ -4,57 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3A91C05027
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Feb 2023 12:08:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47CA3C636CD
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Feb 2023 12:10:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Subject:From:To:MIME-Version:Date:Message-ID:Reply-To:Cc:
+	Content-Type:To:Subject:From:MIME-Version:Date:Message-ID:Reply-To:Cc:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=NZuJRy1a8xf8P0Fd510LDohkaayKIK9cyqlc01uY7kk=; b=MHWB6grKW+lr2aYLxe263iq2cH
-	mVHpsJa6DbzEDMRUQpk6uGmgdoAv3EICnozUsPIp9MkrqDFtAX7jMETaGunDSQFaKyEQQL12V8CkT
-	t1Dkr+FHlCpfrysXoXEFwXpDjNXcDCQ3kzx1+3F9OZ6hI5rk8DtD62m971BolD/AtCUfWP51iiNFo
-	cbArKLpnNxYX7wY6Ij5LzYFQl0dDPjboune0VB9zuYuUdIw5eUsID/LkT6bM+MzyRD0w0VE4vl3Ep
-	0j2D8wsVt9aMZd7UTdrb8S0iKWi0oeCtq5KRDT5Q0Zgk3UrxcAgl2ZyHTKAqAgyGYICXE+dp/vLiK
-	U0fU4dyA==;
+	bh=8GfvULlqIPOUqD2/tP5rlQK4qFFKrhQIRnkjLDkv9DI=; b=BBGs5wg17aLaD5jvVZFOyHR7Ly
+	4XCaVE1l73plamMOWTOnxjc7oqZfV4kiVgLHQOOm82kR3ToXAGXuTyC/oLp4Yy9Y4LpF44ZRR4Iak
+	FnP9vvhKQWXTHxw4hdcT6Cmz2rFNpr7Iofd+8CcSj0ju6ugXg1mGL297I3iV3mEIc3k1w1/zpxEAH
+	6SIATQ4o7duJMi5vmeGXB8+TpdaoCKKhPNjIxDDwZQN+vaP6DZYtgRiHZ2QIlUPiDxR1cAUMgQApX
+	dFceobufuh/1nLSaPy9nbu25jYnPB0VEAaI0Dhqd12/Cl7wuuMbc14V1496GJmxYKWJtW/52Y2eZY
+	8lgZeMZg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pQSCr-005dVM-5Q; Fri, 10 Feb 2023 12:08:45 +0000
-Received: from mx1.riseup.net ([198.252.153.129])
+	id 1pQSEl-005dkN-VN; Fri, 10 Feb 2023 12:10:43 +0000
+Received: from mx0.riseup.net ([198.252.153.6])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pQSCo-005dTu-DY
-	for linux-nvme@lists.infradead.org; Fri, 10 Feb 2023 12:08:43 +0000
-Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+	id 1pQSEj-005djE-U7
+	for linux-nvme@lists.infradead.org; Fri, 10 Feb 2023 12:10:43 +0000
+Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (2048 bits) client-digest SHA256)
 	(Client CN "mail.riseup.net", Issuer "R3" (not verified))
-	by mx1.riseup.net (Postfix) with ESMTPS id 4PCsvj1QJ1zDqJ5;
-	Fri, 10 Feb 2023 12:08:33 +0000 (UTC)
+	by mx0.riseup.net (Postfix) with ESMTPS id 4PCsy73FyPz9sYQ;
+	Fri, 10 Feb 2023 12:10:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-	t=1676030913; bh=006T42n5ayIRq96/1xRWWSnZfPhFc8SBxKW2hAn4L0Q=;
-	h=Date:To:From:Subject:From;
-	b=Ivu5tZa2XuBkk/CX5DfwpqbMIdepENBDpMnaRaUfpnoMOBou0NdzNELw/SZhk6cMC
-	 2IO7iptFtstJj9RtWpRQ5xHgmIzJ2AmRLFTHYO90nG3WnxaiTaFjrNWgBFaVrS0lX6
-	 bmg80ddng+QYRqdz2OPK90eMyVSxAMVis2C7Wh4E=
-X-Riseup-User-ID: C971FB09AF76FF13C7B5EE703B0DF115B822322E6E6A097822E9006E73A5AF41
+	t=1676031039; bh=6JPco6U8iSAkwuGOqiY8HfT4kf3NaBNd/P7bZtdprsQ=;
+	h=Date:From:Subject:To:From;
+	b=Pn2/YQKgIyGTiXjFHqS/1ClyUr6Qkni4Qxb0b2Hi+ckpoQL5VSR9cFbAS9qG/XoXC
+	 qDaYuEpIJ6ysmh13kR1xUnfjFmHqX4X93ARXSaYDuGr2YbRGuUwAEwntuj9R2qcL7A
+	 5rhkTVUpGc+SPkUtxJCNRgoVeZiUvNXaYtFeDTS4=
+X-Riseup-User-ID: 629FE788666A02C23042B53C62C487CE4F107B3C0BA0300546EC10E4CF8E72DB
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	 by fews2.riseup.net (Postfix) with ESMTPSA id 4PCsvg2ymqz1yTd;
-	Fri, 10 Feb 2023 12:08:31 +0000 (UTC)
-Message-ID: <96afa026-e1a9-0ce5-d9ff-36f7e5c1a5b2@riseup.net>
-Date: Fri, 10 Feb 2023 15:08:29 +0300
+	 by fews1.riseup.net (Postfix) with ESMTPSA id 4PCsy56WT9z5vY4;
+	Fri, 10 Feb 2023 12:10:37 +0000 (UTC)
+Message-ID: <87ff6272-2cfe-6b54-864e-71951118c43a@riseup.net>
+Date: Fri, 10 Feb 2023 15:10:36 +0300
 MIME-Version: 1.0
-Content-Language: en-US
+From: Ivan Rubinov <linuxkernelpatch8234@riseup.net>
+Subject: [PATCH] Add quirk for ADATA SX6000PNP
 To: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-From: Ivan Rubinov <soltime@riseup.net>
-Subject: [PATCH] Add quirk for ADATA SX6000PNP
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230210_040842_517682_6D05A81F 
-X-CRM114-Status: GOOD (  10.25  )
+X-CRM114-CacheID: sfid-20230210_041042_014547_38773389 
+X-CRM114-Status: GOOD (  10.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,6 +93,7 @@ NVME_QUIRK_BOGUS_NID, },
       { PCI_VDEVICE(INTEL, 0x0a53),    /* Intel P3520 */
           .driver_data = NVME_QUIRK_STRIPE_SIZE |
                   NVME_QUIRK_DEALLOCATE_ZEROES, },
+
 -- 
 2.39.1
 
