@@ -4,70 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 739F1C636CD
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Feb 2023 18:04:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 89A41C636CD
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Feb 2023 18:18:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eoTlONx5KdTAaDio2J2Bcv2O3WhzPOXiviiUr74AsKI=; b=3lTYtRPY8eRJDRUKSbhbpmMY4X
-	IvhCxFZfXNH3UbCU5lzBHIAdkdTMxgyawwQnRSTFxuwIKJs7vpWofKCPskVeNldJCdkWNLYmGJWEf
-	b3l267v8WyyjJSyiV1mPBgz4N8HD6Ewd1ZBINSO2WpAIjyN0kwaH0JnBp/3wsRg5fd6iWq4iGXppH
-	ZNmOU2R/oLIYRVNhSU6wIxbmi1DlxdM89j6vkkzIJokXRbs87tJvic426DZHw/S0a3Z2gnuAOJvZ/
-	JS9vK5TZj73J0Kg2nUsMDDsQ8P84M6fz1/tDCKbVaXeutEf0MLNcGXcTNejvA4NNIMxn/g8OVrIrk
-	JVqkp/9Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=CuIV2ZniuR6JiN7/4weCn+3flzvSdKoSszT4evfBW74=; b=2IzqIlYB49e3FC2g9UIxx7biD0
+	0KJ+ZQQDFWBBH11QBpQqbc7AXG9QitoP12/Hs9uiw53p39ZCXd+N3sLmaRXkZ3nSFqg0vIehgIsH3
+	wpR+f49SEbps5tpa9ZIEIFLxyfKzm6hay3w/0AgCuDZQTpUW7kMATFqQRSr1pjELDKET+whuQ6afj
+	jehwWbku29eTu3NlW6FOUqvJIfFfdx/kNMZFQL05N/8gogSVb/5nUi8EJvdMZeFpyqjJh7cTZ8qVZ
+	7z70yAAY8txZfkot4HwLEMzxQMsImG6TdESa9Yk0EUadFwJU9K+ps15Vk74lwPJdIUFbjx37NAV4S
+	P7a6ZWZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pQXkv-006p3D-E4; Fri, 10 Feb 2023 18:04:17 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
+	id 1pQXyS-006sob-6O; Fri, 10 Feb 2023 18:18:16 +0000
+Received: from mail-pg1-f180.google.com ([209.85.215.180])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pQXkf-006oum-U3
-	for linux-nvme@lists.infradead.org; Fri, 10 Feb 2023 18:04:06 +0000
-Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
-	by m0001303.ppops.net (8.17.1.19/8.17.1.19) with ESMTP id 31AFtVXC002728
-	for <linux-nvme@lists.infradead.org>; Fri, 10 Feb 2023 10:03:57 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=s2048-2021-q4;
- bh=eoTlONx5KdTAaDio2J2Bcv2O3WhzPOXiviiUr74AsKI=;
- b=mtSYvmpDWAvcghRzAKSXVPLQ5nZ65xyvLAiGHvcc1JUDxDOo28LoXp/SupF5gsLAB9me
- V6lruK84dZmCOC4yQWLbDJoJbLRkbnKyPAPobfIbWOcCCaDXfw9kUa3v1FjZlNJwiqQe
- D9Vt5BNixJSq1zQNnftjdoWPLFKXGmWEEp0QoDyLK7GwnVt/YzlEmalGgK2V86JwufGt
- KriWgVA0c1tw5OUqgYeCIza95x0QBabd747D3BTn05d6LPxej8NjX2fZifa5unvwwOjc
- dq4iYrM1o+eXw2JcM5uWt0EvKodjqcsVyPbzed3NodXuHLbmYqo5grDTqV/vXKYF8zNa BA== 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-	by m0001303.ppops.net (PPS) with ESMTPS id 3nmsern56k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Fri, 10 Feb 2023 10:03:57 -0800
-Received: from twshared43869.37.frc1.facebook.com (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:83::7) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Fri, 10 Feb 2023 10:03:56 -0800
-Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id 0185C11097D1D; Fri, 10 Feb 2023 10:03:49 -0800 (PST)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>, <hch@lst.de>
-CC: <schnelle@linux.ibm.com>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCH 2/2] nvme-pci: remove iod use_sgls
-Date: Fri, 10 Feb 2023 10:03:47 -0800
-Message-ID: <20230210180347.3613573-2-kbusch@meta.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230210180347.3613573-1-kbusch@meta.com>
-References: <20230210180347.3613573-1-kbusch@meta.com>
+	id 1pQXyP-006smT-Qv
+	for linux-nvme@lists.infradead.org; Fri, 10 Feb 2023 18:18:15 +0000
+Received: by mail-pg1-f180.google.com with SMTP id c29so161479pgm.5
+        for <linux-nvme@lists.infradead.org>; Fri, 10 Feb 2023 10:18:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CuIV2ZniuR6JiN7/4weCn+3flzvSdKoSszT4evfBW74=;
+        b=ff0pcRAzVIVhPKeowUwfVgmZkafiTLUSU44jQ9D70n9dR1gMVhe0NjZkC/TBekUY8R
+         3oknSuzsgeEmIVS3OLHeIEPA9B3Vev/9hzgrDj1MQUYRIZUeBMzLagwcA2ITmIyI2AGx
+         XTx+b/IaQF59/CgQ3PPC8KxCmAQj1honMYXkNWFNREDk+A/+YqTV+OU6wYUO6+h9wOKI
+         Qc0aPCIIZpXq1TOqY8pe/P3RQyqICGad8AoesBpHRlls0BHEc6DJo5VA0zbLBTNuTamX
+         aILR7lKgE8eDebgnSiyfK51lLBlMnVrquM/HA9xnSg7PEk1Dj5jj4j2d9W0zB4T51ueh
+         ydbA==
+X-Gm-Message-State: AO0yUKW9lf2l4gazlQ8ZBLhFbTRQiQeE86Djg4HWe+NkBWLtHWK7zZLf
+	uC8HSFQh6bn7ORHBiz8aXxY=
+X-Google-Smtp-Source: AK7set9N6MjmZsXjybdAr+hJoPFSqTEoYhUaKedYxqLCBx2V8yPx0GxWd7g+wUZ3hObnC7poWBjmIw==
+X-Received: by 2002:a62:14d0:0:b0:5a8:5dcb:b775 with SMTP id 199-20020a6214d0000000b005a85dcbb775mr5120458pfu.14.1676053090955;
+        Fri, 10 Feb 2023 10:18:10 -0800 (PST)
+Received: from [192.168.51.14] ([98.51.102.78])
+        by smtp.gmail.com with ESMTPSA id v9-20020a62a509000000b005941ff79428sm3645099pfm.90.2023.02.10.10.18.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Feb 2023 10:18:10 -0800 (PST)
+Message-ID: <69443f85-5e16-e3db-23e9-caf915881c92@acm.org>
+Date: Fri, 10 Feb 2023 10:18:08 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: lKnU6NDYFfMHXUvP9seyoBFqsKy1mI8z
-X-Proofpoint-ORIG-GUID: lKnU6NDYFfMHXUvP9seyoBFqsKy1mI8z
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-10_13,2023-02-09_03,2023-02-09_01
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [LSF/MM/BPF ATTEND][LSF/MM/BPF Topic] Non-block IO
+Content-Language: en-US
+To: Kanchan Joshi <joshi.k@samsung.com>, lsf-pc@lists.linux-foundation.org
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ io-uring@vger.kernel.org, axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
+ ming.lei@redhat.com
+References: <CGME20230210180226epcas5p1bd2e1150de067f8af61de2bbf571594d@epcas5p1.samsung.com>
+ <20230210180033.321377-1-joshi.k@samsung.com>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20230210180033.321377-1-joshi.k@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230210_100402_199218_152A7946 
-X-CRM114-Status: GOOD (  14.24  )
+X-CRM114-CacheID: sfid-20230210_101813_890438_43D2489B 
+X-CRM114-Status: UNSURE (   8.98  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,39 +83,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On 2/10/23 10:00, Kanchan Joshi wrote:
+> 3. DMA cost: is high in presence of IOMMU. Keith posted the work[1],
+> with block IO path, last year. I imagine plumbing to get a bit simpler
+> with passthrough-only support. But what are the other things that must
+> be sorted out to have progress on moving DMA cost out of the fast path?
 
-It's not used anywhere anymore, so remove it.
+Are performance numbers available?
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/pci.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Isn't IOMMU cost something that has already been solved? From 
+https://www.usenix.org/system/files/conference/atc15/atc15-paper-peleg.pdf: 
+"Evaluation of our designs under Linux shows that (1)
+they achieve 88.5%–100% of the performance obtained
+without an IOMMU".
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 47d6b0023e3a8..d68e2db00d0d0 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -230,7 +230,6 @@ union nvme_descriptor {
- struct nvme_iod {
- 	struct nvme_request req;
- 	struct nvme_command cmd;
--	bool use_sgl;
- 	bool aborted;
- 	s8 nr_allocations;	/* PRP list pool allocations. 0 means small
- 				   pool in use */
-@@ -808,8 +807,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *de=
-v, struct request *req,
- 		goto out_free_sg;
- 	}
-=20
--	iod->use_sgl =3D nvme_pci_use_sgls(dev, req, iod->sgt.nents);
--	if (iod->use_sgl)
-+	if (nvme_pci_use_sgls(dev, req, iod->sgt.nents))
- 		ret =3D nvme_pci_setup_sgls(dev, req, &cmnd->rw);
- 	else
- 		ret =3D nvme_pci_setup_prps(dev, req, &cmnd->rw);
---=20
-2.30.2
+Thanks,
+
+Bart.
 
 
