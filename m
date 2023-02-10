@@ -4,146 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18879C61DA4
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Feb 2023 02:01:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 74719C636CD
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Feb 2023 08:58:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=S0EdnpW/Tfx2KYMQoAApvpfcCuqWfFF6pYSmD2ZXIr8=; b=rnvfTVZo/C6A2V8fcQVUGy7WtV
-	h0mu282Yl4gF15WdfhSA1obIZzzVHz6EHGydOfa3KcoKM56wI2Lbcdc2JMCxT5HMEFLBwv3e/4QQU
-	I8Pe/3lY6+d3Uh1wOPFLkl3Ohs6kHtuc98/5/zDSvV3GKdCCJOeg8zM1JBAQ6+NhvV6uHeqK7fepx
-	SRb79T1o59Hf6g6kC25/Jjq8eKcjeghyuAAtd1cN40bMz4RAj2mZQQd/oxNzq3VZYhluib940aeuo
-	TwBmNmdQKt42LkNeK3LcpxE991MS+QbDUNsp3kgy8yZNX3sJEcXTu19Mj06/a9D0GkYMRkOL81pTM
-	rePMIf4w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=PmjWtBwFu8z3teuWatWO9DtcrFQXpGgJJ5YvUUDkxBs=; b=gLFpakh2HZdWjS5RjkDc/1YpLE
+	Sg3Q1UxRUggmJjj6/PMp+gdJ74mjHg4Kb0BS5voogwkRpWnE8VUbVAfzYpuDKIYBbTcCeajBSMuwY
+	XXJb5L/fBmQ3RAw6X2cEtb40xaXwjo6pnkg5LylSXMrnbzNcoYZzhKESv08ZXTp3/Rmfk5Myrgin8
+	5t6Xvow3CvpsrwCFrS6Ygr5YpJD7OG+R8ad+Bfedz14ao9DhcjJIZh6HNkQxAflfK2nayZZQTjy6N
+	EdWEte8Udz50aShgEetksoJeqaFtFxWthabCSvU7ZbO9rUWgsasdx1xxn5sIvyzOVRcDJ8r3CUBPO
+	bSkquGlg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pQIjA-003tLw-C1; Fri, 10 Feb 2023 02:01:28 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1pQPEi-004sRB-LT; Fri, 10 Feb 2023 08:58:28 +0000
+Received: from mail-pj1-f53.google.com ([209.85.216.53])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pQIj6-003tK9-TS
-	for linux-nvme@lists.infradead.org; Fri, 10 Feb 2023 02:01:26 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1675994484; x=1707530484;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=S0EdnpW/Tfx2KYMQoAApvpfcCuqWfFF6pYSmD2ZXIr8=;
-  b=HLnJnJc+kTwdEc84g2yW65cB2bvFPscgcw6YTKS/kUKxEWt48K7KXIba
-   bAVGgNXa0lwx5CTo8S7Yu617RHy625lXvThd/40yN8lppjfqUMaeCHyK/
-   4DPntmlGIgGKgORG6nbKRy6wHT2a9E2ZyDFOUerCX/7+DaWFZk9wn36vL
-   fv/uMgwVpjREn/plLlsNmz0l0ByO5dFAkw+GjwqVprDDVb+eiwkJ3vIBN
-   0A/sp7mlZVKmMTZO+Dy3MAbiYfHNYonqsvjwUbA04c8cxHVgxjpXGthQ/
-   wyofLF7OHOe45xVG3CGhXNagvsbhdxNT5HLOSc3NtdBfAuFiagAZZmk+m
-   g==;
-X-IronPort-AV: E=Sophos;i="5.97,285,1669046400"; 
-   d="scan'208";a="222760479"
-Received: from mail-bn1nam02lp2047.outbound.protection.outlook.com (HELO NAM02-BN1-obe.outbound.protection.outlook.com) ([104.47.51.47])
-  by ob1.hgst.iphmx.com with ESMTP; 10 Feb 2023 10:01:17 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bhAIxJGxNobMF4NLYhZcwnYo7f0aWq9MLhwpDI7L2J6wKjLsF6fjJoEtbVX1KnZS0QnVscr9S0XalWG1eG2bnm2vDZfx6ofiKEoBig5vJuyswjHgpN8+69FmTzcBF7DzG09NmVgUWYgxk7uqH5FrcxPDtBnmrCNYWN2k5bPu1GkuEPq35sPm/NrlVfWyuwxIAfvbkbmaPCh3QJviQc8uqEajhWqQTM9UpZUFCyeOynKcPZjVrtDLj0aseZOOHJ1PIob4+VmxQcNFNrxONGbIDeQJXFMEVnCIG3irJTdDcEMnIowUJBZmEgj7SO3drosTQXEwlOb2pTPSGz75z9t/uQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=S0EdnpW/Tfx2KYMQoAApvpfcCuqWfFF6pYSmD2ZXIr8=;
- b=iUmdBHKT6kUQF4YVQfEwPeUVMt5hA5x+bYtJCfUYoF/ci+bse3L5xVm/mxCCaeMXz/Acm+NZKxlw1gRg139Fswu0gx00CgrqRYKGtydQcRfKzxnoK+eaWfx7+i6xY0BonPV3YTpXhX9NYi9/1ZekoZr82ztmllXI1jBUBo9A8R6DZ2LUbMEgfeLUCRqFLI9J3hwZ5gqbNagBDoUK356bMTDkujqbK9tN2r7IomcrTq8VDKv8HAtj0+7gsbdXONymzRxgnKNFayj/nBifHUbda+DtVqIQoXDVphnQJLEJluHvkyMdVdq0FiCsHb77mcH+xUCCW0gdUtjTJB92RL1Hrg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=S0EdnpW/Tfx2KYMQoAApvpfcCuqWfFF6pYSmD2ZXIr8=;
- b=nWi8wBP2v9trYxEboyNPrL7KsHxp/5e4L0ujsBK6AEnyM4NmvGQZHhQ5jqd7PThudb4sUtt/7KFLVCZiOA9jzljftqrjXuYesGeQM5r2EQaZ/MpBQhftxeYzX8TbgzFSz+mdeGFcAgLNLlbq2M7oIAv7JjYZJNWzF/vqRSKDmmo=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- SJ0PR04MB7774.namprd04.prod.outlook.com (2603:10b6:a03:303::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.20; Fri, 10 Feb
- 2023 02:01:15 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::f2ed:2204:b02f:9bfa]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::f2ed:2204:b02f:9bfa%4]) with mapi id 15.20.6086.019; Fri, 10 Feb 2023
- 02:01:15 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Kanchan Joshi <joshi.k@samsung.com>
-CC: "hch@lst.de" <hch@lst.de>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>
-Subject: Re: [PATCH blktests] nvme/046: add test for unprivileged passthrough
-Thread-Topic: [PATCH blktests] nvme/046: add test for unprivileged passthrough
-Thread-Index: AQHZPGtrXToTKK9KXkmyiPMPihGYAq7HbkUA
-Date: Fri, 10 Feb 2023 02:01:14 +0000
-Message-ID: <20230210020114.zzmazatkxeomowxq@shindev>
-References:  <CGME20230209094631epcas5p436d4f54caa91ff6d258928bba76206de@epcas5p4.samsung.com>
- <20230209094541.248729-1-joshi.k@samsung.com>
-In-Reply-To: <20230209094541.248729-1-joshi.k@samsung.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|SJ0PR04MB7774:EE_
-x-ms-office365-filtering-correlation-id: eb8776e6-93a6-4b6c-1884-08db0b0ab0f7
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  xP9YMKlbHslygYUZwGhB80qlKfOf3wrybmtCT7ci2wqMSGzVK742wwRdwrcVm8T/9RYqBCO458WzAKEUfQibdTSMOA5xyzGMXS7GYY0+aV9BfxKfc0n9LNhn4wGGS/64jX8lSsKnKb4QjaHuyo7mnLdTXRmR33L5O5yexMYrcYWlZf2FNT1FhwYrv2jaHlEVmp5vjWkDMi60263szfImg7jdx/tolsXyn1JlEVJB2Z/3Xdwx9f+oapbUCmFpkpJCrrlUabZOTHCWSlHMYhxyGRGSEGr6bfSbV+9jePJh1JkI6JWMsUTyrsdfMwHxvBCV9bZ2BFUH6HtqlrY1U+XgCDR9VXpbYo+8FoRePYTin77ql0gwOF2JaKXXg+VCMPE8q7YJQjAIlGUNJlHAElN+Kt20P3vViSbaxEfIQXClrcp7COB1AOOg1Z6OAcRFgYRBYdMAZmAC72S4QZIjYWKcCfLP2jlQjcK35USHuZ0iNi8NUJ+j4x/3GoAvZ+WsXkwUmiRTktgBDdXVUZe3kJ3cRHJ+575yrSFtMr86FXTrH+Cu0H2tJB+hzgL3zDrw5HITXkOau12+OLPCqKZOCBM45eoChhGF/pbr0R2cdIt+fHAfUG3jdApGEUoIAZlms7jD8HtjBM2Dghb1k0xrtRb1GfxVkTgGtSaRjBBmn1H77uyhroJddc++nt7c0Q0rPLjW8T3Dbkx9MSqgHD9U/y+kAg==
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(7916004)(346002)(366004)(376002)(136003)(396003)(39860400002)(451199018)(6486002)(9686003)(71200400001)(8936002)(5660300002)(26005)(186003)(478600001)(6512007)(6506007)(1076003)(316002)(54906003)(44832011)(8676002)(6916009)(4326008)(91956017)(66946007)(66556008)(66476007)(66446008)(64756008)(76116006)(41300700001)(83380400001)(38100700002)(82960400001)(122000001)(86362001)(33716001)(3716004)(38070700005)(2906002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?9WNZpGsNSs+bx8NudvPWIrVKHAP7OfuIuyw7tF9oLQ6eFT2USC2NTaGEAlxS?=
- =?us-ascii?Q?YI9DrruMaB5bTBNT7FKhSAnLXuNcqEHAG/lDjZnBGZcc6Xi3bo768IhMK7Hc?=
- =?us-ascii?Q?Kz682s0pt1/tfLIHIF5L+CiTd4746Tie5OYqIf9WJ+i1Eh5IRmBh7Xy8s7zx?=
- =?us-ascii?Q?k3OXRVovgOyBikxEIFFhxG5hD80BW5bAcqagHQt9BaOdcHPBP1b9Z2ecIX/i?=
- =?us-ascii?Q?7ySbFpzGRrTwYM9yo4ErL+4dGiPGmrbkqiNN1TAUgscSt+9pVpeqnWR60uir?=
- =?us-ascii?Q?1vgTx1UeEgkCYhB+14YlsRLU+4fSbgspwFY0cG18tcU3wDwDQ8HAT7Fuv0KD?=
- =?us-ascii?Q?u0GyqRBDTi8zpK7EziPO0BH2xMVNOBV/O33m0Inrtx1NqdVTHHLmmX5cxqvF?=
- =?us-ascii?Q?3BL+LElrdwZLSfb9UgNDXrl7nhhsqSLxkm3R7PeY92pNePw8AUrWUWdWSA0g?=
- =?us-ascii?Q?JH33KSfwBmbd+pMH02bbm/CmuwVq2CXAwXa73fTp88ZrPTzqNL3OHvuHI4jG?=
- =?us-ascii?Q?BnaA8KcDohsRMW37caGe7oV4x2flIb2wAHkqQAXB6RkPWzOZViVv2QLy0+m2?=
- =?us-ascii?Q?O2sEgEgLlHaYWYZ/2OD9cOdL1qdl38joUwZf+mCPFkwBaqvIV8lu+80leE4z?=
- =?us-ascii?Q?EaqnUiNG7wkkup9BSLn0Z//Lg/2eklX3KpRQJER+S4GEjuNrYSVFPmcPikIM?=
- =?us-ascii?Q?jkiHcOLcmJe3Onkd/Ea4bpZepwsRNlc5GEPKXrEwOzpaQXNyKZ7qEQM8niYy?=
- =?us-ascii?Q?RrNV6vDx/2DhThkHusDGtTJchnj93XFqlVUaJGykin1b//SC7zVKF49ewXyl?=
- =?us-ascii?Q?eeZtJwz/LAAWBb7ucEI2KHt2Yk9W3lNCTS704cghm5VwZLcBXf+t0iDJbUl/?=
- =?us-ascii?Q?nQa3aSNVQrrDcJuGnSGZATln2rHh88iXvBRw5l2Aji9BnoYUF/EDuFPnLEuO?=
- =?us-ascii?Q?ZVkeVo5mP/fn4bdMtXkJH8UDAdj+XEnIdpK1b7nU/QtRzGKXtVhKYorLtypN?=
- =?us-ascii?Q?qPHOL1xD/SL9UkhvH5PIE5ztRTPHQ/dYiWy0v/6RFYz5LvgwSfAYs/fAR3zE?=
- =?us-ascii?Q?OUYSYxydcECSVDhLFrtvtRhLexIm1x5kW7fHTA89QI0Jdo9NGUflhmU0Oius?=
- =?us-ascii?Q?4AY0Ifsi8AD+xedzj9CgvWx1xr4HbF7unhHdKWydqxcW6Fe6IqMdxBexGKpJ?=
- =?us-ascii?Q?0BoDRJtI5uPxhAWf6DC33VafgXDu3syZoZuDHEgljB4jpiAYZr//Y+B6BQMf?=
- =?us-ascii?Q?mbhyGsxIaXIybvgsSF4fLneWcDdS+YlTMF8M2kg/+YEVAznu8A8x4WwlqXAj?=
- =?us-ascii?Q?J1o1ED2xBt5dedw0YIzjYzhCIz9m7JBqbdDiTZeleS6HYdSowv/z8t18sPH/?=
- =?us-ascii?Q?ScNQpnHJa+nybJsy8ukvEsQlGrQJrUd3a/HH0BGh1zc9UPuqxiczPWwlQScI?=
- =?us-ascii?Q?S0jjhRBF3fRT0bkW/KvEC5W+SFTQC/2JyT1KFblQFjLKnmBrwomEe3IE9HPd?=
- =?us-ascii?Q?jZN0TJfM7a4zwXFGiyvezF7Mztabg+KigqBa8P/jZqZKb8aesj4z31332Yhs?=
- =?us-ascii?Q?CJi8yplhQsHLZb+vzC4tiyFwmPilE1wXymxV613GCRItj4vIBj/GfntnnrGl?=
- =?us-ascii?Q?Lf24+kBE1NqZR8chfiuWkjA=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <E352CDEEDD70324AB225CD3C5D1E1B8A@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	id 1pQPEY-004sOt-Tv; Fri, 10 Feb 2023 08:58:23 +0000
+Received: by mail-pj1-f53.google.com with SMTP id f15-20020a17090ac28f00b00230a32f0c9eso4883612pjt.4;
+        Fri, 10 Feb 2023 00:58:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PmjWtBwFu8z3teuWatWO9DtcrFQXpGgJJ5YvUUDkxBs=;
+        b=xBV5jQQUJPT6LtZjLiGcpOxcGOmlCSr2yyOv/yTX3KTiIUtBCO8buxfFoupRP0raOB
+         P0NhxAux6+Nn6Zzx0WDaV3MwEZBY2gcwl2YBa1z6sL3hTxyyCvkZKO12b6y58I6j8Z7f
+         0SfPgTB75z8418ClTTtTLSXxVwY+94EQK/hv+od3ZwMCoKUBZKXBRfYd2oAM/VKPBLRO
+         +Dh02QF8VKEhXNxUj+bsww5hbIDja+jOqoKe+DWmpOQ44GXS/f5nBXFyKxuG57uwdxzZ
+         bd6+jPAUGEt4u0PMQnarXx/MjkLXSeGtCgiRPZUxoaYOuBMPjf2Ps/fJvjXDMHmlsBHx
+         AqqA==
+X-Gm-Message-State: AO0yUKVcpziPZmXeFtvsz8bJz9JlGbjSawE0LRQfEKHolj2ZMpuS0Nqx
+	jnKhe0E2p/LrpVgMOK+Nm0c=
+X-Google-Smtp-Source: AK7set/rlm29FTVH2EyofgCWQ9SeWWe0Pb7hoMLEPW2PWaUhaPIns/cBaaVo5zf6H44e0NGGOV5l6A==
+X-Received: by 2002:a05:6a20:8e19:b0:b8:84d2:f9aa with SMTP id y25-20020a056a208e1900b000b884d2f9aamr10260065pzj.2.1676019496095;
+        Fri, 10 Feb 2023 00:58:16 -0800 (PST)
+Received: from tgsp-ThinkPad-X280.. ([116.128.244.169])
+        by smtp.gmail.com with ESMTPSA id s17-20020a17090302d100b00198e346c35dsm2910291plk.9.2023.02.10.00.58.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Feb 2023 00:58:15 -0800 (PST)
+From: xiongxin <xiongxin@kylinos.cn>
+To: mark.rutland@arm.com,
+	lpieralisi@kernel.org,
+	kbusch@kernel.org
+Cc: axboe@fb.com,
+	hch@lst.de,
+	sagi@grimberg.me,
+	linux-nvme@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	rafael@kernel.org,
+	linux-pm@vger.kernel.org,
+	xiongxin <xiongxin@kylinos.cn>,
+	Tian Yaxiong <tianyaxiong@kylinos.cn>,
+	Wei Yufeng <weiyufeng@kylinos.cn>
+Subject: [PATCH] firmware/psci: add .begin implementation for psci_suspend_ops
+Date: Fri, 10 Feb 2023 16:58:04 +0800
+Message-Id: <20230210085804.1756449-1-xiongxin@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 	ATpGqlmV5Mt5jp6t2tBa0J1pi/gUo/EftCq1hxew3YoWu1ZWwxY0rsrNZMN8cPFPsyAMVvlJYFnYaZ385tX7tmIJkl+2pKeg9twse+Q9/4hYmPiO7FVH0hoBeOqo/9g4tn9yWzJ9aSZs5EJXmzuzz78BpMPCpOAs1XIVHDDMo87bXlptp0xPMICU0p8TYorJsefwm06v5A42ZU9e2Xdeqr8CSK9oqJcilBCRZ3UB4IZLqJbsz+KD2IZ+FAEu/iMkZNoXMMCUQlEqeZR6U9VrencJ/cHgM1cHnm8r+JDFIm2pj2F3qoxj3qnZ+NZT0n1UDJctt6wVvwlpD7FaIlFchFUEMinjzKgPE2J7H3yfxA2LzuuC4fwNEDIPYlsQNXTD/Y3piMTOFxgW7oVA6u1LGIQhEvXhPqDKfPXKBGNZvAmFnZjs1MAQ5b4Rb8I9XZ/kXKbjOh/Xz7Y1IPf5purtxrriUvtEErXitEBLdDIkrXDhzxsJJwm5l+CyhlnsGjJz7F9prIoZDCOCxHD/2jePki5JVyEur2azj7frVJG5OEaimQw+WMOEaMmlQDeO6QL8J8yVaaiUh+1TuFr3kIPodWXjuPT2BFgMAn7V/tZogiIvEKJT4Pn4e8I38Tl6FMU0lfhW0EHgZy8wAKKVimlyf9tDux9yafYIIv8a9TK9pNZpPIcHjs2o0O+0TNjNL7opi26ybjsVFe3sDX4xEcFK5ExIjOpy3CISY8pvwYX6opq8NW6i0qWEgR6/0UDB87PAVXZimtgvmJh8r1vEdNOvQK23RcbGunRVxH0x4xecY9ydRs72J0YEzI5KgANAPVqyARczjBmX2jArnKJbyy5YigtelgWx6Cp+LSREEFAkKZyp3I6q2h0EVYt2u95vq2uq
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb8776e6-93a6-4b6c-1884-08db0b0ab0f7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Feb 2023 02:01:14.9463
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: lEosqRYBc4osxveTMWYMfmyYzmwsImCQ8orJzAdNbnHL4AtOJzNKJ9H2OLKZcLN3xETB/2h4DGEkO88v/ivf+0INCvJNqY67+9o/i/d+spg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB7774
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230209_180125_216221_E9235737 
-X-CRM114-Status: GOOD (  14.38  )
+X-CRM114-CacheID: sfid-20230210_005818_985183_D3552424 
+X-CRM114-Status: GOOD (  13.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -158,38 +84,105 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Feb 09, 2023 / 15:15, Kanchan Joshi wrote:
-> Ths creates a non-root user "blktest46", alters permissions for
-> char-device node (/dev/ngX) and runs few passthrough commands.
-> At the end of the test, user is deleted and permissions are reverted.
->=20
-> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+nvme_suspend() in the nvme pci driver will call
+pm_suspend_via_firmware() to determine whether to use the suspend to
+idle mode or other suspend, the code show as below:
 
-Thanks for the patch. I guess this test case exercises nvme_cmd_allowed() i=
-n
-drivers/nvme/host/ioctl.c. The test contents look valid and good.
+static int nvme_suspend(struct device *dev)
+{
+	...
+	if (pm_suspend_via_firmware() || !ctrl->npss ||
+	    !pcie_aspm_enabled(pdev) ||
+	    (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND))
+		return nvme_disable_prepare_reset(ndev, true);
 
-This test case adds and deletes a user. For every test case run, it creates=
- and
-removes the user home directory and touches /etc files. It does not sound r=
-ight
-for me. It changes system set up, and sudden test case stop will leave the =
-user.
+	... /* suspend to idle mode */
+}
 
-I suggest to ask blktests users to prepare the normal user and specify it t=
-o a
-config file variable (it can be named NORMAL_USER or something). I also sug=
-gest
-to add two new helper functions: _require_user() will check that the specif=
-ied
-user is valid, and _run_user() will wrap the "su $NORMAL_USER -c" command l=
-ine.
+The current ARM64 suspend process does not call the
+pm_set_suspend_via_firmware() function, so when PCIe ASPM is enabled,
+the nvme suspend process under the ARM64 platform will enter the suspend
+to idle mode (the irq free is not called), which will cause the nvme
+driver to report the following irq warning during the resume process:
 
-If you don't mind, I can create another patch for further discussion based =
-on
-the suggestion above, and modify your patch to use the new helper functions=
-.
+[  189.233188] ------------[ cut here ]------------
+[  189.237791] Unbalanced enable for IRQ 52
+[  189.241705] WARNING: CPU: 0 PID: 2086 at kernel/irq/manage.c:781 __enable_irq+0x54/0x88
+[  189.249700] Modules linked in: nls_iso8859_1 dm_multipath scsi_dh_rdac scsi_dh_emc scsi_dh_alua snd_hda_codec_hdmi snd_hda_intel snd_intel_dspcfg snd_hda_codec snd_hda_core snd_hwdep snd_pcm snd_seq_midi snd_seq_midi_event snd_rawmidi snd_seq snd_seq_device snd_timer snd joydev input_leds efi_pstore soundcore sch_fq_codel ppdev lp parport ip_tables x_tables autofs4 btrfs blake2b_generic raid10 raid456 async_raid6_recov async_memcpy async_pq async_xor async_tx xor xor_neon raid6_pq libcrc32c raid1 raid0 multipath linear amdgpu gpu_sched drm_buddy radeon video drm_ttm_helper ttm i2c_algo_bit drm_display_helper cec drm_kms_helper syscopyarea sysfillrect sysimgblt hid_generic drm nvme crct10dif_ce ghash_ce usbhid sha2_ce sha256_arm64 hid nvme_core sha1_ce ahci libahci aes_neon_bs aes_neon_blk aes_ce_blk aes_ce_cipher
+[  189.321740] CPU: 0 PID: 2086 Comm: systemd-sleep Not tainted 6.2.0-rc7+ #9
+[  189.328601] Hardware name: Greatwall GW-XXXXXX-XXX/GW-XXXXXX-XXX, BIOS KunLun BIOS V4.0 01/19/2021
+[  189.337543] pstate: 604000c5 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  189.344490] pc : __enable_irq+0x54/0x88
+[  189.348313] lr : __enable_irq+0x54/0x88
+[  189.352136] sp : ffff80000d58bb00
+[  189.355436] x29: ffff80000d58bb00 x28: ffff80000a355a54 x27: ffff001f809910dc
+[  189.362559] x26: 0000000000000000 x25: 0000000000000000 x24: 0000000000000000
+[  189.369681] x23: 0000000000000001 x22: 0000000000000000 x21: ffff80000a0d2860
+[  189.376803] x20: 0000000000000034 x19: ffff001f80991000 x18: 0000000000000010
+[  189.383924] x17: 0000000000000000 x16: 0000000000000400 x15: ffff001f87612578
+[  189.391047] x14: 0000000000000000 x13: 3235205152492072 x12: 6f6620656c62616e
+[  189.398168] x11: 00000000ffffdfff x10: 00000000ffffdfff x9 : ffff80000823788c
+[  189.405291] x8 : 000000000002ffe8 x7 : c0000000ffffdfff x6 : 0000000000000001
+[  189.412412] x5 : ffff0020f6f0cb08 x4 : 0000000000000000 x3 : 0000000000000027
+[  189.419534] x2 : ffff0020f6f0cb10 x1 : 0000000000000000 x0 : 0000000000000000
+[  189.426656] Call trace:
+[  189.429089]  __enable_irq+0x54/0x88
+[  189.432566]  resume_irqs+0x118/0x210
+[  189.436129]  resume_device_irqs+0x1c/0x48
+[  189.440125]  dpm_resume_noirq+0x1c/0x30
+[  189.443951]  suspend_devices_and_enter+0x218/0x8c8
+[  189.448731]  pm_suspend+0x31c/0x420
+[  189.452207]  state_store+0x94/0x118
+[  189.455684]  kobj_attr_store+0x18/0x30
+[  189.459421]  sysfs_kf_write+0x4c/0x60
+[  189.463073]  kernfs_fop_write_iter+0x130/0x1c0
+[  189.467504]  vfs_write+0x284/0x358
+[  189.470893]  ksys_write+0x74/0x108
+[  189.474282]  __arm64_sys_write+0x24/0x30
+[  189.478191]  invoke_syscall+0x4c/0x110
+[  189.481930]  el0_svc_common.constprop.0+0x58/0x190
+[  189.486708]  do_el0_svc+0x40/0xb8
+[  189.490011]  el0_svc+0x2c/0xb8
+[  189.493053]  el0t_64_sync_handler+0xb8/0xc0
+[  189.497223]  el0t_64_sync+0x1a4/0x1a8
+[  189.500872] ---[ end trace 0000000000000000 ]---
+...
 
---=20
-Shin'ichiro Kawasaki=
+Implement pm_set_suspend_via_firmware() in PSCI psci_suspend_ops.begin()
+for ARM64, so that when doing the suspend process, it will directly
+enter the nvme_disable_prepare_reset() process.
+
+Signed-off-by: xiongxin <xiongxin@kylinos.cn>
+Signed-off-by: Tian Yaxiong <tianyaxiong@kylinos.cn>
+Signed-off-by: Wei Yufeng <weiyufeng@kylinos.cn>
+
+diff --git a/drivers/firmware/psci/psci.c b/drivers/firmware/psci/psci.c
+index 447ee4ea5c90..90d6102d45d7 100644
+--- a/drivers/firmware/psci/psci.c
++++ b/drivers/firmware/psci/psci.c
+@@ -484,6 +484,13 @@ static int psci_system_suspend(unsigned long unused)
+ 			      pa_cpu_resume, 0, 0);
+ }
+ 
++static int psci_system_suspend_begin(suspend_state_t state)
++{
++	pm_set_suspend_via_firmware();
++
++	return 0;
++}
++
+ static int psci_system_suspend_enter(suspend_state_t state)
+ {
+ 	return cpu_suspend(0, psci_system_suspend);
+@@ -491,6 +498,7 @@ static int psci_system_suspend_enter(suspend_state_t state)
+ 
+ static const struct platform_suspend_ops psci_suspend_ops = {
+ 	.valid          = suspend_valid_only_mem,
++	.begin		= psci_system_suspend_begin,
+ 	.enter          = psci_system_suspend_enter,
+ };
+ 
+-- 
+2.34.1
+
 
