@@ -4,123 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CB7DFC05027
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Feb 2023 19:35:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36BE4C636D4
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Feb 2023 19:47:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QRJipme6J3lSlFJV65VND4e1UK2pqN97VDu9bCfwHaw=; b=N8RK6W2rpQ8SfERp1NHnQpHY1q
-	vswY10sOhhknVphQj3GHM7w2P3s61rlvLjtJaPSQB8wHeqt78/lTtJeF226mBEG/VrzHFKqHPX4We
-	ygNypf4HRIG06CPKFRszxyZaR4QcOsw/WmXTuetYy3cXbmvxdamJ+wkBgIfVb2/A1PMWTOKyX9zmd
-	l7TrFtF/2coqycPD+yrXX8PoiSVF6daQVDmdXJ9ydsVi6cCQ8NAyDRzmenXxRHwbVwX4+6hooWZB+
-	pyKPuEgJKSZiUggjd1Bqi8HiuYCbHskrEMHWaWdMQCjSe1v3n2+6gwbMEGe4SYxYY31sZROJacbPG
-	MfZLz4Gw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=fYTx4XvBOSsueNyLOIdpWr5U8lWZijTLj9xr3oRSm+E=; b=PMkl/baAC2uSMYvpetizplTNTP
+	kEPEAma7oDkDQ8CHzmjDGoRo+n5xHA4DL+ASHjRvgYi+ImRanlOKSPZesS+I5tbQtkeNilzSjGPMt
+	z4ISqYyV8qgICtsjMSx4rynoPh8Uageeo2bUz5UA7w5MTgOeFhYQhGnEcuu7Zy7zQgWKJicsu8TS9
+	0wooIgWaZh/W5D4Ft5dT+nOMShgDS79umUxIjHBi3cwDGtNwLAI6/jrgCKcq2hwCS+WK0F+MKuhY+
+	6K1MK8NiTEUcasoHdzGvq2GFlgfHnXniel4TQPVt/nO0cYMR6rmEzJwud5QGDrIvBTW8J4ShVyU2r
+	rJUbwuJA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pQZBO-0077bz-CR; Fri, 10 Feb 2023 19:35:42 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1pQZN7-007D8I-HE; Fri, 10 Feb 2023 19:47:49 +0000
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pQZBI-0077aQ-NQ
-	for linux-nvme@lists.infradead.org; Fri, 10 Feb 2023 19:35:40 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20230210193532epoutp04a82837dbb61213b289dd79117a681796~CjaCaRIHO1175511755epoutp04J
-	for <linux-nvme@lists.infradead.org>; Fri, 10 Feb 2023 19:35:32 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20230210193532epoutp04a82837dbb61213b289dd79117a681796~CjaCaRIHO1175511755epoutp04J
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1676057732;
-	bh=QRJipme6J3lSlFJV65VND4e1UK2pqN97VDu9bCfwHaw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=hs32x2QAHfLRSFjzAbZhvpG1wVQbxZYfknOsfnZU2V3td9t6lz+SrU8e1vPn5WHf4
-	 yxogVVIKFuIedRhgNYX4658VuBJQ8l/Sz0W4dHwq0mo0vdOVx22nlfNZrh6IeGXb8O
-	 SG3EPSttkSttBYHreV0fDvIj+cJmmJ6NoCtIjKuQ=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20230210193531epcas5p4feeb8942232dd2e18b0153648e32303f~CjaCH18Wr1842618426epcas5p4K;
-	Fri, 10 Feb 2023 19:35:31 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.179]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4PD3qQ1p3tz4x9Pp; Fri, 10 Feb
-	2023 19:35:30 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	85.7D.10528.28C96E36; Sat, 11 Feb 2023 04:35:30 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20230210193529epcas5p29956db1ace003a9a8cce0f192139797d~CjZ-5vK2-2892928929epcas5p2C;
-	Fri, 10 Feb 2023 19:35:29 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20230210193529epsmtrp10bb6c2a5a204de883ce398c7203ace86~CjZ-5AnXY0414904149epsmtrp1w;
-	Fri, 10 Feb 2023 19:35:29 +0000 (GMT)
-X-AuditID: b6c32a49-c17ff70000012920-65-63e69c8230e9
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	20.37.17995.18C96E36; Sat, 11 Feb 2023 04:35:29 +0900 (KST)
-Received: from green5 (unknown [107.110.206.5]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20230210193527epsmtip291a6ffd0fa6cef23f4a44ad4dcc62cc6~CjZ_PeVcI3022730227epsmtip2O;
-	Fri, 10 Feb 2023 19:35:27 +0000 (GMT)
-Date: Sat, 11 Feb 2023 01:04:59 +0530
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: lsf-pc@lists.linux-foundation.org, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, io-uring@vger.kernel.org, axboe@kernel.dk,
-	hch@lst.de, kbusch@kernel.org, ming.lei@redhat.com
-Subject: Re: [LSF/MM/BPF ATTEND][LSF/MM/BPF Topic] Non-block IO
-Message-ID: <20230210193459.GA9184@green5>
+	id 1pQZN3-007D7N-Mn
+	for linux-nvme@lists.infradead.org; Fri, 10 Feb 2023 19:47:47 +0000
+Received: by mail-pg1-x533.google.com with SMTP id x10so4439402pgx.3
+        for <linux-nvme@lists.infradead.org>; Fri, 10 Feb 2023 11:47:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fYTx4XvBOSsueNyLOIdpWr5U8lWZijTLj9xr3oRSm+E=;
+        b=caDtprRmnqs7qjEJ6kuMrvA/jDCyeZfB15SohMIO11wYpHzx62as+u5JQYI2u8AyB5
+         Xy+Cbgas/SllQ49rHZGqZ952xfhRW8KVMEdF736i8OexY8hCfb4e1xdgsATLWS0RK4Kt
+         eZT539S2+7Ctfd2bMX5zIoYvyC2VPadGHS4LvuEUrpPgAr0XkNEfzv4BZPg4cyxvJiPq
+         u+dBlBtOF37BpWhhMeiqIs//A5phJdaENmeLY6IZaNxyQIbYbMujFXtSAoW3WHXjUkAm
+         Aa6LgYyf2X1n6yPcFH46Q/xCsKI+wkJ/8N8J31Zl8NCUFcZ/Zsf1E1XN1JZqiw+LH00S
+         YZ2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fYTx4XvBOSsueNyLOIdpWr5U8lWZijTLj9xr3oRSm+E=;
+        b=WSTsS14rM2VIGQAtTmzsjaryXj+2APaEohHbmtmfmDhTLaTWb0n38JzwAtsAWqvAlp
+         OFQECto0DSGoSPVhhTKGEZ0aBFEo83qsfWaJ/jEwCNJQugTRU/FqAA9fPA4LREoQN2rc
+         VwgjWHy5Br2h01x+fXyg1Nne2zEuO8dxFSWp8qK7/v3QCa9DNJND+8pRwHO2G5KWDnH7
+         XOzxO8p+5p1Q5ol6PXeQYJUxmyU8kdsu9nmia8wANnVQElKl8ATpQE0vOBJmA3nrPyM0
+         wLPokCC00e2q/jmuANv4ilKevQefsaf6p8M1Pa2Nwed1Epq7iEIgphte/y+eWyjL6C23
+         kgtQ==
+X-Gm-Message-State: AO0yUKVmUc8uUFijKM8KYE9nqVE03McW9oB/E7fKBQ0NVcsmVJkjMEuh
+	UJVGZEhjp1Hw3IBDfoY1JayI6A==
+X-Google-Smtp-Source: AK7set9l6RI7OIoQT77hlj4mEluI9EtAV/yEoHCems8NI36dW4yRIG5NRmi5GwoSrWnitnWNFBRhoA==
+X-Received: by 2002:a62:86c1:0:b0:5a8:5166:ca40 with SMTP id x184-20020a6286c1000000b005a85166ca40mr6298398pfd.3.1676058463120;
+        Fri, 10 Feb 2023 11:47:43 -0800 (PST)
+Received: from [192.168.1.136] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id t18-20020a62ea12000000b005a851e6d2b5sm3584532pfh.161.2023.02.10.11.47.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Feb 2023 11:47:42 -0800 (PST)
+Message-ID: <8b1c3057-cc74-6169-c59a-283595eb46f0@kernel.dk>
+Date: Fri, 10 Feb 2023 12:47:40 -0700
 MIME-Version: 1.0
-In-Reply-To: <69443f85-5e16-e3db-23e9-caf915881c92@acm.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrHJsWRmVeSWpSXmKPExsWy7bCmum7TnGfJBj92cVisvtvPZjHtw09m
-	i5WrjzJZvGs9x2Ix6dA1Rou9t7Qt5i97ym6x7/VeZotDk5uZHDg9Ll/x9rh8ttRj06pONo/N
-	S+o9Jt9Yzuix+2YDm8f7fVfZPD5vkgvgiMq2yUhNTEktUkjNS85PycxLt1XyDo53jjc1MzDU
-	NbS0MFdSyEvMTbVVcvEJ0HXLzAG6TUmhLDGnFCgUkFhcrKRvZ1OUX1qSqpCRX1xiq5RakJJT
-	YFKgV5yYW1yal66Xl1piZWhgYGQKVJiQnTFp8xe2gldcFXNnP2ZuYJzC2cXIySEhYCJxovkN
-	axcjF4eQwG5GiZ4p3SwgCSGBT4wSD28pQdifGSXe3TeHaXh87R4TRMMuRol1WxZCOU8YJfoW
-	nGYDqWIRUJVYd20zYxcjBwebgKbEhcmlIGERAQ2Jbw+Ws4DUMwscZZTY8/4tWL2wgL3Eidvz
-	GUFsXgEtiedHTzFD2IISJ2c+AbuIU8BaYuvEW+wgtqiAssSBbceZIC7awiFxbaYzhO0i8XfN
-	ZEYIW1ji1fEt7BC2lMTL/jYoO1ni0sxzUL0lEo/3HISy7SVaT/WD7WUWyJDYt/w0E4TNJ9H7
-	+wkTyC8SArwSHW1CEOWKEvcmPWWFsMUlHs5YAmV7SLzc+4ANEib7GCUm3nzJPoFRbhaSd2Yh
-	WQFhW0l0fmhihbDlJZq3zmaeBbSOWUBaYvk/DghTU2L9Lv0FjGyrGCVTC4pz01OLTQsM81LL
-	4dGdnJ+7iRGccLU8dzDeffBB7xAjEwfjIUYJDmYlEd5Km2fJQrwpiZVVqUX58UWlOanFhxhN
-	gVE1kVlKNDkfmPLzSuINTSwNTMzMzEwsjc0MlcR51W1PJgsJpCeWpGanphakFsH0MXFwSjUw
-	lbi0cl3fdknjzW/HQsaC+UsrFnT0P7l87eOTFzc/iGXEv7KxqXXN2dw5OXGZul++o/YM5pyf
-	k+dHyCWGZR38167I8qZjx9sPbYtmNEX/YOi+fG7vunb9JLUixY+hwfMPfy9lni48O8Kw0e0Z
-	g73PUZY+zbuiD8xC21Zv+sHM7d125NDKh5V95zKnZ857O8voRljT5/xtul756RZnvjL4Tfa+
-	4fr9aY64QW1jxoKetrOhN+WKV2so9xhU+Kte9Nl3Rn/+DnHGoCrJa3MTn1x8sLMywVOuKWJb
-	UMaGCNGuol1OzJrujC92bPZhmrk4YofP17wLOYt+Red8YOx6FKqvYXqz4N7hxrfHopcf5GFT
-	YinOSDTUYi4qTgQAEjM62UEEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupikeLIzCtJLcpLzFFi42LZdlhJXrdxzrNkg+2nZC1W3+1ns5j24Sez
-	xcrVR5ks3rWeY7GYdOgao8XeW9oW85c9ZbfY93ovs8Whyc1MDpwel694e1w+W+qxaVUnm8fm
-	JfUek28sZ/TYfbOBzeP9vqtsHp83yQVwRHHZpKTmZJalFunbJXBlfLx7iq3gN3vF1zc9TA2M
-	h9i6GDk5JARMJB5fu8cEYgsJ7GCU+N/hBBEXl2i+9oMdwhaWWPnvOZDNBVTziFFixr5msASL
-	gKrEumubGbsYOTjYBDQlLkwuBQmLCGhIfHuwnAWknlngKKNE14dLzCAJYQF7iRO35zOC2LwC
-	WhLPj55ihhi6j1Hiy42rzBAJQYmTM5+wgNjMAmYS8zY/ZAZZwCwgLbH8HwdEWF6ieetssHJO
-	AWuJrRNvgd0jKqAscWDbcaYJjEKzkEyahWTSLIRJs5BMWsDIsopRMrWgODc9t9iwwCgvtVyv
-	ODG3uDQvXS85P3cTIzi6tLR2MO5Z9UHvECMTB+MhRgkOZiUR3kqbZ8lCvCmJlVWpRfnxRaU5
-	qcWHGKU5WJTEeS90nYwXEkhPLEnNTk0tSC2CyTJxcEo1MNWkf/z98/nG409VT0d9d3afPuno
-	g1/cn+4cT0xbsefstNpj2lbrbx+eudiRuffa17llfQf3VjYmr1j57tfWnfvs1H+UVOaKCJ0x
-	KUu6fM7OxjJocUzy4dQ5BvMW527IyTp0QkdlRePP1A0bz8Xp70pLX1U7e6oQi47s1UsnL945
-	uWfz/N9nSqKs+HOnqVf9kGX23q76QnxS3CXxk3+/mZm1nf9W5rNGin/vybg9AosnlUxLNlsr
-	/PaGxeEDP6Jsv1Xt15P+NsnicH0a57cnf1Q6V//8Y/OB+9uJ3V0fuj98LZ6U7d54IeXFKc4V
-	t8vP7fB8csms8XKWuG6qsEyvXX1Ez8fTTacvnDHST+l7wS5rpMRSnJFoqMVcVJwIAPwYw7Ed
-	AwAA
-X-CMS-MailID: 20230210193529epcas5p29956db1ace003a9a8cce0f192139797d
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----KU2CxbTk4.ftA7vvsvzLW4bt.-m_7jRTbTuK1k18jgDVn8pS=_54827_"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230210180226epcas5p1bd2e1150de067f8af61de2bbf571594d
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [LSF/MM/BPF ATTEND][LSF/MM/BPF Topic] Non-block IO
+To: Bart Van Assche <bvanassche@acm.org>, Kanchan Joshi
+ <joshi.k@samsung.com>, lsf-pc@lists.linux-foundation.org
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ io-uring@vger.kernel.org, hch@lst.de, kbusch@kernel.org, ming.lei@redhat.com
 References: <CGME20230210180226epcas5p1bd2e1150de067f8af61de2bbf571594d@epcas5p1.samsung.com>
-	<20230210180033.321377-1-joshi.k@samsung.com>
-	<69443f85-5e16-e3db-23e9-caf915881c92@acm.org>
+ <20230210180033.321377-1-joshi.k@samsung.com>
+ <69443f85-5e16-e3db-23e9-caf915881c92@acm.org>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <69443f85-5e16-e3db-23e9-caf915881c92@acm.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230210_113539_041462_3CEA0BE8 
-X-CRM114-Status: GOOD (  12.19  )
+X-CRM114-CacheID: sfid-20230210_114745_965521_A824CA06 
+X-CRM114-Status: UNSURE (   9.53  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,36 +96,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------KU2CxbTk4.ftA7vvsvzLW4bt.-m_7jRTbTuK1k18jgDVn8pS=_54827_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
+On 2/10/23 11:18?AM, Bart Van Assche wrote:
+> On 2/10/23 10:00, Kanchan Joshi wrote:
+>> 3. DMA cost: is high in presence of IOMMU. Keith posted the work[1],
+>> with block IO path, last year. I imagine plumbing to get a bit simpler
+>> with passthrough-only support. But what are the other things that must
+>> be sorted out to have progress on moving DMA cost out of the fast path?
+> 
+> Are performance numbers available?
+> 
+> Isn't IOMMU cost something that has already been solved? From https://www.usenix.org/system/files/conference/atc15/atc15-paper-peleg.pdf: "Evaluation of our designs under Linux shows that (1)
+> they achieve 88.5%?100% of the performance obtained
+> without an IOMMU".
 
-On Fri, Feb 10, 2023 at 10:18:08AM -0800, Bart Van Assche wrote:
->On 2/10/23 10:00, Kanchan Joshi wrote:
->>3. DMA cost: is high in presence of IOMMU. Keith posted the work[1],
->>with block IO path, last year. I imagine plumbing to get a bit simpler
->>with passthrough-only support. But what are the other things that must
->>be sorted out to have progress on moving DMA cost out of the fast path?
->
->Are performance numbers available?
+Sorry no, IOMMU cost is definitely not a solved problem, it adds
+considerable overhead. Caveat that I didn't read that paper, but
+speaking from practical experience. Let's not be naive here.
 
-Around 55% decline when I checked last (6.1-rcX kernel).
-512b randread IOPS with optane, on AMD ryzen 9 box -
-when iommu is set to lazy (default config)= 3.1M
-when iommmu is disabled or in passthrough mode = 4.9M
+-- 
+Jens Axboe
 
->Isn't IOMMU cost something that has already been solved? From https://www.usenix.org/system/files/conference/atc15/atc15-paper-peleg.pdf: 
->"Evaluation of our designs under Linux shows that (1)
->they achieve 88.5%–100% of the performance obtained
->without an IOMMU".
-
-Since above numbers are more recent than the paper, this is yet to be
-solved.
-
-------KU2CxbTk4.ftA7vvsvzLW4bt.-m_7jRTbTuK1k18jgDVn8pS=_54827_
-Content-Type: text/plain; charset="utf-8"
-
-
-------KU2CxbTk4.ftA7vvsvzLW4bt.-m_7jRTbTuK1k18jgDVn8pS=_54827_--
 
