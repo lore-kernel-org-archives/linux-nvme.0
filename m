@@ -4,37 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71C71C636CC
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Feb 2023 06:05:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0D1CC636D4
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Feb 2023 06:08:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Lsy9K5NFAda7MQAC4/uMyCagRtBadcZcXPFHN+mvW3U=; b=eGiEwQtXGwmbXIpA+dbEzSJxwW
-	ZvBDAfHXKXYAVXMfgcOWt7e7eeOlCfx24BUACwW3SMK5kFyalc+HG16N+Eq9eTguEAL2go0TFpLqA
-	4wfrhZuLFh5ardEnqfkzdzUxjYrr/iudqZNaTwqn0BY2AurnRXcef/MpXAmraXrCEzJryxjaFvnzQ
-	nhWaUerpCUU8o/u1LyT1OI8O1R7ms7WdIAni/Hh67vSVKjuRwQYHiERkoyzyys4XUZJvqVL3SXE9a
-	Su6AsWGvdLAg2dpFG4L3CwKw+zjh5fpnpxds+R1y7C11B1OTTNowkC7YtoPHL1GKZxOarwmBuKmos
-	zdhegSZw==;
+	bh=1JrBYkubuy/SnOSm4wN36y8ewYQJewGXFAjbsZCTJpQ=; b=vQXURAHlgFvrbwsnjR0TuDdI+w
+	zHTican8QdsGEM7WZqmTUujOpGmDAUw6D4kHrrGJXsliJxxfE2YefoHbCt3k7zliebfLLuv6+7msM
+	fGJd6ri537h/f/+RLvX5gP5N3HgakQCIgdJpMIT19i3voWKW7WjAjhTutl541LS3qo2f9+uaFj1J6
+	YjuX8rEyT+r8UpEDjuukmDZvaI0gIyOczO/cQvFRkLxA90L7/0BtHH/S54+tx5tsP3Usur6W5I4NC
+	aOF6Yt77YCQbpzEAQrQgZN3HO+qR/DQFTi4p68VVQZv3XWcuu28Uxk1Y3c+y5ZTpMtLuvO5wLpX3f
+	oITkUcZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pRRy8-00DIlZ-MZ; Mon, 13 Feb 2023 06:05:40 +0000
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pRRy4-00DIlD-Mx; Mon, 13 Feb 2023 06:05:36 +0000
-Date: Sun, 12 Feb 2023 22:05:36 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: linux-nvme@lists.infradead.org,
-	Gustavo Freitas <freitasmgustavo@gmail.com>
-Subject: Re: [PATCH] nvme-pci: add bogus NS ID for ADATA SX6000PNP
-Message-ID: <Y+nTMEy9DyyonvbK@infradead.org>
-References: <20230208161435.112692-1-dwagner@suse.de>
+	id 1pRS1I-00DJC4-4h; Mon, 13 Feb 2023 06:08:56 +0000
+Received: from verein.lst.de ([213.95.11.211])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1pRS1F-00DJB1-3e
+	for linux-nvme@lists.infradead.org; Mon, 13 Feb 2023 06:08:54 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 2FB1768BFE; Mon, 13 Feb 2023 07:08:50 +0100 (CET)
+Date: Mon, 13 Feb 2023 07:08:50 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Ivan Rubinov <linuxkernelpatch8234@riseup.net>
+Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Add quirk for ADATA SX6000PNP
+Message-ID: <20230213060850.GB13968@lst.de>
+References: <87ff6272-2cfe-6b54-864e-71951118c43a@riseup.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230208161435.112692-1-dwagner@suse.de>
+In-Reply-To: <87ff6272-2cfe-6b54-864e-71951118c43a@riseup.net>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20230212_220853_307209_03A840DA 
+X-CRM114-Status: UNSURE (   9.24  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -49,7 +58,6 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks,
-
-applied to nvme-6.2.
+I've already applied a patch from Daniel Wagner for this device,
+but thanks for sending it in!
 
