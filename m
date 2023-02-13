@@ -4,81 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96E49C61DA4
-	for <linux-nvme@archiver.kernel.org>; Sat, 11 Feb 2023 12:06:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 250F9C636D4
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Feb 2023 06:00:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KP5yy1ZpwWkRzlaqj8fbu7lqqI4sZIjJJyvGJl92ICE=; b=duRddmWfWfJiIdYlK8ngLnXDX8
-	Gy7AHgZBtR6DvINAYjBq47CEETHFazpEpK9YcwG1rnbxcElFKAdg8JkqNLhhYY1u5AbQ+qCxNrV1G
-	BRJ8cA358fe2Gyq/3A/CXjFo4hfta4hBdl9U8zQt5faCzZnUcNffnzlbfbVgI/71rcHC3oKebzK10
-	YnAXkfV9L0vd+R5Hr6fJg6zbQU9oTR2JaJyIB0rr7kUosggGB8hlsIeiE7YJe5P6utc54GcOfhgr6
-	mJH//SfuTszGofBohd6fcSs8WyKsazEupiZ2GVUohTizfYk+4LTy0dl5/0HOnJ2BGSHf5Cid2up27
-	dK0c6C8Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dRo7GGlkJBdyP1GPGTDC4VOBQi5lYgQ5JIjo8+mX9RE=; b=NNjvP8ug7Wf62ahTdVKwiq09b8
+	/hvkIXRzWUOFidcDe/uz3Bw+8k/Gp6cLoOM0s51WKf7UDeemH235SIMls8KBaRq6gbDZzjwmvIHXW
+	jDFfDpePjfufNFIIEihwd1SBes1uI9pSVl29BR9+Nq5VwfBrqz46yDiM2qlYmcf4miIkoOMWW6dWS
+	JvDjQfPY6GuauFLfWbCJwIXcWlRNCaxzhCBgZKxgr6DoUUl3Fadt9bqEt8BbcUNpNi4HXR7i74kLl
+	mnzh/BKpEQ5y1qD+Jx/hXkRDPYoLoBqqTT9idzlmCHdn8ZC/O6c5GdjmP26guIZz005PwgqMv4kHI
+	iR9l4RyQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pQoeY-009P1D-3z; Sat, 11 Feb 2023 12:06:50 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1pRRsh-00DHXX-PK; Mon, 13 Feb 2023 06:00:04 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pQoeU-009P0S-H7
-	for linux-nvme@lists.infradead.org; Sat, 11 Feb 2023 12:06:48 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B07645D511;
-	Sat, 11 Feb 2023 12:06:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1676117200; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KP5yy1ZpwWkRzlaqj8fbu7lqqI4sZIjJJyvGJl92ICE=;
-	b=NJPGzvbYh3oTdV5a6oBqeiHxCosJwJPz9/mOLIfh18z09End4DbwW5SJdouu0ILz5CJV12
-	clfQzgJHB6QG0h+X0c7VwXUqKaT1FeHEcBxJjHK+m42AgkXm110NqKkNzzevLfv3zhrpi7
-	W4EwKeBQCj9rn2Dn50cTai7hGgAqgVw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1676117200;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KP5yy1ZpwWkRzlaqj8fbu7lqqI4sZIjJJyvGJl92ICE=;
-	b=U0NL6JPqPuTL8hiRN3SVVvrSEy29wDuJ6zC9OqCxAMM9pZILZX+zx0SGsplJx5RSrfyPU4
-	SiNrEqQDW86yApBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 70E3313A10;
-	Sat, 11 Feb 2023 12:06:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id HYO/GtCE52OoXAAAMHmgww
-	(envelope-from <hare@suse.de>); Sat, 11 Feb 2023 12:06:40 +0000
-Message-ID: <87bd6050-d7df-94f6-bfc1-6ddac79d6d65@suse.de>
-Date: Sat, 11 Feb 2023 13:06:39 +0100
+	id 1pRRsa-00DHW9-AM
+	for linux-nvme@lists.infradead.org; Mon, 13 Feb 2023 05:59:58 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id AF98068BFE; Mon, 13 Feb 2023 06:59:45 +0100 (CET)
+Date: Mon, 13 Feb 2023 06:59:45 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: "Michael Kelley (LINUX)" <mikelley@microsoft.com>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Gerd Bayer <gbayer@linux.ibm.com>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: max_hw_sectors error caused by recent NVMe driver commit
+Message-ID: <20230213055945.GA13648@lst.de>
+References: <BYAPR21MB1688B4BBFCCCD01C016A62D4D7DF9@BYAPR21MB1688.namprd21.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [LSF/MM/BPF ATTEND][LSF/MM/BPF Topic] Non-block IO
-Content-Language: en-US
-To: Kanchan Joshi <joshi.k@samsung.com>, lsf-pc@lists.linux-foundation.org
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- io-uring@vger.kernel.org, axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
- ming.lei@redhat.com
-References: <CGME20230210180226epcas5p1bd2e1150de067f8af61de2bbf571594d@epcas5p1.samsung.com>
- <20230210180033.321377-1-joshi.k@samsung.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20230210180033.321377-1-joshi.k@samsung.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BYAPR21MB1688B4BBFCCCD01C016A62D4D7DF9@BYAPR21MB1688.namprd21.prod.outlook.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230211_040646_756801_BCD27AC9 
-X-CRM114-Status: GOOD (  17.62  )
+X-CRM114-CacheID: sfid-20230212_215956_544845_5CC35B14 
+X-CRM114-Status: GOOD (  15.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,46 +61,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/10/23 19:00, Kanchan Joshi wrote:
-> is getting more common than it used to be.
-> NVMe is no longer tied to block storage. Command sets in NVMe 2.0 spec
-> opened an excellent way to present non-block interfaces to the Host. ZNS
-> and KV came along with it, and some new command sets are emerging.
-> 
-> OTOH, Kernel IO advances historically centered around the block IO path.
-> Passthrough IO path existed, but it stayed far from all the advances, be
-> it new features or performance.
-> 
-> Current state & discussion points:
-> ---------------------------------
-> Status-quo changed in the recent past with the new passthrough path (ng
-> char interface + io_uring command). Feature parity does not exist, but
-> performance parity does.
-> Adoption draws asks. I propose a session covering a few voices and
-> finding a path-forward for some ideas too.
-> 
-> 1. Command cancellation: while NVMe mandatorily supports the abort
-> command, we do not have a way to trigger that from user-space. There
-> are ways to go about it (with or without the uring-cancel interface) but
-> not without certain tradeoffs. It will be good to discuss the choices in
-> person.
-> 
-I would love to have this discussion; that's something which has been on 
-my personal to-do list for a long time, and io_uring might finally be a 
-solution to it.
+Hi Michael,
 
-Or, alternatively, looking at CDL for NVMe; that would be an alternative 
-approach.
-Maybe it's even worthwhile to schedule a separate meeting for it.
+does this fix the problem for you?
 
-Cheers,
+commit 0467e96bafd2e84b67ba5c122bbbbac5e3f267e9
+Author: Christoph Hellwig <hch@lst.de>
+Date:   Mon Feb 13 06:58:33 2023 +0100
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
+    nvme dma_mask
 
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index c734934c407ccf..cb068f92bd597e 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2509,18 +2509,12 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+ {
+ 	int result = -ENOMEM;
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-	int dma_address_bits = 64;
+ 
+ 	if (pci_enable_device_mem(pdev))
+ 		return result;
+ 
+ 	pci_set_master(pdev);
+ 
+-	if (dev->ctrl.quirks & NVME_QUIRK_DMA_ADDRESS_BITS_48)
+-		dma_address_bits = 48;
+-	if (dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(dma_address_bits)))
+-		goto disable;
+-
+ 	if (readl(dev->bar + NVME_REG_CSTS) == -1) {
+ 		result = -ENODEV;
+ 		goto disable;
+@@ -2998,7 +2992,11 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
+ 			     quirks);
+ 	if (ret)
+ 		goto out_put_device;
+-	
++
++	if (dev->ctrl.quirks & NVME_QUIRK_DMA_ADDRESS_BITS_48)
++		dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(48));
++	else
++		dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(64));
+ 	dma_set_min_align_mask(&pdev->dev, NVME_CTRL_PAGE_SIZE - 1);
+ 	dma_set_max_seg_size(&pdev->dev, 0xffffffff);
+ 
 
