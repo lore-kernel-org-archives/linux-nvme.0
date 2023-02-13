@@ -4,71 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 271F6C636D4
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Feb 2023 11:54:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF927C636D4
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Feb 2023 13:24:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/CPeRKp2equzjPoiyGuI+L6sOY6qqv2wALvdLjuhPQM=; b=fjASeiaeexeA64afJp8c7jMx/T
-	oEGgcJeUarT39PPTDh40u6j1Nj/47hrKtyY78nNo1j138QEqYCBdCwzEmhVBvTNfzmk6Px72yk2F3
-	064PrwLhKDIF6EOUlCwGBam06F5vMR7aWdy0hVaFZwM4lgj6f51ZTQpV8x2FWniiD/tjRtHmkINh2
-	jvHDDM921Ng6p5u7HCt156GaU9JANw3wAV8fD9znX313reHR3T0w06LVEkqgnJ5aEDFE74nNbUigA
-	7xYq5P1gjvkuUIsXgd0cAOWA7zP9yrCxqt7P9CjaQk6jbT4AQiAK7QWBBskwDlmSWRn/n0YkDMT8J
-	f7OHw5Pw==;
+	bh=eCkbmc79s4w/eKzYseL3lSE5WEpMew4tdHYD7ftZEO0=; b=1voa3QHwgKyOjgE8jPZd8D/a+F
+	l0NBcE/x8KQSZKF9QroyJcenl0imgD3xqVMwJ6AWPCN+dhyOInjVBr6dxWhicxctSeHNrW8uPQAgb
+	GyyN/q8oikxaUXpj4VKLnqcYeguvm92hxiZwBIK0G4WWOJJmpZl3j+zTCx1xtW2G3BC/z0rVx1Vq8
+	IvZ/+QWDAAFjV5leDQAAGze3GrFwQQ2iKHiMr+dU/sBkElhZ9SPX7fBPIf+XXuWS1mc8LnaDbALIN
+	sU5kGh8YR3aC3yDHw5+rDCosT1OdUI/2WKc4oMmZzYN5G0ULPj2SGEtMO0Bzv7iz3w5BAII1nU0ce
+	HpD7umwg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pRXQ4-00EWdU-La; Mon, 13 Feb 2023 11:54:52 +0000
-Received: from mail-wr1-f53.google.com ([209.85.221.53])
+	id 1pRYp8-00Enh8-Ui; Mon, 13 Feb 2023 13:24:51 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pRXQ1-00EWbJ-LE
-	for linux-nvme@lists.infradead.org; Mon, 13 Feb 2023 11:54:51 +0000
-Received: by mail-wr1-f53.google.com with SMTP id m10so2986524wrn.4
-        for <linux-nvme@lists.infradead.org>; Mon, 13 Feb 2023 03:54:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1676289285;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/CPeRKp2equzjPoiyGuI+L6sOY6qqv2wALvdLjuhPQM=;
-        b=NBLTj5bUXx/5GOHAsp3vDOZaEEZwahQW1cRGz1Gz2R+hCtT+d4LNXSkcDtNlFPTP95
-         G8hXcNt+vGmT7o++K4ZveZ/csXLHJJ/l/wNw5nDAmnfJKqvfE3hpS9BfPiETY7YyyMgR
-         tIR47Ory2CdKllYF4ww5GnvqeaTgxtKnsjPeSRchVTh1pSzKyquFMrzwzObFcgzwLhrI
-         g378JG62Dqz9BVIWNFI5qsK0aYWCDUEiBMudcoLXi6Qzl+q3n+Rnf3p98mPpQuJ8Ofyz
-         gqQxkLEVDabw65acQlZXZUeRd+gl2t2Tr+1zfuDy88nxabpBSHic+mqsmV0wJ9nyg/92
-         PseA==
-X-Gm-Message-State: AO0yUKXwptSPnscuW3uYbu0U5JtUwqoQOaJBiVoH1V29zHtrIM9I4nd0
-	KvLGKEiIGN4wc7PbL00ju9U=
-X-Google-Smtp-Source: AK7set+RjIvySbOj6M2sEO16NGkt3ThmcXKJoOTiWW3+yJEoE8M86yMRqBLAjsl4Qf9scHKo75kd8w==
-X-Received: by 2002:a5d:5151:0:b0:2c5:5b85:3b43 with SMTP id u17-20020a5d5151000000b002c55b853b43mr1001809wrt.7.1676289284693;
-        Mon, 13 Feb 2023 03:54:44 -0800 (PST)
-Received: from [192.168.64.80] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id f5-20020adff445000000b002c53f5b13f9sm10035471wrp.0.2023.02.13.03.54.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Feb 2023 03:54:44 -0800 (PST)
-Message-ID: <79c1f876-d054-a8ed-8826-e3ad4f9903eb@grimberg.me>
-Date: Mon, 13 Feb 2023 13:54:42 +0200
+	id 1pRYp6-00Enfi-5Q
+	for linux-nvme@lists.infradead.org; Mon, 13 Feb 2023 13:24:49 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4A1C021871;
+	Mon, 13 Feb 2023 13:24:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1676294684; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eCkbmc79s4w/eKzYseL3lSE5WEpMew4tdHYD7ftZEO0=;
+	b=tqUFupqf+XbT8++W96Kvmmsc88P6W3EBn0I8eU/NSUfWt/q2PtrDWGXOLW9GjaRXFlAoUE
+	DHnjAgTUrbUxSilOVxWUzQXsX2lCZgu4janS5F5iCa5dHevG7W/Odq091BSeOQ3LFnN2WW
+	mBejUHDBta3FUMl+arVXOjMiZdJn0jc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1676294684;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eCkbmc79s4w/eKzYseL3lSE5WEpMew4tdHYD7ftZEO0=;
+	b=xghRhpZnSpG51f1Qa5JS3EFSiJU9BveHAU+FCjgh5ScHtvxjcLjJxuL2Elv5DRfSGzloI8
+	JXbYmZ4jkLGmUeDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 394B11391B;
+	Mon, 13 Feb 2023 13:24:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 8aaqDRw66mPoXgAAMHmgww
+	(envelope-from <hare@suse.de>); Mon, 13 Feb 2023 13:24:44 +0000
+Message-ID: <504fe9d1-befc-868e-9e5f-8471bec81902@suse.de>
+Date: Mon, 13 Feb 2023 14:24:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [LSF/MM/BPF ATTEND][LSF/MM/BPF Topic] Non-block IO
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 5/5] nvme: retry authentication commands if DNR status bit
+ is not set
 Content-Language: en-US
-To: Jens Axboe <axboe@kernel.dk>, Kanchan Joshi <joshi.k@samsung.com>,
- lsf-pc@lists.linux-foundation.org
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- io-uring@vger.kernel.org, hch@lst.de, kbusch@kernel.org, ming.lei@redhat.com
-References: <CGME20230210180226epcas5p1bd2e1150de067f8af61de2bbf571594d@epcas5p1.samsung.com>
- <20230210180033.321377-1-joshi.k@samsung.com>
- <39a543d7-658c-0309-7a68-f07ffe850d0e@kernel.dk>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <39a543d7-658c-0309-7a68-f07ffe850d0e@kernel.dk>
+To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+ "George, Martin" <Martin.George@netapp.com>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20230209143820.118097-1-hare@suse.de>
+ <20230209143820.118097-6-hare@suse.de>
+ <43e6c4b4-cb58-0873-2d0e-48499fcc1e31@grimberg.me>
+ <42618eea-5a4a-f0cf-9e6d-e1ae36357847@suse.de>
+ <7126416a-0839-4b47-0aad-1ac1a1875681@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <7126416a-0839-4b47-0aad-1ac1a1875681@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230213_035449_766846_F060A2AF 
-X-CRM114-Status: GOOD (  33.43  )
+X-CRM114-CacheID: sfid-20230213_052448_408270_9FCE8F96 
+X-CRM114-Status: GOOD (  23.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,80 +96,96 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 2/10/23 21:53, Jens Axboe wrote:
-> On 2/10/23 11:00?AM, Kanchan Joshi wrote:
->> is getting more common than it used to be.
->> NVMe is no longer tied to block storage. Command sets in NVMe 2.0 spec
->> opened an excellent way to present non-block interfaces to the Host. ZNS
->> and KV came along with it, and some new command sets are emerging.
->>
->> OTOH, Kernel IO advances historically centered around the block IO path.
->> Passthrough IO path existed, but it stayed far from all the advances, be
->> it new features or performance.
->>
->> Current state & discussion points:
->> ---------------------------------
->> Status-quo changed in the recent past with the new passthrough path (ng
->> char interface + io_uring command). Feature parity does not exist, but
->> performance parity does.
->> Adoption draws asks. I propose a session covering a few voices and
->> finding a path-forward for some ideas too.
->>
->> 1. Command cancellation: while NVMe mandatorily supports the abort
->> command, we do not have a way to trigger that from user-space. There
->> are ways to go about it (with or without the uring-cancel interface) but
->> not without certain tradeoffs. It will be good to discuss the choices in
->> person.
-
-This would require some rework of how the driver handles aborts today.
-I'm unsure what the cancellation guarantees that io_uring provides, but
-need to understand if it fits with the guarantees that nvme provides.
-
-It is also unclear to me how this would work if different namespaces
-are handed to different users, and have them all submit aborts on
-the admin queue. How do you even differentiate which user sent which
-command?
-
->>
->> 2. Cgroups: works for only block dev at the moment. Are there outright
->> objections to extending this to char-interface IO?
->>
->> 3. DMA cost: is high in presence of IOMMU. Keith posted the work[1],
->> with block IO path, last year. I imagine plumbing to get a bit simpler
->> with passthrough-only support. But what are the other things that must
->> be sorted out to have progress on moving DMA cost out of the fast path?
+On 2/13/23 11:33, Sagi Grimberg wrote:
 > 
-> Yeah, this one is still pending... Would be nice to make some progress
-> there at some point.
+>>>> Clear the FAILFAST_DRIVER bit for authentication commands
+>>>> allowing them to be retried in nvme_decide_disposition() if the DNR
+>>>> bit is not set in the command result.
+>>>
+>>> Can you please explain what is this fixing? and is there a test
+>>> to reproduce this?
+>>>
+>>>>
+>>>> Signed-off-by: Hannes Reinecke <hare@suse.de>
+>>>> ---
+>>>>   drivers/nvme/host/auth.c | 2 ++
+>>>>   1 file changed, 2 insertions(+)
+>>>>
+>>>> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+>>>> index ef5dcd885b0c..935f340607a7 100644
+>>>> --- a/drivers/nvme/host/auth.c
+>>>> +++ b/drivers/nvme/host/auth.c
+>>>> @@ -87,6 +87,8 @@ static int nvme_auth_submit(struct nvme_ctrl 
+>>>> *ctrl, int qid,
+>>>>               "qid %d auth_submit failed to map, error %d\n",
+>>>>               qid, ret);
+>>>>       } else {
+>>>> +        /* Clear failfast flag to allow for retries */
+>>>> +        req->cmd_flags &= ~REQ_FAILFAST_DRIVER;
+>>>
+>>> This should come right after the allocation.
+>>> But what makes this special than any other fabrics/admin command?
+>>> Why is it different than connect for example?
+>>
+>> It is not different; it does, however, introduce a difference in 
+>> behaviour.
+>> And hence I didn't enable it for all commands, as previously we didn't 
+>> retry, and it's questionable if we should for things like 
+>> 'reg_read'/'reg_write' and friends.
+>>
+>> But you are correct for connect, though; we really should retry that 
+>> one, too, if the DNR bit is not set.
 > 
->> 4. Direct NVMe queues - will there be interest in having io_uring
->> managed NVMe queues?  Sort of a new ring, for which I/O is destaged from
->> io_uring SQE to NVMe SQE without having to go through intermediate
->> constructs (i.e., bio/request). Hopefully,that can further amp up the
->> efficiency of IO.
-> 
-> This is interesting, and I've pondered something like that before too. I
-> think it's worth investigating and hacking up a prototype. I recently
-> had one user of IOPOLL assume that setting up a ring with IOPOLL would
-> automatically create a polled queue on the driver side and that is what
-> would be used for IO. And while that's not how it currently works, it
-> definitely does make sense and we could make some things faster like
-> that.
+> I'm not sure. if the transport is unavailable, we cannot set DNR, which
+> will lead to a retry of the connect (or equivalent) command. Today the
+> host will schedule another full controller connect within
+> reconnect_delay, which is what we want right?
 
-I also think it can makes sense, I'd use it if it was available.
-Though io_uring may need to abstract the fact that the device may be
-limited on the number of queues it supports, also this would need to be
-an interface needed from the driver that would need to understand how to
-coordinate controller reset/teardown in the presence of "alien" queues.
+I knew this would be coming up, which is why I left it out of the 
+initial patchset.
 
-  It would also potentially easier enable cancelation referenced in
-> #1 above, if it's restricted to the queue(s) that the ring "owns".
-> 
+Long explanation:
 
-That could be a potential enforcement, correlating the command with
-the dedicated queue. Still feels dangerous because if admin abort(s)
-time out the driver really needs to reset the entire controller...
-So it is not really "isolated" when it comes to aborts/cancellations.
+Thing is, connect handling is not _just_ connect handling.
+With linux we only have a single (ioctl-like) entry for the userspace 
+'nvme connect' call.
+
+That really does several things:
+- Setting up the transport
+- Create the transport association for the admin q
+- Create the admin q
+- send 'connect' over that queue
+- Create transport associations for the i/o qs
+- create i/o qs
+- send 'connect' over those queues
+
+And my point here is that the actual 'connect' commands really are 
+straight NVMe commands. And as such should be subjected to the normal 
+status evaluation rules for NVMe commands.
+The problem here is the strange 'half-breed' nature of the connect command:
+
+_Technically_ the association and the 'connect' command are independent, 
+and as such we would be entirely within spec to allow the 'connect'
+command to fail without having the association torn down. But due to
+our implementation that would leave us unable to re-use the association
+for further connect commands, as that would need to be triggered by
+userspace (which will always create a new association).
+
+Consequently I would advocate for having any non-retryable failure of 
+the 'connect' command to always tear down the association, too.
+
+That would be a deviation from our normal rules (where we always retry
+transport failures), but really is something we need to do if we enable 
+DNR evaluation for the 'connect' command.
+
+And we would need an agreement on this, hence I didn't attempt it in 
+this patchset.
+
+(Actually I'm wondering if it's worth a session at LSF; this has been a 
+long-running topic without us being able to make meaningful progress)
+
+Cheers,
+
+Hannes
+
 
