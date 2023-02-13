@@ -4,80 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06701C636CC
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Feb 2023 15:35:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D7EAC636CC
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Feb 2023 16:32:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+g1fnTaz39tma9VeGMhx8CBso1U4t3Zw5x48hvl40Dg=; b=x2ps6k3YbQzPhFMr5dQj5RZJaB
-	38vPbDlXyytkAcbOghKwdTmArLa9zkMRRCoR5P1tvdq68eTUNfrIUz1dWuHZyv5RmKWuMNPdw5DFy
-	H8oBZrNqnyg/31MDOpQu5gtEwDZaxXdmuhxsBIGh++4t5+yd+3z23I6ScU6X5oYi8QwDioHXF7Rr8
-	DvUrLJyB9EVDeoFb1OH+D4/wosIgM2D8AX0/CQReCn7s4hWc9DAmhJsNx6aoJZ79BNAlcZJbJ/+jB
-	X4F6vxeBRLTvgNjtxEm3+H68oVnyUxI/sD6o6ei0HbWb6SpQsBSWahnqFe0Pg0dyhczQgMy8a0i6x
-	5sxgyVYQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Qb9JP823hdGYl9ANoaVR+km395HqPK8w5FHA/GgGoHA=; b=SE6E0ldX2lt0rA+jBd30r0q1ax
+	W3g8GuVrODiovwcxWQp2kfyp28m6HydHkL+9MhBTBxk6xHIznWZXBygUCkzH+Uq72cumF5ZKwcySp
+	zEeqq0IuCTNLUYeSS7acEQp8CoaPnV6Bl4K6eLqbxd9Venz2T+bHxPa74uai0YDlTD4HraxlcqtPg
+	wpsv1bbER2uf643OPR5uqM6rgMggw4jctp4VdZlRTXtj5onMw2M23LlVXPonQDwaJoN2yIQt25D3H
+	HWE5MfF11Fm+j5iCtbPUKYlCGf26rsoe5l5kzCqYGsyjG3ahBwS2bru2Mw1jAFDBhhzWfl79Lwb3j
+	SeVbS1pA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pRarw-00FEWP-7n; Mon, 13 Feb 2023 15:35:52 +0000
-Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a])
+	id 1pRbky-00FUXo-NA; Mon, 13 Feb 2023 16:32:44 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pRarr-00FEVP-V1
-	for linux-nvme@lists.infradead.org; Mon, 13 Feb 2023 15:35:49 +0000
-Received: by mail-io1-xd2a.google.com with SMTP id o1so4573343ioo.10
-        for <linux-nvme@lists.infradead.org>; Mon, 13 Feb 2023 07:35:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+g1fnTaz39tma9VeGMhx8CBso1U4t3Zw5x48hvl40Dg=;
-        b=1vZ0IX4uJQD+lGU7FV+iAb0up57WV1rNkznnl1wvbgdtoCNOpW1NBweBVyFkV2Jtna
-         MsDHSLBDIzhNdvs3O8gqiMGCSWSfaQdG/DG4rcrsjNvv1sh4rmlMIcq3U80XnI0qpvSU
-         uFIRGk8WWRxlL2WBoM5L6mTtCFPdfymzpjhqfklzDT/lO5MzjkrBK6QcAVa8PgUBcOBY
-         axyRSWR/iBTMYy9ymIxCGK7ObIhvkrYQqEoCiHefpS9jWm8xHog0pi32XdmkVBoXikDH
-         AiTEWm6tpItAh+Z8UELfFbRzGiKp448vPAzyP+n7gAQTGynTCbtmzlSc3tLp5gFglZ6V
-         2aDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+g1fnTaz39tma9VeGMhx8CBso1U4t3Zw5x48hvl40Dg=;
-        b=d1rBNfNL2uDlLcktXSRW14bCGUD/de+1NwQOn4wMD59RBKd+MB8lIp1JwcwxDKDYxo
-         Z6LSBYvK7PXqm2JsW1pU0tD7Qdsa94/fPXGSn79OIErKEPbni6SJpMOFXNAqscxY5q2z
-         +GlT26NWBBvea0oRQBg/+wP0koELlycdGXNyHflUQDvzaaOzeJrodGE2NlFOdwgTQsbL
-         gpRV1kqREsxOuZouBCaycieuSdIAgQR6MjqvvtUUaNiX+XmUsGU6yNDBGTRrloA+qnDh
-         lXTW88oWsueR0MJYVgT8zg5vlkC71dm4qxMrMTn+L6uev3vovf+fWe3qbKuXWUcMwL3J
-         8yLg==
-X-Gm-Message-State: AO0yUKU39m5c4t8c6NW/iDaFKRwkZmTxjiEJ9A5OuQKKBFHcnIzXvobI
-	wWTQi3WLn4+5B9bxZDeuE7BKiYsB0pREaLdN
-X-Google-Smtp-Source: AK7set9bFZZGZQZjXu4gP745z6z0ZMJHorhLrZscw2dWjs39E8oOLnVdvjRa1rG1LnKXCu7LWdTqrg==
-X-Received: by 2002:a6b:ed05:0:b0:716:8f6a:f480 with SMTP id n5-20020a6bed05000000b007168f6af480mr18296844iog.0.1676302545887;
-        Mon, 13 Feb 2023 07:35:45 -0800 (PST)
-Received: from [192.168.1.94] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id h16-20020a02cd30000000b003adb75f4aa6sm4086004jaq.108.2023.02.13.07.35.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Feb 2023 07:35:45 -0800 (PST)
-Message-ID: <38396b5b-c12f-cb69-dc80-5ed42d5bcd19@kernel.dk>
-Date: Mon, 13 Feb 2023 08:35:44 -0700
+	id 1pRbkv-00FUVU-1C
+	for linux-nvme@lists.infradead.org; Mon, 13 Feb 2023 16:32:43 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id D4B04611B4;
+	Mon, 13 Feb 2023 16:32:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A23DC433D2;
+	Mon, 13 Feb 2023 16:32:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1676305959;
+	bh=jjJDnTGjSXiaZuauJy0MSaY+8liiwCBH6sz7siUAAPk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=El2YPMQdAetDuoea0FE4scf3ht15x3CSpePb62Ly/KCVmi7zLq/ReTZMMlOkOH1+z
+	 xOSlnwyeFWl+4A1EYzVxjWcFdx4XN8TNAn+jaWFjKE8xBNRT45SIpGXQpetKAbyIkZ
+	 quVDZnsHyH8HM/0jyF7STWQ519WKZdSBLzq7WgTbdhotucZLNIhzDiKK5bl5LmD+IB
+	 Ex4h7m84DKxn5NYU6lCkTnZJU7aFVafgMQNx3UE31Wn4PKmM9iWu8fA2GT667GYZLn
+	 qP/4wofPMFs3Dlztrh4G03uiG4dJKT2Y5WmNXgE3s2TWSfe4g+Jwnr0/0p95ybgS4i
+	 Oz7MjD3K38HkA==
+Date: Mon, 13 Feb 2023 09:32:35 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@infradead.org>, Ming Lei <ming.lei@redhat.com>,
+	John Meneghini <jmeneghi@redhat.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: nvme/pcie hot plug results in /dev name change
+Message-ID: <Y+pmI52Ahfn/hF6m@kbusch-mbp>
+References: <472fe309-f0f9-65bf-1ad1-8a92a349e973@redhat.com>
+ <Y8sKv7q+UEbz5ddD@kbusch-mbp.dhcp.thefacebook.com>
+ <Y8uN4V8uW2qS+xHR@infradead.org>
+ <Y9ZKNb4UKwg5zF4j@T590>
+ <Y9lEF7oY+aQw2POp@kbusch-mbp.dhcp.thefacebook.com>
+ <Y9nPa2ZBc80g2LcA@T590>
+ <Y9oGTKCFlOscbPc2@infradead.org>
+ <Y9qT45LPnkeL8fkH@kbusch-mbp.dhcp.thefacebook.com>
+ <2205fb9d-f887-dedc-04c1-06190dc51413@grimberg.me>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH] nvme-pci: set the DMA mask earlier
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, sagi@grimberg.me, kbusch@kernel.org
-Cc: mikelley@microsoft.com, linux-nvme@lists.infradead.org
-References: <20230213072035.288225-1-hch@lst.de>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20230213072035.288225-1-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2205fb9d-f887-dedc-04c1-06190dc51413@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230213_073548_231226_7DD4E15E 
-X-CRM114-Status: UNSURE (   9.26  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230213_083241_192838_A49C0530 
+X-CRM114-Status: GOOD (  19.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,18 +80,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/13/23 12:20 AM, Christoph Hellwig wrote:
-> Set the DMA mask before calling dma_addressing_limited, which depends on it.
+On Mon, Feb 13, 2023 at 04:01:03PM +0200, Sagi Grimberg wrote:
+> > Also not sure if this is going to work out, but it looks like a good start to
+> > me.
+> > 
+> > Instead of user pinning the virtual device so that it never goes away though, I
+> > considered a user tunable "device missing delay" parameter to debounce link
+> > events. New IOs would be deferred to the requeue_list while the timer is
+> > active, and then EIO'ed if the timer expires without a successful LIVE
+> > controller attachment. The use cases I'm considering are short bounces from
+> > transient link resets, so I'd expect timers to be from a few seconds to maybe a
+> > minute.
 > 
-> Note that this stop checking the return value of dma_set_mask_and_coherent
-> as this function can only fail for masks < 32-bit.
+> Isn't this equivalent to dm-mpath queue_if_no_path or no_path_timeout ?
 
-Looks good:
+Similiar, but generic to non-multipath devices.
+ 
+> We can keep the mpath device around, but if not, what is the desired
+> behavior from the upper layers?
 
-Reviewed-by: Jens Axboe <axboe@kernel.dk>
-
--- 
-Jens Axboe
-
-
+I don't think we're looking for any behavioral changes in the upper layers.
 
