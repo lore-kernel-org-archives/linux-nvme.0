@@ -4,76 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B1F8EC636D4
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Feb 2023 10:13:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6C652C636D4
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Feb 2023 10:15:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KPuO2OxMrxF2mjArnp245A5L2ydvAazDghhHafveqME=; b=PgBX/NAIi++sm7flzcuAKgstds
-	jmKC/pgVk+9eg62kyuTUuB3nl48LM66uKjR8eQSYLClHxHDdNk8MEiBl94Q0A8Prp03CLwmXN2jLW
-	OizVykhVYuWI97SQuwu383Fp0QWOmUZuZPCBHIJaxTf7yEvyyyu7HjHYxz78e3IfPTs2iJn4uGSmG
-	luTr8QDOjtsdKmOyeRQH2gc/DD09ZZ5Yl6Gd2SqAetj0RKb1kFYofeB2i1IK7tPOvnijCLdpDq8lj
-	z65Mec1DUeIIzXhrLj/E48h/ulhXHFVWn+ffVJ4VKH9OFOo+Odrrg/C/wkKRp7b2S2nZfKsXhZOvx
-	Yk9KBwBA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=u0qI2nxC2GwdBe1FeuHgVOSwdHlKow3w8x3iJz9rKug=; b=V/NZzjwG5HaoFEGMZtIPTk8nbo
+	1I3pYKH5hnBTS5bei2rjKqSUnYYXW07Xl5JXKknWV4b52ZR7iZyu2dPPupsTxRFltAwQxG4cy+XHU
+	sWZhLZZKXME/jSM83S2Us4TRMsaZvTHQ9NswiMl4Rm29CSqloTXVp3NYVHK6deGU28W0MXCZyxB9B
+	l2WO1CtA6ARCCy0YzQxOyGT7UzHVlohRQmPeRfDnCDe/V6RIqz1ObS26cvXKkgD9PUSPPDOp9qY/J
+	M9wuYN2/pvufRl8JSmfBqQvGa1wZ3Ym5TDJ0hrPEoZ6QHu95ipmoqltGek5bEacyL72pWqB/n1j3N
+	d9mjWNnw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pRVpj-00E3Tj-BP; Mon, 13 Feb 2023 10:13:15 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1pRVrP-00E3qS-EZ; Mon, 13 Feb 2023 10:14:59 +0000
+Received: from mail-wm1-f49.google.com ([209.85.128.49])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pRVpg-00E3Rx-5K
-	for linux-nvme@lists.infradead.org; Mon, 13 Feb 2023 10:13:14 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9B5391FDB8;
-	Mon, 13 Feb 2023 10:13:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1676283186; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KPuO2OxMrxF2mjArnp245A5L2ydvAazDghhHafveqME=;
-	b=VMFIEcUdTVpvrfCs7T4/y1EvECHW3B0qVC/s/BkpvmXcB73b7zjcWlY8wOWnwhgDHtafg1
-	xGv5YQ/ncbWKiJDDv9maA4PuQQWpCo/j+Xr25u8qGve1gbZB35QD0p0S8KQoPAU/kFl+bK
-	1sostywQ1aOhgnv3vpItWUSmcdkL1GE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1676283186;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KPuO2OxMrxF2mjArnp245A5L2ydvAazDghhHafveqME=;
-	b=3lJBM12yQP1lzu/of8hmrqtpe/U6gpRaDEHKob007/c8RCwiBTM5US8OyGenWYwO1ajC66
-	SR3CXnrwdzbeqkBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8C72A138E6;
-	Mon, 13 Feb 2023 10:13:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id yFBEIjIN6mPLcwAAMHmgww
-	(envelope-from <dwagner@suse.de>); Mon, 13 Feb 2023 10:13:06 +0000
-Date: Mon, 13 Feb 2023 11:13:05 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Ivan Rubinov <linuxkernelpatch8234@riseup.net>, kbusch@kernel.org,
-	axboe@fb.com, sagi@grimberg.me, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Add quirk for ADATA SX6000PNP
-Message-ID: <20230213101305.fgs6ke2jyhj3j7q6@carbon.lan>
-References: <87ff6272-2cfe-6b54-864e-71951118c43a@riseup.net>
- <20230213060850.GB13968@lst.de>
+	id 1pRVrL-00E3nv-Ck
+	for linux-nvme@lists.infradead.org; Mon, 13 Feb 2023 10:14:57 +0000
+Received: by mail-wm1-f49.google.com with SMTP id j29-20020a05600c1c1d00b003dc52fed235so8574875wms.1
+        for <linux-nvme@lists.infradead.org>; Mon, 13 Feb 2023 02:14:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=u0qI2nxC2GwdBe1FeuHgVOSwdHlKow3w8x3iJz9rKug=;
+        b=fTb5E6ACgwvbq8iWGmfm+vilhutNa09Zhr+97B59a66r6TkXlP1zSm81jQgbt5PDGM
+         fqGAR2ceFNyuveF34IlpmTObA2TYMWA3L6zIdS6YYSF/jMNCz96aLHX/rROyq8YQBfM4
+         cRig9bHXbaKlyGuIR5HU8pKCkyLrEsWfVnG/ba3uwkm/S4Rhxfqx+nmmfuOZh7APzL1n
+         cbNsjVVlwvtFDKaPQUP7G46OkJdgK1hVRMnEDLWXMaVEguidBDK9TN1D/vZh5tA9K+qi
+         XQPKy60Tow8issrzHMDWh8pEcu7unwmdz+5nb4/dJ70hykAv273qsBU1+nFKa4T7t4OY
+         02VA==
+X-Gm-Message-State: AO0yUKVgrBzgYdJKzoF2edsqqSCAWACoZD8qOIGI3cpJYo/fT4MZqe1G
+	1dfC56Xk+j4ShVr3nXwSQDc=
+X-Google-Smtp-Source: AK7set/N5AUfpfFoY2omeBtaDgjvntdPpvZvyJAcUpWVsVZgQZqP/09egJjlgdi7WqgLBocg4vCTCA==
+X-Received: by 2002:a05:600c:1d06:b0:3db:2063:425e with SMTP id l6-20020a05600c1d0600b003db2063425emr22578044wms.1.1676283292019;
+        Mon, 13 Feb 2023 02:14:52 -0800 (PST)
+Received: from [192.168.64.80] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id b5-20020a05600c150500b003dc47d458cdsm12848024wmg.15.2023.02.13.02.14.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Feb 2023 02:14:51 -0800 (PST)
+Message-ID: <43e6c4b4-cb58-0873-2d0e-48499fcc1e31@grimberg.me>
+Date: Mon, 13 Feb 2023 12:14:50 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230213060850.GB13968@lst.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 5/5] nvme: retry authentication commands if DNR status bit
+ is not set
+Content-Language: en-US
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20230209143820.118097-1-hare@suse.de>
+ <20230209143820.118097-6-hare@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20230209143820.118097-6-hare@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230213_021312_477884_0BCD578E 
-X-CRM114-Status: GOOD (  10.21  )
+X-CRM114-CacheID: sfid-20230213_021455_586181_518A8E94 
+X-CRM114-Status: GOOD (  18.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,9 +81,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 13, 2023 at 07:08:50AM +0100, Christoph Hellwig wrote:
-> I've already applied a patch from Daniel Wagner for this device,
-> but thanks for sending it in!
+> Clear the FAILFAST_DRIVER bit for authentication commands
+> allowing them to be retried in nvme_decide_disposition() if the DNR
+> bit is not set in the command result.
 
-This patch also add NVME_QUIRK_IGNORE_DEV_SUBNQN. Is it necessary?
+Can you please explain what is this fixing? and is there a test
+to reproduce this?
+
+> 
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
+> ---
+>   drivers/nvme/host/auth.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+> index ef5dcd885b0c..935f340607a7 100644
+> --- a/drivers/nvme/host/auth.c
+> +++ b/drivers/nvme/host/auth.c
+> @@ -87,6 +87,8 @@ static int nvme_auth_submit(struct nvme_ctrl *ctrl, int qid,
+>   			"qid %d auth_submit failed to map, error %d\n",
+>   			qid, ret);
+>   	} else {
+> +		/* Clear failfast flag to allow for retries */
+> +		req->cmd_flags &= ~REQ_FAILFAST_DRIVER;
+
+This should come right after the allocation.
+But what makes this special than any other fabrics/admin command?
+Why is it different than connect for example?
 
