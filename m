@@ -4,80 +4,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8DE62C636D4
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Feb 2023 10:18:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6C0D6C636D4
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Feb 2023 18:15:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iGWD+SprfSOlldl+B/Tyy/ypI5TBkfbmJRTiKDPGmr4=; b=y2RC+zl6IPgXMDyVMgJL8+jO0r
-	ZOazwGGQ6wNKpdhOcV5j70fCfOQ+5OvvuEpHsup/qzl9hk6R7Hz+hZEHbiSPEQNccu77vmFxHr/gR
-	ewiPNn3BPnD6xVaXKpbvvHrEWmDwQISl6HrRJgkLdZ9wRVYRqET8cHtHxZwg7LvfaN/+LhpiW0qpl
-	UiUGgkiQQ/U1YWgdhOuHxi+l0eQ8aZ3cDFusBJkmCjmS/wA7wm1ctoGJaLsLwes0UtlY+390dtB0C
-	3iulRXhodJDhwnQ+7fdSCbiHRgnKHyAIokv86tKv4WDDTHkHSGhyE3ViOmmNwhYmUM7XJpytBaLlB
-	Toa6DBug==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=JQDo9eSogJXBMc9CSfG/vB0RLOaVwYu0XKME5Qid7hM=; b=3q6qhr0em7sMy4/hZ8IGYUhyJr
+	fknZczr7DZs4hf5Mior3h01KbMVXJpRpZ1D+7Z+Spcrz97KRJnAQ63bqsCGwdIt5wm/dkoionURpe
+	2bSelpnJuMvvIO++uDL6XMOxlbrRw6bKiXjx+bic8IyYJgyxg+i/fbB/FCbtiRHu58lrGvCV8WSfa
+	TUNmZL/l4sjKYCQpTzvzD2jX7Lb/v17quIE/7mEts0f1U88x9aGysUmxYMBP2auMqziLprmxbkkIW
+	NujL6VAan+A5fgJCm7+kK8psch7cTxBPFTYSsQaSludqoGXlYHBs+Q+3IsGZmnOsGniRchnSL4LKO
+	7ScHOZZg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pSErm-005QgR-IH; Wed, 15 Feb 2023 10:18:22 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pSEri-005Qfo-MU
-	for linux-nvme@lists.infradead.org; Wed, 15 Feb 2023 10:18:19 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2424D2056F;
-	Wed, 15 Feb 2023 10:18:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1676456297; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iGWD+SprfSOlldl+B/Tyy/ypI5TBkfbmJRTiKDPGmr4=;
-	b=VKhWDp/SFFnaHOAlhyTFlE3Z4LYovGPgS/Puuac4rA2ZhaprutA4KSboAnDRiT/KtLsj7W
-	fRpRBrsCklfgRy7vwDnQXLuKeQvWM6g4Ps86dM3C1tLAcZYR4dD2Jr7e9Lq6Ysgat4EluV
-	XBpt/FJNJ0ezAYXDrfIjOkfRb62KMxY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1676456297;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iGWD+SprfSOlldl+B/Tyy/ypI5TBkfbmJRTiKDPGmr4=;
-	b=fqK21/Jy4fB9EBHvdoKUWYHZnHJuEOixP/fOZYTdKax0FF/v4nrZNRC/zvNnvcES2yDfDZ
-	LvBJM/ZEcsmAcpCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 180AC13483;
-	Wed, 15 Feb 2023 10:18:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id pMzeBWmx7GNDDgAAMHmgww
-	(envelope-from <dwagner@suse.de>); Wed, 15 Feb 2023 10:18:17 +0000
-From: Daniel Wagner <dwagner@suse.de>
-To: linux-nvme@lists.infradead.org,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: Daniel Wagner <dwagner@suse.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Martin Belanger <nitram_67@hotmail.com>
-Subject: Re: [PATCH] nvme-print: print the nvme generic name in json output as well
-Date: Wed, 15 Feb 2023 11:18:15 +0100
-Message-Id: <167645627462.19686.1711215919099142360.b4-ty@suse.de>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230215090020.620994-1-sagi@grimberg.me>
-References: <20230215090020.620994-1-sagi@grimberg.me>
+	id 1pSMJ0-006odL-N7; Wed, 15 Feb 2023 18:14:58 +0000
+Received: from [2001:4bb8:181:6771:d204:2f73:7b8d:611c] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1pSMIy-006oc2-9s; Wed, 15 Feb 2023 18:14:56 +0000
+Date: Wed, 15 Feb 2023 19:14:51 +0100
+From: Christoph Hellwig <hch@infradead.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: [GIT PULL] nvme fixes for Linux 6.2
+Message-ID: <Y+0hG6t1gTse7yfo@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230215_021818_920019_38850E9C 
-X-CRM114-Status: UNSURE (   7.79  )
-X-CRM114-Notice: Please train this message.
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,18 +49,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, 15 Feb 2023 11:00:20 +0200, Sagi Grimberg wrote:
-> For both simple and detailed outputs present the nvme generic
-> chardev name/path similar to how the ns name/path is presented.
-> 
-> 
+The following changes since commit 38c33ece232019c5b18b4d5ec0254807cac06b7c:
 
-Applied, thanks!
+  Merge tag 'nvme-6.2-2023-02-09' of git://git.infradead.org/nvme into block-6.2 (2023-02-09 08:12:06 -0700)
 
-[1/1] nvme-print: print the nvme generic name in json output as well
-      commit: a7c8f55e8518051da9742981607e1771839d2d8f
+are available in the Git repository at:
 
-Best regards,
--- 
-Daniel Wagner <dwagner@suse.de>
+  git://git.infradead.org/nvme.git tags/nvme-6.2-2023-02-15
+
+for you to fetch changes up to dc785d69d753a3894c93afc23b91404652382ead:
+
+  nvme-pci: always return an ERR_PTR from nvme_pci_alloc_dev (2023-02-14 06:39:02 +0100)
+
+----------------------------------------------------------------
+nvme fixes for Linux 6.2
+
+ - always return an ERR_PTR from nvme_pci_alloc_dev (Irvin Cote)
+ - add bogus ID quirk for ADATA SX6000PNP (Daniel Wagner)
+ - set the DMA mask earlier (Christoph Hellwig)
+
+----------------------------------------------------------------
+Christoph Hellwig (1):
+      nvme-pci: set the DMA mask earlier
+
+Daniel Wagner (1):
+      nvme-pci: add bogus ID quirk for ADATA SX6000PNP
+
+Irvin Cote (1):
+      nvme-pci: always return an ERR_PTR from nvme_pci_alloc_dev
+
+ drivers/nvme/host/pci.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
