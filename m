@@ -4,75 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30D58C636D4
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Feb 2023 10:09:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8DE62C636D4
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Feb 2023 10:18:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6NqxjJm21QHqg1MteAXvvhfnRN9xpSI1Z1vRHDiEpFo=; b=emA10GrvwzMdDkr7UgHH8SeH1n
-	Yb+6Blsj037jOEdlwEhpdSrNd/P0vkzVXFxdFtQ7YG0RdbS8HcaizfjyTWG9/nGVdd4pextQ8bWrR
-	QODyzFg+ArLsQAFclzrELojRj1jGAIUeQXToIY3qGBf9i+B0ZD+xOsfvVHJry4VXLAnMNeMAKB1U4
-	GX1SE+78ZP8VEbbHEePjxVT7FMybK3sB3sFVm6KThcwlYL0UkJOL3+F74/zZ6JK5YLdDBBq5/qoeB
-	tLTJol+maxW058SbnVWxipmXEryzSlG0PThvvp9y6UP/qMWuWjzrhU7NA9Gzrq+SuIH6KSXFoDkp6
-	PNK0IMlw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=iGWD+SprfSOlldl+B/Tyy/ypI5TBkfbmJRTiKDPGmr4=; b=y2RC+zl6IPgXMDyVMgJL8+jO0r
+	ZOazwGGQ6wNKpdhOcV5j70fCfOQ+5OvvuEpHsup/qzl9hk6R7Hz+hZEHbiSPEQNccu77vmFxHr/gR
+	ewiPNn3BPnD6xVaXKpbvvHrEWmDwQISl6HrRJgkLdZ9wRVYRqET8cHtHxZwg7LvfaN/+LhpiW0qpl
+	UiUGgkiQQ/U1YWgdhOuHxi+l0eQ8aZ3cDFusBJkmCjmS/wA7wm1ctoGJaLsLwes0UtlY+390dtB0C
+	3iulRXhodJDhwnQ+7fdSCbiHRgnKHyAIokv86tKv4WDDTHkHSGhyE3ViOmmNwhYmUM7XJpytBaLlB
+	Toa6DBug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pSEjV-005PIB-F4; Wed, 15 Feb 2023 10:09:49 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1pSErm-005QgR-IH; Wed, 15 Feb 2023 10:18:22 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pSEjS-005PGT-5V
-	for linux-nvme@lists.infradead.org; Wed, 15 Feb 2023 10:09:47 +0000
+	id 1pSEri-005Qfo-MU
+	for linux-nvme@lists.infradead.org; Wed, 15 Feb 2023 10:18:19 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1B43122704;
-	Wed, 15 Feb 2023 10:09:43 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2424D2056F;
+	Wed, 15 Feb 2023 10:18:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1676455783; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1676456297; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6NqxjJm21QHqg1MteAXvvhfnRN9xpSI1Z1vRHDiEpFo=;
-	b=REI30bM3zyGd8mTv48WIySH0WUkCEnQQ7YwKOrMOS5C788ER+FZ6KE6klLA60I9gcr/80a
-	OvvChYWinMdwPb3ZfPP/3HfHePZinHd6FzmiVktIWtm63m5W44w6fAX4qUBo1qLzT1Vias
-	oiO+aJ32ITMu0LDXFmKdNwzjjoVDD48=
+	bh=iGWD+SprfSOlldl+B/Tyy/ypI5TBkfbmJRTiKDPGmr4=;
+	b=VKhWDp/SFFnaHOAlhyTFlE3Z4LYovGPgS/Puuac4rA2ZhaprutA4KSboAnDRiT/KtLsj7W
+	fRpRBrsCklfgRy7vwDnQXLuKeQvWM6g4Ps86dM3C1tLAcZYR4dD2Jr7e9Lq6Ysgat4EluV
+	XBpt/FJNJ0ezAYXDrfIjOkfRb62KMxY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1676455783;
+	s=susede2_ed25519; t=1676456297;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6NqxjJm21QHqg1MteAXvvhfnRN9xpSI1Z1vRHDiEpFo=;
-	b=yiJPvl+Sdq5ie/D0SJ/4Mg13+FhxOKbtigFSAdCtVdE/dALcd2EzSjmqpSfq3DbpGT7ipd
-	MY3gQYzHnmPdnvCA==
+	bh=iGWD+SprfSOlldl+B/Tyy/ypI5TBkfbmJRTiKDPGmr4=;
+	b=fqK21/Jy4fB9EBHvdoKUWYHZnHJuEOixP/fOZYTdKax0FF/v4nrZNRC/zvNnvcES2yDfDZ
+	LvBJM/ZEcsmAcpCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0B8DD13483;
-	Wed, 15 Feb 2023 10:09:43 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 180AC13483;
+	Wed, 15 Feb 2023 10:18:17 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id koDFAmev7GO+CgAAMHmgww
-	(envelope-from <dwagner@suse.de>); Wed, 15 Feb 2023 10:09:43 +0000
-Date: Wed, 15 Feb 2023 11:09:42 +0100
+	id pMzeBWmx7GNDDgAAMHmgww
+	(envelope-from <dwagner@suse.de>); Wed, 15 Feb 2023 10:18:17 +0000
 From: Daniel Wagner <dwagner@suse.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, linux-nvme@lists.infradead.org
-Subject: Re: How to look up an ns cdev from block maj:min?
-Message-ID: <20230215100942.frcwfnlixxo4ta4s@carbon.lan>
-References: <Y+v8x4m3lm8QU7Ov@fedora>
- <7f958c6d-d6e6-2346-a680-875c7fafe7e5@grimberg.me>
- <20230215095633.knzzi5z6737feeyu@carbon.lan>
+To: linux-nvme@lists.infradead.org,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Daniel Wagner <dwagner@suse.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Martin Belanger <nitram_67@hotmail.com>
+Subject: Re: [PATCH] nvme-print: print the nvme generic name in json output as well
+Date: Wed, 15 Feb 2023 11:18:15 +0100
+Message-Id: <167645627462.19686.1711215919099142360.b4-ty@suse.de>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230215090020.620994-1-sagi@grimberg.me>
+References: <20230215090020.620994-1-sagi@grimberg.me>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230215095633.knzzi5z6737feeyu@carbon.lan>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230215_020946_373686_00DF3F31 
-X-CRM114-Status: GOOD (  24.07  )
+X-CRM114-CacheID: sfid-20230215_021818_920019_38850E9C 
+X-CRM114-Status: UNSURE (   7.79  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,40 +92,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Feb 15, 2023 at 10:56:33AM +0100, Daniel Wagner wrote:
-> On Wed, Feb 15, 2023 at 10:41:08AM +0200, Sagi Grimberg wrote:
-> > 
-> > > Hi,
-> > > Is there an official way for userspace to look up an ns cdev from a
-> > > block maj:min?
-> > > 
-> > > For example, how should a userspace program determine that /dev/ng0n1 is
-> > > the corresponding ns cdev when given just the block device node
-> > > /dev/nvme0n1?
-> > > 
-> > > Parsing the filename is an obvious option but it makes assumptions about
-> > > the naming convention of both the block device node and the character
-> > > device node.
-> > > 
-> > > Is there a better way via sysfs? (I couldn't find it.)
-> > 
-> > Not that I can see... It follows the same rules as the
-> > normal namespace, which means that it takes the subsystem or ctrl
-> > instance number (depending if multipathing is enabled) and it will have
-> > the same namespace instance number.
-> > 
-> > In other words, every namespace nvmeXnY will present an 'nvme generic'
-> > chardev in the form of ngXnY.
-> > 
-> > Looks like nvme-cli is missing the generic representation in the json
-> > output as well. Perhaps that is the best tool to use (once fixed with
-> > the json output with the below):
+On Wed, 15 Feb 2023 11:00:20 +0200, Sagi Grimberg wrote:
+> For both simple and detailed outputs present the nvme generic
+> chardev name/path similar to how the ns name/path is presented.
 > 
-> Looks good. I've created a PR for it.
 > 
-> https://github.com/linux-nvme/nvme-cli/pull/1820
-> 
-> Can I add your SoB?
 
-Ah, I didn't reach the end of the mailbox. I pick up your patch :)
+Applied, thanks!
+
+[1/1] nvme-print: print the nvme generic name in json output as well
+      commit: a7c8f55e8518051da9742981607e1771839d2d8f
+
+Best regards,
+-- 
+Daniel Wagner <dwagner@suse.de>
 
