@@ -4,78 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7370AC05027
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Feb 2023 01:13:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD308C05027
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Feb 2023 03:06:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jK+knAbJAXpkt+InZU28kKdcwPhjlvtEuGvjvHMBiN8=; b=Lw7D4wdJl/57pyi3CjzWzFb6tP
-	0HdfFZiAauIlII0rxxFtXiO+TOymAf+mu9hm3gK0TN14RjXqRzeHW81Ga3iCM5pb8IGQi+MAQU/yf
-	wloO/f3iFtvmP6laX5TxSZcIRL/jXsbHGG8/cdNImFmS0Jw5Jsxg/ZuNcgFeKuSxya9oMCmrbQ/Gm
-	Cscfxv1rA7b18w62kbW7GvPqVqRc2dCboxy9SZhfYMcXWTfO5m8FsB9PBC9Zt+y7MYq2nZo3hoIj9
-	aY54PdkfNkRJNWM5jYl6TAEcXgh2uYZvOJpvKOh+Jct1ojKVVIV6dXkk9MxOYKE47FLfjzsRUXnmg
-	uaiYTfmw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=4BcO8SF0n5pjbmadCdZx75sjCvH7Pj41RsTJdNMvkck=; b=fcEB7ZMTjEzUQGLlECnOIcQWa5
+	ReSG1uiqlotI0NL3jxJYW57kvU8QGPZ6hhxoq3lcaN5ZEHNp+kBl7An7J0i/1ccaZ0waXBA/yVTfq
+	V8JL/pmlZ9Kc43AflfiDE5i8FZ/7SSnKzepyuD6w2nBDFe8yECRlv4xDF9aeXDOjJTh8dnEy8Ftdc
+	PyQtYCLou+2fcmFeel3biuXOD01vuET5bbFWj+89wRLXYTSQBHvxF2bL642fvwFMFYeeVGKfOitSa
+	iJYPfPTgxV3oAPT3/xXu36zQJk+4bZZ6J9BzhYZXj24OT3xENtqhOafKv+/H/cecKCua3XUoX5GGE
+	eAHW9Cfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pS6M2-004BHP-89; Wed, 15 Feb 2023 01:13:02 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1pS880-004UBO-SP; Wed, 15 Feb 2023 03:06:40 +0000
+Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pS6L3-004Ath-PP
-	for linux-nvme@lists.infradead.org; Wed, 15 Feb 2023 01:12:03 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1676423519;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jK+knAbJAXpkt+InZU28kKdcwPhjlvtEuGvjvHMBiN8=;
-	b=B5XR6R3dfqA+bm1UbEXr+MD9qM+4+ycbjGKZfCETYxIUfgHxIY4sJp+R/D9u8eTiztjmTS
-	7mcgkhSw1quR9sZDVjSqos62UKlDedf6qb0EUuGQQzC8bTdHeGl4dDic/x57fDYN/OjF5E
-	PYbUqINHJZ2il9hgXhC1rItrhNxh7hE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-523-Q0GESWw5MMuiyXvxIRkXUw-1; Tue, 14 Feb 2023 20:11:56 -0500
-X-MC-Unique: Q0GESWw5MMuiyXvxIRkXUw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B747985A588;
-	Wed, 15 Feb 2023 01:11:55 +0000 (UTC)
-Received: from T590 (ovpn-8-18.pek2.redhat.com [10.72.8.18])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B1FF6492B15;
-	Wed, 15 Feb 2023 01:11:50 +0000 (UTC)
-Date: Wed, 15 Feb 2023 09:11:45 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@infradead.org>,
-	John Meneghini <jmeneghi@redhat.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	ming.lei@redhat.com
-Subject: Re: nvme/pcie hot plug results in /dev name change
-Message-ID: <Y+wxUf6TAbEVNL+8@T590>
-References: <Y8uN4V8uW2qS+xHR@infradead.org>
- <Y9ZKNb4UKwg5zF4j@T590>
- <Y9lEF7oY+aQw2POp@kbusch-mbp.dhcp.thefacebook.com>
- <Y9nPa2ZBc80g2LcA@T590>
- <Y9oGTKCFlOscbPc2@infradead.org>
- <Y9qT45LPnkeL8fkH@kbusch-mbp.dhcp.thefacebook.com>
- <2205fb9d-f887-dedc-04c1-06190dc51413@grimberg.me>
- <Y+pmI52Ahfn/hF6m@kbusch-mbp>
- <Y+rQBgZTklub++cx@T590>
- <Y+u0CtrjWBWL9aeB@kbusch-mbp>
+	id 1pS87x-004U9u-L1
+	for linux-nvme@lists.infradead.org; Wed, 15 Feb 2023 03:06:39 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676430397; x=1707966397;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=QRcr64wD3D6zN3W5HRk5hEClDU+Lyp8IYPJ3xbv63Z0=;
+  b=GDhehUwn4gwyV+EIWhGm19DwEvQjo0YVYo8CyoINhQmzdv+Tv72kf9Tk
+   el+SB82Fwtu9eGl97Qr42OATVXxj/inOYSZLfueEOItrXPmpdiHWu264W
+   4VoCDQjA478L46yC+qB7pEOB2/Tz/+LlM7d6QHDFZPR3fXlCK5Kw1b14o
+   syowI0vg52kD/GtG3/4KJtY5z0xQVv6sHLeQxrUUwtKIma1iRQB9EWEm3
+   QLxdY00f+B2N7Bmb6UqsdurHeKju4plvjs4pR7zKwM7HbsLZyClBQcQBI
+   SP5aMtcm0SZOKVVLjtyLAjMo0L6mgGpMX+5Ezq8C3KOEK3K1Iz0g2DwcN
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="393734690"
+X-IronPort-AV: E=Sophos;i="5.97,298,1669104000"; 
+   d="scan'208";a="393734690"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 19:06:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="701869198"
+X-IronPort-AV: E=Sophos;i="5.97,298,1669104000"; 
+   d="scan'208";a="701869198"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 14 Feb 2023 19:06:30 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pS87p-0008yH-1N;
+	Wed, 15 Feb 2023 03:06:29 +0000
+Date: Wed, 15 Feb 2023 11:05:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.2] BUILD SUCCESS
+ dc785d69d753a3894c93afc23b91404652382ead
+Message-ID: <63ec4c02.sb7aT4roppLDIN6W%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-In-Reply-To: <Y+u0CtrjWBWL9aeB@kbusch-mbp>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230214_171201_979367_622CECE3 
-X-CRM114-Status: GOOD (  29.15  )
+X-CRM114-CacheID: sfid-20230214_190637_779518_E370E07D 
+X-CRM114-Status: UNSURE (   7.35  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,49 +82,103 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Feb 14, 2023 at 09:17:15AM -0700, Keith Busch wrote:
-> On Tue, Feb 14, 2023 at 08:04:22AM +0800, Ming Lei wrote:
-> > On Mon, Feb 13, 2023 at 09:32:35AM -0700, Keith Busch wrote:
-> > > On Mon, Feb 13, 2023 at 04:01:03PM +0200, Sagi Grimberg wrote:
-> > > > > Also not sure if this is going to work out, but it looks like a good start to
-> > > > > me.
-> > > > > 
-> > > > > Instead of user pinning the virtual device so that it never goes away though, I
-> > > > > considered a user tunable "device missing delay" parameter to debounce link
-> > > > > events. New IOs would be deferred to the requeue_list while the timer is
-> > > > > active, and then EIO'ed if the timer expires without a successful LIVE
-> > > > > controller attachment. The use cases I'm considering are short bounces from
-> > > > > transient link resets, so I'd expect timers to be from a few seconds to maybe a
-> > > > > minute.
-> > > > 
-> > > > Isn't this equivalent to dm-mpath queue_if_no_path or no_path_timeout ?
-> > > 
-> > > Similiar, but generic to non-multipath devices.
-> > >  
-> > > > We can keep the mpath device around, but if not, what is the desired
-> > > > behavior from the upper layers?
-> > > 
-> > > I don't think we're looking for any behavioral changes in the upper layers.
-> >  
-> > That also means no matter if the nvme mpath layer is added or not, upper
-> > layer still has to handle this kind of failure, so what is the
-> > difference made from the added nvme-mpath?
-> 
-> I don't understand. There's no difference here for the upper layers. It's just
-> a different timing from when a disconnect starts failing IO. The upper layers
+tree/branch: git://git.infradead.org/nvme.git nvme-6.2
+branch HEAD: dc785d69d753a3894c93afc23b91404652382ead  nvme-pci: always return an ERR_PTR from nvme_pci_alloc_dev
 
-If that isn't real disconnect, probably it is better to solve it
-in nvme error handling, and device removal should be done as the
-last straw.
+elapsed time: 1261m
 
-> can keep doing what they're already doing in either case.
+configs tested: 81
+configs skipped: 3
 
-Because any device(include the to-be-invented mpath device) may be gone and
-back, userspace needs to take measures to cover them if persistent
-device name is required.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+gcc tested configs:
+alpha                            allyesconfig
+alpha                               defconfig
+arc                              allyesconfig
+arc                                 defconfig
+arc                  randconfig-r043-20230212
+arc                  randconfig-r043-20230213
+arm                              allmodconfig
+arm                              allyesconfig
+arm                                 defconfig
+arm                  randconfig-r046-20230212
+arm64                            allyesconfig
+arm64                               defconfig
+csky                                defconfig
+i386                             allyesconfig
+i386                              debian-10.3
+i386                                defconfig
+i386                 randconfig-a011-20230213
+i386                 randconfig-a012-20230213
+i386                 randconfig-a013-20230213
+i386                 randconfig-a014-20230213
+i386                 randconfig-a015-20230213
+i386                 randconfig-a016-20230213
+ia64                             allmodconfig
+ia64                                defconfig
+loongarch                        allmodconfig
+loongarch                         allnoconfig
+loongarch                           defconfig
+m68k                             allmodconfig
+m68k                                defconfig
+mips                             allmodconfig
+mips                             allyesconfig
+nios2                               defconfig
+parisc                              defconfig
+parisc64                            defconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+riscv                            allmodconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                randconfig-r042-20230213
+riscv                          rv32_defconfig
+s390                             allmodconfig
+s390                             allyesconfig
+s390                                defconfig
+s390                 randconfig-r044-20230213
+sh                               allmodconfig
+sh                          landisk_defconfig
+sparc                               defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                            allnoconfig
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                                  kexec
+x86_64               randconfig-a011-20230213
+x86_64               randconfig-a012-20230213
+x86_64               randconfig-a013-20230213
+x86_64               randconfig-a014-20230213
+x86_64               randconfig-a015-20230213
+x86_64               randconfig-a016-20230213
+x86_64                               rhel-8.3
 
-Thanks,
-Ming
+clang tested configs:
+arm                     davinci_all_defconfig
+arm                  randconfig-r046-20230213
+hexagon              randconfig-r041-20230212
+hexagon              randconfig-r041-20230213
+hexagon              randconfig-r045-20230212
+hexagon              randconfig-r045-20230213
+i386                 randconfig-a001-20230213
+i386                 randconfig-a002-20230213
+i386                 randconfig-a003-20230213
+i386                 randconfig-a004-20230213
+i386                 randconfig-a005-20230213
+i386                 randconfig-a006-20230213
+riscv                randconfig-r042-20230212
+s390                 randconfig-r044-20230212
+x86_64               randconfig-a001-20230213
+x86_64               randconfig-a002-20230213
+x86_64               randconfig-a003-20230213
+x86_64               randconfig-a004-20230213
+x86_64               randconfig-a005-20230213
+x86_64               randconfig-a006-20230213
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
 
