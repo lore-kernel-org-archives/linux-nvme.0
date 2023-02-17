@@ -4,58 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98F03C05027
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Feb 2023 13:27:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A49D2C636D4
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Feb 2023 13:28:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Message-ID:
-	References:In-Reply-To:Subject:To:From:Date:MIME-Version:Reply-To:Cc:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/QMLRBNXoK8UzYoKzAJLX7PVlEdx+3bMb+lNltj2YJo=; b=pHEW6FfEDMM+q9N9df8vDUQDNs
-	IRInzhohO6p0uUh2zJIeoEEHKpKQ3zr+HIHPDS3Vq5PDjRL8bapUYYMiiuL5z6XRRXVKZYm7KuyKx
-	o1SP515lCfmOTbgijMv0DI3Zg4pCI7cvHN2OjYpzZa31UHQm3km0KWdNi9N78KP4NXqCxZGhNljxl
-	0akruqKjTnj6FNkI7+DpHCU7bz43MeNAOoMpW5JHTxJOwhc7Dki+9PhDWHnUf/f8t4OJBa48FvUux
-	/Cv6LViJbMu1H7f06iHxm3JzXEfLWCRPJCXFrJ4pYbC30//PCubAod66BkxTSqSRMX8qoSvuST53z
-	RFzdJUhQ==;
+	bh=eq+vd5/u0vTPMlp0b3NDUReHDOice7k20Mvpv6BKlCM=; b=H2hbIDdA62sVQD2yjJSLVTHn+W
+	3A1s7pFqRBfcJOLEhIVSik1Neq+mcevIdyT56fZFgdP45+x7uXBHmDHsGBS6kSxDR0UXH/2EmrjFS
+	vuxYeoEtzAgOoaKlnRsnIw0t5fAu25wCd8xnp0YYlwnt308JURysKKIHxq0A2RJ/np/O5fSywPd//
+	t2WSfdkYl9joM46XnXdxDIZjFhPDcVXRdqHG0MluuO8cvm3ARkwRHpTpMXySX2wHZle2eGKU5rDAP
+	08OZOuZSLuH/lRksx1y2i1v1dxBoFtqTyoVwAIKL+Ksk65+AZkbsb3PN69gGf5wxFqCmxa65n/LHc
+	a0rRx4Lg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pT0mC-00EHiv-QW; Fri, 17 Feb 2023 13:27:48 +0000
-Received: from mx0.riseup.net ([198.252.153.6])
+	id 1pT0n4-00EHz9-7M; Fri, 17 Feb 2023 13:28:42 +0000
+Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pT0m9-00EHh0-Gk
-	for linux-nvme@lists.infradead.org; Fri, 17 Feb 2023 13:27:46 +0000
-Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (2048 bits) client-digest SHA256)
-	(Client CN "mail.riseup.net", Issuer "R3" (not verified))
-	by mx0.riseup.net (Postfix) with ESMTPS id 4PJCKn2V88z9t3h;
-	Fri, 17 Feb 2023 13:27:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-	t=1676640461; bh=+gmLoCvL0iUpljEU2PYg7NAV40BsyaRXP5y+kVzGDnk=;
-	h=Date:From:To:Subject:In-Reply-To:References:From;
-	b=b8OlU3aLMOHOOO5Erhik+znwjOQW5cej1IvmRHwSPpuGQxVp3LpmSsMN0/0Yp3vHq
-	 5J7xkjX0QhnGp/IMas3A06ZfdvDrZOlywPO1XxBxjS7r2azFpyqkjXIFjOjhzIozPM
-	 qYwURb1Cp7L49zoN+Uey/5o3iX94XeUTnQBENKJw=
-X-Riseup-User-ID: 6F33C339317B2041990C88585AE87EFD691A97EFE941E6C9D0DB58759395B535
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	 by fews1.riseup.net (Postfix) with ESMTPSA id 4PJCKm6dm4z5wXY;
-	Fri, 17 Feb 2023 13:27:40 +0000 (UTC)
+	id 1pT0n1-00EHyC-Kb
+	for linux-nvme@lists.infradead.org; Fri, 17 Feb 2023 13:28:41 +0000
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-535a11239faso24692887b3.13
+        for <linux-nvme@lists.infradead.org>; Fri, 17 Feb 2023 05:28:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=eq+vd5/u0vTPMlp0b3NDUReHDOice7k20Mvpv6BKlCM=;
+        b=N1ATPKTsPkxU4bDMpbeYttTgSpaLiE7A0J/zCMsTT50RaO3NiO098ibH8fXAHL8A8p
+         e2dqyLVp3ELa7WawK1KHQE7wpooFp7AjfgTelE2udkstcVhnO7VivpI/LdNGt6PCRuwJ
+         5OKxmUbE8pUxloAqZRtDUrnGb9hrn0Wkj/5GYS6QOid1akwPSljRlqKtwgqkZ3ZABHww
+         o6K1LIEMbLK1EAn8Yn57tg2jq3/IDPXko9DNsiWpRWCZ9HRzxsa6UPQO29tqBPCJSaTW
+         hL92ku3F4VU7AHSJcAjLrIFziywe0ZVxtXnxlhHKKYdk9OHBZ0wWQmQNcCdviowsaNF0
+         bpDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eq+vd5/u0vTPMlp0b3NDUReHDOice7k20Mvpv6BKlCM=;
+        b=Hd/kSLAz6Q+k1zlCd86y/cHtzVNsYZu/Nj+BSCGmXya7F5AnRp7xVPe2a5I4TD3SCY
+         LvfmwmgGTpywtvZuTtnld0I2+xIzqn5g3wMHfOeVicCDnJLvfsj+j05iVRnojzL2OtKW
+         FsNazqC2KhHR3ly7b6TW6BtFbrWyWUNY2iq00WUZPpvulI13ug0zDaEkFdsydReoFX9b
+         91NNY+FB38mlJAdge+goH18HE3DCDe6CMRHlwOhbVqECKVINNRw9XoVn/B22OWNhA4uD
+         RtWIA3dZnfgYSBl9CYt0Tew+I4CNvrT9fXFYX2v7L12WPb0ZTmtjziVMNJQF+e/i0YRB
+         QseQ==
+X-Gm-Message-State: AO0yUKUURiP9nHPVeT4D66qdrbiEVBOGtk30je4LYZHmfg5p2unM6OGF
+	oiCA53m8jIY3zaAVi3JwKWAb7lPF8qEkwLzh/t0=
+X-Google-Smtp-Source: AK7set+2S9sIoThX61XwxrWE5zE9Tsy5goZZcmLIa8T3C1STZ5MGvaivN5+KsgubDeZg3NYYIIpTriUQWAUUcABVmm0=
+X-Received: by 2002:a0d:e3c5:0:b0:52f:3bea:8ce3 with SMTP id
+ m188-20020a0de3c5000000b0052f3bea8ce3mr16423ywe.302.1676640515977; Fri, 17
+ Feb 2023 05:28:35 -0800 (PST)
 MIME-Version: 1.0
-Date: Fri, 17 Feb 2023 13:27:40 +0000
-From: user090909 <fuckgithub@riseup.net>
-To: busch@kernel.org, axboe@fb.com, sagi@grimberg.me,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] Add quirk for ADATA SX6000PNP
-In-Reply-To: <ed916236ae7f2823aeccc8a85230abe5@riseup.net>
-References: <ed916236ae7f2823aeccc8a85230abe5@riseup.net>
-Message-ID: <8e5c6d584894271cf393a64d8bcef699@riseup.net>
-Content-Type: multipart/mixed;
- boundary="=_2066e2defc1c3c382436fb51a9f669cc"
+References: <BYAPR21MB1688B4BBFCCCD01C016A62D4D7DF9@BYAPR21MB1688.namprd21.prod.outlook.com>
+ <CAPsT6hnbAA_uCiVjST8VaPgb6TyfBq9nO2S7OPqJX3=YhzBD9g@mail.gmail.com>
+ <BYAPR21MB16882541DC2DA7AB91E58A03D7DD9@BYAPR21MB1688.namprd21.prod.outlook.com>
+ <Y+psCbPTfF9JkW2c@kbusch-mbp>
+In-Reply-To: <Y+psCbPTfF9JkW2c@kbusch-mbp>
+From: Daniel Gomez <dagmcr@gmail.com>
+Date: Fri, 17 Feb 2023 14:28:25 +0100
+Message-ID: <CAPsT6hkYqg2N6_Xf5aL2ijydTJfPYemUVKPZFGgdAik=DwTygQ@mail.gmail.com>
+Subject: Re: max_hw_sectors error caused by recent NVMe driver commit
+To: Keith Busch <kbusch@kernel.org>
+Cc: "Michael Kelley (LINUX)" <mikelley@microsoft.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Gerd Bayer <gbayer@linux.ibm.com>, 
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230217_052745_654256_57666C0B 
-X-CRM114-Status: GOOD (  15.53  )
+X-CRM114-CacheID: sfid-20230217_052839_694829_6CE38E08 
+X-CRM114-Status: GOOD (  20.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,77 +89,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---=_2066e2defc1c3c382436fb51a9f669cc
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset=UTF-8
+On Mon, Feb 13, 2023 at 5:57 PM Keith Busch <kbusch@kernel.org> wrote:
+>
+> On Mon, Feb 13, 2023 at 04:42:31PM +0000, Michael Kelley (LINUX) wrote:
+> > Ideally, to support
+> > 512 Kbyte transfers, you would want 129 segments (to allow for starting in
+> > the middle of a page as describe above).  But the value of max_segments
+> > is limited by the NVME driver itself using the value of NVME_MAX_SEGS
+> > defined in drivers/nvme/host/pci.c.  The value of 127 is chosen to make
+> > sure that the data structure containing the scatterlist fits in a single page.
+> > See nvme_pci_alloc_iod_mempool().
+Michael,
 
-user090909 писал(а) 2022-12-26 17:15:
-> From 65e5a06268a4510f2858cbd182dbc60caf7003ff Mon Sep 17 00:00:00 2001
-> From: user090909 <fuckgithub@riseup.net>
-> Date: Mon, 26 Dec 2022 17:12:54 +0300
-> Subject: [PATCH] Add quirk for ADATA SX6000PNP
-> 
-> Signed-off-by: user090909 <fuckgithub@riseup.net>
-> ---
->  drivers/nvme/host/pci.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index f0f8027644bb..ca48d0b229e8 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -3415,6 +3415,9 @@ static const struct pci_device_id nvme_id_table[]
-> = {
->  	{ PCI_DEVICE(0x10ec, 0x5762),   /* ADATA SX6000LNP */
->  		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN |
->  				NVME_QUIRK_BOGUS_NID, },
-> +	{ PCI_DEVICE(0x10ec, 0x5763),   /* ADATA SX6000PNP */
-> +                .driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN |
-> +                                NVME_QUIRK_BOGUS_NID, },
->  	{ PCI_DEVICE(0x1cc1, 0x8201),   /* ADATA SX8200PNP 512GB */
->  		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
->  				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
-This patch doesnt work. Sorry. I send new which work.
+Thanks for clarifying. It really helps. Also, it's fixed after
+applying Christoph patch [1].
 
-Signed-off-by: Ivan Rubinov <linuxkernelpatch8234@riseup.net>
+[1] https://lore.kernel.org/all/20230213072035.288225-1-hch@lst.de/
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d839689..3f4da40 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3480,6 +3480,9 @@ static const struct pci_device_id nvme_id_table[]
-= {
- 	{ PCI_DEVICE(0x10ec, 0x5762),   /* ADATA SX6000LNP */
- 		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN |
- 				NVME_QUIRK_BOGUS_NID, },
-+	{ PCI_DEVICE(0x10ec, 0x5763),   /* ADATA SX6000PNP */
-+                .driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN |
-+                                NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x1cc1, 0x8201),   /* ADATA SX8200PNP 512GB */
- 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
- 				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
+>> value to be set.  In your example, I would guess the value of 512 Kbytes came
+>> from querying the NVMe device for its max transfer size. Ideally, to support
+>> 512 Kbyte transfers, you would want 129 segments (to allow for starting in
+>> the middle of a page as describe above).  But the value of max_segments
+>> is limited by the NVME driver itself using the value of NVME_MAX_SEGS
+>> defined in drivers/nvme/host/pci.c.  The value of 127 is chosen to make
+>> sure that the data structure containing the scatterlist fits in a single page.
 
---=_2066e2defc1c3c382436fb51a9f669cc
-Content-Transfer-Encoding: base64
-Content-Type: text/x-diff;
- name=297cca.patch
-Content-Disposition: attachment;
- filename=297cca.patch;
- size=749
+>
+> Should be 128 possible segements now in -next, but yeah, 129 would be ideal.
 
-U2lnbmVkLW9mZi1ieTogSXZhbiBSdWJpbm92IDxsaW51eGtlcm5lbHBhdGNoODIzNEByaXNldXAu
-bmV0PgoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS9ob3N0L3BjaS5jIGIvZHJpdmVycy9udm1l
-L2hvc3QvcGNpLmMKaW5kZXggZDgzOTY4OS4uM2Y0ZGE0MCAxMDA2NDQKLS0tIGEvZHJpdmVycy9u
-dm1lL2hvc3QvcGNpLmMKKysrIGIvZHJpdmVycy9udm1lL2hvc3QvcGNpLmMKQEAgLTM0ODAsNiAr
-MzQ4MCw5IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgcGNpX2RldmljZV9pZCBudm1lX2lkX3RhYmxl
-W10gPSB7CiAJeyBQQ0lfREVWSUNFKDB4MTBlYywgMHg1NzYyKSwgICAvKiBBREFUQSBTWDYwMDBM
-TlAgKi8KIAkJLmRyaXZlcl9kYXRhID0gTlZNRV9RVUlSS19JR05PUkVfREVWX1NVQk5RTiB8CiAJ
-CQkJTlZNRV9RVUlSS19CT0dVU19OSUQsIH0sCisJeyBQQ0lfREVWSUNFKDB4MTBlYywgMHg1NzYz
-KSwgICAvKiBBREFUQSBTWDYwMDBQTlAgKi8KKyAgICAgICAgICAgICAgICAuZHJpdmVyX2RhdGEg
-PSBOVk1FX1FVSVJLX0lHTk9SRV9ERVZfU1VCTlFOIHwKKyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgTlZNRV9RVUlSS19CT0dVU19OSUQsIH0sCiAJeyBQQ0lfREVWSUNFKDB4MWNjMSwg
-MHg4MjAxKSwgICAvKiBBREFUQSBTWDgyMDBQTlAgNTEyR0IgKi8KIAkJLmRyaXZlcl9kYXRhID0g
-TlZNRV9RVUlSS19OT19ERUVQRVNUX1BTIHwKIAkJCQlOVk1FX1FVSVJLX0lHTk9SRV9ERVZfU1VC
-TlFOLCB9LAo=
---=_2066e2defc1c3c382436fb51a9f669cc--
+Quoting Michael,
+
+>> the middle of a page as describe above).  But the value of max_segments
+>> is limited by the NVME driver itself using the value of NVME_MAX_SEGS
+>> defined in drivers/nvme/host/pci.c.  The value of 127 is chosen to make
+>> sure that the data structure containing the scatterlist fits in a single page.
+
+Yes, I can see that. I guess the 129 needs to be reduced to 127 (or
+after Keith optimization patch to 128) but not when the device is
+limited to a lower max_segments value because they fit anyway in a
+single page?
+
+Following the kernel code, I can see the max_hw_sectors_kb is
+calculated using max_hw_sectors = 2 ^ (MDTS + page_shift - 9),
+max_hw_sectors_kb is just max_hw_sectors >> 1, and max_segments is 2 ^
+(MDTS) + 1 (simplified). Using QEMU (NVMe emulation) to be able to
+change the MDTS, I get the following:
+
+  MDTS   max_hw_sectors   max_hw_sectors_kb   max_segments
+ ------ ---------------- ------------------- --------------
+  0      1024             512                 127
+  1      16               8                   3
+  2      32               16                  5
+  3      64               32                  9
+  4      128              64                  17
+  5      256              128                 33
+  6      512              256                 65
+  7      1024             512                 127
+
+>
+> The limit confuses many because sometimes user space can sometimes get 512kib
+> IO to work and other times the same program fails, and all because of physical
+> memory continuity that user space isn't always aware of. A sure-fire way to
+> never hit that limit is to allocate hugepages.
 
