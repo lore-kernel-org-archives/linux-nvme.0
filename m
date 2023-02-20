@@ -4,78 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2197BC05027
-	for <linux-nvme@archiver.kernel.org>; Sun, 19 Feb 2023 22:55:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58367C05027
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Feb 2023 11:24:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Dq60iPwMT9YyeuZYyBaeVXOCLyMD+LIZs+7sJUezDZU=; b=z3VCGjPsJIeDFW4qoa3jbr3Vye
-	WD/Om/CdpDlqXNQaFfyRnhDfuEmOmbSQ2ApZ1encAKgTl4n1Mcb65HdvQqfhGnrSzlBMA+BrXn0D1
-	KRthNcjTuvYcGcQap4nVJsssFFHJ/hd5aIILJajmS/+/a8zz70FFGsrox6wNSGf9zFYObZGFJm8rR
-	vyOr+eSa/K2jR/tXh4W408igknQfjvk3OIkdYZcKb2c/jOPTTWuVaP1L/9SRpnWPxHtwi83A+Dclk
-	Kb4j3a+625RnwLslWwC96i+ezgaGr2u5kHhbVmwtqC4rUwAGx1UVmsnbwZiu37L5wMmPMgKmDUbw2
-	vaITPP+w==;
+	bh=orZM8Nvs7jWh84k6Sgfl/Z5A9qbthR5Jz7WN21ZXfmA=; b=UNlYb1dvGLNMefoYxm+iMXAbQm
+	f//Cw4uJh5F6HCuQKdmrFgIe8O56HiRhqHWl/ng7LICOv69WH8cMYkOJFTv31VFCBkLR4RBrCMOKm
+	pMs9dCZMuw6edxZtpnmT1sSCGMPdI2LNxXKgJM3QlXpn7M2LZaP2W+Aii2vFjVV0qhTtraVPls0OU
+	dpeMvuJIm3feuhxXDrq+tS4mXPrzeCWZ3HN6ke7OVk5WwmrraRCiB5RdhKPev5Yh80MZGbTuZVmwk
+	qe3+qU+IdbcsWQxsT0lP2C45kvMPFLLdgob8SkFcrNDd78dj6PT10U6aCpFoBask3RuLxlqkxyBm5
+	+kOB2MXA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pTsaA-002R9j-IP; Sun, 19 Feb 2023 22:54:58 +0000
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+	id 1pU4Hc-003rAI-0m; Mon, 20 Feb 2023 11:24:36 +0000
+Received: from mail-wm1-f54.google.com ([209.85.128.54])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pTsa1-002R9B-SW
-	for linux-nvme@lists.infradead.org; Sun, 19 Feb 2023 22:54:51 +0000
-Received: by mail-pj1-x1030.google.com with SMTP id f8-20020a17090ac28800b00233d7314c1cso1437917pjt.5
-        for <linux-nvme@lists.infradead.org>; Sun, 19 Feb 2023 14:54:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Dq60iPwMT9YyeuZYyBaeVXOCLyMD+LIZs+7sJUezDZU=;
-        b=NZYxQ1+X02jZEYiaJJ0FEnR/k09pMGRnpL3WRKgxjY6VkopET8Pl1CsQTko02lD8yj
-         HQSoD1Pkg26h3qdJvpRbyfl965FaQfcULt8lYHCNmVx2v+U29mXO7UcsE3q2+gF/rhP5
-         wFYNuAmlMe/mCOOHD4HACmSCUNBZx6h6beDZu5LqD3GazOseUVpeN7zkVuIIQzChoItZ
-         WnBDtK2BDNhVpkwIRJBEi4j2hw5zcoiaanvs+2rl/7Q6ecpPU9vHA3uLxnrxj52uKpfZ
-         4n9IdSLdprAsyBO/gLc6822eWwciBp60bsJVPfjHpjz3oU0xAZIKk+EDJYxihW8EeO93
-         Ls7g==
+	id 1pU4HU-003r76-Dv
+	for linux-nvme@lists.infradead.org; Mon, 20 Feb 2023 11:24:33 +0000
+Received: by mail-wm1-f54.google.com with SMTP id bg28so677533wmb.0
+        for <linux-nvme@lists.infradead.org>; Mon, 20 Feb 2023 03:24:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Dq60iPwMT9YyeuZYyBaeVXOCLyMD+LIZs+7sJUezDZU=;
-        b=fXcmCkuvq/nSp71dquZfwFIx4ffE0NI2j02IydOIwbUoGoMYWixIfD3VQbdQaW+XBk
-         s1fyVPVSpDYEu3fJT7RsGCDfPnDMk1nJ+oiAqAg0xioNfFDYgotnCUSjDMy0M3g83Ppx
-         Z7amUcmC3VZw0HkE+5d766smcJm6hrJUReBQyTG3gJ2kxacnZMuyq9gg4ElijdRATm4v
-         Dbkotsw7VHR6hPjnoV1lt1/KctYkJf1ArmOVU234iKHUxsylcRcJFYCRJfj2zlEawQQb
-         uVMMk3djdReuJBWOSuye+KcxF4OwB5D3vz0bpH49STAVTl8DJQWuzvxJjNPoetjb2RqB
-         nibA==
-X-Gm-Message-State: AO0yUKXzXnhfyq9KgnwMEHFSNC79+KZmi4IpXWuQJvJS8PDDRLT3lYSQ
-	fjHgISQStCyXCF1N89j7rm/BySPgMFB4Rxf01Gw=
-X-Google-Smtp-Source: AK7set+kG+DUmbdPiJsfJTmx5/zd26OJWhuaT2epIMVOS6lpWkQvJxPNa1l7k/ybyAmYhUoo3ImINDAItkhm0F2qDbA=
-X-Received: by 2002:a17:90b:2643:b0:232:d23a:8314 with SMTP id
- pa3-20020a17090b264300b00232d23a8314mr809903pjb.96.1676847288595; Sun, 19 Feb
- 2023 14:54:48 -0800 (PST)
+        d=1e100.net; s=20210112; t=1676892265;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=orZM8Nvs7jWh84k6Sgfl/Z5A9qbthR5Jz7WN21ZXfmA=;
+        b=aYRQaPM1Mi85WgoOhjmQtt2MrbqUqeD5NJhe9HrgZGh3qdj6JocQYbqUDH0j84DmQJ
+         NMTX0VwFH6jhqOT2v30zeQLGjIDwqPkAsMlup/dtRLpfIumhBVljLnKdg5tda88CcY4U
+         lHWeavm9poTWiH2QiKzx+I+FyoO2MsUTguo++04Rj/Jx8u/Kui4H8TUZhxd5f4c7XPRU
+         TQBu7zGyBDlbsaTKPSN2vIppiK58xp4m5rWctZgIFQKKhCsX45g8XCxPZsP5Bo1mycvl
+         hvGP0uU7QBIBsfgY5thCLcb2icH/bxQ8TOoC0OCvVnvegJneytDZKpQxHOIWSR1lTnPK
+         OrEA==
+X-Gm-Message-State: AO0yUKWxCcyYmG40A+mTTvlXT+752+jBYgXtAc7v7znpcrjvRmkhZCo7
+	xFaUvO6GLBxr+4U220Isubs=
+X-Google-Smtp-Source: AK7set8pQ+BZnrr2+JhbY4ZPMILoc8gV4un+K1D4JYAGBAK2LUsn8tPAHo4akjUu2CZgieU/9HeLLA==
+X-Received: by 2002:a7b:c842:0:b0:3db:2063:425e with SMTP id c2-20020a7bc842000000b003db2063425emr883467wml.1.1676892264834;
+        Mon, 20 Feb 2023 03:24:24 -0800 (PST)
+Received: from [192.168.64.80] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id f17-20020a7bc8d1000000b003e2066a6339sm13863450wml.5.2023.02.20.03.24.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Feb 2023 03:24:24 -0800 (PST)
+Message-ID: <ad837a26-948a-c690-cd9e-4dfffb5f990d@grimberg.me>
+Date: Mon, 20 Feb 2023 13:24:22 +0200
 MIME-Version: 1.0
-References: <52f9afe2-f621-77d8-9d10-449d539e901d@leemhuis.info>
- <Y+5JdR02tlzD/TFS@kbusch-mbp> <151a00d9-0ea2-eadb-72b4-fa8a2dd41bfc@kernel.dk>
-In-Reply-To: <151a00d9-0ea2-eadb-72b4-fa8a2dd41bfc@kernel.dk>
-From: Michal Berger <michallinuxstuff@gmail.com>
-Date: Sun, 19 Feb 2023 23:54:37 +0100
-Message-ID: <CACosJgyjgh+cz6nTrKWVQ9P8Z9_wJGWGQBOjae2MoJrZQ3RmTQ@mail.gmail.com>
-Subject: Re: [regression] Bug 217037 - cmb attributes missing from the nvme
- class under sysfs
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Keith Busch <kbusch@kernel.org>, 
-	Linux regressions mailing list <regressions@lists.linux.dev>, Jens Axboe <axboe@fb.com>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [LSF/MM/BPF BOF] Userspace command abouts
+To: Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ lsf-pc@lists.linuxfoundation.org
+References: <3d3369f1-7ebe-b3b8-804c-ff2b97ec679d@suse.de>
+ <Y+5cjPBE6h/IW9VH@kbusch-mbp>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <Y+5cjPBE6h/IW9VH@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230219_145449_964139_79353C2F 
-X-CRM114-Status: GOOD (  17.11  )
+X-CRM114-CacheID: sfid-20230220_032428_507965_8D63CE13 
+X-CRM114-Status: GOOD (  17.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,47 +83,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Have there been any patches submitted for testing? I don't see any as
-part of this thread nor at the bugzilla where the issue was initially
-reported. :)
 
-Regards,
-Michal
+>> Hi all,
+>>
+>> it has come up in other threads, so it might be worthwhile to have its own
+>> topic:
+>>
+>> Userspace command aborts
+>>
+>> As it stands we cannot abort I/O commands from userspace.
+>> This is hitting us when running in a virtual machine:
+>> The VM sets a timeout when submitting a command, but that
+>> information can't be transmitted to the VM host. The VM host
+>> then issues a different command (with another timeout), and
+>> again that timeout can't be transmitted to the attached devices.
+>> So when the VM detects a timeout, it will try to issue an abort,
+>> but that goes nowhere as the VM host has no way to abort commands
+>> from userspace.
+>> So in the end the VM has to wait for the command to complete, causing
+>> stalls in the VM if the host had to undergo error recovery or something.
+> 
+> Aborts are racy. A lot of hardware implements these as a no-op, too.
 
+Indeed.
 
-pt., 17 lut 2023 o 22:23 Jens Axboe <axboe@kernel.dk> napisa=C5=82(a):
->
-> On Thu, Feb 16, 2023 at 8:19 AM Keith Busch <kbusch@kernel.org> wrote:
-> >
-> > On Thu, Feb 16, 2023 at 10:28:55AM +0100, Linux regression tracking (Th=
-orsten Leemhuis) wrote:
-> > > Hi, this is your Linux kernel regression tracker.
-> > >
-> > > I noticed a regression report in bugzilla.kernel.org. As many (most?)
-> > > kernel developer don't keep an eye on it, I decided to forward it by
-> > > mail. Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=3D2170=
-37 :
-> > >
-> > > >  michallinuxstuff@gmail.com 2023-02-14 14:16:26 UTC
-> > > >
-> > > > For the CMB-capable nvme ctrls, kernel was exposing couple of relat=
-ed attributes under the sysfs. E.g.
-> > > >
-> > > >
-> > > > # grep . /sys/class/nvme/nvme0/cmb*
-> > > > /sys/class/nvme/nvme0/cmb:cmbloc : x00000062
-> > > > /sys/class/nvme/nvme0/cmb:cmbsz  : x0008021d
-> > > > /sys/class/nvme/nvme0/cmbloc:98
-> > > > /sys/class/nvme/nvme0/cmbsz:524829
-> >
-> > The breakage is that the attributes are decided before we've setup the =
-cmb
-> > regions. I'll send a fix shortly.
->
-> Michael, have you tested this? It's queued up for inclusion, but I don't
-> see any evidence that this was tested.
->
-> --
-> Jens Axboe
->
+>> With io_uring or CDL we now have some mechanism which look as if they
+>> would allow us to implement command aborts.
+> 
+> CDL on the other hand sounds more promising.
+> 
+>> So this BoF will be around discussions on how aborts from userspace could be
+>> implemented, whether any of the above methods are suitable, or whether there
+>> are other ideas on how that could be done.
+
+I did not understand what is the relationship between aborts and CDL.
+Sounds to me that this would tie in to something like Time Limited Error
+Recovery (TLER) and LR bit set based on ioprio?
+
+I am unclear where do aborts come into play here.
 
