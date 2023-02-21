@@ -4,81 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9815BC61DA3
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Feb 2023 22:28:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 41126C64ED9
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Feb 2023 08:18:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KbJ4d6mtC+pTJcg+/0tfA3ZQzIqXAavug6j913eZ2y8=; b=muuYSLGhtzPIFzn0RHMQxnsbPG
-	7/Qe0OUsJibDejLz5HZmRQCU16TsiZVgXZBkxh54Z5CSIk7BN/nbsIgVhlabWJVH6LHJDzTuFwSIh
-	t64IvY4AFej1nE6CiyGEiArrf/7IHjKCvV+m8qmi+6T9FD70P2URmOmy21UlXYN7hGuTo/49tVHRA
-	1F/ub+RGRmkqJUr+VCbSXSl2P4VEqm5/OsI8nmpgOvqMB/vSAoXPwRH56bSsoCvVoeTMju9zphsIy
-	A5EoGJ1YMbu9oayBUheb3f3jdVFt5aV/vfeIgOp0Js7mP5QHdybqD3U1GrEgDmyC5DsuLy66JvNbO
-	cDqvgm/A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=gELoCGJEkpPy9gdCArOut/mjfO8rPiKercRfU1epEXk=; b=B36MAaT6WK1M8u0utDdiq6zCsX
+	gT27zFI6Esm13PbCSZTQ2PHsrQOVY1aU3CDv59kcZbLp6eQ/+KKm15A2SmGuDc3XFm24Xm9sw5oys
+	ZhRnTodcEOO8vvwaChE6El+qsrXFF3SOTHckUP6wsgYa2gi25qGGHJB+DRQ337K5cxRIF153XdtFU
+	39ya0d9Ur22TIxIX6gHrhxYL55l7lquDpcGxJIJiRobQG/QXGbtVe4xBB1psMEZj8dX/p/iLy6k5k
+	yM4xTcXP/JjXkvBzf2r3kmZ4LP100ed0HTKyIMDJyW4ejaCztZLZMSsV0CdepCO5Ska8swFKHX3ws
+	cLjdjmOw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pUEeJ-005o3S-Nn; Mon, 20 Feb 2023 22:28:43 +0000
-Received: from mga12.intel.com ([192.55.52.136])
+	id 1pUNrR-0071kV-4W; Tue, 21 Feb 2023 08:18:53 +0000
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pUEeG-005o1S-5S
-	for linux-nvme@lists.infradead.org; Mon, 20 Feb 2023 22:28:41 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676932120; x=1708468120;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8CyRqK9unM1U4i0jxwB2716Bm1W5ji2sGyvGsvYwTOA=;
-  b=JlaPKRVuqCnL5Oz0KcKlsWxj1pq8JWQ78qjk5/aBglSOAy4frXQzZ+OQ
-   CGcgBVmiC4QLRizz5vyRtQrDHbzfphulC6CM79oyR+jEaRc9RQCh88Zpt
-   F0eVuqjPxoCjvd6b9t+zBZypCW818HYJBgf27tQSmZ83L91/3H8v4K2IU
-   qMJXlDdji8yHohjobPsFVJZy+Rua37YUBj9ZuLztc/FksQ68lisrDRGuF
-   10MBk9LmJEuaU38fIEyLcGeI/ucbIpG/ogGjCd1ZgqT6z0jCqiuCE70jm
-   4K4isyTfgL9nvwD0sKEDxNiOFs7R46DyZw5KqODYQj2NAiT0GdssQmdBd
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="312131201"
-X-IronPort-AV: E=Sophos;i="5.97,313,1669104000"; 
-   d="scan'208";a="312131201"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 14:28:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="703823737"
-X-IronPort-AV: E=Sophos;i="5.97,313,1669104000"; 
-   d="scan'208";a="703823737"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 20 Feb 2023 14:28:31 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pUEe7-000EDN-0O;
-	Mon, 20 Feb 2023 22:28:31 +0000
-Date: Tue, 21 Feb 2023 06:27:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	James Smart <james.smart@broadcom.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, bvanassche@acm.org, hare@suse.de,
-	ming.lei@redhat.com, damien.lemoal@opensource.wdc.com,
-	anuj20.g@samsung.com, joshi.k@samsung.com, nitheshshetty@gmail.com,
-	gost.dev@samsung.com, Nitesh Shetty <nj.shetty@samsung.com>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v7 4/8] fs, block: copy_file_range for def_blk_ops for
- direct block device.
-Message-ID: <202302210631.4JSFH2VI-lkp@intel.com>
-References: <20230220105336.3810-5-nj.shetty@samsung.com>
+	id 1pUNrK-0071io-6E; Tue, 21 Feb 2023 08:18:48 +0000
+Received: by mail-wr1-x436.google.com with SMTP id p8so3568373wrt.12;
+        Tue, 21 Feb 2023 00:18:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gELoCGJEkpPy9gdCArOut/mjfO8rPiKercRfU1epEXk=;
+        b=Uy4YZj2aoGZcDlVg0GMXgC9+yvfo04PKUc9e926PVFIVTSreZdY82OfbcfyFBkJ/BF
+         +8SPWMun7rPL8qD9qjujQR1j6nmm3XBXPks85zxk2snwm/1QxWFqRYTgpBFWL9Y2HzZs
+         mxCvbkudw4Ch9JA2GUOHFbPm9VcKjpUUKV0SJtYxeNcxTSfApa4xKu1Yyh20k7FrQXYe
+         9EXw9dbNdFoS7644LyfWPFx399raH+3H+jAIccDIdNqJ2ZY6ZB1Aj4ToElh7gzT2g7A1
+         yH0/P2D489ztzMvtZHqoPPuZ9tjDD5rPijTQDJE8tQcU725WjUDp/K5EPp64Z31njqfa
+         kIMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gELoCGJEkpPy9gdCArOut/mjfO8rPiKercRfU1epEXk=;
+        b=tTDpcHqypoTzMYLww4dDgdWGRmHG3Y3MiD6lXvn02TlmCui9dF7qZr0TjscjJgpHlH
+         YZPFWhjOEZOweDElL9uM3yncFNES7tt5oZh2vSQOwfP1ahRLoQ82/vSdwx8Y9jk/7W1D
+         OFAwKNku9Rv5Yg83KvsWWfb/Yb6IZu8E65+xBtIC05Bk+DXIc3wPj+uN3L6NvaVuCGAB
+         Nin3S5aPlQ7eoVo4EoZBicMR4Y0sMYAPv5YcBBgpg78ZJa9Hg0fN+FjhbBgUuRG6RDWW
+         UtXjgovikscovdeogiNJYoT5SrjezBeZYYlhxTsmJZ6BqeCDx2kkKTJNL041Id9We0n0
+         TQrQ==
+X-Gm-Message-State: AO0yUKU3ZvWSwjfyz/bjP+eXRLsVkXocgq7i1Ek5LR4z58wO9LtnzFhf
+	Ve6dL3F9Fy0RKppQIeFgK92GfxWta6z6eNn4qIM=
+X-Google-Smtp-Source: AK7set9mAvjFATflMJcoGYzLQWAe45P+YDoC3NwYkwmCvSn1rmmiIFRvICxmZDBe4ewwDigq3ULd1HEiJWM/aR55FfI=
+X-Received: by 2002:adf:f7c7:0:b0:2c5:507b:657f with SMTP id
+ a7-20020adff7c7000000b002c5507b657fmr6897wrq.276.1676967524016; Tue, 21 Feb
+ 2023 00:18:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230220105336.3810-5-nj.shetty@samsung.com>
+References: <20230210085804.1756449-1-xiongxin@kylinos.cn>
+In-Reply-To: <20230210085804.1756449-1-xiongxin@kylinos.cn>
+From: =?UTF-8?B?6YeR5aGU5bCW?= <tgsp002@gmail.com>
+Date: Tue, 21 Feb 2023 16:18:32 +0800
+Message-ID: <CAF_YnoQFccBHO_6r78u3eSuH3MfqGGXmywiuVJf-eA=cg295Rg@mail.gmail.com>
+Subject: Re: [PATCH] firmware/psci: add .begin implementation for psci_suspend_ops
+To: mark.rutland@arm.com, lpieralisi@kernel.org, kbusch@kernel.org, 
+	xiongxin <xiongxin@kylinos.cn>
+Cc: axboe@fb.com, hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, rafael@kernel.org, 
+	linux-pm@vger.kernel.org, Tian Yaxiong <tianyaxiong@kylinos.cn>, 
+	Wei Yufeng <weiyufeng@kylinos.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230220_142840_243886_E447D9CB 
-X-CRM114-Status: GOOD (  14.46  )
+X-CRM114-CacheID: sfid-20230221_001846_279544_26C34652 
+X-CRM114-Status: GOOD (  23.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,46 +88,137 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Nitesh,
+xiongxin <xiongxin@kylinos.cn> =E4=BA=8E2023=E5=B9=B42=E6=9C=8810=E6=97=A5=
+=E5=91=A8=E4=BA=94 16:58=E5=86=99=E9=81=93=EF=BC=9A
+>
+> nvme_suspend() in the nvme pci driver will call
+> pm_suspend_via_firmware() to determine whether to use the suspend to
+> idle mode or other suspend, the code show as below:
+>
+> static int nvme_suspend(struct device *dev)
+> {
+>         ...
+>         if (pm_suspend_via_firmware() || !ctrl->npss ||
+>             !pcie_aspm_enabled(pdev) ||
+>             (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND))
+>                 return nvme_disable_prepare_reset(ndev, true);
+>
+>         ... /* suspend to idle mode */
+> }
+>
+> The current ARM64 suspend process does not call the
+> pm_set_suspend_via_firmware() function, so when PCIe ASPM is enabled,
+> the nvme suspend process under the ARM64 platform will enter the suspend
+> to idle mode (the irq free is not called), which will cause the nvme
+> driver to report the following irq warning during the resume process:
+>
+> [  189.233188] ------------[ cut here ]------------
+> [  189.237791] Unbalanced enable for IRQ 52
+> [  189.241705] WARNING: CPU: 0 PID: 2086 at kernel/irq/manage.c:781 __ena=
+ble_irq+0x54/0x88
+> [  189.249700] Modules linked in: nls_iso8859_1 dm_multipath scsi_dh_rdac=
+ scsi_dh_emc scsi_dh_alua snd_hda_codec_hdmi snd_hda_intel snd_intel_dspcfg=
+ snd_hda_codec snd_hda_core snd_hwdep snd_pcm snd_seq_midi snd_seq_midi_eve=
+nt snd_rawmidi snd_seq snd_seq_device snd_timer snd joydev input_leds efi_p=
+store soundcore sch_fq_codel ppdev lp parport ip_tables x_tables autofs4 bt=
+rfs blake2b_generic raid10 raid456 async_raid6_recov async_memcpy async_pq =
+async_xor async_tx xor xor_neon raid6_pq libcrc32c raid1 raid0 multipath li=
+near amdgpu gpu_sched drm_buddy radeon video drm_ttm_helper ttm i2c_algo_bi=
+t drm_display_helper cec drm_kms_helper syscopyarea sysfillrect sysimgblt h=
+id_generic drm nvme crct10dif_ce ghash_ce usbhid sha2_ce sha256_arm64 hid n=
+vme_core sha1_ce ahci libahci aes_neon_bs aes_neon_blk aes_ce_blk aes_ce_ci=
+pher
+> [  189.321740] CPU: 0 PID: 2086 Comm: systemd-sleep Not tainted 6.2.0-rc7=
++ #9
+> [  189.328601] Hardware name: Greatwall GW-XXXXXX-XXX/GW-XXXXXX-XXX, BIOS=
+ KunLun BIOS V4.0 01/19/2021
+> [  189.337543] pstate: 604000c5 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYP=
+E=3D--)
+> [  189.344490] pc : __enable_irq+0x54/0x88
+> [  189.348313] lr : __enable_irq+0x54/0x88
+> [  189.352136] sp : ffff80000d58bb00
+> [  189.355436] x29: ffff80000d58bb00 x28: ffff80000a355a54 x27: ffff001f8=
+09910dc
+> [  189.362559] x26: 0000000000000000 x25: 0000000000000000 x24: 000000000=
+0000000
+> [  189.369681] x23: 0000000000000001 x22: 0000000000000000 x21: ffff80000=
+a0d2860
+> [  189.376803] x20: 0000000000000034 x19: ffff001f80991000 x18: 000000000=
+0000010
+> [  189.383924] x17: 0000000000000000 x16: 0000000000000400 x15: ffff001f8=
+7612578
+> [  189.391047] x14: 0000000000000000 x13: 3235205152492072 x12: 6f6620656=
+c62616e
+> [  189.398168] x11: 00000000ffffdfff x10: 00000000ffffdfff x9 : ffff80000=
+823788c
+> [  189.405291] x8 : 000000000002ffe8 x7 : c0000000ffffdfff x6 : 000000000=
+0000001
+> [  189.412412] x5 : ffff0020f6f0cb08 x4 : 0000000000000000 x3 : 000000000=
+0000027
+> [  189.419534] x2 : ffff0020f6f0cb10 x1 : 0000000000000000 x0 : 000000000=
+0000000
+> [  189.426656] Call trace:
+> [  189.429089]  __enable_irq+0x54/0x88
+> [  189.432566]  resume_irqs+0x118/0x210
+> [  189.436129]  resume_device_irqs+0x1c/0x48
+> [  189.440125]  dpm_resume_noirq+0x1c/0x30
+> [  189.443951]  suspend_devices_and_enter+0x218/0x8c8
+> [  189.448731]  pm_suspend+0x31c/0x420
+> [  189.452207]  state_store+0x94/0x118
+> [  189.455684]  kobj_attr_store+0x18/0x30
+> [  189.459421]  sysfs_kf_write+0x4c/0x60
+> [  189.463073]  kernfs_fop_write_iter+0x130/0x1c0
+> [  189.467504]  vfs_write+0x284/0x358
+> [  189.470893]  ksys_write+0x74/0x108
+> [  189.474282]  __arm64_sys_write+0x24/0x30
+> [  189.478191]  invoke_syscall+0x4c/0x110
+> [  189.481930]  el0_svc_common.constprop.0+0x58/0x190
+> [  189.486708]  do_el0_svc+0x40/0xb8
+> [  189.490011]  el0_svc+0x2c/0xb8
+> [  189.493053]  el0t_64_sync_handler+0xb8/0xc0
+> [  189.497223]  el0t_64_sync+0x1a4/0x1a8
+> [  189.500872] ---[ end trace 0000000000000000 ]---
+> ...
+>
+> Implement pm_set_suspend_via_firmware() in PSCI psci_suspend_ops.begin()
+> for ARM64, so that when doing the suspend process, it will directly
+> enter the nvme_disable_prepare_reset() process.
+>
+> Signed-off-by: xiongxin <xiongxin@kylinos.cn>
+> Signed-off-by: Tian Yaxiong <tianyaxiong@kylinos.cn>
+> Signed-off-by: Wei Yufeng <weiyufeng@kylinos.cn>
+>
+> diff --git a/drivers/firmware/psci/psci.c b/drivers/firmware/psci/psci.c
+> index 447ee4ea5c90..90d6102d45d7 100644
+> --- a/drivers/firmware/psci/psci.c
+> +++ b/drivers/firmware/psci/psci.c
+> @@ -484,6 +484,13 @@ static int psci_system_suspend(unsigned long unused)
+>                               pa_cpu_resume, 0, 0);
+>  }
+>
+> +static int psci_system_suspend_begin(suspend_state_t state)
+> +{
+> +       pm_set_suspend_via_firmware();
+> +
+> +       return 0;
+> +}
+> +
+>  static int psci_system_suspend_enter(suspend_state_t state)
+>  {
+>         return cpu_suspend(0, psci_system_suspend);
+> @@ -491,6 +498,7 @@ static int psci_system_suspend_enter(suspend_state_t =
+state)
+>
+>  static const struct platform_suspend_ops psci_suspend_ops =3D {
+>         .valid          =3D suspend_valid_only_mem,
+> +       .begin          =3D psci_system_suspend_begin,
+>         .enter          =3D psci_system_suspend_enter,
+>  };
+>
+> --
+> 2.34.1
+>
 
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on device-mapper-dm/for-next]
-[also build test ERROR on linus/master v6.2 next-20230220]
-[cannot apply to axboe-block/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Add-copy-offload-support-infrastructure/20230220-205057
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git for-next
-patch link:    https://lore.kernel.org/r/20230220105336.3810-5-nj.shetty%40samsung.com
-patch subject: [PATCH v7 4/8] fs, block: copy_file_range for def_blk_ops for direct block device.
-config: arm-randconfig-r046-20230220 (https://download.01.org/0day-ci/archive/20230221/202302210631.4JSFH2VI-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/0f95ad2cb727ac6ac8406a01ff216d9237b403b7
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nitesh-Shetty/block-Add-copy-offload-support-infrastructure/20230220-205057
-        git checkout 0f95ad2cb727ac6ac8406a01ff216d9237b403b7
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302210631.4JSFH2VI-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arm-linux-gnueabi-ld: arm-linux-gnueabi-ld: DWARF error: could not find abbrev number 19
-   fs/read_write.o: in function `generic_copy_file_checks':
->> read_write.c:(.text+0x8980): undefined reference to `I_BDEV'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+This is a bug of nvme under the arm64 architecture, please help to
+confirm whether the patch is reasonable;
 
