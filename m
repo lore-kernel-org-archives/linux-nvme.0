@@ -4,37 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A52FC636D7
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Feb 2023 22:23:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79B57C6379F
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Feb 2023 23:58:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=N7be2RukEtknQEg962nsS3+sWr+NRQ/ZbMYoSxc0wHo=; b=Gl2I092w+PqAQws7BIg8IaNare
-	Z0q0qigO+O1R7PBa8MoI4QbFK1w3tH+N6Si3WFm2xLfCtbrtsv1Dyx/I3Wvj9DSUqw5K8SVrXNMVR
-	JQkga3U7DVmxU2pU1oeWStsYqcmwGJjy4UjORyrw/EP1CeawtKAu0Ws4D34Oy5mg7xrIzNidTs9rC
-	q8zZL8ZmVaa+/H/lmpIbf/tFIK/RhvQe6x1ip997kAdpQF209LMhV8ClkQ5AyudD7iLi6EP1gfNvc
-	fVJ/n6q3RTIyQSfbo4yU/EU/rXDTBw2izDRHtEHpR851YQPMzpMK1VbPnZtbetmn6joU5b27O4Y2R
-	hahEey/A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=kxYAOATXwwZXmQtvACIiPy5oHqnMX7B0skEyunTy3sc=; b=kNAlwKXvjHxI0sZgiRoWhyLQ34
+	OS4eREpuZQtRfV8CtxGAzAAb5566/rxYQe8XvY5uCNFimKLGAC3nDh28zdVR0JlYKECXJDinLjV95
+	JCEQtQ+Kr4fn1zJQnQqq/dTO9zF/xFev6GvXeYLzGUIiCKYQRYPa1jc6OwudzSx581+lxBpcADprE
+	QWcVd/yRXfXxFTvP1e9v3a+koUZmAQW4vJwflYxx/dnf75H0hlNvfULDnZ94G2+2dcb6iJV9GJVN7
+	B7QprFZybuPK4zKYyoIfMkVfAzp367C8czM4/Ona4EOL08SlUZX2wlKnYTykw25cgyEW66fKZMlsh
+	RMUMzLJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pUb2U-009yGN-EB; Tue, 21 Feb 2023 22:23:10 +0000
-Received: from [4.28.11.157] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pUb2R-009yG1-TR; Tue, 21 Feb 2023 22:23:07 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: kbusch@kernel.org,
-	sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org,
-	nh@edgeless.systems
-Subject: [PATCH] nvme: bring back auto-removal of deleted namespaces during sequential scan
-Date: Tue, 21 Feb 2023 14:23:07 -0800
-Message-Id: <20230221222307.557935-1-hch@lst.de>
-X-Mailer: git-send-email 2.39.1
+	id 1pUcWv-00ABP7-KR; Tue, 21 Feb 2023 23:58:41 +0000
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1pUcWt-00ABOd-2H
+	for linux-nvme@lists.infradead.org; Tue, 21 Feb 2023 23:58:40 +0000
+Received: by mail-pl1-x636.google.com with SMTP id u14so2983763ple.7
+        for <linux-nvme@lists.infradead.org>; Tue, 21 Feb 2023 15:58:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kxYAOATXwwZXmQtvACIiPy5oHqnMX7B0skEyunTy3sc=;
+        b=krz8Bxnd4wTi4x00bBO2/hpMchfNH9zO6RksOyW+dvhOTP4LwgUeuf3wcCzBhNUoXv
+         wX//Zkp2SgLgo7E1lg4+lbHLvCIW+dh5LMG57emv4k50kgBb+XjTnCOjNsqvarXLzxRK
+         X0c8WhZ2llrIaWtbwiDSLZZ+rNvMt90REjZlOZMTWzmnt2VpyQ80ns+ZZNAj+sVcHDXo
+         bivCzWv/gye/6++lIUXKbjMletWViBEdT9LC8uQoER4tdg8BOr4m72UmbF8Pt1NT6c09
+         M86wNR3tDFHhGzTfJ+YyhCoAHi0JK7D63GKOpWnB84asedBh5JuUZU8eZC9gLYtRNRYG
+         kVOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kxYAOATXwwZXmQtvACIiPy5oHqnMX7B0skEyunTy3sc=;
+        b=MWq2+uWNnJXUq9DI4MXkFS/E3CFFe9fLOpqNVnpOLwzYsYobpeR/V6ED83Md/Upc66
+         LfDbLmwN37esWEuBjr5jrXxyJFP32wULsQqkxxnHRzq3nBGIrHF5IIyld3Egs8VtF9hN
+         E7s0vnGT8FMgLX1og8PtE6n7FR/1SihDe67aO3ewFRSh8t2qbeif2sgQ+QwD7bnwn5D6
+         T7EjIfjIDSU+2mCgOSpBUK4qWxkPGDfMgpZll9HP/pB74w1WKAUeQ92tnCodHmB6jsS1
+         1Kn71LdOroqCtz+B+4dHV7OH/T+t7TfNb6F0VWJM4WL6vl1r67WAqDNw7A0QEk8SKV2M
+         ABXQ==
+X-Gm-Message-State: AO0yUKUjrK9QMEoOZgpNQejPfD9LKtkWDQ8nDSW9j6pmK0I9hHUAitjY
+	0upxrG7uiFSbN9PjD7jqeLY=
+X-Google-Smtp-Source: AK7set8mA8AovJsVEgiRILnqsy5kyIIpZuG+CasVxypbtihvOZT+c/1ugL7OC3W+zb8/8oWG2s3pAA==
+X-Received: by 2002:a17:903:28c4:b0:19b:c3e:6e61 with SMTP id kv4-20020a17090328c400b0019b0c3e6e61mr7453237plb.68.1677023916448;
+        Tue, 21 Feb 2023 15:58:36 -0800 (PST)
+Received: from minwoo-desktop ([1.237.94.73])
+        by smtp.gmail.com with ESMTPSA id q16-20020a170902dad000b00189ac5a2340sm6126741plx.124.2023.02.21.15.58.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Feb 2023 15:58:36 -0800 (PST)
+Date: Wed, 22 Feb 2023 08:58:28 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Nitesh Shetty <nj.shetty@samsung.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	James Smart <james.smart@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, bvanassche@acm.org,
+	hare@suse.de, ming.lei@redhat.com, damien.lemoal@opensource.wdc.com,
+	anuj20.g@samsung.com, joshi.k@samsung.com, nitheshshetty@gmail.com,
+	gost.dev@samsung.com, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v7 2/8] block: Add copy offload support infrastructure
+Message-ID: <Y/VapDeE98+A6/G2@minwoo-desktop>
+References: <20230220105336.3810-1-nj.shetty@samsung.com>
+ <CGME20230220105441epcas5p49ffde763aae06db301804175e85f9472@epcas5p4.samsung.com>
+ <20230220105336.3810-3-nj.shetty@samsung.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230220105336.3810-3-nj.shetty@samsung.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20230221_155839_164027_E1A10DB7 
+X-CRM114-Status: GOOD (  13.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -49,104 +100,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Bring back the check of the Identify Namespace return value for the
-legacy NVMe 1.0-style sequential scanning.  While NVMe 1.0 does not
-support namespace management, there are "modern" cloud solutions like
-Google Cloud Platform that claim the obsolete 1.0 compliance for no
-good reason while supporting proprietary sideband namespace management.
+> +/*
+> + * @bdev_in:	source block device
+> + * @pos_in:	source offset
+> + * @bdev_out:	destination block device
+> + * @pos_out:	destination offset
 
-Fixes: 1a893c2bfef4 ("nvme: refactor namespace probing")
-Reported-by: Nils Hanke <nh@edgeless.systems>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
+@len is missing here.
 
-Nils, this is a slightly different variant from the one you tested
-earlier, can you retest it?
-
- drivers/nvme/host/core.c | 35 ++++++++++++++++++-----------------
- 1 file changed, 18 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 8b64211411626b..fbed8d1a02ef42 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -38,6 +38,7 @@ struct nvme_ns_info {
- 	bool is_shared;
- 	bool is_readonly;
- 	bool is_ready;
-+	bool is_removed;
- };
- 
- unsigned int admin_timeout = 60;
-@@ -1445,16 +1446,8 @@ static int nvme_identify_ns(struct nvme_ctrl *ctrl, unsigned nsid,
- 	error = nvme_submit_sync_cmd(ctrl->admin_q, &c, *id, sizeof(**id));
- 	if (error) {
- 		dev_warn(ctrl->device, "Identify namespace failed (%d)\n", error);
--		goto out_free_id;
-+		kfree(*id);
- 	}
--
--	error = NVME_SC_INVALID_NS | NVME_SC_DNR;
--	if ((*id)->ncap == 0) /* namespace not allocated or attached */
--		goto out_free_id;
--	return 0;
--
--out_free_id:
--	kfree(*id);
- 	return error;
- }
- 
-@@ -1468,6 +1461,13 @@ static int nvme_ns_info_from_identify(struct nvme_ctrl *ctrl,
- 	ret = nvme_identify_ns(ctrl, info->nsid, &id);
- 	if (ret)
- 		return ret;
-+
-+	if (id->ncap == 0) {
-+		/* namespace not allocated or attached */
-+		info->is_removed = true;
-+		return -ENODEV;
-+	}
-+
- 	info->anagrpid = id->anagrpid;
- 	info->is_shared = id->nmic & NVME_NS_NMIC_SHARED;
- 	info->is_readonly = id->nsattr & NVME_NS_ATTR_RO;
-@@ -4418,6 +4418,7 @@ static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- {
- 	struct nvme_ns_info info = { .nsid = nsid };
- 	struct nvme_ns *ns;
-+	int ret;
- 
- 	if (nvme_identify_ns_descs(ctrl, &info))
- 		return;
-@@ -4434,19 +4435,19 @@ static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	 * set up a namespace.  If not fall back to the legacy version.
- 	 */
- 	if ((ctrl->cap & NVME_CAP_CRMS_CRIMS) ||
--	    (info.ids.csi != NVME_CSI_NVM && info.ids.csi != NVME_CSI_ZNS)) {
--		if (nvme_ns_info_from_id_cs_indep(ctrl, &info))
--			return;
--	} else {
--		if (nvme_ns_info_from_identify(ctrl, &info))
--			return;
--	}
-+	    (info.ids.csi != NVME_CSI_NVM && info.ids.csi != NVME_CSI_ZNS))
-+		ret = nvme_ns_info_from_id_cs_indep(ctrl, &info);
-+	else
-+		ret = nvme_ns_info_from_identify(ctrl, &info);
-+
-+	if (info.is_removed)
-+		nvme_ns_remove_by_nsid(ctrl, nsid);
- 
- 	/*
- 	 * Ignore the namespace if it is not ready. We will get an AEN once it
- 	 * becomes ready and restart the scan.
- 	 */
--	if (!info.is_ready)
-+	if (ret || !info.is_ready)
- 		return;
- 
- 	ns = nvme_find_get_ns(ctrl, nsid);
--- 
-2.39.1
-
+> + * @end_io:	end_io function to be called on completion of copy operation,
+> + *		for synchronous operation this should be NULL
+> + * @private:	end_io function will be called with this private data, should be
+> + *		NULL, if operation is synchronous in nature
+> + * @gfp_mask:   memory allocation flags (for bio_alloc)
+> + *
+> + * Returns the length of bytes copied or a negative error value
+> + *
+> + * Description:
+> + *	Copy source offset from source block device to destination block
+> + *	device. length of a source range cannot be zero. Max total length of
+> + *	copy is limited to MAX_COPY_TOTAL_LENGTH
+> + */
+> +int blkdev_issue_copy(struct block_device *bdev_in, loff_t pos_in,
+> +		      struct block_device *bdev_out, loff_t pos_out, size_t len,
+> +		      cio_iodone_t end_io, void *private, gfp_t gfp_mask)
 
