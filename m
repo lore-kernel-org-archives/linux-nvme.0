@@ -4,76 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 41126C64ED9
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Feb 2023 08:18:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4BCFDC6379F
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Feb 2023 09:19:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gELoCGJEkpPy9gdCArOut/mjfO8rPiKercRfU1epEXk=; b=B36MAaT6WK1M8u0utDdiq6zCsX
-	gT27zFI6Esm13PbCSZTQ2PHsrQOVY1aU3CDv59kcZbLp6eQ/+KKm15A2SmGuDc3XFm24Xm9sw5oys
-	ZhRnTodcEOO8vvwaChE6El+qsrXFF3SOTHckUP6wsgYa2gi25qGGHJB+DRQ337K5cxRIF153XdtFU
-	39ya0d9Ur22TIxIX6gHrhxYL55l7lquDpcGxJIJiRobQG/QXGbtVe4xBB1psMEZj8dX/p/iLy6k5k
-	yM4xTcXP/JjXkvBzf2r3kmZ4LP100ed0HTKyIMDJyW4ejaCztZLZMSsV0CdepCO5Ska8swFKHX3ws
-	cLjdjmOw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=zP7wsIi0V/DdrLmWeAARTv/s3GbXCmHLkrufEVaDuGE=; b=5EvFaRo3wGOV+pdT0/FqfyXSKp
+	6/qcUHw1WCCyWsFhhj3/dwXjeVGklkscxxkR74SuJlN9w1e4lN9dguxIMq9c+ZGIAyThWRZZol3ut
+	vJvQwBfGxYlh6d23DXw9W0HLv668B9hBdip0GvAR7jelKD2G6RJN5c25alXeZlogBQUEkj/Pj3CxU
+	hcwG9mxmmntWL3Kp2GZn8zR6+1sKU0fLkIL84OmPPjDYcpqSMFJoGFidd3uBq+FhFhA2NBDU1Al/i
+	bNwyXL7SoaoGJB0ouDdFMMi9/uZfPqSE4hldLG07dLV0yKmOUgjfmeSlUG3uGFCgss5v45IRGVVcG
+	Bh50pnrA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pUNrR-0071kV-4W; Tue, 21 Feb 2023 08:18:53 +0000
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+	id 1pUOnd-007A1i-JI; Tue, 21 Feb 2023 09:19:01 +0000
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174] helo=mx0b-0016f401.pphosted.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pUNrK-0071io-6E; Tue, 21 Feb 2023 08:18:48 +0000
-Received: by mail-wr1-x436.google.com with SMTP id p8so3568373wrt.12;
-        Tue, 21 Feb 2023 00:18:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gELoCGJEkpPy9gdCArOut/mjfO8rPiKercRfU1epEXk=;
-        b=Uy4YZj2aoGZcDlVg0GMXgC9+yvfo04PKUc9e926PVFIVTSreZdY82OfbcfyFBkJ/BF
-         +8SPWMun7rPL8qD9qjujQR1j6nmm3XBXPks85zxk2snwm/1QxWFqRYTgpBFWL9Y2HzZs
-         mxCvbkudw4Ch9JA2GUOHFbPm9VcKjpUUKV0SJtYxeNcxTSfApa4xKu1Yyh20k7FrQXYe
-         9EXw9dbNdFoS7644LyfWPFx399raH+3H+jAIccDIdNqJ2ZY6ZB1Aj4ToElh7gzT2g7A1
-         yH0/P2D489ztzMvtZHqoPPuZ9tjDD5rPijTQDJE8tQcU725WjUDp/K5EPp64Z31njqfa
-         kIMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gELoCGJEkpPy9gdCArOut/mjfO8rPiKercRfU1epEXk=;
-        b=tTDpcHqypoTzMYLww4dDgdWGRmHG3Y3MiD6lXvn02TlmCui9dF7qZr0TjscjJgpHlH
-         YZPFWhjOEZOweDElL9uM3yncFNES7tt5oZh2vSQOwfP1ahRLoQ82/vSdwx8Y9jk/7W1D
-         OFAwKNku9Rv5Yg83KvsWWfb/Yb6IZu8E65+xBtIC05Bk+DXIc3wPj+uN3L6NvaVuCGAB
-         Nin3S5aPlQ7eoVo4EoZBicMR4Y0sMYAPv5YcBBgpg78ZJa9Hg0fN+FjhbBgUuRG6RDWW
-         UtXjgovikscovdeogiNJYoT5SrjezBeZYYlhxTsmJZ6BqeCDx2kkKTJNL041Id9We0n0
-         TQrQ==
-X-Gm-Message-State: AO0yUKU3ZvWSwjfyz/bjP+eXRLsVkXocgq7i1Ek5LR4z58wO9LtnzFhf
-	Ve6dL3F9Fy0RKppQIeFgK92GfxWta6z6eNn4qIM=
-X-Google-Smtp-Source: AK7set9mAvjFATflMJcoGYzLQWAe45P+YDoC3NwYkwmCvSn1rmmiIFRvICxmZDBe4ewwDigq3ULd1HEiJWM/aR55FfI=
-X-Received: by 2002:adf:f7c7:0:b0:2c5:507b:657f with SMTP id
- a7-20020adff7c7000000b002c5507b657fmr6897wrq.276.1676967524016; Tue, 21 Feb
- 2023 00:18:44 -0800 (PST)
+	id 1pUOna-007A0U-Aj
+	for linux-nvme@lists.infradead.org; Tue, 21 Feb 2023 09:18:59 +0000
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+	by mx0a-0016f401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31L7rIuv019139;
+	Tue, 21 Feb 2023 01:18:53 -0800
+Received: from dc5-exch01.marvell.com ([199.233.59.181])
+	by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 3nvkax0xrx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+	Tue, 21 Feb 2023 01:18:53 -0800
+Received: from DC5-EXCH02.marvell.com (10.69.176.39) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 21 Feb
+ 2023 01:18:51 -0800
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH02.marvell.com
+ (10.69.176.39) with Microsoft SMTP Server id 15.0.1497.42 via Frontend
+ Transport; Tue, 21 Feb 2023 01:18:51 -0800
+Received: from dut1171.mv.qlogic.com (unknown [10.112.88.18])
+	by maili.marvell.com (Postfix) with ESMTP id 8D8343F7040;
+	Tue, 21 Feb 2023 01:18:51 -0800 (PST)
+From: Nilesh Javali <njavali@marvell.com>
+To: <linux-nvme@lists.infradead.org>, <martin.petersen@oracle.com>
+CC: <linux-scsi@vger.kernel.org>, <GR-QLogic-Storage-Upstream@marvell.com>,
+        <bhazarika@marvell.com>, <agurumurthy@marvell.com>,
+        <sdeodhar@marvell.com>, Christoph Hellwig <hch@lst.de>
+Subject: [PATCH] nvme-fc: initialize nvme fc ctrl ops
+Date: Tue, 21 Feb 2023 01:18:42 -0800
+Message-ID: <20230221091842.28219-1-njavali@marvell.com>
+X-Mailer: git-send-email 2.12.0
 MIME-Version: 1.0
-References: <20230210085804.1756449-1-xiongxin@kylinos.cn>
-In-Reply-To: <20230210085804.1756449-1-xiongxin@kylinos.cn>
-From: =?UTF-8?B?6YeR5aGU5bCW?= <tgsp002@gmail.com>
-Date: Tue, 21 Feb 2023 16:18:32 +0800
-Message-ID: <CAF_YnoQFccBHO_6r78u3eSuH3MfqGGXmywiuVJf-eA=cg295Rg@mail.gmail.com>
-Subject: Re: [PATCH] firmware/psci: add .begin implementation for psci_suspend_ops
-To: mark.rutland@arm.com, lpieralisi@kernel.org, kbusch@kernel.org, 
-	xiongxin <xiongxin@kylinos.cn>
-Cc: axboe@fb.com, hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, rafael@kernel.org, 
-	linux-pm@vger.kernel.org, Tian Yaxiong <tianyaxiong@kylinos.cn>, 
-	Wei Yufeng <weiyufeng@kylinos.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: CiIQuzVIVAegA3BQIa1ypUt6N0XfFBbl
+X-Proofpoint-GUID: CiIQuzVIVAegA3BQIa1ypUt6N0XfFBbl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-21_05,2023-02-20_02,2023-02-09_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230221_001846_279544_26C34652 
-X-CRM114-Status: GOOD (  23.54  )
+X-CRM114-CacheID: sfid-20230221_011858_395162_BD47D3AF 
+X-CRM114-Status: GOOD (  11.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,137 +74,94 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-xiongxin <xiongxin@kylinos.cn> =E4=BA=8E2023=E5=B9=B42=E6=9C=8810=E6=97=A5=
-=E5=91=A8=E4=BA=94 16:58=E5=86=99=E9=81=93=EF=BC=9A
->
-> nvme_suspend() in the nvme pci driver will call
-> pm_suspend_via_firmware() to determine whether to use the suspend to
-> idle mode or other suspend, the code show as below:
->
-> static int nvme_suspend(struct device *dev)
-> {
->         ...
->         if (pm_suspend_via_firmware() || !ctrl->npss ||
->             !pcie_aspm_enabled(pdev) ||
->             (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND))
->                 return nvme_disable_prepare_reset(ndev, true);
->
->         ... /* suspend to idle mode */
-> }
->
-> The current ARM64 suspend process does not call the
-> pm_set_suspend_via_firmware() function, so when PCIe ASPM is enabled,
-> the nvme suspend process under the ARM64 platform will enter the suspend
-> to idle mode (the irq free is not called), which will cause the nvme
-> driver to report the following irq warning during the resume process:
->
-> [  189.233188] ------------[ cut here ]------------
-> [  189.237791] Unbalanced enable for IRQ 52
-> [  189.241705] WARNING: CPU: 0 PID: 2086 at kernel/irq/manage.c:781 __ena=
-ble_irq+0x54/0x88
-> [  189.249700] Modules linked in: nls_iso8859_1 dm_multipath scsi_dh_rdac=
- scsi_dh_emc scsi_dh_alua snd_hda_codec_hdmi snd_hda_intel snd_intel_dspcfg=
- snd_hda_codec snd_hda_core snd_hwdep snd_pcm snd_seq_midi snd_seq_midi_eve=
-nt snd_rawmidi snd_seq snd_seq_device snd_timer snd joydev input_leds efi_p=
-store soundcore sch_fq_codel ppdev lp parport ip_tables x_tables autofs4 bt=
-rfs blake2b_generic raid10 raid456 async_raid6_recov async_memcpy async_pq =
-async_xor async_tx xor xor_neon raid6_pq libcrc32c raid1 raid0 multipath li=
-near amdgpu gpu_sched drm_buddy radeon video drm_ttm_helper ttm i2c_algo_bi=
-t drm_display_helper cec drm_kms_helper syscopyarea sysfillrect sysimgblt h=
-id_generic drm nvme crct10dif_ce ghash_ce usbhid sha2_ce sha256_arm64 hid n=
-vme_core sha1_ce ahci libahci aes_neon_bs aes_neon_blk aes_ce_blk aes_ce_ci=
-pher
-> [  189.321740] CPU: 0 PID: 2086 Comm: systemd-sleep Not tainted 6.2.0-rc7=
-+ #9
-> [  189.328601] Hardware name: Greatwall GW-XXXXXX-XXX/GW-XXXXXX-XXX, BIOS=
- KunLun BIOS V4.0 01/19/2021
-> [  189.337543] pstate: 604000c5 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYP=
-E=3D--)
-> [  189.344490] pc : __enable_irq+0x54/0x88
-> [  189.348313] lr : __enable_irq+0x54/0x88
-> [  189.352136] sp : ffff80000d58bb00
-> [  189.355436] x29: ffff80000d58bb00 x28: ffff80000a355a54 x27: ffff001f8=
-09910dc
-> [  189.362559] x26: 0000000000000000 x25: 0000000000000000 x24: 000000000=
-0000000
-> [  189.369681] x23: 0000000000000001 x22: 0000000000000000 x21: ffff80000=
-a0d2860
-> [  189.376803] x20: 0000000000000034 x19: ffff001f80991000 x18: 000000000=
-0000010
-> [  189.383924] x17: 0000000000000000 x16: 0000000000000400 x15: ffff001f8=
-7612578
-> [  189.391047] x14: 0000000000000000 x13: 3235205152492072 x12: 6f6620656=
-c62616e
-> [  189.398168] x11: 00000000ffffdfff x10: 00000000ffffdfff x9 : ffff80000=
-823788c
-> [  189.405291] x8 : 000000000002ffe8 x7 : c0000000ffffdfff x6 : 000000000=
-0000001
-> [  189.412412] x5 : ffff0020f6f0cb08 x4 : 0000000000000000 x3 : 000000000=
-0000027
-> [  189.419534] x2 : ffff0020f6f0cb10 x1 : 0000000000000000 x0 : 000000000=
-0000000
-> [  189.426656] Call trace:
-> [  189.429089]  __enable_irq+0x54/0x88
-> [  189.432566]  resume_irqs+0x118/0x210
-> [  189.436129]  resume_device_irqs+0x1c/0x48
-> [  189.440125]  dpm_resume_noirq+0x1c/0x30
-> [  189.443951]  suspend_devices_and_enter+0x218/0x8c8
-> [  189.448731]  pm_suspend+0x31c/0x420
-> [  189.452207]  state_store+0x94/0x118
-> [  189.455684]  kobj_attr_store+0x18/0x30
-> [  189.459421]  sysfs_kf_write+0x4c/0x60
-> [  189.463073]  kernfs_fop_write_iter+0x130/0x1c0
-> [  189.467504]  vfs_write+0x284/0x358
-> [  189.470893]  ksys_write+0x74/0x108
-> [  189.474282]  __arm64_sys_write+0x24/0x30
-> [  189.478191]  invoke_syscall+0x4c/0x110
-> [  189.481930]  el0_svc_common.constprop.0+0x58/0x190
-> [  189.486708]  do_el0_svc+0x40/0xb8
-> [  189.490011]  el0_svc+0x2c/0xb8
-> [  189.493053]  el0t_64_sync_handler+0xb8/0xc0
-> [  189.497223]  el0t_64_sync+0x1a4/0x1a8
-> [  189.500872] ---[ end trace 0000000000000000 ]---
-> ...
->
-> Implement pm_set_suspend_via_firmware() in PSCI psci_suspend_ops.begin()
-> for ARM64, so that when doing the suspend process, it will directly
-> enter the nvme_disable_prepare_reset() process.
->
-> Signed-off-by: xiongxin <xiongxin@kylinos.cn>
-> Signed-off-by: Tian Yaxiong <tianyaxiong@kylinos.cn>
-> Signed-off-by: Wei Yufeng <weiyufeng@kylinos.cn>
->
-> diff --git a/drivers/firmware/psci/psci.c b/drivers/firmware/psci/psci.c
-> index 447ee4ea5c90..90d6102d45d7 100644
-> --- a/drivers/firmware/psci/psci.c
-> +++ b/drivers/firmware/psci/psci.c
-> @@ -484,6 +484,13 @@ static int psci_system_suspend(unsigned long unused)
->                               pa_cpu_resume, 0, 0);
->  }
->
-> +static int psci_system_suspend_begin(suspend_state_t state)
-> +{
-> +       pm_set_suspend_via_firmware();
-> +
-> +       return 0;
-> +}
-> +
->  static int psci_system_suspend_enter(suspend_state_t state)
->  {
->         return cpu_suspend(0, psci_system_suspend);
-> @@ -491,6 +498,7 @@ static int psci_system_suspend_enter(suspend_state_t =
-state)
->
->  static const struct platform_suspend_ops psci_suspend_ops =3D {
->         .valid          =3D suspend_valid_only_mem,
-> +       .begin          =3D psci_system_suspend_begin,
->         .enter          =3D psci_system_suspend_enter,
->  };
->
-> --
-> 2.34.1
->
+The system crashed while performing qla2xxx nvme discovery with
+below call trace,
 
-This is a bug of nvme under the arm64 architecture, please help to
-confirm whether the patch is reasonable;
+qla2xxx [0000:21:00.0]-2102:12: qla_nvme_register_remote: traddr=nn-0x245e00a098f4684a:pn-0x245f00a098f4684a PortID:5a247a
+qla2xxx [0000:21:00.0]-2102:12: qla_nvme_register_remote: traddr=nn-0x245e00a098f4684a:pn-0x246100a098f4684a PortID:5a2d6e
+BUG: kernel NULL pointer dereference, address: 0000000000000010
+PGD 0 P4D 0
+Oops: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 61 PID: 6064 Comm: nvme Kdump: loaded Not tainted 6.2.0-rc1 #3
+Hardware name: Dell Inc. PowerEdge R7525/0590KW, BIOS 2.5.6 10/06/2021
+RIP: 0010:nvme_alloc_admin_tag_set+0x51/0x120 [nvme_core]
+Code: 00 00 00 00 81 c1 b0 00 00 00 48 c7 86 a8 00 00 00 00 00 00 00
+      c1 e9 03 f3 48 ab 4c 89 46 38 c7 46 44 1e 00 00 00 48 8b 45 30
+      <f6> 40 10 01 74 07 c7 46 48 01 00 00 00 8b 45 5c c7 43 58 40 00 00
+RSP: 0018:ffffafe6cd7cbd10 EFLAGS: 00010212
+RAX: 0000000000000000 RBX: ffff898e0c39c050 RCX: 0000000000000000
+RDX: 00000000000001d8 RSI: ffff898e0c39c050 RDI: ffff898e0c39c100
+RBP: ffff898e0c39c398 R08: ffffffffc0afe1a0 R09: ffff896ed602a600
+R10: 0000000000000010 R11: f000000000000000 R12: ffff898e06ea2600
+R13: ffff898e070ffbc0 R14: ffff898e0c39c040 R15: ffff898e0c39c398
+FS:  00007f9368279780(0000) GS:ffff89ad7fb40000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000010 CR3: 000000210c570000 CR4: 0000000000350ee0
+Call Trace:
+nvme_fc_init_ctrl+0x328/0x460 [nvme_fc]
+nvme_fc_create_ctrl+0x1b0/0x260 [nvme_fc]
+nvmf_create_ctrl+0x141/0x240 [nvme_fabrics]
+nvmf_dev_write+0x81/0xe0 [nvme_fabrics]
+vfs_write+0xc5/0x3b0
+? syscall_exit_work+0x103/0x130
+? syscall_exit_to_user_mode+0x12/0x30
+ksys_write+0x5f/0xe0
+do_syscall_64+0x5c/0x90
+? exc_page_fault+0x62/0x150
+entry_SYSCALL_64_after_hwframe+0x72/0xdc
+RIP: 0033:0x7f936813e967
+Code: 0b 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 f3 0f
+      1e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 b8 01 00 00 00 0f 05
+      <48> 3d 00 f0 ff ff 77 51 c3 48 83 ec 28 48 89 54 24 18 48 89 74 24
+SP: 002b:00007fff4197a468 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 0000560862447d40 RCX: 00007f936813e967
+RDX: 000000000000012b RSI: 0000560862447d40 RDI: 0000000000000003
+RBP: 0000000000000003 R08: 000000000000012b R09: 0000560862447d40
+R10: 0000000000000000 R11: 0000000000000246 R12: 00005608624473f0
+R13: 000000000000012b R14: 00007f93682e6100 R15: 00007f93682e613d
+
+Initialize the nvme_fc_ctrl_ops before allocating the nvme admin
+tag set.
+
+Fixes: 6dfba1c09c10 ("nvme-fc: use the tagset alloc/free helpers")
+Signed-off-by: Nilesh Javali <njavali@marvell.com>
+---
+ drivers/nvme/host/fc.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 4564f16a0b20..6c0125eb2a0f 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -3521,13 +3521,6 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 
+ 	nvme_fc_init_queue(ctrl, 0);
+ 
+-	ret = nvme_alloc_admin_tag_set(&ctrl->ctrl, &ctrl->admin_tag_set,
+-			&nvme_fc_admin_mq_ops,
+-			struct_size((struct nvme_fcp_op_w_sgl *)NULL, priv,
+-				    ctrl->lport->ops->fcprqst_priv_sz));
+-	if (ret)
+-		goto out_free_queues;
+-
+ 	/*
+ 	 * Would have been nice to init io queues tag set as well.
+ 	 * However, we require interaction from the controller
+@@ -3539,6 +3532,13 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	if (ret)
+ 		goto out_cleanup_tagset;
+ 
++	ret = nvme_alloc_admin_tag_set(&ctrl->ctrl, &ctrl->admin_tag_set,
++			&nvme_fc_admin_mq_ops,
++			struct_size((struct nvme_fcp_op_w_sgl *)NULL, priv,
++				    ctrl->lport->ops->fcprqst_priv_sz));
++	if (ret)
++		goto out_free_queues;
++
+ 	/* at this point, teardown path changes to ref counting on nvme ctrl */
+ 
+ 	spin_lock_irqsave(&rport->lock, flags);
+-- 
+2.23.1
+
 
