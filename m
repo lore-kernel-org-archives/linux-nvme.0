@@ -4,135 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4E60AC61DA4
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Feb 2023 09:02:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4E27CC6379F
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Feb 2023 09:07:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QFUI15qGG3Uc1pn5dekB8hZdtrWvi76P+HJ8sE3RT6E=; b=EGNQ6GiR1yAbkojsXa8ZQFBpJQ
-	pEQe3GNui/Ou8c6GYOV6qt83pZgr6JwOfbqSPkB66pm7BpX1nwFDOZkNsKua1eaDUt5NhAP66SiXu
-	Jktyjm2Yb0qAOIrxIjHAx2nwrSdboptCIyxIyiyKGG5ApjmDVqtckangKi4xU8K/4HPXFbxDvGAPD
-	W4ApZlj+yBsd/G4nSdavRfELNCMzzfcE9sUoWx4LX0LYdAPfpptCwe9tZKBy2bph8Y59r8GcInRFg
-	qggB/Jj8wXmQ4ycLi9zfFcpmsVpEco+xNMiSehhJLaAkwoXjO8ua+HCCR8vdKN5qc5jUkrLMInoRp
-	vE0zVDbQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=X6IEpSISwJiYlJ3uA866lskXve3r+4o2hf4z7VM6m5o=; b=gJgjPNZLEwvwAaPz1cIrB7dLtQ
+	4Qx5GhDNfr1zm+VAJrTfvVddsSx7pYfXFSeASBxanD6Cc9la+faqE/wIjzSerCItOpnJ5PyOFKwE9
+	UOHqY1fZmRb6KSZePbnB2IU2uoc7qyjRnnMFRJ8Sxs9u2us/dmQUEHwb4FrvAasWi3Oh2eessDu+w
+	llJeVddG8myTZlOfjr2WGxB4EAk1QAaChKjL/v0mJZoH2MxhNBobz9rm51GFy+Ek2Z1TIJ35mKSKW
+	kp7/R2VhlJKEjDLDtKpwvTET6E2theyVZt/D4Huh1cHWQTW66Gl+ArDf2tVmACmwsFL/km/vDP6mO
+	VP+/RnMg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pUl1U-00BJNa-2G; Wed, 22 Feb 2023 09:02:48 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1pUl5a-00BKMf-5c; Wed, 22 Feb 2023 09:07:02 +0000
+Received: from mail.corrib.pl ([185.58.226.145])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pUl1N-00BJKy-6q
-	for linux-nvme@lists.infradead.org; Wed, 22 Feb 2023 09:02:43 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20230222090231epoutp0417d9cc1553ae918342734b2ddf26b56d~GGgxqszSx1625316253epoutp04V
-	for <linux-nvme@lists.infradead.org>; Wed, 22 Feb 2023 09:02:31 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20230222090231epoutp0417d9cc1553ae918342734b2ddf26b56d~GGgxqszSx1625316253epoutp04V
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1677056551;
-	bh=QFUI15qGG3Uc1pn5dekB8hZdtrWvi76P+HJ8sE3RT6E=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=lavbo9LG9NOViRKkC9j6Rqo0sFjNhVVQhh1l91pJ1Y3oihtHls5IapnaoFP5qi1M+
-	 aytIqWjgsHjKw+DFcwURV17FlyNc7U3pvYyYonJV8XbloRdqsATABL7Kbx03mJa5vK
-	 PWN1/Xojpb4VN1VVP//TVjZO04IZgFLl4PECKP4c=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20230222090231epcas5p13f234960738c0cf4e3206c3cfad2b69a~GGgxG-5S80161201612epcas5p1F;
-	Wed, 22 Feb 2023 09:02:31 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.180]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4PM9CT4G7gz4x9Pr; Wed, 22 Feb
-	2023 09:02:29 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	59.81.06765.52AD5F36; Wed, 22 Feb 2023 18:02:29 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20230222061311epcas5p1668d0066e043e146e6bd7db32c010667~GEM7Fiiac1792017920epcas5p1E;
-	Wed, 22 Feb 2023 06:13:11 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20230222061311epsmtrp20840e9dccad1f7846d8bb9d162a25aa3~GEM7Efrmo3190331903epsmtrp2G;
-	Wed, 22 Feb 2023 06:13:11 +0000 (GMT)
-X-AuditID: b6c32a4b-20fff70000011a6d-24-63f5da258277
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	08.9C.05839.772B5F36; Wed, 22 Feb 2023 15:13:11 +0900 (KST)
-Received: from green5 (unknown [107.110.206.5]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20230222061308epsmtip21ab9090b9fa12359e861e5637b8374cd~GEM3-5pBx1221112211epsmtip2d;
-	Wed, 22 Feb 2023 06:13:08 +0000 (GMT)
-Date: Wed, 22 Feb 2023 11:42:36 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Minwoo Im <minwoo.im.dev@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Alasdair Kergon <agk@redhat.com>, Mike
-	Snitzer <snitzer@kernel.org>, dm-devel@redhat.com, Keith Busch
-	<kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
-	<sagi@grimberg.me>, James Smart <james.smart@broadcom.com>, Chaitanya
-	Kulkarni <kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
-	bvanassche@acm.org, hare@suse.de, ming.lei@redhat.com,
-	damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
-	nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v7 2/8] block: Add copy offload support infrastructure
-Message-ID: <20230222061236.GA13158@green5>
+	id 1pUl5Y-00BKL7-33
+	for linux-nvme@lists.infradead.org; Wed, 22 Feb 2023 09:07:01 +0000
+Received: by mail.corrib.pl (Postfix, from userid 1001)
+	id 223F7A3A8B; Wed, 22 Feb 2023 09:06:23 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corrib.pl; s=mail;
+	t=1677056813; bh=X6IEpSISwJiYlJ3uA866lskXve3r+4o2hf4z7VM6m5o=;
+	h=Date:From:To:Subject:From;
+	b=hmp7mhwgQGGnX68xXObzxaaxCJvdDTxBWomf6glTp3NkwZR25oOMIpCAPgtawdFO2
+	 bVQIN6IuECzjIOB3nr1y8cbN+bQAvg4rFmrXCNiaD9Vrz2IUk6o+EZ9l+eAUEdJsWw
+	 IIPAQZVBCquKNBC1Ae2iWbc8VqeeLch9iF6j695OAegi0blGnnynfTea434AFCbIYX
+	 +/cnzMCyDngjQORFXQK8az/EQ2PSsoSgDnPKnVZ7LJ2XXV01EdGP3Z8sslGI1wvt7R
+	 atNzPvlQN3vRdwC4Z2XBjlrMdyOsvLmnOd17hPPiuUvAEsw3ZlKizspFW7YR42TOrV
+	 KGjEWbvRKgQfg==
+Received: by mail.corrib.pl for <linux-nvme@lists.infradead.org>; Wed, 22 Feb 2023 09:06:04 GMT
+Message-ID: <20230222074502-0.1.5n.hcfw.0.2ltbay5c7k@corrib.pl>
+Date: Wed, 22 Feb 2023 09:06:04 GMT
+From: =?UTF-8?Q?"Szczepan_Kie=C5=82basa"?= <szczepan.kielbasa@corrib.pl>
+To: <linux-nvme@lists.infradead.org>
+Subject: Faktoring
+X-Mailer: mail.corrib.pl
 MIME-Version: 1.0
-In-Reply-To: <Y/VapDeE98+A6/G2@minwoo-desktop>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TfVBUVRjGO/fuXhZ14YYfHHCSnUvGl7uwsrtdGqActK5RgWONYzXhtlw+
-	l91lP8RkKkAwBRWEMNnSwBASkA1WCIQF21IEYmDkQ2UkoUEjCBCQ0GVk2+VC43+/8z7PO897
-	3jOHg7p84+DOiVdoabVCKiewNaz6X328+FsH52UBmZUepKHjBkpm5D1DycqhXIw88+gpSi52
-	daOkaepbNnn3WiNCNl/IR8hLldcRsqlkBiGvWycxMt88AMgH/XqENA36kc2mdhbZe/U7jPy+
-	7IEDaS44gpCW42vJhtF0QFZPTLPIm4Obye5nbew3XKnevnBKf78Loxr1Qw5U9x81LKq3S0fV
-	VhzHKGPpl1TT3TSMOnlkymbIus+mplv6MerUlQpAGTtTqbnaLVTt6CQS6fxhYnAcLY2m1Txa
-	IVNGxytiQ4jwvVFhUWJJgJAvDCJfJXgKaRIdQux8J5L/ZrzctgGCd1Aq19lKkVKNhvAPDVYr
-	dVqaF6fUaEMIWhUtV4lUAo00SaNTxAoUtPY1YUDAdrHNeCAx7pZ1BlPVrT3UnWEEaeC0YzZw
-	5EBcBIfrppBssIbjgjcB+JWlFbMLLvgsgItFgYzwL4DVlaXIasfizXmMEUwADjwdYjOHUQCz
-	OxuA3cXCt8Khy/m2Dg4Hw/1gp5VjL2/AvWDpcBmw+1G8gA3T7pSz7cJ6/G2YNV69nMC1+S01
-	FpThF2F70SjLzo64AI4UTC/zRtwTXqtvW5nI4AiHag8yvBOOnW1Zqa+H421XHBh2h3NTJozh
-	FHjp6x+XbwDxTAD1t/WAEV6HWR25y8EoHgcv/pXBZuovwcIOZjgUd4InF0dXAriw4fwqe8Iq
-	Q/FKgBscWEhfYQoajg2zmA2NAHivvR3kAQ/9c5fTP5fH8DZY3DSL6W3LQ/HNsHyJw6APNFz1
-	LwbsCuBGqzRJsbRGrApU0Cn/v7hMmVQLln+Ib3gD+HP4kcAMEA4wA8hBiQ1cK3dO5sKNln52
-	mFYro9Q6Oa0xA7HtsU6j7htlStsXU2ijhKKgAJFEIhEFBUqEhCvXK6Rd5oLHSrV0Ik2raPVq
-	H8JxdE9DuGLvD3wq+cEvj7y10Jw5Xh4/MWv5NKTF+MVRtoenqWRs/zpJKi9xtshPkEcTtDUt
-	d6Cm1e/n+cWapcfKerdz595r5i9h6Uhq8gtOxvfzd4tCn+xI+O1OxCGkx5U34eKqTg1LhE9i
-	E8AvWm3YxS0f9+R8Lv9kYVfy4l6iKKJCm+DtcLjyh7r582eRM3T9rebdM5v2GTPfzel7mOM9
-	fmpHzFFEYBaP/R2zzVB2rPEe3MMlSn6yVP0OI7I6nGP8BwoPVBeirww07oreI15HfdQz49zh
-	45xscEopO+G3aX9r6MPbk/vc+hp1/5Rf7k/Q+FpDq1SzWRf4N8rmM+Uemu3CHQmPCZYmTir0
-	RdUa6X9EkgBuqgQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrJIsWRmVeSWpSXmKPExsWy7bCSvG75pq/JBnPniVusP3WM2aJpwl9m
-	i9V3+9kspn34yWzx++x5Zou972azWtw8sJPJYs+iSUwWK1cfZbLYvfAjk8XR/2/ZLCYdusZo
-	8fTqLCaLvbe0LfbsPclicXnXHDaL+cueslscmtzMZPGrk9tix5NGRot1r9+zWJy4JW1x/u9x
-	Vgdxj8tXvD1m3T/L5rFz1l12j/P3NrJ4XD5b6rFpVSebx+Yl9R67bzawefQ2vwMqaL3P6vF+
-	31U2j74tqxg9Np+u9vi8Sc5j05O3TAH8UVw2Kak5mWWpRfp2CVwZ/2b+Yy74ylHR9O4ZcwPj
-	K7YuRk4OCQETid8nvgLZXBxCArsZJZ5sPsAEkZCUWPb3CDOELSyx8t9zdoiiR4wSL2e3MoIk
-	WARUJe6unQTUwMHBJqAtcfo/B0hYREBdYsmDZYwg9cwC01kl3k8/CrZNWMBLovXVOrAFvED1
-	vzb+YoYY+pBR4vOxM6wQCUGJkzOfsIDYzAJaEjf+vQRbwCwgLbH8H9gCTgE9iYeT34OViAoo
-	SxzYdpxpAqPgLCTds5B0z0LoXsDIvIpRMrWgODc9t9iwwDAvtVyvODG3uDQvXS85P3cTIzj2
-	tTR3MG5f9UHvECMTB+MhRgkOZiUR3v+8n5OFeFMSK6tSi/Lji0pzUosPMUpzsCiJ817oOhkv
-	JJCeWJKanZpakFoEk2Xi4JRqYFpw+l3OirXTymbemr7qykFuZlNOlZ/yQn6XTB0fubmaN1X+
-	nbHfKCZGhlNhkoMrwy3xVps7SS73U+/82fBc28pq9QzlLM97Qolrt65pm2bdp/M8+Un8270p
-	q7ck/WipSMjateiu/T3vJLt5FWecOFg4Tt2zX7eJVaio4hZncGJo+9WmF6UanW0WDny9i/ZG
-	z6hxcBBKDTRqkWvrOaT323rK1bUvwmeq/Pzc6t92S6z2+72DLZ3RRTmPVhjEW/jpveeu5N9b
-	ZPqwvMSOUXPvySnMNXLC0dPFHrIu3ejh/dwjz6TizaTo06fTHZ0fPF55dEehtMn6wHkZNQnh
-	z6XkI8tDl938Zq/5TTDvUc4JJZbijERDLeai4kQA/vWOE2wDAAA=
-X-CMS-MailID: 20230222061311epcas5p1668d0066e043e146e6bd7db32c010667
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----yVjN9gd9kB_eEBqPP9-k1BSyTM5mTd6q7sagKps1_qiE1IrQ=_83a81_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230220105441epcas5p49ffde763aae06db301804175e85f9472
-References: <20230220105336.3810-1-nj.shetty@samsung.com>
-	<CGME20230220105441epcas5p49ffde763aae06db301804175e85f9472@epcas5p4.samsung.com>
-	<20230220105336.3810-3-nj.shetty@samsung.com>
-	<Y/VapDeE98+A6/G2@minwoo-desktop>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230222_010241_927553_80E4303A 
-X-CRM114-Status: GOOD (  21.25  )
+X-CRM114-CacheID: sfid-20230222_010700_279094_377E4DEB 
+X-CRM114-Status: UNSURE (   2.83  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -147,43 +64,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------yVjN9gd9kB_eEBqPP9-k1BSyTM5mTd6q7sagKps1_qiE1IrQ=_83a81_
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+Dzie=C5=84 dobry,
 
-On Wed, Feb 22, 2023 at 08:58:28AM +0900, Minwoo Im wrote:
-> > +/*
-> > + * @bdev_in:	source block device
-> > + * @pos_in:	source offset
-> > + * @bdev_out:	destination block device
-> > + * @pos_out:	destination offset
-> 
-> @len is missing here.
-> 
+rozwa=C5=BCali Pa=C5=84stwo wyb=C3=B3r finansowania, kt=C3=B3re spe=C5=82=
+ni potrzeby firmy, zapewniaj=C4=85c natychmiastowy dost=C4=99p do got=C3=B3=
+wki, bez zb=C4=99dnych przestoj=C3=B3w?=20
 
-acked
-
-> > + * @end_io:	end_io function to be called on completion of copy operation,
-> > + *		for synchronous operation this should be NULL
-> > + * @private:	end_io function will be called with this private data, should be
-> > + *		NULL, if operation is synchronous in nature
-> > + * @gfp_mask:   memory allocation flags (for bio_alloc)
-> > + *
-> > + * Returns the length of bytes copied or a negative error value
-> > + *
-> > + * Description:
-> > + *	Copy source offset from source block device to destination block
-> > + *	device. length of a source range cannot be zero. Max total length of
-> > + *	copy is limited to MAX_COPY_TOTAL_LENGTH
-> > + */
-> > +int blkdev_issue_copy(struct block_device *bdev_in, loff_t pos_in,
-> > +		      struct block_device *bdev_out, loff_t pos_out, size_t len,
-> > +		      cio_iodone_t end_io, void *private, gfp_t gfp_mask)
-> 
-
-------yVjN9gd9kB_eEBqPP9-k1BSyTM5mTd6q7sagKps1_qiE1IrQ=_83a81_
-Content-Type: text/plain; charset="utf-8"
+Przygotowali=C5=9Bmy rozwi=C4=85zania faktoringowe dopasowane do Pa=C5=84=
+stwa bran=C5=BCy i wielko=C5=9Bci firmy, dzi=C4=99ki kt=C3=B3rym, nie mus=
+z=C4=85 Pa=C5=84stwo martwi=C4=87 si=C4=99 o niewyp=C5=82acalno=C5=9B=C4=87=
+ kontrahent=C3=B3w, poniewa=C5=BC transakcje s=C4=85 zabezpieczone i posi=
+adaj=C4=85 gwarancj=C4=99 sp=C5=82aty.=20
+Chc=C4=85 Pa=C5=84stwo przeanalizowa=C4=87 dost=C4=99pne opcje?
 
 
-------yVjN9gd9kB_eEBqPP9-k1BSyTM5mTd6q7sagKps1_qiE1IrQ=_83a81_--
+Pozdrawiam
+Szczepan Kie=C5=82basa
 
