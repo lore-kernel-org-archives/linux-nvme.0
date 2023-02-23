@@ -4,79 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69828C636D6
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Feb 2023 14:53:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5F9CFC636D6
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Feb 2023 15:34:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lZnAibGvBZUSdsRc+gyHZnZ2bjXIXW7E6CZE7QOc2dg=; b=sESfBcOD6ON18ewCoNXTrCRrAm
-	nHteQ8bBISjsJHYyXHHC4ACJPC4RYDZ9aSpSbCOJL1D9X8OS3bGo0Ug8zFpvOi9ShwqDjfHTsTtMS
-	p9TZalBcWNWaTFg/kIBG1gzcQFbqnxJgjUnQ0w1fNVabOjGjY6/XW17v4Y7mUoKIqCTcP45w5F4Pt
-	aQc7pq6qh7pVawdASZQDQpTGeEHAc4Lqq/mMrfdZ5pG1JPhDLmizLkxl5o31pN+/c5VR6A2jIea+H
-	a7l7l5XUNKXW1RC/4rejS2JVZoaF/IsMcgdF/hz7hBg1SqBTsiThE6/pNWo1nAx7Oej1MkIoKqkh0
-	1iyGsZfQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=z6hXYN8j62FdMOuIHfGnONjGoCuAo9ox8KU2kT7xN5I=; b=12Rku79ttT3tz7WjEAPKS/yo6Y
+	ENZ1lx+AXw0m/Bi/FQKkq9rutmZ6+36B3S3+y/ECYarKzRXYKRdV+qNH2wTeQRSd0pTAeW06Rf4Ca
+	o18o3A71Xl7C2qko1YlQioGZi+c4M1C2Ur+K9bQ6NHsflUcLZ3uWUw3oyMHlu7Z3vTAAX+3M99ZQR
+	6ocvKKmcHoGNnNLkKofTtW0Hajxs5Z1J0TwQd9kAkyZqE7Z6lTHi56e5cNfHCNcLGNHVsqStU924f
+	Pdio2vHWK9dAn6FbYcQIiUxWdVv7gKMlA9GsJLma+s4U3Bdtp3lKMpKtX/k3+0lLE9wjBX3tS38Lz
+	cMh6YUpA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pVCyj-00GtAv-NG; Thu, 23 Feb 2023 14:53:49 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1pVDbW-00H3uQ-Ii; Thu, 23 Feb 2023 15:33:54 +0000
+Received: from mail-wm1-f41.google.com ([209.85.128.41])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pVCya-00Gt7q-Qr
-	for linux-nvme@lists.infradead.org; Thu, 23 Feb 2023 14:53:42 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id AD87B20C72;
-	Thu, 23 Feb 2023 14:53:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1677164016; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lZnAibGvBZUSdsRc+gyHZnZ2bjXIXW7E6CZE7QOc2dg=;
-	b=CDfi/ohnQ776UwyVwUBB5aQ89c0SxndO+pxiJ+a+aOLJiybXanMh53TeZhKfdnAvlUr+x+
-	GO+4J241QlNOfd6CkqagGU7m5oidihZjQNwbHukrX3kHi9zRAadBgkKq6rHdYRlnLtCSIx
-	pKhF6OKjR08OtUII2AF5UPwlGTPLx0I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1677164016;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lZnAibGvBZUSdsRc+gyHZnZ2bjXIXW7E6CZE7QOc2dg=;
-	b=h/bQGKLIS6HIZoZOJbApvOgIJp/gawOmzdMmNLawyYXFRHhBcguWWACSWPb3JHNqg67CF7
-	Y/pZI+ctvdb1K2Aw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9E557139B5;
-	Thu, 23 Feb 2023 14:53:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id o6WYJvB992PzKQAAMHmgww
-	(envelope-from <dwagner@suse.de>); Thu, 23 Feb 2023 14:53:36 +0000
-Date: Thu, 23 Feb 2023 15:53:36 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Ivan Rubinov <linuxkernelpatch8234@riseup.net>
-Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Add quirk for ADATA SX6000PNP
-Message-ID: <20230223145336.lulowpv3vlr65lwu@carbon.lan>
-References: <87ff6272-2cfe-6b54-864e-71951118c43a@riseup.net>
- <4b824085a2f4987f4682e3602a0e1a96@riseup.net>
+	id 1pVDbS-00H3qe-Hx
+	for linux-nvme@lists.infradead.org; Thu, 23 Feb 2023 15:33:52 +0000
+Received: by mail-wm1-f41.google.com with SMTP id p23-20020a05600c1d9700b003ead4835046so381511wms.0
+        for <linux-nvme@lists.infradead.org>; Thu, 23 Feb 2023 07:33:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=z6hXYN8j62FdMOuIHfGnONjGoCuAo9ox8KU2kT7xN5I=;
+        b=G95+5yc1bDrUExScWTxKOEK5miZ62qXU696hUgiv5KSIqUiSlINvI+StPBCvmSdMpG
+         xw9nkZCLu7S5T5j+vJ0FQLU+u6Y5c/U1pNji6OdCKCDbVOLBpKFOhnaWwljgMoW7bOxn
+         5YqCwUd7gNelqxvknQJ7uKDgFZoK8Ka/rchOsYzG0Q4dD/aotqcfbDqk7/Hh1jWpMeg1
+         stqNe2Iheo63L7LuV19Vg0ak9IZSUPfaUT8Mmk1x3+JqgmY37NNVNLjuvOjAfLhE5kVP
+         6VFxKAFAtzdj0nDOELG6CgGvM1vOADA5mgzo9HsT16UlxNKU3OZRuTOU6++3hhS9do/r
+         5UwQ==
+X-Gm-Message-State: AO0yUKXGEyOGSN4DfhSZVud1tDywnEwpgYuXlM10brXResFLqHhBbv9y
+	6mQJVg6bNuYz28dJl0u41dc=
+X-Google-Smtp-Source: AK7set8H9eIuX3XvQveK6S6sVV3dnOv6DtpjIG/yxFwYLXs40/SLN5hc0pHZXNkxrAzWCP4r/JWM1Q==
+X-Received: by 2002:a05:600c:28e:b0:3db:2922:2b99 with SMTP id 14-20020a05600c028e00b003db29222b99mr9364819wmk.4.1677166423089;
+        Thu, 23 Feb 2023 07:33:43 -0800 (PST)
+Received: from [10.100.102.14] (85-250-17-149.bb.netvision.net.il. [85.250.17.149])
+        by smtp.gmail.com with ESMTPSA id v10-20020a05600c214a00b003e209186c07sm11616530wml.19.2023.02.23.07.33.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Feb 2023 07:33:42 -0800 (PST)
+Message-ID: <72746760-f045-d7bc-1557-255720d7638d@grimberg.me>
+Date: Thu, 23 Feb 2023 17:33:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v11 00/25] nvme-tcp receive offloads
+Content-Language: en-US
+To: Aurelien Aptel <aaptel@nvidia.com>, linux-nvme@lists.infradead.org,
+ netdev@vger.kernel.org, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
+ chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org
+Cc: aurelien.aptel@gmail.com, smalin@nvidia.com, malin1024@gmail.com,
+ ogerlitz@nvidia.com, yorayz@nvidia.com, borisp@nvidia.com
+References: <20230203132705.627232-1-aaptel@nvidia.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20230203132705.627232-1-aaptel@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4b824085a2f4987f4682e3602a0e1a96@riseup.net>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230223_065341_046019_A6522FF1 
-X-CRM114-Status: UNSURE (   8.71  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230223_073350_614080_51CF0823 
+X-CRM114-Status: GOOD (  25.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,24 +82,89 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Feb 17, 2023 at 01:28:42PM +0000, Ivan Rubinov wrote:
-> Ivan Rubinov писал(а) 2023-02-10 15:10:
-> > From 5a8f4f54c85ccb8e06b41b27bcaf19ec4f4d7c85 Mon Sep 17 00:00:00 2001
-> > From: Ivan Rubinov <linuxkernelpatch8234@riseup.net>
-> > Date: Fri, 10 Feb 2023 14:59:41 +0300
-> > Subject: [PATCH] Add quirk for ADATA SX6000PNP
-> > 
-> > Signed-off-by: Ivan Rubinov <linuxkernelpatch8234@riseup.net>
 
-Can you post the output of 'nvme id-ctrl' for your two devices?
-Because the ones in
+> Hi,
+> 
+> Here is the next iteration of our nvme-tcp receive offload series.
+> 
+> The main changes are in patch 3 (netlink).
+> 
+> Rebased on top of today net-next
+> 8065c0e13f98 ("Merge branch 'yt8531-support'")
+> 
+> The changes are also available through git:
+> 
+> Repo: https://github.com/aaptel/linux.git branch nvme-rx-offload-v11
+> Web: https://github.com/aaptel/linux/tree/nvme-rx-offload-v11
+> 
+> The NVMeTCP offload was presented in netdev 0x16 (video now available):
+> - https://netdevconf.info/0x16/session.html?NVMeTCP-Offload-%E2%80%93-Implementation-and-Performance-Gains
+> - https://youtu.be/W74TR-SNgi4
+> 
+> From: Aurelien Aptel <aaptel@nvidia.com>
+> From: Shai Malin <smalin@nvidia.com>
+> From: Ben Ben-Ishay <benishay@nvidia.com>
+> From: Boris Pismenny <borisp@nvidia.com>
+> From: Or Gerlitz <ogerlitz@nvidia.com>
+> From: Yoray Zack <yorayz@nvidia.com>
 
-  https://bugzilla.opensuse.org/show_bug.cgi?id=1207827
+Hey Aurelien and Co,
 
-clearly have clearly different subnqn.
+I've spent some time today looking at the last iteration of this,
+What I cannot understand, is how will this ever be used outside
+of the kernel nvme-tcp host driver?
 
-Although, I have to admint they look suspicious but they are not the same:
+It seems that the interface is diesigned to fit only a kernel
+consumer, and a very specific one.
 
-subnqn    : nqn.2018-05.com.example:nvme:nvm-subsystem-OUI00E04C2K2129Q696LA
-subnqn    : nqn.2018-05.com.example:nvme:nvm-subsystem-OUI00E04C2J4120007707
+Have you considered using a more standard interfaces to use this
+such that spdk or an io_uring based initiator can use it?
+
+To me it appears that:
+- ddp limits can be obtained via getsockopt
+- sk_add/sk_del can be done via setsockopt
+- offloaded DDGST crc can be obtained via something like
+   msghdr.msg_control
+- Perhaps for setting up the offload per IO, recvmsg would be the
+   vehicle with a new msg flag MSG_RCV_DDP or something, that would hide
+   all the details of what the HW needs (the command_id would be set
+   somewhere in the msghdr).
+- And all of the resync flow would be something that a separate
+   ulp socket provider would take care of. Similar to how TLS presents
+   itself to a tcp application. So the application does not need to be
+   aware of it.
+
+I'm not sure that such interface could cover everything that is needed, 
+but what I'm trying to convey, is that the current interface limits the
+usability for almost anything else. Please correct me if I'm wrong.
+Is this designed to also cater anything else outside of the kernel
+nvme-tcp host driver?
+
+> Compatibility
+> =============
+> * The offload works with bare-metal or SRIOV.
+> * The HW can support up to 64K connections per device (assuming no
+>    other HW accelerations are used). In this series, we will introduce
+>    the support for up to 4k connections, and we have plans to increase it.
+> * SW TLS could not work together with the NVMeTCP offload as the HW
+>    will need to track the NVMeTCP headers in the TCP stream.
+
+Can't say I like that.
+
+> * The ConnectX HW support HW TLS, but in ConnectX-7 those features
+>    could not co-exists (and it is not part of this series).
+> * The NVMeTCP offload ConnectX 7 HW can support tunneling, but we
+>    don’t see the need for this feature yet.
+> * NVMe poll queues are not in the scope of this series.
+
+bonding/teaming?
+
+> 
+> Future Work
+> ===========
+> * NVMeTCP transmit offload.
+> * NVMeTCP host offloads incremental features.
+> * NVMeTCP target offload.
+
+Which target? which host?
 
