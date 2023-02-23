@@ -4,168 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42F02C64EC7
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Feb 2023 17:04:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54889C61DA4
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Feb 2023 04:26:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	In-Reply-To:Date:References:Message-ID:From:Subject:Cc:To:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ctmiZ+/D0VgJe7pn6+lL41Up7bSf4TfQby7SBzDUklE=; b=gNSA/TSIyP1sjl/NQGEBKGLfJ8
-	9ZSxuQFc+O7TFkKuEBUNGLvPHJffaH2wK+smbglglrkStikQYjYVVymPwyxGd4WDLXpKWN8C6qXMo
-	vyGMOjkiGyFwF7HdBu6k+vF3lj+XLYLJocQSsHzltZQodfj6/dMv5so8CzGQuLI4vNCmta53SmUYW
-	2uPSJXsBk92TdScEc7GeNEsGCdQof4FgYwb9X0ykzngFTxYR/2OR9U9gBSIqi7zev2p3j0ATZGoTG
-	2eQD7qPoKtwoMFbuGCWbTW1VukaiJD5D1mlgeZ3pQ3/WInXb7V9zjU7Oe8kYpO3Q650m97IX5z1If
-	VQ0a7Yog==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ZoTpEOClZar02thkfzjyjAV+5Jz4h4a6o9Hlh5t8FqU=; b=jIyMM7u0Xa4+wGdh7z2yxS3GJC
+	CNinrzvpQLlyplHPMp0zO+X4oG6oDdoOWI8MRXgMRE25y6YblM9Vb6JfKrIJVyASy1RzGi5zrfh3l
+	SXkZ/kQk65/UtQ0UzlRwlBxQdoKnKGhD1MlMid4YKHoV1MrdcDouHmnZBkwL91C16Oo17QHn4CkCl
+	uYaIumT787EqUMemVOTYUWKkxeDiJaIQhYCB9xbI9fy0+YV2oWw4s85Er77vZevcF2ddio2GHw5ax
+	voKoK+sxqUdpiCxc32H+cab3NIiMUfCrkV9qqTmnKS481hyKEHvba7vn0nvtg0NZhAhVrv7gC9JU9
+	gMxAkAzg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pUsXe-00D8VY-Gv; Wed, 22 Feb 2023 17:04:30 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1pV3BR-00F0Ko-Bl; Thu, 23 Feb 2023 04:26:17 +0000
+Received: from mga12.intel.com ([192.55.52.136])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pUsXb-00D8T9-FD
-	for linux-nvme@lists.infradead.org; Wed, 22 Feb 2023 17:04:29 +0000
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31MGTkew001028;
-	Wed, 22 Feb 2023 17:04:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
- from : message-id : references : date : in-reply-to : content-type :
- mime-version; s=corp-2022-7-12;
- bh=ctmiZ+/D0VgJe7pn6+lL41Up7bSf4TfQby7SBzDUklE=;
- b=rsffq8oiz/NbfIfDBEXGE9T/IewNgpHqv0Sq3JmRXsi+QZPp3NUU+uiUY5zS17EjPtll
- TDPJcxvuBmGdNtPCoD3s/pzqA6+voKBPpFDcf0T+/oqn4q8uBH4+HPb/QaoL1BOFiiqj
- in8nxL1gH1KoOIRv72g8Ix/h4gW1W7gEJiwNQ0GO9IaQFhm+zQRzt23GSSxeON0HFt/2
- z2ek+RN03O6WoSNQq4wWowYDqiW/NiGJUUOj9gp9Q+NEWRkMKgbk0krBJbKtQd7mDp0Y
- /ra7hxVANYbz6TQebVfVwyNBn/y9GhKTq+ZXgA5Elajux2k05IZ2pU+AgAJXxMzTSoVX 5Q== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ntpja8d5a-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 22 Feb 2023 17:04:23 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 31MFhisU031210;
-	Wed, 22 Feb 2023 17:04:22 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3ntn46tr4a-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 22 Feb 2023 17:04:22 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YWl4S5EhKo3OJBz1iEE7Zv8hkcp1jJzH7t6QBzm1LkJk44Hw1pDn8uN/A/WrUKF2b+KwFMNAiwGLSHuh7MALn7fivUnnwqfq5gqNIPkmFiPRxwI/fRl13UVxt1S+20fRZliEQsbecSF1myMLV1CzdgAGmA1DeEmbl6nLq3Zyld5GhXUcAk8MOXVtI/6Cm/Q7kXwPKg5VcaXvs3LquZNgsZLcJVdA6ZF+ly29e7z+5nP6I5ykbE0h6mkPBIxXPXZdtAc35nm5WTT53ONZ9EH34AAI+4mO/b2F9mHeLblxH+tAjICHVV2fKV6Z4tks+TRuMZdipvInhN/YizvEX/S+XA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ctmiZ+/D0VgJe7pn6+lL41Up7bSf4TfQby7SBzDUklE=;
- b=ef9wklrqZdHUIHda9CRpvlyus3ESO8PeRZYy89CBn34nRjwW4B34OlmUTlBGydYiW2BLbcUA95rLmgt+Tt5xsXr5F+NS2NSE8TzPWUmkMdfIlJVsQpLjZ8A2nDYEFJMOd5ztSeoBgl0p/zFz8kIN2Hrzohid2uFo+L8KblvXOa12g7rMLmGBz3iBca7R/QlkRg8qER6a2JD2wdkggiVA18DaW8xw2TYe/161BeedoM5CxNnxvH1ZUNQ4yO3gbH2RUMdQSzbdwn2wRLhjujXofu+KpbRqyvemWug9iaCGjKosd/N3NWfpS1OhTZoU2/2tI9oQx7pwDjYzobQ8CXUvlw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ctmiZ+/D0VgJe7pn6+lL41Up7bSf4TfQby7SBzDUklE=;
- b=aIgChLUYBVaOsFi5s2IvfhdOtmrWAbRTv/lYzkmv/JCqBMA0nLdjlNx/oIcf59umceKQur28EJ5NEfL4x22UMjENUB8wabiJP1T62aIVj1d/uKjLDATmAs+uyWMcEa2jfjJrLEtyfn0EXFZHcR/L/Ib23Gc9Mvn0L8AqSXXhamI=
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
- by CH2PR10MB4168.namprd10.prod.outlook.com (2603:10b6:610:79::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.17; Wed, 22 Feb
- 2023 17:04:20 +0000
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::8ef9:5939:13aa:d6a2]) by PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::8ef9:5939:13aa:d6a2%7]) with mapi id 15.20.6134.019; Wed, 22 Feb 2023
- 17:04:20 +0000
-To: Nilesh Javali <njavali@marvell.com>
-Cc: Christoph Hellwig <hch@lst.de>,
-        "martin.petersen@oracle.com"
- <martin.petersen@oracle.com>,
-        "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>,
-        "linux-scsi@vger.kernel.org"
- <linux-scsi@vger.kernel.org>,
-        GR-QLogic-Storage-Upstream
- <GR-QLogic-Storage-Upstream@marvell.com>,
-        Bikash Hazarika
- <bhazarika@marvell.com>,
-        Anil Gurumurthy <agurumurthy@marvell.com>,
-        Shreyas Deodhar <sdeodhar@marvell.com>,
-        Shreya Jeurkar
- <sjeurkar@marvell.com>,
-        Jeetendra Sonar <jsonar@marvell.com>
-Subject: Re: [EXT] Re: [PATCH v2] nvme-fc: initialize nvme fc ctrl ops
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <yq1o7ploei6.fsf@ca-mkp.ca.oracle.com>
-References: <20230221095708.29094-1-njavali@marvell.com>
-	<20230221173521.GA13772@lst.de>
-	<CO6PR18MB4500B97E46D7749B2D957836AFAA9@CO6PR18MB4500.namprd18.prod.outlook.com>
-Date: Wed, 22 Feb 2023 12:04:14 -0500
-In-Reply-To: <CO6PR18MB4500B97E46D7749B2D957836AFAA9@CO6PR18MB4500.namprd18.prod.outlook.com>
-	(Nilesh Javali's message of "Wed, 22 Feb 2023 05:59:54 +0000")
-Content-Type: text/plain
-X-ClientProxiedBy: LO2P265CA0418.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:a0::22) To PH0PR10MB4759.namprd10.prod.outlook.com
- (2603:10b6:510:3d::12)
+	id 1pV3Ay-00F08C-U1
+	for linux-nvme@lists.infradead.org; Thu, 23 Feb 2023 04:25:50 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677126348; x=1708662348;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=dNrEMF3AyFWPo6rhUhgYcjSnzMMExEL0srREbpwb/yo=;
+  b=j5QUQI19KG27c1s3O9GVRnXuzsGfyiQAlvndCLn03nKsQVdbpmDhV5/q
+   cvCop6DYIGLzgjrKUxEgbQYVR0agTxjG3WZS7IyengG1rRNJ8nVcj3iZ7
+   2ZmJYYCESkJn6Na+EU/EeJxJ3DAbTE5KLny8gtMd3twB5w7GdTxBLRsXA
+   1IG9BtuLC7Z1dyALY6VIHpyZeceQCYaHCxdz+qDbc/xuTWa5DykedpzEV
+   GTuH9mY4A3bTRbelDFB0OXBAB9XBCUdMJyclMnRMcFB+iB9FtK3WFsKEr
+   n3U7vEKm0NikSsEWlo9pVySG2y+47fLtLnRGUKfytckSAOr64VNz6a0O6
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="312737694"
+X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
+   d="scan'208";a="312737694"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 20:25:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="649808056"
+X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
+   d="scan'208";a="649808056"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 22 Feb 2023 20:25:46 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pV3Av-00011N-1H;
+	Thu, 23 Feb 2023 04:25:45 +0000
+Date: Thu, 23 Feb 2023 12:25:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.3] BUILD SUCCESS
+ 4ea2512ef92ff00bffb5b5f0b0258b24915405ab
+Message-ID: <63f6eaa4.0a7yH1Hi2qRib063%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR10MB4759:EE_|CH2PR10MB4168:EE_
-X-MS-Office365-Filtering-Correlation-Id: edb8daff-343c-408b-d4b8-08db14f6d692
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	Qb0N24jVxwziIxx6NJdzxa/P1UTFWp9Ve5qihnZUMvGLb00eBa0VyMpqaiW4Zc/HDasjC3UYXPMxJecBjLBpK4aayT3kGrdfTPUiiZRWWbLTxKdtHwhcmPMzbfXwEcQ+UfFksGRenRkPbRLEX6M9ztVpk+Tt8223cNDWx7f1k/SEeRK4/MeuV4zcsuimN793WNZ0QbBBdsUEwXx+xtKQvtajc0T4VDrAxFGOPLbOjo8j3Pw3spoIChl1XOslkKl6J8f+uu1hh6abHTT9M4oHiMxLnGlFRUib1AachRyHYYnfMq9AvUG1ooGo/AbDqcbN+g5QiO6h4Tvr5hqZ2naw1YFbM6E8VpXTxTFohzOVCMv8b6QsBWSBUJfnCp7DJq9uBDWNJv6Tk82da3W0Y9G3lRQdHLbtmGV+Da8DXJYWXkoxolaGgjYL2YMv45fM6NF8alfSpTomxx214wbzBEWeMnLyL7A/8K69RPbLwjBWFquQBjLBoN0B+femacC0WjB+j029jYqauuY7GcBxpcUpK28HadWpa0Abq+oJBD0vsIKhfK8YSod8BA6VGnrDHdcxJq4qA5xMNmhPVegTBpg1vJMmFNObrRKt8DsaoBhcXNF2gSJc+nNfieUSu0hg8FLTfs8KFP1phzEgHOR6xmyH8g==
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(39860400002)(366004)(346002)(396003)(376002)(136003)(451199018)(38100700002)(41300700001)(8676002)(6916009)(8936002)(66946007)(66476007)(4326008)(66556008)(6506007)(36916002)(478600001)(6666004)(54906003)(6486002)(83380400001)(316002)(2906002)(86362001)(5660300002)(4744005)(186003)(26005)(7416002)(6512007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?dPrieTUXzfL9W1ZeimIgjiHTIIOL5mECJA3eo4MFhGe5MA3+/OPDE9OwqWFJ?=
- =?us-ascii?Q?4rnO6is4caGU8NEdolwfhlLk3bqEwKB90MI5B7og+rc8tIEwrV9PqE31hNWB?=
- =?us-ascii?Q?mKCvu0L2Z+enbfOsxzD9GCgJZvqJTels6n8W6YtRD/00sn1bYoW8eGZcz/ey?=
- =?us-ascii?Q?6fi4cD2IBju4VLaIBW4xmEn0J1ZKoLYCJIuK7VJJfmvKQOxJBKiTZ3Z51oW6?=
- =?us-ascii?Q?Nq5hpxPVf+wfKNFEIGNzDIgz2PW/KkMc2i//80j6DL1JYtEArvIeVFte8Xkx?=
- =?us-ascii?Q?kb9LZAsiy4I7zaOMKsVQVdDwppvfPTx/wwOu9Ij3fLZF5R8GyguM6SCipIzE?=
- =?us-ascii?Q?AvnyzkCk5AYFsRW9ctIuwApHRJDq70JTaBG4j/vrSMTs3RxHkP/X6cNBKj0T?=
- =?us-ascii?Q?+VrlPVhX4MhybNAYMyzpA3AunDfch9cvti6kIcKJwT2Uw5FbDnrPurUVM7YA?=
- =?us-ascii?Q?OcojIff/sFH3z/wVm/bSvAjgbOOEYB3ZLq+9cE2PJ2sxSXKGVb1lpimI3UH8?=
- =?us-ascii?Q?cEhVpms7j2/eRuGilmhdS/Viw4rn7WA86aJTcmfn+GO+WqWGwr0d5EWAtiTh?=
- =?us-ascii?Q?gblTON74XSl8M7zUrdJbzsm2z6okxIVz/B3sgcFyMXV64SaogCgIvitF8SwL?=
- =?us-ascii?Q?ZleSxN66YdmMyMdqgUx3dlhW9hKDw8Y/Cvd4dyRiZ3q2LaGhfuES6Ui5+STo?=
- =?us-ascii?Q?gF3enylK1YzKVdosOHIDqrKpYfmQrGjfM8+G/9M7qIsL/wMxwOJ7mW0oszVZ?=
- =?us-ascii?Q?xAJWNoL0PC3ZgD2mGT0C6oP8f57aKhfRfx74D91noUTkplInNo+7kAI/R9eV?=
- =?us-ascii?Q?RIohGCdUK2YDSN7J7Ty5h30zfFCqRR12++P2dj4sOy5m5C9rGQHcdqGCOh1l?=
- =?us-ascii?Q?3SSu2zYS/l6jr7rCJX3zLIJOUVtgLl89TO+a0CR4tMnjX/MZg6RkQAnuXL06?=
- =?us-ascii?Q?DRooTkIT+X4tk08NJdSJE2eKrQKxuQbpcDEh1qfdlmXyRW50gtpBmr8HbZFE?=
- =?us-ascii?Q?85K5wYoMURlgeHOqgTiImSDg0tSNuztf71xZaJz7roy4+v4/ve0ZrbxGxews?=
- =?us-ascii?Q?PbM2aENTkhQxp45T4FrK+pdRLUgCdVwaAjVLJAJS/rGmv88ObxhHqmYl0Mq2?=
- =?us-ascii?Q?KUwfI4sx+l+dnE/Eb26gq0l3URfIs3Z4mhVy2DCUl+7/1mrL+Vft9rBPBJsV?=
- =?us-ascii?Q?VOQPN/ic+4UAt9C8yIxf82jTJpSQkmw2wW9rF7jIbRtvBPlA486t87Umhg+h?=
- =?us-ascii?Q?DqO4H1OTSMdieyBHG2jKAmf6/62V9M8aP/ajdxD8LwcKuw09jqAgFJ5ttNEg?=
- =?us-ascii?Q?4Xxc0/Ht7S1MQ5bAyJvEOo/YXfogydK44el5oMmJEulVwC4GQA5tYrhFDy+X?=
- =?us-ascii?Q?meCEA6OLDEL377xF7bRodbDQDqLEpO+MIL12wgYvwS1M3GgreF//WOaN6tAp?=
- =?us-ascii?Q?lv/VTcHY5MCxxFq4m1HRxxMCA0ntcohNbJuq5BDXhznl1+4TzGrQWjv9U0Ju?=
- =?us-ascii?Q?RAMNAdD9oL8PMD90mZIGdEQS0rWQwnoH4wdNS7prTtVx9TT9BafQDc0IOgm9?=
- =?us-ascii?Q?h36QU+t6S6v6M9neAkcgk8mcUdbKDxCr2nYC2fcqvDJZVnjIY8bSdxu7WlYh?=
- =?us-ascii?Q?SQ=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 	DUxbcEi3o9aufBbwKRnmjihRo1SCBwsSGB7akQIcnLjM8/CAYhXqYC1KCCAvArVgzcRjKjmufEXp7TifXvl/i8zxEA1c813W1pDTM0yn3OQUWO1UTb7Q8ig0LeDvkfRfMuxz34HAGUq49SJJzxpU/mcJLdn9Z/Qc1T4RznMxzk+G3SSvy3udYqj9plhheX1PqnCARkeIKhI6RCayLOEXLaU1C6ZbqprbsBKQO34/XPnZQwMWDorKDXL9tPKkmYLKcZ867gtcN7APb5Kx2pZxIQVAdc7duOhS6PYS/kumxw1daTI8jANACvdvPS6P3C/fh8dfmeExJSWNWtThAejz79ZIJfkqEwT2/fwu3lEU5UTfA7iINVBU4CNBmgMTjnJXN2mVm0eg0AhK19b9Sv3RIx9vRRuZ6IHk6XN87SXbWEARvaXnZyUuD1hEY9wQUvFBcOIzToLzDpb9mX4mn+GGJOJTTXrSfGYX1QN7FgYywTn2vd70pDZuLiPb4hWGq4XBzY9jzzCbt7F/cDoy/6dySCBgfuy5vt0kXGZQ9FgmWYwAxQYyV0YfqhaicrZCB/a/XNZ48EK+xwmXz8zikgtwRGtnJ/T+axsa0fjuRYzp5+og4zCOCY72nSQou2RWqE8kuvlBtlpVbJCn179bq4FwJYC1HBLUbBBQl3d5o4SLPW31ioLQy0C9CmmEn9uTHfyJAtA4FuXM5JKC9BwLvac+OjSJhquP+JaQLtqYve+hTbE3/awzL3a2k+YEueMG3bT2/pRbo/58tovFa3Cs/LSUqIUUjL55Jrwt1l5bawsVKaiKsri0zWh2DcXtXd4WkMFm9eCqGilNUMwdr+53RR/2Iy6ilXTHSC+cW/pgWIvSyrBd+4DQpYAdlZYmRlyJjMrl
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: edb8daff-343c-408b-d4b8-08db14f6d692
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2023 17:04:19.9545
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MzWWG72MNNegdw/TNX8k8tL++gtewpXTK9QNCpIWpn8L8D6VFW6EU5/tuClWr/36cFl0MaXLqd7hwSwvONtrF3FwzrDzBL/uf8L/76mQowc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR10MB4168
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-22_06,2023-02-22_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 bulkscore=0 phishscore=0
- suspectscore=0 malwarescore=0 mlxscore=0 mlxlogscore=852 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2302220149
-X-Proofpoint-ORIG-GUID: S_3lyl_IW593RDBh-Ee02ZJQavw3Hon8
-X-Proofpoint-GUID: S_3lyl_IW593RDBh-Ee02ZJQavw3Hon8
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230222_090427_904338_BC33BC7F 
-X-CRM114-Status: GOOD (  16.42  )
+X-CRM114-CacheID: sfid-20230222_202549_036995_05122607 
+X-CRM114-Status: UNSURE (   6.06  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -180,23 +82,95 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+tree/branch: git://git.infradead.org/nvme.git nvme-6.3
+branch HEAD: 4ea2512ef92ff00bffb5b5f0b0258b24915405ab  nvme: bring back auto-removal of deleted namespaces during sequential scan
 
-Hi Nilesh!
+elapsed time: 743m
 
-> The 6.3/scsi-staging or 6.3/scsi-queue branches are still at
-> 6.2.0-rc1.  That could be the reason we hit the NVMe discovery NULL
-> pointer dereference issue.  Any plans to pull the below commit to
-> 6.3/scsi-staging or 6.3/scsi-queue branches.  Or am I missing
-> something here.
+configs tested: 73
+configs skipped: 3
 
-Except in very rare circumstances, the SCSI submission trees stay at
--rc1 forever. I generally don't bring in stuff from other trees to avoid
-problems if those trees subsequently have to rebase.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-It sounds like you should be testing either linux-next or maybe a local
-ephemeral integration branch featuring the various topic areas that are
-important to you (SCSI fixes + staging, block, NVMe).
+gcc tested configs:
+alpha                            allyesconfig
+alpha                               defconfig
+arc                              allyesconfig
+arc                                 defconfig
+arc                  randconfig-r043-20230222
+arm                              allmodconfig
+arm                              allyesconfig
+arm                                 defconfig
+arm                  randconfig-r046-20230222
+arm64                            allyesconfig
+arm64                               defconfig
+csky                                defconfig
+i386                             allyesconfig
+i386                              debian-10.3
+i386                                defconfig
+i386                          randconfig-a001
+i386                          randconfig-a003
+i386                          randconfig-a005
+i386                          randconfig-a012
+i386                          randconfig-a014
+i386                          randconfig-a016
+ia64                             allmodconfig
+ia64                                defconfig
+loongarch                        allmodconfig
+loongarch                         allnoconfig
+loongarch                           defconfig
+m68k                             allmodconfig
+m68k                                defconfig
+mips                             allmodconfig
+mips                             allyesconfig
+nios2                               defconfig
+parisc                              defconfig
+parisc64                            defconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+riscv                            allmodconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+s390                             allmodconfig
+s390                             allyesconfig
+s390                                defconfig
+sh                               allmodconfig
+sparc                               defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                            allnoconfig
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                                  kexec
+x86_64                        randconfig-a002
+x86_64                        randconfig-a004
+x86_64                        randconfig-a006
+x86_64                        randconfig-a011
+x86_64                        randconfig-a013
+x86_64                        randconfig-a015
+x86_64                               rhel-8.3
+
+clang tested configs:
+hexagon              randconfig-r041-20230222
+hexagon              randconfig-r045-20230222
+i386                          randconfig-a002
+i386                          randconfig-a004
+i386                          randconfig-a006
+i386                          randconfig-a011
+i386                          randconfig-a013
+i386                          randconfig-a015
+riscv                randconfig-r042-20230222
+s390                 randconfig-r044-20230222
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+x86_64                        randconfig-a005
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
 
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
 
