@@ -4,74 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6398C7EE23
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Feb 2023 17:49:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86786C6FA8E
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Feb 2023 17:50:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zsWPgf3lxVpJrhgy1Lk5+dJ1206CLLPepev3QZNrx94=; b=xL+GNzxIPTo/hPVLVbOND6MpU6
-	vOYfVQoC9hIeoUjCP2VzGyC0HGWhq46NYzSkIwUBFV6bSTk3PYEqMBFCBrCe+Lbgn65tjbPgjmygy
-	1U4UESnRgg4Rsn+Oydqq1/P7AmwM7X+n8PlFaZrmu1CdCAmpFI9Lpqj1dkXe81ae9rPoysREwZAvF
-	YaFxLhWIeEaxtFCaWy5p3KHQ9Hbl9DHKUa0x0aVBqhzvMFi0+/yvMemN4SGaUNL8XGaRCi7I7eIc9
-	xA7LK9aJUZhsLV4gTcxwESDFhOa7xNhkMeFjRxQ2iKjXWbY5HtVHQPxsO4rgQycL1as9pYnyBU32X
-	S2fKtPIg==;
+	bh=ZErqBaMndButBwMFn4FUb9IbiqcWB3jZAeeXjD5QyaY=; b=P568xpENZM/vWu9FaaE5Qb6UMQ
+	XPCVOpryNWSfAvkLJ19FipitOsF9GiZ8cU+/fnflTGF3hgp2spBoX0gSVNhL9EttWVIf7dvttHrF9
+	1jLaDTO4AikxfjCsPrkIDIOMZo71XTKmdaA9imBp7wjRypjCgrB8FQH+l81qY9pkhvjUXCUVbP/pn
+	AJ60eGQIPg1Cyw3RMn1tKxWRJSy6p8t+zbsGqq66cGRjXDCh064K41LzIkaZq5AkAE7ktbbFo0dyJ
+	vqt5piKhhlH6/5yg321HdxjNTnhsFSPBdLI2dZuBDFUficH4FsTeftKSy3A7RJRj6BVOl3EPa4GIA
+	ghyoshHw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pVcCW-003NxA-4r; Fri, 24 Feb 2023 17:49:44 +0000
+	id 1pVcDB-003OBL-8A; Fri, 24 Feb 2023 17:50:25 +0000
 Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pVc8e-003MK8-CJ
-	for linux-nvme@lists.infradead.org; Fri, 24 Feb 2023 17:45:46 +0000
+	id 1pVc8e-003MKZ-Pe
+	for linux-nvme@lists.infradead.org; Fri, 24 Feb 2023 17:45:47 +0000
 Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31OHhqUn013474;
-	Fri, 24 Feb 2023 17:45:29 GMT
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31OHhrEn013868;
+	Fri, 24 Feb 2023 17:45:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version; s=corp-2022-7-12;
- bh=zsWPgf3lxVpJrhgy1Lk5+dJ1206CLLPepev3QZNrx94=;
- b=X6c/lKrSXfpZfxaJx2N33wyRrxWMR2CopLlziCDfTZ1VvFTkl3rDdi8aRi6fYw4voEl/
- QwIyYiRqkVg3PBNq4qoLV0ARB76soTRcMCSUuP+vv2FOupxHAbb9PcttiSJzw8jisQMB
- q+h/WJqHOJjtrh5uX6E3FcMh/BjP65B/rXEvTnGyT3ygWal2uCovVYS97bvCENILGEht
- HeZlWpeIHPC6hOb1ohLnItOgL4hP8Z0aWWHCTjvKKmwtFLvkAAQ0T4W6+W0VeGKm7FoT
- 1z/Srx4mHIbeG2DSQs+ZcZvyorJUAj9lzcBbDx8SXtGFiSEtQp0hBzJVobkEoFQcNw3i iw== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ntnf3nqxy-1
+ bh=ZErqBaMndButBwMFn4FUb9IbiqcWB3jZAeeXjD5QyaY=;
+ b=yMiED10nQrt3Wkz2eLdwS4XwWfrCRhATo/R+gLPg/FlPvnugmKsn4uqnPYnLwg0KqQ6i
+ t1234FVX+cTMqz8uqGSHbojGR1ba08+Iu5o06F3htBNxnV3c298XJyTrBYdrbBN6YiY4
+ u9MoGivtrGvooRwly6BHCt+xEpsgoqbKXfQoJzoY+V720CfiSjh+WYHPCQr9qFWRmbEe
+ yAIv1m8yYn5qKwHMOGJbTWdbaFV1q+jtJY89sZflhkPKx70VLoyvVf1zD97c0HdegDJP
+ CqCiojE+C22QZaqjowZOvNzKyvTDRBi74AeMHBbkdzsYS7LQHRIbuDvsTyA/Nh27w0NM gQ== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ntnf3nqxu-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 24 Feb 2023 17:45:28 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 31OGpeDL030248;
-	Fri, 24 Feb 2023 17:45:28 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2105.outbound.protection.outlook.com [104.47.58.105])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3ntn49sstj-1
+	Fri, 24 Feb 2023 17:45:24 +0000
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 31OH9Lvl033950;
+	Fri, 24 Feb 2023 17:45:24 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2175.outbound.protection.outlook.com [104.47.57.175])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3ntn4h5nu6-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 24 Feb 2023 17:45:27 +0000
+	Fri, 24 Feb 2023 17:45:24 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Na2qWVvONZ3s5H6+evlbPUr3O+9rdQmXxTPGlKiMOQo2P1+zXVX/IJX4c7EuBIXsPkHM6bmtUDvI8bxcePwDJBNaAa/pGutLtxBp7MJLt/0NHV1ArBC6ywmAxratV3wNBZI5kbzTWPJp5DWYsko3T5ZsXlPf/0I06uZ7EeKF+rDkVMSk/67Nbz501/l1TS+ZYWgpvLEOabDNUdwGoJ8SPS84HZPsvNK+uZ30mmbo3GXwlBs7N8UimbtkUvTbMxB2GVzaDs+jMs2Lg/w+1/mQAJBcmhvupMHQ5eT5U4+vyn9JlwflzbOqAyzWHIR+xWtCbKePBda7F+GoRSsnEg/SJg==
+ b=eFHT4Y7VIVvG2Dxb97h/r1MTiZoLnip8xQHnstgwPAG46dCg/wwws4v9uPy6jquDH9cguFK1foTgla1lx7+PeI27dpTSTXnAwo0boFrlaDZowUdiuJkhPO1vlu0HbYdnp0tboVl8A2aXIjW99EQMWfp5mcUbtybl4wA0NNLHOTsPyQ8prYbVcNSWsH/jGjI4Dtzi7J20kHFEF4SIOLOYMcRknmCi73usSYB24s6+2rnJ4kw02VNS0n5xxxJOJ7cFAZdmnjaLW2DiVX0zOKTSqVmq+guGqA4+BxRUzNUQVI/IGV3/XaMSyan2/lcpeJ3SwQFVUndTSkb0KAAWB59NlA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zsWPgf3lxVpJrhgy1Lk5+dJ1206CLLPepev3QZNrx94=;
- b=jwvoroBnrr+x6ZBG8IdcsrYGONuVaQmcmy37s8YnVS02DMx6rKLzw3bsPfctnbaonFZAchG3myzzIDiWYJ6wLTTsDMXJX6VUIm1spzUQ861u3HOnMp94ZNnpAy1ii0npg3fwFwvyuUZfWXDMmijBYP5KAOr3fVCCJ0uoDRbYHB9k6oxcKQqs+PYfc5xbFPZvnVxsMbQ6Kp1F7QAznoRPIUOL+bkVXKTyoFkjJqYvEtIh/gyaH2N8y/o0JrGw1GDqcOLpZ1q+JXPIWNKkvs0zsqxrufA6Z494qgesr48taWk6dRHYT4FZian34th4MY1gtnFwDwdGrf1aVyVQWGxE/A==
+ bh=ZErqBaMndButBwMFn4FUb9IbiqcWB3jZAeeXjD5QyaY=;
+ b=FYKva+r0LkJco+sBxA97Dsb1zoNuMctDupG25nU/blMhjAtJSQXGNn/aNBG3BXQgRNQjelmCShsmb3uYVewU4s6IYg/o4aeYUgqqSVjhcCRiFlcIE8RWAdZJ2TZZo4DgYE4caJJBMkIQyFGXzbkol0qzUy9tkXt2u+uE//EWwbop8dzrJqBRrNGmP5v8GZ45Z18/HOqMqsq2YtW62Ooc98qdmZdyp3xFPkXt0x2ROwziftcZutYCxkdjOrZLpy0M4cL/qmD82pKoah8Mo567yiKiFzbgL9HOLURArRGEPq6IgtrReJDrLjBj1xQU77NJrw2S5CmMgD44rbiHUtGFdA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zsWPgf3lxVpJrhgy1Lk5+dJ1206CLLPepev3QZNrx94=;
- b=U+1OZ9gO0AssFbCevdqxLyTLxAXBa5NcNxBR6n9Xeg+joqndjPeBPiqI3Xff1UBM0VAJSBW9Ms5fMHCkl/g7gzEuxu3fNW3KCElwzu2uvK7pCbfdkp/vz8gqlr2BvsEJgR0c2vNwk+NnFPJFjuU7mHVuvhawA8bdBYdwmx4KDUw=
+ bh=ZErqBaMndButBwMFn4FUb9IbiqcWB3jZAeeXjD5QyaY=;
+ b=FKHaCRWb2628/Re9D/AIjpAiC30mVr+V1ErU/KryhS+uou/Z0wB+PqYzrn1Fwm5EN8yvmWpiNjWaHgQvdi8BPDoK3t2/drF0fNOngP9hiwv0BDX7vbWVazQM/V2LXr2MuaR9ticfi5i1MSI20ZFpstZMcPLqr40DB8+CI/H6Jws=
 Received: from DM5PR10MB1466.namprd10.prod.outlook.com (2603:10b6:3:b::7) by
  CH0PR10MB7535.namprd10.prod.outlook.com (2603:10b6:610:187::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.7; Fri, 24 Feb
- 2023 17:45:25 +0000
+ 2023 17:45:22 +0000
 Received: from DM5PR10MB1466.namprd10.prod.outlook.com
  ([fe80::7dd7:8d22:104:8d64]) by DM5PR10MB1466.namprd10.prod.outlook.com
  ([fe80::7dd7:8d22:104:8d64%7]) with mapi id 15.20.6156.007; Fri, 24 Feb 2023
- 17:45:25 +0000
+ 17:45:22 +0000
 From: Mike Christie <michael.christie@oracle.com>
 To: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
         linux-scsi@vger.kernel.org, james.bottomley@hansenpartnership.com,
@@ -79,97 +79,97 @@ To: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
         axboe@kernel.dk, linux-nvme@lists.infradead.org, chaitanyak@nvidia.com,
         kbusch@kernel.org, target-devel@vger.kernel.org
 Cc: Mike Christie <michael.christie@oracle.com>
-Subject: [PATCH v4 14/18] scsi: target: Rename sbc_ops to exec_cmd_ops
-Date: Fri, 24 Feb 2023 11:44:58 -0600
-Message-Id: <20230224174502.321490-15-michael.christie@oracle.com>
+Subject: [PATCH v4 12/18] nvme: Add a nvme_pr_type enum
+Date: Fri, 24 Feb 2023 11:44:56 -0600
+Message-Id: <20230224174502.321490-13-michael.christie@oracle.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230224174502.321490-1-michael.christie@oracle.com>
 References: <20230224174502.321490-1-michael.christie@oracle.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: DS7PR05CA0056.namprd05.prod.outlook.com
- (2603:10b6:8:2f::17) To DM5PR10MB1466.namprd10.prod.outlook.com
+X-ClientProxiedBy: DS7PR03CA0305.namprd03.prod.outlook.com
+ (2603:10b6:8:2b::25) To DM5PR10MB1466.namprd10.prod.outlook.com
  (2603:10b6:3:b::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM5PR10MB1466:EE_|CH0PR10MB7535:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2cef3e57-260b-401c-92c6-08db168ee8f3
+X-MS-Office365-Filtering-Correlation-Id: 6540f1ab-ce3e-4f21-e941-08db168ee75b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	VeOl28SmvnPK1pGcyf/mPW7qP78sGfuuICINECzlmeRj7KDT9AZn4dBGUFzIBwtsKg2fIBAY7My3tQ2tHN/6NUp+yTfrLphBGxKn88BnXqqr1nLWKB0FdgRvb6KmxtkU6yGsAcKVz+0NG4dyUy1JcAhRU881ajNzWGvWUztywAwIGncwaZdRWa/B8dRDQpsOZeGsZs006NKsVsDclDSuYoYchRPKQahU1etNQb9scHv5lk6aCI0088UkSIdHVCHy7VFFAOKrNmtrP6lMr/tj0dtoa9FnxAdGXcQxmHvP0/E5DERdeKR2D//o9qBja7RcBglSvdRE2gv/NEG5NGr48Fc9cH2vZu+K5N8L/zRnm498CHWegxp3+JQUXVG9NBZZNpmMMx9NhWPF8NaanTQqr22SdwveLt9xYQp5gELNzEJh4V3DSlOlv1TEm5aHalMjpOkaO98tTWSs3J9Xi+XYQDhAsbw8QZXPDEY5BX1fXZj4BZJRf63CE/fk5OynB2p+z5cHK3kw3sl8Sx5unM+y3VO8b1goE3fPVJw8rD0yyTxjxO4j3MM3wR4eidaGCFer8HGx3TKcAvvnUSDs80adLiOi16eeDrAsOGhBrXhQyzNfsPD3Y4e+dM9EF8ub8OEODxhl9kf9vWx415pNmp36H4DRM78H1X8QLICT/RKuHhjZbfI1xZfEQZzMWh1SUqgrTCZ3rm+lUEds/OW3Ybv1pQ==
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR10MB1466.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(346002)(366004)(376002)(39860400002)(136003)(396003)(451199018)(4326008)(66476007)(66556008)(66946007)(8676002)(83380400001)(41300700001)(316002)(36756003)(186003)(8936002)(26005)(5660300002)(2616005)(38100700002)(7416002)(6512007)(921005)(86362001)(478600001)(2906002)(6486002)(6506007)(107886003)(1076003)(6666004)(309714004);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 	RCTYJAyx0bKD+c1NbuRN4BVAu+yCNlo0avCKIl16a3D3jYWth0r4mnVUcmLMMOm0UwnQPYmDDtZVY8S1cbiJ6z+j42f+Yw17B4gPkMPNidVIPlxt9eD7MwXtTJOrPWQS4e0qkFCm5taL3n+7uL59ya4brVIZ4vUUtWfWjGsNPMWCO6JDmHY03wD7VTIaBJzz3nCf82Ke/lhCe/HwnvNYA2Dkl2RNI/tVAWo7seMm4JLmgygrgPYnxi/rU7raPy4V6QTqcKlAB5Gbq/0oc+EFxhZ9KNZx7SdEkEKFeSfFKlpNmIubKsv2pUl4cs13eEcF8vWRJJNqHsMVsTjTRlnuPhhR7tqFpJUce2Dlhuxtp/E7lBu9u5tzsDxeqX0kRarSKuL3VAE8Fg0KLytnFigzP29sRl2BKKgXdL/Zhg4kSFLtFHpRH1MpDeLyEAdubhsG8jlI7GsYr5XWu+yHV86qhRf2mPFPBOfGe/NIAZv9jn7dhQXhOaTEPPQxzqd9PbB9ieLtjBwNTA+5THSFOqeB5yqM1nw6Xmsur5O00lp0TH7VDu4UMIKcHjRxcXqpJ7jN9z7l9g0PmatlGL3rCdXCuFYiZ697LmF59mo9lpzyLy6pyNv0DRnAkhEzc6FmaCdPD+79GZBMtBOrRIScX2rjDstWQ16NqqvGHgheFIE+OB09m10k+TTf68ryxQsDi8lQ
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR10MB1466.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(346002)(366004)(376002)(39860400002)(136003)(396003)(451199018)(4326008)(66476007)(66556008)(66946007)(8676002)(83380400001)(41300700001)(316002)(36756003)(186003)(8936002)(26005)(5660300002)(2616005)(38100700002)(7416002)(6512007)(921005)(86362001)(478600001)(2906002)(6486002)(6506007)(107886003)(1076003)(6666004);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?YKCHuBXsi6g0QgqoCmZlaU/4EdulvuehuIpMeq6FsDqRDSs5rPFxredC9JW7?=
- =?us-ascii?Q?pRf94Yv0yKPrJGFefDP+l2Eojjs/yrOaDvFUUmxZvZrt1KZZVJ84StJt1oo1?=
- =?us-ascii?Q?zgG0PYKsa6kXKkfh4+DNwy87uj+bIwNM0WL3gH2rSFSvx+qGWB1seDZWnt7O?=
- =?us-ascii?Q?R53J4F5CXp4Pc3+/14JOePjHNwhH8juomBUIs9ZFPIwutXiyfeSa49SUiVHw?=
- =?us-ascii?Q?CAANSn+ckhFYiJWO6YLyUkaTZq2W+uCnJ6lF0QzuZHNqpxfBLkOkOkN0gIsV?=
- =?us-ascii?Q?TiHEGx6wbv6qCrYB6biEBejjCbks2M8l+3rRmdYbpXN5dMS0ooNUycpbAv7J?=
- =?us-ascii?Q?H4XyW2PbOPkoGvFPePODFuWw72LOXc9Tc6vpe+h+JOJmsZiNyjcd2FfSaf8V?=
- =?us-ascii?Q?Fi1leSqQSz0di1AhW1odY26s3wfZv0yjMKSCkcDEznMGsg7nr1MIy51atXgC?=
- =?us-ascii?Q?D/uoEUdwePyWFpY4RjzlDbKYClWi0adFYFlLnD6kti36mjR/Y4nCbx4Wer7t?=
- =?us-ascii?Q?ZOFyTTCIgPVGk7901kSMPHSiYeXxlJgENGEA1KYDRYdUxELPkvPhON/0SMm3?=
- =?us-ascii?Q?3IFsE4VHsoSyhSQwflembD2tjmmh4ygxoNqa4UShj/SILYKs+T91N6rggXrD?=
- =?us-ascii?Q?MgGWDj2ganOQJs/mYxZ3OFLGQ59ahtsIE8hIEOHdZSGJJqsSU7P6f6/0Pu2L?=
- =?us-ascii?Q?qCKwpYh+ve0RDt12V6nUCBAJ5kxkYEesIpobbJfm/3aQjawcpicoiWTHra6z?=
- =?us-ascii?Q?dFHd8f8Hc1vsJI+Q09qxl9BdVp3r0yLn7gSvhQlXkI0+2xMuS5JLL6qP6lPE?=
- =?us-ascii?Q?snnJeAdP5ymvzvyO2tBN1vHep+nfj28sKq8okOpKxFz6IFJ727rTQW3clWyo?=
- =?us-ascii?Q?3blCQSL2c2lE4HoSsXeIXK0nklBASEEp1zcTwbwOojJm6KdP8igCMkmVkTFO?=
- =?us-ascii?Q?bArun0V18GAPsJKjBj1ck2GUwogM5La4wvJQqPPUtTimbgg2lFBBqKURFDaK?=
- =?us-ascii?Q?4DFZS2GtP9wcW/rtGm4Uc/S+Z9KegElRlXb35xV2Zx4qQpAPYqvgmyqvwFfX?=
- =?us-ascii?Q?/CUH4mFwwI9Gf0EyWVup1XRMJkBNnW6SXhC3oUAkAZVf29oC0TXpqDK27Qv0?=
- =?us-ascii?Q?KBKxM+ABHbfLCy0U20Rf9s3d1lc3YuwJJ2jQNweY/soB0j5bCzulazhAzTbd?=
- =?us-ascii?Q?HwVMTFmLi9OR4iS3Nt/xLNAzSmNXTaiSqI7LtJ6YFKfU2jXOdoDFmghBy+qZ?=
- =?us-ascii?Q?bvtU+/CqrwERQgeR59v5dRFmBlKOTupBlLKqkdBFfw8BJwz4xEWmMvNqdX9h?=
- =?us-ascii?Q?t0x/7pA+uld3Vo9dHfBqU2KcKNpKbQwvTLslA7j8ke0j+GMLZBxeLOn7CadN?=
- =?us-ascii?Q?bLRpKCLbe3iVcNxMRDNra1eM4m2Ld/0KQVKXh6FpA/+w+3ETZawftd+W8rfd?=
- =?us-ascii?Q?ZqS4bKt/aJ4Zofjs7EbdobFrbNSSIzu+15nxDP4sct/6a5p5lvThzmoPssfC?=
- =?us-ascii?Q?td7DU9A20/MsKkhmEEDH9OhcH/Gg7LGb1kuJTOWNed8C5R//zaPd8HfApMqm?=
- =?us-ascii?Q?juqdCaQlZGNBMNtGDwmxcutIcb4grDzAz9j15la2EE9fYE7iy7Som8T5mXhm?=
- =?us-ascii?Q?VA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?SdgDFr+lkFeV2a9L3lKo9UJ/1O5AZukHUvN51Rx8lM3t5pSekp+kiREAtweH?=
+ =?us-ascii?Q?TRGxBcfBwld13TduNEGgP19ZVNR1NQNkdAakCmaOHNiPP43XH0AGqqZV+ftT?=
+ =?us-ascii?Q?UJ4mmAQm+sDn5+5sg/s2gUnTxm8sg/QV2yNKXr/jhXgiw4hZrwIH604xeudj?=
+ =?us-ascii?Q?u5g7cUVLW1S7zc6qXaQEYPT4AQsVMXQt/+aItL4be+e1h6Ms75pxO4YtFW3J?=
+ =?us-ascii?Q?BQbxDfb9hfmaxV/EeQ2xY2JCQPCv8qb7IHebH42ds1sJeQEof3/1DtOiLq+d?=
+ =?us-ascii?Q?YCgwluxsES5lnY5qG+U4Wh3vGQyfz9Wj5k/KYTnbnuBzZa2aWTc3uFmYneuw?=
+ =?us-ascii?Q?Uva0JoaEAHudrX+KkLVy5NwqNXMYc5wgPNvwv10UxzshkWFzYQ5NNhBCjDd/?=
+ =?us-ascii?Q?BzyHXXs7V8lI5KHhdKxStR71uJnlidD88adOptqCIrMfBUsnILCBUhUjh3zI?=
+ =?us-ascii?Q?f/mMzugaMHycunq0ghAs6BYHEA4vcUZvAv/D3Vs/lAPD2nwi0/NgvPyJJEn2?=
+ =?us-ascii?Q?o77hpy8I+XOde4SMN2p+Ec/0dhAFLzMyrSCuE8HPsZDM47xOc+DGkA8fZDl4?=
+ =?us-ascii?Q?7XVgUUHYrrrBFQySJV4udI/8v4QWa1NSaW8f69/Tt5zvJUWl/Wo0mf48Uk4A?=
+ =?us-ascii?Q?3TI5ngEYyPZuWhWLj7kMvqa0M3lY/9WPc4zOzxARCCSnY1tD16DYOa7Z/dOd?=
+ =?us-ascii?Q?Qp3rkCnObyDEjDtewa/hiSP5qKg8WRzOPNfE8qYv6HmPZhs0Vbel++3XTYtP?=
+ =?us-ascii?Q?/cYjwBHpcuftJ7udLDofQalEqbNxxZGyxUaUiqX0jxKpzrP8o7F/XRfMt3Ve?=
+ =?us-ascii?Q?wRt/c+jqieUZ8npseIHSXZqtmhJXPBGus7dzi2tyF+zCLbv0HLpUoUK2AkDW?=
+ =?us-ascii?Q?q8FcvYIIE4+3QZtaPHkjKGISCklWMnJ2Ip4EuOJWQLMXVz3j4rEY+9TGp0D4?=
+ =?us-ascii?Q?USi8kMnXxZRNY2ZvUxgSRuVkDr2Wgpm4GFBb1nKveqEGpuTMJMPecSExM5BI?=
+ =?us-ascii?Q?63zg8wxDnplcN926JyeMtUPFFFb/D8qA6duvJ/Q1QSlLIqpWDy8q1qWikT1p?=
+ =?us-ascii?Q?/J/wK5OoTaI/1SFaZkQ7lld6sQIlcH6Ajx0PGpmN7bq6LDg/9bfIRuLzJJwN?=
+ =?us-ascii?Q?2rznSy93WLONyRzWF1nYwgw/29jKNrwPi64dmZdVU8ArdZwiB7ChZ/U/DBqn?=
+ =?us-ascii?Q?Zc+JBBdNI+WVTbx81RNhLIZPhd2GJiOh9TWZ+uzYurKi0IlN6h0vcEsQzl/z?=
+ =?us-ascii?Q?yfTu7WOmqacyAiDgCUogTEB+2HqoE2lL9qAp+UQbCIjFAgkUymy6MLNY5rF4?=
+ =?us-ascii?Q?/eIQqrgUIyX7CMdAvX3YLFhRdhuzDU74lbLikFh8/vv3QazpLNFVHsiSDhrn?=
+ =?us-ascii?Q?cWatssJiW9J0/wvrHcPDIz4xduYg8shxQUpDEtkZngpR3WiodAwH8nK7/yKk?=
+ =?us-ascii?Q?4dsnFUG0rn6kgmPON7VNOF2+q16/lleZN7k40cqhQWlqL9PBXPndA5G54b3J?=
+ =?us-ascii?Q?f4an20v8Qi0rXP9CIAq1BTgTzGBQYqozYxux3WopEfpgYKvA/VbnxEVydzBl?=
+ =?us-ascii?Q?r0Gw90D3L1hLFBBvLcYUoe5pkG6SS4VhRdyJ4cMg5TTUOrZ94mlCuzfCfHEd?=
+ =?us-ascii?Q?9w=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 	=?us-ascii?Q?TwK901Rbg2MjxuTBDiV9jX94m6+YUgx4T8EXJjgp0pzDjjPbXOK4sTUYdHA/?=
- =?us-ascii?Q?BfurBFHPj/jrmrve3Adk7FcVz/65typJjqImugDiciOxFEeHVgFomaSJaXaG?=
- =?us-ascii?Q?4uAYQXHOayDxfJAi/wlbW0og4gXFW5rtJ/8Medj9xAzvNv40HyDfNBRKsxb1?=
- =?us-ascii?Q?3L7Fqs034JbYMvRFos/2mkwDF3gt41y0nPoCe9smkGWpDUuxo6VDYSL5RUJE?=
- =?us-ascii?Q?rQFK9LYQ9VHuyPNY+XP94x3rVsO32p15AbwY80evGhGOBlKpZfgaso3tKr38?=
- =?us-ascii?Q?G01kXRQOA2BDbp/n7L8lTR7YI8IN/FSnpSODgc3ksj2fmPXO1pdm8X8hxzq2?=
- =?us-ascii?Q?30rlQKLKa+GowtOxJQ3DODPeCmDAQac8NVtTZTneXTnrvrzxL6S5qAoYqdjb?=
- =?us-ascii?Q?+O9qs+2nlin0GJ+jOqFAfYMzNdlhpdPNWfG18F8+rxh7q4VyN8BZSFZfQw6F?=
- =?us-ascii?Q?eqHNSOSmCMsc4bDdTIg6WvzGenOXKU+mfDhy6yqeb8ywCKIwGuEcpy4f2d3h?=
- =?us-ascii?Q?aVgsq8i9AGOOtssrY6VS9pkSaxvDTa9pAcaCOINBDJ9bRLUdbcRX3Tnop8uY?=
- =?us-ascii?Q?HYhgTxwR8v25uD2t+l6wDfcfCUHLURJhxG5AGb8L+e5WKJr6D3of48i4iJUC?=
- =?us-ascii?Q?vlXeJpzcajuoySXVhGfCNd2zZkwgijF1qRlDgPgFN1W42QNojwlXYArCDaPN?=
- =?us-ascii?Q?1I/PoV9ShFjx+s30Jp3dH4EgkUxeK8P1iA8erSNQ4mCG5FXWc5Z+5H5jW6l6?=
- =?us-ascii?Q?9QqwPJYbQjFlg8C+vhe/E8IJjXN+W0N3sVUpftV1xvbMEnqG2ux8xB64qwPR?=
- =?us-ascii?Q?2RRpuXwJHdbWgE+JG0Jnaj+KtU1icF5bA0a6QBK88X7iMOsseuQXwhpbzH2U?=
- =?us-ascii?Q?6CX//0+R5OIPQ3GlhtMdDDfy4g7hIXM8OoGJ0souMFFQPPoNFG9IpDK20mZ+?=
- =?us-ascii?Q?neUh8ClXw+ad8Omzsr5HxEonFFd7Yx1C4iQUaKmzBj3YYoOOz9tZ9r0KETc7?=
- =?us-ascii?Q?UBrrUFJ4sY6GKltJ6fJAbsi/VA=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 	=?us-ascii?Q?QcHvJBy+pUuSQrtMtjBYURlY18lqahhKZN9OzRhCASYRxhZv3Fl6oDcN0xg2?=
+ =?us-ascii?Q?C/moQT8wBMUPgqCdT9HgKyl6nm7HYJqreGahxFSoLclxeJYCPQnE2AfqOPb6?=
+ =?us-ascii?Q?9DDLdH+0SIOASFOR0hGuwDW+T2zElG7FmOa2uWgtkG3Sl6ppJ9EqF6ny6ELC?=
+ =?us-ascii?Q?J0HpBO6/hx3exYvBBwyN/UBH58rTZr95wkuBVhspMQ8oV47OktLiIre4b6TK?=
+ =?us-ascii?Q?1f5+GX4Dw6YMppOLcL/UyvTw5URN2AO99xc3+l0SadpRD6tmBxmcSq+bBFlo?=
+ =?us-ascii?Q?1SBL7j35A/nE7mZCUjNbN1OpK+rwTxN1I8lULRQ2zjUbToTB2YaQWk4v+rWB?=
+ =?us-ascii?Q?QJlHzOr8xcC+Oo3HkQrkTjjUab+wGzG6i5uj7edTtFq+VP4JCUY8oio5Bflg?=
+ =?us-ascii?Q?Tb46D+6CaoGjGNiA+6PtxKBPyvCkcMmass5KrHXA4+FK5vZLO6/tEm1OHn9a?=
+ =?us-ascii?Q?choUjWXbbZ5ZvvAAbAAp4elJ4MBIFuqOJtiwYe+uyR10/OA4W9utd3t9OorJ?=
+ =?us-ascii?Q?BIgvT7/MhnkAsSPeysYcThXMkjf5DnhfYcf86oU6zAA9fennZnJudHiwnSew?=
+ =?us-ascii?Q?ZHPKNHYxP9qTWz7WuUb1MGlUyFMbLa8//tC2U8h6XfKEcOBZRyFtL3iNEOU2?=
+ =?us-ascii?Q?1vt5vpTtWa2/zCz8MhFZITJwt/M47CAuIjRSG4Vo0ZzoVAGSFK6PUxvWziMn?=
+ =?us-ascii?Q?b3ba96jTMdWjgQYbkJC0VqxFkRTojmNhO6IfRG3BWb79b+r9kM2848tfe3KG?=
+ =?us-ascii?Q?SDOacZnP/k47hpN+/7SGWnSaSgVBkIF5XUxKJH01Mz8VB4Y2gs9OLx7WMEsX?=
+ =?us-ascii?Q?FM+ox4GllvOOyxb2pVjErlO9dISaDSNc2G2ody1CQmBlerFMwWM6BWS6ILPT?=
+ =?us-ascii?Q?U2DzS0vUmHD5GCaCdtDz5XM2ilvvn5J2ZS0c5hKATOZgyk2p8jt+VOXTLwZc?=
+ =?us-ascii?Q?9p8S0tQ60ttlDWp8EeWbDT3hWSOie5TEDJfc0u/GLW6dDRy0vRGVje/uci0j?=
+ =?us-ascii?Q?5ECxk2Jpts7xXWlL6NECph+EtA=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2cef3e57-260b-401c-92c6-08db168ee8f3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6540f1ab-ce3e-4f21-e941-08db168ee75b
 X-MS-Exchange-CrossTenant-AuthSource: DM5PR10MB1466.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2023 17:45:25.4219
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2023 17:45:22.7503
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7Az+amU+flHM5oqLNBMUED3wV8Pk4kTWt1N1Y0+iOVhastxU4g0pPWoY5rEgurpaXfJ3sDUxp93Xj/K2d3I4yYyMaZE4VzKXUgY9r7QZkLE=
+X-MS-Exchange-CrossTenant-UserPrincipalName: tI6dOiDvxIxE2QLRgldv7XH3/oI1hUD+4tYyboqekouZZ6fm+M7KscQJiyLe6jNXpxQMju18RTr6AxklQeqLS9HYn3swMsv+Va2qR3HGC8c=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB7535
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
  definitions=2023-02-24_12,2023-02-24_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 bulkscore=0 phishscore=0
- suspectscore=0 malwarescore=0 mlxscore=0 mlxlogscore=999 adultscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 malwarescore=0 spamscore=0
+ mlxlogscore=979 mlxscore=0 phishscore=0 suspectscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
  definitions=main-2302240139
-X-Proofpoint-GUID: i9TUW7fQHvuZhenNvcZv5DvzBLXZCRW6
-X-Proofpoint-ORIG-GUID: i9TUW7fQHvuZhenNvcZv5DvzBLXZCRW6
+X-Proofpoint-GUID: zVUGl1rlKG19WAKVedmC9ON4U3yZF7Na
+X-Proofpoint-ORIG-GUID: zVUGl1rlKG19WAKVedmC9ON4U3yZF7Na
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230224_094544_589340_4DC28255 
-X-CRM114-Status: GOOD (  21.28  )
+X-CRM114-CacheID: sfid-20230224_094545_420273_E28FA9C3 
+X-CRM114-Status: GOOD (  21.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -184,190 +184,111 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The next patches allow us to call the block layer's pr_ops from the
-backends. This will require allowing the backends to hook into the cmd
-processing for SPC commands, so this renames sbc_ops to a more generic
-exec_cmd_ops.
+The next patch adds support to report the reservation type, so we need to
+be able to convert from the NVMe PR value we get from the device to the
+linux block layer PR value that will be returned to callers. To prepare
+for that, this patch adds a nvme_pr_type enum and renames the nvme_pr_type
+function.
 
 Signed-off-by: Mike Christie <michael.christie@oracle.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/target/target_core_file.c    |  4 ++--
- drivers/target/target_core_iblock.c  |  4 ++--
- drivers/target/target_core_rd.c      |  4 ++--
- drivers/target/target_core_sbc.c     | 13 +++++++------
- drivers/target/target_core_spc.c     |  4 ++--
- include/target/target_core_backend.h |  4 ++--
- 6 files changed, 17 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/target/target_core_file.c b/drivers/target/target_core_file.c
-index ce0e000b74fc..4d447520bab8 100644
---- a/drivers/target/target_core_file.c
-+++ b/drivers/target/target_core_file.c
-@@ -896,7 +896,7 @@ static void fd_free_prot(struct se_device *dev)
- 	fd_dev->fd_prot_file = NULL;
- }
+Note for Chaitanya, Keith and Bart. For these patches where we convert
+between block and nvme pr values, it seemed like Chaitanya and Keith
+didn't have a strong preference. Bart had the suggestion to keep the
+switch and drop the default so the compiler can warn us if new types
+are added. This seemed like a nice benefit so I went that way.
+
+
+ drivers/nvme/host/pr.c | 24 ++++++++++++------------
+ include/linux/nvme.h   |  9 +++++++++
+ 2 files changed, 21 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/nvme/host/pr.c b/drivers/nvme/host/pr.c
+index ac6b9008e7e1..66086369dbce 100644
+--- a/drivers/nvme/host/pr.c
++++ b/drivers/nvme/host/pr.c
+@@ -6,24 +6,24 @@
  
--static struct sbc_ops fd_sbc_ops = {
-+static struct exec_cmd_ops fd_exec_cmd_ops = {
- 	.execute_rw		= fd_execute_rw,
- 	.execute_sync_cache	= fd_execute_sync_cache,
- 	.execute_write_same	= fd_execute_write_same,
-@@ -906,7 +906,7 @@ static struct sbc_ops fd_sbc_ops = {
- static sense_reason_t
- fd_parse_cdb(struct se_cmd *cmd)
+ #include "nvme.h"
+ 
+-static char nvme_pr_type(enum pr_type type)
++static enum nvme_pr_type nvme_pr_type_from_blk(enum pr_type type)
  {
--	return sbc_parse_cdb(cmd, &fd_sbc_ops);
-+	return sbc_parse_cdb(cmd, &fd_exec_cmd_ops);
+ 	switch (type) {
+ 	case PR_WRITE_EXCLUSIVE:
+-		return 1;
++		return NVME_PR_WRITE_EXCLUSIVE;
+ 	case PR_EXCLUSIVE_ACCESS:
+-		return 2;
++		return NVME_PR_EXCLUSIVE_ACCESS;
+ 	case PR_WRITE_EXCLUSIVE_REG_ONLY:
+-		return 3;
++		return NVME_PR_WRITE_EXCLUSIVE_REG_ONLY;
+ 	case PR_EXCLUSIVE_ACCESS_REG_ONLY:
+-		return 4;
++		return NVME_PR_EXCLUSIVE_ACCESS_REG_ONLY;
+ 	case PR_WRITE_EXCLUSIVE_ALL_REGS:
+-		return 5;
++		return NVME_PR_WRITE_EXCLUSIVE_ALL_REGS;
+ 	case PR_EXCLUSIVE_ACCESS_ALL_REGS:
+-		return 6;
+-	default:
+-		return 0;
++		return NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS;
+ 	}
++
++	return 0;
  }
  
- static const struct target_backend_ops fileio_ops = {
-diff --git a/drivers/target/target_core_iblock.c b/drivers/target/target_core_iblock.c
-index cc838ffd1294..d93f24f9687d 100644
---- a/drivers/target/target_core_iblock.c
-+++ b/drivers/target/target_core_iblock.c
-@@ -869,7 +869,7 @@ static unsigned int iblock_get_io_opt(struct se_device *dev)
- 	return bdev_io_opt(bd);
- }
+ static int nvme_send_ns_head_pr_command(struct block_device *bdev,
+@@ -124,7 +124,7 @@ static int nvme_pr_reserve(struct block_device *bdev, u64 key,
+ 	if (flags & ~PR_FL_IGNORE_KEY)
+ 		return -EOPNOTSUPP;
  
--static struct sbc_ops iblock_sbc_ops = {
-+static struct exec_cmd_ops iblock_exec_cmd_ops = {
- 	.execute_rw		= iblock_execute_rw,
- 	.execute_sync_cache	= iblock_execute_sync_cache,
- 	.execute_write_same	= iblock_execute_write_same,
-@@ -879,7 +879,7 @@ static struct sbc_ops iblock_sbc_ops = {
- static sense_reason_t
- iblock_parse_cdb(struct se_cmd *cmd)
+-	cdw10 = nvme_pr_type(type) << 8;
++	cdw10 = nvme_pr_type_from_blk(type) << 8;
+ 	cdw10 |= ((flags & PR_FL_IGNORE_KEY) ? 1 << 3 : 0);
+ 	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_acquire);
+ }
+@@ -132,7 +132,7 @@ static int nvme_pr_reserve(struct block_device *bdev, u64 key,
+ static int nvme_pr_preempt(struct block_device *bdev, u64 old, u64 new,
+ 		enum pr_type type, bool abort)
  {
--	return sbc_parse_cdb(cmd, &iblock_sbc_ops);
-+	return sbc_parse_cdb(cmd, &iblock_exec_cmd_ops);
- }
+-	u32 cdw10 = nvme_pr_type(type) << 8 | (abort ? 2 : 1);
++	u32 cdw10 = nvme_pr_type_from_blk(type) << 8 | (abort ? 2 : 1);
  
- static bool iblock_get_write_cache(struct se_device *dev)
-diff --git a/drivers/target/target_core_rd.c b/drivers/target/target_core_rd.c
-index 6648c1c90e19..6f67cc09c2b5 100644
---- a/drivers/target/target_core_rd.c
-+++ b/drivers/target/target_core_rd.c
-@@ -643,14 +643,14 @@ static void rd_free_prot(struct se_device *dev)
- 	rd_release_prot_space(rd_dev);
+ 	return nvme_pr_command(bdev, cdw10, old, new, nvme_cmd_resv_acquire);
  }
+@@ -146,7 +146,7 @@ static int nvme_pr_clear(struct block_device *bdev, u64 key)
  
--static struct sbc_ops rd_sbc_ops = {
-+static struct exec_cmd_ops rd_exec_cmd_ops = {
- 	.execute_rw		= rd_execute_rw,
+ static int nvme_pr_release(struct block_device *bdev, u64 key, enum pr_type type)
+ {
+-	u32 cdw10 = nvme_pr_type(type) << 8 | (key ? 0 : 1 << 3);
++	u32 cdw10 = nvme_pr_type_from_blk(type) << 8 | (key ? 0 : 1 << 3);
+ 
+ 	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_release);
+ }
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 50fc596ec888..bae08167735a 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -759,6 +759,15 @@ enum {
+ 	NVME_LBART_ATTRIB_HIDE	= 1 << 1,
  };
  
- static sense_reason_t
- rd_parse_cdb(struct se_cmd *cmd)
- {
--	return sbc_parse_cdb(cmd, &rd_sbc_ops);
-+	return sbc_parse_cdb(cmd, &rd_exec_cmd_ops);
- }
- 
- static const struct target_backend_ops rd_mcp_ops = {
-diff --git a/drivers/target/target_core_sbc.c b/drivers/target/target_core_sbc.c
-index 7536ca797606..6a02561cc20c 100644
---- a/drivers/target/target_core_sbc.c
-+++ b/drivers/target/target_core_sbc.c
-@@ -192,7 +192,7 @@ EXPORT_SYMBOL(sbc_get_write_same_sectors);
- static sense_reason_t
- sbc_execute_write_same_unmap(struct se_cmd *cmd)
- {
--	struct sbc_ops *ops = cmd->protocol_data;
-+	struct exec_cmd_ops *ops = cmd->protocol_data;
- 	sector_t nolb = sbc_get_write_same_sectors(cmd);
- 	sense_reason_t ret;
- 
-@@ -271,7 +271,8 @@ static inline unsigned long long transport_lba_64(unsigned char *cdb)
- }
- 
- static sense_reason_t
--sbc_setup_write_same(struct se_cmd *cmd, unsigned char flags, struct sbc_ops *ops)
-+sbc_setup_write_same(struct se_cmd *cmd, unsigned char flags,
-+		     struct exec_cmd_ops *ops)
- {
- 	struct se_device *dev = cmd->se_dev;
- 	sector_t end_lba = dev->transport->get_blocks(dev) + 1;
-@@ -340,7 +341,7 @@ sbc_setup_write_same(struct se_cmd *cmd, unsigned char flags, struct sbc_ops *op
- static sense_reason_t
- sbc_execute_rw(struct se_cmd *cmd)
- {
--	struct sbc_ops *ops = cmd->protocol_data;
-+	struct exec_cmd_ops *ops = cmd->protocol_data;
- 
- 	return ops->execute_rw(cmd, cmd->t_data_sg, cmd->t_data_nents,
- 			       cmd->data_direction);
-@@ -566,7 +567,7 @@ static sense_reason_t compare_and_write_callback(struct se_cmd *cmd, bool succes
- static sense_reason_t
- sbc_compare_and_write(struct se_cmd *cmd)
- {
--	struct sbc_ops *ops = cmd->protocol_data;
-+	struct exec_cmd_ops *ops = cmd->protocol_data;
- 	struct se_device *dev = cmd->se_dev;
- 	sense_reason_t ret;
- 	int rc;
-@@ -764,7 +765,7 @@ sbc_check_dpofua(struct se_device *dev, struct se_cmd *cmd, unsigned char *cdb)
- }
- 
- sense_reason_t
--sbc_parse_cdb(struct se_cmd *cmd, struct sbc_ops *ops)
-+sbc_parse_cdb(struct se_cmd *cmd, struct exec_cmd_ops *ops)
- {
- 	struct se_device *dev = cmd->se_dev;
- 	unsigned char *cdb = cmd->t_task_cdb;
-@@ -1076,7 +1077,7 @@ EXPORT_SYMBOL(sbc_get_device_type);
- static sense_reason_t
- sbc_execute_unmap(struct se_cmd *cmd)
- {
--	struct sbc_ops *ops = cmd->protocol_data;
-+	struct exec_cmd_ops *ops = cmd->protocol_data;
- 	struct se_device *dev = cmd->se_dev;
- 	unsigned char *buf, *ptr = NULL;
- 	sector_t lba;
-diff --git a/drivers/target/target_core_spc.c b/drivers/target/target_core_spc.c
-index fcc7b10a7ae3..00d34616df5d 100644
---- a/drivers/target/target_core_spc.c
-+++ b/drivers/target/target_core_spc.c
-@@ -1431,7 +1431,7 @@ static struct target_opcode_descriptor tcm_opcode_write_verify16 = {
- 
- static bool tcm_is_ws_enabled(struct se_cmd *cmd)
- {
--	struct sbc_ops *ops = cmd->protocol_data;
-+	struct exec_cmd_ops *ops = cmd->protocol_data;
- 	struct se_device *dev = cmd->se_dev;
- 
- 	return (dev->dev_attrib.emulate_tpws && !!ops->execute_unmap) ||
-@@ -1544,7 +1544,7 @@ static struct target_opcode_descriptor tcm_opcode_sync_cache16 = {
- 
- static bool tcm_is_unmap_enabled(struct se_cmd *cmd)
- {
--	struct sbc_ops *ops = cmd->protocol_data;
-+	struct exec_cmd_ops *ops = cmd->protocol_data;
- 	struct se_device *dev = cmd->se_dev;
- 
- 	return ops->execute_unmap && dev->dev_attrib.emulate_tpu;
-diff --git a/include/target/target_core_backend.h b/include/target/target_core_backend.h
-index a3c193df25b3..c5df78959532 100644
---- a/include/target/target_core_backend.h
-+++ b/include/target/target_core_backend.h
-@@ -62,7 +62,7 @@ struct target_backend_ops {
- 	struct configfs_attribute **tb_dev_action_attrs;
++enum nvme_pr_type {
++	NVME_PR_WRITE_EXCLUSIVE			= 1,
++	NVME_PR_EXCLUSIVE_ACCESS		= 2,
++	NVME_PR_WRITE_EXCLUSIVE_REG_ONLY	= 3,
++	NVME_PR_EXCLUSIVE_ACCESS_REG_ONLY	= 4,
++	NVME_PR_WRITE_EXCLUSIVE_ALL_REGS	= 5,
++	NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS	= 6,
++};
++
+ enum nvme_eds {
+ 	NVME_EXTENDED_DATA_STRUCT	= 0x1,
  };
- 
--struct sbc_ops {
-+struct exec_cmd_ops {
- 	sense_reason_t (*execute_rw)(struct se_cmd *cmd, struct scatterlist *,
- 				     u32, enum dma_data_direction);
- 	sense_reason_t (*execute_sync_cache)(struct se_cmd *cmd);
-@@ -86,7 +86,7 @@ sense_reason_t	spc_emulate_report_luns(struct se_cmd *cmd);
- sense_reason_t	spc_emulate_inquiry_std(struct se_cmd *, unsigned char *);
- sense_reason_t	spc_emulate_evpd_83(struct se_cmd *, unsigned char *);
- 
--sense_reason_t	sbc_parse_cdb(struct se_cmd *cmd, struct sbc_ops *ops);
-+sense_reason_t	sbc_parse_cdb(struct se_cmd *cmd, struct exec_cmd_ops *ops);
- u32	sbc_get_device_rev(struct se_device *dev);
- u32	sbc_get_device_type(struct se_device *dev);
- sector_t	sbc_get_write_same_sectors(struct se_cmd *cmd);
 -- 
 2.25.1
 
