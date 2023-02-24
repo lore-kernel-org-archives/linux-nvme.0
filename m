@@ -4,173 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42044C7EE23
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Feb 2023 19:01:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7215CC64ED8
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Feb 2023 21:05:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nvO0TsPJJiE1SXuIrdaGSt7A501kgNQ8eNX/RsAwqLE=; b=k7SkYO9sYBip8zWRRHX+8Dd048
-	HP+fGLI4WX1bwUiOjWxVV7ra3AoD64DOLcI9d/08Nf+F6AN12wXbGzhIyCJfi0yXetv0PYE4neF0I
-	zzS93pEQsOvLPC/g+vNiJAqngLAR8t23/RBhKQ8MynNh8VWXBQWM7jnS/RtLqAng/i5QY/EE2yFXb
-	LYTmhaUjertYD+xrouT1uM9FHAHKajovKniZNmtMJM/0Ioj5r/M6H1sMWs6W3sGJQU3A7hObKeit8
-	+6ZQkG6XIPZJDjIicYxNqVcChQGtzVRv6/yS86naV+JqpKUrWeemu4MQsKT1liI6/9ZnuEGodxfJT
-	WheULgvg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=zqYd+Px5FbAIjndDpFmrQaz9INd9BZWb2W2CZOwm+EA=; b=T8TRasxPPAyFb90LVYw2ol7BZ1
+	pkyYKAxuUbjiE/TR0v7KvZzYwJs6WmenbSshrmvV5mPyfb6RqakJAkmKF3UGBCoWkKr+kV5M1m1TO
+	Mxsoh7gW+/9vwq2u82RKYVieTqYG9M+YRx/GkJyCqy5VYw2G9bOgW+vfNvewmkUsSlYAKlxkuT6/+
+	wrzHxp0ObkEDbp/3y4PyGMIGnUta44PniMgwOAHh0sD20uSIoMdWhCSsrPPZyxXJjwxeZsyEqQNPn
+	pSdrNoTa8LgVfBUsr523Sf6D8xKd5u/beKtLdxF6jsz4Rl5R4o7UzloM8/dX4d5yH1DBmqkTTCxfZ
+	vUXItKMg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pVdJa-003a4g-R0; Fri, 24 Feb 2023 19:01:06 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1pVfFr-003sqw-4i; Fri, 24 Feb 2023 21:05:23 +0000
+Received: from mga05.intel.com ([192.55.52.43])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pVc8N-003M9e-Ax
-	for linux-nvme@lists.infradead.org; Fri, 24 Feb 2023 17:45:30 +0000
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31OHi7GS028907;
-	Fri, 24 Feb 2023 17:45:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references :
- content-transfer-encoding : content-type : mime-version; s=corp-2022-7-12;
- bh=nvO0TsPJJiE1SXuIrdaGSt7A501kgNQ8eNX/RsAwqLE=;
- b=SUo//UYAkF6EzJnrgLrBnRPD3gWfk6yq3T2o7GKczH3FTLHuOD5wg82sW9tsMT9jG1Ol
- WWZGq3sqJsJFZe3l3yD7hnbdKrcU4q+kOEr4sExxQ0qv5hZ4IaE7YHBFeyO6heUZ92cs
- Y73/g5+JYVxHRe9CglYg+FG+hjzCFqXcckBCpBoPI7VzqpOQGl74eYayMifYoF/4s2b9
- EKt+lCd3eRXa/oEJ9XUinIt99AeGuiwPfsRU7Tt3M9oykmNwAO/Cb39+qfU70sWdmKJY
- OQHeclKr9EGSwippEY5JM5pSjD0h9BrjDRoRcxMh4Br0jnNq06o1bgHxC3YaL3R2OASn IQ== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ntnkbwk2h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 24 Feb 2023 17:45:22 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 31OHJGXV031548;
-	Fri, 24 Feb 2023 17:45:21 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2170.outbound.protection.outlook.com [104.47.57.170])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3ntn49wjuh-3
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 24 Feb 2023 17:45:21 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n5kMGa7NISrLnUzAPHjeXKV2KwUJNVCyVLbc9xELWKh6wTuNAkQvxMwEGbsQRdvg8NlmgHPRHLFnbthCgYEVWZCcrv5JfFjRfTt+CQlv8YmC/2CveJGQL1YAYQb1AJPNDR0o+1hS4s97fVdf/i7cFxidvm9j1YuVhnT6/06hidegRjDordDpsmjOLycBwDM0Gpix7m/SVM+bQ6/J3r78/uKT4v+jXBFzhvACYRpHRPG0duIRtVYHBMG+EXd3pGJi2CRm9SGoSkrzV8LbkHW9W3hbPaIQPqmAsySioVPTXCYAKu5Y1jAjJdhAGX++JUZ6wC+JJDqAfPOd+x4TFOjuFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nvO0TsPJJiE1SXuIrdaGSt7A501kgNQ8eNX/RsAwqLE=;
- b=ZdSUYb+qNZ8PzlebeeOiK8O4uXhdoMM42k4FQ0q8xkwudPSOTwGdBGiPnoVj7acFNJXbeugZXNRJSutvsD4kWn0JrtrGrlslAF0zGO5TkvoNQTsG2AmBou6pgzmiBmwHiZKhnQ91G8jJqEoGQ8oZ6SkvbgZzyoO6pvBPwwy31Eto/1B3EHXpmiIo+oe0rJxfnEJxvyspFzVWK+6Om1fZ3KhnmyOWsPhVyBBw9gdVALW2F0MyAC2KUC+ulI6KBTEl93zfhPF0Esd3RekSEu9vK9pn6dHkUGtIpDHeuGZ6c053lIEbRVBsvoYI5dWvIxf3tUuQAABw0dbfAklpbxIaiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nvO0TsPJJiE1SXuIrdaGSt7A501kgNQ8eNX/RsAwqLE=;
- b=sO/o+IulBinuP+kcLGpQOZKF+ujY/Xmy+whOR9ALz9SH//Dr2ZNHdmryd22gW5F6AqhaADFRQ1T1CJ5QBG+1Tv+Y+qQZeq8Q4E6SHjUokuQNS6q8sPNd4u4s8a1D0hh6YOSP32hcU8ZWzvN20E/P+B7uemq/t+ee4UIKmnkh4uY=
-Received: from DM5PR10MB1466.namprd10.prod.outlook.com (2603:10b6:3:b::7) by
- CH0PR10MB7535.namprd10.prod.outlook.com (2603:10b6:610:187::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.7; Fri, 24 Feb
- 2023 17:45:19 +0000
-Received: from DM5PR10MB1466.namprd10.prod.outlook.com
- ([fe80::7dd7:8d22:104:8d64]) by DM5PR10MB1466.namprd10.prod.outlook.com
- ([fe80::7dd7:8d22:104:8d64%7]) with mapi id 15.20.6156.007; Fri, 24 Feb 2023
- 17:45:18 +0000
-From: Mike Christie <michael.christie@oracle.com>
-To: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
-        linux-scsi@vger.kernel.org, james.bottomley@hansenpartnership.com,
-        linux-block@vger.kernel.org, dm-devel@redhat.com, snitzer@kernel.org,
-        axboe@kernel.dk, linux-nvme@lists.infradead.org, chaitanyak@nvidia.com,
-        kbusch@kernel.org, target-devel@vger.kernel.org
-Cc: Mike Christie <michael.christie@oracle.com>,
-        Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH v4 09/18] nvme: Move pr code to it's own file
-Date: Fri, 24 Feb 2023 11:44:53 -0600
-Message-Id: <20230224174502.321490-10-michael.christie@oracle.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230224174502.321490-1-michael.christie@oracle.com>
-References: <20230224174502.321490-1-michael.christie@oracle.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: DS7PR03CA0302.namprd03.prod.outlook.com
- (2603:10b6:8:2b::11) To DM5PR10MB1466.namprd10.prod.outlook.com
- (2603:10b6:3:b::7)
+	id 1pVfFo-003spT-G2
+	for linux-nvme@lists.infradead.org; Fri, 24 Feb 2023 21:05:22 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677272720; x=1708808720;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QvJkybVoarogho5PoChkW7G6wkAPhofhMcqMsdG5it4=;
+  b=j449YaJUR1J3VRaHV3qrVAttBy88TeYosU6XJzz1yJO0k06WJKszJdi3
+   gBPwhurOM/Gtb3LQYm9O2JnAzVYvdTYf5wK84BGIMEwKVJDKS6eHsjt68
+   MdNp7bBNo17UIGZYA/8deQ78g4k1aPP7ptxu8zj9XziZ5wabWGhrdKyn/
+   qgyc0eAmjZ9GjyXVd9nHzpU6lF95oFExmzBPHkRNBI5917W9YWGSbdh3B
+   8eRHhFITPoI8f7l/eS3UtXHWMkCNGt75t7RjbMxUxd61q9TOiYijQI9fg
+   mQ21aBk7g4xuXvVyY4mjC8OWBgDidsEc3FNp3BtOiFGimbC+P3kqKB6Oq
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="419813022"
+X-IronPort-AV: E=Sophos;i="5.97,325,1669104000"; 
+   d="scan'208";a="419813022"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 13:05:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="666285820"
+X-IronPort-AV: E=Sophos;i="5.97,325,1669104000"; 
+   d="scan'208";a="666285820"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 24 Feb 2023 13:05:08 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pVfFb-0002j9-1U;
+	Fri, 24 Feb 2023 21:05:07 +0000
+Date: Sat, 25 Feb 2023 05:04:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mike Christie <michael.christie@oracle.com>, bvanassche@acm.org,
+	hch@lst.de, martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+	james.bottomley@hansenpartnership.com, linux-block@vger.kernel.org,
+	dm-devel@redhat.com, snitzer@kernel.org, axboe@kernel.dk,
+	linux-nvme@lists.infradead.org, chaitanyak@nvidia.com,
+	kbusch@kernel.org, target-devel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Mike Christie <michael.christie@oracle.com>
+Subject: Re: [PATCH v4 13/18] nvme: Add pr_ops read_reservation support
+Message-ID: <202302250448.cEVYdC1I-lkp@intel.com>
+References: <20230224174502.321490-14-michael.christie@oracle.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM5PR10MB1466:EE_|CH0PR10MB7535:EE_
-X-MS-Office365-Filtering-Correlation-Id: 15dd2854-af93-4977-37b9-08db168ee516
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	yv2TV2I8QLHSFQagwogQL2nUeofxWNLWMVdrQ7JBL3qS9jyRJ5wjVQJMxw7oQXpXMLWOpPD9k5dHdK2sM1gCBU+5Sd0iffVi7ZL5AtIeAax0kBog8fJva0cM8pujI1lndrnP9z4EhmR7xEhYNaYm3UBPgHWEas806H4TJgSE3EOSiYp5pOjIQp6hsMsS2N8gasrZ42JZwYdnGnicZ1juRnpHAeSjbv7epGMDvgZxgR42XJEyoMGDgiLj/FmYxIF+U3gZRDwhUwMYO0WdZOE3koSztRosNeRUb3B947wdJGLM7Yy+Hpjj/9ZWMMMIHSgafDNuVQ2P4Ug2gBz3tFTkMb1YTn2HBbRRZAxNy+I2CQhwsb51Wp6lZ/2NJwnxBKGQ4WttJ6HA3FefEdu1o3kg+lmha3Pms5gVy44fiAzp38Wd4sFhWfnPR+ubGdG3ndDyotvAcgSBNkFo4PKAQXuQ9+w8XS6f0zTRLjqo7Xr90dzHVkNZZgFLb4XwVesa5gH7zDTMJSMlVOA/z4dmH3oT277N03wFVU8sFCHAZ51ADJj6VsqzaSkrsycMeGbs7VUIwxZelMouDbVLRlDbI/zpAJAjsQQTKfXncfG5dpTLGdXrdtcgpTEpExi3gCUf8bcc5ycsNt8JrvCophNw9n+kFXcw/yTVcjFIaCcLxAli3LzxK61ghMmRgpZTgNyxkAu7
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR10MB1466.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(346002)(366004)(376002)(39860400002)(136003)(396003)(451199018)(4326008)(66476007)(66556008)(66946007)(8676002)(83380400001)(41300700001)(316002)(36756003)(186003)(8936002)(54906003)(26005)(5660300002)(2616005)(38100700002)(7416002)(6512007)(921005)(86362001)(478600001)(2906002)(6486002)(6506007)(1076003)(6666004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?JRG4QKuqH3UdJ5XRaYzwkry76YcOXZ8PflJLs29rr8724l3CShtaZjC7EGtU?=
- =?us-ascii?Q?lipXunxjpmWuPhI5iC6WtNeVEBbZ9uuv0uf951LuaMEJsF9QT1sNkdqHlDNq?=
- =?us-ascii?Q?jkNakd1hz5LHuGa0qqXlAIt4lfKiWKXLYKeb+VxjBDAiuO2K1bd8+ZxDOqqi?=
- =?us-ascii?Q?h7R58j6MgHOsKclCtn58vLt/g+qZ7Oeg41CLo67QNDUvhKQFRUIipML33QXl?=
- =?us-ascii?Q?AXVxjvbUyFgH0ytmk1asddgTPju5mkSfGEeslXM45PDPFGg2JY5sY+qUlHzA?=
- =?us-ascii?Q?mW5TM6Hh5le7BFFtwWw9kxrf1TdsgWdKkXRcGVXtSukhtj7UI16nB5bWiLUp?=
- =?us-ascii?Q?a58wgh5R9Rsdz0g432Lwzzh0WTXPDi+m9uTOPPmcXsCsYe2nF24KCjpFA1w4?=
- =?us-ascii?Q?BuVivopmq5zAKqp7NCWMg/R5tqM+0eMzqLjqYoGDvotFT63QJ8kI1N4PAupX?=
- =?us-ascii?Q?HWj65KCgNb34sx7gNAZQH9jClC5Ir6JRbfFGHnpi62WrJcih1/74bMZMB2Ym?=
- =?us-ascii?Q?eCpAcaqgDrCVXnNYwXvGXFHGFA54dmpDd3VGJJrWa2E6fZIqCa1iF5N8DYdl?=
- =?us-ascii?Q?UoILfWP6Oqc62uOySd3cOtJlIs/dhfrjNtvIubu08ry759caCHafqtviNXbG?=
- =?us-ascii?Q?Hbp5mX2idxPZKVncthmbRu/ZQAm4MWwO929dXZRAeDPo7d22vChXPHdQGl8N?=
- =?us-ascii?Q?A/zWIciA/UU6et0ZDNLdn6N29jzaJal/RGOkY17/kr6C62Lg6G7TYzNEFUAT?=
- =?us-ascii?Q?Jl77YWyYjeAjULWtBA5XLZA75pSbkHNt2eejZKbQPmx2AzD10thqALxuTdI4?=
- =?us-ascii?Q?TZ5Av/X5TCZrjR2U7AadbKyy0EdXOuh5KPTp6hj2Dor8HXuTjwG0bp+AR1c/?=
- =?us-ascii?Q?TAwBXxokgiVOF4tRIDRRC6QhKweGv+pFCKDCGhseNvi6X2vdZ5/8qHHnW1r3?=
- =?us-ascii?Q?vkKqnJPrWFh7+Q7IpniCpl2/wlXcEDDPZdgjj317NR6Y2IJtQCn9hCJeQydS?=
- =?us-ascii?Q?t3DzgQA2A2DF8DdP/tVUmDHUEwOKaWXsiz3hCbHMxq1X62VJN2ANy9hwGr56?=
- =?us-ascii?Q?RCaPHvo0trGOtit8m0WZ2hV3gmvKOQebwZJS8eKMJMBUNfGEzLurXjTL6qBx?=
- =?us-ascii?Q?z5H1Vm0o5e601mVyM+tinfYP5hu3qgbJUe183Ccdbmwpk4BWokQV9EL1ZR91?=
- =?us-ascii?Q?rjbXDfN9Tbo2AAWW8mWp/36zqvwR0Vv4ctA0IBKPUWXKNZB7oQiApAY4QQhF?=
- =?us-ascii?Q?i6M1MxhTYk45/T5LOuCFqEC6JM2Kpkyh9LNXLz4ylA7wcScx1jSx9wXS2J6K?=
- =?us-ascii?Q?KA+SlKluNEZJD/cBC26kSDkIdumMH2x7VwFHleJJUtp/9pcAamQRVQOgzW5/?=
- =?us-ascii?Q?oyk4xNpniHIOmgHjzHhCZ3JBlT4wl8CxcxKKzCivtfOVTteLKuECiLf/wcPE?=
- =?us-ascii?Q?I4o45OcEmzQgRMI/+iTnJrqy/3vjZ7iZjbVJ7d8vV4HZrjFUMpt+DbSZECoZ?=
- =?us-ascii?Q?wzYK8xly7S1JtU8K2PwnUrlKreDv6QbFdPtkXxRfoE6rhOwqKyzut+NU31me?=
- =?us-ascii?Q?PwAMqLnPDtrjT4cUQCAGLrtEp8YXWTe4RSZMtblJFFphzbfiZiNXaDpIjyg+?=
- =?us-ascii?Q?lQ=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 	=?us-ascii?Q?948xiIjkqqCK+96zlcCi7ES0zFxEkdIWUeyoVvWJ0ukD4OaYrs8jZg8RIz41?=
- =?us-ascii?Q?yo8jVtCPo37lzyxwZsCxJhZhplNhxUaIqWrWAQ6CAtYqFV9vzhgAykUQVD1T?=
- =?us-ascii?Q?E++y93O8emvs4Zebd88RAjXfREXzy7ZGBCtP9ryszcYJnuq0VdQB/q0BHKAF?=
- =?us-ascii?Q?m1H5WsI9EDyytIQMI5OEHM2UQnWojvvcG+XsIDUS7UGGSya/T0LKMGubjHcZ?=
- =?us-ascii?Q?L/I2SG7mLwZfTPo6uqU0ZyDj+V3RoO5WBotBUG/gw/rrTZwJTc8qK0oWIjjr?=
- =?us-ascii?Q?QN/0io/usVUAKwqn3BlMkeeyg2MWailxn9yyE+IkZCvyY45F0KLqWqcnqK9v?=
- =?us-ascii?Q?v5QWG3/bRMYQ4YDwqIArhqGRNnHras2swYjtd0qGWUO9U77LCljtbL4fiAiS?=
- =?us-ascii?Q?1pM0mQbUEUICeMz1O95iWZJEpsnzdqS94cHSFS36pbi/Im/olWej7fzrOu26?=
- =?us-ascii?Q?atBUm8/vI7kqcdorNfCnr8W0CCw4PfCrls7yqAnwwIiPHTNz2Zxx9EFB1aBB?=
- =?us-ascii?Q?k8BgbyFgYd1meETA6JYmdPejGNsaFIGnHE9QL/PVM5F+jTc+CJgPh6+FXx3e?=
- =?us-ascii?Q?Hlu3qlHNbwqF61jonnCISAsCbK1asZkUiB8SpNAWoiBis4Rv755AH6qnHULP?=
- =?us-ascii?Q?RJbsUbjFg0EE+lEnQ+xY/C9jICs6LyfeJ82a+yygC4WAU42pUtpYCuJdiYYm?=
- =?us-ascii?Q?lpwO20br4lTXeLOX7DKBWZ9Gm6JL9DC4NZjoSJIjqRN8IrYWA2sFnIk/MX/y?=
- =?us-ascii?Q?wEWvFSTKpvRpCXA51m4QU4I7EQ+9OTlUzG+D2POpvrd2eU4JX+bY7v7PPe7z?=
- =?us-ascii?Q?veWH3HiW1+wUyS1VoX4rO9PMywBlPFI3H1SInhAE/1F4NONwF3h3RgMokC6+?=
- =?us-ascii?Q?p1VGpThuDVW9aeEEatc21RjCHmbPQvNWj5nZfN0nWO1N/kLQgIKqPSizRUjI?=
- =?us-ascii?Q?fpsyi5HqwxDYwdlx1DD6JQhVcolqFaA4HyftDPuMqCWRXg7aGwHwVxC5SRxC?=
- =?us-ascii?Q?YsDCejiXHt9sl1WctgMak/uFjg=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 15dd2854-af93-4977-37b9-08db168ee516
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR10MB1466.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2023 17:45:18.8912
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ydEIrVfOGwAkb80P9aj/aHVJGsSDQBhOHAGxuy6pcpMUweTirq6uppYXO9cjwEBSPD+1HetbW3cup2d2QTaP49pMCySH09RfrScoZEm2E2E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB7535
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-24_12,2023-02-24_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 phishscore=0
- malwarescore=0 mlxscore=0 spamscore=0 adultscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302240139
-X-Proofpoint-GUID: f8kULuxziioDkS9r2JctixtJqsNbP8cB
-X-Proofpoint-ORIG-GUID: f8kULuxziioDkS9r2JctixtJqsNbP8cB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230224174502.321490-14-michael.christie@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230224_094527_417454_A66A52F4 
-X-CRM114-Status: GOOD (  19.65  )
+X-CRM114-CacheID: sfid-20230224_130520_595321_00C2551B 
+X-CRM114-Status: GOOD (  11.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -185,367 +87,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch moves the pr code to it's own file because I'm going to be
-adding more functions and core.c is getting bigger.
+Hi Mike,
 
-Signed-off-by: Mike Christie <michael.christie@oracle.com>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/Makefile |   2 +-
- drivers/nvme/host/core.c   | 148 -----------------------------------
- drivers/nvme/host/nvme.h   |   2 +
- drivers/nvme/host/pr.c     | 155 +++++++++++++++++++++++++++++++++++++
- 4 files changed, 158 insertions(+), 149 deletions(-)
- create mode 100644 drivers/nvme/host/pr.c
+I love your patch! Perhaps something to improve:
 
-diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
-index e27202d22c7d..06c18a65da99 100644
---- a/drivers/nvme/host/Makefile
-+++ b/drivers/nvme/host/Makefile
-@@ -10,7 +10,7 @@ obj-$(CONFIG_NVME_FC)			+= nvme-fc.o
- obj-$(CONFIG_NVME_TCP)			+= nvme-tcp.o
- obj-$(CONFIG_NVME_APPLE)		+= nvme-apple.o
- 
--nvme-core-y				+= core.o ioctl.o
-+nvme-core-y				+= core.o ioctl.o pr.o
- nvme-core-$(CONFIG_NVME_VERBOSE_ERRORS)	+= constants.o
- nvme-core-$(CONFIG_TRACING)		+= trace.o
- nvme-core-$(CONFIG_NVME_MULTIPATH)	+= multipath.o
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 6323ff79386a..69b7fe4aa0c8 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2051,154 +2051,6 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
- 	}
- }
- 
--static char nvme_pr_type(enum pr_type type)
--{
--	switch (type) {
--	case PR_WRITE_EXCLUSIVE:
--		return 1;
--	case PR_EXCLUSIVE_ACCESS:
--		return 2;
--	case PR_WRITE_EXCLUSIVE_REG_ONLY:
--		return 3;
--	case PR_EXCLUSIVE_ACCESS_REG_ONLY:
--		return 4;
--	case PR_WRITE_EXCLUSIVE_ALL_REGS:
--		return 5;
--	case PR_EXCLUSIVE_ACCESS_ALL_REGS:
--		return 6;
--	default:
--		return 0;
--	}
--}
--
--static int nvme_send_ns_head_pr_command(struct block_device *bdev,
--		struct nvme_command *c, u8 *data, unsigned int data_len)
--{
--	struct nvme_ns_head *head = bdev->bd_disk->private_data;
--	int srcu_idx = srcu_read_lock(&head->srcu);
--	struct nvme_ns *ns = nvme_find_path(head);
--	int ret = -EWOULDBLOCK;
--
--	if (ns) {
--		c->common.nsid = cpu_to_le32(ns->head->ns_id);
--		ret = nvme_submit_sync_cmd(ns->queue, c, data, data_len);
--	}
--	srcu_read_unlock(&head->srcu, srcu_idx);
--	return ret;
--}
--	
--static int nvme_send_ns_pr_command(struct nvme_ns *ns, struct nvme_command *c,
--		u8 *data, unsigned int data_len)
--{
--	c->common.nsid = cpu_to_le32(ns->head->ns_id);
--	return nvme_submit_sync_cmd(ns->queue, c, data, data_len);
--}
--
--static int nvme_sc_to_pr_err(int nvme_sc)
--{
--	if (nvme_is_path_error(nvme_sc))
--		return PR_STS_PATH_FAILED;
--
--	switch (nvme_sc) {
--	case NVME_SC_SUCCESS:
--		return PR_STS_SUCCESS;
--	case NVME_SC_RESERVATION_CONFLICT:
--		return PR_STS_RESERVATION_CONFLICT;
--	case NVME_SC_ONCS_NOT_SUPPORTED:
--		return -EOPNOTSUPP;
--	case NVME_SC_BAD_ATTRIBUTES:
--	case NVME_SC_INVALID_OPCODE:
--	case NVME_SC_INVALID_FIELD:
--	case NVME_SC_INVALID_NS:
--		return -EINVAL;
--	default:
--		return PR_STS_IOERR;
--	}
--}
--
--static int nvme_pr_command(struct block_device *bdev, u32 cdw10,
--				u64 key, u64 sa_key, u8 op)
--{
--	struct nvme_command c = { };
--	u8 data[16] = { 0, };
--	int ret;
--
--	put_unaligned_le64(key, &data[0]);
--	put_unaligned_le64(sa_key, &data[8]);
--
--	c.common.opcode = op;
--	c.common.cdw10 = cpu_to_le32(cdw10);
--
--	if (IS_ENABLED(CONFIG_NVME_MULTIPATH) &&
--	    bdev->bd_disk->fops == &nvme_ns_head_ops)
--		ret = nvme_send_ns_head_pr_command(bdev, &c, data,
--						   sizeof(data));
--	else
--		ret = nvme_send_ns_pr_command(bdev->bd_disk->private_data, &c,
--					      data, sizeof(data));
--	if (ret < 0)
--		return ret;
--
--	return nvme_sc_to_pr_err(ret);
--}
--
--static int nvme_pr_register(struct block_device *bdev, u64 old,
--		u64 new, unsigned flags)
--{
--	u32 cdw10;
--
--	if (flags & ~PR_FL_IGNORE_KEY)
--		return -EOPNOTSUPP;
--
--	cdw10 = old ? 2 : 0;
--	cdw10 |= (flags & PR_FL_IGNORE_KEY) ? 1 << 3 : 0;
--	cdw10 |= (1 << 30) | (1 << 31); /* PTPL=1 */
--	return nvme_pr_command(bdev, cdw10, old, new, nvme_cmd_resv_register);
--}
--
--static int nvme_pr_reserve(struct block_device *bdev, u64 key,
--		enum pr_type type, unsigned flags)
--{
--	u32 cdw10;
--
--	if (flags & ~PR_FL_IGNORE_KEY)
--		return -EOPNOTSUPP;
--
--	cdw10 = nvme_pr_type(type) << 8;
--	cdw10 |= ((flags & PR_FL_IGNORE_KEY) ? 1 << 3 : 0);
--	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_acquire);
--}
--
--static int nvme_pr_preempt(struct block_device *bdev, u64 old, u64 new,
--		enum pr_type type, bool abort)
--{
--	u32 cdw10 = nvme_pr_type(type) << 8 | (abort ? 2 : 1);
--
--	return nvme_pr_command(bdev, cdw10, old, new, nvme_cmd_resv_acquire);
--}
--
--static int nvme_pr_clear(struct block_device *bdev, u64 key)
--{
--	u32 cdw10 = 1 | (key ? 0 : 1 << 3);
--
--	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_release);
--}
--
--static int nvme_pr_release(struct block_device *bdev, u64 key, enum pr_type type)
--{
--	u32 cdw10 = nvme_pr_type(type) << 8 | (key ? 0 : 1 << 3);
--
--	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_release);
--}
--
--const struct pr_ops nvme_pr_ops = {
--	.pr_register	= nvme_pr_register,
--	.pr_reserve	= nvme_pr_reserve,
--	.pr_release	= nvme_pr_release,
--	.pr_preempt	= nvme_pr_preempt,
--	.pr_clear	= nvme_pr_clear,
--};
--
- #ifdef CONFIG_BLK_SED_OPAL
- static int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
- 		bool send)
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index bf46f122e9e1..c0762346b441 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -19,6 +19,8 @@
- 
- #include <trace/events/block.h>
- 
-+extern const struct pr_ops nvme_pr_ops;
-+
- extern unsigned int nvme_io_timeout;
- #define NVME_IO_TIMEOUT	(nvme_io_timeout * HZ)
- 
-diff --git a/drivers/nvme/host/pr.c b/drivers/nvme/host/pr.c
-new file mode 100644
-index 000000000000..26ad25f7280b
---- /dev/null
-+++ b/drivers/nvme/host/pr.c
-@@ -0,0 +1,155 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/blkdev.h>
-+#include <linux/pr.h>
-+#include <asm/unaligned.h>
-+
-+#include "nvme.h"
-+
-+static char nvme_pr_type(enum pr_type type)
-+{
-+	switch (type) {
-+	case PR_WRITE_EXCLUSIVE:
-+		return 1;
-+	case PR_EXCLUSIVE_ACCESS:
-+		return 2;
-+	case PR_WRITE_EXCLUSIVE_REG_ONLY:
-+		return 3;
-+	case PR_EXCLUSIVE_ACCESS_REG_ONLY:
-+		return 4;
-+	case PR_WRITE_EXCLUSIVE_ALL_REGS:
-+		return 5;
-+	case PR_EXCLUSIVE_ACCESS_ALL_REGS:
-+		return 6;
-+	default:
-+		return 0;
-+	}
-+}
-+
-+static int nvme_send_ns_head_pr_command(struct block_device *bdev,
-+		struct nvme_command *c, u8 *data, unsigned int data_len)
-+{
-+	struct nvme_ns_head *head = bdev->bd_disk->private_data;
-+	int srcu_idx = srcu_read_lock(&head->srcu);
-+	struct nvme_ns *ns = nvme_find_path(head);
-+	int ret = -EWOULDBLOCK;
-+
-+	if (ns) {
-+		c->common.nsid = cpu_to_le32(ns->head->ns_id);
-+		ret = nvme_submit_sync_cmd(ns->queue, c, data, data_len);
-+	}
-+	srcu_read_unlock(&head->srcu, srcu_idx);
-+	return ret;
-+}
-+
-+static int nvme_send_ns_pr_command(struct nvme_ns *ns, struct nvme_command *c,
-+		u8 *data, unsigned int data_len)
-+{
-+	c->common.nsid = cpu_to_le32(ns->head->ns_id);
-+	return nvme_submit_sync_cmd(ns->queue, c, data, data_len);
-+}
-+
-+static int nvme_sc_to_pr_err(int nvme_sc)
-+{
-+	if (nvme_is_path_error(nvme_sc))
-+		return PR_STS_PATH_FAILED;
-+
-+	switch (nvme_sc) {
-+	case NVME_SC_SUCCESS:
-+		return PR_STS_SUCCESS;
-+	case NVME_SC_RESERVATION_CONFLICT:
-+		return PR_STS_RESERVATION_CONFLICT;
-+	case NVME_SC_ONCS_NOT_SUPPORTED:
-+		return -EOPNOTSUPP;
-+	case NVME_SC_BAD_ATTRIBUTES:
-+	case NVME_SC_INVALID_OPCODE:
-+	case NVME_SC_INVALID_FIELD:
-+	case NVME_SC_INVALID_NS:
-+		return -EINVAL;
-+	default:
-+		return PR_STS_IOERR;
-+	}
-+}
-+
-+static int nvme_pr_command(struct block_device *bdev, u32 cdw10,
-+				u64 key, u64 sa_key, u8 op)
-+{
-+	struct nvme_command c = { };
-+	u8 data[16] = { 0, };
-+	int ret;
-+
-+	put_unaligned_le64(key, &data[0]);
-+	put_unaligned_le64(sa_key, &data[8]);
-+
-+	c.common.opcode = op;
-+	c.common.cdw10 = cpu_to_le32(cdw10);
-+
-+	if (IS_ENABLED(CONFIG_NVME_MULTIPATH) &&
-+	    bdev->bd_disk->fops == &nvme_ns_head_ops)
-+		ret = nvme_send_ns_head_pr_command(bdev, &c, data,
-+						   sizeof(data));
-+	else
-+		ret = nvme_send_ns_pr_command(bdev->bd_disk->private_data, &c,
-+					      data, sizeof(data));
-+	if (ret < 0)
-+		return ret;
-+
-+	return nvme_sc_to_pr_err(ret);
-+}
-+
-+static int nvme_pr_register(struct block_device *bdev, u64 old,
-+		u64 new, unsigned flags)
-+{
-+	u32 cdw10;
-+
-+	if (flags & ~PR_FL_IGNORE_KEY)
-+		return -EOPNOTSUPP;
-+
-+	cdw10 = old ? 2 : 0;
-+	cdw10 |= (flags & PR_FL_IGNORE_KEY) ? 1 << 3 : 0;
-+	cdw10 |= (1 << 30) | (1 << 31); /* PTPL=1 */
-+	return nvme_pr_command(bdev, cdw10, old, new, nvme_cmd_resv_register);
-+}
-+
-+static int nvme_pr_reserve(struct block_device *bdev, u64 key,
-+		enum pr_type type, unsigned flags)
-+{
-+	u32 cdw10;
-+
-+	if (flags & ~PR_FL_IGNORE_KEY)
-+		return -EOPNOTSUPP;
-+
-+	cdw10 = nvme_pr_type(type) << 8;
-+	cdw10 |= ((flags & PR_FL_IGNORE_KEY) ? 1 << 3 : 0);
-+	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_acquire);
-+}
-+
-+static int nvme_pr_preempt(struct block_device *bdev, u64 old, u64 new,
-+		enum pr_type type, bool abort)
-+{
-+	u32 cdw10 = nvme_pr_type(type) << 8 | (abort ? 2 : 1);
-+
-+	return nvme_pr_command(bdev, cdw10, old, new, nvme_cmd_resv_acquire);
-+}
-+
-+static int nvme_pr_clear(struct block_device *bdev, u64 key)
-+{
-+	u32 cdw10 = 1 | (key ? 0 : 1 << 3);
-+
-+	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_release);
-+}
-+
-+static int nvme_pr_release(struct block_device *bdev, u64 key, enum pr_type type)
-+{
-+	u32 cdw10 = nvme_pr_type(type) << 8 | (key ? 0 : 1 << 3);
-+
-+	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_release);
-+}
-+
-+const struct pr_ops nvme_pr_ops = {
-+	.pr_register	= nvme_pr_register,
-+	.pr_reserve	= nvme_pr_reserve,
-+	.pr_release	= nvme_pr_release,
-+	.pr_preempt	= nvme_pr_preempt,
-+	.pr_clear	= nvme_pr_clear,
-+};
+[auto build test WARNING on mkp-scsi/for-next]
+[also build test WARNING on jejb-scsi/for-next axboe-block/for-next linus/master v6.2 next-20230224]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Christie/block-Rename-BLK_STS_NEXUS-to-BLK_STS_RESV_CONFLICT/20230225-024505
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20230224174502.321490-14-michael.christie%40oracle.com
+patch subject: [PATCH v4 13/18] nvme: Add pr_ops read_reservation support
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230225/202302250448.cEVYdC1I-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/f66174eef73e332bdca3a158541875a4c2e617d1
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Mike-Christie/block-Rename-BLK_STS_NEXUS-to-BLK_STS_RESV_CONFLICT/20230225-024505
+        git checkout f66174eef73e332bdca3a158541875a4c2e617d1
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/nvme/host/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302250448.cEVYdC1I-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/nvme/host/pr.c: In function 'block_pr_type_from_nvme':
+>> drivers/nvme/host/pr.c:43:24: warning: implicit conversion from 'enum nvme_pr_type' to 'enum pr_type' [-Wenum-conversion]
+      43 |                 return NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS;
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +43 drivers/nvme/host/pr.c
+
+    28	
+    29	static enum pr_type block_pr_type_from_nvme(enum nvme_pr_type type)
+    30	{
+    31		switch (type) {
+    32		case NVME_PR_WRITE_EXCLUSIVE:
+    33			return PR_WRITE_EXCLUSIVE;
+    34		case NVME_PR_EXCLUSIVE_ACCESS:
+    35			return PR_EXCLUSIVE_ACCESS;
+    36		case NVME_PR_WRITE_EXCLUSIVE_REG_ONLY:
+    37			return PR_WRITE_EXCLUSIVE_REG_ONLY;
+    38		case NVME_PR_EXCLUSIVE_ACCESS_REG_ONLY:
+    39			return PR_EXCLUSIVE_ACCESS_REG_ONLY;
+    40		case NVME_PR_WRITE_EXCLUSIVE_ALL_REGS:
+    41			return PR_WRITE_EXCLUSIVE_ALL_REGS;
+    42		case NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS:
+  > 43			return NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS;
+    44		}
+    45	
+    46		return 0;
+    47	}
+    48	
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
 
