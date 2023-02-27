@@ -4,80 +4,119 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6FB3C64ED6
-	for <linux-nvme@archiver.kernel.org>; Sun, 26 Feb 2023 12:43:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0BD49C64ED8
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Feb 2023 06:06:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=DwfLEzqZ0QVirXQLbpJW7s08X5a8w2/KigTjbknp+V4=; b=aSMfkCmbrpdw9Oh1gfuS0s6Wj1
-	O9AckeLv7NwstqeuHF+kcNDury+UyEmcBlCSdCZsrF+UsLnJSIqwI7f6Xw8O0l3mVMiECYwBPoxKV
-	gG2zpJou7NMpfgaOBFmVe/F1qtD+GWHgcLsQHxq6sMSwSQbjDQlW+NouaPvETxlGfQnvixCWkXaSS
-	jilzWOKAuMICLYc4S1pl0zICFg77oJ8//P0fskS8IZJ7yrwqgGkWC4h0tJW+jgBeg+pPcw938xm9r
-	k7tak7CG54PxdiDyXSUeRhYfOggKgGvSKXPIElgP+MQhnISiySase18XHpRYHTVSUlUWZrZKF8VZd
-	pi1mAS1Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=vIoz29UZVyH0q7ZSAtP9vZs7cGKZNreKhiGp8UZo6hM=; b=thfWif6BWTZ+4RMyPFArlBUMmB
+	5AzMRGXW4usNIafuGIDGDjyWY56NOEp7MPfX1TTQ7gMv9+Hv+cHSsLzQ8Xf9skNX5x7qL0P8nPXYL
+	xoY1vnNqMphFlXkMWcNcQN9mmjVN/7Bs3NW9/kHLW7gRialTe1RiGsXyuN3+o2GiGMWveAqxKXvd+
+	TJXK0ovPJsilApiVWDGEHtDW9ivdgiFBw8JBdAn7UOD0RLG/6zHBYF8QPEq8XCE8pzY8UokM/Ec3A
+	XHhVSbWttXzti0euO9uYJaJHdxDf6nasPQWgk/dxf7g/pcxOyM83ypOFTAopptNLd+x9QF1iQ6GnE
+	z4f4RkgQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pWGNH-007CM6-0d; Sun, 26 Feb 2023 12:43:31 +0000
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+	id 1pWWem-008YYr-Ry; Mon, 27 Feb 2023 06:06:40 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pWGND-007CLc-1i
-	for linux-nvme@lists.infradead.org; Sun, 26 Feb 2023 12:43:28 +0000
-Received: by mail-pj1-x1029.google.com with SMTP id x20-20020a17090a8a9400b00233ba727724so9508175pjn.1
-        for <linux-nvme@lists.infradead.org>; Sun, 26 Feb 2023 04:43:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DwfLEzqZ0QVirXQLbpJW7s08X5a8w2/KigTjbknp+V4=;
-        b=Bc6PkSLceUdCO6v+2a3TMP5MHAJ/2aXQyPb4HROBz83mzPW0cnKKVp+Vm1dZbRQ6VG
-         Uw9P3rxL2MtTsVmh3JjjZkSL1Bmw/SnH08aixUtpx/1qQMzSbqGfnGek/5TATda6qxXp
-         rOBO10WLEidoJl1FotRgenUhG2VNdzi+YsHvPWgqPF2RzNxo62Y4yATYKFpy+ajA1xmH
-         UhRPwFTY3AGeepdZDTBNj/D94ly3P++1nxid/yXRb2cyE3Rtspf7A8Gi4NcojI2qUmPY
-         5urav8N19Napbxvob4G8qVi00pQTnwqf8DQJ6/AxszjWpDBWzHukPWNkYeih6XUzjGRW
-         EE4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DwfLEzqZ0QVirXQLbpJW7s08X5a8w2/KigTjbknp+V4=;
-        b=U4UxvGqvtXNSYTyS7j8/BhahJyhETT4ygCytqxvIs70yqyCOvFpLo+v7pfRdltpeMM
-         9qo5dagJcWM7wuSmHYXklXdv8Msw9pYz0fWsXrN3zxI5divIEoV6VRnR1lQUdCWF2/Xb
-         BCcwKj2+Aab0ciQ1xxlqc1VEg15llzOVNrE7qqyEIQjnAzCFZZIkC/4I3pi5oEbI0b9v
-         4mSqwuvAmR/D7AQLvREN+53FoWT1ieaUQxXA3qo9CjTGa0cvoXC55bbsB/IYijxvduwr
-         TDqfyjhlvWG9hqeL/OG34e5xGiP4pW/JUtaKfB5Hwkjl6oaGAtetyeKQ8HZYGCzHH6YO
-         QLLw==
-X-Gm-Message-State: AO0yUKX+oWeyUIqFMCiuFUZi74yzFd4imYkssuuaPqeuH0iJOwNVPlNb
-	pz/jAEiTsfW6g9uHBXN5KJgV442lNYw=
-X-Google-Smtp-Source: AK7set8mDvlHBHJeDkQOj3trupKYTZhcxWiJNB94mdpl2B/8tayK8v85mWYrerreXlMirWPC7jFBGg==
-X-Received: by 2002:a17:90b:4a8e:b0:237:b702:49ac with SMTP id lp14-20020a17090b4a8e00b00237b70249acmr5805423pjb.17.1677415404570;
-        Sun, 26 Feb 2023 04:43:24 -0800 (PST)
-Received: from localhost.localdomain ([240f:34:212d:1:5d7:67d7:fa35:7513])
-        by smtp.gmail.com with ESMTPSA id q2-20020a17090a68c200b00234b785af1dsm2513903pjj.26.2023.02.26.04.43.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Feb 2023 04:43:23 -0800 (PST)
-From: Akinobu Mita <akinobu.mita@gmail.com>
-To: linux-nvme@lists.infradead.org
-Cc: Akinobu Mita <akinobu.mita@gmail.com>,
-	Martin Belanger <martin.belanger@dell.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@fb.com>,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH] nvme-tcp: don't access released socket during error recovery
-Date: Sun, 26 Feb 2023 21:42:54 +0900
-Message-Id: <20230226124254.59970-1-akinobu.mita@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	id 1pWWee-008YXM-HE
+	for linux-nvme@lists.infradead.org; Mon, 27 Feb 2023 06:06:35 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20230227060623epoutp044226722d3926782e2b04625a2896c1d5~HmVasgmUi2825228252epoutp04X
+	for <linux-nvme@lists.infradead.org>; Mon, 27 Feb 2023 06:06:23 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20230227060623epoutp044226722d3926782e2b04625a2896c1d5~HmVasgmUi2825228252epoutp04X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1677477983;
+	bh=vIoz29UZVyH0q7ZSAtP9vZs7cGKZNreKhiGp8UZo6hM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GhRV2WLjaCJRdiKftdh3RlYyMptcYW2jIEgdZfpx1XNuVnaIuUyDTbCFRg2dsVx7+
+	 WBTh2Q3w9c4ca/wVMY6m4jM2m4RSaxhfyY051vD9/dPnN0ujDAlN4vP3a08z994r9t
+	 aumYsmXauBMLawStgVvaVBYb+C9YPn99oDiogcoY=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20230227060623epcas5p259b5a0842fd8074438b6a0ca34249f5f~HmVadMCvb1714017140epcas5p2h;
+	Mon, 27 Feb 2023 06:06:23 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.180]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4PQ93x40k4z4x9Ps; Mon, 27 Feb
+	2023 06:06:21 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	91.64.06765.D584CF36; Mon, 27 Feb 2023 15:06:21 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20230227060620epcas5p4af89e04919e22f1997abc1acf204f456~HmVXnYCZu2710627106epcas5p4L;
+	Mon, 27 Feb 2023 06:06:20 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20230227060620epsmtrp20bc61ed09fb99febc1a8d220cd1e8d16~HmVXmtwce2994029940epsmtrp2V;
+	Mon, 27 Feb 2023 06:06:20 +0000 (GMT)
+X-AuditID: b6c32a4b-20fff70000011a6d-db-63fc485decab
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	83.05.05839.C584CF36; Mon, 27 Feb 2023 15:06:20 +0900 (KST)
+Received: from green5 (unknown [107.110.206.5]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20230227060619epsmtip20d126896680ea8685c2cb8cc4f86d2e7~HmVW5-EfW0143701437epsmtip2i;
+	Mon, 27 Feb 2023 06:06:19 +0000 (GMT)
+Date: Mon, 27 Feb 2023 11:35:47 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, Christoph
+	Hellwig <hch@lst.de>
+Subject: Re: [PATCH blktests v2 0/2] nvme: add test for unprivileged
+ passthrough
+Message-ID: <20230227060547.GA25049@green5>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230214044739.1903364-1-shinichiro.kawasaki@wdc.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrKKsWRmVeSWpSXmKPExsWy7bCmlm6sx59kg7VLZSxWrj7KZLH3lrbF
+	/GVP2S32zfJ0YPHYvKTeY/fNBjaPz5vkPNoPdDMFsERl22SkJqakFimk5iXnp2TmpdsqeQfH
+	O8ebmhkY6hpaWpgrKeQl5qbaKrn4BOi6ZeYA7VNSKEvMKQUKBSQWFyvp29kU5ZeWpCpk5BeX
+	2CqlFqTkFJgU6BUn5haX5qXr5aWWWBkaGBiZAhUmZGcsnHKSvWAze8WEQ31sDYyr2LoYOTkk
+	BEwkVj89zN7FyMUhJLCbUWLXtRNMEM4nRolla09BOd8YJTqOLWOGaWl9MB+qZS+jxIfXB6Gc
+	J4wSax6uYgKpYhFQlTi39QeQzcHBJqApcWFyKUhYRMBM4sqxN+wgYWaBRIlL9x1BwsICQRKr
+	/00G6+QV0JY4tHA3M4QtKHFy5hMWEJtTwFli3+1LYHFRAWWJA9uOM0Hcc4td4tyeEAjbReL9
+	2ivsELawxKvjW6BsKYnP7/ZCvZwscWnmOajeEonHew5C2fYSraf6weYzC2RI/F3/mwnC5pPo
+	/f0E7BMJAV6JjjYhiHJFiXuTnrJC2OISD2csYYUo8ZBY+94EEiDTGCVeND1gncAoNwvJN7OQ
+	bICwrSQ6PzSxzgIHirTE8n8cEKamxPpd+gsYWVcxSqYWFOempxabFhjnpZbDYzg5P3cTIzj9
+	aXnvYHz04IPeIUYmDsZDjBIczEoivHdO/kgW4k1JrKxKLcqPLyrNSS0+xGgKjJuJzFKiyfnA
+	BJxXEm9oYmlgYmZmZmJpbGaoJM6rbnsyWUggPbEkNTs1tSC1CKaPiYNTqoGJUVA57SDHI43I
+	efsDQzeziRd/yWhjqvSV/fepsmPNV1m93sV5NTeMp25v9z/rXz5pn8FmT5Wz59g5fMxTSiKq
+	K/sSTp7Qs2pga/Mpy76vns/KqJqyPz31cfCr2S075Z7P73BhibHnzqkx5djZ6lote3BX57Oo
+	4gcmjH+PLzy4qXW9Vp/ihoJdHh8PxhX8OHvm7Y3O6ed4LPXO3psTOC1RKf7m81uppioNF003
+	2Ur9vbRLdkrcu2ut/5WPMO83P+ymJuKhqv/f48bEfkcj/kD2NsMdZxamLhXh03PTfmsRKmT5
+	zm79mjSJiQtdb044YHqx79zPD8Kvt7yqZRHPVZkV+1pX9N3RjcXTsyt7vJRYijMSDbWYi4oT
+	AYGsYPkIBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrGLMWRmVeSWpSXmKPExsWy7bCSvG6Mx59kg8X7xCxWrj7KZLH3lrbF
+	/GVP2S32zfJ0YPHYvKTeY/fNBjaPz5vkPNoPdDMFsERx2aSk5mSWpRbp2yVwZUx9vpGt4ClL
+	xZ3NR5gbGL8xdzFyckgImEi0PpjP3sXIxSEksJtR4uv1T6wQCXGJ5ms/2CFsYYmV/55DFT1i
+	lFiwZhUbSIJFQFXi3NYfTF2MHBxsApoSFyaXgoRFBMwkrhx7A9bLLJAocfDPc7CZwgJBEqv/
+	TWYCsXkFtCUOLdzNDDFzGqPEzM9vGSESghInZz5hgWg2k5i3+SEzyHxmAWmJ5f84QMKcAs4S
+	+25fAntAVEBZ4sC240wTGAVnIemehaR7FkL3AkbmVYySqQXFuem5xYYFhnmp5XrFibnFpXnp
+	esn5uZsYwUGtpbmDcfuqD3qHGJk4GA8xSnAwK4nw3jn5I1mINyWxsiq1KD++qDQntfgQozQH
+	i5I474Wuk/FCAumJJanZqakFqUUwWSYOTqkGJqYd6Vb/i+5PW/WRNdUzyXH57bxFi8Vm5ji0
+	PTi+SnOiovKz45wcTxmb2Utm9YpcPqCxLHhPS0yqe/HbYB/TNjEP7t1GS57cylmvsC4+2Nsq
+	d71Is+EKxXmJuYf53ncv2KtyO7vPqUhBdOYWLvOdd+M0W8y9JhjvDwnqOL760qZ2A9Y+XyeF
+	/qxQub3vtZe/XPHjvLDpyifeOqJrneYmT1rm/OA8p5tjpG6mP3vFg2juwsWtiRu+GTje0Y3a
+	vHPmxvbFHzlErvGdvKLNYLvqztf5brwdW3fxvDF6fWn164zz0mJ1M1YmbJ5V/kTl1tK4ZYLr
+	bD+/1N904R/TrJnVLty9czXcJ6xS44621JF9r8RSnJFoqMVcVJwIABEkAqzZAgAA
+X-CMS-MailID: 20230227060620epcas5p4af89e04919e22f1997abc1acf204f456
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----IPzR0Zmv7eUACe1AcPM4bhPiN.NxXwyEj5sj1OQa2HLEVOb4=_9769f_"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230214044749epcas5p4ac6bf441e046e3642b1633fd9cf7a72b
+References: <CGME20230214044749epcas5p4ac6bf441e046e3642b1633fd9cf7a72b@epcas5p4.samsung.com>
+	<20230214044739.1903364-1-shinichiro.kawasaki@wdc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230226_044327_126908_5D0A9AE7 
-X-CRM114-Status: GOOD (  14.39  )
+X-CRM114-CacheID: sfid-20230226_220634_056246_641D6791 
+X-CRM114-Status: GOOD (  14.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,51 +131,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-While the error recovery work is temporarily failing reconnect attempts,
-running the 'nvme list' command causes a kernel NULL pointer dereference
-by calling getsockname() with a released socket.
+------IPzR0Zmv7eUACe1AcPM4bhPiN.NxXwyEj5sj1OQa2HLEVOb4=_9769f_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-During error recovery work, the nvme tcp socket is released and a new one
-created, so it is not safe to access the socket without proper check.
+On Tue, Feb 14, 2023 at 01:47:37PM +0900, Shin'ichiro Kawasaki wrote:
+>Per suggestion by Kanchan, add a new test case to test unprivileged passthrough
+>of NVME character devices. The first patch adds a feature to run commands with
+>normal user privilege. The second patch adds the test case using the feature.
+>
+>Changes from v2:
+>* Added the first patch to add normal user privilege support to blktests
+>* Adjusted the test case to the functions for normal user privilege support
 
-Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
-Fixes: 02c57a82c008 ("nvme-tcp: print actual source IP address through sysfs "address" attr")
-Cc: Martin Belanger <martin.belanger@dell.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>
-Cc: Chaitanya Kulkarni <kch@nvidia.com>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>
-Cc: Jens Axboe <axboe@fb.com>
-Cc: Hannes Reinecke <hare@suse.de>
----
- drivers/nvme/host/tcp.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Thanks, this looks way better. And works fine in my setup.
+If required,
+Tested-by: Kanchan Joshi <joshi.k@samsung.com>
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 1955c0ec209e..7723a4989524 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2492,6 +2492,10 @@ static int nvme_tcp_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
- 
- 	len = nvmf_get_address(ctrl, buf, size);
- 
-+	mutex_lock(&queue->queue_lock);
-+
-+	if (!test_bit(NVME_TCP_Q_LIVE, &queue->flags))
-+		goto done;
- 	ret = kernel_getsockname(queue->sock, (struct sockaddr *)&src_addr);
- 	if (ret > 0) {
- 		if (len > 0)
-@@ -2499,6 +2503,8 @@ static int nvme_tcp_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
- 		len += scnprintf(buf + len, size - len, "%ssrc_addr=%pISc\n",
- 				(len) ? "," : "", &src_addr);
- 	}
-+done:
-+	mutex_unlock(&queue->queue_lock);
- 
- 	return len;
- }
--- 
-2.34.1
+------IPzR0Zmv7eUACe1AcPM4bhPiN.NxXwyEj5sj1OQa2HLEVOb4=_9769f_
+Content-Type: text/plain; charset="utf-8"
 
+
+------IPzR0Zmv7eUACe1AcPM4bhPiN.NxXwyEj5sj1OQa2HLEVOb4=_9769f_--
 
