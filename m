@@ -4,62 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C0A7C7EE2E
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Feb 2023 21:18:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B851C64ED6
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Feb 2023 21:42:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Hhb+o2bEayp+f4Zj/5IIprArbl64Rwb+MdGZZRBDGWc=; b=QrbnnROT20cqc8yc/uR4TJ687R
-	yYDvIXV6MVUDDcLOa+sMv5DppSVsSiE2bE+5IeZxOPm+LHC+gesLJG7BE6D6NQIYpX3zgRc12PKNQ
-	m4ZSDugI9+WnrIztA3ijtOYdIct9dyYZis8TVpSGAH5Md/1J15NuOX6szlguKPzt2kYJvb5QCfp3s
-	mHvv5db94+pyLFt1oSSQcB5jjaQv55adlOu8aYGBF/aF9ofRRhEkWFOosOQmrRFf0vY0vo0mAYSgn
-	jdNSbVCTlUiVLfGgKTHfftOSXVErJZngI4gQLR2RP6wXbJ4uHQvV54vRqCQ9jBNlHxrU/oYB7bbpJ
-	BTbtD43w==;
+	bh=UG12ozmKDObdF4od3/xQzGBxn9w7lCazsUrVTRHUDJU=; b=zSMf7shbcpDjXcd3WqFeRrVBrr
+	bhPalZCsV48THUcntHAKFK9WmWRp4zVkV1spAuKX/4qBz9uOcK0jmViSTHafbvi2hbi05h3/brNZT
+	5LVwRQqZVLopc+SMllPB84hbos/detTXYdkHz84Yh0MOSxSQSxaEtB88INrmudFBd9RDSn4uq+Xzg
+	KTgEFnVKMFbf2SBKCpg6vWMxc3GqQiGa0NKhILl7Ty1bKy27BzoQ7nmHifw8j+efrCLTRY3186wdq
+	wXs4zzjrH/KSmBQfcfP8UqGTUNpu6v9Bk7qtV90m0voAYq1kEWFaV9J3VvQuYJcyO9+6U4tQFkJ7g
+	yXYNqH5A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pWktJ-00BIJw-Au; Mon, 27 Feb 2023 21:18:37 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1pWlG9-00BM1q-2x; Mon, 27 Feb 2023 21:42:13 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pWktG-00BIHR-Cw
-	for linux-nvme@lists.infradead.org; Mon, 27 Feb 2023 21:18:36 +0000
+	id 1pWlG5-00BM0t-HA
+	for linux-nvme@lists.infradead.org; Mon, 27 Feb 2023 21:42:11 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1677532714; x=1709068714;
+  t=1677534129; x=1709070129;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=DX80PnHjJHoZBpzLbMSl34pvvXAuVXENmZVvv87jZNg=;
-  b=YVtKqbJw45ib9FW++PL1+RIMPlzF46F+fJ2omCoVC/a9dQbvzV9cfQiv
-   BMgkiUBCDYmDxYkn3/xDbC1VFNznCr65lRkFzlXxoIKFPTmLmRZNnK3qR
-   zTGjgG3xz9Qw1xA7/FPeu0/1diJzSCd5BtzE5I6kV8jOn4lSUzQEJoMCl
-   b2BxpyNd2CkmZlGs6X3dCK8Y040aK5qRWAIDDmrUNEWkv8oBnhfIJ2zgO
-   QfH3+y3UN4tONLuHHt3oYZOG6OqIMIpM+wDDNXeAV9J4HtPRQpUz7CLKr
-   H9Gsv1U8W+O42rMDaL5QyHJ+/AZ1x8WRNnXegLRYQNDoTF3WdR4d33zH+
-   A==;
+  bh=E16+HmI91qcq4n85XyiBcodRpHC0xN8mBwf0nq/L8Kk=;
+  b=ECL0ruoO2+aQ55etWMTBTd15zisZpVOWLhAdpEcVu/2VnTWibHGx5KIi
+   sNCwIgeOKZ4mZJM+dSN2VGMbgJXd1VMHfMz0mK/2Y9SdcgsWFbSbiftrH
+   HXg6TTeUryqslZkjjdceTpBqV9MgPQ3TJSRPwLBLzrPLOxxwGb0DIMJ/5
+   hTxl6weZ5ieyOsehxzYpabIK8X9OzYyEdy5BjgSVUlARxJdWRhgBXJ3pG
+   YThSUtVehw8sYDUdr2xaMDgPYicLhEGBGWDxC20n2X6rSdYLP9v5E/Adx
+   HYxJ2MBlTubqSHO7s8IwERFGPYPaE9ltua2VlP+doHnCcyUA2qCHzU/3u
+   w==;
 X-IronPort-AV: E=Sophos;i="5.98,220,1673884800"; 
-   d="scan'208";a="336331067"
+   d="scan'208";a="222644406"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 28 Feb 2023 05:18:32 +0800
-IronPort-SDR: b7LACnhyEJfUIdmsEQ695NpOMWzd3WhF6Iw6bXKqFf8pzl829Z07MoXNJO0VZ+3WLiGecYjOqS
- qyA/wLixHqffAu8XO/EIFqwuCPnLdUpMaSv3xvMWamx+47MkoyP5zdnt+nearCqaUvwekqBoNJ
- LCOG70A+t4ss8WYylWX7L3JssZXniJIvjb220tih0Kl9VE55BKOJhwQ0Ead0smP6cSlkJxcX3t
- 3zl40k7wHcmm5aO9Zc0olbVnLv+ZwCCqp/o37nn8wgLGgCqWo9KSvTjdS9P8xNPGlRz8c65+4I
- pFE=
+  by ob1.hgst.iphmx.com with ESMTP; 28 Feb 2023 05:42:04 +0800
+IronPort-SDR: iK0khzfXO365JkeLarxuufjtn9aTk9Bn4tbED8nuoQA3zHroKTltzwonPnZoXUWfdsuuYw7Nb7
+ DD1qXS4VS0D6wJR7ii1pArMY47IP/RgLkWs0NObNaeJSG1KhFJ/ojgiwkT5AyKNNhYElyo6EFo
+ tm6BzEI4LWa4k4XuzmIXplcRaDHwAPc73gx3JMcsGgRylvQnBnluizrZRwD+q6qJ0iOoXru7fv
+ ok1DaEV0h8z6n5ZDyr9IJ3PJZfhgk5TnqxJxot5NTo0ery8aRuc4cpTIHZ4l5AhNANL8wuaWIy
+ p+E=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Feb 2023 12:35:23 -0800
-IronPort-SDR: Yq0ivxtbhpflw/zVS9NrbuM2E0gvhVr6pHDIuv86glJL+fSSuJ1vV+l9htVrJkw4rXNiEDHVQY
- 2gWMeG+Hcr5FWX7cS0RysAdrkfCx6QKSkIKHyO/frrziRk+uBtg5CA0idKQ90ZUaVBtWk5C0Y+
- J/gjCzKB908gmbePFutR5cG6ucgqf0n2WZhWBVotYIiFwEqQjlDibjKT9Z1M/RXcYfmTWcReQB
- jgKblw96mioWZs8DT9q3uFx7xmQFg1qCavV8A4Vb+/bkKw1SFW/LigW5EeMYMNsQs939tdnCBK
- 9ss=
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Feb 2023 12:58:55 -0800
+IronPort-SDR: bOV8HKzMGKcc3dKEpuQulTzne3VL9YDwVDM9gzRkZVe08te8/K3ZMfgtaV39K3XrMVkAFBlygq
+ 4hlYppP2KUv3dRUSsxgUn263FiMgXjBoF8B4Fs7FUrWa8fAWu/Lqtdvd5OA6LGlr45RYOq7ZRo
+ mUNUJrGaw3vIu+BOJhdPAIcyuC7OdoT52fN4ZpYTPf0yM+orK0oKSfsPZ7DlkaWtwIb7lg9HZM
+ redRidmy3q6LYDdujDNvXJmnsOKueA8hrE/QGydfKf5Eh9nwy6dwS+/UdsK5HS4TAXg6msm1r2
+ NEQ=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
-  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Feb 2023 13:18:32 -0800
+  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Feb 2023 13:42:05 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
-	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4PQYJR5xtlz1RwtC
-	for <linux-nvme@lists.infradead.org>; Mon, 27 Feb 2023 13:18:31 -0800 (PST)
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4PQYqb6R17z1Rwtl
+	for <linux-nvme@lists.infradead.org>; Mon, 27 Feb 2023 13:42:03 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
 	reason="pass (just generated, assumed good)"
 	header.d=opensource.wdc.com
@@ -67,23 +67,23 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
 	opensource.wdc.com; h=content-transfer-encoding:content-type
 	:in-reply-to:organization:from:references:to:content-language
 	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
-	1677532711; x=1680124712; bh=DX80PnHjJHoZBpzLbMSl34pvvXAuVXENmZV
-	vv87jZNg=; b=gfDm7UacfGl4S7JY8ppurANZH5fOxlOdeX+COAZW/l1Z+US4tLM
-	L8z5JkyoiiJ2Tc3t7UtCy5Fv+UNB13ImMZd+eVkxUpUTaldtgx4qy5xGwXbr0dBM
-	AnEqSqwShOU6nEI9f1IFA1rtGmF2wDX6qTlK3M67aLFuzULZEtdJR3Hy2ipke5XA
-	JJVfllp+tw0xGxeqHmBRsfMt8xX3jZHyV+7GleotWUMoxlOv9waOPsEeZlL0VjXb
-	THgLxAs8PTRAOM+Cuw0fh/Q97PsTvNThgo/RhbBGL69vE2NV26mBpgg8EYAWIp7J
-	a/SuTMpWweayZh8elDVl9XmHzE4hiECmr6w==
+	1677534123; x=1680126124; bh=E16+HmI91qcq4n85XyiBcodRpHC0xN8mBwf
+	0nq/L8Kk=; b=ZDIJKxZC/XiBEFR1lU5bIqmUDLpKvv3mVUtzX+l+JOr1/H3c6o2
+	bgjlE20HVQFCtxvgkyjUyzSnC+AFx6ptm/8HIXD7hcxLI/U4RNA0nd70r/YOuXsu
+	CilEATzEr28n12S7pkjSLWEQJN4NYDeM6QwR/aRKUz8JJ3XLWTCGV296TWQBOoN7
+	SgIgpfNN09SDg3s1N3uLHwyKLOWMCRjJnJroz0gXnFMFRYsq4g1/ro001OvSJZ2d
+	1yPNrEFKtKf38tyW6eIEl8FBnB9WN+G/f8PQ7G3rSIeOOIngIHdr9sTE7N5bJlER
+	L+dvopUXf7Z3pnIboSAdeaJiL9pGMoexDZA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
 	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id AN84zW9r8Cto for <linux-nvme@lists.infradead.org>;
-	Mon, 27 Feb 2023 13:18:31 -0800 (PST)
+	with ESMTP id puJvwZdYeI-n for <linux-nvme@lists.infradead.org>;
+	Mon, 27 Feb 2023 13:42:03 -0800 (PST)
 Received: from [10.225.163.44] (unknown [10.225.163.44])
-	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4PQYJP3wmLz1RvLy;
-	Mon, 27 Feb 2023 13:18:29 -0800 (PST)
-Message-ID: <f39d4184-db92-3101-1e83-b0aa65699aa8@opensource.wdc.com>
-Date: Tue, 28 Feb 2023 06:18:28 +0900
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4PQYqY2qRZz1RvLy;
+	Mon, 27 Feb 2023 13:42:01 -0800 (PST)
+Message-ID: <9e1d83e8-e382-59a6-3283-e4f4a5dc7f56@opensource.wdc.com>
+Date: Tue, 28 Feb 2023 06:42:00 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
@@ -115,8 +115,8 @@ In-Reply-To: <Y/zsE9i7012Ivwe1@kbusch-mbp.dhcp.thefacebook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230227_131834_478067_DB6521AB 
-X-CRM114-Status: GOOD (  18.21  )
+X-CRM114-CacheID: sfid-20230227_134209_665701_170F7997 
+X-CRM114-Status: GOOD (  22.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -141,9 +141,7 @@ On 2/28/23 02:44, Keith Busch wrote:
 > Because each CDL class would need its own submission queue in that scheme. They
 > can all share a single completion queue, so this scheme doesn't necassarily
 > increase the number of interrupt vectors.
-
-Ah yes. good point. I always forget about the shared completion queue :)
-
+> 
 >>> Another question, does CDL have any relationship with NVMe "Time Limited
 >>> Error Recovery"? where the host can set a feature for timeout and
 >>> indicate if the controller should respect it per command?
@@ -156,6 +154,15 @@ Ah yes. good point. I always forget about the shared completion queue :)
 > 
 > They're not the same. TLER starts timing after a command experiences a
 > recoverable error, where CDL is an end-to-end timing for all commands.
+
+Note here that with the current T10/T13 CDL definitions, end-to-end actually
+means from the time the command is received by the device to the time the device
+signals the command completion.
+
+That does not include the transport & host adapter queueing (if there is an
+HBA). And I guess this is the issue at hand for fabrics: how to integrate the
+transport times. I guess the CDL descriptors could have one additional limit for
+that, but then the duration guideline limit definition would need to be tweaked.
 
 -- 
 Damien Le Moal
