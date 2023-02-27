@@ -4,48 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BEC82C64ED8
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Feb 2023 14:06:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37700C64ED8
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Feb 2023 14:06:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=r2hgrkPgfB3GRsCK3NmF2r7zO75FK/ebcJiITpxQa4w=; b=NU3Lxsl4orCqLu5Xrv9gWYCFkr
-	3QSC7mwYH+xVfpRjHEil+ksknDyWd4Olwwz4oXROW5vMEb7k9Ix7dKmGTCs8HsGY2K+HtGgzEdjuj
-	Rm26TCBF0P0jl4mir3XQVEECUa7bnPpGEvBqjHSXwRL5jcgjpXrU1fZTN2SnncvG3Cejb1CEtN6Jf
-	53dFcFPCsuctQTfomt4ul23GEqkTz6rTMhfU5p8Jlg5gDxvRH/baaWzb3lbHvYDJE4EAkUpzDVKQ5
-	nnlvdu/VGQ1ZIOkXsP8fAh81lOsPaQItWOTHjT9YrRJwxHWSTiw5ALBx29cJFbSBt15BDft7F1FXV
-	xcPjWggw==;
+	bh=r2hgrkPgfB3GRsCK3NmF2r7zO75FK/ebcJiITpxQa4w=; b=lRBZ7jxcKXkJYK1FY5lmOkMKty
+	1Lm7DbksQpmvWVefWEKS1f0wtidiyGmqAp+VYcnJP1sPGWgvzRbnQNkyeI/PexyG/WhfZhNL1JxbR
+	Wf1L+oVjnGYqkxHkn79GOYkkGDp4LsAcTd2L3vdzV/TGgWHTnqFpU4hVyKkNW7WfsWQ5KZcmCW1mX
+	Hwe1E7IR/PLcti9VXQxZ+fpZOQwCtmdovo02zXo+GfbQ7R4iAfpuEMJ2pD3/fTWa9lSYlRjZy5fZz
+	8fHo5D15CT3g6EFdRwYrgGoHfJVcl6AwGdpGaz2r8sh3n5ElHjiQhOduo7DKFqCJin0vGehr/RnHM
+	ssCOpF0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pWe8m-009tpr-Pr; Mon, 27 Feb 2023 14:06:08 +0000
+	id 1pWe8z-009tsJ-PY; Mon, 27 Feb 2023 14:06:21 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pWe8g-009tnY-BK
-	for linux-nvme@lists.infradead.org; Mon, 27 Feb 2023 14:06:07 +0000
+	id 1pWe8w-009trE-Lf
+	for linux-nvme@lists.infradead.org; Mon, 27 Feb 2023 14:06:19 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 05CA567373; Mon, 27 Feb 2023 15:05:53 +0100 (CET)
-Date: Mon, 27 Feb 2023 15:05:52 +0100
+	id F0C0E67373; Mon, 27 Feb 2023 15:06:15 +0100 (CET)
+Date: Mon, 27 Feb 2023 15:06:15 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Dan Carpenter <error27@gmail.com>
-Cc: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
-	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] nvme-auth: fix an error code in
- nvme_auth_process_dhchap_challenge()
-Message-ID: <20230227140552.GA18487@lst.de>
-References: <Y+4eOa57zTdCZ56P@kili>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
+	Keith Busch <kbusch@kernel.org>, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] nvme: fix sparse warning on effects masking
+Message-ID: <20230227140615.GB18487@lst.de>
+References: <20230224153424.734731-1-kbusch@meta.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y+4eOa57zTdCZ56P@kili>
+In-Reply-To: <20230224153424.734731-1-kbusch@meta.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230227_060602_565001_C968ADD2 
-X-CRM114-Status: UNSURE (   9.40  )
+X-CRM114-CacheID: sfid-20230227_060618_858335_43981DEA 
+X-CRM114-Status: UNSURE (   8.43  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
