@@ -4,45 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37700C64ED8
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Feb 2023 14:06:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C79EFC64ED6
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Feb 2023 14:06:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=r2hgrkPgfB3GRsCK3NmF2r7zO75FK/ebcJiITpxQa4w=; b=lRBZ7jxcKXkJYK1FY5lmOkMKty
-	1Lm7DbksQpmvWVefWEKS1f0wtidiyGmqAp+VYcnJP1sPGWgvzRbnQNkyeI/PexyG/WhfZhNL1JxbR
-	Wf1L+oVjnGYqkxHkn79GOYkkGDp4LsAcTd2L3vdzV/TGgWHTnqFpU4hVyKkNW7WfsWQ5KZcmCW1mX
-	Hwe1E7IR/PLcti9VXQxZ+fpZOQwCtmdovo02zXo+GfbQ7R4iAfpuEMJ2pD3/fTWa9lSYlRjZy5fZz
-	8fHo5D15CT3g6EFdRwYrgGoHfJVcl6AwGdpGaz2r8sh3n5ElHjiQhOduo7DKFqCJin0vGehr/RnHM
-	ssCOpF0w==;
+	bh=r2hgrkPgfB3GRsCK3NmF2r7zO75FK/ebcJiITpxQa4w=; b=Vk9iT2IP8uP2+T8EK4fnUM3BK1
+	Ax54zQ2xcbJ+7esgjuc62Ti4SN9yZFj6aB8u05xW3UcR9eE2vqpPgOKmpWfN/hDFGqvhHEJk/rm4Q
+	Izzrz5iX07+o9cYslCs62nNWn9MrgcBvDcsDZ+RvyZRgBDGLxC0EBsCeKZdjj45UR3gYPPNykHRXH
+	nGyOtn8AOXK63eGJefrdtw+LoUw4+DQEbEc9vhkeNVovz2afAJKeX1yqTjtZ+Ou1CFNv8v/yo+TVz
+	ttPiolkw+xR6DNYiX/F3RHxDJ6/sxoXzfz5aA1aShWC990ZHvXD+pp1B0tD/AAB2mydgzeWsQImA0
+	0BfSpJOg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pWe8z-009tsJ-PY; Mon, 27 Feb 2023 14:06:21 +0000
+	id 1pWe9E-009twx-VS; Mon, 27 Feb 2023 14:06:37 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pWe8w-009trE-Lf
-	for linux-nvme@lists.infradead.org; Mon, 27 Feb 2023 14:06:19 +0000
+	id 1pWe9B-009tvl-PU
+	for linux-nvme@lists.infradead.org; Mon, 27 Feb 2023 14:06:34 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id F0C0E67373; Mon, 27 Feb 2023 15:06:15 +0100 (CET)
-Date: Mon, 27 Feb 2023 15:06:15 +0100
+	id 183E467373; Mon, 27 Feb 2023 15:06:31 +0100 (CET)
+Date: Mon, 27 Feb 2023 15:06:30 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@meta.com>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
-	Keith Busch <kbusch@kernel.org>, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] nvme: fix sparse warning on effects masking
-Message-ID: <20230227140615.GB18487@lst.de>
-References: <20230224153424.734731-1-kbusch@meta.com>
+To: Akinobu Mita <akinobu.mita@gmail.com>
+Cc: linux-nvme@lists.infradead.org,
+	Martin Belanger <martin.belanger@dell.com>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+	Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH] nvme-tcp: don't access released socket during error
+ recovery
+Message-ID: <20230227140630.GC18487@lst.de>
+References: <20230226124254.59970-1-akinobu.mita@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230224153424.734731-1-kbusch@meta.com>
+In-Reply-To: <20230226124254.59970-1-akinobu.mita@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230227_060618_858335_43981DEA 
-X-CRM114-Status: UNSURE (   8.43  )
+X-CRM114-CacheID: sfid-20230227_060633_978791_B8F3CBD5 
+X-CRM114-Status: UNSURE (   8.91  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
