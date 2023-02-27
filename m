@@ -4,72 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93EC9C64ED6
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Feb 2023 16:07:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9733C64ED8
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Feb 2023 16:23:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MbLJSnheR9X4hWEVD6Ap92AKiWgtCko6X7SCs5AOr+A=; b=M9QW1pNn+4/4s0MOU1cwpWtLXt
-	wGU5Uc7sZsSBi+7mHNRM/JeB9c9q9AwH2IE5b2+B9qmyrNnoKcVtudwWmUxOvG/vsW5Rm5aMU3rKb
-	I5q4QizopNXpw87/vTlksoG5h3L7R2r4yU7IRleulgU6+Ye3f1graG8je94HqqQfG8Zng9XnMzBK+
-	O/6S2gcFD+eDmZdbr7oQ32jFWu9bYVMovE6vdO6iMRqZtf3QauPX22EgqP+22YQ53C8rY8O3Lhcv3
-	wIj9hSv3YMbL3XkHitgE6eY7YifXlms7I8Mocw4Up02PLLlhFLN+cxzkLqRw+4BZa5bLR0tRHyIEu
-	7dnZyDjA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=a701NM0fl8RXahJriX8+voeNwr
+	A5kGMbiaKualF8G5TZEiB6uSh7/SJVEneuj44vm8bY+jxFFsrDf8lJKPTq/Zr/eDEec70AUYN6afd
+	Al9EcdwRe6rUpvnbBjv4AG6m81DP6U+XFdF65AHWB5bdcU9jyEc4TxUlj341LqSh+Dlex7TVE+F4a
+	ZuzX3sixkt9g9qI26XpPqs0q8pM7TsebcFn79KOOulXPoIl3s700TYkYrFxDbu21ga6ophN4YqdBS
+	GRDwyQDWRW1xYlmIJXR3YPG2GlI6HNeDbxWFJ8cZP/zre1JDOhUwMELxN9KWWvlNMErHQDk+jrhpv
+	N0d72Aow==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pWg2P-00AIzI-7p; Mon, 27 Feb 2023 16:07:41 +0000
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+	id 1pWgHe-00ALPT-3u; Mon, 27 Feb 2023 16:23:26 +0000
+Received: from mail-wm1-f48.google.com ([209.85.128.48])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pWg2M-00AIyi-KQ
-	for linux-nvme@lists.infradead.org; Mon, 27 Feb 2023 16:07:39 +0000
-Received: by mail-pj1-x1033.google.com with SMTP id cp7-20020a17090afb8700b0023756229427so10621868pjb.1
-        for <linux-nvme@lists.infradead.org>; Mon, 27 Feb 2023 08:07:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MbLJSnheR9X4hWEVD6Ap92AKiWgtCko6X7SCs5AOr+A=;
-        b=P+2xDc36bW1/uK/tBio0WOi16W76i/UfL2+UA6WPHuf6R0YdCZza++iDQ7Igis1MQ1
-         zmPhDXpeE4McfQ+FvdjlEgQsb1l12wEmASs519pdy2hpANHJnGjrBGBRg9BBsrtQT2gf
-         YZOmPsnR9hVIJAyBlPzbSZl3a14j8Pu8f0CxZN8KrA3YaeiGo9tvjZ1OVtAgl1kdbfqg
-         p49Olb3novCApvhwRV4enIvbEAMdCY0UsTP6muwJk58Yi5MIDqMG98fAKl25nEiFEwm+
-         +TPiYcSFkZCVgf4cx/mYJN9XZ+IbKGCvvbRqbbdBa5E4ioXfU0FPzMFw4V8oGY9vjT8D
-         kO3Q==
+	id 1pWgHb-00ALOZ-Md
+	for linux-nvme@lists.infradead.org; Mon, 27 Feb 2023 16:23:24 +0000
+Received: by mail-wm1-f48.google.com with SMTP id o38-20020a05600c512600b003e8320d1c11so6812920wms.1
+        for <linux-nvme@lists.infradead.org>; Mon, 27 Feb 2023 08:23:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MbLJSnheR9X4hWEVD6Ap92AKiWgtCko6X7SCs5AOr+A=;
-        b=uCSUZORZHlzPvcFg2ffT9JnxRyupIaCQ2811X+B7Qu9Gw/nRGreBhtY5Te8awZjEWR
-         N85ARpR1kyi/AeVnLlnoLohHIeRBmzdDiZbVbReTmAN7H1RzEhORrP5na9WgPxrGykeO
-         O5DD7MaD6rdZbnaKa72easzojFiE/oPmWQqCsEFXE2BMpphzdzBGbeuayO/JYOMEVPq7
-         KNR0usUM8UJjn+HIj8JxEdwvzVcE3UUWDx94sdzPeR11BRFFyWfOGwjqiMVJmKWV2k5Z
-         VKyolysd8xxqOHk4y2i6bPCQQxwGAffA9AmRUAoH9g2hc2YCwCZ2iUui6rvj1D2BNOLI
-         xbIw==
-X-Gm-Message-State: AO0yUKWevbwERUmV2QYPiqO+w5WEfaF3UE7+PcM9oxfW5s3nJ2GL+t0k
-	5ertYLwr683dhvaIJuWETQih0opXcrsiK4/aPzE8s381O19E0Kpw
-X-Google-Smtp-Source: AK7set8CRVoakHDcMwXiDe9cfyrY/5ZhV+BcZ7hJhg/P5EJzx7S2NksoJ8aTlh607VjvdOwZ/Yp01F890SjJfsd42WM=
-X-Received: by 2002:a17:902:6b43:b0:19c:c2dc:6f38 with SMTP id
- g3-20020a1709026b4300b0019cc2dc6f38mr4640715plt.1.1677514054723; Mon, 27 Feb
- 2023 08:07:34 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=3HfHZEBIKcbFofcU9KnxU7pcih/rk4KGD+m8IIjPQedWfVOgZykvnQsPLDSXS1MYRC
+         L+47ghMCv3h/9yNiaox7IgE0pNT1t2DgN07Kkew/HJZiS9qinPfVyq1BdO6Q6duwJHWz
+         6OUfSVK3AuhwIMcCFIxAMy6nITdAgUi4idfefFlC686e7EaEfQw/AEY6vhw4Sjy1Yg0o
+         sqNlE4DjcrzbRQf3sSS/Fvg/vNV75UQ0pxStBw5rwdimT+VRp4UzixHOQqbdm4gVxAsk
+         Jkxo+2/GxgRN5g+sddQVdkgSKk6VfnWqXFTN60d936cyQmkJnsoC61dOg6XwSLHTww6G
+         GcGA==
+X-Gm-Message-State: AO0yUKVu7y9uMZYoKCVB/nu9W6DRTyJxVVfNBg/DeXZzeP7/vcc82ocM
+	zvR7FPbRyZFQj8d4gP7/qHRC2Den474=
+X-Google-Smtp-Source: AK7set8kyOHHUcyZGT2SY8SCkggr6aeyyqlZYR4XcLeSfJPSCc4j5nrN8UtiT30J4/mqvl+QuLpfdg==
+X-Received: by 2002:a05:600c:468c:b0:3eb:42f6:ac55 with SMTP id p12-20020a05600c468c00b003eb42f6ac55mr3914002wmo.1.1677515000364;
+        Mon, 27 Feb 2023 08:23:20 -0800 (PST)
+Received: from [192.168.64.80] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id u26-20020a05600c441a00b003e21638c0edsm9855113wmn.45.2023.02.27.08.23.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Feb 2023 08:23:19 -0800 (PST)
+Message-ID: <a7423fe2-f8b4-17e4-b936-84e05e934ee4@grimberg.me>
+Date: Mon, 27 Feb 2023 18:23:17 +0200
 MIME-Version: 1.0
-References: <Y/lmo9yfA1w0+Bp2@archlinux>
-In-Reply-To: <Y/lmo9yfA1w0+Bp2@archlinux>
-From: irvin cote <irvincoteg@gmail.com>
-Date: Mon, 27 Feb 2023 13:07:38 -0300
-Message-ID: <CALL+9ejc+wPgG6x3CZgqwwU7P-f7mT=5U6RoZGBuiumr+P59Lw@mail.gmail.com>
-Subject: Fwd: [PATCH] nvme-pci: fixing memory leak in probe teardown path
-To: hch@lst.de
-Cc: kbusch@kernel.org, axboe@fb.com, sagi@grimberg.me, 
-	linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] nvme: bring back auto-removal of deleted namespaces
+ during sequential scan
+To: Christoph Hellwig <hch@lst.de>, kbusch@kernel.org
+Cc: linux-nvme@lists.infradead.org, nh@edgeless.systems
+References: <20230221222307.557935-1-hch@lst.de>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20230221222307.557935-1-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230227_080738_704384_8556ECC5 
-X-CRM114-Status: GOOD (  10.08  )
+X-CRM114-CacheID: sfid-20230227_082323_763214_1FDD1B91 
+X-CRM114-Status: UNSURE (   6.17  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,35 +81,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
----------- Forwarded message ---------
-From: Irvin Cote <irvincoteg@gmail.com>
-Date: Fri, 24 Feb 2023 at 22:38
-Subject: [PATCH] nvme-pci: fixing memory leak in probe teardown path
-To: <kbusch@kernel.org>
-Cc: <axboe@fb.com>, <hch@lst.de>, <sagi@grimberg.me>
-
-
-In case the nvme_probe teardown path is triggered the ctrl ref count
-does not reach 0 thus creating a memory leak upon failure of nvme_probe
-
-Signed-off-by: Irvin Cote <irvincoteg@gmail.com>
----
- drivers/nvme/host/pci.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 5b95c94ee40f..0b61caf6be67 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3072,6 +3072,7 @@ static int nvme_probe(struct pci_dev *pdev,
-const struct pci_device_id *id)
- out_dev_unmap:
-        nvme_dev_unmap(dev);
- out_uninit_ctrl:
-+       nvme_put_ctrl(&dev->ctrl);
-        nvme_uninit_ctrl(&dev->ctrl);
-        return result;
- }
---
-2.37.2
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
