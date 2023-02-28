@@ -4,84 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEB56C64EC7
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Feb 2023 08:05:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E69D0C64EC7
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Feb 2023 09:54:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0guNErct7/1yTAJGBCGWn62sdzg7Fin9ZNo8MlFXzNk=; b=O/5NqNKVCXsCT/wx7ePuzEaF5U
-	pFWMS2JgzTltSKf2BTnta1CMlWx0e/q7XibzxVQCPqje5m/cvKTPBQnxCVTQe8iyxYx+ObhzcgE+N
-	4BwMnDiIe+FupxssJPshdjY7VBFTwD1G0fzPdeMW6xqkN/IEcMHeuWwU1n5FNsQrZEDqASOrqXbZk
-	s/kXWj8e/UUgmIGl7n9TZEhoqxFrdn/vp8puNQ1WAepzYNqOlefp+wL0S/Ot1bAr3+Zh0OyCf5k0h
-	tDIb1ZdSa4yZpOd73EQR2BUj+GySYgqiVpNo7+uXPXWAXmtjzV6bzwtCVqmgDovvmaGioxc13D3kv
-	a4iCmk7A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wwL3nn9Aw022p8qnjODaNOj/yEXTtuNp7h01L/L5CSU=; b=2pSOK2RrnuGo5gTW/eYIXj1ncJ
+	q1ZKWbl+RE9BBxb3wnECQYh/xmaEGE2aotgc06H/W3xKShKP7PbPKqCg3Kj0TarFWsCBNQ24zGxtu
+	Rw5YzEus6cjUWxV5dz10Mn32EG17wIfIlteY5e+dNQdXYmteIMnwf2L2UoSpVpeeb/zYEcStLLOaO
+	ieF+eRxQc6/Z494joEj+BzzkeXwBNPRHgGMuDXOFsxiQ0sTRS3N8ywkXzhnbyFpMaqs6pDLvof6i+
+	slCXXFtQhFKxpkcJ3ZE/ZlrpNoTUcmiGf5yHeEITX2tXlUgh5e3lY4ZX3k98kgDDntWANM7HQ6SiT
+	cTYiJZiA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pWuzN-00CKjr-QI; Tue, 28 Feb 2023 08:05:33 +0000
-Received: from mail-ed1-f46.google.com ([209.85.208.46])
+	id 1pWwh4-00CZ5l-SB; Tue, 28 Feb 2023 09:54:46 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pWuzI-00CKif-7r
-	for linux-nvme@lists.infradead.org; Tue, 28 Feb 2023 08:05:29 +0000
-Received: by mail-ed1-f46.google.com with SMTP id h16so36231649edz.10
-        for <linux-nvme@lists.infradead.org>; Tue, 28 Feb 2023 00:05:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677571523;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0guNErct7/1yTAJGBCGWn62sdzg7Fin9ZNo8MlFXzNk=;
-        b=tYoeMaKMwAXfNJ++twO51ojOJWSCsjERRMVSlalHB7VVi7SZ/84vhxjLKg0TQlVDnA
-         EirFGDlOiGHaTFoymjQvvV1NihDAKpsk37FHdFIXf0qSbvHaX3rCd2qOR8WNIVVnkSB8
-         5NOoEIJSN71GumnF6YKgc0raWA/Uclbdm9UncvEvqGgFfFHiJfG4TwmbGqf7oPAgtVEg
-         20EYxzXSyyegFwryiqRZA/mOBuDCW3RFz3Na04fFFihTLJ9d7s7p890nsNJ1Hdo72UIu
-         saiLoFFhlEAygOpO4sUAhNrYBHTyEGKvNC0qQxEOzbDvE31ilsIcIMOOs/kJjtdKfgC5
-         fRyw==
-X-Gm-Message-State: AO0yUKUkGrZ7wJgqzLcMo6bjcQi6G9BR9fZmDCy9pqPYZZftmqGOLuho
-	iuj673b2q2aqW/U04ruEhgI=
-X-Google-Smtp-Source: AK7set+c7o0xjmPWudHmmkUqfo5PvjF0F5NViP/fOHyF3G/zLvjuTOYbHp4mz1meRuScW5Q7gKs7UA==
-X-Received: by 2002:a05:6402:268e:b0:4af:593c:c09b with SMTP id w14-20020a056402268e00b004af593cc09bmr2472874edd.0.1677571523749;
-        Tue, 28 Feb 2023 00:05:23 -0800 (PST)
-Received: from [10.100.102.14] (85-250-17-149.bb.netvision.net.il. [85.250.17.149])
-        by smtp.gmail.com with ESMTPSA id d17-20020a056402401100b004aee4e2a56esm4016076eda.0.2023.02.28.00.05.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Feb 2023 00:05:23 -0800 (PST)
-Message-ID: <bffe500a-24b9-eaa7-71f2-891be21c7ed5@grimberg.me>
-Date: Tue, 28 Feb 2023 10:05:21 +0200
+	id 1pWwh1-00CZ56-Oc
+	for linux-nvme@lists.infradead.org; Tue, 28 Feb 2023 09:54:45 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E310921954;
+	Tue, 28 Feb 2023 09:54:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1677578077; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wwL3nn9Aw022p8qnjODaNOj/yEXTtuNp7h01L/L5CSU=;
+	b=izDPWa9JvD3VqmYx9Rtn1f7R1kbkAqc3ijYOG6dFQA20/oa5Pes2HnOXBWHAkJhoTBoUZS
+	Uf8JF8hheACAQ3yxe70Kd2Yw4zByseSkcmLkuV3efJt++yaxk2paW50HkPU4Es/OU4w7ck
+	gcNUbL3YqSeLGFw29erIHYApIzwWP20=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1677578077;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wwL3nn9Aw022p8qnjODaNOj/yEXTtuNp7h01L/L5CSU=;
+	b=UkXhVNtsaLolY1xRGxAqITsIUv7iKttH0ul/Ar77OuOiP2EGzPR4DpdUjk4uBDOlP2Z0YY
+	DX7gK5h7nUC7ssCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D68791333C;
+	Tue, 28 Feb 2023 09:54:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id arlSNF3P/WMAQQAAMHmgww
+	(envelope-from <dwagner@suse.de>); Tue, 28 Feb 2023 09:54:37 +0000
+Date: Tue, 28 Feb 2023 10:54:37 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Ivan Rubinov <linuxkernelpatch8234@riseup.net>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH] Add quirk for ADATA SX6000PNP
+Message-ID: <20230228095437.tmqoxtk3e3bvdepb@carbon.lan>
+References: <87ff6272-2cfe-6b54-864e-71951118c43a@riseup.net>
+ <4b824085a2f4987f4682e3602a0e1a96@riseup.net>
+ <20230223145336.lulowpv3vlr65lwu@carbon.lan>
+ <63b276e4-a7eb-f493-fdf7-8dc343aaff50@riseup.net>
+ <20230224085725.girihudjbjjhbxm2@carbon.lan>
+ <f8ba7be0-37f4-0c5f-373b-2dd3a3a54715@riseup.net>
+ <20230227090520.h5od3lutqkfu35ez@carbon.lan>
+ <4a7c105b-f046-3054-a1fd-9441af48b491@riseup.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [LSF/MM/BPF BOF] Userspace command abouts
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>
-Cc: Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Chaitanya Kulkarni <chaitanyak@nvidia.com>, "hch@lst.de" <hch@lst.de>,
- "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
- "dgilbert@interlog.com" <dgilbert@interlog.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "lsf-pc@lists.linuxfoundation.org" <lsf-pc@lists.linuxfoundation.org>
-References: <ad837a26-948a-c690-cd9e-4dfffb5f990d@grimberg.me>
- <57d8dff9-2fdb-8198-6cdc-7265797a704a@interlog.com>
- <23526cf9-d912-59a7-4742-6003d6ccfd45@grimberg.me>
- <Y/Yscr82hqdKl1Hw@kbusch-mbp.dhcp.thefacebook.com>
- <561afa67-04d0-c675-6bbb-048313da152b@grimberg.me>
- <73b4dd39-9ce8-9b55-8a1d-06865f3bde32@nvidia.com>
- <Y/lpmrwuehnsWmmR@kbusch-mbp.dhcp.thefacebook.com>
- <0fe59301-65e6-d8a9-033e-0243ad59c56b@opensource.wdc.com>
- <316431ed-1727-7e80-2090-84ac5b334f74@grimberg.me>
- <3ea301b1-c808-ce08-8ec8-3a631b385fb9@suse.de>
- <Y/zsE9i7012Ivwe1@kbusch-mbp.dhcp.thefacebook.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <Y/zsE9i7012Ivwe1@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4a7c105b-f046-3054-a1fd-9441af48b491@riseup.net>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230228_000528_314449_D9E26E33 
-X-CRM114-Status: GOOD (  13.30  )
+X-CRM114-CacheID: sfid-20230228_015443_989694_A7372244 
+X-CRM114-Status: GOOD (  16.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,30 +95,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi Ivan,
 
->>> I'm not up to speed on how CDL is defined, but I'm unclear how CDL at
->>> the queue level would cause the host to open more queues?
+On Tue, Feb 28, 2023 at 12:10:31PM +0300, Ivan Rubinov wrote:
+> With this patch it works nice.
 > 
-> Because each CDL class would need its own submission queue in that scheme. They
-> can all share a single completion queue, so this scheme doesn't necassarily
-> increase the number of interrupt vectors.
-
-Ah, that is less desirable I think, Although we can already do
-multiple queue maps, I think that the proliferation of queues is
-harmful in the long run.
-
->>> Another question, does CDL have any relationship with NVMe "Time Limited
->>> Error Recovery"? where the host can set a feature for timeout and
->>> indicate if the controller should respect it per command?
->>>
->>> While this is not a full-blown every queue/command has its own timeout,
->>> it could address the original use-case given by Hannes. And it's already
->>> there.
->> I guess that is the NVMe version of CDLs; can you give me a reference for
->> it?
 > 
-> They're not the same. TLER starts timing after a command experiences a
-> recoverable error, where CDL is an end-to-end timing for all commands.
+> Signed-off-by: Ivan Rubinov<linuxkernelpatch8234@riseup.net>
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index d839689..3f4da40 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -3480,6 +3480,8 @@ static const struct pci_device_id nvme_id_table[] = {
+>      { PCI_DEVICE(0x10ec, 0x5762),   /* ADATA SX6000LNP */
+>          .driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN |
+>                  NVME_QUIRK_BOGUS_NID, },
+> +    { PCI_DEVICE(0x10ec, 0x5763),   /* ADATA SX6000PNP */
+> +                .driver_data = NVME_QUIRK_BOGUS_NID, },
+>      { PCI_DEVICE(0x1cc1, 0x8201),   /* ADATA SX8200PNP 512GB */
+>          .driver_data = NVME_QUIRK_NO_DEEPEST_PS |
+>                  NVME_QUIRK_IGNORE_DEV_SUBNQN, },
 
-Ah, ok. I didn't realize that TLER starts after an error.
+Right this is exactly what went in:
+
+5f69f009b7c4 ("nvme-pci: add bogus ID quirk for ADATA SX6000PNP")
+
+> Kernel log:
+> 
+> [    6.852254] nvme nvme0: pci function 0000:01:00.0
+> [    6.855936] nvme nvme1: pci function 0000:04:00.0
+> [    7.071947] nvme nvme1: failed to set APST feature (2)
+> [    7.073201] nvme nvme0: failed to set APST feature (2)
+> [    7.094109] nvme nvme0: allocated 64 MiB host memory buffer.
+> [    7.098544] nvme nvme1: allocated 64 MiB host memory buffer.
+> [    7.125205] nvme nvme0: 7/0/0 default/read/poll queues
+> [    7.128853] nvme nvme1: 7/0/0 default/read/poll queues
+> [    7.137040] nvme nvme0: Ignoring bogus Namespace Identifiers
+> [    7.140688] nvme nvme1: Ignoring bogus Namespace Identifiers
+> [    7.142240]  nvme0n1: p1
+> [    7.145537]  nvme1n1: p1 p2
+
+Thanks for double checking. The NVME_QUIRK_IGNORE_DEV_SUBNQN would be necessary
+if you see something like this in the log:
+
+  nvme nvme1: ignoring ctrl due to duplicate subnqn (xxx)
+
+Obviously, the absence doesn't mean that these devices do not suffer from the
+problem but we usually don't add quirks on suspicions. If the above error
+message pops up we can still add the quirk. So all is good after all.
+
+Daniel
 
