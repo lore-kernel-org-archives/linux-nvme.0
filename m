@@ -4,70 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A201FC64EC4
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Mar 2023 01:31:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB441C64EC7
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Mar 2023 08:27:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ax5qSZPTuJwAl6LshgHZKsreKW6F4oqNGZf7BqVOhfU=; b=JeyvX3E5tq7nOI5mp3sOChEKoB
-	doRlcVEpJFAY1lgnUH07PADERaGouU4mZOoz1FTFK4pLjA1ccblfuhqDLup4sMP4Yc/PholV8HKTx
-	8eL121VozxaVHGKlgjdKwHCC1GGdv8j6KCp8s5uezkSHbE0UEjDLmIbp+2N2Z2eAS0Bof5Xab2sSA
-	s1uUryBLstgw1WHbZZXsCSM8REYfmZ55UEmHwAKJ/fj3e+G8dGu+2qwRY3r3pLavol967JiI83t/J
-	Cdb3FEbiwZgESQECYFJ02lQB9sjlDtyf9F5SvIURqoFp2/2ANyQ0KR6efNW+HAPn55N9bLNac8v4i
-	FUusIQ9Q==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dcEzjrqidIYoo1i5/UqxEkIUKD+qJ0FQ+pqREZoqWwI=; b=z6Yap+UkywuCcQJDR6OOCAqDnV
+	MwlL5id3NDw611UBZYDwVhOgjWer4p37IraFu8w4saQT1tf5Rp+BYhx0/NhMMNukhtEx+qW8H2Dj0
+	cucsVFUSYjUdcTTQVLKTAHHib2Ol9EYA6U3iSroZjzRfLuVP8WEy3LvllaMwm3FjZ/3SfvDbxVvGN
+	A9eaYEAMFGdn+79oVKrqC+PBq9b9ikRKGCvl9pfs1QcUP9IRqez/9C7+yqfbxKwt8PnXTMagSu0Tm
+	CaWKfwbcUnHWvtN8KMpfnykVTP4V7HvGXt0NzCyHH+gxSYejyBWbQgI+yWcYRyQbFKuEdeog7XDlb
+	+NAjzz1A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pXBJC-00Ek40-HJ; Wed, 01 Mar 2023 01:31:06 +0000
-Received: from mga11.intel.com ([192.55.52.93])
+	id 1pXHoX-00FRze-Ow; Wed, 01 Mar 2023 08:27:53 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pXBJ9-00Ek2F-F8
-	for linux-nvme@lists.infradead.org; Wed, 01 Mar 2023 01:31:05 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677634263; x=1709170263;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=0VNLiP2hCwItRILgYeAc090AqQbsvvO2uThdklF9Byg=;
-  b=kzQhQO7brLsJVYH3QaL2W9oHNI5kJBbyGaA8S5ikJq1e7hz6icjzlJBf
-   oja9lKz2lCMAWMOEBbu2yElLiYPmcbWCig1kUBuq1Aydp6tUqiyl0k9ry
-   Ps7xsNnDrqWVv2e6zoHHRq0hXMud0xRQtkCcGXlX/STGUYL3XlA/Nhvhr
-   O88AGtURaIFZtkD/97xgbijAwjAQ4MxZxlY/iuGw+mpgV7qLbazWrIHsM
-   tfE1USnQnK/gpEHI0sEtM05jm/sDUSPnpEQ/TNID51DANW3R6v42WhrAo
-   lN3czV7SR1qi0yA9KGuf/wjiOptGEvFCrPMs/HNCaFxlK3bUrAaza0kly
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="331774489"
-X-IronPort-AV: E=Sophos;i="5.98,223,1673942400"; 
-   d="scan'208";a="331774489"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 17:31:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="676537570"
-X-IronPort-AV: E=Sophos;i="5.98,223,1673942400"; 
-   d="scan'208";a="676537570"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 28 Feb 2023 17:30:59 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pXBJ4-0005mp-28;
-	Wed, 01 Mar 2023 01:30:58 +0000
-Date: Wed, 01 Mar 2023 09:30:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.3] BUILD SUCCESS
- 26a57cb35548ae67c14871cccbf50da3edb01ea4
-Message-ID: <63feaab7.luuhrdne0Yqa0bJ8%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+	id 1pXHoS-00FRxp-60
+	for linux-nvme@lists.infradead.org; Wed, 01 Mar 2023 08:27:49 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2ED5C219AA;
+	Wed,  1 Mar 2023 08:27:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1677659265; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dcEzjrqidIYoo1i5/UqxEkIUKD+qJ0FQ+pqREZoqWwI=;
+	b=licEssZyRB0WEIYpPsRCkz6xFHai+OD4Zjuuz/7cGNop3FcoNPPfXTRYxtSzYa/Jypz0x8
+	OtySSJYENdqPoZYyY5LfnDs9RIQVsI/7NqQILUzq8VyahgQRSsokiaTP/8SIyfyLwdPfuK
+	A35mLVPOYssCzP4qJtElOcK8JDPHST0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1677659265;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dcEzjrqidIYoo1i5/UqxEkIUKD+qJ0FQ+pqREZoqWwI=;
+	b=VmwjBcV1TmfXplIMc/xYYUDowrvhN/42za0Wz53HXU/zCihZsnV0gPK4Od1J3Em3WMA+9W
+	8h4qmfRJhipUUSAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2257413A3E;
+	Wed,  1 Mar 2023 08:27:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id uhheCIEM/2PbZQAAMHmgww
+	(envelope-from <dwagner@suse.de>); Wed, 01 Mar 2023 08:27:45 +0000
+From: Daniel Wagner <dwagner@suse.de>
+To: linux-nvme@lists.infradead.org
+Cc: Daniel Wagner <dwagner@suse.de>
+Subject: [RFC v1 2/3] nvme-rdma: factor rdma specific queue init code out
+Date: Wed,  1 Mar 2023 09:27:36 +0100
+Message-Id: <20230301082737.10021-3-dwagner@suse.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230301082737.10021-1-dwagner@suse.de>
+References: <20230301082737.10021-1-dwagner@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230228_173103_555708_5AE62ECD 
-X-CRM114-Status: UNSURE (   8.15  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230301_002748_392704_9064D3FE 
+X-CRM114-Status: GOOD (  15.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,174 +87,124 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.3
-branch HEAD: 26a57cb35548ae67c14871cccbf50da3edb01ea4  nvme-fabrics: show well known discovery name
+In preparation to move common code from the fabrics driver to fabrics.c,
+move the rmda queue specific initialization code into a separate
+function.
 
-elapsed time: 727m
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+---
+ drivers/nvme/host/rdma.c | 65 ++++++++++++++++++++++++++++------------
+ 1 file changed, 46 insertions(+), 19 deletions(-)
 
-configs tested: 154
-configs skipped: 16
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha        buildonly-randconfig-r002-20230226   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r002-20230227   gcc  
-alpha                randconfig-r006-20230227   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r002-20230226   gcc  
-arc                  randconfig-r013-20230226   gcc  
-arc                  randconfig-r035-20230227   gcc  
-arc                  randconfig-r043-20230226   gcc  
-arc                  randconfig-r043-20230227   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm          buildonly-randconfig-r002-20230227   clang
-arm          buildonly-randconfig-r006-20230227   clang
-arm                                 defconfig   gcc  
-arm                  randconfig-r006-20230227   gcc  
-arm                  randconfig-r011-20230226   gcc  
-arm                  randconfig-r012-20230226   gcc  
-arm                  randconfig-r015-20230227   clang
-arm                  randconfig-r034-20230227   gcc  
-arm                  randconfig-r046-20230226   gcc  
-arm                  randconfig-r046-20230227   clang
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r002-20230227   clang
-csky                                defconfig   gcc  
-csky                 randconfig-r036-20230226   gcc  
-hexagon              randconfig-r016-20230226   clang
-hexagon              randconfig-r023-20230227   clang
-hexagon              randconfig-r032-20230227   clang
-hexagon              randconfig-r041-20230226   clang
-hexagon              randconfig-r041-20230227   clang
-hexagon              randconfig-r045-20230226   clang
-hexagon              randconfig-r045-20230227   clang
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-a001-20230227   clang
-i386                          randconfig-a001   gcc  
-i386                 randconfig-a002-20230227   clang
-i386                          randconfig-a002   clang
-i386                 randconfig-a003-20230227   clang
-i386                          randconfig-a003   gcc  
-i386                 randconfig-a004-20230227   clang
-i386                          randconfig-a004   clang
-i386                 randconfig-a005-20230227   clang
-i386                          randconfig-a005   gcc  
-i386                 randconfig-a006-20230227   clang
-i386                          randconfig-a006   clang
-i386                 randconfig-a011-20230227   gcc  
-i386                 randconfig-a012-20230227   gcc  
-i386                 randconfig-a013-20230227   gcc  
-i386                 randconfig-a014-20230227   gcc  
-i386                 randconfig-a015-20230227   gcc  
-i386                 randconfig-a016-20230227   gcc  
-i386                 randconfig-r012-20230227   gcc  
-i386                 randconfig-r014-20230227   gcc  
-i386                 randconfig-r025-20230227   gcc  
-ia64                             allmodconfig   gcc  
-ia64                                defconfig   gcc  
-ia64                 randconfig-r001-20230226   gcc  
-ia64                 randconfig-r004-20230227   gcc  
-ia64                 randconfig-r022-20230227   gcc  
-ia64                 randconfig-r024-20230226   gcc  
-ia64                 randconfig-r033-20230226   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch    buildonly-randconfig-r003-20230226   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r003-20230226   gcc  
-loongarch            randconfig-r015-20230226   gcc  
-loongarch            randconfig-r031-20230226   gcc  
-m68k                             allmodconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r001-20230226   gcc  
-m68k                 randconfig-r024-20230227   gcc  
-microblaze           randconfig-r003-20230226   gcc  
-microblaze           randconfig-r034-20230226   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                 randconfig-r021-20230227   clang
-nios2        buildonly-randconfig-r003-20230227   gcc  
-nios2        buildonly-randconfig-r004-20230226   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r002-20230226   gcc  
-nios2                randconfig-r021-20230226   gcc  
-nios2                randconfig-r032-20230226   gcc  
-openrisc     buildonly-randconfig-r001-20230227   gcc  
-openrisc             randconfig-r004-20230226   gcc  
-openrisc             randconfig-r016-20230226   gcc  
-openrisc             randconfig-r023-20230226   gcc  
-parisc       buildonly-randconfig-r006-20230226   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r005-20230226   gcc  
-parisc               randconfig-r005-20230227   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc      buildonly-randconfig-r001-20230226   clang
-powerpc              randconfig-r001-20230227   clang
-powerpc              randconfig-r006-20230226   gcc  
-powerpc              randconfig-r022-20230226   clang
-powerpc              randconfig-r025-20230226   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r014-20230226   clang
-riscv                randconfig-r015-20230226   clang
-riscv                randconfig-r042-20230226   clang
-riscv                randconfig-r042-20230227   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r016-20230227   gcc  
-s390                 randconfig-r026-20230226   clang
-s390                 randconfig-r033-20230227   clang
-s390                 randconfig-r044-20230226   clang
-s390                 randconfig-r044-20230227   gcc  
-sh                               allmodconfig   gcc  
-sh                   randconfig-r004-20230227   gcc  
-sh                   randconfig-r011-20230226   gcc  
-sh                   randconfig-r035-20230226   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r003-20230227   gcc  
-sparc64              randconfig-r001-20230227   gcc  
-sparc64              randconfig-r012-20230226   gcc  
-sparc64              randconfig-r014-20230226   gcc  
-sparc64              randconfig-r036-20230227   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r004-20230227   clang
-x86_64       buildonly-randconfig-r005-20230227   clang
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230227   clang
-x86_64               randconfig-a002-20230227   clang
-x86_64               randconfig-a003-20230227   clang
-x86_64               randconfig-a004-20230227   clang
-x86_64               randconfig-a005-20230227   clang
-x86_64               randconfig-a006-20230227   clang
-x86_64               randconfig-a011-20230227   gcc  
-x86_64               randconfig-a012-20230227   gcc  
-x86_64               randconfig-a013-20230227   gcc  
-x86_64               randconfig-a014-20230227   gcc  
-x86_64               randconfig-a015-20230227   gcc  
-x86_64               randconfig-a016-20230227   gcc  
-x86_64               randconfig-r014-20230227   gcc  
-x86_64               randconfig-r015-20230227   gcc  
-x86_64                               rhel-8.3   gcc  
-
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index c26c04c67684..d070d84b204e 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -831,15 +831,16 @@ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl)
+ 	nvme_rdma_free_queue(&ctrl->ctrl, 0);
+ }
+ 
+-static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+-		bool new)
++static int nvme_rdma_init_queue(struct nvme_ctrl *nctrl, int qid)
+ {
++	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
+ 	bool pi_capable = false;
+ 	int error;
+ 
+-	error = nvme_rdma_alloc_queue(&ctrl->ctrl, 0);
+-	if (error)
+-		return error;
++	if (qid != 0)
++		/* only admin queue needs additional work. */
++		return 0;
++
+ 
+ 	ctrl->device = ctrl->queues[0].device;
+ 	ctrl->ctrl.numa_node = ibdev_to_node(ctrl->device->dev);
+@@ -859,6 +860,43 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 	 */
+ 	error = nvme_rdma_alloc_qe(ctrl->device->dev, &ctrl->async_event_sqe,
+ 			sizeof(struct nvme_command), DMA_TO_DEVICE);
++	if (error)
++		return error;
++
++	ctrl->ctrl.max_segments = ctrl->max_fr_pages;
++	ctrl->ctrl.max_hw_sectors = ctrl->max_fr_pages << (ilog2(SZ_4K) - 9);
++	if (pi_capable)
++		ctrl->ctrl.max_integrity_segments = ctrl->max_fr_pages;
++	else
++		ctrl->ctrl.max_integrity_segments = 0;
++
++	return 0;
++}
++
++static void nvme_rdma_deinit_queue(struct nvme_ctrl *nctrl, int qid)
++{
++	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
++
++	if (qid != 0)
++		return;
++
++	if (ctrl->async_event_sqe.data) {
++		nvme_rdma_free_qe(ctrl->device->dev, &ctrl->async_event_sqe,
++			sizeof(struct nvme_command), DMA_TO_DEVICE);
++		ctrl->async_event_sqe.data = NULL;
++	}
++}
++
++static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
++		bool new)
++{
++	int error;
++
++	error = nvme_rdma_alloc_queue(&ctrl->ctrl, 0);
++	if (error)
++		return error;
++
++	error = nvme_rdma_init_queue(&ctrl->ctrl, 0);
+ 	if (error)
+ 		goto out_free_queue;
+ 
+@@ -868,7 +906,7 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 				sizeof(struct nvme_rdma_request) +
+ 				NVME_RDMA_DATA_SGL_SIZE);
+ 		if (error)
+-			goto out_free_async_qe;
++			goto out_deinit_admin_queue;
+ 
+ 	}
+ 
+@@ -880,13 +918,6 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 	if (error)
+ 		goto out_stop_queue;
+ 
+-	ctrl->ctrl.max_segments = ctrl->max_fr_pages;
+-	ctrl->ctrl.max_hw_sectors = ctrl->max_fr_pages << (ilog2(SZ_4K) - 9);
+-	if (pi_capable)
+-		ctrl->ctrl.max_integrity_segments = ctrl->max_fr_pages;
+-	else
+-		ctrl->ctrl.max_integrity_segments = 0;
+-
+ 	nvme_unquiesce_admin_queue(&ctrl->ctrl);
+ 
+ 	error = nvme_init_ctrl_finish(&ctrl->ctrl, false);
+@@ -904,12 +935,8 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ out_remove_admin_tag_set:
+ 	if (new)
+ 		nvme_remove_admin_tag_set(&ctrl->ctrl);
+-out_free_async_qe:
+-	if (ctrl->async_event_sqe.data) {
+-		nvme_rdma_free_qe(ctrl->device->dev, &ctrl->async_event_sqe,
+-			sizeof(struct nvme_command), DMA_TO_DEVICE);
+-		ctrl->async_event_sqe.data = NULL;
+-	}
++out_deinit_admin_queue:
++	nvme_rdma_deinit_queue(&ctrl->ctrl, 0);
+ out_free_queue:
+ 	nvme_rdma_free_queue(&ctrl->ctrl, 0);
+ 	return error;
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.39.2
+
 
