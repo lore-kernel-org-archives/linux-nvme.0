@@ -4,79 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D064C6FA8E
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Mar 2023 04:16:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A07F7C7EE30
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Mar 2023 08:15:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OiLX93qNxOIggMQE39gtCyYpTO910rpc2HqmiyP4Wqs=; b=MevfFLeot+IktM3V/7oI6eZG1R
-	PNDmYXiBHmlUdr+lG4Tog5LN4UJ5TmiExtwwBebDnWP4Qfcr1dvvplqQkyuMkEcTyx1KK5Zf5M4DT
-	qxllZLLtrELiNB38AqzNljX/EkBtsC3nushXY+oH3WV9BNcFWAAmdeopse+B9KIpV4o22wtNnNDDC
-	UbDkMt0Lz7Ej94wjYGW/D90ndsrUMwd4CzEdJcmZnia0n7YMAPvunhPFYyKWlRv+3tvanYWdwAdZs
-	4UndOYbCxNmTX/5h8LnGdkNEH2f/esrzuWDvYhALiywACINgz2YkfL+VaGsjY8QEQ9gXOvI8plArx
-	t5iPg93Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Z2wBECbEai+ENb4mymiKGb7BAtH1X7W/JAg2TcmHQco=; b=1xmITZr1R4VnSSM5fjsh2ai1lu
+	VFX4OQoXQWC4qZ+5TkoY2tCbXQqJB7GXUu2kRc942RR36EaeMEIwcVO1H+d+Mps9v4g/gGOF31Kb3
+	z3atn4+kThf5dn7dFzLXRNV4vDMOKTAq/RVMvzxd6QePpa0nvru8lUp2iCgA+oJRwcxwz0sf5kK6n
+	nnqN+wfsTPHUb/A1rnVBAoIH7d2mHC06JEipKRUoi5TpbH/QbFE97+Nhu0gxI2qxBTdzwZUvkyGir
+	6Fz+fN2F62Gj6lup0lb2/klStazPSMCa4+CqvCto8uuNX1nw0DirkbAS1uPbpwJ0XQTARCUA/zIoG
+	k6vCq5nA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pXaN4-000mOn-Ix; Thu, 02 Mar 2023 04:16:46 +0000
-Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d])
+	id 1pXe5u-001F3d-8x; Thu, 02 Mar 2023 08:15:18 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pXaN2-000mO2-Bl
-	for linux-nvme@lists.infradead.org; Thu, 02 Mar 2023 04:16:45 +0000
-Received: by mail-qt1-x82d.google.com with SMTP id d7so16782764qtr.12
-        for <linux-nvme@lists.infradead.org>; Wed, 01 Mar 2023 20:16:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OiLX93qNxOIggMQE39gtCyYpTO910rpc2HqmiyP4Wqs=;
-        b=A1EaYf8tKwM+OSZSx4sx0qUaPdLBesg9gHN2HlrQvObNa2lqTRK6IIiYpalGERQjcF
-         pn+3xJBA/2791KiNqkOv//qXihovDpzswgjkqop1IXsV/L8NKh0Reo/ds5+FfnISkwnR
-         I4WYiYH26wHIo2lOKIbarUgozHVzZhjq93i0zsrTBDllz8HnRhjt1fP7c+82n2uMukdc
-         FrBA3ORoe7jdcFdPw9qrbyGt3C0CW2OrZV5E0sHojytvWDuV8PlYeOB/d3LJNDdjuJSG
-         uvSrX/ZjBU8NVnQtHqnVeKjdMBgeElsggH2A6HgKfI3fDqki+55VcLxx2U4VMZJDfP6k
-         wNBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OiLX93qNxOIggMQE39gtCyYpTO910rpc2HqmiyP4Wqs=;
-        b=uEFrQ5ov0TU5AknbXEIWn0ktXELLxms8OQpJrLzQcH7xWVz6o56LmkMi3LZH/RvH79
-         +RwpZFsqRVKt1xIM1qLbrrATx2Pfsng0euUk3itZNj7K4d7Xoz1NC5HsDGc9HB2KE7nh
-         qVRdtxm617gs8tgbw4g/Iy8Tg7JM1qMdKxwsxljCiIYZPG9QVhC7kKlZQSCbu/xjEA72
-         JTCCovptkgCORmItP6YpvMnr9XyFA8K/3UShwXHQbVtT0Y30xf0O0uaghmMqZSWfcL4k
-         4txA/sIcqhARG5gVWSH3WmemDJFpGTKw6u07CHqcK+e7MsaUJOjziUw6olpenx2A76Im
-         GLuw==
-X-Gm-Message-State: AO0yUKUH2bvuDD6uDJH8duesi2dFDH7fn8BRn08D8b68U0sJ4+UGmThm
-	zpysVJ83GBHNSEeny8JydY97Boxba/FW5FuFT3I86g==
-X-Google-Smtp-Source: AK7set/1Qo/2N3JCxnEKF/vVdWvMT8KXKuR0NcpsojQRCVOxjmuWm2l5Wboe2MANA6zXLOiyu1AmcY+R5Hl0TYWvINA=
-X-Received: by 2002:ac8:444a:0:b0:3bf:b844:ffc7 with SMTP id
- m10-20020ac8444a000000b003bfb844ffc7mr2387535qtn.12.1677730602197; Wed, 01
- Mar 2023 20:16:42 -0800 (PST)
+	id 1pXe5s-001F2f-6l
+	for linux-nvme@lists.infradead.org; Thu, 02 Mar 2023 08:15:17 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2C0261FE6E;
+	Thu,  2 Mar 2023 08:15:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1677744912; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Z2wBECbEai+ENb4mymiKGb7BAtH1X7W/JAg2TcmHQco=;
+	b=vii8KZBKEuDaff5DgqaxViOmgpwnOIdNbC7yeQ3nK8aDs3QTN8A5s3lIcv+J9UobyFWhcq
+	Cr38q+/DmlF8ACO9YUpA54SLbbp3m0P1xFJH+lxLRZsxbAYyiQ5lkXMN57A33J43m4gRxm
+	d0Lx+Xj2HKK8JeytKUMIc+mC0IoZsZo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1677744912;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Z2wBECbEai+ENb4mymiKGb7BAtH1X7W/JAg2TcmHQco=;
+	b=GwnJ2LcCCjOA7daoGccJnpqPmN9nnjpPBcs78GT2BFBrJAj3TQytdKmoxBTQdaTRH/0L2x
+	IQvAWxRS466c0oBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1D13513A7D;
+	Thu,  2 Mar 2023 08:15:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id KFIRBxBbAGR9FwAAMHmgww
+	(envelope-from <dwagner@suse.de>); Thu, 02 Mar 2023 08:15:12 +0000
+Date: Thu, 2 Mar 2023 09:15:11 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [RFC v1 0/3] Unifying fabrics drivers
+Message-ID: <20230302081511.apoyvinsfqxzimxm@carbon.lan>
+References: <20230301082737.10021-1-dwagner@suse.de>
+ <6e4fc38c-4b08-1f3b-f746-2fb4f2b4c2b8@nvidia.com>
 MIME-Version: 1.0
-References: <Y9KtCc+4n5uANB2f@casper.infradead.org> <8448beac-a119-330d-a2af-fc3531bdb930@linux.alibaba.com>
- <Y/UiY/08MuA/tBku@casper.infradead.org> <CA+CK2bBYX-N8T_ZdzsHC7oJnHsmqHufdTUJj5OrdFk17uQ=fzw@mail.gmail.com>
- <ZAAgKTWpwCE1fruV@casper.infradead.org>
-In-Reply-To: <ZAAgKTWpwCE1fruV@casper.infradead.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Wed, 1 Mar 2023 23:16:06 -0500
-Message-ID: <CA+CK2bCxBqjh4b_-ZU8czDR-naaHJVKWo38uhB2_a9x18NWYbQ@mail.gmail.com>
-Subject: Re: [LSF/MM/BPF TOPIC] State Of The Page
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Gao Xiang <hsiangkao@linux.alibaba.com>, lsf-pc@lists.linux-foundation.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-block@vger.kernel.org, linux-ide@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6e4fc38c-4b08-1f3b-f746-2fb4f2b4c2b8@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230301_201644_424830_8BE424FA 
-X-CRM114-Status: GOOD (  17.88  )
+X-CRM114-CacheID: sfid-20230302_001516_434220_136D94AA 
+X-CRM114-Status: GOOD (  18.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,51 +86,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 1, 2023 at 11:03=E2=80=AFPM Matthew Wilcox <willy@infradead.org=
-> wrote:
->
-> On Wed, Mar 01, 2023 at 10:50:24PM -0500, Pasha Tatashin wrote:
-> > On Tue, Feb 21, 2023 at 2:58=E2=80=AFPM Matthew Wilcox <willy@infradead=
-.org> wrote:
-> > > My goal for 2023 is to get to a point where we (a) have struct page
-> > > reduced to:
-> > >
-> > > struct page {
-> > >         unsigned long flags;
-> > >         struct list_head lru;
-> > >         struct address_space *mapping;
-> > >         pgoff_t index;
-> > >         unsigned long private;
-> > >         atomic_t _mapcount;
-> > >         atomic_t _refcount;
-> > >         unsigned long memcg_data;
-> > > #ifdef LAST_CPUPID_NOT_IN_PAGE_FLAGS
-> > >         int _last_cpupid;
-> > > #endif
-> > > };
-> >
-> > This looks clean, but it is still 64-bytes. I wonder if we could
-> > potentially reduce it down to 56 bytes by removing memcg_data.
->
-> We need struct page to be 16-byte aligned to make slab work.  We also nee=
-d
-> it to divide PAGE_SIZE evenly to make CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMA=
-P
+On Thu, Mar 02, 2023 at 03:02:38AM +0000, Chaitanya Kulkarni wrote:
+> On 3/1/2023 12:27 AM, Daniel Wagner wrote:
+> > The two fabrics rdma and tcp share a lot of common code. This here is my attempt
+> > to consolidate the common code.
+> > 
+> > I've picked just one function (setup admin queue) for this RFC to get a feeling
+> > and feedback if this is a valid approach or if people hate it. I've left out fc
+> > for the time being because it differs too much two the other two drivers.
+> > 
+> > I've tested quickly tcp, rdma is only compile tested.
+> > 
+> 
+> It is really hard to give any feedback without seeing entire code.
 
-Hm, can you please elaborate on both of these cases, how do both of
-these cases work today with _last_cpuid configs or some other configs
-that increase "struct page" above 64-bytes?
+Surely you can give some feedback, for example does this approach make sense, or
+do you think we should reorganize the data structures?
 
-> work.  I don't think it's worth nibbling around the edges like this
-> anyway; convert everything from page to folio and then we can do the
-> big bang conversion where struct page shrinks from 64 bytes to 8.
+> What kind of impact this will have on the current TCP offload series
+> once it is merged ?
 
-I agree with general idea that converting to folio and shrinking
-"struct page" to 8 bytes can be a big memory consumption win, but even
-then we do not want to encourage the memdesc users to use larger than
-needed types. If "flags" and "memcgs" are going to be part of almost
-every single memdesc type it would be nice to reduce them from
-16-bytes to 8-bytes.
+I don't expect a lot of impact at all. The common code between tcp and rdma is
+the state machine code and not the transport bits. The offload code doesn't
+touch any of the code I would touch.
 
-Pasha
+See it's not so hard to give some feedback?
+
+Daniel
 
