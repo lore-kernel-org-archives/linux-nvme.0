@@ -4,69 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 08794C7EE2D
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Mar 2023 16:44:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A061C61DA3
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Mar 2023 23:14:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Q7UYI6z0GeCfYKzfA18dn6nd0JsGEeUMe3g1M4pVlZw=; b=1vjFrPifk+djMk9bLrRHXv0Jdy
-	byyt0lzFn9USYLGzh1dLbYKiv4wM8J0johSAYyEhfB+f9fVWA//VSYyMhhc0AhUro4GEPKR2K7OAi
-	Y8mFCctQ2Sz+Udauxe4TN/hAQL6hFW+ySB/RIwEs+fgdn+uTeUSlrQ9O1nfRcxRQMsR0qygj0s2qn
-	/lMRYeRY5S5PE7zCnplS2jRteTKM8zpg3iEcJZiwbHTn46o9Wf5QG3qXDr6+Fm86Cy3eApmBDp5aw
-	M37xdQAdJo8gYq8yYFCYW5t05+a2sxyKAZYPX1ipFi4TIr9a+R5+VX9/u/sPP+nVmYPDsjjvzHsVV
-	XhPweefQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=/VcIwlpbQjilMqeqGqNNvup9AAK4SHeZ6ZnkXd/39Dk=; b=nvFI0FPfGmNcSkORMVas+WuUKp
+	O9rEfWmnpT9pL6pZZ5VFZMvHhjsRhbrv0uc3+pEjW2/PpX5u0/ULKWGhrbou7urCmMPeiWuUE+y9p
+	4BXQiL9kEoC0dK6oN6BRrcvGdIbfGalj54Ykv+kFm0RjMEAME9wutVJMCmI8Rlk1QcdXO3tP27cQR
+	zra2l5c/tY1G4sJP3/QnWJhdI9Qso5335ffWbK7Pl7ylvprJSBFBSVPWbl0JOlS80lki9rmpRzcEk
+	Q5UUXLciJto6kAt44sOd0LgbRHX86WY0wB7wLMADAllL5iILv2CDpCyzrkM2/G/aC2whRwgYOrKb2
+	dgljUXYg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pY8WN-006pl8-U0; Fri, 03 Mar 2023 16:44:39 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1pYEbD-007n0m-Am; Fri, 03 Mar 2023 23:14:03 +0000
+Received: from mail-qv1-xf35.google.com ([2607:f8b0:4864:20::f35])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pY8WK-006pkK-VH
-	for linux-nvme@lists.infradead.org; Fri, 03 Mar 2023 16:44:38 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 6E0126187F;
-	Fri,  3 Mar 2023 16:44:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A1A9C433EF;
-	Fri,  3 Mar 2023 16:44:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1677861874;
-	bh=z9Z0WT5p4jcL+T9L805TH7aPHih/jrmatgMcVCxiAiU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ie1d+70ikPBpO7DsGyiUoOqEJzNigToIZHGK3tyMSn/p4wVFyzLCe51UXAGjSwHrj
-	 BpsW9GmYStaOlYVJvMCl5BscW2pz2cAIRIRr6vymJvZ6e8oTU1K30dX/Zr+8g7u8e7
-	 gBCmnueHIVKT6KuvSr3foiV/nfShQY+IfBcUHsESXHMNcceZO8UFMvraVimqq+5m+Q
-	 MiQQoKh8UyRGU1tq3tHl4/qKOn1fCLTkKVfJM2r4eWL3BpBq2bet0I/BpSY/7SpPX8
-	 NpxM8pcGU2qvGQu3lOSoQNmQ+N9fSmrmTci/HZthsV2MJhMAPH89h8qt1ntW3Qq2xG
-	 Hf8ZRVfL4bUmQ==
-Date: Fri, 3 Mar 2023 09:44:31 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Daniel Gomez <dagmcr@gmail.com>
-Cc: "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
-	Gerd Bayer <gbayer@linux.ibm.com>, Sagi Grimberg <sagi@grimberg.me>,
-	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: max_hw_sectors error caused by recent NVMe driver commit
-Message-ID: <ZAIj7x9r95jgAQs4@kbusch-mbp.dhcp.thefacebook.com>
-References: <BYAPR21MB1688B4BBFCCCD01C016A62D4D7DF9@BYAPR21MB1688.namprd21.prod.outlook.com>
- <CAPsT6hnbAA_uCiVjST8VaPgb6TyfBq9nO2S7OPqJX3=YhzBD9g@mail.gmail.com>
- <BYAPR21MB16882541DC2DA7AB91E58A03D7DD9@BYAPR21MB1688.namprd21.prod.outlook.com>
- <Y+psCbPTfF9JkW2c@kbusch-mbp>
- <CAPsT6hkYqg2N6_Xf5aL2ijydTJfPYemUVKPZFGgdAik=DwTygQ@mail.gmail.com>
- <BYAPR21MB16887CE0FC5AFD717C741524D7A19@BYAPR21MB1688.namprd21.prod.outlook.com>
- <CAPsT6h=HpDjgE42KRPk8SHHVQ9yPTVBpbGrxd1C9nPN=jWoqUA@mail.gmail.com>
+	id 1pYEb7-007n0M-ID
+	for linux-nvme@lists.infradead.org; Fri, 03 Mar 2023 23:13:58 +0000
+Received: by mail-qv1-xf35.google.com with SMTP id y3so2854563qvn.4
+        for <linux-nvme@lists.infradead.org>; Fri, 03 Mar 2023 15:13:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1677885235;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/VcIwlpbQjilMqeqGqNNvup9AAK4SHeZ6ZnkXd/39Dk=;
+        b=j+NyMeSQe0lHYQ/vJQJGds4oPEEaRhdRxhG/k0nxCpbWvzDpnXloyGJxCiY3jvdG2u
+         VfkxMbyNiLSXmfhZxcn3P2hSd0Q1ai8/dw+CZHl0SbCVwDhdv+ZfaeMcqeBpIjkCYTJY
+         ALSrtWKqu4rpepjYFY+bX1uYdbPWOVEL5b8YaTX6chgyY9UjTdl8Tji2mxAcgooA5Ufv
+         6YJdTnUt+maBeWC7e/WY07RvWFbVxzL57pBYegwdKZ0TSSnsmL4dq8yPAkjnJamUPfY9
+         Uqh3ObjEXt0EqXlPQ6Tt+LDh3beCFlltdRgOR1Nk3PHpeXipUaEF8odpKjeTjGLIYhKW
+         /4oA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677885235;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/VcIwlpbQjilMqeqGqNNvup9AAK4SHeZ6ZnkXd/39Dk=;
+        b=T5EyKbn5xgVObWCh0PP6WRrtBdA7RolqJMOkl665B2FMHWQ/W3G2E00ym0b73R9pi9
+         LpEzaQChIanEDtSGpx48XnwOrTKWhDOlBSAHEF/QksFbtB7y7oll6Oj/DJcBEeRAmR08
+         AArapfWQgbWDrYE91srrqlXPD+aNUvRcsleTinMn9IIWOIxBHAWjsFAA5YdN9ISyDfpe
+         EABhs/Ot1zRTP+/TiP2Dtyi+PsO1dqmJWN3b+552nq61ZFdSCmtKr3q5qnFywIMJFyKv
+         YUgbZKoa9+DP4V84vtMZmWZdQmShzbs/LzjWRtE5NFIMMlqndNGRLzyi4CtVVhkDcm9T
+         SEzg==
+X-Gm-Message-State: AO0yUKX0Y/iQPqTS4DOg2klCxaItvEYAJnklX0SIFxRoPXASNwqVo8z3
+	B3NiijQ8/JoZzz2F5rWMfnI=
+X-Google-Smtp-Source: AK7set/KyY/n/68rbQrofcVQDfFDrTPyGY3LWti+/AGRgZHhcQKwFrnqBQk0V61eq6JvY99e3UqY6g==
+X-Received: by 2002:a05:6214:238e:b0:572:5a16:51c0 with SMTP id fw14-20020a056214238e00b005725a1651c0mr5543802qvb.16.1677885234924;
+        Fri, 03 Mar 2023 15:13:54 -0800 (PST)
+Received: from [10.69.46.142] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id n67-20020a37bd46000000b0073ba2c4ee2esm2598497qkf.96.2023.03.03.15.13.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Mar 2023 15:13:54 -0800 (PST)
+Message-ID: <e70f3b0c-5049-0bbe-fb13-41efc0425e0f@gmail.com>
+Date: Fri, 3 Mar 2023 15:13:53 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPsT6h=HpDjgE42KRPk8SHHVQ9yPTVBpbGrxd1C9nPN=jWoqUA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [RFC v1 0/3] Unifying fabrics drivers
+Content-Language: en-US
+To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
+References: <20230301082737.10021-1-dwagner@suse.de>
+From: James Smart <jsmart2021@gmail.com>
+In-Reply-To: <20230301082737.10021-1-dwagner@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230303_084437_121397_0C9C7B5C 
-X-CRM114-Status: GOOD (  25.77  )
+X-CRM114-CacheID: sfid-20230303_151357_671991_63D35B62 
+X-CRM114-Status: GOOD (  18.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,51 +90,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Mar 03, 2023 at 05:24:43PM +0100, Daniel Gomez wrote:
-> On Fri, Feb 17, 2023 at 5:05 PM Michael Kelley (LINUX)
-> <mikelley@microsoft.com> wrote:
-> >
-> > Yes, that's correct.   But "the device is limited to a lower max_segments
-> > value" isn't really because max_segments is limited.  The limit is on
-> > max_hw_sectors_kb derived from the NVMe controller MDTS value,
-> > as you have shown in your table below.  Then the max_segments value
-> > is derived from max_hw_sectors_kb.  For example, if max_hw_sectors_kb
-> > is 128 Kbytes, you can never need more than 33 segments.  Each segment
-> > can describe 4 Kbytes (a page), so with 128 Kbytes you get 32 segments.
-> > Then add 1 segment to handle the case where the memory buffer doesn't
-> > start on a page boundary, and you get 33.
+On 3/1/2023 12:27 AM, Daniel Wagner wrote:
+> The two fabrics rdma and tcp share a lot of common code. This here is my attempt
+> to consolidate the common code.
 > 
-> I'm trying to understand and clarify this part. So, I found Keith's
-> patch [1] where he addresses (and introduces) the same case (quote
-> from the patch: 'One additional segment is added to account for a
-> transfer that may start in the middle of a page.'). But I'm not sure
-> when that case should be considered when we split an I/O. Is that
-> handled in bio_split_rw + bvec_split_segs functions?
-
-The function responsible for splitting bio's to the request_queue's limits is
-__bio_split_to_limits(). This happens before blk-mq forms 'struct request' for
-the low-level driver in blk_mq_submit_bio().
-
-> So, for mdts=7 and max_segments being now 128, when can we see and
-> test that a transfer starts in the middle of a page and therefore,
-> that we need an extra segment for that? In that case, shouldn't the
-> split max at 128 - 1 (508 KiB)?
-
-You can ensure you start in the middle of a page by allocating page aligned
-memory, then adding an offset.
-
-The number of segments you actually get from your allocation depends on how
-many discontiguous pages the system provisions your virtual memory. User space
-doesn't have direct control over that unless you're using huge pages. It's
-entirely possible a 512KiB buffer has just one segment, or 129 (assuming 4k
-pages), or any number inbetween.
-
-> In my tests [2], I can see splits are made in chunks of 128 in some
-> cases. Whether or not these cases are page-aligned I don’t know but
-> I'd like to verify that.
+> I've picked just one function (setup admin queue) for this RFC to get a feeling
+> and feedback if this is a valid approach or if people hate it. I've left out fc
+> for the time being because it differs too much two the other two drivers.
 > 
-> [1] https://lore.kernel.org/all/1439417874-8925-1-git-send-email-keith.busch@intel.com/
+> I've tested quickly tcp, rdma is only compile tested.
 > 
-> [2] while true; do sleep 1; dd iflag=direct if=/dev/nvme0n1 bs=1M
-> count=1 of=/dev/null status=progress; done
+> Daniel Wagner (3):
+>    nvme-rdma: stream line queue functions arguments
+>    nvme-rdma: factor rdma specific queue init code out
+>    nvme-fabrics: move configure admin queue code to fabrics.c
+> 
+>   drivers/nvme/host/fabrics.c |  52 ++++++++++++++
+>   drivers/nvme/host/fabrics.h |  12 ++++
+>   drivers/nvme/host/nvme.h    |   3 +
+>   drivers/nvme/host/rdma.c    | 132 +++++++++++++++++++-----------------
+>   drivers/nvme/host/tcp.c     |  94 ++++++++-----------------
+>   5 files changed, 165 insertions(+), 128 deletions(-)
+> 
+
+Initial reaction:
+The resulting nvmf_configure_admin_queue() routine does look nice. 
+However, I'm not sure the callback chain is all that easier to follow.
+
+I guess I'm most disappointed that more of the logic isn't actually 
+being commonized.
+
+Examples:
+alloc_queue():
+   At least pass queue_size as an arg. I assume we should to match up
+   with the fabric connect routine.
+init_queue():
+   I'd like to see setting of ctrl.max_segments/hw_sectors in the common
+   code. Unfortunately, likely needs to be a fops call. At least it
+   makes sure its done at the same point in controller creation.
+start_queue():
+   can't common code do the nvmf_connect_admin_queue() call ?
+      If its too tied to the LIVE bit - then perhaps the queue LIVE
+      bits should actually be getting set by the common code after
+      the successful start_queue - or has routines transport can call
+      from start/stop to set/clear it.
+   If LIVE bit can be dealt with - this whole block in rdma/tcp moves to
+   common code.
+
+Also I'd really like to get rid of the "new" argument everywhere. It 
+should just be a state flag set on the common ctrl.
+
+I guess not bad, but not helping much (yet).
+
+-- james
+
 
