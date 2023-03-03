@@ -4,66 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8165FC7EE30
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Mar 2023 08:43:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F8C1C678D4
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Mar 2023 09:11:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=5zopUhSZR4nkgoF37Z7IJFVZw6US6XTQc82K6HvaCLE=; b=eANQJVjDY0o2m/wIHSr8aoTnXW
-	YqfwRFEvzWqyxGyQdKfVvq6hg3TJtqklJee8P9MacLn6z4HywYSuKV5Xcvk18AQRZEN/olOy47CJt
-	7fK5Wc/ZRYk+6WsZK/I/SymmT4Ixzo/HLxIoH18kBBY/W3SSv5uqdYiipG71/VcR+ciiHliBH3jCV
-	HTnh1ZnHogjTUIZG6nixcngPZwvPKrwqXOrxwgtrYpnE0CJJ+zutbMpfcYAEEinKLcalBXGqKgBbL
-	P6b7NbZ9KNGA+9vEJcBX5C7bMuVZ8Lij7i4cLyTTEEIcGxKOSvdCtNmChnZQ2xK4JgtbD5jq320WI
-	yXgKlN2w==;
+	bh=X6IEpSISwJiYlJ3uA866lskXve3r+4o2hf4z7VM6m5o=; b=0kgzr0RAfXR9UfSzSTwe0fOLBi
+	8iDM+bkB7wpj2B9hHDXzr6eTefw98qUr0f1FcHjMLEr2YDX2+pDA/Uu/WZdQ5aH4BTuxwM2pjMI60
+	fcrH2L8Zkz1lfe7VbYYmuzZIzYzsG/PAL10lh1BTt1ZRwdB6I41mrlE+dFG1haaIaI60Swlvj7ENG
+	tE5JgoDRZBCdFwVorzCLRoCQRUmlXso2WWIKP/rQ7tgZHKIi8LX6aDyEv4eF9BTLPLBdJz2XlJpme
+	6yRsIicjcAgENpJ4rC3fShB/GZrMdMyZKTk/GSqRtMtR5Jeb+92nvjKVG6eeoeYKMxEJ01N9/Jo7+
+	c7GpYNCw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pY10m-005V5Y-Nr; Fri, 03 Mar 2023 08:43:32 +0000
-Received: from mail-wr1-f52.google.com ([209.85.221.52])
+	id 1pY1Re-005bTd-Lt; Fri, 03 Mar 2023 09:11:18 +0000
+Received: from mail.corrib.pl ([185.58.226.145])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pY10j-005V1u-1g
-	for linux-nvme@lists.infradead.org; Fri, 03 Mar 2023 08:43:30 +0000
-Received: by mail-wr1-f52.google.com with SMTP id l25so1504226wrb.3
-        for <linux-nvme@lists.infradead.org>; Fri, 03 Mar 2023 00:43:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5zopUhSZR4nkgoF37Z7IJFVZw6US6XTQc82K6HvaCLE=;
-        b=7j8SxEKwT2ZEmt/8c2VWQXBMcQvTyaPVYvVBX8rdHTsn9MCae8Qm089zZLviS03m/m
-         1XejIoauKy6dSL0QKcuK+1cf8x1/Nt1YLrol/VJgnriAlDq0zB48jh5yjWYYiu5RZymO
-         DQTPy/TNQDjgxzhIMD19iBC57ZvktOA3DenAKkPBNDVwK4FJwyVcJ1Ai6hMwOHv2x52W
-         pk5bHPzxd1p1j/pL8NpydB1ncrUsDpnRmhjzH45O8DBszhO78aH0NDVEJHj1jFPe9W7z
-         5BBKs46glOx5iB/aYNz0avaiwD8ecF+86ZhrYUoftsnFvs78lvhCk/4AvsvNBgdAyLsT
-         TYrQ==
-X-Gm-Message-State: AO0yUKUxx7LiocCcJwa1dH7/hdhxxHbljUKM0MOHHxfVWRHtlUuMZCLP
-	eTm1nTaQ0WCvgRQHRsKWt44=
-X-Google-Smtp-Source: AK7set/zp5p2gfC1nzcIyStzta1ZCdmnN8WTjLmEeJySo1EzFLj/PD5hMxA8WX0oIr+eI9IMLlCcsQ==
-X-Received: by 2002:adf:f80a:0:b0:2c7:1210:fe61 with SMTP id s10-20020adff80a000000b002c71210fe61mr708106wrp.3.1677833006285;
-        Fri, 03 Mar 2023 00:43:26 -0800 (PST)
-Received: from localhost.localdomain (46-116-231-83.bb.netvision.net.il. [46.116.231.83])
-        by smtp.gmail.com with ESMTPSA id e17-20020a5d4e91000000b002c559626a50sm1587399wru.13.2023.03.03.00.43.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Mar 2023 00:43:25 -0800 (PST)
-From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Cc: Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>
-Subject: [PATCH] docs: sysfs-block: document hidden sysfs entry
-Date: Fri,  3 Mar 2023 10:43:23 +0200
-Message-Id: <20230303084323.228098-1-sagi@grimberg.me>
-X-Mailer: git-send-email 2.34.1
+	id 1pY1RZ-005bRk-RE
+	for linux-nvme@lists.infradead.org; Fri, 03 Mar 2023 09:11:16 +0000
+Received: by mail.corrib.pl (Postfix, from userid 1001)
+	id 3B98AA3D6B; Fri,  3 Mar 2023 09:11:01 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corrib.pl; s=mail;
+	t=1677834672; bh=X6IEpSISwJiYlJ3uA866lskXve3r+4o2hf4z7VM6m5o=;
+	h=Date:From:To:Subject:From;
+	b=MQh8H7XvfOPGCoiRiXQLBtlc8reClTpyHUEFCFWfEgUj0gRK0f+4EZdFlqCJHh5L2
+	 1ooCmPWJguQRDX+7MPantut+efPK3jqc61hpDZY3lHHyWtP8N27GxOItNvTESgMNi5
+	 /IKtwoemNObXaRPdqxhjXSB3/AJyykJJDVZlDEWw+fSql2fuMMhoXWApcMNo1hsHai
+	 HPXTG4a6PCHi18Tei19lNPKuky4TnF4ub3uqpwJo0ZXZ0BI/LUcUYlDl9ZBrC7fxXF
+	 KrM+pvCErO7VhVEmNLoRDvmaYSaz0NiY2gv7gn2Tm89AecS2HvQq8I4LGzWoT5pew7
+	 7hVqpdJpCTPUA==
+Received: by mail.corrib.pl for <linux-nvme@lists.infradead.org>; Fri,  3 Mar 2023 09:10:55 GMT
+Message-ID: <20230303074501-0.1.5u.hcfw.0.j4kk7dk747@corrib.pl>
+Date: Fri,  3 Mar 2023 09:10:55 GMT
+From: =?UTF-8?Q?"Szczepan_Kie=C5=82basa"?= <szczepan.kielbasa@corrib.pl>
+To: <linux-nvme@lists.infradead.org>
+Subject: Faktoring
+X-Mailer: mail.corrib.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230303_004329_132479_8041CE99 
-X-CRM114-Status: GOOD (  10.99  )
+X-CRM114-CacheID: sfid-20230303_011115_088935_61CF3CC0 
+X-CRM114-Status: UNSURE (   2.34  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,34 +64,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-/sys/block/<disk>/hidden is undocumented. Document it.
+Dzie=C5=84 dobry,
 
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
- Documentation/ABI/stable/sysfs-block | 9 +++++++++
- 1 file changed, 9 insertions(+)
+rozwa=C5=BCali Pa=C5=84stwo wyb=C3=B3r finansowania, kt=C3=B3re spe=C5=82=
+ni potrzeby firmy, zapewniaj=C4=85c natychmiastowy dost=C4=99p do got=C3=B3=
+wki, bez zb=C4=99dnych przestoj=C3=B3w?=20
 
-diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/stable/sysfs-block
-index ac1e519272aa..282de3680367 100644
---- a/Documentation/ABI/stable/sysfs-block
-+++ b/Documentation/ABI/stable/sysfs-block
-@@ -705,6 +705,15 @@ Description:
- 		zoned will report "none".
- 
- 
-+What:		/sys/block/<disk>/hidden
-+Date:		March 2023
-+Contact:	linux-block@vger.kernel.org
-+Description:
-+		[RO] the block device is hidden. it doesn’t produce events, and
-+		can’t be opened from userspace or using blkdev_get*.
-+		Used for the underlying components of multipath devices.
-+
-+
- What:		/sys/block/<disk>/stat
- Date:		February 2008
- Contact:	Jerome Marchand <jmarchan@redhat.com>
--- 
-2.34.1
+Przygotowali=C5=9Bmy rozwi=C4=85zania faktoringowe dopasowane do Pa=C5=84=
+stwa bran=C5=BCy i wielko=C5=9Bci firmy, dzi=C4=99ki kt=C3=B3rym, nie mus=
+z=C4=85 Pa=C5=84stwo martwi=C4=87 si=C4=99 o niewyp=C5=82acalno=C5=9B=C4=87=
+ kontrahent=C3=B3w, poniewa=C5=BC transakcje s=C4=85 zabezpieczone i posi=
+adaj=C4=85 gwarancj=C4=99 sp=C5=82aty.=20
+Chc=C4=85 Pa=C5=84stwo przeanalizowa=C4=87 dost=C4=99pne opcje?
 
+
+Pozdrawiam
+Szczepan Kie=C5=82basa
 
