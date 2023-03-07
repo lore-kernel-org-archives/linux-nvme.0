@@ -4,78 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 316D7C678D5
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Mar 2023 10:11:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A9A4C678D4
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Mar 2023 10:45:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UwXc/jpU8P9SvE7/ufCSYYNysr1Ug87irwSTib4b2HM=; b=XgfSlSrZQBE5qOT5KZQyB6xwHf
-	+k1Cq5BqJ7Uvy1/pX4McOBkAkWOrtcpY9EZJ6kEmKOAxtHonZl4z4DYgM9Y/9oNPWM5UU6yn8ZSir
-	yBsbwc1q8Hgr6VfIFSFvcqFTqwsGwTdc41lS0tFUi7yR62HvuBdXNkRhTWzG9rg04O3y4YEOgDORl
-	mOVerCzxknwAUro/zKVkBdHGl7DLS5fBmfeEjicGJKI5PIbln9savSriZAMJk2hGi3nu99st6oNdr
-	7/Rld6EEdeBsWr27VTE4s47HkRn2OivvQf++0t9bStd4ZoKOGDYVHzAIR73lR4Je4ukftiARLVew5
-	kaMc29Fg==;
+	bh=+unGvhLYhQFoyj3P5s3qyj7QidYIw3YgaPGDHVoLRkA=; b=bfLGPV4rOc+g8aaNdPOyxJNCzc
+	G5KpaFQQc5d1xG2rT3dfHG0s60+U+t9RuTApO20qsOJcbko6iAbbJGX243voHT/Fw7JX0JqnNw1w3
+	pNNzUBrFP5uJpJVdZ+9V/WinYDwWgByoMtcRO9VmewmVw65TytjA85fgVGsqSBf4QHd7as7p+uGmj
+	01520nWMCP5L6Huy7oxNNEagfyn/FduGuYLQmMZWWitdQ1MBZe1FnwtX0/xSMd/YqHx+5sP9d+fdK
+	HOWv0B09qT7uD9CCiC1fyLIKp/+ganCCuCLXYNRjryi5Z8l9Xe9t07nWRgEX6JJx3OT5ubinWAU8o
+	zGbPw/OQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pZUIT-00HB2n-Nb; Tue, 07 Mar 2023 10:11:53 +0000
-Received: from mail-wr1-f44.google.com ([209.85.221.44])
+	id 1pZUoc-00HLL1-TG; Tue, 07 Mar 2023 10:45:06 +0000
+Received: from dggsgout12.his.huawei.com ([45.249.212.56])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pZUIQ-00HB0A-7D
-	for linux-nvme@lists.infradead.org; Tue, 07 Mar 2023 10:11:52 +0000
-Received: by mail-wr1-f44.google.com with SMTP id e13so11522272wro.10
-        for <linux-nvme@lists.infradead.org>; Tue, 07 Mar 2023 02:11:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678183905;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UwXc/jpU8P9SvE7/ufCSYYNysr1Ug87irwSTib4b2HM=;
-        b=nHRxvnQkg4SkUd30wHUUev7fs7Yz4yT13j/cS1L4a3jvQPg5XhKL+XP3X+WmYcIWLZ
-         OwWjdtGY1h0bg10W3CPEj2V43gQ7ets5iTzaRsnzckJf+3Joa/tYuKq4GVdYhgcufZxs
-         9KtqWSWtn/yW7Jz46hftJoV0Pn9hSZMqKzzpvSm6gmAy0gnH49hXNHpKcyxc4+qq+DQw
-         WI38RB315fZ1I0KugO9ubRXIOLqt+DY2vaf3U6hkYkAUU2Pwn2YdcVZR0Mlp7fUnBYqn
-         Xx3Oe3rSUftiQVf6ruMfOG/wm0o71bjGPg7iPPX9rsaCs1694Jwde43HbL029tPWiLDQ
-         O+eg==
-X-Gm-Message-State: AO0yUKUqehXYG7GC3t4S8KYJxhn95/BloUAUOnx1SBFGBiqeNdPA3yIs
-	WSat/DiAIy/1VOmILEYhShs=
-X-Google-Smtp-Source: AK7set+dFM+iNBkj7YJ+P43iJzgw7oE7d6wNKl6Mh3AhyF/VaMARcKbGi6oVSfhN0kjcIUMmNUWQ1w==
-X-Received: by 2002:a5d:5447:0:b0:2c7:91c7:8039 with SMTP id w7-20020a5d5447000000b002c791c78039mr7844181wrv.6.1678183905211;
-        Tue, 07 Mar 2023 02:11:45 -0800 (PST)
-Received: from [10.100.102.14] (46-116-231-83.bb.netvision.net.il. [46.116.231.83])
-        by smtp.gmail.com with ESMTPSA id l13-20020adfe58d000000b002c569acab1esm12203441wrm.73.2023.03.07.02.11.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Mar 2023 02:11:44 -0800 (PST)
-Message-ID: <81c57b4b-4568-baca-bf23-94b6e94873a0@grimberg.me>
-Date: Tue, 7 Mar 2023 12:11:43 +0200
+	id 1pZUoX-00HLJ4-TT
+	for linux-nvme@lists.infradead.org; Tue, 07 Mar 2023 10:45:04 +0000
+Received: from mail02.huawei.com (unknown [172.30.67.169])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4PWBsX2Dyjz4f3jJK
+	for <linux-nvme@lists.infradead.org>; Tue,  7 Mar 2023 18:44:48 +0800 (CST)
+Received: from [10.174.176.73] (unknown [10.174.176.73])
+	by APP3 (Coremail) with SMTP id _Ch0CgCnUiChFQdkhMH6EQ--.23182S3;
+	Tue, 07 Mar 2023 18:44:50 +0800 (CST)
+Subject: Re: [PATCH -next RFC] block: count 'ios' and 'sectors' when io is
+ done for bio-based device
+To: Yu Kuai <yukuai1@huaweicloud.com>, axboe@kernel.dk, agk@redhat.com,
+ snitzer@kernel.org, dm-devel@redhat.com, kbusch@kernel.org, hch@lst.de,
+ sagi@grimberg.me, guz.fnst@cn.fujitsu.com
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, yi.zhang@huawei.com, yangerkun@huawei.com,
+ "yukuai (C)" <yukuai3@huawei.com>
+References: <20230223091226.1135678-1-yukuai1@huaweicloud.com>
+ <05bbc421-100c-c18d-4261-e5669cfdfb94@huaweicloud.com>
+From: Yu Kuai <yukuai1@huaweicloud.com>
+Message-ID: <a4d8f6b5-cc8e-204e-1039-5f2b98042bdd@huaweicloud.com>
+Date: Tue, 7 Mar 2023 18:44:49 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v11 00/25] nvme-tcp receive offloads
-Content-Language: en-US
-To: Shai Malin <smalin@nvidia.com>, Aurelien Aptel <aaptel@nvidia.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "hch@lst.de"
- <hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>,
- "axboe@fb.com" <axboe@fb.com>, Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- "davem@davemloft.net" <davem@davemloft.net>,
- "kuba@kernel.org" <kuba@kernel.org>
-Cc: "aurelien.aptel@gmail.com" <aurelien.aptel@gmail.com>,
- "malin1024@gmail.com" <malin1024@gmail.com>, Or Gerlitz
- <ogerlitz@nvidia.com>, Yoray Zack <yorayz@nvidia.com>,
- Boris Pismenny <borisp@nvidia.com>
-References: <20230203132705.627232-1-aaptel@nvidia.com>
- <72746760-f045-d7bc-1557-255720d7638d@grimberg.me>
- <DM6PR12MB3564B3D0D489B7F4325E69D9BCAD9@DM6PR12MB3564.namprd12.prod.outlook.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <DM6PR12MB3564B3D0D489B7F4325E69D9BCAD9@DM6PR12MB3564.namprd12.prod.outlook.com>
+In-Reply-To: <05bbc421-100c-c18d-4261-e5669cfdfb94@huaweicloud.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _Ch0CgCnUiChFQdkhMH6EQ--.23182S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxKw47KF15GF1xCFWDGr4kZwb_yoW3Jr1kpF
+	1kGFy5JrWUWw1vgr1UJw1DGFyrtr1Utw17Ar47JFyUAw48Jr1vqr1UXr1qgr1UArWkJFyU
+	A3W8Zr9rZr47JrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
+	c2xKxwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
+	AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
+	17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
+	IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Zr0_Wr1U
+	MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
+	VFxhVjvjDU0xZFpf9x0JUp6wZUUUUU=
+X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230307_021150_283398_6F2A1D19 
-X-CRM114-Status: GOOD (  59.28  )
+X-CRM114-CacheID: sfid-20230307_024502_338675_BCEA7A4E 
+X-CRM114-Status: GOOD (  17.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,215 +86,164 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi,
 
-> Hi Sagi,
-
-Hey Shai,
-
-> On Thu, 23 Feb 2023, Sagi Grimberg <sagi@grimberg.me> wrote:
->> Hey Aurelien and Co,
+在 2023/02/28 9:01, Yu Kuai 写道:
+> Hi,
+> 
+> friendly ping ...
+> 
+> Thanks,
+> Kuai
+> 
+> 在 2023/02/23 17:12, Yu Kuai 写道:
+>> From: Yu Kuai <yukuai3@huawei.com>
 >>
->> I've spent some time today looking at the last iteration of this,
->> What I cannot understand, is how will this ever be used outside
->> of the kernel nvme-tcp host driver?
+>> While using iostat for raid, I observed very strange 'await'
+>> occasionally, and turns out it's due to that 'ios' and 'sectors' is
+>> counted in bdev_start_io_acct(), while 'nsecs' is counted in
+>> bdev_end_io_acct(). I'm not sure why they are ccounted like that
+>> but I think this behaviour is obviously wrong because user will get
+>> wrong disk stats.
 >>
->> It seems that the interface is diesigned to fit only a kernel
->> consumer, and a very specific one.
-> 
-> As part of this series, we are only covering the kernel nvme-tcp host driver.
-> The ULP layer we are introducing was designed also for other kernel drivers
-> such as the kernel nvme-tcp target and iSCSI.
+>> Fix the problem by counting 'ios' and 'sectors' when io is done, like
+>> what rq-based device does.
 
-Yes, I can see how this can fit iscsi, but my question was more for
-userspace.
+Can anyone help to review this change? Or is there any reason to count
+'ios' and 'sectors' when io is started?
 
->> Have you considered using a more standard interfaces to use this
->> such that spdk or an io_uring based initiator can use it?
-> 
-> The main problem which I will explain in more detail (under the digest,
-> teardown and resync flows) is that in order to use a more standard interface
-> that will hide what the HW needs it will require duplicating the NVMeTCP
-> logic of tracking the PDUs in the TCP stream – this seems wrong to us.
-
-Hmm. Its not really the entire logic, its only the pdu/data
-boundaries. Every data coming to the host is structured, with a standard
-C2HData PDU.
-
-If we assume for the sake of the discussion that such a parser exist,
-how would the interface to the ulp look like?
-
-> I can add that we are also working on an end-to-end user-space design for SPDK
-> and we don’t see how the two designs could use the same socket APIs without
-> impacting the performance gain of both cases.
-
-Can you share a bit more how this will be done for spdk? spdk runs on
-normal sockets today, hence I'd love to know how you plan to introduce
-it there.
-
-> 
+Thanks,
+Kuai
 >>
->> To me it appears that:
->> - ddp limits can be obtained via getsockopt
->> - sk_add/sk_del can be done via setsockopt
->> - offloaded DDGST crc can be obtained via something like
->>     msghdr.msg_control
-> 
-> If we wish to hide it from the NVMeTCP driver it will require us to duplicate
-> the NVMeTCP logic of tracking the PDUs in the TCP stream.
-> In the positive case, when there are no DDGST errors, nothing is needed to be
-> done in the NVMeTCP driver, but in the case of errors (or just in the case of
-> out of order packet in the middle of the PDU), the DDGST will need to be
-> calculated in SW and it seems wrong to us to duplicate it outside of the
-> NVMeTCP driver.
-
-I didn't suggest that the recalc would be hidden, if the calculation
-failed the ULP can do it.
-
-Something like:
-	ddp_ddgst = CMSG_DATA(CMSG_FIRSTHDR(msg))
-	if (ddp_ddgst->valid) {
-		great...
-	} else {
-		recalc_ddgst
-	}
-
-> 
->> - Perhaps for setting up the offload per IO, recvmsg would be the
->>     vehicle with a new msg flag MSG_RCV_DDP or something, that would hide
->>     all the details of what the HW needs (the command_id would be set
->>     somewhere in the msghdr).
-> 
-> Our design includes the following steps per IO:
-> - ddp_setup (register the command id and buffer to the HW)
-> - The existing flow which sends the command
-> - The existing flow of read_sock()
-> - ddp_teardown (for the per IO HW teardown, before posting the NVMe completion)
-> 
-> Using the recvmsg will only replace the read_sock() but this part in the NVMeTCP
-> driver is not impacted by the offload design.
-> The ddp_setup is needed in order to set the command id and the buffer, and this
-> needs to be done before or as part of the sending of command and prior to the
-> receive flow.
-
-I agree, I didn't suggest that replacing the entire read_sock flow
-(although that can change to recvmsg as well).
-
-I was thinking more along the lines of MSG_PEEK that doesn't actually
-reads anything, where the driver prior to sending the command, would do:
-
-	// do a DDP recvmsg to setup direct data placement
-	msg = { .msg_flags = MSG_DDP_SETUP };
-	iov_iter_bvec(&msg.msg_iter, ITER_DEST, vec, nr_bvec, size);
-	sock_recvmsg(queue->sock, &msg, msg.msg_flags);
-
-	...
-
-	// now send the cmd to the controller
-	nvme_tcp_setup_cmd_pdu
-	nvme_tcp_try_send_cmd_pdu
-	...
-
-That is what I was thinking about.
-	
-> In addition, without duplicating the tracking of the PDUs in the TCP stream,
-> it is not possible to hide the teardown flow from the NVMeTCP driver.
-
-The teardown flow is a bummer because it delays the nvme completion.
-Is it ok to dma_unmap and then schedule a ddp teardown async without
-delaying the nvme completion?
-
-How does TLS offload handles the async teardown?
-
-> 
->> - And all of the resync flow would be something that a separate
->>     ulp socket provider would take care of. Similar to how TLS presents
->>     itself to a tcp application. So the application does not need to be
->>     aware of it.
-> 
-> The resync flow requires awareness of TCP sequence numbers and NVMe
-> PDUs boundaries. If we hide it from the NVMeTCP driver we would have
-> to again duplicate NVMe PDU tracking code.
-
-Its really a pretty trivial part of the pdu tracking. Just when
-a C2HData PDU starts...
-
-> TLS is a stream protocol and maps cleanly to TCP socket operations.
-> NVMeTCP on the other hand is a request-response protocol.
-> On the data path, it's not comparable.
-
-Is it? looks similar to me in the sense that the input stream needs to
-know when a msg starts and ends. The only difference is that the ULP
-needs to timely provide the context to the offload.
-
-> While it could be done by contorting recvmsg() with new flags, adding input
-> fields to the msghdr struct and changing the behaviour of uAPI, it will add
-> a lot more friction than a separate ULP DDP API specifically made for this
-> purpose.
-
-This may be true. I was merely asking if this was a path that was
-genuinely explored and ruled out. To me, it sounds like it can
-work, and also allow userspace to automatically gain from it.
-
->> I'm not sure that such interface could cover everything that is needed,
->> but what I'm trying to convey, is that the current interface limits the
->> usability for almost anything else. Please correct me if I'm wrong.
->> Is this designed to also cater anything else outside of the kernel
->> nvme-tcp host driver?
-> 
-> As part of this series, we are targeting the kernel nvme-tcp host driver,
-> and later we are planning to add support for the kernel nvme-tcp target driver.
-> 
-> The ULP layer was designed to be generic for other request-response based
-> protocols.
-
-I understand.
-
-> 
+>> Fixes: 394ffa503bc4 ("blk: introduce generic io stat accounting help 
+>> function")
+>> Signed-off-by: Yu Kuai <yukuai3@huawei.com>
+>> ---
+>>   block/blk-core.c              | 16 ++++++----------
+>>   drivers/md/dm.c               |  6 +++---
+>>   drivers/nvme/host/multipath.c |  8 ++++----
+>>   include/linux/blkdev.h        |  5 ++---
+>>   4 files changed, 15 insertions(+), 20 deletions(-)
 >>
->>> Compatibility
->>> =============
->>> * The offload works with bare-metal or SRIOV.
->>> * The HW can support up to 64K connections per device (assuming no
->>>     other HW accelerations are used). In this series, we will introduce
->>>     the support for up to 4k connections, and we have plans to increase it.
->>> * SW TLS could not work together with the NVMeTCP offload as the HW
->>>     will need to track the NVMeTCP headers in the TCP stream.
+>> diff --git a/block/blk-core.c b/block/blk-core.c
+>> index 82b5b2c53f1e..fe1d320f5f07 100644
+>> --- a/block/blk-core.c
+>> +++ b/block/blk-core.c
+>> @@ -953,16 +953,11 @@ void update_io_ticks(struct block_device *part, 
+>> unsigned long now, bool end)
+>>       }
+>>   }
+>> -unsigned long bdev_start_io_acct(struct block_device *bdev,
+>> -                 unsigned int sectors, enum req_op op,
+>> +unsigned long bdev_start_io_acct(struct block_device *bdev, enum 
+>> req_op op,
+>>                    unsigned long start_time)
+>>   {
+>> -    const int sgrp = op_stat_group(op);
+>> -
+>>       part_stat_lock();
+>>       update_io_ticks(bdev, start_time, false);
+>> -    part_stat_inc(bdev, ios[sgrp]);
+>> -    part_stat_add(bdev, sectors[sgrp], sectors);
+>>       part_stat_local_inc(bdev, in_flight[op_is_write(op)]);
+>>       part_stat_unlock();
+>> @@ -978,13 +973,12 @@ EXPORT_SYMBOL(bdev_start_io_acct);
+>>    */
+>>   unsigned long bio_start_io_acct(struct bio *bio)
+>>   {
+>> -    return bdev_start_io_acct(bio->bi_bdev, bio_sectors(bio),
+>> -                  bio_op(bio), jiffies);
+>> +    return bdev_start_io_acct(bio->bi_bdev, bio_op(bio), jiffies);
+>>   }
+>>   EXPORT_SYMBOL_GPL(bio_start_io_acct);
+>>   void bdev_end_io_acct(struct block_device *bdev, enum req_op op,
+>> -              unsigned long start_time)
+>> +              unsigned int sectors, unsigned long start_time)
+>>   {
+>>       const int sgrp = op_stat_group(op);
+>>       unsigned long now = READ_ONCE(jiffies);
+>> @@ -992,6 +986,8 @@ void bdev_end_io_acct(struct block_device *bdev, 
+>> enum req_op op,
+>>       part_stat_lock();
+>>       update_io_ticks(bdev, now, true);
+>> +    part_stat_inc(bdev, ios[sgrp]);
+>> +    part_stat_add(bdev, sectors[sgrp], sectors);
+>>       part_stat_add(bdev, nsecs[sgrp], jiffies_to_nsecs(duration));
+>>       part_stat_local_dec(bdev, in_flight[op_is_write(op)]);
+>>       part_stat_unlock();
+>> @@ -1001,7 +997,7 @@ EXPORT_SYMBOL(bdev_end_io_acct);
+>>   void bio_end_io_acct_remapped(struct bio *bio, unsigned long 
+>> start_time,
+>>                     struct block_device *orig_bdev)
+>>   {
+>> -    bdev_end_io_acct(orig_bdev, bio_op(bio), start_time);
+>> +    bdev_end_io_acct(orig_bdev, bio_op(bio), bio_sectors(bio), 
+>> start_time);
+>>   }
+>>   EXPORT_SYMBOL_GPL(bio_end_io_acct_remapped);
+>> diff --git a/drivers/md/dm.c b/drivers/md/dm.c
+>> index eace45a18d45..f5cc330bb549 100644
+>> --- a/drivers/md/dm.c
+>> +++ b/drivers/md/dm.c
+>> @@ -512,10 +512,10 @@ static void dm_io_acct(struct dm_io *io, bool end)
+>>           sectors = io->sectors;
+>>       if (!end)
+>> -        bdev_start_io_acct(bio->bi_bdev, sectors, bio_op(bio),
+>> -                   start_time);
+>> +        bdev_start_io_acct(bio->bi_bdev, bio_op(bio), start_time);
+>>       else
+>> -        bdev_end_io_acct(bio->bi_bdev, bio_op(bio), start_time);
+>> +        bdev_end_io_acct(bio->bi_bdev, bio_op(bio), sectors,
+>> +                 start_time);
+>>       if (static_branch_unlikely(&stats_enabled) &&
+>>           unlikely(dm_stats_used(&md->stats))) {
+>> diff --git a/drivers/nvme/host/multipath.c 
+>> b/drivers/nvme/host/multipath.c
+>> index fc39d01e7b63..9171452e2f6d 100644
+>> --- a/drivers/nvme/host/multipath.c
+>> +++ b/drivers/nvme/host/multipath.c
+>> @@ -123,9 +123,8 @@ void nvme_mpath_start_request(struct request *rq)
+>>           return;
+>>       nvme_req(rq)->flags |= NVME_MPATH_IO_STATS;
+>> -    nvme_req(rq)->start_time = bdev_start_io_acct(disk->part0,
+>> -                    blk_rq_bytes(rq) >> SECTOR_SHIFT,
+>> -                    req_op(rq), jiffies);
+>> +    nvme_req(rq)->start_time = bdev_start_io_acct(disk->part0, 
+>> req_op(rq),
+>> +                              jiffies);
+>>   }
+>>   EXPORT_SYMBOL_GPL(nvme_mpath_start_request);
+>> @@ -136,7 +135,8 @@ void nvme_mpath_end_request(struct request *rq)
+>>       if (!(nvme_req(rq)->flags & NVME_MPATH_IO_STATS))
+>>           return;
+>>       bdev_end_io_acct(ns->head->disk->part0, req_op(rq),
+>> -        nvme_req(rq)->start_time);
+>> +             blk_rq_bytes(rq) >> SECTOR_SHIFT,
+>> +             nvme_req(rq)->start_time);
+>>   }
+>>   void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl)
+>> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+>> index d1aee08f8c18..941304f17492 100644
+>> --- a/include/linux/blkdev.h
+>> +++ b/include/linux/blkdev.h
+>> @@ -1446,11 +1446,10 @@ static inline void blk_wake_io_task(struct 
+>> task_struct *waiter)
+>>           wake_up_process(waiter);
+>>   }
+>> -unsigned long bdev_start_io_acct(struct block_device *bdev,
+>> -                 unsigned int sectors, enum req_op op,
+>> +unsigned long bdev_start_io_acct(struct block_device *bdev, enum 
+>> req_op op,
+>>                    unsigned long start_time);
+>>   void bdev_end_io_acct(struct block_device *bdev, enum req_op op,
+>> -        unsigned long start_time);
+>> +              unsigned int sectors, unsigned long start_time);
+>>   unsigned long bio_start_io_acct(struct bio *bio);
+>>   void bio_end_io_acct_remapped(struct bio *bio, unsigned long 
+>> start_time,
 >>
->> Can't say I like that.
 > 
-> The answer should be to support both TLS offload and NVMeTCP offload,
-> which is a HW limit in our current generation.
-
-I can't complain about this because we don't have TLS supported in 
-nvme-tcp. But _can_ they work together on future HW?
-
+> .
 > 
->>
->>> * The ConnectX HW support HW TLS, but in ConnectX-7 those features
->>>     could not co-exists (and it is not part of this series).
->>> * The NVMeTCP offload ConnectX 7 HW can support tunneling, but we
->>>     don’t see the need for this feature yet.
->>> * NVMe poll queues are not in the scope of this series.
->>
->> bonding/teaming?
-> 
-> We are planning to add it as part of the "incremental feature".
-> It will follow the existing design of the mlx HW TLS.
 
-OK.
-
->>> Future Work
->>> ===========
->>> * NVMeTCP transmit offload.
->>> * NVMeTCP host offloads incremental features.
->>> * NVMeTCP target offload.
->>
->> Which target? which host?
-> 
-> Kernel nvme-tcp host driver and kernel nvme-tcp target driver.
-
-Look, I did spend time looking into this patchset several times
-in the past, and also provided feedback. The reason why I'm questioning
-the interface now, is because I'm wandering if it can be less intrusive
-and use the common socket interface instead of inventing a new one.
 
