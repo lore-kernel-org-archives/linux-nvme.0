@@ -4,74 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC9A5C678D4
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Mar 2023 12:41:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B389C6FD1A
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Mar 2023 15:06:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3UAINWft++6VP4kXhCOKs0gr7LLCXtmbAnFL03GxT0A=; b=hrivSBOULrOJDcwiX9CATxs9Hg
-	uubOoVd9heUxAITUse+S4LtH6q75Ux0pmDPd52m81dYSYIfF8DeKV0zbBwZxK1rhzvDHe+WKrxF88
-	1W7TtjEN/MuDPvoWNSoZoAE862yrbRLPeO122U7bsOWaR1UBzDZZmfDZgY6SIIctXHCZcvVS62H92
-	Ul5DrqRzoQ3OdrqAgv3vetsBH2PI1m08PyBWoG/5vasyakZo2tQWFEJDguXQU0659m5ArtXvoPhL4
-	n9jFfTPlz6+hkgtQCocCj9NUksWOxpdZZNHJaxt4491GSGs97SfIjPMZGo/Ae/7rNuDxW/Gf6gH89
-	L4TKBYAg==;
+	bh=llKKNKuvfK/m+pa2EAZRL9gIyPFDk2zTTzAuWEJgf/M=; b=b3C4fFhR8LSTBt50XBTuA4o/DP
+	J0IK1+qo4SG5T4nQ7jeUqg4aU/oHJZcmCk/BGmN2oov1InLYRKSSyRNASi6Xu4B9RFbnsIAY3xncg
+	peCpRqZR7jvVpU84cS/gqTbBbZ/s4EcNtgc3XnXJbuQHAdLQ8ziUuMF8LjBTxFbwtB5YHDrrOu/Or
+	iIdVqCe6DEKd2SboKfnYUBXrzGbYa5UwhLfJfZe4zmZHx0kvgM3NxOeqX/Kq2l6vcbMpj5UZ0P1hS
+	URchoIdI8xWglEIMu5rfvjrW1D2nsgeGF5MFCO9VV6AvhI1yab+YdBOKOmDAkfBupH0oBme7T/Tq9
+	mQLY5Erg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pZWdf-0008XG-Mq; Tue, 07 Mar 2023 12:41:55 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1pZYt6-0014mb-Tj; Tue, 07 Mar 2023 15:06:00 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pZWdW-0008Rv-5x
-	for linux-nvme@lists.infradead.org; Tue, 07 Mar 2023 12:41:47 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7444F1FE17;
-	Tue,  7 Mar 2023 12:41:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1678192904; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	id 1pZYFC-000lg2-QC
+	for linux-nvme@lists.infradead.org; Tue, 07 Mar 2023 14:24:48 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1678199085;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3UAINWft++6VP4kXhCOKs0gr7LLCXtmbAnFL03GxT0A=;
-	b=G4QD9wHxiXFduzK100V28QjHqB3GnllQTBcAkVHKcpDkHBcYbeZprjXY7SGtQvMB8O75fx
-	YHluZBW9MAfyzlIoOe3G7vBqjZfMmyjj75kXAgEpLGDmPkvlpFLeaUSaFMP+kexVV30ZjQ
-	Qy+San9yiFl2IMWUg3cOSEvz2GJqNiQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1678192904;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3UAINWft++6VP4kXhCOKs0gr7LLCXtmbAnFL03GxT0A=;
-	b=VyAc9LHXgV/Rm/i2RBS3EpsK5B+kezJNkvO6zG5DeDQlIEyaqSmmAZnsPP9Ika3DpM22R+
-	SQH31OzFI7wVXeBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	bh=llKKNKuvfK/m+pa2EAZRL9gIyPFDk2zTTzAuWEJgf/M=;
+	b=esVT4tOKK3JyCVNf9nizKnqvanwwOC2IefjjDjUzitWDKlY187OqegL0ZVZpROmQX/wGX8
+	SvPY74/g9i+t96qT8t6LCmyHQkJsHeYrKuqT2IoRf1z/qUaHbAxXynUnbNW4nEtnr4PKRI
+	TwCzWmp9be6KzZSePlp+Nd6hbAMyu/Y=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-235-GOXamBoqNaWafLYTKsVFeg-1; Tue, 07 Mar 2023 09:24:42 -0500
+X-MC-Unique: GOXamBoqNaWafLYTKsVFeg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 674541341F;
-	Tue,  7 Mar 2023 12:41:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id tpQrGQgxB2SZOAAAMHmgww
-	(envelope-from <dwagner@suse.de>); Tue, 07 Mar 2023 12:41:44 +0000
-Date: Tue, 7 Mar 2023 13:41:43 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: James Smart <jsmart2021@gmail.com>
-Cc: linux-nvme@lists.infradead.org
-Subject: Re: [RFC v1 0/3] Unifying fabrics drivers
-Message-ID: <20230307124143.s5ojphvt2wvdj2j7@carbon.lan>
-References: <20230301082737.10021-1-dwagner@suse.de>
- <e70f3b0c-5049-0bbe-fb13-41efc0425e0f@gmail.com>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E6D0885A588;
+	Tue,  7 Mar 2023 14:24:41 +0000 (UTC)
+Received: from ovpn-8-16.pek2.redhat.com (ovpn-8-16.pek2.redhat.com [10.72.8.16])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 02CE72026D4B;
+	Tue,  7 Mar 2023 14:24:38 +0000 (UTC)
+Date: Tue, 7 Mar 2023 22:24:33 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org
+Subject: Re: [PATCH] nvme: fix handling single range discard request
+Message-ID: <ZAdJIXT4AxuYB3Do@ovpn-8-16.pek2.redhat.com>
+References: <20230303231345.119652-1-ming.lei@redhat.com>
+ <125e291a-5225-6565-e800-e6bdb6be35f3@grimberg.me>
+ <ZAZfzT02hNQ6bb8P@ovpn-8-26.pek2.redhat.com>
+ <4faf272f-470e-1c2d-d23e-752ccbb01a31@grimberg.me>
+ <ZAcqj9tM8/Dq9MNn@ovpn-8-16.pek2.redhat.com>
+ <aeb59707-00ad-bc57-9f91-ef5757de9294@grimberg.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e70f3b0c-5049-0bbe-fb13-41efc0425e0f@gmail.com>
+In-Reply-To: <aeb59707-00ad-bc57-9f91-ef5757de9294@grimberg.me>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230307_044146_396856_F7DD51C0 
-X-CRM114-Status: GOOD (  24.76  )
+X-CRM114-CacheID: sfid-20230307_062446_969340_EB7D4799 
+X-CRM114-Status: GOOD (  31.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,58 +82,110 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Mar 03, 2023 at 03:13:53PM -0800, James Smart wrote:
-> Initial reaction:
-> The resulting nvmf_configure_admin_queue() routine does look nice. However,
->> I'm not sure the callback chain is all that easier to follow.
+On Tue, Mar 07, 2023 at 02:31:48PM +0200, Sagi Grimberg wrote:
+> 
+> 
+> On 3/7/23 14:14, Ming Lei wrote:
+> > On Tue, Mar 07, 2023 at 01:39:27PM +0200, Sagi Grimberg wrote:
+> > > 
+> > > 
+> > > On 3/6/23 23:49, Ming Lei wrote:
+> > > > On Mon, Mar 06, 2023 at 04:21:08PM +0200, Sagi Grimberg wrote:
+> > > > > 
+> > > > > 
+> > > > > On 3/4/23 01:13, Ming Lei wrote:
+> > > > > > When investigating one customer report on warning in nvme_setup_discard,
+> > > > > > we observed the controller(nvme/tcp) actually exposes
+> > > > > > queue_max_discard_segments(req->q) == 1.
+> > > > > > 
+> > > > > > Obviously the current code can't handle this situation, since contiguity
+> > > > > > merge like normal RW request is taken.
+> > > > > > 
+> > > > > > Fix the issue by building range from request sector/nr_sectors directly.
+> > > > > > 
+> > > > > > Fixes: b35ba01ea697 ("nvme: support ranged discard requests")
+> > > > > > Signed-off-by: Ming Lei <ming.lei@redhat.com>
+> > > > > > ---
+> > > > > >     drivers/nvme/host/core.c | 28 +++++++++++++++++++---------
+> > > > > >     1 file changed, 19 insertions(+), 9 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> > > > > > index c2730b116dc6..d4be525f8100 100644
+> > > > > > --- a/drivers/nvme/host/core.c
+> > > > > > +++ b/drivers/nvme/host/core.c
+> > > > > > @@ -781,16 +781,26 @@ static blk_status_t nvme_setup_discard(struct nvme_ns *ns, struct request *req,
+> > > > > >     		range = page_address(ns->ctrl->discard_page);
+> > > > > >     	}
+> > > > > > -	__rq_for_each_bio(bio, req) {
+> > > > > > -		u64 slba = nvme_sect_to_lba(ns, bio->bi_iter.bi_sector);
+> > > > > > -		u32 nlb = bio->bi_iter.bi_size >> ns->lba_shift;
+> > > > > > -
+> > > > > > -		if (n < segments) {
+> > > > > > -			range[n].cattr = cpu_to_le32(0);
+> > > > > > -			range[n].nlb = cpu_to_le32(nlb);
+> > > > > > -			range[n].slba = cpu_to_le64(slba);
+> > > > > > +	if (queue_max_discard_segments(req->q) == 1) {
+> > > > > > +		u64 slba = nvme_sect_to_lba(ns, blk_rq_pos(req));
+> > > > > > +		u32 nlb = blk_rq_sectors(req) >> (ns->lba_shift - 9);
+> > > > > > +
+> > > > > > +		range[0].cattr = cpu_to_le32(0);
+> > > > > > +		range[0].nlb = cpu_to_le32(nlb);
+> > > > > > +		range[0].slba = cpu_to_le64(slba);
+> > > > > > +		n = 1;
+> > > > > > +	} else {
+> > > > > > +		__rq_for_each_bio(bio, req) {
+> > > > > > +			u64 slba = nvme_sect_to_lba(ns, bio->bi_iter.bi_sector);
+> > > > > > +			u32 nlb = bio->bi_iter.bi_size >> ns->lba_shift;
+> > > > > > +
+> > > > > > +			if (n < segments) {
+> > > > > > +				range[n].cattr = cpu_to_le32(0);
+> > > > > > +				range[n].nlb = cpu_to_le32(nlb);
+> > > > > > +				range[n].slba = cpu_to_le64(slba);
+> > > > > > +			}
+> > > > > > +			n++;
+> > > > > >     		}
+> > > > > > -		n++;
+> > > > > >     	}
+> > > > > >     	if (WARN_ON_ONCE(n != segments)) {
+> > > > > 
+> > > > > 
+> > > > > Maybe just set segments to min(blk_rq_nr_discard_segments(req),
+> > > > > queue_max_discard_segments(req->q)) and let the existing code do
+> > > > > its thing?
+> > > > 
+> > > > What is the existing code for applying min()?
+> > > 
+> > > Was referring to this:
+> > > --
+> > > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> > > index 3345f866178e..dbc402587431 100644
+> > > --- a/drivers/nvme/host/core.c
+> > > +++ b/drivers/nvme/host/core.c
+> > > @@ -781,6 +781,7 @@ static blk_status_t nvme_setup_discard(struct nvme_ns
+> > > *ns, struct request *req,
+> > >                  range = page_address(ns->ctrl->discard_page);
+> > >          }
+> > > 
+> > > +       segments = min(segments, queue_max_discard_segments(req->q));
+> > 
+> > That can't work.
+> > 
+> > In case of queue_max_discard_segments(req->q) == 1, the request still
+> > can have more than one bios since the normal merge is taken for discard
+> > IOs.
+> 
+> Ah, I see, the bios are contiguous though right?
 
-v1 is a bit too simple as I only tried to get nvmf_configure_admin_queue()
-sorted out.
+Yes, the merge is just like normal RW.
 
-> I guess I'm most disappointed that more of the logic isn't actually being
-> commonized.
+> We could add a contiguity check in the loop and conditionally
+> increment n, but maybe that would probably be more complicated...
 
-v2 is moving the whole state machine which makes more sense.
+That is more complicated than this patch, and the same pattern
+has been applied on virtio-blk.
 
-> Examples:
-> alloc_queue():
->   At least pass queue_size as an arg. I assume we should to match up
->   with the fabric connect routine.
 
-I'll look into that.
+Thanks,
+Ming
 
-> init_queue():
->   I'd like to see setting of ctrl.max_segments/hw_sectors in the common
->   code. Unfortunately, likely needs to be a fops call. At least it
->   makes sure its done at the same point in controller creation.
-
-Okay, I suspect it needs a few iterations until we sorted all these details out.
-
-> start_queue():
->   can't common code do the nvmf_connect_admin_queue() call ?
->      If its too tied to the LIVE bit - then perhaps the queue LIVE
->      bits should actually be getting set by the common code after
->      the successful start_queue - or has routines transport can call
->      from start/stop to set/clear it.
->   If LIVE bit can be dealt with - this whole block in rdma/tcp moves to
->   common code.
-
-Good point, the LIVE bit is currently transport specific which it dosen't need
-to be.
-
-What would be the best strategy with this kind of change for review? Should I
-add stuff ontop v2 or should I try to add the common code first and then migrate
-the transports over? The current approach with moving and updating in the same
-time is obviously a bit hard to review (and has a good chance to introduce
-regressions).
-
-> Also I'd really like to get rid of the "new" argument everywhere. It should
-> just be a state flag set on the common ctrl.
-
-Okay.
-
-> I guess not bad, but not helping much (yet).
-
-I posted a very early version to discuss the approach and get all parties to
-agree on so it has a chance to get accepted.
 
