@@ -4,74 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A9A4C678D4
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Mar 2023 10:45:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04509C678D4
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Mar 2023 11:39:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+unGvhLYhQFoyj3P5s3qyj7QidYIw3YgaPGDHVoLRkA=; b=bfLGPV4rOc+g8aaNdPOyxJNCzc
-	G5KpaFQQc5d1xG2rT3dfHG0s60+U+t9RuTApO20qsOJcbko6iAbbJGX243voHT/Fw7JX0JqnNw1w3
-	pNNzUBrFP5uJpJVdZ+9V/WinYDwWgByoMtcRO9VmewmVw65TytjA85fgVGsqSBf4QHd7as7p+uGmj
-	01520nWMCP5L6Huy7oxNNEagfyn/FduGuYLQmMZWWitdQ1MBZe1FnwtX0/xSMd/YqHx+5sP9d+fdK
-	HOWv0B09qT7uD9CCiC1fyLIKp/+ganCCuCLXYNRjryi5Z8l9Xe9t07nWRgEX6JJx3OT5ubinWAU8o
-	zGbPw/OQ==;
+	bh=z4AqwyhsogAdfB7Yjm5ZST+aFqwS9AWOEAodjAAj1F0=; b=wV4IRMnsNaA8yQdpYbdAuzFVjD
+	W/sOO/mOrRUrPMi7BglTMVwA3Y99uhxNVqJQlOtBR4yAIeukHVKgjDoGjVjEI0IMwZIGadWbOKvbP
+	EwRvkXG2fQ9+K64xchwKAlb2PeCf0JOhoTlasRn7BfEXItLVxeHsntkNrxuiPvzBeZXTjm/9zoFQp
+	X1x5JgOGskq+X/mJ8qeYQWuz4cIw9Xv54nvnBo/FwHCJvWF5eJcT7Z/HVlXPdhTU0/b2yROSszQEE
+	On0twWoTliNQi3aDtHE9/PSAWXQ2Cy6wY/WLAAJlP98mGow7t+ysy8TWx26aNAIO9CXwUU61UcQfU
+	B6yPxzkQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pZUoc-00HLL1-TG; Tue, 07 Mar 2023 10:45:06 +0000
-Received: from dggsgout12.his.huawei.com ([45.249.212.56])
+	id 1pZVfK-00HVXF-It; Tue, 07 Mar 2023 11:39:34 +0000
+Received: from mail-wr1-f43.google.com ([209.85.221.43])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pZUoX-00HLJ4-TT
-	for linux-nvme@lists.infradead.org; Tue, 07 Mar 2023 10:45:04 +0000
-Received: from mail02.huawei.com (unknown [172.30.67.169])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4PWBsX2Dyjz4f3jJK
-	for <linux-nvme@lists.infradead.org>; Tue,  7 Mar 2023 18:44:48 +0800 (CST)
-Received: from [10.174.176.73] (unknown [10.174.176.73])
-	by APP3 (Coremail) with SMTP id _Ch0CgCnUiChFQdkhMH6EQ--.23182S3;
-	Tue, 07 Mar 2023 18:44:50 +0800 (CST)
-Subject: Re: [PATCH -next RFC] block: count 'ios' and 'sectors' when io is
- done for bio-based device
-To: Yu Kuai <yukuai1@huaweicloud.com>, axboe@kernel.dk, agk@redhat.com,
- snitzer@kernel.org, dm-devel@redhat.com, kbusch@kernel.org, hch@lst.de,
- sagi@grimberg.me, guz.fnst@cn.fujitsu.com
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, yi.zhang@huawei.com, yangerkun@huawei.com,
- "yukuai (C)" <yukuai3@huawei.com>
-References: <20230223091226.1135678-1-yukuai1@huaweicloud.com>
- <05bbc421-100c-c18d-4261-e5669cfdfb94@huaweicloud.com>
-From: Yu Kuai <yukuai1@huaweicloud.com>
-Message-ID: <a4d8f6b5-cc8e-204e-1039-5f2b98042bdd@huaweicloud.com>
-Date: Tue, 7 Mar 2023 18:44:49 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+	id 1pZVfI-00HVWI-9l
+	for linux-nvme@lists.infradead.org; Tue, 07 Mar 2023 11:39:33 +0000
+Received: by mail-wr1-f43.google.com with SMTP id t15so11782499wrz.7
+        for <linux-nvme@lists.infradead.org>; Tue, 07 Mar 2023 03:39:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678189170;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=z4AqwyhsogAdfB7Yjm5ZST+aFqwS9AWOEAodjAAj1F0=;
+        b=HpOzGMCkj99bNDuIuy6BSyTQIoYdVCurDcMbCNpNYILbSXG8fggScCF0yufIUmTqGO
+         bgllVeNWJdNAXwjpvQPQ9DFerI5cU+8RfN5PRutcv56pNGx+z1eGh0xoORHc7ixuPqIN
+         s5u6M8ti50llGtpBvKoNOIzAxBYePaXieQ+YatJTmiE33eYQU/vQrmJosk6F4W7mM+lG
+         wvkxHzepPeBwUdgxFS9dc0tP1TE7nX4yOM1Iy4NfhFbNJLdoWIy5KW5Ciu7rPPsBYEjg
+         3uIW4ZmzLUFUdu2Ezun5sfl0WHq9YJRhigNFCth3JdHP09yll98zsAJow5SJt1PtrEHK
+         ykbQ==
+X-Gm-Message-State: AO0yUKXOBUQu+rD+frNaHxyXckhZ6MP70OqsN2bfwrIWJN4PuDeUjF4d
+	C2LTXP2h55QpInV4nLkwH1w=
+X-Google-Smtp-Source: AK7set8eJVSEc0/8WKaRaPkWBnGkf/MjXS+9QcfOSwlNwtAmO08KHIPwyo5i2Ffin4dQV64YxUH3YQ==
+X-Received: by 2002:adf:d4c6:0:b0:2c8:207d:c10e with SMTP id w6-20020adfd4c6000000b002c8207dc10emr7925212wrk.1.1678189169592;
+        Tue, 07 Mar 2023 03:39:29 -0800 (PST)
+Received: from [10.100.102.14] (46-116-231-83.bb.netvision.net.il. [46.116.231.83])
+        by smtp.gmail.com with ESMTPSA id x8-20020adff648000000b002c3dc4131f5sm12467949wrp.18.2023.03.07.03.39.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Mar 2023 03:39:29 -0800 (PST)
+Message-ID: <4faf272f-470e-1c2d-d23e-752ccbb01a31@grimberg.me>
+Date: Tue, 7 Mar 2023 13:39:27 +0200
 MIME-Version: 1.0
-In-Reply-To: <05bbc421-100c-c18d-4261-e5669cfdfb94@huaweicloud.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] nvme: fix handling single range discard request
+Content-Language: en-US
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org
+References: <20230303231345.119652-1-ming.lei@redhat.com>
+ <125e291a-5225-6565-e800-e6bdb6be35f3@grimberg.me>
+ <ZAZfzT02hNQ6bb8P@ovpn-8-26.pek2.redhat.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <ZAZfzT02hNQ6bb8P@ovpn-8-26.pek2.redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _Ch0CgCnUiChFQdkhMH6EQ--.23182S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxKw47KF15GF1xCFWDGr4kZwb_yoW3Jr1kpF
-	1kGFy5JrWUWw1vgr1UJw1DGFyrtr1Utw17Ar47JFyUAw48Jr1vqr1UXr1qgr1UArWkJFyU
-	A3W8Zr9rZr47JrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
-	c2xKxwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
-	AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
-	17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
-	IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Zr0_Wr1U
-	MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
-	VFxhVjvjDU0xZFpf9x0JUp6wZUUUUU=
-X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230307_024502_338675_BCEA7A4E 
-X-CRM114-Status: GOOD (  17.90  )
+X-CRM114-CacheID: sfid-20230307_033932_373070_31444AFB 
+X-CRM114-Status: GOOD (  18.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,164 +82,88 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
 
-在 2023/02/28 9:01, Yu Kuai 写道:
-> Hi,
-> 
-> friendly ping ...
-> 
-> Thanks,
-> Kuai
-> 
-> 在 2023/02/23 17:12, Yu Kuai 写道:
->> From: Yu Kuai <yukuai3@huawei.com>
->>
->> While using iostat for raid, I observed very strange 'await'
->> occasionally, and turns out it's due to that 'ios' and 'sectors' is
->> counted in bdev_start_io_acct(), while 'nsecs' is counted in
->> bdev_end_io_acct(). I'm not sure why they are ccounted like that
->> but I think this behaviour is obviously wrong because user will get
->> wrong disk stats.
->>
->> Fix the problem by counting 'ios' and 'sectors' when io is done, like
->> what rq-based device does.
 
-Can anyone help to review this change? Or is there any reason to count
-'ios' and 'sectors' when io is started?
-
-Thanks,
-Kuai
+On 3/6/23 23:49, Ming Lei wrote:
+> On Mon, Mar 06, 2023 at 04:21:08PM +0200, Sagi Grimberg wrote:
 >>
->> Fixes: 394ffa503bc4 ("blk: introduce generic io stat accounting help 
->> function")
->> Signed-off-by: Yu Kuai <yukuai3@huawei.com>
->> ---
->>   block/blk-core.c              | 16 ++++++----------
->>   drivers/md/dm.c               |  6 +++---
->>   drivers/nvme/host/multipath.c |  8 ++++----
->>   include/linux/blkdev.h        |  5 ++---
->>   4 files changed, 15 insertions(+), 20 deletions(-)
 >>
->> diff --git a/block/blk-core.c b/block/blk-core.c
->> index 82b5b2c53f1e..fe1d320f5f07 100644
->> --- a/block/blk-core.c
->> +++ b/block/blk-core.c
->> @@ -953,16 +953,11 @@ void update_io_ticks(struct block_device *part, 
->> unsigned long now, bool end)
->>       }
->>   }
->> -unsigned long bdev_start_io_acct(struct block_device *bdev,
->> -                 unsigned int sectors, enum req_op op,
->> +unsigned long bdev_start_io_acct(struct block_device *bdev, enum 
->> req_op op,
->>                    unsigned long start_time)
->>   {
->> -    const int sgrp = op_stat_group(op);
->> -
->>       part_stat_lock();
->>       update_io_ticks(bdev, start_time, false);
->> -    part_stat_inc(bdev, ios[sgrp]);
->> -    part_stat_add(bdev, sectors[sgrp], sectors);
->>       part_stat_local_inc(bdev, in_flight[op_is_write(op)]);
->>       part_stat_unlock();
->> @@ -978,13 +973,12 @@ EXPORT_SYMBOL(bdev_start_io_acct);
->>    */
->>   unsigned long bio_start_io_acct(struct bio *bio)
->>   {
->> -    return bdev_start_io_acct(bio->bi_bdev, bio_sectors(bio),
->> -                  bio_op(bio), jiffies);
->> +    return bdev_start_io_acct(bio->bi_bdev, bio_op(bio), jiffies);
->>   }
->>   EXPORT_SYMBOL_GPL(bio_start_io_acct);
->>   void bdev_end_io_acct(struct block_device *bdev, enum req_op op,
->> -              unsigned long start_time)
->> +              unsigned int sectors, unsigned long start_time)
->>   {
->>       const int sgrp = op_stat_group(op);
->>       unsigned long now = READ_ONCE(jiffies);
->> @@ -992,6 +986,8 @@ void bdev_end_io_acct(struct block_device *bdev, 
->> enum req_op op,
->>       part_stat_lock();
->>       update_io_ticks(bdev, now, true);
->> +    part_stat_inc(bdev, ios[sgrp]);
->> +    part_stat_add(bdev, sectors[sgrp], sectors);
->>       part_stat_add(bdev, nsecs[sgrp], jiffies_to_nsecs(duration));
->>       part_stat_local_dec(bdev, in_flight[op_is_write(op)]);
->>       part_stat_unlock();
->> @@ -1001,7 +997,7 @@ EXPORT_SYMBOL(bdev_end_io_acct);
->>   void bio_end_io_acct_remapped(struct bio *bio, unsigned long 
->> start_time,
->>                     struct block_device *orig_bdev)
->>   {
->> -    bdev_end_io_acct(orig_bdev, bio_op(bio), start_time);
->> +    bdev_end_io_acct(orig_bdev, bio_op(bio), bio_sectors(bio), 
->> start_time);
->>   }
->>   EXPORT_SYMBOL_GPL(bio_end_io_acct_remapped);
->> diff --git a/drivers/md/dm.c b/drivers/md/dm.c
->> index eace45a18d45..f5cc330bb549 100644
->> --- a/drivers/md/dm.c
->> +++ b/drivers/md/dm.c
->> @@ -512,10 +512,10 @@ static void dm_io_acct(struct dm_io *io, bool end)
->>           sectors = io->sectors;
->>       if (!end)
->> -        bdev_start_io_acct(bio->bi_bdev, sectors, bio_op(bio),
->> -                   start_time);
->> +        bdev_start_io_acct(bio->bi_bdev, bio_op(bio), start_time);
->>       else
->> -        bdev_end_io_acct(bio->bi_bdev, bio_op(bio), start_time);
->> +        bdev_end_io_acct(bio->bi_bdev, bio_op(bio), sectors,
->> +                 start_time);
->>       if (static_branch_unlikely(&stats_enabled) &&
->>           unlikely(dm_stats_used(&md->stats))) {
->> diff --git a/drivers/nvme/host/multipath.c 
->> b/drivers/nvme/host/multipath.c
->> index fc39d01e7b63..9171452e2f6d 100644
->> --- a/drivers/nvme/host/multipath.c
->> +++ b/drivers/nvme/host/multipath.c
->> @@ -123,9 +123,8 @@ void nvme_mpath_start_request(struct request *rq)
->>           return;
->>       nvme_req(rq)->flags |= NVME_MPATH_IO_STATS;
->> -    nvme_req(rq)->start_time = bdev_start_io_acct(disk->part0,
->> -                    blk_rq_bytes(rq) >> SECTOR_SHIFT,
->> -                    req_op(rq), jiffies);
->> +    nvme_req(rq)->start_time = bdev_start_io_acct(disk->part0, 
->> req_op(rq),
->> +                              jiffies);
->>   }
->>   EXPORT_SYMBOL_GPL(nvme_mpath_start_request);
->> @@ -136,7 +135,8 @@ void nvme_mpath_end_request(struct request *rq)
->>       if (!(nvme_req(rq)->flags & NVME_MPATH_IO_STATS))
->>           return;
->>       bdev_end_io_acct(ns->head->disk->part0, req_op(rq),
->> -        nvme_req(rq)->start_time);
->> +             blk_rq_bytes(rq) >> SECTOR_SHIFT,
->> +             nvme_req(rq)->start_time);
->>   }
->>   void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl)
->> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
->> index d1aee08f8c18..941304f17492 100644
->> --- a/include/linux/blkdev.h
->> +++ b/include/linux/blkdev.h
->> @@ -1446,11 +1446,10 @@ static inline void blk_wake_io_task(struct 
->> task_struct *waiter)
->>           wake_up_process(waiter);
->>   }
->> -unsigned long bdev_start_io_acct(struct block_device *bdev,
->> -                 unsigned int sectors, enum req_op op,
->> +unsigned long bdev_start_io_acct(struct block_device *bdev, enum 
->> req_op op,
->>                    unsigned long start_time);
->>   void bdev_end_io_acct(struct block_device *bdev, enum req_op op,
->> -        unsigned long start_time);
->> +              unsigned int sectors, unsigned long start_time);
->>   unsigned long bio_start_io_acct(struct bio *bio);
->>   void bio_end_io_acct_remapped(struct bio *bio, unsigned long 
->> start_time,
+>> On 3/4/23 01:13, Ming Lei wrote:
+>>> When investigating one customer report on warning in nvme_setup_discard,
+>>> we observed the controller(nvme/tcp) actually exposes
+>>> queue_max_discard_segments(req->q) == 1.
+>>>
+>>> Obviously the current code can't handle this situation, since contiguity
+>>> merge like normal RW request is taken.
+>>>
+>>> Fix the issue by building range from request sector/nr_sectors directly.
+>>>
+>>> Fixes: b35ba01ea697 ("nvme: support ranged discard requests")
+>>> Signed-off-by: Ming Lei <ming.lei@redhat.com>
+>>> ---
+>>>    drivers/nvme/host/core.c | 28 +++++++++++++++++++---------
+>>>    1 file changed, 19 insertions(+), 9 deletions(-)
+>>>
+>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>>> index c2730b116dc6..d4be525f8100 100644
+>>> --- a/drivers/nvme/host/core.c
+>>> +++ b/drivers/nvme/host/core.c
+>>> @@ -781,16 +781,26 @@ static blk_status_t nvme_setup_discard(struct nvme_ns *ns, struct request *req,
+>>>    		range = page_address(ns->ctrl->discard_page);
+>>>    	}
+>>> -	__rq_for_each_bio(bio, req) {
+>>> -		u64 slba = nvme_sect_to_lba(ns, bio->bi_iter.bi_sector);
+>>> -		u32 nlb = bio->bi_iter.bi_size >> ns->lba_shift;
+>>> -
+>>> -		if (n < segments) {
+>>> -			range[n].cattr = cpu_to_le32(0);
+>>> -			range[n].nlb = cpu_to_le32(nlb);
+>>> -			range[n].slba = cpu_to_le64(slba);
+>>> +	if (queue_max_discard_segments(req->q) == 1) {
+>>> +		u64 slba = nvme_sect_to_lba(ns, blk_rq_pos(req));
+>>> +		u32 nlb = blk_rq_sectors(req) >> (ns->lba_shift - 9);
+>>> +
+>>> +		range[0].cattr = cpu_to_le32(0);
+>>> +		range[0].nlb = cpu_to_le32(nlb);
+>>> +		range[0].slba = cpu_to_le64(slba);
+>>> +		n = 1;
+>>> +	} else {
+>>> +		__rq_for_each_bio(bio, req) {
+>>> +			u64 slba = nvme_sect_to_lba(ns, bio->bi_iter.bi_sector);
+>>> +			u32 nlb = bio->bi_iter.bi_size >> ns->lba_shift;
+>>> +
+>>> +			if (n < segments) {
+>>> +				range[n].cattr = cpu_to_le32(0);
+>>> +				range[n].nlb = cpu_to_le32(nlb);
+>>> +				range[n].slba = cpu_to_le64(slba);
+>>> +			}
+>>> +			n++;
+>>>    		}
+>>> -		n++;
+>>>    	}
+>>>    	if (WARN_ON_ONCE(n != segments)) {
 >>
+>>
+>> Maybe just set segments to min(blk_rq_nr_discard_segments(req),
+>> queue_max_discard_segments(req->q)) and let the existing code do
+>> its thing?
 > 
-> .
-> 
+> What is the existing code for applying min()?
 
+Was referring to this:
+--
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 3345f866178e..dbc402587431 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -781,6 +781,7 @@ static blk_status_t nvme_setup_discard(struct 
+nvme_ns *ns, struct request *req,
+                 range = page_address(ns->ctrl->discard_page);
+         }
+
++       segments = min(segments, queue_max_discard_segments(req->q));
+         __rq_for_each_bio(bio, req) {
+                 u64 slba = nvme_sect_to_lba(ns, bio->bi_iter.bi_sector);
+                 u32 nlb = bio->bi_iter.bi_size >> ns->lba_shift;
+--
 
