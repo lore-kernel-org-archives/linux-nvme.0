@@ -4,69 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 712ACC678D4
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Mar 2023 12:34:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC9A5C678D4
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Mar 2023 12:41:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=K8l7CpGmyvyeNECJGOcIoXy3UgUx2lgzfIOXYsj53mk=; b=liISkpD7P+AuUPQ9H2ADaGLD+R
-	la2dlrXNrvrQuAr8JxzW/B0x/jD4zMsTTXG8V6YcbMf4GoLXjfsEY4VguDnkZyMmZs2kNV9BqvF1g
-	/cklCkzmpqjXm4kgl8VBmNi42WtjQFNE9mJ+4MFu9vhp4mF5mEdSA4qS4mb0WviTdXfej7u1Dso76
-	NBuIe4AizHehcwldKNTcxDjar8M7wK0ZJYsTSkqwy8hJFvT8V4ud0qQzuKN92fQLHSYLIfkuuMoT1
-	b5P9Hkwj26L4FqFT0IJu3aYyvPGhTKAnqgYLQ77FAhJlAAWLr/s2auDhaQpIyF+cvIP/uwrmuOEIg
-	FWd7VtQw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3UAINWft++6VP4kXhCOKs0gr7LLCXtmbAnFL03GxT0A=; b=hrivSBOULrOJDcwiX9CATxs9Hg
+	uubOoVd9heUxAITUse+S4LtH6q75Ux0pmDPd52m81dYSYIfF8DeKV0zbBwZxK1rhzvDHe+WKrxF88
+	1W7TtjEN/MuDPvoWNSoZoAE862yrbRLPeO122U7bsOWaR1UBzDZZmfDZgY6SIIctXHCZcvVS62H92
+	Ul5DrqRzoQ3OdrqAgv3vetsBH2PI1m08PyBWoG/5vasyakZo2tQWFEJDguXQU0659m5ArtXvoPhL4
+	n9jFfTPlz6+hkgtQCocCj9NUksWOxpdZZNHJaxt4491GSGs97SfIjPMZGo/Ae/7rNuDxW/Gf6gH89
+	L4TKBYAg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pZWWC-0007El-3g; Tue, 07 Mar 2023 12:34:12 +0000
-Received: from mail-wr1-f45.google.com ([209.85.221.45])
+	id 1pZWdf-0008XG-Mq; Tue, 07 Mar 2023 12:41:55 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pZWW9-0007DS-EL
-	for linux-nvme@lists.infradead.org; Tue, 07 Mar 2023 12:34:10 +0000
-Received: by mail-wr1-f45.google.com with SMTP id q16so11964415wrw.2
-        for <linux-nvme@lists.infradead.org>; Tue, 07 Mar 2023 04:34:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678192444;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=K8l7CpGmyvyeNECJGOcIoXy3UgUx2lgzfIOXYsj53mk=;
-        b=yQ6jynYT5NR55/ZueQAoeqSojoUuA745hIjJ0YZYCVhu6SyhgZiqv5KCTbvyF9iy3/
-         oTwa0q+AVzqy8sIQkIPiU2kM4emK+gWl5U95HQsY+QmEdmW9MJGygQnrEI6LekIxohyK
-         bN7CJYy70HKw/WUgCp1ex2Ul1s7etNlYSRE3+k1iPhdYmBBqgfv/H0j93Fiw1vWK4SSO
-         ewf5NfLEAXqqC72hbYo1xxI/useXHvtmZDVNouA32+yUoJCZuS2fPWzdfcRVcsfEZe1d
-         nVVfXMJMztilihUo7AiF4LbpKUK2SD6HhudCXHGxDS8CpihrL4pdJPY+6DGWEBlw3AMU
-         D36Q==
-X-Gm-Message-State: AO0yUKVDd1BsDALpJKJ6iRs4C111bQXbSqsCRjW9ML+xZ7lwadX2pX+b
-	m9T1BTOosY6bDuFFsgzwWu3P1cNu/Xk=
-X-Google-Smtp-Source: AK7set+QAQTS2GNPQc3Zyb1KN9E375IDr1dvfR3diq1sUnSryRZyu7kk1DEVHPE5FcglIWA7v3d+kA==
-X-Received: by 2002:a05:6000:11c7:b0:2c7:b49:97f6 with SMTP id i7-20020a05600011c700b002c70b4997f6mr7641309wrx.2.1678192444139;
-        Tue, 07 Mar 2023 04:34:04 -0800 (PST)
-Received: from [10.100.102.14] (46-116-231-83.bb.netvision.net.il. [46.116.231.83])
-        by smtp.gmail.com with ESMTPSA id n5-20020a5d4c45000000b002c55306f6edsm12067946wrt.54.2023.03.07.04.34.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Mar 2023 04:34:03 -0800 (PST)
-Message-ID: <442f638a-9ecf-0f17-82e5-06312c2ec5d6@grimberg.me>
-Date: Tue, 7 Mar 2023 14:34:02 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [RFC v1 0/3] Unifying fabrics drivers
-Content-Language: en-US
-To: Daniel Wagner <dwagner@suse.de>
+	id 1pZWdW-0008Rv-5x
+	for linux-nvme@lists.infradead.org; Tue, 07 Mar 2023 12:41:47 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7444F1FE17;
+	Tue,  7 Mar 2023 12:41:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1678192904; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3UAINWft++6VP4kXhCOKs0gr7LLCXtmbAnFL03GxT0A=;
+	b=G4QD9wHxiXFduzK100V28QjHqB3GnllQTBcAkVHKcpDkHBcYbeZprjXY7SGtQvMB8O75fx
+	YHluZBW9MAfyzlIoOe3G7vBqjZfMmyjj75kXAgEpLGDmPkvlpFLeaUSaFMP+kexVV30ZjQ
+	Qy+San9yiFl2IMWUg3cOSEvz2GJqNiQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1678192904;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3UAINWft++6VP4kXhCOKs0gr7LLCXtmbAnFL03GxT0A=;
+	b=VyAc9LHXgV/Rm/i2RBS3EpsK5B+kezJNkvO6zG5DeDQlIEyaqSmmAZnsPP9Ika3DpM22R+
+	SQH31OzFI7wVXeBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 674541341F;
+	Tue,  7 Mar 2023 12:41:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id tpQrGQgxB2SZOAAAMHmgww
+	(envelope-from <dwagner@suse.de>); Tue, 07 Mar 2023 12:41:44 +0000
+Date: Tue, 7 Mar 2023 13:41:43 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: James Smart <jsmart2021@gmail.com>
 Cc: linux-nvme@lists.infradead.org
+Subject: Re: [RFC v1 0/3] Unifying fabrics drivers
+Message-ID: <20230307124143.s5ojphvt2wvdj2j7@carbon.lan>
 References: <20230301082737.10021-1-dwagner@suse.de>
- <a73ea22a-9871-d152-080e-49c0904dbe94@grimberg.me>
- <20230307122849.3oc66ojdsgvvj77h@carbon.lan>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230307122849.3oc66ojdsgvvj77h@carbon.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <e70f3b0c-5049-0bbe-fb13-41efc0425e0f@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e70f3b0c-5049-0bbe-fb13-41efc0425e0f@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230307_043409_509087_4A2662CE 
-X-CRM114-Status: GOOD (  22.42  )
+X-CRM114-CacheID: sfid-20230307_044146_396856_F7DD51C0 
+X-CRM114-Status: GOOD (  24.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,47 +86,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Fri, Mar 03, 2023 at 03:13:53PM -0800, James Smart wrote:
+> Initial reaction:
+> The resulting nvmf_configure_admin_queue() routine does look nice. However,
+>> I'm not sure the callback chain is all that easier to follow.
 
+v1 is a bit too simple as I only tried to get nvmf_configure_admin_queue()
+sorted out.
 
-On 3/7/23 14:28, Daniel Wagner wrote:
-> On Tue, Mar 07, 2023 at 11:26:12AM +0200, Sagi Grimberg wrote:
->> I think we should make all transports to unify setup/teardown sequences
->> (i.e. including pcie and fc). Otherwise we are not gaining much.
-> 
-> Not sure about pcie but I haven't really looked at it. The state machine is
-> really handling all the fabrics specific queue handling.
-> 
-> Ideally, fc would use the same state machine. Though the current code base is
-> differs quiet significantly but I can try to convert it too.
-> 
->> It will help if we make the ops higher level like
->>
->> ops.setup_transport(ctrl)
->> ops.alloc_admin_queue(ctrl)
->> ops.start_admin_queue(ctrl)
->> ops.stop_admin_queue(ctrl)
->> ops.free_admin_queue(ctrl)
->> ops.alloc_io_queues(ctrl)
->> ops.start_io_queues(ctrl)
->> ops.stop_io_queues(ctrl)
->> ops.free_io_queues(ctrl)
-> 
-> This is more ore less what v2 is.
-> 
->> The init/deinit can be folded to alloc/free I think.
-> 
-> Yes, that would a good thing. In my first attempt I tried to keep things more a
-> less identically with the existing code, just using the callbacks for the
-> transport specific bits.
-> 
->> This is indeed a much larger effort, but I don't know what
->> this unification of rdma/tcp buys us really...
-> 
-> My motiviation is that we are keep fixing the same bugs in rdma and tcp
-> transport since a while. The state machine code is almost identically so why not
-> trying to reduce the code duplication?
+> I guess I'm most disappointed that more of the logic isn't actually being
+> commonized.
 
-I'm not saying that we shouldn't, I'm saying that we should consolidate
-with all transports (rdma/fc/tcp/loop and ideally also pcie which is
-closer to fabrics than what it used to be).
+v2 is moving the whole state machine which makes more sense.
+
+> Examples:
+> alloc_queue():
+>   At least pass queue_size as an arg. I assume we should to match up
+>   with the fabric connect routine.
+
+I'll look into that.
+
+> init_queue():
+>   I'd like to see setting of ctrl.max_segments/hw_sectors in the common
+>   code. Unfortunately, likely needs to be a fops call. At least it
+>   makes sure its done at the same point in controller creation.
+
+Okay, I suspect it needs a few iterations until we sorted all these details out.
+
+> start_queue():
+>   can't common code do the nvmf_connect_admin_queue() call ?
+>      If its too tied to the LIVE bit - then perhaps the queue LIVE
+>      bits should actually be getting set by the common code after
+>      the successful start_queue - or has routines transport can call
+>      from start/stop to set/clear it.
+>   If LIVE bit can be dealt with - this whole block in rdma/tcp moves to
+>   common code.
+
+Good point, the LIVE bit is currently transport specific which it dosen't need
+to be.
+
+What would be the best strategy with this kind of change for review? Should I
+add stuff ontop v2 or should I try to add the common code first and then migrate
+the transports over? The current approach with moving and updating in the same
+time is obviously a bit hard to review (and has a good chance to introduce
+regressions).
+
+> Also I'd really like to get rid of the "new" argument everywhere. It should
+> just be a state flag set on the common ctrl.
+
+Okay.
+
+> I guess not bad, but not helping much (yet).
+
+I posted a very early version to discuss the approach and get all parties to
+agree on so it has a chance to get accepted.
 
