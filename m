@@ -4,70 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 082F3C64EC4
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Mar 2023 11:06:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3304AC64EC4
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Mar 2023 11:38:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ISfAQu9wKsKEwf6EqUAvt5CYh7GPx/RMRttbgYkfGAQ=; b=YQ6wJ7kVm6rCjkahavDFeyRVt7
-	qqBa+keb3AobtxbLbVi2Em6XER2+s/awD8C1UK+USvEmuTgQE4UNRbHLeQBAt9d28kqm0JLzBW+jC
-	Cou/PKlf9KPvlxckpSELJ41EuvOemUyeo7e53ZHG6famjkLAhulN+4Nz821AEafhKY2iaCNP9Yku+
-	P4xAR+g3iO21z+3wDfFekeyfTua7THiID62FsqRmKlLyy4xkCxmy2qoy4AZ02Bw2ZuzePDQfuJCgj
-	w0E1EfGNk95LWUQLgOAxKkHEJ8b8Fjj2LEVfK+ZrT+xSenGEBt6f2/eVZbLsEuvAHwJH2xQOrSahc
-	Spia0Abw==;
+	bh=lLGiNavGwCzxUVL+snPo8/qrtYV5Iz99KwVyTM8K7EU=; b=pq3btO6Geq41HbZwEFU4wsjC+Q
+	M+edOumOfKOanzkTLY0HxjRVt6khdeUw2ryrNG1fhLsMmrnsbpIiNRtdY7SR3IeEUi+8k2v8wG8kl
+	5COhN6sUz7aF67XBh4op5ELphvZr0ADgu8aQjliEJY1jVWTkDySGJZsQIdW9kBwKGyWs/z54Cv2Ye
+	/oacI5khyKz9wt2v9HlPmgSLtr33a7AVYWR7UXwmqE6zNv2wAimcw9KmT5WbvWrvz8mLKmN3bKczW
+	Nog/8/Cklu5+DWncTnu65QR8xePNuO56lQWO+mSxbz6UCjne7kJDdngSwXmV7SNk9wDbxTaWbL2sS
+	jTqJ0LVg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pZrdB-004XcG-EB; Wed, 08 Mar 2023 11:06:49 +0000
-Received: from mail-wr1-f42.google.com ([209.85.221.42])
+	id 1pZs7n-004e0P-SR; Wed, 08 Mar 2023 11:38:27 +0000
+Received: from mail-wr1-f52.google.com ([209.85.221.52])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pZrd5-004Xaj-L7
-	for linux-nvme@lists.infradead.org; Wed, 08 Mar 2023 11:06:45 +0000
-Received: by mail-wr1-f42.google.com with SMTP id bx12so14937279wrb.11
-        for <linux-nvme@lists.infradead.org>; Wed, 08 Mar 2023 03:06:41 -0800 (PST)
+	id 1pZs7k-004dyb-N0
+	for linux-nvme@lists.infradead.org; Wed, 08 Mar 2023 11:38:26 +0000
+Received: by mail-wr1-f52.google.com with SMTP id bx12so15028165wrb.11
+        for <linux-nvme@lists.infradead.org>; Wed, 08 Mar 2023 03:38:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678273599;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20210112; t=1678275500;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ISfAQu9wKsKEwf6EqUAvt5CYh7GPx/RMRttbgYkfGAQ=;
-        b=jpm+LJ1Q4Er05OOha2Coy4xgqt/T8mNNFOntyfrXg5XyWL/o+hesD/D8f+MoL5DrNl
-         2c5mqgHc3PfruEdQ4CVn6IExpgu1cuyZa6fzE3AjoFuVWmIvyhslLsUU+DPoV2Yqs9ae
-         zCcMvHYIB5xwz5y26ScBLJ4uBgJ2Pode30Tmlsn6gVclrFMarTFRWsOySEATaBXNahn4
-         QDfsEb09B3hKTNOiW+OopTSMJamMQre38yrW/nPS4B1QUb/dfJKs/Ib9mbcnzjOMDQkc
-         BxMVHUwuRON8DHXzBnah0XjfFbylHSYb2xikndKHg9nur/ztEqNQsfN9alkIW9KV1dmI
-         yb4Q==
-X-Gm-Message-State: AO0yUKUxck0Z7SdFqi6BTjRMmPTYspFRWFvFhB7ccCRjZj7/FyTSM1lD
-	UoyiC3U2RYu1k4WMuImF+k4=
-X-Google-Smtp-Source: AK7set9rbLj9zz9dqqpvqgqIse6w8ImplQCay2UE85nflRlsI9ssvr4SQpE46lQYp+CeY7/qrvOAMQ==
-X-Received: by 2002:adf:e2c4:0:b0:2c7:17df:507c with SMTP id d4-20020adfe2c4000000b002c717df507cmr9257006wrj.2.1678273599132;
-        Wed, 08 Mar 2023 03:06:39 -0800 (PST)
+        bh=lLGiNavGwCzxUVL+snPo8/qrtYV5Iz99KwVyTM8K7EU=;
+        b=yS42lMFyKe1afc8Ayz5wo2WujcvuXImXb423G4/enGMpaqnXOj3n3DxPrr501VDpat
+         /wkT8GW+ADTmXfASZAvYvCB70H7wSDus6ThVfFzQSJ11NXdyFBsTnrNv15uE2hwQlJ/B
+         tAbcNutLeMmz2wvK8YCl/k4xVJgguYkxDHMxS0Zg1IdQ6WLXP3J7YvuytgvbYvwBox7L
+         9kW3HoVolm0vXNUdvu4BAd2Z3dQ/EPF723SZxcqPqgnM1PLB1uyuVBRf0+7nTNIk7KS2
+         xYDosAk5zsrrZS3R+JQHLBIgEYu49MU/igDnT14z7dp81g3Fm/iDT5FvvWtDLmvxQFZW
+         BujQ==
+X-Gm-Message-State: AO0yUKUMuaKsV/ZnJCzKp8ehwhLJYM0cqMUvXwBOwwyEhF6BKdrniO9C
+	IRfVB746nLTdTN6V2GpY0Jo=
+X-Google-Smtp-Source: AK7set+S01iTXbDSS5aqr+S6sEWoPi3+v6B8QralJpnCI6IK+aJhcEV+RlKu2lJYsWqbwwY0uSSP2Q==
+X-Received: by 2002:adf:e60b:0:b0:2c7:1c72:699f with SMTP id p11-20020adfe60b000000b002c71c72699fmr11361912wrm.4.1678275499727;
+        Wed, 08 Mar 2023 03:38:19 -0800 (PST)
 Received: from [192.168.64.80] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id j29-20020a5d6e5d000000b002c59f18674asm14890941wrz.22.2023.03.08.03.06.38
+        by smtp.gmail.com with ESMTPSA id o13-20020a5d670d000000b002c8476dde7asm15061712wru.114.2023.03.08.03.38.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Mar 2023 03:06:38 -0800 (PST)
-Message-ID: <ba7cec63-2518-c68f-0dd6-b0a936132720@grimberg.me>
-Date: Wed, 8 Mar 2023 13:06:37 +0200
+        Wed, 08 Mar 2023 03:38:19 -0800 (PST)
+Message-ID: <c2d61f14-e505-5e71-ca46-63b318095d23@grimberg.me>
+Date: Wed, 8 Mar 2023 13:38:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH] nvme-tcp: print correct opcode on timeout and error
- handling
-To: Akinobu Mita <akinobu.mita@gmail.com>, linux-nvme@lists.infradead.org
-Cc: Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Hannes Reinecke <hare@suse.de>
-References: <20230307163045.5882-1-akinobu.mita@gmail.com>
+Subject: Re: [RFC v1 0/3] Unifying fabrics drivers
 Content-Language: en-US
+To: James Smart <jsmart2021@gmail.com>, Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org
+References: <20230301082737.10021-1-dwagner@suse.de>
+ <a73ea22a-9871-d152-080e-49c0904dbe94@grimberg.me>
+ <20230307122849.3oc66ojdsgvvj77h@carbon.lan>
+ <ce404c97-2716-9572-22de-3935c23757dc@gmail.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230307163045.5882-1-akinobu.mita@gmail.com>
+In-Reply-To: <ce404c97-2716-9572-22de-3935c23757dc@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230308_030643_724883_1ED4D441 
-X-CRM114-Status: GOOD (  20.87  )
+X-CRM114-CacheID: sfid-20230308_033824_771089_4339495E 
+X-CRM114-Status: GOOD (  20.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,125 +83,46 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-> In timeout and error handling, various information is reported about the
-> command in error, but the printed opcode may not be correct
+
+On 3/8/23 00:09, James Smart wrote:
+> On 3/7/2023 4:28 AM, Daniel Wagner wrote:
+>> On Tue, Mar 07, 2023 at 11:26:12AM +0200, Sagi Grimberg wrote:
+>>> I think we should make all transports to unify setup/teardown sequences
+>>> (i.e. including pcie and fc). Otherwise we are not gaining much.
+>>
+>> Not sure about pcie but I haven't really looked at it. The state 
+>> machine is
+>> really handling all the fabrics specific queue handling.
+>>
+>> Ideally, fc would use the same state machine. Though the current code 
+>> base is
+>> differs quiet significantly but I can try to convert it too.
 > 
-> The opcode is obtained from the nvme_command structure referenced by the
-> 'cmd' member in the nvme_request structure.
-> (i.e. nvme_req(req)->cmd->common.opcode)
+> I'll certainly help for FC.
 > 
-> For the nvme-tcp driver, the 'cmd' member in the nvme_request structure
-> points to a structure within the page fragment allocated by
-> nvme_tcp_init_request().  This page fragment is used as a command capsule
-> PDU, and then may be reused as a h2c data PDU, so the nvme_command
-> referenced by the 'cmd' member has already been overwritten.
-> 
-> To fix this problem, when setting up the nvme_command, keep the opcode in
-> a newly added member in the nvme_tcp_request and use that instead.
+> The 2 main hurdles are our differences around:
+> a) the new flag - which I replaced in the fc calling setup and a state 
+> flag. Shouldn't be much of an issue. We just need to look at when/where 
+> the tagsets are allocated (and embedding into admin queue setup isn't 
+> necessarily best).
 
-I'm wandering if we should just not reuse the cmd pdu for a subsequent
-data pdu...
+Does fc create an I/O tagset on every reconnect? Doesn't appear
+that it is removed on every disconnect... I'm a bit confused.
 
-It will take more space allocated per request (up to a few MBs for lots
-of requests and controllers)...
+> b) the init_ctrl - I don't have the initial connect inline to the 
+> init_ctrl call - I push it out to the normal "reconnect" path so that 
+> everything, initial connect and all reconnects, use the same 
+> routine/work element. Also says the transport will retry the initial 
+> connect if there's a failure on the initial attempt. To keep the app 
+> happy, init_ctrl will wait for the 1st connect attempt to finish before 
+> returning.   Don't know how rdma/tcp feels about it, but I found it a 
+> much better solution and cleanup became cleaner.
 
-but will prevent from propagating this to nvme core...
+Don't see a major difference, I personally find the initial setup
+different than a reconnect so its simpler to do them separately.
 
-Something like the below (untested):
---
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index ef27122acce6..ffbcd5c7cb26 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -207,6 +207,16 @@ static inline u8 nvme_tcp_ddgst_len(struct 
-nvme_tcp_queue *queue)
-         return queue->data_digest ? NVME_TCP_DIGEST_LENGTH : 0;
-  }
+Can these two differences change for unification of the transports?
 
-+static inline void *nvme_tcp_req_cmd_pdu(struct nvme_tcp_request *req)
-+{
-+       return req->pdu;
-+}
-+
-+static inline void *nvme_tcp_req_data_pdu(struct nvme_tcp_request *req)
-+{
-+       return req->pdu + sizeof(struct nvme_tcp_cmd_pdu);
-+}
-+
-  static inline size_t nvme_tcp_inline_data_size(struct nvme_tcp_request 
-*req)
-  {
-         if (nvme_is_fabrics(req->req.cmd))
-@@ -470,7 +480,8 @@ static int nvme_tcp_init_request(struct 
-blk_mq_tag_set *set,
-         u8 hdgst = nvme_tcp_hdgst_len(queue);
-
-         req->pdu = page_frag_alloc(&queue->pf_cache,
--               sizeof(struct nvme_tcp_cmd_pdu) + hdgst,
-+               sizeof(struct nvme_tcp_cmd_pdu) +
-+               sizeof(struct nvme_tcp_data_pdu) + hdgst,
-                 GFP_KERNEL | __GFP_ZERO);
-         if (!req->pdu)
-                 return -ENOMEM;
-@@ -613,7 +624,7 @@ static int nvme_tcp_handle_comp(struct 
-nvme_tcp_queue *queue,
-
-  static void nvme_tcp_setup_h2c_data_pdu(struct nvme_tcp_request *req)
-  {
--       struct nvme_tcp_data_pdu *data = req->pdu;
-+       struct nvme_tcp_data_pdu *data = nvme_tcp_req_data_pdu(req);
-         struct nvme_tcp_queue *queue = req->queue;
-         struct request *rq = blk_mq_rq_from_pdu(req);
-         u32 h2cdata_sent = req->pdu_len;
-@@ -1035,7 +1046,7 @@ static int nvme_tcp_try_send_data(struct 
-nvme_tcp_request *req)
-  static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
-  {
-         struct nvme_tcp_queue *queue = req->queue;
--       struct nvme_tcp_cmd_pdu *pdu = req->pdu;
-+       struct nvme_tcp_cmd_pdu *pdu = nvme_tcp_req_cmd_pdu(req);
-         bool inline_data = nvme_tcp_has_inline_data(req);
-         u8 hdgst = nvme_tcp_hdgst_len(queue);
-         int len = sizeof(*pdu) + hdgst - req->offset;
-@@ -1074,7 +1085,7 @@ static int nvme_tcp_try_send_cmd_pdu(struct 
-nvme_tcp_request *req)
-  static int nvme_tcp_try_send_data_pdu(struct nvme_tcp_request *req)
-  {
-         struct nvme_tcp_queue *queue = req->queue;
--       struct nvme_tcp_data_pdu *pdu = req->pdu;
-+       struct nvme_tcp_data_pdu *pdu = nvme_tcp_req_data_pdu(req);
-         u8 hdgst = nvme_tcp_hdgst_len(queue);
-         int len = sizeof(*pdu) - req->offset + hdgst;
-         int ret;
-@@ -2281,7 +2292,7 @@ static enum blk_eh_timer_return 
-nvme_tcp_timeout(struct request *rq)
-  {
-         struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
-         struct nvme_ctrl *ctrl = &req->queue->ctrl->ctrl;
--       struct nvme_tcp_cmd_pdu *pdu = req->pdu;
-+       struct nvme_tcp_cmd_pdu *pdu = nvme_tcp_req_cmd_pdu(req);
-         u8 opc = pdu->cmd.common.opcode, fctype = pdu->cmd.fabrics.fctype;
-         int qid = nvme_tcp_queue_id(req->queue);
-
-@@ -2320,7 +2331,7 @@ static blk_status_t nvme_tcp_map_data(struct 
-nvme_tcp_queue *queue,
-                         struct request *rq)
-  {
-         struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
--       struct nvme_tcp_cmd_pdu *pdu = req->pdu;
-+       struct nvme_tcp_cmd_pdu *pdu = nvme_tcp_req_cmd_pdu(req);
-         struct nvme_command *c = &pdu->cmd;
-
-         c->common.flags |= NVME_CMD_SGL_METABUF;
-@@ -2340,7 +2351,7 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct 
-nvme_ns *ns,
-                 struct request *rq)
-  {
-         struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
--       struct nvme_tcp_cmd_pdu *pdu = req->pdu;
-+       struct nvme_tcp_cmd_pdu *pdu = nvme_tcp_req_cmd_pdu(req);
-         struct nvme_tcp_queue *queue = req->queue;
-         u8 hdgst = nvme_tcp_hdgst_len(queue), ddgst = 0;
-         blk_status_t ret;
---
+I would also like to get rid of the new flag, and just break these
+sequences to different routines.
 
