@@ -4,70 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A21AC6FD1C
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Mar 2023 12:08:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92E82C74A4B
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Mar 2023 17:24:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AKdmd3ybGNzUKxSgz2QwAW61PV0agkT7vVa3w7/HBa8=; b=NqB26krOWYJFGbC+e+aZOjsQB7
-	DKhDoDODa8lDoPTlw4IRNtToPG6Nl3FWCU7aQ22M7Ah3uuoKb5YhJJhCddpLy4SXbRBtuNbjR1BdN
-	6BVCvVEshbOSunryQlYPBgpeZK88uYKanCRLkV0Gs8HO+4Bok4I/c7KLMaqOooDps8o3+1sZQaZhw
-	KCIh2S0rx7biUngLp8Rc5AbFXVdiRBSMcAD/oGluqH0KAFtgKChmkxAHvgMqLTcSM1tebBm5XRxMV
-	FDQFLtGmMXE99uoK0q/HUQB7J5e/GZkE1TaJiyVNsaWULmFDWJ2v5p55mFGmSP+uuoI8Elbep86gE
-	Supi95rA==;
+	bh=Iow+Rk7mguvoU8nAn5DriBCwp9r7sBTOkvWgY+OhMm0=; b=ZxmW3LDx/oiKudlUcLWhJFkykm
+	uQe/zMiDJpqmlZwH2bZDFfGaXA5LD710lQRpjqn/Xx9SRMOjMaB/4rsqDeuK+I58KINH/szft32dL
+	DFnaLcm49WmV7UdsXTNcCDTM7WyojGaBJB7bjZmMf8AVBC6+gQjQ9I8JBWcYveSvpS32Xq1hKraFp
+	R5z6cQ7/lVW/e3pkexv90i7zwFu62OfzAugQZ/e4MCIGWHb35FVBTdiiuuUD6rp2Ky/PB2n0KhjLy
+	oFJQtvVwQ+c94yuuoK/HPjuRtdISJ4eLwhjsMfn3iIKvsFFvIFj//uBhd3r/gwZFotnReY3hwrfX3
+	USa7PGXg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pbgyz-005dBP-Oj; Mon, 13 Mar 2023 12:08:53 +0000
-Received: from mail-wr1-f53.google.com ([209.85.221.53])
+	id 1pbluO-00758J-Az; Mon, 13 Mar 2023 17:24:28 +0000
+Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pbgyv-005dA4-6f
-	for linux-nvme@lists.infradead.org; Mon, 13 Mar 2023 12:08:51 +0000
-Received: by mail-wr1-f53.google.com with SMTP id r18so11094803wrx.1
-        for <linux-nvme@lists.infradead.org>; Mon, 13 Mar 2023 05:08:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678709325;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AKdmd3ybGNzUKxSgz2QwAW61PV0agkT7vVa3w7/HBa8=;
-        b=WQ5tubOVRcxETvBjp3yFvkaXBFzLEP2fOC/s23qnCSguKmqbMH4GSZFrV5JkFNw9uA
-         PC0IA6beErtThfGturDsBE1PwVz45k4LoNh9OCuOmmePNUZyuy4PzlkAskrzrjChla+M
-         +XRpa5k4xD/KsKrEI+7T5BiG0TXzkCIdUNjZt4mCAvhgf4lshTo/lCbp/84yzvqWC3F3
-         vndmBpof/OZUYhuG9+xUf//NQB8GZRhAcbOZsMnQCPkrmcNZAZZf38gKv5aB8LhjNhCo
-         ewi/A637so799cReOwSy9Txq8/ljDsWDRSc1+tRyO13MQHmCON/+nGvGvNuyETPlO05q
-         qrGQ==
-X-Gm-Message-State: AO0yUKXiidw8JFcMq9mRgYnSDbD2hF3zwhoXX3fzi9bsEZ1/LOU0S/Jb
-	zb2uf53krsHPHFpj5qNJSCQ=
-X-Google-Smtp-Source: AK7set+Gh0PeK9DtTZuhRQ55dLUGwLC53aKNGmhgDxP8+p1hm1aabAGHBTTcAKhwM7PqgL/OQMVupw==
-X-Received: by 2002:a5d:68c2:0:b0:2c7:175e:e201 with SMTP id p2-20020a5d68c2000000b002c7175ee201mr9603882wrw.1.1678709324990;
-        Mon, 13 Mar 2023 05:08:44 -0700 (PDT)
-Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id f2-20020adfdb42000000b002cf1c435afcsm2809475wrj.11.2023.03.13.05.08.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Mar 2023 05:08:44 -0700 (PDT)
-Message-ID: <adf88c55-64b0-6138-fea8-797d2b30b770@grimberg.me>
-Date: Mon, 13 Mar 2023 14:08:43 +0200
+	id 1pblmO-0071ly-0V
+	for linux-nvme@lists.infradead.org; Mon, 13 Mar 2023 17:16:14 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678727772; x=1710263772;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=xJ9KoSD/TV8rcvgEZPDVl3SdMu+lzNaTWrsJJ+fmNAI=;
+  b=gtD72uCPXIlNwB/fIEPH276NuuVWEvI5efmwEe42knURdmcikXHMHAOn
+   M8kHFv1QCjNEv3MlZ4DUJvKazMVK/HCumkRwzo01k1NrllzuJ48LDX1bj
+   Ssbxevts+qBVmAcKfrCBJyBo4j84lBbZq8Wx1Mw/vrX+JOUOXlqYZFYqt
+   8SdVpsrdEHusFe6NH3MMLCvzMMTpnvcu4m4M8qzQoU/QOFJ7aND4z5m0j
+   EaJc2Vlc6g5ybC0KyEcFQHOqVLD038dM3uPh++tdz9wK8K3BQsQejH+JE
+   KI8VIyz5WUHa2qQmw5uGMfaid04Z5TNav5iPeipOj3XA+uaVhmwQxKB/D
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="399799216"
+X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
+   d="scan'208";a="399799216"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 10:16:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="924581008"
+X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
+   d="scan'208";a="924581008"
+Received: from rajatkha-mobl.gar.corp.intel.com (HELO [10.213.75.134]) ([10.213.75.134])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 10:16:06 -0700
+Message-ID: <2b6163a8-61d5-729d-17a5-764e25ce1c07@linux.intel.com>
+Date: Mon, 13 Mar 2023 22:46:03 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [RFC PATCH] nvme-tcp: fix possible crash when only partilal
- queues are allocated by nvme_tcp_alloc_queue
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [BUG] nvme-pci: NVMe probe fails with ENODEV
 Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-To: zhangyanjun@cestc.cn, kbusch@kernel.org, axboe@fb.com, hch@lst.de
-Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- xiang.li@cestc.cn, shaopeijie@cestc.cn
-References: <20230313113204.2205730-1-zhangyanjun@cestc.cn>
- <55bfaef2-1faf-ac7a-53b1-60f9e7b8afea@grimberg.me>
-In-Reply-To: <55bfaef2-1faf-ac7a-53b1-60f9e7b8afea@grimberg.me>
+To: Pankaj Raghav <p.raghav@samsung.com>
+Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ axboe@fb.com, sagi@grimberg.me, linux-nvme@lists.infradead.org,
+ "Khandelwal, Rajat" <rajat.khandelwal@intel.com>, javier.gonz@samsung.com,
+ monish.kumar.r@intel.com
+References: <f1ad4c1a-2871-57be-48cb-2b0e5cec1bfa@linux.intel.com>
+ <20230309151218.GA17235@lst.de>
+ <ZAn6KwVXtp+7iy16@kbusch-mbp.dhcp.thefacebook.com>
+ <1573badb-6741-73f8-17a5-8e9cd31d90e7@linux.intel.com>
+ <ZAoWZFykm4F5wr+o@kbusch-mbp.dhcp.thefacebook.com>
+ <bdc9d3d6-ad2e-7866-c74c-2a0f8db8eab2@linux.intel.com>
+ <CGME20230313095802eucas1p2ed9a708d3fb0fb1fac05015a6fb06b7f@eucas1p2.samsung.com>
+ <20230313094944.nsonmbtpmgh4rtng@blixen>
+From: Rajat Khandelwal <rajat.khandelwal@linux.intel.com>
+In-Reply-To: <20230313094944.nsonmbtpmgh4rtng@blixen>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230313_050849_264636_3090C033 
-X-CRM114-Status: GOOD (  29.99  )
+X-CRM114-CacheID: sfid-20230313_101612_171566_592A8B02 
+X-CRM114-Status: GOOD (  24.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,136 +90,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi,
 
->   So we query that directly freeing these allocated
->> I/O queues may result in this issue. To avoid this issuse, we try to make
->> the following code modifications, but have not verified to be valid yet
->> because of the occasionality of this issue.
->>
->> Now, we can not confirm the caller of queuing on the io_work during
->> allocating all the I/O queues, but we doubt that the socket interface
->> sk_data_ready=nvme_tcp_data_ready initialized by nvme_tcp_alloc_queue
->> may do this action in this interval. Hope to get some suggestions, 
->> Thanks!
-> 
-> I would start by determining that the running io_work is an io queue or
-> the admin queue. It is also possible that the admin queue cleanup after
-> we io queues allocation failed is the problematic teardown that is
-> causing this bug.
-> 
->>
->> Signed-off-by: Yanjun Zhang <zhangyanjun@cestc.cn>
->> ---
->>   drivers/nvme/host/tcp.c | 7 +++++--
->>   1 file changed, 5 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
->> index 9b47dcb2a..5782183b8 100644
->> --- a/drivers/nvme/host/tcp.c
->> +++ b/drivers/nvme/host/tcp.c
->> @@ -1761,6 +1761,7 @@ static int nvme_tcp_alloc_admin_queue(struct 
->> nvme_ctrl *ctrl)
->>   static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
->>   {
->>       int i, ret;
->> +    struct nvme_tcp_ctrl *tcp_ctrl = NULL;
->>       for (i = 1; i < ctrl->queue_count; i++) {
->>           ret = nvme_tcp_alloc_queue(ctrl, i);
->> @@ -1771,9 +1772,11 @@ static int __nvme_tcp_alloc_io_queues(struct 
->> nvme_ctrl *ctrl)
->>       return 0;
->>   out_free_queues:
->> -    for (i--; i >= 1; i--)
->> +    for (i--; i >= 1; i--) {
->> +        tcp_ctrl = to_tcp_ctrl(ctrl);
->> +        __nvme_tcp_stop_queue(&tcp_ctrl->queues[i]);
->>           nvme_tcp_free_queue(ctrl, i);
->> -
->> +    }
->>       return ret;
->>   }
-> 
-> The crash dump reminds me of a reported issue fixed by:
-> 160f3549a907 ("nvme-tcp: fix UAF when detecting digest errors")
-> 
-> Is this applied in your host kernel?
-> 
-> I'd also add this trace to your reproduction attempts:
-> -- 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 0ec7d3329595..0cbc8afb41c8 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -919,6 +919,10 @@ static void nvme_tcp_data_ready(struct sock *sk)
-> 
->          read_lock_bh(&sk->sk_callback_lock);
->          queue = sk->sk_user_data;
-> +       if (!test_bit(NVME_TCP_Q_ALLOCATED, &queue->flags)) {
-> +               pr_err("got data on a deallocated queue %d\n", 
-> nvme_tcp_queue_id(queue));
-> +               WARN_ON_ONCE(1);
-> +       }
->          if (likely(queue && queue->rd_enabled) &&
->              !test_bit(NVME_TCP_Q_POLLING, &queue->flags))
->                  queue_work_on(queue->io_cpu, nvme_tcp_wq, 
-> &queue->io_work);
-> -- 
+On 3/13/2023 3:19 PM, Pankaj Raghav wrote:
+> jn Thu, Mar 09, 2023 at 11:43:33PM +0530, Rajat Khandelwal wrote:
+>>>>>>> I have tried 5.10 and 6.1.15 kernels.
+>>>>>> So we have a quirk for a device called Samsung X5 in core.c, which is a
+>>>>>> bit of an unusual match.  Can you check that it gets applied for the
+>>>>>> device that you are testing?
+>>>>>>
+>>>>>> Also if it gets applied, can you test this patch?
+>>>>> That won't help here. The driver should be bailing on the device
+>>>>> nvme_pci_enable() before we do the ready check:
+>>>>>
+>>>>> static int nvme_pci_enable(struct nvme_dev *dev)
+>>>>> {
+>>>>> ...
+>>>>>            if (readl(dev->bar + NVME_REG_CSTS) == -1) {
+>>>>>                    result = -ENODEV;
+>>>>>                    goto disable;
+>>>>>            }
+>>>>>
+>>>>> It sounds like the bridge has a valid memory window, and the kernel assigned it
+>>>>> to the device, but for some reason the device didn't apply it to its BAR. Maybe
+>>>>> the device just doesn't support hotplug?
+>>>> The issue is sporadic in nature, witnessed even during reboots with the device
+>>>> attached.
+>>>> Is such a scenario even possible (BAR not getting written by the hardware)?
+>>> It's not supposed to be possible, but your analysis checking the BAR register
+>>> with setpci seems pretty convincing that that is happening.
+> A bit more context on this issue FWIW:
+>
+> Monish contacted me a while ago regarding this issue happening in
+> Samsung X5. I failed to reproduce this issue in an Intel 6th gen
+> (skylake) laptop. I tried hotplugging the device multiple times but the
+> device came up without any issue. That laptop used a JHL6540 Thunderbolt 3
+> Bridge. I get from your email that you started seeing this issue from Alderlake.
+>
+> To isolate if this is an issue with the device, I repeated the same
+> steps on an Apple Mac M1 but couldn't reproduce this error.
 
-If indeed this is the io_queue and for some reason it is running,
-perhaps the correct fix would be to set the socket ops later in
-start_queue. It will also be symmetric because we clear them in
-stop_queue:
---
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 0ec7d3329595..b3b1e39966c0 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1617,22 +1617,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl 
-*nctrl, int qid)
-         if (ret)
-                 goto err_init_connect;
+Hi, Monish is part of our team who initiated this a while ago, yes.
+This is probably the first time this has been put on the open forum to gather any
+useful inputs/suggestions on the kernel end.
 
--       queue->rd_enabled = true;
-         set_bit(NVME_TCP_Q_ALLOCATED, &queue->flags);
--       nvme_tcp_init_recv_ctx(queue);
--
--       write_lock_bh(&queue->sock->sk->sk_callback_lock);
--       queue->sock->sk->sk_user_data = queue;
--       queue->state_change = queue->sock->sk->sk_state_change;
--       queue->data_ready = queue->sock->sk->sk_data_ready;
--       queue->write_space = queue->sock->sk->sk_write_space;
--       queue->sock->sk->sk_data_ready = nvme_tcp_data_ready;
--       queue->sock->sk->sk_state_change = nvme_tcp_state_change;
--       queue->sock->sk->sk_write_space = nvme_tcp_write_space;
--#ifdef CONFIG_NET_RX_BUSY_POLL
--       queue->sock->sk->sk_ll_usec = 1;
--#endif
--       write_unlock_bh(&queue->sock->sk->sk_callback_lock);
+For the first part, the issue is witnessed during reboots (cold/warm).
 
-         return 0;
+IIRC, the SSD was provided to the core Linux team also for reproducibility tries,
+and they were able to reproduce on reboots.
 
-@@ -1690,6 +1675,21 @@ static int nvme_tcp_start_queue(struct nvme_ctrl 
-*nctrl, int idx)
-         struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
-         int ret;
+>
+> Unfortunately this device is already EOL, so our Firmware team is unable
+> to help here.
+>
+> --
+> Pankaj
 
-+       queue->rd_enabled = true;
-+       nvme_tcp_init_recv_ctx(queue);
-+       write_lock_bh(&queue->sock->sk->sk_callback_lock);
-+       queue->sock->sk->sk_user_data = queue;
-+       queue->state_change = queue->sock->sk->sk_state_change;
-+       queue->data_ready = queue->sock->sk->sk_data_ready;
-+       queue->write_space = queue->sock->sk->sk_write_space;
-+       queue->sock->sk->sk_data_ready = nvme_tcp_data_ready;
-+       queue->sock->sk->sk_state_change = nvme_tcp_state_change;
-+       queue->sock->sk->sk_write_space = nvme_tcp_write_space;
-+#ifdef CONFIG_NET_RX_BUSY_POLL
-+       queue->sock->sk->sk_ll_usec = 1;
-+#endif
-+       write_unlock_bh(&queue->sock->sk->sk_callback_lock);
-+
-         if (idx)
-                 ret = nvmf_connect_io_queue(nctrl, idx);
-         else
---
+Since the point here being BARs getting a garbage value, can we expect any traction
+on this bug (keeping in mind the f/w team may not be able to help here)?
+
+AFAIK, this device is currently commercialized, and we would want to make a decision
+on whether to proceed with this or not.
+
+Thanks
+Rajat
+
 
