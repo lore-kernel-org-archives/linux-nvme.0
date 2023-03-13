@@ -4,78 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92E82C74A4B
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Mar 2023 17:24:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA85DC61DA4
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Mar 2023 17:31:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Iow+Rk7mguvoU8nAn5DriBCwp9r7sBTOkvWgY+OhMm0=; b=ZxmW3LDx/oiKudlUcLWhJFkykm
-	uQe/zMiDJpqmlZwH2bZDFfGaXA5LD710lQRpjqn/Xx9SRMOjMaB/4rsqDeuK+I58KINH/szft32dL
-	DFnaLcm49WmV7UdsXTNcCDTM7WyojGaBJB7bjZmMf8AVBC6+gQjQ9I8JBWcYveSvpS32Xq1hKraFp
-	R5z6cQ7/lVW/e3pkexv90i7zwFu62OfzAugQZ/e4MCIGWHb35FVBTdiiuuUD6rp2Ky/PB2n0KhjLy
-	oFJQtvVwQ+c94yuuoK/HPjuRtdISJ4eLwhjsMfn3iIKvsFFvIFj//uBhd3r/gwZFotnReY3hwrfX3
-	USa7PGXg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:
+	To:From:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=VMteXbtiXYCqqZUJ1o1uq78X8npZvvxFMDCDPsOnXC0=; b=Cf+ecVJAdqwCgD
+	IJjZyN7lZtGYq7xRYbexCjfu+pVcjmf/lhnCZp6vlMVLjVsIitMrgJ/nE10cLqMlfIJVr4BN3R+PQ
+	6hLKpXWNLRPw9D0fW0H7OAWkUHTG6+DMK/QsGitiE1v2DbZXuzbz08vbc/u7n1TTTkM7UIjxYJLAG
+	sthbcRVp4GYyU5Ck8Y0qzutJ4NGfCWXz8XH7GUtDSPiWeygt7B4d23p5CpDk7/Rv/EDIPQ7dp+m8/
+	P9gwTsKjYP0ekwGEroBac4gwYvLlLUrOc2/qvELbBjzVgyhpo36Le+J1u59O2MX+3zCtxbghtZN1q
+	GmRgJ7xAVyMNdkrnToEA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pbluO-00758J-Az; Mon, 13 Mar 2023 17:24:28 +0000
-Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
+	id 1pbm1C-00783j-PU; Mon, 13 Mar 2023 17:31:31 +0000
+Received: from [103.30.145.160] (helo=defaultworkshop.klidefectmanagement.com.novalocal)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pblmO-0071ly-0V
-	for linux-nvme@lists.infradead.org; Mon, 13 Mar 2023 17:16:14 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678727772; x=1710263772;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=xJ9KoSD/TV8rcvgEZPDVl3SdMu+lzNaTWrsJJ+fmNAI=;
-  b=gtD72uCPXIlNwB/fIEPH276NuuVWEvI5efmwEe42knURdmcikXHMHAOn
-   M8kHFv1QCjNEv3MlZ4DUJvKazMVK/HCumkRwzo01k1NrllzuJ48LDX1bj
-   Ssbxevts+qBVmAcKfrCBJyBo4j84lBbZq8Wx1Mw/vrX+JOUOXlqYZFYqt
-   8SdVpsrdEHusFe6NH3MMLCvzMMTpnvcu4m4M8qzQoU/QOFJ7aND4z5m0j
-   EaJc2Vlc6g5ybC0KyEcFQHOqVLD038dM3uPh++tdz9wK8K3BQsQejH+JE
-   KI8VIyz5WUHa2qQmw5uGMfaid04Z5TNav5iPeipOj3XA+uaVhmwQxKB/D
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="399799216"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="399799216"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 10:16:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="924581008"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="924581008"
-Received: from rajatkha-mobl.gar.corp.intel.com (HELO [10.213.75.134]) ([10.213.75.134])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 10:16:06 -0700
-Message-ID: <2b6163a8-61d5-729d-17a5-764e25ce1c07@linux.intel.com>
-Date: Mon, 13 Mar 2023 22:46:03 +0530
+	id 1pbly7-0076lk-06
+	for linux-nvme@lists.infradead.org; Mon, 13 Mar 2023 17:28:22 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=asda.co.uk;
+	s=x; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:
+	Subject:To:From:Reply-To:Sender:Cc:Content-ID:Content-Description:Resent-Date
+	:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:
+	List-Owner:List-Archive; bh=VMteXbtiXYCqqZUJ1o1uq78X8npZvvxFMDCDPsOnXC0=; b=g
+	iiIfEXjL5NvCcDs0UTwSfWmEsj9qAnKYyvYaQSWHu3Mh7VxusVHtcRbQH31Y8E8vzAk83aUVJBlQi
+	iFaOOHoPRdceyof4RKAAjtSWSk5QIrKpKWW6y0pKvIvQL6HkrxR0pF2xQG251aMyFUf/N+LpI5HJR
+	qmQJYXztjTBRmLAQ=;
+Received: from ec2-52-11-215-80.us-west-2.compute.amazonaws.com ([52.11.215.80] helo=asda.co.uk)
+	by defaultworkshop.klidefectmanagement.com.novalocal with esmtpa (Exim 4.94.2)
+	(envelope-from <sales1@asda.co.uk>)
+	id 1pbly4-00061A-MV
+	for linux-nvme@lists.infradead.org; Tue, 14 Mar 2023 00:28:17 +0700
+From: ASDA Stores Limited <sales1@asda.co.uk>
+To: linux-nvme@lists.infradead.org
+Subject: First quarter procurement order/enquiry
+Date: 13 Mar 2023 17:28:15 +0000
+Message-ID: <20230313152049.56C19556334605F0@asda.co.uk>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [BUG] nvme-pci: NVMe probe fails with ENODEV
-Content-Language: en-US
-To: Pankaj Raghav <p.raghav@samsung.com>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- axboe@fb.com, sagi@grimberg.me, linux-nvme@lists.infradead.org,
- "Khandelwal, Rajat" <rajat.khandelwal@intel.com>, javier.gonz@samsung.com,
- monish.kumar.r@intel.com
-References: <f1ad4c1a-2871-57be-48cb-2b0e5cec1bfa@linux.intel.com>
- <20230309151218.GA17235@lst.de>
- <ZAn6KwVXtp+7iy16@kbusch-mbp.dhcp.thefacebook.com>
- <1573badb-6741-73f8-17a5-8e9cd31d90e7@linux.intel.com>
- <ZAoWZFykm4F5wr+o@kbusch-mbp.dhcp.thefacebook.com>
- <bdc9d3d6-ad2e-7866-c74c-2a0f8db8eab2@linux.intel.com>
- <CGME20230313095802eucas1p2ed9a708d3fb0fb1fac05015a6fb06b7f@eucas1p2.samsung.com>
- <20230313094944.nsonmbtpmgh4rtng@blixen>
-From: Rajat Khandelwal <rajat.khandelwal@linux.intel.com>
-In-Reply-To: <20230313094944.nsonmbtpmgh4rtng@blixen>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230313_101612_171566_592A8B02 
-X-CRM114-Status: GOOD (  24.22  )
+X-CRM114-CacheID: sfid-20230313_102819_077224_F65F8AED 
+X-CRM114-Status: UNSURE (   0.56  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,72 +63,30 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sales@asda-c.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+Dear linux-nvme
+I'm a procurement manager  with ASDA Group (the owners of ASDA=20
+Stores) and your company product has caught our interest.=20
+Therefore, we request you send
+list and prices of your hot selling items (products) for our=20
+evaluation/pick.
 
-On 3/13/2023 3:19 PM, Pankaj Raghav wrote:
-> jn Thu, Mar 09, 2023 at 11:43:33PM +0530, Rajat Khandelwal wrote:
->>>>>>> I have tried 5.10 and 6.1.15 kernels.
->>>>>> So we have a quirk for a device called Samsung X5 in core.c, which is a
->>>>>> bit of an unusual match.  Can you check that it gets applied for the
->>>>>> device that you are testing?
->>>>>>
->>>>>> Also if it gets applied, can you test this patch?
->>>>> That won't help here. The driver should be bailing on the device
->>>>> nvme_pci_enable() before we do the ready check:
->>>>>
->>>>> static int nvme_pci_enable(struct nvme_dev *dev)
->>>>> {
->>>>> ...
->>>>>            if (readl(dev->bar + NVME_REG_CSTS) == -1) {
->>>>>                    result = -ENODEV;
->>>>>                    goto disable;
->>>>>            }
->>>>>
->>>>> It sounds like the bridge has a valid memory window, and the kernel assigned it
->>>>> to the device, but for some reason the device didn't apply it to its BAR. Maybe
->>>>> the device just doesn't support hotplug?
->>>> The issue is sporadic in nature, witnessed even during reboots with the device
->>>> attached.
->>>> Is such a scenario even possible (BAR not getting written by the hardware)?
->>> It's not supposed to be possible, but your analysis checking the BAR register
->>> with setpci seems pretty convincing that that is happening.
-> A bit more context on this issue FWIW:
->
-> Monish contacted me a while ago regarding this issue happening in
-> Samsung X5. I failed to reproduce this issue in an Intel 6th gen
-> (skylake) laptop. I tried hotplugging the device multiple times but the
-> device came up without any issue. That laptop used a JHL6540 Thunderbolt 3
-> Bridge. I get from your email that you started seeing this issue from Alderlake.
->
-> To isolate if this is an issue with the device, I repeated the same
-> steps on an Apple Mac M1 but couldn't reproduce this error.
+Soon as we receive your reply, we shall send you our company=20
+profile and buying proposal. You can also check our website below=20
+for detailed info of our purchase area and trading capacity.
 
-Hi, Monish is part of our team who initiated this a while ago, yes.
-This is probably the first time this has been put on the open forum to gather any
-useful inputs/suggestions on the kernel end.
+Your immediate response E-mail:  sales@asda-c.com   shall be=20
+appreciated.
 
-For the first part, the issue is witnessed during reboots (cold/warm).
+Best Wishes
 
-IIRC, the SSD was provided to the core Linux team also for reproducibility tries,
-and they were able to reproduce on reboots.
-
->
-> Unfortunately this device is already EOL, so our Firmware team is unable
-> to help here.
->
-> --
-> Pankaj
-
-Since the point here being BARs getting a garbage value, can we expect any traction
-on this bug (keeping in mind the f/w team may not be able to help here)?
-
-AFAIK, this device is currently commercialized, and we would want to make a decision
-on whether to proceed with this or not.
-
-Thanks
-Rajat
-
+Ms Stelle Montgomery
+Purchasing Dept.
+ASDA Stores Limited
+Tel:  +44 7418367220
+WhatsApp: + 44-7502985874
+Website: www.asda.com
 
