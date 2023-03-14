@@ -4,52 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86660C05027
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Mar 2023 17:21:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC6CAC6FD1F
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Mar 2023 17:26:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PN3SueNKpb8lH9gKv0SyjpSq5WMP25T7FrngTyTCuTc=; b=ey+m3d+udUbrh7CHa1WljwRN8W
-	HaTcAt2YtClgz4EAp+60tufgj2/8I84qAIqs/VY7oy7GATMzTHTvgkpxJMoCltGsU4R57x3p97ZkB
-	EbiZxYtGLAJYTZgLrAsTIzvryUL08RfaEbden7ekQFxM5kfz0E4krZKALVqBvgyVYoXICxKqIcqLA
-	dPpsiybKRLjo5p1r7ktLRthCTr+yBa11w6HPX2J06fP9XGu1mqPu3QlhEakGRtA+iW/2fj35+0rOQ
-	/T1WqXRTEXSmf8qIbPC3cfjjOhPirdG8cS5qv1PTCQGfsRjt1irK1EXtc0K5KDIwkFwNql4tk2qPI
-	h/fK7z/Q==;
+	bh=sfBhPg02Ji56RlSYoI9bpsDSRAGYohL5RC14zMW5V5s=; b=mRnVtytVbpPixTd8SIW8JJ9T0n
+	p/AJGXOS/1VwIhn6SuO/vd1EWd1bweVqz9eDRpGa+AgEk6bNMfwSOxcM7Q7y1OFThkF0Q8UF2l4cy
+	BSTaeUq0bpzlV9NDmFQlUB53kf82SpSiW2o9rIeP+sDQeMK4zzUjuO7ad+2ZTJX+y/mgLcp08S8SJ
+	eB/t5segjYZ2mPCY8TLFJzo+PwBTKOlegwazmXdrp7A7F6I39TvJ96LUKRsdzGVx7ShnS8R1oQNpH
+	xV0haDFkyoUDbkySUjSrTRvO1Fe+nfvdFyUaq71E+s6rmWfawQF/0bSpW+gk774iItcvl7EZT5dmy
+	1obJ2Z6w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pc8Kj-00AzeX-1z;
-	Tue, 14 Mar 2023 17:21:09 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1pc8Px-00B0aS-2f;
+	Tue, 14 Mar 2023 17:26:33 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pc8Kg-00Azdr-1R
+	id 1pc8Pr-00B0YR-1N
 	for linux-nvme@lists.infradead.org;
-	Tue, 14 Mar 2023 17:21:07 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 20C4B68AA6; Tue, 14 Mar 2023 18:21:01 +0100 (CET)
-Date: Tue, 14 Mar 2023 18:21:00 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Mike Christie <michael.christie@oracle.com>
-Cc: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
-	linux-scsi@vger.kernel.org, james.bottomley@hansenpartnership.com,
-	linux-block@vger.kernel.org, dm-devel@redhat.com,
-	snitzer@kernel.org, axboe@kernel.dk, linux-nvme@lists.infradead.org,
-	chaitanyak@nvidia.com, kbusch@kernel.org,
-	target-devel@vger.kernel.org
-Subject: Re: [PATCH v4 13/18] nvme: Add pr_ops read_reservation support
-Message-ID: <20230314172100.GA7909@lst.de>
-References: <20230224174502.321490-1-michael.christie@oracle.com> <20230224174502.321490-14-michael.christie@oracle.com>
+	Tue, 14 Mar 2023 17:26:29 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 7C56AB81A9C;
+	Tue, 14 Mar 2023 17:26:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DB5DC4339B;
+	Tue, 14 Mar 2023 17:26:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1678814783;
+	bh=xJ0MZdPQ+VyrQm8kJJScCpf+Xu472bOsGovWjBVQahk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UFNcQeKGzFRq51nEfJCsEHpwO6bt1a1oFk4c6nZCoC9gznoJfQ+ezp9VFky/nbQSp
+	 hgnhcz+XZBgHVOrPi2N7BmEj4E2tIPMhs2iqR2gI7KiB9WydsdVRZL789vr6af7Sxm
+	 XzkE/uxka8wE6n0mhLixED582NY5cVHoAbPxtzVyC12AIYTlYET4gEAf1Hj204SsM1
+	 kpstbuz+ICOvzbQ30WDRsLSO3wYptWx0peJzTLhuoJ31WU6WeW21WE/12FzekhcBR/
+	 RY0Sea4/TPeSMeqgI2i+PiqZ2Tp/3J1ZekUjc2L+0RzryKcnUgxb0EdTbE1ms96tlc
+	 5iwWCakJgbaMg==
+Date: Tue, 14 Mar 2023 11:26:20 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Tushar Dave <tdave@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org
+Subject: Re: nvme-pci: Disabling device after reset failure: -5 occurs while
+ AER recovery
+Message-ID: <ZBCuPM0WcWaLwWXJ@kbusch-mbp.dhcp.thefacebook.com>
+References: <c17f7476-8ed0-212e-9480-78732635ee3f@nvidia.com>
+ <20230314161127.GA1648664@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230224174502.321490-14-michael.christie@oracle.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20230314161127.GA1648664@bhelgaas>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230314_102106_628089_619A8CE4 
-X-CRM114-Status: UNSURE (   8.62  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230314_102627_805621_4E8F8803 
+X-CRM114-Status: GOOD (  36.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,6 +76,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Same comment on struct_size() as two patches earlier, but otherwise
-this looks good to me.
+On Tue, Mar 14, 2023 at 11:11:27AM -0500, Bjorn Helgaas wrote:
+> On Mon, Mar 13, 2023 at 05:57:43PM -0700, Tushar Dave wrote:
+> > On 3/11/23 00:22, Lukas Wunner wrote:
+> > > On Fri, Mar 10, 2023 at 05:45:48PM -0800, Tushar Dave wrote:
+> > > > On 3/10/2023 3:53 PM, Bjorn Helgaas wrote:
+> > > > > In the log below, pciehp obviously is enabled; should I infer that in
+> > > > > the log above, it is not?
+> > > > 
+> > > > pciehp is enabled all the time. In the log above and below.
+> > > > I do not have answer yet why pciehp shows-up only in some tests (due to DPC
+> > > > link down/up) and not in others like you noticed in both the logs.
+> > > 
+> > > Maybe some of the switch Downstream Ports are hotplug-capable and
+> > > some are not?  (Check the Slot Implemented bit in the PCI Express
+> > > Capabilities Register as well as the Hot-Plug Capable bit in the
+> > > Slot Capabilities Register.)
+> > > ...
+> 
+> > > > > Generally we've avoided handling a device reset as a
+> > > > > remove/add event because upper layers can't deal well with
+> > > > > that.  But in the log below it looks like pciehp *did* treat
+> > > > > the DPC containment as a remove/add, which of course involves
+> > > > > configuring the "new" device and its MPS settings.
+> > > > 
+> > > > yes and that puzzled me why? especially when"Link Down/Up
+> > > > ignored (recovered by DPC)". Do we still have race somewhere, I
+> > > > am not sure.
+> > > 
+> > > You're seeing the expected behavior.  pciehp ignores DLLSC events
+> > > caused by DPC, but then double-checks that DPC recovery succeeded.
+> > > If it didn't, it would be a bug not to bring down the slot.  So
+> > > pciehp does exactly that.  See this code snippet in
+> > > pciehp_ignore_dpc_link_change():
+> > > 
+> > > 	/*
+> > > 	 * If the link is unexpectedly down after successful recovery,
+> > > 	 * the corresponding link change may have been ignored above.
+> > > 	 * Synthesize it to ensure that it is acted on.
+> > > 	 */
+> > > 	down_read_nested(&ctrl->reset_lock, ctrl->depth);
+> > > 	if (!pciehp_check_link_active(ctrl))
+> > > 		pciehp_request(ctrl, PCI_EXP_SLTSTA_DLLSC);
+> > > 	up_read(&ctrl->reset_lock);
+> > > 
+> > > So on hotplug-capable ports, pciehp is able to mop up the mess
+> > > created by fiddling with the MPS settings behind the kernel's
+> > > back.
+> > 
+> > That's the thing, even on hotplug-capable slot I do not see pciehp
+> > _all_ the time. Sometime pciehp get involve and takes care of things
+> > (like I mentioned in the previous thread) and other times no pciehp
+> > engagement at all!
+> 
+> Possibly a timing issue, so I'll be interested to see if 53b54ad074de
+> ("PCI/DPC: Await readiness of secondary bus after reset") makes any
+> difference.  Lukas didn't mention that, so maybe it's a red herring,
+> but I'm still curious since it explicitly mentions the DPC reset case
+> that you're exercising here.
+
+Catching the PDC event may be timing related. pciehp ignores the link events
+during a DPC event, but it always reacts to PDC since it's indistinguishable
+from a DPC occuring in response to a surprise removal, and these slots probably
+don't have out-of-band presence detection.
 
