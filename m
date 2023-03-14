@@ -4,62 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4348C6FD1F
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Mar 2023 16:11:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B19B9C7618E
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Mar 2023 17:10:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=kUrjmwccXZNYQkWDqbrRYECQ/PjaLYBM2dpQQj9aWOA=; b=wTE8kIoQLi+1Gc
-	im88LRbQRGjSrgcyAkvws+OfRb7VxMKcG5O94dY3c9Nfl5h4FCfNa1THZFOjuRlPwQ1kjwrM4bwit
-	cVZBV0pkfv6xO1VeBwJezjhghdfkyiDuSnfWBnmZSQYS0Z4GereENwQ2nUCMwKv5DYC7j1wQcpSRB
-	hopz8yAD0rci2LU0UoVkVXy4gGsZgydFwVLJ+E69rq21wLjre3jJIBVBKeA7kbW37ro6fAMk2mICV
-	xitUYnj7IuEqdaxEzLw6hEg2RnsI634hLvd9upM1vkgtPzi5GF356ruQhV2sG/RCexuzR4Gku0W4k
-	zmzCPRp60EO25QlLw4xQ==;
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=pGzFNSER0M65HmZcVGrk6675QU
+	G2yQWqGBTtmadcYjGmqjFVqS/tLKcKqvlXcnpCeJqqFeLVQ7nvRcMYnDxTlqGiw+ljW9xRvTERUGn
+	5I8McEwdlWI/BsWVsrM2j1CvpCzwAYF8sLyuVYTAVRa6MIYuU0M5WuvZ07QTVde0KTxazYVdz7hmw
+	LrMDn84J2iugnThdFm0UIBfQls7tyVU2eLTKVx9H3LjQXkVsKyNO6qTNE5jeUuSuhRzWOYyS4I8al
+	KKrwSVxyJsWsvRysUOXFp8KbDVIVF9T6+gTY1Oo5bOW+yu53LVzjXcQwifxzAWR2wNAee5Yn44aWM
+	oNkoBpOQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pc7FN-00AlEd-0R;
-	Tue, 14 Mar 2023 16:11:33 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1pc8Ak-00Ax78-1h;
+	Tue, 14 Mar 2023 17:10:50 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pc7FK-00AlE2-25
+	id 1pc8Ah-00Ax5f-10
 	for linux-nvme@lists.infradead.org;
-	Tue, 14 Mar 2023 16:11:32 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 33AFB617F0;
-	Tue, 14 Mar 2023 16:11:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58A6EC433D2;
-	Tue, 14 Mar 2023 16:11:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678810289;
-	bh=dAdaNHVMhyFAhT2LqgDcQqAtLXE3MNOkh5cGdZHyMok=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=ePxhKzynnmBVH5I6oLl/3+As8uOSBMG2PnSb6SSvVayKVBuPdjDhC/JGyWHUneEH6
-	 GGVOZfOSoXfSpDBhPyiY0bQTS9vZXPQe1/z+lb2Kbp4j5xbprHvLGLsPAyZ0aB7Ep6
-	 WVWBdAhTe2V2GnMAUN3q+uu32ixFxG9JcIk5XCpoPEacxe7ikvikCWondkwnzwn0mL
-	 o8k97pk/hsT7OQcHWE9xJ3f1gqdsIDcOquLta6x1X/YkGWUyrxYcHJ5qIWzUQi9Vrw
-	 KIIRRYkJQJahhQfSbDya2ezluow9W8cebvQX5/NG51IZVF1lIOqayJCP9mmdJjTyEN
-	 4UV3BsAmNOSLg==
-Date: Tue, 14 Mar 2023 11:11:27 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Tushar Dave <tdave@nvidia.com>
-Cc: Lukas Wunner <lukas@wunner.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org, kbusch@kernel.org,
-	linux-pci@vger.kernel.org
-Subject: Re: nvme-pci: Disabling device after reset failure: -5 occurs while
- AER recovery
-Message-ID: <20230314161127.GA1648664@bhelgaas>
+	Tue, 14 Mar 2023 17:10:49 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 0260A68BEB; Tue, 14 Mar 2023 18:10:35 +0100 (CET)
+Date: Tue, 14 Mar 2023 18:10:34 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Mike Christie <michael.christie@oracle.com>
+Cc: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
+	linux-scsi@vger.kernel.org, james.bottomley@hansenpartnership.com,
+	linux-block@vger.kernel.org, dm-devel@redhat.com,
+	snitzer@kernel.org, axboe@kernel.dk, linux-nvme@lists.infradead.org,
+	chaitanyak@nvidia.com, kbusch@kernel.org,
+	target-devel@vger.kernel.org
+Subject: Re: [PATCH v4 01/18] block: Add PR callouts for read keys and
+ reservation
+Message-ID: <20230314171034.GA6780@lst.de>
+References: <20230224174502.321490-1-michael.christie@oracle.com> <20230224174502.321490-2-michael.christie@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c17f7476-8ed0-212e-9480-78732635ee3f@nvidia.com>
+In-Reply-To: <20230224174502.321490-2-michael.christie@oracle.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230314_091130_763452_A373FB3F 
-X-CRM114-Status: GOOD (  32.21  )
+X-CRM114-CacheID: sfid-20230314_101047_498689_D5A628E7 
+X-CRM114-Status: UNSURE (   9.05  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,63 +65,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Mar 13, 2023 at 05:57:43PM -0700, Tushar Dave wrote:
-> On 3/11/23 00:22, Lukas Wunner wrote:
-> > On Fri, Mar 10, 2023 at 05:45:48PM -0800, Tushar Dave wrote:
-> > > On 3/10/2023 3:53 PM, Bjorn Helgaas wrote:
-> > > > In the log below, pciehp obviously is enabled; should I infer that in
-> > > > the log above, it is not?
-> > > 
-> > > pciehp is enabled all the time. In the log above and below.
-> > > I do not have answer yet why pciehp shows-up only in some tests (due to DPC
-> > > link down/up) and not in others like you noticed in both the logs.
-> > 
-> > Maybe some of the switch Downstream Ports are hotplug-capable and
-> > some are not?  (Check the Slot Implemented bit in the PCI Express
-> > Capabilities Register as well as the Hot-Plug Capable bit in the
-> > Slot Capabilities Register.)
-> > ...
+Looks good:
 
-> > > > Generally we've avoided handling a device reset as a
-> > > > remove/add event because upper layers can't deal well with
-> > > > that.  But in the log below it looks like pciehp *did* treat
-> > > > the DPC containment as a remove/add, which of course involves
-> > > > configuring the "new" device and its MPS settings.
-> > > 
-> > > yes and that puzzled me why? especially when"Link Down/Up
-> > > ignored (recovered by DPC)". Do we still have race somewhere, I
-> > > am not sure.
-> > 
-> > You're seeing the expected behavior.  pciehp ignores DLLSC events
-> > caused by DPC, but then double-checks that DPC recovery succeeded.
-> > If it didn't, it would be a bug not to bring down the slot.  So
-> > pciehp does exactly that.  See this code snippet in
-> > pciehp_ignore_dpc_link_change():
-> > 
-> > 	/*
-> > 	 * If the link is unexpectedly down after successful recovery,
-> > 	 * the corresponding link change may have been ignored above.
-> > 	 * Synthesize it to ensure that it is acted on.
-> > 	 */
-> > 	down_read_nested(&ctrl->reset_lock, ctrl->depth);
-> > 	if (!pciehp_check_link_active(ctrl))
-> > 		pciehp_request(ctrl, PCI_EXP_SLTSTA_DLLSC);
-> > 	up_read(&ctrl->reset_lock);
-> > 
-> > So on hotplug-capable ports, pciehp is able to mop up the mess
-> > created by fiddling with the MPS settings behind the kernel's
-> > back.
-> 
-> That's the thing, even on hotplug-capable slot I do not see pciehp
-> _all_ the time. Sometime pciehp get involve and takes care of things
-> (like I mentioned in the previous thread) and other times no pciehp
-> engagement at all!
-
-Possibly a timing issue, so I'll be interested to see if 53b54ad074de
-("PCI/DPC: Await readiness of secondary bus after reset") makes any
-difference.  Lukas didn't mention that, so maybe it's a red herring,
-but I'm still curious since it explicitly mentions the DPC reset case
-that you're exercising here.
-
-Bjorn
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
