@@ -4,131 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D55B2C6FD19
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Mar 2023 00:57:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 380BEC6FD1F
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Mar 2023 06:20:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HvI53hra0HaG3/d0Hh6fth40tXAzTTTQjKUgYRIw13w=; b=IRZamhdAYO2tb8Zz53aoXg7I8i
-	FLksWI3qkHJkV8CXmugJsofOH0H0gHQ/kpZzO09jVQb8e1dMdFdHXnb4SN/M/gYOVn0eaO2jEvjOm
-	0gaDN3VdMfoNUHivAaYDUiY3LlGkztmBDEwN8VuMETOXYQT1KS2HeN/Q2eDY3+fUGo5e4INoYgoRY
-	/qkfNqf4/jh3hnkGz0nAxTFGX8xAKRGaX8r5gHNC3wvuDXFB2tgTXlrHzjbVpqcW2mcUeDgxd1KOI
-	RdSZ7PgR/bJy7rtGN0HeXnXjFxCzQ8t3zGSiGToi/vj3/XPWF/MUUeVDeGVKMd0bP6BAVRpva/152
-	1fJUZPJA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=PIb9T5M2FKvsgFlaZCY/p/vS0u6Ddq0f4RmGJMnB+C4=; b=3bLJFwfFYrqhmR19sg2SfNv02e
+	+tClui2xEhtqbLPJe2PrT1Hx265W0652nEfJ/Q5mmAXZVhXUZ8p66VLbCYQx6IcQo+ZpucOop4oaQ
+	YTwD+saG4GY5Uw58P60WyGErxRB9G2oRCbD2Lubms684BWMpxtHtKbvICyr0pfTOlDNIPVaDPptga
+	+u1HBzM+g2wbSd+5qODnP3Q5Z/hSbnzDduLacXLqvQhHNSyFvbP41xwpuGJ1pVaNa41wguzU3Ip7d
+	Rph95mJngimmC85zuFrzlNI7+ElNI7Hn0c8wYYt2+S+3jATg4kOMrJSkhgyVIeyhpF8EV5lzM4bv6
+	YxS0uZgg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pbszC-008Ubv-5E; Tue, 14 Mar 2023 00:57:54 +0000
-Received: from mail-bn7nam10on2060a.outbound.protection.outlook.com ([2a01:111:f400:7e8a::60a] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+	id 1pby1d-009B4P-I2; Tue, 14 Mar 2023 06:20:45 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pbsz8-008Ub8-Vb
-	for linux-nvme@lists.infradead.org; Tue, 14 Mar 2023 00:57:52 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ci8A4/dzXSnwUWnZDKkxitGClGruFeo+LZTkAR72jLcpG50MGFcbMgoq8ErQ9vV/cinMPNRyHOJLkek1u1T7h13Qv7UOoGBEkThOZIUq3qH9Kj2xt0TAdo6I+hUuqRCuIXUdrRnR78AX0KqPHh2N4mlYAOBBd1+eD7CrzJbDqizo3snqAZnC3Y6XcML8PKEk9+q5CVNUlRhbWdXWkbyMsYowgKKrbZAyBOsCh4bP4xL7lT+6ZNjMhssaxnAiQPVCHg431Xoj/gO1hZFz15MKHxRY0Jz8Rkg3z3zshyQD7r4oZ0sDIWXaIMi40Q/sE42924RMIdgmt581JDSrniZejA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HvI53hra0HaG3/d0Hh6fth40tXAzTTTQjKUgYRIw13w=;
- b=JJ1xvQx/g2FldFauT6WMFDVDDQ/M275ISK4RkTujl+oilkopQ5dwFtb1Q3xVA5MdNJQl7soxn71u9FhxQmwlI/ZM5P8KnwzIO/0OtnLbnz8AeL/e8ismPYFCeSTkkrt5EStbssFVNUDUjhVgJCCCmRIfUgZ8U4qOKX46bFTzzoIa9C6mYZONtJtRBrimb45J/nWndUC2005vDVqOunW3ENBRHPqoXc6BcykQPkLZ5NXc5/vNb8eDaDvjJfZk/8ztyFHOVteNgwYg3hJBQtbDRZnsugPYSNtzec7JTDVWBmCmK6o5BMRPiwYHY58Na81cW2WDKldSbittnEFX850Mjg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HvI53hra0HaG3/d0Hh6fth40tXAzTTTQjKUgYRIw13w=;
- b=CSr3CQdcJJYOhgymLJeWTUYjMy/u/CvH87M7nokr48gKzctVEmDI76KAWnAY0O69P7xgB5clBLvNZJIMBd3CaCprdvWPDJjmZY7bUZGJ9sDG69WnZoo5/PoDFnmI4xP0DEQbA5i+XGkuvpxqY11sWsY614QBlU2aizUz26lsZ/QBRofvOxSM3LzmF3fcPtuhNU2dW4uzKLqtD4wBixc8/KVHElrnQ89jkZKtLPxnyAsZqlWrRLlDZdYxDXOXlMcdQ46AogQr1culx3j6avo234gEiZFlCZ8/UxPLqLF+XBAaiqbIBOSLaIM2u1+xfZdLLZrIS+tp0SxOVNCl15RoIw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BYAPR12MB3189.namprd12.prod.outlook.com (2603:10b6:a03:134::11)
- by DS0PR12MB7606.namprd12.prod.outlook.com (2603:10b6:8:13c::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.26; Tue, 14 Mar
- 2023 00:57:45 +0000
-Received: from BYAPR12MB3189.namprd12.prod.outlook.com
- ([fe80::c4b1:77a1:8e6b:841d]) by BYAPR12MB3189.namprd12.prod.outlook.com
- ([fe80::c4b1:77a1:8e6b:841d%5]) with mapi id 15.20.6178.024; Tue, 14 Mar 2023
- 00:57:45 +0000
-Message-ID: <c17f7476-8ed0-212e-9480-78732635ee3f@nvidia.com>
-Date: Mon, 13 Mar 2023 17:57:43 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: nvme-pci: Disabling device after reset failure: -5 occurs while
- AER recovery
-Content-Language: en-US
-To: Lukas Wunner <lukas@wunner.de>, Bjorn Helgaas <helgaas@kernel.org>
-Cc: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- kbusch@kernel.org, linux-pci@vger.kernel.org
-References: <20230311082220.GA3649@wunner.de>
-From: Tushar Dave <tdave@nvidia.com>
-In-Reply-To: <20230311082220.GA3649@wunner.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0297.namprd04.prod.outlook.com
- (2603:10b6:303:89::32) To BYAPR12MB3189.namprd12.prod.outlook.com
- (2603:10b6:a03:134::11)
+	id 1pby1a-009B3f-CP
+	for linux-nvme@lists.infradead.org; Tue, 14 Mar 2023 06:20:44 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1678774842; x=1710310842;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=im43GQHZr3PT1ukGXzRFhFU/FD6QaIVx9hRaU1MkB/c=;
+  b=FzJ+/Xz12Ny1EJOEGHy6jOH5Emv1Hp3Ry0nlrfSkjuvFUA7FTVHpWngj
+   LnKuhjIfPmALbaHHU5YX9YFLZheeCy1SJR89IVDlOAPok3bSMtmYBDQYb
+   ZLDhveXMPxsLhU2q+pv/07vzk8fvun6O3r5n9B4wWLq0tk2pwZfcWoRFc
+   aItjfh1ILpV8IEJqOh0Vg+CCQk9m13PaGYekW6ROjy1WC8MHQnK/O65te
+   FoP3udV/D5sJB9QkHpMH5V6dClIbXfegqKGMHTzhdjHjS2EW6f4qz/K0Z
+   l0vmTzx9lqDBZMW4HBT8BzHG895En82RSQbN3XYqYSJPuMegj/IOxOzwK
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.98,259,1673884800"; 
+   d="scan'208";a="225575251"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 14 Mar 2023 14:20:39 +0800
+IronPort-SDR: 1rjDGp+cppgAsfdfM6uWmd7oxr3rxG//6f1CXW7nZMx8fzf7kS72xExQp4kEENWabGG5KkCLtn
+ fK9bp9wMzhU3T/S9ST2PBxIEv9flWMe6P04IVxj2WmCAIVn7vHbD8KQC9MPSjNBb/RYqmJ/ZtN
+ SRGMtMEWTE80GTwIdxihl1h4ArXMPI8TX36ERQxdtpKJFiymujQjEqCl/OgtBV9Ox6xC8fQg+S
+ EPYDTyXoII0+KmlE1wIPtX6Jw1WlyiGuoquyn4bDHPF9Qkrqd5njyiMj6Gbs/jnp1o16O/QwrM
+ QtI=
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 13 Mar 2023 22:37:07 -0700
+IronPort-SDR: KJHwBe42akLXP0oWfy24oamsfSgvFd3/tuc2ppcyG50UwsrZOCOddGKm0fFJlAfyuTfLItFv/k
+ ug6uUfQsm/GcSHwZe4Doc0MFYcrkAwWokh/YpJ6zFu/v2KxI0Uoqzm6W48sXnv0RdQR9WTM8rB
+ 9vnSBq7mHsblEiwMCcIrPQSHcmiIpgZTN1IxmeKFP4/gnJSLAAS8+ceh+BEO6SvSNnWSHQ7v+I
+ ybM34JylsJNF7Vhc2aNWWlzTAKzrUtdGgfi9hntuQxnn5pf9JQdrIPnyzbBkSEXv/tiyqweOXG
+ 4sY=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 13 Mar 2023 23:20:39 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4PbNgW3KF5z1RtVq
+	for <linux-nvme@lists.infradead.org>; Mon, 13 Mar 2023 23:20:39 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+	reason="pass (just generated, assumed good)"
+	header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+	opensource.wdc.com; h=content-transfer-encoding:mime-version
+	:x-mailer:message-id:date:subject:to:from; s=dkim; t=1678774839;
+	 x=1681366840; bh=im43GQHZr3PT1ukGXzRFhFU/FD6QaIVx9hRaU1MkB/c=; b=
+	TNuf+HzgyVY3N9euZXjuW375+nbGT+dlxkfjkLvD7oejGXi15rk80og89k+GSMa7
+	q9z8NaNQF2lYEX/oLqN4kBpbcorsgtkvdeYyDs3cBofgSMlbwYJHbmGO0ZZwLn1W
+	sFAbfFF0D2Io3V5+uUr8+kQVyFHFA4DsMgTpTkZHx6vOH9K0QKzbTM0fXf+RMQS3
+	/MBrgZvriAYTe/pjSDS1XFd5cpXw5lHaPQ8iGl4gxiWv7FspxNXmPUXrgha/myN6
+	U4+3VNuV+Q8izsg1yuPKoChu9QdZfgfaTu7MWMlBUnSMpwBWvO3is7AOZ/NVVt9V
+	qYRUdUxttlm6Rk9Sb3G1fw==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id nNHZrp6dgQ5Z for <linux-nvme@lists.infradead.org>;
+	Mon, 13 Mar 2023 23:20:39 -0700 (PDT)
+Received: from washi.fujisawa.hgst.com (washi.fujisawa.hgst.com [10.149.53.254])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4PbNgV1vBTz1RtVm;
+	Mon, 13 Mar 2023 23:20:38 -0700 (PDT)
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+To: linux-nvme@lists.infradead.org,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH] nvmet: Fix error handling in nvmet_execute_identify_cns_cs_ns()
+Date: Tue, 14 Mar 2023 15:20:36 +0900
+Message-Id: <20230314062036.25939-1-damien.lemoal@opensource.wdc.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3189:EE_|DS0PR12MB7606:EE_
-X-MS-Office365-Filtering-Correlation-Id: 77afe452-2ca7-4c57-f389-08db24271f7a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	1xjrwG0W45jOeP5eJBW6trTzJUEYA2JSZW+yDVrsShc8H1YpIs8n7ZrKOOcDSgWKv48LPGX/6CcjHHvcyPY36gPV0e1f9lE4dkclYLBp2ZckzKEKn47LkI3l37SFhaPFe+8x23RpqEhAo4PUcL+DmNjM4PO9vfyqNRTIeqrhIk8QV3scMjwkWDlQntEo0+5D+Kw32qaqWl3Bj0LD5uqDrWoDIrnvf2X/wGxJ8A3er3/SuKpcvGPsLMMSK9n8ymUbLT1VDMf8fPcP5CtjPpW9tjUy9OWC5K5DsPs00yRUukdLbUekfM3ha3iSCD7EVfLellcRBfLHnxGwaCICZ7A9PzIES1bJsR+0/10HxeDMn6XmMNDKaLEt5G+lWjzsv5VNqX20+IdeCpqtT3+46XFxVkMQQ1RJh3aQGhyTGXDQYKYRZtuQPMqhECpnDvtUtRFPvUEBKtEFfvCXwI4tVeSnHSTAM1TH3Y7rC+J8Nb8qevjCp2qBQ9wBnwU7wDEY2KP6mBv6Q74gRZ13nDoo5/g3eU6vpWVoUjm2ZtIJ2t0Eh8IgQNFXNP3UME+7GHySkor5FaL7v3H3Fy2DO0dgO//JkHJJyPg2eNXc3rdwvbfTcc7s6WdLkmjIh40M7poDmJyzIf7jr0eO1KhHHlURvzst0+7qLOkIuS5pWiUmzS7sfIdqYgsBIuahm4pgUH/UiO24tUz2X1pQ49Dd1Vggw0wWYzr5Man4jwd4A4/i/+IlQUI=
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB3189.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(39860400002)(136003)(346002)(376002)(396003)(451199018)(31686004)(66899018)(110136005)(36756003)(316002)(38100700002)(86362001)(31696002)(53546011)(83380400001)(186003)(6512007)(6506007)(26005)(2616005)(5660300002)(6486002)(478600001)(41300700001)(8936002)(2906002)(66946007)(66476007)(8676002)(66556008)(4326008)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?NFdEanB0ZTlNcmpkSGNxSGFVMVJTeUtsYVhzSTRHb25KbUFEcFFtSzQxQWM3?=
- =?utf-8?B?V3d3Wml6ZCtQSlZrcUZldkFkcmZVU0JZSmppcGNYK3BaSVlwL2tWa0xGNnZ6?=
- =?utf-8?B?cks5ZTJheDFrOXduK1JoQU1Fb1hIQWltdWk4RHRMdWNkNTFGYSsxRmlnQVJl?=
- =?utf-8?B?YXY2cEw4emEvMFg0R3A3UUdLK1BxbDhBVlJQajB1ajhYSjBlUGk0ejViT2pE?=
- =?utf-8?B?b3VRTzhuZzhXWCtFK05qdDdXQkI1K0ZSOU45UnQreVBxM3IyWURCcTRiTTJQ?=
- =?utf-8?B?MERLS3NzamNvaEd1Y3lWOWlNS2RGQm1RV09BU3dqblhBZ0M5dVNsUFJLZFBS?=
- =?utf-8?B?MktjUS9yQmQrQTJDYnFrMnB2OTJjMlJMZUNTd1FNNmxXUXdUQjJhK3BIT215?=
- =?utf-8?B?YUM4UENIMUFNWjRlMmtXcUNEajlDMnkrYkhaOHZzTE0rb3F3cUV5a2JkZklK?=
- =?utf-8?B?YzlZeGEyOGJOeXlBd3YrRkJ6WEVqRmFMK0htVFREc2gxL1J1b1FlWk5JR1lz?=
- =?utf-8?B?M1hFeTNiaDBudDczRWZvZk9icUtXdHhEMHRPQjFQU1FvMFcwV0FuMTgwbTFn?=
- =?utf-8?B?S3lNdnYwcldDOWJwR0tvMmdWMGYxTktKdjZMQWRveWU4YitMS3NDZkVQQWs2?=
- =?utf-8?B?STlybGZFMTE0VGNYUS9DNzhkYkUxd0psWGZIMTdRcDhNdWRmcFBNQnAvbkFE?=
- =?utf-8?B?NHpONkgxVXRJWUxGRnhPeXpPa2JhUS9EYSt6TE85NzFoN05FU1ZZVVJCNEIw?=
- =?utf-8?B?YVN0MXZ1ZlZYNk91eDUyM3M3MXZYM1pBbnU1c1YrbzR1UWdPSmJKZW5KTFVH?=
- =?utf-8?B?QXNmTmZsc0d6bUxGSFBEbW1ndXpDSU8rUlE0Q01IeEpNRWljMC9PTWtKSjc2?=
- =?utf-8?B?UTNlM05LdmpidVpWWkY4MW5GL0dvS1JtWnAxYVNCa1ltWXJPbUNVOTVxMHlH?=
- =?utf-8?B?WnhRWUlBWi81ZDBidlZEWHVER0ZhWXZwcWlSMTVwRjcyWjN0cjFRQ3lCRDBn?=
- =?utf-8?B?czRhNzk4Qk1uVk1nNlo5bWdMbU9abVozNUxrNWdLb3ljRXFTMUpXaTZ2dmlL?=
- =?utf-8?B?cU9OaFIwTGpPTXh6TExGUEZJaVphTVc5NHFoQkFhajEwbFROWUlyVmtWdUph?=
- =?utf-8?B?QmxQazMvYzlqSXMzcXdVOFRRMHlLcmhxT05aaWQvYWthUzdsdlJSbGIxYWhM?=
- =?utf-8?B?MjFQbzlqK1kxbTM0YTZGbW1qcHNXUm96VzBySTMvNjEzSTlXQnZodTRkQ1hR?=
- =?utf-8?B?bHNMYkJESVM4QjNlUG9HTWpGZW1lVUhFOEowVHo5K3ZYY0tYdkswenZJK1Ir?=
- =?utf-8?B?TjMvVTF2T1N1ZUl5UkZjdUd3ZldZUElrY3VzWDdIdEpXYnRRdFdjSWVNNEVC?=
- =?utf-8?B?UjVrbkg5TlFiM2krZis2MkJUSHlxUXBWMktLeUxLUEFIMHZ2YVdqd0RwU2w5?=
- =?utf-8?B?QTloSE52NkxWcHlBYVhleW0wOTNWM1BseTlUa3d4VGNZVlVCUTl6NEhoOTN0?=
- =?utf-8?B?aWt3U2l0V01JaHY3UVJ5Uy9rUm16bFkzMEEzdURoL2ZpSUg0RGFPelhkdjFZ?=
- =?utf-8?B?M0FjL3pXN1pybVRrV2RTalQxVG16U1JYVElFSHpqblg3My96VUdyRTBGNmZW?=
- =?utf-8?B?RXVtRDlCVHV5QlpYZWRtdk1MR3k3ZmdSTDBNU3RpSks1cVdjekZsNWdZYW9M?=
- =?utf-8?B?K2x1VXBmT1BZcXR5Mm9qcW1NZFdHdVk0TnhCN3dTNElVZkNrZ1M0Z1N4ayt0?=
- =?utf-8?B?OUdxa3hoTUo4anQ1Mkt1SG04amlNMzZTUjhqMjhxVWdOTUFBbFpWdDVuSVBP?=
- =?utf-8?B?YVRPMWlkMFFRQnBkSEZ4d2VHYXovU2VKdDE3V2hqSjVFd1NMYkRsa1UrYlJM?=
- =?utf-8?B?cmdZcUJTNHFZWWloWDNySnR1T25KY2gxM3RFbDBxdHQwWUowL3BqditKclIw?=
- =?utf-8?B?TzQvUjMzSG5wMzl4N0x1eWhoK2NHMjZhSmxaL1V0Y09sNE81d3NpMGdGQWtQ?=
- =?utf-8?B?VTdON1JyMFBEV29tZ1hUckxrUUxPelRoV0FVZ3BuZVF2QnpkbzJianhlb0lN?=
- =?utf-8?B?U3RzY1QwM2p0MktYNEFFa21ydFhHRDJFL3d0bENVWWE4ek5wUUV0a0tRdWMr?=
- =?utf-8?Q?F3VYtUx4VyWKqu+7FOe6LwS6B?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77afe452-2ca7-4c57-f389-08db24271f7a
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3189.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2023 00:57:45.5251
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RG4G6oxGDcVaGxZvIYAEbkW6cAGfNALHe4NGTE2cvxO6yIvDbdFT/biwrLebB9e+adwxCGCLkODK0dOXiCxYog==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7606
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230313_175751_425169_05A556BF 
-X-CRM114-Status: GOOD (  29.56  )
+X-CRM114-CacheID: sfid-20230313_232042_527663_3C5025D3 
+X-CRM114-Status: GOOD (  19.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -143,110 +109,79 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Nvme specifications state that:
 
+If the I/O Command Set associated with the namespace identified by the
+NSID field does not support the Identify Namespace data structure
+specified by the CSI field, the controller shall abort the command with
+a status code of Invalid Field in Command.
 
-On 3/11/23 00:22, Lukas Wunner wrote:
-> On Fri, Mar 10, 2023 at 05:45:48PM -0800, Tushar Dave wrote:
->> On 3/10/2023 3:53 PM, Bjorn Helgaas wrote:
->>> In the log below, pciehp obviously is enabled; should I infer that in
->>> the log above, it is not?
->>
->> pciehp is enabled all the time. In the log above and below.
->> I do not have answer yet why pciehp shows-up only in some tests (due to DPC
->> link down/up) and not in others like you noticed in both the logs.
-> 
-> Maybe some of the switch Downstream Ports are hotplug-capable and
-> some are not?  (Check the Slot Implemented bit in the PCI Express
-> Capabilities Register as well as the Hot-Plug Capable bit in the
-> Slot Capabilities Register.)
+In other words, if nvmet_execute_identify_cns_cs_ns() is called for a
+target with a block device that is not zoned, we should not return any
+data and set the status to NVME_SC_INVALID_FIELD.
 
-All PCIe switch Downstream ports where nvmes are connected are hotplug-capable
-except the boot nvme drive which I would never use in my test :)
-For my test, PCIe switch Downstream port is a9:10.0 where nvme ab:00.0 is 
-connected as an endpoint device.
+While at it, it is also better to revalidate the ns block devie *before*
+checking if the block device is zoned, to ensure that
+nvmet_execute_identify_cns_cs_ns() operates against updated device
+characteristics.
 
-# PCI Express Cap - Slot Implemented bit(8) is set to 1
-root$ setpci -v -s a9:10.0 cap_exp+0x02.w
-0000:a9:10.0 (cap 10 @68) @6a = 0162
+Fixes: aaf2e048af27 ("nvmet: add ZBD over ZNS backend support")
+Signed-off-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+---
+ drivers/nvme/target/zns.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-# Slt Cap - Hot-Plug Capable bit(6) is set to 1
-root$ setpci -v -s a9:10.0 cap_exp+0x14.L
-0000:a9:10.0 (cap 10 @68) @7c = 08800ce0
+diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
+index 7e4292d88016..77ef0a86ff61 100644
+--- a/drivers/nvme/target/zns.c
++++ b/drivers/nvme/target/zns.c
+@@ -97,7 +97,7 @@ void nvmet_execute_identify_cns_cs_ctrl(struct nvmet_re=
+q *req)
+=20
+ void nvmet_execute_identify_cns_cs_ns(struct nvmet_req *req)
+ {
+-	struct nvme_id_ns_zns *id_zns;
++	struct nvme_id_ns_zns *id_zns =3D NULL;
+ 	u64 zsze;
+ 	u16 status;
+ 	u32 mar, mor;
+@@ -118,16 +118,18 @@ void nvmet_execute_identify_cns_cs_ns(struct nvmet_=
+req *req)
+ 	if (status)
+ 		goto done;
+=20
+-	if (!bdev_is_zoned(req->ns->bdev)) {
+-		req->error_loc =3D offsetof(struct nvme_identify, nsid);
+-		goto done;
+-	}
+-
+ 	if (nvmet_ns_revalidate(req->ns)) {
+ 		mutex_lock(&req->ns->subsys->lock);
+ 		nvmet_ns_changed(req->ns->subsys, req->ns->nsid);
+ 		mutex_unlock(&req->ns->subsys->lock);
+ 	}
++
++	if (!bdev_is_zoned(req->ns->bdev)) {
++		status =3D NVME_SC_INVALID_FIELD | NVME_SC_DNR;
++		req->error_loc =3D offsetof(struct nvme_identify, nsid);
++		goto out;
++	}
++
+ 	zsze =3D (bdev_zone_sectors(req->ns->bdev) << 9) >>
+ 					req->ns->blksize_shift;
+ 	id_zns->lbafe[0].zsze =3D cpu_to_le64(zsze);
+@@ -148,8 +150,8 @@ void nvmet_execute_identify_cns_cs_ns(struct nvmet_re=
+q *req)
+=20
+ done:
+ 	status =3D nvmet_copy_to_sgl(req, 0, id_zns, sizeof(*id_zns));
+-	kfree(id_zns);
+ out:
++	kfree(id_zns);
+ 	nvmet_req_complete(req, status);
+ }
+=20
+--=20
+2.39.2
 
-# Slt Control
-root$ setpci -v -s a9:10.0 cap_exp+0x18.w
-0000:a9:10.0 (cap 10 @68) @80 = 1028
-
-# Slt Status
-root$ setpci -v -s a9:10.0 cap_exp+0x1A.w
-0000:a9:10.0 (cap 10 @68) @82 = 0040
-
-FWIW, after MPS changed and issue reproduce:
-root$ setpci -v -s a9:10.0 cap_exp+0x014.L
-0000:a9:10.0 (cap 10 @68) @7c = 08800ce0
-root$ setpci -v -s a9:10.0 cap_exp+0x018.w
-0000:a9:10.0 (cap 10 @68) @80 = 1028
-root$ setpci -v -s a9:10.0 cap_exp+0x01A.w
-0000:a9:10.0 (cap 10 @68) @82 = 0148
-
-> 
-> 
->>> Generally we've avoided handling a device reset as a remove/add event
->>> because upper layers can't deal well with that.  But in the log below
->>> it looks like pciehp *did* treat the DPC containment as a remove/add,
->>> which of course involves configuring the "new" device and its MPS
->>> settings.
->>
->> yes and that puzzled me why? especially when"Link Down/Up ignored (recovered
->> by DPC)". Do we still have race somewhere, I am not sure.
-> 
-> You're seeing the expected behavior.  pciehp ignores DLLSC events
-> caused by DPC, but then double-checks that DPC recovery succeeded.
-> If it didn't, it would be a bug not to bring down the slot.
-> So pciehp does exactly that.  See this code snippet in
-> pciehp_ignore_dpc_link_change():
-> 
-> 	/*
-> 	 * If the link is unexpectedly down after successful recovery,
-> 	 * the corresponding link change may have been ignored above.
-> 	 * Synthesize it to ensure that it is acted on.
-> 	 */
-> 	down_read_nested(&ctrl->reset_lock, ctrl->depth);
-> 	if (!pciehp_check_link_active(ctrl))
-> 		pciehp_request(ctrl, PCI_EXP_SLTSTA_DLLSC);
-> 	up_read(&ctrl->reset_lock);
-> 
-> So on hotplug-capable ports, pciehp is able to mop up the mess created
-> by fiddling with the MPS settings behind the kernel's back.
-
-That's the thing, even on hotplug-capable slot I do not see pciehp _all_ the
-time. Sometime pciehp get involve and takes care of things (like I mentioned in
-the previous thread) and other times no pciehp engagement at all!
-
-> 
-> We don't have that option on non-hotplug-capable ports.  If error
-> recovery fails, we generally let the inaccessible devices remain
-> in the system and user interaction is necessary to recover, either
-> through a reboot or by manually removing and rescanning PCI devices
-> via syfs after reinstating sane MPS settings.
-
-Sure, that is understood for non-hotplug-capable slots.
-
-> 
-> 
->>    - Switch and NVMe MPS are 512B
->>    - NVMe config space saved (including MPS=512B)
->>    - You change Switch MPS to 128B
->>    - NVMe does DMA with payload > 128B
->>    - Switch reports Malformed TLP because TLP is larger than its MPS
->>    - Recovery resets NVMe, which sets MPS to the default of 128B
->>    - nvme_slot_reset() restores NVMe config space (MPS is now 512B)
->>    - Subsequent NVMe DMA with payload > 128B repeats cycle
-> 
-> Forgive my ignorance, but if MPS is restored to 512B by nvme_slot_reset(),
-> shouldn't the communication with the device just work again from that
-> point on >
-> Thanks,
-> 
-> Lukas
 
