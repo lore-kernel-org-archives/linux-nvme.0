@@ -4,54 +4,131 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA85DC61DA4
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Mar 2023 17:31:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D55B2C6FD19
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Mar 2023 00:57:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:
-	To:From:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=VMteXbtiXYCqqZUJ1o1uq78X8npZvvxFMDCDPsOnXC0=; b=Cf+ecVJAdqwCgD
-	IJjZyN7lZtGYq7xRYbexCjfu+pVcjmf/lhnCZp6vlMVLjVsIitMrgJ/nE10cLqMlfIJVr4BN3R+PQ
-	6hLKpXWNLRPw9D0fW0H7OAWkUHTG6+DMK/QsGitiE1v2DbZXuzbz08vbc/u7n1TTTkM7UIjxYJLAG
-	sthbcRVp4GYyU5Ck8Y0qzutJ4NGfCWXz8XH7GUtDSPiWeygt7B4d23p5CpDk7/Rv/EDIPQ7dp+m8/
-	P9gwTsKjYP0ekwGEroBac4gwYvLlLUrOc2/qvELbBjzVgyhpo36Le+J1u59O2MX+3zCtxbghtZN1q
-	GmRgJ7xAVyMNdkrnToEA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HvI53hra0HaG3/d0Hh6fth40tXAzTTTQjKUgYRIw13w=; b=IRZamhdAYO2tb8Zz53aoXg7I8i
+	FLksWI3qkHJkV8CXmugJsofOH0H0gHQ/kpZzO09jVQb8e1dMdFdHXnb4SN/M/gYOVn0eaO2jEvjOm
+	0gaDN3VdMfoNUHivAaYDUiY3LlGkztmBDEwN8VuMETOXYQT1KS2HeN/Q2eDY3+fUGo5e4INoYgoRY
+	/qkfNqf4/jh3hnkGz0nAxTFGX8xAKRGaX8r5gHNC3wvuDXFB2tgTXlrHzjbVpqcW2mcUeDgxd1KOI
+	RdSZ7PgR/bJy7rtGN0HeXnXjFxCzQ8t3zGSiGToi/vj3/XPWF/MUUeVDeGVKMd0bP6BAVRpva/152
+	1fJUZPJA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pbm1C-00783j-PU; Mon, 13 Mar 2023 17:31:31 +0000
-Received: from [103.30.145.160] (helo=defaultworkshop.klidefectmanagement.com.novalocal)
+	id 1pbszC-008Ubv-5E; Tue, 14 Mar 2023 00:57:54 +0000
+Received: from mail-bn7nam10on2060a.outbound.protection.outlook.com ([2a01:111:f400:7e8a::60a] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pbly7-0076lk-06
-	for linux-nvme@lists.infradead.org; Mon, 13 Mar 2023 17:28:22 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=asda.co.uk;
-	s=x; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:
-	Subject:To:From:Reply-To:Sender:Cc:Content-ID:Content-Description:Resent-Date
-	:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:
-	List-Owner:List-Archive; bh=VMteXbtiXYCqqZUJ1o1uq78X8npZvvxFMDCDPsOnXC0=; b=g
-	iiIfEXjL5NvCcDs0UTwSfWmEsj9qAnKYyvYaQSWHu3Mh7VxusVHtcRbQH31Y8E8vzAk83aUVJBlQi
-	iFaOOHoPRdceyof4RKAAjtSWSk5QIrKpKWW6y0pKvIvQL6HkrxR0pF2xQG251aMyFUf/N+LpI5HJR
-	qmQJYXztjTBRmLAQ=;
-Received: from ec2-52-11-215-80.us-west-2.compute.amazonaws.com ([52.11.215.80] helo=asda.co.uk)
-	by defaultworkshop.klidefectmanagement.com.novalocal with esmtpa (Exim 4.94.2)
-	(envelope-from <sales1@asda.co.uk>)
-	id 1pbly4-00061A-MV
-	for linux-nvme@lists.infradead.org; Tue, 14 Mar 2023 00:28:17 +0700
-From: ASDA Stores Limited <sales1@asda.co.uk>
-To: linux-nvme@lists.infradead.org
-Subject: First quarter procurement order/enquiry
-Date: 13 Mar 2023 17:28:15 +0000
-Message-ID: <20230313152049.56C19556334605F0@asda.co.uk>
+	id 1pbsz8-008Ub8-Vb
+	for linux-nvme@lists.infradead.org; Tue, 14 Mar 2023 00:57:52 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ci8A4/dzXSnwUWnZDKkxitGClGruFeo+LZTkAR72jLcpG50MGFcbMgoq8ErQ9vV/cinMPNRyHOJLkek1u1T7h13Qv7UOoGBEkThOZIUq3qH9Kj2xt0TAdo6I+hUuqRCuIXUdrRnR78AX0KqPHh2N4mlYAOBBd1+eD7CrzJbDqizo3snqAZnC3Y6XcML8PKEk9+q5CVNUlRhbWdXWkbyMsYowgKKrbZAyBOsCh4bP4xL7lT+6ZNjMhssaxnAiQPVCHg431Xoj/gO1hZFz15MKHxRY0Jz8Rkg3z3zshyQD7r4oZ0sDIWXaIMi40Q/sE42924RMIdgmt581JDSrniZejA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HvI53hra0HaG3/d0Hh6fth40tXAzTTTQjKUgYRIw13w=;
+ b=JJ1xvQx/g2FldFauT6WMFDVDDQ/M275ISK4RkTujl+oilkopQ5dwFtb1Q3xVA5MdNJQl7soxn71u9FhxQmwlI/ZM5P8KnwzIO/0OtnLbnz8AeL/e8ismPYFCeSTkkrt5EStbssFVNUDUjhVgJCCCmRIfUgZ8U4qOKX46bFTzzoIa9C6mYZONtJtRBrimb45J/nWndUC2005vDVqOunW3ENBRHPqoXc6BcykQPkLZ5NXc5/vNb8eDaDvjJfZk/8ztyFHOVteNgwYg3hJBQtbDRZnsugPYSNtzec7JTDVWBmCmK6o5BMRPiwYHY58Na81cW2WDKldSbittnEFX850Mjg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HvI53hra0HaG3/d0Hh6fth40tXAzTTTQjKUgYRIw13w=;
+ b=CSr3CQdcJJYOhgymLJeWTUYjMy/u/CvH87M7nokr48gKzctVEmDI76KAWnAY0O69P7xgB5clBLvNZJIMBd3CaCprdvWPDJjmZY7bUZGJ9sDG69WnZoo5/PoDFnmI4xP0DEQbA5i+XGkuvpxqY11sWsY614QBlU2aizUz26lsZ/QBRofvOxSM3LzmF3fcPtuhNU2dW4uzKLqtD4wBixc8/KVHElrnQ89jkZKtLPxnyAsZqlWrRLlDZdYxDXOXlMcdQ46AogQr1culx3j6avo234gEiZFlCZ8/UxPLqLF+XBAaiqbIBOSLaIM2u1+xfZdLLZrIS+tp0SxOVNCl15RoIw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BYAPR12MB3189.namprd12.prod.outlook.com (2603:10b6:a03:134::11)
+ by DS0PR12MB7606.namprd12.prod.outlook.com (2603:10b6:8:13c::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.26; Tue, 14 Mar
+ 2023 00:57:45 +0000
+Received: from BYAPR12MB3189.namprd12.prod.outlook.com
+ ([fe80::c4b1:77a1:8e6b:841d]) by BYAPR12MB3189.namprd12.prod.outlook.com
+ ([fe80::c4b1:77a1:8e6b:841d%5]) with mapi id 15.20.6178.024; Tue, 14 Mar 2023
+ 00:57:45 +0000
+Message-ID: <c17f7476-8ed0-212e-9480-78732635ee3f@nvidia.com>
+Date: Mon, 13 Mar 2023 17:57:43 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: nvme-pci: Disabling device after reset failure: -5 occurs while
+ AER recovery
+Content-Language: en-US
+To: Lukas Wunner <lukas@wunner.de>, Bjorn Helgaas <helgaas@kernel.org>
+Cc: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ kbusch@kernel.org, linux-pci@vger.kernel.org
+References: <20230311082220.GA3649@wunner.de>
+From: Tushar Dave <tdave@nvidia.com>
+In-Reply-To: <20230311082220.GA3649@wunner.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0297.namprd04.prod.outlook.com
+ (2603:10b6:303:89::32) To BYAPR12MB3189.namprd12.prod.outlook.com
+ (2603:10b6:a03:134::11)
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3189:EE_|DS0PR12MB7606:EE_
+X-MS-Office365-Filtering-Correlation-Id: 77afe452-2ca7-4c57-f389-08db24271f7a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	1xjrwG0W45jOeP5eJBW6trTzJUEYA2JSZW+yDVrsShc8H1YpIs8n7ZrKOOcDSgWKv48LPGX/6CcjHHvcyPY36gPV0e1f9lE4dkclYLBp2ZckzKEKn47LkI3l37SFhaPFe+8x23RpqEhAo4PUcL+DmNjM4PO9vfyqNRTIeqrhIk8QV3scMjwkWDlQntEo0+5D+Kw32qaqWl3Bj0LD5uqDrWoDIrnvf2X/wGxJ8A3er3/SuKpcvGPsLMMSK9n8ymUbLT1VDMf8fPcP5CtjPpW9tjUy9OWC5K5DsPs00yRUukdLbUekfM3ha3iSCD7EVfLellcRBfLHnxGwaCICZ7A9PzIES1bJsR+0/10HxeDMn6XmMNDKaLEt5G+lWjzsv5VNqX20+IdeCpqtT3+46XFxVkMQQ1RJh3aQGhyTGXDQYKYRZtuQPMqhECpnDvtUtRFPvUEBKtEFfvCXwI4tVeSnHSTAM1TH3Y7rC+J8Nb8qevjCp2qBQ9wBnwU7wDEY2KP6mBv6Q74gRZ13nDoo5/g3eU6vpWVoUjm2ZtIJ2t0Eh8IgQNFXNP3UME+7GHySkor5FaL7v3H3Fy2DO0dgO//JkHJJyPg2eNXc3rdwvbfTcc7s6WdLkmjIh40M7poDmJyzIf7jr0eO1KhHHlURvzst0+7qLOkIuS5pWiUmzS7sfIdqYgsBIuahm4pgUH/UiO24tUz2X1pQ49Dd1Vggw0wWYzr5Man4jwd4A4/i/+IlQUI=
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB3189.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(39860400002)(136003)(346002)(376002)(396003)(451199018)(31686004)(66899018)(110136005)(36756003)(316002)(38100700002)(86362001)(31696002)(53546011)(83380400001)(186003)(6512007)(6506007)(26005)(2616005)(5660300002)(6486002)(478600001)(41300700001)(8936002)(2906002)(66946007)(66476007)(8676002)(66556008)(4326008)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?NFdEanB0ZTlNcmpkSGNxSGFVMVJTeUtsYVhzSTRHb25KbUFEcFFtSzQxQWM3?=
+ =?utf-8?B?V3d3Wml6ZCtQSlZrcUZldkFkcmZVU0JZSmppcGNYK3BaSVlwL2tWa0xGNnZ6?=
+ =?utf-8?B?cks5ZTJheDFrOXduK1JoQU1Fb1hIQWltdWk4RHRMdWNkNTFGYSsxRmlnQVJl?=
+ =?utf-8?B?YXY2cEw4emEvMFg0R3A3UUdLK1BxbDhBVlJQajB1ajhYSjBlUGk0ejViT2pE?=
+ =?utf-8?B?b3VRTzhuZzhXWCtFK05qdDdXQkI1K0ZSOU45UnQreVBxM3IyWURCcTRiTTJQ?=
+ =?utf-8?B?MERLS3NzamNvaEd1Y3lWOWlNS2RGQm1RV09BU3dqblhBZ0M5dVNsUFJLZFBS?=
+ =?utf-8?B?MktjUS9yQmQrQTJDYnFrMnB2OTJjMlJMZUNTd1FNNmxXUXdUQjJhK3BIT215?=
+ =?utf-8?B?YUM4UENIMUFNWjRlMmtXcUNEajlDMnkrYkhaOHZzTE0rb3F3cUV5a2JkZklK?=
+ =?utf-8?B?YzlZeGEyOGJOeXlBd3YrRkJ6WEVqRmFMK0htVFREc2gxL1J1b1FlWk5JR1lz?=
+ =?utf-8?B?M1hFeTNiaDBudDczRWZvZk9icUtXdHhEMHRPQjFQU1FvMFcwV0FuMTgwbTFn?=
+ =?utf-8?B?S3lNdnYwcldDOWJwR0tvMmdWMGYxTktKdjZMQWRveWU4YitMS3NDZkVQQWs2?=
+ =?utf-8?B?STlybGZFMTE0VGNYUS9DNzhkYkUxd0psWGZIMTdRcDhNdWRmcFBNQnAvbkFE?=
+ =?utf-8?B?NHpONkgxVXRJWUxGRnhPeXpPa2JhUS9EYSt6TE85NzFoN05FU1ZZVVJCNEIw?=
+ =?utf-8?B?YVN0MXZ1ZlZYNk91eDUyM3M3MXZYM1pBbnU1c1YrbzR1UWdPSmJKZW5KTFVH?=
+ =?utf-8?B?QXNmTmZsc0d6bUxGSFBEbW1ndXpDSU8rUlE0Q01IeEpNRWljMC9PTWtKSjc2?=
+ =?utf-8?B?UTNlM05LdmpidVpWWkY4MW5GL0dvS1JtWnAxYVNCa1ltWXJPbUNVOTVxMHlH?=
+ =?utf-8?B?WnhRWUlBWi81ZDBidlZEWHVER0ZhWXZwcWlSMTVwRjcyWjN0cjFRQ3lCRDBn?=
+ =?utf-8?B?czRhNzk4Qk1uVk1nNlo5bWdMbU9abVozNUxrNWdLb3ljRXFTMUpXaTZ2dmlL?=
+ =?utf-8?B?cU9OaFIwTGpPTXh6TExGUEZJaVphTVc5NHFoQkFhajEwbFROWUlyVmtWdUph?=
+ =?utf-8?B?QmxQazMvYzlqSXMzcXdVOFRRMHlLcmhxT05aaWQvYWthUzdsdlJSbGIxYWhM?=
+ =?utf-8?B?MjFQbzlqK1kxbTM0YTZGbW1qcHNXUm96VzBySTMvNjEzSTlXQnZodTRkQ1hR?=
+ =?utf-8?B?bHNMYkJESVM4QjNlUG9HTWpGZW1lVUhFOEowVHo5K3ZYY0tYdkswenZJK1Ir?=
+ =?utf-8?B?TjMvVTF2T1N1ZUl5UkZjdUd3ZldZUElrY3VzWDdIdEpXYnRRdFdjSWVNNEVC?=
+ =?utf-8?B?UjVrbkg5TlFiM2krZis2MkJUSHlxUXBWMktLeUxLUEFIMHZ2YVdqd0RwU2w5?=
+ =?utf-8?B?QTloSE52NkxWcHlBYVhleW0wOTNWM1BseTlUa3d4VGNZVlVCUTl6NEhoOTN0?=
+ =?utf-8?B?aWt3U2l0V01JaHY3UVJ5Uy9rUm16bFkzMEEzdURoL2ZpSUg0RGFPelhkdjFZ?=
+ =?utf-8?B?M0FjL3pXN1pybVRrV2RTalQxVG16U1JYVElFSHpqblg3My96VUdyRTBGNmZW?=
+ =?utf-8?B?RXVtRDlCVHV5QlpYZWRtdk1MR3k3ZmdSTDBNU3RpSks1cVdjekZsNWdZYW9M?=
+ =?utf-8?B?K2x1VXBmT1BZcXR5Mm9qcW1NZFdHdVk0TnhCN3dTNElVZkNrZ1M0Z1N4ayt0?=
+ =?utf-8?B?OUdxa3hoTUo4anQ1Mkt1SG04amlNMzZTUjhqMjhxVWdOTUFBbFpWdDVuSVBP?=
+ =?utf-8?B?YVRPMWlkMFFRQnBkSEZ4d2VHYXovU2VKdDE3V2hqSjVFd1NMYkRsa1UrYlJM?=
+ =?utf-8?B?cmdZcUJTNHFZWWloWDNySnR1T25KY2gxM3RFbDBxdHQwWUowL3BqditKclIw?=
+ =?utf-8?B?TzQvUjMzSG5wMzl4N0x1eWhoK2NHMjZhSmxaL1V0Y09sNE81d3NpMGdGQWtQ?=
+ =?utf-8?B?VTdON1JyMFBEV29tZ1hUckxrUUxPelRoV0FVZ3BuZVF2QnpkbzJianhlb0lN?=
+ =?utf-8?B?U3RzY1QwM2p0MktYNEFFa21ydFhHRDJFL3d0bENVWWE4ek5wUUV0a0tRdWMr?=
+ =?utf-8?Q?F3VYtUx4VyWKqu+7FOe6LwS6B?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77afe452-2ca7-4c57-f389-08db24271f7a
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3189.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2023 00:57:45.5251
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RG4G6oxGDcVaGxZvIYAEbkW6cAGfNALHe4NGTE2cvxO6yIvDbdFT/biwrLebB9e+adwxCGCLkODK0dOXiCxYog==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7606
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230313_102819_077224_F65F8AED 
-X-CRM114-Status: UNSURE (   0.56  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230313_175751_425169_05A556BF 
+X-CRM114-Status: GOOD (  29.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,30 +140,113 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: sales@asda-c.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Dear linux-nvme
-I'm a procurement manager  with ASDA Group (the owners of ASDA=20
-Stores) and your company product has caught our interest.=20
-Therefore, we request you send
-list and prices of your hot selling items (products) for our=20
-evaluation/pick.
 
-Soon as we receive your reply, we shall send you our company=20
-profile and buying proposal. You can also check our website below=20
-for detailed info of our purchase area and trading capacity.
 
-Your immediate response E-mail:  sales@asda-c.com   shall be=20
-appreciated.
+On 3/11/23 00:22, Lukas Wunner wrote:
+> On Fri, Mar 10, 2023 at 05:45:48PM -0800, Tushar Dave wrote:
+>> On 3/10/2023 3:53 PM, Bjorn Helgaas wrote:
+>>> In the log below, pciehp obviously is enabled; should I infer that in
+>>> the log above, it is not?
+>>
+>> pciehp is enabled all the time. In the log above and below.
+>> I do not have answer yet why pciehp shows-up only in some tests (due to DPC
+>> link down/up) and not in others like you noticed in both the logs.
+> 
+> Maybe some of the switch Downstream Ports are hotplug-capable and
+> some are not?  (Check the Slot Implemented bit in the PCI Express
+> Capabilities Register as well as the Hot-Plug Capable bit in the
+> Slot Capabilities Register.)
 
-Best Wishes
+All PCIe switch Downstream ports where nvmes are connected are hotplug-capable
+except the boot nvme drive which I would never use in my test :)
+For my test, PCIe switch Downstream port is a9:10.0 where nvme ab:00.0 is 
+connected as an endpoint device.
 
-Ms Stelle Montgomery
-Purchasing Dept.
-ASDA Stores Limited
-Tel:  +44 7418367220
-WhatsApp: + 44-7502985874
-Website: www.asda.com
+# PCI Express Cap - Slot Implemented bit(8) is set to 1
+root$ setpci -v -s a9:10.0 cap_exp+0x02.w
+0000:a9:10.0 (cap 10 @68) @6a = 0162
+
+# Slt Cap - Hot-Plug Capable bit(6) is set to 1
+root$ setpci -v -s a9:10.0 cap_exp+0x14.L
+0000:a9:10.0 (cap 10 @68) @7c = 08800ce0
+
+# Slt Control
+root$ setpci -v -s a9:10.0 cap_exp+0x18.w
+0000:a9:10.0 (cap 10 @68) @80 = 1028
+
+# Slt Status
+root$ setpci -v -s a9:10.0 cap_exp+0x1A.w
+0000:a9:10.0 (cap 10 @68) @82 = 0040
+
+FWIW, after MPS changed and issue reproduce:
+root$ setpci -v -s a9:10.0 cap_exp+0x014.L
+0000:a9:10.0 (cap 10 @68) @7c = 08800ce0
+root$ setpci -v -s a9:10.0 cap_exp+0x018.w
+0000:a9:10.0 (cap 10 @68) @80 = 1028
+root$ setpci -v -s a9:10.0 cap_exp+0x01A.w
+0000:a9:10.0 (cap 10 @68) @82 = 0148
+
+> 
+> 
+>>> Generally we've avoided handling a device reset as a remove/add event
+>>> because upper layers can't deal well with that.  But in the log below
+>>> it looks like pciehp *did* treat the DPC containment as a remove/add,
+>>> which of course involves configuring the "new" device and its MPS
+>>> settings.
+>>
+>> yes and that puzzled me why? especially when"Link Down/Up ignored (recovered
+>> by DPC)". Do we still have race somewhere, I am not sure.
+> 
+> You're seeing the expected behavior.  pciehp ignores DLLSC events
+> caused by DPC, but then double-checks that DPC recovery succeeded.
+> If it didn't, it would be a bug not to bring down the slot.
+> So pciehp does exactly that.  See this code snippet in
+> pciehp_ignore_dpc_link_change():
+> 
+> 	/*
+> 	 * If the link is unexpectedly down after successful recovery,
+> 	 * the corresponding link change may have been ignored above.
+> 	 * Synthesize it to ensure that it is acted on.
+> 	 */
+> 	down_read_nested(&ctrl->reset_lock, ctrl->depth);
+> 	if (!pciehp_check_link_active(ctrl))
+> 		pciehp_request(ctrl, PCI_EXP_SLTSTA_DLLSC);
+> 	up_read(&ctrl->reset_lock);
+> 
+> So on hotplug-capable ports, pciehp is able to mop up the mess created
+> by fiddling with the MPS settings behind the kernel's back.
+
+That's the thing, even on hotplug-capable slot I do not see pciehp _all_ the
+time. Sometime pciehp get involve and takes care of things (like I mentioned in
+the previous thread) and other times no pciehp engagement at all!
+
+> 
+> We don't have that option on non-hotplug-capable ports.  If error
+> recovery fails, we generally let the inaccessible devices remain
+> in the system and user interaction is necessary to recover, either
+> through a reboot or by manually removing and rescanning PCI devices
+> via syfs after reinstating sane MPS settings.
+
+Sure, that is understood for non-hotplug-capable slots.
+
+> 
+> 
+>>    - Switch and NVMe MPS are 512B
+>>    - NVMe config space saved (including MPS=512B)
+>>    - You change Switch MPS to 128B
+>>    - NVMe does DMA with payload > 128B
+>>    - Switch reports Malformed TLP because TLP is larger than its MPS
+>>    - Recovery resets NVMe, which sets MPS to the default of 128B
+>>    - nvme_slot_reset() restores NVMe config space (MPS is now 512B)
+>>    - Subsequent NVMe DMA with payload > 128B repeats cycle
+> 
+> Forgive my ignorance, but if MPS is restored to 512B by nvme_slot_reset(),
+> shouldn't the communication with the device just work again from that
+> point on >
+> Thanks,
+> 
+> Lukas
 
