@@ -4,76 +4,138 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49BD4C61DA4
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Mar 2023 20:43:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F77EC6FD1D
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Mar 2023 22:16:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JHcaQIScsYdXN2qbQcjmfcjrGLgdlMJF9hH3nA5iotI=; b=FmdkeyoIz0TH6fw6jlctlEvBeZ
-	1lLpAEhpm7gXAj+17lNuGj/cpvFeCmuuKjPVGEtf+VmNK3nZi5I/J9kIXO1iO0AcEdo87CNuIiz3s
-	f37oSIhQWHH6TpGq0+X6NzUVHa0ERKxHUqVhIKgfuJCqqinsRGjmyz8E/y3ANucEpG54kkB46as91
-	nz6TtBVMYW5kXsoKFCjphoEifSNyD2Ypj3CN3z7zY8YUWZVr6BYJo7KPNyWJ21qV0DdC3ZsgJh7yy
-	tQDmQHCEZZKi3OEs0Y/4GEMnwt7cLt7siuE7rx7yKcuw4KbqdNRMMgr8qWfcua+5mAQ22deF7UiQJ
-	kNZVMRHw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=IF2XABrLuh/2GWsvprSZj3HdLdU1lLAwHs4ErdL0yC8=; b=WBoZsLBsi+A2cuDzRwmvMYC8nI
+	VbuvOf76n1bZrGFRacnxlPGAhJXoKkxFZSAw+VGqgxTVZcizF7GhdRUlvCubXEfXhyaxiDJQLiJsf
+	KCCJ5wLZpUezrooyy8oeMnpf+xlI2tF6/6b1MKosIZ8oQ9hzCxrywZ86TQHSVcFyuV7vRbBbaEHAF
+	+f4zNPVtstmNozkl7cc5w2EbpUR03J4epKgeM26mg3bYZ2GzDmrtNUITWsw/TjoiLtys4ole/vCuY
+	ndm3HbSfBwLGeyaGV6W0IRPHd1vmCS+PpwFGBuBW6areqnxXUKv/YfUhgkAcmTXozb2aiS+olVUJc
+	ZYQxaxoA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pcXyN-00EOLz-08;
-	Wed, 15 Mar 2023 20:43:47 +0000
-Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
+	id 1pcZQE-00EZLw-33;
+	Wed, 15 Mar 2023 22:16:38 +0000
+Received: from mail-bn8nam12on20607.outbound.protection.outlook.com ([2a01:111:f400:fe5b::607] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pcXyI-00EOLJ-1p
+	id 1pcZQC-00EZKY-03
 	for linux-nvme@lists.infradead.org;
-	Wed, 15 Mar 2023 20:43:44 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678913022; x=1710449022;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=PPhv896K5Cer45pfjsdlk+Z1x8ajIE+AoqRNhzlKVTg=;
-  b=bpW4yCsRE/7oMHMlAnZpHQ03jVEyNwF+/nnbSsiaXpD09bpFkwRFY64y
-   nGUAHnN2HwQy8APchLuZ3A7rOa6/w56fD4AypJy/rVGM9AQdGNw0UqKCO
-   8TZgTMS0cfJ/LKTFVeHPCn0iKCFzZQEuAwTY7HaHbk3ksk9mjagl9ql67
-   rEny3SlbPKNLjl6xUrlE6ADq97GXAdfPVDVfeCZZwotZgKSAOg12/v5+1
-   R/LGx0lKL7XP025KDFJ0CHfHsZwp7mAYcApvYIDJ+LlmTDIiaNAvwG9GG
-   knp+AvpLOdM6qDUlvVMHyRiAxT5OG3I+XxCxGXVQYg4QhUlk4/RglTRTo
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="400391544"
-X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="400391544"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 13:43:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="1008960428"
-X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="1008960428"
-Received: from kaliving-mobl.amr.corp.intel.com (HELO [10.212.158.22]) ([10.212.158.22])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 13:43:26 -0700
-Message-ID: <362f552f-df15-878a-1fd6-4ef086e8fdb1@linux.intel.com>
-Date: Wed, 15 Mar 2023 13:43:26 -0700
-MIME-Version: 1.0
+	Wed, 15 Mar 2023 22:16:38 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XJ8WPX1sLrw7K8YW4ckeKSMPXnip2+jtUAG84z5Xx7b/0Y2E8lNepKOAl06eeukmOdV5nXx0wKWi6nzS9mzP9ZkmcBlQ5S44UkM2SLtqUX3uSl2rDbb3aPBDhC6v3o19urNwwUKbFEB2RuBcjQS+/zYV0ldzIJAZET5xX9OLDkajAzSczQdnSbOy47n274SCjj40JDG8UsieAKsey04/kkaEjQRvtoxzdYk1fatQPbTTZO3rbUb7p3ELxas/2KkNPeR9P9K3HQDmWcLhREW3kfuCmnnygIkf41JNIClN51WzoaMh6KSfx28SdScO9amEXXj3lzm5qYLRgs3Gh0le2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IF2XABrLuh/2GWsvprSZj3HdLdU1lLAwHs4ErdL0yC8=;
+ b=InnuvHr11+vR/c0Q8Ko4TTz1QOWYvK/wVT0nAboJmDigtooozmoIk7lLD8u9+eQdGTwFRunydJcRbGqAg4CGRkZkwtkeyDU/AYXZtM38Gd+momSpaUZbXlV/VqBq05RAaxe0O1SZAEzyzBB7FD1G0Q1TDXZKA47XZYfwqMEoTb+2nJftLc/a5it0VSr0FAwCYzTrZjz0pJsdIxd1DrR09gnB/HQfMeA7bdsbuDXC/hdHMEB29uEQpIJfgmOgHiqy4UC4xBDxCCDBEB0rSqZbP9gjvVWofmcRQvv8iAuu7iYq/QYpvEOHYVo7yxMbCUfOO/o4CyTG37uIdBsUj3YMQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IF2XABrLuh/2GWsvprSZj3HdLdU1lLAwHs4ErdL0yC8=;
+ b=b9L9UF9LRFOFbWxtCblX/rST9qxTidSMFifs74rxKGvLXaF2bWDQsuMleJdkXcz4CP0y62lP4spnEBS1+BCJlmnLa3LWHcCxD45zWcZO1qykMVV1aH8WrOaRjSmssqFgMiTBacmPFfyR/JOqEC6t1jJSV9YN11kYuIdMdJFxXD9dPyz+Kl7L37z/sp3+C3ruLSHKwigLTips9adkE3w8ZUsLAoKDApQcQYhp5q3k3ARa2VxtSg9mPMNwKUeQDPmyjYPPZ4hdcQFkayp3mIrk+I6khAL7MX65xy7NCik7WF8Qo7CULHlw5LCDP8m7QJkgPFfKLvNCkVOOVs5dTIuLAQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BYAPR12MB3189.namprd12.prod.outlook.com (2603:10b6:a03:134::11)
+ by DS0PR12MB8564.namprd12.prod.outlook.com (2603:10b6:8:167::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.26; Wed, 15 Mar
+ 2023 22:16:30 +0000
+Received: from BYAPR12MB3189.namprd12.prod.outlook.com
+ ([fe80::c4b1:77a1:8e6b:841d]) by BYAPR12MB3189.namprd12.prod.outlook.com
+ ([fe80::c4b1:77a1:8e6b:841d%5]) with mapi id 15.20.6178.029; Wed, 15 Mar 2023
+ 22:16:29 +0000
+Message-ID: <d41eb762-af7f-ccd2-51de-5c3f81138985@nvidia.com>
+Date: Wed, 15 Mar 2023 15:16:27 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.8.0
+ Thunderbird/102.7.1
 Subject: Re: nvme-pci: Disabling device after reset failure: -5 occurs while
  AER recovery
 Content-Language: en-US
-To: Tushar Dave <tdave@nvidia.com>, Keith Busch <kbusch@kernel.org>,
- Bjorn Helgaas <helgaas@kernel.org>
+To: Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
+ Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>
 Cc: Lukas Wunner <lukas@wunner.de>, Sagi Grimberg <sagi@grimberg.me>,
  linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org
 References: <c17f7476-8ed0-212e-9480-78732635ee3f@nvidia.com>
  <20230314161127.GA1648664@bhelgaas>
  <ZBCuPM0WcWaLwWXJ@kbusch-mbp.dhcp.thefacebook.com>
  <e598b84f-2f90-b29a-6209-17309763514f@nvidia.com>
-From: Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>
-In-Reply-To: <e598b84f-2f90-b29a-6209-17309763514f@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
+ <362f552f-df15-878a-1fd6-4ef086e8fdb1@linux.intel.com>
+From: Tushar Dave <tdave@nvidia.com>
+In-Reply-To: <362f552f-df15-878a-1fd6-4ef086e8fdb1@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW4PR03CA0151.namprd03.prod.outlook.com
+ (2603:10b6:303:8d::6) To BYAPR12MB3189.namprd12.prod.outlook.com
+ (2603:10b6:a03:134::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3189:EE_|DS0PR12MB8564:EE_
+X-MS-Office365-Filtering-Correlation-Id: b42eb3b7-eab0-4e9c-2c47-08db25a2ed15
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	m2jpLNuv7hwYCvbVeaqgbzAfplW8C2357zVmdcYOJiH6IAZ1wweL/PEONsoYa47jPiIaZ/Q2MbQb6ojiYDh1qt0fwKGsF/oNW4c9XvwWL65MXZgrD57oBiigpiaU1ICNPLkInw5oBUt/j3062i3kzl9k4khz/hOFIcvNEZncD+ez2kS9iNEWB9W+gfWGEappWeAsD63Q4S4aChCU8LRMRgyNXQFWlbFWxEr1P3H7Tj0oyi7lTJ3ACrAP9tW2yIlnkl+QoKGdp2EPoT9hi0CsLpWUT3RskrdAs5qmxFXJ/F14kDqgKJkQznObmNLd/eXQhzpmHQybAHrZWy80gUEWEJifGSkRwpNR4f3uVFeHUwWao9U3LmtugzCnEdDPp0XSAMmD6+favq97HTeLD6kFwp2f8pAX/KFSA4MMu9aAkz83kmuqfOecKQaeMpwEcguYHe97WNrfqpsQUzUCXznRFeft24FW2MH/otphO3s6wY9F1Lvkyg4TthbuBLLs4ULFWR1eMHOZD6vJmmJaCz+HE0E6X27S+2pENnXK2byZuHym+1KyLDYb/tHO9z06gE2DRH9Zsf7ugMFDTpDjsXTvh1pBIh08e85bAhxG99eFSYdnYACDFwh+Wf9JtD/cVYW8Mj0KemECpCB1N0nCZTM1T6S/CDUmhUleQ9KKGD/YQG1a479/cqBVXVPU5K/9wl2+FY/h9gDaudI+cqTVL3EJikDysqnizgrPNQL+X6EYtgvCYDeErZjQ9RETRBH/xctv7d1g00fGcnfX8qJjVvGZrg==
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB3189.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(376002)(136003)(346002)(396003)(39860400002)(366004)(451199018)(31696002)(86362001)(38100700002)(8936002)(41300700001)(5660300002)(36756003)(2906002)(83380400001)(54906003)(26005)(2616005)(53546011)(186003)(316002)(6506007)(6512007)(110136005)(8676002)(66556008)(966005)(6486002)(478600001)(4326008)(66946007)(66476007)(66899018)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?Mk9TTmtuWnhYMVczeXJJQXRiNEx1dUlJT2p2NHdUU0ZtQVIyb0tkNVl1MSsx?=
+ =?utf-8?B?Z29GdkdxdUdMM1F4MHZGQWxkTWcxV25HUXBWcDlCRHc5emtlN0doZUJZWTdL?=
+ =?utf-8?B?ZmUxZ1p0UFVVenVEODVkMUlOZGJDeHVJZmsrVmE4Q1pJREt1cjFuMEFicXA0?=
+ =?utf-8?B?aGpVeFdSTkNKNGZVenE1NFBhUlY4RUxROGJYejFjZStLSGNaaGxQM0JWNHRU?=
+ =?utf-8?B?K05TSTZXbHhaZUFiOWVwaDJtTHZHOHFESU52SmhMTFZjZ2Vic2RPcGFCenVF?=
+ =?utf-8?B?djhsbW96UVcyMEJBaXgyMm9mcEpXeERCemZmZnAvQ1k2L0pGbXA4V2NKeEF5?=
+ =?utf-8?B?bWJTcVUwaTlGY2xwaGxGSERwNEtmNitNN3h0clhDRGNPSEY2bUZHRXdka0xP?=
+ =?utf-8?B?bGx5VWhCQUlwdnEvaHpKQTlrZkhFSlRydGRNaU1sREdFYmpKam8vNWZWZzRG?=
+ =?utf-8?B?NkJVOHZKNE1CNXNqYzVCS0VHTVh3M0xZSE45cUFCdkFkZTZpcFBNQ0dNRC9D?=
+ =?utf-8?B?M0gxSkZENnhhTDRocTRaLzNYaEtwVEFGdnJTdzVWbTBWbEFQaExoTGhVNzVB?=
+ =?utf-8?B?c24yQ1RxMU1nL0ZWaEc4cGtjMDMrdUxxNWhQbkhJS01uK1d5MnFnZzFpZUli?=
+ =?utf-8?B?N1IxT0U4c1dFRG9UNkxLM0ptZHFWQjJiYTNkbGhWcThWcEtRZE4wU1NYTDl4?=
+ =?utf-8?B?aU1wV2JpRTNYS0tHbmFmbVNXRmJQdytLOWhheDJleUI0WDZsWlUxQ2JYdkJ0?=
+ =?utf-8?B?cU1NUVQ0VTMxY2g5Y0lqYXNLeXk2UWpkU2ZPT0ZtNXFXZEVXeGZrT1A5cXNC?=
+ =?utf-8?B?aU9WQnJKcE1QNkhxTG1UdFFFTGRod1ZBR3ArdG1pcDBLZjhKRkpxVXVqVTFk?=
+ =?utf-8?B?NlJ3RUxjeFl0emF6WmZndC9RR0g2R3RKRW9HcWwxU29SUEJhVlFqdk5MOFBa?=
+ =?utf-8?B?UDFhcElNU0tHMG5TUXZaWWJTVVk1Mm9QZS9GeVg4bkJVVHdHTFYxZE5NVjRa?=
+ =?utf-8?B?L3N6eGV5eEpFNlc3M2U4OGhMalFKVWN4Nzl5cXpKcVJQNTZuVnJTR2NNS2Fv?=
+ =?utf-8?B?VGk5Rk44OUl6SDRMUmtWeE9EV0JibFI5Mmc2eHNtNkpaZXhILyt1dFhpaHl3?=
+ =?utf-8?B?eXB4MUZLSG10a2VJVjQ0MkdLcllMeGNaNm05cEp0dzFRc09qSTR0WkwwZC9H?=
+ =?utf-8?B?bWEyS2RyckVjN0VvL2F6NU5mL0N1SVlNV2p2S2RLUm1XWW5yT25zc3pUblRO?=
+ =?utf-8?B?NysxaGZEMmh3a1FQSnlwOGcvc3dmU2lDQ0lzWUpGMlk3c2I2ZW5GL3VXVDJl?=
+ =?utf-8?B?UnUxK2pYby9wRDdTM3ZUelBxSDlBUXhIQi8rWlQ1VkZnSkJZZEJySWtZeEsr?=
+ =?utf-8?B?NkdOWDlVcHZNY1p2bnlWS1ZCVnc1eU1BT1B1Vy9uMWVnOGxXNDFyWGxaTkhs?=
+ =?utf-8?B?UTlvZDlVd1ZMdWFRVTBHZU1hZ0tzSGkyL2dYd3lDTTRLL2R4MzBCcGptdVdT?=
+ =?utf-8?B?WlZjTDNDUUIwVkI4NzZCVjBXblUrc3dZc0lWSHVSSHFRTFdwSXFTSmF6dGth?=
+ =?utf-8?B?dHZHVmROa3NxcUF3bVFBeExQSjViUXBmb1JJaldHUi9GbmNoOG1TcDFIakpF?=
+ =?utf-8?B?bFFTaUFsS0FCaURJS3krdmxCalFRTDVrNnQzUnhkVHdxaGRDTHI2VXZnOThK?=
+ =?utf-8?B?d240R1dXekpMd3F1b2N1enBOclEzYVJHNjFnajMzNkN0dHVuRVRNY0htdXEv?=
+ =?utf-8?B?ZFF3QXFhRll1ajRBSnNiam8zRE52NGpOR3lacXNZT0l5MEV1anQ2THJYRHpE?=
+ =?utf-8?B?UStYUnBpcVdsaGcwY0FHaG1GYkxPR2lPNXQwSlRvVkw4MWhkd1JvRWkzdXJF?=
+ =?utf-8?B?bVdaZlF3ZStKZFFHWk5ieENodUE5dFVSK0ZOcFJPMmpFYjZzZFJ4enJta25s?=
+ =?utf-8?B?Z0tRTnZYa0hBbzUrUHJuT29OaTFITkxQalgremkrQjBzZUY0NVdLVDJ0M1hR?=
+ =?utf-8?B?b2s3ZzVVSitrQWpLLzByM1AzcjkxVEhySHZ5ZCtNclJBdjFpMHhCK1U3K2NF?=
+ =?utf-8?B?dWZlSHhvQi9KNVExQmd0OXpoY04zK3ZNN3BqWE9XYXM0Qld3UzBsQkFrTEc4?=
+ =?utf-8?Q?Ss0seDUnYL8xINCs2sOkgEQhX?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b42eb3b7-eab0-4e9c-2c47-08db25a2ed15
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3189.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2023 22:16:29.7761
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qxdqPeu7WiUUh28iDXKYaMCqV3WjuHe2mf8XFFpvg4N6NczJcfnXHNt7OeaTop1iLA0V22TzIEp2Zw2uDRjgYA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8564
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230315_134342_669286_7BAC7C33 
-X-CRM114-Status: GOOD (  22.73  )
+X-CRM114-CacheID: sfid-20230315_151636_124910_13B2015D 
+X-CRM114-Status: GOOD (  22.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,151 +152,157 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 3/15/23 1:01 PM, Tushar Dave wrote:
+On 3/15/23 13:43, Sathyanarayanan Kuppuswamy wrote:
 > 
 > 
-> On 3/14/23 10:26, Keith Busch wrote:
->> On Tue, Mar 14, 2023 at 11:11:27AM -0500, Bjorn Helgaas wrote:
->>> On Mon, Mar 13, 2023 at 05:57:43PM -0700, Tushar Dave wrote:
->>>> On 3/11/23 00:22, Lukas Wunner wrote:
->>>>> On Fri, Mar 10, 2023 at 05:45:48PM -0800, Tushar Dave wrote:
->>>>>> On 3/10/2023 3:53 PM, Bjorn Helgaas wrote:
->>>>>>> In the log below, pciehp obviously is enabled; should I infer that in
->>>>>>> the log above, it is not?
+> On 3/15/23 1:01 PM, Tushar Dave wrote:
+>>
+>>
+>> On 3/14/23 10:26, Keith Busch wrote:
+>>> On Tue, Mar 14, 2023 at 11:11:27AM -0500, Bjorn Helgaas wrote:
+>>>> On Mon, Mar 13, 2023 at 05:57:43PM -0700, Tushar Dave wrote:
+>>>>> On 3/11/23 00:22, Lukas Wunner wrote:
+>>>>>> On Fri, Mar 10, 2023 at 05:45:48PM -0800, Tushar Dave wrote:
+>>>>>>> On 3/10/2023 3:53 PM, Bjorn Helgaas wrote:
+>>>>>>>> In the log below, pciehp obviously is enabled; should I infer that in
+>>>>>>>> the log above, it is not?
+>>>>>>>
+>>>>>>> pciehp is enabled all the time. In the log above and below.
+>>>>>>> I do not have answer yet why pciehp shows-up only in some tests (due to DPC
+>>>>>>> link down/up) and not in others like you noticed in both the logs.
 >>>>>>
->>>>>> pciehp is enabled all the time. In the log above and below.
->>>>>> I do not have answer yet why pciehp shows-up only in some tests (due to DPC
->>>>>> link down/up) and not in others like you noticed in both the logs.
->>>>>
->>>>> Maybe some of the switch Downstream Ports are hotplug-capable and
->>>>> some are not?  (Check the Slot Implemented bit in the PCI Express
->>>>> Capabilities Register as well as the Hot-Plug Capable bit in the
->>>>> Slot Capabilities Register.)
->>>>> ...
->>>
->>>>>>> Generally we've avoided handling a device reset as a
->>>>>>> remove/add event because upper layers can't deal well with
->>>>>>> that.  But in the log below it looks like pciehp *did* treat
->>>>>>> the DPC containment as a remove/add, which of course involves
->>>>>>> configuring the "new" device and its MPS settings.
->>>>>>
->>>>>> yes and that puzzled me why? especially when"Link Down/Up
->>>>>> ignored (recovered by DPC)". Do we still have race somewhere, I
->>>>>> am not sure.
->>>>>
->>>>> You're seeing the expected behavior.  pciehp ignores DLLSC events
->>>>> caused by DPC, but then double-checks that DPC recovery succeeded.
->>>>> If it didn't, it would be a bug not to bring down the slot.  So
->>>>> pciehp does exactly that.  See this code snippet in
->>>>> pciehp_ignore_dpc_link_change():
->>>>>
->>>>>     /*
->>>>>      * If the link is unexpectedly down after successful recovery,
->>>>>      * the corresponding link change may have been ignored above.
->>>>>      * Synthesize it to ensure that it is acted on.
->>>>>      */
->>>>>     down_read_nested(&ctrl->reset_lock, ctrl->depth);
->>>>>     if (!pciehp_check_link_active(ctrl))
->>>>>         pciehp_request(ctrl, PCI_EXP_SLTSTA_DLLSC);
->>>>>     up_read(&ctrl->reset_lock);
->>>>>
->>>>> So on hotplug-capable ports, pciehp is able to mop up the mess
->>>>> created by fiddling with the MPS settings behind the kernel's
->>>>> back.
+>>>>>> Maybe some of the switch Downstream Ports are hotplug-capable and
+>>>>>> some are not?  (Check the Slot Implemented bit in the PCI Express
+>>>>>> Capabilities Register as well as the Hot-Plug Capable bit in the
+>>>>>> Slot Capabilities Register.)
+>>>>>> ...
 >>>>
->>>> That's the thing, even on hotplug-capable slot I do not see pciehp
->>>> _all_ the time. Sometime pciehp get involve and takes care of things
->>>> (like I mentioned in the previous thread) and other times no pciehp
->>>> engagement at all!
->>>
->>> Possibly a timing issue, so I'll be interested to see if 53b54ad074de
->>> ("PCI/DPC: Await readiness of secondary bus after reset") makes any
->>> difference.  Lukas didn't mention that, so maybe it's a red herring,
->>> but I'm still curious since it explicitly mentions the DPC reset case
->>> that you're exercising here.
+>>>>>>>> Generally we've avoided handling a device reset as a
+>>>>>>>> remove/add event because upper layers can't deal well with
+>>>>>>>> that.  But in the log below it looks like pciehp *did* treat
+>>>>>>>> the DPC containment as a remove/add, which of course involves
+>>>>>>>> configuring the "new" device and its MPS settings.
+>>>>>>>
+>>>>>>> yes and that puzzled me why? especially when"Link Down/Up
+>>>>>>> ignored (recovered by DPC)". Do we still have race somewhere, I
+>>>>>>> am not sure.
+>>>>>>
+>>>>>> You're seeing the expected behavior.  pciehp ignores DLLSC events
+>>>>>> caused by DPC, but then double-checks that DPC recovery succeeded.
+>>>>>> If it didn't, it would be a bug not to bring down the slot.  So
+>>>>>> pciehp does exactly that.  See this code snippet in
+>>>>>> pciehp_ignore_dpc_link_change():
+>>>>>>
+>>>>>>      /*
+>>>>>>       * If the link is unexpectedly down after successful recovery,
+>>>>>>       * the corresponding link change may have been ignored above.
+>>>>>>       * Synthesize it to ensure that it is acted on.
+>>>>>>       */
+>>>>>>      down_read_nested(&ctrl->reset_lock, ctrl->depth);
+>>>>>>      if (!pciehp_check_link_active(ctrl))
+>>>>>>          pciehp_request(ctrl, PCI_EXP_SLTSTA_DLLSC);
+>>>>>>      up_read(&ctrl->reset_lock);
+>>>>>>
+>>>>>> So on hotplug-capable ports, pciehp is able to mop up the mess
+>>>>>> created by fiddling with the MPS settings behind the kernel's
+>>>>>> back.
+>>>>>
+>>>>> That's the thing, even on hotplug-capable slot I do not see pciehp
+>>>>> _all_ the time. Sometime pciehp get involve and takes care of things
+>>>>> (like I mentioned in the previous thread) and other times no pciehp
+>>>>> engagement at all!
+>>>>
+>>>> Possibly a timing issue, so I'll be interested to see if 53b54ad074de
+>>>> ("PCI/DPC: Await readiness of secondary bus after reset") makes any
+>>>> difference.  Lukas didn't mention that, so maybe it's a red herring,
+>>>> but I'm still curious since it explicitly mentions the DPC reset case
+>>>> that you're exercising here.
+>>
+>> Commit 53b54ad074de ("PCI/DPC: Await readiness of secondary bus after reset") didn't help.
 > 
-> Commit 53b54ad074de ("PCI/DPC: Await readiness of secondary bus after reset") didn't help.
-
-I did not check the full thread. Since this seems to be in EDR recovery path, make sure to
-include following patch.
-
-https://lore.kernel.org/lkml/20230215200532.3126937-1-sathyanarayanan.kuppuswamy@linux.intel.com/T/
-
+> I did not check the full thread. Since this seems to be in EDR recovery path, make sure to
+> include following patch.
 > 
-> [ 6265.268757] pcieport 0000:a5:01.0: EDR: EDR event received
-> [ 6265.276034] pcieport 0000:a5:01.0: EDR: Reported EDR dev: 0000:a9:10.0
-> [ 6265.283780] pcieport 0000:a9:10.0: DPC: containment event, status:0x2009 source:0x0000
-> [ 6265.292972] pcieport 0000:a9:10.0: DPC: unmasked uncorrectable error detected
-> [ 6265.301284] pcieport 0000:a9:10.0: PCIe Bus Error: severity=Uncorrected (Fatal), type=Transaction Layer, (Receiver ID)
-> [ 6265.313569] pcieport 0000:a9:10.0:   device [1000:c030] error status/mask=00040000/00180000
-> [ 6265.323208] pcieport 0000:a9:10.0:    [18] MalfTLP                (First)
-> [ 6265.331084] pcieport 0000:a9:10.0: AER:   TLP Header: 6000007a ab0000ff 00000001 629d4318
-> [ 6265.340536] pcieport 0000:a9:10.0: AER: broadcast error_detected message
-> [ 6265.348320] nvme nvme1: frozen state error detected, reset controller
-> [ 6265.419633] pcieport 0000:a9:10.0: waiting 100 ms for downstream link, after activation
-> [ 6265.627639] pcieport 0000:a9:10.0: AER: broadcast slot_reset message
-> [ 6265.635289] nvme nvme1: restart after slot reset
-> [ 6265.641016] nvme 0000:ab:00.0: restoring config space at offset 0x3c (was 0x100, writing 0x1ff)
-> [ 6265.651248] nvme 0000:ab:00.0: restoring config space at offset 0x30 (was 0x0, writing 0xe0600000)
-> [ 6265.661739] nvme 0000:ab:00.0: restoring config space at offset 0x10 (was 0x4, writing 0xe0710004)
-> [ 6265.672210] nvme 0000:ab:00.0: restoring config space at offset 0xc (was 0x0, writing 0x8)
-> [ 6265.681897] nvme 0000:ab:00.0: restoring config space at offset 0x4 (was 0x100000, writing 0x100546)
-> [ 6265.692616] pcieport 0000:a9:10.0: AER: broadcast resume message
-> [ 6265.716299] nvme 0000:ab:00.0: saving config space at offset 0x0 (reading 0xa824144d)
-> [ 6265.725614] nvme 0000:ab:00.0: saving config space at offset 0x4 (reading 0x100546)
-> [ 6265.734657] nvme 0000:ab:00.0: saving config space at offset 0x8 (reading 0x1080200)
-> [ 6265.743824] nvme 0000:ab:00.0: saving config space at offset 0xc (reading 0x8)
-> [ 6265.752348] nvme 0000:ab:00.0: saving config space at offset 0x10 (reading 0xe0710004)
-> [ 6265.761647] nvme 0000:ab:00.0: saving config space at offset 0x14 (reading 0x0)
-> [ 6265.770247] nvme 0000:ab:00.0: saving config space at offset 0x18 (reading 0x0)
-> [ 6265.778857] nvme 0000:ab:00.0: saving config space at offset 0x1c (reading 0x0)
-> [ 6265.787450] nvme 0000:ab:00.0: saving config space at offset 0x20 (reading 0x0)
-> [ 6265.796034] nvme 0000:ab:00.0: saving config space at offset 0x24 (reading 0x0)
-> [ 6265.804620] nvme 0000:ab:00.0: saving config space at offset 0x28 (reading 0x0)
-> [ 6265.813201] nvme 0000:ab:00.0: saving config space at offset 0x2c (reading 0xa80a144d)
-> [ 6265.822473] nvme 0000:ab:00.0: saving config space at offset 0x30 (reading 0xe0600000)
-> [ 6265.831816] nvme 0000:ab:00.0: saving config space at offset 0x34 (reading 0x40)
-> [ 6265.840482] nvme 0000:ab:00.0: saving config space at offset 0x38 (reading 0x0)
-> [ 6265.849037] nvme 0000:ab:00.0: saving config space at offset 0x3c (reading 0x1ff)
-> [ 6275.037534] block nvme1n1: no usable path - requeuing I/O
-> [ 6326.920009] nvme nvme1: I/O 22 QID 0 timeout, disable controller
-> [ 6326.988701] nvme nvme1: Identify Controller failed (-4)
-> [ 6326.995253] nvme nvme1: Disabling device after reset failure: -5
-> [ 6327.032308] pcieport 0000:a9:10.0: AER: device recovery successful
-> [ 6327.039781] pcieport 0000:a9:10.0: EDR: DPC port successfully recovered
-> [ 6327.047687] pcieport 0000:a5:01.0: EDR: Status for 0000:a9:10.0: 0x80
-> [ 6327.083131] pcieport 0000:a5:01.0: EDR: EDR event received
-> [ 6327.090173] pcieport 0000:a5:01.0: EDR: Reported EDR dev: 0000:a9:10.0
-> [ 6327.097816] pcieport 0000:a9:10.0: DPC: containment event, status:0x2009 source:0x0000
-> [ 6327.107009] pcieport 0000:a9:10.0: DPC: unmasked uncorrectable error detected
-> [ 6327.115330] pcieport 0000:a9:10.0: PCIe Bus Error: severity=Uncorrected (Fatal), type=Transaction Layer, (Receiver ID)
-> [ 6327.127640] pcieport 0000:a9:10.0:   device [1000:c030] error status/mask=00040000/00180000
-> [ 6327.137319] pcieport 0000:a9:10.0:    [18] MalfTLP                (First)
-> [ 6327.145236] pcieport 0000:a9:10.0: AER:   TLP Header: 60000080 ab0000ff 00000001 5ad65000
-> [ 6327.154728] pcieport 0000:a9:10.0: AER: broadcast error_detected message
-> [ 6327.162624] nvme nvme1: frozen state error detected, reset controller
-> [ 6327.183979] pcieport 0000:a9:10.0: waiting 100 ms for downstream link, after activation
-> [ 6327.387969] pcieport 0000:a9:10.0: AER: broadcast slot_reset message
-> [ 6327.395596] nvme nvme1: restart after slot reset
-> [ 6327.401313] nvme 0000:ab:00.0: restoring config space at offset 0x3c (was 0x100, writing 0x1ff)
-> [ 6327.411517] nvme 0000:ab:00.0: restoring config space at offset 0x30 (was 0x0, writing 0xe0600000)
-> [ 6327.422045] nvme 0000:ab:00.0: restoring config space at offset 0x10 (was 0x4, writing 0xe0710004)
-> [ 6327.432523] nvme 0000:ab:00.0: restoring config space at offset 0xc (was 0x0, writing 0x8)
-> [ 6327.442212] nvme 0000:ab:00.0: restoring config space at offset 0x4 (was 0x100000, writing 0x100546)
-> [ 6327.452933] pcieport 0000:a9:10.0: AER: broadcast resume message
-> [ 6327.460184] pcieport 0000:a9:10.0: AER: device recovery successful
-> [ 6327.467533] pcieport 0000:a9:10.0: EDR: DPC port successfully recovered
-> [ 6327.475367] pcieport 0000:a5:01.0: EDR: Status for 0000:a9:10.0: 0x80
+> https://lore.kernel.org/lkml/20230215200532.3126937-1-sathyanarayanan.kuppuswamy@linux.intel.com/T/
+
+Sorry but in your patch I guess you really want 'pdev' instead of 'dev' in 
+pcie_clear_device_status(dev);
+
+or I am missing something?
+
 > 
 >>
->> Catching the PDC event may be timing related. pciehp ignores the link events
->> during a DPC event, but it always reacts to PDC since it's indistinguishable
->> from a DPC occuring in response to a surprise removal, and these slots probably
->> don't have out-of-band presence detection.
+>> [ 6265.268757] pcieport 0000:a5:01.0: EDR: EDR event received
+>> [ 6265.276034] pcieport 0000:a5:01.0: EDR: Reported EDR dev: 0000:a9:10.0
+>> [ 6265.283780] pcieport 0000:a9:10.0: DPC: containment event, status:0x2009 source:0x0000
+>> [ 6265.292972] pcieport 0000:a9:10.0: DPC: unmasked uncorrectable error detected
+>> [ 6265.301284] pcieport 0000:a9:10.0: PCIe Bus Error: severity=Uncorrected (Fatal), type=Transaction Layer, (Receiver ID)
+>> [ 6265.313569] pcieport 0000:a9:10.0:   device [1000:c030] error status/mask=00040000/00180000
+>> [ 6265.323208] pcieport 0000:a9:10.0:    [18] MalfTLP                (First)
+>> [ 6265.331084] pcieport 0000:a9:10.0: AER:   TLP Header: 6000007a ab0000ff 00000001 629d4318
+>> [ 6265.340536] pcieport 0000:a9:10.0: AER: broadcast error_detected message
+>> [ 6265.348320] nvme nvme1: frozen state error detected, reset controller
+>> [ 6265.419633] pcieport 0000:a9:10.0: waiting 100 ms for downstream link, after activation
+>> [ 6265.627639] pcieport 0000:a9:10.0: AER: broadcast slot_reset message
+>> [ 6265.635289] nvme nvme1: restart after slot reset
+>> [ 6265.641016] nvme 0000:ab:00.0: restoring config space at offset 0x3c (was 0x100, writing 0x1ff)
+>> [ 6265.651248] nvme 0000:ab:00.0: restoring config space at offset 0x30 (was 0x0, writing 0xe0600000)
+>> [ 6265.661739] nvme 0000:ab:00.0: restoring config space at offset 0x10 (was 0x4, writing 0xe0710004)
+>> [ 6265.672210] nvme 0000:ab:00.0: restoring config space at offset 0xc (was 0x0, writing 0x8)
+>> [ 6265.681897] nvme 0000:ab:00.0: restoring config space at offset 0x4 (was 0x100000, writing 0x100546)
+>> [ 6265.692616] pcieport 0000:a9:10.0: AER: broadcast resume message
+>> [ 6265.716299] nvme 0000:ab:00.0: saving config space at offset 0x0 (reading 0xa824144d)
+>> [ 6265.725614] nvme 0000:ab:00.0: saving config space at offset 0x4 (reading 0x100546)
+>> [ 6265.734657] nvme 0000:ab:00.0: saving config space at offset 0x8 (reading 0x1080200)
+>> [ 6265.743824] nvme 0000:ab:00.0: saving config space at offset 0xc (reading 0x8)
+>> [ 6265.752348] nvme 0000:ab:00.0: saving config space at offset 0x10 (reading 0xe0710004)
+>> [ 6265.761647] nvme 0000:ab:00.0: saving config space at offset 0x14 (reading 0x0)
+>> [ 6265.770247] nvme 0000:ab:00.0: saving config space at offset 0x18 (reading 0x0)
+>> [ 6265.778857] nvme 0000:ab:00.0: saving config space at offset 0x1c (reading 0x0)
+>> [ 6265.787450] nvme 0000:ab:00.0: saving config space at offset 0x20 (reading 0x0)
+>> [ 6265.796034] nvme 0000:ab:00.0: saving config space at offset 0x24 (reading 0x0)
+>> [ 6265.804620] nvme 0000:ab:00.0: saving config space at offset 0x28 (reading 0x0)
+>> [ 6265.813201] nvme 0000:ab:00.0: saving config space at offset 0x2c (reading 0xa80a144d)
+>> [ 6265.822473] nvme 0000:ab:00.0: saving config space at offset 0x30 (reading 0xe0600000)
+>> [ 6265.831816] nvme 0000:ab:00.0: saving config space at offset 0x34 (reading 0x40)
+>> [ 6265.840482] nvme 0000:ab:00.0: saving config space at offset 0x38 (reading 0x0)
+>> [ 6265.849037] nvme 0000:ab:00.0: saving config space at offset 0x3c (reading 0x1ff)
+>> [ 6275.037534] block nvme1n1: no usable path - requeuing I/O
+>> [ 6326.920009] nvme nvme1: I/O 22 QID 0 timeout, disable controller
+>> [ 6326.988701] nvme nvme1: Identify Controller failed (-4)
+>> [ 6326.995253] nvme nvme1: Disabling device after reset failure: -5
+>> [ 6327.032308] pcieport 0000:a9:10.0: AER: device recovery successful
+>> [ 6327.039781] pcieport 0000:a9:10.0: EDR: DPC port successfully recovered
+>> [ 6327.047687] pcieport 0000:a5:01.0: EDR: Status for 0000:a9:10.0: 0x80
+>> [ 6327.083131] pcieport 0000:a5:01.0: EDR: EDR event received
+>> [ 6327.090173] pcieport 0000:a5:01.0: EDR: Reported EDR dev: 0000:a9:10.0
+>> [ 6327.097816] pcieport 0000:a9:10.0: DPC: containment event, status:0x2009 source:0x0000
+>> [ 6327.107009] pcieport 0000:a9:10.0: DPC: unmasked uncorrectable error detected
+>> [ 6327.115330] pcieport 0000:a9:10.0: PCIe Bus Error: severity=Uncorrected (Fatal), type=Transaction Layer, (Receiver ID)
+>> [ 6327.127640] pcieport 0000:a9:10.0:   device [1000:c030] error status/mask=00040000/00180000
+>> [ 6327.137319] pcieport 0000:a9:10.0:    [18] MalfTLP                (First)
+>> [ 6327.145236] pcieport 0000:a9:10.0: AER:   TLP Header: 60000080 ab0000ff 00000001 5ad65000
+>> [ 6327.154728] pcieport 0000:a9:10.0: AER: broadcast error_detected message
+>> [ 6327.162624] nvme nvme1: frozen state error detected, reset controller
+>> [ 6327.183979] pcieport 0000:a9:10.0: waiting 100 ms for downstream link, after activation
+>> [ 6327.387969] pcieport 0000:a9:10.0: AER: broadcast slot_reset message
+>> [ 6327.395596] nvme nvme1: restart after slot reset
+>> [ 6327.401313] nvme 0000:ab:00.0: restoring config space at offset 0x3c (was 0x100, writing 0x1ff)
+>> [ 6327.411517] nvme 0000:ab:00.0: restoring config space at offset 0x30 (was 0x0, writing 0xe0600000)
+>> [ 6327.422045] nvme 0000:ab:00.0: restoring config space at offset 0x10 (was 0x4, writing 0xe0710004)
+>> [ 6327.432523] nvme 0000:ab:00.0: restoring config space at offset 0xc (was 0x0, writing 0x8)
+>> [ 6327.442212] nvme 0000:ab:00.0: restoring config space at offset 0x4 (was 0x100000, writing 0x100546)
+>> [ 6327.452933] pcieport 0000:a9:10.0: AER: broadcast resume message
+>> [ 6327.460184] pcieport 0000:a9:10.0: AER: device recovery successful
+>> [ 6327.467533] pcieport 0000:a9:10.0: EDR: DPC port successfully recovered
+>> [ 6327.475367] pcieport 0000:a5:01.0: EDR: Status for 0000:a9:10.0: 0x80
+>>
+>>>
+>>> Catching the PDC event may be timing related. pciehp ignores the link events
+>>> during a DPC event, but it always reacts to PDC since it's indistinguishable
+>>> from a DPC occuring in response to a surprise removal, and these slots probably
+>>> don't have out-of-band presence detection.
+>>
+>> yeah, In-Band PD Disable bit in Slot Control register of PCIe Downstream Switch port is set to '0' , no idea about out-of-band presence detection!
 > 
-> yeah, In-Band PD Disable bit in Slot Control register of PCIe Downstream Switch port is set to '0' , no idea about out-of-band presence detection!
-
--- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
 
