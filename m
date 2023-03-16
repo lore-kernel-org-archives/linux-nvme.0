@@ -4,67 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9EF4C6FD1F
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Mar 2023 08:52:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1C73C6FD1F
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Mar 2023 08:57:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=G2riPEJLYe5F7Q6T9PPxOzCuDi4PfLqS+kMqp8LcPIk=; b=SlZDXEqcIC+sPwFicgJsCgyjZo
-	A16OIgCDYjsFPJwsewfyNIWeuaNX75AuiN6Xybymc/3KCRFdHWpprn7YJSYxzsJmq18p/q3KWzqi9
-	//ka6gtmOetrK0wbrRSHIIfLGxIyQzGgt5dBHox31NZ8J8MqCic6bt3KZNrZfZslx57ktRbog3zFq
-	H9R9d03xGqCD5k4en6IXHelBxJRvxvdTtxqRV1K5BItrNjIBW5KeYLn1kaWY9dWIbqs/S+XFrcT3/
-	9pBRwAGpBLaIBkrrQ6PtR7cRqMiZlzABj887f4CpcDE9+7oBikaXNxJCnaZXP2sTyFXJDyKYufxUq
-	6Fx0J9nQ==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HusC61I5q9JLQBYzvd96FMDitNE4iymTn8ayNS0WLIc=; b=p1qyBPQn81lKPKh0PDCouQKLU8
+	671x6XRxUtxpyjoyuOldUO/HcqCzLOMdU/n2Twc1GFxcwcu+u0idnhojOkD4BTNC/rK3JxDjD7NfV
+	qBFxDKZY4jBVOiq9ighxe3QL+TE+iASLs8jX0mfXQG22da1ePJgPcpes/NwxJcJwEx8aDhFCSiLep
+	SvKLHnJ/j4WBhO8ckI7yUzbFszoOcIOp6VTMQwvRkCBszCGYmuMKvuB7ks2RnoV14DN0zfuHiUiVV
+	AG8klORSi/ujFJyS5xmf435NZQHpJD7txy7ktutFgqsc7G+D71curY701fRPDH1iUnba7/cNdCcUO
+	MqO9FKKw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pcjLf-00FmNG-0x;
-	Thu, 16 Mar 2023 08:52:35 +0000
-Received: from mail-wr1-f46.google.com ([209.85.221.46])
+	id 1pcjQJ-00FnLE-0N;
+	Thu, 16 Mar 2023 08:57:23 +0000
+Received: from mail-wr1-f44.google.com ([209.85.221.44])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pcjLc-00FmLz-2y
+	id 1pcjQG-00FnJl-0Q
 	for linux-nvme@lists.infradead.org;
-	Thu, 16 Mar 2023 08:52:34 +0000
-Received: by mail-wr1-f46.google.com with SMTP id j2so767382wrh.9
-        for <linux-nvme@lists.infradead.org>; Thu, 16 Mar 2023 01:52:32 -0700 (PDT)
+	Thu, 16 Mar 2023 08:57:21 +0000
+Received: by mail-wr1-f44.google.com with SMTP id p4so774660wre.11
+        for <linux-nvme@lists.infradead.org>; Thu, 16 Mar 2023 01:57:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678956751;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=G2riPEJLYe5F7Q6T9PPxOzCuDi4PfLqS+kMqp8LcPIk=;
-        b=EBBKy0m5g/k5j5RC+eBHRP5sUJBnzA/qWS8R+eMdtad99+TMFCgZqKQlaSAQXJERSw
-         xKDt7qjlIKrSTPaQ1gi3wI9IKTFTRa7xnNt/eirq6p8nb+bzutXjJTlxXZTlL/O669I/
-         TRIcrTERf7J7HeNU/0IKjahpt+frR7aThfESIBn2MPKTiXnOLxCrdWMJ0ebx0lQU3nqh
-         BEM1p/J7FikVTDegkGZbMn1OjOQ4hDEg/7S8W+WLMXtcF3LQ2ktyu6rTu4CfawBpX8pQ
-         jiOQRbgi8avniamUAlMVTjyZg3xP1En3wuUY61i7u3SPsauDhxwbA3mrkuS6vl5nq/NU
-         PTJg==
-X-Gm-Message-State: AO0yUKU5tv5alE71P8kWkP9Ji1b+VKh9mxbBlUyzpqlVkyFNQ9ru9Lkv
-	/FKJTk2NBxfRXfhAzB+czI4RG4VPZ9o=
-X-Google-Smtp-Source: AK7set9TVxdhpWTRvL84i17OO6nxQuCVH1pXmtHymjPLZabFxIB2lL9IZAF9eYKxHCIhCymCX4T+LQ==
-X-Received: by 2002:a5d:4d92:0:b0:2c7:b49:97f6 with SMTP id b18-20020a5d4d92000000b002c70b4997f6mr1493960wru.2.1678956750774;
-        Thu, 16 Mar 2023 01:52:30 -0700 (PDT)
-Received: from localhost.localdomain (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id w17-20020adfd4d1000000b002c70ce264bfsm6642474wrk.76.2023.03.16.01.52.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Mar 2023 01:52:30 -0700 (PDT)
-From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	Yanjun Zhang <zhangyanjun@cestc.cn>
-Subject: [PATCH] nvme-tcp: fix a possible UAF when failing to allocate an io queue
-Date: Thu, 16 Mar 2023 10:52:29 +0200
-Message-Id: <20230316085229.158775-1-sagi@grimberg.me>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20210112; t=1678957037;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HusC61I5q9JLQBYzvd96FMDitNE4iymTn8ayNS0WLIc=;
+        b=j9PHZ8eNSAc+/ZkrkPIFSMt8pvvljoMJTcCI+PU/68n4XMMF6cjnHTajKJuZUXotLV
+         4dL6BAc3CRpvHZ2dBewsjTghdF5TrrLXnOZaoyeg8F/PiVh+m96FLlA83xbI+nlMrfQv
+         3XPsxN8DCsPj115Pag+Zmmy3BkCPha9CuNCI+QEyIPO6Xf60Y5Cq4ZtT0PN+KGHqtJjW
+         ey7JmbQyDKHSZh895MEdZ+c4Rg4Xwoe5WJ8Eg4M9U9lV8zCXq2ii80kcrpKqVIoXN2F5
+         w7VItQUKAVjBqd1A4yqaRaijku/LQR9uWqeqVh0rTEGG9AX1zYEaoZlWX50S3Khf/5JM
+         LUZg==
+X-Gm-Message-State: AO0yUKVRQ2EZs0/0ASSLyN2KugPxI8ai/SyO8u4bagmr5Zq0AmIrj43J
+	O0vEx6GPGFQ4vvXLqaRIR4o=
+X-Google-Smtp-Source: AK7set+ZAYwO9aB780iusXsCgXqz6akbKfdf6VQQgKeWJOiyQzzZJ5sLCGipaAUt8+LQrhsC3Up5rg==
+X-Received: by 2002:a5d:55cb:0:b0:2d1:21a1:742d with SMTP id i11-20020a5d55cb000000b002d121a1742dmr1580814wrw.6.1678957037010;
+        Thu, 16 Mar 2023 01:57:17 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id o13-20020a5d4a8d000000b002c5534db60bsm6707203wrq.71.2023.03.16.01.57.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Mar 2023 01:57:16 -0700 (PDT)
+Message-ID: <897f4c54-0870-caea-55ba-dbfe768d0c8e@grimberg.me>
+Date: Thu, 16 Mar 2023 10:57:15 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: nvme-tcp: kernel NULL pointer dereference, address:
+ 0000000000000034
+Content-Language: en-US
+To: Keith Busch <kbusch@kernel.org>,
+ "Belanger, Martin" <Martin.Belanger@dell.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <SJ0PR19MB4544EF06560DC1D2B9D1BD09F2BF9@SJ0PR19MB4544.namprd19.prod.outlook.com>
+ <ZBIKscSKCBQmfW1l@kbusch-mbp.dhcp.thefacebook.com>
+ <SJ0PR19MB45449E47262DA497633941F9F2BF9@SJ0PR19MB4544.namprd19.prod.outlook.com>
+ <ZBIe2H9J7XDs/zoD@kbusch-mbp.dhcp.thefacebook.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <ZBIe2H9J7XDs/zoD@kbusch-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230316_015232_962359_D4B8CDB4 
-X-CRM114-Status: GOOD (  14.64  )
+X-CRM114-CacheID: sfid-20230316_015720_172305_4FBEB00C 
+X-CRM114-Status: GOOD (  19.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,109 +86,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When we allocate a nvme-tcp queue, we set the data_ready callback before
-we actually need to use it. This creates the potential that if a stray
-controller sends us data on the socket before we connect, we can trigger
-the io_work and start consuming the socket.
 
-In this case reported: we failed to allocate one of the io queues, and
-as we start releasing the queues that we already allocated, we get
-a UAF [1] from the io_work which is running before it should really.
+>>>> I'm running tests where I connect/disconnect to/from a few I/O controllers
+>>> using the nvme_tcp driver. I use nvmet_tcp with a null_blk device to simulate the
+>>> target. The kernel module crashes (trace below) while trying to connect over
+>>> TCP. This happens on Fedora 37 and Ubuntu 22.04. I also recompiled the kernel
+>>> using the latest nvme-6.4 branch and I'm still seeing the crash.
+>>>>
+>>>> I'm not sure how to debug this further. Any suggestions?
+>>>
+>>> Never seen anyone try to use poll queues with nvme tcp before. It doesn't look
+>>> like that would work for a connect command since there's no bdev at this point,
+>>> and polling needs a bdev.
+>>
+>> Thanks for pointing me in the right direction.
+>> I wrote a test program that exercises all the different options available.
+>> The crash went away once I removed "nr-poll-queues=4".
+>> But this begs the question: should a user-space program be given the ability
+>> to crash the kernel by simply providing the wrong (or weird) arguments?
+> 
+> Right, we certainly don't want to let an easy kernel crash like this exist now
+> that we know it's there. I'm just consdering a couple different ways to fix it.
+> We could just reject user polling options for nvme fabrics, or we could make
+> polling work with just a request_queue instead of needing a bdev.
 
-Fix this by setting the socket ops callbacks only before we start the
-queue, so that we can't accidently schedule the io_work in the initialization
-phase before the queue started.
+Polling used to not need a bdev, but the introduction of bio_poll made
+it required.
 
-[1]:
-[16802.107284] nvme nvme4: starting error recovery
-[16802.109166] nvme nvme4: Reconnecting in 10 seconds...
-[16812.173535] nvme nvme4: failed to connect socket: -111
-[16812.173745] nvme nvme4: Failed reconnect attempt 1
-[16812.173747] nvme nvme4: Reconnecting in 10 seconds...
-[16822.413555] nvme nvme4: failed to connect socket: -111
-[16822.413762] nvme nvme4: Failed reconnect attempt 2
-[16822.413765] nvme nvme4: Reconnecting in 10 seconds...
-[16832.661274] nvme nvme4: creating 32 I/O queues.
-[16833.919887] BUG: kernel NULL pointer dereference, address: 0000000000000088
-[16833.920068] nvme nvme4: Failed reconnect attempt 3
-[16833.920094] #PF: supervisor write access in kernel mode
-[16833.920261] nvme nvme4: Reconnecting in 10 seconds...
-[16833.920368] #PF: error_code(0x0002) - not-present page
-[16833.921086] Workqueue: nvme_tcp_wq nvme_tcp_io_work [nvme_tcp]
-[16833.921191] RIP: 0010:_raw_spin_lock_bh+0x17/0x30
-...
-[16833.923138] Call Trace:
-[16833.923271]  <TASK>
-[16833.923402]  lock_sock_nested+0x1e/0x50
-[16833.923545]  nvme_tcp_try_recv+0x40/0xa0 [nvme_tcp]
-[16833.923685]  nvme_tcp_io_work+0x68/0xa0 [nvme_tcp]
-[16833.923824]  process_one_work+0x1e8/0x390
-[16833.923969]  worker_thread+0x53/0x3d0
-[16833.924104]  ? process_one_work+0x390/0x390
-[16833.924240]  kthread+0x124/0x150
-[16833.924376]  ? set_kthread_struct+0x50/0x50
-[16833.924518]  ret_from_fork+0x1f/0x30
-[16833.924655]  </TASK>
-
-Reported-by: Yanjun Zhang <zhangyanjun@cestc.cn>
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
-Yanjun, I'll be waiting for your Tested-by tag. Need to
-in order to apply this fix.
-
- drivers/nvme/host/tcp.c | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 42c0598c31f2..a8f3d8052b8d 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1620,22 +1620,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
- 	if (ret)
- 		goto err_init_connect;
- 
--	queue->rd_enabled = true;
- 	set_bit(NVME_TCP_Q_ALLOCATED, &queue->flags);
--	nvme_tcp_init_recv_ctx(queue);
--
--	write_lock_bh(&queue->sock->sk->sk_callback_lock);
--	queue->sock->sk->sk_user_data = queue;
--	queue->state_change = queue->sock->sk->sk_state_change;
--	queue->data_ready = queue->sock->sk->sk_data_ready;
--	queue->write_space = queue->sock->sk->sk_write_space;
--	queue->sock->sk->sk_data_ready = nvme_tcp_data_ready;
--	queue->sock->sk->sk_state_change = nvme_tcp_state_change;
--	queue->sock->sk->sk_write_space = nvme_tcp_write_space;
--#ifdef CONFIG_NET_RX_BUSY_POLL
--	queue->sock->sk->sk_ll_usec = 1;
--#endif
--	write_unlock_bh(&queue->sock->sk->sk_callback_lock);
- 
- 	return 0;
- 
-@@ -1693,6 +1678,21 @@ static int nvme_tcp_start_queue(struct nvme_ctrl *nctrl, int idx)
- 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
- 	int ret;
- 
-+	queue->rd_enabled = true;
-+	nvme_tcp_init_recv_ctx(queue);
-+	write_lock_bh(&queue->sock->sk->sk_callback_lock);
-+	queue->sock->sk->sk_user_data = queue;
-+	queue->state_change = queue->sock->sk->sk_state_change;
-+	queue->data_ready = queue->sock->sk->sk_data_ready;
-+	queue->write_space = queue->sock->sk->sk_write_space;
-+	queue->sock->sk->sk_data_ready = nvme_tcp_data_ready;
-+	queue->sock->sk->sk_state_change = nvme_tcp_state_change;
-+	queue->sock->sk->sk_write_space = nvme_tcp_write_space;
-+#ifdef CONFIG_NET_RX_BUSY_POLL
-+	queue->sock->sk->sk_ll_usec = 1;
-+#endif
-+	write_unlock_bh(&queue->sock->sk->sk_callback_lock);
-+
- 	if (idx)
- 		ret = nvmf_connect_io_queue(nctrl, idx);
- 	else
--- 
-2.34.1
-
+We can't just reject user polling for fabrics, it exists for RDMA as
+well as TCP.
 
