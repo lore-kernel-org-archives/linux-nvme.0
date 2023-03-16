@@ -4,72 +4,111 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A443BC6FD19
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Mar 2023 09:01:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 502A7C6FD19
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Mar 2023 10:17:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:Subject:From:References:Cc:To:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=i2/eW7CpkLpnOOssp3OAsuugC3X8OBV9y9F7HY7PF2g=; b=hWcM0k+rcAlh//PAXVpHqHdezX
-	Afr+Sbww2Cbh3rYfBPZcEdi5sNES6t4AyGpTipEY+wAsDwdPTC2e+8Zftde8zr1vuBx34+5JikmZp
-	1Fd892tkDgYF4CfE0m0KzlgjRN5AL6gZKdg2/UA5fVXqHuU1Mqxyi+cRGbiM0IvSSgYUWfsQA/VMD
-	I2LJy3PyW9WXJ467CfjRSpr42NwO9sHFykCqxH05PcDRSxMqTJpIPUgqyvBEwpUSqTxBPtH6HoaE+
-	/isx4m4fzpS8PlqF5ek2YjQ/3ftmg66NyKPXhgnfSH9pInW6tUdR7AB2Mvl2IGr681luJtEB5ZuL2
-	9mvsXUPg==;
+	bh=ZACa85eTwIwEbxbh2jnmGok+PA4RgqK2zsPjWVAbaO0=; b=UOxYfUkrNanyjwACrFKnXLc9S2
+	uL3N/N9AV4yUCgR8bzKVINFP0DbWJvvphT4jBWbI7BTo26JwO+gOfSm7qUw/o1Pmb8rXAYBwW85Hq
+	+Bqo0vevWCIwkNwPPmPYLCx7N61mRte3exEA1D6fj1rV/EOoMP4W++tFLby10Dcy4sAS1B+N0+Vr+
+	ZG8j3KA3LmOr1NBgQvxljHHK6DssX5Y7EzedUjT2iJE2ni49iXOK3k6gtXdN9DtcCc/iyofdQVbip
+	jXc/ZsYIm/WkL0pTypSsYuQY+MqYo8nS/TGNXmf2iYlT4XdULwIE/QM6yozkEvmJO3+DE3hpPX67V
+	vO3hlEQw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pcjTy-00FoBB-0B;
-	Thu, 16 Mar 2023 09:01:10 +0000
-Received: from mail-wr1-f50.google.com ([209.85.221.50])
+	id 1pckfo-00G0MZ-2D;
+	Thu, 16 Mar 2023 10:17:28 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pcjTv-00Fo8T-3B
+	id 1pckfl-00G0Kl-0s
 	for linux-nvme@lists.infradead.org;
-	Thu, 16 Mar 2023 09:01:09 +0000
-Received: by mail-wr1-f50.google.com with SMTP id l12so783894wrm.10
-        for <linux-nvme@lists.infradead.org>; Thu, 16 Mar 2023 02:01:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678957259; x=1681549259;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=i2/eW7CpkLpnOOssp3OAsuugC3X8OBV9y9F7HY7PF2g=;
-        b=Gi5FR9k3G883kbgJZJqaR/SrSVp3R/sgf/+ARAZizNNSKccylossfYU9RqrVrJmGe9
-         vSqFC+ntklDdSTBeqjbT98FfaBNYdVZHdTc5dShOOHbo1dGbA6M1L+B24nwMJ4Wgo2kf
-         sLS+DsjnwhUlrQQbmc2JbOvjJ62WoyYXzKE0FV4qAhXatQIqp9+BUtBhniQkCH+9CbE0
-         B0P8fMj94A5FQj7zYjMgJ6x1n0wgGQPSdklykmU9/dpiQ81OAu2Hyf1z0mQ2AB/lLc6S
-         FJ+NhRnjXUzbhlXdKCNTKdvKoZAafOSweQj7c/cyyakoPkRDcbecnNOUuHvyBZ4yAz7q
-         rpsA==
-X-Gm-Message-State: AO0yUKVI4uAqwqYW/NRYU05weqy8PgGT1Xof20cbbAAVyZm5u5oXXvoj
-	uGWvf8332bYpnqo5q/m4LHg=
-X-Google-Smtp-Source: AK7set+Nz6o0aM7QtOxWokmv/qqkJaTrxXOckF0s0d/yY2Ut1/fyss8n2UVYCm9fVzvLZYFLBh56wA==
-X-Received: by 2002:adf:de8f:0:b0:2c7:175e:e201 with SMTP id w15-20020adfde8f000000b002c7175ee201mr3648180wrl.1.1678957258945;
-        Thu, 16 Mar 2023 02:00:58 -0700 (PDT)
-Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id e25-20020a5d5959000000b002c8ed82c56csm6592697wri.116.2023.03.16.02.00.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Mar 2023 02:00:58 -0700 (PDT)
-Message-ID: <32741f55-f5aa-cd59-351c-df87ee2b2818@grimberg.me>
-Date: Thu, 16 Mar 2023 11:00:57 +0200
+	Thu, 16 Mar 2023 10:17:27 +0000
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32GA3MOu036254;
+	Thu, 16 Mar 2023 10:17:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : to : cc : references : from : subject : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=ZACa85eTwIwEbxbh2jnmGok+PA4RgqK2zsPjWVAbaO0=;
+ b=VQBVVa0hVeaAMk/VLdWbaFLmkZr79x2Qaj5JxbSj2bsBMF9E47wbJYb+QgX0DYA8IQke
+ kAnRYwBqVrdDsGZt/TDhcyIFTAp4eHS7mCljB+RhKUi3WtkmPKfSWaHpdmzk6rA+N8Ln
+ KJp6Ia2PDBMv646TzkudQeAM2i12YE/67nGslrFbqG78+hD+xBSNy/AWeR4MdmU2WfJ0
+ yyICMCVsQeA7RYNnNkd86Sqxy42lusaGUAUqumCohL6zzJCWNb3TkbjV6E0ZUBGf6evo
+ XxpLlSY5TyUVEf+S7noPXRc08Ch7mVBXNm9NSw0nciTpoOhRNu7agdbyT/uUrKzy1SeL rw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pbpx4x9bq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 16 Mar 2023 10:17:12 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32G9uM4w036034;
+	Thu, 16 Mar 2023 10:17:12 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pbpx4x9b6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 16 Mar 2023 10:17:11 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+	by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32G230aA028037;
+	Thu, 16 Mar 2023 10:17:10 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3pbsyxrd8s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 16 Mar 2023 10:17:09 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32GAH7cl21561864
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 16 Mar 2023 10:17:07 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8422F20040;
+	Thu, 16 Mar 2023 10:17:07 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 224D820065;
+	Thu, 16 Mar 2023 10:17:07 +0000 (GMT)
+Received: from [9.152.212.230] (unknown [9.152.212.230])
+	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 16 Mar 2023 10:17:07 +0000 (GMT)
+Message-ID: <4484f553-84c1-5402-4f52-c2972ad3e496@linux.ibm.com>
+Date: Thu, 16 Mar 2023 11:17:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: nvme-tcp: kernel NULL pointer dereference, address:
- 0000000000000034
+To: Christoph Hellwig <hch@lst.de>
+Cc: Mike Christie <michael.christie@oracle.com>, bvanassche@acm.org,
+        martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+        james.bottomley@hansenpartnership.com, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, snitzer@kernel.org, axboe@kernel.dk,
+        linux-nvme@lists.infradead.org, chaitanyak@nvidia.com,
+        kbusch@kernel.org, target-devel@vger.kernel.org,
+        Jan Hoeppner <hoeppner@linux.ibm.com>
+References: <20230224174502.321490-1-michael.christie@oracle.com>
+ <20230224174502.321490-3-michael.christie@oracle.com>
+ <20230314171119.GB6780@lst.de>
+ <33ed9615-b570-03c7-9a7a-d07f020d3222@linux.ibm.com>
+ <20230315133039.GA24533@lst.de>
 Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>,
- "Belanger, Martin" <Martin.Belanger@dell.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <SJ0PR19MB4544EF06560DC1D2B9D1BD09F2BF9@SJ0PR19MB4544.namprd19.prod.outlook.com>
- <ZBJFnEY664s1Hm/E@kbusch-mbp.dhcp.thefacebook.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <ZBJFnEY664s1Hm/E@kbusch-mbp.dhcp.thefacebook.com>
+From: Stefan Haberland <sth@linux.ibm.com>
+Subject: Re: [PATCH v4 02/18] block: Rename BLK_STS_NEXUS to
+ BLK_STS_RESV_CONFLICT
+In-Reply-To: <20230315133039.GA24533@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 7Lu1Tb2Scs24OFho49SszeZQEQtjCy3_
+X-Proofpoint-ORIG-GUID: e5UmNwL8IYAtm8F-8DT0dsS5_CITZfXA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-16_06,2023-03-15_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
+ spamscore=0 adultscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0
+ phishscore=0 priorityscore=1501 mlxscore=0 mlxlogscore=999 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303150002
+ definitions=main-2303160081
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230316_020108_026804_E0F7F2EE 
-X-CRM114-Status: GOOD (  13.94  )
+X-CRM114-CacheID: sfid-20230316_031726_194098_62A1717B 
+X-CRM114-Status: GOOD (  25.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,35 +123,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> Could you try this patch with your tcp polling queues enabled?
-> 
-> ---
-> diff --git a/block/blk-core.c b/block/blk-core.c
-> index 9e5e0277a4d95..12f7ab369f7ba 100644
-> --- a/block/blk-core.c
-> +++ b/block/blk-core.c
-> @@ -844,30 +844,12 @@ void submit_bio(struct bio *bio)
->   }
->   EXPORT_SYMBOL(submit_bio);
->   
-> -/**
-> - * bio_poll - poll for BIO completions
-> - * @bio: bio to poll for
-> - * @iob: batches of IO
-> - * @flags: BLK_POLL_* flags that control the behavior
-> - *
-> - * Poll for completions on queue associated with the bio. Returns number of
-> - * completed entries found.
-> - *
-> - * Note: the caller must either be the context that submitted @bio, or
-> - * be in a RCU critical section to prevent freeing of @bio.
-> - */
-> -int bio_poll(struct bio *bio, struct io_comp_batch *iob, unsigned int flags)
-> +static int blk_poll(struct request_queue *q, struct io_comp_batch *iob,
-> +		    struct bio *bio, unsigned int flags)
->   {
->   	blk_qc_t cookie = READ_ONCE(bio->bi_cookie);
+Am 15.03.23 um 14:30 schrieb Christoph Hellwig:
+> On Wed, Mar 15, 2023 at 11:04:22AM +0100, Stefan Haberland wrote:
+>> This also fits for the DASD case. We use this error code for a
+>> reservation/locking conflict of the DASD device when the lock we
+>> previously held was stolen.
+> But that's not really a reservation conflict in the sense
+> of the reservation API.  Given that DASD doesn't support it it
+> might not matter.  Do you have applications that checks for
+> the translated errno value?  We'll probably at least want
+> a comment documenting this status code.
 
-You need to pass in the cookie as well.
-Probably can pass BLK_QC_T_NONE for blk_rq_poll...
+Well, I might completely misunderstand the use case for this error code.
+Sorry if that is the case.
+
+Beside that I thought that the return codes are generic blocklayer 
+return codes
+and not bound to a specific API. I am not familiar with the reservation 
+API you
+are talking about.
+
+What I understood from the reservation in NVMe context is that a namespace
+might be reserved to a host. If there is a conflict with this reservation
+this error code is provided for the IO request.
+
+For DASDs we have the possibility to reserve a disk for a host. If there 
+is a
+conflict with this platform specific reservation we would present this 
+error
+for an IO request.
+
+This sounded quite similar for me.
+
+I am completely open to using another return code and I am not aware of an
+application checking for this specific return code.
+
+Is there any that would fit better from your point of view?
+
 
