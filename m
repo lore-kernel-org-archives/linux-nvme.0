@@ -4,77 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BB43C6FD19
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Mar 2023 11:50:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6642DC6FD19
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Mar 2023 13:02:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=jvstSV1hs9gw8dXTlAsmMiC+oPiB0B93XBXLmo76E+E=; b=L6UQwhUchFB9p+7NvE7JSRK8SN
-	wGxIfsO5I/nGhygeOHR5uusK0ppzz2xsDvyUKoWqhxIrXEtPILAFg0Tv4lLH1OaddfzcE8DF2RdvP
-	tsvkcKWDf9USDc7P/FV45zlgdvqHdJrIcWqTo5/I4s113SGAW/Fo7o5mS4FDI8BgYXajm0iWfCOTC
-	w0IPsRZrsoH3nhj0NPeTXq6jgzroZsm/Iblev95ofKArG6GjMiNIHxDpbffK3FVAs3SXzx2NNVSA+
-	jwB1Io3U9VrOJ5kE8fmUknN/SMTB0tHxLc5GEoyIJdXPMGcjrEGfY8jBKl6m1Qa8ROZ34mjmzao7F
-	Y6BWEKqg==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nxyb17UdI6xsq79AP29b7rtQj9x0o3CwTtWs8Uu7Zqw=; b=ndzDQC4PYMoSEpNm8Zmhu6HOJp
+	h4WGoMPJQXau+ISB9rK5rzQh6ua8vWEAdj02lbV8JOBdw2y/HT6akL3rzMi2OF9baeNH+IlftkfCm
+	MsgJq6X76Flne75HSBabRbkk2rbt8OPSAT+jTvZZDFkpDzcWy1yTd2Jf61LJGzszm/6iDLbCgiyOQ
+	bcM+aWg+BP5WoZqb3eas1cSCkFyCKaUhoIBgjib5U0Bi7cluRCKTH9tZrYkp+zCgIc9nDwFfiWlCN
+	u5qSWqcwps85i8sFlTfuqAtfLAi/IPqA3/qx6oxbXS1G39kxZHNGyZ08YaHXgD8rM4MqrMF5uXWjM
+	vv9ZbpBw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pcm7t-00GIkv-2R;
-	Thu, 16 Mar 2023 11:50:33 +0000
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+	id 1pcnFQ-00GT0N-34;
+	Thu, 16 Mar 2023 13:02:24 +0000
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pcm7r-00GIkH-08
+	id 1pcnFN-00GSzN-1O
 	for linux-nvme@lists.infradead.org;
-	Thu, 16 Mar 2023 11:50:32 +0000
-Received: by mail-pj1-x1034.google.com with SMTP id lr16-20020a17090b4b9000b0023f187954acso1319535pjb.2
-        for <linux-nvme@lists.infradead.org>; Thu, 16 Mar 2023 04:50:29 -0700 (PDT)
+	Thu, 16 Mar 2023 13:02:23 +0000
+Received: by mail-pf1-x42b.google.com with SMTP id ce7so1063260pfb.9
+        for <linux-nvme@lists.infradead.org>; Thu, 16 Mar 2023 06:02:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678967429;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jvstSV1hs9gw8dXTlAsmMiC+oPiB0B93XBXLmo76E+E=;
-        b=lQ/PvEIn8dxTkLKfVOs6FOPcuzoCAQ4z5dff8f3F1465A0o3iTPN6Bz1AgJyXl9FnY
-         ee7QH70tejeIgqMRZRYFPG/2O5ujpPnJ/PuOxRFdYqd3Km9oy2FuT6Rf9PJ4Wz1qNIyG
-         Q9TVS2b7yb7VVIL1THBQMbW7UJPCxuPkjAmTqL8poXV4wT/mIx56xj3YfzzphlsaiGJ4
-         4UrXrAGrQg/vMzq7cTg2cykbWPbuMYka29KUPQB90J7CEDnHBwzQvMtNM1zWCsUc4QqA
-         o22c+5aordUTnf1/IzSOn899OOCM+aMJcb2Xmdjvo3MNcdb0ExjV/zL6ic9LkXxPSqgf
-         owgA==
+        d=kernel-dk.20210112.gappssmtp.com; s=20210112; t=1678971739;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nxyb17UdI6xsq79AP29b7rtQj9x0o3CwTtWs8Uu7Zqw=;
+        b=bwPoUbGImBC+LtmWBPXAWRz5EqDgzPdDG+p76bRvSoZcwV3q4ohCoPJToGYMPZv4sl
+         lvYz22B13g7dTHrkIQf9jAfSfehqkPeRuwh5FHmIrgU7XRaLMfGxoCOau1eBbeEpOUph
+         OvUnwoFEw1NrGZbFwMYX3XcmdvWDbjF3pG/8RaOAWyxLdMJget+zWDAoNO2CrKqu4pmy
+         4GtXOmOjdWIBSz96NJnuUDxCxF7/jF1aD5ScS5x3FwBVHVxPW39NOYLpYA5gcFyF4oSH
+         99lpLftfDDPy+v8mZ5n3s14pphyOTKIULf9ss+yzGxwiCH+Ls5vdf6QhcbGLMf31FL5O
+         SqPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678967429;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jvstSV1hs9gw8dXTlAsmMiC+oPiB0B93XBXLmo76E+E=;
-        b=a0mDZbLJrOY23hHovAQkVifNdmK3gj0HtZN09169Yvq33QmxpdVslBn/tbvORHFX8A
-         vSWrlxy/HaQ0aJQLUjt7c2PKr1OKsYEaI//hqFnL/4+SilQHLVgY1uH8yXmN5x1P0gdm
-         /fgsLkhC3KxH0+IT6HmvWMwsUn8Q0Vp4C9XyGbMZqDAV4mjnDy5x2ob/vCPH8auubgqP
-         3BWNX2ZqfusJYdaxOjN39IeEzJqFyJZF9w1zxpH+CcsYpBAeZWLnWs0DVhz9ZbXGlfg7
-         fZYff0iLg+oqz10DHBr1yFWrukJZJxVENFRamk6VgW140LXiZwAgou65OGOEN/OMD/3/
-         mQ0Q==
-X-Gm-Message-State: AO0yUKUZjHsAQhWCPgUd6L2MFCvOf0odlTJTyQGOBpcfgvvdqDy/hXK5
-	dCLwREaUSEqm2kjPoN/kQzw=
-X-Google-Smtp-Source: AK7set9AFtEtMMB7RPdiPHfgX6Y4vbCkeDGaJub8RjXRocoKH/9dkKAoEyMJ1bul1CCYIOp9fng7Yg==
-X-Received: by 2002:a17:903:110f:b0:1a0:6139:e9d6 with SMTP id n15-20020a170903110f00b001a06139e9d6mr3591127plh.53.1678967429329;
-        Thu, 16 Mar 2023 04:50:29 -0700 (PDT)
-Received: from gooner.. ([171.76.80.150])
-        by smtp.gmail.com with ESMTPSA id ke16-20020a170903341000b0019928ce257dsm5419008plb.99.2023.03.16.04.50.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Mar 2023 04:50:28 -0700 (PDT)
-From: Martin George <martinus.gpy@gmail.com>
-X-Google-Original-From: Martin George <marting@netapp.com>
-To: hch@lst.de
-Cc: linux-nvme@lists.infradead.org,
-	Martin George <marting@netapp.com>
-Subject: [PATCH] nvme-core: send identify with CNS 06h to IOCs alone
-Date: Thu, 16 Mar 2023 17:20:09 +0530
-Message-Id: <20230316115009.2668-1-marting@netapp.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20210112; t=1678971739;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nxyb17UdI6xsq79AP29b7rtQj9x0o3CwTtWs8Uu7Zqw=;
+        b=2imSGee2pnu4Xux2OITDdobmgRaiIUjTh/Xffc68TNc9Z/SIn6q68RU20ZRD9S/TdO
+         HX7ttUH4go6alOSx6VxVNYBxIL0IlcOK++Czdxmri2iDQa/UmH1TU7qDfOG9qkrjfTf/
+         i1k6mTwTRfcx7T+qirliI1/2OkrVjffHQEJqONpVaxTGZ1vENONB8bQOQiaSgrka1fFu
+         Ldahq0x9N5tCU9tKCUujs0m21AMAM+ey6X7QAgKeAIorarP9Ur3WGAGwG4eTzJ+eZJMz
+         /AIFIjmsD+jxl5ZLk6AKg7ylr4d7IzYGEmphi77fgH7rN3leVHK/eAclHUbyGddjhL/i
+         Mfjg==
+X-Gm-Message-State: AO0yUKW7OvwPb8DZGctKW9HbxoMqkXohbIT43/VroCWjd+8cSW6/i8PS
+	mpLhiCOerLOTjd5Q4h6Q/4k8Mw==
+X-Google-Smtp-Source: AK7set+NMNwz9a+w8f6tmXPmK22sIr9yMwz7zwUIdvgLv+67s/GQCptUlD6XApVb3j5/UQjjlJ4xhA==
+X-Received: by 2002:a05:6a00:32c7:b0:5db:aa2d:9ea0 with SMTP id cl7-20020a056a0032c700b005dbaa2d9ea0mr3667693pfb.2.1678971739345;
+        Thu, 16 Mar 2023 06:02:19 -0700 (PDT)
+Received: from [192.168.1.136] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id c8-20020aa78e08000000b005a9bf65b591sm5433589pfr.135.2023.03.16.06.02.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Mar 2023 06:02:18 -0700 (PDT)
+Message-ID: <75ddafed-cc97-1414-2d61-9fa5fb7266f1@kernel.dk>
+Date: Thu, 16 Mar 2023 07:02:17 -0600
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [GIT PULL] nvme fixes for Linux 6.3
+Content-Language: en-US
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+References: <ZBLMMaLFyRsgOvGp@infradead.org>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <ZBLMMaLFyRsgOvGp@infradead.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230316_045031_081632_2BD8DA70 
-X-CRM114-Status: GOOD (  10.44  )
+X-CRM114-CacheID: sfid-20230316_060221_688240_2B9C6341 
+X-CRM114-Status: GOOD (  12.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,32 +95,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Identify command with CNS 06h (i/o command set specific identify
-controller data structure) is supported only on i/o controllers.
-But nvme_init_non_mdts_limits() currently invokes this on all
-controllers. So correct this by ensuring this is sent to i/o
-controllers alone.
+On 3/16/23 1:58 AM, Christoph Hellwig wrote:
+> The following changes since commit b6402014cab0481bdfd1ffff3e1dad714e8e1205:
+> 
+>   block: null_blk: cleanup null_queue_rq() (2023-03-15 06:50:24 -0600)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git tags/nvme-6.3-2022-03-16
+> 
+> for you to fetch changes up to 6173a77b7e9d3e202bdb9897b23f2a8afe7bf286:
+> 
+>   nvmet: avoid potential UAF in nvmet_req_complete() (2023-03-15 14:58:53 +0100)
+> 
+> ----------------------------------------------------------------
+> nvme fixes for Linux 6.3
+> 
+>  - avoid potential UAF in nvmet_req_complete (Damien Le Moal)
+>  - more quirks (Elmer Miroslav Mosher Golovin, Philipp Geulen)
+>  - fix a memory leak in the nvme-pci probe teardown path (Irvin Cote)
+>  - repair the MAINTAINERS entry (Lukas Bulwahn)
+>  - fix handling single range discard request (Ming Lei)
+>  - show more opcode names in trace events (Minwoo Im)
+>  - fix nvme-tcp timeout reporting (Sagi Grimberg)
 
-Signed-off-by: Martin George <marting@netapp.com>
----
- drivers/nvme/host/core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Pulled, thanks.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d4be525f8100..1894aa993313 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3063,7 +3063,8 @@ static int nvme_init_non_mdts_limits(struct nvme_ctrl *ctrl)
- 	else
- 		ctrl->max_zeroes_sectors = 0;
- 
--	if (nvme_ctrl_limited_cns(ctrl))
-+	if ((ctrl->subsys->subtype != NVME_NQN_NVME) ||
-+	    (nvme_ctrl_limited_cns(ctrl)))
- 		return 0;
- 
- 	id = kzalloc(sizeof(*id), GFP_KERNEL);
 -- 
-2.34.1
+Jens Axboe
+
 
 
