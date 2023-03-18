@@ -4,203 +4,136 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9CD3AC6FD1D
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Mar 2023 16:27:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9E723C6FD1D
+	for <linux-nvme@archiver.kernel.org>; Sat, 18 Mar 2023 00:15:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Cc:To:From:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Fh1MSqVerPO5qyojfa5eXZu6Knu8qU2J9pF6u+wFHkQ=; b=26I5EqjXpZi8V+Is7gX/PSZ8eg
-	88xA7Rj3OSL64iSrwd8P+2a+7otEfZEFUzVdIdE3yjD1q3jzgMIotXx8wbAMNHmg55iNbidvcyrkw
-	p100+VujD3NmCNg3J6iKI768NrC49U+AoiGXqgM1zfuHbi9RnPNP8501w8MlnHEkHxYuk9ofROYBD
-	0hI24q8AZrl8QeZFzDYBPjeorw1W8JGaQy9b56jgepCv6vHeny5OZ4dHq9EJF9Q+M7NbRkae3goHM
-	7OHlPSoXvglzRU61f5zLcMe7H0U72e4tfkLbMkuUN4IhQk4D1zeZevUhUdo1Ra84OuUwUN3Ep9DWx
-	PYDFhq9w==;
+	bh=sBBK+RixVNchn/MsZ02G+3T+rMUUVCn20p7M7d2r0r8=; b=Cf1HFdu5raDHj9AfPcCGzMvUjX
+	RFn0l8rzJObrrzusMzxtQrXIccjepaSi2MasJ3IZy/yWjey5O0mwUHPGDeV6n8NWCiuc0ncelOlhT
+	6v1LoMMJ1FqUeRtlaca5lw6uZVpspp2owo9CsDQju7Qn860KfgH24iSCCkZ0f5bugnPostGR1FHBz
+	9v4H9+N1zAx7k+LTDEnwkwuCQxwjqi00E2jXDvLO1/wCVhV5pnULxkpgZt8Iv9WrgagKOxLJ/lU06
+	t4pAa/komnHVEIbxKuFJHjOdPIogwbA0zWCcT0VqnEcnVz58Og41SnCu+vEQsngQJJT4pFH7+0MuD
+	WTYhDExg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pdCv3-002l8B-1C;
-	Fri, 17 Mar 2023 16:27:05 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1pdKEj-003lFC-2M;
+	Sat, 18 Mar 2023 00:15:53 +0000
+Received: from mail-dm3nam02on2060c.outbound.protection.outlook.com ([2a01:111:f400:7e83::60c] helo=NAM02-DM3-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pdCv0-002l61-1o
+	id 1pdKEb-003lEk-0m
 	for linux-nvme@lists.infradead.org;
-	Fri, 17 Mar 2023 16:27:03 +0000
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32HGEjka004686;
-	Fri, 17 Mar 2023 16:26:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=corp-2022-7-12;
- bh=Fh1MSqVerPO5qyojfa5eXZu6Knu8qU2J9pF6u+wFHkQ=;
- b=cmogIygdVE7xXF+GdSyEO9IWG/mkPtJbv4xSI7H0rRUUqqrCb+9X6eRHtzEuabyf0X4z
- SMuapfhpms41El/E5jh2xKFUuIy627kHqoQrWIE/IS8HYibF7yOrAGtRHs8Q6cjDUf18
- oD5zutZW7zQ5NL2p2mhOWkGCW9wIK/7SIzGc03V4fYmcSCowwKxVVSVg8Xy9KPea9XxR
- fTzwS7YZQC1TnQKxbRQ8GVmA1wY8hKeLh66pWeF3g4dBjLDH4pGQIG6lyIj3KuoZ55Ty
- cOsWgL+wB/p+7iuAXFlLijoc3tlHiuxRHg61NPmtszOzspwBK7hD41Cst1TCoBQAUKGV Pw== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3pbs28m9nq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 17 Mar 2023 16:26:50 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 32HFfqMI015703;
-	Fri, 17 Mar 2023 16:26:49 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2042.outbound.protection.outlook.com [104.47.66.42])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3pcu2u1pnc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 17 Mar 2023 16:26:49 +0000
+	Sat, 18 Mar 2023 00:15:47 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HXgXSWxnRkrYxjOOeGuxS0XElPLpqB+r2dDjirN1YDNjwHWXE+6sqnoyRDSJKKBmQyOJR9ntGB+dImDTxd4G6FCAEZGIcyIYqLEnSWxoD0hnWJHYY6KZbGZx9F19jf5LvkluI6pOyt0WcMxtb5hZxO3aABj6/j4j/rUa8Dc5LJ01UynPUk2biE+0us9B91QjSqgp4G/ASas4mJXk72e6T4B5O2KmUFQ/RYHUIZxfvXSDMnuLE3L9obs7slHcgPv3k4ROcgUsg9sZniZDlxt9EJFIG9RJe5VNX4kerNewb3n0sl0wxMS9xAGyGHeYJG4ZdK8UHKNr2HFcPNaCOg9lIw==
+ b=Vx3M9jU88H3tT9MN7MgOU0dNcUWOyIe51lCorrVvLwayrRKyohInQWBqctZKLdMixM69fnmpdbHNYKMdbaj3HWaH6oOAqIoXkdmSaltjcnlYtVxFwDuRdLe2iE638Jpi6/ykj1gtZaCEnFDbtxbCGzTuHif0pHv+eYk9ZlFRtpf4bKGeixk7rvl9fuHDp9G59iGzjWO+7lYiYzsjvApe4fwSHOQzDj70/knv6AnWunbqHx6Pl4O9Ie2qh89mz6l/GOB/k3y6OaWz0YeRMsA89/T4GgVflQrVB9HOX4/fiYUn2NXcpsLdlhlMVzMWS4/B0lg11OlYJCiIXq89/pDOng==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Fh1MSqVerPO5qyojfa5eXZu6Knu8qU2J9pF6u+wFHkQ=;
- b=cLFbqSkjNW0nkqZitMPYcJmlXwR5avPuwzpR3GfRclfHxlwv+BvgULwM7mRmg9Qk6aRzy2pVEx2i3kX3YZOUOehXmenGnsq0bob8Hxmr3UBB2hh4TA17/grThPPQJrE04FAM0i+sk1LlLvu0z9Ig6HhbKu7jojKxpdyOy5TBBmdEDa2mQCCn+DgBOJNd11nBMQFjUbv/R3H7AJ65sz4BCTlIc1jAyo4WCMIbBLLuBfqCkgG3dXRxuAUKk7rTgbyzPOnYjT9aKTDd/jef2cMMrvuHLUQBc+av0Mg6FqWx79esMhS04zeXNmb8cc6LA5VUIa6BbzmQ2M0KAW+dEixZeg==
+ bh=sBBK+RixVNchn/MsZ02G+3T+rMUUVCn20p7M7d2r0r8=;
+ b=igN0zM0p9smI5iFX1TfFwQMd5s17RywH1o/AIzsAV1EcZdNOS0YOYM7gcYXrlQVpA3djbuG8sTJ76zBvWOIBZLEqWUQ3m/uyyPNezrLFWYth4qr3IHpBB+jL3vAU/0Meh2zhZ9ny4K0FPlaqn7J6Ds+HkXl5UsU6Dsf+opKMKY+OemuvV2nuI2NLZ/LMw9ZzdeJl7rHH9E2ELZklMtyY3i+np7YZ5WoybLEoWC/jST+p40P+I2DcBkyv5h4dMqOWD6Jzf5epIy0P2zgTONDQtHbqcOgk2MKnWT4j9DM25kPCEnf8yJ9QqGzkGwiAcpELy0l3ZSWf+k72Ojz7XRRiXg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Fh1MSqVerPO5qyojfa5eXZu6Knu8qU2J9pF6u+wFHkQ=;
- b=rNNhIt4woBOumVH4EN4XoOlm8Ihj5Q0DVoQMmwT7B45d73NAK2t/aWT2imxx8AC6bzjb/WGbjxLxxD0Znu42pEJ9fzk/5+l5aVZSwt1C1awxvs3GZXd9UXvmUnY1glnQ9gr/aWJl1khACdjeByOKDzIMX5si7dNYceUorEnDqXI=
-Received: from DM5PR10MB1419.namprd10.prod.outlook.com (2603:10b6:3:8::16) by
- SA1PR10MB6616.namprd10.prod.outlook.com (2603:10b6:806:2b6::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6178.31; Fri, 17 Mar 2023 16:26:47 +0000
-Received: from DM5PR10MB1419.namprd10.prod.outlook.com
- ([fe80::df32:94e7:3f41:97ef]) by DM5PR10MB1419.namprd10.prod.outlook.com
- ([fe80::df32:94e7:3f41:97ef%7]) with mapi id 15.20.6178.035; Fri, 17 Mar 2023
- 16:26:47 +0000
-From: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-To: Pankaj Raghav <p.raghav@samsung.com>
-CC: Christoph Hellwig <hch@lst.de>, "# v4 . 16+" <stable@vger.kernel.org>,
-        Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
-        Sagi Grimberg
-	<sagi@grimberg.me>,
-        "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "javier.gonz@samsung.com"
-	<javier.gonz@samsung.com>,
-        "k.jensen@samsung.com" <k.jensen@samsung.com>,
-        "jh.i.park@samsung.com" <jh.i.park@samsung.com>
-Subject: Re: [PATCH 1/1] nvme-pci: add NVME_QUIRK_BOGUS_NID for Samsung PM173X
-Thread-Topic: [PATCH 1/1] nvme-pci: add NVME_QUIRK_BOGUS_NID for Samsung
- PM173X
-Thread-Index: AQHZV45nokIbA+QLzEKTFICk+DnoIq783W8AgAEQ1ICAAOTMgIAAWFwA
-Date: Fri, 17 Mar 2023 16:26:47 +0000
-Message-ID: <3B7AB643-C87C-4C19-A47A-C15565750243@oracle.com>
-References: <20230315223436.2857712-1-saeed.mirzamohammadi@oracle.com>
- <20230316051508.GA8520@lst.de>
- <930CF361-37C2-4625-B5FA-245248544F92@oracle.com>
- <CGME20230317111849eucas1p115741dc29cc0a5c57914e60aa5216288@eucas1p1.samsung.com>
- <20230317111031.lygazqsaeekpdegd@blixen>
-In-Reply-To: <20230317111031.lygazqsaeekpdegd@blixen>
-Accept-Language: en-US
+ bh=sBBK+RixVNchn/MsZ02G+3T+rMUUVCn20p7M7d2r0r8=;
+ b=s2Imtyy2z/O5BWS7hCVUfu9YpNABspINsYMAtvLA7eKNJS1h8PpYyEPbf1/3Jhv+rXwwi4JvlwbdksKY3C4kVEImiXmUWZRlEHxhsgNDn+CtTHbyFWT8QCFJuN7E6zhkIW9pnZuZ+Cpxhnv9yLyoZzoj211BYVG1UEq1vNV9WYtBqa5Waf0ynHEwxigCIjmccDmeCmJQSa1KXhGn6r+MQNqotuESrIATiVlTAPtcEqH9hZyhs8xSFutG3Cig6Wj6jrCS+1eD1lTlvxTMAiap8mAOGZthk6yJUz/D9owg9Tr08Sw7EVRL39tBBzrAHfBBgPFRk1QIDJw3WuCXweeaYg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BYAPR12MB3189.namprd12.prod.outlook.com (2603:10b6:a03:134::11)
+ by BN9PR12MB5195.namprd12.prod.outlook.com (2603:10b6:408:11c::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.24; Sat, 18 Mar
+ 2023 00:15:40 +0000
+Received: from BYAPR12MB3189.namprd12.prod.outlook.com
+ ([fe80::c4b1:77a1:8e6b:841d]) by BYAPR12MB3189.namprd12.prod.outlook.com
+ ([fe80::c4b1:77a1:8e6b:841d%5]) with mapi id 15.20.6178.035; Sat, 18 Mar 2023
+ 00:15:40 +0000
+Message-ID: <350b1488-761e-1aaf-bf36-ca5341ea3ec3@nvidia.com>
+Date: Fri, 17 Mar 2023 17:15:38 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: nvme-pci: Disabling device after reset failure: -5 occurs while
+ AER recovery
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3696.120.41.1.1)
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM5PR10MB1419:EE_|SA1PR10MB6616:EE_
-x-ms-office365-filtering-correlation-id: f19a9ca1-6d93-45a9-dc3a-08db270467b8
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  zJOpVCOXNPYtgIGY7PDbIk3QOs4dbGOG5CrDeGaekD/7GtiAAB9lXE3kBrMjl0pWhILnWvmBrcsjetApeXiUCwP9jAcU6mBFuysbZXNJhW0rEUTVInlUTPEA+y8NQGvciktbs67lfQregMgKRR4xuN8w3h9W4jmulPFf00/mvvvB9UPL4A/vqop5XfGp400j1CDtsf3ZU3tWUMaJyWRC/I/gxvUONHXJ7/U87dqci8hYgSEiEA+wea7BwT+ZuGRFvC8PA7/SHeW2L4UsJCK4d7ViBJQmuEtbwa5gDVAqYIjrl/nwHZbx3CsWoQQMV8utRD2SjjJA77A+vmTpwdr9MeOQSqGmpSslDG2QXHzoIYEnvGJZq3IHy0jgkwp7Mkj7gPebn99cLPA0Bay9xziWtmjcixTlgucQv0ZVPBTxgNuX+d19wnvIlURrE61h0vHFlfpGGcmCdK4NRu/9IxaHk6t72qL0hl8WPtOOapffEVNFSoyQhM1lyt+hT98STPM1kYHS3GMtu7/P+rFCJ6Dd94tdKByfx3xDx7wasl5kufqvbj+KcNbd/LHiAUA6d+GmXGb3GqV/FmnpQgqojZQsAHuHkkMWIHeUc5pHi4kQNTwnroLEjss6OktN0a4sGGJwYbphLNKtWHfLw6NiKD629TcWKVBA2SuuXv53d3klFdWra3u4T2sJKt7lMRhRYbjiS5gX0A7jcwsCJd8zDHRNtKG7oNUoJfk2KAcUpKAMNBE=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR10MB1419.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(376002)(136003)(346002)(396003)(39860400002)(366004)(451199018)(66446008)(66476007)(7416002)(66556008)(5660300002)(64756008)(71200400001)(76116006)(66946007)(8676002)(316002)(6486002)(54906003)(4326008)(86362001)(478600001)(38070700005)(6916009)(33656002)(2906002)(122000001)(38100700002)(8936002)(6512007)(41300700001)(6506007)(53546011)(186003)(2616005)(36756003)(44832011)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?eG8zNUhrbWdvYzVJZTgvOFRtZTQxMHA0clo2MHpTa3hBaDlwM09BTkpWTjdD?=
- =?utf-8?B?Y0tBWENCdTZrVzJZY0kyTzZwSGJMZDdqYkg4eTMyT3dobVpNZ00vbHVsSHNM?=
- =?utf-8?B?V3BER0o4OEhydit5ZTBPdnZSSVNvRGhvbFZEQmx4OG9OZW9wMStBTEl2Z2Rv?=
- =?utf-8?B?VTE2RDJZUUpNWkhRbFE0ZGh2dkJtYi9wNmlCYVcwQ1pjWXBVT0w5bjJSV2R6?=
- =?utf-8?B?UWFYbEJDaXpmL3VkamRFaHo2VGRUcmJsRlI0MWRtWFhTV05IZG1WeFdnYk1j?=
- =?utf-8?B?NEpMSS9ENEwrclBYdVgxVFZnZ0VhVjg4V2VnNnN1UXZzOXJWK2ljWEpZTk5w?=
- =?utf-8?B?R3VZQzJkVHpqWGhadnRwNWZwQnQwMm5ES2hiMTN6U2lTanVPd3FycyttTUg1?=
- =?utf-8?B?TG5uUHRaLzBITXhWcW13M1BFcllTdWx6K0liVkdvRDFQZzYzTzRlN3Vldml1?=
- =?utf-8?B?NC8rK1VVYit1ZVhzaElnQUNSV3prUWxYUDdpU2dwa3I5N3BjVG41N3Ftd0RD?=
- =?utf-8?B?bnpWcXdadGNNVmRONEV2dTFXajZYMXRISWxoeXNhVHRRY3o4My9nU1VOU3d6?=
- =?utf-8?B?NEEwdE9PR2UxSEQzY2M4dUdtTkMyTUt5RFE0YlRENzU5ck9EdEhEcUpPU2x4?=
- =?utf-8?B?L1FVNzJjaHoyT0ZtOHhZVDZEWjMwbXFrazFsNVFEa1I1QWdlOU4wdmxkYWhk?=
- =?utf-8?B?OFBvbTZ5ejcxYVRNeUZkNU9CZFRUWEIrMjBFUHpoV0J1L0pkWmFMbXMvdHMx?=
- =?utf-8?B?ZlBzSVdodmVFY1pPMnU5NHpQTWRrb1VzbFFDOXZEZnN3d3o0RlIrYWZZbGNr?=
- =?utf-8?B?RlNyWWhvaEZGOU80NFJLdW80Y0YyUTlsb08waTd4eUhLR1JWNUpwdkx2dTZq?=
- =?utf-8?B?aGJOaDBEY3A5WFVBWURPNWQ2S3lSMHpjTU5jZ3lSV2tKRE5hZDNTZk9USk12?=
- =?utf-8?B?RTFucStHRk5mNS90dzNlYVZtc1E1d2cvUFcvaXdjdmZRUmRtZ0R5aFFTNk1Q?=
- =?utf-8?B?aUh4enQ3Rzl1amJNOGFaRlU1MG4xU1ZQeDdOL2R6QTN6ejIvNWllOE1hcGk2?=
- =?utf-8?B?TkpuM3NPUDBMdm00Mlppck54L2pXWFBxemVmMHZIVkZHSXUwYURaTElqcllN?=
- =?utf-8?B?VE5kVElHQmh0U3B6UEQwM0Z5WmU0UjVlVVZvUEpQcllEenB3YjQyVU11MnBr?=
- =?utf-8?B?R05hSkRZY0VUbUJ3enloWjd6SHZJQW5LeWMzb0VaRnM5cTIwY2dMZytvZ25Y?=
- =?utf-8?B?amUvRFZZTmRKQ1o2S0lSZ21ZMkd3ZVhwTEE2bUhTMTVoMSt4dXZPNHFXdVZD?=
- =?utf-8?B?Z0dXNklxSHRoYkdocHprS0dmcFpZNzRSQW1FNk5sYm5YV2EzaFR0QU9SeGQz?=
- =?utf-8?B?dnd1Z1JrcVpNMHA5WGxOakQzMEhXMlFtZlZhdXllcFRVWXdKcHJGdnBUMXBt?=
- =?utf-8?B?NXJpQTJKRW9LUTNkZ0tMRTVHYi9vY0lGQkNsdm9FaU8yVVYrVURtVFBaSTJD?=
- =?utf-8?B?NG1HZWpTMU5KMmM5K0R0bW1xSjJOU1FYcVBPZ1BLNnNlTStaRVlTK2FnNFpK?=
- =?utf-8?B?ZW5OZGhZR2pVRWVaWVQrZ2NlM0FEYmhoUktVQS9taU5zSFJQY1VUeTRSd1lm?=
- =?utf-8?B?WFo4UTlHUGpxT3dlVmh0TVBja3VneWsycDd0b3RXeWRNMXVZQUoxZUxVU2Ez?=
- =?utf-8?B?UlNMY3JlK29FbkQ2aUJ3RG9jc0xQMHlWSmNEcDF1L2lhVHo0SGRaOExiQXc3?=
- =?utf-8?B?dkpkdWRiS05ML21jYm93VkpJZFdIdDlQd216RSs1Znc2T3BQeXgvaHg1dWpB?=
- =?utf-8?B?Qk1UeDQvbDYwUytiQThnZkR3V3RJZy82UGNoVDJBdy9lb1Q0Wml5Z3dCS0Rm?=
- =?utf-8?B?QmFyeCs3Y0RGZEhVU2Q0dWZka3JYTi8zSkt4aDlNb2pXN2RETUFnRUJqTi9v?=
- =?utf-8?B?VUhkS3oxMms5Wk1ySGd0a0NWN0lEaWJCeG91TzdsZ2oxLzdKQ1RHdkdFY1ZV?=
- =?utf-8?B?OUZaMXFqZm93UzZlVWs0SjBHVDBYcDFxcDhUbStIQ3RzQVIzSTRVbE1wckgx?=
- =?utf-8?B?dDh2Z1I2NERsVDQ4dkl0aUZIOFl4QkpqRSs3SmlWYmJ0dEloYWdhQ0g5WUVG?=
- =?utf-8?B?RkZpdWh3UEdKTEphZlhRS0M3cjFQNWZGZHBHWlk4Q1lHOXdRb3pZblovQ0Fk?=
- =?utf-8?B?VWJNWCtJY05LdFU2NkJHSVNaNzR2S1VRTXc2RDEwd0NZTmwrbDAxY2FXSkpv?=
- =?utf-8?B?NkZKRzVnZ3NERmNNRnBqNU1DKzVBPT0=?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <72B7FDCBDD09804FB598268D21ADB73C@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: base64
+From: Tushar Dave <tdave@nvidia.com>
+To: Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>
+Cc: Lukas Wunner <lukas@wunner.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org
+References: <c17f7476-8ed0-212e-9480-78732635ee3f@nvidia.com>
+ <20230314161127.GA1648664@bhelgaas>
+ <ZBCuPM0WcWaLwWXJ@kbusch-mbp.dhcp.thefacebook.com>
+ <e598b84f-2f90-b29a-6209-17309763514f@nvidia.com>
+In-Reply-To: <e598b84f-2f90-b29a-6209-17309763514f@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR05CA0195.namprd05.prod.outlook.com
+ (2603:10b6:a03:330::20) To BYAPR12MB3189.namprd12.prod.outlook.com
+ (2603:10b6:a03:134::11)
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 	=?utf-8?B?QXlOczZ3djd0ZllpQUVWbGtaWk01QzJtbmF1QXJENWs5RzBKaTJwTjI2TTNz?=
- =?utf-8?B?Rmd6eExLQmJvNGVySzYzRGZPT0tvbmxQUDFicWFFT2pxQWk4T1k4Yi9GQ09o?=
- =?utf-8?B?Zmw5Y01HS1ltS29FdC9ucDFQbmwxOThkb1hTSWRwV25rRVZxQVV4TUw2dnNI?=
- =?utf-8?B?ZWZPb1dmWVZHbjZRK2p5ekpWNjRtei9YM1gva2JwMUcxZkpQSHpZVGU1aWcz?=
- =?utf-8?B?WHFvanVwcE1MWVM5RmEzMW5tRTNya0c0cllRU2N4azdpbzdsRHExMXBSQzRQ?=
- =?utf-8?B?L1ZjSE9kK1d0U05BZ2NjT1BYc2lVS3daSFA0MGlSZWJqNFRLL3VFRURFdzUw?=
- =?utf-8?B?bDNrRlhmUHNNYzg5RTNRdUZsbGRodUVjL1dzM2dvK09VNmlWWWk1ZktCU0tC?=
- =?utf-8?B?NjhmOXAxUUZlNzhtNi84RGpLSUpWQ0RDT0lDaThncGxGekxMVTFtbGZmTU5s?=
- =?utf-8?B?Mit4SHdmeFoyRVpHZ2wzV29EeHdTdFNKVU1tM1JTbG43ZDEzWDQ0STNnZWZh?=
- =?utf-8?B?ZC9rYloraU5teFlRNW4vb1R6UmVQRVBNV0tuZkxVOVBaTGtDdW50eG4zQTAw?=
- =?utf-8?B?NDg2bTQ5R1JqbDNWTmRsMGRuMUg3d09ucVhRUUhObU9BQXVIRzNjMlVmMm5B?=
- =?utf-8?B?NjZmQzdjbFBkUFlBaitqam4rRnVUeGY5b0o4ejJaOXBGbGFZY3VQVzlLQVZ1?=
- =?utf-8?B?NWdPeWFGZlRKak12ME1kS3cyMzNFSzRTaGtWL1M3TUZtSDEzWFBRdGxacVhR?=
- =?utf-8?B?QmVlUThaeE45WWpudjhPTEQySkxYeGFvMEY3WUVZR3hISHQzTm9sMjhldjd4?=
- =?utf-8?B?Rmx5T0dnRjVrMnZLbUFXRjZpS2JNUHVLTGNRWElzS2k3QkxlczY0VWpIR1JG?=
- =?utf-8?B?eEJoYnJwVW1NOWxubGZHTlNMazRpeU0xNVphWkFpeHljZFpCOWVTb0FhQzl2?=
- =?utf-8?B?VG1jck5wcy9OYVBFRkV6c2d2QTF0OVVYaE83dVFGVVJnRlJBNjVqMERzc0ps?=
- =?utf-8?B?YnFRcWlUWWpMLzNoOHRUdFMrSEo3dlJNT2o4S1paKzdKMllQUUZBWlh6eFFN?=
- =?utf-8?B?c3Ayd1R4T3lRWmdCcEN3b255OExPdUl0TjBxQUloam03Q09SZktNcGdsbFJj?=
- =?utf-8?B?RVZoTm4yZUYzUnRPSDloZHkwaVZnSWdWY2tZQXY0THZhSEJQWFBNdmlMVE85?=
- =?utf-8?B?dEZ2QTRlUE0vclB1N2E2aHdiTE90ZmwyTjRzOFNyRUQyMEYwNXZINlYrdDdP?=
- =?utf-8?Q?/P9Eq+H2l8pbqBh?=
-X-OriginatorOrg: oracle.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3189:EE_|BN9PR12MB5195:EE_
+X-MS-Office365-Filtering-Correlation-Id: ef705650-17b8-4d9c-3668-08db2745e815
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	sBOLLsDGL4IWMm7XjsAsk1YUZVgFC0l1OrFf74+/H3Y49JfCZHFoofMrR+lJapgZRStA1PCE5CovaOBP/W4RJQVuUutY6pJo9EWci7HfX1we95VxArfvYoLvESKthrni2xRtjxKHvi4qJgEzaCotE2zM0YXQ7dzCuB0kDV3fYIMrYZ315PebobXFxfYwigHxDdQiPm3XrUGOrsaqYb8A11ziEP7udQ6dQSvkOesDqubCdIA2T5PSIh3tFIZTzN5edWqONJ/PJqAtLJdMhK9Vzu1lYcMLXep29cXLmtuarU/z1m6dgeGt3/QqSDuo5Sp9bxArHSZpfGml519lY8qh/CJV7iJyyOTUzTl2vN70HUSJxGp512LNM3J1+HzxfQ5leARJsbE3pr0mRfdB8yFd+yLt3QNog/KD5hHrjgZ6D05trpnhO6TchO0v7KzlZm2llmnl3zl4Q/NXS10UXHMNZ0cldmL5upkfb4QSpgAvdAZ8y+ArtAk9v8G/LuBVWcti647uuNXDEcnDAMFzLJxDJVjQEFAW+ENyZJW8Qvtfvg9LfBssJUOiSZuU6kPvJMTF7XEp7gcycI94tuHoNjDX7z7LPbvd8sxEqtOJ6ydqeY5H5XIMBuOCtE9mHg+wCM1/IZpFrMijDSZuS54HNUsI1YHqy/HW+30yzaqny2EUf2IFxVK9C6K/bbUPYS6ReExpbAq3BgHrPO0wLeJ/xLoDm9HnMIyDmhKNRWU25Qbacqc=
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB3189.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(366004)(396003)(376002)(39860400002)(136003)(451199018)(66899018)(31686004)(54906003)(110136005)(41300700001)(478600001)(66556008)(8936002)(8676002)(66476007)(86362001)(31696002)(66946007)(36756003)(38100700002)(53546011)(26005)(186003)(6486002)(5660300002)(4326008)(6512007)(30864003)(6506007)(316002)(2906002)(83380400001)(2616005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?eG0vMkhTd1BNeTgyeUFkT0tXSlJRbFNHalNDQWViWGpmQUt2RXMvVXZjWElM?=
+ =?utf-8?B?MGp3SWtDZVJaZzBkamVwY2tocDdmZDZ6NUsrMnEwQWR2U0RJZ3lwMEF4V1Vp?=
+ =?utf-8?B?UDNYOTMrSlh6QlJ0NXEzclVHYVFBWktyMFdQaDQyU0JvUVRXcDNLalR6VlJ3?=
+ =?utf-8?B?bTNtdVRtd1FLRzNJcmJ4MkhOaWlRdHNlYzNlUW1uTEhOckc5L2h3SEVCbGJJ?=
+ =?utf-8?B?YzBXN1FJdkJzRVppUFZvajhtKzVyNFpQT1lFNWRRQ2s2b3RmNnBSUmFsaWpu?=
+ =?utf-8?B?RXZkWWNRTVRrbFJZcTZUUjNnaE9xb2xUWW01NlVFM3pGQ3FMZm5BK09sQnhi?=
+ =?utf-8?B?ZjQybmpuQWFsOGtQTitaOU5BSVBYWmVEakNKNytZVVYvdVVKbGZGM21XWEZS?=
+ =?utf-8?B?K2krTU1vZHJRVzA1aHdUQWNKOVB0Z0xQZ3Vyc1Z2U0ZHbzJTeXo2MWNwTVBP?=
+ =?utf-8?B?K3V4cFkzTUhoM1hvck5qSndRaS85cWtWdmE1MEVuY0VielEzQmxueWlTMnlZ?=
+ =?utf-8?B?VU5PS1FJaWRia1krNVNkTWt6MDFpaUJLRVZ0bzM0MlZkQWpHaS90YSszWjlp?=
+ =?utf-8?B?RXhqd2JLOStXQ1BQdTIzNk9YK29jMGJQNlRvd08ydHdQMEFGd1BpUnFPOXZT?=
+ =?utf-8?B?QUJFSUhEOWJkNS9UbkNFNHowQkYxZm9HZ0JnZVZwRFJ1ZGpQS0dHSFNOUnow?=
+ =?utf-8?B?aG4yWTU2d0IxNW5PMERaOFVKOHdLL3pobE5FMkRLenFoRUU4aU45OUw4VU1U?=
+ =?utf-8?B?dWs1MTVKZDhNT3Z5MlBwaVB4NDdrSGxVYW9IZVFjMUh5eGpvTzJvTVBLZnhH?=
+ =?utf-8?B?TEw4dWVwb3ppVk5kZ2FLTTA1MGxIT0dMQ0ZHdUNXZVkvR05vemU5Y1ZJYzIx?=
+ =?utf-8?B?VEd6M1FyWE5VWFhRYW9xVzdYVWJUdVErMXVMRFZ3ZXMzMmZTRmhSbEc3cUQz?=
+ =?utf-8?B?RzlkakN4NktzcEV0Tnd2b1IwZ2ZDOGRUTUkrc2d4TFEyd3lGUWJsVEI3dys0?=
+ =?utf-8?B?TUxILzBORVFndVorWGhqNFlpTTBoU3R4M3FzazVKbUlKR3JqSnpqODFMNXBO?=
+ =?utf-8?B?R2J4dGp3eS8vNU5RRFhaYVdZczVYTjhiZUVYcGFMYVhqSHVoM2ZCdjJKQUM2?=
+ =?utf-8?B?NUhQOXJBVGdmRC8wTzFFeHd5cDc5Zmxma1pmMkxMdXlOYkM4Vkx3YXVsalJq?=
+ =?utf-8?B?TjF2clI4eVRpcmFRWE5HckVuZ3RZZS8xRkd2TEpXS0QyWDVGSktWU3R4M3pv?=
+ =?utf-8?B?R3lrdmFwRkJYbU1iZEVjeW43bWw0blZSVE0yL2tKWTFjZ29BMnl6ZzlVakVi?=
+ =?utf-8?B?NUlDUjc2R1F5eFkwSUw3UFBSQjA4L3dLQ3VCUU91TmZvbHI2ektWMGFWWUdJ?=
+ =?utf-8?B?OFcxZ01TRUdYd2hEZ09Ia2FLbWI5T2dhbnJzKzQ1SFpWZnZBTTVNczdHRzdk?=
+ =?utf-8?B?TjdDN1RLWkwwVjA4cVdJQ3ovanpzVW16dDdLU3NIeVVtbXpZdnBiR1Q0WURn?=
+ =?utf-8?B?STdWcEZ3OEVXUVo2RUFEcXFHeWpaUkh5Tkw4WitHS1BmMU1qSFUwMkNrTTFD?=
+ =?utf-8?B?TFkyb3lETURvQ0F4a014OGtlK0Z4MFRyZi9KYWtTTng5OFRXZkpEOTJ5MHpi?=
+ =?utf-8?B?R0g1KzZtRHluSGJBZnRBaDdQOUUyWVlOWG9rckJKR2JLdVFVSWVGQ0hhVFBr?=
+ =?utf-8?B?V3FsbTNnbTFKRWJIY0NLY1l5T0RaVWdDZFdtUEM5QTZhVW5DYUVQVjU3a1ZF?=
+ =?utf-8?B?Tkt6YW14dFAxNHpyYTNrMWJKdFdVVWRub0NCek11Z2hXVThpVDBldTRkQ295?=
+ =?utf-8?B?SDBaV0xJTlgra3dLWnlpMlVVWFphK0oxVlNQTjRUbjRydTRLL1k2RjhlR1py?=
+ =?utf-8?B?dUNCZmtKSENVL2NRdGFBZmlPL3c2ZG53bGZTdGRqUnZLMzdvRzZHSWJ5RTI4?=
+ =?utf-8?B?NzdaaU9JUVlxT1lHRU1ocXZGTUhxSFRwdEJZREtmSkI1akpvMXlQOGpDTDJJ?=
+ =?utf-8?B?NENyamY3d2d4RlFqK0VqckFxbDhlY2dsQTM2ZXRmWWwyZmFCT3VFdVZ2VGNy?=
+ =?utf-8?B?NGFMTmMrQXc5RFY0ZE0vYkNOUWduOFdxV0hyUDk4RjM0L2RyeC92ZGNIV1Ry?=
+ =?utf-8?Q?R/M9OVs9ylOJ9Uq1SM3dOGdtf?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef705650-17b8-4d9c-3668-08db2745e815
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3189.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR10MB1419.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f19a9ca1-6d93-45a9-dc3a-08db270467b8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2023 16:26:47.6421
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2023 00:15:40.4394
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: EXrnrJuojFc9h7Vhh9T+Qx+O3YLxsovQpn1nssEsQehqpu2P22/ky+aRUO+1us2QunxUq9IXopZwc08FGfPDR71MGZ2W5zpSADsQCzcLE4k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB6616
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-17_10,2023-03-16_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0 phishscore=0
- mlxscore=0 malwarescore=0 mlxlogscore=999 spamscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303150002
- definitions=main-2303170110
-X-Proofpoint-GUID: sM7hL4XuLv9fMx-Bfy34yGvQXtNkDniB
-X-Proofpoint-ORIG-GUID: sM7hL4XuLv9fMx-Bfy34yGvQXtNkDniB
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: G43e5cY6z2NBuZVozSY9zzraLEVKmh5o0qoKgdcxCJ1bIDm5lPG/cYSuLEXAjAp/kRiBUhoxPAsgghjQD9OykA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5195
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230317_092702_608798_2BEE8CC3 
-X-CRM114-Status: GOOD (  18.85  )
+X-CRM114-CacheID: sfid-20230317_171545_579491_5F5F798E 
+X-CRM114-Status: GOOD (  19.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -215,66 +148,204 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-SGkgUGFua2FqLA0KDQpTZWUgdGhlIG91dHB1dCBiZWxvdy4NCg0KPiBPbiBNYXIgMTcsIDIwMjMs
-IGF0IDQ6MTAgQU0sIFBhbmthaiBSYWdoYXYgPHAucmFnaGF2QHNhbXN1bmcuY29tPiB3cm90ZToN
-Cj4gDQo+IEhpIFNhZWVkLA0KPiBPbiBUaHUsIE1hciAxNiwgMjAyMyBhdCAwOTozMTozOFBNICsw
-MDAwLCBTYWVlZCBNaXJ6YW1vaGFtbWFkaSB3cm90ZToNCj4+IGV1aTY0IHZhbHVlcyBhcmUgbm90
-IHVuaXF1ZS4gSGVyZSBpcyBhbiBleGFtcGxlOg0KPj4gbmFtZXNwYWNlMQ0KPj4gbmd1aWQgICA6
-IDM2NTU0NjMwNTI5MDAwNzEwMDI1Mzg0NTAwMDAwMDAxDQo+PiBldWk2NCAgIDogMDAyNTM4MTkx
-MTAwMTA0YQ0KPj4gbmFtZXNwYWNlMg0KPj4gbmd1aWQgICA6IDM2NTU0NjMwNTI5MDAwNzEwMDI1
-Mzg0NTAwMDAwMDAyDQo+PiBldWk2NCAgIDogMDAyNTM4MTkxMTAwMTA0YQ0KPj4gbmFtZXNwYWNl
-Mw0KPj4gbmd1aWQgICA6IDM2NTU0NjMwNTI5MDAwNzEwMDI1Mzg0NTAwMDAwMDAzDQo+PiBldWk2
-NCAgIDogMDAyNTM4MTkxMTAwMTA0YQ0KPj4gbmFtZXNwYWNlNA0KPj4gbmd1aWQgICA6IDM2NTU0
-NjMwNTI5MDAwNzEwMDI1Mzg0NTAwMDAwMDA0DQo+PiBldWk2NCAgIDogMDAyNTM4MTkxMTAwMTA0
-YQ0KPj4gDQo+PiBJIGhhdmVu4oCZdCB5ZXQgY29udGFjdGVkIFNhbXN1bmcuIERvIHlvdSByZWNv
-bW1lbmQgYW55IG9uZSB0byByZWFjaCBvdXQgdG8/DQo+IA0KPiBJIGFtIGFibGUgdG8gcmVwcm9k
-dWNlIHRoaXMgZXJyb3Igd2l0aCBhIFBNMTczWC4NCj4gDQo+IG52bWUgaWQtbnM6DQo+IHJvb3RA
-bWlzc2luZ25vOn4jIG52bWUgaWQtbnMgLW4gMSAvZGV2L252bWUxIHwgZ3JlcCBldWk2NA0KPiBl
-dWk2NCAgIDogMDAyNTM4OTEwMTAwMDViMw0KPiByb290QG1pc3Npbmdubzp+IyBudm1lIGlkLW5z
-IC1uIDIgL2Rldi9udm1lMSB8IGdyZXAgZXVpNjQNCj4gZXVpNjQgICA6IDAwMjUzODkxMDEwMDA1
-YjMNCj4gcm9vdEBtaXNzaW5nbm86fiMgbnZtZSBpZC1ucyAtbiAzIC9kZXYvbnZtZTEgfCBncmVw
-IGV1aTY0DQo+IGV1aTY0ICAgOiAwMDI1Mzg5MTAxMDAwNWIzDQo+IA0KPiBkbWVzZzoNCj4gWzE3
-NDY5MC4zMDU1MDddIG52bWUgbnZtZTE6IGlkZW50aWZpZXJzIGNoYW5nZWQgZm9yIG5zaWQgMQ0K
-PiBbMTc0ODc4LjQ4MTAwMl0gbnZtZSBudm1lMTogcmVzY2FubmluZyBuYW1lc3BhY2VzLg0KPiBb
-MTc0ODc4LjUzNTk4MV0gbnZtZSBudm1lMTogZHVwbGljYXRlIElEcyBpbiBzdWJzeXN0ZW0gZm9y
-IG5zaWQgMg0KPiBbMTc0ODc4LjU5OTk4Ml0gbnZtZSBudm1lMTogZHVwbGljYXRlIElEcyBpbiBz
-dWJzeXN0ZW0gZm9yIG5zaWQgMg0KPiBbMTc0ODgzLjY3MzAwMV0gbnZtZSBudm1lMTogcmVzY2Fu
-bmluZyBuYW1lc3BhY2VzLg0KPiBbMTc0ODgzLjc0MDA0NV0gbnZtZSBudm1lMTogZHVwbGljYXRl
-IElEcyBpbiBzdWJzeXN0ZW0gZm9yIG5zaWQgMg0KPiBbMTc0ODgzLjc4NDAyNV0gbnZtZSBudm1l
-MTogZHVwbGljYXRlIElEcyBpbiBzdWJzeXN0ZW0gZm9yIG5zaWQgMw0KPiBbMTc0ODgzLjg1MjAz
-NF0gbnZtZSBudm1lMTogZHVwbGljYXRlIElEcyBpbiBzdWJzeXN0ZW0gZm9yIG5zaWQgMg0KPiBb
-MTc0ODgzLjg5MjA0MF0gbnZtZSBudm1lMTogZHVwbGljYXRlIElEcyBpbiBzdWJzeXN0ZW0gZm9y
-IG5zaWQgMw0KPiANCj4gSSB3aWxsIHJlcG9ydCB0aGlzIHRvIG91ciBmaXJtd2FyZSB0ZWFtLiBN
-ZWFud2hpbGUsIENvdWxkIHlvdSBwYXN0ZSB5b3VyDQo+IG91dHB1dCBpZC1jdHJsIG91dHB1dCBo
-ZXJlPyBJIGFtIGludGVyZXN0ZWQgaW4gdGhlIGZ3IHZlcnNpb24geW91IGFyZSB1c2luZy4NCg0K
-TlZNRSBJZGVudGlmeSBDb250cm9sbGVyOg0KdmlkICAgICAgIDogMHgxNDRkDQpzc3ZpZCAgICAg
-OiAweDEwOGUNCnNuICAgICAgICA6IFM2NFZORTBSNjAyMjcxDQptbiAgICAgICAgOiBTQU1TVU5H
-IE1aV0xSM1Q4SEJMUy0wMEFVMw0KZnIgICAgICAgIDogTVBLOTRSNVENCnJhYiAgICAgICA6IDgN
-CmllZWUgICAgICA6IDAwMjUzOA0KY21pYyAgICAgIDogMHgzDQptZHRzICAgICAgOiA4DQpjbnRs
-aWQgICAgOiAweDQxDQp2ZXIgICAgICAgOiAweDEwMzAwDQpydGQzciAgICAgOiAweGU0ZTFjMA0K
-cnRkM2UgICAgIDogMHg5ODk2ODANCm9hZXMgICAgICA6IDB4MzAwDQpjdHJhdHQgICAgOiAwDQpy
-cmxzICAgICAgOiAwDQpjbnRybHR5cGUgOiAwDQpmZ3VpZCAgICAgOg0KY3JkdDEgICAgIDogMA0K
-Y3JkdDIgICAgIDogMA0KY3JkdDMgICAgIDogMA0KbnZtc3IgICAgIDogMQ0KdndjaSAgICAgIDog
-MjU1DQptZWMgICAgICAgOiAzDQpvYWNzICAgICAgOiAweDVmDQphY2wgICAgICAgOiAxMjcNCmFl
-cmwgICAgICA6IDE1DQpmcm13ICAgICAgOiAweDE3DQpscGEgICAgICAgOiAweGUNCmVscGUgICAg
-ICA6IDI1NQ0KbnBzcyAgICAgIDogMA0KYXZzY2MgICAgIDogMHgxDQphcHN0YSAgICAgOiAwDQp3
-Y3RlbXAgICAgOiAzNDUNCmNjdGVtcCAgICA6IDM1OA0KbXRmYSAgICAgIDogMTMwDQpobXByZSAg
-ICAgOiAwDQpobW1pbiAgICAgOiAwDQp0bnZtY2FwICAgOiAzODQwNzU1OTgyMzM2DQp1bnZtY2Fw
-ICAgOiAzOTg5OTM4MTc2DQpycG1icyAgICAgOiAwDQplZHN0dCAgICAgOiAyDQpkc3RvICAgICAg
-OiAxDQpmd3VnICAgICAgOiAyNTUNCmthcyAgICAgICA6IDANCmhjdG1hICAgICA6IDANCm1udG10
-ICAgICA6IDANCm14dG10ICAgICA6IDANCnNhbmljYXAgICA6IDB4Mw0KaG1taW5kcyAgIDogMA0K
-aG1tYXhkICAgIDogMA0KbnNldGlkbWF4IDogMA0KZW5kZ2lkbWF4IDogMA0KYW5hdHQgICAgIDog
-MA0KYW5hY2FwICAgIDogMA0KYW5hZ3JwbWF4IDogMA0KbmFuYWdycGlkIDogMA0KcGVscyAgICAg
-IDogMA0KZG9tYWluaWQgIDogMA0KbWVnY2FwICAgIDogMA0Kc3FlcyAgICAgIDogMHg2Ng0KY3Fl
-cyAgICAgIDogMHg0NA0KbWF4Y21kICAgIDogMA0Kbm4gICAgICAgIDogMzINCm9uY3MgICAgICA6
-IDB4N2YNCmZ1c2VzICAgICA6IDANCmZuYSAgICAgICA6IDB4NA0KdndjICAgICAgIDogMA0KYXd1
-biAgICAgIDogNjU1MzUNCmF3dXBmICAgICA6IDANCmljc3ZzY2MgICAgIDogMQ0KbndwYyAgICAg
-IDogMA0KYWN3dSAgICAgIDogMA0Kb2NmcyAgICAgIDogMA0Kc2dscyAgICAgIDogMHhmMDAwMg0K
-bW5hbiAgICAgIDogMA0KbWF4ZG5hICAgIDogMA0KbWF4Y25hICAgIDogMA0Kc3VibnFuICAgIDog
-bnFuLjE5OTQtMTEuY29tLnNhbXN1bmc6bnZtZTpQTTE3MzM6Mi41LWluY2g6UzY0Vk5FMFI2MDIy
-NzENCmlvY2NzeiAgICA6IDANCmlvcmNzeiAgICA6IDANCmljZG9mZiAgICA6IDANCmZjYXR0ICAg
-ICA6IDANCm1zZGJkICAgICA6IDANCm9mY3MgICAgICA6IDANCnBzICAgIDAgOiBtcDoyNS4wMFcg
-b3BlcmF0aW9uYWwgZW5sYXQ6MTgwIGV4bGF0OjE4MCBycnQ6MCBycmw6MA0KICAgICAgICAgIHJ3
-dDowIHJ3bDowIGlkbGVfcG93ZXI6Ny4wMFcgYWN0aXZlX3Bvd2VyOjIwLjAwVw0KDQpUaGFua3Ms
-DQpTYWVlZA0KDQo+IA0KPiAtLQ0KPiBQYW5rYWoNCg0K
+
+
+On 3/15/23 13:01, Tushar Dave wrote:
+> 
+> 
+> On 3/14/23 10:26, Keith Busch wrote:
+>> On Tue, Mar 14, 2023 at 11:11:27AM -0500, Bjorn Helgaas wrote:
+>>> On Mon, Mar 13, 2023 at 05:57:43PM -0700, Tushar Dave wrote:
+>>>> On 3/11/23 00:22, Lukas Wunner wrote:
+>>>>> On Fri, Mar 10, 2023 at 05:45:48PM -0800, Tushar Dave wrote:
+>>>>>> On 3/10/2023 3:53 PM, Bjorn Helgaas wrote:
+>>>>>>> In the log below, pciehp obviously is enabled; should I infer that in
+>>>>>>> the log above, it is not?
+>>>>>>
+>>>>>> pciehp is enabled all the time. In the log above and below.
+>>>>>> I do not have answer yet why pciehp shows-up only in some tests (due to DPC
+>>>>>> link down/up) and not in others like you noticed in both the logs.
+>>>>>
+>>>>> Maybe some of the switch Downstream Ports are hotplug-capable and
+>>>>> some are not?  (Check the Slot Implemented bit in the PCI Express
+>>>>> Capabilities Register as well as the Hot-Plug Capable bit in the
+>>>>> Slot Capabilities Register.)
+>>>>> ...
+>>>
+>>>>>>> Generally we've avoided handling a device reset as a
+>>>>>>> remove/add event because upper layers can't deal well with
+>>>>>>> that.  But in the log below it looks like pciehp *did* treat
+>>>>>>> the DPC containment as a remove/add, which of course involves
+>>>>>>> configuring the "new" device and its MPS settings.
+>>>>>>
+>>>>>> yes and that puzzled me why? especially when"Link Down/Up
+>>>>>> ignored (recovered by DPC)". Do we still have race somewhere, I
+>>>>>> am not sure.
+>>>>>
+>>>>> You're seeing the expected behavior.  pciehp ignores DLLSC events
+>>>>> caused by DPC, but then double-checks that DPC recovery succeeded.
+>>>>> If it didn't, it would be a bug not to bring down the slot.  So
+>>>>> pciehp does exactly that.  See this code snippet in
+>>>>> pciehp_ignore_dpc_link_change():
+>>>>>
+>>>>>     /*
+>>>>>      * If the link is unexpectedly down after successful recovery,
+>>>>>      * the corresponding link change may have been ignored above.
+>>>>>      * Synthesize it to ensure that it is acted on.
+>>>>>      */
+>>>>>     down_read_nested(&ctrl->reset_lock, ctrl->depth);
+>>>>>     if (!pciehp_check_link_active(ctrl))
+>>>>>         pciehp_request(ctrl, PCI_EXP_SLTSTA_DLLSC);
+>>>>>     up_read(&ctrl->reset_lock);
+>>>>>
+>>>>> So on hotplug-capable ports, pciehp is able to mop up the mess
+>>>>> created by fiddling with the MPS settings behind the kernel's
+>>>>> back.
+>>>>
+>>>> That's the thing, even on hotplug-capable slot I do not see pciehp
+>>>> _all_ the time. Sometime pciehp get involve and takes care of things
+>>>> (like I mentioned in the previous thread) and other times no pciehp
+>>>> engagement at all!
+>>>
+>>> Possibly a timing issue, so I'll be interested to see if 53b54ad074de
+>>> ("PCI/DPC: Await readiness of secondary bus after reset") makes any
+>>> difference.  Lukas didn't mention that, so maybe it's a red herring,
+>>> but I'm still curious since it explicitly mentions the DPC reset case
+>>> that you're exercising here.
+> 
+> Commit 53b54ad074de ("PCI/DPC: Await readiness of secondary bus after reset") 
+> didn't help.
+> 
+> [ 6265.268757] pcieport 0000:a5:01.0: EDR: EDR event received
+> [ 6265.276034] pcieport 0000:a5:01.0: EDR: Reported EDR dev: 0000:a9:10.0
+> [ 6265.283780] pcieport 0000:a9:10.0: DPC: containment event, status:0x2009 
+> source:0x0000
+> [ 6265.292972] pcieport 0000:a9:10.0: DPC: unmasked uncorrectable error detected
+> [ 6265.301284] pcieport 0000:a9:10.0: PCIe Bus Error: severity=Uncorrected 
+> (Fatal), type=Transaction Layer, (Receiver ID)
+> [ 6265.313569] pcieport 0000:a9:10.0:   device [1000:c030] error 
+> status/mask=00040000/00180000
+> [ 6265.323208] pcieport 0000:a9:10.0:    [18] MalfTLP                (First)
+> [ 6265.331084] pcieport 0000:a9:10.0: AER:   TLP Header: 6000007a ab0000ff 
+> 00000001 629d4318
+> [ 6265.340536] pcieport 0000:a9:10.0: AER: broadcast error_detected message
+> [ 6265.348320] nvme nvme1: frozen state error detected, reset controller
+> [ 6265.419633] pcieport 0000:a9:10.0: waiting 100 ms for downstream link, after 
+> activation
+> [ 6265.627639] pcieport 0000:a9:10.0: AER: broadcast slot_reset message
+> [ 6265.635289] nvme nvme1: restart after slot reset
+> [ 6265.641016] nvme 0000:ab:00.0: restoring config space at offset 0x3c (was 
+> 0x100, writing 0x1ff)
+> [ 6265.651248] nvme 0000:ab:00.0: restoring config space at offset 0x30 (was 
+> 0x0, writing 0xe0600000)
+> [ 6265.661739] nvme 0000:ab:00.0: restoring config space at offset 0x10 (was 
+> 0x4, writing 0xe0710004)
+> [ 6265.672210] nvme 0000:ab:00.0: restoring config space at offset 0xc (was 0x0, 
+> writing 0x8)
+> [ 6265.681897] nvme 0000:ab:00.0: restoring config space at offset 0x4 (was 
+> 0x100000, writing 0x100546)
+> [ 6265.692616] pcieport 0000:a9:10.0: AER: broadcast resume message
+> [ 6265.716299] nvme 0000:ab:00.0: saving config space at offset 0x0 (reading 
+> 0xa824144d)
+> [ 6265.725614] nvme 0000:ab:00.0: saving config space at offset 0x4 (reading 
+> 0x100546)
+> [ 6265.734657] nvme 0000:ab:00.0: saving config space at offset 0x8 (reading 
+> 0x1080200)
+> [ 6265.743824] nvme 0000:ab:00.0: saving config space at offset 0xc (reading 0x8)
+> [ 6265.752348] nvme 0000:ab:00.0: saving config space at offset 0x10 (reading 
+> 0xe0710004)
+> [ 6265.761647] nvme 0000:ab:00.0: saving config space at offset 0x14 (reading 0x0)
+> [ 6265.770247] nvme 0000:ab:00.0: saving config space at offset 0x18 (reading 0x0)
+> [ 6265.778857] nvme 0000:ab:00.0: saving config space at offset 0x1c (reading 0x0)
+> [ 6265.787450] nvme 0000:ab:00.0: saving config space at offset 0x20 (reading 0x0)
+> [ 6265.796034] nvme 0000:ab:00.0: saving config space at offset 0x24 (reading 0x0)
+> [ 6265.804620] nvme 0000:ab:00.0: saving config space at offset 0x28 (reading 0x0)
+> [ 6265.813201] nvme 0000:ab:00.0: saving config space at offset 0x2c (reading 
+> 0xa80a144d)
+> [ 6265.822473] nvme 0000:ab:00.0: saving config space at offset 0x30 (reading 
+> 0xe0600000)
+> [ 6265.831816] nvme 0000:ab:00.0: saving config space at offset 0x34 (reading 0x40)
+> [ 6265.840482] nvme 0000:ab:00.0: saving config space at offset 0x38 (reading 0x0)
+> [ 6265.849037] nvme 0000:ab:00.0: saving config space at offset 0x3c (reading 
+> 0x1ff)
+> [ 6275.037534] block nvme1n1: no usable path - requeuing I/O
+> [ 6326.920009] nvme nvme1: I/O 22 QID 0 timeout, disable controller
+> [ 6326.988701] nvme nvme1: Identify Controller failed (-4)
+> [ 6326.995253] nvme nvme1: Disabling device after reset failure: -5
+> [ 6327.032308] pcieport 0000:a9:10.0: AER: device recovery successful
+> [ 6327.039781] pcieport 0000:a9:10.0: EDR: DPC port successfully recovered
+> [ 6327.047687] pcieport 0000:a5:01.0: EDR: Status for 0000:a9:10.0: 0x80
+> [ 6327.083131] pcieport 0000:a5:01.0: EDR: EDR event received
+> [ 6327.090173] pcieport 0000:a5:01.0: EDR: Reported EDR dev: 0000:a9:10.0
+> [ 6327.097816] pcieport 0000:a9:10.0: DPC: containment event, status:0x2009 
+> source:0x0000
+> [ 6327.107009] pcieport 0000:a9:10.0: DPC: unmasked uncorrectable error detected
+> [ 6327.115330] pcieport 0000:a9:10.0: PCIe Bus Error: severity=Uncorrected 
+> (Fatal), type=Transaction Layer, (Receiver ID)
+> [ 6327.127640] pcieport 0000:a9:10.0:   device [1000:c030] error 
+> status/mask=00040000/00180000
+> [ 6327.137319] pcieport 0000:a9:10.0:    [18] MalfTLP                (First)
+> [ 6327.145236] pcieport 0000:a9:10.0: AER:   TLP Header: 60000080 ab0000ff 
+> 00000001 5ad65000
+> [ 6327.154728] pcieport 0000:a9:10.0: AER: broadcast error_detected message
+> [ 6327.162624] nvme nvme1: frozen state error detected, reset controller
+> [ 6327.183979] pcieport 0000:a9:10.0: waiting 100 ms for downstream link, after 
+> activation
+> [ 6327.387969] pcieport 0000:a9:10.0: AER: broadcast slot_reset message
+> [ 6327.395596] nvme nvme1: restart after slot reset
+> [ 6327.401313] nvme 0000:ab:00.0: restoring config space at offset 0x3c (was 
+> 0x100, writing 0x1ff)
+> [ 6327.411517] nvme 0000:ab:00.0: restoring config space at offset 0x30 (was 
+> 0x0, writing 0xe0600000)
+> [ 6327.422045] nvme 0000:ab:00.0: restoring config space at offset 0x10 (was 
+> 0x4, writing 0xe0710004)
+> [ 6327.432523] nvme 0000:ab:00.0: restoring config space at offset 0xc (was 0x0, 
+> writing 0x8)
+> [ 6327.442212] nvme 0000:ab:00.0: restoring config space at offset 0x4 (was 
+> 0x100000, writing 0x100546)
+> [ 6327.452933] pcieport 0000:a9:10.0: AER: broadcast resume message
+> [ 6327.460184] pcieport 0000:a9:10.0: AER: device recovery successful
+> [ 6327.467533] pcieport 0000:a9:10.0: EDR: DPC port successfully recovered
+> [ 6327.475367] pcieport 0000:a5:01.0: EDR: Status for 0000:a9:10.0: 0x80
+> 
+>>
+>> Catching the PDC event may be timing related. pciehp ignores the link events
+>> during a DPC event, but it always reacts to PDC since it's indistinguishable
+>> from a DPC occuring in response to a surprise removal, and these slots probably
+>> don't have out-of-band presence detection.
+> 
+> yeah, In-Band PD Disable bit in Slot Control register of PCIe Downstream Switch 
+> port is set to '0' , no idea about out-of-band presence detection!
+
+I debug further and noticed that pciehp_isr() _not_ getting triggered at all
+(in spite of DPC link down/up activity).
+Would that rule out that it has less to do with timing but the hotplug interrupt?
+In my case, pciehp_isr() doesn't fire even though Downstream Switch port has
+all required settings and condition met that ideally should fire Hot-plug
+interrupt for PDC(and DLLSC) events!
+
+
+e.g.
+Before the test:
+
+SltCap: AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+
+         Slot #272, PowerLimit 25.000W; Interlock- NoCompl-
+SltCtl: Enable: AttnBtn- PwrFlt- MRL- PresDet+ CmdCplt- HPIrq+ LinkChg+
+         Control: AttnInd Unknown, PwrInd Unknown, Power- Interlock-
+SltSta: Status: AttnBtn- PowerFlt- MRL- CmdCplt- PresDet+ Interlock-
+         Changed: MRL- PresDet- LinkState-
+
+And after the MPS test with no engagement of pciehp :
+(please note  Changed: MRL- PresDet+ LinkState+ )
+
+
+SltCap: AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+
+         Slot #272, PowerLimit 25.000W; Interlock- NoCompl-
+SltCtl: Enable: AttnBtn- PwrFlt- MRL- PresDet+ CmdCplt- HPIrq+ LinkChg+
+         Control: AttnInd Unknown, PwrInd Unknown, Power- Interlock-
+SltSta: Status: AttnBtn- PowerFlt- MRL- CmdCplt- PresDet+ Interlock-
+         Changed: MRL- PresDet+ LinkState+
+
+
+-Tushar
 
