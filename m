@@ -4,69 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA6A0C6FD1D
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Mar 2023 14:37:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AAEEEC6FD1D
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Mar 2023 14:51:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZPqkkR/0p9ECKQLvZgUZJ1AhVrpZdZ7+Kiww1AvcICU=; b=BVsF7cnIhTPOQ2iwqBYYUg7+d6
-	rzEcOt4KU4g6t0G6BKOqlTR1Xdx6hh8D/BLCNWjT4tQai+VVoEHHnWTPdzP1XJwzvjQUC4uePkgkc
-	+NHWB0FeSHut8XX3v4J4BIrfQSiO+TCOyERIiPryejZDRh+MlvQwWB4pwHYSkqzElB45ccKWZweVL
-	cS9kDS8mWtsCRFInkMHi+DYlPGDShHAF5C5aoEqESp5iDuurY0zR9sVsgYquVZlZrJR8ZImqkQqUv
-	h4Wy4Ctm8C3Cd+Cw6ZnwRb7EbN1ftD0JRNf1HvjCvHpEeeBdkZ4zHuKxeby468qVhKwFuQs+pApx6
-	RuzGp2dw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wr7pmrvOVsU195mFORYi9q9wFkbm+w5svC/aq1uzb/Q=; b=uIpEsGmPw0utP0k5dcHLSEQFQ1
+	RB01vsgMJcB1CVu5PpEvK5mFCa/5Rpdl51Y6XSi6tsm6Dy5+UNZRuhuUN6F6gB3Fq4trj0blyavEM
+	qWyvPEIm2ZFInWJk5RQOdOc9aiNogx1U1t9UW7zdAnX8bzIDf2Ii3KbVLZjBQ5SRcsxpEmOVuW+1a
+	R+vG2WER9oUIyDSCGsnBaFG3dmMG97HpQOjbd6Ir0mR5uUthWqn1u35oDZBbR1cos0UGvgZqonjlO
+	vTJgSn1vcfhG0/S/MzQVt2v4SmyDQPvmfaOl7XHePdM+6Kc/fUG+tvJymLqGnP3XXt6vUKCXq8eRV
+	RWoaVTYA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1peGdE-009LMj-29;
-	Mon, 20 Mar 2023 14:37:04 +0000
-Received: from mail-wr1-f54.google.com ([209.85.221.54])
+	id 1peGr2-009O2g-15;
+	Mon, 20 Mar 2023 14:51:20 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1peGdC-009LLi-1w
+	id 1peGqz-009O1C-2A
 	for linux-nvme@lists.infradead.org;
-	Mon, 20 Mar 2023 14:37:03 +0000
-Received: by mail-wr1-f54.google.com with SMTP id h17so10566879wrt.8
-        for <linux-nvme@lists.infradead.org>; Mon, 20 Mar 2023 07:37:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679323020; x=1681915020;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZPqkkR/0p9ECKQLvZgUZJ1AhVrpZdZ7+Kiww1AvcICU=;
-        b=rOHUd2FkR5dVF/XpPNCg5986wvhNFRiZ+hGhGZFsAI+JgdzPwexh3CN5jsskRWI/py
-         k46RhItJ4dppVRSm0leecB9lQQW4iDpN4xqSkVRCMq2R9hqyGvOQtXOfDY6Jrj2bCF8/
-         wYDxxlXW+n1xOp+N6FJZWZK1jyqkfJJq39vbLjP71InsecRXikfTU1v4MSaVydgVE4Ta
-         5TpMheX+7DqIvXO9s9dKe0e436i8qUGlQePcRlbef3Mf9KzHviO4eBzJ5Q0gjKDcaJED
-         O5rUmSyE1X2zQVPN1YZIOnFEmQTnRNyIW2eWxX/JicjhfZ/+h4xKS/fEqco+48ffuHli
-         Ycyw==
-X-Gm-Message-State: AO0yUKWABKCNtuFct+f9ZHDBXVMCVzme1oCDaEXhbipojJHOS0a11Zu+
-	WFv8WYZCzPixBBtmLBWXbnI7PZmVVgo=
-X-Google-Smtp-Source: AK7set9EAWBM8MyMQOX9zx1PrKrDe5R8Ac+PCH73Vq78AUU4wR3RuUL2q+JoRH2qYnDEdy7j5MSdEw==
-X-Received: by 2002:adf:f98b:0:b0:2c7:8a6f:5568 with SMTP id f11-20020adff98b000000b002c78a6f5568mr9437725wrr.3.1679323019890;
-        Mon, 20 Mar 2023 07:36:59 -0700 (PDT)
-Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id v6-20020a5d6106000000b002c55521903bsm9016622wrt.51.2023.03.20.07.36.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Mar 2023 07:36:59 -0700 (PDT)
-Message-ID: <b8db776f-abf2-7c50-2b73-02fb30fed008@grimberg.me>
-Date: Mon, 20 Mar 2023 16:36:58 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
+	Mon, 20 Mar 2023 14:51:18 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8BC8721A06;
+	Mon, 20 Mar 2023 14:51:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1679323874; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wr7pmrvOVsU195mFORYi9q9wFkbm+w5svC/aq1uzb/Q=;
+	b=URWo2yEdwRWl2TZTsLWLlS13PsqMYB1zxQmDVhHzsz1fkJS18OKNIVXi1A3StXcjvGL61O
+	BKTHvUjliIeChJM9wHjWFKQrJKvbSNPsT5tckSJWrxER1pHMnhZ0Le6QEEzzgX1dShC2wK
+	uDQceCX3aCPQMX5o0AVkIuDRI7/9G2k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1679323874;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wr7pmrvOVsU195mFORYi9q9wFkbm+w5svC/aq1uzb/Q=;
+	b=F/jOekUmTbLPgUM+8nSpx4Zx8zsFv/sXT6UQlGX03Ww6w14MkLOHChg3/pdffEmeHSHHxL
+	oK+EwOASw41YqHDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7EAC513A00;
+	Mon, 20 Mar 2023 14:51:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id mdbqHuJyGGTxMAAAMHmgww
+	(envelope-from <dwagner@suse.de>); Mon, 20 Mar 2023 14:51:14 +0000
+Date: Mon, 20 Mar 2023 15:51:13 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
 Subject: Re: nvme-tcp poll queue crash
-Content-Language: en-US
-To: Daniel Wagner <dwagner@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Message-ID: <20230320145113.md6dcyv22yqhppmz@carbon.lan>
 References: <20230320141912.avtauwpy5t4x2rvz@carbon.lan>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230320141912.avtauwpy5t4x2rvz@carbon.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <b8db776f-abf2-7c50-2b73-02fb30fed008@grimberg.me>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b8db776f-abf2-7c50-2b73-02fb30fed008@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230320_073702_650550_09B5DB1F 
-X-CRM114-Status: GOOD (  12.95  )
+X-CRM114-CacheID: sfid-20230320_075117_859876_6D231662 
+X-CRM114-Status: UNSURE (   8.26  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,23 +90,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Mon, Mar 20, 2023 at 04:36:58PM +0200, Sagi Grimberg wrote:
+> This was reported and is discussed in thread:
+> nvme-tcp: kernel NULL pointer dereference, address: 0000000000000034
 
-> While I am working on the unification of the ctrl state machine I run into
-> the crash below. It gets triggered as soon a poll queue is involved in the
-> setup, e.g
-> 
->    nvme connect-all -P 2
-> 
-> An older downstream kernel works fine, thus I looked what has changed between
-> the older version and current upstream in this area. One commit which
-> caught my eye is
-> 
->    3e08773c3841 ("block: switch polling to be bio based")
-> 
-> and a bisect test also points to this commit.
-> 
-> Not really sure what's wrong yet.
-
-This was reported and is discussed in thread:
-nvme-tcp: kernel NULL pointer dereference, address: 0000000000000034
+Thanks, I couldn't remember this discussion.
 
