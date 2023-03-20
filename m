@@ -4,76 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6658CC7618A
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Mar 2023 15:40:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDAE2C7618A
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Mar 2023 15:59:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=knDpxN/J+logq/gYSas38uHqDy6FJ5gT1auehUzIlVk=; b=BE+hoy8zO1mGeORxHaUn3khQzp
-	opZixfc2LCDLZL52r0B92ncTYRjifvXJ33jfpCAGbXWENSJKy2NnQKYWyp9kT0dLEIFINVZ+6CYq0
-	zRZD31igdLBu6EmIKhxz0DmZu1h3YgyxV2cUnjuPb5OdeZS9ZkXZuVFCJBtEDSlYtKTHA75nmZt6H
-	6y5AM+z4tra9ILfBfM3n5vYQrVsoFKgM7ojppcZPl1F0ezu/PsuSV+BGGqKgPFU6QqWgiwA2Jd9eX
-	p5lc8BjWjuAD8MUX2uND6nEGWA7Gw/+hjrQhGIVWQnppUJicgS/7XSH+K/vz+MMjzvb/BwlQ8N2XF
-	3y5exDEw==;
+	bh=dYHfRgyFGmfXf7uT3/vn0EeWZOwjnHEPhqCLdhvEaVc=; b=zoVrAj+MrIN/9K35aEEe5wRmeM
+	NJ4ubhsmHmf5ZKAMjcNvnCl6tJb2OJO/efMN/98ohMHN6SYuqz8SirXwMY2ctu76wUEGtkuYfOSIB
+	v0EPXw67ud/OlA4TaJDjtv4JxjGakdbwWKiVxddTnfd1AY0qkBmyli+kAwqXrVmjfRn47JPJq3oPG
+	P0B4OU8l0yJw9hp86+5lDUoX6vF3CuPvgDeDwrQAap6pGYRwxBohDv6/pYAP2NuLkNemi4AE0PMvG
+	HIFxF/3nYR23zaWl+l0xRpGE821u+FNajnTL+77319+1hXEaEX/cSSiZalG+33hWpR7i14nh+AZ4j
+	Ykuq8nRg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1peHc7-009awt-16;
-	Mon, 20 Mar 2023 15:39:59 +0000
-Received: from mail-qv1-f41.google.com ([209.85.219.41])
+	id 1peHum-009fYW-2a;
+	Mon, 20 Mar 2023 15:59:16 +0000
+Received: from mail-io1-xd62.google.com ([2607:f8b0:4864:20::d62])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1peHc5-009avV-0L
+	id 1peHui-009fX0-0O
 	for linux-nvme@lists.infradead.org;
-	Mon, 20 Mar 2023 15:39:58 +0000
-Received: by mail-qv1-f41.google.com with SMTP id cu4so7863033qvb.3
-        for <linux-nvme@lists.infradead.org>; Mon, 20 Mar 2023 08:39:50 -0700 (PDT)
+	Mon, 20 Mar 2023 15:59:14 +0000
+Received: by mail-io1-xd62.google.com with SMTP id h83so5605039iof.8
+        for <linux-nvme@lists.infradead.org>; Mon, 20 Mar 2023 08:59:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1679327950;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dYHfRgyFGmfXf7uT3/vn0EeWZOwjnHEPhqCLdhvEaVc=;
+        b=ZxWrpiJs8GXKz97FuIUkpX603uXClPdCVINDc9hV7KeMZQYGOuSSbdoLpkwhgtobo+
+         ARwfAqQnNBfsFodNn/CQDVMOJRbBgwHMYj53Udx5uwctETte7B8YA8K4ZV9iNd6ZaQ3t
+         DRUDaSKI/MpKj6epZ0TKbhrVoeUE2rkuzlSCwLmPTFTXRPHAueMhuryrLYe6vaQDkTjH
+         vssgS9iP7h2ejoAaBYYa9/4z0uWamhu2QO4c7vVupzt4jS9IiYLpUJKSorUY9yJSlNtL
+         O6oVaBAIx+Dw9i+YbLz04OdPIp2HNIizHbQbEEmFQBC8fMoZMFrED0xsqSgGcxPIZKMY
+         BeMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679326790;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20210112; t=1679327950;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=knDpxN/J+logq/gYSas38uHqDy6FJ5gT1auehUzIlVk=;
-        b=nAvZVfQR+F1ki/NVq86fjMhNZZiU3c1n+nyAnBUD8CtxTR3vKv2jyLoXki7stPanG7
-         uiKAFsAUsiLGM8oNpCIBOx3cKtFlPcqo3I2cfHMGHSDbwCmY2LNvxILDcSOxseJi/kTF
-         BXOYjxEPsymMAlJz3kG9ZfMu5aEToB8Q4gM8OfLOO+bFPy6avv6gNr350wEnbx7APBA1
-         Bwe8VRdDKD9KppFycz/4LgIdVIf3kzinNTdSan+l3IktdLbxJiRHAqQ+aTzgRd4ps+1I
-         /1GqrXeRmWmEOCCRacO6JOR1VPw07AcyR/3mbdtSC2cA4eBeexud3o5kk8A8WXhQSJLB
-         T3xw==
-X-Gm-Message-State: AO0yUKVqTapPiqvvWcfET/640nLs28cuP60X+jEm2c4ZrD5ABa2qN7Kr
-	kjtBERAMTg/bMx0sIKhpbxEK2hk+lwiydQ==
-X-Google-Smtp-Source: AK7set+7S6FbEg5tMdq24xLAqykOnRyBDSfv7GSJaMJvLhPfQO+p5ezlDgPRBWld8F1LvJ9YhfoePQ==
-X-Received: by 2002:ad4:574a:0:b0:56e:b16d:ec93 with SMTP id q10-20020ad4574a000000b0056eb16dec93mr60831305qvx.4.1679326789754;
-        Mon, 20 Mar 2023 08:39:49 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id r132-20020a37448a000000b007466432a559sm5316275qka.86.2023.03.20.08.39.49
-        for <linux-nvme@lists.infradead.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Mar 2023 08:39:49 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-544b959a971so197070797b3.3
-        for <linux-nvme@lists.infradead.org>; Mon, 20 Mar 2023 08:39:49 -0700 (PDT)
-X-Received: by 2002:a81:bd51:0:b0:541:9b14:949e with SMTP id
- n17-20020a81bd51000000b005419b14949emr10558480ywk.4.1679326788920; Mon, 20
- Mar 2023 08:39:48 -0700 (PDT)
+        bh=dYHfRgyFGmfXf7uT3/vn0EeWZOwjnHEPhqCLdhvEaVc=;
+        b=uGIBUGzGrFya243zTRlgO2nIPHcw3ehV3SoLf1tDIpWRl/vUBXKOZDH/YWQmKW6tup
+         JRTvpTFtWDk9FU6v+5J0ew5hnBANeZfoir+MDBjTKYNsPVqU2s8UsjGy95hosguFIlnG
+         Qhd0KaO+qRnnv1qHY54wans4FggjPyVrTYx7k9B9DLL5myrPvdyJiGfNQNkIXkimAdRq
+         81xdb0WRgDuynE2FgIdSu3EVkEX1/SsVJngyc9Hi7WYXmmC24kzlr1hZusH0Y/cMsCru
+         NPvABjUwFYo3IYblUYPx2xu5fiAR66KvR9B3WEZLpZQHLHs5rONauC8Ac2LN/7+GgSUX
+         GBuA==
+X-Gm-Message-State: AO0yUKUL64sO+zR/oMsynbI/AVoVMS4YNGtQR/+5vvX4ncGum825Km+z
+	JxOXS7q9NNOSm1//0W5fKdYXJBIeMihhm2vZz8tcdedmZ84hfg==
+X-Google-Smtp-Source: AK7set80AWFqWRlEqnusarywacYoeJZQqdV4SbszNu0Fo0QocmMWzC9cQl9RbHeabQIFFidhfX9jbcr4qpjp
+X-Received: by 2002:a5d:8b08:0:b0:752:dca2:6690 with SMTP id k8-20020a5d8b08000000b00752dca26690mr5482280ion.19.1679327950306;
+        Mon, 20 Mar 2023 08:59:10 -0700 (PDT)
+Received: from c7-smtp.dev.purestorage.com ([208.88.159.128])
+        by smtp-relay.gmail.com with ESMTPS id h5-20020a022b05000000b004060ccabe70sm1726205jaa.66.2023.03.20.08.59.10
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 20 Mar 2023 08:59:10 -0700 (PDT)
+X-Relaying-Domain: purestorage.com
+Received: from dev-csander.dev.purestorage.com (dev-csander.dev.purestorage.com [10.7.70.37])
+	by c7-smtp.dev.purestorage.com (Postfix) with ESMTP id D6AB720D24;
+	Mon, 20 Mar 2023 09:59:09 -0600 (MDT)
+Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
+	id D232FE402C8; Mon, 20 Mar 2023 09:59:09 -0600 (MDT)
+From: Caleb Sander <csander@purestorage.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@fb.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	linux-nvme@lists.infradead.org,
+	linux-m68k@lists.linux-m68k.org,
+	Caleb Sander <csander@purestorage.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [PATCH] nvme-tcp: fix nvme_tcp_term_pdu to match spec
+Date: Mon, 20 Mar 2023 09:57:36 -0600
+Message-Id: <20230320155736.1492682-1-csander@purestorage.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <linux-m68k@lists.linux-m68k.org>
+References: <linux-m68k@lists.linux-m68k.org>
 MIME-Version: 1.0
-References: <af0a1f2194fc9a6f8a95cf6c82277b8b0377d029.1679311226.git.geert@linux-m68k.org>
- <CADUfDZocrTZq2MPKFFNuJc5yBabG48EiEURwn7-t2UBuVZxCWg@mail.gmail.com>
-In-Reply-To: <CADUfDZocrTZq2MPKFFNuJc5yBabG48EiEURwn7-t2UBuVZxCWg@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 20 Mar 2023 16:39:37 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWMih6kqSZaKq5p+UVOjTOCWdeUeif2y2ugtgcVOPmzyQ@mail.gmail.com>
-Message-ID: <CAMuHMdWMih6kqSZaKq5p+UVOjTOCWdeUeif2y2ugtgcVOPmzyQ@mail.gmail.com>
-Subject: Re: [PATCH] nvme-tcp: Fix implicit padding in struct nvme_tcp_term_pdu
-To: Caleb Sander <csander@purestorage.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, Arnd Bergmann <arnd@arndb.de>, linux-nvme@lists.infradead.org, 
-	linux-m68k@lists.linux-m68k.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230320_083957_149550_1C87DA6C 
-X-CRM114-Status: GOOD (  29.84  )
+X-CRM114-CacheID: sfid-20230320_085912_161607_1DB450DA 
+X-CRM114-Status: GOOD (  14.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,74 +103,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Caleb,
+The FEI field of C2HTermReq/H2CTermReq is 4 bytes but not 4-byte-aligned
+in the NVMe/TCP specification (it is located at offset 10 in the PDU).
+Split it into two 16-bit integers in struct nvme_tcp_term_pdu
+so no padding is inserted. There should also be 10 reserved bytes after.
+There are currently no users of this type.
 
-On Mon, Mar 20, 2023 at 4:34=E2=80=AFPM Caleb Sander <csander@purestorage.c=
-om> wrote:
-> The nvme_tcp_term_pdu definition needs to be updated anyways to match
-> the spec. FEI is at offset 10, so it isn't 4-byte-aligned. I think we
-> have gotten away with this so far because the NVMe/TCP driver never
-> sends H2CTermReq and doesn't interpret C2HTermReq.
-> Mirroring numdl/numdu in nvme_get_log_page_command, the definition
-> should look something like:
-> struct nvme_tcp_term_pdu {
->         struct nvme_tcp_hdr hdr;
->         __le16 fes;
->         __le16 feil;
->         __le16 feiu;
->         __u8 rsvd[10];
-> };
+Fixes: fc221d05447aa6db ("nvme-tcp: Add protocol header")
+Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Signed-off-by: Caleb Sander <csander@purestorage.com>
+---
+ include/linux/nvme-tcp.h | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Great, so it was compliant only on m68k? ;-)
+diff --git a/include/linux/nvme-tcp.h b/include/linux/nvme-tcp.h
+index 75470159a194..57ebe1267f7f 100644
+--- a/include/linux/nvme-tcp.h
++++ b/include/linux/nvme-tcp.h
+@@ -113,12 +113,13 @@ struct nvme_tcp_icresp_pdu {
+  * @fei:           fatal error information
+  */
+ struct nvme_tcp_term_pdu {
+ 	struct nvme_tcp_hdr	hdr;
+ 	__le16			fes;
+-	__le32			fei;
+-	__u8			rsvd[8];
++	__le16			feil;
++	__le16			feiu;
++	__u8			rsvd[10];
+ };
+ 
+ /**
+  * struct nvme_tcp_cmd_pdu - nvme tcp command capsule pdu
+  *
+-- 
+2.25.1
 
-> On Mon, Mar 20, 2023 at 4:29=E2=80=AFAM Geert Uytterhoeven <geert@linux-m=
-68k.org> wrote:
-> >
-> > On m68k:
-> >
-> >     drivers/nvme/host/tcp.c: In function =E2=80=98nvme_tcp_init_module=
-=E2=80=99:
-> >     include/linux/compiler_types.h:397:38: error: call to =E2=80=98__co=
-mpiletime_assert_723=E2=80=99 declared with attribute error: BUILD_BUG_ON f=
-ailed: sizeof(struct nvme_tcp_term_pdu) !=3D 24
-> >
-> > Indeed, on m68k the minimum alignment is 2 bytes, not 4 bytes, thus
-> > triggering the check added in commit 7e87965d3807ab1f ("nvme-tcp: add
-> > nvme-tcp pdu size build protection"), and indicating that NVMe over
-> > Fabrics TCP on m68k must be incompatible with other platforms.
-> >
-> > Fix this by adding explicit padding.
-> >
-> > Fixes: fc221d05447aa6db ("nvme-tcp: Add protocol header")
-> > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> > ---
-> >  include/linux/nvme-tcp.h | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/include/linux/nvme-tcp.h b/include/linux/nvme-tcp.h
-> > index 75470159a194d97f..ba8f82672e39730f 100644
-> > --- a/include/linux/nvme-tcp.h
-> > +++ b/include/linux/nvme-tcp.h
-> > @@ -115,6 +115,7 @@ struct nvme_tcp_icresp_pdu {
-> >  struct nvme_tcp_term_pdu {
-> >         struct nvme_tcp_hdr     hdr;
-> >         __le16                  fes;
-> > +       __u8                    rsvd2[2];
-> >         __le32                  fei;
-> >         __u8                    rsvd[8];
-> >  };
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
