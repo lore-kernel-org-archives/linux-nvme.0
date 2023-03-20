@@ -4,73 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7AF5C7619A
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Mar 2023 20:01:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93894C6FD1C
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Mar 2023 22:12:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=33WpduTVgXbSCGkNgW1ZL1i4Q3P2kLE0lySsDwuA7XU=; b=KRkXEQOwzphpOUA4b31bQQHXmD
-	yarCc8+8QK1ccMDjSRW8dg6bNCwPC8I0Kj20sb+Vy3Az8Rayfy30yU+LGtjY6V6X9mY8UQNRXUOXS
-	+zcAblpbQOI9aCjAmdq7HTuxsquFmVz+Y1EbRvh01iL2nxLs9OlTsGOOg8RRnNMtKh9/kSvmWSztK
-	ziM2kciQl9ixspeEfe4rpwChSPJ2Yqlw+xcWPEjq7CTMM+9DOUuhjnDdBA2F7GRm1QI5Oh/kAlQqO
-	KPVe2NW4E0cftklfPcq3nNWs6OrN3ayTK8/2nL8ZpPeAjK7Qh9SEDI02fownZuSx9Rste+BOwZM6Z
-	dgn+Letw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
+	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=EnSxla/0BEH6PZuoWbjHSNazWXOTRsx5Q63TW+ixvLo=; b=kvMJe4BhHh5WAWz8pKYVGRixAQ
+	/ziRD4/dyWG9iAvcApYKlVLShL8QY59mqeu3o8UowGWyeh/kaIog+9AOSbQcftNZ6xoqSUawv4hxw
+	wzgNcTmKXja/05gaPXse5akhDAlox07hA7ATEzE1hGJm07uiIo3EogRLbcQVHPZlp0b5hyqnOnGUF
+	s23qP7OEQjXEHnFIQ2NEceZvOpSKZBNkIe0voMJXplrZun2fz23mG6ZQ9gs3vj9Kp4dfjD/z0cXcn
+	yUY1LkCX2M5VDfM/kboztQh/FofOV0PC7STQmTavuGapBaxceYmQguRhXEVgUrNxAybRtexDtOPOY
+	HD7X0F1Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1peLh4-00AMKM-2Z;
-	Mon, 20 Mar 2023 20:01:22 +0000
-Received: from mail-ed1-f53.google.com ([209.85.208.53])
+	id 1peNjf-00AbSn-33;
+	Mon, 20 Mar 2023 22:12:12 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1peLh2-00AMJ3-0M
+	id 1peNjc-00AbRt-2B
 	for linux-nvme@lists.infradead.org;
-	Mon, 20 Mar 2023 20:01:21 +0000
-Received: by mail-ed1-f53.google.com with SMTP id h8so51424440ede.8
-        for <linux-nvme@lists.infradead.org>; Mon, 20 Mar 2023 13:01:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679342473; x=1681934473;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=33WpduTVgXbSCGkNgW1ZL1i4Q3P2kLE0lySsDwuA7XU=;
-        b=Zhbvpisb3e/XKDqQrVRTGcs3ML1b0fVsJlrTlhuEseuSmCCRNrvX1r4mnLAa53SZi2
-         eAY2oiEoELXfhh9oWEEqsE8ZtSF0a5Chdnu9AW1SA2HyPdMuM0ZoLZTIrP0fjsenfIZd
-         hHj4xGmpDFFwWELej6TJgMIev16KPomlCI6colNmNA7Hd58UlD3Ka5dz1AW5oCdCUS7A
-         hmQ0wPktca6ll8vAeWSb+dzQFNoRWEx6ORpvhZWvU6PVqtaM/NYPNPFbmfGXpF1o/0/G
-         HEjG1PRutW4Y82naHEa+bFc/wmBBXbJHx3Rz3cZvA8DCNaTv7KgOK2dREREWtZbC7wAP
-         AOow==
-X-Gm-Message-State: AO0yUKUm1woU6J1tA0pI2PzTK0XFQn7kgpFl2YvaoBCyLr6x/4wXwzHk
-	m0fbOMPcVzrR7pm5zYn6BRE=
-X-Google-Smtp-Source: AK7set+Re6vMgqOUZJ6MYbmIDVEfRV2bl7HlYNJJpjDSbMLJDimedF7iDaUV9b8+PT8UZnCSZpwBZQ==
-X-Received: by 2002:a17:906:20d8:b0:931:5145:c51f with SMTP id c24-20020a17090620d800b009315145c51fmr210594ejc.4.1679342473437;
-        Mon, 20 Mar 2023 13:01:13 -0700 (PDT)
-Received: from [10.100.102.14] (85.65.253.165.dynamic.barak-online.net. [85.65.253.165])
-        by smtp.gmail.com with ESMTPSA id b24-20020a170906491800b008e82cb55195sm4816570ejq.203.2023.03.20.13.01.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Mar 2023 13:01:13 -0700 (PDT)
-Message-ID: <ff4fd0e2-588c-4e41-a9ed-52e76ea8e7d6@grimberg.me>
-Date: Mon, 20 Mar 2023 22:01:12 +0200
+	Mon, 20 Mar 2023 22:12:10 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1679350326;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EnSxla/0BEH6PZuoWbjHSNazWXOTRsx5Q63TW+ixvLo=;
+	b=cCf6ZtL7x+wBzplop7oYB5svFZB3E9x8rFeH24dF33LrACtCLqRKRZCM50z63cM9KEIgEu
+	JXOiknGYtiYQBd3b676vSWTT5FSLZL8DepSV/aeGHtpju2VZ8gnSydOSOhMa16Go6ztTis
+	uHXzoKzayX7qXjLxQ/HBcVQIU0cZFAA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-556-3WD4uND2MsG5mcCukzaFuA-1; Mon, 20 Mar 2023 18:10:28 -0400
+X-MC-Unique: 3WD4uND2MsG5mcCukzaFuA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B5022858F09;
+	Mon, 20 Mar 2023 22:10:27 +0000 (UTC)
+Received: from localhost.redhat.com (unknown [10.2.17.204])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 32E402166B29;
+	Mon, 20 Mar 2023 22:10:26 +0000 (UTC)
+From: Chris Leech <cleech@redhat.com>
+To: Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org
+Cc: John Meneghini <jmeneghi@redhat.com>
+Subject: [PATCH 1/1] nvme-tcp: fence TCP socket on transport error
+Date: Mon, 20 Mar 2023 15:09:47 -0700
+Message-Id: <20230320220947.3244247-2-cleech@redhat.com>
+In-Reply-To: <20230320220947.3244247-1-cleech@redhat.com>
+References: <20230320220947.3244247-1-cleech@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: nvme-tcp poll queue crash
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-To: Keith Busch <kbusch@kernel.org>, Daniel Wagner <dwagner@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <20230320141912.avtauwpy5t4x2rvz@carbon.lan>
- <b8db776f-abf2-7c50-2b73-02fb30fed008@grimberg.me>
- <20230320145113.md6dcyv22yqhppmz@carbon.lan> <ZBh2bCPAnShTMxoF@kbusch-mbp>
- <5f38f8fe-5180-04bc-6b77-a5b1e4960dda@grimberg.me>
-In-Reply-To: <5f38f8fe-5180-04bc-6b77-a5b1e4960dda@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230320_130120_151628_E1F5A153 
-X-CRM114-Status: GOOD (  13.52  )
+X-CRM114-CacheID: sfid-20230320_151208_806936_602DFAD4 
+X-CRM114-Status: GOOD (  12.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,24 +82,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Ensure that no further socket reads occur after a receive processing
+error, either from io_work being re-scheduled or nvme_tcp_poll.
 
->>>> nvme-tcp: kernel NULL pointer dereference, address: 0000000000000034
->>>
->>> Thanks, I couldn't remember this discussion.
->>
->> It just happened late last week, so no worries.
->>
->> I believe we can get rid of bio and bdev dependency, and I am working on
->> detangling how to get the cookie through without these.
-> 
-> Keith,
-> 
-> I think we shouldn't have an issue *today* because the only non fs
-> I/O that can be polled is the fabrics connect, which has a payload
-> and hence has a bio. The minimal change to fix the regression afaict
-> is protecting against a polled request submission of a user command
-> that doesn't have a payload (just fail it), which again, shouldn't
-> happen afaict.
+Failing to do so can result in unrecognised PDU payloads or TCP stream
+garbage being processed as a C2H data PDU, and potentially start copying
+the payload to an invalid destination after looking up a request using a
+bogus command id.
 
-On top of the fix you already suggested of course...
+Signed-off-by: Chris Leech <cleech@redhat.com>
+---
+ drivers/nvme/host/tcp.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 42c0598c31f2..49e8eb576527 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -888,6 +888,13 @@ static int nvme_tcp_recv_skb(read_descriptor_t *desc, struct sk_buff *skb,
+ 	size_t consumed = len;
+ 	int result;
+ 
++	if (!queue->rd_enabled) {
++		/* io_work or polling happening after receive error
++		 * waiting on error recovery
++		 */
++		return -EFAULT;
++	}
++
+ 	while (len) {
+ 		switch (nvme_tcp_recv_state(queue)) {
+ 		case NVME_TCP_RECV_PDU:
+-- 
+2.39.2
+
 
