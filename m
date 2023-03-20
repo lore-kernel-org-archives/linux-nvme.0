@@ -4,64 +4,201 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9DEA9C7618A
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Mar 2023 16:11:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D24CAC7618A
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Mar 2023 16:39:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=M7qRbcpjyKQan5F5m7iutr0le30ChQ6t7Hz99Opy+R0=; b=yWmqIClQr0LvHh
-	+ibRnmIlZOunxxQww3fGXP1YDTnA1mp9/O88CQBPqtgJYaUab/fQgSEI1jFi7/SQBmG1XyyrYnYfW
-	Gj7AVmU6u+Psncwp0CKtzvFlqbyYuWjBA/clgNn+2erUisIFUfAHOFAzlfYB86b8BZhZOQvdAKPxR
-	B0sC17izZYDMpoM9GJn0a8pW6WJ9F1bFGU2elXkJJRtCJIuJj/TznWIuoCTQ5A5MC1kF5xTWKeKsX
-	RsgVG5Yc4FgGl4Ds24ZZUeLZu0gGgmrYdVs0h3Ni+nw8MHYtZbO/meoL9EfwAizv35hkYy0euGPWu
-	6Ddz1TU3GRV0xpo3A9CQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=xmJHnKwVqfoKJFz+P23n1CIzOMefjT0he7Sj6kvP4CI=; b=TQRKSsyNBgdknrQ64RgZF6ePVi
+	xOVP5EN7Ji2QKHyTk5YzPFbqiQ+MLF2QcXAk114sxOPBGRuVGIE7fYHPAC/lWEnj71FgxxyYzfXLU
+	UgXyJxUqAEnxVrnk8NUBteKB+ZGZ/xMnLIjDVtG9enkwUD5mnJu6TYUjjMjUhILFvAsnMZPBWrqI3
+	cCwdvSXk6Sjd+dDU4VepfvvxOJMLijOQp4plf60hGN2eBIE4tu9VxGyYOaZ4foUFAFJduBoatdBEs
+	EIcGjtlqN8OHbebYgLF9ygwa/C8LwhhHlZi/yEymaHBy55Mh65MRFVaJuByYuOXVROUqx7hVeqZuU
+	hzpmak0Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1peI6H-009isw-13;
-	Mon, 20 Mar 2023 16:11:09 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1peIXm-009pZe-1s;
+	Mon, 20 Mar 2023 16:39:34 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1peI6D-009irb-01;
-	Mon, 20 Mar 2023 16:11:06 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 1B77F614F0;
-	Mon, 20 Mar 2023 16:11:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E8EDC4339E;
-	Mon, 20 Mar 2023 16:11:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679328661;
-	bh=1P7wgkzEjsLcQs4tKsnVlNsjzslc9W/B/lWfRmbppXY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=Z6zhb4TENagTZVHxpxHImIwArs1lFw0qsNno5rSLP4uTVjPbT01tQWYCSVYCP4/4V
-	 v2VqW75LyD0PPSCEruHepKSgjq8MzpHHcZt8CQnddkat4hYa5jMquGnCiu8A+YeZYD
-	 T3C9BfFRHxNZ1K8SUj22VIYOrM6yGTTUpAXlf+rpULhLTVK9f1hZ20ywxepA/SKQY7
-	 hvarEkvatQEqCWpcmxiZnWckDx0k8aHm2zzbIGXMRCUYj2b5RO/+JbUsx4AZx/8Usy
-	 19tLjhwbIIGojeulqYU6xhILUJHd3+PBhzr680wjvm/uGNj1NTGqqSR3fTPqS7uweq
-	 +L0YspeEu6P6A==
-Date: Mon, 20 Mar 2023 11:11:00 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Cc: linux-pci@vger.kernel.org, Minghuan Lian <minghuan.Lian@nxp.com>,
-	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Jon Nettleton <jon@solid-run.com>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: Re: Samsung PM991 NVME does not work on LX2160A system (Solidrun
- Honeycomb)
-Message-ID: <20230320161100.GA2292748@bhelgaas>
+	id 1peIXj-009pUH-29
+	for linux-nvme@lists.infradead.org;
+	Mon, 20 Mar 2023 16:39:32 +0000
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32KFxEx2018351;
+	Mon, 20 Mar 2023 16:39:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2022-7-12;
+ bh=xmJHnKwVqfoKJFz+P23n1CIzOMefjT0he7Sj6kvP4CI=;
+ b=VHBlQ4A0D3gofMt19tWoiFUPSU5NnWDUlyjsKi94h9Sjk6pIi33bp0HkmvVgYvYM+IiR
+ 6T91PLdf7QFB2XcAyv8Kc6JpSlkVWXY8EMJxlg5Exwc2GnwyNH7Zsn/5ZxESWV3OFc6h
+ Xd2VjtDBxOhH1oSxQQHzIhpNobSt01PRFT5ZC8+PgcbYUPU3203RoYVgmK7qfgsvC6JM
+ D1s6LXS7RaHljqPtVlIJfgWccTQKH7d/0x/HlMdwSyA79kpWsBIxiXk1gxSJchVspNtC
+ ELLOq/XBeXYSxK+sKcfN/cwapjeZP5BJHHgslKeqrVORI3QDLrUkFtLopeG7VBxfbDYU JQ== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3pd56auv30-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 20 Mar 2023 16:39:20 +0000
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 32KFDnQH037002;
+	Mon, 20 Mar 2023 16:39:19 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2174.outbound.protection.outlook.com [104.47.55.174])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3peg5njdk0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 20 Mar 2023 16:39:19 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kSjwIFxXMOkIwYeg2413rfUn7Mki9WwyXnDPzQ0ws3JIPcbuqEM+oA/QQIfSsOVoZhPoJyhRrGDGRnJ6qzX9O+jbsuAVOhZx+UpkDfccHt6r4Mv1Nc2NPT+Ouq5K4lSO9woacwaF+Jqj8Mv7hmmrlXzPeJ+1ONNlsmqt+YqEYqbUajiebhGzgKtr2qjdV0JGwyZy6DdA1Z+whBz07D7jBKiWyvSmR571Tpkxj/W8Ho6ah4C2zUleP17NIr6xvtvYsr34K3CfDvgbuvuWbCir0iYHjg887g7mJlUtsfXdLKWJT/X/NRRXnj3vtUo/MvVWWXmQdv9RRD3NyT/+igTzOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xmJHnKwVqfoKJFz+P23n1CIzOMefjT0he7Sj6kvP4CI=;
+ b=gZSjWafG7x7fpTJffLmgF0RP3RxJSuPer8YGC7yEV/43U2k79VWqgO792tpXkr8JoZo5LHAQBXttiXScuUTDUyRdZEaACA6I/lr8K4UbpbA6BlGbl7ZcKjravkdQNMDgpIWrVXU8BgHxPlJT/Er3ImvT/UOvpu8vsYCH1MtkNmaM1jiLfbzAA5wuMV8vzGW74yGE5Ef5EZmdJTAQUBWJSnfoGnf8TMsv3Ig710pXOPHLvOJ6vh60nz/vQzReR2sEd8IZkooNsP6P/tDXbbRwcadwsFmTC+BmkaBJ4d0B3RGlHcA5JvpSOGW9QMZA3Hx+Eep/VGtb+v0CGdGeqE56XQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xmJHnKwVqfoKJFz+P23n1CIzOMefjT0he7Sj6kvP4CI=;
+ b=x1j3zp5zDKm3acn5jezttXYoyIAHgKeKQ0vXu3Mdtp3+bfRCX99bBj10k51Wv45sC5dTH9LsLEConQZVGSyY5r9gFI0KlZxT15S/voc4fyHIDo1H/0eYThG9la7B0amybhbKW8q6Wyw5ZsNvj0sVnzEY5ui5AQDO/bRg9A6P50E=
+Received: from DM5PR10MB1466.namprd10.prod.outlook.com (2603:10b6:3:b::7) by
+ PH0PR10MB4662.namprd10.prod.outlook.com (2603:10b6:510:38::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6178.37; Mon, 20 Mar 2023 16:39:16 +0000
+Received: from DM5PR10MB1466.namprd10.prod.outlook.com
+ ([fe80::7dd7:8d22:104:8d64]) by DM5PR10MB1466.namprd10.prod.outlook.com
+ ([fe80::7dd7:8d22:104:8d64%7]) with mapi id 15.20.6178.037; Mon, 20 Mar 2023
+ 16:39:15 +0000
+Message-ID: <ed8afac2-af41-dd0e-16d0-b0253d1a5528@oracle.com>
+Date: Mon, 20 Mar 2023 11:39:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v4 02/18] block: Rename BLK_STS_NEXUS to
+ BLK_STS_RESV_CONFLICT
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>
+Cc: Stefan Haberland <sth@linux.ibm.com>, bvanassche@acm.org,
+        martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+        james.bottomley@hansenpartnership.com, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, snitzer@kernel.org, axboe@kernel.dk,
+        linux-nvme@lists.infradead.org, chaitanyak@nvidia.com,
+        kbusch@kernel.org, target-devel@vger.kernel.org,
+        Jan Hoeppner <hoeppner@linux.ibm.com>
+References: <20230224174502.321490-1-michael.christie@oracle.com>
+ <20230224174502.321490-3-michael.christie@oracle.com>
+ <20230314171119.GB6780@lst.de>
+ <33ed9615-b570-03c7-9a7a-d07f020d3222@linux.ibm.com>
+ <20230315133039.GA24533@lst.de>
+ <4484f553-84c1-5402-4f52-c2972ad3e496@linux.ibm.com>
+ <6da0ec0a-d465-fec4-0ca5-96b2ffb7be7a@oracle.com>
+ <20230320130625.GA11908@lst.de>
+From: Mike Christie <michael.christie@oracle.com>
+In-Reply-To: <20230320130625.GA11908@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DM6PR02CA0166.namprd02.prod.outlook.com
+ (2603:10b6:5:332::33) To DM5PR10MB1466.namprd10.prod.outlook.com
+ (2603:10b6:3:b::7)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a1a1d17b-94fd-b53d-0850-c8f27440f0bd@linaro.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM5PR10MB1466:EE_|PH0PR10MB4662:EE_
+X-MS-Office365-Filtering-Correlation-Id: 20a8e5a2-5af8-4aa5-9df4-08db2961a4d1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	/YixQ9am8jG7ueubP8Ej2fJrbf/eywD/eAQaxsSy6BV10WjTRmXAHxe5mFDG0qk1qcuYt2uEZBrmhIbPCJa/eACo8x+DmmnTcwFtTKM/oybdLIz493/l8gRtHEuvgJkuT88reMAZj8dLncG4A2R8o5M7ykNvoiMdMPirUTK2T+uBnw3Awbw61KngvHdKzdLBVSSouet4uQc+n3kr9w4bQA6EgrJJeDzp/CWEvA5UEa0btPuKHKdzHctmG0x/mq/6Gt9YWDMBxRAlNZJiGmA7p9OxFybTIit0qk1TSMFaOA4vYxBcV0FS3ZzUXGSDCUpn8FeMuK6TdBUku8s7O9LThKtG7VUhEuzQbQuTSXO5MvhaS4Fv1q0wgWuVMLMhxK27XrdiNOi7/WkrNbIsoTSkXOsRt1blkQyT9clNDb1M7KwctvmaxzjCb4loan5DQrld1oY12z8WrnCMKH8NyuNQiRCJv9zxmkqFw5703OzSoFIUctrJVhPAdaK26UFMWMLAxfgtYIAf9Rl+FK/vuGVz2zAhkO9oY8697+bnPPxExJn6+m9+9RYVuonCRC99Wlq6vZ1X1It6tlB6l9DV3OHaePTs/EfrndiFvr8vnFq+FKsPyZ2fBhuIVVwOHCnelZTkrZ/0bEv+qL8EsO1UniB7lll+vgiprWbpROh9s6rP4Lv6H0xhsOpDdLW1DwuAzo3uTIK+FwJBOtk+HwxLT5dhyGL0RlNFxw4W0Z9VfOQ5yY4=
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR10MB1466.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(366004)(396003)(346002)(136003)(376002)(39860400002)(451199018)(54906003)(316002)(31696002)(86362001)(6486002)(83380400001)(2616005)(38100700002)(478600001)(36756003)(53546011)(26005)(186003)(6506007)(6512007)(4744005)(2906002)(8936002)(31686004)(41300700001)(5660300002)(7416002)(8676002)(66476007)(4326008)(66556008)(66946007)(6916009)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?REtCbWhyQUtDUnVIeHB0cUdXT0NIeDlhc0VZZW5GS3MyK3NFcGxsdXRtNy9J?=
+ =?utf-8?B?OW05cXcwb3RYMkdmSldaSXE2TUxmeXNxTGVLWVNLYWNscnBBcUxwdk5BWU5k?=
+ =?utf-8?B?ZmZqQXV4aG1KY0lmWnVuSUw4dTlVWDYySWVkckNoNkR5bnN5TVBUUnp2eW54?=
+ =?utf-8?B?YTNuSzBJdytiVHMyUHpoYUsreURhM3VETG0xTTFsQkUzb1JWVHl5dE05TmR2?=
+ =?utf-8?B?dkdLb1hoeWQ3THEwWXZKWThhT051aHlJYW1WZEFyMGNaZ0hNMTF0VFBMeEtl?=
+ =?utf-8?B?VlFGUnoyVjhMLzlDSk0wNzJPWUNSMnRmS1BWM2ltYXFaaTA5SWJ2SkNhNWo2?=
+ =?utf-8?B?ZEVLa0N5dVZUK2NZK2o2ZERadXp0cTYyMkpBNG5YQTBzMmFaZ1VMdFhqbUNy?=
+ =?utf-8?B?aTJiNGFnam1hbkVVRENzTTRmdlVBdC9heXVYbm5uU1JMRmNzWGRUVG5SVkF0?=
+ =?utf-8?B?Zm1xeENnVitHWG44UXk3L3ZGcmxuOE1NeG9vZVc3RFdFcmZBZ1FRTHZlMkhE?=
+ =?utf-8?B?YXltSzNLZ3NFeWtFTCtyTXFvNDR4dnJZQTdSRHdYRXQ4bFc5WkZTajNpd0pH?=
+ =?utf-8?B?RXdJa0lNcmhIdmlORmFUZStzdzluN1BkRk5wZ3d2N1didDFJT1JrUWlNbE5y?=
+ =?utf-8?B?TmJuY1lKVjN5R3NPcmh2WmlRTkIxQXlWTWltN3dNWlNITUNYRE01aWs4bXZ5?=
+ =?utf-8?B?dm5HS0R4V29XcEMrZWFIa3JlaXFpNUlQbXdiZm1Yay9BaHFuQXh4cnA4bzRr?=
+ =?utf-8?B?Q1BwSEpPQXpabi9LcUx6Zm5aSVNqaTBYcjc5WTJZbkQ3eEtkdHFlaFpBR0Jy?=
+ =?utf-8?B?Z3krdFh0M2RMaU4yMjJscmJYV3A0Y1RZYTdsdmpoQ1haMUpCcGpMQkQvVVln?=
+ =?utf-8?B?Ty94VGhOR0g4NGJZODJCaXVlZW8rSU5DY09qcGxCbzR5d0k4eEtWVkE2OUpT?=
+ =?utf-8?B?UzJHQjMxMGFWc01iQjArblV5WEg1Yks4NDVPSmFYSE9ET092MWtyWW9XcGhW?=
+ =?utf-8?B?cnRFbDQ1TWF5ZTRQV2JjdHlVMXQ0RGs0M0FLWFlCOHU0VnlOWEMyT3hZTEFT?=
+ =?utf-8?B?YWVmdWxTNEllMHJ2cytUTWFILy9odXI3VlRiaWxBbmJhVkZSajlGU2tJb1pS?=
+ =?utf-8?B?UE94ZXJFWjZ2OXIxVjVMQnB0aHNJbUtaSmlNbUJUVFZDaGZIQ2hDdGNCVjRT?=
+ =?utf-8?B?UlRxTjU1TFhYU1pVYVIwUzkrVWhYenZ5NmVmUi9La2t0bytlMUpDRmJnMlQ4?=
+ =?utf-8?B?bW9rTExjVUhlaXBFS2hURzhaUEwrTC94R2I4RGVSeGFtbXVCZE9Rd2MvelNP?=
+ =?utf-8?B?TXdlZFlTUmJHWnFneW5uaU0welVGZ0xGaGUva3hmS21halJCMFlDZjlndXpS?=
+ =?utf-8?B?eUw1bTBSQ2lnVThrbExkQVNpSmhqemtaeVJIR3BQLy9CSFMyMWpTa0RGaDM5?=
+ =?utf-8?B?MzhwUmZuWVdtKy8xR2lUanJiNEdnWkwrRDdrbnNpTDMwUFV3d2NwZGloUTFP?=
+ =?utf-8?B?YXErMXE2SEtkUWtyQ3pvVXF4NUxyQUE2My8zeHdnRDhDQ0VRUzdoc1ltVlVF?=
+ =?utf-8?B?dnJTT3ZXM1phUHhGVjFRZXFXVGhubFVudDc3a2taWk90TENLY3VUMXZ2OFUv?=
+ =?utf-8?B?dk9pT2lCSDVjS2FZZm5zSmxoa0tIdExsK3NVMHlvdTR5OVVNNzBURTQwZmw4?=
+ =?utf-8?B?Umt5dHNmRmRJSjEwcWVaTGI0anlCNkx5NjVpdXgrS3pqM09oSWVybHRKcHlO?=
+ =?utf-8?B?V292K1VVZ3NEODkzYUttcVdpMmpZVi9QNkEvbExrWlQ0M2tScTBYZVAwUFVP?=
+ =?utf-8?B?RkRzN0RWeE9QS3NJZWcrNFlYWmsyS1QvbWdVQjJOeng2dlg4dEVBamtkakJ0?=
+ =?utf-8?B?ZWFqeEFCRHMxeWpBZFV2d1FjVVQyZ0MxVVM0MjhhZC9Qa2NUZlhLaksrd0ll?=
+ =?utf-8?B?OEpBeXo2Y3libmNlUjRMQS9Gdys0QmRwVXIwby9ienJ1VjByU0Fsalh0cC9o?=
+ =?utf-8?B?d2xqOWg0UEt3RmxyV3JLZk1Bb1VMblZ2ZytLL3QvWlRDQzJWbjVmbFhFTkxk?=
+ =?utf-8?B?MnZoYTBKd1ViLzlJQWNrWm9mRmRRUU1Hb2pVSDkxWlRzdzBsNVd5ZlRXUzVz?=
+ =?utf-8?B?ZXV3OG5yL094dTNjWWtqL1huNDhjc2d0Z2tLWHJWdEgxNzdqOUJ6T0dXQXdO?=
+ =?utf-8?B?Y3c9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 	=?utf-8?B?ZWdTMWZBVm42bzg4T21QenhFQ2MzVUJkNTgzMW1RZHN3OXljZzgzNzI2WjlC?=
+ =?utf-8?B?Q3BqTW85NEV1ZENJREQxclVsNjZuZVUvaTNBVU10SWQzbk5UQURJaW1DQjdp?=
+ =?utf-8?B?V0tYU2NMNlJMcGVJbUhQTDNET3hreXZTakY5aWI3UklwNVNvOG9OeTQxL2dG?=
+ =?utf-8?B?RzZxOTl1YkMzM0dmU1Z3RDcxb2xSZDZrWGZ0V0JRR2RWUHdIbXpwQ0hseUZ5?=
+ =?utf-8?B?ZmhUcFZNK0VYMHg4eG8zZytLQi9pNjFQK0lwYzJQMkxCWU9KMGhuUWJueThq?=
+ =?utf-8?B?TUZNYWJFRXNqbVZOQk9CTEZIMlhxUUdQcEpnczNUNE5YRW9XZGxtSlh2YTlF?=
+ =?utf-8?B?WEVaN205anJLTGEyUXFiRk94M3ZGaUF4akQ5TXdCQUY1RlduN0RwQ3M1eEYw?=
+ =?utf-8?B?M0R1Mjl1dXpvYjFtVkVUQXYycytydVJ2QXFraERlTFRyUHgzWkV2anZsVHIx?=
+ =?utf-8?B?c05tb0lFVXBvVkJBdlRZL3p2WjVwWWFoZW84bXgwOVBhdFE1SUV2YmhHT1Qr?=
+ =?utf-8?B?MktZM3JNR3phWDRvNWRWSzFWdVY1ZVQ1SlVVNTBXS21pekl6ZHJhMTlDSll0?=
+ =?utf-8?B?U3RNRTc4ME1iUU9SS01tMmJUV0RRaEJ5cE5QdXVGRWs1d2VYMGd4ZEQzdGdX?=
+ =?utf-8?B?QU85Zm9rQ1grd2F2bXBOZ0lJTFZWMHV4dlhDcGVYWnR4dmF5c0NNajhrLzJp?=
+ =?utf-8?B?SUR2U3gyVXVuV2JINmZLNlpuMTFwZ3JISTJYNEdVNnlnbEc1Q2p1RUI2RlBq?=
+ =?utf-8?B?S1o0R3lua3U3Q2pRTFBEWURuTGtlVVhqaGhKVTVaM0R5M2JCWUh2d09mN1c3?=
+ =?utf-8?B?bFdrNjJlN2twVFBaRjZNQUJaWnhxUnRwWHNLdGNJMXp6MWVpZ3hyRXBYalg4?=
+ =?utf-8?B?R2ZIK0pPaEFBazdQZXl1YTNPRmM3cFNsejJ0UllMdW9xRkxEdkhvbE1mU1JG?=
+ =?utf-8?B?eDViU3g0UXhNYVdFZ0lZNTRidHFYbktSb2djeDJaMFhWQXRIVVNJQm05ZkFo?=
+ =?utf-8?B?VzU1K1RWV2RCVEdtb1A4bitCZkc4UUNCaFJQMmpZYTliZjFqUjE2OXJzK3lM?=
+ =?utf-8?B?eTV2Q1ZJdHVlZlhKMzAxek95YnJNcy8zOG14UHg3SjhpOFo2RXhEOWVkZkZz?=
+ =?utf-8?B?RUdvRVdyYVljZEJOanp2dkxXMkJTK0ZJRUZKc0U1MGZVRTNtKzJLc002bWIw?=
+ =?utf-8?B?THFaNjdZbWs3OFBiN2pZZXNGK1YxbjhJMUVPN2d6TmkrbnBYbFpwVUlYYlJp?=
+ =?utf-8?B?Z2dzbzNicmphMVVIRjk3YXFuc0c1c3hieFN3cTZxcGxpMWZzcHloTExOSFJY?=
+ =?utf-8?B?RUpTc1JGOTRUQnBKdGUwaGlPTlc4NTdwWlZKajZUcGJBRkZ3SmtGZXBMMGU3?=
+ =?utf-8?B?cldjam84ZjF4a1hlU1RUZzBEMmp5Mjg1Umo5TkIzVWJBRTVTN0tqN3VqY0I5?=
+ =?utf-8?Q?YZiHYZI7?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 20a8e5a2-5af8-4aa5-9df4-08db2961a4d1
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR10MB1466.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2023 16:39:15.8699
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uMC3cVlQ8j9rzQmMuF2Ug1VitYUDIdDp5QOQBfqHn83eifQn4veUXE6P0f+gpuuKxBNvenegCB3Cifc2/69cBlFtoWDRtATgE2g0ASliLus=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4662
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-20_13,2023-03-20_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 mlxscore=0 mlxlogscore=999 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303150002
+ definitions=main-2303200141
+X-Proofpoint-ORIG-GUID: DNz4M7Pbmc4-v4LyZ9dY2mGoQsAs9vsA
+X-Proofpoint-GUID: DNz4M7Pbmc4-v4LyZ9dY2mGoQsAs9vsA
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230320_091105_142204_6422ADF1 
-X-CRM114-Status: GOOD (  24.12  )
+X-CRM114-CacheID: sfid-20230320_093931_710669_B6E89676 
+X-CRM114-Status: GOOD (  21.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,202 +213,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-[+cc NVMe folks]
+On 3/20/23 8:06 AM, Christoph Hellwig wrote:
+> On Thu, Mar 16, 2023 at 11:36:12AM -0500, Mike Christie wrote:
+>> I think we are ok for dasd using BLK_STS_RESV_CONFLICT.
+>>
+>> It thought it sounded similar to SCSI/NVMe and userspace will still
+>> see -EBADE because the blk_status_to_errno/errno_to_blk_status will
+>> handle this.
+>>
+>> There was no internal dasd code checking for BLK_STS_NEXUS.
+>>
+>> There is a pr_ops API, but dasd is not hooked into it so we don't
+>> have to worry about behavior changes.
+> 
+> Yes, we don't have to worry about it.  I just find a bit confusing
+> to have a PR-related error in a driver that doesn't use PRs.
+> > Maybe add a little comment that it is used for some s390 or DASD
+> specific locking instead.
 
-On Mon, Mar 20, 2023 at 12:58:52PM +0100, Marcin Juszkiewicz wrote:
-> During last week I had to shuffle some of my NVME drives between
-> systems. One of those systems is Solidrun Honeycomb which uses
-> LX2160A SoC.
-> 
-> The problem is that I am unable to use Samsung PM991 NVME there.
-> It is 2242 card so probably also DRAMless. Kernel says:
-> 
-> nvme 0004:01:00.0: Adding to iommu group 4
-> nvme nvme0: pci function 0004:01:00.0
-> nvme nvme0: missing or invalid SUBNQN field.
-> nvme nvme0: 1/0/0 default/read/poll queues
-> nvme 0004:01:00.0: VPD access failed.  This is likely a firmware bug on this device.  Contact the card vendor for a firmware update
-> 
-> The SUBNQN part can be handled by adding quirk in nvme/core.c file
-> but that does not change situation. It also does not appear when
-> used in x86-64 system.
-> 
-> Card is visible but only as PCIe device, no NVME block devices.
-> 
-> lspci says:
-> 
-> 0004:01:00.0 Non-Volatile memory controller [0108]: Samsung Electronics Co Ltd NVMe SSD Controller 980 [144d:a809] (prog-if 02 [NVM Express])
->         Subsystem: Samsung Electronics Co Ltd NVMe SSD Controller 980 [144d:a801]
->         Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
->         Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
->         Latency: 0
->         Interrupt: pin A routed to IRQ 106
->         NUMA node: 0
->         IOMMU group: 1
->         Region 0: Memory at a400000000 (64-bit, non-prefetchable) [size=16K]
->         Expansion ROM at a040000000 [disabled] [size=128K]
->         Capabilities: [40] Power Management version 3
->                 Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0-,D1-,D2-,D3hot-,D3cold-)
->                 Status: D0 NoSoftRst+ PME-Enable- DSel=0 DScale=0 PME-
->         Capabilities: [50] MSI: Enable- Count=1/32 Maskable- 64bit+
->                 Address: 0000000000000000  Data: 0000
->         Capabilities: [70] Express (v2) Endpoint, MSI 00
->                 DevCap: MaxPayload 256 bytes, PhantFunc 0, Latency L0s unlimited, L1 unlimited
->                         ExtTag- AttnBtn- AttnInd- PwrInd- RBE+ FLReset+ SlotPowerLimit 15.000W
->                 DevCtl: CorrErr- NonFatalErr- FatalErr- UnsupReq-
->                         RlxdOrd+ ExtTag- PhantFunc- AuxPwr- NoSnoop+ FLReset-
->                         MaxPayload 128 bytes, MaxReadReq 512 bytes
->                 DevSta: CorrErr- NonFatalErr- FatalErr- UnsupReq- AuxPwr- TransPend-
->                 LnkCap: Port #0, Speed 8GT/s, Width x4, ASPM L1, Exit Latency L1 <64us
->                         ClockPM+ Surprise- LLActRep- BwNot- ASPMOptComp+
->                 LnkCtl: ASPM Disabled; RCB 64 bytes, Disabled- CommClk-
->                         ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
->                 LnkSta: Speed 8GT/s (ok), Width x4 (ok)
->                         TrErr- Train- SlotClk+ DLActive- BWMgmt- ABWMgmt-
->                 DevCap2: Completion Timeout: Range ABCD, TimeoutDis+ NROPrPrP- LTR+
->                          10BitTagComp- 10BitTagReq- OBFF Not Supported, ExtFmt- EETLPPrefix-
->                          EmergencyPowerReduction Not Supported, EmergencyPowerReductionInit-
->                          FRS+ TPHComp- ExtTPHComp-
->                          AtomicOpsCap: 32bit- 64bit- 128bitCAS-
->                 DevCtl2: Completion Timeout: 50us to 50ms, TimeoutDis- LTR- OBFF Disabled,
->                          AtomicOpsCtl: ReqEn-
->                 LnkCap2: Supported Link Speeds: 2.5-8GT/s, Crosslink- Retimer- 2Retimers- DRS+
->                 LnkCtl2: Target Link Speed: 8GT/s, EnterCompliance- SpeedDis-
->                          Transmit Margin: Normal Operating Range, EnterModifiedCompliance- ComplianceSOS-
->                          Compliance De-emphasis: -6dB
->                 LnkSta2: Current De-emphasis Level: -6dB, EqualizationComplete+ EqualizationPhase1+
->                          EqualizationPhase2+ EqualizationPhase3+ LinkEqualizationRequest-
->                          Retimer- 2Retimers- CrosslinkRes: unsupported
->         Capabilities: [b0] MSI-X: Enable+ Count=13 Masked-
->                 Vector table: BAR=0 offset=00003000
->                 PBA: BAR=0 offset=00002000
->         Capabilities: [d0] Vital Product Data
->                 Not readable
->         Capabilities: [100 v2] Advanced Error Reporting
->                 UESta:  DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- UnxCmplt- RxOF- MalfTLP- ECRC- UnsupReq- ACSViol-
->                 UEMsk:  DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- UnxCmplt- RxOF- MalfTLP- ECRC- UnsupReq- ACSViol-
->                 UESvrt: DLP+ SDES+ TLP- FCP+ CmpltTO- CmpltAbrt- UnxCmplt- RxOF+ MalfTLP+ ECRC- UnsupReq- ACSViol-
->                 CESta:  RxErr- BadTLP- BadDLLP- Rollover- Timeout- AdvNonFatalErr-
->                 CEMsk:  RxErr- BadTLP- BadDLLP- Rollover- Timeout- AdvNonFatalErr+
->                 AERCap: First Error Pointer: 00, ECRCGenCap+ ECRCGenEn- ECRCChkCap+ ECRCChkEn-
->                         MultHdrRecCap+ MultHdrRecEn- TLPPfxPres- HdrLogCap-
->                 HeaderLog: 00000000 00000000 00000000 00000000
->         Capabilities: [148 v1] Device Serial Number 00-00-00-00-00-00-00-00
->         Capabilities: [158 v1] Power Budgeting <?>
->         Capabilities: [168 v1] Secondary PCI Express
->                 LnkCtl3: LnkEquIntrruptEn- PerformEqu-
->                 LaneErrStat: 0
->         Capabilities: [188 v1] Latency Tolerance Reporting
->                 Max snoop latency: 0ns
->                 Max no snoop latency: 0ns
->         Capabilities: [190 v1] L1 PM Substates
->                 L1SubCap: PCI-PM_L1.2+ PCI-PM_L1.1+ ASPM_L1.2+ ASPM_L1.1+ L1_PM_Substates+
->                           PortCommonModeRestoreTime=10us PortTPowerOnTime=10us
->                 L1SubCtl1: PCI-PM_L1.2- PCI-PM_L1.1- ASPM_L1.2- ASPM_L1.1-
->                            T_CommonMode=0us LTR1.2_Threshold=0ns
->                 L1SubCtl2: T_PwrOn=10us
->         Capabilities: [1a0 v1] Dynamic Power Allocation <?>
->         Capabilities: [1d0 v1] Readiness Time Reporting <?>
->         Capabilities: [1dc v1] Vendor Specific Information: ID=0002 Rev=3 Len=100 <?>
->         Capabilities: [2dc v1] Vendor Specific Information: ID=0001 Rev=1 Len=038 <?>
->         Capabilities: [314 v1] Precision Time Measurement
->                 PTMCap: Requester:+ Responder:- Root:-
->                 PTMClockGranularity: Unimplemented
->                 PTMControl: Enabled:- RootSelected:-
->                 PTMEffectiveGranularity: Unknown
->         Capabilities: [320 v1] Vendor Specific Information: ID=0003 Rev=1 Len=054 <?>
->         Kernel driver in use: nvme
->         Kernel modules: nvme
-> 
-> 
-> I am able to use it without issues on my AMD Ryzen 3 3600 system:
-> 
-> pci 0000:23:00.0: [144d:a809] type 00 class 0x010802
-> pci 0000:23:00.0: reg 0x10: [mem 0xfc900000-0xfc903fff 64bit]
-> pci_bus 0000:23: resource 1 [mem 0xfc900000-0xfc9fffff]
-> pci 0000:23:00.0: Adding to iommu group 24
-> nvme nvme2: pci function 0000:23:00.0
-> nvme nvme2: Shutdown timeout set to 8 seconds
-> nvme nvme2: allocated 64 MiB host memory buffer.
-> nvme nvme2: 12/0/0 default/read/poll queues
->  nvme2n1: p1 p2 p3 p4 p5
-> 
-> 
-> Here lspci does not mention VPD part at all:
-> 
-> 23:00.0 Non-Volatile memory controller [0108]: Samsung Electronics Co Ltd NVMe SSD Controller 980 [144d:a809] (prog-if 02 [NVM Express])
->         Subsystem: Samsung Electronics Co Ltd Device [144d:a801]
->         Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
->         Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
->         Latency: 0, Cache Line Size: 64 bytes
->         Interrupt: pin A routed to IRQ 39
->         NUMA node: 0
->         IOMMU group: 24
->         Region 0: Memory at fc900000 (64-bit, non-prefetchable) [size=16K]
->         Capabilities: [40] Power Management version 3
->                 Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0-,D1-,D2-,D3hot-,D3cold-)
->                 Status: D0 NoSoftRst+ PME-Enable- DSel=0 DScale=0 PME-
->         Capabilities: [50] MSI: Enable- Count=1/32 Maskable- 64bit+
->                 Address: 0000000000000000  Data: 0000
->         Capabilities: [70] Express (v2) Endpoint, MSI 00
->                 DevCap: MaxPayload 256 bytes, PhantFunc 0, Latency L0s unlimited, L1 unlimited
->                         ExtTag- AttnBtn- AttnInd- PwrInd- RBE+ FLReset+ SlotPowerLimit 0W
->                 DevCtl: CorrErr+ NonFatalErr+ FatalErr+ UnsupReq+
->                         RlxdOrd+ ExtTag- PhantFunc- AuxPwr- NoSnoop+ FLReset-
->                         MaxPayload 128 bytes, MaxReadReq 512 bytes
->                 DevSta: CorrErr+ NonFatalErr- FatalErr- UnsupReq+ AuxPwr- TransPend-
->                 LnkCap: Port #0, Speed 8GT/s, Width x4, ASPM L1, Exit Latency L1 <64us
->                         ClockPM+ Surprise- LLActRep- BwNot- ASPMOptComp+
->                 LnkCtl: ASPM Disabled; RCB 64 bytes, Disabled- CommClk+
->                         ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
->                 LnkSta: Speed 8GT/s, Width x4
->                         TrErr- Train- SlotClk+ DLActive- BWMgmt- ABWMgmt-
->                 DevCap2: Completion Timeout: Range ABCD, TimeoutDis+ NROPrPrP- LTR+
->                          10BitTagComp- 10BitTagReq- OBFF Not Supported, ExtFmt- EETLPPrefix-
->                          EmergencyPowerReduction Not Supported, EmergencyPowerReductionInit-
->                          FRS- TPHComp- ExtTPHComp-
->                          AtomicOpsCap: 32bit- 64bit- 128bitCAS-
->                 DevCtl2: Completion Timeout: 50us to 50ms, TimeoutDis- LTR+ 10BitTagReq- OBFF Disabled,
->                          AtomicOpsCtl: ReqEn-
->                 LnkCap2: Supported Link Speeds: 2.5-8GT/s, Crosslink- Retimer- 2Retimers- DRS-
->                 LnkCtl2: Target Link Speed: 8GT/s, EnterCompliance- SpeedDis-
->                          Transmit Margin: Normal Operating Range, EnterModifiedCompliance- ComplianceSOS-
->                          Compliance Preset/De-emphasis: -6dB de-emphasis, 0dB preshoot
->                 LnkSta2: Current De-emphasis Level: -3.5dB, EqualizationComplete+ EqualizationPhase1+
->                          EqualizationPhase2+ EqualizationPhase3+ LinkEqualizationRequest-
->                          Retimer- 2Retimers- CrosslinkRes: unsupported
->         Capabilities: [b0] MSI-X: Enable+ Count=13 Masked-
->                 Vector table: BAR=0 offset=00003000
->                 PBA: BAR=0 offset=00002000
->         Capabilities: [100 v2] Advanced Error Reporting
->                 UESta:  DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- UnxCmplt- RxOF- MalfTLP- ECRC- UnsupReq- ACSViol-
->                 UEMsk:  DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- UnxCmplt- RxOF- MalfTLP- ECRC- UnsupReq- ACSViol-
->                 UESvrt: DLP+ SDES+ TLP- FCP+ CmpltTO- CmpltAbrt- UnxCmplt- RxOF+ MalfTLP+ ECRC- UnsupReq- ACSViol-
->                 CESta:  RxErr- BadTLP- BadDLLP- Rollover- Timeout- AdvNonFatalErr-
->                 CEMsk:  RxErr- BadTLP- BadDLLP- Rollover- Timeout- AdvNonFatalErr+
->                 AERCap: First Error Pointer: 00, ECRCGenCap+ ECRCGenEn- ECRCChkCap+ ECRCChkEn-
->                         MultHdrRecCap+ MultHdrRecEn- TLPPfxPres- HdrLogCap-
->                 HeaderLog: 00000000 00000000 00000000 00000000
->         Capabilities: [148 v1] Device Serial Number 00-00-00-00-00-00-00-00
->         Capabilities: [158 v1] Power Budgeting <?>
->         Capabilities: [168 v1] Secondary PCI Express
->                 LnkCtl3: LnkEquIntrruptEn- PerformEqu-
->                 LaneErrStat: 0
->         Capabilities: [188 v1] Latency Tolerance Reporting
->                 Max snoop latency: 1048576ns
->                 Max no snoop latency: 1048576ns
->         Capabilities: [190 v1] L1 PM Substates
->                 L1SubCap: PCI-PM_L1.2+ PCI-PM_L1.1+ ASPM_L1.2+ ASPM_L1.1+ L1_PM_Substates+
->                           PortCommonModeRestoreTime=10us PortTPowerOnTime=10us
->                 L1SubCtl1: PCI-PM_L1.2- PCI-PM_L1.1- ASPM_L1.2- ASPM_L1.1-
->                            T_CommonMode=0us LTR1.2_Threshold=32768ns
->                 L1SubCtl2: T_PwrOn=10us
->         Kernel driver in use: nvme
->         Kernel modules: nvme
-> 
-> 
-> Any idea what can be wrong? Other than usual "it is fault of
-> used PCI Express implementation".
-> 
-> NOTE: Honeycomb does not expose root ports to the OS.
+Ok. 
 
