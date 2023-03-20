@@ -4,136 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3CCAC7618A
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Mar 2023 13:21:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76128C6FD1D
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Mar 2023 13:30:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=sbyqXqoXRMYqXTD1u3Ab+qOj/IRXNylcus7hLq1x6/U=; b=DVBGLRlF/FNhXU
-	eDACTtSd5SoG1KSL2leJEouDpwyIfdM15LPXV4aDZZJKiORymUZ+w4dUvA13KKnmk567KqpRE0/dB
-	Ed2QRMdfWkTPcs4PKDnK0JQHyQbfD7t0/HyeherBeFRFxBNn0oCHn5+Dk+eKwF5tSGShundymfDoK
-	9T0/y702jfi49vCsNCDvLx3TEwdACUueocJbIxvNwBtd/X0r+iZmBaiMUiA7ZsGeElEzLem0uPOIm
-	TW3/Nhx703sqq/euMH57jryUsQRlrD3JQ+gt3DUofWkZ7p88tMlk+Zeteq8JK2ZFLrEDvyQV7Abli
-	pCdY1CYj8ly+Peo6fIxQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=SN/L2W0NcmiuHEOBPaa1RaDzECPECTqvYsR2vISwESk=; b=G6nPXxF+1fu0nhoK4YSemsZjFO
+	+MdVPImu+jpEBnYXPSZxk50EatJtq+PYkKYay70Bkj+OcoD2HFHu1P6IoSO+rXdqdS+faj34eN2DH
+	YhWpzo4TBmGnG7KR6EhRGkfsvEWaOJNlxvWYrEt7MEx+kp0UGB1QB05cCX20DOaxGfmCY3e0JiW4h
+	Xd8mb5ksgp97Z/PLPkzCjPzmixyAvTRivRdHUyO8Dg2v+Klz/gKihMbwghvawVRGudZOo0bp+EtFk
+	nMje5XOujiis7a7lfr6OMMlP3xZvDU+sQUu1FTVhyvzOIFk9XGm3SaorDRZYG05emqV0/5Olo4hoH
+	R+RzLSEQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1peFRw-0097Ku-3B;
-	Mon, 20 Mar 2023 13:21:20 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1peFak-009B4K-1U;
+	Mon, 20 Mar 2023 13:30:26 +0000
+Received: from mail-wm1-f48.google.com ([209.85.128.48])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1peFRp-0097G9-37
+	id 1peFag-009B1P-2t
 	for linux-nvme@lists.infradead.org;
-	Mon, 20 Mar 2023 13:21:16 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20230320132108euoutp0211fdd5be510deaca75965d5f79c424d7~OIz-f4Vjy0683906839euoutp02V
-	for <linux-nvme@lists.infradead.org>; Mon, 20 Mar 2023 13:21:08 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20230320132108euoutp0211fdd5be510deaca75965d5f79c424d7~OIz-f4Vjy0683906839euoutp02V
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1679318468;
-	bh=sbyqXqoXRMYqXTD1u3Ab+qOj/IRXNylcus7hLq1x6/U=;
-	h=Date:Subject:To:CC:From:In-Reply-To:References:From;
-	b=VkkHZADaiFdB+J+/RrZs5F+YQA7Wd/8KLY0uKBnW1TJhyaszNxERNnI99zKxhkjpi
-	 3ToeJaCf0ptArWhK2m3A8EQqTkyJ5GxVcJTd2nAE0FrW2YYp/9uyl5H+o9qlT1xUF0
-	 JzvacfiJZaYreJd4F1YC0uIYdm/XDSVOqNcbd1MU=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20230320132108eucas1p2ebbe60c573a2b3aa2888a9da3b00a1a0~OIz-R5StE2025020250eucas1p2E;
-	Mon, 20 Mar 2023 13:21:08 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges3new.samsung.com (EUCPMTA) with SMTP id 07.C7.10014.3CD58146; Mon, 20
-	Mar 2023 13:21:07 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20230320132107eucas1p17f65ea0f0521391071fbf7d6fd0a093e~OIz_5a2qs0977709777eucas1p1J;
-	Mon, 20 Mar 2023 13:21:07 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20230320132107eusmtrp17ceec616cbfca188ba42365a81298c02~OIz_4qMJ10784907849eusmtrp1n;
-	Mon, 20 Mar 2023 13:21:07 +0000 (GMT)
-X-AuditID: cbfec7f5-b8bff7000000271e-e2-64185dc36e38
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-	eusmgms2.samsung.com (EUCPMTA) with SMTP id 28.9E.09583.3CD58146; Mon, 20
-	Mar 2023 13:21:07 +0000 (GMT)
-Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20230320132107eusmtip2cf04c08eb20679c99ca1090804974bf4~OIz_qy3Xb0452204522eusmtip2S;
-	Mon, 20 Mar 2023 13:21:07 +0000 (GMT)
-Received: from [106.110.32.251] (106.110.32.251) by CAMSVWEXC01.scsc.local
-	(2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Mon, 20 Mar 2023 13:21:03 +0000
-Message-ID: <160812bc-20b7-84f4-62e5-5ef4bc624c68@samsung.com>
-Date: Mon, 20 Mar 2023 14:21:03 +0100
+	Mon, 20 Mar 2023 13:30:24 +0000
+Received: by mail-wm1-f48.google.com with SMTP id fm20-20020a05600c0c1400b003ead37e6588so9163010wmb.5
+        for <linux-nvme@lists.infradead.org>; Mon, 20 Mar 2023 06:30:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679319019;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SN/L2W0NcmiuHEOBPaa1RaDzECPECTqvYsR2vISwESk=;
+        b=jR8EsKlXRnGKBmR//N1laFBFkLHdpC2yEGb43EqUup39A7x7fluQUEm50mMB/3QFGo
+         J8g5XgoWCupuVvP3JZaLfE4qp3IQP4iA632GabA/RvQ/tq3nYxIZNTuL2MAcFDvkNliK
+         33CPKUklcJAOCDnxxgnW6ygBQUHNIiKMmnneSB+j9J/ADrrfzrL9YsisQpwGyxnlsRsW
+         AZ6mwX6T+EPt2G8Oor1cjuaeeEyPKpmNzMgS3NnGQWYRD7tnwN6tfxAXdDB3TJiNy+Vr
+         ecSuCikT6/YcMClQ3cCpi2DiMfob564PCwqps2W47idzp8PNYjPR1VpjrYvqaFJZyGnE
+         MNDQ==
+X-Gm-Message-State: AO0yUKW0S/EwXFwNVKqSwgsUM5W7xk2O785e+eKvvzd57RI09x4BdvkU
+	kH7t3rANuWvgTu5lIX9mV+4=
+X-Google-Smtp-Source: AK7set+gelxxZaQFrQ4tP/PHduyz+czu6ez58ekEQxdQg5ZRpijg/iV6czetGwu50h2jPfmQrcb49A==
+X-Received: by 2002:a05:600c:3093:b0:3ed:ebcb:e2c6 with SMTP id g19-20020a05600c309300b003edebcbe2c6mr3133344wmn.3.1679319018774;
+        Mon, 20 Mar 2023 06:30:18 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id y6-20020a05600c364600b003ed2c0a0f37sm10533636wmq.35.2023.03.20.06.30.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Mar 2023 06:30:18 -0700 (PDT)
+Message-ID: <94e456a5-79e0-5ab1-92d5-3a63a4c4836b@grimberg.me>
+Date: Mon, 20 Mar 2023 15:30:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
-	Thunderbird/102.8.0
-Subject: Re: [PATCH 1/1] nvme-pci: add NVME_QUIRK_BOGUS_NID for Samsung
- PM173X
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2] nvme-tcp: fix a possible UAF when failing to allocate
+ an io queue
 Content-Language: en-US
-To: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-CC: Christoph Hellwig <hch@lst.de>, "# v4 . 16+" <stable@vger.kernel.org>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Sagi Grimberg
-	<sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "javier.gonz@samsung.com"
-	<javier.gonz@samsung.com>, "k.jensen@samsung.com" <k.jensen@samsung.com>,
-	"jh.i.park@samsung.com" <jh.i.park@samsung.com>
-From: Pankaj Raghav <p.raghav@samsung.com>
-In-Reply-To: <3B7AB643-C87C-4C19-A47A-C15565750243@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org
+References: <20230319131422.14527-1-sagi@grimberg.me>
+ <b0c41e48-b3d8-1e42-eb04-5537a2214611@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <b0c41e48-b3d8-1e42-eb04-5537a2214611@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [106.110.32.251]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
-	CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SaUwTYRDl6y7tFi0uV5iAiilqAgaEKLURbRBFGxMTMGoEIVLpCihU7XJ5
-	I/WIxQgCiVKVgnLJfVoQlaQgKBi8otJKAYV64QFB4g2yLhr+vXnz3nzzJh+B2ZZaOhHRijhK
-	qZDFCLlW+PW2710erWEg9zL7iSdutnHF10rvcMQZ+mdI/OTGJa5YW2jmiQuK2jBxxdBnXJxb
-	/Qr5EdJzqk886YPealxaU3KaK63NPyptMiRzpSNmIy4drZkbyAuxWiGnYqITKOViSbhVVOtV
-	2HuCTHr3q4qXjAZnqhGfAHIpNGRpcTWyImzJYgT1rzqmii8I8l60YmwximDw9Tj+z5IyXIXY
-	RhEC9VAq/l+l6TFw2aIJgaG/1pKxCEgJNJY9ncQEgZMLIE23maVt4F72IM7QDmQIvB1KYGg7
-	MhAuGE0YgzHSEYyDWg6D7cnl8OZu39/xGNmBQXNmMmK8XNIdjp3mMRr+5Eta01fEet3ghO4n
-	j8UuoKq/iLEBhHDzUQ5i8WEob7vPY2YCeZ4PXY8vTYnWgKniA4/FdvC+vW4Kz4bOzDNTlzgI
-	5u6fGGs+jiCtsZLLLASkL5y9H8NqVoG5cRhnaWvo/mjD7mMNGdfPY+logWbaJTTTImumRdBM
-	i5CL8BLkSMXTsZEUvURBJXrSslg6XhHpGbEntgZN/qfO8faxBlT8fsRTjzgE0iMgMKG9YC0G
-	cluBXLb/AKXcs10ZH0PReuRM4EJHwaKV9yJsyUhZHLWbovZSyn9dDsF3Sub4OytCL1suC8vi
-	o3KlM25THd1eWBZ25sdqr6YUcmEL1fBRmXNlXUvzgLHOqy4F1/bfyn7SR9SuGygoc4WEw6KT
-	sx7PfljZq7rQnxY0Txvst7Gcltm4jM050hnkoEv/YTjVKzFaSpcPNIruWETJ7y5a7LM7vzYg
-	2Dt1/4qQzs3qqg4so1QTYB3Y40EfKhrNzqkY19OxQiO1r0W+S5cX0TVxysJ1ieRFto8qKfTZ
-	1pQjo4b0IFPU/DhBuPd6jcjhduTz4KVzLRIrNzWPze8hieGIhz3+ut/hKlHSjDRfkf3Tr9vM
-	6g23vo24jbw8V7/Tzy2xb8dxU2YdHbBF4lqfGZogxOkombc7pqRlfwAMsTG9vgMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrIIsWRmVeSWpSXmKPExsVy+t/xe7qHYyVSDM7tkLf4v+cYm8XK1UeZ
-	LCYdusZocXnXHDaL+cueslssXX6M2WLd6/csFgs2PmJ04PCY2PyO3eP8vY0sHptWdbJ5bF5S
-	77H7ZgObx8ent1g8Pm+SC2CP0rMpyi8tSVXIyC8usVWKNrQw0jO0tNAzMrHUMzQ2j7UyMlXS
-	t7NJSc3JLEst0rdL0Ms4sliioFWg4uWfDewNjE94uhg5OSQETCSaPmxg7GLk4hASWMoosbFr
-	KxNEQkbi05WP7BC2sMSfa11sEEUfGSVaXp5hBkkICexmlJj1xR7E5hWwk9i55iprFyMHB4uA
-	qkT/9lCIsKDEyZlPWEBsUYEoiad3DoG1Cgv4SbT0NDOC2MwC4hK3nswH2ysiYCXx/MR9sF3M
-	AqeYJfZPboC67hyTxIc39xlBFrAJaEk0doIdxwm0d/7d71CDNCVat/9mh7DlJZq3zmaGeEBJ
-	Ys/FeYwQdq3Eq/u7GScwis5Cct8sJHfMQjJqFpJRCxhZVjGKpJYW56bnFhvpFSfmFpfmpesl
-	5+duYgTG9bZjP7fsYFz56qPeIUYmDsZDjBIczEoivG7MEilCvCmJlVWpRfnxRaU5qcWHGE2B
-	YTSRWUo0OR+YWPJK4g3NDEwNTcwsDUwtzYyVxHk9CzoShQTSE0tSs1NTC1KLYPqYODilGph2
-	VDJyShTdvRn4/aWI0eSKhScmySe52vqzJyuqnzxZVdg71YPrwqN54ZsYM+67pNo9rb7Wl9Qn
-	nv145ptA1l5Lozc8lxYXL1c8fGVGuJTWNfX1hz67flzG75hoXWhTzcWwskDVRzTS7Cjn+RWM
-	T1YW9aXefLTt/dn7c2S7eT/Wm7GJqO4MVdkc7cjMY9354QOTpZfg5ZTw/xL23reuf67KDU34
-	/Uhn8o+y7p/vTPq3/GowWDnDeMrDyQx7dxrPzJmlPEP28rsOm8P7Dh2f8eCLqMLRe+rG/l5l
-	6h5Hbust881OWcVZ5LO3+6eO5aNqwTN8qxvm2G9Ldrmyqma9ecC+sIb3Rf/3cRn0zZjxYo0S
-	S3FGoqEWc1FxIgB2BdwZdAMAAA==
-X-CMS-MailID: 20230320132107eucas1p17f65ea0f0521391071fbf7d6fd0a093e
-X-Msg-Generator: CA
-X-RootMTR: 20230317111849eucas1p115741dc29cc0a5c57914e60aa5216288
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20230317111849eucas1p115741dc29cc0a5c57914e60aa5216288
-References: <20230315223436.2857712-1-saeed.mirzamohammadi@oracle.com>
-	<20230316051508.GA8520@lst.de>
-	<930CF361-37C2-4625-B5FA-245248544F92@oracle.com>
-	<CGME20230317111849eucas1p115741dc29cc0a5c57914e60aa5216288@eucas1p1.samsung.com>
-	<20230317111031.lygazqsaeekpdegd@blixen>
-	<3B7AB643-C87C-4C19-A47A-C15565750243@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230320_062114_578873_7CF4FF47 
-X-CRM114-Status: GOOD (  12.36  )
+X-CRM114-CacheID: sfid-20230320_063022_931500_AB5C9C08 
+X-CRM114-Status: GOOD (  11.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -148,58 +82,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2023-03-17 17:26, Saeed Mirzamohammadi wrote:
->> Hi Saeed,
->> On Thu, Mar 16, 2023 at 09:31:38PM +0000, Saeed Mirzamohammadi wrote:
->>> eui64 values are not unique. Here is an example:
->>> namespace1
->>> nguid   : 36554630529000710025384500000001
->>> eui64   : 002538191100104a
->>> namespace2
->>> nguid   : 36554630529000710025384500000002
->>> eui64   : 002538191100104a
->>> namespace3
->>> nguid   : 36554630529000710025384500000003
->>> eui64   : 002538191100104a
->>> namespace4
->>> nguid   : 36554630529000710025384500000004
->>> eui64   : 002538191100104a
->>>
->>> I haven’t yet contacted Samsung. Do you recommend any one to reach out to?
->>
->> I am able to reproduce this error with a PM173X.
->>
->> nvme id-ns:
->> root@missingno:~# nvme id-ns -n 1 /dev/nvme1 | grep eui64
->> eui64   : 00253891010005b3
->> root@missingno:~# nvme id-ns -n 2 /dev/nvme1 | grep eui64
->> eui64   : 00253891010005b3
->> root@missingno:~# nvme id-ns -n 3 /dev/nvme1 | grep eui64
->> eui64   : 00253891010005b3
->>
->> dmesg:
->> [174690.305507] nvme nvme1: identifiers changed for nsid 1
->> [174878.481002] nvme nvme1: rescanning namespaces.
->> [174878.535981] nvme nvme1: duplicate IDs in subsystem for nsid 2
->> [174878.599982] nvme nvme1: duplicate IDs in subsystem for nsid 2
->> [174883.673001] nvme nvme1: rescanning namespaces.
->> [174883.740045] nvme nvme1: duplicate IDs in subsystem for nsid 2
->> [174883.784025] nvme nvme1: duplicate IDs in subsystem for nsid 3
->> [174883.852034] nvme nvme1: duplicate IDs in subsystem for nsid 2
->> [174883.892040] nvme nvme1: duplicate IDs in subsystem for nsid 3
->>
->> I will report this to our firmware team. Meanwhile, Could you paste your
->> output id-ctrl output here? I am interested in the fw version you are using.
-> 
-> NVME Identify Controller:
-> vid       : 0x144d
-> ssvid     : 0x108e
-> sn        : S64VNE0R602271
-> mn        : SAMSUNG MZWLR3T8HBLS-00AU3
-> fr        : MPK94R5Q
 
-We have reported this error to our firmware team. I will keep you posted.
+>> @@ -1691,18 +1676,34 @@ static void nvme_tcp_stop_queue(struct 
+>> nvme_ctrl *nctrl, int qid)
+>>   static int nvme_tcp_start_queue(struct nvme_ctrl *nctrl, int idx)
+>>   {
+>>       struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
+>> +    struct nvme_tcp_queue *queue = &ctrl->queues[idx];
+>>       int ret;
+>> +    queue->rd_enabled = true;
+>> +    nvme_tcp_init_recv_ctx(queue);
+>> +    write_lock_bh(&queue->sock->sk->sk_callback_lock);
+>> +    queue->sock->sk->sk_user_data = queue;
+>> +    queue->state_change = queue->sock->sk->sk_state_change;
+>> +    queue->data_ready = queue->sock->sk->sk_data_ready;
+>> +    queue->write_space = queue->sock->sk->sk_write_space;
+>> +    queue->sock->sk->sk_data_ready = nvme_tcp_data_ready;
+>> +    queue->sock->sk->sk_state_change = nvme_tcp_state_change;
+>> +    queue->sock->sk->sk_write_space = nvme_tcp_write_space;
+>> +#ifdef CONFIG_NET_RX_BUSY_POLL
+>> +    queue->sock->sk->sk_ll_usec = 1;
+>> +#endif
+>> +    write_unlock_bh(&queue->sock->sk->sk_callback_lock);
+>> +
+> Can't you put this into a separate function?
+> (Will be needing that for TLS support anyway :-)
 
---
-Pankaj
+Sure.
+
+> And shouldn't we consider 'rcu_write_lock_bh'
+
+I don't know what that is...
+
+> and 'rcu_assign_sk_user_data()' here?
+
+I would like to understand what would be a possible
+race condition if it is already accessed under rw_lock_bh.
 
