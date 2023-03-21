@@ -4,70 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3935EC74A5B
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Mar 2023 12:58:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C117C74A5B
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Mar 2023 13:08:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=k2U9iRcrk66NNxgnyMe9jI/rzDFE990iNpPlhfeBk58=; b=3qHrzMBYd7feYfkG8+mozTbAu9
-	t3l75j34RHNjHaVzaBHQCNqtPvhjUTzuqrWa5MHj0H/7P4AVJTfJsZZ/cK83xFktfa3Pry6U62TMn
-	tcNt0M9umJfx0u+rv5E3ijTtnH1vb7Ed6dVjOArwSv3cbyTAGN9LixrMTG4xQTUcXW//yGD+pAlj+
-	RY+yw7AgsM4U8x9jY46gI2LiypZ1iCBJQEyiM1PhTPTynfXZaEfPmNHMybjwcoEKWn0NRwghadTfk
-	/g+hTB/61TOPJ05RokZJ/YNnito/saL5vxAPjHk+iIEjY8cxI2OohZEqbDwD0bYqn5O0mDwVGo8py
-	jZbFfojA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=oX5JfFJL+A7m7LKqWyhlfXH8WepKdRlPJl9oJx3KF1Q=; b=Spc9Xe0Z7VDoO1jzuHsqhBzoZD
+	8PRSKDu/kgseaA8qLCCHDUm/PQwyWJRlDX7IoGc4ui6Lk+Md0fIjkgyTYZsVRRWbpM2vBCid8NP04
+	A5EGojuutpPIv8EONVaMvb+/dnZjJ1n7gr3P79N4NEfC7abcXygauqy5Wc0G9ukvfD+AvSToCWXUr
+	wRaWYPWHBbPiX9zPeoQcQ3Ry9+66hg4NZxIsAFz8Je/oXUhA95XAxxBBuP5v6MtrgFyA0PWQ2s/Jt
+	23Z5KR2WolTDp737rvKgK0tml2VnIJh9dU4Oqj5/jhsP9bsJSt0fZUVT243LbsCpG8GsO7Qo3vtoB
+	9hkYnHfA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pebZg-00CRYy-0u;
-	Tue, 21 Mar 2023 12:58:48 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1pebj6-00CStu-2B;
+	Tue, 21 Mar 2023 13:08:32 +0000
+Received: from mail-ed1-f54.google.com ([209.85.208.54])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pebZc-00CRY7-2j
+	id 1pebj3-00CSt7-01
 	for linux-nvme@lists.infradead.org;
-	Tue, 21 Mar 2023 12:58:46 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 435452001F;
-	Tue, 21 Mar 2023 12:58:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1679403523; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k2U9iRcrk66NNxgnyMe9jI/rzDFE990iNpPlhfeBk58=;
-	b=HAEuEo9Gx+8J0lPOX6zOqOwVyRQsmd8rrbfrvNyNuRPH1mJoR3bUwHZltruvvE3GOLAFsr
-	qSwzCGd9xnDqt8942YcO/OKZso5ZH1F/rgzaYQrqgVsZHVkRR+kpL94FQO7a3eKkJ3ngG6
-	ug3nDyeJ5HL7Yd9REcXmru1FWeWM7L4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1679403523;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k2U9iRcrk66NNxgnyMe9jI/rzDFE990iNpPlhfeBk58=;
-	b=neHRW38i+130EkpEjMxSf13YJt4Unk4wxezl55ySn3sppHnDuGMic+y9Q9PASrPPtQ9Hq6
-	UATUcojsnzc+xOAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 356D713440;
-	Tue, 21 Mar 2023 12:58:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 4/MFDQOqGWR7dwAAMHmgww
-	(envelope-from <dwagner@suse.de>); Tue, 21 Mar 2023 12:58:43 +0000
-Date: Tue, 21 Mar 2023 13:58:42 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@kernel.org>,
-	"Belanger, Martin" <Martin.Belanger@dell.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+	Tue, 21 Mar 2023 13:08:30 +0000
+Received: by mail-ed1-f54.google.com with SMTP id w9so59456730edc.3
+        for <linux-nvme@lists.infradead.org>; Tue, 21 Mar 2023 06:08:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679404105; x=1681996105;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oX5JfFJL+A7m7LKqWyhlfXH8WepKdRlPJl9oJx3KF1Q=;
+        b=4fYGmlO76watv3PGpSrokhH4TXV/A/aaQxDFwFgd2udDa+mBJwZZt8dt+DbmPzYcnF
+         o8a4MBrOZ7zQeX5BE9130QvvAQoroybpd5tp5E6OwsXK61Duz2ndlo6wo8DdPvj+QBSj
+         IDoInKj11vj4/Mq44SmUt/5/UkM45m6PqgJUFW6PN39ygxUHSYje3DAW06CyGDDCWTjK
+         4ev+q+tRXsFDu88eRdJRDbicZT7t/TLbMY3UDVY0ojFmD97CLqfZBGEmlRxJ5bwm+kQ+
+         2M9hLGgn0GBCND1MHuyApt44WW/eosdnB2Ry4hE+KJQIevKmFAWo9tJrR4cz7bQB5a6y
+         Hgxw==
+X-Gm-Message-State: AO0yUKWBM4WNLByaOT8NQR3ZQW4EMUoymcTHYeNHxkuxXWlzmCODJ65x
+	6nOEzOFCVdhZW2IFbLsPOYo=
+X-Google-Smtp-Source: AK7set8Etl6EhD3gTWFNJQHxMA/ZoW4l+TaatjwCxfF6IPiPYdL0j+VTTu5bnJYA0sBuFRV+4I1t9A==
+X-Received: by 2002:a17:906:51d5:b0:929:b101:937d with SMTP id v21-20020a17090651d500b00929b101937dmr2353415ejk.1.1679404104876;
+        Tue, 21 Mar 2023 06:08:24 -0700 (PDT)
+Received: from [10.100.102.14] (85.65.253.165.dynamic.barak-online.net. [85.65.253.165])
+        by smtp.gmail.com with ESMTPSA id la18-20020a170907781200b00914001c91fcsm5784336ejc.86.2023.03.21.06.08.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Mar 2023 06:08:24 -0700 (PDT)
+Message-ID: <d37f118e-b6c9-600d-5771-b850425cbe81@grimberg.me>
+Date: Tue, 21 Mar 2023 15:08:23 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
 Subject: Re: nvme-tcp: kernel NULL pointer dereference, address:
  0000000000000034
-Message-ID: <20230321125842.b77iskzsq56lstpf@carbon>
+Content-Language: en-US
+To: Daniel Wagner <dwagner@suse.de>
+Cc: Keith Busch <kbusch@kernel.org>,
+ "Belanger, Martin" <Martin.Belanger@dell.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
 References: <20230321084917.s5xqklrttauxilnx@carbon>
  <a3d023ca-ca00-8207-2f89-fad23eddd58a@grimberg.me>
  <20230321090913.gwuvyuw76ha62hgb@carbon>
@@ -78,14 +72,14 @@ References: <20230321084917.s5xqklrttauxilnx@carbon>
  <f2653732-5566-ba2c-1dc5-412b20879ef8@grimberg.me>
  <20230321110645.ruxzlw5egzikagnw@carbon>
  <b6b14ada-e004-8dec-5ed4-2c188ba7a9ad@grimberg.me>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b6b14ada-e004-8dec-5ed4-2c188ba7a9ad@grimberg.me>
+ <20230321125842.b77iskzsq56lstpf@carbon>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20230321125842.b77iskzsq56lstpf@carbon>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230321_055845_046987_8FAD7160 
-X-CRM114-Status: UNSURE (   9.44  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230321_060829_053912_243CD647 
+X-CRM114-Status: GOOD (  15.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,48 +94,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 21, 2023 at 01:10:51PM +0200, Sagi Grimberg wrote:
-> Can you verify that you never see a bio-less requests is being polled?
 
-As far I can tell this is not happening anymore. I could trigger just by
-doing a
+>> Can you verify that you never see a bio-less requests is being polled?
+> 
+> As far I can tell this is not happening anymore. I could trigger just by
+> doing a
+> 
+>     nvme connect-all -P 2
+> 
+> I've added my annotation again and don't see the combination of
+> 
+>    hxct type = 2 && bio == 0
+> 
+> anymore:
 
-   nvme connect-all -P 2
+I think I understand what was happening. blk_execute_rq calls
+blk_mq_sched_insert_request and then starts polling. But because
+this is a connect, that is running from a single context, it is
+not running on the same cpu as the io queue was mapped to, hence
+it is async.
 
-I've added my annotation again and don't see the combination of
+The bio->bi_cookie assignment happens only when the request is started
+(blk_mq_start_request is called), that is where the assignment happens,
+but given that this is async, it can and does occur after blk_execute_rq
+starts polling, and dereferencing bio->bi_cookie.
 
-  hxct type = 2 && bio == 0
-
-anymore:
-
-[  503.353236] nvme nvme1: creating 12 I/O queues.
-[  503.366038] nvme nvme1: mapped 2/8/2 default/read/poll queues.
-[  503.370816] nvme nvme1: q ffff888106944580 rq ffff888140090000 bio ffff88810d1c5e00
-[  503.372115] rq ffff888140090000 mq_hctx ffff888104e87000 type 0 bio ffff88810d1c5e00
-[  503.372977] nvme nvme1: q ffff888106944580 rq ffff888121820000 bio ffff88810d1c4800
-[  503.375439] rq ffff888121820000 mq_hctx ffff888104e80800 type 0 bio ffff88810d1c4800
-[  503.376712] nvme nvme1: q ffff888106944580 rq ffff888128790000 bio ffff8881ec613100
-[  503.379097] rq ffff888128790000 mq_hctx ffff888104e82000 type 1 bio ffff8881ec613100
-[  503.380127] nvme nvme1: q ffff888106944580 rq ffff888129870000 bio ffff8881243c6c00
-[  503.382560] rq ffff888129870000 mq_hctx ffff888104e84000 type 1 bio ffff8881243c6c00
-[  503.383833] nvme nvme1: q ffff888106944580 rq ffff888105910000 bio ffff8881243c7d00
-[  503.383889] rq ffff888105910000 mq_hctx ffff888104e82800 type 1 bio ffff8881243c7d00
-[  503.386522] nvme nvme1: q ffff888106944580 rq ffff888104350000 bio ffff8881243c6600
-[  503.389771] rq ffff888104350000 mq_hctx ffff888104e83800 type 1 bio ffff8881243c6600
-[  503.390783] nvme nvme1: q ffff888106944580 rq ffff888107610000 bio ffff8881243c7c00
-[  503.393617] rq ffff888107610000 mq_hctx ffff888104e86000 type 1 bio ffff8881243c7c00
-[  503.394612] nvme nvme1: q ffff888106944580 rq ffff888104280000 bio ffff8881243c6200
-[  503.397470] rq ffff888104280000 mq_hctx ffff888104e81800 type 1 bio ffff8881243c6200
-[  503.398530] nvme nvme1: q ffff888106944580 rq ffff888113e30000 bio ffff8881243c7000
-[  503.401462] rq ffff888113e30000 mq_hctx ffff888104e84800 type 1 bio ffff8881243c7000
-[  503.402353] nvme nvme1: q ffff888106944580 rq ffff888128940000 bio ffff8881243c7800
-[  503.405161] rq ffff888128940000 mq_hctx ffff888104e86800 type 1 bio ffff8881243c7800
-[  503.406433] nvme nvme1: q ffff888106944580 rq ffff8881070c0000 bio ffff8881243c7200
-[  503.409353] rq ffff8881070c0000 mq_hctx ffff888104e85800 type 2 bio ffff8881243c7200
-[  503.410438] nvme nvme1: q ffff888106944580 rq ffff888112210000 bio ffff8881243c7700
-[  503.413271] rq ffff888112210000 mq_hctx ffff888104e87800 type 2 bio ffff8881243c7700
-[  503.414505] nvme nvme1: q ffff888106e84e30 rq ffff888105fc1400 bio 0000000000000000
-[  503.417447] rq ffff888105fc1400 mq_hctx ffff8881417c4800 type 0 bio 0000000000000000
-[  503.418401] nvme nvme1: q ffff888106e84e30 rq ffff888105fc1000 bio ffff888111242000
-[  503.418410] nvme nvme1: new ctrl: NQN "nqn.io-1", addr 10.161.60.136:4420
+So I think we need to both untangle the need for a bdev to poll, and
+a need for a bio with a stable bi_cookie. And the latter patch does
+both.
 
