@@ -4,87 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1EE31C74A5B
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Mar 2023 12:41:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83291C74A5B
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Mar 2023 12:44:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9GdfrWTrc4C7fSAmNpCfRVoTRsp/WdwpgbN+cHPoM2k=; b=M+URNPTjd3pH/ITqgzDRVdqnrn
-	o3U4EjoMs9EHEQ/Vz2AWC61/4Y333bjO+ZeyBiLen3roH0yi7VXzRH6ez70dBTVMF5zPvNeMRpFW3
-	O1Cify2E+xLV4eeNMFcg3tNrNR6sbHxkDF7rPhLgLqyR7p+oQB7x6iFvSK9fsa0YmgG6qqTKyh1eJ
-	2k7Wg626RYKiaahM20NSXfvFqoO9IDtaqn8DpDNdhdrMN6IHWasijAA5idTFo6TMAQ3snTIJTBy+W
-	/ZnhkdMp8qg4urqNJH1B2rqIOvY3ojT29DQSilw15KWhmVOHGsdcN5DK5Sb8BWtwHlWWGKK/KVHT5
-	76BJpoNw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9roDJz5t7ufnKXmMp+96NOSB15A7BA1N6vGcPWCSH2s=; b=DEakupg1U1s1fSe8BLQr5kPrAk
+	EXij4sfQKMm9vcxUxNf7ZJU/dTiMUMI5GtxgsTexs02DWTdKaiOqJPHyd22R5DxENbP4cURbH9TDz
+	sa/eCQdtRqJNCzFhH4JOLQPefbfnboBu2DeBPvc0a85mijs5BHuTQuDVF/I4Z4WGDdgI0Z8XLPMFq
+	ciTvjsyCpJrUVyIsAix6rdTmeBc52a5G2l9kaX5+jGutpQ3qmoEWLWoNrOQ1hUecMLg6+kKPZQxP7
+	ejXkPQtuoIMUl0qR9LC9UaXAzeKcjOzxC/mLvVqjRV/hSH2CiHm6HkpcT4jtmKTIkZ8lgl+GtYFvz
+	wmX5WW+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pebIj-00CMt7-25;
-	Tue, 21 Mar 2023 12:41:17 +0000
+	id 1pebLO-00CNQm-0l;
+	Tue, 21 Mar 2023 12:44:02 +0000
 Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pebIg-00CMql-27
+	id 1pebLL-00CNOT-0Z
 	for linux-nvme@lists.infradead.org;
-	Tue, 21 Mar 2023 12:41:16 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 49B3021D70;
-	Tue, 21 Mar 2023 12:41:09 +0000 (UTC)
+	Tue, 21 Mar 2023 12:44:00 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out1.suse.de (Postfix) with ESMTP id D8E9F21DB8;
+	Tue, 21 Mar 2023 12:43:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1679402469; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	t=1679402637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9GdfrWTrc4C7fSAmNpCfRVoTRsp/WdwpgbN+cHPoM2k=;
-	b=WN5i5/AZIKkjy96yCqv6i49uvUSUnbozUO5MgkbgLLQbwAs9PKbIbE5p3NODlumE7DyZLN
-	sNPfSvDWRcbflYzyarZUlMxYUCDjjlVecw+RId4uub0rDpVthiuWY+Ay4LZHXE/HYXHZ+w
-	etw4eTCTcmL/BjMvTwdGbVM12Ob/DNs=
+	bh=9roDJz5t7ufnKXmMp+96NOSB15A7BA1N6vGcPWCSH2s=;
+	b=YzYMBxpL6tAoxIYksLwaa6Upqg7Iife8QC6FqZDhx+kg3XmyIypn4LDpjpY3NGG2Z23ihp
+	mOV9bCTm3ZTM131s06BnZQvPAQDSaacK2D4kLQ7+jyORjvNd1AYAhpU9CAr+qSyLSRWaSh
+	9NrBmoavklgRITLmSBQyE62pVu921tY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1679402469;
+	s=susede2_ed25519; t=1679402637;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9GdfrWTrc4C7fSAmNpCfRVoTRsp/WdwpgbN+cHPoM2k=;
-	b=g8A1VT9LrVAqkGYFh96VvyHIUFrpso0PoAlJgCN6jv7QJa7Y55+MZhR7iMmU9LBsIrm3Bf
-	qlgtrJ2E6uuSJGDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3543313440;
-	Tue, 21 Mar 2023 12:41:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id gej1DOWlGWT2XQAAMHmgww
-	(envelope-from <dwagner@suse.de>); Tue, 21 Mar 2023 12:41:09 +0000
-Date: Tue, 21 Mar 2023 13:41:08 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@kernel.org>,
-	"Belanger, Martin" <Martin.Belanger@dell.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: nvme-tcp: kernel NULL pointer dereference, address:
- 0000000000000034
-Message-ID: <20230321124108.6tehgwwntu7cg74c@carbon>
-References: <a3d023ca-ca00-8207-2f89-fad23eddd58a@grimberg.me>
- <20230321090913.gwuvyuw76ha62hgb@carbon>
- <4c4b93b7-891d-cd5f-e4f2-50c242c799ce@grimberg.me>
- <20230321092556.7m3etb25jnd4sfj6@carbon>
- <316be6c1-0d90-0ea8-f9cf-1ec0086877a3@grimberg.me>
- <20230321104009.nltadi6zs6iz66h4@carbon>
- <f2653732-5566-ba2c-1dc5-412b20879ef8@grimberg.me>
- <20230321110645.ruxzlw5egzikagnw@carbon>
- <b6b14ada-e004-8dec-5ed4-2c188ba7a9ad@grimberg.me>
- <0be807ea-8d44-f124-bffd-8abfcf046492@grimberg.me>
+	bh=9roDJz5t7ufnKXmMp+96NOSB15A7BA1N6vGcPWCSH2s=;
+	b=pRcaXJ0GUyRREgeBzoX+SB9CPllsGStr7zBqSshnqxc7D0B7z5udbSuEaU5JaXhEVqIrMA
+	mvIFII1VGFMzAtBw==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+	by relay2.suse.de (Postfix) with ESMTP id C1C392C145;
+	Tue, 21 Mar 2023 12:43:57 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+	id B03F851BEE9A; Tue, 21 Mar 2023 13:43:57 +0100 (CET)
+From: Hannes Reinecke <hare@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Chuck Lever <cel@kernel.org>,
+	kernel-tls-handshake@lists.linux.dev,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 03/18] nvme: add TCP TSAS definitions
+Date: Tue, 21 Mar 2023 13:43:10 +0100
+Message-Id: <20230321124325.77385-4-hare@suse.de>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20230321124325.77385-1-hare@suse.de>
+References: <20230321124325.77385-1-hare@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0be807ea-8d44-f124-bffd-8abfcf046492@grimberg.me>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230321_054114_837703_49661FDF 
-X-CRM114-Status: GOOD (  12.93  )
+X-CRM114-CacheID: sfid-20230321_054359_374504_F94D2288 
+X-CRM114-Status: UNSURE (   9.78  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,30 +87,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 21, 2023 at 01:14:11PM +0200, Sagi Grimberg wrote:
-> 
-> > > > That is not a crash, but a WARN stack dump.
-> > > 
-> > > Not sure how you get to this conclusion.
-> 
-> bool blk_rq_is_poll(struct request *rq)
-> {
->         if (!rq->mq_hctx)
->                 return false;
->         if (rq->mq_hctx->type != HCTX_TYPE_POLL)
->                 return false;
->         if (WARN_ON_ONCE(!rq->bio)) // this is the stack dump
->                 return false;
->         return true;
-> }
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ include/linux/nvme.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-This should trigger if rq->bio is NULL, no? Though the rq->bio
-pointer is not NULL in my trace:
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 779507ac750b..ea961ca2022d 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -108,6 +108,13 @@ enum {
+ 	NVMF_RDMA_CMS_RDMA_CM	= 1, /* Sockets based endpoint addressing */
+ };
+ 
++/* TSAS SECTYPE for TCP transport */
++enum {
++	NVMF_TCP_SECTYPE_NONE = 0, /* No Security */
++	NVMF_TCP_SECTYPE_TLS12 = 1, /* TLSv1.2, NVMe-oF 1.1 and NVMe-TCP 3.6.1.1 */
++	NVMF_TCP_SECTYPE_TLS13 = 2, /* TLSv1.3, NVMe-oF 1.1 and NVMe-TCP 3.6.1.1 */
++};
++
+ #define NVME_AQ_DEPTH		32
+ #define NVME_NR_AEN_COMMANDS	1
+ #define NVME_AQ_BLK_MQ_DEPTH	(NVME_AQ_DEPTH - NVME_NR_AEN_COMMANDS)
+@@ -1458,6 +1465,9 @@ struct nvmf_disc_rsp_page_entry {
+ 			__u16	pkey;
+ 			__u8	resv10[246];
+ 		} rdma;
++		struct tcp {
++			__u8	sectype;
++		} tcp;
+ 	} tsas;
+ };
+ 
+-- 
+2.35.3
 
-[   53.669844] rq ffff888106c40000 mq_hctx ffff888106247800 type 2 bio ffff88810da4e100
-
-And I thought the would be a WARN or something simimilar, but that
-might have changed and I didn't noticed.
-
-Sorry for being so daft.
 
