@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B3D8C74A5B
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Mar 2023 12:44:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31CA0C6FD1D
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Mar 2023 12:44:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YUDr6yYWhXSqczuGygH+Y8xfrzEFKFvRHzyTodKjvc0=; b=0EPPPQczwIEe+Ufdb62CbFIO+g
-	Egr/PribaajOKakE8lGuI3xwNYnqPkh7hrYhWqwdFZp7k1UzdHgPjxXpsxMxFkJ9B+PFb9/jgTobQ
-	HtnzVWo1BKeGjYZa55uBDbPkRvYxZXMayqH6sX+XbBV1jR8+hDSdmS9FW03R1z+4KFDZFxglDYEx8
-	sPFZAwHUxQ0RpNpkVBPfyXypywVY/qhr0B3MFMt8YoanmqqFGu7sIYvl78iy4JevuEgbw21DHYEEC
-	QJmS3QQmR3qIJ99ZP6wvJmmwdtHpGQnGs9Mfhyzyrs+degrMrez4PGq83x4QvM3LFZMmsftGXuKWM
-	JcSNxamw==;
+	bh=6L6csMijrgFznGx4XlkuL8oV0JQ7k57cpSw/3iA1WzQ=; b=kz/CozYV2vImi9fVVxCkbYCCHZ
+	TOagPc8lJPunyZvRawvJ7Tmfd5Axz8Cmf2gOAfUa4H1djK7ubjuaeSYoSlUjddDeWZkoGm/sSPWh9
+	oi08fvOwK3oWkhmsoxiFLs+vnrJZZVHvrfSynpy+JS6XYvU+cPbF0j4Av7uHG6f5OVNB5veGR4ygF
+	YO+uFMKwzMDSI5X0fxCr+/dBGAN1t/Qtsga67CzaMT343dyJGkknDWRdLqtkRlHSZeUxvAb6kzRen
+	UGrEX19WsljAhhtBeX3HvMy2F+3Z5dHGJkqlhRM1KVloZmriXwuNsGotr8waVwXQ334d7c2D+tVPz
+	rM7i4K0g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pebM4-00CNrI-1W;
-	Tue, 21 Mar 2023 12:44:44 +0000
+	id 1pebM6-00CNsg-2Y;
+	Tue, 21 Mar 2023 12:44:46 +0000
 Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pebLS-00CNSI-18
+	id 1pebLS-00CNSp-2K
 	for linux-nvme@lists.infradead.org;
-	Tue, 21 Mar 2023 12:44:10 +0000
+	Tue, 21 Mar 2023 12:44:11 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id 1ED2720008;
+	by smtp-out2.suse.de (Postfix) with ESMTP id 25AA020009;
 	Tue, 21 Mar 2023 12:43:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1679402638; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YUDr6yYWhXSqczuGygH+Y8xfrzEFKFvRHzyTodKjvc0=;
-	b=bDUUNavuFVtXXWK6JjA82qYuW3dweiBJNggKa/qigTnctmJcb7FFDzqdOOF0YCaviGkuou
-	l5U71KWP/vXy7Skft/RWhUnAz3NS6JJ110H+bW6gpRngEMVBDByQJLb29Vq/VuoVeHCumz
-	o9/iEESXaG5a1qddHanj+JghH24XTcI=
+	bh=6L6csMijrgFznGx4XlkuL8oV0JQ7k57cpSw/3iA1WzQ=;
+	b=LYvTZrZS6VGLec1z+fkZngohH5orXZD9JJTAE73GXLE+FF8YuK971gixNa4vvwVcBl/b/E
+	DFKp39Zvv8Fg7yS0i8OCIKgd568Vf3KlCpfVQlIYeGkx/We/fYUaWWy3p9fdtoa4N3q0mH
+	1PCy3LiHdvm6EF7+LfDdn8BdWtDQlGQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1679402638;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YUDr6yYWhXSqczuGygH+Y8xfrzEFKFvRHzyTodKjvc0=;
-	b=/PvpapBFASejGxeo5EFl7jWqgLjgufuNSpxfgWLa6mlGJT0B10NqrINJPEV85mLOqd+VAh
-	ZNqD5tFQNRMba5Aw==
+	bh=6L6csMijrgFznGx4XlkuL8oV0JQ7k57cpSw/3iA1WzQ=;
+	b=q2OyUJjy5D8HgWsE4ZW9mqjkCLGcn+hckJ090FGtLJhydYuluBzYRWep8w1FJVvvwJ1Tbu
+	FXceslkuVC9KvMBg==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 0E8B82C161;
+	by relay2.suse.de (Postfix) with ESMTP id 1449B2C162;
 	Tue, 21 Mar 2023 12:43:58 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 0B34E51BEEB2; Tue, 21 Mar 2023 13:43:58 +0100 (CET)
+	id 10CA751BEEB4; Tue, 21 Mar 2023 13:43:58 +0100 (CET)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -61,17 +61,17 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Chuck Lever <cel@kernel.org>,
 	kernel-tls-handshake@lists.linux.dev,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 15/18] nvmet-tcp: enable TLS handshake upcall
-Date: Tue, 21 Mar 2023 13:43:22 +0100
-Message-Id: <20230321124325.77385-16-hare@suse.de>
+Subject: [PATCH 16/18] nvmet-tcp: rework sendpage for kTLS
+Date: Tue, 21 Mar 2023 13:43:23 +0100
+Message-Id: <20230321124325.77385-17-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230321124325.77385-1-hare@suse.de>
 References: <20230321124325.77385-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230321_054406_602266_79CC49BA 
-X-CRM114-Status: GOOD (  19.70  )
+X-CRM114-CacheID: sfid-20230321_054406_998010_C9CFE3B1 
+X-CRM114-Status: GOOD (  11.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,290 +86,108 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add functions to start the TLS handshake upcall.
+kTLS ->sendpage() doesn't support the MSG_EOR flag, and it's
+questionable whether it makes sense for kTLS as one has to copy
+data anyway.
+So use sock_no_sendpage() for kTLS.
 
-Signed-off-by: Hannes Reincke <hare@suse.de>
+Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/target/tcp.c | 188 ++++++++++++++++++++++++++++++++++++--
- 1 file changed, 181 insertions(+), 7 deletions(-)
+ drivers/nvme/target/tcp.c | 56 ++++++++++++++++++++++++++++-----------
+ 1 file changed, 41 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 5c43767c5ecd..6e88e98a2c59 100644
+index 6e88e98a2c59..9b69cac84508 100644
 --- a/drivers/nvme/target/tcp.c
 +++ b/drivers/nvme/target/tcp.c
-@@ -9,8 +9,10 @@
- #include <linux/slab.h>
- #include <linux/err.h>
- #include <linux/nvme-tcp.h>
-+#include <linux/nvme-keyring.h>
- #include <net/sock.h>
- #include <net/tcp.h>
-+#include <net/handshake.h>
- #include <linux/inet.h>
- #include <linux/llist.h>
- #include <crypto/hash.h>
-@@ -40,6 +42,14 @@ module_param(idle_poll_period_usecs, int, 0644);
- MODULE_PARM_DESC(idle_poll_period_usecs,
- 		"nvmet tcp io_work poll till idle time period in usecs");
+@@ -570,9 +570,14 @@ static int nvmet_try_send_data_pdu(struct nvmet_tcp_cmd *cmd)
+ 	int left = sizeof(*cmd->data_pdu) - cmd->offset + hdgst;
+ 	int ret;
  
-+/*
-+ * TLS handshake timeout
-+ */
-+static int tls_handshake_timeout = 30;
-+module_param(tls_handshake_timeout, int, 0644);
-+MODULE_PARM_DESC(tls_handshake_timeout,
-+		 "nvme TLS handshake timeout in seconds (default 30)");
-+
- #define NVMET_TCP_RECV_BUDGET		8
- #define NVMET_TCP_SEND_BUDGET		8
- #define NVMET_TCP_IO_WORK_BUDGET	64
-@@ -131,6 +141,9 @@ struct nvmet_tcp_queue {
- 	struct ahash_request	*snd_hash;
- 	struct ahash_request	*rcv_hash;
- 
-+	struct key		*tls_psk;
-+	struct delayed_work	tls_handshake_work;
-+
- 	unsigned long           poll_end;
- 
- 	spinlock_t		state_lock;
-@@ -168,6 +181,7 @@ static struct workqueue_struct *nvmet_tcp_wq;
- static const struct nvmet_fabrics_ops nvmet_tcp_ops;
- static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
- static void nvmet_tcp_free_cmd_buffers(struct nvmet_tcp_cmd *cmd);
-+static void nvmet_tcp_tls_handshake_timeout_work(struct work_struct *work);
- 
- static inline u16 nvmet_tcp_cmd_tag(struct nvmet_tcp_queue *queue,
- 		struct nvmet_tcp_cmd *cmd)
-@@ -1400,6 +1414,8 @@ static void nvmet_tcp_restore_socket_callbacks(struct nvmet_tcp_queue *queue)
- {
- 	struct socket *sock = queue->sock;
- 
-+	if (!sock->sk)
-+		return;
- 	write_lock_bh(&sock->sk->sk_callback_lock);
- 	sock->sk->sk_data_ready =  queue->data_ready;
- 	sock->sk->sk_state_change = queue->state_change;
-@@ -1448,7 +1464,8 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
- 	list_del_init(&queue->queue_list);
- 	mutex_unlock(&nvmet_tcp_queue_mutex);
- 
--	nvmet_tcp_restore_socket_callbacks(queue);
-+	if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE)
-+		nvmet_tcp_restore_socket_callbacks(queue);
- 	cancel_work_sync(&queue->io_work);
- 	/* stop accepting incoming data */
- 	queue->rcv_state = NVMET_TCP_RECV_ERR;
-@@ -1469,6 +1486,8 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
- 	nvmet_tcp_free_cmds(queue);
- 	if (queue->hdr_digest || queue->data_digest)
- 		nvmet_tcp_free_crypto(queue);
-+	if (queue->tls_psk)
-+		key_put(queue->tls_psk);
- 	ida_free(&nvmet_tcp_queue_ida, queue->idx);
- 	page = virt_to_head_page(queue->pf_cache.va);
- 	__page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
-@@ -1481,11 +1500,15 @@ static void nvmet_tcp_data_ready(struct sock *sk)
- 
- 	trace_sk_data_ready(sk);
- 
--	read_lock_bh(&sk->sk_callback_lock);
--	queue = sk->sk_user_data;
--	if (likely(queue))
--		queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &queue->io_work);
--	read_unlock_bh(&sk->sk_callback_lock);
-+	rcu_read_lock_bh();
-+	queue = rcu_dereference_sk_user_data(sk);
-+	if (queue->data_ready)
-+		queue->data_ready(sk);
-+	if (likely(queue) &&
-+	    queue->state != NVMET_TCP_Q_TLS_HANDSHAKE)
-+		queue_work_on(queue_cpu(queue), nvmet_tcp_wq,
-+			      &queue->io_work);
-+	rcu_read_unlock_bh();
- }
- 
- static void nvmet_tcp_write_space(struct sock *sk)
-@@ -1585,13 +1608,139 @@ static int nvmet_tcp_set_queue_sock(struct nvmet_tcp_queue *queue)
- 		sock->sk->sk_write_space = nvmet_tcp_write_space;
- 		if (idle_poll_period_usecs)
- 			nvmet_tcp_arm_queue_deadline(queue);
--		queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &queue->io_work);
-+		queue_work_on(queue_cpu(queue), nvmet_tcp_wq,
-+			      &queue->io_work);
- 	}
- 	write_unlock_bh(&sock->sk->sk_callback_lock);
- 
- 	return ret;
- }
- 
-+static void nvmet_tcp_tls_data_ready(struct sock *sk)
-+{
-+	struct socket_wq *wq;
-+
-+	rcu_read_lock();
-+	/* kTLS will change the callback */
-+	if (sk->sk_data_ready == nvmet_tcp_tls_data_ready) {
-+		wq = rcu_dereference(sk->sk_wq);
-+		if (skwq_has_sleeper(wq))
-+			wake_up_interruptible_all(&wq->wait);
-+	}
-+	rcu_read_unlock();
-+}
-+
-+static void nvmet_tcp_tls_handshake_restart(struct nvmet_tcp_queue *queue)
-+{
-+	spin_lock(&queue->state_lock);
-+	if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
-+		pr_warn("queue %d: TLS handshake already completed\n",
-+			queue->idx);
-+		spin_unlock(&queue->state_lock);
-+		return;
-+	}
-+	queue->state = NVMET_TCP_Q_CONNECTING;
-+	spin_unlock(&queue->state_lock);
-+
-+	pr_debug("queue %d: restarting queue after TLS handshake\n",
-+		 queue->idx);
-+	/*
-+	 * Set callbacks after handshake; TLS implementation
-+	 * might have changed the socket callbacks.
-+	 */
-+	nvmet_tcp_set_queue_sock(queue);
-+}
-+
-+static void nvmet_tcp_save_tls_callbacks(struct nvmet_tcp_queue *queue)
-+{
-+	struct sock *sk = queue->sock->sk;
-+
-+	write_lock_bh(&sk->sk_callback_lock);
-+	rcu_assign_sk_user_data(sk, queue);
-+	queue->data_ready = sk->sk_data_ready;
-+	sk->sk_data_ready = nvmet_tcp_tls_data_ready;
-+	write_unlock_bh(&sk->sk_callback_lock);
-+}
-+
-+static void nvmet_tcp_restore_tls_callbacks(struct nvmet_tcp_queue *queue)
-+{
-+	struct sock *sk = queue->sock->sk;
-+
-+	if (WARN_ON(!sk))
-+		return;
-+	write_lock_bh(&sk->sk_callback_lock);
-+	/* Only reset the callback if it really is ours */
-+	if (sk->sk_data_ready == nvmet_tcp_tls_data_ready)
-+		sk->sk_data_ready = queue->data_ready;
-+	rcu_assign_sk_user_data(sk, NULL);
-+	queue->data_ready = NULL;
-+	write_unlock_bh(&sk->sk_callback_lock);
-+}
-+
-+static void nvmet_tcp_tls_handshake_done(void *data, int status,
-+					 key_serial_t peerid)
-+{
-+	struct nvmet_tcp_queue *queue = data;
-+
-+	pr_debug("queue %d: TLS handshake done, key %x, status %d\n",
-+		 queue->idx, peerid, status);
-+	if (!status) {
-+		spin_lock(&queue->state_lock);
-+		queue->tls_psk = key_lookup(peerid);
-+		if (IS_ERR(queue->tls_psk)) {
-+			pr_warn("queue %d: TLS key %x not found\n",
-+				queue->idx, peerid);
-+			queue->tls_psk = NULL;
-+		}
-+		spin_unlock(&queue->state_lock);
-+	}
-+	cancel_delayed_work_sync(&queue->tls_handshake_work);
-+	nvmet_tcp_restore_tls_callbacks(queue);
-+	if (status)
-+		nvmet_tcp_schedule_release_queue(queue);
+-	ret = kernel_sendpage(cmd->queue->sock, virt_to_page(cmd->data_pdu),
+-			offset_in_page(cmd->data_pdu) + cmd->offset,
+-			left, MSG_DONTWAIT | MSG_MORE | MSG_SENDPAGE_NOTLAST);
++	if (cmd->queue->tls_psk)
++		ret = sock_no_sendpage(cmd->queue->sock, virt_to_page(cmd->data_pdu),
++				      offset_in_page(cmd->data_pdu) + cmd->offset,
++				      left, MSG_DONTWAIT | MSG_MORE);
 +	else
-+		nvmet_tcp_tls_handshake_restart(queue);
-+}
-+
-+static void nvmet_tcp_tls_handshake_timeout_work(struct work_struct *w)
-+{
-+	struct nvmet_tcp_queue *queue = container_of(to_delayed_work(w),
-+			struct nvmet_tcp_queue, tls_handshake_work);
-+
-+	pr_debug("queue %d: TLS handshake timeout\n", queue->idx);
-+	nvmet_tcp_restore_tls_callbacks(queue);
-+	nvmet_tcp_schedule_release_queue(queue);
-+}
-+
-+static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue)
-+{
-+	int ret = -EOPNOTSUPP;
-+	struct tls_handshake_args args;
-+
-+	if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
-+		pr_warn("cannot start TLS in state %d\n", queue->state);
-+		return -EINVAL;
-+	}
-+
-+	pr_debug("queue %d: TLS ServerHello\n", queue->idx);
-+	args.ta_sock = queue->sock;
-+	args.ta_done = nvmet_tcp_tls_handshake_done;
-+	args.ta_data = queue;
-+	args.ta_keyring = nvme_keyring_id();
-+	args.ta_timeout_ms = tls_handshake_timeout * 2 * 1024;
-+
-+	ret = tls_server_hello_psk(&args, GFP_KERNEL);
-+	if (ret) {
-+		pr_err("failed to start TLS, err=%d\n", ret);
-+	} else {
-+		pr_debug("queue %d wakeup userspace\n", queue->idx);
-+		nvmet_tcp_tls_data_ready(queue->sock->sk);
-+		queue_delayed_work(nvmet_wq, &queue->tls_handshake_work,
-+				   tls_handshake_timeout * HZ);
-+	}
-+	return ret;
-+}
-+
- static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
- 		struct socket *newsock)
- {
-@@ -1604,6 +1753,8 @@ static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
++		ret = kernel_sendpage(cmd->queue->sock, virt_to_page(cmd->data_pdu),
++				      offset_in_page(cmd->data_pdu) + cmd->offset,
++				      left, MSG_DONTWAIT | MSG_MORE | MSG_SENDPAGE_NOTLAST);
+ 	if (ret <= 0)
+ 		return ret;
  
- 	INIT_WORK(&queue->release_work, nvmet_tcp_release_queue_work);
- 	INIT_WORK(&queue->io_work, nvmet_tcp_io_work);
-+	INIT_DELAYED_WORK(&queue->tls_handshake_work,
-+			  nvmet_tcp_tls_handshake_timeout_work);
- 	queue->sock = newsock;
- 	queue->port = port;
- 	queue->nr_cmds = 0;
-@@ -1646,6 +1797,29 @@ static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
- 	list_add_tail(&queue->queue_list, &nvmet_tcp_queue_list);
- 	mutex_unlock(&nvmet_tcp_queue_mutex);
- 
-+	if (queue->state == NVMET_TCP_Q_TLS_HANDSHAKE) {
-+		nvmet_tcp_save_tls_callbacks(queue);
-+		if (!nvmet_tcp_tls_handshake(queue))
-+			return;
-+		nvmet_tcp_restore_tls_callbacks(queue);
+@@ -600,10 +605,17 @@ static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
+ 		if ((!last_in_batch && cmd->queue->send_list_len) ||
+ 		    cmd->wbytes_done + left < cmd->req.transfer_len ||
+ 		    queue->data_digest || !queue->nvme_sq.sqhd_disabled)
+-			flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
+-
+-		ret = kernel_sendpage(cmd->queue->sock, page, cmd->offset,
+-					left, flags);
++			flags |= MSG_MORE;
 +
-+		/*
-+		 * If sectype is set to 'tls1.3' TLS is required
-+		 * so terminate the connection if the TLS handshake
-+		 * failed.
-+		 */
-+		if (queue->port->nport->disc_addr.tsas.tcp.sectype ==
-+		    NVMF_TCP_SECTYPE_TLS13) {
-+			pr_debug("queue %d sectype tls1.3, terminate connection\n",
-+				 queue->idx);
-+			goto out_destroy_sq;
++		if (queue->tls_psk)
++			ret = sock_no_sendpage(cmd->queue->sock, page, cmd->offset,
++					       left, flags);
++		else {
++			if (flags & MSG_MORE)
++				flags |= MSG_SENDPAGE_NOTLAST;
++			ret = kernel_sendpage(cmd->queue->sock, page, cmd->offset,
++					      left, flags);
 +		}
-+		pr_debug("queue %d fallback to icreq\n", queue->idx);
-+		spin_lock(&queue->state_lock);
-+		queue->state = NVMET_TCP_Q_CONNECTING;
-+		spin_unlock(&queue->state_lock);
+ 		if (ret <= 0)
+ 			return ret;
+ 
+@@ -645,12 +657,19 @@ static int nvmet_try_send_response(struct nvmet_tcp_cmd *cmd,
+ 	int ret;
+ 
+ 	if (!last_in_batch && cmd->queue->send_list_len)
+-		flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
+-	else
++		flags |= MSG_MORE;
++	else if (!cmd->queue->tls_psk)
+ 		flags |= MSG_EOR;
+ 
+-	ret = kernel_sendpage(cmd->queue->sock, virt_to_page(cmd->rsp_pdu),
+-		offset_in_page(cmd->rsp_pdu) + cmd->offset, left, flags);
++	if (cmd->queue->tls_psk)
++		ret = sock_no_sendpage(cmd->queue->sock, virt_to_page(cmd->rsp_pdu),
++			offset_in_page(cmd->rsp_pdu) + cmd->offset, left, flags);
++	else {
++		if (flags & MSG_MORE)
++			flags |= MSG_SENDPAGE_NOTLAST;
++		ret = kernel_sendpage(cmd->queue->sock, virt_to_page(cmd->rsp_pdu),
++			offset_in_page(cmd->rsp_pdu) + cmd->offset, left, flags);
 +	}
-+
- 	ret = nvmet_tcp_set_queue_sock(queue);
- 	if (ret)
- 		goto out_destroy_sq;
+ 	if (ret <= 0)
+ 		return ret;
+ 	cmd->offset += ret;
+@@ -673,12 +692,19 @@ static int nvmet_try_send_r2t(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
+ 	int ret;
+ 
+ 	if (!last_in_batch && cmd->queue->send_list_len)
+-		flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
+-	else
++		flags |= MSG_MORE;
++	else if (!cmd->queue->tls_psk)
+ 		flags |= MSG_EOR;
+ 
+-	ret = kernel_sendpage(cmd->queue->sock, virt_to_page(cmd->r2t_pdu),
+-		offset_in_page(cmd->r2t_pdu) + cmd->offset, left, flags);
++	if (cmd->queue->tls_psk)
++		ret = sock_no_sendpage(cmd->queue->sock, virt_to_page(cmd->r2t_pdu),
++			offset_in_page(cmd->r2t_pdu) + cmd->offset, left, flags);
++	else {
++		if (flags & MSG_MORE)
++			flags |= MSG_SENDPAGE_NOTLAST;
++		ret = kernel_sendpage(cmd->queue->sock, virt_to_page(cmd->r2t_pdu),
++			offset_in_page(cmd->r2t_pdu) + cmd->offset, left, flags);
++	}
+ 	if (ret <= 0)
+ 		return ret;
+ 	cmd->offset += ret;
 -- 
 2.35.3
 
