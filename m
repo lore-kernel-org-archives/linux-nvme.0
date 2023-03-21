@@ -4,75 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B914FC74A5B
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Mar 2023 12:26:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1EE31C74A5B
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Mar 2023 12:41:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=26c/PJlmYgWkbBmERwUyqF2dpBsoOH9Y3u2+yXmk3wc=; b=0uko9dpOtj7Zy4BxyOovYWok6U
-	C5+v+KMVqe11s0S47jXh59Y1jUumhWe00OFU+PaEqYhm4yZxTpGb5AhgchyddyBYKKFLgx6Rt2pCi
-	uidhBIoGtfcsbGTEFRKkecAuRLNbCX8XPWJDWGprkP/HhPYmtFnMmDKhUgmpXxQug6XQoablZDRR5
-	03UnnjMzVAefZaM0meru2l82qYZwZvhgwjk6CBVC92krY2eIQ/PGG/GD1adfTeoSqmqUOg+U/y2yn
-	BnoyDVozVc2QHTpdnb6FbyfHjRxS1KBirScW7ZWBLXv1zUMWLndHCk1Y0a2kJHqenfsj5FRPYyl4Q
-	Rg/YXceg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9GdfrWTrc4C7fSAmNpCfRVoTRsp/WdwpgbN+cHPoM2k=; b=M+URNPTjd3pH/ITqgzDRVdqnrn
+	o3U4EjoMs9EHEQ/Vz2AWC61/4Y333bjO+ZeyBiLen3roH0yi7VXzRH6ez70dBTVMF5zPvNeMRpFW3
+	O1Cify2E+xLV4eeNMFcg3tNrNR6sbHxkDF7rPhLgLqyR7p+oQB7x6iFvSK9fsa0YmgG6qqTKyh1eJ
+	2k7Wg626RYKiaahM20NSXfvFqoO9IDtaqn8DpDNdhdrMN6IHWasijAA5idTFo6TMAQ3snTIJTBy+W
+	/ZnhkdMp8qg4urqNJH1B2rqIOvY3ojT29DQSilw15KWhmVOHGsdcN5DK5Sb8BWtwHlWWGKK/KVHT5
+	76BJpoNw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1peb4I-00CKVo-2q;
-	Tue, 21 Mar 2023 12:26:22 +0000
-Received: from mail-ed1-f44.google.com ([209.85.208.44])
+	id 1pebIj-00CMt7-25;
+	Tue, 21 Mar 2023 12:41:17 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1peb4F-00CKUN-0M
+	id 1pebIg-00CMql-27
 	for linux-nvme@lists.infradead.org;
-	Tue, 21 Mar 2023 12:26:20 +0000
-Received: by mail-ed1-f44.google.com with SMTP id eh3so58875025edb.11
-        for <linux-nvme@lists.infradead.org>; Tue, 21 Mar 2023 05:26:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679401575; x=1681993575;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=26c/PJlmYgWkbBmERwUyqF2dpBsoOH9Y3u2+yXmk3wc=;
-        b=2bhTBds8FC71cdGtmeHlrmrhWdRH9vx1/pGdykEWCzxR1bTg/Y+WuL6DoMOr5OIYJP
-         SBfCJRjAh4LngGiWMd1PG6qMLdANbxZm0clUqvkShu7dXu/JFMAH5sqCYLHkZ+tLMw1T
-         pzDBVOO/D8o7W84ieAgXgRrR1nWdOvslsmBd/ut2IUETHz63+s+v0bT6BtYrmdxMWmFm
-         /t7sMb06k/HU7qiM1+3I/d/RiVLW5YHrChCf0uAtZoBmffEpqgQSueHsm2o/AR+K8Bu/
-         0+P8knp844N93xfiE4TN7UypP5RTTj38XnNf6aVWOacMnlnoUuHigK3XE4eFACxsYxT1
-         LQoQ==
-X-Gm-Message-State: AO0yUKUacrUgxblhjMrEihNuTyxhvHaDXc89pbL2hYoDio2UzNCcrBcA
-	86BlqXl2Jxgbl2YYX4zWFhJ+0RsfJWc=
-X-Google-Smtp-Source: AK7set9BR+aUaX9jSI1+8SuxIhEkOn8iOy7MhwLuv4P3XYOXwQIiS4APbSbxzBudsHD9WeybjYQJMw==
-X-Received: by 2002:a17:906:10d0:b0:931:4285:ea16 with SMTP id v16-20020a17090610d000b009314285ea16mr2362836ejv.7.1679401574832;
-        Tue, 21 Mar 2023 05:26:14 -0700 (PDT)
-Received: from [10.100.102.14] (85.65.253.165.dynamic.barak-online.net. [85.65.253.165])
-        by smtp.gmail.com with ESMTPSA id bv1-20020a170906b1c100b00939e76a0cabsm795854ejb.111.2023.03.21.05.26.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Mar 2023 05:26:14 -0700 (PDT)
-Message-ID: <56620baf-6195-b987-6067-ae81d23e39c5@grimberg.me>
-Date: Tue, 21 Mar 2023 14:26:13 +0200
+	Tue, 21 Mar 2023 12:41:16 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 49B3021D70;
+	Tue, 21 Mar 2023 12:41:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1679402469; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9GdfrWTrc4C7fSAmNpCfRVoTRsp/WdwpgbN+cHPoM2k=;
+	b=WN5i5/AZIKkjy96yCqv6i49uvUSUnbozUO5MgkbgLLQbwAs9PKbIbE5p3NODlumE7DyZLN
+	sNPfSvDWRcbflYzyarZUlMxYUCDjjlVecw+RId4uub0rDpVthiuWY+Ay4LZHXE/HYXHZ+w
+	etw4eTCTcmL/BjMvTwdGbVM12Ob/DNs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1679402469;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9GdfrWTrc4C7fSAmNpCfRVoTRsp/WdwpgbN+cHPoM2k=;
+	b=g8A1VT9LrVAqkGYFh96VvyHIUFrpso0PoAlJgCN6jv7QJa7Y55+MZhR7iMmU9LBsIrm3Bf
+	qlgtrJ2E6uuSJGDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3543313440;
+	Tue, 21 Mar 2023 12:41:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id gej1DOWlGWT2XQAAMHmgww
+	(envelope-from <dwagner@suse.de>); Tue, 21 Mar 2023 12:41:09 +0000
+Date: Tue, 21 Mar 2023 13:41:08 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Keith Busch <kbusch@kernel.org>,
+	"Belanger, Martin" <Martin.Belanger@dell.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: nvme-tcp: kernel NULL pointer dereference, address:
+ 0000000000000034
+Message-ID: <20230321124108.6tehgwwntu7cg74c@carbon>
+References: <a3d023ca-ca00-8207-2f89-fad23eddd58a@grimberg.me>
+ <20230321090913.gwuvyuw76ha62hgb@carbon>
+ <4c4b93b7-891d-cd5f-e4f2-50c242c799ce@grimberg.me>
+ <20230321092556.7m3etb25jnd4sfj6@carbon>
+ <316be6c1-0d90-0ea8-f9cf-1ec0086877a3@grimberg.me>
+ <20230321104009.nltadi6zs6iz66h4@carbon>
+ <f2653732-5566-ba2c-1dc5-412b20879ef8@grimberg.me>
+ <20230321110645.ruxzlw5egzikagnw@carbon>
+ <b6b14ada-e004-8dec-5ed4-2c188ba7a9ad@grimberg.me>
+ <0be807ea-8d44-f124-bffd-8abfcf046492@grimberg.me>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [External] Re: [PATCH] nvme: fix heap-use-after-free and oops in
- bio_endio for nvme multipath
-Content-Language: en-US
-To: Lei Lei2 Yin <yinlei2@lenovo.com>, "kbusch@kernel.org"
- <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>, "hch@lst.de" <hch@lst.de>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "cybeyond@foxmail.com" <cybeyond@foxmail.com>
-References: <PS1PR03MB493948DD1ECFAF150EE7B2F688819@PS1PR03MB4939.apcprd03.prod.outlook.com>
- <042385ef-285e-5179-941b-ab37f490c1d8@grimberg.me>
- <PS1PR03MB49395AC5BC73DDDA6A79E87488819@PS1PR03MB4939.apcprd03.prod.outlook.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <PS1PR03MB49395AC5BC73DDDA6A79E87488819@PS1PR03MB4939.apcprd03.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0be807ea-8d44-f124-bffd-8abfcf046492@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230321_052619_174138_550F2E64 
-X-CRM114-Status: GOOD (  15.75  )
+X-CRM114-CacheID: sfid-20230321_054114_837703_49661FDF 
+X-CRM114-Status: GOOD (  12.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,30 +99,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-> 	Thank you for your reply
+On Tue, Mar 21, 2023 at 01:14:11PM +0200, Sagi Grimberg wrote:
 > 
-> 	This problem occurs in nvme over rdma and nvme over tcp with nvme generate multipath. Delete the ns gendisk is caused by nvmf target subsystem is faulty, then host detect all path keep alive overtime and io timeout. After ctrl-loss-tmo seconds, host will remove fail ctrl and ns gendisk.
-
-That is fine, but it is a problem if it does not correctly drain
-inflight I/O, weather it was split or not. And this looks like the wrong
-place to address this.
-
-> 	We have reappear this proble in Linux-5.10.136, Linux-5.10.167 and the latest commit in linux-5.10.y, and this patch is only applicable to Linux-5.10.y
-
-So my understanding that this does not reproduce upstream?
-
+> > > > That is not a crash, but a WARN stack dump.
+> > > 
+> > > Not sure how you get to this conclusion.
 > 
-> 	Yes , this is absolutely the wrong place to do this . Can i move this modification after nvme_trace_bio_complete?
-> 
-> 	Do I need to resubmit a patch, if modifications are needed?
+> bool blk_rq_is_poll(struct request *rq)
+> {
+>         if (!rq->mq_hctx)
+>                 return false;
+>         if (rq->mq_hctx->type != HCTX_TYPE_POLL)
+>                 return false;
+>         if (WARN_ON_ONCE(!rq->bio)) // this is the stack dump
+>                 return false;
+>         return true;
+> }
 
-Yes, but a backport fix needs to be sent to stable mailing list
-(stable@vger.kernel.org) and cc'd to linux-nvme mailing list.
+This should trigger if rq->bio is NULL, no? Though the rq->bio
+pointer is not NULL in my trace:
 
-But I don't think that this fix is the correct one. What is needed is
-to identify where this was fixed upstream and backport that fix instead.
-If that is too involving because of code dependencies, it may be
-possible to send an alternative surgical fix, but it needs to be
-justified.
+[   53.669844] rq ffff888106c40000 mq_hctx ffff888106247800 type 2 bio ffff88810da4e100
+
+And I thought the would be a WARN or something simimilar, but that
+might have changed and I didn't noticed.
+
+Sorry for being so daft.
 
