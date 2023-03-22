@@ -4,74 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1AF68C6FD1D
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Mar 2023 00:18:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B79CBC6FD20
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Mar 2023 00:24:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/jWDniPiD3ArKxuqWUYL+U69T82M+y4H2QrzlqkdHAY=; b=Xd6IVhmb35p64Qpi0sWxqSvvF7
-	o6/4O3/EHAxyzSjqe7tL2Ba6IsL1m8t32oPRzdIMLVm0v5/8LD4tQFxFX/S2uAHs4Nyu1zxwysn2J
-	POJucVXyC2Ii7hj73iOUbU9IzN82lKsvwYZHVwPsHqgUKJjEaqPYsXqSnWh3L6lf9a8/Zq3G6h968
-	+Nm8G+r6GOrhIGC4nFTn6AyFvtfyJp4Nu9fYjVcz9ZRmH4ZUZi4FBtpIXmxGes1GrUTbIbvOPBQqs
-	0yS4uUHBi+WNfheyj8NUPEPwf80H4UQ6tuGmfzioS4o9/j0UsxfoACXqEi8lvRSxmLWnXPOlVhtG8
-	yolt95fA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=PqBhCyiwe+FbLj/O2dAwfE8VOdddZLf4CUTWFk8SpJw=; b=Fqpn30fsIQbWL+6GIbGwoQd0tT
+	TiV8sKVWAT19PpyjMsEpUF1oUAnCR+BD9rMbk+3AM8hi09C+RYtbbuV0ZIxDOUaQlToJwwG+F+oM7
+	Vr67IM5yMFvNWP4dfTetHafrWfRApC+ipH8OLXQRKnEktKjtMjxUIWgmIGBEqr7jNubyXRsyZX6lQ
+	p3QzyZBRGLZ1qRkVOfbsyYVI0lJldybord8cO9uxRIQtKHYyuTZm7mqJqPe7VKew0ZYDCIuOK9kAi
+	G3uFEcZxLQcfqIlQH4IWybiS8hnEP+0+HWgS2ayFksdYo7mRMveLQfvFPSQcHXO75rM24X4hXxCAp
+	YOqIGUSA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pemBL-00E8tp-0d;
-	Wed, 22 Mar 2023 00:18:23 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1pemGt-00E9Rl-05;
+	Wed, 22 Mar 2023 00:24:07 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pemBI-00E8tI-1Y
+	id 1pemGn-00E9QZ-0p
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Mar 2023 00:18:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1679444298;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/jWDniPiD3ArKxuqWUYL+U69T82M+y4H2QrzlqkdHAY=;
-	b=XkAl8vWCg36gvZpybWh+Jl7T2nM5YgwBYTqtGKqo3JG0hfF+rbxxeUI4aAvOF7YKrdWccc
-	FDQqbtz6oHvcj68C+K8NuneFuvNGgJoBBzz+Vhmdo4TFDdi/rg3VE0rtbeKdvHNRwmqJD+
-	+Q8pD/l1qi31RlKhSk416BEDOUb020A=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-272-vCb3AvyeOO2aOqpdADWFDw-1; Tue, 21 Mar 2023 20:18:12 -0400
-X-MC-Unique: vCb3AvyeOO2aOqpdADWFDw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 031E4101A531;
-	Wed, 22 Mar 2023 00:18:11 +0000 (UTC)
-Received: from localhost (unknown [10.2.17.90])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id C421340C83A9;
-	Wed, 22 Mar 2023 00:18:09 +0000 (UTC)
-Date: Tue, 21 Mar 2023 17:18:08 -0700
-From: Chris Leech <cleech@redhat.com>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
-	Chuck Lever <cel@kernel.org>, kernel-tls-handshake@lists.linux.dev
-Subject: Re: [PATCH 06/18] nvme-tcp: call 'queue->data_ready()' in
- nvme_tcp_data_ready()
-Message-ID: <ZBpJQENvFoyGortp@localhost>
-References: <20230321124325.77385-1-hare@suse.de>
- <20230321124325.77385-7-hare@suse.de>
- <d868b752-1d8b-1236-3543-c9ef82e42f23@grimberg.me>
- <3bd2c6b4-b276-b882-6f28-998118f96650@suse.de>
+	Wed, 22 Mar 2023 00:24:05 +0000
+Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32M02RCR011146
+	for <linux-nvme@lists.infradead.org>; Tue, 21 Mar 2023 17:23:57 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
+ subject : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=s2048-2021-q4;
+ bh=PqBhCyiwe+FbLj/O2dAwfE8VOdddZLf4CUTWFk8SpJw=;
+ b=cSPTdatEUayRsDxdc0tqEpABPsy8Ld5arFoUP/JSqM5MVd5jHB68tcqUIgwXTJWK9vFl
+ drpAW4Jcsh9CW2ZsQXAx+ys5viLF1Q/12FQourXrEEfLPZ7c2Ofh3i1hOsSqcJgew+7u
+ Uy6RVLGkVcMjxNCUobZPWJ3zL78EWFQLEu9w43gjkE5prawgJqLM9wdIJzk+//xn326A
+ eIYRBgylzg9XcTe0vHDVUUFgNK4oDOLOjve7zQyoQmy+A88amv/2ENdYiYQ8Uyrg4fjj
+ Rw/CH+dAjm0+x2E9yH65ccIjcVoeh0c8Wz7nPXsE3By5eDEcjVnFAF9ts0bzCFHVzhIR uQ== 
+Received: from mail.thefacebook.com ([163.114.132.120])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3pf07cyykc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Tue, 21 Mar 2023 17:23:57 -0700
+Received: from twshared24004.14.frc2.facebook.com (2620:10d:c085:208::f) by
+ mail.thefacebook.com (2620:10d:c085:11d::7) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Tue, 21 Mar 2023 17:23:55 -0700
+Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
+	id C32131419697D; Tue, 21 Mar 2023 17:23:51 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-block@vger.kernel.org>, <axboe@kernel.dk>,
+        <linux-nvme@lists.infradead.org>, <hch@lst.de>, <sagi@grimberg.me>
+CC: Keith Busch <kbusch@kernel.org>
+Subject: [PATCH 0/3] nvme fabrics polling fixes
+Date: Tue, 21 Mar 2023 17:23:47 -0700
+Message-ID: <20230322002350.4038048-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.34.1
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: Rl0PLj7DsIVzaZC-dKVgLc76dzLCeMDN
+X-Proofpoint-GUID: Rl0PLj7DsIVzaZC-dKVgLc76dzLCeMDN
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-In-Reply-To: <3bd2c6b4-b276-b882-6f28-998118f96650@suse.de>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-21_11,2023-03-21_01,2023-02-09_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230321_171820_619156_A851392E 
-X-CRM114-Status: GOOD (  22.27  )
+X-CRM114-CacheID: sfid-20230321_172401_523741_8F15591E 
+X-CRM114-Status: GOOD (  14.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,35 +84,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 21, 2023 at 03:09:06PM +0100, Hannes Reinecke wrote:
-> On 3/21/23 14:44, Sagi Grimberg wrote:
-> > 
-> > > Call the original data_ready() callback in nvme_tcp_data_ready()
-> > > to avoid a receive stall.
-> > 
-> > Can you please improve the description to include what is the stall?
-> > For example, does the stall exist today? If it is, I would like to
-> > separate such patches from this set and include them asap.
-> > 
-> That is actually particular to the TLS implementation, as it uses the
-> 'data_ready' callback to produce the data which can be read by eg recvmsg().
-> 
-> Without this call there's no data to peruse for recvmsg().
-> 
-> But I'm not _that_ deep into networking details to know whether this is TLS
-> specific or an issue with any data_ready callback.
-> I assume the latter, but then again, who knows.
-> 
-> Hence the slightly vague description.
+From: Keith Busch <kbusch@kernel.org>
 
-This looks like the socket callbacks end up hooked in the wrong order.
-Ideally it would be tcp -> tls -> nvme_tcp, while this currently looks
-like tcp -> nvme_tcp and then this call back to tls for decryption.
+I couldn't test the existing tcp or rdma options, so I had to make a
+loop poll option. The last patch fixes the polling queues when used with
+fabrics.
 
-I'm not quite sure how to untangle this; nvme_tcp can't just set it's
-own callbacks before initializing kTLS, becuse that's being done by
-tlshd which is going to need the userspace socket API callbacks working.
+Note, this depends on patch I sent earlier today that I should have just
+included in this series:
 
-- Chris
+  https://lore.kernel.org/linux-block/20230321215001.2655451-1-kbusch@meta.=
+com/T/#u
+
+Keith Busch (3):
+  nvme-fabrics: add queue setup helpers
+  nvme: add polling options for loop target
+  blk-mq: directly poll requests
+
+ block/blk-mq.c              |  4 +-
+ drivers/nvme/host/fabrics.c | 95 +++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/fabrics.h |  5 ++
+ drivers/nvme/host/rdma.c    | 81 ++-----------------------------
+ drivers/nvme/host/tcp.c     | 92 ++---------------------------------
+ drivers/nvme/target/loop.c  | 63 ++++++++++++++++++++++--
+ 6 files changed, 168 insertions(+), 172 deletions(-)
+
+--=20
+2.34.1
 
 
