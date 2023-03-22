@@ -4,50 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3FBD8C6FD1C
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Mar 2023 08:23:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27D32C6FD1F
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Mar 2023 08:24:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=tAMmjoZusAuIA8oPy6ce6bDSPb
-	b9f/R6UrAlRxbSQ851MGX1gJJFTx2Oa9VW3Xo8oI4arN0Sk6uJPIfGikNE8m65/4IfCoG277dhJM5
-	ZzAB0PVQZW0TUwExJuA0D3F8TsCBF5bTuk96jgnyr2uxO7/1RuBvzHz3fAXy6MSkv6uWJUycaMp5J
-	IuGN3uUbPgQJ4B6iKzBLVwqpOzZ4sp+o0Hz5m1jGf9TVRVpkcvCqNbVLVvtRm5A79F1zfIqel5O88
-	SWSkp0ne/mOwiwblBAllnwihzgbAxUauD8csRBLntO4tLKm22YzC855YGGhVKVgFCttJ3rO+bCUCb
-	SWUjXtpw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Itxw5IE33AlZCE+Tl3yJIPHE+/Q9xLb+3VZa9HsvojU=; b=5CNaU4X4tc7GW4uubqHf0gmi21
+	DDdyObqh1RO0cQPbZt6ZgW0r2bz35kk+TitbhHSUUpgRumYda0yNA4xzNh4itmO6jZJrjcsYCigbL
+	m7gP5cWyFp8NhcjZABsOMTYwycqGCguaNu0RNCGt4j47JKdb8/gWK1ksct5vh5FV/JykkAR4DMymu
+	d+szvuzP1ZK6927h5jc8c1Ubr+P0bsuay7QsGCjlxXxymv0Fvn0hciRQid23SdvfRtzfy7nsMq4js
+	AfrsBVT7RiNrLpkho41wxAi+6wHbsex5FjOAaRHkzfFHebnR4e7WkbLqR2yLWWauv1gblV8cO7jW/
+	xGPDLO4Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1petl0-00F9xa-0D;
-	Wed, 22 Mar 2023 08:23:42 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1petlc-00FA8n-3A;
+	Wed, 22 Mar 2023 08:24:21 +0000
+Received: from mail-wm1-f53.google.com ([209.85.128.53])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1petkx-00F9w8-11
+	id 1petla-00FA7y-2h
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Mar 2023 08:23:40 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 9906E68C7B; Wed, 22 Mar 2023 09:23:36 +0100 (CET)
-Date: Wed, 22 Mar 2023 09:23:36 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@meta.com>
-Cc: linux-block@vger.kernel.org, axboe@kernel.dk,
-	linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
-	Keith Busch <kbusch@kernel.org>,
-	Martin Belanger <Martin.Belanger@dell.com>,
-	Daniel Wagner <dwagner@suse.de>
-Subject: Re: [PATCH 3/3] blk-mq: directly poll requests
-Message-ID: <20230322082336.GB22782@lst.de>
-References: <20230322002350.4038048-1-kbusch@meta.com> <20230322002350.4038048-4-kbusch@meta.com>
+	Wed, 22 Mar 2023 08:24:19 +0000
+Received: by mail-wm1-f53.google.com with SMTP id n19so701479wms.0
+        for <linux-nvme@lists.infradead.org>; Wed, 22 Mar 2023 01:24:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679473457;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Itxw5IE33AlZCE+Tl3yJIPHE+/Q9xLb+3VZa9HsvojU=;
+        b=KEum2SSNEXmtnE3c4GN50kYddMbkzXln08vm7HIQ091BsJ9B8JxnXgMO5FEJtVvsjM
+         INxod5XzpZeWeiQL0gBLen//PwNY8IThZrn5Ln4Oqr0cAivlJNC05JcRdGPBLxk22OF5
+         8YHx6Yy1h/NXrs8EErWwN2izTAssDQzkR+Q9Wlj45co1l2rYMskwdOgxQuILSJh6SZAD
+         D2YIafGJFcA17mRRCb1LkHHnsEHBlBpaV4eLFp85yAkSc5iZQXQBa/LiDj0hHl81cGV1
+         tXJhrNFW4Q8m0EPXcziqvPmkBL410Z3kA9m28xm5yNa4yJSf86MQoZ8QLautbppjqXP5
+         RGgQ==
+X-Gm-Message-State: AO0yUKUEIhO1yCTkhzTaCtZlbrraNQsMx3QBf/4qO06uRCsrt5rFKgVA
+	xoIf6jhinacluzKA5SvthNZsNSvoHvA=
+X-Google-Smtp-Source: AK7set+uAs0GxmmZulsAdKcTQIyQHvORDhRmLV3BHpkCw4PnlBlBCRi1rSHzWD9mNrj1/RmP6CTdqw==
+X-Received: by 2002:a05:600c:45c3:b0:3eb:42f6:ac55 with SMTP id s3-20020a05600c45c300b003eb42f6ac55mr5620015wmo.1.1679473457175;
+        Wed, 22 Mar 2023 01:24:17 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id k22-20020a05600c1c9600b003ee6a91b596sm511424wms.29.2023.03.22.01.24.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Mar 2023 01:24:16 -0700 (PDT)
+Message-ID: <5f3b28e6-3bfc-d46b-7265-725d2c661c70@grimberg.me>
+Date: Wed, 22 Mar 2023 10:24:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230322002350.4038048-4-kbusch@meta.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v3] nvme-tcp: fix a possible UAF when failing to allocate
+ an io queue
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ Hannes Reinecke <hare@suse.de>, Yanjun Zhang <zhangyanjun@cestc.cn>
+References: <20230320133334.57325-1-sagi@grimberg.me>
+ <20230322082034.GB22321@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20230322082034.GB22321@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230322_012339_495623_8DC100CC 
-X-CRM114-Status: UNSURE (   9.49  )
+X-CRM114-CacheID: sfid-20230322_012418_880408_4D998EA3 
+X-CRM114-Status: UNSURE (   8.67  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -63,7 +86,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Thanks,
+> 
+> applied to nvme-6.3.
+
+Actually, I would like to waut for Yanjun to explicitly
+give out his Tested-by.
 
