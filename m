@@ -4,83 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1618FC6FD1F
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Mar 2023 12:34:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D96FC6FD1F
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Mar 2023 12:37:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FI3qkSwmuo5DJNjeqP3qm+jy2q1tbR1d2lzFqaXh8uI=; b=o0nVrmGLonINNh4C6Jo7s+LvV+
-	C8VPr39yUohWHHqN3jPAtn4aKWFcBHfgbiL76Tpm0eKi4LrPufUEgJj3l7P6KOk+3ByEsiCbmOmH5
-	Lb3FVSIe0hwuqANmyhq0EdkW106wybp0/qSuM0eEFXF+WJAWEP2C3IuQbxbhjWOdr67M0gQwWshfR
-	SrU5erZRLJcAlRA5rXtAHnavRbzV83lXXzI5ouQdAP/oa8xrxq6Fc12Ux2EFsqiK5YcMVV4zLngzx
-	/b1IlsH92420ghgq4AiLIdM5efmQFLVSPfk6D5dRYjL2UYDodERbfQTeMNzjrGX6uftC5J/pY6fFE
-	YDq5ynJQ==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=LRwZsANB3r2C91lXFiZnI3O1RAzjRFSQIWS7Bmxs4kw=; b=fBzhLfmcygfiEbHSNQoooUd5DH
+	Eo1eaH9paXy5QzzoyjIl+aNFga/ulLIVPQG4HgdG0OFTe7/7eJeSvj08DPoJXvTJuf8gzZzvsktBl
+	3cQLbYwSmpOf1qFGRM5i+eF7W8norOIHSSv1cieiWBl9w+tLWa+gvtx6rKl+h8hgKrinvFefF8cKW
+	PC5Db2qkEIc0H+yJnLbL7AgcuVuqu6XuF+275I6ovwJxuZiCInxFtJ/t72BBTcuvUc29uiqdXKaum
+	bDojgtMrcsRgKB+Ve5VcO9VouDWYHkFYqCwIZeVPhLg0qqVxFdble3qDA6RXImg6Z1fo8Z1v/aUQG
+	cygVU4CA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pexg5-00Fx5o-1h;
-	Wed, 22 Mar 2023 12:34:53 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1pexiH-00FxP1-33;
+	Wed, 22 Mar 2023 12:37:09 +0000
+Received: from mail-wm1-f43.google.com ([209.85.128.43])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pexg1-00Fx4k-0Z
+	id 1pexiE-00FxOW-3D
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Mar 2023 12:34:51 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9E8BC20D81;
-	Wed, 22 Mar 2023 12:34:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1679488487; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FI3qkSwmuo5DJNjeqP3qm+jy2q1tbR1d2lzFqaXh8uI=;
-	b=qZvlVCYBX88tvoOa1GJk57gPziDJ5Qon2K6Q1rvsLZI9MZBkn6vX3K5O0k+g7X31yXnWsa
-	w6BuFImmCm4JdYLEH0EweB0j49BnYGR1JVS3l6yMVo/hcY99PuGJSwDNbSEk3Bbpk3RopT
-	Zk6oJgXbnBL4bmkvDDSOa57F/ufS3A0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1679488487;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FI3qkSwmuo5DJNjeqP3qm+jy2q1tbR1d2lzFqaXh8uI=;
-	b=LsoUAY0Ay/KTs99xEZhn8AsET+kQQbtZ9iPWh4ban0hLL2L4gAbFud68NxiENUATK7yUr8
-	bfV+EYMbzEV5sxBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8F495138E9;
-	Wed, 22 Mar 2023 12:34:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 77GSIuf1GmQMXwAAMHmgww
-	(envelope-from <hare@suse.de>); Wed, 22 Mar 2023 12:34:47 +0000
-Message-ID: <b8a2e1d4-3571-447b-25c6-c6dd25fbad02@suse.de>
-Date: Wed, 22 Mar 2023 13:34:47 +0100
+	Wed, 22 Mar 2023 12:37:08 +0000
+Received: by mail-wm1-f43.google.com with SMTP id o40-20020a05600c512800b003eddedc47aeso5844314wms.3
+        for <linux-nvme@lists.infradead.org>; Wed, 22 Mar 2023 05:37:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679488625; x=1682080625;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LRwZsANB3r2C91lXFiZnI3O1RAzjRFSQIWS7Bmxs4kw=;
+        b=FUUDQqF6A2kVdqbbOcRS6LPa52gnEscTLKq3Ajb2jIE1U7cMrv3Bs13aNxDn6DII0s
+         jGfon91NJ/Zc/EfgFN2HyZPN2iG2C/77GHU/cz/7XkXnijDiIm5+db2nPuB5NUWsBo1N
+         Jn9b8XceopDoRGzQArjyHomTJ5i7ogP2fCy7flfi1VORchmdyCUyP+oMi4c1CXsxDdE4
+         g07xps4Qie3LXtKxLdciwq7nTTL5aO2HiEDICyHo87gFmdo9CBHRMgzIqg/35/3F+n3K
+         /OMKrHgyvgQjEj5hCGNFUFoIXAEtl8hiUsYqPme5DFxr0ovV8TmCgFt0ld+lpk4WfrYI
+         ivsQ==
+X-Gm-Message-State: AO0yUKUKvvWajZfOITrYT1twtruBbzHSEgVE2fN8pB74akMOyr/N1hPk
+	Gdsws7UqcetCPGqh/qsxAYQ=
+X-Google-Smtp-Source: AK7set+DFNuOfo4tAskyhOm3T819ZfypjR/C+2jy8A+mbjjVnZsIAC+xiBgMVqvhh7gVF1jqcDGADQ==
+X-Received: by 2002:a05:600c:4504:b0:3ed:d119:df27 with SMTP id t4-20020a05600c450400b003edd119df27mr6060190wmo.3.1679488625440;
+        Wed, 22 Mar 2023 05:37:05 -0700 (PDT)
+Received: from localhost.localdomain (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id u4-20020a5d4344000000b002c5526234d2sm13939285wrr.8.2023.03.22.05.37.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Mar 2023 05:37:04 -0700 (PDT)
+From: Sagi Grimberg <sagi@grimberg.me>
+To: linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+	linux-rdma@vger.kernel.org
+Subject: [PATCH] blk-mq-rdma: remove queue mapping helper for rdma devices
+Date: Wed, 22 Mar 2023 14:37:03 +0200
+Message-Id: <20230322123703.485544-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 15/18] nvmet-tcp: enable TLS handshake upcall
-Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Chuck Lever <cel@kernel.org>, kernel-tls-handshake@lists.linux.dev
-References: <20230321124325.77385-1-hare@suse.de>
- <20230321124325.77385-16-hare@suse.de>
- <6f69983c-17bd-dd72-b941-95f55db10180@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <6f69983c-17bd-dd72-b941-95f55db10180@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230322_053449_510666_A5DCFAC3 
-X-CRM114-Status: GOOD (  34.86  )
+X-CRM114-CacheID: sfid-20230322_053707_033139_5108ABF3 
+X-CRM114-Status: GOOD (  20.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,376 +80,145 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/22/23 13:13, Sagi Grimberg wrote:
-> 
-> 
-> On 3/21/23 14:43, Hannes Reinecke wrote:
->> Add functions to start the TLS handshake upcall.
->>
->> Signed-off-by: Hannes Reincke <hare@suse.de>
->> ---
->>   drivers/nvme/target/tcp.c | 188 ++++++++++++++++++++++++++++++++++++--
->>   1 file changed, 181 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
->> index 5c43767c5ecd..6e88e98a2c59 100644
->> --- a/drivers/nvme/target/tcp.c
->> +++ b/drivers/nvme/target/tcp.c
->> @@ -9,8 +9,10 @@
->>   #include <linux/slab.h>
->>   #include <linux/err.h>
->>   #include <linux/nvme-tcp.h>
->> +#include <linux/nvme-keyring.h>
->>   #include <net/sock.h>
->>   #include <net/tcp.h>
->> +#include <net/handshake.h>
->>   #include <linux/inet.h>
->>   #include <linux/llist.h>
->>   #include <crypto/hash.h>
->> @@ -40,6 +42,14 @@ module_param(idle_poll_period_usecs, int, 0644);
->>   MODULE_PARM_DESC(idle_poll_period_usecs,
->>           "nvmet tcp io_work poll till idle time period in usecs");
->> +/*
->> + * TLS handshake timeout
->> + */
->> +static int tls_handshake_timeout = 30;
-> 
-> 30 ?
-> 
-Yeah; will be changing it to 10.
+No rdma device exposes its irq vectors affinity today. So the only
+mapping that we have left, is the default blk_mq_map_queues, which
+we fallback to anyways. Also fixup the only consumer of this helper
+(nvme-rdma).
 
->> +module_param(tls_handshake_timeout, int, 0644);
->> +MODULE_PARM_DESC(tls_handshake_timeout,
->> +         "nvme TLS handshake timeout in seconds (default 30)");
->> +
->>   #define NVMET_TCP_RECV_BUDGET        8
->>   #define NVMET_TCP_SEND_BUDGET        8
->>   #define NVMET_TCP_IO_WORK_BUDGET    64
->> @@ -131,6 +141,9 @@ struct nvmet_tcp_queue {
->>       struct ahash_request    *snd_hash;
->>       struct ahash_request    *rcv_hash;
->> +    struct key        *tls_psk;
->> +    struct delayed_work    tls_handshake_work;
->> +
->>       unsigned long           poll_end;
->>       spinlock_t        state_lock;
->> @@ -168,6 +181,7 @@ static struct workqueue_struct *nvmet_tcp_wq;
->>   static const struct nvmet_fabrics_ops nvmet_tcp_ops;
->>   static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
->>   static void nvmet_tcp_free_cmd_buffers(struct nvmet_tcp_cmd *cmd);
->> +static void nvmet_tcp_tls_handshake_timeout_work(struct work_struct 
->> *work);
->>   static inline u16 nvmet_tcp_cmd_tag(struct nvmet_tcp_queue *queue,
->>           struct nvmet_tcp_cmd *cmd)
->> @@ -1400,6 +1414,8 @@ static void 
->> nvmet_tcp_restore_socket_callbacks(struct nvmet_tcp_queue *queue)
->>   {
->>       struct socket *sock = queue->sock;
->> +    if (!sock->sk)
->> +        return;
-> 
-> Umm, when will the sock not have an sk?
-> 
-When someone called 'sock_release()'.
-But that's basically a leftover from development.
+Remove this now dead code.
 
->>       write_lock_bh(&sock->sk->sk_callback_lock);
->>       sock->sk->sk_data_ready =  queue->data_ready;
->>       sock->sk->sk_state_change = queue->state_change;
->> @@ -1448,7 +1464,8 @@ static void nvmet_tcp_release_queue_work(struct 
->> work_struct *w)
->>       list_del_init(&queue->queue_list);
->>       mutex_unlock(&nvmet_tcp_queue_mutex);
->> -    nvmet_tcp_restore_socket_callbacks(queue);
->> +    if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE)
->> +        nvmet_tcp_restore_socket_callbacks(queue);
-> 
-> This is because you only save the callbacks after the handshake
-> phase is done? Maybe it would be simpler to clear the ops because
-> the socket is going away anyways...
-> 
-Or just leave it in place, as they'll be cleared up on sock_release().
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+---
+ block/Kconfig               |  5 -----
+ block/Makefile              |  1 -
+ block/blk-mq-rdma.c         | 44 -------------------------------------
+ drivers/nvme/host/rdma.c    |  7 ++----
+ include/linux/blk-mq-rdma.h | 11 ----------
+ 5 files changed, 2 insertions(+), 66 deletions(-)
+ delete mode 100644 block/blk-mq-rdma.c
+ delete mode 100644 include/linux/blk-mq-rdma.h
 
->>       cancel_work_sync(&queue->io_work);
->>       /* stop accepting incoming data */
->>       queue->rcv_state = NVMET_TCP_RECV_ERR;
->> @@ -1469,6 +1486,8 @@ static void nvmet_tcp_release_queue_work(struct 
->> work_struct *w)
->>       nvmet_tcp_free_cmds(queue);
->>       if (queue->hdr_digest || queue->data_digest)
->>           nvmet_tcp_free_crypto(queue);
->> +    if (queue->tls_psk)
->> +        key_put(queue->tls_psk);
->>       ida_free(&nvmet_tcp_queue_ida, queue->idx);
->>       page = virt_to_head_page(queue->pf_cache.va);
->>       __page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
->> @@ -1481,11 +1500,15 @@ static void nvmet_tcp_data_ready(struct sock *sk)
->>       trace_sk_data_ready(sk);
->> -    read_lock_bh(&sk->sk_callback_lock);
->> -    queue = sk->sk_user_data;
->> -    if (likely(queue))
->> -        queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &queue->io_work);
->> -    read_unlock_bh(&sk->sk_callback_lock);
->> +    rcu_read_lock_bh();
->> +    queue = rcu_dereference_sk_user_data(sk);
->> +    if (queue->data_ready)
->> +        queue->data_ready(sk);
->> +    if (likely(queue) &&
->> +        queue->state != NVMET_TCP_Q_TLS_HANDSHAKE)
->> +        queue_work_on(queue_cpu(queue), nvmet_tcp_wq,
->> +                  &queue->io_work);
->> +    rcu_read_unlock_bh();
-> 
-> Same comment as the host side. separate rcu stuff from data_ready call.
-> 
-Ok.
-
->>   }
->>   static void nvmet_tcp_write_space(struct sock *sk)
->> @@ -1585,13 +1608,139 @@ static int nvmet_tcp_set_queue_sock(struct 
->> nvmet_tcp_queue *queue)
->>           sock->sk->sk_write_space = nvmet_tcp_write_space;
->>           if (idle_poll_period_usecs)
->>               nvmet_tcp_arm_queue_deadline(queue);
->> -        queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &queue->io_work);
->> +        queue_work_on(queue_cpu(queue), nvmet_tcp_wq,
->> +                  &queue->io_work);
-> 
-> Why the change?
-> 
-Left-over from development.
-
->>       }
->>       write_unlock_bh(&sock->sk->sk_callback_lock);
->>       return ret;
->>   }
->> +static void nvmet_tcp_tls_data_ready(struct sock *sk)
->> +{
->> +    struct socket_wq *wq;
->> +
->> +    rcu_read_lock();
->> +    /* kTLS will change the callback */
->> +    if (sk->sk_data_ready == nvmet_tcp_tls_data_ready) {
->> +        wq = rcu_dereference(sk->sk_wq);
->> +        if (skwq_has_sleeper(wq))
->> +            wake_up_interruptible_all(&wq->wait);
->> +    }
->> +    rcu_read_unlock();
->> +}
-> 
-> Can you explain why this is needed? It looks out-of-place.
-> Who is this waking up? isn't tls already calling the socket
-> default data_ready that does something similar for userspace?
-> 
-Black magic.
-The 'data_ready' call might happen at any time after the 'accept' call 
-and us calling into userspace.
-In particular we have this flow of control:
-
-1. Kernel: accept()
-2. Kernel: handshake request
-3. Userspace: read data from socket
-4. Userspace: tls handshake
-5. Kernel: handshake complete
-
-If the 'data_ready' event occurs between 1. and 3. userspace wouldn't 
-know that something has happened, and will be sitting there waiting for 
-data which is already present.
-
->> +
->> +static void nvmet_tcp_tls_handshake_restart(struct nvmet_tcp_queue 
->> *queue)
->> +{
->> +    spin_lock(&queue->state_lock);
->> +    if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
->> +        pr_warn("queue %d: TLS handshake already completed\n",
->> +            queue->idx);
->> +        spin_unlock(&queue->state_lock);
->> +        return;
->> +    }
->> +    queue->state = NVMET_TCP_Q_CONNECTING;
->> +    spin_unlock(&queue->state_lock);
->> +
->> +    pr_debug("queue %d: restarting queue after TLS handshake\n",
->> +         queue->idx);
->> +    /*
->> +     * Set callbacks after handshake; TLS implementation
->> +     * might have changed the socket callbacks.
->> +     */
->> +    nvmet_tcp_set_queue_sock(queue);
-> 
-> My understanding is that this is the desired end-state, i.e.
-> tls connection is ready and now we are expecting nvme traffic?
-> 
-Yes.
-
-> I think that the function name should be changed, it sounds like
-> it is restarting the handshake, and it does not appear to do that.
-> 
-Sure, np.
-
-nvmet_tcp_set_queue_callbacks()?
-
->> +}
->> +
->> +static void nvmet_tcp_save_tls_callbacks(struct nvmet_tcp_queue *queue)
->> +{
->> +    struct sock *sk = queue->sock->sk;
->> +
->> +    write_lock_bh(&sk->sk_callback_lock);
->> +    rcu_assign_sk_user_data(sk, queue);
->> +    queue->data_ready = sk->sk_data_ready;
->> +    sk->sk_data_ready = nvmet_tcp_tls_data_ready;
->> +    write_unlock_bh(&sk->sk_callback_lock);
->> +}
->> +
->> +static void nvmet_tcp_restore_tls_callbacks(struct nvmet_tcp_queue 
->> *queue)
->> +{
->> +    struct sock *sk = queue->sock->sk;
->> +
->> +    if (WARN_ON(!sk))
->> +        return;
->> +    write_lock_bh(&sk->sk_callback_lock);
->> +    /* Only reset the callback if it really is ours */
->> +    if (sk->sk_data_ready == nvmet_tcp_tls_data_ready)
-> 
-> I still don't understand why our data_ready for tls is needed.
-> Who are
-> 
-See above for an explanation.
-
->> +        sk->sk_data_ready = queue->data_ready;
->> +    rcu_assign_sk_user_data(sk, NULL);
->> +    queue->data_ready = NULL;
->> +    write_unlock_bh(&sk->sk_callback_lock);
->> +}
->> +
->> +static void nvmet_tcp_tls_handshake_done(void *data, int status,
->> +                     key_serial_t peerid)
->> +{
->> +    struct nvmet_tcp_queue *queue = data;
->> +
->> +    pr_debug("queue %d: TLS handshake done, key %x, status %d\n",
->> +         queue->idx, peerid, status);
->> +    if (!status) {
->> +        spin_lock(&queue->state_lock);
->> +        queue->tls_psk = key_lookup(peerid);
->> +        if (IS_ERR(queue->tls_psk)) {
->> +            pr_warn("queue %d: TLS key %x not found\n",
->> +                queue->idx, peerid);
->> +            queue->tls_psk = NULL;
->> +        }
->> +        spin_unlock(&queue->state_lock);
->> +    }
->> +    cancel_delayed_work_sync(&queue->tls_handshake_work);
->> +    nvmet_tcp_restore_tls_callbacks(queue);
->> +    if (status)
->> +        nvmet_tcp_schedule_release_queue(queue);
->> +    else
->> +        nvmet_tcp_tls_handshake_restart(queue);
->> +}
->> +
->> +static void nvmet_tcp_tls_handshake_timeout_work(struct work_struct *w)
->> +{
->> +    struct nvmet_tcp_queue *queue = container_of(to_delayed_work(w),
->> +            struct nvmet_tcp_queue, tls_handshake_work);
->> +
->> +    pr_debug("queue %d: TLS handshake timeout\n", queue->idx);
->> +    nvmet_tcp_restore_tls_callbacks(queue);
->> +    nvmet_tcp_schedule_release_queue(queue);
->> +}
->> +
->> +static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue)
->> +{
->> +    int ret = -EOPNOTSUPP;
->> +    struct tls_handshake_args args;
->> +
->> +    if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
->> +        pr_warn("cannot start TLS in state %d\n", queue->state);
->> +        return -EINVAL;
->> +    }
->> +
->> +    pr_debug("queue %d: TLS ServerHello\n", queue->idx);
->> +    args.ta_sock = queue->sock;
->> +    args.ta_done = nvmet_tcp_tls_handshake_done;
->> +    args.ta_data = queue;
->> +    args.ta_keyring = nvme_keyring_id();
->> +    args.ta_timeout_ms = tls_handshake_timeout * 2 * 1024;
-> 
->   why the 2x timeout?
-> 
-Because I'm chicken. Will be changing it.l
-
->> +
->> +    ret = tls_server_hello_psk(&args, GFP_KERNEL);
->> +    if (ret) {
->> +        pr_err("failed to start TLS, err=%d\n", ret);
->> +    } else {
->> +        pr_debug("queue %d wakeup userspace\n", queue->idx);
->> +        nvmet_tcp_tls_data_ready(queue->sock->sk);
->> +        queue_delayed_work(nvmet_wq, &queue->tls_handshake_work,
->> +                   tls_handshake_timeout * HZ);
->> +    }
->> +    return ret;
->> +}
->> +
->>   static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
->>           struct socket *newsock)
->>   {
->> @@ -1604,6 +1753,8 @@ static void nvmet_tcp_alloc_queue(struct 
->> nvmet_tcp_port *port,
->>       INIT_WORK(&queue->release_work, nvmet_tcp_release_queue_work);
->>       INIT_WORK(&queue->io_work, nvmet_tcp_io_work);
->> +    INIT_DELAYED_WORK(&queue->tls_handshake_work,
->> +              nvmet_tcp_tls_handshake_timeout_work);
->>       queue->sock = newsock;
->>       queue->port = port;
->>       queue->nr_cmds = 0;
->> @@ -1646,6 +1797,29 @@ static void nvmet_tcp_alloc_queue(struct 
->> nvmet_tcp_port *port,
->>       list_add_tail(&queue->queue_list, &nvmet_tcp_queue_list);
->>       mutex_unlock(&nvmet_tcp_queue_mutex);
->> +    if (queue->state == NVMET_TCP_Q_TLS_HANDSHAKE) {
->> +        nvmet_tcp_save_tls_callbacks(queue);
->> +        if (!nvmet_tcp_tls_handshake(queue))
->> +            return;
->> +        nvmet_tcp_restore_tls_callbacks(queue);
->> +
->> +        /*
->> +         * If sectype is set to 'tls1.3' TLS is required
->> +         * so terminate the connection if the TLS handshake
->> +         * failed.
->> +         */
->> +        if (queue->port->nport->disc_addr.tsas.tcp.sectype ==
->> +            NVMF_TCP_SECTYPE_TLS13) {
->> +            pr_debug("queue %d sectype tls1.3, terminate connection\n",
->> +                 queue->idx);
->> +            goto out_destroy_sq;
->> +        }
->> +        pr_debug("queue %d fallback to icreq\n", queue->idx);
->> +        spin_lock(&queue->state_lock);
->> +        queue->state = NVMET_TCP_Q_CONNECTING;
->> +        spin_unlock(&queue->state_lock);
->> +    }
->> +
->>       ret = nvmet_tcp_set_queue_sock(queue);
->>       if (ret)
->>           goto out_destroy_sq;
-> 
-> I'm still trying to learn the state machine here, can you share a few 
-> words on it? Also please include it in the next round in the change log.
-
-As outlined in the response to the nvme-tcp upcall, on the server side 
-we _have_ to allow for non-TLS connections (eg. for discovery).
-And we have to start the daemon _before_ the first packet arrives, but 
-only the first packet will tell us what we should have done.
-So really we have to start the upcall and see what happens.
-The 'real' handling / differentiation between these two modes is done 
-with the 'peek pdu' patch later on.
-
-Cheers,
-
-Hannes
+diff --git a/block/Kconfig b/block/Kconfig
+index 5d9d9c84d516..0b7c13f9a089 100644
+--- a/block/Kconfig
++++ b/block/Kconfig
+@@ -215,11 +215,6 @@ config BLK_MQ_VIRTIO
+ 	depends on VIRTIO
+ 	default y
+ 
+-config BLK_MQ_RDMA
+-	bool
+-	depends on INFINIBAND
+-	default y
+-
+ config BLK_PM
+ 	def_bool PM
+ 
+diff --git a/block/Makefile b/block/Makefile
+index 4e01bb71ad6e..b31b05390749 100644
+--- a/block/Makefile
++++ b/block/Makefile
+@@ -30,7 +30,6 @@ obj-$(CONFIG_BLK_DEV_INTEGRITY) += bio-integrity.o blk-integrity.o
+ obj-$(CONFIG_BLK_DEV_INTEGRITY_T10)	+= t10-pi.o
+ obj-$(CONFIG_BLK_MQ_PCI)	+= blk-mq-pci.o
+ obj-$(CONFIG_BLK_MQ_VIRTIO)	+= blk-mq-virtio.o
+-obj-$(CONFIG_BLK_MQ_RDMA)	+= blk-mq-rdma.o
+ obj-$(CONFIG_BLK_DEV_ZONED)	+= blk-zoned.o
+ obj-$(CONFIG_BLK_WBT)		+= blk-wbt.o
+ obj-$(CONFIG_BLK_DEBUG_FS)	+= blk-mq-debugfs.o
+diff --git a/block/blk-mq-rdma.c b/block/blk-mq-rdma.c
+deleted file mode 100644
+index 29c1f4d6eb04..000000000000
+--- a/block/blk-mq-rdma.c
++++ /dev/null
+@@ -1,44 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * Copyright (c) 2017 Sagi Grimberg.
+- */
+-#include <linux/blk-mq.h>
+-#include <linux/blk-mq-rdma.h>
+-#include <rdma/ib_verbs.h>
+-
+-/**
+- * blk_mq_rdma_map_queues - provide a default queue mapping for rdma device
+- * @map:	CPU to hardware queue map.
+- * @dev:	rdma device to provide a mapping for.
+- * @first_vec:	first interrupt vectors to use for queues (usually 0)
+- *
+- * This function assumes the rdma device @dev has at least as many available
+- * interrupt vetors as @set has queues.  It will then query it's affinity mask
+- * and built queue mapping that maps a queue to the CPUs that have irq affinity
+- * for the corresponding vector.
+- *
+- * In case either the driver passed a @dev with less vectors than
+- * @set->nr_hw_queues, or @dev does not provide an affinity mask for a
+- * vector, we fallback to the naive mapping.
+- */
+-void blk_mq_rdma_map_queues(struct blk_mq_queue_map *map,
+-		struct ib_device *dev, int first_vec)
+-{
+-	const struct cpumask *mask;
+-	unsigned int queue, cpu;
+-
+-	for (queue = 0; queue < map->nr_queues; queue++) {
+-		mask = ib_get_vector_affinity(dev, first_vec + queue);
+-		if (!mask)
+-			goto fallback;
+-
+-		for_each_cpu(cpu, mask)
+-			map->mq_map[cpu] = map->queue_offset + queue;
+-	}
+-
+-	return;
+-
+-fallback:
+-	blk_mq_map_queues(map);
+-}
+-EXPORT_SYMBOL_GPL(blk_mq_rdma_map_queues);
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index bbad26b82b56..3a62867b6cab 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -12,7 +12,6 @@
+ #include <linux/string.h>
+ #include <linux/atomic.h>
+ #include <linux/blk-mq.h>
+-#include <linux/blk-mq-rdma.h>
+ #include <linux/blk-integrity.h>
+ #include <linux/types.h>
+ #include <linux/list.h>
+@@ -2163,10 +2162,8 @@ static void nvme_rdma_map_queues(struct blk_mq_tag_set *set)
+ 			ctrl->io_queues[HCTX_TYPE_DEFAULT];
+ 		set->map[HCTX_TYPE_READ].queue_offset = 0;
+ 	}
+-	blk_mq_rdma_map_queues(&set->map[HCTX_TYPE_DEFAULT],
+-			ctrl->device->dev, 0);
+-	blk_mq_rdma_map_queues(&set->map[HCTX_TYPE_READ],
+-			ctrl->device->dev, 0);
++	blk_mq_map_queues(&set->map[HCTX_TYPE_DEFAULT]);
++	blk_mq_map_queues(&set->map[HCTX_TYPE_READ]);
+ 
+ 	if (opts->nr_poll_queues && ctrl->io_queues[HCTX_TYPE_POLL]) {
+ 		/* map dedicated poll queues only if we have queues left */
+diff --git a/include/linux/blk-mq-rdma.h b/include/linux/blk-mq-rdma.h
+deleted file mode 100644
+index 53b58c610e76..000000000000
+--- a/include/linux/blk-mq-rdma.h
++++ /dev/null
+@@ -1,11 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-#ifndef _LINUX_BLK_MQ_RDMA_H
+-#define _LINUX_BLK_MQ_RDMA_H
+-
+-struct blk_mq_tag_set;
+-struct ib_device;
+-
+-void blk_mq_rdma_map_queues(struct blk_mq_queue_map *map,
+-		struct ib_device *dev, int first_vec);
+-
+-#endif /* _LINUX_BLK_MQ_RDMA_H */
+-- 
+2.34.1
 
 
