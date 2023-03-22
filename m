@@ -4,71 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7710AC6FD1F
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Mar 2023 09:24:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A9EDC6FD1F
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Mar 2023 09:25:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3LG/dUdYrjO1W0C8j3PsQ44fgCxYIklWJkVY7fFSK68=; b=jP4bB5gkgGawjNOC5nX/vJkKe+
-	lCQ30CGgWl/bRVeg5/mZCwqwJKC6w8h5COUH8QboTKCL9p4p7ku/OeNouuexHCHHs8/RhS428bhUV
-	pvoM/EkGzrJ9AVzGGeq3IumpoUr7lNuNLiyJWpWaEakCupObIalWMH6u3gBUkNsxTFkjGqV8HBBSi
-	qmkC+gqPHY/mfIWDKf8DkdqQAJHi0n6wxvMJ8eCIvlXXfKoVHxfkqQl1L4jyL7JoFobTMETJtIn1N
-	i7znqiUEg2wk3Nt9QD5Yon05yL1Z1vR+WM+3bnLXhEMy32Pp59hlJA5aRiaMxRiTF8m42Ik+n0JGX
-	NdMZQIdQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=SsT/oDowNWup7Ix11QnYhp9cNMr9KttgiUelX9jHuoc=; b=VGVJqtK5i7m3otpbYaUZmBT7vt
+	eLFW1s0hxYHaDFdU9Goi+/h8DjsxgDIiKMYVqdB5l4MaLThp+Ww5VkJF+TmnnQHnJV9wVgEvw5ryl
+	Wiasz+WuFYp1NSiRJIGw6ZN4Clz5qEdtiRCylL7RRm/NlYUGvhc0gquj7QTMFxDXb0AwhkMYGTvQK
+	xnsVK/By5vyxAHgC6WvU9ErGSasHzXIvsAkOWfx8pQJTurnkzpY+sWwilQEoCyddLIG+8qmy1LJFV
+	u1Dd+1zjZ8Jkq53HgO6FnVXfhMQ11lmh/shxra/dSXUvhAw1ND/31TrDoFtkdYlKzfKjryb4t32B8
+	2uRCjRig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1peui3-00FOP7-2c;
-	Wed, 22 Mar 2023 09:24:43 +0000
-Received: from mail-wm1-f50.google.com ([209.85.128.50])
+	id 1peuiv-00FOhv-0C;
+	Wed, 22 Mar 2023 09:25:37 +0000
+Received: from mga17.intel.com ([192.55.52.151])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1peui0-00FONT-22
+	id 1peuis-00FOgb-1m
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Mar 2023 09:24:41 +0000
-Received: by mail-wm1-f50.google.com with SMTP id u11-20020a05600c19cb00b003edcc414997so6100886wmq.3
-        for <linux-nvme@lists.infradead.org>; Wed, 22 Mar 2023 02:24:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679477078;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3LG/dUdYrjO1W0C8j3PsQ44fgCxYIklWJkVY7fFSK68=;
-        b=Fmo8n3dHmnh2n82cg3ybRUMvXv8zm0vNhzqVh0w8oNSsaxPyoM8bMWKACf3aFTUCYr
-         iO9IWh+o/ZnM3pJAySxLUx11c8hR59AMyeh0Z4/DQQtjrYI8IPY48Be6cvNM9qxoNfAB
-         LtToB8IhSMrogKvZAhJA2mHlio8DqCoql4X2bTjNTtD3ZB8960lPZCk5qdR7ZsdYA3lt
-         ymQ37iv/bYUpjNJSl65geOM30akGPZ7TUAkMcISsIS06aN3xWZJtOme6Yh0OgviHXorl
-         /flUOlpgY59v3tCspbrIziC+THYrgI5Y6m90vFSHpHqalNsA0bWR+N+Nnaec+GF/Aaxf
-         0PCg==
-X-Gm-Message-State: AO0yUKUpa+JVSsnTS17BWF0WGx5tW0rew25kKw80BAK4R7OEBY0cD87o
-	fqJT5svOkKQf5re1bMy9BP0=
-X-Google-Smtp-Source: AK7set/ezQ0GT8X72o+BwtfYBCCj+u1/IfFrjMgmhrwosqkcy/RN6exYhi6pgOlwVJE+z83zsDJ/iQ==
-X-Received: by 2002:a05:600c:4515:b0:3ed:2eb5:c2e6 with SMTP id t21-20020a05600c451500b003ed2eb5c2e6mr5772364wmo.2.1679477078620;
-        Wed, 22 Mar 2023 02:24:38 -0700 (PDT)
-Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id y18-20020a1c4b12000000b003ee70225ed2sm164054wma.15.2023.03.22.02.24.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Mar 2023 02:24:38 -0700 (PDT)
-Message-ID: <65e17a9f-cc5a-0286-71fd-34c8560137cd@grimberg.me>
-Date: Wed, 22 Mar 2023 11:24:36 +0200
+	Wed, 22 Mar 2023 09:25:36 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679477134; x=1711013134;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gfhrp8iPSQmV2bVU3KHGZ0M/NIJCkOCiaD6roS2eIAk=;
+  b=BBMwYqwEvR4vw7F/g/PSr+9j8KfiObRdQtfD7r2XpKhAGnC3M6Cn9mcH
+   saVpqRvHLK/2LOjH/WXd7HaI5JC2GHuurjPmm0LS2DSvm3MLAChNQmZjl
+   q28qpNssWiLznaBltsz0tKgzPXM/Qtq2XasADRO7RXEJz5BV/oPIpBYp4
+   W7CiADYjMwI9tivFFeyJP7BrvQlm08zKnphvQ6WwTU8GkfP1UubsppgiT
+   nSRMQC+tx0lKAhECoJRReMASN3qqsQLnMep9XqsfDmY7f33jqm7KMVr6O
+   bXIkzifXGz0I1GZnviUAg7t2i7/ThtSPWccLFVj0HIJ3s4NEWhj4uKaWf
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="319560129"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
+   d="scan'208";a="319560129"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 02:25:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="684235029"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
+   d="scan'208";a="684235029"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 22 Mar 2023 02:25:31 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1peuio-000D83-29;
+	Wed, 22 Mar 2023 09:25:30 +0000
+Date: Wed, 22 Mar 2023 17:25:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	axboe@kernel.dk, linux-nvme@lists.infradead.org, hch@lst.de,
+	sagi@grimberg.me
+Cc: oe-kbuild-all@lists.linux.dev, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH 1/3] nvme-fabrics: add queue setup helpers
+Message-ID: <202303221736.jlRVazVR-lkp@intel.com>
+References: <20230322002350.4038048-2-kbusch@meta.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 09/18] nvme-tcp: add connect option 'tls'
-Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Chuck Lever <cel@kernel.org>, kernel-tls-handshake@lists.linux.dev
-References: <20230321124325.77385-1-hare@suse.de>
- <20230321124325.77385-10-hare@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230321124325.77385-10-hare@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230322002350.4038048-2-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230322_022440_666708_452650BD 
-X-CRM114-Status: GOOD (  21.60  )
+X-CRM114-CacheID: sfid-20230322_022534_621040_CAE24F37 
+X-CRM114-Status: GOOD (  11.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,86 +85,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> Add a connect option 'tls' to request TLS1.3 in-band encryption, and
-> abort the connection attempt if TLS could not be established.
-> 
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> ---
->   drivers/nvme/host/fabrics.c | 5 +++++
->   drivers/nvme/host/fabrics.h | 2 ++
->   drivers/nvme/host/tcp.c     | 7 ++++++-
->   3 files changed, 13 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index bbaa04a0c502..fdff7cdff029 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -609,6 +609,7 @@ static const match_table_t opt_tokens = {
->   	{ NVMF_OPT_DISCOVERY,		"discovery"		},
->   	{ NVMF_OPT_DHCHAP_SECRET,	"dhchap_secret=%s"	},
->   	{ NVMF_OPT_DHCHAP_CTRL_SECRET,	"dhchap_ctrl_secret=%s"	},
-> +	{ NVMF_OPT_TLS,			"tls"			},
->   	{ NVMF_OPT_ERR,			NULL			}
->   };
->   
-> @@ -632,6 +633,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->   	opts->hdr_digest = false;
->   	opts->data_digest = false;
->   	opts->tos = -1; /* < 0 == use transport default */
-> +	opts->tls = false;
->   
->   	options = o = kstrdup(buf, GFP_KERNEL);
->   	if (!options)
-> @@ -918,6 +920,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->   			kfree(opts->dhchap_ctrl_secret);
->   			opts->dhchap_ctrl_secret = p;
->   			break;
-> +		case NVMF_OPT_TLS:
-> +			opts->tls = true;
-> +			break;
->   		default:
->   			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
->   				p);
-> diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-> index dcac3df8a5f7..c4538a9d437c 100644
-> --- a/drivers/nvme/host/fabrics.h
-> +++ b/drivers/nvme/host/fabrics.h
-> @@ -70,6 +70,7 @@ enum {
->   	NVMF_OPT_DISCOVERY	= 1 << 22,
->   	NVMF_OPT_DHCHAP_SECRET	= 1 << 23,
->   	NVMF_OPT_DHCHAP_CTRL_SECRET = 1 << 24,
-> +	NVMF_OPT_TLS		= 1 << 25,
->   };
->   
->   /**
-> @@ -128,6 +129,7 @@ struct nvmf_ctrl_options {
->   	int			max_reconnects;
->   	char			*dhchap_secret;
->   	char			*dhchap_ctrl_secret;
-> +	bool			tls;
->   	bool			disable_sqflow;
->   	bool			hdr_digest;
->   	bool			data_digest;
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index bcf24e9a08e1..bbff1f52a167 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -1902,6 +1902,9 @@ static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
->   			break;
->   	}
->   	if (ret) {
-> +		/* Abort if TLS is requested */
-> +		if (num_keys && ctrl->opts->tls)
-> +			goto out_free_queue;
->   		/* Try without TLS */
->   		ret = nvme_tcp_alloc_queue(ctrl, 0, 0);
->   		if (ret)
-> @@ -1934,6 +1937,8 @@ static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
->   				break;
->   		}
->   		if (ret) {
-> +			if (num_keys && ctrl->opts->tls)
-> +				goto out_free_queues;
+Hi Keith,
 
-I don't see why we even attempt tls if we're not explicitly told to.
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on axboe-block/for-next]
+[also build test ERROR on linus/master v6.3-rc3 next-20230322]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/nvme-fabrics-add-queue-setup-helpers/20230322-082537
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20230322002350.4038048-2-kbusch%40meta.com
+patch subject: [PATCH 1/3] nvme-fabrics: add queue setup helpers
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230322/202303221736.jlRVazVR-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/0acb3964621b925db18ebec1a6c57bc3c3446859
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Keith-Busch/nvme-fabrics-add-queue-setup-helpers/20230322-082537
+        git checkout 0acb3964621b925db18ebec1a6c57bc3c3446859
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303221736.jlRVazVR-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "blk_mq_rdma_map_queues" [drivers/nvme/host/nvme-fabrics.ko] undefined!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
 
