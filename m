@@ -4,75 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2CE9BC6FD1C
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Mar 2023 13:06:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FA1DC6FD1F
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Mar 2023 13:16:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SGnSaHHVT5yK/5atifPp96l6eoFHAYSOYino46iiVgU=; b=gd6vNtsmrHIm8mVMuWevbn1Iii
-	Fr1krTBtXvyEbT2uWPUr9NiOb81gfeYMI/Qupjbp/pFZnzwEvyFvHXYwTO0tJni+oSXlUm6p5WPEW
-	piGamW3z3JX9iHnbb5ogoZDucIjU8K2vK5r7FLnSefY+YXfRUgrnBqOhdgsdKgbgD/X/nB0Dui1OB
-	QrW5sTkldrzEg+rFvSJAPRbFw8q+0BnuBN0eJFjkQezNyCTcAHwqKpYlHUQyQfthas/297Ib+dPJq
-	pWLVU3LaYxKkiZKlIUJ8BszK1JQRTDJMEqt6QCid8YEPs7A6wGvnrxgKm9Ra5/pkJoxr1URGqrmDc
-	d1QziiBQ==;
+	bh=rC0zG0SvapUEBPxtVD1GPdKxIKQjvdqme1KCiz1Z1EM=; b=e0Kt6/8YO/QH1mlT+Py6GXhOsC
+	UJ2pfVtX28sn28e+TZUUODpywcb+qZPObsXawAJQu05Dae3YoZHE7kmp5HA9yjHRj+qfElnq7XeKa
+	S6s98BuAG7Jkn6G1T52xVkKSBXrN42o62huFr4hQ/SKGTHPpudMqW0mxdgIY+eC1WRDjEmLypjNv3
+	0g5CpOrMNasD6hJPGHS5o4dM5f8eKfA82rP39eo/WiroiUzDRLa8rJymph+s0LTD2CL3NXIP9C6wC
+	k7IHCnRR386ZZgZaD9aOGiFWIBxEZvzXzUCk62xN/fTOtKHDORUup7LD4FNNKK5kjjqE4bzsYNnRu
+	fjyFCshQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1peyAP-00G3ZT-1H;
-	Wed, 22 Mar 2023 13:06:13 +0000
-Received: from mail-wm1-f53.google.com ([209.85.128.53])
+	id 1peyK8-00G4ns-2z;
+	Wed, 22 Mar 2023 13:16:16 +0000
+Received: from mail-wm1-f45.google.com ([209.85.128.45])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1peyAK-00G3Yd-2q
+	id 1peyK6-00G4nL-1c
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Mar 2023 13:06:12 +0000
-Received: by mail-wm1-f53.google.com with SMTP id m6-20020a05600c3b0600b003ee6e324b19so676553wms.1
-        for <linux-nvme@lists.infradead.org>; Wed, 22 Mar 2023 06:06:07 -0700 (PDT)
+	Wed, 22 Mar 2023 13:16:15 +0000
+Received: by mail-wm1-f45.google.com with SMTP id o40-20020a05600c512800b003eddedc47aeso5922754wms.3
+        for <linux-nvme@lists.infradead.org>; Wed, 22 Mar 2023 06:16:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679490366; x=1682082366;
+        d=1e100.net; s=20210112; t=1679490973;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SGnSaHHVT5yK/5atifPp96l6eoFHAYSOYino46iiVgU=;
-        b=iHMofYeNhuw+TzUqktbwpTk4ebIHkUmwn+8tErZyqSBkwSOiCrn30xJGi7GX1yeD1R
-         x14VnSGjJQNhhLv9XMMoxcO4RDS7huu24C4bFdLFFo3NRWGRYl/F+4mDvmOlePMoD9+G
-         WDV+QEo2REBcZr9amNB4yZSXi9f5HA38KJfzFi10b9G4ml5drWhqY7RZb+ZRRWEcmpE2
-         snwqB8FqQujYCrXv1YWZh/O7Ojce7mZ35crB/RZNAG+/PDvtQ8iQZy3xOVoXMrKWHlt0
-         DvshT2kM8Gjzaxf0H8dkDkesPUCq+sQ9Oi0o+nT0fgtyZBWSK9KgWvHajxpWDY44EOWP
-         XJjQ==
-X-Gm-Message-State: AO0yUKWeLJnAZ47ud4p6pJIWWX11RthD35HpDiBibIaVeW1X3t5Ao73Z
-	u8t1ZyzmMmep6tUll5wBN6s=
-X-Google-Smtp-Source: AK7set8+QQoSPxmA9UGGRTkBK5Vm56SLZmzrrV580Px+mPg4UeQNLSPB1ctCLrDtO5bKHpffG3cBcQ==
-X-Received: by 2002:a05:600c:3103:b0:3ed:d2ae:9adb with SMTP id g3-20020a05600c310300b003edd2ae9adbmr6204038wmo.0.1679490366759;
-        Wed, 22 Mar 2023 06:06:06 -0700 (PDT)
+        bh=rC0zG0SvapUEBPxtVD1GPdKxIKQjvdqme1KCiz1Z1EM=;
+        b=3005X3skyAV+72NaxDUcLZVameX0iZF6cj5wTRIl0WZnNkrzRoHFh3KqSTvyBLzejn
+         97Tqgdy3rPZcPw0CzudS179/cNUaZFvxnvqdo5fL1FyDjcsOBnKvCZdlMQcrA7M0izix
+         SVnpY8UJYE/rgZBl7qhsGvPZTaVsnlmkjBx71CR2YUIxII5+b0n6sAg5HeTh24iJMT68
+         cWnJDbDj+WNeVvABESedEToYKeLnLrBpiNouFDWrXV6aty551dCucXdd+QaT9WoqVy+y
+         UUGl7gY6hCfPz0PB5OJgruFSz0x7jcAGKkyPwXFKfhRNEf6VLs1OaxJrb7V5Pz3SA+Y5
+         99Rw==
+X-Gm-Message-State: AO0yUKUvNwKrjvhYp1DmTnlovPPv13bK+DhXaKyCdK1g1208jjZH/M3o
+	ou8W4iiDG46p5J08T+ooStE=
+X-Google-Smtp-Source: AK7set+CpPWzKU7kUJo9nlEKZYxHxWSSGqrbg4gwFWfSP6DmVprzSIknku66aprgww/Yt7zEOatIsw==
+X-Received: by 2002:a05:600c:4ec7:b0:3ed:d119:df36 with SMTP id g7-20020a05600c4ec700b003edd119df36mr6522869wmq.0.1679490972555;
+        Wed, 22 Mar 2023 06:16:12 -0700 (PDT)
 Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id p13-20020a7bcc8d000000b003ee1acdb036sm6568165wma.17.2023.03.22.06.06.05
+        by smtp.gmail.com with ESMTPSA id y6-20020a05600c364600b003ed2c0a0f37sm16757490wmq.35.2023.03.22.06.16.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Mar 2023 06:06:05 -0700 (PDT)
-Message-ID: <7d59b26a-94ad-bdbe-7f12-9911de13484b@grimberg.me>
-Date: Wed, 22 Mar 2023 15:06:04 +0200
+        Wed, 22 Mar 2023 06:16:12 -0700 (PDT)
+Message-ID: <8a2515d4-c8cc-a70a-2b37-ec5260ea22ac@grimberg.me>
+Date: Wed, 22 Mar 2023 15:16:10 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v3] nvme-tcp: fix a possible UAF when failing to allocate
- an io queue
+Subject: Re: [PATCH 08/18] nvme-tcp: enable TLS handshake upcall
 Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- Hannes Reinecke <hare@suse.de>, Yanjun Zhang <zhangyanjun@cestc.cn>
-References: <20230320133334.57325-1-sagi@grimberg.me>
- <20230322082034.GB22321@lst.de>
- <5f3b28e6-3bfc-d46b-7265-725d2c661c70@grimberg.me>
- <20230322082758.GA23221@lst.de>
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Chuck Lever <cel@kernel.org>, kernel-tls-handshake@lists.linux.dev
+References: <20230321124325.77385-1-hare@suse.de>
+ <20230321124325.77385-9-hare@suse.de>
+ <92bd0f9f-8df1-b1ef-dc8b-99ae3b1e0300@grimberg.me>
+ <cc5a73b9-7457-9f72-1b2f-750443b33925@suse.de>
+ <6d582f3e-24b9-0e27-40ad-fe2691ef26d0@grimberg.me>
+ <3ba504a2-5756-8767-3cf4-6369d136fec9@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230322082758.GA23221@lst.de>
+In-Reply-To: <3ba504a2-5756-8767-3cf4-6369d136fec9@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230322_060609_744774_E79E3B49 
-X-CRM114-Status: GOOD (  11.05  )
+X-CRM114-CacheID: sfid-20230322_061614_537875_33D9DA0D 
+X-CRM114-Status: GOOD (  18.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,18 +88,30 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->>> Thanks,
->>>
->>> applied to nvme-6.3.
+>> I have a more general question.
+>> What is the scenario that we will have for a given hostnqn and
+>> subsysnqn more than one valid identity? Do we need to support it?
 >>
->> Actually, I would like to waut for Yanjun to explicitly
->> give out his Tested-by.
+> Well; there are SHA-256 and SHA-384 identities. We need to _support_ 
+> both, but seeing that we're dealing with retained PSKs for now I would 
+> assume that the admin ensures that both sides are able to support the
+> chosen hash.
+
+Yes, lets not over-complicate it.
+
+> So the real choice is just between a 'retained' and a 'generated' PSK.
+> And it is assumed that any 'retained' PSK should take priority for any 
+> 'generated' PSK.
+> So for 'retained' PSKs we can use userland to pass in the PSK
+> (or, indeed, having the kernel select one as we really only have on 
+> choice...)
+> And for 'generated' PSKs they really come into play only if we don't 
+> have 'retained' PSKs, and if secure concatenation is enabled.
+> But even there you can (out of necessity) only generate a single PSK,
+> so again there is no choice.
 > 
-> I can drop it for now, but that basically guarantees that we're going
-> to miss -rc4.
+> So in the light of all this I guess we can revert to only using a single 
+> PSK.
 
-This has been buggy for a while now, we can wait and then have stable
-pick it up.
-
-Thanks
+This makes perfect sense to me.
 
