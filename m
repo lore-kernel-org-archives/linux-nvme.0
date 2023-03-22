@@ -4,75 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FA1DC6FD1F
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Mar 2023 13:16:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3971C6FD1F
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Mar 2023 13:24:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rC0zG0SvapUEBPxtVD1GPdKxIKQjvdqme1KCiz1Z1EM=; b=e0Kt6/8YO/QH1mlT+Py6GXhOsC
-	UJ2pfVtX28sn28e+TZUUODpywcb+qZPObsXawAJQu05Dae3YoZHE7kmp5HA9yjHRj+qfElnq7XeKa
-	S6s98BuAG7Jkn6G1T52xVkKSBXrN42o62huFr4hQ/SKGTHPpudMqW0mxdgIY+eC1WRDjEmLypjNv3
-	0g5CpOrMNasD6hJPGHS5o4dM5f8eKfA82rP39eo/WiroiUzDRLa8rJymph+s0LTD2CL3NXIP9C6wC
-	k7IHCnRR386ZZgZaD9aOGiFWIBxEZvzXzUCk62xN/fTOtKHDORUup7LD4FNNKK5kjjqE4bzsYNnRu
-	fjyFCshQ==;
+	bh=fmnrNNIihsL2m7bJ09oCMNw0+jKVUUERpsFM6QsRyz8=; b=RWwFeiaHaftH+JWJba9hvYM/eS
+	PJ4m8qqFaQ8kfGdbuwFOU07CK35GYIdtz+/0ChV2o6/uAz90gbWJz6ZGr/CIY1iqP3XMBT2+N/MDF
+	Sn7/XFVeZVejPR6yzhRk3AGjPBpSDdw10tArzW+klNcriVIxQRprHoEm9IuSjQaQYFEsEAgzhu6R/
+	OD/Smn5mZ+r34VriviowchDOBQDJGkFgIu2x47EmnkvMbQeBKOoNoObEkEHBJLsz4FMchen34Cisg
+	X42KSfWvY81mI9RGzkiGNbLneYL+s/YwbwpktKh73SluggRmaEGThDPpcuqAsIqo6mZtNvCB+yC7A
+	Y58m7PqA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1peyK8-00G4ns-2z;
-	Wed, 22 Mar 2023 13:16:16 +0000
-Received: from mail-wm1-f45.google.com ([209.85.128.45])
+	id 1peyS4-00G6BF-10;
+	Wed, 22 Mar 2023 13:24:28 +0000
+Received: from mail-wm1-f44.google.com ([209.85.128.44])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1peyK6-00G4nL-1c
+	id 1peyS0-00G6A9-2Q
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Mar 2023 13:16:15 +0000
-Received: by mail-wm1-f45.google.com with SMTP id o40-20020a05600c512800b003eddedc47aeso5922754wms.3
-        for <linux-nvme@lists.infradead.org>; Wed, 22 Mar 2023 06:16:14 -0700 (PDT)
+	Wed, 22 Mar 2023 13:24:26 +0000
+Received: by mail-wm1-f44.google.com with SMTP id m6-20020a05600c3b0600b003ee6e324b19so716853wms.1
+        for <linux-nvme@lists.infradead.org>; Wed, 22 Mar 2023 06:24:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679490973;
+        d=1e100.net; s=20210112; t=1679491463;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rC0zG0SvapUEBPxtVD1GPdKxIKQjvdqme1KCiz1Z1EM=;
-        b=3005X3skyAV+72NaxDUcLZVameX0iZF6cj5wTRIl0WZnNkrzRoHFh3KqSTvyBLzejn
-         97Tqgdy3rPZcPw0CzudS179/cNUaZFvxnvqdo5fL1FyDjcsOBnKvCZdlMQcrA7M0izix
-         SVnpY8UJYE/rgZBl7qhsGvPZTaVsnlmkjBx71CR2YUIxII5+b0n6sAg5HeTh24iJMT68
-         cWnJDbDj+WNeVvABESedEToYKeLnLrBpiNouFDWrXV6aty551dCucXdd+QaT9WoqVy+y
-         UUGl7gY6hCfPz0PB5OJgruFSz0x7jcAGKkyPwXFKfhRNEf6VLs1OaxJrb7V5Pz3SA+Y5
-         99Rw==
-X-Gm-Message-State: AO0yUKUvNwKrjvhYp1DmTnlovPPv13bK+DhXaKyCdK1g1208jjZH/M3o
-	ou8W4iiDG46p5J08T+ooStE=
-X-Google-Smtp-Source: AK7set+CpPWzKU7kUJo9nlEKZYxHxWSSGqrbg4gwFWfSP6DmVprzSIknku66aprgww/Yt7zEOatIsw==
-X-Received: by 2002:a05:600c:4ec7:b0:3ed:d119:df36 with SMTP id g7-20020a05600c4ec700b003edd119df36mr6522869wmq.0.1679490972555;
-        Wed, 22 Mar 2023 06:16:12 -0700 (PDT)
+        bh=fmnrNNIihsL2m7bJ09oCMNw0+jKVUUERpsFM6QsRyz8=;
+        b=fSZ86qmIgQAIliAG2hmhlG0Pn9F+7UpMVsTpMDRhiSnn1vOxYe6QLYX64wKdx3E22O
+         2XShnncY5iXI6ciyj8tRDWbxcqO018cL/O4kLerQ9z8QaT5MN+BoZazhfhuZv1XP43ra
+         QnAjlOpKJjXq9W/iqkBzMCE5eIMr1e35t2vHycc7CxmpJA09Nmorfzt5q00ZIlcLqblA
+         8m8ysKqLDPA9+i2E93VhcxLeLXEpkl4LwXj8BuqyRPxLjawCWv0hrRECMXlO0NPMcGzp
+         /OTD+Kglf4c8Y/IxwuqSbpQMGkJSSQDRHlrSCLApCZnHbknO24vxfn4wZjiOUMxpuGZA
+         a9ag==
+X-Gm-Message-State: AO0yUKX6tR2gzfu99b+a2rP/8DxMECWnO8euBKBXyXCNqHlQxRfwQrSW
+	WsImpaTFHULCI2vknz3EEcE=
+X-Google-Smtp-Source: AK7set/KqmgrooUP+AxwhcG1nHCnmIjZjzY1SJG+2jkjfok7J8DmpBrKW/n/3WnjQAbejAgnfG8mrA==
+X-Received: by 2002:a05:600c:4ec7:b0:3ed:d119:df36 with SMTP id g7-20020a05600c4ec700b003edd119df36mr6553475wmq.0.1679491463123;
+        Wed, 22 Mar 2023 06:24:23 -0700 (PDT)
 Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id y6-20020a05600c364600b003ed2c0a0f37sm16757490wmq.35.2023.03.22.06.16.11
+        by smtp.gmail.com with ESMTPSA id s20-20020a7bc394000000b003ee3e075d1csm4485742wmj.22.2023.03.22.06.24.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Mar 2023 06:16:12 -0700 (PDT)
-Message-ID: <8a2515d4-c8cc-a70a-2b37-ec5260ea22ac@grimberg.me>
-Date: Wed, 22 Mar 2023 15:16:10 +0200
+        Wed, 22 Mar 2023 06:24:22 -0700 (PDT)
+Message-ID: <d6e49031-5f61-c96d-ad26-5c591a21ac54@grimberg.me>
+Date: Wed, 22 Mar 2023 15:24:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH 08/18] nvme-tcp: enable TLS handshake upcall
+Subject: Re: [PATCH 0/3] nvme fabrics polling fixes
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Chuck Lever <cel@kernel.org>, kernel-tls-handshake@lists.linux.dev
-References: <20230321124325.77385-1-hare@suse.de>
- <20230321124325.77385-9-hare@suse.de>
- <92bd0f9f-8df1-b1ef-dc8b-99ae3b1e0300@grimberg.me>
- <cc5a73b9-7457-9f72-1b2f-750443b33925@suse.de>
- <6d582f3e-24b9-0e27-40ad-fe2691ef26d0@grimberg.me>
- <3ba504a2-5756-8767-3cf4-6369d136fec9@suse.de>
+To: Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@meta.com>
+Cc: linux-block@vger.kernel.org, axboe@kernel.dk,
+ linux-nvme@lists.infradead.org, hch@lst.de, Keith Busch <kbusch@kernel.org>
+References: <20230322002350.4038048-1-kbusch@meta.com>
+ <20230322084831.qwdarhmrs3uv5y43@carbon.lan>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <3ba504a2-5756-8767-3cf4-6369d136fec9@suse.de>
+In-Reply-To: <20230322084831.qwdarhmrs3uv5y43@carbon.lan>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230322_061614_537875_33D9DA0D 
-X-CRM114-Status: GOOD (  18.01  )
+X-CRM114-CacheID: sfid-20230322_062424_794630_50E3FE66 
+X-CRM114-Status: GOOD (  20.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,31 +83,222 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->> I have a more general question.
->> What is the scenario that we will have for a given hostnqn and
->> subsysnqn more than one valid identity? Do we need to support it?
+>> From: Keith Busch <kbusch@kernel.org>
 >>
-> Well; there are SHA-256 and SHA-384 identities. We need to _support_ 
-> both, but seeing that we're dealing with retained PSKs for now I would 
-> assume that the admin ensures that both sides are able to support the
-> chosen hash.
-
-Yes, lets not over-complicate it.
-
-> So the real choice is just between a 'retained' and a 'generated' PSK.
-> And it is assumed that any 'retained' PSK should take priority for any 
-> 'generated' PSK.
-> So for 'retained' PSKs we can use userland to pass in the PSK
-> (or, indeed, having the kernel select one as we really only have on 
-> choice...)
-> And for 'generated' PSKs they really come into play only if we don't 
-> have 'retained' PSKs, and if secure concatenation is enabled.
-> But even there you can (out of necessity) only generate a single PSK,
-> so again there is no choice.
+>> I couldn't test the existing tcp or rdma options, so I had to make a
+>> loop poll option. The last patch fixes the polling queues when used with
+>> fabrics.
+>>
+>> Note, this depends on patch I sent earlier today that I should have just
+>> included in this series:
+>>
+>>    https://lore.kernel.org/linux-block/20230321215001.2655451-1-kbusch@meta.com/T/#u
 > 
-> So in the light of all this I guess we can revert to only using a single 
-> PSK.
+> I've tested this series with
+> 
+>    https://github.com/igaw/blktests/tree/queue-counts
+> 
+> and while for rdma all is good I got a lockdep warning for tcp:
+> 
+> 
+>   ======================================================
+>   WARNING: possible circular locking dependency detected
+>   6.3.0-rc1+ #15 Tainted: G        W
+>   ------------------------------------------------------
+>   kworker/6:0/54 is trying to acquire lock:
+>   ffff888121d88030 ((work_completion)(&queue->io_work)){+.+.}-{0:0}, at: __flush_work+0xb9/0x170
+> 
+>   but task is already holding lock:
+>   ffff888100b0fd20 ((work_completion)(&queue->release_work)){+.+.}-{0:0}, at: process_one_work+0x707/0xbc0
+> 
+>   which lock already depends on the new lock.
+> 
+> 
+>   the existing dependency chain (in reverse order) is:
+> 
+>   -> #2 ((work_completion)(&queue->release_work)){+.+.}-{0:0}:
+>          lock_acquire+0x13a/0x310
+>          process_one_work+0x728/0xbc0
+>          worker_thread+0x97a/0x1480
+>          kthread+0x228/0x2b0
+>          ret_from_fork+0x1f/0x30
+> 
+>   -> #1 ((wq_completion)nvmet-wq){+.+.}-{0:0}:
+>          lock_acquire+0x13a/0x310
+>          __flush_workqueue+0x185/0x14e0
+>          nvmet_tcp_install_queue+0x63/0x270 [nvmet_tcp]
+>          nvmet_install_queue+0x2b1/0x6a0 [nvmet]
+>          nvmet_execute_admin_connect+0x381/0x880 [nvmet]
+>          nvmet_tcp_io_work+0x15e8/0x8f60 [nvmet_tcp]
+>          process_one_work+0x756/0xbc0
+>          worker_thread+0x97a/0x1480
+>          kthread+0x228/0x2b0
+>          ret_from_fork+0x1f/0x30
+> 
+>   -> #0 ((work_completion)(&queue->io_work)){+.+.}-{0:0}:
+>          validate_chain+0x19f1/0x6d50
+>          __lock_acquire+0x122d/0x1e90
+>          lock_acquire+0x13a/0x310
+>          __flush_work+0xd5/0x170
+>          __cancel_work_timer+0x36b/0x470
+>          nvmet_tcp_release_queue_work+0x25c/0x1000 [nvmet_tcp]
+>          process_one_work+0x756/0xbc0
+>          worker_thread+0x97a/0x1480
+>          kthread+0x228/0x2b0
+>          ret_from_fork+0x1f/0x30
+> 
+>   other info that might help us debug this:
+> 
+>   Chain exists of:
+>     (work_completion)(&queue->io_work) --> (wq_completion)nvmet-wq --> (work_completion)(&queue->release_work)
 
-This makes perfect sense to me.
+This came up before.
+
+Its because in nvmet_tcp_install_queue we flush the nvmet_wq, to let
+queue releases flush before accepting new queues. Without it, there is
+no back-pressure and a host can simply reconnect in a loop and exhaust
+nvmet system memory...
+
+I don't think its a deadlock, because the queue that flushes the
+nvmet_wq cannot be in release, this is only possible that other queues
+would be releasing. So I can't see how it would deadlock. But I don't
+know how to teach lockdep.
+
+I'll try to see if there is a different way to do this, without annoying
+lockdep.
+
+> 
+>    Possible unsafe locking scenario:
+> 
+>          CPU0                    CPU1
+>          ----                    ----
+>     lock((work_completion)(&queue->release_work));
+>                                  lock((wq_completion)nvmet-wq);
+>                                  lock((work_completion)(&queue->release_work));
+>     lock((work_completion)(&queue->io_work));
+> 
+>    *** DEADLOCK ***
+> 
+>   2 locks held by kworker/6:0/54:
+>    #0: ffff888109ff6d48 ((wq_completion)nvmet-wq){+.+.}-{0:0}, at: process_one_work+0x6c8/0xbc0
+>    #1: ffff888100b0fd20 ((work_completion)(&queue->release_work)){+.+.}-{0:0}, at: process_one_work+0x707/0xbc0
+> 
+>   stack backtrace:
+>   CPU: 6 PID: 54 Comm: kworker/6:0 Tainted: G        W          6.3.0-rc1+ #15 f4d05de834b07d62567d33b70ec70fb0fa06f103
+>   Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015
+>   Workqueue: nvmet-wq nvmet_tcp_release_queue_work [nvmet_tcp]
+>   Call Trace:
+>    <TASK>
+>    dump_stack_lvl+0x5a/0x80
+>    check_noncircular+0x2c8/0x390
+>    ? add_chain_block+0x5e0/0x5e0
+>    ? ret_from_fork+0x1f/0x30
+>    ? lockdep_lock+0xd3/0x260
+>    ? stack_trace_save+0x10a/0x1e0
+>    ? stack_trace_snprint+0x100/0x100
+>    ? check_noncircular+0x1a6/0x390
+>    validate_chain+0x19f1/0x6d50
+>    ? lockdep_unlock+0x9e/0x1f0
+>    ? validate_chain+0x15b2/0x6d50
+>    ? reacquire_held_locks+0x510/0x510
+>    ? reacquire_held_locks+0x510/0x510
+>    ? reacquire_held_locks+0x510/0x510
+>    ? add_lock_to_list+0xbf/0x2c0
+>    ? lockdep_unlock+0x9e/0x1f0
+>    ? validate_chain+0x15b2/0x6d50
+>    ? reacquire_held_locks+0x510/0x510
+>    ? reacquire_held_locks+0x510/0x510
+>    ? xfs_buf_find_lock+0xb0/0x430 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? reacquire_held_locks+0x510/0x510
+>    ? validate_chain+0x176/0x6d50
+>    ? trace_lock_acquired+0x7b/0x180
+>    ? lock_is_held_type+0x8b/0x110
+>    ? lock_is_held_type+0x8b/0x110
+>    ? rcu_read_lock_sched_held+0x34/0x70
+>    ? reacquire_held_locks+0x510/0x510
+>    ? xfs_buf_get_map+0xd72/0x11a0 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? lock_is_held_type+0x8b/0x110
+>    ? rcu_read_lock_sched_held+0x34/0x70
+>    ? trace_xfs_buf_read+0x7c/0x180 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? xfs_buf_read_map+0x111/0x700 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? lock_is_held_type+0x8b/0x110
+>    ? lock_is_held_type+0x8b/0x110
+>    ? xfs_btree_read_buf_block+0x205/0x300 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? rcu_read_lock_sched_held+0x34/0x70
+>    ? trace_xfs_trans_read_buf+0x79/0x170 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? xfs_btree_read_buf_block+0x205/0x300 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? xfs_trans_read_buf_map+0x303/0x4f0 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? trace_xfs_trans_getsb+0x170/0x170 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? xfs_verify_fsbno+0x74/0x130 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? xfs_btree_ptr_to_daddr+0x19b/0x660 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? xfs_buf_set_ref+0x1d/0x50 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? xfs_btree_read_buf_block+0x233/0x300 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? mark_lock+0x8f/0x320
+>    ? xfs_btree_readahead+0x250/0x250 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? xfs_verify_fsbno+0x74/0x130 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? xfs_btree_ptr_to_daddr+0x19b/0x660 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? xfs_dio_write_end_io+0x32f/0x3f0 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? xfs_dio_write_end_io+0x32f/0x3f0 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? xfs_dio_write_end_io+0x32f/0x3f0 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? xfs_dio_write_end_io+0x32f/0x3f0 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? __module_address+0x86/0x1e0
+>    ? ret_from_fork+0x1f/0x30
+>    ? deref_stack_reg+0x17f/0x210
+>    ? ret_from_fork+0x1f/0x30
+>    ? unwind_next_frame+0x16b/0x2240
+>    ? ret_from_fork+0x1f/0x30
+>    ? stack_trace_save+0x1e0/0x1e0
+>    ? arch_stack_walk+0xb7/0xf0
+>    ? lock_is_held_type+0x8b/0x110
+>    ? find_busiest_group+0x104e/0x2480
+>    ? load_balance+0x2540/0x2540
+>    ? stack_trace_save+0x10a/0x1e0
+>    ? mark_lock+0x8f/0x320
+>    ? __lock_acquire+0x122d/0x1e90
+>    ? lock_is_held_type+0x8b/0x110
+>    ? rcu_lock_acquire+0x30/0x30
+>    ? xfs_buf_ioend+0x248/0x450 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? xfs_buf_ioend+0x248/0x450 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
+>    ? __module_address+0x86/0x1e0
+>    ? ret_from_fork+0x1f/0x30
+>    ? deref_stack_reg+0x17f/0x210
+>    ? ret_from_fork+0x1f/0x30
+>    ? unwind_next_frame+0x16b/0x2240
+>    ? stack_trace_save+0x10a/0x1e0
+>    ? deref_stack_reg+0x17f/0x210
+>    ? look_up_lock_class+0x65/0x130
+>    ? register_lock_class+0x5d/0x860
+>    ? mark_lock+0x8f/0x320
+>    __lock_acquire+0x122d/0x1e90
+>    lock_acquire+0x13a/0x310
+>    ? __flush_work+0xb9/0x170
+>    ? read_lock_is_recursive+0x10/0x10
+>    ? lock_is_held_type+0x8b/0x110
+>    ? rcu_lock_acquire+0x30/0x30
+>    __flush_work+0xd5/0x170
+>    ? __flush_work+0xb9/0x170
+>    ? flush_work+0x10/0x10
+>    ? lock_is_held_type+0x8b/0x110
+>    ? __lock_acquire+0x1e90/0x1e90
+>    ? do_raw_spin_unlock+0x112/0x890
+>    ? mark_lock+0x8f/0x320
+>    ? lockdep_hardirqs_on_prepare+0x2d5/0x610
+>    __cancel_work_timer+0x36b/0x470
+>    ? cancel_work_sync+0x10/0x10
+>    ? mark_lock+0x8f/0x320
+>    ? lockdep_hardirqs_on_prepare+0x2d5/0x610
+>    ? nvmet_tcp_release_queue_work+0x24d/0x1000 [nvmet_tcp f61749ac066e0812c28869697bc2623872f02bd4]
+>    ? datagram_poll+0x380/0x380
+>    nvmet_tcp_release_queue_work+0x25c/0x1000 [nvmet_tcp f61749ac066e0812c28869697bc2623872f02bd4]
+>    process_one_work+0x756/0xbc0
+>    ? rescuer_thread+0x13f0/0x13f0
+>    ? lock_acquired+0x2f2/0x930
+>    ? worker_thread+0xf55/0x1480
+>    worker_thread+0x97a/0x1480
+>    ? rcu_lock_release+0x20/0x20
+>    kthread+0x228/0x2b0
+>    ? rcu_lock_release+0x20/0x20
+>    ? kthread_blkcg+0xa0/0xa0
+>    ret_from_fork+0x1f/0x30
+>    </TASK>
 
