@@ -4,138 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE0DBC6FD20
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Mar 2023 01:47:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F7ADC6FD1C
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Mar 2023 04:39:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YKxyOdo0hr3MalEn6Fik7ugDWnvccA06Ew0AM4+oZfk=; b=Hr6KYSSs9mzSz0oszdxkE71WZ2
-	skmF/81Jdjm4+bv/2ajnrXFHJXRziaGO7ak7iyeYC7QJ0GuVpvcAI+bxzB3d2K8aiRDjAaD03uOEX
-	SS9gjRp9uO2c81rjBG/MNquEYYWG+olbANNplJ1MkLyLAznfoQZ17ymx1TXbmLtOFh1h56ReFSGoi
-	g0/IizqtIDOdGwbvGPrpDSmfnv0CdJPXsys4muDmumhYzuFxn79wbIJYsaPXO0S3+CAv5suHPe675
-	lOAiHLoAjW6O8+JQjczU9IvZllQ1dWOZLADNPv4mAHWWpYb0R02Jyfrm5AOSaaQF5ZneKMuv15Oh9
-	d7KGgM/Q==;
+	bh=uk4QuqOxBho0sCIkPTnkCL5InUVkQbEOInCMXjk8Awg=; b=oeKW7FTX7VX4uBZCfYSWIIHzZv
+	Tlo/auWWdg/HLBQDt82HsCNS8fWjL2cRL2h+sOZp6YwED7yqJ3SZ5ZMIXxZN9WMBrcmT5Xw90+EpW
+	5SIF+ckb6SdugwYbxubdGc2vFriphtbRr3LTxZd+fNQ6wavJZHydQwmPMHaFEDk/lLdWqxAt/wEql
+	z4FwZxOKav7m3mKY7Jhw5pKDRwFJ/J8OC1sFDTqEYjnG0w4F2JXAhvcm2qZNf+eQ3/1FmK8+CiHEc
+	YIXIZRurgMNu9yv01WUWK+9GEinUkl05M5ItlwDwyXYBc16HemM+r7v1PBygRPZBbDo4gdWInKO45
+	3XjrTJhQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1penZx-00EGpA-1D;
-	Wed, 22 Mar 2023 01:47:53 +0000
-Received: from mail-bn8nam11on20601.outbound.protection.outlook.com ([2a01:111:f400:7eae::601] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+	id 1peqG0-00EadB-0m;
+	Wed, 22 Mar 2023 04:39:28 +0000
+Received: from mga07.intel.com ([134.134.136.100])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1penZu-00EGni-12
+	id 1peqFw-00EacK-2t
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Mar 2023 01:47:51 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JenRCgIbIgCwZbp9F2GifnnesuaQSieahg9rDmy+Kglh+q5WZmRs5A5WPjL1UGq6bj3WBzqYOiY22QuAAZLeAIId43OIMcKAO6HISpXNh749TqkIAs7ScI68Xv37pgIaIwtWGhh0oljCqwM6bigZYOjM+Ar21Z78vJmJcsVDfzmF49KwiV2VG1nO2/G+IbhXGon7ack1AYa3cYZtck1bXimQ8t0wbxr3cj5PnXhIcpu+ONP64aSJ2NTq5PSPMbf8g8QYVoMhaYnVY/RBpdzDLunC98UygXr7TJKYxhFEADK5bppD+hwG3vboZ+Ih7DNuXg/6wtByodMVBilAzAQBvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YKxyOdo0hr3MalEn6Fik7ugDWnvccA06Ew0AM4+oZfk=;
- b=lJy6EQwqV14qhG5z+LYAvBOV+gB0nrOdpTHZUJHF2xJYegO8+4Vb6wIfUSomGKMEmPQeT0j2+h0TbWVUbyduOqaaZr/RtslOf24MSZKILy2A0ah+Uau4yE9WR177oYZDe6ovoAWb37r/5+nATAyP0KI16IhVdH2+BxXSH0dsmK0vto08F7/Q2VQoPYZLD+kQ63OK1jI7b9RKVNeSFSErL9inQNQQ17Oe15qndPj80rdO1uHJoPS6FkoJ5Ep+uOqZkr4M4FulzyicjpRE9trlK66cMNsRwz15K4z8Zwqsb3IoRHXMDcNnYc8RLlMqQhUCPbbVbX5qdcaLbxXcscarLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YKxyOdo0hr3MalEn6Fik7ugDWnvccA06Ew0AM4+oZfk=;
- b=opntq7kDJUbJTlv6o+gBbIzg4eFsk/HyajkA4gt7y0UiiBxTmMRwMUYbf+pzWAUUuDEUDvzMJUDkJE5uRuZ5zDbN0inKscPvJQUNjGC77zYYGDI6GHbEV3rharaYivqADnpBowuGHb3OsjJMGmT4Kw9AvM4upJ+BDEttxzs51uq0XErRcUh+Kwhqg/cH1ZnmvWWsaMUnaw3RyuAwzQwImbWG0HdvjsGGi98F59OGea5Humm5MZAvwrtCHVHYy33fRYyftYGPSh9h62RDMT/8A2kvRYzTFf/oneM3UsLk85IuLKXEyP4t7ma1bR0Rj1J+F2RgfvT/ILUaMPy1r95GVg==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by SJ2PR12MB8063.namprd12.prod.outlook.com (2603:10b6:a03:4d1::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Wed, 22 Mar
- 2023 01:47:44 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::9f90:cf3d:d640:a90b]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::9f90:cf3d:d640:a90b%4]) with mapi id 15.20.6178.037; Wed, 22 Mar 2023
- 01:47:43 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Keith Busch <kbusch@meta.com>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, "axboe@kernel.dk" <axboe@kernel.dk>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>
-CC: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH 2/3] nvme: add polling options for loop target
-Thread-Topic: [PATCH 2/3] nvme: add polling options for loop target
-Thread-Index: AQHZXFSkM9XxFUNEzkyLN3US/HyS768GB+yA
-Date: Wed, 22 Mar 2023 01:47:43 +0000
-Message-ID: <29fcf1c7-56da-7f13-fae9-8571413e6100@nvidia.com>
-References: <20230322002350.4038048-1-kbusch@meta.com>
- <20230322002350.4038048-3-kbusch@meta.com>
-In-Reply-To: <20230322002350.4038048-3-kbusch@meta.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|SJ2PR12MB8063:EE_
-x-ms-office365-filtering-correlation-id: 57ef4046-fb9f-4b34-bf17-08db2a776df7
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  Vc5XiR8N6wpXRVG4opa/5q5R+jFWbIkxYouZZ5L4RWHz7E/EIN4oMSVvA89dM1RmdSu+3Vbjg9zkBQ/mkAn01iN7JnqIFBuoAl8cHvO45ZI+5s+ynagYUjIy5vS+xlRoNrzkS6yOPMg0VPBtb50KUGdeNYBd5ByQmG4aAE26RWKOG1hrV4C7HdrjZ90lblHSF5Dg6sXc1RiSyZtjOeNbGrh0hnTXjsAT7al7nwVwQO/5pzKz2ODvjQOeQ2qjTNJESfSzxSd2hZz0Gxs/RlrwXIyvhtFQqiozTpndpsB0FHyQLcYI+LpE327V1hMDYCQaO8e4oUH3qL5RqKbl8ORg75cyqjqSo59Lms4oP+ZbJf6o8Hnxt1bRqFpgieQWE2v/fZCrmEfPweynmtoFhm1pCqPqKILb6ArJvGM0dW2X11GxttIQk5vLiyapo6iBOxXrk597cRuYJp6ag+R6B4C0ZaSdStGWR7Q9o5SHt/b1DBOcVT4oPvVwN0wNtHUxOoCLI2x9KveWxYTwCmJeubVrHm45Av5q7eWogLgHmWzaFeghgF8d1YZdaIQIEJqyreg+oGk1p6XXjE1qEuL8sNo+vANbMJw5nEbrLKla+wcLXHS+mjpFLJZ4iwqLGYmQBypWvG+EuiCBmGaJTqd4uVScyr3VwDTjFJo7Vjx74tS51pHZL4y59I0VXekB2Ga6yqcgAkC7/0ZiUaMGYLTCCUpIXjxHi5jr+M1wiEkv5kNcQ35rbC2WE/ie8XodDDdpCdzatsAKrdauwNUYPKowSoDoeQ==
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(136003)(376002)(39860400002)(396003)(346002)(451199018)(5660300002)(8936002)(41300700001)(86362001)(558084003)(38070700005)(31696002)(36756003)(38100700002)(2906002)(122000001)(4326008)(6486002)(478600001)(2616005)(71200400001)(186003)(6512007)(6506007)(26005)(53546011)(31686004)(110136005)(66476007)(91956017)(316002)(8676002)(66946007)(66556008)(76116006)(64756008)(66446008)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?amt1cUFsMnZRZjNsdWtzczk0NXg3aVRUK2t3OUFZTjRhdnBOcFkwOVNvenAr?=
- =?utf-8?B?dVkybUI5cjRrQUZWZUw5b3VJeEMxUmNyb2tOWk9UR2preTQ2aHVVeTIyT3Bu?=
- =?utf-8?B?eGZuS3U5VzNKSzVPMU93a2szWW5XNHhhcnYzQnhYWUkrOHFVeTQram96K0xE?=
- =?utf-8?B?QUQ5UmhOTVcycmZnY2svSXpEZjNyRmJlWGM2MHh2SHRoa1I4UDZGcWVWZ01m?=
- =?utf-8?B?SEpMazBUQmVBbFB0WWxUZU5xZTBHNG1raFgwREVwVXBXcUtFOHlPOElINmZm?=
- =?utf-8?B?Z0VvbUNDTGZ5OWRGemtTbWUvWmRkMFA1bTVISDBVUzM1M3FDcDZSOGNId3VP?=
- =?utf-8?B?TVU0SGltWDBPUDJSdWcxajBUT0plZjg3dnljOGZaRFFsRTBpUkRoblhyL2Z3?=
- =?utf-8?B?ZUJwWU81UFNRTnRHcTl4bUZrVVZPTkx2a01aYkpRNkxiM1NaUlBoZkNzMUc5?=
- =?utf-8?B?YjRTM3RGVXhJeXd0cmlNQjhHN3cxUGYzbkJZVDZucndVQkMzOWtEVG81ZHlE?=
- =?utf-8?B?enhlMDgxbVR2QUozSlpUUmNsdWY3RnlNTTJjM3NEZ1NOREZ6WUFWQnE5SkVy?=
- =?utf-8?B?VmVlZzVPYTVhVSsvd3RvL3lqL3AzaEEvT1diTXVOazRUTVBvYWd1Wm5mREhn?=
- =?utf-8?B?ZU5iYXVTZTN0RG43MFRMME1qWXFJL2czMXhTelVZV0FZcElkempJa2RtY0xw?=
- =?utf-8?B?QmJrVmp3NlpzVW44TlpSM3Byb2xOQ3o1NytmNVMyQk4rRXd3aDUrU3l5U1l0?=
- =?utf-8?B?bHZSK2lqWlMvNDJzN2Q2MUU2Vk1zekRiVTF5QXlLdGsrZldKb1pXcXpIeXhK?=
- =?utf-8?B?cUFldlBiNEtUdE16dFIrK1Q0WWVGUEhKVk9jOFBPUjJjWFRXZ1BvQThWclp5?=
- =?utf-8?B?UkcwQzU2VkUrYmRXMjdpMFdIUmhEc3l1ZE15Y244QldpVThnbWN2d01DZkt3?=
- =?utf-8?B?TDFXQmEySUV6a0NPTUtYQzdUTFV2UnJ2V29MSWZkQThRNjcreXd2b2NVQURH?=
- =?utf-8?B?SE1EYWM2MEgyR0ozbjU0ZlZwOC9vVW5hT1FFVEp6SnJQV01IV24zaTZuTDgw?=
- =?utf-8?B?eURjbjlPOEFNcnpwT2dIZTBLazRSMVdxSE1FK0E5WDh1SlBqVG00OC85RUtU?=
- =?utf-8?B?VCs5d3RJMU5HZjFoNGQ2czlOK1NQUEY4V0tLN2F5eUhvQ1FFQ1VYRXk0dklU?=
- =?utf-8?B?RG1NOW43dktXajJveDFIQ0pnemJhK2xjT3UzVk8xb2txUXlURHpPSnJQcEI3?=
- =?utf-8?B?UTJuUDNBeW1va2hpWmJFbkZOZEVMWG5RRUVZbHkvNDVDUWh6cFBHNmxLRldt?=
- =?utf-8?B?a1kveDNRV2JSY0RraGhxOVhTSVFrSllSN3laZWRjTW53Si9iSFFwcjlXelJt?=
- =?utf-8?B?cXRSeVZjN3VlVWVZZ1h1R1hUOXRwZUtLbE5jSDdDeTBqbjFQeUU1NXk4U01s?=
- =?utf-8?B?QVpySVBkZXVQWE5XTG9rL3BhSzdBMGcyMlA3RVZ4YmRRRDVURTN3QnFBSlE5?=
- =?utf-8?B?Q2RvdlFQMEFqSlhSc0Zpb3JnbmtxSlBZVzBSM1hJYU9wV0xqZGl5azZBRTB3?=
- =?utf-8?B?MGRjcEtiKzRSQTNtck5ZcnJ2a3FGZjg5UzJLN3NWdE5UUVRoM1RDbm01Q1Ix?=
- =?utf-8?B?NHJqRVdORXdZRUp4cDBiWEMxeDhFMjVVVVdaVTZUUHpQTmtjTkttdkVxSzRQ?=
- =?utf-8?B?bTFVZC93a25PN0pWV2VxMW15dmN3dUNVeGRiaXIwUm9HUDFTUVAxb0pqREY4?=
- =?utf-8?B?cnFJZ1pDUllmcWNJa25FYXJWU3Q0ZGEyUkMyYytXTHA1WE1YUzVZcVJvTktX?=
- =?utf-8?B?a215ZS84b2tYUlFVUm81SG1sRU9Fd21ZMmlpMmQ1VXMxUklBVldnbFgrWmVJ?=
- =?utf-8?B?ZkNvak1ybnlaTXZGZ0lUVE9hSEExaDltR2RLT1VENjlsWWhEVDhzYm1pRDQy?=
- =?utf-8?B?d1QzUTg5eWJ1ejlEVWdLNEIwd2NWei9XMlJzaFNQY3VIS09OaW1QN2xqaTJB?=
- =?utf-8?B?dEF4SkhSdEV4U1dLeHQyT3kxazZxYlAyTFU2TjlQZXdVcVFrOWM5WjVCdEFQ?=
- =?utf-8?B?RTRINnpyTlRKdlU0RHU2L2NUVlNWOEowQ1VuN2o1UUxXb3U5bHZYUHZJV3dX?=
- =?utf-8?Q?Z6/O6lwhtb10HYIXDo1sZbmlr?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <EEBDBA9D41D43340A1F42E23214407F9@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Wed, 22 Mar 2023 04:39:26 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679459964; x=1710995964;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EUtBxfQNkr4Y9oF+6OQUVDoIGsoEayRjCUVAXz8EPbk=;
+  b=HvIjSa8X9eROmXghCNSEstUztpWgGNhgp+jQAvtz4OTzZTjutPQ4DUWt
+   xc0oLg2eXOga1k+JMeHPaW5MBCXB8WlW6tplespVYu1Fi/fsH3PHnMXEL
+   VpO0USAf1Ol2XFcW+y2TQUZf+NhgnCljk+9+WzM+3Fl5UpYzT4NDCou8M
+   4ZPZ0RTDqkShKGLcJEuwOpGFDCOlyp/n48/K68Mow7uNpqVFbgsDeJkxj
+   MDX8LZvJluyPp1FfuN3VGtyyLlHqEGWLpjRpOJ+yb1gvm9N+Ra9tMc1jp
+   94IVGPQKKq0O8uMQOpIFLhEIPy8dpDul1y04jlvjsRZhY+GM5fYgyX8u4
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="404009692"
+X-IronPort-AV: E=Sophos;i="5.98,280,1673942400"; 
+   d="scan'208";a="404009692"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 21:39:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="714280809"
+X-IronPort-AV: E=Sophos;i="5.98,280,1673942400"; 
+   d="scan'208";a="714280809"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 21 Mar 2023 21:39:17 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1peqFo-000Csc-2X;
+	Wed, 22 Mar 2023 04:39:16 +0000
+Date: Wed, 22 Mar 2023 12:38:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	axboe@kernel.dk, linux-nvme@lists.infradead.org, hch@lst.de,
+	sagi@grimberg.me
+Cc: oe-kbuild-all@lists.linux.dev, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH 1/3] nvme-fabrics: add queue setup helpers
+Message-ID: <202303221244.KMWQNHnu-lkp@intel.com>
+References: <20230322002350.4038048-2-kbusch@meta.com>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 57ef4046-fb9f-4b34-bf17-08db2a776df7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Mar 2023 01:47:43.6859
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3lsVFWhFHC8NarCt2+7Ad9MaAdNmWecCYXtLDTQOmPaAGL7lBs94mQqNk+nUkrAVDmSgAYw7bmgxMc+GDw2pRw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8063
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230322002350.4038048-2-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230321_184750_365437_7A278E78 
-X-CRM114-Status: GOOD (  10.47  )
+X-CRM114-CacheID: sfid-20230321_213924_977867_152F0161 
+X-CRM114-Status: GOOD (  15.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,11 +85,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMy8yMS8yMDIzIDU6MjMgUE0sIEtlaXRoIEJ1c2NoIHdyb3RlOg0KPiBGcm9tOiBLZWl0aCBC
-dXNjaCA8a2J1c2NoQGtlcm5lbC5vcmc+DQo+IA0KPiBUaGlzIGlzIGZvciBtb3N0bHkgZm9yIHRl
-c3RpbmcgcHVycG9zZXMuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBLZWl0aCBCdXNjaCA8a2J1c2No
-QGtlcm5lbC5vcmc+DQo+IC0tLQ0KDQpMR1RNLCBpdCB3aWxsIGJlIG5pY2UgdG8gaGF2ZSBhIGJs
-a3Rlc3RzIGZvciB0aGlzLA0KYXMgSSB0aGluayB0aGlzIGlzIHJlYWxseSB1c2VmdWwuDQoNClJl
-dmlld2VkLWJ5OiBDaGFpdGFueWEgS3Vsa2FybmkgPGtjaEBudmlkaWEuY29tPg0KDQotY2sNCg0K
-DQo=
+Hi Keith,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on linus/master v6.3-rc3 next-20230322]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/nvme-fabrics-add-queue-setup-helpers/20230322-082537
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20230322002350.4038048-2-kbusch%40meta.com
+patch subject: [PATCH 1/3] nvme-fabrics: add queue setup helpers
+config: arm-randconfig-r046-20230321 (https://download.01.org/0day-ci/archive/20230322/202303221244.KMWQNHnu-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/0acb3964621b925db18ebec1a6c57bc3c3446859
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Keith-Busch/nvme-fabrics-add-queue-setup-helpers/20230322-082537
+        git checkout 0acb3964621b925db18ebec1a6c57bc3c3446859
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/nvme/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303221244.KMWQNHnu-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/nvme/host/core.c:26:
+>> drivers/nvme/host/fabrics.h:222:29: warning: 'struct ib_device' declared inside parameter list will not be visible outside of this definition or declaration
+     222 |                      struct ib_device *dev, u32 io_queues[HCTX_MAX_TYPES]);
+         |                             ^~~~~~~~~
+--
+   In file included from drivers/nvme/host/core.c:26:
+>> drivers/nvme/host/fabrics.h:222:29: warning: 'struct ib_device' declared inside parameter list will not be visible outside of this definition or declaration
+     222 |                      struct ib_device *dev, u32 io_queues[HCTX_MAX_TYPES]);
+         |                             ^~~~~~~~~
+   In file included from drivers/nvme/host/trace.h:175,
+                    from drivers/nvme/host/core.c:30:
+   include/trace/define_trace.h:95:42: fatal error: ./trace.h: No such file or directory
+      95 | #include TRACE_INCLUDE(TRACE_INCLUDE_FILE)
+         |                                          ^
+   compilation terminated.
+
+
+vim +222 drivers/nvme/host/fabrics.h
+
+   205	
+   206	int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val);
+   207	int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val);
+   208	int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val);
+   209	int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl);
+   210	int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid);
+   211	int nvmf_register_transport(struct nvmf_transport_ops *ops);
+   212	void nvmf_unregister_transport(struct nvmf_transport_ops *ops);
+   213	void nvmf_free_options(struct nvmf_ctrl_options *opts);
+   214	int nvmf_get_address(struct nvme_ctrl *ctrl, char *buf, int size);
+   215	bool nvmf_should_reconnect(struct nvme_ctrl *ctrl);
+   216	bool nvmf_ip_options_match(struct nvme_ctrl *ctrl,
+   217			struct nvmf_ctrl_options *opts);
+   218	void nvme_set_io_queues(struct nvmf_ctrl_options *opts, u32 nr_io_queues,
+   219				u32 io_queues[HCTX_MAX_TYPES]);
+   220	unsigned int nvme_nr_io_queues(struct nvmf_ctrl_options *opts);
+   221	void nvme_map_queues(struct blk_mq_tag_set *set, struct nvme_ctrl *ctrl,
+ > 222			     struct ib_device *dev, u32 io_queues[HCTX_MAX_TYPES]);
+   223	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
 
