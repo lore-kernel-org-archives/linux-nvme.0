@@ -4,77 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1E21CC6FD1F
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Mar 2023 08:48:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C5CFC6FD1F
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Mar 2023 08:49:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=g62l6XWKVisznBRh39TbpQCsNS2EqQCxs5mPmVbplXU=; b=UvEt7sH6fPT7nBIiJ9lGNO/anv
-	mt8bUgyffWDVrt7Abbt7YIRmgAyJcYStSxxjDW8pXUAsiBD26OCAMl77gts5VH4EDihYvwHuYd+XP
-	LGTuo0hjUG9LH6Y/kfQ6S5vOUVH50P9fF80yIz6wrmu/l7u619NCC/Ds6ny+0l49IXseKP/Sf3oIN
-	wqWW9OPSArPsuBEA+O/mELrlfXKDJm3Z//qoaq7k6UQEAxy11ah1Mt2gRTA+CXzGkuBkTcd7bPed/
-	aUEmA69fK42RzzE5EhweOcL6Ym9fGltrl++WOBvYg1OCONZuZTOSCgKsUU2cq+PStZmXs+FboOyl9
-	KGAuU/oQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=jyzJCjEb3uLVZsp7cxfG/DqIFon8OUNxLH/9tEstvh8=; b=yhGqtdXCcRF1bQY8O7TToHBFOn
+	ygwMBUlQYsdyASF/90aIiUDhuU6qRQe2Ee40fC968aYgWqPmXFoQnJuFKIhlSDWOT5btwePFoYjMz
+	oKSy+nVNjjI8AkSpwk1waDl5f5rJd99mKeRap2tt07GXjHcLOnR/syf+9XUpX5toASqwz94zBi5+4
+	E6KjBH/RLeeTznFhb6GnvudGnwY42Y6c5TyDoUiBx8YK7Fns7p+GsANWrHhbin3QRY7mLyPJPeSVk
+	4Gw/STEsbzVCGk56vop+0QYrVo+R45vxIJSDBZE/ymWkTmy9exlZJNZggstdNWzSSyd4uQ8617pEs
+	zrwY0tKA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1peu97-00FF8g-1R;
-	Wed, 22 Mar 2023 08:48:37 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1peu9b-00FFHx-2N;
+	Wed, 22 Mar 2023 08:49:07 +0000
+Received: from mail-wr1-f44.google.com ([209.85.221.44])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1peu93-00FF7S-35
+	id 1peu9Z-00FFH5-0O
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Mar 2023 08:48:35 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 343D9224DD;
-	Wed, 22 Mar 2023 08:48:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1679474912; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g62l6XWKVisznBRh39TbpQCsNS2EqQCxs5mPmVbplXU=;
-	b=pz0Ww5BP0VlZE8TzCNiEAgnqPnI+Qn6PCnQkPrFc8Kq3XcN7f1FW3a3vAdxDSXWSjkBszr
-	99gvdx5Ht8oZKmUhh4a1OX/L/F28PfiL04VIKCaWzPCC5wUmlTiha1VmKGiqqWtyOf4obp
-	E79bb4UPyTozzSDbRZXiwval064goSo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1679474912;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g62l6XWKVisznBRh39TbpQCsNS2EqQCxs5mPmVbplXU=;
-	b=0yqQNLKPAXpQuT3Ju1qkVDXPlzvF4bxEOVniNrfY//gRYYbrl9l//fXp/24wsq25/7kcAr
-	KHP1ytFkFgNvneCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 25BC0138E9;
-	Wed, 22 Mar 2023 08:48:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id ZxMyCeDAGmQnSgAAMHmgww
-	(envelope-from <dwagner@suse.de>); Wed, 22 Mar 2023 08:48:32 +0000
-Date: Wed, 22 Mar 2023 09:48:31 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Keith Busch <kbusch@meta.com>
-Cc: linux-block@vger.kernel.org, axboe@kernel.dk,
-	linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
-	Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH 0/3] nvme fabrics polling fixes
-Message-ID: <20230322084831.qwdarhmrs3uv5y43@carbon.lan>
-References: <20230322002350.4038048-1-kbusch@meta.com>
+	Wed, 22 Mar 2023 08:49:06 +0000
+Received: by mail-wr1-f44.google.com with SMTP id v25so12684527wra.12
+        for <linux-nvme@lists.infradead.org>; Wed, 22 Mar 2023 01:49:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679474943;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jyzJCjEb3uLVZsp7cxfG/DqIFon8OUNxLH/9tEstvh8=;
+        b=6lKyPXSeafNStL+lQZlpv4AiqWO3Gc90+F4FKQHpQuQRppCON7S6tu2KMvVvT6uqpa
+         UJgL6+fVRSL75tqGEkYtG1tpi5JNqEKxfuKu4WcMlO6XiqGZlpyjQ4G/mgmD2oElUfp8
+         G5uPbV4gr8wJaMH2DQmsZFqcNQDYkFODuXkMVc5Ec2By+bGOWK3e5Qzu2sza+Q3AjSMY
+         bcBL+LhDIbIGQfaKzhkqa3mDKeXwoHz+PJ9JvTTZ3yVAI9dTXd7qWit/Ewwh37IYa8bp
+         NEB1k2ncLz/FJrkfW+EfE1zUojpd7LepjdGw+a9ZDeW833um0Tlbb8hAC//wdwWCncXj
+         C+pg==
+X-Gm-Message-State: AO0yUKUL5gYihO86RtJUcMZVbXqyunlXy06oeQ4jF3eb9FWj7lENYcOj
+	iDr1/aeWSJwOu5SzPhQ7sps=
+X-Google-Smtp-Source: AK7set9W7ZqKSwztAWJSyPyxEf8ZvRdhlJzLFh1FsEOSXyYcenAg3oOct09itrpgkHMrNArwOmtRSQ==
+X-Received: by 2002:a5d:6e54:0:b0:2d2:9c19:f75 with SMTP id j20-20020a5d6e54000000b002d29c190f75mr3719388wrz.1.1679474943263;
+        Wed, 22 Mar 2023 01:49:03 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id d12-20020adffbcc000000b002c54e26bca5sm13357345wrs.49.2023.03.22.01.49.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Mar 2023 01:49:03 -0700 (PDT)
+Message-ID: <7480845a-1a95-2801-a929-b6b3dc0ad88d@grimberg.me>
+Date: Wed, 22 Mar 2023 10:49:01 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230322002350.4038048-1-kbusch@meta.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 02/18] nvme-keyring: define a 'psk' keytype
+Content-Language: en-US
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Chuck Lever <cel@kernel.org>, kernel-tls-handshake@lists.linux.dev
+References: <20230321124325.77385-1-hare@suse.de>
+ <20230321124325.77385-3-hare@suse.de>
+ <d5ca39af-ff50-db27-ab1b-a8c57d2152b9@grimberg.me>
+ <fa1f8cd0-4bb7-c3cc-f4ca-64e2f877b528@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <fa1f8cd0-4bb7-c3cc-f4ca-64e2f877b528@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230322_014834_144252_BC8F4F81 
-X-CRM114-Status: GOOD (  13.63  )
+X-CRM114-CacheID: sfid-20230322_014905_157299_83F7EEE5 
+X-CRM114-Status: GOOD (  23.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,207 +85,129 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 21, 2023 at 05:23:47PM -0700, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
+
+>> On 3/21/23 14:43, Hannes Reinecke wrote:
+>>> Define a 'psk' keytype to hold the NVMe TLS PSKs.
+>>>
+>>> Signed-off-by: Hannes Reinecke <hare@suse.de>
+>>> ---
+>>>   drivers/nvme/common/keyring.c | 96 +++++++++++++++++++++++++++++++++++
+>>>   include/linux/nvme-keyring.h  |  8 +++
+>>>   2 files changed, 104 insertions(+)
+>>>
+>>> diff --git a/drivers/nvme/common/keyring.c 
+>>> b/drivers/nvme/common/keyring.c
+>>> index 3a6e8a0b38e2..6cbb9d66e0f6 100644
+>>> --- a/drivers/nvme/common/keyring.c
+>>> +++ b/drivers/nvme/common/keyring.c
+>>> @@ -11,6 +11,96 @@
+>>>   static struct key *nvme_keyring;
+>>> +key_serial_t nvme_keyring_id(void)
+>>> +{
+>>> +    return nvme_keyring->serial;
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(nvme_keyring_id);
+>>> +
+>>> +static void nvme_tls_psk_describe(const struct key *key, struct 
+>>> seq_file *m)
+>>> +{
+>>> +    seq_puts(m, key->description);
+>>> +    seq_printf(m, ": %u", key->datalen);
+>>> +}
+>>> +
+>>> +static bool nvme_tls_psk_match(const struct key *key,
+>>> +                   const struct key_match_data *match_data)
+>>> +{
+>>> +    const char *match_id;
+>>> +    size_t match_len;
+>>> +
+>>> +    if (!key->description) {
+>>> +        pr_debug("%s: no key description\n", __func__);
+>>> +        return false;
+>>> +    }
+>>> +    match_len = strlen(key->description);
+>>> +    pr_debug("%s: id %s len %zd\n", __func__, key->description, 
+>>> match_len);
+>>> +
+>>> +    if (!match_data->raw_data) {
+>>> +        pr_debug("%s: no match data\n", __func__);
+>>> +        return false;
+>>> +    }
+>>> +    match_id = match_data->raw_data;
+>>> +    pr_debug("%s: match '%s' '%s' len %lu\n",
+>>> +         __func__, match_id, key->description, match_len);
+>>> +    return !memcmp(key->description, match_id, match_len);
+>>> +}
+>>> +
+>>> +static int nvme_tls_psk_match_preparse(struct key_match_data 
+>>> *match_data)
+>>> +{
+>>> +    match_data->lookup_type = KEYRING_SEARCH_LOOKUP_ITERATE;
+>>> +    match_data->cmp = nvme_tls_psk_match;
+>>> +    return 0;
+>>> +}
+>>> +
+>>> +static struct key_type nvme_tls_psk_key_type = {
+>>> +    .name           = "psk",
+>>> +    .flags          = KEY_TYPE_NET_DOMAIN,
+>>> +    .preparse       = user_preparse,
+>>> +    .free_preparse  = user_free_preparse,
+>>> +    .match_preparse = nvme_tls_psk_match_preparse,
+>>> +    .instantiate    = generic_key_instantiate,
+>>> +    .revoke         = user_revoke,
+>>> +    .destroy        = user_destroy,
+>>> +    .describe       = nvme_tls_psk_describe,
+>>> +    .read           = user_read,
+>>> +};
+>>> +
+>>
+>> Hannes, can you please provide a documentation section
+>> to this function? most importantly 'generated' argument.
+>>
+> Sure. There are two types of PSK types specified in the NVMe TCP spec;
+> a 'retained' one which has to be provided by the admin, and a 
+> 'generated' one which is derived from the shared key material from 
+> DH-HMAC-CHAP when doing a secure channel concatenation.
+> And each type has two possible hash algorithms (SHA-256 and SHA-384),
+> resulting in 4 possible PSKs.
 > 
-> I couldn't test the existing tcp or rdma options, so I had to make a
-> loop poll option. The last patch fixes the polling queues when used with
-> fabrics.
+> And indeed, the secure channel concatenation bits are missing as we're 
+> still hashing out details at the fmds group.
+> I do have a patchset for that, though, but decided not to include it in 
+> this submission as it'll increase the patchset even more.
+> Can do if you like ...
+
+I'd prefer to split the secure channel concatenation out of this.
+But it would be good to give some context in the code.
+
+Also the bool is confusing, can you make this an enumeration that
+translates to 'G' or 'R' and pass that in?
+
 > 
-> Note, this depends on patch I sent earlier today that I should have just
-> included in this series:
+> But will be updating the documentation.
 > 
->   https://lore.kernel.org/linux-block/20230321215001.2655451-1-kbusch@meta.com/T/#u
+>>> +struct key *nvme_tls_psk_lookup(key_ref_t keyring,
+>>> +        const char *hostnqn, const char *subnqn,
+>>> +        int hmac, bool generated)
+>>> +{
+>>> +    char *identity;
+>>> +    size_t identity_len = (NVMF_NQN_SIZE) * 2 + 11;
+>>> +    key_ref_t keyref;
+>>> +    key_serial_t keyring_id;
+>>> +
+>>> +    identity = kzalloc(identity_len, GFP_KERNEL);
+>>> +    if (!identity)
+>>> +        return ERR_PTR(-ENOMEM);
+>>> +
+>>> +    snprintf(identity, identity_len, "NVMe0%c%02d %s %s",
+>>> +         generated ? 'G' : 'R', hmac, hostnqn, subnqn);
+>>
+>> Is that a format that is expected from userspace to produce?
+>>
+> Yes. See
+> NVMe-TCP 1.0a section 3.6.1.3 "TLS PSK and PSK Identity Derivation"
+> for details.
+> 
 
-I've tested this series with
-
-  https://github.com/igaw/blktests/tree/queue-counts
-
-and while for rdma all is good I got a lockdep warning for tcp:
-
-
- ======================================================
- WARNING: possible circular locking dependency detected
- 6.3.0-rc1+ #15 Tainted: G        W
- ------------------------------------------------------
- kworker/6:0/54 is trying to acquire lock:
- ffff888121d88030 ((work_completion)(&queue->io_work)){+.+.}-{0:0}, at: __flush_work+0xb9/0x170
-
- but task is already holding lock:
- ffff888100b0fd20 ((work_completion)(&queue->release_work)){+.+.}-{0:0}, at: process_one_work+0x707/0xbc0
-
- which lock already depends on the new lock.
-
-
- the existing dependency chain (in reverse order) is:
-
- -> #2 ((work_completion)(&queue->release_work)){+.+.}-{0:0}:
-        lock_acquire+0x13a/0x310
-        process_one_work+0x728/0xbc0
-        worker_thread+0x97a/0x1480
-        kthread+0x228/0x2b0
-        ret_from_fork+0x1f/0x30
-
- -> #1 ((wq_completion)nvmet-wq){+.+.}-{0:0}:
-        lock_acquire+0x13a/0x310
-        __flush_workqueue+0x185/0x14e0
-        nvmet_tcp_install_queue+0x63/0x270 [nvmet_tcp]
-        nvmet_install_queue+0x2b1/0x6a0 [nvmet]
-        nvmet_execute_admin_connect+0x381/0x880 [nvmet]
-        nvmet_tcp_io_work+0x15e8/0x8f60 [nvmet_tcp]
-        process_one_work+0x756/0xbc0
-        worker_thread+0x97a/0x1480
-        kthread+0x228/0x2b0
-        ret_from_fork+0x1f/0x30
-
- -> #0 ((work_completion)(&queue->io_work)){+.+.}-{0:0}:
-        validate_chain+0x19f1/0x6d50
-        __lock_acquire+0x122d/0x1e90
-        lock_acquire+0x13a/0x310
-        __flush_work+0xd5/0x170
-        __cancel_work_timer+0x36b/0x470
-        nvmet_tcp_release_queue_work+0x25c/0x1000 [nvmet_tcp]
-        process_one_work+0x756/0xbc0
-        worker_thread+0x97a/0x1480
-        kthread+0x228/0x2b0
-        ret_from_fork+0x1f/0x30
-
- other info that might help us debug this:
-
- Chain exists of:
-   (work_completion)(&queue->io_work) --> (wq_completion)nvmet-wq --> (work_completion)(&queue->release_work)
-
-  Possible unsafe locking scenario:
-
-        CPU0                    CPU1
-        ----                    ----
-   lock((work_completion)(&queue->release_work));
-                                lock((wq_completion)nvmet-wq);
-                                lock((work_completion)(&queue->release_work));
-   lock((work_completion)(&queue->io_work));
-
-  *** DEADLOCK ***
-
- 2 locks held by kworker/6:0/54:
-  #0: ffff888109ff6d48 ((wq_completion)nvmet-wq){+.+.}-{0:0}, at: process_one_work+0x6c8/0xbc0
-  #1: ffff888100b0fd20 ((work_completion)(&queue->release_work)){+.+.}-{0:0}, at: process_one_work+0x707/0xbc0
-
- stack backtrace:
- CPU: 6 PID: 54 Comm: kworker/6:0 Tainted: G        W          6.3.0-rc1+ #15 f4d05de834b07d62567d33b70ec70fb0fa06f103
- Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015
- Workqueue: nvmet-wq nvmet_tcp_release_queue_work [nvmet_tcp]
- Call Trace:
-  <TASK>
-  dump_stack_lvl+0x5a/0x80
-  check_noncircular+0x2c8/0x390
-  ? add_chain_block+0x5e0/0x5e0
-  ? ret_from_fork+0x1f/0x30
-  ? lockdep_lock+0xd3/0x260
-  ? stack_trace_save+0x10a/0x1e0
-  ? stack_trace_snprint+0x100/0x100
-  ? check_noncircular+0x1a6/0x390
-  validate_chain+0x19f1/0x6d50
-  ? lockdep_unlock+0x9e/0x1f0
-  ? validate_chain+0x15b2/0x6d50
-  ? reacquire_held_locks+0x510/0x510
-  ? reacquire_held_locks+0x510/0x510
-  ? reacquire_held_locks+0x510/0x510
-  ? add_lock_to_list+0xbf/0x2c0
-  ? lockdep_unlock+0x9e/0x1f0
-  ? validate_chain+0x15b2/0x6d50
-  ? reacquire_held_locks+0x510/0x510
-  ? reacquire_held_locks+0x510/0x510
-  ? xfs_buf_find_lock+0xb0/0x430 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? reacquire_held_locks+0x510/0x510
-  ? validate_chain+0x176/0x6d50
-  ? trace_lock_acquired+0x7b/0x180
-  ? lock_is_held_type+0x8b/0x110
-  ? lock_is_held_type+0x8b/0x110
-  ? rcu_read_lock_sched_held+0x34/0x70
-  ? reacquire_held_locks+0x510/0x510
-  ? xfs_buf_get_map+0xd72/0x11a0 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? lock_is_held_type+0x8b/0x110
-  ? rcu_read_lock_sched_held+0x34/0x70
-  ? trace_xfs_buf_read+0x7c/0x180 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? xfs_buf_read_map+0x111/0x700 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? lock_is_held_type+0x8b/0x110
-  ? lock_is_held_type+0x8b/0x110
-  ? xfs_btree_read_buf_block+0x205/0x300 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? rcu_read_lock_sched_held+0x34/0x70
-  ? trace_xfs_trans_read_buf+0x79/0x170 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? xfs_btree_read_buf_block+0x205/0x300 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? xfs_trans_read_buf_map+0x303/0x4f0 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? trace_xfs_trans_getsb+0x170/0x170 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? xfs_verify_fsbno+0x74/0x130 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? xfs_btree_ptr_to_daddr+0x19b/0x660 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? xfs_buf_set_ref+0x1d/0x50 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? xfs_btree_read_buf_block+0x233/0x300 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? mark_lock+0x8f/0x320
-  ? xfs_btree_readahead+0x250/0x250 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? xfs_verify_fsbno+0x74/0x130 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? xfs_btree_ptr_to_daddr+0x19b/0x660 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? xfs_dio_write_end_io+0x32f/0x3f0 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? xfs_dio_write_end_io+0x32f/0x3f0 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? xfs_dio_write_end_io+0x32f/0x3f0 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? xfs_dio_write_end_io+0x32f/0x3f0 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? __module_address+0x86/0x1e0
-  ? ret_from_fork+0x1f/0x30
-  ? deref_stack_reg+0x17f/0x210
-  ? ret_from_fork+0x1f/0x30
-  ? unwind_next_frame+0x16b/0x2240
-  ? ret_from_fork+0x1f/0x30
-  ? stack_trace_save+0x1e0/0x1e0
-  ? arch_stack_walk+0xb7/0xf0
-  ? lock_is_held_type+0x8b/0x110
-  ? find_busiest_group+0x104e/0x2480
-  ? load_balance+0x2540/0x2540
-  ? stack_trace_save+0x10a/0x1e0
-  ? mark_lock+0x8f/0x320
-  ? __lock_acquire+0x122d/0x1e90
-  ? lock_is_held_type+0x8b/0x110
-  ? rcu_lock_acquire+0x30/0x30
-  ? xfs_buf_ioend+0x248/0x450 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? xfs_buf_ioend+0x248/0x450 [xfs e56ce85f3b18232dbd061be3c73dc29bed4ad37b]
-  ? __module_address+0x86/0x1e0
-  ? ret_from_fork+0x1f/0x30
-  ? deref_stack_reg+0x17f/0x210
-  ? ret_from_fork+0x1f/0x30
-  ? unwind_next_frame+0x16b/0x2240
-  ? stack_trace_save+0x10a/0x1e0
-  ? deref_stack_reg+0x17f/0x210
-  ? look_up_lock_class+0x65/0x130
-  ? register_lock_class+0x5d/0x860
-  ? mark_lock+0x8f/0x320
-  __lock_acquire+0x122d/0x1e90
-  lock_acquire+0x13a/0x310
-  ? __flush_work+0xb9/0x170
-  ? read_lock_is_recursive+0x10/0x10
-  ? lock_is_held_type+0x8b/0x110
-  ? rcu_lock_acquire+0x30/0x30
-  __flush_work+0xd5/0x170
-  ? __flush_work+0xb9/0x170
-  ? flush_work+0x10/0x10
-  ? lock_is_held_type+0x8b/0x110
-  ? __lock_acquire+0x1e90/0x1e90
-  ? do_raw_spin_unlock+0x112/0x890
-  ? mark_lock+0x8f/0x320
-  ? lockdep_hardirqs_on_prepare+0x2d5/0x610
-  __cancel_work_timer+0x36b/0x470
-  ? cancel_work_sync+0x10/0x10
-  ? mark_lock+0x8f/0x320
-  ? lockdep_hardirqs_on_prepare+0x2d5/0x610
-  ? nvmet_tcp_release_queue_work+0x24d/0x1000 [nvmet_tcp f61749ac066e0812c28869697bc2623872f02bd4]
-  ? datagram_poll+0x380/0x380
-  nvmet_tcp_release_queue_work+0x25c/0x1000 [nvmet_tcp f61749ac066e0812c28869697bc2623872f02bd4]
-  process_one_work+0x756/0xbc0
-  ? rescuer_thread+0x13f0/0x13f0
-  ? lock_acquired+0x2f2/0x930
-  ? worker_thread+0xf55/0x1480
-  worker_thread+0x97a/0x1480
-  ? rcu_lock_release+0x20/0x20
-  kthread+0x228/0x2b0
-  ? rcu_lock_release+0x20/0x20
-  ? kthread_blkcg+0xa0/0xa0
-  ret_from_fork+0x1f/0x30
-  </TASK>
+Yes, I see it now. Thanks.
 
