@@ -4,91 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E968CC6FD1C
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Mar 2023 15:58:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E08DAC6FD1C
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Mar 2023 17:50:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gGyjbK25A5fLzkX+hIsW9kQZpkrTVOcdb2FDSKVkFPQ=; b=lOsxDsWI9OLNkIy4/nhEePDlCx
-	wUfv4Vhz1kQwFAxCsldsQvk6C33n4AzQPFOGkUx3pw1FLvdPOifGTm319e3SRn0Ph9BiHOI2Snkq3
-	4htZX1NYNlwXc3CgFCGXMeU94nyDvt5sNgU3bAWLZNlcEfmv/MIdQLPAedNH6EJF1Eq4uw71xgPGq
-	F5CVEzPLld1gPfPFs13PcpXSzExj7g9hXPXgKS98ok9waGJwH1MRLfQraf8HhIzUKFOVe08VCpkJw
-	Rqrq0TuUU2TT7n3hHIcT6mcrPjXYQjULvW/QhXdSKK3upcDBFsmm9mBj1iW4RgWGMzaFY2SkK6G/R
-	OA7GgGhw==;
+	bh=NnDzCLszP5/Q6ndlIapxQXAyg2mwpLo5xgavVMn2PYk=; b=mwwuGDsXv5u/Q6sChQ7xNN1IB/
+	Rp1nZrp5m/p3WOsfKxUVPk/HsS1YvdGPhrjjygnCmCL2Sc3D3ZFTer9X1AZuWtp/q7yQrE5+eXEaK
+	xIEXUO3apda0h4W2RqddM4a04ZG+37OSH9TuhwsqFYbERgQzAEjQssMqsK2MyahGhf9gCpcsEvocH
+	SthIN1F+6cdgJPOpzDyqgBkh0TnXaY/4G7+EcUrbvecgUGBlr2Ts3M69UxP4EdHr1bThizJS+MQim
+	TCpiVCYX+m520kIsZQRhZdWcJRPhEWD8+lp72n8lvSoZjy/YqjxrDJfIA3+aLgP3M2VoTQ8B26koY
+	wB7EweCQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pfNKD-002PSv-1P;
-	Thu, 23 Mar 2023 15:58:01 +0000
-Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831])
+	id 1pfP56-002f2e-3A;
+	Thu, 23 Mar 2023 17:50:32 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pfNKA-002PRX-06
+	id 1pfP53-002f2J-18
 	for linux-nvme@lists.infradead.org;
-	Thu, 23 Mar 2023 15:57:59 +0000
-Received: by mail-qt1-x831.google.com with SMTP id hf2so22928943qtb.3
-        for <linux-nvme@lists.infradead.org>; Thu, 23 Mar 2023 08:57:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1679587074;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gGyjbK25A5fLzkX+hIsW9kQZpkrTVOcdb2FDSKVkFPQ=;
-        b=E0rgqX50pLyXP+81+1VFu1+NvLWajW6EaC3lQOvlQNz/J96UCIafgWL1SnIW6Z3a6b
-         nX+J4CA4xizxiSkXAXeSTQRXfD6uANpHRDaDuMJN95SzmcBLSE3pZo0fGsFzTjFlrRDu
-         5xaxx0qu0JhEPzo6krnUO7av0rJslRwPNXE+c9dOKobwZhqu4d7arwob0WlS2MiPrHzN
-         LiQNBbizMO9hdSZLEJyCjyyfq/99Byf9WYTWxHP4Wgvjq4Dm73jKUR590EKwZZKl3u1S
-         3oNI0bP5sc6q01/oh46moJXIW/BeQcwlyp0vJWZx4PTw7H+UDl51LHzn8FSZIxYFWmwU
-         3UxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679587074;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gGyjbK25A5fLzkX+hIsW9kQZpkrTVOcdb2FDSKVkFPQ=;
-        b=JTgrRmIluqiijFH1k3Mu6Qfm0eKefRNQv97i8gjRXa0ywWbFyyh8Q4aa5+5qwRXeYr
-         y1GBJ0iqSO6L3KCq4df7HpsmcI5Yf+nC/J33tJHK2KDX84FhZh7AFMYSA/63f4DDcfB5
-         d6E40l1ZFo8gOjAnzud7dW+UrlW4oIj3miY0vcchpiDM0EnGkwcVCzLHCWFveShkT1hd
-         S505S/gbedF5zKctlB0jNZSy/jUsx9D1Y4HdCJPIN7naeVN/N7fco+XxQj9z4HI5kI0D
-         lLi9wyufZEn3G/ObBlMFSGAK3Qo1ZwNVxJz56GqbVCNArUyIdJAs8t0xBHvOfJEv5n1X
-         DnsQ==
-X-Gm-Message-State: AO0yUKXB9mt6/k58lp9/KDVuCKjk9dLn71pb5NvYpx3wS+JMbYHLiPpt
-	GD5TlBqplNz164xru2yUd7ZTCBnOnb3JsnAzlDk=
-X-Google-Smtp-Source: AK7set+C0r03cEybZ+1MOP3W3s0zXKghh6HbhSu+aoQAuNc5b+ZpVQmRxxUfyLjMcNbp/TYds5SVyw==
-X-Received: by 2002:a05:622a:18f:b0:3bf:e13e:438f with SMTP id s15-20020a05622a018f00b003bfe13e438fmr9905893qtw.36.1679587074059;
-        Thu, 23 Mar 2023 08:57:54 -0700 (PDT)
-Received: from ziepe.ca ([206.223.160.26])
-        by smtp.gmail.com with ESMTPSA id n69-20020a374048000000b00743a0096e8csm13480280qka.39.2023.03.23.08.57.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 08:57:53 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1pfNK4-001UO9-Ei;
-	Thu, 23 Mar 2023 12:57:52 -0300
-Date: Thu, 23 Mar 2023 12:57:52 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Leon Romanovsky <leon@kernel.org>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	linux-rdma@vger.kernel.org
-Subject: Re: [PATCH] blk-mq-rdma: remove queue mapping helper for rdma devices
-Message-ID: <ZBx3AI5pothCuvTx@ziepe.ca>
-References: <20230322123703.485544-1-sagi@grimberg.me>
- <ZBr6kNVoa5RbNzSa@ziepe.ca>
- <c51d3d99-5bc9-cb47-6efa-5371ef3cc0f4@grimberg.me>
- <ZBsHnq6FlpO0p10A@ziepe.ca>
- <20230323120515.GE36557@unreal>
- <ZBxOHZwre3x8DkWN@ziepe.ca>
- <e1b00740-3c75-8b90-4d68-76a5f341a117@grimberg.me>
+	Thu, 23 Mar 2023 17:50:30 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 47D57B821CB;
+	Thu, 23 Mar 2023 17:50:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FFDAC433EF;
+	Thu, 23 Mar 2023 17:50:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1679593826;
+	bh=NnDzCLszP5/Q6ndlIapxQXAyg2mwpLo5xgavVMn2PYk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MH/RLus1jv1RgOe9+NF4gx4+6X9Wt983pTnsrxsz+5zJK1hpTIJ6lqcNH1QldZ6fK
+	 eTSUvTsIbIgK1PwUSwXGR19maWBezKSZPT0qB6O946HxcuhP1NQOfNzsKR6ztIvDwE
+	 vTsZrcUUrs/JJ8QYUMnPUJQz0xuHe02R8E6iDoNgOeKF7eVJ+ix/UJgV0EIsa0av1u
+	 aZab1wq+m443PmmC6rZOf3kj9feIxCny9KkU9qfH+T9BEt0tVuVGbcMGyeuvanqaYw
+	 HVRBqdR/NBQlLecy9hBl4iTAK4UPZeorNphdLuXnnoU8gge+8QJ1Ho3VNoa4d+BKzD
+	 58532jjpRsx5Q==
+Date: Thu, 23 Mar 2023 11:50:23 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
+	hare@suse.de
+Subject: Re: [PATCH 5/9] nvme-core: use normal pattern
+Message-ID: <ZByRXlzJg2XaZAXh@kbusch-mbp.dhcp.thefacebook.com>
+References: <20230323033636.812758-1-kch@nvidia.com>
+ <20230323033636.812758-6-kch@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e1b00740-3c75-8b90-4d68-76a5f341a117@grimberg.me>
+In-Reply-To: <20230323033636.812758-6-kch@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230323_085758_369738_C61CC795 
-X-CRM114-Status: GOOD (  25.48  )
+X-CRM114-CacheID: sfid-20230323_105029_556051_0917D4AB 
+X-CRM114-Status: GOOD (  10.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,50 +74,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 23, 2023 at 05:07:24PM +0200, Sagi Grimberg wrote:
-> 
-> > > > > > > No rdma device exposes its irq vectors affinity today. So the only
-> > > > > > > mapping that we have left, is the default blk_mq_map_queues, which
-> > > > > > > we fallback to anyways. Also fixup the only consumer of this helper
-> > > > > > > (nvme-rdma).
-> > > > > > 
-> > > > > > This was the only caller of ib_get_vector_affinity() so please delete
-> > > > > > op get_vector_affinity and ib_get_vector_affinity() from verbs as well
-> > > > > 
-> > > > > Yep, no problem.
-> > > > > 
-> > > > > Given that nvme-rdma was the only consumer, do you prefer this goes from
-> > > > > the nvme tree?
-> > > > 
-> > > > Sure, it is probably fine
-> > > 
-> > > I tried to do it two+ years ago:
-> > > https://lore.kernel.org/all/20200929091358.421086-1-leon@kernel.org
-> > 
-> > Christoph's points make sense, but I think we should still purge this
-> > code.
-> > 
-> > If we want to do proper managed affinity the right RDMA API is to
-> > directly ask for the desired CPU binding when creating the CQ, and
-> > optionally a way to change the CPU binding of the CQ at runtime.
-> 
-> I think the affinity management is referring to IRQD_AFFINITY_MANAGED
-> which IIRC is the case when the device passes `struct irq_affinity` to
-> pci_alloc_irq_vectors_affinity.
-> 
-> Not sure what that has to do with passing a cpu to create_cq.
+On Wed, Mar 22, 2023 at 08:36:32PM -0700, Chaitanya Kulkarni wrote:
+> Although return is allowed in the switch ... case when function is
+> returing void, it creates confusion for future code which is desirable
+> pattern to use for switch ... case. Repalce return in the switch with
+> break that is standard pattern for the switch ... case.
 
-I took Christoph's remarks to be that the system should auto configure
-interrupts sensibly and not rely on userspace messing around in proc.
-
-For instance, I would expect that the NVMe driver work the same way on
-RDMA and PCI. For PCI it calls pci_alloc_irq_vectors_affinity(), RDMA
-should call some ib_alloc_cq_affinity() and generate the affinity in
-exactly the same way.
-
-So, I have no problem to delete these things as the
-get_vector_affinity API is not part of solving the affinity problem,
-and it seems NVMe PCI doesn't need blk_mq_rdma_map_queues() either.
-
-Jason
+The previous patch replaced 'break' with 'return', and this one does the
+opposite. What's special about a void return that makes this a standard
+pattern?
 
