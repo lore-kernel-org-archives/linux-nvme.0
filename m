@@ -4,89 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87040C76195
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Mar 2023 13:03:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9874EC6FD1C
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Mar 2023 15:07:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JT5kxqVOLNs1cddye30QvhqujBIE6P8vkXfghBDUxrs=; b=ZSyBb2Mfmwa0h3sNhXyr27ou+A
-	IB80tS0YnmnKrEG2Kn9AVPfNrBtWzh8O/iDeAnYS37v+rNYHGb/ilTvJFiz1fhaT1x55b6fZCTwi7
-	mcgiMAwJefaa2+DwTGelctq5apZmt1fUgqdAeWGK/PVFvd/LsUJmwIeDj/61AApid8zeEDJAUoYl+
-	k3MmXurJ39h/DIYFFOz9Fp1JJVTp62BASdx8HQPGNevpxiyI2fh1Tf5kqXWn96fa6RAfXAB1x+2xA
-	Oy3P6JGiaB8r4AGNun833+GzHmBdxuWIiW9iy+vFRGZktkqA6ZosI9szNK0A6jZ9GeMvP9mUQis5u
-	ky/EwDGw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=W5eaU9UI5gNRoVJmBelB0AByjFrGD8ImlIIGOOSTiYM=; b=Vd7Vm0qnWuXpoD8fKcOuuhWC/N
+	Z4pILWrmBavFq+N5ppB+7vMCsCxrOhjeAzUfrsvMf4bsU8zDe3fB/8IL8Fs+KwsUQskNef9TfTx3j
+	9rYqLYJ4lMVc42Fli9Xm2IWAuQUVtIt2CwpPr5H0mEZ11n9NFqdlJ3ZmtuMBOJJ+vNR54afjq0A6f
+	6nwQ2TDkSocUStRTk7caoeRWWaxO5HftcMC/Tq46Acd5fBH8YnazKHYmLUvCL+90MX8VF07PLENoO
+	XoroKg73/or353RXiQc3bj3xUNFOb8+Vr9kbeQ+gtI+kY3crfcJegdNxAcKT6MO/oRG01XyfFevl8
+	MW1PseOQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pfKbO-0020VX-2w;
-	Thu, 23 Mar 2023 13:03:34 +0000
-Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829])
+	id 1pfMXR-002J2v-1v;
+	Thu, 23 Mar 2023 15:07:37 +0000
+Received: from mail-wr1-f50.google.com ([209.85.221.50])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pfKbI-0020Ul-28
+	id 1pfMXJ-002J1g-0z
 	for linux-nvme@lists.infradead.org;
-	Thu, 23 Mar 2023 13:03:33 +0000
-Received: by mail-qt1-x829.google.com with SMTP id n2so26418350qtp.0
-        for <linux-nvme@lists.infradead.org>; Thu, 23 Mar 2023 06:03:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1679576607;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JT5kxqVOLNs1cddye30QvhqujBIE6P8vkXfghBDUxrs=;
-        b=fsnlSj1wYC+oyegO1q1yDBhN8AGGfS4B+/UJULqMDG1jdL9i5Fbq8O1r0UzJVbgZ5N
-         CurbRDFSblDK9jc415qglfplweQjxGgBmqJhkAyt51A78hYTvBHd5fNCjBUuHTPn12EM
-         Y1zKMRG6J4vTDaSNZyUJtcdDE+Bc4WCdEGj2SxETTQC9dX65jzYjndPxJagfadtzcHCH
-         KucPqK8M85ho9lf87J55E+JMepmXIqa3pD+e1u9JzACYKTlMkED7tsKMjIDWBNd1fGTF
-         U3Y7TJ6KcgnjkwfOD17f24lPxk4X4kA8SUtwmE3gF+qqh2vrzBTq+F7nq338bAMfL5EK
-         qakw==
+	Thu, 23 Mar 2023 15:07:33 +0000
+Received: by mail-wr1-f50.google.com with SMTP id v1so14774839wrv.1
+        for <linux-nvme@lists.infradead.org>; Thu, 23 Mar 2023 08:07:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679576607;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JT5kxqVOLNs1cddye30QvhqujBIE6P8vkXfghBDUxrs=;
-        b=UwKBeOB92e4l0Lkj/TjaDz/hYCeH4+u44XrjefxcxkC2XMNxH4qdM3/2fbugV6BNWP
-         Luv7QyQnG8MF9j+aaeB9s4HJdLe8hbcGWHow4UreerveJO3elsnkFL6zPS7uQ4mcnwz/
-         kT7bzNWDBwWiubV/6uRY7tRzBV5Zy0WFmxPag3gggzCTNMQ0jEySuwxOfMy6AkHgAnhB
-         aISBmJ0tenazLtnWIQ+xOTtKmFTlhsZvZaHvq+L6rsJZteoLkcxg48uZWYFqvTSiYFf1
-         SjRMnSoVnCXxP0Qr02ezuExtxGz2D9AIvw1a65HVlLzE1quzCepZ2YWgdEEpLydpKRMC
-         ATLQ==
-X-Gm-Message-State: AO0yUKV0tDE4g7//x1vR65hhzD7Dm9aWgKP+qFJNlrMchP6dqqa0loFI
-	kyK9KMDYxY9tupzrZ0/3+uUOO0XzhcX5VfnTz9E=
-X-Google-Smtp-Source: AK7set9Nd0IROYibAsNWzp2/wBVMkNxgJf3eiBJQdDWBUctTuOee3WY/j00WoSi5pcTukOCIoBjA4w==
-X-Received: by 2002:ac8:7dd1:0:b0:3e2:7a9e:a04e with SMTP id c17-20020ac87dd1000000b003e27a9ea04emr9731248qte.18.1679576606971;
-        Thu, 23 Mar 2023 06:03:26 -0700 (PDT)
-Received: from ziepe.ca ([206.223.160.26])
-        by smtp.gmail.com with ESMTPSA id c9-20020ac80549000000b003d8d1ec2672sm11612362qth.89.2023.03.23.06.03.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 06:03:26 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1pfKbF-001D0h-LK;
-	Thu, 23 Mar 2023 10:03:25 -0300
-Date: Thu, 23 Mar 2023 10:03:25 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	linux-rdma@vger.kernel.org
+        d=1e100.net; s=20210112; t=1679584046; x=1682176046;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=W5eaU9UI5gNRoVJmBelB0AByjFrGD8ImlIIGOOSTiYM=;
+        b=lXzf3ptJCM6BjCqxNm9ingkgDVFp6mXWF++F0G4Df8Fs+kMOhGFKdDRD3BnTHVEPKY
+         fRSSdmUEBtNnJsqUNwXrVf+PhEh1ArWlJn8q3nNgOLusiaGb/iFOxtlHDIfK2echBn/Y
+         bvu6YEaUqWuRVI9EndBRiaiWz8OS7IsimZEp/uJVZvNoE5iDUb+0m/EZgF/TmPGWyj3M
+         IymtxjFEyRKEDI8mNTVWCTnN87vt+03SqytS8ZkVQJhYgdEIwh7ciPSiJJqG4W6h1mbn
+         bP1WymV6zMNqA+HDJX8/nY7RU2wBpn+EIx5nLY9kL4ZTa10q/uOt1h3gkSsZDk7Zsw3W
+         BC4g==
+X-Gm-Message-State: AO0yUKU9/s74QBSJXqp5OpfZAx1VREpwKnAZdoWeG0ndM/qtcu79YBrb
+	2x9S8CJw4QBtMmcuL6bHllw=
+X-Google-Smtp-Source: AK7set+e4miZKSYP825PLpvWVYToMLQ9zWrZumdjz4czNzXkEklOqiRp4QzdYZS+q2IQIUtyJryFSA==
+X-Received: by 2002:adf:f681:0:b0:2ca:ab68:eff9 with SMTP id v1-20020adff681000000b002caab68eff9mr6178292wrp.7.1679584046480;
+        Thu, 23 Mar 2023 08:07:26 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id y16-20020a056000109000b002c56013c07fsm16215088wrw.109.2023.03.23.08.07.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Mar 2023 08:07:26 -0700 (PDT)
+Message-ID: <e1b00740-3c75-8b90-4d68-76a5f341a117@grimberg.me>
+Date: Thu, 23 Mar 2023 17:07:24 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
 Subject: Re: [PATCH] blk-mq-rdma: remove queue mapping helper for rdma devices
-Message-ID: <ZBxOHZwre3x8DkWN@ziepe.ca>
+To: Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>, linux-rdma@vger.kernel.org
 References: <20230322123703.485544-1-sagi@grimberg.me>
  <ZBr6kNVoa5RbNzSa@ziepe.ca>
  <c51d3d99-5bc9-cb47-6efa-5371ef3cc0f4@grimberg.me>
- <ZBsHnq6FlpO0p10A@ziepe.ca>
- <20230323120515.GE36557@unreal>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230323120515.GE36557@unreal>
+ <ZBsHnq6FlpO0p10A@ziepe.ca> <20230323120515.GE36557@unreal>
+ <ZBxOHZwre3x8DkWN@ziepe.ca>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <ZBxOHZwre3x8DkWN@ziepe.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230323_060328_904077_9BF9152E 
-X-CRM114-Status: GOOD (  19.63  )
+X-CRM114-CacheID: sfid-20230323_080729_340358_B5841A79 
+X-CRM114-Status: GOOD (  18.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,38 +87,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 23, 2023 at 02:05:15PM +0200, Leon Romanovsky wrote:
-> On Wed, Mar 22, 2023 at 10:50:22AM -0300, Jason Gunthorpe wrote:
-> > On Wed, Mar 22, 2023 at 03:00:08PM +0200, Sagi Grimberg wrote:
-> > > 
-> > > > > No rdma device exposes its irq vectors affinity today. So the only
-> > > > > mapping that we have left, is the default blk_mq_map_queues, which
-> > > > > we fallback to anyways. Also fixup the only consumer of this helper
-> > > > > (nvme-rdma).
-> > > > 
-> > > > This was the only caller of ib_get_vector_affinity() so please delete
-> > > > op get_vector_affinity and ib_get_vector_affinity() from verbs as well
-> > > 
-> > > Yep, no problem.
-> > > 
-> > > Given that nvme-rdma was the only consumer, do you prefer this goes from
-> > > the nvme tree?
-> > 
-> > Sure, it is probably fine
+
+>>>>>> No rdma device exposes its irq vectors affinity today. So the only
+>>>>>> mapping that we have left, is the default blk_mq_map_queues, which
+>>>>>> we fallback to anyways. Also fixup the only consumer of this helper
+>>>>>> (nvme-rdma).
+>>>>>
+>>>>> This was the only caller of ib_get_vector_affinity() so please delete
+>>>>> op get_vector_affinity and ib_get_vector_affinity() from verbs as well
+>>>>
+>>>> Yep, no problem.
+>>>>
+>>>> Given that nvme-rdma was the only consumer, do you prefer this goes from
+>>>> the nvme tree?
+>>>
+>>> Sure, it is probably fine
+>>
+>> I tried to do it two+ years ago:
+>> https://lore.kernel.org/all/20200929091358.421086-1-leon@kernel.org
 > 
-> I tried to do it two+ years ago:
-> https://lore.kernel.org/all/20200929091358.421086-1-leon@kernel.org
+> Christoph's points make sense, but I think we should still purge this
+> code.
+> 
+> If we want to do proper managed affinity the right RDMA API is to
+> directly ask for the desired CPU binding when creating the CQ, and
+> optionally a way to change the CPU binding of the CQ at runtime.
 
-Christoph's points make sense, but I think we should still purge this
-code.
+I think the affinity management is referring to IRQD_AFFINITY_MANAGED
+which IIRC is the case when the device passes `struct irq_affinity` to
+pci_alloc_irq_vectors_affinity.
 
-If we want to do proper managed affinity the right RDMA API is to
-directly ask for the desired CPU binding when creating the CQ, and
-optionally a way to change the CPU binding of the CQ at runtime.
+Not sure what that has to do with passing a cpu to create_cq.
 
-This obfuscated 'comp vector number' thing is nonsensical for a kAPI -
-creating a CQ on a random CPU then trying to backwards figure out what
-CPU it was created on is silly.
+> This obfuscated 'comp vector number' thing is nonsensical for a kAPI -
+> creating a CQ on a random CPU then trying to backwards figure out what
+> CPU it was created on is silly.
 
-Jason
+I don't remember if the comp_vector maps 1x1 to an irq vector, and if it
+isn't then it is indeed obfuscated. But a similar model is heavily used
+by the network stack with cpu_rmap, where this was derived from.
+
+But regardless, its been two years, it is effectively dead code, and not
+a single user complained about missing it. So we can safely purge them
+and if someone cares about it, we can debate adding it back.
 
