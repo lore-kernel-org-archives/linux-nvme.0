@@ -4,58 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22B4FC6FD1C
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Mar 2023 18:18:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A4B9C7619A
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Mar 2023 18:18:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rej/w0yBsHdzYkty3qZTIcOQI1jK0Mox+FFsFSqnNv8=; b=HOCSDfLqqF8dXZ9hPpHva55llK
-	F+NgalWFRvakHIp2CU+OblQHHGlDIqP6c9iu6Nu4B19YJqAjr+izppulPTEGNsZ+F9xAL3liD7J54
-	OVHIiLIcDx1PHkzYO4gEVATHYsQmtcK2N7fcdF8hAJiR/ipnEh4rBX1whEo8yxbrmqpKrujwtAO2W
-	3xpW6rkUiKHtr0GIV4rE3uTgtHJ9kzekTtgzsD9hQpAvEfONnonRSgW1jmKZMx7hmaQH1dcswqwgR
-	x0Sshi9qB5Gx+Id+jtC9Pdqf4HLPXYBzD3j+rKN//VdmoNiegtzhIa7iCUIkLjUqp+jmELaUgqqK4
-	ZwkG2bTA==;
+	bh=+YR6ISocQSUB00W35K8+OWOv3YgeAE+D53xlwD5jtaM=; b=sl49yje8kSXjKdSJnS2jUABWxV
+	ed4ZiNyfEwZHJ+FlKYFdv/kScEESRpxPTrQLdbzozF7eh9oMwx6yp0iR/klf0W9FX8Ewm8nQiy75A
+	ArwPKO5LLr3k3NdRJpKIkU7wIyqxST1GLLOXA2KTT2Cx8QpgxTlhJa+oZmX8kzqyIMmwJh4kuJlwq
+	wLSmCueZKN3mPWkdxLkmOONxj7s5DGGDmBaaCC1bJ0lWdxmzsJIkVJuMcCzZKXu4C0UyFGInz9fvh
+	gJk50cSRg1OQhE54uVrGNv2evtMHx+aZ/kq7NLEQXGNJo/8VSrmADRfMjWYarq+nzM3S5idkymDmA
+	qRObJHkg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pflzM-005Gul-2o;
-	Fri, 24 Mar 2023 18:18:08 +0000
+	id 1pflzQ-005GyQ-04;
+	Fri, 24 Mar 2023 18:18:12 +0000
 Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pflzG-005Gt1-2R
+	id 1pflzG-005Gsx-2l
 	for linux-nvme@lists.infradead.org;
-	Fri, 24 Mar 2023 18:18:04 +0000
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32OIE3SS011947;
-	Fri, 24 Mar 2023 18:17:49 GMT
+	Fri, 24 Mar 2023 18:18:06 +0000
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32OI4JjC024400;
+	Fri, 24 Mar 2023 18:17:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2022-7-12;
- bh=rej/w0yBsHdzYkty3qZTIcOQI1jK0Mox+FFsFSqnNv8=;
- b=gXFXWo/U0+9qr8zzpk2eVkhZYJ0FEExjLYE76ljJb7XbRJHt++867XhEtalaLdjzQt33
- DGhWysLVjM7lSKd+LenNxuv2xfmMg8wq8bwIyX/aLd7vgmtownAjsiGdqGCuUmF7IdG/
- QuVRh2VqITgGosOL1d5BC38XrkvraJa2g9rMXBjFPYfSGy4UzzihURW/JJaIWtz2qJPZ
- DZcc5gCh1BpWJqbPxuaRydMHRZ38BXWmFRyMmjDqdPJ8Z3MlvfTvclvhB9sAsH2N+H5E
- ZSLKKTG1paaHvPfmlempPIP+emhucUY2JJHd7YsTElrQR+SEZ8tMjGomuYqxE28ojr9L Dw== 
+ bh=+YR6ISocQSUB00W35K8+OWOv3YgeAE+D53xlwD5jtaM=;
+ b=UlzxpFwU5D3w6eDIAzWtC7L9gJxmOuOldrPuV0kHLprlMfz7YhS/vPK4ZP3D+O3McIcO
+ r6xitN1ppu+9PS1aV5K21byZSLrbrDKX38stmqgDfvHhuibZyuGgSrgX3S9Zg0+jDtTh
+ S1LljJLwyyMjyxGHqmrx7heq9CHD6wCovNLxCwR74U2PUnJ28BWd4v4a+kaDGavf4s63
+ 26GrjXLzfvlj4kQInsqVuU5JnXL9R+c7u+7qoJN59Q0cU5Q+77eLOMESs1EUqgBb8Pdh
+ SC5SXfTad352LtLSBtedFg6zpWIiNebkXclR5T9KxqGy/otdTltYGIwHAuGsj/EZfO3o Nw== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3phgy9g08a-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3phgtmg0ye-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 24 Mar 2023 18:17:49 +0000
+	Fri, 24 Mar 2023 18:17:53 +0000
 Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 32OGnJYx001315;
-	Fri, 24 Mar 2023 18:17:48 GMT
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 32OGVhD1001433;
+	Fri, 24 Mar 2023 18:17:53 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3pgxk4bx3x-1
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3pgxk4bx69-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 24 Mar 2023 18:17:48 +0000
+	Fri, 24 Mar 2023 18:17:52 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32OIHiEL021017;
-	Fri, 24 Mar 2023 18:17:47 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32OIHiEP021017;
+	Fri, 24 Mar 2023 18:17:52 GMT
 Received: from mnchrist-mac.us.oracle.com (dhcp-10-154-153-54.vpn.oracle.com [10.154.153.54])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3pgxk4bx19-2;
-	Fri, 24 Mar 2023 18:17:47 +0000
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3pgxk4bx19-4;
+	Fri, 24 Mar 2023 18:17:52 +0000
 From: Mike Christie <michael.christie@oracle.com>
 To: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
         linux-scsi@vger.kernel.org, james.bottomley@hansenpartnership.com,
@@ -64,9 +64,9 @@ To: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
         kbusch@kernel.org, target-devel@vger.kernel.org
 Cc: Mike Christie <michael.christie@oracle.com>,
         Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH v5 01/18] block: Add PR callouts for read keys and reservation
-Date: Fri, 24 Mar 2023 13:17:24 -0500
-Message-Id: <20230324181741.13908-2-michael.christie@oracle.com>
+Subject: [PATCH v5 03/18] scsi: Rename sd_pr_command
+Date: Fri, 24 Mar 2023 13:17:26 -0500
+Message-Id: <20230324181741.13908-4-michael.christie@oracle.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230324181741.13908-1-michael.christie@oracle.com>
 References: <20230324181741.13908-1-michael.christie@oracle.com>
@@ -79,11 +79,11 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 ma
  mlxlogscore=999 spamscore=0 adultscore=0 bulkscore=0 mlxscore=0
  phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2303200000 definitions=main-2303240143
-X-Proofpoint-GUID: SEAyr6A4ObJgZIJbyXP6stjTQzwUjTEA
-X-Proofpoint-ORIG-GUID: SEAyr6A4ObJgZIJbyXP6stjTQzwUjTEA
+X-Proofpoint-GUID: ADObLYIwGyF7tHUWWIJ965hhsUAe_wf7
+X-Proofpoint-ORIG-GUID: ADObLYIwGyF7tHUWWIJ965hhsUAe_wf7
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230324_111802_930229_DF1F5F89 
-X-CRM114-Status: GOOD (  22.01  )
+X-CRM114-CacheID: sfid-20230324_111803_037897_7F12D93C 
+X-CRM114-Status: GOOD (  16.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,69 +98,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add callouts for reading keys and reservations. This allows LIO to support
-the READ_KEYS and READ_RESERVATION commands and will allow dm-multipath
-to optimize it's error handling so it can check if it's getting an error
-because there's an existing reservation or if we need to retry different
-paths.
-
-Note: This only initially adds the struct definitions in the kernel as I'm
-not sure if we wanted to export the interface to userspace yet. read_keys
-and read_reservation are exactly what dm-multipath and LIO need, but for a
-userspace interface we may want something like SCSI's READ_FULL_STATUS and
-NVMe's report reservation commands. Those are overkill for dm/LIO and
-READ_FULL_STATUS is sometimes broken for SCSI devices.
+Rename sd_pr_command to sd_pr_out_command to match a
+sd_pr_in_command helper added in the next patches.
 
 Signed-off-by: Mike Christie <michael.christie@oracle.com>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 ---
- include/linux/pr.h | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ drivers/scsi/sd.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/include/linux/pr.h b/include/linux/pr.h
-index 94ceec713afe..3003daec28a5 100644
---- a/include/linux/pr.h
-+++ b/include/linux/pr.h
-@@ -4,6 +4,18 @@
+diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+index 4bb87043e6db..00b9b6145fbc 100644
+--- a/drivers/scsi/sd.c
++++ b/drivers/scsi/sd.c
+@@ -1742,7 +1742,7 @@ static int sd_scsi_to_pr_err(struct scsi_sense_hdr *sshdr, int result)
+ 	}
+ }
  
- #include <uapi/linux/pr.h>
+-static int sd_pr_command(struct block_device *bdev, u8 sa,
++static int sd_pr_out_command(struct block_device *bdev, u8 sa,
+ 		u64 key, u64 sa_key, u8 type, u8 flags)
+ {
+ 	struct scsi_disk *sdkp = scsi_disk(bdev->bd_disk);
+@@ -1785,7 +1785,7 @@ static int sd_pr_register(struct block_device *bdev, u64 old_key, u64 new_key,
+ {
+ 	if (flags & ~PR_FL_IGNORE_KEY)
+ 		return -EOPNOTSUPP;
+-	return sd_pr_command(bdev, (flags & PR_FL_IGNORE_KEY) ? 0x06 : 0x00,
++	return sd_pr_out_command(bdev, (flags & PR_FL_IGNORE_KEY) ? 0x06 : 0x00,
+ 			old_key, new_key, 0,
+ 			(1 << 0) /* APTPL */);
+ }
+@@ -1795,24 +1795,24 @@ static int sd_pr_reserve(struct block_device *bdev, u64 key, enum pr_type type,
+ {
+ 	if (flags)
+ 		return -EOPNOTSUPP;
+-	return sd_pr_command(bdev, 0x01, key, 0, sd_pr_type(type), 0);
++	return sd_pr_out_command(bdev, 0x01, key, 0, sd_pr_type(type), 0);
+ }
  
-+struct pr_keys {
-+	u32	generation;
-+	u32	num_keys;
-+	u64	keys[];
-+};
-+
-+struct pr_held_reservation {
-+	u64		key;
-+	u32		generation;
-+	enum pr_type	type;
-+};
-+
- struct pr_ops {
- 	int (*pr_register)(struct block_device *bdev, u64 old_key, u64 new_key,
- 			u32 flags);
-@@ -14,6 +26,19 @@ struct pr_ops {
- 	int (*pr_preempt)(struct block_device *bdev, u64 old_key, u64 new_key,
- 			enum pr_type type, bool abort);
- 	int (*pr_clear)(struct block_device *bdev, u64 key);
-+	/*
-+	 * pr_read_keys - Read the registered keys and return them in the
-+	 * pr_keys->keys array. The keys array will have been allocated at the
-+	 * end of the pr_keys struct, and pr_keys->num_keys must be set to the
-+	 * number of keys the array can hold. If there are more than can fit
-+	 * in the array, success will still be returned and pr_keys->num_keys
-+	 * will reflect the total number of keys the device contains, so the
-+	 * caller can retry with a larger array.
-+	 */
-+	int (*pr_read_keys)(struct block_device *bdev,
-+			struct pr_keys *keys_info);
-+	int (*pr_read_reservation)(struct block_device *bdev,
-+			struct pr_held_reservation *rsv);
- };
+ static int sd_pr_release(struct block_device *bdev, u64 key, enum pr_type type)
+ {
+-	return sd_pr_command(bdev, 0x02, key, 0, sd_pr_type(type), 0);
++	return sd_pr_out_command(bdev, 0x02, key, 0, sd_pr_type(type), 0);
+ }
  
- #endif /* LINUX_PR_H */
+ static int sd_pr_preempt(struct block_device *bdev, u64 old_key, u64 new_key,
+ 		enum pr_type type, bool abort)
+ {
+-	return sd_pr_command(bdev, abort ? 0x05 : 0x04, old_key, new_key,
++	return sd_pr_out_command(bdev, abort ? 0x05 : 0x04, old_key, new_key,
+ 			     sd_pr_type(type), 0);
+ }
+ 
+ static int sd_pr_clear(struct block_device *bdev, u64 key)
+ {
+-	return sd_pr_command(bdev, 0x03, key, 0, 0, 0);
++	return sd_pr_out_command(bdev, 0x03, key, 0, 0, 0);
+ }
+ 
+ static const struct pr_ops sd_pr_ops = {
 -- 
 2.25.1
 
