@@ -4,82 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20380C6FD1C
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Mar 2023 23:04:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00600C76195
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Mar 2023 08:43:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YcavsdJWPA4MTJZ/cNmo3EVSGVSYvVVCEr65W91kM5E=; b=EWadjM393ahFE9OSxWaiq6WvT+
-	wPIHS6/OizTJOhgRF7dwCPsUgSgCoe/0DuCelwTMZNINiG/SUoSHd2mpukPnTs8UMpKgtSpCCO8gp
-	P7XGT57C0xzEwYgxpq3Durq5go2jhBDhhLcxoxJu3W02lbkWw6s6c2a6Huryt9Uo2f9oUKKJ1mOF9
-	Mp/nGeYGDy/Yol0knY/gpdx0g2MDv52SUviVAYygwa+K008pYekG87i7KQe3O+iPW/rxd9XXxQJ4x
-	yLG1fo9zDgriGMn47zNLVAZ5FI+vuEIM8sffoXQq0RnbkY8WYiFobySdmapvbWuF9JCy9JO/kNv4+
-	leg/OnjQ==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=atSydaWWogGmie+bXLe/hDMQRjB7ehjqFFKQ0tFB73M=; b=fqIxlIdcx2SK/WbJXO+NLp8Mpd
+	2InLyepUQg9z6RQ7zJ0wkXNv86yFjsfsP2qVYu5WDRJCAlFfgIYw3OFOgi1Ms4ed+L+Wca43WwEWa
+	2P5lHGmCPdTATqYI5i924iPjKlOm+/MtRLNliXFYWmpxxCxhmWWTPcJdf7d2KCcZebpcY4/qnh4ZH
+	WR71qTGxJCxS+GMYrWX/u0hs+IpV0gBHOqNfQfP3thtU7+VWpFlqkRmFoA8IWRK30HgcZm7wZxZa3
+	vew8eWIynAZagUaAVAlH5TW3pdV28YQ8J1+zzEbywa+bnsXtZO7jnPOG2aRCkzW/gYsTnJJ1Apz1e
+	/MFtM7fw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pfTyj-0039v2-2b;
-	Thu, 23 Mar 2023 23:04:17 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1pfd1e-003tx6-04;
+	Fri, 24 Mar 2023 08:43:54 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pfTyb-0039qx-18
+	id 1pfd1a-003tvq-0g
 	for linux-nvme@lists.infradead.org;
-	Thu, 23 Mar 2023 23:04:15 +0000
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32NMsrON021936;
-	Thu, 23 Mar 2023 23:03:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2022-7-12;
- bh=YcavsdJWPA4MTJZ/cNmo3EVSGVSYvVVCEr65W91kM5E=;
- b=LOpjawFXyaNBl31toJpEPIOYht6+zSDOLuAHFoJsLJlYQcgneET9jxe3mCvXfq3SVdas
- 0oMU4JLboDXNghEf+X/6fpcGt8fnwi4iaa8pN9tmGXW2dm2acMsC1jmemb5zVhAQO++t
- vqWTC1/K+AA0g07E83CwslfXcTBrXPgQxmpj+RnS91sZ2kXSA/I9x+pBGuhwiaGYBiGi
- jDdYETxy6FlTEdCzjfqQQRk0qM2DQ3g6JvdgSktuvFWEzin5ERXNq7DzP3HdFe/aP7SZ
- RETjC1BDXtbsVsmLsJPI5MKWjMPDct8WhEjhuiiuSGBbs7beR9mMEdqHX9q3C0b+pag6 Kw== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3pgyyn80at-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 23 Mar 2023 23:03:55 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 32NLJQhv001643;
-	Thu, 23 Mar 2023 23:03:42 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3pgxk3aky5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 23 Mar 2023 23:03:42 +0000
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32NN3fh5040061;
-	Thu, 23 Mar 2023 23:03:42 GMT
-Received: from ca-dev94.us.oracle.com (ca-dev94.us.oracle.com [10.129.136.30])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3pgxk3akmn-2;
-	Thu, 23 Mar 2023 23:03:42 +0000
-From: Alan Adamson <alan.adamson@oracle.com>
-To: linux-nvme@lists.infradead.org
-Cc: alan.adamson@oracle.com, p.raghav@samsung.com, kbusch@kernel.org,
-        hch@lst.de, sagi@grimberg.me
-Subject: [RFC v2 1/3] nvme: move fault injector to nvme-debugfs.c
-Date: Thu, 23 Mar 2023 16:03:14 -0700
-Message-Id: <20230323230316.2914077-2-alan.adamson@oracle.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20230323230316.2914077-1-alan.adamson@oracle.com>
-References: <20230323230316.2914077-1-alan.adamson@oracle.com>
+	Fri, 24 Mar 2023 08:43:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1679647430; x=1711183430;
+  h=message-id:date:mime-version:subject:to:references:from:
+   in-reply-to:content-transfer-encoding;
+  bh=xfIgYAVnppzojaCIrJeZDPnuu4T3w+KOZAN8jJXyGQY=;
+  b=Nwv7vTQp4+BT0DAgaExRNnTe7DBF/prtxmUASH6FOc/Y54bdj5yLlh/Q
+   sJpnJuhXB0/2o7+cChW8oUzFm9QU4FUi4UyEcJPQ08tQqwwFDUVHNFXAz
+   6H/8BO3I1/ahkYxXAdAc/HuS77S3Cl/pO1IZaao8hjR3SO8inSHxQ/6Gc
+   rHanQ3t7TpyNeS4VuxRTo7X8uV/hEoQ/S8JTpw1a9FmsjikmqVWpfvTWP
+   Ib+A8D0/0y/3Iys7/41w33/uxOSEqaGFmgNyiRmnn0xmcsZqS+pxm3G4F
+   OI6FCIefCeg+8/6enyNc2kDOHBUjYhQ3+IBYCQirSqxvhQYYytzx5Fgr1
+   w==;
+X-IronPort-AV: E=Sophos;i="5.98,287,1673884800"; 
+   d="scan'208";a="338472126"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 24 Mar 2023 16:43:44 +0800
+IronPort-SDR: 2bLYKLzHqFd2gD+AJ/yIi6L+5jkwO+2Ss1WKpMQ8WKpZIcH5bxvkYtsu+Kz3y7b47nJkvfxOtu
+ hSSaH/1fOFbGyv7nFPmq4yYwpUc0hBlVJdegpxr2sVBkfSF1FoGCtf8mAKY9clztEDfx+Ll9m5
+ KX0STlBFAytAJxS/TaGm9+7kVou433jUTKO5Vuye/unJv3j+A2omI89f1xQocXg3gMjMSwJ7Nx
+ xogtK8Gt538EPE6PFzikw+Qfsj9PBws2k4rqkjSpkv+tYtlFdVmkDATE/wkBLp0+CPKzRmdxDg
+ RG0=
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Mar 2023 01:00:00 -0700
+IronPort-SDR: XvP2i8zk8jtB029SeWLxUpQBS1kBdDSw8AmYp5u8YTlqrj997ELJ6hAx6mWStgEMn5CCAoliE9
+ QsCOCnh01y/6As9hFhhjSm7yG0M1a8Pb3sGneNPvWObB4iQEJY7tYeEujFhLQOFBBhZtkbeIiV
+ RCr5QuLqP3h5n+G9F4kukYNm/lu8bbWNlasYdu2UEuwiwlw1ddnB0UgLv65m4T1Z+XEmM4wCit
+ hWMAdkKcAYEuilviRj+DLb1k2gl0aGWj1IUnGEJtK4DVrjEiEny8ws23wa4QtFpmQgnXAsSfUa
+ PFk=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Mar 2023 01:43:45 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4PjbN04Vm1z1RtVp
+	for <linux-nvme@lists.infradead.org>; Fri, 24 Mar 2023 01:43:44 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+	reason="pass (just generated, assumed good)"
+	header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+	opensource.wdc.com; h=content-transfer-encoding:content-type
+	:in-reply-to:organization:from:references:to:content-language
+	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
+	1679647424; x=1682239425; bh=xfIgYAVnppzojaCIrJeZDPnuu4T3w+KOZAN
+	8jJXyGQY=; b=UIOOZNPbig2n4O/tndqp4OwT5NEYakG15tDWTMB8Wo7cQYrJxo0
+	y7epbBeC9KcFcehwW2IaH21JkwtbNnanwkIi0GDJul2EGdfibiadWfUmFVKJOoPb
+	ie40OGgssHv/+DSfEUsmxfEd2zjOu+puohjM6Ho4hLpWPnJJuaucWSjh44U3Tglj
+	0Fs2NL+9+Z19QrRntMVHSHTC+lIZd9WFzVpToft7BuofpQKYLSsYIFiuaGoJwzwN
+	JxGA3JIDLKB8Gk5nuME5onVVcDXFP4QlIFHkWudfk8gjYmAXjptgXI5EcWXP5+mg
+	jB+tIUvJLzHh0OkJiX2euYRQ72syPh78M+Q==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id fD1_M2lh0Atl for <linux-nvme@lists.infradead.org>;
+	Fri, 24 Mar 2023 01:43:44 -0700 (PDT)
+Received: from [10.225.163.103] (unknown [10.225.163.103])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4PjbMz5TyRz1RtVm;
+	Fri, 24 Mar 2023 01:43:43 -0700 (PDT)
+Message-ID: <e2df2f18-aaf9-89d5-6fed-aa1fb663f69c@opensource.wdc.com>
+Date: Fri, 24 Mar 2023 17:43:42 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-23_13,2023-03-23_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- mlxlogscore=999 spamscore=0 adultscore=0 bulkscore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2303230168
-X-Proofpoint-GUID: fx5C-ws8LHQAz2l_wcSPpffXSCrkSmXo
-X-Proofpoint-ORIG-GUID: fx5C-ws8LHQAz2l_wcSPpffXSCrkSmXo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: Read speed for a PCIe NVMe SSD is ridiculously slow on a
+ multi-socket machine.
+Content-Language: en-US
+To: Alexander Shumakovitch <shurik@jhu.edu>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <ZB1JgJ2DxyTMVUHB@hornet>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <ZB1JgJ2DxyTMVUHB@hornet>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230323_160410_227226_1D96EE83 
-X-CRM114-Status: GOOD (  26.04  )
+X-CRM114-CacheID: sfid-20230324_014350_304373_4AEA900A 
+X-CRM114-Status: GOOD (  36.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,281 +117,95 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Move the nvme fault injector code associated with debugfs into
-nvme-debugfs.c (new file) so all nvme debugfs associated can
-reside in a common place.
+On 3/24/23 15:56, Alexander Shumakovitch wrote:
+> [ please copy me on your replies since I'm not subscribed to this list ]
+> 
+> Hello all,
+> 
+> I have an oldish quad socket server (Stratos S400-X44E by Quanta, 512GB RAM,
+> 4 x Xeon E5-4620) that I'm trying to upgrade with an NVMe Samsung 970 EVO
+> Plus SSD, connected via an adapter card to a PCIe slot, which is wired to
+> CPU #0 directly and supports PCIe 3.0 speeds. For some reason, the reading
+> speed from this SSD differs by a factor of 10 (ten!), depending on which
+> physical CPU hdparm or dd is run on:
+>       
+>     # hdparm -t /dev/nvme0n1 
 
-CONFIG_NVME_FAULT_INJECTION_DEBUG_FS needs to be enabled to
-be able to use fault injection.
+It is very unusual to use hdparm, a tool designed mainly for ATA devices, to
+benchmark an nvme device. At the very least, if you really want to measure the
+drive performance, you should add the --direct option (see man hdparm).
 
-Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
----
- drivers/nvme/host/Kconfig                     |  6 ++
- drivers/nvme/host/Makefile                    |  2 +-
- drivers/nvme/host/core.c                      | 11 ++--
- .../host/{fault_inject.c => nvme-debugfs.c}   | 56 +++++++++----------
- drivers/nvme/host/nvme.h                      | 31 +++++-----
- 5 files changed, 59 insertions(+), 47 deletions(-)
- rename drivers/nvme/host/{fault_inject.c => nvme-debugfs.c} (60%)
+But a better way to test would be to use fio with io_uring or libaio IO engine
+doing multi-job & high QD --direct=1 IOs. That will give you the maximum
+performance of your device. Then remove the --direct=1 option to do buffered
+IOs, which will expose potential issues with your system memory bandwidth.
 
-diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
-index 2f6a7f8c94e8..70f380c1ccae 100644
---- a/drivers/nvme/host/Kconfig
-+++ b/drivers/nvme/host/Kconfig
-@@ -32,6 +32,12 @@ config NVME_VERBOSE_ERRORS
- 	   error translation table will grow the kernel image size by
- 	   about 4 KB.
- 
-+config NVME_FAULT_INJECTION_DEBUG_FS
-+	bool "NVMe Fault Injection"
-+	depends on FAULT_INJECTION_DEBUG_FS
-+	help
-+	   This enables NVMe Fault Injection through debugfs.
-+
- config NVME_HWMON
- 	bool "NVMe hardware monitoring"
- 	depends on (NVME_CORE=y && HWMON=y) || (NVME_CORE=m && HWMON)
-diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
-index e27202d22c7d..c232d7703b65 100644
---- a/drivers/nvme/host/Makefile
-+++ b/drivers/nvme/host/Makefile
-@@ -15,7 +15,7 @@ nvme-core-$(CONFIG_NVME_VERBOSE_ERRORS)	+= constants.o
- nvme-core-$(CONFIG_TRACING)		+= trace.o
- nvme-core-$(CONFIG_NVME_MULTIPATH)	+= multipath.o
- nvme-core-$(CONFIG_BLK_DEV_ZONED)	+= zns.o
--nvme-core-$(CONFIG_FAULT_INJECTION_DEBUG_FS)	+= fault_inject.o
-+nvme-core-$(CONFIG_FAULT_INJECTION_DEBUG_FS)	+= nvme-debugfs.o
- nvme-core-$(CONFIG_NVME_HWMON)		+= hwmon.o
- nvme-core-$(CONFIG_NVME_AUTH)		+= auth.o
- 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d4be525f8100..679d87d4f5e8 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4336,7 +4336,9 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
- 		nvme_add_ns_cdev(ns);
- 
- 	nvme_mpath_add_disk(ns, info->anagrpid);
--	nvme_fault_inject_init(&ns->fault_inject, ns->disk->disk_name);
-+
-+	nvme_debugfs_init(&ns->debugfs, ns->disk->disk_name);
-+	nvme_fault_inject_init(&ns->debugfs);
- 
- 	return;
- 
-@@ -4367,7 +4369,7 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 
- 	clear_bit(NVME_NS_READY, &ns->flags);
- 	set_capacity(ns->disk, 0);
--	nvme_fault_inject_fini(&ns->fault_inject);
-+	nvme_debugfs_remove(&ns->debugfs);
- 
- 	/*
- 	 * Ensure that !NVME_NS_READY is seen by other threads to prevent
-@@ -5064,7 +5066,7 @@ EXPORT_SYMBOL_GPL(nvme_start_ctrl);
- void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
- {
- 	nvme_hwmon_exit(ctrl);
--	nvme_fault_inject_fini(&ctrl->fault_inject);
-+	nvme_debugfs_remove(&ctrl->debugfs);
- 	dev_pm_qos_hide_latency_tolerance(ctrl->device);
- 	cdev_device_del(&ctrl->cdev, ctrl->device);
- 	nvme_put_ctrl(ctrl);
-@@ -5189,7 +5191,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	dev_pm_qos_update_user_latency_tolerance(ctrl->device,
- 		min(default_ps_max_latency_us, (unsigned long)S32_MAX));
- 
--	nvme_fault_inject_init(&ctrl->fault_inject, dev_name(ctrl->device));
-+	nvme_debugfs_init(&ctrl->debugfs, dev_name(ctrl->device));
-+	nvme_fault_inject_init(&ctrl->debugfs);
- 	nvme_mpath_init_ctrl(ctrl);
- 	ret = nvme_auth_init_ctrl(ctrl);
- 	if (ret)
-diff --git a/drivers/nvme/host/fault_inject.c b/drivers/nvme/host/nvme-debugfs.c
-similarity index 60%
-rename from drivers/nvme/host/fault_inject.c
-rename to drivers/nvme/host/nvme-debugfs.c
-index 83d2e6860d38..87f78b864225 100644
---- a/drivers/nvme/host/fault_inject.c
-+++ b/drivers/nvme/host/nvme-debugfs.c
-@@ -1,13 +1,27 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * fault injection support for nvme.
-- *
-- * Copyright (c) 2018, Oracle and/or its affiliates
-+ * Copyright (c) 2023, Oracle and/or its affiliates
-  */
- 
-+#include <linux/kernel.h>
-+#include <linux/module.h>
- #include <linux/moduleparam.h>
- #include "nvme.h"
- 
-+#ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
-+void nvme_debugfs_init(struct nvme_debugfs *debugfs,
-+		  const char *dev_name)
-+{
-+	/* create debugfs directory */
-+	debugfs->parent = debugfs_create_dir(dev_name, NULL);
-+}
-+
-+void nvme_debugfs_remove(struct nvme_debugfs *debugfs)
-+{
-+	/* remove debugfs directories */
-+	debugfs_remove_recursive(debugfs->parent);
-+}
-+#ifdef CONFIG_NVME_FAULT_INJECTION_DEBUG_FS
- static DECLARE_FAULT_ATTR(fail_default_attr);
- /* optional fault injection attributes boot time option:
-  * nvme_core.fail_request=<interval>,<probability>,<space>,<times>
-@@ -15,31 +29,20 @@ static DECLARE_FAULT_ATTR(fail_default_attr);
- static char *fail_request;
- module_param(fail_request, charp, 0000);
- 
--void nvme_fault_inject_init(struct nvme_fault_inject *fault_inj,
--			    const char *dev_name)
-+void nvme_fault_inject_init(struct nvme_debugfs *debugfs)
- {
--	struct dentry *dir, *parent;
-+	struct nvme_fault_inject *fault_inj = &debugfs->fault_inject;
-+	struct dentry *dir;
- 	struct fault_attr *attr = &fault_inj->attr;
- 
- 	/* set default fault injection attribute */
- 	if (fail_request)
- 		setup_fault_attr(&fail_default_attr, fail_request);
- 
--	/* create debugfs directory and attribute */
--	parent = debugfs_create_dir(dev_name, NULL);
--	if (!parent) {
--		pr_warn("%s: failed to create debugfs directory\n", dev_name);
--		return;
--	}
--
- 	*attr = fail_default_attr;
--	dir = fault_create_debugfs_attr("fault_inject", parent, attr);
--	if (IS_ERR(dir)) {
--		pr_warn("%s: failed to create debugfs attr\n", dev_name);
--		debugfs_remove_recursive(parent);
-+	dir = fault_create_debugfs_attr("fault_inject", debugfs->parent, attr);
-+	if (IS_ERR(dir))
- 		return;
--	}
--	fault_inj->parent = parent;
- 
- 	/* create debugfs for status code and dont_retry */
- 	fault_inj->status = NVME_SC_INVALID_OPCODE;
-@@ -48,12 +51,6 @@ void nvme_fault_inject_init(struct nvme_fault_inject *fault_inj,
- 	debugfs_create_bool("dont_retry", 0600, dir, &fault_inj->dont_retry);
- }
- 
--void nvme_fault_inject_fini(struct nvme_fault_inject *fault_inject)
--{
--	/* remove debugfs directories */
--	debugfs_remove_recursive(fault_inject->parent);
--}
--
- void nvme_should_fail(struct request *req)
- {
- 	struct gendisk *disk = req->q->disk;
-@@ -64,12 +61,11 @@ void nvme_should_fail(struct request *req)
- 		struct nvme_ns *ns = disk->private_data;
- 
- 		if (ns)
--			fault_inject = &ns->fault_inject;
-+			fault_inject = &ns->debugfs.fault_inject;
- 		else
- 			WARN_ONCE(1, "No namespace found for request\n");
--	} else {
--		fault_inject = &nvme_req(req)->ctrl->fault_inject;
--	}
-+	} else
-+		fault_inject = &nvme_req(req)->ctrl->debugfs.fault_inject;
- 
- 	if (fault_inject && should_fail(&fault_inject->attr, 1)) {
- 		/* inject status code and DNR bit */
-@@ -80,3 +76,5 @@ void nvme_should_fail(struct request *req)
- 	}
- }
- EXPORT_SYMBOL_GPL(nvme_should_fail);
-+#endif /* CONFIG_NVME_FAULT_INJECTION_DEBUG_FS */
-+#endif /* CONFIG_FAULT_INJECTION_DEBUG_FS */
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index bf46f122e9e1..53d61723ca59 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -231,12 +231,16 @@ enum nvme_ctrl_state {
- struct nvme_fault_inject {
- #ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
- 	struct fault_attr attr;
--	struct dentry *parent;
- 	bool dont_retry;	/* DNR, do not retry */
- 	u16 status;		/* status code */
- #endif
- };
- 
-+struct nvme_debugfs {
-+	struct dentry *parent;
-+	struct nvme_fault_inject fault_inject;
-+};
-+
- enum nvme_ctrl_flags {
- 	NVME_CTRL_FAILFAST_EXPIRED	= 0,
- 	NVME_CTRL_ADMIN_Q_STOPPED	= 1,
-@@ -370,7 +374,7 @@ struct nvme_ctrl {
- 	struct page *discard_page;
- 	unsigned long discard_page_busy;
- 
--	struct nvme_fault_inject fault_inject;
-+	struct nvme_debugfs debugfs;
- 
- 	enum nvme_ctrl_type cntrltype;
- 	enum nvme_dctype dctype;
-@@ -496,8 +500,7 @@ struct nvme_ns {
- 	struct cdev		cdev;
- 	struct device		cdev_device;
- 
--	struct nvme_fault_inject fault_inject;
--
-+	struct nvme_debugfs debugfs;
- };
- 
- /* NVMe ns supports metadata actions by the controller (generate/strip) */
-@@ -598,21 +601,23 @@ static inline void nvme_print_device_info(struct nvme_ctrl *ctrl)
- }
- 
- #ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
--void nvme_fault_inject_init(struct nvme_fault_inject *fault_inj,
--			    const char *dev_name);
--void nvme_fault_inject_fini(struct nvme_fault_inject *fault_inject);
-+void nvme_debugfs_init(struct nvme_debugfs *debugfs,
-+		       const char *dev_name);
-+void nvme_debugfs_remove(struct nvme_debugfs *debugfs);
-+#else
-+static inline void nvme_debugfs_init(struct nvme_debugfs *debugfs,
-+			const char *dev_name) {}
-+static inline void nvme_debugfs_remove(struct nvme_debugfs *debugfs) {}
-+#endif
-+#ifdef CONFIG_NVME_FAULT_INJECTION_DEBUG_FS
-+void nvme_fault_inject_init(struct nvme_debugfs *debugfs);
- void nvme_should_fail(struct request *req);
- #else
--static inline void nvme_fault_inject_init(struct nvme_fault_inject *fault_inj,
--					  const char *dev_name)
--{
--}
--static inline void nvme_fault_inject_fini(struct nvme_fault_inject *fault_inj)
-+static inline void nvme_fault_inject_init(struct nvme_debugfs *debugfs)
- {
- }
- static inline void nvme_should_fail(struct request *req) {}
- #endif
--
- bool nvme_wait_reset(struct nvme_ctrl *ctrl);
- int nvme_try_sched_reset(struct nvme_ctrl *ctrl);
- 
+>     
+>     /dev/nvme0n1:
+>      Timing buffered disk reads: 510 MB in  3.01 seconds = 169.28 MB/sec
+>     
+>     # taskset -c 0-7 hdparm -t /dev/nvme0n1 
+>     
+>     /dev/nvme0n1:
+>      Timing buffered disk reads: 5252 MB in  3.00 seconds = 1750.28 MB/sec
+>     
+>     # taskset -c 8-15 hdparm -t /dev/nvme0n1 
+>     
+>     /dev/nvme0n1:
+>      Timing buffered disk reads: 496 MB in  3.01 seconds = 164.83 MB/sec
+>     
+>     # taskset -c 24-31 hdparm -t /dev/nvme0n1 
+>     
+>     /dev/nvme0n1:
+>      Timing buffered disk reads: 520 MB in  3.01 seconds = 172.65 MB/sec
+> 
+> Even more mysteriously, the writing speeds are consistent across all the
+> CPUs at about 800MB/sec (see the output of dd attached). Please note that
+> I'm not worrying about the fine tuning of the performance at this point,
+> and in particular I'm perfectly fine with 1/2 of the theoretical reading
+> speed. I just want to understand where 90% of the bandwidth gets lost.
+> No error of any kind appears in the syslog.
+> 
+> I don't think this is NUMA related since the QPI interconnect runs as
+> specced at 4GB/sec, when measured by Intel's Memory Latency Checker, more
+> than enough for NVMe to run at full speed. Also, the CUDA benchmark test
+> runs at expected speeds across the QPI.
+> 
+> Just in case, I'm attaching the output of lstopo to this message. Please
+> note that this computer has a BIOS bug that doesn't let kernel populate
+> the values of numa_node in /sys/devices/pci0000:* automatically, so I have
+> to do this myself after each boot.
+> 
+> I've tried removing all other PCI add-on cards, moving the SSD to another
+> slot, changing the number of polling queues for the nvme driver, and even
+> setting dm-multipath up. But none of these makes any material difference
+> in reading speed.
+> 
+> System info: Debian 11.6 (stable) running Linux 5.19.11 (config file attached)
+> Output of "nvme list":
+> 
+>     Node             SN                   Model                                    Namespace Usage                      Format           FW Rev  
+>     ---------------- -------------------- ---------------------------------------- --------- -------------------------- ---------------- --------
+>     /dev/nvme0n1     S58SNS0R705048H      Samsung SSD 970 EVO Plus 500GB           1           0.00   B / 500.11  GB    512   B +  0 B   2B2QEXM7
+> 
+> Output of "nvme list-subsys"":
+> 
+>     nvme-subsys0 - NQN=nqn.2014.08.org.nvmexpress:144d144dS58SNS0R705048H     Samsung SSD 970 EVO Plus 500GB          
+>     \
+>      +- nvme0 pcie 0000:03:00.0 live 
+> 
+> I would be grateful if you could point me in the right direction. I'm
+> attaching outputs of the following commands to this message: dmesg,
+> "cat /proc/cpuinfo", "ls -vvv", lstopo, and dd (both for reading from
+> and writing to this SSD). Please let me know if you need any other info
+> from me.
+> 
+> Thank you,
+> 
+>    Alex Shumakovitch
+
 -- 
-2.31.1
+Damien Le Moal
+Western Digital Research
 
 
