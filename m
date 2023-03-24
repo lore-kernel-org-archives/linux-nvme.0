@@ -4,92 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5616AC6FD1C
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Mar 2023 11:29:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00DA4C6FD20
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Mar 2023 18:18:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=upl3usAPEmW0mAD8vfTgvaAXyk4EM0DMz6fBW/jRlq4=; b=HQEFq+RskV/iJeK3W3cCNb7891
-	zQ2DFIORzuzelPIQCLO17OK4cxxXcujqmzzZXFY/rV6OPTF7xTvePH6VQhoWOBaDHy5jR16WuKQMc
-	vqhzfqMwOahgzX+v5mF82matdxRzHuzLaNagwflg9Exk1VAHYFLWqjFV/44niHPJWyQQMX8reValD
-	D+OUw+PHBp5F53zrfalKaP2bOFkA81UITHGih+Es560HaJGeYGHMJ6Il2vYn+SU+kxyiSpJJiwYAA
-	lbOelIA3hO9yibSQ2R5bI72b22//Q2ZGGY7oAvVoC3NIP4beeTfiSffR8jCTpDQOgA7Gn6XWwfcxA
-	pl8XYmdA==;
+	MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=1v7ZLeL97hWYChdBpR/rAN0z9r+BoNViKNQTonIgoCs=; b=H8WtkF48bs48qU94L8wBJTdWWL
+	vr0dOo3Ywh9QRp8IFDNWMxm/3vpGWKWRnauITac3Nc32ji5WwVbBKVgJ7OyP473AubDWCcVVJ+ltE
+	6Ol4w9L1WhVMA8HDm+RMCdMXLiyYIVikbmYAbNOtYws3BGkpEJzUov0adQxwiUf/rYXDW61a+pY3U
+	Hj0ti1C3g6s63NI8nqRDgGEjo0SH9Ev/Y59VqpIExIqkUP8qi2TMu9vlis06On0VL7D/QFJdjoXgc
+	Ky09TyubjDYq1ILxGi16rtEu0TQnGX3/UiS8twAUWsBeaEKei1uQm4IaGXrn83O09GeHPKIVnv5VQ
+	XWZ+aUFA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pffbw-004FPl-2b;
-	Fri, 24 Mar 2023 11:29:32 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1pflzN-005GwD-1o;
+	Fri, 24 Mar 2023 18:18:09 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pffbt-004FP6-0H
+	id 1pflzF-005Gsp-2c
 	for linux-nvme@lists.infradead.org;
-	Fri, 24 Mar 2023 11:29:30 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CEF6D1FE1E;
-	Fri, 24 Mar 2023 11:29:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1679657363; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=upl3usAPEmW0mAD8vfTgvaAXyk4EM0DMz6fBW/jRlq4=;
-	b=KVKeDHt2epaKC9Pje9YC965XYuIfIY8ZSJU5t//S5epwPp1me3NojxgiGHLuDhF287LPZK
-	AwlMReWhUsiUDvrKuXOvbCnQHny9396SwIlp6hrV1zHMdai0MAhnhN1z1XReoMY22NtrTj
-	u2YXQRx6px16DWx2JmxWESDYsUrsGLk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1679657363;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=upl3usAPEmW0mAD8vfTgvaAXyk4EM0DMz6fBW/jRlq4=;
-	b=m9IzOz6UWUpWtKgn+rSjUqCxIEN/nk96KykJhHtdEushlERqZ1bLvyF5agbmPCR1otkQKc
-	/46ATYiYldtZ6+Bw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BAD8F133E5;
-	Fri, 24 Mar 2023 11:29:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id tPwJLZOJHWTPZAAAMHmgww
-	(envelope-from <hare@suse.de>); Fri, 24 Mar 2023 11:29:23 +0000
-Message-ID: <3ad50302-6b3c-6d6a-669e-0b11c2df6a6b@suse.de>
-Date: Fri, 24 Mar 2023 12:29:23 +0100
+	Fri, 24 Mar 2023 18:18:04 +0000
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32OI0SD2022105;
+	Fri, 24 Mar 2023 18:17:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : subject :
+ date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2022-7-12; bh=1v7ZLeL97hWYChdBpR/rAN0z9r+BoNViKNQTonIgoCs=;
+ b=dklQLpv5Kih9JVdYi1iO2ImypuDTYkW4F+sme8XZYHtjXMI0JGJwkdeW4lDW2IeRBmfH
+ 3I2ntPpGeIzk11tOaMcV1bNoGPAbQ0hTjXtjXXclvUGOKdyOxoRjcG7LD65Rvpp5xwrd
+ yaHgfOOpDxdRe3+ncYvEX4jdkqh4RvqDfJNWKMFaUwqxzOhfDkduEHS7+/ZtYlugQZsi
+ E+xMsDiXR7w7ek9bDVLPOyEFuc1jfmuafwBkXAjxBCfYxpU7/3Ad01Gq+rExVNAJz5Lf
+ cCgB+txoCNtMcPWNsFOVrACgPIJRV31gci7NttV3wqYP5XYkTkPoRXqrhHm3Nvujdvkn OA== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3phgrg81bc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 24 Mar 2023 18:17:46 +0000
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 32OIAArs001370;
+	Fri, 24 Mar 2023 18:17:45 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3pgxk4bx2j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 24 Mar 2023 18:17:45 +0000
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32OIHiEJ021017;
+	Fri, 24 Mar 2023 18:17:45 GMT
+Received: from mnchrist-mac.us.oracle.com (dhcp-10-154-153-54.vpn.oracle.com [10.154.153.54])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3pgxk4bx19-1;
+	Fri, 24 Mar 2023 18:17:44 +0000
+From: Mike Christie <michael.christie@oracle.com>
+To: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
+        linux-scsi@vger.kernel.org, james.bottomley@hansenpartnership.com,
+        linux-block@vger.kernel.org, dm-devel@redhat.com, snitzer@kernel.org,
+        axboe@kernel.dk, linux-nvme@lists.infradead.org, chaitanyak@nvidia.com,
+        kbusch@kernel.org, target-devel@vger.kernel.org
+Subject: [PATCH v5 00/18] Use block pr_ops in LIO
+Date: Fri, 24 Mar 2023 13:17:23 -0500
+Message-Id: <20230324181741.13908-1-michael.christie@oracle.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 15/18] nvmet-tcp: enable TLS handshake upcall
-To: Sagi Grimberg <sagi@grimberg.me>, Chuck Lever III <chuck.lever@oracle.com>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Chuck Lever <cel@kernel.org>,
- "kernel-tls-handshake@lists.linux.dev" <kernel-tls-handshake@lists.linux.dev>
-References: <20230321124325.77385-1-hare@suse.de>
- <20230321124325.77385-16-hare@suse.de>
- <6f69983c-17bd-dd72-b941-95f55db10180@grimberg.me>
- <b8a2e1d4-3571-447b-25c6-c6dd25fbad02@suse.de>
- <a1af3f6b-ec9e-4e91-ad70-57fcc9010a91@grimberg.me>
- <c426d104-b7f2-e736-c23a-b94fda54ed37@suse.de>
- <e0620d94-9729-014c-2cb8-8ff826ebbefa@grimberg.me>
- <e016af81-f77e-2eba-a805-838f62ba50f7@suse.de>
- <68AA3629-6B88-4098-AA03-BEDF614F8D0B@oracle.com>
- <ea181844-69f5-66eb-e64e-e9871916532b@grimberg.me>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <ea181844-69f5-66eb-e64e-e9871916532b@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_11,2023-03-24_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ mlxlogscore=999 spamscore=0 adultscore=0 bulkscore=0 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2303240143
+X-Proofpoint-ORIG-GUID: 42_53J3ULHbeAIb4lt_dUZZeDskoyq4B
+X-Proofpoint-GUID: 42_53J3ULHbeAIb4lt_dUZZeDskoyq4B
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230324_042929_296465_D5E2869E 
-X-CRM114-Status: GOOD (  28.25  )
+X-CRM114-CacheID: sfid-20230324_111802_138749_5A30282D 
+X-CRM114-Status: GOOD (  23.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,114 +93,88 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/23/23 08:21, Sagi Grimberg wrote:
-> 
->>>>>>> The 'data_ready' call might happen at any time after the 'accept' 
->>>>>>> call and us calling into userspace.
->>>>>>> In particular we have this flow of control:
->>>>>>>
->>>>>>> 1. Kernel: accept()
->>>>>>> 2. Kernel: handshake request
->>>>>>> 3. Userspace: read data from socket
->>>>>>> 4. Userspace: tls handshake
->>>>>>> 5. Kernel: handshake complete
->>>>>>>
->>>>>>> If the 'data_ready' event occurs between 1. and 3. userspace 
->>>>>>> wouldn't know that something has happened, and will be sitting 
->>>>>>> there waiting for data which is already present.
->>>>>>
->>>>>> Umm, doesn't userspace read from the socket once we trigger the 
->>>>>> upcall?
->>>>>> it should. But I still don't understand what is the difference 
->>>>>> between
->>>>>> us waiking up userspace, from the default sock doing the same?
->>>>>>
->>>>> No, it doesn't (or, rather, can't).
->>>>> After processing 'accept()' (from the kernel code) data might 
->>>>> already be present (after all, why would we get an 'accept' call 
->>>>> otherwise?).
->>>>> But the daemon has not been started up (yet); that's only done in
->>>>> step 3). But 'data_ready' has already been called, so by the time 
->>>>> userland is able to do a 'read()' on the socket it won't be seeing 
->>>>> anything.
->>>> Not sure I understand. if data exists, userspace will read from the
->>>> socket and get data, whenever that is. >
->>> That's what I thought, too.
->>> But then the userspace daemon just sat there doing nothing.
->>
->> I haven't been following this discussion in detail, but
->> if the kernel disables the normal TCP data_ready callback,
->> then user space won't get any data. That's why SunRPC's
->> data_ready calls the previous sk_data_ready and then shunts
->> its own data_ready callback during handshakes. Without that
->> call to the old sk_data_ready, the user space endpoint won't
->> see any received data.
-> 
-> Yes that is understood. But the solution that Hannes proposed
-> was to introduce nvmet_tcp_tls_data_ready which is overriding
-> the default sock data_ready and does pretty much the same thing.
-> 
-> The reason is that today nvmet_tcp_listen_data_ready schedules accept
-> and then pretty much immediately replaces the socket data_ready to
-> nvmet_tcp_data_ready.
-> 
-> I think that a simpler solution was to make nvmet_tcp_listen_data_ready
-> call port->data_ready (default socket stored data_ready), schedule
-> the accept_work and only after the handshake bounce to userspace is
-> completed, override the socket callbacks.
-> 
-> Something like:
-> -- 
-> static void nvmet_tcp_listen_data_ready(struct sock *sk)
-> {
->          struct nvmet_tcp_port *port;
-> 
->          trace_sk_data_ready(sk);
-> 
->          read_lock_bh(&sk->sk_callback_lock);
->          port = sk->sk_user_data;
->          if (!port)
->                  goto out;
-> 
->          port->data_ready(sk); // trigger socket old data_ready
-> 
->          if (sk->sk_state == TCP_LISTEN)
->                  queue_work(nvmet_wq, &port->accept_work);
-> out:
->          read_unlock_bh(&sk->sk_callback_lock);
-> }
-> 
+The patches in this thread allow us to use the block pr_ops with LIO's
+target_core_iblock module to support cluster applications in VMs. They
+were built over Linus's tree. They also apply over linux-next and
+Martin's tree and Jens's trees. 
+ 
+Currently, to use windows clustering or linux clustering (pacemaker +
+cluster labs scsi fence agents) in VMs with LIO and vhost-scsi, you have
+to use tcmu or pscsi or use a cluster aware FS/framework for the LIO pr
+file. Setting up a cluster FS/framework is pain and waste when your real
+backend device is already a distributed device, and pscsi and tcmu are
+nice for specific use cases, but iblock gives you the best performance and
+allows you to use stacked devices like dm-multipath. So these patches
+allow iblock to work like pscsi/tcmu where they can pass a PR command to
+the backend module. And then iblock will use the pr_ops to pass the PR
+command to the real devices similar to what we do for unmap today.
 
-Nearly there.
+The patches are separated in the following groups:
+Patch 1 - 2:
+- Add block layer callouts for reading reservations and rename reservation
+  error code.
+Patch 3 - 5:
+- SCSI support for new callouts.
+Patch 6:
+- DM support for new callouts.
+Patch 7 - 13:
+- NVMe support for new callouts.
+Patch 14 - 18:
+- LIO support for new callouts.
 
-The actual patch would be:
+This patchset has been tested with the libiscsi PGR ops and with window's
+failover cluster verification test. Note that for scsi backend devices we
+need this patchset:
 
-@@ -2031,10 +1988,16 @@ static void nvmet_tcp_listen_data_ready(struct 
-sock *sk)
-         trace_sk_data_ready(sk);
+https://lore.kernel.org/linux-scsi/20230123221046.125483-1-michael.christie@oracle.com/T/#m4834a643ffb5bac2529d65d40906d3cfbdd9b1b7
 
-         read_lock_bh(&sk->sk_callback_lock);
-+       /* Ignore if the callback has been changed */
-+       if (sk->sk_data_ready != nvmet_tcp_listen_data_ready)
-+               goto out;
-         port = sk->sk_user_data;
-         if (!port)
-                 goto out;
+to handle UAs. To reduce the size of this patchset that's being done
+separately to make reviewing easier. And to make merging easier this
+patchset and the one above do not have any conflicts so can be merged
+in different trees.
 
-+       if (port->data_ready)
-+               port->data_ready(sk);
-+
-         if (sk->sk_state == TCP_LISTEN)
-                 queue_work(nvmet_wq, &port->accept_work);
-  out:
+v5:
+- Use []/struct_size with nvme reservation structs
+- Add Keith's copywrite to pr.c
+- Drop else in nvme_send_pr_command
+- Fix PR_EXCLUSIVE_ACCESS_ALL_REGS use in block_pr_type_from_nvme
 
-As the callbacks will be changed once TLS is activated, and we really 
-should not attempt to run if sk_data_ready() points to another function,
-as then the sk_user_data pointer will most likely be changed, too,
-causing all sorts of issues.
+v4:
+- Pass read_keys number of keys instead of array len
+- Keep the switch use when converting between block and scsi/nvme PR
+types. Drop default case so compiler spits out warning if in the future
+a new value is added.
+- Add helper for handling
+nvme_send_ns_head_pr_command/nvme_send_ns_pr_command
+- Use void * instead of u8* for passing data buffer.
+- Rename status variable to rs.
+- Have caller init buffer/structs instead of nvme/scsi callouts.
+- Drop blk_status to err code.
 
-Cheers,
+v3:
+- Fix patch subject formatting.
+- Fix coding style.
+- Rearrange patches so helpers are added with users to avoid compilation
+errors.
+- Move pr type conversion to array and add nvme_pr_type.
+- Add Extended Data Structure control flag enum and use in code for checks.
+- Move nvme pr code to new file.
+- Add more info to patch subjects about why we need to add blk_status
+to pr_ops.
+- Use generic SCSI passthrough error handling interface.
+- Fix checkpatch --strict errors. Note that I kept the existing coding
+style that it complained about because it looked like it was the preferred
+style for the code and I didn't want a mix and match.
 
-Hannes
+v2:
+- Drop BLK_STS_NEXUS rename changes. Will do separately.
+- Add NVMe support.
+- Fixed bug in target_core_iblock where a variable was not initialized
+mentioned by Christoph.
+- Fixed sd pr_ops UA handling issue found when running libiscsi PGR tests.
+- Added patches to allow pr_ops to pass up a BLK_STS so we could return
+a RESERVATION_CONFLICT status when a pr_ops callout fails.
+
+
 
 
