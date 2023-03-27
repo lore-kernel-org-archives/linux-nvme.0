@@ -4,66 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA16EC761A6
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Mar 2023 18:25:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A056C6FD1D
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Mar 2023 19:13:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=V+Yi5h7xQiewEzB4sWh2zf9wxkDk58siKqSwHfcqwjA=; b=b2hXbPOBiCXGzkvx+fVaB1trE1
-	qDudy//cJQH5hFJ0FwCvrs133M9GqFawKYyCM5FqWjyQyO3jkX+amWZBpTWtMznI7YkBnbG31Y3XW
-	4EtsN4Ni1Baintp/l31S8SPZg6zLBW6HX3Ljod1LPmZq5gKJ3X15dLsr1NRCWUtxy08+WZ+cE8for
-	RTNeG9VJI6hzUji5pqvUQhNOqn9rQivSgVImBiI5cT6EjHPINnAXkVm1+MAuVcqZ+2vR0QuKLU6mj
-	2n04Dg4XjCeBUs/EDPdyg93ViPC8bkkbBcro0sxd/8SphyXbPF2eIvv8nf3eOF7kWcTWXhvAGaFqc
-	EjNuRreg==;
+	bh=E1zRha7BHAhGg6ATSz7b6xyQOdyDIKVBqdliEZL7zC0=; b=VX7fWLNa94Hh1Vlwr9MYsAmCaG
+	85ENRBNkFiahCgMoMuxZ2UbL4CiJlF4h7upUGk8QMHqXtJI2pho+VTp4P9/caK1wjKXQ7vfG/Wefk
+	MeUoWnawsWQLaeUFNnCJqBlK40v2QUYvtWSLWzO7trBmgIRRHl0YEjaldenf5C+J9l0mZsOKKQBnb
+	qH3/bvyweqMBxOBQVmwXzM/hPRlcGe/l2K+ritR26AHjAJ9hEYZmUA69xyfOWjfZjKb+nkxePS6CC
+	4PQa1feXgn4easiwOs5YdYgcF+OU66aOMAaS5Y8UVAIB9fZTmxU9zgj/RNWfGWd6l/Fp3+hcKReof
+	RhsDPFPg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pgrXH-00C2iX-2i;
-	Mon, 27 Mar 2023 18:25:39 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1pgsHr-00CAwA-20;
+	Mon, 27 Mar 2023 19:13:47 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pgrXE-00C2hX-2z
+	id 1pgsHo-00CAur-2b
 	for linux-nvme@lists.infradead.org;
-	Mon, 27 Mar 2023 18:25:38 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 5BEAEB818BA;
-	Mon, 27 Mar 2023 18:25:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 462F9C4339B;
-	Mon, 27 Mar 2023 18:25:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679941534;
-	bh=NetanH4sd0D3s9kbFvtFNH1FlBRlHB84MpHBbN+Dork=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=elydm5rx3TzjkZWgmL/p25yuLBH16WR5Ht67qc/ohRBDyzKhd38+uzGgAG4/WlW0q
-	 o5ZviK8axvqlhEcyje6BaoUpPICCrxaEu5okPy3ZshnM7jkgvofnf7fJtg66hLIyMw
-	 NWnx4Sow4D3dbMpIzPlgS3UjqAOKcXAarsl3R/Yff0TbJtVUQk6usVmCavpuV8qiJV
-	 z54cytk9NNxKC5Ax6LxHcxxrDAWbMep2zQ4eXyhTGtcKQ3utfFFHvWebJfKSx2euOX
-	 TgmT2qWHFq4f/d74iizboW0JiaobYY48zC95Zmt7PUklW5kB6iovVMyziiFIb3WSp2
-	 mwdCZ2LGkfFIw==
-Date: Mon, 27 Mar 2023 12:25:30 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Aleksander Trofimowicz <alex@n90.eu>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Lukas Wunner <lukas@wunner.de>, linux-pci@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [bugzilla-daemon@kernel.org: [Bug 217251] New: pciehp: nvme not
- visible after re-insert to tbt port]
-Message-ID: <ZCHfmmv9WPxM4fD7@kbusch-mbp.dhcp.thefacebook.com>
-References: <20230327143359.GA2834753@bhelgaas>
- <ZCHB6hXbCOxiZw+n@kbusch-mbp.dhcp.thefacebook.com>
- <871qlank6o.fsf@n90.eu>
+	Mon, 27 Mar 2023 19:13:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1679944422;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E1zRha7BHAhGg6ATSz7b6xyQOdyDIKVBqdliEZL7zC0=;
+	b=iwQVaKbfPg2IS19GJDO5SSD/v2Yy0dq4vA8IbqBymRhNSEIK4K78cSqi54Vemciz02VOfe
+	ZYEci4aPHi5jGtf3mZjc0WuiQAgqL78fhv6ELvS3cmaZ7EkPKLe+fdDMMaDNftCsm6u8jh
+	HKEU4I4goNN1AbksZHUgNsHULK1ydmQ=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-393-9FwIzY2iMceRO1vC_ck4Mg-1; Mon, 27 Mar 2023 15:13:41 -0400
+X-MC-Unique: 9FwIzY2iMceRO1vC_ck4Mg-1
+Received: by mail-ua1-f72.google.com with SMTP id o4-20020ab01c44000000b0074031f8fe21so4610670uaj.18
+        for <linux-nvme@lists.infradead.org>; Mon, 27 Mar 2023 12:13:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679944421;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=E1zRha7BHAhGg6ATSz7b6xyQOdyDIKVBqdliEZL7zC0=;
+        b=GXx/kpHzdqy9StAuFAslg4y7hRaa/CVHDBwVsVEkmB0Lw6+e9cWftg4+DSl9jSdkSc
+         cQI+nXMutHgW58WBvevSe+FQ+K763bmE5cg55vk6q+de0N8yBCRzbpuGzhaf9QR637rO
+         KCzEGe9CQag4cle7Nqw6tPM/QbsG/KGlTYr1QVhYjWwqpiCRSfrOqBLBgbYGmcinROx0
+         vJB3zXg3o6ZQEhWfXBsMhYcMnAAFBjglE+ZOds6NkOEzoLTdGJmcTaxIYaGdVJ+bwU0X
+         0Maa25ZJfhGALDqA4IxNcMakHCpKkqDjOel0FfSqNIMJj5aWgfFMZYWlpv/U1KACdxFd
+         3jhA==
+X-Gm-Message-State: AAQBX9cwA8ZFwZ6wXoKnwZzz5MDBQ0G3vd4uexwrpD2xNe9sceAdFuHS
+	In18hatwcvjQviYNYz477ZeJzH99lqd9MXnH7cY2GbimaouZn1ZpLs2oiIpihYy3gVQdn9Fp5qG
+	+YCcesskE8vWKfPOaefhWpdsxdhDl5h+Xg83amR2j798=
+X-Received: by 2002:a05:6130:c0d:b0:68e:33d7:7e6b with SMTP id cg13-20020a0561300c0d00b0068e33d77e6bmr7024121uab.1.1679944420934;
+        Mon, 27 Mar 2023 12:13:40 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aaQogn32n+L7ho5TXNxSDqxcL5rz6nhgbIjh/RSrzQQA6apKf0AxmPK9a0UJLy7cSZ4T8TLlgvPPzbQgzK2iU=
+X-Received: by 2002:a05:6130:c0d:b0:68e:33d7:7e6b with SMTP id
+ cg13-20020a0561300c0d00b0068e33d77e6bmr7024107uab.1.1679944420622; Mon, 27
+ Mar 2023 12:13:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <871qlank6o.fsf@n90.eu>
+References: <20230327054838.67353-1-kch@nvidia.com>
+In-Reply-To: <20230327054838.67353-1-kch@nvidia.com>
+From: Eric Curtin <ecurtin@redhat.com>
+Date: Mon, 27 Mar 2023 20:13:24 +0100
+Message-ID: <CAOgh=FyVPSmXLJgvsfep0waEoKDT3BsuVg7ZYY=_98A=TYJXng@mail.gmail.com>
+Subject: Re: [PATCH 1/2] nvme-apple: return directly instead of else
+To: Chaitanya Kulkarni <kch@nvidia.com>
+Cc: marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io, 
+	kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, asahi@lists.linux.dev, 
+	linux-nvme@lists.infradead.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230327_112537_113542_51A8A0F8 
-X-CRM114-Status: GOOD (  25.23  )
+X-CRM114-CacheID: sfid-20230327_121344_937597_D41F2A29 
+X-CRM114-Status: GOOD (  18.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,55 +95,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Mar 27, 2023 at 05:43:18PM +0000, Aleksander Trofimowicz wrote:
-> 
-> Keith Busch <kbusch@kernel.org> writes:
-> 
-> > On Mon, Mar 27, 2023 at 09:33:59AM -0500, Bjorn Helgaas wrote:
-> >> Forwarding to NVMe folks, lists for visibility.
-> >>
-> >> ----- Forwarded message from bugzilla-daemon@kernel.org -----
-> >>
-> >> https://bugzilla.kernel.org/show_bug.cgi?id=217251
-> >> ...
-> >>
-> >> Created attachment 304031
-> >>   --> https://bugzilla.kernel.org/attachment.cgi?id=304031&action=edit
-> >> the tracing of nvme_pci_enable() during re-insertion
-> >>
-> >> Hi,
-> >>
-> >> There is a JHL7540-based device that may host a NVMe device. After the first
-> >> insertion a nvme drive is properly discovered and handled by the relevant
-> >> modules. Once disconnected any further attempts are not successful. The device
-> >> is visible on a PCI bus, but nvme_pci_enable() ends up calling
-> >> pci_disable_device() every time; the runtime PM status of the device is
-> >> "suspended", the power status of the 04:01.0 PCI bridge is D3. Preventing the
-> >> device from being power managed ("on" -> /sys/devices/../power/control)
-> >> combined with device removal and pci rescan changes nothing. A host reboot
-> >> restores the initial state.
-> >>
-> >> I would appreciate any suggestions how to debug it further.
-> >
-> > Sounds the same as this report:
-> >
-> >   http://lists.infradead.org/pipermail/linux-nvme/2023-March/038259.html
-> >
-> > The driver is bailing on the device because we can't read it's status register
-> > out of the remapped BAR. There's nothing we can do about that from the nvme
-> > driver level. Memory mapped IO has to work in order to proceed.
-> >
-> Thanks. I can confirm it is the same problem:
-> 
-> a) the platform is Intel Alderlake
-> b) readl(dev->bar + NVME_REG_CSTS) in nvme_pci_enable() fails
-> c) reading BAR0 via setpci gives 0x00000004
+On Mon, 27 Mar 2023 at 06:56, Chaitanya Kulkarni <kch@nvidia.com> wrote:
+>
+> There is no need for the else when direct return is used at the end of
+> the function.
+>
+> Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
 
-It's strange too. In your example, kernel says:
+Reviewed-by: Eric Curtin <ecurtin@redhat.com>
 
-  0000:05:00.0: BAR 0: assigned [mem 0x54000000-0x54003fff 64bit]
+Is mise le meas/Regards,
 
-There is a check right after that message that ensures the kernel reads back
-what it wrote. No failures reported means the device really did have the
-expected BAR value at one point.
+Eric Curtin
+
+> ---
+>  drivers/nvme/host/apple.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+> index 5fc5ea196b40..942a3b71a6d5 100644
+> --- a/drivers/nvme/host/apple.c
+> +++ b/drivers/nvme/host/apple.c
+> @@ -209,8 +209,8 @@ static inline struct apple_nvme *queue_to_apple_nvme(struct apple_nvme_queue *q)
+>  {
+>         if (q->is_adminq)
+>                 return container_of(q, struct apple_nvme, adminq);
+> -       else
+> -               return container_of(q, struct apple_nvme, ioq);
+> +
+> +       return container_of(q, struct apple_nvme, ioq);
+>  }
+>
+>  static unsigned int apple_nvme_queue_depth(struct apple_nvme_queue *q)
+> --
+> 2.29.0
+>
+>
+
 
