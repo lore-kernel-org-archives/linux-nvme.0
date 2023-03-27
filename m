@@ -4,80 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D79CFC76195
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Mar 2023 06:05:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8AB4EC76195
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Mar 2023 06:05:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jUB4X31JccUsH7JmsM6o5fLHgoBZtRrgnCcJnq2gJt0=; b=eb6Ews1UmXmjxbWKx9cRDux8Cm
-	coczRnJ3WxMvrkSFYxQ7ZD5q4fLpqeHEUOcvOEatqrL1vRFBXJLdbZhLz7YV2FzwlBxflziZqkfm5
-	yHkifDhRkczzo8X91zjJtS6gGxYfuOweHrrZ1jPNgILHl0hILpBD3+i0hsdPu7MwZSPIDE2dCPN5M
-	pXDtq6rpgNxJZbwwelRxr0yMIa4GzAlXPaZ+cKiN2RJ29ddcpVXrEf3b989+sSq3rtiQf/vPPwpoA
-	1RmS0CESMFlgtWhyBC2DhihUt32FI5cuOdwEWjyw3sGR7ejzv9+0YybVsHLbgHq1mhLd/ICUv1aee
-	6pFNcEvA==;
+	bh=tMACI+ZrNkdef3dkIvbx6weDef7bGitvzEao5zHauFo=; b=KJ/EEHb5zIaQ7X3OTIHG9TJfL+
+	KqjHx6AzR+GDuC0nprTPCNczelXW/+45AKK3pRf8dy4YH5Xutxw9P2UeEHYSMDPL/+ZJ1Hb6bUJfG
+	HZF4p4v8ZGQTbGrWxIJsBf0jVnHs3pY8Ij9SEF41Y4MRuK5eqYwwq6Zm5XessiDOL+MAun6wpNXiD
+	qZAwLlXAJFBu74fV5RwMFXQTFT5g6GHO11FMdQjgDvc7SKAqWIB12k1vA2nFQ71Wp4HSBS/k3Dp5y
+	tXb6W3A8j24cxFThAVK4ScUUJvxn5ep3XCclNDpMCvGdEwC1yr2OikS+G3dHpjvWrOsU3tlruVr7Z
+	+kqOqJrQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pgfzE-009uFK-1C;
-	Mon, 27 Mar 2023 06:05:44 +0000
-Received: from mail-mw2nam12on2061b.outbound.protection.outlook.com ([2a01:111:f400:fe5a::61b] helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+	id 1pgfzK-009uJK-1X;
+	Mon, 27 Mar 2023 06:05:50 +0000
+Received: from mail-bn8nam12on20614.outbound.protection.outlook.com ([2a01:111:f400:fe5b::614] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pgfzB-009uDV-1M
+	id 1pgfzH-009uGc-1t
 	for linux-nvme@lists.infradead.org;
-	Mon, 27 Mar 2023 06:05:42 +0000
+	Mon, 27 Mar 2023 06:05:48 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fj45BDdU+YrK61f5kjmb50hZgn9xJ3v/JFvIRHRKe2VxJQyhm99bdkLYfmjnFBngn6TCffkupckXGB7ZB35G8r+nih5CDmWRnm6u3foZgK9TicqDuyV8FbfzqrDwM5qTBIuDHCDNg+9fRvuUwk3yCmg8VU/dnuKnRGI2oAUPb88u/yeZMdyAizjwnRoez1FC9XI9QSTIE0Dp/A1DDmIaosaQGVyblnlUSVW/cymNYiSVP5Qeom5iKsJ6TMIDlv8IijeblV84C8btrg31HjLtL0RsooVe8WQI3wcsRrWY5jREs/Cr0fiOoSoc15U3R3B5d2O6mOkX+hQ3fj+9WCiSOA==
+ b=GQBgY9wwm68/vP5vlKrAvP1HrCYh/Fi0cOmQQY8a0B+kAprVKv1REVz5+K2LY+YHT79/Y7PIvq/0NB8zB+VJq8L8KeUbQps5IWDep1rstZS51R86gJkQvrttPe5ovVH5U36Kjh3xmTJ4KtmJhLRNaim1FqQMktHpEeH0Ik98vBm1ggb74eec86cKlYD0CBRnIfr4nes/iqi2hu4DSxrpG/6A1+eNXf8KQBjWpBwqcbA/Z1oKCaJblpYRIkDZKLEdxLFJ/WpvBavTCf0exPSlDdwfd/O1xwg+oXbfwP5VTkVIRmJpwSYnfUkh0VrWOTYCRe8yeaq9z7PM233+UxsREw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jUB4X31JccUsH7JmsM6o5fLHgoBZtRrgnCcJnq2gJt0=;
- b=RNbUocKrRnOqxrhnLg4mSUXLHhGe58z/5j1lzyoA3qlDpEzU0VPFqnO8o70zOzws7zQ+u0I0gkeYtiUuC90Fiy3nH/zoQYOFuQCrrVr/oLaED6eNPOoQ0aq9Fxe0xVm+la5mK2xJqp6c0ZXwYQlau09C8NOJR954wLy+KB9BlKOgGVYnZgJj491wI2/Tj7ayshNDOH4iyGLuxJ7jh2li5c+UtQH17mUqSxuK86+R5UtQaTZDj7LYxH3yAxk+FQhV7RwwGyl3jTT9WXe6zGQg8EMNpZMZ0VFQFNPyv3BfUSjcv4YFwv2uuts072o/3zwVvNf3IddjH849RquhwUU63w==
+ bh=tMACI+ZrNkdef3dkIvbx6weDef7bGitvzEao5zHauFo=;
+ b=Jay0mnfC4TykBL3kfRHZGqH+dd8JkvWaiRX2HQUpXFgHqUNFkLZA5v77Tvsb2ZCeAOgmhtlY9a/bo1RksOzJ3V+S/v6CkKQ6bquHOgVBPd7AA5j86lvp7pWffLsO9moY85dSMs4BLyrvASjNAjaRThQxHnyCOy9MuiHuznNYdOgbS9tE1B5BqK2kBoNY8uGrurSU08nFdF95utVt1wrhmU3WJRee71LepopW7sLNHkwoeYGVg9OYUniuOuW4jOnCXZ6H2v6MEdxT3rvX6fi6y01t5wD7asC4h3g6t52FK86uLKQP8+tqADsdnOJ5An/ZwBUPBMSknMiczSqPr+SaDg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=lists.infradead.org
+ 216.228.117.161) smtp.rcpttodomain=lists.infradead.org
  smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
  header.from=nvidia.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jUB4X31JccUsH7JmsM6o5fLHgoBZtRrgnCcJnq2gJt0=;
- b=kgOtKrAifqIYN4dQGPoH3rjiGpbjjBSC/p+eDk7womnwbwTPq/Wm2Mf81R4FPavuCU+0r76B3Qoc4PzFHccQykMbUGbCbu2IXmuIgoRwr/yp+o3+1wTYHl9hK/B7bVntQzPem6xJPjLNPuXUHdYrt/cLqQ6NoDNSO9dAlnEQg+qX9Gu2L0k8XSj/RDj8JGvmmvymWl99evgBI67zEEkk9uGHxK7Ny8Ugy3cwrGIgsvbutO83vu3RGhaY04QVS+Q0XF8R19/PEyL1pEq+SJoH0JvnjSJCRHxqJ1AIvF5bdzALkyymKH6f4xMEKyXdT+CZI9ToijCUOuc79Pi8SI+X9w==
-Received: from BYAPR05CA0097.namprd05.prod.outlook.com (2603:10b6:a03:e0::38)
- by DM6PR12MB4483.namprd12.prod.outlook.com (2603:10b6:5:2a2::22) with
+ bh=tMACI+ZrNkdef3dkIvbx6weDef7bGitvzEao5zHauFo=;
+ b=IalBXZDwmS6bxzmww7My1AkwPDkrWX6Iqoz1rt59g/RMf08toR7Xm+cdAxbMdlMPKOhBpfYQMmvQegdHekvjWuRwvVkGJ/VAmttuwIuGeRziz/M1A5AeQP/SfNju7OrNyPp16KguzTQ34c2gobHF9ONu07+ev6IFmaL2fQNmnlQPNrTm/yl4C3Ac7MEa+bUga45yOXEjO4Bv/5DzfoKI31BQJHcrBuLhKqTmVgKu9mO0dxoQEcfBZbGezdppAbhU5c2+XS8xo7DsQfC9kpvvOTPLvVyR9dOPaoUBC9kLU6E1G2JYtLgArf7vRwLtDVrJ/fgiym7OmJHqDZzSSKdRZQ==
+Received: from MN2PR19CA0026.namprd19.prod.outlook.com (2603:10b6:208:178::39)
+ by DM6PR12MB4074.namprd12.prod.outlook.com (2603:10b6:5:218::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.29; Mon, 27 Mar
- 2023 06:05:37 +0000
-Received: from CO1PEPF00001A64.namprd05.prod.outlook.com
- (2603:10b6:a03:e0:cafe::99) by BYAPR05CA0097.outlook.office365.com
- (2603:10b6:a03:e0::38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.16 via Frontend
- Transport; Mon, 27 Mar 2023 06:05:37 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.41; Mon, 27 Mar
+ 2023 06:05:44 +0000
+Received: from BL02EPF0000C405.namprd05.prod.outlook.com
+ (2603:10b6:208:178:cafe::e2) by MN2PR19CA0026.outlook.office365.com
+ (2603:10b6:208:178::39) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.41 via Frontend
+ Transport; Mon, 27 Mar 2023 06:05:44 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
  smtp.mailfrom=nvidia.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- CO1PEPF00001A64.mail.protection.outlook.com (10.167.241.11) with Microsoft
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ BL02EPF0000C405.mail.protection.outlook.com (10.167.241.7) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6178.30 via Frontend Transport; Mon, 27 Mar 2023 06:05:37 +0000
+ 15.20.6178.30 via Frontend Transport; Mon, 27 Mar 2023 06:05:43 +0000
 Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Sun, 26 Mar 2023
- 23:05:17 -0700
+ 23:05:30 -0700
 Received: from dev.nvidia.com (10.126.230.37) by rnnvmail201.nvidia.com
  (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Sun, 26 Mar
- 2023 23:05:15 -0700
+ 2023 23:05:29 -0700
 From: Chaitanya Kulkarni <kch@nvidia.com>
 To: <linux-nvme@lists.infradead.org>
 CC: <kbusch@kernel.org>, <hch@lst.de>, <sagi@grimberg.me>, <hare@suse.de>,
 	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH V2 4/8] nvme-core: use normal pattern
-Date: Sun, 26 Mar 2023 23:04:14 -0700
-Message-ID: <20230327060418.86655-5-kch@nvidia.com>
+Subject: [PATCH V2 5/8] nvme-core: open code nvme_delete_ctrl_sync()
+Date: Sun, 26 Mar 2023 23:04:15 -0700
+Message-ID: <20230327060418.86655-6-kch@nvidia.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20230327060418.86655-1-kch@nvidia.com>
 References: <20230327060418.86655-1-kch@nvidia.com>
@@ -89,26 +89,26 @@ X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
  rnnvmail201.nvidia.com (10.129.68.8)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF00001A64:EE_|DM6PR12MB4483:EE_
-X-MS-Office365-Filtering-Correlation-Id: 162d7d93-7ebe-4600-7df6-08db2e89491a
+X-MS-TrafficTypeDiagnostic: BL02EPF0000C405:EE_|DM6PR12MB4074:EE_
+X-MS-Office365-Filtering-Correlation-Id: d50357c7-07a8-479d-989d-08db2e894d14
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	zjQgSQttIY0i7MCEFsoJ3Zm5mwQa6TgNaDOJw76nSqK3mAEmJNHvK03IJyNlLjGxTvSdgUiH8+kWuILBYwWzEKmV4wv7qykBV4qFcObZrapl/UGwXSPU6OK0ntmIfUQlOf5TJf4toFTXAtTLhEdtjzUPcwanbtb0qpT5hOF7m1QgMOhEqhAiTMwjHX/FVtKUbUXINGYCHwOR8zG0FXRDJsavVVQ93tsoGzTd7p3UYNqyQvtfev+qxgkrkDmH8uLPTe6IikbfLSQGM0g62ragDEMdWJCW5w5kILJfQjyfE15WwtcF2kcHIwz0/QDNXTzZYd5Pz0Q2EQWfMkvPkNtt4GhS7QzxH1JWYl6bAgjhf8wryXz1ZYL+S7hAdkrlhQtqcGPBxX4GpUSzixIR+gWqNs74YewlaXWtkcQO7PE9YViEy+AKva9k3Q/GALrUwobX4oCGz5uG+rbO8Xl572c88bYsz6nFEtv/XzawxeP6liQBy5/1fZdupJzPXQelVk5xZQvUHs6L3Ra2Q9INCXiRxxK2rcyBDXGr+uJJnCDotEIvwYY9b/nCV61bnJtRRsCcILoGHIvy1TsJFlquWIiG1TjXzdIQ/+F9FWmzerI/hmbXgJCxn2OU/V/+QGKIDKiDIkKlmi4RQPquFm/YTYs9mFOa5cE1bW3XcL7gUBDqX+uN1mRZv4cLGeJ2xnrWbmHPgol/S+XEqC0AdOg6zR/Ppx8GFMafdNp/39pvtG3EI/cyLG6zLu0ckCfrEYD8XER0
-X-Forefront-Antispam-Report: 	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(136003)(346002)(39860400002)(451199021)(40470700004)(36840700001)(46966006)(2616005)(47076005)(83380400001)(426003)(336012)(70206006)(4326008)(70586007)(6916009)(8676002)(54906003)(7696005)(478600001)(1076003)(16526019)(186003)(26005)(316002)(82310400005)(107886003)(2906002)(40480700001)(36756003)(40460700003)(41300700001)(36860700001)(5660300002)(8936002)(82740400003)(7636003)(356005);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 	e0jIwLfx4plbRWGSyB+Z4iHXHB7E/gjUjKUv8a6I8q7Zfo/H2xYrsnFXLPskNz1youBugx2NBqMLuLPW6YMrudoDCObhrVxAslQZ3bOKuWjHl4UYcnCRu1sXulE2pEkgniz9UqeoYTi9fgc1tF6QcsFRrMMuGoMVFVM6eVhb5niP8cn3Q/g91SHREfPJNvX2sh/ghSJCuqJdoo11lihM7FyhEEq/p2xTu76PlVrBi3I2nog5IHpiZZ8tcl5q0CDta2SgMPJFEBMTmoMq2sDbRWsKaWIhrK6LcuzPupjtE+iGu2OBzfELewK/uyRIuagvdhVKZC5wSb74RQzjhxoyRt+n5aWhUENSkkgrDAhvY3GB6g8JgWAsLTYrHQlXZT0O11/cer+TPFvu0Fl7gu7mbVd1gtavfvYHeRMs9W9dQveYQ4JMFNPLvtNJRJ/V4qxitu6hP4h1CaNjoqDncxgRfWCr29kajmA/mEP+Mvc8booGgMvy92gEuI6cpKaaLA6c+xn4bEblYv6mVs3RHM0xBmqoPzLACNUYLemzYiykgQBItoX4V13pQmr9qFYkknkdZWgiPhviKFh1Ca/esvfuqN2UIo4PXphRKMywoGP6i5jakonVG1HElAx4negr/Qxy/JLZBKHoLEC0SnVGaXN35URzEaTndirtNyiMMdmAS5RAaavJLOq6EkvmVxzQCHPjk4aQpigoBV1kxN/iQBronLI4/14qZ14ABdAtFyXXez+uc/GBUtJk1uvuvVfpEO+o
+X-Forefront-Antispam-Report: 	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(346002)(136003)(376002)(396003)(39860400002)(451199021)(40470700004)(46966006)(36840700001)(16526019)(186003)(107886003)(6666004)(26005)(2906002)(83380400001)(40480700001)(356005)(82310400005)(36860700001)(36756003)(82740400003)(40460700003)(336012)(7636003)(426003)(47076005)(2616005)(1076003)(54906003)(70586007)(70206006)(8936002)(7696005)(5660300002)(478600001)(6916009)(4326008)(41300700001)(8676002)(316002);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2023 06:05:37.3833
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2023 06:05:43.9618
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 162d7d93-7ebe-4600-7df6-08db2e89491a
+X-MS-Exchange-CrossTenant-Network-Message-Id: d50357c7-07a8-479d-989d-08db2e894d14
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: 	CO1PEPF00001A64.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: 	BL02EPF0000C405.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4483
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4074
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230326_230541_462854_62699171 
-X-CRM114-Status: GOOD (  10.28  )
+X-CRM114-CacheID: sfid-20230326_230547_622786_66A3D2F7 
+X-CRM114-Status: GOOD (  12.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,47 +123,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Although return is allowed in the switch ... case when function is
-returing void, it creates confusion for future code which is desirable
-pattern to use for switch ... case. Repalce return in the switch with
-break that is standard pattern for the switch ... case.
+There is only one caller for the nvme_delete_ctrl_sync() i.e.
+nvme_sysfs_delete(). Just open code the function in the caller.
+
+Also, add a meaningful comment since we don't have the function name to
+indicate synchronous deletion of the controller.
 
 Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/core.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/nvme/host/core.c | 26 ++++++++++++--------------
+ 1 file changed, 12 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 5a12be27bea7..cf9469e486ec 100644
+index cf9469e486ec..c4372855924d 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -403,13 +403,13 @@ void nvme_complete_rq(struct request *req)
- 	switch (nvme_decide_disposition(req)) {
- 	case COMPLETE:
- 		nvme_end_req(req);
--		return;
-+		break;
- 	case RETRY:
- 		nvme_retry_req(req);
--		return;
-+		break;
- 	case FAILOVER:
- 		nvme_failover_req(req);
--		return;
-+		break;
- 	case AUTHENTICATE:
- #ifdef CONFIG_NVME_AUTH
- 		queue_work(nvme_wq, &ctrl->dhchap_auth_work);
-@@ -417,7 +417,7 @@ void nvme_complete_rq(struct request *req)
- #else
- 		nvme_end_req(req);
- #endif
--		return;
-+		break;
- 	}
+@@ -237,18 +237,6 @@ int nvme_delete_ctrl(struct nvme_ctrl *ctrl)
  }
- EXPORT_SYMBOL_GPL(nvme_complete_rq);
+ EXPORT_SYMBOL_GPL(nvme_delete_ctrl);
+ 
+-static void nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl)
+-{
+-	/*
+-	 * Keep a reference until nvme_do_delete_ctrl() complete,
+-	 * since ->delete_ctrl can free the controller.
+-	 */
+-	nvme_get_ctrl(ctrl);
+-	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_DELETING))
+-		nvme_do_delete_ctrl(ctrl);
+-	nvme_put_ctrl(ctrl);
+-}
+-
+ static blk_status_t nvme_error_status(u16 status)
+ {
+ 	switch (status & 0x7ff) {
+@@ -3591,8 +3579,18 @@ static ssize_t nvme_sysfs_delete(struct device *dev,
+ {
+ 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+ 
+-	if (device_remove_file_self(dev, attr))
+-		nvme_delete_ctrl_sync(ctrl);
++	if (!device_remove_file_self(dev, attr))
++		return count;
++
++	/*
++	 * Delete the controller synchronously but keep a reference until
++	 * nvme_do_delete_ctrl() complete, since ->delete_ctrl can free the
++	 * controller.
++	 */
++	nvme_get_ctrl(ctrl);
++	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_DELETING))
++		nvme_do_delete_ctrl(ctrl);
++	nvme_put_ctrl(ctrl);
+ 	return count;
+ }
+ static DEVICE_ATTR(delete_controller, S_IWUSR, NULL, nvme_sysfs_delete);
 -- 
 2.29.0
 
