@@ -4,84 +4,148 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22D79C76196
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Mar 2023 08:44:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA826C76196
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Mar 2023 08:45:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Sq4nT9N0o2/zS2QXl0qJAFl4VFvJRq9f1jczWkHjikc=; b=1sjf7+bgDSyiQtvvWNduYAKahR
-	UJjDu57QVG/Je5T1k0nrl+pLvgEklS/sesXf9lqit7Aav5McDAXy6iy5nQJO22xX1PkzO+wcxlDnA
-	ndbUN82Dn2rmdN5E951f6qnqZ4wLnqHwwlTFKESh7ReKyfh3X8KRFlnbidFULJCixiMHkeYWwgylF
-	nqUhpnxtIrfRuY7UegPppADin3e3Mpk9MrP3/GxxvxbKq6vlku3RE4XUu8OfGxs5cy9BYR81Xuwt/
-	4ZtR5oijlIBQZJ9Zu2OaqstNh59QUNtDIesr18Qd/AKU8AX/urYau05ODt825kLplPAMi+in5nauj
-	UaQkRwvQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=/e/DHjKvXPU5Fq4LwXqRmuCW4lai39WqOzSdNtaiR90=; b=JimYSwvnCxsjBn0gqq3tOsL3Wn
+	R0meug97bcdneYJrqCNxu+wJ5nADHb9L6GIeGEfV6qKqzcwXLaVIycLT0YPmTHKAdtSF8hOm8V474
+	kUrskoVoFrSlpA+rAG26hsZgnS7JnF8MkauuB49lv0OE9ZrSF4qvcHlBuRee2PIKiaeaKh58Afr3v
+	Zh0tSOTptkgfFhP1jdmiTlB+snvnGObDAhITqIhNlvbDCq+IHG8i1TgiCIvgDHpY5C5IK3jNUoYxN
+	2FMVYewtWH2MEifB+yMEo/60P7+3oiDbl4R9xSMmriyynBdOdm0uDuzFM1OyfoA/K6dZzPbTKi3lb
+	R6n9aVmw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1ph4wo-00Dd4p-1L;
-	Tue, 28 Mar 2023 08:44:54 +0000
-Received: from mail-wm1-f43.google.com ([209.85.128.43])
+	id 1ph4xa-00DdF3-0Y;
+	Tue, 28 Mar 2023 08:45:42 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1ph4wl-00Dd3z-1D
+	id 1ph4xX-00DdEH-16
 	for linux-nvme@lists.infradead.org;
-	Tue, 28 Mar 2023 08:44:52 +0000
-Received: by mail-wm1-f43.google.com with SMTP id v20-20020a05600c471400b003ed8826253aso563316wmo.0
-        for <linux-nvme@lists.infradead.org>; Tue, 28 Mar 2023 01:44:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679993089; x=1682585089;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sq4nT9N0o2/zS2QXl0qJAFl4VFvJRq9f1jczWkHjikc=;
-        b=KqFsUzSH4yJAGbK0yQ4w+7/2KsZ++o442RLQyEogZ69ptK4ZWApRyWxffEcMgdENXy
-         4xVZksbM2XTtSUUF4ddJByFA9Ah5QQO02upJXAUlLJHfOx1z2jOwPqexZcLwwnQ5B3pN
-         kaXu3lTTwcTTHryoEUTvm6L1zyv4qdxrusg/jItPihrQOCRw5fLV8Hxqejv4VgPqTR41
-         5HoFnyawyAP+gOa3Iya6UuhJSvYaz8qyYx+W/hs56jDZ+NM3PUsurnKRfPo51NXdrXsq
-         +GI04JwIKBqAmuecWgzhREnp8aP9SG+HPIMCRTD1yE6aPLmdqqtVz33obExSTPLKYC+t
-         CdAQ==
-X-Gm-Message-State: AO0yUKUiIEWNqNd3egN6C874RkM/3jMgaSaQ1cDTZ31shateuobL90Cx
-	kzy4IFnDR6+oRRukx04UsmmecYg0Gio=
-X-Google-Smtp-Source: AK7set90+VL5KGJqEfkzuoVdDH1wCYjC2mOUWPZnyVj88gw2HdB5CMhd3SdkphQZUwDaETD6aF9a4w==
-X-Received: by 2002:a05:600c:470c:b0:3ee:7d85:e0d1 with SMTP id v12-20020a05600c470c00b003ee7d85e0d1mr12685587wmo.2.1679993089610;
-        Tue, 28 Mar 2023 01:44:49 -0700 (PDT)
-Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id k22-20020a05600c1c9600b003eda46d6792sm11548669wms.32.2023.03.28.01.44.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Mar 2023 01:44:49 -0700 (PDT)
-Message-ID: <8d0ddb2d-0b4e-e782-6507-a1d61b5d53f4@grimberg.me>
-Date: Tue, 28 Mar 2023 11:44:48 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 15/18] nvmet-tcp: enable TLS handshake upcall
+	Tue, 28 Mar 2023 08:45:41 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1679993139; x=1711529139;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=QnDDPyYVggg7wds9AA3GxGvfhcCH3BcOSDfvJjqrDdA=;
+  b=JaGK3ye30ju3vQ/O0psmx7D4Q7LgFwG84bJlYe/c019vMjxltLj99Nzj
+   xG8FXp9botSzGTUCuo1nNWMTZADHGoG/lm5VpcYN79guZzsPop4HwTwFQ
+   o90fSKATZUXZoO2ZrszAM8E3VkTz/9E5qlJq7sLH/QxQa31hK+7JpaZUV
+   94D1z2IiWDIruYF2AntpklsHvFJErsPzG5NLoLAVHqd4RRQ7bdemQyCni
+   AuNzDqZWYStGEP4IB+bCYpTazU15iYmHtr5f6QInfranAozDl13+v55Po
+   4owDYuGCAf+h4BIrgck90voUvnvsVdXiwwLJuVFjSoE9Nzh7JSiflMk5x
+   g==;
+X-IronPort-AV: E=Sophos;i="5.98,296,1673884800"; 
+   d="scan'208";a="338742709"
+Received: from mail-dm6nam11lp2177.outbound.protection.outlook.com (HELO NAM11-DM6-obe.outbound.protection.outlook.com) ([104.47.57.177])
+  by ob1.hgst.iphmx.com with ESMTP; 28 Mar 2023 16:45:35 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SIpncrtUa/KEj2H87RWCAivmN0vinxTOM6ezg7l5QnJcSqWyVjvV2s6AwiWzZKI4XlV9Lm72VpDd59Zp/XF/SCKohnWMT5hf3myxHk7YjopnvmqfEsG2AxdMD5HlxLC0wOi+lNT3Azp9YLZrjg6crGiSVgoU3gcqa/MMtD72z7aLa3DZ/SbKEszGGwVjco2MzX5CA+yuQ6J2U+bk/O5YxhrBnXS3d2+Hh7mBagKw/LTeeOM0y+OotWjNPxUt0IC2/9Pm4yqUvIXRM4/7TbDhawpVrIiUL3wW2kc11h9TTFFmAc68h2swA8N0hpM3vX67r8Ifd83CHnZydz0e2LOETg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/e/DHjKvXPU5Fq4LwXqRmuCW4lai39WqOzSdNtaiR90=;
+ b=MzEomSuIW15/JqDcaee92I8Ttb/hR5tTGdnTHHQMQspETciCxFot6y1J3REjBIszkeKODc9YX8HhXC6K7+7sQp4zBAf09PrqSvPMKGzVSfKOVVjo12Sbk71SqVFKqk8nINHJ0Z99jgXbHDUdYc1lfJVFFfR8oAdyg2NuTZ+HuM0mZO9D9QxpobTnN+IDXkcZzs7g1BoYbfUrZoSSedlFLRngtjgwRe2OGk2LoZYwHhsPR4YMFcldNY7LcQ8QJgyZKZQ9Agdyp9FgmgZ8jVHnzei6hkVGFBMLxNiA2djkdS8mTH8/u2ywW0oduYqtV0w5ttZFcRT/dWqtbZf4lFrxdQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/e/DHjKvXPU5Fq4LwXqRmuCW4lai39WqOzSdNtaiR90=;
+ b=h2pEx2FzLwkFYm2lZdT83MJ4iXuhgtjqVM16rLzck7RUB1N7o6D54Ej/sKAJ1HPINyEUhxW4WX4unXuJov9pd6pzJUQXTSUz3ZgKj3c+PgY2uIUzkvBVzwZcJnilU5EQGpjRIadbjF4B1ZT6if6DIYF9RFypdJ9U7XoOT0yvSZE=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ CO6PR04MB7554.namprd04.prod.outlook.com (2603:10b6:303:ab::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6222.29; Tue, 28 Mar 2023 08:45:34 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::1b90:14dd:1cae:8529]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::1b90:14dd:1cae:8529%9]) with mapi id 15.20.6222.033; Tue, 28 Mar 2023
+ 08:45:34 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Daniel Wagner <dwagner@suse.de>
+CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Chaitanya
+ Kulkarni <chaitanyak@nvidia.com>
+Subject: Re: [PATCH blktests v2 0/3] Test different queue counts
+Thread-Topic: [PATCH blktests v2 0/3] Test different queue counts
+Thread-Index: AQHZXKdwdyBttNI5FUu+ySjKvJyL+68INdSAgAaWIoCAAR4KAA==
+Date: Tue, 28 Mar 2023 08:45:33 +0000
+Message-ID: <20230328084532.lrgcmpqufgwv7nxo@shindev>
+References: <20230322101648.31514-1-dwagner@suse.de>
+ <20230323110651.fdblmaj4fac2x5qh@shindev>
+ <20230327154145.ev5m33q4rl4jf7r5@carbon.lan>
+In-Reply-To: <20230327154145.ev5m33q4rl4jf7r5@carbon.lan>
+Accept-Language: en-US
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Chuck Lever III <chuck.lever@oracle.com>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Chuck Lever <cel@kernel.org>,
- "kernel-tls-handshake@lists.linux.dev" <kernel-tls-handshake@lists.linux.dev>
-References: <20230321124325.77385-1-hare@suse.de>
- <20230321124325.77385-16-hare@suse.de>
- <6f69983c-17bd-dd72-b941-95f55db10180@grimberg.me>
- <b8a2e1d4-3571-447b-25c6-c6dd25fbad02@suse.de>
- <a1af3f6b-ec9e-4e91-ad70-57fcc9010a91@grimberg.me>
- <c426d104-b7f2-e736-c23a-b94fda54ed37@suse.de>
- <e0620d94-9729-014c-2cb8-8ff826ebbefa@grimberg.me>
- <e016af81-f77e-2eba-a805-838f62ba50f7@suse.de>
- <68AA3629-6B88-4098-AA03-BEDF614F8D0B@oracle.com>
- <ea181844-69f5-66eb-e64e-e9871916532b@grimberg.me>
- <3ad50302-6b3c-6d6a-669e-0b11c2df6a6b@suse.de>
- <c9b5bb2d-89d7-8805-6d60-2c53e13f5d58@grimberg.me>
- <7c3da604-251f-209e-db6d-d1bee5a838c5@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <7c3da604-251f-209e-db6d-d1bee5a838c5@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|CO6PR04MB7554:EE_
+x-ms-office365-filtering-correlation-id: 2a69002f-5c1e-49e6-2207-08db2f68cb82
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  X8bSBKslcK2BiJauHxuC3AxOEmlttwlsX1ZGmIjFOY0MW46HWom8xlYmW/WW9W8BvBXy+06w0LUGWCWNklgHYQCtcHZ0uZzZ9w4oDNqK2JKyYpkIWWJ+bzqLKaYT7YY1DitGnt377oA5D0Dhq0YjYs+K+ui4sCrLKNwCx/lt7+8Vi8rwbd/oLC1jvKHLPSQ0hNvBRT6ZPRqBiXiVXeIvxTTZ1gnTk9NQSqJER2u0jAGTS4W/wLCr4QlZ8v1anTP5qTl2mhp8JrEbxmTrBqxhnxIKn+KE3LoV5Ojd17Uv10uHgVvQGBfFwsgA63Yf5DeNWFCcRA2rTBLQKJx/pB4+zaYPxyvDFZEpdVTcAwn27oD0iTvPWrUu/isPsdtCpQ+ImJ5I2KWyDj15hlhOCHIScx9Mtu4ypkv7A9zVzSClGBIr/UY28MyRYDmd/XA7ecigJ8D2VGlKuxtOXFhsHfOeuOVcfGwJFeCXQkwkRCy2Vn25M40+Z4cTeBnXJ7oR0jCWWUFO0IODxvoOR4lPy6/BL1+ecoVrYGYVHEQBLHRSKrm8y5ty6JLOhZkMascXSbyR0Udwyc1+jZp3udT4RI+gCRgVhiVC+eAi2OJTeZeySHM=
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(4636009)(376002)(396003)(136003)(366004)(346002)(39860400002)(451199021)(91956017)(83380400001)(66946007)(66556008)(64756008)(2906002)(8676002)(4326008)(54906003)(6512007)(6916009)(66476007)(478600001)(966005)(76116006)(71200400001)(1076003)(38070700005)(316002)(9686003)(26005)(186003)(6506007)(44832011)(33716001)(86362001)(41300700001)(122000001)(66446008)(8936002)(6486002)(82960400001)(38100700002)(5660300002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?77A3SbMak72vexyloeaBc5KnQYWheGwc1LsjNy3YdyTboeAHrbLj8QSVxwNc?=
+ =?us-ascii?Q?y4QZpH2lC77k1hvnjGw78meeL0aApX2482V5UVixdslQ3xdg7jECVyfEqz7n?=
+ =?us-ascii?Q?kvaABLtUe89YejY2DRVOKZ52/rBA4L73iLzMqsi4PcFMqoHB0XL/tHDopJ49?=
+ =?us-ascii?Q?xr82PdTtxVbXlMSbRDfMtXkm2u6udxiiCM5dDyEhdAJdhdYVwhkn/gzeZmPD?=
+ =?us-ascii?Q?YLZimG4X4nprvHOuPCFekbXglEUjH4Vzg2ZMFOGPcEDOMumNAIIyR15E/H2I?=
+ =?us-ascii?Q?EL627PyZ/QwGcozXoMOVrQuGaxxMNGl2bswNkXws34cVNOy1f8YZ6B2pJoh6?=
+ =?us-ascii?Q?GVHuXY5YiDURMg08lBv0gJbdgR97GK1JZQHLjw4Xd+laSvQG0rWGxDGkCKT0?=
+ =?us-ascii?Q?dr6jwkZXd7k2QQvYPT9NEUeljsxVGdSNM96lNmfplcpyZXbd6f8HyI1AejQd?=
+ =?us-ascii?Q?/o59+4I5K9Tgz9aw1pql2MSeKVTujIaNwzI5ZOeOtAW5Lb8ejwjVpPB4RB9L?=
+ =?us-ascii?Q?KuJdOcr+GEdwWUyvlSc76aOtLs8BqJPsx+s9tSvQWI5azbhx0igtE7DgCqJZ?=
+ =?us-ascii?Q?9sSVrM4rdaW93y+ZEckbYOHfwWRuiTiL6kbTU6uO1Q9H/UDqPTWoJok4i0+r?=
+ =?us-ascii?Q?+938EVai3waj1pH24Dgl0XnAcKZ/g3n0MDa6HVwr3PGKSWUfNOXp9x6852Y+?=
+ =?us-ascii?Q?8HSeqKkq347cUUognCfl3sVB8n8q8TF4p0GTMQplUhqEIMgM3IhbqKbHS7Gf?=
+ =?us-ascii?Q?D9bMfsq3m9XwNWS46nKHCHECy+MRNc1IM/C3K+V5hrhhGbK0ssEgkQNubgKs?=
+ =?us-ascii?Q?TJk2rJRNqHrzcPirkzgrMSwFA/Ai+NC8np7qCG3ePWd+uiXaGXKNF5v1OHir?=
+ =?us-ascii?Q?+eOY72tG10snjm1uXuVnhbyw2qV5nNM4xTWTcWtfUrs1OLUBR7Yq5iAWIRRN?=
+ =?us-ascii?Q?NVCD2R/RZs6bpXkmFayG8YvZoOlRZyyPF56KlndfEBCZLsH0kN/wyQ7veQil?=
+ =?us-ascii?Q?pFhRdSq1kksN9xImFxBfnGBG3xfT+wWeCa/FKIzPnUqegil1K4oQcQDKbWUd?=
+ =?us-ascii?Q?5p2aSj2SGB5U8L2EpHyg0+ozes11E70amN1aa0szbKxagaMq5fTZDilCqnA+?=
+ =?us-ascii?Q?ZyqRmWr0p4kmxe4edz/njuCMk55bRTiY/SNGCaX9ejeLshznF4n6WFCwh75G?=
+ =?us-ascii?Q?Tc2OyH7hN0FhmcvCMx0wHIK0OpdJoqaWvW91GZKhhjcSkvSC6ao13d5fzZxS?=
+ =?us-ascii?Q?nyXrHET/wNT7nZ2xr+HsgbqtMqIB/Q6qD5n3nHrina/v9hJEfdfeeN+AY+WT?=
+ =?us-ascii?Q?g6skttShlTON1GaXeihSGxwfsRxvQXrcXrPSnsF/6KTyI7qfZScJUK4DlJ6Y?=
+ =?us-ascii?Q?LVtPwZOfyf6b7xcuENuC7nbZVsXURG0OYZ6Pl/D7R9O54xga3YiYyWnUgN52?=
+ =?us-ascii?Q?etBL2O/+QaN2V33TpR2L1hZAITzwg1njj3qdIIu4N7eDXQ+JvbZT3qYGtGkV?=
+ =?us-ascii?Q?HtJZBpEgUEkYqVSwfy0PMdRBwOBgTPxCf5PhYJ2XxgV0wrPcEm1QAOT/GxmA?=
+ =?us-ascii?Q?BXKEr4M95irz/xTQXACHIsbyU6NuWtk/oyG49f6aCK7EZcYNqk+GH5n2qqW7?=
+ =?us-ascii?Q?nzdlm0YfMFl0xtB3vS0lh+4=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <F803DFDD2BF81741A5BFDF8B7CF9241E@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 	DN3vUDT6N2d1gAIQNQroeS2NP9LmMfWpH7LBawON0F2SYu7UQqHPZfALsi9t7K/V4rqN8vohWAWtkSUeqelEYi1lZm1vhsSqgf9SBSknQI+zfAa0bYKr/JhxIpd8Ca7oQ3Oe2rcS+msn4hjagatEGj59Yjs4UMpFiEpkVJvDrUfx2nxfFoDl2ugzq2fSZm29d8NmpNicfy587JLQjJh6TEwvkNmpkXbgM9NQ+Fy02I84At3mELyr6Kmv9UR9P4qHN163CIsGtOfytgLD/VpisUgh9Z6DzA0HXeLezUCDjr78ZNrKQmea6wks/WoJy6LjKOnLxscR16pdAe9VoF+UelNmfVffpQzhgc/x/JzMuGOmQWKsICmgwGTM1ObOwM6dqAz4eQzBTjlAZxG7Mq9xCHkpyBoOB6No31p4uSyAHk6LNIIk+iwJFn8Ew3rCbEddZ0uG5aW7z3obOQGtACEcXeKQk4lEPtzPFPSfyym8BirWdQ0RWAOIMGAU6nDna8XxnltPSrc7rb2wVumA5gfpFes60VwUVkeNndFIAZmFaChfm8qGlkUQ7LV9EqjHqhZlcJSW3wZZg8oWhfDqw97QsqXQhf/BOG7qNoByTQX5+bbJi/ODcvZSocwhUc9Wso0MjGZ+LvxhCsTI70qq8o19thn5o1kEFvmku0TnYzm2huoPnfEscHAW2J4Y5pVeO+l8fis1KHLC1UenjNslLSrsqrc0Or64ga4FWhesd6HYpV0p4BED5xkk3dX/SXI2OFnMPF+FFuFbb1vT5u+H7qlNCKbmPOg+Iqvf0ndTaL1R/A56smSLu1kCeYOVCGWV2/nguxvwCVlxLkCC28KzMrxnmjg0EhxtjRmZ3gkwf465ianDF+EKEUpdx+8Ma551H9WK
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a69002f-5c1e-49e6-2207-08db2f68cb82
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Mar 2023 08:45:33.9841
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: TpDhKKZbozsWre/BeIkGsVbm6vRX1e2Xees5hh4b9H0QCuQmjXWvlwXxPozMqAJuNVmgltaaUIvzNyZrDD+0+PSShhBuO1BmUehniuGFQ1g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR04MB7554
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230328_014451_411200_3B236F3C 
-X-CRM114-Status: GOOD (  21.86  )
+X-CRM114-CacheID: sfid-20230328_014539_588475_B63164EC 
+X-CRM114-Status: GOOD (  32.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,69 +160,116 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Mar 27, 2023 / 17:41, Daniel Wagner wrote:
+> On Thu, Mar 23, 2023 at 11:06:53AM +0000, Shinichiro Kawasaki wrote:
+> > On Mar 22, 2023 / 11:16, Daniel Wagner wrote:
+> > > Setup different queues, e.g. read and poll queues.
+> > >=20
+> > > There is still the problem that _require_nvme_trtype_is_fabrics also =
+includes
+> > > the loop transport which has no support for different queue types.
+> > >=20
+> > > See also https://lore.kernel.org/linux-nvme/20230322002350.4038048-1-=
+kbusch@meta.com/
+> >=20
+> > Hi Daniel, thanks for the patches. The new test case catches some bugs.=
+ Looks
+> > valuable.
+> >=20
+> > I ran the test case using various nvme_trtype on kernel v6.2 and v6.3-r=
+c3, and
+> > observed hangs. I applied the 3rd patch in the link above on top of v6.=
+3-rc3 and
+> > confirmed the hang disappears. I would like to wait for the kernel fix =
+patch
+> > delivered to upstream, before adding this test case to blktests master.
+>=20
+> Okay makes sense.
+>=20
+> > When I ran the test case without setting nvme_trtype, kernel reported m=
+essages
+> > below:
+> >=20
+> > [  199.621431][ T1001] nvme_fabrics: invalid parameter 'nr_write_queues=
+=3D%d'
+> > [  201.271200][ T1030] nvme_fabrics: invalid parameter 'nr_write_queues=
+=3D%d'
+> > [  201.272155][ T1030] nvme_fabrics: invalid parameter 'nr_poll_queues=
+=3D%d'
+>=20
+> BTW, I've added a '|| echo FAIL' to catch those.
+>=20
+> > Is it useful to run the test case with default nvme_trtype=3Dloop?
+>=20
+> No, we should run this test only for those transport which actually suppo=
+rt the
+> different queue types. Christoph suggest to figure out before running the=
+ test
+> if it is actually supported. So my first idea was to check what options a=
+re
+> supported by reading /dev/nvme-fabrics. But this will return all options =
+we are
+> parsed by fabrics.c but not the subset which each transport might only su=
+pport.
+>=20
+> So to figure this out we would need to do a full setup just to figure out=
+ if it
+> is supported. I think the currently best approach would just to limit thi=
+s test
+> to tcp and rdma. Maybe we could add something like
+>=20
+> rc:
+> _require_nvme_trtype() {
+> 	local trtype
+> 	for trtype in "$@"; do
+> 		if [[ "${nvme_trtype}" =3D=3D "$trtype" ]]; then
+> 			return 0
+> 		fi
+> 	done
+> 	SKIP_REASONS+=3D("nvme_trtype=3D${nvme_trtype} is not supported in this =
+test")
+> 	return 1
+> }
+>=20
+> 047:
+> requires() {
+> 	_nvme_requires
+> 	_have_xfs
+> 	_have_fio
+> 	_require_nvme_trtype tcp rdma
+> 	_have_kver 4 21
+> }
+>=20
+> What do you think?
 
->>>
->>> Nearly there.
->>>
->>> The actual patch would be:
->>>
->>> @@ -2031,10 +1988,16 @@ static void 
->>> nvmet_tcp_listen_data_ready(struct sock *sk)
->>>          trace_sk_data_ready(sk);
->>>
->>>          read_lock_bh(&sk->sk_callback_lock);
->>> +       /* Ignore if the callback has been changed */
->>> +       if (sk->sk_data_ready != nvmet_tcp_listen_data_ready)
->>> +               goto out;
->>>          port = sk->sk_user_data;
->>>          if (!port)
->>>                  goto out;
->>>
->>> +       if (port->data_ready)
->>> +               port->data_ready(sk);
->>> +
->>>          if (sk->sk_state == TCP_LISTEN)
->>>                  queue_work(nvmet_wq, &port->accept_work);
->>>   out:
->>>
->>> As the callbacks will be changed once TLS is activated, and we really 
->>> should not attempt to run if sk_data_ready() points to another function,
->>> as then the sk_user_data pointer will most likely be changed, too,
->>> causing all sorts of issues.
->>
->> Umm, something is unclear to me. if nvmet_tcp_listen_data_ready is
->> called doesn't it by definition mean that sk->sk_data_ready ==
->> nvmet_tcp_listen_data_ready ?
->>
->> Are you talking about a situation where between
->> nvmet_tcp_listen_data_ready is starting and until the
->> sk->sk_callback_lock the data_ready cb (and the user data
->> pointer) is changed?
-> 
-> No. Far simpler:
-> Starting kTLS will change the callbacks.
-> So sk->sk_data_ready will point to our callback before
-> the upcall, but to the kTLS version _after_ the upcall.
-> It typically doesn't matter, as we're setting it to
-> nvmet_tcp_data_ready() anyway.
+Thanks for the clarifications about the requirements. I think your approach=
+ will
+work. Having said that, we may have another potentially simpler solution:
 
-For ktls won't we set it to nvmet_tcp_data_ready only when
-the handshake is done?
+- Do not check _require_nvme_trtype and _have_kver in requires().
+- After setting nr_write_queues in test(), check if dmesg contains the erro=
+r
+  "invalid parameter 'nr_write_queues" using the helper function
+  _dmesg_since_test_start().
+- If the error is reported, set SKIP_REASONS and return from test().
+  Blktests will report the test case as "not run".
 
-> But there might be the odd case where the data_ready
-> callback is invoked after kTLS has been started but before
-> we're setting it to nvmet_tcp_data_ready().
+This approach assumes that the "invalid parameter" is printed when the test=
+ case
+should be skipped (loop transport, older kernel version).
 
-What does nvmet_tcp_data_ready has to do with it?
-You are changing nvmet_tcp_listen_data_ready.
+As a generic guide, SKIP_REASONS should be set in requires() before test().
+However, if the SKIP_REASONS can not be checked before test(), blktests all=
+ows
+to set it in test(). The test case block/030 is such an exception. I think =
+your
+new test case can be another exception. With this, we do not need to repeat=
+ the
+full setup. And it might be more robust against future changes such as new
+transport types.
 
-> Then we cannot guarantee that sk_user_data really is set
-> to the 'queue' pointer, so we should skip the function.
+Thoughts?
 
-nvme_tcp_listen_data_ready was invoked, then sk->sk_data_ready
-is nvme_tcp_listen_data_ready. Are you referring to the case
-where the callback has changed before the read lock ?
-
-I would like to understand why svc_tcp_listen_data_ready doesn't
-have this race as well. Chuck?
+--=20
+Shin'ichiro Kawasaki=
 
