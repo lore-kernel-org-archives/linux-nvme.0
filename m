@@ -4,127 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 94EC8C76196
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Mar 2023 07:50:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 465C9C761A6
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Mar 2023 08:35:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lSBR1Ys+6OSEPSTE2FGqhntsR4WsCiVqTZVmRbAzS0M=; b=c2NykpLRToYr0Xku4jOiVVY468
-	2BeodFOLVWff/dnpoiVdyk21QFazC9V//ZF1Y7yFLNPC/R4prU1cPhmv/Da7mW7JBdSKxVMHfPuvj
-	BkwqgWVURZsNbvGt5YIke4VAy6KjA8+w86czMZ1cxgt7RUZHj8nxSBzDpZCPmf+R3eVlvyhtAP/2J
-	ICbofyiK8M1+xDJ9zqadhz+g9W1iXKby0hrZw2lSk8HbAGqFJnX+x/OjJGs/PcMshae1FpLppGg45
-	SKsUfprHYBklfMWnwzPTzMoBgJHPf5/SA2mFr9ibGakOFtwaGXlBQd16EnMdIPfAvuthB4N9tsyyR
-	4XQhllSw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=vrb82PZhwYG30G9CvM6x/5xpRlj5GG8gb4X+iqQeUvE=; b=EF+a9QdylPm8q5QdcG7j1w3+VJ
+	neTEevBG6bgChkbKvnosufVD/n6aGYDngHnA6+pnh5HiFW0lHGB2gZFpUGDPezkFwkqinUPhTMAMh
+	Eu+W3SdpTsXtmMB4iDYgm7XBToFfwJ3BS+7u/zqwVdbcuqaszluUjTxuCz7R6IR2Fu/5Jbld0uDZV
+	X6eV3TJtODYLPFoJ5vBWw9unuR27Ql83NGr7kAoXVHxeOgnpKrdtD5FL0WpCxH1TOszFi2ydweFlp
+	d57S7cjKxF3u8F0HJWRgyBO3UkusRuQYSQSiACGutippaO+romYob09jeSIR39zHM3Z5saOUHXUKS
+	wSu1N5Xw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1ph46T-00DWno-23;
-	Tue, 28 Mar 2023 07:50:49 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1ph4nN-00Dbc9-1O;
+	Tue, 28 Mar 2023 08:35:09 +0000
+Received: from mail-wm1-f54.google.com ([209.85.128.54])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1ph46M-00DWm7-0v
+	id 1ph4nL-00Dbaw-0r
 	for linux-nvme@lists.infradead.org;
-	Tue, 28 Mar 2023 07:50:45 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20230328075032epoutp03ea24aac303fa74e0a9360e2e9ae5976c~Qhdojf8_K1911919119epoutp03C
-	for <linux-nvme@lists.infradead.org>; Tue, 28 Mar 2023 07:50:32 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20230328075032epoutp03ea24aac303fa74e0a9360e2e9ae5976c~Qhdojf8_K1911919119epoutp03C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1679989832;
-	bh=lSBR1Ys+6OSEPSTE2FGqhntsR4WsCiVqTZVmRbAzS0M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=p4ylQsa8ZJ3AVER/T+/wovgeemh3I/QS9gAseFSRD5k92qsX/zh4fTx8DAUf9lxUx
-	 aP5PGCpD5ixCtlf/wd/xfUEmNLuOCNylb6CJjn88w4nU+pQ56Nq8hwU+TjtAw9PsKe
-	 O0Z7g/8DlRqjAGjvuo14GphlAlxhwUult7uxx7ZY=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20230328075032epcas5p17df989408c79b4bda9413edc99840cba~Qhdn02wuL0732907329epcas5p1l;
-	Tue, 28 Mar 2023 07:50:32 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.178]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4Pm20k54JWz4x9QH; Tue, 28 Mar
-	2023 07:50:30 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	60.E4.10528.64C92246; Tue, 28 Mar 2023 16:50:30 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20230328075030epcas5p230db015f0e7d7ecdfc0da5865718c7a5~QhdmBcGYA0990309903epcas5p23;
-	Tue, 28 Mar 2023 07:50:30 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20230328075030epsmtrp14f54409368c755feac49bb5dd38d1bae~QhdmAsVUu1698016980epsmtrp1h;
-	Tue, 28 Mar 2023 07:50:30 +0000 (GMT)
-X-AuditID: b6c32a49-e75fa70000012920-f3-64229c467d3c
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	2B.97.31821.64C92246; Tue, 28 Mar 2023 16:50:30 +0900 (KST)
-Received: from green5 (unknown [107.110.206.5]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20230328075029epsmtip27b594a26f20e3de903a10398599a94e0~Qhdk9ZOdE1665716657epsmtip2G;
-	Tue, 28 Mar 2023 07:50:28 +0000 (GMT)
-Date: Tue, 28 Mar 2023 13:19:39 +0530
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Kanchan Joshi <joshiiitr@gmail.com>, Keith Busch <kbusch@meta.com>,
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-	axboe@kernel.dk, hch@lst.de
-Subject: Re: [PATCH 2/2] nvme: use blk-mq polling for uring commands
-Message-ID: <20230328074939.GA2800@green5>
+	Tue, 28 Mar 2023 08:35:08 +0000
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3ee4aa9acd5so5608225e9.1
+        for <linux-nvme@lists.infradead.org>; Tue, 28 Mar 2023 01:35:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679992504;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vrb82PZhwYG30G9CvM6x/5xpRlj5GG8gb4X+iqQeUvE=;
+        b=o9W2n0pqd+359hVFUvPDH/BzOtBvJeDDxjFJW4j6i68rZ1n/3Lsl6LylQqGDS9EwNm
+         bZaXlcudBUIw0UJ3s3eZB6NN3qAMy8IdFbfkTJDNI7DX1CIRIR2k6gAaAAAdq++VDuT1
+         cX9Q37JrO8rbf6lHvP6P8jQHUEMAbG1zzc4VbGuqmKzmDtNGTsCGoI+3AzS2Ypoesyso
+         7dQrNT05OSEdEsdkddIT63N5XJeKCgXgFiaX2NdztuxcxvxKFKPC5FP5po+OEQaxJ3qd
+         KW+Ef3XVCj68zb6TMu7jqySpRsemmC5jaNEXzcPh5NZrFyPORtIllQsyCV4kJAOdCSox
+         OqYQ==
+X-Gm-Message-State: AAQBX9cztioi5/8VMugTNzNdXV1O3t/VQBZCEnNmcNWmLVzwKHoh8R5Z
+	7ivjFSVAmlGyr7v8dhhfA2I=
+X-Google-Smtp-Source: AKy350aPgWujwxXnHUMyKZo6LhoKJejbw5YY4NYR2NvmUCM7+HLiJpTNjHb/chW37R084iceeRJxBA==
+X-Received: by 2002:adf:e786:0:b0:2c7:1c72:699f with SMTP id n6-20020adfe786000000b002c71c72699fmr8950485wrm.4.1679992504599;
+        Tue, 28 Mar 2023 01:35:04 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id p5-20020a5d4e05000000b002d75909c76esm20163490wrt.73.2023.03.28.01.35.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Mar 2023 01:35:04 -0700 (PDT)
+Message-ID: <c90eff27-9d27-386a-ce07-459ebba3cde1@grimberg.me>
+Date: Tue, 28 Mar 2023 11:35:02 +0300
 MIME-Version: 1.0
-In-Reply-To: <ZCI5XopTr7nJvVF1@kbusch-mbp.dhcp.thefacebook.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprHJsWRmVeSWpSXmKPExsWy7bCmpq7bHKUUg/s/VCxW3+1ns1i5+iiT
-	xfm3h5ksJh26xmhx5upCFou9t7Qt5i97yu7A7rFz1l12j8tnSz02repk89i8pN5j980GNo9z
-	Fys8Pm+SC2CPyrbJSE1MSS1SSM1Lzk/JzEu3VfIOjneONzUzMNQ1tLQwV1LIS8xNtVVy8QnQ
-	dcvMATpGSaEsMacUKBSQWFyspG9nU5RfWpKqkJFfXGKrlFqQklNgUqBXnJhbXJqXrpeXWmJl
-	aGBgZApUmJCd0TVzElPBPNGKE4/fsDcwLhDsYuTkkBAwkfg9ZSFLFyMXh5DAbkaJ6V3rWEAS
-	QgKfGCU69xRB2J8ZJT6vtoJpmH51LhtEwy5GiSkHfrJDOE8YJRY8nscIUsUioCoxt6GPuYuR
-	g4NNQFPiwuRSkLCIgLLE3fkzWUFsZoEljBJz5qSC2MICLhLrjmwAi/MKaEn0Ln/EDmELSpyc
-	+QTsIE4Be4mzrzczg9iiQHMObDvOBLJXQmAqh8S6KZuYIa5zkdh9/zkjhC0s8er4FnYIW0ri
-	ZX8blJ0scWnmOSYIu0Ti8Z6DULa9ROupfmaI4zIlHi/ZyAZh80n0/n7CBPKLhACvREebEES5
-	osS9SU9ZIWxxiYczlkDZHhKzX+xhhgRcO7PE7QtsExjlZiF5ZxaSDRC2lUTnhyZWCFteonnr
-	bOZZQNuYBaQllv/jgDA1Jdbv0l/AyLaKUTK1oDg3PbXYtMAwL7UcHtvJ+bmbGMEJVctzB+Pd
-	Bx/0DjEycTAeYpTgYFYS4d3srZgixJuSWFmVWpQfX1Sak1p8iNEUGFMTmaVEk/OBKT2vJN7Q
-	xNLAxMzMzMTS2MxQSZxX3fZkspBAemJJanZqakFqEUwfEwenVAOT8I/5azcYTj73+HJsQsEF
-	T+XcLR/Zug/rHyz5Xr6pgcPegHHWN/7KvzKq9l1+0rUpr3t0vhdk1AaJzODY/GHP4kdRMvsu
-	Bz20uHp2faFFbNCTnf7zbbbMtHuh+Ll5++2Jlhu4lvTWHWQ/NPVZ0VzrPTO+6fLZrlLKe9u6
-	PyH+wCSFhIVrr0/dY75gw7VrO5w+OQp+nsn6o/DkUZX3J/zPBJsyXNv59WnKEruLh/5Obd3Y
-	+tX1ft1D7R/sUyTv2U09eJfp/LuOVdFcwkd6RMo6PDgU9xrPvzyTb/LBh5sEYh0ueYZJtFo6
-	9Z/VUi0xm69afFzoQejJqXO7GIqvxE1U+sLjdb/8nPO321/Xieeeq1NiKc5INNRiLipOBACk
-	Ug+fMQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrFLMWRmVeSWpSXmKPExsWy7bCSvK7bHKUUg1VLuSxW3+1ns1i5+iiT
-	xfm3h5ksJh26xmhx5upCFou9t7Qt5i97yu7A7rFz1l12j8tnSz02repk89i8pN5j980GNo9z
-	Fys8Pm+SC2CP4rJJSc3JLEst0rdL4Mr4/2sqW8EaoYrrjacYGxhP83UxcnJICJhITL86l62L
-	kYtDSGAHo8SHaVdYIBLiEs3XfrBD2MISK/89Z4coesQosbtvH1gRi4CqxNyGPuYuRg4ONgFN
-	iQuTS0HCIgLKEnfnz2QFsZkFljBKzJmTCmILC7hIrDuyASzOK6Al0bv8Edh8IYFOZoljd6Qh
-	4oISJ2c+YYHoNZOYt/kh2HhmAWmJ5f84IMLyEs1bZzOD2JwC9hJnX28Gs0WB1h7YdpxpAqPQ
-	LCSTZiGZNAth0iwkkxYwsqxilEwtKM5Nzy02LDDKSy3XK07MLS7NS9dLzs/dxAiOHi2tHYx7
-	Vn3QO8TIxMF4iFGCg1lJhHezt2KKEG9KYmVValF+fFFpTmrxIUZpDhYlcd4LXSfjhQTSE0tS
-	s1NTC1KLYLJMHJxSDUzCQhwWP25LFlhVZG2rKui+liHx5ahF3LlZ50N37lA7K3wt6EPh9paY
-	gx8aEje+rWI3t5qr1jtTTKRu98LjsTcOWWROak4pDlU9v094f8uDG0qH7P6crj/oGy495X17
-	kFXlvMB7U+onTT7c03Us6bZ9eqlr/t3QirwvSvGKd24EzZF7f/FQum/vAWdmmXlcxQnB/7om
-	njVYc3lJ1MtTjFvapb+eujfT5uEe48kbNBasuMrHW1XX+Hl6R3OxkXaV9OV1K5ifum78yddZ
-	6Tsp42modfRSuXsvj1c4tijKL306W376P9Mj+tl7P39IsLp6fc/DzxOW7fBZ+m/Hgtu9Fwou
-	rp3Fx3Lw2u7XT2RZ5vL7KrEUZyQaajEXFScCANxOooMNAwAA
-X-CMS-MailID: 20230328075030epcas5p230db015f0e7d7ecdfc0da5865718c7a5
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----IPzR0Zmv7eUACe1AcPM4bhPiN.NxXwyEj5sj1OQa2HLEVOb4=_112ba8_"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230324213124epcas5p331ea3c2e2a05ec6a6825e719e47d2427
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 2/2] nvme: use blk-mq polling for uring commands
+To: Keith Busch <kbusch@kernel.org>
+Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, axboe@kernel.dk, hch@lst.de
 References: <20230324212803.1837554-1-kbusch@meta.com>
-	<CGME20230324213124epcas5p331ea3c2e2a05ec6a6825e719e47d2427@epcas5p3.samsung.com>
-	<20230324212803.1837554-2-kbusch@meta.com> <20230327135810.GA8405@green5>
-	<ZCG0O6RdlA/sUd7C@kbusch-mbp.dhcp.thefacebook.com>
-	<CA+1E3rK2h9gyy26v1NmwTFtUsCwMkc1DgkDsCFME+HjZJPn5Hg@mail.gmail.com>
-	<ZCI5XopTr7nJvVF1@kbusch-mbp.dhcp.thefacebook.com>
+ <20230324212803.1837554-2-kbusch@meta.com>
+ <55f9c095-32c2-648d-7ac9-84c1d9224abb@grimberg.me>
+ <ZCG2b85hN+pTm/VZ@kbusch-mbp.dhcp.thefacebook.com>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <ZCG2b85hN+pTm/VZ@kbusch-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230328_005043_838562_B4F40668 
-X-CRM114-Status: GOOD (  23.29  )
+X-CRM114-CacheID: sfid-20230328_013507_305801_6EB46BDE 
+X-CRM114-Status: GOOD (  11.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -139,67 +85,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------IPzR0Zmv7eUACe1AcPM4bhPiN.NxXwyEj5sj1OQa2HLEVOb4=_112ba8_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
 
-On Mon, Mar 27, 2023 at 06:48:30PM -0600, Keith Busch wrote:
->On Mon, Mar 27, 2023 at 10:50:47PM +0530, Kanchan Joshi wrote:
->> On Mon, Mar 27, 2023 at 8:59 PM Keith Busch <kbusch@kernel.org> wrote:
->> > > >     rcu_read_lock();
->> > > > -   bio = READ_ONCE(ioucmd->cookie);
->> > > > -   ns = container_of(file_inode(ioucmd->file)->i_cdev,
->> > > > -                   struct nvme_ns, cdev);
->> > > > -   q = ns->queue;
->> > > > -   if (test_bit(QUEUE_FLAG_POLL, &q->queue_flags) && bio && bio->bi_bdev)
->> > > > -           ret = bio_poll(bio, iob, poll_flags);
->> > > > +   req = READ_ONCE(ioucmd->cookie);
->> > > > +   if (req) {
->> > >
->> > > This is risky. We are not sure if the cookie is actually "req" at this
->> > > moment.
->> >
->> > What else could it be? It's either a real request from a polled hctx tag, or
->> > NULL at this point.
+>>> +	if (blk_rq_is_poll(req))
+>>> +		WRITE_ONCE(ioucmd->cookie, req);
 >>
->> It can also be a function pointer that gets assigned on irq-driven completion.
->> See the "struct io_uring_cmd" - we are tight on cacheline, so cookie
->> and task_work_cb share the storage.
->>
->> > It's safe to check the cookie like this and rely on its contents.
->> Hence not safe. Please try running this without poll-queues (at nvme
->> level), you'll see failures.
->
->Okay, you have a iouring polling instance used with a file that has poll
->capabilities, but doesn't have any polling hctx's. It would be nice to exclude
->these from io_uring's polling since they're wasting CPU time, but that doesn't
->look easily done.
+>> Why aren't we always setting the cookie to point at the req?
+> 
+> As in unconditionally set the cookie even for non-polled requests? We need to
+> see that the cookie is NULL to prevent polling interrupt queues when an
+> io_uring polled command is dispatched to a device without polled hctx's.
 
-Do you mean having the ring with IOPOLL set, and yet skip the attempt of
-actively reaping the completion for certain IOs?
-
->This simple patch atop should work though.
->
->---
->diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
->index 369e8519b87a2..e3ff019404816 100644
->--- a/drivers/nvme/host/ioctl.c
->+++ b/drivers/nvme/host/ioctl.c
->@@ -612,6 +612,8 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
->
-> 	if (blk_rq_is_poll(req))
-> 		WRITE_ONCE(ioucmd->cookie, req);
->+	else if (issue_flags & IO_URING_F_IOPOLL)
->+		ioucmd->flags |= IORING_URING_CMD_NOPOLL;
-
-If IO_URING_F_IOPOLL would have come here as part of "ioucmd->flags", we
-could have just cleared that here. That would avoid the need of NOPOLL flag.
-That said, I don't feel strongly about new flag too. You decide.
-
-------IPzR0Zmv7eUACe1AcPM4bhPiN.NxXwyEj5sj1OQa2HLEVOb4=_112ba8_
-Content-Type: text/plain; charset="utf-8"
-
-
-------IPzR0Zmv7eUACe1AcPM4bhPiN.NxXwyEj5sj1OQa2HLEVOb4=_112ba8_--
+Why don't we export that to an explicit flag? It would make it cleaner
+I think.
 
