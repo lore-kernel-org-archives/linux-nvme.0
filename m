@@ -4,71 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B418FC74A5B
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Mar 2023 16:11:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5F900C6FD18
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Mar 2023 18:37:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aMXDVOif4k35bLQaokYiq2BUwXHcddptVAw8PokneEA=; b=fOdmXlksHgY0Kb8ns/9Rh/7bWj
-	QZgmYzUpzZV04gBJz8mVKlIlWaYkH+ROLm7E09u9h4CIV1hIc7IZlHyZpRQw8ab41RXjD3YN+P0U+
-	NK+TEI9FGLmrLvw7/LPpCriITLwhHWC++nXvGf359XIsv91mtKFVsG0NIwg4JePRPN5AGCtqCx8ol
-	rd9ELvcGicebcIKW69TOF+S/jZJM+PX7V8VlhWpkk5fgmPc9VySVsFhVXfF08K8Mh2nwbbAOxJ2iv
-	znJArWOOxLbYbGcE0bIyPT75RZcVyb22FGZ+zbHAPyVqzETL5pTDFk0I1gYCye80HbYkiktNpuMBt
-	Z9C9a14A==;
+	bh=RyrDjOE1zXEibwVRlMOGvQpWgUuj8arW8E9+U9DqAnM=; b=wh5hsWbAPgCM3sckekDiRQzcL7
+	2I+RdAO0uXzIYKAAF8RFD+KWzVdXyYiOdppHYGTvYsjpOL7IfyE6YgTVOo4EUhqraq5KuSeLAxS/+
+	24y7+H8BOo+sSuk/5sBOwoxPbT8JwVoDHeUP65zLLwy9ew6QaLwuj/GyCBsLR+yDSrjHxhgH5yAzm
+	eEQlYge60k0hI5JqWAj6Am8byYAgyqFYGzV6Znnev8PB4RbOzY5lVDP3TgmTlwYpUjDV1GOyKTK/s
+	R18j344+XJnj11hUXwaNBlcEQuLl3E6MPD9x4cpQXfgOatqS5nFg2jdparGcz9VqOWYmjXVZpODFx
+	mJyLqLkA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1phYOH-00129Z-2E;
-	Wed, 29 Mar 2023 16:11:13 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1phafe-001UK7-02;
+	Wed, 29 Mar 2023 18:37:18 +0000
+Received: from mga05.intel.com ([192.55.52.43])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1phYOE-00128T-2i
+	id 1phafb-001UIS-28
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Mar 2023 16:11:12 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 5A18F61D74;
-	Wed, 29 Mar 2023 16:11:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08632C433EF;
-	Wed, 29 Mar 2023 16:11:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680106269;
-	bh=9DcUxntLnab5cJ/+8zw/KFyM3GJUThn6mt1RVFym3OI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BtX1GYrz6I3x76GBwPYUCSl7Yy75ev4djW4jtGV4pHaxqr3LLYGR3bbSAqz807zVr
-	 CwpfFioDelLfPz2SMrHlcoDzGEiTfZ3kv3NusnwkudId1FTIXZEsDNOhiZqmILEUdz
-	 /a3EwveV9Ukq9wPy9eUKQnlamQv9jNs7wqT8hLmQ6YHehZLeAo8oz098VGQoJiay8+
-	 vl5KYtZAVeR7SY/trbx3XTrdiu21/jb3v/Cgk5mo+5tE2CJFWX0k+8UexkoNAVFN5P
-	 WtZCtQjnnahO6OtSOVA7+HxVORaESzwZhsVOxNSXvXNBNp5Z+jFZJhAR3pVsC3/8AL
-	 RoV0XHd91IuWQ==
-Date: Wed, 29 Mar 2023 10:11:06 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: Kanchan Joshi <joshiiitr@gmail.com>, Keith Busch <kbusch@meta.com>,
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-	axboe@kernel.dk, hch@lst.de
-Subject: Re: [PATCH 2/2] nvme: use blk-mq polling for uring commands
-Message-ID: <ZCRjGmPCeLvi2m39@kbusch-mbp.dhcp.thefacebook.com>
-References: <20230324212803.1837554-1-kbusch@meta.com>
- <CGME20230324213124epcas5p331ea3c2e2a05ec6a6825e719e47d2427@epcas5p3.samsung.com>
- <20230324212803.1837554-2-kbusch@meta.com>
- <20230327135810.GA8405@green5>
- <ZCG0O6RdlA/sUd7C@kbusch-mbp.dhcp.thefacebook.com>
- <CA+1E3rK2h9gyy26v1NmwTFtUsCwMkc1DgkDsCFME+HjZJPn5Hg@mail.gmail.com>
- <ZCI5XopTr7nJvVF1@kbusch-mbp.dhcp.thefacebook.com>
- <20230328074939.GA2800@green5>
- <ZCL/RTHoflUVCMyw@kbusch-mbp.dhcp.thefacebook.com>
- <20230329084618.GB2800@green5>
+	Wed, 29 Mar 2023 18:37:17 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680115035; x=1711651035;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FbAW5hJcEPp+g9Ac5hrxCsaF479gOltUGf/yQKYrhw8=;
+  b=V/pCsW4C4EqSj40/RJ+SNrlB2gxwJKLb5WUTv4uUUUVBkWIe2FJLrbwi
+   Dzfr9i5Q4Jor/fh2eb0GUNNmDdLAA7cG3mlcocl60690KwMHi3phVPdvY
+   +WzUIHIg0l4tsXrJvdU6+GFPYteadkZN6yfNT/qYwdB9Ot2/gRWbc9VwZ
+   /vVXnJca+gCk8vV/Y3iJFBstJrGK0aXWiavYu0MG6a9iHeSQqH7+CLVZr
+   a39zYCgJxuIw2JzqKYZB3N3ju4kgOYmIBow90Tenk3xQzl0AWaFy2kqnZ
+   sCz9WFB4H5s//qbgu4KTU+IMexaKihFlSXwj1gZCAqzN0Q/VIp+XmrEZ0
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="427243794"
+X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
+   d="scan'208";a="427243794"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 11:37:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="1014137919"
+X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
+   d="scan'208";a="1014137919"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 29 Mar 2023 11:37:07 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1phafS-000Jp4-2L;
+	Wed, 29 Mar 2023 18:37:06 +0000
+Date: Thu, 30 Mar 2023 02:36:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Anuj Gupta <anuj20.g@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	James Smart <james.smart@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, bvanassche@acm.org, hare@suse.de,
+	ming.lei@redhat.com, damien.lemoal@opensource.wdc.com,
+	anuj20.g@samsung.com, joshi.k@samsung.com, nitheshshetty@gmail.com,
+	gost.dev@samsung.com, Nitesh Shetty <nj.shetty@samsung.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v8 6/9] nvmet: add copy command support for bdev and file
+ ns
+Message-ID: <202303300238.vmt9ne37-lkp@intel.com>
+References: <20230327084103.21601-7-anuj20.g@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230329084618.GB2800@green5>
+In-Reply-To: <20230327084103.21601-7-anuj20.g@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230329_091110_916980_B881BA08 
-X-CRM114-Status: GOOD (  17.59  )
+X-CRM114-CacheID: sfid-20230329_113715_723700_924B5DD3 
+X-CRM114-Status: GOOD (  16.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,25 +96,142 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 29, 2023 at 02:16:18PM +0530, Kanchan Joshi wrote:
-> On Tue, Mar 28, 2023 at 08:52:53AM -0600, Keith Busch wrote:
-> > > > +	else if (issue_flags & IO_URING_F_IOPOLL)
-> > > > +		ioucmd->flags |= IORING_URING_CMD_NOPOLL;
-> > > 
-> > > If IO_URING_F_IOPOLL would have come here as part of "ioucmd->flags", we
-> > > could have just cleared that here. That would avoid the need of NOPOLL flag.
-> > > That said, I don't feel strongly about new flag too. You decide.
-> > 
-> > IO_URING_F_IOPOLL, while named in an enum that sounds suspiciouly like it is
-> > part of ioucmd->flags, is actually ctx flags, so a little confusing. And we
-> > need to be a litle careful here: the existing ioucmd->flags is used with uapi
-> > flags.
-> 
-> Indeed. If this is getting crufty, series can just enable polling on
-> no-payload requests. Reducing nvme handlers - for another day.
+Hi Anuj,
 
-Well something needs to be done about multipath since it's broken today: if the
-path changes between submission and poll, we'll consult the wrong queue for
-polling enabled. This could cause a missed polling opprotunity, polling a
-pointer that isn't a bio, or poll an irq enabled cq. All are bad.
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on linus/master v6.3-rc4 next-20230329]
+[cannot apply to device-mapper-dm/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anuj-Gupta/block-Add-copy-offload-support-infrastructure/20230329-162018
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20230327084103.21601-7-anuj20.g%40samsung.com
+patch subject: [PATCH v8 6/9] nvmet: add copy command support for bdev and file ns
+config: arm64-randconfig-s041-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300238.vmt9ne37-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/f846a8ac40882d9d42532e9e2b43560650ef8510
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Anuj-Gupta/block-Add-copy-offload-support-infrastructure/20230329-162018
+        git checkout f846a8ac40882d9d42532e9e2b43560650ef8510
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/nvme/target/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303300238.vmt9ne37-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/nvme/target/admin-cmd.c:539:29: sparse: sparse: cast from restricted __le16
+
+vim +539 drivers/nvme/target/admin-cmd.c
+
+   490	
+   491	static void nvmet_execute_identify_ns(struct nvmet_req *req)
+   492	{
+   493		struct nvme_id_ns *id;
+   494		u16 status;
+   495	
+   496		if (le32_to_cpu(req->cmd->identify.nsid) == NVME_NSID_ALL) {
+   497			req->error_loc = offsetof(struct nvme_identify, nsid);
+   498			status = NVME_SC_INVALID_NS | NVME_SC_DNR;
+   499			goto out;
+   500		}
+   501	
+   502		id = kzalloc(sizeof(*id), GFP_KERNEL);
+   503		if (!id) {
+   504			status = NVME_SC_INTERNAL;
+   505			goto out;
+   506		}
+   507	
+   508		/* return an all zeroed buffer if we can't find an active namespace */
+   509		status = nvmet_req_find_ns(req);
+   510		if (status) {
+   511			status = 0;
+   512			goto done;
+   513		}
+   514	
+   515		if (nvmet_ns_revalidate(req->ns)) {
+   516			mutex_lock(&req->ns->subsys->lock);
+   517			nvmet_ns_changed(req->ns->subsys, req->ns->nsid);
+   518			mutex_unlock(&req->ns->subsys->lock);
+   519		}
+   520	
+   521		/*
+   522		 * nuse = ncap = nsze isn't always true, but we have no way to find
+   523		 * that out from the underlying device.
+   524		 */
+   525		id->ncap = id->nsze =
+   526			cpu_to_le64(req->ns->size >> req->ns->blksize_shift);
+   527		switch (req->port->ana_state[req->ns->anagrpid]) {
+   528		case NVME_ANA_INACCESSIBLE:
+   529		case NVME_ANA_PERSISTENT_LOSS:
+   530			break;
+   531		default:
+   532			id->nuse = id->nsze;
+   533			break;
+   534		}
+   535	
+   536		if (req->ns->bdev)
+   537			nvmet_bdev_set_limits(req->ns->bdev, id);
+   538		else {
+ > 539			id->msrc = (u8)to0based(BIO_MAX_VECS - 1);
+   540			id->mssrl = cpu_to_le16(BIO_MAX_VECS <<
+   541					(PAGE_SHIFT - SECTOR_SHIFT));
+   542			id->mcl = cpu_to_le32(le16_to_cpu(id->mssrl));
+   543		}
+   544	
+   545		/*
+   546		 * We just provide a single LBA format that matches what the
+   547		 * underlying device reports.
+   548		 */
+   549		id->nlbaf = 0;
+   550		id->flbas = 0;
+   551	
+   552		/*
+   553		 * Our namespace might always be shared.  Not just with other
+   554		 * controllers, but also with any other user of the block device.
+   555		 */
+   556		id->nmic = NVME_NS_NMIC_SHARED;
+   557		id->anagrpid = cpu_to_le32(req->ns->anagrpid);
+   558	
+   559		memcpy(&id->nguid, &req->ns->nguid, sizeof(id->nguid));
+   560	
+   561		id->lbaf[0].ds = req->ns->blksize_shift;
+   562	
+   563		if (req->sq->ctrl->pi_support && nvmet_ns_has_pi(req->ns)) {
+   564			id->dpc = NVME_NS_DPC_PI_FIRST | NVME_NS_DPC_PI_LAST |
+   565				  NVME_NS_DPC_PI_TYPE1 | NVME_NS_DPC_PI_TYPE2 |
+   566				  NVME_NS_DPC_PI_TYPE3;
+   567			id->mc = NVME_MC_EXTENDED_LBA;
+   568			id->dps = req->ns->pi_type;
+   569			id->flbas = NVME_NS_FLBAS_META_EXT;
+   570			id->lbaf[0].ms = cpu_to_le16(req->ns->metadata_size);
+   571		}
+   572	
+   573		if (req->ns->readonly)
+   574			id->nsattr |= NVME_NS_ATTR_RO;
+   575	done:
+   576		if (!status)
+   577			status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
+   578	
+   579		kfree(id);
+   580	out:
+   581		nvmet_req_complete(req, status);
+   582	}
+   583	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
 
