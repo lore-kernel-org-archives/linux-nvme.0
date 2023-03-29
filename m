@@ -4,138 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0754FC6FD18
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Mar 2023 11:10:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EDD3BC74A5B
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Mar 2023 12:15:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Xk+nH/TKHZ2otMFv1dPDB9/vDYwI4owFqXLVfiYqr5I=; b=15wz3di56pnIu6lMMVylanPV8Y
-	fSqSrXzDMiuROeNhyHyFiN35lz7YDoIU+g/u6bX7aXmThI4RicWLLg5PhG8XdWxtEoHPwv/a/k/kc
-	Hp6JeRtar3xX1DMp50hvSy8AaSYtZzXLpOZoF4oMijRpi9zMw7KVd7kZlbpVcam4FxdZp3xzs6liz
-	1JHU9JIHBRmeoW+3XcoapsD3lSP/5facS4xjQRi5g/OQGegFLvlTgEfgydmDDfhhcbPGCC/1EvNeo
-	SCtkldKgPASAKUdBr3L8kjPPN2c4c82vEttZDjVLvgTEi7tz6eTXIQRuOhbfx10k2IJsuXkNZcC52
-	215wy//Q==;
+	bh=T9kM4LUmcniYXGaxhhwKhusS2XuzAA7gUfA+apMM1ww=; b=14zyTvEnFlp3RN1ShFRFu8+m/J
+	V45Nh+ukvhM/hjR45lz8GQAF/GNcZv74gSM2qoSaChXkhCwkatuRCwN+KOSEawUPpuQzyoVO0RdiQ
+	K1lBjFcbHYeI0ylbLP03RS8dVphI755pwQj9Sq2Aec2egizkELTW2rgK4HD2axMc+1/5MllrQPKuH
+	MypSwUiC4OvQbqJEWJYlHa4MjDGUDkIPq7cqbhz9MJJU3OWVA2+n7NZ9mESz1C4CjUjknc4bW4Z84
+	FuWaLvPWtq6rwiO+r//qpgcOW7fn8PIdy72fvRcZr6vq35fw6VYRZQrKx2x29ofEKghn0U6B8vzfZ
+	rqkiI+yA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1phThW-00HZ10-0L;
-	Wed, 29 Mar 2023 11:10:46 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1phUhf-000A1H-2d;
+	Wed, 29 Mar 2023 12:14:59 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1phThR-00HYzf-2y
+	id 1phUha-0009zn-1o
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Mar 2023 11:10:44 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20230329111032epoutp039a11aad9c9d5a1b59e728be90c37aa0c~Q31in-gS23163931639epoutp03Z
-	for <linux-nvme@lists.infradead.org>; Wed, 29 Mar 2023 11:10:32 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20230329111032epoutp039a11aad9c9d5a1b59e728be90c37aa0c~Q31in-gS23163931639epoutp03Z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1680088232;
-	bh=Xk+nH/TKHZ2otMFv1dPDB9/vDYwI4owFqXLVfiYqr5I=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=RoqqxBHY9Wnmb7Gp5JsS2O37G7VpapTjETVHlnT6Hv54hc+CHb+NBfaRxtbbNp5rn
-	 TKaMO5IWArPXsrFPQDsSXE9QDMBu8pespHXRgQQx8ZLr6cxv0eeeVkYcglL6AXFWBy
-	 +KUGBKQJTHtkIQiuLo1FIBsD98wG3og6XnJ8BJ0c=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20230329111032epcas5p4d136e23b1114a6a012bd1dcdce095e8d~Q31iEcnFw1699116991epcas5p4P;
-	Wed, 29 Mar 2023 11:10:32 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.182]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4PmkP23Ghsz4x9Q1; Wed, 29 Mar
-	2023 11:10:30 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	30.74.55678.6AC14246; Wed, 29 Mar 2023 20:10:30 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20230329104226epcas5p1a6c8373304372ec2c02573ac59a7e8d8~Q3dAAFZeX0051700517epcas5p1L;
-	Wed, 29 Mar 2023 10:42:26 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20230329104226epsmtrp142b1ba35c822a3a46a762710d3a53155~Q3c--A1i30671106711epsmtrp1c;
-	Wed, 29 Mar 2023 10:42:26 +0000 (GMT)
-X-AuditID: b6c32a4a-6a3ff7000000d97e-f4-64241ca6b704
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	B4.0B.31821.21614246; Wed, 29 Mar 2023 19:42:26 +0900 (KST)
-Received: from green5 (unknown [107.110.206.5]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20230329104223epsmtip1c86cdb99c232682a50f105b430b65e80~Q3c80kGNQ2021320213epsmtip1R;
-	Wed, 29 Mar 2023 10:42:22 +0000 (GMT)
-Date: Wed, 29 Mar 2023 16:11:42 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Cc: Anuj Gupta <anuj20.g@samsung.com>, Jens Axboe <axboe@kernel.dk>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
-	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, James Smart
-	<james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>, Alexander
-	Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
-	bvanassche@acm.org, hare@suse.de, ming.lei@redhat.com, joshi.k@samsung.com,
-	nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
+	Wed, 29 Mar 2023 12:14:58 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 5783DB822F0;
+	Wed, 29 Mar 2023 12:14:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA1B7C433D2;
+	Wed, 29 Mar 2023 12:14:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1680092089;
+	bh=Cq96Ecr1uXjVoaJWJyUxPHu037nrWz83m8M9Gjo4M0w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KGfQ19JB/t5T8xfel5ekL7rIPIqjuGdUbpHu2TvFVfDJqzFnbriKg5iK3wfxALI59
+	 5LyiLESlpTzJHFW/8lt+018tzaD7vZPajHSzbIU/DEnaaeuEg4k4RCEEfRugFAgOYR
+	 m4DqhUtYK/1puiYULG8SOL55Wo0xxlZ0S513YrqIOLShG+zrSOD7j4MR7Fy5CLAsOW
+	 nn4Qqp5Qeh+Rgu7KnCNo6kX6DX82G9OqAuv4aGfxbXXRpuHiefLuICveefVRrgufMz
+	 KWcn2gniTr4BpCa5KHKzopGOqsKdRWruD0kdqIg9k6ZIVu2LqL7myHVVmrQ8JoGoPD
+	 zDQW2N2v6MA6A==
+Date: Wed, 29 Mar 2023 14:14:40 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Anuj Gupta <anuj20.g@samsung.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	James Smart <james.smart@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, bvanassche@acm.org,
+	hare@suse.de, ming.lei@redhat.com, damien.lemoal@opensource.wdc.com,
+	joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
+	Nitesh Shetty <nj.shetty@samsung.com>, linux-block@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v8 1/9] block: Introduce queue limits for copy-offload
- support
-Message-ID: <20230329104142.GA11932@green5>
-MIME-Version: 1.0
-In-Reply-To: <e725768d-19f5-a78a-2b05-c0b189624fea@opensource.wdc.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xbdRTH87u3vS2Y6l0B91sZyMpDB8Ja1sLtAkIcwxsekcU5gwtCR69A
-	gLbpw6FmjofoYOMxxCnVbMCAOVCYsCFQykiRUQqMRR4GtgFzJVPeA2WZBLBwi9l/n3PO9+S8
-	ctgo91sWj50i11AquTSNj9kzmrv2e/vW7PWQCWqvvEw0mG+jRHbxOkrUPSjCiNmuZUBcXHqG
-	EmsDgyhhWPiOSYx1tiJEe2UJQlyr60YIfcUThOjenMeIEuMoIKZHdAhhGPch2g29DGKo7XuM
-	uFwzzSKMX+UgRIslCxD1s4sMwjTuTAyu9zBDd5NDw5GkbnIAI1t1D1jk4MTPDHJoQEs21uZh
-	ZFPVGVI/lomRBTkLVkHuJJNc7BjByMIbtYBs6vuUXGl0JRst80jMS++nBiVTUhmlcqPkiQpZ
-	ijwpmB/5TvzheHGAQOgrlBCBfDe5NJ0K5odFxfiGp6RZV8B3+0iaprW6YqRqNf/AG0EqhVZD
-	uSUr1JpgPqWUpSlFSj+1NF2tlSf5ySnNIaFA4C+2ChNSkztyN1BlvjDj5sgVViYweeUDOzbE
-	RXDueh6SD+zZXFwP4D+3h23GMoB3+6uZtLEC4NXrE8ydlDv9fbZAG4Bf3rrJog0LgH+PFm+r
-	GLgnXDpXZWU2G8N9YN8me8vtiIvh/PlcxhajeA0TLt7fljvgx+DF4SnWFnOs8j9ulTFp3gV7
-	yyzbejs8HP7Zt4BssRPuDjubexC6oQY7WN95nOYw+M05HUqzA5zpucGimQf/KvrCxqfgtdIf
-	sK2eIf45gLrfdYAOhMBccxFKN5cCTUsbtgQX+LW5HqH9L8KCNYutMAe2XNphd/hjQzlG8x44
-	+jTLxiQsXq+yLegZgJUPH4Ni8IruueF0z9Wj+XVYrl/GdNbdobgzvLrBpnE/bGg7UA6YtWAP
-	pVSnJ1FqsdJfTp36/+KJivRGsP0i3hEt4OHUkp8RIGxgBJCN8h05a6N8GZcjk378CaVSxKu0
-	aZTaCMTWW11AeU6JCuuPyTXxQpFEIAoICBBJDgYI+bs5rwb3JnLxJKmGSqUoJaXayUPYdrxM
-	RDkoXo9KzZKYKo891herFQ4zH+TO3nUpFzafDq2Ouhfpqhh8z3ApPDb18MmGI8mqHO67C40V
-	Gd4eVZxdKsOAZ8dy19m5gezQ0dDYJ79W+zadYMq0GZ5xhpCTjLWgOxGfOS5k/+vtuhl7hrs6
-	L2EJIscTwjgtphOFb+/Lf1PgIivQT9+LDfQIv0DJSgrOjtknHA3sdz/qVejk8trIkcUa57hO
-	jiI6rFnKdfY3dq/Ulf7GWY07dL+itqXt+Gr/o72rm2lPzTPc6DyvCVGHS4TxhcvRB0/zfPJK
-	ois+nFvPlsSXDbeGTpkNvMn21kecEIeY0o5+zpSjGUnPMlne2vjlPPMnPkOdLBV6oyq19D/z
-	ynCPqwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrJIsWRmVeSWpSXmKPExsWy7bCSnK6QmEqKwauvvBbrTx1jtmia8JfZ
-	YvXdfjaL14c/MVpM+/CT2eL32fPMFnvfzWa1uHlgJ5PFnkWTmCxWrj7KZLF74Ucmi6P/37JZ
-	TDp0jdHi6dVZTBZ7b2lb7Nl7ksXi8q45bBbzlz1ltzg0uZnJYseTRkaLda/fs1icuCVtcf7v
-	cVYHcY/LV7w9Zt0/y+axc9Zddo/z9zayeFw+W+qxaVUnm8fmJfUeu282sHn0Nr8DKmi9z+rx
-	ft9VNo++LasYPTafrvb4vEnOY9OTt0wB/FFcNimpOZllqUX6dglcGd1rTrAVHNer2PJ/GXsD
-	4zyVLkZODgkBE4lzZ06zdjFycQgJ7GCU2PvsLCtEQlJi2d8jzBC2sMTKf8/ZIYoeMUrcfXQX
-	rIhFQFXiQ/cSIJuDg01AW+L0fw6QsIiAqcTbnlYWEJtZYBWrxL1duiC2sECIxLQrD9hBbF6g
-	8kf7Z0It/sko0TblHitEQlDi5MwnUM1aEjf+vWQCmc8sIC2x/B/YfE4BN4kXp98xgdiiAsoS
-	B7YdZ5rAKDgLSfcsJN2zELoXMDKvYpRMLSjOTc8tNiwwykst1ytOzC0uzUvXS87P3cQIjn0t
-	rR2Me1Z90DvEyMTBeIhRgoNZSYT39zWlFCHelMTKqtSi/Pii0pzU4kOM0hwsSuK8F7pOxgsJ
-	pCeWpGanphakFsFkmTg4pRqY1s3Qi+PIut/wauYp/2ftceuSPxhM/3RMgNvFySb3mYFUfvs+
-	FjG+lmQOeWnn5+dlDy9Yzvj3aVvYgkcB28ReyDyXqwxmiuoXfZZfIOm0V0HuW69y+ler/W2H
-	F9lm75515uT/BZuyrmtevBvF2V94MkrViTerPmjba86PmzN8Hy2Ya/1hA1vvj5K2eX5hX94v
-	PGJx2POlyFPnicen2HwIa1njHnZe+4XAKqPupu3z2SsOLb1tdyCl+pSZxBFt7Zatx+V+501v
-	kGjpuOh74HrNho4d5wvuZhb88fy5p0BI9OeGn2XH9jUlcFi9ZLulkBemqu/inLn16yPhgE6W
-	udcLw51n3TrzPmi/aYjSBnVPJZbijERDLeai4kQARjFdhmwDAAA=
-X-CMS-MailID: 20230329104226epcas5p1a6c8373304372ec2c02573ac59a7e8d8
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----KU2CxbTk4.ftA7vvsvzLW4bt.-m_7jRTbTuK1k18jgDVn8pS=_118142_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230327084216epcas5p3945507ecd94688c40c29195127ddc54d
+Subject: Re: [PATCH v8 4/9] fs, block: copy_file_range for def_blk_ops for
+ direct block device.
+Message-ID: <20230329-glitter-drainpipe-bdf9d3876ac4@brauner>
 References: <20230327084103.21601-1-anuj20.g@samsung.com>
-	<CGME20230327084216epcas5p3945507ecd94688c40c29195127ddc54d@epcas5p3.samsung.com>
-	<20230327084103.21601-2-anuj20.g@samsung.com>
-	<e725768d-19f5-a78a-2b05-c0b189624fea@opensource.wdc.com>
+ <CGME20230327084244epcas5p1b0ede867e558ff6faf258de3656a8aa4@epcas5p1.samsung.com>
+ <20230327084103.21601-5-anuj20.g@samsung.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230327084103.21601-5-anuj20.g@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230329_041042_623224_716BD92C 
-X-CRM114-Status: GOOD (  40.45  )
+X-CRM114-CacheID: sfid-20230329_051454_937211_2C859338 
+X-CRM114-Status: GOOD (  22.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,177 +86,89 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------KU2CxbTk4.ftA7vvsvzLW4bt.-m_7jRTbTuK1k18jgDVn8pS=_118142_
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-
-On Wed, Mar 29, 2023 at 05:40:09PM +0900, Damien Le Moal wrote:
-> On 3/27/23 17:40, Anuj Gupta wrote:
-> > From: Nitesh Shetty <nj.shetty@samsung.com>
-> > 
-> > Add device limits as sysfs entries,
-> >         - copy_offload (RW)
-> >         - copy_max_bytes (RW)
-> >         - copy_max_bytes_hw (RO)
-> > 
-> > Above limits help to split the copy payload in block layer.
-> > copy_offload: used for setting copy offload(1) or emulation(0).
-> > copy_max_bytes: maximum total length of copy in single payload.
-> > copy_max_bytes_hw: Reflects the device supported maximum limit.
-> > 
-> > Reviewed-by: Hannes Reinecke <hare@suse.de>
-> > Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-> > Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-> > Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
-> > ---
-> >  Documentation/ABI/stable/sysfs-block | 36 ++++++++++++++++
-> >  block/blk-settings.c                 | 24 +++++++++++
-> >  block/blk-sysfs.c                    | 64 ++++++++++++++++++++++++++++
-> >  include/linux/blkdev.h               | 12 ++++++
-> >  include/uapi/linux/fs.h              |  3 ++
-> >  5 files changed, 139 insertions(+)
-> > 
-> > diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/stable/sysfs-block
-> > index c57e5b7cb532..f5c56ad91ad6 100644
-> > --- a/Documentation/ABI/stable/sysfs-block
-> > +++ b/Documentation/ABI/stable/sysfs-block
-> > @@ -155,6 +155,42 @@ Description:
-> >  		last zone of the device which may be smaller.
-> >  
-> >  
-> > +What:		/sys/block/<disk>/queue/copy_offload
-> > +Date:		November 2022
-> > +Contact:	linux-block@vger.kernel.org
-> > +Description:
-> > +		[RW] When read, this file shows whether offloading copy to
-> > +		device is enabled (1) or disabled (0). Writing '0' to this
+On Mon, Mar 27, 2023 at 02:10:52PM +0530, Anuj Gupta wrote:
+> From: Nitesh Shetty <nj.shetty@samsung.com>
 > 
-> ...to a device...
+> For direct block device opened with O_DIRECT, use copy_file_range to
+> issue device copy offload, and fallback to generic_copy_file_range incase
+> device copy offload capability is absent.
+> Modify checks to allow bdevs to use copy_file_range.
 > 
-acked
-
-> > +		file will disable offloading copies for this device.
-> > +		Writing any '1' value will enable this feature. If device
+> Suggested-by: Ming Lei <ming.lei@redhat.com>
+> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> ---
+>  block/blk-lib.c        | 22 ++++++++++++++++++++++
+>  block/fops.c           | 20 ++++++++++++++++++++
+>  fs/read_write.c        | 11 +++++++++--
+>  include/linux/blkdev.h |  3 +++
+>  4 files changed, 54 insertions(+), 2 deletions(-)
 > 
-> If the device does...
-> 
-acked
+> diff --git a/block/blk-lib.c b/block/blk-lib.c
+> index a21819e59b29..c288573c7e77 100644
+> --- a/block/blk-lib.c
+> +++ b/block/blk-lib.c
+> @@ -475,6 +475,28 @@ static inline bool blk_check_copy_offload(struct request_queue *q_in,
+>  	return blk_queue_copy(q_in) && blk_queue_copy(q_out);
+>  }
+>  
+> +int blkdev_copy_offload(struct block_device *bdev_in, loff_t pos_in,
+> +		      struct block_device *bdev_out, loff_t pos_out, size_t len,
+> +		      cio_iodone_t end_io, void *private, gfp_t gfp_mask)
+> +{
+> +	struct request_queue *in_q = bdev_get_queue(bdev_in);
+> +	struct request_queue *out_q = bdev_get_queue(bdev_out);
+> +	int ret = -EINVAL;
 
-> > +		does not support offloading, then writing 1, will result in
-> > +		error.
-> > +
-> > +
-> > +What:		/sys/block/<disk>/queue/copy_max_bytes
-> > +Date:		November 2022
-> > +Contact:	linux-block@vger.kernel.org
-> > +Description:
-> > +		[RW] While 'copy_max_bytes_hw' is the hardware limit for the
-> > +		device, 'copy_max_bytes' setting is the software limit.
-> > +		Setting this value lower will make Linux issue smaller size
-> > +		copies from block layer.
-> 
-> 		This is the maximum number of bytes that the block
->                 layer will allow for a copy request. Must be smaller than
->                 or equal to the maximum size allowed by the hardware indicated
+Why initialize to -EINVAL if blk_copy_sanity_check() initializes it
+right away anyway?
 
-Looks good.  Will update in next version. We took reference from discard. 
+> +	bool offload = false;
 
-> 		by copy_max_bytes_hw. Write 0 to use the default kernel
-> 		settings.
-> 
+Same thing with initializing offload.
 
-Nack, writing 0 will not set it to default value. (default value is
-copy_max_bytes = copy_max_bytes_hw)
+> +
+> +	ret = blk_copy_sanity_check(bdev_in, pos_in, bdev_out, pos_out, len);
+> +	if (ret)
+> +		return ret;
+> +
+> +	offload = blk_check_copy_offload(in_q, out_q);
+> +	if (offload)
+> +		ret = __blk_copy_offload(bdev_in, pos_in, bdev_out, pos_out,
+> +				len, end_io, private, gfp_mask);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(blkdev_copy_offload);
+> +
+>  /*
+>   * @bdev_in:	source block device
+>   * @pos_in:	source offset
+> diff --git a/block/fops.c b/block/fops.c
+> index d2e6be4e3d1c..3b7c05831d5c 100644
+> --- a/block/fops.c
+> +++ b/block/fops.c
+> @@ -611,6 +611,25 @@ static ssize_t blkdev_read_iter(struct kiocb *iocb, struct iov_iter *to)
+>  	return ret;
+>  }
+>  
+> +static ssize_t blkdev_copy_file_range(struct file *file_in, loff_t pos_in,
+> +				struct file *file_out, loff_t pos_out,
+> +				size_t len, unsigned int flags)
+> +{
+> +	struct block_device *in_bdev = I_BDEV(bdev_file_inode(file_in));
+> +	struct block_device *out_bdev = I_BDEV(bdev_file_inode(file_out));
+> +	int comp_len = 0;
+> +
+> +	if ((file_in->f_iocb_flags & IOCB_DIRECT) &&
+> +		(file_out->f_iocb_flags & IOCB_DIRECT))
+> +		comp_len = blkdev_copy_offload(in_bdev, pos_in, out_bdev,
+> +				 pos_out, len, NULL, NULL, GFP_KERNEL);
+> +	if (comp_len != len)
+> +		comp_len = generic_copy_file_range(file_in, pos_in + comp_len,
+> +			file_out, pos_out + comp_len, len - comp_len, flags);
 
-> > +
-> > +
-> > +What:		/sys/block/<disk>/queue/copy_max_bytes_hw
-> > +Date:		November 2022
-> > +Contact:	linux-block@vger.kernel.org
-> > +Description:
-> > +		[RO] Devices that support offloading copy functionality may have
-> > +		internal limits on the number of bytes that can be offloaded
-> > +		in a single operation. The `copy_max_bytes_hw`
-> > +		parameter is set by the device driver to the maximum number of
-> > +		bytes that can be copied in a single operation. Copy
-> > +		requests issued to the device must not exceed this limit.
-> > +		A value of 0 means that the device does not
-> > +		support copy offload.
-> 
-> 		[RO] This is the maximum number of kilobytes supported in a
->                 single data copy offload operation. A value of 0 means that the
-> 		device does not support copy offload.
-> 
-
-Nack, value is in bytes. Same as discard.
-
-> > +
-> > +
-> >  What:		/sys/block/<disk>/queue/crypto/
-> >  Date:		February 2022
-> >  Contact:	linux-block@vger.kernel.org
-> > diff --git a/block/blk-settings.c b/block/blk-settings.c
-> > index 896b4654ab00..350f3584f691 100644
-> > --- a/block/blk-settings.c
-> > +++ b/block/blk-settings.c
-> > @@ -59,6 +59,8 @@ void blk_set_default_limits(struct queue_limits *lim)
-> >  	lim->zoned = BLK_ZONED_NONE;
-> >  	lim->zone_write_granularity = 0;
-> >  	lim->dma_alignment = 511;
-> > +	lim->max_copy_sectors_hw = 0;
-> > +	lim->max_copy_sectors = 0;
-> >  }
-> >  
-> >  /**
-> > @@ -82,6 +84,8 @@ void blk_set_stacking_limits(struct queue_limits *lim)
-> >  	lim->max_dev_sectors = UINT_MAX;
-> >  	lim->max_write_zeroes_sectors = UINT_MAX;
-> >  	lim->max_zone_append_sectors = UINT_MAX;
-> > +	lim->max_copy_sectors_hw = ULONG_MAX;
-> > +	lim->max_copy_sectors = ULONG_MAX;
-> >  }
-> >  EXPORT_SYMBOL(blk_set_stacking_limits);
-> >  
-> > @@ -183,6 +187,22 @@ void blk_queue_max_discard_sectors(struct request_queue *q,
-> >  }
-> >  EXPORT_SYMBOL(blk_queue_max_discard_sectors);
-> >  
-> > +/**
-> > + * blk_queue_max_copy_sectors_hw - set max sectors for a single copy payload
-> > + * @q:  the request queue for the device
-> > + * @max_copy_sectors: maximum number of sectors to copy
-> > + **/
-> > +void blk_queue_max_copy_sectors_hw(struct request_queue *q,
-> > +		unsigned int max_copy_sectors)
-> > +{
-> > +	if (max_copy_sectors >= MAX_COPY_TOTAL_LENGTH)
-> 
-> Confusing name as LENGTH may be interpreted as bytes. MAX_COPY_SECTORS would be
-> better.
-> 
-
-Agreed, we will make MAX_COPY_TOTAL_LENGTH explicit to bytes.
-We also check this limit against user payload length which is in bytes(patch 2).
-So there is a inconsistency from our end (patch 1 and 2). We will fix this
-in next version.
-
-> > +		max_copy_sectors = MAX_COPY_TOTAL_LENGTH;
-> > +
-> > +	q->limits.max_copy_sectors_hw = max_copy_sectors;
-> > +	q->limits.max_copy_sectors = max_copy_sectors;
-> > +}
-> > +EXPORT_SYMBOL_GPL(blk_queue_max_copy_sectors_hw);
-> 
-> 
-> -- 
-> Damien Le Moal
-> Western Digital Research
-> 
-> 
-
-------KU2CxbTk4.ftA7vvsvzLW4bt.-m_7jRTbTuK1k18jgDVn8pS=_118142_
-Content-Type: text/plain; charset="utf-8"
-
-
-------KU2CxbTk4.ftA7vvsvzLW4bt.-m_7jRTbTuK1k18jgDVn8pS=_118142_--
+I'm not deeply familiar with this code but this looks odd. It at least
+seems possible that comp_len could be -EINVAL and len 20 at which point
+you'd be doing len - comp_len aka 20 - 22 = -2 in generic_copy_file_range().
 
