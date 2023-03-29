@@ -4,65 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5EDE9C6FD18
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Mar 2023 15:24:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB731C761AF
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Mar 2023 15:26:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PC83zyI2MkiTdocQjSJCPagzOohj9//XCpX2Mc2SR7s=; b=WSxBkqXTB0ApMdonmVAluo6sXI
-	+Aiq3ewXhTk2rqYrMUzl1+EgrwbaJ4k9BYHvCYVL+cY6bXAmXooE+r1kB54wGT5kNMnka8Gg5fRME
-	lSGDcjQWch+Y/tIbpN5TSjPQy/VcsTY3lnNIbs+kOffMbU2/jg0WdJlPHZV4uQ/8LuD4RWe7YkKnH
-	O7sEe2daCC6kuawAA9E4NR3LmIpDC1ngSKpNShs2MzrwTC9dwA8uhia7Qbp4/d6B/9dDhBwDlW3cn
-	sm9iGD+0yW+fGC1i8ahpPV/jh1KE42Fnr4mLrCzYWeS9aR2OHP4ndV6l1UUjSDAQiT2jBzgFCDZS0
-	GxVP4wQw==;
+	bh=xeSJa3vQAJ+XjA4YbjZhGvIMnv9rsLgj+q8TGfFdRNk=; b=0MFMmZP1o9Vw+QXBwbM7UNqHKm
+	MByUeY8s4cG8ec0wYWSwH65iVMwWPFmnxPCPei+f7BbuBVP4MH/rNcZxCmGOU68Jkm/0N1/G5T6sC
+	aV+WTcSHStOIhYUeAY4KSwWrKT+KxDG5wocsOwWJaSMCNG0c8IASoB/hBhbG6Z/2jApCha1tNq/xj
+	q071iK7OKbDQpt8G4bbtormiCMnvF5+Cf8aOEav/DI/UhFxBSJYRqtIg4j8KnBL1gIFUQ24NXkqfh
+	IKK3H1J/gmAgfGsmqSxoQqjIpLTfbgoJSr+lnZUeLgBvCL1zpRI4d5XrOZKgFDATVY2UyagkDzc21
+	yrX3fGtA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1phXfC-000lr4-0g;
-	Wed, 29 Mar 2023 15:24:38 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1phXhI-000mBI-06;
+	Wed, 29 Mar 2023 15:26:48 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1phXf9-000lqC-1y
+	id 1phXhG-000mA8-02
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Mar 2023 15:24:37 +0000
+	Wed, 29 Mar 2023 15:26:47 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CA2021FE01;
-	Wed, 29 Mar 2023 15:24:25 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CC35F21A1A;
+	Wed, 29 Mar 2023 15:26:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1680103465; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1680103603; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PC83zyI2MkiTdocQjSJCPagzOohj9//XCpX2Mc2SR7s=;
-	b=zE9qbYxXiCR3yfYjvgdagddwRCw91K8ZNCTP64ttwLJuOeCUwqsFlJo/+S9kJiigOcyvp3
-	R66G1BH//XBgVjnvkHRTGKa39DvV8cwegbyT9IBxBvuS3Za/J5DOn0HTHy2ZA1rcIyrFRz
-	YsY7EUb/uiRE+ESLXRyahevnnAhRRno=
+	bh=xeSJa3vQAJ+XjA4YbjZhGvIMnv9rsLgj+q8TGfFdRNk=;
+	b=h3sOy7g+ijw6LbMqdM2scfC5IUagJu0Nub91YTic72hWagml+xB0H4XFMeo7BKV/2XlF/1
+	qmdUKrNF81CpS2KSiXPmPFxxqEGyYxZ39tiYIiaPTDGCk43XVaX6oN3Kl5b8pD8kZ26CVq
+	OUPMtjOyN3UXmebl+hdoAXXObMNXTwo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1680103465;
+	s=susede2_ed25519; t=1680103603;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PC83zyI2MkiTdocQjSJCPagzOohj9//XCpX2Mc2SR7s=;
-	b=b7zCcl3/2fpCw1prWjZNAfMXmBTswLDl8IDiEelBs6nk3MvK1JNzR67On2BZx/gmxC63r7
-	J2WSguhcIaN4a+CQ==
+	bh=xeSJa3vQAJ+XjA4YbjZhGvIMnv9rsLgj+q8TGfFdRNk=;
+	b=tbCBIGPO020Zrw/Eu/yw9SjgxlRDNFbsCgGcnIjIRTuSBKc48y8SWVhs3CC5qP2FYQmL6S
+	0ZLg8yKBivMfeUCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 430F6139D3;
-	Wed, 29 Mar 2023 15:24:25 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5990B139D3;
+	Wed, 29 Mar 2023 15:26:43 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id l/lyDilYJGQLVQAAMHmgww
-	(envelope-from <hare@suse.de>); Wed, 29 Mar 2023 15:24:25 +0000
-Message-ID: <8fab4f74-cd27-3838-a4f9-6e5b3705d527@suse.de>
-Date: Wed, 29 Mar 2023 17:24:24 +0200
+	id RJ38ErNYJGRNVgAAMHmgww
+	(envelope-from <hare@suse.de>); Wed, 29 Mar 2023 15:26:43 +0000
+Message-ID: <744cb450-101f-75dc-97e3-0933c26c02cf@suse.de>
+Date: Wed, 29 Mar 2023 17:26:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
@@ -74,14 +74,14 @@ Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
  Chuck Lever <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev
 References: <20230329135938.46905-1-hare@suse.de>
  <20230329135938.46905-2-hare@suse.de>
- <56ab2e76-1d5e-0002-cf23-6c7e9b82d233@grimberg.me>
+ <2cfb1620-a09e-87ed-9224-5e94afc0747f@grimberg.me>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <56ab2e76-1d5e-0002-cf23-6c7e9b82d233@grimberg.me>
+In-Reply-To: <2cfb1620-a09e-87ed-9224-5e94afc0747f@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230329_082435_802151_14216CD5 
-X-CRM114-Status: GOOD (  17.34  )
+X-CRM114-CacheID: sfid-20230329_082646_196827_4ED51C7A 
+X-CRM114-Status: GOOD (  14.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,7 +96,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/29/23 16:49, Sagi Grimberg wrote:
+On 3/29/23 17:04, Sagi Grimberg wrote:
 > 
 >> Register a '.nvme' keyring to hold keys for TLS and DH-HMAC-CHAP and
 >> add a new config option NVME_TLS to enable support for NVMe-TCP/TLS.
@@ -124,26 +124,11 @@ On 3/29/23 16:49, Sagi Grimberg wrote:
 >>          tristate
 >> +
 >> +config NVME_TLS
->> +    bool "NVMe/TCP TLS encryption support"
->> +    depends on NVME_COMMON
 > 
-> depends on TLS as well? Or maybe select would be more appropriate?
+> Better to call it NVME_TCP_TLS... although not a biggie, should be
+> well understood this is tcp
 > 
-I would argue 'depends', as we cannot use the standard 
-session/process/thread keyrings, as they'll vanish after the initial 
-'connect', and then there's no keyring to lookup keys for subsection 
-reconnects.
-
->> +    select KEYS
->> +    help
->> +      Enables TLS encryption for NVMe/TCP using the netlink handshake 
->> API.
->> +
->> +      If unsure, say N.
-> 
-> Would it not make sense to default it to y?
-
-Yeah.
+Sure.
 
 Cheers,
 
