@@ -4,136 +4,117 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 158D2C77B60
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Mar 2023 08:16:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CCABEC77B60
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Mar 2023 08:40:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lm0WP6O4CL5/qIdjNGTZX/T8lPRCo7+74BXwP7Ula+E=; b=4MLgMU/3Sb8ZZ66/IJ8uRmFnmS
-	QDw5Ozg6aICV+3i+nUM1IXO1dudNI0+AbQxmgY1dTl76o8pFBqp+o6GXwZJqeo9p2RVMKY7iYatAg
-	V38AzZSZl1VkrK9nMcwHsRTeWz9ySDSofG5/mZuebEY66B5FsP4Gy8NZAYAJ/8FDI/AMRmb2O6My/
-	YEPur2cRZonrOWG71+Po3gcBJXEatuzSfpShiHb/irTrWKsDpV04pSru8nWvlIO3W7Zh+mKnlS2PH
-	Ff0ribZt7EH7ZHgx9NDTPk4nmAyeEo6JMIJkihOUR1mCiNc32XFO6/ISLAeEopCm5Q7hTy7C5glb3
-	iiCZztkg==;
+	bh=PCyOzDhhpDfbdpDRKDB3pbp+g0/ddJjuCTzvMhZZ+ss=; b=ll+fWd1FOwOjeQqHHY/J9w4TNj
+	x/LXUMcqt8BuoMzhs4Y4twZcYt9Qc2nHNAwrR7dgApkxhxR1VnSykC+J79ocPPhGJyJx4gUE4WRDd
+	Qf7zzb+y8456u3gxq+6+hCb0LNSlohcFDyH9AS4h72Heqn/rVjFyyrD0c6nVkF13/sjoZbfYcpec1
+	ey9WxrADGcBslQ1zoHfETJs4hcqYkZK87TzUEGyBInsqwiftsSPHRHrJhV6Oslm7Y0qAEQepXw3Kx
+	p9UaMVS956L3GPmH/Nu6QACV/9WAhKB7E4qlRqXJyOrCVUA+z1W4xvBmcoIPWmog2lbLwYg5AY1zi
+	ugSb5Hxg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1phQz3-00H3Pg-14;
-	Wed, 29 Mar 2023 08:16:41 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1phRM0-00H9DF-2r;
+	Wed, 29 Mar 2023 08:40:24 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1phQyy-00H3KE-1X
+	id 1phRLx-00H9CX-0w
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Mar 2023 08:16:38 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20230329081634epoutp021d0e0120a8c986926da15ed462e106e4~Q1dpUPAgp2902229022epoutp02L
-	for <linux-nvme@lists.infradead.org>; Wed, 29 Mar 2023 08:16:34 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20230329081634epoutp021d0e0120a8c986926da15ed462e106e4~Q1dpUPAgp2902229022epoutp02L
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1680077794;
-	bh=lm0WP6O4CL5/qIdjNGTZX/T8lPRCo7+74BXwP7Ula+E=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=apw/ZAAvoyBAzNqib27S9mMdwX1Dtba9K5LYX2p7RI5fFUVB0Lg1jkJ525/0FnSMn
-	 LSatC9SgJoTfkkewhjj3vAXF5z8sRhbXnjkhXFHq3MT6yQLms9qVXUtjIr/tAAM8Jo
-	 M5p4/VmXWv88oW6BR9vMqsLmDefQ8HgwEPKtM3Xs=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20230329081634epcas5p384a60fc6e935d5677d4fd6fdae0febc5~Q1do1vqoW1882518825epcas5p3E;
-	Wed, 29 Mar 2023 08:16:34 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.174]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4PmfXJ2dzfz4x9Q9; Wed, 29 Mar
-	2023 08:16:32 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	C1.20.06765.0E3F3246; Wed, 29 Mar 2023 17:16:32 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20230327084331epcas5p2510ed79d04fe3432c2ec84ce528745c6~QOimo1dPU0968909689epcas5p21;
-	Mon, 27 Mar 2023 08:43:31 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20230327084331epsmtrp2fb8c9870f1fe27704e0328bf8f28bf73~QOimnxreA2690426904epsmtrp2Q;
-	Mon, 27 Mar 2023 08:43:31 +0000 (GMT)
-X-AuditID: b6c32a4b-46dfa70000011a6d-23-6423f3e00c8b
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	A9.4C.18071.33751246; Mon, 27 Mar 2023 17:43:31 +0900 (KST)
-Received: from green5.sa.corp.samsungelectronics.net (unknown
-	[107.110.206.5]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20230327084327epsmtip160db9f1d1db73f5d72d3f78f49ac1595~QOijROTfK3005130051epsmtip15;
-	Mon, 27 Mar 2023 08:43:27 +0000 (GMT)
-From: Anuj Gupta <anuj20.g@samsung.com>
-To: Jens Axboe <axboe@kernel.dk>, Alasdair Kergon <agk@redhat.com>, Mike
-	Snitzer <snitzer@kernel.org>, dm-devel@redhat.com, Keith Busch
-	<kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
-	<sagi@grimberg.me>, James Smart <james.smart@broadcom.com>, Chaitanya
-	Kulkarni <kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: bvanassche@acm.org, hare@suse.de, ming.lei@redhat.com,
-	damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
-	nitheshshetty@gmail.com, gost.dev@samsung.com, Nitesh Shetty
-	<nj.shetty@samsung.com>, Vincent Fu <vincent.fu@samsung.com>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-Subject: [PATCH v8 9/9] null_blk: add support for copy offload
-Date: Mon, 27 Mar 2023 14:10:57 +0530
-Message-Id: <20230327084103.21601-10-anuj20.g@samsung.com>
-X-Mailer: git-send-email 2.35.1.500.gb896f729e2
-In-Reply-To: <20230327084103.21601-1-anuj20.g@samsung.com>
+	Wed, 29 Mar 2023 08:40:23 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1680079221; x=1711615221;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=E3jSijsKBSV9BsEzQr1YnSfmWJK8g8o7ns6B3bjeHLM=;
+  b=k5vROw3JyupPea1hd3Rjn6yRVG85C1enZ9gYmyAzdjATMg6GQQe+eEvC
+   S7Z9/1XTqaoAjQgx0qVO0DKQCyC67YEMoWN/EYptVQMKjMv3ySypp729z
+   5iuL8a7+a7/igs2SWcjHpPq/l6epj0g7x69YZrdIoxpy2S132heHKxetF
+   0ItdrB8JZEPavjLIzEKAbrc7ACU6rexkXptUG7X2fmYUgMhuai0KkzHhV
+   gN00wAH/ZX6mXf8OQw0b1fT+0qa3bxbun0CZDY0kzL61DGrvW4RNO6gqG
+   +CFpae4pSM+4PopXXBgErcgwEF2HGEO1Ubwf54sYRwWMHeIqjqONzVlZ7
+   w==;
+X-IronPort-AV: E=Sophos;i="5.98,300,1673884800"; 
+   d="scan'208";a="225055335"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 29 Mar 2023 16:40:17 +0800
+IronPort-SDR: IrBt2lC7/dwzFkAd1t9zLkA4Tzd1kUSbZFBp+mO8wwIsONtdxk892v70XleqDLbc4d796/kgmd
+ NhfqgNPhMDpomI087IIs4Kv44xOEWETZeWMympKnLNhhEstXe7Aydid93y/Zd5DNtTGFnc8bBq
+ B+mrA7oeThy+LIC+tVmAtzu1g583mr6RoDekPMvtbayK/sfN5Nf+/0/uI2tsKEWe0YrjuggaBU
+ KIxOJcRs0A4ph0AZ/Tuiup4sCp7sTXKbvgaqKKKlS430x9cSvnqlhl1bc1H2dR5RrEuQNsMZRA
+ dco=
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 29 Mar 2023 00:56:26 -0700
+IronPort-SDR: 1yhE7sqanK02AGNvp08jApcxe0L1SEgXzaWa6AqKWZKbwXuIcL7yy8UhYv/ngPTYE3Hf1kfFFt
+ pAzb3W9Rd5BiWnrL7W1FruukE4fCEioV57zXKIJHKOhTh2fhmK2tyBuJU7WR/9+wfnMnv0qZvU
+ vv0Wy87vNnrHPxSBnZkwBHMEjoqZpa6CR+tCBTE8yq5KXYsdE5vTb46rsaZ49oekQZiiKRMllU
+ YpW7gjGyM25Zr68YWr4tlKpsGYgjkBV/nOU6ktX8q3BA+YdsvKqgc6u/8jpaCT0D2HQ65Ppx7s
+ Qn0=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 29 Mar 2023 01:40:18 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Pmg3h6zmTz1RtVq
+	for <linux-nvme@lists.infradead.org>; Wed, 29 Mar 2023 01:40:16 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+	reason="pass (just generated, assumed good)"
+	header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+	opensource.wdc.com; h=content-transfer-encoding:content-type
+	:in-reply-to:organization:from:references:to:content-language
+	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
+	1680079215; x=1682671216; bh=E3jSijsKBSV9BsEzQr1YnSfmWJK8g8o7ns6
+	B3bjeHLM=; b=ubojnNRZtniIG4drMxCxpbcUUntc7UVjcuyQDdJq4Y4sJ6P2Jk/
+	k8QBkYTtobxjovRwL97Pc69e6lGQwgirLIzioWiy2p3Jz0SYjirs9SQdmSZHzT3K
+	/3WMbS6vpWd0887PymxQxyApYp547FWCtFhI6IrU/eOBmbIshIEHOboKDZw7gfQh
+	Ftpa4pU/OykstUUR3CAiBB0z+McsaAyRd+hHSFrn4tfUWLYa+IzL93WL2z1O03Pk
+	3fMfw8iQf8a88VcuSMAwxMB5p9+NQ2opoKmgeM3osaeh4u18V8DelxYQ26HlS76K
+	V967+/rtR1Zczx+Gp7Dk/OcQkfIfDxL09sw==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id wz5IdfvD_lnj for <linux-nvme@lists.infradead.org>;
+	Wed, 29 Mar 2023 01:40:15 -0700 (PDT)
+Received: from [10.225.163.116] (unknown [10.225.163.116])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Pmg3Z3bThz1RtVm;
+	Wed, 29 Mar 2023 01:40:10 -0700 (PDT)
+Message-ID: <e725768d-19f5-a78a-2b05-c0b189624fea@opensource.wdc.com>
+Date: Wed, 29 Mar 2023 17:40:09 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTdxTH87u3vRRI3eVh9pNlrrkbYTh5KZQfaHUPt90EXRqXSOJmSkdv
-	CoM+1tuObbJZxlAeARSQuIIylZGAmUBhrDxqWBFYOx6aCgiZwrSIHfIQzESYspbC5n+fc873
-	5Jzz/eXHw/3PeAXxUpVaRqOUplOED6elKzQ0bGLxVVnk0qIvqrf14Ojbk09xdOlWMYGmuxYA
-	Kp9/gqOV/kEcmWcruGi0sxVDHRdKMFR7qRtD7ecfYqh7dYZAJZZhgCaHDBgyj72BOsxWDrK3
-	VRKoqmbSC1lKszFkcmQB1LJShaPL03Mc9NvYS+huQS5Ag097uW9uoe03EmjDeD9BtxpuedGD
-	txs5tL1fRxvr8gi6qfoY3T6qJ+jC7FmXIGecS89dGSLoouY6QDf9fpReNG6ljY4ZTPzC4bTd
-	KYxUxmgEjDJZJUtVykVUwoeSdyQxwsiosKg4FEsJlFIFI6L27ReHvZea7jKDEnwuTde5UmIp
-	y1IRe3ZrVDotI0hRsVoRxahl6epodTgrVbA6pTxcyWjjoyIjd8S4hElpKTd7sgh1VvAXlpZO
-	oAc3t+YDbx4ko6EpX++VD3x4/mQ7gI+WywhPsACg80wx7gn+BvBGcy53o2X0bCvHUzAD2FLk
-	XA+yMVjzpBe4VQQZAq9O5QB3IZA8jsOHk3lrKpzMwaGj0+TlVgWQe+C9yuK1Dg4ZDB8s5HLc
-	zCfj4Yy92qXhueZFwOJxP3fa25WuNNm4HokftH7vWJPj5Csw++eKtV0hWe8Ns8obOZ5d98Hl
-	Cifu4QD4V2+zl4eD4OKsmfCwHC7ZJzEPq2F2zxXg4b0wx+Y2gOcaEArr2yI86ZfhadtlzDN3
-	Eyxccay38qHp3AZT8ERt5TpDaB7QrzMNa0uG1g0uBPBi6SpxEggMz91jeO4ew/+jfwB4HdjC
-	qFmFnGFj1DuVTMZ/75ysUhjB2hfZlmACdybmwy0A4wELgDycCuSvDFMyf75M+uVXjEYl0ejS
-	GdYCYlx+n8KDNierXH9MqZVERcdFRguFwui4ncIo6kV+iMia7E/KpVomjWHUjGajD+N5B+kx
-	MpXutB/elbHaydrbdlivNpKiB9gH1WXL796BpyXbq0JNzpkfhwt+3XV8WmG1HvLdzt178TMM
-	tzYcva6IOzD3S9LrbWevOQcO+Y4smI0ZIwESWH9BCrKLngXmKaR9iY63BhwnQpfePhCXlsn/
-	mq2YbeqoKDvvVNret7ApMzF+xoa6ubGPk3jlR1qmM5uonxqmDROncq6F8CLvHxxZnkr+VCSA
-	/lN5jzfdTqqfbPVXPy44do9rDG40xOYNqkvrz3X/08XVfhKf2KfiBXFe436XKH7EyJdtfqN4
-	7p99YtGR+Tbhviy8SVyz3+dZpk2XFrt6v/EjPX4w/Y+7Dd9cZzeHUhw2RRq1Ddew0n8BLZKS
-	8asEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA02RXUhTcRjG+59zPDtKq9NM+qtlOVyR0aYk9q+p1YV1TBCjiyAJPbTDFOca
-	W2bZhZpFaphiaDQtrURwluY0dX5kbM38QK1Mc5UOvyl11srIrMwpgXfP+/ye93kvXgoX9BAe
-	VJzyPKdWsgoh6ULUmYRee/ed8pb5WeY8UVVnG46u5P7BUcVQDommTXaACr4s4GixuxdHLbZC
-	J2R5bsBQ84M8DJVXmDHUdP8rhsxLsyTKMw4ANNGvxVDL+z2ouaWDQH2NRSQqLpvgIeOtdAw1
-	jKcBVLdYjKPK6TkCtb/3RGM3MgDq/fPS6bA70/c2nNFau0nGoB3iMb3D1QTT153I6HWZJFNT
-	msI0WVJJJjvdthy4ZnVi5p71k8zNWh1garouM9/0Xox+fBaL3HjaJUjGKeIucGpJSIxL7GBb
-	GqlKE1001j0HqWDQKws4U5AOgJa7BiILuFACugnAYesgbxVA2PmpDKxqV1j+d4q3GkrD4HD9
-	B9IBSHoXfDF1DTjAZjoXh2+sqaRjwOl8HM43zaykXOkQOFmUs1JF0CI4Y88gHJpPH4SzfaXL
-	tdTyCQnMsW5y2M7LdlFDp5NDC+gDMOd6I7Ya3wQ77oyvrOL0dpj+tBDPBbR2DdKuQSUA0wF3
-	TqVJkCdo/FX+Si5JrGETNIlKufjsuQQ9WHm57+4GUK/7IjYCjAJGAClcuJlfE+4tE/Bl7KVk
-	Tn0uWp2o4DRG4EkRwi38V1kd0QJazp7n4jlOxan/U4xy9kjFfN1c3UoOKddlB2dazPkege1s
-	qymmIyoyv2ubfGS96d1o9IawHb9TQntCjmbunxjpnFL4iVKyg1UvfJZih47n9e+sPKHXLurm
-	I+JLXonrJFXxrDnF0h7m7i7de+90cfXV2xHeW1WJvTLFR1FrHvXWZrvbKOVL9/+OSBaN5i6x
-	twbehc5vYUft/d+NlqSBRw/fFMRUdr3OL7vsE1JwhCf80Rr0aPikMPSMZN5kLRz5Fbh0TDnX
-	fHAGuXlMTk9Mnj159adVabQ9wb3k5YZZXpv08RCK66GlmF4XXiEB3+szx0oDxFFhBrvZ78T1
-	NkXSgn477RwVGfvZPr4QXR9VKyQ0say/L67WsP8A07UlKmEDAAA=
-X-CMS-MailID: 20230327084331epcas5p2510ed79d04fe3432c2ec84ce528745c6
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230327084331epcas5p2510ed79d04fe3432c2ec84ce528745c6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v8 1/9] block: Introduce queue limits for copy-offload
+ support
+Content-Language: en-US
+To: Anuj Gupta <anuj20.g@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+ dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ James Smart <james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>
+Cc: bvanassche@acm.org, hare@suse.de, ming.lei@redhat.com,
+ joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
+ Nitesh Shetty <nj.shetty@samsung.com>, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org
 References: <20230327084103.21601-1-anuj20.g@samsung.com>
-	<CGME20230327084331epcas5p2510ed79d04fe3432c2ec84ce528745c6@epcas5p2.samsung.com>
+ <CGME20230327084216epcas5p3945507ecd94688c40c29195127ddc54d@epcas5p3.samsung.com>
+ <20230327084103.21601-2-anuj20.g@samsung.com>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <20230327084103.21601-2-anuj20.g@samsung.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230329_011636_858187_BF0D8ECB 
-X-CRM114-Status: GOOD (  20.78  )
+X-CRM114-CacheID: sfid-20230329_014021_443003_BF8B9597 
+X-CRM114-Status: GOOD (  34.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -148,164 +129,145 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Nitesh Shetty <nj.shetty@samsung.com>
+On 3/27/23 17:40, Anuj Gupta wrote:
+> From: Nitesh Shetty <nj.shetty@samsung.com>
+> 
+> Add device limits as sysfs entries,
+>         - copy_offload (RW)
+>         - copy_max_bytes (RW)
+>         - copy_max_bytes_hw (RO)
+> 
+> Above limits help to split the copy payload in block layer.
+> copy_offload: used for setting copy offload(1) or emulation(0).
+> copy_max_bytes: maximum total length of copy in single payload.
+> copy_max_bytes_hw: Reflects the device supported maximum limit.
+> 
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+> ---
+>  Documentation/ABI/stable/sysfs-block | 36 ++++++++++++++++
+>  block/blk-settings.c                 | 24 +++++++++++
+>  block/blk-sysfs.c                    | 64 ++++++++++++++++++++++++++++
+>  include/linux/blkdev.h               | 12 ++++++
+>  include/uapi/linux/fs.h              |  3 ++
+>  5 files changed, 139 insertions(+)
+> 
+> diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/stable/sysfs-block
+> index c57e5b7cb532..f5c56ad91ad6 100644
+> --- a/Documentation/ABI/stable/sysfs-block
+> +++ b/Documentation/ABI/stable/sysfs-block
+> @@ -155,6 +155,42 @@ Description:
+>  		last zone of the device which may be smaller.
+>  
+>  
+> +What:		/sys/block/<disk>/queue/copy_offload
+> +Date:		November 2022
+> +Contact:	linux-block@vger.kernel.org
+> +Description:
+> +		[RW] When read, this file shows whether offloading copy to
+> +		device is enabled (1) or disabled (0). Writing '0' to this
 
-Implementaion is based on existing read and write infrastructure.
+...to a device...
 
-Suggested-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
-Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-Signed-off-by: Vincent Fu <vincent.fu@samsung.com>
----
- drivers/block/null_blk/main.c     | 94 +++++++++++++++++++++++++++++++
- drivers/block/null_blk/null_blk.h |  7 +++
- 2 files changed, 101 insertions(+)
+> +		file will disable offloading copies for this device.
+> +		Writing any '1' value will enable this feature. If device
 
-diff --git a/drivers/block/null_blk/main.c b/drivers/block/null_blk/main.c
-index 9e6b032c8ecc..84c5fbcd67a5 100644
---- a/drivers/block/null_blk/main.c
-+++ b/drivers/block/null_blk/main.c
-@@ -1257,6 +1257,81 @@ static int null_transfer(struct nullb *nullb, struct page *page,
- 	return err;
- }
- 
-+static inline int nullb_setup_copy_read(struct nullb *nullb,
-+		struct bio *bio)
-+{
-+	struct nullb_copy_token *token = bvec_kmap_local(&bio->bi_io_vec[0]);
-+
-+	memcpy(token->subsys, "nullb", 5);
-+	token->sector_in = bio->bi_iter.bi_sector;
-+	token->nullb = nullb;
-+	token->sectors = bio->bi_iter.bi_size >> SECTOR_SHIFT;
-+
-+	return 0;
-+}
-+
-+static inline int nullb_setup_copy_write(struct nullb *nullb,
-+		struct bio *bio, bool is_fua)
-+{
-+	struct nullb_copy_token *token = bvec_kmap_local(&bio->bi_io_vec[0]);
-+	sector_t sector_in, sector_out;
-+	void *in, *out;
-+	size_t rem, temp;
-+	unsigned long offset_in, offset_out;
-+	struct nullb_page *t_page_in, *t_page_out;
-+	int ret = -EIO;
-+
-+	if (unlikely(memcmp(token->subsys, "nullb", 5)))
-+		return -EOPNOTSUPP;
-+	if (unlikely(token->nullb != nullb))
-+		return -EOPNOTSUPP;
-+	if (WARN_ON(token->sectors != bio->bi_iter.bi_size >> SECTOR_SHIFT))
-+		return -EOPNOTSUPP;
-+
-+	sector_in = token->sector_in;
-+	sector_out = bio->bi_iter.bi_sector;
-+	rem = token->sectors << SECTOR_SHIFT;
-+
-+	spin_lock_irq(&nullb->lock);
-+	while (rem > 0) {
-+		temp = min_t(size_t, nullb->dev->blocksize, rem);
-+		offset_in = (sector_in & SECTOR_MASK) << SECTOR_SHIFT;
-+		offset_out = (sector_out & SECTOR_MASK) << SECTOR_SHIFT;
-+
-+		if (null_cache_active(nullb) && !is_fua)
-+			null_make_cache_space(nullb, PAGE_SIZE);
-+
-+		t_page_in = null_lookup_page(nullb, sector_in, false,
-+			!null_cache_active(nullb));
-+		if (!t_page_in)
-+			goto err;
-+		t_page_out = null_insert_page(nullb, sector_out,
-+			!null_cache_active(nullb) || is_fua);
-+		if (!t_page_out)
-+			goto err;
-+
-+		in = kmap_local_page(t_page_in->page);
-+		out = kmap_local_page(t_page_out->page);
-+
-+		memcpy(out + offset_out, in + offset_in, temp);
-+		kunmap_local(out);
-+		kunmap_local(in);
-+		__set_bit(sector_out & SECTOR_MASK, t_page_out->bitmap);
-+
-+		if (is_fua)
-+			null_free_sector(nullb, sector_out, true);
-+
-+		rem -= temp;
-+		sector_in += temp >> SECTOR_SHIFT;
-+		sector_out += temp >> SECTOR_SHIFT;
-+	}
-+
-+	ret = 0;
-+err:
-+	spin_unlock_irq(&nullb->lock);
-+	return ret;
-+}
-+
- static int null_handle_rq(struct nullb_cmd *cmd)
- {
- 	struct request *rq = cmd->rq;
-@@ -1267,6 +1342,14 @@ static int null_handle_rq(struct nullb_cmd *cmd)
- 	struct req_iterator iter;
- 	struct bio_vec bvec;
- 
-+	if (rq->cmd_flags & REQ_COPY) {
-+		if (op_is_write(req_op(rq)))
-+			return nullb_setup_copy_write(nullb, rq->bio,
-+						rq->cmd_flags & REQ_FUA);
-+		else
-+			return nullb_setup_copy_read(nullb, rq->bio);
-+	}
-+
- 	spin_lock_irq(&nullb->lock);
- 	rq_for_each_segment(bvec, rq, iter) {
- 		len = bvec.bv_len;
-@@ -1294,6 +1377,14 @@ static int null_handle_bio(struct nullb_cmd *cmd)
- 	struct bio_vec bvec;
- 	struct bvec_iter iter;
- 
-+	if (bio->bi_opf & REQ_COPY) {
-+		if (op_is_write(bio_op(bio)))
-+			return nullb_setup_copy_write(nullb, bio,
-+							bio->bi_opf & REQ_FUA);
-+		else
-+			return nullb_setup_copy_read(nullb, bio);
-+	}
-+
- 	spin_lock_irq(&nullb->lock);
- 	bio_for_each_segment(bvec, bio, iter) {
- 		len = bvec.bv_len;
-@@ -2146,6 +2237,9 @@ static int null_add_dev(struct nullb_device *dev)
- 	list_add_tail(&nullb->list, &nullb_list);
- 	mutex_unlock(&lock);
- 
-+	blk_queue_max_copy_sectors_hw(nullb->disk->queue, 1024);
-+	blk_queue_flag_set(QUEUE_FLAG_COPY, nullb->disk->queue);
-+
- 	pr_info("disk %s created\n", nullb->disk_name);
- 
- 	return 0;
-diff --git a/drivers/block/null_blk/null_blk.h b/drivers/block/null_blk/null_blk.h
-index eb5972c50be8..94e524e7306a 100644
---- a/drivers/block/null_blk/null_blk.h
-+++ b/drivers/block/null_blk/null_blk.h
-@@ -67,6 +67,13 @@ enum {
- 	NULL_Q_MQ	= 2,
- };
- 
-+struct nullb_copy_token {
-+	char subsys[5];
-+	struct nullb *nullb;
-+	u64 sector_in;
-+	u64 sectors;
-+};
-+
- struct nullb_device {
- 	struct nullb *nullb;
- 	struct config_item item;
+If the device does...
+
+> +		does not support offloading, then writing 1, will result in
+> +		error.
+> +
+> +
+> +What:		/sys/block/<disk>/queue/copy_max_bytes
+> +Date:		November 2022
+> +Contact:	linux-block@vger.kernel.org
+> +Description:
+> +		[RW] While 'copy_max_bytes_hw' is the hardware limit for the
+> +		device, 'copy_max_bytes' setting is the software limit.
+> +		Setting this value lower will make Linux issue smaller size
+> +		copies from block layer.
+
+		This is the maximum number of bytes that the block
+                layer will allow for a copy request. Must be smaller than
+                or equal to the maximum size allowed by the hardware indicated
+		by copy_max_bytes_hw. Write 0 to use the default kernel
+		settings.
+
+> +
+> +
+> +What:		/sys/block/<disk>/queue/copy_max_bytes_hw
+> +Date:		November 2022
+> +Contact:	linux-block@vger.kernel.org
+> +Description:
+> +		[RO] Devices that support offloading copy functionality may have
+> +		internal limits on the number of bytes that can be offloaded
+> +		in a single operation. The `copy_max_bytes_hw`
+> +		parameter is set by the device driver to the maximum number of
+> +		bytes that can be copied in a single operation. Copy
+> +		requests issued to the device must not exceed this limit.
+> +		A value of 0 means that the device does not
+> +		support copy offload.
+
+		[RO] This is the maximum number of kilobytes supported in a
+                single data copy offload operation. A value of 0 means that the
+		device does not support copy offload.
+
+> +
+> +
+>  What:		/sys/block/<disk>/queue/crypto/
+>  Date:		February 2022
+>  Contact:	linux-block@vger.kernel.org
+> diff --git a/block/blk-settings.c b/block/blk-settings.c
+> index 896b4654ab00..350f3584f691 100644
+> --- a/block/blk-settings.c
+> +++ b/block/blk-settings.c
+> @@ -59,6 +59,8 @@ void blk_set_default_limits(struct queue_limits *lim)
+>  	lim->zoned = BLK_ZONED_NONE;
+>  	lim->zone_write_granularity = 0;
+>  	lim->dma_alignment = 511;
+> +	lim->max_copy_sectors_hw = 0;
+> +	lim->max_copy_sectors = 0;
+>  }
+>  
+>  /**
+> @@ -82,6 +84,8 @@ void blk_set_stacking_limits(struct queue_limits *lim)
+>  	lim->max_dev_sectors = UINT_MAX;
+>  	lim->max_write_zeroes_sectors = UINT_MAX;
+>  	lim->max_zone_append_sectors = UINT_MAX;
+> +	lim->max_copy_sectors_hw = ULONG_MAX;
+> +	lim->max_copy_sectors = ULONG_MAX;
+>  }
+>  EXPORT_SYMBOL(blk_set_stacking_limits);
+>  
+> @@ -183,6 +187,22 @@ void blk_queue_max_discard_sectors(struct request_queue *q,
+>  }
+>  EXPORT_SYMBOL(blk_queue_max_discard_sectors);
+>  
+> +/**
+> + * blk_queue_max_copy_sectors_hw - set max sectors for a single copy payload
+> + * @q:  the request queue for the device
+> + * @max_copy_sectors: maximum number of sectors to copy
+> + **/
+> +void blk_queue_max_copy_sectors_hw(struct request_queue *q,
+> +		unsigned int max_copy_sectors)
+> +{
+> +	if (max_copy_sectors >= MAX_COPY_TOTAL_LENGTH)
+
+Confusing name as LENGTH may be interpreted as bytes. MAX_COPY_SECTORS would be
+better.
+
+> +		max_copy_sectors = MAX_COPY_TOTAL_LENGTH;
+> +
+> +	q->limits.max_copy_sectors_hw = max_copy_sectors;
+> +	q->limits.max_copy_sectors = max_copy_sectors;
+> +}
+> +EXPORT_SYMBOL_GPL(blk_queue_max_copy_sectors_hw);
+
+
 -- 
-2.35.1.500.gb896f729e2
+Damien Le Moal
+Western Digital Research
 
 
