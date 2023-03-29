@@ -4,81 +4,116 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40D04C74A5B
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Mar 2023 09:02:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC3EBC74A5B
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Mar 2023 09:03:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3DgnundXw3/fWoRWwwxsBqOoYOOJIiKIHvv0PtfL9Cg=; b=pIP9rX9M0Fk37ZEe6y/BCgiRPT
-	Fwfw/Wv4R6lzifSZwJ56ZZTB9wD0J5py66K5c1RqziEZZafH7OIkK7UVMylb4d5+VPXDIbeoU38l9
-	NhQ9HN9PibqtPRjugSsuWHvxJvyOmgKHXFWsN6szaYkDSlK5gblsUZ9niwipYyXhXkHSEbeNZep0B
-	R2oYKcp+01sSjdJVpAT/Rziv/mwHnftlTjO3uc4ttqJ6X1aQW+Sjf/lT8psD7PoS7P9j8Yvpd0yaR
-	h5MgRs66crNQigYJ8dXNjKd5dvTpibBWofLwXC0UaJOJvfcBBMYA0MvnGhIFQh7cp6bovjNRYBLpr
-	w2JZ8/Og==;
+	bh=n10lF/K12fQjOLhrraPh2IpQHxc9anG87ZBa39Bo40k=; b=TZLJHr3anuve9JQtCIdLnxcXp+
+	IWNrX6ObFZUKY3heiujcFSrb9wVGIkbL+SfbXzWSC1/26S6KrHJ4nz1SwQnFB3DNz+uuZbczrQLI/
+	wc3Qj1ayZIQMxPKKrwn4wVTPjMNebREWFY8UVYoXJGZgfcVpkfPPMxqtgomrlzARcWNwKgCtx0AGE
+	HdamcFgWWvivfDeX+VWvmcdTVqybUyZyTuLjT2uVXkXFExy3LPq1JLGPiXickmMMLLuVKhY7EUrLt
+	9KDmZvYJ/EsU8GvsmyTrFIZUaSvNcBhYHAF/0Huy+RavbHMBhYT+tVaGlu2NXQwefn4S0Kh+DIrvR
+	PvmuVkBA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1phRh9-00HFGY-0Y;
-	Wed, 29 Mar 2023 09:02:15 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1phRiM-00HFlH-14;
+	Wed, 29 Mar 2023 09:03:30 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1phRh2-00HFC7-36
+	id 1phRiI-00HFjC-17
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Mar 2023 09:02:12 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 18E001FDEE;
-	Wed, 29 Mar 2023 09:02:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1680080525; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3DgnundXw3/fWoRWwwxsBqOoYOOJIiKIHvv0PtfL9Cg=;
-	b=agi/1BkpWD2l1Qyo1c2qv3YaQts4+RLvve+8UPQ8bhiKa9Of0fLDzivj5lU1kuc3PnWs+W
-	NoC0xNzkpBj6YyZjFEaxhZ8+vFgDwB/MumYkRF0pzE/TfUzbuNCSYXdWhXS7kzEGp506gy
-	uJB2hoyQCkYRfmZQpmewBrGjPgO5Rrk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1680080525;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3DgnundXw3/fWoRWwwxsBqOoYOOJIiKIHvv0PtfL9Cg=;
-	b=5ColjjWeDLLqbxU6XSf6fRh/362uPmUe3bknNlRlEs9n2SV20dlGtuo1l13BaX8QvmitcB
-	5LRomWgFqqomUnDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 09FF3138FF;
-	Wed, 29 Mar 2023 09:02:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 4rtdAo3+I2RUdgAAMHmgww
-	(envelope-from <dwagner@suse.de>); Wed, 29 Mar 2023 09:02:05 +0000
-From: Daniel Wagner <dwagner@suse.de>
-To: linux-block@vger.kernel.org
-Cc: linux-nvme@lists.infradead.org,
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH blktests v3 1/4] nvme/rc: Parse optional arguments in _nvme_connect_subsys()
-Date: Wed, 29 Mar 2023 11:01:59 +0200
-Message-Id: <20230329090202.8351-2-dwagner@suse.de>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230329090202.8351-1-dwagner@suse.de>
-References: <20230329090202.8351-1-dwagner@suse.de>
+	Wed, 29 Mar 2023 09:03:28 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1680080605; x=1711616605;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=dpYCJqxHzH41LLeY9P40KlHhDXgqF8BIDqP+hRLMETk=;
+  b=eEbRMuy6RZu2eNOaCvOab8YSnZx+uk2SqON2D3JRFtL8LzwEcSWU/yA8
+   8WOzoYS0YXTX8kM5EKman4OoHi7QmUDvij3WeSDjzQu7aOyShj0tx9Ou2
+   QqwVvF4gWSBUdurF3s3qAuq4DIKWepkCx4OcFyfRuMtKRkJ8rr2SyixPj
+   pJQwmX4lAl5M80s9qiUWpUdLiaUdZ01pppaHjTQ8TH3HP8W/7m/ZDqjPy
+   9rBPIv/RmxaYTKyzwfo4OTnGPicGHwGVdr26EXYjmpAumtHqBIzYXhCjR
+   imRe6C5cVsHcLnrV+27vBkRos7+Xnlk56UuI5YWZ8SMKGwHtQUGl/EHB/
+   g==;
+X-IronPort-AV: E=Sophos;i="5.98,300,1673884800"; 
+   d="scan'208";a="226590419"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 29 Mar 2023 16:56:21 +0800
+IronPort-SDR: vqQ+ITmptzoOoJcBEBjwVopSths3GVtGqGnZTlfEtTUvc1yl0mKaON/OWIAkTmXsZezTjjTY6h
+ gUkIAzJHx7BAG4OtTfm+17+WUocKU4kHrRiJ4Cn7aXsfK3p/H0Xv7dD+zrLrQjIHuave+uLfCo
+ +pJ0evTAZ/f4qjVQ+Cssq0jf/4tA66pvHzQY0ipywm0RSuK4FeFDcTtMgx76AHyPoRzX1yNOi8
+ UF5N0NJ9NfAqpY5O7a4HiMBfWNc0D/3mIjKaqeddnd5X2XjjwhSEmdVdVThhiSFPJCHYW63TlM
+ y4g=
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 29 Mar 2023 01:12:31 -0700
+IronPort-SDR: Q8Xv6EPKipczKoRhusHFf42f5omiSHeKzxn8plNcK+0tSEr7sItUg62bWSwfXj53zkwxx2X5R7
+ hqO0rNCRUcAJQNErUtjnl46rCYcwnAuE6sjx/ff393U9YWPMU6Vw/yEbyyFMc7VrBuwCgdhF7t
+ yynI4DsuFpM+g9JOTqHvYk/PqLPcQ7ZeP/JQlNu1k1xxnsmvnKBJ8bZvJL+dMavTXrq64CHmOJ
+ 0Kfhh9MQ/uwTS8nxFdP0jaoEF8zlXR6qqp1UZ8d75wFXPwtbQGPADsimTJScyql/EW7ikb4AW8
+ rGk=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 29 Mar 2023 01:56:23 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4PmgQF45q2z1RtVn
+	for <linux-nvme@lists.infradead.org>; Wed, 29 Mar 2023 01:56:21 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+	reason="pass (just generated, assumed good)"
+	header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+	opensource.wdc.com; h=content-transfer-encoding:content-type
+	:in-reply-to:organization:from:references:to:content-language
+	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
+	1680080179; x=1682672180; bh=dpYCJqxHzH41LLeY9P40KlHhDXgqF8BIDqP
+	+hRLMETk=; b=sqY21uvpF3ZBBsCgmIrWszTR64xP2JhNH9nxefxbO38Voduo+Di
+	4SWG6+WFOb5AovJ6sSe8cSimAgJJsLDJvo7aHDnmdrJm1QmJCaBeh/GptcEBhc+0
+	yrciG5klpQhXCeFj9+7KY4v4D08MolykZRq1/7AtFFOBvsqr/Yh01xfBk8EKkrJ0
+	ucwYBGgOtqcNyDMkoSndFnqN9nBYBbwNTN55SJZR8LJ0tiEcSB8iNF8AW5ZF2ZAW
+	sbxGZSQ7V4O/CRDFiIZ6/SsJ0ij63PXPRjNepfZt2uJR0CyDCqLWMtThStlOrd2K
+	83o9P2KOghY+gO7wWHQyuh7Law8xojtXLbw==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id f3q_giF4QCvd for <linux-nvme@lists.infradead.org>;
+	Wed, 29 Mar 2023 01:56:19 -0700 (PDT)
+Received: from [10.225.163.116] (unknown [10.225.163.116])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4PmgQ50xR5z1RtVm;
+	Wed, 29 Mar 2023 01:56:12 -0700 (PDT)
+Message-ID: <6fd95345-ff8d-d18e-5dcf-1f34dae31770@opensource.wdc.com>
+Date: Wed, 29 Mar 2023 17:56:11 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v8 2/9] block: Add copy offload support infrastructure
+Content-Language: en-US
+To: Anuj Gupta <anuj20.g@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+ dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ James Smart <james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>
+Cc: bvanassche@acm.org, hare@suse.de, ming.lei@redhat.com,
+ joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
+ Nitesh Shetty <nj.shetty@samsung.com>, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org
+References: <20230327084103.21601-1-anuj20.g@samsung.com>
+ <CGME20230327084226epcas5p28e667b25cbb5e4b0e884aa2ca89cbfff@epcas5p2.samsung.com>
+ <20230327084103.21601-3-anuj20.g@samsung.com>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <20230327084103.21601-3-anuj20.g@samsung.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230329_020209_151872_323C436D 
-X-CRM114-Status: GOOD (  10.14  )
+X-CRM114-CacheID: sfid-20230329_020326_395453_AB29EA53 
+X-CRM114-Status: GOOD (  44.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,244 +128,400 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Extend the nvme_connect_subsys() function to parse optional arguments.
-This avoids that all test have to pass in always all arguments.
+On 3/27/23 17:40, Anuj Gupta wrote:
+> From: Nitesh Shetty <nj.shetty@samsung.com>
+> 
+> Introduce blkdev_issue_copy which takes similar arguments as
+> copy_file_range and performs copy offload between two bdevs.
+> Introduce REQ_COPY copy offload operation flag. Create a read-write
+> bio pair with a token as payload and submitted to the device in order.
+> Read request populates token with source specific information which
+> is then passed with write request.
+> This design is courtesy Mikulas Patocka's token based copy
+> 
+> Larger copy will be divided, based on max_copy_sectors limit.
+> 
+> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+> ---
+>  block/blk-lib.c           | 236 ++++++++++++++++++++++++++++++++++++++
+>  block/blk.h               |   2 +
+>  include/linux/blk_types.h |  25 ++++
+>  include/linux/blkdev.h    |   3 +
+>  4 files changed, 266 insertions(+)
+> 
+> diff --git a/block/blk-lib.c b/block/blk-lib.c
+> index e59c3069e835..cbc6882d1e7a 100644
+> --- a/block/blk-lib.c
+> +++ b/block/blk-lib.c
+> @@ -115,6 +115,242 @@ int blkdev_issue_discard(struct block_device *bdev, sector_t sector,
+>  }
+>  EXPORT_SYMBOL(blkdev_issue_discard);
+>  
+> +/*
+> + * For synchronous copy offload/emulation, wait and process all in-flight BIOs.
+> + * This must only be called once all bios have been issued so that the refcount
+> + * can only decrease. This just waits for all bios to make it through
+> + * bio_copy_*_write_end_io. IO errors are propagated through cio->io_error.
+> + */
+> +static int cio_await_completion(struct cio *cio)
 
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- tests/nvme/041 |  7 ++++--
- tests/nvme/042 | 10 +++++----
- tests/nvme/043 | 10 +++++----
- tests/nvme/044 | 23 ++++++++++++-------
- tests/nvme/045 |  6 +++--
- tests/nvme/rc  | 61 ++++++++++++++++++++++++++++++++++++++++++--------
- 6 files changed, 88 insertions(+), 29 deletions(-)
+Why not simply cio_wait_completion() ?
 
-diff --git a/tests/nvme/041 b/tests/nvme/041
-index 8ffcf13a500a..03e2dab25918 100755
---- a/tests/nvme/041
-+++ b/tests/nvme/041
-@@ -55,14 +55,17 @@ test() {
- 	# Test unauthenticated connection (should fail)
- 	echo "Test unauthenticated connection (should fail)"
- 	_nvme_connect_subsys "${nvme_trtype}" "${subsys_name}" \
--			     "" "" "${hostnqn}" "${hostid}"
-+			     --hostnqn "${hostnqn}" \
-+			     --hostid "${hostid}"
- 
- 	_nvme_disconnect_subsys "${subsys_name}"
- 
- 	# Test authenticated connection
- 	echo "Test authenticated connection"
- 	_nvme_connect_subsys "${nvme_trtype}" "${subsys_name}" \
--			     "" "" "${hostnqn}" "${hostid}" "${hostkey}"
-+			     --hostnqn "${hostnqn}" \
-+			     --hostid "${hostid}" \
-+			     --dhchap-secret "${hostkey}"
- 
- 	udevadm settle
- 
-diff --git a/tests/nvme/042 b/tests/nvme/042
-index d581bce4a9ee..4ad726f72f5a 100755
---- a/tests/nvme/042
-+++ b/tests/nvme/042
-@@ -58,8 +58,9 @@ test() {
- 		_set_nvmet_hostkey "${hostnqn}" "${hostkey}"
- 
- 		_nvme_connect_subsys "${nvme_trtype}" "${subsys_name}" \
--				     "" "" "${hostnqn}" "${hostid}" \
--				     "${hostkey}"
-+				     --hostnqn "${hostnqn}" \
-+				     --hostid "${hostid}" \
-+				     --dhchap-secret "${hostkey}"
- 		udevadm settle
- 
- 		_nvme_disconnect_subsys "${subsys_name}"
-@@ -75,8 +76,9 @@ test() {
- 		_set_nvmet_hostkey "${hostnqn}" "${hostkey}"
- 
- 		_nvme_connect_subsys "${nvme_trtype}" "${subsys_name}" \
--				     "" "" "${hostnqn}" "${hostid}" \
--				     "${hostkey}"
-+				     --hostnqn "${hostnqn}" \
-+				     --hostid "${hostid}" \
-+				     --dhchap-secret "${hostkey}"
- 
- 		udevadm settle
- 
-diff --git a/tests/nvme/043 b/tests/nvme/043
-index c8ce292ba2e7..c031cecf34a5 100755
---- a/tests/nvme/043
-+++ b/tests/nvme/043
-@@ -56,8 +56,9 @@ test() {
- 		_set_nvmet_hash "${hostnqn}" "${hash}"
- 
- 		_nvme_connect_subsys "${nvme_trtype}" "${subsys_name}" \
--				     "" "" "${hostnqn}" "${hostid}" \
--				     "${hostkey}"
-+				     --hostnqn "${hostnqn}" \
-+				     --hostid "${hostid}" \
-+				     --dhchap-secret "${hostkey}"
- 
- 		udevadm settle
- 
-@@ -71,8 +72,9 @@ test() {
- 		_set_nvmet_dhgroup "${hostnqn}" "${dhgroup}"
- 
- 		_nvme_connect_subsys "${nvme_trtype}" "${subsys_name}" \
--				     "" "" "${hostnqn}" "${hostid}" \
--				     "${hostkey}"
-+				      --hostnqn "${hostnqn}" \
-+				      --hostid "${hostid}" \
-+				      --dhchap-secret "${hostkey}"
- 
- 		udevadm settle
- 
-diff --git a/tests/nvme/044 b/tests/nvme/044
-index c19a9c026711..f2406ecadf7d 100755
---- a/tests/nvme/044
-+++ b/tests/nvme/044
-@@ -66,8 +66,9 @@ test() {
- 	# Step 1: Connect with host authentication only
- 	echo "Test host authentication"
- 	_nvme_connect_subsys "${nvme_trtype}" "${subsys_name}" \
--			     "" "" "${hostnqn}" "${hostid}" \
--			     "${hostkey}"
-+			     --hostnqn "${hostnqn}" \
-+			     --hostid "${hostid}" \
-+			     --dhchap-secret "${hostkey}"
- 
- 	udevadm settle
- 
-@@ -77,8 +78,10 @@ test() {
- 	# and invalid ctrl authentication
- 	echo "Test invalid ctrl authentication (should fail)"
- 	_nvme_connect_subsys "${nvme_trtype}" "${subsys_name}" \
--			     "" "" "${hostnqn}" "${hostid}" \
--			     "${hostkey}" "${hostkey}"
-+			     --hostnqn "${hostnqn}" \
-+			     --hostid "${hostid}" \
-+			     --dhchap-secret "${hostkey}" \
-+			     --dhchap-ctrl-secret "${hostkey}"
- 
- 	udevadm settle
- 
-@@ -88,8 +91,10 @@ test() {
- 	# and valid ctrl authentication
- 	echo "Test valid ctrl authentication"
- 	_nvme_connect_subsys "${nvme_trtype}" "${subsys_name}" \
--			     "" "" "${hostnqn}" "${hostid}" \
--			     "${hostkey}" "${ctrlkey}"
-+			     --hostnqn "${hostnqn}" \
-+			     --hostid "${hostid}" \
-+			     --dhchap-secret "${hostkey}" \
-+			     --dhchap-ctrl-secret "${ctrlkey}"
- 
- 	udevadm settle
- 
-@@ -100,8 +105,10 @@ test() {
- 	echo "Test invalid ctrl key (should fail)"
- 	invkey="DHHC-1:00:Jc/My1o0qtLCWRp+sHhAVafdfaS7YQOMYhk9zSmlatobqB8C:"
- 	_nvme_connect_subsys "${nvme_trtype}" "${subsys_name}" \
--			     "" "" "${hostnqn}" "${hostid}" \
--			     "${hostkey}" "${invkey}"
-+			     --hostnqn "${hostnqn}" \
-+			     --hostid "${hostid}" \
-+			     --dhchap-secret "${hostkey}" \
-+			     --dhchap-ctrl-secret "${invkey}"
- 
- 	udevadm settle
- 
-diff --git a/tests/nvme/045 b/tests/nvme/045
-index a0e6e93ed3c7..612e5f168e3c 100755
---- a/tests/nvme/045
-+++ b/tests/nvme/045
-@@ -65,8 +65,10 @@ test() {
- 	_set_nvmet_dhgroup "${hostnqn}" "ffdhe2048"
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${subsys_name}" \
--			     "" "" "${hostnqn}" "${hostid}" \
--			     "${hostkey}" "${ctrlkey}"
-+			     --hostnqn "${hostnqn}" \
-+			     --hostid "${hostid}" \
-+			     --dhchap-secret "${hostkey}" \
-+			     --dhchap-ctrl-secret "${ctrlkey}"
- 
- 	udevadm settle
- 
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index 210a82aea384..20c5e2fa32cb 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -316,15 +316,58 @@ _nvme_disconnect_subsys() {
- }
- 
- _nvme_connect_subsys() {
--	local trtype="$1"
--	local subsysnqn="$2"
--	local traddr="${3:-$def_traddr}"
--	local host_traddr="${4:-$def_host_traddr}"
--	local trsvcid="${4:-$def_trsvcid}"
--	local hostnqn="${5:-$def_hostnqn}"
--	local hostid="${6:-$def_hostid}"
--	local hostkey="${7}"
--	local ctrlkey="${8}"
-+	local positional_args=()
-+	local trtype=""
-+	local subsysnqn=""
-+	local traddr="$def_traddr"
-+	local host_traddr="$def_host_traddr"
-+	local trsvcid="$def_trsvcid"
-+	local hostnqn="$def_hostnqn"
-+	local hostid="$def_hostid"
-+	local hostkey=""
-+	local ctrlkey=""
-+
-+	while [[ $# -gt 0 ]]; do
-+		case $1 in
-+			-a|--traddr)
-+				traddr="$2"
-+				shift 2
-+				;;
-+			-w|--host-traddr)
-+				host_traddr="$2"
-+				shift 2
-+				;;
-+			-s|--trsvcid)
-+				trsvcid="$2"
-+				shift 2
-+				;;
-+			-n|--hostnqn)
-+				hostnqn="$2"
-+				shift 2
-+				;;
-+			-I|--hostid)
-+				hostid="$2"
-+				shift 2
-+				;;
-+			-S|--dhchap-secret)
-+				hostkey="$2"
-+				shift 2
-+				;;
-+			-C|--dhchap-ctrl-secret)
-+				ctrlkey="$2"
-+				shift 2
-+				;;
-+			*)
-+				positional_args+=("$1")
-+				shift
-+				;;
-+		esac
-+	done
-+
-+	set -- "${positional_args[@]}"
-+
-+	trtype="$1"
-+	subsysnqn="$2"
- 
- 	ARGS=(-t "${trtype}" -n "${subsysnqn}")
- 	if [[ "${trtype}" == "fc" ]] ; then
+> +{
+> +	int ret = 0;
+
+No need for the initialization.
+
+> +
+> +	if (cio->endio)
+> +		return 0;
+> +
+> +	if (atomic_read(&cio->refcount)) {
+> +		__set_current_state(TASK_UNINTERRUPTIBLE);
+> +		blk_io_schedule();
+> +	}
+> +
+> +	ret = cio->comp_len;
+
+What about cio->io_error as the top comment mentions ? Looking at struct cio,
+there is no io_error field.
+
+> +	kfree(cio);
+> +
+> +	return ret;
+> +}
+> +
+> +static void blk_copy_offload_write_end_io(struct bio *bio)
+> +{
+> +	struct copy_ctx *ctx = bio->bi_private;
+> +	struct cio *cio = ctx->cio;
+> +	sector_t clen;
+> +
+> +	if (bio->bi_status) {
+> +		clen = (bio->bi_iter.bi_sector << SECTOR_SHIFT) - cio->pos_out;
+> +		cio->comp_len = min_t(sector_t, clen, cio->comp_len);
+
+I do not understand. You set the length only if there was an error ? What about
+the OK case ? Is this to handle partial completions ? If yes, then please add a
+comment.
+
+> +	}
+> +	__free_page(bio->bi_io_vec[0].bv_page);
+> +	bio_put(bio);
+> +
+> +	kfree(ctx);
+> +	if (atomic_dec_and_test(&cio->refcount)) {
+
+Reverse this condition and return early.
+
+> +		if (cio->endio) {
+> +			cio->endio(cio->private, cio->comp_len);
+> +			kfree(cio);
+> +		} else
+> +			blk_wake_io_task(cio->waiter);
+
+Missing curly braces for the else.
+
+> +	}
+> +}
+> +
+> +static void blk_copy_offload_read_end_io(struct bio *read_bio)
+> +{
+> +	struct copy_ctx *ctx = read_bio->bi_private;
+> +	struct cio *cio = ctx->cio;
+> +	sector_t clen;
+> +
+> +	if (read_bio->bi_status) {
+> +		clen = (read_bio->bi_iter.bi_sector << SECTOR_SHIFT)
+> +				- cio->pos_in;
+> +		cio->comp_len = min_t(sector_t, clen, cio->comp_len);
+> +		__free_page(read_bio->bi_io_vec[0].bv_page);
+> +		bio_put(ctx->write_bio);
+> +		bio_put(read_bio);
+> +		kfree(ctx);
+> +		if (atomic_dec_and_test(&cio->refcount)) {
+> +			if (cio->endio) {
+> +				cio->endio(cio->private, cio->comp_len);
+> +				kfree(cio);
+> +			} else
+> +				blk_wake_io_task(cio->waiter);
+
+Missing curly braces for the else.
+
+> +		}
+> +		return;
+
+So you do all this only if there was an error ? What about an OK bio completion
+(bi_status == BLK_STS_OK) ?
+
+> +	}
+> +
+> +	schedule_work(&ctx->dispatch_work);
+> +	bio_put(read_bio);
+> +}
+> +
+> +static void blk_copy_dispatch_work_fn(struct work_struct *work)
+> +{
+> +	struct copy_ctx *ctx = container_of(work, struct copy_ctx,
+> +			dispatch_work);
+> +
+> +	submit_bio(ctx->write_bio);
+> +}
+> +
+> +/*
+> + * __blk_copy_offload	- Use device's native copy offload feature.
+> + * we perform copy operation by sending 2 bio.
+> + * 1. First we send a read bio with REQ_COPY flag along with a token and source
+> + * and length. Once read bio reaches driver layer, device driver adds all the
+> + * source info to token and does a fake completion.
+> + * 2. Once read operation completes, we issue write with REQ_COPY flag with same
+> + * token. In driver layer, token info is used to form a copy offload command.
+> + *
+> + * returns the length of bytes copied or negative error value
+> + */
+> +static int __blk_copy_offload(struct block_device *bdev_in, loff_t pos_in,
+> +		struct block_device *bdev_out, loff_t pos_out, size_t len,
+> +		cio_iodone_t end_io, void *private, gfp_t gfp_mask)
+> +{
+> +	struct cio *cio;
+> +	struct copy_ctx *ctx;
+> +	struct bio *read_bio, *write_bio;
+> +	struct page *token;
+> +	sector_t copy_len;
+> +	sector_t rem, max_copy_len;
+> +
+> +	cio = kzalloc(sizeof(struct cio), GFP_KERNEL);
+> +	if (!cio)
+> +		return -ENOMEM;
+> +	atomic_set(&cio->refcount, 0);
+> +	cio->waiter = current;
+> +	cio->endio = end_io;
+> +	cio->private = private;
+> +
+> +	max_copy_len = min(bdev_max_copy_sectors(bdev_in),
+> +			bdev_max_copy_sectors(bdev_out)) << SECTOR_SHIFT;
+> +
+> +	cio->pos_in = pos_in;
+> +	cio->pos_out = pos_out;
+> +	cio->comp_len = len;
+> +	for (rem = len; rem > 0; rem -= copy_len) {
+> +		copy_len = min(rem, max_copy_len);
+> +
+> +		token = alloc_page(gfp_mask);
+> +		if (unlikely(!token))
+> +			goto err_token;
+> +
+> +		ctx = kzalloc(sizeof(struct copy_ctx), gfp_mask);
+> +		if (!ctx)
+> +			goto err_ctx;
+> +		read_bio = bio_alloc(bdev_in, 1, REQ_OP_READ | REQ_COPY
+> +			| REQ_SYNC | REQ_NOMERGE, gfp_mask);
+> +		if (!read_bio)
+> +			goto err_read_bio;
+> +		write_bio = bio_alloc(bdev_out, 1, REQ_OP_WRITE
+> +			| REQ_COPY | REQ_SYNC | REQ_NOMERGE, gfp_mask);
+> +		if (!write_bio)
+> +			goto err_write_bio;
+> +
+> +		ctx->cio = cio;
+> +		ctx->write_bio = write_bio;
+> +		INIT_WORK(&ctx->dispatch_work, blk_copy_dispatch_work_fn);
+> +
+> +		__bio_add_page(read_bio, token, PAGE_SIZE, 0);
+> +		read_bio->bi_iter.bi_size = copy_len;
+> +		read_bio->bi_iter.bi_sector = pos_in >> SECTOR_SHIFT;
+> +		read_bio->bi_end_io = blk_copy_offload_read_end_io;
+> +		read_bio->bi_private = ctx;
+> +
+> +		__bio_add_page(write_bio, token, PAGE_SIZE, 0);
+> +		write_bio->bi_iter.bi_size = copy_len;
+> +		write_bio->bi_end_io = blk_copy_offload_write_end_io;
+> +		write_bio->bi_iter.bi_sector = pos_out >> SECTOR_SHIFT;
+> +		write_bio->bi_private = ctx;
+> +
+> +		atomic_inc(&cio->refcount);
+> +		submit_bio(read_bio);
+> +		pos_in += copy_len;
+> +		pos_out += copy_len;
+> +	}
+> +
+> +	/* Wait for completion of all IO's*/
+> +	return cio_await_completion(cio);
+> +
+> +err_write_bio:
+> +	bio_put(read_bio);
+> +err_read_bio:
+> +	kfree(ctx);
+> +err_ctx:
+> +	__free_page(token);
+> +err_token:
+> +	cio->comp_len = min_t(sector_t, cio->comp_len, (len - rem));
+
+Why ? cio_wait_completion() return that, no ?
+
+> +	return cio_await_completion(cio);
+> +}
+> +
+> +static inline int blk_copy_sanity_check(struct block_device *bdev_in,
+> +	loff_t pos_in, struct block_device *bdev_out, loff_t pos_out,
+> +	size_t len)
+> +{
+> +	unsigned int align = max(bdev_logical_block_size(bdev_out),
+> +					bdev_logical_block_size(bdev_in)) - 1;
+> +
+> +	if (bdev_read_only(bdev_out))
+> +		return -EPERM;
+> +
+> +	if ((pos_in & align) || (pos_out & align) || (len & align) || !len ||
+> +		len >= MAX_COPY_TOTAL_LENGTH)
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +
+> +static inline bool blk_check_copy_offload(struct request_queue *q_in,
+> +		struct request_queue *q_out)
+> +{
+> +	return blk_queue_copy(q_in) && blk_queue_copy(q_out);
+> +}
+
+Not a very useful helper.
+
+> +
+> +/*
+> + * @bdev_in:	source block device
+> + * @pos_in:	source offset
+> + * @bdev_out:	destination block device
+> + * @pos_out:	destination offset
+> + * @len:	length in bytes to be copied
+> + * @end_io:	end_io function to be called on completion of copy operation,
+> + *		for synchronous operation this should be NULL
+> + * @private:	end_io function will be called with this private data, should be
+> + *		NULL, if operation is synchronous in nature
+> + * @gfp_mask:   memory allocation flags (for bio_alloc)
+> + *
+> + * Returns the length of bytes copied or a negative error value
+> + *
+> + * Description:
+> + *	Copy source offset from source block device to destination block
+> + *	device. length of a source range cannot be zero. Max total length of
+> + *	copy is limited to MAX_COPY_TOTAL_LENGTH
+> + */
+> +int blkdev_issue_copy(struct block_device *bdev_in, loff_t pos_in,
+> +		      struct block_device *bdev_out, loff_t pos_out, size_t len,
+> +		      cio_iodone_t end_io, void *private, gfp_t gfp_mask)
+> +{
+> +	struct request_queue *q_in = bdev_get_queue(bdev_in);
+> +	struct request_queue *q_out = bdev_get_queue(bdev_out);
+> +	int ret = -EINVAL;
+> +
+> +	ret = blk_copy_sanity_check(bdev_in, pos_in, bdev_out, pos_out, len);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (blk_check_copy_offload(q_in, q_out))
+> +		ret = __blk_copy_offload(bdev_in, pos_in, bdev_out, pos_out,
+> +			   len, end_io, private, gfp_mask);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(blkdev_issue_copy);
+> +
+>  static int __blkdev_issue_write_zeroes(struct block_device *bdev,
+>  		sector_t sector, sector_t nr_sects, gfp_t gfp_mask,
+>  		struct bio **biop, unsigned flags)
+> diff --git a/block/blk.h b/block/blk.h
+> index d65d96994a94..684b8fa121db 100644
+> --- a/block/blk.h
+> +++ b/block/blk.h
+> @@ -311,6 +311,8 @@ static inline bool bio_may_exceed_limits(struct bio *bio,
+>  		break;
+>  	}
+>  
+> +	if (unlikely(op_is_copy(bio->bi_opf)))
+> +		return false;
+>  	/*
+>  	 * All drivers must accept single-segments bios that are <= PAGE_SIZE.
+>  	 * This is a quick and dirty check that relies on the fact that
+> diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+> index a0e339ff3d09..7f586c4b9954 100644
+> --- a/include/linux/blk_types.h
+> +++ b/include/linux/blk_types.h
+> @@ -423,6 +423,7 @@ enum req_flag_bits {
+>  	 */
+>  	/* for REQ_OP_WRITE_ZEROES: */
+>  	__REQ_NOUNMAP,		/* do not free blocks when zeroing */
+> +	__REQ_COPY,		/* copy request */
+>  
+>  	__REQ_NR_BITS,		/* stops here */
+>  };
+> @@ -452,6 +453,7 @@ enum req_flag_bits {
+>  
+>  #define REQ_DRV		(__force blk_opf_t)(1ULL << __REQ_DRV)
+>  #define REQ_SWAP	(__force blk_opf_t)(1ULL << __REQ_SWAP)
+> +#define REQ_COPY	((__force blk_opf_t)(1ULL << __REQ_COPY))
+>  
+>  #define REQ_FAILFAST_MASK \
+>  	(REQ_FAILFAST_DEV | REQ_FAILFAST_TRANSPORT | REQ_FAILFAST_DRIVER)
+> @@ -478,6 +480,11 @@ static inline bool op_is_write(blk_opf_t op)
+>  	return !!(op & (__force blk_opf_t)1);
+>  }
+>  
+> +static inline bool op_is_copy(blk_opf_t op)
+> +{
+> +	return (op & REQ_COPY);
+
+No need for the parenthesis.
+
+> +}
+> +
+>  /*
+>   * Check if the bio or request is one that needs special treatment in the
+>   * flush state machine.
+> @@ -537,4 +544,22 @@ struct blk_rq_stat {
+>  	u64 batch;
+>  };
+>  
+> +typedef void (cio_iodone_t)(void *private, int comp_len);
+
+Not really needed I think.
+
+> +
+> +struct cio {
+> +	struct task_struct *waiter;     /* waiting task (NULL if none) */
+> +	atomic_t refcount;
+> +	loff_t pos_in;
+> +	loff_t pos_out;
+> +	size_t comp_len;
+> +	cio_iodone_t *endio;		/* applicable for async operation */
+> +	void *private;			/* applicable for async operation */
+> +};
+> +
+> +struct copy_ctx {
+> +	struct cio *cio;
+> +	struct work_struct dispatch_work;
+> +	struct bio *write_bio;
+> +};
+> +
+>  #endif /* __LINUX_BLK_TYPES_H */
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index 200338f2ec2e..1bb43697d43d 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -1054,6 +1054,9 @@ int __blkdev_issue_discard(struct block_device *bdev, sector_t sector,
+>  		sector_t nr_sects, gfp_t gfp_mask, struct bio **biop);
+>  int blkdev_issue_secure_erase(struct block_device *bdev, sector_t sector,
+>  		sector_t nr_sects, gfp_t gfp);
+> +int blkdev_issue_copy(struct block_device *bdev_in, loff_t pos_in,
+> +		      struct block_device *bdev_out, loff_t pos_out, size_t len,
+> +		      cio_iodone_t end_io, void *private, gfp_t gfp_mask);
+>  
+>  #define BLKDEV_ZERO_NOUNMAP	(1 << 0)  /* do not free blocks */
+>  #define BLKDEV_ZERO_NOFALLBACK	(1 << 1)  /* don't write explicit zeroes */
+
 -- 
-2.40.0
+Damien Le Moal
+Western Digital Research
 
 
