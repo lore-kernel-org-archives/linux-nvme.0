@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BEB2EC76188
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF704C761A6
 	for <linux-nvme@archiver.kernel.org>; Mon,  3 Apr 2023 14:40:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,33 +12,33 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Iq+QmPeMgFSa79+VBu3RWoXGeu85d1qDkdpyaZGpSJg=; b=LLiWYv8ShRVl4HwZZRbdCyGR8b
-	kznJ0F11s6Ds55Ymlsvq+EmPUk458dNzphRoYDbBGgppEnyUIqogkgGkb4XL50GjQs3AoUZ60viY/
-	CeYVxihZ1g2USqYIugD+eyEBK/DMoO98FbIwIwruoEHD8WFi22jMPpM/jHYjG59Sgo/xwplK2OV3W
-	gT5ff7+a0/TDUAKd2tfeAMf8Jh2g9OAOAVWDgnsmBkPULWyL6s2PYVcNguLHPoKRZ5WIvUB+zD1VK
-	gweCj2e+XDPSmWW11IMMeesqGqo0KSiG0NA+ltToeaqeJYYpDScWH1h759PWUp9AY/OQZgDbFeaZt
-	tx+uo3XQ==;
+	bh=Iq+QmPeMgFSa79+VBu3RWoXGeu85d1qDkdpyaZGpSJg=; b=CarcmD/IC7m6/stp5IVnJrB0ZS
+	QuWRYly4MaVkFdVGD//RXHwp2Jgft8n7dE/4PlcJW3t1SmfxZeJ5XrL8jylQ7Z6GR3En5evfviTUW
+	caB8jlb0ycuE1euVL7VHQitLzZOqGldJDydkqZmpDj0f533HOy2cowCI1h6r7r3LQHk3YZcGMr3y9
+	TxqowZg4qwtNFsNZPUxwegpjd6fY3m581P3X8QzpfyIs4B1ZkURLfbJ1jITAy2uVQ+ZUKXdWzKvMN
+	5VXq3OPafMOHA98w5PTOp8Y6Plb+5nJfle2jbZZsqLJPUxrH1sP36843MlJpHQkl/quF6tFYPVQyI
+	TAjSrLTw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pjLMb-00FfPW-3A;
+	id 1pjLMb-00FfPL-15;
 	Mon, 03 Apr 2023 14:40:53 +0000
 Received: from [1.203.97.240] (helo=smtp.cecloud.com)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1phhoE-002KFr-29
+	id 1phPKs-00GoWt-0l
 	for linux-nvme@lists.infradead.org;
-	Thu, 30 Mar 2023 02:14:41 +0000
+	Wed, 29 Mar 2023 06:31:08 +0000
 Received: from localhost (localhost [127.0.0.1])
-	by smtp.cecloud.com (Postfix) with ESMTP id A5748900115;
-	Thu, 30 Mar 2023 10:14:23 +0800 (CST)
+	by smtp.cecloud.com (Postfix) with ESMTP id B8A21900115;
+	Wed, 29 Mar 2023 14:23:59 +0800 (CST)
 X-MAIL-GRAY: 0
 X-MAIL-DELIVERY: 1
 X-ANTISPAM-LEVEL: 2
 X-ABS-CHECKED: 0
 Received: from localhost.localdomain (unknown [111.48.58.10])
-	by smtp.cecloud.com (postfix) whith ESMTP id P141548T281468525801840S1680142462269971_;
-	Thu, 30 Mar 2023 10:14:23 +0800 (CST)
+	by smtp.cecloud.com (postfix) whith ESMTP id P141548T281467988930928S1680071038721425_;
+	Wed, 29 Mar 2023 14:23:59 +0800 (CST)
 X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <a9d30aed96cacf4e2318bcce201877b1>
+X-UNIQUE-TAG: <d3a8292885c28cfc1d41989df9195f93>
 X-RL-SENDER: zhangyanjun@cestc.cn
 X-SENDER: zhangyanjun@cestc.cn
 X-LOGIN-NAME: zhangyanjun@cestc.cn
@@ -57,15 +57,15 @@ Cc: kbusch@kernel.org,
 	Yanjun Zhang <zhangyanjun@cestc.cn>,
 	Yanjun Zhang <zhangyanjun@cestc.com>
 Subject: Re: [PATCH v3] nvme-tcp: fix a possible UAF when failing to allocate an io queue
-Date: Thu, 30 Mar 2023 10:14:19 +0800
-Message-Id: <20230330021419.176153-1-zhangyanjun@cestc.cn>
+Date: Wed, 29 Mar 2023 14:23:53 +0800
+Message-Id: <20230329062353.156283-1-zhangyanjun@cestc.cn>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Bad-Reply: 'Re:' in Subject but no References or In-Reply-To headers
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230329_191439_004498_E5A1F4AA 
-X-CRM114-Status: GOOD (  25.48  )
+X-CRM114-CacheID: sfid-20230328_233106_596351_EED47653 
+X-CRM114-Status: GOOD (  25.78  )
 X-Mailman-Approved-At: Mon, 03 Apr 2023 07:40:52 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
