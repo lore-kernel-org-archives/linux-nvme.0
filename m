@@ -4,64 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC3EBC74A5B
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Mar 2023 09:03:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BC992C77B60
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Mar 2023 09:05:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=n10lF/K12fQjOLhrraPh2IpQHxc9anG87ZBa39Bo40k=; b=TZLJHr3anuve9JQtCIdLnxcXp+
-	IWNrX6ObFZUKY3heiujcFSrb9wVGIkbL+SfbXzWSC1/26S6KrHJ4nz1SwQnFB3DNz+uuZbczrQLI/
-	wc3Qj1ayZIQMxPKKrwn4wVTPjMNebREWFY8UVYoXJGZgfcVpkfPPMxqtgomrlzARcWNwKgCtx0AGE
-	HdamcFgWWvivfDeX+VWvmcdTVqybUyZyTuLjT2uVXkXFExy3LPq1JLGPiXickmMMLLuVKhY7EUrLt
-	9KDmZvYJ/EsU8GvsmyTrFIZUaSvNcBhYHAF/0Huy+RavbHMBhYT+tVaGlu2NXQwefn4S0Kh+DIrvR
-	PvmuVkBA==;
+	bh=+Kc+tjwYL39inuARMrwWencAkuigRPgOtOeBMjKidPQ=; b=PQN+4yEruIsxuVn2B6WVPcdoN6
+	aiiXQWGtXZunC7BHkSh2PGMrZ+r+ODL+HaGEtPUUcp4SFGxh3wf1SGQtgjg224+BwLjAS7PuwSAeh
+	RIHzmush1shI5J7aZPXDUbivkWfvr/wfNOv5eW+mPqTz9VtyvpQnC6rhJeIsnSGWuu3RSYiBxAc/L
+	05/Lht4++R2ExESQ0SuEtx2kMFY9maKXM+BWaCe7EdWWtfi4lQcaxk2TICgdMq/6+t+AZDY39hW39
+	CJHrHvpjqkb+E0orX2NE3W91DrDGfTUE9tC9sUjD6tEMSHF8NLuf+Ipi0qnvNKXUmepqk4mmhKKRL
+	bLtIkbFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1phRiM-00HFlH-14;
-	Wed, 29 Mar 2023 09:03:30 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1phRjr-00HGPL-2i;
+	Wed, 29 Mar 2023 09:05:03 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1phRiI-00HFjC-17
+	id 1phRjn-00HGLj-28
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Mar 2023 09:03:28 +0000
+	Wed, 29 Mar 2023 09:05:01 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1680080605; x=1711616605;
+  t=1680080699; x=1711616699;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=dpYCJqxHzH41LLeY9P40KlHhDXgqF8BIDqP+hRLMETk=;
-  b=eEbRMuy6RZu2eNOaCvOab8YSnZx+uk2SqON2D3JRFtL8LzwEcSWU/yA8
-   8WOzoYS0YXTX8kM5EKman4OoHi7QmUDvij3WeSDjzQu7aOyShj0tx9Ou2
-   QqwVvF4gWSBUdurF3s3qAuq4DIKWepkCx4OcFyfRuMtKRkJ8rr2SyixPj
-   pJQwmX4lAl5M80s9qiUWpUdLiaUdZ01pppaHjTQ8TH3HP8W/7m/ZDqjPy
-   9rBPIv/RmxaYTKyzwfo4OTnGPicGHwGVdr26EXYjmpAumtHqBIzYXhCjR
-   imRe6C5cVsHcLnrV+27vBkRos7+Xnlk56UuI5YWZ8SMKGwHtQUGl/EHB/
+  bh=ODmg3rPRGn4RIKplIt/ZC9RkflToL9LBuluXecNb92w=;
+  b=C7Xj8STWxweEW0WXEgkbu2Pt+BE4MfDrYcUDpTrYmXp3Rn0dS1rzafRb
+   hGQTICbaXLOmFxinbxAoJnAv41HeaoeobeGan7pEFLUPr9/8MEp20Jq7k
+   isog+ct5w9SAJ8fzbSKqOOqZVJIf5Og8E+2pNdJTp/MzxpK6VaO+/JPPI
+   KG3I4cDzbaYlUWXLx/xS2TzR/M6ugJeD5DdmF+z6o6fTh3BNAAVTEzZaD
+   ndG3MNPWk0xVKe/O6HBNWVwjxrKcecTIHkgTef4v8j0yqbW8jDcTakMqy
+   yFPnv2hfab54zgz5fi5x5pPdi7x6hNjSv7Sp98UhpGpqYOUMBm/NTsaBw
    g==;
 X-IronPort-AV: E=Sophos;i="5.98,300,1673884800"; 
-   d="scan'208";a="226590419"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 29 Mar 2023 16:56:21 +0800
-IronPort-SDR: vqQ+ITmptzoOoJcBEBjwVopSths3GVtGqGnZTlfEtTUvc1yl0mKaON/OWIAkTmXsZezTjjTY6h
- gUkIAzJHx7BAG4OtTfm+17+WUocKU4kHrRiJ4Cn7aXsfK3p/H0Xv7dD+zrLrQjIHuave+uLfCo
- +pJ0evTAZ/f4qjVQ+Cssq0jf/4tA66pvHzQY0ipywm0RSuK4FeFDcTtMgx76AHyPoRzX1yNOi8
- UF5N0NJ9NfAqpY5O7a4HiMBfWNc0D/3mIjKaqeddnd5X2XjjwhSEmdVdVThhiSFPJCHYW63TlM
- y4g=
+   d="scan'208";a="331215867"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 29 Mar 2023 17:04:57 +0800
+IronPort-SDR: FIRhi0E3OO9JJkmUP8SBnq6cmZLUeq2mOzgnPfEh/GzQwyNDu8xe1eeTf0R0hB69hHW63gzKVD
+ rTmX6QDIlmf8nzr8CltPYymKzGyHirlc3LcRBXKTlRwL/Qk5oaH85l6v2JazMXvrTdvDSURVLl
+ RvR1fM7sznb7R8Av/cSrGimWT4Qn3WHCw2vGIKi57W2vKvaFzePpVfhQFGILVkKjKZnBAnCluS
+ l0YnwladR8qcl2r9TwC1PL8pGbTFsP0M9zqD8kdrXKF/kXIF15+EmpxeXgAzcUQHG3mhcYDHRg
+ LLY=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 29 Mar 2023 01:12:31 -0700
-IronPort-SDR: Q8Xv6EPKipczKoRhusHFf42f5omiSHeKzxn8plNcK+0tSEr7sItUg62bWSwfXj53zkwxx2X5R7
- hqO0rNCRUcAJQNErUtjnl46rCYcwnAuE6sjx/ff393U9YWPMU6Vw/yEbyyFMc7VrBuwCgdhF7t
- yynI4DsuFpM+g9JOTqHvYk/PqLPcQ7ZeP/JQlNu1k1xxnsmvnKBJ8bZvJL+dMavTXrq64CHmOJ
- 0Kfhh9MQ/uwTS8nxFdP0jaoEF8zlXR6qqp1UZ8d75wFXPwtbQGPADsimTJScyql/EW7ikb4AW8
- rGk=
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 29 Mar 2023 01:21:07 -0700
+IronPort-SDR: zCTrpvTfArBDKgY/Uy2KMonI5lEOO69jwJOCng/dVrHi7/BKJhR00WPorqkrmzRuBF1g/gN6SA
+ Nr/GHAY885Z1ctJBv5VdbFHZ19dK0xuK/QgjKyJ/33a4J75wgfmaOMyz7HFtK3NABNinri4xVh
+ H5dAezibpaf7hauHvwSyP+uSEhab94G3rs9A8FI55/+PlW9fh6M303yWSF7bCMrg2eNsapNLE5
+ Kl2HTibrd+bwniU0NewatQ/JLLVsb3N754juKDqv/5/+HNG+JXkiQE12rs1v9WWdAEAfuFJfAX
+ C6o=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
-  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 29 Mar 2023 01:56:23 -0700
+  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 29 Mar 2023 02:04:58 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
-	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4PmgQF45q2z1RtVn
-	for <linux-nvme@lists.infradead.org>; Wed, 29 Mar 2023 01:56:21 -0700 (PDT)
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Pmgc90cF1z1RtVn
+	for <linux-nvme@lists.infradead.org>; Wed, 29 Mar 2023 02:04:56 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
 	reason="pass (just generated, assumed good)"
 	header.d=opensource.wdc.com
@@ -69,27 +69,27 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
 	opensource.wdc.com; h=content-transfer-encoding:content-type
 	:in-reply-to:organization:from:references:to:content-language
 	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
-	1680080179; x=1682672180; bh=dpYCJqxHzH41LLeY9P40KlHhDXgqF8BIDqP
-	+hRLMETk=; b=sqY21uvpF3ZBBsCgmIrWszTR64xP2JhNH9nxefxbO38Voduo+Di
-	4SWG6+WFOb5AovJ6sSe8cSimAgJJsLDJvo7aHDnmdrJm1QmJCaBeh/GptcEBhc+0
-	yrciG5klpQhXCeFj9+7KY4v4D08MolykZRq1/7AtFFOBvsqr/Yh01xfBk8EKkrJ0
-	ucwYBGgOtqcNyDMkoSndFnqN9nBYBbwNTN55SJZR8LJ0tiEcSB8iNF8AW5ZF2ZAW
-	sbxGZSQ7V4O/CRDFiIZ6/SsJ0ij63PXPRjNepfZt2uJR0CyDCqLWMtThStlOrd2K
-	83o9P2KOghY+gO7wWHQyuh7Law8xojtXLbw==
+	1680080695; x=1682672696; bh=ODmg3rPRGn4RIKplIt/ZC9RkflToL9LBulu
+	XecNb92w=; b=ek9+FWZIOUM0j8FYjqIFGu2FNvtxkIuaUDpxJppjKHuxRxiECWQ
+	XX8+9cY4NJDFc1sTz0Kj8xdgnMbR7ze3HQOPBl8wCwLvm7ooyBQdPxzew5n74aAR
+	jLo/gnamAnUNSM3d1agXwx7i5C6tGt/n1KgIdKm37YAYwrZ6tArpEUHgUo0zSrSm
+	i80nEBbcwNLLSaofPCXt52XW3Y9ZN7jlqRvwG3WXHVUDEmT8mKjWJe8pO5rhaUlc
+	EAsZ97xPJtwtkxCBZnIhNor8FWG8jPPbw1Q0EiMXboC6By/Pf5pF8D7UySUycXFP
+	R6qGXT6WTVd5lBncEbrqSHvqIooKkMzF7bw==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
 	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id f3q_giF4QCvd for <linux-nvme@lists.infradead.org>;
-	Wed, 29 Mar 2023 01:56:19 -0700 (PDT)
+	with ESMTP id KRWRN-bzT_2P for <linux-nvme@lists.infradead.org>;
+	Wed, 29 Mar 2023 02:04:55 -0700 (PDT)
 Received: from [10.225.163.116] (unknown [10.225.163.116])
-	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4PmgQ50xR5z1RtVm;
-	Wed, 29 Mar 2023 01:56:12 -0700 (PDT)
-Message-ID: <6fd95345-ff8d-d18e-5dcf-1f34dae31770@opensource.wdc.com>
-Date: Wed, 29 Mar 2023 17:56:11 +0900
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Pmgc24vbRz1RtVm;
+	Wed, 29 Mar 2023 02:04:50 -0700 (PDT)
+Message-ID: <71d9f461-a708-341f-d012-d142086c026e@opensource.wdc.com>
+Date: Wed, 29 Mar 2023 18:04:49 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v8 2/9] block: Add copy offload support infrastructure
+Subject: Re: [PATCH v8 9/9] null_blk: add support for copy offload
 Content-Language: en-US
 To: Anuj Gupta <anuj20.g@samsung.com>, Jens Axboe <axboe@kernel.dk>,
  Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
@@ -100,20 +100,20 @@ To: Anuj Gupta <anuj20.g@samsung.com>, Jens Axboe <axboe@kernel.dk>,
  Christian Brauner <brauner@kernel.org>
 Cc: bvanassche@acm.org, hare@suse.de, ming.lei@redhat.com,
  joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
- Nitesh Shetty <nj.shetty@samsung.com>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org
+ Nitesh Shetty <nj.shetty@samsung.com>, Vincent Fu <vincent.fu@samsung.com>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
 References: <20230327084103.21601-1-anuj20.g@samsung.com>
- <CGME20230327084226epcas5p28e667b25cbb5e4b0e884aa2ca89cbfff@epcas5p2.samsung.com>
- <20230327084103.21601-3-anuj20.g@samsung.com>
+ <CGME20230327084331epcas5p2510ed79d04fe3432c2ec84ce528745c6@epcas5p2.samsung.com>
+ <20230327084103.21601-10-anuj20.g@samsung.com>
 From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 Organization: Western Digital Research
-In-Reply-To: <20230327084103.21601-3-anuj20.g@samsung.com>
+In-Reply-To: <20230327084103.21601-10-anuj20.g@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230329_020326_395453_AB29EA53 
-X-CRM114-Status: GOOD (  44.02  )
+X-CRM114-CacheID: sfid-20230329_020459_772246_4962F178 
+X-CRM114-Status: GOOD (  29.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -131,394 +131,176 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 On 3/27/23 17:40, Anuj Gupta wrote:
 > From: Nitesh Shetty <nj.shetty@samsung.com>
 > 
-> Introduce blkdev_issue_copy which takes similar arguments as
-> copy_file_range and performs copy offload between two bdevs.
-> Introduce REQ_COPY copy offload operation flag. Create a read-write
-> bio pair with a token as payload and submitted to the device in order.
-> Read request populates token with source specific information which
-> is then passed with write request.
-> This design is courtesy Mikulas Patocka's token based copy
+> Implementaion is based on existing read and write infrastructure.
 > 
-> Larger copy will be divided, based on max_copy_sectors limit.
-> 
-> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> Suggested-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 > Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> Signed-off-by: Vincent Fu <vincent.fu@samsung.com>
 > ---
->  block/blk-lib.c           | 236 ++++++++++++++++++++++++++++++++++++++
->  block/blk.h               |   2 +
->  include/linux/blk_types.h |  25 ++++
->  include/linux/blkdev.h    |   3 +
->  4 files changed, 266 insertions(+)
+>  drivers/block/null_blk/main.c     | 94 +++++++++++++++++++++++++++++++
+>  drivers/block/null_blk/null_blk.h |  7 +++
+>  2 files changed, 101 insertions(+)
 > 
-> diff --git a/block/blk-lib.c b/block/blk-lib.c
-> index e59c3069e835..cbc6882d1e7a 100644
-> --- a/block/blk-lib.c
-> +++ b/block/blk-lib.c
-> @@ -115,6 +115,242 @@ int blkdev_issue_discard(struct block_device *bdev, sector_t sector,
+> diff --git a/drivers/block/null_blk/main.c b/drivers/block/null_blk/main.c
+> index 9e6b032c8ecc..84c5fbcd67a5 100644
+> --- a/drivers/block/null_blk/main.c
+> +++ b/drivers/block/null_blk/main.c
+> @@ -1257,6 +1257,81 @@ static int null_transfer(struct nullb *nullb, struct page *page,
+>  	return err;
 >  }
->  EXPORT_SYMBOL(blkdev_issue_discard);
 >  
-> +/*
-> + * For synchronous copy offload/emulation, wait and process all in-flight BIOs.
-> + * This must only be called once all bios have been issued so that the refcount
-> + * can only decrease. This just waits for all bios to make it through
-> + * bio_copy_*_write_end_io. IO errors are propagated through cio->io_error.
-> + */
-> +static int cio_await_completion(struct cio *cio)
-
-Why not simply cio_wait_completion() ?
-
+> +static inline int nullb_setup_copy_read(struct nullb *nullb,
+> +		struct bio *bio)
 > +{
-> +	int ret = 0;
-
-No need for the initialization.
-
+> +	struct nullb_copy_token *token = bvec_kmap_local(&bio->bi_io_vec[0]);
 > +
-> +	if (cio->endio)
-> +		return 0;
-> +
-> +	if (atomic_read(&cio->refcount)) {
-> +		__set_current_state(TASK_UNINTERRUPTIBLE);
-> +		blk_io_schedule();
-> +	}
-> +
-> +	ret = cio->comp_len;
-
-What about cio->io_error as the top comment mentions ? Looking at struct cio,
-there is no io_error field.
-
-> +	kfree(cio);
-> +
-> +	return ret;
-> +}
-> +
-> +static void blk_copy_offload_write_end_io(struct bio *bio)
-> +{
-> +	struct copy_ctx *ctx = bio->bi_private;
-> +	struct cio *cio = ctx->cio;
-> +	sector_t clen;
-> +
-> +	if (bio->bi_status) {
-> +		clen = (bio->bi_iter.bi_sector << SECTOR_SHIFT) - cio->pos_out;
-> +		cio->comp_len = min_t(sector_t, clen, cio->comp_len);
-
-I do not understand. You set the length only if there was an error ? What about
-the OK case ? Is this to handle partial completions ? If yes, then please add a
-comment.
-
-> +	}
-> +	__free_page(bio->bi_io_vec[0].bv_page);
-> +	bio_put(bio);
-> +
-> +	kfree(ctx);
-> +	if (atomic_dec_and_test(&cio->refcount)) {
-
-Reverse this condition and return early.
-
-> +		if (cio->endio) {
-> +			cio->endio(cio->private, cio->comp_len);
-> +			kfree(cio);
-> +		} else
-> +			blk_wake_io_task(cio->waiter);
-
-Missing curly braces for the else.
-
-> +	}
-> +}
-> +
-> +static void blk_copy_offload_read_end_io(struct bio *read_bio)
-> +{
-> +	struct copy_ctx *ctx = read_bio->bi_private;
-> +	struct cio *cio = ctx->cio;
-> +	sector_t clen;
-> +
-> +	if (read_bio->bi_status) {
-> +		clen = (read_bio->bi_iter.bi_sector << SECTOR_SHIFT)
-> +				- cio->pos_in;
-> +		cio->comp_len = min_t(sector_t, clen, cio->comp_len);
-> +		__free_page(read_bio->bi_io_vec[0].bv_page);
-> +		bio_put(ctx->write_bio);
-> +		bio_put(read_bio);
-> +		kfree(ctx);
-> +		if (atomic_dec_and_test(&cio->refcount)) {
-> +			if (cio->endio) {
-> +				cio->endio(cio->private, cio->comp_len);
-> +				kfree(cio);
-> +			} else
-> +				blk_wake_io_task(cio->waiter);
-
-Missing curly braces for the else.
-
-> +		}
-> +		return;
-
-So you do all this only if there was an error ? What about an OK bio completion
-(bi_status == BLK_STS_OK) ?
-
-> +	}
-> +
-> +	schedule_work(&ctx->dispatch_work);
-> +	bio_put(read_bio);
-> +}
-> +
-> +static void blk_copy_dispatch_work_fn(struct work_struct *work)
-> +{
-> +	struct copy_ctx *ctx = container_of(work, struct copy_ctx,
-> +			dispatch_work);
-> +
-> +	submit_bio(ctx->write_bio);
-> +}
-> +
-> +/*
-> + * __blk_copy_offload	- Use device's native copy offload feature.
-> + * we perform copy operation by sending 2 bio.
-> + * 1. First we send a read bio with REQ_COPY flag along with a token and source
-> + * and length. Once read bio reaches driver layer, device driver adds all the
-> + * source info to token and does a fake completion.
-> + * 2. Once read operation completes, we issue write with REQ_COPY flag with same
-> + * token. In driver layer, token info is used to form a copy offload command.
-> + *
-> + * returns the length of bytes copied or negative error value
-> + */
-> +static int __blk_copy_offload(struct block_device *bdev_in, loff_t pos_in,
-> +		struct block_device *bdev_out, loff_t pos_out, size_t len,
-> +		cio_iodone_t end_io, void *private, gfp_t gfp_mask)
-> +{
-> +	struct cio *cio;
-> +	struct copy_ctx *ctx;
-> +	struct bio *read_bio, *write_bio;
-> +	struct page *token;
-> +	sector_t copy_len;
-> +	sector_t rem, max_copy_len;
-> +
-> +	cio = kzalloc(sizeof(struct cio), GFP_KERNEL);
-> +	if (!cio)
-> +		return -ENOMEM;
-> +	atomic_set(&cio->refcount, 0);
-> +	cio->waiter = current;
-> +	cio->endio = end_io;
-> +	cio->private = private;
-> +
-> +	max_copy_len = min(bdev_max_copy_sectors(bdev_in),
-> +			bdev_max_copy_sectors(bdev_out)) << SECTOR_SHIFT;
-> +
-> +	cio->pos_in = pos_in;
-> +	cio->pos_out = pos_out;
-> +	cio->comp_len = len;
-> +	for (rem = len; rem > 0; rem -= copy_len) {
-> +		copy_len = min(rem, max_copy_len);
-> +
-> +		token = alloc_page(gfp_mask);
-> +		if (unlikely(!token))
-> +			goto err_token;
-> +
-> +		ctx = kzalloc(sizeof(struct copy_ctx), gfp_mask);
-> +		if (!ctx)
-> +			goto err_ctx;
-> +		read_bio = bio_alloc(bdev_in, 1, REQ_OP_READ | REQ_COPY
-> +			| REQ_SYNC | REQ_NOMERGE, gfp_mask);
-> +		if (!read_bio)
-> +			goto err_read_bio;
-> +		write_bio = bio_alloc(bdev_out, 1, REQ_OP_WRITE
-> +			| REQ_COPY | REQ_SYNC | REQ_NOMERGE, gfp_mask);
-> +		if (!write_bio)
-> +			goto err_write_bio;
-> +
-> +		ctx->cio = cio;
-> +		ctx->write_bio = write_bio;
-> +		INIT_WORK(&ctx->dispatch_work, blk_copy_dispatch_work_fn);
-> +
-> +		__bio_add_page(read_bio, token, PAGE_SIZE, 0);
-> +		read_bio->bi_iter.bi_size = copy_len;
-> +		read_bio->bi_iter.bi_sector = pos_in >> SECTOR_SHIFT;
-> +		read_bio->bi_end_io = blk_copy_offload_read_end_io;
-> +		read_bio->bi_private = ctx;
-> +
-> +		__bio_add_page(write_bio, token, PAGE_SIZE, 0);
-> +		write_bio->bi_iter.bi_size = copy_len;
-> +		write_bio->bi_end_io = blk_copy_offload_write_end_io;
-> +		write_bio->bi_iter.bi_sector = pos_out >> SECTOR_SHIFT;
-> +		write_bio->bi_private = ctx;
-> +
-> +		atomic_inc(&cio->refcount);
-> +		submit_bio(read_bio);
-> +		pos_in += copy_len;
-> +		pos_out += copy_len;
-> +	}
-> +
-> +	/* Wait for completion of all IO's*/
-> +	return cio_await_completion(cio);
-> +
-> +err_write_bio:
-> +	bio_put(read_bio);
-> +err_read_bio:
-> +	kfree(ctx);
-> +err_ctx:
-> +	__free_page(token);
-> +err_token:
-> +	cio->comp_len = min_t(sector_t, cio->comp_len, (len - rem));
-
-Why ? cio_wait_completion() return that, no ?
-
-> +	return cio_await_completion(cio);
-> +}
-> +
-> +static inline int blk_copy_sanity_check(struct block_device *bdev_in,
-> +	loff_t pos_in, struct block_device *bdev_out, loff_t pos_out,
-> +	size_t len)
-> +{
-> +	unsigned int align = max(bdev_logical_block_size(bdev_out),
-> +					bdev_logical_block_size(bdev_in)) - 1;
-> +
-> +	if (bdev_read_only(bdev_out))
-> +		return -EPERM;
-> +
-> +	if ((pos_in & align) || (pos_out & align) || (len & align) || !len ||
-> +		len >= MAX_COPY_TOTAL_LENGTH)
-> +		return -EINVAL;
+> +	memcpy(token->subsys, "nullb", 5);
+> +	token->sector_in = bio->bi_iter.bi_sector;
+> +	token->nullb = nullb;
+> +	token->sectors = bio->bi_iter.bi_size >> SECTOR_SHIFT;
 > +
 > +	return 0;
 > +}
 > +
-> +static inline bool blk_check_copy_offload(struct request_queue *q_in,
-> +		struct request_queue *q_out)
+> +static inline int nullb_setup_copy_write(struct nullb *nullb,
+> +		struct bio *bio, bool is_fua)
 > +{
-> +	return blk_queue_copy(q_in) && blk_queue_copy(q_out);
-> +}
+> +	struct nullb_copy_token *token = bvec_kmap_local(&bio->bi_io_vec[0]);
+> +	sector_t sector_in, sector_out;
+> +	void *in, *out;
+> +	size_t rem, temp;
+> +	unsigned long offset_in, offset_out;
+> +	struct nullb_page *t_page_in, *t_page_out;
+> +	int ret = -EIO;
+> +
+> +	if (unlikely(memcmp(token->subsys, "nullb", 5)))
+> +		return -EOPNOTSUPP;
+> +	if (unlikely(token->nullb != nullb))
+> +		return -EOPNOTSUPP;
+> +	if (WARN_ON(token->sectors != bio->bi_iter.bi_size >> SECTOR_SHIFT))
+> +		return -EOPNOTSUPP;
 
-Not a very useful helper.
+EOPNOTSUPP is strange. These are EINVAL, no ?.
 
 > +
-> +/*
-> + * @bdev_in:	source block device
-> + * @pos_in:	source offset
-> + * @bdev_out:	destination block device
-> + * @pos_out:	destination offset
-> + * @len:	length in bytes to be copied
-> + * @end_io:	end_io function to be called on completion of copy operation,
-> + *		for synchronous operation this should be NULL
-> + * @private:	end_io function will be called with this private data, should be
-> + *		NULL, if operation is synchronous in nature
-> + * @gfp_mask:   memory allocation flags (for bio_alloc)
-> + *
-> + * Returns the length of bytes copied or a negative error value
-> + *
-> + * Description:
-> + *	Copy source offset from source block device to destination block
-> + *	device. length of a source range cannot be zero. Max total length of
-> + *	copy is limited to MAX_COPY_TOTAL_LENGTH
-> + */
-> +int blkdev_issue_copy(struct block_device *bdev_in, loff_t pos_in,
-> +		      struct block_device *bdev_out, loff_t pos_out, size_t len,
-> +		      cio_iodone_t end_io, void *private, gfp_t gfp_mask)
-> +{
-> +	struct request_queue *q_in = bdev_get_queue(bdev_in);
-> +	struct request_queue *q_out = bdev_get_queue(bdev_out);
-> +	int ret = -EINVAL;
+> +	sector_in = token->sector_in;
+> +	sector_out = bio->bi_iter.bi_sector;
+> +	rem = token->sectors << SECTOR_SHIFT;
 > +
-> +	ret = blk_copy_sanity_check(bdev_in, pos_in, bdev_out, pos_out, len);
-> +	if (ret)
-> +		return ret;
+> +	spin_lock_irq(&nullb->lock);
+> +	while (rem > 0) {
+> +		temp = min_t(size_t, nullb->dev->blocksize, rem);
+> +		offset_in = (sector_in & SECTOR_MASK) << SECTOR_SHIFT;
+> +		offset_out = (sector_out & SECTOR_MASK) << SECTOR_SHIFT;
 > +
-> +	if (blk_check_copy_offload(q_in, q_out))
-> +		ret = __blk_copy_offload(bdev_in, pos_in, bdev_out, pos_out,
-> +			   len, end_io, private, gfp_mask);
+> +		if (null_cache_active(nullb) && !is_fua)
+> +			null_make_cache_space(nullb, PAGE_SIZE);
 > +
+> +		t_page_in = null_lookup_page(nullb, sector_in, false,
+> +			!null_cache_active(nullb));
+> +		if (!t_page_in)
+> +			goto err;
+> +		t_page_out = null_insert_page(nullb, sector_out,
+> +			!null_cache_active(nullb) || is_fua);
+> +		if (!t_page_out)
+> +			goto err;
+> +
+> +		in = kmap_local_page(t_page_in->page);
+> +		out = kmap_local_page(t_page_out->page);
+> +
+> +		memcpy(out + offset_out, in + offset_in, temp);
+> +		kunmap_local(out);
+> +		kunmap_local(in);
+> +		__set_bit(sector_out & SECTOR_MASK, t_page_out->bitmap);
+> +
+> +		if (is_fua)
+> +			null_free_sector(nullb, sector_out, true);
+> +
+> +		rem -= temp;
+> +		sector_in += temp >> SECTOR_SHIFT;
+> +		sector_out += temp >> SECTOR_SHIFT;
+> +	}
+> +
+> +	ret = 0;
+> +err:
+> +	spin_unlock_irq(&nullb->lock);
 > +	return ret;
 > +}
-> +EXPORT_SYMBOL_GPL(blkdev_issue_copy);
 > +
->  static int __blkdev_issue_write_zeroes(struct block_device *bdev,
->  		sector_t sector, sector_t nr_sects, gfp_t gfp_mask,
->  		struct bio **biop, unsigned flags)
-> diff --git a/block/blk.h b/block/blk.h
-> index d65d96994a94..684b8fa121db 100644
-> --- a/block/blk.h
-> +++ b/block/blk.h
-> @@ -311,6 +311,8 @@ static inline bool bio_may_exceed_limits(struct bio *bio,
->  		break;
->  	}
+>  static int null_handle_rq(struct nullb_cmd *cmd)
+>  {
+>  	struct request *rq = cmd->rq;
+> @@ -1267,6 +1342,14 @@ static int null_handle_rq(struct nullb_cmd *cmd)
+>  	struct req_iterator iter;
+>  	struct bio_vec bvec;
 >  
-> +	if (unlikely(op_is_copy(bio->bi_opf)))
-> +		return false;
->  	/*
->  	 * All drivers must accept single-segments bios that are <= PAGE_SIZE.
->  	 * This is a quick and dirty check that relies on the fact that
-> diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-> index a0e339ff3d09..7f586c4b9954 100644
-> --- a/include/linux/blk_types.h
-> +++ b/include/linux/blk_types.h
-> @@ -423,6 +423,7 @@ enum req_flag_bits {
->  	 */
->  	/* for REQ_OP_WRITE_ZEROES: */
->  	__REQ_NOUNMAP,		/* do not free blocks when zeroing */
-> +	__REQ_COPY,		/* copy request */
+> +	if (rq->cmd_flags & REQ_COPY) {
+> +		if (op_is_write(req_op(rq)))
+> +			return nullb_setup_copy_write(nullb, rq->bio,
+> +						rq->cmd_flags & REQ_FUA);
+> +		else
+
+No need for this else.
+
+> +			return nullb_setup_copy_read(nullb, rq->bio);
+> +	}
+> +
+>  	spin_lock_irq(&nullb->lock);
+>  	rq_for_each_segment(bvec, rq, iter) {
+>  		len = bvec.bv_len;
+> @@ -1294,6 +1377,14 @@ static int null_handle_bio(struct nullb_cmd *cmd)
+>  	struct bio_vec bvec;
+>  	struct bvec_iter iter;
 >  
->  	__REQ_NR_BITS,		/* stops here */
+> +	if (bio->bi_opf & REQ_COPY) {
+> +		if (op_is_write(bio_op(bio)))
+> +			return nullb_setup_copy_write(nullb, bio,
+> +							bio->bi_opf & REQ_FUA);
+> +		else
+
+No need for this else.
+
+> +			return nullb_setup_copy_read(nullb, bio);
+> +	}
+> +
+>  	spin_lock_irq(&nullb->lock);
+>  	bio_for_each_segment(bvec, bio, iter) {
+>  		len = bvec.bv_len;
+> @@ -2146,6 +2237,9 @@ static int null_add_dev(struct nullb_device *dev)
+>  	list_add_tail(&nullb->list, &nullb_list);
+>  	mutex_unlock(&lock);
+>  
+> +	blk_queue_max_copy_sectors_hw(nullb->disk->queue, 1024);
+> +	blk_queue_flag_set(QUEUE_FLAG_COPY, nullb->disk->queue);
+
+This should NOT be unconditionally enabled with a magic value of 1K sectors. The
+max copy sectors needs to be set with a configfs attribute so that we can
+enable/disable the copy offload support, to be able to exercise both block layer
+emulation and native device support.
+
+> +
+>  	pr_info("disk %s created\n", nullb->disk_name);
+>  
+>  	return 0;
+> diff --git a/drivers/block/null_blk/null_blk.h b/drivers/block/null_blk/null_blk.h
+> index eb5972c50be8..94e524e7306a 100644
+> --- a/drivers/block/null_blk/null_blk.h
+> +++ b/drivers/block/null_blk/null_blk.h
+> @@ -67,6 +67,13 @@ enum {
+>  	NULL_Q_MQ	= 2,
 >  };
-> @@ -452,6 +453,7 @@ enum req_flag_bits {
 >  
->  #define REQ_DRV		(__force blk_opf_t)(1ULL << __REQ_DRV)
->  #define REQ_SWAP	(__force blk_opf_t)(1ULL << __REQ_SWAP)
-> +#define REQ_COPY	((__force blk_opf_t)(1ULL << __REQ_COPY))
->  
->  #define REQ_FAILFAST_MASK \
->  	(REQ_FAILFAST_DEV | REQ_FAILFAST_TRANSPORT | REQ_FAILFAST_DRIVER)
-> @@ -478,6 +480,11 @@ static inline bool op_is_write(blk_opf_t op)
->  	return !!(op & (__force blk_opf_t)1);
->  }
->  
-> +static inline bool op_is_copy(blk_opf_t op)
-> +{
-> +	return (op & REQ_COPY);
-
-No need for the parenthesis.
-
-> +}
-> +
->  /*
->   * Check if the bio or request is one that needs special treatment in the
->   * flush state machine.
-> @@ -537,4 +544,22 @@ struct blk_rq_stat {
->  	u64 batch;
->  };
->  
-> +typedef void (cio_iodone_t)(void *private, int comp_len);
-
-Not really needed I think.
-
-> +
-> +struct cio {
-> +	struct task_struct *waiter;     /* waiting task (NULL if none) */
-> +	atomic_t refcount;
-> +	loff_t pos_in;
-> +	loff_t pos_out;
-> +	size_t comp_len;
-> +	cio_iodone_t *endio;		/* applicable for async operation */
-> +	void *private;			/* applicable for async operation */
+> +struct nullb_copy_token {
+> +	char subsys[5];
+> +	struct nullb *nullb;
+> +	u64 sector_in;
+> +	u64 sectors;
 > +};
 > +
-> +struct copy_ctx {
-> +	struct cio *cio;
-> +	struct work_struct dispatch_work;
-> +	struct bio *write_bio;
-> +};
-> +
->  #endif /* __LINUX_BLK_TYPES_H */
-> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-> index 200338f2ec2e..1bb43697d43d 100644
-> --- a/include/linux/blkdev.h
-> +++ b/include/linux/blkdev.h
-> @@ -1054,6 +1054,9 @@ int __blkdev_issue_discard(struct block_device *bdev, sector_t sector,
->  		sector_t nr_sects, gfp_t gfp_mask, struct bio **biop);
->  int blkdev_issue_secure_erase(struct block_device *bdev, sector_t sector,
->  		sector_t nr_sects, gfp_t gfp);
-> +int blkdev_issue_copy(struct block_device *bdev_in, loff_t pos_in,
-> +		      struct block_device *bdev_out, loff_t pos_out, size_t len,
-> +		      cio_iodone_t end_io, void *private, gfp_t gfp_mask);
->  
->  #define BLKDEV_ZERO_NOUNMAP	(1 << 0)  /* do not free blocks */
->  #define BLKDEV_ZERO_NOFALLBACK	(1 << 1)  /* don't write explicit zeroes */
+>  struct nullb_device {
+>  	struct nullb *nullb;
+>  	struct config_item item;
 
 -- 
 Damien Le Moal
