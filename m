@@ -4,61 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F37F9C74A5B
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Mar 2023 15:37:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70CF6C74A5B
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Mar 2023 15:37:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VeP1AEOS+wBJvxUKj2aAAwYxo51hN1jRb0opgX6GIZ0=; b=DlLjH2ZVQ1aqJNhoC1rz7T6EAe
-	tJRuRU4nHSbMW2rt//zb1cq+VHQMwYwZrELZqowhhwb/hiy370ik8IHK97iQIn4r5nLvH6oXr642j
-	VTxbOx2VrYTnRFFMRl6ROBm+wuC3+h9ZgsE0GF/M2yIH1vDjt5jVeH9aPvljKl8AY+pVJkTMm9gJy
-	V1oPB3v5vQhx+YmE4lLerFBihTh00iIPXUPyj1RUaxSRZRHb/TDFO02PeP0l3ZC0NsRPI9lgMffiq
-	MNHEcgoY1pKNMfH82BzWV+V1Atpg59HOXDDNuO6fWNqs6GfaFo9i7jSVVV5x3XF2FBR2UmEOMY8vP
-	fZ3DZwwg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2oRJvBk1aRhWUXZpzrDEBepxU3iynjIqSJhsVPHzuxE=; b=GMFoMQv2jPjKZbJpInx/s75fol
+	wszIopVBf0/PEgI+dTCfLx4vwfQoVqgC0O2ho9Ezn4XkLIjCAyWu4EDZoMIFxJA9NcxJKSzCO+qDh
+	NOlMf6OesWkYk3oqb4o2SKxjqbY+2GghCFMvZzSMJlPpIpS+vmTMZpD/CCLbeIzZXCh2Oj+QXUIDx
+	xJvGOreezGKfKgnMRpTzJsIb698NqPPcpj4UztdkzNWs9KUrxoAoJ5fLr48FRvuAZvRAxPkMUrrff
+	X83/NB3yyPwzxTfHU6/O8RjTS2WdN6axHz14oyfs+D2qzvHWrBtlHiyx8iux5ORiiZMBeGoLH0UJv
+	eqgJy/7g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1phXr3-000ogk-0V;
-	Wed, 29 Mar 2023 15:36:53 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1phXrq-000oqp-2B;
+	Wed, 29 Mar 2023 15:37:42 +0000
+Received: from mail-wm1-f50.google.com ([209.85.128.50])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1phXqz-000of6-0u
+	id 1phXrn-000opc-39
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Mar 2023 15:36:51 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id BAC45B82360;
-	Wed, 29 Mar 2023 15:36:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 407CBC4339B;
-	Wed, 29 Mar 2023 15:36:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680104206;
-	bh=A76W85DIbMWLmoQXvQ5FW/ugJvF9c9AatoBSe2Bbxn0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ogj+3txCCunQXejTc2N6WbxHGNGt0/P+Ek1yJ9u78dLBb7tgsfGz5SN1Q06Yae2W/
-	 /786wj5btjBS+xQTuF/3I3uTVYybl/aFdgpsaU8IsDtYG689GmWOUGE/Q9IEIRYpyr
-	 HqIuB56cQ50vcKf5Mg6O9wJEQfDLYXy6oLIKHs+fh9HrYng3AEkR2kCkIc8Yy4HRR5
-	 zaRuihcgexE90DzV4FNQDAqXrzLcLAIQTXnOABhGJthcn1aZCpEaTTpiNhwwVah1hZ
-	 yiE8FKqN1iBlPKrGD7eXulqCo8B5oBMN/SVOGH96uLGuak3tjK1oChirdY3pZFoQxW
-	 dG4fdYMk6abwg==
-Date: Wed, 29 Mar 2023 09:36:43 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Olav Gjerde <olav@backupbay.com>
-Cc: linux-nvme@lists.infradead.org
-Subject: Re: Intel P4608 (Oracle f640) doesn't show both NVMe devices.
- globally duplicate IDs for nsid
-Message-ID: <ZCRbC8I3R7aZK9g4@kbusch-mbp.dhcp.thefacebook.com>
-References: <CAJ7kQyGTc_+ajkTGKKsyvazWRFud3P71Nv2U_bcqAnhL9yS=ZA@mail.gmail.com>
+	Wed, 29 Mar 2023 15:37:41 +0000
+Received: by mail-wm1-f50.google.com with SMTP id p34so9195940wms.3
+        for <linux-nvme@lists.infradead.org>; Wed, 29 Mar 2023 08:37:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680104257;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2oRJvBk1aRhWUXZpzrDEBepxU3iynjIqSJhsVPHzuxE=;
+        b=xseLB+pV+Nyprh3aWG4DJOGEyU4RkNoS3BOVsWqmMaetQYRFdsVNeREFS4ZTuaaT3A
+         xmhH56G2jbb1YZSsjKjuJxsF2h8WyFSFWXc3JiZEJ3AfUwvf9ADiaqkIk6pxH6YJSXRX
+         iJU5Z3CiSSeh+EFz7+9cIHokLZdKMYpCgk3oLVnJuH7E3SnTZOy848WGJZNzusqKk8Q9
+         SAjcz0q5V/2DRqkHTnxUKJet/LTk5J8+f9mSJPSIYQPhRGQywKx4ZZyDPbXkv6VrfAAr
+         ys7qd9Xu51AZoVc4MaQk6imRnEZOmbYvSZG5lQdEiaoPMoxB2ynDlgcmopE/EFGDHjx5
+         jyyA==
+X-Gm-Message-State: AO0yUKXVWxHMSdXr/pnGQySXR0eA7Jac9eHHwL6uGLcK7xhkty0dsbj/
+	a7wnpl8RKd3vYHjEPv4hanM=
+X-Google-Smtp-Source: AK7set9DJD5O37K3/4K5wCZSeXkekmic0BIeRAkHgwFejMT0MDC/1ZUnqIK9AJXT5CCQVsyw/1afcA==
+X-Received: by 2002:a05:600c:1e86:b0:3ed:ebcb:e2c6 with SMTP id be6-20020a05600c1e8600b003edebcbe2c6mr16453850wmb.3.1680104257151;
+        Wed, 29 Mar 2023 08:37:37 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id v26-20020a05600c215a00b003ed2433aa4asm2535844wml.41.2023.03.29.08.37.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Mar 2023 08:37:36 -0700 (PDT)
+Message-ID: <d177a5d6-3f76-4eee-0cc5-2c6d995c2e8a@grimberg.me>
+Date: Wed, 29 Mar 2023 18:37:35 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJ7kQyGTc_+ajkTGKKsyvazWRFud3P71Nv2U_bcqAnhL9yS=ZA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 05/18] net/tls: implement ->read_sock()
+Content-Language: en-US
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Chuck Lever <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev,
+ Boris Pismenny <boris.pismenny@gmail.com>
+References: <20230329135938.46905-1-hare@suse.de>
+ <20230329135938.46905-6-hare@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20230329135938.46905-6-hare@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230329_083649_474412_73A74514 
-X-CRM114-Status: GOOD (  17.14  )
+X-CRM114-CacheID: sfid-20230329_083740_010142_AC697C34 
+X-CRM114-Status: UNSURE (   8.29  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,35 +85,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 29, 2023 at 12:36:23PM +0200, Olav Gjerde wrote:
-> Hi,
-> 
-> I just upgraded to debian-testing which runs Linux 6.1 on a machine
-> here and I have trouble with my NVME card which has two NVMe drives. I
-> find the following error message in
-> dmesg: nvme nvme2: globally duplicate IDs for nsid 1
-> 
-> I googled this error message and came over the explanation here:
-> https://bugzilla.kernel.org/show_bug.cgi?id=216049
-> 
-> lspci returns this,
-> 
-> 87:00.0 Non-Volatile memory controller [0108]: Intel Corporation NVMe
-> Datacenter SSD [3DNAND, Beta Rock Controller] [8086:0a54]
-> 88:00.0 Non-Volatile memory controller [0108]: Intel Corporation NVMe
-> Datacenter SSD [3DNAND, Beta Rock Controller] [8086:0a54]
-> 
-> I have checked the master source code, and I see no changes recently,
-> so my guess is that the fix is adding NVME_QUIRK_BOGUS_NID
-> to the following section:
-> { PCI_VDEVICE(INTEL, 0x0a54), /* Intel P4500/P4600 */
->      .driver_data = NVME_QUIRK_STRIPE_SIZE |
->      NVME_QUIRK_DEALLOCATE_ZEROES |
->       NVME_QUIRK_IGNORE_DEV_SUBNQN, },
-> 
-> in drivers/nvme/host/pci.c
 
-Yeah, NVME_QUIRK_BOGUS_NID is needed. The only problem is this particular model
-shares the same VID:DID as the 4500/4600 that do not have this problem. I guess
-none of them get to use those features...
+> Implement ->read_sock() function for use with nvme-tcp.
+
+Nice.
+
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
+> Cc: Boris Pismenny <boris.pismenny@gmail.com>
+
+Would be great to see a tls_device implementation as well.
 
