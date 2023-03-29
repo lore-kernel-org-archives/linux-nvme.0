@@ -4,129 +4,116 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92587C6FD18
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Mar 2023 08:47:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B19DBC761A6
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Mar 2023 09:00:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9eo0FIiSOetMqwE+9U2Ie9WW1i1bTo1eRTvTmsbECTY=; b=0Vq2DdhU0Zf+Bs08sLPEkTHYw8
-	ToRVvRzNHI5t3kPzPAOimz08oYyrbcRaBcR901tvT9ks4GZcX75yg7hSZNWM1ecJrcd8dOHL1fhbe
-	CWrL+07ri4OlEGA8QdgjQyUjeDoaSvaIxVdbPpnoYz6IJ+Y7D5gNQ9hwfgY9W/RJUTN4GT0ruCn/m
-	/T461a4j9Wkt0sM8chP7ZkwpkQGKQeUCeqTnZDRwng0RiS2Ii6tuf5c03PvrQVwyS81ygNRQ1DgQH
-	XHRrZQAstWwvWqWSisGWJLYP2RMsOVui3ZTLz2AdadHCHYAD4ze8a1oK+97+VUqlqq3q6/CdoEDbG
-	IrODuoMQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=y4nrDerkWL8S2ADXJ9o3MXzPF4mnXbVDnimFylDUNQc=; b=pcPg/EMSlxC/lz+d21zj/vtWxr
+	j7q7KKxomahivc165ahEHuF9DN38a29QHSOQ3zF5y0EgOgBrQWMp0qnuuB8JvHrvJM4bvmfXOLD4o
+	vETnWgL/3CrfRkJLh4XpvUmLLiWSHJ/4KV6KOlPxGQz12T0OTd+9UrIMJJy+Q6QIC1hOdTHNsi5MK
+	tMTssrs56h2i1rNdN3FDbQUh0j++hzXLGYyR9fXD9XQKR85dHz6em3YmcoZc7r6m/FOkFeI1zyHhx
+	cyUya6suwuQRRp0lzC09WwJiSZKM3OTOZ+2+ItQIZCVy+66CUAhWxx/qby22itiJ+Gvssz9UGhuSz
+	INZbbQmw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1phRSe-00HABW-0b;
-	Wed, 29 Mar 2023 08:47:16 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1phRez-00HEda-29;
+	Wed, 29 Mar 2023 09:00:01 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1phRSY-00HA94-0n
+	id 1phRev-00HEbh-2b
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Mar 2023 08:47:15 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20230329084702epoutp02f74ef86abed4f4e05f6601e258802c60~Q14PQIl8-2638326383epoutp02v
-	for <linux-nvme@lists.infradead.org>; Wed, 29 Mar 2023 08:47:02 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20230329084702epoutp02f74ef86abed4f4e05f6601e258802c60~Q14PQIl8-2638326383epoutp02v
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1680079622;
-	bh=9eo0FIiSOetMqwE+9U2Ie9WW1i1bTo1eRTvTmsbECTY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=JUn0vJgg1NnZJbIqC8Tw41t+c1Gu80dx3ny/JAZQpN6ca961H1EODhSbAZGdGKGet
-	 B4TV9EeL2y9DuoxtBjzjdeEkKmSoYdV1SPnvHlsrubtNNjoJYP9oqLgqq+dBQ1VLbf
-	 w8WN0YNORoBRHEPZCY+5PvM3pSMtTc87PdqNVHhg=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20230329084701epcas5p474b0aacf4f28606d1d70f5ae48dd8fa7~Q14O2Rm4_2290122901epcas5p44;
-	Wed, 29 Mar 2023 08:47:01 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.180]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4PmgCS3b5Nz4x9Q2; Wed, 29 Mar
-	2023 08:47:00 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	04.50.55678.40BF3246; Wed, 29 Mar 2023 17:47:00 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20230329084659epcas5p3bfde5f30962dd3f30f4e401967c0cd76~Q14NA-W431743817438epcas5p33;
-	Wed, 29 Mar 2023 08:46:59 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20230329084659epsmtrp2bffb7b40d540a4d51a862b3de0f12a3c~Q14NAVkbB1583215832epsmtrp2j;
-	Wed, 29 Mar 2023 08:46:59 +0000 (GMT)
-X-AuditID: b6c32a4a-909fc7000000d97e-b7-6423fb04c4a3
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	CC.BC.31821.30BF3246; Wed, 29 Mar 2023 17:46:59 +0900 (KST)
-Received: from green5 (unknown [107.110.206.5]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20230329084658epsmtip2b470edcbb08adcfa49d1c260c51b11e8~Q14L3FdDS1143311433epsmtip2g;
-	Wed, 29 Mar 2023 08:46:58 +0000 (GMT)
-Date: Wed, 29 Mar 2023 14:16:18 +0530
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Kanchan Joshi <joshiiitr@gmail.com>, Keith Busch <kbusch@meta.com>,
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-	axboe@kernel.dk, hch@lst.de
-Subject: Re: [PATCH 2/2] nvme: use blk-mq polling for uring commands
-Message-ID: <20230329084618.GB2800@green5>
+	Wed, 29 Mar 2023 08:59:59 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1680080397; x=1711616397;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=mpI+Cy2tgI3Sd1AkHMVOE9U08MyGWDToEs92pFOGeZg=;
+  b=cOJ8Jv4uFLbtFoxOcMrEc1uiEIBKobppni6CNzVb+F9JEdkn0KxkjtD3
+   ZljQMtufejDhUna/B/IszV+/zBmBdDPCdIBJDaGrOt4f/ywFPYFDtIyFD
+   hKbvR0wydyitmoKPPilBj9+SW6gVzwfxhW0NLYtHj7jbI+mt+QLKoRHpF
+   vZjdHGlvL30KYd4pcsZQXwWNgn7Ta7ay5I0LZ1k/KcXeG3UKWnvmU1mTY
+   82cd7YTpNuz0GpB6wLoKiZ++8jvdA8RrcEO2JnOc1MiFoFL4w80sAHdH+
+   NjBz2D2rNuQ4vs2B2F8Pf3UjLUPPBlrETEJOAuarh2+CACbB/cw2tEKkm
+   g==;
+X-IronPort-AV: E=Sophos;i="5.98,300,1673884800"; 
+   d="scan'208";a="225056545"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 29 Mar 2023 16:59:56 +0800
+IronPort-SDR: F9GaoZwR+1dIGQITPorw52dMhXfcIQ0nvzd3I2gsGsbddizyQbfEEQDaI1VueisLpjeEo/gvLu
+ v+fCXybUYiihSrKrVYWcpzaYPkXgQ3xAHkco7VdqLqXlrGuyDhM9MJ7hJAoqg+qU6v6SmJOMdQ
+ pHJrF4JPIKgFoJpG/Bzd1PryQhauGSIZ7VddtlIYx46Qtbc4ZDI4LlcDEHmZp5SS0vDEvFMfzB
+ LW/GcoJ0735O0zHVZHK+6CDFh5dfq5I+EyrxXd6zyFAtBjB7I9QPg3FGMXdTyQYmsNGANUOZeG
+ 2YM=
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 29 Mar 2023 01:10:26 -0700
+IronPort-SDR: k0NmEhYbLNE5LKFEIrUvhuuPOtgxdtnR5cN6hjThzUtgsZH7Rzk7WokSJ6SCpOkJp2dXxetbqt
+ 1nHxYEGDrcEKiq3l350axGputEmhRZnQiDKpW56U30VofGlArq86HQ/k7+CiY0fiLEwSl9nrEd
+ 18lpSttjNV32/WWYWopcZ6wEenrQDn5zUtUWJbvqTpQd3841GhqjaZl1v0yCCG1nQ3O2GMV3BU
+ /mZfK5b62/AI+slHOB/d9VfdsC687/lPl/+6g4DT1wW8l8XOx5/qqxfZtbvUNoHuTyjhq82OJP
+ 02Y=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 29 Mar 2023 01:59:58 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4PmgVN6YLFz1RtVn
+	for <linux-nvme@lists.infradead.org>; Wed, 29 Mar 2023 01:59:56 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+	reason="pass (just generated, assumed good)"
+	header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+	opensource.wdc.com; h=content-transfer-encoding:content-type
+	:in-reply-to:organization:from:references:to:content-language
+	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
+	1680080395; x=1682672396; bh=mpI+Cy2tgI3Sd1AkHMVOE9U08MyGWDToEs9
+	2pFOGeZg=; b=jcA6R8w0f8nggQrY15fdmioM4vd6K9ucvDPviggTbMcc5D+R+mz
+	WxRE9kc+NB8WJ7XesRJdqSiZ7EEFQS6D8YVbMqCH7eYRq1KJmFV5g349K2+kGFG2
+	sxEJol007A2MSQjSeUe5TU415ipKxEx4E3vHyRiRvtWF308X3dbIrFN55Epe2pH3
+	sqLRzfNySW0Z6t6IcWt5hKhFmLfCevlB38k6ltXlF0A4xVQJ/poKNgtyXJh1BruG
+	9pa9V6zHfPcX5kLwDWjOZkbyJ9nQTy8E5zz4Y8bEDiK7kdIdplZE1XoF3dTAI8re
+	HqtBDKUrT5zHIF28yATUjlPVexijyfWNEig==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id dBkloBQ-UoGx for <linux-nvme@lists.infradead.org>;
+	Wed, 29 Mar 2023 01:59:55 -0700 (PDT)
+Received: from [10.225.163.116] (unknown [10.225.163.116])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4PmgVH0M2xz1RtVm;
+	Wed, 29 Mar 2023 01:59:50 -0700 (PDT)
+Message-ID: <3b9adeb6-4295-6e6a-9e93-7c5a06441830@opensource.wdc.com>
+Date: Wed, 29 Mar 2023 17:59:49 +0900
 MIME-Version: 1.0
-In-Reply-To: <ZCL/RTHoflUVCMyw@kbusch-mbp.dhcp.thefacebook.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrAJsWRmVeSWpSXmKPExsWy7bCmhi7Lb+UUgyePpC1W3+1ns1i5+iiT
-	xfm3h5ksJh26xmhx5upCFou9t7Qt5i97yu7A7rFz1l12j8tnSz02repk89i8pN5j980GNo9z
-	Fys8Pm+SC2CPyrbJSE1MSS1SSM1Lzk/JzEu3VfIOjneONzUzMNQ1tLQwV1LIS8xNtVVy8QnQ
-	dcvMATpGSaEsMacUKBSQWFyspG9nU5RfWpKqkJFfXGKrlFqQklNgUqBXnJhbXJqXrpeXWmJl
-	aGBgZApUmJCd8XzFb6aCS9IV91d+Ymxg7BDrYuTkkBAwkdi0bB1TFyMXh5DAbkaJCXv72SGc
-	T4wSjz+8ZQWpEhL4zCgx8UsxTMfOzq+sEEW7GCW+72iEcp4wSrQ+nsgCUsUioCrR+XYpWxcj
-	BwebgKbEhcmlIGERAWWJu/Nngg1lFljCKDFnTiqILSzgIrHuyAawOK+AlsSiwxcZIWxBiZMz
-	n4CN5BSwl1j24ABYXBRozoFtx8HOlhCYyiExffpJFojrXCQu3e1igrCFJV4d38IOYUtJfH63
-	lw3CTpa4NPMcVE2JxOM9B6Fse4nWU/3MEMdlSnTffcsCYfNJ9P5+wgTyi4QAr0RHmxBEuaLE
-	vUlPWSFscYmHM5ZA2R4Ss1/sYYaEyV1midZVh1kmMMrNQvLPLCQrIGwric4PTawQtrxE89bZ
-	zLOA1jELSEss/8cBYWpKrN+lv4CRbRWjZGpBcW56arFpgVFeajk8vpPzczcxgpOqltcOxocP
-	PugdYmTiYDzEKMHBrCTC+/uaUooQb0piZVVqUX58UWlOavEhRlNgVE1klhJNzgem9bySeEMT
-	SwMTMzMzE0tjM0MlcV5125PJQgLpiSWp2ampBalFMH1MHJxSDUxRmonXNzfyTdV2i663NVz/
-	/1Zhdvndj3mPJ+xZ73Lq0oFUqbhH3qk2JpeNk79FiwlJrsluMN41b9luZWangnXqOu+2MfiL
-	z63pCamZ5R//Wm/7Rwuz/1ofF38/zqzW6Md2S27Gd5/4x54MWkf3s66YxvXulNjMlAXbMmyr
-	PlhJHprgnL/ZMcHrafPO1l7+jff9VEWOWFXfW5YIVO7KIS3XZnlLke+i2id3Z7nlk+Ta25vK
-	+p5LvVLR2zQlWvFW9P65fV+3/52Y3SE7QXPJl4P7jaQNqqyObTZguKxivuuj1tRtMofELPfX
-	fGq8L/3rwVuNcr6SIz+3/ZG7WppQt3Na3bYpJ58znwoOO2+lpsRSnJFoqMVcVJwIAJ4pmB4z
-	BAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrNLMWRmVeSWpSXmKPExsWy7bCSvC7zb+UUg9sT1SxW3+1ns1i5+iiT
-	xfm3h5ksJh26xmhx5upCFou9t7Qt5i97yu7A7rFz1l12j8tnSz02repk89i8pN5j980GNo9z
-	Fys8Pm+SC2CP4rJJSc3JLEst0rdL4Mpo3/KcueCBRMXWt9/YGhg3C3cxcnJICJhI7Oz8ytrF
-	yMUhJLCDUaLt2mImiIS4RPO1H+wQtrDEyn/P2SGKHjFK7Dm/lBkkwSKgKtH5dilbFyMHB5uA
-	psSFyaUgYREBZYm782eygtjMAksYJebMSQWxhQVcJNYd2QAW5xXQklh0+CIjxMz7zBInWv4z
-	QiQEJU7OfMIC0WwmMW/zQ2aQ+cwC0hLL/3FAhOUlmrfOBjuBU8BeYtmDA2CtokB7D2w7zjSB
-	UWgWkkmzkEyahTBpFpJJCxhZVjFKphYU56bnFhsWGOWllusVJ+YWl+al6yXn525iBMePltYO
-	xj2rPugdYmTiYDzEKMHBrCTC+/uaUooQb0piZVVqUX58UWlOavEhRmkOFiVx3gtdJ+OFBNIT
-	S1KzU1MLUotgskwcnFINTAzcH3hKtyt4uH5fI2Q8q+XZPTsvjenqMg+jg0wuHnD8y2Th+559
-	0b6klb6Lvkd4r5xmIFNruOrygtjimlk+56xaHube4A7z3Okx8+2iGZU+fTJsoasfHPHSmuFg
-	sVr9NBe7y44FE2Wz5saGsKcumFF34fbZyN1yrTmu0vwOEpNVyyo0pOYpStXHn9Jw7XZ+tc1w
-	exBjYnH59hY+y+Mzbtybuf1p1+KFFod5I1utZ3Un1Ztdlpnzrn1a753q7Df5Ih6Z6pybtm0V
-	eip4vPWNmsrqfRvm8FzdWXJ3i3blU1Ex7o6CiO3/Nlr88OxwcQ3bkz0h+Muv7Vv6rPTu1W8T
-	tHQ4JHMt5/X3j4Iq1QE7lViKMxINtZiLihMBqIAl0Q4DAAA=
-X-CMS-MailID: 20230329084659epcas5p3bfde5f30962dd3f30f4e401967c0cd76
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----KShBqqPo14.eBT3ESqKA1JUVW8Pp5OSRF8p2BdrChsSVkVya=_117d1b_"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230324213124epcas5p331ea3c2e2a05ec6a6825e719e47d2427
-References: <20230324212803.1837554-1-kbusch@meta.com>
-	<CGME20230324213124epcas5p331ea3c2e2a05ec6a6825e719e47d2427@epcas5p3.samsung.com>
-	<20230324212803.1837554-2-kbusch@meta.com> <20230327135810.GA8405@green5>
-	<ZCG0O6RdlA/sUd7C@kbusch-mbp.dhcp.thefacebook.com>
-	<CA+1E3rK2h9gyy26v1NmwTFtUsCwMkc1DgkDsCFME+HjZJPn5Hg@mail.gmail.com>
-	<ZCI5XopTr7nJvVF1@kbusch-mbp.dhcp.thefacebook.com>
-	<20230328074939.GA2800@green5>
-	<ZCL/RTHoflUVCMyw@kbusch-mbp.dhcp.thefacebook.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v8 7/9] dm: Add support for copy offload.
+Content-Language: en-US
+To: Anuj Gupta <anuj20.g@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+ dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ James Smart <james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>
+Cc: bvanassche@acm.org, hare@suse.de, ming.lei@redhat.com,
+ joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
+ Nitesh Shetty <nj.shetty@samsung.com>, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org
+References: <20230327084103.21601-1-anuj20.g@samsung.com>
+ <CGME20230327084312epcas5p377810b172aa6048519591518f8c308d0@epcas5p3.samsung.com>
+ <20230327084103.21601-8-anuj20.g@samsung.com>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <20230327084103.21601-8-anuj20.g@samsung.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230329_014710_595249_F8B0463F 
-X-CRM114-Status: GOOD (  34.96  )
+X-CRM114-CacheID: sfid-20230329_015957_884493_20EC3BEE 
+X-CRM114-Status: GOOD (  32.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -141,80 +128,124 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------KShBqqPo14.eBT3ESqKA1JUVW8Pp5OSRF8p2BdrChsSVkVya=_117d1b_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
+On 3/27/23 17:40, Anuj Gupta wrote:
+> From: Nitesh Shetty <nj.shetty@samsung.com>
+> 
 
-On Tue, Mar 28, 2023 at 08:52:53AM -0600, Keith Busch wrote:
->On Tue, Mar 28, 2023 at 01:19:39PM +0530, Kanchan Joshi wrote:
->> On Mon, Mar 27, 2023 at 06:48:30PM -0600, Keith Busch wrote:
->> > On Mon, Mar 27, 2023 at 10:50:47PM +0530, Kanchan Joshi wrote:
->> > > On Mon, Mar 27, 2023 at 8:59 PM Keith Busch <kbusch@kernel.org> wrote:
->> > > > > >     rcu_read_lock();
->> > > > > > -   bio = READ_ONCE(ioucmd->cookie);
->> > > > > > -   ns = container_of(file_inode(ioucmd->file)->i_cdev,
->> > > > > > -                   struct nvme_ns, cdev);
->> > > > > > -   q = ns->queue;
->> > > > > > -   if (test_bit(QUEUE_FLAG_POLL, &q->queue_flags) && bio && bio->bi_bdev)
->> > > > > > -           ret = bio_poll(bio, iob, poll_flags);
->> > > > > > +   req = READ_ONCE(ioucmd->cookie);
->> > > > > > +   if (req) {
->> > > > >
->> > > > > This is risky. We are not sure if the cookie is actually "req" at this
->> > > > > moment.
->> > > >
->> > > > What else could it be? It's either a real request from a polled hctx tag, or
->> > > > NULL at this point.
->> > >
->> > > It can also be a function pointer that gets assigned on irq-driven completion.
->> > > See the "struct io_uring_cmd" - we are tight on cacheline, so cookie
->> > > and task_work_cb share the storage.
->> > >
->> > > > It's safe to check the cookie like this and rely on its contents.
->> > > Hence not safe. Please try running this without poll-queues (at nvme
->> > > level), you'll see failures.
->> >
->> > Okay, you have a iouring polling instance used with a file that has poll
->> > capabilities, but doesn't have any polling hctx's. It would be nice to exclude
->> > these from io_uring's polling since they're wasting CPU time, but that doesn't
->> > look easily done.
->>
->> Do you mean having the ring with IOPOLL set, and yet skip the attempt of
->> actively reaping the completion for certain IOs?
->
->Yes, exactly. It'd be great if non-polled requests don't get added to the
->ctx->iopoll_list in the first place.
->
->> > This simple patch atop should work though.
->> >
->> > ---
->> > diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
->> > index 369e8519b87a2..e3ff019404816 100644
->> > --- a/drivers/nvme/host/ioctl.c
->> > +++ b/drivers/nvme/host/ioctl.c
->> > @@ -612,6 +612,8 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
->> >
->> > 	if (blk_rq_is_poll(req))
->> > 		WRITE_ONCE(ioucmd->cookie, req);
->> > +	else if (issue_flags & IO_URING_F_IOPOLL)
->> > +		ioucmd->flags |= IORING_URING_CMD_NOPOLL;
->>
->> If IO_URING_F_IOPOLL would have come here as part of "ioucmd->flags", we
->> could have just cleared that here. That would avoid the need of NOPOLL flag.
->> That said, I don't feel strongly about new flag too. You decide.
->
->IO_URING_F_IOPOLL, while named in an enum that sounds suspiciouly like it is
->part of ioucmd->flags, is actually ctx flags, so a little confusing. And we
->need to be a litle careful here: the existing ioucmd->flags is used with uapi
->flags.
+Drop the period at the end of the patch title.
 
-Indeed. If this is getting crufty, series can just enable polling on
-no-payload requests. Reducing nvme handlers - for another day.
+> Before enabling copy for dm target, check if underlying devices and
+> dm target support copy. Avoid split happening inside dm target.
+> Fail early if the request needs split, currently splitting copy
+> request is not supported.
+> 
+> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> ---
+>  drivers/md/dm-table.c         | 42 +++++++++++++++++++++++++++++++++++
+>  drivers/md/dm.c               |  7 ++++++
+>  include/linux/device-mapper.h |  5 +++++
+>  3 files changed, 54 insertions(+)
+> 
+> diff --git a/drivers/md/dm-table.c b/drivers/md/dm-table.c
+> index 7899f5fb4c13..45e894b9e3be 100644
+> --- a/drivers/md/dm-table.c
+> +++ b/drivers/md/dm-table.c
+> @@ -1863,6 +1863,39 @@ static bool dm_table_supports_nowait(struct dm_table *t)
+>  	return true;
+>  }
+>  
+> +static int device_not_copy_capable(struct dm_target *ti, struct dm_dev *dev,
+> +				      sector_t start, sector_t len, void *data)
+> +{
+> +	struct request_queue *q = bdev_get_queue(dev->bdev);
+> +
+> +	return !blk_queue_copy(q);
+> +}
+> +
+> +static bool dm_table_supports_copy(struct dm_table *t)
+> +{
+> +	struct dm_target *ti;
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < t->num_targets; i++) {
+> +		ti = dm_table_get_target(t, i);
+> +
+> +		if (!ti->copy_offload_supported)
+> +			return false;
+> +
+> +		/*
+> +		 * target provides copy support (as implied by setting
+> +		 * 'copy_offload_supported')
+> +		 * and it relies on _all_ data devices having copy support.
+> +		 */
+> +		if (!ti->type->iterate_devices ||
+> +		     ti->type->iterate_devices(ti,
+> +			     device_not_copy_capable, NULL))
+> +			return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+>  static int device_not_discard_capable(struct dm_target *ti, struct dm_dev *dev,
+>  				      sector_t start, sector_t len, void *data)
+>  {
+> @@ -1945,6 +1978,15 @@ int dm_table_set_restrictions(struct dm_table *t, struct request_queue *q,
+>  		q->limits.discard_misaligned = 0;
+>  	}
+>  
+> +	if (!dm_table_supports_copy(t)) {
+> +		blk_queue_flag_clear(QUEUE_FLAG_COPY, q);
+> +		/* Must also clear copy limits... */
 
-------KShBqqPo14.eBT3ESqKA1JUVW8Pp5OSRF8p2BdrChsSVkVya=_117d1b_
-Content-Type: text/plain; charset="utf-8"
+Not a useful comment. The code is clear.
 
+> +		q->limits.max_copy_sectors = 0;
+> +		q->limits.max_copy_sectors_hw = 0;
+> +	} else {
+> +		blk_queue_flag_set(QUEUE_FLAG_COPY, q);
+> +	}
+> +
+>  	if (!dm_table_supports_secure_erase(t))
+>  		q->limits.max_secure_erase_sectors = 0;
+>  
+> diff --git a/drivers/md/dm.c b/drivers/md/dm.c
+> index 2d0f934ba6e6..08ec51000af8 100644
+> --- a/drivers/md/dm.c
+> +++ b/drivers/md/dm.c
+> @@ -1693,6 +1693,13 @@ static blk_status_t __split_and_process_bio(struct clone_info *ci)
+>  	if (unlikely(ci->is_abnormal_io))
+>  		return __process_abnormal_io(ci, ti);
+>  
+> +	if ((unlikely(op_is_copy(ci->bio->bi_opf)) &&
+> +			max_io_len(ti, ci->sector) < ci->sector_count)) {
+> +		DMERR("Error, IO size(%u) > max target size(%llu)\n",
+> +			ci->sector_count, max_io_len(ti, ci->sector));
+> +		return BLK_STS_IOERR;
+> +	}
+> +
+>  	/*
+>  	 * Only support bio polling for normal IO, and the target io is
+>  	 * exactly inside the dm_io instance (verified in dm_poll_dm_io)
+> diff --git a/include/linux/device-mapper.h b/include/linux/device-mapper.h
+> index 7975483816e4..44969a20295e 100644
+> --- a/include/linux/device-mapper.h
+> +++ b/include/linux/device-mapper.h
+> @@ -380,6 +380,11 @@ struct dm_target {
+>  	 * bio_set_dev(). NOTE: ideally a target should _not_ need this.
+>  	 */
+>  	bool needs_bio_set_dev:1;
+> +
+> +	/*
+> +	 * copy offload is supported
+> +	 */
+> +	bool copy_offload_supported:1;
+>  };
+>  
+>  void *dm_per_bio_data(struct bio *bio, size_t data_size);
 
-------KShBqqPo14.eBT3ESqKA1JUVW8Pp5OSRF8p2BdrChsSVkVya=_117d1b_--
+-- 
+Damien Le Moal
+Western Digital Research
+
 
