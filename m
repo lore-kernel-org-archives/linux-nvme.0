@@ -4,120 +4,142 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D430DC77B60
-	for <linux-nvme@archiver.kernel.org>; Fri, 31 Mar 2023 03:56:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79761C76196
+	for <linux-nvme@archiver.kernel.org>; Fri, 31 Mar 2023 04:56:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VPspr9ySugJOAfoeYrk4zOdGco4LzsVeD1y4ToDhPlM=; b=QRuyEkYbXF1amioR68DbSqElmK
-	Tg93o6UmyUVLLoynasUF6nA7aKZozrowL0Lnl9HUYKX77J0XYJuJ/iT/mPSXMraZ5ZBQ2hBzUdaqE
-	Q1dwK2b/p3T/Fjs/toma/byxGJT7gs8VBS8/nB2fZnyDBWQ9l3GLWIcec23kYXKE99Z0dbzlrFIv+
-	BVRvnS5y66FCWCD2Mmk6vQ4/MygGCwg2LGGmeiXbqMciPST7Hievi+SiiCjvvbj17CKJARkajrMq8
-	UTZMWZjRU+kXPQI1ekiQanCorP82pyfr/YVFeXA8Z3z/meC6jRqy5e2juHKUkopEX+hyxjWUuoXFr
-	8qzGGC1g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=bQ1Al4P0meULGYY7nwITRh8pz6JqpGw3nI8Nfse+K2U=; b=dBWo6yjal1WK+DN3krbqEwlv07
+	zIpShC56f1jrCTJiPhqEzjN7pwsR7SH45ESM4JPIRnQe0EPkfo+hPa5C6GgEKoALylKsc1a4vYGFV
+	R5sFB5lOoB7reb/3chfCJsg47lRankmvDt5e8v2LdVgJ7UNyRHJuYC3lCatYcojDi5/ZS+yOBo+79
+	UO3beNyCTLy1jEu+XiDlKc4/9Lfp8gPU6e7j2hviE6oIaw4qmi4KVyPUtfrmNNVwbD4/qEWR1oKIo
+	6CTUYosA6wC85Wb2R2DF70jRfhEBtfbkbAcIk7uZuR/EwV1wfFCizTqSp+D8NXoka77+1qWZYgsj6
+	kfpDenwQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pi5sM-005khg-1w;
-	Fri, 31 Mar 2023 03:56:30 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1pi6o0-005piu-2C;
+	Fri, 31 Mar 2023 04:56:04 +0000
+Received: from mail-dm3nam02on20612.outbound.protection.outlook.com ([2a01:111:f400:7e83::612] helo=NAM02-DM3-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pi5sI-005kfk-16
+	id 1pi6nx-005piE-1K
 	for linux-nvme@lists.infradead.org;
-	Fri, 31 Mar 2023 03:56:27 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20230331035624epoutp01e0ee3606ba7c7440e1c09b3f9b836651~RZND6PrFB0044300443epoutp01g
-	for <linux-nvme@lists.infradead.org>; Fri, 31 Mar 2023 03:56:24 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20230331035624epoutp01e0ee3606ba7c7440e1c09b3f9b836651~RZND6PrFB0044300443epoutp01g
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1680234984;
-	bh=VPspr9ySugJOAfoeYrk4zOdGco4LzsVeD1y4ToDhPlM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GeC5MUbwK+wDcsCWEZPQ25xcbtKvMZ3n6iDfZlDXBgJMSlgIF8MPggcD16hMP+3MC
-	 KdZyAWwZ+BLZWIBRkYsu+2/+ZeZzrQFRG33KZ4muKrfKaeyinydUelp/stlvN7ebBn
-	 +pd2KKVIuKPRqWsRejYUJa8tSWqwyooL4cGHBmC0=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20230331035624epcas5p3d2ee7f7246789168bfb28b6a5a501085~RZNDUaV5q0953409534epcas5p3M;
-	Fri, 31 Mar 2023 03:56:24 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.183]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4PnmgB1hQlz4x9Q0; Fri, 31 Mar
-	2023 03:56:22 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	1B.81.06765.1E956246; Fri, 31 Mar 2023 12:56:17 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20230331035617epcas5p41ff3b2a1def95ba99abd16634b9e726f~RZM9VCRxp2719927199epcas5p4C;
-	Fri, 31 Mar 2023 03:56:17 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20230331035617epsmtrp28518278b94242ab34e6a30710e44efa8~RZM9Qv3Kf2276122761epsmtrp2X;
-	Fri, 31 Mar 2023 03:56:17 +0000 (GMT)
-X-AuditID: b6c32a4b-20fff70000011a6d-c3-642659e1e46a
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	75.A7.18071.1E956246; Fri, 31 Mar 2023 12:56:17 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.110.206.5]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20230331035616epsmtip247a71e3bd11ea1fe471fd2ab8d3ef10b~RZM8k9gDC1412414124epsmtip2e;
-	Fri, 31 Mar 2023 03:56:16 +0000 (GMT)
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: shinichiro.kawasaki@wdc.com
-Cc: linux-nvme@lists.infradead.org, mcgrof@kernel.org, Kanchan Joshi
-	<joshi.k@samsung.com>
-Subject: [PATCH blktests v2 2/2] nvme/047: add test for uring-passthrough
-Date: Fri, 31 Mar 2023 09:25:19 +0530
-Message-Id: <20230331035519.42728-3-joshi.k@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230331035519.42728-1-joshi.k@samsung.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFKsWRmVeSWpSXmKPExsWy7bCmpu7DSLUUg6XbLC2O/n/LZjF/2VN2
-	ixsTnjJa7Jvl6cDisWlVJ5vH5iX1Hn1bVjF6tB/oZgpgicq2yUhNTEktUkjNS85PycxLt1Xy
-	Do53jjc1MzDUNbS0MFdSyEvMTbVVcvEJ0HXLzAHaqKRQlphTChQKSCwuVtK3synKLy1JVcjI
-	Ly6xVUotSMkpMCnQK07MLS7NS9fLSy2xMjQwMDIFKkzIzvj0P6tgDW9F75p3zA2MP7m6GDk5
-	JARMJOYcusTcxcjFISSwm1Hiz542NpCEkMAnRokTTW4QiW+MEte+XGKE6eh9uZwFomgvo8Tx
-	z9EQRZ8ZJZomfQYq4uBgE9CUuDC5FKRGREBeYuXsZlYQm1kgRmJCwxpmEFtYwFPiaOsKsDiL
-	gKrE9q5n7CA2r4CFxMzrU6B2yUvMvPQdLM4pYCmx92cjVI2gxMmZT1ggZspLNG+dDfaBhMAx
-	dokjRw6B3SAh4CIxf1sVxBxhiVfHt7BD2FISn9/tZYOwkyUuzTzHBGGXSDzecxDKtpdoPdXP
-	DDKGGeiV9bv0IVbxSfT+fsIEMZ1XoqNNCKJaUeLepKesELa4xMMZS6BsD4lZE9+yQEKnh1Fi
-	7uoXTBMY5Wch+WAWkg9mIWxbwMi8ilEytaA4Nz212LTAOC+1HB6pyfm5mxjBiU7Lewfjowcf
-	9A4xMnEwHmKU4GBWEuEtNFZNEeJNSaysSi3Kjy8qzUktPsRoCgziicxSosn5wFSbVxJvaGJp
-	YGJmZmZiaWxmqCTOq257MllIID2xJDU7NbUgtQimj4mDU6qBie2Xm4FiX+qqybrFF1M3G9gt
-	CLx1KoD33bWiz8JXFovu6zHd9ufYu2bl4IMiztP4ObY1KF3fyF4nW+96fs3c+VLB345N/e58
-	INt/A0OOUse3V1e/Ll7laqPmurVgnm9CSt8mgdaGzEtljrOnvWJW8pAQiMgIW24us1uM5U9S
-	hO6LtsQ1Yp9uy3OZybpkL3+2y9tJXWF99rd1UzfGXD+jILT3Sc20Phu3d/fXPFzNvYFhXtVR
-	78edxRJv6jrPeFodvjb57UP/TVcnuGVduPOI/3Ejx+/c9XeP7FuZEOLSb2eYEOSjXTOTaTn7
-	dw2BRvPqlTnzr56KyGbfoOXCERPmn3Ni1pStM6dVXk99dL8gVImlOCPRUIu5qDgRAID9eSj9
-	AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPLMWRmVeSWpSXmKPExsWy7bCSvO7DSLUUg81P5C2O/n/LZjF/2VN2
-	ixsTnjJa7Jvl6cDisWlVJ5vH5iX1Hn1bVjF6tB/oZgpgieKySUnNySxLLdK3S+DK+PQ/q2AN
-	b0XvmnfMDYw/uboYOTkkBEwkel8uZwGxhQR2M0qs7BeAiItLNF/7wQ5hC0us/PccyOYCqvnI
-	KHH5+Vy2LkYODjYBTYkLk0tBakQE5CVWzm5mBbGZBeIkjnZ/YgOxhQU8JY62rgCLswioSmzv
-	egY2k1fAQmLm9SmMEPPlJWZe+g4W5xSwlNj7s5Ed4h4LiRdLL7FC1AtKnJz5hAVivrxE89bZ
-	zBMYBWYhSc1CklrAyLSKUTK1oDg3PbfYsMAwL7Vcrzgxt7g0L10vOT93EyM4TLU0dzBuX/VB
-	7xAjEwfjIUYJDmYlEd5CY9UUId6UxMqq1KL8+KLSnNTiQ4zSHCxK4rwXuk7GCwmkJ5akZqem
-	FqQWwWSZODilGpg8DvXs2/f5RktikPHP//MXPuy1yb/nIfPix+OOPbzbn7O3CHsEXbtR3fzm
-	/yNTqcr1evF+tZ8fNxw51p3Kb5BWqyxfJ/lm1uJN8V1+Qbbvj1Y/Yj9/ouT4YcHl9+x2+Jsa
-	P7qUFHnb+kjg6z+8n7WWPdyoMGMVU9wZSd5lDWYS+5a9eHB7xv85nqyHQ6d2HJsptZ0hI82g
-	ZJnRZ1/PPXFMfzxsfSZ7in9NjtR8wHzc8dvBJZlvbvP9Wan4P23u+adzs1muqDrNP7XlOCMD
-	7wJZ/iv/9v20PfhGQ9XQYpbTGbUbHT5sn+v9IquS1+Qavy2Qi+PXepku2NfBxllcE5XrzeBU
-	dkZzH/+zXL+zVySUWIozEg21mIuKEwGZdeq2wgIAAA==
-X-CMS-MailID: 20230331035617epcas5p41ff3b2a1def95ba99abd16634b9e726f
-X-Msg-Generator: CA
+	Fri, 31 Mar 2023 04:56:02 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nvIaEVA0CzV/e4Ib96zPbhvS1/vhdn4UK/KokQV9x2zVstp/fpPVALDGoYBGDi6/qtB8h5t19TqZxPradacodn84Y4a4nEoPwF/1iyUUtcQNdadzNXesLlO/5Z2kbxMxvxoeiZMKhyH2hF9Y3YHKRET3hWSWoMK+lEcCQ76tWm2Ddkk6vUC23Wgml7e0XdeV9RQWWIfSHi3RWtSeN79Z5GPtPw5cMTbQ/wWs6QMo254AzSoi7VDrU7gZ+oJoosNNxfbUzDkNKc+KeQInB56Crs+wEsSJKM9hb7zbBJ52CFODP1uxTkUumurc/LntRos7xkAGo8YuiXCXHYtS3eoMLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bQ1Al4P0meULGYY7nwITRh8pz6JqpGw3nI8Nfse+K2U=;
+ b=XKQCYKOkh+S1XQvFMzbX72VsPeWC9k+H2JT7cRN9qVF8aXCqhQHbXrKMDw9Mx01G9v30h8TEh5k87w7J9j60ClfPBV7YPvDP95RCDGYeWSn2MExc+x1y+bsfKN1MXEOFP1JA/+8yDPyqKmAp3jZYD5bCQYDfVp/HWn5VShwYFV7/rni92ys/h4ZZj2fqTn71e4642ML6UxS62IfveTAl65AbXnJR+RrCXxGues2KNtZHudqRXnFjDcPHYQJIrsQIVRNPc8ohvACqSHQkNdtKe1b+oD+vcKMRI6iWdkV0t4CVfcPY9KZgWauOB0q/7Gj4mw8h6Ywgk5fPKAlBp2TioQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bQ1Al4P0meULGYY7nwITRh8pz6JqpGw3nI8Nfse+K2U=;
+ b=XZX2uhf/gLF9JQDTCtBynn9R2nc99Ua7Zj0Q8ZLpHZzjaAcZbHwaco0XvAvzCC8Qy9utzUvwS4uPkobIlctbtnF1aN4owyoTUUy7zgRSgmV3okV+c2/4X+vlvIVY/GXf5IlXx7+eIj0eaFABbMPeIGB9rKm1jHyeRTGh2KQ3xGVuwsD7LtT5nDwKsE56ay2CB1Arh5F842dktcO/0jlMixQY7cxpr8x6b9otkzMWgtUZI2U2kH6ChFRaPNmYPOLOpatK4HrI4ED7D4AWkgH1FdiMssr0kzKq8txBCt/BoLRLRi3QzwvHBO2N/nfPckJEC4FknRpIAOoCBE4Cb9jDNQ==
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
+ by PH7PR12MB6762.namprd12.prod.outlook.com (2603:10b6:510:1ac::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.23; Fri, 31 Mar
+ 2023 04:55:56 +0000
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::9f90:cf3d:d640:a90b]) by MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::9f90:cf3d:d640:a90b%4]) with mapi id 15.20.6222.035; Fri, 31 Mar 2023
+ 04:55:56 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Daniel Wagner <dwagner@suse.de>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>, Keith Busch
+	<kbusch@kernel.org>
+Subject: Re: [PATCH blktests v3 1/4] nvme/rc: Parse optional arguments in
+ _nvme_connect_subsys()
+Thread-Topic: [PATCH blktests v3 1/4] nvme/rc: Parse optional arguments in
+ _nvme_connect_subsys()
+Thread-Index: AQHZYh0nM2WXVBN0TU2bnQ2/FxwkCq8UVe6A
+Date: Fri, 31 Mar 2023 04:55:55 +0000
+Message-ID: <e0831c78-8811-6efd-ead4-a3f6883106cc@nvidia.com>
+References: <20230329090202.8351-1-dwagner@suse.de>
+ <20230329090202.8351-2-dwagner@suse.de>
+In-Reply-To: <20230329090202.8351-2-dwagner@suse.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|PH7PR12MB6762:EE_
+x-ms-office365-filtering-correlation-id: c6d65b97-0f2e-4571-3720-08db31a43665
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  0t0CIyEoYP3UdFzOmDQd+51C2j+px77u3cfku+zwOEOeSSmcSbLVT/EzlhIMAcSOWHSmzi2R3Dsec69IotxIfRITk18bdz//CSrCuHvG5vaZ4BV0jfWDGE2QZaSlI9kTW0YAE11SfHiyFf8sm9Jmizj/IPkKKWtTlC7qcDn84vOSHf0qfAhNVgYFhENOkMQ3rRu9aLWnYUdhU6NxOa/rreHN5Qcg0KZD8QuO/vWQNuZnbX4gLCdzZzGPQKIDCqiEL/6YSmkGg9e9MTEBEKW4WTRNTILuz9mV2gmh678LudiRruQUb4w97kuy5qvAsgQ/Thonk317zzp1APWlagffu9swpSfWyJSNTDsGLuVfDZYN/eSMhH31CRd4oHkSYkAeYipoMAWAbaroE9L+ygu1JoQjeHFAu1f5OzQJNcgp25KKYmMBzfNXF713p6mPNfWDb+bR2s0+28Wh8JdQ0UgomnkeEKDi78hsSpXG+z9hUUor0/cVwM6/nSbHHT05xAoLRYhRgCpRQHK8D4ZCG/jQGC8y4Yvd9h2wdv8G6psrp6tcPMi2Qi+YogNUuMnCDQnN9Iwl8qwkud7xSheh5dQ1186cKYvIGGbbEjv1wxpelI5NSOr1GBWk7QV7VCeKp8dysEyJYRddsp0QULMergMiG20Ur2EZ1nNghOGRbgVinTE1VfMtRGy4GiKKp3HwGKpL
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(136003)(39860400002)(366004)(396003)(451199021)(53546011)(186003)(6512007)(6506007)(41300700001)(2616005)(110136005)(54906003)(91956017)(66476007)(66556008)(478600001)(76116006)(316002)(66946007)(6486002)(66446008)(71200400001)(8676002)(64756008)(38100700002)(4326008)(2906002)(122000001)(36756003)(38070700005)(86362001)(31696002)(5660300002)(4744005)(8936002)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?MnY0RXRqUWU5OHNxU3B2SitBcUJoeGI5c2h4VHNnWFFkcGtJdXdON1Y0SFQ5?=
+ =?utf-8?B?dWNFeGkyOWcxUVYxOHZzcS90eEJqeDFuSGtuYlY1N3BmSlFRd3ZESnFrVEFH?=
+ =?utf-8?B?aTFqQmhJdUtyUVNCYkYyZjdkaThlR3BYOWVrbnZaWjlmVlRqRlZ2cUNtUkt5?=
+ =?utf-8?B?U01XVWFQdkpBbVFJSUkxdHJ3UldKRktqd1JXRXNwR2ZsQ3ZRTjhHSmZyQWYx?=
+ =?utf-8?B?MXJtOVB6cGNibVJsN0t3QWxocisrZ0Ezei9sSzNnVG1OR3NFSE1sQStZTkto?=
+ =?utf-8?B?L3JUUkt2ZUxNNnpDOWRHSUl2dDJaeHJCcStpS2laUm05RE5zV09JNEhHMldk?=
+ =?utf-8?B?RmViZGVrU0xmaWZBNUpQbDBZRmNWV2hSeGgxYyt1d042a3B5eVFpYVJtblcr?=
+ =?utf-8?B?NHgvRGJRUXRwOVNuRnN0Rldnenl0N1l0dEhsSmZMREhvZ2ZmUW1hbitDTlN6?=
+ =?utf-8?B?aHRSbW5QSE1iZGdtOWMvTitLTEZ2M2Zzbm1INlZZMUtCSDlabmhlN1R3bXZw?=
+ =?utf-8?B?YmUxN3pnTk9rOXlPUUxTejRVbTc1UlRMd0twSEpGNlQ4aVdWakUzM1dtRDc5?=
+ =?utf-8?B?Y1FzdUQ1SlJMcEhETlE4YWZDZG1kWE1mTTlJdXpkK0hpdWNwYWdIQzIvd0Iv?=
+ =?utf-8?B?enEreWEvaFdDcWcxNXN4SDBsdnFPNk5WYVg4akpCdWFPMnFUaS9nMHFOQk1G?=
+ =?utf-8?B?SlBLRHE0cU0zREhMOFFHS2Rjc1hNQ0Z5NlJ3KzllSWJ3TCtaSnBMUnRDUDl3?=
+ =?utf-8?B?QlF0eDlFcnNVbjVZa3h6eGF1YVVzTlVKV25BdUJwOEsxNXJLWjNxNmM4THhs?=
+ =?utf-8?B?K2JUVENGOVgvRzBVOE9KVU1TOWVabXpCcFVVc2pCZHNTMGtRdjJNaGpkcHdM?=
+ =?utf-8?B?QlJFTTdHcFRiTlNneFRaczhyN0dhcVNWbjhiaW52Ungya3YyMjdCU3IvZUlz?=
+ =?utf-8?B?a1doSWxKS3BOTlhKSW4xTG4rLzhsU2pIVlYxOTBmek1UNXRTK2NmU3JISTEw?=
+ =?utf-8?B?d3JKaEp2cTFRSU1oTGs0blBEbERFN2RTQ3lXNWNFS2ZwUmx1ankzS1N2QXdD?=
+ =?utf-8?B?Yk4wS0lrMUhxMmQ3Njc4djdiVXU2TVhTbkhtbTNxYUxZVVZ2djFEc1EwbDZC?=
+ =?utf-8?B?REhOeERrNEtnTTc4VFAvb0tWaTFJMnM0MEZ0aEVscmxiMlo5QkR2NStXeXNH?=
+ =?utf-8?B?M0hKbnZUSjVtcHpnTFFtODF5cVh3dE9iMnhLTmdnRVVPWEYxTWVMVWdYOEdC?=
+ =?utf-8?B?RVJuUDdQME05WFdGMkxOUCtxa0NnZnJPWmZ0cmRUZGZpSm12UTNHMXNwajNP?=
+ =?utf-8?B?Zm81QW5LOGZTeUgxZTdiTTErbko1T0taMUVzazlWN3c4d3VleU9lcFYycHM1?=
+ =?utf-8?B?ZVA0anZDMXBKOXIzU3JXYUVmVjJ5d2pNbW5WMkowVWJDVmp1MWVqWHRMaXk1?=
+ =?utf-8?B?YSsyQkU1V0tHNzJxRHphNzNvWXNmbytCQWpHdGIxZHdIV1Y4bnp1UHJFV0VF?=
+ =?utf-8?B?TGMzV1pMVVpBbXZGVGV4NVptdmEweFcrSGt1dHRjSCs4bDFMMGtGbjVyUXYv?=
+ =?utf-8?B?UmJOZ3BIOFV0K0llOU55cWxTcitvb0N1WHN6clpMRFpGSWVuQk45bDkzd29S?=
+ =?utf-8?B?ZTVLR21uUWNxSGt1RWE3T1QxLzFIYVpXcnFyMlpwY3JHcXNaNEdSWHVuUjha?=
+ =?utf-8?B?bXdBcGxacEFsZjZkVHpnUXRKc1dHTjVHdEsyY051azBYbVRDT2tIUDdDSWdo?=
+ =?utf-8?B?RlZiMjFNbVBxUlFRc0FpQmpsQzBoSXN4T1JKYVliMTJIdDZ1NTRFUGVkWGc0?=
+ =?utf-8?B?MVdGMitOQ1NzditlZTlFNVlOUWRpdkN4aEFkZFA4UGdMQmdNc09tTDlzYzZX?=
+ =?utf-8?B?YWhtajFBRWRNa1hKUEp0YklXcWZleFRMdW9BZlZ3TG9aRlQzNE5oeVJ2Tis2?=
+ =?utf-8?B?NEt4QUMxbS9LVjdtQUc0MGdCeHFpN3hQdUppOE5CMDZIaHRxTkdLWS9iOFBn?=
+ =?utf-8?B?YU85NFpmcGR0RVRzQS9ub2JyN0ZoVkx4OWJmSFpTUTVkNkFad0tmbk9wdEpN?=
+ =?utf-8?B?a0kyQVljblFJdklGUy9UQXdEV1dXSG53aUxISmhPdklRSm1OKzNxWVRnU2pH?=
+ =?utf-8?B?K2YxT0c1dTZYcHdjKzZmKzhxd1RxMVdFZld4dWRZR0hnUnl1UWRuWGtEUDU4?=
+ =?utf-8?Q?Pa7dCoSM3Gztv1dKvWs0i9HIQ2MsMryEGcrKqKVxiLQn?=
 Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230331035617epcas5p41ff3b2a1def95ba99abd16634b9e726f
-References: <20230331035519.42728-1-joshi.k@samsung.com>
-	<CGME20230331035617epcas5p41ff3b2a1def95ba99abd16634b9e726f@epcas5p4.samsung.com>
+Content-ID: <20212E6EDF95924D8B9B1357A125F1BE@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6d65b97-0f2e-4571-3720-08db31a43665
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Mar 2023 04:55:55.9949
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9Gu5AJZV8pXc/9uho6nzRUw0Hg+4o+2+Hgk5JnAejnd7EjS6VDtffTQ0/JTwIMXW9+WZn4Fq6VNVCW+ALmC5mA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6762
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230330_205626_698922_DA4AB0C4 
-X-CRM114-Status: GOOD (  18.80  )
+X-CRM114-CacheID: sfid-20230330_215601_493380_52F130D8 
+X-CRM114-Status: UNSURE (   7.67  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -132,76 +154,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-User can communicate to NVMe char device (/dev/ngXnY) using the
-uring-passthrough interface. This test exercises some of these
-communication pathways, using the 'io_uring_cmd' ioengine of fio.
-
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
----
- tests/nvme/047     | 43 +++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/047.out |  2 ++
- 2 files changed, 45 insertions(+)
- create mode 100755 tests/nvme/047
- create mode 100644 tests/nvme/047.out
-
-diff --git a/tests/nvme/047 b/tests/nvme/047
-new file mode 100755
-index 0000000..ea9b001
---- /dev/null
-+++ b/tests/nvme/047
-@@ -0,0 +1,43 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-3.0+
-+# Copyright (C) 2023 Kanchan Joshi, Samsung Electronics
-+# Test exercising uring passthrough IO on nvme char device
-+
-+. tests/nvme/rc
-+
-+DESCRIPTION="basic test for uring-passthrough I/O on /dev/ngX"
-+QUICK=1
-+
-+requires() {
-+	_nvme_requires
-+	_have_kver 6 1
-+	_have_fio_ver 3 33
-+}
-+
-+test_device() {
-+	echo "Running ${TEST_NAME}"
-+	local ngdev=${TEST_DEV/nvme/ng}
-+	local common_args=(
-+		--size=1M
-+		--filename="$ngdev"
-+		--bs=4k
-+		--rw=randread
-+		--numjobs=1
-+		--iodepth=16
-+		--name=randread
-+		--ioengine=io_uring_cmd
-+		--cmd_type=nvme
-+		--time_based
-+		--runtime=2
-+	)
-+	#plain read test
-+	_run_fio "${common_args[@]}"
-+
-+	#read with iopoll
-+	_run_fio "${common_args[@]}" --hipri
-+
-+	#read with fixedbufs
-+	_run_fio "${common_args[@]}" --fixedbufs
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/047.out b/tests/nvme/047.out
-new file mode 100644
-index 0000000..915d0a2
---- /dev/null
-+++ b/tests/nvme/047.out
-@@ -0,0 +1,2 @@
-+Running nvme/047
-+Test complete
--- 
-2.25.1
-
+T24gMy8yOS8yMDIzIDI6MDEgQU0sIERhbmllbCBXYWduZXIgd3JvdGU6DQo+IEV4dGVuZCB0aGUg
+bnZtZV9jb25uZWN0X3N1YnN5cygpIGZ1bmN0aW9uIHRvIHBhcnNlIG9wdGlvbmFsIGFyZ3VtZW50
+cy4NCj4gVGhpcyBhdm9pZHMgdGhhdCBhbGwgdGVzdCBoYXZlIHRvIHBhc3MgaW4gYWx3YXlzIGFs
+bCBhcmd1bWVudHMuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgV2FnbmVyIDxkd2FnbmVy
+QHN1c2UuZGU+DQo+IC0tLQ0KDQpUaGFua3MgZm9yIGFkZHJlc3NpbmcgdGhlIHZhcmlhYmxlIGRl
+Y2xhcmF0aW9uIGNvbW1lbnQgYW5kIGFkZGluZyANCm9wdGlvbmFsIHBhcmFtZXRlcnMuDQoNClJl
+dmlld2VkLWJ5OiBDaGFpdGFueWEgS3Vsa2FybmkgPGtjaEBudmlkaWEuY29tPg0KDQotY2sNCg0K
+DQo=
 
