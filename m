@@ -4,87 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25AA2C761A6
-	for <linux-nvme@archiver.kernel.org>; Fri, 31 Mar 2023 16:11:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA136C76196
+	for <linux-nvme@archiver.kernel.org>; Fri, 31 Mar 2023 16:51:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XvqldHWl7xh/L1V+KGWEm9YizW/K8SDxYbPNnLnjdW8=; b=WEuvwre3h1VhKDa0sx91r7YC+9
-	jJ24nR2SWQoDiIuBiSLPz8FbTj6FpjFiqfMn2Mr7+rgAJPUsfFI2fLfGTMsQy76VKAKg78RInhrDl
-	pgEMzBqiSwWaqiN5MI7Yy2PEMlkaaLXscGj3XJDHoA6bh/OGzNV1H6Y6H5ugtYnR4LVb11e4j5kNt
-	an+EsWiwGnRQ7A0kJHNXZpBr8IsVbe8vCiNhD2buX7WUqhP8VBHyJ2zmR6Gqu+GuOe8iT5hHi/ceM
-	TZOhQlq5NdWnCdxzr37g/H7+sHikmQNWIM/WJAkGgiulkVDFKyBx0XVK4YsFVzCYRZAIn2JQnb13D
-	aPz4RM8w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0smx6BF8UFiSSoiq6UktpCRnWTG2fxIhOdQNn2FnFdE=; b=n0g6EumGbY5iOQHnYxZsI1i1oO
+	3MnPpKw4aV0Twy0E+NhKbQgCwq0zBCGq/YHQVxk/Gkb41CwWVn7W1OtEFod4Ua7PqzO/rGTuPOjLm
+	AQHhHKhvKRpJTjUEG8/9xkM8r2s4zbuLaONHotaOAgmY02cUcJKqah8g80Q2i9KjMelsl4RVJWBKl
+	qsFd943vAjTqw/jE2IXAfSarwYYSsLmn3FysHhb2rLCaU6qd7KoXf2rXunWd5E0T6ic6GrpjvSpps
+	hSIK5ulMJHLK5gKmM03SyFsfFLyN2zfGY1NnUsNWoN/IthUCfgGmyhMc/BBhK8cDvJVzyJeCdNpfh
+	vwUMkHqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1piHLy-0082CV-1x;
-	Fri, 31 Mar 2023 16:11:50 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1piHyJ-008CJk-0e;
+	Fri, 31 Mar 2023 16:51:27 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1piHLr-00827u-2Y
+	id 1piHyC-008CIS-0I
 	for linux-nvme@lists.infradead.org;
-	Fri, 31 Mar 2023 16:11:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1680279102;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XvqldHWl7xh/L1V+KGWEm9YizW/K8SDxYbPNnLnjdW8=;
-	b=ZqH/AhZwiiy4uZE0SSWt2PN9CsyGw6XKk0tLyNP5MH/hCe7JFZdXoZovHAKlyETsGUQfW9
-	YqRuxLMhY5qs8HcT8Nv3jKMNhr3ZII+fDVnGJvrBqlmujBgnlKY5UqvbDfwyGXFq77hfs9
-	zLgszCmBayPe2lereCsKkIquLfO/ILE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-173-1ZXUWRtzOLGY7fvr_wG5SQ-1; Fri, 31 Mar 2023 12:11:39 -0400
-X-MC-Unique: 1ZXUWRtzOLGY7fvr_wG5SQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	Fri, 31 Mar 2023 16:51:25 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5FC60889047;
-	Fri, 31 Mar 2023 16:11:37 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.33.36.18])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id DD7E5202701E;
-	Fri, 31 Mar 2023 16:11:34 +0000 (UTC)
-From: David Howells <dhowells@redhat.com>
-To: Matthew Wilcox <willy@infradead.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: David Howells <dhowells@redhat.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Christoph Hellwig <hch@infradead.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Jeff Layton <jlayton@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Chuck Lever III <chuck.lever@oracle.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	netdev@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH v3 49/55] nvme: Use sendmsg(MSG_SPLICE_PAGES) rather then sendpage
-Date: Fri, 31 Mar 2023 17:09:08 +0100
-Message-Id: <20230331160914.1608208-50-dhowells@redhat.com>
-In-Reply-To: <20230331160914.1608208-1-dhowells@redhat.com>
-References: <20230331160914.1608208-1-dhowells@redhat.com>
+	by ams.source.kernel.org (Postfix) with ESMTPS id 93014B82C32;
+	Fri, 31 Mar 2023 16:51:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D76BAC433D2;
+	Fri, 31 Mar 2023 16:51:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1680281476;
+	bh=v3lo+fwLuwECciL0wEFe+lXCz5XEDWcJEGAp+VZ8uss=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oYYEILdREdnuHoq6GBej3xmgZLcodwAXvVCtirN9yvlUFLOxg4Y1sqAeA6nKrXTc9
+	 7d7cmO1Eu9ffubccUWVktWMrBFHYlDzvZb/gfiSUNLTfb7vp5EASAF4AgFAfX6xbgg
+	 mlqOzb7djlnhHNjW8oq4AkciRrOb74CggmUTaOOhcsnkhM2q6mDl5AzNipxvBq0o4D
+	 y1Y9CDI2rFlbe0hW7f67DxJ5n9iHW/yiskRPSy3AYEMgdbHu52PYJIcvZ0wQekc2ph
+	 zyZtLH8sZnfO14NXBK9ZsGhTkCsQhVdbcq9EPqo43vNVD2srKPj6Mp3ySmifdcHw0M
+	 4AdnfaDjXkZ4A==
+Date: Fri, 31 Mar 2023 10:51:12 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Pankaj Raghav <p.raghav@samsung.com>
+Cc: Olav Gjerde <olav@backupbay.com>, linux-nvme@lists.infradead.org
+Subject: Re: Intel P4608 (Oracle f640) doesn't show both NVMe devices.
+ globally duplicate IDs for nsid
+Message-ID: <ZCcPgJq/8QtD2RhL@kbusch-mbp.dhcp.thefacebook.com>
+References: <CAJ7kQyGTc_+ajkTGKKsyvazWRFud3P71Nv2U_bcqAnhL9yS=ZA@mail.gmail.com>
+ <ZCRbC8I3R7aZK9g4@kbusch-mbp.dhcp.thefacebook.com>
+ <CGME20230331120939eucas1p1e6fd3e1ed0dbcc32e847d43d316cd704@eucas1p1.samsung.com>
+ <20230331120100.4tcmcnzgwmsalau4@blixen>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230331120100.4tcmcnzgwmsalau4@blixen>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230331_091143_910195_BA9BCFA4 
-X-CRM114-Status: GOOD (  19.41  )
+X-CRM114-CacheID: sfid-20230331_095124_265698_38F23F1C 
+X-CRM114-Status: GOOD (  22.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,229 +76,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When transmitting data, call down into TCP using a single sendmsg with
-MSG_SPLICE_PAGES to indicate that content should be spliced rather than
-performing several sendmsg and sendpage calls to transmit header, data
-pages and trailer.
+On Fri, Mar 31, 2023 at 02:01:22PM +0200, Pankaj Raghav wrote:
+> On Wed, Mar 29, 2023 at 09:36:43AM -0600, Keith Busch wrote:
+> > On Wed, Mar 29, 2023 at 12:36:23PM +0200, Olav Gjerde wrote:
+> > > Hi,
+> > > 
+> > > I just upgraded to debian-testing which runs Linux 6.1 on a machine
+> > > here and I have trouble with my NVME card which has two NVMe drives. I
+> > > find the following error message in
+> > > dmesg: nvme nvme2: globally duplicate IDs for nsid 1
+> > > 
+> > > I googled this error message and came over the explanation here:
+> > > https://bugzilla.kernel.org/show_bug.cgi?id=216049
+> > > 
+> > > lspci returns this,
+> > > 
+> > > 87:00.0 Non-Volatile memory controller [0108]: Intel Corporation NVMe
+> > > Datacenter SSD [3DNAND, Beta Rock Controller] [8086:0a54]
+> > > 88:00.0 Non-Volatile memory controller [0108]: Intel Corporation NVMe
+> > > Datacenter SSD [3DNAND, Beta Rock Controller] [8086:0a54]
+> > > 
+> > > I have checked the master source code, and I see no changes recently,
+> > > so my guess is that the fix is adding NVME_QUIRK_BOGUS_NID
+> > > to the following section:
+> > > { PCI_VDEVICE(INTEL, 0x0a54), /* Intel P4500/P4600 */
+> > >      .driver_data = NVME_QUIRK_STRIPE_SIZE |
+> > >      NVME_QUIRK_DEALLOCATE_ZEROES |
+> > >       NVME_QUIRK_IGNORE_DEV_SUBNQN, },
+> > > 
+> > > in drivers/nvme/host/pci.c
+> > 
+> > Yeah, NVME_QUIRK_BOGUS_NID is needed. The only problem is this particular model
+> > shares the same VID:DID as the 4500/4600 that do not have this problem. I guess
+> > none of them get to use those features...
+> Can this be then moved to core_quirks in core.c then with its specific mn?
 
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Keith Busch <kbusch@kernel.org>
-cc: Jens Axboe <axboe@fb.com>
-cc: Christoph Hellwig <hch@lst.de>
-cc: Sagi Grimberg <sagi@grimberg.me>
-cc: Chaitanya Kulkarni <kch@nvidia.com>
-cc: "David S. Miller" <davem@davemloft.net>
-cc: Eric Dumazet <edumazet@google.com>
-cc: Jakub Kicinski <kuba@kernel.org>
-cc: Paolo Abeni <pabeni@redhat.com>
-cc: Jens Axboe <axboe@kernel.dk>
-cc: Matthew Wilcox <willy@infradead.org>
-cc: linux-nvme@lists.infradead.org
-cc: netdev@vger.kernel.org
----
- drivers/nvme/host/tcp.c   | 44 ++++++++++++++++++------------------
- drivers/nvme/target/tcp.c | 47 +++++++++++++++++++++++++--------------
- 2 files changed, 52 insertions(+), 39 deletions(-)
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index fa32969b532f..cc617692702d 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -979,25 +979,23 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
- 	u32 h2cdata_left = req->h2cdata_left;
- 
- 	while (true) {
-+		struct bio_vec bvec;
-+		struct msghdr msg = { .msg_flags = MSG_DONTWAIT | MSG_SPLICE_PAGES, };
- 		struct page *page = nvme_tcp_req_cur_page(req);
- 		size_t offset = nvme_tcp_req_cur_offset(req);
- 		size_t len = nvme_tcp_req_cur_length(req);
- 		bool last = nvme_tcp_pdu_last_send(req, len);
- 		int req_data_sent = req->data_sent;
--		int ret, flags = MSG_DONTWAIT;
-+		int ret;
- 
- 		if (last && !queue->data_digest && !nvme_tcp_queue_more(queue))
--			flags |= MSG_EOR;
-+			msg.msg_flags |= MSG_EOR;
- 		else
--			flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
-+			msg.msg_flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
- 
--		if (sendpage_ok(page)) {
--			ret = kernel_sendpage(queue->sock, page, offset, len,
--					flags);
--		} else {
--			ret = sock_no_sendpage(queue->sock, page, offset, len,
--					flags);
--		}
-+		bvec_set_page(&bvec, page, len, offset);
-+		iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, len);
-+		ret = sock_sendmsg(queue->sock, &msg);
- 		if (ret <= 0)
- 			return ret;
- 
-@@ -1036,22 +1034,24 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
- {
- 	struct nvme_tcp_queue *queue = req->queue;
- 	struct nvme_tcp_cmd_pdu *pdu = req->pdu;
-+	struct bio_vec bvec;
-+	struct msghdr msg = { .msg_flags = MSG_DONTWAIT | MSG_SPLICE_PAGES, };
- 	bool inline_data = nvme_tcp_has_inline_data(req);
- 	u8 hdgst = nvme_tcp_hdgst_len(queue);
- 	int len = sizeof(*pdu) + hdgst - req->offset;
--	int flags = MSG_DONTWAIT;
- 	int ret;
- 
- 	if (inline_data || nvme_tcp_queue_more(queue))
--		flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
-+		msg.msg_flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
- 	else
--		flags |= MSG_EOR;
-+		msg.msg_flags |= MSG_EOR;
- 
- 	if (queue->hdr_digest && !req->offset)
- 		nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
- 
--	ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
--			offset_in_page(pdu) + req->offset, len,  flags);
-+	bvec_set_virt(&bvec, (void *)pdu + req->offset, len);
-+	iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, len);
-+	ret = sock_sendmsg(queue->sock, &msg);
- 	if (unlikely(ret <= 0))
- 		return ret;
- 
-@@ -1075,6 +1075,8 @@ static int nvme_tcp_try_send_data_pdu(struct nvme_tcp_request *req)
- {
- 	struct nvme_tcp_queue *queue = req->queue;
- 	struct nvme_tcp_data_pdu *pdu = req->pdu;
-+	struct bio_vec bvec;
-+	struct msghdr msg = { .msg_flags = MSG_DONTWAIT | MSG_MORE, };
- 	u8 hdgst = nvme_tcp_hdgst_len(queue);
- 	int len = sizeof(*pdu) - req->offset + hdgst;
- 	int ret;
-@@ -1083,13 +1085,11 @@ static int nvme_tcp_try_send_data_pdu(struct nvme_tcp_request *req)
- 		nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
- 
- 	if (!req->h2cdata_left)
--		ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
--				offset_in_page(pdu) + req->offset, len,
--				MSG_DONTWAIT | MSG_MORE | MSG_SENDPAGE_NOTLAST);
--	else
--		ret = sock_no_sendpage(queue->sock, virt_to_page(pdu),
--				offset_in_page(pdu) + req->offset, len,
--				MSG_DONTWAIT | MSG_MORE);
-+		msg.msg_flags |= MSG_SPLICE_PAGES | MSG_SENDPAGE_NOTLAST;
-+
-+	bvec_set_virt(&bvec, (void *)pdu + req->offset, len);
-+	iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, len);
-+	ret = sock_sendmsg(queue->sock, &msg);
- 	if (unlikely(ret <= 0))
- 		return ret;
- 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index d6cc557cc539..00b491abf50f 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -548,13 +548,18 @@ static void nvmet_tcp_execute_request(struct nvmet_tcp_cmd *cmd)
- 
- static int nvmet_try_send_data_pdu(struct nvmet_tcp_cmd *cmd)
- {
-+	struct bio_vec bvec;
-+	struct msghdr msg = {
-+		.msg_flags = (MSG_DONTWAIT | MSG_MORE | MSG_SENDPAGE_NOTLAST |
-+			      MSG_SPLICE_PAGES),
-+	};
- 	u8 hdgst = nvmet_tcp_hdgst_len(cmd->queue);
- 	int left = sizeof(*cmd->data_pdu) - cmd->offset + hdgst;
- 	int ret;
- 
--	ret = kernel_sendpage(cmd->queue->sock, virt_to_page(cmd->data_pdu),
--			offset_in_page(cmd->data_pdu) + cmd->offset,
--			left, MSG_DONTWAIT | MSG_MORE | MSG_SENDPAGE_NOTLAST);
-+	bvec_set_virt(&bvec, (void *)cmd->data_pdu + cmd->offset, left);
-+	iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, left);
-+	ret = sock_sendmsg(cmd->queue->sock, &msg);
- 	if (ret <= 0)
- 		return ret;
- 
-@@ -575,17 +580,21 @@ static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
- 	int ret;
- 
- 	while (cmd->cur_sg) {
-+		struct bio_vec bvec;
-+		struct msghdr msg = {
-+			.msg_flags = MSG_DONTWAIT | MSG_SPLICE_PAGES,
-+		};
- 		struct page *page = sg_page(cmd->cur_sg);
- 		u32 left = cmd->cur_sg->length - cmd->offset;
--		int flags = MSG_DONTWAIT;
- 
- 		if ((!last_in_batch && cmd->queue->send_list_len) ||
- 		    cmd->wbytes_done + left < cmd->req.transfer_len ||
- 		    queue->data_digest || !queue->nvme_sq.sqhd_disabled)
--			flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
-+			msg.msg_flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
- 
--		ret = kernel_sendpage(cmd->queue->sock, page, cmd->offset,
--					left, flags);
-+		bvec_set_page(&bvec, page, left, cmd->offset);
-+		iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, left);
-+		ret = sock_sendmsg(cmd->queue->sock, &msg);
- 		if (ret <= 0)
- 			return ret;
- 
-@@ -621,18 +630,20 @@ static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
- static int nvmet_try_send_response(struct nvmet_tcp_cmd *cmd,
- 		bool last_in_batch)
- {
-+	struct bio_vec bvec;
-+	struct msghdr msg = { .msg_flags = MSG_DONTWAIT | MSG_SPLICE_PAGES, };
- 	u8 hdgst = nvmet_tcp_hdgst_len(cmd->queue);
- 	int left = sizeof(*cmd->rsp_pdu) - cmd->offset + hdgst;
--	int flags = MSG_DONTWAIT;
- 	int ret;
- 
- 	if (!last_in_batch && cmd->queue->send_list_len)
--		flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
-+		msg.msg_flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
- 	else
--		flags |= MSG_EOR;
-+		msg.msg_flags |= MSG_EOR;
- 
--	ret = kernel_sendpage(cmd->queue->sock, virt_to_page(cmd->rsp_pdu),
--		offset_in_page(cmd->rsp_pdu) + cmd->offset, left, flags);
-+	bvec_set_virt(&bvec, (void *)cmd->rsp_pdu + cmd->offset, left);
-+	iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, left);
-+	ret = sock_sendmsg(cmd->queue->sock, &msg);
- 	if (ret <= 0)
- 		return ret;
- 	cmd->offset += ret;
-@@ -649,18 +660,20 @@ static int nvmet_try_send_response(struct nvmet_tcp_cmd *cmd,
- 
- static int nvmet_try_send_r2t(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
- {
-+	struct bio_vec bvec;
-+	struct msghdr msg = { .msg_flags = MSG_DONTWAIT | MSG_SPLICE_PAGES, };
- 	u8 hdgst = nvmet_tcp_hdgst_len(cmd->queue);
- 	int left = sizeof(*cmd->r2t_pdu) - cmd->offset + hdgst;
--	int flags = MSG_DONTWAIT;
- 	int ret;
- 
- 	if (!last_in_batch && cmd->queue->send_list_len)
--		flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
-+		msg.msg_flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
- 	else
--		flags |= MSG_EOR;
-+		msg.msg_flags |= MSG_EOR;
- 
--	ret = kernel_sendpage(cmd->queue->sock, virt_to_page(cmd->r2t_pdu),
--		offset_in_page(cmd->r2t_pdu) + cmd->offset, left, flags);
-+	bvec_set_virt(&bvec, (void *)cmd->r2t_pdu + cmd->offset, left);
-+	iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, left);
-+	ret = sock_sendmsg(cmd->queue->sock, &msg);
- 	if (ret <= 0)
- 		return ret;
- 	cmd->offset += ret;
-
+If someone has a comprehensive model list, then sure, but that might not be
+feasible. There were different model names for various capacities, endurance,
+and rebranding. Best to just reduce to the lowest commonality.
 
