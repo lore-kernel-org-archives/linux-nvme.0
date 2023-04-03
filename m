@@ -4,73 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 948A9C76196
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Apr 2023 12:31:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4CC1CC76196
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Apr 2023 12:36:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:Subject:From:References:Cc:To:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qFuwslfLoE4sWWAJFNDYX7LQkV0lImtB/4fbY+D4Hno=; b=V+h3phEJo5nixZkMEhEPTDCnNk
-	CjrIndC+X0wudGlMV4gdajbvll7hVoJ/H8j2eryH4r10bI50/pUN2e1Ua0P892dJ6liTq0bLlcXZT
-	Pg+fvCuWQIJWQvdIBuQzkMRWrF6w4y54sQzakdyjKuV3n6NvqqGrwCBjclCSs03GhozTbC4ZKluiC
-	XGJtEJW6AoD1oQ2nqr8ZrQ3XdwzaoGlot2g+1S0WthCNA8lF5/JOsFfxqy2V/TFQ+fbvoF5I6lTIM
-	4EDFeLZyGMJmjn/lMVLGuEqWwquYl7rm5UDeiZuRt3pIjYiCmXqS90DW7fD31DZOjH5A3iDn6kZ7L
-	/wzwneUQ==;
+	bh=+wwnzUm0RL+jBunj+beTZTOS5ukwZmcA9gkacTpgIIs=; b=N4RrLzHUMq3C8cM7W/JQPwOn3l
+	iYOyBvezYeT1+AS+adAHb6/Y5/HME2LhgBWXUMvDrOx66LHV5An4RMW1OS1QsUa9g86I4SBMvzYs7
+	a5wX9Jpp7bGY4E35f8Qu+hzX7YJO4xeUzHk5rdKhMy2ayn4j46HT3QJVvY+zdk1AVhYFedRjliwQB
+	KtS/QZxY8cbTnRLTiFv0W+basslvSSM9m6LNRV2XrMB0TSrKV6Epz33GQSiF1UYhsq7pkW9YHV1sO
+	xxGHSKbru5DJrVV47OvVZVN8F9RpWy3vvg9XToMZg7v8pvMDq9HFXyIPpRH538VPONUbeCSx2Qv27
+	RLXlxZ1A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pjJL1-00FHE6-2B;
-	Mon, 03 Apr 2023 12:31:07 +0000
-Received: from mail-wr1-f51.google.com ([209.85.221.51])
+	id 1pjJQ8-00FIiw-2V;
+	Mon, 03 Apr 2023 12:36:24 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pjJKz-00FHDf-17
+	id 1pjJQ5-00FIh9-09
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Apr 2023 12:31:06 +0000
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-2d17b1b21f1so504426f8f.1
-        for <linux-nvme@lists.infradead.org>; Mon, 03 Apr 2023 05:31:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680525063;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qFuwslfLoE4sWWAJFNDYX7LQkV0lImtB/4fbY+D4Hno=;
-        b=yAjBuQAPr/InIMrMaemvNocQhxgerS6+C53auQ/zKFpxe1pLcZyX6hcP9lMmn8kUF1
-         /kCUs155tfluBex8NxVha7ej4luM4QK3W4pft2ATx6Wl0CsHLmOCUqKTvSKwB3PbqTyE
-         XTBqlClUG3sUrinWKhEeHan+NONHTlFE5p6PdYQnZVvgBnegLmc0tYKfHBSg0KY1DRuT
-         zPHrlEJ0cCOLP1o84ja7Z8Ec4TfQslXjEQXckychG7LsWYs5gUeF993nE9Ue34OCIqY7
-         oyyKjf2ffZemi0SZ21qkra2tkfQ2RLWfSC3O049d0BFJRI1/ZQ2OELMSZgeF33JxHLEV
-         +DZA==
-X-Gm-Message-State: AAQBX9eI8jb9dTy3Nj0qCsQeWx3ehbePmWb4oIZ4CFb8qiOl3+4yDOXG
-	D8KAiboP2nwfbX7Dv/QMmfk=
-X-Google-Smtp-Source: AKy350Z/c4EM4LwyfamIrBtIcJ1qZp3nqYS5CtOf/zcd2n2D7lJXJsVTJPhDTyEQT7fVJnuWfDlNaA==
-X-Received: by 2002:a05:600c:3108:b0:3ee:1c42:6582 with SMTP id g8-20020a05600c310800b003ee1c426582mr11843421wmo.3.1680525063536;
-        Mon, 03 Apr 2023 05:31:03 -0700 (PDT)
-Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id y22-20020a7bcd96000000b003ee42696acesm11933648wmj.16.2023.04.03.05.31.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Apr 2023 05:31:03 -0700 (PDT)
-Message-ID: <2e63aeab-6384-e10a-40d7-bbe305bba51a@grimberg.me>
-Date: Mon, 3 Apr 2023 15:31:02 +0300
+	Mon, 03 Apr 2023 12:36:22 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6D3A121CB1;
+	Mon,  3 Apr 2023 12:36:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1680525374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+wwnzUm0RL+jBunj+beTZTOS5ukwZmcA9gkacTpgIIs=;
+	b=tncoBCiWZbaCC8vo5sK1xWbiIqjFvwKuo7U2h2PKZm6aiTiDTK7NMaMM9A1B/wcgf0+rAQ
+	F/L7CuyBxUP4WfQjdDhAXKc+EQf4r3fCJ0hvm3BAYzZLs03f/VD2LPNEfj2//H0uwaz0t3
+	+FuebSE6FTv6VHxEruzPEQE5tlr0L48=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1680525374;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+wwnzUm0RL+jBunj+beTZTOS5ukwZmcA9gkacTpgIIs=;
+	b=0OxcF6KaZwtztJSIHf4aHP+mjvzfznuQWLhbcXGggC8HLN/JSEOTO/cA0VzXa9k0wGiuoz
+	a+UxW6z4AjDjVqCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5B4821331A;
+	Mon,  3 Apr 2023 12:36:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id xmmdFT7IKmRBUQAAMHmgww
+	(envelope-from <hare@suse.de>); Mon, 03 Apr 2023 12:36:14 +0000
+Message-ID: <d67d9932-96eb-3548-cf40-b48a6db95739@suse.de>
+Date: Mon, 3 Apr 2023 14:36:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 13/18] nvmet: make TCP sectype settable via configfs
-Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+ Thunderbird/102.8.0
+To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
  Chuck Lever <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev
 References: <20230329135938.46905-1-hare@suse.de>
- <20230329135938.46905-14-hare@suse.de>
- <6fe0b3db-d60d-822f-b03a-acf697e50ff2@grimberg.me>
- <0c2240f0-27cc-ba19-16d8-8aac0399dda5@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <0c2240f0-27cc-ba19-16d8-8aac0399dda5@suse.de>
+ <20230329135938.46905-13-hare@suse.de>
+ <677f3f9a-872d-27fe-9a21-b41bbe1c44ff@grimberg.me>
+ <daf1e19e-119b-3ceb-7808-b74d8b113e05@suse.de>
+ <f1bfbb7c-d8df-0386-1048-f141cb6e22bc@grimberg.me>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH 12/18] nvme-fabrics: parse options 'keyring' and 'tls_key'
+In-Reply-To: <f1bfbb7c-d8df-0386-1048-f141cb6e22bc@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230403_053105_385261_ACC4021F 
-X-CRM114-Status: GOOD (  13.43  )
+X-CRM114-CacheID: sfid-20230403_053621_233090_5D7D9D84 
+X-CRM114-Status: GOOD (  18.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,72 +97,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>> Add a new configfs attribute 'addr_tsas' to make the TCP sectype
->>> settable via configfs.
+On 4/3/23 14:24, Sagi Grimberg wrote:
+>>>> Parse the fabrics options 'keyring' and 'tls_key' and store the
+>>>> referenced keys in the options structure.
 >>>
->>> Signed-off-by: Hannes Reinecke <hare@suse.de>
->>> ---
->>>   drivers/nvme/target/configfs.c | 67 ++++++++++++++++++++++++++++++++++
->>>   1 file changed, 67 insertions(+)
+>>> Can you explain the reasoning to why a user need to pass a keyring
+>>> given that we already set up one?
 >>>
->>> diff --git a/drivers/nvme/target/configfs.c 
->>> b/drivers/nvme/target/configfs.c
->>> index 907143870da5..ca66ee6dc153 100644
->>> --- a/drivers/nvme/target/configfs.c
->>> +++ b/drivers/nvme/target/configfs.c
->>> @@ -303,6 +303,11 @@ static void nvmet_port_init_tsas_rdma(struct 
->>> nvmet_port *port)
->>>       port->disc_addr.tsas.rdma.cms = NVMF_RDMA_CMS_RDMA_CM;
->>>   }
->>> +static void nvmet_port_init_tsas_tcp(struct nvmet_port *port, int 
->>> sectype)
->>> +{
->>> +    port->disc_addr.tsas.tcp.sectype = sectype;
->>> +}
->>> +
->>>   static ssize_t nvmet_addr_trtype_store(struct config_item *item,
->>>           const char *page, size_t count)
->>>   {
->>> @@ -325,11 +330,72 @@ static ssize_t nvmet_addr_trtype_store(struct 
->>> config_item *item,
->>>       port->disc_addr.trtype = nvmet_transport[i].type;
->>>       if (port->disc_addr.trtype == NVMF_TRTYPE_RDMA)
->>>           nvmet_port_init_tsas_rdma(port);
->>> +    else if (port->disc_addr.trtype == NVMF_TRTYPE_TCP)
->>> +        nvmet_port_init_tsas_tcp(port, NVMF_TCP_SECTYPE_NONE);
->>>       return count;
->>>   }
->>>   CONFIGFS_ATTR(nvmet_, addr_trtype);
->>> +static const struct nvmet_type_name_map nvmet_addr_tsas_tcp[] = {
->>> +    { NVMF_TCP_SECTYPE_NONE,    "none" },
->>> +    { NVMF_TCP_SECTYPE_TLS13,    "tls1.3" },
->>> +};
->>> +
->>> +static const struct nvmet_type_name_map nvmet_addr_tsas_rdma[] = {
->>> +    { NVMF_RDMA_QPTYPE_CONNECTED,    "connected" },
->>> +    { NVMF_RDMA_QPTYPE_DATAGRAM,    "datagram"  },
->>> +};
->>> +
->>> +static ssize_t nvmet_addr_tsas_show(struct config_item *item,
->>> +        char *page)
->>> +{
->>> +    struct nvmet_port *port = to_nvmet_port(item);
->>> +    int i;
->>> +
->>> +    if (port->disc_addr.trtype == NVMF_TRTYPE_TCP) {
->>> +        for (i = 0; i < ARRAY_SIZE(nvmet_addr_tsas_tcp); i++) {
->>> +            if (port->disc_addr.tsas.tcp.sectype == 
->>> nvmet_addr_tsas_tcp[i].type)
->>> +                return sprintf(page, "%s\n", 
->>> nvmet_addr_tsas_tcp[i].name);
->>> +        }
->>> +        return sprintf(page, "reserved\n");
->>
->> What is reserved?
->>
-> All other values?
+>> Choice.
+>> With a single keyring we can only have a single identity.
+>> But there might be configurations where we want to have different PSKs
+>> for the same identity (eg for key rotation).
+> 
+> How do you expect that rotation would work with this?
+> 
+The user creates a new keyring, adds the necessary keys to it, and then
+either
+- updates the keyring for nvmet (via configfs)
+or
+- reconnects using the new keyring
 
-Yes, you should just consolidate it outside the if-else instead of "not
-required" (which is a treq value iirc).
+> How does nvmet handle a non-nvme keyring?
+> 
+There is a configfs attribute 'param_keyring', allowing you to use a 
+different keyring (the nvme one is just the default).
+
+>> With this option we can prepare a new keyring, and use that instead of 
+>> the old one.
+> 
+> On an existing controller?
+> 
+Sure; when we are updating the keyring and the key id the controller 
+will use that after the next reset.
+Much like we do for DH-CHAP nowadays.
+
+>> (And it really doesn't add much complexity...)
+> 
+> I know, it just adds one more argument, and I want to understand if it
+> is really needed.
+
+I do agree that the keyring argument would not necessarily required if 
+we pass in the key id, but I'll be needing the keyring for secure 
+concatenation. And plan is to move DH-HMAC-CHAP over to keyrings, too.
+
+So I'd prefer to keep it.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke		           Kernel Storage Architect
+hare@suse.de			                  +49 911 74053 688
+SUSE Software Solutions Germany GmbH, Frankenstr. 146, 90461 Nürnberg
+Managing Directors: I. Totev, A. Myers, A. McDonald, M. B. Moerman
+(HRB 36809, AG Nürnberg)
+
 
