@@ -4,85 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F139C761A6
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Apr 2023 12:43:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D64FBC76196
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Apr 2023 12:43:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AUBwuZ+S4oapPXf+bptKK8G2dxg14Dvnu+AZ9g28Nfs=; b=Q3swWSvROMSbVSdqi9VfZrc7M/
-	t4V/zz4iPhicKW9Rfb0yLgv2vJUHvZhtuJ0y9vtZqsad/hq6+mbqj3YxWbiBw8wbNtx/cHI7Ylldt
-	DzTeVrUI3AoAF7wduyhhsQg8Vd7BMZvyZrlwv1vUJry2T9lxgo2SPB+R8fmS3rPsF6a/XOfTIL3mf
-	cCa8yfeJ588p/LdbV0nKPSvlEXDNE3WpAnLCkdJu/1JXHFWDFjlX2pR6wMQnmojmp2bsTKZEKxr7m
-	FPI+AmIlGOjxZhvmVzaa+fd+SpFt/hiKgOkiqN2fizbuHgdbylcV4lzNpWMUyVdQSdFddcE1lFUxx
-	jLYaydBA==;
+	bh=aRRTCbiGACPoljjVpBjW3QwozpnkiX8EBP1CGqAYlv8=; b=Aix7q+3GeHjF6WhK+NpCxbkwiZ
+	VOgNv+uZX7j4kJpbCEQHdRYBd4HMr/JhzCjwdfvgOjoY02HLTxMV73hzHRi6DMcq/zKYZO5cLXQEF
+	/paq9qVOGhaH7ypa9Lr/LGlRajzko5vsj6n47RsObJq43OVCW4LiBcJFGnFeZ62DAJpJ/RYJa3V0U
+	bhx0UmwjCevYalSlNVwCsbYlQ25TvhmpWgywMrf150vOwCUHC/3RTQTLoNyZiSOl7t6xOZqRjRDdc
+	2AKC8QVYg2sDikoJ8iyWycsODdbZPlGbd1Wf3Onti52Y2myg33mAkOJkWX/IkcQXVUcQV9T2NRM+M
+	xgxjfqlQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pjJWk-00FJk8-2T;
-	Mon, 03 Apr 2023 12:43:14 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1pjJWy-00FJm5-2V;
+	Mon, 03 Apr 2023 12:43:28 +0000
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pjJWh-00FJjA-21
+	id 1pjJWw-00FJl3-1Q
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Apr 2023 12:43:13 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D6FDB1FF3C;
-	Mon,  3 Apr 2023 12:43:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1680525787; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AUBwuZ+S4oapPXf+bptKK8G2dxg14Dvnu+AZ9g28Nfs=;
-	b=0RE7HA8rYZk8RJy+JWaR1uzAHljKraQPunqfOF12wX2iMy4QVBiTG+kl1d9G4bwp0b9+Sq
-	CyM3VqQivJ1/FW4v68Vgl2SCxVgEE2rFXtJUfGKMhde6YnFvio/y1WmnWdCDlIxbmxGt95
-	ZSDeS1cSkNY2LzFKDpCT1Dhz3wdTF7c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1680525787;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AUBwuZ+S4oapPXf+bptKK8G2dxg14Dvnu+AZ9g28Nfs=;
-	b=tBm+H358pUR7jML9ROjR1rfq4BXDFKtT5HM+jhC7fiWXDINltqJyhkPeWNGB3iupUrtyuL
-	PcCKZhgsRLVu9/Cg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BB4181331A;
-	Mon,  3 Apr 2023 12:43:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id OJzAK9vJKmQoVQAAMHmgww
-	(envelope-from <hare@suse.de>); Mon, 03 Apr 2023 12:43:07 +0000
-Message-ID: <9db0016b-f56c-99fc-45e0-26a5f48fb4e3@suse.de>
-Date: Mon, 3 Apr 2023 14:43:07 +0200
+	Mon, 03 Apr 2023 12:43:27 +0000
+Received: by mail-wr1-x42c.google.com with SMTP id y14so29226441wrq.4
+        for <linux-nvme@lists.infradead.org>; Mon, 03 Apr 2023 05:43:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680525802;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aRRTCbiGACPoljjVpBjW3QwozpnkiX8EBP1CGqAYlv8=;
+        b=C6y5I5N6i+3y5ePLo/VvtJb9Ti6nNN2dPQO6o9nEN7tPhjire+DjEjZmx5VBJP033s
+         7hV9+QEne9Zp0843ldbfAVB4xCR1pEmhSyIcjoLviKSHYEbPV8qmogBjdAxzMl8bjsbc
+         leantIoNP/Wlt/m2nGc2+U/b56l0oYyejHsLU+W4skX6Kf/XKutxXHGf8/whU8f0m2rQ
+         c8wh8xJazc88AH08bUeVGWRrvMyf2Ie8KKxhBuWimx+O/Kgt62AwgQz47lQSJBJQj6YU
+         pFIPv1Zyk4ZIlL/7MG+vsv2NwiSZ8cq+Hs/aKPqNu6QmmGQXuunBTOQoyFanoSK1C2pT
+         ZR0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680525802;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aRRTCbiGACPoljjVpBjW3QwozpnkiX8EBP1CGqAYlv8=;
+        b=DW0URmgWGWTTJ2zjDt2hcirLbW3uZOwi+hYhqgHHNb0Ttqkqp7ngueq6jdfIFE6y38
+         CNQL1e5UoEM7OCz1dykAnGl3Li9U5X0vtpzrVDXueWDB+cJT80SDt8+0z2fOEC766NpT
+         lCz2nRKWdBXUDcf5NFqHNXl1CePgxSDohHOy41GIZdrrp9WMGCg85asJAgeg67gCPV28
+         If3pT8z+b8bqb9lUnEtZZSLXzjXyOlj8HUKZoxVuRxTolz7ZDyd6rJyBTkCP7p7KKEOm
+         OHdMnwF+vPqucSWAlA7GmOqUL/8Gr87vE/Jp27u09UoFON9tXJYH5e5Hf0aFq/2iTQaU
+         SsdA==
+X-Gm-Message-State: AAQBX9dUvFYNpO1Zxzw3ErFIT/yKJtm2XvV7NhYED5cWvUDC7Gg5VJua
+	BPyTsN1UStN9PO1eKefuHIA39TsI0ZuJleUHyoo=
+X-Google-Smtp-Source: AKy350aXpOscQ6kEFa5UuxUnn0eGOFmp4kvli+CJWNXB3ROSV1Vd8T4p86lWHGAY5V8llnRsukBDGhsLSS1jXhzfp0k=
+X-Received: by 2002:a5d:5691:0:b0:2cf:efad:9c23 with SMTP id
+ f17-20020a5d5691000000b002cfefad9c23mr5891388wrv.14.1680525802212; Mon, 03
+ Apr 2023 05:43:22 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 13/18] nvmet: make TCP sectype settable via configfs
-Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Chuck Lever <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev
-References: <20230329135938.46905-1-hare@suse.de>
- <20230329135938.46905-14-hare@suse.de>
- <6fe0b3db-d60d-822f-b03a-acf697e50ff2@grimberg.me>
- <0c2240f0-27cc-ba19-16d8-8aac0399dda5@suse.de>
- <2e63aeab-6384-e10a-40d7-bbe305bba51a@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <2e63aeab-6384-e10a-40d7-bbe305bba51a@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230324212803.1837554-1-kbusch@meta.com> <CGME20230324213124epcas5p331ea3c2e2a05ec6a6825e719e47d2427@epcas5p3.samsung.com>
+ <20230324212803.1837554-2-kbusch@meta.com> <20230327135810.GA8405@green5>
+ <ZCG0O6RdlA/sUd7C@kbusch-mbp.dhcp.thefacebook.com> <CA+1E3rK2h9gyy26v1NmwTFtUsCwMkc1DgkDsCFME+HjZJPn5Hg@mail.gmail.com>
+ <ZCI5XopTr7nJvVF1@kbusch-mbp.dhcp.thefacebook.com> <20230328074939.GA2800@green5>
+ <ZCL/RTHoflUVCMyw@kbusch-mbp.dhcp.thefacebook.com> <20230329084618.GB2800@green5>
+ <ZCRjGmPCeLvi2m39@kbusch-mbp.dhcp.thefacebook.com>
+In-Reply-To: <ZCRjGmPCeLvi2m39@kbusch-mbp.dhcp.thefacebook.com>
+From: Kanchan Joshi <joshiiitr@gmail.com>
+Date: Mon, 3 Apr 2023 18:12:55 +0530
+Message-ID: <CA+1E3r+OrN-sFQ5TGC238Km=KurOZBvx+1ZeLXA=tsrgZZo8Ag@mail.gmail.com>
+Subject: Re: [PATCH 2/2] nvme: use blk-mq polling for uring commands
+To: Keith Busch <kbusch@kernel.org>
+Cc: Kanchan Joshi <joshi.k@samsung.com>, Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, axboe@kernel.dk, hch@lst.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230403_054311_838122_D65CC4F1 
-X-CRM114-Status: GOOD (  13.98  )
+X-CRM114-CacheID: sfid-20230403_054326_499742_C07EAC1E 
+X-CRM114-Status: GOOD (  18.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,87 +93,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/3/23 14:31, Sagi Grimberg wrote:
-> 
->>>> Add a new configfs attribute 'addr_tsas' to make the TCP sectype
->>>> settable via configfs.
->>>>
->>>> Signed-off-by: Hannes Reinecke <hare@suse.de>
->>>> ---
->>>>   drivers/nvme/target/configfs.c | 67 
->>>> ++++++++++++++++++++++++++++++++++
->>>>   1 file changed, 67 insertions(+)
->>>>
->>>> diff --git a/drivers/nvme/target/configfs.c 
->>>> b/drivers/nvme/target/configfs.c
->>>> index 907143870da5..ca66ee6dc153 100644
->>>> --- a/drivers/nvme/target/configfs.c
->>>> +++ b/drivers/nvme/target/configfs.c
->>>> @@ -303,6 +303,11 @@ static void nvmet_port_init_tsas_rdma(struct 
->>>> nvmet_port *port)
->>>>       port->disc_addr.tsas.rdma.cms = NVMF_RDMA_CMS_RDMA_CM;
->>>>   }
->>>> +static void nvmet_port_init_tsas_tcp(struct nvmet_port *port, int 
->>>> sectype)
->>>> +{
->>>> +    port->disc_addr.tsas.tcp.sectype = sectype;
->>>> +}
->>>> +
->>>>   static ssize_t nvmet_addr_trtype_store(struct config_item *item,
->>>>           const char *page, size_t count)
->>>>   {
->>>> @@ -325,11 +330,72 @@ static ssize_t nvmet_addr_trtype_store(struct 
->>>> config_item *item,
->>>>       port->disc_addr.trtype = nvmet_transport[i].type;
->>>>       if (port->disc_addr.trtype == NVMF_TRTYPE_RDMA)
->>>>           nvmet_port_init_tsas_rdma(port);
->>>> +    else if (port->disc_addr.trtype == NVMF_TRTYPE_TCP)
->>>> +        nvmet_port_init_tsas_tcp(port, NVMF_TCP_SECTYPE_NONE);
->>>>       return count;
->>>>   }
->>>>   CONFIGFS_ATTR(nvmet_, addr_trtype);
->>>> +static const struct nvmet_type_name_map nvmet_addr_tsas_tcp[] = {
->>>> +    { NVMF_TCP_SECTYPE_NONE,    "none" },
->>>> +    { NVMF_TCP_SECTYPE_TLS13,    "tls1.3" },
->>>> +};
->>>> +
->>>> +static const struct nvmet_type_name_map nvmet_addr_tsas_rdma[] = {
->>>> +    { NVMF_RDMA_QPTYPE_CONNECTED,    "connected" },
->>>> +    { NVMF_RDMA_QPTYPE_DATAGRAM,    "datagram"  },
->>>> +};
->>>> +
->>>> +static ssize_t nvmet_addr_tsas_show(struct config_item *item,
->>>> +        char *page)
->>>> +{
->>>> +    struct nvmet_port *port = to_nvmet_port(item);
->>>> +    int i;
->>>> +
->>>> +    if (port->disc_addr.trtype == NVMF_TRTYPE_TCP) {
->>>> +        for (i = 0; i < ARRAY_SIZE(nvmet_addr_tsas_tcp); i++) {
->>>> +            if (port->disc_addr.tsas.tcp.sectype == 
->>>> nvmet_addr_tsas_tcp[i].type)
->>>> +                return sprintf(page, "%s\n", 
->>>> nvmet_addr_tsas_tcp[i].name);
->>>> +        }
->>>> +        return sprintf(page, "reserved\n");
->>>
->>> What is reserved?
->>>
->> All other values?
-> 
-> Yes, you should just consolidate it outside the if-else instead of "not
-> required" (which is a treq value iirc).
-> 
-Okay, will do.
+On Wed, Mar 29, 2023 at 9:41=E2=80=AFPM Keith Busch <kbusch@kernel.org> wro=
+te:
+>
+> On Wed, Mar 29, 2023 at 02:16:18PM +0530, Kanchan Joshi wrote:
+> > On Tue, Mar 28, 2023 at 08:52:53AM -0600, Keith Busch wrote:
+> > > > > +       else if (issue_flags & IO_URING_F_IOPOLL)
+> > > > > +               ioucmd->flags |=3D IORING_URING_CMD_NOPOLL;
+> > > >
+> > > > If IO_URING_F_IOPOLL would have come here as part of "ioucmd->flags=
+", we
+> > > > could have just cleared that here. That would avoid the need of NOP=
+OLL flag.
+> > > > That said, I don't feel strongly about new flag too. You decide.
+> > >
+> > > IO_URING_F_IOPOLL, while named in an enum that sounds suspiciouly lik=
+e it is
+> > > part of ioucmd->flags, is actually ctx flags, so a little confusing. =
+And we
+> > > need to be a litle careful here: the existing ioucmd->flags is used w=
+ith uapi
+> > > flags.
+> >
+> > Indeed. If this is getting crufty, series can just enable polling on
+> > no-payload requests. Reducing nvme handlers - for another day.
+>
+> Well something needs to be done about multipath since it's broken today: =
+if the
+> path changes between submission and poll, we'll consult the wrong queue f=
+or
+> polling enabled. This could cause a missed polling opprotunity, polling a
+> pointer that isn't a bio, or poll an irq enabled cq. All are bad.
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Frankenstr. 146, 90461 Nürnberg
-Managing Directors: I. Totev, A. Myers, A. McDonald, M. B. Moerman
-(HRB 36809, AG Nürnberg)
-
+I see, that is because "nvme_find_path" was used.
+How about using top 4 bits of "ioucmd->flags" for an internal flag.
+That means we can support max 28 flags for "sqe->uring_cmd_flags".
+That perhaps is not too bad, given that we use one bit at the moment?
 
