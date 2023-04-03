@@ -4,75 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CA9BAC76196
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Apr 2023 00:41:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00020C76196
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Apr 2023 08:04:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=HpxCKPte1UdD34ruQcoSh6A/9mGDDiN63zcRJIh/qCw=; b=z4hT/+gpQg8wMJvkzLJ1UmYDI3
-	rh3mjmxz46neEFV+JofcuP+J+gWM4uWvyOTMsDoEMwx78uzFasbitO//VpIxq1Evqsp93EeT4LFB/
-	4iyl6quK8eltRgEUM8hWhl94D9R0hf+DJ/AxJi6Gt8KPDAckp6sPATRpDj3SRiuhi4lNElUJRG6M1
-	neTE6NlfU4RX7WXweUiwPztpif+pDxhUz1ZrNhQQcefQUKkHq1hOQi9tASX18f1HBhOhrR3Bu60cQ
-	QgMAXOvNB3KXlP8B612RcUNeuHkO5/OAA6OZr9sgPcvuDAnVofwwiYp+KE1YSbed0u0ddweWZu57R
-	ZhwSnmOA==;
+	bh=hFxZwVw4rIL+JwfEOGI47p+fdoVOAeqVswP6NWoHSHQ=; b=x/EafyJHgQciOOaZNpvoDRqwDe
+	RlPxCIdl5nJRvofzMmvsMXL7pTa9/kS5Io/DPnoHhXINBGxG0djJjMpDQ/E03lEmhJTvqhZJ6/zBb
+	r+WtkqKi5GTyWKhTnEoFdFDcFrBu5u7UIXVPFvbmGurdz+cRdiqGFGF5FSLqu5Zz74Oavh1fTqiXV
+	LVHNGrYdrkK8SLralirB65k5ETggzapjCp+89JmXvPk7Fdy4138hIF60AONA470iM2nZCdsAeJG2t
+	Ye6PcWuU2osN518kJQHc/Ds6i5btV0vKZxTbvIyOWqx+47IIbNDZOy51X7r3OF6V8yM/8M0ToTP7y
+	ILT1OXOA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pj8Gb-00DWvo-2C;
-	Mon, 03 Apr 2023 00:41:49 +0000
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+	id 1pjFAk-00ESRF-2y;
+	Mon, 03 Apr 2023 08:04:14 +0000
+Received: from mail.feshiecree.pl ([89.40.114.103])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pj8GV-00DWuu-0y
+	id 1pjFAi-00ESQd-2f
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Apr 2023 00:41:44 +0000
-Received: by mail-wm1-x32b.google.com with SMTP id u11-20020a05600c19cb00b003edcc414997so17101642wmq.3
-        for <linux-nvme@lists.infradead.org>; Sun, 02 Apr 2023 17:41:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680482501;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HpxCKPte1UdD34ruQcoSh6A/9mGDDiN63zcRJIh/qCw=;
-        b=hPeDtY9G4gEfSVepZfYib013Cni6fykyaUPJeQxFYmS22BKfS9C5ZEb7sUOOaKY3+X
-         Sl8OAvVBRnjlhOPaZ7fv2BD9sAj+qp88daM/HEw8VL1xqK+bRiQ1QmWWE99nZTjYOURb
-         1yEUSrymptKWJFziizndha/Em2UhjkfWHIMkKNOwEBNFzIbnvC7/hPgr4yIPh0SMbc5U
-         lzATEld/EISpABkwpMSpiBk8e2RkRQNTa51IakYvVqCghHmyMvyx1nzxZP5OOm9lj7bv
-         wnXfs0PxewnvHNGrgqeWHcMN17KfZ9mZvi4f5kq1UvOf1lWuc6vLpeXQxIV0gL6o/T6Y
-         Abgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680482501;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HpxCKPte1UdD34ruQcoSh6A/9mGDDiN63zcRJIh/qCw=;
-        b=B17vrqv6U1TZoOk88MmVXM6O2wFtFKQ6Z8rQhxKpvldF2ZPK2ql/PiM5I7k6UiuKBD
-         bh9w+9Z3TCMObmjm33xCjK5N7dDPGE4AVxVPqFuF9T7oLhUJwxaBM2IL6rOYYafFdC4T
-         WhGt2GyvEuLo0yl7dZH02i9VaIBLgSz4bLXEoczkTNsFOMbn297yg2ArIFanfnYd1ASO
-         xQsZPnOvZJia3UU75mkcJ3mAe39yr5tfBPWwHy/dLFVEBfn2o54zLYqfMhNLAjSOXUFM
-         ETG8RKbU1YfH3/MVC/7DYqwNoqIdzfNj+CqAZRQdN2gBcpfcuX7/joGUMFKiTYkOVKC/
-         dXAQ==
-X-Gm-Message-State: AO0yUKVybjeVkEiu/MlHrZezbCzr3ROywF8J+y8ciH01NJOaQ/W8Stc6
-	ERLgepWBI2GktxQksabkGnI=
-X-Google-Smtp-Source: AK7set93XXY5OEHMsLqTzDXcxNxcyefFe+XxHvf3sUawqlI/tYGrmWAuLLmahFj0HlDG9kOESoNdhA==
-X-Received: by 2002:a7b:c3c7:0:b0:3ea:f75d:4626 with SMTP id t7-20020a7bc3c7000000b003eaf75d4626mr24782878wmj.38.1680482501043;
-        Sun, 02 Apr 2023 17:41:41 -0700 (PDT)
-Received: from archlinux ([37.168.112.109])
-        by smtp.gmail.com with ESMTPSA id u17-20020a05600c19d100b003dd1bd0b915sm17751161wmq.22.2023.04.02.17.41.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Apr 2023 17:41:40 -0700 (PDT)
-Date: Sun, 2 Apr 2023 21:41:28 -0300
-From: Irvin Cote <irvincoteg@gmail.com>
-To: hch@lst.de
-Cc: kbusch@kernel.org, axboe@fb.com, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme-core: Fixing ctrl de-referencing in nvme_init_ctrl
-Message-ID: <ZCoguA3gBUw1CIdd@archlinux>
+	Mon, 03 Apr 2023 08:04:14 +0000
+Received: by mail.feshiecree.pl (Postfix, from userid 1001)
+	id 7E78984188; Mon,  3 Apr 2023 08:51:24 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=feshiecree.pl;
+	s=mail; t=1680508298;
+	bh=hFxZwVw4rIL+JwfEOGI47p+fdoVOAeqVswP6NWoHSHQ=;
+	h=Date:From:To:Subject:From;
+	b=OGfX629FuNJAc7ixLjEB29hcyvvSOw9m6SvIN7Fd/GGNSgd9634hSqMJseGclydf5
+	 TIB2hbUIWBaUq0/SOw9s+zawow/4HHEMJB+NdH7fuB6hiYN0U0sYY/tpW6h+UQtcl+
+	 Usre1OB3dBHsojWBaxKM60b/xnrvJkpcMKpcw8cLjXiTWz2mwaf0xTyQo3LQE92sdJ
+	 8dugPDBCtvts0CbJpzBnHjwEywEL0owsUfmWNoRW5LP6otDFw45q5eIRWLDz/Y0gDs
+	 16I+Ne+r3sGGovS9kFzc6/gnhdor/pk6lQJ6IZkA3iXR7+p1vXi70qHrT/vlkbcTSC
+	 IJ+8EnfUctvbQ==
+Received: by mail.feshiecree.pl for <linux-nvme@lists.infradead.org>; Mon,  3 Apr 2023 07:50:19 GMT
+Message-ID: <20230403074501-0.1.1s.56oo.0.a9pvqa0m86@feshiecree.pl>
+Date: Mon,  3 Apr 2023 07:50:19 GMT
+From: "Krystian Wieczorek" <krystian.wieczorek@feshiecree.pl>
+To: <linux-nvme@lists.infradead.org>
+Subject: W sprawie samochodu
+X-Mailer: mail.feshiecree.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230402_174143_353655_2D5ACD30 
-X-CRM114-Status: GOOD (  11.24  )
+X-CRM114-CacheID: sfid-20230403_010413_011968_9CC5F14A 
+X-CRM114-Status: UNSURE (   2.47  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,53 +67,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Correcting the de-reference count for
-the controller in the core layer to avoid
-a memory leak. Also cleaning a bit the
-teardown logic of nvme_init_ctrl. 
+Dzie=C5=84 dobry,
 
-Signed-off-by: Irvin Cote <irvincoteg@gmail.com>
----
- drivers/nvme/host/core.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+chcieliby=C5=9Bmy zapewni=C4=87 Pa=C5=84stwu kompleksowe rozwi=C4=85zania=
+, je=C5=9Bli chodzi o system monitoringu GPS.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 8698410aeb84..3d7aca7d0f2a 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -5137,14 +5137,12 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	BUILD_BUG_ON(NVME_DSM_MAX_RANGES * sizeof(struct nvme_dsm_range) >
- 			PAGE_SIZE);
- 	ctrl->discard_page = alloc_page(GFP_KERNEL);
--	if (!ctrl->discard_page) {
--		ret = -ENOMEM;
--		goto out;
--	}
-+	if (!ctrl->discard_page)
-+		return -ENOMEM;
- 
- 	ret = ida_alloc(&nvme_instance_ida, GFP_KERNEL);
- 	if (ret < 0)
--		goto out;
-+		goto out_free_page;
- 	ctrl->instance = ret;
- 
- 	device_initialize(&ctrl->ctrl_device);
-@@ -5191,10 +5189,10 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	nvme_put_ctrl(ctrl);
- 	kfree_const(ctrl->device->kobj.name);
- out_release_instance:
-+	nvme_put_ctrl(ctrl);
- 	ida_free(&nvme_instance_ida, ctrl->instance);
--out:
--	if (ctrl->discard_page)
--		__free_page(ctrl->discard_page);
-+out_free_page:
-+	__free_page(ctrl->discard_page);
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(nvme_init_ctrl);
--- 
-2.37.2
+Precyzyjne monitorowanie pojazd=C3=B3w na mapach cyfrowych, =C5=9Bledzeni=
+e ich parametr=C3=B3w eksploatacyjnych w czasie rzeczywistym oraz kontrol=
+a paliwa to kluczowe funkcjonalno=C5=9Bci naszego systemu.=20
 
+Organizowanie pracy pracownik=C3=B3w jest dzi=C4=99ki temu prostsze i bar=
+dziej efektywne, a oszcz=C4=99dno=C5=9Bci i optymalizacja w zakresie pono=
+szonych koszt=C3=B3w, maj=C4=85 dla ka=C5=BCdego przedsi=C4=99biorcy ogro=
+mne znaczenie.
+
+Dopasujemy nasz=C4=85 ofert=C4=99 do Pa=C5=84stwa oczekiwa=C5=84 i potrze=
+b organizacji. Czy mogliby=C5=9Bmy porozmawia=C4=87 o naszej propozycji?
+
+
+Pozdrawiam
+Krystian Wieczorek
 
