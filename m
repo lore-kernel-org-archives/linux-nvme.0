@@ -4,77 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F573C76196
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Apr 2023 12:20:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63469C76196
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Apr 2023 12:24:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FLTeks8eELiIGcTY5wF4oXdJ+bPSmjNFBcw73Z/uIUE=; b=dyRRz0lL8JU+0COEte06qk2eWY
-	y7qDNKxx4mZYzcNxMKgbMpdooRs2OqQFiI7Bb7d04g+LwXb9NJ9G9kF1NI5fa7n8WMr/WmfZOXZzb
-	G1hlsKbkGf1r1W/h5Omz9tyb68kfLZ4BxABwxlgiphoNJxsbOMpFVyM4gPvOy3EqronKPAPHIHh1W
-	R/p9dsBdfRCO4z6dgPoDAUsZJ76gsbe3Pr/bqJ7ZNiAQxs71ooHTmxMuDoeStrIJBOF1CbMg2knKV
-	jbqN2C1Xg42bl38Rz3GlXkVTtbpDT58/SCksgCQaU39U1uvZbWBY4FSY1yynYPgZ1eQmeS3GpVvjN
-	LjvAnm4Q==;
+	bh=hQCt4YaHv+6303eq3oNsTscAtpuTTpPBNIA7vNtc7BM=; b=mwP9PJ2hQs/7xWeagele/mawbb
+	nyurOdXm/o7iv4dMaN4zmuRwSr8f5xrs6w9GbImWLaYEOmlIbLARdUDFKEEK9vy+FnfOUEheruElZ
+	w1F1tJDNnxpRGSwOphZZmT0Jlb18XA6FrnZLRZQT48fY+may6pxq9kC8PDtNKk+lKTcdi41D4x8Os
+	D+1Y4DH3iNSJVgTH0NSiO9g5uCMfwnSo8GzHDu2uMB+okZEFvUOEfdUXAv2zn1Uur2TpeEIss+eRi
+	a89NqnSerBc1A3QrPHV7iWR6Lx3SpcZj799klA2qIgteHA26jOp7qs/ms92z9rU5KJLupfOCfaplm
+	hObxjiog==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pjJAb-00FFca-2Q;
-	Mon, 03 Apr 2023 12:20:21 +0000
-Received: from mail-wm1-f49.google.com ([209.85.128.49])
+	id 1pjJEK-00FG80-1m;
+	Mon, 03 Apr 2023 12:24:12 +0000
+Received: from mail-wr1-f43.google.com ([209.85.221.43])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pjJAY-00FFbD-2d
+	id 1pjJEH-00FG7L-2L
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Apr 2023 12:20:20 +0000
-Received: by mail-wm1-f49.google.com with SMTP id s13so16970579wmr.4
-        for <linux-nvme@lists.infradead.org>; Mon, 03 Apr 2023 05:20:17 -0700 (PDT)
+	Mon, 03 Apr 2023 12:24:10 +0000
+Received: by mail-wr1-f43.google.com with SMTP id y14so29166490wrq.4
+        for <linux-nvme@lists.infradead.org>; Mon, 03 Apr 2023 05:24:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680524416; x=1683116416;
+        d=1e100.net; s=20210112; t=1680524646; x=1683116646;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FLTeks8eELiIGcTY5wF4oXdJ+bPSmjNFBcw73Z/uIUE=;
-        b=Lh8NG1Ds7d15aaPUn0nXOM3JRbFBKCSO4A45HmWKn+chLrHB9o+jM/10D2ZD5QU8qX
-         1mqkWDiaZrRdUWxsPbNx8EnMBjFl8PHmMCJxF/UN8RSPMzuNXpCmokqklox/bR4NdYKm
-         IkqTnb/hqj5m13nkvJjJ5K58+U7cFbZXpzZBn6HjIJHChM2QA2QOyd0GmMfrBGvHtj+3
-         UqQAUbKA9CbPGP1+r+eNpJd+zAJmqmC2CwO/YuAuqmW1wDlac+UKytR1vIpBiS0GSQqs
-         KwNL1pRgyrpnV2mdOTUYBDvjPg5pZ542S/Pzb8qfjjJb17veQp1mH+C4FCn7q1jwZxrO
-         kG0Q==
-X-Gm-Message-State: AAQBX9dJsH1TMJ1ktY4I/dtCDCsjiR4WyP4IjeRPg9x1iQMihX2LhhTn
-	aFNyyn92U1qu/YJhkhWS4PM=
-X-Google-Smtp-Source: AKy350YxmO96TAvXra/msTOS7cA1FwhAgYJY37TVSY7/z3X8F/c5jraEpEwEAHhi8th5HWQB1BJOjA==
-X-Received: by 2002:a05:600c:3b8a:b0:3f0:34cb:a542 with SMTP id n10-20020a05600c3b8a00b003f034cba542mr11934460wms.2.1680524415877;
-        Mon, 03 Apr 2023 05:20:15 -0700 (PDT)
+        bh=hQCt4YaHv+6303eq3oNsTscAtpuTTpPBNIA7vNtc7BM=;
+        b=njCLJstSnyUclenxk4PiEFhnVPcBtd2iAbTjLrzZA3Veb+OK4TZHNFHDTvFxcT4mJ0
+         SLHDwXe2pZffgdCuu0Rfs8eeVH+U+HPP4HJSTPttVz7AJRQlRW+Jcpq23IfyXhQxUX5V
+         sV11g76tV/X09wDpuTuZEX2pIu5qO1Mj7WkLXw1HKFaUW1H4zaob0/aHtBf+3BftEFov
+         LiHOnobk0opuieWgEuHoNqZoZ9Ntdn6V9opWX7EyQUudfyeTB+PRF9ujzXNNf7aGETcp
+         XMKgPn6mAJYKuNoarTkV7rMtGp+yUxQGY8xHXiM7wYjrOd6B7HfDJYL4Lcf065a4SGK8
+         u9Ow==
+X-Gm-Message-State: AAQBX9fdErZqaIqPWYVC7s8bl98Lp4AQko0ZhQ9VOMQnKjr99oWgNv+p
+	yLz9G16GOuXOzUNnG9BasVs=
+X-Google-Smtp-Source: AKy350YnT17EWqc4AVjiSBa/72RALGXXw0d8R+ex3gWi7PTbwRyKB/1X+7eHkM+2sdSrVB3oRW0lzw==
+X-Received: by 2002:a5d:49c4:0:b0:2ca:ab68:eff9 with SMTP id t4-20020a5d49c4000000b002caab68eff9mr19563040wrs.7.1680524646419;
+        Mon, 03 Apr 2023 05:24:06 -0700 (PDT)
 Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id y4-20020a056000108400b002cfec8b7f89sm9670709wrw.77.2023.04.03.05.20.14
+        by smtp.gmail.com with ESMTPSA id a12-20020a056000100c00b002cea8664304sm9514655wrx.91.2023.04.03.05.24.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Apr 2023 05:20:15 -0700 (PDT)
-Message-ID: <44fe87ba-e873-fa05-d294-d29d5e6dd4b5@grimberg.me>
-Date: Mon, 3 Apr 2023 15:20:13 +0300
+        Mon, 03 Apr 2023 05:24:06 -0700 (PDT)
+Message-ID: <f1bfbb7c-d8df-0386-1048-f141cb6e22bc@grimberg.me>
+Date: Mon, 3 Apr 2023 15:24:04 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH 10/18] nvme-tcp: fixup send workflow for kTLS
+Subject: Re: [PATCH 12/18] nvme-fabrics: parse options 'keyring' and 'tls_key'
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Jakub Kicinski <kuba@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Boris Pismenny <borisp@nvidia.com>,
- john.fastabend@gmail.com, Paolo Abeni <pabeni@redhat.com>,
- Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Chuck Lever <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Chuck Lever <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev
 References: <20230329135938.46905-1-hare@suse.de>
- <20230329135938.46905-11-hare@suse.de>
- <634385cc-35af-eca0-edcb-1196a95d1dfa@grimberg.me>
- <20230330224920.3a47fec9@kernel.org>
- <7f057726-8777-2fd3-a207-b3cd96076cb9@suse.de>
+ <20230329135938.46905-13-hare@suse.de>
+ <677f3f9a-872d-27fe-9a21-b41bbe1c44ff@grimberg.me>
+ <daf1e19e-119b-3ceb-7808-b74d8b113e05@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <7f057726-8777-2fd3-a207-b3cd96076cb9@suse.de>
+In-Reply-To: <daf1e19e-119b-3ceb-7808-b74d8b113e05@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230403_052018_852316_66D47454 
-X-CRM114-Status: GOOD (  16.63  )
+X-CRM114-CacheID: sfid-20230403_052409_767185_1598F89F 
+X-CRM114-Status: GOOD (  13.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,54 +85,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hey Jakub, Hannes.
-
->>>> kTLS does not support MSG_EOR flag for sendmsg(), and in general
->>>> is really picky about invalid MSG_XXX flags.
->>>
->>> CC'ing TLS folks.
->>>
->>> Can't tls simply ignore MSG_EOR instead of consumers having to be
->>> careful over it?
+>>> Parse the fabrics options 'keyring' and 'tls_key' and store the
+>>> referenced keys in the options structure.
 >>
->> I think we can support EOR, I don't see any fundamental problem there.
-
-It would help at least one consumer (nvme-tcp) to not change its
-behavior between tls and non-tls. At the very minimum don't fail
-the send operation (just do the same as if it wasn't passed).
-
->>>> So ensure that the MSG_EOR flags is blanked out for TLS, and that
->>>> the MSG_SENDPAGE_LAST is only set if we actually do sendpage().
->>>
->>> You mean MSG_SENDPAGE_NOTLAST.
->>>
->>> It is also a bit annoying that a tls socket dictates different behavior
->>> than a normal socket.
->>>
->>> The current logic is rather simple:
->>> if more data comming:
->>>     flags = MSG_MORE | MSG_SENDPAGE_NOTLAST
->>> else:
->>>     flags = MSG_EOR
->>>
->>> Would like to keep it that way for tls as well. Can someone
->>> explain why this is a problem with tls?
+>> Can you explain the reasoning to why a user need to pass a keyring
+>> given that we already set up one?
 >>
->> Some of the flags are call specific, others may be internal to the
->> networking stack (e.g. the DECRYPTED flag). Old protocols didn't do
->> any validation because people coded more haphazardly in the 90s.
->> This lack of validation is a major source of technical debt :(
-> 
-> A-ha. So what is the plan?
-> Should the stack validate flags?
-> And should the rules for validating be the same for all protocols?
+> Choice.
+> With a single keyring we can only have a single identity.
+> But there might be configurations where we want to have different PSKs
+> for the same identity (eg for key rotation).
 
-MSG_SENDPAGE_NOTLAST is not an internal flag, I thought it was
-essentially similar semantics to MSG_MORE but for sendpage. It'd
-be great if this can be allowed in tls (again, at the very least
-don't fail but continue as if it wasn't passed).
+How do you expect that rotation would work with this?
 
-If this turns out to be a big project, I would prefer to change
-nvme-tcp for now in order not to block nvme tls support (although it is
-a hidden capability interface, which is always bad).
+How does nvmet handle a non-nvme keyring?
+
+> With this option we can prepare a new keyring, and use that instead of 
+> the old one.
+
+On an existing controller?
+
+> (And it really doesn't add much complexity...)
+
+I know, it just adds one more argument, and I want to understand if it
+is really needed.
 
