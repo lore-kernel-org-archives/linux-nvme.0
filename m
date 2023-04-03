@@ -4,77 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ECE97C76196
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Apr 2023 16:13:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 660ECC76188
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Apr 2023 17:35:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FeBep77DrjGUpmokRYQ7dhCDeDDySE9+TQjeaBuBkxw=; b=BqsAbry95KArNlJq33oACZKroF
-	9SFlW+NrK15TX/5BokHl/ZUpm/8du5y26PioWXhuc03bN8FAGY4riUwbSap4X6p1K+XzgIooe4A45
-	i3MQS53FSv9LTNK7IRa3Yt4CA/u9iAdkO+fU1SD81WJfnczcD896xsDWiHSeb6IHA5LSdp3iut6j+
-	THiE9HebgRa5Qb1cgzw0WD3aukhZu5f2c6STXq3zb5RqlsT5mrs16KRiUXsb4DNPzr+5XlDV3UzPi
-	GSrPmbh2TOBb1tZA8PsaVM3iYbmwqp/hjYudWBJIj3a2fsjE9WdyZi+MiY2URuIbzttEkAH8dTsV3
-	3OnQKzrw==;
+	Content-Type:MIME-Version:Date:Cc:To:From:Subject:Message-ID:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=6sJzswR1pix/r9xSSZ16AmLAslPgKGbFdLpZ7IH++8M=; b=Kwua6WigRS+X6mQ7/1F9qkqkOp
+	cgmqEZuWiSjbD8YbY4YWWeU5fTHF/eLbjQtSXopb0Phm+5e3KRQS+atfxRvtwk18IRCn1YjKcPCYm
+	heRBeWNwPxLlL+0hcETJJkjOkeWc21z8oeFyzgFi8GxUMa9vgM0apItOREEtwc/Wd2NGVSjSPyUDI
+	MArwm3WkrJTDPFd8vdtS5b8TYdp10IZJfzX1A61EDwnBX/6UWFCAyDSwrjfXrUlv/oPGcm8uV5N4s
+	+5P9jzZn+mtrB4ucgE+Pf7MiSozF40f7rxRgYzKgdbgNUhHVer1BiNZxAYQWaUpHX0QM/CdYYB5yk
+	4P/Rz1VA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pjMoV-00FvYA-2q;
-	Mon, 03 Apr 2023 16:13:47 +0000
-Received: from mail-wm1-f44.google.com ([209.85.128.44])
+	id 1pjO5j-00G5Im-0g;
+	Mon, 03 Apr 2023 17:35:39 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pjMoS-00FvXV-2y
+	id 1pjO5c-00G5Gq-0N
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Apr 2023 16:13:46 +0000
-Received: by mail-wm1-f44.google.com with SMTP id r19-20020a05600c459300b003eb3e2a5e7bso18462888wmo.0
-        for <linux-nvme@lists.infradead.org>; Mon, 03 Apr 2023 09:13:41 -0700 (PDT)
+	Mon, 03 Apr 2023 17:35:37 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1680543328;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=6sJzswR1pix/r9xSSZ16AmLAslPgKGbFdLpZ7IH++8M=;
+	b=dm4G58xUmArZh6dIW7oG6l9HYuJW9tXAl927+M6C7/RO5g8X9jE0M83KspsKeSe2PL3gl4
+	EIa/INPpq3Eww3lgNDaYQYvnypxLz9bmXnS5CQkuMEZaJ3ue8/Epasj6c4cCY6z/QvCKuq
+	YD0NlsrEpGmB1w+lmctSk3fJmm1v65s=
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
+ [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-643-PqA-6xVDMUyRutSAWwU0nA-1; Mon, 03 Apr 2023 13:35:26 -0400
+X-MC-Unique: PqA-6xVDMUyRutSAWwU0nA-1
+Received: by mail-oa1-f72.google.com with SMTP id 586e51a60fabf-17afa2c993cso15945470fac.2
+        for <linux-nvme@lists.infradead.org>; Mon, 03 Apr 2023 10:35:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680538420; x=1683130420;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FeBep77DrjGUpmokRYQ7dhCDeDDySE9+TQjeaBuBkxw=;
-        b=2ikFpa6/HTyL7qpNR9kUK/FJr9orCeAonW2E/JU9ikcsZU/ubwhN8Cgmu6NnRcuWn7
-         1y+5V5Lv1D7RJqhGCzrRR8AxsrhWJqa3kE2ABzfNj055CoK9P5sHhqmcPyCP/5d3HET0
-         eMJ+5tBwSBvTRBkPPKx1jqbLWboXoqfayQQGWcELDvlZK42zKhoBpR7nMEaJnpGckWls
-         p7GqJlxoSiYNttTCPrlKA6MlXV9HXgf7mGluf0kJ4pPDbMOGdxglMKz4LjcBJ99zidpl
-         ZrY8o3hjUyrIAfUpxaQGp1MVqMnR3qdqj3HVKmOkuEUcNBmNfW8cztBTBnU+ERpFiJgr
-         Pabw==
-X-Gm-Message-State: AAQBX9f+OuOdTO3fbHNXwysadkIIr2D2UahRBFaSBOo4jx/1+i+DMNwu
-	cSdeYARchdpAHSAWWT6+knc=
-X-Google-Smtp-Source: AKy350bQ6o8QlReTv05o8RCHu/tuH+y9+1PJGi+S4jdqiRhnA4MrEOz08syRp5I8Z5QCs7FLin6BFQ==
-X-Received: by 2002:a05:600c:5399:b0:3ee:da0:cb85 with SMTP id hg25-20020a05600c539900b003ee0da0cb85mr61777wmb.1.1680538420020;
-        Mon, 03 Apr 2023 09:13:40 -0700 (PDT)
-Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id bd6-20020a05600c1f0600b003ef36ef3833sm19541576wmb.8.2023.04.03.09.13.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Apr 2023 09:13:39 -0700 (PDT)
-Message-ID: <7e7c3787-1772-c719-9765-7d271100dffe@grimberg.me>
-Date: Mon, 3 Apr 2023 19:13:38 +0300
+        d=1e100.net; s=20210112; t=1680543325;
+        h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
+         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6sJzswR1pix/r9xSSZ16AmLAslPgKGbFdLpZ7IH++8M=;
+        b=5QxormnrFGK+nEbXVZmaiOnGGxdD1PatqUsFOW1XAWt+1HyA8R9zImeW8H6x+YeGCy
+         5vWPkKRU1rSQJdq0FrdceKsz+QTrj9chVZAuRPQOA7tcgRlwSKNAGwnNFhRHmJjAqzOz
+         k3Y4LGZTkqCP5LVj6VWiiyv+9qUsxm5BM+K3V0ma3pcVnHVym4GbNMVDP5J0J99cY0lQ
+         kqKobELIgQZcyqg1auRhEs1ftkHv5N4hUiwXcd5yFvXRTD++SCOeGkSy/QKns3VQTb+1
+         OYi7BJeEHeofERe1ugjfpMcPstN5W+TWTgTjjUVPU3s9zHt4KcpNpjh83l+Uym2FfUKd
+         Z97Q==
+X-Gm-Message-State: AAQBX9d4BulA7lyF52AuoO0hMiH+84RS3MqE3OAvPH+YIF4MIdl+kB7A
+	g5NVhtA/B8WsRRYKivaYC8yCPS14vuF8Yj4Dgvnxa0B4ji++X1B71B8RLkHF4sHdUF3BLJQxvV5
+	1Ch8saY2NPgqVhWk5fjRr/itueTE=
+X-Received: by 2002:a05:6871:88a:b0:17a:d7c5:f252 with SMTP id r10-20020a056871088a00b0017ad7c5f252mr18978oaq.26.1680543325572;
+        Mon, 03 Apr 2023 10:35:25 -0700 (PDT)
+X-Google-Smtp-Source: AKy350a+9ITu5sC8DMUDcoQDlksVHxZBbKIxrIf2PNNUIkK3hesR+VJ0dkjn2P8HwZXxFpdHgkA9eg==
+X-Received: by 2002:a05:6871:88a:b0:17a:d7c5:f252 with SMTP id r10-20020a056871088a00b0017ad7c5f252mr18961oaq.26.1680543325277;
+        Mon, 03 Apr 2023 10:35:25 -0700 (PDT)
+Received: from ?IPv6:2600:6c64:4e7f:603b:45:ae91:c478:3bf0? ([2600:6c64:4e7f:603b:45:ae91:c478:3bf0])
+        by smtp.gmail.com with ESMTPSA id p2-20020a056830130200b006a2ddc13c46sm3840321otq.78.2023.04.03.10.35.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Apr 2023 10:35:24 -0700 (PDT)
+Message-ID: <d1dbb7c5eca51993e9988849ab2e43e800ecb067.camel@redhat.com>
+Subject: Issue with discard with NVME and Infinibox Storage
+From: Laurence Oberman <loberman@redhat.com>
+To: minlei@redhat.com, jmeneghi@redhat.com, "Hellwig, Christoph"
+	 <hch@infradead.org>, axboe@fb.com
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+Date: Mon, 03 Apr 2023 13:35:22 -0400
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 12/18] nvme-fabrics: parse options 'keyring' and 'tls_key'
-Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Chuck Lever <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev
-References: <20230329135938.46905-1-hare@suse.de>
- <20230329135938.46905-13-hare@suse.de>
- <677f3f9a-872d-27fe-9a21-b41bbe1c44ff@grimberg.me>
- <daf1e19e-119b-3ceb-7808-b74d8b113e05@suse.de>
- <f1bfbb7c-d8df-0386-1048-f141cb6e22bc@grimberg.me>
- <d67d9932-96eb-3548-cf40-b48a6db95739@suse.de>
- <a22946d2-e22d-a361-8768-8b34cbec1b03@grimberg.me>
- <32a81d27-2c16-b71b-e9da-d704acda93f6@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <32a81d27-2c16-b71b-e9da-d704acda93f6@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230403_091344_982799_445BF631 
-X-CRM114-Status: GOOD (  25.86  )
+X-CRM114-CacheID: sfid-20230403_103532_258304_86931CD7 
+X-CRM114-Status: GOOD (  13.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,83 +97,127 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hello Ming and Christoph
+
+Issue with Infinibox storage
+----------------------------
+Really discovered 2 issues here=20
+
+Issue 1
+Kernels 5.15 to 5.18 inclusive recognize the discard support on the
+Infinibox device but they fail in the nvme_setup_discard function call
 
 
-On 4/3/23 17:11, Hannes Reinecke wrote:
-> On 4/3/23 15:07, Sagi Grimberg wrote:
->>
->>>>>>> Parse the fabrics options 'keyring' and 'tls_key' and store the
->>>>>>> referenced keys in the options structure.
->>>>>>
->>>>>> Can you explain the reasoning to why a user need to pass a keyring
->>>>>> given that we already set up one?
->>>>>>
->>>>> Choice.
->>>>> With a single keyring we can only have a single identity.
->>>>> But there might be configurations where we want to have different PSKs
->>>>> for the same identity (eg for key rotation).
->>>>
->>>> How do you expect that rotation would work with this?
->>>>
->>> The user creates a new keyring, adds the necessary keys to it, and then
->>> either
->>> - updates the keyring for nvmet (via configfs)
->>> or
->>> - reconnects using the new keyring
->>
->> And the user cannot update the nvme keyring?
->>
-> Sure, he can. All I'm saying is that he might choose to create a 
-> different one (Different tenants, setups, what do I know).
-> 
->>>> How does nvmet handle a non-nvme keyring?
->>>>
->>> There is a configfs attribute 'param_keyring', allowing you to use a 
->>> different keyring (the nvme one is just the default).
->>
->> OK.
->>
->>>>> With this option we can prepare a new keyring, and use that instead 
->>>>> of the old one.
->>>>
->>>> On an existing controller?
->>>>
->>> Sure; when we are updating the keyring and the key id the controller 
->>> will use that after the next reset.
->>> Much like we do for DH-CHAP nowadays.
->>>
->>>>> (And it really doesn't add much complexity...)
->>>>
->>>> I know, it just adds one more argument, and I want to understand if it
->>>> is really needed.
->>>
->>> I do agree that the keyring argument would not necessarily required 
->>> if we pass in the key id, but I'll be needing the keyring for secure 
->>> concatenation. And plan is to move DH-HMAC-CHAP over to keyrings, too.
->>
->> I'm not sure I understand why authentication move to keyrings requires
->> that the user is able to bring its own keyring.
->>
->>> So I'd prefer to keep it.
->>
->> I'm not against it, but I failing to understand in what situation a user
->> _must_ send a different keyring to the driver (and not use the nvme
->> keyring).
-> 
-> Oh, there is no 'must'. He _can_. And under certain circumstances
-> (in a multi-tenant environment, say) there are reasons to keep the keys 
-> separate into several keyrings.
-> Bit like the '--key' parameter; the code will try to select the 
-> 'default' key, but if the user wants to use a different one by all 
-> means, do.
-> Same for the keyring; we do have the default keyring, but if the user 
-> for whatever reason doesn't want to use it we're giving him the 
-> possibility for that.
+[  339.591118] ------------[ cut here ]------------
+[  339.591134] WARNING: CPU: 3 PID: 32 at drivers/nvme/host/core.c:868
+nvme_setup_discard+0x16e/0x1e0 [nvme_core]
 
-I'm not overly keen to overload the argument space without proper
-real-life justification. But maybe it does make sense to allow users
-to store their secrets in separate keyrings...
+[  339.591349] CPU: 3 PID: 32 Comm: kworker/3:0H Not tainted 5.15.0 #1
+[  339.591404] Hardware name: VMware, Inc. VMware Virtual
+Platform/440BX Desktop Reference Platform, BIOS 6.00 11/12/2020
+[  339.591423] Workqueue: kblockd blk_mq_run_work_fn
+[  339.591458] RIP: 0010:nvme_setup_discard+0x16e/0x1e0 [nvme_core]
+[  339.591475] Code: 38 48 8b b8 48 0b 00 00 48 2b 3d 2d 69 43 d3 48 c1
+ff 06 48 c1 e7 0c 48 03 3d 2e 69 43 d3 48 89 f8 48 85 f6 0f 85 dd fe ff
+ff <0f> 0b ba 00 00 00 80 48 01 d7 72 52 48 c7 c2 00 00 00 80 48 2b 15
+[  339.591505] RSP: 0018:ffffbacb0052fcf8 EFLAGS: 00010212
+[  339.591516] RAX: ffff93798b67e000 RBX: ffff937994565780 RCX:
+ffff937a0b67e000
+[  339.591529] RDX: 0000000000000020 RSI: 0000000000000000 RDI:
+ffff93798b67e000
+[  339.591541] RBP: ffff93799452f1b0 R08: ffff93798b67e000 R09:
+00000000014000c0
+[  339.591553] R10: 0000000000000800 R11: 0000000000000000 R12:
+ffff9379a0df1000
+[  339.591566] R13: 0000000000000001 R14: ffffbacb0052fde0 R15:
+ffff9379a0df1000
+[  339.591578] FS:  0000000000000000(0000) GS:ffff9379b9ec0000(0000)
+knlGS:0000000000000000
+[  339.591602] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  339.591617] CR2: 00007f4b7792f000 CR3: 000000010dcf2003 CR4:
+0000000000770ee0
+[  339.591641] PKRU: 55555554
+[  339.591648] Call Trace:
+[  339.591656]  nvme_setup_cmd+0xac/0x650 [nvme_core]
+[  339.591673]  nvme_tcp_queue_rq+0x6a/0x390 [nvme_tcp]
+[  339.591685]  blk_mq_dispatch_rq_list+0x139/0x810
+[  339.591698]  ? blk_mq_flush_busy_ctxs+0xf9/0x120
+[  339.591708]  __blk_mq_sched_dispatch_requests+0x135/0x140
+[  339.591720]  blk_mq_sched_dispatch_requests+0x30/0x60
+[  339.591746]  __blk_mq_run_hw_queue+0x2b/0x60
+[  339.591757]  process_one_work+0x1cb/0x370
+[  339.592339]  worker_thread+0x30/0x380
+[  339.593200]  ? process_one_work+0x370/0x370
+[  339.593990]  kthread+0x118/0x140
+[  339.594710]  ? set_kthread_struct+0x40/0x40
+[  339.595267]  ret_from_fork+0x1f/0x30
+[  339.596077] ---[ end trace 547450bc9931a628 ]---
+[  339.596806] blk_update_request: I/O error, dev nvme1c1n1, sector
+20971712 op 0x3:(DISCARD) flags 0x2004000 phys_seg 1 prio class 0
+[  339.741735] blk_update_request: I/O error, dev nvme1c1n1, sector
+21037248 op 0x3:(DISCARD) flags 0x2004000 phys_seg 1 prio class 0
+[  339.743952] blk_update_request: I/O error, dev nvme1c1n1, sector
+21102784 op 0x3:(DISCARD) flags 0x2004000 phys_seg 1 prio class 0
+[  339.745480] blk_update_request: I/O error, dev nvme1c1n1, sector
+21168320 op 0x3:(DISCARD) flags 0x2004000 phys_seg 1 prio class 0
+[  339.746425] blk_update_request: I/O error, dev nvme1c1n1, sector
+21233856 op 0x3:(DISCARD) flags 0x2004000 phys_seg 1 prio class 0
+[  339.747150] blk_update_request: I/O error, dev nvme1c1n1, sector
+21299392 op 0x3:(DISCARD) flags 0x2004000 phys_seg 1 prio class 0
+[  339.747948] blk_update_request: I/O error, dev nvme1c1n1, sector
+21364928 op 0x3:(DISCARD) flags 0x2000000 phys_seg 1 prio class 0
 
-So I'm not really opposed to this one.
+
+Issue 2
+Trying to narrow this down.
+5.19 and higher (6.3 included), no longer support discard on the
+Infinibox device and log this message so I cannot run the test for the
+discard issue
+
+[   35.989809] nvme nvme1: new ctrl: NQN "nqn.2020-
+01.com.infinidat:36000-subsystem-696", addr 192.168.1.2:4420
+[   64.810437] XFS (nvme1n1): mounting with "discard" option, but the
+device does not support discard
+[   64.812298] XFS (nvme1n1): Mounting V5 Filesystem 6763a33f-18cc-
+4a26-894b-8b0f8d79a98a
+
+I then bisected between 5.18 and 5.19 to this commit
+
+1a86924e4f464757546d7f7bdc469be237918395 is the first bad commit
+commit 1a86924e4f464757546d7f7bdc469be237918395
+Author: Tom Yan <tom.ty89@gmail.com>
+Date:   Fri Apr 29 12:52:43 2022 +0800
+
+    nvme: fix interpretation of DMRSL
+   =20
+    DMRSLl is in the unit of logical blocks, while max_discard_sectors
+is
+    in the unit of "linux sector".
+   =20
+    Signed-off-by: Tom Yan <tom.ty89@gmail.com>
+    Signed-off-by: Christoph Hellwig <hch@lst.de>
+
+ drivers/nvme/host/core.c | 6 ++++--
+ drivers/nvme/host/nvme.h | 1 +
+ 2 files changed, 5 insertions(+), 2 deletions(-)
+
+
+Note that Infindat mentioned this in our case they logged with us
+They say they fully adhere to TP4040 MDTS.
+Towards NVMe-oF 2.0 specification, TP4040  - Max Data Transfer for non-
+IO Commands (MDTS) was released with additional fields to control these
+parameters.
+These parameters are supported in kernel versions 5.15 and above.  ****
+
+Our storage target will reply with 0 for bit 2 of the ONCS, indicating
+UNMAP is supported based on the DMRL, DMRSL, and DMSL values.=20
+(older kernels will interpret these values as UNMAP NOT SUPPORTED)
+
+
+Let me know your thoughts please. for both issues
+
+Regards
+Laurence Oberman
+
 
 
