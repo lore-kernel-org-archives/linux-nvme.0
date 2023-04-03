@@ -4,72 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D37FC76196
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Apr 2023 18:48:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59D60C761AF
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Apr 2023 20:10:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PqtlIBxGXHI2Y2ffi5cAs0cMfL25Qf7g4B9MG8qpWFY=; b=LueQhEtlWqmMGFvI8UIakqMQug
-	5Qd2onOqQhUNE22bOpaxTyMaExEna7fsdF2OldPfbCOmM9NbqTrmk668Ej0UIyWF+a19pkN2m6jQY
-	HtsS0AicehHsm/Z47WQJwtrjKXeThms0J2dLy4W273XpWtxhCkQtDux2obgKyXTdFLAPniDi4HpNG
-	GyFNexNNeZCoSA+BCzasO/OCkIbGT/Wzx4sYXcjo9IJigamy8t7Sb76+//CzWOaURJpl8y1u37o1+
-	zFT0X1cjdbNP8KnGoBxDY0fg1FosFoEcf57a6TBbHIMwffuQpQ1TTbTI7b83jHQ3+Qw7t2T7ayXy/
-	CzfA+uiw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Q8bps30hV3EMik+lxj4h4encW3Fy9GOLEkji6FWpF9A=; b=4dKo+ILqt+61sR1oloVjhb7k4/
+	UWNjoJ56U0V8FaONqWvIuY6iKVOVeH91GR/HW1TbrgJ9x7vksykyDbp7ATfBH1XOg1lBDaYFnHeqr
+	9t5rqtpwejJsiF3UemLddiUuDhJTlXpCYSd6GJ3MbGhuHkUl3/BIFi2aGiSFXHxfJSxV+qMo3zVe7
+	mFttqJAGTgWFrzxsXPuOa2a1/p5+AlwTcvWnY+V+TmXPHB8xZlUMiu4PdcpRxsq+Bm//E1XZS/d8H
+	sE2TGT1T4lyRHqtIyMewOozpu0ujq1aHn9uQUVq0hFGluQVhO4HJDzFhfAFiV7ZUXPONwP2FkHb3p
+	wiFTU2mg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pjPEP-00GIjB-25;
-	Mon, 03 Apr 2023 18:48:41 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1pjQVM-00GYVL-30;
+	Mon, 03 Apr 2023 20:10:16 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pjPEM-00GIiA-1Q
+	id 1pjQVJ-00GYUl-1a
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Apr 2023 18:48:39 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id CAAE46259E;
-	Mon,  3 Apr 2023 18:48:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFA00C433D2;
-	Mon,  3 Apr 2023 18:48:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680547717;
-	bh=PpCYrfjppgEV5YEB2dlQRfdZa+PKUS28JIF5DobHOLw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ZabZRczKlv4pL00Y46/qY6Aw82RRk0nVVidIJ/0rIwEa4JUe/nJapNkHt4d/7Rb5y
-	 HxVP74YPGUzbNS1Em2Sf/XPQdCZS94gwrD6e0wcp9Ze5BLxZBhZsfWRkFpqzPy9AsU
-	 6CjauRzPX1SJju8htEiJgL/Y3vSQIRjXNFiLpDX+TDZb4bgMn9AEBYD02xgVs8tXfZ
-	 Jh0qm7uoN+0UhAYTmIcCd91bQ96tlUq6OoQtMntzh9nlSMyMB8ek7qRzd79C2UfR6O
-	 Ij9M+OfiEdxHkrJPaCwbHkP4qpOemmibtmoR0T0gH8AdNtINqf3c+VFcuDleoUXdOX
-	 BmltBi96AaNNQ==
-Date: Mon, 3 Apr 2023 11:48:35 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>, Boris
- Pismenny <borisp@nvidia.com>, john.fastabend@gmail.com, Paolo Abeni
- <pabeni@redhat.com>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org, Chuck Lever <chuck.lever@oracle.com>,
- kernel-tls-handshake@lists.linux.dev, "netdev@vger.kernel.org"
- <netdev@vger.kernel.org>
-Subject: Re: [PATCH 10/18] nvme-tcp: fixup send workflow for kTLS
-Message-ID: <20230403114835.61946198@kernel.org>
-In-Reply-To: <c7a07e1d-b300-dd1d-1be6-311666387820@grimberg.me>
-References: <20230329135938.46905-1-hare@suse.de>
-	<20230329135938.46905-11-hare@suse.de>
-	<634385cc-35af-eca0-edcb-1196a95d1dfa@grimberg.me>
-	<20230330224920.3a47fec9@kernel.org>
-	<7f057726-8777-2fd3-a207-b3cd96076cb9@suse.de>
-	<44fe87ba-e873-fa05-d294-d29d5e6dd4b5@grimberg.me>
-	<20230403075946.26ad71ee@kernel.org>
-	<c7a07e1d-b300-dd1d-1be6-311666387820@grimberg.me>
+	Mon, 03 Apr 2023 20:10:14 +0000
+Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 333HKtDt021632
+	for <linux-nvme@lists.infradead.org>; Mon, 3 Apr 2023 13:10:11 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=s2048-2021-q4;
+ bh=Q8bps30hV3EMik+lxj4h4encW3Fy9GOLEkji6FWpF9A=;
+ b=RbWtrltvRtPGvh98IL88mJxSGkPOgJbGFdBeVlhrxUI5XTpnc/x64lDaC9gMaZIoNgKN
+ BLOOxCRWGqfjzRuwa57ZdDtmbgowZ2TPx4+9Quha6ZH5NytdpMQoP9Vg+/Z0CUWSA2wK
+ p+kCytFTWHD1lpFz8zJl58Ls9RtyMbLaxcQjKfKB/vJvJRv414Yh2gN/DYnBBT5djI7A
+ KXACaDLP6ggzlOMHYVfo1gWpNYLsnsfLWBwHbwbfeo26Q3KIBdjONzfjfOvzYoXq7h+B
+ ZedIyPoZsXqgJhWu7iEmvmw6ZFBkGL7OiTfG2BKyU2VUW3+U6xOuKC0lnplE/Pl+yeD8 ug== 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3pqws73d9b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Mon, 03 Apr 2023 13:10:11 -0700
+Received: from twshared7147.05.ash9.facebook.com (2620:10d:c0a8:1b::d) by
+ mail.thefacebook.com (2620:10d:c0a8:83::6) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Mon, 3 Apr 2023 13:10:10 -0700
+Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
+	id A93AE152767E1; Mon,  3 Apr 2023 13:09:26 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>, <hch@lst.de>
+CC: <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+        Tom Yan
+	<tom.ty89@gmail.com>, Laurence Oberman <loberman@redhat.com>
+Subject: [PATCH] nvme: fix discard support without oncs
+Date: Mon, 3 Apr 2023 13:09:25 -0700
+Message-ID: <20230403200925.1641963-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: PRraOsF2SDO0QKDKowBQ6gTQ3Brhjt8R
+X-Proofpoint-ORIG-GUID: PRraOsF2SDO0QKDKowBQ6gTQ3Brhjt8R
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-03_15,2023-04-03_03,2023-02-09_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230403_114838_552746_F6E4C844 
-X-CRM114-Status: GOOD (  23.28  )
+X-CRM114-CacheID: sfid-20230403_131013_542193_54F195D7 
+X-CRM114-Status: GOOD (  18.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,59 +84,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, 3 Apr 2023 18:51:09 +0300 Sagi Grimberg wrote:
-> What I'm assuming that Hannes is tripping on is that tls does
-> not accept when this flag is sent to sock_no_sendpage, which
-> is simply calling sendmsg. TLS will not accept this flag when
-> passed to sendmsg IIUC.
-> 
-> Today the rough logic in nvme send path is:
-> 
-> 	if (more_coming(queue)) {
-> 		flags = MSG_MORE | MSG_SENDPAGE_NOTLAST;
-> 	} else {
-> 		flags = MSG_EOR;
-> 	}
-> 
-> 	if (!sendpage_ok(page)) {
-> 		kernel_sendpage();
-> 	} else {
-> 		sock_no_sendpage();
-> 	}
-> 
-> This pattern (note that sock_no_sednpage was added later following bug
-> reports where nvme attempted to sendpage a slab allocated page), is
-> perfectly acceptable with normal sockets, but not with TLS.
-> 
-> So there are two options:
-> 1. have tls accept MSG_SENDPAGE_NOTLAST in sendmsg (called from
->     sock_no_sendpage)
-> 2. Make nvme set MSG_SENDPAGE_NOTLAST only when calling
->     kernel_sendpage and clear it when calling sock_no_sendpage
-> 
-> If you say that MSG_SENDPAGE_NOTLAST must be cleared when calling
-> sock_no_sendpage and it is a bug that it isn't enforced for normal tcp
-> sockets, then we need to change nvme, but I did not find
-> any documentation that indicates it, and right now, normal sockets
-> behave differently than tls sockets (wrt this flag in particular).
-> 
-> Hope this clarifies.
+From: Keith Busch <kbusch@kernel.org>
 
-Oh right, it does, the context evaporated from my head over the weekend.
+The device can report discard support without setting the ONCS DSM bit.
+When not set, the driver clears max_discard_size expecting it to be set
+later. We don't know the size until we have the namespace format,
+though, so setting it is deferred until configuring one, but the driver
+was abandoning the discard settings due to that initial clearing.
 
-IMHO it's best if the caller passes the right flags. The semantics of
-MSG_MORE vs NOTLAST are quite murky and had already caused bugs in the
-past :(
+Move the max_discard_size calculation above the check for a '0' discard
+size.
 
-See commit d452d48b9f8b ("tls: prevent oversized sendfile() hangs by
-ignoring MSG_MORE")
+Fixes: 1a86924e4f46475 ("nvme: fix interpretation of DMRSL")
+Cc: Tom Yan <tom.ty89@gmail.com>
+Reported-by: Laurence Oberman <loberman@redhat.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/core.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Alternatively we could have sock_no_sendpage drop NOTLAST to help
-all protos. But if we consider sendfile behavior as the standard
-simply clearing it isn't right, it should be a:
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 53ef028596c61..d6a9bac91a4cd 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1674,6 +1674,9 @@ static void nvme_config_discard(struct gendisk *dis=
+k, struct nvme_ns *ns)
+ 	struct request_queue *queue =3D disk->queue;
+ 	u32 size =3D queue_logical_block_size(queue);
+=20
++	if (ctrl->dmrsl && ctrl->dmrsl <=3D nvme_sect_to_lba(ns, UINT_MAX))
++		ctrl->max_discard_sectors =3D nvme_lba_to_sect(ns, ctrl->dmrsl);
++
+ 	if (ctrl->max_discard_sectors =3D=3D 0) {
+ 		blk_queue_max_discard_sectors(queue, 0);
+ 		return;
+@@ -1688,9 +1691,6 @@ static void nvme_config_discard(struct gendisk *dis=
+k, struct nvme_ns *ns)
+ 	if (queue->limits.max_discard_sectors)
+ 		return;
+=20
+-	if (ctrl->dmrsl && ctrl->dmrsl <=3D nvme_sect_to_lba(ns, UINT_MAX))
+-		ctrl->max_discard_sectors =3D nvme_lba_to_sect(ns, ctrl->dmrsl);
+-
+ 	blk_queue_max_discard_sectors(queue, ctrl->max_discard_sectors);
+ 	blk_queue_max_discard_segments(queue, ctrl->max_discard_segments);
+=20
+--=20
+2.34.1
 
-	more = (flags & (MORE | NOTLAST)) == MORE | NOTLAST
-	flags &= ~(MORE | NOTLAST)
-	if (more)
-		flags |= MORE
 
