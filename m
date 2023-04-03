@@ -4,73 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3364CC76188
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Apr 2023 15:54:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ECE97C76196
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Apr 2023 16:13:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5ClRkonRNBH8O7NdfUT93YUzudQLnZcGd0jMnr/kHGA=; b=3v8neKTKwUsmU5eHh6GafJxaPL
-	FTj0bqzaywTR7hv5sFLvRe6GgTKkBey05FsG6wyYgtsc72zmkTzDtldvE1k+AqZUbl3L8UGPT1JEe
-	YNxQ+8vo293SNfgWiYZW1CHv2X6ExUvIWyJUCDRemRzWO4OVLUiD9MfxpT2HJAYxRkwh7iLA+qeEu
-	HkOMBFeDHsywYJcxmDKvZQZOfDF3PEVq+J9t1m8FwT/GxAB3rAPmgjIDrqKAkFjwjLl9pawDCCxl5
-	KLgYmrooqRcHtR4HEu/QEg9h/e15b3QtM9zPkKHb/UqZDHLB7mWAYTI/iTN5XyqAIoHMyMUV54mXF
-	ii4zAH5A==;
+	bh=FeBep77DrjGUpmokRYQ7dhCDeDDySE9+TQjeaBuBkxw=; b=BqsAbry95KArNlJq33oACZKroF
+	9SFlW+NrK15TX/5BokHl/ZUpm/8du5y26PioWXhuc03bN8FAGY4riUwbSap4X6p1K+XzgIooe4A45
+	i3MQS53FSv9LTNK7IRa3Yt4CA/u9iAdkO+fU1SD81WJfnczcD896xsDWiHSeb6IHA5LSdp3iut6j+
+	THiE9HebgRa5Qb1cgzw0WD3aukhZu5f2c6STXq3zb5RqlsT5mrs16KRiUXsb4DNPzr+5XlDV3UzPi
+	GSrPmbh2TOBb1tZA8PsaVM3iYbmwqp/hjYudWBJIj3a2fsjE9WdyZi+MiY2URuIbzttEkAH8dTsV3
+	3OnQKzrw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pjMVO-00FsIa-1Y;
-	Mon, 03 Apr 2023 15:54:02 +0000
-Received: from mail-wr1-f50.google.com ([209.85.221.50])
+	id 1pjMoV-00FvYA-2q;
+	Mon, 03 Apr 2023 16:13:47 +0000
+Received: from mail-wm1-f44.google.com ([209.85.128.44])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pjMVL-00FsGQ-2X
+	id 1pjMoS-00FvXV-2y
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Apr 2023 15:54:00 +0000
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-2d17b1b21f1so542391f8f.1
-        for <linux-nvme@lists.infradead.org>; Mon, 03 Apr 2023 08:53:58 -0700 (PDT)
+	Mon, 03 Apr 2023 16:13:46 +0000
+Received: by mail-wm1-f44.google.com with SMTP id r19-20020a05600c459300b003eb3e2a5e7bso18462888wmo.0
+        for <linux-nvme@lists.infradead.org>; Mon, 03 Apr 2023 09:13:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680537237;
+        d=1e100.net; s=20210112; t=1680538420; x=1683130420;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5ClRkonRNBH8O7NdfUT93YUzudQLnZcGd0jMnr/kHGA=;
-        b=p1QQ1eyIGSYKbp+enMeyrbNZUv4XM64k9b13uS26bZdkt2p/XpHs5J+KaH1dxmd/Us
-         gCNGwuiONMjZQYkXSqWXt40rIA0WbR6NAtGX5WUdxRGAGyMZexCSXOJnAFqV3aYn1s7r
-         P9ufUtty9yy2N38TEGMtAgBXArKLEOAdc5nk0eQ9IeTeKZB9vbWUB1h+zSkxOQYT/ZFK
-         FMdthFdNIxsfP3C5CESKONt+OEC6FeUFlQflfxXKo7qjwp8ia301TEjaci/HeY5pgH3n
-         ac4WDDoDdpYjcwJVrAWiEh0xquNykfMusD39N+RKymqBkyXubt/YnsIv/GcAoZ4fOpeu
-         gfyQ==
-X-Gm-Message-State: AAQBX9cjVBI4YNWxARYpKAJhbwnqWaRUk0f/9NLxpbUFHHndBg8FyT0n
-	/xeakRQFNMXiWREERbM4odEk4s9XOPM=
-X-Google-Smtp-Source: AKy350abIeRfp3sEfbHUjS/39EXa4otYzwWvSMb2ZrNYUeahOFNo1/FAI48z8LrzEstVbJv5En/THQ==
-X-Received: by 2002:a05:600c:4fc9:b0:3ef:7bc5:4e14 with SMTP id o9-20020a05600c4fc900b003ef7bc54e14mr12422421wmq.4.1680537236960;
-        Mon, 03 Apr 2023 08:53:56 -0700 (PDT)
+        bh=FeBep77DrjGUpmokRYQ7dhCDeDDySE9+TQjeaBuBkxw=;
+        b=2ikFpa6/HTyL7qpNR9kUK/FJr9orCeAonW2E/JU9ikcsZU/ubwhN8Cgmu6NnRcuWn7
+         1y+5V5Lv1D7RJqhGCzrRR8AxsrhWJqa3kE2ABzfNj055CoK9P5sHhqmcPyCP/5d3HET0
+         eMJ+5tBwSBvTRBkPPKx1jqbLWboXoqfayQQGWcELDvlZK42zKhoBpR7nMEaJnpGckWls
+         p7GqJlxoSiYNttTCPrlKA6MlXV9HXgf7mGluf0kJ4pPDbMOGdxglMKz4LjcBJ99zidpl
+         ZrY8o3hjUyrIAfUpxaQGp1MVqMnR3qdqj3HVKmOkuEUcNBmNfW8cztBTBnU+ERpFiJgr
+         Pabw==
+X-Gm-Message-State: AAQBX9f+OuOdTO3fbHNXwysadkIIr2D2UahRBFaSBOo4jx/1+i+DMNwu
+	cSdeYARchdpAHSAWWT6+knc=
+X-Google-Smtp-Source: AKy350bQ6o8QlReTv05o8RCHu/tuH+y9+1PJGi+S4jdqiRhnA4MrEOz08syRp5I8Z5QCs7FLin6BFQ==
+X-Received: by 2002:a05:600c:5399:b0:3ee:da0:cb85 with SMTP id hg25-20020a05600c539900b003ee0da0cb85mr61777wmb.1.1680538420020;
+        Mon, 03 Apr 2023 09:13:40 -0700 (PDT)
 Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id y5-20020a1c4b05000000b003edd1c44b57sm12455105wma.27.2023.04.03.08.53.56
+        by smtp.gmail.com with ESMTPSA id bd6-20020a05600c1f0600b003ef36ef3833sm19541576wmb.8.2023.04.03.09.13.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Apr 2023 08:53:56 -0700 (PDT)
-Message-ID: <1b018791-9aa3-b988-7045-40b46bc50989@grimberg.me>
-Date: Mon, 3 Apr 2023 18:53:55 +0300
+        Mon, 03 Apr 2023 09:13:39 -0700 (PDT)
+Message-ID: <7e7c3787-1772-c719-9765-7d271100dffe@grimberg.me>
+Date: Mon, 3 Apr 2023 19:13:38 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH 18/18] nvmet-tcp: add configfs attribute 'param_keyring'
+Subject: Re: [PATCH 12/18] nvme-fabrics: parse options 'keyring' and 'tls_key'
 Content-Language: en-US
 To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
  Chuck Lever <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev
 References: <20230329135938.46905-1-hare@suse.de>
- <20230329135938.46905-19-hare@suse.de>
- <60ff89b4-5d63-a6db-18b1-e0f28055c5d9@grimberg.me>
- <c7e895f1-1c95-f658-f7a1-c4cee5cf8c91@suse.de>
+ <20230329135938.46905-13-hare@suse.de>
+ <677f3f9a-872d-27fe-9a21-b41bbe1c44ff@grimberg.me>
+ <daf1e19e-119b-3ceb-7808-b74d8b113e05@suse.de>
+ <f1bfbb7c-d8df-0386-1048-f141cb6e22bc@grimberg.me>
+ <d67d9932-96eb-3548-cf40-b48a6db95739@suse.de>
+ <a22946d2-e22d-a361-8768-8b34cbec1b03@grimberg.me>
+ <32a81d27-2c16-b71b-e9da-d704acda93f6@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <c7e895f1-1c95-f658-f7a1-c4cee5cf8c91@suse.de>
+In-Reply-To: <32a81d27-2c16-b71b-e9da-d704acda93f6@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230403_085359_822621_1453FE61 
-X-CRM114-Status: GOOD (  11.27  )
+X-CRM114-CacheID: sfid-20230403_091344_982799_445BF631 
+X-CRM114-Status: GOOD (  25.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,15 +90,82 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->>> Add a configfs attribute to list and change the default keyring.
->>
->> is the keyring an attribute of a port? or a subsystem? Why the choice
->> of making it per port?
->>
-> As per discussion at fmds each port might want to use different 
-> credentials.
-> We can move it to subsystems if we decide we don't want to support that 
-> use-case.
 
-I think we should move it to the subsystem in Linux.
+On 4/3/23 17:11, Hannes Reinecke wrote:
+> On 4/3/23 15:07, Sagi Grimberg wrote:
+>>
+>>>>>>> Parse the fabrics options 'keyring' and 'tls_key' and store the
+>>>>>>> referenced keys in the options structure.
+>>>>>>
+>>>>>> Can you explain the reasoning to why a user need to pass a keyring
+>>>>>> given that we already set up one?
+>>>>>>
+>>>>> Choice.
+>>>>> With a single keyring we can only have a single identity.
+>>>>> But there might be configurations where we want to have different PSKs
+>>>>> for the same identity (eg for key rotation).
+>>>>
+>>>> How do you expect that rotation would work with this?
+>>>>
+>>> The user creates a new keyring, adds the necessary keys to it, and then
+>>> either
+>>> - updates the keyring for nvmet (via configfs)
+>>> or
+>>> - reconnects using the new keyring
+>>
+>> And the user cannot update the nvme keyring?
+>>
+> Sure, he can. All I'm saying is that he might choose to create a 
+> different one (Different tenants, setups, what do I know).
+> 
+>>>> How does nvmet handle a non-nvme keyring?
+>>>>
+>>> There is a configfs attribute 'param_keyring', allowing you to use a 
+>>> different keyring (the nvme one is just the default).
+>>
+>> OK.
+>>
+>>>>> With this option we can prepare a new keyring, and use that instead 
+>>>>> of the old one.
+>>>>
+>>>> On an existing controller?
+>>>>
+>>> Sure; when we are updating the keyring and the key id the controller 
+>>> will use that after the next reset.
+>>> Much like we do for DH-CHAP nowadays.
+>>>
+>>>>> (And it really doesn't add much complexity...)
+>>>>
+>>>> I know, it just adds one more argument, and I want to understand if it
+>>>> is really needed.
+>>>
+>>> I do agree that the keyring argument would not necessarily required 
+>>> if we pass in the key id, but I'll be needing the keyring for secure 
+>>> concatenation. And plan is to move DH-HMAC-CHAP over to keyrings, too.
+>>
+>> I'm not sure I understand why authentication move to keyrings requires
+>> that the user is able to bring its own keyring.
+>>
+>>> So I'd prefer to keep it.
+>>
+>> I'm not against it, but I failing to understand in what situation a user
+>> _must_ send a different keyring to the driver (and not use the nvme
+>> keyring).
+> 
+> Oh, there is no 'must'. He _can_. And under certain circumstances
+> (in a multi-tenant environment, say) there are reasons to keep the keys 
+> separate into several keyrings.
+> Bit like the '--key' parameter; the code will try to select the 
+> 'default' key, but if the user wants to use a different one by all 
+> means, do.
+> Same for the keyring; we do have the default keyring, but if the user 
+> for whatever reason doesn't want to use it we're giving him the 
+> possibility for that.
+
+I'm not overly keen to overload the argument space without proper
+real-life justification. But maybe it does make sense to allow users
+to store their secrets in separate keyrings...
+
+So I'm not really opposed to this one.
+
 
