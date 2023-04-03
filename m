@@ -4,91 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0C6AEC76188
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Apr 2023 18:41:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D37FC76196
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Apr 2023 18:48:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Date:Cc:To:From:Subject:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pnUfxiNzIDCXaSEDlUou/KQ85PIVBXyvNqN5IYn9Rr0=; b=b3hvBJVH4RhFB8CknIFcoiTQ/S
-	2NrM9t/frttHX3PVVVkDiWif0lW27Dh3FsOuJVT+uU0EsOYmfvVW4dF2xHAN8TyAIzME9n7yvCKkn
-	EiiP9FfQ6Bg43y9pPVqQ8XfcrUrH6G/9YadSH5PBXU2dRm9nmn6Yc98ePdyFcQyfRUPOnqHFtLhR5
-	rNXzxDQpEi2a7d9rZyn/67PHHsr57ypFmEQZNRloNRJtEFQ5cvW9n+MSBGyGLdBPEPQvkZoRR/Ob2
-	/pNc1qtLbC7pnUOh3wuO9uOyJFj6155ENAcGhN4umMPXmybPLMSyNR4YDxT7vkd7VaNnJG/AS27Jd
-	HGqFQuYg==;
+	bh=PqtlIBxGXHI2Y2ffi5cAs0cMfL25Qf7g4B9MG8qpWFY=; b=LueQhEtlWqmMGFvI8UIakqMQug
+	5Qd2onOqQhUNE22bOpaxTyMaExEna7fsdF2OldPfbCOmM9NbqTrmk668Ej0UIyWF+a19pkN2m6jQY
+	HtsS0AicehHsm/Z47WQJwtrjKXeThms0J2dLy4W273XpWtxhCkQtDux2obgKyXTdFLAPniDi4HpNG
+	GyFNexNNeZCoSA+BCzasO/OCkIbGT/Wzx4sYXcjo9IJigamy8t7Sb76+//CzWOaURJpl8y1u37o1+
+	zFT0X1cjdbNP8KnGoBxDY0fg1FosFoEcf57a6TBbHIMwffuQpQ1TTbTI7b83jHQ3+Qw7t2T7ayXy/
+	CzfA+uiw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pjP75-00GGiN-1t;
-	Mon, 03 Apr 2023 18:41:07 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1pjPEP-00GIjB-25;
+	Mon, 03 Apr 2023 18:48:41 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pjP72-00GGgR-0H
+	id 1pjPEM-00GIiA-1Q
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Apr 2023 18:41:05 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1680547260;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pnUfxiNzIDCXaSEDlUou/KQ85PIVBXyvNqN5IYn9Rr0=;
-	b=QfsNM+i9LtCQ6/w5/I9ZWOS1nWSH30gwx+0WpbxDIzzYN5Dp9EB3gZREQEIRkNlaPtD8sB
-	scBQMq7PdV5RvPcfSlVViSXtvZCsAOenYGOzk7iBtP69+YLvjlO3Kir1YK0z5oPpReTrkp
-	fVSjkVu4eVLjCoqIuO6GABvewkshwQ8=
-Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
- [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-655-Xsv824GWPT2aiyfg3LJkbg-1; Mon, 03 Apr 2023 14:40:59 -0400
-X-MC-Unique: Xsv824GWPT2aiyfg3LJkbg-1
-Received: by mail-oa1-f69.google.com with SMTP id 586e51a60fabf-17a03f26ff8so15963031fac.8
-        for <linux-nvme@lists.infradead.org>; Mon, 03 Apr 2023 11:40:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680547258;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pnUfxiNzIDCXaSEDlUou/KQ85PIVBXyvNqN5IYn9Rr0=;
-        b=N+/RjicSkfeuYBigQyqr5K1IrCyxSZxJJddg1OYj0DPJ0GMRmK00uOjzySkusb+hPk
-         8Fr9ZHubtFkFr/QGBGU4k0nLSYMVN4Gx+jLjMe6gVIG5iA3F3ShOw2S2jhMx5Hw4kmz6
-         GVysSYVAQM9AHBw2vEZj/TSsl83SX54zpzIukahOFLUH6vgWh2QzwB2Uxw7/TMi3xBpR
-         rKpgK/O7kTM+y+R3+OWClsyLFxX66q2nbl8VhMiJGYkMv9yqSzZJMHTOEGSC74F/Ofw8
-         NM0FxkP3SgN/st78O21bXtn7/z+IfNfEyqlc1B8bSyuGWoXy2YTY698OfxMkA7PJYtJ+
-         xa3Q==
-X-Gm-Message-State: AAQBX9d6Gt2xElyyo1ItH3XuAhohdae0+zzzXc+MxMSJQ12HnP7vNAwK
-	rbQI5JrO2eg3XY5dDrYkVyW91FUs3u4AdmBN4fFC42gAN0A8g6nwHduPQ0xrm6iIPhIfkpeGDpj
-	mSFbq9ZD8XjdsXovwlVE0OWxRyJIOPvmGEvk=
-X-Received: by 2002:a4a:1187:0:b0:541:521:b527 with SMTP id 129-20020a4a1187000000b005410521b527mr198584ooc.7.1680547258079;
-        Mon, 03 Apr 2023 11:40:58 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Yjw6SX+mZhSvcqaOrhUXUnvCZA88w50+qKtKQMN6F8MzrhjcbntFSEGSL5GlXqrbUxSoQBeA==
-X-Received: by 2002:a4a:1187:0:b0:541:521:b527 with SMTP id 129-20020a4a1187000000b005410521b527mr198576ooc.7.1680547257803;
-        Mon, 03 Apr 2023 11:40:57 -0700 (PDT)
-Received: from ?IPv6:2600:6c64:4e7f:603b:45:ae91:c478:3bf0? ([2600:6c64:4e7f:603b:45:ae91:c478:3bf0])
-        by smtp.gmail.com with ESMTPSA id q40-20020a4a962b000000b0053b543b027bsm4255367ooi.42.2023.04.03.11.40.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Apr 2023 11:40:57 -0700 (PDT)
-Message-ID: <02ba658226be85a2b5ea678116fdc4c3059b82a7.camel@redhat.com>
-Subject: Re: Issue with discard with NVME and Infinibox Storage
-From: Laurence Oberman <loberman@redhat.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: minlei@redhat.com, jmeneghi@redhat.com, "Hellwig, Christoph"
-	 <hch@infradead.org>, axboe@fb.com, linux-block@vger.kernel.org, 
-	linux-nvme@lists.infradead.org
-Date: Mon, 03 Apr 2023 14:40:55 -0400
-In-Reply-To: <89d2cd0379c848f145eed7daf1931d7b4c81b230.camel@redhat.com>
-References: <d1dbb7c5eca51993e9988849ab2e43e800ecb067.camel@redhat.com>
-	 <ZCsUMR3uLx+vPoOp@kbusch-mbp.dhcp.thefacebook.com>
-	 <89d2cd0379c848f145eed7daf1931d7b4c81b230.camel@redhat.com>
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37)
+	Mon, 03 Apr 2023 18:48:39 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id CAAE46259E;
+	Mon,  3 Apr 2023 18:48:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFA00C433D2;
+	Mon,  3 Apr 2023 18:48:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1680547717;
+	bh=PpCYrfjppgEV5YEB2dlQRfdZa+PKUS28JIF5DobHOLw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ZabZRczKlv4pL00Y46/qY6Aw82RRk0nVVidIJ/0rIwEa4JUe/nJapNkHt4d/7Rb5y
+	 HxVP74YPGUzbNS1Em2Sf/XPQdCZS94gwrD6e0wcp9Ze5BLxZBhZsfWRkFpqzPy9AsU
+	 6CjauRzPX1SJju8htEiJgL/Y3vSQIRjXNFiLpDX+TDZb4bgMn9AEBYD02xgVs8tXfZ
+	 Jh0qm7uoN+0UhAYTmIcCd91bQ96tlUq6OoQtMntzh9nlSMyMB8ek7qRzd79C2UfR6O
+	 Ij9M+OfiEdxHkrJPaCwbHkP4qpOemmibtmoR0T0gH8AdNtINqf3c+VFcuDleoUXdOX
+	 BmltBi96AaNNQ==
+Date: Mon, 3 Apr 2023 11:48:35 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>, Boris
+ Pismenny <borisp@nvidia.com>, john.fastabend@gmail.com, Paolo Abeni
+ <pabeni@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ linux-nvme@lists.infradead.org, Chuck Lever <chuck.lever@oracle.com>,
+ kernel-tls-handshake@lists.linux.dev, "netdev@vger.kernel.org"
+ <netdev@vger.kernel.org>
+Subject: Re: [PATCH 10/18] nvme-tcp: fixup send workflow for kTLS
+Message-ID: <20230403114835.61946198@kernel.org>
+In-Reply-To: <c7a07e1d-b300-dd1d-1be6-311666387820@grimberg.me>
+References: <20230329135938.46905-1-hare@suse.de>
+	<20230329135938.46905-11-hare@suse.de>
+	<634385cc-35af-eca0-edcb-1196a95d1dfa@grimberg.me>
+	<20230330224920.3a47fec9@kernel.org>
+	<7f057726-8777-2fd3-a207-b3cd96076cb9@suse.de>
+	<44fe87ba-e873-fa05-d294-d29d5e6dd4b5@grimberg.me>
+	<20230403075946.26ad71ee@kernel.org>
+	<c7a07e1d-b300-dd1d-1be6-311666387820@grimberg.me>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230403_114104_196213_1F4C8E72 
-X-CRM114-Status: GOOD (  31.29  )
+X-CRM114-CacheID: sfid-20230403_114838_552746_F6E4C844 
+X-CRM114-Status: GOOD (  23.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,140 +84,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, 2023-04-03 at 14:18 -0400, Laurence Oberman wrote:
-> On Mon, 2023-04-03 at 12:00 -0600, Keith Busch wrote:
-> > On Mon, Apr 03, 2023 at 01:35:22PM -0400, Laurence Oberman wrote:
-> > > Hello Ming and Christoph
-> > >=20
-> > > Issue with Infinibox storage
-> > > ----------------------------
-> > > Really discovered 2 issues here=20
-> > >=20
-> > > Issue 1
-> > > Kernels 5.15 to 5.18 inclusive recognize the discard support on
-> > > the
-> > > Infinibox device but they fail in the nvme_setup_discard function
-> > > call
-> >=20
-> > This first i ssue should be fixed with this commit:
-> >=20
-> > =C2=A0
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
-it?id=3D37f0dc2ec78af0c3f35dd05578763de059f6fe77
-> >=20
-> > > Issue 2
-> > > Trying to narrow this down.
-> > > 5.19 and higher (6.3 included), no longer support discard on the
-> > > Infinibox device and log this message so I cannot run the test
-> > > for
-> > > the
-> > > discard issue
-> > >=20
-> > > [=C2=A0=C2=A0 35.989809] nvme nvme1: new ctrl: NQN "nqn.2020-
-> > > 01.com.infinidat:36000-subsystem-696", addr 192.168.1.2:4420
-> > > [=C2=A0=C2=A0 64.810437] XFS (nvme1n1): mounting with "discard" optio=
-n, but
-> > > the
-> > > device does not support discard
-> > > [=C2=A0=C2=A0 64.812298] XFS (nvme1n1): Mounting V5 Filesystem 6763a3=
-3f-
-> > > 18cc-
-> > > 4a26-894b-8b0f8d79a98a
-> > >=20
-> > > I then bisected between 5.18 and 5.19 to this commit
-> > >=20
-> > > 1a86924e4f464757546d7f7bdc469be237918395 is the first bad commit
-> >=20
-> >=20
-> > > commit 1a86924e4f464757546d7f7bdc469be237918395
-> > > Author: Tom Yan <tom.ty89@gmail.com>
-> > > Date:=C2=A0=C2=A0 Fri Apr 29 12:52:43 2022 +0800
-> > >=20
-> > > =C2=A0=C2=A0=C2=A0 nvme: fix interpretation of DMRSL
-> > > =C2=A0=C2=A0=C2=A0=20
-> > > =C2=A0=C2=A0=C2=A0 DMRSLl is in the unit of logical blocks, while
-> > > max_discard_sectors
-> > > is
-> > > =C2=A0=C2=A0=C2=A0 in the unit of "linux sector".
-> > > =C2=A0=C2=A0=C2=A0=20
-> > > =C2=A0=C2=A0=C2=A0 Signed-off-by: Tom Yan <tom.ty89@gmail.com>
-> > > =C2=A0=C2=A0=C2=A0 Signed-off-by: Christoph Hellwig <hch@lst.de>
-> > >=20
-> > > =C2=A0drivers/nvme/host/core.c | 6 ++++--
-> > > =C2=A0drivers/nvme/host/nvme.h | 1 +
-> > > =C2=A02 files changed, 5 insertions(+), 2 deletions(-)
-> > >=20
-> > >=20
-> > > Note that Infindat mentioned this in our case they logged with us
-> > > They say they fully adhere to TP4040 MDTS.
-> > > Towards NVMe-oF 2.0 specification, TP4040=C2=A0 - Max Data Transfer
-> > > for
-> > > non-
-> > > IO Commands (MDTS) was released with additional fields to control
-> > > these
-> > > parameters.
-> > > These parameters are supported in kernel versions 5.15 and
-> > > above.=C2=A0
-> > > ****
-> > >=20
-> > > Our storage target will reply with 0 for bit 2 of the ONCS,
-> > > indicating
-> > > UNMAP is supported based on the DMRL, DMRSL, and DMSL values.=20
-> > > (older kernels will interpret these values as UNMAP NOT
-> > > SUPPORTED)
-> > >=20
-> > >=20
-> > > Let me know your thoughts please. for both issues
-> >=20
-> > The commit you found unconditionally sets the discard queue limit
-> > to
-> > the
-> > reported DMRSL, so it sounds like your target is reporting DMRSL as
-> > '0'. Prior
-> > to that commit, we'd use that value only if it was non-zero. I hope
-> > that helps.
-> >=20
->=20
->=20
->=20
-> Hello Keith,
-> Many Thanks as always
-> I will inform Infinidat and have them figure this out.
->=20
-> Regards
-> Laurence
+On Mon, 3 Apr 2023 18:51:09 +0300 Sagi Grimberg wrote:
+> What I'm assuming that Hannes is tripping on is that tls does
+> not accept when this flag is sent to sock_no_sendpage, which
+> is simply calling sendmsg. TLS will not accept this flag when
+> passed to sendmsg IIUC.
+> 
+> Today the rough logic in nvme send path is:
+> 
+> 	if (more_coming(queue)) {
+> 		flags = MSG_MORE | MSG_SENDPAGE_NOTLAST;
+> 	} else {
+> 		flags = MSG_EOR;
+> 	}
+> 
+> 	if (!sendpage_ok(page)) {
+> 		kernel_sendpage();
+> 	} else {
+> 		sock_no_sendpage();
+> 	}
+> 
+> This pattern (note that sock_no_sednpage was added later following bug
+> reports where nvme attempted to sendpage a slab allocated page), is
+> perfectly acceptable with normal sockets, but not with TLS.
+> 
+> So there are two options:
+> 1. have tls accept MSG_SENDPAGE_NOTLAST in sendmsg (called from
+>     sock_no_sendpage)
+> 2. Make nvme set MSG_SENDPAGE_NOTLAST only when calling
+>     kernel_sendpage and clear it when calling sock_no_sendpage
+> 
+> If you say that MSG_SENDPAGE_NOTLAST must be cleared when calling
+> sock_no_sendpage and it is a bug that it isn't enforced for normal tcp
+> sockets, then we need to change nvme, but I did not find
+> any documentation that indicates it, and right now, normal sockets
+> behave differently than tls sockets (wrt this flag in particular).
+> 
+> Hope this clarifies.
 
+Oh right, it does, the context evaporated from my head over the weekend.
 
-Hi Keith=C2=A0
-Closing the loop
+IMHO it's best if the caller passes the right flags. The semantics of
+MSG_MORE vs NOTLAST are quite murky and had already caused bugs in the
+past :(
 
-The challenge was the other issue was masking me testing the fix.
+See commit d452d48b9f8b ("tls: prevent oversized sendfile() hangs by
+ignoring MSG_MORE")
 
-I reverted that commit (1a86924e4f464757546d7f7bdc469be237918395) and
-now the original test passes so we are good here.
+Alternatively we could have sock_no_sendpage drop NOTLAST to help
+all protos. But if we consider sendfile behavior as the standard
+simply clearing it isn't right, it should be a:
 
-Linux localhost.localdomain 6.3.0-rc4+ #13 SMP PREEMPT_DYNAMIC Mon Apr
-3 13:40:21 EDT 2023 x86_64 x86_64 x86_64 GNU/Linux
-
-[   57.090328] nvme nvme1: new ctrl: NQN "nqn.2020-
-01.com.infinidat:36000-subsystem-696", addr 192.168.1.2:4420
-[   61.441213] XFS (nvme1n1): Mounting V5 Filesystem 6763a33f-18cc-
-4a26-894b-8b0f8d79a98a
-[   64.627670] XFS (nvme1n1): Ending clean mount
-[   64.665657] xfs filesystem being mounted at /data supports
-timestamps until 2038 (0x7fffffff)
-
-Then running the fio test passes with no issues so confirming the fix
-you called out (Ming had mentioned this too) resolves the original
-issue.
-
-
-Infinidat will have to fix their DMRSL issue
-
-Thanks folks
-
-Regards as always
-Laurence Oberman
-
-
+	more = (flags & (MORE | NOTLAST)) == MORE | NOTLAST
+	flags &= ~(MORE | NOTLAST)
+	if (more)
+		flags |= MORE
 
