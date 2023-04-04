@@ -4,77 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C94D3C77B60
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Apr 2023 05:30:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B4A0C6FD1D
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Apr 2023 15:13:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ip0dMk/8ffC9K+O3KWaMMaYyrBYIv8HfDahf4yNoyGw=; b=Tzg9MZ0rxyctGPPRL867GTTDlz
-	gXvAUTIxQSefzdixK6mVGLPUn0gKdA/GRhgBMjbZuhCjoE6guczcJ9ZX4waRWQzTWhkkEEG+mUH0s
-	GMR+W/xihqMVqP2yXIHfGkb79dIYH9Ej14ZDfYq0YVeL8PqQD5KtCAdlb52Nyo7Mffth92Jq8kxdX
-	vOY3bhfQmpKVPwnV2+5GQ+ibnPX6iABGK+7X99cCgcfgUR0FUK1u02iKWsMi97li9EQ7fP9HmOkra
-	aChNSB8Bxc/iDJFS62/AO0XSpr0lvcu+sj3tlZN24QpHHI7NTpcT7sROwwo6hr0Ny82F6BEXc1CEJ
-	SVDJ8F3Q==;
+	bh=P9aZlcZq1OAKX3QNMjBitKqvjfGR4DT30Ooj7feOkbs=; b=AiGzbsP9Ayqa31BHRWeq5i502r
+	uDNqjUzBytQ1QpgjesY0kWEsG025kzn3iPsvmRjESANCDu6ux7oZO2UoZBpSF4yuMvLyreRq35UKk
+	kW85z0mZicsCCBUg2oCpOH4q/mjA/UnxaGs4f7nOhqlCnEZaMK4+lzvxJPewJ1vCtdQPeM+xdGsq/
+	H2RD6eFiVvrkPxjb/qNTwdlSrgIWCTbACCGGaUPtMux/YzzKcqNvWsh3BFBKD6xdGjUeFUTGFOfSg
+	82dULO9WWW7EJiOEE1xgKhBDLuzEGV+y17EhD5CBzuIbOYjacaQLrv2uhT2w54m1AQ5r9FxZ8QGGf
+	REcErafA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pjZFb-0006D2-1f;
-	Tue, 04 Apr 2023 05:30:35 +0000
-Received: from mga05.intel.com ([192.55.52.43])
+	id 1pjiLv-001wqL-1k;
+	Tue, 04 Apr 2023 15:13:43 +0000
+Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pjZFU-0006CB-2i
+	id 1pjiLr-001wpE-29
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Apr 2023 05:30:31 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680586228; x=1712122228;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RdDpxGvgQ2tbcB1Q1fxF2Lua+npmQ3o86qaGHUvpBgc=;
-  b=jc3PYuEnvwiBb1scsIhzmgKId0CZJCtf6Yp0WSYaF0Wm5jFehnWIB0yl
-   jmHy7CuSPCmYwKZkEe3VDWWunyoI5m2DGirYTRcj1xgt+0VjCElxA6jFA
-   pjR8IWpFSiX+gcRyJXUTVgpbCsbXE+xzBm7jPEp8PL0GcDRK/v39vlaSQ
-   VMr4HHzdu9CMr84p3hFbxtXKi8YebayKdFvnhk7gDyB8VR4Rqep0YYgQB
-   RFAqqUX6BUufTX9DolcvPa35KwkjkvCQPTGtjtyiwi+yqI9sJWb3BrdaA
-   kVdl4OVSqCA+3Pn2usLAKe4RjNW/MJVFFriPW1SpV90Or5POiQcyqKyDK
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="428377411"
-X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="428377411"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 22:30:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="686242063"
-X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="686242063"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 03 Apr 2023 22:30:08 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pjZF8-000PEe-10;
-	Tue, 04 Apr 2023 05:30:06 +0000
-Date: Tue, 4 Apr 2023 13:29:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mike Christie <michael.christie@oracle.com>, bvanassche@acm.org,
-	hch@lst.de, martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
-	james.bottomley@hansenpartnership.com, linux-block@vger.kernel.org,
-	dm-devel@redhat.com, snitzer@kernel.org, axboe@kernel.dk,
-	linux-nvme@lists.infradead.org, chaitanyak@nvidia.com,
-	kbusch@kernel.org, target-devel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Mike Christie <michael.christie@oracle.com>
-Subject: Re: [PATCH v5 18/18] scsi: target: Add block PR support to iblock
-Message-ID: <202304041322.SEFV29Co-lkp@intel.com>
-References: <20230324181741.13908-19-michael.christie@oracle.com>
+	Tue, 04 Apr 2023 15:13:41 +0000
+Received: by mail-lf1-x133.google.com with SMTP id c29so42801564lfv.3
+        for <linux-nvme@lists.infradead.org>; Tue, 04 Apr 2023 08:13:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680621217;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature:dkim-signature
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=P9aZlcZq1OAKX3QNMjBitKqvjfGR4DT30Ooj7feOkbs=;
+        b=QtaYRqxulg/3jicp6v49thsG5qMI1RXKu/2TzBFqrXlW9/EHINmoErmREAUScr8Bc2
+         lLgOtmARBcmoZtWzSjWfTtMQrp5UqOVcFJSc4VqIkQ8gXpPh64BG0vqVH92iwj4m6jKT
+         BB+kEq3E4lr4mHmTCrT4hb25G96mUUo9eMADP7xud8Icxc9xna+SH/nlcFq1S5+XZmg9
+         DIH+Aqyh06Tb0EZt2Ue8JNE4nG6ObVWOpu6p7reXF5qzuNm5hDjGbEYB6Gs9JG4P5O+z
+         XYpmtjackvFUTPZ4SQNLdLsXmvaMLy8OKH8/Y7xBaFMYL/t8a93EketUWBV5MAeroKk0
+         abTg==
+X-Gm-Message-State: AAQBX9eIyhhrjarlbDyVsdHauZpEIx1pVmdMIp8XaQWeNtw6FjGTzebN
+	XeeIsvN2t+mY1Tw3iYPVdLc9rZ0WZ2Ltow==
+X-Google-Smtp-Source: AKy350ZJWJwHmiz/p7rBKQD/CdGNmsUQX2RFUgUQjtaCuLQZQzUgfCiTPseD72iJ65bKojX6t6Y4Aw==
+X-Received: by 2002:a05:6512:49c:b0:4eb:3149:cbe1 with SMTP id v28-20020a056512049c00b004eb3149cbe1mr789943lfq.10.1680621216629;
+        Tue, 04 Apr 2023 08:13:36 -0700 (PDT)
+Received: from flawful.org (c-a3f5e255.011-101-6d6c6d3.bbcust.telenor.se. [85.226.245.163])
+        by smtp.gmail.com with ESMTPSA id d27-20020ac24c9b000000b004db2b54714bsm2365876lfl.67.2023.04.04.08.13.36
+        for <linux-nvme@lists.infradead.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Apr 2023 08:13:36 -0700 (PDT)
+Received: by flawful.org (Postfix, from userid 112)
+	id 7CA22895; Tue,  4 Apr 2023 17:13:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=flawful.org; s=mail;
+	t=1680621215; bh=VdLcK+ZudRdgb6Tz8CNtxK/uW5cYcnsd/0hK/mDN7Pk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gOEGq+QidfhS/g9uMlHubsPq0j06+9kUS+QtnJyn06mKveMIWAuVZj2S5kF1OZNMk
+	 xJktJEzHPoPYSz94ZD/iutJ7Kx0b1DJQVX4zifJsh+JPjq86VfmpKVRZsnip/HRcXf
+	 AAhaPRyjNjJhE+6z1oCt4zsH+eo7W775L5Xcez64=
+Received: from x1-carbon (OpenWrt.lan [192.168.1.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by flawful.org (Postfix) with ESMTPSA id 919A32C0;
+	Tue,  4 Apr 2023 17:12:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=flawful.org; s=mail;
+	t=1680621193; bh=VdLcK+ZudRdgb6Tz8CNtxK/uW5cYcnsd/0hK/mDN7Pk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MuTYSm5YdaO/rHMQ/KUfvgJLdjQ5HOL0pooCH0Zc/so2wQwcvvCUj1kfarfRlvNnr
+	 IavIk7l+WoAXvOqbLTnLd3oBShHZ194ybI3BBWOfQ4dAuqo8xOTOXJfr6mBX8oo2F8
+	 hMF/kFMneGJsOnS9j9Nr4psPGf5+SoS2VL1WhfRc=
+Date: Tue, 4 Apr 2023 17:12:47 +0200
+From: Niklas Cassel <nks@flawful.org>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
+	Keith Busch <kbusch@kernel.org>, Tom Yan <tom.ty89@gmail.com>,
+	Laurence Oberman <loberman@redhat.com>
+Subject: Re: [PATCH] nvme: fix discard support without oncs
+Message-ID: <ZCw+b9dpTp/cnms9@x1-carbon>
+References: <20230403200925.1641963-1-kbusch@meta.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230324181741.13908-19-michael.christie@oracle.com>
+In-Reply-To: <20230403200925.1641963-1-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230403_223028_894931_E6200816 
-X-CRM114-Status: GOOD (  16.91  )
+X-CRM114-CacheID: sfid-20230404_081340_489534_DFCB3C29 
+X-CRM114-Status: GOOD (  24.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,220 +101,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Mike,
+On Mon, Apr 03, 2023 at 01:09:25PM -0700, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
+> 
+> The device can report discard support without setting the ONCS DSM bit.
+> When not set, the driver clears max_discard_size expecting it to be set
+> later. We don't know the size until we have the namespace format,
+> though, so setting it is deferred until configuring one, but the driver
+> was abandoning the discard settings due to that initial clearing.
+> 
+> Move the max_discard_size calculation above the check for a '0' discard
+> size.
+> 
+> Fixes: 1a86924e4f46475 ("nvme: fix interpretation of DMRSL")
+> Cc: Tom Yan <tom.ty89@gmail.com>
+> Reported-by: Laurence Oberman <loberman@redhat.com>
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> ---
+>  drivers/nvme/host/core.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 53ef028596c61..d6a9bac91a4cd 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -1674,6 +1674,9 @@ static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
+>  	struct request_queue *queue = disk->queue;
+>  	u32 size = queue_logical_block_size(queue);
+>  
+> +	if (ctrl->dmrsl && ctrl->dmrsl <= nvme_sect_to_lba(ns, UINT_MAX))
+> +		ctrl->max_discard_sectors = nvme_lba_to_sect(ns, ctrl->dmrsl);
+> +
+>  	if (ctrl->max_discard_sectors == 0) {
+>  		blk_queue_max_discard_sectors(queue, 0);
+>  		return;
+> @@ -1688,9 +1691,6 @@ static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
+>  	if (queue->limits.max_discard_sectors)
+>  		return;
+>  
+> -	if (ctrl->dmrsl && ctrl->dmrsl <= nvme_sect_to_lba(ns, UINT_MAX))
+> -		ctrl->max_discard_sectors = nvme_lba_to_sect(ns, ctrl->dmrsl);
+> -
+>  	blk_queue_max_discard_sectors(queue, ctrl->max_discard_sectors);
+>  	blk_queue_max_discard_segments(queue, ctrl->max_discard_segments);
+>  
+> -- 
+> 2.34.1
+> 
+> 
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mkp-scsi/for-next]
-[also build test WARNING on jejb-scsi/for-next axboe-block/for-next linus/master v6.3-rc5 next-20230403]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Christie/block-Add-PR-callouts-for-read-keys-and-reservation/20230325-022314
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20230324181741.13908-19-michael.christie%40oracle.com
-patch subject: [PATCH v5 18/18] scsi: target: Add block PR support to iblock
-config: ia64-randconfig-s043-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041322.SEFV29Co-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/f3fe3a0cab8498044d99362b81e01f5c48da5f63
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Mike-Christie/block-Add-PR-callouts-for-read-keys-and-reservation/20230325-022314
-        git checkout f3fe3a0cab8498044d99362b81e01f5c48da5f63
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/target/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304041322.SEFV29Co-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/target/target_core_iblock.c:968:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:968:24: sparse:     expected int
-   drivers/target/target_core_iblock.c:968:24: sparse:     got restricted sense_reason_t
-   drivers/target/target_core_iblock.c:973:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:973:24: sparse:     expected int
-   drivers/target/target_core_iblock.c:973:24: sparse:     got restricted sense_reason_t
-   drivers/target/target_core_iblock.c:985:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:985:24: sparse:     expected int
-   drivers/target/target_core_iblock.c:985:24: sparse:     got restricted sense_reason_t
->> drivers/target/target_core_iblock.c:996:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [assigned] ret @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:996:21: sparse:     expected int [assigned] ret
-   drivers/target/target_core_iblock.c:996:21: sparse:     got restricted sense_reason_t
-   drivers/target/target_core_iblock.c:1000:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [assigned] ret @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:1000:13: sparse:     expected int [assigned] ret
-   drivers/target/target_core_iblock.c:1000:13: sparse:     got restricted sense_reason_t
-   drivers/target/target_core_iblock.c:1035:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:1035:24: sparse:     expected int
-   drivers/target/target_core_iblock.c:1035:24: sparse:     got restricted sense_reason_t
-   drivers/target/target_core_iblock.c:1040:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:1040:24: sparse:     expected int
-   drivers/target/target_core_iblock.c:1040:24: sparse:     got restricted sense_reason_t
-   drivers/target/target_core_iblock.c:1044:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:1044:24: sparse:     expected int
-   drivers/target/target_core_iblock.c:1044:24: sparse:     got restricted sense_reason_t
-   drivers/target/target_core_iblock.c:1049:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:1049:24: sparse:     expected int
-   drivers/target/target_core_iblock.c:1049:24: sparse:     got restricted sense_reason_t
-   drivers/target/target_core_iblock.c:1055:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:1055:24: sparse:     expected int
-   drivers/target/target_core_iblock.c:1055:24: sparse:     got restricted sense_reason_t
-   drivers/target/target_core_iblock.c:1059:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:1059:24: sparse:     expected int
-   drivers/target/target_core_iblock.c:1059:24: sparse:     got restricted sense_reason_t
-   drivers/target/target_core_iblock.c:1062:16: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted sense_reason_t @@
-   drivers/target/target_core_iblock.c:1062:16: sparse:     expected int
-   drivers/target/target_core_iblock.c:1062:16: sparse:     got restricted sense_reason_t
->> drivers/target/target_core_iblock.c:1075:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted sense_reason_t [usertype] ret @@     got int @@
-   drivers/target/target_core_iblock.c:1075:21: sparse:     expected restricted sense_reason_t [usertype] ret
-   drivers/target/target_core_iblock.c:1075:21: sparse:     got int
-   drivers/target/target_core_iblock.c:1078:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted sense_reason_t [usertype] ret @@     got int @@
-   drivers/target/target_core_iblock.c:1078:21: sparse:     expected restricted sense_reason_t [usertype] ret
-   drivers/target/target_core_iblock.c:1078:21: sparse:     got int
-
-vim +968 drivers/target/target_core_iblock.c
-
-   956	
-   957	static int iblock_pr_read_keys(struct se_cmd *cmd, unsigned char *param_data)
-   958	{
-   959		struct se_device *dev = cmd->se_dev;
-   960		struct iblock_dev *ib_dev = IBLOCK_DEV(dev);
-   961		struct block_device *bdev = ib_dev->ibd_bd;
-   962		const struct pr_ops *ops = bdev->bd_disk->fops->pr_ops;
-   963		int i, ret, len, paths, data_offset;
-   964		struct pr_keys *keys;
-   965	
-   966		if (!ops) {
-   967			pr_err("Block device does not support pr_ops but iblock device has been configured for PR passthrough.\n");
- > 968			return TCM_UNSUPPORTED_SCSI_OPCODE;
-   969		}
-   970	
-   971		if (!ops->pr_read_keys) {
-   972			pr_err("Block device does not support read_keys.\n");
-   973			return TCM_UNSUPPORTED_SCSI_OPCODE;
-   974		}
-   975	
-   976		/*
-   977		 * We don't know what's under us, but dm-multipath will register every
-   978		 * path with the same key, so start off with enough space for 16 paths.
-   979		 */
-   980		paths = 16;
-   981	retry:
-   982		len = 8 * paths;
-   983		keys = kzalloc(sizeof(*keys) + len, GFP_KERNEL);
-   984		if (!keys)
-   985			return TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE;
-   986	
-   987		keys->num_keys = paths;
-   988		ret = ops->pr_read_keys(bdev, keys);
-   989		if (!ret) {
-   990			if (keys->num_keys > paths) {
-   991				kfree(keys);
-   992				paths *= 2;
-   993				goto retry;
-   994			}
-   995		} else if (ret) {
- > 996			ret = TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE;
-   997			goto free_keys;
-   998		}
-   999	
-  1000		ret = TCM_NO_SENSE;
-  1001	
-  1002		put_unaligned_be32(keys->generation, &param_data[0]);
-  1003		if (!keys->num_keys) {
-  1004			put_unaligned_be32(0, &param_data[4]);
-  1005			goto free_keys;
-  1006		}
-  1007	
-  1008		put_unaligned_be32(8 * keys->num_keys, &param_data[4]);
-  1009	
-  1010		data_offset = 8;
-  1011		for (i = 0; i < keys->num_keys; i++) {
-  1012			if (data_offset + 8 > cmd->data_length)
-  1013				break;
-  1014	
-  1015			put_unaligned_be64(keys->keys[i], &param_data[data_offset]);
-  1016			data_offset += 8;
-  1017		}
-  1018	
-  1019	free_keys:
-  1020		kfree(keys);
-  1021		return ret;
-  1022	}
-  1023	
-  1024	static int iblock_pr_read_reservation(struct se_cmd *cmd,
-  1025					      unsigned char *param_data)
-  1026	{
-  1027		struct se_device *dev = cmd->se_dev;
-  1028		struct iblock_dev *ib_dev = IBLOCK_DEV(dev);
-  1029		struct block_device *bdev = ib_dev->ibd_bd;
-  1030		const struct pr_ops *ops = bdev->bd_disk->fops->pr_ops;
-  1031		struct pr_held_reservation rsv = { };
-  1032	
-  1033		if (!ops) {
-  1034			pr_err("Block device does not support pr_ops but iblock device has been configured for PR passthrough.\n");
-  1035			return TCM_UNSUPPORTED_SCSI_OPCODE;
-  1036		}
-  1037	
-  1038		if (!ops->pr_read_reservation) {
-  1039			pr_err("Block device does not support read_keys.\n");
-  1040			return TCM_UNSUPPORTED_SCSI_OPCODE;
-  1041		}
-  1042	
-  1043		if (ops->pr_read_reservation(bdev, &rsv))
-  1044			return TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE;
-  1045	
-  1046		put_unaligned_be32(rsv.generation, &param_data[0]);
-  1047		if (!block_pr_type_to_scsi(rsv.type)) {
-  1048			put_unaligned_be32(0, &param_data[4]);
-  1049			return TCM_NO_SENSE;
-  1050		}
-  1051	
-  1052		put_unaligned_be32(16, &param_data[4]);
-  1053	
-  1054		if (cmd->data_length < 16)
-> 1055			return TCM_NO_SENSE;
-  1056		put_unaligned_be64(rsv.key, &param_data[8]);
-  1057	
-  1058		if (cmd->data_length < 22)
-  1059			return TCM_NO_SENSE;
-  1060		param_data[21] = block_pr_type_to_scsi(rsv.type);
-  1061	
-  1062		return TCM_NO_SENSE;
-  1063	}
-  1064	
-  1065	static sense_reason_t iblock_execute_pr_in(struct se_cmd *cmd, u8 sa,
-  1066						   unsigned char *param_data)
-  1067	{
-  1068		sense_reason_t ret = TCM_NO_SENSE;
-  1069	
-  1070		switch (sa) {
-  1071		case PRI_REPORT_CAPABILITIES:
-  1072			iblock_pr_report_caps(param_data);
-  1073			break;
-  1074		case PRI_READ_KEYS:
-> 1075			ret = iblock_pr_read_keys(cmd, param_data);
-  1076			break;
-  1077		case PRI_READ_RESERVATION:
-  1078			ret = iblock_pr_read_reservation(cmd, param_data);
-  1079			break;
-  1080		default:
-  1081			pr_err("Unknown PERSISTENT_RESERVE_IN SA: 0x%02x\n", sa);
-  1082			return TCM_UNSUPPORTED_SCSI_OPCODE;
-  1083		}
-  1084	
-  1085		return ret;
-  1086	}
-  1087	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Reviewed-by: Niklas Cassel <niklas.cassel@wdc.com>
 
