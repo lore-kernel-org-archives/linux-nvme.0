@@ -4,93 +4,143 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62BF8C76188
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Apr 2023 16:54:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C84D8C761AF
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 Apr 2023 18:43:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IxFOI8BlLlR7NCyVkzu+oUkui6zaCPq4znyAUScBVv0=; b=yrvsPbEHRVfTcUS0kxRUHkj0au
-	cxS4mHNl/GHTK3MoNrpzQgT7nucHVywgAbFXhl5IFUGL0N9Y4cgnTSBNC1rbuycUNxTbstWBw4inu
-	4KFwX1c/euWWgXqvQdhXnpfwEnRXm1hGD1wsV9Ef4enmBMTZMwl6ioWnDU11tcpyxiqijYZbyisfB
-	Le6kZi8tadGxAWl8/LiPEVlWrMU0l6YewJGubXl+Wk3WPOWAuT2pCkY8OVh3ovQ74ZGU6bMA0gRY4
-	DjQPtVil7cMAKnOv5wJbsjzF1Q63REK0fSqxjVOODpkmP+zPt1tkIH0OQXt6WW+sHFgl7fuTJL1ax
-	TtUuku0g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=p83k2jb5qyUnDAvF73cnE8w+WgbjCot+YTu7qN7b2ss=; b=vUP8O6HPqar4tiuLhCgppGLKZ1
+	PjdpDOXtN4NR3i8wxwpkRnZr1QTsYd9TEYND0fepVYwJFF9JydrM0MkqpcQmfIDzVnEwhOKEOA5mU
+	Uhib/fbvR05C6gRwsujNDN+Ofy9QBm1GhNd/3ERjsuq5nPAq1n8kMXzQXJG6N7e4u6bflPeWmxANy
+	eBSGf9xU1Lf5CudJPtvqj7xbHGtBLGT3ZNzC+uFHK9Jami40IDSlsvqpcFB/YExw9fG4BN+WIyws7
+	AyolFujbTk6d9hobpQ2IyqECaBHs4/C3PuIheMOIwNNPLn3mcXpUk00WJhWVwIo7QITN5TFmnbyG1
+	tu0XlYtA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pk6Oh-005Bqr-2k;
-	Wed, 05 Apr 2023 16:54:11 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1pk869-005QDc-1d;
+	Wed, 05 Apr 2023 18:43:09 +0000
+Received: from mail-sn1nam02on20630.outbound.protection.outlook.com ([2a01:111:f400:7ea9::630] helo=NAM02-SN1-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pk6Oc-005BmY-25
+	id 1pk865-005QCq-2w
 	for linux-nvme@lists.infradead.org;
-	Wed, 05 Apr 2023 16:54:09 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1680713645;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IxFOI8BlLlR7NCyVkzu+oUkui6zaCPq4znyAUScBVv0=;
-	b=cQuga91nPUx7x3BdkIoyYw/yPQaxU37Mb+oTlTVxxBzxpMeLzi80nifXnkmCZDchtND3lv
-	gW63je5Wc02sZ4gry7kcKFh7EAdiSHwSBxICJmQY+AF1IHpURakqJT/y3h4BhIzqCMvqVI
-	hK5lnXe8KyOxDprAX3tB6GshXhI6U4w=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-499-j5Q8MndgOw2Vu35Xrvwpvg-1; Wed, 05 Apr 2023 12:54:02 -0400
-X-MC-Unique: j5Q8MndgOw2Vu35Xrvwpvg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 97712858F09;
-	Wed,  5 Apr 2023 16:54:00 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.33.36.18])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E7A24140EBF4;
-	Wed,  5 Apr 2023 16:53:56 +0000 (UTC)
-From: David Howells <dhowells@redhat.com>
-To: netdev@vger.kernel.org
-Cc: David Howells <dhowells@redhat.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Christoph Hellwig <hch@infradead.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Jeff Layton <jlayton@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Chuck Lever III <chuck.lever@oracle.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Felix Fietkau <nbd@nbd.name>,
-	John Crispin <john@phrozen.org>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Mark Lee <Mark-MC.Lee@mediatek.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	linux-nvme@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: [PATCH net-next v4 05/20] mm: Make the page_frag_cache allocator use per-cpu
-Date: Wed,  5 Apr 2023 17:53:24 +0100
-Message-Id: <20230405165339.3468808-6-dhowells@redhat.com>
-In-Reply-To: <20230405165339.3468808-1-dhowells@redhat.com>
-References: <20230405165339.3468808-1-dhowells@redhat.com>
+	Wed, 05 Apr 2023 18:43:07 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hVHjNIgng/F8GH6XGyBQN6sopQSMi1OaK4gcu8gdhiEaH5m5BbEO3pSePCKjwl8k5He4IR7sZ8kezmALCnxNL0XSoDaKv8azk9g/61+uQTxfaqQ0+rVlC3uSVFPN8er9DGqHcv/KXZRO26zmgAiryPcr++dvQIIdoVRnnclLdSD1cGOxTBfS1Xcefr7Kf+wy8zllxt0JyHoXgwX8tavMBHO+ZUx3S+409Cu7dJhJ70bcc8vgWiudoTldXWeqxpF1MxOxW/5dRyobxS9QpXSrHPAs7fg/0vQAemWNhtLvWp+JY5DMi7AXAChcmwcDbrTMF146dtpSQ86ZpMORXt+mzA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p83k2jb5qyUnDAvF73cnE8w+WgbjCot+YTu7qN7b2ss=;
+ b=H+mPWHTBIqxVni4CxFRG8M0pBq2tyhW2rUm2+nac3GZD2dBi5m5qzkD8GeCj6pIbs0+Eq7kcxYvsptaelHqgJDINMrxj8Gnkjsi7Rqqk8ggo3TVWJxSyIHo5e35MHKuARVgY+J7bmSq4yTkbGdcOTYIAy5zEdwCIYTHlcuasqWYpYfXbJEZQCFmIZcn3qykaSQaFuZG369b2jZgc0nXNTRAJxklBMGfxY9DMGr+nxCtlsxfzBnURREswDZDWU9qFkI3VF18eaB2F2UTxAlOAN0vu3CZX8lxysKYJIybv9MjjBmmX2/FHDl/5lNJg+A/x5fP4U/qzp9lEfOT44+kGTQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p83k2jb5qyUnDAvF73cnE8w+WgbjCot+YTu7qN7b2ss=;
+ b=Cd3QSUuT7AoWGH6oaDLEdk6aqKq/uLwK412FkXi7zvSfsnyIAajfno+pa9Hjxy0sBTuzHiMl/DHzVil2zUsU+tgddTMrNuJ1hcn+aS9HFQEkfKj93pP4XfLu0XxW65SSQhgRszfyC2jOQV0mqsJraipZ0oMXzfV6/dIt8V2MSoeXLIbhMviQqv4snymKvA3GqnOz1YGeASmfHyOCM0mE3seVx6mX5c/LuAPJXBcRyvCTqwrvitYToQBKtP+xmU1Ni3Su4hiuZ+VhqfMrgvCEzKRK4keLjXMFTo9eGXCFJK9CKqukl3d/biJeenNemIlWX9B8ZRFBY0gP6Jt+1hn7WA==
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
+ by MN0PR12MB5764.namprd12.prod.outlook.com (2603:10b6:208:377::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Wed, 5 Apr
+ 2023 18:43:00 +0000
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::9f90:cf3d:d640:a90b]) by MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::9f90:cf3d:d640:a90b%4]) with mapi id 15.20.6254.035; Wed, 5 Apr 2023
+ 18:43:00 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Daniel Wagner <dwagner@suse.de>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>, Sagi Grimberg
+	<sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>, James Smart
+	<jsmart2021@gmail.com>
+Subject: Re: [PATCH blktests v5 3/4] nvme/rc: Add helper to wait for nvme ctrl
+ state
+Thread-Topic: [PATCH blktests v5 3/4] nvme/rc: Add helper to wait for nvme
+ ctrl state
+Thread-Index: AQHZZ9X/e2+AaXkW4EqFV398piKRf68dDTgA
+Date: Wed, 5 Apr 2023 18:43:00 +0000
+Message-ID: <f4fee088-89ee-4afc-544e-2a16e703a33a@nvidia.com>
+References: <20230405154630.16298-1-dwagner@suse.de>
+ <20230405154630.16298-4-dwagner@suse.de>
+In-Reply-To: <20230405154630.16298-4-dwagner@suse.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|MN0PR12MB5764:EE_
+x-ms-office365-filtering-correlation-id: 26c3b50f-4eef-4f66-deb9-08db36059502
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  BFPmojYnjpt+MiQdZWvh3F5G7xFlMT83RsNU8vD9e+/25gL6cg9PPCrzuwrOWAtHwKZT57RBNFRCJOgwDr279einkdUa/bjBYQQT2aWUilqIJ8QDK/At52scTa55F1is+fZrs39aBp03Em7WADW1RiuLQFjtbs6XHgZFNs3l0LxfPWXqAZwhMb7RAxSbO5fyw5+XW9ucutThb+kNMKNiyQp4ozdTYJfnGw6XveEZEE/znVrXGxdJ8Vb2VsLaqmoHVdpgffngEx9B61rKnHpCd5oMmsUwmAL3eS7QHEGNd4Kqzv6zsOPczsurEcMoT6gyf9bTPBTjqIq2/QEoxliIPxWfwvAr1L5IRLWhc/5aPaQe+SnvuVkQ5WSmGCwR6Nkkv/xtKcrU3l4MAXolQCu3DlOIhcTU9rGeuehqFHspuwkvWHl7NbiKYhzgI+xgyS3Lfl1IRoK6CvDFEnvvdrOIvl4HZEy2J5ZwlaI4qYobinj0gnAwDFOb/RxUaH58LPICdCShQdCPVovA9l1DWeEfbFa4u5T69Z42Vvm3rPZ9brff3enhT8iBH5bN2dNOjTRqpex8ChBIORQxC+QyhlalX8obRalkMiZFQkePGtN9DB6tI4DnlbQAfRhEbPjBAL4OYgd/QhNlLgCr6ihCA/i9DmJvOZBtNrdej6mmD2EpQCgieJ29T6eXMjIGcQ/G/xEU
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(396003)(376002)(136003)(366004)(346002)(451199021)(31686004)(186003)(122000001)(38100700002)(36756003)(5660300002)(8676002)(8936002)(38070700005)(66476007)(31696002)(64756008)(66946007)(86362001)(66446008)(76116006)(66556008)(4326008)(41300700001)(91956017)(4744005)(2616005)(53546011)(2906002)(54906003)(6512007)(6506007)(71200400001)(478600001)(6486002)(110136005)(316002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?aEJHdlF3RDdlSFBxVXBzRUZMZFBQZzZzWWZvbG4yVDJCM0xNcnhFZC9PaVlO?=
+ =?utf-8?B?eUI4VmFYeERyaVZjdDAzN1J6cEd3YnhDaEhySkJrUmFXNlFOYkRWMEM2Z3RW?=
+ =?utf-8?B?TUJ1aTFsczdkY2E3aXhRcWYxWUlRKys2Q0xad2dJR01hRUJ2clQreVBBT0Fl?=
+ =?utf-8?B?VXg2c1JISlhJeHEyWVFYNW5YaFUzWk5YMzZzb0oxQzNFKzZBRExaM2pTWUV4?=
+ =?utf-8?B?UXFOM2RIZmRpRFpuNmE3MStYYVd4SzFnTUlKY0tCcmdMbGFGbFordklLcjVs?=
+ =?utf-8?B?TStJbVVuMjl1Rm45OW1qb0dOQ2QreFIxU0EyeU0xZ2IwMzBWUThZWmNTUGVi?=
+ =?utf-8?B?VXArWTNFWlFUc1pXMzcxd1JId0lyUXoyTXlPbWlkK1A5UEFzWE5WTm9ZSnZx?=
+ =?utf-8?B?a0RnNGtTMVhnTE1YRlZFZ1VLNk9IbW1ZYytyQWQ0Z3ExdVRmNHVsN3k2OEdO?=
+ =?utf-8?B?ZFlIc1R4Z2lvMG5BUyt6WmlrOUhrdkovTGQ2anBWK1ovNjJweFlvQ0RpTnBW?=
+ =?utf-8?B?L2MxczV3ZU11c2w2ZXJ0ei9jcDNEQ2p0ZjkwR3BwS3FRQ1RvV0x4aFQxK1Jv?=
+ =?utf-8?B?Qlg3aU9CNnRlc21YVVdjRnFiRmJKb3lkYmk3cGhmRm13MzQ4WVQzQTFNa1dm?=
+ =?utf-8?B?eGR6eWZDd3FPbmVPMnZyVkxKUlU1eWpaR00zRzkrZm16dldCTmFaMXNMbkxO?=
+ =?utf-8?B?c01nRGR4ODFodmMvZ0NxbjkzWEZwUUJwY1A1U2xVU2NuUDVnT3h2QnpQNk8y?=
+ =?utf-8?B?R1hrcDJWTVhzSjA2RDMyU3FQeFQvaWEyM1JoREFkZDVSNHRaRjJpL05tU2N6?=
+ =?utf-8?B?U0xNaDJZTWlkQllVN09QMGhlU0NlajFacTEwN3pFWXpmVGppUGlhYW9iNkRX?=
+ =?utf-8?B?b2hVL2JFWk1rQ0VnOFB6T09qZ2FkOFB0UGdhYWI1RStIczdJVlQ2T0I2cEw5?=
+ =?utf-8?B?TkNuMUpFTUFtUXdqaVM0aFBzOWhSWFBISGE3eGZYdjlLOXVDUG5VejNvVGtB?=
+ =?utf-8?B?S2g0aEljZnJJT1E5R2Y1Qk1wd0dsY1c2Z1B0ODVGb0wvZDFQaFl1aEsyb1Fx?=
+ =?utf-8?B?SDFPSXJVbmpmSWtEYm8ramYwQkJXS1ZIZWZoRExnbjRuV1BwUnVXNXdSU0tW?=
+ =?utf-8?B?QlBWdnFhWDFsNkFqdUNvZVZOQU9KMWE5WW9sZkhWbDY0K3V6YnFqUUZuNFpE?=
+ =?utf-8?B?VzdlS3hCdE42THluY3lzRVB6VmJLKzV2RXU0Y0MwczYyWTVteDlDQjJvendy?=
+ =?utf-8?B?OWQzanloR0JKQUhKT00wcUpVakVlQnRwcVIyTWw0eVFlaEV0Szl6Y2ZEWWtX?=
+ =?utf-8?B?L3NpVUIyNGN5cHUwQk9PTjNPQUdhMWd1WXFwNXVTWVFhbk5XRjhhNXc3endU?=
+ =?utf-8?B?QnVDazdpOWQwME1pZHAxTlc2d1BqM1JYWjA2dThSZ2lBZlVyeGszOElnTU5R?=
+ =?utf-8?B?NUltckczdDkyZ1JScjhyUWZnYUtyQittOEZuc3NjdEpqckpWUVpsUTJDb2ZE?=
+ =?utf-8?B?NFkwaDM4YTdRTjVGL3lDSFJUUWVzQUVyMmNjQnc4VGlSZTZicmdlbXM0YVVr?=
+ =?utf-8?B?VUt1NmlGcHllVS9tcGtYcUlUVUc4YVNiR2lSTTREdHB2ZDkwcm9GMHJsVGFF?=
+ =?utf-8?B?dHoyU1lOQ1VPMGdWSGtEQzdmUG5FUmJ0NmM2Mi9sYlprLzd0Yjc5L1VjamIv?=
+ =?utf-8?B?UEFJS3dtKzN6cDVCTGtZMk53SFZFUTRiZzNnRkZJK2xkcWJNcjF6SWtOVFR5?=
+ =?utf-8?B?a1psbm16TEFwdW1mMzZsZUVOR2YrMkswUVNidjVIZnFlSUF2aXN4N0dZZlZK?=
+ =?utf-8?B?Z2g5Ti8xeFBINWI0Y1ZmZGQ3dFF5RUhsMDluaWE1bTQrdFVKMEdhdTllTDFX?=
+ =?utf-8?B?S25EbzRjRzNSSlZWU1k0aS9WZTFYdlpvVzlicDd6ZmRKbHQzT3E1YlN6L1J3?=
+ =?utf-8?B?cXZPQWlaZTZSL2tWRmFiSUdKTllPNGF6aTcyYlVxb0tIS0VXY2ZNOTRXUkxu?=
+ =?utf-8?B?Ri9oSGZNQW8vVnd2Y3BWWnJJcTZVbTRlR3J3QkE2S1B6RnB6L0pDM21uVXlv?=
+ =?utf-8?B?UzRTeE5tTUJrV0FSZ21aSzhHMTJkOWkyZUVaRmM4L1JDd2hRMm5lOG8vOGVZ?=
+ =?utf-8?B?QVk1UDZEbis1bWN4QmVmakpadzdMTmV0bFUvd3c0bFp0S1d6L00zakllbzU2?=
+ =?utf-8?Q?r0BO/npppHiUAJwNJGRk9ZOJ3IRZNy0uj6FghtSZKV9q?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <AA576BA98C59F74C86BAFF761DEBD923@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 26c3b50f-4eef-4f66-deb9-08db36059502
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Apr 2023 18:43:00.5469
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: TyDVmxbBIjsI7UMB4x54eXDm5EICBVFo6hgOcnhpznrnSxxNY6tGNth1u38X0AT5QwdxeZiRfmPx3Mb3+Fb/wQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5764
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230405_095406_838348_F87099EC 
-X-CRM114-Status: GOOD (  37.22  )
+X-CRM114-CacheID: sfid-20230405_114305_958258_FBF3D0D3 
+X-CRM114-Status: UNSURE (   9.91  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,568 +155,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Make the page_frag_cache allocator have a separate allocation bucket for
-each cpu to avoid racing.  This means that no lock is required, other than
-preempt disablement, to allocate from it, though if a softirq wants to
-access it, then softirq disablement will need to be added.
-
-Make the NVMe and mediatek drivers pass in NULL to page_frag_cache() and
-use the default allocation buckets rather than defining their own.
-
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: "David S. Miller" <davem@davemloft.net>
-cc: Eric Dumazet <edumazet@google.com>
-cc: Jakub Kicinski <kuba@kernel.org>
-cc: Paolo Abeni <pabeni@redhat.com>
-cc: Lorenzo Bianconi <lorenzo@kernel.org>
-cc: Felix Fietkau <nbd@nbd.name>
-cc: John Crispin <john@phrozen.org>
-cc: Sean Wang <sean.wang@mediatek.com>
-cc: Mark Lee <Mark-MC.Lee@mediatek.com>
-cc: Keith Busch <kbusch@kernel.org>
-cc: Christoph Hellwig <hch@lst.de>
-cc: Sagi Grimberg <sagi@grimberg.me>
-cc: Chaitanya Kulkarni <kch@nvidia.com>
-cc: Jens Axboe <axboe@kernel.dk>
-cc: Matthew Wilcox <willy@infradead.org>
-cc: netdev@vger.kernel.org
-cc: linux-nvme@lists.infradead.org
-cc: linux-mediatek@lists.infradead.org
----
- drivers/net/ethernet/mediatek/mtk_wed_wo.c |   8 +-
- drivers/net/ethernet/mediatek/mtk_wed_wo.h |   2 -
- drivers/nvme/host/tcp.c                    |  14 +-
- drivers/nvme/target/tcp.c                  |  19 +-
- include/linux/gfp.h                        |  18 +-
- mm/page_frag_alloc.c                       | 195 ++++++++++++++-------
- net/core/skbuff.c                          |  32 ++--
- 7 files changed, 164 insertions(+), 124 deletions(-)
-
-diff --git a/drivers/net/ethernet/mediatek/mtk_wed_wo.c b/drivers/net/ethernet/mediatek/mtk_wed_wo.c
-index 6ce532217777..859f34447f2f 100644
---- a/drivers/net/ethernet/mediatek/mtk_wed_wo.c
-+++ b/drivers/net/ethernet/mediatek/mtk_wed_wo.c
-@@ -143,7 +143,7 @@ mtk_wed_wo_queue_refill(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q,
- 		dma_addr_t addr;
- 		void *buf;
- 
--		buf = page_frag_alloc(&q->cache, q->buf_size, GFP_ATOMIC);
-+		buf = page_frag_alloc(NULL, q->buf_size, GFP_ATOMIC);
- 		if (!buf)
- 			break;
- 
-@@ -296,15 +296,11 @@ mtk_wed_wo_queue_tx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
- 		skb_free_frag(entry->buf);
- 		entry->buf = NULL;
- 	}
--
--	page_frag_cache_clear(&q->cache);
- }
- 
- static void
- mtk_wed_wo_queue_rx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
- {
--	struct page *page;
--
- 	for (;;) {
- 		void *buf = mtk_wed_wo_dequeue(wo, q, NULL, true);
- 
-@@ -313,8 +309,6 @@ mtk_wed_wo_queue_rx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
- 
- 		skb_free_frag(buf);
- 	}
--
--	page_frag_cache_clear(&q->cache);
- }
- 
- static void
-diff --git a/drivers/net/ethernet/mediatek/mtk_wed_wo.h b/drivers/net/ethernet/mediatek/mtk_wed_wo.h
-index dbcf42ce9173..6f940db67fb8 100644
---- a/drivers/net/ethernet/mediatek/mtk_wed_wo.h
-+++ b/drivers/net/ethernet/mediatek/mtk_wed_wo.h
-@@ -210,8 +210,6 @@ struct mtk_wed_wo_queue_entry {
- struct mtk_wed_wo_queue {
- 	struct mtk_wed_wo_queue_regs regs;
- 
--	struct page_frag_cache cache;
--
- 	struct mtk_wed_wo_queue_desc *desc;
- 	dma_addr_t desc_dma;
- 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 76f12ac714b0..5a92236db92a 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -147,8 +147,6 @@ struct nvme_tcp_queue {
- 	__le32			exp_ddgst;
- 	__le32			recv_ddgst;
- 
--	struct page_frag_cache	pf_cache;
--
- 	void (*state_change)(struct sock *);
- 	void (*data_ready)(struct sock *);
- 	void (*write_space)(struct sock *);
-@@ -482,9 +480,8 @@ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
- 	struct nvme_tcp_queue *queue = &ctrl->queues[queue_idx];
- 	u8 hdgst = nvme_tcp_hdgst_len(queue);
- 
--	req->pdu = page_frag_alloc(&queue->pf_cache,
--		sizeof(struct nvme_tcp_cmd_pdu) + hdgst,
--		GFP_KERNEL | __GFP_ZERO);
-+	req->pdu = page_frag_alloc(NULL, sizeof(struct nvme_tcp_cmd_pdu) + hdgst,
-+				   GFP_KERNEL | __GFP_ZERO);
- 	if (!req->pdu)
- 		return -ENOMEM;
- 
-@@ -1300,9 +1297,8 @@ static int nvme_tcp_alloc_async_req(struct nvme_tcp_ctrl *ctrl)
- 	struct nvme_tcp_request *async = &ctrl->async_req;
- 	u8 hdgst = nvme_tcp_hdgst_len(queue);
- 
--	async->pdu = page_frag_alloc(&queue->pf_cache,
--		sizeof(struct nvme_tcp_cmd_pdu) + hdgst,
--		GFP_KERNEL | __GFP_ZERO);
-+	async->pdu = page_frag_alloc(NULL, sizeof(struct nvme_tcp_cmd_pdu) + hdgst,
-+				     GFP_KERNEL | __GFP_ZERO);
- 	if (!async->pdu)
- 		return -ENOMEM;
- 
-@@ -1312,7 +1308,6 @@ static int nvme_tcp_alloc_async_req(struct nvme_tcp_ctrl *ctrl)
- 
- static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
- {
--	struct page *page;
- 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
- 	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
- 	unsigned int noreclaim_flag;
-@@ -1323,7 +1318,6 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
- 	if (queue->hdr_digest || queue->data_digest)
- 		nvme_tcp_free_crypto(queue);
- 
--	page_frag_cache_clear(&queue->pf_cache);
- 	noreclaim_flag = memalloc_noreclaim_save();
- 	sock_release(queue->sock);
- 	memalloc_noreclaim_restore(noreclaim_flag);
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index ae871c31cf00..d6cc557cc539 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -143,8 +143,6 @@ struct nvmet_tcp_queue {
- 
- 	struct nvmet_tcp_cmd	connect;
- 
--	struct page_frag_cache	pf_cache;
--
- 	void (*data_ready)(struct sock *);
- 	void (*state_change)(struct sock *);
- 	void (*write_space)(struct sock *);
-@@ -1312,25 +1310,25 @@ static int nvmet_tcp_alloc_cmd(struct nvmet_tcp_queue *queue,
- 	c->queue = queue;
- 	c->req.port = queue->port->nport;
- 
--	c->cmd_pdu = page_frag_alloc(&queue->pf_cache,
--			sizeof(*c->cmd_pdu) + hdgst, GFP_KERNEL | __GFP_ZERO);
-+	c->cmd_pdu = page_frag_alloc(NULL, sizeof(*c->cmd_pdu) + hdgst,
-+				     GFP_KERNEL | __GFP_ZERO);
- 	if (!c->cmd_pdu)
- 		return -ENOMEM;
- 	c->req.cmd = &c->cmd_pdu->cmd;
- 
--	c->rsp_pdu = page_frag_alloc(&queue->pf_cache,
--			sizeof(*c->rsp_pdu) + hdgst, GFP_KERNEL | __GFP_ZERO);
-+	c->rsp_pdu = page_frag_alloc(NULL, sizeof(*c->rsp_pdu) + hdgst,
-+				     GFP_KERNEL | __GFP_ZERO);
- 	if (!c->rsp_pdu)
- 		goto out_free_cmd;
- 	c->req.cqe = &c->rsp_pdu->cqe;
- 
--	c->data_pdu = page_frag_alloc(&queue->pf_cache,
--			sizeof(*c->data_pdu) + hdgst, GFP_KERNEL | __GFP_ZERO);
-+	c->data_pdu = page_frag_alloc(NULL, sizeof(*c->data_pdu) + hdgst,
-+				      GFP_KERNEL | __GFP_ZERO);
- 	if (!c->data_pdu)
- 		goto out_free_rsp;
- 
--	c->r2t_pdu = page_frag_alloc(&queue->pf_cache,
--			sizeof(*c->r2t_pdu) + hdgst, GFP_KERNEL | __GFP_ZERO);
-+	c->r2t_pdu = page_frag_alloc(NULL, sizeof(*c->r2t_pdu) + hdgst,
-+				     GFP_KERNEL | __GFP_ZERO);
- 	if (!c->r2t_pdu)
- 		goto out_free_data;
- 
-@@ -1459,7 +1457,6 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
- 	if (queue->hdr_digest || queue->data_digest)
- 		nvmet_tcp_free_crypto(queue);
- 	ida_free(&nvmet_tcp_queue_ida, queue->idx);
--	page_frag_cache_clear(&queue->pf_cache);
- 	kfree(queue);
- }
- 
-diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-index 5e15384798eb..b208ca315882 100644
---- a/include/linux/gfp.h
-+++ b/include/linux/gfp.h
-@@ -304,16 +304,18 @@ extern void free_pages(unsigned long addr, unsigned int order);
- 
- struct page_frag_cache;
- extern void __page_frag_cache_drain(struct page *page, unsigned int count);
--extern void *page_frag_alloc_align(struct page_frag_cache *nc,
--				   unsigned int fragsz, gfp_t gfp_mask,
--				   unsigned int align_mask);
--
--static inline void *page_frag_alloc(struct page_frag_cache *nc,
--			     unsigned int fragsz, gfp_t gfp_mask)
-+extern void *page_frag_alloc_align(struct page_frag_cache __percpu *frag_cache,
-+				   size_t fragsz, gfp_t gfp,
-+				   unsigned long align_mask);
-+extern void *page_frag_memdup(struct page_frag_cache __percpu *frag_cache,
-+			      const void *p, size_t fragsz, gfp_t gfp,
-+			      unsigned long align_mask);
-+
-+static inline void *page_frag_alloc(struct page_frag_cache __percpu *frag_cache,
-+				    size_t fragsz, gfp_t gfp)
- {
--	return page_frag_alloc_align(nc, fragsz, gfp_mask, ~0u);
-+	return page_frag_alloc_align(frag_cache, fragsz, gfp, ULONG_MAX);
- }
--void page_frag_cache_clear(struct page_frag_cache *nc);
- 
- extern void page_frag_free(void *addr);
- 
-diff --git a/mm/page_frag_alloc.c b/mm/page_frag_alloc.c
-index 9b138cb0e3a4..7844398afe26 100644
---- a/mm/page_frag_alloc.c
-+++ b/mm/page_frag_alloc.c
-@@ -16,25 +16,23 @@
- #include <linux/init.h>
- #include <linux/mm.h>
- 
-+static DEFINE_PER_CPU(struct page_frag_cache, page_frag_default_allocator);
-+
- /*
-  * Allocate a new folio for the frag cache.
-  */
--static struct folio *page_frag_cache_refill(struct page_frag_cache *nc,
--					    gfp_t gfp_mask)
-+static struct folio *page_frag_cache_refill(gfp_t gfp)
- {
--	struct folio *folio = NULL;
--	gfp_t gfp = gfp_mask;
-+	struct folio *folio;
- 
- #if (PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE)
--	gfp_mask |= __GFP_NOWARN | __GFP_NORETRY | __GFP_NOMEMALLOC;
--	folio = folio_alloc(gfp_mask, PAGE_FRAG_CACHE_MAX_ORDER);
-+	folio = folio_alloc(gfp | __GFP_NOWARN | __GFP_NORETRY | __GFP_NOMEMALLOC,
-+			    PAGE_FRAG_CACHE_MAX_ORDER);
-+	if (folio)
-+		return folio;
- #endif
--	if (unlikely(!folio))
--		folio = folio_alloc(gfp, 0);
- 
--	if (folio)
--		nc->folio = folio;
--	return folio;
-+	return folio_alloc(gfp, 0);
- }
- 
- void __page_frag_cache_drain(struct page *page, unsigned int count)
-@@ -47,54 +45,68 @@ void __page_frag_cache_drain(struct page *page, unsigned int count)
- }
- EXPORT_SYMBOL(__page_frag_cache_drain);
- 
--void page_frag_cache_clear(struct page_frag_cache *nc)
--{
--	struct folio *folio = nc->folio;
--
--	if (folio) {
--		VM_BUG_ON_FOLIO(folio_ref_count(folio) == 0, folio);
--		folio_put_refs(folio, nc->pagecnt_bias);
--		nc->folio = NULL;
--	}
--
--}
--EXPORT_SYMBOL(page_frag_cache_clear);
--
--void *page_frag_alloc_align(struct page_frag_cache *nc,
--		      unsigned int fragsz, gfp_t gfp_mask,
--		      unsigned int align_mask)
-+/**
-+ * page_frag_alloc_align - Allocate some memory for use in zerocopy
-+ * @frag_cache: The frag cache to use (or NULL for the default)
-+ * @fragsz: The size of the fragment desired
-+ * @gfp: Allocation flags under which to make an allocation
-+ * @align_mask: The required alignment
-+ *
-+ * Allocate some memory for use with zerocopy where protocol bits have to be
-+ * mixed in with spliced/zerocopied data.  Unlike memory allocated from the
-+ * slab, this memory's lifetime is purely dependent on the folio's refcount.
-+ *
-+ * The way it works is that a folio is allocated and fragments are broken off
-+ * sequentially and returned to the caller with a ref until the folio no longer
-+ * has enough spare space - at which point the allocator's ref is dropped and a
-+ * new folio is allocated.  The folio remains in existence until the last ref
-+ * held by, say, an sk_buff is discarded and then the page is returned to the
-+ * page allocator.
-+ *
-+ * Returns a pointer to the memory on success and -ENOMEM on allocation
-+ * failure.
-+ *
-+ * The allocated memory should be disposed of with folio_put().
-+ */
-+void *page_frag_alloc_align(struct page_frag_cache __percpu *frag_cache,
-+			    size_t fragsz, gfp_t gfp, unsigned long align_mask)
- {
--	struct folio *folio = nc->folio;
-+	struct page_frag_cache *nc;
-+	struct folio *folio, *spare = NULL;
- 	size_t offset;
-+	void *p;
- 
--	if (unlikely(!folio)) {
--refill:
--		folio = page_frag_cache_refill(nc, gfp_mask);
--		if (!folio)
--			return NULL;
-+	if (!frag_cache)
-+		frag_cache = &page_frag_default_allocator;
-+	if (WARN_ON_ONCE(fragsz == 0))
-+		fragsz = 1;
-+	align_mask &= ~3UL;
- 
--		/* Even if we own the page, we do not use atomic_set().
--		 * This would break get_page_unless_zero() users.
--		 */
--		folio_ref_add(folio, PAGE_FRAG_CACHE_MAX_SIZE);
--
--		/* reset page count bias and offset to start of new frag */
--		nc->pfmemalloc = folio_is_pfmemalloc(folio);
--		nc->pagecnt_bias = PAGE_FRAG_CACHE_MAX_SIZE + 1;
--		nc->offset = folio_size(folio);
-+	nc = get_cpu_ptr(frag_cache);
-+reload:
-+	folio = nc->folio;
-+	offset = nc->offset;
-+try_again:
-+
-+	/* Make the allocation if there's sufficient space. */
-+	if (fragsz <= offset) {
-+		nc->pagecnt_bias--;
-+		offset = (offset - fragsz) & align_mask;
-+		nc->offset = offset;
-+		p = folio_address(folio) + offset;
-+		put_cpu_ptr(frag_cache);
-+		if (spare)
-+			folio_put(spare);
-+		return p;
- 	}
- 
--	offset = nc->offset;
--	if (unlikely(fragsz > offset)) {
--		/* Reuse the folio if everyone we gave it to has finished with it. */
--		if (!folio_ref_sub_and_test(folio, nc->pagecnt_bias)) {
--			nc->folio = NULL;
-+	/* Insufficient space - see if we can refurbish the current folio. */
-+	if (folio) {
-+		if (!folio_ref_sub_and_test(folio, nc->pagecnt_bias))
- 			goto refill;
--		}
- 
- 		if (unlikely(nc->pfmemalloc)) {
- 			__folio_put(folio);
--			nc->folio = NULL;
- 			goto refill;
- 		}
- 
-@@ -104,27 +116,56 @@ void *page_frag_alloc_align(struct page_frag_cache *nc,
- 		/* reset page count bias and offset to start of new frag */
- 		nc->pagecnt_bias = PAGE_FRAG_CACHE_MAX_SIZE + 1;
- 		offset = folio_size(folio);
--		if (unlikely(fragsz > offset)) {
--			/*
--			 * The caller is trying to allocate a fragment
--			 * with fragsz > PAGE_SIZE but the cache isn't big
--			 * enough to satisfy the request, this may
--			 * happen in low memory conditions.
--			 * We don't release the cache page because
--			 * it could make memory pressure worse
--			 * so we simply return NULL here.
--			 */
--			nc->offset = offset;
-+		if (unlikely(fragsz > offset))
-+			goto frag_too_big;
-+		goto try_again;
-+	}
-+
-+refill:
-+	if (!spare) {
-+		nc->folio = NULL;
-+		put_cpu_ptr(frag_cache);
-+
-+		spare = page_frag_cache_refill(gfp);
-+		if (!spare)
- 			return NULL;
--		}
-+
-+		nc = get_cpu_ptr(frag_cache);
-+		/* We may now be on a different cpu and/or someone else may
-+		 * have refilled it
-+		 */
-+		nc->pfmemalloc = folio_is_pfmemalloc(spare);
-+		if (nc->folio)
-+			goto reload;
- 	}
- 
--	nc->pagecnt_bias--;
--	offset -= fragsz;
--	offset &= align_mask;
-+	nc->folio = spare;
-+	folio = spare;
-+	spare = NULL;
-+
-+	/* Even if we own the page, we do not use atomic_set().  This would
-+	 * break get_page_unless_zero() users.
-+	 */
-+	folio_ref_add(folio, PAGE_FRAG_CACHE_MAX_SIZE);
-+
-+	/* Reset page count bias and offset to start of new frag */
-+	nc->pagecnt_bias = PAGE_FRAG_CACHE_MAX_SIZE + 1;
-+	offset = folio_size(folio);
-+	goto try_again;
-+
-+frag_too_big:
-+	/*
-+	 * The caller is trying to allocate a fragment with fragsz > PAGE_SIZE
-+	 * but the cache isn't big enough to satisfy the request, this may
-+	 * happen in low memory conditions.  We don't release the cache page
-+	 * because it could make memory pressure worse so we simply return NULL
-+	 * here.
-+	 */
- 	nc->offset = offset;
--
--	return folio_address(folio) + offset;
-+	put_cpu_ptr(frag_cache);
-+	if (spare)
-+		folio_put(spare);
-+	return NULL;
- }
- EXPORT_SYMBOL(page_frag_alloc_align);
- 
-@@ -136,3 +177,25 @@ void page_frag_free(void *addr)
- 	folio_put(virt_to_folio(addr));
- }
- EXPORT_SYMBOL(page_frag_free);
-+
-+/**
-+ * page_frag_memdup - Allocate a page fragment and duplicate some data into it
-+ * @frag_cache: The frag cache to use (or NULL for the default)
-+ * @fragsz: The amount of memory to copy (maximum 1/2 page).
-+ * @p: The source data to copy
-+ * @gfp: Allocation flags under which to make an allocation
-+ * @align_mask: The required alignment
-+ */
-+void *page_frag_memdup(struct page_frag_cache __percpu *frag_cache,
-+		       const void *p, size_t fragsz, gfp_t gfp,
-+		       unsigned long align_mask)
-+{
-+	void *q;
-+
-+	q = page_frag_alloc_align(frag_cache, fragsz, gfp, align_mask);
-+	if (!q)
-+		return q;
-+
-+	return memcpy(q, p, fragsz);
-+}
-+EXPORT_SYMBOL(page_frag_memdup);
-diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-index 050a875d09c5..3d05ed64b606 100644
---- a/net/core/skbuff.c
-+++ b/net/core/skbuff.c
-@@ -222,13 +222,13 @@ static void *page_frag_alloc_1k(struct page_frag_1k *nc, gfp_t gfp_mask)
- #endif
- 
- struct napi_alloc_cache {
--	struct page_frag_cache page;
- 	struct page_frag_1k page_small;
- 	unsigned int skb_count;
- 	void *skb_cache[NAPI_SKB_CACHE_SIZE];
- };
- 
- static DEFINE_PER_CPU(struct page_frag_cache, netdev_alloc_cache);
-+static DEFINE_PER_CPU(struct page_frag_cache, napi_frag_cache);
- static DEFINE_PER_CPU(struct napi_alloc_cache, napi_alloc_cache);
- 
- /* Double check that napi_get_frags() allocates skbs with
-@@ -250,11 +250,9 @@ void napi_get_frags_check(struct napi_struct *napi)
- 
- void *__napi_alloc_frag_align(unsigned int fragsz, unsigned int align_mask)
- {
--	struct napi_alloc_cache *nc = this_cpu_ptr(&napi_alloc_cache);
--
- 	fragsz = SKB_DATA_ALIGN(fragsz);
- 
--	return page_frag_alloc_align(&nc->page, fragsz, GFP_ATOMIC, align_mask);
-+	return page_frag_alloc_align(&napi_frag_cache, fragsz, GFP_ATOMIC, align_mask);
- }
- EXPORT_SYMBOL(__napi_alloc_frag_align);
- 
-@@ -264,15 +262,12 @@ void *__netdev_alloc_frag_align(unsigned int fragsz, unsigned int align_mask)
- 
- 	fragsz = SKB_DATA_ALIGN(fragsz);
- 	if (in_hardirq() || irqs_disabled()) {
--		struct page_frag_cache *nc = this_cpu_ptr(&netdev_alloc_cache);
--
--		data = page_frag_alloc_align(nc, fragsz, GFP_ATOMIC, align_mask);
-+		data = page_frag_alloc_align(&netdev_alloc_cache,
-+					     fragsz, GFP_ATOMIC, align_mask);
- 	} else {
--		struct napi_alloc_cache *nc;
--
- 		local_bh_disable();
--		nc = this_cpu_ptr(&napi_alloc_cache);
--		data = page_frag_alloc_align(&nc->page, fragsz, GFP_ATOMIC, align_mask);
-+		data = page_frag_alloc_align(&napi_frag_cache,
-+					     fragsz, GFP_ATOMIC, align_mask);
- 		local_bh_enable();
- 	}
- 	return data;
-@@ -652,7 +647,6 @@ EXPORT_SYMBOL(__alloc_skb);
- struct sk_buff *__netdev_alloc_skb(struct net_device *dev, unsigned int len,
- 				   gfp_t gfp_mask)
- {
--	struct page_frag_cache *nc;
- 	struct sk_buff *skb;
- 	bool pfmemalloc;
- 	void *data;
-@@ -677,14 +671,12 @@ struct sk_buff *__netdev_alloc_skb(struct net_device *dev, unsigned int len,
- 		gfp_mask |= __GFP_MEMALLOC;
- 
- 	if (in_hardirq() || irqs_disabled()) {
--		nc = this_cpu_ptr(&netdev_alloc_cache);
--		data = page_frag_alloc(nc, len, gfp_mask);
--		pfmemalloc = nc->pfmemalloc;
-+		data = page_frag_alloc(&netdev_alloc_cache, len, gfp_mask);
-+		pfmemalloc = folio_is_pfmemalloc(virt_to_folio(data));
- 	} else {
- 		local_bh_disable();
--		nc = this_cpu_ptr(&napi_alloc_cache.page);
--		data = page_frag_alloc(nc, len, gfp_mask);
--		pfmemalloc = nc->pfmemalloc;
-+		data = page_frag_alloc(&napi_frag_cache, len, gfp_mask);
-+		pfmemalloc = folio_is_pfmemalloc(virt_to_folio(data));
- 		local_bh_enable();
- 	}
- 
-@@ -772,8 +764,8 @@ struct sk_buff *__napi_alloc_skb(struct napi_struct *napi, unsigned int len,
- 	} else {
- 		len = SKB_HEAD_ALIGN(len);
- 
--		data = page_frag_alloc(&nc->page, len, gfp_mask);
--		pfmemalloc = nc->page.pfmemalloc;
-+		data = page_frag_alloc(&napi_frag_cache, len, gfp_mask);
-+		pfmemalloc = folio_is_pfmemalloc(virt_to_folio(data));
- 	}
- 
- 	if (unlikely(!data))
-
+T24gNC81LzIzIDA4OjQ2LCBEYW5pZWwgV2FnbmVyIHdyb3RlOg0KPiBUaGUgZnVuY3Rpb24gd2Fp
+dHMgdW50aWwgaXQgc2VlcyBhIGdpdmVuIHN0YXRlIChvciB0aW1lb3V0cykuDQo+IFVuZm9ydHVu
+YXRlbHksIHdlIGNhbid0IHVzZSAvc3lzL2NsYXNzL252bWUvbnZtZSVkIGJlY2F1c2UgdGhpcyBz
+eW1saW5rDQo+IHdpbGwgYmUgcmVtb3ZlZCBpZiB0aGUgY29udHJvbGxlciBpcyBnb2luZyB0aHJv
+dWdoIHJlc2V0dGluZyBzdGF0ZS4gVGh1cw0KPiB1c2UgdGhlIHJlYWwgbnZtZSVkIGRpcmVjdGx5
+Lg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgV2FnbmVyIDxkd2FnbmVyQHN1c2UuZGU+DQo+
+IC0tLQ0KPg0KDQpMb29rcyBnb29kLg0KDQpSZXZpZXdlZC1ieTogQ2hhaXRhbnlhIEt1bGthcm5p
+IDxrY2hAbnZpZGlhLmNvbT4NCg0KLWNrDQoNCg0K
 
