@@ -4,39 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5BF3EC7619A
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Apr 2023 15:20:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60A69C7619A
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 Apr 2023 15:21:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=x3uKOPhzjBliaUe2CRdGOSzC70ISYEsiEVpkoN7N97k=; b=E5ov4s69yvMcLGzCPW9NU+Wi45
-	oG4nN4767+T/zifEVIqgDe8vgi9EyBhkBBiKIpKW0jFf17Bo+U8gSFNtklBXgYiOI0j2bjcOPEYhb
-	HoZZZXVhT3yaGmLyzsWnRBg52QAm3HS8Az1AxIgPH413M1fY5RmnC3wgteraNXWM4UbfKUYZZGXZT
-	agtalb0YrT6AtVjMoY7/tJsbnA8VUiRoPlq6dgI79kFoRkEquoa50HygPPDtQp3mTO0rrYgfv58mw
-	zTB0VlT/AhuUqKmsgddyx0zU6Oz4mnQpT/FgqOICldLfq3FOyqJ5CUIXxLcQPN1ALJv9fLj68mTHG
-	5NK3cIjQ==;
+	bh=zNYmufouAHGHJmTMrqNZcIfEb2pP6Kr6/5nqw3Qs1XM=; b=S3ePyoZscaMboaK777xoxE8X+G
+	8b3xKnD2Jx5zv6k5uNDNAO7F7MyBX2MPOQduJPUU76lC4hi/wsjY+ClDBJdSP9PK/1XrLX4uWb7iI
+	FUNvqgJr2snRSzjx0TWnzmAdEA3O5ENb1ZUu/ui8rb8WNz8ME2/pbeFk4USrnE0kZuKp0g/6boMsT
+	d7t5bIHgmwGVC9FiHuy4T3Ln8XYqyhUmnxtBwxVYRZojUA3TOaoHIVpvXXo6HePEfTJnw96g0Kx8Y
+	FfD7sAauTVKlGrSBSjzDAq1QSDNaTj6r5IDkJYH2a8/Ek9LZymENhPFi5+rYrmKurUT1JaiI74L/x
+	zxPwnyjA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pk4wL-004qNe-2C;
-	Wed, 05 Apr 2023 15:20:49 +0000
+	id 1pk4xA-004qTy-2A;
+	Wed, 05 Apr 2023 15:21:40 +0000
 Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1pk4wJ-004qMx-1o;
-	Wed, 05 Apr 2023 15:20:47 +0000
-Date: Wed, 5 Apr 2023 08:20:47 -0700
+	id 1pk4x9-004qTq-1d;
+	Wed, 05 Apr 2023 15:21:39 +0000
+Date: Wed, 5 Apr 2023 08:21:39 -0700
 From: Christoph Hellwig <hch@infradead.org>
-To: Irvin Cote <irvincoteg@gmail.com>
-Cc: hch@lst.de, kbusch@kernel.org, axboe@fb.com, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme-core: Fixing ctrl de-referencing in nvme_init_ctrl
-Message-ID: <ZC2Rz2Jr7kqf6LKs@infradead.org>
-References: <ZCoguA3gBUw1CIdd@archlinux>
+To: Chris Leech <cleech@redhat.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+	John Meneghini <jmeneghi@redhat.com>
+Subject: Re: [PATCH v2 1/1] nvme-tcp: fence TCP socket on receive error
+Message-ID: <ZC2SAy1YtT63JK8T@infradead.org>
+References: <20230320220947.3244247-1-cleech@redhat.com>
+ <20230321163025.9437-1-cleech@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ZCoguA3gBUw1CIdd@archlinux>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230321163025.9437-1-cleech@redhat.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -51,11 +53,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks.
+Thanks,
 
-I've applied this after splitting the cleanup into a second patch
-and rewriting the commit log to describe the changes a bit better.
+applied to nvme-6.4.
 
-In the future please try to split fixes and cleanups, or generally
-separate changes yourself.
+Let me know if you really need this in 6.3, but it seems like we're
+pretty late in the cycle and this a rather old bug.
+
+Nit: a Fіxes tag would have been nice.
 
