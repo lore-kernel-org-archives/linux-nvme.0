@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B1DEFC76188
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Apr 2023 15:47:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06A10C76188
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 Apr 2023 15:47:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EIeIMkrYSH4FNMiLKJvp4Em6z97tlF+da5PMaEbCD6I=; b=Rj2pk2X7NbQ6STPDE1O9269+EM
-	iinNSgjASAg8MYRIWENUlk4xEoDmevYGTiCvfaE+31BqT68SBWZA6/qaW4KZDqtVqfXxLxadNTqlg
-	P3u+XXkLLX7chDyLTOnFjbzCCjjTxuCOJw3QrIL1YQISIH/zupJ7ZTjtDTd11OPDBAsq8d/WocZgH
-	5EK5nCodeHlYd7ogABm8PM+IUQ40kkB02tbNQCCnQ3FNdIUlydTGHAfsq6Wumtyf/QPz0GRIJo4TV
-	ONDyGC5kMfNcs6vN0xrWNw/ACJ/y5d/lo/zRhP4DuakhWb1vMq8AIpxe+to8Sx4yq1dw0reQ7alSQ
-	mwuwqbDQ==;
+	bh=c+d7byf7E4FRcokSibsW01g7yp7GQa9FjQJ/goiUPdo=; b=fiSaqZB23tFxIaeiVwQqQoQcus
+	t6NZ4AZFREpImSmfxe8CqQ/QV6alMGUwxLa0o85DpvADsXPWZkhFnGof7iztHjZgPuARnjVbi4bDC
+	n/J5wzYZR0+gAsadeRZhsMeHEAfJo9Fxr/tAE26Xb48ZERB+cDusl8xCx8QK5NgD/8wpwCExwdD7l
+	f/jTy5rpbnDiijE6Zl21Mw83Eh20BIw6uXdn5mpRwMEmYPD2QHOu+BSW9Z+n7gucVGz4DEfkzNBBf
+	+WpEggOrPgY7fFIpqcDuNSVlzedV3S++ZN1HFGFF/0fFkcnDW6GojLhB7WcpwPlymDqjySQ11qyAY
+	L39B4tpw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pk5Ld-004y6G-18;
-	Wed, 05 Apr 2023 15:46:57 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1pk5Lx-004yPp-1o;
+	Wed, 05 Apr 2023 15:47:17 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pk5LK-004xoI-08
+	id 1pk5LL-004xpS-1U
 	for linux-nvme@lists.infradead.org;
-	Wed, 05 Apr 2023 15:46:41 +0000
+	Wed, 05 Apr 2023 15:46:42 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4DCE422893;
-	Wed,  5 Apr 2023 15:46:36 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9360D1FF78;
+	Wed,  5 Apr 2023 15:46:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1680709596; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1680709597; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EIeIMkrYSH4FNMiLKJvp4Em6z97tlF+da5PMaEbCD6I=;
-	b=WO9e2CmB7uyv65n64fs8d0x8PNZBMeIVuOSWWQEfSMSE3XrQd+0JXlyMqulrWgRRIbGayG
-	Ffhgla7GD7A1f4k5BNI/MRa9bu3nzE8fWn3zUKo0SEWFtD3jhiETpb5un59mrHe4roCU/t
-	rlaDqlr9mFNMUlp7pMyJ+4eR74ZMaBI=
+	bh=c+d7byf7E4FRcokSibsW01g7yp7GQa9FjQJ/goiUPdo=;
+	b=LSFqOcdUH056XR42CkVStfw4c+i3SlNDrCm/rAlXu1f8id1sypSp20H7GumDFzSGdr3CZo
+	yyW+6BR129+MK0CBahbhpB3tyQ80ksEGpoYFO4T2BVM3rbedoB8gHyBWXot9tfpBJ0pSlQ
+	ij1n3kLzZvtCnGENhDXkVQq15lZjun4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1680709596;
+	s=susede2_ed25519; t=1680709597;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EIeIMkrYSH4FNMiLKJvp4Em6z97tlF+da5PMaEbCD6I=;
-	b=DfSSw8RIzVphuRxt8gkv6wHPmecMZGu5vOKl2lXtd0aH69V5Zw8R5xg9JyDQ5M85AX3IRs
-	mUBheuWAvEQ6/uAQ==
+	bh=c+d7byf7E4FRcokSibsW01g7yp7GQa9FjQJ/goiUPdo=;
+	b=QF4vJNU10apIu56OMr4YvvfOIUfq0gnR/zgMj3CqVxw4ZLq2ELJhGAi74kwP0CiIGT931X
+	5354H7ik3t3LDhBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3F0E513A10;
-	Wed,  5 Apr 2023 15:46:36 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 867DA13A10;
+	Wed,  5 Apr 2023 15:46:37 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id ISpkD9yXLWTcNgAAMHmgww
-	(envelope-from <dwagner@suse.de>); Wed, 05 Apr 2023 15:46:36 +0000
+	id qmLTIN2XLWTgNgAAMHmgww
+	(envelope-from <dwagner@suse.de>); Wed, 05 Apr 2023 15:46:37 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-block@vger.kernel.org
 Cc: linux-nvme@lists.infradead.org,
@@ -69,18 +69,17 @@ Cc: linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@suse.de>,
 	James Smart <jsmart2021@gmail.com>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH blktests v5 2/4] nvme/rc: Add nvmet attribute feature detection function
-Date: Wed,  5 Apr 2023 17:46:28 +0200
-Message-Id: <20230405154630.16298-3-dwagner@suse.de>
+Subject: [PATCH blktests v5 4/4] nvme/048: test queue count changes on reconnect
+Date: Wed,  5 Apr 2023 17:46:30 +0200
+Message-Id: <20230405154630.16298-5-dwagner@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230405154630.16298-1-dwagner@suse.de>
 References: <20230405154630.16298-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230405_084638_242542_00A7C50C 
-X-CRM114-Status: UNSURE (   9.48  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230405_084639_691432_79741381 
+X-CRM114-Status: GOOD (  14.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,50 +94,113 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In order to detect if the target supports a attribute, we have to setup
-a target and check if the attribute file appears.
+The target is allowed to change the number of I/O queues. Test if the
+host is able to reconnect in this scenario.
 
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- tests/nvme/rc | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ tests/nvme/048     | 81 ++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/048.out |  3 ++
+ 2 files changed, 84 insertions(+)
+ create mode 100755 tests/nvme/048
+ create mode 100644 tests/nvme/048.out
 
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index ec7678dbe09e..e720a35113aa 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -627,6 +627,31 @@ _set_nvmet_attr_qid_max() {
- 	fi
- }
- 
-+_detect_nvmet_subsys_attr() {
-+	local attr="$1"
-+	local file_path="${TMPDIR}/img"
-+	local subsys_name="blktests-feature-detect"
-+	local cfs_path="${NVMET_CFS}/subsystems/${subsys_name}"
-+	local port
+diff --git a/tests/nvme/048 b/tests/nvme/048
+new file mode 100755
+index 000000000000..bc4766e82159
+--- /dev/null
++++ b/tests/nvme/048
+@@ -0,0 +1,81 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-3.0+
++# Copyright (C) 2023 Daniel Wagner, SUSE Labs
++#
++# Test queue count changes on reconnect
 +
-+	truncate -s 1M "${file_path}"
++. tests/nvme/rc
++
++DESCRIPTION="Test queue count changes on reconnect"
++QUICK=1
++
++requires() {
++	_nvme_requires
++	_have_loop
++	_require_nvme_trtype tcp rdma fc
++	_require_min_cpus 2
++}
++
++set_max_qid() {
++	local port="$1"
++	local subsys_name="$2"
++	local max_qid="$3"
++
++	_set_nvmet_attr_qid_max "${subsys_name}" "${max_qid}"
++
++	# Setting qid_max forces a disconnect and the reconntect attempt starts
++	# 10s after connection lost, thus we will see the connecting state.
++	_nvmf_wait_for_state "${subsys_name}" "connecting"
++	_nvmf_wait_for_state "${subsys_name}" "live"
++}
++
++test() {
++	local port
++	local subsys_name="blktests-subsystem-1"
++	local hostid
++	local hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
++	local file_path="${TMPDIR}/img"
++
++	echo "Running ${TEST_NAME}"
++
++	hostid="$(uuidgen)"
++	if [ -z "$hostid" ] ; then
++		echo "uuidgen failed"
++		return 1
++	fi
++
++	if ! _detect_nvmet_subsys_attr "attr_qid_max"; then
++		SKIP_REASONS+=("missing attr_qid_max feature")
++		return 1
++	fi
++
++	truncate -s 512M "${file_path}"
 +
 +	_create_nvmet_subsystem "${subsys_name}" "${file_path}" \
-+		"b92842df-a394-44b1-84a4-92ae7d112332"
++		"b92842df-a394-44b1-84a4-92ae7d112861"
 +	port="$(_create_nvmet_port "${nvme_trtype}")"
++	_add_nvmet_subsys_to_port "${port}" "${subsys_name}"
++	_create_nvmet_host "${subsys_name}" "${hostnqn}"
 +
-+	local val=1
-+	[[ -f "${cfs_path}/${attr}" ]] && val=0
++	_nvme_connect_subsys "${nvme_trtype}" "${subsys_name}" \
++			     --hostnqn "${hostnqn}" \
++			     --hostid "${hostid}"
 +
++	_nvmf_wait_for_state "${subsys_name}" "live"
++
++	set_max_qid "${port}" "${subsys_name}" 1
++	set_max_qid "${port}" "${subsys_name}" 128
++
++	_nvme_disconnect_subsys "${subsys_name}"
++
++	_remove_nvmet_subsystem_from_port "${port}" "${subsys_name}"
 +	_remove_nvmet_subsystem "${subsys_name}"
 +
 +	_remove_nvmet_port "${port}"
 +
++	_remove_nvmet_host "${hostnqn}"
++
 +	rm "${file_path}"
 +
-+	return "${val}"
++	echo "Test complete"
 +}
-+
- _find_nvme_dev() {
- 	local subsys=$1
- 	local subsysnqn
+diff --git a/tests/nvme/048.out b/tests/nvme/048.out
+new file mode 100644
+index 000000000000..7f986ef9637d
+--- /dev/null
++++ b/tests/nvme/048.out
+@@ -0,0 +1,3 @@
++Running nvme/048
++NQN:blktests-subsystem-1 disconnected 1 controller(s)
++Test complete
 -- 
 2.40.0
 
