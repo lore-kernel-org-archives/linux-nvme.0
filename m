@@ -4,83 +4,118 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 839E9C7618D
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Apr 2023 14:13:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D444C77B6F
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Apr 2023 15:01:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bqh19fkOr0pi7dX65UY+GAAk6xTRxBZRTJ5c5VySkMM=; b=g4NUCMZhCiCQl5t3S1txhD51Lf
-	+5EviZOVAmaGI+VZj5q015QS5soNAtVC4CvUUZHenD9voW6zz6hBCTB+oJX31chCU7wcYclMCia42
-	wA95I/XS/a/1WJ3X055mnHzGBsSeeEbC9x9NfPjt6XEHdYh7SjK8U1vGEyHFJqPd2Tp495byJ9pKt
-	MJjiWGz/PmDfYuiJPZ0yKV4H/G4oIcsKi/bmBNaNNuZgrsl7fSFR5FiharWJkRC1eyhFGOdmRGzpD
-	6GFRZVcPN0LqGkh0k0wOkmhlU6gSj+GhBz9c+dXvyRGxf/v01LM/oa/I8npIpn16qOiORDNBr46pM
-	+J/j74KQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=VGr1dXcVug5jWFRjhyP5yHrMbpFmYORGRUjHZROX8/s=; b=jMFqrsTOqbzj5RQ1pZtOas5G7R
+	CrrAhaDWVLhTdCMeY3wodF4bmBqljwMVpfPZ8ni7lDsCc/PTfnMffSwE8qweOgh/G56OGw2+0jCE8
+	Xtm63sXUCQQATYfz2vJC09C2NaYsaHDZUUoeWJ1JMXXBWKudVhnfNW9YXHhjXgkYLo5fZ0gdIoUdi
+	637jmbzRVlQ42I2xyw9sn6Gfifilj80KhjXdecLKoATfhHwF6N5cThJolNgfXhNcBD3EfSmu8A/tj
+	NYes6/Zs9rP8OqhrtQIK7coSINIsOlCR7Tkepxw96UY9Nd7VZdPHj1NAGXR3Au3mJkaYXCamG2T4l
+	H2CBvqpw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pkQMF-007Xps-0f;
-	Thu, 06 Apr 2023 14:12:59 +0000
-Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130])
+	id 1pkR6p-007j6o-2b;
+	Thu, 06 Apr 2023 15:01:07 +0000
+Received: from mailout1.w2.samsung.com ([211.189.100.11])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pkQMC-007XoF-1Q
+	id 1pkA1i-005fs7-2V
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Apr 2023 14:12:58 +0000
-Received: by mail-il1-x130.google.com with SMTP id e9e14a558f8ab-325ac3266a1so263295ab.0
-        for <linux-nvme@lists.infradead.org>; Thu, 06 Apr 2023 07:12:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112; t=1680790374;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bqh19fkOr0pi7dX65UY+GAAk6xTRxBZRTJ5c5VySkMM=;
-        b=cIpruUuxWqhYJ5N7xSwL0s9breWS1dch+YX9FYKKx9Q9tNVGRtAHiIY1VPGll8X+35
-         dVBwLSkSnWBLU0te63OGQ+n2BBPw+x39v8+UaMt2AlfQIFWD08Z9j1DDWuWvc0flJAML
-         ubswh+oGaO7G4nP8vJmMDDDsTTGdLIoSrwqklaSbNbTY97c+AuaouR12Tp7LRk2nJcwc
-         eE7cV9pmJ1v9Pt8btJk0DEE18+QPV0vlZxafnc5OxLGtcFFsXISktmcYi2DDruskYMAz
-         NB62Ba+JNB/1TIIV6HLdxLFshTCcaSaddlbeJpORqkRD8fPrzJKCQ13pMAShN+QViqVY
-         P4xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680790374;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bqh19fkOr0pi7dX65UY+GAAk6xTRxBZRTJ5c5VySkMM=;
-        b=wqdi28azpBbkAjKAovqwxrVVtg7Ql0xYa9AoDAn/Is/DmmL8JUnBMjLjiVEiMFohhC
-         07raYlhhrDjNXOLj31CzTaRfISEvsjVqlDyqLYxnpRfUIAiw4sEhovKfbrA/ZHQtNtto
-         NkXmg3ilAHoFCf9DGG0UR5/TOOf8u0jVIF2j3gBEQr9igNHBxbLHQVjAg8kVgM5WEmKy
-         jE9FD6t/SBFlGMCzTm4UINlx453Lnvnw8S6SSrSf2n0ksCux0t3ZkV2vzdYcPMk9UNCW
-         vYBe+Iu/3KMoxOX6tzuZrCNN+91tFGSQMQAw67gHUQifzcD2+OVlOF79xmnbeJdVAUFN
-         cbwQ==
-X-Gm-Message-State: AAQBX9d65aSE2Nbta6h0P6KqB/BP+kowsABY+oYHbVONpotfpy8G9Zi8
-	nqvXlrzJ0I18yb2cLfGt99RZUhGPXpk2fF6+9GP55g==
-X-Google-Smtp-Source: AKy350YoLHhKBysGu8vXUaqghH7yrxoog5J1+Qw5ElQjnE8a0scXGNxxVNcHyB66T7XnGcyQDYykHw==
-X-Received: by 2002:a05:6602:2d11:b0:75c:f48c:2075 with SMTP id c17-20020a0566022d1100b0075cf48c2075mr4232485iow.2.1680790374294;
-        Thu, 06 Apr 2023 07:12:54 -0700 (PDT)
-Received: from [192.168.1.94] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 62-20020a021d41000000b004051ff71eacsm402443jaj.144.2023.04.06.07.12.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Apr 2023 07:12:53 -0700 (PDT)
-Message-ID: <e9c66380-40f4-9ed0-4cf6-8de0c8b5f26d@kernel.dk>
-Date: Thu, 6 Apr 2023 08:12:53 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [GIT PULL] nvme fix for Linux 6.3
+	Wed, 05 Apr 2023 20:46:49 +0000
+Received: from uscas1p1.samsung.com (unknown [182.198.245.206])
+	by mailout1.w2.samsung.com (KnoxPortal) with ESMTP id 20230405204637usoutp015ef6b6614e9934f7d73974181ef158ee~TJNhvFsWs1469714697usoutp01c;
+	Wed,  5 Apr 2023 20:46:37 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w2.samsung.com 20230405204637usoutp015ef6b6614e9934f7d73974181ef158ee~TJNhvFsWs1469714697usoutp01c
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1680727597;
+	bh=VGr1dXcVug5jWFRjhyP5yHrMbpFmYORGRUjHZROX8/s=;
+	h=From:To:CC:Subject:Date:References:From;
+	b=O3w88ECkjEe8knXqb2p0YBFjONNZpUs77Lmgux6H6ciyUTidBwFvHzmto6XZl8NHp
+	 ipWEkQs9Qzq0mGI0+xRp8rKldzGmfex0gVSLRn45SfkWsVE0Au0KJyoMc8ufClP8MZ
+	 9kpJj7n3daIO01iFND5UpS3QIP2ibJXhl8kWWIRU=
+Received: from ussmges1new.samsung.com (u109.gpu85.samsung.co.kr
+	[203.254.195.109]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
+	20230405204637uscas1p1706736250917ab88edbe4af6a5b4fe81~TJNhj7HFh1825818258uscas1p1L;
+	Wed,  5 Apr 2023 20:46:37 +0000 (GMT)
+Received: from uscas1p2.samsung.com ( [182.198.245.207]) by
+	ussmges1new.samsung.com (USCPEMTA) with SMTP id EB.42.09634.D2EDD246; Wed, 
+	5 Apr 2023 16:46:37 -0400 (EDT)
+Received: from ussmgxs1new.samsung.com (u89.gpu85.samsung.co.kr
+	[203.254.195.89]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20230405204637uscas1p2fb449663414a31f130fd5b02caac3340~TJNhPr82H1349813498uscas1p2B;
+	Wed,  5 Apr 2023 20:46:37 +0000 (GMT)
+X-AuditID: cbfec36d-71bff700000025a2-bc-642dde2d8917
+Received: from SSI-EX1.ssi.samsung.com ( [105.128.2.146]) by
+	ussmgxs1new.samsung.com (USCPEXMTA) with SMTP id EA.0B.09541.D2EDD246; Wed, 
+	5 Apr 2023 16:46:37 -0400 (EDT)
+Received: from SSI-EX2.ssi.samsung.com (105.128.2.227) by
+	SSI-EX1.ssi.samsung.com (105.128.2.226) with Microsoft SMTP Server
+	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+	15.1.2375.24; Wed, 5 Apr 2023 13:46:36 -0700
+Received: from SSI-EX2.ssi.samsung.com ([105.128.2.227]) by
+	SSI-EX2.ssi.samsung.com ([105.128.2.227]) with mapi id 15.01.2375.024; Wed,
+	5 Apr 2023 13:46:36 -0700
+From: Nate Thornton <nate.thornton@samsung.com>
+To: "kbusch@kernel.org" <kbusch@kernel.org>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: nvme: Incorrect Async Event Trace string
+Thread-Topic: nvme: Incorrect Async Event Trace string
+Thread-Index: Adln9MG4z0NU2uKCTiKEWprdC5v+bQ==
+Date: Wed, 5 Apr 2023 20:46:36 +0000
+Message-ID: <6f4a7ffad0c7495391116b8b983882b3@samsung.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org
-References: <ZC7PkTumUFAzsKNJ@infradead.org>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <ZC7PkTumUFAzsKNJ@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [105.128.2.176]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrGIsWRmVeSWpSXmKPExsWy7djX87q693RTDK4/1LSYdOgao8XlXXPY
+	LOYve8ruwOyxaVUnm8fmJfUenzfJBTBHcdmkpOZklqUW6dslcGVMObuUpWCfVMWbiwdYGxib
+	RboYOTkkBEwkPq5ay9rFyMUhJLCSUWL1lsksEE4rk8S+459ZYaqW3l3ODJFYyyhx5coqqJaP
+	jBIPdn2GcpYySnx/sIwJpIVNQF9i7penzCC2iIC2xOsre8DmMgu0MUqcuvQALCEsYChx7VwD
+	C0SRmcS5CzugbD2JJT9/s4HYLAIqEh9PTgC7g1fASuJTbz9YnFFATOL7qTVgy5gFxCVuPZnP
+	BHGroMSi2XuYIWwxiX+7HrJB2IoS97+/ZIeo15FYsPsTG4StLbFs4WtmiPmCEidnPmGBqJeU
+	OLjiBtjREgKNHBLPT9+CSrhIPDu5EmqZtMTV61OZIQbxSfz99Yixi5EDKM4r0dEmBFHiIXHk
+	8XmwvUICsRItXR/YJjDKz0Jy9iwkJ81CctIsJCctYGRZxSheWlycm55abJiXWq5XnJhbXJqX
+	rpecn7uJEZg0Tv87nLuDccetj3qHGJk4GA8xSnAwK4nwqnZppQjxpiRWVqUW5ccXleakFh9i
+	lOZgURLnNbQ9mSwkkJ5YkpqdmlqQWgSTZeLglGpgmt+x+wdf2a1jPouip/1/2t+dnyk+QU7o
+	t+/ZpCMzgm+fq35Q1nf3Vj1/x/dNydXfqh/JfjHdUqwkp3JVQvv09yu+KeFmvM9lvsXX9N5f
+	rhMU+bKnXya6ucxkqcYcLcHvdYfncd2ZFP/lt+SdCQUcCV/+vfgQlvft1o+Fha+f8WtG8fVs
+	YE/SXBJgMOvd/bzVYumTKwqtRMt/WHSnnr1dZHmMz6vzmeb9nTK9lX6Tp+qGCiQqpIqmO62t
+	/rhFTPPgw8VGLA+cHK5+UJBaunqJV+Ef7oAyq6O/nPmmaXdna5bMs/ihLi2sz3FwQg5P3v6Q
+	rrg1Sh3Gy1+tzgk+v9EpQkkp5mLtf5YXcy90XD6gxFKckWioxVxUnAgAJsJoiYkDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrNLMWRmVeSWpSXmKPExsWS2cA0SVf3nm6KwYFHAhaTDl1jtLi8aw6b
+	xfxlT9kdmD02repk89i8pN7j8ya5AOYoLpuU1JzMstQifbsErowpZ5eyFOyTqnhz8QBrA2Oz
+	SBcjJ4eEgInE0rvLmbsYuTiEBFYzSnw6PZcdJCEk8JFRYupdqMRSRol3Ly4zgSTYBPQl5n55
+	ygxiiwhoS7y+socFpIhZoI1R4tSlB2AJYQFDiWvnGlggiswkzl3YAWXrSSz5+ZsNxGYRUJH4
+	eHICK4jNK2Al8am3HyzOKCAm8f3UGrBlzALiEreezGeCOFVAYsme88wQtqjEy8f/WCFsRYn7
+	31+yQ9TrSCzY/YkNwtaWWLbwNTPEfEGJkzOfsEDUS0ocXHGDZQKj6CwkK2YhaZ+FpH0WkvYF
+	jCyrGMVLi4tz0yuKDfNSy/WKE3OLS/PS9ZLzczcxAuPn9L/DkTsYj976qHeIkYmD8RCjBAez
+	kgivapdWihBvSmJlVWpRfnxRaU5q8SFGaQ4WJXFeIdeJ8UIC6YklqdmpqQWpRTBZJg5OqQam
+	ytnOOkZMad2Ve65cctjLpFV4z89vt9e28/dN3F/lLuPXV98t2aX5fNXS+4wh0bETbpcUFR9O
+	fXqqMoa9V+T7w4XsO6peqfl+s6gTV2yvfLi0PNfv+dVWC4H5eVILbbw+vpe5I38na46ZSUWV
+	W7vX78c7zixuuZVjeF1E91ju7brarUuXmgZG5ioWLtzn38bbuOq0aMbuhdE7lef/D5+yt5yh
+	sFpfdMktBnfvmpRMscC3b94/e3Gj2/eZwJKJrw0/f72/t3DKUolm89tViq+XqoUq2pdPv7Sg
+	waW1wEUl50zhpsfiz9iKzQK/JV3fUpoxJaLqePRHhnv3Jnyzlki4mrN8OUtX3r/cuV8vepYp
+	sRRnJBpqMRcVJwIAWlfQAA4DAAA=
+X-CMS-MailID: 20230405204637uscas1p2fb449663414a31f130fd5b02caac3340
+CMS-TYPE: 301P
+X-CMS-RootMailID: 20230405204637uscas1p2fb449663414a31f130fd5b02caac3340
+References: <CGME20230405204637uscas1p2fb449663414a31f130fd5b02caac3340@uscas1p2.samsung.com>
+X-Bad-Reply: References but no 'Re:' in Subject.
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230406_071256_478894_F002A9DB 
-X-CRM114-Status: GOOD (  11.57  )
+X-CRM114-CacheID: sfid-20230405_134643_293362_B2E6EEA3 
+X-CRM114-Status: GOOD (  12.38  )
+X-Mailman-Approved-At: Thu, 06 Apr 2023 08:01:06 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,28 +130,83 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/6/23 7:56 AM, Christoph Hellwig wrote:
-> The following changes since commit 38a8c4d1d45006841f0643f4cb29b5e50758837c:
-> 
->   blk-mq: directly poll requests (2023-04-04 16:11:47 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-6.3-2023-04-06
-> 
-> for you to fetch changes up to d3205ab75e99a47539ec91ef85ba488f4ddfeaa9:
-> 
->   nvme: fix discard support without oncs (2023-04-05 17:13:17 +0200)
-> 
-> ----------------------------------------------------------------
-> nvme fixes for Linux 6.3
-> 
->  - fix discard support without oncs (Keith Busch)
+Hi Keith,
 
-Pulled, thanks.
+With NVMe Asynchronous Event kernel debug tracing, there are duplicate entr=
+ies in the symbolic table that cause the decoded event string to be incorre=
+ct for certain events. This is easily observed by enabling SMART / Health e=
+vents, then lowering the temperature threshold so the drive will generate a=
+n event. I observed the issue on the 5.15 kernel and the trace macro remain=
+s the same in 6.x
 
--- 
-Jens Axboe
+I am using a Samsung PM173X drive in my testing, but any drive that support=
+s asynchronous events and temperature readings should suffice.
+
+e.g.
+# Enable NVMe Async Event debug tracing
+$ echo 1 > /sys/kernel/debug/tracing/events/nvme/nvme_async_event/enable
+
+# Enable Asynchronous Event Notification for SMART / Critical Health Warnin=
+gs (bits 0:7)
+$ nvme set-feature /dev/nvme0 --feature-id=3D0xB --value=3D0xF
+set-feature:0x0b (Async Event Configuration), value:0x0000000f, cdw12:00000=
+000, save:0
+
+# Reduce Temperature Threshold to 64 Kelvin, thus triggering an event (unle=
+ss it's cold)
+$ nvme set-feature /dev/nvme0 --feature-id=3D0x4 --value=3D0x40
+
+# Observe that the Asynchronous Event Notification (AEN) is 0x000001. This =
+corresponds to a SMART / Health status
+# but is labeled as NVME_AER_NOTICE_FW_ACT_STARTING
+$ cat /sys/kernel/debug/tracing/trace
+# tracer: nop
+#
+# entries-in-buffer/entries-written: 1/1   #P:20
+#
+#                                _-----=3D> irqs-off
+#                               / _----=3D> need-resched
+#                              | / _---=3D> hardirq/softirq
+#                              || / _--=3D> preempt-depth
+#                              ||| / _-=3D> migrate-disable
+#                              |||| /     delay
+#           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+#              | |         |   |||||     |         |
+          <idle>-0       [017] d.h..   745.082580: nvme_async_event: nvme0:=
+ NVME_AEN=3D0x000001 [NVME_AER_NOTICE_FW_ACT_STARTING]
+
+
+
+The AER name duplications are in drivers/nvme/host/trace.h where it tries t=
+o combine the Asynchronous Event Type, and types specific to the Notice eve=
+nt type. In my case, I should be seeing NVME_AER_SMART.
+		aer_name(NVME_AER_NOTICE_NS_CHANGED),		// 0
+		aer_name(NVME_AER_NOTICE_ANA),			// 3
+		aer_name(NVME_AER_NOTICE_FW_ACT_STARTING),	// 1
+		aer_name(NVME_AER_NOTICE_DISC_CHANGED),		// 0xF0
+		aer_name(NVME_AER_ERROR),				// 0
+		aer_name(NVME_AER_SMART),				// 1
+		aer_name(NVME_AER_CSS),					// 6
+		aer_name(NVME_AER_VS))					// 7
+=09
+
+Referring to NVM Express Base Specification, Revision 2.0c, 5.2.1 Command C=
+ompletion: The Event Type is in the lower bits 0:3 of Dword 0. The Event Ty=
+pe then describes specific Event Information in bits 8:15. (Note that two E=
+vent Types are missing: NVME_AER_NOTICE (2) and NVME_AER_IMMEDIATE (3). The=
+ other values, 4 and 5, are marked as Reserved in the spec. For completenes=
+s, we may want to add the missing definitions.)
+
+In nvme_handle_aen_notice it is decoding bits 8:15 and passing that into th=
+e trace. That maybe explains why the NVME_AER_NOTICE_* entries were added t=
+o the symbolic names. If this is still desired, it may require a second TRA=
+CE_EVENT definition specific to notice events.
+
+Although I am new to the kernel, I am happy to help with a patch if you can=
+ describe the desired behavior.
+
+Thanks,
+Nate
 
 
 
