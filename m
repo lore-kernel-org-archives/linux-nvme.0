@@ -4,118 +4,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D444C77B6F
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Apr 2023 15:01:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DE62EC7618D
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Apr 2023 15:01:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=VGr1dXcVug5jWFRjhyP5yHrMbpFmYORGRUjHZROX8/s=; b=jMFqrsTOqbzj5RQ1pZtOas5G7R
-	CrrAhaDWVLhTdCMeY3wodF4bmBqljwMVpfPZ8ni7lDsCc/PTfnMffSwE8qweOgh/G56OGw2+0jCE8
-	Xtm63sXUCQQATYfz2vJC09C2NaYsaHDZUUoeWJ1JMXXBWKudVhnfNW9YXHhjXgkYLo5fZ0gdIoUdi
-	637jmbzRVlQ42I2xyw9sn6Gfifilj80KhjXdecLKoATfhHwF6N5cThJolNgfXhNcBD3EfSmu8A/tj
-	NYes6/Zs9rP8OqhrtQIK7coSINIsOlCR7Tkepxw96UY9Nd7VZdPHj1NAGXR3Au3mJkaYXCamG2T4l
-	H2CBvqpw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nVZzQDZ8oCv/Z/RSubd/I0Q5tsMRDz1XKi4/e/H81VM=; b=izdkpNFRJnUh97VRXzVpJtpJIb
+	i9WLogRExyVjJZzHnNdX2pgaQtc9zovLfcfypHXp3r4ZRiROKSFyhCH7sR6/C0K30PoI0yhdqb+W1
+	WRcOrKIFLZfHl6j5QT7W84jYB0sflReU/NJTr+oRkAwQBzHQRIj1slf7dXp0B9HdAmOilHw/yDn9P
+	JMgtf0X4lQQx3dks5q0z5KvMxtqp+m2CZLs/YLpvoUaEBMk6ng9/cas0McwcY6EMDIIHNkqSxU5/x
+	0Khq/v6dNkeYcZ5pwx7mxy56+Ln3Tbs8QgkB4Q8iyjX6dX2S1EiKBLgU436kSRwmaGlMAEqWsrXLI
+	if1oYD0g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pkR6p-007j6o-2b;
-	Thu, 06 Apr 2023 15:01:07 +0000
-Received: from mailout1.w2.samsung.com ([211.189.100.11])
+	id 1pkR6q-007j6y-1i;
+	Thu, 06 Apr 2023 15:01:08 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pkA1i-005fs7-2V
+	id 1pkM95-006tUz-0s
 	for linux-nvme@lists.infradead.org;
-	Wed, 05 Apr 2023 20:46:49 +0000
-Received: from uscas1p1.samsung.com (unknown [182.198.245.206])
-	by mailout1.w2.samsung.com (KnoxPortal) with ESMTP id 20230405204637usoutp015ef6b6614e9934f7d73974181ef158ee~TJNhvFsWs1469714697usoutp01c;
-	Wed,  5 Apr 2023 20:46:37 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w2.samsung.com 20230405204637usoutp015ef6b6614e9934f7d73974181ef158ee~TJNhvFsWs1469714697usoutp01c
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1680727597;
-	bh=VGr1dXcVug5jWFRjhyP5yHrMbpFmYORGRUjHZROX8/s=;
-	h=From:To:CC:Subject:Date:References:From;
-	b=O3w88ECkjEe8knXqb2p0YBFjONNZpUs77Lmgux6H6ciyUTidBwFvHzmto6XZl8NHp
-	 ipWEkQs9Qzq0mGI0+xRp8rKldzGmfex0gVSLRn45SfkWsVE0Au0KJyoMc8ufClP8MZ
-	 9kpJj7n3daIO01iFND5UpS3QIP2ibJXhl8kWWIRU=
-Received: from ussmges1new.samsung.com (u109.gpu85.samsung.co.kr
-	[203.254.195.109]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20230405204637uscas1p1706736250917ab88edbe4af6a5b4fe81~TJNhj7HFh1825818258uscas1p1L;
-	Wed,  5 Apr 2023 20:46:37 +0000 (GMT)
-Received: from uscas1p2.samsung.com ( [182.198.245.207]) by
-	ussmges1new.samsung.com (USCPEMTA) with SMTP id EB.42.09634.D2EDD246; Wed, 
-	5 Apr 2023 16:46:37 -0400 (EDT)
-Received: from ussmgxs1new.samsung.com (u89.gpu85.samsung.co.kr
-	[203.254.195.89]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20230405204637uscas1p2fb449663414a31f130fd5b02caac3340~TJNhPr82H1349813498uscas1p2B;
-	Wed,  5 Apr 2023 20:46:37 +0000 (GMT)
-X-AuditID: cbfec36d-71bff700000025a2-bc-642dde2d8917
-Received: from SSI-EX1.ssi.samsung.com ( [105.128.2.146]) by
-	ussmgxs1new.samsung.com (USCPEXMTA) with SMTP id EA.0B.09541.D2EDD246; Wed, 
-	5 Apr 2023 16:46:37 -0400 (EDT)
-Received: from SSI-EX2.ssi.samsung.com (105.128.2.227) by
-	SSI-EX1.ssi.samsung.com (105.128.2.226) with Microsoft SMTP Server
-	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
-	15.1.2375.24; Wed, 5 Apr 2023 13:46:36 -0700
-Received: from SSI-EX2.ssi.samsung.com ([105.128.2.227]) by
-	SSI-EX2.ssi.samsung.com ([105.128.2.227]) with mapi id 15.01.2375.024; Wed,
-	5 Apr 2023 13:46:36 -0700
-From: Nate Thornton <nate.thornton@samsung.com>
-To: "kbusch@kernel.org" <kbusch@kernel.org>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: nvme: Incorrect Async Event Trace string
-Thread-Topic: nvme: Incorrect Async Event Trace string
-Thread-Index: Adln9MG4z0NU2uKCTiKEWprdC5v+bQ==
-Date: Wed, 5 Apr 2023 20:46:36 +0000
-Message-ID: <6f4a7ffad0c7495391116b8b983882b3@samsung.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [105.128.2.176]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	Thu, 06 Apr 2023 09:43:09 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1680774186;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nVZzQDZ8oCv/Z/RSubd/I0Q5tsMRDz1XKi4/e/H81VM=;
+	b=Cvl8nkD0OfDwLKpexBdjuNklI7fZAJv0YlAPgAS8ghnJ575EjQFc53nZtlnO7y3DgsSeUW
+	6ZZ6dBqDtk0kL/nUHFbmNlf7bm+8DV/z6eXG3FedBq1ixLtDNzg1Tqfr33ixfz+OU6b9A2
+	JQ9rn0ForKSpWwP2XXj6P4Bfnp4J+qU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-385-efyz_S0XOm-fe6KgdgJSmg-1; Thu, 06 Apr 2023 05:43:03 -0400
+X-MC-Unique: efyz_S0XOm-fe6KgdgJSmg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 873EC185A78B;
+	Thu,  6 Apr 2023 09:43:00 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.33.36.18])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 71734492C14;
+	Thu,  6 Apr 2023 09:42:56 +0000 (UTC)
+From: David Howells <dhowells@redhat.com>
+To: netdev@vger.kernel.org
+Cc: David Howells <dhowells@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Christoph Hellwig <hch@infradead.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Jeff Layton <jlayton@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Chuck Lever III <chuck.lever@oracle.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	Jeroen de Borst <jeroendb@google.com>,
+	Catherine Sullivan <csully@google.com>,
+	Shailend Chand <shailend@google.com>,
+	Felix Fietkau <nbd@nbd.name>,
+	John Crispin <john@phrozen.org>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Mark Lee <Mark-MC.Lee@mediatek.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@fb.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH net-next v5 03/19] mm: Make the page_frag_cache allocator use multipage folios
+Date: Thu,  6 Apr 2023 10:42:29 +0100
+Message-Id: <20230406094245.3633290-4-dhowells@redhat.com>
+In-Reply-To: <20230406094245.3633290-1-dhowells@redhat.com>
+References: <20230406094245.3633290-1-dhowells@redhat.com>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrGIsWRmVeSWpSXmKPExsWy7djX87q693RTDK4/1LSYdOgao8XlXXPY
-	LOYve8ruwOyxaVUnm8fmJfUenzfJBTBHcdmkpOZklqUW6dslcGVMObuUpWCfVMWbiwdYGxib
-	RboYOTkkBEwkPq5ay9rFyMUhJLCSUWL1lsksEE4rk8S+459ZYaqW3l3ODJFYyyhx5coqqJaP
-	jBIPdn2GcpYySnx/sIwJpIVNQF9i7penzCC2iIC2xOsre8DmMgu0MUqcuvQALCEsYChx7VwD
-	C0SRmcS5CzugbD2JJT9/s4HYLAIqEh9PTgC7g1fASuJTbz9YnFFATOL7qTVgy5gFxCVuPZnP
-	BHGroMSi2XuYIWwxiX+7HrJB2IoS97+/ZIeo15FYsPsTG4StLbFs4WtmiPmCEidnPmGBqJeU
-	OLjiBtjREgKNHBLPT9+CSrhIPDu5EmqZtMTV61OZIQbxSfz99Yixi5EDKM4r0dEmBFHiIXHk
-	8XmwvUICsRItXR/YJjDKz0Jy9iwkJ81CctIsJCctYGRZxSheWlycm55abJiXWq5XnJhbXJqX
-	rpecn7uJEZg0Tv87nLuDccetj3qHGJk4GA8xSnAwK4nwqnZppQjxpiRWVqUW5ccXleakFh9i
-	lOZgURLnNbQ9mSwkkJ5YkpqdmlqQWgSTZeLglGpgmt+x+wdf2a1jPouip/1/2t+dnyk+QU7o
-	t+/ZpCMzgm+fq35Q1nf3Vj1/x/dNydXfqh/JfjHdUqwkp3JVQvv09yu+KeFmvM9lvsXX9N5f
-	rhMU+bKnXya6ucxkqcYcLcHvdYfncd2ZFP/lt+SdCQUcCV/+vfgQlvft1o+Fha+f8WtG8fVs
-	YE/SXBJgMOvd/bzVYumTKwqtRMt/WHSnnr1dZHmMz6vzmeb9nTK9lX6Tp+qGCiQqpIqmO62t
-	/rhFTPPgw8VGLA+cHK5+UJBaunqJV+Ef7oAyq6O/nPmmaXdna5bMs/ihLi2sz3FwQg5P3v6Q
-	rrg1Sh3Gy1+tzgk+v9EpQkkp5mLtf5YXcy90XD6gxFKckWioxVxUnAgAJsJoiYkDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrNLMWRmVeSWpSXmKPExsWS2cA0SVf3nm6KwYFHAhaTDl1jtLi8aw6b
-	xfxlT9kdmD02repk89i8pN7j8ya5AOYoLpuU1JzMstQifbsErowpZ5eyFOyTqnhz8QBrA2Oz
-	SBcjJ4eEgInE0rvLmbsYuTiEBFYzSnw6PZcdJCEk8JFRYupdqMRSRol3Ly4zgSTYBPQl5n55
-	ygxiiwhoS7y+socFpIhZoI1R4tSlB2AJYQFDiWvnGlggiswkzl3YAWXrSSz5+ZsNxGYRUJH4
-	eHICK4jNK2Al8am3HyzOKCAm8f3UGrBlzALiEreezGeCOFVAYsme88wQtqjEy8f/WCFsRYn7
-	31+yQ9TrSCzY/YkNwtaWWLbwNTPEfEGJkzOfsEDUS0ocXHGDZQKj6CwkK2YhaZ+FpH0WkvYF
-	jCyrGMVLi4tz0yuKDfNSy/WKE3OLS/PS9ZLzczcxAuPn9L/DkTsYj976qHeIkYmD8RCjBAez
-	kgivapdWihBvSmJlVWpRfnxRaU5q8SFGaQ4WJXFeIdeJ8UIC6YklqdmpqQWpRTBZJg5OqQam
-	ytnOOkZMad2Ve65cctjLpFV4z89vt9e28/dN3F/lLuPXV98t2aX5fNXS+4wh0bETbpcUFR9O
-	fXqqMoa9V+T7w4XsO6peqfl+s6gTV2yvfLi0PNfv+dVWC4H5eVILbbw+vpe5I38na46ZSUWV
-	W7vX78c7zixuuZVjeF1E91ju7brarUuXmgZG5ioWLtzn38bbuOq0aMbuhdE7lef/D5+yt5yh
-	sFpfdMktBnfvmpRMscC3b94/e3Gj2/eZwJKJrw0/f72/t3DKUolm89tViq+XqoUq2pdPv7Sg
-	waW1wEUl50zhpsfiz9iKzQK/JV3fUpoxJaLqePRHhnv3Jnyzlki4mrN8OUtX3r/cuV8vepYp
-	sRRnJBpqMRcVJwIAWlfQAA4DAAA=
-X-CMS-MailID: 20230405204637uscas1p2fb449663414a31f130fd5b02caac3340
-CMS-TYPE: 301P
-X-CMS-RootMailID: 20230405204637uscas1p2fb449663414a31f130fd5b02caac3340
-References: <CGME20230405204637uscas1p2fb449663414a31f130fd5b02caac3340@uscas1p2.samsung.com>
-X-Bad-Reply: References but no 'Re:' in Subject.
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230405_134643_293362_B2E6EEA3 
-X-CRM114-Status: GOOD (  12.38  )
-X-Mailman-Approved-At: Thu, 06 Apr 2023 08:01:06 -0700
+X-CRM114-CacheID: sfid-20230406_024307_459930_55BB3DC9 
+X-CRM114-Status: GOOD (  33.93  )
+X-Mailman-Approved-At: Thu, 06 Apr 2023 08:01:03 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -130,83 +114,363 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Keith,
+Change the page_frag_cache allocator to use multipage folios rather than
+groups of pages.  This reduces page_frag_free to just a folio_put() or
+put_page().
 
-With NVMe Asynchronous Event kernel debug tracing, there are duplicate entr=
-ies in the symbolic table that cause the decoded event string to be incorre=
-ct for certain events. This is easily observed by enabling SMART / Health e=
-vents, then lowering the temperature threshold so the drive will generate a=
-n event. I observed the issue on the 5.15 kernel and the trace macro remain=
-s the same in 6.x
+Signed-off-by: David Howells <dhowells@redhat.com>
+cc: "David S. Miller" <davem@davemloft.net>
+cc: Eric Dumazet <edumazet@google.com>
+cc: Jakub Kicinski <kuba@kernel.org>
+cc: Paolo Abeni <pabeni@redhat.com>
+cc: Jens Axboe <axboe@kernel.dk>
+cc: Jeroen de Borst <jeroendb@google.com>
+cc: Catherine Sullivan <csully@google.com>
+cc: Shailend Chand <shailend@google.com>
+cc: Felix Fietkau <nbd@nbd.name>
+cc: John Crispin <john@phrozen.org>
+cc: Sean Wang <sean.wang@mediatek.com>
+cc: Mark Lee <Mark-MC.Lee@mediatek.com>
+cc: Lorenzo Bianconi <lorenzo@kernel.org>
+cc: Matthias Brugger <matthias.bgg@gmail.com>
+cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+cc: Keith Busch <kbusch@kernel.org>
+cc: Jens Axboe <axboe@fb.com>
+cc: Christoph Hellwig <hch@lst.de>
+cc: Sagi Grimberg <sagi@grimberg.me>
+cc: Chaitanya Kulkarni <kch@nvidia.com>
+cc: Andrew Morton <akpm@linux-foundation.org>
+cc: Matthew Wilcox <willy@infradead.org>
+cc: netdev@vger.kernel.org
+cc: linux-arm-kernel@lists.infradead.org
+cc: linux-mediatek@lists.infradead.org
+cc: linux-nvme@lists.infradead.org
+cc: linux-mm@kvack.org
+---
+ drivers/net/ethernet/google/gve/gve_main.c |  11 +--
+ drivers/net/ethernet/mediatek/mtk_wed_wo.c |  15 +--
+ drivers/nvme/host/tcp.c                    |   7 +-
+ drivers/nvme/target/tcp.c                  |   5 +-
+ include/linux/gfp.h                        |   1 +
+ include/linux/mm_types.h                   |  13 +--
+ mm/page_frag_alloc.c                       | 101 +++++++++++----------
+ 7 files changed, 65 insertions(+), 88 deletions(-)
 
-I am using a Samsung PM173X drive in my testing, but any drive that support=
-s asynchronous events and temperature readings should suffice.
-
-e.g.
-# Enable NVMe Async Event debug tracing
-$ echo 1 > /sys/kernel/debug/tracing/events/nvme/nvme_async_event/enable
-
-# Enable Asynchronous Event Notification for SMART / Critical Health Warnin=
-gs (bits 0:7)
-$ nvme set-feature /dev/nvme0 --feature-id=3D0xB --value=3D0xF
-set-feature:0x0b (Async Event Configuration), value:0x0000000f, cdw12:00000=
-000, save:0
-
-# Reduce Temperature Threshold to 64 Kelvin, thus triggering an event (unle=
-ss it's cold)
-$ nvme set-feature /dev/nvme0 --feature-id=3D0x4 --value=3D0x40
-
-# Observe that the Asynchronous Event Notification (AEN) is 0x000001. This =
-corresponds to a SMART / Health status
-# but is labeled as NVME_AER_NOTICE_FW_ACT_STARTING
-$ cat /sys/kernel/debug/tracing/trace
-# tracer: nop
-#
-# entries-in-buffer/entries-written: 1/1   #P:20
-#
-#                                _-----=3D> irqs-off
-#                               / _----=3D> need-resched
-#                              | / _---=3D> hardirq/softirq
-#                              || / _--=3D> preempt-depth
-#                              ||| / _-=3D> migrate-disable
-#                              |||| /     delay
-#           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
-#              | |         |   |||||     |         |
-          <idle>-0       [017] d.h..   745.082580: nvme_async_event: nvme0:=
- NVME_AEN=3D0x000001 [NVME_AER_NOTICE_FW_ACT_STARTING]
-
-
-
-The AER name duplications are in drivers/nvme/host/trace.h where it tries t=
-o combine the Asynchronous Event Type, and types specific to the Notice eve=
-nt type. In my case, I should be seeing NVME_AER_SMART.
-		aer_name(NVME_AER_NOTICE_NS_CHANGED),		// 0
-		aer_name(NVME_AER_NOTICE_ANA),			// 3
-		aer_name(NVME_AER_NOTICE_FW_ACT_STARTING),	// 1
-		aer_name(NVME_AER_NOTICE_DISC_CHANGED),		// 0xF0
-		aer_name(NVME_AER_ERROR),				// 0
-		aer_name(NVME_AER_SMART),				// 1
-		aer_name(NVME_AER_CSS),					// 6
-		aer_name(NVME_AER_VS))					// 7
-=09
-
-Referring to NVM Express Base Specification, Revision 2.0c, 5.2.1 Command C=
-ompletion: The Event Type is in the lower bits 0:3 of Dword 0. The Event Ty=
-pe then describes specific Event Information in bits 8:15. (Note that two E=
-vent Types are missing: NVME_AER_NOTICE (2) and NVME_AER_IMMEDIATE (3). The=
- other values, 4 and 5, are marked as Reserved in the spec. For completenes=
-s, we may want to add the missing definitions.)
-
-In nvme_handle_aen_notice it is decoding bits 8:15 and passing that into th=
-e trace. That maybe explains why the NVME_AER_NOTICE_* entries were added t=
-o the symbolic names. If this is still desired, it may require a second TRA=
-CE_EVENT definition specific to notice events.
-
-Although I am new to the kernel, I am happy to help with a patch if you can=
- describe the desired behavior.
-
-Thanks,
-Nate
-
+diff --git a/drivers/net/ethernet/google/gve/gve_main.c b/drivers/net/ethernet/google/gve/gve_main.c
+index 57ce74315eba..b2fc1a3e6340 100644
+--- a/drivers/net/ethernet/google/gve/gve_main.c
++++ b/drivers/net/ethernet/google/gve/gve_main.c
+@@ -1263,17 +1263,10 @@ static void gve_unreg_xdp_info(struct gve_priv *priv)
+ 
+ static void gve_drain_page_cache(struct gve_priv *priv)
+ {
+-	struct page_frag_cache *nc;
+ 	int i;
+ 
+-	for (i = 0; i < priv->rx_cfg.num_queues; i++) {
+-		nc = &priv->rx[i].page_cache;
+-		if (nc->va) {
+-			__page_frag_cache_drain(virt_to_page(nc->va),
+-						nc->pagecnt_bias);
+-			nc->va = NULL;
+-		}
+-	}
++	for (i = 0; i < priv->rx_cfg.num_queues; i++)
++		page_frag_cache_clear(&priv->rx[i].page_cache);
+ }
+ 
+ static int gve_open(struct net_device *dev)
+diff --git a/drivers/net/ethernet/mediatek/mtk_wed_wo.c b/drivers/net/ethernet/mediatek/mtk_wed_wo.c
+index 69fba29055e9..6ce532217777 100644
+--- a/drivers/net/ethernet/mediatek/mtk_wed_wo.c
++++ b/drivers/net/ethernet/mediatek/mtk_wed_wo.c
+@@ -286,7 +286,6 @@ mtk_wed_wo_queue_free(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
+ static void
+ mtk_wed_wo_queue_tx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
+ {
+-	struct page *page;
+ 	int i;
+ 
+ 	for (i = 0; i < q->n_desc; i++) {
+@@ -298,12 +297,7 @@ mtk_wed_wo_queue_tx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
+ 		entry->buf = NULL;
+ 	}
+ 
+-	if (!q->cache.va)
+-		return;
+-
+-	page = virt_to_page(q->cache.va);
+-	__page_frag_cache_drain(page, q->cache.pagecnt_bias);
+-	memset(&q->cache, 0, sizeof(q->cache));
++	page_frag_cache_clear(&q->cache);
+ }
+ 
+ static void
+@@ -320,12 +314,7 @@ mtk_wed_wo_queue_rx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
+ 		skb_free_frag(buf);
+ 	}
+ 
+-	if (!q->cache.va)
+-		return;
+-
+-	page = virt_to_page(q->cache.va);
+-	__page_frag_cache_drain(page, q->cache.pagecnt_bias);
+-	memset(&q->cache, 0, sizeof(q->cache));
++	page_frag_cache_clear(&q->cache);
+ }
+ 
+ static void
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 42c0598c31f2..76f12ac714b0 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1323,12 +1323,7 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
+ 	if (queue->hdr_digest || queue->data_digest)
+ 		nvme_tcp_free_crypto(queue);
+ 
+-	if (queue->pf_cache.va) {
+-		page = virt_to_head_page(queue->pf_cache.va);
+-		__page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
+-		queue->pf_cache.va = NULL;
+-	}
+-
++	page_frag_cache_clear(&queue->pf_cache);
+ 	noreclaim_flag = memalloc_noreclaim_save();
+ 	sock_release(queue->sock);
+ 	memalloc_noreclaim_restore(noreclaim_flag);
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 66e8f9fd0ca7..ae871c31cf00 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1438,7 +1438,6 @@ static void nvmet_tcp_free_cmd_data_in_buffers(struct nvmet_tcp_queue *queue)
+ 
+ static void nvmet_tcp_release_queue_work(struct work_struct *w)
+ {
+-	struct page *page;
+ 	struct nvmet_tcp_queue *queue =
+ 		container_of(w, struct nvmet_tcp_queue, release_work);
+ 
+@@ -1460,9 +1459,7 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
+ 	if (queue->hdr_digest || queue->data_digest)
+ 		nvmet_tcp_free_crypto(queue);
+ 	ida_free(&nvmet_tcp_queue_ida, queue->idx);
+-
+-	page = virt_to_head_page(queue->pf_cache.va);
+-	__page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
++	page_frag_cache_clear(&queue->pf_cache);
+ 	kfree(queue);
+ }
+ 
+diff --git a/include/linux/gfp.h b/include/linux/gfp.h
+index 65a78773dcca..5e15384798eb 100644
+--- a/include/linux/gfp.h
++++ b/include/linux/gfp.h
+@@ -313,6 +313,7 @@ static inline void *page_frag_alloc(struct page_frag_cache *nc,
+ {
+ 	return page_frag_alloc_align(nc, fragsz, gfp_mask, ~0u);
+ }
++void page_frag_cache_clear(struct page_frag_cache *nc);
+ 
+ extern void page_frag_free(void *addr);
+ 
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index 0722859c3647..49a70b3f44a9 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -420,18 +420,13 @@ static inline void *folio_get_private(struct folio *folio)
+ }
+ 
+ struct page_frag_cache {
+-	void * va;
+-#if (PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE)
+-	__u16 offset;
+-	__u16 size;
+-#else
+-	__u32 offset;
+-#endif
++	struct folio	*folio;
++	unsigned int	offset;
+ 	/* we maintain a pagecount bias, so that we dont dirty cache line
+ 	 * containing page->_refcount every time we allocate a fragment.
+ 	 */
+-	unsigned int		pagecnt_bias;
+-	bool pfmemalloc;
++	unsigned int	pagecnt_bias;
++	bool		pfmemalloc;
+ };
+ 
+ typedef unsigned long vm_flags_t;
+diff --git a/mm/page_frag_alloc.c b/mm/page_frag_alloc.c
+index bee95824ef8f..9b138cb0e3a4 100644
+--- a/mm/page_frag_alloc.c
++++ b/mm/page_frag_alloc.c
+@@ -16,88 +16,95 @@
+ #include <linux/init.h>
+ #include <linux/mm.h>
+ 
+-static struct page *__page_frag_cache_refill(struct page_frag_cache *nc,
+-					     gfp_t gfp_mask)
++/*
++ * Allocate a new folio for the frag cache.
++ */
++static struct folio *page_frag_cache_refill(struct page_frag_cache *nc,
++					    gfp_t gfp_mask)
+ {
+-	struct page *page = NULL;
++	struct folio *folio = NULL;
+ 	gfp_t gfp = gfp_mask;
+ 
+ #if (PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE)
+-	gfp_mask |= __GFP_COMP | __GFP_NOWARN | __GFP_NORETRY |
+-		    __GFP_NOMEMALLOC;
+-	page = alloc_pages_node(NUMA_NO_NODE, gfp_mask,
+-				PAGE_FRAG_CACHE_MAX_ORDER);
+-	nc->size = page ? PAGE_FRAG_CACHE_MAX_SIZE : PAGE_SIZE;
++	gfp_mask |= __GFP_NOWARN | __GFP_NORETRY | __GFP_NOMEMALLOC;
++	folio = folio_alloc(gfp_mask, PAGE_FRAG_CACHE_MAX_ORDER);
+ #endif
+-	if (unlikely(!page))
+-		page = alloc_pages_node(NUMA_NO_NODE, gfp, 0);
+-
+-	nc->va = page ? page_address(page) : NULL;
++	if (unlikely(!folio))
++		folio = folio_alloc(gfp, 0);
+ 
+-	return page;
++	if (folio)
++		nc->folio = folio;
++	return folio;
+ }
+ 
+ void __page_frag_cache_drain(struct page *page, unsigned int count)
+ {
+-	VM_BUG_ON_PAGE(page_ref_count(page) == 0, page);
++	struct folio *folio = page_folio(page);
+ 
+-	if (page_ref_sub_and_test(page, count - 1))
+-		__free_pages(page, compound_order(page));
++	VM_BUG_ON_FOLIO(folio_ref_count(folio) == 0, folio);
++
++	folio_put_refs(folio, count);
+ }
+ EXPORT_SYMBOL(__page_frag_cache_drain);
+ 
++void page_frag_cache_clear(struct page_frag_cache *nc)
++{
++	struct folio *folio = nc->folio;
++
++	if (folio) {
++		VM_BUG_ON_FOLIO(folio_ref_count(folio) == 0, folio);
++		folio_put_refs(folio, nc->pagecnt_bias);
++		nc->folio = NULL;
++	}
++
++}
++EXPORT_SYMBOL(page_frag_cache_clear);
++
+ void *page_frag_alloc_align(struct page_frag_cache *nc,
+ 		      unsigned int fragsz, gfp_t gfp_mask,
+ 		      unsigned int align_mask)
+ {
+-	unsigned int size = PAGE_SIZE;
+-	struct page *page;
+-	int offset;
++	struct folio *folio = nc->folio;
++	size_t offset;
+ 
+-	if (unlikely(!nc->va)) {
++	if (unlikely(!folio)) {
+ refill:
+-		page = __page_frag_cache_refill(nc, gfp_mask);
+-		if (!page)
++		folio = page_frag_cache_refill(nc, gfp_mask);
++		if (!folio)
+ 			return NULL;
+ 
+-#if (PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE)
+-		/* if size can vary use size else just use PAGE_SIZE */
+-		size = nc->size;
+-#endif
+ 		/* Even if we own the page, we do not use atomic_set().
+ 		 * This would break get_page_unless_zero() users.
+ 		 */
+-		page_ref_add(page, PAGE_FRAG_CACHE_MAX_SIZE);
++		folio_ref_add(folio, PAGE_FRAG_CACHE_MAX_SIZE);
+ 
+ 		/* reset page count bias and offset to start of new frag */
+-		nc->pfmemalloc = page_is_pfmemalloc(page);
++		nc->pfmemalloc = folio_is_pfmemalloc(folio);
+ 		nc->pagecnt_bias = PAGE_FRAG_CACHE_MAX_SIZE + 1;
+-		nc->offset = size;
++		nc->offset = folio_size(folio);
+ 	}
+ 
+-	offset = nc->offset - fragsz;
+-	if (unlikely(offset < 0)) {
+-		page = virt_to_page(nc->va);
+-
+-		if (page_ref_count(page) != nc->pagecnt_bias)
++	offset = nc->offset;
++	if (unlikely(fragsz > offset)) {
++		/* Reuse the folio if everyone we gave it to has finished with it. */
++		if (!folio_ref_sub_and_test(folio, nc->pagecnt_bias)) {
++			nc->folio = NULL;
+ 			goto refill;
++		}
++
+ 		if (unlikely(nc->pfmemalloc)) {
+-			page_ref_sub(page, nc->pagecnt_bias - 1);
+-			__free_pages(page, compound_order(page));
++			__folio_put(folio);
++			nc->folio = NULL;
+ 			goto refill;
+ 		}
+ 
+-#if (PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE)
+-		/* if size can vary use size else just use PAGE_SIZE */
+-		size = nc->size;
+-#endif
+ 		/* OK, page count is 0, we can safely set it */
+-		set_page_count(page, PAGE_FRAG_CACHE_MAX_SIZE + 1);
++		folio_set_count(folio, PAGE_FRAG_CACHE_MAX_SIZE + 1);
+ 
+ 		/* reset page count bias and offset to start of new frag */
+ 		nc->pagecnt_bias = PAGE_FRAG_CACHE_MAX_SIZE + 1;
+-		offset = size - fragsz;
+-		if (unlikely(offset < 0)) {
++		offset = folio_size(folio);
++		if (unlikely(fragsz > offset)) {
+ 			/*
+ 			 * The caller is trying to allocate a fragment
+ 			 * with fragsz > PAGE_SIZE but the cache isn't big
+@@ -107,15 +114,17 @@ void *page_frag_alloc_align(struct page_frag_cache *nc,
+ 			 * it could make memory pressure worse
+ 			 * so we simply return NULL here.
+ 			 */
++			nc->offset = offset;
+ 			return NULL;
+ 		}
+ 	}
+ 
+ 	nc->pagecnt_bias--;
++	offset -= fragsz;
+ 	offset &= align_mask;
+ 	nc->offset = offset;
+ 
+-	return nc->va + offset;
++	return folio_address(folio) + offset;
+ }
+ EXPORT_SYMBOL(page_frag_alloc_align);
+ 
+@@ -124,8 +133,6 @@ EXPORT_SYMBOL(page_frag_alloc_align);
+  */
+ void page_frag_free(void *addr)
+ {
+-	struct page *page = virt_to_head_page(addr);
+-
+-	__free_pages(page, compound_order(page));
++	folio_put(virt_to_folio(addr));
+ }
+ EXPORT_SYMBOL(page_frag_free);
 
 
