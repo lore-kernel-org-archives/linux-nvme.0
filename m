@@ -4,46 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7BEFC77B6C
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Apr 2023 11:33:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AACB4C7618D
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Apr 2023 11:34:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6InvFDePpia3Lko+5lUNelMzfOeKP3TEiN/JNHImIyM=; b=k1eEAZIQTZ+DzSVUwGBv5TJN4C
-	G2jbWtJeNR7lyEGP6randnlK4p01VOq2iXlKPQrIG51LgBcca79S0WKxMAl5g0eAsoYkl4ICcymp7
-	wJ1Oj8/4WOQpYoez8Lnz4B4J6hOqHt1LrlFxR7a4edGkwTS3PrfKLZvRGnk9bN+2Igf0Hix9hHGpN
-	P4+8gpQyTxZXLaZUm+xnLMGW4XnlIlSEEt1KxYEx1Z3A/6q0RnQMoHw0Lq74K2ZkoLierrQ2V75DV
-	gYIjtFOUPFAMZgfJNzmSZqWv89kD5FLFjk+5GQRI13YMWAorg85qB/iUakTbxRJ/6PO1bZeC1HObX
-	TmgYGcFQ==;
+	bh=mPDuPQ1Oa7uYF+gN8BJdunscbfbhZeYBZuDIpx7ckIU=; b=trBTFkBMu5n2kcIuAm65ayKYQE
+	Peayt/6GAxE520fua6yylPlcx7TsSt93Ge8aCZK/HcDIiaR8GcPFuFGXchZ6A/UIVM2JzVeExeZl/
+	Z0efDp7rSVumhbBf6klEBBITQl+1S1gIgdb36vQMpxl8d89mE7QTqQeDI8ov/8ON/E0JsULy5PsGL
+	xhWYtvMJ+RaK65Ekz7HerpF+Q6OW73VjcriQ9IZHhUKr2oEoju3xOu0cPLYMClkbMsXVQWSL0lZXF
+	iMlgjHUnxsZ4Rb/Fe75wABKnzwu1ArsTWMrkUN2Q1V++hsr/vmOWTCTCUKtUF9RhitMubOwblpsgB
+	NQ13xtjQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pkNs4-007AfP-03;
-	Thu, 06 Apr 2023 11:33:40 +0000
+	id 1pkNsP-007ApF-2Z;
+	Thu, 06 Apr 2023 11:34:01 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pkNs0-007Ady-2F
+	id 1pkNsM-007Anj-36
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Apr 2023 11:33:38 +0000
+	Thu, 06 Apr 2023 11:34:00 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 401FB64483;
-	Thu,  6 Apr 2023 11:33:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A97F0C433D2;
-	Thu,  6 Apr 2023 11:33:34 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 86D2B64691;
+	Thu,  6 Apr 2023 11:33:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56084C4339E;
+	Thu,  6 Apr 2023 11:33:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680780815;
-	bh=8JtHFmxNEsRipiiss13B2lVWmqj/zrEEoxTPB1yFlgw=;
+	s=k20201202; t=1680780838;
+	bh=u5MAtom7aMBxXmGB0d/tRguCLrtjim4+5AOJ1HFaQ44=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=a4FRpzLmPRSn8uZ504Puxa6rpmO/PpiFPRJehOnA22zpIboslBmVvWmwDxxoHSvZ3
-	 ArWs1WeiwtaMfM5XOYA9vMy75uB+l/j8luaKB/JAvGUTIVt/P+biSOlDZLe4G9z1kl
-	 NmnynFBEM2Ivzv8cL2kiE/jXJb3F1JB/bc2/bq7zuW5n5OOOGXVOgwM0m+//hyf0VR
-	 6OkvDziDj+nByHbxbxnOXozZIcj6K9srpi4n7BgvUgnHXHehVkJ7QG7uobcZnLuZ59
-	 smCCX0mDUt1BZrZtq2lYqh7OqvKjzLu8KJyqj/Lpw3s4zAeAaztIhWUpFPzj4iNF83
-	 hkVfvlwDYtR2Q==
+	b=YFyYjEAIDslp+EsHnkthCJZphLmEBL8LuIeV0UN+jQiky1v/islkJcsCkmZzJsqsk
+	 KvjODUI1SuXGjH3Vp0lqeTxUXUFO9oUtovgSN6JcEUJ98ve23/LqxuAauzB5ZHx8C9
+	 kw7XESzFj8fmepB5+GnrGr7HyjNRir26NIw1fxZzEI+D0/hl9GfIhHszkpjFwqO2BQ
+	 HOy64N6mInWdf7yTU9iazA9VvR6Cz8EwHor6Aa4aTif/78DiELo/yf+e/NCKlcLqXv
+	 3OhexCYVpQNsTNWYB3viL8TgS1kCbPB15Ax+K+FnMNaDfZ14wkHr4Ae5jhEBGdIHDg
+	 ynMp1GFAOcQgA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -55,19 +55,19 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	kbusch@kernel.org,
 	axboe@fb.com,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.10 8/9] nvme-tcp: fix a possible UAF when failing to allocate an io queue
-Date: Thu,  6 Apr 2023 07:33:14 -0400
-Message-Id: <20230406113315.648777-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 8/9] nvme-tcp: fix a possible UAF when failing to allocate an io queue
+Date: Thu,  6 Apr 2023 07:33:36 -0400
+Message-Id: <20230406113337.648916-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230406113315.648777-1-sashal@kernel.org>
-References: <20230406113315.648777-1-sashal@kernel.org>
+In-Reply-To: <20230406113337.648916-1-sashal@kernel.org>
+References: <20230406113337.648916-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230406_043336_814043_4335DCB8 
-X-CRM114-Status: GOOD (  17.88  )
+X-CRM114-CacheID: sfid-20230406_043359_073812_E41CE1B0 
+X-CRM114-Status: GOOD (  17.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -141,10 +141,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 26 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 57df87def8c33..e6147a9220f9a 100644
+index 3169859cd3906..4250081595c14 100644
 --- a/drivers/nvme/host/tcp.c
 +++ b/drivers/nvme/host/tcp.c
-@@ -1535,22 +1535,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+@@ -1387,22 +1387,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
  	if (ret)
  		goto err_init_connect;
  
@@ -167,7 +167,7 @@ index 57df87def8c33..e6147a9220f9a 100644
  
  	return 0;
  
-@@ -1569,7 +1554,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+@@ -1419,7 +1404,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
  	return ret;
  }
  
@@ -176,7 +176,7 @@ index 57df87def8c33..e6147a9220f9a 100644
  {
  	struct socket *sock = queue->sock;
  
-@@ -1584,7 +1569,7 @@ static void nvme_tcp_restore_sock_calls(struct nvme_tcp_queue *queue)
+@@ -1434,7 +1419,7 @@ static void nvme_tcp_restore_sock_calls(struct nvme_tcp_queue *queue)
  static void __nvme_tcp_stop_queue(struct nvme_tcp_queue *queue)
  {
  	kernel_sock_shutdown(queue->sock, SHUT_RDWR);
@@ -185,8 +185,8 @@ index 57df87def8c33..e6147a9220f9a 100644
  	cancel_work_sync(&queue->io_work);
  }
  
-@@ -1599,21 +1584,42 @@ static void nvme_tcp_stop_queue(struct nvme_ctrl *nctrl, int qid)
- 	mutex_unlock(&queue->queue_lock);
+@@ -1448,21 +1433,42 @@ static void nvme_tcp_stop_queue(struct nvme_ctrl *nctrl, int qid)
+ 	__nvme_tcp_stop_queue(queue);
  }
  
 +static void nvme_tcp_setup_sock_ops(struct nvme_tcp_queue *queue)
