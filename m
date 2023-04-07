@@ -4,73 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B8A9C6FD1D
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Apr 2023 20:07:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0FD7C76196
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Apr 2023 20:07:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gT8347jA5KdvGQ7I7vMBDYh3M0ax0K8JKbyzwbeexOU=; b=LBNQsmnYEJYYlw+yY8IS8F+fA8
-	Qj0qkkOudVUNLBS76vN1295EtqPo4hkfh9M3rjKTQU6MLk99Phl+/iTCZhevxZIgmTleYc3BfaIuV
-	ALClrHV7PHbjctPQ8li5xhDbNFsX3CguDUtJHtv1a93xIoM0SpvYQH7f3KNAIPx8/Vzj04viZhj6z
-	N4Sw1vblUcR8OxJliZNCgd/0W7ImpeQClY/yoO+rt44Ofh5imSsQwL/MPNqmhz9mPNjRwGI1s8YLN
-	PoQGFxJb54cVfFA3SEGdQcHXShX2QaG4+m6WAHcNwMoFus1QzIoLLVg0tpQ77bOAxQaRcFeTEheVs
-	WCV2tEPA==;
+	bh=3BsdfYcLKOqKy7DkrgI4zi/SUbKic51UaoPDK/bqgtY=; b=Ww4z2+6GOFdojQ6J2rtxOiwqJz
+	WURGPGIEa259g6DPd1v1aV+SR6plZPrdTTmcU30N3W2WaWpGtapNgYmiV8SpTnZaTt6cc8vPGR814
+	VX3MDP7GBqMdoJur9waTCtV9NVW8/81uTTC+nGavDWLNOoIrDJE6HgjW3H14UE6kZZ8RMUJYqjxWB
+	qOH25QTbmxuGQkvC7evnTgSeL5bHKdxWttqj0zvcHS+0n/e3OdznwDOPlKxgS/woHJcubbr5cKa+m
+	ipsQ95Ze4qHRSuGXyOhd47YEDU3dpi4H9HPv+0WEhK0t9pktgj7rA+EMunHuEdrVkirBy4pV0ZcXF
+	WXpAQlSA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pksMX-00B38R-19;
-	Fri, 07 Apr 2023 20:07:09 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1pksMY-00B397-0g;
+	Fri, 07 Apr 2023 20:07:10 +0000
+Received: from desiato.infradead.org ([90.155.92.199])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pksMV-00B36x-0R
+	id 1pksMW-00B37f-1z
 	for linux-nvme@bombadil.infradead.org;
-	Fri, 07 Apr 2023 20:07:07 +0000
+	Fri, 07 Apr 2023 20:07:08 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
 	:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=gT8347jA5KdvGQ7I7vMBDYh3M0ax0K8JKbyzwbeexOU=; b=q/blhr2V6cJSG670Sv7/GD9SdG
-	NsiVxhwh4eWLBUURc9EhDCwuSDhTKZa7/GmxkxWgOScQwcX+uDXtpdOyzIaQ+m+WzoahFi+dvxOi8
-	xyETSdEo+onYGokMVsuhLIdc/x0TtUzEC6eoAl2Ljk464H1WPP/qrDe2Ry+NuJ+f49FDvYs8Cj14D
-	CRJ9MzTVnL7JaMipQcSzfdwNmSJvJ7m92BZd85i83IVDbsJPnw9JN/mPIrlQawzDurLX14Wrv7RSP
-	7Cv91Si/eJwxHD14ioLO25iHcPXcBB3XAJJC9m4yOMt1kF7eO2ywehYz3ynPRDTb8OV+MZPjQvWQ3
-	X/G86Jkw==;
+	bh=3BsdfYcLKOqKy7DkrgI4zi/SUbKic51UaoPDK/bqgtY=; b=T/HHAHWvzHz4Bn04QwVYNIQa1A
+	1yT2Jv/xmeISU5QXKhjxC8Pwn8V5NAmN0rtz89egPzrxZM4oXFhQY+neH3M/GSXJwmhcyPcHHS2MT
+	mEuxyKn4gvOYXub6XiaGyVpYCZqEv23qkBb631EkA6uqbGd6a5TY+MVNvZoeLyMtT8PjAsXqetSni
+	YIEyTsSsUoJTaqTHCQ4xbPap0VnTEZINRs4DmFAzVz63XDRS8d5TlpgiP6o9Dzw3F/hDxgfTh5qBd
+	mCYDY0VtjNr9cuXnNIY+QBkoA1TkWZSZjOrS0itljMtn598Rk53d81yErr2hvf6WK+KwbRLc6Jorx
+	zLYWoWDw==;
 Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by desiato.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pksMN-00BAJY-0e
+	id 1pksMO-00BAJr-27
 	for linux-nvme@lists.infradead.org;
-	Fri, 07 Apr 2023 20:07:04 +0000
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 337Fwwhn017413;
-	Fri, 7 Apr 2023 20:06:36 GMT
+	Fri, 07 Apr 2023 20:07:05 +0000
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 337Fx1H9018319;
+	Fri, 7 Apr 2023 20:06:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2022-7-12;
- bh=gT8347jA5KdvGQ7I7vMBDYh3M0ax0K8JKbyzwbeexOU=;
- b=jVvJW6Gmkpfd7+4QJbMyb2Hwfm6sIa8gXD1vQ3p0/ZRNHOSW5pAf4uL+F9Ub18I3Nx4H
- 1XjtRs1ww2ZWdFS7etMlJO28TJD6lziJbu2kJqZmtwlIc9j/DS/DCTAngTaNxbasS+PV
- xU+80FH5l2uFS50RlsMgOSUnJqsAx6J3ZhL29gXm6N7E9YCIrTzEf9Z1oopNvjLPZz+m
- xQNRS00piXR3pLJfC37MZmXqjxOE8mCG59C4APzD4QEEpDJE3hUgnUxFR017OX8sg3UF
- flcTP4H0qBCoDHHiFl3nkDi0ET5hDegQvC4N7JO1y1xKUFdpFryLKYrTJYYkJ9Q0Rxrl AA== 
+ bh=3BsdfYcLKOqKy7DkrgI4zi/SUbKic51UaoPDK/bqgtY=;
+ b=wky1HJQysPAelAx4wkDHaAERffndYxAQoYvCFDoEexHygXBbAx9HgnsOkwf6v1t+yiMI
+ NSNHS8rDPChFMu4X65R1+Iq8vuAvUl/L1LiI7PoxzeS5MQnp3DOeV2WcAIuxwVnirTtH
+ H7SeNmtfVU2wi9do5BfDfYBHW0/goegL9YQf8kQrjoEa83tUHX+GAdouwC3I7AdDuVjg
+ Sq5+2i48lsJfO2dT04YNH8W8S/r4RzldLkspy1UHltnJOB6y3qrHHxRTOfpFqH7HB76a
+ ysGVtXR4qRIeGh96Nh9a8VoZ+cP4nhmk15dxPCNIjUVAVyKcQ51nOD8RbcHVTvCkAWm5 Cw== 
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ppcnd5wvj-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ppb1dws0v-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 07 Apr 2023 20:06:36 +0000
+	Fri, 07 Apr 2023 20:06:44 +0000
 Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 337ISSWd034268;
-	Fri, 7 Apr 2023 20:06:35 GMT
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 337IerJH034336;
+	Fri, 7 Apr 2023 20:06:43 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3pptjxef97-1
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3pptjxefe2-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 07 Apr 2023 20:06:35 +0000
+	Fri, 07 Apr 2023 20:06:43 +0000
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 337K5trM010228;
-	Fri, 7 Apr 2023 20:06:34 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 337K5trS010228;
+	Fri, 7 Apr 2023 20:06:42 GMT
 Received: from mnchrist-mac.us.oracle.com (dhcp-10-154-128-1.vpn.oracle.com [10.154.128.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3pptjxeeam-16;
-	Fri, 07 Apr 2023 20:06:34 +0000
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3pptjxeeam-19;
+	Fri, 07 Apr 2023 20:06:42 +0000
 From: Mike Christie <michael.christie@oracle.com>
 To: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
         linux-scsi@vger.kernel.org, james.bottomley@hansenpartnership.com,
@@ -78,9 +78,9 @@ To: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
         axboe@kernel.dk, linux-nvme@lists.infradead.org, chaitanyak@nvidia.com,
         kbusch@kernel.org, target-devel@vger.kernel.org
 Cc: Mike Christie <michael.christie@oracle.com>
-Subject: [PATCH v6 15/18] scsi: target: Allow backends to hook into PR handling
-Date: Fri,  7 Apr 2023 15:05:48 -0500
-Message-Id: <20230407200551.12660-16-michael.christie@oracle.com>
+Subject: [PATCH v6 18/18] scsi: target: Add block PR support to iblock
+Date: Fri,  7 Apr 2023 15:05:51 -0500
+Message-Id: <20230407200551.12660-19-michael.christie@oracle.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230407200551.12660-1-michael.christie@oracle.com>
 References: <20230407200551.12660-1-michael.christie@oracle.com>
@@ -93,11 +93,11 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 ad
  phishscore=0 bulkscore=0 mlxscore=0 suspectscore=0 spamscore=0
  mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2303200000 definitions=main-2304070180
-X-Proofpoint-GUID: AS1OWTTr3pGQEZeZRMbkZzm468qW7R2S
-X-Proofpoint-ORIG-GUID: AS1OWTTr3pGQEZeZRMbkZzm468qW7R2S
+X-Proofpoint-GUID: wgNPWn59kb7q0qv-O_WHxnVyZb7PNacf
+X-Proofpoint-ORIG-GUID: wgNPWn59kb7q0qv-O_WHxnVyZb7PNacf
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230407_210702_414362_B17DDCE9 
-X-CRM114-Status: GOOD (  24.34  )
+X-CRM114-CacheID: sfid-20230407_210702_416314_3212951A 
+X-CRM114-Status: GOOD (  31.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,154 +112,368 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-For the cases where you want to export a device to a VM via a single
-I_T nexus and want to passthrough the PR handling to the physical/real
-device you have to use pscsi or tcmu. Both are good for specific uses
-however for the case where you want good performance, and are not using
-SCSI devices directly (using DM/MD RAID or multipath devices) then we are
-out of luck.
-
-The following patches allow iblock to mimimally hook into the LIO PR code
-and then pass the PR handling to the physical device. Note that like with
-the tcmu an pscsi cases it's only supported when you export the device via
-one I_T nexus.
-
-This patch adds the initial LIO callouts. The next patch will modify
-iblock.
+This adds support for the block PR callouts to target_core_iblock. This
+patch doesn't attempt to implement the entire spec because there's no way
+support it all like SPEC_I_PT and ALL_TG_PT. This only supports
+exporting the iblock device from one path on the local target.
 
 Signed-off-by: Mike Christie <michael.christie@oracle.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/target/target_core_pr.c      | 62 +++++++++++++++++++++++++++-
- include/target/target_core_backend.h |  4 ++
- 2 files changed, 65 insertions(+), 1 deletion(-)
+ drivers/target/target_core_iblock.c | 271 +++++++++++++++++++++++++++-
+ 1 file changed, 266 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/target/target_core_pr.c b/drivers/target/target_core_pr.c
-index 1493b1d01194..e16ef7d676af 100644
---- a/drivers/target/target_core_pr.c
-+++ b/drivers/target/target_core_pr.c
-@@ -3538,6 +3538,25 @@ core_scsi3_emulate_pro_register_and_move(struct se_cmd *cmd, u64 res_key,
- 	return ret;
+diff --git a/drivers/target/target_core_iblock.c b/drivers/target/target_core_iblock.c
+index d93f24f9687d..e6029ea87e2f 100644
+--- a/drivers/target/target_core_iblock.c
++++ b/drivers/target/target_core_iblock.c
+@@ -23,13 +23,16 @@
+ #include <linux/file.h>
+ #include <linux/module.h>
+ #include <linux/scatterlist.h>
++#include <linux/pr.h>
+ #include <scsi/scsi_proto.h>
++#include <scsi/scsi_common.h>
+ #include <asm/unaligned.h>
+ 
+ #include <target/target_core_base.h>
+ #include <target/target_core_backend.h>
+ 
+ #include "target_core_iblock.h"
++#include "target_core_pr.h"
+ 
+ #define IBLOCK_MAX_BIO_PER_TASK	 32	/* max # of bios to submit at a time */
+ #define IBLOCK_BIO_POOL_SIZE	128
+@@ -310,7 +313,7 @@ static sector_t iblock_get_blocks(struct se_device *dev)
+ 	return blocks_long;
  }
  
-+static sense_reason_t
-+target_try_pr_out_pt(struct se_cmd *cmd, u8 sa, u64 res_key, u64 sa_res_key,
-+		     u8 type, bool aptpl, bool all_tg_pt, bool spec_i_pt)
-+{
-+	struct exec_cmd_ops *ops = cmd->protocol_data;
-+
-+	if (!cmd->se_sess || !cmd->se_lun) {
-+		pr_err("SPC-3 PR: se_sess || struct se_lun is NULL!\n");
-+		return TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE;
-+	}
-+
-+	if (!ops->execute_pr_out) {
-+		pr_err("SPC-3 PR: Device has been configured for PR passthrough but it's not supported by the backend.\n");
-+		return TCM_UNSUPPORTED_SCSI_OPCODE;
-+	}
-+
-+	return ops->execute_pr_out(cmd, sa, res_key, sa_res_key, type, aptpl);
-+}
-+
- /*
-  * See spc4r17 section 6.14 Table 170
-  */
-@@ -3641,6 +3660,12 @@ target_scsi3_emulate_pr_out(struct se_cmd *cmd)
- 		return TCM_PARAMETER_LIST_LENGTH_ERROR;
- 	}
- 
-+	if (dev->transport_flags & TRANSPORT_FLAG_PASSTHROUGH_PGR) {
-+		ret = target_try_pr_out_pt(cmd, sa, res_key, sa_res_key, type,
-+					   aptpl, all_tg_pt, spec_i_pt);
-+		goto done;
-+	}
-+
- 	/*
- 	 * (core_scsi3_emulate_pro_* function parameters
- 	 * are defined by spc4r17 Table 174:
-@@ -3682,6 +3707,7 @@ target_scsi3_emulate_pr_out(struct se_cmd *cmd)
- 		return TCM_INVALID_CDB_FIELD;
- 	}
- 
-+done:
- 	if (!ret)
- 		target_complete_cmd(cmd, SAM_STAT_GOOD);
- 	return ret;
-@@ -4039,9 +4065,37 @@ core_scsi3_pri_read_full_status(struct se_cmd *cmd)
- 	return 0;
- }
- 
-+static sense_reason_t target_try_pr_in_pt(struct se_cmd *cmd, u8 sa)
-+{
-+	struct exec_cmd_ops *ops = cmd->protocol_data;
-+	unsigned char *buf;
-+	sense_reason_t ret;
-+
-+	if (cmd->data_length < 8) {
-+		pr_err("PRIN SA SCSI Data Length: %u too small\n",
-+		       cmd->data_length);
-+		return TCM_INVALID_CDB_FIELD;
-+	}
-+
-+	if (!ops->execute_pr_in) {
-+		pr_err("SPC-3 PR: Device has been configured for PR passthrough but it's not supported by the backend.\n");
-+		return TCM_UNSUPPORTED_SCSI_OPCODE;
-+	}
-+
-+	buf = transport_kmap_data_sg(cmd);
-+	if (!buf)
-+		return TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE;
-+
-+	ret = ops->execute_pr_in(cmd, sa, buf);
-+
-+	transport_kunmap_data_sg(cmd);
-+	return ret;
-+}
-+
- sense_reason_t
- target_scsi3_emulate_pr_in(struct se_cmd *cmd)
+-static void iblock_complete_cmd(struct se_cmd *cmd)
++static void iblock_complete_cmd(struct se_cmd *cmd, blk_status_t blk_status)
  {
-+	u8 sa = cmd->t_task_cdb[1] & 0x1f;
- 	sense_reason_t ret;
+ 	struct iblock_req *ibr = cmd->priv;
+ 	u8 status;
+@@ -318,7 +321,9 @@ static void iblock_complete_cmd(struct se_cmd *cmd)
+ 	if (!refcount_dec_and_test(&ibr->pending))
+ 		return;
  
- 	/*
-@@ -4060,7 +4114,12 @@ target_scsi3_emulate_pr_in(struct se_cmd *cmd)
- 		return TCM_RESERVATION_CONFLICT;
+-	if (atomic_read(&ibr->ib_bio_err_cnt))
++	if (blk_status == BLK_STS_RESV_CONFLICT)
++		status = SAM_STAT_RESERVATION_CONFLICT;
++	else if (atomic_read(&ibr->ib_bio_err_cnt))
+ 		status = SAM_STAT_CHECK_CONDITION;
+ 	else
+ 		status = SAM_STAT_GOOD;
+@@ -331,6 +336,7 @@ static void iblock_bio_done(struct bio *bio)
+ {
+ 	struct se_cmd *cmd = bio->bi_private;
+ 	struct iblock_req *ibr = cmd->priv;
++	blk_status_t blk_status = bio->bi_status;
+ 
+ 	if (bio->bi_status) {
+ 		pr_err("bio error: %p,  err: %d\n", bio, bio->bi_status);
+@@ -343,7 +349,7 @@ static void iblock_bio_done(struct bio *bio)
+ 
+ 	bio_put(bio);
+ 
+-	iblock_complete_cmd(cmd);
++	iblock_complete_cmd(cmd, blk_status);
+ }
+ 
+ static struct bio *iblock_get_bio(struct se_cmd *cmd, sector_t lba, u32 sg_num,
+@@ -759,7 +765,7 @@ iblock_execute_rw(struct se_cmd *cmd, struct scatterlist *sgl, u32 sgl_nents,
+ 
+ 	if (!sgl_nents) {
+ 		refcount_set(&ibr->pending, 1);
+-		iblock_complete_cmd(cmd);
++		iblock_complete_cmd(cmd, BLK_STS_OK);
+ 		return 0;
  	}
  
--	switch (cmd->t_task_cdb[1] & 0x1f) {
-+	if (cmd->se_dev->transport_flags & TRANSPORT_FLAG_PASSTHROUGH_PGR) {
-+		ret = target_try_pr_in_pt(cmd, sa);
-+		goto done;
+@@ -817,7 +823,7 @@ iblock_execute_rw(struct se_cmd *cmd, struct scatterlist *sgl, u32 sgl_nents,
+ 	}
+ 
+ 	iblock_submit_bios(&list);
+-	iblock_complete_cmd(cmd);
++	iblock_complete_cmd(cmd, BLK_STS_OK);
+ 	return 0;
+ 
+ fail_put_bios:
+@@ -829,6 +835,258 @@ iblock_execute_rw(struct se_cmd *cmd, struct scatterlist *sgl, u32 sgl_nents,
+ 	return TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE;
+ }
+ 
++static sense_reason_t iblock_execute_pr_out(struct se_cmd *cmd, u8 sa, u64 key,
++					    u64 sa_key, u8 type, bool aptpl)
++{
++	struct se_device *dev = cmd->se_dev;
++	struct iblock_dev *ib_dev = IBLOCK_DEV(dev);
++	struct block_device *bdev = ib_dev->ibd_bd;
++	const struct pr_ops *ops = bdev->bd_disk->fops->pr_ops;
++	int ret;
++
++	if (!ops) {
++		pr_err("Block device does not support pr_ops but iblock device has been configured for PR passthrough.\n");
++		return TCM_UNSUPPORTED_SCSI_OPCODE;
 +	}
 +
 +	switch (sa) {
- 	case PRI_READ_KEYS:
- 		ret = core_scsi3_pri_read_keys(cmd);
- 		break;
-@@ -4079,6 +4138,7 @@ target_scsi3_emulate_pr_in(struct se_cmd *cmd)
- 		return TCM_INVALID_CDB_FIELD;
- 	}
- 
-+done:
- 	if (!ret)
- 		target_complete_cmd(cmd, SAM_STAT_GOOD);
- 	return ret;
-diff --git a/include/target/target_core_backend.h b/include/target/target_core_backend.h
-index c5df78959532..739df993aa5e 100644
---- a/include/target/target_core_backend.h
-+++ b/include/target/target_core_backend.h
-@@ -69,6 +69,10 @@ struct exec_cmd_ops {
- 	sense_reason_t (*execute_write_same)(struct se_cmd *cmd);
- 	sense_reason_t (*execute_unmap)(struct se_cmd *cmd,
- 				sector_t lba, sector_t nolb);
-+	sense_reason_t (*execute_pr_out)(struct se_cmd *cmd, u8 sa, u64 key,
-+					 u64 sa_key, u8 type, bool aptpl);
-+	sense_reason_t (*execute_pr_in)(struct se_cmd *cmd, u8 sa,
-+					unsigned char *param_data);
++	case PRO_REGISTER:
++	case PRO_REGISTER_AND_IGNORE_EXISTING_KEY:
++		if (!ops->pr_register) {
++			pr_err("block device does not support pr_register.\n");
++			return TCM_UNSUPPORTED_SCSI_OPCODE;
++		}
++
++		/* The block layer pr ops always enables aptpl */
++		if (!aptpl)
++			pr_info("APTPL not set by initiator, but will be used.\n");
++
++		ret = ops->pr_register(bdev, key, sa_key,
++				sa == PRO_REGISTER ? 0 : PR_FL_IGNORE_KEY);
++		break;
++	case PRO_RESERVE:
++		if (!ops->pr_reserve) {
++			pr_err("block_device does not support pr_reserve.\n");
++			return TCM_UNSUPPORTED_SCSI_OPCODE;
++		}
++
++		ret = ops->pr_reserve(bdev, key, scsi_pr_type_to_block(type), 0);
++		break;
++	case PRO_CLEAR:
++		if (!ops->pr_clear) {
++			pr_err("block_device does not support pr_clear.\n");
++			return TCM_UNSUPPORTED_SCSI_OPCODE;
++		}
++
++		ret = ops->pr_clear(bdev, key);
++		break;
++	case PRO_PREEMPT:
++	case PRO_PREEMPT_AND_ABORT:
++		if (!ops->pr_clear) {
++			pr_err("block_device does not support pr_preempt.\n");
++			return TCM_UNSUPPORTED_SCSI_OPCODE;
++		}
++
++		ret = ops->pr_preempt(bdev, key, sa_key,
++				      scsi_pr_type_to_block(type),
++				      sa == PRO_PREEMPT ? false : true);
++		break;
++	case PRO_RELEASE:
++		if (!ops->pr_clear) {
++			pr_err("block_device does not support pr_pclear.\n");
++			return TCM_UNSUPPORTED_SCSI_OPCODE;
++		}
++
++		ret = ops->pr_release(bdev, key, scsi_pr_type_to_block(type));
++		break;
++	default:
++		pr_err("Unknown PERSISTENT_RESERVE_OUT SA: 0x%02x\n", sa);
++		return TCM_UNSUPPORTED_SCSI_OPCODE;
++	}
++
++	if (!ret)
++		return TCM_NO_SENSE;
++	else if (ret == PR_STS_RESERVATION_CONFLICT)
++		return TCM_RESERVATION_CONFLICT;
++	else
++		return TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE;
++}
++
++static void iblock_pr_report_caps(unsigned char *param_data)
++{
++	u16 len = 8;
++
++	put_unaligned_be16(len, &param_data[0]);
++	/*
++	 * When using the pr_ops passthrough method we only support exporting
++	 * the device through one target port because from the backend module
++	 * level we can't see the target port config. As a result we only
++	 * support registration directly from the I_T nexus the cmd is sent
++	 * through and do not set ATP_C here.
++	 *
++	 * The block layer pr_ops do not support passing in initiators so
++	 * we don't set SIP_C here.
++	 */
++	/* PTPL_C: Persistence across Target Power Loss bit */
++	param_data[2] |= 0x01;
++	/*
++	 * We are filling in the PERSISTENT RESERVATION TYPE MASK below, so
++	 * set the TMV: Task Mask Valid bit.
++	 */
++	param_data[3] |= 0x80;
++	/*
++	 * Change ALLOW COMMANDs to 0x20 or 0x40 later from Table 166
++	 */
++	param_data[3] |= 0x10; /* ALLOW COMMANDs field 001b */
++	/*
++	 * PTPL_A: Persistence across Target Power Loss Active bit. The block
++	 * layer pr ops always enables this so report it active.
++	 */
++	param_data[3] |= 0x01;
++	/*
++	 * Setup the PERSISTENT RESERVATION TYPE MASK from Table 212 spc4r37.
++	 */
++	param_data[4] |= 0x80; /* PR_TYPE_EXCLUSIVE_ACCESS_ALLREG */
++	param_data[4] |= 0x40; /* PR_TYPE_EXCLUSIVE_ACCESS_REGONLY */
++	param_data[4] |= 0x20; /* PR_TYPE_WRITE_EXCLUSIVE_REGONLY */
++	param_data[4] |= 0x08; /* PR_TYPE_EXCLUSIVE_ACCESS */
++	param_data[4] |= 0x02; /* PR_TYPE_WRITE_EXCLUSIVE */
++	param_data[5] |= 0x01; /* PR_TYPE_EXCLUSIVE_ACCESS_ALLREG */
++}
++
++static sense_reason_t iblock_pr_read_keys(struct se_cmd *cmd,
++					  unsigned char *param_data)
++{
++	struct se_device *dev = cmd->se_dev;
++	struct iblock_dev *ib_dev = IBLOCK_DEV(dev);
++	struct block_device *bdev = ib_dev->ibd_bd;
++	const struct pr_ops *ops = bdev->bd_disk->fops->pr_ops;
++	int i, len, paths, data_offset;
++	struct pr_keys *keys;
++	sense_reason_t ret;
++
++	if (!ops) {
++		pr_err("Block device does not support pr_ops but iblock device has been configured for PR passthrough.\n");
++		return TCM_UNSUPPORTED_SCSI_OPCODE;
++	}
++
++	if (!ops->pr_read_keys) {
++		pr_err("Block device does not support read_keys.\n");
++		return TCM_UNSUPPORTED_SCSI_OPCODE;
++	}
++
++	/*
++	 * We don't know what's under us, but dm-multipath will register every
++	 * path with the same key, so start off with enough space for 16 paths.
++	 * which is not a lot of memory and should normally be enough.
++	 */
++	paths = 16;
++retry:
++	len = 8 * paths;
++	keys = kzalloc(sizeof(*keys) + len, GFP_KERNEL);
++	if (!keys)
++		return TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE;
++
++	keys->num_keys = paths;
++	if (!ops->pr_read_keys(bdev, keys)) {
++		if (keys->num_keys > paths) {
++			kfree(keys);
++			paths *= 2;
++			goto retry;
++		}
++	} else {
++		ret = TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE;
++		goto free_keys;
++	}
++
++	ret = TCM_NO_SENSE;
++
++	put_unaligned_be32(keys->generation, &param_data[0]);
++	if (!keys->num_keys) {
++		put_unaligned_be32(0, &param_data[4]);
++		goto free_keys;
++	}
++
++	put_unaligned_be32(8 * keys->num_keys, &param_data[4]);
++
++	data_offset = 8;
++	for (i = 0; i < keys->num_keys; i++) {
++		if (data_offset + 8 > cmd->data_length)
++			break;
++
++		put_unaligned_be64(keys->keys[i], &param_data[data_offset]);
++		data_offset += 8;
++	}
++
++free_keys:
++	kfree(keys);
++	return ret;
++}
++
++static sense_reason_t iblock_pr_read_reservation(struct se_cmd *cmd,
++						 unsigned char *param_data)
++{
++	struct se_device *dev = cmd->se_dev;
++	struct iblock_dev *ib_dev = IBLOCK_DEV(dev);
++	struct block_device *bdev = ib_dev->ibd_bd;
++	const struct pr_ops *ops = bdev->bd_disk->fops->pr_ops;
++	struct pr_held_reservation rsv = { };
++
++	if (!ops) {
++		pr_err("Block device does not support pr_ops but iblock device has been configured for PR passthrough.\n");
++		return TCM_UNSUPPORTED_SCSI_OPCODE;
++	}
++
++	if (!ops->pr_read_reservation) {
++		pr_err("Block device does not support read_keys.\n");
++		return TCM_UNSUPPORTED_SCSI_OPCODE;
++	}
++
++	if (ops->pr_read_reservation(bdev, &rsv))
++		return TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE;
++
++	put_unaligned_be32(rsv.generation, &param_data[0]);
++	if (!block_pr_type_to_scsi(rsv.type)) {
++		put_unaligned_be32(0, &param_data[4]);
++		return TCM_NO_SENSE;
++	}
++
++	put_unaligned_be32(16, &param_data[4]);
++
++	if (cmd->data_length < 16)
++		return TCM_NO_SENSE;
++	put_unaligned_be64(rsv.key, &param_data[8]);
++
++	if (cmd->data_length < 22)
++		return TCM_NO_SENSE;
++	param_data[21] = block_pr_type_to_scsi(rsv.type);
++
++	return TCM_NO_SENSE;
++}
++
++static sense_reason_t iblock_execute_pr_in(struct se_cmd *cmd, u8 sa,
++					   unsigned char *param_data)
++{
++	sense_reason_t ret = TCM_NO_SENSE;
++
++	switch (sa) {
++	case PRI_REPORT_CAPABILITIES:
++		iblock_pr_report_caps(param_data);
++		break;
++	case PRI_READ_KEYS:
++		ret = iblock_pr_read_keys(cmd, param_data);
++		break;
++	case PRI_READ_RESERVATION:
++		ret = iblock_pr_read_reservation(cmd, param_data);
++		break;
++	default:
++		pr_err("Unknown PERSISTENT_RESERVE_IN SA: 0x%02x\n", sa);
++		return TCM_UNSUPPORTED_SCSI_OPCODE;
++	}
++
++	return ret;
++}
++
+ static sector_t iblock_get_alignment_offset_lbas(struct se_device *dev)
+ {
+ 	struct iblock_dev *ib_dev = IBLOCK_DEV(dev);
+@@ -874,6 +1132,8 @@ static struct exec_cmd_ops iblock_exec_cmd_ops = {
+ 	.execute_sync_cache	= iblock_execute_sync_cache,
+ 	.execute_write_same	= iblock_execute_write_same,
+ 	.execute_unmap		= iblock_execute_unmap,
++	.execute_pr_out		= iblock_execute_pr_out,
++	.execute_pr_in		= iblock_execute_pr_in,
  };
  
- int	transport_backend_register(const struct target_backend_ops *);
+ static sense_reason_t
+@@ -890,6 +1150,7 @@ static bool iblock_get_write_cache(struct se_device *dev)
+ static const struct target_backend_ops iblock_ops = {
+ 	.name			= "iblock",
+ 	.inquiry_prod		= "IBLOCK",
++	.transport_flags_changeable = TRANSPORT_FLAG_PASSTHROUGH_PGR,
+ 	.inquiry_rev		= IBLOCK_VERSION,
+ 	.owner			= THIS_MODULE,
+ 	.attach_hba		= iblock_attach_hba,
 -- 
 2.25.1
 
