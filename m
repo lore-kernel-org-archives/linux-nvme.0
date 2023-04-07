@@ -4,68 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE7EEC6FD1D
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Apr 2023 20:06:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32136C76196
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Apr 2023 20:06:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GQNtxFeOu9dapPk11J+Pydze/7EYKsAe+RMGieB8gbA=; b=i8cOcVq3MDqwssFWxz6La5E+wW
-	31Ye56Ko/ZEsB6YyyAMr/PqPLlaciQm/+1drYboqwxzBjqNQGRZC93gwFfNpDeo0IvqmsRCw0KACq
-	wmPWLw/upoAMIPoEH9cKKBkpTyIPTULm3osKByRSa3+G/8RFkXJXm7lS7Jano7DIP9ba+HdSqNTYj
-	VKdSWoHVFJwfj2wgvlzFOp6WUW9vZG9Jwgv24DUzinfrryrd/9wveR/rw3EreqJLrY5RpQWgo6TwN
-	Pu77zvyZcqzw19I5jRHtCOiySmiXf6qsq4rijaCmCSwrmr+xRf4d48UzlJQOPsTXUPoMoY3jEQVKe
-	e3rqpI2A==;
+	bh=cRxRCbadC09R+D58loCq2m/oyxcddwE4ntY1hHDVAKw=; b=uAS5Y3m2sopHLXlYmkR8bqo/17
+	n5V8N6SBmoUqkQehYEzM6LsERY02wnsp89+QUqXwuCQw8Li5qSUfg3xS82kjdfo/8adoaALZy5VEG
+	RAEGLzpMzSgqrgSBdEVIdE2EOw0lir+LClQ/JOuUblbHSmVrxDjvotCdxGvTXapmzKnWCkdrqZZv0
+	KZHJWiSizrpERS1fzW5RFeFN01ZnI/9CdPdGQaVze1ZiOTqmNuk3VD+354FHeEy50afaOQ0ejtyOl
+	coes1fhMQTBYnZrRn8pN4O9dc1ooE+xNLbh+e7WwayArct598CQbu2D+guMJGmhXx9eqglM1ljynL
+	o6i5w41Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pksLx-00B2lf-2m;
-	Fri, 07 Apr 2023 20:06:33 +0000
+	id 1pksM0-00B2oS-2z;
+	Fri, 07 Apr 2023 20:06:36 +0000
 Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pksLv-00B2iD-0P
+	id 1pksLx-00B2lU-2l
 	for linux-nvme@lists.infradead.org;
-	Fri, 07 Apr 2023 20:06:32 +0000
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 337FwobW017328;
-	Fri, 7 Apr 2023 20:06:25 GMT
+	Fri, 07 Apr 2023 20:06:35 +0000
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 337Fx1w1019773;
+	Fri, 7 Apr 2023 20:06:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2022-7-12;
- bh=GQNtxFeOu9dapPk11J+Pydze/7EYKsAe+RMGieB8gbA=;
- b=haEQ42KqZ7H0npHTVv1f6EHlZyzYcPxCYyuO1WsDnC1cdrIYgL45AyuZuIuv58qMrUr+
- 9GplvSs6zIFRonntvf6ZVD52hOJG+WBy0QBgRWm8I7J+Y68LZPmTPywf8NbLV90Ew9RS
- r0z9hiHRRwMDxSoKJRUOr5nu84Nek/kSOkRUub0qNMQwbd10XvvwBjhleieKcU/VQL2X
- Kn1wtR7L5lqUiTyw7xeNWC6ZyHq+5D3yRTuP7ec61zF12VabtwWgrW/FjD59bX+xxcFK
- teevs/03yBAR5Iq1WzBXK6xI2vJsyqY2JF/SGPP31PICwUHAv1chcZNhCBFf5tsDahs6 rA== 
+ bh=cRxRCbadC09R+D58loCq2m/oyxcddwE4ntY1hHDVAKw=;
+ b=nu/rAWqv3Q48SnY4V9vEYD7H8SmqbPZN3cBDfoMrHosyD5f+YTyfVvlxqwAGMya+RSWH
+ OGl9wlleiQ0qV5bZDAe/6VVegMtrU6KfDYfccRfg+Yzdbs9g3HIMEhtx6leNgvtE6m6X
+ Nkr2hvdHp85h/ojWHuEUYZL0OeGY/0ow83P+H9ClkIY5XXlECx1131GipDsuieB6Yqay
+ 5MZ2C0fmaengnG/obUuWDCA6+D//DOlQEW+3dcQ5qvWsUiNffQwQDk4AqtEgaO2dvnTR
+ jA96Qq9/cOfXsPFY4kninENKX7Z2l+Lpx/SLC/u/C8ZwF4yI8Zwma+jh7qE+wbOho8ah nQ== 
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ppcnd5wv7-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ppbd45w5n-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 07 Apr 2023 20:06:25 +0000
+	Fri, 07 Apr 2023 20:06:28 +0000
 Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 337IefFc034269;
-	Fri, 7 Apr 2023 20:06:25 GMT
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 337ISbGW034201;
+	Fri, 7 Apr 2023 20:06:27 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3pptjxef1v-1
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3pptjxef3k-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 07 Apr 2023 20:06:25 +0000
+	Fri, 07 Apr 2023 20:06:27 +0000
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 337K5trE010228;
-	Fri, 7 Apr 2023 20:06:24 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 337K5trG010228;
+	Fri, 7 Apr 2023 20:06:27 GMT
 Received: from mnchrist-mac.us.oracle.com (dhcp-10-154-128-1.vpn.oracle.com [10.154.128.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3pptjxeeam-12;
-	Fri, 07 Apr 2023 20:06:24 +0000
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3pptjxeeam-13;
+	Fri, 07 Apr 2023 20:06:27 +0000
 From: Mike Christie <michael.christie@oracle.com>
 To: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
         linux-scsi@vger.kernel.org, james.bottomley@hansenpartnership.com,
         linux-block@vger.kernel.org, dm-devel@redhat.com, snitzer@kernel.org,
         axboe@kernel.dk, linux-nvme@lists.infradead.org, chaitanyak@nvidia.com,
         kbusch@kernel.org, target-devel@vger.kernel.org
-Cc: Mike Christie <michael.christie@oracle.com>
-Subject: [PATCH v6 11/18] nvme: Add pr_ops read_keys support
-Date: Fri,  7 Apr 2023 15:05:44 -0500
-Message-Id: <20230407200551.12660-12-michael.christie@oracle.com>
+Cc: Mike Christie <michael.christie@oracle.com>,
+        Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH v6 12/18] nvme: Add a nvme_pr_type enum
+Date: Fri,  7 Apr 2023 15:05:45 -0500
+Message-Id: <20230407200551.12660-13-michael.christie@oracle.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230407200551.12660-1-michael.christie@oracle.com>
 References: <20230407200551.12660-1-michael.christie@oracle.com>
@@ -76,13 +77,13 @@ X-Proofpoint-Virus-Version: vendor=baseguard
  definitions=2023-04-07_12,2023-04-06_03,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 adultscore=0
  phishscore=0 bulkscore=0 mlxscore=0 suspectscore=0 spamscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxlogscore=774 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2303200000 definitions=main-2304070180
-X-Proofpoint-GUID: PD3MqFhRtTA-sjcaKB0fLsKhkgjizzyt
-X-Proofpoint-ORIG-GUID: PD3MqFhRtTA-sjcaKB0fLsKhkgjizzyt
+X-Proofpoint-ORIG-GUID: nFaU9bZWIh3QTwQeAZsvDLSz0079EoxM
+X-Proofpoint-GUID: nFaU9bZWIh3QTwQeAZsvDLSz0079EoxM
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230407_130631_284695_DD3283D6 
-X-CRM114-Status: GOOD (  24.33  )
+X-CRM114-CacheID: sfid-20230407_130634_022963_CC2F8703 
+X-CRM114-Status: GOOD (  20.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,118 +98,105 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch adds support for the pr_ops read_keys callout by calling the
-NVMe Reservation Report helper, then parsing that info to get the
-controller's registered keys. Because the callout is only used in the
-kernel where the callers, like LIO, do not know about controller/host IDs,
-the callout just returns the registered keys which is required by the SCSI
-PR in READ KEYS command.
+The next patch adds support to report the reservation type, so we need to
+be able to convert from the NVMe PR value we get from the device to the
+linux block layer PR value that will be returned to callers. To prepare
+for that, this patch adds a nvme_pr_type enum and renames the nvme_pr_type
+function.
 
 Signed-off-by: Mike Christie <michael.christie@oracle.com>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/pr.c | 69 ++++++++++++++++++++++++++++++++++++++++++
- include/linux/nvme.h   |  4 +++
- 2 files changed, 73 insertions(+)
+ drivers/nvme/host/pr.c | 24 ++++++++++++------------
+ include/linux/nvme.h   |  9 +++++++++
+ 2 files changed, 21 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/nvme/host/pr.c b/drivers/nvme/host/pr.c
-index cd93d2e5b340..0ee656404437 100644
+index 0ee656404437..732c56b417c2 100644
 --- a/drivers/nvme/host/pr.c
 +++ b/drivers/nvme/host/pr.c
-@@ -154,10 +154,79 @@ static int nvme_pr_release(struct block_device *bdev, u64 key, enum pr_type type
- 	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_release);
+@@ -9,24 +9,24 @@
+ 
+ #include "nvme.h"
+ 
+-static char nvme_pr_type(enum pr_type type)
++static enum nvme_pr_type nvme_pr_type_from_blk(enum pr_type type)
+ {
+ 	switch (type) {
+ 	case PR_WRITE_EXCLUSIVE:
+-		return 1;
++		return NVME_PR_WRITE_EXCLUSIVE;
+ 	case PR_EXCLUSIVE_ACCESS:
+-		return 2;
++		return NVME_PR_EXCLUSIVE_ACCESS;
+ 	case PR_WRITE_EXCLUSIVE_REG_ONLY:
+-		return 3;
++		return NVME_PR_WRITE_EXCLUSIVE_REG_ONLY;
+ 	case PR_EXCLUSIVE_ACCESS_REG_ONLY:
+-		return 4;
++		return NVME_PR_EXCLUSIVE_ACCESS_REG_ONLY;
+ 	case PR_WRITE_EXCLUSIVE_ALL_REGS:
+-		return 5;
++		return NVME_PR_WRITE_EXCLUSIVE_ALL_REGS;
+ 	case PR_EXCLUSIVE_ACCESS_ALL_REGS:
+-		return 6;
+-	default:
+-		return 0;
++		return NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS;
+ 	}
++
++	return 0;
  }
  
-+static int nvme_pr_resv_report(struct block_device *bdev, void *data,
-+		u32 data_len, bool *eds)
-+{
-+	struct nvme_command c = { };
-+	int ret;
-+
-+	c.common.opcode = nvme_cmd_resv_report;
-+	c.common.cdw10 = cpu_to_le32(nvme_bytes_to_numd(data_len));
-+	c.common.cdw11 = cpu_to_le32(NVME_EXTENDED_DATA_STRUCT);
-+	*eds = true;
-+
-+retry:
-+	ret = nvme_send_pr_command(bdev, &c, data, data_len);
-+	if (ret == NVME_SC_HOST_ID_INCONSIST &&
-+	    c.common.cdw11 == cpu_to_le32(NVME_EXTENDED_DATA_STRUCT)) {
-+		c.common.cdw11 = 0;
-+		*eds = false;
-+		goto retry;
-+	}
-+
-+	if (ret < 0)
-+		return ret;
-+
-+	return nvme_sc_to_pr_err(ret);
-+}
-+
-+static int nvme_pr_read_keys(struct block_device *bdev,
-+		struct pr_keys *keys_info)
-+{
-+	u32 rse_len, num_keys = keys_info->num_keys;
-+	struct nvme_reservation_status_ext *rse;
-+	int ret, i;
-+	bool eds;
-+
-+	/*
-+	 * Assume we are using 128-bit host IDs and allocate a buffer large
-+	 * enough to get enough keys to fill the return keys buffer.
-+	 */
-+	rse_len = struct_size(rse, regctl_eds, num_keys);
-+	rse = kzalloc(rse_len, GFP_KERNEL);
-+	if (!rse)
-+		return -ENOMEM;
-+
-+	ret = nvme_pr_resv_report(bdev, rse, rse_len, &eds);
-+	if (ret)
-+		goto free_rse;
-+
-+	keys_info->generation = le32_to_cpu(rse->gen);
-+	keys_info->num_keys = get_unaligned_le16(&rse->regctl);
-+
-+	num_keys = min(num_keys, keys_info->num_keys);
-+	for (i = 0; i < num_keys; i++) {
-+		if (eds) {
-+			keys_info->keys[i] =
-+					le64_to_cpu(rse->regctl_eds[i].rkey);
-+		} else {
-+			struct nvme_reservation_status *rs;
-+
-+			rs = (struct nvme_reservation_status *)rse;
-+			keys_info->keys[i] = le64_to_cpu(rs->regctl_ds[i].rkey);
-+		}
-+	}
-+
-+free_rse:
-+	kfree(rse);
-+	return ret;
-+}
-+
- const struct pr_ops nvme_pr_ops = {
- 	.pr_register	= nvme_pr_register,
- 	.pr_reserve	= nvme_pr_reserve,
- 	.pr_release	= nvme_pr_release,
- 	.pr_preempt	= nvme_pr_preempt,
- 	.pr_clear	= nvme_pr_clear,
-+	.pr_read_keys	= nvme_pr_read_keys,
- };
+ static int nvme_send_ns_head_pr_command(struct block_device *bdev,
+@@ -127,7 +127,7 @@ static int nvme_pr_reserve(struct block_device *bdev, u64 key,
+ 	if (flags & ~PR_FL_IGNORE_KEY)
+ 		return -EOPNOTSUPP;
+ 
+-	cdw10 = nvme_pr_type(type) << 8;
++	cdw10 = nvme_pr_type_from_blk(type) << 8;
+ 	cdw10 |= ((flags & PR_FL_IGNORE_KEY) ? 1 << 3 : 0);
+ 	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_acquire);
+ }
+@@ -135,7 +135,7 @@ static int nvme_pr_reserve(struct block_device *bdev, u64 key,
+ static int nvme_pr_preempt(struct block_device *bdev, u64 old, u64 new,
+ 		enum pr_type type, bool abort)
+ {
+-	u32 cdw10 = nvme_pr_type(type) << 8 | (abort ? 2 : 1);
++	u32 cdw10 = nvme_pr_type_from_blk(type) << 8 | (abort ? 2 : 1);
+ 
+ 	return nvme_pr_command(bdev, cdw10, old, new, nvme_cmd_resv_acquire);
+ }
+@@ -149,7 +149,7 @@ static int nvme_pr_clear(struct block_device *bdev, u64 key)
+ 
+ static int nvme_pr_release(struct block_device *bdev, u64 key, enum pr_type type)
+ {
+-	u32 cdw10 = nvme_pr_type(type) << 8 | (key ? 0 : 1 << 3);
++	u32 cdw10 = nvme_pr_type_from_blk(type) << 8 | (key ? 0 : 1 << 3);
+ 
+ 	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_release);
+ }
 diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 83704fc04a94..c18bd55a4ead 100644
+index c18bd55a4ead..182b6d614eb1 100644
 --- a/include/linux/nvme.h
 +++ b/include/linux/nvme.h
-@@ -759,6 +759,10 @@ enum {
+@@ -759,6 +759,15 @@ enum {
  	NVME_LBART_ATTRIB_HIDE	= 1 << 1,
  };
  
-+enum nvme_eds {
-+	NVME_EXTENDED_DATA_STRUCT	= 0x1,
++enum nvme_pr_type {
++	NVME_PR_WRITE_EXCLUSIVE			= 1,
++	NVME_PR_EXCLUSIVE_ACCESS		= 2,
++	NVME_PR_WRITE_EXCLUSIVE_REG_ONLY	= 3,
++	NVME_PR_EXCLUSIVE_ACCESS_REG_ONLY	= 4,
++	NVME_PR_WRITE_EXCLUSIVE_ALL_REGS	= 5,
++	NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS	= 6,
 +};
 +
- struct nvme_registered_ctrl {
- 	__le16	cntlid;
- 	__u8	rcsts;
+ enum nvme_eds {
+ 	NVME_EXTENDED_DATA_STRUCT	= 0x1,
+ };
 -- 
 2.25.1
 
