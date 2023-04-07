@@ -4,96 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8423FC77B61
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Apr 2023 00:44:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B4B49C77B61
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Apr 2023 04:48:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Z6icuaoDHHIsO5d4VfRrQbPiDw7J9fTP2H0bgGwHcnU=; b=O2KzwiaOwltLKCuwTCC8es4IME
-	AZcjVCxwtLYBxsgdPcTSwNNiQovXMYCX/aotDqSzx13oh9ndoE2sezmltPWXuRAzdvEn5/rxERQ3L
-	sI3472zcT2IL4irymOz9VPGQ5osBCGdNnqcscNMzbubYxL1ebvuO01YRJyZj3huVhBZZJU2NOiAvw
-	zVPlGiP3VDBsz6NkZBsPJORLby9bzhujwyDjyff5y7Lyz/lCeZqG1B1yeF1DMx7BBvRViIdDUfSEm
-	XbUbjlPGPiGuSZdrqu80RO8u673uQwZ7gXT6LYe/9RMnBREqOyjQpSQP3nXBSVnJD7MELFdPcXokh
-	ySykRbJw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=h1VZzDi4GY18ewCATzaBVBi3jFt9uNVAIW9Am330oLQ=; b=xA13VKYTqXqhmnPmu3tk+At8Ev
+	lemt9s0Ttji5BjxsuA8sh8AquU+JOGRGmRCmImvj6e2zO1NoauUa/q2606jX/NBmT7vqt3q9MEvnn
+	bjT+qaDwloEJCgdT/NyiAScsv9tEioaLXa5ij9lP9UKwVnA7FRza/6mRlNsO6OnPTE6NMsxIPxqbV
+	7HlIPcmHZe2gENF3f+Vxyv0MyhixSGpLEcKrbaVWM9TKlEnKNkumn6W+BN8yIkn8e8x9KqXlHp/Bp
+	jxlhgRJsB9uBiKFNhSvxLF0gTpeH481mzHrmtR7pmZIMnnWrmpIv4bb3DYXRaVVNB3B0JZ3/U2m6D
+	1x8CLhMw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1plfdp-00EOO0-1V;
-	Mon, 10 Apr 2023 00:44:17 +0000
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26])
+	id 1pljRd-00EZI6-2v;
+	Mon, 10 Apr 2023 04:47:57 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1plfdl-00EON1-2G
-	for linux-nvme@lists.infradead.org;
-	Mon, 10 Apr 2023 00:44:15 +0000
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailnew.west.internal (Postfix) with ESMTP id EC06D2B0671A;
-	Sun,  9 Apr 2023 20:44:04 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Sun, 09 Apr 2023 20:44:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1681087444; x=1681088044; bh=Z6
-	icuaoDHHIsO5d4VfRrQbPiDw7J9fTP2H0bgGwHcnU=; b=R4hEEA6eoBFqpNR20p
-	fL8F4Q7f8azzkWcnqc7RMdvWDBpbZJXuJW2ma9XENfVL40Cz+Qe1sAkdPFAUtAIp
-	rJbLdr1HQ5Zld+ldeP9AdBgAdxpPWcXIu1gxw4rGWGNqiQoQPHLs4K6b3v1VAd4t
-	FiCAdQz+f+VH2fXffebZcKoxOXyyH/fZ5hYI9iYa0sZVGiQeTc7J5P3+3Yeh2hu5
-	2ZUPY5ypE9P7WmpLSVRRvGE80eKxO/BIm8NaKrnIczy5aLDX9frWAC3d3jeJ+87c
-	JNpdSUKA+9CyTEhs+GNb3TpRk1q32lSEc6hupa8dm0n9Al32vrxPzTBkVKncpuMX
-	EMYQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=ie1e949a3.fm2; t=1681087444; x=1681088044; bh=Z6i
-	cuaoDHHIsO5d4VfRrQbPiDw7J9fTP2H0bgGwHcnU=; b=BIUtOI/bxs78GTs7w8G
-	YztdY4DfFJq4kv4v0nQEFy64xOf+E1Ra4+I/Ok5+q87eVEOAbH96btokgCSpCU9k
-	gqVhzKIXMbCQ6TrbaD0+vDpadxzj7oK7wjiodRwUtLOl0pJNOklH6gsxKqgm/him
-	5bEIuchJksm8dULBYajj3cwCmvDjS6U7WJ4amWWpr+oNTgjFz2wEd2kvHW6CKt6/
-	2k9W5vz2v73CGNJn1NkK6wpq4brMKUPAtVBDE9coaPV+SrnGVslWT8ux2Oin2fSr
-	s1iPVkzcYu4wTLjRmt5Pz/VrTQl4Zcdi7Wj4x4XliSqAmJKbnS7YaAMLo52mcdbV
-	chQ==
-X-ME-Sender: <xms:01szZAQh1QcSfgVrnv7o8b5msLFk46ADQHAGvRtXacr3fmkkZBXGzQ>
-    <xme:01szZNzCDgGhvguXY2qSAGiSRNh-8YOefYAsQOLcTtOMlWvTq5liyMek-BUsYKSDe
-    fUAxAJxfDhaKxflvjg>
-X-ME-Received: <xmr:01szZN33ihhVfny2VsVKBcrmr7ODkSlenOO2r87iQdW8MUi4B22frYRL8wbCF3fF1nbGVk4V-5BVbC7Mghzs_Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekuddggedtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtsfdttddtvdenucfhrhhomhepufhhihhn
-    kdhitghhihhrohcumfgrfigrshgrkhhiuceoshhhihhnihgthhhirhhosehfrghsthhmrg
-    hilhdrtghomheqnecuggftrfgrthhtvghrnhepvdegtdfgvdfhgfekvdektdfgfeeljeel
-    gefgkedujeeiteehgefhgeethffgheehnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
-    hrrghmpehmrghilhhfrhhomhepshhhihhnihgthhhirhhosehfrghsthhmrghilhdrtgho
-    mh
-X-ME-Proxy: <xmx:01szZECDe7jZVGm2Du1AZdYwzl_MSDzjtapZgRFjMPZX20jOhDDDnw>
-    <xmx:01szZJgmxj_YGpFc_FCkPYm6CrVBewOjGZvg0KyPab9Sv7fpIs0KQw>
-    <xmx:01szZAqbEROpcXZydHq1C8t5ckVQVgvtEuPT-lg5lV_pSUUF_VS8QA>
-    <xmx:1FszZOuXquiD4L68G6T3Pe_OEjLbALahLJXOwssrrhknq64nH7Yfcu7H5VddhlLn>
-Feedback-ID: ie1e949a3:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 9 Apr 2023 20:44:02 -0400 (EDT)
-Date: Mon, 10 Apr 2023 09:43:58 +0900
-From: Shin'ichiro Kawasaki <shinichiro@fastmail.com>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: shinichiro.kawasaki@wdc.com, linux-nvme@lists.infradead.org, 
-	linux-block@vger.kernel.org, mcgrof@kernel.org
-Subject: Re: [PATCH blktests 2/2] nvme/047: add test for uring-passthrough
-Message-ID: <p7rz7dz6t2vdihusunblbw6tm4cqrq4vcfaupttjwqqj7jiwgc@6emzgswzmmeq>
-References: <20230331034414.42024-1-joshi.k@samsung.com>
- <CGME20230331034533epcas5p2834dad2bc54ad1a6348895f522400e8c@epcas5p2.samsung.com>
- <20230331034414.42024-3-joshi.k@samsung.com>
- <20230407080746.tx4sgperc6pvjsbu@shinhome>
+	id 1pkaNC-008uei-16;
+	Fri, 07 Apr 2023 00:54:39 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 5A4A364DE9;
+	Fri,  7 Apr 2023 00:54:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48C35C433D2;
+	Fri,  7 Apr 2023 00:54:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1680828876;
+	bh=uvT44qx5YO7bon6aMmqTeZtryVy3J03QEXu1FpcUChw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=gb3r4KSO9gRu1kunqKSKRVILUWmx2/w1729zO1bnmOFwGTjK8Ft7VgeVIqQTRYktv
+	 IWoDAI4k/MGasNqIg8yOC4EaHRFW3OexmHky+FTATmWwQPv0fuyPhD9KqpUrJdUZvy
+	 04jSqe8Mz+djYDYAxW63CiCRaFAhGWCyS7LpVaX5D/mfbaRIUmoNGKxiZhnx++WVAf
+	 0Hlc/LhrSf7+y2+OvyhZRwCWgXuEjgUquY5PkBpHS6jI2oxJ0oTdmh9/bpv7XFAxsC
+	 dkHpoI3IwMJoz2Lwc/5kivXju8kVrsuuL0xWPpJK8r4SLNxcjeTU1NMtBFmuDOtKIE
+	 XV9HKRzNQ6t1Q==
+Date: Thu, 6 Apr 2023 17:54:34 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: David Howells <dhowells@redhat.com>
+Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Willem de
+ Bruijn <willemdebruijn.kernel@gmail.com>, Matthew Wilcox
+ <willy@infradead.org>, Al Viro <viro@zeniv.linux.org.uk>, Christoph Hellwig
+ <hch@infradead.org>, Jens Axboe <axboe@kernel.dk>, Jeff Layton
+ <jlayton@kernel.org>, Christian Brauner <brauner@kernel.org>, Chuck Lever
+ III <chuck.lever@oracle.com>, Linus Torvalds
+ <torvalds@linux-foundation.org>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, Jeroen de Borst
+ <jeroendb@google.com>, Catherine Sullivan <csully@google.com>, Shailend
+ Chand <shailend@google.com>, Felix Fietkau <nbd@nbd.name>, John Crispin
+ <john@phrozen.org>, Sean Wang <sean.wang@mediatek.com>, Mark Lee
+ <Mark-MC.Lee@mediatek.com>, Lorenzo Bianconi <lorenzo@kernel.org>, Matthias
+ Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
+ <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, Andrew Morton
+ <akpm@linux-foundation.org>, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH net-next v5 03/19] mm: Make the page_frag_cache
+ allocator use multipage folios
+Message-ID: <20230406175434.0d74bbcc@kernel.org>
+In-Reply-To: <20230406094245.3633290-4-dhowells@redhat.com>
+References: <20230406094245.3633290-1-dhowells@redhat.com>
+	<20230406094245.3633290-4-dhowells@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230407080746.tx4sgperc6pvjsbu@shinhome>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230409_174413_767235_DD904484 
-X-CRM114-Status: GOOD (  25.87  )
+X-CRM114-CacheID: sfid-20230406_175438_445356_2D4551AE 
+X-CRM114-Status: GOOD (  11.70  )
+X-Mailman-Approved-At: Sun, 09 Apr 2023 21:47:56 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,84 +92,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Apr 07, 2023 / 17:07, Shin'ichiro Kawasaki wrote:
-> Thanks for the patch. I think it's good to have this test case to cover the
-> uring-passthrough codes in the nvme driver code. Please find my comments in
-> line.
-> 
-> Also, I ran the new test case on my Fedora system using QEMU NVME device and
-> found the test case fails with errors like,
-> 
->     fio: io_u error on file /dev/ng0n1: Permission denied: read offset=266240, buflen=4096
-> 
-> I took a look in this and learned that SELinux on my system does not allow
-> IORING_OP_URING_CMD by default. I needed to do "setenforce 0" or add a local
-> policy to allow IORING_OP_URING_CMD so that the test case passes.
-> 
-> I think this test case should check this security requirement. I'm not sure what
-> is the best way to do it. One idea is to just run fio with io_uring_cmd engine
-> and check its error message. I created a patch below, and it looks working on my
-> system. I suggest to add it, unless anyone knows other better way.
-> 
-> diff --git a/tests/nvme/047 b/tests/nvme/047
-> index a0cc8b2..30961ff 100755
-> --- a/tests/nvme/047
-> +++ b/tests/nvme/047
-> @@ -14,6 +14,22 @@ requires() {
->  	_have_fio_ver 3 33
->  }
->  
-> +device_requires() {
-> +	local ngdev=${TEST_DEV/nvme/ng}
-> +	local fio_output
-> +
-> +	if fio_output=$(fio --name=check --size=4k --filename="$ngdev" \
-> +			    --rw=read --ioengine=io_uring_cmd 2>&1); then
-> +		return 0
-> +	fi
-> +	if grep -qe "Permission denied" <<< "$fio_output"; then
-> +		SKIP_REASONS+=("IORING_OP_URING_CMD is not allowed for $ngdev")
-> +	else
-> +		SKIP_REASONS+=("IORING_OP_URING_CMD check for $ngdev failed")
+On Thu,  6 Apr 2023 10:42:29 +0100 David Howells wrote:
+> Change the page_frag_cache allocator to use multipage folios rather than
+> groups of pages.  This reduces page_frag_free to just a folio_put() or
+> put_page().
 
-I revisited the code I suggested and noticed this part is not good. The failures
-other than "Permission denied" are the failures that this test case intended to
-catch. It is not good to skip them.
+drivers/nvme/host/tcp.c:1315:15: warning: unused variable 'page' [-Wunused-variable]
+        struct page *page;
+                     ^
 
-> +	fi
-> +	return 1
-> +}
-> +
->  test_device() {
->  	echo "Running ${TEST_NAME}"
->  	local ngdev=${TEST_DEV/nvme/ng}
-
-As far as I read the kernel code related to security_uring_cmd(), calling uring
-command is the only way to check its security permission. It means that we can
-not separate the check for the security permission and the uring command test
-itself. So it's the better to check the security permission not in
-device_requires() but in test_device(), as follows:
-
-diff --git a/tests/nvme/047 b/tests/nvme/047
-index a0cc8b2..741ccd9 100755
---- a/tests/nvme/047
-+++ b/tests/nvme/047
-@@ -30,6 +30,16 @@ test_device() {
- 		--time_based
- 		--runtime=2
- 	)
-+	local fio_output
-+
-+	# check security permission
-+	if ! fio_output=$(fio --name=check --size=4k --filename="$ngdev" \
-+			    --rw=read --ioengine=io_uring_cmd 2>&1) &&
-+			grep -qe "Permission denied" <<< "$fio_output"; then
-+		SKIP_REASONS+=("IORING_OP_URING_CMD is not allowed for $ngdev")
-+		return
-+	fi
-+
- 	#plain read test
- 	_run_fio "${common_args[@]}"
- 
-
+drivers/net/ethernet/mediatek/mtk_wed_wo.c:306:15: warning: unused variable 'page' [-Wunused-variable]
+        struct page *page;
+                     ^
 
