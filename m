@@ -4,94 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38CE6C6FD1D
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Apr 2023 08:08:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AADAFC76196
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Apr 2023 09:18:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=p8c67hXcovpHbKZG3xx5Jh4HtxuSfykJZRJQsxwNuDo=; b=ocFEI2mP5RbDHRbzzE4/xyFoQ0
-	vnPhymiZfT5pPiK0we0zCflvUzyi1m1kFafSqtxXcADZb91MpMEevTqGY2z40PbVkcPEAyqfdTZzX
-	xWbR6DzJcRbHPtXZTul0GmFGf//dxtY7/UvH35bMKIFbYVykojT4Q9fG1VcHCOvkKkzBCt31tKRFX
-	+1lIljI8jy0WBxUq9DObq933RS7kneeRxfEDZjAZLwloiqcVi7jrLiD2peGgIovGO9NjstKiRRSxG
-	YOo60/yL7tTQrzmK9ZwN9VOzT2WunsKz6QXoP6A1PpUSqmkdzpzVaVfp7X/3wMeybbcjp7+3Qd8v8
-	lqfPGuiQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=3YOa2vUCRMOuffAmJfHUcI/nyFeZjIGfxyzUSsr5wms=; b=EMN5OGDCdNq2tAUnFsOwuJAdCF
+	d1DwIgesxBpiIpwjj5W9iHIJQOdvQd3uAQsevg2SXla43V5usbOGKlh7UjjGG2NXJsM6NN9FYRmv7
+	zwl6j3KlW/suHtB7MV2uZCir+nA1QauKBMVKHfGHWl8Goxx8Q5A7L40kmMPIIbBVmarrhn4tnhnaK
+	w7yH6fDQYoHdYn1aAiJNRqxvSfDITtOxO4F/OQtHycXh7jdJ59lo4f1RRXBE1IsUHVqRBZR67GqPV
+	YwQb/2WEtYptd+NUOUSSyf3tBOzkDUE79rcN97jvAy4qe1nrbcznJLUmROJuANYbGMrQnljbKiOK/
+	1GDRkYMQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pkh8q-009RiK-2M;
-	Fri, 07 Apr 2023 08:08:16 +0000
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26])
+	id 1pkiES-009dTD-2Y;
+	Fri, 07 Apr 2023 09:18:08 +0000
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pkh8n-009RfC-16
+	id 1pkiEO-009dR8-0W
 	for linux-nvme@lists.infradead.org;
-	Fri, 07 Apr 2023 08:08:15 +0000
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailnew.west.internal (Postfix) with ESMTP id 1A35F2B067F1;
-	Fri,  7 Apr 2023 04:07:52 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Fri, 07 Apr 2023 04:07:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1680854871; x=1680855471; bh=p8
-	c67hXcovpHbKZG3xx5Jh4HtxuSfykJZRJQsxwNuDo=; b=bNvzGHKtRsfZl0Mzcb
-	OOFD38RHu4upQde3jPkpBg6PR06seYCN/1oRKEhvNCKZ7O0Yn1lQIEuokBQklDQU
-	RZEWY4UW1c7Sr6H2wbZAuf9zzUqDJu7/cXFJ2NCKmfue2a0a4ZdKFjnSQpxPAPI+
-	1WHyPKdp/+Gsa3n6yiOKnHK79PIAmZzTXK6DrmM85eud/fVtUbqz4Bo8IpdK+eYQ
-	rBtQqk2A2GyYZzf8Nxc9LfwIDlvs9lRDH5RqhgKG6h+sIt+SRUTJ3754/+ZiD/jw
-	AkKCOw/L+kdBEU5wNRtTdmah1eeW+hhcmHxbPTNm+eZ2LcptN503io8s0H15FPIp
-	oWDw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=ie1e949a3.fm2; t=1680854871; x=1680855471; bh=p8c
-	67hXcovpHbKZG3xx5Jh4HtxuSfykJZRJQsxwNuDo=; b=Ua2Z3CZyuRI+6KwUxT5
-	sP2xDjI2kh+ytD8caGfX1Low4T4K/jW9nYw26HjlE2nErSGEo83KFjfVdLA2Z9Sz
-	jAxdMDx1fEjDzUnlEH+RV6AwX/vrSXKkwxjQmlpyiTiTaTL9vIimOCvgDJabSzUX
-	czphGkRnRuzBo6XUqZa/ifwQpWZwPx6yjWKSSt4IKdANEvvFCQuI45TWZSdXgTSE
-	SIU1t7r8MYj3qJnTTbmzA8+LLeJRcC4hF73QqX2kylq5CP0vNfKBK2ET9Z/8rtX1
-	51ltMVqoVKvnl6mbGy/oFI3m2EdSJ7CFVEj44lkmSjY2Ml03mRSZv0TQYxgC9Lzn
-	UVA==
-X-ME-Sender: <xms:Vs8vZAzzdP-EacqOzq8LbAI5odeSXf4_CJJea6WVXrE6HtI2TMHIjw>
-    <xme:Vs8vZERgLpbvaVrHf2153SLUSEctxd6pP2QJ2xtY3DRJ5F1dEoSQq8l3ubNL1j1TT
-    PnpfsEkwpC4Sqb6KQE>
-X-ME-Received: <xmr:Vs8vZCVtTErWkQW8jFoOpDmQ_PpS0-FhkNcxhu2BUxQXih2t0AjBdMa4nf97lzB7X1yi3ObqLwNrueM1oI8dQg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdejhecutefuodetggdotefrodftvfcurf
-    hrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefuhhhinhdkihgt
-    hhhirhhoucfmrgifrghsrghkihcuoehshhhinhhitghhihhrohesfhgrshhtmhgrihhlrd
-    gtohhmqeenucggtffrrghtthgvrhhnpefgvefgieekffelvddtjedttdeiudffleetleek
-    iedtgeetueekueetjeekteffgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpehshhhinhhitghhihhrohesfhgrshhtmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:Vs8vZOgimUVG-i_SztwIo2tfE7ntiQbwRYJjFMEYqOtkOS_bybszLg>
-    <xmx:Vs8vZCARtNFA61gDQ58Q3HVDYlTJuXIGEcva7oPkCV0jc7lmhNb_4A>
-    <xmx:Vs8vZPKmdBusbbpWUQ-Eexaoc0BaQ1gDCLq1jfTmr7xpodmMbyR2EA>
-    <xmx:V88vZNM4XFLv-tfPWGqr5h_2XD6WOf2r5sdIhAeCIyekNc0he2yhlqZE6igO8ksS>
-Feedback-ID: ie1e949a3:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 7 Apr 2023 04:07:49 -0400 (EDT)
-Date: Fri, 7 Apr 2023 17:07:46 +0900
-From: Shin'ichiro Kawasaki <shinichiro@fastmail.com>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: shinichiro.kawasaki@wdc.com, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, mcgrof@kernel.org
-Subject: Re: [PATCH blktests 2/2] nvme/047: add test for uring-passthrough
-Message-ID: <20230407080746.tx4sgperc6pvjsbu@shinhome>
-References: <20230331034414.42024-1-joshi.k@samsung.com>
- <CGME20230331034533epcas5p2834dad2bc54ad1a6348895f522400e8c@epcas5p2.samsung.com>
- <20230331034414.42024-3-joshi.k@samsung.com>
+	Fri, 07 Apr 2023 09:18:06 +0000
+Received: by mail-pl1-x630.google.com with SMTP id kx12so693211plb.12
+        for <linux-nvme@lists.infradead.org>; Fri, 07 Apr 2023 02:17:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1680859067; x=1683451067;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3YOa2vUCRMOuffAmJfHUcI/nyFeZjIGfxyzUSsr5wms=;
+        b=f2ObIdvghcQZ58Jh4FlzZuWxh98X+QEoaktvor0bhiL7xxCgYzKcy6y1eb8cnBmRqU
+         sEE8ZdIi2gUsl1ov8+mCqPbUH39yuOEn5LIa1RNVM88zwxg47l3Z/xQFR6TQmvDvgi5k
+         vgEnC1laaSANXGf/jIs51h7GRuknu6HzSqouMqXn4H93FXi/BYgHemrlCeMb2CRGZxpm
+         f4tPd+xarwVD0eSpRADYqCUqZkGIz8GmHJaWEKZRHvX0aOTJOWc1csmjvIIxq6qi+vJl
+         LUdk+Txrpr0E826Sa6qRP6XhqjGxWYwFmtd+EMl2ZcuirZ/DaM5zyqMvr7vk2AWjtpDm
+         juLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680859067; x=1683451067;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3YOa2vUCRMOuffAmJfHUcI/nyFeZjIGfxyzUSsr5wms=;
+        b=HAhz5cKVpFX6aRBXdjQ7Br3Y7GbXwMywoyj3fe8kVp3W1QlZt3RIUKyGVh9N3UafQU
+         h5QgiUDqoKVBghQZLZr8IHEv8hLTgH66nudMhM64Ys3llCDgqcFCDOdayBcIi8CSzkvA
+         di2UEOkMBXveA4Ht6ubjg7ctgUpRxbdPtusLyqz6nDzFESVn2H2DTWhFUjoSb3oFCum3
+         CZjxmnGOf3c0N/Q+9nVrdXW9PQ3yXq+1gL7vZT6XFTL7JPbjQuDSubpijgHr28+hMqVf
+         t88fadXbTxG/G+CWt9+7IiDjSgghczxv2ccS8/HGL3XSLHofZuA70inE9R/nRICKUjOb
+         CI0g==
+X-Gm-Message-State: AAQBX9dwozc8xAVK3IMIVtAv4zfWLOgaY+j9Vt7jwvpAJ+fkwXjYIXgB
+	WwuBWLAp7Yg7vQXSvYS9rtVReQ==
+X-Google-Smtp-Source: AKy350YTD13aaCgWFmupbApPH/XKOQWdgWB0aLonyUVnosRbljdkKhA1SsrY65fu4IIMGGyaGQTa9w==
+X-Received: by 2002:a17:902:fa4b:b0:19e:4bc3:b1ef with SMTP id lb11-20020a170902fa4b00b0019e4bc3b1efmr1859969plb.64.1680859067669;
+        Fri, 07 Apr 2023 02:17:47 -0700 (PDT)
+Received: from always-x1.bytedance.net ([61.213.176.8])
+        by smtp.gmail.com with ESMTPSA id x22-20020a170902821600b001a199972508sm2546745pln.124.2023.04.07.02.17.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Apr 2023 02:17:47 -0700 (PDT)
+From: zhenwei pi <pizhenwei@bytedance.com>
+To: hch@lst.de,
+	sagi@grimberg.me,
+	kbusch@kernel.org
+Cc: linux-nvme@lists.infradead.org,
+	zhenwei pi <pizhenwei@bytedance.com>,
+	Yamin Friedman <yaminf@mellanox.com>
+Subject: [PATCH] nvme-rdma: minor cleanup in nvme_rdma_create_cq()
+Date: Fri,  7 Apr 2023 17:15:57 +0800
+Message-Id: <20230407091557.258669-1-pizhenwei@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230331034414.42024-3-joshi.k@samsung.com>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230407_010813_736958_529E1CC4 
-X-CRM114-Status: GOOD (  27.40  )
+X-CRM114-CacheID: sfid-20230407_021804_502777_C4900235 
+X-CRM114-Status: GOOD (  10.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,143 +91,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks for the patch. I think it's good to have this test case to cover the
-uring-passthrough codes in the nvme driver code. Please find my comments in
-line.
+Before cleanup:
+enum ib_poll_context poll_ctx;
 
-Also, I ran the new test case on my Fedora system using QEMU NVME device and
-found the test case fails with errors like,
+if (nvme_rdma_poll_queue(queue)) {
+        poll_ctx = IB_POLL_DIRECT;
+        queue->ib_cq = ib_alloc_cq(ibdev, queue, queue->cq_size,
+                                   comp_vector, poll_ctx);
+} else {
+        poll_ctx = IB_POLL_SOFTIRQ;
+        queue->ib_cq = ib_cq_pool_get(ibdev, queue->cq_size,
+                                      comp_vector, poll_ctx);
+}
 
-    fio: io_u error on file /dev/ng0n1: Permission denied: read offset=266240, buflen=4096
+After cleanup:
+if (nvme_rdma_poll_queue(queue))
+        queue->ib_cq = ib_alloc_cq(ibdev, queue, queue->cq_size,
+                                   comp_vector, IB_POLL_DIRECT);
+else
+        queue->ib_cq = ib_cq_pool_get(ibdev, queue->cq_size,
+                                      comp_vector, IB_POLL_SOFTIRQ);
 
-I took a look in this and learned that SELinux on my system does not allow
-IORING_OP_URING_CMD by default. I needed to do "setenforce 0" or add a local
-policy to allow IORING_OP_URING_CMD so that the test case passes.
+IB_POLL_SOFTIRQ/IB_POLL_SOFTIRQ gets used directly in function, this
+seems more accessible.
 
-I think this test case should check this security requirement. I'm not sure what
-is the best way to do it. One idea is to just run fio with io_uring_cmd engine
-and check its error message. I created a patch below, and it looks working on my
-system. I suggest to add it, unless anyone knows other better way.
+Cc: Yamin Friedman <yaminf@mellanox.com>
+Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+---
+ drivers/nvme/host/rdma.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/tests/nvme/047 b/tests/nvme/047
-index a0cc8b2..30961ff 100755
---- a/tests/nvme/047
-+++ b/tests/nvme/047
-@@ -14,6 +14,22 @@ requires() {
- 	_have_fio_ver 3 33
- }
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index bbad26b82b56..4767ae19178c 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -464,7 +464,6 @@ static int nvme_rdma_create_cq(struct ib_device *ibdev,
+ 		struct nvme_rdma_queue *queue)
+ {
+ 	int ret, comp_vector, idx = nvme_rdma_queue_idx(queue);
+-	enum ib_poll_context poll_ctx;
  
-+device_requires() {
-+	local ngdev=${TEST_DEV/nvme/ng}
-+	local fio_output
-+
-+	if fio_output=$(fio --name=check --size=4k --filename="$ngdev" \
-+			    --rw=read --ioengine=io_uring_cmd 2>&1); then
-+		return 0
-+	fi
-+	if grep -qe "Permission denied" <<< "$fio_output"; then
-+		SKIP_REASONS+=("IORING_OP_URING_CMD is not allowed for $ngdev")
+ 	/*
+ 	 * Spread I/O queues completion vectors according their queue index.
+@@ -473,15 +472,12 @@ static int nvme_rdma_create_cq(struct ib_device *ibdev,
+ 	comp_vector = (idx == 0 ? idx : idx - 1) % ibdev->num_comp_vectors;
+ 
+ 	/* Polling queues need direct cq polling context */
+-	if (nvme_rdma_poll_queue(queue)) {
+-		poll_ctx = IB_POLL_DIRECT;
++	if (nvme_rdma_poll_queue(queue))
+ 		queue->ib_cq = ib_alloc_cq(ibdev, queue, queue->cq_size,
+-					   comp_vector, poll_ctx);
+-	} else {
+-		poll_ctx = IB_POLL_SOFTIRQ;
++					   comp_vector, IB_POLL_DIRECT);
 +	else
-+		SKIP_REASONS+=("IORING_OP_URING_CMD check for $ngdev failed")
-+	fi
-+	return 1
-+}
-+
- test_device() {
- 	echo "Running ${TEST_NAME}"
- 	local ngdev=${TEST_DEV/nvme/ng}
+ 		queue->ib_cq = ib_cq_pool_get(ibdev, queue->cq_size,
+-					      comp_vector, poll_ctx);
+-	}
++					      comp_vector, IB_POLL_SOFTIRQ);
+ 
+ 	if (IS_ERR(queue->ib_cq)) {
+ 		ret = PTR_ERR(queue->ib_cq);
+-- 
+2.20.1
 
-
-On Mar 31, 2023 / 09:14, Kanchan Joshi wrote:
-> User can communicate to NVMe char device (/dev/ngXnY) using the
-> uring-passthrough interface. This test exercises some of these
-> communication pathways, using the 'io_uring_cmd' ioengine of fio.
-> 
-> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-> ---
->  tests/nvme/047     | 46 ++++++++++++++++++++++++++++++++++++++++++++++
->  tests/nvme/047.out |  2 ++
->  2 files changed, 48 insertions(+)
->  create mode 100755 tests/nvme/047
->  create mode 100644 tests/nvme/047.out
-> 
-> diff --git a/tests/nvme/047 b/tests/nvme/047
-> new file mode 100755
-> index 0000000..a0cc8b2
-> --- /dev/null
-> +++ b/tests/nvme/047
-> @@ -0,0 +1,46 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-3.0+
-> +# Copyright (C) 2023 Kanchan Joshi, Samsung Electronics
-> +# Test exercising uring passthrough IO on nvme char device
-> +
-> +. tests/nvme/rc
-> +
-> +DESCRIPTION="basic test for uring-passthrough io on /dev/ngX"
-> +QUICK=1
-> +
-> +requires() {
-> +	_nvme_requires
-> +	_have_kver 6 1
-
-In general, it's the better not to depend on version number to check dependency.
-Is kernel version the only way to check the kernel dependency?
-
-Also, I think this test case assumes that the kernel is built with
-CONFIG_IO_URING. I suggest to add "_have_kernel_option IO_URING" to ensure it.
-
-> +	_have_fio_ver 3 33
-
-Is io_uring_cmd engine the reason to check this fio version? If so, I suggest to
-check "fio --enghelp" output. We can add a new helper function with name like
-_have_fio_io_uring_cmd_engine. _have_fio_zbd_zonemode in common/fio can be a
-reference.
-
-> +}
-> +
-> +test_device() {
-> +	echo "Running ${TEST_NAME}"
-> +	local ngdev=${TEST_DEV/nvme/ng}
-> +	local common_args=(
-> +		--size=1M
-> +		--filename="$ngdev"
-> +		--bs=4k
-> +		--rw=randread
-> +		--numjobs=2
-> +		--iodepth=8
-> +		--name=randread
-> +		--ioengine=io_uring_cmd
-> +		--cmd_type=nvme
-> +		--time_based
-> +		--runtime=2
-> +	)
-> +	#plain read test
-> +	_run_fio "${common_args[@]}"
-> +
-> +	#read with iopoll
-> +	_run_fio "${common_args[@]}" --hipri
-> +
-> +	#read with fixedbufs
-> +	_run_fio "${common_args[@]}" --fixedbufs
-> +
-> +	#if ! _run_fio "${common_args[@]}" >> "${FULL}" 2>&1; then
-> +	#	echo "Error: uring-passthru read failed"
-> +	#fi
-
-I think you are aware of the comment lines :)
-
-> +	echo "Test complete"
-> +}
-> diff --git a/tests/nvme/047.out b/tests/nvme/047.out
-> new file mode 100644
-> index 0000000..915d0a2
-> --- /dev/null
-> +++ b/tests/nvme/047.out
-> @@ -0,0 +1,2 @@
-> +Running nvme/047
-> +Test complete
-> -- 
-> 2.25.1
-> 
 
