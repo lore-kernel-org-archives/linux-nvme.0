@@ -4,69 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67613C77B6C
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Apr 2023 20:06:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2516AC76196
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Apr 2023 20:06:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=C14zFcwsxu3x/LMCgGQF1R8t0x8zmbEpfoJFxVJOAJo=; b=zt5LVbbiGYtC6N+ZQsBK3JAt0r
-	RgDAMzmu6LkZfOggVmJKkig+6H0+nVCmYnWonOXVnTHzipGRkk8YUcOfqGmJV84/srnnevnfc4DYl
-	mNkXvn1quVjGPeGcJHFE0SiU9Ql5gYNg3GrCMjc5Vcc/45Ulkmw24rwaC9oBLfoqXzE4AgJgiLw+m
-	GfVHZY9DRBG/9c+21ly6clprKHmjXOGD83jGSr1LLrwkGqvWOuJIKNcNGckvH17xe+g0nKRXuj2LX
-	RF7oJkyjTAaZFHBsYM8Y0qA/64hORuS3qBcDN2KSjSE7tLhTkXlm70i11t+OietfFuR4aRsCa2upr
-	UwF6TPwg==;
+	bh=9pmVPD6b3P7+1yxXPt0GWm3eG9nQG6vdgffOi8t1hbk=; b=o/2mlsEaDlmQ0wf6LTxTRhw3R8
+	gzIxtaS2kC5XJxLd5MxEaVnTStUWnmV3a0Zvfibnm6okXMvu9GxMzRVLwLBbAEdcuvVKJrN3uHHxs
+	4Vts7zd8NPNaF1sjOYDmL0xSMCLPVfpVRnM/HScH0shwm1FW4xqs6QlVxGw3DzuIKNVzGLsoA7Us3
+	8HVp2fU2mpPJYwyVEZpYhyYxJWiq3vDg3YLtKlcY16ciyUmXFnsmwtaLaJb3ZJ+kEWZVxyXCqSLrt
+	oXmtWcbLtX2dqm/eJlQZeYt5SPgjPs+O3lnUEtgLSLUi2I4ridEjGw5vptMavoc3ZcDv8tr6aCzTZ
+	AOAIrujw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pksLq-00B2eO-31;
-	Fri, 07 Apr 2023 20:06:26 +0000
+	id 1pksLv-00B2jm-2m;
+	Fri, 07 Apr 2023 20:06:31 +0000
 Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pksLn-00B2cO-2g
+	id 1pksLs-00B2ff-18
 	for linux-nvme@lists.infradead.org;
-	Fri, 07 Apr 2023 20:06:25 +0000
+	Fri, 07 Apr 2023 20:06:29 +0000
 Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 337Fx1H6018319;
-	Fri, 7 Apr 2023 20:06:18 GMT
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 337Fx2D5018342;
+	Fri, 7 Apr 2023 20:06:23 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2022-7-12;
- bh=C14zFcwsxu3x/LMCgGQF1R8t0x8zmbEpfoJFxVJOAJo=;
- b=1B4OLdcEth5+ePY+PXb19XmNbKutZubul6efli3D2W27+eSpMftCxvPgkNttcr++BWPU
- HXgt8bkEkogYO6WLU5zvlpPCGmafpShwTROKVaKDcLv4qntAc264uYJAIDRrCCHdyCAC
- fbENIccJwrrSTpDux/DINdJa1v0aMc7UyQSWjqSCgJVsmjBqRM4GNLGsFeaURrclsrVM
- R8Fs3srhEE5vb5fKAbnn7IvJEmoGm/S4R199U4WPvtjF03d5yandV4YLJ3A2fsZWq4o1
- VW9HKZeYYcE/KVSKmukPQkb3feoWNyYN4frNOkvJ+J8pZVsQbiiMO1cfT2TuHDbuZMqM zQ== 
+ bh=9pmVPD6b3P7+1yxXPt0GWm3eG9nQG6vdgffOi8t1hbk=;
+ b=LFCm08eEVZzeEComXaCAQKvmATGWaE6c9BmgeRjhSU4v0O1s3w8EGjsZJ/oArLkusBF9
+ F9P6Ql3cul3XyB9xxfsOaOuzzxAA7EUyxC+2qSqVbwamebh0YNtnAWFSLDRCwz4n/9SD
+ 6yK9vKNcOtsFr9OjHKrTX8Fy9ASQC5g+6oDf1laflZasUv2+Z6d4B4o2oaAK6qSyUzX6
+ 5fpn9IrvX7hqFJMux+ZwBHLfzzNdb9vsgSIDDJWYDlHpN491ZB3wJfvEozx9DqXy9t9t
+ 5iOCHC7xzbK+spTX8tiVfNNssEF4h9UCNkOBnquZJP7h4jVVgYy0TI+4OLm7BhJ7N0I2 zA== 
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ppb1dws04-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ppb1dws08-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 07 Apr 2023 20:06:17 +0000
+	Fri, 07 Apr 2023 20:06:22 +0000
 Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 337IdXYx034243;
-	Fri, 7 Apr 2023 20:06:17 GMT
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 337J0SXs034263;
+	Fri, 7 Apr 2023 20:06:22 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3pptjxeets-1
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3pptjxeey5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 07 Apr 2023 20:06:17 +0000
+	Fri, 07 Apr 2023 20:06:22 +0000
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 337K5tr8010228;
-	Fri, 7 Apr 2023 20:06:16 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 337K5trC010228;
+	Fri, 7 Apr 2023 20:06:21 GMT
 Received: from mnchrist-mac.us.oracle.com (dhcp-10-154-128-1.vpn.oracle.com [10.154.128.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3pptjxeeam-9;
-	Fri, 07 Apr 2023 20:06:16 +0000
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3pptjxeeam-11;
+	Fri, 07 Apr 2023 20:06:21 +0000
 From: Mike Christie <michael.christie@oracle.com>
 To: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
         linux-scsi@vger.kernel.org, james.bottomley@hansenpartnership.com,
         linux-block@vger.kernel.org, dm-devel@redhat.com, snitzer@kernel.org,
         axboe@kernel.dk, linux-nvme@lists.infradead.org, chaitanyak@nvidia.com,
         kbusch@kernel.org, target-devel@vger.kernel.org
-Cc: Mike Christie <michael.christie@oracle.com>,
-        Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH v6 08/18] nvme: Don't hardcode the data len for pr commands
-Date: Fri,  7 Apr 2023 15:05:41 -0500
-Message-Id: <20230407200551.12660-9-michael.christie@oracle.com>
+Cc: Mike Christie <michael.christie@oracle.com>
+Subject: [PATCH v6 10/18] nvme: Add helper to send pr command
+Date: Fri,  7 Apr 2023 15:05:43 -0500
+Message-Id: <20230407200551.12660-11-michael.christie@oracle.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230407200551.12660-1-michael.christie@oracle.com>
 References: <20230407200551.12660-1-michael.christie@oracle.com>
@@ -79,11 +78,11 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 ad
  phishscore=0 bulkscore=0 mlxscore=0 suspectscore=0 spamscore=0
  mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2303200000 definitions=main-2304070180
-X-Proofpoint-GUID: YQAlA42PEOJzYd6iOv01tHwInl0fDVuz
-X-Proofpoint-ORIG-GUID: YQAlA42PEOJzYd6iOv01tHwInl0fDVuz
+X-Proofpoint-GUID: dQ6TViI8gL_Ro_6O9DMW_rTxKHmTPDpB
+X-Proofpoint-ORIG-GUID: dQ6TViI8gL_Ro_6O9DMW_rTxKHmTPDpB
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230407_130623_980369_322050DA 
-X-CRM114-Status: GOOD (  17.30  )
+X-CRM114-CacheID: sfid-20230407_130628_504747_E6820E5B 
+X-CRM114-Status: GOOD (  18.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,62 +97,68 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reservation Report support needs to pass in a variable sized buffer, so
-this patch has the pr command helpers take a data length argument.
+Move the code that checks for multipath support and sends the pr command
+to a new helper so it can be used by the reservation report support added
+in the next patches.
 
 Signed-off-by: Mike Christie <michael.christie@oracle.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 ---
- drivers/nvme/host/core.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ drivers/nvme/host/pr.c | 23 ++++++++++++++---------
+ 1 file changed, 14 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1c9129028bb5..02b39f0126af 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2082,7 +2082,7 @@ static char nvme_pr_type(enum pr_type type)
+diff --git a/drivers/nvme/host/pr.c b/drivers/nvme/host/pr.c
+index ca7a8d531a23..cd93d2e5b340 100644
+--- a/drivers/nvme/host/pr.c
++++ b/drivers/nvme/host/pr.c
+@@ -30,7 +30,7 @@ static char nvme_pr_type(enum pr_type type)
  }
  
  static int nvme_send_ns_head_pr_command(struct block_device *bdev,
--		struct nvme_command *c, u8 data[16])
-+		struct nvme_command *c, u8 *data, unsigned int data_len)
+-		struct nvme_command *c, u8 *data, unsigned int data_len)
++		struct nvme_command *c, void *data, unsigned int data_len)
  {
  	struct nvme_ns_head *head = bdev->bd_disk->private_data;
  	int srcu_idx = srcu_read_lock(&head->srcu);
-@@ -2091,17 +2091,17 @@ static int nvme_send_ns_head_pr_command(struct block_device *bdev,
- 
- 	if (ns) {
- 		c->common.nsid = cpu_to_le32(ns->head->ns_id);
--		ret = nvme_submit_sync_cmd(ns->queue, c, data, 16);
-+		ret = nvme_submit_sync_cmd(ns->queue, c, data, data_len);
- 	}
- 	srcu_read_unlock(&head->srcu, srcu_idx);
- 	return ret;
+@@ -46,7 +46,7 @@ static int nvme_send_ns_head_pr_command(struct block_device *bdev,
  }
- 	
+ 
  static int nvme_send_ns_pr_command(struct nvme_ns *ns, struct nvme_command *c,
--		u8 data[16])
-+		u8 *data, unsigned int data_len)
+-		u8 *data, unsigned int data_len)
++		void *data, unsigned int data_len)
  {
  	c->common.nsid = cpu_to_le32(ns->head->ns_id);
--	return nvme_submit_sync_cmd(ns->queue, c, data, 16);
-+	return nvme_submit_sync_cmd(ns->queue, c, data, data_len);
+ 	return nvme_submit_sync_cmd(ns->queue, c, data, data_len);
+@@ -74,6 +74,17 @@ static int nvme_sc_to_pr_err(int nvme_sc)
+ 	}
  }
  
- static int nvme_sc_to_pr_err(int nvme_sc)
-@@ -2141,10 +2141,11 @@ static int nvme_pr_command(struct block_device *bdev, u32 cdw10,
++static int nvme_send_pr_command(struct block_device *bdev,
++		struct nvme_command *c, void *data, unsigned int data_len)
++{
++	if (IS_ENABLED(CONFIG_NVME_MULTIPATH) &&
++	    bdev->bd_disk->fops == &nvme_ns_head_ops)
++		return nvme_send_ns_head_pr_command(bdev, c, data, data_len);
++
++	return nvme_send_ns_pr_command(bdev->bd_disk->private_data, c, data,
++				       data_len);
++}
++
+ static int nvme_pr_command(struct block_device *bdev, u32 cdw10,
+ 				u64 key, u64 sa_key, u8 op)
+ {
+@@ -87,13 +98,7 @@ static int nvme_pr_command(struct block_device *bdev, u32 cdw10,
+ 	c.common.opcode = op;
+ 	c.common.cdw10 = cpu_to_le32(cdw10);
  
- 	if (IS_ENABLED(CONFIG_NVME_MULTIPATH) &&
- 	    bdev->bd_disk->fops == &nvme_ns_head_ops)
--		ret = nvme_send_ns_head_pr_command(bdev, &c, data);
-+		ret = nvme_send_ns_head_pr_command(bdev, &c, data,
-+						   sizeof(data));
- 	else
- 		ret = nvme_send_ns_pr_command(bdev->bd_disk->private_data, &c,
--					      data);
-+					      data, sizeof(data));
+-	if (IS_ENABLED(CONFIG_NVME_MULTIPATH) &&
+-	    bdev->bd_disk->fops == &nvme_ns_head_ops)
+-		ret = nvme_send_ns_head_pr_command(bdev, &c, data,
+-						   sizeof(data));
+-	else
+-		ret = nvme_send_ns_pr_command(bdev->bd_disk->private_data, &c,
+-					      data, sizeof(data));
++	ret = nvme_send_pr_command(bdev, &c, data, sizeof(data));
  	if (ret < 0)
  		return ret;
  
