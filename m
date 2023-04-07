@@ -4,73 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 886EAC76196
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Apr 2023 20:45:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37792C76196
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Apr 2023 21:18:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jqyMXML+H40wHoEoi1XBTZ7vCB2WLL5i5Oy0Tx0j6vk=; b=xISQDZyyx5sMwzxj4GD/G3yTbf
-	tmbCv7+tPbA+qgIgAmEytCKaStJKvRWMStwrxreEUrBSigS8AWARXfUdlRMxivh7TCRzbcAptXWS9
-	JAXvgexixZfgGVbo0+uDfzTQnnihF2IGX6PRoKFf/QuJkg4zsvlVLIKRLMeqgmuoi5Ai8mvbaKeZu
-	xtE+fC7az5Ne5amEtD/Uqq3QfeTGgCFiVC5o48O2R6ELbH+dtb+74pGSYrhxEEaFJIHF5WBcr5IeI
-	zUC2ULBCKZA1E6jPuIdI7cE4PvvPTSZ670SOsCKaeV+cS43PRQgIeWLUg94dh8ldpWhXRNLzb+KOg
-	0jEVtxKw==;
+	bh=P9Lzi/ZtfXnWhqP/2lFsblJTFnvLSerrPfLluzUW4fw=; b=NiypyKEeOlvhSCQ90ir1vMSHy/
+	WykOX9TxjThUBcbGnwNzY3u/A5hImETzBvmCu/LqORCCMK6dmjK901ghmKxfHMp/8ACYMFpMVOikl
+	gydJe45HRAWRsGggqq5MRebTLQ7LY1bVlILcwiRs/ry6JqNA1IK+JyajX64fFvYLGK36CSZVf+FmK
+	28RMdmzYqgZD1i4XasNlLKeTTIoxJgXzKBP2W2DZducQV3tZoGbuxKEPSsY8ow/hcLRjqrrJNPyog
+	87070paBjQ1VlDvQH611VXoXhkSLoaE8rycVxYOTvRvEWzMTYvulsIto4Jgapscz8pOatCn5gfCNg
+	36pGd8fg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pksxd-00B7kb-21;
-	Fri, 07 Apr 2023 20:45:29 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1pktTE-00BA0E-2Y;
+	Fri, 07 Apr 2023 21:18:08 +0000
+Received: from desiato.infradead.org ([90.155.92.199])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pksxa-00B7kR-2U
+	id 1pksMb-00B3An-0i
 	for linux-nvme@bombadil.infradead.org;
-	Fri, 07 Apr 2023 20:45:27 +0000
+	Fri, 07 Apr 2023 20:07:13 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
 	:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=jqyMXML+H40wHoEoi1XBTZ7vCB2WLL5i5Oy0Tx0j6vk=; b=TGPO8IXFfbqNnlno8pdKCTr/o5
-	3oSw8Mo1naRMD/1L0mGPdzsBJLXOi8bMfyXIvaiXtXJk99CuzHr12Jh5QRwoQN/GIscUbISpN9WGY
-	CyKMQh8coV6DG45bIA8mVXVfwG3NsIbqkNmuVhjLPPVK8kMpjy//APN8DIJxnDqYx34XmYf8nm7up
-	A3Zqa7VP7hDZmiAA++NBGL806OwVHfUQ7+IpFiKD8l+ZIrrLySIcvdm/6YTAgBLtYffHQcUdCIarS
-	MJwTZ/7CJpMoeajEv5xV2w39gV22iXpn7OrlmI2enJFcd7BCzkf6z83r3i3YUEnp27TyXWC5jSJk7
-	Ag6ezeoQ==;
+	bh=P9Lzi/ZtfXnWhqP/2lFsblJTFnvLSerrPfLluzUW4fw=; b=JLGeYSvm7JsideU/Tt6lMIzz/Y
+	gd1FDEAvMwM6L5NMxy0P718CeqySd3X00qGy3aGWeqvlIKZKSNsAhHWMoZQE2sbNotOYV1bPYyn9g
+	hpnZnQ6wpER8mLWB2JMd6uEqP8QnnL19XuDOqFwDfWUYDpdq53Sw/sQsQYl6mz8jdyM93FYsypPB4
+	yNV5ZYMC7yhJggcxYbYtSXFqS+aLNhPkpVAKMedxJVYBCwlgp1gNV+tpz/1YUuETkUKw0/0QRgY8M
+	KgbPQ6jF0ufpMFyPc0/12Mm9aSoDrP+brdtsyvAVVfeJ0rKozdyxtktJ2/yQOjfRYCFbN1mdIXHFB
+	pI9vUM5A==;
 Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by desiato.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pksMN-00BAJp-2E
+	id 1pksMO-00BAJ6-0V
 	for linux-nvme@lists.infradead.org;
-	Fri, 07 Apr 2023 20:07:05 +0000
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 337FwoS4017340;
-	Fri, 7 Apr 2023 20:06:42 GMT
+	Fri, 07 Apr 2023 20:07:11 +0000
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 337FxDxu018772;
+	Fri, 7 Apr 2023 20:06:38 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2022-7-12;
- bh=jqyMXML+H40wHoEoi1XBTZ7vCB2WLL5i5Oy0Tx0j6vk=;
- b=Xl9VSAV7jwEEmu/4VOBy3hg1turDi//t6GYqe8x5Hwai8fsqN0QX47dzgA8sh7VLhs9L
- Ew7RSUezyilMXyXJ/8WvNxxH+IJ1lS/BaLyzrr7nEFNSFV1qP3Y5NOOLLYAbWxLSgWHM
- YLbW7uhOsjcBAHrSw5VYp9Ip1RWhsLRi6DnWanyNMkOg2A1PPhmiAvb4A7zuymDlqfcz
- HsoIesEpC2lKXqez0mOCq3A3QOxREYUHHl62vheP6CE9CzEbDopFrda+xEd7zwU6YadJ
- yst8K/37RuAQYfvH20x/SBsglpfP6xYbYCbGeNHI8n1wewMHPtM7I7UhIuaIrv9LcAZG HA== 
+ bh=P9Lzi/ZtfXnWhqP/2lFsblJTFnvLSerrPfLluzUW4fw=;
+ b=CPydHHTaFanJ34djp2GVfXEwbinLyZdi5Fv6v0qfBYXUYNdRH8Otp1b1u7uLOGAv99Gy
+ 9+zQqtmxzDopPNeuzOVn5j4BIid2+igqSFM+1UaSOrxLXx714iGgo/P8JqIeZHVpep4Q
+ MhSDCvH0xeZjaajtdIYMMdjDN4tRuD4qkrTB2Y2ihvelTeVeKU+CjB8Qq9Kk/kRYLaVz
+ PbKZTKziSMD/6gIyEe5VJAmCyLFu8jzKxMLBymPrl6k79BvD9NDi5/K7jCm+O+oZOuGb
+ viGhC7KDMJZMXcBCe2W5YhFMfiUHC+RCs2aSyaxo2epTyIlmMJUbDJ46snn27a2+50Et lA== 
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ppcnd5wvq-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ppb1dws0s-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 07 Apr 2023 20:06:41 +0000
+	Fri, 07 Apr 2023 20:06:38 +0000
 Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 337IB9al034233;
-	Fri, 7 Apr 2023 20:06:40 GMT
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 337IB9ak034233;
+	Fri, 7 Apr 2023 20:06:38 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3pptjxefcc-1
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3pptjxefaw-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 07 Apr 2023 20:06:40 +0000
+	Fri, 07 Apr 2023 20:06:38 +0000
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 337K5trQ010228;
-	Fri, 7 Apr 2023 20:06:40 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 337K5trO010228;
+	Fri, 7 Apr 2023 20:06:37 GMT
 Received: from mnchrist-mac.us.oracle.com (dhcp-10-154-128-1.vpn.oracle.com [10.154.128.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3pptjxeeam-18;
-	Fri, 07 Apr 2023 20:06:39 +0000
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3pptjxeeam-17;
+	Fri, 07 Apr 2023 20:06:37 +0000
 From: Mike Christie <michael.christie@oracle.com>
 To: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
         linux-scsi@vger.kernel.org, james.bottomley@hansenpartnership.com,
@@ -78,9 +78,9 @@ To: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
         axboe@kernel.dk, linux-nvme@lists.infradead.org, chaitanyak@nvidia.com,
         kbusch@kernel.org, target-devel@vger.kernel.org
 Cc: Mike Christie <michael.christie@oracle.com>
-Subject: [PATCH v6 17/18] scsi: target: Report and detect unsupported PR commands
-Date: Fri,  7 Apr 2023 15:05:50 -0500
-Message-Id: <20230407200551.12660-18-michael.christie@oracle.com>
+Subject: [PATCH v6 16/18] scsi: target: Pass struct target_opcode_descriptor to enabled
+Date: Fri,  7 Apr 2023 15:05:49 -0500
+Message-Id: <20230407200551.12660-17-michael.christie@oracle.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230407200551.12660-1-michael.christie@oracle.com>
 References: <20230407200551.12660-1-michael.christie@oracle.com>
@@ -93,11 +93,11 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 ad
  phishscore=0 bulkscore=0 mlxscore=0 suspectscore=0 spamscore=0
  mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2303200000 definitions=main-2304070180
-X-Proofpoint-GUID: ksHyArDU4589RKAh5bIWhD07mahRXkYW
-X-Proofpoint-ORIG-GUID: ksHyArDU4589RKAh5bIWhD07mahRXkYW
+X-Proofpoint-GUID: XpTaNgBy509X8hCf_df6vmrGqD8QNWMH
+X-Proofpoint-ORIG-GUID: XpTaNgBy509X8hCf_df6vmrGqD8QNWMH
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230407_210702_414998_D116B82D 
-X-CRM114-Status: GOOD (  21.30  )
+X-CRM114-CacheID: sfid-20230407_210709_453446_073A4C6B 
+X-CRM114-Status: GOOD (  20.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,179 +112,175 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The backend modules don't know about ports and I_T nexuses and the pr_ops
-callouts the modules will use don't support the old RESERVE/RELEASE
-commands. This patch has us report we don't support those types of
-commands and fail them.
+The iblock pr_ops support does not support commands that require port or
+I_T Nexus info. This adds a struct target_opcode_descriptor as an argument
+to the enabled callout so we can still have the common tcm_is_pr_enabled
+and tcm_is_scsi2_reservations_enabled functions and also determine if the
+command is supported based on the command and service action and device
+settings.
 
 Signed-off-by: Mike Christie <michael.christie@oracle.com>
 ---
- drivers/target/target_core_pr.c  | 17 ++++++++
- drivers/target/target_core_spc.c | 75 +++++++++++++++++++++++---------
- 2 files changed, 72 insertions(+), 20 deletions(-)
+ drivers/target/target_core_spc.c  | 40 +++++++++++++++++++------------
+ include/target/target_core_base.h |  3 ++-
+ 2 files changed, 27 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/target/target_core_pr.c b/drivers/target/target_core_pr.c
-index e16ef7d676af..7a3f07979a02 100644
---- a/drivers/target/target_core_pr.c
-+++ b/drivers/target/target_core_pr.c
-@@ -3554,6 +3554,18 @@ target_try_pr_out_pt(struct se_cmd *cmd, u8 sa, u64 res_key, u64 sa_res_key,
- 		return TCM_UNSUPPORTED_SCSI_OPCODE;
- 	}
- 
-+	switch (sa) {
-+	case PRO_REGISTER_AND_MOVE:
-+	case PRO_REPLACE_LOST_RESERVATION:
-+		pr_err("SPC-3 PR: PRO_REGISTER_AND_MOVE and PRO_REPLACE_LOST_RESERVATION are not supported by PR passthrough.\n");
-+		return TCM_UNSUPPORTED_SCSI_OPCODE;
-+	}
-+
-+	if (spec_i_pt || all_tg_pt) {
-+		pr_err("SPC-3 PR: SPEC_I_PT and ALL_TG_PT are not supported by PR passthrough.\n");
-+		return TCM_UNSUPPORTED_SCSI_OPCODE;
-+	}
-+
- 	return ops->execute_pr_out(cmd, sa, res_key, sa_res_key, type, aptpl);
- }
- 
-@@ -4082,6 +4094,11 @@ static sense_reason_t target_try_pr_in_pt(struct se_cmd *cmd, u8 sa)
- 		return TCM_UNSUPPORTED_SCSI_OPCODE;
- 	}
- 
-+	if (sa == PRI_READ_FULL_STATUS) {
-+		pr_err("SPC-3 PR: PRI_READ_FULL_STATUS is not supported by PR passthrough.\n");
-+		return TCM_UNSUPPORTED_SCSI_OPCODE;
-+	}
-+
- 	buf = transport_kmap_data_sg(cmd);
- 	if (!buf)
- 		return TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE;
 diff --git a/drivers/target/target_core_spc.c b/drivers/target/target_core_spc.c
-index caf8d1325007..053bd2eea0e6 100644
+index 00d34616df5d..caf8d1325007 100644
 --- a/drivers/target/target_core_spc.c
 +++ b/drivers/target/target_core_spc.c
-@@ -1672,7 +1672,41 @@ static bool tcm_is_pr_enabled(struct target_opcode_descriptor *descr,
+@@ -1429,7 +1429,8 @@ static struct target_opcode_descriptor tcm_opcode_write_verify16 = {
+ 	.update_usage_bits = set_dpofua_usage_bits,
+ };
+ 
+-static bool tcm_is_ws_enabled(struct se_cmd *cmd)
++static bool tcm_is_ws_enabled(struct target_opcode_descriptor *descr,
++			      struct se_cmd *cmd)
+ {
+ 	struct exec_cmd_ops *ops = cmd->protocol_data;
+ 	struct se_device *dev = cmd->se_dev;
+@@ -1456,7 +1457,8 @@ static struct target_opcode_descriptor tcm_opcode_write_same32 = {
+ 	.update_usage_bits = set_dpofua_usage_bits32,
+ };
+ 
+-static bool tcm_is_caw_enabled(struct se_cmd *cmd)
++static bool tcm_is_caw_enabled(struct target_opcode_descriptor *descr,
++			       struct se_cmd *cmd)
  {
  	struct se_device *dev = cmd->se_dev;
  
--	return dev->dev_attrib.emulate_pr;
-+	if (!dev->dev_attrib.emulate_pr)
-+		return false;
-+
-+	if (!(dev->transport_flags & TRANSPORT_FLAG_PASSTHROUGH_PGR))
-+		return true;
-+
-+	switch (descr->opcode) {
-+	case RESERVE:
-+	case RESERVE_10:
-+	case RELEASE:
-+	case RELEASE_10:
-+		/*
-+		 * The pr_ops which are used by the backend modules don't
-+		 * support these commands.
-+		 */
-+		return false;
-+	case PERSISTENT_RESERVE_OUT:
-+		switch (descr->service_action) {
-+		case PRO_REGISTER_AND_MOVE:
-+		case PRO_REPLACE_LOST_RESERVATION:
-+			/*
-+			 * The backend modules don't have access to ports and
-+			 * I_T nexuses so they can't handle these type of
-+			 * requests.
-+			 */
-+			return false;
-+		}
-+		break;
-+	case PERSISTENT_RESERVE_IN:
-+		if (descr->service_action == PRI_READ_FULL_STATUS)
-+			return false;
-+		break;
-+	}
-+
-+	return true;
+@@ -1496,7 +1498,8 @@ static struct target_opcode_descriptor tcm_opcode_read_capacity16 = {
+ 		       0xff, 0xff, 0x00, SCSI_CONTROL_MASK},
+ };
+ 
+-static bool tcm_is_rep_ref_enabled(struct se_cmd *cmd)
++static bool tcm_is_rep_ref_enabled(struct target_opcode_descriptor *descr,
++				   struct se_cmd *cmd)
+ {
+ 	struct se_device *dev = cmd->se_dev;
+ 
+@@ -1507,7 +1510,6 @@ static bool tcm_is_rep_ref_enabled(struct se_cmd *cmd)
+ 	}
+ 	spin_unlock(&dev->t10_alua.lba_map_lock);
+ 	return true;
+-
  }
  
- static struct target_opcode_descriptor tcm_opcode_pri_read_caps = {
-@@ -1797,22 +1831,13 @@ static struct target_opcode_descriptor tcm_opcode_pro_register_move = {
+ static struct target_opcode_descriptor tcm_opcode_read_report_refferals = {
+@@ -1542,7 +1544,8 @@ static struct target_opcode_descriptor tcm_opcode_sync_cache16 = {
+ 		       0xff, 0xff, SCSI_GROUP_NUMBER_MASK, SCSI_CONTROL_MASK},
+ };
+ 
+-static bool tcm_is_unmap_enabled(struct se_cmd *cmd)
++static bool tcm_is_unmap_enabled(struct target_opcode_descriptor *descr,
++				 struct se_cmd *cmd)
+ {
+ 	struct exec_cmd_ops *ops = cmd->protocol_data;
+ 	struct se_device *dev = cmd->se_dev;
+@@ -1664,7 +1667,8 @@ static struct target_opcode_descriptor tcm_opcode_pri_read_resrv = {
+ 		       0xff, SCSI_CONTROL_MASK},
+ };
+ 
+-static bool tcm_is_pr_enabled(struct se_cmd *cmd)
++static bool tcm_is_pr_enabled(struct target_opcode_descriptor *descr,
++			      struct se_cmd *cmd)
+ {
+ 	struct se_device *dev = cmd->se_dev;
+ 
+@@ -1793,7 +1797,9 @@ static struct target_opcode_descriptor tcm_opcode_pro_register_move = {
  	.enabled = tcm_is_pr_enabled,
  };
  
--static bool
--tcm_is_scsi2_reservations_enabled(struct target_opcode_descriptor *descr,
--				  struct se_cmd *cmd)
--{
--	struct se_device *dev = cmd->se_dev;
--
--	return dev->dev_attrib.emulate_pr;
--}
--
- static struct target_opcode_descriptor tcm_opcode_release = {
- 	.support = SCSI_SUPPORT_FULL,
- 	.opcode = RELEASE,
- 	.cdb_size = 6,
- 	.usage_bits = {RELEASE, 0x00, 0x00, 0x00,
- 		       0x00, SCSI_CONTROL_MASK},
--	.enabled = tcm_is_scsi2_reservations_enabled,
-+	.enabled = tcm_is_pr_enabled,
- };
- 
- static struct target_opcode_descriptor tcm_opcode_release10 = {
-@@ -1822,7 +1847,7 @@ static struct target_opcode_descriptor tcm_opcode_release10 = {
- 	.usage_bits = {RELEASE_10, 0x00, 0x00, 0x00,
- 		       0x00, 0x00, 0x00, 0xff,
- 		       0xff, SCSI_CONTROL_MASK},
--	.enabled = tcm_is_scsi2_reservations_enabled,
-+	.enabled = tcm_is_pr_enabled,
- };
- 
- static struct target_opcode_descriptor tcm_opcode_reserve = {
-@@ -1831,7 +1856,7 @@ static struct target_opcode_descriptor tcm_opcode_reserve = {
- 	.cdb_size = 6,
- 	.usage_bits = {RESERVE, 0x00, 0x00, 0x00,
- 		       0x00, SCSI_CONTROL_MASK},
--	.enabled = tcm_is_scsi2_reservations_enabled,
-+	.enabled = tcm_is_pr_enabled,
- };
- 
- static struct target_opcode_descriptor tcm_opcode_reserve10 = {
-@@ -1841,7 +1866,7 @@ static struct target_opcode_descriptor tcm_opcode_reserve10 = {
- 	.usage_bits = {RESERVE_10, 0x00, 0x00, 0x00,
- 		       0x00, 0x00, 0x00, 0xff,
- 		       0xff, SCSI_CONTROL_MASK},
--	.enabled = tcm_is_scsi2_reservations_enabled,
-+	.enabled = tcm_is_pr_enabled,
- };
- 
- static struct target_opcode_descriptor tcm_opcode_request_sense = {
-@@ -2246,12 +2271,22 @@ spc_parse_cdb(struct se_cmd *cmd, unsigned int *size)
+-static bool tcm_is_scsi2_reservations_enabled(struct se_cmd *cmd)
++static bool
++tcm_is_scsi2_reservations_enabled(struct target_opcode_descriptor *descr,
++				  struct se_cmd *cmd)
+ {
  	struct se_device *dev = cmd->se_dev;
- 	unsigned char *cdb = cmd->t_task_cdb;
  
--	if (!dev->dev_attrib.emulate_pr &&
--	    ((cdb[0] == PERSISTENT_RESERVE_IN) ||
--	     (cdb[0] == PERSISTENT_RESERVE_OUT) ||
--	     (cdb[0] == RELEASE || cdb[0] == RELEASE_10) ||
--	     (cdb[0] == RESERVE || cdb[0] == RESERVE_10))) {
--		return TCM_UNSUPPORTED_SCSI_OPCODE;
-+	switch (cdb[0]) {
-+	case RESERVE:
-+	case RESERVE_10:
-+	case RELEASE:
-+	case RELEASE_10:
-+		if (!dev->dev_attrib.emulate_pr)
-+			return TCM_UNSUPPORTED_SCSI_OPCODE;
-+
-+		if (dev->transport_flags & TRANSPORT_FLAG_PASSTHROUGH_PGR)
-+			return TCM_UNSUPPORTED_SCSI_OPCODE;
-+		break;
-+	case PERSISTENT_RESERVE_IN:
-+	case PERSISTENT_RESERVE_OUT:
-+		if (!dev->dev_attrib.emulate_pr)
-+			return TCM_UNSUPPORTED_SCSI_OPCODE;
-+		break;
- 	}
+@@ -1854,7 +1860,8 @@ static struct target_opcode_descriptor tcm_opcode_inquiry = {
+ 		       0xff, SCSI_CONTROL_MASK},
+ };
  
- 	switch (cdb[0]) {
+-static bool tcm_is_3pc_enabled(struct se_cmd *cmd)
++static bool tcm_is_3pc_enabled(struct target_opcode_descriptor *descr,
++			       struct se_cmd *cmd)
+ {
+ 	struct se_device *dev = cmd->se_dev;
+ 
+@@ -1915,8 +1922,8 @@ static struct target_opcode_descriptor tcm_opcode_report_target_pgs = {
+ 		       0xff, 0xff, 0x00, SCSI_CONTROL_MASK},
+ };
+ 
+-
+-static bool spc_rsoc_enabled(struct se_cmd *cmd)
++static bool spc_rsoc_enabled(struct target_opcode_descriptor *descr,
++			     struct se_cmd *cmd)
+ {
+ 	struct se_device *dev = cmd->se_dev;
+ 
+@@ -1936,7 +1943,8 @@ static struct target_opcode_descriptor tcm_opcode_report_supp_opcodes = {
+ 	.enabled = spc_rsoc_enabled,
+ };
+ 
+-static bool tcm_is_set_tpg_enabled(struct se_cmd *cmd)
++static bool tcm_is_set_tpg_enabled(struct target_opcode_descriptor *descr,
++				   struct se_cmd *cmd)
+ {
+ 	struct t10_alua_tg_pt_gp *l_tg_pt_gp;
+ 	struct se_lun *l_lun = cmd->se_lun;
+@@ -2123,7 +2131,7 @@ spc_rsoc_get_descr(struct se_cmd *cmd, struct target_opcode_descriptor **opcode)
+ 			if (descr->serv_action_valid)
+ 				return TCM_INVALID_CDB_FIELD;
+ 
+-			if (!descr->enabled || descr->enabled(cmd))
++			if (!descr->enabled || descr->enabled(descr, cmd))
+ 				*opcode = descr;
+ 			break;
+ 		case 0x2:
+@@ -2137,7 +2145,8 @@ spc_rsoc_get_descr(struct se_cmd *cmd, struct target_opcode_descriptor **opcode)
+ 			 */
+ 			if (descr->serv_action_valid &&
+ 			    descr->service_action == requested_sa) {
+-				if (!descr->enabled || descr->enabled(cmd))
++				if (!descr->enabled || descr->enabled(descr,
++								      cmd))
+ 					*opcode = descr;
+ 			} else if (!descr->serv_action_valid)
+ 				return TCM_INVALID_CDB_FIELD;
+@@ -2150,7 +2159,8 @@ spc_rsoc_get_descr(struct se_cmd *cmd, struct target_opcode_descriptor **opcode)
+ 			 * be returned in the one_command parameter data format.
+ 			 */
+ 			if (descr->service_action == requested_sa)
+-				if (!descr->enabled || descr->enabled(cmd))
++				if (!descr->enabled || descr->enabled(descr,
++								      cmd))
+ 					*opcode = descr;
+ 			break;
+ 		}
+@@ -2207,7 +2217,7 @@ spc_emulate_report_supp_op_codes(struct se_cmd *cmd)
+ 
+ 		for (i = 0; i < ARRAY_SIZE(tcm_supported_opcodes); i++) {
+ 			descr = tcm_supported_opcodes[i];
+-			if (descr->enabled && !descr->enabled(cmd))
++			if (descr->enabled && !descr->enabled(descr, cmd))
+ 				continue;
+ 
+ 			response_length += spc_rsoc_encode_command_descriptor(
+diff --git a/include/target/target_core_base.h b/include/target/target_core_base.h
+index 12c9ba16217e..04646b3dbf75 100644
+--- a/include/target/target_core_base.h
++++ b/include/target/target_core_base.h
+@@ -878,7 +878,8 @@ struct target_opcode_descriptor {
+ 	u8			specific_timeout;
+ 	u16			nominal_timeout;
+ 	u16			recommended_timeout;
+-	bool			(*enabled)(struct se_cmd *cmd);
++	bool			(*enabled)(struct target_opcode_descriptor *descr,
++					   struct se_cmd *cmd);
+ 	void			(*update_usage_bits)(u8 *usage_bits,
+ 						     struct se_device *dev);
+ 	u8			usage_bits[];
 -- 
 2.25.1
 
