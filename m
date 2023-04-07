@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 241B6C77B70
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B197C77B73
 	for <linux-nvme@archiver.kernel.org>; Fri,  7 Apr 2023 20:06:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,50 +12,50 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uG5ptDZBxQzL3ik28hq846ey4CgJqd+qDNeZirWGL0g=; b=zsy6kyzSwqYCkqzKPmZ8r4voCi
-	wAtjS79VWzMXTB00H19fMsAb88oDT/HLgsiqyJ7/D6SsUher22hOEDB711phT4meBSZysT7icV9HG
-	lR1VozF2FocAs5YaALiGuviTeMHGMXph4dMkx6fL+CkCgD5kw58XgkkyJLvB8hOa+fgtUyzqZe6Iz
-	ussO9t3WzdNLBInQu0hQJnoPnYmGTdWVjnq9/uyfIKuirmqqRolfdnQ7aOb3GJRMedK3CkgDmKVK/
-	ZY3QAkF6BZw/v9jvYLBDQCtGHMM+UUmz9dyelJ5ompcjov67yCi9VTsutjN1PRvOY7Od4aTOfrkl4
-	tYMsRJ5g==;
+	bh=c+/xgt+NecXOuC0x/u0/hD61nO30H//J5PFDPsOXb/Y=; b=BaZ2yGYLSQS0ctyQdofwvZByo9
+	MPq8QTdj0zIQpjDPmakK5GJ1xgNh7PtM9OuJSkm5H4oP2t+G9eDwSVZagWVnMdRfbMbxZyW5k+8eR
+	cwHnEyRyeKW34wpOye9Hcm5CVoOTkRh0HI2s3I6+OcRy3oE5y+4l3xhdJkt9TJiV03F71qa7Kzfav
+	UcGVhXL9RA2s+68rTcQE8MbE4MVBszpGwTEDTWKJFRwqu84v5dTVyxnvyV3mo/dxhc35grTSjVgnr
+	NqJqqoInoRO4wULQqLOmAoIkpk4c75NI33qBmKF3tMDBbh01Iq9FzWr7f8e+wlYr/lDeczuOF/1Ul
+	aCOsdlJA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pksLi-00B2YB-0h;
+	id 1pksLi-00B2YW-31;
 	Fri, 07 Apr 2023 20:06:18 +0000
 Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pksLe-00B2Uq-1o
+	id 1pksLe-00B2Vb-1o
 	for linux-nvme@lists.infradead.org;
-	Fri, 07 Apr 2023 20:06:15 +0000
+	Fri, 07 Apr 2023 20:06:16 +0000
 Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 337FxLvt024783;
-	Fri, 7 Apr 2023 20:06:05 GMT
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 337FxLZv024780;
+	Fri, 7 Apr 2023 20:06:08 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2022-7-12;
- bh=uG5ptDZBxQzL3ik28hq846ey4CgJqd+qDNeZirWGL0g=;
- b=oKiQDn0zIfFPUBOUTK+BsvXgRXI67DKuR4FPPb/LDwJhM7Wb+Qmf/LupPgF4d6FQ+nbY
- l/5oY0E+5E+bomiZ5mApVcV62z26YL+Jq7fOSjy+anUr0B9vz/b2nRB3RNXxQaTWME+F
- /pOH6j59LwiMWe4oXdLpwE3DXerDGNajJpZLIjRpvaloobNw8ugP2g1TE7JcV8cRJrzG
- 0m65OSHYWtURRt8QOyJXzCeDDnQ/vfmmZCzJHh8EINla5rLPL5jCKsHiWmxW87VqiQiQ
- rUQ/rjIKZyw4uTk9mAZcyYYKKQfNSwLGL5PFutJ96DEqt0bgqsfO7Z9qQP1uh4fA12cL nA== 
+ bh=c+/xgt+NecXOuC0x/u0/hD61nO30H//J5PFDPsOXb/Y=;
+ b=SvGkmPs6El6Iayg4JtvtwBbuTA+v0cTOoQGxbLdTLKdLnNNmF/SSD+5SfSww9yY1kHg7
+ //OdvtpBZ5MqPyShvekzf77WDAjjR1QtR2Sfdnkhq5T1mC2e/UHviJuoQDsz07nsy3nQ
+ 8Qsk70y9vEDrjye0ixSFKLmiGT7/c3Xid2+EsmEF5ilWZpt66DQxF7NpHxL64I5T0dgm
+ JhOVWyQ0F7+Oi+bOj9aSHSEEK7gHVo1uJT73XSi82zdtECzrET5YzrLgoTZNFeZU/JRf
+ 4bGHzdGlgISJJizDOvSamk24L7aX7LDsX8FfrPB5clNWKVnTz1v8FNsnLrjmw5qVjUWN Wg== 
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ppcgawubs-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ppcgawubt-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 07 Apr 2023 20:06:05 +0000
+	Fri, 07 Apr 2023 20:06:08 +0000
 Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 337IQ4Bp034230;
-	Fri, 7 Apr 2023 20:06:03 GMT
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 337IvZRv034183;
+	Fri, 7 Apr 2023 20:06:06 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3pptjxeehb-1
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3pptjxeekd-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 07 Apr 2023 20:06:03 +0000
+	Fri, 07 Apr 2023 20:06:06 +0000
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 337K5tqw010228;
-	Fri, 7 Apr 2023 20:06:03 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 337K5tr0010228;
+	Fri, 7 Apr 2023 20:06:05 GMT
 Received: from mnchrist-mac.us.oracle.com (dhcp-10-154-128-1.vpn.oracle.com [10.154.128.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3pptjxeeam-4;
-	Fri, 07 Apr 2023 20:06:03 +0000
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3pptjxeeam-5;
+	Fri, 07 Apr 2023 20:06:05 +0000
 From: Mike Christie <michael.christie@oracle.com>
 To: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
         linux-scsi@vger.kernel.org, james.bottomley@hansenpartnership.com,
@@ -64,9 +64,9 @@ To: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
         kbusch@kernel.org, target-devel@vger.kernel.org
 Cc: Mike Christie <michael.christie@oracle.com>,
         Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH v6 03/18] scsi: Rename sd_pr_command
-Date: Fri,  7 Apr 2023 15:05:36 -0500
-Message-Id: <20230407200551.12660-4-michael.christie@oracle.com>
+Subject: [PATCH v6 04/18] scsi: Move sd_pr_type to scsi_common
+Date: Fri,  7 Apr 2023 15:05:37 -0500
+Message-Id: <20230407200551.12660-5-michael.christie@oracle.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230407200551.12660-1-michael.christie@oracle.com>
 References: <20230407200551.12660-1-michael.christie@oracle.com>
@@ -79,11 +79,11 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 ad
  phishscore=0 bulkscore=0 mlxscore=0 suspectscore=0 spamscore=0
  mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2303200000 definitions=main-2304070180
-X-Proofpoint-GUID: x8Xro1SoGxfFO1bjCTfE3ot47VMevWyN
-X-Proofpoint-ORIG-GUID: x8Xro1SoGxfFO1bjCTfE3ot47VMevWyN
+X-Proofpoint-GUID: BUqCgAoPf8T5Ox2jhF9zYyUJ-H8z3gi4
+X-Proofpoint-ORIG-GUID: BUqCgAoPf8T5Ox2jhF9zYyUJ-H8z3gi4
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230407_130614_607129_DD4A6B31 
-X-CRM114-Status: GOOD (  16.70  )
+X-CRM114-CacheID: sfid-20230407_130614_607457_AE19C795 
+X-CRM114-Status: GOOD (  20.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,68 +98,160 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Rename sd_pr_command to sd_pr_out_command to match a
-sd_pr_in_command helper added in the next patches.
+LIO is going to want to do the same block to/from SCSI pr types as sd.c
+so this moves the sd_pr_type helper to scsi_common and renames it. The
+next patch will then also add a helper to go from the SCSI value to the
+block one for use with PERSISTENT_RESERVE_IN commands.
 
 Signed-off-by: Mike Christie <michael.christie@oracle.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
 ---
- drivers/scsi/sd.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/scsi/scsi_common.c | 22 ++++++++++++++++++++++
+ drivers/scsi/sd.c          | 33 ++++++++-------------------------
+ include/scsi/scsi_common.h | 12 ++++++++++++
+ 3 files changed, 42 insertions(+), 25 deletions(-)
 
+diff --git a/drivers/scsi/scsi_common.c b/drivers/scsi/scsi_common.c
+index 6e50e81a8216..11bf6c275d4e 100644
+--- a/drivers/scsi/scsi_common.c
++++ b/drivers/scsi/scsi_common.c
+@@ -8,6 +8,7 @@
+ #include <linux/string.h>
+ #include <linux/errno.h>
+ #include <linux/module.h>
++#include <uapi/linux/pr.h>
+ #include <asm/unaligned.h>
+ #include <scsi/scsi_common.h>
+ 
+@@ -63,6 +64,27 @@ const char *scsi_device_type(unsigned type)
+ }
+ EXPORT_SYMBOL(scsi_device_type);
+ 
++enum scsi_pr_type block_pr_type_to_scsi(enum pr_type type)
++{
++	switch (type) {
++	case PR_WRITE_EXCLUSIVE:
++		return SCSI_PR_WRITE_EXCLUSIVE;
++	case PR_EXCLUSIVE_ACCESS:
++		return SCSI_PR_EXCLUSIVE_ACCESS;
++	case PR_WRITE_EXCLUSIVE_REG_ONLY:
++		return SCSI_PR_WRITE_EXCLUSIVE_REG_ONLY;
++	case PR_EXCLUSIVE_ACCESS_REG_ONLY:
++		return SCSI_PR_EXCLUSIVE_ACCESS_REG_ONLY;
++	case PR_WRITE_EXCLUSIVE_ALL_REGS:
++		return SCSI_PR_WRITE_EXCLUSIVE_ALL_REGS;
++	case PR_EXCLUSIVE_ACCESS_ALL_REGS:
++		return SCSI_PR_EXCLUSIVE_ACCESS_ALL_REGS;
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(block_pr_type_to_scsi);
++
+ /**
+  * scsilun_to_int - convert a scsi_lun to an int
+  * @scsilun:	struct scsi_lun to be converted.
 diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
-index 4bb87043e6db..00b9b6145fbc 100644
+index 00b9b6145fbc..256c582571fd 100644
 --- a/drivers/scsi/sd.c
 +++ b/drivers/scsi/sd.c
-@@ -1742,7 +1742,7 @@ static int sd_scsi_to_pr_err(struct scsi_sense_hdr *sshdr, int result)
+@@ -67,6 +67,7 @@
+ #include <scsi/scsi_host.h>
+ #include <scsi/scsi_ioctl.h>
+ #include <scsi/scsicam.h>
++#include <scsi/scsi_common.h>
+ 
+ #include "sd.h"
+ #include "scsi_priv.h"
+@@ -1692,26 +1693,6 @@ static int sd_get_unique_id(struct gendisk *disk, u8 id[16],
+ 	return ret;
+ }
+ 
+-static char sd_pr_type(enum pr_type type)
+-{
+-	switch (type) {
+-	case PR_WRITE_EXCLUSIVE:
+-		return 0x01;
+-	case PR_EXCLUSIVE_ACCESS:
+-		return 0x03;
+-	case PR_WRITE_EXCLUSIVE_REG_ONLY:
+-		return 0x05;
+-	case PR_EXCLUSIVE_ACCESS_REG_ONLY:
+-		return 0x06;
+-	case PR_WRITE_EXCLUSIVE_ALL_REGS:
+-		return 0x07;
+-	case PR_EXCLUSIVE_ACCESS_ALL_REGS:
+-		return 0x08;
+-	default:
+-		return 0;
+-	}
+-};
+-
+ static int sd_scsi_to_pr_err(struct scsi_sense_hdr *sshdr, int result)
+ {
+ 	switch (host_byte(result)) {
+@@ -1742,8 +1723,8 @@ static int sd_scsi_to_pr_err(struct scsi_sense_hdr *sshdr, int result)
  	}
  }
  
--static int sd_pr_command(struct block_device *bdev, u8 sa,
-+static int sd_pr_out_command(struct block_device *bdev, u8 sa,
- 		u64 key, u64 sa_key, u8 type, u8 flags)
+-static int sd_pr_out_command(struct block_device *bdev, u8 sa,
+-		u64 key, u64 sa_key, u8 type, u8 flags)
++static int sd_pr_out_command(struct block_device *bdev, u8 sa, u64 key,
++			     u64 sa_key, enum scsi_pr_type type, u8 flags)
  {
  	struct scsi_disk *sdkp = scsi_disk(bdev->bd_disk);
-@@ -1785,7 +1785,7 @@ static int sd_pr_register(struct block_device *bdev, u64 old_key, u64 new_key,
- {
- 	if (flags & ~PR_FL_IGNORE_KEY)
- 		return -EOPNOTSUPP;
--	return sd_pr_command(bdev, (flags & PR_FL_IGNORE_KEY) ? 0x06 : 0x00,
-+	return sd_pr_out_command(bdev, (flags & PR_FL_IGNORE_KEY) ? 0x06 : 0x00,
- 			old_key, new_key, 0,
- 			(1 << 0) /* APTPL */);
- }
-@@ -1795,24 +1795,24 @@ static int sd_pr_reserve(struct block_device *bdev, u64 key, enum pr_type type,
+ 	struct scsi_device *sdev = sdkp->device;
+@@ -1795,19 +1776,21 @@ static int sd_pr_reserve(struct block_device *bdev, u64 key, enum pr_type type,
  {
  	if (flags)
  		return -EOPNOTSUPP;
--	return sd_pr_command(bdev, 0x01, key, 0, sd_pr_type(type), 0);
-+	return sd_pr_out_command(bdev, 0x01, key, 0, sd_pr_type(type), 0);
+-	return sd_pr_out_command(bdev, 0x01, key, 0, sd_pr_type(type), 0);
++	return sd_pr_out_command(bdev, 0x01, key, 0,
++				 block_pr_type_to_scsi(type), 0);
  }
  
  static int sd_pr_release(struct block_device *bdev, u64 key, enum pr_type type)
  {
--	return sd_pr_command(bdev, 0x02, key, 0, sd_pr_type(type), 0);
-+	return sd_pr_out_command(bdev, 0x02, key, 0, sd_pr_type(type), 0);
+-	return sd_pr_out_command(bdev, 0x02, key, 0, sd_pr_type(type), 0);
++	return sd_pr_out_command(bdev, 0x02, key, 0,
++				 block_pr_type_to_scsi(type), 0);
  }
  
  static int sd_pr_preempt(struct block_device *bdev, u64 old_key, u64 new_key,
  		enum pr_type type, bool abort)
  {
--	return sd_pr_command(bdev, abort ? 0x05 : 0x04, old_key, new_key,
-+	return sd_pr_out_command(bdev, abort ? 0x05 : 0x04, old_key, new_key,
- 			     sd_pr_type(type), 0);
+ 	return sd_pr_out_command(bdev, abort ? 0x05 : 0x04, old_key, new_key,
+-			     sd_pr_type(type), 0);
++				 block_pr_type_to_scsi(type), 0);
  }
  
  static int sd_pr_clear(struct block_device *bdev, u64 key)
- {
--	return sd_pr_command(bdev, 0x03, key, 0, 0, 0);
-+	return sd_pr_out_command(bdev, 0x03, key, 0, 0, 0);
- }
+diff --git a/include/scsi/scsi_common.h b/include/scsi/scsi_common.h
+index 5b567b43e1b1..e25291bbbe9b 100644
+--- a/include/scsi/scsi_common.h
++++ b/include/scsi/scsi_common.h
+@@ -7,8 +7,20 @@
+ #define _SCSI_COMMON_H_
  
- static const struct pr_ops sd_pr_ops = {
+ #include <linux/types.h>
++#include <uapi/linux/pr.h>
+ #include <scsi/scsi_proto.h>
+ 
++enum scsi_pr_type {
++	SCSI_PR_WRITE_EXCLUSIVE			= 0x01,
++	SCSI_PR_EXCLUSIVE_ACCESS		= 0x03,
++	SCSI_PR_WRITE_EXCLUSIVE_REG_ONLY	= 0x05,
++	SCSI_PR_EXCLUSIVE_ACCESS_REG_ONLY	= 0x06,
++	SCSI_PR_WRITE_EXCLUSIVE_ALL_REGS	= 0x07,
++	SCSI_PR_EXCLUSIVE_ACCESS_ALL_REGS	= 0x08,
++};
++
++enum scsi_pr_type block_pr_type_to_scsi(enum pr_type type);
++
+ static inline unsigned
+ scsi_varlen_cdb_length(const void *hdr)
+ {
 -- 
 2.25.1
 
