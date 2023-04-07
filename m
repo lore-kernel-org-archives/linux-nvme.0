@@ -4,100 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37792C76196
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Apr 2023 21:18:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2F6DC6FD1D
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Apr 2023 21:29:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=P9Lzi/ZtfXnWhqP/2lFsblJTFnvLSerrPfLluzUW4fw=; b=NiypyKEeOlvhSCQ90ir1vMSHy/
-	WykOX9TxjThUBcbGnwNzY3u/A5hImETzBvmCu/LqORCCMK6dmjK901ghmKxfHMp/8ACYMFpMVOikl
-	gydJe45HRAWRsGggqq5MRebTLQ7LY1bVlILcwiRs/ry6JqNA1IK+JyajX64fFvYLGK36CSZVf+FmK
-	28RMdmzYqgZD1i4XasNlLKeTTIoxJgXzKBP2W2DZducQV3tZoGbuxKEPSsY8ow/hcLRjqrrJNPyog
-	87070paBjQ1VlDvQH611VXoXhkSLoaE8rycVxYOTvRvEWzMTYvulsIto4Jgapscz8pOatCn5gfCNg
-	36pGd8fg==;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=AudqzBQfRiONVJuik2UmadsPM6
+	XBqBIEF4dfz+RZLpIFfORH36O5lFmTYLR+ZO74gUV6Uz5+bqfKbY6nS8GYd0k+9ejC77Nvwk2VsoM
+	OOSby5ynkaI5LYoMUanS3OODgj6TIX4D3gv68U6aP3WPa+KhQ8bjlmDwQl8N4zeXWcQ5eIduN4FIL
+	+PdDucGwggHGHCcOmAan1mtIGjvXTo+CrwW1FgH3H/yGCNoaEYEQrRyEX6oauy+GcFWIT6y8kjtE7
+	iKzeMRVuY99mawqJbuQ0qDO77FScTvzthGZGWUBDK2oulIvUuGLW7GmMtH/ZlZyZS7AidMAmxTr30
+	+aYHyraQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pktTE-00BA0E-2Y;
-	Fri, 07 Apr 2023 21:18:08 +0000
-Received: from desiato.infradead.org ([90.155.92.199])
+	id 1pkte6-00BAho-2h;
+	Fri, 07 Apr 2023 21:29:22 +0000
+Received: from mail-wm1-f45.google.com ([209.85.128.45])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pksMb-00B3An-0i
-	for linux-nvme@bombadil.infradead.org;
-	Fri, 07 Apr 2023 20:07:13 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=P9Lzi/ZtfXnWhqP/2lFsblJTFnvLSerrPfLluzUW4fw=; b=JLGeYSvm7JsideU/Tt6lMIzz/Y
-	gd1FDEAvMwM6L5NMxy0P718CeqySd3X00qGy3aGWeqvlIKZKSNsAhHWMoZQE2sbNotOYV1bPYyn9g
-	hpnZnQ6wpER8mLWB2JMd6uEqP8QnnL19XuDOqFwDfWUYDpdq53Sw/sQsQYl6mz8jdyM93FYsypPB4
-	yNV5ZYMC7yhJggcxYbYtSXFqS+aLNhPkpVAKMedxJVYBCwlgp1gNV+tpz/1YUuETkUKw0/0QRgY8M
-	KgbPQ6jF0ufpMFyPc0/12Mm9aSoDrP+brdtsyvAVVfeJ0rKozdyxtktJ2/yQOjfRYCFbN1mdIXHFB
-	pI9vUM5A==;
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
-	by desiato.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pksMO-00BAJ6-0V
+	id 1pkte4-00BAhJ-0L
 	for linux-nvme@lists.infradead.org;
-	Fri, 07 Apr 2023 20:07:11 +0000
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 337FxDxu018772;
-	Fri, 7 Apr 2023 20:06:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2022-7-12;
- bh=P9Lzi/ZtfXnWhqP/2lFsblJTFnvLSerrPfLluzUW4fw=;
- b=CPydHHTaFanJ34djp2GVfXEwbinLyZdi5Fv6v0qfBYXUYNdRH8Otp1b1u7uLOGAv99Gy
- 9+zQqtmxzDopPNeuzOVn5j4BIid2+igqSFM+1UaSOrxLXx714iGgo/P8JqIeZHVpep4Q
- MhSDCvH0xeZjaajtdIYMMdjDN4tRuD4qkrTB2Y2ihvelTeVeKU+CjB8Qq9Kk/kRYLaVz
- PbKZTKziSMD/6gIyEe5VJAmCyLFu8jzKxMLBymPrl6k79BvD9NDi5/K7jCm+O+oZOuGb
- viGhC7KDMJZMXcBCe2W5YhFMfiUHC+RCs2aSyaxo2epTyIlmMJUbDJ46snn27a2+50Et lA== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ppb1dws0s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 07 Apr 2023 20:06:38 +0000
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 337IB9ak034233;
-	Fri, 7 Apr 2023 20:06:38 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3pptjxefaw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 07 Apr 2023 20:06:38 +0000
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 337K5trO010228;
-	Fri, 7 Apr 2023 20:06:37 GMT
-Received: from mnchrist-mac.us.oracle.com (dhcp-10-154-128-1.vpn.oracle.com [10.154.128.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3pptjxeeam-17;
-	Fri, 07 Apr 2023 20:06:37 +0000
-From: Mike Christie <michael.christie@oracle.com>
-To: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
-        linux-scsi@vger.kernel.org, james.bottomley@hansenpartnership.com,
-        linux-block@vger.kernel.org, dm-devel@redhat.com, snitzer@kernel.org,
-        axboe@kernel.dk, linux-nvme@lists.infradead.org, chaitanyak@nvidia.com,
-        kbusch@kernel.org, target-devel@vger.kernel.org
-Cc: Mike Christie <michael.christie@oracle.com>
-Subject: [PATCH v6 16/18] scsi: target: Pass struct target_opcode_descriptor to enabled
-Date: Fri,  7 Apr 2023 15:05:49 -0500
-Message-Id: <20230407200551.12660-17-michael.christie@oracle.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230407200551.12660-1-michael.christie@oracle.com>
-References: <20230407200551.12660-1-michael.christie@oracle.com>
+	Fri, 07 Apr 2023 21:29:21 +0000
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f04eb5d1a7so1672375e9.1
+        for <linux-nvme@lists.infradead.org>; Fri, 07 Apr 2023 14:29:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680902956; x=1683494956;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=WQmZ0Y6AXfEXVNGuWHDmofJyYSfNlWyaff3z7EiBGo3/1pXVN2QdnOE/1ZfNn1256C
+         xWLOqQbk10RXfe5+MkhX4vLZx/UNvZ5oxgyPgD4L/Zsx5pGnudoRVVPnA3xe6sjZRmx5
+         E1+55BWlr44xOnad2elFV7REh0MsqR5g7mB32U7OUv4iuPDQP97DXBXSQdARnymoC6Wv
+         OlPz9iuscnIFKeQMF0h7gLfRu2u8WMOLxHfT2DUt9TLO5kegJAxw8z3pXfASFAh1bWGD
+         OkYULMch6aVhpXSI56pFB/Unjt5O+0MijyeAtCnIcLa4dom4Fyv+9lIaHf6rUY/qIYza
+         raog==
+X-Gm-Message-State: AAQBX9dEjTKXMTKmnncMuKTZ0CODXiMsFyrInGZkn8CEH1ULh4PcBSiU
+	hWF6vJUf/NczHMTYnPbeZtI=
+X-Google-Smtp-Source: AKy350bcYKtr4Pih75NyTNfWKnLgJxgyL5bdIr4NCXAFf730hJ3N11OhONVvL+iqUAFSXySvnZwt3g==
+X-Received: by 2002:a05:600c:35c2:b0:3ee:da0:cb85 with SMTP id r2-20020a05600c35c200b003ee0da0cb85mr2245987wmq.1.1680902955529;
+        Fri, 07 Apr 2023 14:29:15 -0700 (PDT)
+Received: from [10.100.102.14] (85.65.206.11.dynamic.barak-online.net. [85.65.206.11])
+        by smtp.gmail.com with ESMTPSA id 16-20020a05600c029000b003ef71d541cbsm5805378wmk.1.2023.04.07.14.29.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Apr 2023 14:29:14 -0700 (PDT)
+Message-ID: <ee97fd61-b276-2212-6c78-386905f6925f@grimberg.me>
+Date: Sat, 8 Apr 2023 00:29:13 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-07_12,2023-04-06_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 adultscore=0
- phishscore=0 bulkscore=0 mlxscore=0 suspectscore=0 spamscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304070180
-X-Proofpoint-GUID: XpTaNgBy509X8hCf_df6vmrGqD8QNWMH
-X-Proofpoint-ORIG-GUID: XpTaNgBy509X8hCf_df6vmrGqD8QNWMH
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] nvme: fix async event trace event
+To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org, hch@lst.de
+Cc: Keith Busch <kbusch@kernel.org>, Nate Thornton
+ <nate.thornton@samsung.com>, Chaitanya Kulkarni <kch@nvidia.com>
+References: <20230405215720.2872579-1-kbusch@meta.com>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20230405215720.2872579-1-kbusch@meta.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230407_210709_453446_073A4C6B 
-X-CRM114-Status: GOOD (  20.28  )
+X-CRM114-CacheID: sfid-20230407_142920_140277_63DDBAE3 
+X-CRM114-Status: UNSURE (   5.81  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,176 +83,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The iblock pr_ops support does not support commands that require port or
-I_T Nexus info. This adds a struct target_opcode_descriptor as an argument
-to the enabled callout so we can still have the common tcm_is_pr_enabled
-and tcm_is_scsi2_reservations_enabled functions and also determine if the
-command is supported based on the command and service action and device
-settings.
-
-Signed-off-by: Mike Christie <michael.christie@oracle.com>
----
- drivers/target/target_core_spc.c  | 40 +++++++++++++++++++------------
- include/target/target_core_base.h |  3 ++-
- 2 files changed, 27 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/target/target_core_spc.c b/drivers/target/target_core_spc.c
-index 00d34616df5d..caf8d1325007 100644
---- a/drivers/target/target_core_spc.c
-+++ b/drivers/target/target_core_spc.c
-@@ -1429,7 +1429,8 @@ static struct target_opcode_descriptor tcm_opcode_write_verify16 = {
- 	.update_usage_bits = set_dpofua_usage_bits,
- };
- 
--static bool tcm_is_ws_enabled(struct se_cmd *cmd)
-+static bool tcm_is_ws_enabled(struct target_opcode_descriptor *descr,
-+			      struct se_cmd *cmd)
- {
- 	struct exec_cmd_ops *ops = cmd->protocol_data;
- 	struct se_device *dev = cmd->se_dev;
-@@ -1456,7 +1457,8 @@ static struct target_opcode_descriptor tcm_opcode_write_same32 = {
- 	.update_usage_bits = set_dpofua_usage_bits32,
- };
- 
--static bool tcm_is_caw_enabled(struct se_cmd *cmd)
-+static bool tcm_is_caw_enabled(struct target_opcode_descriptor *descr,
-+			       struct se_cmd *cmd)
- {
- 	struct se_device *dev = cmd->se_dev;
- 
-@@ -1496,7 +1498,8 @@ static struct target_opcode_descriptor tcm_opcode_read_capacity16 = {
- 		       0xff, 0xff, 0x00, SCSI_CONTROL_MASK},
- };
- 
--static bool tcm_is_rep_ref_enabled(struct se_cmd *cmd)
-+static bool tcm_is_rep_ref_enabled(struct target_opcode_descriptor *descr,
-+				   struct se_cmd *cmd)
- {
- 	struct se_device *dev = cmd->se_dev;
- 
-@@ -1507,7 +1510,6 @@ static bool tcm_is_rep_ref_enabled(struct se_cmd *cmd)
- 	}
- 	spin_unlock(&dev->t10_alua.lba_map_lock);
- 	return true;
--
- }
- 
- static struct target_opcode_descriptor tcm_opcode_read_report_refferals = {
-@@ -1542,7 +1544,8 @@ static struct target_opcode_descriptor tcm_opcode_sync_cache16 = {
- 		       0xff, 0xff, SCSI_GROUP_NUMBER_MASK, SCSI_CONTROL_MASK},
- };
- 
--static bool tcm_is_unmap_enabled(struct se_cmd *cmd)
-+static bool tcm_is_unmap_enabled(struct target_opcode_descriptor *descr,
-+				 struct se_cmd *cmd)
- {
- 	struct exec_cmd_ops *ops = cmd->protocol_data;
- 	struct se_device *dev = cmd->se_dev;
-@@ -1664,7 +1667,8 @@ static struct target_opcode_descriptor tcm_opcode_pri_read_resrv = {
- 		       0xff, SCSI_CONTROL_MASK},
- };
- 
--static bool tcm_is_pr_enabled(struct se_cmd *cmd)
-+static bool tcm_is_pr_enabled(struct target_opcode_descriptor *descr,
-+			      struct se_cmd *cmd)
- {
- 	struct se_device *dev = cmd->se_dev;
- 
-@@ -1793,7 +1797,9 @@ static struct target_opcode_descriptor tcm_opcode_pro_register_move = {
- 	.enabled = tcm_is_pr_enabled,
- };
- 
--static bool tcm_is_scsi2_reservations_enabled(struct se_cmd *cmd)
-+static bool
-+tcm_is_scsi2_reservations_enabled(struct target_opcode_descriptor *descr,
-+				  struct se_cmd *cmd)
- {
- 	struct se_device *dev = cmd->se_dev;
- 
-@@ -1854,7 +1860,8 @@ static struct target_opcode_descriptor tcm_opcode_inquiry = {
- 		       0xff, SCSI_CONTROL_MASK},
- };
- 
--static bool tcm_is_3pc_enabled(struct se_cmd *cmd)
-+static bool tcm_is_3pc_enabled(struct target_opcode_descriptor *descr,
-+			       struct se_cmd *cmd)
- {
- 	struct se_device *dev = cmd->se_dev;
- 
-@@ -1915,8 +1922,8 @@ static struct target_opcode_descriptor tcm_opcode_report_target_pgs = {
- 		       0xff, 0xff, 0x00, SCSI_CONTROL_MASK},
- };
- 
--
--static bool spc_rsoc_enabled(struct se_cmd *cmd)
-+static bool spc_rsoc_enabled(struct target_opcode_descriptor *descr,
-+			     struct se_cmd *cmd)
- {
- 	struct se_device *dev = cmd->se_dev;
- 
-@@ -1936,7 +1943,8 @@ static struct target_opcode_descriptor tcm_opcode_report_supp_opcodes = {
- 	.enabled = spc_rsoc_enabled,
- };
- 
--static bool tcm_is_set_tpg_enabled(struct se_cmd *cmd)
-+static bool tcm_is_set_tpg_enabled(struct target_opcode_descriptor *descr,
-+				   struct se_cmd *cmd)
- {
- 	struct t10_alua_tg_pt_gp *l_tg_pt_gp;
- 	struct se_lun *l_lun = cmd->se_lun;
-@@ -2123,7 +2131,7 @@ spc_rsoc_get_descr(struct se_cmd *cmd, struct target_opcode_descriptor **opcode)
- 			if (descr->serv_action_valid)
- 				return TCM_INVALID_CDB_FIELD;
- 
--			if (!descr->enabled || descr->enabled(cmd))
-+			if (!descr->enabled || descr->enabled(descr, cmd))
- 				*opcode = descr;
- 			break;
- 		case 0x2:
-@@ -2137,7 +2145,8 @@ spc_rsoc_get_descr(struct se_cmd *cmd, struct target_opcode_descriptor **opcode)
- 			 */
- 			if (descr->serv_action_valid &&
- 			    descr->service_action == requested_sa) {
--				if (!descr->enabled || descr->enabled(cmd))
-+				if (!descr->enabled || descr->enabled(descr,
-+								      cmd))
- 					*opcode = descr;
- 			} else if (!descr->serv_action_valid)
- 				return TCM_INVALID_CDB_FIELD;
-@@ -2150,7 +2159,8 @@ spc_rsoc_get_descr(struct se_cmd *cmd, struct target_opcode_descriptor **opcode)
- 			 * be returned in the one_command parameter data format.
- 			 */
- 			if (descr->service_action == requested_sa)
--				if (!descr->enabled || descr->enabled(cmd))
-+				if (!descr->enabled || descr->enabled(descr,
-+								      cmd))
- 					*opcode = descr;
- 			break;
- 		}
-@@ -2207,7 +2217,7 @@ spc_emulate_report_supp_op_codes(struct se_cmd *cmd)
- 
- 		for (i = 0; i < ARRAY_SIZE(tcm_supported_opcodes); i++) {
- 			descr = tcm_supported_opcodes[i];
--			if (descr->enabled && !descr->enabled(cmd))
-+			if (descr->enabled && !descr->enabled(descr, cmd))
- 				continue;
- 
- 			response_length += spc_rsoc_encode_command_descriptor(
-diff --git a/include/target/target_core_base.h b/include/target/target_core_base.h
-index 12c9ba16217e..04646b3dbf75 100644
---- a/include/target/target_core_base.h
-+++ b/include/target/target_core_base.h
-@@ -878,7 +878,8 @@ struct target_opcode_descriptor {
- 	u8			specific_timeout;
- 	u16			nominal_timeout;
- 	u16			recommended_timeout;
--	bool			(*enabled)(struct se_cmd *cmd);
-+	bool			(*enabled)(struct target_opcode_descriptor *descr,
-+					   struct se_cmd *cmd);
- 	void			(*update_usage_bits)(u8 *usage_bits,
- 						     struct se_device *dev);
- 	u8			usage_bits[];
--- 
-2.25.1
-
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
