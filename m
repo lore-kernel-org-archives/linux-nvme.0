@@ -4,74 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47F6BC76196
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Apr 2023 21:34:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DCAB2C76196
+	for <linux-nvme@archiver.kernel.org>; Sat,  8 Apr 2023 00:23:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Datt06y6QOn3vVdQaOHrLIlblRQOgkrxQaZSIY+FYG0=; b=U+fDazto7uwytXtDeuGQhFlmtd
-	4h7lOT0uksUz+s7krfl89DNskvWeGrqXAZJzOAXqx4BT57lFrATw3kgag/ZjNoFRlNqSyB8sSPP0u
-	4KCeDWuR0qYmX6X3LCGBt8SBBHhHpmIInyJzErM82aZmp2NMp9DM+KV8b9SIwCn5O0q6HFdp1Lb2S
-	iPaXP5z3fFurwU3lOHK/HnxYj+mM1Ra9Yq3kI24TmSWdYqChEZFxlJcPIwBL6aG6iwKt/IBgriuEu
-	0+8ZbqLdJAPPM/VYDQNC6hmuj9QHmWH4/lI+CY+KlIgOuQO6wXdTEvLv/tW5jg7zSVhWPJ5fw0h4I
-	MmDIW/MA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+Bq3YZqKypBGppbEepbjr+9JpoP5IBt+51lG+VIYKH4=; b=xxiM3i8OHI83xDim4zcdhaw6Cm
+	uotLd74h8/iLOyyVZu+XZ2tdj3R+Yg2J7E75ccxo3Z7CXUhrKpYCF9KTjhskDbjPmbBchqbrsza/n
+	YWpO3et3oiPmiY/OdkZ6rFoTCJRpOk8XCyR6yfpO/f96wWgiMpeDU8Sitk/+tBF1cUwcT1NGGBQi+
+	+89Wx9GWUBjm++5eTTN0clE1PpzcKcpPTWReUUdtN78CK7YAfwWHynJ4aLlXA3TK97KeEB0pZ/gUS
+	CXi8ArUmxDXf2fpPNYXclwos9Cqu2GcRd3OFlbI6NJkmFagKuso8qw7H0TZw199mDM3atpWD7SwAp
+	9g5qM+7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pktj4-00BB99-0s;
-	Fri, 07 Apr 2023 21:34:30 +0000
-Received: from mail-wm1-f44.google.com ([209.85.128.44])
+	id 1pkwMa-00BT0R-2p;
+	Sat, 08 Apr 2023 00:23:28 +0000
+Received: from mga05.intel.com ([192.55.52.43])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pktj0-00BB8X-2Q
+	id 1pkwMX-00BSyx-1z
 	for linux-nvme@lists.infradead.org;
-	Fri, 07 Apr 2023 21:34:27 +0000
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3f080f53fc6so2805e9.0
-        for <linux-nvme@lists.infradead.org>; Fri, 07 Apr 2023 14:34:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680903264; x=1683495264;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Datt06y6QOn3vVdQaOHrLIlblRQOgkrxQaZSIY+FYG0=;
-        b=Y0HQWyC/CWJ1mTaqv/3onfxkHE2uXaj9812QdbXSy+YDyc71GgUkc0syaFyt/AtAS5
-         Ckj5d17JDYBwSsciCE6Cq+EflOVj0OuwxQNzzlQxETHcdpwCHPv8Ezn1FcxhANYoNF0y
-         qcdYnA1LibyeZ3ctY4U8R4MjNnGCb3YfS1S9NnCDR9qc7RModS3nc23JHypp8uXxB3Zb
-         5uzI2ZhtBB0+6YxbFPIF7+2WSqkbbrLhNcyVbeHMvmfctppmruMErI94EeIwIArfeqkc
-         VPOhX+y+Yx60DDRJHApmLdQXF5i5CDpfw8fJkvAcH4eG8xIh2GRw2A8mG1hY9mFYy37H
-         Kw6g==
-X-Gm-Message-State: AAQBX9fQZFgTyuIm8MFBKxharJ7dWaL6wC27yc2jW+AK5Xqtfobm7feS
-	DaM94O/r7JTDVdJq4An/WP/9HEL0ZN0=
-X-Google-Smtp-Source: AKy350baUMxCZkE2nsZcNtWR9Nkg/ifoAdbJKZh8R8Xpz+6OML1wgprg9hWp45VmnR6Dx/XJWz8FAg==
-X-Received: by 2002:a05:600c:1ca4:b0:3ed:d2ae:9adb with SMTP id k36-20020a05600c1ca400b003edd2ae9adbmr562659wms.0.1680903263903;
-        Fri, 07 Apr 2023 14:34:23 -0700 (PDT)
-Received: from [10.100.102.14] (85.65.206.11.dynamic.barak-online.net. [85.65.206.11])
-        by smtp.gmail.com with ESMTPSA id t6-20020a05600c450600b003ee2a0d49dbsm9694305wmo.25.2023.04.07.14.34.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Apr 2023 14:34:23 -0700 (PDT)
-Message-ID: <ab82c5fd-03d6-683d-2c8a-1b71b940d94a@grimberg.me>
-Date: Sat, 8 Apr 2023 00:34:22 +0300
+	Sat, 08 Apr 2023 00:23:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680913405; x=1712449405;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LufqfnytMANvcxNJ9tE+ZSPiZ5hHXw1+mMxhZIW3ZOo=;
+  b=EHYFNDwBS7J0JbduSGS57WBAccz6rtTOtaTCcjEf2zsoISXOfVdnj6Zi
+   t2WDK38fO5z6vJIUXvjZxcKbwzYhUUTZBb5SFBb09fC332DbP/DOFZ1ze
+   8vqY6Q85ZZnEbLy9990yhT0OSs45TWK3fITh2KfTHmIELeo6gp/jYyb6O
+   nJGOn2i01sSn76JfnCxxqlfb8KrxXwdGWXnYKRUgBPDYyMXhS6mJ7MmvD
+   26Xmrg4caX5fUyletKaOlsawBRfFfrHAoK7y2AD3fUd6BpmS6s5ACEM/3
+   WduyeFNRzSkLjiSMTOOmP+hWPbvL9fbObtAZScOjPRAHxdY+7Svyp4hb/
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="429377759"
+X-IronPort-AV: E=Sophos;i="5.98,328,1673942400"; 
+   d="scan'208";a="429377759"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 17:23:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="637860228"
+X-IronPort-AV: E=Sophos;i="5.98,328,1673942400"; 
+   d="scan'208";a="637860228"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 07 Apr 2023 17:23:15 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pkwMM-000T3h-12;
+	Sat, 08 Apr 2023 00:23:14 +0000
+Date: Sat, 8 Apr 2023 08:22:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, io-uring@vger.kernel.org,
+	axboe@kernel.dk, hch@lst.de
+Cc: oe-kbuild-all@lists.linux.dev, sagi@grimberg.me, joshi.k@samsung.com,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv2 2/5] nvme: simplify passthrough bio cleanup
+Message-ID: <202304080846.C2qDQtUd-lkp@intel.com>
+References: <20230407191636.2631046-3-kbusch@meta.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] nvme: fix double blk_mq_complete_request for timeout
- request with low probability
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>, Lei Lei2 Yin <yinlei2@lenovo.com>
-Cc: "axboe@fb.com" <axboe@fb.com>, "hch@lst.de" <hch@lst.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "cybeyond@foxmail.com" <cybeyond@foxmail.com>
-References: <PS1PR03MB4939C825BD5D9A135AA0EB9188919@PS1PR03MB4939.apcprd03.prod.outlook.com>
- <ZDBvTS1j26d3392/@kbusch-mbp.dhcp.thefacebook.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <ZDBvTS1j26d3392/@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230407191636.2631046-3-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230407_143426_806441_1FB5735A 
-X-CRM114-Status: GOOD (  10.31  )
+X-CRM114-CacheID: sfid-20230407_172325_670349_F504A516 
+X-CRM114-Status: GOOD (  11.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,28 +86,99 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi Keith,
 
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index 53ef028596c6..c1cc384f4f3e 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -450,8 +450,8 @@ bool nvme_cancel_request(struct request *req, void *data)
->>   	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
->>   				"Cancelling I/O %d", req->tag);
->>   
->> -	/* don't abort one completed request */
->> -	if (blk_mq_request_completed(req))
->> +	/* don't abort one completed or idle request */
->> +	if (blk_mq_rq_state(req) != MQ_RQ_IN_FLIGHT)
->>   		return true;
-> 
-> I was suspicious about this path too, and had the same change long ago, but
-> shelved it when I couldn't produce any errors there. But the change makes sense
-> to me!
-> 
-> Reviewed-by: Keith Busch <kbusch@kernel.org>
+kernel test robot noticed the following build warnings:
 
-We need to change nvmf_complete_timed_out_request() too.
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on next-20230406]
+[cannot apply to linus/master v6.3-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/block-add-request-polling-helper/20230408-031926
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20230407191636.2631046-3-kbusch%40meta.com
+patch subject: [PATCHv2 2/5] nvme: simplify passthrough bio cleanup
+config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230408/202304080846.C2qDQtUd-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/9a32e7ca02dd8cff559b273fe161b5347b5b5c97
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Keith-Busch/block-add-request-polling-helper/20230408-031926
+        git checkout 9a32e7ca02dd8cff559b273fe161b5347b5b5c97
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/nvme/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304080846.C2qDQtUd-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/nvme/host/ioctl.c: In function 'nvme_submit_user_cmd':
+>> drivers/nvme/host/ioctl.c:232:21: warning: variable 'bio' set but not used [-Wunused-but-set-variable]
+     232 |         struct bio *bio;
+         |                     ^~~
+   drivers/nvme/host/ioctl.c: In function 'nvme_uring_cmd_end_io_meta':
+   drivers/nvme/host/ioctl.c:528:36: warning: unused variable 'pdu' [-Wunused-variable]
+     528 |         struct nvme_uring_cmd_pdu *pdu = nvme_uring_cmd_pdu(ioucmd);
+         |                                    ^~~
+
+
+vim +/bio +232 drivers/nvme/host/ioctl.c
+
+2405252a680e21 Christoph Hellwig 2021-04-10  222  
+bcad2565b5d647 Christoph Hellwig 2022-05-11  223  static int nvme_submit_user_cmd(struct request_queue *q,
+7b7fdb8e2dbc15 Christoph Hellwig 2023-01-08  224  		struct nvme_command *cmd, u64 ubuffer, unsigned bufflen,
+7b7fdb8e2dbc15 Christoph Hellwig 2023-01-08  225  		void __user *meta_buffer, unsigned meta_len, u32 meta_seed,
+7b7fdb8e2dbc15 Christoph Hellwig 2023-01-08  226  		u64 *result, unsigned timeout, unsigned int flags)
+bcad2565b5d647 Christoph Hellwig 2022-05-11  227  {
+62281b9ed671be Christoph Hellwig 2022-12-14  228  	struct nvme_ns *ns = q->queuedata;
+bc8fb906b0ff93 Keith Busch       2022-09-19  229  	struct nvme_ctrl *ctrl;
+bcad2565b5d647 Christoph Hellwig 2022-05-11  230  	struct request *req;
+bcad2565b5d647 Christoph Hellwig 2022-05-11  231  	void *meta = NULL;
+bcad2565b5d647 Christoph Hellwig 2022-05-11 @232  	struct bio *bio;
+bc8fb906b0ff93 Keith Busch       2022-09-19  233  	u32 effects;
+bcad2565b5d647 Christoph Hellwig 2022-05-11  234  	int ret;
+bcad2565b5d647 Christoph Hellwig 2022-05-11  235  
+470e900c8036ff Kanchan Joshi     2022-09-30  236  	req = nvme_alloc_user_request(q, cmd, 0, 0);
+bcad2565b5d647 Christoph Hellwig 2022-05-11  237  	if (IS_ERR(req))
+bcad2565b5d647 Christoph Hellwig 2022-05-11  238  		return PTR_ERR(req);
+bcad2565b5d647 Christoph Hellwig 2022-05-11  239  
+470e900c8036ff Kanchan Joshi     2022-09-30  240  	req->timeout = timeout;
+470e900c8036ff Kanchan Joshi     2022-09-30  241  	if (ubuffer && bufflen) {
+470e900c8036ff Kanchan Joshi     2022-09-30  242  		ret = nvme_map_user_request(req, ubuffer, bufflen, meta_buffer,
+7b7fdb8e2dbc15 Christoph Hellwig 2023-01-08  243  				meta_len, meta_seed, &meta, NULL, flags);
+470e900c8036ff Kanchan Joshi     2022-09-30  244  		if (ret)
+470e900c8036ff Kanchan Joshi     2022-09-30  245  			return ret;
+470e900c8036ff Kanchan Joshi     2022-09-30  246  	}
+470e900c8036ff Kanchan Joshi     2022-09-30  247  
+bcad2565b5d647 Christoph Hellwig 2022-05-11  248  	bio = req->bio;
+bc8fb906b0ff93 Keith Busch       2022-09-19  249  	ctrl = nvme_req(req)->ctrl;
+bcad2565b5d647 Christoph Hellwig 2022-05-11  250  
+62281b9ed671be Christoph Hellwig 2022-12-14  251  	effects = nvme_passthru_start(ctrl, ns, cmd->common.opcode);
+62281b9ed671be Christoph Hellwig 2022-12-14  252  	ret = nvme_execute_rq(req, false);
+2405252a680e21 Christoph Hellwig 2021-04-10  253  	if (result)
+2405252a680e21 Christoph Hellwig 2021-04-10  254  		*result = le64_to_cpu(nvme_req(req)->result.u64);
+bcad2565b5d647 Christoph Hellwig 2022-05-11  255  	if (meta)
+bcad2565b5d647 Christoph Hellwig 2022-05-11  256  		ret = nvme_finish_user_metadata(req, meta_buffer, meta,
+bcad2565b5d647 Christoph Hellwig 2022-05-11  257  						meta_len, ret);
+2405252a680e21 Christoph Hellwig 2021-04-10  258  	blk_mq_free_request(req);
+bc8fb906b0ff93 Keith Busch       2022-09-19  259  
+bc8fb906b0ff93 Keith Busch       2022-09-19  260  	if (effects)
+bc8fb906b0ff93 Keith Busch       2022-09-19  261  		nvme_passthru_end(ctrl, effects, cmd, ret);
+bc8fb906b0ff93 Keith Busch       2022-09-19  262  
+2405252a680e21 Christoph Hellwig 2021-04-10  263  	return ret;
+2405252a680e21 Christoph Hellwig 2021-04-10  264  }
+2405252a680e21 Christoph Hellwig 2021-04-10  265  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
 
