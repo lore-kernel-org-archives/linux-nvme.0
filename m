@@ -4,80 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B4B49C77B61
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Apr 2023 04:48:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29696C76196
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Apr 2023 05:54:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=h1VZzDi4GY18ewCATzaBVBi3jFt9uNVAIW9Am330oLQ=; b=xA13VKYTqXqhmnPmu3tk+At8Ev
-	lemt9s0Ttji5BjxsuA8sh8AquU+JOGRGmRCmImvj6e2zO1NoauUa/q2606jX/NBmT7vqt3q9MEvnn
-	bjT+qaDwloEJCgdT/NyiAScsv9tEioaLXa5ij9lP9UKwVnA7FRza/6mRlNsO6OnPTE6NMsxIPxqbV
-	7HlIPcmHZe2gENF3f+Vxyv0MyhixSGpLEcKrbaVWM9TKlEnKNkumn6W+BN8yIkn8e8x9KqXlHp/Bp
-	jxlhgRJsB9uBiKFNhSvxLF0gTpeH481mzHrmtR7pmZIMnnWrmpIv4bb3DYXRaVVNB3B0JZ3/U2m6D
-	1x8CLhMw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=OHGXfuWMqQ82qt9j7utCLAOAHMwJDqRxwbmDhUBuRxQ=; b=HnpKbb7OLHYE7C9ltr5s7rCYnc
+	DAyCB7yMiPn0iQloR018OMCsXTE6oE3c/noWy0n6LIm8iWVGPUD0lJXuoG+JaF+F1PeRxv3uU4QrK
+	Uaal93FZQHYN+5ubl5cMjy5En4vJcCMdsZ+AjGpZzHwS09/IOYUGhOTHKuZCeIQL1fd5NoT4DIYY3
+	u1STSr/tt5OsWniUeuFgYpuYM2QAWdv8AhhFK7iyD40Sjyv8k2xpNINEnf3BtDI3iBZWeZQWE1Tty
+	wi6l7GKExaISwM7Zumh1u9FzsFBsEKtVaqLgF69bspEzVTf6eZ042LtOCT65g36NmU9C3rN1xLEwa
+	XauJAslA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pljRd-00EZI6-2v;
-	Mon, 10 Apr 2023 04:47:57 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1plkTr-00EcmC-1R;
+	Mon, 10 Apr 2023 05:54:19 +0000
+Received: from new3-smtp.messagingengine.com ([66.111.4.229])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pkaNC-008uei-16;
-	Fri, 07 Apr 2023 00:54:39 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 5A4A364DE9;
-	Fri,  7 Apr 2023 00:54:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48C35C433D2;
-	Fri,  7 Apr 2023 00:54:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680828876;
-	bh=uvT44qx5YO7bon6aMmqTeZtryVy3J03QEXu1FpcUChw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=gb3r4KSO9gRu1kunqKSKRVILUWmx2/w1729zO1bnmOFwGTjK8Ft7VgeVIqQTRYktv
-	 IWoDAI4k/MGasNqIg8yOC4EaHRFW3OexmHky+FTATmWwQPv0fuyPhD9KqpUrJdUZvy
-	 04jSqe8Mz+djYDYAxW63CiCRaFAhGWCyS7LpVaX5D/mfbaRIUmoNGKxiZhnx++WVAf
-	 0Hlc/LhrSf7+y2+OvyhZRwCWgXuEjgUquY5PkBpHS6jI2oxJ0oTdmh9/bpv7XFAxsC
-	 dkHpoI3IwMJoz2Lwc/5kivXju8kVrsuuL0xWPpJK8r4SLNxcjeTU1NMtBFmuDOtKIE
-	 XV9HKRzNQ6t1Q==
-Date: Thu, 6 Apr 2023 17:54:34 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: David Howells <dhowells@redhat.com>
-Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Willem de
- Bruijn <willemdebruijn.kernel@gmail.com>, Matthew Wilcox
- <willy@infradead.org>, Al Viro <viro@zeniv.linux.org.uk>, Christoph Hellwig
- <hch@infradead.org>, Jens Axboe <axboe@kernel.dk>, Jeff Layton
- <jlayton@kernel.org>, Christian Brauner <brauner@kernel.org>, Chuck Lever
- III <chuck.lever@oracle.com>, Linus Torvalds
- <torvalds@linux-foundation.org>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, Jeroen de Borst
- <jeroendb@google.com>, Catherine Sullivan <csully@google.com>, Shailend
- Chand <shailend@google.com>, Felix Fietkau <nbd@nbd.name>, John Crispin
- <john@phrozen.org>, Sean Wang <sean.wang@mediatek.com>, Mark Lee
- <Mark-MC.Lee@mediatek.com>, Lorenzo Bianconi <lorenzo@kernel.org>, Matthias
- Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
- <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, Andrew Morton
- <akpm@linux-foundation.org>, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH net-next v5 03/19] mm: Make the page_frag_cache
- allocator use multipage folios
-Message-ID: <20230406175434.0d74bbcc@kernel.org>
-In-Reply-To: <20230406094245.3633290-4-dhowells@redhat.com>
-References: <20230406094245.3633290-1-dhowells@redhat.com>
-	<20230406094245.3633290-4-dhowells@redhat.com>
+	id 1plkTo-00EclU-1U
+	for linux-nvme@lists.infradead.org;
+	Mon, 10 Apr 2023 05:54:18 +0000
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailnew.nyi.internal (Postfix) with ESMTP id A551E582006;
+	Mon, 10 Apr 2023 01:54:12 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Mon, 10 Apr 2023 01:54:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1681106052; x=1681106652; bh=OH
+	GXfuWMqQ82qt9j7utCLAOAHMwJDqRxwbmDhUBuRxQ=; b=UqqZl8Txin6M4sAbcZ
+	REEjsf2fZ50AWhskBNxOngEJ7LL/lvz2aIzeHZzao+FWmojo6X2vyH3o8qwLE1Ga
+	1qffJ78ilRMzJwjuVqTcG9tUuPTdomC4EcmNJjfXwVGq4ppTHBZ4+u+HmfBYVHxw
+	hooxiNgEnkDXKXtKX02w/H/PnVsTGhBq7WpDE6iu22vDNelihhe4fhNZh0YeAT8o
+	SSHg5lXh41qyx0KzezTvys+mGHhSQM52hy5g+ItHScHlkTFs8Sk0WrA4IJ9/L0pa
+	bbc5mEkEeYBmeiPcf/kgOpeutJi5IpKEIS13ATksnj948+Q3eAa439fNGap0rtCh
+	E48A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=ie1e949a3.fm2; t=1681106052; x=1681106652; bh=OHG
+	XfuWMqQ82qt9j7utCLAOAHMwJDqRxwbmDhUBuRxQ=; b=vq3eHIhHP6GIu3bNV2B
+	MDiYGD3r3V+KGMYMG+abQJVn4TQiXA7UIVvT/hH5l9hH5tTO9UUITRQf4vuu5DUu
+	Z/MSdWfqkPlA4Ic1XCQYgYuErcmx3YxZ+LDfmQICyQcI8Bozu1xnLBldjg1QQTFr
+	+LAjtG0HFMKupmIwaq5GC6EyzDpwfsInHTnvbOM8liaIHdirFQV4Uo6CI5sZcQNS
+	+xB9hIfIW+LPtcI+LisGHTOivKiatl33EdcFLu4QvCeqPtGF7PRNdZc6UtP31p+c
+	sRUOdwO8b0nCefRcULjlJqnpp8VM1jFVzBvS63Bln/tdDp5bY1m+yrhraBgC64GG
+	BDw==
+X-ME-Sender: <xms:hKQzZCvJnNiggcoCX8063_4kNjrMqYNpcst296GDBHHTh6OZN_F_Xg>
+    <xme:hKQzZHdlGB2GBKh9cHCxZNYQzS2SofbRPq5CWHYQVII_SsEMgDEQ0mE5RpH5iaDe3
+    3V9lw0NEv8cgBSY3ZE>
+X-ME-Received: <xmr:hKQzZNx1oAHNGrSM4v9DMGWb-OOne-qNL-FbcqAAjRfvQxeudZPXbzYp51RAlW1R0aaLwJOYCirbK-bCM8YTMQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekuddguddtvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtuggjsehttdfstddttddvnecuhfhrohhmpefuhhhi
+    nhdkihgthhhirhhoucfmrgifrghsrghkihcuoehshhhinhhitghhihhrohesfhgrshhtmh
+    grihhlrdgtohhmqeenucggtffrrghtthgvrhhnpeelgeejiedvueeujeduveevgeegfedt
+    hedukeehfeffgfehudffheeggfeikeetteenucffohhmrghinhepvddtudegqddtkedroh
+    hrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehs
+    hhhinhhitghhihhrohesfhgrshhtmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:hKQzZNNC6Y56KphGUxCBWV4mhvJIUWM5lVr2eryfNIkurXeIthHH_A>
+    <xmx:hKQzZC_KIjzaV2WZu3FQafnL1lmqizjM2P5UePZ5FocXILftDSz_dQ>
+    <xmx:hKQzZFXssILsgbXBnESc9uC6HhpTtDwokw9PvwoH2Bd8vPpA2XdPuw>
+    <xmx:hKQzZCzPSiyXEUUZwjhN5X5vEvZdWSXJOAKtOTM8Dl-Ltmgw8VK60dN-YA8>
+Feedback-ID: ie1e949a3:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 10 Apr 2023 01:54:10 -0400 (EDT)
+Date: Mon, 10 Apr 2023 14:54:07 +0900
+From: Shin'ichiro Kawasaki <shinichiro@fastmail.com>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>, Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>, 
+	James Smart <jsmart2021@gmail.com>, Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Subject: Re: [PATCH blktests v6 2/2] nvme/048: test queue count changes on
+ reconnect
+Message-ID: <exvrud3pulpsdm2mhxgkvhhgs4wr3hh3opwrvyxffv5fletkex@66jlhejm5ljn>
+References: <20230406083050.19246-1-dwagner@suse.de>
+ <20230406083050.19246-3-dwagner@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230406083050.19246-3-dwagner@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230406_175438_445356_2D4551AE 
-X-CRM114-Status: GOOD (  11.70  )
-X-Mailman-Approved-At: Sun, 09 Apr 2023 21:47:56 -0700
+X-CRM114-CacheID: sfid-20230409_225417_022031_CD5A2CCE 
+X-CRM114-Status: GOOD (  18.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,16 +108,162 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu,  6 Apr 2023 10:42:29 +0100 David Howells wrote:
-> Change the page_frag_cache allocator to use multipage folios rather than
-> groups of pages.  This reduces page_frag_free to just a folio_put() or
-> put_page().
+On Apr 06, 2023 / 10:30, Daniel Wagner wrote:
+> The target is allowed to change the number of I/O queues. Test if the
+> host is able to reconnect in this scenario.
+> 
+> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+> ---
+>  tests/nvme/048     | 125 +++++++++++++++++++++++++++++++++++++++++++++
+>  tests/nvme/048.out |   3 ++
+>  2 files changed, 128 insertions(+)
+>  create mode 100755 tests/nvme/048
+>  create mode 100644 tests/nvme/048.out
+> 
+> diff --git a/tests/nvme/048 b/tests/nvme/048
+> new file mode 100755
+> index 000000000000..926f9f3de955
+> --- /dev/null
+> +++ b/tests/nvme/048
+> @@ -0,0 +1,125 @@
+> +#!/bin/bash
+> +# SPDX-License-Identifier: GPL-3.0+
+> +# Copyright (C) 2023 Daniel Wagner, SUSE Labs
+> +#
+> +# Test queue count changes on reconnect
+> +
+> +. tests/nvme/rc
+> +
+> +DESCRIPTION="Test queue count changes on reconnect"
+> +
+> +requires() {
+> +	_nvme_requires
+> +	_have_loop
+> +	_require_nvme_trtype tcp rdma fc
+> +	_require_min_cpus 2
+> +}
+> +
+> +nvmf_wait_for_state() {
+> +	local def_state_timeout=5
+> +	local subsys_name="$1"
+> +	local state="$2"
+> +	local timeout="${3:-$def_state_timeout}"
+> +	local nvmedev
+> +	local state_file
+> +	local start_time
+> +	local end_time
+> +
+> +	nvmedev=$(_find_nvme_dev "${subsys_name}")
+> +	state_file="/sys/class/nvme-fabrics/ctl/${nvmedev}/state"
+> +
+> +	start_time=$(date +%s)
+> +	while ! grep -q "${state}" "${state_file}"; do
+> +		sleep 1
+> +		end_time=$(date +%s)
+> +                if (( end_time - start_time > timeout )); then
 
-drivers/nvme/host/tcp.c:1315:15: warning: unused variable 'page' [-Wunused-variable]
-        struct page *page;
-                     ^
+Nit: the line above has spaces instead of tabs.
 
-drivers/net/ethernet/mediatek/mtk_wed_wo.c:306:15: warning: unused variable 'page' [-Wunused-variable]
-        struct page *page;
-                     ^
+> +			echo "expected state \"${state}\" not " \
+> +				"reached within ${timeout} seconds"
+> +			return 1
+> +		fi
+> +	done
+> +
+> +	return 0
+> +}
+> +
+> +set_nvmet_attr_qid_max() {
+> +	local nvmet_subsystem="$1"
+> +	local qid_max="$2"
+> +	local cfs_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
+> +
+> +	echo "${qid_max}" > "${cfs_path}/attr_qid_max"
+> +}
+> +
+> +set_qid_max() {
+> +	local port="$1"
+> +	local subsys_name="$2"
+> +	local qid_max="$3"
+> +
+> +	set_nvmet_attr_qid_max "${subsys_name}" "${qid_max}"
+> +
+> +	# Setting qid_max forces a disconnect and the reconntect attempt starts
+> +	nvmf_wait_for_state "${subsys_name}" "connecting" || return 1
+> +	nvmf_wait_for_state "${subsys_name}" "live" || return 1
+> +
+> +	return 0
+> +}
+> +
+> +test() {
+> +	local subsys_name="blktests-subsystem-1"
+> +	local cfs_path="${NVMET_CFS}/subsystems/${subsys_name}"
+> +	local file_path="${TMPDIR}/img"
+> +	local skipped=false
+> +	local hostnqn
+> +	local hostid
+> +	local port
+> +
+> +	echo "Running ${TEST_NAME}"
+> +
+> +	hostid="$(uuidgen)"
+> +	if [ -z "$hostid" ] ; then
+> +		echo "uuidgen failed"
+> +		return 1
+> +	fi
+> +	hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
+> +
+> +	truncate -s 512M "${file_path}"
+> +
+> +	_create_nvmet_subsystem "${subsys_name}" "${file_path}" \
+> +		"b92842df-a394-44b1-84a4-92ae7d112861"
+> +	port="$(_create_nvmet_port "${nvme_trtype}")"
+> +	_add_nvmet_subsys_to_port "${port}" "${subsys_name}"
+> +	_create_nvmet_host "${subsys_name}" "${hostnqn}"
+> +
+> +	if [[ -f "${cfs_path}/attr_qid_max" ]] ; then
+> +		_nvme_connect_subsys "${nvme_trtype}" "${subsys_name}" \
+> +					--hostnqn "${hostnqn}" \
+> +					--hostid "${hostid}" \
+> +					--keep-alive-tmo 1 \
+> +					--reconnect-delay 2
+> +
+> +		if ! nvmf_wait_for_state "${subsys_name}" "live" ; then
+> +			echo FAIL
+> +		else
+> +			set_qid_max "${port}" "${subsys_name}" 1 || echo FAIL
+> +			set_qid_max "${port}" "${subsys_name}" 128 || echo FAIL
+> +		fi
+> +
+> +		_nvme_disconnect_subsys "${subsys_name}"
+> +	else
+> +		SKIP_REASONS+=("missing attr_qid_max feature")
+> +		skipped=true
+> +	fi
+> +
+> +	_remove_nvmet_subsystem_from_port "${port}" "${subsys_name}"
+> +	_remove_nvmet_subsystem "${subsys_name}"
+> +	_remove_nvmet_port "${port}"
+> +	_remove_nvmet_host "${hostnqn}"
+> +
+> +	rm "${file_path}"
+> +
+> +	if [[ "${skipped}" = true ]] ; then
+> +		return 1
+> +	fi
+> +
+> +	echo "Test complete"
+> +}
+> diff --git a/tests/nvme/048.out b/tests/nvme/048.out
+> new file mode 100644
+> index 000000000000..7f986ef9637d
+> --- /dev/null
+> +++ b/tests/nvme/048.out
+> @@ -0,0 +1,3 @@
+> +Running nvme/048
+> +NQN:blktests-subsystem-1 disconnected 1 controller(s)
+> +Test complete
+> -- 
+> 2.40.0
+> 
 
