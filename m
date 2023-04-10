@@ -4,75 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 062EEC76196
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Apr 2023 11:36:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5D1FC77B61
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Apr 2023 11:49:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UBItbdeexys0Y7TB8aLFQIh+fR2xJJUYLw4y/6h7Atk=; b=iwGsy/HMwNFBbQckoYJs/zttMh
-	Mb1vb1JTvDLKF+XbiTKyxtIz2LhrL3OMIf48xtg4UmxriGeMHILUHtoCXn626InCkXnCIuD2q9shm
-	Oolw4xkfy27CRE3AzTSEIUU6wnBqhZ8aAX1wLILpsmqs4Tl+NIt0N1AMOt+NslitFkskNP6tjfHNe
-	6jYR7GefbWzRUfY4IODW5Yhe3+xI7ueNU5TwkYd5b1MQ448bC6wsba3GMElJO3BFA+kGlkDGcL5+2
-	bl7LjRdRReks/4m1D6+xidhQpuFvpKUWmn5gyl0SUlmzbtsomfimakfs1LKgYbTEM1EK5JeJf/b0V
-	e8vItvUg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:To:From:Date:Reply-To:Cc:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=r4BCmjZXjIvYt/f6w97laQkdkEmzOoan8dalpyKawq8=; b=axoJ3eXubWBjcFRoiRFnH8iNQd
+	34CKYQ3C8kEQq2EiXxtUSBKRzitzvn7Z3OVU6j6GodT/ii0uagFPS9lQdJurSKmBmcuBYZwVrZC2G
+	rKaGV3+3bZLqDt/Mh7tTTIrerQVh5G6zFAEhGXqAF1QVQYO+vIY/NGWYTPzdI89FL74BbPnHWIIEi
+	5TaIcjIiMepMxiU3OhyFvszJKCNB0m93Us8pw0OQVxgqu0j6SelTI/DWWiYH+gZ50n9w+e1TAvLhm
+	mc9KrCm2bK4RcLjS1ocVfFCNYQhqhGq/PKJCrfm/4EsgFm8VmHLn53w/oWTz9ySLEkg/VgvdOjRTh
+	NFDt6WCg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1plpoV-00FAMp-2K;
-	Mon, 10 Apr 2023 11:35:59 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1plq1f-00FB6E-1f;
+	Mon, 10 Apr 2023 11:49:35 +0000
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1plpoR-00FALT-2Q
+	id 1plq1b-00FB5Q-38
 	for linux-nvme@lists.infradead.org;
-	Mon, 10 Apr 2023 11:35:57 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20230410113544epoutp028e3dcfe7f0e3f3f51da137d6619d6228~Uj69QKyPd2402124021epoutp02f
-	for <linux-nvme@lists.infradead.org>; Mon, 10 Apr 2023 11:35:44 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20230410113544epoutp028e3dcfe7f0e3f3f51da137d6619d6228~Uj69QKyPd2402124021epoutp02f
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1681126544;
-	bh=UBItbdeexys0Y7TB8aLFQIh+fR2xJJUYLw4y/6h7Atk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=HWFurj2+bF9czbCSuU8S5DYPb/gBa9FLmVZbK2P89YYqq6u9rOYTK1ttssXg/n+9G
-	 FOfzWChflZaRJjuqHCV3a1VKhYlr3zSRcRygrNBPuyQArJSasGD8y1Dh7fY1JeOFf6
-	 LBLQsuk6r2GLL9rFKHZKlFiJ3muJ4t6F7+f1YCJY=
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20230410113543epcas5p185f0673b416991f3f969dc3e19d1a058~Uj68w0Oyz0539905399epcas5p1y;
-	Mon, 10 Apr 2023 11:35:43 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20230410113543epsmtrp29bd6afde8c77983730b062df021887b8~Uj68wP4lx0546705467epsmtrp2_;
-	Mon, 10 Apr 2023 11:35:43 +0000 (GMT)
-Received: from green5 (unknown [107.110.206.5]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20230410113542epsmtip16fa219f71981e7b73d3b24faca822c9b~Uj67pzSAj0276502765epsmtip1N;
-	Mon, 10 Apr 2023 11:35:42 +0000 (GMT)
-Date: Mon, 10 Apr 2023 17:04:58 +0530
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: Keith Busch <kbusch@meta.com>
-Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	io-uring@vger.kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCHv2 3/5] nvme: unify nvme request end_io
-Message-ID: <20230410113458.GB16047@green5>
+	Mon, 10 Apr 2023 11:49:33 +0000
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailnew.west.internal (Postfix) with ESMTP id C8C472B067A3;
+	Mon, 10 Apr 2023 07:49:26 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Mon, 10 Apr 2023 07:49:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+	cc:content-type:content-type:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1681127366; x=1681127966; bh=r4BCmjZXjIvYt/f6w97laQkdk
+	EmzOoan8dalpyKawq8=; b=q0HhgsH16snrZWzPbz1zdce8Qe1ia0KwOAoYHEZva
+	pp/yFhUNvvE7MhZPK0ksIJ2Y7pEhQ7vL8NSAspVO991u5kkymJFt/dMyOnhPoMXl
+	zZ/OI6rOckAbJkDPqFClL/rKxMMvHumNoXEYZrE6TY0llEcqKeVjsGR7u3Ij099u
+	qc4SEA3KyD+TKbnswKkSsqmZj06/wPrXKleRmrLmAZm9NZ4ZXucjcsApyiLaphIy
+	2wVsQ3/wjHyOI7tRYxk2CFpQR1ZsjzK6w6KRTS8kEZS7zEAZ8/BvZc2pnzFLt0J3
+	M5TV4wo1rd9WBINkZlqMQi7GC//qkLJYvOvtni2mQqbEA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=ie1e949a3.fm2;
+	 t=1681127366; x=1681127966; bh=r4BCmjZXjIvYt/f6w97laQkdkEmzOoan
+	8dalpyKawq8=; b=iHEnQYAaeO49TnpC95pKb+sYkMA6pFfRe3MEN6Xr7IFL5AjJ
+	IBa7tfwU78gHj2a00OQsKhoh06LfgMR4AuZcZXj8pInA1rs8paYeju3JOC5D8sHl
+	JBkLkDRzx8pXwbaz4VNxfoLEPP9LZ27t2waCr0c2y19PyqKHdmJ1ehlN5/ANIFtW
+	na1H+iYpQktzZLuDM1/bQDewGMbcqImuqxOcQx7W2ZXwFHTKHEE4JAEDJAjdftAU
+	1Wwsj8Hg7riqk/C2fwhjCFhthav3t5reZvUR3kWuoMeCwRaXXYcBFmXFqhR0FXEl
+	4nXaP+OpiBHix5Mf6YgNbXJFjCCKn3Tmb6KXtA==
+X-ME-Sender: <xms:xfczZMxqLwrYVdFIRz43ehwl-sr8H4rryIdZcgzBNE8GV5wytCFyZg>
+    <xme:xfczZATdKZS4LfPiaf3IEsA9Ve8-rKfHi6htxhz0J8MAJh3ShlOVA5bY9bClTNoX-
+    6uBtG4REWhfC6CK24c>
+X-ME-Received: <xmr:xfczZOUKdeHF7eYAcp3DrJFd0MckDe08s2tcsqmIA26OrP3awR_tmYfy_NYeIGnXmp7U-LCbLc_RvVG2pwvzBg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekvddggeefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkgggtugesthdtsfdttd
+    dtvdenucfhrhhomhepufhhihhnkdhitghhihhrohcumfgrfigrshgrkhhiuceoshhhihhn
+    ihgthhhirhhosehfrghsthhmrghilhdrtghomheqnecuggftrfgrthhtvghrnhepveevge
+    evveeivdehfeeggeeiveevfeekvdegudetgeelieduheeuieekieeftedtnecuvehluhhs
+    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhhihhnihgthhhirh
+    hosehfrghsthhmrghilhdrtghomh
+X-ME-Proxy: <xmx:xfczZKjNngzW4wu00VIoM_MOXlMrcFGHOjdZjm-e8mDR3RW_WYhuKw>
+    <xmx:xfczZOBEho9XwTbngfHdqPxV9ePyOXPgRtvrNhn06LR9Q1P0lwWnhg>
+    <xmx:xfczZLIvc_36vTDLAzA-Ej1EeeWhPQU0eyUSJJygSoHGepkQzM5h3A>
+    <xmx:xvczZP7l0m7Y7H34AWvNhuH4ZwGg9Nn1udkCwSfG1DL4Z3JzLosxqJpCEs7sJEeQ>
+Feedback-ID: ie1e949a3:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 10 Apr 2023 07:49:24 -0400 (EDT)
+Date: Mon, 10 Apr 2023 20:49:22 +0900
+From: Shin'ichiro Kawasaki <shinichiro@fastmail.com>
+To: alan.adamson@oracle.com, linux-block@vger.kernel.org, 
+	linux-nvme@lists.infradead.org
+Subject: blktests nvme/039 failure
+Message-ID: <5vnpdeocos6k4nmh6ewh7ltqz7b6wuemzcmqflfkybejssewkh@edtqm3t4w3zv>
 MIME-Version: 1.0
-In-Reply-To: <20230407191636.2631046-4-kbusch@meta.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-CMS-MailID: 20230410113543epcas5p185f0673b416991f3f969dc3e19d1a058
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----w2jaHPLYrpKrCfQkcJ8LedpAWTKxgBVMFdZj2Hgt3-WHfK.r=_5832_"
-CMS-TYPE: 105P
-X-CMS-RootMailID: 20230407191710epcas5p285a50b90f4be2d782512bb4296ef6e20
-References: <20230407191636.2631046-1-kbusch@meta.com>
-	<CGME20230407191710epcas5p285a50b90f4be2d782512bb4296ef6e20@epcas5p2.samsung.com>
-	<20230407191636.2631046-4-kbusch@meta.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230410_043556_169932_D61FF68D 
-X-CRM114-Status: GOOD (  11.64  )
+X-CRM114-CacheID: sfid-20230410_044932_454059_E1948874 
+X-CRM114-Status: UNSURE (   9.45  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,78 +100,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------w2jaHPLYrpKrCfQkcJ8LedpAWTKxgBVMFdZj2Hgt3-WHfK.r=_5832_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+Hello Alan,
 
-On Fri, Apr 07, 2023 at 12:16:34PM -0700, Keith Busch wrote:
->From: Keith Busch <kbusch@kernel.org>
->
->We can finish the metadata copy inline with the completion. After that,
->there's really nothing else different between the meta and non-meta data
->end_io callbacks, so unify them.
->
->Signed-off-by: Keith Busch <kbusch@kernel.org>
->---
-> drivers/nvme/host/ioctl.c | 57 +++++++--------------------------------
-> 1 file changed, 9 insertions(+), 48 deletions(-)
->
->diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
->index 278c57ee0db91..a1e0a14dadedc 100644
->--- a/drivers/nvme/host/ioctl.c
->+++ b/drivers/nvme/host/ioctl.c
->@@ -465,29 +465,6 @@ static inline struct nvme_uring_cmd_pdu *nvme_uring_cmd_pdu(
-> 	return (struct nvme_uring_cmd_pdu *)&ioucmd->pdu;
-> }
->
->-static void nvme_uring_task_meta_cb(struct io_uring_cmd *ioucmd,
->-				    unsigned issue_flags)
->-{
->-	struct nvme_uring_cmd_pdu *pdu = nvme_uring_cmd_pdu(ioucmd);
->-	struct request *req = pdu->req;
->-	int status;
->-	u64 result;
->-
->-	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
->-		status = -EINTR;
->-	else
->-		status = nvme_req(req)->status;
->-
->-	result = le64_to_cpu(nvme_req(req)->result.u64);
->-
->-	if (pdu->meta_len)
->-		status = nvme_finish_user_metadata(req, pdu->u.meta_buffer,
->-					pdu->u.meta, pdu->meta_len, status);
->-	blk_mq_free_request(req);
->-
->-	io_uring_cmd_done(ioucmd, status, result, issue_flags);
->-}
->-
-> static void nvme_uring_task_cb(struct io_uring_cmd *ioucmd,
-> 			       unsigned issue_flags)
-> {
->@@ -502,11 +479,16 @@ static enum rq_end_io_ret nvme_uring_cmd_end_io(struct request *req,
-> 	struct io_uring_cmd *ioucmd = req->end_io_data;
-> 	struct nvme_uring_cmd_pdu *pdu = nvme_uring_cmd_pdu(ioucmd);
-> 	void *cookie = READ_ONCE(ioucmd->cookie);
->+	int status = nvme_req(req)->status;
->
-> 	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
->-		pdu->nvme_status = -EINTR;
->-	else
->-		pdu->nvme_status = nvme_req(req)->status;
->+		status = -EINTR;
->+
->+	if (pdu->meta_len)
->+		status = nvme_finish_user_metadata(req, pdu->u.meta_buffer,
->+					pdu->u.meta, pdu->meta_len, status);
+I noticed that recently nvme/039 fails on my system occasionally (around 40%).
+The failure messages are as follows:
 
-nvme_finish_user_metadata does copy_to_user.
-Here also the attempt was not to touch that memory in interrupt context.
+nvme/039 => nvme0n1 (test error logging)                     [failed]
+    runtime  0.176s  ...  0.167s
+    --- tests/nvme/039.out      2023-04-06 10:11:07.925670528 +0900
+    +++ /home/shin/Blktests/blktests/results/nvme0n1/nvme/039.out.bad   2023-04-10 20:15:07.679538017 +0900
+    @@ -1,5 +1,2 @@
+     Running nvme/039
+    - Read(0x2) @ LBA 0, 1 blocks, Unrecovered Read Error (sct 0x2 / sc 0x81) DNR
+    - Read(0x2) @ LBA 0, 1 blocks, Unknown (sct 0x3 / sc 0x75) DNR
+    - Write(0x1) @ LBA 0, 1 blocks, Write Fault (sct 0x2 / sc 0x80) DNR
+     Test complete
 
-------w2jaHPLYrpKrCfQkcJ8LedpAWTKxgBVMFdZj2Hgt3-WHfK.r=_5832_
-Content-Type: text/plain; charset="utf-8"
+nvme/039 => nvme0n1 (test error logging)                     [failed]
+    runtime  0.167s  ...  0.199s
+    --- tests/nvme/039.out      2023-04-06 10:11:07.925670528 +0900
+    +++ /home/shin/Blktests/blktests/results/nvme0n1/nvme/039.out.bad   2023-04-10 20:15:09.114539650 +0900
+    @@ -1,5 +1,4 @@
+     Running nvme/039
+    - Read(0x2) @ LBA 0, 1 blocks, Unrecovered Read Error (sct 0x2 / sc 0x81) DNR
+      Read(0x2) @ LBA 0, 1 blocks, Unknown (sct 0x3 / sc 0x75) DNR
+      Write(0x1) @ LBA 0, 1 blocks, Write Fault (sct 0x2 / sc 0x80) DNR
+     Test complete
 
+It looks that expected error messages were not reported.
 
-------w2jaHPLYrpKrCfQkcJ8LedpAWTKxgBVMFdZj2Hgt3-WHfK.r=_5832_--
+I suspect that the time duration is too short between error injection enable
+and I/O to trigger the error. With the one line change below to add wait after
+the error injection enable, the failures disappear. Do you think such wait is
+the valid fix?
+
+ tests/nvme/rc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/tests/nvme/rc b/tests/nvme/rc
+index 210a82a..7043c23 100644
+--- a/tests/nvme/rc
++++ b/tests/nvme/rc
+@@ -652,6 +652,7 @@ _nvme_enable_err_inject()
+         echo "$4" > /sys/kernel/debug/"$1"/fault_inject/dont_retry
+         echo "$5" > /sys/kernel/debug/"$1"/fault_inject/status
+         echo "$6" > /sys/kernel/debug/"$1"/fault_inject/times
++	sleep 0.1
+ }
+ 
+ _nvme_disable_err_inject()
+-- 
+2.39.2
+
 
