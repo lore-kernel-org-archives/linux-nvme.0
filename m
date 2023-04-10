@@ -4,74 +4,163 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D20E8C77B61
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Apr 2023 21:02:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11F8BC77B61
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Apr 2023 23:07:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:To:Subject
+	:Date:Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2R3aZfbxemWlOT8F2Y+IUuyvIwKz3ANVSxsEPbAk+to=; b=wVH07KwuMLoRQjoHlXHapE1IAB
-	gJMEZRclirlfa5188XK1mwXsbV8LKmtot7CyH/JJ5+nHW3ukkJMX/PdKs+6W3VgRDPik9y04kzZQI
-	7I5p4vaennxrG/SVJU4M8jZgZiFtDBsd7tGA/qdE0iEAuovuvJ7FERgZN6h1a3oop88ZwIrwehPGg
-	X3XijwGYs+d2zLJevoDBZ9RE9VUIj717EGlohLpXSq/vW+WLj2sAsvdK3DIK2kZy1OXdXDvY+L6/9
-	KuCxv03nQV6C1z1Wc1lFmO0I1X7KnbAjC3RawtgUFDqxBmzB3hLDDmkdsXZKT/ObieI3IXTYBbqq0
-	bAEdOPvg==;
+	bh=ulNn6v596Rj0XLp7a5sQtOO6P26cH48W3rxaEc+5cS0=; b=r7tJ6WlAGz0CxqLq0xmZuObNPT
+	OH6ov806F+7JV8epXhcIoTBLMQqkn0Gd6H/JTuk/2LwWYNPCdRfZTWFvjrD063nW6RC5jRnkpkdqF
+	lDnX1dck+GJGYg/eCICXqP8MhMFZPzhngT/xdy7o/jd6F2iNZxuoOyHOz/D28figdoltiPtyJ6D7g
+	paITCkKJ3Wj+b0p7ac+gi73LIzvB4xR5Mw8TjgfNZ8nntFpXTkm3LsQoPPEBRESDBeYgOEJ3a30jV
+	bR8P5YfLPQmM5l4liGjditvek0Tn4X6trCW3n3jPhK+PSCCKrKYPGSEetr2CnGmSQ0DUqUVEXM+hE
+	BBOeNMmg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1plyf2-00FvlX-11;
-	Mon, 10 Apr 2023 21:02:48 +0000
-Received: from mga09.intel.com ([134.134.136.24])
+	id 1pm0bZ-00G2mE-06;
+	Mon, 10 Apr 2023 23:07:21 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1plyez-00Fvka-1V
+	id 1pm0bM-00G2ln-1L
 	for linux-nvme@lists.infradead.org;
-	Mon, 10 Apr 2023 21:02:47 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681160565; x=1712696565;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/iFIhWoDac+UT40gLNkBeOwuDo3E6+5ZVwgNZZpo0ak=;
-  b=MucQqzsZYqFCsBtqoRGPNEzzFQVhLvd9JRXnWiySUN6RQlQRW16gboUE
-   xKw3TVfPC433GIY2pWUV7fdTmsmT46KE/scbngN4IX2wKURp2HsijmNQX
-   f8aO8UEndyviD4wzkPFES8NiwtLe4V2j2Z6cmwa99TPwBpLdjYkOoM6Dc
-   zDI0DcrcZCd9mxGtUPe2kElhXMqNnVQsEE2NJNekZNnK8R6dBi/YtgdWy
-   gwgcE6IDKsjIpeECMQFJKXulTCPrt4IAru5ZqUKCny4mjOD/nFnP7mPbJ
-   F9DZVDT0Q7FrCdnI3rOWE+XqlxzBw6rY8w3wBinfvv5fo3AxG+kK75n3E
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="345240687"
-X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; 
-   d="scan'208";a="345240687"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 14:02:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="832096656"
-X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; 
-   d="scan'208";a="832096656"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 10 Apr 2023 14:02:39 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1plyes-000VfZ-2X;
-	Mon, 10 Apr 2023 21:02:38 +0000
-Date: Tue, 11 Apr 2023 05:02:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, io-uring@vger.kernel.org,
-	axboe@kernel.dk, hch@lst.de
-Cc: oe-kbuild-all@lists.linux.dev, sagi@grimberg.me, joshi.k@samsung.com,
-	Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCHv2 2/5] nvme: simplify passthrough bio cleanup
-Message-ID: <202304110443.e026C3nq-lkp@intel.com>
-References: <20230407191636.2631046-3-kbusch@meta.com>
+	Mon, 10 Apr 2023 23:07:09 +0000
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33AJU7Vn002835;
+	Mon, 10 Apr 2023 23:07:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2022-7-12;
+ bh=ulNn6v596Rj0XLp7a5sQtOO6P26cH48W3rxaEc+5cS0=;
+ b=vT8U82oPyTyjvv70A9iXux2QT04YKvJzNRAFeqclh6IKEZM83fafgAOtaU6yqUX72Yev
+ 5dwF5tJ2wKPqfmB6q97j6OQTniN0pSSexA+i3FZX+JPMb9CjddDEEw831LuTIgXEjyef
+ QNqMl/Rus4Mr+2D5gakRZ1PP9gX5u/svJfoeo2tTEvkBOLdVQaI5AfZZacMn6VnSrD1O
+ GGUDiBH9zQZAttTKOSP46S6FtSyUuQ6B/pXHsiGYeRY7uOMRoyp5j8OtZlyqdgz3EOkQ
+ yrBbs4V/zkp/5zBXw42AKAa9jT3BFmVpgEEbWj64S4LrB/Nhfya2hJojMQovxZXJ+jLy MQ== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3pu0bwc1ag-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 10 Apr 2023 23:06:59 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 33ALq0xx038384;
+	Mon, 10 Apr 2023 23:06:58 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2102.outbound.protection.outlook.com [104.47.70.102])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3puw85qprr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 10 Apr 2023 23:06:58 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bDkHrOAPG8x6g4cj4POp/xpFr6hx2NkBE9W43eIXllfiHzMjdtiVdqGlHUWgKl28HVgANnpRdLJjK6wR2YYBU6vuSFQs3L0dx6tk7eiMAi+fC4KF6iY0rX6dZdmMJVqP3KoOHtQZIYzWFf1ufPSef7h5TFyMLJYrC83r0KBO6vpwadH4be737FmiFYLafuvtrIbpNY2oSov8l0Zrwlbi2I2z9QVHSGgoqVtZiG28DfnMxPaOW0wTAOemX0gm5GjUUkWsBxor0NyvHFDzYI/ToRrP/3cHa7AWQm37B1tG39RDUQaGUa3XtzKZlGgNBdFGc0z4WCX/UX+kBKEfDOyl3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ulNn6v596Rj0XLp7a5sQtOO6P26cH48W3rxaEc+5cS0=;
+ b=Eezfgy8nSgtn9VHHk5hqROWQXwKSTy91cccvkF3Ti7lobhfuKTA7ShypJNcstZ+S50kkb+lHSMOaT30PXf3/6OakdbaVFMfBDazg0ooF0G3xO6b3XmmQKG08tj5LRspZaEKHAPvRd7JxGL9+6XWqCVS20SeeWeDL2e4jNgfIUhGGCjVJco/d1Ic3HIrSCNGyRbnc8eAvNGnXR9kxhST+AdW6nVpCo92bm1uGye4h/nFJS0DQYmBwcfY+8jjDNBqiZk5ZRLET6k6gu3PM8r+cZkK5bKAQMldOWSPAepwqvnaKpD+AFQc2zfFwRUb5x1qyKU/a5llxtKxM+vsyv4eYGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ulNn6v596Rj0XLp7a5sQtOO6P26cH48W3rxaEc+5cS0=;
+ b=q5eAoJ2ibXDXq1/13h/d1y1O3llZ+UpXc0pouJRJEikiEC3hMcsysX6PvAErAGJSlOp+cwWaHL0WT296r9eHE6klr+YRHu5ubma+6TaoU3HgYrwHwmV5LJVccbrByMjT6sncLnAhb4zAdfOrbJjWr67cVNF39VOt+fnBHiTH7Hw=
+Received: from SJ0PR10MB5550.namprd10.prod.outlook.com (2603:10b6:a03:3d3::5)
+ by SA1PR10MB5712.namprd10.prod.outlook.com (2603:10b6:806:23f::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.38; Mon, 10 Apr
+ 2023 23:06:55 +0000
+Received: from SJ0PR10MB5550.namprd10.prod.outlook.com
+ ([fe80::e206:6854:c7ed:225c]) by SJ0PR10MB5550.namprd10.prod.outlook.com
+ ([fe80::e206:6854:c7ed:225c%6]) with mapi id 15.20.6277.038; Mon, 10 Apr 2023
+ 23:06:55 +0000
+Message-ID: <76983b72-b954-5865-1b34-c88161a7dec9@oracle.com>
+Date: Mon, 10 Apr 2023 16:06:50 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: blktests nvme/039 failure
+Content-Language: en-US
+To: Shin'ichiro Kawasaki <shinichiro@fastmail.com>,
+        linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+References: <5vnpdeocos6k4nmh6ewh7ltqz7b6wuemzcmqflfkybejssewkh@edtqm3t4w3zv>
+From: alan.adamson@oracle.com
+In-Reply-To: <5vnpdeocos6k4nmh6ewh7ltqz7b6wuemzcmqflfkybejssewkh@edtqm3t4w3zv>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN6PR05CA0014.namprd05.prod.outlook.com
+ (2603:10b6:805:de::27) To SJ0PR10MB5550.namprd10.prod.outlook.com
+ (2603:10b6:a03:3d3::5)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230407191636.2631046-3-kbusch@meta.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR10MB5550:EE_|SA1PR10MB5712:EE_
+X-MS-Office365-Filtering-Correlation-Id: 192ad978-b463-4e4c-89c1-08db3a18475f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	LfdIplmEtpcDA3IYjTSdXy8IwhDJohdI7P2VRLnRkSohogBKPO3sJF3gm20GRDok009zw+YsiKYhYFaHj7GpTHPZlvmdl3hFcjrzpQtf+nNL1WtvPYnc2iPEsoeRP6n9FnyvgawJ3ghBvcODxkAV0NxlM3aawiXZoeJpSHv1ACen+ixbyQsg+MDs5nE1jiZx0wNpU16qdcd/o2D7NXYUhiYwMwIV7BqzrDCMQ6HBVH8Evwgpiv2E8W+jDtE3xQwQbuWhqosZ/9Dit0dkGW118pCyhIQtR5qzuSx7lRtRYx5NMD4fkq7oyJ6DXhH692k8we1Xy0w9pqn+P9ppy44F489YtawzR0MfKPsrimoGZhzbwKu0Rv1VE0cLEkkdf7Kn03kpv5buSjQNJkHjQhJfJENTNNhZnP6D+A3rcivudCD2r00VIrA98mVHHbkYrJNP+4V/F3sEKC06x4gnWbQEQEiYgW2Z4zASKbj5tafwHBvMrHsIMgMEWmAPbOzqp00g8TuQU0E1HoQjp2NcTAiyD9PRiY/96486YWwPX9azsHR+xlB2s6EN9Me0irBGRH6sb2kPSGfW+G20kt1EmU7614Tu4avx7KCrxA4nnRp50NAbTj3u0RGyaNwtXtAwhWV+
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5550.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(346002)(396003)(366004)(39860400002)(136003)(451199021)(478600001)(6506007)(316002)(53546011)(9686003)(6512007)(26005)(186003)(6666004)(6486002)(2906002)(66556008)(66946007)(41300700001)(5660300002)(66476007)(8676002)(8936002)(38100700002)(31696002)(36756003)(83380400001)(2616005)(86362001)(31686004)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?b0Joa1NzWEN2RGhTVkh6MnFzbi9vQi9VZlhVRzZwM2dvQkdHRm8vNUFjQU5U?=
+ =?utf-8?B?aVRHNTRpSFBpUWwwTE4rQkkrRUUzeXl0UWM5TXZ0UEtaNXhmK1ZrcDdTcFR6?=
+ =?utf-8?B?MTJxK3F5RldaTWRGVmc5bEVhQTNwUllmN3M2VFk4MVZ5Q2o1a2d5N1E5YjhL?=
+ =?utf-8?B?TUI2QU1tOFJJZjBVYUdQNTgxNlRJS1JXY3ZpNXlQd3NlTzNxY3RJS3MrSGRF?=
+ =?utf-8?B?Zm1PSmtEYkd4c21mbWJPanE3MVNzam4va2p4T1FXNlVBU1htZkM2bmFobnlT?=
+ =?utf-8?B?TUZZd21hbXRia3IyUEdYek1yWTZ3alhRZHV5NEJGVjB0ZHpnZXpBZFg5OFlz?=
+ =?utf-8?B?amFNK0V4L0dCVFNxT3FFb0tXdmxhSk5sSE4rY3JnR0tXaXhYdHJkS2NwVWgy?=
+ =?utf-8?B?UnRwMWpuTTNDSkR3OUp0ZGFMSy9iZUlkWTJLbHBuY00zNDVvY0lzdDU4b1hQ?=
+ =?utf-8?B?YVlmQVpsV0ZET0c1aUpUR3dqaWNLZ1BnRUFlbVFRTmNTWXVhaFRZU3FCWG1n?=
+ =?utf-8?B?K2FMU0p2bStNTnI3Z24vNk05Vi9ST20vd1Q4VG1FQU5JTnh0aS8vMHQ1cjR1?=
+ =?utf-8?B?WHdreXhQY0c4UEFPQnRUZENVOE44aGdaRnNUd0tZSUV2OVFGQUh2akQ1azEr?=
+ =?utf-8?B?Z0tSMWZvRVlUVVl6TXlSZjdGTk5NWXpnZmFJS2YrNWZQTERscUhFR25CUWt0?=
+ =?utf-8?B?enFIY2N0aWpNSzF1OVNDUE9iMVUvTkJ6K1EwTnlFNXFBZXJnSFMxMHBSN3J0?=
+ =?utf-8?B?d3VhYTExaFU0ZlJVd1VUdWNJOEZuSUxJMjYwKzBGU2tHVVErVTkvL3MzMlV5?=
+ =?utf-8?B?c1o1c0cyVWdmbzdwQW13Z3hiWUFiZlh6VkhZR0FNL1QzMFBWZytadGV1REc3?=
+ =?utf-8?B?VjBERmpIR3dEUlNka0NXb0craGhmV29IT2lmT1U4MVcySE9pNGNWRkl6Tzc5?=
+ =?utf-8?B?N2s2TnliRTJWcHVDWGxlbW4ycTZGam1vT0JyS0tWRkRxYmU1RnE2ZThvQjRm?=
+ =?utf-8?B?NHVMcXByRmRrNUxEdE0zUXp6SUFqRzZLbzZYNjJEL1pIZ0NTbzY0U0hHSjV5?=
+ =?utf-8?B?N3lmM09TODYwK0ZTOGVJRHg3cUJ5ZVVSM3N5c0lJcjBvRFpheVR6U3BoZjdx?=
+ =?utf-8?B?a09lNTBuV3FWTWVNZ1dFR3J4bG12ckx4S2ZrTXZaNFFkcHlrTlVWSFduVVp5?=
+ =?utf-8?B?QjZ6cVF4U0ZsUzdCUXdXeVF0dytwY1VYMlA2OEpSOTNyNndOM3VHSkcrNnlJ?=
+ =?utf-8?B?TjBKUXdoMDdSNUpTSmlnNkxobEhHdDFMUGtONFNaTmp4cDJEQVZ0V3pLOHJi?=
+ =?utf-8?B?SUF5Y3YwVzZ4VFJMRk5Tb0M0MFhjQzdCQUtaS3ZBTE9pa2tqcHJ3WS9vQ2dK?=
+ =?utf-8?B?a1M1NnlIKzB4WGErSWM0Y000K2pnR2pHMkpJdUsvTnQzQUdiK2NuUURLV3Va?=
+ =?utf-8?B?NkRyeUg1ejR0RnlCcWRaMWEzOUVORXJ3TXRrNW1JeDllaDM5bDNSck5iTkUz?=
+ =?utf-8?B?VmZHWGlSQVBPYXNMTVZFZ1dnRE9XeW9zN2ZHNENib1FrOERGYUQrbTROb3J0?=
+ =?utf-8?B?b2FCSnI2TFYwd3psMnE3OE5mRXRBandMUWhyZERLUDg2VGh1R29lc2hwYzF6?=
+ =?utf-8?B?WkRLZ04vSm9CVG9jWUw5a2FtWFY3d1RaVThzQ2ViOThKSkhvWXM1cUFqWXZj?=
+ =?utf-8?B?VlpINE42NXhnNTVIaUdsNWhrZkFFeDl2dDJGRUQyL0Q2c0ZjM0xIL3kyd1Rr?=
+ =?utf-8?B?c0h4T0xuRTZ0WlQ5RVFCd095SlF6RUpQWjQ4QXJ5Z1FOcDluOEhxVkQxSW9X?=
+ =?utf-8?B?RXpLQkxkWnltYytDNnFJY3NvblZtdDJpWGV0RjZQaFVwLzFyNmExY1hYUE9C?=
+ =?utf-8?B?cUVNSW1WMXhZYnFmcjlaLzZUOEpjL3J1TDg5VUlaNW1paDlpYUQ4bS9lSmJS?=
+ =?utf-8?B?TXVNaGZlQ3NsUFk4aXAxZmxjSVZ2Nklkd3NFQndlQWhpakNYRHdidis4WWl5?=
+ =?utf-8?B?anVUY0JqTVZxbEZKT2RVUldpNHZvWVAxNGRSU0RraUhxSC81andLRGV0U3l4?=
+ =?utf-8?B?TWl0aGRrL1dpcWIvd3NyM29LejUrcHRiaitGOHdrUE9VQUkvbXZxTTd4OHp5?=
+ =?utf-8?Q?m5uozrfJ0yNWr27mBj9cMcPJH?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 	OIzdxNsG5OUSKZ2ZXGB0a4xvvIYpI1YMFGrE7T/7gBSWcIloXEutMRv83+wv13MPPFs/NeNqVS8EBaXWdcoyVQTceqHmLhokCUzreJHHffiCNUueP1owgjk9xIcqAXawW8x+OmjZVvBzsysedfTdGqbSmTDHX5WWSbOJoJe9F5LCJrllXUWSQKQCrXyDem6f2fe7hHeBf/B274NQRldXtynRMJayiW+VvL2Q4wGoZjipJ1AU6i/0aK16o7YNVwFqw6JtF9Kj1CDMXi0zxaQlqN6xic7flQ2Xy3Cq6Ixzx70ri0pH2bjsxP6Cqdm9qWye6y+GntoHKTUiAZ4SkoI27VsErGkRA5ws0ofrKbwypcbzC8GKtkEU2emYi6UH3OFoSVDJoRQvBaGjVE1Zi9J5c0jTLzB2V42tmTmGq1ZyKCXIZXQhtbC35vzD34d+FHHVDqN02fs5TlgO7UNlet6jjgBgfVNjFcZPIs8sxEFRaB52+jXoT8GjYEBgIcDvR1bIAt7LQSVkdRnazOGLgAJct+A+1zWuEkqtPkhrXkdSgYKkmhowblioj+znKpLEnY7fnNJV89rZErKXJzx2cdwHGgqBdEyarCWJ6M8vHZBHN5cnichfZQ6n5FoTDSoF5kW4Limup3MVzehHeccZdhRixH5FI/Yip1CaBN1frD8rKotRsoAh6Ed7TY1Rs0y9s0Icysc//TEGrDlxPskSLslEFTmOJOlJPkZlqodK5EZ6euaCusZAO+hQEdEEPzSozMWKUHeMhoeW1csqxpTp9RZRRjjhab0c/6A0+iWF9E7AGOvPhb6UoqY8yGhCzWZwnn3vYSj1p/CvXEbxh5K/MzTDPhN3f5wBpHghk5+w3QOhhPA=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 192ad978-b463-4e4c-89c1-08db3a18475f
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5550.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2023 23:06:55.7336
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: b/CyRz4lo7dBuRLMVeGtRNLbrdGx+EmUOa8Bv81dPOESUV1HivT8joojlVeDI7EUbCzeEMkLjy1lNs+4WnZUcQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB5712
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-10_16,2023-04-06_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
+ phishscore=0 mlxscore=0 malwarescore=0 suspectscore=0 bulkscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304100202
+X-Proofpoint-ORIG-GUID: 0YPJhtd9yyXb_cECaQuGvFq7YfWxCtU2
+X-Proofpoint-GUID: 0YPJhtd9yyXb_cECaQuGvFq7YfWxCtU2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230410_140245_574216_79E04442 
-X-CRM114-Status: GOOD (  13.21  )
+X-CRM114-CacheID: sfid-20230410_160708_757313_EDE1590D 
+X-CRM114-Status: GOOD (  22.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,73 +175,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Keith,
 
-kernel test robot noticed the following build warnings:
+On 4/10/23 4:49 AM, Shin'ichiro Kawasaki wrote:
+> Hello Alan,
+>
+> I noticed that recently nvme/039 fails on my system occasionally (around 40%).
+> The failure messages are as follows:
+>
+> nvme/039 => nvme0n1 (test error logging)                     [failed]
+>      runtime  0.176s  ...  0.167s
+>      --- tests/nvme/039.out      2023-04-06 10:11:07.925670528 +0900
+>      +++ /home/shin/Blktests/blktests/results/nvme0n1/nvme/039.out.bad   2023-04-10 20:15:07.679538017 +0900
+>      @@ -1,5 +1,2 @@
+>       Running nvme/039
+>      - Read(0x2) @ LBA 0, 1 blocks, Unrecovered Read Error (sct 0x2 / sc 0x81) DNR
+>      - Read(0x2) @ LBA 0, 1 blocks, Unknown (sct 0x3 / sc 0x75) DNR
+>      - Write(0x1) @ LBA 0, 1 blocks, Write Fault (sct 0x2 / sc 0x80) DNR
+>       Test complete
+>
+> nvme/039 => nvme0n1 (test error logging)                     [failed]
+>      runtime  0.167s  ...  0.199s
+>      --- tests/nvme/039.out      2023-04-06 10:11:07.925670528 +0900
+>      +++ /home/shin/Blktests/blktests/results/nvme0n1/nvme/039.out.bad   2023-04-10 20:15:09.114539650 +0900
+>      @@ -1,5 +1,4 @@
+>       Running nvme/039
+>      - Read(0x2) @ LBA 0, 1 blocks, Unrecovered Read Error (sct 0x2 / sc 0x81) DNR
+>        Read(0x2) @ LBA 0, 1 blocks, Unknown (sct 0x3 / sc 0x75) DNR
+>        Write(0x1) @ LBA 0, 1 blocks, Write Fault (sct 0x2 / sc 0x80) DNR
+>       Test complete
+>
+> It looks that expected error messages were not reported.
+>
+> I suspect that the time duration is too short between error injection enable
+> and I/O to trigger the error. With the one line change below to add wait after
+> the error injection enable, the failures disappear. Do you think such wait is
+> the valid fix?
+>
+>   tests/nvme/rc | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/tests/nvme/rc b/tests/nvme/rc
+> index 210a82a..7043c23 100644
+> --- a/tests/nvme/rc
+> +++ b/tests/nvme/rc
+> @@ -652,6 +652,7 @@ _nvme_enable_err_inject()
+>           echo "$4" > /sys/kernel/debug/"$1"/fault_inject/dont_retry
+>           echo "$5" > /sys/kernel/debug/"$1"/fault_inject/status
+>           echo "$6" > /sys/kernel/debug/"$1"/fault_inject/times
+> +	sleep 0.1
+>   }
+>   
+>   _nvme_disable_err_inject()
 
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on next-20230406]
-[cannot apply to linus/master v6.3-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/block-add-request-polling-helper/20230408-031926
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20230407191636.2631046-3-kbusch%40meta.com
-patch subject: [PATCHv2 2/5] nvme: simplify passthrough bio cleanup
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230411/202304110443.e026C3nq-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/9a32e7ca02dd8cff559b273fe161b5347b5b5c97
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Keith-Busch/block-add-request-polling-helper/20230408-031926
-        git checkout 9a32e7ca02dd8cff559b273fe161b5347b5b5c97
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/nvme/host/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304110443.e026C3nq-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/nvme/host/ioctl.c: In function 'nvme_submit_user_cmd':
-   drivers/nvme/host/ioctl.c:232:21: warning: variable 'bio' set but not used [-Wunused-but-set-variable]
-     232 |         struct bio *bio;
-         |                     ^~~
-   drivers/nvme/host/ioctl.c: In function 'nvme_uring_cmd_end_io_meta':
->> drivers/nvme/host/ioctl.c:528:36: warning: unused variable 'pdu' [-Wunused-variable]
-     528 |         struct nvme_uring_cmd_pdu *pdu = nvme_uring_cmd_pdu(ioucmd);
-         |                                    ^~~
+I've been able to reproduce it.  The sleep .1 helps but doesn't 
+eliminate the issue.  I did notice whenever there was a failure, there 
+was also a "blk_print_req_error: 2 callbacks suppressed" in the log 
+which would break the parsing the test needs to do.
 
 
-vim +/pdu +528 drivers/nvme/host/ioctl.c
+Alan
 
-c0a7ba77e81b84 Jens Axboe    2022-09-21  523  
-c0a7ba77e81b84 Jens Axboe    2022-09-21  524  static enum rq_end_io_ret nvme_uring_cmd_end_io_meta(struct request *req,
-c0a7ba77e81b84 Jens Axboe    2022-09-21  525  						     blk_status_t err)
-c0a7ba77e81b84 Jens Axboe    2022-09-21  526  {
-c0a7ba77e81b84 Jens Axboe    2022-09-21  527  	struct io_uring_cmd *ioucmd = req->end_io_data;
-c0a7ba77e81b84 Jens Axboe    2022-09-21 @528  	struct nvme_uring_cmd_pdu *pdu = nvme_uring_cmd_pdu(ioucmd);
-c0a7ba77e81b84 Jens Axboe    2022-09-21  529  	void *cookie = READ_ONCE(ioucmd->cookie);
-c0a7ba77e81b84 Jens Axboe    2022-09-21  530  
-c0a7ba77e81b84 Jens Axboe    2022-09-21  531  	/*
-c0a7ba77e81b84 Jens Axboe    2022-09-21  532  	 * For iopoll, complete it directly.
-c0a7ba77e81b84 Jens Axboe    2022-09-21  533  	 * Otherwise, move the completion to task work.
-c0a7ba77e81b84 Jens Axboe    2022-09-21  534  	 */
-c0a7ba77e81b84 Jens Axboe    2022-09-21  535  	if (cookie != NULL && blk_rq_is_poll(req))
-9d2789ac9d60c0 Jens Axboe    2023-03-20  536  		nvme_uring_task_meta_cb(ioucmd, IO_URING_F_UNLOCKED);
-c0a7ba77e81b84 Jens Axboe    2022-09-21  537  	else
-c0a7ba77e81b84 Jens Axboe    2022-09-21  538  		io_uring_cmd_complete_in_task(ioucmd, nvme_uring_task_meta_cb);
-c0a7ba77e81b84 Jens Axboe    2022-09-21  539  
-de671d6116b521 Jens Axboe    2022-09-21  540  	return RQ_END_IO_NONE;
-456cba386e94f2 Kanchan Joshi 2022-05-11  541  }
-456cba386e94f2 Kanchan Joshi 2022-05-11  542  
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
 
