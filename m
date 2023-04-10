@@ -4,96 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85F8CC77B61
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Apr 2023 06:06:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67B20C76196
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Apr 2023 11:26:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+JiAbLrbAJgHcDzgRpzma7BrumZozZYXSiVdGgFxTPA=; b=rQ6lHx/lyri9r+dwlmR6NnsiR8
-	Oe7J6441AJ5qr1a9R/Jh3WvZrK2IzrgfFgBMY1ObBJ4F+zGYFcI1FpK2gpWFCb0SOMF2Y2OEbNZQn
-	EZmfBvGW1LfiskvzK0YHYRahwRzXopwOTbsUM6uEnAccOVlhhHtBd5HyD2SQvH+nDc4HDHEpeLIBY
-	KTKx0WIU/rA/WP/28yRPEyTkNUlg4m/co7Ca2ZLXUumrnkbqV4jRYwTYLURImYT5Cl5QR02Jhlq0D
-	X7WR2J6fhtLwxMJwhvpDk/xR+exmNaT1x3ASHGDVseKiBjHnBVw2C+2XVZse1rD88T9sF3DV1Uld4
-	Si3DdxbQ==;
+	bh=UHIxLy9rr2FhoG6rYbGSve7hP2xwzs8NruR/TyQFIMM=; b=FD2sPczMto0pMRTc4dgayy2H8q
+	+0oJ3zozAju96TkhlgIGGnaxnyLoxQLPgaq1+lGP8eTlztuH9Ejjq5VjWnAjBh3vOa5yb06qO6Nlt
+	P4NUIZnaqiNaW++nBpOZAtiAtRG18tyLIFWwJHs2MFu2b08s5A4G5tBzBgR3jERbHsPXvitJuAPXo
+	Bm9SRI8K4+2FqqO8fOJVt+3m4gYmmnU6Qz/p0owxhlXCC3Xw+noDDCTYn1CWf+Ij5XbDV/OdJGncm
+	qAwO9OidXZGre8KgdGsTQ0Qwx1XI6S8utadUNHGOoiG3uUxUGmEesZLxvlAAwkcFQQNWRQGt9HTE9
+	mljJGJ5Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1plkfR-00Ede6-1x;
-	Mon, 10 Apr 2023 06:06:17 +0000
-Received: from wnew3-smtp.messagingengine.com ([64.147.123.17])
+	id 1plpf3-00F9gJ-2Z;
+	Mon, 10 Apr 2023 11:26:13 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1plkfO-00EddG-1r
+	id 1plpf0-00F9fV-1Y
 	for linux-nvme@lists.infradead.org;
-	Mon, 10 Apr 2023 06:06:15 +0000
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailnew.west.internal (Postfix) with ESMTP id BEEAB2B06712;
-	Mon, 10 Apr 2023 02:06:10 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Mon, 10 Apr 2023 02:06:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1681106770; x=1681107370; bh=+J
-	iAbLrbAJgHcDzgRpzma7BrumZozZYXSiVdGgFxTPA=; b=qxsuj/m258kY/8g2JF
-	hbc0h2/oqib296rMYxvESCICdfEx0hU1eTuBVAYplz3roSHPgigayrFjB32L0DDb
-	afK9ZA0al8/hye74l9eermwV35BS5GVc+053psxK8XsNDqA3797KXBrwHwgLRpdg
-	8j0LxlW2W5TZIISh72TALIctRUm9EPuIXQQfli11cH1rEZ7sz+8oNcj/IHA+58m+
-	tmM6ZiC4xcj2bfY1acDHXlPO2vFafH8DPua6JXcF1aq/7AgeKGHYY950hZmvVS02
-	/owDmXGJKgBN+hcTAgqVQAsdembd+Iiod1QDBQEIR6RPnFzM6KjniBtblCOxHsgd
-	Qo6g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=ie1e949a3.fm2; t=1681106770; x=1681107370; bh=+Ji
-	AbLrbAJgHcDzgRpzma7BrumZozZYXSiVdGgFxTPA=; b=jaSD2lBqT4APe0KBzNg
-	qcHDOT9pE78Pd2yXfbW3bq5cpoVk2Y7sPT6I0D3it3NHYqz5CQdFCZQ4lWcPlHGV
-	Y9Htz/KoRQWyWRsuvs1SjiSuD6Lbujm1FQLyUwBMP3rFTQ4F4MP1cdT/2E6gdb2C
-	Nl6qb/0uVhhLy99ZqvN+SbQRzKuL3PFABIXApV44XjmwjJRVo2a+9yZPDjVQ6kM3
-	FJMhD4pP2Ea2hSxrrWFGpuyr484mBfNdB7Wx2WPtFMHE8sBKjBZCBWOf/vaAy8In
-	LWVKk8YP6VSrnAcU6tTAc3bSK2RnBT8JtTl3D2VhSn6+77/TW1JULcH5A4ccjDLm
-	u+A==
-X-ME-Sender: <xms:UaczZA4mbnp5UH90vOiIAMcZokmX_wENW3XtpdUEeyreAV95v2aECQ>
-    <xme:UaczZB7k9JcFMlbBpUPkg4cGLNe5JwCJJHuWENEKYxSlA0i4QQ8fEJW9_uPH921hL
-    F6hiE01hTzuAkwddI4>
-X-ME-Received: <xmr:UaczZPdsQP831zElw4Dh5eyp0bBrIH2Qcq7q3oqUkjFbI0ffU3OkWlr6O56Ly8mjew5UW0_EvQ0nYp_zOU3GDg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekuddguddtiecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtuggjsehttdfstddttddvnecuhfhrohhmpefuhhhi
-    nhdkihgthhhirhhoucfmrgifrghsrghkihcuoehshhhinhhitghhihhrohesfhgrshhtmh
-    grihhlrdgtohhmqeenucggtffrrghtthgvrhhnpedvgedtgfdvhffgkedvkedtgfefleej
-    leeggfekudejieetheeghfegtefhgfehheenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehshhhinhhitghhihhrohesfhgrshhtmhgrihhlrdgt
-    ohhm
-X-ME-Proxy: <xmx:UqczZFK763oUAg3BbDdZtoNIliUIPdQk_FyLG2DW6yWAe3U9uRXsoA>
-    <xmx:UqczZEIyhig2DFz3nCueXjNo5wDZWI3VCSB-XY5klz97weNNRUmx2Q>
-    <xmx:UqczZGxOCeSrdojQe_CV7dqbokvI5AHI9-VDK647L0GzOtJUiQzE7w>
-    <xmx:UqczZM8qCRxNfmNc7MuXa5HQq0I48ULEqZ52XMJgJ0dxHF3uVztAcHYECjycWoOS>
-Feedback-ID: ie1e949a3:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 10 Apr 2023 02:06:07 -0400 (EDT)
-Date: Mon, 10 Apr 2023 15:06:05 +0900
-From: Shin'ichiro Kawasaki <shinichiro@fastmail.com>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>, Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>, 
-	James Smart <jsmart2021@gmail.com>, Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Subject: Re: [PATCH blktests v6 0/2] test queue count changes on reconnect
-Message-ID: <enbhdajylbbzykqyey5d35hmqbmsqca6entvdhpwifg53lx3ue@pe4dpridsdxg>
-References: <20230406083050.19246-1-dwagner@suse.de>
- <ftljvb4alzxssqjzr5ik7pvatiwh25i4ftktvgvxzqxk76afew@brp7ch4v7wik>
+	Mon, 10 Apr 2023 11:26:12 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20230410112558epoutp03c1775b3c83f5ca53aa5913c95404c423~Ujyb0mFbA2546525465epoutp03B
+	for <linux-nvme@lists.infradead.org>; Mon, 10 Apr 2023 11:25:58 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20230410112558epoutp03c1775b3c83f5ca53aa5913c95404c423~Ujyb0mFbA2546525465epoutp03B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1681125958;
+	bh=UHIxLy9rr2FhoG6rYbGSve7hP2xwzs8NruR/TyQFIMM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Vvozc/AX+2UFkrE+m2OcNf4q65qf2xw32IL3ehSFZp5VeUxoFGaKZo3Wj7G7gkL0i
+	 X8sapoO/2iHGZ+1eiV5iLmfCnCnD57XWYTE4zC4Wn+SLbotCV/IKVKPdHB5f6emif3
+	 NCMO0tlBX/KwiFBi08bov4U294zx5byClF4smXf8=
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20230410112558epcas5p1a0b28653aae0af8be020cd6dff0fd2ef~Ujybe8Jay0835008350epcas5p1k;
+	Mon, 10 Apr 2023 11:25:58 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20230410112558epsmtrp20642811a51e760e70ba63e118986d2ff~Ujybebwfu3173131731epsmtrp2Y;
+	Mon, 10 Apr 2023 11:25:58 +0000 (GMT)
+Received: from green5 (unknown [107.110.206.5]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20230410112556epsmtip1c29299c2d6bd2368d392525783eafae0~UjyaK_cPT2849828498epsmtip1N;
+	Mon, 10 Apr 2023 11:25:56 +0000 (GMT)
+Date: Mon, 10 Apr 2023 16:55:03 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	io-uring@vger.kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv2 2/5] nvme: simplify passthrough bio cleanup
+Message-ID: <20230410112503.GA16047@green5>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ftljvb4alzxssqjzr5ik7pvatiwh25i4ftktvgvxzqxk76afew@brp7ch4v7wik>
+In-Reply-To: <20230407191636.2631046-3-kbusch@meta.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-CMS-MailID: 20230410112558epcas5p1a0b28653aae0af8be020cd6dff0fd2ef
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----6TPaBgSVJHTP5aYW_KCyJfD-AyyqAIDIArT8HI0pnVcs47o3=_5835_"
+CMS-TYPE: 105P
+X-CMS-RootMailID: 20230407191711epcas5p3b9b27aa2477b12ec116b85ea3c7d54b7
+References: <20230407191636.2631046-1-kbusch@meta.com>
+	<CGME20230407191711epcas5p3b9b27aa2477b12ec116b85ea3c7d54b7@epcas5p3.samsung.com>
+	<20230407191636.2631046-3-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230409_230614_648885_407B1D42 
-X-CRM114-Status: UNSURE (   9.34  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230410_042610_846757_46BDD836 
+X-CRM114-Status: GOOD (  10.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,18 +87,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Apr 06, 2023 / 11:10, Daniel Wagner wrote:
-> On Thu, Apr 06, 2023 at 10:30:48AM +0200, Daniel Wagner wrote:
-> > good and the bad case (rdma started to fail today, something to fix).
-> 
-> After adding the missing _nvmet_setup() call, tcp and rdma works fine.
+------6TPaBgSVJHTP5aYW_KCyJfD-AyyqAIDIArT8HI0pnVcs47o3=_5835_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-I also confirmed this. I observed test pass with tcp and rdma. Good. Still
-lockdep warning is observed and fc transport causes system hang, but I think
-those issues should be fixed after applying the patches to blktests master.
+On Fri, Apr 07, 2023 at 12:16:33PM -0700, Keith Busch wrote:
+>From: Keith Busch <kbusch@kernel.org>
+>
+>Set the bio's bi_end_io to handle the cleanup so that uring_cmd doesn't
+>need this complex pdu->{bio,req} switchero and restore.
+>
+>Signed-off-by: Keith Busch <kbusch@kernel.org>
+>---
+> drivers/nvme/host/ioctl.c | 26 +++++++++-----------------
+> 1 file changed, 9 insertions(+), 17 deletions(-)
+>
+>diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+>index d24ea2e051564..278c57ee0db91 100644
+>--- a/drivers/nvme/host/ioctl.c
+>+++ b/drivers/nvme/host/ioctl.c
+>@@ -159,6 +159,11 @@ static struct request *nvme_alloc_user_request(struct request_queue *q,
+> 	return req;
+> }
+>
+>+static void nvme_uring_bio_end_io(struct bio *bio)
+>+{
+>+	blk_rq_unmap_user(bio);
+>+}
+>+
+> static int nvme_map_user_request(struct request *req, u64 ubuffer,
+> 		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
+> 		u32 meta_seed, void **metap, struct io_uring_cmd *ioucmd,
+>@@ -204,6 +209,7 @@ static int nvme_map_user_request(struct request *req, u64 ubuffer,
+> 		*metap = meta;
+> 	}
+>
+>+	bio->bi_end_io = nvme_uring_bio_end_io;
+> 	return ret;
+>
+> out_unmap:
+>@@ -249,8 +255,6 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+> 	if (meta)
+> 		ret = nvme_finish_user_metadata(req, meta_buffer, meta,
+> 						meta_len, ret);
+>-	if (bio)
+>-		blk_rq_unmap_user(bio);
 
-I walked through the patches and they look good enough to apply for me. I will
-wait a few more days in case anyone has more comments. If there is no more
-comments, no need to post v7. I will add the missing _setup_nvmet() and replace
-the spaces in the 2nd patch.
+Is it safe to call blk_rq_unamp_user in irq context?
+Agree that current code does some complex stuff, but that's to ensure
+what the code-comment [1] says.
+
+Also for polled-io, new-code will hit this warn-on [2] on calling
+bio_put_percpu_cache.
+
+[1] 
+623  *    A matching blk_rq_unmap_user() must be issued at the end of I/O, while
+624  *    still in process context.
+625  */
+626 int blk_rq_map_user_iov(struct request_queue *q, struct request *rq,
+627                         struct rq_map_data *map_data,
+
+
+[2]
+773         if ((bio->bi_opf & REQ_POLLED) && !WARN_ON_ONCE(in_interrupt())) {
+774                 bio->bi_next = cache->free_list;
+
+------6TPaBgSVJHTP5aYW_KCyJfD-AyyqAIDIArT8HI0pnVcs47o3=_5835_
+Content-Type: text/plain; charset="utf-8"
+
+
+------6TPaBgSVJHTP5aYW_KCyJfD-AyyqAIDIArT8HI0pnVcs47o3=_5835_--
 
