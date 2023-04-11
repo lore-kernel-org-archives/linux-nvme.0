@@ -4,85 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EDDC1C77B71
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Apr 2023 07:33:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B01ADC77B6F
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Apr 2023 07:41:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SPSNpXpwASg9ps1jT6Cb6mKP0qWkEuqI9+sOkcM7ltk=; b=wA0t1Sf42I6EDdItOoak21Ylca
-	apjA+egTa2GjexL6/wwJo3spNX3szfgV4kVh3GiPTQ6GN2gc22lRFZesJF/K8RjwxeE/6N22b5U2O
-	fNCUDkA7mcuPWt5ffBExpPJvR0v348zwCyWwgYslOd2v/nOu840zA22YtCE1zIGm/7wWe97yzevDg
-	gH5DI1q2y7+N2GnpR/A2DiuH6H4dMWM53vfWkti1/XZPahjcMi1lRePhr8BrU7N1X97bE7QUndUW6
-	pESYBId/mdFOO54wtkNQboHsKbNOq6Ei7xXGsjooK/WkyvB0qb1YjWcsGfusL5TMtPpRsoo9xxLPN
-	m/4WvOvg==;
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=; b=ufrBZJbttLJEh+xNZl32nku8aD
+	L2IAi1namRG4MfA8UKW1srKXFSiVtQ1rElsCBJWBnvBu655VNCBSbgS4R9SwuTKVhmtlHL5wePUeu
+	HateJSeMOvzjt3UoQKAeCVuRWkwZZO8dF6Hw6d+GxdngxaNYuq/sY9tQdiTIDsqfOqiVZHkPD2oUJ
+	oYZ3J491FIrlxWP2OQ0q0Yg0I6UlxMNmLjy6NLSrbO8fk0Hz39A0Gy9jrZwh03ioZIZtnojv8cZNb
+	Qf932hi822/6r/SiLk7337MzmwM0UaAgmViWZA/eNDYdrI8BgIVD5VFOgzMYQfxHcBaZqghmPRa+f
+	QO9Uzdqg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pm8V0-00Gjej-2x;
-	Tue, 11 Apr 2023 07:33:06 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1pm8dW-00Gl1V-0S;
+	Tue, 11 Apr 2023 07:41:54 +0000
+Received: from mail.lokoho.com ([217.61.105.98])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pm8Uy-00Gjdd-0N
+	id 1pm8dT-00Gkzn-11
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Apr 2023 07:33:05 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A55CD21A53;
-	Tue, 11 Apr 2023 07:33:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1681198382; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SPSNpXpwASg9ps1jT6Cb6mKP0qWkEuqI9+sOkcM7ltk=;
-	b=QECtZ0gLP71tRjQrhL+xxkHIQ1SrU2NEOU4bDw6kKya6dsmF6Qz3KBY6OLohxqEgalkW7I
-	iv5X/g1jqsWXyLmBgnO3lkBhXcYgQ7CLkyKJ7GK4Uw3ZDD5Pse2XZ4Z6UuSx/naVWjZyFN
-	NLUaZiHNCg6wPmJeyBHustl+3EQXeio=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1681198382;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SPSNpXpwASg9ps1jT6Cb6mKP0qWkEuqI9+sOkcM7ltk=;
-	b=2qPDOcLDnylVHsq+2/I1336pm59RdNEK49xKH2xdDsri2rhBz9+hVLzDZx8erIxHJ4QX4j
-	FfIT59hP54y+gJAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4B6E413638;
-	Tue, 11 Apr 2023 07:33:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 8qLpDS4NNWRCZwAAMHmgww
-	(envelope-from <hare@suse.de>); Tue, 11 Apr 2023 07:33:02 +0000
-Message-ID: <dd421619-fad1-1c73-384d-25529a4c8886@suse.de>
-Date: Tue, 11 Apr 2023 09:33:01 +0200
+	Tue, 11 Apr 2023 07:41:52 +0000
+Received: by mail.lokoho.com (Postfix, from userid 1001)
+	id 9BBCA82B9B; Tue, 11 Apr 2023 08:40:48 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
+	t=1681198849; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
+	h=Date:From:To:Subject:From;
+	b=Tn27LknB6hmiCxymHJjAbb/9FtVgPEM38hYyNZU/xbeZi4MX3q+J5UYCvZlQ4HU4Q
+	 r2CydJKJRpjBsjhy7vh0pNtdet13F6DeXXUC4YArLQ7ofFw3fzB9FqK8w7MjQUQSlj
+	 pcCreQnCnNq2+Horwvktl33nQzkKDl3inxTpma99ZuQhO4Qy/nfkjeuj7k4BCeuwY8
+	 okzgkSliAmO0MD4pe6AeBMC0ClUv8Zqb9UUk9K5uoAXsgG2NPwAdGDGpMmG6UMKQNj
+	 vhhYFbm1S0Nab8ZJy1FKuljCTTnSLiKpAUIRi2rVRxQwmVMoHq115UToxhmR1bA6tA
+	 jBzgjDYwXIr+w==
+Received: by mail.lokoho.com for <linux-nvme@lists.infradead.org>; Tue, 11 Apr 2023 07:40:45 GMT
+Message-ID: <20230411074501-0.1.58.1ti58.0.chc5lv6obb@lokoho.com>
+Date: Tue, 11 Apr 2023 07:40:45 GMT
+From: "Adam Charachuta" <adam.charachuta@lokoho.com>
+To: <linux-nvme@lists.infradead.org>
+Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
+X-Mailer: mail.lokoho.com
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v6 18/18] scsi: target: Add block PR support to iblock
-Content-Language: en-US
-To: Mike Christie <michael.christie@oracle.com>, bvanassche@acm.org,
- hch@lst.de, martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
- james.bottomley@hansenpartnership.com, linux-block@vger.kernel.org,
- dm-devel@redhat.com, snitzer@kernel.org, axboe@kernel.dk,
- linux-nvme@lists.infradead.org, chaitanyak@nvidia.com, kbusch@kernel.org,
- target-devel@vger.kernel.org
-References: <20230407200551.12660-1-michael.christie@oracle.com>
- <20230407200551.12660-19-michael.christie@oracle.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20230407200551.12660-19-michael.christie@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230411_003304_298930_DF5DBCAE 
-X-CRM114-Status: GOOD (  12.93  )
+X-CRM114-CacheID: sfid-20230411_004151_515472_5018FC69 
+X-CRM114-Status: UNSURE (   2.44  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,27 +66,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/7/23 22:05, Mike Christie wrote:
-> This adds support for the block PR callouts to target_core_iblock. This
-> patch doesn't attempt to implement the entire spec because there's no way
-> support it all like SPEC_I_PT and ALL_TG_PT. This only supports
-> exporting the iblock device from one path on the local target.
-> 
-> Signed-off-by: Mike Christie <michael.christie@oracle.com>
-> ---
->   drivers/target/target_core_iblock.c | 271 +++++++++++++++++++++++++++-
->   1 file changed, 266 insertions(+), 5 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+Dzie=C5=84 dobry,
 
-Cheers,
+zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
+=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
+o dalszych rozm=C3=B3w.=20
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
+Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
+=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
+=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
+strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
 
+Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
+
+
+Pozdrawiam
+Adam Charachuta
 
