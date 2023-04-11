@@ -4,69 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D429DC76196
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Apr 2023 07:30:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91347C76196
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Apr 2023 07:30:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sao6iSzYyV4pF7pf2Hp9JojA2SzyYnX9w/dSvM41I9M=; b=qGPtsE0aMEkuGf9+Z2N4i7V1k5
-	aHEEoWmFvB+FeyDBz5fDpXBpTsOmLy1WsQiv4CuyqE+lIXzSkSd5lAYuLJAW4EPMYKgU3GBlBlSgY
-	8qG8VRTBeuUDoeQHJ5Q/pq0fm0Nfm+N9R9VA45dr5ZJF7cG+5Yr3RDk08bFIp2QuTT/7U1GH8rl2m
-	A/R+ESPoShMG1K5PsQTTmcp2qYTgd6P72waGqfuS3LJ1TfcJdDGYgtSyvu3vCSBmMC+uurmCAQ8WS
-	WqJbeLN3JclcGAmJf7XXpy4JbKSMktvBzqPMJA0hI/jRsJq5svkkP6cKSwAABp3n6VeoX+sCNl9cQ
-	53sXt5Lg==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=WQxRTzrMKqSON3EvIhCwW2gyksjvr/oR+pPMFwHDT1E=; b=QKw2FUxjIAtTIsgNPhPCoKEqd0
+	2ANDi5Jtyl1u7u4Eq+9EgvYrP7yq1FdMtEYAwYATsFgB5PCGtqJ+JXtWK/A3S/DyIutTT5z4hFQID
+	wfLewHmWo/LfF3T2EUF5g1NlbTZ2+Ud3EHQNeWEmNsYVJis/TQ752fp8Rzwgoc0UszU+KK8GG6t53
+	bJnBf2T1NHgxzr1L/rzwG1YMRSBlgELYxCi6l2h/vtDYjqgemaxNVDalPpX6wHDFM7SDa5UtAW16u
+	RvxsjKh8QZFsUC6oR8jyWH/NFXmh+vw4R4NgDwi/gruDkhdea30BkksJt717aVPK7wtFhNGfgmOTo
+	AROhNV4A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pm8SB-00Gizl-1B;
-	Tue, 11 Apr 2023 07:30:11 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1pm8Se-00Gj5Q-1j;
+	Tue, 11 Apr 2023 07:30:40 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pm8S8-00GizH-2A
+	id 1pm8Sb-00Gj4m-2W
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Apr 2023 07:30:09 +0000
+	Tue, 11 Apr 2023 07:30:39 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7932A1FE07;
-	Tue, 11 Apr 2023 07:30:06 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5B5A421A4F;
+	Tue, 11 Apr 2023 07:30:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1681198206; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1681198236; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sao6iSzYyV4pF7pf2Hp9JojA2SzyYnX9w/dSvM41I9M=;
-	b=Hr31JrdpfEHoynPIksW7e/3+RvCa7x4/jnq5kI+8BDP0ZTV/EiePkvRzDRPODAs4ZDMCJA
-	lSD7NlO3KdvkSFcRqKKvvokyrNwUT/q+cebaFLfnp9bhBy9yF+8Ct1QKHFi3MhNftf1IBb
-	EF55X5l8cGT9jeQ1aw8ZClVQslIlnGU=
+	bh=WQxRTzrMKqSON3EvIhCwW2gyksjvr/oR+pPMFwHDT1E=;
+	b=JwJ/WkxwVuKtT5Q+kimpbGaODJKKKAv4OFi0LZOHnrwR9jcTBtFMDLo66znOHDKy2PxTBc
+	UFGUbGP8t/08YPEJL9fDKJOMRRFJbzeMXERrfv7fAlQ3S2vVZIQ5pULXs5s1uABQbfDVdc
+	zJxH8ALFjEUeMuUjabu3Z8hrmkU/+nk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1681198206;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	s=susede2_ed25519; t=1681198236;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sao6iSzYyV4pF7pf2Hp9JojA2SzyYnX9w/dSvM41I9M=;
-	b=J4pk274J0eqX22FppfnsjPugB3NPoEnj3goKQ4QJFWmJtbzaIltKS080HraNH73Joe/k9A
-	NHVj2b9bvHruNcAg==
+	bh=WQxRTzrMKqSON3EvIhCwW2gyksjvr/oR+pPMFwHDT1E=;
+	b=+NiSZ4j2wSSNQFmzbgUvS6L4hSy+wz7KIBXop/FHmMhMqCnyq277tXGJfjo7pnuxod53+x
+	DpsbBScHRQxgRtDg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1E49813638;
-	Tue, 11 Apr 2023 07:30:06 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0A55C13638;
+	Tue, 11 Apr 2023 07:30:36 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id jYpZBn4MNWTcZQAAMHmgww
-	(envelope-from <hare@suse.de>); Tue, 11 Apr 2023 07:30:06 +0000
-Message-ID: <25a93d03-556f-e71c-f8d7-a4db686f43af@suse.de>
-Date: Tue, 11 Apr 2023 09:30:05 +0200
+	id ETXYAJwMNWQUZgAAMHmgww
+	(envelope-from <hare@suse.de>); Tue, 11 Apr 2023 07:30:36 +0000
+Message-ID: <2803b786-2573-699b-9f71-46854d0958b5@suse.de>
+Date: Tue, 11 Apr 2023 09:30:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.1
-Subject: Re: [PATCH v6 13/18] nvme: Add pr_ops read_reservation support
+Subject: Re: [PATCH v6 14/18] scsi: target: Rename sbc_ops to exec_cmd_ops
 Content-Language: en-US
 To: Mike Christie <michael.christie@oracle.com>, bvanassche@acm.org,
  hch@lst.de, martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
@@ -74,16 +74,15 @@ To: Mike Christie <michael.christie@oracle.com>, bvanassche@acm.org,
  dm-devel@redhat.com, snitzer@kernel.org, axboe@kernel.dk,
  linux-nvme@lists.infradead.org, chaitanyak@nvidia.com, kbusch@kernel.org,
  target-devel@vger.kernel.org
-Cc: Chaitanya Kulkarni <kch@nvidia.com>
 References: <20230407200551.12660-1-michael.christie@oracle.com>
- <20230407200551.12660-14-michael.christie@oracle.com>
+ <20230407200551.12660-15-michael.christie@oracle.com>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20230407200551.12660-14-michael.christie@oracle.com>
+In-Reply-To: <20230407200551.12660-15-michael.christie@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230411_003008_858202_8B10CFFB 
-X-CRM114-Status: GOOD (  13.45  )
+X-CRM114-CacheID: sfid-20230411_003037_963783_33C5DD34 
+X-CRM114-Status: GOOD (  11.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,17 +98,23 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 4/7/23 22:05, Mike Christie wrote:
-> This patch adds support for the pr_ops read_reservation callout by
-> calling the NVMe Reservation Report helper. It then parses that info to
-> detect if there is a reservation and if there is then convert the
-> returned info to a pr_ops pr_held_reservation struct.
+> The next patches allow us to call the block layer's pr_ops from the
+> backends. This will require allowing the backends to hook into the cmd
+> processing for SPC commands, so this renames sbc_ops to a more generic
+> exec_cmd_ops.
 > 
 > Signed-off-by: Mike Christie <michael.christie@oracle.com>
-> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
 > ---
->   drivers/nvme/host/pr.c | 83 ++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 83 insertions(+)
-> Reviewed-by: Hannes Reinecke <hare@suse.de>
+>   drivers/target/target_core_file.c    |  4 ++--
+>   drivers/target/target_core_iblock.c  |  4 ++--
+>   drivers/target/target_core_rd.c      |  4 ++--
+>   drivers/target/target_core_sbc.c     | 13 +++++++------
+>   drivers/target/target_core_spc.c     |  4 ++--
+>   include/target/target_core_backend.h |  4 ++--
+>   6 files changed, 17 insertions(+), 16 deletions(-)
+> 
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
 Cheers,
 
