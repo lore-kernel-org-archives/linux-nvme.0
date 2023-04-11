@@ -4,69 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7223C77B6F
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Apr 2023 07:15:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38A74C76196
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Apr 2023 07:16:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qedrEto6BSbibuzJ5+x2W25dAPzn8X5JdYmSaRBrZLc=; b=B3ir/YmEH4beXOBnyApiTM2pjB
-	GnHmfCOWV9DyZgzpRa9nUztPY7fjZDkiT3gXx2pwge6AC7P93/2PxhZEwoVEAbAueE0nXdw6gnY70
-	S1jb+tpTYy+SvvOWvEIL6hwluHBw0K/96RuIVLivHjma5ntxQMBz6PG/OazbSvSXBT4EjpdmqeAdy
-	kByD+xd4rusPEOhNfjjZM0kxFT0ZfhE38dGuC5LGkgetWmOOS4R/2qmMoxZFkMBJv0mWBEQppOXdg
-	52DLz4KSpD/znVubP7R/pdwXyrjbVsQDc8TWWnztyeYZ7BGg8MwtZ4S1h7giGYBoRcEFhYE2H8c1n
-	/LAoMC4g==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=a4HmR18+Nq6ajmJKyaFAIpQdfLSlvYCp3wBEWyACXVA=; b=TTgfmkJj0Q81G0yITL4qhUgQNN
+	JVfQR3DoAOXuOwedlteDA2XGbYXZrljsEasWOPcKGueV2XqaqD7T9i8u+YflbENu3jv47QblIVA37
+	NsIzUtSkm3gW2FtRS4lHr4lgNQGHiqcFXZlu0KsuggXWmbfPgLcMtUWYP/REUBkIu2GyNS+5mUP48
+	O4u+04dSQi4iWwCS2UsFOxAdTodOfJaGrMYilzyEnZHzXDbUP8V/sSOKrbYVTx/d+dVe8RyE4UurU
+	hUoGZb22dDaq+O+VS7+3fki9l0iaKpolJdVm31VDEylhwgl/cKCOtuaNHduyknXcv9ll6le0uYJry
+	G+Vx13dg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pm8Dn-00GgPN-33;
-	Tue, 11 Apr 2023 07:15:19 +0000
+	id 1pm8Eb-00Ggzi-1U;
+	Tue, 11 Apr 2023 07:16:09 +0000
 Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pm8Dl-00GgMo-1G
+	id 1pm8ER-00Ggr7-0j
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Apr 2023 07:15:18 +0000
+	Tue, 11 Apr 2023 07:16:08 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id F332E1FE0B;
-	Tue, 11 Apr 2023 07:15:15 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F00B61FE07;
+	Tue, 11 Apr 2023 07:15:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1681197316; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1681197357; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qedrEto6BSbibuzJ5+x2W25dAPzn8X5JdYmSaRBrZLc=;
-	b=Dc5EpZpBH/ZJJFa3TKbbpnvKMC4/1OEsMW+rD8BXmbb04VVNFuYSyazz9qsMmuHaeHBFjs
-	jxZ0ORzuKGjr/IqtV/pHJ355oVgFUBcbGFmJcDsVNI9WrSnPRl7G3+oP/7Niib5r6rD02n
-	CtbBQE61seBEBTzb/p8/5pzzh6wxxSw=
+	bh=a4HmR18+Nq6ajmJKyaFAIpQdfLSlvYCp3wBEWyACXVA=;
+	b=sVqhhfKGNM0pwsgCuVBkt++ElOE4E6iTtHkSw6CuWJhF42Tdv6z9y5BaKQOKB+fp3F6yQH
+	sSpQa9NVmPeqjFs2ggW+Ne3f20KmHPs//qMVptwO8chgUK9A4U4bPg+Vwe+18wA5kEVjta
+	fbSZtxqTIQ874wO4NZcFo4IHd9crNG0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1681197316;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	s=susede2_ed25519; t=1681197357;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qedrEto6BSbibuzJ5+x2W25dAPzn8X5JdYmSaRBrZLc=;
-	b=9Q+m+4oyCJCpXuiSbBSh6Cx3zz2ZltnZADWGLsaOE5V/xsxZJ29K6rzwWQgPYLvGaa1Khl
-	UbJO8UMMz8PDnzBw==
+	bh=a4HmR18+Nq6ajmJKyaFAIpQdfLSlvYCp3wBEWyACXVA=;
+	b=+wMfzemcAz4Va1WQ+QXq1LWsJD6XL6NyCfCZ/Vepof1e20ycU9IfJ/+oD2L0KuOckMc9Gu
+	zcuyOGUn6svPSoDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A9FA313519;
-	Tue, 11 Apr 2023 07:15:15 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9E09A13519;
+	Tue, 11 Apr 2023 07:15:57 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 77sRKAMJNWQXXgAAMHmgww
-	(envelope-from <hare@suse.de>); Tue, 11 Apr 2023 07:15:15 +0000
-Message-ID: <7ceeaeec-64c8-f58c-b792-1f43647887a1@suse.de>
-Date: Tue, 11 Apr 2023 09:15:15 +0200
+	id Fy12JS0JNWR4XgAAMHmgww
+	(envelope-from <hare@suse.de>); Tue, 11 Apr 2023 07:15:57 +0000
+Message-ID: <1492fdba-744b-4a06-ad12-9e8df749c7e3@suse.de>
+Date: Tue, 11 Apr 2023 09:15:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.1
-Subject: Re: [PATCH v6 07/18] nvme: Fix reservation status related structs
+Subject: Re: [PATCH v6 08/18] nvme: Don't hardcode the data len for pr
+ commands
 Content-Language: en-US
 To: Mike Christie <michael.christie@oracle.com>, bvanassche@acm.org,
  hch@lst.de, martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
@@ -74,15 +75,16 @@ To: Mike Christie <michael.christie@oracle.com>, bvanassche@acm.org,
  dm-devel@redhat.com, snitzer@kernel.org, axboe@kernel.dk,
  linux-nvme@lists.infradead.org, chaitanyak@nvidia.com, kbusch@kernel.org,
  target-devel@vger.kernel.org
+Cc: Chaitanya Kulkarni <kch@nvidia.com>
 References: <20230407200551.12660-1-michael.christie@oracle.com>
- <20230407200551.12660-8-michael.christie@oracle.com>
+ <20230407200551.12660-9-michael.christie@oracle.com>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20230407200551.12660-8-michael.christie@oracle.com>
+In-Reply-To: <20230407200551.12660-9-michael.christie@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230411_001517_582709_BFA9CC1C 
-X-CRM114-Status: GOOD (  12.39  )
+X-CRM114-CacheID: sfid-20230411_001559_412782_A08E5E47 
+X-CRM114-Status: GOOD (  11.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,20 +100,17 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 4/7/23 22:05, Mike Christie wrote:
-> This fixes the following issues with the reservation status structs:
-> 
-> 1. resv10 is bytes 23:10 so it should be 14 bytes.
-> 2. regctl_ds only supports 64 bit host IDs.
-> 
-> These are not currently used, but will be in this patchset which adds
-> support for the reservation report command.
+> Reservation Report support needs to pass in a variable sized buffer, so
+> this patch has the pr command helpers take a data length argument.
 > 
 > Signed-off-by: Mike Christie <michael.christie@oracle.com>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Keith Busch <kbusch@kernel.org>
+> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 > ---
->   include/linux/nvme.h | 38 ++++++++++++++++++++++++++++++--------
->   1 file changed, 30 insertions(+), 8 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+>   drivers/nvme/host/core.c | 13 +++++++------
+>   1 file changed, 7 insertions(+), 6 deletions(-)
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
 
 Cheers,
 
