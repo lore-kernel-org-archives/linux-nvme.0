@@ -4,97 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9C93C77B61
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Apr 2023 01:35:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 84608C77B70
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Apr 2023 02:30:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=N3vWz+VeN1lE7R+NrNAweI4FiV73pPcdRXaUR4ZBTtU=; b=GlBUbcRCVdNxosdhul4yy74zqb
-	HeYmllHJsR0QByl7Q7Nl18jEwfphkRO9EIO0tWXHih0PVKDFvC3XTEm2BC10aYILCT42LXPe0r34E
-	ezNwgXgynfQPIQq2/GLOvi+PHqttC/VabopuUb+OBE2SD9GfAZCY+xNWjIWsnWf26pT71PiMiqLes
-	z2ecX6lhe9V1vQ5nlsMo+4HiR7dMg/4GMaLwzVH8EpOvJ7haHDbQHO94h5aU7lakKC1LwzLcjirl6
-	7j4Syx1foWgH7bvlqdldu9zWs7g8/MqooP4KdfSzAU1ZLoH4pgvCMDxuUzypNN721LdpYesJsbRYw
-	vZwK/nZw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:MIME-Version:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=35qx/FNMkg4I1r9XDzODsf87ZLez41ivp7LFvV23swg=; b=CkqTtSy0Qhb2H0QSE2y52JZz5Z
+	jRSQjrj/hqSbVBV9LSyWbOb9jYEsDxOlyhpRN76hM7NVH2Bpnu/DISXUuAVyChnAxXlBBCPBtBwkP
+	P6mG8nr+9aXB04jaNCMV6z0XHayIPgjxYSXR92n+Ju2A4wVHSjCJPI4sKB4zT9onNdnYMjS9AiIHJ
+	+bu9Q4v9etZn6JvN+St5PZl+Ke0eQDNdDRtL/uOfeJYDuEFbnLw6dVdD7raUKjDfmeeXcOm6gohYD
+	mrSI06hHQGsilb6OCJ1SFIBceM+g/OLxrnCRi8iWEgDqp+RF8gv8yv2xeQllSXLunO/7kAqnDrOr+
+	x1i3cFaQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pm2vI-00GDEq-21;
-	Tue, 11 Apr 2023 01:35:52 +0000
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26])
+	id 1pm3lq-00GGL8-37;
+	Tue, 11 Apr 2023 02:30:10 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pm2vF-00GDEJ-2R
+	id 1pm3lo-00GGKD-1D
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Apr 2023 01:35:51 +0000
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailnew.west.internal (Postfix) with ESMTP id 142CF2B066BB;
-	Mon, 10 Apr 2023 21:35:48 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Mon, 10 Apr 2023 21:35:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1681176947; x=1681177547; bh=N3
-	vWz+VeN1lE7R+NrNAweI4FiV73pPcdRXaUR4ZBTtU=; b=eWPSrv+0bn8vduSHX4
-	dPTTLNsosfR/mpmxII94OSOz+ZCABuYZRZ/8MYzOIGJJg2rKzE+vXx7MhSnGIIIn
-	dXwsyE8YWExRqWDiJi+j/jGA8Bjqe4GHYUlPl9wASN4GRxl0ZB/+hag9cyqsvxVV
-	pAZZXSNta1dvL86XVSring7liDx8dFUsR6H19yks0lBToP1vAg2AR1RTa75mAYGy
-	chkOzU1MHFxSyxg3f4IW6Pl1lGVbjqpq4Hf+Bs2AfYUMVrqMtv0oIvl4aP11QfSU
-	bSaYxNRRooFQinR0QBR9jLNFiVFBkyy/TPR13cRY7+PyJcpHo9GRCa88MecFTN58
-	3eSg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=ie1e949a3.fm2; t=1681176947; x=1681177547; bh=N3v
-	Wz+VeN1lE7R+NrNAweI4FiV73pPcdRXaUR4ZBTtU=; b=Q9wUJugRyew3RQpXs7q
-	bcMfbW5g3w3mVIYPjoK0bwLgNPfCa+2NcY4kWqkGxPDm5cEt8anloJza2Tg/P69a
-	FAx6E8FFztb/syMULmTlkbx+CJohF1nBUGSSrWaIxeWVkBy28ZTqe22Dre7Xvzxd
-	wYHBrpnSNuf11F/SUfSJwzVnfXzkqmoffGPaTfPcWJc5Y19lVFpkKGJ5TOuoeoXu
-	1iX/1pGjBktmWk9F+nlrNUVrKRc4jgphPUYtGeBz7dceGZsj+wF/yX5DAcg0IalT
-	ZAvTp7yNV+KK2Sl1zkKfLDsy0WZPGsGEMZvEZJ62ok9MIoRmbbMZSeayQ8QfuZ5F
-	22Q==
-X-ME-Sender: <xms:c7k0ZNAsFww3s9oelJ_AkJI7TDoITjqo9EE8pJQHT6BGY346gFQwog>
-    <xme:c7k0ZLgQ1-_qQdGREGurVD-ntcmDd3NbN2V7Bv-MXp0M92nbU6nVMweod01CHUbZT
-    UidYbuMeD2XmQKyuis>
-X-ME-Received: <xmr:c7k0ZInGl0j6R33iQYm385ptnAAEDjW779ea6sEqo4ui-3UBJIgreL7JLxfHavQITENEds8K7HwJ6N-Ekz9AWw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekfedghedtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtsfdttddtvdenucfhrhhomhepufhhihhn
-    kdhitghhihhrohcumfgrfigrshgrkhhiuceoshhhihhnihgthhhirhhosehfrghsthhmrg
-    hilhdrtghomheqnecuggftrfgrthhtvghrnhepffehffetgfdugeffffelvdfgjefgkedv
-    hfehgeefveffgfffvedtueekgeevvefhnecuffhomhgrihhnpehkvghrnhgvlhdrohhrgh
-    enucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehshhhi
-    nhhitghhihhrohesfhgrshhtmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:c7k0ZHwKLl5Q7xLchCSwGkPSg3dXF-iYm5McaxSHrqqkGSzoXOVBog>
-    <xmx:c7k0ZCSjmeV2nMITxbVBhrkGB16G92U_6-c0gq6cFcxSX-WcdRab5Q>
-    <xmx:c7k0ZKZqE-newFORneeCIqbgMbNlJej50WeE7D0Jf8hgZSCpJs-sqw>
-    <xmx:c7k0ZAc_ZITgQPeciOE3LyDwXRsmKVOQWEj7X1pkvIomPELr8NF98XO-AeXs9Geo>
-Feedback-ID: ie1e949a3:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 10 Apr 2023 21:35:45 -0400 (EDT)
-Date: Tue, 11 Apr 2023 10:35:43 +0900
-From: Shin'ichiro Kawasaki <shinichiro@fastmail.com>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: shinichiro.kawasaki@wdc.com, linux-nvme@lists.infradead.org, 
-	linux-block@vger.kernel.org, mcgrof@kernel.org
-Subject: Re: [PATCH blktests 2/2] nvme/047: add test for uring-passthrough
-Message-ID: <dopldttgovohurv7fovj4sxoux7aelkhd6zzrmxvxevoue6e54@wopt7tlh3dzg>
-References: <20230331034414.42024-1-joshi.k@samsung.com>
- <CGME20230331034533epcas5p2834dad2bc54ad1a6348895f522400e8c@epcas5p2.samsung.com>
- <20230331034414.42024-3-joshi.k@samsung.com>
- <20230407080746.tx4sgperc6pvjsbu@shinhome>
- <20230410124333.GC16047@green5>
+	Tue, 11 Apr 2023 02:30:09 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1681180205;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=35qx/FNMkg4I1r9XDzODsf87ZLez41ivp7LFvV23swg=;
+	b=VVzgUOgu2bCfnKU0wgkSQol/X8PL8ldyjSwoV8Lpe5uMAkBSJkOJevZutL5F1NHSATGp3p
+	b6qvQRqxzEfZuFbN9QI4f0O28nab2Weye8pi3A23M4IKKS7Oy/SMUJAdeDkV/RqUSgcF5K
+	S+1amvBaJbUFsOeXYmGxIaIqIKwikHQ=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-594-fgulkMvIMO2JyCiGyNXpaA-1; Mon, 10 Apr 2023 22:30:02 -0400
+X-MC-Unique: fgulkMvIMO2JyCiGyNXpaA-1
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-513c5614ed7so280609a12.2
+        for <linux-nvme@lists.infradead.org>; Mon, 10 Apr 2023 19:30:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681180201;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=35qx/FNMkg4I1r9XDzODsf87ZLez41ivp7LFvV23swg=;
+        b=Zdppu7+Rm5ets7W7zbRG7LEZ2MxfYudW6LkuGv/ZJfdkyIhObZvw9ErQlPJMCAIF5p
+         dpUjluCHcixM6HVSaxTVtNRbAkyFYB4RLupsBb+s//aPKLKAvSnXfgDEEJ3lhADp2qVC
+         GCKeR8qNFwbR746qptvnRpHnA6ScTXppWHG5rT1/7DppEYhuDan4ac5GCNv47EG7JBAr
+         INLK0+uXjd8VH2ASNIdgGyWSRkxahoyDkAJW0ypUbfTkDR0SkjEWQYK21qbTDnWeElWY
+         9HWMCf/mNdrsyi+M4eyGKTkqtvJBo8tK9afYcy4sz/u2vF/T9uIfu1fhC5gwyzmNSBhB
+         4PFw==
+X-Gm-Message-State: AAQBX9crmPsoI/sm8JOX/3YCbXgJ9zH+RcJmGxmNv+VlxV1dG9COSsP7
+	7137L6W9BO697XagLP4R3cOGEcCZcBglbOHX7UUILN3O/rG+XVfYGyruhnVtrxM0u8q1ZoOpVJe
+	dEHMaOl7+LSSUUQUPd+rHtIMuuxv6tKgcUufKQ0cgfxisGlr5NSG7R5bI
+X-Received: by 2002:a05:6a00:2e8c:b0:5e6:f9a1:e224 with SMTP id fd12-20020a056a002e8c00b005e6f9a1e224mr6128614pfb.6.1681180201207;
+        Mon, 10 Apr 2023 19:30:01 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bmBfUO+1891FM4uk0GfxcbPSSOrwRxKUv3cdLClKGoG5vKBqwYevNceSnDpihn0FR63FV308+QTzOkfrN17Gw=
+X-Received: by 2002:a05:6a00:2e8c:b0:5e6:f9a1:e224 with SMTP id
+ fd12-20020a056a002e8c00b005e6f9a1e224mr6128606pfb.6.1681180200896; Mon, 10
+ Apr 2023 19:30:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230410124333.GC16047@green5>
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Tue, 11 Apr 2023 10:29:49 +0800
+Message-ID: <CAHj4cs8z+sqEcpWXzXUrWEyR3uE=3wgg2TvCJePXb4QaLkE=Kw@mail.gmail.com>
+Subject: [bug report] flood log about "nvme_fcloop: fcloop_exit: Failed
+ deleting remote/target port"
+To: "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, james.smart@broadcom.com
+Cc: shinichiro@fastmail.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230410_183549_848017_7280D43D 
-X-CRM114-Status: GOOD (  16.57  )
+X-CRM114-CacheID: sfid-20230410_193008_517273_74AF7E2D 
+X-CRM114-Status: UNSURE (   3.49  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,44 +91,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Apr 10, 2023 / 18:13, Kanchan Joshi wrote:
-> On Fri, Apr 07, 2023 at 05:07:46PM +0900, Shin'ichiro Kawasaki wrote:
-[...]
-> > > +requires() {
-> > > +	_nvme_requires
-> > > +	_have_kver 6 1
-> > 
-> > In general, it's the better not to depend on version number to check dependency.
-> > Is kernel version the only way to check the kernel dependency?
-> 
-> The tests checks for iopoll and fixed-buffer paths which are present
-> from 6.1 onwards, therefore this check. Hope that is ok?
+Hello
 
-Okay, thanks for the clarification. The changes are not visible from userland,
-then we need the kernel version check.
+Remove nvme-fcloop module during blktests nvme-fc nvme/003 will lead
+below flood logs, and it's 100% reproduced, pls help check it, thanks.
 
-> 
-> > Also, I think this test case assumes that the kernel is built with
-> > CONFIG_IO_URING. I suggest to add "_have_kernel_option IO_URING" to ensure it.
-> 
-> Sure, will add.
-> 
-> > > +	_have_fio_ver 3 33
-> > 
-> > Is io_uring_cmd engine the reason to check this fio version? If so, I suggest to
-> > check "fio --enghelp" output. We can add a new helper function with name like
-> > _have_fio_io_uring_cmd_engine. _have_fio_zbd_zonemode in common/fio can be a
-> > reference.
-> 
-> fixed-buffer support[1] went into this fio relese, therefore check for
-> the specific version.
-> 
-> [1]https://lore.kernel.org/fio/20221003033152.314763-1-anuj20.g@samsung.com/
+Steps to reproduce:
+1. nvme_trtype=fc ./check nvme/003
+2. remove nvme-fcloop module at another terminal
 
-Thanks again. This can not be checked with fio commands. Let's do with
-_have_fio_ver as you suggested.
+[  448.274204] nvme_fcloop: fcloop_exit: Failed deleting remote port
+[  448.280307] nvme_fcloop: fcloop_exit: Failed deleting target port
+[  448.286406] nvme_fcloop: fcloop_exit: Failed deleting remote port
+[  448.292511] nvme_fcloop: fcloop_exit: Failed deleting target port
+[  448.298608] nvme_fcloop: fcloop_exit: Failed deleting remote port
+[  448.304711] nvme_fcloop: fcloop_exit: Failed deleting target port
+[  448.310811] nvme_fcloop: fcloop_exit: Failed deleting remote port
+[  448.316916] nvme_fcloop: fcloop_exit: Failed deleting target port
+[  448.323024] nvme_fcloop: fcloop_exit: Failed deleting remote port
+[  448.329124] nvme_fcloop: fcloop_exit: Failed deleting target port
+[  448.335225] nvme_fcloop: fcloop_exit: Failed deleting remote port
+[  448.341329] nvme_fcloop: fcloop_exit: Failed deleting target port
+[  448.347438] nvme_fcloop: fcloop_exit: Failed deleting remote port
+[  448.353540] nvme_fcloop: fcloop_exit: Failed deleting target port
+[  448.359647] nvme_fcloop: fcloop_exit: Failed deleting remote port
+[  448.365750] nvme_fcloop: fcloop_exit: Failed deleting target port
+[  448.371850] nvme_fcloop: fcloop_exit: Failed deleting remote port
+[  448.377951] nvme_fcloop: fcloop_exit: Failed deleting target port
+[  448.384054] nvme_fcloop: fcloop_exit: Failed deleting remote port
+[  448.390162] nvme_fcloop: fcloop_exit: Failed deleting target port
+[  448.396264] nvme_fcloop: fcloop_exit: Failed deleting remote port
+[  448.402363] nvme_fcloop: fcloop_exit: Failed deleting target port
+[  448.408465] nvme_fcloop: fcloop_exit: Failed deleting remote port
 
-On top of this, could you renumber the test case to nvme/049? Other new test
-cases will consume nvme/047 and nvme/048 soon.
+
+--
+Best Regards,
+  Yi Zhang
 
 
