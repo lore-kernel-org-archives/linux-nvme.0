@@ -4,69 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86F6BC77B71
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Apr 2023 07:18:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A5C5C7619A
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Apr 2023 07:20:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
 	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nye8weY7iV2Pm16fY2B0Oyu8AKFVYF7NnsdR53tk648=; b=h6mFUFUl+Jt9bD4Q8ZmjnaFkGh
-	hpkr8kUVmMMvBVI3H2Go02rtO335+RIl1TRRrU8LJ2CxnsDy3ZBxFwl14kmePonnumyeQBC1LqFv0
-	SQz4yblh0b8RBPdR1eAqKpe3SukNuWzFL0BM5Wtl5iEC+PvCgVQBC9BQDAXrKAI/VjwSxDNEhEuPx
-	Kl97NKIcLHKJMn839kYgobSsgiG08ZpdPcfQYt5pLquGu4LBsjrb7v8nRaEDr0+iWzCmqRrcU7mzg
-	z6QnK5Qs3wMRTzzq6PcHPTNf4ZK62Ye7uVebwrBLHGFRwSplTn/oK/ezfrPsEDAcVjtk3VIxwqoII
-	YDW+VeXA==;
+	bh=71XY079JXYw8RT2K0Mron4+5mzsca2S9rdtP7KS9UZU=; b=pHjjvTnk3yAn4HxGTVhha9gxvy
+	V9Ox5kcXfX9gEXidRwZKnQbA0rNhE/V//zWhUQ+uaexqjdZORKyONDe6M0yxHko6bK9faC2LTapzy
+	7L2bXO+W6pyfhzqy4ZBYDMA5NEaBnCM0lHAPI2NmZTjNVrwT99okodEnLvKJAgzZnMpYyGPpVzXaG
+	sjHtyI9PKs/l9xm4lnCRo+8W6xBCI6o1CJ5RKRebGgx4KGRoMbPIFxCoPOYpcexgwwidHs+vZscXO
+	IDGIFiYOE6NOwn50ArfpfCW79gQYP3vjUaWz7BduJOkfhpg2aq9PaKXygI2fy1q+1bGOEFoo6oMRO
+	GSWdidOg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pm8Gx-00Ghkk-2v;
-	Tue, 11 Apr 2023 07:18:35 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1pm8J1-00Gi1p-0O;
+	Tue, 11 Apr 2023 07:20:43 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pm8Gv-00GhkE-0o
+	id 1pm8Ix-00Gi0g-2c
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Apr 2023 07:18:34 +0000
+	Tue, 11 Apr 2023 07:20:41 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CE3F921A4B;
-	Tue, 11 Apr 2023 07:18:31 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 41D251FDFF;
+	Tue, 11 Apr 2023 07:20:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1681197511; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1681197638; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=nye8weY7iV2Pm16fY2B0Oyu8AKFVYF7NnsdR53tk648=;
-	b=qMZQGAqwBMt6KP/TcrsY47fN6OHIOXHFcuivm+kT8P+t41wHYH//6IH+Kny91O0Q3KIDxJ
-	YqqLrx6FrCkzp4qpOPiLPOq74ccmYGp9FGfY84ST8Yei08rNHhHX/Qk4rf9HpxNEgRXWY1
-	qDcZNUVJc3t5WsIhIvO/SIzgzkJPgT4=
+	bh=71XY079JXYw8RT2K0Mron4+5mzsca2S9rdtP7KS9UZU=;
+	b=SIdNzBGOkCQPphshEeF4OGCLhoHlubNA/qzvR45B9XyIaVeb31caAGTrDxVO8rW1n9GJUM
+	OP9vfftq/3j2wPb0FWNQFP9w0zdoxyc9trDviDvr+jyhsUygAXMHk8uBudokl/Zr34Nkku
+	PxmuVUjNOpqrZsc5Gq40fswXi2OAmSs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1681197511;
+	s=susede2_ed25519; t=1681197638;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=nye8weY7iV2Pm16fY2B0Oyu8AKFVYF7NnsdR53tk648=;
-	b=cnizF+cDjUAiusxP+5W7FxQ1RqzbMJYsugAes65Z/w7hAUWIQ2a2VsJiPPWFrODqQQuOo7
-	tiQN6JKsV+x0lhBw==
+	bh=71XY079JXYw8RT2K0Mron4+5mzsca2S9rdtP7KS9UZU=;
+	b=jWGuH0gzdC94Gzf5DmTXF34SWzkBnP0zJM2yfoMTwatycJCMY6EVFNudgB88dYFIfw+8GU
+	aJQTO0mCWyybz5AQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6E9A413638;
-	Tue, 11 Apr 2023 07:18:31 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E95FD13638;
+	Tue, 11 Apr 2023 07:20:37 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id S0PuGccJNWSxXwAAMHmgww
-	(envelope-from <hare@suse.de>); Tue, 11 Apr 2023 07:18:31 +0000
-Message-ID: <e3489f05-14c3-14f8-e6d2-971b0f62b26a@suse.de>
-Date: Tue, 11 Apr 2023 09:18:31 +0200
+	id s/zlN0UKNWQoYQAAMHmgww
+	(envelope-from <hare@suse.de>); Tue, 11 Apr 2023 07:20:37 +0000
+Message-ID: <6c4584d8-4989-3855-21c8-031e200a88b0@suse.de>
+Date: Tue, 11 Apr 2023 09:20:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.1
-Subject: Re: [PATCH v6 10/18] nvme: Add helper to send pr command
+Subject: Re: [PATCH v6 11/18] nvme: Add pr_ops read_keys support
 Content-Language: en-US
 To: Mike Christie <michael.christie@oracle.com>, bvanassche@acm.org,
  hch@lst.de, martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
@@ -75,14 +75,14 @@ To: Mike Christie <michael.christie@oracle.com>, bvanassche@acm.org,
  linux-nvme@lists.infradead.org, chaitanyak@nvidia.com, kbusch@kernel.org,
  target-devel@vger.kernel.org
 References: <20230407200551.12660-1-michael.christie@oracle.com>
- <20230407200551.12660-11-michael.christie@oracle.com>
+ <20230407200551.12660-12-michael.christie@oracle.com>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20230407200551.12660-11-michael.christie@oracle.com>
+In-Reply-To: <20230407200551.12660-12-michael.christie@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230411_001833_438445_02CC0293 
-X-CRM114-Status: GOOD (  12.77  )
+X-CRM114-CacheID: sfid-20230411_002039_994893_0AA006D5 
+X-CRM114-Status: GOOD (  14.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,15 +98,18 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 4/7/23 22:05, Mike Christie wrote:
-> Move the code that checks for multipath support and sends the pr command
-> to a new helper so it can be used by the reservation report support added
-> in the next patches.
+> This patch adds support for the pr_ops read_keys callout by calling the
+> NVMe Reservation Report helper, then parsing that info to get the
+> controller's registered keys. Because the callout is only used in the
+> kernel where the callers, like LIO, do not know about controller/host IDs,
+> the callout just returns the registered keys which is required by the SCSI
+> PR in READ KEYS command.
 > 
 > Signed-off-by: Mike Christie <michael.christie@oracle.com>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
 > ---
->   drivers/nvme/host/pr.c | 23 ++++++++++++++---------
->   1 file changed, 14 insertions(+), 9 deletions(-)
+>   drivers/nvme/host/pr.c | 69 ++++++++++++++++++++++++++++++++++++++++++
+>   include/linux/nvme.h   |  4 +++
+>   2 files changed, 73 insertions(+)
 > 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
