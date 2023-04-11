@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54E13C77B6E
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79AB1C7619A
 	for <linux-nvme@archiver.kernel.org>; Wed, 12 Apr 2023 15:32:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,20 +12,20 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jVIUX30CHSeuMRIZ4MbX/VFPgD+9bUpANKvI3RmLVRc=; b=J8vXzXXhjyd+Xd2o6B2jmhlU/B
-	k3Oe4at4VozRng+1amtAj5+3lsAGczURw7lvWxG2xf0obis6mQ5jxhB1zgE6oY8d/Z6ROaXmJN2Zv
-	qNo35jySlhWYRpgaQ3NUq8T1mybKIb7/0C03oWLQZhzF6UO9ppOhj/6v0fd/dWuqTbH+i9riTl65q
-	thLoQpJvRy2H7PWT7+BUISUP76I3DgSZM/Q2pb7BYvypTSKVSzJHyqRUHqvIN9ntH55ozTPYxgJkt
-	UUvkoV6i5J5pF0TYenG5mMy5RBAWwPPoNUEr/GazLG+MY3DcsdcLpQ3ZGPjO2Ey9lcoMl1ocreXys
-	asu8AVEg==;
+	bh=uHkpIHsDJMVccFbSYcXY2khZL4erb7v3HbneWR1g+cI=; b=GW3SKdeZZ1nY758rN1hbQpThOH
+	b/qkTpGR9063M/UvGvUb4RDfIHESb9Vz4/4mwrdmprIeoX6NDB5EvNnqc/REWB/+ULl2seOLU9W+2
+	gdQNERWJBksfomEGqTdtlTwCNLlNo0diQCGoRJmzSPSwtYSYnkespsTc0gXUROu3gSLdpwUBrEhRs
+	1GZjzwlaTNgFs8txP/Gzguq8Fro8EgUqcac1aWNmWHCdqbpufvVbztOhnVGY0H8Vlpqhsf9lPSZER
+	FelTGKRiO1NFwu/77ytxNFkpRyMWQR8mdW5XO9BApts11dLHpHw2vzwxWmgVQudp+AKJFznCFquE7
+	+0Mxel2A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmcSS-003dzs-0C;
-	Wed, 12 Apr 2023 15:32:28 +0000
+	id 1pmcSR-003dzY-17;
+	Wed, 12 Apr 2023 15:32:27 +0000
 Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmcRi-003dp9-1Q;
-	Wed, 12 Apr 2023 15:31:42 +0000
-Date: Wed, 12 Apr 2023 08:31:42 -0700
+	id 1pmHHV-000dKG-2A;
+	Tue, 11 Apr 2023 16:55:45 +0000
+Date: Tue, 11 Apr 2023 09:55:45 -0700
 From: Christoph Hellwig <hch@infradead.org>
 To: David Howells <dhowells@redhat.com>
 Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
@@ -57,7 +57,7 @@ Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
 	linux-mediatek@lists.infradead.org, linux-nvme@lists.infradead.org
 Subject: Re: [PATCH net-next v6 04/18] mm: Make the page_frag_cache allocator
  use per-cpu
-Message-ID: <ZDbO3haK/1+7xdRC@infradead.org>
+Message-ID: <ZDWREY2ATn3VcLDW@infradead.org>
 References: <20230411160902.4134381-1-dhowells@redhat.com>
  <20230411160902.4134381-5-dhowells@redhat.com>
 MIME-Version: 1.0
@@ -80,17 +80,8 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On Tue, Apr 11, 2023 at 05:08:48PM +0100, David Howells wrote:
-> Make the page_frag_cache allocator have a separate allocation bucket for
-> each cpu to avoid racing.  This means that no lock is required, other than
-> preempt disablement, to allocate from it, though if a softirq wants to
-> access it, then softirq disablement will need to be added.
-
-Can you show any performance numbers?
-
 > Make the NVMe, mediatek and GVE drivers pass in NULL to page_frag_cache()
 > and use the default allocation buckets rather than defining their own.
 
-Let me ask a third time as I've not got an answer the last two times:
-why are these callers treated different from the others?
-
+Why makes these different from the other users?
 
