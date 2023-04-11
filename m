@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2EA93C77B71
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Apr 2023 05:36:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 098EDC76196
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Apr 2023 05:36:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=W72i4xV28E+u2r7Z2Rq7AsM6Cf
-	iB4XuWfuzrEQqeLzxFmnGFfEI8i39h0aikZSuf5pzD/Xw7j2RPiQCAHzrKC5wmJkXIZGmy3vQmO+z
-	LICweL+hEvoVBDoXx/C7kzmRabF+ldpnY8kBUeFJEKt2WolZhGRzOAqnO7umV9v9II3g+SdtGyt/V
-	UDr8anScSf9j9goozNBf3K8xCb2DuLqt3r85zEFJHLFZUbMXQ0sMcEosudSj6XKUEiXNyDkK0FZVT
-	9viPmtYb9l8y7Yx/o7oEM4DOZjN0YpzXBPKc0Ek0cOaNOgAYa0aIvQcBTZskbc+yhEiColBZpwxaD
-	KT8jm3+Q==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=1Gq+5jUs0tzEVJrHqsQMbXCs+0
+	1wJ2c9eSfUpMpkQEP8lrDx+bodMMo6gUMNY9w9HhB4b04qsACJr8ASFm9T0to00doU3bRgnLvRaCV
+	HQsoNeqKwcEZinpHujNXZOUGozq74HvqNX/fEZrmyXSPhDUAN7WqlmPsVX4WvbY8LvdYHRRA+DZWE
+	NPXKoZSE+GMYfuw04L9bdLeVZxswDx1w0doPztW+YDmlAs8dTEx8uG2u0GC01sBQhiYa6w3dN/OiW
+	/T+Io4gmCxsEVRCOjac9zUyE+mEemNRv1tSwuDqYUy9sI5qFsSl9jkhIkGMfqxqGxJuZQTyoWZ/y1
+	OwIMgobw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pm6fs-00GTN3-0J;
-	Tue, 11 Apr 2023 05:36:12 +0000
+	id 1pm6gB-00GTRm-0x;
+	Tue, 11 Apr 2023 05:36:31 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pm6fq-00GTMR-0j
+	id 1pm6g9-00GTR5-1I
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Apr 2023 05:36:11 +0000
+	Tue, 11 Apr 2023 05:36:30 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 8327168BFE; Tue, 11 Apr 2023 07:36:07 +0200 (CEST)
-Date: Tue, 11 Apr 2023 07:36:07 +0200
+	id B6C3C68BFE; Tue, 11 Apr 2023 07:36:26 +0200 (CEST)
+Date: Tue, 11 Apr 2023 07:36:26 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Mike Christie <michael.christie@oracle.com>
 Cc: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
@@ -38,18 +38,18 @@ Cc: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
 	snitzer@kernel.org, axboe@kernel.dk, linux-nvme@lists.infradead.org,
 	chaitanyak@nvidia.com, kbusch@kernel.org,
 	target-devel@vger.kernel.org
-Subject: Re: [PATCH v6 16/18] scsi: target: Pass struct
- target_opcode_descriptor to enabled
-Message-ID: <20230411053607.GF17645@lst.de>
-References: <20230407200551.12660-1-michael.christie@oracle.com> <20230407200551.12660-17-michael.christie@oracle.com>
+Subject: Re: [PATCH v6 17/18] scsi: target: Report and detect unsupported
+ PR commands
+Message-ID: <20230411053626.GG17645@lst.de>
+References: <20230407200551.12660-1-michael.christie@oracle.com> <20230407200551.12660-18-michael.christie@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230407200551.12660-17-michael.christie@oracle.com>
+In-Reply-To: <20230407200551.12660-18-michael.christie@oracle.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230410_223610_412888_BAAD6916 
-X-CRM114-Status: UNSURE (   8.35  )
+X-CRM114-CacheID: sfid-20230410_223629_578712_B97A88E0 
+X-CRM114-Status: UNSURE (   7.96  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
