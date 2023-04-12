@@ -4,73 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70927C7619A
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Apr 2023 15:58:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 871E4C77B6E
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Apr 2023 16:54:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eMr2XGACXlrLS3k5c24kseDiCIsfI0ars2r0sDgLfPI=; b=DsoAt3eHcN2QiR5jBO/rRnCi1H
-	e+j5gCMv3fQdSPgOeeLm0eg/2uP2g3aVIeI37qePxmgq8wnmF4x/ReujNjYmQENaCC1NpBX5wxmz+
-	D90rWVXAZA1Gw7Iqc/T6YBuAzThEfbfuXRIqxSURHzn9OLcJLqnDZgs0lwpRJE0wbfUdGN7Vn+40A
-	UFj8+iaRfvEkjjn/yX7UTMrPA4yiEmFOyhDrNHkjvuvMSueJu3s0b6cLgNz+kR5uuJpmsFBWYGAWn
-	UQknIklmuOjWEJWthlnGmtKAlTV5YKDcoA79+gDPezI4oalqlGqk9zQeD0OFcvgxvbvRiqWGwLmAP
-	Qgi9J5vQ==;
+	bh=ExGf/HrikYP43vuFdeeps8x9nHFxJu561L3Id/Q0nV4=; b=hwx97kKtHiVvYyKe0EgbLKCXlN
+	XR/hHVZy7k8aljOVwga7G6TB1suoDbQm7P9s8mtG/mvZt3VlzBuj+F0COZJe3i7kO2lnGNjk1GNPj
+	sVHITSWEsslZ+M2+TaXVqUKRImbFZSNldYn8Uxi1xPLRHIgT9G0xg2CVgfsGGTkkXFa/70AToTvMb
+	quJ5VCng+WDHtlHHjDuGPY+ql/NnnzqZri5kfmmys6hpZyZuJ1eT89F+U/rY8M4XiDlOwjsti6khG
+	MMcQCrN3EvvT/9HBC6X5OQH2XncP5APNSxVC9hyA3H6gBzYgv1bM4qiEwN4CJSjd3re17Ag25SRJD
+	7LQ+7A2Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmcr6-003j9n-2Z;
-	Wed, 12 Apr 2023 15:57:56 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1pmdjJ-003sWi-0E;
+	Wed, 12 Apr 2023 16:53:57 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmcr3-003j9F-2d
+	id 1pmdjE-003sTw-06
 	for linux-nvme@lists.infradead.org;
-	Wed, 12 Apr 2023 15:57:55 +0000
+	Wed, 12 Apr 2023 16:53:54 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1681315072;
+	s=mimecast20190719; t=1681318429;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eMr2XGACXlrLS3k5c24kseDiCIsfI0ars2r0sDgLfPI=;
-	b=PBJ6nOPsGx3RWnNm8C9esU+B0Tg1GToC2kY1xqJHKda0iRPwqQpBKpVVU8NfLr2GLdkg+n
-	3n2oNzrSnfKBRm+P/jx+FuZ0pIY3dmzPkthW9qr/weFdwAlzZ1dGvd3wognWwT3Q+QeDM1
-	YxeHfzeS9tAUjRBg2xyw9YsecGBUA+Y=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=ExGf/HrikYP43vuFdeeps8x9nHFxJu561L3Id/Q0nV4=;
+	b=ZK0euSDqMG4o9uCkEppis21RIoPinKYGlyyIgD0b3H5O99O4ieiSC6FMqFjWjbJjF43i6x
+	sB+EOsb8VyCdfHXeS3SPGbHr9vDnLG06UghUwFMEvkrmrKScjCyWYBoWq2j8pEu4v+/EzF
+	D7mSrJcxyQoPj5RKSmvFDV7pIR6cL88=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-271-Rkb2WjSJMOqG50yqglo_zw-1; Wed, 12 Apr 2023 11:56:02 -0400
-X-MC-Unique: Rkb2WjSJMOqG50yqglo_zw-1
-Received: by mail-wm1-f72.google.com with SMTP id gw11-20020a05600c850b00b003ee8db23ef9so7021478wmb.8
-        for <linux-nvme@lists.infradead.org>; Wed, 12 Apr 2023 08:56:02 -0700 (PDT)
+ us-mta-612-tlZJ2NVkO5aL6bF0l6Oi2w-1; Wed, 12 Apr 2023 12:53:48 -0400
+X-MC-Unique: tlZJ2NVkO5aL6bF0l6Oi2w-1
+Received: by mail-pj1-f69.google.com with SMTP id lp6-20020a17090b4a8600b00244a02d7bbcso5290566pjb.8
+        for <linux-nvme@lists.infradead.org>; Wed, 12 Apr 2023 09:53:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681314962; x=1683906962;
+        d=1e100.net; s=20221208; t=1681318425; x=1683910425;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eMr2XGACXlrLS3k5c24kseDiCIsfI0ars2r0sDgLfPI=;
-        b=ad/I7A73lep/Wx6fskVZvJ0mg8aI0Vs5S4oFytsjevWHwNNXF4zC1D+8lUH/sToSLa
-         IXZJ5vYpVKZdt+2N0XNEzpHXPxt5VewVaVh9MEn+PbV8MutyVZ7Z6pZJMH5wc+5BSAIM
-         iAC1A53hHBMv7Ooi/P74iRT4KHHBobYPotNLBOFX52w7qOXs9AfBYdKSNvW7S8i5zusQ
-         apmxFeTAhVPcXrM6nuT8kfv40ONph/duBVvoIUVMh84fpMXZg/bjUKthyrKTR/thzJq+
-         4YbwcXFB5N/iD88MQFN8am2uV4GZqHmc8FkiFqXkojY4MRJmy/Hi7IuJMEaSfHV/LEiC
-         78Qw==
-X-Gm-Message-State: AAQBX9dGQsXS1uTTZO34c7Hgro1TuQyk2/4rXtyClB7eSZyp9vth6qJ2
-	sUVuFXm6UoWGdqDCYiK8a7sD2gMeSfQNFnwfaxalNAr8ugm2uQrikzCGPoOs6f5Bj5RB62WiMOR
-	X/Rn8l3aO83ZYdTfprD3mb+OVqlqfN7m89sw1VDMTNKQ=
-X-Received: by 2002:adf:fe83:0:b0:2e8:b9bb:f96c with SMTP id l3-20020adffe83000000b002e8b9bbf96cmr724974wrr.0.1681314961872;
-        Wed, 12 Apr 2023 08:56:01 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZL+84pQj/rQbV34AwC1POyuqChsSLpR61XfVN7YKNGFyeJNhTJUuM6QfqrT8OfGKFqrxi+kHzoH8slRXNrZnc=
-X-Received: by 2002:adf:fe83:0:b0:2e8:b9bb:f96c with SMTP id
- l3-20020adffe83000000b002e8b9bbf96cmr724972wrr.0.1681314961473; Wed, 12 Apr
- 2023 08:56:01 -0700 (PDT)
+        bh=ExGf/HrikYP43vuFdeeps8x9nHFxJu561L3Id/Q0nV4=;
+        b=d0PK2eNFOa0wm3g1xWwirCGqrX5KdJ3e9TJCMQ1vs0w0nJMbXDfoJGhJyrRK6nUZzG
+         48aVVjy8bh141n80q5gviHD+8x46IYq+b9v5L5UXNZ41kC4hVeBD0q/WCwHqsiMRhfkK
+         DX797+x0sFATQgL3WfLn3zTvRec8/QHNuId/+VlnWiZNDeKEwZNV7mAD+5sYo/kKP1db
+         vZ4C5e4YYyLpdtTtp4+iHwED+C1Y1NViylJufUDGRgR9MvkrnlD6aKyksCntA+pX+dyD
+         HrWIyS/aZC2Q45HY6S4mzKxhZW4IGROdRi54AqHNjhBE1ciLnuX7SyIYNHvRBudrefGJ
+         SOpw==
+X-Gm-Message-State: AAQBX9eFPPbqeTqYkScgIqktswfdUHUX5F1ENydPW8njwR+jKUxmF9s6
+	kTvAX8omyUDKS8FMHT60hF6oHC6QP6rDqm/zaFuJ+SgkvjDN1BV0/GgVid8GVfo95OmhWV21Kzd
+	cCoSuDOjHSp41wrcIMSEp2E+lh75e9XoxbYdIuBKSukg=
+X-Received: by 2002:a17:902:a617:b0:1a5:f26:b6bf with SMTP id u23-20020a170902a61700b001a50f26b6bfmr2369995plq.10.1681318424599;
+        Wed, 12 Apr 2023 09:53:44 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Ys+L9g+l18xvamLllXffZbBJL/d4xQX4i5pdRWTw9BrOFVOB03NuI1AS8hmKVozejqWqmTBvfrLNb9kn7jn6I=
+X-Received: by 2002:a17:902:a617:b0:1a5:f26:b6bf with SMTP id
+ u23-20020a170902a61700b001a50f26b6bfmr2369985plq.10.1681318424078; Wed, 12
+ Apr 2023 09:53:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230412084904.162324-1-ming.lei@redhat.com>
 In-Reply-To: <20230412084904.162324-1-ming.lei@redhat.com>
-From: Ewan Milne <emilne@redhat.com>
-Date: Wed, 12 Apr 2023 11:55:50 -0400
-Message-ID: <CAGtn9r=d5EBmf=8N=ZzgrqyJ3OoEgdMhK5wiMDmpA+hof6gdcA@mail.gmail.com>
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Thu, 13 Apr 2023 00:53:32 +0800
+Message-ID: <CAHj4cs8o8LkzQ-HTEiyp16sxv3Q2E_MyLhWJJVuxMhDD+SZzhg@mail.gmail.com>
 Subject: Re: [PATCH] nvme-fcloop: fix "inconsistent {IN-HARDIRQ-W} ->
  {HARDIRQ-ON-W} usage"
 To: Ming Lei <ming.lei@redhat.com>
@@ -81,8 +81,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230412_085753_948658_FF567FA2 
-X-CRM114-Status: GOOD (  21.34  )
+X-CRM114-CacheID: sfid-20230412_095352_226900_9BB64FFC 
+X-CRM114-Status: GOOD (  23.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,9 +97,89 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Ewan D. Milne <emilne@redhat.com>
+Thanks Ming, below issue was fixed by this patch, feel free to add:
 
-On Wed, Apr 12, 2023 at 4:50=E2=80=AFAM Ming Lei <ming.lei@redhat.com> wrot=
+Reported-by: Yi Zhang <yi.zhang@redhat.com>
+Tested-by: Yi Zhang <yi.zhang@redhat.com>
+
+[ 6238.578857] run blktests nvme/012 at 2023-04-12 07:47:19
+[ 6240.616008] ------------[ cut here ]------------
+[ 6240.620657] raw_local_irq_restore() called with IRQs enabled
+[ 6240.626331] WARNING: CPU: 25 PID: 184 at
+kernel/locking/irqflag-debug.c:10 warn_bogus_irq_restore+0x21/0x30
+[ 6240.636082] Modules linked in: loop nvme_fcloop nvmet_fc nvmet
+nvme_fc nvme_fabrics nvme_core nvme_common rpcsec_gss_krb5 auth_rpcgss
+nfsv4 dns_resolver nfs lockd grace fscache netfs rfkill sunrpc vfat
+fat dm_multipath intel_rapl_msr intel_rapl_common
+intel_uncore_frequency intel_uncore_frequency_common isst_if_common
+skx_edac x86_pkg_temp_thermal intel_powerclamp coretemp kvm_intel kvm
+ipmi_ssif mgag200 i2c_algo_bit drm_shmem_helper drm_kms_helper
+irqbypass iTCO_wdt syscopyarea rapl mei_me iTCO_vendor_support
+sysfillrect dell_smbios intel_cstate dcdbas wmi_bmof
+dell_wmi_descriptor intel_uncore acpi_ipmi pcspkr sysimgblt mei
+i2c_i801 ipmi_si lpc_ich i2c_smbus ipmi_devintf ipmi_msghandler
+dax_pmem acpi_power_meter drm fuse xfs libcrc32c nd_pmem nd_btt sd_mod
+t10_pi sg crct10dif_pclmul crc32_pclmul crc32c_intel ahci libahci
+ghash_clmulni_intel tg3 megaraid_sas libata wmi nfit libnvdimm
+dm_mirror dm_region_hash dm_log dm_mod
+[ 6240.717780] CPU: 25 PID: 184 Comm: ksoftirqd/25 Kdump: loaded Not
+tainted 6.3.0-rc5+ #1
+[ 6240.725787] Hardware name: Dell Inc. PowerEdge R640/06NR82, BIOS
+2.17.1 11/15/2022
+[ 6240.733360] RIP: 0010:warn_bogus_irq_restore+0x21/0x30
+[ 6240.738509] Code: 90 90 90 90 90 90 90 90 90 80 3d fa 4d d8 01 00
+74 05 c3 cc cc cc cc 48 c7 c7 a0 29 ce 8c c6 05 e5 4d d8 01 01 e8 df
+d1 c7 fd <0f> 0b c3 cc cc cc cc cc cc cc cc cc cc cc cc 90 90 90 90 90
+90 90
+[ 6240.757264] RSP: 0018:ffffc90001257d60 EFLAGS: 00010286
+[ 6240.762506] RAX: 0000000000000000 RBX: 0000000000000200 RCX: 00000000000=
+00000
+[ 6240.769647] RDX: 0000000000000103 RSI: ffffffff8cf64b60 RDI: 00000000000=
+00001
+[ 6240.776787] RBP: ffff8884dd61a048 R08: 0000000000000001 R09: ffffc900012=
+57b5f
+[ 6240.783930] R10: fffff5200024af6b R11: 0000000000000001 R12: ffff8884dd6=
+1a010
+[ 6240.791070] R13: dffffc0000000000 R14: ffff8884dd619f50 R15: ffff8884dd6=
+19f50
+[ 6240.798210] FS:  0000000000000000(0000) GS:ffff888efe400000(0000)
+knlGS:0000000000000000
+[ 6240.806306] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 6240.812066] CR2: 000055c5feb5c0a0 CR3: 00000003a0a32002 CR4: 00000000007=
+706e0
+[ 6240.819211] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 00000000000=
+00000
+[ 6240.826350] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 00000000000=
+00400
+[ 6240.833493] PKRU: 55555554
+[ 6240.836215] Call Trace:
+[ 6240.838674]  <TASK>
+[ 6240.840791]  _raw_spin_unlock_irqrestore+0x6c/0x70
+[ 6240.845600]  flush_end_io+0x88f/0xb70
+[ 6240.849290]  ? __pfx_flush_end_io+0x10/0x10
+[ 6240.853486]  blk_mq_end_request+0x145/0x400
+[ 6240.857686]  blk_complete_reqs+0xa7/0xe0
+[ 6240.861626]  __do_softirq+0x200/0x8f6
+[ 6240.865311]  ? __pfx_run_ksoftirqd+0x10/0x10
+[ 6240.869600]  ? smpboot_thread_fn+0x6b/0x910
+[ 6240.873799]  run_ksoftirqd+0x36/0x60
+[ 6240.877388]  smpboot_thread_fn+0x556/0x910
+[ 6240.881498]  ? __pfx_smpboot_thread_fn+0x10/0x10
+[ 6240.886134]  kthread+0x29f/0x340
+[ 6240.889381]  ? __pfx_kthread+0x10/0x10
+[ 6240.893145]  ret_from_fork+0x29/0x50
+[ 6240.896756]  </TASK>
+[ 6240.898959] irq event stamp: 715386
+[ 6240.902459] hardirqs last  enabled at (715396):
+[<ffffffff8a7f600b>] __up_console_sem+0x6b/0x80
+[ 6240.911160] hardirqs last disabled at (715405):
+[<ffffffff8a7f5ff0>] __up_console_sem+0x50/0x80
+[ 6240.919862] softirqs last  enabled at (714456):
+[<ffffffff8c9e6d9b>] __do_softirq+0x5db/0x8f6
+[ 6240.928388] softirqs last disabled at (714461):
+[<ffffffff8a646b16>] run_ksoftirqd+0x36/0x60
+[ 6240.936828] ---[ end trace 0000000000000000 ]---
+On Wed, Apr 12, 2023 at 4:52=E2=80=AFPM Ming Lei <ming.lei@redhat.com> wrot=
 e:
 >
 > fcloop_fcp_op() could be called from flush request's ->end_io(flush_end_i=
@@ -307,5 +387,10 @@ rt,
 > 2.31.1
 >
 >
+
+
+--=20
+Best Regards,
+  Yi Zhang
 
 
