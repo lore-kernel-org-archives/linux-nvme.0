@@ -4,52 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 28B83C7619A
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Apr 2023 11:50:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61E53C7619A
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Apr 2023 12:23:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=p13YqXFGOIdtBHJwC2qwzAyWz6Qgh6+2djuWpFQo3gg=; b=vqcWrXjPll0dLN+m69uIqnZ0RU
-	EazQ8yX3gxKSnpHSYIko8fjRYDosahq2U68JL934gJbQlTm8o1TMcJU67qrn/D833kVaV2FRnkPF7
-	Iwhp5FD5JbTSPPFqH1h4PZykZ5u+3hvoTS+pZAQFwkUEQTVd5ci3NzSCHsv3FU6Lg/RIlQyZ9bEbU
-	yYJyXSChw++3Mk9AzP4hf3SH0j/HAAhSQI8hBAPkDL/pHSUH/nOX9RQu6wN0uAFykBYgDk5b9se7B
-	SG5wN2LLXDhdHBoHshmI+/r37d05wmHU8pFQWx3or3Eb3fz+nFTDOEcAy45U9liN/ZmDFBplbhTj1
-	9AbZARNw==;
+	bh=htkyVBu1g0lw5rFigY59dspM0v7B4GY3eOilngQdGs0=; b=QRlWR5wrbDHjj10zyT6cvowBPx
+	wIG+xbdOGd1hp79rDCeKqNhqZ6rXzmWO6Jbz+FQd3clRVhvPI5Q0cFGdli4vA2dgWCukstTuLukeb
+	TIxr03EhzMibaqXQGtixpI8uDHDvrpH/naUbxpgaSxjc16d9S6oDB1zZr4o/SquQ26O98imjB0Il8
+	QtsMTqwoWv7Fb96qhmCHCpQGmKVjrvsn0koHsWGL854Ddv3j0Fup1XJDlUX3qIlg38M4Yu+hqMVrA
+	FrwDGH/BBghN8A8t9QUx4Rt9Y0sUAGnZ1Rsu0QXdijtALuwa7WPmVOiUqT8ZRB2F2jpifFUM1SYoH
+	6MjAHc8A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmYzF-002wKS-04;
-	Wed, 12 Apr 2023 11:50:05 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1pmZVX-0034TL-0N;
+	Wed, 12 Apr 2023 12:23:27 +0000
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmYzC-002wJ5-06
+	id 1pmZVU-0034SE-22
 	for linux-nvme@lists.infradead.org;
-	Wed, 12 Apr 2023 11:50:03 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id A191668AA6; Wed, 12 Apr 2023 13:49:55 +0200 (CEST)
-Date: Wed, 12 Apr 2023 13:49:55 +0200
-From: "hch@lst.de" <hch@lst.de>
-To: Jinyoung CHOI <j-young.choi@samsung.com>
-Cc: "hch@lst.de" <hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>,
-	"axboe@fb.com" <axboe@fb.com>,
-	"sagi@grimberg.me" <sagi@grimberg.me>,
-	"chaitanya.kulkarni@wdc.com" <chaitanya.kulkarni@wdc.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"martin.petersen@oracle.com" <martin.petersen@oracle.com>
-Subject: Re: (2) [PATCH 2/2] nvme-pci: fix metadata mapping length
-Message-ID: <20230412114955.GA9786@lst.de>
-References: <20230412065736.GB20550@lst.de> <20230412052443epcms2p836b669a12c4e81368bec2cd340656f73@epcms2p8> <CGME20230412052443epcms2p836b669a12c4e81368bec2cd340656f73@epcms2p1> <20230412071230epcms2p145d53bfc8e40eede25f282b80247218c@epcms2p1>
+	Wed, 12 Apr 2023 12:23:26 +0000
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailnew.west.internal (Postfix) with ESMTP id 95D6E2B06D22;
+	Wed, 12 Apr 2023 08:23:19 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Wed, 12 Apr 2023 08:23:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm3; t=1681302199; x=1681302799; bh=ht
+	kyVBu1g0lw5rFigY59dspM0v7B4GY3eOilngQdGs0=; b=XtKXbxrsO5b6p1mi8Y
+	BTmQBMTUpiSOno61xKgaWHheCayl8CgeiQztRYw/tkkzffFt4iDGhcnYrf0HwzsC
+	zFl2DsnBWoPc2eTnwDCWuX2HcvYQq6Br2v+aI9ULNTnVx8UjtqoPLZXnGKM7aZSf
+	imkdPHMiizY7sydt1FrbbK2UmwZgVulmdtv5rBB+9WRnKoyJgaQDYyr382AKcO6V
+	+F3CbDwd2GJnPuXefOynZZmfxdkdO2M0Fg1RzI+6Eg0K/tFyScjJN1M+npKrscS6
+	pVDTEtdVEO3fZ9BHZ6E2cjR5sJ3ZQ7zsRWT/I98m4fw0SMP4/ftRALQKEgpe2Q2W
+	rcxw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=ie1e949a3.fm3; t=1681302199; x=1681302799; bh=htk
+	yVBu1g0lw5rFigY59dspM0v7B4GY3eOilngQdGs0=; b=G0nLGrbu5pNN0zrcpsr
+	9+HS1L3i/Pu+irKCAnenM9vWuyhfCS2wd0Swqt3v4X2sZiIu/TTZJf5EVlDgnWSO
+	Z1NiU/ZylNNmIhrSsH3A2KQJEuy15QopI3w4+KyjOgUIdSDhfpZ/UbCdLcTiyJ2i
+	99P0eP8t024/6JtV6c2+Uf5RxWQ0ejYEW8qPPuwIMlEOM9wp4l8rOFNBDLF5JNa9
+	biiDGDd+de6Mxd5f7TfzdlRaUD2h3AKMMiiBCv89l8hEEQA+fdGNROrbRiPkIac/
+	2Sw20AAKwMrQqdAx8XMOIiDnH3CgPJYZSQ7tH9aBuiOkYX19EhhokawwWi+M8REo
+	2pA==
+X-ME-Sender: <xms:tqI2ZObbPv4p340w5P2Mk1pYW2JwTHAZxlx3qpXgZ4t8Lm98SbJTUg>
+    <xme:tqI2ZBZhUi6vGt-V5hE6yLwRCZQBdWYjY1IPfCBt_z_xnGlGkq4jurfYLikXiUPZZ
+    RsflyTxmSitoigY214>
+X-ME-Received: <xmr:tqI2ZI9y9UczqNx7aNRR3M3WhXhoh1veQnI5ek3ErXs_Xa3S6TWA4FAY1ShmdObkFwgoua11gnEZOEQbHXMDZw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekiedghedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtsfdttddtvdenucfhrhhomhepufhhihhn
+    kdhitghhihhrohcumfgrfigrshgrkhhiuceoshhhihhnihgthhhirhhosehfrghsthhmrg
+    hilhdrtghomheqnecuggftrfgrthhtvghrnhepffehffetgfdugeffffelvdfgjefgkedv
+    hfehgeefveffgfffvedtueekgeevvefhnecuffhomhgrihhnpehkvghrnhgvlhdrohhrgh
+    enucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehshhhi
+    nhhitghhihhrohesfhgrshhtmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:tqI2ZAqtJQsvfMWOoQepV64N8C0JdVwSbQX5kra--cvoTjynlk5UVQ>
+    <xmx:tqI2ZJpt_QWKL9WUy9qb5eDuG7T-0l9dIgQ7CYSUDugsY0-50ub3tA>
+    <xmx:tqI2ZOSiPlRT7vqYH15vFu9ARAFvz1KHvmCy0nk20rukDvJ8IX4fMg>
+    <xmx:t6I2ZKmMWWJDw100tvFvp3vLN2fcpzQbNL7rdSex5bjBU80K-VukCJOd1Y34ynS6>
+Feedback-ID: ie1e949a3:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 12 Apr 2023 08:23:17 -0400 (EDT)
+Date: Wed, 12 Apr 2023 21:23:13 +0900
+From: Shin'ichiro Kawasaki <shinichiro@fastmail.com>
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: Daniel Wagner <dwagner@suse.de>, 
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH blktests v3 0/4] Test different queue types
+Message-ID: <7bf4oclwq3utcuwadedqiqc2l5hbasujcdfpfycdo7x6jlob7q@4t6lvsun3qvt>
+References: <20230329090202.8351-1-dwagner@suse.de>
+ <20230331002100.e7xmotjoprimxs5u@shindev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230412071230epcms2p145d53bfc8e40eede25f282b80247218c@epcms2p1>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20230331002100.e7xmotjoprimxs5u@shindev>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230412_045002_219689_971E9304 
-X-CRM114-Status: GOOD (  12.61  )
+X-CRM114-CacheID: sfid-20230412_052325_130206_432961F2 
+X-CRM114-Status: GOOD (  10.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,14 +108,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 12, 2023 at 04:12:30PM +0900, Jinyoung CHOI wrote:
-> I agree with you.
-> I think the problem is bio_integrity_add_page().
-> If it is modified, sg functions for blk-integrity should also 
-> be modified.
+On Mar 31, 2023 / 02:32, Shinichiro Kawasaki wrote:
+> On Mar 29, 2023 / 11:01, Daniel Wagner wrote:
+> > Setup different queues, e.g. read and poll queues.
+> > 
+> > As discussed I introduced a _require_nvme_trtype() function to limit the test to
+> > tcp and rdma. I've upated the existing _require_nvme_type_is_*() checks to
+> > explicit transport checks.
+> > 
+> > Test run against current nvme-6.4 but it still needs patch #3 from [1] to
+> > survive.
+> > 
+> > [1] https://lore.kernel.org/linux-nvme/20230322002350.4038048-1-kbusch@meta.com/
 > 
-> If you think the blk-integrity modification is better, 
-> I will send an mail to block mailing after modifying it.
+> All patches look good to me. I reconfirmed that my test system hangs without the
+> kernel fix patch above [1]. I'll wait for the kernel fix patch lands on Linus
+> tree, then apply your patches to blktests master.
 
-Please wait for feedback from Martin.
+The fix was upstreamed and I've applied this series. Thanks!
 
