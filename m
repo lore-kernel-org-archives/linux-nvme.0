@@ -4,85 +4,165 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 871E4C77B6E
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Apr 2023 16:54:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1154C77B6E
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Apr 2023 17:50:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ExGf/HrikYP43vuFdeeps8x9nHFxJu561L3Id/Q0nV4=; b=hwx97kKtHiVvYyKe0EgbLKCXlN
-	XR/hHVZy7k8aljOVwga7G6TB1suoDbQm7P9s8mtG/mvZt3VlzBuj+F0COZJe3i7kO2lnGNjk1GNPj
-	sVHITSWEsslZ+M2+TaXVqUKRImbFZSNldYn8Uxi1xPLRHIgT9G0xg2CVgfsGGTkkXFa/70AToTvMb
-	quJ5VCng+WDHtlHHjDuGPY+ql/NnnzqZri5kfmmys6hpZyZuJ1eT89F+U/rY8M4XiDlOwjsti6khG
-	MMcQCrN3EvvT/9HBC6X5OQH2XncP5APNSxVC9hyA3H6gBzYgv1bM4qiEwN4CJSjd3re17Ag25SRJD
-	7LQ+7A2Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=lO7OZCfd8eLi/DVsjsFp4818jNLQYeFNicG2jnMO3Is=; b=qCRVaulorHRYM5fVP4xNrXVQRg
+	eNPZozgeIhuiqH/Uilaeed3puO2pLB2EdgvyVY7vTQHNRV76thFjYqxwl6tJk7ghVb7ivtQ9/Md3j
+	AGAnh5nKnwtk66f3TB8e+B0pkIGZZfUI5mzN5QggCy/qxoUDv4LZmn55ElzKc77gjw8eU1RMeqzyf
+	f93SvKw2As3Et4SKTuopWkppSMq8Jn7zJYBc9/67LqHDHar0j3UChW9l1rMK7VDqnLm2VUKZRfwpl
+	YrKD579/zIF2xTcBzZC5m9kzGmPLIo2rGPhmDfdlHKQ+ESemdCMjnvgGT57Pf9Xxg5uLyYJ0IgNAm
+	Jp6UO5xA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmdjJ-003sWi-0E;
-	Wed, 12 Apr 2023 16:53:57 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1pmebi-0040nq-1b;
+	Wed, 12 Apr 2023 17:50:10 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmdjE-003sTw-06
+	id 1pmebf-0040nD-0i
 	for linux-nvme@lists.infradead.org;
-	Wed, 12 Apr 2023 16:53:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1681318429;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ExGf/HrikYP43vuFdeeps8x9nHFxJu561L3Id/Q0nV4=;
-	b=ZK0euSDqMG4o9uCkEppis21RIoPinKYGlyyIgD0b3H5O99O4ieiSC6FMqFjWjbJjF43i6x
-	sB+EOsb8VyCdfHXeS3SPGbHr9vDnLG06UghUwFMEvkrmrKScjCyWYBoWq2j8pEu4v+/EzF
-	D7mSrJcxyQoPj5RKSmvFDV7pIR6cL88=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-612-tlZJ2NVkO5aL6bF0l6Oi2w-1; Wed, 12 Apr 2023 12:53:48 -0400
-X-MC-Unique: tlZJ2NVkO5aL6bF0l6Oi2w-1
-Received: by mail-pj1-f69.google.com with SMTP id lp6-20020a17090b4a8600b00244a02d7bbcso5290566pjb.8
-        for <linux-nvme@lists.infradead.org>; Wed, 12 Apr 2023 09:53:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681318425; x=1683910425;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ExGf/HrikYP43vuFdeeps8x9nHFxJu561L3Id/Q0nV4=;
-        b=d0PK2eNFOa0wm3g1xWwirCGqrX5KdJ3e9TJCMQ1vs0w0nJMbXDfoJGhJyrRK6nUZzG
-         48aVVjy8bh141n80q5gviHD+8x46IYq+b9v5L5UXNZ41kC4hVeBD0q/WCwHqsiMRhfkK
-         DX797+x0sFATQgL3WfLn3zTvRec8/QHNuId/+VlnWiZNDeKEwZNV7mAD+5sYo/kKP1db
-         vZ4C5e4YYyLpdtTtp4+iHwED+C1Y1NViylJufUDGRgR9MvkrnlD6aKyksCntA+pX+dyD
-         HrWIyS/aZC2Q45HY6S4mzKxhZW4IGROdRi54AqHNjhBE1ciLnuX7SyIYNHvRBudrefGJ
-         SOpw==
-X-Gm-Message-State: AAQBX9eFPPbqeTqYkScgIqktswfdUHUX5F1ENydPW8njwR+jKUxmF9s6
-	kTvAX8omyUDKS8FMHT60hF6oHC6QP6rDqm/zaFuJ+SgkvjDN1BV0/GgVid8GVfo95OmhWV21Kzd
-	cCoSuDOjHSp41wrcIMSEp2E+lh75e9XoxbYdIuBKSukg=
-X-Received: by 2002:a17:902:a617:b0:1a5:f26:b6bf with SMTP id u23-20020a170902a61700b001a50f26b6bfmr2369995plq.10.1681318424599;
-        Wed, 12 Apr 2023 09:53:44 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Ys+L9g+l18xvamLllXffZbBJL/d4xQX4i5pdRWTw9BrOFVOB03NuI1AS8hmKVozejqWqmTBvfrLNb9kn7jn6I=
-X-Received: by 2002:a17:902:a617:b0:1a5:f26:b6bf with SMTP id
- u23-20020a170902a61700b001a50f26b6bfmr2369985plq.10.1681318424078; Wed, 12
- Apr 2023 09:53:44 -0700 (PDT)
+	Wed, 12 Apr 2023 17:50:08 +0000
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33CHE2F2023904;
+	Wed, 12 Apr 2023 17:50:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2023-03-30;
+ bh=lO7OZCfd8eLi/DVsjsFp4818jNLQYeFNicG2jnMO3Is=;
+ b=WQ0QYSTQFlqMxbKQlIaOOpGjDaM/iO8eHz1iWobUaPJbrPWRJA5Ndi+F/t2j4x6Z/pLI
+ 7jaRjPx231s5ffDni2gA/6x4hiA0o9BwTNmnaxlODKoGgzRb3rI8cT1oaVDIYFow3q7B
+ HS8G74VvAvLYgKADnyU80j127UrmrRilXjt5+/Hr7+LuNgAafLwWQgkFzE39Xk4/Bt4y
+ 1byKc8eo2id5cvPOOy5fpvgdu7GlAdl+vc28i3LxYBDgG+hkSPIhWj2I3U+pQ6S+GoVH
+ Vez7KqIMZ/01e4Ms1aztw1ACwvRNcQEGc2tMWq1CqzIYQWZ0KkBMlQkvROH8aeypgxXb Mw== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3pu0bw0ynf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 12 Apr 2023 17:50:02 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 33CH8NOe025058;
+	Wed, 12 Apr 2023 17:50:01 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2173.outbound.protection.outlook.com [104.47.56.173])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3puwdr6ejk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 12 Apr 2023 17:50:00 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BApZJUbxLDM+4iAWkTdmGqT28Tl4LrrsFY4IbBkqkQpAYFWXhlH0xum7va/yuxV26UE622STAGpTI4k9mDOrxMkfBXyYI1P0d2cAgYgnw9oJCq0TJaUu+BWLS9sqvJyr9lipz7mjbHhm+IrRlaVabwjcUmqo5U/LlGXo6bOaosqvwMYiiI5Oygahw+mTaRdqshAoyGA8/F617qDb+K31KZ4dXNgEeRTwa2OeydQcBx/1KmuOGo2mtTT8gc30FCvaTtJqTLTCAy8l6ljJSo7R5CZ+wXahJaXNx0j5ViqSn97Ssw2rLj3zi/2YmP10rkprITowhlPB+t1mFbIeh9uqig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lO7OZCfd8eLi/DVsjsFp4818jNLQYeFNicG2jnMO3Is=;
+ b=JUPEN1PIN2ka7n5Ca1x1mBxiOpqUQr5d1S3er1+1Gqs9jnXmhoMdRi/Z0QNaqzAhK2+8+vqNY+SeGdLaxJzsnZo2auQJam6zLKQk6JKjFv/En+HEfXCQdOceKMZanP+ETQPFxj2YlW4dz9i5srJFsJFxrr6LKXdiXKDVri2EnMSuE0kmm80b6aHmplxLDHQL4eGSjzcPyjdPD9HKJaiIvHfnArPN7owMmwEYqNF6+7e40KeegbFT4omEpATSmlA9cP0PceoVFbEx9mZP8HaTaBWXx0Te9frYPgmE6i8+bL61+YSAnj/XydUgNP4D9P3KAbrvR85deB0AseKJ+WcIHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lO7OZCfd8eLi/DVsjsFp4818jNLQYeFNicG2jnMO3Is=;
+ b=NxTyLjOUOzB5r+b9gDcFXZK3mRiodvekkx1FINqsOCPUj+vA+8wLN9rOGXyHMvDspiVRPqNu7b8X8s39we1cRggAjAUapJADn63nqp58U8rRfvK4uF/wBO+aZMcz+SYVbu8bajY/0YxE4W0gskHSbHtsI0DahaSfPbEbVHTIDIg=
+Received: from SJ0PR10MB5550.namprd10.prod.outlook.com (2603:10b6:a03:3d3::5)
+ by CH0PR10MB5305.namprd10.prod.outlook.com (2603:10b6:610:d9::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.30; Wed, 12 Apr
+ 2023 17:49:58 +0000
+Received: from SJ0PR10MB5550.namprd10.prod.outlook.com
+ ([fe80::e206:6854:c7ed:225c]) by SJ0PR10MB5550.namprd10.prod.outlook.com
+ ([fe80::e206:6854:c7ed:225c%6]) with mapi id 15.20.6277.038; Wed, 12 Apr 2023
+ 17:49:58 +0000
+Message-ID: <34019736-06eb-b5dd-b6a1-101907c38917@oracle.com>
+Date: Wed, 12 Apr 2023 10:49:54 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH blktests] nvme/039: avoid failure by error message rate
+ limit
+Content-Language: en-US
+To: Shin'ichiro Kawasaki <shinichiro@fastmail.com>,
+        linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+References: <20230412085923.1616977-1-shinichiro@fastmail.com>
+From: alan.adamson@oracle.com
+In-Reply-To: <20230412085923.1616977-1-shinichiro@fastmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA1P222CA0064.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:2c1::15) To SJ0PR10MB5550.namprd10.prod.outlook.com
+ (2603:10b6:a03:3d3::5)
 MIME-Version: 1.0
-References: <20230412084904.162324-1-ming.lei@redhat.com>
-In-Reply-To: <20230412084904.162324-1-ming.lei@redhat.com>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Thu, 13 Apr 2023 00:53:32 +0800
-Message-ID: <CAHj4cs8o8LkzQ-HTEiyp16sxv3Q2E_MyLhWJJVuxMhDD+SZzhg@mail.gmail.com>
-Subject: Re: [PATCH] nvme-fcloop: fix "inconsistent {IN-HARDIRQ-W} ->
- {HARDIRQ-ON-W} usage"
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, 
-	James Smart <jsmart2021@gmail.com>, Minwoo Im <minwoo.im.dev@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR10MB5550:EE_|CH0PR10MB5305:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3cd29ced-9cd0-4c52-47a5-08db3b7e5509
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	PnAWZBOQBqiGLokWViac6Qwlm+K5tO+PkYHUEa5PnZwMNM+Dc/HRq3av52MlvfE6qHrT1kG1hwf84Qu1Z6QGWIAEH46/HBdQhC3DoCyXe01mS2SXeN2yAUcG/eEd87OB3k7PM3omXytxz2NMSKnPhrYfK39kb11zahw/I1XRBzdH70a59wX9pWFsmfTvNwQVikyx1Nd/0+HkrpQWItytfUi3w09s/4u0XKP2VQQdKiAU26VtM5lp5uNTilzI82J17uicbN1w9BaoNZCalnT0R3Z8k8HrUGW8AndrPCfntWyXPUgYWARfWX/h9E6WVbPcqIj+mc22T7lJRRfCiLLOIfqkqdJmT4hAu3xOW7JV2MT9Q5TkL3dDYk/T3WEdOqAZyRBaSYC7CezrCGWlGe5R0YVC1BSB7ux+idmmiS/n4d2dh0GlMwyv6hoqOExZqKAUybJiqfqrM5qVStHCUuxGagPMwsYL1XXZadXvD/MpxI4Ce2ZpTnUkSe63lvt4AJJMcNeQHEoYkRpqT4QA1kj32uaSvC9GcC3o1dMddEq2GJ5mtAjMOjXPUx2h2lt80FTZClAnFR+3Mdc+C4Xsnqaf+54E3JdAP4UZS72cJiNdl/b3iNGXg0VznwMfQr3HtXy7
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5550.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(136003)(396003)(376002)(39860400002)(366004)(346002)(451199021)(31686004)(5660300002)(41300700001)(38100700002)(36756003)(15650500001)(2906002)(31696002)(86362001)(8676002)(316002)(4326008)(66556008)(8936002)(66946007)(66476007)(2616005)(83380400001)(478600001)(6506007)(6512007)(26005)(53546011)(9686003)(186003)(6486002)(6666004)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?RmZEdDArZ0dGdWJNQnhPd0xETG5YNThFYTBVOGRPSnhKaHlGTFZlZC9MOWxo?=
+ =?utf-8?B?bXlPalRGOGJUTm9RVlBnaHFCSTdSdE9PZjZFWkNvUG5zWHpkdUNxKy8vb04y?=
+ =?utf-8?B?cXZkRkU2d2pjMmkzZTZwRS9YSVJTRkJKQWNGS0lLNkVpcXlCb1drWXFKWkF6?=
+ =?utf-8?B?TDBJWG9QaE9ZT3RvSml1bzlNL3JTTVZWNDQ3SEVBMXZwTFZLUGttZGV0UTV3?=
+ =?utf-8?B?em9KZEtnelBBRkdSQlFCdmJsRU12cXF4T3pCMDVsblJlKzRtVWJaM1BtdEFW?=
+ =?utf-8?B?dmhOTTV0cVVRNTJLQ0FXNWhGaTZ1ZjVzWFVQUmZ6K240c0I2L3hTaS91THVR?=
+ =?utf-8?B?K3EwdHFBZjRqencvS2pHdWxPSi9FbTNBQ3RRQnJoSXNaZkI5eHNGRzR3OFp0?=
+ =?utf-8?B?Nm0vOEtUcjlQbXpVZnhKTnNKUGpXRnpYWE1SK1dyTzFYV0lCRWdXUGVqdzNK?=
+ =?utf-8?B?M0lURjRDZWJ2V1hJRmRLek5yenA0eWhXTlZZeEJOZkw2ck1SYy9ldVhrbmVB?=
+ =?utf-8?B?Q0YrWTZmT0JOZ0JBRmVJK2FMZWkwSVk4bGU5K0Q1U3ZmSDZNOG5jaGRmdUta?=
+ =?utf-8?B?NTRKcS9CWU9vTmYvSmdlamt0VzJaVlVQZXRBSExLYVo3YStPczd6SkVPN3lL?=
+ =?utf-8?B?NEd0VWt4d1UwSCs0V3p0dkpEYUdneEhiVVRuQUtsYU12NHRKTjlaSkNLLzNH?=
+ =?utf-8?B?VkR3eGFwdHQ2RVJqTkVRYkpmSUY1Y3FMKzVnT1pwYk5CcFkzaVVBUkp0aS80?=
+ =?utf-8?B?MVNLUUFsME82NXp2T0paTEgzak9OcGtPaGlySU5FYzBMbEhIZzJmaGc2bjhR?=
+ =?utf-8?B?VEs3WUlrNmNuS2JZQU1hYTdJOC9GSDNFdWMwWUwxQzFmS2duU1czU1B6Znho?=
+ =?utf-8?B?TWZoTEFkekNwTkduMm56dlNnZWJKZXpHR0Z2a0JrRlRlRnFWSmhTUENCQmlC?=
+ =?utf-8?B?OW1GUWJ6MDlNRkwvcGZMeEwyZC9FTUU4Y2hmeVJBUkplK0MwMm1WblFjWTNE?=
+ =?utf-8?B?ZnJZSWRxNFlZUGZ0RlJZNTJZNWdZdjBCVnFIMUZmSmJuZXBlaDJPdnZmb2dS?=
+ =?utf-8?B?OHdlK3dwTWFZbkE0L0h0SnVwNS8renpzTzhNd2FlMlB4WGlLb1hhY3B5QWls?=
+ =?utf-8?B?cUQ5b2lqenEvcVlrR1Ixb1hPUjRiMTdmTVFDUXp0aGJkaGtzR1p3MXZyamc4?=
+ =?utf-8?B?bzRmNUhKaXBrWVNlckhWVzdkN2R6Z2lzRUo4Qnp2Q1I3dk9pVUVmZzU3enR0?=
+ =?utf-8?B?dGFLRDY3YXM4Zng4b29XYXdZdTErVDdqNlg4NUdCQ29lSFU0NUh1cUttejZm?=
+ =?utf-8?B?c1Q4QmZHVUhjM1NHVytlYm5jUFMxNnZLa1pJU2ROcXVOQUU0T2o1dDV1NWdK?=
+ =?utf-8?B?RXVZSXB6Nk12eGxzRUsvUVF6QnFhNW9udGhPNENDWFdGNXNXc0E2b3Zqc0JM?=
+ =?utf-8?B?QWE3MzRVVGlMYUJIc3BpMzdqU3N1VTQ4STlXb0JseEhOS0ZGeXU3ODdFQkVP?=
+ =?utf-8?B?Z3dlQ2hZWmlrL2RrSjJVTmI0ajRGRElBVmNGd096SWZ3NVBMMmk2cUZtQWNk?=
+ =?utf-8?B?eXRxbWZrU29zRU4vUFVOWmxNNEpyL3VvSUdzdlQ2em5GMEN1em1ueldWdzAv?=
+ =?utf-8?B?QXA0UFhaVkF6U0NBaEh5ZnVlKzVtU1ZwQUtVZjV0dThYVEtEMXNwT3g0UXJZ?=
+ =?utf-8?B?TFBHYmM5L2J3VVpIQ0hoRlNCTEZYakZhRmxkWjNSRHVsTDVUK0VIMGxhVjFU?=
+ =?utf-8?B?MGFMbVh4Q0lEK1QxTHRIcFJZeHU4SXNOcXl0UG4wN3BZcytJNUZiSlF3UjFT?=
+ =?utf-8?B?T0RwYTZKc29TWHZrMkd6eElsUkprdjFxZFgxaGczVHFCTStlMjR1RDJvdWZL?=
+ =?utf-8?B?T3JxbnBhMkNkanUrV2VFMzJROWlXYS9ILzRvQVNESUhZcE8waTdtOXBHMkVp?=
+ =?utf-8?B?NG12Q2N4VEsxWUlrR1pxVlNDV1ViR0RVUVVWQWdnOTZHOXZvWmRKQVUwNW95?=
+ =?utf-8?B?RWdZZGp0MTRPTWlldUZHQ0Y0dUlqcit4QXVtV2RBeWNkUVZ6aW9zMWhWQ2ZP?=
+ =?utf-8?B?NytBV1FsSzJmK2RmSUVkTGVuRzNXY0ltWUN6bVhKaC8wMGNNTmR2SkhnVSs2?=
+ =?utf-8?Q?C1ZslAebG36sBMCb1MNj731X3?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 	EtjzppDOBFcl28SoVpHQarjhmbWJrLacIcRbwnuKM+6MGOZFMeGeW//iCDBTpOwg++ZP+z3xS+pCzLDxi9VaE6TddtHmlmxxcg4INivkMUqbAowM2xBpzStB7seB125sBo8UVbT0GldRVzbPYlnsYJlxAGxms6Yh42qp2fwXue0Y2l8pH7cejFkBSeQ17QPdRH1+hZPF2YRErnDDmL2QLdSrXfSSU6z7d4SUv+30nFtzU1C9KspjoN31TgrrXw31NKGEeZuqUwI27TQ8uVK3lZmJKgjh2MKcvtYF6J89lasO+t3DonYY4RXlNP5Vnjcz2OvT9hd6pkw6huqVtgbKvfL3iCYE84czG252HkcUO27n5fzFl3PWUdiTkl8QmYQ0bcEPYYQz56m8hRVpfoAWackKEp5A0vF1qbkZUXls0aYmrJ0uuJ7wxovk/+tT3DU+YtaOWoDj98WfUi8yYco8j/sWr5TaNg1EcSL6e/LW4GVTmkKqWUb7fO971J9q0JwBJXs02VCy7+onF4Mk1suR3E2N7mWsvKbnqZXou8zffqWGjf29gEmqCGpkd+AhB/NfVjwUf1+GDo/fIqTkNQDZY+wfihEIfmwIcmyV/TKZnCebFQEgoA2PhxWRxuu/6a7oKRss7MCH9+s7ZAgzgZhPUw/Wankh+mJPjWnfTaRnJiBEPhSQSjmZgoCTbYLGYgzFmh8JrTB7JXMTzjoDu7hxX2wrgykLMgXRKzTHAijVmQOW2WLEMFZ+KIGT1NpRN7hJi+09n9Wz1C2VxvemYeUW3ki6D0n3MbroOnwPjn3vUvgwjwr6E+oCiYXmlO1tyM9Li/yJP3GqN8ZRAEXoJArcnfiYBRAMzdzWMbnOEJiZ51kNJ1PNQO5k6VI1cbh5aBNx
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3cd29ced-9cd0-4c52-47a5-08db3b7e5509
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5550.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Apr 2023 17:49:58.3490
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: r9yZu5n0l8tvXlbApz8cOlTjx9+tTA1A3zp4Ti6GnVPk7iEyKqsREGJKDB4Os0rZJnybg8bKIPocgE0BpmhoSw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB5305
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-12_08,2023-04-12_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxscore=0
+ mlxlogscore=933 spamscore=0 suspectscore=0 bulkscore=0 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304120153
+X-Proofpoint-GUID: -Ka0DifCcK0pxbzyoD8QKZO4lRdReIup
+X-Proofpoint-ORIG-GUID: -Ka0DifCcK0pxbzyoD8QKZO4lRdReIup
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230412_095352_226900_9BB64FFC 
-X-CRM114-Status: GOOD (  23.34  )
+X-CRM114-CacheID: sfid-20230412_105007_260574_E38FD8DC 
+X-CRM114-Status: GOOD (  17.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,300 +177,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks Ming, below issue was fixed by this patch, feel free to add:
 
-Reported-by: Yi Zhang <yi.zhang@redhat.com>
-Tested-by: Yi Zhang <yi.zhang@redhat.com>
+On 4/12/23 1:59 AM, Shin'ichiro Kawasaki wrote:
+> From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+>
+> The test case nvme/039 tests that expected error messages are printed
+> for errors injected to the nvme driver. However, the test case fails by
+> chance when previous test cases generate many error messages. In this
+> case, the kernel function pr_err_ratelimited() may suppress the error
+> messages that the test case expects. Also, it may print messages that
+> the test case does not expect, such as "blk_print_req_error: xxxx
+> callbacks suppressed".
+>
+> To avoid the failure, make two improvements for the test case. Firstly,
+> wait DEFAULT_RATE_LIMIT seconds at the beginning of the test to ensure
+> the expected error messages are not suppressed. Secondly, exclude the
+> unexpected message for the error message check. Introduce a helper
+> function last_dmesg() for the second improvement.
 
-[ 6238.578857] run blktests nvme/012 at 2023-04-12 07:47:19
-[ 6240.616008] ------------[ cut here ]------------
-[ 6240.620657] raw_local_irq_restore() called with IRQs enabled
-[ 6240.626331] WARNING: CPU: 25 PID: 184 at
-kernel/locking/irqflag-debug.c:10 warn_bogus_irq_restore+0x21/0x30
-[ 6240.636082] Modules linked in: loop nvme_fcloop nvmet_fc nvmet
-nvme_fc nvme_fabrics nvme_core nvme_common rpcsec_gss_krb5 auth_rpcgss
-nfsv4 dns_resolver nfs lockd grace fscache netfs rfkill sunrpc vfat
-fat dm_multipath intel_rapl_msr intel_rapl_common
-intel_uncore_frequency intel_uncore_frequency_common isst_if_common
-skx_edac x86_pkg_temp_thermal intel_powerclamp coretemp kvm_intel kvm
-ipmi_ssif mgag200 i2c_algo_bit drm_shmem_helper drm_kms_helper
-irqbypass iTCO_wdt syscopyarea rapl mei_me iTCO_vendor_support
-sysfillrect dell_smbios intel_cstate dcdbas wmi_bmof
-dell_wmi_descriptor intel_uncore acpi_ipmi pcspkr sysimgblt mei
-i2c_i801 ipmi_si lpc_ich i2c_smbus ipmi_devintf ipmi_msghandler
-dax_pmem acpi_power_meter drm fuse xfs libcrc32c nd_pmem nd_btt sd_mod
-t10_pi sg crct10dif_pclmul crc32_pclmul crc32c_intel ahci libahci
-ghash_clmulni_intel tg3 megaraid_sas libata wmi nfit libnvdimm
-dm_mirror dm_region_hash dm_log dm_mod
-[ 6240.717780] CPU: 25 PID: 184 Comm: ksoftirqd/25 Kdump: loaded Not
-tainted 6.3.0-rc5+ #1
-[ 6240.725787] Hardware name: Dell Inc. PowerEdge R640/06NR82, BIOS
-2.17.1 11/15/2022
-[ 6240.733360] RIP: 0010:warn_bogus_irq_restore+0x21/0x30
-[ 6240.738509] Code: 90 90 90 90 90 90 90 90 90 80 3d fa 4d d8 01 00
-74 05 c3 cc cc cc cc 48 c7 c7 a0 29 ce 8c c6 05 e5 4d d8 01 01 e8 df
-d1 c7 fd <0f> 0b c3 cc cc cc cc cc cc cc cc cc cc cc cc 90 90 90 90 90
-90 90
-[ 6240.757264] RSP: 0018:ffffc90001257d60 EFLAGS: 00010286
-[ 6240.762506] RAX: 0000000000000000 RBX: 0000000000000200 RCX: 00000000000=
-00000
-[ 6240.769647] RDX: 0000000000000103 RSI: ffffffff8cf64b60 RDI: 00000000000=
-00001
-[ 6240.776787] RBP: ffff8884dd61a048 R08: 0000000000000001 R09: ffffc900012=
-57b5f
-[ 6240.783930] R10: fffff5200024af6b R11: 0000000000000001 R12: ffff8884dd6=
-1a010
-[ 6240.791070] R13: dffffc0000000000 R14: ffff8884dd619f50 R15: ffff8884dd6=
-19f50
-[ 6240.798210] FS:  0000000000000000(0000) GS:ffff888efe400000(0000)
-knlGS:0000000000000000
-[ 6240.806306] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 6240.812066] CR2: 000055c5feb5c0a0 CR3: 00000003a0a32002 CR4: 00000000007=
-706e0
-[ 6240.819211] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 00000000000=
-00000
-[ 6240.826350] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 00000000000=
-00400
-[ 6240.833493] PKRU: 55555554
-[ 6240.836215] Call Trace:
-[ 6240.838674]  <TASK>
-[ 6240.840791]  _raw_spin_unlock_irqrestore+0x6c/0x70
-[ 6240.845600]  flush_end_io+0x88f/0xb70
-[ 6240.849290]  ? __pfx_flush_end_io+0x10/0x10
-[ 6240.853486]  blk_mq_end_request+0x145/0x400
-[ 6240.857686]  blk_complete_reqs+0xa7/0xe0
-[ 6240.861626]  __do_softirq+0x200/0x8f6
-[ 6240.865311]  ? __pfx_run_ksoftirqd+0x10/0x10
-[ 6240.869600]  ? smpboot_thread_fn+0x6b/0x910
-[ 6240.873799]  run_ksoftirqd+0x36/0x60
-[ 6240.877388]  smpboot_thread_fn+0x556/0x910
-[ 6240.881498]  ? __pfx_smpboot_thread_fn+0x10/0x10
-[ 6240.886134]  kthread+0x29f/0x340
-[ 6240.889381]  ? __pfx_kthread+0x10/0x10
-[ 6240.893145]  ret_from_fork+0x29/0x50
-[ 6240.896756]  </TASK>
-[ 6240.898959] irq event stamp: 715386
-[ 6240.902459] hardirqs last  enabled at (715396):
-[<ffffffff8a7f600b>] __up_console_sem+0x6b/0x80
-[ 6240.911160] hardirqs last disabled at (715405):
-[<ffffffff8a7f5ff0>] __up_console_sem+0x50/0x80
-[ 6240.919862] softirqs last  enabled at (714456):
-[<ffffffff8c9e6d9b>] __do_softirq+0x5db/0x8f6
-[ 6240.928388] softirqs last disabled at (714461):
-[<ffffffff8a646b16>] run_ksoftirqd+0x36/0x60
-[ 6240.936828] ---[ end trace 0000000000000000 ]---
-On Wed, Apr 12, 2023 at 4:52=E2=80=AFPM Ming Lei <ming.lei@redhat.com> wrot=
-e:
->
-> fcloop_fcp_op() could be called from flush request's ->end_io(flush_end_i=
-o) in
-> which the spinlock of fq->mq_flush_lock is grabbed with irq saved/disable=
-d.
->
-> So fcloop_fcp_op() can't call spin_unlock_irq(&tfcp_req->reqlock) simply
-> which enables irq unconditionally.
->
-> Fixes the warning by switching to spin_lock_irqsave()/spin_unlock_irqrest=
-ore()
->
-> Fixes: c38dbbfab1bc ("nvme-fcloop: fix inconsistent lock state warnings")
-> Cc: James Smart <jsmart2021@gmail.com>
-> Cc: Minwoo Im <minwoo.im.dev@gmail.com>
-> Signed-off-by: Ming Lei <ming.lei@redhat.com>
-> ---
->  drivers/nvme/target/fcloop.c | 48 ++++++++++++++++++++----------------
->  1 file changed, 27 insertions(+), 21 deletions(-)
->
-> diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-> index 5c16372f3b53..c780af36c1d4 100644
-> --- a/drivers/nvme/target/fcloop.c
-> +++ b/drivers/nvme/target/fcloop.c
-> @@ -614,10 +614,11 @@ fcloop_fcp_recv_work(struct work_struct *work)
->         struct fcloop_fcpreq *tfcp_req =3D
->                 container_of(work, struct fcloop_fcpreq, fcp_rcv_work);
->         struct nvmefc_fcp_req *fcpreq =3D tfcp_req->fcpreq;
-> +       unsigned long flags;
->         int ret =3D 0;
->         bool aborted =3D false;
->
-> -       spin_lock_irq(&tfcp_req->reqlock);
-> +       spin_lock_irqsave(&tfcp_req->reqlock, flags);
->         switch (tfcp_req->inistate) {
->         case INI_IO_START:
->                 tfcp_req->inistate =3D INI_IO_ACTIVE;
-> @@ -626,11 +627,11 @@ fcloop_fcp_recv_work(struct work_struct *work)
->                 aborted =3D true;
->                 break;
->         default:
-> -               spin_unlock_irq(&tfcp_req->reqlock);
-> +               spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
->                 WARN_ON(1);
->                 return;
->         }
-> -       spin_unlock_irq(&tfcp_req->reqlock);
-> +       spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
->
->         if (unlikely(aborted))
->                 ret =3D -ECANCELED;
-> @@ -655,8 +656,9 @@ fcloop_fcp_abort_recv_work(struct work_struct *work)
->                 container_of(work, struct fcloop_fcpreq, abort_rcv_work);
->         struct nvmefc_fcp_req *fcpreq;
->         bool completed =3D false;
-> +       unsigned long flags;
->
-> -       spin_lock_irq(&tfcp_req->reqlock);
-> +       spin_lock_irqsave(&tfcp_req->reqlock, flags);
->         fcpreq =3D tfcp_req->fcpreq;
->         switch (tfcp_req->inistate) {
->         case INI_IO_ABORTED:
-> @@ -665,11 +667,11 @@ fcloop_fcp_abort_recv_work(struct work_struct *work=
-)
->                 completed =3D true;
->                 break;
->         default:
-> -               spin_unlock_irq(&tfcp_req->reqlock);
-> +               spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
->                 WARN_ON(1);
->                 return;
->         }
-> -       spin_unlock_irq(&tfcp_req->reqlock);
-> +       spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
->
->         if (unlikely(completed)) {
->                 /* remove reference taken in original abort downcall */
-> @@ -681,9 +683,9 @@ fcloop_fcp_abort_recv_work(struct work_struct *work)
->                 nvmet_fc_rcv_fcp_abort(tfcp_req->tport->targetport,
->                                         &tfcp_req->tgt_fcp_req);
->
-> -       spin_lock_irq(&tfcp_req->reqlock);
-> +       spin_lock_irqsave(&tfcp_req->reqlock, flags);
->         tfcp_req->fcpreq =3D NULL;
-> -       spin_unlock_irq(&tfcp_req->reqlock);
-> +       spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
->
->         fcloop_call_host_done(fcpreq, tfcp_req, -ECANCELED);
->         /* call_host_done releases reference for abort downcall */
-> @@ -699,11 +701,12 @@ fcloop_tgt_fcprqst_done_work(struct work_struct *wo=
-rk)
->         struct fcloop_fcpreq *tfcp_req =3D
->                 container_of(work, struct fcloop_fcpreq, tio_done_work);
->         struct nvmefc_fcp_req *fcpreq;
-> +       unsigned long flags;
->
-> -       spin_lock_irq(&tfcp_req->reqlock);
-> +       spin_lock_irqsave(&tfcp_req->reqlock, flags);
->         fcpreq =3D tfcp_req->fcpreq;
->         tfcp_req->inistate =3D INI_IO_COMPLETED;
-> -       spin_unlock_irq(&tfcp_req->reqlock);
-> +       spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
->
->         fcloop_call_host_done(fcpreq, tfcp_req, tfcp_req->status);
->  }
-> @@ -807,13 +810,14 @@ fcloop_fcp_op(struct nvmet_fc_target_port *tgtport,
->         u32 rsplen =3D 0, xfrlen =3D 0;
->         int fcp_err =3D 0, active, aborted;
->         u8 op =3D tgt_fcpreq->op;
-> +       unsigned long flags;
->
-> -       spin_lock_irq(&tfcp_req->reqlock);
-> +       spin_lock_irqsave(&tfcp_req->reqlock, flags);
->         fcpreq =3D tfcp_req->fcpreq;
->         active =3D tfcp_req->active;
->         aborted =3D tfcp_req->aborted;
->         tfcp_req->active =3D true;
-> -       spin_unlock_irq(&tfcp_req->reqlock);
-> +       spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
->
->         if (unlikely(active))
->                 /* illegal - call while i/o active */
-> @@ -821,9 +825,9 @@ fcloop_fcp_op(struct nvmet_fc_target_port *tgtport,
->
->         if (unlikely(aborted)) {
->                 /* target transport has aborted i/o prior */
-> -               spin_lock_irq(&tfcp_req->reqlock);
-> +               spin_lock_irqsave(&tfcp_req->reqlock, flags);
->                 tfcp_req->active =3D false;
-> -               spin_unlock_irq(&tfcp_req->reqlock);
-> +               spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
->                 tgt_fcpreq->transferred_length =3D 0;
->                 tgt_fcpreq->fcp_error =3D -ECANCELED;
->                 tgt_fcpreq->done(tgt_fcpreq);
-> @@ -880,9 +884,9 @@ fcloop_fcp_op(struct nvmet_fc_target_port *tgtport,
->                 break;
->         }
->
-> -       spin_lock_irq(&tfcp_req->reqlock);
-> +       spin_lock_irqsave(&tfcp_req->reqlock, flags);
->         tfcp_req->active =3D false;
-> -       spin_unlock_irq(&tfcp_req->reqlock);
-> +       spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
->
->         tgt_fcpreq->transferred_length =3D xfrlen;
->         tgt_fcpreq->fcp_error =3D fcp_err;
-> @@ -896,15 +900,16 @@ fcloop_tgt_fcp_abort(struct nvmet_fc_target_port *t=
-gtport,
->                         struct nvmefc_tgt_fcp_req *tgt_fcpreq)
->  {
->         struct fcloop_fcpreq *tfcp_req =3D tgt_fcp_req_to_fcpreq(tgt_fcpr=
-eq);
-> +       unsigned long flags;
->
->         /*
->          * mark aborted only in case there were 2 threads in transport
->          * (one doing io, other doing abort) and only kills ops posted
->          * after the abort request
->          */
-> -       spin_lock_irq(&tfcp_req->reqlock);
-> +       spin_lock_irqsave(&tfcp_req->reqlock, flags);
->         tfcp_req->aborted =3D true;
-> -       spin_unlock_irq(&tfcp_req->reqlock);
-> +       spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
->
->         tfcp_req->status =3D NVME_SC_INTERNAL;
->
-> @@ -946,6 +951,7 @@ fcloop_fcp_abort(struct nvme_fc_local_port *localport=
-,
->         struct fcloop_ini_fcpreq *inireq =3D fcpreq->private;
->         struct fcloop_fcpreq *tfcp_req;
->         bool abortio =3D true;
-> +       unsigned long flags;
->
->         spin_lock(&inireq->inilock);
->         tfcp_req =3D inireq->tfcp_req;
-> @@ -958,7 +964,7 @@ fcloop_fcp_abort(struct nvme_fc_local_port *localport=
-,
->                 return;
->
->         /* break initiator/target relationship for io */
-> -       spin_lock_irq(&tfcp_req->reqlock);
-> +       spin_lock_irqsave(&tfcp_req->reqlock, flags);
->         switch (tfcp_req->inistate) {
->         case INI_IO_START:
->         case INI_IO_ACTIVE:
-> @@ -968,11 +974,11 @@ fcloop_fcp_abort(struct nvme_fc_local_port *localpo=
-rt,
->                 abortio =3D false;
->                 break;
->         default:
-> -               spin_unlock_irq(&tfcp_req->reqlock);
-> +               spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
->                 WARN_ON(1);
->                 return;
->         }
-> -       spin_unlock_irq(&tfcp_req->reqlock);
-> +       spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
->
->         if (abortio)
->                 /* leave the reference while the work item is scheduled *=
-/
-> --
-> 2.31.1
->
->
+Why are we seeing the callback messages?  By the time the test starts 
+generating errors (after a 5 sec delay) we should be able to log 10 
+messages without any being suppressed.
 
+Alan
 
---=20
-Best Regards,
-  Yi Zhang
 
 
