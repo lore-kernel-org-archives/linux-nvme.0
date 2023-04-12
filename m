@@ -4,92 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 886A3C77B6E
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Apr 2023 09:00:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77298C7619A
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Apr 2023 09:18:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ennUOyOmU7+phnyVvuuQwmDGknVMbYvCwh89SLpzY8s=; b=wIU3VoT75Nab/AZ7WeNLrxHJb6
-	QVvoRXOhCN791lv9bd+P5EodO3DAEFFHTKdXZ++qgIUaiWK39mYZ0GlCvODAL3kbGK7wubWLTucuA
-	7qbcYsfytX5OdvI82qCeFSGcG1pjjairPup/UVitlB4z3lly0L6JizTEuTu9QhzJwrb2wWJ9La5qz
-	YHnQJsSnujTYMbrrGGygMww0v+PozrLHgQMGPXwqOTtPI8lGsoYoIUGMQXV5bQIbJ5ucLZBPqK6JE
-	wemj6Vgaz0Pvp6A6S26o8xGAcaWXjeowoFl4dmHZQSl18jUfzyXBBQwnL/zJlZ4G0X9H+9a69d/gF
-	NQgMOwuw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:CC:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=gZN7x0aeXViU4AMoYj+8vlJAW//AFuYDQr6AZiEWd50=; b=YerRtKrs3ou/6cvhe+zsyKaXhN
+	OC4gKMYagmZ71r0tfniZWLPi/mMxc567tev334UCHsCvry+r/j0DZnNsNmrp1yTgvQm8ulWxRB7Jt
+	YFwr+X76ll4oNwJ6TkIQyVH5xuLzaANxfrrfr81/DBHI6OA0XeUb+TuJORvBMOKIeW5SfysUOuoCx
+	MxygENVYvZvNlbefK6Q/JqVIorzjYq1IstCaS4Ijqp2JxnbyEpKJRQ46/Ah3yZsTaE+8YqMJZma1Y
+	VqxTIVlsVEquOa9QkCFVc8rKuChqZqD+/uL9hla90RsXkerX9ktHkKh/SoiJ8zPr2V0p2GVNuL8Yj
+	5cknyXrQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmWKr-002L3n-2h;
-	Wed, 12 Apr 2023 09:00:13 +0000
-Received: from new3-smtp.messagingengine.com ([66.111.4.229])
+	id 1pmWcu-002NDs-20;
+	Wed, 12 Apr 2023 09:18:52 +0000
+Received: from mailout2.w1.samsung.com ([210.118.77.12])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmWKo-002L32-3D
+	id 1pmWcq-002NCj-2O
 	for linux-nvme@lists.infradead.org;
-	Wed, 12 Apr 2023 09:00:12 +0000
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.nyi.internal (Postfix) with ESMTP id F1028582878;
-	Wed, 12 Apr 2023 05:00:09 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Wed, 12 Apr 2023 05:00:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1681290009; x=1681290609; bh=ennUOyOmU7
-	+phnyVvuuQwmDGknVMbYvCwh89SLpzY8s=; b=GP88NCI+zw6qtLqDk39lXA7iqX
-	yaut3h7uvhj2DGUJleDZYdhAfeIscGsmJ1+bthdueJyoVbIZaRlSq0T4dpNlrJCi
-	wUpbI+eyYp5XJrTMzFd2sSjncVkk/uo/XwxGozGy8zlsARk0M63j2R8fVBcUY4GC
-	9gFa3jo4Ijyzyh9Lsv2gXZ4E9uZIhQvDctEIuVZ7bQB/wcRh2obv01PRF+bu8b2D
-	tDzp472c70u+V4OcwmH71PWDFPcx0l+p1r/RKeIZa3qBzUuLjH+yQ8MlZ6FkglBK
-	NgcB1brwOLeckFVMihTqqhOs+PyI/aR3KE4GxQrCA+x9wzIj2BcAqdR7sSDA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=ie1e949a3.fm3; t=1681290009; x=1681290609; bh=enn
-	UOyOmU7+phnyVvuuQwmDGknVMbYvCwh89SLpzY8s=; b=fUJtAH9BsC2eQFELltf
-	9rM3fKZMene0w7sqC0jqCxxmlQpXRVyw1dVes/Ven/EaWLox1Ssj4iFXbUEr2esP
-	4l82gW53EpF8/0QpA8iLwAu9JH3OJcr04VlzNbXvtEsmFpw6JkteRKqz+o22Ybvj
-	h3hRuoM3MVWGpYNGPQQ50N4T5S7Chfh6saBRUpV5NkWnLA5/hIi+AU+rIceNvzGm
-	Az+oS54QbESpRXwcLQS7MNnzbYArgRkX/+IF8WwiN6IDkcDhXq2jCJY43NqKQTrC
-	a0u1p2/zgx2cJJbWPgsi8m3AQTW1d4hMzqvBWFEGBz3nIT2kbUnLsq8M8qw+eou2
-	EQw==
-X-ME-Sender: <xms:GXM2ZGjusMBVAZ3_HDDdiO6IA8pxHWANiObLWa57bA_eN-XuBF0zdw>
-    <xme:GXM2ZHAOXUHTZtRt5M67z2X1Uz_uO8h5ETevQxPk4HsUTME1ZepILjZ-PmRq-BWNh
-    lHzxuuJa9XfbXF3ADc>
-X-ME-Received: <xmr:GXM2ZOEdONYqKs-AZTYNrWgUjg_4EPGn9F_KO5WEpz2N-6c3iDOAV7oQl6eLbjSvyP-p63kt0DIbKL_CEvL4qz6QpSl7IP7FAdutyFyZ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekiedgudduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufhhihhnkdhi
-    tghhihhrohcumfgrfigrshgrkhhiuceoshhhihhnihgthhhirhhosehfrghsthhmrghilh
-    drtghomheqnecuggftrfgrthhtvghrnhepgfdukefgfedvfffgfeeuiefgteelgffhffei
-    kedvvdekteeiledtteeivefgffevnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenuc
-    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehshhhinhhi
-    tghhihhrohesfhgrshhtmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:GXM2ZPRKDI8E6c_12KZg16AqsmW7QoawPWnWRfT-Ta6B8y2dXgDUdw>
-    <xmx:GXM2ZDzmxuDuxYu3t0NOGR3OeBpaWzJMpdJD4bnAJ07AZyj7uxg6UQ>
-    <xmx:GXM2ZN6LwC8m6JMMCdiwTir1MnQhB3cDlhLHu-fqtLBbeOrU-GekEg>
-    <xmx:GXM2ZD9Pb73VfcmzcyhKsW3Umum_OUEKmfJ13Esxuj1j7NPZk0AbuGCUdUc>
-Feedback-ID: ie1e949a3:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 12 Apr 2023 05:00:07 -0400 (EDT)
-From: Shin'ichiro Kawasaki <shinichiro@fastmail.com>
-To: linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	Alan Adamson <alan.adamson@oracle.com>
-Cc: Shin'ichiro Kawasaki <shinichiro@fastmail.com>,
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: [PATCH blktests] nvme/039: avoid failure by error message rate limit
-Date: Wed, 12 Apr 2023 17:59:23 +0900
-Message-Id: <20230412085923.1616977-1-shinichiro@fastmail.com>
-X-Mailer: git-send-email 2.39.2
+	Wed, 12 Apr 2023 09:18:51 +0000
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20230412091844euoutp0204b1cd620d05d7bc134fb3b2dc282422~VJV6g-k3E1168811688euoutp02c
+	for <linux-nvme@lists.infradead.org>; Wed, 12 Apr 2023 09:18:44 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20230412091844euoutp0204b1cd620d05d7bc134fb3b2dc282422~VJV6g-k3E1168811688euoutp02c
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1681291124;
+	bh=gZN7x0aeXViU4AMoYj+8vlJAW//AFuYDQr6AZiEWd50=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=FwMrGBidzI0/JLegDSF1Z8jOng0H2ryL45HooyES8Rxh7UDwRNARZ+/LxWJ9dm/r8
+	 +J8lmm6wlWAEH6B6mFFj1QY/r3GOdNk874AjMoNlh50GjW3Ynozl1iWMVUn94DLU0J
+	 sVg6w7lY7kHt8Y+Mq1vTG47KuHK9s4LXNO6jPKcc=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20230412091844eucas1p2e08ae073da1a0e746cfbebae639c33d2~VJV6abLO82211322113eucas1p2c;
+	Wed, 12 Apr 2023 09:18:44 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+	eusmges2new.samsung.com (EUCPMTA) with SMTP id 8F.BB.09966.47776346; Wed, 12
+	Apr 2023 10:18:44 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20230412091843eucas1p22a4c7c34297c4f260ccc54cff9d67a52~VJV6BPr9G2211222112eucas1p2t;
+	Wed, 12 Apr 2023 09:18:43 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20230412091843eusmtrp282b0dca7820052ba234fdefbace2eacd~VJV6Afw8w2698826988eusmtrp2F;
+	Wed, 12 Apr 2023 09:18:43 +0000 (GMT)
+X-AuditID: cbfec7f4-d4fff700000026ee-a3-64367774454e
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id F0.3A.22108.37776346; Wed, 12
+	Apr 2023 10:18:43 +0100 (BST)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20230412091843eusmtip1c9481af3312de89b4b13fcfd1adc4c2a~VJV53G24A2176921769eusmtip19;
+	Wed, 12 Apr 2023 09:18:43 +0000 (GMT)
+Received: from localhost (106.110.32.140) by CAMSVWEXC02.scsc.local
+	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+	Wed, 12 Apr 2023 10:18:42 +0100
+Date: Wed, 12 Apr 2023 11:10:13 +0200
+From: Pankaj Raghav <p.raghav@samsung.com>
+To: Chaitanya Kulkarni <kch@nvidia.com>
+CC: <alan.adamson@oracle.com>, <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH V5 0/1] nvme: allow passthru cmd error logging
+Message-ID: <20230412091013.5eckb4if2jiy6ms5@blixen>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230409212538.18647-1-kch@nvidia.com>
+X-Originating-IP: [106.110.32.140]
+X-ClientProxiedBy: CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348) To
+	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmplleLIzCtJLcpLzFFi42LZduznOd2ScrMUg+aLLBZ7+k8xWTy9OovJ
+	Yv6yp+wOzB6bl9R79Da/Y/P4+PQWSwBzFJdNSmpOZllqkb5dAlfGsrshBX18Fce657A0MF7h
+	7mLk5JAQMJFYNH0rI4gtJLCCUaLtkFYXIxeQ/YVRorf/EyOE85lRYtHlhcwwHed+XmKBSCxn
+	lPi4YgEzXNXNtR+ZIGZtYZR4eq8AxGYRUJX42jwVKM7BwSagJdHYyQ4SFhFQl5h6oIcVxGYW
+	sJfYOuMiWKuwgJPE7Q2bwMp5gZbtuMICEuYVEJQ4OfMJmM0JFD70ZTIrxD1KEg2bz7BA2LUS
+	e5sPsIOcIyGwg0Ni5ccZbCBzJARcJHa/KYeoEZZ4dXwLO4QtI/F/53wmCLta4umN38wQvS2M
+	Ev0710P1Wkv0ncmBODNDYum3B2wQ9Y4SJ6c/Y4Yo4ZO48VYQooRPYtK26VBhXomONiGIajWJ
+	1ffesECEZSTOfeKbwKg0C8lfs5DMh7B1JBbs/gRkcwDZ0hLL/3FAmJoS63fpL2BkXcUonlpa
+	nJueWmyUl1quV5yYW1yal66XnJ+7iRGYUk7/O/5lB+PyVx/1DjEycTAeYpTgYFYS4f3hYpoi
+	xJuSWFmVWpQfX1Sak1p8iFGag0VJnFfb9mSykEB6YklqdmpqQWoRTJaJg1OqgSl+ssKMy3lR
+	8R/YtC87bP4158ttmfKjq+z8td8vWjTrVnAqq9GlFHut0/93nX/TfmnTF35V3n/Lfp17O/2u
+	U5nOhceyJjvqjdNEfx7bX/fhqleMUNzFuLPmOu98VPmel86My5u2qED+7xnNyv9/D/wVkJ7l
+	I73kv9rGIqGiGWUtSpvEnueGfVSdn3T1fdfWq1dCTPkv8ZjLJBi46l948FWmoD1uDoOdUHk0
+	67aso37PZp1+sPxcatNM8eUhd9YE3T2QOOnS7/B+Tr93lx33Wi6Rr+L9IrCXxXbmDY2Csh32
+	cn/Deufo71Qo3LH90MTLof7aRzQ7zpo1FAtWiWuvXj5tKusr+QdZixf+0iiOrLmtxFKckWio
+	xVxUnAgAeqAy7pgDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnkeLIzCtJLcpLzFFi42I5/e/4Xd3icrMUg8vv1C329J9isnh6dRaT
+	xfxlT9kdmD02L6n36G1+x+bx8ektlgDmKD2bovzSklSFjPziElulaEMLIz1DSws9IxNLPUNj
+	81grI1MlfTublNSczLLUIn27BL2M2/uesRSc46649PoBSwPjWs4uRk4OCQETiXM/L7F0MXJx
+	CAksZZRYsfkZK0RCRmLjl6tQtrDEn2tdbBBFHxklmjuOQ3VsYZRY9r2DEaSKRUBV4mvzVKYu
+	Rg4ONgEticZOdpCwiIC6xNQDPWCDmAXsJbbOuMgEYgsLOEnc3rAJrJwX6IodV1hAwkICxhLX
+	rn1kBrF5BQQlTs58wgLRqiOxYPcnNpByZgFpieX/OEDCnECdh75MhjpTSaJh8xkWCLtWovPV
+	abYJjMKzkEyahWTSLIRJCxiZVzGKpJYW56bnFhvqFSfmFpfmpesl5+duYgTGzLZjPzfvYJz3
+	6qPeIUYmDsZDjBIczEoivD9cTFOEeFMSK6tSi/Lji0pzUosPMZoCw2Eis5Rocj4wavNK4g3N
+	DEwNTcwsDUwtzYyVxHk9CzoShQTSE0tSs1NTC1KLYPqYODilGpiC0nYkmAgYmgheP3r8tdPR
+	2WfPnyxNXXjg844tSd0ebNHqub7b2o7nRn4++/aXTnpGeIBcVbmhV96sCeHet04e+535/3dh
+	95f/5U2SNza18bS+1tl4dNH/CdyzF0uFmvRs/zG7dZ/Xn6WclX0/Q5PfLOm+ZWkQ8NtNsNjz
+	U+qaPzfvHb4V+JD3fv7utVkTK7curpSS4Oe5zi+6Qvnp8sUuM+pbd5R+62jULz7s2yYo03HZ
+	zpLfvcP4xVGL0xvL5obKBhdk+c/L5ZNY2+XSpFObouFUv27C4x3/Xn3MTDkQErJnldvaJ5zT
+	4xac9N5+1DBT7/jp1GkfhMXVbl/bxRq2IXq20OmO2Ycm2gXl/8lWYinOSDTUYi4qTgQA73Hm
+	FCIDAAA=
+X-CMS-MailID: 20230412091843eucas1p22a4c7c34297c4f260ccc54cff9d67a52
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----0IIwcNA8CeD.s59tlljyDEq3yyVAinti4bQgYoqzE0B37Kwt=_68601_"
+X-RootMTR: 20230412091843eucas1p22a4c7c34297c4f260ccc54cff9d67a52
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20230412091843eucas1p22a4c7c34297c4f260ccc54cff9d67a52
+References: <20230409212538.18647-1-kch@nvidia.com>
+	<CGME20230412091843eucas1p22a4c7c34297c4f260ccc54cff9d67a52@eucas1p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230412_020011_105750_4DC79098 
-X-CRM114-Status: GOOD (  10.78  )
+X-CRM114-CacheID: sfid-20230412_021849_409902_CCD31980 
+X-CRM114-Status: GOOD (  17.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,112 +133,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+------0IIwcNA8CeD.s59tlljyDEq3yyVAinti4bQgYoqzE0B37Kwt=_68601_
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-The test case nvme/039 tests that expected error messages are printed
-for errors injected to the nvme driver. However, the test case fails by
-chance when previous test cases generate many error messages. In this
-case, the kernel function pr_err_ratelimited() may suppress the error
-messages that the test case expects. Also, it may print messages that
-the test case does not expect, such as "blk_print_req_error: xxxx
-callbacks suppressed".
+On Sun, Apr 09, 2023 at 02:25:37PM -0700, Chaitanya Kulkarni wrote:
+> 
+> -ck
+> 
+> Chaitanya Kulkarni (1):
+>   nvme: allow passthru cme error logging
+> 
+>  drivers/nvme/host/core.c | 83 +++++++++++++++++++++++++++++++++++++---
+>  drivers/nvme/host/nvme.h |  1 +
+>  2 files changed, 79 insertions(+), 5 deletions(-)
+> 
+> v5:
+> 
+> - Trim down code in the nvme_log_error_passthrough().
+>   Use following to get the disk name as an arg to
+>    pr_err_ratelimited() :-
+> 	ns ? ns->disk->disk_name : dev_name(nr->ctrl->device),
+>   Use following to get the admin vs I/O opcode string as an arg to
+>   pr_err_ratelimited() :-
+>        	ns ? nvme_get_opcode_str(nr->cmd->common.opcode) :
+>        	     nvme_get_admin_opcode_str(nr->cmd->common.opcode),
+> - Rename nvme_log_error_passthrough() -> nvme_log_err_passthru().
+> - Remove else and return directly in nvme_passthru_err_log_show().
+> - Generate error on invalid values of the passthru_enable variable
+>   in nvme_passthru_log_store().
+> - Rename passthrough -> passthru.
 
-To avoid the failure, make two improvements for the test case. Firstly,
-wait DEFAULT_RATE_LIMIT seconds at the beginning of the test to ensure
-the expected error messages are not suppressed. Secondly, exclude the
-unexpected message for the error message check. Introduce a helper
-function last_dmesg() for the second improvement.
+> - Rename sysfs attr from passthru_admin_err_logging -> passthru_log_err.
+Curious to know why `admin` was removed from the sysfs attr. We enable
+logging for admin commands using this attr but IO errors are always logged.
 
-Fixes: 9accb5f86670 ("tests/nvme: add tests for error logging")
-Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Link: https://lore.kernel.org/linux-block/5vnpdeocos6k4nmh6ewh7ltqz7b6wuemzcmqflfkybejssewkh@edtqm3t4w3zv/
----
- tests/nvme/039 | 28 ++++++++++++++++++++--------
- 1 file changed, 20 insertions(+), 8 deletions(-)
+I tried out the patch and I was surprised to see IO err was logged for
+passthru requests without me enabling it explicitly. Having the sysfs
+attr to be passthru_log_admin_err would have been more clear IMO.
 
-diff --git a/tests/nvme/039 b/tests/nvme/039
-index 11d6d24..f327b54 100755
---- a/tests/nvme/039
-+++ b/tests/nvme/039
-@@ -18,6 +18,15 @@ requires() {
- 	    _have_kernel_option FAULT_INJECTION_DEBUG_FS
- }
- 
-+# Get the last dmesg lines as many as specified. Exclude the lines to indicate
-+# suppression by rate limit.
-+last_dmesg()
-+{
-+	local nr_lines=$1
-+
-+	dmesg -t | grep -v "callbacks suppressed" | tail "-$nr_lines"
-+}
-+
- inject_unrec_read_on_read()
- {
- 	# Inject a 'Unrecovered Read Error' (0x281) status error on a READ
-@@ -29,10 +38,10 @@ inject_unrec_read_on_read()
- 	_nvme_disable_err_inject "$1"
- 
- 	if ${nvme_verbose_errors}; then
--		dmesg -t | tail -2 | grep "Unrecovered Read Error (" | \
-+		last_dmesg 2 | grep "Unrecovered Read Error (" | \
- 		    sed 's/nvme.*://g'
- 	else
--		dmesg -t | tail -2 | grep "Cmd(" | sed 's/I\/O Cmd/Read/g' | \
-+		last_dmesg 2 | grep "Cmd(" | sed 's/I\/O Cmd/Read/g' | \
- 		    sed 's/I\/O Error/Unrecovered Read Error/g' | \
- 		    sed 's/nvme.*://g'
- 	fi
-@@ -49,10 +58,10 @@ inject_invalid_status_on_read()
- 	_nvme_disable_err_inject "$1"
- 
- 	if ${nvme_verbose_errors}; then
--		dmesg -t | tail -2 | grep "Unknown (" | \
-+		last_dmesg 2 | grep "Unknown (" | \
- 		    sed 's/nvme.*://g'
- 	else
--		dmesg -t | tail -2 | grep "Cmd(" | sed 's/I\/O Cmd/Read/g' | \
-+		last_dmesg 2 | grep "Cmd(" | sed 's/I\/O Cmd/Read/g' | \
- 		    sed 's/I\/O Error/Unknown/g' | \
- 		    sed 's/nvme.*://g'
- 	fi
-@@ -69,10 +78,10 @@ inject_write_fault_on_write()
- 	_nvme_disable_err_inject "$1"
- 
- 	if ${nvme_verbose_errors}; then
--		dmesg -t | tail -2 | grep "Write Fault (" | \
-+		last_dmesg 2 | grep "Write Fault (" | \
- 		    sed 's/nvme.*://g'
- 	else
--		dmesg -t | tail -2 | grep "Cmd(" | sed 's/I\/O Cmd/Write/g' | \
-+		last_dmesg 2 | grep "Cmd(" | sed 's/I\/O Cmd/Write/g' | \
- 		    sed 's/I\/O Error/Write Fault/g' | \
- 		    sed 's/nvme.*://g'
- 	fi
-@@ -90,10 +99,10 @@ inject_access_denied_on_identify()
- 	_nvme_disable_err_inject "$1"
- 
- 	if ${nvme_verbose_errors}; then
--		dmesg -t | tail -1 | grep "Access Denied (" | \
-+		last_dmesg 1 | grep "Access Denied (" | \
- 		    sed 's/nvme.*://g'
- 	else
--		dmesg -t | tail -1 | grep "Admin Cmd(" | \
-+		last_dmesg 1 | grep "Admin Cmd(" | \
- 		    sed 's/Admin Cmd/Identify/g' | \
- 		    sed 's/I\/O Error/Access Denied/g' | \
- 		    sed 's/nvme.*://g'
-@@ -139,6 +148,9 @@ test_device() {
- 
- 	_nvme_err_inject_setup "${ns_dev}" "${ctrl_dev}"
- 
-+	# wait DEFAULT_RATELIMIT_INTERVAL=5 seconds to ensure errors are printed
-+	sleep 5
-+
- 	inject_unrec_read_on_read "${ns_dev}"
- 	inject_invalid_status_on_read "${ns_dev}"
- 	inject_write_fault_on_write "${ns_dev}"
--- 
-2.39.2
+------0IIwcNA8CeD.s59tlljyDEq3yyVAinti4bQgYoqzE0B37Kwt=_68601_
+Content-Type: text/plain; charset="utf-8"
 
+
+------0IIwcNA8CeD.s59tlljyDEq3yyVAinti4bQgYoqzE0B37Kwt=_68601_--
 
