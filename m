@@ -4,96 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33C30C77B6C
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Apr 2023 03:57:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA86CC77B61
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Apr 2023 04:45:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VlTzfC+cscJFGzlxyKoBPiCgl+wlqsWxiBKqWv0iGAw=; b=d4bTckIHwWCUHlqOUUJYZrVcYo
-	S1VLEwnBDhm/Qsy3qugGYtV+WFCjGOUcgmP9LXoG9n+iOPuoYFATil2cRenoPmNr/5wTTcRJQ9u9t
-	Vca8NgLrULbvrL8diaZY4hebK009tMuG34VoZT17SXXrgNS8yJVh5r0y5MjgNoxNAYPQvSt6zJ0rK
-	nQATnPbrhBmsX/WXR7XJ9vjp5reOnPkLNBswJUW8DZOLtMU3FiTMIcvYhB/YulJK25uyX9FZDD5/o
-	1/nSk6odzE+WXEkmRkTVJSp4aH4TXJC42hmYtgUKgBktPp3ZVxPrw62Vo/Do0KgOqFRBg8upCv9us
-	FKtmacog==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Date:Content-ID:
+	Content-Type:MIME-Version:Subject:Cc:To:References:In-Reply-To:From:Reply-To:
+	Content-Transfer-Encoding:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=DqjVx8DdVE7yyHJKc/GaG9WLw8shGI6NpWmfl69SUoE=; b=JzM2plWhItzWrq0KVaxCpMVRxu
+	J8sJd1cV3hdv9WaPCPa97RE/YgCF64mtCQQOa/WJw3cAkzQFDoUSul3uwq61J8iOv15feuk3yvPap
+	3xoeJKO4J1qryUaEEaGH/r4gop/MrvviSKaPY8dWc2ihdp6Gd0cyIRO86Mp1kXkN60JXihQcC2wHq
+	3W6uLZIfQwNtrUAPjhP52JOuMTF1fNzNKkNfDM4Cu5I4V7CocxWUE7CZ0etnD0VZBs31PwwXGYWIk
+	L/+m+liK42TTV2wodteodzlEraMcHYJydHpKzaL5Xbnr72pfBb3/oMv1yjiLqBMqe0pixjArQS9SX
+	s2i9BdGQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmo51-004xC0-2U;
-	Thu, 13 Apr 2023 03:57:03 +0000
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26])
+	id 1pmopz-0051FA-2x;
+	Thu, 13 Apr 2023 04:45:35 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmo4y-004xBN-1r
+	id 1pmje4-004bhb-1P
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Apr 2023 03:57:02 +0000
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailnew.west.internal (Postfix) with ESMTP id 352802B068F2;
-	Wed, 12 Apr 2023 23:56:53 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Wed, 12 Apr 2023 23:56:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to; s=fm3; t=
-	1681358212; x=1681358812; bh=VlTzfC+cscJFGzlxyKoBPiCgl+wlqsWxiBK
-	qWv0iGAw=; b=Kn43Zq9MiT8+nJ3zDCjWFPfEsPwt59QAvClxNEo9jpVy3iej0zV
-	j/IDSwy691s09TU1nPu6bzHhEBtrGt2Ksm/kTQmuGaBTGdyKqA1DlsvJGQbxqOB6
-	0yUWz+6OkBpfDUK3rWRUGD/Pq7gdw2Bvumomk67y/hK0A7Luv8lAv4XHm3EtUpWV
-	2BGkD2VOfGzVeVtwGzUBFGjHJJOPjd8F+MZA0O72ttcFtezYCxvL1ZOBf/nGjjX+
-	ANcL6zBIz1V2QitnwcWwUnwA3c7mA9o6hqjfre1gAHm9d/M23JaYDPdVkfZP9xok
-	E5LCVGwHu3T1BpREJXS5oLLaigi4XFlMT5Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=ie1e949a3.fm3;
-	 t=1681358212; x=1681358812; bh=VlTzfC+cscJFGzlxyKoBPiCgl+wlqsWx
-	iBKqWv0iGAw=; b=YSzuUA/gWw6Zpw69lq6Tj/TM05zOimlGsn8E6G4mWZCMz65r
-	GDis0yO42o6Ht4UgubruU9XxXMKIC7weCVp5/Q/jIb997faHmik6eP5cEZSlc0BW
-	lxLxqXWy9oISSmHmDXOOxoTUXYo7aAt60X5UUwL7M0AYeN4u5TdOttIXmJN6TJAs
-	7ibPbtPqSH0kl9/PzNb9xBfrm5WD1M4MkXWtRiORqW8Szy+oHGENZI/e1huNovcC
-	yYWt49Dc8qzbA7zlByCj7QIo0xD3FUnjiUP1o4OKHmIF3SkYgXou22GGNoC+7aYl
-	Bc080HSvigGpTKS4zcxYCOcraVSN3EH6dV64yQ==
-X-ME-Sender: <xms:hH03ZNHbLdcNG83hItPB18xXrFD4FdRXhvtl9gLraKhvwkX08iN7AQ>
-    <xme:hH03ZCV6pvwRXNtHKiHlOx7tEQgab2WdDFUXbTypnPUkiHrFwGl2jHV_WyLvwTnpk
-    ijVx24k5iDz6XCIKns>
-X-ME-Received: <xmr:hH03ZPKXG8wwkv35IE-anoctQTSiJiFWe06EXaKwZcF1oyxdU4tK0gp6xJYQPopDkIm-HSZ8PHgHW0znD8b6Lg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekjedgjeekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtugfgjgesth
-    eksfdttddtudenucfhrhhomhepufhhihhnkdhitghhihhrohcumfgrfigrshgrkhhiuceo
-    shhhihhnihgthhhirhhosehfrghsthhmrghilhdrtghomheqnecuggftrfgrthhtvghrnh
-    ephfekkeeuueekfeeiueegtdehheegfeektdegtdfgudffvdeuvdeljeekteetgeelnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhhihhnih
-    gthhhirhhosehfrghsthhmrghilhdrtghomh
-X-ME-Proxy: <xmx:hH03ZDGKPubGot04rEb0VFXCgm5GDOtRJ7xb9dc3Yuo36gxVMi4-sA>
-    <xmx:hH03ZDWhOFhqVNGYIII5RQv4cp8iy7ZukwiMussNwuy0Dmx3rj-8gw>
-    <xmx:hH03ZOPdtIRzF7h6y7LOt43YCjOWxJ0jWsBfmhv9IyrW6vQlLG77vA>
-    <xmx:hH03ZAjA4H9ehJjQEztGUvu3Un2Ie4dC2hZR69eQl8NKwAfKITj7sZbSZHJi0g1K>
-Feedback-ID: ie1e949a3:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 12 Apr 2023 23:56:51 -0400 (EDT)
-Date: Thu, 13 Apr 2023 12:56:47 +0900
-From: Shin'ichiro Kawasaki <shinichiro@fastmail.com>
-To: alan.adamson@oracle.com
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: Re: [PATCH blktests] nvme/039: avoid failure by error message rate
- limit
-Message-ID: <lhy27pg5my4fw7a7lyt5ag6zms4vnnaoab2laylatjqwkckdzv@55ebsbgtgpbs>
-References: <20230412085923.1616977-1-shinichiro@fastmail.com>
- <34019736-06eb-b5dd-b6a1-101907c38917@oracle.com>
- <saejpr554r5sxjhqjps3yqgdwhrgufauki2f5npp2yzu6xtvum@q7oz2nwzic3r>
+	Wed, 12 Apr 2023 23:12:59 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1681341171;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DqjVx8DdVE7yyHJKc/GaG9WLw8shGI6NpWmfl69SUoE=;
+	b=bOyUPGtujdSlzeygurislRRvLpTQ85GAd4UMhkuI8lKbgCkz8XcxkgER+OEFor7Hl1WTOR
+	bKSGT/QXqa/DR1Dfu+z+2H+kf2QV7g0apQGxL2b0iYEoZ+ITLRzzkTteE4zG07bYx5tmnE
+	2zA32RAXw35Q1iCH1Y2+0FKeUZEtPDM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-578-RzSsyzYVPU2T4nYnBVXo7Q-1; Wed, 12 Apr 2023 19:12:47 -0400
+X-MC-Unique: RzSsyzYVPU2T4nYnBVXo7Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D72A7101A550;
+	Wed, 12 Apr 2023 23:12:45 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.33.36.177])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 78B9A2166B26;
+	Wed, 12 Apr 2023 23:12:41 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <ZDbO3haK/1+7xdRC@infradead.org>
+References: <ZDbO3haK/1+7xdRC@infradead.org> <20230411160902.4134381-1-dhowells@redhat.com> <20230411160902.4134381-5-dhowells@redhat.com>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: dhowells@redhat.com, "David S. Miller" <davem@davemloft.net>,
+    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+    Paolo Abeni <pabeni@redhat.com>,
+    Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+    David Ahern <dsahern@kernel.org>,
+    Matthew Wilcox <willy@infradead.org>,
+    Al Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>,
+    Jeff Layton <jlayton@kernel.org>,
+    Christian Brauner <brauner@kernel.org>,
+    Chuck Lever III <chuck.lever@oracle.com>,
+    Linus Torvalds <torvalds@linux-foundation.org>,
+    Jeroen de Borst <jeroendb@google.com>,
+    Catherine Sullivan <csully@google.com>,
+    Shailend Chand <shailend@google.com>, Felix Fietkau <nbd@nbd.name>,
+    John Crispin <john@phrozen.org>, Sean Wang <sean.wang@mediatek.com>,
+    Mark Lee <Mark-MC.Lee@mediatek.com>,
+    Lorenzo Bianconi <lorenzo@kernel.org>,
+    Matthias Brugger <matthias.bgg@gmail.com>,
+    AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+    Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+    Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+    Chaitanya Kulkarni <kch@nvidia.com>,
+    Andrew Morton <akpm@linux-foundation.org>, netdev@vger.kernel.org,
+    linux-arm-kernel@lists.infradead.org,
+    linux-mediatek@lists.infradead.org, linux-nvme@lists.infradead.org,
+    linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v6 04/18] mm: Make the page_frag_cache allocator use per-cpu
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <saejpr554r5sxjhqjps3yqgdwhrgufauki2f5npp2yzu6xtvum@q7oz2nwzic3r>
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <399349.1681341160.1@warthog.procyon.org.uk>
+Date: Thu, 13 Apr 2023 00:12:40 +0100
+Message-ID: <399350.1681341160@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230412_205701_168245_DA9F183E 
-X-CRM114-Status: GOOD (  19.38  )
+X-CRM114-CacheID: sfid-20230412_161256_557520_465A205F 
+X-CRM114-Status: GOOD (  34.93  )
+X-Mailman-Approved-At: Wed, 12 Apr 2023 21:45:34 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,51 +109,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Apr 13, 2023 / 09:20, Shin'ichiro Kawasaki wrote:
-> On Apr 12, 2023 / 10:49, alan.adamson@oracle.com wrote:
-> > 
-> > On 4/12/23 1:59 AM, Shin'ichiro Kawasaki wrote:
-> > > From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-> > > 
-> > > The test case nvme/039 tests that expected error messages are printed
-> > > for errors injected to the nvme driver. However, the test case fails by
-> > > chance when previous test cases generate many error messages. In this
-> > > case, the kernel function pr_err_ratelimited() may suppress the error
-> > > messages that the test case expects. Also, it may print messages that
-> > > the test case does not expect, such as "blk_print_req_error: xxxx
-> > > callbacks suppressed".
-> > > 
-> > > To avoid the failure, make two improvements for the test case. Firstly,
-> > > wait DEFAULT_RATE_LIMIT seconds at the beginning of the test to ensure
-> > > the expected error messages are not suppressed. Secondly, exclude the
-> > > unexpected message for the error message check. Introduce a helper
-> > > function last_dmesg() for the second improvement.
-> > 
-> > Why are we seeing the callback messages?  By the time the test starts
-> > generating errors (after a 5 sec delay) we should be able to log 10 messages
-> > without any being suppressed.
+Christoph Hellwig <hch@infradead.org> wrote:
+
+> On Tue, Apr 11, 2023 at 05:08:48PM +0100, David Howells wrote:
+> > Make the page_frag_cache allocator have a separate allocation bucket for
+> > each cpu to avoid racing.  This means that no lock is required, other than
+> > preempt disablement, to allocate from it, though if a softirq wants to
+> > access it, then softirq disablement will need to be added.
+> ...
+> Let me ask a third time as I've not got an answer the last two times:
+
+Sorry about that.  I think the problem is that the copy of the message from
+you directly to me arrives after the first copy that comes via a mailing list
+and google then deletes the direct one - as obviously no one could possibly
+want duplicates, right? :-/ - and so you usually get consigned to the
+linux-kernel or linux-fsdevel mailing list folder.
+
+> > Make the NVMe, mediatek and GVE drivers pass in NULL to page_frag_cache()
+> > and use the default allocation buckets rather than defining their own.
 > 
-> That is because other test cases before nvme/039 can generate errors. For
-> instance, block/014 generates many errors. When I ran block/014 and nvme/039 in
-> sequence, I always observe nvme/039 failure even with the 5 seconds wait in
-> nvme/039. I suggest to excldue the "callbacks message" to avoid the nvme/038
-> failure regardless of the errors generated before nvme/039.
+> why are these callers treated different from the others?
 
-Reading back my explanation above, I found it may not be clear enough. Let me
-ammend it. My understanding is as follows.
+There are only four users of struct page_frag_cache, the one these patches
+modify::
 
-The test case block/014 generates many error messages by blk_print_req_error().
-The messages are rate limited and some of them are suppressed. At that time,
-__ratelimit() calls printk_deferred() to print the "callbacks suppressed"
-message, which is deferred and not printed during block/014. When nvme/039
-triggers an error message (after the 5 sec delay), the "callbacks suppressed"
-message for blk_print_req_error() and block/014 is printed. It makes the
-nvme/039 fail, since nvme/039 expects the error message it triggered, but it
-finds the "callbacks suppressed" message instead. In theory, not only block/014
-but also other workload with rate limited error messages can cause this nvme/039
-failure.
+ (1) GVE.
+ (2) Mediatek.
+ (3) NVMe.
+ (4) skbuff.
 
-The 5 sec delay in nvme/039 ensures that the error messages for nvme/039 are not
-suppressed, but it can not avoid the "callbacks suppressed" messages that
-deferred before nvme/039.
+Note that things are slightly confused by there being three very similarly
+named frag allocators (page_frag and page_frag_1k in addition to
+page_frag_cache) and the __page_frag_cache_drain() function gets used for
+things other than just page_frag_cache.
+
+I've replaced the single allocation buckets with per-cpu allocation buckets
+for (1), (2) and (3) so that no locking[*] is required other than pinning it
+to the cpu temporarily - but I can't test them as I don't have hardware.
+
+[*] Note that what's upstream doesn't have locking, and I'm not sure all the
+    users of it are SMP-safe.
+
+That leaves (4).
+
+Upstream, skbuff.c creates two separate per-cpu frag caches and I've elected
+to retain that, except that the per-cpu bits are now inside the frag allocator
+as I'm not entirely sure of the reason that there's a separate napi frag cache
+to the netdev_alloc_cache.
+
+The general page_frag_cache allocator is used by skb_splice_from_iter() if it
+encounters a page it can't take a ref on, so it has been tested through that
+using sunrpc, sunrpc+siw and cifs+siw.
+
+> Can you show any performance numbers?
+
+As far as I can tell, it doesn't make any obvious difference to directly
+pumping data through TCP or TLS over TCP or transferring data over a network
+filesystem such as sunrpc or cifs using siw/TCP.  I've tested this between two
+machines over a 1G and a 10G link.
+
+I can generate some actual numbers tomorrow.
+
+
+Actually, I probably can drop these patches 2-4 from this patchset and just
+use the netdev_alloc_cache in skb_splice_from_iter() for now.  Since that
+copies unspliceable data, I no longer need to allocate frags in the next layer
+up.
+
+David
+
 
