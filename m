@@ -4,105 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 026EBC77B6E
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Apr 2023 07:13:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96F19C77B6E
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Apr 2023 08:49:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Type:Content-Transfer-Encoding:Date:Message-ID:In-Reply-To:CC:To:From
-	:Subject:Mime-Version:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=O/zeu0IMNnIo8BkHHfaGAMiYGuHwPxRRxQNOfP/rWFw=; b=ng2zXmQ3tEtgsTUulsFV02Lm6y
-	b2FhMQAntmDp8L5I7/9wSERHuJg5quXKaqacuNrQaDqwk2iCC5UqbYcnWWkZm99OUtYF30YRfAOIv
-	E72tzJ7oivR5YYfWg5Fp4acL0lGMDY3HdF+kS5F9YV+1tyDQqhXH7dRJpmOHrAnTtTY9dycryNqP+
-	4l5osSM1qdrXkjpMfFfR+mLbyEZ/6kFes/WJJ5goseaSyC7F6HSdE7AjIlpTFkEltexda1yC8nfc9
-	LM4OBGAiGpUuT7o40wer4spDNQvUrkH0u6UrTQ5nLrvC0DFVncFH3VwILho938GerwX8nkMRGwDeu
-	cwgjiuXQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=VOsiGAz/W+CINZFyxhPMnCIFHgsxPFjAFU6FVjoOOXk=; b=yll53l2cLY+ccsby+bpCuGSF17
+	sO35wDvTUHr5CkGk7HN0rKw+XH1e+aCPILmwtFyIOcoNXrRebnJ3gFzUgcEm8ZjSX/5YsL35lAX62
+	kkc7EUDZ60nROuVfKHTzSLViw9ZnP3zCsv4BIzBJKN0qmAEj9pEEpb6kW0e2aEk/jcRFaVXJx4A10
+	3A27v4Ludr83LsSlw/LWcpkP5MQdDyGW6MQ12FF++B82Rg5zMMPKQ6AKPq4mxZJIiblJ5z/uZefwe
+	W053CIFMoaPzqRRFE10gvVmWAb9hpPNiNPDdOtvrXk46LlJ2D/meBp8HDhtNqymVbwYGVmwXmTdhK
+	P8zlOxOA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmUf2-0023tS-0L;
-	Wed, 12 Apr 2023 07:12:56 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1pmWAK-002JS9-25;
+	Wed, 12 Apr 2023 08:49:20 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmUey-0023ql-2t
+	id 1pmWAH-002JRY-1U
 	for linux-nvme@lists.infradead.org;
-	Wed, 12 Apr 2023 07:12:54 +0000
-Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20230412071232epoutp011613d6c8bfa9f0f9ae2e39859ca014ee~VHnuinB3_1658516585epoutp01-
-	for <linux-nvme@lists.infradead.org>; Wed, 12 Apr 2023 07:12:32 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20230412071232epoutp011613d6c8bfa9f0f9ae2e39859ca014ee~VHnuinB3_1658516585epoutp01-
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1681283552;
-	bh=O/zeu0IMNnIo8BkHHfaGAMiYGuHwPxRRxQNOfP/rWFw=;
-	h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
-	b=mgdp2iKSt8bdMFqwl9COg03VSvoyPx3BVJUIsD4igxzjfxFotEeUZV43d4jPGbO/K
-	 HSOIa7sQQfjg1aEkxe9uKveb7Iw297FpoCS3o0h3E2m8pTemiVhJ/wsN0KNoms8WE1
-	 s0XuCGGvTRpnj5uxcB3ti+aAdhFbsJFWaixsuHZw=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas2p2.samsung.com (KnoxPortal) with ESMTP id
-	20230412071231epcas2p2f6e82092c76730f33ac1214ba0b8508c~VHnt_Gkaf2003620036epcas2p2q;
-	Wed, 12 Apr 2023 07:12:31 +0000 (GMT)
-Received: from epsmges2p4.samsung.com (unknown [182.195.36.90]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4PxDRz0gSRz4x9Pq; Wed, 12 Apr
-	2023 07:12:31 +0000 (GMT)
-X-AuditID: b6c32a48-023fa700000025b2-3c-643659de9b0c
-Received: from epcas2p1.samsung.com ( [182.195.41.53]) by
-	epsmges2p4.samsung.com (Symantec Messaging Gateway) with SMTP id
-	2E.1C.09650.ED956346; Wed, 12 Apr 2023 16:12:30 +0900 (KST)
-Mime-Version: 1.0
-Subject: RE:(2) [PATCH 2/2] nvme-pci: fix metadata mapping length
-From: Jinyoung CHOI <j-young.choi@samsung.com>
-To: "hch@lst.de" <hch@lst.de>
-CC: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
-	"sagi@grimberg.me" <sagi@grimberg.me>, "chaitanya.kulkarni@wdc.com"
-	<chaitanya.kulkarni@wdc.com>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "martin.petersen@oracle.com"
-	<martin.petersen@oracle.com>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-In-Reply-To: <20230412065736.GB20550@lst.de>
-X-CPGS-Detection: blocking_info_exchange
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20230412071230epcms2p145d53bfc8e40eede25f282b80247218c@epcms2p1>
-Date: Wed, 12 Apr 2023 16:12:30 +0900
-X-CMS-MailID: 20230412071230epcms2p145d53bfc8e40eede25f282b80247218c
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-X-CPGSPASS: Y
-X-CPGSPASS: Y
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprLJsWRmVeSWpSXmKPExsWy7bCmqe69SLMUg09nrS3+7znGZjHr9msW
-	i5eHNC1Wrj7KZDHp0DVGi8u75rBZzF/2lN1i+fF/TBbrXr9nceD0mNj8jt3j/L2NLB6bVnWy
-	eWxeUu+x+2YDm8fHp7dYPPq2rGL0+LxJzqP9QDdTAGdUtk1GamJKapFCal5yfkpmXrqtkndw
-	vHO8qZmBoa6hpYW5kkJeYm6qrZKLT4CuW2YO0IlKCmWJOaVAoYDE4mIlfTubovzSklSFjPzi
-	Elul1IKUnALzAr3ixNzi0rx0vbzUEitDAwMjU6DChOyMifdWMBX8Zq1YemgSYwPjc5YuRg4O
-	CQETif1HKrsYuTiEBHYwSix7v4sNJM4rICjxd4dwFyMnh7CAo0Tz/OtMILaQgJLEuTWzGEFK
-	hAUMJG71moOE2QT0JH4umQHWKSIgK3FlRT3IRGaBz0wS/d/2sYHUSAjwSsxof8oCYUtLbF++
-	lRHE5hTQkfh+u5EZIq4h8WNZL5QtKnFz9Vt2GPv9sfmMELaIROu9s1A1ghIPfu6GiktKHDr0
-	lQ3iq3yJDQcCIcI1Em+XH4Aq0Ze41rER7AReAV+J3cuXgNksAqoS77/tYIWocZH4+3IPmM0s
-	IC+x/e0cZpCRzAKaEut36UNMV5Y4cosFooJPouPwX3aYBxs2/sbK3jHvCRNEq5rEoiajCYzK
-	sxCBPAvJqlkIqxYwMq9iFEstKM5NTy02KjCBR2tyfu4mRnA61fLYwTj77Qe9Q4xMHIyHGCU4
-	mJVEeH+4mKYI8aYkVlalFuXHF5XmpBYfYjQFenIis5Rocj4woeeVxBuaWBqYmJkZmhuZGpgr
-	ifN+7FBOERJITyxJzU5NLUgtgulj4uCUamDa8HKWwCGe0juZIlr2ZxYuuddj9kYk5/Pxr7Ez
-	V5ptmHA5YvaXowUfDpVVfFs4Y//f6aX3A5XMPJjCr9qYW1n3R9Z9OrKp7FHvhRVrjCqSuw4w
-	LXGdoNHq2f1H64P16eUrnD6feH+Qn82getrUut3T7EqW8lz6OZ+5bMPml2+/3I41ysxqFzg0
-	aadkdAKvZeFV1t89bn++mm4q2dU2Z3/JV9VLXyo+27Ps+Vyb2OvBm8upZvX9jFO2WOD0W2kX
-	PlpUiE7j7X7D/il58d/Y/T9OfL/k2J84NfzZxK9fRZQDT3+S7p386Xf1B4EZgbn31SUtrO79
-	0J726duKh1oZJ55dz9rFsfjkHuf279/7DTaYHlRiKc5INNRiLipOBABwqtrwMAQAAA==
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230412052443epcms2p836b669a12c4e81368bec2cd340656f73
-References: <20230412065736.GB20550@lst.de>
-	<20230412052443epcms2p836b669a12c4e81368bec2cd340656f73@epcms2p8>
-	<CGME20230412052443epcms2p836b669a12c4e81368bec2cd340656f73@epcms2p1>
+	Wed, 12 Apr 2023 08:49:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1681289356;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=VOsiGAz/W+CINZFyxhPMnCIFHgsxPFjAFU6FVjoOOXk=;
+	b=MZ2xU2bdc/TzKKb72WIEQtb0F4xn6m6AR/zFJQvWoFEjI528HgWwC0FJqE0mIi5Ul9gNm+
+	AVEKQlhLsBrXfwbBiA3GnrL3djfyU12WRCs4KOVQQjJhtgLfRBJYEbTM3XdjLD/1jGNfzk
+	HMW6SNjyhhhpnTUomNiRtSCFi1EFvlU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-146-bh0vyNklMY6iyLWZjVxbcg-1; Wed, 12 Apr 2023 04:49:13 -0400
+X-MC-Unique: bh0vyNklMY6iyLWZjVxbcg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B54C1101A54F;
+	Wed, 12 Apr 2023 08:49:12 +0000 (UTC)
+Received: from localhost (ovpn-8-21.pek2.redhat.com [10.72.8.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 9CE9A1415117;
+	Wed, 12 Apr 2023 08:49:11 +0000 (UTC)
+From: Ming Lei <ming.lei@redhat.com>
+To: Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org
+Cc: Ming Lei <ming.lei@redhat.com>,
+	James Smart <jsmart2021@gmail.com>,
+	Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: [PATCH] nvme-fcloop: fix "inconsistent {IN-HARDIRQ-W} -> {HARDIRQ-ON-W} usage"
+Date: Wed, 12 Apr 2023 16:49:04 +0800
+Message-Id: <20230412084904.162324-1-ming.lei@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230412_001253_450712_18F27996 
-X-CRM114-Status: GOOD (  21.07  )
+X-CRM114-CacheID: sfid-20230412_014917_576968_A0A06C38 
+X-CRM114-Status: GOOD (  15.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,28 +79,200 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: j-young.choi@samsung.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
->> Even if the memory allocated for integrity is physically continuous,
->> struct bio_vec is composed separately for each page size.
->> In order not to use the blk_rq_map_integrity_sg(), the length of the
->> DMA mapping should be the total size of integrity payload.
-> 
-> Hmm, looking outside the bio_vec is pretty nasty.
-> 
-> I think the problem here is that bio_integrity_add_page should
-> just add to the existing bvec, similar to bio_add_page and friends.
+fcloop_fcp_op() could be called from flush request's ->end_io(flush_end_io) in
+which the spinlock of fq->mq_flush_lock is grabbed with irq saved/disabled.
 
-I agree with you.
-I think the problem is bio_integrity_add_page().
-If it is modified, sg functions for blk-integrity should also 
-be modified.
+So fcloop_fcp_op() can't call spin_unlock_irq(&tfcp_req->reqlock) simply
+which enables irq unconditionally.
 
-If you think the blk-integrity modification is better, 
-I will send an mail to block mailing after modifying it.
+Fixes the warning by switching to spin_lock_irqsave()/spin_unlock_irqrestore()
 
-Best Regards.
-Jinyoung.
+Fixes: c38dbbfab1bc ("nvme-fcloop: fix inconsistent lock state warnings")
+Cc: James Smart <jsmart2021@gmail.com>
+Cc: Minwoo Im <minwoo.im.dev@gmail.com>
+Signed-off-by: Ming Lei <ming.lei@redhat.com>
+---
+ drivers/nvme/target/fcloop.c | 48 ++++++++++++++++++++----------------
+ 1 file changed, 27 insertions(+), 21 deletions(-)
+
+diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+index 5c16372f3b53..c780af36c1d4 100644
+--- a/drivers/nvme/target/fcloop.c
++++ b/drivers/nvme/target/fcloop.c
+@@ -614,10 +614,11 @@ fcloop_fcp_recv_work(struct work_struct *work)
+ 	struct fcloop_fcpreq *tfcp_req =
+ 		container_of(work, struct fcloop_fcpreq, fcp_rcv_work);
+ 	struct nvmefc_fcp_req *fcpreq = tfcp_req->fcpreq;
++	unsigned long flags;
+ 	int ret = 0;
+ 	bool aborted = false;
+ 
+-	spin_lock_irq(&tfcp_req->reqlock);
++	spin_lock_irqsave(&tfcp_req->reqlock, flags);
+ 	switch (tfcp_req->inistate) {
+ 	case INI_IO_START:
+ 		tfcp_req->inistate = INI_IO_ACTIVE;
+@@ -626,11 +627,11 @@ fcloop_fcp_recv_work(struct work_struct *work)
+ 		aborted = true;
+ 		break;
+ 	default:
+-		spin_unlock_irq(&tfcp_req->reqlock);
++		spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
+ 		WARN_ON(1);
+ 		return;
+ 	}
+-	spin_unlock_irq(&tfcp_req->reqlock);
++	spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
+ 
+ 	if (unlikely(aborted))
+ 		ret = -ECANCELED;
+@@ -655,8 +656,9 @@ fcloop_fcp_abort_recv_work(struct work_struct *work)
+ 		container_of(work, struct fcloop_fcpreq, abort_rcv_work);
+ 	struct nvmefc_fcp_req *fcpreq;
+ 	bool completed = false;
++	unsigned long flags;
+ 
+-	spin_lock_irq(&tfcp_req->reqlock);
++	spin_lock_irqsave(&tfcp_req->reqlock, flags);
+ 	fcpreq = tfcp_req->fcpreq;
+ 	switch (tfcp_req->inistate) {
+ 	case INI_IO_ABORTED:
+@@ -665,11 +667,11 @@ fcloop_fcp_abort_recv_work(struct work_struct *work)
+ 		completed = true;
+ 		break;
+ 	default:
+-		spin_unlock_irq(&tfcp_req->reqlock);
++		spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
+ 		WARN_ON(1);
+ 		return;
+ 	}
+-	spin_unlock_irq(&tfcp_req->reqlock);
++	spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
+ 
+ 	if (unlikely(completed)) {
+ 		/* remove reference taken in original abort downcall */
+@@ -681,9 +683,9 @@ fcloop_fcp_abort_recv_work(struct work_struct *work)
+ 		nvmet_fc_rcv_fcp_abort(tfcp_req->tport->targetport,
+ 					&tfcp_req->tgt_fcp_req);
+ 
+-	spin_lock_irq(&tfcp_req->reqlock);
++	spin_lock_irqsave(&tfcp_req->reqlock, flags);
+ 	tfcp_req->fcpreq = NULL;
+-	spin_unlock_irq(&tfcp_req->reqlock);
++	spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
+ 
+ 	fcloop_call_host_done(fcpreq, tfcp_req, -ECANCELED);
+ 	/* call_host_done releases reference for abort downcall */
+@@ -699,11 +701,12 @@ fcloop_tgt_fcprqst_done_work(struct work_struct *work)
+ 	struct fcloop_fcpreq *tfcp_req =
+ 		container_of(work, struct fcloop_fcpreq, tio_done_work);
+ 	struct nvmefc_fcp_req *fcpreq;
++	unsigned long flags;
+ 
+-	spin_lock_irq(&tfcp_req->reqlock);
++	spin_lock_irqsave(&tfcp_req->reqlock, flags);
+ 	fcpreq = tfcp_req->fcpreq;
+ 	tfcp_req->inistate = INI_IO_COMPLETED;
+-	spin_unlock_irq(&tfcp_req->reqlock);
++	spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
+ 
+ 	fcloop_call_host_done(fcpreq, tfcp_req, tfcp_req->status);
+ }
+@@ -807,13 +810,14 @@ fcloop_fcp_op(struct nvmet_fc_target_port *tgtport,
+ 	u32 rsplen = 0, xfrlen = 0;
+ 	int fcp_err = 0, active, aborted;
+ 	u8 op = tgt_fcpreq->op;
++	unsigned long flags;
+ 
+-	spin_lock_irq(&tfcp_req->reqlock);
++	spin_lock_irqsave(&tfcp_req->reqlock, flags);
+ 	fcpreq = tfcp_req->fcpreq;
+ 	active = tfcp_req->active;
+ 	aborted = tfcp_req->aborted;
+ 	tfcp_req->active = true;
+-	spin_unlock_irq(&tfcp_req->reqlock);
++	spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
+ 
+ 	if (unlikely(active))
+ 		/* illegal - call while i/o active */
+@@ -821,9 +825,9 @@ fcloop_fcp_op(struct nvmet_fc_target_port *tgtport,
+ 
+ 	if (unlikely(aborted)) {
+ 		/* target transport has aborted i/o prior */
+-		spin_lock_irq(&tfcp_req->reqlock);
++		spin_lock_irqsave(&tfcp_req->reqlock, flags);
+ 		tfcp_req->active = false;
+-		spin_unlock_irq(&tfcp_req->reqlock);
++		spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
+ 		tgt_fcpreq->transferred_length = 0;
+ 		tgt_fcpreq->fcp_error = -ECANCELED;
+ 		tgt_fcpreq->done(tgt_fcpreq);
+@@ -880,9 +884,9 @@ fcloop_fcp_op(struct nvmet_fc_target_port *tgtport,
+ 		break;
+ 	}
+ 
+-	spin_lock_irq(&tfcp_req->reqlock);
++	spin_lock_irqsave(&tfcp_req->reqlock, flags);
+ 	tfcp_req->active = false;
+-	spin_unlock_irq(&tfcp_req->reqlock);
++	spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
+ 
+ 	tgt_fcpreq->transferred_length = xfrlen;
+ 	tgt_fcpreq->fcp_error = fcp_err;
+@@ -896,15 +900,16 @@ fcloop_tgt_fcp_abort(struct nvmet_fc_target_port *tgtport,
+ 			struct nvmefc_tgt_fcp_req *tgt_fcpreq)
+ {
+ 	struct fcloop_fcpreq *tfcp_req = tgt_fcp_req_to_fcpreq(tgt_fcpreq);
++	unsigned long flags;
+ 
+ 	/*
+ 	 * mark aborted only in case there were 2 threads in transport
+ 	 * (one doing io, other doing abort) and only kills ops posted
+ 	 * after the abort request
+ 	 */
+-	spin_lock_irq(&tfcp_req->reqlock);
++	spin_lock_irqsave(&tfcp_req->reqlock, flags);
+ 	tfcp_req->aborted = true;
+-	spin_unlock_irq(&tfcp_req->reqlock);
++	spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
+ 
+ 	tfcp_req->status = NVME_SC_INTERNAL;
+ 
+@@ -946,6 +951,7 @@ fcloop_fcp_abort(struct nvme_fc_local_port *localport,
+ 	struct fcloop_ini_fcpreq *inireq = fcpreq->private;
+ 	struct fcloop_fcpreq *tfcp_req;
+ 	bool abortio = true;
++	unsigned long flags;
+ 
+ 	spin_lock(&inireq->inilock);
+ 	tfcp_req = inireq->tfcp_req;
+@@ -958,7 +964,7 @@ fcloop_fcp_abort(struct nvme_fc_local_port *localport,
+ 		return;
+ 
+ 	/* break initiator/target relationship for io */
+-	spin_lock_irq(&tfcp_req->reqlock);
++	spin_lock_irqsave(&tfcp_req->reqlock, flags);
+ 	switch (tfcp_req->inistate) {
+ 	case INI_IO_START:
+ 	case INI_IO_ACTIVE:
+@@ -968,11 +974,11 @@ fcloop_fcp_abort(struct nvme_fc_local_port *localport,
+ 		abortio = false;
+ 		break;
+ 	default:
+-		spin_unlock_irq(&tfcp_req->reqlock);
++		spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
+ 		WARN_ON(1);
+ 		return;
+ 	}
+-	spin_unlock_irq(&tfcp_req->reqlock);
++	spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
+ 
+ 	if (abortio)
+ 		/* leave the reference while the work item is scheduled */
+-- 
+2.31.1
+
 
