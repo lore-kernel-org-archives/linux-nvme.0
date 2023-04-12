@@ -4,121 +4,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77298C7619A
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Apr 2023 09:18:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47E03C77B6E
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Apr 2023 09:36:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:CC:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gZN7x0aeXViU4AMoYj+8vlJAW//AFuYDQr6AZiEWd50=; b=YerRtKrs3ou/6cvhe+zsyKaXhN
-	OC4gKMYagmZ71r0tfniZWLPi/mMxc567tev334UCHsCvry+r/j0DZnNsNmrp1yTgvQm8ulWxRB7Jt
-	YFwr+X76ll4oNwJ6TkIQyVH5xuLzaANxfrrfr81/DBHI6OA0XeUb+TuJORvBMOKIeW5SfysUOuoCx
-	MxygENVYvZvNlbefK6Q/JqVIorzjYq1IstCaS4Ijqp2JxnbyEpKJRQ46/Ah3yZsTaE+8YqMJZma1Y
-	VqxTIVlsVEquOa9QkCFVc8rKuChqZqD+/uL9hla90RsXkerX9ktHkKh/SoiJ8zPr2V0p2GVNuL8Yj
-	5cknyXrQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=hEe8hBiVZGVRUXUAkMcCqAaNuITvRlmRpl8r5dCVshg=; b=OZdyDUBoqUbDSKa7n27JhB1iEV
+	+sJH0ubiuVmSC+rgRbo03847Zco1WzPqf1vPQ3SULRHrMeSiyNGbZVEyp7Do+9g/zNesoWLcRNl0V
+	BXQpHPmqgHGaaT7e7lt8+aD3KIy/g16qctNHsKoyijbntLO0ByZEDw/6MEJKCo5/U+NXWfy3RRH9B
+	yttQrhsF4Ct76G8kkmeqPM1pobXm8vS2XrnqiCHA6k4+LHCUGbXdzXzuGqXoj8mJ3l/XaaxWoCfmN
+	D9iyHg393XnGwzxhdGCfZscrKGbOtFCTgMNd6vG5pFBszkRf9YajeoUUeVOkPXNDmz5gt4+uQXqtl
+	jnDzrMIQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmWcu-002NDs-20;
-	Wed, 12 Apr 2023 09:18:52 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1pmWu4-002PmG-2r;
+	Wed, 12 Apr 2023 09:36:36 +0000
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmWcq-002NCj-2O
+	id 1pmWu0-002Pkp-2d
 	for linux-nvme@lists.infradead.org;
-	Wed, 12 Apr 2023 09:18:51 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20230412091844euoutp0204b1cd620d05d7bc134fb3b2dc282422~VJV6g-k3E1168811688euoutp02c
-	for <linux-nvme@lists.infradead.org>; Wed, 12 Apr 2023 09:18:44 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20230412091844euoutp0204b1cd620d05d7bc134fb3b2dc282422~VJV6g-k3E1168811688euoutp02c
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1681291124;
-	bh=gZN7x0aeXViU4AMoYj+8vlJAW//AFuYDQr6AZiEWd50=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=FwMrGBidzI0/JLegDSF1Z8jOng0H2ryL45HooyES8Rxh7UDwRNARZ+/LxWJ9dm/r8
-	 +J8lmm6wlWAEH6B6mFFj1QY/r3GOdNk874AjMoNlh50GjW3Ynozl1iWMVUn94DLU0J
-	 sVg6w7lY7kHt8Y+Mq1vTG47KuHK9s4LXNO6jPKcc=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20230412091844eucas1p2e08ae073da1a0e746cfbebae639c33d2~VJV6abLO82211322113eucas1p2c;
-	Wed, 12 Apr 2023 09:18:44 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges2new.samsung.com (EUCPMTA) with SMTP id 8F.BB.09966.47776346; Wed, 12
-	Apr 2023 10:18:44 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20230412091843eucas1p22a4c7c34297c4f260ccc54cff9d67a52~VJV6BPr9G2211222112eucas1p2t;
-	Wed, 12 Apr 2023 09:18:43 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20230412091843eusmtrp282b0dca7820052ba234fdefbace2eacd~VJV6Afw8w2698826988eusmtrp2F;
-	Wed, 12 Apr 2023 09:18:43 +0000 (GMT)
-X-AuditID: cbfec7f4-d4fff700000026ee-a3-64367774454e
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-	eusmgms1.samsung.com (EUCPMTA) with SMTP id F0.3A.22108.37776346; Wed, 12
-	Apr 2023 10:18:43 +0100 (BST)
-Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20230412091843eusmtip1c9481af3312de89b4b13fcfd1adc4c2a~VJV53G24A2176921769eusmtip19;
-	Wed, 12 Apr 2023 09:18:43 +0000 (GMT)
-Received: from localhost (106.110.32.140) by CAMSVWEXC02.scsc.local
-	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Wed, 12 Apr 2023 10:18:42 +0100
-Date: Wed, 12 Apr 2023 11:10:13 +0200
-From: Pankaj Raghav <p.raghav@samsung.com>
-To: Chaitanya Kulkarni <kch@nvidia.com>
-CC: <alan.adamson@oracle.com>, <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH V5 0/1] nvme: allow passthru cmd error logging
-Message-ID: <20230412091013.5eckb4if2jiy6ms5@blixen>
+	Wed, 12 Apr 2023 09:36:34 +0000
+Received: by mail-pl1-x62e.google.com with SMTP id o2so10756827plg.4
+        for <linux-nvme@lists.infradead.org>; Wed, 12 Apr 2023 02:36:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1681292190; x=1683884190;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hEe8hBiVZGVRUXUAkMcCqAaNuITvRlmRpl8r5dCVshg=;
+        b=PzgdQoD7GRwakzmnius/pVnn/MEJkpuxqLlcv4YI5JxwsM5o94j/w79dq+SXJjGnnn
+         qiYW/G2J2ECCalgKPZ2Gti5Yk7bHuZ/o7BMWGqjVeMjAySBujXkOp4czKaXJGHGQlh5V
+         Pqkuvzyndfb676K7q4qm5PykjXhTIdI8H8grnDSjsAVQ8ltgn1q0eOOUF1tiqWC3biE/
+         fRyE1wAPLTldTBykEqHWg38KZQBhPlFgh5IJyog9NoggDVYjkKCji2wf7GHAkNk1zPCo
+         QhZYnTVeZlEvcoOVlfQizqxoi4/qi7gIz+BTrTQQEMM9XwRCCcogvLFdwvNSqstlLwQK
+         t7aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681292190; x=1683884190;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hEe8hBiVZGVRUXUAkMcCqAaNuITvRlmRpl8r5dCVshg=;
+        b=1UTeJfErQoY/6/QSp3Bdo6wFj/ujZXjZFzLqbLh2J7xDIrs7r653D9837YBg8+UTFL
+         LSTuaf9ovVpYHzzoh8KyubTysYwQ7TMIIbDL/VPa8T4CLQ8UNtX05BGMLG7lKqzJuKxP
+         v6W1XLyuzKx5FXVDWGLGPgSJlXpexnB6spSATMWiapDpu1cjg5nev0+xveHytixMrwt9
+         WkBYqEbR0GWv5IMePJrku5lls1zT78cUMgaVoqR1ENCmJWKGJOmCEhwljgUHZm3dIbfJ
+         pS4fp66rpUKR9s52K0Jar+42i6vukX55UEffnR5yAKEbPCfspARcNUxM0FgnMMogLM4p
+         W1Iw==
+X-Gm-Message-State: AAQBX9dvHlTz40PYFQ5HwIgUX2JYfpLb1PFbJTbQdaxNsKD3cZrjV84R
+	duiph1x/vHD+zjP3+0z6WNhfyw==
+X-Google-Smtp-Source: AKy350Yuyqi9PvDH0Vwd39k3KHlVJ83Rk7wT+lEZyICoZ0hcAReJ0KiGRGXsrOp6YBiITphPH0p+sQ==
+X-Received: by 2002:a17:90a:5b:b0:233:feb4:895f with SMTP id 27-20020a17090a005b00b00233feb4895fmr18452539pjb.44.1681292189750;
+        Wed, 12 Apr 2023 02:36:29 -0700 (PDT)
+Received: from localhost.localdomain ([124.123.191.81])
+        by smtp.gmail.com with ESMTPSA id m12-20020a1709026bcc00b001a183ade911sm11109741plt.56.2023.04.12.02.36.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Apr 2023 02:36:29 -0700 (PDT)
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+To: michael.christie@oracle.com
+Cc: axboe@kernel.dk,
+	bvanassche@acm.org,
+	chaitanyak@nvidia.com,
+	dm-devel@redhat.com,
+	hch@lst.de,
+	james.bottomley@hansenpartnership.com,
+	kbusch@kernel.org,
+	linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org,
+	martin.petersen@oracle.com,
+	snitzer@kernel.org,
+	target-devel@vger.kernel.org,
+	vbabka@suse.cz,
+	mgorman@techsingularity.net,
+	halbuer@sra.uni-hannover.de,
+	keescook@chromium.org,
+	akpm@linux-foundation.org,
+	kirill.shutemov@linux.intel.com,
+	willy@infradead.org,
+	mkoutny@suse.com,
+	roman.gushchin@linux.dev,
+	ryan.roberts@arm.com,
+	shy828301@gmail.com,
+	yuzhao@google.com,
+	zokeefe@google.com
+Subject: [PATCH v6 00/18] Use block pr_ops in LIO
+Date: Wed, 12 Apr 2023 15:06:17 +0530
+Message-Id: <20230412093617.285177-1-naresh.kamboju@linaro.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230407200551.12660-1-michael.christie@oracle.com>
+References: <20230407200551.12660-1-michael.christie@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20230409212538.18647-1-kch@nvidia.com>
-X-Originating-IP: [106.110.32.140]
-X-ClientProxiedBy: CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348) To
-	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmplleLIzCtJLcpLzFFi42LZduznOd2ScrMUg+aLLBZ7+k8xWTy9OovJ
-	Yv6yp+wOzB6bl9R79Da/Y/P4+PQWSwBzFJdNSmpOZllqkb5dAlfGsrshBX18Fce657A0MF7h
-	7mLk5JAQMJFYNH0rI4gtJLCCUaLtkFYXIxeQ/YVRorf/EyOE85lRYtHlhcwwHed+XmKBSCxn
-	lPi4YgEzXNXNtR+ZIGZtYZR4eq8AxGYRUJX42jwVKM7BwSagJdHYyQ4SFhFQl5h6oIcVxGYW
-	sJfYOuMiWKuwgJPE7Q2bwMp5gZbtuMICEuYVEJQ4OfMJmM0JFD70ZTIrxD1KEg2bz7BA2LUS
-	e5sPsIOcIyGwg0Ni5ccZbCBzJARcJHa/KYeoEZZ4dXwLO4QtI/F/53wmCLta4umN38wQvS2M
-	Ev0710P1Wkv0ncmBODNDYum3B2wQ9Y4SJ6c/Y4Yo4ZO48VYQooRPYtK26VBhXomONiGIajWJ
-	1ffesECEZSTOfeKbwKg0C8lfs5DMh7B1JBbs/gRkcwDZ0hLL/3FAmJoS63fpL2BkXcUonlpa
-	nJueWmyUl1quV5yYW1yal66XnJ+7iRGYUk7/O/5lB+PyVx/1DjEycTAeYpTgYFYS4f3hYpoi
-	xJuSWFmVWpQfX1Sak1p8iFGag0VJnFfb9mSykEB6YklqdmpqQWoRTJaJg1OqgSl+ssKMy3lR
-	8R/YtC87bP4158ttmfKjq+z8td8vWjTrVnAqq9GlFHut0/93nX/TfmnTF35V3n/Lfp17O/2u
-	U5nOhceyJjvqjdNEfx7bX/fhqleMUNzFuLPmOu98VPmel86My5u2qED+7xnNyv9/D/wVkJ7l
-	I73kv9rGIqGiGWUtSpvEnueGfVSdn3T1fdfWq1dCTPkv8ZjLJBi46l948FWmoD1uDoOdUHk0
-	67aso37PZp1+sPxcatNM8eUhd9YE3T2QOOnS7/B+Tr93lx33Wi6Rr+L9IrCXxXbmDY2Csh32
-	cn/Deufo71Qo3LH90MTLof7aRzQ7zpo1FAtWiWuvXj5tKusr+QdZixf+0iiOrLmtxFKckWio
-	xVxUnAgAeqAy7pgDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnkeLIzCtJLcpLzFFi42I5/e/4Xd3icrMUg8vv1C329J9isnh6dRaT
-	xfxlT9kdmD02L6n36G1+x+bx8ektlgDmKD2bovzSklSFjPziElulaEMLIz1DSws9IxNLPUNj
-	81grI1MlfTublNSczLLUIn27BL2M2/uesRSc46649PoBSwPjWs4uRk4OCQETiXM/L7F0MXJx
-	CAksZZRYsfkZK0RCRmLjl6tQtrDEn2tdbBBFHxklmjuOQ3VsYZRY9r2DEaSKRUBV4mvzVKYu
-	Rg4ONgEticZOdpCwiIC6xNQDPWCDmAXsJbbOuMgEYgsLOEnc3rAJrJwX6IodV1hAwkICxhLX
-	rn1kBrF5BQQlTs58wgLRqiOxYPcnNpByZgFpieX/OEDCnECdh75MhjpTSaJh8xkWCLtWovPV
-	abYJjMKzkEyahWTSLIRJCxiZVzGKpJYW56bnFhvqFSfmFpfmpesl5+duYgTGzLZjPzfvYJz3
-	6qPeIUYmDsZDjBIczEoivD9cTFOEeFMSK6tSi/Lji0pzUosPMZoCw2Eis5Rocj4wavNK4g3N
-	DEwNTcwsDUwtzYyVxHk9CzoShQTSE0tSs1NTC1KLYPqYODilGpiC0nYkmAgYmgheP3r8tdPR
-	2WfPnyxNXXjg844tSd0ebNHqub7b2o7nRn4++/aXTnpGeIBcVbmhV96sCeHet04e+535/3dh
-	95f/5U2SNza18bS+1tl4dNH/CdyzF0uFmvRs/zG7dZ/Xn6WclX0/Q5PfLOm+ZWkQ8NtNsNjz
-	U+qaPzfvHb4V+JD3fv7utVkTK7curpSS4Oe5zi+6Qvnp8sUuM+pbd5R+62jULz7s2yYo03HZ
-	zpLfvcP4xVGL0xvL5obKBhdk+c/L5ZNY2+XSpFObouFUv27C4x3/Xn3MTDkQErJnldvaJ5zT
-	4xac9N5+1DBT7/jp1GkfhMXVbl/bxRq2IXq20OmO2Ycm2gXl/8lWYinOSDTUYi4qTgQA73Hm
-	FCIDAAA=
-X-CMS-MailID: 20230412091843eucas1p22a4c7c34297c4f260ccc54cff9d67a52
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----0IIwcNA8CeD.s59tlljyDEq3yyVAinti4bQgYoqzE0B37Kwt=_68601_"
-X-RootMTR: 20230412091843eucas1p22a4c7c34297c4f260ccc54cff9d67a52
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20230412091843eucas1p22a4c7c34297c4f260ccc54cff9d67a52
-References: <20230409212538.18647-1-kch@nvidia.com>
-	<CGME20230412091843eucas1p22a4c7c34297c4f260ccc54cff9d67a52@eucas1p2.samsung.com>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230412_021849_409902_CCD31980 
-X-CRM114-Status: GOOD (  17.01  )
+X-CRM114-CacheID: sfid-20230412_023632_860637_C089CB8F 
+X-CRM114-Status: GOOD (  10.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,48 +115,114 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------0IIwcNA8CeD.s59tlljyDEq3yyVAinti4bQgYoqzE0B37Kwt=_68601_
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+[sorry for the adding you in CC]
 
-On Sun, Apr 09, 2023 at 02:25:37PM -0700, Chaitanya Kulkarni wrote:
-> 
-> -ck
-> 
-> Chaitanya Kulkarni (1):
->   nvme: allow passthru cme error logging
-> 
->  drivers/nvme/host/core.c | 83 +++++++++++++++++++++++++++++++++++++---
->  drivers/nvme/host/nvme.h |  1 +
->  2 files changed, 79 insertions(+), 5 deletions(-)
-> 
-> v5:
-> 
-> - Trim down code in the nvme_log_error_passthrough().
->   Use following to get the disk name as an arg to
->    pr_err_ratelimited() :-
-> 	ns ? ns->disk->disk_name : dev_name(nr->ctrl->device),
->   Use following to get the admin vs I/O opcode string as an arg to
->   pr_err_ratelimited() :-
->        	ns ? nvme_get_opcode_str(nr->cmd->common.opcode) :
->        	     nvme_get_admin_opcode_str(nr->cmd->common.opcode),
-> - Rename nvme_log_error_passthrough() -> nvme_log_err_passthru().
-> - Remove else and return directly in nvme_passthru_err_log_show().
-> - Generate error on invalid values of the passthru_enable variable
->   in nvme_passthru_log_store().
-> - Rename passthrough -> passthru.
+While running LTP controllers test suite on this patch set applied on top of
+the next-20230406 and the following kernel panic noticed on qemu-i386.
 
-> - Rename sysfs attr from passthru_admin_err_logging -> passthru_log_err.
-Curious to know why `admin` was removed from the sysfs attr. We enable
-logging for admin commands using this attr but IO errors are always logged.
+crash log:
+---------
+pids 1 TINFO: timeout per run is 0h 25m 0s
+pids 1 TINFO: test starts with cgroup version 1
+pids 1 TINFO: Running testcase 6 with 10 processes
+pids 1 TINFO: set a limit that is smaller than current number of pids
+<6>[  782.211806] cgroup: fork rejected by pids controller in /ltp/test-2724
+pids 1 TPASS: fork failed as expected
+/opt/ltp/testcases/bin/tst_test.sh: line 150:  2760 Killed                  pids_task2
+/opt/ltp/testcases/bin/tst_test.sh: line 150:  2761 Killed                  pids_task2
+/opt/ltp/testcases/bin/tst_test.sh: line 150:  2762 Killed                  pids_task2
+/opt/ltp/testcases/bin/tst_test.sh: line 150:  2763 Killed                  pids_task2
+/opt/ltp/testcases/bin/tst_test.sh: line 150:  2764 Killed                  pids_task2
+/opt/ltp/testcases/bin/tst_test.sh: line 150:  2765 Killed                  pids_task2
+/opt/ltp/testcases/bin/tst_test.sh: line 150:  2766 Killed                  pids_task2
+/opt/ltp/testcases/bin/tst_test.sh: line 150:  2767 Killed                  pids_task2
+/opt/ltp/testcases/bin/tst_test.sh: line 150:  2768 Killed                  pids_task2
+/opt/ltp/testcases/bin/tst_test.sh: line 150:  2769 Killed                  pids_task2
+<4>[  782.594441] int3: 0000 [#1] PREEMPT SMP
+<4>[  782.594783] CPU: 1 PID: 2724 Comm: pids.sh Not tainted 6.3.0-rc5-next-20230406 #1
+<4>[  782.594915] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
+<4>[  782.595168] EIP: get_page_from_freelist+0x157/0xccc
+<4>[  782.595745] Code: 48 04 8d 43 08 85 c9 0f 85 fe 07 00 00 3b 73 0c 0f 82 f5 07 00 00 89 45 c8 8b 45 c8 8b 00 89 45 e0 85 c0 0f 84 fc 07 00 00 3e <8d> 74 26 00 8b 45 cc 80 78 14 00 0f 84 90 05 00 00 8b 45 e0 8b 58
+<4>[  782.595850] EAX: 00000000 EBX: c7ab5ce4 ECX: 00000800 EDX: 00000000
+<4>[  782.595889] ESI: 00400dc0 EDI: 00000000 EBP: c7ab5c78 ESP: c7ab5c04
+<4>[  782.595928] DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068 EFLAGS: 00000297
+<4>[  782.596017] CR0: 80050033 CR2: 086d1d54 CR3: 06eaa000 CR4: 000006d0
+<4>[  782.596188] Call Trace:
+<4>[  782.596503]  ? exc_int3+0x10/0x130
+<4>[  782.596630]  ? __irq_exit_rcu+0x15/0xcc
+<4>[  782.596655]  ? sysvec_call_function+0x3c/0x3c
+<4>[  782.596677]  ? __irq_exit_rcu+0x15/0xcc
+<4>[  782.596694]  ? irqentry_exit+0x26/0x58
+<4>[  782.596733]  __alloc_pages+0x156/0xf50
+<4>[  782.596783]  ? handle_exception+0x133/0x133
+<4>[  782.596817]  ? __rcu_read_unlock+0x1e/0x30
+<4>[  782.596843]  ? sysvec_call_function+0x3c/0x3c
+<4>[  782.596880]  ? __irq_exit_rcu+0x15/0xcc
+<4>[  782.596903]  pte_alloc_one+0x23/0x88
+<4>[  782.596928]  __pte_alloc+0x21/0xb0
+<4>[  782.596981]  ? trace_hardirqs_on+0x2c/0x88
+<4>[  782.597002]  copy_page_range+0x67d/0xb40
+<4>[  782.597049]  ? mas_wr_modify+0x10e/0x364
+<4>[  782.597069]  ? mod_objcg_state+0x99/0x378
+<4>[  782.597103]  ? mas_wr_store_entry.isra.0+0x10c/0x534
+<4>[  782.597127]  ? mas_store+0x45/0xb0
+<4>[  782.597160]  copy_process+0x1de6/0x1f9c
+<4>[  782.597179]  ? lockref_get_not_dead+0x2c/0x38
+<4>[  782.597246]  kernel_clone+0xc1/0x3dc
+<4>[  782.597279]  __ia32_sys_clone+0x71/0x8c
+<4>[  782.597320]  __do_fast_syscall_32+0x4c/0xb8
+<4>[  782.597340]  do_fast_syscall_32+0x32/0x74
+<4>[  782.597361]  do_SYSENTER_32+0x15/0x24
+<4>[  782.597381]  entry_SYSENTER_32+0x98/0xf1
+<4>[  782.597484] EIP: 0xb7f3e579
+<4>[  782.597838] Code: b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 00 00 00 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 8d 76 00 58 b8 77 00 00 00 cd 80 90 8d 76
+<4>[  782.597856] EAX: ffffffda EBX: 01200011 ECX: 00000000 EDX: 00000000
+<4>[  782.597876] ESI: 00000000 EDI: b7f398e8 EBP: b7f01e3c ESP: bfa4599c
+<4>[  782.597889] DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 007b EFLAGS: 00000286
+<4>[  782.598167] Modules linked in:
+<4>[  782.616852]  ---[ end trace 0000000000000000 ] ---
+<4>[  782.616998] EIP: get_page_from_freelist+0x157/0xccc
+<4>[  782.617213] Code: 48 04 8d 43 08 85 c9 0f 85 fe 07 00 00 3b 73 0c 0f 82 f5 07 00 00 89 45 c8 8b 45 c8 8b 00 89 45 e0 85 c0 0f 84 fc 07 00 00 3e <8d> 74 26 00 8b 45 cc 80 78 14 00 0f 84 90 05 00 00 8b 45 e0 8b 58
+<4>[  782.617234] EAX: 00000000 EBX: c7ab5ce4 ECX: 00000800 EDX: 00000000
+<4>[  782.617247] ESI: 00400dc0 EDI: 00000000 EBP: c7ab5c78 ESP: c7ab5c04
+<4>[  782.617260] DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068 EFLAGS: 00000297
+<4>[  782.617276] CR0: 80050033 CR2: 086d1d54 CR3: 06eaa000 CR4: 000006d0
+<0>[  782.617472] Kernel panic - not syncing: Fatal exception in interrupt
+<0>[  782.619115] Kernel Offset: disabled
 
-I tried out the patch and I was surprised to see IO err was logged for
-passthru requests without me enabling it explicitly. Having the sysfs
-attr to be passthru_log_admin_err would have been more clear IMO.
 
-------0IIwcNA8CeD.s59tlljyDEq3yyVAinti4bQgYoqzE0B37Kwt=_68601_
-Content-Type: text/plain; charset="utf-8"
+Crash log details,
+https://qa-reports.linaro.org/~anders.roxell/linux-mainline-patches/build/lore_kernel_org_linux-block_20230404140835_25166-1-sergei_shtepa_veeam_com/testrun/16171777/suite/log-parser-test/test/check-kernel-panic/details/
+https://qa-reports.linaro.org/~anders.roxell/linux-mainline-patches/build/lore_kernel_org_linux-block_20230404140835_25166-1-sergei_shtepa_veeam_com/testrun/16171777/suite/log-parser-test/test/check-kernel-panic/log
+
+Build artifacts links,
+https://storage.tuxsuite.com/public/linaro/anders/builds/2OGpRflnb14kT3aJdPte4NdjKoT/
+vmlinux: https://storage.tuxsuite.com/public/linaro/anders/builds/2OGpRflnb14kT3aJdPte4NdjKoT/vmlinux.xz
+System.map: https://storage.tuxsuite.com/public/linaro/anders/builds/2OGpRflnb14kT3aJdPte4NdjKoT/System.map
 
 
-------0IIwcNA8CeD.s59tlljyDEq3yyVAinti4bQgYoqzE0B37Kwt=_68601_--
+steps to reproduce:
+# To install tuxrun on your system globally:
+# sudo pip3 install -U tuxrun==0.41.0
+#
+# See https://tuxrun.org/ for complete documentation.
+
+tuxrun   \
+ --runtime podman   \
+ --device qemu-i386   \
+ --kernel https://storage.tuxsuite.com/public/linaro/anders/builds/2OGpRflnb14kT3aJdPte4NdjKoT/bzImage   \
+ --modules https://storage.tuxsuite.com/public/linaro/anders/builds/2OGpRflnb14kT3aJdPte4NdjKoT/modules.tar.xz   \
+ --rootfs https://storage.tuxsuite.com/public/linaro/lkft/oebuilds/2OFRZUbhWDZYvEcYrKKj1AJ618K/images/intel-core2-32/lkft-tux-image-intel-core2-32-20230410193126.rootfs.ext4.gz   \
+ --parameters SKIPFILE=skipfile-lkft.yaml   \
+ --parameters SHARD_NUMBER=10   \
+ --parameters SHARD_INDEX=10   \
+ --image docker.io/lavasoftware/lava-dispatcher:2023.01.0020.gc1598238f   \
+ --tests ltp-controllers   \
+ --timeouts boot=15 ltp-controllers=80
+
+
+--
+Linaro LKFT
+https://lkft.linaro.org
+
 
