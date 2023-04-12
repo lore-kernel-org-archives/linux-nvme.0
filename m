@@ -4,95 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 03BE6C7619A
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Apr 2023 08:49:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4C2C8C7619A
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Apr 2023 08:56:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	Content-Type:Content-Transfer-Encoding:Date:Message-ID:In-Reply-To:To:From:
+	Subject:Mime-Version:Cc:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=L1bUxmnPnot7VZQQ0IvZZqFCOVoFzAgQzBXCZAaxKFA=; b=r3cu6jm44t4DPPabCseNxZz8Wj
-	xdrk/q4YhyzZV/WYBskQtIVNeazJYLSiw0r6cpXxn1p4B7z0eVjR20qfvI+RhjQxeRmeEjzD/4jiI
-	lnZ53jqYuAO6Pz1MJ1wZf5jMQkksgiw1S48IycdqcIAPzyTiqf4v6wGNlxrbF/dY5htZs1CPGraOL
-	aMl6W/QA44q9EBI6tQLq85E+FvfEXspFnx27yX1v23brLnfG3wYUTK/z178BMAA9UXTLlwxkPCnLl
-	qLVbfIlzTjjbuti/1J/9THQTLcCeFBS5ZuMBvTOPJTggyEkcGsXsC9M1K2Gqs/2f6L0lSjno+FG2G
-	i8o24ohg==;
+	bh=RCW0Dvtrpxls1F9oh27ti4C9yKdcPc4U2u6z/oFEy7c=; b=So6de/TZEGINjoYxmwPLGyJSFa
+	FGS1GpcJJ8dFebRcpv20u4WLa5G45ELnZUcYgSJa8/fi9qbJOZaKffflGwY1t7EQzmfh02nJPdOw8
+	oG4oI6RFGn7DdjOcDHRwgcoGmUH6n3vrA4fTvg3k09q4DVPv1zibSoGitcbLQYGgU8YtFJozSbmee
+	jZ42Z5pvGoDKiwQS0aI0YAFT7hadyqiTEFleYZBBdQ126capK9k1bQQwhQVT2Z6lNpoh6HmE05c0Z
+	F82+Q2hMwm/J0dPIdK1gLtTDIcqezCbK81G8ZI7/tLYo0hzdgqZOHQslzWNY3b+dBS+lKHu98zhA5
+	tfmRmteg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmWAi-002JX2-31;
-	Wed, 12 Apr 2023 08:49:44 +0000
-Received: from new3-smtp.messagingengine.com ([66.111.4.229])
+	id 1pmWH3-002Kc4-21;
+	Wed, 12 Apr 2023 08:56:17 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmWAg-002JUT-0t
+	id 1pmWH0-002KbN-1h
 	for linux-nvme@lists.infradead.org;
-	Wed, 12 Apr 2023 08:49:44 +0000
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 3FB235827D4;
-	Wed, 12 Apr 2023 04:49:35 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 12 Apr 2023 04:49:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to; s=fm3; t=
-	1681289375; x=1681289975; bh=L1bUxmnPnot7VZQQ0IvZZqFCOVoFzAgQzBX
-	CZAaxKFA=; b=Bsq9CHMHGKdtEsIFN9SZcCIL2q5xM24wwgMYMJSqvYMzewJ0BhF
-	6V2aubLTUFAj7nCJ/Bk8G1YZIIgSWQJc9waEqngh56UIGP61XZ2112P4NK4f/aDl
-	DVi/ktEGp0tNSyv7tPOF8enuhyyGC9PS+Oa9zIoO/SIpulfEiUsNWqVE/nGGyVdg
-	SGw8329+h5NNuS9iRffhSeq8PMeUKKlM9WUFTJQk95BsGe4ZwoHZLR8YGfNKXJsh
-	GE6Syex6G7rYUy+HcP99Z2eaT9CzjT80eR5pPhPR0V2rEIyIAhRtouFJ+F0Bt+et
-	CYwpbdTMnvaDqxMXnkgxOOGsPeFVKaPrvBw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=ie1e949a3.fm3;
-	 t=1681289375; x=1681289975; bh=L1bUxmnPnot7VZQQ0IvZZqFCOVoFzAgQ
-	zBXCZAaxKFA=; b=cIeFS5YiLlvIyWgodBzs7JYLst5s2FarQlRrT9vutwdLrhli
-	xOLfARXKChtgBzFO1oYOi7Tu5E7RbT8t82VIXGaPmaTPj0vKm3YA/014xLinRtQN
-	u8mxIsx8uWg9eGSEwzByhIAhB9k1e4ohp1kxajo42y9rgw0L+l+aCMy5SSjf+Jae
-	F3URgCGepKbMCsqSitkDpiMEYBqeyHeReoDIYOgyfeqi5gtGHoS/DBolCrY1bqQR
-	9cevyA2rHkj7W1WEbCn/ptTQpFmWvNUnUsmvQIf866gYCcVfJPQenYuN/y6pVkBI
-	UoKabKgk4y9QfB7pIscQs3AZSccE1AY8YL0/kw==
-X-ME-Sender: <xms:nnA2ZHqfHezRB7f0OBTZ2gt1J8hOFHeDlbqfl9eRTUBp3DoTlzdlDg>
-    <xme:nnA2ZBqfUj5MxuiD0SmVYoENMphhU4HuZvqm9YEvOd1yvM3X-KdoMZP4skUOiY-es
-    iIVJnZxEjv--FuPNOc>
-X-ME-Received: <xmr:nnA2ZENyd_P9Jw3lseuorJasc-9lNr8_zYwY3fkkHfcsoTZqHuiQcqaSnJnXwTN1v1wdTRzrpTGAwmX7J4hDkQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekiedgtdekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtugfgjgesth
-    eksfdttddtudenucfhrhhomhepufhhihhnkdhitghhihhrohcumfgrfigrshgrkhhiuceo
-    shhhihhnihgthhhirhhosehfrghsthhmrghilhdrtghomheqnecuggftrfgrthhtvghrnh
-    ephfekkeeuueekfeeiueegtdehheegfeektdegtdfgudffvdeuvdeljeekteetgeelnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhhihhnih
-    gthhhirhhosehfrghsthhmrghilhdrtghomh
-X-ME-Proxy: <xmx:n3A2ZK5EK6_kihuUW5SffezWnMLdogSpK7_MiYjNz9L5_AA3zPdC6Q>
-    <xmx:n3A2ZG5WzOXNZmTFZQXK25dF3k0ULlnquYqwCdRn4A0Rt_vwpMpkmA>
-    <xmx:n3A2ZCg99v9o5mph2r2T4vknf_MvB-eswDZWAHM5hf6-Tql2am2fVQ>
-    <xmx:n3A2ZMT3uI5M2V0N5NkdQbW6SXZv3mH-3pLc3CLvMghbM-72F52PhnB-taU>
-Feedback-ID: ie1e949a3:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 12 Apr 2023 04:49:33 -0400 (EDT)
-Date: Wed, 12 Apr 2023 17:49:30 +0900
-From: Shin'ichiro Kawasaki <shinichiro@fastmail.com>
-To: alan.adamson@oracle.com
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: blktests nvme/039 failure
-Message-ID: <nsulcqpwsrym7sv4ypymxmftdakxsnnly36w5wzw5uyhcfgira@a7hk2cbckbep>
-References: <5vnpdeocos6k4nmh6ewh7ltqz7b6wuemzcmqflfkybejssewkh@edtqm3t4w3zv>
- <76983b72-b954-5865-1b34-c88161a7dec9@oracle.com>
- <acu2ak5fwyjnsino5i4ilaeh3xawlkygbxwjjm5tu3ntzxmgbh@zawuclpnlwiu>
- <c7e8f14a-6c1f-4e65-f72e-6fb92244f09c@oracle.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c7e8f14a-6c1f-4e65-f72e-6fb92244f09c@oracle.com>
+	Wed, 12 Apr 2023 08:56:16 +0000
+Received: from epcas2p2.samsung.com (unknown [182.195.41.54])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20230412085559epoutp01d7be7cdb29f70c25eb4c59a30a575da4~VJCDkiFJ11837518375epoutp01x
+	for <linux-nvme@lists.infradead.org>; Wed, 12 Apr 2023 08:55:59 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20230412085559epoutp01d7be7cdb29f70c25eb4c59a30a575da4~VJCDkiFJ11837518375epoutp01x
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1681289759;
+	bh=RCW0Dvtrpxls1F9oh27ti4C9yKdcPc4U2u6z/oFEy7c=;
+	h=Subject:Reply-To:From:To:In-Reply-To:Date:References:From;
+	b=emA+2/hL3VtLESee3LHM4NesRk49Fm3QmlhrSWOO190RfT8KB7b7/6MFIJ02XGL1w
+	 2LBTW7m5W1AjCDu0Uj4LxyCh+nZPryobEGVd5KHuaOc3ihZoyu34pRzAGbD3LgCDx0
+	 MKpMCpjQ8G3WD+IYxkhJ3NSeS/68/CKm7FS2UwGI=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas2p3.samsung.com (KnoxPortal) with ESMTP id
+	20230412085559epcas2p310efa742622025110c111fa2f8eaa34b~VJCDOzcZx3203432034epcas2p3d;
+	Wed, 12 Apr 2023 08:55:59 +0000 (GMT)
+Received: from epsmges2p4.samsung.com (unknown [182.195.36.98]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4PxGlL6VwRz4x9Pt; Wed, 12 Apr
+	2023 08:55:58 +0000 (GMT)
+X-AuditID: b6c32a48-5dcdca80000025b2-32-6436721ee6fa
+Received: from epcas2p4.samsung.com ( [182.195.41.56]) by
+	epsmges2p4.samsung.com (Symantec Messaging Gateway) with SMTP id
+	82.03.09650.E1276346; Wed, 12 Apr 2023 17:55:58 +0900 (KST)
+Mime-Version: 1.0
+Subject: RE:(2) [PATCH 1/2] blk-integrity: add rq_integrity_payload_size
+ helper
+From: Jinyoung CHOI <j-young.choi@samsung.com>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>, "kbusch@kernel.org"
+	<kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>, "hch@lst.de"
+	<hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+In-Reply-To: <83fad2a2-5c31-b869-7e30-fb2182659518@nvidia.com>
+X-CPGS-Detection: blocking_info_exchange
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20230412085558epcms2p46c6ebb9ad18e90d6f21f5598d55c6785@epcms2p4>
+Date: Wed, 12 Apr 2023 17:55:58 +0900
+X-CMS-MailID: 20230412085558epcms2p46c6ebb9ad18e90d6f21f5598d55c6785
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+X-CPGSPASS: Y
+X-CPGSPASS: Y
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCJsWRmVeSWpSXmKPExsWy7bCmha5ckVmKwdwdRhb/9xxjs3h/8DGr
+	xctDmhYrVx9lsph06BqjxeVdc9gs5i97ym6x7vV7FgcOj4nN79g9zt/byOKxaVUnm8fmJfUe
+	u282sHn0Nr9j8+jbsorR4/MmuQCOqGybjNTElNQihdS85PyUzLx0WyXv4HjneFMzA0NdQ0sL
+	cyWFvMTcVFslF58AXbfMHKDDlBTKEnNKgUIBicXFSvp2NkX5pSWpChn5xSW2SqkFKTkF5gV6
+	xYm5xaV56Xp5qSVWhgYGRqZAhQnZGTO7pjEX3OCq+LjmOnsD4xKuLkZODgkBE4mlV6+zdDFy
+	cQgJ7GCU2HXvKFMXIwcHr4CgxN8dwiA1wgKBEhd/9bOD2EICShLn1sxiBCkRFjCQuNVrDhJm
+	E9CT+LlkBhvIGBGBQ0wSz9ramSHm80rMaH/KAmFLS2xfvpURxOYUsJM4vfUnK0RcQ+LHsl6o
+	elGJm6vfssPY74/NZ4SwRSRa752FqhGUePBzN1RcUuLQoa9sIPdICORLbDgQCBGukXi7/ABU
+	ib7EtY6NYCfwCvhKbP11A+x8FgFViSurXSFKXCS2HF3DBmIzC2hLLFv4mhmkhFlAU2L9Ln2I
+	4coSR26xQFTwSXQc/ssO81/Dxt9Y2TvmPWGCaFWTWNRkBBGWkfh6eD77BEalWYhAnoVk7SyE
+	tQsYmVcxiqUWFOempxYbFZjA4zU5P3cTIzh5annsYJz99oPeIUYmDsZDjBIczEoivD9cTFOE
+	eFMSK6tSi/Lji0pzUosPMZoC/TuRWUo0OR+YvvNK4g1NLA1MzMwMzY1MDcyVxHk/diinCAmk
+	J5akZqemFqQWwfQxcXBKNTCd2anK/kXteFLRwlVGpx+mXPdfeKvN2zAkaMfX89+rLx1dLrH3
+	Q0rtEc9n5Zz8vDJc1hXRF5ll2IpOXd87xdzrS2qY2hWBJJVJpznOyaY9r372I+DlgpaVUgE/
+	ci0lt2RqtTfdX5B6QbRX7rIg51G7w5NXbaqV+vG8YPU/N6vq7wWZS6V6pU6vexcwTc9pAsuN
+	z4nXOvnf/cw3OuRiyFlwx8uwWzyuZLHFL4dfvJLf17wQymn5zrvcZ5baY4slGsyPJsn532/q
+	2fJ3iWJc9L7rcgkzv0c8LHiqumrXZ+dJaQ2B6faz+LY+kdp0qfnv8kOrdMK8gq90PhF021F4
+	9EX3zJJt7/+u+fj3W/ByqeunlFiKMxINtZiLihMB/A3+HCcEAAA=
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230412052133epcms2p4d52e78b4fc1bc6ac1cc9d399a0378fce
+References: <83fad2a2-5c31-b869-7e30-fb2182659518@nvidia.com>
+	<20230412052133epcms2p4d52e78b4fc1bc6ac1cc9d399a0378fce@epcms2p4>
+	<91df2b07-02a2-d034-bd8b-a67c13ca085a@nvidia.com>
+	<CGME20230412052133epcms2p4d52e78b4fc1bc6ac1cc9d399a0378fce@epcms2p4>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230412_014942_860067_D821B984 
-X-CRM114-Status: GOOD (  19.03  )
+X-CRM114-CacheID: sfid-20230412_015615_241896_97086494 
+X-CRM114-Status: GOOD (  14.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,61 +114,29 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: j-young.choi@samsung.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Apr 11, 2023 / 13:55, alan.adamson@oracle.com wrote:
-> 
-> On 4/10/23 6:27 PM, Shin'ichiro Kawasaki wrote:
-> > On Apr 10, 2023 / 16:06, alan.adamson@oracle.com wrote:
-> > [...]
-> > > I've been able to reproduce it.  The sleep .1 helps but doesn't eliminate
-> > > the issue.  I did notice whenever there was a failure, there was also a
-> > > "blk_print_req_error: 2 callbacks suppressed" in the log which would break
-> > > the parsing the test needs to do.
-> > Ah, I see. The error messages were no printed because pr_err_ratelimited()
-> > suppressed them. AFAIK, there is no way to disable or relax the rate limit from
-> > userland. I think sleep for 5 = DEFAULT_RATE_LIMIT seconds at the beginning of
-> > the test will ensure the error message printed. It will also avoid the "x
-> > callbacks suppressed" messages.
-> > 
-> > With the change below, I observe no failure on my system.
-> > 
-> > diff --git a/tests/nvme/039 b/tests/nvme/039
-> > index 11d6d24..5d76297 100755
-> > --- a/tests/nvme/039
-> > +++ b/tests/nvme/039
-> > @@ -139,6 +139,9 @@ test_device() {
-> >   	_nvme_err_inject_setup "${ns_dev}" "${ctrl_dev}"
-> > +	# wait DEFAULT_RATELIMIT_INTERVAL=5 seconds to ensure errors are printed
-> > +	sleep 5
-> > +
-> >   	inject_unrec_read_on_read "${ns_dev}"
-> >   	inject_invalid_status_on_read "${ns_dev}"
-> >   	inject_write_fault_on_write "${ns_dev}"
-> > 
-> Looks good.  I tested it with my environment. 
-
-I did further testing, and found the test case still fails... The 5 seconds wait
-ensures the expected errors are printed, but still we have the chance of the
-"callbacks suppressed" message when previous test cases have printed many
-messages. Here's the kernel output I observed with the fix above.
-
-  run blktests nvme/039 at 2023-04-12 13:52:19
-  nvme0n1: I/O Cmd(0x2) @ LBA 0, 1 blocks, I/O Error (sct 0x2 / sc 0x81) DNR
-  blk_print_req_error: 5804 callbacks suppressed
-  critical medium error, dev nvme0n1, sector 0 op 0x0:(READ) flags 0x800 phys_seg 1 prio class 2
-  nvme0n1: I/O Cmd(0x2) @ LBA 0, 1 blocks, I/O Error (sct 0x3 / sc 0x75) DNR
-  I/O error, dev nvme0n1, sector 0 op 0x0:(READ) flags 0x800 phys_seg 1 prio class 2
-  nvme0n1: I/O Cmd(0x1) @ LBA 0, 1 blocks, I/O Error (sct 0x2 / sc 0x80) DNR
-  critical medium error, dev nvme0n1, sector 0 op 0x1:(WRITE) flags 0x8800 phys_seg 1 prio class 2
-
-I think further modification is required to grep -v the "callbacks suppressed".
-Will post a patch with this modification to ask your comment.
-
-> When we get the passthru
-> logging in,  I'll be adding more tests here, but I'll have to do another
-> sleep 5.
-
-Agreed.
+>>> +
+>>> +static inline unsigned int rq_integrity_payload_size(struct request=20
+>>> *rq)
+>>> +=7B
+>>> +=C2=A0=C2=A0=C2=A0=20if=20(WARN_ON_ONCE(queue_max_integrity_segments(r=
+q->q)=20>=201))=0D=0A>>>=20+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20re=
+turn=200;=0D=0A>>>=20+=C2=A0=C2=A0=C2=A0=20return=20rq->bio->bi_integrity->=
+bip_iter.bi_size;=0D=0A>>>=20+=7D=0D=0A>>>=20=C2=A0=20=23else=20/*=20CONFIG=
+_BLK_DEV_INTEGRITY=20*/=0D=0A>>>=20=C2=A0=20static=20inline=20int=20blk_rq_=
+count_integrity_sg(struct=20request_queue=20*q,=0D=0A>>>=20=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20struct=20bio=
+=20*b)=0D=0A>>=0D=0A>>=20from=20the=20comments=20that=20I=20got=20in=20the=
+=20past,=20you=20should=20only=20be=20adding=0D=0A>>=20a=20helper=20in=20th=
+e=20patch=20that=20is=20actually=20using=20it.=0D=0A>>=0D=0A>>=20-ck=0D=0A>=
+>=0D=0A>>=0D=0A>=0D=0A>=20disregard=20my=20comment,=20I=20think=20this=20is=
+=20correct=20looking=20at=20the=20next=20patch...=0D=0A>=0D=0A>=20-ck=0D=0A=
+=0D=0AOK=20Thanks=20for=20your=20review=20:)=0D=0AI=20sent=20it=20to=20the=
+=20wrong=20email=20address.=20(result=20from=20get_maintainer.pl)=0D=0AI=20=
+will=20update=20your=20email=20address=20for=20cc.=0D=0A=0D=0AKind=20Regard=
+s,=0D=0AJinyoung.
 
