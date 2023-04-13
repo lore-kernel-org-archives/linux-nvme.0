@@ -4,116 +4,109 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78D09C77B6F
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Apr 2023 08:51:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0AF1DC77B6C
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Apr 2023 09:14:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=5vQso7TTbzkDsp5mkV1gnEM5QIvMyN6pqBfUnQfDJmg=; b=f0x/yznK89cY2phqFxpTy/uH7r
-	Uj7TAM/+BsqJ6KtHrXAi/5TCcayA9VF6VGXZoq2Jhe/2paMQfj1GXWnLh3gdfS1yGMeGY8uWUkPby
-	01kDGwfUZSQZusXTyXzx3TcQGq0R27Cw/neXHVEIzmEGDGgDtKGREVEc2vCtfRSXUSq5qvgQefLpy
-	0i1dnbVwKPSJpR2W7LwzRWYlJ2pb0hVr1crT6nzAZdXXuggzQzLo2K+6zp3SZ4iirqe/VcCsVh8Q8
-	GxzCm2GNN3oS59KrxhOyAbA4Qi098krq8w1lDa3wUzv3ePB4CajdvKQvcJQpYDhy6yeuHBO5M4zzv
-	1L+HsZuA==;
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=tvqK8Amc56Q/7pIav4PO+H4pIJvo2fEp4SEdKW8o8iA=; b=DbX9QOq7to0vjKckUhbribQN4Z
+	tZ/Y3/E3NHCGS1cdTOdG8RVIf4snr8iYk5+J0wFcLlFG1qdCvhLFjHuc8EJC8a+vXRx4il2v1PFJl
+	DYfV+vcVxZq/dd0rfotBjXcHxjS0lBeL2xots10wefJm1UGS1V54ocKz2Cu6lX01EvcZ2DsiLUIhA
+	W7bX8pHVgQEzD2+1B/kZCRN8VKeR0AqlxcTUFOhnkyZWs8zF0xAyzUGDy1q5ejAzy2wzFKj6UUQdq
+	rlptHBgOW/X4REE/rkgCKQs9JdcPHRUqGQFlYmR5olzDJHhiiDmfVxnlLcjkBRrzoV8sRF5PwV0hE
+	BAiYBe2Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmsgB-005STs-2J;
-	Thu, 13 Apr 2023 08:51:43 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1pmt2X-005YL7-0D;
+	Thu, 13 Apr 2023 09:14:49 +0000
+Received: from mail-bn8nam11on20601.outbound.protection.outlook.com ([2a01:111:f400:7eae::601] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmsg8-005SQf-0z
+	id 1pmt2U-005YJo-0X
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Apr 2023 08:51:42 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20230413085121epoutp030b99fb9b0fd8fd51e263a3028e4ac04c~VcnTKEohD2264922649epoutp03b
-	for <linux-nvme@lists.infradead.org>; Thu, 13 Apr 2023 08:51:21 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20230413085121epoutp030b99fb9b0fd8fd51e263a3028e4ac04c~VcnTKEohD2264922649epoutp03b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1681375881;
-	bh=5vQso7TTbzkDsp5mkV1gnEM5QIvMyN6pqBfUnQfDJmg=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=GOd90X1GMT0cJlzk2GoTIyA19a3unD6RUtejxZPpFhB8sZE3XZXDe2M+mNHCTL1Ie
-	 wbdMXe7eHFo7WTrbYApuAf/oqWs7atk4q9B7c+ps3DFAQFgX/ppeXsl/SbzJHGwZgW
-	 uLfWhPpWodHOoSxFVwKyPXm/mOh8sppN7Y3XWZWo=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20230413085121epcas5p28739ba41f4c6af7aaf77f8cda3eba4bd~VcnS67DD72715627156epcas5p2j;
-	Thu, 13 Apr 2023 08:51:21 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.183]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4PxtbW6fr7z4x9Q7; Thu, 13 Apr
-	2023 08:51:19 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	F7.BD.09961.482C7346; Thu, 13 Apr 2023 17:51:16 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20230413085116epcas5p3ced7bf2b1b85bf59ff36e5440065a808~VcnOQpW453027130271epcas5p3v;
-	Thu, 13 Apr 2023 08:51:16 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20230413085116epsmtrp2268abbed401564f61806da6b852c82dd~VcnOP5GTN0438904389epsmtrp2X;
-	Thu, 13 Apr 2023 08:51:16 +0000 (GMT)
-X-AuditID: b6c32a49-52dfd700000026e9-52-6437c28467aa
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	AB.6C.08279.482C7346; Thu, 13 Apr 2023 17:51:16 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.110.206.5]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20230413085115epsmtip128fab5aba47bd3d13168121b31c575fb~VcnNlz5Gz1241212412epsmtip1B;
-	Thu, 13 Apr 2023 08:51:15 +0000 (GMT)
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: shinichiro.kawasaki@wdc.com
-Cc: linux-nvme@lists.infradead.org, Kanchan Joshi <joshi.k@samsung.com>
-Subject: [PATCH blktests v3 0/2] nvme uring-passthrough test
-Date: Thu, 13 Apr 2023 14:20:22 +0530
-Message-Id: <20230413085024.49750-1-joshi.k@samsung.com>
-X-Mailer: git-send-email 2.25.1
+	Thu, 13 Apr 2023 09:14:47 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LVKMj/JDBXqSgrNFxHTGmY15Y/4iwLui47/6mTnU3DaJ9urjkYkm1zsUhAYUyu4h0SekaL0BnPGc66Cene2GAEDeWog8+NO2FoRWIIhq1nUQVEtL9kzZIbpq7TpzawgSDRVIgshagX8Rca2keoDpOnQACX9JE0Sc6858aNwr40qbU8AOude9f9BMg3GwMRk/SVh71Z2HsHri1CsJ01ITcsEOs5yu9D2lhHSpU1rS+zORS9SqqEDZy4lRlh12zjFvB2a08cB9sJMsjaP0wJAeCPfEN2AzdxKGSjGR2s+KSKaItrhU4Yq3uK1aZqRBP2ZSg4zwNDXQz7sT06w9J46klg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tvqK8Amc56Q/7pIav4PO+H4pIJvo2fEp4SEdKW8o8iA=;
+ b=HVbSKiKpZLjE/VB87c2dbSP61XEujd/2tMdC4LloXYYSFnZNpCKV0NShohT3QRAUyrSSjgQPwriw7EMlch1Aso90d/RXYmoDt+SlAjbz8brw8GDsHFwMj+b4PxQcL1JAuEElNetCHdRW25/aBThyJ+McveAqWTEZB3M4bGVkopt3PMJzKcHAbMCvfcr1PsqD/IUtwuG4xJVRuu63gxB+etd53G/j+GLQ7U591+nYyAYoEvd+RUkgl0jDAAPubEVLUnikn7Bi/CpLaF/tfO0WZFGkBKic7gOUBCe7njNX7NqIffMsYSwBAWk1FOhyobzfnG7+0XroKX/iSLSUpIq13A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tvqK8Amc56Q/7pIav4PO+H4pIJvo2fEp4SEdKW8o8iA=;
+ b=G48qv9REGXjsS09NPG32uyyONNy6rrwG9qDcBxQL05jL82dEGqHbVH9qb+x+m/u/CpL2zDURQrc1KlPiCmO1lv4fy6b4X9WzkgMrJ0KrLOyVoZ0PGOIiEu97TUcnVqfledeodUZR9TuEVY5xSmdGIm4rS8Iq90bv75EnUyIvHgGDlaKHm+jhL60dRh+b7bxukR7twepk7z04Fb2iio0RHUb5BIU8Y6KySZ8+q57IoMWunOIp5nbTBSJEG4poyM7YFJbe3ikLHx+LL7G74BPQcBd1VSU4PkymJb1bViRSKKn/1P/jAUK2CUmVe1h5Ha5nPJ8DKtU5u+WAyj6EimG7jg==
+Received: from BN8PR16CA0016.namprd16.prod.outlook.com (2603:10b6:408:4c::29)
+ by CY8PR12MB7098.namprd12.prod.outlook.com (2603:10b6:930:62::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.30; Thu, 13 Apr
+ 2023 09:14:42 +0000
+Received: from BN8NAM11FT020.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:4c:cafe::1e) by BN8PR16CA0016.outlook.office365.com
+ (2603:10b6:408:4c::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.33 via Frontend
+ Transport; Thu, 13 Apr 2023 09:14:41 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ BN8NAM11FT020.mail.protection.outlook.com (10.13.176.223) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6298.32 via Frontend Transport; Thu, 13 Apr 2023 09:14:41 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Thu, 13 Apr 2023
+ 02:14:29 -0700
+Received: from dev.nvidia.com (10.126.231.37) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Thu, 13 Apr
+ 2023 02:14:28 -0700
+From: Chaitanya Kulkarni <kch@nvidia.com>
+To: <linux-block@vger.kernel.org>
+CC: <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>, <kbusch@kernel.org>,
+	<linux-nvme@lists.infradead.org>, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH] block: fix Oops in blk_rq_poll_completion()
+Date: Thu, 13 Apr 2023 02:14:19 -0700
+Message-ID: <20230413091419.6124-1-kch@nvidia.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrKKsWRmVeSWpSXmKPExsWy7bCmhm7LIfMUg6V3DS2O/n/LZjF/2VN2
-	i32zPB2YPTYvqffo27KK0aP9QDdTAHNUtk1GamJKapFCal5yfkpmXrqtkndwvHO8qZmBoa6h
-	pYW5kkJeYm6qrZKLT4CuW2YO0B4lhbLEnFKgUEBicbGSvp1NUX5pSapCRn5xia1SakFKToFJ
-	gV5xYm5xaV66Xl5qiZWhgYGRKVBhQnbGkYk72AqOs1YsmTKFtYFxA0sXIyeHhICJxMF9zaxd
-	jFwcQgK7GSXuN55lhHA+MUpMn/MOKvONUWLRu364llPX26Cq9jJKLH96ggXC+cwo0XJmGpDD
-	wcEmoClxYXIpSIOIgLzEytkgOzg5mAXcJW4/6WECsYUFbCR+r1oLFmcRUJV4eX4NO0grr4CF
-	xPqXlRC75CVmXvrODmLzCghKnJz5hAVijLxE89bZzBA1y9gldkx1hbBdJOa9OMAOYQtLvDq+
-	BcqWkvj8bi8bhJ0scWnmOSYIu0Ti8Z6DULa9ROupfmaQE5iBrl+/Sx9iFZ9E7+8nTCBhCQFe
-	iY42IYhqRYl7k56yQtjiEg9nLIGyPSTWHlkItklIIFbi2YX/TBMY5WYheWAWkgdmISxbwMi8
-	ilEytaA4Nz212LTAMC+1HB6Tyfm5mxjB6UvLcwfj3Qcf9A4xMnEwHmKU4GBWEuH94WKaIsSb
-	klhZlVqUH19UmpNafIjRFBioE5mlRJPzgQk0ryTe0MTSwMTMzMzE0tjMUEmcV932ZLKQQHpi
-	SWp2ampBahFMHxMHp1QDU9qElrvapkdkNm5Z4aRx3GlyYpnzx4YG0dc59fa9HTIL5dZUTNm+
-	6HBj2IvN3hvcg5etd7ht9eB23M7j04uqFSJSN4pH3hAW+OV2dbP5pNa0CZpM/zQ2Hz+tq1PG
-	muR+NmaF9g7VJttiG8Hkauc1y2w3CzEExWZMeN28dYv1t0sFixvamKNnOoe266zZ2cV54w9/
-	m4B3xD7L5UZndffV3e7ZelQt//adKuGFlz5vm+W443LZif0NRn1zRHwVFq++cflN0vusp3u0
-	areks847macWrfHw1XqZykcRs+M8DDrfW6seDa7PuNeR+kBvb/fnpSXC6uqmBxJdHQzL5iSo
-	LpvE6TJDZbFEg9YaqXlJSizFGYmGWsxFxYkA/v4BSOgDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuplluLIzCtJLcpLzFFi42LZdlhJTrflkHmKwanvshZH/79ls5i/7Cm7
-	xb5Zng7MHpuX1Hv0bVnF6NF+oJspgDmKyyYlNSezLLVI3y6BK+PIxB1sBcdZK5ZMmcLawLiB
-	pYuRk0NCwETi1PU2xi5GLg4hgd2MEq/nrGeDSIhLNF/7wQ5hC0us/PecHaLoI6PEnPN3gIo4
-	ONgENCUuTC4FqRERkJdYObuZFSTMLOApsX6iPEhYWMBG4veqtawgNouAqsTL82vYQUp4BSwk
-	1r+shJguLzHz0newTbwCghInZz4BO40ZKN68dTbzBEa+WUhSs5CkFjAyrWKUTC0ozk3PLTYs
-	MMxLLdcrTswtLs1L10vOz93ECA4xLc0djNtXfdA7xMjEwXiIUYKDWUmE94eLaYoQb0piZVVq
-	UX58UWlOavEhRmkOFiVx3gtdJ+OFBNITS1KzU1MLUotgskwcnFINTJ31bwxiH4X+fRG5/ooO
-	8zKHVRJrJTQYP6y23fZrzq/Fp9+7n/JVfKjvFzjXzur5kZmRMbJ5FszHahdPZBNvbvzJWmh+
-	9azrtC+xB+olH6ecdLniW5PrZsy7ZYux1iaNl4m9OnEsbr8szJrk0+/079bSvVC8+3pd+pL/
-	23/GP9PY+N3VzJKPl+/36bNls6NLNeZ0zJtru93G/MOpaq7VSYc/3rWZt/UL86GnU90MRRYl
-	KV66bPl+7Xq5yNzF61/c8dp/OGn7WWORuD0/eOd+MO/b/rhuTfXB319vru30m897+NjNCO39
-	G3T2Hj+beKaqaFvtXjnbyqeuEw8db7w/h6u11e/VvqN2627MvTfT8UyaEktxRqKhFnNRcSIA
-	N5LHJaACAAA=
-X-CMS-MailID: 20230413085116epcas5p3ced7bf2b1b85bf59ff36e5440065a808
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230413085116epcas5p3ced7bf2b1b85bf59ff36e5440065a808
-References: <CGME20230413085116epcas5p3ced7bf2b1b85bf59ff36e5440065a808@epcas5p3.samsung.com>
+Content-Type: text/plain
+X-Originating-IP: [10.126.231.37]
+X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT020:EE_|CY8PR12MB7098:EE_
+X-MS-Office365-Filtering-Correlation-Id: eb5395bb-7704-4879-1fe6-08db3bff83ce
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	UfjfaH3UqOt34704Zdo6Mg7qlLH3xNIRdLUIf9BvbqgBRhFGmU0DlkzQrunMFBqhA3B8V9cW3d6hMI7at0BdIE1irb3WxaeQ5B6v2gsxLqRuxtC9C1sXDI0W2EcVQRucLQmubJefEZwJCIR+soAMZ4pKgiiLLnMHrWREhZ9yncKcA15wgYuNSheur5lzFq+TmaiEMv4DAPLI9rkg054RHS0Cg9MLDbDFkOSF333LhA9QR806M6IEM95fpuMIjQRA94zRFutoSESxuerSINc4w8VQL6BTKXaPLjorbq2lDxHLMC11ZizZ0PxzznlO6IesqZzsFaspKECzGT3tKSdU4EhCC4bZfkAEpg4c9Ra9ChmUqRuoirChyUqG1AqPMMBZUI94UgqyoxoY97zwHHW/nRNERMDTXhZa77jXPHBRFioV2kGMk234ez4+KgaV7tsW6Ccv+LJ5RlIyuuQ6QhNHvkMBVM5DfY29HQajBrY+6YlzXrA66gwZMPznzdT9NQ1T5SYP/xohPZH/+37fCKfHS1MuA4aeJ1x6jq9KVIPysQsUKDmcZUZH9ZlDuzPouc3MVUnDZnT6R8VI/nIh30+j4t0Jxh73p3VVi4WQcXwA7twmKoXgnfgCi5qXgXfbNs6EpJLD8uIpKR3iwMND0jDyoGyv7B/+K6FvhV7FTbk5gQJSTbidb7JjpA/HfEEi5EfOVRCljnUP4gSRvIBxTTYWRE4YjFqxCCn7FNkW9Kw/Gw/FC3CheoFAYwn/omfnisghK90AdHr1pewjh0IfTJ93eJsQvIWUvbVWkILCjkUGQLA=
+X-Forefront-Antispam-Report: 	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(396003)(346002)(136003)(39860400002)(376002)(451199021)(46966006)(36840700001)(40470700004)(2906002)(8676002)(70206006)(70586007)(8936002)(5660300002)(478600001)(6666004)(41300700001)(40460700003)(316002)(36756003)(82740400003)(336012)(426003)(83380400001)(54906003)(40480700001)(4326008)(186003)(6916009)(7696005)(16526019)(1076003)(26005)(2616005)(36860700001)(82310400005)(107886003)(34020700004)(7636003)(356005)(47076005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2023 09:14:41.5049
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb5395bb-7704-4879-1fe6-08db3bff83ce
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: 	BN8NAM11FT020.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7098
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230413_015140_887454_11A6E04F 
-X-CRM114-Status: GOOD (  12.08  )
+X-CRM114-CacheID: sfid-20230413_021446_380293_741D7259 
+X-CRM114-Status: GOOD (  12.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -128,29 +121,108 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Patch 1: contains a little helper for fio version check
-Patch 2: contains few tests for uring-passthrough on NVMe device
+Add a NULL check before we poll on req->bio in blk_rq_poll_completion().
+Without this patch blktests/nvme/047 fails :-
 
-Changes since v2:
-- Renamed test# to 49
-- Skip test if IO_URING is not configured
-- Skip test if SELinux is configured to disallow uring-cmd
+* Debug-diff:-
 
-Changes since v1:
-- Remove dead/commented lines in patch 2
+linux-block (for-next) # git diff
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 1b304f66f4e8..31473f55b374 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -1335,6 +1335,8 @@ EXPORT_SYMBOL_GPL(blk_rq_is_poll);
+ static void blk_rq_poll_completion(struct request *rq, struct completion *wait)
+ {
+        do {
++               if (!rq->bio)
++                       BUG_ON(1);
+                bio_poll(rq->bio, NULL, 0);
+                cond_resched();
+        } while (!completion_done(wait));
 
-Kanchan Joshi (2):
-  common,fio: helper for version check
-  nvme/049: add test for uring-passthrough
+* Terminal:-
 
- common/fio         | 14 ++++++++++++
- tests/nvme/049     | 54 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/049.out |  2 ++
- 3 files changed, 70 insertions(+)
- create mode 100755 tests/nvme/049
- create mode 100644 tests/nvme/049.out
+linux-block (for-next) # cdblktests
+blktests (master) # nvme_trtype=tcp ./check nvme/047
+nvme/047 (test different queue types for fabric transports)
+client_loop: send disconnect: Broken pipe
 
+* Oops:-
+
+[   42.354149] kernel BUG at block/blk-mq.c:1339! <------
+
+Entering kdb (current=0xffff88814c70a840, pid 2460) on processor 21 Oops: (null)
+due to oops @ 0xffffffff816ee9cf
+CPU: 21 PID: 2460 Comm: nvme Tainted: G                 N 6.3.0-rc5lblk+ #5
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
+RIP: 0010:blk_execute_rq+0x11f/0x1c0
+Code: ff 0f 84 ad 00 00 00 31 d2 31 f6 e8 8b 4c ff ff e8 46 27 74 00 48 89 ef e8 1e 80 a6 ff 84 c0 75 b3 48 8b 7b 38 48 85 ff 75 dd <0f> 0b 0f 0b 48 c7 83 f0 00 00 00 50 bd 6e 81 48 89 e5 48 89 ab f8
+RSP: 0018:ffffc9000172fbc8 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: ffff88814d910000 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: ffffc9000172fbc8 R08: 00000009dc7ed61b R09: 0000000000000001
+R10: ffff888166c36c78 R11: 0000000000000000 R12: 0000000000000001
+R13: ffff88810a06d000 R14: 0000000000000400 R15: ffffc9000172fc68
+FS:  00007f59b5d35b80(0000) GS:ffff8897df740000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f59b5e78d50 CR3: 000000010a9f2000 CR4: 0000000000350ee0
+DR0: ffffffff8437a434 DR1: ffffffff8437a435 DR2: ffffffff8437a436
+DR3: ffffffff8437a437 DR6: 00000000ffff0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ __nvme_submit_sync_cmd+0xa6/0x170 [nvme_core]
+ nvmf_connect_io_queue+0x11c/0x220 [nvme_fabrics]
+ ? nvme_tcp_start_queue+0x12e/0x1a0 [nvme_tcp]
+ ? __local_bh_enable_ip+0x37/0x90
+ nvme_tcp_start_queue+0x12e/0x1a0 [nvme_tcp]
+ nvme_tcp_setup_ctrl+0x439/0x800 [nvme_tcp]
+ nvme_tcp_create_ctrl+0x34b/0x450 [nvme_tcp]
+ nvmf_dev_write+0x5db/0xe80 [nvme_fabrics]
+ ? inode_security+0x22/0x60
+ ? selinux_file_permission+0x108/0x150
+ vfs_write+0xc5/0x3c0
+ ? _raw_spin_unlock+0x15/0x30
+ ? preempt_count_add+0x4d/0xa0
+ ? fd_install+0x5c/0xe0
+ ksys_write+0x5f/0xe0
+ do_syscall_64+0x3b/0x90
+ entry_SYSCALL_64_after_hwframe+0x72/0xdc
+RIP: 0033:0x7f59b5e4b7a7
+Code: 0d 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 f3 0f 1e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 51 c3 48 83 ec 28 48 89 54 24 18 48 89 74 24
+RSP: 002b:00007fff145e5938 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 0000000001bbad00 RCX: 00007f59b5e4b7a7
+RDX: 00000000000000b9 RSI: 0000000001bbad00 RDI: 0000000000000004
+RBP: 0000000000000004 R08: 00000000000000b9 R09: 0000000001bbad00
+R10: 00007f59b5d6f118 R11: 0000000000000246 R12: 0000000001bb97e0
+R13: 00000000000000b9 R14: 00007f59b5f7811d R15: 00007f59b5f7802b
+ </TASK>
+
+[21]kdb>
+
+Please note that this fix is generated purely based on tracing I/O path
+with BUG_ON().
+
+Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+---
+ block/blk-mq.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 1b304f66f4e8..9cd5e890c9c9 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -1335,7 +1335,8 @@ EXPORT_SYMBOL_GPL(blk_rq_is_poll);
+ static void blk_rq_poll_completion(struct request *rq, struct completion *wait)
+ {
+ 	do {
+-		bio_poll(rq->bio, NULL, 0);
++		if (rq->bio)
++			bio_poll(rq->bio, NULL, 0);
+ 		cond_resched();
+ 	} while (!completion_done(wait));
+ }
 -- 
-2.25.1
+2.40.0
 
 
