@@ -4,84 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5126C77B61
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Apr 2023 09:51:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9BE7EC77B6E
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Apr 2023 10:49:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5/1cCA7ARMmBDMVmrz4hr0FRe4hg+/OHyteC+tHS04g=; b=PmvuuUbuDVxGuOgtKuM5lYufiF
-	KXNl5DV+lALN08BLDq8AtB7Rhz/uOt9cRd7ElSDiDpncvuLpufU1JCj+y5NFsAT+ldBSB3katPlAt
-	TVVDlx6BoomAbwaaDXfPnDLSAQioBUTrDDfZskFQ3Xd4E5clxgx9jshma2+QSd1YG6uV5rShYHULp
-	nCW6jj4HyJMo4ctX3jyRBqIsqhvbVuej8xfqFfSRJD0Ol/v3G78IJqz3yL3253cKPZuFt0PQXRkwn
-	Uwsoo+0V5O6NBoJA727DGX7pZAP7028PJGjOch/Qu58M1jLT8ajn7KnGJsXUCFBV2+t3cYHoezxTz
-	1eyy1fXw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=VwolWxqxRA9MdFhR3rLHQ8MzSN5ZvGkLITOCzAeLmXs=; b=zd+/sPpaKn7I9pUVoaKX6tQ2pK
+	F6ZNUTW09T0zoe6b1MndA4Pqj6+nec6+HZV9wwUydC3RD3rnRzL5AffIkGNx6WkgXEpbGQjVSEiH/
+	sStO78wwoBV3pV9UmQI3GId8PTsKL6gDa4qGy2o7XlDZoEVRr+dYX1ygycO4eGRAJOk/ZimDGPYRJ
+	z6Z4rdgnyftIru+aO7wn5qSEvbu8w3f5q2jBUtMr514BcYeZ28CESb3lia+kymxMeLEndRQLOoCwd
+	ikFQNBCI8+tEay53IgG7nq9Fdhyn4+8YGoY71WMPlwHKa7JNFKJRftqhWoptjqYG3abXtT9I5EQGt
+	Q5E7v2Cg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmtbh-005gWl-1f;
-	Thu, 13 Apr 2023 09:51:09 +0000
-Received: from mail-vs1-xe2d.google.com ([2607:f8b0:4864:20::e2d])
+	id 1pmuWS-005vzs-1X;
+	Thu, 13 Apr 2023 10:49:48 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmtbe-005gV7-1f
+	id 1pmuWP-005vxj-1y
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Apr 2023 09:51:08 +0000
-Received: by mail-vs1-xe2d.google.com with SMTP id m15so993384vst.5
-        for <linux-nvme@lists.infradead.org>; Thu, 13 Apr 2023 02:51:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681379464; x=1683971464;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5/1cCA7ARMmBDMVmrz4hr0FRe4hg+/OHyteC+tHS04g=;
-        b=EfKmzk5B4ODNxPx+xdp/ob3uZ7O1n47kiT0o7olkIk4CX7pZ5HBZSimgUzFf/HquBA
-         3g628x3Rpp3Am+SaHS1LLbJ4Jhlarvi6nhGllSOqMelnC2/IMpnO0NLSzTKeqbq04bJp
-         IVLxRIo/ERVcNW6mFiR+uuHEtD0oH702xr7OP69Cxkj6r5mvBubaamcEkFaDJIeNmNnf
-         QdU+uFnxgLWR6c1ni9FnDE9/yDVQLTxJIBH30fA1PmEoxT8eOUW1HZ8hyVFRiLS9pFNS
-         N//oEsgAvv38iZ8j0rYHU1tQHJy/PNxy13MdVLEy+Kwzm2tmmNupdOJRjyGeyKeU7g8Y
-         KDGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681379464; x=1683971464;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5/1cCA7ARMmBDMVmrz4hr0FRe4hg+/OHyteC+tHS04g=;
-        b=kiMW6VnGzjtR9mZH/X1QeSV5yBApx7jaX2KcTk5HE82E2Q+vTbs5wTQ9+Q232w98VO
-         SK0bmfz66fAlmYIBXTn10xvCqDPxebrbcgZER9jAKAAUoITnsL577B1jCVzv2c6HamG0
-         iqhLiW9C2bkxwBdm396QnKJyJj3mK9hzr0OVefLDGRi9ZZDkpL49Pb/YiYGtFYWoIjFS
-         EufX6bmjWFO0wzJ22ZMGeS1EPqG7btJMJYJEHGPaPMwW6tdSMLGjcApNw7pgPzTuXhU+
-         hlO4Cz9tJ6Fj+IkBI9Bc5Ls24yrxgEC3200PE1M4rwa/MN6kjeChCQEDa/FAtEptSFNn
-         wo+Q==
-X-Gm-Message-State: AAQBX9eRBjK3N4pAbRb6tm1EK1k3tA7E6n19b0pKWKIqYPoYhLwxm7LB
-	9dT2uKBYrkY69pSyj+R/BuKzLj9GW0WjbQJmJyM1Tg==
-X-Google-Smtp-Source: AKy350aPWg8QPSOy/2PHkhrh6sAkwuh8+NOSRnErraPKD6xHUPGtdIg/0oa13IGXGEwruNWS6Z0XHf1YhCtKpgAgMbc=
-X-Received: by 2002:a67:c30c:0:b0:42c:9c6e:a5d2 with SMTP id
- r12-20020a67c30c000000b0042c9c6ea5d2mr913874vsj.1.1681379464384; Thu, 13 Apr
- 2023 02:51:04 -0700 (PDT)
+	Thu, 13 Apr 2023 10:49:46 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 8FCA963D2E;
+	Thu, 13 Apr 2023 10:49:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78A90C433D2;
+	Thu, 13 Apr 2023 10:49:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1681382984;
+	bh=jsc/dnmYYYhpaGc2p6sjW2b9HrbEdz6s45EOnqUkmKc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=meerZEh6SswwFZ+RpOqwyUiOxedfXkpFPFcQscZllf3wGkjqDKfnFytAJYqBaOV/X
+	 FIhnuubKJB2CH7QWFzTutxJeZbp8zdcxYSuYE23Phf7QjaJjJmObK+Ngb595sXygWc
+	 3P8XVpcuhWv5gNkatsMXN6UJKlo7mzM8ztZxdx6wcczSAFve68biX9GezriZNAyp+L
+	 vED+1xLq9gPSdfQdJYYmHSV+JvmkFvylgJjtnBUXZ83wZ1hU8FA6kPpI/y7BXLWXDi
+	 p9hB3URzgB1zysZ9dyt45RiSqon59NzM+fKOwJUhllB+YKQ4+OXekB0IWFTY1+2q9a
+	 Qc2rV7JpXEOQQ==
+Message-ID: <2a464237-975a-bfaf-ef2f-15ffd45b4d8a@kernel.org>
+Date: Thu, 13 Apr 2023 19:49:42 +0900
 MIME-Version: 1.0
-References: <20230407200551.12660-1-michael.christie@oracle.com>
- <20230412093617.285177-1-naresh.kamboju@linaro.org> <CA+G9fYv2nEBe=kJK4veunkvXD9GvqyaPFQ7rUbMD1S4+0nUS3Q@mail.gmail.com>
- <e85746b2-9736-9041-9327-1ad1299aa155@oracle.com>
-In-Reply-To: <e85746b2-9736-9041-9327-1ad1299aa155@oracle.com>
-From: Naresh Kamboju <naresh.kamboju@linaro.org>
-Date: Thu, 13 Apr 2023 15:20:53 +0530
-Message-ID: <CA+G9fYu5T3HwXzcU4ouNhYY0zOZhJgbc6AXFS0q1wHgV65AEDA@mail.gmail.com>
-Subject: Re: [PATCH v6 00/18] Use block pr_ops in LIO
-To: Mike Christie <michael.christie@oracle.com>
-Cc: axboe@kernel.dk, bvanassche@acm.org, chaitanyak@nvidia.com, 
-	dm-devel@redhat.com, hch@lst.de, james.bottomley@hansenpartnership.com, 
-	kbusch@kernel.org, linux-block@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
-	martin.petersen@oracle.com, snitzer@kernel.org, target-devel@vger.kernel.org, 
-	vbabka@suse.cz, mgorman@techsingularity.net, halbuer@sra.uni-hannover.de, 
-	keescook@chromium.org, akpm@linux-foundation.org, 
-	kirill.shutemov@linux.intel.com, willy@infradead.org, mkoutny@suse.com, 
-	roman.gushchin@linux.dev, ryan.roberts@arm.com, shy828301@gmail.com, 
-	yuzhao@google.com, zokeefe@google.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: WTF is going on with the nvme-cli build
+Content-Language: en-US
+To: Daniel Wagner <dwagner@suse.de>, Christoph Hellwig <hch@infradead.org>
+Cc: linux-nvme@lists.infradead.org
+References: <ZDemsiJi5vXd6aia@infradead.org>
+ <4jstzssirve7hiaimj6fm52rftqadwo2tmnjx62zq7lzkrjkfw@ooh4zluxlrrd>
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <4jstzssirve7hiaimj6fm52rftqadwo2tmnjx62zq7lzkrjkfw@ooh4zluxlrrd>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230413_025106_671700_6D20D284 
-X-CRM114-Status: GOOD (  23.38  )
+X-CRM114-CacheID: sfid-20230413_034945_693318_22E59C91 
+X-CRM114-Status: GOOD (  20.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,58 +77,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, 12 Apr 2023 at 23:59, Mike Christie <michael.christie@oracle.com> wrote:
->
-> On 4/12/23 5:25 AM, Naresh Kamboju wrote:
-> > On Wed, 12 Apr 2023 at 15:06, Naresh Kamboju <naresh.kamboju@linaro.org> wrote:
-> >>
-> >> [sorry for the adding you in CC]
-> >>
-> >> While running LTP controllers test suite on this patch set applied on top of
-> >> the next-20230406 and the following kernel panic noticed on qemu-i386.
-> >
-> > Also noticed on qemu-x86_64.
-> >
-> > Crash log link,
-> > ------------------
-> > - https://qa-reports.linaro.org/~anders.roxell/linux-mainline-patches/build/lore_kernel_org_linux-block_20230404140835_25166-1-sergei_shtepa_veeam_com/testrun/16171908/suite/log-parser-test/test/check-kernel-panic/log
-> > - https://qa-reports.linaro.org/~anders.roxell/linux-mainline-patches/build/lore_kernel_org_linux-block_20230404140835_25166-1-sergei_shtepa_veeam_com/testrun/16171908/suite/log-parser-test/tests/
->
-> Can you point me to the original report? I don't think my patches are the cause of
-> the failure, or if they are there is a crazy bug.
->
-> Above, I think you pointed me to the wrong link above because it looks like that's
-> for a different patchset. Or did I misunderstand the testing and that link has my
-> patches included?
->
-> I did see my patches tested:
->
-> https://qa-reports.linaro.org/~anders.roxell/linux-mainline-patches/
->
-> but they seem to fail in similar places as other failures that day, and the
-> failures don't seem related to my patches. It doesn't look like you are doing
-> anything nvme or block pr ioctl related and just failing on forks and OOM.
-> It looks like you are booting from a scsi device but I only touched the scsi
-> layer's code for persistent reservations and the tests don't seem to be
-> using that code.
+On 4/13/23 16:07, Daniel Wagner wrote:
+> Hi Christoph,
+> 
+> On Wed, Apr 12, 2023 at 11:52:34PM -0700, Christoph Hellwig wrote:
+>> can you please urgently fix nvme-cli to have a sane build system
+>> again?
+> 
+> Please, let's not be so drastic and I would argue all build system have their
+> wards. We just need to figure out how to handle them.
 
-Thanks for the analysis on these reports.
-Since it is based on top of Linux next-20230306, I will re-validate the base
-and get back to you with my findings.
+Since we are talking about this, builds of libnvme on latest Fedora miserably fail:
 
-- Naresh
+FAILED: src/libnvme.so.1.4.0.p/nvme_json.c.o
+ccache cc -Isrc/libnvme.so.1.4.0.p -Isrc -I../src -I. -I.. -Iccan -I../ccan
+-Iinternal -I../internal -I/usr/local/include/json-c -fdiagnostics-color=always
+-D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -std=gnu99 -O0 -g
+-fomit-frame-pointer -D_GNU_SOURCE -include internal/config.h
+-DCCAN_LIST_DEBUG=1 -DCCAN_STR_DEBUG=1 -fPIC -MD -MQ
+src/libnvme.so.1.4.0.p/nvme_json.c.o -MF src/libnvme.so.1.4.0.p/nvme_json.c.o.d
+-o src/libnvme.so.1.4.0.p/nvme_json.c.o -c ../src/nvme/json.c
+../src/nvme/json.c:15:10: fatal error: json.h: No such file or directory
+   15 | #include <json.h>
+      |          ^~~~~~~~
 
+All the time... And I do have the json development headers installed:
 
->
->
->
-> >
-> > lore link,
-> > https://lore.kernel.org/linux-block/20230407200551.12660-1-michael.christie@oracle.com/
-> >
-> >
-> > --
-> > Linaro LKFT
-> > https://lkft.linaro.org
->
+/usr/include/json-c/json.h
+
+But the compile command does not add -I/usr/include/json-c: it uses the broken
+default /usr/local/include/json-c. No normal distro install anything in
+/usr/local...
+
+And that is despite the fact that meson setup says:
+
+Run-time dependency json-c found: YES 0.15
+
+Something is not right.
+
+> 
+>> Right now it tries to download random packages over the internet
+>> instead of not building components or failing the configuration.
+> 
+> Which version are you using? I've recentely change the default behavior of the
+> fallback mechanisme but might have missed something. Alternatively, it also
+> possible to change the global default for this feature.
+> 
+> The flag in question is:
+> 
+>   meson setup --wrap-mode=nofallback .build
+> 
+
 
