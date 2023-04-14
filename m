@@ -4,39 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8875C77B70
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Apr 2023 05:22:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59661C77B6E
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Apr 2023 08:36:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=AGeICsuA9uEhadHjkh4URyIX1Dc4rlat2MsAlY3egPs=; b=O18gcI1j3kOLgJwntcA9v/Kq6a
-	nWFIw37Tu7/TNIoj9fAwx/qo1nJi7AMdPUuKWTADNlFkjK0WTzZTo46dg8GxW7q3NA5T1wF8gsDYo
-	HFbGbq7M3e/Y3voGDlcMD+5o5i9MivUD6tylkOpUxkuDs2J0sP8k73sbW4oTFPiDd2mCpYhLHLwX7
-	Lo33NJIDkTzZR+9TTVqV+HmYRZHsDTOJKMEeNuOaLraYDmrPT8QNk0F3Bv+qBODODiGU/+sbHml+2
-	LxWcaKNiLOD1FjER5v8cGFAxJnUNG7Ssm6ppeC2o0OI6sgjBTfYZwLVslBvc61NXcMB2jf4V3KD8d
-	jxmTK5fg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mNJXEbFiQYimFkUe6l73eB15mp/nc5vAoZyxEYtJXxg=; b=uB0sUD1UBxCVToPq7vZU1w1Ati
+	xllWrpLwtL3O7PiA+qObBSMsnyicDVkar+If633/MxQtihF7fy3ZTjNxrWcqqwhim7w/k3cSMcKxF
+	hozkkKHldKhdUrXfVKTOYC1Vj3WYQ0h4kd9aL4xwLsX231bvqrCuiq37hahQnLsrDh7wVXNv+5XMx
+	xg6gpC8JWqKUlbbXN+SdxA3k7yj8rDFc0/G5pWS458T/vYsKwsBQ02f3wH1YB2GXUnK7m6rBh4o5t
+	gt189T4s1GCmZYyXPoB3LYM1QdoeZcsgnlieiqSWlS+ck0Q7lYbg63EdQn4zBpWuMYN0lviaLYWDA
+	xRYeeImg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pnBtL-008M56-2d;
-	Fri, 14 Apr 2023 05:22:35 +0000
-Received: from [2001:4bb8:192:2d6c:7f18:1319:183f:920d] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1pnBtJ-008M2y-1G;
-	Fri, 14 Apr 2023 05:22:33 +0000
-Date: Fri, 14 Apr 2023 07:22:31 +0200
-From: Christoph Hellwig <hch@infradead.org>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: [GIT PULL] nvme updates for Linux 6.4
-Message-ID: <ZDjjF9NWdq+gC0tI@infradead.org>
+	id 1pnEvI-008jlQ-1K;
+	Fri, 14 Apr 2023 08:36:48 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
+	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
+	id 1pnEvF-008jk6-1G
+	for linux-nvme@lists.infradead.org;
+	Fri, 14 Apr 2023 08:36:46 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 47AA31FD96;
+	Fri, 14 Apr 2023 08:36:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1681461402; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mNJXEbFiQYimFkUe6l73eB15mp/nc5vAoZyxEYtJXxg=;
+	b=TKKxAlVkNaXR7NkkR8Fj56DducMkUOTUuBUrkCBK9p79psk44NxsdCrCg+bVFDpIhJ11iB
+	KG6ayRSTS538kppxoWpUEYjDQbXHI0SCd1ui4OtCJUSQWI9IRwMs5DyQt4UQv7xpGzBpnT
+	tLNpSv91LpuadgJSXMeDZ/6VrvKVDEo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1681461402;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mNJXEbFiQYimFkUe6l73eB15mp/nc5vAoZyxEYtJXxg=;
+	b=qV8VPETPh+Uah2LM6+s3qSEgZl8KsAMI6jIMBB+3LFbQkexbYzPj1X6nv0EXwJMxRX3n29
+	UZAHPQ+ERXcH8UAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3091B139FC;
+	Fri, 14 Apr 2023 08:36:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id BrZ2C5oQOWQTbgAAMHmgww
+	(envelope-from <hare@suse.de>); Fri, 14 Apr 2023 08:36:42 +0000
+Message-ID: <94d6a76c-8ad1-bda1-6336-e9f5fa3a6168@suse.de>
+Date: Fri, 14 Apr 2023 10:36:41 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v2] nvme/tcp: Add support to set the tcp worker cpu
+ affinity
+To: Li Feng <fengli@smartx.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>,
+ "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+ open list <linux-kernel@vger.kernel.org>
+Cc: lifeng1519@gmail.com
+References: <20230413062339.2454616-1-fengli@smartx.com>
+ <20230413132941.2489795-1-fengli@smartx.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20230413132941.2489795-1-fengli@smartx.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20230414_013645_600443_F957A587 
+X-CRM114-Status: GOOD (  36.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -51,90 +98,118 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The following changes since commit d8898ee50edecacdf0141f26fd90acf43d7e9cd7:
+On 4/13/23 15:29, Li Feng wrote:
+> The default worker affinity policy is using all online cpus, e.g. from 0
+> to N-1. However, some cpus are busy for other jobs, then the nvme-tcp will
+> have a bad performance.
+> 
+> This patch adds a module parameter to set the cpu affinity for the nvme-tcp
+> socket worker threads.  The parameter is a comma separated list of CPU
+> numbers.  The list is parsed and the resulting cpumask is used to set the
+> affinity of the socket worker threads.  If the list is empty or the
+> parsing fails, the default affinity is used.
+> 
+> Signed-off-by: Li Feng <fengli@smartx.com>
+> ---
+> 
+> V2 - Fix missing static reported by lkp
+> 
+>   drivers/nvme/host/tcp.c | 54 ++++++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 53 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 49c9e7bc9116..47748de5159b 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -31,6 +31,18 @@ static int so_priority;
+>   module_param(so_priority, int, 0644);
+>   MODULE_PARM_DESC(so_priority, "nvme tcp socket optimize priority");
+>   
+> +/* Support for specifying the CPU affinity for the nvme-tcp socket worker
+> + * threads.  This is a comma separated list of CPU numbers.  The list is
+> + * parsed and the resulting cpumask is used to set the affinity of the
+> + * socket worker threads.  If the list is empty or the parsing fails, the
+> + * default affinity is used.
+> + */
+> +static char *cpu_affinity_list;
+> +module_param(cpu_affinity_list, charp, 0644);
+> +MODULE_PARM_DESC(cpu_affinity_list, "nvme tcp socket worker cpu affinity list");
+> +
+> +static struct cpumask cpu_affinity_mask;
+> +
+>   #ifdef CONFIG_DEBUG_LOCK_ALLOC
+>   /* lockdep can detect a circular dependency of the form
+>    *   sk_lock -> mmap_lock (page fault) -> fs locks -> sk_lock
+> @@ -1483,6 +1495,41 @@ static bool nvme_tcp_poll_queue(struct nvme_tcp_queue *queue)
+>   			  ctrl->io_queues[HCTX_TYPE_POLL];
+>   }
+>   
+> +static ssize_t update_cpu_affinity(const char *buf)
+> +{
+> +	cpumask_var_t new_value;
+> +	cpumask_var_t dst_value;
+> +	int err = 0;
+> +
+> +	if (!zalloc_cpumask_var(&new_value, GFP_KERNEL))
+> +		return -ENOMEM;
+> +
+> +	err = bitmap_parselist(buf, cpumask_bits(new_value), nr_cpumask_bits);
+> +	if (err)
+> +		goto free_new_cpumask;
+> +
+> +	if (!zalloc_cpumask_var(&dst_value, GFP_KERNEL)) {
+> +		err = -ENOMEM;
+> +		goto free_new_cpumask;
+> +	}
+> +
+> +	/*
+> +	 * If the new_value does not have any intersection with the cpu_online_mask,
+> +	 * the dst_value will be empty, then keep the cpu_affinity_mask as cpu_online_mask.
+> +	 */
+> +	if (cpumask_and(dst_value, new_value, cpu_online_mask))
+> +		cpu_affinity_mask = *dst_value;
+> +
+> +	free_cpumask_var(dst_value);
+> +
+> +free_new_cpumask:
+> +	free_cpumask_var(new_value);
+> +	if (err)
+> +		pr_err("failed to update cpu affinity mask, bad affinity list [%s], err %d\n",
+> +			buf, err);
+> +	return err;
+> +}
+> +
+>   static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
+>   {
+>   	struct nvme_tcp_ctrl *ctrl = queue->ctrl;
+> @@ -1496,7 +1543,12 @@ static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
+>   	else if (nvme_tcp_poll_queue(queue))
+>   		n = qid - ctrl->io_queues[HCTX_TYPE_DEFAULT] -
+>   				ctrl->io_queues[HCTX_TYPE_READ] - 1;
+> -	queue->io_cpu = cpumask_next_wrap(n - 1, cpu_online_mask, -1, false);
+> +
+> +	if (!cpu_affinity_list || update_cpu_affinity(cpu_affinity_list) != 0) {
+> +		// Set the default cpu_affinity_mask to cpu_online_mask
+> +		cpu_affinity_mask = *cpu_online_mask;
+> +	}
+> +	queue->io_cpu = cpumask_next_wrap(n - 1, &cpu_affinity_mask, -1, false);
+>   }
+>   
+>   static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
 
-  s390/dasd: fix hanging blockdevice after request requeue (2023-04-11 19:53:08 -0600)
+I am not in favour of this.
+NVMe-over-Fabrics has _virtual_ queues, which really have no 
+relationship to the underlying hardware.
+So trying to be clever here by tacking queues to CPUs sort of works if 
+you have one subsystem to talk to, but if you have several where each 
+exposes a _different_ number of queues you end up with a quite 
+suboptimal setting (ie you rely on the resulting cpu sets to overlap, 
+but there is no guarantee that they do).
+Rather leave it to the hardware to sort things out, and rely on the 
+blk-mq CPU mapping to get I/O aligned to CPUs.
 
-are available in the Git repository at:
+Cheers,
 
-  git://git.infradead.org/nvme.git tags/nvme-6.4-2023-04-14
+Hannes
 
-for you to fetch changes up to 4f86a6ff6fbd891232dda3ca97fd1b9630b59809:
-
-  nvme-fcloop: fix "inconsistent {IN-HARDIRQ-W} -> {HARDIRQ-ON-W} usage" (2023-04-13 09:02:55 +0200)
-
-----------------------------------------------------------------
-nvme updates for Linux 6.4
-
- - drop redundant pci_enable_pcie_error_reporting (Bjorn Helgaas)
- - validate nvmet module parameters (Chaitanya Kulkarni)
- - fence TCP socket on receive error (Chris Leech)
- - fix async event trace event (Keith Busch)
- - minor cleanups (Chaitanya Kulkarni, zhenwei pi)
- - fix and cleanup nvmet Identify handling (Damien Le Moal,
-   Christoph Hellwig)
- - fix double blk_mq_complete_request race in the timeout handler
-   (Lei Yin)
- - fix irq locking in nvme-fcloop (Ming Lei)
- - remove queue mapping helper for rdma devices (Sagi Grimberg)
-
-----------------------------------------------------------------
-Bjorn Helgaas (1):
-      nvme-pci: drop redundant pci_enable_pcie_error_reporting()
-
-Chaitanya Kulkarni (4):
-      nvmet-tcp: validate so_priority modparam value
-      nvmet-tcp: validate idle poll modparam value
-      nvme-apple: return directly instead of else
-      nvme-apple: return directly instead of else
-
-Chris Leech (1):
-      nvme-tcp: fence TCP socket on receive error
-
-Christoph Hellwig (3):
-      nvmet: fix Identify Identification Descriptor List handling
-      nvmet: rename nvmet_execute_identify_cns_cs_ns
-      nvmet: remove nvmet_req_cns_error_complete
-
-Damien Le Moal (6):
-      nvmet: fix error handling in nvmet_execute_identify_cns_cs_ns()
-      nvmet: fix Identify Namespace handling
-      nvmet: fix Identify Controller handling
-      nvmet: fix Identify Active Namespace ID list handling
-      nvmet: fix I/O Command Set specific Identify Controller
-      nvmet: cleanup nvmet_execute_identify()
-
-Keith Busch (1):
-      nvme: fix async event trace event
-
-Lei Yin (1):
-      nvme: fix double blk_mq_complete_request for timeout request with low probability
-
-Ming Lei (1):
-      nvme-fcloop: fix "inconsistent {IN-HARDIRQ-W} -> {HARDIRQ-ON-W} usage"
-
-Sagi Grimberg (1):
-      blk-mq-rdma: remove queue mapping helper for rdma devices
-
-zhenwei pi (1):
-      nvme-rdma: minor cleanup in nvme_rdma_create_cq()
-
- block/Kconfig                   |  5 ---
- block/Makefile                  |  1 -
- block/blk-mq-rdma.c             | 44 ----------------------
- drivers/nvme/host/apple.c       |  8 ++--
- drivers/nvme/host/core.c        |  9 ++---
- drivers/nvme/host/pci.c         |  6 +--
- drivers/nvme/host/rdma.c        | 19 +++-------
- drivers/nvme/host/tcp.c         |  3 ++
- drivers/nvme/host/trace.h       | 15 +++-----
- drivers/nvme/target/admin-cmd.c | 81 +++++++++++++++++------------------------
- drivers/nvme/target/fcloop.c    | 48 +++++++++++++-----------
- drivers/nvme/target/nvmet.h     | 12 +-----
- drivers/nvme/target/tcp.c       | 34 +++++++++++++++--
- drivers/nvme/target/zns.c       | 20 +++++-----
- include/linux/blk-mq-rdma.h     | 11 ------
- 15 files changed, 126 insertions(+), 190 deletions(-)
- delete mode 100644 block/blk-mq-rdma.c
- delete mode 100644 include/linux/blk-mq-rdma.h
 
