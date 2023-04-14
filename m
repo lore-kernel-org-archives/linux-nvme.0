@@ -4,79 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5CF35C77B6E
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Apr 2023 09:33:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EECAAC77B6E
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Apr 2023 10:31:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wHN1gQDjY4S7UK02JvUJ41xmr2lektes0JLeJkU1rmY=; b=Rmz0EQTIU3+7ttI9e80O/EFCkI
-	x1P7uxloNQyEoqbpnYiyIfltnXjUrHEs9RT4E4lfAuwsBB6VR1KiKWkmuykI/2hQW07TMB74rbRKY
-	pFfGjpgXTBzr8rErMrFC15koecA28+r+IaUCNJ43PZZNJLooqbTvg6iqcpGSXmGjmO22nQ7/JmDGF
-	1xHjWKn+7Q4k5S4+ajhf3OcFt1G7ci8l9+LIa2gxRg5P9xLezoNboqQ9mpq0lg+pVuq/aH0qaKzLi
-	EtH0ZTuFsZdtdJR0Rzk759dmNYPcXZSlcu5VtqPN7q13QQ7xKwP+EOecEkEg1rEF8r1PBUg677Ye0
-	DG+4rZSQ==;
+	bh=x/rVxwmuhdoXjph7m3KFQaaxQ03CPZ8xng6hMKv1qM8=; b=M8MYtbzjE+9vThaVCqi/5zSdmB
+	93MmpwCY7CxcX5h4wUMmzB0QCG/Pu2+FFB5nEeZL/ua/M5mq7uXy2xFAZbbQUYQ6hrlc+5Q1ZiT2g
+	2SmuRhCoHxSCP5H9Cv0dU954T5AzrTRCX9WVMMc7wU+cQdU4ABOyaFhJISn4QJuLnhuTy2TWqNSV/
+	0H2OAGdHh33g4MluIPJc88Fom8LTW6rGhXg8HmlPocSlI0zuwDBzh9QhuTG380VbL+umqau43pSCD
+	I9SWmurZSjztbDCkuN88ChebbWrIpzwW75M9Je9+xg0Xny+PyxmoRqooGoMdN6yD5JJu7WByBlyuH
+	zERWguiw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pnFoF-008sVz-1l;
-	Fri, 14 Apr 2023 09:33:35 +0000
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
+	id 1pnGht-0099SE-1o;
+	Fri, 14 Apr 2023 10:31:05 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pnFoC-008sVW-03
+	id 1pnGhp-0099Qc-0a
 	for linux-nvme@lists.infradead.org;
-	Fri, 14 Apr 2023 09:33:34 +0000
-Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-50508810c8bso1644548a12.3
-        for <linux-nvme@lists.infradead.org>; Fri, 14 Apr 2023 02:33:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smartx-com.20221208.gappssmtp.com; s=20221208; t=1681464808; x=1684056808;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wHN1gQDjY4S7UK02JvUJ41xmr2lektes0JLeJkU1rmY=;
-        b=eS+FfMR5eLUy8hW0OWBLjlZ8rb4Snz52zUC4iqsjJvjbQ+cOV88d7RBvYxNvB0mXG7
-         9tKw1BaXXEnfO28KXXjwJihxE0ej96eXzNwEc9SftMUJnAMgfWJW6YLgQ+Imp+2Dv8VC
-         jSQS6vADWl5pJpFIsEW3hR4RvcFPoGVwvNmZ3QVczM2J70wIbWJGz8vJcLsjqsX5/FOq
-         dfwAUhUJ6yRTTwqrvCCdxh45RF0JbaAmEP7ykEoe7FjiD8xTTwZnFpI0Y54GYHQq0nZ2
-         7ve16WYN2CMWhVucdUrM0tW2ZpPmAt0wr+dPWKJcmOC1y/HKV4QoucyV4HB2cGi1wzu3
-         SJ6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681464808; x=1684056808;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wHN1gQDjY4S7UK02JvUJ41xmr2lektes0JLeJkU1rmY=;
-        b=hP6T5wLxELHO+4aOaeXMy/OlHcB23JgEiDWS4k6h7eVd+sU/t1z0Im0OlgYhFlA/iB
-         qrQhUQeqESYXLxV3DBrrgMCb1YGHOeyi7wNohbW52eQJv7PdD0Sx5vcEqGVEUfIKafje
-         qknDrGmGMBi8/GjUT6NDcn+MNgul97ugrGyD3rJ6q+ulsWMdmJiIR6v7dUJT4LKNj5Rd
-         BEJqkllQeMb753g2nvun3N1bUrIebv9/cnYksfvQbezqOgn9tiZ8wM++5OhD6W6cmD+U
-         XIH4Mos27dzaLcxAvjBkge66rJ85iTp+YBLbJ7WJ8YUU/n/0QZWDUhqetnLdQD2C0sw+
-         VqIA==
-X-Gm-Message-State: AAQBX9dFl/7JE1jvAVKQq1QXdcjfJ/Kovja19vBsXM1+8mx40q+0atNb
-	Ta6Ce2z2vVS8tzZoJvY3pD9ZVQMafKo09DzpfIPSpg==
-X-Google-Smtp-Source: AKy350ZvWUkNQwQeAL2xW3kOGBp+LzHs4fYa/6XgqUehBjySQ3QiSe8d+DUaWaeu7XEr7YGBtJ6MsCLH5/BgZ0XNw2I=
-X-Received: by 2002:a50:9eca:0:b0:506:34d8:c710 with SMTP id
- a68-20020a509eca000000b0050634d8c710mr2756598edf.3.1681464808018; Fri, 14 Apr
- 2023 02:33:28 -0700 (PDT)
+	Fri, 14 Apr 2023 10:31:03 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7B5831FD93;
+	Fri, 14 Apr 2023 10:30:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1681468259; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x/rVxwmuhdoXjph7m3KFQaaxQ03CPZ8xng6hMKv1qM8=;
+	b=fD2GWcOYUW7dLr3AZS33c9W0k3eI3Q22fLjAbwCJnQNxH8OESeSJY3tTx7yePcIfXsDiA2
+	7xVOYvrWrusXUNfYhXiLZLt1hk+F6DV6shKIOypCioZqqUrgNJbyKssdFF+zjxigP0NjlI
+	T3e9ouPfbliQbNZIaO9RRyR2FdJzecg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1681468259;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x/rVxwmuhdoXjph7m3KFQaaxQ03CPZ8xng6hMKv1qM8=;
+	b=bC/apYcRbNGMfsqACwDKZKP0ljGQzFi7tqJVShsGD4NAPIM90gcmb5snxKCAF9xoHT6OCs
+	V52YX8B/1V/Y3dDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 645BF139FC;
+	Fri, 14 Apr 2023 10:30:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id vossGGMrOWSgKgAAMHmgww
+	(envelope-from <hare@suse.de>); Fri, 14 Apr 2023 10:30:59 +0000
+Message-ID: <02e4f6eb-32c2-8f3c-872f-831e70da6166@suse.de>
+Date: Fri, 14 Apr 2023 12:30:58 +0200
 MIME-Version: 1.0
-References: <20230413062339.2454616-1-fengli@smartx.com> <20230413132941.2489795-1-fengli@smartx.com>
- <94d6a76c-8ad1-bda1-6336-e9f5fa3a6168@suse.de>
-In-Reply-To: <94d6a76c-8ad1-bda1-6336-e9f5fa3a6168@suse.de>
-From: Li Feng <fengli@smartx.com>
-Date: Fri, 14 Apr 2023 17:35:23 +0800
-Message-ID: <CAHckoCxcmNC++AXELmnCVZNjpHcaOQWOGcjia=NBCnOA7S7EeQ@mail.gmail.com>
-Subject: Re: [PATCH v2] nvme/tcp: Add support to set the tcp worker cpu affinity
-To: Hannes Reinecke <hare@suse.de>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, 
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, open list <linux-kernel@vger.kernel.org>, 
-	lifeng1519@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH 18/18] nvmet-tcp: add configfs attribute 'param_keyring'
+Content-Language: en-US
+To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Chuck Lever <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev
+References: <20230329135938.46905-1-hare@suse.de>
+ <20230329135938.46905-19-hare@suse.de>
+ <60ff89b4-5d63-a6db-18b1-e0f28055c5d9@grimberg.me>
+ <c7e895f1-1c95-f658-f7a1-c4cee5cf8c91@suse.de>
+ <1b018791-9aa3-b988-7045-40b46bc50989@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <1b018791-9aa3-b988-7045-40b46bc50989@grimberg.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230414_023332_275200_E1E688AC 
-X-CRM114-Status: GOOD (  43.06  )
+X-CRM114-CacheID: sfid-20230414_033101_364300_4D0D2CD8 
+X-CRM114-Status: GOOD (  13.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,165 +97,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 14, 2023 at 4:36=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrot=
-e:
->
-> On 4/13/23 15:29, Li Feng wrote:
-> > The default worker affinity policy is using all online cpus, e.g. from =
-0
-> > to N-1. However, some cpus are busy for other jobs, then the nvme-tcp w=
-ill
-> > have a bad performance.
-> >
-> > This patch adds a module parameter to set the cpu affinity for the nvme=
--tcp
-> > socket worker threads.  The parameter is a comma separated list of CPU
-> > numbers.  The list is parsed and the resulting cpumask is used to set t=
-he
-> > affinity of the socket worker threads.  If the list is empty or the
-> > parsing fails, the default affinity is used.
-> >
-> > Signed-off-by: Li Feng <fengli@smartx.com>
-> > ---
-> >
-> > V2 - Fix missing static reported by lkp
-> >
-> >   drivers/nvme/host/tcp.c | 54 ++++++++++++++++++++++++++++++++++++++++=
--
-> >   1 file changed, 53 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> > index 49c9e7bc9116..47748de5159b 100644
-> > --- a/drivers/nvme/host/tcp.c
-> > +++ b/drivers/nvme/host/tcp.c
-> > @@ -31,6 +31,18 @@ static int so_priority;
-> >   module_param(so_priority, int, 0644);
-> >   MODULE_PARM_DESC(so_priority, "nvme tcp socket optimize priority");
-> >
-> > +/* Support for specifying the CPU affinity for the nvme-tcp socket wor=
-ker
-> > + * threads.  This is a comma separated list of CPU numbers.  The list =
-is
-> > + * parsed and the resulting cpumask is used to set the affinity of the
-> > + * socket worker threads.  If the list is empty or the parsing fails, =
-the
-> > + * default affinity is used.
-> > + */
-> > +static char *cpu_affinity_list;
-> > +module_param(cpu_affinity_list, charp, 0644);
-> > +MODULE_PARM_DESC(cpu_affinity_list, "nvme tcp socket worker cpu affini=
-ty list");
-> > +
-> > +static struct cpumask cpu_affinity_mask;
-> > +
-> >   #ifdef CONFIG_DEBUG_LOCK_ALLOC
-> >   /* lockdep can detect a circular dependency of the form
-> >    *   sk_lock -> mmap_lock (page fault) -> fs locks -> sk_lock
-> > @@ -1483,6 +1495,41 @@ static bool nvme_tcp_poll_queue(struct nvme_tcp_=
-queue *queue)
-> >                         ctrl->io_queues[HCTX_TYPE_POLL];
-> >   }
-> >
-> > +static ssize_t update_cpu_affinity(const char *buf)
-> > +{
-> > +     cpumask_var_t new_value;
-> > +     cpumask_var_t dst_value;
-> > +     int err =3D 0;
-> > +
-> > +     if (!zalloc_cpumask_var(&new_value, GFP_KERNEL))
-> > +             return -ENOMEM;
-> > +
-> > +     err =3D bitmap_parselist(buf, cpumask_bits(new_value), nr_cpumask=
-_bits);
-> > +     if (err)
-> > +             goto free_new_cpumask;
-> > +
-> > +     if (!zalloc_cpumask_var(&dst_value, GFP_KERNEL)) {
-> > +             err =3D -ENOMEM;
-> > +             goto free_new_cpumask;
-> > +     }
-> > +
-> > +     /*
-> > +      * If the new_value does not have any intersection with the cpu_o=
-nline_mask,
-> > +      * the dst_value will be empty, then keep the cpu_affinity_mask a=
-s cpu_online_mask.
-> > +      */
-> > +     if (cpumask_and(dst_value, new_value, cpu_online_mask))
-> > +             cpu_affinity_mask =3D *dst_value;
-> > +
-> > +     free_cpumask_var(dst_value);
-> > +
-> > +free_new_cpumask:
-> > +     free_cpumask_var(new_value);
-> > +     if (err)
-> > +             pr_err("failed to update cpu affinity mask, bad affinity =
-list [%s], err %d\n",
-> > +                     buf, err);
-> > +     return err;
-> > +}
-> > +
-> >   static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
-> >   {
-> >       struct nvme_tcp_ctrl *ctrl =3D queue->ctrl;
-> > @@ -1496,7 +1543,12 @@ static void nvme_tcp_set_queue_io_cpu(struct nvm=
-e_tcp_queue *queue)
-> >       else if (nvme_tcp_poll_queue(queue))
-> >               n =3D qid - ctrl->io_queues[HCTX_TYPE_DEFAULT] -
-> >                               ctrl->io_queues[HCTX_TYPE_READ] - 1;
-> > -     queue->io_cpu =3D cpumask_next_wrap(n - 1, cpu_online_mask, -1, f=
-alse);
-> > +
-> > +     if (!cpu_affinity_list || update_cpu_affinity(cpu_affinity_list) =
-!=3D 0) {
-> > +             // Set the default cpu_affinity_mask to cpu_online_mask
-> > +             cpu_affinity_mask =3D *cpu_online_mask;
-> > +     }
-> > +     queue->io_cpu =3D cpumask_next_wrap(n - 1, &cpu_affinity_mask, -1=
-, false);
-> >   }
-> >
-> >   static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
->
-> I am not in favour of this.
-> NVMe-over-Fabrics has _virtual_ queues, which really have no
-> relationship to the underlying hardware.
-> So trying to be clever here by tacking queues to CPUs sort of works if
-> you have one subsystem to talk to, but if you have several where each
-> exposes a _different_ number of queues you end up with a quite
-> suboptimal setting (ie you rely on the resulting cpu sets to overlap,
-> but there is no guarantee that they do).
+On 4/3/23 17:53, Sagi Grimberg wrote:
+> 
+>>>> Add a configfs attribute to list and change the default keyring.
+>>>
+>>> is the keyring an attribute of a port? or a subsystem? Why the choice
+>>> of making it per port?
+>>>
+>> As per discussion at fmds each port might want to use different 
+>> credentials.
+>> We can move it to subsystems if we decide we don't want to support 
+>> that use-case.
+> 
+> I think we should move it to the subsystem in Linux.
+> 
+Easier said than done.
 
-Thanks for your comment.
-The current io-queues/cpu map method is not optimal.
-It is stupid, and just starts from 0 to the last CPU, which is not configur=
-able.
+We can only fetch the subsystem once we have the NQN, which we will
+know after the connect command.
+But out of necessity the connect command will only be transferred
+after TLS handshake completed, so there is not subsystem NQN allowing
+us to figure out the correct subsystem.
 
-> Rather leave it to the hardware to sort things out, and rely on the
-> blk-mq CPU mapping to get I/O aligned to CPUs.
->
-> Cheers,
->
-> Hannes
->
-The nvme-tcp currently doesn't support a *clever* method to bind the
-io-queue and cpu,
-it's decided at the allocation and doesn't have a method to change it.
-E.g. One subsystem's first io queue binds to CPU0, the next io queue
-binds to CPU1, and
-if the NIC is located on the other NUMA node 2(CPU24 - CPU36), and
-binds the fio to NUMA node 2,
-the nvme-tcp will still have poor performance,so how should I tune the
-performance?
-I have to change the nic irq affinity, but it will hurt other numa
-node2 application's performance.
-We should maximize one subsystem performance, then maximize multiple
-subsystems performance.
+So we'll have to keep it at the port level, I'm afraid.
 
-This patch gives a chance to adapt the nic and cpu load.
-Before and after patch, on my aarch64 server with 4 numa nodes, the
-256k read throughput ups
-from 1GB/s to 1.4GB/s.
+Cheers,
 
-Thanks.
+Hannes
+
 
