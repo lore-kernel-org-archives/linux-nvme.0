@@ -4,73 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC1DBC77B76
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Apr 2023 19:14:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0533C77B72
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Apr 2023 20:10:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yBtJVDxHkjT7DQCSOQzNe2IthXptum9ChouKTqEU27w=; b=MEXlVzD5CD1nDRslpzST+8tMKO
-	IF5j+/KokXtUfx0eNrcZSgSicWFrq8YqOKAUj8vhozRlMuypoj7KNj6J1/5uSKBF9/maH/DczkdAV
-	4zHBtE4sjGGBvFWhMXKGQnn1Rsd7I5PjlMRKm8eoz+7Ba0Z7XAIXcEMmkIW+7G3zHcKqr7opwuK1j
-	bK8SNBI8aE01xW/zLlhTWtunJP7RNEc/dlROss5wzFvMdcbpriZQ16XQ9wzuQtsY3rqRDrL5J2wJa
-	nxiANJPFS+SO8KJ0zkI+D9Ys/U3HCBtyJOvtgBXP0G9Y3P8lPS4734P9ZH4LRqtLiKIchLQ4/LJOJ
-	ttYUrxWw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dbE3t7Y6owePEdSc5SmgDJYQCbcnFAvoF49ezHl2kAU=; b=zYR1VKysf4wENPn1yBtYVmIJNF
+	cYY7Ghu3h4WJ4DIdyp4FgkVVv2SzNo4jlKKojvenuAnxbjUsbCzbTfHfOLP21J/c0Y/EUc5Nf03b5
+	21BlP2tiqNF53ufp5drf49oTWBt+SyOXNTKiDA72M/BQFJX+o8voaFjfeUa29+RVJmuDIBM2sRreo
+	yo6N0VZATwO+Vlzf9hFpUEuPAiPvDPABBZ0GGncxoHd27Zq6spjoyW/Kpy7VqdzLc/aPt9vx2MfLF
+	y1jo+M6jfOqZvlBHc7cmO5lR+inCCN0RaYjqiNmDEVCJIYh16RjlCRQrzcXBiFkZIpTh4l9cBeSQE
+	v1JJtWpw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1poUIY-00HOpQ-2C;
-	Mon, 17 Apr 2023 19:13:58 +0000
-Received: from mail-qv1-f47.google.com ([209.85.219.47])
+	id 1poVBc-00HUfl-0i;
+	Mon, 17 Apr 2023 20:10:52 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1poUIW-00HOou-1L
+	id 1poVBa-00HUfF-0T
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Apr 2023 19:13:57 +0000
-Received: by mail-qv1-f47.google.com with SMTP id on12so7853222qvb.6
-        for <linux-nvme@lists.infradead.org>; Mon, 17 Apr 2023 12:13:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681758832; x=1684350832;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yBtJVDxHkjT7DQCSOQzNe2IthXptum9ChouKTqEU27w=;
-        b=Yv5iKHXrEM6nGTBAjLa5/WjQbrGlBYj8G2h2HQxwkewcLoS4KimzT8K9aVyhgTA6nw
-         sGCs1CWXWbfivBKvjJoA83b47MW5ti7EBqCZvcqHoiv/m6iXw5hlA6ijJYfLijf/rLAy
-         3EBTitVYdKSaFQFLEJVX3wACCmMnqXRIOKUUioKmelaqRFDK6SqHcWHi/hVk9RdBbZ4v
-         HVmwmWBA5MLAOmpDuPO3UcRORDXDktRrKGTaNEC6MvX3jsCJxJRqiCWzfaQ8n484x/br
-         8vvFBEoYKZ0Ft80V9rA/5p5+h3F1CDm69hN/ZMaSeL81pXN+s4vZz3b89kKCeFBzR9zC
-         ryTg==
-X-Gm-Message-State: AAQBX9eiLBIzE1qSp5YN5nDL/GmPQaJ4Flss0yjJ15NK38iXBl0626J3
-	1zg/JJrE6zFArUfeEoawVX06
-X-Google-Smtp-Source: AKy350YhhMmQjUtscx8DWNyjxCDA5LGW9pBXnmkkJTzahbIxgePxnjEG+PUB8GZIdmsQdXDjMB2WVw==
-X-Received: by 2002:a05:6214:5084:b0:5ef:6101:3282 with SMTP id kk4-20020a056214508400b005ef61013282mr11320857qvb.0.1681758832583;
-        Mon, 17 Apr 2023 12:13:52 -0700 (PDT)
-Received: from localhost (pool-68-160-166-30.bstnma.fios.verizon.net. [68.160.166.30])
-        by smtp.gmail.com with ESMTPSA id ed25-20020a05620a491900b0074856680834sm3332329qkb.132.2023.04.17.12.13.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Apr 2023 12:13:52 -0700 (PDT)
-Date: Mon, 17 Apr 2023 15:13:50 -0400
-From: Mike Snitzer <snitzer@kernel.org>
-To: Mike Christie <michael.christie@oracle.com>
-Cc: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
-	linux-scsi@vger.kernel.org, james.bottomley@hansenpartnership.com,
-	linux-block@vger.kernel.org, dm-devel@redhat.com, axboe@kernel.dk,
-	linux-nvme@lists.infradead.org, chaitanyak@nvidia.com,
-	kbusch@kernel.org, target-devel@vger.kernel.org
-Subject: Re: [PATCH v6 06/18] dm: Add support for block PR read
- keys/reservation
-Message-ID: <ZD2abp1WQ0FqYXAT@redhat.com>
-References: <20230407200551.12660-1-michael.christie@oracle.com>
- <20230407200551.12660-7-michael.christie@oracle.com>
+	Mon, 17 Apr 2023 20:10:51 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id A32F962090;
+	Mon, 17 Apr 2023 20:10:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCDBBC433EF;
+	Mon, 17 Apr 2023 20:10:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1681762249;
+	bh=hIoqtNRBOGqTpc2RXSotxVJwjNrNbGDsm8P+77+YGjs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=s6n+OO6M2Buc2XhqNeHM9gtugguD0WMhzMR779U2rIiUJX+CLJfs1kAsCMJYqORdz
+	 pFC3FlpRfJBoAtYKyzu/Lc5MSdWT+tfxOonv6LB5366/+yDQrS7rAfk8i3OhYpXzQJ
+	 U7pMLWRLSDNQkqq1ETPfNYrkMLh32jwuU/A5/0er0pWrH5eD5vLUi14RoNSX1VuSOP
+	 oLVB4bvRpJMiDwqQEOF+YTJhUR0jJIibq30vJV0Zr0JmZKEIyp3m+NYXvvOsxfuSET
+	 M2BezGuy7txhuosl/X89Go2OeFa4228IDD5jbt8jiSDygnHgYcwWfOUBjrnrMzolmX
+	 aqh7glmhUt4Kg==
+Date: Mon, 17 Apr 2023 13:10:48 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>, Keith
+ Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, Chuck Lever
+ <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev
+Subject: Re: [PATCH 07/18] net/tls: sanitize MSG_EOR handling
+Message-ID: <20230417131048.66b6b3a0@kernel.org>
+In-Reply-To: <20af9713-8d64-77de-dfbe-e9e732776d3c@grimberg.me>
+References: <20230417130302.86274-1-hare@suse.de>
+	<20230417130302.86274-8-hare@suse.de>
+	<20af9713-8d64-77de-dfbe-e9e732776d3c@grimberg.me>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230407200551.12660-7-michael.christie@oracle.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230417_121356_474346_3FD62531 
-X-CRM114-Status: UNSURE (   8.14  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230417_131050_222192_D8EA1B99 
+X-CRM114-Status: GOOD (  14.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,13 +76,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 07 2023 at  4:05P -0400,
-Mike Christie <michael.christie@oracle.com> wrote:
-
-> This adds support in dm for the block PR read keys and read reservation
-> callouts.
+On Mon, 17 Apr 2023 18:19:12 +0300 Sagi Grimberg wrote:
+> > The TLS stack is using MSG_EOR internally, so the flag cannot be
+> > set for sendmsg()/sendpage(). But to avoid having the caller to
+> > check whether TLS is active modify the code to clear the MSG_EOR
+> > flag. And blank out MSG_MORE / MSG_SENDPAGE_NOTLAST, too, as they
+> > conflict with MSG_EOR anyway.  
 > 
-> Signed-off-by: Mike Christie <michael.christie@oracle.com>
+> This looks like a temporary workaround to me.
+> 
+> The networking folks really need to be CC'd on this (same for patch 6).
 
-Acked-by: Mike Snitzer <snitzer@kernel.org>
+Thanks, when I said "we can support EOR" I obviously meant support 
+not ignore it :(  No ack.
 
