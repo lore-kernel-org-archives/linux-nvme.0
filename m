@@ -4,74 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F434C77B76
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Apr 2023 15:31:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 298BBC77B76
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Apr 2023 15:35:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=T/B1DIQ4G+ExycW+/gR3mus18QKSxpH8JiHV+2U3tGo=; b=zzZzocQloHnRPfgefmbAKuFJrB
-	dW8U61mCecBnuk/TWajNMd0hvK4ydLN2bQFwt+6vtR9vX84z+o8fYO5rbh9dC+Oi8P486kdzNIuyi
-	qFnleT48QjeiToiVbgT5So9MTe8scwMy1tp4oJkIAaVqF8h3gVjnnkgeWUt4A5alalSrRlnNqMeZo
-	HNeyEmldyZBX76vEET8jcIQUF5pG4YPM9bBGvO4wLyxMf3VqHsmw3VBGNMEQLS7wuxVkEZCLcyO3X
-	ywDPr77JjrI26jGgv90DHADI9z4YObv9h4IVQcAGNrMMiPXECDsFiDeg1SVb3cJ+DLufh2rvCWq2F
-	u5+dGzQw==;
+	bh=veUXC3vcrjBdv6AiuUkPvBCIWe2nwhOQk6uFjfGXMug=; b=KFT9mYeUMcAABuL25ok59BrUGP
+	UsQfbHEzNuPgDjRxXctBh01JronE8RpFtpcNQmLINOYsVdP/ffO/Ko4BLfeUPjGpZF2eePEzOhMkK
+	p6wtMiymTIIoTlAqEv0C7SrSOzYKm6MizgT5ifiEYQDT9E7Tq6zuwZzEwR7BJTq+crso82MmxKqKa
+	RBFtgNtTSgLzpdS7W+8/jMFzY/+oSt4W79M7VePrzSSItgyNIG6WDM7zzoGq2DjMtYLukkIoq4lXN
+	A3KjlhZ2RU3UJ7MLyJJ9ZAiWcGxIwfvUL0pzA5joujLKczHbbsnP7y41c+2pXNc1k0A1Sr5INFh6r
+	suXrkF0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1poQpR-00Gtzl-0o;
-	Mon, 17 Apr 2023 15:31:41 +0000
-Received: from mail-wm1-f42.google.com ([209.85.128.42])
+	id 1poQtU-00GuZm-05;
+	Mon, 17 Apr 2023 15:35:52 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1poQpP-00GtyL-0P
+	id 1poQtQ-00GuYm-31
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Apr 2023 15:31:40 +0000
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3f05f61adbeso7372175e9.0
-        for <linux-nvme@lists.infradead.org>; Mon, 17 Apr 2023 08:31:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681745494; x=1684337494;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=T/B1DIQ4G+ExycW+/gR3mus18QKSxpH8JiHV+2U3tGo=;
-        b=IOvGhyMwz8GhQjUonNGGMAgAamsLjXMOnElAoQH1HPHmYoLbxL6M3tlXdGfLo5IElq
-         qiwKrWJFiwGey3xXKUiPwlgVK3QPP2EEDmcaPleuk6Gdzi1t7tPyXMZNaoaFDItGw4cV
-         CRze/ptNJwx+8NGIq5vAKKYOxgS9JTCT8oJqtby8QWwloh3RY6TgCPqfdUTU+cANBE+o
-         3b8B2MySJBWlfjGxDexRXvZdJS0sJuKAsBq9BmCg4jfpNuWCSb0jiPjUR1dOnnrxotwV
-         C0SwKq6dg/WR0QejDPBzmUe/uyUs5dPc4rUgqcPE8RwEFt0RJTO3/qUK6kwojBoydq67
-         rRWg==
-X-Gm-Message-State: AAQBX9fAajSe5sh09NSIs0EjBq5nWJQXcvhNwYWK01wM17vROVYC3gsC
-	3eMYDsYOtJLmUAcCZmGN7pM9QlBhLXc=
-X-Google-Smtp-Source: AKy350Yk3blXdCY5+7BRzbp7JGNdf6n86ey2FvPMcvLXxXzmJKJpLjigpe14LFIq8fwf7rwMFFnssw==
-X-Received: by 2002:a05:600c:1d1d:b0:3ed:793d:9dd6 with SMTP id l29-20020a05600c1d1d00b003ed793d9dd6mr8341701wms.1.1681745494224;
-        Mon, 17 Apr 2023 08:31:34 -0700 (PDT)
-Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id k22-20020a05600c0b5600b003ef64affec7sm12171134wmr.22.2023.04.17.08.31.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Apr 2023 08:31:33 -0700 (PDT)
-Message-ID: <298e74a7-4560-ac01-ad40-24019057b9bb@grimberg.me>
-Date: Mon, 17 Apr 2023 18:31:32 +0300
+	Mon, 17 Apr 2023 15:35:50 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3500F1F86C;
+	Mon, 17 Apr 2023 15:35:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1681745747; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=veUXC3vcrjBdv6AiuUkPvBCIWe2nwhOQk6uFjfGXMug=;
+	b=r3Fk2lBaeUdPAzIDPtZjqVM/lN2qCy84GAXhohc/mh1Je6pFkwMDpeycbc30JhlGjuMSMd
+	melWezHuG3d9Ij8THSxSD5miUDXHaikJ2U2BOZ8eH5Ad/b62tBDp/UTvrs1ELSnx55aLuE
+	NhWJWj2iA/H8eAAm9TFBYNh/ymhoprQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1681745747;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=veUXC3vcrjBdv6AiuUkPvBCIWe2nwhOQk6uFjfGXMug=;
+	b=rwYIbex1YJw4WbCE+YG8YXaLFPa2iR8zXV4LFBZlazjKqJwcV8dkBTcgCnIs48aDNGc/LU
+	nj5UOl7aTQRhBwAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E7F661390E;
+	Mon, 17 Apr 2023 15:35:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id n/rdNVJnPWRtOQAAMHmgww
+	(envelope-from <hare@suse.de>); Mon, 17 Apr 2023 15:35:46 +0000
+Message-ID: <cce7cbdb-0866-58ec-8bf1-d0eea7ce9fe1@suse.de>
+Date: Mon, 17 Apr 2023 17:35:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 11/18] nvme-tcp: enable TLS handshake upcall
+ Thunderbird/102.9.1
+Subject: Re: [PATCH 08/18] nvme-tcp: do not set MSG_SENDPAGE_NOTLAST
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>, Jakub Kicinski <kuba@kernel.org>
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
  linux-nvme@lists.infradead.org, Chuck Lever <chuck.lever@oracle.com>,
  kernel-tls-handshake@lists.linux.dev
 References: <20230417130302.86274-1-hare@suse.de>
- <20230417130302.86274-12-hare@suse.de>
- <73d59afa-d385-2616-fc74-13ad3bfe49be@grimberg.me>
- <4e9b3f94-b059-b225-9fa6-68178ebda990@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <4e9b3f94-b059-b225-9fa6-68178ebda990@suse.de>
+ <20230417130302.86274-9-hare@suse.de>
+ <36976756-b4c5-f2a5-34b8-e9731a49c477@grimberg.me>
+ <654702da-246a-934c-14e4-7b179c46ed98@suse.de>
+ <5df08f86-2599-6e47-2fdc-bda8d70edaf2@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <5df08f86-2599-6e47-2fdc-bda8d70edaf2@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230417_083139_166236_6D1C0BAF 
-X-CRM114-Status: GOOD (  12.15  )
+X-CRM114-CacheID: sfid-20230417_083549_127173_21D0AF7B 
+X-CRM114-Status: GOOD (  16.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,45 +98,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>>   static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
->>>   {
->>>       int ret;
->>> +    key_serial_t psk_id = 0;
->>> +
->>> +    if (ctrl->opts->tls) {
->>> +        psk_id = nvme_tls_psk_default(NULL,
->>> +                          ctrl->opts->host->nqn,
->>> +                          ctrl->opts->subsysnqn);
->>> +        if (!psk_id) {
->>> +            dev_err(ctrl->device, "no valid PSK found\n");
->>> +            ret = -ENOKEY;
->>> +            goto out_free_queue;
->>> +        }
->>> +    }
->>> -    ret = nvme_tcp_alloc_queue(ctrl, 0);
->>> +    ret = nvme_tcp_alloc_queue(ctrl, 0, psk_id);
->>>       if (ret)
->>> -        return ret;
->>> +        goto out_free_queue;
->>>       ret = nvme_tcp_alloc_async_req(to_tcp_ctrl(ctrl));
->>>       if (ret)
->>> @@ -1778,9 +1887,15 @@ static int nvme_tcp_alloc_admin_queue(struct 
->>> nvme_ctrl *ctrl)
->>>   static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
->>>   {
->>>       int i, ret;
->>> +    key_serial_t psk_id;
->>> +    if (!ctrl->tls_key) {
->>> +        dev_err(ctrl->device, "no PSK negotiated\n");
->>> +        return -ENOKEY;
->>> +    }
->>
->> is ctrl->tls_key always set? Looks like this is the expectation.
->>
+On 4/17/23 17:28, Sagi Grimberg wrote:
 > 
-> It needs to be set when TLS is enabled for the admin queue.
-> Otherwise no.
+>>> nak from me.
+>>>
+>>>> MSG_SENDPAGE_NOTLAST was introduced with commit 35f9c09fe9c7
+>>>> ("tcp: tcp_sendpages() should call tcp_push() once") to fix issues
+>>>> with the ->sendfile() call, and the implication seems to be that
+>>>> the flag should be strictly internal to sendfile.
+>>>
+>>> no, the use case was to allow sendpage consumers to build larger
+>>> tso packets for large payloads (splice being the primary one), nvme-tcp
+>>> also benefits from it (as do others), just like sendfile.
+>>>
+>>>> Hence we shouldn't be setting it on nvme-tcp, and anyway doing
+>>>> so will cause TLS sending invalid data.
+>>>
+>>> That is something else. I don't recall the full details on the
+>>> discussion with Jakub, but it was not my intention to strike
+>>> it altogether, just remove it if !sendpage_ok.
+>>>
+>> But then we're running afoul with tls_sw_do_sendpage(), which uses 
+>> MSG_SENDPAGE_NOTLAST as a record indicator. Forwarding 
+>> MSG_SENDPAGE_NOTLAST to tls results in incorrect TLS records on the 
+>> wire and a transmission stall.
+>>
+>> Took me days to figure that out.
+>>
+>> If you have a better idea, I'm all ears.
+> 
+> So sendfile is unsupported over kTLS? Or is there some special
+> case for it in the upper layer?
+> 
+Dunno. Seems to work, at least according to commit d452d48b9f8b
+("tls: prevent oversized sendfile() hangs by ignoring MSG_MORE")
 
-Then aren't you missing also and statement with (ctrl->opts->tls) ?
+Which is also where I got the notion about sendfile() from.
+If MSG_SENDPAGE_NOTLAST is valid for non-sendfile users then
+tls_sw_do_sendpage() has a bug.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
+Myers, Andrew McDonald, Martje Boudien Moerman
+
 
