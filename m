@@ -4,72 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 116BDC77B76
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Apr 2023 15:24:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 424D8C77B76
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Apr 2023 15:25:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cD5YuHLFnPXiXV0O4WImDbbRBnTQXytqGKVi+DWNloQ=; b=VjLGcJRhR+t6x4bQVpuloe/Raj
-	+LMMrzYSJ2VE7b6sxZiODfw1dU6gkbO8UGkr4pBFB+Q+/v++PX7wN6VqMDoU46Oo+SBU1O1jHKqOd
-	AmWEUSk+36HnYn9yAt58EbKar7hFLLibKzKE03n/pG4C3zEY8GuKmwoDyMTTMlwIIEoIwMkGbdYAj
-	+dfs/pX0IsTSNWa3yoBXPUB4IczUgLotFkSQcUaO53foPWjzEkHNUKfROIJwAjfktcKXKBIv4n2Yh
-	3fA7l94iFtvSK/RJYq0voNb+EINVUYEjwZReLUQ9rsaWWGkOtikA5QEF810tHZDNIqfuklAtgi5+I
-	vsTzgRsA==;
+	bh=zmwZd7CrgkpLrSe+knYT1TrM1LoP5AXofSVFZUol46Y=; b=edZnffgrTRU27A8TiQ89Dme+Rk
+	R8Ut8rswG8fALgvo7fbs3S9c67LPY/Onhk3NxkVfqd72ZvvoUIqv5Lv5bKhJYpogLxPX8kRJIb62s
+	zuujFANMfP6z5RJljDwLQntj8vVIuOZSQ+brNx2O8qUvu0uTT83l8EsK2oZwx0QTfW0BujjrzdGaT
+	RZYEwVmKG4LKNkBlqv0dUpNuv4pqmbM6KFbHBufpvHbO1i7+07MgWU9pgvNhJIpJbSXKUbL3uFSrq
+	KDeRj8JqmTKqLBncmm6Garpp+fmu+xaCc+46mRRpraPDia6mK1QhhH/vib8pS9alvADl56GzCC5vK
+	on+TyUxQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1poQiX-00Grle-1m;
-	Mon, 17 Apr 2023 15:24:33 +0000
-Received: from mail-wm1-f43.google.com ([209.85.128.43])
+	id 1poQji-00Gs4d-1Q;
+	Mon, 17 Apr 2023 15:25:46 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1poQiU-00GrjV-0K
+	id 1poQjf-00Gs3K-2N
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Apr 2023 15:24:31 +0000
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3f1754e6ac2so1323365e9.1
-        for <linux-nvme@lists.infradead.org>; Mon, 17 Apr 2023 08:24:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681745067; x=1684337067;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cD5YuHLFnPXiXV0O4WImDbbRBnTQXytqGKVi+DWNloQ=;
-        b=YPfK+03xn5GTV0mv4D5JgrKrgWBq5oqq/3U69bdx5xw7/NAFlLh22EwmyDLJfAiK/J
-         mCEzAeK9ni1K7DwWUdFUFqXDOsIb4thvfNmlfPTfBNrEgMTTfj4StyMuajVD0GFupB1b
-         KSUAU6BR3MAhVljmu1qlkxh2pOv3rRKtVtSxWae8b6aD94x108E64O9kn7Vk2I0ecX25
-         pQL0ZGZ0YiaJIj1OhHM7p1dXPEbksOo6i3K9q+sOM9eCoz66ySLjZ4bf3NbwDbWXdrNG
-         q24oNBbHMsKWutc21xOoDW9TgFst631Tg7c4Pre56Su8LTGqJw+5fWYyeRtUG6agtRhF
-         FA8w==
-X-Gm-Message-State: AAQBX9e7NNT7r0w1YAtFfCUtZszMvt1T8EhCE4cPHRopmLEC9j9dPcXk
-	WlnxQUfT6P7RrhKmdqC3Hu8=
-X-Google-Smtp-Source: AKy350aqbtb2el3U9SLZofrbvGvaafsgGq+srj5w6istFGn/4igSmNUUth+Z+P4wLIqazAsk8G3sAw==
-X-Received: by 2002:a05:600c:450f:b0:3f1:714d:c40b with SMTP id t15-20020a05600c450f00b003f1714dc40bmr3809570wmo.3.1681745067377;
-        Mon, 17 Apr 2023 08:24:27 -0700 (PDT)
-Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id p22-20020a05600c205600b003f16f362ae7sm6329802wmg.21.2023.04.17.08.24.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Apr 2023 08:24:27 -0700 (PDT)
-Message-ID: <0752225c-a798-014c-25ca-eba2d4ad8de4@grimberg.me>
-Date: Mon, 17 Apr 2023 18:24:25 +0300
+	Mon, 17 Apr 2023 15:25:45 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D83BB219F7;
+	Mon, 17 Apr 2023 15:25:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1681745139; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zmwZd7CrgkpLrSe+knYT1TrM1LoP5AXofSVFZUol46Y=;
+	b=h6rbssgmJmrDFsGPYoeH64areNwgUVSWRn0oKpa+2PFl6gswQAjiiEEZVnlsPSiubxFB4C
+	oqOFLSAnElv5I7K8YfqAJfNQlQYlNnQJaNUup6U38hxIo+p0LpRub7PqFNctMuzb9dZZYd
+	EEkne8T4dBPxWOdxIol8ivO/ReYhqlY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1681745139;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zmwZd7CrgkpLrSe+knYT1TrM1LoP5AXofSVFZUol46Y=;
+	b=LLAOaCeLZmLCrMe9dB63IHW8zbqk4ljJLlIPN4NeDnRK0vHmBUP51SFj6hiL/Is3O85ipc
+	c5DvFc6yJbhwojAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 90C1D1390E;
+	Mon, 17 Apr 2023 15:25:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id ckUpIfNkPWQCNAAAMHmgww
+	(envelope-from <hare@suse.de>); Mon, 17 Apr 2023 15:25:39 +0000
+Message-ID: <654702da-246a-934c-14e4-7b179c46ed98@suse.de>
+Date: Mon, 17 Apr 2023 17:25:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 12/18] nvme-tcp: control message handling for recvmsg()
+ Thunderbird/102.9.1
+Subject: Re: [PATCH 08/18] nvme-tcp: do not set MSG_SENDPAGE_NOTLAST
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>, Jakub Kicinski <kuba@kernel.org>
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
  linux-nvme@lists.infradead.org, Chuck Lever <chuck.lever@oracle.com>,
  kernel-tls-handshake@lists.linux.dev
 References: <20230417130302.86274-1-hare@suse.de>
- <20230417130302.86274-13-hare@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230417130302.86274-13-hare@suse.de>
+ <20230417130302.86274-9-hare@suse.de>
+ <36976756-b4c5-f2a5-34b8-e9731a49c477@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <36976756-b4c5-f2a5-34b8-e9731a49c477@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230417_082430_139214_E1DE02F5 
-X-CRM114-Status: GOOD (  17.05  )
+X-CRM114-CacheID: sfid-20230417_082543_926073_65D91C27 
+X-CRM114-Status: GOOD (  14.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,28 +96,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 4/17/23 16:02, Hannes Reinecke wrote:
-> kTLS is sending TLS ALERT messages as control messages for recvmsg().
-> As we can't do anything sensible with it just abort the connection
-> and let the userspace agent to a re-negotiation.
+On 4/17/23 17:10, Sagi Grimberg wrote:
+> nak from me.
 > 
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-> ---
->   drivers/nvme/host/tcp.c | 23 ++++++++++++++++++++++-
->   1 file changed, 22 insertions(+), 1 deletion(-)
+>> MSG_SENDPAGE_NOTLAST was introduced with commit 35f9c09fe9c7
+>> ("tcp: tcp_sendpages() should call tcp_push() once") to fix issues
+>> with the ->sendfile() call, and the implication seems to be that
+>> the flag should be strictly internal to sendfile.
 > 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index b80bcc5fe447..eeb3f85fe259 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -1352,6 +1352,11 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
->   {
->   	struct nvme_tcp_icreq_pdu *icreq;
->   	struct nvme_tcp_icresp_pdu *icresp;
-> +#ifdef CONFIG_NVME_TCP_TLS
+> no, the use case was to allow sendpage consumers to build larger
+> tso packets for large payloads (splice being the primary one), nvme-tcp
+> also benefits from it (as do others), just like sendfile.
+> 
+>> Hence we shouldn't be setting it on nvme-tcp, and anyway doing
+>> so will cause TLS sending invalid data.
+> 
+> That is something else. I don't recall the full details on the
+> discussion with Jakub, but it was not my intention to strike
+> it altogether, just remove it if !sendpage_ok.
+> 
+But then we're running afoul with tls_sw_do_sendpage(), which uses 
+MSG_SENDPAGE_NOTLAST as a record indicator. Forwarding 
+MSG_SENDPAGE_NOTLAST to tls results in incorrect TLS records on the wire 
+and a transmission stall.
 
-I don't think you need the ifdef(s) here, right?
+Took me days to figure that out.
+
+If you have a better idea, I'm all ears.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
+Myers, Andrew McDonald, Martje Boudien Moerman
+
 
