@@ -4,88 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C585C77B70
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Apr 2023 08:25:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B22BAC77B70
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Apr 2023 08:31:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:To:References:Message-Id:
-	Content-Transfer-Encoding:Cc:Date:In-Reply-To:From:Subject:Mime-Version:
-	Content-Type:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SoxNZpdn1HHFFTHQnEQSPesnrC0r0JBqOwFpAAsz2Tc=; b=yVqdqP8sVR4seRRWJiRS+HTM5B
-	N9gJMOVWmCwtACVyQyrCWbhPrusDtqsNECjAcU5yJhDBrf5462bxwqo9oRUzDqbIizSqyd+zXGRks
-	70JZzuMPMEQyT5HuWQmhWqtpoTUJw6KORR793kDTenG6gfAwfIv88iLY1wJyDnLbJHgq43Cwc0hlD
-	KudBVX6A3kOZA8tnJ/e162SGQRVJi77391thMkUf3+HeHBnHE8IsdBl7PUxc48xWBEtIu2Pc8phBj
-	ZbPr2mJ5FHwiP+xJfonoIeqQiq861pxWML2HRyEIMEm/J6aQm/UHbC1IIA+7AFtbi10knkAWMnc5l
-	AenB1HKA==;
+	bh=FkodB1zytRbF9QO4BRTAJCPNWh+4ypd4er+H1ch/Q3M=; b=vAqnF3+f7TpFVR+eumukAKyNrF
+	qa2tGKw2lU+5eeOf89tY/6MVBdWWr9O7hjTXqedCJQHHnxHVd3CgMBlBa4+1Gx/Hc+i8iP0ChG9nH
+	nr584gl9rSzqtWLl8ybEXCCENA+Ndq64iIzaj/Cn5syLyLVoxaylS1iDY+y6BbaWqUjM0P7MXbEqG
+	F31igreptRhxYnpv3BLNCO4F0ucdhl43AniGq1axb0gpcuGeLx8frq6WKxzgqhbcxI8dmYLf++rEu
+	qFJ143OiL5dAbogoFF08W7fGCn6vZuchUpL9LPHGwN2jY7nrwyHps7wnEgki04dUu5VccW8979ACV
+	3e6p6gUA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1poJbi-00FG9g-0y;
-	Mon, 17 Apr 2023 07:49:02 +0000
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+	id 1poKGN-00FNv2-2J;
+	Mon, 17 Apr 2023 08:31:03 +0000
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1poJbe-00FG7d-1H
+	id 1poKGJ-00FNuP-3B
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Apr 2023 07:48:59 +0000
-Received: by mail-pl1-x636.google.com with SMTP id n17so8757424pln.8
-        for <linux-nvme@lists.infradead.org>; Mon, 17 Apr 2023 00:48:51 -0700 (PDT)
+	Mon, 17 Apr 2023 08:31:02 +0000
+Received: by mail-ej1-x629.google.com with SMTP id q23so52510809ejz.3
+        for <linux-nvme@lists.infradead.org>; Mon, 17 Apr 2023 01:30:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681717731; x=1684309731;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+        d=smartx-com.20221208.gappssmtp.com; s=20221208; t=1681720257; x=1684312257;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SoxNZpdn1HHFFTHQnEQSPesnrC0r0JBqOwFpAAsz2Tc=;
-        b=nFlhCc39H9KHnsfKxPUrqKoFYe0nizIWXf+rPLilZlWO47hZ/CdS5Few5q9kvf7QU6
-         2kLhsBXG+jZ6+VUoSb1jo2W6nUs/0zgREsY3gKEAWCwo1IxBwwGPdcjUYEcJeHapKRRC
-         gVgjNQfuwqpxdnxYBQc9n+YGM1TFJZwbvX1uHWILxQf81H8RQAKugie9DZEQ5bBZt336
-         i3YGA2sUMlS9R9cGaq8om1H/UQRfgefxqi1y7TUSiLouh8zCVgTzq+5n0jldEE0fukGu
-         Iwwl7gI+CcKy3xirfbqGbvylQg7icZrKAcEWDgn9sADhy9Fzwl8zP31QXQgvfh0/ERMK
-         wkJQ==
+        bh=FkodB1zytRbF9QO4BRTAJCPNWh+4ypd4er+H1ch/Q3M=;
+        b=WyCh4fYtMhPaR/jEQQ6tftR0L3u7oCUoCLqfg9k2zw7MPjwkIPOSNIirzxwgz8UtEP
+         lC7QrG9rd1R00+KNtCPrJTN/7rIK63Pp3kS5MjWD263DXc8pLaUkpVyDXmuGXSvOqrbi
+         zm1B/QtdUoMh11C0u0YxKKmhESDCEVVQQQ+E46m1VSCTrxVXtSxThIakAj6iA4krkpLK
+         Okb8b/VZeEeNqj43S5Sx8Pqxrop/ESf4gKUd0857yLKl9D7cAbxNB3V3q9E2+odj6Wow
+         nKJ6A1s9TbqOuRsn6c8koqP/BuWNwHXeTKDw8Aj8ykX9EaFCtWHpbpUCMLiX8Lotk7gO
+         X/qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681717731; x=1684309731;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1681720257; x=1684312257;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SoxNZpdn1HHFFTHQnEQSPesnrC0r0JBqOwFpAAsz2Tc=;
-        b=lb3YTvGzgdovCzvelL6pHT/9K52TraiTjHj1JwYu9yq6n2Xl0rPCEyuCpe4QsBSwUo
-         0HPM1q8x15SuIEh5mY/A0d34PmSQaU0jJ8K4SYWkJxen3HQ1OfQCCCrCS2pbh5adD/AQ
-         R/iO0y+ZeYNc72PRn7ydYuwapHCilbCc/poZsEjpQ3P8sG4YpWaKK8qJ6FXLqjY5IbE5
-         W8zoDQCi9+SivImEYRNTOl13BhgW0ogKC6higAiDTwkNsuc/rEPTgLrZ4pxg1ce/08vt
-         G1EBXUlvQOY24GCt9i9GF41dXxdejjv7F6inU2eRb4yM+Lw3DXBygHg53PCmH7G93BIi
-         qk4A==
-X-Gm-Message-State: AAQBX9eiuLzK6Sg7sQ1H7I0PGLVpiqHsYJmtHDIoNy8O1BXu6hRRjk6b
-	8uE7zU2C/Swx/Vv3NHcJ2N0=
-X-Google-Smtp-Source: AKy350Za9LWc+u9SpDYBXSZNLVNaUStLL42eU/h9/NkP/65mV2jBfzHrCdpGUrihF8eMfGdhB3pAdw==
-X-Received: by 2002:a17:902:c405:b0:1a1:a8db:495d with SMTP id k5-20020a170902c40500b001a1a8db495dmr16485143plk.4.1681717731019;
-        Mon, 17 Apr 2023 00:48:51 -0700 (PDT)
-Received: from smtpclient.apple ([47.243.123.68])
-        by smtp.gmail.com with ESMTPSA id jf1-20020a170903268100b001a1ccb37847sm7047135plb.146.2023.04.17.00.48.48
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 17 Apr 2023 00:48:50 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.300.101.1.3\))
-Subject: Re: [PATCH v2] nvme/tcp: Add support to set the tcp worker cpu
- affinity
-From: Li Feng <lifeng1519@gmail.com>
-In-Reply-To: <ZDz3TlFUxMxaO1W4@ovpn-8-16.pek2.redhat.com>
-Date: Mon, 17 Apr 2023 15:50:46 +0800
-Cc: Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>,
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
+        bh=FkodB1zytRbF9QO4BRTAJCPNWh+4ypd4er+H1ch/Q3M=;
+        b=DO9FM5XlPVALV9skEjfWkoDW+ZvKYQ3IGyXgVMXeBa0P8/EyOhRgHil5wY7N32XFt1
+         HpHv1AVcba2d3YVQcX5mL8cvkoOHyKLGtFaQYD+TQjzi+7aZcLFcnk1qqCoWl9NKtNDb
+         u4+ZsYJV4LBS91grYtw6hsEEaJNt6UNvW9P6iI1Tc8epR42WLFfRrSWLuRtpuXLSrTJj
+         rqUVttmOLchfUj2RwyVJOv13P/yGLux/5WMuzd5nhqJF7BCWKp/+500GIi9yKzByJfbW
+         zvZb6W6vdmRtP+NZnQi4JJMTfu4cWpGMlpPjUcBB84hiCaYwGebdUK7JWPbb6GbBruFT
+         0gJw==
+X-Gm-Message-State: AAQBX9dweym5O2YyrPfgVxWcEhWTR7eKuxfXjcdAwnB4+CdAOCyQJe3Q
+	nSXSieh8NtXHJwqF1A/ODrNf0cWn3Zk+i//2Qh4gPg==
+X-Google-Smtp-Source: AKy350bCf6ZF8olTVDhfwgFxjs9OPM8GrtQrZFdUBDhMBuWGai9bQ7jB7gRoqGxdxZucjbhDvyWUqmLaQUOXg4HoQic=
+X-Received: by 2002:a17:906:470d:b0:94e:ec32:ba28 with SMTP id
+ y13-20020a170906470d00b0094eec32ba28mr6834528ejq.29.1681720256664; Mon, 17
+ Apr 2023 01:30:56 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230413062339.2454616-1-fengli@smartx.com> <20230413132941.2489795-1-fengli@smartx.com>
+ <94d6a76c-8ad1-bda1-6336-e9f5fa3a6168@suse.de> <CAHckoCxcmNC++AXELmnCVZNjpHcaOQWOGcjia=NBCnOA7S7EeQ@mail.gmail.com>
+ <3e45f600db2049c4986fd8bb6aea69f4@AcuMS.aculab.com> <c9b07e76-9953-b34f-dac0-4a9762b4ac34@suse.de>
+In-Reply-To: <c9b07e76-9953-b34f-dac0-4a9762b4ac34@suse.de>
+From: Li Feng <fengli@smartx.com>
+Date: Mon, 17 Apr 2023 16:32:56 +0800
+Message-ID: <CAHckoCz2ZTiSB6WQ8t5m6A9z6zC3BHid12_QFoPe5VGeq5Wwgw@mail.gmail.com>
+Subject: Re: [PATCH v2] nvme/tcp: Add support to set the tcp worker cpu affinity
+To: Hannes Reinecke <hare@suse.de>
+Cc: David Laight <David.Laight@aculab.com>, Keith Busch <kbusch@kernel.org>, 
+	Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, open list <linux-kernel@vger.kernel.org>, 
+	"lifeng1519@gmail.com" <lifeng1519@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <D8FFAFCB-5486-4211-9AC8-2779AE368183@gmail.com>
-References: <20230413062339.2454616-1-fengli@smartx.com>
- <20230413132941.2489795-1-fengli@smartx.com>
- <ZDz3TlFUxMxaO1W4@ovpn-8-16.pek2.redhat.com>
-To: Ming Lei <ming.lei@redhat.com>
-X-Mailer: Apple Mail (2.3731.300.101.1.3)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230417_004858_432881_D7F50723 
-X-CRM114-Status: GOOD (  15.12  )
+X-CRM114-CacheID: sfid-20230417_013100_023091_DD072175 
+X-CRM114-Status: GOOD (  38.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,36 +92,92 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Mon, Apr 17, 2023 at 2:27=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrot=
+e:
+>
+> On 4/15/23 23:06, David Laight wrote:
+> > From: Li Feng
+> >> Sent: 14 April 2023 10:35
+> >>>
+> >>> On 4/13/23 15:29, Li Feng wrote:
+> >>>> The default worker affinity policy is using all online cpus, e.g. fr=
+om 0
+> >>>> to N-1. However, some cpus are busy for other jobs, then the nvme-tc=
+p will
+> >>>> have a bad performance.
+> >>>>
+> >>>> This patch adds a module parameter to set the cpu affinity for the n=
+vme-tcp
+> >>>> socket worker threads.  The parameter is a comma separated list of C=
+PU
+> >>>> numbers.  The list is parsed and the resulting cpumask is used to se=
+t the
+> >>>> affinity of the socket worker threads.  If the list is empty or the
+> >>>> parsing fails, the default affinity is used.
+> >>>>
+> > ...
+> >>> I am not in favour of this.
+> >>> NVMe-over-Fabrics has _virtual_ queues, which really have no
+> >>> relationship to the underlying hardware.
+> >>> So trying to be clever here by tacking queues to CPUs sort of works i=
+f
+> >>> you have one subsystem to talk to, but if you have several where each
+> >>> exposes a _different_ number of queues you end up with a quite
+> >>> suboptimal setting (ie you rely on the resulting cpu sets to overlap,
+> >>> but there is no guarantee that they do).
+> >>
+> >> Thanks for your comment.
+> >> The current io-queues/cpu map method is not optimal.
+> >> It is stupid, and just starts from 0 to the last CPU, which is not con=
+figurable.
+> >
+> > Module parameters suck, and passing the buck to the user
+> > when you can't decide how to do something isn't a good idea either.
+> >
+> > If the system is busy pinning threads to cpus is very hard to
+> > get right.
+> >
+> > It can be better to set the threads to run at the lowest RT
+> > priority - so they have priority over all 'normal' threads
+> > and also have a very sticky (but not fixed) cpu affinity so
+> > that all such threads tends to get spread out by the scheduler.
+> > This all works best if the number of RT threads isn't greater
+> > than the number of physical cpu.
+> >
+> And the problem is that you cannot give an 'optimal' performance metric
+> here. With NVMe-over-Fabrics the number of queues is negotiated during
+> the initial 'connect' call, and the resulting number of queues strongly
+> depends on target preferences (eg a NetApp array will expose only 4
+> queues, with Dell/EMC you end up with up max 128 queues).
+> And these queues need to be mapped on the underlying hardware, which has
+> its own issues wrt to NUMA affinity.
+>
+> To give you an example:
+> Given a setup with a 4 node NUMA machine, one NIC connected to
+> one NUMA core, each socket having 24 threads, the NIC exposing up to 32
+> interrupts, and connections to a NetApp _and_ a EMC, how exactly should
+> the 'best' layout look like?
+> And, what _is_ the 'best' layout?
+> You cannot satisfy the queue requirements from NetApp _and_ EMC, as you
+> only have one NIC, and you cannot change the interrupt affinity for each
+> I/O.
+>
+Not all users have so many NIC cards that they can have one NIC per NUMA no=
+de.
+This scenario is quite common that only has one NIC.
 
+There doesn=E2=80=99t exist a =E2=80=98best' layout for all cases,
+So add this parameter to let users select what they want.
 
-> 2023=E5=B9=B44=E6=9C=8817=E6=97=A5 =E4=B8=8B=E5=8D=883:37=EF=BC=8CMing =
-Lei <ming.lei@redhat.com> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> On Thu, Apr 13, 2023 at 09:29:41PM +0800, Li Feng wrote:
->> The default worker affinity policy is using all online cpus, e.g. =
-from 0
->> to N-1. However, some cpus are busy for other jobs, then the nvme-tcp =
-will
->> have a bad performance.
->=20
-> Can you explain in detail how nvme-tcp performs worse in this =
-situation?
->=20
-> If some of CPUs are knows as busy, you can submit the nvme-tcp io jobs
-> on other non-busy CPUs via taskset, or scheduler is supposed to choose
-> proper CPUs for you. And usually nvme-tcp device should be saturated
-> with limited io depth or jobs/cpus.
->=20
->=20
-> Thanks,=20
-> Ming
->=20
-
-Taskset can=E2=80=99t work on nvme-tcp io-queues, because the worker cpu =
-has decided at the nvme-tcp =E2=80=98connect=E2=80=99 stage,
-not the sending io stage. Assume there is only one io-queue, the binding =
-cpu is CPU0, no matter io jobs
-run other cpus.
-
-
+> Cheers,
+>
+> Hannes
+> --
+> Dr. Hannes Reinecke                Kernel Storage Architect
+> hare@suse.de                              +49 911 74053 688
+> SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 N=C3=BCrnberg
+> HRB 36809 (AG N=C3=BCrnberg), Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev, Andre=
+w
+> Myers, Andrew McDonald, Martje Boudien Moerman
+>
 
