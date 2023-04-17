@@ -4,60 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA72AC77B70
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Apr 2023 13:51:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF7C3C77B76
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Apr 2023 14:02:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rW08AcXe5h1yzwO/16VfGa8RMtIWOvyOCi3lznESrus=; b=gUeb0/5zSW46nHx0tNGdzV2hpy
-	6K0B2PpYyj9PGArrGpDREXcY5wIR+clk038KgulcbKzKaniyzcqnTuLgHevQcAVWWJtJsOJUdrgOb
-	01n0yYCAWKADyod6BKiNYNGpwbqn1vbwg8l8HFaQfJnhMOAmyjTtnxLIs1C+9V2KR/5yWl4RUwMiB
-	RJDPWXIxwB/XyeTqp4lGzwzfXGFNwbL0v10uxxvghthaCCnAMl0j40M11MIfAfCvoxqKB9lrK6AUp
-	st4lqJyURB4XSkzFKHkyI0uWbFleqfWMG/ddeFdRyZirEOgSez2Vs/kO+Cbtz8mCfW8fCAbFB77bE
-	EUy7bGxQ==;
+	bh=U8OluHKc8Dw/IrgZsjhURxbDCGWxp9NjexBQwaudwp4=; b=OOvgMdJtwn++hnvJknQrhkYdNg
+	LqLP6mEUNt08TpHiQyLNfT/yM2pVthdsuIMyOy0PNCws+fQKREnb39taB/C/RRuLZ6jNnluEMLWk8
+	+oJ0ZXB1hxbphwdSPpWURYYqmQ7C4aa+j85KRrfIrhpxwUX2NQ/VsJFGkPxt/tH9FYCLXS3qbOBJo
+	lMkQIcB7C/BUPjCUFMcLeUq7g4rmRVuxRTxhioj/QdLVEDZKe9VL39l1Ft9XCzCqJAnamDlNa70Al
+	LUgk6QYGcZwFRUZLWfxy1w/LFgryvg/O4FTDZAJGN9/HhEFVrabIj3fZXUwRHVGobsyXzQZ3Cq+ti
+	V+0tlyKQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1poPFz-00GU0c-1v;
-	Mon, 17 Apr 2023 13:50:59 +0000
-Received: from mail-wm1-f47.google.com ([209.85.128.47])
+	id 1poPQi-00GVnw-2W;
+	Mon, 17 Apr 2023 14:02:04 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1poPFw-00GTzG-0M
+	id 1poPQg-00GVlt-0B
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Apr 2023 13:50:57 +0000
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3f16f792384so3001215e9.0
-        for <linux-nvme@lists.infradead.org>; Mon, 17 Apr 2023 06:50:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681739453; x=1684331453;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rW08AcXe5h1yzwO/16VfGa8RMtIWOvyOCi3lznESrus=;
-        b=G/YUqL5jUtqWucUfFJCRVmJCw23hj5lUSqdp2ebkyM5jE9cxLbadXMuRDNr0ZhgLMC
-         apgBgzQyXTLPFbzQJDegS10zY9rk4tjvzrGDQXkcdS5c0CK0DGcnQiEB+UHCDrw31bcI
-         iddfykKhRm/r7Iza5xx/YJ/24oO7MXjGgPDz0mnTT11mmKQ9x1yi6Tx/zPrxSHCoIjpw
-         uqKOjXQynooPYxwlbTAAJAvuA5y0rQVdNvvzG/2byaObidDqzgLEMl8vj1o6wdFbEJb+
-         icE4/X7Ky+ogBz5zgAW9UowMud88CaCzeqp7oUD34bF9nN9rBko4TbBHk5kkh/xAyHnA
-         Eoag==
-X-Gm-Message-State: AAQBX9d2y2nIRilt6MptJaaMuk3dHIgc5u5VeaRtfe/WWy/kYISwnx/8
-	J402wVrO4wX9i/5M+WCl5WM=
-X-Google-Smtp-Source: AKy350b1X6uGiq3uux1vDEuWjGbMRSgJevFg6hjeWvM+TsOvfsrYDWSWYdhSqBqqRF+8GiUVOXaing==
-X-Received: by 2002:a05:600c:6025:b0:3f1:75a5:a369 with SMTP id az37-20020a05600c602500b003f175a5a369mr1310893wmb.3.1681739452680;
-        Mon, 17 Apr 2023 06:50:52 -0700 (PDT)
-Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id g12-20020adffc8c000000b002f79ea6746asm7582944wrr.94.2023.04.17.06.50.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Apr 2023 06:50:52 -0700 (PDT)
-Message-ID: <ffb33351-e26b-470e-9849-e195d9b05b52@grimberg.me>
-Date: Mon, 17 Apr 2023 16:50:50 +0300
+	Mon, 17 Apr 2023 14:02:03 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 31C4321A3F;
+	Mon, 17 Apr 2023 14:01:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1681740118; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U8OluHKc8Dw/IrgZsjhURxbDCGWxp9NjexBQwaudwp4=;
+	b=ogtrEw2bcy5gaw1ADC602eRpbWV7k2SwtzXm74vappvfmpRntO962+SXjbLKJ1gZTv+u9U
+	G6xDULFBBTOGZR2Oc5vriTxCtG1bcxxBFn/iRfSU+gZlyMdXLNa5UrKkcyA1gdwu38i2MM
+	oTKnYp2LWY/OHqFOI9ahJ7kFVtVVzrs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1681740118;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U8OluHKc8Dw/IrgZsjhURxbDCGWxp9NjexBQwaudwp4=;
+	b=u1Bx+R1519ISkAqLQUhAViShiw7Pfy22mq8NT3PclEjs4luT24sle/tb/yn3dEUhLb/hm8
+	8AVJT8zR6MThzFBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1C28113319;
+	Mon, 17 Apr 2023 14:01:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id N2N9BlZRPWTbAwAAMHmgww
+	(envelope-from <hare@suse.de>); Mon, 17 Apr 2023 14:01:58 +0000
+Message-ID: <1b9a7d09-1af6-564a-18db-2a73f27435cd@suse.de>
+Date: Mon, 17 Apr 2023 16:01:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
+ Thunderbird/102.9.1
 Subject: Re: [PATCH 18/18] nvmet-tcp: add configfs attribute 'param_keyring'
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
  Chuck Lever <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev
 References: <20230329135938.46905-1-hare@suse.de>
@@ -66,13 +77,14 @@ References: <20230329135938.46905-1-hare@suse.de>
  <c7e895f1-1c95-f658-f7a1-c4cee5cf8c91@suse.de>
  <1b018791-9aa3-b988-7045-40b46bc50989@grimberg.me>
  <02e4f6eb-32c2-8f3c-872f-831e70da6166@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <02e4f6eb-32c2-8f3c-872f-831e70da6166@suse.de>
+ <ffb33351-e26b-470e-9849-e195d9b05b52@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <ffb33351-e26b-470e-9849-e195d9b05b52@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230417_065056_145916_035FCCB8 
-X-CRM114-Status: GOOD (  14.05  )
+X-CRM114-CacheID: sfid-20230417_070202_242732_311B2031 
+X-CRM114-Status: GOOD (  15.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,30 +99,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>>>> Add a configfs attribute to list and change the default keyring.
->>>>
->>>> is the keyring an attribute of a port? or a subsystem? Why the choice
->>>> of making it per port?
->>>>
->>> As per discussion at fmds each port might want to use different 
->>> credentials.
->>> We can move it to subsystems if we decide we don't want to support 
->>> that use-case.
->>
->> I think we should move it to the subsystem in Linux.
->>
-> Easier said than done.
+On 4/17/23 15:50, Sagi Grimberg wrote:
 > 
-> We can only fetch the subsystem once we have the NQN, which we will
-> know after the connect command.
-> But out of necessity the connect command will only be transferred
-> after TLS handshake completed, so there is not subsystem NQN allowing
-> us to figure out the correct subsystem.
+>>>>>> Add a configfs attribute to list and change the default keyring.
+>>>>>
+>>>>> is the keyring an attribute of a port? or a subsystem? Why the choice
+>>>>> of making it per port?
+>>>>>
+>>>> As per discussion at fmds each port might want to use different 
+>>>> credentials.
+>>>> We can move it to subsystems if we decide we don't want to support 
+>>>> that use-case.
+>>>
+>>> I think we should move it to the subsystem in Linux.
+>>>
+>> Easier said than done.
+>>
+>> We can only fetch the subsystem once we have the NQN, which we will
+>> know after the connect command.
+>> But out of necessity the connect command will only be transferred
+>> after TLS handshake completed, so there is not subsystem NQN allowing
+>> us to figure out the correct subsystem.
+>>
+>> So we'll have to keep it at the port level, I'm afraid.
 > 
-> So we'll have to keep it at the port level, I'm afraid.
+> Question, why does nvmet needs to support user defined keyrings?
+> I understood your argument for the host, but why should the target
+> support it?
 
-Question, why does nvmet needs to support user defined keyrings?
-I understood your argument for the host, but why should the target
-support it?
+Hmm. Originally I implemented it to be similar to the host 
+configuration, but from the implementation we don't _actually_ need it 
+as we select the key from the entire key store.
+Having it is just a nice way of avoiding having to have a daemon 
+configuration.
+So if you insist we can drop it for the initial implementation.
+
+Cheers,
+
+Hannes
+
+
 
