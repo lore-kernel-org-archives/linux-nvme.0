@@ -4,64 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5DD3FC77B72
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Apr 2023 20:41:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A897FC77B76
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Apr 2023 22:56:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=uY8LBeth5vJNi2Lzp3GMfyHfSkopsbeWtmhmmgyT3GM=; b=qdu+MYOvsIWxH6fEs1N8crBL0H
-	FwMyXkgAJUCR7R7MvcfL0KBgK71GJ++q1FYT66bkaABm9dYmRanslHkSyL5J8hQ78si1dCZdmlnVv
-	EzC01+BUZZz5YRCyUs0UIz8xjPzlPDP1+bsPdBJVecREVxRzHX5TS22JdOmUT56uRDoV0ZoVvXf1F
-	C5tqlBU5j1TOlx5UQdbwix8f3O2I1jwYIjNwDQTD3tLcIwh5ce413yoVotZpSHFU8Ke4Jg8zfsCQg
-	Jrj6/Ve/Huee3G+ouIKn4hN6mtUVYOfc/nAfRkH2AdA7tDI/G3rVQ1ejZzYJZp0FWWSNl/gD6FKQr
-	skF8bPrQ==;
+	bh=l6D0feCu1d+yyKPh/6VbxhsIfXinTHZDHqHhB/yxab8=; b=gqpUxKhv5rch5WkOfWxp6XplRV
+	owQpk5i9abpw5Ps5JzsLp/h8quzHPxOODL4skdynCutAAADOG7O9orKuwPGbEJOwLSob8U0wUXEp1
+	Q6FiAUwg/ZD3h294fOqaXXJgnXwTMyhFnO4BlsJPnQusNgWT6ve0cDvUyRlgtmTJywCaCTfz/+vYk
+	Lf79MyuCWcrGxkuBImRs7xPdYDDY+nTKJBO+KEpLkkYeCUdW4+YimK8pw1kq2iH2HcQZn1nBBA0aw
+	7SXwchwEHK35m2ipHt/2S66n/PGBGhliNA03a2lcgFxSVzHcOcix1KEgfnnT2CJwJd/VXA/HNM2S4
+	APZoMyAA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1poVf8-00HYbG-39;
-	Mon, 17 Apr 2023 20:41:22 +0000
-Received: from smtp-18.smtpout.orange.fr ([80.12.242.18] helo=smtp.smtpout.orange.fr)
+	id 1poXlc-000Kq9-1X;
+	Mon, 17 Apr 2023 22:56:12 +0000
+Received: from mail-ua1-x962.google.com ([2607:f8b0:4864:20::962])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1poVf5-00HYa7-2l
+	id 1poXlY-000KnW-0l
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Apr 2023 20:41:21 +0000
-Received: from pop-os.home ([86.243.2.178])
-	by smtp.orange.fr with ESMTPA
-	id oVf0plYozzvWyoVf0pNzt5; Mon, 17 Apr 2023 22:41:16 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=orange.fr;
-	s=t20230301; t=1681764076;
-	bh=uY8LBeth5vJNi2Lzp3GMfyHfSkopsbeWtmhmmgyT3GM=;
-	h=From:To:Cc:Subject:Date;
-	b=bgyBqcn/j2enXfq0We5FO0LJwl3YbpRpB8UKfmiOxo89kCIl5sFQm+wFEZWYILNL/
-	 WgtA20N8NCK7UXc6DFOug/ah6STLYj/UyNbSBtmF4Yokc+9LFBvGnpJRmdtIsQR2iT
-	 I79Sf7tyOJFUFFeru2VRetn1o1dBzwBSYfjU1Q6Lbnnb9MWZhKTgPhVuWnEAEPs/tM
-	 4QkVX7bJdKpow3y9Rz5iv8P1mJoR8bYNl5jjsB73GxO1ojLCm+TuEjRTw8YrkBTlPk
-	 QKvES/I5i+kRUTYbIMCFFKX+x+zUlfFyS1YOhxHAzuq6pq1btq094g5YnaEPrqyNZo
-	 O3LljMigC2TjQ==
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Mon, 17 Apr 2023 22:41:16 +0200
-X-ME-IP: 86.243.2.178
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Hannes Reinecke <hare@suse.de>,
-	Christoph Hellwig <hch@lst.de>,
+	Mon, 17 Apr 2023 22:56:11 +0000
+Received: by mail-ua1-x962.google.com with SMTP id y21so8847583ual.3
+        for <linux-nvme@lists.infradead.org>; Mon, 17 Apr 2023 15:56:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1681772166; x=1684364166;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=l6D0feCu1d+yyKPh/6VbxhsIfXinTHZDHqHhB/yxab8=;
+        b=ZK1epdEoEw6o9quBrTiukQwyhRDpGw8OB2cAiHIHH1izOOEDymlJM9XDB1hAp3f1kx
+         +HYXeUntZcS152Bo9JyFX3tWSVfPKUmCg6rEgHf7pCZuRHuQI1jvJngJrT55edaD2SO/
+         gDFvDlbkR3TdtrDiy8gTwZ+6ozj2gYWWrFAqe6OhSaMi79A3ea1ePyEH3f4Njxsw7aXH
+         gMs796M5rZyN5I2ka3DQtiecNA0hYO2TGGqb8F93ne5rZ+iO/oitfQcgWAgBpW6T9gr1
+         TaehoeLyp6v5JqAPY4ws1JBo8+OxUPR2GIRziw+zGPYQybxsKIEBUKVbeXcQJnNjvhTJ
+         rYig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681772166; x=1684364166;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l6D0feCu1d+yyKPh/6VbxhsIfXinTHZDHqHhB/yxab8=;
+        b=NDolAIZ5aRzDP1SZU63SCzvxwg5GOuItWQlms1T2XhiSLCRwJMfbcGf8WxYKQ26TpU
+         tPnPxKvabxblX5K79m6Y9VDdJV+c+VuDhEW1pZqzEYJwEtWuZ/kg5KYC4kzydlnAlyrn
+         w7N7haUOoDJ16iTdH6KPdFw6M84Fea3Qrjsj0SeZp/oZhsgDMnWfgLz2BDoZSbicmo7V
+         3I65hfHUbJ9WwOVNqYVKyvvvmdYTV7dZsTuyqgu2LYO7T8bv1DFrjtXvhhY5GaMaafj/
+         uDyPnzSVFyRJA8+rXV9I/A92Rqy8bRpamJbOMXE0yjkV2A2mCBDx62Cu5gdTs5uRQDdC
+         YE4w==
+X-Gm-Message-State: AAQBX9c3/ijALpF/bzMwazavjOAH0XH1XXQ7BRYuBW6YsYpu9mDf+2rd
+	gAjBMmRMeyGguiuHdhjGnRDm5n4cPk2+VPROsPm52rQlSW3pognEAX3SYHugXbBExg==
+X-Google-Smtp-Source: AKy350avyGI8mX+URJJzGwkSrbgNVYjfkg4eDbaNwDoN+JkxzjTvjEFLef+Fdx8KV0rWtucJGuQ3KrhIBKUb
+X-Received: by 2002:a1f:c843:0:b0:401:87c8:4a7c with SMTP id y64-20020a1fc843000000b0040187c84a7cmr4309198vkf.14.1681772166767;
+        Mon, 17 Apr 2023 15:56:06 -0700 (PDT)
+Received: from c7-smtp.dev.purestorage.com ([2620:125:9007:320:7:32:106:0])
+        by smtp-relay.gmail.com with ESMTPS id ay32-20020a056122182000b00431eccbd8d5sm5695033vkb.8.2023.04.17.15.56.06
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 17 Apr 2023 15:56:06 -0700 (PDT)
+X-Relaying-Domain: purestorage.com
+Received: from dev-ushankar.dev.purestorage.com (dev-ushankar.dev.purestorage.com [IPv6:2620:125:9007:640:7:70:36:0])
+	by c7-smtp.dev.purestorage.com (Postfix) with ESMTP id 8A837220AB;
+	Mon, 17 Apr 2023 16:56:05 -0600 (MDT)
+Received: by dev-ushankar.dev.purestorage.com (Postfix, from userid 1557716368)
+	id 7C7E3E47A66; Mon, 17 Apr 2023 16:56:05 -0600 (MDT)
+From: Uday Shankar <ushankar@purestorage.com>
+To: Costa Sapuntzakis <costa@purestorage.com>,
+	Randy Jennings <randyj@purestorage.com>,
+	Hannes Reinecke <hare@suse.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@fb.com>
+Cc: Uday Shankar <ushankar@purestorage.com>,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH] nvmet-auth: remove some dead code
-Date: Mon, 17 Apr 2023 22:41:13 +0200
-Message-Id: <e6f0e506459eaec9dad74946c1e01aac74874054.1681764032.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
+Subject: [PATCH 0/3] keepalive bugfixes
+Date: Mon, 17 Apr 2023 16:55:55 -0600
+Message-Id: <20230417225558.2890062-1-ushankar@purestorage.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230417_134120_336463_B88D607C 
-X-CRM114-Status: UNSURE (   8.52  )
+X-CRM114-CacheID: sfid-20230417_155608_443100_1EFA9BD0 
+X-CRM114-Status: UNSURE (   9.11  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -77,39 +102,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-'status' is known to be 0 at the point.
-And nvmet_auth_challenge() return a -E<ERROR_CODE> or 0.
-So these lines of code should just be removed.
+While reviewing the Linux KATO implementation in an attempt to better
+understand the current NVMe Keep Alive specification, we found a
+few issues in the host implementation that could contribute to spurious
+Keep Alive timeouts being detected by controllers.
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-The dead code became obvious after commit be2ada6d0ed0 ("nvmet-auth: fix
-return value check in auth receive")
----
- drivers/nvme/target/fabrics-cmd-auth.c | 9 ---------
- 1 file changed, 9 deletions(-)
+Uday Shankar (3):
+  nvme: double KA polling frequency to avoid KATO with TBKAS on
+  nvme: check IO start time when deciding to defer KA
+  nvme: improve handling of long keep alives
 
-diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme/target/fabrics-cmd-auth.c
-index 7970a7640e58..038032e46145 100644
---- a/drivers/nvme/target/fabrics-cmd-auth.c
-+++ b/drivers/nvme/target/fabrics-cmd-auth.c
-@@ -483,15 +483,6 @@ void nvmet_execute_auth_receive(struct nvmet_req *req)
- 			status = NVME_SC_INTERNAL;
- 			break;
- 		}
--		if (status) {
--			req->sq->dhchap_status = status;
--			nvmet_auth_failure1(req, d, al);
--			pr_warn("ctrl %d qid %d: challenge status (%x)\n",
--				ctrl->cntlid, req->sq->qid,
--				req->sq->dhchap_status);
--			status = 0;
--			break;
--		}
- 		req->sq->dhchap_step = NVME_AUTH_DHCHAP_MESSAGE_REPLY;
- 		break;
- 	case NVME_AUTH_DHCHAP_MESSAGE_SUCCESS1:
+ drivers/nvme/host/core.c | 38 +++++++++++++++++++++++++++++++++++---
+ drivers/nvme/host/nvme.h |  5 +++--
+ 2 files changed, 38 insertions(+), 5 deletions(-)
+
 -- 
-2.34.1
+2.25.1
 
 
