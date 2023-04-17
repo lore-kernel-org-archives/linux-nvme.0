@@ -4,86 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81139C77B7A
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Apr 2023 15:36:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC1DBC77B76
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Apr 2023 19:14:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=X04HwJApHEKRmZUvhtzZWCQZ243CBwNWrrY8JtkmuSM=; b=2L7uqeENvyPQE17dV541LBNE9K
-	0S6nnx0EUxjcnTIUikMe/5vcKgavzNSCAXq7cA/Puaz6aEkiH6+88m87KAPJJIfm+1YhAVG/h8ZnE
-	BY4ZBYZgrqUnYhiDbapPfEDmqcPDQ7wy9khZX55t/MZIGTRxuK2FYAFgsd1Ra8sqKZDmFnkuM0Bf1
-	rXkBfrrQE4toiu3vEYtedQs3B2mHfsxv/BFHEkrz9F98sKOEoYpJcLx+kkimwq2WEYCv5eXt4cGJ4
-	dwZ22CWRwJbAHcjzLJ99I70IBf3jIHHTAVvOesflKHefO690eT4IdA9LdnSpbFxjWahyVyYqYGcGk
-	1jD+YSMw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=yBtJVDxHkjT7DQCSOQzNe2IthXptum9ChouKTqEU27w=; b=MEXlVzD5CD1nDRslpzST+8tMKO
+	IF5j+/KokXtUfx0eNrcZSgSicWFrq8YqOKAUj8vhozRlMuypoj7KNj6J1/5uSKBF9/maH/DczkdAV
+	4zHBtE4sjGGBvFWhMXKGQnn1Rsd7I5PjlMRKm8eoz+7Ba0Z7XAIXcEMmkIW+7G3zHcKqr7opwuK1j
+	bK8SNBI8aE01xW/zLlhTWtunJP7RNEc/dlROss5wzFvMdcbpriZQ16XQ9wzuQtsY3rqRDrL5J2wJa
+	nxiANJPFS+SO8KJ0zkI+D9Ys/U3HCBtyJOvtgBXP0G9Y3P8lPS4734P9ZH4LRqtLiKIchLQ4/LJOJ
+	ttYUrxWw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1poQuS-00Gumc-1p;
-	Mon, 17 Apr 2023 15:36:52 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1poUIY-00HOpQ-2C;
+	Mon, 17 Apr 2023 19:13:58 +0000
+Received: from mail-qv1-f47.google.com ([209.85.219.47])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1poQuP-00GulY-0D
+	id 1poUIW-00HOou-1L
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Apr 2023 15:36:50 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0812A1F890;
-	Mon, 17 Apr 2023 15:36:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1681745805; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X04HwJApHEKRmZUvhtzZWCQZ243CBwNWrrY8JtkmuSM=;
-	b=wdYstHIrINuemA3RjGh3Uh1fgpEbgY4V258cOPeLzQ39hEgY3FtfXE9YuZQ+J3eJKWFzma
-	jnGaQWFMHt3iFE1tKcVH+UpR0ft8s1DZl9g9xwIN2sbxLs6OLLSi43oTHEhI3K5Q53urE3
-	AVr98WzTqvotaiWYL9H0dNVL/MTC8cU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1681745805;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X04HwJApHEKRmZUvhtzZWCQZ243CBwNWrrY8JtkmuSM=;
-	b=ldj6lEbKELry3qUR2Dedcttn1yLj5uGqGGjze6T7pIpRWS80ce0SFxeJX0QZU4ERffWeMj
-	hcLHWI+RlJnYZyDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A8B851390E;
-	Mon, 17 Apr 2023 15:36:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id KLJvKIxnPWT0OQAAMHmgww
-	(envelope-from <hare@suse.de>); Mon, 17 Apr 2023 15:36:44 +0000
-Message-ID: <89b96e03-9a00-b1a7-733a-5e61ce57a164@suse.de>
-Date: Mon, 17 Apr 2023 17:36:44 +0200
+	Mon, 17 Apr 2023 19:13:57 +0000
+Received: by mail-qv1-f47.google.com with SMTP id on12so7853222qvb.6
+        for <linux-nvme@lists.infradead.org>; Mon, 17 Apr 2023 12:13:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681758832; x=1684350832;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yBtJVDxHkjT7DQCSOQzNe2IthXptum9ChouKTqEU27w=;
+        b=Yv5iKHXrEM6nGTBAjLa5/WjQbrGlBYj8G2h2HQxwkewcLoS4KimzT8K9aVyhgTA6nw
+         sGCs1CWXWbfivBKvjJoA83b47MW5ti7EBqCZvcqHoiv/m6iXw5hlA6ijJYfLijf/rLAy
+         3EBTitVYdKSaFQFLEJVX3wACCmMnqXRIOKUUioKmelaqRFDK6SqHcWHi/hVk9RdBbZ4v
+         HVmwmWBA5MLAOmpDuPO3UcRORDXDktRrKGTaNEC6MvX3jsCJxJRqiCWzfaQ8n484x/br
+         8vvFBEoYKZ0Ft80V9rA/5p5+h3F1CDm69hN/ZMaSeL81pXN+s4vZz3b89kKCeFBzR9zC
+         ryTg==
+X-Gm-Message-State: AAQBX9eiLBIzE1qSp5YN5nDL/GmPQaJ4Flss0yjJ15NK38iXBl0626J3
+	1zg/JJrE6zFArUfeEoawVX06
+X-Google-Smtp-Source: AKy350YhhMmQjUtscx8DWNyjxCDA5LGW9pBXnmkkJTzahbIxgePxnjEG+PUB8GZIdmsQdXDjMB2WVw==
+X-Received: by 2002:a05:6214:5084:b0:5ef:6101:3282 with SMTP id kk4-20020a056214508400b005ef61013282mr11320857qvb.0.1681758832583;
+        Mon, 17 Apr 2023 12:13:52 -0700 (PDT)
+Received: from localhost (pool-68-160-166-30.bstnma.fios.verizon.net. [68.160.166.30])
+        by smtp.gmail.com with ESMTPSA id ed25-20020a05620a491900b0074856680834sm3332329qkb.132.2023.04.17.12.13.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Apr 2023 12:13:52 -0700 (PDT)
+Date: Mon, 17 Apr 2023 15:13:50 -0400
+From: Mike Snitzer <snitzer@kernel.org>
+To: Mike Christie <michael.christie@oracle.com>
+Cc: bvanassche@acm.org, hch@lst.de, martin.petersen@oracle.com,
+	linux-scsi@vger.kernel.org, james.bottomley@hansenpartnership.com,
+	linux-block@vger.kernel.org, dm-devel@redhat.com, axboe@kernel.dk,
+	linux-nvme@lists.infradead.org, chaitanyak@nvidia.com,
+	kbusch@kernel.org, target-devel@vger.kernel.org
+Subject: Re: [PATCH v6 06/18] dm: Add support for block PR read
+ keys/reservation
+Message-ID: <ZD2abp1WQ0FqYXAT@redhat.com>
+References: <20230407200551.12660-1-michael.christie@oracle.com>
+ <20230407200551.12660-7-michael.christie@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH 11/18] nvme-tcp: enable TLS handshake upcall
-Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org, Chuck Lever <chuck.lever@oracle.com>,
- kernel-tls-handshake@lists.linux.dev
-References: <20230417130302.86274-1-hare@suse.de>
- <20230417130302.86274-12-hare@suse.de>
- <73d59afa-d385-2616-fc74-13ad3bfe49be@grimberg.me>
- <4e9b3f94-b059-b225-9fa6-68178ebda990@suse.de>
- <298e74a7-4560-ac01-ad40-24019057b9bb@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <298e74a7-4560-ac01-ad40-24019057b9bb@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230407200551.12660-7-michael.christie@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230417_083649_248524_64F47B9E 
-X-CRM114-Status: GOOD (  13.65  )
+X-CRM114-CacheID: sfid-20230417_121356_474346_3FD62531 
+X-CRM114-Status: UNSURE (   8.14  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,59 +85,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/17/23 17:31, Sagi Grimberg wrote:
-> 
->>>>   static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
->>>>   {
->>>>       int ret;
->>>> +    key_serial_t psk_id = 0;
->>>> +
->>>> +    if (ctrl->opts->tls) {
->>>> +        psk_id = nvme_tls_psk_default(NULL,
->>>> +                          ctrl->opts->host->nqn,
->>>> +                          ctrl->opts->subsysnqn);
->>>> +        if (!psk_id) {
->>>> +            dev_err(ctrl->device, "no valid PSK found\n");
->>>> +            ret = -ENOKEY;
->>>> +            goto out_free_queue;
->>>> +        }
->>>> +    }
->>>> -    ret = nvme_tcp_alloc_queue(ctrl, 0);
->>>> +    ret = nvme_tcp_alloc_queue(ctrl, 0, psk_id);
->>>>       if (ret)
->>>> -        return ret;
->>>> +        goto out_free_queue;
->>>>       ret = nvme_tcp_alloc_async_req(to_tcp_ctrl(ctrl));
->>>>       if (ret)
->>>> @@ -1778,9 +1887,15 @@ static int nvme_tcp_alloc_admin_queue(struct 
->>>> nvme_ctrl *ctrl)
->>>>   static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
->>>>   {
->>>>       int i, ret;
->>>> +    key_serial_t psk_id;
->>>> +    if (!ctrl->tls_key) {
->>>> +        dev_err(ctrl->device, "no PSK negotiated\n");
->>>> +        return -ENOKEY;
->>>> +    }
->>>
->>> is ctrl->tls_key always set? Looks like this is the expectation.
->>>
->>
->> It needs to be set when TLS is enabled for the admin queue.
->> Otherwise no.
-> 
-> Then aren't you missing also and statement with (ctrl->opts->tls) ?
-> 
-Indeed, I do. Will be fixing it up.
+On Fri, Apr 07 2023 at  4:05P -0400,
+Mike Christie <michael.christie@oracle.com> wrote:
 
-Cheers,
+> This adds support in dm for the block PR read keys and read reservation
+> callouts.
+> 
+> Signed-off-by: Mike Christie <michael.christie@oracle.com>
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
-
+Acked-by: Mike Snitzer <snitzer@kernel.org>
 
