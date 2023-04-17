@@ -4,66 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18F1FC77B72
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Apr 2023 20:17:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5DD3FC77B72
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Apr 2023 20:41:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UGJUV+QOJ9TwngCZrRoaUhKy9sIkvhZVqVYZmUuossM=; b=vINEE7ZOxRWZsDfv407icsjNSx
-	IRpoCVMRuG4065SsqfvvO0WPxkeXgZlP7wwPWNHIPsBE8hps0BIj8LHkyNhISMKOCM+KlZcs4HVDd
-	wQXF2rKeRibOxLcS+Bt1FEu6ebmU6h9qPN/OAjhNVSSF6Yusun6U5l9plwJyL54PQnd+8iVaWtodq
-	OFXgv2fzqW+IvP4YbInmT7A52rLDykrT2tmnFfQDugOZkviYkVPMW6eQaP+WFxMB+uwtcWZtuJW96
-	L09K7t2TwYHLJWSDYuD5FUvK8l1NKbFB8/ictSmL/m3Nlt4kAG9SrtT3VfDHrKriJodbSR//QT3Yc
-	qoo1EtLQ==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=uY8LBeth5vJNi2Lzp3GMfyHfSkopsbeWtmhmmgyT3GM=; b=qdu+MYOvsIWxH6fEs1N8crBL0H
+	FwMyXkgAJUCR7R7MvcfL0KBgK71GJ++q1FYT66bkaABm9dYmRanslHkSyL5J8hQ78si1dCZdmlnVv
+	EzC01+BUZZz5YRCyUs0UIz8xjPzlPDP1+bsPdBJVecREVxRzHX5TS22JdOmUT56uRDoV0ZoVvXf1F
+	C5tqlBU5j1TOlx5UQdbwix8f3O2I1jwYIjNwDQTD3tLcIwh5ce413yoVotZpSHFU8Ke4Jg8zfsCQg
+	Jrj6/Ve/Huee3G+ouIKn4hN6mtUVYOfc/nAfRkH2AdA7tDI/G3rVQ1ejZzYJZp0FWWSNl/gD6FKQr
+	skF8bPrQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1poVHY-00HVJr-1K;
-	Mon, 17 Apr 2023 20:17:00 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1poVf8-00HYbG-39;
+	Mon, 17 Apr 2023 20:41:22 +0000
+Received: from smtp-18.smtpout.orange.fr ([80.12.242.18] helo=smtp.smtpout.orange.fr)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1poVHV-00HVJH-0b
+	id 1poVf5-00HYa7-2l
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Apr 2023 20:16:58 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id B766762011;
-	Mon, 17 Apr 2023 20:16:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E572FC433D2;
-	Mon, 17 Apr 2023 20:16:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1681762616;
-	bh=s0ENJSbqd0VO5HWeTuoTR97eEANi+iV3zsBdnSFglT4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=HK9eSq/rwqHruAKjXNBMFfnHcCy8VywdD896bb5D0wRYKf2GtkPM2zndiBUNMnApI
-	 TUqP+JB3wzWelqzCKTpM5rdZRbVCPNlj8wNzMjEpGzNK9oB/Y9JwXdBetsBy6jVa2p
-	 l1KZkobzHrjQQ2RXQiadDij2IAVuQkEppm9zuYzH7nNr/1OMpxxEPQbbMXyUBYWGEn
-	 IDPyPTDknKkDIkwB3kSHQ7/vOTQqsCSsL827HTbzYGMPBWhRKDpG12/t/1l7yENuzM
-	 rSGLK/mgC/BTuOkjMN96IiNBIBUCJOHq2tCccu6lppYxhXRjkly/VMyAIYKJKFNsMu
-	 PaVCSjIjcmoHQ==
-Date: Mon, 17 Apr 2023 13:16:54 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>, Keith
- Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, Chuck Lever
- <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev
-Subject: Re: [PATCH 08/18] nvme-tcp: do not set MSG_SENDPAGE_NOTLAST
-Message-ID: <20230417131654.427ebd6a@kernel.org>
-In-Reply-To: <5df08f86-2599-6e47-2fdc-bda8d70edaf2@grimberg.me>
-References: <20230417130302.86274-1-hare@suse.de>
-	<20230417130302.86274-9-hare@suse.de>
-	<36976756-b4c5-f2a5-34b8-e9731a49c477@grimberg.me>
-	<654702da-246a-934c-14e4-7b179c46ed98@suse.de>
-	<5df08f86-2599-6e47-2fdc-bda8d70edaf2@grimberg.me>
+	Mon, 17 Apr 2023 20:41:21 +0000
+Received: from pop-os.home ([86.243.2.178])
+	by smtp.orange.fr with ESMTPA
+	id oVf0plYozzvWyoVf0pNzt5; Mon, 17 Apr 2023 22:41:16 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=orange.fr;
+	s=t20230301; t=1681764076;
+	bh=uY8LBeth5vJNi2Lzp3GMfyHfSkopsbeWtmhmmgyT3GM=;
+	h=From:To:Cc:Subject:Date;
+	b=bgyBqcn/j2enXfq0We5FO0LJwl3YbpRpB8UKfmiOxo89kCIl5sFQm+wFEZWYILNL/
+	 WgtA20N8NCK7UXc6DFOug/ah6STLYj/UyNbSBtmF4Yokc+9LFBvGnpJRmdtIsQR2iT
+	 I79Sf7tyOJFUFFeru2VRetn1o1dBzwBSYfjU1Q6Lbnnb9MWZhKTgPhVuWnEAEPs/tM
+	 4QkVX7bJdKpow3y9Rz5iv8P1mJoR8bYNl5jjsB73GxO1ojLCm+TuEjRTw8YrkBTlPk
+	 QKvES/I5i+kRUTYbIMCFFKX+x+zUlfFyS1YOhxHAzuq6pq1btq094g5YnaEPrqyNZo
+	 O3LljMigC2TjQ==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 17 Apr 2023 22:41:16 +0200
+X-ME-IP: 86.243.2.178
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Hannes Reinecke <hare@suse.de>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH] nvmet-auth: remove some dead code
+Date: Mon, 17 Apr 2023 22:41:13 +0200
+Message-Id: <e6f0e506459eaec9dad74946c1e01aac74874054.1681764032.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230417_131657_258303_729A8021 
-X-CRM114-Status: GOOD (  17.33  )
+X-CRM114-CacheID: sfid-20230417_134120_336463_B88D607C 
+X-CRM114-Status: UNSURE (   8.52  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,26 +77,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, 17 Apr 2023 18:28:12 +0300 Sagi Grimberg wrote:
-> > But then we're running afoul with tls_sw_do_sendpage(), which uses 
-> > MSG_SENDPAGE_NOTLAST as a record indicator. Forwarding 
-> > MSG_SENDPAGE_NOTLAST to tls results in incorrect TLS records on the wire 
-> > and a transmission stall.
-> > 
-> > Took me days to figure that out.
-> > 
-> > If you have a better idea, I'm all ears.  
-> 
-> So sendfile is unsupported over kTLS? Or is there some special
-> case for it in the upper layer?
-> 
-> Jakub?
+'status' is known to be 0 at the point.
+And nvmet_auth_challenge() return a -E<ERROR_CODE> or 0.
+So these lines of code should just be removed.
 
-First I hear of it. 10 sec look at the code doesn't indicate that 
-the author missed this case completely either.
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+The dead code became obvious after commit be2ada6d0ed0 ("nvmet-auth: fix
+return value check in auth receive")
+---
+ drivers/nvme/target/fabrics-cmd-auth.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-Hannes, any more details on what's going wrong?
+diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme/target/fabrics-cmd-auth.c
+index 7970a7640e58..038032e46145 100644
+--- a/drivers/nvme/target/fabrics-cmd-auth.c
++++ b/drivers/nvme/target/fabrics-cmd-auth.c
+@@ -483,15 +483,6 @@ void nvmet_execute_auth_receive(struct nvmet_req *req)
+ 			status = NVME_SC_INTERNAL;
+ 			break;
+ 		}
+-		if (status) {
+-			req->sq->dhchap_status = status;
+-			nvmet_auth_failure1(req, d, al);
+-			pr_warn("ctrl %d qid %d: challenge status (%x)\n",
+-				ctrl->cntlid, req->sq->qid,
+-				req->sq->dhchap_status);
+-			status = 0;
+-			break;
+-		}
+ 		req->sq->dhchap_step = NVME_AUTH_DHCHAP_MESSAGE_REPLY;
+ 		break;
+ 	case NVME_AUTH_DHCHAP_MESSAGE_SUCCESS1:
+-- 
+2.34.1
 
-What incorrect TLS record have you seen? What's the sequence of sends?
-Offload or no offload? Easy to repro or stars need to (mis)align?
 
