@@ -4,87 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF7C3C77B76
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Apr 2023 14:02:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 10A4AC77B76
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Apr 2023 14:32:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=U8OluHKc8Dw/IrgZsjhURxbDCGWxp9NjexBQwaudwp4=; b=OOvgMdJtwn++hnvJknQrhkYdNg
-	LqLP6mEUNt08TpHiQyLNfT/yM2pVthdsuIMyOy0PNCws+fQKREnb39taB/C/RRuLZ6jNnluEMLWk8
-	+oJ0ZXB1hxbphwdSPpWURYYqmQ7C4aa+j85KRrfIrhpxwUX2NQ/VsJFGkPxt/tH9FYCLXS3qbOBJo
-	lMkQIcB7C/BUPjCUFMcLeUq7g4rmRVuxRTxhioj/QdLVEDZKe9VL39l1Ft9XCzCqJAnamDlNa70Al
-	LUgk6QYGcZwFRUZLWfxy1w/LFgryvg/O4FTDZAJGN9/HhEFVrabIj3fZXUwRHVGobsyXzQZ3Cq+ti
-	V+0tlyKQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pPnN3J1fYYc7EHLn+MXsTI6meJVzzJceBOZyn8kBA4w=; b=D9F1KKzAJyMIVmThQJKTAtbFz+
+	sohTPnqRBSBcUzOwTJUpRqr0Z4q9ENUbutbQcUe9yFNYsYRiGB7Hb2FHPf1ZVLuy9GDWnJm/u5Ym6
+	gTVLhdjRX1Uja5ATGZYIasHvSebhDeJOy9vVmDAPQzaQ+MH9+9xFj02GZ0hBb7rNFoGyOTJTUlj+g
+	3By+T90Z30MotnPnLIJtgWAgIpEPxtjeupCfZ2KyPths4+9b2I7OKM894pQNzCHdFCG1Z5fUZrn/8
+	/20sAiMfQ7OJk0cAjWwM4fJ3O9MJNn9nAde5xW62zYuyktnHzKe6LNwbQfkrQiLVF3jxGj8p9r6rO
+	P+Jk3NDA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1poPQi-00GVnw-2W;
-	Mon, 17 Apr 2023 14:02:04 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1poPuK-00Gdnq-36;
+	Mon, 17 Apr 2023 14:32:40 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1poPQg-00GVlt-0B
+	id 1poPuH-00Gdlk-0u
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Apr 2023 14:02:03 +0000
+	Mon, 17 Apr 2023 14:32:38 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 31C4321A3F;
-	Mon, 17 Apr 2023 14:01:58 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 975FB21A08;
+	Mon, 17 Apr 2023 14:32:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1681740118; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1681741955; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=U8OluHKc8Dw/IrgZsjhURxbDCGWxp9NjexBQwaudwp4=;
-	b=ogtrEw2bcy5gaw1ADC602eRpbWV7k2SwtzXm74vappvfmpRntO962+SXjbLKJ1gZTv+u9U
-	G6xDULFBBTOGZR2Oc5vriTxCtG1bcxxBFn/iRfSU+gZlyMdXLNa5UrKkcyA1gdwu38i2MM
-	oTKnYp2LWY/OHqFOI9ahJ7kFVtVVzrs=
+	bh=pPnN3J1fYYc7EHLn+MXsTI6meJVzzJceBOZyn8kBA4w=;
+	b=YmlwwoP2QMNFiFrhUrd4ASxmNj2uw3EqEFmvMg4/0RUOZSm8xKIKgyAHYdhgrs8fB3OVUY
+	/Vq2jKUZWqivw7EfsOnWPbu5k3qxYgVaObk0UQLaZ8Kx4u/1BVb6FZOpkQrOIpd4uCyXw6
+	N1AOHmp+bP8pdkkLRMOkhdUxStYyDw4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1681740118;
+	s=susede2_ed25519; t=1681741955;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=U8OluHKc8Dw/IrgZsjhURxbDCGWxp9NjexBQwaudwp4=;
-	b=u1Bx+R1519ISkAqLQUhAViShiw7Pfy22mq8NT3PclEjs4luT24sle/tb/yn3dEUhLb/hm8
-	8AVJT8zR6MThzFBg==
+	bh=pPnN3J1fYYc7EHLn+MXsTI6meJVzzJceBOZyn8kBA4w=;
+	b=7e7jv+JKXyFY95q3xbzP1sC89x58JdLaTTIoHeT0BQcIAXWi7UMlaTPt709EYCwCzKxIOj
+	w9ajYq+jY6P2h1Aw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1C28113319;
-	Mon, 17 Apr 2023 14:01:58 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 86BC81390E;
+	Mon, 17 Apr 2023 14:32:35 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id N2N9BlZRPWTbAwAAMHmgww
-	(envelope-from <hare@suse.de>); Mon, 17 Apr 2023 14:01:58 +0000
-Message-ID: <1b9a7d09-1af6-564a-18db-2a73f27435cd@suse.de>
-Date: Mon, 17 Apr 2023 16:01:57 +0200
+	id XXrXIINYPWQhFgAAMHmgww
+	(envelope-from <dwagner@suse.de>); Mon, 17 Apr 2023 14:32:35 +0000
+Date: Mon, 17 Apr 2023 16:32:35 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Damien Le Moal <dlemoal@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>, linux-nvme@lists.infradead.org
+Subject: Re: WTF is going on with the nvme-cli build
+Message-ID: <6fuh43gsczjido6okjs3wok6mx3q2kuhcsmhdalqlatmnhylk2@krladcc3nzma>
+References: <ZDemsiJi5vXd6aia@infradead.org>
+ <4jstzssirve7hiaimj6fm52rftqadwo2tmnjx62zq7lzkrjkfw@ooh4zluxlrrd>
+ <2a464237-975a-bfaf-ef2f-15ffd45b4d8a@kernel.org>
+ <sqrbip3dafgf4cnmmdziect6vem2msocsxqcqmnvyrlkartomj@ilwk43vyl53s>
+ <c70e194b-ed19-7d0e-5976-477cfa74a716@kernel.org>
+ <rjoeveo4f64f6hwdu65weljwbeceoj4h6eriiborxtnvfzmeqo@l3t5uh5s24rq>
+ <76432336-a866-0fa5-f42d-aa1f64945214@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH 18/18] nvmet-tcp: add configfs attribute 'param_keyring'
-Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Chuck Lever <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev
-References: <20230329135938.46905-1-hare@suse.de>
- <20230329135938.46905-19-hare@suse.de>
- <60ff89b4-5d63-a6db-18b1-e0f28055c5d9@grimberg.me>
- <c7e895f1-1c95-f658-f7a1-c4cee5cf8c91@suse.de>
- <1b018791-9aa3-b988-7045-40b46bc50989@grimberg.me>
- <02e4f6eb-32c2-8f3c-872f-831e70da6166@suse.de>
- <ffb33351-e26b-470e-9849-e195d9b05b52@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <ffb33351-e26b-470e-9849-e195d9b05b52@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <76432336-a866-0fa5-f42d-aa1f64945214@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230417_070202_242732_311B2031 
-X-CRM114-Status: GOOD (  15.95  )
+X-CRM114-CacheID: sfid-20230417_073237_461807_48E9C890 
+X-CRM114-Status: GOOD (  11.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,44 +93,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/17/23 15:50, Sagi Grimberg wrote:
-> 
->>>>>> Add a configfs attribute to list and change the default keyring.
->>>>>
->>>>> is the keyring an attribute of a port? or a subsystem? Why the choice
->>>>> of making it per port?
->>>>>
->>>> As per discussion at fmds each port might want to use different 
->>>> credentials.
->>>> We can move it to subsystems if we decide we don't want to support 
->>>> that use-case.
->>>
->>> I think we should move it to the subsystem in Linux.
->>>
->> Easier said than done.
->>
->> We can only fetch the subsystem once we have the NQN, which we will
->> know after the connect command.
->> But out of necessity the connect command will only be transferred
->> after TLS handshake completed, so there is not subsystem NQN allowing
->> us to figure out the correct subsystem.
->>
->> So we'll have to keep it at the port level, I'm afraid.
-> 
-> Question, why does nvmet needs to support user defined keyrings?
-> I understood your argument for the host, but why should the target
-> support it?
+On Mon, Apr 17, 2023 at 08:06:52PM +0900, Damien Le Moal wrote:
+> Replacing 'pkg-config' with 'pkgconf' and reconfiguring+compile still gives the
+> same error.
 
-Hmm. Originally I implemented it to be similar to the host 
-configuration, but from the implementation we don't _actually_ need it 
-as we select the key from the entire key store.
-Having it is just a nice way of avoiding having to have a daemon 
-configuration.
-So if you insist we can drop it for the initial implementation.
+Just checked what my local machine uses. It's also pkgconf and there is
+wrapper around the invocation, similar what Fedora does:
 
-Cheers,
+https://src.fedoraproject.org/rpms/pkgconf/blob/rawhide/f/platform-pkg-config.in
 
-Hannes
+I suspect one of those environment variables includes the path the
+/usr/local/lib/pkgconfig
 
+> But I think I found the issue: I had a
+> /usr/local/lib64/pkgconfig/json-c.pc file pointing at /usr/local/include/json-c.
+> Not sure how that garbage ended up there. Removing this file and compilation is ok.
 
+That's also a solution :)
+
+> My apologies for the noise.
+
+All good. I am sure this know-how on pkg-config will be helpful in future :)
 
