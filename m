@@ -4,93 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9DF05C77B76
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Apr 2023 01:03:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99149C77B76
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Apr 2023 02:18:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QfT5nLzEjO4aqdvzuaBAWtexnphLaruwJjQ0lGkpQLg=; b=O+SW4VCHq4OXkvcBhr9PoiaAtK
-	VtgKGAS5azI5HrMxiizxE8gz1bDerxjcVgkRsrbJVgoNIi1M81gCQhExm49PBjS/DPj5yPGtSfsHS
-	z/8v/xcJvbqa9rmGwlBGymqmrJxGUjbydZ18Dbut5YFB/85gp3ajak076g6h8CIsxpwKEtN1rJVAZ
-	Mv5xd/RdW0CrjdNu8L6fUAKen2bK7CNn0Ew01M7+frHGpP5oOFlRjaOJoBjjvImDUNDOXZ4NmY7Vw
-	nqWN6gNbuClq/dRZULOa7Fza0gjqwHGFIWp+/7WqrZvG75+vyF/pwGLTkfBCDoQgVnjZ3fD647kpZ
-	iijMNBHQ==;
+	bh=F3gwOs5yZ09ScguDMjDgLq/mG1QfFQkfqrF7Mazy/tQ=; b=MhgeOCKaIzhLZtSnExh/KTabE9
+	rACA93aph/CmZISaQashTsZiUrVgYm3UW2YvoE3wUxetJ1nIctArqBGneHruok0Pl4GFYILVfdhdE
+	Ac5h5/ggWCfYg8Ay5NJbDO1kojSJtfEgeruZ9f5Q6avY1cF7wjNd8FWc3CYxVSsdWy3szTpIlgro7
+	QKvcxm79kAWQGCBkERJi+CR19QpHYP3le/PBEZ7638EE2sTj5+7ee00Q3cO3mmFFJGZ1ezdXb3BQr
+	JgwLLdTMsd8RXFFaIXB61mHVO1x5OvBpUH1szT5WZzX+sxuKwgWSRcMNadE0e/SZOg5iTG0Yi9T12
+	1ga1CYBw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1poZkp-000Xor-0z;
-	Tue, 18 Apr 2023 01:03:31 +0000
+	id 1poauw-000f1P-2N;
+	Tue, 18 Apr 2023 02:18:02 +0000
 Received: from new3-smtp.messagingengine.com ([66.111.4.229])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1poZkk-000Xmn-1d
+	id 1poaut-000f0f-0W
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Apr 2023 01:03:30 +0000
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailnew.nyi.internal (Postfix) with ESMTP id E07B85823D6;
-	Mon, 17 Apr 2023 21:03:11 -0400 (EDT)
+	Tue, 18 Apr 2023 02:18:00 +0000
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 8AFD25828AA;
+	Mon, 17 Apr 2023 22:17:52 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Mon, 17 Apr 2023 21:03:11 -0400
+  by compute3.internal (MEProxy); Mon, 17 Apr 2023 22:17:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
 	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1681779791; x=1681780391; bh=Qf
-	T5nLzEjO4aqdvzuaBAWtexnphLaruwJjQ0lGkpQLg=; b=Jed0VkGXvq7AekqiT2
-	lbZx5V+lRPcQXMtpH0ahnA0fKFFOwfcqEZifgjPkPTlYuEouxcE2f/Oovkmg7JQQ
-	Xm8QucQhNBDnv0/cZ3FOYUqu9pvB209/DXKkB4Ag4qgy+e5uT/RYWDlnzscMn8Sv
-	45x7lOsn2XDPepkzcqsbd/hHPqLvCs2JbFRUpG2sRjOAVJl8czwhc8Uz+OzXIbvG
-	68nH6VznjHrHUlBlht+NclaT40mNlefyPYX7M0FwDEsRO5ce5bOg1NQeIK4b/qS/
-	bhHbdklCqz/C9UbdpSMSLWJU4gWxRerYvZMxUxRziJ0S9sT0SlLb0GzfOg/uC/Hk
-	tRqw==
+	:subject:subject:to:to; s=fm3; t=1681784272; x=1681784872; bh=F3
+	gwOs5yZ09ScguDMjDgLq/mG1QfFQkfqrF7Mazy/tQ=; b=ev8PFUk1g/X+m6yY7b
+	yF1/gOiLxzYOI7zajEx5zsek1CaxBvaHJx4pRjcY5s6quCMfk3u9Q4uugRRlVeNI
+	m7917LE2AUFKA8ctb89vpKD82lEBILJksKuUzfp7OY28DQfPlLGzYItd/KHgHXhL
+	ho12jny+sxo7nxhXda2g/6QciNNIxreiMKSsS7HoQmPkQrRQgUr9sIq/Ym38kAEk
+	hm0QdcvRy9EQFS/MbAsIqjowi+pk3db7Sv1A5H2CNPx9mfdmrP0agffTUIV9Od4B
+	eklv3KT3UsXOUNY+iYmQq8kEEirpnOnkRpbX28wXoHxzH0hSUG0t+do5vd+UpJYS
+	i6+Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
 	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=ie1e949a3.fm3; t=1681779791; x=1681780391; bh=QfT
-	5nLzEjO4aqdvzuaBAWtexnphLaruwJjQ0lGkpQLg=; b=UWcmHsgXRQuP9zW1/0i
-	xMUVS/0R+sW2OspL/h+qEOtoK0cnjdJI4VpN+TVRmhl3h6Tcrn9G4VzSTZeNaRV4
-	GN/cpTgn2h6ceQFm43ff00p5szhOOlxm6SRvUyTQSFh2p4hviwXrqvcPj1+b291h
-	Bd19Sp+fKssvkv6Zxl1rwWD+tUAkF8oBJfrUon3IkOyxAqw2bH9PvRPagSfjXUfJ
-	N9P5DBFIAH+bmy9HcaYxeA2NmBWgVudliEtKv15dDzSBlN8lcj5i2aZsDAuTyNn4
-	FaOeTmxAXx3xcKCW00P1A8Yvg/B2fDavL7fcl3yNYLco+X8I7l8WNA++EQG/6x8P
-	UrQ==
-X-ME-Sender: <xms:T-w9ZC8GL5Qx1swKuGuAis5TYYcubTYAaT-7DkH_35mmzT3pPe3clA>
-    <xme:T-w9ZCv43RTaxziRshArmA_a8UmFaoYhEnLMszV7PbFy905-4qUdhOvzR2UDS3Pan
-    wVASW-1S7HolmSD0yU>
-X-ME-Received: <xmr:T-w9ZICkfViCu3eNApewoCpB7ASzEGDutiPd54UlTSRR6GEQXjA6P--fWyBio_RRhtCkbrXJHoH_ux_sDdJYCQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeljedggedvucetufdoteggodetrfdotf
+	:x-sasl-enc; s=ie1e949a3.fm3; t=1681784272; x=1681784872; bh=F3g
+	wOs5yZ09ScguDMjDgLq/mG1QfFQkfqrF7Mazy/tQ=; b=Z1ZtL9rSnbkP4cfLdTe
+	J+yKVOJo7R39npGanpuXIMFUG0kdiXxkta0jTqcNMYqwK0CpKIdMglCIL5BvToQj
+	SX4cUCHnfeIZS8IePo9Nv2lt9UhFbZuiLidczPTwDOEvcJdN6S+Vdg18Vmu04vMQ
+	fquXBIyGxXPpvfhh13b4DQ/nW5DLGrcoZYNmf1g2j9ikAWiHk1d+3Nu24o2Yg2hZ
+	faR90NSkF+fIcToMQSGJZMmjd9HqiU2ZPixYztQfe0mlpkZpncQDW6VUXP+3H32u
+	4uCGC4EILSfKueg7Oo8E11bdbs9ykrql1gQmAngsPeLAD7AfQzcbU63Qjnp3Eh/Y
+	DFg==
+X-ME-Sender: <xms:0P09ZJUgQ-dSQgzP0mwltSh8WD2k0rWTH7XwOZ1fVGiLyCwQ5-HV6g>
+    <xme:0P09ZJnZLE4N2oegFeVlS4_yeImlNzZD8bxAPuza8Gn63eSAcIYA-cZtXciYfVaKA
+    xb90fXVD2ATMQVZTC8>
+X-ME-Received: <xmr:0P09ZFZ0BNMmVSEfqMMzBAhX63rnqX0HfhAbVaiI4DApezqSTuaYcDiThCZunHjHF-fXSo4YzPNPjMtXysnkpA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeljedgheekucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtsfdttddtvdenucfhrhhomhepufhhihhn
-    kdhitghhihhrohcumfgrfigrshgrkhhiuceoshhhihhnihgthhhirhhosehfrghsthhmrg
-    hilhdrtghomheqnecuggftrfgrthhtvghrnhepvdegtdfgvdfhgfekvdektdfgfeeljeel
-    gefgkedujeeiteehgefhgeethffgheehnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
-    hrrghmpehmrghilhhfrhhomhepshhhihhnihgthhhirhhosehfrghsthhmrghilhdrtgho
-    mh
-X-ME-Proxy: <xmx:T-w9ZKd2LXrrYq_mnAsYHgEKoyHbahX8BoE9GMSy4Ku7G8r6-JD48g>
-    <xmx:T-w9ZHNTLU6b87JN_IBxzpDhP62_ovTaXZmGDD5WL7XnJib6v0kAaQ>
-    <xmx:T-w9ZEl2MCsH-YaLWieh_1CBNlRVRXXRPs8ReTtKK3gl3xqmpm37_Q>
-    <xmx:T-w9ZN0PCPeFJDux_quvw8N9MOz3OAVVlTsg2UIvnPWiE-oVfyCluTDw5VY>
+    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehttd
+    fstddttddvnecuhfhrohhmpefuhhhinhdkihgthhhirhhoucfmrgifrghsrghkihcuoehs
+    hhhinhhitghhihhrohesfhgrshhtmhgrihhlrdgtohhmqeenucggtffrrghtthgvrhhnpe
+    dvgedtgfdvhffgkedvkedtgfefleejleeggfekudejieetheeghfegtefhgfehheenucev
+    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehshhhinhhitg
+    hhihhrohesfhgrshhtmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:0P09ZMU4lvHxLck3DorXKCQarj5tvNnBP8E0AtB41IDikC-CTUfxPw>
+    <xmx:0P09ZDnu1juapsyUXQyzJtbySB8J361xXetIRvM2Jz5KcWllDveWrw>
+    <xmx:0P09ZJdA_R9NbeRJbLEPiMwKB8loFgWbpofH0J3sPA5rwPsT31iitQ>
+    <xmx:0P09ZIwpssZXYOmQEr6wM83c5VHL2i0HSFkSs0gVf_BYb9eltbRkI0F1SVQ>
 Feedback-ID: ie1e949a3:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 17 Apr 2023 21:03:10 -0400 (EDT)
-Date: Tue, 18 Apr 2023 10:03:05 +0900
+ 17 Apr 2023 22:17:50 -0400 (EDT)
+Date: Tue, 18 Apr 2023 11:17:46 +0900
 From: Shin'ichiro Kawasaki <shinichiro@fastmail.com>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: shinichiro.kawasaki@wdc.com, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH blktests v3 0/2] nvme uring-passthrough test
-Message-ID: <w7jlffsost472fk4c6cyn5rfrj7yudkim54zvl2v5cswj5mcya@dmjzfc2fe7am>
-References: <CGME20230413085116epcas5p3ced7bf2b1b85bf59ff36e5440065a808@epcas5p3.samsung.com>
- <20230413085024.49750-1-joshi.k@samsung.com>
+To: alan.adamson@oracle.com
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: Re: [PATCH blktests] nvme/039: avoid failure by error message rate
+ limit
+Message-ID: <26coaxpjtu5vkzxp6tp6wysbzydvg7mjptudbwnxl3xthzxdh7@kl32wqat4z6k>
+References: <20230412085923.1616977-1-shinichiro@fastmail.com>
+ <34019736-06eb-b5dd-b6a1-101907c38917@oracle.com>
+ <saejpr554r5sxjhqjps3yqgdwhrgufauki2f5npp2yzu6xtvum@q7oz2nwzic3r>
+ <lhy27pg5my4fw7a7lyt5ag6zms4vnnaoab2laylatjqwkckdzv@55ebsbgtgpbs>
+ <3216ff1f-ecde-967b-75b1-7da643570ed9@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230413085024.49750-1-joshi.k@samsung.com>
+In-Reply-To: <3216ff1f-ecde-967b-75b1-7da643570ed9@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230417_180327_064786_938DABD3 
-X-CRM114-Status: UNSURE (   4.75  )
+X-CRM114-CacheID: sfid-20230417_191759_625078_5CB4DABE 
+X-CRM114-Status: UNSURE (   4.07  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -106,9 +110,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Apr 13, 2023 / 14:20, Kanchan Joshi wrote:
-> Patch 1: contains a little helper for fio version check
-> Patch 2: contains few tests for uring-passthrough on NVMe device
+On Apr 13, 2023 / 10:19, alan.adamson@oracle.com wrote:
+[...]
+> Reviewed-by: Alan Adamson <alan.adamson@oracle.com>
+> 
+> Tested-by: Alan Adamson <alan.adamson@oracle.com>
 
-I've applied them. Thanks!
+Thanks for the review and the test. I've applied the fix.
 
