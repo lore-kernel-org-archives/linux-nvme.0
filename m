@@ -4,89 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F359C77B71
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Apr 2023 09:19:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6EAA6C77B71
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Apr 2023 09:32:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:To:References:Message-Id:
-	Content-Transfer-Encoding:Cc:Date:In-Reply-To:From:Subject:Mime-Version:
-	Content-Type:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DrBel9VmErqN2OPaaHAV0utOVb/mmRc6SBAQB70vwno=; b=3TeHzIsYGJsfuTovt6kO+mpGQC
-	PPGvct6mlZsf1zFnFXV0L4vhudlSNQSBwnBzESvu+0Oeu7gn1l3IBJnZUivp03DHdmOC6AL9+2uz/
-	N4zA8tfo8JWFfNEhzmwwMYnlPySaJRbSgTitSFyzaiIw6xv+5Q72m1X6BYkUe/vFKsp9ZZAJT2JJn
-	jIJnnqXPYe6jVcll6KUVMijnzX0FZeRvutozq7c1p6OC419wb8lIuK5xXeX9aINNwAkwQQOH0coVO
-	rWY9KyWgMbVrKp+BhNs8dK62drK4n23JNxIAOOZxsLK/RUHI/M28qRUAud+s65uf4uAjyh49KbJlP
-	Vo2HQ2tA==;
+	bh=hWGSKRbVgY5ZwEMm1vceeuFMl7TSQjaj1bkfpyeuFB4=; b=pMI/v5z6B0tj6B93Z30gs3gABc
+	l+xtIm1ddwULx+R+TpjFhNngOPxwj+LQbZmTHsBD7XWzPE8WxiWLI7l/hM0Jt1CgshwGkNNaDRx8V
+	/LCQP+LClbOZL2hTaZDF4fHfZ9qbGcxRUeIwnhpwkAC5kHDU5wo+L4F3jq+8faAfIYVTutgYgwjO+
+	hrUYaszS8d/+IYmV1VoG5mCeTVtQZ6+HBn9uDN+nxRLTHaO8nbBAuBJ53zvXhzb9j0nhC6ruq7y0C
+	pfbGco9/lF9xTmjvgOaOHZCRzXXtBHkSgeUY7ccMYBKkVbZrY4Ch4nNbCbFZldq7Klx7nTMACNH7g
+	ceGT/wQQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pohUK-001R2i-0k;
-	Tue, 18 Apr 2023 09:19:00 +0000
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+	id 1pohhB-001UHB-0K;
+	Tue, 18 Apr 2023 09:32:17 +0000
+Received: from mail-wm1-f53.google.com ([209.85.128.53])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pohUG-001R27-0J
+	id 1pohh8-001UEo-0X
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Apr 2023 09:18:58 +0000
-Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1a68d61579bso8859205ad.1
-        for <linux-nvme@lists.infradead.org>; Tue, 18 Apr 2023 02:18:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smartx-com.20221208.gappssmtp.com; s=20221208; t=1681809534; x=1684401534;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DrBel9VmErqN2OPaaHAV0utOVb/mmRc6SBAQB70vwno=;
-        b=Bdl7FFc9A5g7PJmtM2hdvmr5f4fiKgHBy987wROvEbdZRh5hbM3EIQNKZEfRktBTNF
-         fzSZYmeKmdXqH0Hl2TaISkKXAaC9/MVbtlTVfYlcF4eFURDUyZOvxEM1VMv+RzQ6TToU
-         DC0KH2wAoplzJk7IF6Km5HkLi28uNlr0TLkyGM7VPXAcKQIxqygRx07Lh/fg74Dj6opN
-         NmbO4ELDxgCqsdRyRvy+XIo0UtaxvUco16iAYgtat/tBRs6sxMh2l5XCBiQ09gHzCVVt
-         iVSh3X1PydAQcNp9DB5uBdPcPWjcwkvG/As8ETso9AByTKan8sAR/EK0/iJjR+HSvL+c
-         IYDw==
+	Tue, 18 Apr 2023 09:32:15 +0000
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3f0968734f6so11636215e9.0
+        for <linux-nvme@lists.infradead.org>; Tue, 18 Apr 2023 02:32:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681809534; x=1684401534;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DrBel9VmErqN2OPaaHAV0utOVb/mmRc6SBAQB70vwno=;
-        b=M/aqQhA/EtpUufNoTABP6iCRbz86TQ3AsvQ0auVixsSK+f5MzvLl5VZrzeq6N+DwDx
-         r5AxvMVV4f70sc3ooxFjGu4e89MkS6zDIt0dx91cFpC2jqHu53nh4dh1hQ7NtzCv4Ksg
-         dptkT4BKORWBw/oci+/QtxzhVitF2riv9TN8+xscAMt2hO2F/1EDuX+NsC8F6QgXs1X3
-         HQaOxZ/7qK/8t90/UZGj6MPyJInwbT2dTb4zcrXcRl2+67jcup8p9OywtOkLFpIJOfE2
-         SImsBGsW/e+wm1jdEor64RW6sRmdp2Rm7hKE5ubRzDAasqqrlSF0UXSs8QJkbb40QoZT
-         xq3g==
-X-Gm-Message-State: AAQBX9e4NtNCfIT7fHhEvyWLzP1liZAWo7NmNXLcNp6NSpFxdRUKWEti
-	bop8JwI5k5NyrdWcpD7Ro11TmQ==
-X-Google-Smtp-Source: AKy350b9IUUSKcJnOOJStiK+r1dMMfusxcH9aPrmASSRMh3rsBU7aAByAEn6T24WPQa9uAbCWnD8TA==
-X-Received: by 2002:a17:903:2cc:b0:1a6:b52a:b00b with SMTP id s12-20020a17090302cc00b001a6b52ab00bmr1674666plk.29.1681809534392;
-        Tue, 18 Apr 2023 02:18:54 -0700 (PDT)
-Received: from smtpclient.apple ([47.75.78.161])
-        by smtp.gmail.com with ESMTPSA id t4-20020a170902b20400b001a4fecf79e4sm9122546plr.49.2023.04.18.02.18.51
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 18 Apr 2023 02:18:53 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.300.101.1.3\))
-Subject: Re: [PATCH] nvme/tcp: Add support to set the tcp worker cpu affinity
-From: Li Feng <fengli@smartx.com>
-In-Reply-To: <8310edb2-84cf-6211-f37d-d8f3df1e2320@nvidia.com>
-Date: Tue, 18 Apr 2023 17:20:51 +0800
-Cc: Sagi Grimberg <sagi@grimberg.me>,
+        d=1e100.net; s=20221208; t=1681810330; x=1684402330;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hWGSKRbVgY5ZwEMm1vceeuFMl7TSQjaj1bkfpyeuFB4=;
+        b=Z/MLEd7eOmOiYV8All0RP/tOlja8gfzqkYdGk2hS0jSFz0G2F3i4fTSBlXpWLo7ly+
+         BwAYAT8dw3Wqc51DlisNYQzqTGTWaeWkE3ZT6tHbfKFg+7Z0DkanQrE+j364hVaqBtRf
+         UcraLNzlrTQSEyBP6EXQvQ8s4FuAYpEd7j4tMWvcSzZehwj7y6FZineR/Qf5DdgcUFGM
+         Rdi545FjSZxHmrvihzTrbdxAY/alLalTvdh948foGAYx8xA6csgMcs3W8hp9g+pb5X89
+         p+i79I8Jq/kIHOCoLTIs3m1AgbIDjWVtwTjVCqHVpF771cOZNGwmc4fkS/YQ8Slqwrk4
+         l00A==
+X-Gm-Message-State: AAQBX9c8kMyNdJbSgoNq2dTAcEGpW3ByV4289Ro3UvyoZBcvnt6vufmk
+	DHmwPzhVhdbnostgDNywsG0=
+X-Google-Smtp-Source: AKy350Zi/64s5JtLoJP79lPGv/jdj56Su04oeLVVeFXtbpUjiOu3LDXLxM6TK74+Mmep0y3i0kh66A==
+X-Received: by 2002:a05:600c:3b24:b0:3f1:7490:e58e with SMTP id m36-20020a05600c3b2400b003f17490e58emr3865172wms.2.1681810329743;
+        Tue, 18 Apr 2023 02:32:09 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id o37-20020a05600c512500b003f172d13531sm6679412wms.11.2023.04.18.02.32.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Apr 2023 02:32:09 -0700 (PDT)
+Message-ID: <8c880a08-6e1d-2fda-18ea-d19db155957c@grimberg.me>
+Date: Tue, 18 Apr 2023 12:32:08 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2] nvme/tcp: Add support to set the tcp worker cpu
+ affinity
+Content-Language: en-US
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Li Feng <lifeng1519@gmail.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
  "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
- Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Jens Axboe <axboe@fb.com>,
- Ming Lei <ming.lei@redhat.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <CDB3D138-7AB5-4166-9167-134784AF90D5@smartx.com>
+ linux-kernel <linux-kernel@vger.kernel.org>
 References: <20230413062339.2454616-1-fengli@smartx.com>
- <20230413063317.2455680-1-fengli@smartx.com>
- <7f553d34-9ada-426c-4847-c7cd1aba64a8@grimberg.me>
- <8310edb2-84cf-6211-f37d-d8f3df1e2320@nvidia.com>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-X-Mailer: Apple Mail (2.3731.300.101.1.3)
+ <20230413132941.2489795-1-fengli@smartx.com>
+ <ZDz3TlFUxMxaO1W4@ovpn-8-16.pek2.redhat.com>
+ <D8FFAFCB-5486-4211-9AC8-2779AE368183@gmail.com>
+ <ZDz9vv6tbmKyhK7h@ovpn-8-16.pek2.redhat.com>
+ <d71d4924-d2f0-3252-5268-5dafd1ebbc39@grimberg.me>
+ <ZD4doq5Ko49wLvQK@ovpn-8-16.pek2.redhat.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <ZD4doq5Ko49wLvQK@ovpn-8-16.pek2.redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230418_021856_355471_C76959FF 
-X-CRM114-Status: GOOD (  13.78  )
+X-CRM114-CacheID: sfid-20230418_023214_199734_4DCD08DF 
+X-CRM114-Status: GOOD (  45.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,308 +91,144 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+> Hi Sagi,
+> 
+> On Mon, Apr 17, 2023 at 04:33:40PM +0300, Sagi Grimberg wrote:
+>>
+>>>>> On Thu, Apr 13, 2023 at 09:29:41PM +0800, Li Feng wrote:
+>>>>>> The default worker affinity policy is using all online cpus, e.g. from 0
+>>>>>> to N-1. However, some cpus are busy for other jobs, then the nvme-tcp will
+>>>>>> have a bad performance.
+>>>>>
+>>>>> Can you explain in detail how nvme-tcp performs worse in this situation?
+>>>>>
+>>>>> If some of CPUs are knows as busy, you can submit the nvme-tcp io jobs
+>>>>> on other non-busy CPUs via taskset, or scheduler is supposed to choose
+>>>>> proper CPUs for you. And usually nvme-tcp device should be saturated
+>>>>> with limited io depth or jobs/cpus.
+>>>>>
+>>>>>
+>>>>> Thanks,
+>>>>> Ming
+>>>>>
+>>>>
+>>>> Taskset can’t work on nvme-tcp io-queues, because the worker cpu has decided at the nvme-tcp ‘connect’ stage,
+>>>> not the sending io stage. Assume there is only one io-queue, the binding cpu is CPU0, no matter io jobs
+>>>> run other cpus.
+>>>
+>>> OK, looks the problem is on queue->io_cpu, see nvme_tcp_queue_request().
+>>>
+>>> But I am wondering why nvme-tcp doesn't queue the io work on the current
+>>> cpu? And why is queue->io_cpu introduced? Given blk-mq defines cpu
+>>> affinities for each hw queue, driver is supposed to submit IO request
+>>> to hardware on the local CPU.
+>>>
+>>> Sagi and Guys, any ideas about introducing queue->io_cpu?
+>>
+>> Hey Ming,
+>>
+>> I have some vague memories wrt to this, but from what I recall:
+>>
+>> - The number of queues is dependent on both the controller and
+>> the user (Not a reason/motivation on its own, just clarifying).
+>>
+>> - It simply matches what pci does (to some extent, outside of rx side
+>> entropy that may exist), it just happens to take more cpu cycles due to
+>> the network stack overhead.
+>>
+>> - I didn't want io threads to change CPUs because of RFS/aRFS
+>> optimizations that people use, which allows the NIC to steer interrupts
+>> (and napi context) to where the io thread is running, and thus minimize
+>> latency due to improved locality. that on its own was shown to be worth
+>> over 30% reduction.
+> 
+> OK, sounds like one per-queue kthread model may work for this case, and
+> the kthread cpu affinity can be wired with hw queue's cpu affinity, and
+> scheduler may figure out perfect time to migrate kthread to proper CPUs,
+> and task migration is supposed to happen much less frequently.
 
+That is not my experience with the task scheduler.
 
-> 2023=E5=B9=B44=E6=9C=8818=E6=97=A5 =E4=B8=8A=E5=8D=8811:58=EF=BC=8CChait=
-anya Kulkarni <chaitanyak@nvidia.com> =E5=86=99=E9=81=93=EF=BC=9A
->=20
->=20
->> - It is not backed by performance improvements, but more importantly
->> does not cover any potential regressions in key metrics (bw/iops/lat)
->> or lack there of.
->>=20
->=20
-> I've already asked for this, without seeing performance numbers
-> and any regression for general usecase it is hard to justify this.
->=20
-> -ck
->=20
->=20
->=20
+>> - At some point nvme-tcp rx context used to run in softirq, and having
+>> to synchronize different cores (on different numa nodes maybe, depends
+>> on what RSS decided) when processing the socket resulted in high
+>> latency as well. This is not the case today (due to some nics back then
+>> that surfaced various issues with this) but it may be come back in
+>> the future again (if shown to provide value).
+>>
+>> - Also today when there is a sync network send from .queue_rq path,
+>> it is only executed when the running cpu == queue->io_cpu, to avoid high
+>> contention. My concern is that if the io context is not bound to
+> 
+> This one looks one optimization for send?
 
-Hi ck & sagi,
+Yes.
 
-There are more io pattern results.
+> But this way actually causes contention with nvme_tcp_io_work().
 
-# ENV
-[root@Node81 vhost]# uname -a
-Linux Node81 5.10.0-136.28.0.104.oe2203sp1.aarch64 #1 SMP Thu Apr 13 =
-10:50:10 CST 2023 aarch64 aarch64 aarch64 GNU/Linux
+Correct, but it is only taken if the current cpu matches the queue
+io_cpu, which is either contended locally, or not with voluntary
+preemption.
 
-[root@Node81 vhost]# lscpu
-Architecture:           aarch64
-  CPU op-mode(s):       64-bit
-  Byte Order:           Little Endian
-CPU(s):                 96
-  On-line CPU(s) list:  0-95
-Vendor ID:              HiSilicon
-  BIOS Vendor ID:       HiSilicon
-  Model name:           Kunpeng-920
-    BIOS Model name:    HUAWEI Kunpeng 920 5251K
-    Model:              0
-    Thread(s) per core: 1
-    Core(s) per socket: 48
-    Socket(s):          2
-    Stepping:           0x1
-    Frequency boost:    disabled
-    CPU max MHz:        2600.0000
-    CPU min MHz:        200.0000
-    BogoMIPS:           200.00
-    Flags:              fp asimd evtstrm aes pmull sha1 sha2 crc32 =
-atomics fphp asimdhp cpuid asimdrdm jscvt fcma dcpop asimddp asimdfhm
-Caches (sum of all):
-  L1d:                  6 MiB (96 instances)
-  L1i:                  6 MiB (96 instances)
-  L2:                   48 MiB (96 instances)
-  L3:                   96 MiB (4 instances)
-NUMA:
-  NUMA node(s):         4
-  NUMA node0 CPU(s):    0-23
-  NUMA node1 CPU(s):    24-47
-  NUMA node2 CPU(s):    48-71
-  NUMA node3 CPU(s):    72-95
-Vulnerabilities:
-  Itlb multihit:        Not affected
-  L1tf:                 Not affected
-  Mds:                  Not affected
-  Meltdown:             Not affected
-  Mmio stale data:      Not affected
-  Retbleed:             Not affected
-  Spec store bypass:    Not affected
-  Spectre v1:           Mitigation; __user pointer sanitization
-  Spectre v2:           Not affected
-  Srbds:                Not affected
-  Tsx async abort:      Not affected
+>> a specific cpu, it may create heavier contention on queue serialization.
+>> Today there are at most 2 contexts that compete, io context (triggered from
+>> network rx or scheduled in the submission path) and .queue_rq sync
+>> network send path. I'd prefer to not have to introduce more contention with
+>> increasing number of threads accessing an nvme controller.
+> 
+> I understand contention doesn't have to require one fixed cpu bound with wq or
+> kthread. Using single per-queue work or kthread can avoid contention completely.
 
-[root@Node81 host3]# numactl -H
-available: 4 nodes (0-3)
-node 0 cpus: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 =
-23
-node 0 size: 0 MB
-node 0 free: 0 MB
-node 1 cpus: 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 =
-44 45 46 47
-node 1 size: 31619 MB
-node 1 free: 30598 MB
-node 2 cpus: 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 =
-68 69 70 71
-node 2 size: 0 MB
-node 2 free: 0 MB
-node 3 cpus: 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 =
-92 93 94 95
-node 3 size: 31219 MB
-node 3 free: 29854 MB
-node distances:
-node   0   1   2   3
-  0:  10  12  20  22
-  1:  12  10  22  24
-  2:  20  22  10  12
-  3:  22  24  12  10
+I'd like to keep the optimization for send path, always context-switch
+to a kthread for I/O is expensive. So some contention will happen due to
+serialization.
 
-[root@Node81 vhost]# lshw -short -c network
-H/W path          Device         Class          Description
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-/0/106/0          enp129s0f0np0  network        MT27800 Family =
-[ConnectX-5]
-/0/106/0.1        enp129s0f1np1  network        MT27800 Family =
-[ConnectX-5]
-[root@Node81 vhost]# lspci | grep MT
-81:00.0 Ethernet controller: Mellanox Technologies MT27800 Family =
-[ConnectX-5]
-81:00.1 Ethernet controller: Mellanox Technologies MT27800 Family =
-[ConnectX-5]
+I opted to only take the send_mutex if the io context is scheduled on
+the same CPU in order to not unconditionally take a mutex. If we don't
+control where the queue io thread is scheduled, we will always attempt
+to take send_mutex, which will increase the contention on it.
 
-[root@Node81 vhost]# ethtool -i enp129s0f0np0
-driver: mlx5_core
-version: 5.0-0
-firmware-version: 16.35.2000 (MT_0000000425)
-expansion-rom-version:
-bus-info: 0000:81:00.0
-supports-statistics: yes
-supports-test: yes
-supports-eeprom-access: no
-supports-register-dump: no
-supports-priv-flags: yes
+> Here one tcp queue needs to handle both send & recv, and I guess all tcp sends
+> need to be serialized, same with tcp recvs. Maybe two wq/kthreads, one
+> is for send, the other is for recv? Or single wq/kthread is fine too if
+> the two can be done in async style.
 
-[root@Node81 vhost]# lspci -s 81:00.0 -vv
-81:00.0 Ethernet controller: Mellanox Technologies MT27800 Family =
-[ConnectX-5]
-	Subsystem: Mellanox Technologies Device 0121
-	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- =
-ParErr+ Stepping- SERR+ FastB2B- DisINTx+
-	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=3Dfast >TAbort- =
-<TAbort- <MAbort- >SERR- <PERR- INTx-
-	Latency: 0, Cache Line Size: 32 bytes
-	Interrupt: pin A routed to IRQ 27
-	NUMA node: 2
-	Region 0: Memory at 280002000000 (64-bit, prefetchable) =
-[size=3D32M]
-	Expansion ROM at b0200000 [disabled] [size=3D1M]
-	Capabilities: [60] Express (v2) Endpoint, MSI 00
-		DevCap:	MaxPayload 512 bytes, PhantFunc 0, Latency L0s =
-unlimited, L1 unlimited
-			ExtTag+ AttnBtn- AttnInd- PwrInd- RBE+ FLReset+ =
-SlotPowerLimit 25W
-		DevCtl:	CorrErr+ NonFatalErr+ FatalErr+ UnsupReq-
-			RlxdOrd+ ExtTag+ PhantFunc- AuxPwr- NoSnoop+ =
-FLReset-
-			MaxPayload 256 bytes, MaxReadReq 512 bytes
-		DevSta:	CorrErr+ NonFatalErr- FatalErr- UnsupReq+ =
-AuxPwr- TransPend-
-		LnkCap:	Port #0, Speed 8GT/s, Width x8, ASPM not =
-supported
-			ClockPM- Surprise- LLActRep- BwNot- ASPMOptComp+
-		LnkCtl:	ASPM Disabled; RCB 128 bytes, Disabled- CommClk-
-			ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
-		LnkSta:	Speed 8GT/s, Width x8
-			TrErr- Train- SlotClk+ DLActive- BWMgmt- =
-ABWMgmt-
-		DevCap2: Completion Timeout: Range ABC, TimeoutDis+ =
-NROPrPrP- LTR-
-			 10BitTagComp- 10BitTagReq- OBFF Not Supported, =
-ExtFmt- EETLPPrefix-
-			 EmergencyPowerReduction Not Supported, =
-EmergencyPowerReductionInit-
-			 FRS- TPHComp- ExtTPHComp-
-			 AtomicOpsCap: 32bit- 64bit- 128bitCAS-
-		DevCtl2: Completion Timeout: 50us to 50ms, TimeoutDis- =
-LTR- 10BitTagReq- OBFF Disabled,
-			 AtomicOpsCtl: ReqEn+
-		LnkCap2: Supported Link Speeds: 2.5-8GT/s, Crosslink- =
-Retimer- 2Retimers- DRS-
-		LnkCtl2: Target Link Speed: 8GT/s, EnterCompliance- =
-SpeedDis-
-			 Transmit Margin: Normal Operating Range, =
-EnterModifiedCompliance- ComplianceSOS-
-			 Compliance Preset/De-emphasis: -6dB =
-de-emphasis, 0dB preshoot
-		LnkSta2: Current De-emphasis Level: -6dB, =
-EqualizationComplete+ EqualizationPhase1+
-			 EqualizationPhase2+ EqualizationPhase3+ =
-LinkEqualizationRequest-
-			 Retimer- 2Retimers- CrosslinkRes: unsupported
-	Capabilities: [48] Vital Product Data
-		Product Name: CX512A - ConnectX-5 SFP28
-		Read-only fields:
-			[PN] Part number: MCX512A-ACUT
-			[EC] Engineering changes: B7
-			[V2] Vendor specific: MCX512A-ACUT
-			[SN] Serial number: MT2211K02268
-			[V3] Vendor specific: =
-fe87176f019fec1180001070fd62e0e0
-			[VA] Vendor specific: =
-MLX:MODL=3DCX512A:MN=3DMLNX:CSKU=3DV2:UUID=3DV3:PCI=3DV0
-			[V0] Vendor specific: PCIeGen3 x8
-			[RV] Reserved: checksum good, 0 byte(s) reserved
-		End
-	Capabilities: [9c] MSI-X: Enable+ Count=3D64 Masked-
-		Vector table: BAR=3D0 offset=3D00002000
-		PBA: BAR=3D0 offset=3D00003000
-	Capabilities: [c0] Vendor Specific Information: Len=3D18 <?>
-	Capabilities: [40] Power Management version 3
-		Flags: PMEClk- DSI- D1- D2- AuxCurrent=3D375mA =
-PME(D0-,D1-,D2-,D3hot-,D3cold+)
-		Status: D0 NoSoftRst+ PME-Enable- DSel=3D0 DScale=3D0 =
-PME-
-	Capabilities: [100 v1] Advanced Error Reporting
-		UESta:	DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- =
-UnxCmplt- RxOF- MalfTLP- ECRC- UnsupReq- ACSViol-
-		UEMsk:	DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- =
-UnxCmplt- RxOF- MalfTLP- ECRC- UnsupReq+ ACSViol-
-		UESvrt:	DLP+ SDES- TLP- FCP+ CmpltTO- CmpltAbrt- =
-UnxCmplt- RxOF+ MalfTLP+ ECRC- UnsupReq- ACSViol-
-		CESta:	RxErr- BadTLP- BadDLLP- Rollover- Timeout- =
-AdvNonFatalErr-
-		CEMsk:	RxErr- BadTLP- BadDLLP- Rollover- Timeout- =
-AdvNonFatalErr+
-		AERCap:	First Error Pointer: 08, ECRCGenCap+ ECRCGenEn- =
-ECRCChkCap+ ECRCChkEn-
-			MultHdrRecCap- MultHdrRecEn- TLPPfxPres- =
-HdrLogCap-
-		HeaderLog: 00000000 00000000 00000000 00000000
-	Capabilities: [150 v1] Alternative Routing-ID Interpretation =
-(ARI)
-		ARICap:	MFVC- ACS-, Next Function: 1
-		ARICtl:	MFVC- ACS-, Function Group: 0
-	Capabilities: [180 v1] Single Root I/O Virtualization (SR-IOV)
-		IOVCap:	Migration- 10BitTagReq- Interrupt Message =
-Number: 000
-		IOVCtl:	Enable- Migration- Interrupt- MSE- ARIHierarchy+ =
-10BitTagReq-
-		IOVSta:	Migration-
-		Initial VFs: 8, Total VFs: 8, Number of VFs: 0, Function =
-Dependency Link: 00
-		VF offset: 2, stride: 1, Device ID: 1018
-		Supported Page Size: 000007ff, System Page Size: =
-00000001
-		Region 0: Memory at 0000280004800000 (64-bit, =
-prefetchable)
-		VF Migration: offset: 00000000, BIR: 0
-	Capabilities: [1c0 v1] Secondary PCI Express
-		LnkCtl3: LnkEquIntrruptEn- PerformEqu-
-		LaneErrStat: 0
-	Capabilities: [230 v1] Access Control Services
-		ACSCap:	SrcValid- TransBlk- ReqRedir- CmpltRedir- =
-UpstreamFwd- EgressCtrl- DirectTrans-
-		ACSCtl:	SrcValid- TransBlk- ReqRedir- CmpltRedir- =
-UpstreamFwd- EgressCtrl- DirectTrans-
-	Kernel driver in use: mlx5_core
-	Kernel modules: mlx5_core
+That is what is done today.
 
+> 
+> Then the send_mutex can be saved, maybe nvme/tcp blocking can be removed.
+> 
+>>
+>> Having said that, I don't think there is a fundamental issue with
+>> using queue_work, or queue_work_node(cur_cpu) or
+>> queue_work_node(netdev_home_cpu), if that does not introduce
+>> additional latency in the common cases. Although having io threads
+>> bounce around is going to regress users that use RFS/aRFS...
+> 
+> IMO, here the fundamental issue is that one fixed cpu(queue->io_cpu) is selected
+> for handling IO submission aiming at same queue, which can't scale,
 
-# Before patch:
-   2293 root       0 -20       0      0      0 R  68.6   0.0   0:23.85 =
-kworker/0:1H+nvme_tcp_wq
-  12504 root      20   0  476960  26280  20140 S  41.3   0.0   0:03.38 =
-fio
+But a single queue is not designed to scale, we scale with multiple
+queues.
 
-pattern                        | bandwidth(MiB/s)     | iops       | =
-latency(us)
-:-                                 | -:                               | =
--:           | -:
-4k-randread-q128-j1            | 308                  | 79086      | =
-1617.33
-256k-randread-q128-j1          | 1072                 | 4288       | =
-29822.7
-4k-randwrite-q128-j1           | 327                  | 83782      | =
-1526.77
-256k-randwrite-q128-j1         | 1807                 | 7228       | =
-17700.8
+> because we can't expect userspace or scheduler to reserve this fixed cpu for
+> nvme_tcp queue.
 
-# After patch:
+Of course not, the queue io context is just another thread, which share
+the cpu with all other system threads.
 
-[root@Node81 host3]# cat =
-/sys/module/nvme_tcp/parameters/cpu_affinity_list
-66-68
+The design in nvme-tcp is that we keep the io context local to the cpu
+where the user thread is running. Naturally there are cases where one
+may desire to place it on some reserved cpu, or on a sibling, or based
+on other factors (like the nic).
 
-   1862 root       0 -20       0      0      0 R  56.6   0.0   0:59.37 =
-kworker/66:1H+nvme_tcp_wq
-  12348 root      20   0  476960  25892  19804 S  45.4   0.0   0:02.00 =
-fio
+So on the one hand, I'd like to preserve the queue <-> cpu locality, and
+minimize io threads from bouncing around, and on the other hand, I don't
+want to expose all this to users to mangle with low-level stuff.
 
-pattern                        | bandwidth(MiB/s)     | iops       | =
-latency(us)
-:-                                 | -:                               | =
--:         | -:
-4k-randread-q128-j1            | 451                  | 115530     | =
-1107.1
-256k-randread-q128-j1          | 1410                 | 5641       | =
-22671.7
-4k-randwrite-q128-j1           | 432                  | 110738     | =
-1155.12
-256k-randwrite-q128-j1         | 1818                 | 7274       | =
-17591.4
+And, I'm not particularly keen on start troubleshooting users
+performance issues leading to tweak some finicky scheduler knobs that
+are system-wide.
 
-4k-randread-q128-j1 means 4k randread, iodepth =3D 128, jobs =3D 1.
-
-All nvme-tcp io queue is 1.
-
-Fio binds to numa node 2 cpu 69-70 like this:
-taskset -c 69-70 fio --ioengine=3Dlibaio --numjobs=3D1 =E2=80=A6...
-
-
-
-
+But I'm not opposed to changing this if it proves to improve the driver.
 
