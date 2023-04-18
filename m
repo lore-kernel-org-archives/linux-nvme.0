@@ -4,89 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A09AC77B75
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Apr 2023 11:02:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7223C77B76
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Apr 2023 12:33:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=16TFCdKk9HB5/zol6veJLssefZsUoa/IVdihclHV2cg=; b=k204KzIuWhb5SC2RfOXEb/lOMX
-	G6U/XIu3e6IoZeN3lLpj/Zj9Xq2AtbCLEFI0aXX+/3jWd5tVWM083gyGwhzlnSaJKvz6tzISmMuxE
-	2Qyg00z4kQA0YbOqYLgpwb0HW4KLEkbUXtTxw/EgrlyJiNXNaIUjSK3s7eP2QlpTI9asCySqZ3efK
-	XpwyajV74ZnOQti/bE2VixJ0J7WqsnQ33dNa+kyjv+Z0SktsCc+mpl1S+2LTZashZmrucZUfUv06g
-	U4kn0uXxBjwETfUPDTvxQMqUTw38p+A8DfmR+HvweKAjrGVaw0MUVMKEt4+pNLt/GUfZLfjpOxy2U
-	xO+DFMLw==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=TKANE2bTfIsb9mX4f2a9ewBTW7h0uoTrVWYzSg0VVIE=; b=uv4HiSdQIbyWM82hSPjJ8RrB5b
+	3mC1th6HoViPSKnz7VC5YJ29wKqH/rPBQWu6lpHkvGkxWzG0ZIsSKVbzlrJjgiTXOGCLL0+impRgI
+	+M4uarkXbcPLwbNLYvISPRtKZy7Fn7R7/eQ1wquyZWAy+GQZow1z+LiQaps8QvzMO6hYhMj79gJ04
+	WMWNpbz9RHiKhxnGZC+yfQb58cgx54jxk8QmOvLQx6zEh9FfFgkzCObnUrPTOv0LqVcjkWZExq5xF
+	tQHLs8p6Q8oLbo64YlYNu1maNlhwR7fvK8wr5K6aYvfrESDjtOIcZQGcL6xwfSSds8Mc+KxK5U1zh
+	Cvu1x8HA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1poj6d-001sTs-1S;
-	Tue, 18 Apr 2023 11:02:39 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1pokWJ-0028na-1l;
+	Tue, 18 Apr 2023 12:33:15 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1poj6a-001sTS-0q
+	id 1pokWF-0028mB-36
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Apr 2023 11:02:37 +0000
+	Tue, 18 Apr 2023 12:33:13 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A000321A91;
-	Tue, 18 Apr 2023 11:02:34 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 899EE1FD65;
+	Tue, 18 Apr 2023 12:33:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1681815754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=16TFCdKk9HB5/zol6veJLssefZsUoa/IVdihclHV2cg=;
-	b=gjLgF8TUJH9T/3PqD5TIgEY8acEebQv3j3z4278hL8wD70IEy7J8Y5bavZyq+97al6ADqQ
-	DyV91a794I4Hi8kFnIUTPj1W4uwLL9e37CpyObJedvu8A1dgSx1ynOjZuioQeSL/aCjRMg
-	0CKyM9+0EINT9dehVTg3Ak19upA3hFE=
+	t=1681821186; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=TKANE2bTfIsb9mX4f2a9ewBTW7h0uoTrVWYzSg0VVIE=;
+	b=AaCaJCo36MWVmb5P4KbEspPvTBse5UObHptMB3rNppGTDR0aDEcmAWuOCrjkJkXkBW9uRM
+	mWCf/u7WUzNTz/u1Fi7wV0jQvNYOfyzftIgfhsWsGA1IxTwmYH6grMyZs8r4AMk8QEqE2Z
+	vxphRCzZvUAtEOz5MLpap436Uc6z6fM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1681815754;
+	s=susede2_ed25519; t=1681821186;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=16TFCdKk9HB5/zol6veJLssefZsUoa/IVdihclHV2cg=;
-	b=pOAGseS1OR6/yuqfSgAiv2enhZ/kaBZutB5vP71ZVdKMR3KQdOQsEycp7rSboPfrpEkcnc
-	/Jg4Omp/NyynXIAw==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=TKANE2bTfIsb9mX4f2a9ewBTW7h0uoTrVWYzSg0VVIE=;
+	b=8SNKKT7SExK2ZZZ1METk30iTpWGh8sQdgOh6sVDpIZRILkMI3vNPgm0YPeP/zUGJQ5GixI
+	NdvmvxpiC/YZzJBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 871C1139CC;
-	Tue, 18 Apr 2023 11:02:34 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 77ECA139CC;
+	Tue, 18 Apr 2023 12:33:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 1G+5IMp4PmS9XgAAMHmgww
-	(envelope-from <hare@suse.de>); Tue, 18 Apr 2023 11:02:34 +0000
-Message-ID: <ab73a25d-8b2c-17de-d4ea-edd844c600af@suse.de>
-Date: Tue, 18 Apr 2023 13:02:34 +0200
+	id PTU9HQKOPmROFgAAMHmgww
+	(envelope-from <dwagner@suse.de>); Tue, 18 Apr 2023 12:33:06 +0000
+From: Daniel Wagner <dwagner@suse.de>
+To: linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Shin'ichiro Kawasaki <shinichiro@fastmail.com>,
+	Daniel Wagner <dwagner@suse.de>
+Subject: [PATCH blktests] nvme-rc: Cleanup fcloop resources in reverse order
+Date: Tue, 18 Apr 2023 14:32:52 +0200
+Message-Id: <20230418123252.3725-1-dwagner@suse.de>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH 07/18] net/tls: sanitize MSG_EOR handling
-Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Jakub Kicinski <kuba@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org, Chuck Lever <chuck.lever@oracle.com>,
- kernel-tls-handshake@lists.linux.dev
-References: <20230417130302.86274-1-hare@suse.de>
- <20230417130302.86274-8-hare@suse.de>
- <20af9713-8d64-77de-dfbe-e9e732776d3c@grimberg.me>
- <20230417131048.66b6b3a0@kernel.org>
- <beb7b0e8-2cb5-0c0e-63f9-6a13b9dfb787@grimberg.me>
- <db39fd2d-6da2-852e-70aa-7499fedf8b48@suse.de>
- <b313144b-f510-f3d5-6066-6123c27039ed@suse.de>
- <392cfcc6-c4c7-da94-4e00-f6961c548867@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <392cfcc6-c4c7-da94-4e00-f6961c548867@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230418_040236_448681_E09C9E37 
-X-CRM114-Status: GOOD (  18.11  )
+X-CRM114-CacheID: sfid-20230418_053312_159099_D11C5BAE 
+X-CRM114-Status: GOOD (  11.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,65 +87,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/18/23 12:43, Sagi Grimberg wrote:
-> 
-> 
-> On 4/18/23 13:39, Hannes Reinecke wrote:
->> On 4/18/23 12:24, Hannes Reinecke wrote:
->>> On 4/18/23 12:07, Sagi Grimberg wrote:
->>>>
->>>>>>> The TLS stack is using MSG_EOR internally, so the flag cannot be
->>>>>>> set for sendmsg()/sendpage(). But to avoid having the caller to
->>>>>>> check whether TLS is active modify the code to clear the MSG_EOR
->>>>>>> flag. And blank out MSG_MORE / MSG_SENDPAGE_NOTLAST, too, as they
->>>>>>> conflict with MSG_EOR anyway.
->>>>>>
->>>>>> This looks like a temporary workaround to me.
->>>>>>
->>>>>> The networking folks really need to be CC'd on this (same for 
->>>>>> patch 6).
->>>>>
->>>>> Thanks, when I said "we can support EOR" I obviously meant support
->>>>> not ignore it :(  No ack.
->>>>
->>>> Obviously neither Hannes or I have sufficient tls knowledge to properly
->>>> support it... It needs to be done by someone who knows the
->>>> implementation.
->>>>
->>>> Is this a large scope to add support for it? Because if it is, I'd
->>>> simply change nvme to clear MSG_EOR when tls is used (despite my
->>>> preference to not do special things for tls).
->>>
->>> There's a rather simple patch for tls_sw. It already paces the data 
->>> internally by an 'eor' variable, which is currently set to !MSG_MORE.
->>> So evaluating MSG_EOR here is really trivial, and doesn't seem to 
->>> cause any issues.
->>>
->>> Or, at least, none which would show up with NVMe-over-TLS :-)
->>>
->> Suggestion is to change it like this (sendpage follows suit):
->>
->> diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
->> index 827292e29f99..7b28b11ff611 100644
->> --- a/net/tls/tls_sw.c
->> +++ b/net/tls/tls_sw.c
->> @@ -953,9 +953,12 @@ int tls_sw_sendmsg(struct sock *sk, struct msghdr 
->> *msg, size_t size)
->>          int pending;
->>
->>          if (msg->msg_flags & ~(MSG_MORE | MSG_DONTWAIT | MSG_NOSIGNAL |
->> -                              MSG_CMSG_COMPAT))
->> +                              MSG_EOR | MSG_CMSG_COMPAT))
->>                  return -EOPNOTSUPP;
->>
->> +       if (MSG_EOR)
-> 
-> You probably meant if (msg->msg_flags & MSG_EOR)...
-> 
-Of course.
+We need to free the resources in the opposite order as we allocate them.
+The deleting the rport first will also free the other resources. When
+we try to release lport and tport they are already gone.
 
-Cheers,
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+---
+ tests/nvme/rc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Hannes
+diff --git a/tests/nvme/rc b/tests/nvme/rc
+index b44239446dcf..ec0cc2d8d8cc 100644
+--- a/tests/nvme/rc
++++ b/tests/nvme/rc
+@@ -204,10 +204,10 @@ _cleanup_fcloop() {
+ 	local remote_wwnn="${3:-$def_remote_wwnn}"
+ 	local remote_wwpn="${4:-$def_remote_wwpn}"
+ 
+-	_nvme_fcloop_del_rport "${local_wwnn}" "${local_wwpn}" \
+-			       "${remote_wwnn}" "${remote_wwpn}"
+ 	_nvme_fcloop_del_tport "${remote_wwnn}" "${remote_wwpn}"
+ 	_nvme_fcloop_del_lport "${local_wwnn}" "${local_wwpn}"
++	_nvme_fcloop_del_rport "${local_wwnn}" "${local_wwpn}" \
++			       "${remote_wwnn}" "${remote_wwpn}"
+ }
+ 
+ _cleanup_nvmet() {
+-- 
+2.40.0
 
 
