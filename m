@@ -4,74 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36B88C77B78
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Apr 2023 16:59:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 921A1C6FD18
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Apr 2023 18:21:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1po+Qokb8g5646qCqbO5j/GfDEEBHdXv/guAzjWb6AY=; b=UTIUsLzRVyyuLrKF0RUk16k3MR
-	sHWfia2rNs/gjLI1P/3z4YG3wLVj7LlR5zsSz2vNwaqp9Y64qvSemfXU4Q2md6h5wjxe10Dv45Yum
-	uRPvlELF2k2pXVO4KYFsQ9Q5oefZqR/7ohBKBdB2rfROiSzMkNcI5+Rzp0lOH1dcEIdaEczyoaijW
-	GKUQQ2aHbhr0Nl7kpp5lj6nk1w4m2lAbYRANfwPXWrPaFj1fnbmAoHgQgJB0nohN7Azna9tYSsBe6
-	ZMeVL6L/AGj7jVSLjc+d3SOVGp954KLuimmvLgIp7Gqp4IDFYLt4E3ap5CE3s9RvUbXt/y+mK5wYX
-	wOj8ryfw==;
+	bh=+Vb51FrCA0x6tudFNHJPxL6H9t8CJX0lMGUkKX+YACg=; b=4+RGOk1Pc/IbCpMuUDN6USzFPZ
+	juF5sQRnYsm+L9q/Pl+d2jUocRyYx4uQ0cWAVhr4uLb0RubD7RgMiuCanrayh+/ha79cJK4iuUqAq
+	WwyOWjqclhqJxdi3izps+qbQ2aRcxPfkd1/vsCUif/NY17wEVN9U2wykd7qxukgheZ/H0gX6GlmQH
+	st730IY5roqlzOB6BGRKVVOz568do+XFRqxRDzqKax65Jn2zRXIqEJUmTwFc1kMultuU9t4S4H4rp
+	0yyH949TD62TDBiHHm9/0hbfRyJl0NQpODkAeXoowNdzdH1zSpkmZqg9ENqWQs+VK2WBtebuD5qJ4
+	A36fkuFA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1poogO-002s2i-2C;
-	Tue, 18 Apr 2023 16:59:56 +0000
-Received: from mail-wm1-f42.google.com ([209.85.128.42])
+	id 1popxY-00332k-13;
+	Tue, 18 Apr 2023 18:21:44 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1poogM-002s1r-10
+	id 1popxV-00332C-3B
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Apr 2023 16:59:55 +0000
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3f0968734f6so12480755e9.0
-        for <linux-nvme@lists.infradead.org>; Tue, 18 Apr 2023 09:59:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681837193; x=1684429193;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1po+Qokb8g5646qCqbO5j/GfDEEBHdXv/guAzjWb6AY=;
-        b=aCLP98gFbMXZs7b8+JwLYKbJLWJuQ05uDoiNxq8SeoDyyMgDOoU/eP10QCo1MQjx/R
-         TGbnEpNARYqP4bOtg8hzPfoIhS4WLBKx+kIej5+hbyNVk6aIabRcL6VuImqMxp4NUpGo
-         41eqWagf/5EoEt+9Id6aDGlPHAs5HknRdfxBy5yDdm+AQWBHKOT0hdrs+bK08cz3+oX2
-         8CNja1Pv0I9JhuPbqV6vnZP7wUJlIRwiegon+zSk73MQ0AnG+T+ZEB1Y6pULxDnMQlHX
-         GAc/vE/oi6BkeF2Buze4J3E1hFpE+ULG4A7JIw+41BIxrVoGMGna5yuhJgocPo26RlmW
-         pF8A==
-X-Gm-Message-State: AAQBX9fQSkaxVDcf4o1DjW0wpR8EyES2UqBZEKjaZUps8RRrWLBEoO+k
-	eEanvHhb+dyj337lEzpuGuYyMEVjac8=
-X-Google-Smtp-Source: AKy350a5jr3ndAzbvppHVHOuLo/Km3xqWAcfauUun91qPJkYzdRsWNQ6DZBJXxxo1KsJuD/+3ReIXg==
-X-Received: by 2002:a05:600c:310e:b0:3f1:78bd:c38b with SMTP id g14-20020a05600c310e00b003f178bdc38bmr2819576wmo.4.1681837192987;
-        Tue, 18 Apr 2023 09:59:52 -0700 (PDT)
-Received: from [10.100.102.14] (85.65.206.11.dynamic.barak-online.net. [85.65.206.11])
-        by smtp.gmail.com with ESMTPSA id c8-20020a05600c0a4800b003ee5fa61f45sm19475686wmq.3.2023.04.18.09.59.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Apr 2023 09:59:52 -0700 (PDT)
-Message-ID: <8c3c82ba-2551-487a-4593-b9369e5ccfb0@grimberg.me>
-Date: Tue, 18 Apr 2023 19:59:51 +0300
+	Tue, 18 Apr 2023 18:21:43 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 2B56A637E7;
+	Tue, 18 Apr 2023 18:21:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D81CC433D2;
+	Tue, 18 Apr 2023 18:21:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1681842100;
+	bh=9dvoyZb0MWqatGlzMrz+nMM+VV4b7Xxa7SB0wWjMDWE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Geea2t25czw64u+Gbxdb/RPfuxKHZ/W8yTnK4zawCkLCOzUpX25c3WVL1m36yv62O
+	 ZBwC74PzBORY4AQzsP84JsI1udvQb/f3q6lHeZSOdVQPEVOs75+wHnJuvjnk9p3/rX
+	 5v+EBGxJUO8hEj8NEoCYatO9tseaQg6ZPT9ZYpPRL3186S8D9wICG1VxIXjbZMjKqK
+	 dG4q3I86OODZREQ5jUbxj8FXuoxLDlgvj+whEPf1HwlTMr3iwu0nNduzvYRUE2Cdjx
+	 QTqymNutq+7gSEXogmaadoztgBG9G2PApbzkUTkIbe7Ae8cQgjwxvjKwSQuSbw6hhB
+	 YHdGQBwjPDkig==
+Date: Tue, 18 Apr 2023 11:21:39 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>, Keith
+ Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, Chuck Lever
+ <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev, Vadim
+ Fedorenko <vadim.fedorenko@linux.dev>
+Subject: Re: [PATCH 08/18] nvme-tcp: do not set MSG_SENDPAGE_NOTLAST
+Message-ID: <20230418112139.546aff79@kernel.org>
+In-Reply-To: <f02fb607-1339-2c68-4bd5-ced65d71b822@suse.de>
+References: <20230417130302.86274-1-hare@suse.de>
+	<20230417130302.86274-9-hare@suse.de>
+	<36976756-b4c5-f2a5-34b8-e9731a49c477@grimberg.me>
+	<654702da-246a-934c-14e4-7b179c46ed98@suse.de>
+	<5df08f86-2599-6e47-2fdc-bda8d70edaf2@grimberg.me>
+	<20230417131654.427ebd6a@kernel.org>
+	<f02fb607-1339-2c68-4bd5-ced65d71b822@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 3/3] nvme: improve handling of long keep alives
-Content-Language: en-US
-To: Uday Shankar <ushankar@purestorage.com>,
- Costa Sapuntzakis <costa@purestorage.com>,
- Randy Jennings <randyj@purestorage.com>, Hannes Reinecke <hare@suse.de>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Jens Axboe <axboe@fb.com>
-Cc: linux-nvme@lists.infradead.org
-References: <20230417225558.2890062-1-ushankar@purestorage.com>
- <20230417225558.2890062-4-ushankar@purestorage.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230417225558.2890062-4-ushankar@purestorage.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230418_095954_344726_BD896F8F 
-X-CRM114-Status: GOOD (  12.53  )
+X-CRM114-CacheID: sfid-20230418_112142_089133_F22AFCDC 
+X-CRM114-Status: GOOD (  18.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,31 +81,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 4/18/23 01:55, Uday Shankar wrote:
-> Upon keep alive completion, nvme_keep_alive_work is scheduled with the
-> same delay every time. If keep alive commands are completing slowly,
-> this may cause a keep alive timeout. The following trace illustrates the
-> issue, taking KATO = 8 and TBKAS off for simplicity:
+On Tue, 18 Apr 2023 12:33:03 +0200 Hannes Reinecke wrote:
+> Ah-ha. Found it.
 > 
-> 1. t = 0: run nvme_keep_alive_work, send keep alive
-> 2. t = ε: keep alive reaches controller, controller restarts its keep
->            alive timer
-> 3. t = 4: host receives keep alive completion, schedules
->            nvme_keep_alive_work with delay 4
-> 4. t = 8: run nvme_keep_alive_work, send keep alive
+> Turns out to be an arguably invalid control flow on our side.
 > 
-> Here, a keep alive having RTT of 4 causes a delay of at least 8 - ε
-> between the controller receiving successive keep alives. With ε small,
-> the controller is likely to detect a keep alive timeout.
+> The initial 'connect' command is a command PDU with inline data.
+> So in our (current) flow we do a 'sendpage()' with the 
+> MORE/SENDPAGE_NOTLAST flag set as we have to transfer more data.
+> Ok so far.
+> But for transmitting the actual data we evaluate 'sendpage_ok()', which 
+> returns _false_. And then we continue to call 'sendmsg()' for the inline 
+> data.
+> This confuses the TLS software stack as sendpage() and sendmsg() are two 
+> distinct code paths, and we end up with a TX stall.
 > 
-> Fix this by calculating the RTT of the keep alive command, and adjusting
-> the scheduling delay of the next keep alive work accordingly.
+> Solution: check 'sendpage_ok()' when we have inline data and use 
+> 'sendmsg' for the command pdu if required.
+> 
+> It always pays to dig deeper if one's not exactly sure what's happening ...
+> 
+> Will be updating the patchset.
 
-Is this something that was met in reality?
+Hm, yeah, sendpage(NOT_LAST)+sendmsg() could indeed be buggy/untested.
+It wasn't something we could have tested from user space, we'd need
+kunit or some such :(
 
-it is surprising that host->ctrl is super fast and
-ctrl->host is super slow to the extent that this
-situation exists in reality...
+Adding it the backlog. And adding Vadim to CC in case he has cycles 
+to take a look.
 
