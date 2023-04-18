@@ -4,84 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F6A4C77B76
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Apr 2023 13:02:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B79D8C77B75
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Apr 2023 13:43:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xHvZovTrRuZrCOEGfusLwQUaUkaDOrzb+7eR8e2Rvs8=; b=29xdD9qxpixix8vHmhzhd1jKjH
-	rMbrN3FFC89ZJHlzYlJXxbwlH0PgA8ABhPKt5Y6mswus2yV5/cGl8sKwF+98Jrl/vraDPUSOXaXYY
-	T0sP3bwqCBlWg2rrsNBJLGUHDttNoWPw42YYNo+DN/JM8JO0DQKeCGX7ViO9cJacXL5Y8GTqyWugE
-	M6pCKuwOgsozYWJLgAZG9CBYajhjob7cmhKk9SyHnkqY2apSN4BlqGpZtrbJO7S7lhaHxN46BK0Ge
-	3RdA77mW9owTfhe5XgabtEJIaCPFb6z3SNOIIx2MHuxpsIb6TbrNLTTpQOJtQ96V9ugk8rJNzzMsP
-	zhsyeAVw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=oMzXDgeIe9bFmA8zBDQFasaEMBj1BPB8PAmctp5SKQA=; b=cgiuCMxxcRZHZRBgSvoizZMXHJ
+	Ir3zlzzDZ141jOzKc0941RUPe5CYrZd9PDzfrs2snQ1Hp9+Ptybz+L6Z4WPtTZB4YVU0spjUw8mA5
+	V20EvdS00nWlo9S+eFZZvaNMOke+tiBcsmaxfr/PGKMKxwzRJZPhQQGabSHuQRLm8ZArhVT5d3GTy
+	XsVUeialSx4GFAgA5zbHkjUi9Da/UHggzkxn4qo4Rzy+t0AvbBPJgd1lZfA18nAyTey7Hvl9kvLJo
+	ljnVtIjhyneKtvb5uWhyGL1rY8AXeKVISH9FMuwOdF+AzRyMQ8ISqZ8hzgnMpxi+YiW+XiQpURFIf
+	tuk5fs7A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pokyQ-002DKQ-2E;
-	Tue, 18 Apr 2023 13:02:18 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1polcF-002Iya-1R;
+	Tue, 18 Apr 2023 13:43:27 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pokyM-002DHU-0c
+	id 1polcC-002IxO-1E
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Apr 2023 13:02:16 +0000
+	Tue, 18 Apr 2023 13:43:25 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6FA4921986;
-	Tue, 18 Apr 2023 13:02:10 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 111E31F8D7;
+	Tue, 18 Apr 2023 13:43:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1681822930; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	t=1681825402; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xHvZovTrRuZrCOEGfusLwQUaUkaDOrzb+7eR8e2Rvs8=;
-	b=Pth/OjEIF+iAJtaKL48n4fYL7h2eaUVtFj+NqwQjQABxLdzHi4AMN84J4k1Ucqv+7QPnJ1
-	KiZjqvyrCW9vTEjkytguqTtifeMvKCkMXTzfWwAfz9daooI29T84piBkqb98osw6U69AMr
-	hnU+VGdJ/nxJoDihIPExvvQ/m1uGHbc=
+	bh=oMzXDgeIe9bFmA8zBDQFasaEMBj1BPB8PAmctp5SKQA=;
+	b=CHxs2l1AEj5yGxv61LcqpY0Y4cgMYFe4bldA2RQC2uDDd8nXfC1fSU26Zdrx+9CgXmUtH3
+	QEssjcy8kgDoeaho/XiY1XGrlxO6YB2tQqzWUWPXgmVLOwjy9bn+v0zM72A79fWqgDipmN
+	gTceghiK5McVB3rDEr97Y/IdRUugGs8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1681822930;
+	s=susede2_ed25519; t=1681825402;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xHvZovTrRuZrCOEGfusLwQUaUkaDOrzb+7eR8e2Rvs8=;
-	b=+t33Z/TwSQlmtp9hskJC+ufgtV99df5LInSy+WaZ7NPA+LBpG13Y3GcfrfXUKOC2Moh7UM
-	amIqVMbPnzMBSxDg==
+	bh=oMzXDgeIe9bFmA8zBDQFasaEMBj1BPB8PAmctp5SKQA=;
+	b=KSexhj329+sezaAzmQF0TKFP8+X7DF5TORB/c3xF8eRfF1h5evdqburXoZU4hWjVQMhCGN
+	JhCJQjp9ljY4XuAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5EEBB139CC;
-	Tue, 18 Apr 2023 13:02:10 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 00FC513581;
+	Tue, 18 Apr 2023 13:43:22 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id ATI7F9KUPmSEJwAAMHmgww
-	(envelope-from <dwagner@suse.de>); Tue, 18 Apr 2023 13:02:10 +0000
+	id yDI9AHqePmTLQAAAMHmgww
+	(envelope-from <dwagner@suse.de>); Tue, 18 Apr 2023 13:43:22 +0000
+Date: Tue, 18 Apr 2023 15:43:21 +0200
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	James Smart <james.smart@broadcom.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Martin Belanger <Martin.Belanger@dell.com>,
-	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH v3 1/4] nvmet-fcloop: Remove remote port from list when unlinking
-Date: Tue, 18 Apr 2023 15:01:56 +0200
-Message-Id: <20230418130159.11075-2-dwagner@suse.de>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230418130159.11075-1-dwagner@suse.de>
+Cc: linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
+	Sagi Grimberg <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Martin Belanger <Martin.Belanger@dell.com>, 
+	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: Re: [PATCH v3 0/4] nvmet-fcloop: unblock module removal
+Message-ID: <nlogr5rdxqvilsz4iolktfpdvflvvithwaoa3vrx2fsjqlho4q@4upw7jq3aem2>
 References: <20230418130159.11075-1-dwagner@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230418130159.11075-1-dwagner@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230418_060214_377466_95B751B5 
-X-CRM114-Status: GOOD (  13.60  )
+X-CRM114-CacheID: sfid-20230418_064324_561705_057FF1C7 
+X-CRM114-Status: UNSURE (   8.14  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,48 +91,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The remote port is removed too late from fcloop_nports list. Remove it
-when port is unregistered.
+On Tue, Apr 18, 2023 at 03:01:55PM +0200, Daniel Wagner wrote:
+> nvme/041 (Create authenticated connections)                  [failed]
+> nvme/042 (Test dhchap key types for authenticated connections) [failed]
+> nvme/043 (Test hash and DH group variations for authenticated connections) [passed]
+> nvme/044 (Test bi-directional authentication)                [failed]
+> nvme/045 (Test re-authentication)                            [passed]
 
-This prevents a busy loop in fcloop_exit, because it is possible the
-remote port is found in the list and thus we will never progress.
-
-The kernel log will be spammed with
-
-  nvme_fcloop: fcloop_exit: Failed deleting remote port
-  nvme_fcloop: fcloop_exit: Failed deleting target port
-
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- drivers/nvme/target/fcloop.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index c780af36c1d4..629a90fe4306 100644
---- a/drivers/nvme/target/fcloop.c
-+++ b/drivers/nvme/target/fcloop.c
-@@ -997,11 +997,6 @@ fcloop_nport_free(struct kref *ref)
- {
- 	struct fcloop_nport *nport =
- 		container_of(ref, struct fcloop_nport, ref);
--	unsigned long flags;
--
--	spin_lock_irqsave(&fcloop_lock, flags);
--	list_del(&nport->nport_list);
--	spin_unlock_irqrestore(&fcloop_lock, flags);
- 
- 	kfree(nport);
- }
-@@ -1358,6 +1353,8 @@ __unlink_remote_port(struct fcloop_nport *nport)
- 		nport->tport->remoteport = NULL;
- 	nport->rport = NULL;
- 
-+	list_del(&nport->nport_list);
-+
- 	return rport;
- }
- 
--- 
-2.40.0
-
+I suppose these should be disabled for fc as all this is tcp specific.
 
