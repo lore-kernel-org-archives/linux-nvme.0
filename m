@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A277C77B7A
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Apr 2023 06:57:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83A81C77B78
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Apr 2023 06:57:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EytKHcpyNx75GwSSgzLbLe7JCepYZbwQNnXNwjTwW3U=; b=CC4Cb/Vju3zMjnt7E0OObV8RjF
-	4FEByI/fJA7evVk3RkIofIFpLJ/831nVyBaZOfAomKfEM+UlvrDVsiFyfpqFmz+LP8LBvYeYFEyPx
-	McvuqDjFQ5y4WXVvoqlz8Sfw28+d2LjQkIg/WdYPj8kalwTMbDwTMFYnkbkJKQpmQujtr7qNTIOaS
-	yLzk0RiDpB+QySK8Z70I0j5nrLT3IlXg+ZAR887WGADDHayjs5SWn3kAoyQQ31IFZiTvBOS2Gfuky
-	BsfhHR+ZPrLUV7X81o6FX7OsJzsbac4O8HLYGbQsyUP2cSwKo7dNn0DteZcIj8RUtE4q0I/BVYwmJ
-	Kzvuo4oQ==;
+	bh=KtSpNgKrPfslxHev0vwTjRy2goQY36AKDkfQfPR7cik=; b=TCii1C1IFwcSP1sr+bbMqXDwle
+	LzS2Yi8r1B3DVtxG/SF6jqCkmEl8XSV0hUj0U/tkcGmKR0+ZPBPnz8/FOjHWYuGO6oJGwqk6COZFi
+	NIthYFouPqX2OEBQFvQicYglO3dZ83Xlvkam5G8l6cKYKM/udl5v2qKiNhnUn55izEkGljY3/uo0i
+	Z0btwcgn4yxCT1G1kOIQTN1zv5bD+7wCGvvfE2WzjD2o0VgDkoqjSNPE+l3JxnYcj+DV5p2c/y1kK
+	iPGxDc1GUBdIlmGwlXmyCoCjuqi+4y6IB4lYwQw7UwEWWuFF3Vg12HSyqo7B0KP3AwTFs5raDhyEs
+	qCfeDS2w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pp1l5-004Igo-0T;
-	Wed, 19 Apr 2023 06:57:39 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1pp1ku-004IZf-1Q;
+	Wed, 19 Apr 2023 06:57:28 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pp1ks-004IXZ-1L
+	id 1pp1ko-004ITv-0t
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Apr 2023 06:57:29 +0000
+	Wed, 19 Apr 2023 06:57:23 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 466D9219A7;
+	by smtp-out2.suse.de (Postfix) with ESMTP id 51D4E1FD8D;
 	Wed, 19 Apr 2023 06:57:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1681887438; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EytKHcpyNx75GwSSgzLbLe7JCepYZbwQNnXNwjTwW3U=;
-	b=WvdpNGK0AzbpMCLxeh7WHYjAhkCUCuJBYx+YM4C+R9ELZXdAiu6k6ARwvf/L+ON57W1jFt
-	Y4ClOLbyzxulIYW7bofhgjasy14pRJ1WK2W486wNV9dWmGxuwefb8ZfQf5ZlhwvbnAmQ22
-	75/cnbWLUXRKC+o9IIwopf2Zy8aZFvM=
+	bh=KtSpNgKrPfslxHev0vwTjRy2goQY36AKDkfQfPR7cik=;
+	b=Uni+8SI3fDRPVtUNg3JBhLyPQD5v4RfLVvwoeRlFLHxvfUerTIDLab4GzcLDWUzddPd4k9
+	WhPfptBnVnSrDBY+AQxAcNsykbzlgjXxwwOmTOCtTY7x9o2Y8Tpp2jDqduvmCrb7/yVyoz
+	7vW0S27KxylG22g87EAYM7UjLTxuarc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1681887438;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EytKHcpyNx75GwSSgzLbLe7JCepYZbwQNnXNwjTwW3U=;
-	b=aPCMm4Nmi2Vt9qBbjINANDgLOfgbsEZnIIx3klv4pq7zSfm5/g2v94xBfDhNSHtyZeYpAf
-	yao9kqsZdbOlGoBQ==
+	bh=KtSpNgKrPfslxHev0vwTjRy2goQY36AKDkfQfPR7cik=;
+	b=j24MsEkc7zTscOHddQxxKz3eMmxgYCoJB4+SGyvimBzyvvMeMnjXiywZMIo1K0kUxpfMMS
+	hilVJ/DShJArmQAg==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 2E2D22C14F;
+	by relay2.suse.de (Postfix) with ESMTP id 420532C15F;
 	Wed, 19 Apr 2023 06:57:18 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id F0BEB51C26D3; Wed, 19 Apr 2023 08:57:17 +0200 (CEST)
+	id 3ECFB51C26E3; Wed, 19 Apr 2023 08:57:18 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Christoph Hellwig <hch@lst.de>,
@@ -60,20 +60,18 @@ Cc: Christoph Hellwig <hch@lst.de>,
 	linux-nvme@lists.infradead.org,
 	Chuck Lever <chuck.lever@oracle.com>,
 	kernel-tls-handshake@lists.linux.dev,
-	Hannes Reinecke <hare@suse.de>,
-	Boris Pismenny <boris.pismenny@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH 06/17] net/tls: implement ->read_sock()
-Date: Wed, 19 Apr 2023 08:57:03 +0200
-Message-Id: <20230419065714.52076-7-hare@suse.de>
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 14/17] nvmet: make TCP sectype settable via configfs
+Date: Wed, 19 Apr 2023 08:57:11 +0200
+Message-Id: <20230419065714.52076-15-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230419065714.52076-1-hare@suse.de>
 References: <20230419065714.52076-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230418_235726_601617_0EEF24D5 
-X-CRM114-Status: GOOD (  16.74  )
+X-CRM114-CacheID: sfid-20230418_235722_548352_6E181B83 
+X-CRM114-Status: GOOD (  16.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,128 +86,109 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Implement ->read_sock() function for use with nvme-tcp.
+Add a new configfs attribute 'addr_tsas' to make the TCP sectype
+settable via configfs.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
-Cc: Boris Pismenny <boris.pismenny@gmail.com>
-Cc: Jakub Kicinski <kuba@kernel.org>
 ---
- net/tls/tls.h      |  2 ++
- net/tls/tls_main.c |  2 ++
- net/tls/tls_sw.c   | 71 ++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 75 insertions(+)
+ drivers/nvme/target/configfs.c | 65 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
 
-diff --git a/net/tls/tls.h b/net/tls/tls.h
-index 804c3880d028..a5bf3a9ce142 100644
---- a/net/tls/tls.h
-+++ b/net/tls/tls.h
-@@ -113,6 +113,8 @@ bool tls_sw_sock_is_readable(struct sock *sk);
- ssize_t tls_sw_splice_read(struct socket *sock, loff_t *ppos,
- 			   struct pipe_inode_info *pipe,
- 			   size_t len, unsigned int flags);
-+int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
-+		     sk_read_actor_t read_actor);
- 
- int tls_device_sendmsg(struct sock *sk, struct msghdr *msg, size_t size);
- int tls_device_sendpage(struct sock *sk, struct page *page,
-diff --git a/net/tls/tls_main.c b/net/tls/tls_main.c
-index b32c112984dd..0b51b19aa46d 100644
---- a/net/tls/tls_main.c
-+++ b/net/tls/tls_main.c
-@@ -921,9 +921,11 @@ static void build_proto_ops(struct proto_ops ops[TLS_NUM_CONFIG][TLS_NUM_CONFIG]
- 
- 	ops[TLS_BASE][TLS_SW  ] = ops[TLS_BASE][TLS_BASE];
- 	ops[TLS_BASE][TLS_SW  ].splice_read	= tls_sw_splice_read;
-+	ops[TLS_BASE][TLS_SW  ].read_sock	= tls_sw_read_sock;
- 
- 	ops[TLS_SW  ][TLS_SW  ] = ops[TLS_SW  ][TLS_BASE];
- 	ops[TLS_SW  ][TLS_SW  ].splice_read	= tls_sw_splice_read;
-+	ops[TLS_SW  ][TLS_SW  ].read_sock	= tls_sw_read_sock;
- 
- #ifdef CONFIG_TLS_DEVICE
- 	ops[TLS_HW  ][TLS_BASE] = ops[TLS_BASE][TLS_BASE];
-diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
-index 635b8bf6b937..827292e29f99 100644
---- a/net/tls/tls_sw.c
-+++ b/net/tls/tls_sw.c
-@@ -2214,6 +2214,77 @@ ssize_t tls_sw_splice_read(struct socket *sock,  loff_t *ppos,
- 	goto splice_read_end;
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 907143870da5..7f826ac8b75c 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -303,6 +303,11 @@ static void nvmet_port_init_tsas_rdma(struct nvmet_port *port)
+ 	port->disc_addr.tsas.rdma.cms = NVMF_RDMA_CMS_RDMA_CM;
  }
  
-+int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
-+		     sk_read_actor_t read_actor)
++static void nvmet_port_init_tsas_tcp(struct nvmet_port *port, int sectype)
 +{
-+	struct tls_context *tls_ctx = tls_get_ctx(sk);
-+	struct tls_sw_context_rx *ctx = tls_sw_ctx_rx(tls_ctx);
-+	struct strp_msg *rxm = NULL;
-+	struct tls_msg *tlm;
-+	struct sk_buff *skb;
-+	ssize_t copied = 0;
-+	int err, used;
-+
-+	if (!skb_queue_empty(&ctx->rx_list)) {
-+		skb = __skb_dequeue(&ctx->rx_list);
-+	} else {
-+		struct tls_decrypt_arg darg;
-+
-+		err = tls_rx_rec_wait(sk, NULL, true, true);
-+		if (err <= 0)
-+			return err;
-+
-+		memset(&darg.inargs, 0, sizeof(darg.inargs));
-+
-+		err = tls_rx_one_record(sk, NULL, &darg);
-+		if (err < 0) {
-+			tls_err_abort(sk, -EBADMSG);
-+			return err;
-+		}
-+
-+		tls_rx_rec_done(ctx);
-+		skb = darg.skb;
-+	}
-+
-+	do {
-+		rxm = strp_msg(skb);
-+		tlm = tls_msg(skb);
-+
-+		/* read_sock does not support reading control messages */
-+		if (tlm->control != TLS_RECORD_TYPE_DATA) {
-+			err = -EINVAL;
-+			goto read_sock_requeue;
-+		}
-+
-+		used = read_actor(desc, skb, rxm->offset, rxm->full_len);
-+		if (used <= 0) {
-+			err = used;
-+			goto read_sock_end;
-+		}
-+
-+		copied += used;
-+		if (used < rxm->full_len) {
-+			rxm->offset += used;
-+			rxm->full_len -= used;
-+			if (!desc->count)
-+				goto read_sock_requeue;
-+		} else {
-+			consume_skb(skb);
-+			if (desc->count && !skb_queue_empty(&ctx->rx_list))
-+				skb = __skb_dequeue(&ctx->rx_list);
-+			else
-+				skb = NULL;
-+		}
-+	} while (skb);
-+
-+read_sock_end:
-+	return copied ? : err;
-+
-+read_sock_requeue:
-+	__skb_queue_head(&ctx->rx_list, skb);
-+	goto read_sock_end;
++	port->disc_addr.tsas.tcp.sectype = sectype;
 +}
 +
- bool tls_sw_sock_is_readable(struct sock *sk)
+ static ssize_t nvmet_addr_trtype_store(struct config_item *item,
+ 		const char *page, size_t count)
  {
- 	struct tls_context *tls_ctx = tls_get_ctx(sk);
+@@ -325,11 +330,70 @@ static ssize_t nvmet_addr_trtype_store(struct config_item *item,
+ 	port->disc_addr.trtype = nvmet_transport[i].type;
+ 	if (port->disc_addr.trtype == NVMF_TRTYPE_RDMA)
+ 		nvmet_port_init_tsas_rdma(port);
++	else if (port->disc_addr.trtype == NVMF_TRTYPE_TCP)
++		nvmet_port_init_tsas_tcp(port, NVMF_TCP_SECTYPE_NONE);
+ 	return count;
+ }
+ 
+ CONFIGFS_ATTR(nvmet_, addr_trtype);
+ 
++static const struct nvmet_type_name_map nvmet_addr_tsas_tcp[] = {
++	{ NVMF_TCP_SECTYPE_NONE,	"none" },
++	{ NVMF_TCP_SECTYPE_TLS13,	"tls1.3" },
++};
++
++static const struct nvmet_type_name_map nvmet_addr_tsas_rdma[] = {
++	{ NVMF_RDMA_QPTYPE_CONNECTED,	"connected" },
++	{ NVMF_RDMA_QPTYPE_DATAGRAM,	"datagram"  },
++};
++
++static ssize_t nvmet_addr_tsas_show(struct config_item *item,
++		char *page)
++{
++	struct nvmet_port *port = to_nvmet_port(item);
++	int i;
++
++	if (port->disc_addr.trtype == NVMF_TRTYPE_TCP) {
++		for (i = 0; i < ARRAY_SIZE(nvmet_addr_tsas_tcp); i++) {
++			if (port->disc_addr.tsas.tcp.sectype == nvmet_addr_tsas_tcp[i].type)
++				return sprintf(page, "%s\n", nvmet_addr_tsas_tcp[i].name);
++		}
++	} else if (port->disc_addr.trtype == NVMF_TRTYPE_RDMA) {
++		for (i = 0; i < ARRAY_SIZE(nvmet_addr_tsas_rdma); i++) {
++			if (port->disc_addr.tsas.rdma.qptype == nvmet_addr_tsas_rdma[i].type)
++				return sprintf(page, "%s\n", nvmet_addr_tsas_rdma[i].name);
++		}
++	}
++	return sprintf(page, "reserved\n");
++}
++
++static ssize_t nvmet_addr_tsas_store(struct config_item *item,
++		const char *page, size_t count)
++{
++	struct nvmet_port *port = to_nvmet_port(item);
++	int i;
++
++	if (nvmet_is_port_enabled(port, __func__))
++		return -EACCES;
++
++	if (port->disc_addr.trtype != NVMF_TRTYPE_TCP)
++		return -EINVAL;
++
++	for (i = 0; i < ARRAY_SIZE(nvmet_addr_tsas_tcp); i++) {
++		if (sysfs_streq(page, nvmet_addr_tsas_tcp[i].name))
++			goto found;
++	}
++
++	pr_err("Invalid value '%s' for tsas\n", page);
++	return -EINVAL;
++
++found:
++	nvmet_port_init_tsas_tcp(port, nvmet_addr_tsas_tcp[i].type);
++	return count;
++}
++
++CONFIGFS_ATTR(nvmet_, addr_tsas);
++
+ /*
+  * Namespace structures & file operation functions below
+  */
+@@ -1741,6 +1805,7 @@ static struct configfs_attribute *nvmet_port_attrs[] = {
+ 	&nvmet_attr_addr_traddr,
+ 	&nvmet_attr_addr_trsvcid,
+ 	&nvmet_attr_addr_trtype,
++	&nvmet_attr_addr_tsas,
+ 	&nvmet_attr_param_inline_data_size,
+ #ifdef CONFIG_BLK_DEV_INTEGRITY
+ 	&nvmet_attr_param_pi_enable,
 -- 
 2.35.3
 
