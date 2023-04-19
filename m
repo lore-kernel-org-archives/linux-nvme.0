@@ -4,84 +4,140 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D473C77B73
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Apr 2023 18:56:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 94D3EC6FD18
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Apr 2023 21:11:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xdl4FCfvCPQecp903wxkXhDl0G5ZA+x99cQdfm7HG5s=; b=XsfF9FHNHhiyy1Ja1zTcwHzYni
-	emD7PtxLUaWhF1XYYDnuxtUIcCMUscN/hlDJ7xOSq5uNoNgb5cxbDRXYB+NpKATCfd9ycWcJNZlfr
-	V3K1L5lSob7q8Um8IpuJgrUihJjAoBOTb5Vt1GoJRxQvlHtQeocDJuFuHeV2cthb9Wbyka9azkF+b
-	g6tOVSo9eCSYQ+zDg3htjvbr/Gl8tlHsTWQYDH8dfLP0TmWvr4tFBXkIpr8jj+oEiD33DG9Pm6OgP
-	S9h44/VX86FPntQ6Vq6vF/yGIG5uA8ubNhJrWx1peKt9Wiu4nzj0av/cCrdRvaFLD18tqvja7wFxk
-	dLP7Vdew==;
+	bh=laJYkpKKElnvGGl1eicuuGXghHs46Jim2WHYDhjgeBw=; b=U+elSQdwT3yXRRBvTJmPuAcXmI
+	lRqbOLGB9XYzJHA5FnZ6Ei9cirPa11M7W0eEAs1L3BnM6qtgExFhZTJzeRrkfCUMto6DJbIw/riOF
+	Dglm0sBXnWoEuyKbphq31+c/wEdUA9x6GfnMWCKxTvzxrW9QalsQ0iTB3ioG2B2DifZlN9H6E4Mqt
+	aSil3GHvsCOob68Kt6scp5BacxW5llByz+gHR2ACSrAqnRGTgkx2BxZrm7G/4UdwgF+6SlzChS3y/
+	9yEhRc0z3MkYRU5wcnc+IBdnM3cgwxD2FIZXTJkOYZ9SVamz/L5q+sw/DJ/1jlTmlSHAEf7v8d+Su
+	lE5f4a8w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1ppCyU-006CBy-2o;
-	Wed, 19 Apr 2023 18:56:14 +0000
-Received: from mga11.intel.com ([192.55.52.93])
+	id 1ppF5Y-006NxE-0w;
+	Wed, 19 Apr 2023 21:11:40 +0000
+Received: from mail-bn1nam02on20627.outbound.protection.outlook.com ([2a01:111:f400:7eb2::627] helo=NAM02-BN1-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1ppCyR-006CAD-2l
+	id 1ppF5V-006Nvn-2W
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Apr 2023 18:56:13 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681930571; x=1713466571;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QRGqBX37NR8aEdfN3qUrMJ+8qUa0XUBdBpWqWnI2SgM=;
-  b=k7nNEQjSTl+6gEKpKtKznEQD13PcpXZZuBoQ6N1BWoHF2CBE15bHk1hh
-   d8/efEQYjtdJUZrWYJL0CSluUCscE39h/Sr4BWuQhuaQA6KERiNwNHvnp
-   Cqv4QX31Yrky6krvOHvwXYwPlWSBIf7CiJbE43WhS/wnM3ztE2RhkxNkH
-   htvqBusDoxOujoElcgWOs7GjpPWtS6Dq6WG848tqd/XcBQ9ruIXMaZhIt
-   1hBMsQtwIypJyXK5d5nlB4e5lXmL1ACQ6bDLteOT1xSEmxI3ABy6BePPw
-   pu+DCm/6Ng7KXdWvhJ4FBGXNfiVksyFiQbg5SrqR3noskFE8Mzq1p8hHg
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="343015576"
-X-IronPort-AV: E=Sophos;i="5.99,210,1677571200"; 
-   d="scan'208";a="343015576"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 11:56:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="780939661"
-X-IronPort-AV: E=Sophos;i="5.99,210,1677571200"; 
-   d="scan'208";a="780939661"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 19 Apr 2023 11:56:01 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ppCyH-000f74-01;
-	Wed, 19 Apr 2023 18:56:01 +0000
-Date: Thu, 20 Apr 2023 02:55:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	James Smart <james.smart@broadcom.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, bvanassche@acm.org, hare@suse.de,
-	ming.lei@redhat.com, dlemoal@kernel.org, anuj20.g@samsung.com,
-	joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
-	Nitesh Shetty <nj.shetty@samsung.com>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v10 6/9] nvmet: add copy command support for bdev and
- file ns
-Message-ID: <202304200240.fsLkpzvk-lkp@intel.com>
-References: <20230419114320.13674-7-nj.shetty@samsung.com>
+	Wed, 19 Apr 2023 21:11:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oGcThMrxEUG3F7WrswPOQPTVwWDbSb3j/xdOrEvj6wgvK1JwHI0Aw+kak8sBWXdX5lLTiYlJL7dTg7mBh58U4G3GaWNdXTMosVUZJYKT3OHlOhqd2MLK/Uuo0v/IqSz43yW1maOexhlpr8h8A4bHJgqiW3fOJ8TMgdxDDwfJcGRPOqj1CfdbMr/ushK9+LMIt56HyLfW0GZhDDYf767Cn7gF5q4cGz+wKmcBJ+6xqmIvNu+dHBg2SdUvUAsQYR5mEr/0rqMkgeTsSs7c5Jhnuc3eUna19Hj1staXR/V4jc0tURP5EOdH94Dp4ckBd7sB3FZCFNWTdgO2xLlinaY8jg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=laJYkpKKElnvGGl1eicuuGXghHs46Jim2WHYDhjgeBw=;
+ b=ACuXi5rTEpiSCblp7KMmOEtMbJK/Cwkr9Ar9zmA2zw3cusYye4xi6da47ZBYh61mMHfjcbyojRPYL9MoFX11IvBYPJrHG9FQm+xD+YeiG8Z+9KO850Sfy8aJa0kcNOf42qt5bQB1joLQvZwAR7JFNDrCNYI99FCSG6G6YqSRKIDN+mtSzmopJK3YixQ2twT8UM5bfTmOLGwiuzrU/3qa+xHZvDuZHz6a0rY2EWKQpdXg2c61Xw8J8KhRtBMmMm5fyQleEuVdHOkouzd4Mc7wl2exWfM8dhiuhF8M9SJfjLhqoomicGCm4J6cHEMUEd//bwJytm/bfA3e+AkfL61OWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=laJYkpKKElnvGGl1eicuuGXghHs46Jim2WHYDhjgeBw=;
+ b=JoV9nJRgb17PNvhkSoaLNGPhsmXEt8l6XCvZmotXFpnivC9yE1MjdWwid8qb/oMdoMaMi7+nqC9D8bbDC4IptfOXzcMZzVv7/m3bJpZltaWv+rdywKpTmTMvJaxDkWMKOZOabs72gr0Q3suLkSkjafLyRSwkt7ky6ulPVCjFzuor9JG8CuPIb6FuBWS+H5zNAgfDQZ8JZrFT7KIvnPK3XsOul/XzZLTWr54TWTNxZxE12EZDWG1MGmD242fJULFDJpzyfOaTcQry5o9Br/782KbHVUxKMNTzJ7ZltkUNj5VkvZ2dSUOE/8tyohIZ8X9hE8o1OB6q8reuNvUitiLKpg==
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
+ by IA1PR12MB7685.namprd12.prod.outlook.com (2603:10b6:208:423::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.22; Wed, 19 Apr
+ 2023 21:11:33 +0000
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::6922:cae7:b3cc:4c2a]) by MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::6922:cae7:b3cc:4c2a%5]) with mapi id 15.20.6319.022; Wed, 19 Apr 2023
+ 21:11:33 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, Shin'ichiro
+ Kawasaki <shinichiro@fastmail.com>
+Subject: Re: [RFC v1 0/1] nvme testsuite runtime optimization
+Thread-Topic: [RFC v1 0/1] nvme testsuite runtime optimization
+Thread-Index: AQHZcpzgQRAsytyJiEWmAIUqEW+1V68yXyyAgAAEQwCAAL5fAA==
+Date: Wed, 19 Apr 2023 21:11:33 +0000
+Message-ID: <27235520-2e63-2891-fd0a-ff758f18032e@nvidia.com>
+References: <20230419085643.25714-1-dwagner@suse.de>
+ <f0d2ddd5-37d6-8fba-a5e3-965fb9f41474@nvidia.com>
+ <9a1f1709-baaf-5661-2cbf-c34e2da9e42e@grimberg.me>
+In-Reply-To: <9a1f1709-baaf-5661-2cbf-c34e2da9e42e@grimberg.me>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|IA1PR12MB7685:EE_
+x-ms-office365-filtering-correlation-id: 09f29a1b-b3ab-4c90-9d8c-08db411aa72c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  2t0ECtOOtXNIwLRRmXjxYZGnFmykrIu5r0uGhuLnUVjKBujqakfM5HER84Z6aofSO6lFCWr5SKi8J85PMstZMEZ/U3D//u28qpiqCGzcfOBOMKrVywq9UyEhEPVXX0JYgkw3GpoEvOXcOdd0PlhCYH4wgat1j9e8YfAcLqVyzVQYsaOblm7U3wKcKwFc/S/nOiLj9JxpkXxzHsC9LaHhwZJ9LUbwdJcxup5EHfHV0FtVN9vRo35YeVV49u7k6unEEhGwlaTTktTaewYkTn1On1kpwLCkgkBoeroz7NgIhWIueLBalGls1IgTAYbqIB4rE+tQjQade9FKOY05IkgE1DBEBS27P9QvaLfCQ5keUTOVDrV4wAZpvdwTx3/hgKh32AHNUF/EFXiZ8v+VlU82h/e1by26NN2COhMOv3ABL42TDVFHI+zn0T2SquEfQTxZx5kds8qmBFt2syxsARwBnxZESGEtSx2RFHs2JWVA1c6nf+YmJhnuf+BmzOZDLQbQZ2i8CqyiPCe1sNXsVaDYEYz1E4LVwtFflOhUi21SacTboGBxZtRlTDM5p+6FwVQwYfnjUIzJu7jR7wzu9Yq++SsWmSSGE2T4qq/AW9s7+pkGXauWai894p4Z9Dm1K3BJqdg3f0KMHpGCmufoY2kXQ0PEPf+yC5R7MuQhErrl65trpKTqmbxZ51idaUuOD6WWjMRkHj2ff8QsoDGC6g9uow==
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(39860400002)(376002)(346002)(396003)(136003)(451199021)(8676002)(41300700001)(8936002)(2906002)(38070700005)(5660300002)(83380400001)(54906003)(86362001)(122000001)(36756003)(110136005)(478600001)(6512007)(6506007)(2616005)(53546011)(6486002)(38100700002)(186003)(71200400001)(31686004)(31696002)(316002)(4326008)(66556008)(66476007)(64756008)(66446008)(91956017)(66946007)(76116006)(21314003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?bnp3dzhBeC81bXRDMDVPd09zZmZNclZLVU81MmlxS2ZvcmMzYTNkWUdHWTUx?=
+ =?utf-8?B?NUpwcWk1dXdUU2xLWi90UzUyaENSM2dwYmgvY2xkaEZGUzVIaWRFZ2krbHMv?=
+ =?utf-8?B?Um5xcTNqL1B2U1kzdk51NUpSc01WWDNDd0VVR2g5WnREUVNQMUxVcTZSRnZ5?=
+ =?utf-8?B?Nkhkb3FBeEk2VUpmMThEV1Y5blpsRFk3VWE0VmlITnA4b2dEaVVsRlpoVmJV?=
+ =?utf-8?B?RW5DZWRqQVZXWE8vM3RrZVg5eGV4Ulp0OXRMZG1ocHVLejRsdVc1V0tmZDJV?=
+ =?utf-8?B?L1p2THNZbUtXUGYwa0RPVlBGSzYwQ3VFQkZib3JuWG1hOUJEaEI2UzNIL2o5?=
+ =?utf-8?B?WVorWkhkYjJNaXp0cDJFUGhJcG1SbVNDT0lmamcrWkF3QkJ4YjJsVmQ1clAz?=
+ =?utf-8?B?RGlDUEV0VWo4VVZidDJOSXNORWxOYi8wVnFtVlNjb0M5a2dFTGkwUGF4OWV3?=
+ =?utf-8?B?Z0taM3hzMXNMd1dRRVRNK1ZEMHNLV01udS9YK2dySkxhY0JJMmd4S0NzcVFR?=
+ =?utf-8?B?STAvNThPSkcwdXlNTzdrdkQ4TkU0emJ6S0RUSVgzUUFVc000OWpEazZyUFZl?=
+ =?utf-8?B?b21KN3RnOGhETGcwVWJCbnF4ZEMxRytOdmQ0MGE4ZldwV1RYZWRaUXIzaExB?=
+ =?utf-8?B?UXhzaWNNanR1bU9ILzQ0THBkbGJLclhONUcxYWFzanNZVWFFOWZZU2FNZVlk?=
+ =?utf-8?B?VS9mOXNrM3VFOGFjeGdzNXJuZ0ZhWThkdGdyTmxzY2R2UmM2Zzhib0gyV1ph?=
+ =?utf-8?B?enhHRlBEUVQ3RDVXaVpLMStweERrcDdBM2JxUEZIYldHcTl3d2NXUi8xUVJt?=
+ =?utf-8?B?NkFncHovSlFueGdPWnNpd05SWk41aWhmdmNEeHkzV05walQ5b0NjSk5oeTF3?=
+ =?utf-8?B?TzJqbGtFRWpQRGlTSldldTBSQUpOQVNvaSszMlFnd0hkUXl6U0p4dnUxWlBs?=
+ =?utf-8?B?dWJzQ1FRd0dCb2l1b2RZU3I2dlQ5RE5leUJXK2FXK3dUSkFoa055UWxGazdR?=
+ =?utf-8?B?bUYrOVB4bE1zL0xLRGpENUFaMzVuMnFuZ1dCTERNdkcvRUZ0T3F0czVVZ1ll?=
+ =?utf-8?B?SjB3dExna2NSZm9XTkgyMTVSWklQczY0dE9nd2diS3h0QW9BMElhWmd4WFhP?=
+ =?utf-8?B?TmVEZ3ZVUGdmQWNPcWpYZUEzRENNcFNOZDJXdXlsVXlRYXFmMHNnb0xjcHZH?=
+ =?utf-8?B?TmJTVTFIOXl3SGRIemh2S2tIcXNtYjZpVGx6dWVSTUN6UVZTUmh0NWdIVWds?=
+ =?utf-8?B?aWp5bDlqKy9BYTVhM2tWdW51aGhpMWJlcm1DNUlPbVl1YkprSm0yYjAzKzBK?=
+ =?utf-8?B?YmRiOWJBVFNBb00zS21uUjYwYWxTZFlvMk1kZ1JNRkxGUllhc1NTSVlNSE15?=
+ =?utf-8?B?eUZkRXdnakFMWnZXVVhDZFgxYyticHBTUlNxU0lFM1ljR2toYUJNQUhabTV3?=
+ =?utf-8?B?S0Ntcld3Smp2WEljUUxHeEkxbFA5cUtiOVNqblVjWkhXNGg1SC9QNUNUTUNa?=
+ =?utf-8?B?M2RIUEJ5R2pTdjFjN3g2elNxYVE2Q3oyZWF0dnBqK2JlWmxEOEJ5djU3dndo?=
+ =?utf-8?B?ejBoRFJDT0VlNXAyS0ZMTXc5c0RiQXUwa2ZMSC96bnRjRVlWRFRnRXJOUlcv?=
+ =?utf-8?B?cFQvMzE2MU5NczBkdTBoR1Z5T3ZDQkN6OGlDbnNodm96akU4bFRLZXRvYyt6?=
+ =?utf-8?B?NytTbnUySXZqZ25SY2NqbFA5L2M3MVVNYTVSSzJNUVJ5aWFqSGtvSWVKSjBM?=
+ =?utf-8?B?eCs1L1M0UG5UNzIybCtYOUs4YXFtWHF6K0lhQzJGbmxMVzFidWlyZWx6ei91?=
+ =?utf-8?B?dzIvcVJzYUpGUEQrcEp1YnppQkIydUtQVWM3TGZ5T1kySG1wQjRPUWZlckQr?=
+ =?utf-8?B?Z3pDZERGb3kwUWtoSUlDY2cyYm9FRHIvRitDc0htQVppeWZ2WUNUTDE0NGNM?=
+ =?utf-8?B?NW4xY0M1eVlQeFFQL0tESFN1NiticE5ET3cwUWZpS2ordm0wc3EyRm8zTFNX?=
+ =?utf-8?B?dElHaHpoK29VVlRzWmlFa055Lzh1T203dUljUWFRTzREN2xGWlFnMnNKTldW?=
+ =?utf-8?B?dXczbGQvcUVySGVnRmdqUnVpSWcrNVNVWjZ2QkpVVE1ZV0NoMkZndkU4YUQy?=
+ =?utf-8?B?TGl5S3JlbEFieVNVc3h3ZWEyemlEcE11ejlndktzKzkvYVdqK3BReW5peVFF?=
+ =?utf-8?Q?MAASztYfV16PPPeVGwkk8SDWl55Mq7kiov0PsIf9OZvK?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <282963F04D9D9D4D8BB1F3B3316B93B8@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230419114320.13674-7-nj.shetty@samsung.com>
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09f29a1b-b3ab-4c90-9d8c-08db411aa72c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Apr 2023 21:11:33.2259
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: V/tpPNxiid7r/ruIxOBZoCoE4LQf8y5mF0wpsdb7TACf6kusPHbcdGsU3RffINvBWmncOOqz102WeBEa4zHKbw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7685
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230419_115611_913521_5B58236B 
-X-CRM114-Status: GOOD (  18.06  )
+X-CRM114-CacheID: sfid-20230419_141137_821313_7561A8A6 
+X-CRM114-Status: GOOD (  19.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,112 +152,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Nitesh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20230418]
-[cannot apply to axboe-block/for-next device-mapper-dm/for-next linus/master v6.3-rc7 v6.3-rc6 v6.3-rc5 v6.3-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Add-copy-offload-support-infrastructure/20230419-204352
-patch link:    https://lore.kernel.org/r/20230419114320.13674-7-nj.shetty%40samsung.com
-patch subject: [PATCH v10 6/9] nvmet: add copy command support for bdev and file ns
-config: m68k-randconfig-s032-20230416 (https://download.01.org/0day-ci/archive/20230420/202304200240.fsLkpzvk-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/420b04f7ba9a54898d62c1d60905f8cf952afde2
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nitesh-Shetty/block-Add-copy-offload-support-infrastructure/20230419-204352
-        git checkout 420b04f7ba9a54898d62c1d60905f8cf952afde2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash drivers/nvme/target/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304200240.fsLkpzvk-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/nvme/target/io-cmd-bdev.c:55:27: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le16 [usertype] mssrl @@
-   drivers/nvme/target/io-cmd-bdev.c:55:27: sparse:     expected unsigned int [usertype] val
-   drivers/nvme/target/io-cmd-bdev.c:55:27: sparse:     got restricted __le16 [usertype] mssrl
->> drivers/nvme/target/io-cmd-bdev.c:55:27: sparse: sparse: cast from restricted __le16
->> drivers/nvme/target/io-cmd-bdev.c:55:27: sparse: sparse: cast from restricted __le16
->> drivers/nvme/target/io-cmd-bdev.c:55:27: sparse: sparse: cast from restricted __le16
->> drivers/nvme/target/io-cmd-bdev.c:55:27: sparse: sparse: cast from restricted __le16
-   drivers/nvme/target/io-cmd-bdev.c:57:29: sparse: sparse: cast from restricted __le16
-   drivers/nvme/target/io-cmd-bdev.c:60:27: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le16 [usertype] mssrl @@
-   drivers/nvme/target/io-cmd-bdev.c:60:27: sparse:     expected unsigned int [usertype] val
-   drivers/nvme/target/io-cmd-bdev.c:60:27: sparse:     got restricted __le16 [usertype] mssrl
-   drivers/nvme/target/io-cmd-bdev.c:60:27: sparse: sparse: cast from restricted __le16
-   drivers/nvme/target/io-cmd-bdev.c:60:27: sparse: sparse: cast from restricted __le16
-   drivers/nvme/target/io-cmd-bdev.c:60:27: sparse: sparse: cast from restricted __le16
-   drivers/nvme/target/io-cmd-bdev.c:60:27: sparse: sparse: cast from restricted __le16
-
-vim +55 drivers/nvme/target/io-cmd-bdev.c
-
-    12	
-    13	void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
-    14	{
-    15		/* Logical blocks per physical block, 0's based. */
-    16		const __le16 lpp0b = to0based(bdev_physical_block_size(bdev) /
-    17					      bdev_logical_block_size(bdev));
-    18	
-    19		/*
-    20		 * For NVMe 1.2 and later, bit 1 indicates that the fields NAWUN,
-    21		 * NAWUPF, and NACWU are defined for this namespace and should be
-    22		 * used by the host for this namespace instead of the AWUN, AWUPF,
-    23		 * and ACWU fields in the Identify Controller data structure. If
-    24		 * any of these fields are zero that means that the corresponding
-    25		 * field from the identify controller data structure should be used.
-    26		 */
-    27		id->nsfeat |= 1 << 1;
-    28		id->nawun = lpp0b;
-    29		id->nawupf = lpp0b;
-    30		id->nacwu = lpp0b;
-    31	
-    32		/*
-    33		 * Bit 4 indicates that the fields NPWG, NPWA, NPDG, NPDA, and
-    34		 * NOWS are defined for this namespace and should be used by
-    35		 * the host for I/O optimization.
-    36		 */
-    37		id->nsfeat |= 1 << 4;
-    38		/* NPWG = Namespace Preferred Write Granularity. 0's based */
-    39		id->npwg = lpp0b;
-    40		/* NPWA = Namespace Preferred Write Alignment. 0's based */
-    41		id->npwa = id->npwg;
-    42		/* NPDG = Namespace Preferred Deallocate Granularity. 0's based */
-    43		id->npdg = to0based(bdev_discard_granularity(bdev) /
-    44				    bdev_logical_block_size(bdev));
-    45		/* NPDG = Namespace Preferred Deallocate Alignment */
-    46		id->npda = id->npdg;
-    47		/* NOWS = Namespace Optimal Write Size */
-    48		id->nows = to0based(bdev_io_opt(bdev) / bdev_logical_block_size(bdev));
-    49	
-    50		/*Copy limits*/
-    51		if (bdev_max_copy_sectors(bdev)) {
-    52			id->msrc = id->msrc;
-    53			id->mssrl = cpu_to_le16((bdev_max_copy_sectors(bdev) <<
-    54					SECTOR_SHIFT) / bdev_logical_block_size(bdev));
-  > 55			id->mcl = cpu_to_le32(id->mssrl);
-    56		} else {
-    57			id->msrc = (u8)to0based(BIO_MAX_VECS - 1);
-    58			id->mssrl = cpu_to_le16((BIO_MAX_VECS << PAGE_SHIFT) /
-    59					bdev_logical_block_size(bdev));
-    60			id->mcl = cpu_to_le32(id->mssrl);
-    61		}
-    62	}
-    63	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+T24gNC8xOS8yMyAwMjo1MCwgU2FnaSBHcmltYmVyZyB3cm90ZToNCj4NCj4+PiBXaGlsZSB0ZXN0
+aW5nIHRoZSBmYyB0cmFuc3BvcnQgSSBnb3QgYSBiaXQgdGlyZWQgb2Ygd2FpdCBmb3IgdGhlIEkv
+TyANCj4+PiBqb2JzIHRvDQo+Pj4gZmluaXNoLiBUaHVzIGhlcmUgc29tZSBydW50aW1lIG9wdGlt
+aXphdGlvbi4NCj4+Pg0KPj4+IFdpdGggYSBzbWFsbC9zbG93IFZNIEkgZ290IGZvbGxvd2luZyB2
+YWx1ZXM6DQo+Pj4NCj4+PiB3aXRoICdvcHRpbWl6YXRpb25zJw0KPj4+IMKgwqDCoCBsb29wOg0K
+Pj4+IMKgwqDCoMKgwqAgcmVhbMKgwqDCoCA0bTQzLjk4MXMNCj4+PiDCoMKgwqDCoMKgIHVzZXLC
+oMKgwqAgMG0xNy43NTRzDQo+Pj4gwqDCoMKgwqDCoCBzeXPCoMKgwqDCoCAybTYuMjQ5cw0KPg0K
+PiBIb3cgY29tZSBsb29wIGlzIGRvdWJsaW5nIHRoZSB0aW1lIHdpdGggdGhpcyBwYXRjaD8NCj4g
+cmF0aW8gaXMgbm90IHRoZSBzYW1lIGJlZm9yZSBhbmQgYWZ0ZXIuDQo+DQo+Pj4NCj4+PiDCoMKg
+wqAgcmRtYToNCj4+PiDCoMKgwqDCoMKgIHJlYWzCoMKgwqAgMm0zNS4xNjBzDQo+Pj4gwqDCoMKg
+wqDCoCB1c2VywqDCoMKgIDBtNi4yNjRzDQo+Pj4gwqDCoMKgwqDCoCBzeXPCoMKgwqDCoCAwbTU2
+LjIzMHMNCj4+Pg0KPj4+IMKgwqDCoCB0Y3A6DQo+Pj4gwqDCoMKgwqDCoCByZWFswqDCoMKgIDJt
+MzAuMzkxcw0KPj4+IMKgwqDCoMKgwqAgdXNlcsKgwqDCoCAwbTUuNzcwcw0KPj4+IMKgwqDCoMKg
+wqAgc3lzwqDCoMKgwqAgMG00Ni4wMDdzDQo+Pj4NCj4+PiDCoMKgwqAgZmM6DQo+Pj4gwqDCoMKg
+wqDCoCByZWFswqDCoMKgIDJtMTkuNzM4cw0KPj4+IMKgwqDCoMKgwqAgdXNlcsKgwqDCoCAwbTYu
+MDEycw0KPj4+IMKgwqDCoMKgwqAgc3lzwqDCoMKgwqAgMG00Mi4yMDFzDQo+Pj4NCj4+PiBiYXNl
+Og0KPj4+IMKgwqDCoCBsb29wOg0KPj4+IMKgwqDCoMKgwqAgcmVhbMKgwqDCoCA3bTM1LjA2MXMN
+Cj4+PiDCoMKgwqDCoMKgIHVzZXLCoMKgwqAgMG0yMy40OTNzDQo+Pj4gwqDCoMKgwqDCoCBzeXPC
+oMKgwqDCoCAybTU0Ljg2NnMNCj4+Pg0KPj4+IMKgwqDCoCByZG1hOg0KPj4+IMKgwqDCoMKgwqAg
+cmVhbMKgwqDCoCA4bTI5LjM0N3MNCj4+PiDCoMKgwqDCoMKgIHVzZXLCoMKgwqAgMG0xMy4wNzhz
+DQo+Pj4gwqDCoMKgwqDCoCBzeXPCoMKgwqDCoCAxbTUzLjE1OHMNCj4+Pg0KPj4+IMKgwqDCoCB0
+Y3A6DQo+Pj4gwqDCoMKgwqDCoCByZWFswqDCoMKgIDhtMTEuMzU3cw0KPj4+IMKgwqDCoMKgwqAg
+dXNlcsKgwqDCoCAwbTEzLjAzM3MNCj4+PiDCoMKgwqDCoMKgIHN5c8KgwqDCoMKgIDJtNDMuMTU2
+cw0KPj4+DQo+Pj4gwqDCoMKgIGZjOg0KPj4+IMKgwqDCoMKgwqAgcmVhbMKgwqDCoCA1bTQ2LjYx
+NXMNCj4+PiDCoMKgwqDCoMKgIHVzZXLCoMKgwqAgMG0xMi44MTlzDQo+Pj4gwqDCoMKgwqDCoCBz
+eXPCoMKgwqDCoCAxbTQ2LjMzOHMNCj4+Pg0KPj4+DQo+Pg0KPj4gVGhvc2Ugam9icyBhcmUgbWVh
+bnQgdG8gYmUgcnVuIGZvciBhdCBsZWFzdCAxRyB0byBlc3RhYmxpc2gNCj4+IGNvbmZpZGVuY2Ug
+b24gdGhlIGRhdGEgc2V0IGFuZCB0aGUgc3lzdGVtIHVuZGVyIHRlc3Qgc2luY2UgU1NEcw0KPj4g
+YXJlIGluIFRCcyBub3dhZGF5cyBhbmQgd2UgZG9uJ3QgZXZlbiBnZXQgYW55d2hlcmUgY2xvc2Ug
+dG8gdGhhdCwNCj4+IHdpdGggeW91ciBzdWdnZXN0aW9uIHdlIGFyZSBnb2luZyBldmVuIGxvd2Vy
+IC4uLg0KPg0KPiBXaGVyZSBkb2VzIHRoZSAxRyBib3VuZGFyeSBjb21pbmcgZnJvbT8NCj4NCg0K
+DQpJIHdyb3RlIHRoZXNlIHRlc3RjYXNlcyAzIHRpbWVzLCBpbml0aWFsbHkgdGhleSB3ZXJlIHRo
+ZSBwYXJ0IG9mDQpudm1lLWNsaSB0ZXN0czctOCB5ZWFycyBhZ28sIHRoZW4gbnZtZnRlc3RzIDct
+NiB5ZWFycyBhZ28sIHRoZW4gdGhleQ0KbW92ZWQgdG8gYmxrdGVzdHMuDQoNCkluIHRoYXQgdGlt
+ZSBzb21lIG9mIHRoZSB0ZXN0Y2FzZXMgd291bGQgbm90IGZhaWwgb24gd2l0aCBzbWFsbCBzaXpl
+DQpzdWNoIGFzIGxlc3MgdGhhbiA1MTJNQiBlc3BlY2lhbGx5IHdpdGggdmVyaWZpY2F0aW9uIGJ1
+dCB0aGV5IHdlcmUNCmluIHRoZSBlcnJvcnMgd2l0aCAxRyBIZW5jZSBJIGtlcHQgdG8gYmUgMUcu
+DQoNCk5vdyBJIGRvbid0IHJlbWVtYmVyIHdoeSBJIGRpZG4ndCB1c2UgYmlnZ2VyIHNpemUgdGhh
+biAxRw0Kc2hvdWxkIGhhdmUgZG9jdW1lbnRlZCB0aGF0IHNvbWV3aGVyZSAuLi4NCg0KPj4gd2Ug
+Y2Fubm90IGNoYW5nZSB0aGUgZGF0YXNldCBzaXplIGZvciBzbG93IFZNcywgaW5zdGVhZCBhZGQN
+Cj4+IGEgY29tbWFuZCBsaW5lIGFyZ3VtZW50IGFuZCBwYXNzIGl0IHRvIHRlc3RzIGUuZy4NCj4+
+IG52bWVfdmVyaWZpY2F0aW9uX3NpemU9WFhYIHNpbWlsYXIgdG8gbnZtZV90cnR5cGUgYnV0IGRv
+bid0IGNoYW5nZQ0KPj4gdGhlIGRlZmF1bHQgdmFsdWVzIHdoaWNoIHdlIGhhdmUgYmVlbiB0ZXN0
+aW5nIGZvciB5ZWFycyBub3cNCj4+DQo+PiBUZXN0aW5nIGlzIHN1cHBvc2VkIHRvIGJlIHRpbWUg
+Y29uc3VtaW5nIGVzcGVjaWFsbHkgdmVyaWZpY2F0aW9uIGpvYnMuLg0KPg0KPiBJIGxpa2UgdGhl
+IGlkZWEsIGJ1dCBJIHRoaW5rIGl0IG1heSBuZWVkIHRvIGJlIHRoZSBvdGhlciB3YXkgYXJvdW5k
+Lg0KPiBIYXZlIHNob3J0ZXN0IHBvc3NpYmxlIHJ1bnMgYnkgZGVmYXVsdC4NCg0Kc2VlIGFib3Zl
+Li4NCg0KLWNrDQoNCg0K
 
