@@ -4,63 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0327C6FD18
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E35CAC77B7A
 	for <linux-nvme@archiver.kernel.org>; Wed, 19 Apr 2023 08:48:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3QiWi7xEJCHdkqRRP7ZvqBGwdGpiUG8vH8kiotRokzk=; b=zMjVseuoKgXnioMtY5LJPJX453
-	BPsP/BLqLxnY6raQqYyn32C3g8+gy+YMmLTFvmJX8ftzRP4Bv14XBWdqwcOGAgIIzRfp9Bhprd/fu
-	QOnp3Hz7dum6F+NbPj0rYfgJFPVZ1byKIAdNj6fUEbPYm0ZWUvfVlNE8gMqTQv8Em5HagGpUAsolc
-	YYn/tnVeukCdA/LM6U/VshWM1TIUCks8bnnhHdYnpWw4KfzNVw8BEFBheWXgMNnWNNB5wBFNc+EHT
-	YQ2eqUe+ZFFjQrkYOmmYfeOqaWpZL7KReLOIN4evlWspbLks/ilM+xMN/UZKwWYTK5m/yRY3HGDDY
-	62TeBhbQ==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=p1s5jMDrUBxZBZWTGeFE0HAki3ixSROArH88l+ErhWQ=; b=AMNNngVf7+ybDKXLe1H2vRyV0g
+	VEOxLPs+Ozj/oywF5kyDTvu7POy/I5phgxDXiUUwrlRyHfJM1w1Um0KCmsDxxyfVTAE8Fv0Zs/wJc
+	LmG1thLXIu4FwPR+lkMR2kKXzFDcOivMfRW28V7jCeb+UcB8vIxDrxWUqjvHzTqISMThxr5rslCpG
+	32enVRbbZEiIB8XBSi0xD6HNkUBNn51TaQ4J2+ldbtZi24nSYB1muROhIeklfo4pLkK0R+cvyvO79
+	jVFItmrx02WVpB5cZonCiHK0QWa/xWmj59a2HZLR4m187T3wXLWxfa/8evU7BipoHnCS8X5afDAcj
+	rnanaq/w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pp3U1-004dcT-1u;
-	Wed, 19 Apr 2023 08:48:09 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1pp3U2-004dcd-0z;
+	Wed, 19 Apr 2023 08:48:10 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pp3Ty-004dZk-2Z
+	id 1pp3Ty-004dZh-2Z
 	for linux-nvme@lists.infradead.org;
 	Wed, 19 Apr 2023 08:48:08 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 84E301FD8B;
-	Wed, 19 Apr 2023 08:48:02 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E6E752193C;
+	Wed, 19 Apr 2023 08:48:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1681894082; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3QiWi7xEJCHdkqRRP7ZvqBGwdGpiUG8vH8kiotRokzk=;
-	b=sqVWNsJVUjiYb2VzNHizjNmqeNLQlqmarcx3NSnHE26XF92d6u3XLIvXHIH0ew5yONpe6G
-	YlZIgnisan2J/iH7obtvt0j6SFBsN9wphlq+BvYq9TZzFY+ZU05s+Jb+ckEasTUBI3ZQVZ
-	ZEaQh26OZbecg/F5RPbOy5pFezbfrXw=
+	t=1681894081; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=p1s5jMDrUBxZBZWTGeFE0HAki3ixSROArH88l+ErhWQ=;
+	b=lZzuFhPiUoGy/vSbK76tTDOCZMiJnkr7I0qcrjCNKrXyhkiibQ1QLTw98PNuD00YABQuqs
+	ZFPYTdmmzDHttjckDGbqHWDgbmyuuSSGGAmnuG5oIPTezou1zWb5/x8ojZCOysTxvQMjLZ
+	fsiYzRbXhUF/EEruw2UeMukvxk1fj4c=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1681894082;
+	s=susede2_ed25519; t=1681894081;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3QiWi7xEJCHdkqRRP7ZvqBGwdGpiUG8vH8kiotRokzk=;
-	b=BTEsn7kckP73UTb6IJD67Y1DsdfIczHtODopk79FLqTb4vLl5abEG1zMBlE/PKXXq/l8qh
-	Mq3D2X36dTLJWHAQ==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=p1s5jMDrUBxZBZWTGeFE0HAki3ixSROArH88l+ErhWQ=;
+	b=utW/gvW2BNoWXYLubrP/Yy7rWTOR5SkGkMjk3RtjlAsI2frWzssb8EjbRaLmCpmFG0VaDv
+	QphJLNKY8zuO3rAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 762A91390E;
-	Wed, 19 Apr 2023 08:48:02 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D89FA1390E;
+	Wed, 19 Apr 2023 08:48:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id XB5YHMKqP2S5dQAAMHmgww
-	(envelope-from <dwagner@suse.de>); Wed, 19 Apr 2023 08:48:02 +0000
+	id tjrTNMGqP2SydQAAMHmgww
+	(envelope-from <dwagner@suse.de>); Wed, 19 Apr 2023 08:48:01 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -68,17 +64,16 @@ Cc: linux-kernel@vger.kernel.org,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Shin'ichiro Kawasaki <shinichiro@fastmail.com>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH blktests v2 1/2] nvme-rc: Cleanup fc ports in reverse order
-Date: Wed, 19 Apr 2023 10:47:56 +0200
-Message-Id: <20230419084757.24846-2-dwagner@suse.de>
+Subject: [PATCH blktests v2 0/2] nvme_trtype=fc fixes
+Date: Wed, 19 Apr 2023 10:47:55 +0200
+Message-Id: <20230419084757.24846-1-dwagner@suse.de>
 X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230419084757.24846-1-dwagner@suse.de>
-References: <20230419084757.24846-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230419_014806_980952_C89B5DB7 
-X-CRM114-Status: GOOD (  10.86  )
+X-CRM114-CacheID: sfid-20230419_014806_980919_A641D0F7 
+X-CRM114-Status: UNSURE (   9.10  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,30 +88,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We need to free the resources in the opposite order as we allocate them.
+With the attempt to get the fc transport running for blktest I found a couple of
+issues in the current cleanup code path for fc. With these fixes and the kernel
+patches and configuration from
 
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- tests/nvme/rc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+  https://lore.kernel.org/linux-nvme/20230418130159.11075-1-dwagner@suse.de/
 
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index b44239446dcf..ec0cc2d8d8cc 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -204,10 +204,10 @@ _cleanup_fcloop() {
- 	local remote_wwnn="${3:-$def_remote_wwnn}"
- 	local remote_wwpn="${4:-$def_remote_wwpn}"
- 
--	_nvme_fcloop_del_rport "${local_wwnn}" "${local_wwpn}" \
--			       "${remote_wwnn}" "${remote_wwpn}"
- 	_nvme_fcloop_del_tport "${remote_wwnn}" "${remote_wwpn}"
- 	_nvme_fcloop_del_lport "${local_wwnn}" "${local_wwpn}"
-+	_nvme_fcloop_del_rport "${local_wwnn}" "${local_wwpn}" \
-+			       "${remote_wwnn}" "${remote_wwpn}"
- }
- 
- _cleanup_nvmet() {
+it starts to work nicely, incl finding some bugs in fc I think.
+
+Daniel Wagner (2):
+  nvme-rc: Cleanup fc ports in reverse order
+  nvme-rc: Cleanup fc resource before module unloading
+
+ tests/nvme/rc | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
+
 -- 
 2.40.0
 
