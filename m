@@ -4,73 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DE09C77B73
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Apr 2023 09:10:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C51A9C77B73
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Apr 2023 09:32:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6Ihu9i9sfNp401ucAlRgtdY6/0UARzU6CkQxNKszI7U=; b=XKStNdrCZKdsBsEG9s+UXC6Bxk
-	8LnnbMKtA+y+bwdqCDqcgO/JHTXI0ZWbnTeKT3oa8UYOrj8lASPr5cS/9syvCAOH5XkK4CMbzncaQ
-	bd0PrBteG28rKfB3FGFJIZVOp+FPxHzxp+HoTniypi+VbWatUlahD75xkQlUDO2qMdXjTvh1rbKRs
-	6L7BdOX3NqprlDn9em43GYW0FpGO9bpACazGNb6DTCmCbDg+k4ipSSh+6aLv8n/WtPp/UfvedtFnG
-	5WKj7D1pLG6rMjP9BiM8wiPs46dBQBSfK+8Tennz65r6pliZVNw8nk1bDtCIbl7dH9UM3VVmsqhLL
-	oz1lCEpg==;
+	bh=5a1BeLDyhZNZilZ/KK2GAKnGHlOBBbp1X8Ya2E3EHwU=; b=YorNd8DuB8cMG2F+3I5MuJrM2A
+	SRNlcS1ZH2kcEgbvAF3gP6P7IVfYsY+lXQgLyh78VelkIRPrhoAb9b85r+Jr4d8WHVvrNgnVc4t5d
+	0SshihrRmuF9C9XZw7+NWpbUJxVXdOSG9e/4A181e2JQOayRTanKbC5XRNk0mjgtwY/Rf4tEebCJX
+	tWh97dklAhsE9c6LFw00Dv276CJcA9BsItpN/raeM4iYvc+qDDAKQUza8/BTFpDjoczjFfwCayxI+
+	hyKeQvmYTySvlDor65iLHcQBEEENT2lkbFugutrhmTW04L4rK4Vw3rwBoa2KVgaK3vh6tyi9t6U45
+	bqSU0/CQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pp3p6-004hZq-2g;
-	Wed, 19 Apr 2023 09:09:56 +0000
+	id 1pp4Au-004kWt-1G;
+	Wed, 19 Apr 2023 09:32:28 +0000
 Received: from mail-wm1-f54.google.com ([209.85.128.54])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pp3p2-004hYa-2l
+	id 1pp4Ar-004kVs-2U
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Apr 2023 09:09:55 +0000
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3f174c4b404so4926595e9.1
-        for <linux-nvme@lists.infradead.org>; Wed, 19 Apr 2023 02:09:50 -0700 (PDT)
+	Wed, 19 Apr 2023 09:32:27 +0000
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3f0968734f6so13977115e9.0
+        for <linux-nvme@lists.infradead.org>; Wed, 19 Apr 2023 02:32:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681895388; x=1684487388;
+        d=1e100.net; s=20221208; t=1681896744; x=1684488744;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6Ihu9i9sfNp401ucAlRgtdY6/0UARzU6CkQxNKszI7U=;
-        b=LU4oXY/KEtYAOMgnb+DrvvdNSai2phtAF8GFtGyXGUR2Mz1JlJknKuOHfV94bj3/sI
-         ODiftarRYi9ygPVKvaX5v7T3+vVklsku7Pt71ML5LLVweE3QGX2NbkXX7sbEtJxhubtj
-         A43HfrssE6UpyQglufkMPr6ru1JbTO7ppTQpEz3oEBYCQMw2xnutMVuCbLAHG5EL6sCa
-         zWk85tiGW/DrXlM+jUgp1oVVfseQp8WdOpzjlZfv15/yt3sc6p/ftTBsI6iklVFL/h9a
-         GWBV5+IlftDAUDRTvclPYcJ6CQYP98/abGrBBTZrGNxA+vMjlMCIZ0E0YtTR6RuN3r9A
-         VmMA==
-X-Gm-Message-State: AAQBX9eG2RMQsCFieQMjbWS1PVfhah9bHKXTKbRW7vWa3mRJJ+16C1Ue
-	ELs4aO+DJQnBySuJdbnuUWQ=
-X-Google-Smtp-Source: AKy350Z/YuiEZsRXXizu/gdZGPKVGpJlv2tD4bbpzSADiF5Dy4IWkxmUjWhui0JUxeWAO1lBfxt+rQ==
-X-Received: by 2002:a05:600c:4709:b0:3f1:8278:8d81 with SMTP id v9-20020a05600c470900b003f182788d81mr312680wmo.4.1681895387785;
-        Wed, 19 Apr 2023 02:09:47 -0700 (PDT)
+        bh=5a1BeLDyhZNZilZ/KK2GAKnGHlOBBbp1X8Ya2E3EHwU=;
+        b=JkM2QXr3grDOfRG4t79rEhKjjeswTORzrZFs4B8ZGFE48CmleNrzq0yTFvjCrhwXGQ
+         LIbbsFxtMP2Qp0tLYPlI5F6SbzA4NtQtKqV3ug98CtGhEP9gLMXJkjZ7/sjx+nYbqSys
+         7JEZ11bW28mHt4gnmAoqyG7MFkn28I99UXLHoNswc2mTpdmG1OJVFMLJ0G653Mr1ua85
+         OqRVssrfHvNSBsttvdYFCC8qYA5ZLRaw2btMskAICUi1v87buKDlyJuOR/ycxvaihmqB
+         2v+JiEmjnFH5qqBeS+MIcMWF6M/QL5gPhCo/ti4FhNbvrT1zx+7uICw17XddFODSBOYf
+         pXrA==
+X-Gm-Message-State: AAQBX9dL3Pwnos4uIWFMENSTTlFla0YbofTMddytXl1NHisfeAMqSCrw
+	LXrxMAcHPQEbBQwFudSIVPE=
+X-Google-Smtp-Source: AKy350bvi3g5YtM/nCwPxpFZIzGbqVFhyRT4L17VakLrN1VwX/A9A90OQPmROaptfGqwrGiPG+6evw==
+X-Received: by 2002:a05:600c:4ece:b0:3f1:7a4b:bf17 with SMTP id g14-20020a05600c4ece00b003f17a4bbf17mr4120868wmq.1.1681896744341;
+        Wed, 19 Apr 2023 02:32:24 -0700 (PDT)
 Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id l2-20020a05600c4f0200b003ee74c25f12sm1553592wmq.35.2023.04.19.02.09.46
+        by smtp.gmail.com with ESMTPSA id m12-20020a7bca4c000000b003f173419e7asm1554214wml.43.2023.04.19.02.32.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Apr 2023 02:09:47 -0700 (PDT)
-Message-ID: <dcc501b5-eb3e-8552-695d-ce8b660309f7@grimberg.me>
-Date: Wed, 19 Apr 2023 12:09:46 +0300
+        Wed, 19 Apr 2023 02:32:24 -0700 (PDT)
+Message-ID: <03a47920-9165-1d49-1380-fb4c5061df67@grimberg.me>
+Date: Wed, 19 Apr 2023 12:32:22 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 06/17] net/tls: implement ->read_sock()
+Subject: Re: [PATCH] nvme/tcp: Add support to set the tcp worker cpu affinity
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org, Chuck Lever <chuck.lever@oracle.com>,
- kernel-tls-handshake@lists.linux.dev,
- Boris Pismenny <boris.pismenny@gmail.com>, Jakub Kicinski <kuba@kernel.org>
-References: <20230419065714.52076-1-hare@suse.de>
- <20230419065714.52076-7-hare@suse.de>
+To: Li Feng <fengli@smartx.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>,
+ "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
+References: <20230413062339.2454616-1-fengli@smartx.com>
+ <20230413063317.2455680-1-fengli@smartx.com>
+ <7f553d34-9ada-426c-4847-c7cd1aba64a8@grimberg.me>
+ <E23A9D5C-35CF-412C-AE35-37389242BC71@smartx.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230419065714.52076-7-hare@suse.de>
+In-Reply-To: <E23A9D5C-35CF-412C-AE35-37389242BC71@smartx.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230419_020952_894508_CAFC9AAB 
-X-CRM114-Status: GOOD (  22.99  )
+X-CRM114-CacheID: sfid-20230419_023225_808224_7F429A53 
+X-CRM114-Status: GOOD (  23.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,130 +87,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We probably need a wider exposure for this one because someone
-else needs to approve it.
 
-On 4/19/23 09:57, Hannes Reinecke wrote:
-> Implement ->read_sock() function for use with nvme-tcp.
-> 
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> Cc: Boris Pismenny <boris.pismenny@gmail.com>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> ---
->   net/tls/tls.h      |  2 ++
->   net/tls/tls_main.c |  2 ++
->   net/tls/tls_sw.c   | 71 ++++++++++++++++++++++++++++++++++++++++++++++
->   3 files changed, 75 insertions(+)
-> 
-> diff --git a/net/tls/tls.h b/net/tls/tls.h
-> index 804c3880d028..a5bf3a9ce142 100644
-> --- a/net/tls/tls.h
-> +++ b/net/tls/tls.h
-> @@ -113,6 +113,8 @@ bool tls_sw_sock_is_readable(struct sock *sk);
->   ssize_t tls_sw_splice_read(struct socket *sock, loff_t *ppos,
->   			   struct pipe_inode_info *pipe,
->   			   size_t len, unsigned int flags);
-> +int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
-> +		     sk_read_actor_t read_actor);
->   
->   int tls_device_sendmsg(struct sock *sk, struct msghdr *msg, size_t size);
->   int tls_device_sendpage(struct sock *sk, struct page *page,
-> diff --git a/net/tls/tls_main.c b/net/tls/tls_main.c
-> index b32c112984dd..0b51b19aa46d 100644
-> --- a/net/tls/tls_main.c
-> +++ b/net/tls/tls_main.c
-> @@ -921,9 +921,11 @@ static void build_proto_ops(struct proto_ops ops[TLS_NUM_CONFIG][TLS_NUM_CONFIG]
->   
->   	ops[TLS_BASE][TLS_SW  ] = ops[TLS_BASE][TLS_BASE];
->   	ops[TLS_BASE][TLS_SW  ].splice_read	= tls_sw_splice_read;
-> +	ops[TLS_BASE][TLS_SW  ].read_sock	= tls_sw_read_sock;
->   
->   	ops[TLS_SW  ][TLS_SW  ] = ops[TLS_SW  ][TLS_BASE];
->   	ops[TLS_SW  ][TLS_SW  ].splice_read	= tls_sw_splice_read;
-> +	ops[TLS_SW  ][TLS_SW  ].read_sock	= tls_sw_read_sock;
->   
->   #ifdef CONFIG_TLS_DEVICE
->   	ops[TLS_HW  ][TLS_BASE] = ops[TLS_BASE][TLS_BASE];
-> diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
-> index 635b8bf6b937..827292e29f99 100644
-> --- a/net/tls/tls_sw.c
-> +++ b/net/tls/tls_sw.c
-> @@ -2214,6 +2214,77 @@ ssize_t tls_sw_splice_read(struct socket *sock,  loff_t *ppos,
->   	goto splice_read_end;
->   }
->   
-> +int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
-> +		     sk_read_actor_t read_actor)
-> +{
-> +	struct tls_context *tls_ctx = tls_get_ctx(sk);
-> +	struct tls_sw_context_rx *ctx = tls_sw_ctx_rx(tls_ctx);
-> +	struct strp_msg *rxm = NULL;
-> +	struct tls_msg *tlm;
-> +	struct sk_buff *skb;
-> +	ssize_t copied = 0;
-> +	int err, used;
-> +
-> +	if (!skb_queue_empty(&ctx->rx_list)) {
-> +		skb = __skb_dequeue(&ctx->rx_list);
-> +	} else {
-> +		struct tls_decrypt_arg darg;
-> +
-> +		err = tls_rx_rec_wait(sk, NULL, true, true);
-> +		if (err <= 0)
-> +			return err;
-> +
-> +		memset(&darg.inargs, 0, sizeof(darg.inargs));
-> +
-> +		err = tls_rx_one_record(sk, NULL, &darg);
-> +		if (err < 0) {
-> +			tls_err_abort(sk, -EBADMSG);
-> +			return err;
-> +		}
-> +
-> +		tls_rx_rec_done(ctx);
-> +		skb = darg.skb;
-> +	}
-> +
-> +	do {
-> +		rxm = strp_msg(skb);
-> +		tlm = tls_msg(skb);
-> +
-> +		/* read_sock does not support reading control messages */
-> +		if (tlm->control != TLS_RECORD_TYPE_DATA) {
-> +			err = -EINVAL;
-> +			goto read_sock_requeue;
-> +		}
-> +
-> +		used = read_actor(desc, skb, rxm->offset, rxm->full_len);
-> +		if (used <= 0) {
-> +			err = used;
-> +			goto read_sock_end;
-> +		}
-> +
-> +		copied += used;
-> +		if (used < rxm->full_len) {
-> +			rxm->offset += used;
-> +			rxm->full_len -= used;
-> +			if (!desc->count)
-> +				goto read_sock_requeue;
-> +		} else {
-> +			consume_skb(skb);
-> +			if (desc->count && !skb_queue_empty(&ctx->rx_list))
-> +				skb = __skb_dequeue(&ctx->rx_list);
-> +			else
-> +				skb = NULL;
-> +		}
-> +	} while (skb);
-> +
-> +read_sock_end:
-> +	return copied ? : err;
-> +
-> +read_sock_requeue:
-> +	__skb_queue_head(&ctx->rx_list, skb);
-> +	goto read_sock_end;
-> +}
-> +
->   bool tls_sw_sock_is_readable(struct sock *sk)
->   {
->   	struct tls_context *tls_ctx = tls_get_ctx(sk);
+>> Hey Li,
+>>
+>>> The default worker affinity policy is using all online cpus, e.g. from 0
+>>> to N-1. However, some cpus are busy for other jobs, then the nvme-tcp will
+>>> have a bad performance.
+>>> This patch adds a module parameter to set the cpu affinity for the nvme-tcp
+>>> socket worker threads.  The parameter is a comma separated list of CPU
+>>> numbers.  The list is parsed and the resulting cpumask is used to set the
+>>> affinity of the socket worker threads.  If the list is empty or the
+>>> parsing fails, the default affinity is used.
+>>
+>> I can see how this may benefit a specific set of workloads, but I have a
+>> few issues with this.
+>>
+>> - This is exposing a user interface for something that is really
+>> internal to the driver.
+>>
+>> - This is something that can be misleading and could be tricky to get
+>> right, my concern is that this would only benefit a very niche case.
+> Our storage products needs this feature~
+> If the user doesn’t know what this is, they can keep it default, so I thinks this is
+> not unacceptable.
+
+It doesn't work like that. A user interface is not something exposed to
+a specific consumer.
+
+>> - If the setting should exist, it should not be global.
+> V2 has fixed it.
+>>
+>> - I prefer not to introduce new modparams.
+>>
+>> - I'd prefer to find a way to support your use-case without introducing
+>> a config knob for it.
+>>
+> I’m looking forward to it.
+
+If you change queue_work_on to queue_work, ignoring the io_cpu, does it
+address your problem?
+
+Not saying that this should be a solution though.
+
+How many queues does your controller support that you happen to use
+queue 0 ?
+
+Also, what happens if you don't pin your process to a specific cpu, does
+that change anything?
 
