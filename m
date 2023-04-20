@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 320BAC77B7E
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Apr 2023 18:31:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CBAC3C77B7A
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Apr 2023 18:31:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vYu2UT5lDEOdiTT1ESF8e0PH0sTJl298MdWvcXc3Wac=; b=Wlzo67d4UQDad/g0+MrOOweLvf
-	MzR3X5FPqrnV2qFWtdqLzAnbJj8B68VXFtkW1vYTL3/pE8/Qh06VindkcNP+6kn0jXFUw252TnFih
-	wJv+cXl1zQO2ti/+LdpqjkH87bH++rd6qDo5m8hhg71MyRjpjyD2EY6xaheNqlSil6TMbah2tdHEX
-	O1eh+LGoWAlWlGtvxcvs5KemeLw5/O9kYna3FKS1pv7TrJEoKkuqSJAtK9ejITEItNX0r+aHxLuTg
-	0ehEnj6qphXLXeXl2oPVQApz8rM6c30BJw5NYMNtv3taAkusYaRhdD5peze0ZTkadHZZ9fOPayR+Y
-	RuyBDmBA==;
+	bh=64UivdY+JtKHHGrkt+vaul9Etj91J7nvEO+ZQNudNu8=; b=pmyZTf7/pacS64vZlMx9SyoUZ2
+	7xaHFMU+2nHEVn99Ytek9EMj5VQio2oFqO1yG5PO0m7a0BpR19UTNahXzIGVT3iKf6OGobLU8U+A5
+	aF+czmOuKF6TZS9aMfz35q2ep03z1oohxb7UUUvvfTZ5atOKx1NXR9dW7oGCLNJcic93AosF+L1m1
+	DBMxJ6Wp72KKLuYJBdSsVAqqjnuApteFGQgJzf4BH6PwjO+zwcY9j2lW4L7VC+bzVozJ8lUz31Zx7
+	2ydVX/zZQkbJEQcAm55F7gwSkpgEJAx4334vkxJx+cThbAE7+GOLMw6Mph90Q1dZ9fW1dO4dN2c/J
+	BvYQWKRA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1ppZ4H-008jwT-0Z;
-	Thu, 20 Apr 2023 18:31:41 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1ppZ4I-008jxG-0T;
+	Thu, 20 Apr 2023 18:31:42 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1ppZ47-008jnl-1T
+	id 1ppZ49-008jp1-2x
 	for linux-nvme@lists.infradead.org;
-	Thu, 20 Apr 2023 18:31:34 +0000
+	Thu, 20 Apr 2023 18:31:35 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E319E1FD8C;
-	Thu, 20 Apr 2023 18:31:29 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C7AF62195D;
+	Thu, 20 Apr 2023 18:31:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1682015489; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1682015491; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vYu2UT5lDEOdiTT1ESF8e0PH0sTJl298MdWvcXc3Wac=;
-	b=2KswRzz5JfO3CyQW09bNUue/G8SyuDqDFi/Td2fvqHSZMoaprZqLtlL1KKby8cda08qn8X
-	WUidgiJRXSp74k0coJJ2NEf0UaD81agu7iSU90t7Ug7XCZxl7IFSymvd1c66oDU6zkPFqm
-	dPss0lp++NXTi/S/IcS+7whCKNbMgzE=
+	bh=64UivdY+JtKHHGrkt+vaul9Etj91J7nvEO+ZQNudNu8=;
+	b=CdXz1eMqo0Py7chQ9mcv/S0IqvOmuzroYofCVdiApFkx+NenRL1iXT4tubdV19nnJOXfqO
+	jN3SNgTqNV+BOcYfv5tlEaOVhfykrvS67OZMvc4FIU1UkHja3nu0cJLBbMxug6ytT+rV4l
+	WezrlXaTWpljTI7396aCIjKzUlSGN08=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1682015489;
+	s=susede2_ed25519; t=1682015491;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vYu2UT5lDEOdiTT1ESF8e0PH0sTJl298MdWvcXc3Wac=;
-	b=4F5D1uLN8oDmjxNK57MVatI40n5X6KRkRsLf7i+sLBN7kdZAv0MP/s90PKf5OWi6tW4kds
-	HTmB5bAluOHI94Aw==
+	bh=64UivdY+JtKHHGrkt+vaul9Etj91J7nvEO+ZQNudNu8=;
+	b=fqxigBbNWMteZ3FwIWN9YDFjeheHAxVEsWyqHs7X+xgWeTbT0B4H07cB9ppQqi8if5L0uB
+	9k+fs0APlc+2efBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D5CDB13584;
-	Thu, 20 Apr 2023 18:31:29 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AB47513584;
+	Thu, 20 Apr 2023 18:31:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id GGjdMwGFQWS1NAAAMHmgww
-	(envelope-from <dwagner@suse.de>); Thu, 20 Apr 2023 18:31:29 +0000
+	id 7KbNKQOFQWS+NAAAMHmgww
+	(envelope-from <dwagner@suse.de>); Thu, 20 Apr 2023 18:31:31 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -68,17 +68,17 @@ Cc: linux-kernel@vger.kernel.org,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Shin'ichiro Kawasaki <shinichiro@fastmail.com>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH blktests v2 6/9] nvme-rc: Add minimal test image size requirement
-Date: Thu, 20 Apr 2023 20:31:18 +0200
-Message-Id: <20230420183121.4489-10-dwagner@suse.de>
+Subject: [PATCH blktests v2 9/9] nvme: Make the number iterations configurable
+Date: Thu, 20 Apr 2023 20:31:21 +0200
+Message-Id: <20230420183121.4489-13-dwagner@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230420183121.4489-1-dwagner@suse.de>
 References: <20230420183121.4489-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230420_113131_641387_906D9CB4 
-X-CRM114-Status: GOOD (  13.05  )
+X-CRM114-CacheID: sfid-20230420_113134_155245_3843474F 
+X-CRM114-Status: GOOD (  11.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,104 +93,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Some tests need a minimal test image size to work correctly. Thus add a
-helper to check the size and update these tests accordingly.
-
-The image minimum is 4M because some of the test have hard coded values.
-All tests which use the xfs fio verification job have a minimum
-requirement of 350M impossed by the xfs filesystem.
+Some tests hard code high values of iterations. This makes them run
+relatively long compared to the other tests. Introduce a new environment
+variable nvme_num_iter to allow tune the runtime.
 
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- tests/nvme/012 |  1 +
- tests/nvme/013 |  1 +
- tests/nvme/029 |  1 -
- tests/nvme/045 |  2 +-
- tests/nvme/rc  | 15 +++++++++++++++
- 5 files changed, 18 insertions(+), 2 deletions(-)
+ tests/nvme/002 | 2 +-
+ tests/nvme/016 | 2 +-
+ tests/nvme/017 | 2 +-
+ tests/nvme/rc  | 1 +
+ 4 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/tests/nvme/012 b/tests/nvme/012
-index ecf44fcb5a51..efe227538c57 100755
---- a/tests/nvme/012
-+++ b/tests/nvme/012
-@@ -16,6 +16,7 @@ requires() {
- 	_have_fio
- 	_have_loop
- 	_require_nvme_trtype_is_fabrics
-+	_require_nvme_test_img_size 350m
- }
+diff --git a/tests/nvme/002 b/tests/nvme/002
+index 6b8484844b4d..c28035483514 100755
+--- a/tests/nvme/002
++++ b/tests/nvme/002
+@@ -20,7 +20,7 @@ test() {
  
- test() {
-diff --git a/tests/nvme/013 b/tests/nvme/013
-index e249add46295..14e646a19c47 100755
---- a/tests/nvme/013
-+++ b/tests/nvme/013
-@@ -15,6 +15,7 @@ requires() {
- 	_have_xfs
- 	_have_fio
- 	_require_nvme_trtype_is_fabrics
-+	_require_nvme_test_img_size 350m
- }
+ 	_setup_nvmet
  
- test() {
-diff --git a/tests/nvme/029 b/tests/nvme/029
-index 1808b7b0edf1..c6d38b42af70 100755
---- a/tests/nvme/029
-+++ b/tests/nvme/029
-@@ -14,7 +14,6 @@ requires() {
- 	_nvme_requires
- 	_have_loop
- 	_require_nvme_trtype_is_fabrics
--	_require_test_dev_size 1M
- }
+-	local iterations=1000
++	local iterations="${nvme_num_iter}"
+ 	local port
+ 	port="$(_create_nvmet_port "${nvme_trtype}")"
  
- test_user_io()
-diff --git a/tests/nvme/045 b/tests/nvme/045
-index 7c51da27b5f1..99012f6bed8f 100755
---- a/tests/nvme/045
-+++ b/tests/nvme/045
-@@ -120,7 +120,7 @@ test() {
+diff --git a/tests/nvme/016 b/tests/nvme/016
+index 4eba30223a08..c0c31a55b190 100755
+--- a/tests/nvme/016
++++ b/tests/nvme/016
+@@ -17,7 +17,7 @@ test() {
+ 	echo "Running ${TEST_NAME}"
  
- 	nvmedev=$(_find_nvme_dev "${subsys_name}")
+ 	local port
+-	local iterations=1000
++	local iterations="${nvme_num_iter}"
+ 	local loop_dev
+ 	local subsys_nqn="blktests-subsystem-1"
  
--	_run_fio_rand_io --size=8m --filename="/dev/${nvmedev}n1"
-+	_run_fio_rand_io --size=4m --filename="/dev/${nvmedev}n1"
+diff --git a/tests/nvme/017 b/tests/nvme/017
+index 0248aee9bc41..e1674508f654 100755
+--- a/tests/nvme/017
++++ b/tests/nvme/017
+@@ -18,7 +18,7 @@ test() {
  
- 	_nvme_disconnect_subsys "${subsys_name}"
+ 	local port
+ 	local file_path
+-	local iterations=1000
++	local iterations="${nvme_num_iter}"
+ 	local subsys_name="blktests-subsystem-1"
  
+ 	_setup_nvmet
 diff --git a/tests/nvme/rc b/tests/nvme/rc
-index e5ba9a6d5f54..b1f2dacae125 100644
+index 2aa34fb0c9b8..bb135502220a 100644
 --- a/tests/nvme/rc
 +++ b/tests/nvme/rc
-@@ -21,6 +21,7 @@ nvme_img_size=${nvme_img_size:-"350M"}
+@@ -18,6 +18,7 @@ def_hostnqn="$(cat /etc/nvme/hostnqn 2> /dev/null)"
+ def_hostid="$(cat /etc/nvme/hostid 2> /dev/null)"
+ nvme_trtype=${nvme_trtype:-"loop"}
+ nvme_img_size=${nvme_img_size:-"350M"}
++nvme_num_iter=${nvme_num_iter:-"100"}
  
  _nvme_requires() {
  	_have_program nvme
-+	_require_nvme_test_img_size 4m
- 	case ${nvme_trtype} in
- 	loop)
- 		_have_driver nvme-loop
-@@ -94,6 +95,20 @@ _require_test_dev_is_nvme() {
- 	return 0
- }
- 
-+_require_nvme_test_img_size() {
-+	local require_sz_mb
-+	local nvme_img_size_mb
-+
-+	require_sz_mb="$(convert_to_mb "$1")"
-+	nvme_img_size_mb="$(convert_to_mb "${nvme_img_size}")"
-+
-+	if (( "${nvme_img_size_mb}" < "$require_sz_mb" )); then
-+		SKIP_REASONS+=("nvme_img_size must be at least ${require_sz_mb}m")
-+		return 1
-+	fi
-+	return 0
-+}
-+
- _require_nvme_trtype() {
- 	local trtype
- 	for trtype in "$@"; do
 -- 
 2.40.0
 
