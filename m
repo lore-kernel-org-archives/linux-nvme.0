@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D7DFC77B72
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Apr 2023 18:31:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 320BAC77B7E
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Apr 2023 18:31:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FKotN8oLTbJBb8LbRqu8BMmJNv6WXn80Z+YRR+9XiIM=; b=ZJjZrNnNniSCz4rLfCPf3pFCll
-	M263YYidy6EekgvS0CGBev02E53r29UJ2flfPYFWrf70+SWK6qeMSAFvkWlix8/4ZStZ5JMCGt2tz
-	B+/X+8IEVWgEibo752IBhksDZWdD65E3J8H5mVT8/Lmt6Em+kM3bZaxgBSe8Irecs7sy/M9NU6UiA
-	sD4V4Ot0bqQJdF8+SQHut3y19ZwxaaRAfcvLikky+7/BuPsrWx1PEg0wBI8+A+k7aqfqq4hc9HhgW
-	PRq6bdoz/xXFjnkWspm4NOrEh+lLLUVTB4o7iLBiATyGC/oUqyiINvFSUF5oK3x3kle6NSzCXy/QP
-	SG/ARR9g==;
+	bh=vYu2UT5lDEOdiTT1ESF8e0PH0sTJl298MdWvcXc3Wac=; b=Wlzo67d4UQDad/g0+MrOOweLvf
+	MzR3X5FPqrnV2qFWtdqLzAnbJj8B68VXFtkW1vYTL3/pE8/Qh06VindkcNP+6kn0jXFUw252TnFih
+	wJv+cXl1zQO2ti/+LdpqjkH87bH++rd6qDo5m8hhg71MyRjpjyD2EY6xaheNqlSil6TMbah2tdHEX
+	O1eh+LGoWAlWlGtvxcvs5KemeLw5/O9kYna3FKS1pv7TrJEoKkuqSJAtK9ejITEItNX0r+aHxLuTg
+	0ehEnj6qphXLXeXl2oPVQApz8rM6c30BJw5NYMNtv3taAkusYaRhdD5peze0ZTkadHZZ9fOPayR+Y
+	RuyBDmBA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1ppZ4G-008jvI-0M;
-	Thu, 20 Apr 2023 18:31:40 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1ppZ4H-008jwT-0Z;
+	Thu, 20 Apr 2023 18:31:41 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1ppZ47-008jo4-2E
+	id 1ppZ47-008jnl-1T
 	for linux-nvme@lists.infradead.org;
-	Thu, 20 Apr 2023 18:31:33 +0000
+	Thu, 20 Apr 2023 18:31:34 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7EF911FD8D;
-	Thu, 20 Apr 2023 18:31:30 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E319E1FD8C;
+	Thu, 20 Apr 2023 18:31:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1682015490; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1682015489; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FKotN8oLTbJBb8LbRqu8BMmJNv6WXn80Z+YRR+9XiIM=;
-	b=b0dLs/nOf0xOemZyvN55cL35m7VZ4LgBobRaG4u8mf93dVvFR5c7zABBLFgCMlZ3tuGT+h
-	z1uC7lgVSNgtFdeT5Cq/VpS/wXUBuibIkx4CgzRMlMA6BrIYtIl+YSMS+POlWTRDOjCDaU
-	qGYAsnpS/pz4CsnrGvIK8IZT/4ezXWE=
+	bh=vYu2UT5lDEOdiTT1ESF8e0PH0sTJl298MdWvcXc3Wac=;
+	b=2KswRzz5JfO3CyQW09bNUue/G8SyuDqDFi/Td2fvqHSZMoaprZqLtlL1KKby8cda08qn8X
+	WUidgiJRXSp74k0coJJ2NEf0UaD81agu7iSU90t7Ug7XCZxl7IFSymvd1c66oDU6zkPFqm
+	dPss0lp++NXTi/S/IcS+7whCKNbMgzE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1682015490;
+	s=susede2_ed25519; t=1682015489;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FKotN8oLTbJBb8LbRqu8BMmJNv6WXn80Z+YRR+9XiIM=;
-	b=3aNn2xsvrqdSQu5BseljXHDiMkIjbnG44IY/v+MPdzN+jO5oPS6RcgiVfSEv7ZSDEtMJwm
-	69e/4HLVkTuvrHBg==
+	bh=vYu2UT5lDEOdiTT1ESF8e0PH0sTJl298MdWvcXc3Wac=;
+	b=4F5D1uLN8oDmjxNK57MVatI40n5X6KRkRsLf7i+sLBN7kdZAv0MP/s90PKf5OWi6tW4kds
+	HTmB5bAluOHI94Aw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7141E13584;
-	Thu, 20 Apr 2023 18:31:30 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D5CDB13584;
+	Thu, 20 Apr 2023 18:31:29 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id Kq5+GwKFQWS4NAAAMHmgww
-	(envelope-from <dwagner@suse.de>); Thu, 20 Apr 2023 18:31:30 +0000
+	id GGjdMwGFQWS1NAAAMHmgww
+	(envelope-from <dwagner@suse.de>); Thu, 20 Apr 2023 18:31:29 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -68,17 +68,17 @@ Cc: linux-kernel@vger.kernel.org,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Shin'ichiro Kawasaki <shinichiro@fastmail.com>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH blktests v2 7/9] nvme-rc: Calculate IO size for fio jobs
-Date: Thu, 20 Apr 2023 20:31:19 +0200
-Message-Id: <20230420183121.4489-11-dwagner@suse.de>
+Subject: [PATCH blktests v2 6/9] nvme-rc: Add minimal test image size requirement
+Date: Thu, 20 Apr 2023 20:31:18 +0200
+Message-Id: <20230420183121.4489-10-dwagner@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230420183121.4489-1-dwagner@suse.de>
 References: <20230420183121.4489-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230420_113131_905117_4FFACDAB 
-X-CRM114-Status: GOOD (  12.93  )
+X-CRM114-CacheID: sfid-20230420_113131_641387_906D9CB4 
+X-CRM114-Status: GOOD (  13.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,226 +93,104 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Introduce two new function to calculate the IO size for fio jobs.
+Some tests need a minimal test image size to work correctly. Thus add a
+helper to check the size and update these tests accordingly.
 
-_nvme_calc_io_size() returns the jobs size for _run_fio_verify_io()
-function. Reduce the max size of the job by one megabyte to make the
-test more robust not to run out of space by accident. Note these fio
-calls run with just one jobs.
-
-_nvme_calc_run_io_size() returns the jobs size for _run_fio_rand_io()
-function. Again, the jobs size is not maxing out the space and most
-important it takes the number of jobs into account which are
-created (number of CPUs).
+The image minimum is 4M because some of the test have hard coded values.
+All tests which use the xfs fio verification job have a minimum
+requirement of 350M impossed by the xfs filesystem.
 
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- tests/nvme/010 |  5 +++--
- tests/nvme/011 |  5 +++--
- tests/nvme/032 |  6 ++++--
- tests/nvme/034 |  4 +++-
- tests/nvme/040 |  4 +++-
- tests/nvme/045 |  4 +++-
- tests/nvme/047 |  6 ++++--
- tests/nvme/rc  | 20 ++++++++++++++++++++
- 8 files changed, 43 insertions(+), 11 deletions(-)
+ tests/nvme/012 |  1 +
+ tests/nvme/013 |  1 +
+ tests/nvme/029 |  1 -
+ tests/nvme/045 |  2 +-
+ tests/nvme/rc  | 15 +++++++++++++++
+ 5 files changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/tests/nvme/010 b/tests/nvme/010
-index 805f80d40620..d209335c2158 100755
---- a/tests/nvme/010
-+++ b/tests/nvme/010
-@@ -25,6 +25,7 @@ test() {
- 	local loop_dev
- 	local file_path="${TMPDIR}/img"
- 	local subsys_name="blktests-subsystem-1"
-+	local io_size
- 
- 	truncate -s "${nvme_img_size}" "${file_path}"
- 
-@@ -41,8 +42,8 @@ test() {
- 	cat "/sys/block/${nvmedev}n1/uuid"
- 	cat "/sys/block/${nvmedev}n1/wwid"
- 
--	_run_fio_verify_io --size=${nvme_img_size} \
--		--filename="/dev/${nvmedev}n1"
-+	io_size="$(_nvme_calc_io_size "${nvme_img_size}")"
-+	_run_fio_verify_io --size="${io_size}" --filename="/dev/${nvmedev}n1"
- 
- 	_nvme_disconnect_subsys "${subsys_name}"
- 
-diff --git a/tests/nvme/011 b/tests/nvme/011
-index da8cbac11124..294ba4333aff 100755
---- a/tests/nvme/011
-+++ b/tests/nvme/011
-@@ -25,6 +25,7 @@ test() {
- 	local file_path
- 	local file_path="${TMPDIR}/img"
- 	local subsys_name="blktests-subsystem-1"
-+	local io_size
- 
- 	truncate -s "${nvme_img_size}" "${file_path}"
- 
-@@ -39,8 +40,8 @@ test() {
- 	cat "/sys/block/${nvmedev}n1/uuid"
- 	cat "/sys/block/${nvmedev}n1/wwid"
- 
--	_run_fio_verify_io --size="${nvme_img_size}" \
--		--filename="/dev/${nvmedev}n1"
-+	io_size="$(_nvme_calc_io_size "${nvme_img_size}")"
-+	_run_fio_verify_io --size="${io_size}" --filename="/dev/${nvmedev}n1"
- 
- 	_nvme_disconnect_subsys "${subsys_name}"
- 
-diff --git a/tests/nvme/032 b/tests/nvme/032
-index 9f9756b0f959..ad701cea877d 100755
---- a/tests/nvme/032
-+++ b/tests/nvme/032
-@@ -33,13 +33,15 @@ test_device() {
- 	local sysfs
- 	local attr
- 	local m
-+	local rand_io_size
- 
- 	pdev="$(_get_pci_dev_from_blkdev)"
- 	sysfs="/sys/bus/pci/devices/${pdev}"
- 
- 	# start fio job
--	_run_fio_rand_io --filename="$TEST_DEV" --size="${nvme_img_size}" \
--		--group_reporting --time_based --runtime=1m &> /dev/null &
-+	rand_io_size="$(_nvme_calc_rand_io_size "${nvme_img_size}")"
-+	_run_fio_rand_io --filename="$TEST_DEV" --size="${rand_io_size}" \
-+		--group_reporting --time_based --runtime=1m > /dev/null &
- 
- 	sleep 5
- 
-diff --git a/tests/nvme/034 b/tests/nvme/034
-index e0ede717c373..0df8bef98e5e 100755
---- a/tests/nvme/034
-+++ b/tests/nvme/034
-@@ -19,6 +19,7 @@ test_device() {
- 	local ctrldev
- 	local nsdev
- 	local port
-+	local io_size
- 
- 	echo "Running ${TEST_NAME}"
- 
-@@ -26,7 +27,8 @@ test_device() {
- 	port=$(_nvmet_passthru_target_setup "${subsys}")
- 	nsdev=$(_nvmet_passthru_target_connect "${nvme_trtype}" "${subsys}")
- 
--	_run_fio_verify_io --size="${nvme_img_size}" --filename="${nsdev}"
-+	io_size="$(_nvme_calc_io_size "${nvme_img_size}")"
-+	_run_fio_verify_io --size="${io_size}" --filename="${nsdev}"
- 
- 	_nvme_disconnect_subsys "${subsys}"
- 	_nvmet_passthru_target_cleanup "${port}" "${subsys}"
-diff --git a/tests/nvme/040 b/tests/nvme/040
-index 31b7cafef4be..b033a2a866f2 100755
---- a/tests/nvme/040
-+++ b/tests/nvme/040
-@@ -21,6 +21,7 @@ test() {
- 	local port
- 	local loop_dev
- 	local nvmedev
-+	local rand_io_size
- 
- 	echo "Running ${TEST_NAME}"
- 
-@@ -37,7 +38,8 @@ test() {
- 
- 	# start fio job
- 	echo "starting background fio"
--	_run_fio_rand_io --filename="/dev/${nvmedev}n1" --size="${nvme_img_size}" \
-+	rand_io_size="$(_nvme_calc_rand_io_size "${nvme_img_size}")"
-+	_run_fio_rand_io --filename="/dev/${nvmedev}n1" --size="${rand_io_size}" \
- 		--group_reporting --ramp_time=5 \
- 		--time_based --runtime=1m &> /dev/null &
- 	sleep 5
-diff --git a/tests/nvme/045 b/tests/nvme/045
-index 99012f6bed8f..f50087cccb6a 100755
---- a/tests/nvme/045
-+++ b/tests/nvme/045
-@@ -31,6 +31,7 @@ test() {
- 	local ctrlkey
- 	local new_ctrlkey
- 	local ctrldev
-+	local rand_io_size
- 
- 	echo "Running ${TEST_NAME}"
- 
-@@ -120,7 +121,8 @@ test() {
- 
- 	nvmedev=$(_find_nvme_dev "${subsys_name}")
- 
--	_run_fio_rand_io --size=4m --filename="/dev/${nvmedev}n1"
-+	rand_io_size="$(_nvme_calc_rand_io_size 4m)"
-+	_run_fio_rand_io --size="${rand_io_size}" --filename="/dev/${nvmedev}n1"
- 
- 	_nvme_disconnect_subsys "${subsys_name}"
- 
-diff --git a/tests/nvme/047 b/tests/nvme/047
-index b5a8d469a983..6a7599bc2e91 100755
---- a/tests/nvme/047
-+++ b/tests/nvme/047
-@@ -25,6 +25,7 @@ test() {
- 	local port
- 	local nvmedev
- 	local loop_dev
-+	local rand_io_size
- 	local file_path="$TMPDIR/img"
- 	local subsys_name="blktests-subsystem-1"
- 
-@@ -42,7 +43,8 @@ test() {
- 
- 	nvmedev=$(_find_nvme_dev "${subsys_name}")
- 
--	_xfs_run_fio_verify_io /dev/"${nvmedev}n1" "1m" || echo FAIL
-+	rand_io_size="$(_nvme_calc_rand_io_size 4M)"
-+	_run_fio_rand_io --filename="/dev/${nvmedev}n1" --size="${rand_io_size}"
- 
- 	_nvme_disconnect_subsys "${subsys_name}" >> "$FULL" 2>&1
- 
-@@ -50,7 +52,7 @@ test() {
- 		--nr-write-queues 1 \
- 		--nr-poll-queues 1 || echo FAIL
- 
--	_xfs_run_fio_verify_io /dev/"${nvmedev}n1" "1m" || echo FAIL
-+	_run_fio_rand_io --filename="/dev/${nvmedev}n1" --size="${rand_io_size}"
- 
- 	_nvme_disconnect_subsys "${subsys_name}" >> "$FULL" 2>&1
- 
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index b1f2dacae125..172f510527ed 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -150,6 +150,26 @@ _test_dev_nvme_nsid() {
- 	cat "${TEST_DEV_SYSFS}/nsid"
+diff --git a/tests/nvme/012 b/tests/nvme/012
+index ecf44fcb5a51..efe227538c57 100755
+--- a/tests/nvme/012
++++ b/tests/nvme/012
+@@ -16,6 +16,7 @@ requires() {
+ 	_have_fio
+ 	_have_loop
+ 	_require_nvme_trtype_is_fabrics
++	_require_nvme_test_img_size 350m
  }
  
-+_nvme_calc_io_size() {
-+	local img_size_mb
-+	local io_size_mb
+ test() {
+diff --git a/tests/nvme/013 b/tests/nvme/013
+index e249add46295..14e646a19c47 100755
+--- a/tests/nvme/013
++++ b/tests/nvme/013
+@@ -15,6 +15,7 @@ requires() {
+ 	_have_xfs
+ 	_have_fio
+ 	_require_nvme_trtype_is_fabrics
++	_require_nvme_test_img_size 350m
+ }
+ 
+ test() {
+diff --git a/tests/nvme/029 b/tests/nvme/029
+index 1808b7b0edf1..c6d38b42af70 100755
+--- a/tests/nvme/029
++++ b/tests/nvme/029
+@@ -14,7 +14,6 @@ requires() {
+ 	_nvme_requires
+ 	_have_loop
+ 	_require_nvme_trtype_is_fabrics
+-	_require_test_dev_size 1M
+ }
+ 
+ test_user_io()
+diff --git a/tests/nvme/045 b/tests/nvme/045
+index 7c51da27b5f1..99012f6bed8f 100755
+--- a/tests/nvme/045
++++ b/tests/nvme/045
+@@ -120,7 +120,7 @@ test() {
+ 
+ 	nvmedev=$(_find_nvme_dev "${subsys_name}")
+ 
+-	_run_fio_rand_io --size=8m --filename="/dev/${nvmedev}n1"
++	_run_fio_rand_io --size=4m --filename="/dev/${nvmedev}n1"
+ 
+ 	_nvme_disconnect_subsys "${subsys_name}"
+ 
+diff --git a/tests/nvme/rc b/tests/nvme/rc
+index e5ba9a6d5f54..b1f2dacae125 100644
+--- a/tests/nvme/rc
++++ b/tests/nvme/rc
+@@ -21,6 +21,7 @@ nvme_img_size=${nvme_img_size:-"350M"}
+ 
+ _nvme_requires() {
+ 	_have_program nvme
++	_require_nvme_test_img_size 4m
+ 	case ${nvme_trtype} in
+ 	loop)
+ 		_have_driver nvme-loop
+@@ -94,6 +95,20 @@ _require_test_dev_is_nvme() {
+ 	return 0
+ }
+ 
++_require_nvme_test_img_size() {
++	local require_sz_mb
++	local nvme_img_size_mb
 +
-+	img_size_mb="$(convert_to_mb "$1")"
-+	io_size_mb="$((img_size_mb - 1))"
++	require_sz_mb="$(convert_to_mb "$1")"
++	nvme_img_size_mb="$(convert_to_mb "${nvme_img_size}")"
 +
-+	echo "${io_size_mb}m"
++	if (( "${nvme_img_size_mb}" < "$require_sz_mb" )); then
++		SKIP_REASONS+=("nvme_img_size must be at least ${require_sz_mb}m")
++		return 1
++	fi
++	return 0
 +}
 +
-+_nvme_calc_rand_io_size() {
-+	local img_size_mb
-+	local io_size_mb
-+
-+	img_size_mb="$(convert_to_mb "$1")"
-+	io_size_mb="$(printf "%d" $((((img_size_mb * 1024 * 1024) / $(nproc) - 1) / 1024)))"
-+
-+	echo "${io_size_mb}k"
-+}
-+
- _nvme_fcloop_add_rport() {
- 	local local_wwnn="$1"
- 	local local_wwpn="$2"
+ _require_nvme_trtype() {
+ 	local trtype
+ 	for trtype in "$@"; do
 -- 
 2.40.0
 
