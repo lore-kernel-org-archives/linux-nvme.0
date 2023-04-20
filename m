@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7606AC77B72
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Apr 2023 18:31:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1B85CC77B7A
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Apr 2023 18:31:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=olx1mZYcFFV0s06Pc7VZextyqfNpbUfhWxOb4Y0as/Y=; b=Ap77zmazElpzPClufyT1zsXMTS
-	Rh5myk61sqoBjB1GfO0d7a/WTxPwUhVVUvlsd+nj+uTnj5sdxi737JdtCUJmiAw18b0YggirzSXx3
-	Pue6V9b4YLVqXDNqQUHPNYUNot6YQbVj/unn9UfNE2L7WHL00Q7DM1DB7rfFkGdlDqsPsxjfo9TEU
-	zHYIjLVTyZ67iZXktM50Ikl9n+U/1r/H5Vi6PFM1UlRrahHZtn9nMO61pPEDFnYZrEC02VA0f+IGR
-	FQvamUG5cHF5FCR45PHH0YBD5tgd91AFha+aLXG4ACoAFx72u0COXhyU4ax7LtJrO+fb3vwunkLtt
-	KBnl6hrg==;
+	bh=p5w7/u9ISF5o5lHXLzxfuZV9gNo85LTpV8ROuY1d0Ww=; b=rvhljYWBMpGQWERcpmEMYCULb1
+	pIEWWpuAEse5eHLI438coBB3BmGgt96NQS1e8o3JA715fNg9k27AZYy7TPxmVqItR0Xm0rGjTH5Lb
+	Ab4wR+yBtV5uZ0qJ7VilETWC0emDRZWnyjDIpkw3dWdGD+7usyT5jyCzUbjsslaJqAfUfs4Win7I6
+	melp0YG/NZI80349lk3XKdBZFmM+p2XzA9k/+uErUBotnROVGth9SpepFME2Lr/ImVO6KUfb3MrsS
+	re9BLwMA1GEjr7fE/RNMpadPnLIG4qWJMYJFm0ToiPmhZYZdPCrd4/JtOHGQFz/22Tto90doBf3hi
+	cQcdFoQA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1ppZ4J-008jyE-0H;
-	Thu, 20 Apr 2023 18:31:43 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1ppZ4N-008k2z-0M;
+	Thu, 20 Apr 2023 18:31:47 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1ppZ44-008jlj-2N
+	id 1ppZ48-008joR-1C
 	for linux-nvme@lists.infradead.org;
-	Thu, 20 Apr 2023 18:31:36 +0000
+	Thu, 20 Apr 2023 18:31:38 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 86F331FDC8;
-	Thu, 20 Apr 2023 18:31:27 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 27B5A1FDCA;
+	Thu, 20 Apr 2023 18:31:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1682015487; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1682015491; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=olx1mZYcFFV0s06Pc7VZextyqfNpbUfhWxOb4Y0as/Y=;
-	b=soxmkT2Y77njP2SkNEMlj0oWi/D+NOBX41g0aLaM6Fnf8P9FzPnuAOP2PBqLza/kDX+UTf
-	ilTUWfwYI10Kt72hOqxrOve+emDiS738p9sTfJMwF471FiGTkKIB1PWZAFbsZIO4K8QAAJ
-	EOHsAuK++9LzR6odCNPKZZZhVh0o8NU=
+	bh=p5w7/u9ISF5o5lHXLzxfuZV9gNo85LTpV8ROuY1d0Ww=;
+	b=S3WMJVlJ3kpoVNrSiHZnKrnN4dNDufFHFPiXaSVWdYgXlDB9QSDwOVzMxVrnlQqyGrN+7M
+	GNyOJ6IiJPpSDx07bAs0MYsyY0RDZ6vaesBlF4eD6RuBj8JLLX7HA+skGacYZdMiwDgter
+	dD3RUdg4/n/zsiqPBVO4BXo495iKWTA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1682015487;
+	s=susede2_ed25519; t=1682015491;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=olx1mZYcFFV0s06Pc7VZextyqfNpbUfhWxOb4Y0as/Y=;
-	b=oZDSMY2MP0TIEZKh4mROv9cxMp+A3VXyg5StXYBR/vuNZd57O7vrpOtdQKr43sCWje5NJ7
-	oiQI14J13Y6lsuAg==
+	bh=p5w7/u9ISF5o5lHXLzxfuZV9gNo85LTpV8ROuY1d0Ww=;
+	b=hWOfWzfaBN18Mn47HpatDjGFKK7q0b6iJ+mOGuVQUxNyfh0gkDkF1SrcTub4rqhe08fHb/
+	HiOwTRvMNd4TFcDA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6E6EC13584;
-	Thu, 20 Apr 2023 18:31:27 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0F67513584;
+	Thu, 20 Apr 2023 18:31:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 2oHhGv+EQWStNAAAMHmgww
-	(envelope-from <dwagner@suse.de>); Thu, 20 Apr 2023 18:31:27 +0000
+	id DFW9AwOFQWS8NAAAMHmgww
+	(envelope-from <dwagner@suse.de>); Thu, 20 Apr 2023 18:31:31 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -68,16 +68,16 @@ Cc: linux-kernel@vger.kernel.org,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Shin'ichiro Kawasaki <shinichiro@fastmail.com>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH blktests v2 3/4] nvme-rc: Move discovery generation counter code to rc
-Date: Thu, 20 Apr 2023 20:31:14 +0200
-Message-Id: <20230420183121.4489-6-dwagner@suse.de>
+Subject: [PATCH blktests v2 8/9] nvme-rc: Move discovery generation counter code to rc
+Date: Thu, 20 Apr 2023 20:31:20 +0200
+Message-Id: <20230420183121.4489-12-dwagner@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230420183121.4489-1-dwagner@suse.de>
 References: <20230420183121.4489-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230420_113129_272380_176C97EB 
+X-CRM114-CacheID: sfid-20230420_113132_907721_D30B2A8E 
 X-CRM114-Status: GOOD (  10.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -3186,10 +3186,10 @@ index 20fef696e565..cfcdcbe6be23 100755
  	_remove_nvmet_subsystem_from_port "${port}" "${subsys}1"
  	_remove_nvmet_subsystem "${subsys}1"
 diff --git a/tests/nvme/rc b/tests/nvme/rc
-index e6075e31178f..8cd89af703bb 100644
+index 172f510527ed..2aa34fb0c9b8 100644
 --- a/tests/nvme/rc
 +++ b/tests/nvme/rc
-@@ -720,6 +720,19 @@ _discovery_genctr() {
+@@ -755,6 +755,19 @@ _discovery_genctr() {
  		sed -n -e 's/^.*Generation counter \([0-9]\+\).*$/\1/p'
  }
  
