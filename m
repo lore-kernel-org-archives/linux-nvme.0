@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3209C77B7C
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Apr 2023 18:31:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9BABAC77B7A
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Apr 2023 18:31:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xYR0Z2QWJn4Bi0GTtzD57Fk9oHuz/zDhZqF1xzlUd3w=; b=21VcrTbiAYNpDqFQ1ipHR3h/OL
-	WpiMHPwB6NxKnF/AvrPBoRkd0vn+Jr1nzgP1iNGWenhuiHqzbO0dcLNnHed5eVDjr3RfIqlWMgcPS
-	iFdi48bBbHDxiFlfsUzMSJLjuUXqbTa4Z/unQcklPJOLdyaKKKubm+2ij0thFfkykm+fQ7S90PstL
-	1UZ8v3GAtrMBniB7YvP0wHPcst3+tL7zHZ/yXZ0Mi9gyacc6z3qg8mHqhnsY3cz80HItKSdPsBisj
-	VU6E30z1fX/Msq09rUnEQ7zerPLwjVQEnFVGmVnho6QpBSeWV76V85I/pVda2vAoSHqKt0ZzsdIB9
-	AEiiKmTg==;
+	bh=ICCAeqXj7rUSfpx8/pGgrP3DeBAUK1g09+pqe3jEi8k=; b=c7mAHpx4Qw8fwgkDwu5Np0rUdF
+	8FDN3aBuP0Wp9DZE+HT5+5y03qL+emXh7Ua1ZHMqpHoa1zKIN0pQBsoz6utZ1q/UzB265EzTjC0wX
+	5IjgmRWv315PsdfuC9TccgwAA43HtCVGjQkVkeSpML2Fgrlu4VUA6KoG9pHueFHPKoUZvmxPa+gSJ
+	1N10E30MU1UwCSroh22KrurL9AjqJ+zdMmD9E8VEJakJM/vxptBg6KIdXiKZ18QZvUdQVJGv+0XXx
+	FXEZEXkyMnT7Sz0RYbX3zkVLVdiG2FkWZ1bbVB0/zW63oADPjCQ/nURvW2uE8uQUM3OGm1aW0EO0r
+	QepFiVbg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1ppZ4E-008jtv-10;
-	Thu, 20 Apr 2023 18:31:38 +0000
+	id 1ppZ4F-008juZ-0f;
+	Thu, 20 Apr 2023 18:31:39 +0000
 Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1ppZ43-008jl9-2T
+	id 1ppZ46-008jnC-1w
 	for linux-nvme@lists.infradead.org;
-	Thu, 20 Apr 2023 18:31:32 +0000
+	Thu, 20 Apr 2023 18:31:33 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 515551FDC6;
-	Thu, 20 Apr 2023 18:31:26 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 55C7B1FDCC;
+	Thu, 20 Apr 2023 18:31:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1682015486; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1682015489; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xYR0Z2QWJn4Bi0GTtzD57Fk9oHuz/zDhZqF1xzlUd3w=;
-	b=EBuyM4UAQ8iszdnC361GCeuosuHEu7jdfEWBERKaba8g/AgzCDOh0PVPKE5smoS4riUAwR
-	rdqi9sOolsjDSTHPXRwGMY/AVVFGd90rOlhMxjpf2YqwPgZzYWu4P4oW9iw9HjjQC021y5
-	tfUVx8nk95zRcFnB5dBZxC6pIsUw0Rw=
+	bh=ICCAeqXj7rUSfpx8/pGgrP3DeBAUK1g09+pqe3jEi8k=;
+	b=BzsOqAJlzA4dCqPl0w5NXLgdoYdbfHS7WlRbb/OkBu5SxhTwzx7CfTKutw0GErXbBTzvtG
+	dGSYX2bGchVsXtImXnWmPt5MAJw4vcfuDbbRsf1s9nfzPrUPZkakcr13TQgCJDMxPqjGGD
+	WrzdR6r+j5pMq9Cs7FI0+wLc9czY6nk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1682015486;
+	s=susede2_ed25519; t=1682015489;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xYR0Z2QWJn4Bi0GTtzD57Fk9oHuz/zDhZqF1xzlUd3w=;
-	b=LMLwQoxYs9yjLXL/00uYnEfyX3SmSA0kLJMy+yuTsR+dWSp8WF8o8kGSIhzKaY6w5WJWwr
-	tEAGpUc0TU2AFfDQ==
+	bh=ICCAeqXj7rUSfpx8/pGgrP3DeBAUK1g09+pqe3jEi8k=;
+	b=iroVrPG4dn7+36Az1DDe9fV3cfWs3CEUKRBn8etmnRMajE0Wegr7dw1TD6/PtNOeKe3CxC
+	NAP+eWybzjg7yoDg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 417E613584;
-	Thu, 20 Apr 2023 18:31:26 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 45D6C13584;
+	Thu, 20 Apr 2023 18:31:29 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id gz/4D/6EQWSlNAAAMHmgww
-	(envelope-from <dwagner@suse.de>); Thu, 20 Apr 2023 18:31:26 +0000
+	id 9P4KEQGFQWSzNAAAMHmgww
+	(envelope-from <dwagner@suse.de>); Thu, 20 Apr 2023 18:31:29 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -68,17 +68,17 @@ Cc: linux-kernel@vger.kernel.org,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Shin'ichiro Kawasaki <shinichiro@fastmail.com>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH blktests v2 2/4] nvme: Make test image size configurable
-Date: Thu, 20 Apr 2023 20:31:12 +0200
-Message-Id: <20230420183121.4489-4-dwagner@suse.de>
+Subject: [PATCH blktests v2 5/9] nvme: Make test image size configurable
+Date: Thu, 20 Apr 2023 20:31:17 +0200
+Message-Id: <20230420183121.4489-9-dwagner@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230420183121.4489-1-dwagner@suse.de>
 References: <20230420183121.4489-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230420_113128_093517_2EFD9B0C 
-X-CRM114-Status: GOOD (  11.74  )
+X-CRM114-CacheID: sfid-20230420_113130_934469_9957F50C 
+X-CRM114-Status: GOOD (  12.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,47 +97,51 @@ The reduce the overall runtime of the testsuite by making the default
 size of the test image small. For verification jobs, the default can be
 overwriten via the newly introduced nvme_img_size environment variable.
 
+The default size of 350M is the minimum requirement of nvme/012 and
+nvme/013. These tests rely on an xfs filesystem which requires this
+minimum size.
+
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- tests/nvme/004 |  2 +-
- tests/nvme/005 |  2 +-
- tests/nvme/006 |  2 +-
- tests/nvme/007 |  2 +-
- tests/nvme/008 |  2 +-
- tests/nvme/009 |  2 +-
- tests/nvme/010 |  4 ++--
- tests/nvme/011 |  4 ++--
- tests/nvme/012 |  4 ++--
- tests/nvme/013 |  4 ++--
- tests/nvme/014 | 10 ++++++++--
- tests/nvme/015 | 10 ++++++++--
- tests/nvme/017 |  2 +-
- tests/nvme/018 |  2 +-
- tests/nvme/019 |  2 +-
- tests/nvme/020 |  2 +-
- tests/nvme/021 |  2 +-
- tests/nvme/022 |  2 +-
- tests/nvme/023 |  2 +-
- tests/nvme/024 |  2 +-
- tests/nvme/025 |  2 +-
- tests/nvme/026 |  2 +-
- tests/nvme/027 |  2 +-
- tests/nvme/028 |  2 +-
- tests/nvme/029 |  3 ++-
- tests/nvme/031 |  2 +-
- tests/nvme/032 |  4 ++--
- tests/nvme/034 |  2 +-
- tests/nvme/035 |  4 ++--
- tests/nvme/040 |  4 ++--
- tests/nvme/041 |  2 +-
- tests/nvme/042 |  2 +-
- tests/nvme/043 |  2 +-
- tests/nvme/044 |  2 +-
- tests/nvme/045 |  2 +-
- tests/nvme/047 |  2 +-
- tests/nvme/048 |  2 +-
- tests/nvme/rc  |  1 +
- 38 files changed, 60 insertions(+), 46 deletions(-)
+ tests/nvme/004 | 2 +-
+ tests/nvme/005 | 2 +-
+ tests/nvme/006 | 2 +-
+ tests/nvme/007 | 2 +-
+ tests/nvme/008 | 2 +-
+ tests/nvme/009 | 2 +-
+ tests/nvme/010 | 5 +++--
+ tests/nvme/011 | 5 +++--
+ tests/nvme/012 | 2 +-
+ tests/nvme/013 | 2 +-
+ tests/nvme/014 | 2 +-
+ tests/nvme/015 | 2 +-
+ tests/nvme/017 | 2 +-
+ tests/nvme/018 | 2 +-
+ tests/nvme/019 | 2 +-
+ tests/nvme/020 | 2 +-
+ tests/nvme/021 | 2 +-
+ tests/nvme/022 | 2 +-
+ tests/nvme/023 | 2 +-
+ tests/nvme/024 | 2 +-
+ tests/nvme/025 | 2 +-
+ tests/nvme/026 | 2 +-
+ tests/nvme/027 | 2 +-
+ tests/nvme/028 | 2 +-
+ tests/nvme/029 | 3 ++-
+ tests/nvme/031 | 2 +-
+ tests/nvme/032 | 2 +-
+ tests/nvme/034 | 2 +-
+ tests/nvme/035 | 2 +-
+ tests/nvme/040 | 4 ++--
+ tests/nvme/041 | 2 +-
+ tests/nvme/042 | 2 +-
+ tests/nvme/043 | 2 +-
+ tests/nvme/044 | 2 +-
+ tests/nvme/045 | 2 +-
+ tests/nvme/047 | 2 +-
+ tests/nvme/048 | 2 +-
+ tests/nvme/rc  | 1 +
+ 38 files changed, 44 insertions(+), 40 deletions(-)
 
 diff --git a/tests/nvme/004 b/tests/nvme/004
 index 9dda538b1ac0..cab98ff44326 100755
@@ -218,7 +222,7 @@ index 2814c79164ee..491d3c809ab0 100755
  	_create_nvmet_subsystem "${subsys_name}" "${file_path}" \
  		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
 diff --git a/tests/nvme/010 b/tests/nvme/010
-index b7b1d5188e9b..2f81610699d4 100755
+index b7b1d5188e9b..805f80d40620 100755
 --- a/tests/nvme/010
 +++ b/tests/nvme/010
 @@ -26,7 +26,7 @@ test() {
@@ -230,17 +234,18 @@ index b7b1d5188e9b..2f81610699d4 100755
  
  	loop_dev="$(losetup -f --show "${file_path}")"
  
-@@ -41,7 +41,7 @@ test() {
+@@ -41,7 +41,8 @@ test() {
  	cat "/sys/block/${nvmedev}n1/uuid"
  	cat "/sys/block/${nvmedev}n1/wwid"
  
 -	_run_fio_verify_io --size=950m --filename="/dev/${nvmedev}n1"
-+	_run_fio_verify_io --filename="/dev/${nvmedev}n1"
++	_run_fio_verify_io --size=${nvme_img_size} \
++		--filename="/dev/${nvmedev}n1"
  
  	_nvme_disconnect_subsys "${subsys_name}"
  
 diff --git a/tests/nvme/011 b/tests/nvme/011
-index 4bfe9af084e4..d8504b71d7d5 100755
+index 4bfe9af084e4..da8cbac11124 100755
 --- a/tests/nvme/011
 +++ b/tests/nvme/011
 @@ -26,7 +26,7 @@ test() {
@@ -252,17 +257,18 @@ index 4bfe9af084e4..d8504b71d7d5 100755
  
  	_create_nvmet_subsystem "${subsys_name}" "${file_path}" \
  		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-@@ -39,7 +39,7 @@ test() {
+@@ -39,7 +39,8 @@ test() {
  	cat "/sys/block/${nvmedev}n1/uuid"
  	cat "/sys/block/${nvmedev}n1/wwid"
  
 -	_run_fio_verify_io --size=950m --filename="/dev/${nvmedev}n1"
-+	_run_fio_verify_io --filename="/dev/${nvmedev}n1"
++	_run_fio_verify_io --size="${nvme_img_size}" \
++		--filename="/dev/${nvmedev}n1"
  
  	_nvme_disconnect_subsys "${subsys_name}"
  
 diff --git a/tests/nvme/012 b/tests/nvme/012
-index e60082c2e751..1fb36e33d574 100755
+index c9d24388306d..ecf44fcb5a51 100755
 --- a/tests/nvme/012
 +++ b/tests/nvme/012
 @@ -29,7 +29,7 @@ test() {
@@ -274,17 +280,8 @@ index e60082c2e751..1fb36e33d574 100755
  
  	loop_dev="$(losetup -f --show "${file_path}")"
  
-@@ -44,7 +44,7 @@ test() {
- 	cat "/sys/block/${nvmedev}n1/uuid"
- 	cat "/sys/block/${nvmedev}n1/wwid"
- 
--	_xfs_run_fio_verify_io "/dev/${nvmedev}n1" "900m"
-+	_xfs_run_fio_verify_io "/dev/${nvmedev}n1" "${nvme_img_size}"
- 
- 	_nvme_disconnect_subsys "${subsys_name}"
- 
 diff --git a/tests/nvme/013 b/tests/nvme/013
-index 9d60a7df4577..2c6e4d707d3c 100755
+index 265b6968fd34..e249add46295 100755
 --- a/tests/nvme/013
 +++ b/tests/nvme/013
 @@ -28,7 +28,7 @@ test() {
@@ -296,20 +293,11 @@ index 9d60a7df4577..2c6e4d707d3c 100755
  
  	_create_nvmet_subsystem "${subsys_name}" "${file_path}" \
  		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-@@ -41,7 +41,7 @@ test() {
- 	cat "/sys/block/${nvmedev}n1/uuid"
- 	cat "/sys/block/${nvmedev}n1/wwid"
- 
--	_xfs_run_fio_verify_io "/dev/${nvmedev}n1" "900m"
-+	_xfs_run_fio_verify_io "/dev/${nvmedev}n1" "${nvme_img_size}"
- 
- 	_nvme_disconnect_subsys "${subsys_name}"
- 
 diff --git a/tests/nvme/014 b/tests/nvme/014
-index d13cff7921da..3f3193bb6583 100755
+index 28913641ae40..2d00ed392ea8 100755
 --- a/tests/nvme/014
 +++ b/tests/nvme/014
-@@ -26,7 +26,7 @@ test() {
+@@ -29,7 +29,7 @@ test() {
  	local file_path="$TMPDIR/img"
  	local subsys_name="blktests-subsystem-1"
  
@@ -318,26 +306,11 @@ index d13cff7921da..3f3193bb6583 100755
  
  	loop_dev="$(losetup -f --show "${file_path}")"
  
-@@ -41,7 +41,13 @@ test() {
- 	cat "/sys/block/${nvmedev}n1/uuid"
- 	cat "/sys/block/${nvmedev}n1/wwid"
- 
--	dd if=/dev/urandom of="/dev/${nvmedev}n1" count=128000 bs=4k status=none
-+	local sectors
-+	local bs
-+	sectors="$(blockdev --getss "/dev/${nvmedev}n1")"
-+	bs="$(blockdev --getbsz "/dev/${nvmedev}n1")"
-+
-+	dd if=/dev/urandom of="/dev/${nvmedev}n1" \
-+		count="${sectors}" bs="${bs}" status=none
- 
- 	nvme flush "/dev/${nvmedev}" -n 1
- 
 diff --git a/tests/nvme/015 b/tests/nvme/015
-index bb52ba2598db..20fe17c589e1 100755
+index 2f7957caac88..3755cdee00c9 100755
 --- a/tests/nvme/015
 +++ b/tests/nvme/015
-@@ -25,7 +25,7 @@ test() {
+@@ -28,7 +28,7 @@ test() {
  	local file_path="$TMPDIR/img"
  	local subsys_name="blktests-subsystem-1"
  
@@ -346,21 +319,6 @@ index bb52ba2598db..20fe17c589e1 100755
  
  	_create_nvmet_subsystem "${subsys_name}" "${file_path}" \
  		 "91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-@@ -38,7 +38,13 @@ test() {
- 	cat "/sys/block/${nvmedev}n1/uuid"
- 	cat "/sys/block/${nvmedev}n1/wwid"
- 
--	dd if=/dev/urandom of="/dev/${nvmedev}n1" count=128000 bs=4k status=none
-+	local sectors
-+	local bs
-+	sectors="$(blockdev --getss "/dev/${nvmedev}n1")"
-+	bs="$(blockdev --getbsz "/dev/${nvmedev}n1")"
-+
-+	dd if=/dev/urandom of="/dev/${nvmedev}n1" \
-+		count="${sectors}" bs="${bs}" status=none
- 
- 	nvme flush "/dev/${nvmedev}n1" -n 1
- 
 diff --git a/tests/nvme/017 b/tests/nvme/017
 index f2a95cf276cb..0248aee9bc41 100755
 --- a/tests/nvme/017
@@ -552,20 +510,18 @@ index 4e1798246db1..e70898819a86 100755
  	loop_dev="$(losetup -f --show "$TMPDIR/img")"
  
 diff --git a/tests/nvme/032 b/tests/nvme/032
-index 017d4a339971..1a467119a2ff 100755
+index 81e074cc11bc..9f9756b0f959 100755
 --- a/tests/nvme/032
 +++ b/tests/nvme/032
-@@ -38,8 +38,8 @@ test_device() {
+@@ -38,7 +38,7 @@ test_device() {
  	sysfs="/sys/bus/pci/devices/${pdev}"
  
  	# start fio job
 -	_run_fio_rand_io --filename="$TEST_DEV" --size=1g \
--		--group_reporting  &> /dev/null &
-+	_run_fio_rand_io --filename="$TEST_DEV" --size=256M \
-+		--group_reporting --time_based --runtime=1m > /dev/null &
++	_run_fio_rand_io --filename="$TEST_DEV" --size="${nvme_img_size}" \
+ 		--group_reporting --time_based --runtime=1m &> /dev/null &
  
  	sleep 5
- 
 diff --git a/tests/nvme/034 b/tests/nvme/034
 index f92e5e20865b..e0ede717c373 100755
 --- a/tests/nvme/034
@@ -580,7 +536,7 @@ index f92e5e20865b..e0ede717c373 100755
  	_nvme_disconnect_subsys "${subsys}"
  	_nvmet_passthru_target_cleanup "${port}" "${subsys}"
 diff --git a/tests/nvme/035 b/tests/nvme/035
-index eb1024edddbf..0896f7bb578d 100755
+index 8b485bc8e682..2c4a25f82937 100755
 --- a/tests/nvme/035
 +++ b/tests/nvme/035
 @@ -17,7 +17,7 @@ requires() {
@@ -592,17 +548,8 @@ index eb1024edddbf..0896f7bb578d 100755
  }
  
  test_device() {
-@@ -32,7 +32,7 @@ test_device() {
- 	port=$(_nvmet_passthru_target_setup "${subsys}")
- 	nsdev=$(_nvmet_passthru_target_connect "${nvme_trtype}" "${subsys}")
- 
--	_xfs_run_fio_verify_io "${nsdev}" "900m"
-+	_xfs_run_fio_verify_io "${nsdev}" "${nvme_img_size}"
- 
- 	_nvme_disconnect_subsys "${subsys}"
- 	_nvmet_passthru_target_cleanup "${port}" "${subsys}"
 diff --git a/tests/nvme/040 b/tests/nvme/040
-index 04bd726cd309..885e5ed68fe6 100755
+index 8d29f905adb5..31b7cafef4be 100755
 --- a/tests/nvme/040
 +++ b/tests/nvme/040
 @@ -25,7 +25,7 @@ test() {
@@ -610,7 +557,7 @@ index 04bd726cd309..885e5ed68fe6 100755
  
  	_setup_nvmet
 -	truncate -s 1G "$TMPDIR/img"
-+	truncate -s ${nvme_img_size} "$TMPDIR/img"
++	truncate -s "${nvme_img_size}" "$TMPDIR/img"
  	loop_dev="$(losetup -f --show "$TMPDIR/img")"
  
  	port="$(_create_nvmet_port "${nvme_trtype}")"
@@ -620,9 +567,9 @@ index 04bd726cd309..885e5ed68fe6 100755
  	echo "starting background fio"
 -	_run_fio_rand_io --filename="/dev/${nvmedev}n1" --size=1g \
 +	_run_fio_rand_io --filename="/dev/${nvmedev}n1" --size="${nvme_img_size}" \
- 		--group_reporting --ramp_time=5  &> /dev/null &
+ 		--group_reporting --ramp_time=5 \
+ 		--time_based --runtime=1m &> /dev/null &
  	sleep 5
- 
 diff --git a/tests/nvme/041 b/tests/nvme/041
 index 03e2dab25918..308655dd6090 100755
 --- a/tests/nvme/041
@@ -715,14 +662,14 @@ index b4ee7371eb68..08fdee16c811 100755
  	_create_nvmet_subsystem "${subsys_name}" "${file_path}" \
  		"b92842df-a394-44b1-84a4-92ae7d112861"
 diff --git a/tests/nvme/rc b/tests/nvme/rc
-index 41f196b037d6..e6075e31178f 100644
+index 41f196b037d6..e5ba9a6d5f54 100644
 --- a/tests/nvme/rc
 +++ b/tests/nvme/rc
 @@ -17,6 +17,7 @@ def_local_wwpn="0x20001100aa000002"
  def_hostnqn="$(cat /etc/nvme/hostnqn 2> /dev/null)"
  def_hostid="$(cat /etc/nvme/hostid 2> /dev/null)"
  nvme_trtype=${nvme_trtype:-"loop"}
-+nvme_img_size=${nvme_img_size:-"64M"}
++nvme_img_size=${nvme_img_size:-"350M"}
  
  _nvme_requires() {
  	_have_program nvme
