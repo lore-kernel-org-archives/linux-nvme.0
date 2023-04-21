@@ -4,76 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9671AC7618E
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Apr 2023 06:00:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0405C77B75
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Apr 2023 06:05:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dhdeIsytLIVjWf6yjF5V1uEm0pNge/YpOD8xlqvmOG8=; b=xmoLz9eBK/q/6qeKLdkcWgOqpl
-	xwrkVdsUMobTXAj/NfJ8L6fq0PcGYkSNvvPELcCJb1cCWoZLpJKttGX1jko6ThCCqDM5c9X1vDE/a
-	P46/ZKleygOHCDkktCjuAptJ+5qmE4ebzmT7mdU3bLLc5UWgGzErSo//XXMnl9iiYVDEQoJs5NzPK
-	XbKuSIhsnALtJ5NIISh08GSV0RcutXH3znlk+L/NnZSP1P1iEFLAdLEeoxDdpGG2gyN2Guylq2Xxq
-	D0QMeDxoP3SrxrmC1oPHUy/zxHEwgjLUDKlQPBbf26/0JUFPMmgJOntKjGqg0gpqDFY9lK3ESG1ML
-	181xW1TQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=p7TNLB57J6X+UfMywwYnNOVkSohxa+bcFxW5iBNiQqQ=; b=UmF7E2aZgA+jkjXE/0KAFAt+vV
+	vYywcVFxNoiT2qLgZ3a+pDxZE3ve340mZDPpQLUAP4OK3OJzSFgJEzSImrKrV2bCBaEjLAqmSpXq3
+	HWjGQEFKFmM18CizR8WbmwUfKbjaDT3nm6NVyMHKiRJOLhbi6I03dRXRsly8QMrxvrXV7WDrSlJQI
+	r4ha6ak7gk5MX2jFKLWa/Y65vD/EuKYpXBMg2EnHHYSAvFvik5H86g9xqTWmGgbdBiRklubU6Lw1P
+	cb14F7Qe+WptmBE/EV+QUzHp+hHrMI+k7gWUVmsifTV5R/9piP1UAyumDLPuRwxf+My2BRvlDe4gk
+	DDf5migg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1ppjoJ-009jxx-1s;
-	Fri, 21 Apr 2023 05:59:55 +0000
+	id 1ppjtY-009kdl-27;
+	Fri, 21 Apr 2023 06:05:20 +0000
 Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1ppjoG-009jxI-1L
+	id 1ppjtV-009kcK-18
 	for linux-nvme@lists.infradead.org;
-	Fri, 21 Apr 2023 05:59:53 +0000
+	Fri, 21 Apr 2023 06:05:19 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2D0B0219FF;
-	Fri, 21 Apr 2023 05:59:50 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C5FC121A4A;
+	Fri, 21 Apr 2023 06:05:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1682056790; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dhdeIsytLIVjWf6yjF5V1uEm0pNge/YpOD8xlqvmOG8=;
-	b=vVroTMaRT43s6Q48bBkb3eZErXKAjHDMwT8ic9xX0HrKrF2rti7W2NwqNdbICvdnDL1luS
-	kIqhsfb8U2yWh+qbpDrkC3/oK96sIXAsARupulM5CjH4h/e3QcULDUKhtia5JcRtxW5jqN
-	8nSgNlSZt6joacINvDlQELSSD+KtBTs=
+	t=1682057115; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=p7TNLB57J6X+UfMywwYnNOVkSohxa+bcFxW5iBNiQqQ=;
+	b=Xk3P78rWD4YmQXDynQ7B8RpbLiszjbXzKRHXQRUUe97R/ZGQ5xfKJ9AqCRQkE08DdUHkew
+	0/uUVo7Licj4va+ow3O0HENGpCjNZivwCy3UkuTnJ7yb1gV7esr3bpQVg6fF5aR+p61Cll
+	io1hJzqClPR0E8l9B22clyEPVxAvKto=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1682056790;
+	s=susede2_ed25519; t=1682057115;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dhdeIsytLIVjWf6yjF5V1uEm0pNge/YpOD8xlqvmOG8=;
-	b=NFwGXqrlJWSjLhwvVuSoOG6xQNqXb/YVgVs2uYdl2eIdUbTra5bKSoO8xSxbogsMTNXwAZ
-	PZUwjya+4q+QFHCA==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=p7TNLB57J6X+UfMywwYnNOVkSohxa+bcFxW5iBNiQqQ=;
+	b=/V4zuvSTTq5s8hxVKPwmikUx0ksjIY+PEeAht+kXlA9J+ePg6BBIeTEQn/UsXL26NaZ9JJ
+	NIdRACGjUyBcQpDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 169701390E;
-	Fri, 21 Apr 2023 05:59:50 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B88AE1390E;
+	Fri, 21 Apr 2023 06:05:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id tgbqBFYmQmTcYwAAMHmgww
-	(envelope-from <dwagner@suse.de>); Fri, 21 Apr 2023 05:59:50 +0000
-Date: Fri, 21 Apr 2023 07:59:49 +0200
+	id fjIKLZsnQmRnZgAAMHmgww
+	(envelope-from <dwagner@suse.de>); Fri, 21 Apr 2023 06:05:15 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Shin'ichiro Kawasaki <shinichiro@fastmail.com>
-Subject: Re: [PATCH blktests v2 0/9] nvme testsuite runtime optimization
-Message-ID: <7hwnfsbib4orqekljbll4hejijzjtzfr65trqygiffycbuy5be@6fd6jbkifbpo>
-References: <20230420183121.4489-1-dwagner@suse.de>
+Cc: linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Shin'ichiro Kawasaki <shinichiro@fastmail.com>,
+	Daniel Wagner <dwagner@suse.de>
+Subject: [PATCH REPOST blktests v2 0/9] nvme testsuite runtime optimization
+Date: Fri, 21 Apr 2023 08:04:56 +0200
+Message-Id: <20230421060505.10132-1-dwagner@suse.de>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230420183121.4489-1-dwagner@suse.de>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230420_225952_627889_ED50313D 
-X-CRM114-Status: UNSURE (   6.10  )
+X-CRM114-CacheID: sfid-20230420_230517_569872_178EA839 
+X-CRM114-Status: UNSURE (   9.95  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -89,6 +88,129 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Screwed up with the mailing process. This series contains an early version of
-v2. Let me repost the correct version.
+Refactored v1 into more smaller bits and fixed a bunch of bugs alongside. For
+example the fio jobs size for rand rw used --jobs=$(nproc) which needs to fit
+with the test device size.
+
+The loop transport runs a few more test but the largest contributer why it runs
+so much longer are the iteratons in 002. So I made them also configurable.
+
+nvme_num_iter=100 nvme_img_size=350M (new defaults)
+
+loop
+  real    4m3.524s
+  user    0m7.931s
+  sys     1m35.871s
+
+rdma
+  real    4m20.559s
+  user    0m8.895s
+  sys     1m5.714s
+
+tcp
+  real    3m55.292s
+  user    0m8.654s
+  sys     1m15.314s
+
+fc
+  real    3m18.977s
+  user    0m8.868s
+  sys     0m58.655s
+
+nvme_num_iter=1000 nvme_img_size=1G (previous/ defaults)
+
+loop
+  real    8m22.109s
+  user    0m27.582s
+  sys     3m0.484s
+
+rdma
+  real    9m1.784s
+  user    0m14.274s
+  sys     2m5.479s
+
+tcp
+  real    8m28.443s
+  user    0m13.952s
+  sys     2m55.544s
+
+fc
+  real    6m24.426s
+  user    0m13.944s
+  sys     2m2.489s
+
+The fc tests are bit faster because some of them are failing.
+
+changes:
+v2:
+  - made image size configurable via nvme_img_size env
+  - make number of iteration configurable via nvme_num_iter
+	- do not hard code test values
+  - calculate job size
+	- use runtime for fio background jobs
+
+v1:
+  - initial version
+  - https://lore.kernel.org/linux-nvme/20230419085643.25714-1-dwagner@suse.de/
+
+Daniel Wagner (9):
+  nvme-rc: Auto convert test device size info
+  nvme: Do not hard code device size for dd test
+  common-xfs: Make size argument optional for _xfs_run_fio_verify_io
+  nvme: Use runtime fio background jobs
+  nvme: Make test image size configurable
+  nvme-rc: Add minimal test image size requirement
+  nvme-rc: Calculate IO size for fio jobs
+  nvme-rc: Move discovery generation counter code to rc
+  nvme: Make the number iterations configurable
+
+ common/rc          |   30 +-
+ common/xfs         |    6 +
+ tests/nvme/002     |    6 +-
+ tests/nvme/002.out | 3004 --------------------------------------------
+ tests/nvme/004     |    2 +-
+ tests/nvme/005     |    2 +-
+ tests/nvme/006     |    2 +-
+ tests/nvme/007     |    2 +-
+ tests/nvme/008     |    2 +-
+ tests/nvme/009     |    2 +-
+ tests/nvme/010     |    6 +-
+ tests/nvme/011     |    6 +-
+ tests/nvme/012     |    5 +-
+ tests/nvme/013     |    5 +-
+ tests/nvme/014     |   12 +-
+ tests/nvme/015     |   12 +-
+ tests/nvme/016     |    2 +-
+ tests/nvme/017     |    4 +-
+ tests/nvme/018     |    2 +-
+ tests/nvme/019     |    2 +-
+ tests/nvme/020     |    2 +-
+ tests/nvme/021     |    2 +-
+ tests/nvme/022     |    2 +-
+ tests/nvme/023     |    2 +-
+ tests/nvme/024     |    2 +-
+ tests/nvme/025     |    2 +-
+ tests/nvme/026     |    2 +-
+ tests/nvme/027     |    2 +-
+ tests/nvme/028     |    2 +-
+ tests/nvme/029     |    2 +-
+ tests/nvme/030     |   22 +-
+ tests/nvme/031     |    2 +-
+ tests/nvme/032     |    6 +-
+ tests/nvme/034     |    4 +-
+ tests/nvme/035     |    4 +-
+ tests/nvme/040     |    9 +-
+ tests/nvme/041     |    2 +-
+ tests/nvme/042     |    2 +-
+ tests/nvme/043     |    2 +-
+ tests/nvme/044     |    2 +-
+ tests/nvme/045     |    6 +-
+ tests/nvme/047     |    8 +-
+ tests/nvme/048     |    2 +-
+ tests/nvme/rc      |   50 +
+ 44 files changed, 176 insertions(+), 3079 deletions(-)
+
+-- 
+2.40.0
+
 
