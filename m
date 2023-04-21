@@ -4,84 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1B32BC77B78
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Apr 2023 06:27:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6206C7618E
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Apr 2023 06:29:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DQ1TIUjZBt37bQT3IDeyvaR6HNDEso1wcf9Z0b1/4R0=; b=DTLCCHXZaeVaElpuIE4JOs1hOy
-	40wkIqSER0BUha+SKzBd/k01Yn4AlhqjnKYk7qGXg9G7MGjQpptc1VVyzC0GbUnFkigI29Ya0VF8m
-	Ltv65MmB9hPvX1dVGlYJBR6URuH10T5FQmbmr+eD9rONKS2h4cLbx2z6Dy4JL6uXdkc22boLM1tzA
-	nE2O5CHdjyxTFCiKYBeYYAdMd370pr4h/Ftpjlctbog01/7SM/oK1A1ZUJo0Ih+IvQtORkmaVSto4
-	SWa9OtOsHeWAmY7sfauzyfduLYpMm7ksqUmIl/YRLowJTDgk9PVIFqtAkbfem5GX/wm/YQsCUwDa6
-	CbJMKdyQ==;
+	bh=8LMGs8OgZhTiQIL7If/TwogM3aMQ0ZAQ/vhVCy32mQY=; b=pzD6beAE2sJFzwW4mbhCLxWx2X
+	hBnkAkYzIXDKgyeoZTl/rv+6KmLBI43qW3hLJA4BRu++SyHB1gATR+cc3oW61FPhFJ6AgjvQxFEfr
+	SYl+PzUWVeGXWt9LspBzaOSynuqrrH0aBrIk2/SIr9EE5NTZ8mP4P1K68o5gJ5a6wY2RHkfI2b1gC
+	dfWFh/bC6QizBuykOZXEJaeiqwwRTVAifJZdrJ/PEocJWRqidd9xwb7p7Xec+ExejzZ818p0qNrMd
+	MKD/LDNCAL9Fwg6y8sM8R2unTjwKSDUoww9m7frMkL2jWvZV4r8NFtqVP0ABxZ6Zic26JY7d5gPT6
+	7RB+IhWQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1ppkFB-009ox2-30;
-	Fri, 21 Apr 2023 06:27:41 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1ppkGt-009pGN-1B;
+	Fri, 21 Apr 2023 06:29:27 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1ppkF9-009owb-00
+	id 1ppkGr-009pFf-1P
 	for linux-nvme@lists.infradead.org;
-	Fri, 21 Apr 2023 06:27:40 +0000
+	Fri, 21 Apr 2023 06:29:26 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7E2F71FDDD;
-	Fri, 21 Apr 2023 06:27:37 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 090FA1FDDD;
+	Fri, 21 Apr 2023 06:29:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1682058457; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1682058564; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DQ1TIUjZBt37bQT3IDeyvaR6HNDEso1wcf9Z0b1/4R0=;
-	b=KrSGvzm0aJ7NKWy6YcWwiOy1TUnln6eP/6P8hSpErdf2vlTW9mKposaO2QEBtt3KbFTkJu
-	7eu4zFDsmt2Szd5ZueWUPzFL9NhbQjX+i4o0V22W+scpLQaUJG0owmcv8CuK0mbGqeAatV
-	Y5L+KOxeZ2PfxjC7uzqzoIYtO7ZZrJc=
+	bh=8LMGs8OgZhTiQIL7If/TwogM3aMQ0ZAQ/vhVCy32mQY=;
+	b=0inpvk1NXaNGsFqI8R/9/QqQkeZZEbDsL9KIr++c78m4EuQ7tD6emwfIYogouqsqqHwOSZ
+	NKz61VnyEgMrGsV/unZt4UPyQSGellfBsYod2flI/r/VVzMbAPUFntR9ulS0H0FC0DICVz
+	TIAF5wILUW8QAp5GqumcIgBMr1KnNHA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1682058457;
+	s=susede2_ed25519; t=1682058564;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DQ1TIUjZBt37bQT3IDeyvaR6HNDEso1wcf9Z0b1/4R0=;
-	b=12SBpOabNibg+e6LqMdE3+FbVoA5Ya66nsl5mRBFhaTy9S3uRtFLjW6fGvQIgFq5TjhUCs
-	S1ajMbZV0dUZSzDg==
+	bh=8LMGs8OgZhTiQIL7If/TwogM3aMQ0ZAQ/vhVCy32mQY=;
+	b=EfWmB8SfH3AIi4iI+n1CZoyVVOUXfMb7WAZeu0Lpv6l2M8enbwqPTSDkrU9jYajhPYl+hS
+	ZNjfhzlMstLZtADg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5BE221390E;
-	Fri, 21 Apr 2023 06:27:37 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D960B1390E;
+	Fri, 21 Apr 2023 06:29:23 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id vgfQFNksQmSAcAAAMHmgww
-	(envelope-from <hare@suse.de>); Fri, 21 Apr 2023 06:27:37 +0000
-Message-ID: <1089a043-a40c-6b49-f0a0-38ca3bcd8f91@suse.de>
-Date: Fri, 21 Apr 2023 08:27:35 +0200
+	id EF8hNEMtQmREcQAAMHmgww
+	(envelope-from <hare@suse.de>); Fri, 21 Apr 2023 06:29:23 +0000
+Message-ID: <72ecc5fc-0ff4-5592-3293-f4204633fc8e@suse.de>
+Date: Fri, 21 Apr 2023 08:29:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.1
-Subject: Re: [PATCH REPOST blktests v2 3/9] common-xfs: Make size argument
- optional for _xfs_run_fio_verify_io
+Subject: Re: [PATCH REPOST blktests v2 4/9] nvme: Use runtime fio background
+ jobs
 Content-Language: en-US
 To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
  Chaitanya Kulkarni <kch@nvidia.com>,
  Shin'ichiro Kawasaki <shinichiro@fastmail.com>
 References: <20230421060505.10132-1-dwagner@suse.de>
- <20230421060505.10132-4-dwagner@suse.de>
+ <20230421060505.10132-5-dwagner@suse.de>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20230421060505.10132-4-dwagner@suse.de>
+In-Reply-To: <20230421060505.10132-5-dwagner@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230420_232739_202844_78A01011 
-X-CRM114-Status: GOOD (  17.15  )
+X-CRM114-CacheID: sfid-20230420_232925_616065_C8C8E3B4 
+X-CRM114-Status: GOOD (  14.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,86 +96,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/21/23 08:04, Daniel Wagner wrote:
-> Make the size argument optional by reading the filesystem info. The
-> caller doesn't have to guess (or calculate) how big the max IO size.
-> The log data structure of XFS is reducing the capacity.
+On 4/21/23 08:05, Daniel Wagner wrote:
+> The fio jobs are supposed to run long in background during the test.
+> Instead relying on a job size use explicit runtime for this.
 > 
 > Signed-off-by: Daniel Wagner <dwagner@suse.de>
 > ---
->   common/xfs     | 6 ++++++
->   tests/nvme/012 | 2 +-
->   tests/nvme/013 | 2 +-
->   tests/nvme/035 | 2 +-
->   4 files changed, 9 insertions(+), 3 deletions(-)
+>   tests/nvme/032 | 2 +-
+>   tests/nvme/040 | 3 ++-
+>   2 files changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/common/xfs b/common/xfs
-> index 2c5d96164ac1..ec35599e017b 100644
-> --- a/common/xfs
-> +++ b/common/xfs
-> @@ -27,6 +27,12 @@ _xfs_run_fio_verify_io() {
+> diff --git a/tests/nvme/032 b/tests/nvme/032
+> index 017d4a339971..81e074cc11bc 100755
+> --- a/tests/nvme/032
+> +++ b/tests/nvme/032
+> @@ -39,7 +39,7 @@ test_device() {
 >   
->   	_xfs_mkfs_and_mount "${bdev}" "${mount_dir}" >> "${FULL}" 2>&1
+>   	# start fio job
+>   	_run_fio_rand_io --filename="$TEST_DEV" --size=1g \
+> -		--group_reporting  &> /dev/null &
+> +		--group_reporting --time_based --runtime=1m &> /dev/null &
 >   
-> +	if [[ -z "${sz}" ]]; then
-> +		local avail
-> +		avail="$(df --output=avail "${mount_dir}" | awk 'NR==2 {print $1}')"
+>   	sleep 5
+>   
+> diff --git a/tests/nvme/040 b/tests/nvme/040
+> index 04bd726cd309..8d29f905adb5 100755
+> --- a/tests/nvme/040
+> +++ b/tests/nvme/040
+> @@ -38,7 +38,8 @@ test() {
+>   	# start fio job
+>   	echo "starting background fio"
+>   	_run_fio_rand_io --filename="/dev/${nvmedev}n1" --size=1g \
+> -		--group_reporting --ramp_time=5  &> /dev/null &
+> +		--group_reporting --ramp_time=5 \
+> +		--time_based --runtime=1m &> /dev/null &
+>   	sleep 5
+>   
+>   	# do reset/remove operation
 
-df --output=avail "${mount_dir}" | tail -1
-
-> +		sz="$(printf "%d" $((avail / 1024 - 1 )))m"
-
-sz=$((avail / 1024 - 1))
-
-> +	fi
-> +
->   	_run_fio_verify_io --size="$sz" --directory="${mount_dir}/"
-
-_run_fio_verify_io --size="${sz}m" --directory="${mount_dir}/"
-
->   
->   	umount "${mount_dir}" >> "${FULL}" 2>&1
-> diff --git a/tests/nvme/012 b/tests/nvme/012
-> index e60082c2e751..c9d24388306d 100755
-> --- a/tests/nvme/012
-> +++ b/tests/nvme/012
-> @@ -44,7 +44,7 @@ test() {
->   	cat "/sys/block/${nvmedev}n1/uuid"
->   	cat "/sys/block/${nvmedev}n1/wwid"
->   
-> -	_xfs_run_fio_verify_io "/dev/${nvmedev}n1" "900m"
-> +	_xfs_run_fio_verify_io "/dev/${nvmedev}n1"
->   
->   	_nvme_disconnect_subsys "${subsys_name}"
->   
-> diff --git a/tests/nvme/013 b/tests/nvme/013
-> index 9d60a7df4577..265b6968fd34 100755
-> --- a/tests/nvme/013
-> +++ b/tests/nvme/013
-> @@ -41,7 +41,7 @@ test() {
->   	cat "/sys/block/${nvmedev}n1/uuid"
->   	cat "/sys/block/${nvmedev}n1/wwid"
->   
-> -	_xfs_run_fio_verify_io "/dev/${nvmedev}n1" "900m"
-> +	_xfs_run_fio_verify_io "/dev/${nvmedev}n1"
->   
->   	_nvme_disconnect_subsys "${subsys_name}"
->   
-> diff --git a/tests/nvme/035 b/tests/nvme/035
-> index eb1024edddbf..8b485bc8e682 100755
-> --- a/tests/nvme/035
-> +++ b/tests/nvme/035
-> @@ -32,7 +32,7 @@ test_device() {
->   	port=$(_nvmet_passthru_target_setup "${subsys}")
->   	nsdev=$(_nvmet_passthru_target_connect "${nvme_trtype}" "${subsys}")
->   
-> -	_xfs_run_fio_verify_io "${nsdev}" "900m"
-> +	_xfs_run_fio_verify_io "${nsdev}"
->   
->   	_nvme_disconnect_subsys "${subsys}"
->   	_nvmet_passthru_target_cleanup "${port}" "${subsys}"
-
-Otherwise looks good.
+Wouldn't it be better to let _run_fio_rand_io pick the correct size?
 
 Cheers,
 
