@@ -4,84 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 400EDC7618E
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Apr 2023 06:39:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EFA83C77B75
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Apr 2023 06:41:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PtI5FsWIo7eS0MfsXeWP2DccH1Y9ik4GSJZ5dtRpXbM=; b=njU/PFBgINkFAVXgU1D/yPsFBP
-	+F/MVJUiTiVgRG1hhNlJtOoyLqlX1pPTiBLNBGi5HlHP2CyvX1HVgXKnP23k7nhjDsjTxCYBVkAad
-	FNqcaHXvpHR5zrA5DL1KXZcp2S7qGFnQB6Gz3dxNwGH9ainfXB4eJYYi+/qRfBIYRNMpznO6FWaBp
-	X4W/i2u38q5XLyuQv0BpR/SjIHdXrWfX8qqpd9oKVPy84Rm0dxPPDFlaRiTi8dIRcmIixzuhRzvYF
-	c2LDas/sgoeV4jipC7wxQXVX8QNxUQJ0Ks+2Mk+C7juhhW2xAMYGU850nLKJ7dpUzs9PfpXzsrUkI
-	QKdt855g==;
+	bh=BHeW4tyVf6oZPDGbJB4iNrMzQR3MDrxIFhpfg5MiMc0=; b=Chml6F1TDHBPRIHD4nMMxSdf/s
+	2shx/sFmrJPsViaEU5umEUmx7S1oH939iy3UXfCFNHuDHq2yl/dHLMs3kc0HMlVBsIKEVP2cpz+U7
+	9/oRnQdyxHeRP2UMi+6v7RuSFFZl0e/C4A2z1oTLya7JYoYXIF5sogI5aNGH8Xv9y65fA2MukpzzP
+	ZGb5RbOEa7Tl7wQdqOWMJF7bebr6ZdTIFvdCFZzagkCDZYL/hMpLHT/ulzFZrRfIg9ZV1zTEscgJl
+	T5ZoTLqv04rZ9ssgA/md67YQhauGyLte/e1o6UtA9/dmCjqRp7ArSvVR6gPR3Nz5V6OpuQNU/FG2A
+	lwknNmsg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1ppkQD-009r6w-13;
-	Fri, 21 Apr 2023 06:39:05 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1ppkS7-009rQz-17;
+	Fri, 21 Apr 2023 06:41:03 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1ppkQA-009r6J-0u
+	id 1ppkS5-009rQK-0x
 	for linux-nvme@lists.infradead.org;
-	Fri, 21 Apr 2023 06:39:03 +0000
+	Fri, 21 Apr 2023 06:41:02 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 052931FDDC;
-	Fri, 21 Apr 2023 06:39:01 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id AD42E1FDDD;
+	Fri, 21 Apr 2023 06:40:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1682059141; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1682059259; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PtI5FsWIo7eS0MfsXeWP2DccH1Y9ik4GSJZ5dtRpXbM=;
-	b=UcvZxfBYk144jFxyAF78oS1m2sQece6AviBda1qJyTTf76FX7EFgdPEQR3pNfsjP/nEYFY
-	nNA5sW5bI3Es85PuIqLiT4DWfvuEmq0F2Fpt2BX6dWLW1tO/YaXxgQns8VhTArSt8UDYM5
-	sc/VYE7YL5rhm7E7dP+Kt/bmb6ZNEwM=
+	bh=BHeW4tyVf6oZPDGbJB4iNrMzQR3MDrxIFhpfg5MiMc0=;
+	b=TI10JoXOCETKcLdoHwCSSmjUSD0s+KhCsOCKZWEm6aF9qey+mWIF7PMOjBIh2zAl2OlhDs
+	jQ83Fr0g9RFjL5FDBNw/1pixy4ZWNxOYBfn+albxGN52AzJZt4Sx0oG6p7stg1Nl+2S8Of
+	OLOT24pfa0+cqX/hkDaT/1Oi+mU9OrE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1682059141;
+	s=susede2_ed25519; t=1682059259;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PtI5FsWIo7eS0MfsXeWP2DccH1Y9ik4GSJZ5dtRpXbM=;
-	b=hmWTq2sQ1y/r8w9SBFihB7nL2/dvz5pjJ7E9iM1BVShCkv39DDwuHa1wkeR5GFC6jrTriU
-	oETECvkSU8hEKJDQ==
+	bh=BHeW4tyVf6oZPDGbJB4iNrMzQR3MDrxIFhpfg5MiMc0=;
+	b=rYxfHKWXWHAyca0XcV9vAzS406UfBt0IOFG2LpjbVeMsNApqsKd3vmbLMYI96v3uMn9DSw
+	0obmq5fULuLFc9BQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D5B1113456;
-	Fri, 21 Apr 2023 06:39:00 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 886E313456;
+	Fri, 21 Apr 2023 06:40:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id yzVWM4QvQmRhdQAAMHmgww
-	(envelope-from <hare@suse.de>); Fri, 21 Apr 2023 06:39:00 +0000
-Message-ID: <c5a5cf4b-ba96-1e55-26ac-d2da9ab7117d@suse.de>
-Date: Fri, 21 Apr 2023 08:38:59 +0200
+	id yKzjH/svQmRBdgAAMHmgww
+	(envelope-from <hare@suse.de>); Fri, 21 Apr 2023 06:40:59 +0000
+Message-ID: <23cd059e-c7d5-79ff-c95d-c156ed204a20@suse.de>
+Date: Fri, 21 Apr 2023 08:40:59 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.1
-Subject: Re: [PATCH REPOST blktests v2 9/9] nvme: Make the number iterations
- configurable
+Subject: Re: [PATCH REPOST blktests v2 1/9] nvme-rc: Auto convert test device
+ size info
 Content-Language: en-US
 To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
  Chaitanya Kulkarni <kch@nvidia.com>,
  Shin'ichiro Kawasaki <shinichiro@fastmail.com>
 References: <20230421060505.10132-1-dwagner@suse.de>
- <20230421060505.10132-10-dwagner@suse.de>
+ <20230421060505.10132-2-dwagner@suse.de>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20230421060505.10132-10-dwagner@suse.de>
+In-Reply-To: <20230421060505.10132-2-dwagner@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230420_233902_470866_8594A2C3 
-X-CRM114-Status: GOOD (  11.18  )
+X-CRM114-CacheID: sfid-20230420_234101_493893_85E59ADC 
+X-CRM114-Status: GOOD (  11.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,18 +96,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/21/23 08:05, Daniel Wagner wrote:
-> Some tests hard code high values of iterations. This makes them run
-> relatively long compared to the other tests. Introduce a new environment
-> variable nvme_num_iter to allow tune the runtime.
+On 4/21/23 08:04, Daniel Wagner wrote:
+> Introduce a convert_to_mb() helper which converts the size argument
+> to MBytes and use in test device require function. This makes it
+> possible to use user input strings in future.
 > 
 > Signed-off-by: Daniel Wagner <dwagner@suse.de>
 > ---
->   tests/nvme/002 | 2 +-
->   tests/nvme/016 | 2 +-
->   tests/nvme/017 | 2 +-
->   tests/nvme/rc  | 1 +
->   4 files changed, 4 insertions(+), 3 deletions(-)
+>   common/rc      | 30 +++++++++++++++++++++++++++---
+>   tests/nvme/035 |  2 +-
+>   2 files changed, 28 insertions(+), 4 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
