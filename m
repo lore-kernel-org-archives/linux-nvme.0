@@ -4,75 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 619DAC77B60
-	for <linux-nvme@archiver.kernel.org>; Sun, 23 Apr 2023 16:35:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ECF8AC77B76
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Apr 2023 05:09:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=stjSR68vrxUPsiM5fZXYriee4glo+LAkndAF9+ngUu8=; b=e4TgYr2VJR1Nb31fp9eA8TwrbY
-	x96O/vN1MIJ1nRLkAFCSGDWKJiEl24HBKhuUI6t8gQUp8SGqAimorr/S2B5EBhOzgZiK7c9XZQPVx
-	F5aewFsQpxAh5ZOFJ2OSia2G+AIzoEbtb4vY8pdMZgLr3RnGSXcZOPykK+dBOGx7vrt/WNSo05u4t
-	XSql/G1mVKsgP/3uiD9ZEDfQoYsqYtBIID158jtGyxuDajmRNghfYdlZiKqrZSBPOSfum/aA415Gg
-	rN8PZ1EVU/fwEi8zS2QJBwv8ElvQAGjWSkHm9T0eVhPJMw3IO2pt/uUz6HtbS2b20vJ9eMfRf7+YH
-	knCN628A==;
+	bh=P4No43ZKEl1utDQ4+hUc8IIQ8EmV6YA+zJppOylJESI=; b=zqnNqOlWUecfBYVgI3AMfVcH90
+	xSTeN8ZPTxN+fo8p/ipDOeFOvTNBlrCrIGoOEDBQA6qaVrXEl6gW8tEGtW6x6QgJFjYuf5cDPXpPr
+	5Z4d3tO4jNbRNs/GtsSpwTOTyZc+xB4GjHybMZwPpXs7FJF/Bog+JlH1g5p0WXWyJNYkLcq6Ja4AU
+	4bcgCgqNRmTts9g0RkBx8+f3iUWSRFB3iTl1z4eeIqEkrZ5FCA/La0lNG/1IjLhHh1u5G1744KqcO
+	YxkT7vo2wyi7b/YeFxKcmUT074z3RzrM1FTX3K0f95I7dl619wUk4FjXSmRI65W2JNPdKQNn2ocK3
+	6trGJ47w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pqcgS-00EVZn-0z;
-	Sun, 23 Apr 2023 16:35:28 +0000
-Received: from mga03.intel.com ([134.134.136.65])
+	id 1pqoRf-00FLFi-1x;
+	Mon, 24 Apr 2023 05:08:59 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pqcgP-00EVYf-0W
+	id 1pqoRc-00FLF0-2N
 	for linux-nvme@lists.infradead.org;
-	Sun, 23 Apr 2023 16:35:26 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682267725; x=1713803725;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OWz9rtPgJTTHL93sX+efb11H9SigKy4vznwwIU2qdhc=;
-  b=glqeLAZt2BYlfXWFFH4soSAzv/1h+YTdigsK2X3ULkExhbR8d6vivmK9
-   1b0X7IoTTTs9ibL06Sn4UvtpZJDPqAsxS67QoX5kPK6JwmexT1msLFDrp
-   k4AjxFOkH2RZ2GbWqJZoqyFi6dA7KAjAxTC9MqNOjh+FZ3FN8aSHricdY
-   5wqRtLTgqJKatVQj8YTAPg/UqkaqNZ1yFt6cj6H49r0MU8uNKhdebFz6h
-   5eeD45GH92WgVouz0f0JNUqtCiRVKYppTpdsq8e6zoZtZYKHJU/zA/t2B
-   l+R/0sjED3yyVz69q/OGFkh0QSp2lt9DWfnyTLEb+zuMi+Uuub+u4yyKk
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="349095263"
-X-IronPort-AV: E=Sophos;i="5.99,220,1677571200"; 
-   d="scan'208";a="349095263"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2023 09:35:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="686471140"
-X-IronPort-AV: E=Sophos;i="5.99,220,1677571200"; 
-   d="scan'208";a="686471140"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 23 Apr 2023 09:35:12 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pqcgC-000hyO-0H;
-	Sun, 23 Apr 2023 16:35:12 +0000
-Date: Mon, 24 Apr 2023 00:34:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Max Gurtovoy <mgurtovoy@nvidia.com>, martin.petersen@oracle.com,
-	hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, kbusch@kernel.org, axboe@kernel.dk,
-	linux-block@vger.kernel.org, oren@nvidia.com, oevron@nvidia.com,
-	israelr@nvidia.com, Max Gurtovoy <mgurtovoy@nvidia.com>
-Subject: Re: [PATCH v1 1/2] block: bio-integrity: export bio_integrity_free
- func
-Message-ID: <202304240037.LakzPMU9-lkp@intel.com>
-References: <20230423141330.40437-2-mgurtovoy@nvidia.com>
+	Mon, 24 Apr 2023 05:08:58 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id D845F67373; Mon, 24 Apr 2023 07:08:43 +0200 (CEST)
+Date: Mon, 24 Apr 2023 07:08:43 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Breno Leitao <leitao@debian.org>
+Cc: Christoph Hellwig <hch@lst.de>, io-uring@vger.kernel.org,
+	linux-nvme@lists.infradead.org, asml.silence@gmail.com,
+	axboe@kernel.dk, leit@fb.com, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, sagi@grimberg.me, kbusch@kernel.org,
+	ming.lei@redhat.com
+Subject: Re: [PATCH 1/2] io_uring: Pass whole sqe to commands
+Message-ID: <20230424050843.GA9252@lst.de>
+References: <20230419102930.2979231-1-leitao@debian.org> <20230419102930.2979231-2-leitao@debian.org> <20230420045712.GA4239@lst.de> <ZEKno++WWPauufw0@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230423141330.40437-2-mgurtovoy@nvidia.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZEKno++WWPauufw0@gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230423_093525_267643_BECFA532 
-X-CRM114-Status: GOOD (  11.26  )
+X-CRM114-CacheID: sfid-20230423_220856_943123_C6412A41 
+X-CRM114-Status: GOOD (  15.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,57 +63,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Max,
+On Fri, Apr 21, 2023 at 08:11:31AM -0700, Breno Leitao wrote:
+> On Thu, Apr 20, 2023 at 06:57:12AM +0200, Christoph Hellwig wrote:
+> > On Wed, Apr 19, 2023 at 03:29:29AM -0700, Breno Leitao wrote:
+> > >  	struct nvme_uring_cmd_pdu *pdu = nvme_uring_cmd_pdu(ioucmd);
+> > > -	const struct nvme_uring_cmd *cmd = ioucmd->cmd;
+> > > +	const struct nvme_uring_cmd *cmd = (struct nvme_uring_cmd *)ioucmd->sqe->cmd;
+> > 
+> > Please don't add the pointless cast.  And in general avoid the overly
+> > long lines.
+> 
+> If I don't add this cast, the compiler complains with the follow error:
+> 
+> 	drivers/nvme/host/ioctl.c: In function ‘nvme_uring_cmd_io’:
+> 	drivers/nvme/host/ioctl.c:555:37: error: initialization of ‘const struct nvme_uring_cmd *’ from incompatible pointer type ‘const __u8 *’ {aka ‘const unsigned char *’} [-Werror=incompatible-pointer-types]
+> 	  const struct nvme_uring_cmd *cmd = ioucmd->sqe->cmd;
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on axboe-block/for-next]
-[also build test ERROR on hch-configfs/for-next linus/master v6.3-rc7 next-20230421]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Max-Gurtovoy/block-bio-integrity-export-bio_integrity_free-func/20230423-222054
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20230423141330.40437-2-mgurtovoy%40nvidia.com
-patch subject: [PATCH v1 1/2] block: bio-integrity: export bio_integrity_free func
-config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20230424/202304240037.LakzPMU9-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/1459ddb310ef47b008de7669cc2c57e02edf4edb
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Max-Gurtovoy/block-bio-integrity-export-bio_integrity_free-func/20230423-222054
-        git checkout 1459ddb310ef47b008de7669cc2c57e02edf4edb
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash arch/powerpc/lib/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304240037.LakzPMU9-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/libnvdimm.h:14,
-                    from arch/powerpc/lib/pmem.c:9:
->> include/linux/bio.h:768:6: error: no previous prototype for 'bio_integrity_free' [-Werror=missing-prototypes]
-     768 | void bio_integrity_free(struct bio *bio)
-         |      ^~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-
-
-vim +/bio_integrity_free +768 include/linux/bio.h
-
-   767	
- > 768	void bio_integrity_free(struct bio *bio)
-   769	{
-   770	}
-   771	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Oh.  I think then we need a helper to get the private data from
+the io_uring_cmd as an interface that requires casts in all callers
+is one asking for bugs.
 
