@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F994C7618E
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Apr 2023 06:20:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58E57C7618E
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Apr 2023 07:19:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7Oc/dQm9V4QmVlQ+yHvyFuNUYsb0WYrwV7eVtNG2VHI=; b=aYS35mHRTVKwPxz8Org2nLJIQZ
-	OlGjqSaQKCysKjyNgRokEi9jvpfmrw2lm2hSMFlW6qEx5vDqunYLQr7wRuz3PJrj26AZj5Ee83ypj
-	fGyELODEM3F8WQOCSUdTGQ93hIfsgr4BNgiiePtYK1spypgpaFbsmjkWhT8CnaVMBpGsSlW2B+wL0
-	WGdtrFjqPnsRn4QsvoBB15VY1YNwDmnRgVqYLpu4L3gGE8bx2orazqrBIN44jQ5KKHpoPino8e+OU
-	GFWha9B6/6zO7HrOjUrnMHOrWaLNEDjgRESCkESf14HdaCyIzCFzRbQCnNkS18NbnZSyX3eJOv13F
-	jwT3I5sw==;
+	bh=fseJLh0s4wRO8NUaIPlXod9oMTQhV6Es9zj48ztLADg=; b=AY/szkgDZ08FCDlBuzBhMGoM+B
+	Oz8dUtcy4bnhrK+V0zf+yglHC1fDvlI1td5QDlil3w3u0chz8fQaw3kZA9zzUXY3Qwwer5F2iPZlT
+	K3k+8tvtumnAvVh1DZVH1ORNxvuPRmHXZ9JnNsZPIYA2oP+cad7apv4xEbrYIidYhC7ll0ynGG0j/
+	lj/V+9VSgCfSZfntZXJW3+n546vmMaXbH6KfCo6q3SaZi+Q9vyT6EweRU8vCn3hgiDCHKQGXet2HK
+	xUhKHsnovkqrYtgwI9SQRNR2RyJ7vaTJgJwE9xjz4rhxEqQ0af7XXEyueMuDkus+VXjc7b3x1BCTZ
+	t9oiPrKg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pqpZC-00FT4T-0v;
-	Mon, 24 Apr 2023 06:20:50 +0000
+	id 1pqqUD-00FYvD-1P;
+	Mon, 24 Apr 2023 07:19:45 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pqpZ8-00FT3z-2A
+	id 1pqqUA-00FYtN-1K
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Apr 2023 06:20:47 +0000
+	Mon, 24 Apr 2023 07:19:43 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 5D49968B05; Mon, 24 Apr 2023 08:20:41 +0200 (CEST)
-Date: Mon, 24 Apr 2023 08:20:41 +0200
+	id 52A536732D; Mon, 24 Apr 2023 09:19:37 +0200 (CEST)
+Date: Mon, 24 Apr 2023 09:19:37 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>, Max Gurtovoy <mgurtovoy@nvidia.com>,
-	martin.petersen@oracle.com, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, kbusch@kernel.org, axboe@kernel.dk,
-	linux-block@vger.kernel.org, oren@nvidia.com, oevron@nvidia.com,
-	israelr@nvidia.com
-Subject: Re: [PATCH v1 0/2] Fix failover to non integrity NVMe path
-Message-ID: <20230424062040.GA10281@lst.de>
-References: <20230423141330.40437-1-mgurtovoy@nvidia.com> <20230424051144.GA9288@lst.de> <5b7ca121-2b85-ddd0-d94b-1739cc5dcbec@suse.de>
+To: Breno Leitao <leitao@debian.org>
+Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	asml.silence@gmail.com, axboe@kernel.dk, leit@fb.com,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	sagi@grimberg.me, hch@lst.de, kbusch@kernel.org,
+	ming.lei@redhat.com
+Subject: Re: [PATCH v2 1/3] io_uring: Create a helper to return the SQE size
+Message-ID: <20230424071937.GA13287@lst.de>
+References: <20230421114440.3343473-1-leitao@debian.org> <20230421114440.3343473-2-leitao@debian.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5b7ca121-2b85-ddd0-d94b-1739cc5dcbec@suse.de>
+In-Reply-To: <20230421114440.3343473-2-leitao@debian.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230423_232046_876573_D855C77E 
-X-CRM114-Status: GOOD (  15.83  )
+X-CRM114-CacheID: sfid-20230424_001942_595703_1975E03E 
+X-CRM114-Status: GOOD (  10.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,19 +62,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Apr 24, 2023 at 08:10:59AM +0200, Hannes Reinecke wrote:
-> Yeah, I'm slightly unhappy with this whole setup.
-> If we were just doing DIF I guess the setup could work, but then we have to 
-> disable DIX (as we cannot support integrity data on the non-PI path).
-> But we would need an additional patch to disable DIX functionality in those 
-> cases.
+On Fri, Apr 21, 2023 at 04:44:38AM -0700, Breno Leitao wrote:
+> +#define uring_sqe_size(ctx) \
+> +	((1 + !!(ctx->flags & IORING_SETUP_SQE128)) * sizeof(struct io_uring_sqe))
 
-NVMeoF only supports inline integrity data, the remapping from out of
-line integrity data is always done by the HCA for NVMe over RDMA,
-and integrity data is not supported without that.
+Please turn this into an actually readable inline function:
 
-Because of that I can't see how we could sensibly support one path with
-integrity offload and one without.  And yes, it might make sense to
-offer a way to explicitly disable integrity support to allow forming such
-a multipath setup.
+/*
+ * IORING_SETUP_SQE128 contexts allocate twice the normal SQE size for each
+ * slot.
+ */
+static inline size_t uring_sqe_size(struct io_ring_ctx *ctx)
+{
+	if (ctx->flags & IORING_SETUP_SQE128)
+		return 2 * sizeof(struct io_uring_sqe);
+	return sizeof(struct io_uring_sqe);
+}
 
