@@ -4,138 +4,109 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95A58C7618E
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Apr 2023 09:17:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF7A4C77B61
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Apr 2023 13:03:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4Ijw3juk4YmBbaxblSKDIyd9EK10D+kcIJZQrcAd9NA=; b=Mdr4h0kPF0LGCEu9b1MDWV3Xb6
-	UItrQb8i4JmCoMdfwiOrYfjOYp7528gJmtEIf051a/vUJdKMfrDeJGZz4F6dDOU/u+C9ZE+7bpWNY
-	SzSKqLKa6xlZ/1TExzCRu3rLmgiXV3M81UWmROb2X5HuA1KeDRWzwCiLA5Nk3Dv9Gn3sRlbGzuJlv
-	byOQIO1FIS9zEF301pS4hEmLQs5QVuBD8567irtTJ8CSGiLvjLQwtqNqGwDpJKqGYZFKIJrkm+H5k
-	IXgAgQ7DF6UUz5HQUaHl5eiDBVYBKu5CQp/UPrn9jh+K+lOYkevyRFUN5L3hj0X8uijHoMGFBTgP4
-	/cSL2YOw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=zpEQry/HJ05iZlZBCnilJNCJeb8OCfgK3erGU75N6bE=; b=pjhfdVvWrqVneIuH8/3+PpFfrq
+	ja33ZiJi7K+ivthMtcWC6DXaBY12nn7PQBv7plv6fkkutpbsDvJKsPLQX0KbeDZj3iTh9bVoBLI+3
+	Gy0bLkd8IUShQbKHqizeZahBXBMct//qF4nhLI7k2wLZtICGkCvOqxHkuXjcZ5YCubbSp3LgVxh+j
+	YeQr7HtUDAHzsOaTTHXCxZJmkdN4L7TeOgr+HM+z6LmeMwS5EHDO/x0RG07LinUDmXPyufdFHrJF3
+	QFF5c/kAW6NU2wNY9gM07FyL+yoWXpIlkhS7xEqwoTU/XQZCPu3PKgwWbRn+ZVrOFIrE9L4oLKyw2
+	TKGA4mwg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pqsKS-00FlbS-0h;
-	Mon, 24 Apr 2023 09:17:48 +0000
-Received: from mail-dm6nam11on20621.outbound.protection.outlook.com ([2a01:111:f400:7eaa::621] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+	id 1pqvrC-00GNWc-0c;
+	Mon, 24 Apr 2023 13:03:50 +0000
+Received: from mail-dm6nam12on20617.outbound.protection.outlook.com ([2a01:111:f400:fe59::617] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pqsKO-00Flah-2x
+	id 1pqvr6-00GNVS-1E
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Apr 2023 09:17:46 +0000
+	Mon, 24 Apr 2023 13:03:48 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XQA12L6w02vk8sD/GyV8fbFZxunJFkmSU5CHW/arY2+AjptgYo7I7KCaJqGT046KKd2ij+nZCMXbEEcOnDP8zrbrlfjKRfFpxdvqy5+f4vVYPXOHdKcvM1kI2n7mjvoAU1OcJKY8o1oXd0Uh2OAiyylAPlMtbiN/FDut+mZbpcTsAozZBj+/V8RWKeDJJcAEA+j4VVxdeXpFheX5dekvE3pgkvadaHSESkT5ztfpjz8u7+6bPswVcturNNMoxi0k0UUUt6H0I1bV7BzVedGw6xO0ImD7V4n8kEh0CkCyCiywoyHPSLqma6qyd8AfEL7iQwzvxmL2or/yMqjE5p6MGQ==
+ b=L/a4mrkqcqbIWn2wUfdCgZp4tdHga2deyVlhqMQlhbb0bW8+b2KpHCioG+p8+JX2nMH+8HK1E3UVdpGymvj2MqJeu3N4nVxenXOo1bnUNZ2KBVgkuvMjlYGNXrQ7Bf896UEpTlWLAHGHffIxA4NztX7uG+Rm3yJhqyvrd5GkqJjrya94pKtuGGM0m2Bb2yP7UETAg44kVQXs5PyuzydguRnkdvfMKv9IBgnjioZI29QJjhIqchn6ihojdu/9TpSCOVYhhmKwuxpA9q0ftdVXxeUHQyhsVN3Vkl97hCAopc4I1YJ6N+8kO4P1bmxi/65CSShyPMjQ3PAnFT1vvq5Mmg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4Ijw3juk4YmBbaxblSKDIyd9EK10D+kcIJZQrcAd9NA=;
- b=ItJWvU5jkZlwIOsppt+74v0kpGcDcWwUdFWjsxj247bEM7wrtakKqtmOMYFzRPZdhK5sI3oRXFLZt1kRSP2hMt7LAuxV52L8J4u0iVnjeGV3C6faSr1S20kDKo93v/m/cWLQ3Om7FXsyc5rKk2EM+n3iEW0Li7jEuiWmJOXM5yh7aCRcLguk6ih0DIcODWLSxGyTupUGD7d3cnPqW2tfMGJR05dO9K3fMz9SjHlrEUlfvE0rT0fwrCrzAD0ZBMBwSgHgBdM6BFuxqZRF8xhYFjH6VJL7iRudKlb1aYhHwRDoDydQJi3ey6mTlAUgoG+BbPaghC2WjOXMYgVKG6j9jA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
+ bh=zpEQry/HJ05iZlZBCnilJNCJeb8OCfgK3erGU75N6bE=;
+ b=LHeMe1kT3mnCPfWt8X2K++wUIcJAKQAaTHiACQPqTAUJ7aD2M/ZSGBuX49AbGLdeE09cCWo3fyFjRJ7Tr52fixsmkkWACrnOkMTYVeOvkVDzWbCF8GbWfxRXD4ZOKl/Q13G6Q2/p9InpZxmSCpF6uNH8/VSqN7tI2Uj5iTOTt/y9iBu5/IMZQarGMeULbnLdyjPjBYR/XooYxo/wjCG+WOT9Vf/im/azGxjDhCU9g+hH/QN7OQseTCAkg1atPaOqlQmx+GG8FowkDo1Wak4ITxZw41ROjZIEY2NmS9p5YXnXsnciFuja7PDXP7ZViGnkWxoFI+sxVKeNr+4kLx/BBQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=lst.de smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4Ijw3juk4YmBbaxblSKDIyd9EK10D+kcIJZQrcAd9NA=;
- b=AgoGaG4GS+SEkF/ewQgMJID9vvH9iEeULVpC/m+i0yBjPai7U4TGBhyZnun1DKIzAUK/Bvjm/JM67P53+eHD+azXLn+LQtCdWLYM6jWPThLRGyWKSE8C72g2HicoI3WUyPrw/M6FvEo0DLIfflvhxEkfzT+NQF++cXJhlTMZEiQuRLl2Bkxr/N1Jwbvi1uewHPpEOucgzyuTz9njpZX9VCOQckgM6sMq9r4qm0VcRLS6f0KbkEsPxWDkThDFH5Pg8IzjL0nwbLC28x1sWvs/kieATnnPoKkRzX7eC4sY52/KZA4o3eyQ5ISFSXnCnvwdo8hfEv67tu1hmyijSTeQEA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
- by SA1PR12MB7174.namprd12.prod.outlook.com (2603:10b6:806:2b1::22) with
+ bh=zpEQry/HJ05iZlZBCnilJNCJeb8OCfgK3erGU75N6bE=;
+ b=ZjckLuu5rZ7RdceotTsX/Vhts+4KbzW3TfuHlrIhOeOrCcd8x17oJCce1VKnw+/rjKnA4c70qC3twxSA9crsyUEwP2V3n5p45hhh0rEjfDwXeguFVpVmtCoSLBRmWgZpiMJquFpTeCSIFviVajmvXbvxk069x2HI4Z74iuZQQ7WTg4wGj5+wtmpwd8BiqQat6RKsUe7kLhfKdga/f7lqitKYGbGcAmffsP87Np3xloz8lCsMxQMWAhUHzRiaTo0KkzGfysPbfv/xntZP7A8wtecb/STD8Rj/BUHiitcQ1v9CHUlAIpTuWbDRpXGhCGOZdz+E1JuDxtnLJxbbFrjoYQ==
+Received: from DS7PR03CA0254.namprd03.prod.outlook.com (2603:10b6:5:3b3::19)
+ by IA1PR12MB6283.namprd12.prod.outlook.com (2603:10b6:208:3e5::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.35; Mon, 24 Apr
- 2023 09:17:40 +0000
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::61c3:1cd:90b6:c307]) by DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::61c3:1cd:90b6:c307%3]) with mapi id 15.20.6319.033; Mon, 24 Apr 2023
- 09:17:40 +0000
-Message-ID: <729e6964-78b6-cdf2-b7e9-0ea5562a10e2@nvidia.com>
-Date: Mon, 24 Apr 2023 12:17:32 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v1 0/2] Fix failover to non integrity NVMe path
-To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
- Hannes Reinecke <hare@suse.de>
-Cc: martin.petersen@oracle.com, linux-nvme@lists.infradead.org,
- kbusch@kernel.org, axboe@kernel.dk, linux-block@vger.kernel.org,
- oren@nvidia.com, oevron@nvidia.com, israelr@nvidia.com
-References: <20230423141330.40437-1-mgurtovoy@nvidia.com>
- <20230424051144.GA9288@lst.de> <5b7ca121-2b85-ddd0-d94b-1739cc5dcbec@suse.de>
- <20230424062040.GA10281@lst.de>
- <9b3da2c2-b158-ff4a-e7e3-62e49f366ac2@grimberg.me>
-Content-Language: en-US
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.33; Mon, 24 Apr
+ 2023 13:03:35 +0000
+Received: from DM6NAM11FT038.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:3b3:cafe::d9) by DS7PR03CA0254.outlook.office365.com
+ (2603:10b6:5:3b3::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.33 via Frontend
+ Transport; Mon, 24 Apr 2023 13:03:34 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ DM6NAM11FT038.mail.protection.outlook.com (10.13.173.137) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6340.19 via Frontend Transport; Mon, 24 Apr 2023 13:03:34 +0000
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Mon, 24 Apr 2023
+ 06:03:20 -0700
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail203.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Mon, 24 Apr
+ 2023 06:03:19 -0700
+Received: from r-arch-stor03.mtr.labs.mlnx (10.127.8.14) by mail.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server id 15.2.986.37 via Frontend
+ Transport; Mon, 24 Apr 2023 06:03:17 -0700
 From: Max Gurtovoy <mgurtovoy@nvidia.com>
-In-Reply-To: <9b3da2c2-b158-ff4a-e7e3-62e49f366ac2@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MRXP264CA0037.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:500:14::25) To DM4PR12MB5040.namprd12.prod.outlook.com
- (2603:10b6:5:38b::19)
+To: <hch@lst.de>, <sagi@grimberg.me>, <kbusch@kernel.org>,
+	<linux-nvme@lists.infradead.org>
+CC: <axboe@kernel.dk>, <oren@nvidia.com>, <israelr@nvidia.com>, Max Gurtovoy
+	<mgurtovoy@nvidia.com>
+Subject: [RFC PATCH 1/1] nvme: add a dedicated .c file for sysfs interface
+Date: Mon, 24 Apr 2023 16:03:16 +0300
+Message-ID: <20230424130316.25805-1-mgurtovoy@nvidia.com>
+X-Mailer: git-send-email 2.18.1
 MIME-Version: 1.0
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|SA1PR12MB7174:EE_
-X-MS-Office365-Filtering-Correlation-Id: e23ee406-7ef3-46f2-10b8-08db44a4c098
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT038:EE_|IA1PR12MB6283:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9ca762fd-3ef2-40d0-523c-08db44c44fd2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	Z73/bdcCueiPCuqiH5bW0fypeBC3yU+7piQs2qTsY5q01uZGULeMerpgAQ7OqDXoptnt2tdpU4Jkka65S5NdcwM/oJwVbXwX26rPRW4oney8bqFis1zL00Is8bGgo0MkPtam2lpJ/2h7wnL5jx3wN6tG4JBNqWC0djzvBiTB4T9dBeiBdzS1OBS2SsdoDZmjTPvowKkNSZQDWVsbxpoPaoxxnPzyofXIXPXctAftzy+mGKCa2a3yy6MlzTXvTN5AB4QCjnZx85uF+zQoOY4UyKFTiuBzb6pxBvMUO6fycQDH6JSiM2f3wq3IxCu5PT0NJBWf7CCsljspP0Fnu9tj5AJEOUmWjhR8CaTlEcyidbwCwLqXqRTGhPpgTb1lklNVXb7tPjs3/D4eEBnylHWraqsuvppz/DYPwPhVdRx7AZZoq1hzskKw2qWyILD7lhgtVN+kOKlTnZfsXxhvXVWg+83lyx4DTuuOf4MrryzklVfp5BNWN7U1VJzTp+BzTkPaRLPbj/NRnw1al9PSs45nL/2VleQ2j30mw++/5Cn/HXzuye2qFZH/KbWx9Z2XFpMi6B2Crx/Snp2j2lIQbsZcJe5cipVMD8JjsKDumuODbBDQ/Nvm9WSMYCIoyF0x1KTTvHkk/GBfbayBdWVJe8YT1A==
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(366004)(346002)(136003)(376002)(396003)(451199021)(31686004)(66556008)(66946007)(8676002)(5660300002)(66476007)(6506007)(478600001)(86362001)(41300700001)(4326008)(8936002)(6486002)(66899021)(53546011)(316002)(6512007)(31696002)(110136005)(6666004)(107886003)(186003)(2616005)(2906002)(36756003)(83380400001)(38100700002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?dXFJdkVLTEZnK0Fiak1kTUdweVB4UEZwb3lpVlc4SnlxYi9hZ2szSk5yV29i?=
- =?utf-8?B?RExQRk9WMFg3OHBOdmRtaHI2N0RJajlFUHpsNVgxS0VVOVRlZUttZ0xsdHBP?=
- =?utf-8?B?SVdwRjM4STIrSWVoTkhnNWJ3bjlQNVhLejd1QUZFRmYyNC95MGxCNnY1UG05?=
- =?utf-8?B?bW9BaG5YZ2J0UXR4K1JYMGU0ZE9IWGJoNTYrTUdYVXR4QU9GRmJRdXJENjFq?=
- =?utf-8?B?TEJYNllya3ZqQUtnRk5mU3E2cS9MUWoxYm1IQTVzUkhGaGxWWStsR0MvcHN5?=
- =?utf-8?B?WlVNSTFhdUhKOWpnMkFxc3FMcDdFUlFRSkxBd0w2TW9xU0p2UjdnNDRSSmdB?=
- =?utf-8?B?ZmhiMm4yTXhhaGZ2L2doOGk1aWhLNjlmR00zS0pHVTBGK2tzdHFTYlpOUTAx?=
- =?utf-8?B?OU91bGxKSTdVV1ZmMDRTd1YzVTQzWUY3cnVzWFY5NEhYZkJvUWMwQjArbkdQ?=
- =?utf-8?B?T0xHdzk0RFQvdXp0S0MwaXFEekNZTGEwbU9QcHlScTdPckMwOGZEUjFURU45?=
- =?utf-8?B?RGpZbHpPMGdvU3kzblJQRGtXVXRrVXdGRXg1THhQU3ExQ2g1Yk9tQ0FJSWZI?=
- =?utf-8?B?TVBsVTdxNStPQUJKQkt3bkQwdWpMR0dhRWlDTHVKYWJrUFoyTXRsM2Q0eWhp?=
- =?utf-8?B?b1QzMUUzY0lwVzQrSm80VGUwUS9hSFA4TWtzOWNHZWRBdmc3TjdObzdnUk8r?=
- =?utf-8?B?TXhHODJlS2djc0U1N1NMSEVlUUpVNUtZRHZUNUJYd25aS2ZKK3RNeWNCa2Qr?=
- =?utf-8?B?NXlRUFlpck5FeGlTTEJjN1NPbm9reiszMSsydXpUUlhBRE5xbDg1Q1ZEdWdj?=
- =?utf-8?B?MWVhVkk4RkRKWDdLcFVyNHErcHl6Y2hjMWU1NDZYNHZ6ekhUL3RSQjIyOXQw?=
- =?utf-8?B?cTU3bUNQQUZXWWJOaWNwdTVoTzBia1JvejVwdWdCZDByVjd5YjJHYTg3Q2R5?=
- =?utf-8?B?bFZaSVd2SklPMDF0R3ArQ3NhRmxiazhrVUFFZUxlU2tmVXhJaHdzQ0pnU2dZ?=
- =?utf-8?B?SE4zcEJxT2NlckFJUlQvZTNRQ0pUd3JjMldDRWpXMFY2NFpzMS9DMW94WThX?=
- =?utf-8?B?R3dzRFZTNUxnd2hPZitVSFVYaXNGUXJKMkdoeTA3b3psUkkzMzJrREhBMFdS?=
- =?utf-8?B?N3lvbGhpdy9EU0x4N1M2Qk9MNCtOVHcxWFQ2Mi9JUDdmYk94K3FFRXJLemFi?=
- =?utf-8?B?ZHlPMXRDZ3MvMU84RHNPd2ZtV3Z1T2NXUlVFN01zSTVCaXlua21EZXUvUTd3?=
- =?utf-8?B?a2Jpc1IyMnphS3pvUExYYVhFTk5WeVJrWitGdndCby8vU1lVMXBvZ1RRcjhZ?=
- =?utf-8?B?WkIvY1RscXU1NFZGN1YxMDVIYlREdmtybnd6RUYwSUdKcGozaEp4MmpyRnRX?=
- =?utf-8?B?d25KZzZPLzZwZU1vb0tXbkZESllodFRid1h5Q290R0hvL2tsUjBFb2VPd3J6?=
- =?utf-8?B?NW5xMjhsYjN4MWlxOG42NmlYaTMvLzZlcTJ2VGNEeW8rT1pHbnJCMTVKQ2Fv?=
- =?utf-8?B?dWE0SjJwa3Z3Ui9HOHBKQXVRb05JbGNmK2ppTGM2a1ppUkRoZ2d1UXhlK3Jr?=
- =?utf-8?B?WlR3ZzQyYkZMUDFHV1FCTlo4YXBTWlFENm92WGJWSzM0M3A2Q3krdjFTMkNk?=
- =?utf-8?B?VkZ6VE5aT1dSZlNPSU41cjVQbDBtb3dVOXpNSTBydkRPRUxFeGkzZFVzamwr?=
- =?utf-8?B?bDE0cVZJWkJmTDdnUG14VlNFZ2NSYjBnbDYwYm1Sdm9BVi9pcklDaHhCcDhh?=
- =?utf-8?B?ZmVKeDYrdlhGbVZNVUw3T2srcXFmNWtLOGdVRWx5bDdrU0ZoWXB5WXltVnh4?=
- =?utf-8?B?T1N3czY4VEpEem9nWU9uQllqbkNGWll1VEdTa3JFaVFjZ1h5bnMzODRERWlU?=
- =?utf-8?B?UGNLMVd1eGsxV0xzdVhhRHhaMjQ1TGFRSnVFV2oxTGxTUFduRFdSaXFVcnR3?=
- =?utf-8?B?aDl2SVc0VUpQcEdaMlVNcHZYNWViUzZTWCtNa0NPdDVTZnJkcE1KVXZqU1Yy?=
- =?utf-8?B?MWc5OUpRYXVqYktTUXI2aWVpQ09ZQW1xd2Yrbm81dEFSa093Snk4ZTc1SE9I?=
- =?utf-8?B?ZjcxK2wzaU93TnBrWG5iSkZNN1R6aStDNHgzelh2cC9CZ3J1aXZoRStGcFpq?=
- =?utf-8?B?dm5TQzR0dURnN0xJSk44SklzN1pUWFlBT2pGZFhNaE1NYlhnT3ZFTUxESTFx?=
- =?utf-8?Q?eh3ciJBuNy1gWAF02LMe3fXqCQMu+l2OPPynPk93+ASA?=
+X-Microsoft-Antispam-Message-Info: 	arKH8DG0OvHGMWg6MKM5FWvTZ9SjjpNrefxjp2JFYb3RRG2hcvZpXynFQ+u1C3LC0QJjDu5i61PiWhB2ni63/CnrKL+Sdvzxq7xh4ivNBH7/zS5TVUnSlQODtbackDUoMifMur4cO9pHwk0guE5x2TPskJ2AP5AOCCOlMmhbSy3hKNscFeIq+QcXfTMUoymOsx5JfsvSIe6j6f6n7xjPv18ow4EACO8fWm+0lQMWjGZHXeN5+nh3n8mCWV8i2/NSW644CUzw7D8XwqVnt3Lx5m37b2oEO1bZJoE1thzOqPs9xw3RzssEzpGIX13n59XMqVZHQgkEF4fzRi3yxecpW1Fl5NRmEwjgbHfary2NT4uaNWphMOVS3PhA7118Hy6wL+EKNZjr+BxnfhdlSpBGxO/Yox/RakjgZvEHUL3/XChXfQdWUlA7wp2iU0+sZ+swmfBomUmUEQ9XLw4SN4jb/7hy2cbbec+0Ur5ETS8vJWIeveGCWpFBn7vfAc+GgxK6VIqlIuZpUfC2exinuwdlHZYLeMmcKW4vrY+agAY0nSrXR9n1vsjZblRnWUihIe0kyAEWqkUrotqCuTRAUV9uDU3NChzTTskoZiXo1BbdrrR5qndjy8OI2DyMQzEk0Pj2K+ugRcLar38t+nAfgd57iTVe5P4I0CshnAAGcCe4D+gzl4KzROTEUBnnX+yiTkWZPygQ5cyohtxOc7hPYSGkb1rrRHZ60he3AcIb60m79AhED6VHLkuh1J5aKB+qUhlZ
+X-Forefront-Antispam-Report: 	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(376002)(39860400002)(396003)(346002)(136003)(451199021)(40470700004)(36840700001)(46966006)(2906002)(30864003)(40460700003)(356005)(41300700001)(7636003)(5660300002)(8676002)(8936002)(36756003)(82310400005)(86362001)(40480700001)(1076003)(26005)(107886003)(54906003)(34020700004)(478600001)(36860700001)(2616005)(83380400001)(47076005)(336012)(426003)(186003)(4326008)(82740400003)(316002)(70586007)(70206006)(110136005)(142923001)(579004);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e23ee406-7ef3-46f2-10b8-08db44a4c098
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2023 09:17:40.2029
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2023 13:03:34.5113
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ca762fd-3ef2-40d0-523c-08db44c44fd2
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /re+agv8IqDtt4sYHKX9Z7dNdY05LcCYYaplDEJKa+YXJ3lXEZ4TalLb0QKC5D2l7lL0gmtuWwGHZ4JnGC8krw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7174
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: 	DM6NAM11FT038.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6283
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230424_021745_001877_E9DB058B 
-X-CRM114-Status: GOOD (  15.54  )
+X-CRM114-CacheID: sfid-20230424_060344_519764_BF53FAB8 
+X-CRM114-Status: GOOD (  19.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,45 +121,1402 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+The core.c file became long and hard to maintain. Create a dedicated
+file to centralize the sysfs functionality. This is a common practice to
+separate sysfs/configfs related logic from the main driver logic .c file.
+For example, in the nvmet module the configfs interface has its own
+dedicated file.
 
+Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+---
 
-On 24/04/2023 11:53, Sagi Grimberg wrote:
-> 
->>> Yeah, I'm slightly unhappy with this whole setup.
->>> If we were just doing DIF I guess the setup could work, but then we 
->>> have to
->>> disable DIX (as we cannot support integrity data on the non-PI path).
->>> But we would need an additional patch to disable DIX functionality in 
->>> those
->>> cases.
->>
->> NVMeoF only supports inline integrity data, the remapping from out of
->> line integrity data is always done by the HCA for NVMe over RDMA,
->> and integrity data is not supported without that.
->>
->> Because of that I can't see how we could sensibly support one path with
->> integrity offload and one without.  And yes, it might make sense to
->> offer a way to explicitly disable integrity support to allow forming such
->> a multipath setup.
-> 
-> I agree. I didn't read through the change log well enough, I thought
-> that one path is DIF and the other is DIX.
-> 
-> I agree that we should not permit such a configuration.
+I have introduced this patch as RFC to get more opinions from
+maintainers if they also think this can help with maintaining and
+extending the core code in the future.
 
-I'm not yet convinced why not to permit it.
-The spec allows this to happen and I can think about scenarios that 
-users will want this kind of configuration.
+---
+ drivers/nvme/host/Makefile |   2 +-
+ drivers/nvme/host/core.c   | 650 +-----------------------------------
+ drivers/nvme/host/nvme.h   |   4 +
+ drivers/nvme/host/sysfs.c  | 657 +++++++++++++++++++++++++++++++++++++
+ 4 files changed, 664 insertions(+), 649 deletions(-)
+ create mode 100644 drivers/nvme/host/sysfs.c
 
-We also support it today (with the exception on this bug).
-There is a special PRACT bit in the spec that asks the controller to 
-take action upon each R/W IO request.
-
-The Multipath is not related to md IMO. One path can generate/verify md 
-and other can raise PRACT bit.
-
-You can also create 2 paths from different hosts to same target and one 
-will have ConnectX-5 and other ConnectX-3. The fact that these path are 
-from the same host is not so important IMO.
+diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
+index e27202d22c7d..d3fc5063e4be 100644
+--- a/drivers/nvme/host/Makefile
++++ b/drivers/nvme/host/Makefile
+@@ -10,7 +10,7 @@ obj-$(CONFIG_NVME_FC)			+= nvme-fc.o
+ obj-$(CONFIG_NVME_TCP)			+= nvme-tcp.o
+ obj-$(CONFIG_NVME_APPLE)		+= nvme-apple.o
+ 
+-nvme-core-y				+= core.o ioctl.o
++nvme-core-y				+= core.o ioctl.o sysfs.o
+ nvme-core-$(CONFIG_NVME_VERBOSE_ERRORS)	+= constants.o
+ nvme-core-$(CONFIG_TRACING)		+= trace.o
+ nvme-core-$(CONFIG_NVME_MULTIPATH)	+= multipath.o
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d6a9bac91a4c..4811e465b31e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -237,7 +237,7 @@ int nvme_delete_ctrl(struct nvme_ctrl *ctrl)
+ }
+ EXPORT_SYMBOL_GPL(nvme_delete_ctrl);
+ 
+-static void nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl)
++void nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl)
+ {
+ 	/*
+ 	 * Keep a reference until nvme_do_delete_ctrl() complete,
+@@ -2256,7 +2256,7 @@ static int nvme_report_zones(struct gendisk *disk, sector_t sector,
+ #define nvme_report_zones	NULL
+ #endif /* CONFIG_BLK_DEV_ZONED */
+ 
+-static const struct block_device_operations nvme_bdev_ops = {
++const struct block_device_operations nvme_bdev_ops = {
+ 	.owner		= THIS_MODULE,
+ 	.ioctl		= nvme_ioctl,
+ 	.compat_ioctl	= blkdev_compat_ptr_ioctl,
+@@ -2791,75 +2791,6 @@ static struct nvme_subsystem *__nvme_find_get_subsystem(const char *subsysnqn)
+ 	return NULL;
+ }
+ 
+-#define SUBSYS_ATTR_RO(_name, _mode, _show)			\
+-	struct device_attribute subsys_attr_##_name = \
+-		__ATTR(_name, _mode, _show, NULL)
+-
+-static ssize_t nvme_subsys_show_nqn(struct device *dev,
+-				    struct device_attribute *attr,
+-				    char *buf)
+-{
+-	struct nvme_subsystem *subsys =
+-		container_of(dev, struct nvme_subsystem, dev);
+-
+-	return sysfs_emit(buf, "%s\n", subsys->subnqn);
+-}
+-static SUBSYS_ATTR_RO(subsysnqn, S_IRUGO, nvme_subsys_show_nqn);
+-
+-static ssize_t nvme_subsys_show_type(struct device *dev,
+-				    struct device_attribute *attr,
+-				    char *buf)
+-{
+-	struct nvme_subsystem *subsys =
+-		container_of(dev, struct nvme_subsystem, dev);
+-
+-	switch (subsys->subtype) {
+-	case NVME_NQN_DISC:
+-		return sysfs_emit(buf, "discovery\n");
+-	case NVME_NQN_NVME:
+-		return sysfs_emit(buf, "nvm\n");
+-	default:
+-		return sysfs_emit(buf, "reserved\n");
+-	}
+-}
+-static SUBSYS_ATTR_RO(subsystype, S_IRUGO, nvme_subsys_show_type);
+-
+-#define nvme_subsys_show_str_function(field)				\
+-static ssize_t subsys_##field##_show(struct device *dev,		\
+-			    struct device_attribute *attr, char *buf)	\
+-{									\
+-	struct nvme_subsystem *subsys =					\
+-		container_of(dev, struct nvme_subsystem, dev);		\
+-	return sysfs_emit(buf, "%.*s\n",				\
+-			   (int)sizeof(subsys->field), subsys->field);	\
+-}									\
+-static SUBSYS_ATTR_RO(field, S_IRUGO, subsys_##field##_show);
+-
+-nvme_subsys_show_str_function(model);
+-nvme_subsys_show_str_function(serial);
+-nvme_subsys_show_str_function(firmware_rev);
+-
+-static struct attribute *nvme_subsys_attrs[] = {
+-	&subsys_attr_model.attr,
+-	&subsys_attr_serial.attr,
+-	&subsys_attr_firmware_rev.attr,
+-	&subsys_attr_subsysnqn.attr,
+-	&subsys_attr_subsystype.attr,
+-#ifdef CONFIG_NVME_MULTIPATH
+-	&subsys_attr_iopolicy.attr,
+-#endif
+-	NULL,
+-};
+-
+-static const struct attribute_group nvme_subsys_attrs_group = {
+-	.attrs = nvme_subsys_attrs,
+-};
+-
+-static const struct attribute_group *nvme_subsys_attrs_groups[] = {
+-	&nvme_subsys_attrs_group,
+-	NULL,
+-};
+-
+ static inline bool nvme_discovery_ctrl(struct nvme_ctrl *ctrl)
+ {
+ 	return ctrl->opts && ctrl->opts->discovery_nqn;
+@@ -3393,583 +3324,6 @@ static const struct file_operations nvme_dev_fops = {
+ 	.uring_cmd	= nvme_dev_uring_cmd,
+ };
+ 
+-static ssize_t nvme_sysfs_reset(struct device *dev,
+-				struct device_attribute *attr, const char *buf,
+-				size_t count)
+-{
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-	int ret;
+-
+-	ret = nvme_reset_ctrl_sync(ctrl);
+-	if (ret < 0)
+-		return ret;
+-	return count;
+-}
+-static DEVICE_ATTR(reset_controller, S_IWUSR, NULL, nvme_sysfs_reset);
+-
+-static ssize_t nvme_sysfs_rescan(struct device *dev,
+-				struct device_attribute *attr, const char *buf,
+-				size_t count)
+-{
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-
+-	nvme_queue_scan(ctrl);
+-	return count;
+-}
+-static DEVICE_ATTR(rescan_controller, S_IWUSR, NULL, nvme_sysfs_rescan);
+-
+-static inline struct nvme_ns_head *dev_to_ns_head(struct device *dev)
+-{
+-	struct gendisk *disk = dev_to_disk(dev);
+-
+-	if (disk->fops == &nvme_bdev_ops)
+-		return nvme_get_ns_from_dev(dev)->head;
+-	else
+-		return disk->private_data;
+-}
+-
+-static ssize_t wwid_show(struct device *dev, struct device_attribute *attr,
+-		char *buf)
+-{
+-	struct nvme_ns_head *head = dev_to_ns_head(dev);
+-	struct nvme_ns_ids *ids = &head->ids;
+-	struct nvme_subsystem *subsys = head->subsys;
+-	int serial_len = sizeof(subsys->serial);
+-	int model_len = sizeof(subsys->model);
+-
+-	if (!uuid_is_null(&ids->uuid))
+-		return sysfs_emit(buf, "uuid.%pU\n", &ids->uuid);
+-
+-	if (memchr_inv(ids->nguid, 0, sizeof(ids->nguid)))
+-		return sysfs_emit(buf, "eui.%16phN\n", ids->nguid);
+-
+-	if (memchr_inv(ids->eui64, 0, sizeof(ids->eui64)))
+-		return sysfs_emit(buf, "eui.%8phN\n", ids->eui64);
+-
+-	while (serial_len > 0 && (subsys->serial[serial_len - 1] == ' ' ||
+-				  subsys->serial[serial_len - 1] == '\0'))
+-		serial_len--;
+-	while (model_len > 0 && (subsys->model[model_len - 1] == ' ' ||
+-				 subsys->model[model_len - 1] == '\0'))
+-		model_len--;
+-
+-	return sysfs_emit(buf, "nvme.%04x-%*phN-%*phN-%08x\n", subsys->vendor_id,
+-		serial_len, subsys->serial, model_len, subsys->model,
+-		head->ns_id);
+-}
+-static DEVICE_ATTR_RO(wwid);
+-
+-static ssize_t nguid_show(struct device *dev, struct device_attribute *attr,
+-		char *buf)
+-{
+-	return sysfs_emit(buf, "%pU\n", dev_to_ns_head(dev)->ids.nguid);
+-}
+-static DEVICE_ATTR_RO(nguid);
+-
+-static ssize_t uuid_show(struct device *dev, struct device_attribute *attr,
+-		char *buf)
+-{
+-	struct nvme_ns_ids *ids = &dev_to_ns_head(dev)->ids;
+-
+-	/* For backward compatibility expose the NGUID to userspace if
+-	 * we have no UUID set
+-	 */
+-	if (uuid_is_null(&ids->uuid)) {
+-		dev_warn_ratelimited(dev,
+-			"No UUID available providing old NGUID\n");
+-		return sysfs_emit(buf, "%pU\n", ids->nguid);
+-	}
+-	return sysfs_emit(buf, "%pU\n", &ids->uuid);
+-}
+-static DEVICE_ATTR_RO(uuid);
+-
+-static ssize_t eui_show(struct device *dev, struct device_attribute *attr,
+-		char *buf)
+-{
+-	return sysfs_emit(buf, "%8ph\n", dev_to_ns_head(dev)->ids.eui64);
+-}
+-static DEVICE_ATTR_RO(eui);
+-
+-static ssize_t nsid_show(struct device *dev, struct device_attribute *attr,
+-		char *buf)
+-{
+-	return sysfs_emit(buf, "%d\n", dev_to_ns_head(dev)->ns_id);
+-}
+-static DEVICE_ATTR_RO(nsid);
+-
+-static struct attribute *nvme_ns_id_attrs[] = {
+-	&dev_attr_wwid.attr,
+-	&dev_attr_uuid.attr,
+-	&dev_attr_nguid.attr,
+-	&dev_attr_eui.attr,
+-	&dev_attr_nsid.attr,
+-#ifdef CONFIG_NVME_MULTIPATH
+-	&dev_attr_ana_grpid.attr,
+-	&dev_attr_ana_state.attr,
+-#endif
+-	NULL,
+-};
+-
+-static umode_t nvme_ns_id_attrs_are_visible(struct kobject *kobj,
+-		struct attribute *a, int n)
+-{
+-	struct device *dev = container_of(kobj, struct device, kobj);
+-	struct nvme_ns_ids *ids = &dev_to_ns_head(dev)->ids;
+-
+-	if (a == &dev_attr_uuid.attr) {
+-		if (uuid_is_null(&ids->uuid) &&
+-		    !memchr_inv(ids->nguid, 0, sizeof(ids->nguid)))
+-			return 0;
+-	}
+-	if (a == &dev_attr_nguid.attr) {
+-		if (!memchr_inv(ids->nguid, 0, sizeof(ids->nguid)))
+-			return 0;
+-	}
+-	if (a == &dev_attr_eui.attr) {
+-		if (!memchr_inv(ids->eui64, 0, sizeof(ids->eui64)))
+-			return 0;
+-	}
+-#ifdef CONFIG_NVME_MULTIPATH
+-	if (a == &dev_attr_ana_grpid.attr || a == &dev_attr_ana_state.attr) {
+-		if (dev_to_disk(dev)->fops != &nvme_bdev_ops) /* per-path attr */
+-			return 0;
+-		if (!nvme_ctrl_use_ana(nvme_get_ns_from_dev(dev)->ctrl))
+-			return 0;
+-	}
+-#endif
+-	return a->mode;
+-}
+-
+-static const struct attribute_group nvme_ns_id_attr_group = {
+-	.attrs		= nvme_ns_id_attrs,
+-	.is_visible	= nvme_ns_id_attrs_are_visible,
+-};
+-
+-const struct attribute_group *nvme_ns_id_attr_groups[] = {
+-	&nvme_ns_id_attr_group,
+-	NULL,
+-};
+-
+-#define nvme_show_str_function(field)						\
+-static ssize_t  field##_show(struct device *dev,				\
+-			    struct device_attribute *attr, char *buf)		\
+-{										\
+-        struct nvme_ctrl *ctrl = dev_get_drvdata(dev);				\
+-        return sysfs_emit(buf, "%.*s\n",					\
+-		(int)sizeof(ctrl->subsys->field), ctrl->subsys->field);		\
+-}										\
+-static DEVICE_ATTR(field, S_IRUGO, field##_show, NULL);
+-
+-nvme_show_str_function(model);
+-nvme_show_str_function(serial);
+-nvme_show_str_function(firmware_rev);
+-
+-#define nvme_show_int_function(field)						\
+-static ssize_t  field##_show(struct device *dev,				\
+-			    struct device_attribute *attr, char *buf)		\
+-{										\
+-        struct nvme_ctrl *ctrl = dev_get_drvdata(dev);				\
+-        return sysfs_emit(buf, "%d\n", ctrl->field);				\
+-}										\
+-static DEVICE_ATTR(field, S_IRUGO, field##_show, NULL);
+-
+-nvme_show_int_function(cntlid);
+-nvme_show_int_function(numa_node);
+-nvme_show_int_function(queue_count);
+-nvme_show_int_function(sqsize);
+-nvme_show_int_function(kato);
+-
+-static ssize_t nvme_sysfs_delete(struct device *dev,
+-				struct device_attribute *attr, const char *buf,
+-				size_t count)
+-{
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-
+-	if (device_remove_file_self(dev, attr))
+-		nvme_delete_ctrl_sync(ctrl);
+-	return count;
+-}
+-static DEVICE_ATTR(delete_controller, S_IWUSR, NULL, nvme_sysfs_delete);
+-
+-static ssize_t nvme_sysfs_show_transport(struct device *dev,
+-					 struct device_attribute *attr,
+-					 char *buf)
+-{
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-
+-	return sysfs_emit(buf, "%s\n", ctrl->ops->name);
+-}
+-static DEVICE_ATTR(transport, S_IRUGO, nvme_sysfs_show_transport, NULL);
+-
+-static ssize_t nvme_sysfs_show_state(struct device *dev,
+-				     struct device_attribute *attr,
+-				     char *buf)
+-{
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-	static const char *const state_name[] = {
+-		[NVME_CTRL_NEW]		= "new",
+-		[NVME_CTRL_LIVE]	= "live",
+-		[NVME_CTRL_RESETTING]	= "resetting",
+-		[NVME_CTRL_CONNECTING]	= "connecting",
+-		[NVME_CTRL_DELETING]	= "deleting",
+-		[NVME_CTRL_DELETING_NOIO]= "deleting (no IO)",
+-		[NVME_CTRL_DEAD]	= "dead",
+-	};
+-
+-	if ((unsigned)ctrl->state < ARRAY_SIZE(state_name) &&
+-	    state_name[ctrl->state])
+-		return sysfs_emit(buf, "%s\n", state_name[ctrl->state]);
+-
+-	return sysfs_emit(buf, "unknown state\n");
+-}
+-
+-static DEVICE_ATTR(state, S_IRUGO, nvme_sysfs_show_state, NULL);
+-
+-static ssize_t nvme_sysfs_show_subsysnqn(struct device *dev,
+-					 struct device_attribute *attr,
+-					 char *buf)
+-{
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-
+-	return sysfs_emit(buf, "%s\n", ctrl->subsys->subnqn);
+-}
+-static DEVICE_ATTR(subsysnqn, S_IRUGO, nvme_sysfs_show_subsysnqn, NULL);
+-
+-static ssize_t nvme_sysfs_show_hostnqn(struct device *dev,
+-					struct device_attribute *attr,
+-					char *buf)
+-{
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-
+-	return sysfs_emit(buf, "%s\n", ctrl->opts->host->nqn);
+-}
+-static DEVICE_ATTR(hostnqn, S_IRUGO, nvme_sysfs_show_hostnqn, NULL);
+-
+-static ssize_t nvme_sysfs_show_hostid(struct device *dev,
+-					struct device_attribute *attr,
+-					char *buf)
+-{
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-
+-	return sysfs_emit(buf, "%pU\n", &ctrl->opts->host->id);
+-}
+-static DEVICE_ATTR(hostid, S_IRUGO, nvme_sysfs_show_hostid, NULL);
+-
+-static ssize_t nvme_sysfs_show_address(struct device *dev,
+-					 struct device_attribute *attr,
+-					 char *buf)
+-{
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-
+-	return ctrl->ops->get_address(ctrl, buf, PAGE_SIZE);
+-}
+-static DEVICE_ATTR(address, S_IRUGO, nvme_sysfs_show_address, NULL);
+-
+-static ssize_t nvme_ctrl_loss_tmo_show(struct device *dev,
+-		struct device_attribute *attr, char *buf)
+-{
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-	struct nvmf_ctrl_options *opts = ctrl->opts;
+-
+-	if (ctrl->opts->max_reconnects == -1)
+-		return sysfs_emit(buf, "off\n");
+-	return sysfs_emit(buf, "%d\n",
+-			  opts->max_reconnects * opts->reconnect_delay);
+-}
+-
+-static ssize_t nvme_ctrl_loss_tmo_store(struct device *dev,
+-		struct device_attribute *attr, const char *buf, size_t count)
+-{
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-	struct nvmf_ctrl_options *opts = ctrl->opts;
+-	int ctrl_loss_tmo, err;
+-
+-	err = kstrtoint(buf, 10, &ctrl_loss_tmo);
+-	if (err)
+-		return -EINVAL;
+-
+-	if (ctrl_loss_tmo < 0)
+-		opts->max_reconnects = -1;
+-	else
+-		opts->max_reconnects = DIV_ROUND_UP(ctrl_loss_tmo,
+-						opts->reconnect_delay);
+-	return count;
+-}
+-static DEVICE_ATTR(ctrl_loss_tmo, S_IRUGO | S_IWUSR,
+-	nvme_ctrl_loss_tmo_show, nvme_ctrl_loss_tmo_store);
+-
+-static ssize_t nvme_ctrl_reconnect_delay_show(struct device *dev,
+-		struct device_attribute *attr, char *buf)
+-{
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-
+-	if (ctrl->opts->reconnect_delay == -1)
+-		return sysfs_emit(buf, "off\n");
+-	return sysfs_emit(buf, "%d\n", ctrl->opts->reconnect_delay);
+-}
+-
+-static ssize_t nvme_ctrl_reconnect_delay_store(struct device *dev,
+-		struct device_attribute *attr, const char *buf, size_t count)
+-{
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-	unsigned int v;
+-	int err;
+-
+-	err = kstrtou32(buf, 10, &v);
+-	if (err)
+-		return err;
+-
+-	ctrl->opts->reconnect_delay = v;
+-	return count;
+-}
+-static DEVICE_ATTR(reconnect_delay, S_IRUGO | S_IWUSR,
+-	nvme_ctrl_reconnect_delay_show, nvme_ctrl_reconnect_delay_store);
+-
+-static ssize_t nvme_ctrl_fast_io_fail_tmo_show(struct device *dev,
+-		struct device_attribute *attr, char *buf)
+-{
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-
+-	if (ctrl->opts->fast_io_fail_tmo == -1)
+-		return sysfs_emit(buf, "off\n");
+-	return sysfs_emit(buf, "%d\n", ctrl->opts->fast_io_fail_tmo);
+-}
+-
+-static ssize_t nvme_ctrl_fast_io_fail_tmo_store(struct device *dev,
+-		struct device_attribute *attr, const char *buf, size_t count)
+-{
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-	struct nvmf_ctrl_options *opts = ctrl->opts;
+-	int fast_io_fail_tmo, err;
+-
+-	err = kstrtoint(buf, 10, &fast_io_fail_tmo);
+-	if (err)
+-		return -EINVAL;
+-
+-	if (fast_io_fail_tmo < 0)
+-		opts->fast_io_fail_tmo = -1;
+-	else
+-		opts->fast_io_fail_tmo = fast_io_fail_tmo;
+-	return count;
+-}
+-static DEVICE_ATTR(fast_io_fail_tmo, S_IRUGO | S_IWUSR,
+-	nvme_ctrl_fast_io_fail_tmo_show, nvme_ctrl_fast_io_fail_tmo_store);
+-
+-static ssize_t cntrltype_show(struct device *dev,
+-			      struct device_attribute *attr, char *buf)
+-{
+-	static const char * const type[] = {
+-		[NVME_CTRL_IO] = "io\n",
+-		[NVME_CTRL_DISC] = "discovery\n",
+-		[NVME_CTRL_ADMIN] = "admin\n",
+-	};
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-
+-	if (ctrl->cntrltype > NVME_CTRL_ADMIN || !type[ctrl->cntrltype])
+-		return sysfs_emit(buf, "reserved\n");
+-
+-	return sysfs_emit(buf, type[ctrl->cntrltype]);
+-}
+-static DEVICE_ATTR_RO(cntrltype);
+-
+-static ssize_t dctype_show(struct device *dev,
+-			   struct device_attribute *attr, char *buf)
+-{
+-	static const char * const type[] = {
+-		[NVME_DCTYPE_NOT_REPORTED] = "none\n",
+-		[NVME_DCTYPE_DDC] = "ddc\n",
+-		[NVME_DCTYPE_CDC] = "cdc\n",
+-	};
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-
+-	if (ctrl->dctype > NVME_DCTYPE_CDC || !type[ctrl->dctype])
+-		return sysfs_emit(buf, "reserved\n");
+-
+-	return sysfs_emit(buf, type[ctrl->dctype]);
+-}
+-static DEVICE_ATTR_RO(dctype);
+-
+-#ifdef CONFIG_NVME_AUTH
+-static ssize_t nvme_ctrl_dhchap_secret_show(struct device *dev,
+-		struct device_attribute *attr, char *buf)
+-{
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-	struct nvmf_ctrl_options *opts = ctrl->opts;
+-
+-	if (!opts->dhchap_secret)
+-		return sysfs_emit(buf, "none\n");
+-	return sysfs_emit(buf, "%s\n", opts->dhchap_secret);
+-}
+-
+-static ssize_t nvme_ctrl_dhchap_secret_store(struct device *dev,
+-		struct device_attribute *attr, const char *buf, size_t count)
+-{
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-	struct nvmf_ctrl_options *opts = ctrl->opts;
+-	char *dhchap_secret;
+-
+-	if (!ctrl->opts->dhchap_secret)
+-		return -EINVAL;
+-	if (count < 7)
+-		return -EINVAL;
+-	if (memcmp(buf, "DHHC-1:", 7))
+-		return -EINVAL;
+-
+-	dhchap_secret = kzalloc(count + 1, GFP_KERNEL);
+-	if (!dhchap_secret)
+-		return -ENOMEM;
+-	memcpy(dhchap_secret, buf, count);
+-	nvme_auth_stop(ctrl);
+-	if (strcmp(dhchap_secret, opts->dhchap_secret)) {
+-		struct nvme_dhchap_key *key, *host_key;
+-		int ret;
+-
+-		ret = nvme_auth_generate_key(dhchap_secret, &key);
+-		if (ret)
+-			return ret;
+-		kfree(opts->dhchap_secret);
+-		opts->dhchap_secret = dhchap_secret;
+-		host_key = ctrl->host_key;
+-		mutex_lock(&ctrl->dhchap_auth_mutex);
+-		ctrl->host_key = key;
+-		mutex_unlock(&ctrl->dhchap_auth_mutex);
+-		nvme_auth_free_key(host_key);
+-	}
+-	/* Start re-authentication */
+-	dev_info(ctrl->device, "re-authenticating controller\n");
+-	queue_work(nvme_wq, &ctrl->dhchap_auth_work);
+-
+-	return count;
+-}
+-static DEVICE_ATTR(dhchap_secret, S_IRUGO | S_IWUSR,
+-	nvme_ctrl_dhchap_secret_show, nvme_ctrl_dhchap_secret_store);
+-
+-static ssize_t nvme_ctrl_dhchap_ctrl_secret_show(struct device *dev,
+-		struct device_attribute *attr, char *buf)
+-{
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-	struct nvmf_ctrl_options *opts = ctrl->opts;
+-
+-	if (!opts->dhchap_ctrl_secret)
+-		return sysfs_emit(buf, "none\n");
+-	return sysfs_emit(buf, "%s\n", opts->dhchap_ctrl_secret);
+-}
+-
+-static ssize_t nvme_ctrl_dhchap_ctrl_secret_store(struct device *dev,
+-		struct device_attribute *attr, const char *buf, size_t count)
+-{
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-	struct nvmf_ctrl_options *opts = ctrl->opts;
+-	char *dhchap_secret;
+-
+-	if (!ctrl->opts->dhchap_ctrl_secret)
+-		return -EINVAL;
+-	if (count < 7)
+-		return -EINVAL;
+-	if (memcmp(buf, "DHHC-1:", 7))
+-		return -EINVAL;
+-
+-	dhchap_secret = kzalloc(count + 1, GFP_KERNEL);
+-	if (!dhchap_secret)
+-		return -ENOMEM;
+-	memcpy(dhchap_secret, buf, count);
+-	nvme_auth_stop(ctrl);
+-	if (strcmp(dhchap_secret, opts->dhchap_ctrl_secret)) {
+-		struct nvme_dhchap_key *key, *ctrl_key;
+-		int ret;
+-
+-		ret = nvme_auth_generate_key(dhchap_secret, &key);
+-		if (ret)
+-			return ret;
+-		kfree(opts->dhchap_ctrl_secret);
+-		opts->dhchap_ctrl_secret = dhchap_secret;
+-		ctrl_key = ctrl->ctrl_key;
+-		mutex_lock(&ctrl->dhchap_auth_mutex);
+-		ctrl->ctrl_key = key;
+-		mutex_unlock(&ctrl->dhchap_auth_mutex);
+-		nvme_auth_free_key(ctrl_key);
+-	}
+-	/* Start re-authentication */
+-	dev_info(ctrl->device, "re-authenticating controller\n");
+-	queue_work(nvme_wq, &ctrl->dhchap_auth_work);
+-
+-	return count;
+-}
+-static DEVICE_ATTR(dhchap_ctrl_secret, S_IRUGO | S_IWUSR,
+-	nvme_ctrl_dhchap_ctrl_secret_show, nvme_ctrl_dhchap_ctrl_secret_store);
+-#endif
+-
+-static struct attribute *nvme_dev_attrs[] = {
+-	&dev_attr_reset_controller.attr,
+-	&dev_attr_rescan_controller.attr,
+-	&dev_attr_model.attr,
+-	&dev_attr_serial.attr,
+-	&dev_attr_firmware_rev.attr,
+-	&dev_attr_cntlid.attr,
+-	&dev_attr_delete_controller.attr,
+-	&dev_attr_transport.attr,
+-	&dev_attr_subsysnqn.attr,
+-	&dev_attr_address.attr,
+-	&dev_attr_state.attr,
+-	&dev_attr_numa_node.attr,
+-	&dev_attr_queue_count.attr,
+-	&dev_attr_sqsize.attr,
+-	&dev_attr_hostnqn.attr,
+-	&dev_attr_hostid.attr,
+-	&dev_attr_ctrl_loss_tmo.attr,
+-	&dev_attr_reconnect_delay.attr,
+-	&dev_attr_fast_io_fail_tmo.attr,
+-	&dev_attr_kato.attr,
+-	&dev_attr_cntrltype.attr,
+-	&dev_attr_dctype.attr,
+-#ifdef CONFIG_NVME_AUTH
+-	&dev_attr_dhchap_secret.attr,
+-	&dev_attr_dhchap_ctrl_secret.attr,
+-#endif
+-	NULL
+-};
+-
+-static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
+-		struct attribute *a, int n)
+-{
+-	struct device *dev = container_of(kobj, struct device, kobj);
+-	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-
+-	if (a == &dev_attr_delete_controller.attr && !ctrl->ops->delete_ctrl)
+-		return 0;
+-	if (a == &dev_attr_address.attr && !ctrl->ops->get_address)
+-		return 0;
+-	if (a == &dev_attr_hostnqn.attr && !ctrl->opts)
+-		return 0;
+-	if (a == &dev_attr_hostid.attr && !ctrl->opts)
+-		return 0;
+-	if (a == &dev_attr_ctrl_loss_tmo.attr && !ctrl->opts)
+-		return 0;
+-	if (a == &dev_attr_reconnect_delay.attr && !ctrl->opts)
+-		return 0;
+-	if (a == &dev_attr_fast_io_fail_tmo.attr && !ctrl->opts)
+-		return 0;
+-#ifdef CONFIG_NVME_AUTH
+-	if (a == &dev_attr_dhchap_secret.attr && !ctrl->opts)
+-		return 0;
+-	if (a == &dev_attr_dhchap_ctrl_secret.attr && !ctrl->opts)
+-		return 0;
+-#endif
+-
+-	return a->mode;
+-}
+-
+-const struct attribute_group nvme_dev_attrs_group = {
+-	.attrs		= nvme_dev_attrs,
+-	.is_visible	= nvme_dev_attrs_are_visible,
+-};
+-EXPORT_SYMBOL_GPL(nvme_dev_attrs_group);
+-
+-static const struct attribute_group *nvme_dev_attr_groups[] = {
+-	&nvme_dev_attrs_group,
+-	NULL,
+-};
+-
+ static struct nvme_ns_head *nvme_find_ns_head(struct nvme_ctrl *ctrl,
+ 		unsigned nsid)
+ {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index bf46f122e9e1..f49a142e5013 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -860,7 +860,11 @@ extern const struct attribute_group *nvme_ns_id_attr_groups[];
+ extern const struct pr_ops nvme_pr_ops;
+ extern const struct block_device_operations nvme_ns_head_ops;
+ extern const struct attribute_group nvme_dev_attrs_group;
++extern const struct attribute_group *nvme_subsys_attrs_groups[];
++extern const struct attribute_group *nvme_dev_attr_groups[];
++extern const struct block_device_operations nvme_bdev_ops;
+ 
++void nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl);
+ struct nvme_ns *nvme_find_path(struct nvme_ns_head *head);
+ #ifdef CONFIG_NVME_MULTIPATH
+ static inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+new file mode 100644
+index 000000000000..8d2aabe2d290
+--- /dev/null
++++ b/drivers/nvme/host/sysfs.c
+@@ -0,0 +1,657 @@
++// SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
++/*
++ * Sysfs interface for the NVMe core driver.
++ *
++ * Copyright (c) 2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
++ *
++ * Copyright (c) 2011-2014, Intel Corporation.
++ */
++
++#include "nvme.h"
++#include "fabrics.h"
++
++static ssize_t nvme_sysfs_reset(struct device *dev,
++				struct device_attribute *attr, const char *buf,
++				size_t count)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++	int ret;
++
++	ret = nvme_reset_ctrl_sync(ctrl);
++	if (ret < 0)
++		return ret;
++	return count;
++}
++static DEVICE_ATTR(reset_controller, S_IWUSR, NULL, nvme_sysfs_reset);
++
++static ssize_t nvme_sysfs_rescan(struct device *dev,
++				struct device_attribute *attr, const char *buf,
++				size_t count)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	nvme_queue_scan(ctrl);
++	return count;
++}
++static DEVICE_ATTR(rescan_controller, S_IWUSR, NULL, nvme_sysfs_rescan);
++
++static inline struct nvme_ns_head *dev_to_ns_head(struct device *dev)
++{
++	struct gendisk *disk = dev_to_disk(dev);
++
++	if (disk->fops == &nvme_bdev_ops)
++		return nvme_get_ns_from_dev(dev)->head;
++	else
++		return disk->private_data;
++}
++
++static ssize_t wwid_show(struct device *dev, struct device_attribute *attr,
++		char *buf)
++{
++	struct nvme_ns_head *head = dev_to_ns_head(dev);
++	struct nvme_ns_ids *ids = &head->ids;
++	struct nvme_subsystem *subsys = head->subsys;
++	int serial_len = sizeof(subsys->serial);
++	int model_len = sizeof(subsys->model);
++
++	if (!uuid_is_null(&ids->uuid))
++		return sysfs_emit(buf, "uuid.%pU\n", &ids->uuid);
++
++	if (memchr_inv(ids->nguid, 0, sizeof(ids->nguid)))
++		return sysfs_emit(buf, "eui.%16phN\n", ids->nguid);
++
++	if (memchr_inv(ids->eui64, 0, sizeof(ids->eui64)))
++		return sysfs_emit(buf, "eui.%8phN\n", ids->eui64);
++
++	while (serial_len > 0 && (subsys->serial[serial_len - 1] == ' ' ||
++				  subsys->serial[serial_len - 1] == '\0'))
++		serial_len--;
++	while (model_len > 0 && (subsys->model[model_len - 1] == ' ' ||
++				 subsys->model[model_len - 1] == '\0'))
++		model_len--;
++
++	return sysfs_emit(buf, "nvme.%04x-%*phN-%*phN-%08x\n", subsys->vendor_id,
++		serial_len, subsys->serial, model_len, subsys->model,
++		head->ns_id);
++}
++static DEVICE_ATTR_RO(wwid);
++
++static ssize_t nguid_show(struct device *dev, struct device_attribute *attr,
++		char *buf)
++{
++	return sysfs_emit(buf, "%pU\n", dev_to_ns_head(dev)->ids.nguid);
++}
++static DEVICE_ATTR_RO(nguid);
++
++static ssize_t uuid_show(struct device *dev, struct device_attribute *attr,
++		char *buf)
++{
++	struct nvme_ns_ids *ids = &dev_to_ns_head(dev)->ids;
++
++	/* For backward compatibility expose the NGUID to userspace if
++	 * we have no UUID set
++	 */
++	if (uuid_is_null(&ids->uuid)) {
++		dev_warn_ratelimited(dev,
++			"No UUID available providing old NGUID\n");
++		return sysfs_emit(buf, "%pU\n", ids->nguid);
++	}
++	return sysfs_emit(buf, "%pU\n", &ids->uuid);
++}
++static DEVICE_ATTR_RO(uuid);
++
++static ssize_t eui_show(struct device *dev, struct device_attribute *attr,
++		char *buf)
++{
++	return sysfs_emit(buf, "%8ph\n", dev_to_ns_head(dev)->ids.eui64);
++}
++static DEVICE_ATTR_RO(eui);
++
++static ssize_t nsid_show(struct device *dev, struct device_attribute *attr,
++		char *buf)
++{
++	return sysfs_emit(buf, "%d\n", dev_to_ns_head(dev)->ns_id);
++}
++static DEVICE_ATTR_RO(nsid);
++
++static struct attribute *nvme_ns_id_attrs[] = {
++	&dev_attr_wwid.attr,
++	&dev_attr_uuid.attr,
++	&dev_attr_nguid.attr,
++	&dev_attr_eui.attr,
++	&dev_attr_nsid.attr,
++#ifdef CONFIG_NVME_MULTIPATH
++	&dev_attr_ana_grpid.attr,
++	&dev_attr_ana_state.attr,
++#endif
++	NULL,
++};
++
++static umode_t nvme_ns_id_attrs_are_visible(struct kobject *kobj,
++		struct attribute *a, int n)
++{
++	struct device *dev = container_of(kobj, struct device, kobj);
++	struct nvme_ns_ids *ids = &dev_to_ns_head(dev)->ids;
++
++	if (a == &dev_attr_uuid.attr) {
++		if (uuid_is_null(&ids->uuid) &&
++		    !memchr_inv(ids->nguid, 0, sizeof(ids->nguid)))
++			return 0;
++	}
++	if (a == &dev_attr_nguid.attr) {
++		if (!memchr_inv(ids->nguid, 0, sizeof(ids->nguid)))
++			return 0;
++	}
++	if (a == &dev_attr_eui.attr) {
++		if (!memchr_inv(ids->eui64, 0, sizeof(ids->eui64)))
++			return 0;
++	}
++#ifdef CONFIG_NVME_MULTIPATH
++	if (a == &dev_attr_ana_grpid.attr || a == &dev_attr_ana_state.attr) {
++		if (dev_to_disk(dev)->fops != &nvme_bdev_ops) /* per-path attr */
++			return 0;
++		if (!nvme_ctrl_use_ana(nvme_get_ns_from_dev(dev)->ctrl))
++			return 0;
++	}
++#endif
++	return a->mode;
++}
++
++static const struct attribute_group nvme_ns_id_attr_group = {
++	.attrs		= nvme_ns_id_attrs,
++	.is_visible	= nvme_ns_id_attrs_are_visible,
++};
++
++const struct attribute_group *nvme_ns_id_attr_groups[] = {
++	&nvme_ns_id_attr_group,
++	NULL,
++};
++
++#define nvme_show_str_function(field)						\
++static ssize_t  field##_show(struct device *dev,				\
++			    struct device_attribute *attr, char *buf)		\
++{										\
++        struct nvme_ctrl *ctrl = dev_get_drvdata(dev);				\
++        return sysfs_emit(buf, "%.*s\n",					\
++		(int)sizeof(ctrl->subsys->field), ctrl->subsys->field);		\
++}										\
++static DEVICE_ATTR(field, S_IRUGO, field##_show, NULL);
++
++nvme_show_str_function(model);
++nvme_show_str_function(serial);
++nvme_show_str_function(firmware_rev);
++
++#define nvme_show_int_function(field)						\
++static ssize_t  field##_show(struct device *dev,				\
++			    struct device_attribute *attr, char *buf)		\
++{										\
++        struct nvme_ctrl *ctrl = dev_get_drvdata(dev);				\
++        return sysfs_emit(buf, "%d\n", ctrl->field);				\
++}										\
++static DEVICE_ATTR(field, S_IRUGO, field##_show, NULL);
++
++nvme_show_int_function(cntlid);
++nvme_show_int_function(numa_node);
++nvme_show_int_function(queue_count);
++nvme_show_int_function(sqsize);
++nvme_show_int_function(kato);
++
++static ssize_t nvme_sysfs_delete(struct device *dev,
++				struct device_attribute *attr, const char *buf,
++				size_t count)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	if (device_remove_file_self(dev, attr))
++		nvme_delete_ctrl_sync(ctrl);
++	return count;
++}
++static DEVICE_ATTR(delete_controller, S_IWUSR, NULL, nvme_sysfs_delete);
++
++static ssize_t nvme_sysfs_show_transport(struct device *dev,
++					 struct device_attribute *attr,
++					 char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	return sysfs_emit(buf, "%s\n", ctrl->ops->name);
++}
++static DEVICE_ATTR(transport, S_IRUGO, nvme_sysfs_show_transport, NULL);
++
++static ssize_t nvme_sysfs_show_state(struct device *dev,
++				     struct device_attribute *attr,
++				     char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++	static const char *const state_name[] = {
++		[NVME_CTRL_NEW]		= "new",
++		[NVME_CTRL_LIVE]	= "live",
++		[NVME_CTRL_RESETTING]	= "resetting",
++		[NVME_CTRL_CONNECTING]	= "connecting",
++		[NVME_CTRL_DELETING]	= "deleting",
++		[NVME_CTRL_DELETING_NOIO]= "deleting (no IO)",
++		[NVME_CTRL_DEAD]	= "dead",
++	};
++
++	if ((unsigned)ctrl->state < ARRAY_SIZE(state_name) &&
++	    state_name[ctrl->state])
++		return sysfs_emit(buf, "%s\n", state_name[ctrl->state]);
++
++	return sysfs_emit(buf, "unknown state\n");
++}
++
++static DEVICE_ATTR(state, S_IRUGO, nvme_sysfs_show_state, NULL);
++
++static ssize_t nvme_sysfs_show_subsysnqn(struct device *dev,
++					 struct device_attribute *attr,
++					 char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	return sysfs_emit(buf, "%s\n", ctrl->subsys->subnqn);
++}
++static DEVICE_ATTR(subsysnqn, S_IRUGO, nvme_sysfs_show_subsysnqn, NULL);
++
++static ssize_t nvme_sysfs_show_hostnqn(struct device *dev,
++					struct device_attribute *attr,
++					char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	return sysfs_emit(buf, "%s\n", ctrl->opts->host->nqn);
++}
++static DEVICE_ATTR(hostnqn, S_IRUGO, nvme_sysfs_show_hostnqn, NULL);
++
++static ssize_t nvme_sysfs_show_hostid(struct device *dev,
++					struct device_attribute *attr,
++					char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	return sysfs_emit(buf, "%pU\n", &ctrl->opts->host->id);
++}
++static DEVICE_ATTR(hostid, S_IRUGO, nvme_sysfs_show_hostid, NULL);
++
++static ssize_t nvme_sysfs_show_address(struct device *dev,
++					 struct device_attribute *attr,
++					 char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	return ctrl->ops->get_address(ctrl, buf, PAGE_SIZE);
++}
++static DEVICE_ATTR(address, S_IRUGO, nvme_sysfs_show_address, NULL);
++
++static ssize_t nvme_ctrl_loss_tmo_show(struct device *dev,
++		struct device_attribute *attr, char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++	struct nvmf_ctrl_options *opts = ctrl->opts;
++
++	if (ctrl->opts->max_reconnects == -1)
++		return sysfs_emit(buf, "off\n");
++	return sysfs_emit(buf, "%d\n",
++			  opts->max_reconnects * opts->reconnect_delay);
++}
++
++static ssize_t nvme_ctrl_loss_tmo_store(struct device *dev,
++		struct device_attribute *attr, const char *buf, size_t count)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++	struct nvmf_ctrl_options *opts = ctrl->opts;
++	int ctrl_loss_tmo, err;
++
++	err = kstrtoint(buf, 10, &ctrl_loss_tmo);
++	if (err)
++		return -EINVAL;
++
++	if (ctrl_loss_tmo < 0)
++		opts->max_reconnects = -1;
++	else
++		opts->max_reconnects = DIV_ROUND_UP(ctrl_loss_tmo,
++						opts->reconnect_delay);
++	return count;
++}
++static DEVICE_ATTR(ctrl_loss_tmo, S_IRUGO | S_IWUSR,
++	nvme_ctrl_loss_tmo_show, nvme_ctrl_loss_tmo_store);
++
++static ssize_t nvme_ctrl_reconnect_delay_show(struct device *dev,
++		struct device_attribute *attr, char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	if (ctrl->opts->reconnect_delay == -1)
++		return sysfs_emit(buf, "off\n");
++	return sysfs_emit(buf, "%d\n", ctrl->opts->reconnect_delay);
++}
++
++static ssize_t nvme_ctrl_reconnect_delay_store(struct device *dev,
++		struct device_attribute *attr, const char *buf, size_t count)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++	unsigned int v;
++	int err;
++
++	err = kstrtou32(buf, 10, &v);
++	if (err)
++		return err;
++
++	ctrl->opts->reconnect_delay = v;
++	return count;
++}
++static DEVICE_ATTR(reconnect_delay, S_IRUGO | S_IWUSR,
++	nvme_ctrl_reconnect_delay_show, nvme_ctrl_reconnect_delay_store);
++
++static ssize_t nvme_ctrl_fast_io_fail_tmo_show(struct device *dev,
++		struct device_attribute *attr, char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	if (ctrl->opts->fast_io_fail_tmo == -1)
++		return sysfs_emit(buf, "off\n");
++	return sysfs_emit(buf, "%d\n", ctrl->opts->fast_io_fail_tmo);
++}
++
++static ssize_t nvme_ctrl_fast_io_fail_tmo_store(struct device *dev,
++		struct device_attribute *attr, const char *buf, size_t count)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++	struct nvmf_ctrl_options *opts = ctrl->opts;
++	int fast_io_fail_tmo, err;
++
++	err = kstrtoint(buf, 10, &fast_io_fail_tmo);
++	if (err)
++		return -EINVAL;
++
++	if (fast_io_fail_tmo < 0)
++		opts->fast_io_fail_tmo = -1;
++	else
++		opts->fast_io_fail_tmo = fast_io_fail_tmo;
++	return count;
++}
++static DEVICE_ATTR(fast_io_fail_tmo, S_IRUGO | S_IWUSR,
++	nvme_ctrl_fast_io_fail_tmo_show, nvme_ctrl_fast_io_fail_tmo_store);
++
++static ssize_t cntrltype_show(struct device *dev,
++			      struct device_attribute *attr, char *buf)
++{
++	static const char * const type[] = {
++		[NVME_CTRL_IO] = "io\n",
++		[NVME_CTRL_DISC] = "discovery\n",
++		[NVME_CTRL_ADMIN] = "admin\n",
++	};
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	if (ctrl->cntrltype > NVME_CTRL_ADMIN || !type[ctrl->cntrltype])
++		return sysfs_emit(buf, "reserved\n");
++
++	return sysfs_emit(buf, type[ctrl->cntrltype]);
++}
++static DEVICE_ATTR_RO(cntrltype);
++
++static ssize_t dctype_show(struct device *dev,
++			   struct device_attribute *attr, char *buf)
++{
++	static const char * const type[] = {
++		[NVME_DCTYPE_NOT_REPORTED] = "none\n",
++		[NVME_DCTYPE_DDC] = "ddc\n",
++		[NVME_DCTYPE_CDC] = "cdc\n",
++	};
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	if (ctrl->dctype > NVME_DCTYPE_CDC || !type[ctrl->dctype])
++		return sysfs_emit(buf, "reserved\n");
++
++	return sysfs_emit(buf, type[ctrl->dctype]);
++}
++static DEVICE_ATTR_RO(dctype);
++
++#ifdef CONFIG_NVME_AUTH
++static ssize_t nvme_ctrl_dhchap_secret_show(struct device *dev,
++		struct device_attribute *attr, char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++	struct nvmf_ctrl_options *opts = ctrl->opts;
++
++	if (!opts->dhchap_secret)
++		return sysfs_emit(buf, "none\n");
++	return sysfs_emit(buf, "%s\n", opts->dhchap_secret);
++}
++
++static ssize_t nvme_ctrl_dhchap_secret_store(struct device *dev,
++		struct device_attribute *attr, const char *buf, size_t count)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++	struct nvmf_ctrl_options *opts = ctrl->opts;
++	char *dhchap_secret;
++
++	if (!ctrl->opts->dhchap_secret)
++		return -EINVAL;
++	if (count < 7)
++		return -EINVAL;
++	if (memcmp(buf, "DHHC-1:", 7))
++		return -EINVAL;
++
++	dhchap_secret = kzalloc(count + 1, GFP_KERNEL);
++	if (!dhchap_secret)
++		return -ENOMEM;
++	memcpy(dhchap_secret, buf, count);
++	nvme_auth_stop(ctrl);
++	if (strcmp(dhchap_secret, opts->dhchap_secret)) {
++		struct nvme_dhchap_key *key, *host_key;
++		int ret;
++
++		ret = nvme_auth_generate_key(dhchap_secret, &key);
++		if (ret)
++			return ret;
++		kfree(opts->dhchap_secret);
++		opts->dhchap_secret = dhchap_secret;
++		host_key = ctrl->host_key;
++		mutex_lock(&ctrl->dhchap_auth_mutex);
++		ctrl->host_key = key;
++		mutex_unlock(&ctrl->dhchap_auth_mutex);
++		nvme_auth_free_key(host_key);
++	}
++	/* Start re-authentication */
++	dev_info(ctrl->device, "re-authenticating controller\n");
++	queue_work(nvme_wq, &ctrl->dhchap_auth_work);
++
++	return count;
++}
++static DEVICE_ATTR(dhchap_secret, S_IRUGO | S_IWUSR,
++	nvme_ctrl_dhchap_secret_show, nvme_ctrl_dhchap_secret_store);
++
++static ssize_t nvme_ctrl_dhchap_ctrl_secret_show(struct device *dev,
++		struct device_attribute *attr, char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++	struct nvmf_ctrl_options *opts = ctrl->opts;
++
++	if (!opts->dhchap_ctrl_secret)
++		return sysfs_emit(buf, "none\n");
++	return sysfs_emit(buf, "%s\n", opts->dhchap_ctrl_secret);
++}
++
++static ssize_t nvme_ctrl_dhchap_ctrl_secret_store(struct device *dev,
++		struct device_attribute *attr, const char *buf, size_t count)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++	struct nvmf_ctrl_options *opts = ctrl->opts;
++	char *dhchap_secret;
++
++	if (!ctrl->opts->dhchap_ctrl_secret)
++		return -EINVAL;
++	if (count < 7)
++		return -EINVAL;
++	if (memcmp(buf, "DHHC-1:", 7))
++		return -EINVAL;
++
++	dhchap_secret = kzalloc(count + 1, GFP_KERNEL);
++	if (!dhchap_secret)
++		return -ENOMEM;
++	memcpy(dhchap_secret, buf, count);
++	nvme_auth_stop(ctrl);
++	if (strcmp(dhchap_secret, opts->dhchap_ctrl_secret)) {
++		struct nvme_dhchap_key *key, *ctrl_key;
++		int ret;
++
++		ret = nvme_auth_generate_key(dhchap_secret, &key);
++		if (ret)
++			return ret;
++		kfree(opts->dhchap_ctrl_secret);
++		opts->dhchap_ctrl_secret = dhchap_secret;
++		ctrl_key = ctrl->ctrl_key;
++		mutex_lock(&ctrl->dhchap_auth_mutex);
++		ctrl->ctrl_key = key;
++		mutex_unlock(&ctrl->dhchap_auth_mutex);
++		nvme_auth_free_key(ctrl_key);
++	}
++	/* Start re-authentication */
++	dev_info(ctrl->device, "re-authenticating controller\n");
++	queue_work(nvme_wq, &ctrl->dhchap_auth_work);
++
++	return count;
++}
++static DEVICE_ATTR(dhchap_ctrl_secret, S_IRUGO | S_IWUSR,
++	nvme_ctrl_dhchap_ctrl_secret_show, nvme_ctrl_dhchap_ctrl_secret_store);
++#endif
++
++static struct attribute *nvme_dev_attrs[] = {
++	&dev_attr_reset_controller.attr,
++	&dev_attr_rescan_controller.attr,
++	&dev_attr_model.attr,
++	&dev_attr_serial.attr,
++	&dev_attr_firmware_rev.attr,
++	&dev_attr_cntlid.attr,
++	&dev_attr_delete_controller.attr,
++	&dev_attr_transport.attr,
++	&dev_attr_subsysnqn.attr,
++	&dev_attr_address.attr,
++	&dev_attr_state.attr,
++	&dev_attr_numa_node.attr,
++	&dev_attr_queue_count.attr,
++	&dev_attr_sqsize.attr,
++	&dev_attr_hostnqn.attr,
++	&dev_attr_hostid.attr,
++	&dev_attr_ctrl_loss_tmo.attr,
++	&dev_attr_reconnect_delay.attr,
++	&dev_attr_fast_io_fail_tmo.attr,
++	&dev_attr_kato.attr,
++	&dev_attr_cntrltype.attr,
++	&dev_attr_dctype.attr,
++#ifdef CONFIG_NVME_AUTH
++	&dev_attr_dhchap_secret.attr,
++	&dev_attr_dhchap_ctrl_secret.attr,
++#endif
++	NULL
++};
++
++static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
++		struct attribute *a, int n)
++{
++	struct device *dev = container_of(kobj, struct device, kobj);
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	if (a == &dev_attr_delete_controller.attr && !ctrl->ops->delete_ctrl)
++		return 0;
++	if (a == &dev_attr_address.attr && !ctrl->ops->get_address)
++		return 0;
++	if (a == &dev_attr_hostnqn.attr && !ctrl->opts)
++		return 0;
++	if (a == &dev_attr_hostid.attr && !ctrl->opts)
++		return 0;
++	if (a == &dev_attr_ctrl_loss_tmo.attr && !ctrl->opts)
++		return 0;
++	if (a == &dev_attr_reconnect_delay.attr && !ctrl->opts)
++		return 0;
++	if (a == &dev_attr_fast_io_fail_tmo.attr && !ctrl->opts)
++		return 0;
++#ifdef CONFIG_NVME_AUTH
++	if (a == &dev_attr_dhchap_secret.attr && !ctrl->opts)
++		return 0;
++	if (a == &dev_attr_dhchap_ctrl_secret.attr && !ctrl->opts)
++		return 0;
++#endif
++
++	return a->mode;
++}
++
++const struct attribute_group nvme_dev_attrs_group = {
++	.attrs		= nvme_dev_attrs,
++	.is_visible	= nvme_dev_attrs_are_visible,
++};
++EXPORT_SYMBOL_GPL(nvme_dev_attrs_group);
++
++const struct attribute_group *nvme_dev_attr_groups[] = {
++	&nvme_dev_attrs_group,
++	NULL,
++};
++
++#define SUBSYS_ATTR_RO(_name, _mode, _show)			\
++	struct device_attribute subsys_attr_##_name = \
++		__ATTR(_name, _mode, _show, NULL)
++
++static ssize_t nvme_subsys_show_nqn(struct device *dev,
++				    struct device_attribute *attr,
++				    char *buf)
++{
++	struct nvme_subsystem *subsys =
++		container_of(dev, struct nvme_subsystem, dev);
++
++	return sysfs_emit(buf, "%s\n", subsys->subnqn);
++}
++static SUBSYS_ATTR_RO(subsysnqn, S_IRUGO, nvme_subsys_show_nqn);
++
++static ssize_t nvme_subsys_show_type(struct device *dev,
++				    struct device_attribute *attr,
++				    char *buf)
++{
++	struct nvme_subsystem *subsys =
++		container_of(dev, struct nvme_subsystem, dev);
++
++	switch (subsys->subtype) {
++	case NVME_NQN_DISC:
++		return sysfs_emit(buf, "discovery\n");
++	case NVME_NQN_NVME:
++		return sysfs_emit(buf, "nvm\n");
++	default:
++		return sysfs_emit(buf, "reserved\n");
++	}
++}
++static SUBSYS_ATTR_RO(subsystype, S_IRUGO, nvme_subsys_show_type);
++
++#define nvme_subsys_show_str_function(field)				\
++static ssize_t subsys_##field##_show(struct device *dev,		\
++			    struct device_attribute *attr, char *buf)	\
++{									\
++	struct nvme_subsystem *subsys =					\
++		container_of(dev, struct nvme_subsystem, dev);		\
++	return sysfs_emit(buf, "%.*s\n",				\
++			   (int)sizeof(subsys->field), subsys->field);	\
++}									\
++static SUBSYS_ATTR_RO(field, S_IRUGO, subsys_##field##_show);
++
++nvme_subsys_show_str_function(model);
++nvme_subsys_show_str_function(serial);
++nvme_subsys_show_str_function(firmware_rev);
++
++static struct attribute *nvme_subsys_attrs[] = {
++	&subsys_attr_model.attr,
++	&subsys_attr_serial.attr,
++	&subsys_attr_firmware_rev.attr,
++	&subsys_attr_subsysnqn.attr,
++	&subsys_attr_subsystype.attr,
++#ifdef CONFIG_NVME_MULTIPATH
++	&subsys_attr_iopolicy.attr,
++#endif
++	NULL,
++};
++
++static const struct attribute_group nvme_subsys_attrs_group = {
++	.attrs = nvme_subsys_attrs,
++};
++
++const struct attribute_group *nvme_subsys_attrs_groups[] = {
++	&nvme_subsys_attrs_group,
++	NULL,
++};
+-- 
+2.18.1
 
 
