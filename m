@@ -4,64 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D00CC77B61
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Apr 2023 21:19:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62E88C77B7C
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Apr 2023 21:19:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ygjDkVPQgfGjsoPj4ztBBlGdy3zJjHUpgPnvmJzFhnM=; b=o6Qt8xsnOle+x7GxrfEGi1gUko
-	ZkKGY/7QAqy/cRYqIDpAzhaiTaZQ2Kw3u6yFeLsWSyGAGTbpc0b4PzgMOd0zRafAe+0xTamETsPCD
-	fgWg2dNRgOQ6WdhgF1fO6mvHw6MrQwgWSwzGP1sVXkNEVeoSe+lgtMQ1WJQrPWPby5TyHUuGMi3Tl
-	59oRZ/PPR/xidG6RJBQavmH3NZx2fM4SgnTUmdmBQkykqGQnRSqe3aYDaLa7QIhJHaG0so9lW/fEp
-	AVMjskXfr25QOLzmZWqgPihhvxQz3khorfWC1h0VoS7QJNJ9Ai0LL9POr1BZlDxOUaFTlmU/gU3+1
-	/6Sy37qQ==;
+	bh=Ly78T6XL/qN2ig9JJ0aLlFTyVd0uh9cdGf4RqlrNODs=; b=g9CgDTyiNHu3qHXVMMdknSS/tv
+	jrnwZP3oAllTZU3hGby75+OYcSxDcKNiCOOztRlYLHLMnsJYFcZGTv/+Ss9tTdqfrbZ12+CbC3dxg
+	BqD9dCExHWbI8Z5y+1TwVQhUKu/jhZSbhmFbXj62YX0XafADH0xTsdChTWQfxhQsuojvt/f/9XjsW
+	e0rNFxU35opJunwynZmaMSR98hXOp5TmG9XhHO2ykR3jUWMOQQcZrb2BXdOgmBKSbgSw4sXpSm+7e
+	QqF7sMzbe0rBfDIIRZP+mogwXCwKPI4xEadFZkRnq67qxzbtUgKr0CtbLt+2DPjRN19k7uSPwt3n5
+	1aezgU/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1prQ4Q-002ERO-1I;
-	Tue, 25 Apr 2023 21:19:30 +0000
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333])
+	id 1prQ4V-002ESc-0o;
+	Tue, 25 Apr 2023 21:19:35 +0000
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1prQ4O-002EQ6-1r
+	id 1prQ4T-002ERf-0y
 	for linux-nvme@lists.infradead.org;
-	Tue, 25 Apr 2023 21:19:29 +0000
-Received: by mail-ot1-x333.google.com with SMTP id 46e09a7af769-6a604259983so4843622a34.2
-        for <linux-nvme@lists.infradead.org>; Tue, 25 Apr 2023 14:19:27 -0700 (PDT)
+	Tue, 25 Apr 2023 21:19:34 +0000
+Received: by mail-oi1-x22b.google.com with SMTP id 5614622812f47-38ded2d8bcaso3619303b6e.0
+        for <linux-nvme@lists.infradead.org>; Tue, 25 Apr 2023 14:19:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682457566; x=1685049566;
+        d=gmail.com; s=20221208; t=1682457570; x=1685049570;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ygjDkVPQgfGjsoPj4ztBBlGdy3zJjHUpgPnvmJzFhnM=;
-        b=GJI5nq2Q4G+tHD6KeipBsfRVJc8Fmljl2vO+WId/4VIYKh/dR9Z9wrnJ7oS9ZZylNx
-         0CFoI3aljnsV2lTVZPt6dnrgDZpM0YutXJNNrsbZSxkpDY6iAuNlf4onz+g/dNMoM3NE
-         irXZG4UhZKx0PqAF2zKy8WyEd37hOouHjFGGFc7NkXOmorjXTNeGBC2w9dFBm70C2vTs
-         dxPNvUWV/e27O83U/1gt/c7/TZbjcz0K4N8NdHrESdM/5kltzGKXBr/Rw8PIMqUVtEAY
-         9lRW4BL3d9P1sH+iFSB5v3yt4mgfqKBlSrgySdXZYzdhcdGUq4ZOpo3Gu7Y1zFaspxqL
-         euYA==
+        bh=Ly78T6XL/qN2ig9JJ0aLlFTyVd0uh9cdGf4RqlrNODs=;
+        b=ZM7RDD3z95b9ZlzRUSarP0S1D9LGojSmXqflKaKHH/QlMMK9FDDjEUWyXieUbSMX5J
+         K7oA9K3tS1LnNkI2m9tAmzFLZdNDAPZTYbxABHHLaOTwglqOCbK0IU4FSB1W8dB8hAXP
+         G6sBE/avutXhjpPbMM2eaRtJnhGtqR81nfY19IARng1poeGUX3zAmSpNkhtUDb7GOxkr
+         sq3z04gMWlPzx1xtU3H1a1F5HkrO4ri9oI825Fmy7pcGuOcnhjGeQHJO/tfhdQfArIpY
+         4FooutLuZOuLfLJuGEUU6ahXRQN1+hDAXTijvR6pBivynW9rB2q7MAy76UPlm53qKsBI
+         wFFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682457566; x=1685049566;
+        d=1e100.net; s=20221208; t=1682457570; x=1685049570;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ygjDkVPQgfGjsoPj4ztBBlGdy3zJjHUpgPnvmJzFhnM=;
-        b=eLVkDO1VPvL1NI6QsGGXEi+Dy1AJB0wH9B022cjX1ybX2QHUNcdz0HbthKz0BOSFJ2
-         QDA5v4cb7Fa5Dv2x3BT6TgMAy2lixkf+9hk+hiqs0ZlqgiCOnlyRilhoyA/Y/x02bu4s
-         PWNqWft9COnBoCVMQvy/qxQsVFVl8E6uCNiYqPdkwiWsuB8+p7fOXD3rO9FX9cOxBudq
-         E8h6voYK7DJTVvzxqMT8tVipZp4Mx3/YJgbkl3qR8LdVzEPTXYTeYB4Z+tACloUCDqQV
-         WxzAxhi2Px9ahJKoFDSMXtAeLxuVlWyXzT3Icw/erUrCmXok/IifH9UugpzEGpJhsWpL
-         +bHQ==
-X-Gm-Message-State: AAQBX9ezbIxOaFKTTNpyDzmMV0T1KlAz9+zivUGwsxbru5nEyLIEan6G
-	i3Ya0lQmlBUTbYycsVMIdgM=
-X-Google-Smtp-Source: AKy350Z8PUh0rBGLyeDgR9jbkFT/8xq7+kWgfs4RDjfk8Ex5RzJtRrrcpAdcMJTGcgCnqMcziuJbWw==
-X-Received: by 2002:a54:411a:0:b0:38d:f298:6d00 with SMTP id l26-20020a54411a000000b0038df2986d00mr8050962oic.51.1682457566677;
-        Tue, 25 Apr 2023 14:19:26 -0700 (PDT)
+        bh=Ly78T6XL/qN2ig9JJ0aLlFTyVd0uh9cdGf4RqlrNODs=;
+        b=IcXkURjrjHAX6zWpHwaN4mQiG8Kf09ZvJCx88+GLhIS8/MycIvskdwkkUahlTf6+U+
+         q03X/DiChvLISP9qyaJ51KqDyg2TkCO8RQWSFFKZzf+cLU9b9uyy2t4+d4UJJazrlgc7
+         aXTEa9nNZqAFdNNmj7+X5zNxzY0iNN5h7hjZLw25IjfLNuNNBBzW2Mp7Tyl4qqB0iQC9
+         tfX9tVtFtPi8vS2HiLAKtFry1c1336YQ3EFHYCqPbHz/p3wt+Bw7ZRQb8pi3IEKEm66t
+         dSA4AOk3Ylj6igVT1+y6aj4qAy6+mBaWfS8XHTsmmrXsq4Cpx0Qab2b/Wae/u0lt4Pqr
+         oYmg==
+X-Gm-Message-State: AAQBX9dwTzMG08ZPz/T5KpWmmXb3aRR33G+pXcyOa5PXnHRD5XKqVoUZ
+	PTkFUyx5+ueuHzkBoDOqB9o=
+X-Google-Smtp-Source: AKy350asTKjf8TRAi/s2WFcsZLDHjLQ7RlZPBaaUz5FWZ760+mbobVB/PlABGJojFkagGWfZ6dPjDw==
+X-Received: by 2002:a05:6808:2a81:b0:38e:19f2:7041 with SMTP id fc1-20020a0568082a8100b0038e19f27041mr7809899oib.1.1682457570197;
+        Tue, 25 Apr 2023 14:19:30 -0700 (PDT)
 Received: from archlinux.fibertel.com.ar ([190.195.153.187])
-        by smtp.gmail.com with ESMTPSA id u2-20020a05687036c200b00177c314a358sm5945357oak.22.2023.04.25.14.19.24
+        by smtp.gmail.com with ESMTPSA id u2-20020a05687036c200b00177c314a358sm5945357oak.22.2023.04.25.14.19.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Apr 2023 14:19:26 -0700 (PDT)
+        Tue, 25 Apr 2023 14:19:29 -0700 (PDT)
 From: Irvin Cote <irvincoteg@gmail.com>
 To: hch@lst.de
 Cc: kbusch@kernel.org,
@@ -70,17 +70,17 @@ Cc: kbusch@kernel.org,
 	linux-nvme@lists.infradead.org,
 	chaitanyak@nvidia.com,
 	Irvin Cote <irvincoteg@gmail.com>
-Subject: [PATCH 1/3] nvme-core: nvme_init_ctrl cleanup
-Date: Tue, 25 Apr 2023 18:18:34 -0300
-Message-Id: <20230425211836.14283-2-irvincoteg@gmail.com>
+Subject: [PATCH 2/3] nvme-pci: Adjusting ctrl deref count
+Date: Tue, 25 Apr 2023 18:18:35 -0300
+Message-Id: <20230425211836.14283-3-irvincoteg@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230425211836.14283-1-irvincoteg@gmail.com>
 References: <20230425211836.14283-1-irvincoteg@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230425_141928_615744_B7C41C77 
-X-CRM114-Status: GOOD (  10.81  )
+X-CRM114-CacheID: sfid-20230425_141933_342531_5A76B1F4 
+X-CRM114-Status: GOOD (  11.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,48 +95,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Removed an incoherent check at the last exit label
-and renamed it for better clarity.
+If there is a failure in nvme_init_ctrl
+the dereference counting is not properly
+handled and the code exits with a non-zero
+ctrl ref-count. This is because nvme_init_ctrl
+takes two refs but only accounts for one deref
+in its teardown path. Instead of adding another deref
+there in the core layer, we take care of it here and
+we make sure that it is the last thing we do so that
+all teardown logic executes before the release of
+the controller as the two have some identical instructions.
 
 Signed-off-by: Irvin Cote <irvincoteg@gmail.com>
 ---
- drivers/nvme/host/core.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ drivers/nvme/host/pci.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d6a9bac91a4c..353443250d48 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -5149,14 +5149,12 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	BUILD_BUG_ON(NVME_DSM_MAX_RANGES * sizeof(struct nvme_dsm_range) >
- 			PAGE_SIZE);
- 	ctrl->discard_page = alloc_page(GFP_KERNEL);
--	if (!ctrl->discard_page) {
--		ret = -ENOMEM;
--		goto out;
--	}
-+	if (!ctrl->discard_page)
-+		return -ENOMEM;
- 
- 	ret = ida_alloc(&nvme_instance_ida, GFP_KERNEL);
- 	if (ret < 0)
--		goto out;
-+		goto out_free_discard_page;
- 	ctrl->instance = ret;
- 
- 	device_initialize(&ctrl->ctrl_device);
-@@ -5204,9 +5202,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	kfree_const(ctrl->device->kobj.name);
- out_release_instance:
- 	ida_free(&nvme_instance_ida, ctrl->instance);
--out:
--	if (ctrl->discard_page)
--		__free_page(ctrl->discard_page);
-+out_free_discard_page:
-+	__free_page(ctrl->discard_page);
- 	return ret;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index cd7873de3121..65e4b9f1b632 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2975,6 +2975,7 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
+ 	kfree(dev->queues);
+ out_free_dev:
+ 	kfree(dev);
++	nvme_put_ctrl(&dev->ctrl);
+ 	return ERR_PTR(ret);
  }
- EXPORT_SYMBOL_GPL(nvme_init_ctrl);
+ 
 -- 
 2.39.2
 
