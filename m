@@ -4,137 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 915C1C77B61
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Apr 2023 10:24:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12799C77B61
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Apr 2023 15:28:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7nGAcme1Dpqfyr+x5T4bg7q14EUteZ3N83glVG6efxM=; b=jni2cJopRA+Z61f/PRCG5lpBIV
-	9nOY/ybtQQoAaUvJkST8bmbw9SGeGj1MMlpcmSrhrfwwb7c1XiBVonLQLqo+hTpt+r6azS+vvUGz1
-	915RyTCd/AXOEzMuiRsz3Ux+76WNPjwhc6IWFhE94MEHl15Hb9vmAgnVicZ/AGP7M3VWI5t+hkUIK
-	tvOc9G1MlLIYWX74oXKq3dDhT9Z1zY+M2+U2yGnyI7VXESju3eBWmMNJZch7k/dZmVUQK3Ly6GR2m
-	CpaKSn/2G9kwfzyhcDTKVG3cAY2aWWxvcbmoJiW+NclUzpaXJd60LBcG+bLFrxVsr/ntzekLcwwWq
-	W9QbrfGA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=oE1UR9p58TRG5JqUJQVdFrEMVwxDxdi4krWKinyEy9E=; b=paL3SnIJypiIySChRTW9uP07fu
+	4Eo7j2q38bUUO/u+jZBcpcsaXEC1v3YtuP1CE/NX0viahUcwEbG+U0sIOcH1KBHQ698rcWM8Sp48I
+	Uq8aAt1QtmkJ/N7m2tCJbj0x93zkP/aoyviI0fnxfVkvo3XFPFf3gkfQPse5m4QUC8Cxcad0r21gg
+	3Yxld4n+l6Tl4P7VHDyy6nNsGMQ05szKMcryz4RE6Lhp08FkeANkD3KNpcp7Ocl7owzodIBlmU5Nw
+	muOu846/eAKX7NG9uVEFZ9/1ZSMjN4sPw9b/BLgR04Ypz+O4DlgKbSpwwdz+EA5apelTMdXSPL/AJ
+	GER4mACw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1prFqu-000k4Q-2Q;
-	Tue, 25 Apr 2023 10:24:52 +0000
-Received: from mail-bn8nam11on20600.outbound.protection.outlook.com ([2a01:111:f400:7eae::600] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+	id 1prKaI-001XF3-1w;
+	Tue, 25 Apr 2023 15:28:02 +0000
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1prFqm-000k0W-11
+	id 1prKaC-001XEA-36
 	for linux-nvme@lists.infradead.org;
-	Tue, 25 Apr 2023 10:24:45 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MLOOGyHytGSBP1VAhd26X1UKEpYixIJTVBakAS96HhtuOOHHx+RcVVcBeBMMefEvZ7/pwCEdBcHpB59yTXU/3/vhu4DG+4dw8Gos7+DkEAHyKxDlJVx62PPmwuu8Efti5Pqmj/yzYLR749//O4SMSBjQHp2SnN19sxHBh15RsNF+JMORIB7k9iuAIDkTyfelE3/YVj+jwJlkg5+G21zjUjnZjxx2Jy35DP2s2VHNvJ2FI6KFUtuBGjhTPfGvxdMknGpbGje6Pfjcl0XHkd63MuV5CnNLEVY+fRc+LtEvV04QliihmIDrYBBsz3RqCFptwtRXzzkUgmAI2LtuLQaCfA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7nGAcme1Dpqfyr+x5T4bg7q14EUteZ3N83glVG6efxM=;
- b=QhS1JVRzDHvv2/4W0fzZIWEbyIJUtmzMzveG/IFeHjb+zHqMP3UwkrD5mlUKEixJhTJ1C/ErKg4sOsidogtTQ0MvLiGh2M+AHK3xRrKkAczTeEmbE6r3AnK23LOLalShvWiyJcULbsTs6qwaZkAWDTbHX+JKQBGvDwI09Od+HujMogyhOMpoiCmybjtKk78CIc7bIzas4RnxpCeuBI1gPcZqeg7gCfzpduTroernv3a52HpXuOWhhBeUKgpu0vCFnhlNav0O3fOqHJmO0l07GPbKMa84fFHN1qmOwQoYoKoWM52ExG8TUoXse8Kj7EM0mh9DneXj6U+HAqU1K41cvw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7nGAcme1Dpqfyr+x5T4bg7q14EUteZ3N83glVG6efxM=;
- b=UTj/PTjGRKaRoealRBZKl7i5zobpzhDEYNc+xaTBWKxDytiCNqO83K4Vl7O+oBGx5oraDJ+Cdm2Ncp4CjWnV9XyEMCjx5bfrR9t3EZAjMhwS+a6TBsMD4pZn+yGMIpLLiHnBCd5shYiubAzmf63s2AtEb247ybHJuTyrcrnuWuJWn9F86bow753xHcJzMuFXOmQlb0EJ0TNhOj2J6X+0W0IC2P4TF5xmb2alFCNSAJeRvEtFNYLhmTazXuip1SE+ODK9wZhDuQpKYgwiBPlqzCdYqHeK7mgonlLNqHXKvCtFFyyPxMbdWjQpxrvV0k/45Qp4REdQExQI+HsM5SmK4w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
- by PH0PR12MB7488.namprd12.prod.outlook.com (2603:10b6:510:1e9::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.45; Tue, 25 Apr
- 2023 10:24:39 +0000
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::61c3:1cd:90b6:c307]) by DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::61c3:1cd:90b6:c307%3]) with mapi id 15.20.6319.033; Tue, 25 Apr 2023
- 10:24:39 +0000
-Message-ID: <85974694-c544-be82-97ce-c318adacda49@nvidia.com>
-Date: Tue, 25 Apr 2023 13:24:31 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 2/2] nvme-multipath: fix path failover for integrity ns
-Content-Language: en-US
-To: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org,
- hare@suse.de, kbusch@kernel.org, axboe@kernel.dk,
- linux-block@vger.kernel.org, oren@nvidia.com, oevron@nvidia.com,
- israelr@nvidia.com
-References: <20230424225442.18916-1-mgurtovoy@nvidia.com>
- <20230424225442.18916-3-mgurtovoy@nvidia.com>
- <yq1jzy0lnyl.fsf@ca-mkp.ca.oracle.com>
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-In-Reply-To: <yq1jzy0lnyl.fsf@ca-mkp.ca.oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0095.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a1::7) To DM4PR12MB5040.namprd12.prod.outlook.com
- (2603:10b6:5:38b::19)
+	Tue, 25 Apr 2023 15:27:58 +0000
+Received: by mail-io1-xd32.google.com with SMTP id ca18e2360f4ac-760a1c94c28so31372839f.1
+        for <linux-nvme@lists.infradead.org>; Tue, 25 Apr 2023 08:27:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1682436474; x=1685028474;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oE1UR9p58TRG5JqUJQVdFrEMVwxDxdi4krWKinyEy9E=;
+        b=ABt6nVnIorpNK+LUQZMcXl8DCtKOkmL0BmOnW+edxXADmF57A59VPB4qnpvn4xPaFd
+         KaYWIwKhGQcbOceuImbhbnf9webk9efYxB3GtQsAxeI/NqWbIOPM5lOkUBXPM1kLISBo
+         8MjE2jLc95aTXlaqG6Xad71EUaxsiR3e6t3R7aibeZtfB4vrv7kCzm6ifsRHAMi+Txuv
+         GWhZ29urThMT9ymlD24R1V5o9qULxNAElB5XFZmoi3Gp6knQxB6DMgIBc7Rt2CP/HWkc
+         IdFQcaBz566ouZb5mODX93hXcG12t1tK0LSdiQDe2wV3Na+kH2I00SJZUf9xUSkY5TDx
+         yPpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682436474; x=1685028474;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oE1UR9p58TRG5JqUJQVdFrEMVwxDxdi4krWKinyEy9E=;
+        b=T99uOG7Tqx6JycMZJHQXzofoVp9RpJvh9ImCD5vpTe5X8medfDOHuVDS0UDg+3vXA9
+         LvFdghaJHnXMtweNCY1Uf/BiVwoZ1c3qYPCySdknh/GcXTZYOzH0V7g7HIjPLJ6ZExgk
+         LjUFqAPxqWNrvyuQFJovuQ2Tvlw9KMXKSjdoOhSKCyYYjStRacR/q7j/SX1nBLKGhR9P
+         EaYPBM1QwVOiFGVlD+DvPICTwa9qIqBrKwFdmnZX66TxZGs2Ja0gEXyQdw52CDiYB2XE
+         Is4g8dnVMOY+rifYAgwz1dxESOcQt1uNURTWwZFDCl5EKSqKiM0iFU++CQllcxsqkrFA
+         CALA==
+X-Gm-Message-State: AAQBX9egHib2yHF59SDYh0+RmpBdD8aAtMvnBsxsOAXM23u5RxjUDMUH
+	uDlPwo6x8qTUfzGaOY0BM55zaQ==
+X-Google-Smtp-Source: AKy350ZgSJ01uruBwEONUm+m+Qtyxj/hR+6mL/somJSOyVHtLY8irt4nwYeitqlQ8ZLbaVN20VMFZA==
+X-Received: by 2002:a6b:8d86:0:b0:763:5714:973 with SMTP id p128-20020a6b8d86000000b0076357140973mr1354818iod.0.1682436474175;
+        Tue, 25 Apr 2023 08:27:54 -0700 (PDT)
+Received: from [192.168.1.94] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id a5-20020a5d89c5000000b00763b0bb3e74sm2693188iot.17.2023.04.25.08.27.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Apr 2023 08:27:53 -0700 (PDT)
+Message-ID: <0ad22261-6a4e-4f0d-eedf-04dbf2c483a7@kernel.dk>
+Date: Tue, 25 Apr 2023 09:27:52 -0600
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|PH0PR12MB7488:EE_
-X-MS-Office365-Filtering-Correlation-Id: 81425076-0126-4e3a-1de5-08db457746bd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	cSFP9BobspEfAHY3vNJ8ZLshEd/1JHer0jXttJoEMG+5NiEovLRrWZ5GZpQdKnqeiCSfq6JqmyLU+C3fuzazOgDCNUEViIfrJ2K0Obh1fEoS9ybRAUFMPmc9TTdoPyu5VSY6vYyMcaQ+NhPyAfwluVALbb9gV5kDOtsRm9bYR85CoNiUJnN8GNo8imq64Q+Jc/TroCN6N0ENS9WmBlEzCVhrRP7tWYwDsVUaQxzxfKLY9PJk29xpjzxfWEycrGPaXYBaL4BSbzOJYzjShMVs1mfg2r6vPT92EK8fIWyAqrfpz3PcuZVuN16+RyU+S8A75Duqt7OP6/kJGWKUQskfUX7xzX6P7EAqmrHhmdze05aRiduX1ViKPBpOpIaEo4YEIQGLF5JLWD2NfqRdVooYU+jPtanm4N0vpmf7pyGqvT4qoJ+WCUb+osYOsgZfOc4aCFL6wb+pvBt1aTchj/5cLW9WYHYzimx+Kdkl/dr7JAUtjhO4XawQvheQJDUM984JeRROVNSKa45oYP37Xj50ElnrQQ7g8GzXOm3RLDRetX5xf3q/DXZHmfzS8sF6FKS7Xaf+zxa/0C7A8t3RtDrZK4vpT5Qm54a+Si6hpacBYW89UDGvchrPAM4xdCv5wPmlmZfvPaeW276QU9qIsX3E+A==
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(366004)(376002)(346002)(396003)(39860400002)(451199021)(36756003)(8936002)(8676002)(38100700002)(5660300002)(2906002)(86362001)(31696002)(6486002)(6666004)(478600001)(31686004)(107886003)(186003)(2616005)(53546011)(66946007)(66476007)(6506007)(6512007)(316002)(83380400001)(6916009)(4326008)(41300700001)(66556008)(26005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?UUZxQ3FWd2toWm1oblZKZkNNUGx1MnpUVWdaazhFeExBcW9paVRSTFVGWjFv?=
- =?utf-8?B?WjVKcWJNUW9wOGpLWWFxc1lSdGZxOXJuVFVJYTcvdUhYa3gzN2lnVWZyYytE?=
- =?utf-8?B?NGc1VmI4SXllNGlkQmEvWmFHZUh3NVcwZHNhc3N5MTk2WUZYVTRITHhUdkZO?=
- =?utf-8?B?T0UrYVFDblM5OHNSRlpBYnE3a0cvUDRoVTk2c01ScDhBbHk4a0hxRXFicDBS?=
- =?utf-8?B?OFp2SmpEamZOYjlNdGpzWHVkY29BaTZ0ZjVrR2hseG00TE9Wa1Z2Z1RwRWNP?=
- =?utf-8?B?L2FkMUdLVlJOZTgwbHlHdHdJbmp3M2tKNHVWUzlWbTk1NFVmekFsLzM4NEpt?=
- =?utf-8?B?OFhJKzVJZ3poZWY1bU1kWWdSWjMvM1V4UVJqeHMybm1qYUFZQ0FWNUptME5H?=
- =?utf-8?B?c2pINHlXcG5YUTlTc3ZkUEs5NEx6RUpZcEkyZGxrbUF2RnRaSlRROFlzMVFD?=
- =?utf-8?B?MHNOK3RzKzJ4SG9GSkZaWm9taUxlMlg4Qk1Wd2xBVXZ0amw4eXZzakRsTFMv?=
- =?utf-8?B?LzIrYkQ3MFFPSlFTZWlOOWdqWTFJcXE4RE5BNXlISXUwSG80MWZuR2FIWUJ2?=
- =?utf-8?B?elhJcWg2cXlJVlRIOXRZZ291S1JmOVEwSmpzcENVZVY0WVRiZWVZdWdSN04y?=
- =?utf-8?B?bW1oclVGMWVhbDBUWkVqMzMwdmcyNnhQTkZsUjJWQi9iNVEwSkNiTnMydzVm?=
- =?utf-8?B?WmVoUkNQRzBQUmRHZlowM1ZOTURaaGpOVjgzU3RUaGl1bHI4Lzd3cGQyamg2?=
- =?utf-8?B?dHBMSHJTNW5WL3pqUnh5b0F3QlB4bmJCbUZpM3BmL2E4clRPNHZPZkE4M1pn?=
- =?utf-8?B?L0t5RCtHM2RuUUw3aVpOVFVqOGJqWlFSUUN1ck5UWXhRanNBdEVGTFY4emFV?=
- =?utf-8?B?SHlwTUNhWEtYNkRVT1hMcXhVOWJmZVlibmY4NXdwZGRrdFpGN1g4d1dKRkdZ?=
- =?utf-8?B?U2k5TUZUMktvRFBWSHJyaEE3QklCaVhWVEs1MlB0SmFocWFWRUoxaCtBNVBu?=
- =?utf-8?B?YVlJOTBFSkU3amtpcjBWYkVONlVRdUpkOUZYeDh3WTg2M3VWdGoxSDYrOWNv?=
- =?utf-8?B?MzAxOVhmQjJWUjB6RzMxZ3dRSTMwUXA5WjJiNW55Ny9qUjRzSS9wUVRVU3pJ?=
- =?utf-8?B?K281dmYyWGZ6U1hZanpnSWRnOWpCSHpkTFRHREZFNWV4RTlveEttYmZxSkJP?=
- =?utf-8?B?OExCWEtvNGpSQzdTTHdQYkorS0R1aDVwVCtUNDg5R0tNdFhzNElhcUU4dFFW?=
- =?utf-8?B?RjFCQllRR2wzNXluZWY5YWgzQXNvQmRvZkFadFdJcjVQa1MxYUltcVdvV2xY?=
- =?utf-8?B?WU9FRWtVdGl3RXRiaWNRWFU1OVNOa2FpU0hMUUljM3BybTJrY2lGTURsMkI0?=
- =?utf-8?B?bVhuZlRkbTd3eXJvZ3I2UlRlK0M1SVJWRWNPUnFiZlFndHJhQ1loM080aDBp?=
- =?utf-8?B?bkd4dUJEaFBNT1Zhc2NOaUJIWUdLd2YzZmxyMXdpZnlWTnVpSFFpcXRmcUNU?=
- =?utf-8?B?V0k3d2ZvYUtLb3lTR2YrcHdOd1A2c0lvSHBlS2dBbldXTTJaVnlhKzI4UWZQ?=
- =?utf-8?B?eGN1WUF6TVREd0txdUNIVlJWSzlUS3M0cDhFb3pGWU91R3FPeTM3Z2RBTk5U?=
- =?utf-8?B?QTY0dW9Rb3JoaEVib0RPdFczd1A3K0dRWE5LY1Y4MnR6ajJTVXRaR1kzTHRn?=
- =?utf-8?B?NFNiSit6SUpmT0Z6RnNFcTE2RzdwbXc1ZG9HWS94T1Q1dS9pRFA2R1JlUUVa?=
- =?utf-8?B?Ulp0empGYUhXT2prT24xTC9EaWg2QndVT3JCZmdhRUx2UngwVVhMdWoybUVl?=
- =?utf-8?B?WldLdzlIalZMd3M5bnh6aGJoMkZoL1IvOXRKNC9LNENrUDl2Y245Z2FXMWlU?=
- =?utf-8?B?K0JxQkdIbFREcEJnSGtEVE1rT1hiZ09RYkplUWF5VmM3ZkFIVjBTK1QxNEd5?=
- =?utf-8?B?UHJIM243eEJyc2FKeERSc1lJMEhqejJ4SS9rek1VVFhxWEZGQTA5d2xOd1pK?=
- =?utf-8?B?cGZPd2tYdE1xT0FrSVRzY29kODBNUTMrdGw5ejV0Tjd2eVJLd3VrQkFkbkIx?=
- =?utf-8?B?TklzN0dhZjFLS3FhL2taRGFwUzF1M1VaUWs1bmE4WVlKandHcVRUSE9oVHZx?=
- =?utf-8?B?cW5OdHh0RlNQRXIrbC90VmhzUEJPaEhXNnFHUEppbGltTGp3bnNmMVJONlNj?=
- =?utf-8?B?UHc9PQ==?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 81425076-0126-4e3a-1de5-08db457746bd
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2023 10:24:39.6091
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5OvrEta5qI29cASuMvBKIBMS4H0fknOiXme/b6zhU4cR49DIl7qGNokTVhlCP4SDNTzfEHmN2gA31EoGRAV+bQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7488
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 1/1] nvme: move sysfs code to a dedicated sysfs.c file
+Content-Language: en-US
+To: Max Gurtovoy <mgurtovoy@nvidia.com>, hch@lst.de, sagi@grimberg.me,
+ kbusch@kernel.org, linux-nvme@lists.infradead.org
+Cc: oren@nvidia.com, israelr@nvidia.com
+References: <20230424211242.19614-1-mgurtovoy@nvidia.com>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20230424211242.19614-1-mgurtovoy@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230425_032444_412632_9667983A 
-X-CRM114-Status: GOOD (  17.24  )
+X-CRM114-CacheID: sfid-20230425_082757_002976_D2EC7E06 
+X-CRM114-Status: GOOD (  10.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -149,48 +94,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 25/04/2023 5:12, Martin K. Petersen wrote:
+On 4/24/23 3:12?PM, Max Gurtovoy wrote:
+> The core.c file became long and hard to maintain. Create a dedicated
+> file to centralize the sysfs functionality. This is a common practice to
+> separate sysfs/configfs related logic from the main driver logic .c file.
+> For example, in the nvmet module the configfs interface has its own
+> dedicated file.
 > 
-> Hi Max!
-> 
->> In case the integrity capabilities of the failed path and the failover
->> path don't match, we may run into NULL dereference. Free the integrity
->> context during the path failover and let the block layer prepare it
->> again if needed during bio_submit.
-> 
-> This assumes that the protection information is just an ephemeral
-> checksum. However, that is not always the case. The application may
-> store values in the application or storage tags which must be returned
-> on a subsequent read.
+> This patch does not include any functional changes.
 
-Interesting.
+Reviewed-by: Jens Axboe <axboe@kernel.dk>
 
-Maybe you can point me to this API that allow applications to store 
-application tag in PI field ?
+-- 
+Jens Axboe
 
-I see that app_tag is 0 in Linux and we don't set the nvme_cmd->apptag 
-to non zero value.
-It's been a while since I was working on this so I might be wrong here :).
-
-I've noticed that in t10_pi_generate and ext_pi_crc64_generate we set it 
-to 0 as well.
-
-The way I see it now, and I might be wrong, is that the Linux kernel is 
-not supporting application to store apptag values unless it's using some 
-passthrough command.
-
-> 
-> In addition, in some overseas markets (financial, government), PI is a
-> regulatory requirement. It would be really bad for us to expose a device
-> claiming PI support and then it turns out the protection isn't actually
-> always active.
-> 
-> DM multipathing doesn't allow mismatched integrity profiles. I don't
-> think NVMe should either.
-> 
-
-AFAIU, the DM multipath is not a specification but a Linux 
-implementation. NVMe multipathing follows a standard.
 
