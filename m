@@ -4,137 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85BAEC77B60
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Apr 2023 12:59:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 825D4C7618E
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Apr 2023 13:44:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0nbIVu5WRwtK398SqmZy4JmT6/GfgPl9m9LkQaSl+e4=; b=FbjDbbff5S+Z7ov1BLJRRXrbug
-	sQiCaWg2qQoOEUigDT5VvSurDQmssPP6e51iTrXPp5s6HvThRU7ImHk76RutlpiJvKVwmj7Mhls3z
-	MM57Jv3xBQLZ7h1DPl4k2JdSugiqgoUGuykgAnspx3Os75Lw1vX5kEXpG7nsTUoMrE+7IVDzgPX85
-	Lhilov3cUyNIOcNyAI0/jAN7exKdN1l5gFFUqgfavY0Nfp4iJm9TTnQzxNnJG+PKAPGuI7KwwMgFM
-	qDa9fHNAjeqCWwwkfdYSGfpe3yVXxvkVWiBGUf3lMfgaCRRYeahTH8XDXoXbvgL6vbrowR/zPjxB4
-	LIa/tBIA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pdPn91glfo5QUjEER08JPexoTroKHeJw/diZo9qi1BM=; b=fX0LTmd3VF7zUFb48Jjx5EnrBQ
+	i4BP5KWcQ1lYAmlHogZXRV+5O1wfyBehiWcQfIQEuQymwEzPi8rMuvd+xXqtf0HAr0gXwA7II9avy
+	R0F8jWV0+VUBqDpBQ66UrTud6c5Q2P107fMHLJ6PJd7qei0NBj1JpQLWb5lnRwdStMkC3veC4rwGx
+	em3GGUBJnZ062Kpi0zWwKWptFxRPGwMMpXS7b9kf93wkxXuFqTRoVklUHa7tdozVRzyr6z45vhZgJ
+	sW98+lHgfIDc/c+oBQC6K3xxeUMMbkg4Mw3yg1aTrApFvyoq30ot6euaVFxC0C4rjOSbvnvmMMoJH
+	Q1dveAsg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1prek3-003zqI-0f;
-	Wed, 26 Apr 2023 12:59:27 +0000
-Received: from mail-bn8nam12on20609.outbound.protection.outlook.com ([2a01:111:f400:fe5b::609] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+	id 1prfRz-00479r-0G;
+	Wed, 26 Apr 2023 13:44:51 +0000
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1prek1-003zp1-0m
+	id 1prfRv-00479O-1Z
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Apr 2023 12:59:26 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i0zdeLUnT5/Ia4UiQhxsJYvfecK9fucW3wTe4e2cQZvpHbx2/Yb+aN070q7YU8h6y5/ppBLD2+ltwcIbo8CE0t0cO7sd1XrCFT2IN+UWxK6eh9bcyBBS5cDuax6HXXj/FmGLigvxUfrLYECTtesjcxnYC2SVmSN97tvtPphtExOac+Sy9snXDDjmZ/PZy6v1u87vZINXMzJ+I9KEf7fyp+GYLm9H6B2RmQzv/RJeEh9aw/elhLF1vgZHoO6DzYvua0XTIeBO3V2QlWjDtH3xvVa8wNLltYc/T5PVtrj+YFiv1twA21GVkq2wk5E47o9/WLiEd8TVe4zp1afAKBSkpw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0nbIVu5WRwtK398SqmZy4JmT6/GfgPl9m9LkQaSl+e4=;
- b=i0BffT1zLH1/ZfISgm9hRLVDIoPSoCKLURNsGASDPUeoST5X3SqGX5QiqsM/xmzZfuw3nEebLnFjEmYIbjLZf8jSzQTzgkyP3ICGIHtdhFg5caYFkGMyldVhzuirI0fbXuYcfqIsyUZYxG3lRJ09sMOIMAkwfIuJUQfIhBpPJlvwEm/w5C6gY+lpyqssPXwTmwN+IPa4qruL2ec8uHE9ZIJWRWad7s6dUDEwlYGKQmKo/3VxJSfAvFBcIP1tuWnR1q7l6FCzWLSH+fKXrsY79Hubw6fekwdM/k2g+gX1la+qIcOReCstzNKvyd3ixd3uTenB46vRiViags3NTMHoiw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0nbIVu5WRwtK398SqmZy4JmT6/GfgPl9m9LkQaSl+e4=;
- b=duRTIMrKbv6LOib1DBIBJxBdmBrjJyGXdvCjHcK2tjBCjIc2WHwr9ue1AyH5ENmV8pL7g6zjk2roPvLZALsSnXYUwTUKqH844TUU83Wbv1WNzm44rE/KbIlhVazX2k8kijjru5+e6cepl3K4vgW0WdsR8M4p/Lz23swRVFBxTED28zciknVh9wcvraSLc7gSZENu4S5Odsha0eDf0nyfkrc4QS7p54VAIMEKnoZZN/ZzPv2VV1Wfyldv96UMzPGv8dFifMJk4/WZrM/NXpSfI3whLmadinPs236SXDkwv23rareLaavCb1B5SWcU5yQG3oiEFjl7oCCYZxqPbKEa5Q==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by CH3PR12MB8355.namprd12.prod.outlook.com (2603:10b6:610:131::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.34; Wed, 26 Apr
- 2023 12:59:18 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::6922:cae7:b3cc:4c2a]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::6922:cae7:b3cc:4c2a%6]) with mapi id 15.20.6340.021; Wed, 26 Apr 2023
- 12:59:17 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-CC: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
-	"hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>
-Subject: Re: [PATCH 1/3] nvme-pci: add and use print io-queues helper
-Thread-Topic: [PATCH 1/3] nvme-pci: add and use print io-queues helper
-Thread-Index: AQHZeDsNuwPvFKub+kCz5bhAJWgu1K89jVuA
-Date: Wed, 26 Apr 2023 12:59:17 +0000
-Message-ID: <c481e6ee-00d9-3495-ff17-19b676942215@nvidia.com>
-References: <20230426123119.8738-1-kch@nvidia.com>
-In-Reply-To: <20230426123119.8738-1-kch@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|CH3PR12MB8355:EE_
-x-ms-office365-filtering-correlation-id: 5a4fab25-4e6e-44c6-adfd-08db46560b57
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  P0+iuMzdp/HcWf5F66cDiUFRAugi9MZhBv6j2Y1R2wEvBq5MZPzWv6TtS1seg+Q2oep0MHZbdUZEyzR6k9989hWuwYHHm4cG+3JyichGiWPCJHXe1ISKQubezFg2YrnnHT98zPMMkyzA601S1bfN24fe4ryArGGniVIXGomW3KhtD/aUM46ZM6Jm+l+UZyah0kQ+UHfzi4KUONW9gmdIZLZhKa3VyQCJY3BqM580kHiX74vRCzysTrfnQbG+1TQu2xn+7P9yZoQa28b989Ej4Jp56Q/U/4AWTaCldOyM7a0Hi2kFauS8nNGeJVi68mJ9IR9wMeXJcn087nprG2UxI7X3nQiOteLE/3peNrbsXFLV3OztIc1rQolX+RNDMMuqCKIApMxP/5faU3wq9cZ/ty6St4yN1+qO5FqYB0tevwcSCiOMcVGQYGfmEqnmP4uAD/qdknCqs0SiO/219zgpYOFntgXOrusEU2NtfyZb6AABQES/Ky36zG9gsX2yrmDmIVCZcG/UcnJHkN16jHe7WFsYdCnXk2fjN6EyuKX2E5gqxksZTS/W0UqSMGC89F6EGFGZLlJeEW9wAEq4m3rEX+W1TbuON4gX1UVdHH/IabnnXG+PGHZP/hBEKeiHALDtH8sXAVLLb0wW7IiqSkDkbP1UtuiEK8NmkbG+5ah/fussxpgQIqMw8KeTmwjq/LVT
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(396003)(39860400002)(136003)(366004)(376002)(451199021)(53546011)(6506007)(6512007)(186003)(66446008)(66556008)(4326008)(64756008)(66476007)(5660300002)(316002)(76116006)(91956017)(66946007)(71200400001)(6486002)(31686004)(2616005)(41300700001)(31696002)(66899021)(36756003)(110136005)(38070700005)(54906003)(8676002)(8936002)(2906002)(4744005)(478600001)(86362001)(38100700002)(122000001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?b01DTU0rZ3lNMHJkMnBlZFUrWXNVSllWcnQvL1hVVFhtcTFBVVRWbGlNNmFW?=
- =?utf-8?B?eEpMcTFDanhRY0NOSDg1YUNHR1lRbnM0UHdpSk9HOWlTQ25HbGdOblNjK2ti?=
- =?utf-8?B?N2dwRzdyWGN2NTlwNC9vQ3BtNWlCTTJkM3pvNjR0dGdyY1ExM2ZKR1ZrdTVP?=
- =?utf-8?B?a09qNm9FWitTZ25KMVQyVnZGM29FMXl2NytINzZ2NUhOeU12MTRsTnVpUCs1?=
- =?utf-8?B?c3NsaUZKblhNQmdDcGVDQUhTaVhqdmloWk5nZzdYUnZTNThKYmdzYmFHSEZn?=
- =?utf-8?B?S3JDN3plSHRvSEs1TTJCb09WYjJZSEY3OUJ0SGs1YWVuMHFzdyt4aXE4V2xq?=
- =?utf-8?B?cUE4V0VENkhWc3ZhR0hXdW8xdnNWVngrNGFTa3YxS1NVZGgyY1d3blZSMCtx?=
- =?utf-8?B?dnROU2VGNzUyb0NCTWFxeXZyMUxSTjg3RU5ER0p2cXoyNDB0TjhzZytyRTky?=
- =?utf-8?B?cHozZ3ppNHJDVzE1K1orMStOZWJYWFJCc0hVSFViTHR3Q3RkbVh2NXRwVmhl?=
- =?utf-8?B?bHY3dEp1YnRTaVVDS2pQd2d6UnBRVDh3QXZFN1kvaXkwaGJNWnY1LzFWNm12?=
- =?utf-8?B?Zk1uSWZ2TUt5WDU0WWJCcUliMWUyK28xWldPRkxNTS9vTnk2eWY3UUg4Q1dU?=
- =?utf-8?B?Ty8vL3J3d0xVaHFPdWFNbGRXREN0aURraWN1aTJLU3U4VjVEUnNBRzM2emY0?=
- =?utf-8?B?T1ZHcHZEdzZtTDBxK2tyVDRxZEVjQ3hnZklxTU9NY2pnbEk0dVBSc0NZeUpC?=
- =?utf-8?B?RitqNlpYcC96aEdLOTNrcXB6Ym9TQ2F4NkJWdGV4VW14RGk2RVZyd00rSitm?=
- =?utf-8?B?cllCYkV0dGExSFRBZ1pISDJCZmc4Nmh6SFdrdDg4ejhzMGFpUHFzeWE4Zjc5?=
- =?utf-8?B?aVR0SjRDOXM4OFlra3pVOWliY29yVDd2a1FObUxkUjRzbUcvTy9uSE1GYW10?=
- =?utf-8?B?aEl3VS9jTWtPUXNZanFPYmh3eUlqcVMzY1ZRajF2TGhYc0IrdGNDY1cvYUor?=
- =?utf-8?B?MlpaNzFyN2V6a09lR1FmTVl2NkRSMFc2WjJXUURxdVdtNVBnc2dOVFpCaExw?=
- =?utf-8?B?Vi9BcU5ZTUc0ME5TaGVBRkgyeHB4bTdJd3dGZmVFQzNYdEZyQWNKdW12YjIx?=
- =?utf-8?B?UVFpYXVVTDBOQ0twaDhBQTI1amgyaGhXZkRDTHdlcUN4KzNpYXZNMFB5amlW?=
- =?utf-8?B?R3BpY1oyYjcyUXY1TlpLcW1ENmJWalE1R0g1ZVdpekN3aWliUU03b2NoWEU2?=
- =?utf-8?B?aGtKR0tWT2swTkYrMnRnYVFNTHcyd0RYaUFGQS9lMnFKODJpbFJvOEN6eVpi?=
- =?utf-8?B?SzZQeHhzajFDQjE0T2MvK2xlNm5XKzl4dEdFNk9zdWRWTmRLS2VpeVhQUFpr?=
- =?utf-8?B?a3lvUFNPempxMHNCWkw1c3A1Y0E4NmMvUlJ1WjZlM0x2emNIMEdSUHRtRDRS?=
- =?utf-8?B?TlFTcFdYU1NFMG50Nnd6eTNrZHpESWhDQndHNUhBRThWK0ZSczljU0N2eG9s?=
- =?utf-8?B?WWYwRzF2aG14WWpJRHNwWGlmU2dONlN5cTJvOU16ZTlKZ2lVNGEweUVTakNF?=
- =?utf-8?B?cERtcjJpdUxGSytOanFHVVJzNHdhcGU2d0FEYUFKTkkrOFlGQmFacjViTXUz?=
- =?utf-8?B?cEN6NCtWMVRsTEpYdCtON0FGS1c5bTc4MS9BaGE5d09oZ3VwMHBqSkpwS3Nu?=
- =?utf-8?B?YTJBK3YrdCtRVzVmNG0rZFlqSFZLVS9mcVlEWnI0ZDVmclB1cFBYMjMzcEdH?=
- =?utf-8?B?UFFjcGFXM3M2YlFJbDNTbEJMSjM2bnlRTHVDMzRuTjI5dEFCemlISjgvL0tY?=
- =?utf-8?B?QzY5Y2ljYUF6aXdJZXZ5ODZoc1NoTWhyY0R2dDJsb1FPMVRHeXdLcUEwTXRx?=
- =?utf-8?B?cnV5RTFnWXhocmZnaUNUNnhuc3lxTkRaR0JoOUVpOXZiNVdnQmtJZXRiSmw3?=
- =?utf-8?B?ZDcralRrdlA4emJ6ckR6SVhNOVRadVM0RzlxRzVrWjVVR1orRjc3RExrZHZB?=
- =?utf-8?B?SlhMZ050MDJldGZVcUdTa0NLaEpFZDFsQU1FTE51ZVkrZWYvV0VMYjBQQlBL?=
- =?utf-8?B?RVVsNTQwRkJxNlR5bUlZc09qb2hweVBRbnB0RUhUMVR1ZjhJY2R2b0d0Lzl6?=
- =?utf-8?B?a1ZTU3ZkM0ZrdkVKUjdpRFhqd3FHUTdkc3Z4NEJTMVl2Zno0aTlVUHc3K0JB?=
- =?utf-8?Q?GuwE/n3eoPjkG2kt7NAtAGBty0CvkSUNLAPFbtO1Z1Bw?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <38B51F2B5F5B5B499E27C407DE4DBB6A@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Wed, 26 Apr 2023 13:44:49 +0000
+Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-518d325b8a2so7074854a12.0
+        for <linux-nvme@lists.infradead.org>; Wed, 26 Apr 2023 06:44:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682516686; x=1685108686;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=pdPn91glfo5QUjEER08JPexoTroKHeJw/diZo9qi1BM=;
+        b=WPg07Y95vbIFPAiJDasxuHtGCE/l2JhjJXA/1pQr6tWeTJAP7CESCAen+xWoSuqgqn
+         1Cx3M2Awh57igPNMJ3KpWhuuO3vlfTAHwE4NYn4Q9EwBXXMQAg5k1UqJYPuw+hrmweoM
+         Y8+gUR9XoOsWti7cieV2E6T42pmXuGZeE8BaHf6UXItLpxa7Qy7rYw6e5yG9jqWFsiUR
+         hzMZa1OHFhNngde43RlgfZeEb3bPnRwC/q3EFcq+HOR1uDuzOePd/svNJYDmNY/O1oGf
+         5O5OkeU+c77ZCFebsmJJk8r5Wb/8cTh8P1BqfZddfp9bQpSFJUxKM+HJVtVdZ36MtU2n
+         f3Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682516686; x=1685108686;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pdPn91glfo5QUjEER08JPexoTroKHeJw/diZo9qi1BM=;
+        b=fxA5rGIwYnR6FN+AD8ljgpUjpCiZT6L/vA1acYdGxxbGds77i/0NIG90PBl/jwy1po
+         yp9ijNymJtPDm1DUslc7yyQiLGZqnmdpV/qPwkHuGJsUggkUQJ8iucXsYzW+he6+N8HM
+         dC00bp6+C4I4Ql6fKfoQ53Buc0/UgGWqnP8SCSNMKJkyf6XPuuSr1OSTXYuHisskdPoa
+         8tOjFx5c3ISuQRVMguF+o1r11HQHOXsiiA5Stws3kXQUbv8ToWhGrtI0BQQw7RKzqPsf
+         gHor4rikNOkQT8W0Kyk5IoGg5SBTVy/PfMtEeC1dQnmsV9XBK2On3SWbGmgsa5cUaXNr
+         hI7g==
+X-Gm-Message-State: AAQBX9dGAizrVB+2PSzAUyTyb2w6d6DnP7pRE0NFXmnPk8kAHJi7IhAA
+	QpRZKXM5z0i2FORyIv+xUhI=
+X-Google-Smtp-Source: AKy350a02ivUcXL0hM60DUBtaxz0ej49BaAkpRBAvpLaopDGMEOPe7Q0cWViu//sOk7VU5Jc/JG5QQ==
+X-Received: by 2002:a05:6a21:792:b0:ef:e240:b562 with SMTP id mg18-20020a056a21079200b000efe240b562mr23665783pzb.39.1682516686319;
+        Wed, 26 Apr 2023 06:44:46 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id i22-20020a635856000000b00502f4c62fd3sm9591416pgm.33.2023.04.26.06.44.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Apr 2023 06:44:45 -0700 (PDT)
+Message-ID: <8e643bff-49c5-6dd9-b51a-116e1990ff93@roeck-us.net>
+Date: Wed, 26 Apr 2023 06:44:43 -0700
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a4fab25-4e6e-44c6-adfd-08db46560b57
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Apr 2023 12:59:17.4284
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8b+uUJQwVH8g0ZoYSfS/9EgilpozU8aqbNDol14xo1hw1k68abOoSm0yVEqs5X8XGLigcU0RDLKHvOZ9UcdkFg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8355
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] nvme-pci: add quirk for missing secondary temperature
+ thresholds
+Content-Language: en-US
+To: Hristo Venev <hristo@venev.name>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org
+References: <20230425195853.322100-1-hristo@venev.name>
+ <5e8a5d87-3cc8-4141-bcea-34aff5a82149@roeck-us.net>
+ <386668a7596beb52443c14fb33bfb5f329895509.camel@venev.name>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <386668a7596beb52443c14fb33bfb5f329895509.camel@venev.name>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230426_055925_282467_23A74F46 
-X-CRM114-Status: GOOD (  11.77  )
+X-CRM114-CacheID: sfid-20230426_064447_566731_D50F0E5C 
+X-CRM114-Status: GOOD (  22.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -149,13 +99,114 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gNC8yNi8yMyAwNTozMSwgQ2hhaXRhbnlhIEt1bGthcm5pIHdyb3RlOg0KPiBJbnN0YWVkIG9m
-IGR1cGxpY2F0aW5nIHNhbWUgY29kZSBpbiBldmVyeSB0cmFuc3BvcnQsIGFkZCBoZWxwZXIgaW4g
-dGhlDQo+IGNvcmUgdG8gcHJpbnQgdGhlIGN0cmwtPmlvX3F1ZXVlcywgc2luY2UgYWxsIHRoZSB0
-cmFuc3BvcnRzIGFyZSB1c2luZw0KPiBzYW1lIGZvcm1hdCB0byBwcmludCB0aGUgaW5mb3JtYXRp
-b24gd2UgY2FuIHNhZmVseSByZXBsYWNlIHJlcGV0YXRpdmUNCj4gY29kZSBieSBhIGNlbnRyYWxp
-emUgaGVscGVyLg0KPg0KPiBVc2UgdGhhdCBoZWxwZXIgZm9yIG52bWUtcGNpIHRyYW5zcG9ydC4N
-Cj4NCj4gU2lnbmVkLW9mZi1ieTogQ2hhaXRhbnlhIEt1bGthcm5pIDxrY2hAbnZpZGlhLmNvbT4N
-Cj4gLS0tDQo+ICAgDQoNCmZvcmdvdCBjb3Zlci1sZXR0ZXIsIHdpbGwgc2VuZCBWMiB3aXRoIHRo
-YXQsIG1lYW53aGlsZSBhbnkNCmNvbW1lbnRzIGFyZSB3ZWxjb21lLg0KDQotY2sNCg0KDQo=
+On 4/25/23 22:57, Hristo Venev wrote:
+> On Tue, 2023-04-25 at 16:39 -0700, Guenter Roeck wrote:
+>> On Tue, Apr 25, 2023 at 10:58:54PM +0300, Hristo Venev wrote:
+>>> On Kingston KC3000 and Kingston FURY Renegade (both have the same
+>>> PCI
+>>> IDs) accessing temp3_{min,max} fails with an invalid field error
+>>> (note
+>>> that there is no problem setting the thresholds for temp1).
+>>>
+>>> This contradicts the NVM Express Base Specification 2.0b, page 292:
+>>>
+>>>    The over temperature threshold and under temperature threshold
+>>>    features shall be implemented for all implemented temperature
+>>> sensors
+>>>    (i.e., all Temperature Sensor fields that report a non-zero
+>>> value).
+>>>
+>>> Define NVME_QUIRK_NO_SECONDARY_TEMP_THRESH that disables the
+>>> thresholds
+>>> for all but the composite temperature and set it for this device.
+>>>
+>>
+>> The description above says that temp3_{min,max} return errors.
+>> How about temp2 ? This patch disables that as well, but it is not
+>> clear
+>> if temp2_{min,max} return errors as well. If temp2 limits work,
+>> disabling
+>> them would be overkill.
+> 
+> temp2 doesn't exist. The only temperature sensors on that SSD are temp1
+> and temp3.
+> 
+
+Interesting. In that case
+
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+
+Guenter
+
+>>
+>> Thanks,
+>> Guenter
+>>
+>>> Signed-off-by: Hristo Venev <hristo@venev.name>
+>>> ---
+>>>   drivers/nvme/host/hwmon.c | 3 ++-
+>>>   drivers/nvme/host/nvme.h  | 5 +++++
+>>>   drivers/nvme/host/pci.c   | 2 ++
+>>>   3 files changed, 9 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/nvme/host/hwmon.c b/drivers/nvme/host/hwmon.c
+>>> index 9e6e56c20ec9..7a2c4b5e018c 100644
+>>> --- a/drivers/nvme/host/hwmon.c
+>>> +++ b/drivers/nvme/host/hwmon.c
+>>> @@ -163,7 +163,8 @@ static umode_t nvme_hwmon_is_visible(const void
+>>> *_data,
+>>>          case hwmon_temp_max:
+>>>          case hwmon_temp_min:
+>>>                  if ((!channel && data->ctrl->wctemp) ||
+>>> -                   (channel && data->log->temp_sensor[channel -
+>>> 1])) {
+>>> +                   (channel && data->log->temp_sensor[channel - 1]
+>>> &&
+>>> +                    !(data->ctrl->quirks &
+>>> NVME_QUIRK_NO_SECONDARY_TEMP_THRESH))) {
+>>>                          if (data->ctrl->quirks &
+>>>                              NVME_QUIRK_NO_TEMP_THRESH_CHANGE)
+>>>                                  return 0444;
+>>> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+>>> index bf46f122e9e1..a2d4f59e0535 100644
+>>> --- a/drivers/nvme/host/nvme.h
+>>> +++ b/drivers/nvme/host/nvme.h
+>>> @@ -149,6 +149,11 @@ enum nvme_quirks {
+>>>           * Reports garbage in the namespace identifiers (eui64,
+>>> nguid, uuid).
+>>>           */
+>>>          NVME_QUIRK_BOGUS_NID                    = (1 << 18),
+>>> +
+>>> +       /*
+>>> +        * No temperature thresholds for channels other than 0
+>>> (Composite).
+>>> +        */
+>>> +       NVME_QUIRK_NO_SECONDARY_TEMP_THRESH     = (1 << 19),
+>>>   };
+>>>   
+>>>   /*
+>>> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+>>> index cd7873de3121..e457ad169dcb 100644
+>>> --- a/drivers/nvme/host/pci.c
+>>> +++ b/drivers/nvme/host/pci.c
+>>> @@ -3416,6 +3416,8 @@ static const struct pci_device_id
+>>> nvme_id_table[] = {
+>>>                  .driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
+>>>          { PCI_DEVICE(0x2646, 0x501E),   /* KINGSTON OM3PGP4xxxxQ
+>>> OS21011 NVMe SSD */
+>>>                  .driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
+>>> +       { PCI_DEVICE(0x2646, 0x5013),   /* Kingston KC3000,
+>>> Kingston FURY Renegade */
+>>> +               .driver_data = NVME_QUIRK_NO_SECONDARY_TEMP_THRESH,
+>>> },
+>>>          { PCI_DEVICE(0x1f40, 0x1202),   /* Netac Technologies Co.
+>>> NV3000 NVMe SSD */
+>>>                  .driver_data = NVME_QUIRK_BOGUS_NID, },
+>>>          { PCI_DEVICE(0x1f40, 0x5236),   /* Netac Technologies Co.
+>>> NV7000 NVMe SSD */
+>>> -- 
+>>> 2.40.0
+>>>
+> 
+
 
