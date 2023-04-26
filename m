@@ -4,87 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 825D4C7618E
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Apr 2023 13:44:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A5B8C7618E
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Apr 2023 15:05:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pdPn91glfo5QUjEER08JPexoTroKHeJw/diZo9qi1BM=; b=fX0LTmd3VF7zUFb48Jjx5EnrBQ
-	i4BP5KWcQ1lYAmlHogZXRV+5O1wfyBehiWcQfIQEuQymwEzPi8rMuvd+xXqtf0HAr0gXwA7II9avy
-	R0F8jWV0+VUBqDpBQ66UrTud6c5Q2P107fMHLJ6PJd7qei0NBj1JpQLWb5lnRwdStMkC3veC4rwGx
-	em3GGUBJnZ062Kpi0zWwKWptFxRPGwMMpXS7b9kf93wkxXuFqTRoVklUHa7tdozVRzyr6z45vhZgJ
-	sW98+lHgfIDc/c+oBQC6K3xxeUMMbkg4Mw3yg1aTrApFvyoq30ot6euaVFxC0C4rjOSbvnvmMMoJH
-	Q1dveAsg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=bXdgUo/8OQQoWcrm88Amzbl68YnBbt+MJkmr74d6h8Y=; b=PSygbIiniwSjRo/LI5Ro+D2Dmq
+	+6UpW6S9gNg0xPca5TOcPPJw68sDdwxWUnsX/JocT1rig375wMKuyd9DLaQP+/6Hq/scAXRHhsQq4
+	1NP/zhxFWE8FEhTVxiKlkbFgjVGVKAyDRSu1unWM2VyRjsMLfasjwufO9QlqDGg50exajwSIrkdsV
+	XjdNuuBiP4ls8Y4z4jcr9IbbDw84m/FekwiJiGWPjQ+mOQgn1suIeMDut3e1w/qYCebH5446Q7GJU
+	O7bG0VpA8hv0pB/BkbVe33fbtLr97kT/nb49xBK6D7Ty+eGgjxld3heBVCrdTDin0bQ/79kuhiMF4
+	wWFZG1kA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1prfRz-00479r-0G;
-	Wed, 26 Apr 2023 13:44:51 +0000
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
+	id 1prghb-004HYF-1t;
+	Wed, 26 Apr 2023 15:05:03 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1prfRv-00479O-1Z
+	id 1prghX-004HWG-2y
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Apr 2023 13:44:49 +0000
-Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-518d325b8a2so7074854a12.0
-        for <linux-nvme@lists.infradead.org>; Wed, 26 Apr 2023 06:44:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682516686; x=1685108686;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=pdPn91glfo5QUjEER08JPexoTroKHeJw/diZo9qi1BM=;
-        b=WPg07Y95vbIFPAiJDasxuHtGCE/l2JhjJXA/1pQr6tWeTJAP7CESCAen+xWoSuqgqn
-         1Cx3M2Awh57igPNMJ3KpWhuuO3vlfTAHwE4NYn4Q9EwBXXMQAg5k1UqJYPuw+hrmweoM
-         Y8+gUR9XoOsWti7cieV2E6T42pmXuGZeE8BaHf6UXItLpxa7Qy7rYw6e5yG9jqWFsiUR
-         hzMZa1OHFhNngde43RlgfZeEb3bPnRwC/q3EFcq+HOR1uDuzOePd/svNJYDmNY/O1oGf
-         5O5OkeU+c77ZCFebsmJJk8r5Wb/8cTh8P1BqfZddfp9bQpSFJUxKM+HJVtVdZ36MtU2n
-         f3Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682516686; x=1685108686;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pdPn91glfo5QUjEER08JPexoTroKHeJw/diZo9qi1BM=;
-        b=fxA5rGIwYnR6FN+AD8ljgpUjpCiZT6L/vA1acYdGxxbGds77i/0NIG90PBl/jwy1po
-         yp9ijNymJtPDm1DUslc7yyQiLGZqnmdpV/qPwkHuGJsUggkUQJ8iucXsYzW+he6+N8HM
-         dC00bp6+C4I4Ql6fKfoQ53Buc0/UgGWqnP8SCSNMKJkyf6XPuuSr1OSTXYuHisskdPoa
-         8tOjFx5c3ISuQRVMguF+o1r11HQHOXsiiA5Stws3kXQUbv8ToWhGrtI0BQQw7RKzqPsf
-         gHor4rikNOkQT8W0Kyk5IoGg5SBTVy/PfMtEeC1dQnmsV9XBK2On3SWbGmgsa5cUaXNr
-         hI7g==
-X-Gm-Message-State: AAQBX9dGAizrVB+2PSzAUyTyb2w6d6DnP7pRE0NFXmnPk8kAHJi7IhAA
-	QpRZKXM5z0i2FORyIv+xUhI=
-X-Google-Smtp-Source: AKy350a02ivUcXL0hM60DUBtaxz0ej49BaAkpRBAvpLaopDGMEOPe7Q0cWViu//sOk7VU5Jc/JG5QQ==
-X-Received: by 2002:a05:6a21:792:b0:ef:e240:b562 with SMTP id mg18-20020a056a21079200b000efe240b562mr23665783pzb.39.1682516686319;
-        Wed, 26 Apr 2023 06:44:46 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id i22-20020a635856000000b00502f4c62fd3sm9591416pgm.33.2023.04.26.06.44.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Apr 2023 06:44:45 -0700 (PDT)
-Message-ID: <8e643bff-49c5-6dd9-b51a-116e1990ff93@roeck-us.net>
-Date: Wed, 26 Apr 2023 06:44:43 -0700
+	Wed, 26 Apr 2023 15:05:02 +0000
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+	by m0001303.ppops.net (8.17.1.19/8.17.1.19) with ESMTP id 33QDOAcp007231
+	for <linux-nvme@lists.infradead.org>; Wed, 26 Apr 2023 08:04:55 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=s2048-2021-q4;
+ bh=bXdgUo/8OQQoWcrm88Amzbl68YnBbt+MJkmr74d6h8Y=;
+ b=e154/ovQcrRZ48+9yfI0TbDKegP/u5jCclJL5OYf16gAvfx5+8SA12e5JRLYxHGGnnc3
+ FnmFa5zqMC3QOvkEP6dhrx67YiFrZmgPnjZ7W86K52ntZFOxvjR24XbOXUsAUqQWSOzb
+ WycObz9YZcg0bMzkuO1CtqdBYSKBfKOLRT632mU1mAcn8nth/O/blDpE9tp2lE47eF6y
+ puCZhokfNGG4fpF02JTq0RMFTQBZ17lWYKZ9eoxJTzzuq/IiyMI70BcXG3OoKutSWGHZ
+ DwReF8R77e+Ao2Ijb7Jr5+qCkAmDiKxM9hRP5lqVQPOu+ym9I8NsZ7eW6JFPD/34j5qj 1Q== 
+Received: from mail.thefacebook.com ([163.114.132.120])
+	by m0001303.ppops.net (PPS) with ESMTPS id 3q6s3gvhut-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Wed, 26 Apr 2023 08:04:55 -0700
+Received: from twshared31955.05.ash9.facebook.com (2620:10d:c085:108::8) by
+ mail.thefacebook.com (2620:10d:c085:21d::6) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Wed, 26 Apr 2023 08:04:52 -0700
+Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
+	id EAB021709D04C; Wed, 26 Apr 2023 08:04:41 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>, <hch@lst.de>, <sagi@grimberg.me>
+CC: Keith Busch <kbusch@kernel.org>, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCHv2] nvme-fabrics: add queue setup helpers
+Date: Wed, 26 Apr 2023 08:04:41 -0700
+Message-ID: <20230426150441.595318-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] nvme-pci: add quirk for missing secondary temperature
- thresholds
-Content-Language: en-US
-To: Hristo Venev <hristo@venev.name>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org
-References: <20230425195853.322100-1-hristo@venev.name>
- <5e8a5d87-3cc8-4141-bcea-34aff5a82149@roeck-us.net>
- <386668a7596beb52443c14fb33bfb5f329895509.camel@venev.name>
-From: Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <386668a7596beb52443c14fb33bfb5f329895509.camel@venev.name>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: Blz4zcGBEW6Pt6S6pzzoq_cE2t2g6P5c
+X-Proofpoint-ORIG-GUID: Blz4zcGBEW6Pt6S6pzzoq_cE2t2g6P5c
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-26_07,2023-04-26_03,2023-02-09_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230426_064447_566731_D50F0E5C 
-X-CRM114-Status: GOOD (  22.61  )
+X-CRM114-CacheID: sfid-20230426_080500_141543_319E49B9 
+X-CRM114-Status: GOOD (  21.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,114 +82,386 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/25/23 22:57, Hristo Venev wrote:
-> On Tue, 2023-04-25 at 16:39 -0700, Guenter Roeck wrote:
->> On Tue, Apr 25, 2023 at 10:58:54PM +0300, Hristo Venev wrote:
->>> On Kingston KC3000 and Kingston FURY Renegade (both have the same
->>> PCI
->>> IDs) accessing temp3_{min,max} fails with an invalid field error
->>> (note
->>> that there is no problem setting the thresholds for temp1).
->>>
->>> This contradicts the NVM Express Base Specification 2.0b, page 292:
->>>
->>>    The over temperature threshold and under temperature threshold
->>>    features shall be implemented for all implemented temperature
->>> sensors
->>>    (i.e., all Temperature Sensor fields that report a non-zero
->>> value).
->>>
->>> Define NVME_QUIRK_NO_SECONDARY_TEMP_THRESH that disables the
->>> thresholds
->>> for all but the composite temperature and set it for this device.
->>>
->>
->> The description above says that temp3_{min,max} return errors.
->> How about temp2 ? This patch disables that as well, but it is not
->> clear
->> if temp2_{min,max} return errors as well. If temp2 limits work,
->> disabling
->> them would be overkill.
-> 
-> temp2 doesn't exist. The only temperature sensors on that SSD are temp1
-> and temp3.
-> 
+From: Keith Busch <kbusch@kernel.org>
 
-Interesting. In that case
+tcp and rdma transports have lots of duplicate code setting up the
+different queue mappings. Add common helpers.
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+Cc: Chaitanya Kulkarni <kch@nvidia.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+v1->v2:
 
-Guenter
+  Merged up to latest that doesn't have the RDMA specifics
 
->>
->> Thanks,
->> Guenter
->>
->>> Signed-off-by: Hristo Venev <hristo@venev.name>
->>> ---
->>>   drivers/nvme/host/hwmon.c | 3 ++-
->>>   drivers/nvme/host/nvme.h  | 5 +++++
->>>   drivers/nvme/host/pci.c   | 2 ++
->>>   3 files changed, 9 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/nvme/host/hwmon.c b/drivers/nvme/host/hwmon.c
->>> index 9e6e56c20ec9..7a2c4b5e018c 100644
->>> --- a/drivers/nvme/host/hwmon.c
->>> +++ b/drivers/nvme/host/hwmon.c
->>> @@ -163,7 +163,8 @@ static umode_t nvme_hwmon_is_visible(const void
->>> *_data,
->>>          case hwmon_temp_max:
->>>          case hwmon_temp_min:
->>>                  if ((!channel && data->ctrl->wctemp) ||
->>> -                   (channel && data->log->temp_sensor[channel -
->>> 1])) {
->>> +                   (channel && data->log->temp_sensor[channel - 1]
->>> &&
->>> +                    !(data->ctrl->quirks &
->>> NVME_QUIRK_NO_SECONDARY_TEMP_THRESH))) {
->>>                          if (data->ctrl->quirks &
->>>                              NVME_QUIRK_NO_TEMP_THRESH_CHANGE)
->>>                                  return 0444;
->>> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
->>> index bf46f122e9e1..a2d4f59e0535 100644
->>> --- a/drivers/nvme/host/nvme.h
->>> +++ b/drivers/nvme/host/nvme.h
->>> @@ -149,6 +149,11 @@ enum nvme_quirks {
->>>           * Reports garbage in the namespace identifiers (eui64,
->>> nguid, uuid).
->>>           */
->>>          NVME_QUIRK_BOGUS_NID                    = (1 << 18),
->>> +
->>> +       /*
->>> +        * No temperature thresholds for channels other than 0
->>> (Composite).
->>> +        */
->>> +       NVME_QUIRK_NO_SECONDARY_TEMP_THRESH     = (1 << 19),
->>>   };
->>>   
->>>   /*
->>> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
->>> index cd7873de3121..e457ad169dcb 100644
->>> --- a/drivers/nvme/host/pci.c
->>> +++ b/drivers/nvme/host/pci.c
->>> @@ -3416,6 +3416,8 @@ static const struct pci_device_id
->>> nvme_id_table[] = {
->>>                  .driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
->>>          { PCI_DEVICE(0x2646, 0x501E),   /* KINGSTON OM3PGP4xxxxQ
->>> OS21011 NVMe SSD */
->>>                  .driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
->>> +       { PCI_DEVICE(0x2646, 0x5013),   /* Kingston KC3000,
->>> Kingston FURY Renegade */
->>> +               .driver_data = NVME_QUIRK_NO_SECONDARY_TEMP_THRESH,
->>> },
->>>          { PCI_DEVICE(0x1f40, 0x1202),   /* Netac Technologies Co.
->>> NV3000 NVMe SSD */
->>>                  .driver_data = NVME_QUIRK_BOGUS_NID, },
->>>          { PCI_DEVICE(0x1f40, 0x5236),   /* Netac Technologies Co.
->>> NV7000 NVMe SSD */
->>> -- 
->>> 2.40.0
->>>
-> 
+  Simplified io queue count function (Christoph)
+
+  Use 'nvmf_' prefix for function names.
+
+ drivers/nvme/host/fabrics.c | 76 ++++++++++++++++++++++++++++++
+ drivers/nvme/host/fabrics.h | 11 +++++
+ drivers/nvme/host/rdma.c    | 79 ++-----------------------------
+ drivers/nvme/host/tcp.c     | 92 ++-----------------------------------
+ 4 files changed, 96 insertions(+), 162 deletions(-)
+
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index bbaa04a0c502b..3ff5030562088 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -957,6 +957,82 @@ static int nvmf_parse_options(struct nvmf_ctrl_optio=
+ns *opts,
+ 	return ret;
+ }
+=20
++void nvmf_set_io_queues(struct nvmf_ctrl_options *opts, u32 nr_io_queues=
+,
++			u32 io_queues[HCTX_MAX_TYPES])
++{
++	if (opts->nr_write_queues && opts->nr_io_queues < nr_io_queues) {
++		/*
++		 * separate read/write queues
++		 * hand out dedicated default queues only after we have
++		 * sufficient read queues.
++		 */
++		io_queues[HCTX_TYPE_READ] =3D opts->nr_io_queues;
++		nr_io_queues -=3D io_queues[HCTX_TYPE_READ];
++		io_queues[HCTX_TYPE_DEFAULT] =3D
++			min(opts->nr_write_queues, nr_io_queues);
++		nr_io_queues -=3D io_queues[HCTX_TYPE_DEFAULT];
++	} else {
++		/*
++		 * shared read/write queues
++		 * either no write queues were requested, or we don't have
++		 * sufficient queue count to have dedicated default queues.
++		 */
++		io_queues[HCTX_TYPE_DEFAULT] =3D
++			min(opts->nr_io_queues, nr_io_queues);
++		nr_io_queues -=3D io_queues[HCTX_TYPE_DEFAULT];
++	}
++
++	if (opts->nr_poll_queues && nr_io_queues) {
++		/* map dedicated poll queues only if we have queues left */
++		io_queues[HCTX_TYPE_POLL] =3D
++			min(opts->nr_poll_queues, nr_io_queues);
++	}
++}
++EXPORT_SYMBOL_GPL(nvmf_set_io_queues);
++
++void nvmf_map_queues(struct blk_mq_tag_set *set, struct nvme_ctrl *ctrl,
++		     u32 io_queues[HCTX_MAX_TYPES])
++{
++	struct nvmf_ctrl_options *opts =3D ctrl->opts;
++
++	if (opts->nr_write_queues && io_queues[HCTX_TYPE_READ]) {
++		/* separate read/write queues */
++		set->map[HCTX_TYPE_DEFAULT].nr_queues =3D
++			io_queues[HCTX_TYPE_DEFAULT];
++		set->map[HCTX_TYPE_DEFAULT].queue_offset =3D 0;
++		set->map[HCTX_TYPE_READ].nr_queues =3D
++			io_queues[HCTX_TYPE_READ];
++		set->map[HCTX_TYPE_READ].queue_offset =3D
++			io_queues[HCTX_TYPE_DEFAULT];
++	} else {
++		/* shared read/write queues */
++		set->map[HCTX_TYPE_DEFAULT].nr_queues =3D
++			io_queues[HCTX_TYPE_DEFAULT];
++		set->map[HCTX_TYPE_DEFAULT].queue_offset =3D 0;
++		set->map[HCTX_TYPE_READ].nr_queues =3D
++			io_queues[HCTX_TYPE_DEFAULT];
++		set->map[HCTX_TYPE_READ].queue_offset =3D 0;
++	}
++
++	blk_mq_map_queues(&set->map[HCTX_TYPE_DEFAULT]);
++	blk_mq_map_queues(&set->map[HCTX_TYPE_READ]);
++	if (opts->nr_poll_queues && io_queues[HCTX_TYPE_POLL]) {
++		/* map dedicated poll queues only if we have queues left */
++		set->map[HCTX_TYPE_POLL].nr_queues =3D io_queues[HCTX_TYPE_POLL];
++		set->map[HCTX_TYPE_POLL].queue_offset =3D
++			io_queues[HCTX_TYPE_DEFAULT] +
++			io_queues[HCTX_TYPE_READ];
++		blk_mq_map_queues(&set->map[HCTX_TYPE_POLL]);
++	}
++
++	dev_info(ctrl->device,
++		"mapped %d/%d/%d default/read/poll queues.\n",
++		io_queues[HCTX_TYPE_DEFAULT],
++		io_queues[HCTX_TYPE_READ],
++		io_queues[HCTX_TYPE_POLL]);
++}
++EXPORT_SYMBOL_GPL(nvmf_map_queues);
++
+ static int nvmf_check_required_opts(struct nvmf_ctrl_options *opts,
+ 		unsigned int required_opts)
+ {
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index dcac3df8a5f76..e438d67a319b5 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -203,6 +203,13 @@ static inline void nvmf_complete_timed_out_request(s=
+truct request *rq)
+ 	}
+ }
+=20
++static inline unsigned int nvmf_nr_io_queues(struct nvmf_ctrl_options *o=
+pts)
++{
++	return min(opts->nr_io_queues, num_online_cpus()) +
++		min(opts->nr_write_queues, num_online_cpus()) +
++		min(opts->nr_poll_queues, num_online_cpus());
++}
++
+ int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val);
+ int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val);
+ int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val);
+@@ -215,5 +222,9 @@ int nvmf_get_address(struct nvme_ctrl *ctrl, char *bu=
+f, int size);
+ bool nvmf_should_reconnect(struct nvme_ctrl *ctrl);
+ bool nvmf_ip_options_match(struct nvme_ctrl *ctrl,
+ 		struct nvmf_ctrl_options *opts);
++void nvmf_set_io_queues(struct nvmf_ctrl_options *opts, u32 nr_io_queues=
+,
++			u32 io_queues[HCTX_MAX_TYPES]);
++void nvmf_map_queues(struct blk_mq_tag_set *set, struct nvme_ctrl *ctrl,
++		     u32 io_queues[HCTX_MAX_TYPES]);
+=20
+ #endif /* _NVME_FABRICS_H */
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 0eb79696fb736..168fdf5e11113 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -713,18 +713,10 @@ static int nvme_rdma_start_io_queues(struct nvme_rd=
+ma_ctrl *ctrl,
+ static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
+ {
+ 	struct nvmf_ctrl_options *opts =3D ctrl->ctrl.opts;
+-	struct ib_device *ibdev =3D ctrl->device->dev;
+-	unsigned int nr_io_queues, nr_default_queues;
+-	unsigned int nr_read_queues, nr_poll_queues;
++	unsigned int nr_io_queues;
+ 	int i, ret;
+=20
+-	nr_read_queues =3D min_t(unsigned int, ibdev->num_comp_vectors,
+-				min(opts->nr_io_queues, num_online_cpus()));
+-	nr_default_queues =3D  min_t(unsigned int, ibdev->num_comp_vectors,
+-				min(opts->nr_write_queues, num_online_cpus()));
+-	nr_poll_queues =3D min(opts->nr_poll_queues, num_online_cpus());
+-	nr_io_queues =3D nr_read_queues + nr_default_queues + nr_poll_queues;
+-
++	nr_io_queues =3D nvmf_nr_io_queues(opts);
+ 	ret =3D nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
+ 	if (ret)
+ 		return ret;
+@@ -739,34 +731,7 @@ static int nvme_rdma_alloc_io_queues(struct nvme_rdm=
+a_ctrl *ctrl)
+ 	dev_info(ctrl->ctrl.device,
+ 		"creating %d I/O queues.\n", nr_io_queues);
+=20
+-	if (opts->nr_write_queues && nr_read_queues < nr_io_queues) {
+-		/*
+-		 * separate read/write queues
+-		 * hand out dedicated default queues only after we have
+-		 * sufficient read queues.
+-		 */
+-		ctrl->io_queues[HCTX_TYPE_READ] =3D nr_read_queues;
+-		nr_io_queues -=3D ctrl->io_queues[HCTX_TYPE_READ];
+-		ctrl->io_queues[HCTX_TYPE_DEFAULT] =3D
+-			min(nr_default_queues, nr_io_queues);
+-		nr_io_queues -=3D ctrl->io_queues[HCTX_TYPE_DEFAULT];
+-	} else {
+-		/*
+-		 * shared read/write queues
+-		 * either no write queues were requested, or we don't have
+-		 * sufficient queue count to have dedicated default queues.
+-		 */
+-		ctrl->io_queues[HCTX_TYPE_DEFAULT] =3D
+-			min(nr_read_queues, nr_io_queues);
+-		nr_io_queues -=3D ctrl->io_queues[HCTX_TYPE_DEFAULT];
+-	}
+-
+-	if (opts->nr_poll_queues && nr_io_queues) {
+-		/* map dedicated poll queues only if we have queues left */
+-		ctrl->io_queues[HCTX_TYPE_POLL] =3D
+-			min(nr_poll_queues, nr_io_queues);
+-	}
+-
++	nvmf_set_io_queues(opts, nr_io_queues, ctrl->io_queues);
+ 	for (i =3D 1; i < ctrl->ctrl.queue_count; i++) {
+ 		ret =3D nvme_rdma_alloc_queue(ctrl, i,
+ 				ctrl->ctrl.sqsize + 1);
+@@ -2138,44 +2103,8 @@ static void nvme_rdma_complete_rq(struct request *=
+rq)
+ static void nvme_rdma_map_queues(struct blk_mq_tag_set *set)
+ {
+ 	struct nvme_rdma_ctrl *ctrl =3D to_rdma_ctrl(set->driver_data);
+-	struct nvmf_ctrl_options *opts =3D ctrl->ctrl.opts;
+=20
+-	if (opts->nr_write_queues && ctrl->io_queues[HCTX_TYPE_READ]) {
+-		/* separate read/write queues */
+-		set->map[HCTX_TYPE_DEFAULT].nr_queues =3D
+-			ctrl->io_queues[HCTX_TYPE_DEFAULT];
+-		set->map[HCTX_TYPE_DEFAULT].queue_offset =3D 0;
+-		set->map[HCTX_TYPE_READ].nr_queues =3D
+-			ctrl->io_queues[HCTX_TYPE_READ];
+-		set->map[HCTX_TYPE_READ].queue_offset =3D
+-			ctrl->io_queues[HCTX_TYPE_DEFAULT];
+-	} else {
+-		/* shared read/write queues */
+-		set->map[HCTX_TYPE_DEFAULT].nr_queues =3D
+-			ctrl->io_queues[HCTX_TYPE_DEFAULT];
+-		set->map[HCTX_TYPE_DEFAULT].queue_offset =3D 0;
+-		set->map[HCTX_TYPE_READ].nr_queues =3D
+-			ctrl->io_queues[HCTX_TYPE_DEFAULT];
+-		set->map[HCTX_TYPE_READ].queue_offset =3D 0;
+-	}
+-	blk_mq_map_queues(&set->map[HCTX_TYPE_DEFAULT]);
+-	blk_mq_map_queues(&set->map[HCTX_TYPE_READ]);
+-
+-	if (opts->nr_poll_queues && ctrl->io_queues[HCTX_TYPE_POLL]) {
+-		/* map dedicated poll queues only if we have queues left */
+-		set->map[HCTX_TYPE_POLL].nr_queues =3D
+-				ctrl->io_queues[HCTX_TYPE_POLL];
+-		set->map[HCTX_TYPE_POLL].queue_offset =3D
+-			ctrl->io_queues[HCTX_TYPE_DEFAULT] +
+-			ctrl->io_queues[HCTX_TYPE_READ];
+-		blk_mq_map_queues(&set->map[HCTX_TYPE_POLL]);
+-	}
+-
+-	dev_info(ctrl->ctrl.device,
+-		"mapped %d/%d/%d default/read/poll queues.\n",
+-		ctrl->io_queues[HCTX_TYPE_DEFAULT],
+-		ctrl->io_queues[HCTX_TYPE_READ],
+-		ctrl->io_queues[HCTX_TYPE_POLL]);
++	nvmf_map_queues(set, &ctrl->ctrl, ctrl->io_queues);
+ }
+=20
+ static const struct blk_mq_ops nvme_rdma_mq_ops =3D {
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index bf0230442d570..260b3554d821d 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1802,58 +1802,12 @@ static int __nvme_tcp_alloc_io_queues(struct nvme=
+_ctrl *ctrl)
+ 	return ret;
+ }
+=20
+-static unsigned int nvme_tcp_nr_io_queues(struct nvme_ctrl *ctrl)
+-{
+-	unsigned int nr_io_queues;
+-
+-	nr_io_queues =3D min(ctrl->opts->nr_io_queues, num_online_cpus());
+-	nr_io_queues +=3D min(ctrl->opts->nr_write_queues, num_online_cpus());
+-	nr_io_queues +=3D min(ctrl->opts->nr_poll_queues, num_online_cpus());
+-
+-	return nr_io_queues;
+-}
+-
+-static void nvme_tcp_set_io_queues(struct nvme_ctrl *nctrl,
+-		unsigned int nr_io_queues)
+-{
+-	struct nvme_tcp_ctrl *ctrl =3D to_tcp_ctrl(nctrl);
+-	struct nvmf_ctrl_options *opts =3D nctrl->opts;
+-
+-	if (opts->nr_write_queues && opts->nr_io_queues < nr_io_queues) {
+-		/*
+-		 * separate read/write queues
+-		 * hand out dedicated default queues only after we have
+-		 * sufficient read queues.
+-		 */
+-		ctrl->io_queues[HCTX_TYPE_READ] =3D opts->nr_io_queues;
+-		nr_io_queues -=3D ctrl->io_queues[HCTX_TYPE_READ];
+-		ctrl->io_queues[HCTX_TYPE_DEFAULT] =3D
+-			min(opts->nr_write_queues, nr_io_queues);
+-		nr_io_queues -=3D ctrl->io_queues[HCTX_TYPE_DEFAULT];
+-	} else {
+-		/*
+-		 * shared read/write queues
+-		 * either no write queues were requested, or we don't have
+-		 * sufficient queue count to have dedicated default queues.
+-		 */
+-		ctrl->io_queues[HCTX_TYPE_DEFAULT] =3D
+-			min(opts->nr_io_queues, nr_io_queues);
+-		nr_io_queues -=3D ctrl->io_queues[HCTX_TYPE_DEFAULT];
+-	}
+-
+-	if (opts->nr_poll_queues && nr_io_queues) {
+-		/* map dedicated poll queues only if we have queues left */
+-		ctrl->io_queues[HCTX_TYPE_POLL] =3D
+-			min(opts->nr_poll_queues, nr_io_queues);
+-	}
+-}
+-
+ static int nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
+ {
+ 	unsigned int nr_io_queues;
+ 	int ret;
+=20
+-	nr_io_queues =3D nvme_tcp_nr_io_queues(ctrl);
++	nr_io_queues =3D nvmf_nr_io_queues(ctrl->opts);
+ 	ret =3D nvme_set_queue_count(ctrl, &nr_io_queues);
+ 	if (ret)
+ 		return ret;
+@@ -1868,8 +1822,8 @@ static int nvme_tcp_alloc_io_queues(struct nvme_ctr=
+l *ctrl)
+ 	dev_info(ctrl->device,
+ 		"creating %d I/O queues.\n", nr_io_queues);
+=20
+-	nvme_tcp_set_io_queues(ctrl, nr_io_queues);
+-
++	nvmf_set_io_queues(ctrl->opts, nr_io_queues,
++			   to_tcp_ctrl(ctrl)->io_queues);
+ 	return __nvme_tcp_alloc_io_queues(ctrl);
+ }
+=20
+@@ -2449,44 +2403,8 @@ static blk_status_t nvme_tcp_queue_rq(struct blk_m=
+q_hw_ctx *hctx,
+ static void nvme_tcp_map_queues(struct blk_mq_tag_set *set)
+ {
+ 	struct nvme_tcp_ctrl *ctrl =3D to_tcp_ctrl(set->driver_data);
+-	struct nvmf_ctrl_options *opts =3D ctrl->ctrl.opts;
+-
+-	if (opts->nr_write_queues && ctrl->io_queues[HCTX_TYPE_READ]) {
+-		/* separate read/write queues */
+-		set->map[HCTX_TYPE_DEFAULT].nr_queues =3D
+-			ctrl->io_queues[HCTX_TYPE_DEFAULT];
+-		set->map[HCTX_TYPE_DEFAULT].queue_offset =3D 0;
+-		set->map[HCTX_TYPE_READ].nr_queues =3D
+-			ctrl->io_queues[HCTX_TYPE_READ];
+-		set->map[HCTX_TYPE_READ].queue_offset =3D
+-			ctrl->io_queues[HCTX_TYPE_DEFAULT];
+-	} else {
+-		/* shared read/write queues */
+-		set->map[HCTX_TYPE_DEFAULT].nr_queues =3D
+-			ctrl->io_queues[HCTX_TYPE_DEFAULT];
+-		set->map[HCTX_TYPE_DEFAULT].queue_offset =3D 0;
+-		set->map[HCTX_TYPE_READ].nr_queues =3D
+-			ctrl->io_queues[HCTX_TYPE_DEFAULT];
+-		set->map[HCTX_TYPE_READ].queue_offset =3D 0;
+-	}
+-	blk_mq_map_queues(&set->map[HCTX_TYPE_DEFAULT]);
+-	blk_mq_map_queues(&set->map[HCTX_TYPE_READ]);
+-
+-	if (opts->nr_poll_queues && ctrl->io_queues[HCTX_TYPE_POLL]) {
+-		/* map dedicated poll queues only if we have queues left */
+-		set->map[HCTX_TYPE_POLL].nr_queues =3D
+-				ctrl->io_queues[HCTX_TYPE_POLL];
+-		set->map[HCTX_TYPE_POLL].queue_offset =3D
+-			ctrl->io_queues[HCTX_TYPE_DEFAULT] +
+-			ctrl->io_queues[HCTX_TYPE_READ];
+-		blk_mq_map_queues(&set->map[HCTX_TYPE_POLL]);
+-	}
+-
+-	dev_info(ctrl->ctrl.device,
+-		"mapped %d/%d/%d default/read/poll queues.\n",
+-		ctrl->io_queues[HCTX_TYPE_DEFAULT],
+-		ctrl->io_queues[HCTX_TYPE_READ],
+-		ctrl->io_queues[HCTX_TYPE_POLL]);
++
++	nvmf_map_queues(set, &ctrl->ctrl, ctrl->io_queues);
+ }
+=20
+ static int nvme_tcp_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batc=
+h *iob)
+--=20
+2.34.1
 
 
