@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D59F4C77B61
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Apr 2023 19:48:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6B2DC77B73
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Apr 2023 20:45:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=uWyb1m5f2X+6JFDK/HL+2kWjKi4n1QTlW4WSNRqI008=; b=z7pkyt337M9DCwo43b6jSLRm0t
-	BFcXNs1mgmcz0yYho/hEvfkzR5fy9GhI2VpiEzmSaDihfVPwVTRYMI4WUOCa/jC9PIqb6sY572VAr
-	j1kJ/areK48iFU0kwNHRy1ZJmq7nrypVYkBDiuuriwqKjkjDvSO5MnDMig/hwgURxSyBAqtUa2mIP
-	Wowh/SIaukXrQUHi0r0o/8++0eA8hP4K6n8pNYMd6qxJw7hCBZDV+4RQhwKRvSu543kJ37EEuWUb4
-	GctpGRZWiH8nNuZ8JiGY6pnBp7+Y59r8Myt8ib6jTPNg302p1tzlM+SxTuV1CZY/CLd0B5zPZuN5/
-	TOk1+Cuw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=y+RZ4tz/NQxqhCuedSvkAbV3vjR3z1XIeVY6D0OSurA=; b=1mTivmFftBVJkaAjUpZJPVXkzX
+	VlApq0z73EQspPJWh9xNyNu1F4vaOEIRk2l7edxOCgEtV9GVSvEfI+psBJyszdQy0W0Ge7kS/gIrn
+	8J7fN1qRWWIj7RLhWCOhCvFVyjAW/33EmLhmyyqGvdUEw1mP4joEhvaTAHTTMf5MI0FONNnV1KA8N
+	p2jQXu42WIDQkCD+odUwBI7Cl1WMdie97gxjkfJl6T8rydZ6y52KeUqZwrcv9EUxevntYrUR4cKy+
+	gP0e1ZMQjL/RyowVoDXMXTXKO/yBJ61ogWGVYL2GIiLWi/VCZ0sU9hE92n5b5BLoUzvkhjPkIR5Pr
+	0UkMEL+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1ps7az-007MjI-27;
-	Thu, 27 Apr 2023 19:48:01 +0000
-Received: from smtp-30.smtpout.orange.fr ([80.12.242.30] helo=smtp.smtpout.orange.fr)
+	id 1ps8UV-007UG8-0b;
+	Thu, 27 Apr 2023 20:45:23 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1ps7aw-007Mi0-1p
+	id 1ps8US-007UFH-0G
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Apr 2023 19:48:00 +0000
-Received: from pop-os.home ([86.243.2.178])
-	by smtp.orange.fr with ESMTPA
-	id s7akpPtNdcXjrs7akpwwwP; Thu, 27 Apr 2023 21:47:49 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1682624869;
-	bh=uWyb1m5f2X+6JFDK/HL+2kWjKi4n1QTlW4WSNRqI008=;
-	h=From:To:Cc:Subject:Date;
-	b=qmgSftFaXDoIy7rJcvHk/NEwLPV7x7AwfqnZ4JDXCWvDFcI22zViC8G4u9voe2XMC
-	 DmrhpMpkwIMvZcqbj+VAdoGWSgG13yFpXKrVrIS14WHb2441bwb02mOodFEqX8cGWc
-	 TOtKBD3dzDN+X376TuGZhEV4bZCpkXruag3avFeyR4gOkQO2xfv1+xlFePN6HyKJwU
-	 g5FGI5/rFQC7aNnZFU+LUaG8jp21KDjWm4HlxaBemF1f/hndmMLRkQoX/kxwqUK+IF
-	 FhBLn9/Ahkn/0NAVTUeKRoaa2jCBbgRrPnA+6nIM4VZ8IuepiSTOjO617jyHPvPSGU
-	 kTgZrEc9glp7Q==
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 27 Apr 2023 21:47:49 +0200
-X-ME-IP: 86.243.2.178
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH] nvmet: Reorder fields in 'struct nvmet_ns'
-Date: Thu, 27 Apr 2023 21:47:45 +0200
-Message-Id: <aea924d31f2bd2f740b1ccc6f462905bd6cab763.1682624855.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
+	Thu, 27 Apr 2023 20:45:21 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 9420F63FB7;
+	Thu, 27 Apr 2023 20:45:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE783C433D2;
+	Thu, 27 Apr 2023 20:45:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1682628318;
+	bh=+CHMJmPoe4lf9a+mPTqk43TA5PhL+q4e3P7D0SmTMhw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AcE12SqJ+H9BcABqL0rrb0+AmO3HXDWiK+vy1YnMXFw341szdt2fm+wyqnFAGTlyj
+	 ujetLG2zZ3b+ub8RzG/b/DfXjFP8lUE7CpCVL5AoUkrQR0kA7DpNhmdUVeLjcMlhNn
+	 OU//MlLFNPtGpL0mHFoNe0VyN/y1tl4HMD/SXh4PwF+c0qWWe9frpIzaWSTJF8Cd6q
+	 a7wfYDfMthMdZJzrhCw6o+ZdMw0KwFtNpf8p4JOL69PgGdxOXjNL3ydY1pH4eth7WJ
+	 CvrQbgCc6DJiZIwIPIv18FZNJF+elkdjVMa4n+m580tG0sQbA1NOWuvyTIzmwBa4D5
+	 et51gUwcJKdPA==
+Date: Thu, 27 Apr 2023 14:45:15 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Wang Yicheng <wangyicheng1209@gmail.com>
+Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: Seeking for help with NVMe arbitration questions
+Message-ID: <ZEre23NoKOB56eDj@kbusch-mbp.dhcp.thefacebook.com>
+References: <CAPiksxOuMyosYh0Ky==jfRcgWpGs5-4SxwfxpaLND5kHsOpq+w@mail.gmail.com>
+ <528f9679-1b07-f3af-c936-06ec1e316720@nvidia.com>
+ <CAPiksxOQsF0-p_pwFQQhG7r5WERrRKv9R_w3Bgxp=qCBcPNc+w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPiksxOQsF0-p_pwFQQhG7r5WERrRKv9R_w3Bgxp=qCBcPNc+w@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230427_124758_743576_97EAE93F 
-X-CRM114-Status: GOOD (  12.39  )
+X-CRM114-CacheID: sfid-20230427_134520_179625_8D16B82F 
+X-CRM114-Status: GOOD (  22.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,138 +75,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Group some variables based on their sizes to reduce holes.
-On x86_64, this shrinks the size of 'struct nvmet_ns' from 520 to 512
-bytes.
+On Thu, Apr 27, 2023 at 12:03:05PM -0700, Wang Yicheng wrote:
+> Thanks Chaitanya for confirming!
+> 
+> Given that the kernel module doesn't support configuring device-level
+> arbitration,
 
-When such a structure is allocated in nvmet_ns_alloc(), because of the way
-memory allocation works, when 520 bytes were requested, 1024 bytes were
-allocated.
+You can't configure the arbitration method. The only thing you can
+change is the arbitration burst size.
 
-So, on x86_64, this change saves 512 bytes per allocation.
+> I'm now trying to leverage the I/O queues to achieve the
+> same goal. If you could kindly help with the following questions it
+> will be much appreciated!
+> 
+> 1. Is there a way to query the type of each I/O queue and which CPU it
+> resides on?
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-More aggressive grouping could be done to be more future proof, but the
-way the struct nvmet_ns is written suggest that some fields should be
-kept together. So keep grouping as-is.
+The type of I/O queue selected depends on what you submit. If you
+have read queues configured, then reads go on the read queues. If
+you have poll queues, hipri io goes on those. Everything else goes
+on default.
 
+> 2. Is there a way to control which queue a submitted I/O goes into?
 
-Using pahole
+The queues are assigned to specific CPUs. If you want a specific
+queue to handle your command, then submit your request from one of
+the CPUs that map to the queue.
 
-Before:
-======
-struct nvmet_ns {
-	struct percpu_ref          ref;                  /*     0    16 */
-	struct block_device *      bdev;                 /*    16     8 */
-	struct file *              file;                 /*    24     8 */
-	bool                       readonly;             /*    32     1 */
+If you want to know which queues map to which CPUs, consult sysfs,
+example: /sys/block/nvme0n1/mq/.
 
-	/* XXX 3 bytes hole, try to pack */
-
-	u32                        nsid;                 /*    36     4 */
-	u32                        blksize_shift;        /*    40     4 */
-
-	/* XXX 4 bytes hole, try to pack */
-
-	loff_t                     size;                 /*    48     8 */
-	u8                         nguid[16];            /*    56    16 */
-	/* --- cacheline 1 boundary (64 bytes) was 8 bytes ago --- */
-	uuid_t                     uuid;                 /*    72    16 */
-	u32                        anagrpid;             /*    88     4 */
-	bool                       buffered_io;          /*    92     1 */
-	bool                       enabled;              /*    93     1 */
-
-	/* XXX 2 bytes hole, try to pack */
-
-	struct nvmet_subsys *      subsys;               /*    96     8 */
-	const char  *              device_path;          /*   104     8 */
-	struct config_group        device_group;         /*   112   136 */
-	/* --- cacheline 3 boundary (192 bytes) was 56 bytes ago --- */
-	struct config_group        group;                /*   248   136 */
-	/* --- cacheline 6 boundary (384 bytes) --- */
-	struct completion          disable_done;         /*   384    96 */
-	/* --- cacheline 7 boundary (448 bytes) was 32 bytes ago --- */
-	mempool_t *                bvec_pool;            /*   480     8 */
-	int                        use_p2pmem;           /*   488     4 */
-
-	/* XXX 4 bytes hole, try to pack */
-
-	struct pci_dev *           p2p_dev;              /*   496     8 */
-	int                        pi_type;              /*   504     4 */
-	int                        metadata_size;        /*   508     4 */
-	/* --- cacheline 8 boundary (512 bytes) --- */
-	u8                         csi;                  /*   512     1 */
-
-	/* size: 520, cachelines: 9, members: 23 */
-	/* sum members: 500, holes: 4, sum holes: 13 */
-	/* padding: 7 */
-	/* last cacheline: 8 bytes */
-};
-
-After:
-=====
-struct nvmet_ns {
-	struct percpu_ref          ref;                  /*     0    16 */
-	struct block_device *      bdev;                 /*    16     8 */
-	struct file *              file;                 /*    24     8 */
-	bool                       readonly;             /*    32     1 */
-
-	/* XXX 3 bytes hole, try to pack */
-
-	u32                        nsid;                 /*    36     4 */
-	u32                        blksize_shift;        /*    40     4 */
-
-	/* XXX 4 bytes hole, try to pack */
-
-	loff_t                     size;                 /*    48     8 */
-	u8                         nguid[16];            /*    56    16 */
-	/* --- cacheline 1 boundary (64 bytes) was 8 bytes ago --- */
-	uuid_t                     uuid;                 /*    72    16 */
-	u32                        anagrpid;             /*    88     4 */
-	bool                       buffered_io;          /*    92     1 */
-	bool                       enabled;              /*    93     1 */
-
-	/* XXX 2 bytes hole, try to pack */
-
-	struct nvmet_subsys *      subsys;               /*    96     8 */
-	const char  *              device_path;          /*   104     8 */
-	struct config_group        device_group;         /*   112   136 */
-	/* --- cacheline 3 boundary (192 bytes) was 56 bytes ago --- */
-	struct config_group        group;                /*   248   136 */
-	/* --- cacheline 6 boundary (384 bytes) --- */
-	struct completion          disable_done;         /*   384    96 */
-	/* --- cacheline 7 boundary (448 bytes) was 32 bytes ago --- */
-	mempool_t *                bvec_pool;            /*   480     8 */
-	struct pci_dev *           p2p_dev;              /*   488     8 */
-	int                        use_p2pmem;           /*   496     4 */
-	int                        pi_type;              /*   500     4 */
-	int                        metadata_size;        /*   504     4 */
-	u8                         csi;                  /*   508     1 */
-
-	/* size: 512, cachelines: 8, members: 23 */
-	/* sum members: 500, holes: 3, sum holes: 9 */
-	/* padding: 3 */
-};
----
- drivers/nvme/target/nvmet.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index dc60a22646f7..c50146085fb5 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -79,8 +79,8 @@ struct nvmet_ns {
- 	struct completion	disable_done;
- 	mempool_t		*bvec_pool;
+That will show each queue as a unique number (not necessarily aligned
+to the nvme sq/cq id's), and each number will have a cpu_list that
+tells you which CPUs can dispatch to that queue. sysfs doesn't tell
+you the type (read/write/poll), but all queues are accounted for,
+and each type's queues will cover all cpus.
  
--	int			use_p2pmem;
- 	struct pci_dev		*p2p_dev;
-+	int			use_p2pmem;
- 	int			pi_type;
- 	int			metadata_size;
- 	u8			csi;
--- 
-2.34.1
+> 3. Say I have only 1 default queue and I submit an I/O from some CPU,
+> then there can be a chance that the I/O would need to cross CPUs, if
+> the default queue happens not to be on the same core right?
 
+If you only have one queue of a particular type, then the sysfs mq
+directory for that queue should show cpu_list having all CPU's set,
+so no CPU crossing necessary for dispatch. In fact, for any queue
+count and CPU topo, dispatch should never need to reschedule to
+another core (that was the point of the design). Completions on the
+other hand are typically affinitized to a single specific CPU, so
+the complete may happen on a different core than your submit in
+this scenario.
 
