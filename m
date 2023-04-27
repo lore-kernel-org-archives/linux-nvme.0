@@ -4,87 +4,129 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 078E5C77B61
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Apr 2023 07:40:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F04AEC77B61
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Apr 2023 07:46:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SY1fJAl5qprIF7myjXkJbWCE4tmLz1w5j+Vf1UY9FVw=; b=4iq66QvnCZ/bShMDFc8Ir8gbQi
-	2EeYGLc4YH8Xt/9obOhE12+haWVTOzO66Vr6kbddlbcYuHoweaM3ywGy37q++fOlQ7MX8GnynuV3h
-	xma2NmnKNqSK/Y0s/yFcZxymz464UVlq08EDZT3CzeItDilvW9Z80NTKGu95fvH1SRBPvD8DfZ8hS
-	mC1j/dNwdaXdsST92RMjIsIrAiQt4rR+jd/KTk4GU+KUvShCYPZ94UGSnyBtY85E1i2la3soqHp9k
-	86MmmxGhNj46CPtAIKxMUyXDjLXPMluELhjjFf+yREQ4gveJ97MFuxr1gxES8u8IQHf1pi4fs/NB1
-	tYH7O7mQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:CC:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=imEaty5b2xSKM7A1afOPT3x5L5STE5Cj7Y+mkUgAQdk=; b=tDa/6EiYUB719Ls3rhjOQIm0LB
+	FolPECOlj4lvpqXf10BR4FDpsOwuClA23SXW6yQ2GFJnbORyvFzV7xeGVVAngwwm7Xdnd8m0P+bO+
+	dm3DOrQXAhDsrH22FY3N7uqmuH3uq/wYvdPFZcDUrjtwsIfRTswoQvSzJ77KP/NqVXQ9vFcwoSMl7
+	WCZtcVusSuhunZ4nyhOhSvUr0fP0IEOzR341fq2LvD0wPR0zkOjE705E2OPvFRhU+bum1oV62tJLc
+	8j+NPjTP935I3jd/Av3I4XPan9kiva/kg3bHUWLUyK/HCiYr4go2lDNb4TNkyBOpaaP2XkET0YYDd
+	7v8T5+/g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1prwEP-005hgH-0s;
-	Thu, 27 Apr 2023 07:39:57 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1prwL4-005iMd-20;
+	Thu, 27 Apr 2023 07:46:50 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1prwEL-005hfV-39
+	id 1prwL0-005iJu-2a
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Apr 2023 07:39:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1682581192;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SY1fJAl5qprIF7myjXkJbWCE4tmLz1w5j+Vf1UY9FVw=;
-	b=GCLQFrwYppyrhIKD0hRcCqj0+UI+1R/kIMuUPTxeHxM1sd7kb+X31Hjf8g/+I9yMXqZ8xm
-	VPdtMdGSjSqtVCfdYBzB3ixVHR4mc4PkqGNTFxvdfwuGvLHp53jCKcJB9lpfvjG2R98n//
-	IwkgOpHL+QO1KsH98Nj+DP/j6W8khbM=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-75-7t1bz-N-NX6FQHnLiTu9dQ-1; Thu, 27 Apr 2023 03:39:51 -0400
-X-MC-Unique: 7t1bz-N-NX6FQHnLiTu9dQ-1
-Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-63b66a3275eso5521791b3a.2
-        for <linux-nvme@lists.infradead.org>; Thu, 27 Apr 2023 00:39:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682581189; x=1685173189;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SY1fJAl5qprIF7myjXkJbWCE4tmLz1w5j+Vf1UY9FVw=;
-        b=GPFmkAO093uKhwX4akZoyq4BhOkX5HxduZTiADlsGr++kpkLlpRLESJ4ZNCDGfQErh
-         LFFIy+6OnvgIZE9XExorMKmwZaCfJlL63w2Z4i43ViV+MikfKias1Xy5HaoimWc1eq6N
-         atzfz7t3V/+6XpJoSo2ORMyoqPml/rzKz88yhecZ89o/M3t4NBRpqzTA2P1DU9ekFO+V
-         gSwyIbSNxdJZEoDVrasBnq+HznnkybjxkFpC5aNWzNwEIAUkEOOp3h91mI+TVhtdK7TV
-         6yKKmwAj3ok6Tema/29YvPpOEbxOhFOBDpQUf7pfCMoHLXkluNt5NulSZbm14ieD4QRM
-         rLIw==
-X-Gm-Message-State: AC+VfDyadRLt7ZDr6rbiNLMtHOUfh8THFblhClCGwBo/Tox5xr7MH5HC
-	AVnz9PXfNI5PRxPjCsPzf9dyEBblWHfq1KlDCQbGQhXVDCxnkQ+dM51+gHpWy/glEOPxYBy82Pu
-	EzXC0swInSyJt9RTVM4uRA+128sH/dXaX+ygeOn8qI3Y=
-X-Received: by 2002:a05:6a20:2d14:b0:f5:e533:4dbf with SMTP id g20-20020a056a202d1400b000f5e5334dbfmr697813pzl.55.1682581189598;
-        Thu, 27 Apr 2023 00:39:49 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4ZaXGHHWS9lCK+rm9XvG+9eFrC4Py3cWvLgoIoqmUtS11he6Qa7XWpmucUcChQLQuo0ZU3aPTWHkshr3ImWHI=
-X-Received: by 2002:a05:6a20:2d14:b0:f5:e533:4dbf with SMTP id
- g20-20020a056a202d1400b000f5e5334dbfmr697786pzl.55.1682581189229; Thu, 27 Apr
- 2023 00:39:49 -0700 (PDT)
+	Thu, 27 Apr 2023 07:46:48 +0000
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20230427074641euoutp0198dd7fe41285eb56858c391d7ce316aa~Zuw1e6tit3106131061euoutp01E
+	for <linux-nvme@lists.infradead.org>; Thu, 27 Apr 2023 07:46:41 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20230427074641euoutp0198dd7fe41285eb56858c391d7ce316aa~Zuw1e6tit3106131061euoutp01E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1682581601;
+	bh=imEaty5b2xSKM7A1afOPT3x5L5STE5Cj7Y+mkUgAQdk=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=Y8RsE4p8bfJIfo2+iURv6WnpWfNTbqQInhCEBtBjrBpjYVbnnAzeue1qlaWY327Xq
+	 V3FYzcWcM2v+5cL95bxnQcsEnxgPlzMAJAaNOupkbOrOjnU/yzmGAHUN4A/mxAZsS9
+	 JlkbksjxLpL1g2eBqqviwlS5MGH3+fwCpcJyA68E=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20230427074641eucas1p2d076324bb21bea87cabed7a32eca2d2a~Zuw1R-_kH1508615086eucas1p2r;
+	Thu, 27 Apr 2023 07:46:41 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+	eusmges3new.samsung.com (EUCPMTA) with SMTP id 48.52.37758.1682A446; Thu, 27
+	Apr 2023 08:46:41 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20230427074641eucas1p185bb564521b6c01366293d20970fdfe2~Zuw02AAQM2464524645eucas1p1H;
+	Thu, 27 Apr 2023 07:46:41 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20230427074641eusmtrp10246822cbb5418db012ab50aeb35875a~Zuw01b2LA3135831358eusmtrp1D;
+	Thu, 27 Apr 2023 07:46:41 +0000 (GMT)
+X-AuditID: cbfec7f5-7ffff7000002937e-ca-644a2861ed25
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id 57.C3.10549.1682A446; Thu, 27
+	Apr 2023 08:46:41 +0100 (BST)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20230427074640eusmtip2f738b30fa1fef5ebde035dc44dd5e662~Zuw0nrmfk1022910229eusmtip2T;
+	Thu, 27 Apr 2023 07:46:40 +0000 (GMT)
+Received: from localhost (106.110.32.140) by CAMSVWEXC02.scsc.local
+	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+	Thu, 27 Apr 2023 08:46:40 +0100
+Date: Thu, 27 Apr 2023 09:37:52 +0200
+From: Pankaj Raghav <p.raghav@samsung.com>
+To: Christoph Hellwig <hch@lst.de>
+CC: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
+	<stable@vger.kernel.org>, Keith Busch <kbusch@kernel.org>, Jens Axboe
+	<axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
+	<linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<p.raghav@samsung.com>, <javier.gonz@samsung.com>
+Subject: Re: [PATCH 1/1] nvme-pci: add NVME_QUIRK_BOGUS_NID for Samsung
+ PM173X
+Message-ID: <20230427073752.3e3spo2vgfxdfcv2@localhost>
 MIME-Version: 1.0
-References: <CAHj4cs-nDaKzMx2txO4dbE+Mz9ePwLtU0e3egz+StmzOUgWUrA@mail.gmail.com>
- <6e06dffd-e9a1-da5a-023f-ac68a556692f@grimberg.me> <CAHj4cs99us_r4Ebth5oAJMqHHA9aXZCpq0A3uu1BEdNw2GeRww@mail.gmail.com>
- <f74df8a4-03c6-6687-7ada-35aa268f44b9@nvidia.com> <763959d1-8876-31f0-25ee-57ddb2049c75@nvidia.com>
- <CAHj4cs_urWYi_yPQ-FoFo2kV4h1gz-mwxfRiOTj7co3=bUnO5w@mail.gmail.com>
-In-Reply-To: <CAHj4cs_urWYi_yPQ-FoFo2kV4h1gz-mwxfRiOTj7co3=bUnO5w@mail.gmail.com>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Thu, 27 Apr 2023 15:39:37 +0800
-Message-ID: <CAHj4cs-MtUM=7w=YG2ohATeA1HSZp_5CT1Y9DATDEqPPMZ8MMw@mail.gmail.com>
-Subject: Re: [bug report] kmemleak observed during blktests nvme-tcp
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>, linux-block <linux-block@vger.kernel.org>, 
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, Hannes Reinecke <hare@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230414051259.GA11464@lst.de>
+X-Originating-IP: [106.110.32.140]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sd0wTYRjG890d16Om9VpUXhWJnFGqMiQQrHuRUEcIJgZnoidcapXRtIAD
+	xRYMkaoIGBXQYDEqo1FWJYC4qpYgw21KjUgIqEFRzxlwUq4a/3ve3/c870g+Cpdf9phAaRKT
+	OV0iG8+QYqLOPtgRyCpWxM2qMjLK3012UlluuYMp821PkfJR42lSeeZCn0h5vtSOKy+9eU8o
+	zdU9aDGlyst8J1Ld66omVDUV2aSq9tx+1ZVOA6ni+5yE6lONb7Rog3h+HBevSeV0wQu3iLc1
+	P3pBagtFu0r5MmRAWaQJeVJAh0F9psXDhMSUnC5DcL7fTArFZwRXs7twofiEoPCmY9hGjUSu
+	N8UKvHSYH8nF/pkaHNXuhBVBZm8Vcg0h6Knw1vkCc6VJegYYs0UuPIZmoK+/Hbn8OF2Jwdei
+	9pGlvOhoKHA+x11aQs+Gnm8Wt5ZBS2Ev4dKedADYmniRcAQDhto2QtD74K7VObIR0L8paLqU
+	7zZFgN1xym3ygv5mq5v7QOuxw26eBn2O77gQPoDgaEMlKdw8D3La4l0enNZAxzUeCXgJtPKr
+	BCkFx4BMcEghv+4kLmAJHMySC82ngaXrLSFgH+j4KM1FTNF/dxX9117QAWC+8pEsGk7g9EQo
+	/UUJcjpUNgabkUcF8uZS9AlqTh+ayO0M0rMJ+pREdVBsUkINGv5Zrb+av9Sjsn4+yIYwCtkQ
+	UDgzRiLZHRknl8Sxu/dwuqTNupR4Tm9DEymC8ZbMXNASK6fVbDK3g+O0nO7vK0Z5TjBgdUOh
+	5rKazqCHrd4mU0lqSXj7oWVhtxeJMnj9/qry+w3+4nM5cj/Fm8qlfK7xpBGP3MqOK6y1rE2N
+	lOU4kwP974ze67e+O+DZ9+Dto2RfnTEr81/zQ4rJ0Qkbn9yIuhlSPLfNUIFH3V++7tY49cBz
+	bbj9+PgDeRHve3wGpYGaPYtfZoRhvuyoNEYRqx5omOtB+eHlD9LWxIRLtTvagrVhP+qLb++a
+	b6ROdL/uxDdvz/JpvGUqkD75GZhsvZwe+nhOnWJsb3qS79MPLV5Gx8EYKyfLSJ9STOb5S6qP
+	X1w7JeRz3ipNytnR5oKIQU2G76QFGLvm1eqfm2pPD3GNsqGttm6G0G9jQ2bgOj37B8zHsabI
+	AwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLIsWRmVeSWpSXmKPExsVy+t/xe7qJGl4pBkdPsFr833OMzWLl6qNM
+	FpMOXWO0uLxrDpvF/GVP2S2WLj/GbLHu9XsWiwUbHzE6cHhMbH7H7nH+3kYWj02rOtk8Ni+p
+	99h9s4HN4+PTWywenzfJBbBH6dkU5ZeWpCpk5BeX2CpFG1oY6RlaWugZmVjqGRqbx1oZmSrp
+	29mkpOZklqUW6dsl6GUcm3SLqeAaS8WpL/uYGxjvMHcxcnBICJhI7N+T3MXIxSEksJRRYmon
+	SJwTKC4jsfHLVVYIW1jiz7UuNoiij4wSx+7sh3K2MEq8ezqRCaSKRUBV4s2t+0wgU9kEtCQa
+	O9lBwiICShJPX51lBKlnFljPJPFt1lk2kISwgJ9ES08zI4jNK2Au8ej7amaIoV2MEt8/XmGG
+	SAhKnJz5hAXEZhbQkViw+xMbyAJmAWmJ5f84QMKcQOFDez6yQ1yqJNGw+QwLhF0r8fnvM8YJ
+	jMKzkEyahWTSLIRJCxiZVzGKpJYW56bnFhvqFSfmFpfmpesl5+duYgTG47ZjPzfvYJz36qPe
+	IUYmDsZDjBIczEoivLyV7ilCvCmJlVWpRfnxRaU5qcWHGE2BQTGRWUo0OR+YEPJK4g3NDEwN
+	TcwsDUwtzYyVxHk9CzoShQTSE0tSs1NTC1KLYPqYODilGpjY4sx/aez/LlXyzNnB/3ol34e5
+	9qdnCR60d7Z8f2fyF+7rs4Ib+Tmy/65S+z3TVf15sJC1npbCQ76wrTOttBbyZTp7WRvX64jG
+	efdca9Lnqtz/+W5f3LRTV/Y1ebff3O8YM/dN1GsGv+6d5tySB17kRpVtrLM8/9u1+9s88wy2
+	6cd2Zeg8m315w5wFdS+2PNYK+b3tqdWRuKNOChc9drTemOyy1C5AuunFBt7NG77ZzzFZbTI7
+	PWEuaxe7T0NJUs5FnZ1zNzekMX6d9HK5+9qMnSmFIgfyGI3fO0b1N6ryWz/+vN1m0mk3z+XH
+	Hf/s21xrwr+4I+7fu0+N1QZrhZQ9vXf3GzcXrG7vjU3dG6fEUpyRaKjFXFScCAADnCJiUAMA
+	AA==
+X-CMS-MailID: 20230427074641eucas1p185bb564521b6c01366293d20970fdfe2
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----0IIwcNA8CeD.s59tlljyDEq3yyVAinti4bQgYoqzE0B37Kwt=_103034_"
+X-RootMTR: 20230427074641eucas1p185bb564521b6c01366293d20970fdfe2
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20230427074641eucas1p185bb564521b6c01366293d20970fdfe2
+References: <20230315223436.2857712-1-saeed.mirzamohammadi@oracle.com>
+	<20230321132604.GA14120@lst.de> <20230414051259.GA11464@lst.de>
+	<CGME20230427074641eucas1p185bb564521b6c01366293d20970fdfe2@eucas1p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230427_003954_166585_ECCE4705 
-X-CRM114-Status: GOOD (  16.83  )
+X-CRM114-CacheID: sfid-20230427_004647_228540_3102E572 
+X-CRM114-Status: GOOD (  17.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,307 +141,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-oops, the kmemleak still exists:
+------0IIwcNA8CeD.s59tlljyDEq3yyVAinti4bQgYoqzE0B37Kwt=_103034_
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-# cat /sys/kernel/debug/kmemleak
-unreferenced object 0xffff8882a4cc6000 (size 4096):
-  comm "kworker/u32:6", pid 116, jiffies 4294699939 (age 1614.355s)
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 03 10 03 1f 00 00 00  ................
-  backtrace:
-    [<ffffffff86564437>] kmalloc_trace+0x27/0xe0
-    [<ffffffffc08cc68e>] nvme_identify_ns+0xae/0x230 [nvme_core]
-    [<ffffffffc08cc8b9>] nvme_ns_info_from_identify+0x99/0x4a0 [nvme_core]
-    [<ffffffffc08e0696>] nvme_scan_ns+0x1b6/0x460 [nvme_core]
-    [<ffffffffc08e0ae2>] nvme_scan_ns_list+0x192/0x4f0 [nvme_core]
-    [<ffffffffc08e1271>] nvme_scan_work+0x2f1/0xa30 [nvme_core]
-    [<ffffffff85e98629>] process_one_work+0x8b9/0x1550
-    [<ffffffff85e9987c>] worker_thread+0x5ac/0xed0
-    [<ffffffff85eb2902>] kthread+0x2a2/0x340
-    [<ffffffff85c062cc>] ret_from_fork+0x2c/0x50
-unreferenced object 0xffff88829782bc00 (size 512):
-  comm "nvme", pid 1539, jiffies 4294914967 (age 1399.449s)
-  hex dump (first 32 bytes):
-    00 00 00 00 ad 4e ad de ff ff ff ff 00 00 00 00  .....N..........
-    ff ff ff ff ff ff ff ff a0 73 bf 8d ff ff ff ff  .........s......
-  backtrace:
-    [<ffffffff86564437>] kmalloc_trace+0x27/0xe0
-    [<ffffffff873658c5>] device_add+0x645/0x12f0
-    [<ffffffff867c38e3>] cdev_device_add+0xf3/0x230
-    [<ffffffffc08c77c6>] nvme_init_ctrl+0xbe6/0x1140 [nvme_core]
-    [<ffffffffc1ab0e0c>] 0xffffffffc1ab0e0c
-    [<ffffffffc0d38177>] 0xffffffffc0d38177
-    [<ffffffffc0d38613>] 0xffffffffc0d38613
-    [<ffffffff867b5056>] vfs_write+0x216/0xc60
-    [<ffffffff867b62e9>] ksys_write+0xf9/0x1d0
-    [<ffffffff881adc4c>] do_syscall_64+0x5c/0x90
-    [<ffffffff882000aa>] entry_SYSCALL_64_after_hwframe+0x72/0xdc
-unreferenced object 0xffff88824216a880 (size 96):
-  comm "nvme", pid 1539, jiffies 4294914968 (age 1399.448s)
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<ffffffff86564437>] kmalloc_trace+0x27/0xe0
-    [<ffffffff87395fa0>] dev_pm_qos_update_user_latency_tolerance+0xe0/0x20=
-0
-    [<ffffffffc08c783c>] nvme_init_ctrl+0xc5c/0x1140 [nvme_core]
-    [<ffffffffc1ab0e0c>] 0xffffffffc1ab0e0c
-    [<ffffffffc0d38177>] 0xffffffffc0d38177
-    [<ffffffffc0d38613>] 0xffffffffc0d38613
-    [<ffffffff867b5056>] vfs_write+0x216/0xc60
-    [<ffffffff867b62e9>] ksys_write+0xf9/0x1d0
-    [<ffffffff881adc4c>] do_syscall_64+0x5c/0x90
-    [<ffffffff882000aa>] entry_SYSCALL_64_after_hwframe+0x72/0xdc
-unreferenced object 0xffff8881b00f4900 (size 64):
-  comm "check", pid 1587, jiffies 4294922730 (age 1391.686s)
-  hex dump (first 32 bytes):
-    44 48 48 43 2d 31 3a 30 30 3a 79 68 33 70 6f 45  DHHC-1:00:yh3poE
-    61 47 37 31 68 45 69 2f 33 42 41 75 54 2f 61 6c  aG71hEi/3BAuT/al
-  backtrace:
-    [<ffffffff86564d3b>] __kmalloc+0x4b/0x190
-    [<ffffffffc08d5841>] nvme_ctrl_dhchap_secret_store+0x111/0x360 [nvme_co=
-re]
-    [<ffffffff869ce038>] kernfs_fop_write_iter+0x358/0x530
-    [<ffffffff867b5642>] vfs_write+0x802/0xc60
-    [<ffffffff867b62e9>] ksys_write+0xf9/0x1d0
-    [<ffffffff881adc4c>] do_syscall_64+0x5c/0x90
-    [<ffffffff882000aa>] entry_SYSCALL_64_after_hwframe+0x72/0xdc
-unreferenced object 0xffff8882b4567700 (size 64):
-  comm "check", pid 1587, jiffies 4294922738 (age 1391.678s)
-  hex dump (first 32 bytes):
-    44 48 48 43 2d 31 3a 30 30 3a 79 68 33 70 6f 45  DHHC-1:00:yh3poE
-    61 47 37 31 68 45 69 2f 33 42 41 75 54 2f 61 6c  aG71hEi/3BAuT/al
-  backtrace:
-    [<ffffffff86564d3b>] __kmalloc+0x4b/0x190
-    [<ffffffffc08d5841>] nvme_ctrl_dhchap_secret_store+0x111/0x360 [nvme_co=
-re]
-    [<ffffffff869ce038>] kernfs_fop_write_iter+0x358/0x530
-    [<ffffffff867b5642>] vfs_write+0x802/0xc60
-    [<ffffffff867b62e9>] ksys_write+0xf9/0x1d0
-    [<ffffffff881adc4c>] do_syscall_64+0x5c/0x90
-    [<ffffffff882000aa>] entry_SYSCALL_64_after_hwframe+0x72/0xdc
-unreferenced object 0xffff8882b6fbe000 (size 512):
-  comm "nvme", pid 1934, jiffies 4294932235 (age 1382.239s)
-  hex dump (first 32 bytes):
-    00 00 00 00 ad 4e ad de ff ff ff ff 00 00 00 00  .....N..........
-    ff ff ff ff ff ff ff ff a0 73 bf 8d ff ff ff ff  .........s......
-  backtrace:
-    [<ffffffff86564437>] kmalloc_trace+0x27/0xe0
-    [<ffffffff873658c5>] device_add+0x645/0x12f0
-    [<ffffffff867c38e3>] cdev_device_add+0xf3/0x230
-    [<ffffffffc08c77c6>] nvme_init_ctrl+0xbe6/0x1140 [nvme_core]
-    [<ffffffffc1ab0e0c>] 0xffffffffc1ab0e0c
-    [<ffffffffc0d38177>] 0xffffffffc0d38177
-    [<ffffffffc0d38613>] 0xffffffffc0d38613
-    [<ffffffff867b5056>] vfs_write+0x216/0xc60
-    [<ffffffff867b62e9>] ksys_write+0xf9/0x1d0
-    [<ffffffff881adc4c>] do_syscall_64+0x5c/0x90
-    [<ffffffff882000aa>] entry_SYSCALL_64_after_hwframe+0x72/0xdc
-unreferenced object 0xffff888288a53b80 (size 96):
-  comm "nvme", pid 1934, jiffies 4294932237 (age 1382.237s)
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<ffffffff86564437>] kmalloc_trace+0x27/0xe0
-    [<ffffffff87395fa0>] dev_pm_qos_update_user_latency_tolerance+0xe0/0x20=
-0
-    [<ffffffffc08c783c>] nvme_init_ctrl+0xc5c/0x1140 [nvme_core]
-    [<ffffffffc1ab0e0c>] 0xffffffffc1ab0e0c
-    [<ffffffffc0d38177>] 0xffffffffc0d38177
-    [<ffffffffc0d38613>] 0xffffffffc0d38613
-    [<ffffffff867b5056>] vfs_write+0x216/0xc60
-    [<ffffffff867b62e9>] ksys_write+0xf9/0x1d0
-    [<ffffffff881adc4c>] do_syscall_64+0x5c/0x90
-    [<ffffffff882000aa>] entry_SYSCALL_64_after_hwframe+0x72/0xdc
-unreferenced object 0xffff88829e6a3b80 (size 64):
-  comm "check", pid 1981, jiffies 4294936167 (age 1378.307s)
-  hex dump (first 32 bytes):
-    44 48 48 43 2d 31 3a 30 30 3a 61 56 6f 56 44 4f  DHHC-1:00:aVoVDO
-    79 69 31 6c 59 33 74 79 77 47 33 6a 4f 6e 37 33  yi1lY3tywG3jOn73
-  backtrace:
-    [<ffffffff86564d3b>] __kmalloc+0x4b/0x190
-    [<ffffffffc08d5841>] nvme_ctrl_dhchap_secret_store+0x111/0x360 [nvme_co=
-re]
-    [<ffffffff869ce038>] kernfs_fop_write_iter+0x358/0x530
-    [<ffffffff867b5642>] vfs_write+0x802/0xc60
-    [<ffffffff867b62e9>] ksys_write+0xf9/0x1d0
-    [<ffffffff881adc4c>] do_syscall_64+0x5c/0x90
-    [<ffffffff882000aa>] entry_SYSCALL_64_after_hwframe+0x72/0xdc
-unreferenced object 0xffff88829e6a3a80 (size 64):
-  comm "check", pid 1981, jiffies 4294936885 (age 1377.589s)
-  hex dump (first 32 bytes):
-    44 48 48 43 2d 31 3a 30 30 3a 61 56 6f 56 44 4f  DHHC-1:00:aVoVDO
-    79 69 31 6c 59 33 74 79 77 47 33 6a 4f 6e 37 33  yi1lY3tywG3jOn73
-  backtrace:
-    [<ffffffff86564d3b>] __kmalloc+0x4b/0x190
-    [<ffffffffc08d5841>] nvme_ctrl_dhchap_secret_store+0x111/0x360 [nvme_co=
-re]
-    [<ffffffff869ce038>] kernfs_fop_write_iter+0x358/0x530
-    [<ffffffff867b5642>] vfs_write+0x802/0xc60
-    [<ffffffff867b62e9>] ksys_write+0xf9/0x1d0
-    [<ffffffff881adc4c>] do_syscall_64+0x5c/0x90
-    [<ffffffff882000aa>] entry_SYSCALL_64_after_hwframe+0x72/0xdc
+Hi Christoph,
+On Fri, Apr 14, 2023 at 07:12:59AM +0200, Christoph Hellwig wrote:
+> On Tue, Mar 21, 2023 at 02:26:04PM +0100, Christoph Hellwig wrote:
+> > Can you send a patch with a new quirk that just disables the EUI64,
+> > but keeps the NGUID?
+> 
+> Did this go anywhere?
+We had a discussion about this internally with our firmware team, and it
+looks like these firmware were given to specific customers based on
+mutual agreement. They are already in discussion with our firmware team
+regarding this.
+
+I don't think this should go into as a generic quirk in Linux for these
+models.
+
+------0IIwcNA8CeD.s59tlljyDEq3yyVAinti4bQgYoqzE0B37Kwt=_103034_
+Content-Type: text/plain; charset="utf-8"
 
 
-On Thu, Apr 27, 2023 at 3:24=E2=80=AFPM Yi Zhang <yi.zhang@redhat.com> wrot=
-e:
->
-> Hi Chaitanya
->
-> The kmemleak in [1] is fixed by your patch, but there still has
-> one[2], would you mind checking it, thanks.
->
-> [1]
-> nvme_ctrl_dhchap_secret_store
-> cdev_device_add
->
-> [2]
-> unreferenced object 0xffff888288a53b80 (size 96):
->   comm "nvme", pid 1934, jiffies 4294932237 (age 237.359s)
->   hex dump (first 32 bytes):
->     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
->     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
->   backtrace:
->     [<ffffffff86564437>] kmalloc_trace+0x27/0xe0
->     [<ffffffff87395fa0>] dev_pm_qos_update_user_latency_tolerance+0xe0/0x=
-200
->     [<ffffffffc08c783c>] nvme_init_ctrl+0xc5c/0x1140 [nvme_core]
->     [<ffffffffc1ab0e0c>] 0xffffffffc1ab0e0c
->     [<ffffffffc0d38177>] 0xffffffffc0d38177
->     [<ffffffffc0d38613>] 0xffffffffc0d38613
->     [<ffffffff867b5056>] vfs_write+0x216/0xc60
->     [<ffffffff867b62e9>] ksys_write+0xf9/0x1d0
->     [<ffffffff881adc4c>] do_syscall_64+0x5c/0x90
->     [<ffffffff882000aa>] entry_SYSCALL_64_after_hwframe+0x72/0xdc
->
-> On Wed, Apr 26, 2023 at 4:34=E2=80=AFPM Chaitanya Kulkarni
-> <chaitanyak@nvidia.com> wrote:
-> >
-> > On 4/26/23 01:23, Chaitanya Kulkarni wrote:
-> > >
-> > >>>> [<ffffffff86f646ab>] __kmalloc+0x4b/0x190
-> > >>>>       [<ffffffffc09fb710>]
-> > >>>> nvme_ctrl_dhchap_secret_store+0x110/0x350 [nvme_core]
-> > >>>>       [<ffffffff873cc848>] kernfs_fop_write_iter+0x358/0x530
-> > >>>>       [<ffffffff871b47d2>] vfs_write+0x802/0xc60
-> > >>>>       [<ffffffff871b5479>] ksys_write+0xf9/0x1d0
-> > >>>>       [<ffffffff88ba8f9c>] do_syscall_64+0x5c/0x90
-> > >>>>       [<ffffffff88c000aa>] entry_SYSCALL_64_after_hwframe+0x72/0xd=
-c
-> > >
-> > > can you check if following fixes your problem for dhchap ?
-> > >
-> > >
-> > > linux-block (for-next) # git diff
-> > > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > > index 1bfd52eae2ee..0e22d048de3c 100644
-> > > --- a/drivers/nvme/host/core.c
-> > > +++ b/drivers/nvme/host/core.c
-> > > @@ -3825,8 +3825,10 @@ static ssize_t
-> > > nvme_ctrl_dhchap_secret_store(struct device *dev,
-> > >                 int ret;
-> > >
-> > >                 ret =3D nvme_auth_generate_key(dhchap_secret, &key);
-> > > -               if (ret)
-> > > +               if (ret) {
-> > > +                       kfree(dhchap_secret);
-> > >                         return ret;
-> > > +               }
-> > >                 kfree(opts->dhchap_secret);
-> > >                 opts->dhchap_secret =3D dhchap_secret;
-> > >                 host_key =3D ctrl->host_key;
-> > > @@ -3879,8 +3881,10 @@ static ssize_t
-> > > nvme_ctrl_dhchap_ctrl_secret_store(struct device *dev,
-> > >                 int ret;
-> > >
-> > >                 ret =3D nvme_auth_generate_key(dhchap_secret, &key);
-> > > -               if (ret)
-> > > +               if (ret) {
-> > > +                       kfree(dhchap_secret);
-> > >                         return ret;
-> > > +               }
-> > >                 kfree(opts->dhchap_ctrl_secret);
-> > >                 opts->dhchap_ctrl_secret =3D dhchap_secret;
-> > >                 ctrl_key =3D ctrl->ctrl_key;
-> > >
-> > > -ck
-> > >
-> > >
-> >
-> > sorry my forget to add ida changes, plz ignore earlier and try this :-
-> >
-> > linux-block (for-next) # git diff
-> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index 1bfd52eae2ee..bb376cc6a5a3 100644
-> > --- a/drivers/nvme/host/core.c
-> > +++ b/drivers/nvme/host/core.c
-> > @@ -3825,8 +3825,10 @@ static ssize_t
-> > nvme_ctrl_dhchap_secret_store(struct device *dev,
-> >                  int ret;
-> >
-> >                  ret =3D nvme_auth_generate_key(dhchap_secret, &key);
-> > -               if (ret)
-> > +               if (ret) {
-> > +                       kfree(dhchap_secret);
-> >                          return ret;
-> > +               }
-> >                  kfree(opts->dhchap_secret);
-> >                  opts->dhchap_secret =3D dhchap_secret;
-> >                  host_key =3D ctrl->host_key;
-> > @@ -3879,8 +3881,10 @@ static ssize_t
-> > nvme_ctrl_dhchap_ctrl_secret_store(struct device *dev,
-> >                  int ret;
-> >
-> >                  ret =3D nvme_auth_generate_key(dhchap_secret, &key);
-> > -               if (ret)
-> > +               if (ret) {
-> > +                       kfree(dhchap_secret);
-> >                          return ret;
-> > +               }
-> >                  kfree(opts->dhchap_ctrl_secret);
-> >                  opts->dhchap_ctrl_secret =3D dhchap_secret;
-> >                  ctrl_key =3D ctrl->ctrl_key;
-> > @@ -4042,8 +4046,10 @@ int nvme_cdev_add(struct cdev *cdev, struct
-> > device *cdev_device,
-> >          cdev_init(cdev, fops);
-> >          cdev->owner =3D owner;
-> >          ret =3D cdev_device_add(cdev, cdev_device);
-> > -       if (ret)
-> > +       if (ret) {
-> >                  put_device(cdev_device);
-> > +               ida_free(&nvme_ns_chr_minor_ida, MINOR(cdev_device->dev=
-t));
-> > +       }
-> >
-> >          return ret;
-> >   }
-> >
-> >
-> > with above patch I was able to get this :-
-> >
-> > blktests (master) # ./check nvme/044
-> > nvme/044 (Test bi-directional authentication) [passed]
-> >      runtime  1.729s  ...  1.892s
-> > blktests (master) # ./check nvme/045
-> > nvme/045 (Test re-authentication) [passed]
-> >      runtime  4.798s  ...  6.303s
-> >
-> > -ck
-> >
-> >
->
->
-> --
-> Best Regards,
->   Yi Zhang
-
-
-
---=20
-Best Regards,
-  Yi Zhang
-
+------0IIwcNA8CeD.s59tlljyDEq3yyVAinti4bQgYoqzE0B37Kwt=_103034_--
 
