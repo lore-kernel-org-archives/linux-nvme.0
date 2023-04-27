@@ -4,129 +4,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F04AEC77B61
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Apr 2023 07:46:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6072EC77B73
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Apr 2023 08:02:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:CC:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=imEaty5b2xSKM7A1afOPT3x5L5STE5Cj7Y+mkUgAQdk=; b=tDa/6EiYUB719Ls3rhjOQIm0LB
-	FolPECOlj4lvpqXf10BR4FDpsOwuClA23SXW6yQ2GFJnbORyvFzV7xeGVVAngwwm7Xdnd8m0P+bO+
-	dm3DOrQXAhDsrH22FY3N7uqmuH3uq/wYvdPFZcDUrjtwsIfRTswoQvSzJ77KP/NqVXQ9vFcwoSMl7
-	WCZtcVusSuhunZ4nyhOhSvUr0fP0IEOzR341fq2LvD0wPR0zkOjE705E2OPvFRhU+bum1oV62tJLc
-	8j+NPjTP935I3jd/Av3I4XPan9kiva/kg3bHUWLUyK/HCiYr4go2lDNb4TNkyBOpaaP2XkET0YYDd
-	7v8T5+/g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=GoMz/yC9tNi7EIP3YkBz3/WXide8XpiGNBSeWnCkYdY=; b=OqXUjYVBcpgaoU8p7Dbv+s+lNk
+	74VnPEL/prGBPKW75m1+MIymIlo/H+sg0mprZJHso4tz18MJRGbBWzrGWvUuvm8ZC/FjsiceBtOHf
+	4weAYNEo3ykV3Lx2Hyu7KKH0a9GyE1sco70NxWdd82qEXwjnD3sP1P+LswShGYKOUvdon0toca3m/
+	ZN5FR8RFCjaW8E0saqVin4zHUoidqDerA6+xpckb8c2adLJ5j5bWTaFPldE4ybG/pPPBmhQTDErir
+	p3az/DaGRLZjBU6iEq62x3/ZGtcT97e0Yo4xtO2nxNNQq8DWGYot8ICe9p1ecuEo8gOafe3mS71XL
+	SFkgd5EQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1prwL4-005iMd-20;
-	Thu, 27 Apr 2023 07:46:50 +0000
-Received: from mailout1.w1.samsung.com ([210.118.77.11])
+	id 1prwaW-005kxk-2x;
+	Thu, 27 Apr 2023 08:02:48 +0000
+Received: from mail-dm6nam11on2062c.outbound.protection.outlook.com ([2a01:111:f400:7eaa::62c] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1prwL0-005iJu-2a
+	id 1prwaS-005kvq-1u
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Apr 2023 07:46:48 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20230427074641euoutp0198dd7fe41285eb56858c391d7ce316aa~Zuw1e6tit3106131061euoutp01E
-	for <linux-nvme@lists.infradead.org>; Thu, 27 Apr 2023 07:46:41 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20230427074641euoutp0198dd7fe41285eb56858c391d7ce316aa~Zuw1e6tit3106131061euoutp01E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1682581601;
-	bh=imEaty5b2xSKM7A1afOPT3x5L5STE5Cj7Y+mkUgAQdk=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=Y8RsE4p8bfJIfo2+iURv6WnpWfNTbqQInhCEBtBjrBpjYVbnnAzeue1qlaWY327Xq
-	 V3FYzcWcM2v+5cL95bxnQcsEnxgPlzMAJAaNOupkbOrOjnU/yzmGAHUN4A/mxAZsS9
-	 JlkbksjxLpL1g2eBqqviwlS5MGH3+fwCpcJyA68E=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20230427074641eucas1p2d076324bb21bea87cabed7a32eca2d2a~Zuw1R-_kH1508615086eucas1p2r;
-	Thu, 27 Apr 2023 07:46:41 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges3new.samsung.com (EUCPMTA) with SMTP id 48.52.37758.1682A446; Thu, 27
-	Apr 2023 08:46:41 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20230427074641eucas1p185bb564521b6c01366293d20970fdfe2~Zuw02AAQM2464524645eucas1p1H;
-	Thu, 27 Apr 2023 07:46:41 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20230427074641eusmtrp10246822cbb5418db012ab50aeb35875a~Zuw01b2LA3135831358eusmtrp1D;
-	Thu, 27 Apr 2023 07:46:41 +0000 (GMT)
-X-AuditID: cbfec7f5-7ffff7000002937e-ca-644a2861ed25
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-	eusmgms1.samsung.com (EUCPMTA) with SMTP id 57.C3.10549.1682A446; Thu, 27
-	Apr 2023 08:46:41 +0100 (BST)
-Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20230427074640eusmtip2f738b30fa1fef5ebde035dc44dd5e662~Zuw0nrmfk1022910229eusmtip2T;
-	Thu, 27 Apr 2023 07:46:40 +0000 (GMT)
-Received: from localhost (106.110.32.140) by CAMSVWEXC02.scsc.local
-	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Thu, 27 Apr 2023 08:46:40 +0100
-Date: Thu, 27 Apr 2023 09:37:52 +0200
-From: Pankaj Raghav <p.raghav@samsung.com>
-To: Christoph Hellwig <hch@lst.de>
-CC: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
-	<stable@vger.kernel.org>, Keith Busch <kbusch@kernel.org>, Jens Axboe
-	<axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
-	<linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<p.raghav@samsung.com>, <javier.gonz@samsung.com>
-Subject: Re: [PATCH 1/1] nvme-pci: add NVME_QUIRK_BOGUS_NID for Samsung
- PM173X
-Message-ID: <20230427073752.3e3spo2vgfxdfcv2@localhost>
+	Thu, 27 Apr 2023 08:02:47 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jQuuBItlSFL174+GvFFRVxSxqZm6mGEj99oPg+fHR4tdoR3GqNdWnfNUph/ON3s+zTcz5Q0buuM3jMpkFWJh/tSKZzWlfPQ/WG2tgL+6CFjSKohg9qGe4cgSKDlfEz9gQJpv3bFl+jq9DI363YEqqzctUizxRmfpwWOCKZFqZrZyaiazY/NnW6/LYK/p4PVsGZG2EbMplwoffSJ4axeMUc4JXQP3OVo0Wfn5EOZh74vMpSkqLQN14S67M4u9Nc+o/ByKXixgzezjNe0sP+/FYxY0sibd/kaeYKQ+l1Y5Xv6x1U1dA5Dgl0j5xyzE45g3mm8e1rymB2/EG/198w+94w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GoMz/yC9tNi7EIP3YkBz3/WXide8XpiGNBSeWnCkYdY=;
+ b=ac/5RympJKHrJx4NNmC3FqXa87fWLnen4VeMC6ZQN5G8DbRWLOTj/tRUyucpYlUO30CrLXMnwhHy8fB4nOeamev1XNVcMScujtqy1ZaTtc7DuEZd9Phm/sWJRTyLVf2dMDjgIQF0g9aeoMCo+Jsp/EB6Yesar9NC+TV/aYuHAKC5eMqAE1rrlTmYr736YpDLttFXbRaslp0t34WsBgd7p13J43ynpHgTph74MK5j8hTCHUVdNwVbRvMbLpbAIJc/4RyK2jBfrjXcyLxIzw80fMNWGdPfzAf01uXGCuyI4WNd2hW19+y+RQoHV1q2c8qlhlLckwWYM11NWUB2wiLwIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=suse.de smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GoMz/yC9tNi7EIP3YkBz3/WXide8XpiGNBSeWnCkYdY=;
+ b=V8Zscd/ZgjMfbcdsoTKFUClih5paLK0tImO7ZYN1lEALvQ8/oZmbB5be6tCAquke6nXdfMNIBMVRj2cd9A0ve88C948I4ZzQiTzpiIpRZjGzErcwS537DQMDxX3W1yARb0tz+rEoJQ7mUG7MJeV9Yo52jfYFDUuLwU74R96ZOnsno9xQ9tpwKhZ5I11ZODujbTlKbgZI+A0vnSwluKgOhq70bwhUHVTvLsdx5dZVBEcbIkuLIIw6SLqNrmiOSNeeUWNPH+USTWyg/T0gVt1a8CfUykRbjSQPazaU1IiTyBwt61CAeQVGK/xuir9KhJYKLbqeOJoYY+5do+dgF42sdQ==
+Received: from BLAPR03CA0130.namprd03.prod.outlook.com (2603:10b6:208:32e::15)
+ by CY5PR12MB6645.namprd12.prod.outlook.com (2603:10b6:930:42::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.20; Thu, 27 Apr
+ 2023 08:02:39 +0000
+Received: from BL02EPF0000C405.namprd05.prod.outlook.com
+ (2603:10b6:208:32e:cafe::85) by BLAPR03CA0130.outlook.office365.com
+ (2603:10b6:208:32e::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.22 via Frontend
+ Transport; Thu, 27 Apr 2023 08:02:39 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ BL02EPF0000C405.mail.protection.outlook.com (10.167.241.7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6340.15 via Frontend Transport; Thu, 27 Apr 2023 08:02:39 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Thu, 27 Apr 2023
+ 01:02:15 -0700
+Received: from dev.nvidia.com (10.126.231.37) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Thu, 27 Apr
+ 2023 01:02:15 -0700
+From: Chaitanya Kulkarni <kch@nvidia.com>
+To: <hare@suse.de>
+CC: <kbusch@kernel.org>, <hch@lst.de>, <sagi@grimberg.me>,
+	<linux-nvme@lists.infradead.org>, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [RFC COMPILE ONLY PATCH 0/2] nvme-core: dhchap_secret code cleanup
+Date: Thu, 27 Apr 2023 01:02:05 -0700
+Message-ID: <20230427080207.17249-1-kch@nvidia.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-In-Reply-To: <20230414051259.GA11464@lst.de>
-X-Originating-IP: [106.110.32.140]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
-	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sd0wTYRjG890d16Om9VpUXhWJnFGqMiQQrHuRUEcIJgZnoidcapXRtIAD
-	xRYMkaoIGBXQYDEqo1FWJYC4qpYgw21KjUgIqEFRzxlwUq4a/3ve3/c870g+Cpdf9phAaRKT
-	OV0iG8+QYqLOPtgRyCpWxM2qMjLK3012UlluuYMp821PkfJR42lSeeZCn0h5vtSOKy+9eU8o
-	zdU9aDGlyst8J1Ld66omVDUV2aSq9tx+1ZVOA6ni+5yE6lONb7Rog3h+HBevSeV0wQu3iLc1
-	P3pBagtFu0r5MmRAWaQJeVJAh0F9psXDhMSUnC5DcL7fTArFZwRXs7twofiEoPCmY9hGjUSu
-	N8UKvHSYH8nF/pkaHNXuhBVBZm8Vcg0h6Knw1vkCc6VJegYYs0UuPIZmoK+/Hbn8OF2Jwdei
-	9pGlvOhoKHA+x11aQs+Gnm8Wt5ZBS2Ev4dKedADYmniRcAQDhto2QtD74K7VObIR0L8paLqU
-	7zZFgN1xym3ygv5mq5v7QOuxw26eBn2O77gQPoDgaEMlKdw8D3La4l0enNZAxzUeCXgJtPKr
-	BCkFx4BMcEghv+4kLmAJHMySC82ngaXrLSFgH+j4KM1FTNF/dxX9117QAWC+8pEsGk7g9EQo
-	/UUJcjpUNgabkUcF8uZS9AlqTh+ayO0M0rMJ+pREdVBsUkINGv5Zrb+av9Sjsn4+yIYwCtkQ
-	UDgzRiLZHRknl8Sxu/dwuqTNupR4Tm9DEymC8ZbMXNASK6fVbDK3g+O0nO7vK0Z5TjBgdUOh
-	5rKazqCHrd4mU0lqSXj7oWVhtxeJMnj9/qry+w3+4nM5cj/Fm8qlfK7xpBGP3MqOK6y1rE2N
-	lOU4kwP974ze67e+O+DZ9+Dto2RfnTEr81/zQ4rJ0Qkbn9yIuhlSPLfNUIFH3V++7tY49cBz
-	bbj9+PgDeRHve3wGpYGaPYtfZoRhvuyoNEYRqx5omOtB+eHlD9LWxIRLtTvagrVhP+qLb++a
-	b6ROdL/uxDdvz/JpvGUqkD75GZhsvZwe+nhOnWJsb3qS79MPLV5Gx8EYKyfLSJ9STOb5S6qP
-	X1w7JeRz3ipNytnR5oKIQU2G76QFGLvm1eqfm2pPD3GNsqGttm6G0G9jQ2bgOj37B8zHsabI
-	AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLIsWRmVeSWpSXmKPExsVy+t/xe7qJGl4pBkdPsFr833OMzWLl6qNM
-	FpMOXWO0uLxrDpvF/GVP2S2WLj/GbLHu9XsWiwUbHzE6cHhMbH7H7nH+3kYWj02rOtk8Ni+p
-	99h9s4HN4+PTWywenzfJBbBH6dkU5ZeWpCpk5BeX2CpFG1oY6RlaWugZmVjqGRqbx1oZmSrp
-	29mkpOZklqUW6dsl6GUcm3SLqeAaS8WpL/uYGxjvMHcxcnBICJhI7N+T3MXIxSEksJRRYmon
-	SJwTKC4jsfHLVVYIW1jiz7UuNoiij4wSx+7sh3K2MEq8ezqRCaSKRUBV4s2t+0wgU9kEtCQa
-	O9lBwiICShJPX51lBKlnFljPJPFt1lk2kISwgJ9ES08zI4jNK2Au8ej7amaIoV2MEt8/XmGG
-	SAhKnJz5hAXEZhbQkViw+xMbyAJmAWmJ5f84QMKcQOFDez6yQ1yqJNGw+QwLhF0r8fnvM8YJ
-	jMKzkEyahWTSLIRJCxiZVzGKpJYW56bnFhvqFSfmFpfmpesl5+duYgTG47ZjPzfvYJz36qPe
-	IUYmDsZDjBIczEoivLyV7ilCvCmJlVWpRfnxRaU5qcWHGE2BQTGRWUo0OR+YEPJK4g3NDEwN
-	TcwsDUwtzYyVxHk9CzoShQTSE0tSs1NTC1KLYPqYODilGpjY4sx/aez/LlXyzNnB/3ol34e5
-	9qdnCR60d7Z8f2fyF+7rs4Ib+Tmy/65S+z3TVf15sJC1npbCQ76wrTOttBbyZTp7WRvX64jG
-	efdca9Lnqtz/+W5f3LRTV/Y1ebff3O8YM/dN1GsGv+6d5tySB17kRpVtrLM8/9u1+9s88wy2
-	6cd2Zeg8m315w5wFdS+2PNYK+b3tqdWRuKNOChc9drTemOyy1C5AuunFBt7NG77ZzzFZbTI7
-	PWEuaxe7T0NJUs5FnZ1zNzekMX6d9HK5+9qMnSmFIgfyGI3fO0b1N6ryWz/+vN1m0mk3z+XH
-	Hf/s21xrwr+4I+7fu0+N1QZrhZQ9vXf3GzcXrG7vjU3dG6fEUpyRaKjFXFScCAADnCJiUAMA
-	AA==
-X-CMS-MailID: 20230427074641eucas1p185bb564521b6c01366293d20970fdfe2
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----0IIwcNA8CeD.s59tlljyDEq3yyVAinti4bQgYoqzE0B37Kwt=_103034_"
-X-RootMTR: 20230427074641eucas1p185bb564521b6c01366293d20970fdfe2
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20230427074641eucas1p185bb564521b6c01366293d20970fdfe2
-References: <20230315223436.2857712-1-saeed.mirzamohammadi@oracle.com>
-	<20230321132604.GA14120@lst.de> <20230414051259.GA11464@lst.de>
-	<CGME20230427074641eucas1p185bb564521b6c01366293d20970fdfe2@eucas1p1.samsung.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.231.37]
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0000C405:EE_|CY5PR12MB6645:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2dac52f3-82cd-406f-2431-08db46f5c567
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	7sia0CyMXCoFr8i5SFmyqMgtu8QVyso6wZ6L4D6OPgLsMHjmtr6GBWOx/cF+AhSHbtuyCce6co0K/9rFwp4qmyoz9p8L9afYC6pfVb7b3+f9AASE+t6zIC2pDM8R7XerCqTNPm6QGhw5UwQ+CKTJH2nGian0OgM5id6muelmql0oRCavq2L+pzras7zUwoNqrDEwzD2DdCgHiHCUbVBm01Q/2nUiZl/OqPnKFHn0vWW/qvdtB523Av6swHOSF6vEprMJIFimx97WOTlGVwGyIne6B7p7iA5xhKQJIxHkRalLZDm9lfFZ3DzmCDucBVf/oiWB8qlBrCh6XSXwF9b8gRLAZtJHzp0jcwy8BF2fhtCF/6vc+h52ypFsGMh6DUyVNKswuH/vKZq7cUEbZfRevlhuygnkpE6x/pXY+gKWbAQBazpgBYaelS6FuMTopf/+jOBjDFrEWkzdw3mZnacvZ8AgEzzXpW+xd1EbWi4RI5ZFtFRKk4MrMUzQm3xD4ep7xy2MPiLTncZ9jizz9mlpPE4fZZC6UgloFe14MCShQeHmfwYOzHWn+Vyx/GCa2LY5S5eo+JtPlu9BjFgkKo/PJEWFSboNqu+UbqcHWkJM4/P2zpqe09o4uzKq4LdCXW+dL/tmrtxAo5AynYnU04op8QPLFOM75PKay1Csn32vDUVOhiamZyJnDXHfoJ7d3fztVkWjJqTiTsipwbTfFqkiNsVPOUtPm5BGfKPy2depkZ4=
+X-Forefront-Antispam-Report: 	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(136003)(396003)(346002)(376002)(451199021)(36840700001)(40470700004)(46966006)(6666004)(36860700001)(40460700003)(356005)(7636003)(36756003)(5660300002)(8676002)(4744005)(8936002)(40480700001)(316002)(41300700001)(2906002)(82310400005)(6916009)(4326008)(70586007)(82740400003)(70206006)(426003)(107886003)(83380400001)(47076005)(336012)(186003)(54906003)(16526019)(26005)(7696005)(1076003)(478600001)(2616005)(219293001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2023 08:02:39.3829
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2dac52f3-82cd-406f-2431-08db46f5c567
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: 	BL02EPF0000C405.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6645
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230427_004647_228540_3102E572 
-X-CRM114-Status: GOOD (  17.22  )
+X-CRM114-CacheID: sfid-20230427_010244_711760_A10AB3B9 
+X-CRM114-Status: UNSURE (   7.49  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -141,28 +122,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------0IIwcNA8CeD.s59tlljyDEq3yyVAinti4bQgYoqzE0B37Kwt=_103034_
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+Hi,
 
-Hi Christoph,
-On Fri, Apr 14, 2023 at 07:12:59AM +0200, Christoph Hellwig wrote:
-> On Tue, Mar 21, 2023 at 02:26:04PM +0100, Christoph Hellwig wrote:
-> > Can you send a patch with a new quirk that just disables the EUI64,
-> > but keeps the NGUID?
-> 
-> Did this go anywhere?
-We had a discussion about this internally with our firmware team, and it
-looks like these firmware were given to specific customers based on
-mutual agreement. They are already in discussion with our firmware team
-regarding this.
+Marking it compile only RFC since blktests are failing on current
+nvme-6.4 so I was not able to complete the testing.
 
-I don't think this should go into as a generic quirk in Linux for these
-models.
+Bunch of code is repeated all over when defining nvme_ctrl_dhchap_secret
+and nvme_ctrl_dhchap_ctrl_secret. Factor out a common function for
+nvme_ctrl_secret_dhchap_store() and nvme_ctrl_secret_dhchap_ctrl_store()
+into common function nvme_dhchap_secret_store_common().
 
-------0IIwcNA8CeD.s59tlljyDEq3yyVAinti4bQgYoqzE0B37Kwt=_103034_
-Content-Type: text/plain; charset="utf-8"
+Add a macro to define device attr in order to remove code duplication
+for above mentioned attributes.
 
+No functional changes in this patch-series.
 
-------0IIwcNA8CeD.s59tlljyDEq3yyVAinti4bQgYoqzE0B37Kwt=_103034_--
+-ck
+
+Chaitanya Kulkarni (2):
+  nvme-core: factor out common code into helper
+  nvme-core: use macro defination to define dev attr
+
+ drivers/nvme/host/core.c | 128 ++++++++++++++-------------------------
+ 1 file changed, 44 insertions(+), 84 deletions(-)
+
+-- 
+2.40.0
+
 
