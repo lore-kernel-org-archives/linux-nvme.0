@@ -4,63 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6B2DC77B73
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Apr 2023 20:45:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3F8BC77B73
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Apr 2023 21:21:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=y+RZ4tz/NQxqhCuedSvkAbV3vjR3z1XIeVY6D0OSurA=; b=1mTivmFftBVJkaAjUpZJPVXkzX
-	VlApq0z73EQspPJWh9xNyNu1F4vaOEIRk2l7edxOCgEtV9GVSvEfI+psBJyszdQy0W0Ge7kS/gIrn
-	8J7fN1qRWWIj7RLhWCOhCvFVyjAW/33EmLhmyyqGvdUEw1mP4joEhvaTAHTTMf5MI0FONNnV1KA8N
-	p2jQXu42WIDQkCD+odUwBI7Cl1WMdie97gxjkfJl6T8rydZ6y52KeUqZwrcv9EUxevntYrUR4cKy+
-	gP0e1ZMQjL/RyowVoDXMXTXKO/yBJ61ogWGVYL2GIiLWi/VCZ0sU9hE92n5b5BLoUzvkhjPkIR5Pr
-	0UkMEL+A==;
+	bh=u54fgxU+CHObOkXsorNdjsGBCY6sjzZbJYTo0Qudxr0=; b=fczrqMO7odJdvV3GvqwOWGxq7h
+	T15SOxWWh8w8LGFg45D1MM+4CDolq/qmZknINaD4tVrqCxloucIA1FtP1tQ+c77ZovQ5lnlHkZ0DW
+	XFL3J+A+4rHfNT0QfFGXcd24whk4aWOMk44l/lI9farLo1noahzWP2lTSMAKtMF3rXNRax/aavpb3
+	403FeYaY9ZyQM5dewQyFV8xIlQ+CpXAu1mdC+/GoLfWpiXraqlGR7qj1I1lxWI0LmR8Qd3nqncFXK
+	VXSufXXz97sveaIWem/ol42juwUyRHE9HzztqPxgx7LYqahBUh7iwHy9KnhDkSHt2ArhX5iNSSffH
+	dTdJlOdg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1ps8UV-007UG8-0b;
-	Thu, 27 Apr 2023 20:45:23 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1ps93Z-007aFe-1x;
+	Thu, 27 Apr 2023 21:21:37 +0000
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1ps8US-007UFH-0G
+	id 1ps93W-007aEu-2p
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Apr 2023 20:45:21 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 9420F63FB7;
-	Thu, 27 Apr 2023 20:45:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE783C433D2;
-	Thu, 27 Apr 2023 20:45:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1682628318;
-	bh=+CHMJmPoe4lf9a+mPTqk43TA5PhL+q4e3P7D0SmTMhw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AcE12SqJ+H9BcABqL0rrb0+AmO3HXDWiK+vy1YnMXFw341szdt2fm+wyqnFAGTlyj
-	 ujetLG2zZ3b+ub8RzG/b/DfXjFP8lUE7CpCVL5AoUkrQR0kA7DpNhmdUVeLjcMlhNn
-	 OU//MlLFNPtGpL0mHFoNe0VyN/y1tl4HMD/SXh4PwF+c0qWWe9frpIzaWSTJF8Cd6q
-	 a7wfYDfMthMdZJzrhCw6o+ZdMw0KwFtNpf8p4JOL69PgGdxOXjNL3ydY1pH4eth7WJ
-	 CvrQbgCc6DJiZIwIPIv18FZNJF+elkdjVMa4n+m580tG0sQbA1NOWuvyTIzmwBa4D5
-	 et51gUwcJKdPA==
-Date: Thu, 27 Apr 2023 14:45:15 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Wang Yicheng <wangyicheng1209@gmail.com>
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: Seeking for help with NVMe arbitration questions
-Message-ID: <ZEre23NoKOB56eDj@kbusch-mbp.dhcp.thefacebook.com>
-References: <CAPiksxOuMyosYh0Ky==jfRcgWpGs5-4SxwfxpaLND5kHsOpq+w@mail.gmail.com>
- <528f9679-1b07-f3af-c936-06ec1e316720@nvidia.com>
- <CAPiksxOQsF0-p_pwFQQhG7r5WERrRKv9R_w3Bgxp=qCBcPNc+w@mail.gmail.com>
+	Thu, 27 Apr 2023 21:21:36 +0000
+Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-956ff2399c9so1621174066b.3
+        for <linux-nvme@lists.infradead.org>; Thu, 27 Apr 2023 14:21:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682630493; x=1685222493;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=u54fgxU+CHObOkXsorNdjsGBCY6sjzZbJYTo0Qudxr0=;
+        b=U5AL74lBnKYvwwkoI/X9p780B/xtdotPPct8+yyQWJHHGAiGVQvKotV8zL6Ks/Cjri
+         Mj2Cm6PQUw3vihklIu6ZqW2Fuktinv0bnkuqRVIGoedtED1WrcIn8VqzAw7xJXZxDY9/
+         Ha3dSEwQuWLn13FjTUNI/Lo9cuSe3jq/+eWEfqOkjcq4fCiym3xEAV4AbM8L5ziUyVi5
+         TjOsiYytoveZA9UOYxxQGo2aOF/28oJuFR8WOZyD3gGMa+cVBQzeVVI5XopSN0vQuEoM
+         kl9OF75PKmZco57AZqcEmxeTZOMC+RdAVKxUyaAtHfCufDgkDSTKvhwZrfxYZYTIBF6f
+         Iw5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682630493; x=1685222493;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=u54fgxU+CHObOkXsorNdjsGBCY6sjzZbJYTo0Qudxr0=;
+        b=Q20LrpIux1Lg4QpI4YuyBS4ociKY69T+9aYf9STmCjbtbhpZabjqWXSuV98jhvGB5+
+         Kx/DJQDtlZaaocAr9+1k94F1GCJxEnt0Ji8O/2T9hEMF8Cg2KEBLPSF6J+GwTELSTm1v
+         mMSkIUJKGd6Zr4rSrWjubX8t49GCe4XxLja8m32bGuKA0n4EvMh1MEUztnL8cJGzfMUa
+         qq78vo2jZvl7wP/I6B/IrU3zCcbRPFqC+fDIICEJkLKikTh/Cnl5V8b39xI+BGIbRCcg
+         ypahJSMYitTBdfK+OmnSAp00Yocniq5jX4kuH9EnJucxUNsJJozHOWGIUm8FYQ5M9SA/
+         vK9w==
+X-Gm-Message-State: AC+VfDw4gHB4ugkRAo9li2VAkzuSSDL1S9mvnSS9xcScgyMRnYXRhoiU
+	ZXJh79vtlD/JQdFUexE6lfU68/agIazBtnKCbnMaSkd+KZo=
+X-Google-Smtp-Source: ACHHUZ52WFkXaLfiEbgmIMaypeOzgZeyRaxtLyZhyu9SWJCb09T6yjJZcw3hDDy2f+soUqzylztNzxlwgHGJrsE/xhY=
+X-Received: by 2002:a17:907:608c:b0:958:4c5d:7dd2 with SMTP id
+ ht12-20020a170907608c00b009584c5d7dd2mr3194525ejc.72.1682630492901; Thu, 27
+ Apr 2023 14:21:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPiksxOQsF0-p_pwFQQhG7r5WERrRKv9R_w3Bgxp=qCBcPNc+w@mail.gmail.com>
+References: <CAPiksxOuMyosYh0Ky==jfRcgWpGs5-4SxwfxpaLND5kHsOpq+w@mail.gmail.com>
+ <528f9679-1b07-f3af-c936-06ec1e316720@nvidia.com> <CAPiksxOQsF0-p_pwFQQhG7r5WERrRKv9R_w3Bgxp=qCBcPNc+w@mail.gmail.com>
+ <ZEre23NoKOB56eDj@kbusch-mbp.dhcp.thefacebook.com>
+In-Reply-To: <ZEre23NoKOB56eDj@kbusch-mbp.dhcp.thefacebook.com>
+From: Wang Yicheng <wangyicheng1209@gmail.com>
+Date: Thu, 27 Apr 2023 14:21:21 -0700
+Message-ID: <CAPiksxOEFDjHh4OrkcuBCMe59vf8_CE=AHeCN_+yFCe3_ry-2w@mail.gmail.com>
+Subject: Re: Seeking for help with NVMe arbitration questions
+To: Keith Busch <kbusch@kernel.org>
+Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230427_134520_179625_8D16B82F 
-X-CRM114-Status: GOOD (  22.57  )
+X-CRM114-CacheID: sfid-20230427_142134_920074_7188806A 
+X-CRM114-Status: UNSURE (   9.31  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,52 +89,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 27, 2023 at 12:03:05PM -0700, Wang Yicheng wrote:
-> Thanks Chaitanya for confirming!
-> 
-> Given that the kernel module doesn't support configuring device-level
-> arbitration,
+Thanks a lot for the prompt and detailed reply!
 
-You can't configure the arbitration method. The only thing you can
-change is the arbitration burst size.
+Before asking for further clarification of your answers (thanks for
+being patient with me :) ), I'd like to sort out one fundamental
+question first. When we're talking about configuring the queues
+(default/read/poll), is it really the software queue or the hardware
+queue in the blk-mq model (figure 5 in this paper:
+https://kernel.dk/blk-mq.pdf)?
 
-> I'm now trying to leverage the I/O queues to achieve the
-> same goal. If you could kindly help with the following questions it
-> will be much appreciated!
-> 
-> 1. Is there a way to query the type of each I/O queue and which CPU it
-> resides on?
+I've always been understanding the configuration procedure as
+distributing that number of queues among the CPUs. But as you pointed
+out, if I only distribute 1 queue as default, then the cpu_list will
+contain all CPUs. It gives me an impression that the queue type is
+really about the hardware queues. We don't need to set up the software
+queues, as they're automatically affinitized to the underlying
+hardware queues, in order to make sure all submitted IOs, whichever
+the queue type is, don't need to transfer across CPUs. In other words,
+if I allocate all 3 types of queues, there will be at least 3 software
+queues in each CPU, corresponding to each queue type.
 
-The type of I/O queue selected depends on what you submit. If you
-have read queues configured, then reads go on the read queues. If
-you have poll queues, hipri io goes on those. Everything else goes
-on default.
-
-> 2. Is there a way to control which queue a submitted I/O goes into?
-
-The queues are assigned to specific CPUs. If you want a specific
-queue to handle your command, then submit your request from one of
-the CPUs that map to the queue.
-
-If you want to know which queues map to which CPUs, consult sysfs,
-example: /sys/block/nvme0n1/mq/.
-
-That will show each queue as a unique number (not necessarily aligned
-to the nvme sq/cq id's), and each number will have a cpu_list that
-tells you which CPUs can dispatch to that queue. sysfs doesn't tell
-you the type (read/write/poll), but all queues are accounted for,
-and each type's queues will cover all cpus.
- 
-> 3. Say I have only 1 default queue and I submit an I/O from some CPU,
-> then there can be a chance that the I/O would need to cross CPUs, if
-> the default queue happens not to be on the same core right?
-
-If you only have one queue of a particular type, then the sysfs mq
-directory for that queue should show cpu_list having all CPU's set,
-so no CPU crossing necessary for dispatch. In fact, for any queue
-count and CPU topo, dispatch should never need to reschedule to
-another core (that was the point of the design). Completions on the
-other hand are typically affinitized to a single specific CPU, so
-the complete may happen on a different core than your submit in
-this scenario.
+Best,
+Yicheng
 
