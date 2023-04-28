@@ -4,77 +4,150 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 015F9C77B73
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Apr 2023 00:36:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A76FC77B73
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Apr 2023 02:39:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bW019hZw2m79ekhK1VWnhrvbjoWfN5CPvgTC/Quxs28=; b=gLzv07UFrFHwYa91+P8TDXG8VO
-	7AN1oUJE4NEMTWNZJgyMwgOA95x3+FaINNUL6WlPSLoxq2LYOxrYcb3VjCl2VphDiMG41WWGt183C
-	fEnGHTOqLk1u6nZsgxTIocWVDy2BZGk2p8t6mj4Z7AHfRjNAJnC+Dma5OA+Hx0rdlbFf0JW0COSQ6
-	M1aOjp/XRhAIij5xXuWVtMTIzxFsKxWHynf+BFE084dp3dLif1AQ3oyAczKtw5zmWHCS05S8wBBjQ
-	wCWvl/MJs/46Cbb6FyAWMlwTlehT1gdTNIYGBRQq1Ny/Ajfwp3cUQyIONSrvd+/u3dI9b8phFdTBr
-	6r4lVXNA==;
+	bh=Y6MOzrHBj+6zXknsGl1WhY93PPzHB9lUZXXNk2RlGxQ=; b=Ne0zjqBwofRIPAVObr8FWl03Al
+	VxQJ0SbbkA6rMmDOr5K7RcDQG7XD4zFMH+n3ScX8tCASueBdv/7j7AIDCERj4OL6CcyStu6V+FWNa
+	t/V0T1IUrZl8OuN3UJT/fWwlHc4OYm8A72xFwZn/JKpt6AeFVYJR59mRyrlBlE52AG1g4bhb5zCP5
+	nrR/bPvvmNNh8K3kSzSG+O23lsUrLMMZGn30JU/9cRtX6P226LeVDTeaU/pOCz32r89wyjtjPbdm8
+	jGjdjCTjw89IvG/uqOD1I2aylw7mffVBFoRA98Pc7kRhZaV5KWoDsCJS2oOIASbu+lQVqSiQHlKU9
+	N0xQckQQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1psC69-007uJa-0P;
-	Fri, 28 Apr 2023 00:36:29 +0000
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
+	id 1psE1B-0080IG-2l;
+	Fri, 28 Apr 2023 02:39:29 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1psC66-007uIu-34
+	id 1psE18-0080HR-1p
 	for linux-nvme@lists.infradead.org;
-	Fri, 28 Apr 2023 00:36:28 +0000
-Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-50674656309so14118758a12.0
-        for <linux-nvme@lists.infradead.org>; Thu, 27 Apr 2023 17:36:25 -0700 (PDT)
+	Fri, 28 Apr 2023 02:39:28 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1682649566; x=1714185566;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=j+4PyECKRjUOvEw8PVFkJ5FKrEWq0GsW5WjltHz0FTw=;
+  b=mjNGgHVIfwKDav7sgeabd1finJFZUrI3XkxDrutm3MgIK/g1mjBlcGcq
+   zDzbLnGCCbFzESP8kX63pO0xNOLT5jlAbtKHwE1ut2wLeKB43Q3loLQVo
+   aqdlzdmCvSZNd9CcTTgwkJyHsjfX2lZ/ZFZJY0RrRXOzOjTPW1EJmQwAJ
+   SgMmqvYgCtLvHt9PprZ38ZB/Chx8oHhHtUtEHCSp/xx1RcjooOmktW2Tj
+   r5dL9b+X7GD4sahJC5PPcaqmktHc5HvgKme3+TWThscjGf5Y1TneEtXbc
+   iMDaR5xTH0xByZjZ37SmCUTYMwWS3DTxmKVN+YKlNSwCwBNF2Q8d0Bv/s
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.99,233,1677513600"; 
+   d="scan'208";a="341509067"
+Received: from mail-mw2nam12lp2045.outbound.protection.outlook.com (HELO NAM12-MW2-obe.outbound.protection.outlook.com) ([104.47.66.45])
+  by ob1.hgst.iphmx.com with ESMTP; 28 Apr 2023 10:39:22 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QsJ1fEG3heFzv67excy4X/DZmFt+q/GlmdlP9J1Zev3qqp3WLvPXv2T7IpNp5I/yOhmfz5MtWaMunISlybB3C2zcyMLliMFIIxc7PSDJePESz8N5Bug9X9zYERY5qUOEUel7k2jdZNoOcFaC2qaB4Yzv3g2E0Gpy5IKpTKPQaHaHqsreOm5qdTcMwHmC2P34J3KxgSjRx4MMOsyrhIC202bW+Jze+vob1pZlTmyBmWYxEFwoggCS54JLUqtqMb9Hl9LzdyQvqD5PSZ6Tuzp85sn6y0z+mvRBOY13NA1HXVeD/4ihknIg2w6XphVzyEWovHCyew8iJx8GWxPk2hL7TQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Y6MOzrHBj+6zXknsGl1WhY93PPzHB9lUZXXNk2RlGxQ=;
+ b=RK06eHDtHMXZYIefYtoSNk2ET41Mhvw/1pQt+DTVoJFY4HEk60ZfrxTos80KGrdsm74xx60zIg2YWgkEseHpbB1wLi1B8hD/BbdJoiV8Yz3Ksflx6dOhAlywwYsaEX5+Bh0w+7cUhkmD6wC57qbTZzbB26yWVFdXZsKOGWh5Cu9NZXmQSsDsxLG5TqzhMUiw1mbrwpjNBu94fVeDdxtn6hoWZS6Ix2Og4VJ+971ihg0KAoAvu5LGY+V0v83WHB4DcrXMfpg0HIo5H6wg5gUis4tIk9ui558s5a3FT7GwDYgjVHjuLd49tMPdA8hmv9vuD2ElGk0ZXV8rVXnl8e3gVw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682642184; x=1685234184;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=bW019hZw2m79ekhK1VWnhrvbjoWfN5CPvgTC/Quxs28=;
-        b=nHPNhWm3zuJ4uL+EV/oXR/SjLUuEL/AzIVB6kuDloezKq+vwzwqNouiVUMBG6iwfKh
-         woel1UImsgXPhHmrkzDcl4vbvflLw8kEnrEugrYUqId5Yr1c9Xssk9mc09kIUePBleth
-         bWwk3tvy9Vxd2OCu/j+JpXp8rc1u4uWa7dkGtA7yPi+eQSLTah8yt3VRDiXavKyzr3Eb
-         P0VEw77LioOCtNM6Og5yEBC6pyDjCBLK28X3Tv5IuhI4Rkavp66n7zvSJilNtpGlVexx
-         vrtO7+LazLzX/Fa5mUNVoe+WVJZ2cEyQozfXA2x0UyaAwvXxQnyTMBWasBKv4/db0hpD
-         ZpGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682642184; x=1685234184;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bW019hZw2m79ekhK1VWnhrvbjoWfN5CPvgTC/Quxs28=;
-        b=HcQzZlQHsDU43aMPB+qK/TwBotASpP11r3NVkrKu7x7F01lN9lyNuS2lmbL86fIMEi
-         5u62WO7srrpCBqBZA+Ce+dBdOmNlYsjH8TG/WlSObL3sbdAAbMACMFprO2DMdeQckr67
-         64uaa8+SmQnE1jy+PZOAoVcq0eU3fhH5oM+/LIEX6mRPxTIKitcRqAkCYwDKdkhcnxM3
-         buJl6XhDfUBeiUyl79tUHTi2Sj6+quqCgureywS9GSGJ2ztV3k5GUGjdakxkSPyA2FXa
-         EVgJpcSCvMiQahJoCsYHLxdyH4Nx+5oC8RpFP0T1CudrD2STlLSRt3wTw2LbgqzZ+JZm
-         vK6g==
-X-Gm-Message-State: AC+VfDwAlN4M97KeePQIs3iaYjUKK4WESghXm6PImpq1VPfmQLoQe+4f
-	kS/8+FLml4kpTxGFfYvp8ZlieeKaDT3YEvhvv25h8nCnhlQ=
-X-Google-Smtp-Source: ACHHUZ758CjLd8TFCzk8vXIrcKshzsrPBVasrAa0YYZ6y1EB2pR4JEPoIFQ0lBRCgmSB6WktGi1AvvdIvEtxfmsAH/U=
-X-Received: by 2002:a17:907:628a:b0:94f:80d6:b825 with SMTP id
- nd10-20020a170907628a00b0094f80d6b825mr3596397ejc.19.1682642184253; Thu, 27
- Apr 2023 17:36:24 -0700 (PDT)
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Y6MOzrHBj+6zXknsGl1WhY93PPzHB9lUZXXNk2RlGxQ=;
+ b=fKs17G0LeIHRyFd8rPFyaAyR+tKO9UQgdstMcN4VefX53TPsxLqytUzci0sSuHPICenENzsPKlnDR4duSzD8+rfSVJwBETj0i3lkTwjo8i9DM7MlTKe6HeanuDJSLY8F4UuUK/yddSrjkwAJfGEShP8P+iEyIdaQD+j31NoUjzA=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ MW4PR04MB7249.namprd04.prod.outlook.com (2603:10b6:303:78::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6340.22; Fri, 28 Apr 2023 02:39:20 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::eb0e:1bef:f266:eceb]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::eb0e:1bef:f266:eceb%9]) with mapi id 15.20.6340.022; Fri, 28 Apr 2023
+ 02:39:19 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Daniel Wagner <dwagner@suse.de>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, Chaitanya
+ Kulkarni <kch@nvidia.com>, Shin'ichiro Kawasaki <shinichiro@fastmail.com>
+Subject: Re: [PATCH REPOST blktests v2 1/9] nvme-rc: Auto convert test device
+ size info
+Thread-Topic: [PATCH REPOST blktests v2 1/9] nvme-rc: Auto convert test device
+ size info
+Thread-Index: AQHZeXqhST9UKxztu0+ifyt72RDzlQ==
+Date: Fri, 28 Apr 2023 02:39:19 +0000
+Message-ID: <v6uhud65uqyuoeerp2ncqurvo47ret6zotk4lyj2zeqke6nn5k@2y3xhfa7huf4>
+References: <20230421060505.10132-1-dwagner@suse.de>
+ <20230421060505.10132-2-dwagner@suse.de>
+In-Reply-To: <20230421060505.10132-2-dwagner@suse.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|MW4PR04MB7249:EE_
+x-ms-office365-filtering-correlation-id: eddeb794-d025-482d-f311-08db4791c4b3
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  t3TAtj+BIMl9m+asSELwznUoiUfTZXptObXby7LY+DDr8Y0cRlYDTHe8xscji5mbs49il1sK36QtYltSg93PkU3jr7XcXgCsfLlNIdYMCNE9InHKhrvZJgjiWyqadC86PQ5u+IPlhuzd9gnDwjViUPTem+FVBGOGF2OkQxxMmUWJOAWYiWJw2nIxM+yQ5wp7r6MNcAgeaK0ZcpXUzFndMmhX8pjlfQBRnisbUdEU27tCL4m4k2Iy2rNLZrf77Y/P7G+5TcLy5BjxnIFSp/IADqXFKl3SLp2JA1F9hM9sbn5WLbfm7llzUIVjp6AWtGBSf9NzfAWMEv/zY7Hn5WMd88xWzpo/nEy/aYmxRM/alYkpguvXUjQnHLsTcDkI2eYHAqr0g+Nt6o0HAhYbtsJeFv8G50gI3CuEAbTJQNRLTqv7yR31X/rvzj2fqnekQ+fIaJfvdDyixCVN9ShrpG1g54S9ifWisWM9Lb1zNA4kWc3eE1fFvp2blljYIr6Oeh4mp/hc1RgGSlfBdn17997/nQlso+U6bsl8k6jwf4fBOfqD/7VO6CtnB5dSmu4icOwXl6lja6nuCQEespj4s0H/JIuCy66HjvZ8cyG1kjWWg/XB4k9+Gstu/PSTXnKxl9N8
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(4636009)(396003)(136003)(39860400002)(346002)(366004)(376002)(451199021)(83380400001)(38100700002)(38070700005)(82960400001)(86362001)(122000001)(33716001)(54906003)(66946007)(76116006)(91956017)(71200400001)(6486002)(478600001)(66556008)(66446008)(8936002)(5660300002)(44832011)(8676002)(2906002)(4326008)(6916009)(66476007)(316002)(64756008)(41300700001)(6512007)(6506007)(9686003)(186003)(26005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?A5wqChIK/GPOETECj/gjb1kqwAAWs0Uaucs7aJsVJyOPkVZC8AlT49RbgYF6?=
+ =?us-ascii?Q?XUBDWudYl6UQ0sZCPsTvyfbzMps+fmQkMc3L7f5JiI65hDfz2xsaptA/Jje1?=
+ =?us-ascii?Q?GeWumvhUZHkIi3vZh9gtK05+hx9jpDe+aEmyM/EnCaJhMJCPpZx33HMbkllo?=
+ =?us-ascii?Q?+sB8k0wfrugj7XTDosMshNgdFZjRY3KCYSyYFSzd3LLUTg8z7cmrOd23UUxG?=
+ =?us-ascii?Q?n846aROYVogUIVwnyDtXkXFpPZf6dcvCWR/GrP6sZVPeQJ8F4iCcYE1gckzu?=
+ =?us-ascii?Q?GNzy2J49NYiDgfL1p9nY7R6+uo6Qtazeqv/eNg4JfymF+q55B5/coHqh2Air?=
+ =?us-ascii?Q?ZsrGS9xcGLB48NY1x7PTihDmp0YlTaeKbwYE/Q8RxqHwf400/5JBL6AC17nB?=
+ =?us-ascii?Q?shqwsohCCHpInkjwwxgNzZkIKJNvB5SBTRJfC+PcUqqdo4wWDqNb/eWUA5Uk?=
+ =?us-ascii?Q?LtN/Q+IF9NpmiHJ7oMH5GUpnRN3oD/9wo3z2m5HADmtFSoa2AcWUQt3+bL/J?=
+ =?us-ascii?Q?PhE+Ij4c2oRbygfHLBfwtwC0IFclIa00xhDR/ln2YOxxA5r3qTnrA1PkjKLE?=
+ =?us-ascii?Q?otx5B0A0FA78huN4u7GjM01PIFwrtw0fgx7ApgDhV9VoaXbYEJUG1YhY0gM/?=
+ =?us-ascii?Q?BpxwDuq5MNCMae1iX9rMtCt8DoenNeHBbeSK48Mzg5vUsbfjdBZSX6kG0Lg0?=
+ =?us-ascii?Q?8dV9CEEVbe2WRHzQdngFaQnfe48ea8D8ulq9MCbdjPFZySyiflInQMW6Kgjd?=
+ =?us-ascii?Q?0AW1jNMU3zB57qKU4qFusrCjqNdzZjnTlbdR9klZoIFAmckHe3m1EofXDK3x?=
+ =?us-ascii?Q?c3ZZaQqoOv+A9CQ10WtC8UlSN3EzWbzAiop7MFH1uTqG/0EJKTQ7bXDZIx7p?=
+ =?us-ascii?Q?VWUBPGhpFr+WRcLyxkAA7DqTYLKa6OKzwvfEX1F//t/pOYPlqoqNSoN/UEHG?=
+ =?us-ascii?Q?Wz5RaBqKCSoTNt23KLJZ8OtfuPdDWsWkWmmLg4WN30ozsoZn69KfWipkOnhN?=
+ =?us-ascii?Q?S4USmwfCeaCxmoE2XPuUKDK9k/LojN+41kkKISX3PmOELyo6B2mF5NRe8XnM?=
+ =?us-ascii?Q?z5oI2DO1gtj3RYWi+d6jpp3G2trhcxR/xpKVWfaWJzjrM48jJ3B1m1uUMGqL?=
+ =?us-ascii?Q?vYP8/aO/M8wCH5V1PWRAokTCBD6dUXycU5Ho4YNdlNZiZYOMoIhpqUeRaVZi?=
+ =?us-ascii?Q?sqB8WItyOVQXzxgoyx6BN2Cc/ut2jjO/vUmIShm2BekqtfSJeDkqGmbPH4O+?=
+ =?us-ascii?Q?GLCsSgIVFwIXM4rblGB2cqe+eqb7yVlg62Ad0Fu7KUIcbm/ZHyq6tbnZydsk?=
+ =?us-ascii?Q?iWd8MxE3iqPvEpRpOCxHzIVwZkctBCiZXu4t6JBOaXdGZYBjKjec4tx2ZmdO?=
+ =?us-ascii?Q?EClrh6K+SNsyYZK8kQ2K4CWgDGIhXJmbKHEY33SFi3UCb5xgfnNMJFBoFz/6?=
+ =?us-ascii?Q?mYC4EL70lp74+UatHbkiFgUz6xU2/oqqY6tYwB+RZ6oLRLVZoeZQ3veHUgqC?=
+ =?us-ascii?Q?MMMiiAJHd8QDRYrnOT7qiWubh3XL+IC6IrSTHKV3vyOQk08aUuKgdbSArpsm?=
+ =?us-ascii?Q?CeAfFz45IMOlIvsA7dNtoNr1fFpIhzLbZzPL6JISKPONwbulVxECN8L01EXU?=
+ =?us-ascii?Q?lg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <49931FFD9109864A98CFE3C198B504D3@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <CAPiksxOuMyosYh0Ky==jfRcgWpGs5-4SxwfxpaLND5kHsOpq+w@mail.gmail.com>
- <528f9679-1b07-f3af-c936-06ec1e316720@nvidia.com> <CAPiksxOQsF0-p_pwFQQhG7r5WERrRKv9R_w3Bgxp=qCBcPNc+w@mail.gmail.com>
- <ZEre23NoKOB56eDj@kbusch-mbp.dhcp.thefacebook.com> <CAPiksxOEFDjHh4OrkcuBCMe59vf8_CE=AHeCN_+yFCe3_ry-2w@mail.gmail.com>
- <ZErr8OV5JRpUityQ@kbusch-mbp.dhcp.thefacebook.com>
-In-Reply-To: <ZErr8OV5JRpUityQ@kbusch-mbp.dhcp.thefacebook.com>
-From: Wang Yicheng <wangyicheng1209@gmail.com>
-Date: Thu, 27 Apr 2023 17:36:12 -0700
-Message-ID: <CAPiksxOu2W62bP9fFuHvxjACz+cvxH58fEkoFvALKFdHax3Tcw@mail.gmail.com>
-Subject: Re: Seeking for help with NVMe arbitration questions
-To: Keith Busch <kbusch@kernel.org>
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 	wbNClEBFu2fdxigDvN8QM54uVrBM+dfh1XFmzKKhPilVbyrCGL7Wmn093Ix8hJrzgKB+YYysvcRYeX0+Bx9zaQoeY7H4iqLUtjKa9Z5RgTDv6arMh/vh36HdmHD1uvY69FNj3naJAG8927m7Tosf44VwP8xv6Mim42bfC+V7YjPrLu2logTLSH8mojPTsJw5VO6PCRktlQ4AjZeGQOolCgRc/VSvTmT5fnHqL2Ygs9C8uD+RWf/EWi+52KIl83AcHf+AeGUNmOTVRzz6zPFlJPy9rfvQvC3xanKso4hakdlPuW9nueWzcjXChu/wOhQuWfR7RdMEt6h5DfpYOFmgV4aDcWIgUv4bpVV45gAES7WK6CAKZQYZqIzdVX7SA1iDNvSqfRI/AQs72VCBi5jR3OUioJvBOh0+qK9vZt21x1LMPA0PJz6D0SPd0JlV3xkae35K3lvHe1qKs4PGAbYXWFrVd/vAzEREcfYcDzYwsBu8/x4sRdWHcCPOocJjw8PPfHD3AZ6LwW7ufsu1LtZvCK55raADtGreQhZp4Ug8ZW19TpRin/PeHC8YJLTgtu6mdjGJQ96Afs/kRsgKDH7F2m6FafKSDCrFQgb4nV44+0TPqETbSj/6DopM0Y0IGNWSaeer+s0TYVD0MmwtwkaoGCbVG+CIqHoBH4gszYXo5OGaoEsW8Ae6tFahCNk1/j9gT+BL8kCToGXrefVkR5X0vBoqERnEt8MCS86ULTU4vV8v+ZLZH3P71eaS5H1WJfHAihUt9Qw3r9f0yd8KPzGOVW5O93RxRXGXgT2HaUzvE+Wq98lYkQyKyrScI+DTWx0Jov/qAHUZAvrBQ+kyA7Ho4eGAakTLQl2VBj9ptcWDknMK1uNeRr53JkEkyVLTeV0msLKr3X9qtH7RSc/41qlESZdkStSf+sfP4DvS98Cwfzw=
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eddeb794-d025-482d-f311-08db4791c4b3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Apr 2023 02:39:19.8846
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Ye3YcpzDclIy8rZFQKHmBhwNVHlppT0tfVnIT0OXvrX+wpJqjZu7hDReBx9fb7pK8D+9lkqD7gyRqhK0cBVOiHwLkNIyz3Q0kZ1g92uvCng=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR04MB7249
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230427_173627_014261_9B2DC5FB 
-X-CRM114-Status: GOOD (  16.56  )
+X-CRM114-CacheID: sfid-20230427_193926_709668_BD186416 
+X-CRM114-Status: GOOD (  20.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,36 +162,85 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks a lot Keith! This is very helpful!
+This patch looks good to me. One nit in the commit title is the prefix
+"nvme-rc" which is new. How about "nvme" or "nvme/rc"?
 
-1. Then do you see a way to prioritize a specific set of IOs (favor
-small writes over large writes) from the IO queue's perspective?
-Initially I was thinking of WRR, which later turned out to be not
-supported. If I want to leverage the IO queues to achieve the same
-goal, from what I understand I can simply send small writes to poll
-queues, and allocate more of those queues. Say on average small writes
-take up 20% of the total IOs. And if I distribute 40% of total queues
-as poll queues, in some sense I give more weight to small writes and
-thus prioritize them.
+Please find one more nit comment in line.
 
-> > 3. Say I have only 1 default queue and I submit an I/O from some CPU,
-> > then there can be a chance that the I/O would need to cross CPUs, if
-> > the default queue happens not to be on the same core right?
->
-> If you only have one queue of a particular type, then the sysfs mq
-> directory for that queue should show cpu_list having all CPU's set,
-> so no CPU crossing necessary for dispatch. In fact, for any queue
-> count and CPU topo, dispatch should never need to reschedule to
-> another core (that was the point of the design). Completions on the
-> other hand are typically affinitized to a single specific CPU, so
-> the complete may happen on a different core than your submit in
-> this scenario.
+On Apr 21, 2023 / 08:04, Daniel Wagner wrote:
+> Introduce a convert_to_mb() helper which converts the size argument
+> to MBytes and use in test device require function. This makes it
+> possible to use user input strings in future.
+>=20
+> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+> ---
+>  common/rc      | 30 +++++++++++++++++++++++++++---
+>  tests/nvme/035 |  2 +-
+>  2 files changed, 28 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/common/rc b/common/rc
+> index af4c0b1cab22..dd0afda3d821 100644
+> --- a/common/rc
+> +++ b/common/rc
+> @@ -324,9 +324,12 @@ _get_pci_parent_from_blkdev() {
+>  		tail -2 | head -1
+>  }
+> =20
+> -_require_test_dev_size_mb() {
+> -	local require_sz_mb=3D$1
+> -	local test_dev_sz_mb=3D$(($(blockdev --getsize64 "$TEST_DEV")/1024/1024=
+))
+> +_require_test_dev_size() {
+> +	local require_sz_mb
+> +	local test_dev_sz_mb
+> +
+> +	require_sz_mb=3D"$(convert_to_mb "$1")"
+> +	test_dev_sz_mb=3D"$(($(blockdev --getsize64 "$TEST_DEV")/1024/1024))"
+> =20
+>  	if (( "$test_dev_sz_mb" < "$require_sz_mb" )); then
+>  		SKIP_REASONS+=3D("${TEST_DEV} required at least ${require_sz_mb}m")
+> @@ -422,3 +425,24 @@ _have_writeable_kmsg() {
+>  _run_user() {
+>  	su "$NORMAL_USER" -c "$1"
+>  }
+> +
+> +convert_to_mb()
+> +{
+> +    local str=3D$1
+> +    local res
+> +
+> +    res=3D$(echo "${str}" | sed -n 's/^\([0-9]\+\)$/\1/p')
+> +    if [[ -n "${res}" ]]; then
+> +        echo "$((res / 1024 / 1024))"
+> +    fi
+> +
+> +    res=3D$(echo "${str}" | sed -n 's/^\([0-9]\+\)[mM]$/\1/p')
+> +    if [[ -n "${res}" ]]; then
+> +        echo "$((res))"
+> +    fi
+> +
+> +    res=3D$(echo "${str}" | sed -n 's/^\([0-9]\+\)[gG]$/\1/p')
+> +    if [[ -n "${res}" ]]; then
+> +        echo "$((res * 1024))"
+> +    fi
+> +}
 
-2. You mentioned that completions are affinitized to a single specific
-CPU. And this is exactly what I observed in my test. This also seems
-to cause worse performance. Is there a way to query that affinity or
-is it invisible from outside?
+Nit: this function uses not tabs but spaces for indent.
 
-Best,
-Yicheng
+> diff --git a/tests/nvme/035 b/tests/nvme/035
+> index d169e351e3d0..eb1024edddbf 100755
+> --- a/tests/nvme/035
+> +++ b/tests/nvme/035
+> @@ -17,7 +17,7 @@ requires() {
+>  }
+> =20
+>  device_requires() {
+> -	_require_test_dev_size_mb 1024
+> +	_require_test_dev_size 1024m
+>  }
+> =20
+>  test_device() {
+> --=20
+> 2.40.0
+> =
 
