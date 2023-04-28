@@ -4,67 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31394C77B60
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Apr 2023 15:43:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31849C77B61
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Apr 2023 16:26:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hHNzkumt+Rlx9qttIOpzSeKG9f9iWnfVuge1BRN5GRc=; b=MVKDn/KO83u6+v7vsYu/2Hjb00
-	wMF/k/8KEMmEX44w5P0OeSwh+fPmMDFasyPDYowZr3qSDhlEMkw6yROx6CzArISV/x0aOroI3AURg
-	BRNuxvhGQwmuTdcmWFDa/e1AYy3Xr5GkyNHhRwONDOsstqNyJeK2UlN5UEn5F4FkCS3NdaH0wdkHE
-	WBQN0ibCDm8yEEYoLb96vl7vZGPVM0qbkltAqtrWs2WYXLVnAlR3xwR1JBeJLAiZrzNA1c+njkgqW
-	ewDcPDPMdIitPROThIgaDwDG25oeFaMicQJbOl5rA/U+ZZ1R7NrmbIHPsiE78wbCzQ+dwuM1Z3Iad
-	3RLzwVcw==;
+	bh=ziV2I8BLdfT23y/At9fcgpdWVrvOOKeRYBhfgs3V2HM=; b=zzx5hvx3Ij6GGJdLVzQCkA6EwH
+	rQtj4r1ey1YHOpmPay0VPEM/cLdwGJHijEoGjffi3S3ThbOeji4YpjjQj+jQZNY28P+b2rcQCHGWS
+	zT7A1SFKgYx1IXi7xs2duxS4PE432dZxA0uCLI56A3NreR3iLTnXx2YkCSgGEcZC9yXSGgUpoE5SR
+	NPiyDObpaZ2oSL4L35doBl/7RFreFsGO/PKY7h+S/vDIGcIKWQ4b7HqSOHI6oQ0BoibpxlVIWxiK6
+	CuxH7UrfbhoySVlKFj6e0Ie8c+8Aa8q0McsE3gNu6LDPe1NIF68Am8Ms0LGgOUyCRIRJIv24LSOaJ
+	uN3vwZdg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1psQG3-00B928-0X;
-	Fri, 28 Apr 2023 15:43:39 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1psQva-00BDTV-16;
+	Fri, 28 Apr 2023 16:26:34 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1psQFy-00B91c-2J
+	id 1psQvX-00BDSq-25
 	for linux-nvme@lists.infradead.org;
-	Fri, 28 Apr 2023 15:43:36 +0000
+	Fri, 28 Apr 2023 16:26:32 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id C4A5A60C4B;
-	Fri, 28 Apr 2023 15:43:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7EE9C433D2;
-	Fri, 28 Apr 2023 15:43:32 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 1932260EA8;
+	Fri, 28 Apr 2023 16:26:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DF34C4339B;
+	Fri, 28 Apr 2023 16:26:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1682696613;
-	bh=I0cC7l00Yeha121oOxxfd3MYMTmwVMK3kxBdX3h9QYk=;
+	s=k20201202; t=1682699190;
+	bh=2ova8myvuxl3T9joUGwbPw35fOpZDeiokkLv+c3PG3M=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=C4GIGxYKuHlbrpIs+w1yFKLYBs5MGs2hCBqyWm1Ozsq1VQCupGMUQgoswEut+Yhw6
-	 4Sz9BHTjqOTG6DXlYDn3pmG3EZiOVCK0KaKGNWA+EDYiiybh/4sXPiSTKW8XaOY7uT
-	 KDWgGvjHIxi1qpmKSQ6FyZePpo0rHjgPLD95vB78XnUmr4Igu9awfbllzeHIcBuerP
-	 +jfSK5+rTILsaT/twmVP6a0A9ITIc6mil/DCjwes81AMIZ4AIp1BYh7mDTGO+lobnM
-	 7yy/3Jcelk07bpRegEIinNInViNGUxX3ohAbWwsuz0HYJedd3D0Tsz3tMI7hp8JWQW
-	 zfAiIicaP60zw==
-Date: Fri, 28 Apr 2023 09:43:30 -0600
+	b=DzE2R4jgr/rlC9IRt7NY3eJBO2Z4usnBTMsCVHKdK53iCBcSDgjixMBZxwLowfqkF
+	 szeBmfnpcsWArqxLwIfUE04zM4rbrbeuoTCE1DYi4h/KXcncgeXfglYyne3SLZ83uQ
+	 8RRnww/qRNclGim00rquJqCwHRSwMgWVHl4lOEXc83HsZvrJ72/dCIOHsmOUjqJZHx
+	 7FtElA9ij4/ni+u+88TfzqvBMfJzBpkTVBMvDVo1ezBCaWaljeINZPHEmtavN4yR6v
+	 PUGmj/PN9/oAbAlAj9ku2kkanXN6NIl28DTKCzTYhbcPsjd+Tm/3rtMjkcJMPqYzX7
+	 yCuvzOgVePfbA==
+Date: Fri, 28 Apr 2023 10:26:28 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Wang Yicheng <wangyicheng1209@gmail.com>
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: Seeking for help with NVMe arbitration questions
-Message-ID: <ZEvpoiDVFuOs8wyw@kbusch-mbp.dhcp.thefacebook.com>
-References: <CAPiksxOuMyosYh0Ky==jfRcgWpGs5-4SxwfxpaLND5kHsOpq+w@mail.gmail.com>
- <528f9679-1b07-f3af-c936-06ec1e316720@nvidia.com>
- <CAPiksxOQsF0-p_pwFQQhG7r5WERrRKv9R_w3Bgxp=qCBcPNc+w@mail.gmail.com>
- <ZEre23NoKOB56eDj@kbusch-mbp.dhcp.thefacebook.com>
- <CAPiksxOEFDjHh4OrkcuBCMe59vf8_CE=AHeCN_+yFCe3_ry-2w@mail.gmail.com>
- <ZErr8OV5JRpUityQ@kbusch-mbp.dhcp.thefacebook.com>
- <CAPiksxOu2W62bP9fFuHvxjACz+cvxH58fEkoFvALKFdHax3Tcw@mail.gmail.com>
+To: Lyndon Sanche <lsanche@lyndeno.ca>
+Cc: linux-nvme@lists.infradead.org
+Subject: Re: [BUG][6.2.11] WD SN770 nvme controller is down
+Message-ID: <ZEvztPVgoS7m0Xja@kbusch-mbp.dhcp.thefacebook.com>
+References: <0SKHTR.QZGFTLD3Z8E01@lyndeno.ca>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAPiksxOu2W62bP9fFuHvxjACz+cvxH58fEkoFvALKFdHax3Tcw@mail.gmail.com>
+In-Reply-To: <0SKHTR.QZGFTLD3Z8E01@lyndeno.ca>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230428_084334_832840_B3DCA537 
-X-CRM114-Status: GOOD (  28.36  )
+X-CRM114-CacheID: sfid-20230428_092631_721318_A9AAB407 
+X-CRM114-Status: GOOD (  20.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,46 +72,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 27, 2023 at 05:36:12PM -0700, Wang Yicheng wrote:
-> Thanks a lot Keith! This is very helpful!
+On Fri, Apr 21, 2023 at 04:21:36PM -0600, Lyndon Sanche wrote:
 > 
-> 1. Then do you see a way to prioritize a specific set of IOs (favor
-> small writes over large writes) from the IO queue's perspective?
-> Initially I was thinking of WRR, which later turned out to be not
-> supported. If I want to leverage the IO queues to achieve the same
-> goal, from what I understand I can simply send small writes to poll
-> queues, and allocate more of those queues. Say on average small writes
-> take up 20% of the total IOs. And if I distribute 40% of total queues
-> as poll queues, in some sense I give more weight to small writes and
-> thus prioritize them.
+> I am wondering if there are any other steps I can take to troubleshoot this
+> problem. I have tried taking the drive back to the store I bought it from,
+> but the tests they ran all passed so a replacement/return is not likely to
+> be possible. I am wondering if there are other settings or possibly patches
+> I could try.
+> 
+> It should be noted that none of these problems occur on my desktop with the
+> same model of drive (ASUS X570 Motherboard).
 
-You might expect that a new command placed on a shallow queue will
-be handled ahead of a command place on a deep queue at the same
-time. Indeed, some implementation may even show desirable results
-with that scheme, but the spec doesn't really guarantee that, though.
+I do not know what causes this, but here's a shot in the dark at
+recovery. Since you showed a valid PCI_STATUS, the link is still
+viable, so maybe an FLR will get the device MMIO capable again?
 
-For a pure software side solution, you could use an ioscheduler and
-set your ioprio accordingly.
+If this helps at all (it may very well accomplish nothing), this
+is still not a satisfying conclusion since we really want to avoid
+the situation in the first place rather than recover from it.
+
+---
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 26e17110a419e..1278b8fd234c0 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1272,6 +1272,11 @@ static void nvme_warn_reset(struct nvme_dev *dev, u32 csts)
+ 	if (csts != ~0)
+ 		return;
  
-> > > 3. Say I have only 1 default queue and I submit an I/O from some CPU,
-> > > then there can be a chance that the I/O would need to cross CPUs, if
-> > > the default queue happens not to be on the same core right?
-> >
-> > If you only have one queue of a particular type, then the sysfs mq
-> > directory for that queue should show cpu_list having all CPU's set,
-> > so no CPU crossing necessary for dispatch. In fact, for any queue
-> > count and CPU topo, dispatch should never need to reschedule to
-> > another core (that was the point of the design). Completions on the
-> > other hand are typically affinitized to a single specific CPU, so
-> > the complete may happen on a different core than your submit in
-> > this scenario.
-> 
-> 2. You mentioned that completions are affinitized to a single specific
-> CPU. And this is exactly what I observed in my test. This also seems
-> to cause worse performance. Is there a way to query that affinity or
-> is it invisible from outside?
-
-To query a queue's affinity, check /proc/irq/<#>/effective_affinity.
-You can check /proc/interrupts to determine which irq# goes with
-which queue.
++	if (pci_status != (u16)~0U) {
++		pci_try_reset_function(to_pci_dev(dev->dev));
++		return;
++	}
++
+ 	dev_warn(dev->ctrl.device,
+ 		 "Does your device have a faulty power saving mode enabled?\n");
+ 	dev_warn(dev->ctrl.device,
+--
 
