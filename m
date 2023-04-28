@@ -4,83 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53CEFC7EE22
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Apr 2023 17:28:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6139AC77B61
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Apr 2023 18:18:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mx+u+e8F3tpe9jME3ZkNhf/uGT2LdeSIrgmUdMOCoHA=; b=FaCj0LALD6KoA6LnRP/oK79FuZ
-	KRoX1wT7+ftYQ8fUxoHTb40ZXVyEMs5evk0GY1x8xIvn2P1xy1Q6fbxduAjP40jWYJ+F39I+o9c1k
-	tl7lKTQ3AVpVkv9jm1qx80vnssPwyyQrCPvRz7EHP1hwcHhrmXa99+x0gr5EdUtBgSQ/0aq4PZwJB
-	+y+DxGbjn2Fm+KaRJtIsL6fw68IXfCdRTg6clfljCE+TSUX4zcH+BRoAVSTxNCGwMI55ss+ImUqNi
-	wt1uvJZBwKJ0siyWM4iRcTKhEXFvdjppDfv2ErmcyTbKB6+QrJFNAQtp2mONHULlxT1yOpANtfh5Y
-	U+LqMQrg==;
+	bh=QDKweJNl1igqzxsduVu9aBlFR3YZ0Azh02nrtffVtIc=; b=0X+ybcTk9Ys7c5XonEbfyuDNW2
+	Ge/n5NHXTarOJHUzFYqHmnTXSsHITOA34exk9URuF1a0uKNsqYEcTIjH/oRwkYhGU+4tbtSpGaaty
+	G1knyroUT5CVeDK+C/UG016jJUqsgrkhNFvRQc2fr6NUOQgIqIlkAckWzNkz7N2FkHTxvjwJbxSnQ
+	axV4elqhDGM6aQratc9IjsqvWzXtqimSjThkNMjwkw8eUz4oFSWwJ2YWe4RoxXd18X2sJ36VDqgOe
+	+iMCTV5rQN7grzHFKSfMDHSC3HvpMC7LD4MgLi/LGHu0ARfqrYfHRHDZBNr8eBsgYpVMR5v8RjHz4
+	TLVUiH+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1psRtM-00BLF6-0C;
-	Fri, 28 Apr 2023 17:28:20 +0000
-Received: from mail-il1-x136.google.com ([2607:f8b0:4864:20::136])
+	id 1psSfn-00BSiZ-1U;
+	Fri, 28 Apr 2023 18:18:23 +0000
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1psRtJ-00BLDq-32
+	id 1psSfk-00BSfA-2A
 	for linux-nvme@lists.infradead.org;
-	Fri, 28 Apr 2023 17:28:19 +0000
-Received: by mail-il1-x136.google.com with SMTP id e9e14a558f8ab-32b625939d4so3845645ab.1
-        for <linux-nvme@lists.infradead.org>; Fri, 28 Apr 2023 10:28:16 -0700 (PDT)
+	Fri, 28 Apr 2023 18:18:22 +0000
+Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-50a145a0957so19971165a12.1
+        for <linux-nvme@lists.infradead.org>; Fri, 28 Apr 2023 11:18:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1682702896; x=1685294896;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mx+u+e8F3tpe9jME3ZkNhf/uGT2LdeSIrgmUdMOCoHA=;
-        b=StkHpsTFpc04mYRpir23kIUT3IfSMOjigxosKHgX+gCeWel7dyhRfqGvXbHUZwOaj5
-         cOmpDi3mLtJz1AcA9iR3BmwiuJ2G29nre1arFQstFKx8fo7wCREJHYvPPagMXM5Pv67v
-         CGQc9H89+myfRH8sV3i5udBtHw1LMoZj4bEJmm6XkLju7wGfcsTSRbQ25G/Yrxq8HNdo
-         9k8pTj0NfwdNMyUF7oBvrqgu8uj5CNNJZ0sAJn+Y3KlOC8s4abk9wsZHUojThtZnGUao
-         1BI5+xbPnnEDtyZ+OziPsSMtxIFr83qa5KTVmeR23CRHek3oKvSC5oJq2elYhPFhVF5j
-         Uxjw==
+        d=gmail.com; s=20221208; t=1682705895; x=1685297895;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QDKweJNl1igqzxsduVu9aBlFR3YZ0Azh02nrtffVtIc=;
+        b=lw6yYnqYMgfIxqiU3gX3LIZuSiuYqVVrqowvq+IfiwQ5/TE0HLY5pKjGlCc1QZ/FWi
+         7SPNYZ8/q90aCo9FM59fzDqmsRD7abVg9UyrOx7eYhrVAn8RFPL5y3lCWUAmogppORjl
+         tjgdytsystpgkuP9yg+oT/Iye9EuwnOnm68tliV2S1GOI3+PXx9xSOOcBpYAHUBqk2Ap
+         ft2i0PKSwMbR4RnEEFFIQqy0d695iosjtL5GmevRQ14p+itpoGK3gKiDGYmPLtl8j9do
+         hV4JXD5O+M2dKfbiCV9r1AFHiJArDe6j7yPoR1PIM8wtCzgcXRdVA5TDXv/2vTIl3prM
+         WGgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682702896; x=1685294896;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mx+u+e8F3tpe9jME3ZkNhf/uGT2LdeSIrgmUdMOCoHA=;
-        b=HCC5MLzt/LVD8iNJ+QOpTh2L78OuDM1aLH0DUUINSw41WfjZA5eBUMH8JG2q4nD0T/
-         rn79sQ7gXH6KU4DGkw+WH19HdyukZP9gnAtuEZS1nGBzz663q5F4+Yal+0IfJyCwRNcZ
-         gi+/X8UaKpO/8/OdQRyWeyfoKNKUg6hBbMDlA+tbTfgjImRNYT39N8VGAyuNeh0RE1xO
-         uwLmT1TIoY38c+6WlMSAktPFwek2PvEgu9E4K+ZkU0NC5Sj6mk2ce2vSJ5VrwhbSlLXs
-         4gWLi+Jy0WJ0AZdBE6lNLgkYVSDrORO0/bHt6EkQusWAica9qMVbtNuPaHv9COnT5rvb
-         Wkjg==
-X-Gm-Message-State: AC+VfDxBGPy7hcufL2h9fqDhOK4IbpFleX0wZerqBjgA1njYdPJ1FhqR
-	oFTnitdnQfaNYbXy7TDfxDSt9w==
-X-Google-Smtp-Source: ACHHUZ6VVhmsMluENvVdOeusjeeWlsYRSHQORwLpr/F9aC6roaNxN8srB7J+NWD6SEU5RENT5xw02Q==
-X-Received: by 2002:a05:6602:1696:b0:760:dfd3:208d with SMTP id s22-20020a056602169600b00760dfd3208dmr4267661iow.0.1682702896169;
-        Fri, 28 Apr 2023 10:28:16 -0700 (PDT)
-Received: from [192.168.1.94] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id d123-20020a026281000000b00405f36ed05asm6225655jac.55.2023.04.28.10.28.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Apr 2023 10:28:15 -0700 (PDT)
-Message-ID: <678232fa-fd02-37b7-3048-a124c4ffdc71@kernel.dk>
-Date: Fri, 28 Apr 2023 11:28:14 -0600
+        d=1e100.net; s=20221208; t=1682705895; x=1685297895;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QDKweJNl1igqzxsduVu9aBlFR3YZ0Azh02nrtffVtIc=;
+        b=GhRvw9mq18B7eEH/Kf31jfVhFPe7zMW/CLOV80D8633HoqaQe+myOap1xAvn4Go48P
+         1vEmjesdDw+IgEfuh4m1aBPJuq9EKXAl0F20vrWCeb/sAyLo3tXlyCHSldyScnXxbnuW
+         V2B69hNDnyzZ0QgjhafK6kJhGDBPA67yfMnnOVDfu8VJkZaBLE1EuNFFXewvuC4TbthD
+         j0QVjYvKOtnaZyiW9oxFEf3EVoE3ZgbqAfSg+cDYWPsuzI4SPFuQR3wgchxVrZGLzRyt
+         A1QNABECidIaC/JAuDUio2/Ut8XRwqAJ59NiZ/w0iUMzO/fO1M0sP5eAwUTdkbMzheSS
+         ITFw==
+X-Gm-Message-State: AC+VfDz+XaeqQLfDmWLhM9FhjP+J12/j2WuQWpeBAbjWPrqTDiYtsLHG
+	6Oz0/MqjU6HCXe68VFTVesr9m81SomsUMRPzVbwvN6/R+p0=
+X-Google-Smtp-Source: ACHHUZ7tgrrVWCotI4i/B+EZ/L7fo8HDafefhEN2/3XEhSu5Gza0oJ45DrpYwTKWn67iEC1N16pxisxBIAiNGjgNml0=
+X-Received: by 2002:a17:907:86a3:b0:95f:af3a:be8c with SMTP id
+ qa35-20020a17090786a300b0095faf3abe8cmr7684723ejc.18.1682705895017; Fri, 28
+ Apr 2023 11:18:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 0/3] io_uring: Pass the whole sqe to commands
-Content-Language: en-US
-To: Breno Leitao <leitao@debian.org>, io-uring@vger.kernel.org,
- linux-nvme@lists.infradead.org, asml.silence@gmail.com
-Cc: leit@fb.com, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- sagi@grimberg.me, hch@lst.de, kbusch@kernel.org, ming.lei@redhat.com
-References: <20230421114440.3343473-1-leitao@debian.org>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20230421114440.3343473-1-leitao@debian.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <CAPiksxOuMyosYh0Ky==jfRcgWpGs5-4SxwfxpaLND5kHsOpq+w@mail.gmail.com>
+ <528f9679-1b07-f3af-c936-06ec1e316720@nvidia.com> <CAPiksxOQsF0-p_pwFQQhG7r5WERrRKv9R_w3Bgxp=qCBcPNc+w@mail.gmail.com>
+ <ZEre23NoKOB56eDj@kbusch-mbp.dhcp.thefacebook.com> <CAPiksxOEFDjHh4OrkcuBCMe59vf8_CE=AHeCN_+yFCe3_ry-2w@mail.gmail.com>
+ <ZErr8OV5JRpUityQ@kbusch-mbp.dhcp.thefacebook.com> <CAPiksxOu2W62bP9fFuHvxjACz+cvxH58fEkoFvALKFdHax3Tcw@mail.gmail.com>
+ <ZEvpoiDVFuOs8wyw@kbusch-mbp.dhcp.thefacebook.com>
+In-Reply-To: <ZEvpoiDVFuOs8wyw@kbusch-mbp.dhcp.thefacebook.com>
+From: Wang Yicheng <wangyicheng1209@gmail.com>
+Date: Fri, 28 Apr 2023 11:18:03 -0700
+Message-ID: <CAPiksxMs00uLcOxxxKXUPpJEgCCEHDVx3JVKbe2AivHCJ553wA@mail.gmail.com>
+Subject: Re: Seeking for help with NVMe arbitration questions
+To: Keith Busch <kbusch@kernel.org>
+Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230428_102817_978190_037B1FBE 
-X-CRM114-Status: GOOD (  14.20  )
+X-CRM114-CacheID: sfid-20230428_111820_709256_B4F69570 
+X-CRM114-Status: GOOD (  35.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,29 +92,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/21/23 5:44?AM, Breno Leitao wrote:
-> These three patches prepare for the sock support in the io_uring cmd, as
-> described in the following RFC:
-> 
-> 	https://lore.kernel.org/lkml/20230406144330.1932798-1-leitao@debian.org/
-> 
-> Since the support linked above depends on other refactors, such as the sock
-> ioctl() sock refactor[1], I would like to start integrating patches that have
-> consensus and can bring value right now.  This will also reduce the patchset
-> size later.
-> 
-> Regarding to these three patches, they are simple changes that turn
-> io_uring cmd subsystem more flexible (by passing the whole SQE to the
-> command), and cleaning up an unnecessary compile check.
-> 
-> These patches were tested by creating a file system and mounting an NVME disk
-> using ubdsrv/ublkb0.
+> You might expect that a new command placed on a shallow queue will
+> be handled ahead of a command place on a deep queue at the same
+> time. Indeed, some implementation may even show desirable results
+> with that scheme, but the spec doesn't really guarantee that, though.
+Thanks Keith, that makes total sense... This also aligns with what I
+experimented with (please see below). I was hoping to see task2 would
+benefit from a larger queue proportion but it didn't.
+1. W/ default queue set-up, ran 2 identical randwrite FIO tasks (3
+identical jobs each) to the same set of CPUs. The 2 tasks got the same
+performance
+2. Changed to 1/64/2 queue set-up, FIO tasks were the same, despite
+task1 went to default queues and task2 went to poll queues. The result
+was very close to test 1. Task2 did run faster but the difference was
+trivial (seemed to come from IO polling instead of queue distribution)
 
-Looks mostly good to me, do agree with Christoph's comments on the two
-patches. Can you spin a v3? Would be annoying to miss 6.4 with this, as
-other things will be built on top of it.
+Then this confuses me with the motivations of introducing different
+queue types. Doesn't it aim for providing some sort of prioritization?
 
--- 
-Jens Axboe
+Best,
+Yicheng
 
+On Fri, Apr 28, 2023 at 8:43=E2=80=AFAM Keith Busch <kbusch@kernel.org> wro=
+te:
+>
+> On Thu, Apr 27, 2023 at 05:36:12PM -0700, Wang Yicheng wrote:
+> > Thanks a lot Keith! This is very helpful!
+> >
+> > 1. Then do you see a way to prioritize a specific set of IOs (favor
+> > small writes over large writes) from the IO queue's perspective?
+> > Initially I was thinking of WRR, which later turned out to be not
+> > supported. If I want to leverage the IO queues to achieve the same
+> > goal, from what I understand I can simply send small writes to poll
+> > queues, and allocate more of those queues. Say on average small writes
+> > take up 20% of the total IOs. And if I distribute 40% of total queues
+> > as poll queues, in some sense I give more weight to small writes and
+> > thus prioritize them.
+>
+> You might expect that a new command placed on a shallow queue will
+> be handled ahead of a command place on a deep queue at the same
+> time. Indeed, some implementation may even show desirable results
+> with that scheme, but the spec doesn't really guarantee that, though.
+>
+> For a pure software side solution, you could use an ioscheduler and
+> set your ioprio accordingly.
+>
+> > > > 3. Say I have only 1 default queue and I submit an I/O from some CP=
+U,
+> > > > then there can be a chance that the I/O would need to cross CPUs, i=
+f
+> > > > the default queue happens not to be on the same core right?
+> > >
+> > > If you only have one queue of a particular type, then the sysfs mq
+> > > directory for that queue should show cpu_list having all CPU's set,
+> > > so no CPU crossing necessary for dispatch. In fact, for any queue
+> > > count and CPU topo, dispatch should never need to reschedule to
+> > > another core (that was the point of the design). Completions on the
+> > > other hand are typically affinitized to a single specific CPU, so
+> > > the complete may happen on a different core than your submit in
+> > > this scenario.
+> >
+> > 2. You mentioned that completions are affinitized to a single specific
+> > CPU. And this is exactly what I observed in my test. This also seems
+> > to cause worse performance. Is there a way to query that affinity or
+> > is it invisible from outside?
+>
+> To query a queue's affinity, check /proc/irq/<#>/effective_affinity.
+> You can check /proc/interrupts to determine which irq# goes with
+> which queue.
 
