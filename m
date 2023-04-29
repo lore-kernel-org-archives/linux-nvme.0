@@ -4,125 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81D84C7EE24
-	for <linux-nvme@archiver.kernel.org>; Sat, 29 Apr 2023 09:43:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DB3DCC7EE22
+	for <linux-nvme@archiver.kernel.org>; Sat, 29 Apr 2023 09:43:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
 	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4c/Krci4Z4CXyKaTGDw8RdWSrdEiCYIykDkltCWySjA=; b=Ql8XEo3OCQgAV2z7sFYIvrLC89
-	yQyo3tauTgBkYlu72Ugja/pYcbKOl4xHNS+TQrpXsLK4atqBJL83ll1cxbYdG8YzKBlBXoGWpqjP5
-	TNQ3VqreSqa1OIzIsu42Ae6kxR+VXBAiw1eDBPD8nIDbVp2duFfq8U518qk1QRGMKH3M2VxDLOKaN
-	L2QeBFIc2z8eKqwwbKpk3esMqGwBoIIXOifo+gwJ7Cy3UaLwmDWeH8ct3dWCQyf6ySZAV2DxxEgwu
-	fY1SFV/9syKDlZ9rQZNdl40SeA2GJSmWJvDTt3ZY+cSdC0qgnDEs9fD2VqnxV7l6IJ5bJq2pZ0J5O
-	NZRdXQgw==;
+	bh=a1Ko1tJ8viYuiqNUaXjSspplUkqNdUYdAc0cZ2nFHa8=; b=fOkRpSDNpf+EFkK5pX3moJllJT
+	gdOYK0V1j9yp91vosPOd3SmFkxupjvWfstqGk9T+9MAib4IzPjF0dZY9ILRqBlzfbPU9E1O4lKWUo
+	4wXEvRMnjKJEisDJPbDqJYvje3cLbM4nole4ytjpb3YX7ncPnVNRJUuaZusfV/mFI6/iCdd7ixl1u
+	YcSVfGsBqIpM7C/NvvVh3npzkPn8Zs8Q1fLg3IjQqXP9OozVGNR/BqMH0R9w1PkacYNK/yK25wFAn
+	cM+yIAcNHVTVNs6GBDNsTdu4xKpKdhLAb35kW8evns0PjcUpYOMd3ECvsbqDRYevCJd398kDQpH6S
+	ccEHB6yQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1psh6Y-00CTtI-2V;
-	Sat, 29 Apr 2023 09:42:58 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1psh6b-00CTvn-1M;
+	Sat, 29 Apr 2023 09:43:01 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1psh6T-00CTow-0l
+	id 1psh6Y-00CTrk-0Y
 	for linux-nvme@lists.infradead.org;
-	Sat, 29 Apr 2023 09:42:55 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20230429094248epoutp028e00dc5295287de54297da0fbf686a71~aXoyWVLtW1899418994epoutp025
-	for <linux-nvme@lists.infradead.org>; Sat, 29 Apr 2023 09:42:48 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20230429094248epoutp028e00dc5295287de54297da0fbf686a71~aXoyWVLtW1899418994epoutp025
+	Sat, 29 Apr 2023 09:43:00 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20230429094254epoutp04ec5ceacab1175b78eaf4b34b44e5f038~aXo33qgTT0828308283epoutp04q
+	for <linux-nvme@lists.infradead.org>; Sat, 29 Apr 2023 09:42:54 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20230429094254epoutp04ec5ceacab1175b78eaf4b34b44e5f038~aXo33qgTT0828308283epoutp04q
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1682761368;
-	bh=4c/Krci4Z4CXyKaTGDw8RdWSrdEiCYIykDkltCWySjA=;
+	s=mail20170921; t=1682761374;
+	bh=a1Ko1tJ8viYuiqNUaXjSspplUkqNdUYdAc0cZ2nFHa8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=duwFNA/qyM9HNzlo4LfgsgAoIsRuRtjRvVcbsZq4HNpqKehl/66uyWHbSvMiflbq5
-	 cCVp6hhO/Eec4vMdjrSPwUvkbw8MLt3wRScl/VXTiBFArFmcZh+ALaBejbi22L8joe
-	 yXZS+F4uCAaj8SmlnMYHtaDXe/jdc0zTgRvVOs9o=
+	b=sBoJIh+BEUdg+ATzYJ4kr7UxqdffA/2CBFbvs1DAudtHxbqxq40yp87OxERx7sD8U
+	 WpfGCIbgFba2MWuaKAdXpLq1j+bDwlXIeAyt9ybqga1ZPOV9Z70RKF1/RNAkSiEy+n
+	 5gOFPWnKJPYTTYsglv3JXcfWmOWg/KnNV3i+45Ds=
 Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20230429094247epcas5p1dd95493cde0ef020ba1761d668b90591~aXoxUTG3c2857728577epcas5p1i;
-	Sat, 29 Apr 2023 09:42:47 +0000 (GMT)
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20230429094254epcas5p283c806bab6a38a6d31d6a904f4a00fd8~aXo3VFAsx2155821558epcas5p2Z;
+	Sat, 29 Apr 2023 09:42:54 +0000 (GMT)
 Received: from epsmges5p3new.samsung.com (unknown [182.195.38.176]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4Q7kzT75Tlz4x9Pp; Sat, 29 Apr
-	2023 09:42:45 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4Q7kzc5lKkz4x9Pr; Sat, 29 Apr
+	2023 09:42:52 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
 	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	3B.50.55646.596EC446; Sat, 29 Apr 2023 18:42:45 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20230429094245epcas5p2843abc5cd54ffe301d36459543bcd228~aXovdMmAn2071420714epcas5p26;
-	Sat, 29 Apr 2023 09:42:45 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20230429094245epsmtrp1bd351d6ec504f4a91026fa26bbb47fd8~aXovcaQtH0376803768epsmtrp1r;
-	Sat, 29 Apr 2023 09:42:45 +0000 (GMT)
-X-AuditID: b6c32a4b-913ff7000001d95e-e4-644ce69529c2
+	91.60.55646.C96EC446; Sat, 29 Apr 2023 18:42:52 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20230429094251epcas5p144d042853e10f090e3119338c2306546~aXo08lRSK1041010410epcas5p1r;
+	Sat, 29 Apr 2023 09:42:51 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20230429094251epsmtrp2157b2d867c16b6daf4e4dfcab05fa906~aXo078rgo3077530775epsmtrp2f;
+	Sat, 29 Apr 2023 09:42:51 +0000 (GMT)
+X-AuditID: b6c32a4b-b71fa7000001d95e-ef-644ce69c2d19
 Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	17.38.27706.596EC446; Sat, 29 Apr 2023 18:42:45 +0900 (KST)
+	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+	74.29.28392.B96EC446; Sat, 29 Apr 2023 18:42:51 +0900 (KST)
 Received: from localhost.localdomain (unknown [107.99.41.245]) by
 	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20230429094243epsmtip25ece63685e3de64d93e5fa79dc9c9281~aXotNyDAy0191201912epsmtip2J;
-	Sat, 29 Apr 2023 09:42:43 +0000 (GMT)
+	20230429094249epsmtip2e3eae92ba5f7cf001b2e1a9aff515f82~aXozaVkkq0575905759epsmtip2U;
+	Sat, 29 Apr 2023 09:42:49 +0000 (GMT)
 From: Kanchan Joshi <joshi.k@samsung.com>
 To: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kbusch@kernel.org
 Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org, gost.dev@samsung.com, anuj1072538@gmail.com,
-	xiaoguang.wang@linux.alibaba.com, Anuj Gupta <anuj20.g@samsung.com>, Kanchan
-	Joshi <joshi.k@samsung.com>
-Subject: [RFC PATCH 04/12] io_uring, fs: plumb support to
- register/unregister raw-queue
-Date: Sat, 29 Apr 2023 15:09:17 +0530
-Message-Id: <20230429093925.133327-5-joshi.k@samsung.com>
+	xiaoguang.wang@linux.alibaba.com, Kanchan Joshi <joshi.k@samsung.com>
+Subject: [RFC PATCH 07/12] io_uring: support for using registered queue in
+ uring-cmd
+Date: Sat, 29 Apr 2023 15:09:20 +0530
+Message-Id: <20230429093925.133327-8-joshi.k@samsung.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230429093925.133327-1-joshi.k@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDJsWRmVeSWpSXmKPExsWy7bCmpu7UZz4pBqt7zS0+fv3NYtE04S+z
-	xeq7/WwWNw/sZLJYufook8W71nMsFkf/v2WzmHToGqPF3lvaFvOXPWW3WPf6PYvFpr8nmRx4
-	PHbOusvucf7eRhaPy2dLPTat6mTz2PnQ0mPzknqP3Tcb2Dz6tqxi9Pi8SS6AMyrbJiM1MSW1
-	SCE1Lzk/JTMv3VbJOzjeOd7UzMBQ19DSwlxJIS8xN9VWycUnQNctMwfoXiWFssScUqBQQGJx
-	sZK+nU1RfmlJqkJGfnGJrVJqQUpOgUmBXnFibnFpXrpeXmqJlaGBgZEpUGFCdsbHBftYC/5q
-	V7x58I6xgbFLpYuRk0NCwETiRdNN5i5GLg4hgd2MEvu3nWOFcD4xSjzYtZYRwvnGKLHuzyUm
-	mJaOHatZIBJ7GSXeP2tiA0kICXxmlHh+I6qLkYODTUBT4sLkUpCwiICLRNPaqWwg9cwgg5p2
-	z2UBSQgLREp0/GxnBrFZBFQlZh9pAovzClhKbFj7gB1imbzEzEvfwWxOASuJ7zN2M0PUCEqc
-	nPkErJ4ZqKZ562ywHyQElnJI3D5wmxWi2UViUedMFghbWOLV8S1QQ6UkXva3QdnJEpdmnoP6
-	rETi8Z6DULa9ROupfmaQZ5iBnlm/Sx9iF59E7+8nTCBhCQFeiY42IYhqRYl7k55CbRWXeDhj
-	CZTtIfH1zV92SFj1Mkr8+vOdcQKj/CwkL8xC8sIshG0LGJlXMUqmFhTnpqcWmxYY56WWwyM2
-	OT93EyM42Wp572B89OCD3iFGJg7GQ4wSHMxKIry8le4pQrwpiZVVqUX58UWlOanFhxhNgWE8
-	kVlKNDkfmO7zSuINTSwNTMzMzEwsjc0MlcR51W1PJgsJpCeWpGanphakFsH0MXFwSjUwbRMz
-	2xshc1rmWeKvTbc7FOY2GXdJ1GwwfTBfTLPXdn4iy0S7HRuuL/13aJfW9L6b7j7VO57PZ9w2
-	fbuu95GXustelcyraREXipPqmufQvT7SfhmPaNXV4imRuw74pl6v8Sn4VcZ16U/ctXwtkUqV
-	x6G7Fmn/dT7zYYLhawmbv5oJi8ytNHUPbDu7dlKB8LV7i1euf35uJ0u6/8NMw/cL3R6rcwVW
-	rCxQaWNX4NaV2ORzhJ1b1iHlkkpn2sbHMtKXVOSzTJiutLQVLpmtbf2wKqj8pvX7hK7kOsWI
-	3vmbTp6cs+rExGO6cyqD+C5/co44VnDmteq3T9umN4dKVn0N2nCPfcW7qFXv3h6VYVq0Woml
-	OCPRUIu5qDgRACfhNU8/BAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrPLMWRmVeSWpSXmKPExsWy7bCSvO7UZz4pBg/3SVp8/PqbxaJpwl9m
-	i9V3+9ksbh7YyWSxcvVRJot3redYLI7+f8tmMenQNUaLvbe0LeYve8puse71exaLTX9PMjnw
-	eOycdZfd4/y9jSwel8+Wemxa1cnmsfOhpcfmJfUeu282sHn0bVnF6PF5k1wAZxSXTUpqTmZZ
-	apG+XQJXxscF+1gL/mpXvHnwjrGBsUuli5GTQ0LARKJjx2qWLkYuDiGB3YwSZ7dsZINIiEs0
-	X/vBDmELS6z895wdougjo8TWU88Zuxg5ONgENCUuTC4FqRER8JJofzuLDaSGWeAfo8T7r5eZ
-	QBLCAuESfzdfBhvKIqAqMftIEwuIzStgKbFh7QOoBfISMy99B7M5Bawkvs/YzQwyXwiopnFB
-	PES5oMTJmU/AWpmBypu3zmaewCgwC0lqFpLUAkamVYySqQXFuem5xYYFhnmp5XrFibnFpXnp
-	esn5uZsYwXGipbmDcfuqD3qHGJk4GA8xSnAwK4nw8la6pwjxpiRWVqUW5ccXleakFh9ilOZg
-	URLnvdB1Ml5IID2xJDU7NbUgtQgmy8TBKdXAZBa2cG7+oQRW7qDoaC3ekg8nTrNn8P7laYx9
-	uIV94VvrB4KylzPruFl0961b/G7J4q6r9+6ds2OaG+V1cbpD55G1c289+CJjUm0Wlb9cK3Ld
-	+7n/Ga402zvemcW7bkWeypMC0TU9TPZL5x05yMTMLGt2KNeqynrbxM8R4VJHdZZ/usi2ze/9
-	drX2zCONd7kyS3pNSp/qV7d9YBfj7wnUynshzD0hrt72lNSbr68WmO2V2yF43IL1Y0SBk7Nv
-	kNLU1f6Bt0qmKZfoMnHKeO/d+uJ1Ul3UHj+zY6oMCpvu/3GvOSDBpnpybth1ibMvywM/hpha
-	BszedOmAZYa3s6nB/cOl0fxs3o8vxyxWzBBXYinOSDTUYi4qTgQADox1lAIDAAA=
-X-CMS-MailID: 20230429094245epcas5p2843abc5cd54ffe301d36459543bcd228
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrBJsWRmVeSWpSXmKPExsWy7bCmuu6cZz4pBku36lh8/PqbxWL13X42
+	i5sHdjJZrFx9lMniXes5Fouj/9+yWUw6dI3RYu8tbYv5y56yW6x7/Z7FYtPfk0wO3B47Z91l
+	9zh/byOLx+WzpR6bVnWyeex8aOmxeUm9x+6bDWwefVtWMXp83iQXwBmVbZORmpiSWqSQmpec
+	n5KZl26r5B0c7xxvamZgqGtoaWGupJCXmJtqq+TiE6DrlpkDdKqSQlliTilQKCCxuFhJ386m
+	KL+0JFUhI7+4xFYptSAlp8CkQK84Mbe4NC9dLy+1xMrQwMDIFKgwITtj24SDTAVvxSu2vj/I
+	1MD4WriLkZNDQsBE4uWlVsYuRi4OIYHdjBI9J/5DOZ8YJf6/XccO4XxmlLiy8gIzTMuzDbuY
+	IRK7GCW2Tv7ECFd1bcUpti5GDg42AU2JC5NLQRpEBFwkmtZOZQOpYRa4CLTj0yEWkISwQJjE
+	zZPnGUFsFgFViWNrellBbF4BS4m9HXNZIbbJS8y89J0dxOYUsJL4PmM3M0SNoMTJmU/A5jAD
+	1TRvnQ12kYTAXA6J4/MnM0E0u0hcP/+QDcIWlnh1fAs7hC0l8fndXqh4ssSlmeeg6kskHu85
+	CGXbS7Se6mcGeYYZ6Jn1u/QhdvFJ9P5+wgQSlhDglehoE4KoVpS4N+kp1MniEg9nLIGyPSR2
+	HOtigoRPL6PE+QPbWSYwys9C8sIsJC/MQti2gJF5FaNkakFxbnpqsWmBcV5qOTxmk/NzNzGC
+	k6yW9w7GRw8+6B1iZOJgPMQowcGsJMLLW+meIsSbklhZlVqUH19UmpNafIjRFBjGE5mlRJPz
+	gWk+ryTe0MTSwMTMzMzE0tjMUEmcV932ZLKQQHpiSWp2ampBahFMHxMHp1QD04PGg1dO5TAx
+	XFDd+uLdmeWyE9boBfbISR55O3XCZdUFB2W37NrQyHRb7mbNSoMXf49y6tkuUruowJYpnRax
+	pyJjrtPmzXKdev1nuSpEckuqVn3l/Xl43s5frBuirqx4uqNcLtrg5eyd845k2EjsW6DEvOTN
+	u5Ntgo8ffIjhM81Z9/iwZuDUa5fFfkXNa6je9rb32Qf2Pzdvxa3+FP5I0dXIcQfjgo8F96WZ
+	606LRhcXWZj2fXa9pMJ3uDkx/LVB04KgpSZtTL7txlfX5DPNuRWebfFIoWCvW6qZ8sPVhXX3
+	LVktmufoHEyd9JF7Q2zzL+UVC1be+ix26s6lUq+Z/jq5bzTPH73ulbIk4orTb1ElluKMREMt
+	5qLiRAD2X2TAOwQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFLMWRmVeSWpSXmKPExsWy7bCSvO7sZz4pBgs3SVh8/PqbxWL13X42
+	i5sHdjJZrFx9lMniXes5Fouj/9+yWUw6dI3RYu8tbYv5y56yW6x7/Z7FYtPfk0wO3B47Z91l
+	9zh/byOLx+WzpR6bVnWyeex8aOmxeUm9x+6bDWwefVtWMXp83iQXwBnFZZOSmpNZllqkb5fA
+	lbFtwkGmgrfiFVvfH2RqYHwt3MXIySEhYCLxbMMu5i5GLg4hgR2MEs3HtjFBJMQlmq/9YIew
+	hSVW/nvODlH0kVHi6rLfQB0cHGwCmhIXJpeC1IgIeEm0v53FBlLDLHCTUWLf7r1gzcICIRJt
+	ax+CDWURUJU4tqaXFcTmFbCU2NsxlxVigbzEzEvfweo5Bawkvs/YDTZfCKimcUE8RLmgxMmZ
+	T1hAbGag8uats5knMArMQpKahSS1gJFpFaNkakFxbnpusWGBUV5quV5xYm5xaV66XnJ+7iZG
+	cHRoae1g3LPqg94hRiYOxkOMEhzMSiK8vJXuKUK8KYmVValF+fFFpTmpxYcYpTlYlMR5L3Sd
+	jBcSSE8sSc1OTS1ILYLJMnFwSjUw9Xb/CrprpvtdguP59h+8TiozOXRSg1z73dOOL7iU9WFm
+	jBVTybrcuLyHr7/eCHiaePt20TM7tUf7H/ElhCo5hN7QSP/ln/faInIXr1hd9VOxs3vn5XX+
+	u8LdtayXNSpkRrbLOYXknrVPfxs+mD7z9TObQN8Jt/dNzypu6uo7Mjm5667wjWSXpu97o/K/
+	n59ptP31Wdlz8dOzn2xTkwv9vu/SsR/b9ObmlumZa30VSp2we88m6R6rzf6HlL8+3bugfwUX
+	k1TgtBXCH9UXRXw02eybPc3q34+Ypd5qswql4+qqHvu/1GN5IsUttaFMdXnDo7JFjOXMNbFh
+	Cy/5q1m/UNUO8w1deWtLlI1Fl/xuJZbijERDLeai4kQAbCskBv0CAAA=
+X-CMS-MailID: 20230429094251epcas5p144d042853e10f090e3119338c2306546
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 CMS-TYPE: 105P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230429094245epcas5p2843abc5cd54ffe301d36459543bcd228
+X-CMS-RootMailID: 20230429094251epcas5p144d042853e10f090e3119338c2306546
 References: <20230429093925.133327-1-joshi.k@samsung.com>
-	<CGME20230429094245epcas5p2843abc5cd54ffe301d36459543bcd228@epcas5p2.samsung.com>
+	<CGME20230429094251epcas5p144d042853e10f090e3119338c2306546@epcas5p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230429_024253_596065_540B6BD4 
-X-CRM114-Status: GOOD (  20.95  )
+X-CRM114-CacheID: sfid-20230429_024258_557177_B73EAF1F 
+X-CRM114-Status: GOOD (  17.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -137,185 +136,90 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Anuj Gupta <anuj20.g@samsung.com>
-
-Extend io_uring's registration interface with
-
-- IORING_REGISTER_QUEUE: to ask for a queue. It goes down via
-fops->register_queue and returns identifier of the queue. This qid is
-stored in ring's ctx.
-
-- IORING_UNREGISTER_QUEUE: to return the previously registered queue.
-
-At max one queue is allowed to be attached with the io_uring's ring.
-The file for which queue is requested is expected to be in
-registered file-set.
+Add a new flag IORING_URING_CMD_DIRECT that user-space can spcifiy in SQE.
+If queue is registered with the ring, this flag goes down to the provider
+of ->uring_cmd. Provider may choose to do things differently or ignore
+this flag.
+Also export a helper that allows retrieving the identifier of the
+registered queue.
 
 Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
 ---
- fs/file.c                      | 14 ++++++++
- include/linux/fs.h             |  2 ++
- include/linux/io_uring_types.h |  3 ++
- include/uapi/linux/io_uring.h  |  4 +++
- io_uring/io_uring.c            | 60 ++++++++++++++++++++++++++++++++++
- 5 files changed, 83 insertions(+)
+ include/linux/io_uring.h      |  6 ++++++
+ include/uapi/linux/io_uring.h |  2 ++
+ io_uring/uring_cmd.c          | 14 +++++++++++++-
+ 3 files changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/fs/file.c b/fs/file.c
-index 7893ea161d77..7dada9cd0911 100644
---- a/fs/file.c
-+++ b/fs/file.c
-@@ -1318,3 +1318,17 @@ int iterate_fd(struct files_struct *files, unsigned n,
- 	return res;
- }
- EXPORT_SYMBOL(iterate_fd);
-+
-+int file_register_queue(struct file *file)
-+{
-+	if (file->f_op->register_queue)
-+		return file->f_op->register_queue(file);
-+	return -EINVAL;
-+}
-+
-+int file_unregister_queue(struct file *file, int qid)
-+{
-+	if (file->f_op->unregister_queue)
-+		return file->f_op->unregister_queue(file, qid);
-+	return -EINVAL;
-+}
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 79acccc5e7d4..0a82aac6868b 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -3190,5 +3190,7 @@ extern int vfs_fadvise(struct file *file, loff_t offset, loff_t len,
- 		       int advice);
- extern int generic_fadvise(struct file *file, loff_t offset, loff_t len,
- 			   int advice);
-+int file_register_queue(struct file *file);
-+int file_unregister_queue(struct file *file, int qid);
- 
- #endif /* _LINUX_FS_H */
-diff --git a/include/linux/io_uring_types.h b/include/linux/io_uring_types.h
-index 1b2a20a42413..8d4e721493d6 100644
---- a/include/linux/io_uring_types.h
-+++ b/include/linux/io_uring_types.h
-@@ -364,6 +364,9 @@ struct io_ring_ctx {
- 	unsigned			sq_thread_idle;
- 	/* protected by ->completion_lock */
- 	unsigned			evfd_last_cq_tail;
-+	/* for io_uring attached device queue */
-+	int				dev_qid;
-+	int				dev_fd;
+diff --git a/include/linux/io_uring.h b/include/linux/io_uring.h
+index 35b9328ca335..bb6f900411e1 100644
+--- a/include/linux/io_uring.h
++++ b/include/linux/io_uring.h
+@@ -37,6 +37,7 @@ struct io_uring_cmd {
  };
  
- struct io_tw_state {
+ #if defined(CONFIG_IO_URING)
++int io_uring_cmd_import_qid(void *ioucmd);
+ int io_uring_cmd_import_fixed(u64 ubuf, unsigned long len, int rw,
+ 			      struct iov_iter *iter, void *ioucmd);
+ void io_uring_cmd_done(struct io_uring_cmd *cmd, ssize_t ret, ssize_t res2,
+@@ -67,6 +68,11 @@ static inline void io_uring_free(struct task_struct *tsk)
+ 		__io_uring_free(tsk);
+ }
+ #else
++static inline int io_uring_cmd_import_qid(void *ioucmd)
++{
++	return -EOPNOTSUPP;
++}
++
+ static inline int io_uring_cmd_import_fixed(u64 ubuf, unsigned long len, int rw,
+ 			      struct iov_iter *iter, void *ioucmd)
+ {
 diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
-index 0716cb17e436..a9d59bfd26f7 100644
+index a9d59bfd26f7..67fbcfd3f676 100644
 --- a/include/uapi/linux/io_uring.h
 +++ b/include/uapi/linux/io_uring.h
-@@ -523,6 +523,10 @@ enum {
- 	/* register a range of fixed file slots for automatic slot allocation */
- 	IORING_REGISTER_FILE_ALLOC_RANGE	= 25,
+@@ -232,8 +232,10 @@ enum io_uring_op {
+  * sqe->uring_cmd_flags
+  * IORING_URING_CMD_FIXED	use registered buffer; pass this flag
+  *				along with setting sqe->buf_index.
++ * IORING_URING_CMD_DIRECT	use registered queue for this cmd.
+  */
+ #define IORING_URING_CMD_FIXED	(1U << 0)
++#define IORING_URING_CMD_DIRECT	(1U << 1)
  
-+	/* register a device-queue with the ring */
-+	IORING_REGISTER_QUEUE			= 26,
-+	IORING_UNREGISTER_QUEUE			= 27,
-+
- 	/* this goes last */
- 	IORING_REGISTER_LAST,
  
-diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
-index 3bca7a79efda..5a9b7adf438e 100644
---- a/io_uring/io_uring.c
-+++ b/io_uring/io_uring.c
-@@ -337,6 +337,8 @@ static __cold struct io_ring_ctx *io_ring_ctx_alloc(struct io_uring_params *p)
- 	INIT_WQ_LIST(&ctx->locked_free_list);
- 	INIT_DELAYED_WORK(&ctx->fallback_work, io_fallback_req_func);
- 	INIT_WQ_LIST(&ctx->submit_state.compl_reqs);
-+	/* -EINVAL implies nothing is registered with this ring */
-+	ctx->dev_qid = -EINVAL;
- 	return ctx;
- err:
- 	kfree(ctx->dummy_ubuf);
-@@ -2822,6 +2824,51 @@ static void io_req_caches_free(struct io_ring_ctx *ctx)
- 	mutex_unlock(&ctx->uring_lock);
- }
+ /*
+diff --git a/io_uring/uring_cmd.c b/io_uring/uring_cmd.c
+index 5113c9a48583..2a543b490045 100644
+--- a/io_uring/uring_cmd.c
++++ b/io_uring/uring_cmd.c
+@@ -89,9 +89,12 @@ int io_uring_cmd_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
+ 		return -EINVAL;
  
-+static int io_register_queue(struct io_ring_ctx *ctx, void __user *arg)
-+{
-+	struct io_fixed_file *file_slot;
-+	struct file *file;
-+	__s32 __user *fds = arg;
-+	int fd, qid;
-+
-+	if (ctx->dev_qid != -EINVAL)
+ 	ioucmd->flags = READ_ONCE(sqe->uring_cmd_flags);
+-	if (ioucmd->flags & ~IORING_URING_CMD_FIXED)
++	if (ioucmd->flags & ~(IORING_URING_CMD_FIXED | IORING_URING_CMD_DIRECT))
+ 		return -EINVAL;
+ 
++	if (ioucmd->flags & IORING_URING_CMD_DIRECT &&
++			req->ctx->dev_qid == -EINVAL)
 +		return -EINVAL;
-+	if (copy_from_user(&fd, fds, sizeof(*fds)))
-+		return -EFAULT;
-+	file_slot = io_fixed_file_slot(&ctx->file_table,
-+			array_index_nospec(fd, ctx->nr_user_files));
-+	if (!file_slot->file_ptr)
-+		return -EBADF;
-+	file = (struct file *)(file_slot->file_ptr & FFS_MASK);
-+	qid = file_register_queue(file);
-+	if (qid < 0)
-+		return qid;
-+	ctx->dev_fd = fd;
-+	ctx->dev_qid = qid;
-+	return 0;
-+}
+ 	if (ioucmd->flags & IORING_URING_CMD_FIXED) {
+ 		struct io_ring_ctx *ctx = req->ctx;
+ 		u16 index;
+@@ -162,3 +165,12 @@ int io_uring_cmd_import_fixed(u64 ubuf, unsigned long len, int rw,
+ 	return io_import_fixed(rw, iter, req->imu, ubuf, len);
+ }
+ EXPORT_SYMBOL_GPL(io_uring_cmd_import_fixed);
 +
-+static int io_unregister_queue(struct io_ring_ctx *ctx)
++int io_uring_cmd_import_qid(void *ioucmd)
 +{
-+	struct io_fixed_file *file_slot;
-+	struct file *file;
-+	int ret;
++	struct io_kiocb *req = cmd_to_io_kiocb(ioucmd);
++	struct io_ring_ctx *ctx = req->ctx;
 +
-+	if (ctx->dev_qid == -EINVAL)
-+		return 0;
-+	file_slot = io_fixed_file_slot(&ctx->file_table,
-+			array_index_nospec(ctx->dev_fd, ctx->nr_user_files));
-+	if (!file_slot)
-+		return -EBADF;
-+	if (!file_slot->file_ptr)
-+		return -EBADF;
-+	file = (struct file *)(file_slot->file_ptr & FFS_MASK);
-+	ret = file_unregister_queue(file, ctx->dev_qid);
-+	if (!ret)
-+		ctx->dev_qid = -EINVAL;
-+	return ret;
++	return ctx->dev_qid;
 +}
-+
- static void io_rsrc_node_cache_free(struct io_cache_entry *entry)
- {
- 	kfree(container_of(entry, struct io_rsrc_node, cache));
-@@ -2835,6 +2882,7 @@ static __cold void io_ring_ctx_free(struct io_ring_ctx *ctx)
- 		return;
- 
- 	mutex_lock(&ctx->uring_lock);
-+	io_unregister_queue(ctx);
- 	if (ctx->buf_data)
- 		__io_sqe_buffers_unregister(ctx);
- 	if (ctx->file_data)
-@@ -4418,6 +4466,18 @@ static int __io_uring_register(struct io_ring_ctx *ctx, unsigned opcode,
- 			break;
- 		ret = io_register_file_alloc_range(ctx, arg);
- 		break;
-+	case IORING_REGISTER_QUEUE:
-+		ret = -EINVAL;
-+		if (!arg || nr_args != 1)
-+			break;
-+		ret = io_register_queue(ctx, arg);
-+		break;
-+	case IORING_UNREGISTER_QUEUE:
-+		ret = -EINVAL;
-+		if (arg || nr_args)
-+			break;
-+		ret = io_unregister_queue(ctx);
-+		break;
- 	default:
- 		ret = -EINVAL;
- 		break;
++EXPORT_SYMBOL_GPL(io_uring_cmd_import_qid);
 -- 
 2.25.1
 
