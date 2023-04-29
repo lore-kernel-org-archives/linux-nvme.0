@@ -4,125 +4,125 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B551C77B60
-	for <linux-nvme@archiver.kernel.org>; Sat, 29 Apr 2023 09:43:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D503BC77B7E
+	for <linux-nvme@archiver.kernel.org>; Sat, 29 Apr 2023 09:43:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
 	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZdLCtWWe0/Llin+LzaCzsXrHz2aghk9/ahbIIMl7+Xo=; b=DC0Sh5/nEFGa/JoqcSOlXcVN0z
-	BoN0WZsHjMalkSeFo56U9/oiREF9DYdPyVTaSroLVkQHrDCAVRb8vKWaTGwXL1B0En7isKO1Ei0qN
-	ByoLAsp/r42oZrdgYGFO9TIUfALyu+AHYQl8E3zdaWGfaR8zCpVdafykS92tabsyg7zu9Wu7IJ1I0
-	475yqOlDKo3MhgTC9OOnmzFSUPg247tluX5xu6aa7DSHfzFsaMcqVIHxjQ+MEAZEe+6bt1/5NHviw
-	qNLVCGyp+3NGtHNy+G5SQwvLsWR3Xe/A4BM2Z/UucazOsbhAtsUMWmzsS8zD/2DnwSlqsWGp90rGL
-	7s02Zu8g==;
+	bh=CUKxeRq1qvH1W4pJIKUNwrDgFpmbgSlJ0NlQ+has8Hg=; b=15MFQ6/WVESe3BB5bfJNKM+emC
+	yMRhsFvn7GpyXTut/cak3v63ffWI6mL/ATcflUEH0E8nXmW4jCttwbDGPy2YviNK9OawCw4kKiGkE
+	fJFCQOQLe9jWu0x/kVc4d2u8b0VPUGG/gI5ZSaMi+tjgG1rFe7kRWnwHDCCu6FQunF50P2SboY/tm
+	X7dJL3hKBb40XZ4c4ADIsYKJN6wwS6H1jrp0A68BS29MkWmpKYg6bbRacg3S2QkREV2Lv4m2vK2x+
+	1AcW8R5XNOgk7sa+SjKgO1lAIGhENrZEFZO8g8RwWhaR8QokW7VsahWMg6a4OY/M2wb6MXROCoDK/
+	755bE7gQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1psh6c-00CTx9-25;
-	Sat, 29 Apr 2023 09:43:02 +0000
+	id 1psh6f-00CU00-0I;
+	Sat, 29 Apr 2023 09:43:05 +0000
 Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1psh6Y-00CTsu-34
+	id 1psh6b-00CTuw-0N
 	for linux-nvme@lists.infradead.org;
-	Sat, 29 Apr 2023 09:43:00 +0000
+	Sat, 29 Apr 2023 09:43:03 +0000
 Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20230429094257epoutp02541ad441363f468e104032331ebbc437~aXo6SC2sn1899118991epoutp02_
-	for <linux-nvme@lists.infradead.org>; Sat, 29 Apr 2023 09:42:57 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20230429094257epoutp02541ad441363f468e104032331ebbc437~aXo6SC2sn1899118991epoutp02_
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20230429094259epoutp026fc3d9716d7dd2ae2b38fa2e010c5a10~aXo8WuOZU1899118991epoutp02-
+	for <linux-nvme@lists.infradead.org>; Sat, 29 Apr 2023 09:42:59 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20230429094259epoutp026fc3d9716d7dd2ae2b38fa2e010c5a10~aXo8WuOZU1899118991epoutp02-
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1682761377;
-	bh=ZdLCtWWe0/Llin+LzaCzsXrHz2aghk9/ahbIIMl7+Xo=;
+	s=mail20170921; t=1682761379;
+	bh=CUKxeRq1qvH1W4pJIKUNwrDgFpmbgSlJ0NlQ+has8Hg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YiseguAM2nMEq1UrQmZ5YJxrPzVuqFa6o+zE0l960iE1oy2dHd7WjlfHFw09x/6OW
-	 mp8SBHmDsWpFBii62yChTelWOCfZy01dqqFlWPRU3NEcGkZLc37R3Oy1xnbwUv8gka
-	 VZ6EVRl5X86ia+4Nwn8L8kOwDVen/k23+XSa7rrg=
+	b=MrBsZ7a9J29Gqwk3I+F4NeEiqbqXFO63aiWLh5wU4cBfR8TIWBjIN4/NEiqgjhDgX
+	 HGsMFDkyAaAn7fCWB4JDvwv7wVfKpsuJjM4KKL1inrmtC+thEb8YDDKAZ6ajKy742F
+	 +TzFE8/eo+IPm2Iwu0zEtxG8BBris6tOFEVEBPbA=
 Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20230429094255epcas5p447f0176a9d404b46dd0f40a3d864e95c~aXo5GlbYu1967019670epcas5p4R;
-	Sat, 29 Apr 2023 09:42:55 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.176]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4Q7kzf1K7zz4x9Pq; Sat, 29 Apr
-	2023 09:42:54 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	52.60.55646.E96EC446; Sat, 29 Apr 2023 18:42:54 +0900 (KST)
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20230429094258epcas5p3749184eb8850fc553547f2d2b2666528~aXo7f0xtb2426524265epcas5p3v;
+	Sat, 29 Apr 2023 09:42:58 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.183]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4Q7kzh6gJHz4x9Pq; Sat, 29 Apr
+	2023 09:42:56 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	B4.7C.54880.0A6EC446; Sat, 29 Apr 2023 18:42:56 +0900 (KST)
 Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20230429094253epcas5p3cfff90e1c003b6fc9c7c4a61287beecb~aXo2uScLC0334203342epcas5p3N;
-	Sat, 29 Apr 2023 09:42:53 +0000 (GMT)
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20230429094255epcas5p11bcbe76772289f27c41a50ce502c998d~aXo4y0H0-1041010410epcas5p1v;
+	Sat, 29 Apr 2023 09:42:55 +0000 (GMT)
 Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
 	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20230429094253epsmtrp1b582f9b72b57a2a0e53a6d45cb7a2113~aXo2tiA7x0376803768epsmtrp1w;
-	Sat, 29 Apr 2023 09:42:53 +0000 (GMT)
-X-AuditID: b6c32a4b-913ff7000001d95e-f2-644ce69eed41
+	20230429094255epsmtrp13906fe5c736973e4538870cd28553ca8~aXo4yJBAV0376803768epsmtrp1x;
+	Sat, 29 Apr 2023 09:42:55 +0000 (GMT)
+X-AuditID: b6c32a49-b21fa7000001d660-9b-644ce6a06d12
 Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
 	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	35.29.28392.D96EC446; Sat, 29 Apr 2023 18:42:53 +0900 (KST)
+	06.29.28392.F96EC446; Sat, 29 Apr 2023 18:42:55 +0900 (KST)
 Received: from localhost.localdomain (unknown [107.99.41.245]) by
 	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20230429094251epsmtip227856de4b7a95bc7378b7b46d1facec0~aXo1Ed1Pr0191301913epsmtip2-;
-	Sat, 29 Apr 2023 09:42:51 +0000 (GMT)
+	20230429094253epsmtip28a893917aee13f32a8fc91fa9611a6ad~aXo23wiAu0703907039epsmtip2U;
+	Sat, 29 Apr 2023 09:42:53 +0000 (GMT)
 From: Kanchan Joshi <joshi.k@samsung.com>
 To: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kbusch@kernel.org
 Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org, gost.dev@samsung.com, anuj1072538@gmail.com,
-	xiaoguang.wang@linux.alibaba.com, Anuj Gupta <anuj20.g@samsung.com>, Kanchan
-	Joshi <joshi.k@samsung.com>
-Subject: [RFC PATCH 08/12] block: add mq_ops to submit and complete commands
- from raw-queue
-Date: Sat, 29 Apr 2023 15:09:21 +0530
-Message-Id: <20230429093925.133327-9-joshi.k@samsung.com>
+	xiaoguang.wang@linux.alibaba.com, Kanchan Joshi <joshi.k@samsung.com>, Anuj
+	Gupta <anuj20.g@samsung.com>
+Subject: [RFC PATCH 09/12] nvme: carve out a helper to prepare nvme_command
+ from ioucmd->cmd
+Date: Sat, 29 Apr 2023 15:09:22 +0530
+Message-Id: <20230429093925.133327-10-joshi.k@samsung.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230429093925.133327-1-joshi.k@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrFJsWRmVeSWpSXmKPExsWy7bCmhu68Zz4pBrsmsll8/PqbxaJpwl9m
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJJsWRmVeSWpSXmKPExsWy7bCmuu6CZz4pBn9261t8/PqbxaJpwl9m
 	i9V3+9ksbh7YyWSxcvVRJot3redYLI7+f8tmMenQNUaLvbe0LeYve8puse71exaLTX9PMjnw
 	eOycdZfd4/y9jSwel8+Wemxa1cnmsfOhpcfmJfUeu282sHn0bVnF6PF5k1wAZ1S2TUZqYkpq
 	kUJqXnJ+SmZeuq2Sd3C8c7ypmYGhrqGlhbmSQl5ibqqtkotPgK5bZg7QvUoKZYk5pUChgMTi
-	YiV9O5ui/NKSVIWM/OISW6XUgpScApMCveLE3OLSvHS9vNQSK0MDAyNToMKE7Iy3vbvZCjay
-	V0x5MYmxgXEqWxcjJ4eEgInE/971rF2MXBxCArsZJbbtvsEEkhAS+MQo8fEqM0TiM6PExjeL
-	4TomdP1nh0jsYpR4eP8iK1xV1+P/QC0cHGwCmhIXJpeCNIgIuEg0rQVZx8XBLPCNUaJp91wW
-	kISwQKzEkp9PWUFsFgFViUPtj8E28ApYSsydvoYFYpu8xMxL39lBbE4BK4nvM3YzQ9QISpyc
-	+QSshhmopnnrbGaI+qUcEu9nhEHYLhKzZm9mhbCFJV4d38IOYUtJvOxvg7KTJS7NPMcEYZdI
-	PN5zEMq2l2g91Q/2CzPQL+t36UOs4pPo/f2ECSQsIcAr0dEmBFGtKHFv0lOoTeISD2csgbI9
-	JNqP/GaFBGgvo8TymzUTGOVnIXlgFpIHZiEsW8DIvIpRMrWgODc9tdi0wDgvtRwercn5uZsY
-	wYlWy3sH46MHH/QOMTJxMB5ilOBgVhLh5a10TxHiTUmsrEotyo8vKs1JLT7EaAoM4YnMUqLJ
-	+cBUn1cSb2hiaWBiZmZmYmlsZqgkzqtuezJZSCA9sSQ1OzW1ILUIpo+Jg1OqgSkzIiFHpE0x
-	zWl5uFjL1h/76gOr+cvVY/gZcjldivvMqhu2ei6IXzM56jz3rKb5Sisv+jzQULb65hkreFMh
-	uP7GtOJzd0o5eSd8meDcefX1q44zxQ8OHOyNucL9SezGRX7H61cPsz+ekNSnc1m1PGV7+3GR
-	tJLzJlNFdJ3qIi+n6sgK79iqrivRz3PNfXvDyfKnT2SubT6x/a/CjF/33rTxPOF8zfLri6SW
-	z7K8a8U3tmwufp3v77Q4/P450Xvi7A7/ba8maEdsMvp+ILT68r6SWstMVa18822eJt3bk9bP
-	1L1x3X5BfXogr8zvFz95jXQDJdIL9IOtvUPZbgXb2lvd93Hc+Lta7Fn6wuVTlViKMxINtZiL
-	ihMBF2wPdz0EAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrHLMWRmVeSWpSXmKPExsWy7bCSvO7cZz4pBmf6hSw+fv3NYtE04S+z
-	xeq7/WwWNw/sZLJYufook8W71nMsFkf/v2WzmHToGqPF3lvaFvOXPWW3WPf6PYvFpr8nmRx4
-	PHbOusvucf7eRhaPy2dLPTat6mTz2PnQ0mPzknqP3Tcb2Dz6tqxi9Pi8SS6AM4rLJiU1J7Ms
-	tUjfLoEr423vbraCjewVU15MYmxgnMrWxcjJISFgIjGh6z87iC0ksINR4vcLOYi4uETztR/s
-	ELawxMp/z4FsLqCaj4wSJ07vYepi5OBgE9CUuDC5FKRGRMBLov3tLDaQGmaBf4wS779eZgJJ
-	CAtESzS9vgo2iEVAVeJQ+2OwxbwClhJzp69hgVggLzHz0newGk4BK4nvM3Yzg8wXAqppXBAP
-	US4ocXLmE7ByZqDy5q2zmScwCsxCkpqFJLWAkWkVo2RqQXFuem6xYYFRXmq5XnFibnFpXrpe
-	cn7uJkZwlGhp7WDcs+qD3iFGJg7GQ4wSHMxKIry8le4pQrwpiZVVqUX58UWlOanFhxilOViU
-	xHkvdJ2MFxJITyxJzU5NLUgtgskycXBKNTDNS0ksTljcq95wPSH1R0nR7QLz85erpGby/y9b
-	faJ82Q2n57wvr0fUT74TJnDz4znO+MBfLQvDGZJ2807KbM94Weim9fD9wf0ZE1udKp5/Yikx
-	XBW2/tG859rL9nKrW1py3fa89XrivKMa+ziCD0TOZZKUF3hivOvDuwVxi5c/936XsD18nULD
-	uqTO1PeLD2fMiHuyuGBOpX/zMQ3BOadsn7zbubXR+uyXooX6oXM/35cy5fhyS2UNV8aKjKuv
-	mS/oLpL5Je/GLhksIxO66tXK3pa49bIbN4XEqR1kyowyetSdf71i8vEn6gcuz7Q+3TexePfz
-	L9pCx5229F+6rNtmpXRyu9+BkPIv9y/166XmKrEUZyQaajEXFScCAKgzlO8BAwAA
-X-CMS-MailID: 20230429094253epcas5p3cfff90e1c003b6fc9c7c4a61287beecb
+	YiV9O5ui/NKSVIWM/OISW6XUgpScApMCveLE3OLSvHS9vNQSK0MDAyNToMKE7Izesw1sBUc0
+	Kj4/fsjewLhHqYuRk0NCwERi647PTF2MXBxCArsZJZqbF7JAOJ8YJU59mcUO4XxmlDix9ysz
+	TEvzt052EFtIYBejxJYP6RA2UNGNg9JdjBwcbAKaEhcml4KERQRcJJrWTmUDmcMs8I1RYtHr
+	d6wgNcICcRJPd4G1sgioSqze+5oNxOYVsJJ4e30DG8QqeYmZl76DreIEin+fsZsZokZQ4uTM
+	JywgNjNQTfPW2cwg8yUElnJIvNw8jQmi2UXi5LT57BC2sMSr41ugbCmJl/1tUHayxKWZ56Dq
+	SyQe7zkIZdtLtJ7qZwa5kxnol/W79CF28Un0/n7CBBKWEOCV6GgTgqhWlLg36SkrhC0u8XDG
+	ElaIEg+JM0sVICHYyyhx/Wwb+wRG+VlIPpiF5INZCMsWMDKvYpRMLSjOTU8tNi0wzEsth8dq
+	cn7uJkZwmtXy3MF498EHvUOMTByMhxglOJiVRHh5K91ThHhTEiurUovy44tKc1KLDzGaAoN4
+	IrOUaHI+MNHnlcQbmlgamJiZmZlYGpsZKonzqtueTBYSSE8sSc1OTS1ILYLpY+LglGpgcvp9
+	SK96t3Ov1oli1S3u06dsDGJ1m6mfwVj3xzk34PCNzuwvS3/IHZA/mNhv/DW/KLf37Kbf++V/
+	tLb2zn2ffp1HfuXJw8E2Ny/bm11cxvJrtui6LR86pRRzIi8zmBxeNeH3L5lpsmetF8eduMn2
+	s3WneZru/U0CXw5OC8th/Wec4di2n1+l5V7rF5N1skYbJlyZaOvGOz/loanJUpdPm3mvZryR
+	Feiyn38+vsDWI/al6m3tN4eWMnHfDQjgWum456u4kg17BdfhSdnbXQ28zhyzUw27rb28+lTa
+	5LyUd7pHn33tkGF8Oktvy9favik1+9R2v5U/tzjoU9/qL45x+yvrhdqk2/Unaf83/3OrRoml
+	OCPRUIu5qDgRABV1R5Y8BAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrPLMWRmVeSWpSXmKPExsWy7bCSvO78Zz4pBlM2SVl8/PqbxaJpwl9m
+	i9V3+9ksbh7YyWSxcvVRJot3redYLI7+f8tmMenQNUaLvbe0LeYve8puse71exaLTX9PMjnw
+	eOycdZfd4/y9jSwel8+Wemxa1cnmsfOhpcfmJfUeu282sHn0bVnF6PF5k1wAZxSXTUpqTmZZ
+	apG+XQJXRu/ZBraCIxoVnx8/ZG9g3KPUxcjJISFgItH8rZO9i5GLQ0hgB6PExxv7WSES4hLN
+	136wQ9jCEiv/PYcq+sgosbfvD1MXIwcHm4CmxIXJpSA1IgJeEu1vZ7GB1DAL/GOUePC+jQ0k
+	ISwQIzH7+XOwQSwCqhKr974Gi/MKWEm8vb6BDWKBvMTMS9/BajiB4t9n7GYGmS8kYCnRuCAe
+	olxQ4uTMJywgNjNQefPW2cwTGAVmIUnNQpJawMi0ilEytaA4Nz232LDAKC+1XK84Mbe4NC9d
+	Lzk/dxMjOE60tHYw7ln1Qe8QIxMH4yFGCQ5mJRFe3kr3FCHelMTKqtSi/Pii0pzU4kOM0hws
+	SuK8F7pOxgsJpCeWpGanphakFsFkmTg4pRqYlq9ba+xo5mBtE8uV9qZ32ZOZVvbv005Pce25
+	Zf2nmNPymMmb4CVxbw8y2dXrWnybvjzlnN9xTmbjHwddDXdGCMRnHvR7/Pbi7JBfC/59CWp5
+	eJBlE0e7TpHotDd6yzfseFYyb96qL3UTSr1j5itd8WPj3Vjds3vZdMErBef7vE4Ff21nqt/U
+	6rioOr7a02PTDrVDpbeZfhlFxW8zPBKxMDdz8fuvnMqPb4r+ni6mbP1Rg+djr/lKTu9ps5Ze
+	DMtdxnDo8y6PVZ2e4oEvVi5/tqY5/04o/zOLmzWRV+c9ndd9aWn+V4PO+heVqoJ3MhUY1WeL
+	XeqOePda/NtKIZ7IsKf5Qou2+a1r+fS4buPp30osxRmJhlrMRcWJACAt69ECAwAA
+X-CMS-MailID: 20230429094255epcas5p11bcbe76772289f27c41a50ce502c998d
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 CMS-TYPE: 105P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230429094253epcas5p3cfff90e1c003b6fc9c7c4a61287beecb
+X-CMS-RootMailID: 20230429094255epcas5p11bcbe76772289f27c41a50ce502c998d
 References: <20230429093925.133327-1-joshi.k@samsung.com>
-	<CGME20230429094253epcas5p3cfff90e1c003b6fc9c7c4a61287beecb@epcas5p3.samsung.com>
+	<CGME20230429094255epcas5p11bcbe76772289f27c41a50ce502c998d@epcas5p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230429_024259_303975_B7486BF1 
-X-CRM114-Status: GOOD (  13.36  )
+X-CRM114-CacheID: sfid-20230429_024301_476292_E078DD6B 
+X-CRM114-Status: GOOD (  17.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -137,32 +137,154 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Anuj Gupta <anuj20.g@samsung.com>
-
-This patch introduces ->queue_uring_cmd and -> poll_uring_cmd in mq_ops,
-which will allow to submit and complete (via polling) from the specified
-raw-queue (denoted by qid).
+This helper will be used in the subsequent patch.
 
 Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
 Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
 ---
- include/linux/blk-mq.h | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/nvme/host/ioctl.c | 81 +++++++++++++++++++++------------------
+ drivers/nvme/host/nvme.h  | 11 ++++++
+ 2 files changed, 54 insertions(+), 38 deletions(-)
 
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 7d6790be4847..dcce2939ff1e 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -659,6 +659,9 @@ struct blk_mq_ops {
- 	void (*show_rq)(struct seq_file *m, struct request *rq);
- 	int (*register_queue)(void *data);
- 	int (*unregister_queue)(void *data, int qid);
-+	int (*queue_uring_cmd)(struct io_uring_cmd *ioucmd, int qid);
-+	int (*poll_uring_cmd)(struct io_uring_cmd *ioucmd, int qid,
-+			      struct io_comp_batch *);
- #endif
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index 292a578686b6..18f4f20f5e76 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -430,14 +430,6 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	return status;
+ }
+ 
+-struct nvme_uring_data {
+-	__u64	metadata;
+-	__u64	addr;
+-	__u32	data_len;
+-	__u32	metadata_len;
+-	__u32	timeout_ms;
+-};
+-
+ /*
+  * This overlays struct io_uring_cmd pdu.
+  * Expect build errors if this grows larger than that.
+@@ -548,11 +540,50 @@ static enum rq_end_io_ret nvme_uring_cmd_end_io_meta(struct request *req,
+ 	return RQ_END_IO_NONE;
+ }
+ 
++int nvme_prep_cmd_from_ioucmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
++		struct io_uring_cmd *ioucmd, struct nvme_command *c,
++		struct nvme_uring_data *d)
++{
++	const struct nvme_uring_cmd *cmd = ioucmd->cmd;
++
++	c->common.opcode = READ_ONCE(cmd->opcode);
++	c->common.flags = READ_ONCE(cmd->flags);
++	if (c->common.flags)
++		return -EINVAL;
++
++	c->common.command_id = 0;
++	c->common.nsid = cpu_to_le32(cmd->nsid);
++	if (!nvme_validate_passthru_nsid(ctrl, ns, le32_to_cpu(c->common.nsid)))
++		return -EINVAL;
++
++	c->common.cdw2[0] = cpu_to_le32(READ_ONCE(cmd->cdw2));
++	c->common.cdw2[1] = cpu_to_le32(READ_ONCE(cmd->cdw3));
++	c->common.metadata = 0;
++	c->common.dptr.prp1 = c->common.dptr.prp2 = 0;
++	c->common.cdw10 = cpu_to_le32(READ_ONCE(cmd->cdw10));
++	c->common.cdw11 = cpu_to_le32(READ_ONCE(cmd->cdw11));
++	c->common.cdw12 = cpu_to_le32(READ_ONCE(cmd->cdw12));
++	c->common.cdw13 = cpu_to_le32(READ_ONCE(cmd->cdw13));
++	c->common.cdw14 = cpu_to_le32(READ_ONCE(cmd->cdw14));
++	c->common.cdw15 = cpu_to_le32(READ_ONCE(cmd->cdw15));
++
++	if (!nvme_cmd_allowed(ns, c, 0, ioucmd->file->f_mode))
++		return -EACCES;
++
++	d->metadata = READ_ONCE(cmd->metadata);
++	d->addr = READ_ONCE(cmd->addr);
++	d->data_len = READ_ONCE(cmd->data_len);
++	d->metadata_len = READ_ONCE(cmd->metadata_len);
++	d->timeout_ms = READ_ONCE(cmd->timeout_ms);
++	return 0;
++}
++EXPORT_SYMBOL_GPL(nvme_prep_cmd_from_ioucmd);
++
++
+ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 		struct io_uring_cmd *ioucmd, unsigned int issue_flags, bool vec)
+ {
+ 	struct nvme_uring_cmd_pdu *pdu = nvme_uring_cmd_pdu(ioucmd);
+-	const struct nvme_uring_cmd *cmd = ioucmd->cmd;
+ 	struct request_queue *q = ns ? ns->queue : ctrl->admin_q;
+ 	struct nvme_uring_data d;
+ 	struct nvme_command c;
+@@ -562,35 +593,9 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	void *meta = NULL;
+ 	int ret;
+ 
+-	c.common.opcode = READ_ONCE(cmd->opcode);
+-	c.common.flags = READ_ONCE(cmd->flags);
+-	if (c.common.flags)
+-		return -EINVAL;
+-
+-	c.common.command_id = 0;
+-	c.common.nsid = cpu_to_le32(cmd->nsid);
+-	if (!nvme_validate_passthru_nsid(ctrl, ns, le32_to_cpu(c.common.nsid)))
+-		return -EINVAL;
+-
+-	c.common.cdw2[0] = cpu_to_le32(READ_ONCE(cmd->cdw2));
+-	c.common.cdw2[1] = cpu_to_le32(READ_ONCE(cmd->cdw3));
+-	c.common.metadata = 0;
+-	c.common.dptr.prp1 = c.common.dptr.prp2 = 0;
+-	c.common.cdw10 = cpu_to_le32(READ_ONCE(cmd->cdw10));
+-	c.common.cdw11 = cpu_to_le32(READ_ONCE(cmd->cdw11));
+-	c.common.cdw12 = cpu_to_le32(READ_ONCE(cmd->cdw12));
+-	c.common.cdw13 = cpu_to_le32(READ_ONCE(cmd->cdw13));
+-	c.common.cdw14 = cpu_to_le32(READ_ONCE(cmd->cdw14));
+-	c.common.cdw15 = cpu_to_le32(READ_ONCE(cmd->cdw15));
+-
+-	if (!nvme_cmd_allowed(ns, &c, 0, ioucmd->file->f_mode))
+-		return -EACCES;
+-
+-	d.metadata = READ_ONCE(cmd->metadata);
+-	d.addr = READ_ONCE(cmd->addr);
+-	d.data_len = READ_ONCE(cmd->data_len);
+-	d.metadata_len = READ_ONCE(cmd->metadata_len);
+-	d.timeout_ms = READ_ONCE(cmd->timeout_ms);
++	ret = nvme_prep_cmd_from_ioucmd(ctrl, ns, ioucmd, &c, &d);
++	if (ret)
++		return ret;
+ 
+ 	if (issue_flags & IO_URING_F_NONBLOCK) {
+ 		rq_flags |= REQ_NOWAIT;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 4619a7498f8e..4eb45afc9484 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -168,6 +168,14 @@ struct nvme_request {
+ 	struct nvme_ctrl	*ctrl;
  };
  
++struct nvme_uring_data {
++	__u64	metadata;
++	__u64	addr;
++	__u32	data_len;
++	__u32	metadata_len;
++	__u32	timeout_ms;
++};
++
+ /*
+  * Mark a bio as coming in through the mpath node.
+  */
+@@ -811,6 +819,9 @@ static inline bool nvme_is_unique_nsid(struct nvme_ctrl *ctrl,
+ 		(ctrl->ctratt & NVME_CTRL_CTRATT_NVM_SETS);
+ }
+ 
++int nvme_prep_cmd_from_ioucmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
++		struct io_uring_cmd *ioucmd, struct nvme_command *c,
++		struct nvme_uring_data *d);
+ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 		void *buf, unsigned bufflen);
+ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
 -- 
 2.25.1
 
