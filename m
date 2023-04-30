@@ -4,76 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36E0BC7EE2F
-	for <linux-nvme@archiver.kernel.org>; Sun, 30 Apr 2023 14:36:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69133C77B73
+	for <linux-nvme@archiver.kernel.org>; Sun, 30 Apr 2023 14:38:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xYztlqpoEVeIHrKJhvcjUMJ8ItqPkXoCxbhVy1uECD8=; b=eo1w6oonQAE5jCpSumip2C0yhw
-	Tk38NoJm8qv0Ld/y0XKYZ0TuH8fEPKmL9Vnr/fFSDVlKeZlFe/ppbIF0+G8s2IseYDaRYhoPD/pKN
-	IbV4sJMGyvNdoMmPOREEzls73dx0pq7+T6zLT+KhBa+UtUepSeo0zANIHPGCGaSuKVpvMB7sNnXAL
-	k7WqzTAJxyf/H9P7WfWGZhU5cCaSb8GSyQ9Q39/w+LBjC5ZJ6SJz1CGvQEXUsAOo6ZY6jiQXkOaSa
-	nhfFkxCGIwJSdlMqTdzO7/3Im+v2+BDs1WxeuG7Lv/YmygU8Z/0Qx+onk/K1P5P6/7ls023Mgqxfe
-	qztVYvWA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pjAcu4IcSQRiDt8dUv43LgZPu6LvertkuJ0LwpP92lY=; b=y66b4ieF6Uf9SsQDcC6W4vjeJu
+	ttNuxyD7+UiTTtLZnybDg/UFiLuuAx0HdvKMDQRAcd/Ue4LChG9HzfeX4oJVjgHHwgJ8rbNoTfBv4
+	rgPM/YAjGJwSSYtS54nv9L60GrGobfr2P0ixQc+smmmd+DRi/cW/ZDrTTsblsjcU3O3lQhIPL+GOk
+	398td6Qf2/IeDBf0PoCFJoZ+/tbpB+3ki4GnjyP8enn0NT5ZCaAl5PNPufA0Ogbp2nkk3+0cPP/0w
+	eE1BIbvU+NXPHNXjegdgwbiwM5t//kHay6jVglbpT/qHZCwHu+S83uGoR3de7i1sJpqko877S0CKW
+	HZeynCfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pt89w-00EHrH-1a;
-	Sun, 30 Apr 2023 14:36:16 +0000
-Received: from mail-wm1-f46.google.com ([209.85.128.46])
+	id 1pt8Bi-00EIGw-02;
+	Sun, 30 Apr 2023 14:38:06 +0000
+Received: from mail-wm1-f45.google.com ([209.85.128.45])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pt89r-00EHnu-1w
+	id 1pt8Bf-00EIF5-0Q
 	for linux-nvme@lists.infradead.org;
-	Sun, 30 Apr 2023 14:36:13 +0000
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-3f1e2555b5aso9206835e9.0
-        for <linux-nvme@lists.infradead.org>; Sun, 30 Apr 2023 07:36:10 -0700 (PDT)
+	Sun, 30 Apr 2023 14:38:04 +0000
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f19afc4fd8so8609705e9.2
+        for <linux-nvme@lists.infradead.org>; Sun, 30 Apr 2023 07:38:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682865369; x=1685457369;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xYztlqpoEVeIHrKJhvcjUMJ8ItqPkXoCxbhVy1uECD8=;
-        b=BxEOk/tH+LUOgwwvJ2H5jhXKsOKfR4QG8iCpe5vQTjVCBFj9vO2ByrWb8+N5xFZbqA
-         mib7S45tMGLWYwHhOLFKEkgT0J3G6uNKGgE7PKz3+cDfi9g3iwZ3IbuXsMyfp8gSUh8K
-         BOR8XcKljsb2lJkeTl+aZ6gInrM63UPqEwmKJoTD+jNbg+YB2d7aVRCcyv2hfGZR7pQx
-         CnsC95xydfb3hECQCpmzjB7wdEqqAjSlOUT4pL5J7v1u+nSW1SyVp4dtfR7bqOF7Ply9
-         zZQP83jr7Lc0+ndUDZJOL266niTgUNTHy9ywXEiRzr3/tqZOICr1mSQ6+IMXQ5sLyvc9
-         Qcvw==
-X-Gm-Message-State: AC+VfDzuzz9K6t4ir0+Ww4dxUjHyvcrh4l2Hb8y2chUh33hnRHUbjW15
-	50CvumlMOHw9CYByc+wfUeY=
-X-Google-Smtp-Source: ACHHUZ5664eOiLW3ZPACCqiNPyzg5aNNsS92B900veDjENR7znnwEFn7Tk4ea/zKV8HHvuHnyLT7PQ==
-X-Received: by 2002:a05:600c:3797:b0:3f2:5a60:a03e with SMTP id o23-20020a05600c379700b003f25a60a03emr8721130wmr.14.1682865368556;
-        Sun, 30 Apr 2023 07:36:08 -0700 (PDT)
-Received: from localhost (fwdproxy-cln-026.fbsv.net. [2a03:2880:31ff:1a::face:b00c])
-        by smtp.gmail.com with ESMTPSA id g10-20020a7bc4ca000000b003f171234a08sm29747037wmk.20.2023.04.30.07.36.07
+        d=1e100.net; s=20221208; t=1682865480; x=1685457480;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pjAcu4IcSQRiDt8dUv43LgZPu6LvertkuJ0LwpP92lY=;
+        b=eyJNO8ztFvFjJiqUH++d6o8mJAtT36vX3lrQGvQhE2Xci2wbWW0TaZpCVzDZmfLH5z
+         2Wmzd1auAN1pnFn3V24PIcMCQgfqLk6LD10SexUl+HLUFCLvznFMwrKXCEGOZeaRqsyG
+         JeXs7kd6/0ANiO6LTrzFKxY5J3Zgt6DbGpye5ElHoy465G1aU2vm6QdOaLnv1f+ZUoyf
+         86K69EnkE4MUpavxdyirIhb5U3vWuYTZxaf9fKmdTgayBLFYffbK2731NL8BIoGDjud5
+         PVtP3xt67ba1DeYfbf+wdhgsEQ0ldLXIOP2kndOUe+/YIXF25yNyIFy+5bWn6r0KlOet
+         ZwRw==
+X-Gm-Message-State: AC+VfDxcMfw7ZVwScgqm3JQ0KypH03vqtNxAvaSy55mYCm9u/Xf8R3T9
+	9qz9MBzBlVe26ynuFJ8FBE0=
+X-Google-Smtp-Source: ACHHUZ5MAoJuX2opkQ1iG5lqU3GmlotVF/8I1OK08Oa68jNWUln3SI3TGJBlTblGXSKtA1vu+wOMHA==
+X-Received: by 2002:a05:600c:b45:b0:3f2:5922:d955 with SMTP id k5-20020a05600c0b4500b003f25922d955mr9291474wmr.8.1682865480436;
+        Sun, 30 Apr 2023 07:38:00 -0700 (PDT)
+Received: from gmail.com (fwdproxy-cln-013.fbsv.net. [2a03:2880:31ff:d::face:b00c])
+        by smtp.gmail.com with ESMTPSA id j32-20020a05600c1c2000b003f173987ec2sm33667582wms.22.2023.04.30.07.37.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Apr 2023 07:36:07 -0700 (PDT)
+        Sun, 30 Apr 2023 07:37:59 -0700 (PDT)
+Date: Sun, 30 Apr 2023 07:37:58 -0700
 From: Breno Leitao <leitao@debian.org>
-To: io-uring@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	asml.silence@gmail.com,
-	axboe@kernel.dk,
-	ming.lei@redhat.com
-Cc: leit@fb.com,
-	linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	sagi@grimberg.me,
-	joshi.k@samsung.com,
-	hch@lst.de,
-	kbusch@kernel.org
-Subject: [PATCH v3 3/4] io_uring: Remove unnecessary BUILD_BUG_ON
-Date: Sun, 30 Apr 2023 07:35:31 -0700
-Message-Id: <20230430143532.605367-4-leitao@debian.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230430143532.605367-1-leitao@debian.org>
-References: <20230430143532.605367-1-leitao@debian.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	asml.silence@gmail.com, axboe@kernel.dk, leit@fb.com,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	sagi@grimberg.me, kbusch@kernel.org, ming.lei@redhat.com
+Subject: Re: [PATCH 1/2] io_uring: Pass whole sqe to commands
+Message-ID: <ZE59RGJZd8DyDQaX@gmail.com>
+References: <20230419102930.2979231-1-leitao@debian.org>
+ <20230419102930.2979231-2-leitao@debian.org>
+ <20230420045712.GA4239@lst.de>
+ <ZEEwHk32Y8IcT20n@gmail.com>
+ <20230420123139.GA32030@lst.de>
+ <ZEEyKolzQgfkEOwv@gmail.com>
+ <20230420124615.GA733@lst.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230420124615.GA733@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230430_073611_650500_529918A3 
-X-CRM114-Status: GOOD (  12.58  )
+X-CRM114-CacheID: sfid-20230430_073803_167288_3786B9FE 
+X-CRM114-Status: GOOD (  16.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,58 +87,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In the io_uring_cmd_prep_async() there is an unnecessary compilation time
-check to check if cmd is correctly placed at field 48 of the SQE.
+On Thu, Apr 20, 2023 at 02:46:15PM +0200, Christoph Hellwig wrote:
+> On Thu, Apr 20, 2023 at 05:38:02AM -0700, Breno Leitao wrote:
+> > Since we are not coping the payload anymore, this is not necessary. Now
+> > we are copying 64 bytes for the single SQE or 128 bytes for double SQE.
+> > 
+> > Do you prefer I create a helper that returns the SQE size, instead of
+> > doing the left shift?
+> 
+> I think a helper would be nice.  And adding another sizeof(sqe) seems
+> more self documenting then the shift, but if you really prefer the
+> shift at least write a good comment explaining it.
 
-This is unnecessary, since this check is already in place at
-io_uring_init():
+Agree, this is a good idea. I've fixed it in the nvme code by creating a
+function helper.
+The same problem happen on the ublkd_drv, and I've also fixed it there
+in a new patch.
 
-          BUILD_BUG_SQE_ELEM(48, __u64,  addr3);
+	https://lkml.org/lkml/2023/4/30/94
 
-Remove it and the uring_cmd_pdu_size() function, which is not used
-anymore.
-
-Keith started a discussion about this topic in the following thread:
-Link: https://lore.kernel.org/lkml/ZDBmQOhbyU0iLhMw@kbusch-mbp.dhcp.thefacebook.com/
-
-Signed-off-by: Breno Leitao <leitao@debian.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
----
- io_uring/uring_cmd.c | 3 ---
- io_uring/uring_cmd.h | 8 --------
- 2 files changed, 11 deletions(-)
-
-diff --git a/io_uring/uring_cmd.c b/io_uring/uring_cmd.c
-index a1be746cd009..743d1496431b 100644
---- a/io_uring/uring_cmd.c
-+++ b/io_uring/uring_cmd.c
-@@ -71,9 +71,6 @@ int io_uring_cmd_prep_async(struct io_kiocb *req)
- 	struct io_uring_cmd *ioucmd = io_kiocb_to_cmd(req, struct io_uring_cmd);
- 	size_t size = uring_sqe_size(req->ctx);
- 
--	BUILD_BUG_ON(uring_cmd_pdu_size(0) != 16);
--	BUILD_BUG_ON(uring_cmd_pdu_size(1) != 80);
--
- 	memcpy(req->async_data, ioucmd->sqe, size);
- 	ioucmd->sqe = req->async_data;
- 	return 0;
-diff --git a/io_uring/uring_cmd.h b/io_uring/uring_cmd.h
-index 7c6697d13cb2..8117684ec3ca 100644
---- a/io_uring/uring_cmd.h
-+++ b/io_uring/uring_cmd.h
-@@ -3,11 +3,3 @@
- int io_uring_cmd(struct io_kiocb *req, unsigned int issue_flags);
- int io_uring_cmd_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe);
- int io_uring_cmd_prep_async(struct io_kiocb *req);
--
--/*
-- * The URING_CMD payload starts at 'cmd' in the first sqe, and continues into
-- * the following sqe if SQE128 is used.
-- */
--#define uring_cmd_pdu_size(is_sqe128)				\
--	((1 + !!(is_sqe128)) * sizeof(struct io_uring_sqe) -	\
--		offsetof(struct io_uring_sqe, cmd))
--- 
-2.34.1
-
+Thanks for the review.
 
