@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 200D2C77B61
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 May 2023 14:49:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7FF23C77B73
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 May 2023 15:11:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EHhwOOQJhYG1zhAhvZ6TNtxRY+Z65siR69ZTkVbLHsk=; b=H5JnUzbuyzEs9BxFRovkNnup/+
-	REf6fekus120aT+Mqn2MTTh4ojKGBzaPzzsudDS/nrH6PQ8JOJPaDiiIo4d5W3AzkfUqUQ9zX3y0y
-	2vyJF3o1dNWTtQSBPw6SVlndxiCr1bZz5FkkHn9W6644BO9+6/fOkR3tQzaW5U0vQ92cLA2X2FU6S
-	XlbalGAo+d6JxSzMfyOMECa07o2MVheljxwkUUJVv6lSdz17lB3q69Me6TRyKYwLo/vUtAuAb6dBC
-	iLRDR0CHqkKBb9YRQfqavO1xZ/79NJzch6XpMvNHFNjVKz+gBfnzHyUjUpAgr4lKumfHWLOwHkSk0
-	Co2tCuvQ==;
+	bh=C43rYffzeLeuYm1ltXsP0tciLDt8iNhANcYULlPeETQ=; b=OOR7W3MEDR1ltsRuvsn81WC/Oh
+	QTC1ZQ4+x4l4VPbz5AHUWFpfMquHaYig/sDA9PPX/NO3BIHCOoTYnRPDbU4NEKeZNLSwccJ39g8v3
+	psJXLHphsyuSqRCxxbm5g7Hy90ccEiSQe0z1O+hBetz4We+wMuQhSSMwQXGHmFVtu9eSLF02JpbNW
+	+AfchW76GCrxcJM1wkGguY/osWFT/Zfi3HoOcrq9w0vIRpmhrpAxp+uBlQQicee/j8Fapdg+WvnST
+	u5Kd1bnxXUPsuzVW6Zdyw6TXbTGzpFElJW/2ORzWAA+Nhy00E6ngiiL9pg9gz4PuR5q8vJNKC+4Qe
+	s7Sq87eg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1ptSpv-00G0XK-25;
-	Mon, 01 May 2023 12:40:59 +0000
-Received: from smtp-25.smtpout.orange.fr ([80.12.242.25] helo=smtp.smtpout.orange.fr)
+	id 1ptSpu-00G0We-2Y;
+	Mon, 01 May 2023 12:40:58 +0000
+Received: from smtp-26.smtpout.orange.fr ([80.12.242.26] helo=smtp.smtpout.orange.fr)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1ptSpo-00G0Rm-0D
+	id 1ptSpo-00G0RX-0e
 	for linux-nvme@lists.infradead.org;
 	Mon, 01 May 2023 12:40:56 +0000
 Received: from pop-os.home ([86.243.2.178])
 	by smtp.orange.fr with ESMTPA
-	id tSpZpM6hwpwRItSplpInbJ; Mon, 01 May 2023 14:40:49 +0200
+	id tSpZpM6hwpwRItSpkpInb8; Mon, 01 May 2023 14:40:48 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1682944849;
-	bh=EHhwOOQJhYG1zhAhvZ6TNtxRY+Z65siR69ZTkVbLHsk=;
+	s=t20230301; t=1682944848;
+	bh=C43rYffzeLeuYm1ltXsP0tciLDt8iNhANcYULlPeETQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=I8VtBR0KIkrJ450/GNdjOJGydw0hy4+xO//IkaI1yGpXbnf3Tovs0FaycrPclQVBI
-	 Mcj/QX4e2oQwrnLtNZmgRtP2IfUpq4SZukQvd1zR8+uqWaRmy9ktr/n02SaBnf9VIO
-	 WAqCN8Kpm97D/BtiSkfSdDbnwb/6GwquDKI7oREPAUSFkSKUT7VEcom3dB2LMvTl3K
-	 R2xRIO+dBG8xlk6G/KW1YoBKABK2sQBVxl/xJZPdEh1allWpmA4y7OglEMcGP0bKjw
-	 Cgi027/7+vx6zKr9fR/yhImPxy4nbRJ7JoXMaLpNtMQtDa8rOTho5LFg+CdDLk9bqH
-	 EbpX3PWvO7PQQ==
+	b=HQrssG6wByiAUvHE7mEaJaHjVvUhQyZjXSRSr4ruDx1SRpgEeS8XnMp4o3mQtwDFB
+	 KBfkH5y4ndSsmdjLjCbZsmYtbNSo92JROIcT3t1JDN/lzbvQC8E5vKYIDcVFWWY8Iw
+	 PoVzohoIiYtWqWty3vNTklmwKjjQ8az2XcWOko1YmtnGhnm1DK9MpkZNY03oeSOcxw
+	 EXEDzNN6NLRG1TPmP7dgPyi+IepdqHula80oVmG46HUajJ9HxmWhicjgBE84/UfgI0
+	 87Lp0fqqmz1Jg+vL1H3Ro9U+9Oxr/51Xi1nBJu0mDvC4fT3RnDIDETcmx9R+i+PoK6
+	 IWRKvy1z4HYzw==
 X-ME-Helo: pop-os.home
 X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Mon, 01 May 2023 14:40:49 +0200
+X-ME-Date: Mon, 01 May 2023 14:40:48 +0200
 X-ME-IP: 86.243.2.178
 From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 To: hch@lst.de,
@@ -52,17 +52,17 @@ Cc: linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	kernel-janitors@vger.kernel.org,
 	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH 4/5] nvmet: Reorder fields in 'struct nvme_dhchap_queue_context'
-Date: Mon,  1 May 2023 14:40:28 +0200
-Message-Id: <829091a6a1d5e20112f8e6b0b3d44b384dc7ae98.1682941568.git.christophe.jaillet@wanadoo.fr>
+Subject: [PATCH 3/5] nvmet: Reorder fields in 'struct nvmf_ctrl_options'
+Date: Mon,  1 May 2023 14:40:27 +0200
+Message-Id: <78d06714ee7db7d977c390514b3bcfc71a07916f.1682941568.git.christophe.jaillet@wanadoo.fr>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1682941568.git.christophe.jaillet@wanadoo.fr>
 References: <cover.1682941568.git.christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230501_054052_238550_3F1D4608 
-X-CRM114-Status: GOOD (  12.41  )
+X-CRM114-CacheID: sfid-20230501_054052_378167_486F49AE 
+X-CRM114-Status: GOOD (  14.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,12 +78,15 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 Group some variables based on their sizes to reduce holes.
-On x86_64, this shrinks the size of 'struct nvme_dhchap_queue_context' from
-416 to 400 bytes.
+On x86_64, this shrinks the size of 'struct nvmf_ctrl_options' from 136 to
+128 bytes.
 
-This structure is kvcalloc()'ed in nvme_auth_init_ctrl(), so it is likely
-that the allocation can be relatively big. Saving 16 bytes per structure
-may might a slight difference.
+When such a structure is allocated in nvmf_create_ctrl(), because of the
+way memory allocation works, when 136 bytes were requested, 192 bytes were
+allocated.
+
+So this saves 64 bytes per allocation, 1 cache line to hold the whole
+structure and a few cycles when zeroing the memory in nvmf_create_ctrl().
 
 Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
@@ -91,131 +94,136 @@ Using pahole
 
 Before:
 ======
-struct nvme_dhchap_queue_context {
-	struct list_head           entry;                /*     0    16 */
-	struct work_struct         auth_work;            /*    16    80 */
-	/* --- cacheline 1 boundary (64 bytes) was 32 bytes ago --- */
-	struct nvme_ctrl *         ctrl;                 /*    96     8 */
-	struct crypto_shash *      shash_tfm;            /*   104     8 */
-	struct crypto_kpp *        dh_tfm;               /*   112     8 */
-	void *                     buf;                  /*   120     8 */
+struct nvmf_ctrl_options {
+	unsigned int               mask;                 /*     0     4 */
+
+	/* XXX 4 bytes hole, try to pack */
+
+	char *                     transport;            /*     8     8 */
+	char *                     subsysnqn;            /*    16     8 */
+	char *                     traddr;               /*    24     8 */
+	char *                     trsvcid;              /*    32     8 */
+	char *                     host_traddr;          /*    40     8 */
+	char *                     host_iface;           /*    48     8 */
+	size_t                     queue_size;           /*    56     8 */
+	/* --- cacheline 1 boundary (64 bytes) --- */
+	unsigned int               nr_io_queues;         /*    64     4 */
+	unsigned int               reconnect_delay;      /*    68     4 */
+	bool                       discovery_nqn;        /*    72     1 */
+	bool                       duplicate_connect;    /*    73     1 */
+
+	/* XXX 2 bytes hole, try to pack */
+
+	unsigned int               kato;                 /*    76     4 */
+	struct nvmf_host *         host;                 /*    80     8 */
+	int                        max_reconnects;       /*    88     4 */
+
+	/* XXX 4 bytes hole, try to pack */
+
+	char *                     dhchap_secret;        /*    96     8 */
+	char *                     dhchap_ctrl_secret;   /*   104     8 */
+	bool                       disable_sqflow;       /*   112     1 */
+	bool                       hdr_digest;           /*   113     1 */
+	bool                       data_digest;          /*   114     1 */
+
+	/* XXX 1 byte hole, try to pack */
+
+	unsigned int               nr_write_queues;      /*   116     4 */
+	unsigned int               nr_poll_queues;       /*   120     4 */
+	int                        tos;                  /*   124     4 */
 	/* --- cacheline 2 boundary (128 bytes) --- */
-	int                        qid;                  /*   128     4 */
-	int                        error;                /*   132     4 */
-	u32                        s1;                   /*   136     4 */
-	u32                        s2;                   /*   140     4 */
-	u16                        transaction;          /*   144     2 */
-	u8                         status;               /*   146     1 */
-	u8                         hash_id;              /*   147     1 */
+	int                        fast_io_fail_tmo;     /*   128     4 */
 
-	/* XXX 4 bytes hole, try to pack */
-
-	size_t                     hash_len;             /*   152     8 */
-	u8                         dhgroup_id;           /*   160     1 */
-	u8                         c1[64];               /*   161    64 */
-	/* --- cacheline 3 boundary (192 bytes) was 33 bytes ago --- */
-	u8                         c2[64];               /*   225    64 */
-	/* --- cacheline 4 boundary (256 bytes) was 33 bytes ago --- */
-	u8                         response[64];         /*   289    64 */
-
-	/* XXX 7 bytes hole, try to pack */
-
-	/* --- cacheline 5 boundary (320 bytes) was 40 bytes ago --- */
-	u8 *                       host_response;        /*   360     8 */
-	u8 *                       ctrl_key;             /*   368     8 */
-	int                        ctrl_key_len;         /*   376     4 */
-
-	/* XXX 4 bytes hole, try to pack */
-
-	/* --- cacheline 6 boundary (384 bytes) --- */
-	u8 *                       host_key;             /*   384     8 */
-	int                        host_key_len;         /*   392     4 */
-
-	/* XXX 4 bytes hole, try to pack */
-
-	u8 *                       sess_key;             /*   400     8 */
-	int                        sess_key_len;         /*   408     4 */
-
-	/* size: 416, cachelines: 7, members: 25 */
-	/* sum members: 393, holes: 4, sum holes: 19 */
+	/* size: 136, cachelines: 3, members: 24 */
+	/* sum members: 121, holes: 4, sum holes: 11 */
 	/* padding: 4 */
-	/* last cacheline: 32 bytes */
+	/* last cacheline: 8 bytes */
 };
 
 
 After:
 =====
-struct nvme_dhchap_queue_context {
-	struct list_head           entry;                /*     0    16 */
-	struct work_struct         auth_work;            /*    16    80 */
-	/* --- cacheline 1 boundary (64 bytes) was 32 bytes ago --- */
-	struct nvme_ctrl *         ctrl;                 /*    96     8 */
-	struct crypto_shash *      shash_tfm;            /*   104     8 */
-	struct crypto_kpp *        dh_tfm;               /*   112     8 */
-	void *                     buf;                  /*   120     8 */
-	/* --- cacheline 2 boundary (128 bytes) --- */
-	int                        qid;                  /*   128     4 */
-	int                        error;                /*   132     4 */
-	u32                        s1;                   /*   136     4 */
-	u32                        s2;                   /*   140     4 */
-	u16                        transaction;          /*   144     2 */
-	u8                         status;               /*   146     1 */
-	u8                         dhgroup_id;           /*   147     1 */
-	u8                         hash_id;              /*   148     1 */
+struct nvmf_ctrl_options {
+	unsigned int               mask;                 /*     0     4 */
+	int                        max_reconnects;       /*     4     4 */
+	char *                     transport;            /*     8     8 */
+	char *                     subsysnqn;            /*    16     8 */
+	char *                     traddr;               /*    24     8 */
+	char *                     trsvcid;              /*    32     8 */
+	char *                     host_traddr;          /*    40     8 */
+	char *                     host_iface;           /*    48     8 */
+	size_t                     queue_size;           /*    56     8 */
+	/* --- cacheline 1 boundary (64 bytes) --- */
+	unsigned int               nr_io_queues;         /*    64     4 */
+	unsigned int               reconnect_delay;      /*    68     4 */
+	bool                       discovery_nqn;        /*    72     1 */
+	bool                       duplicate_connect;    /*    73     1 */
 
-	/* XXX 3 bytes hole, try to pack */
+	/* XXX 2 bytes hole, try to pack */
 
-	size_t                     hash_len;             /*   152     8 */
-	u8                         c1[64];               /*   160    64 */
-	/* --- cacheline 3 boundary (192 bytes) was 32 bytes ago --- */
-	u8                         c2[64];               /*   224    64 */
-	/* --- cacheline 4 boundary (256 bytes) was 32 bytes ago --- */
-	u8                         response[64];         /*   288    64 */
-	/* --- cacheline 5 boundary (320 bytes) was 32 bytes ago --- */
-	u8 *                       host_response;        /*   352     8 */
-	u8 *                       ctrl_key;             /*   360     8 */
-	u8 *                       host_key;             /*   368     8 */
-	u8 *                       sess_key;             /*   376     8 */
-	/* --- cacheline 6 boundary (384 bytes) --- */
-	int                        ctrl_key_len;         /*   384     4 */
-	int                        host_key_len;         /*   388     4 */
-	int                        sess_key_len;         /*   392     4 */
+	unsigned int               kato;                 /*    76     4 */
+	struct nvmf_host *         host;                 /*    80     8 */
+	char *                     dhchap_secret;        /*    88     8 */
+	char *                     dhchap_ctrl_secret;   /*    96     8 */
+	bool                       disable_sqflow;       /*   104     1 */
+	bool                       hdr_digest;           /*   105     1 */
+	bool                       data_digest;          /*   106     1 */
 
-	/* size: 400, cachelines: 7, members: 25 */
-	/* sum members: 393, holes: 1, sum holes: 3 */
+	/* XXX 1 byte hole, try to pack */
+
+	unsigned int               nr_write_queues;      /*   108     4 */
+	unsigned int               nr_poll_queues;       /*   112     4 */
+	int                        tos;                  /*   116     4 */
+	int                        fast_io_fail_tmo;     /*   120     4 */
+
+	/* size: 128, cachelines: 2, members: 24 */
+	/* sum members: 121, holes: 2, sum holes: 3 */
 	/* padding: 4 */
-	/* last cacheline: 16 bytes */
 };
 ---
- drivers/nvme/host/auth.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/nvme/host/fabrics.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-index ea16a0aba679..daf5d144a8ea 100644
---- a/drivers/nvme/host/auth.c
-+++ b/drivers/nvme/host/auth.c
-@@ -30,18 +30,18 @@ struct nvme_dhchap_queue_context {
- 	u32 s2;
- 	u16 transaction;
- 	u8 status;
-+	u8 dhgroup_id;
- 	u8 hash_id;
- 	size_t hash_len;
--	u8 dhgroup_id;
- 	u8 c1[64];
- 	u8 c2[64];
- 	u8 response[64];
- 	u8 *host_response;
- 	u8 *ctrl_key;
--	int ctrl_key_len;
- 	u8 *host_key;
--	int host_key_len;
- 	u8 *sess_key;
-+	int ctrl_key_len;
-+	int host_key_len;
- 	int sess_key_len;
- };
- 
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index dcac3df8a5f7..1bc57fb75825 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -77,6 +77,9 @@ enum {
+  *			      with the parsing opts enum.
+  * @mask:	Used by the fabrics library to parse through sysfs options
+  *		on adding a NVMe controller.
++ * @max_reconnects: maximum number of allowed reconnect attempts before removing
++ *		the controller, (-1) means reconnect forever, zero means remove
++ *		immediately;
+  * @transport:	Holds the fabric transport "technology name" (for a lack of
+  *		better description) that will be used by an NVMe controller
+  *		being added.
+@@ -96,9 +99,6 @@ enum {
+  * @discovery_nqn: indicates if the subsysnqn is the well-known discovery NQN.
+  * @kato:	Keep-alive timeout.
+  * @host:	Virtual NVMe host, contains the NQN and Host ID.
+- * @max_reconnects: maximum number of allowed reconnect attempts before removing
+- *              the controller, (-1) means reconnect forever, zero means remove
+- *              immediately;
+  * @dhchap_secret: DH-HMAC-CHAP secret
+  * @dhchap_ctrl_secret: DH-HMAC-CHAP controller secret for bi-directional
+  *              authentication
+@@ -112,6 +112,7 @@ enum {
+  */
+ struct nvmf_ctrl_options {
+ 	unsigned		mask;
++	int			max_reconnects;
+ 	char			*transport;
+ 	char			*subsysnqn;
+ 	char			*traddr;
+@@ -125,7 +126,6 @@ struct nvmf_ctrl_options {
+ 	bool			duplicate_connect;
+ 	unsigned int		kato;
+ 	struct nvmf_host	*host;
+-	int			max_reconnects;
+ 	char			*dhchap_secret;
+ 	char			*dhchap_ctrl_secret;
+ 	bool			disable_sqflow;
 -- 
 2.34.1
 
