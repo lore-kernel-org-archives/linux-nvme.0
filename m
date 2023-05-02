@@ -4,81 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C30F8C7EE21
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 May 2023 13:23:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D73A8C77B73
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 May 2023 14:04:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:Cc:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cVyGvuVej8o6VtC2kw0WOrsF91VmhITkrYcbcgb8tfQ=; b=QUB6yJngO9/AfxH99B8whxz8Ev
-	cSCbJh/CEPwPBKChZLxRceEOFbeqp1ncgqPTs6fYw8+h0wPNFQ3GgGihL3zJeJNk5+eplKDSMBi63
-	d/pvn4lTgOXMEHcRJr24L/cF6Af34PNcw7PVvLNEH3N8PF0lR27giy8LQcy+5cs/Tiv77Ko6Q7JVz
-	hBYHhBg5FlVHE5un232Eciz11QI49rPwTQg/OWoThK5Lb+2Vmpy0ZbcfkiiEqHlQOi8FTrk5CLgvH
-	c5SAcrlTvudrz/c2ZaFP5Xskw6HlbnXj93lNindNnFYoP811RXkthZLS0JjVenjTjZbsO9WHyWN8U
-	0aCT/ySQ==;
+	bh=oD7I841GKziOZSmnGBqqnqgAzBVwUkEri/Jv0IUfVTI=; b=mo9ahDeu3izpPQI+tC4y5faJtu
+	VxP1bk4l+tJ68JGYdVvOT0zojuAMV1YVHo+oqWFvWNl3Qwlf4AudrVc491cYkRqMducfgeGJkUYQx
+	cDbKlNGL0W661amg92LymfeBeEzhneRiWA8mg08RqWczWY4vBqpim6Me6jtiXxo+s9eNXhrJXUC8S
+	BoqqIEtfyby2KCeSTcVru3MKMFmaCRP3x+5Tp1PAHYps423VrYSAC7aB52y3zclJkiZhzT2Nd/yyM
+	fI0HTd+nS81P4mtxHd51ZaRSubr+kVQ+uwLxX972EF94NDAaVG+yb+HnFYQkr0JcfolXOakA8vZeI
+	BNnpkDEQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1ptpyI-001auY-1c;
-	Tue, 02 May 2023 13:23:10 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1ptqc3-001lNJ-2G;
+	Tue, 02 May 2023 14:04:15 +0000
+Received: from desiato.infradead.org ([90.155.92.199])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1ptpyF-001atu-0X
+	id 1ptqc1-001lN2-2M
+	for linux-nvme@bombadil.infradead.org;
+	Tue, 02 May 2023 14:04:13 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Type:To:Subject:Message-ID:
+	Date:From:In-Reply-To:References:MIME-Version:Sender:Reply-To:Cc:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=oD7I841GKziOZSmnGBqqnqgAzBVwUkEri/Jv0IUfVTI=; b=GVf2t8tXQWu9IxhW5eB4iTz1br
+	OqjFBNUXA3ITL7svHlyBJqQEHyUm1e5bqYoCvQAwKaaq065kEKeVTqXMBi5C1v3ZOupooAw/4D/es
+	zhUHjxLoJUwlXogAcv77c57BBsZEr+N59iPWnERFMHdSr3LTr7XjOPYFMm9XeAXKvPrHJkFzwv/Wk
+	caJ4Yd16rCN0yPubQYm1h5o6DHCbSUu8wgCD6wnnC5rN7u+X19+szZr04eQPhNkC1zDomA4EtzRbu
+	+dm+3JzwWpw8x7ZbrL82hd6wQTMsUaoHOM7D5f9VVKoXyRzxz1Y36XTh4iNhXUkSeDGOpdyL/oZqx
+	1IDIhVKg==;
+Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a])
+	by desiato.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
+	id 1ptqbx-00GK4a-2l
 	for linux-nvme@lists.infradead.org;
-	Tue, 02 May 2023 13:23:08 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E03531F8C4;
-	Tue,  2 May 2023 13:23:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1683033785; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cVyGvuVej8o6VtC2kw0WOrsF91VmhITkrYcbcgb8tfQ=;
-	b=DXWmvcU5Q9/vNjjgtDZTV6BiwPTBJb5GnDIkXZm5QbBCHynsVtsWmyPltOV1SBP2++OVsB
-	8YmYzhsLUlKe//up2w3THeNhHZHdeRPA92TPRYec3ldnbP7id5SDIlJBL+WBJ5m+GncNVA
-	Tn057kkhxPy3PD/WR63QQflh02t6ibc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1683033785;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cVyGvuVej8o6VtC2kw0WOrsF91VmhITkrYcbcgb8tfQ=;
-	b=xhYIpqPxD9R5VTPoYygRuVXNWWxm1z7Zyb4W8uD1N4Rhd2OlqIT70h+yZcI/+u6xH6/X7L
-	Q5oBY1xQNs5kgoCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D3B38134FB;
-	Tue,  2 May 2023 13:23:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id Tg+YM7kOUWT1WAAAMHmgww
-	(envelope-from <dwagner@suse.de>); Tue, 02 May 2023 13:23:05 +0000
-Date: Tue, 2 May 2023 15:23:05 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Shin'ichiro Kawasaki <shinichiro@fastmail.com>
-Subject: Re: [PATCH REPOST blktests v2 3/9] common-xfs: Make size argument
- optional for _xfs_run_fio_verify_io
-Message-ID: <clh6gmnivvi5e4o7pzr3mxfale3vlymgepdntkjtvub4cazyvk@myovldb6bcnx>
-References: <20230421060505.10132-1-dwagner@suse.de>
- <20230421060505.10132-4-dwagner@suse.de>
- <le6qqxhkbdaacsifz4b3mody53gllg4rzhowm2j62y56y56y6k@pmlukhvwjw24>
+	Tue, 02 May 2023 14:04:12 +0000
+Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-55a64f0053fso27429207b3.3
+        for <linux-nvme@lists.infradead.org>; Tue, 02 May 2023 07:04:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ds-gy.20221208.gappssmtp.com; s=20221208; t=1683036245; x=1685628245;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oD7I841GKziOZSmnGBqqnqgAzBVwUkEri/Jv0IUfVTI=;
+        b=egvEE0X3L0D9MrcIHYlUjJBSHpzzmM2Y0NW6U1hQEOxdSXn/SywjMd+0EdgURGkcsp
+         cDGx9QBF3Udi6qu+aKr/gzLlk3TFRfgPvJ2R2FcVVMkxBvwkpuTAAO2lss2PK22tdm5U
+         bw+ShRk+GIKOlYHfVp3/rfqiVHeA8mefMT8OfN9vwlKYWZe1+KBY6L2ZCZTO6jKzUCbS
+         dY2fm2kMH9A3aAtYWaMcne2cHfmMsW67BvrARceB4tKvie9uFgNnlVAa+XZMuWqCNYOO
+         4PiE/KENUdHD65XIShVR+lKq9FxdovW8o0NO7NvWgp0SWUCPsZ+oej2pqXqLPrymIluI
+         HeAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683036245; x=1685628245;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oD7I841GKziOZSmnGBqqnqgAzBVwUkEri/Jv0IUfVTI=;
+        b=IhBspPyHSIvxnq4/9JqpNJgZFOJ6Ct56+Tei0Kl/dUFSZgIP/FkJm8CsxyfmHlcXX1
+         CWNQ4yGBLjDPysZBPoTyQBumDqjBEgulzDtRi3QLdyatDUN5WmAcUM30VpkOy/3hy9nb
+         mnFtHywe2KK4wQzd8bUaDce5yVETh7gc0DFP9fQUuYznVuB7FN7neNttv4/FhjArTSVT
+         c0liMMqR8DELmdP3aU3UtB4PD6lXvf7mGHbB6JMj7H5pLIU2E7Igs4tMJhwOFXIipcT+
+         F3smJQDSi33mhDiLII/SD/2fgWLo7TR9+gXI9/OQJAazhK5DMnxZ94ibRH0ENaipumeI
+         KEGQ==
+X-Gm-Message-State: AC+VfDxc0Hrl12OXrV9esEYwS4Ef3OKt1498IFTw2IQFYCFnHoYFYgNZ
+	rUFoS05a2OUUjc2hu2suIF7rkwAxhL7feqMP2oJ/YQ==
+X-Google-Smtp-Source: ACHHUZ51NiUed0ZLkDhqn1ZmJ5oE1e7uFRGSgHFEFUkrqlyED+Ammpe100Qh58RvNPIZhbqp/vxG0HDXE4pM9o3WV1w=
+X-Received: by 2002:a05:7500:c25b:b0:105:6d34:b729 with SMTP id
+ qf27-20020a057500c25b00b001056d34b729mr167534gab.15.1683036245134; Tue, 02
+ May 2023 07:04:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <le6qqxhkbdaacsifz4b3mody53gllg4rzhowm2j62y56y56y6k@pmlukhvwjw24>
+References: <CAKv4OQ08jfk6r-c0T9U-WtZ6ORt2kbR0ARiH1isav-uFZYoYpQ@mail.gmail.com>
+ <e092dba7-5e7d-7306-683c-e9d53228cce0@nvidia.com>
+In-Reply-To: <e092dba7-5e7d-7306-683c-e9d53228cce0@nvidia.com>
+From: Daniel Smith <dansmith@ds.gy>
+Date: Tue, 2 May 2023 10:03:54 -0400
+Message-ID: <CAKv4OQ0twOgJ6wfaHD-tPwTNEBwc233H-751Ya2W98qHeNkunw@mail.gmail.com>
+Subject: Re: [bug report] Duplicate IDs for nsid 1 on another drive
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230502_062307_354559_10DEA30A 
-X-CRM114-Status: UNSURE (   8.96  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230502_150410_215866_B27B5191 
+X-CRM114-Status: GOOD (  15.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,18 +100,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
- > --- a/tests/nvme/035
-> > +++ b/tests/nvme/035
-> > @@ -32,7 +32,7 @@ test_device() {
-> >  	port=$(_nvmet_passthru_target_setup "${subsys}")
-> >  	nsdev=$(_nvmet_passthru_target_connect "${nvme_trtype}" "${subsys}")
-> >  
-> > -	_xfs_run_fio_verify_io "${nsdev}" "900m"
-> > +	_xfs_run_fio_verify_io "${nsdev}"
-> 
-> On the other hand, this change for nvme/035 does not look good. It runs the
-> test on TEST_DEV, which may take very long time without TIMEOUT config.
+Much appreciated. I created this diff from the latest stable source:
 
-I'll add the nvme_img_size argument here instead (nvme: Make test image size
-configurable)
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 7f25c0fe3a0b..be5fa7bae285 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3441,6 +3441,8 @@ static const struct pci_device_id nvme_id_table[] = {
+                                NVME_QUIRK_IGNORE_DEV_SUBNQN, },
+        { PCI_DEVICE(0x10ec, 0x5763), /* TEAMGROUP T-FORCE CARDEA ZERO
+Z330 SSD */
+                .driver_data = NVME_QUIRK_BOGUS_NID, },
++       { PCI_DEVICE(0x10ec, 0x5765), /* TEAMGROUP MP33 2TB SSD */
++               .driver_data = NVME_QUIRK_BOGUS_NID, },
+        { PCI_DEVICE(PCI_VENDOR_ID_AMAZON, 0x0061),
+                .driver_data = NVME_QUIRK_DMA_ADDRESS_BITS_48, },
+        { PCI_DEVICE(PCI_VENDOR_ID_AMAZON, 0x0065),
+________________________________
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Sent: Tuesday, May 2, 2023 2:49 AM
+To: Daniel Smith <dansmith@ds.gy>; linux-nvme@lists.infradead.org
+<linux-nvme@lists.infradead.org>
+Subject: Re: [bug report] Duplicate IDs for nsid 1 on another drive
+
+On 5/1/23 21:44, Daniel Smith wrote:
+> Hello, I ran into a shoddy manufacturer which duplicates IDs in disks.
+> In this case the device is:
+>
+> VID:DID 10ec:5765 model:TEAM TM8FP6002T firmware:VC2S038D
+>
+> I was able to set NVME_QUIRK_BOGUS_NID, build, and verify it resolved
+> locally, but I'm completely out of my element to submit a proper patch
+> for this.
+>
+
+if you can share the diff using "git diff" I can help you to get your patch
+submitted ...
+
+-ck
 
