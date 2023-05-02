@@ -4,185 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 94EC4C77B7E
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 May 2023 12:21:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C77F1C77B7E
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 May 2023 12:54:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Sawx+zcmI/fQ56rGhZzC6YFJdBHb0JqJsYjLvAFsuY0=; b=edFoEqvYHkPUYn8Am0GC2B4sIY
-	podUbbZeWWqoPMz3uom7ABHUjMUUJGgQfEpK222eng2wiw/c3jF82xwHBS0rE5taWNKdAJbrdePEs
-	hWvVWsyHgdrmYxldZNugO2caKGTA0BLd59WBV3i9e+WIdPNC07nQAX7CVjd2MCl2T/VtT20uyf61c
-	6TLmWHOzhY0Ise1S9wPXLaH9oHV4gqbJvBcHZJPNaAwa0PSxVuC6lZEoxLqr+eDOPsxboCcofA/m6
-	uKXjZe6oeQe+pmvNE6Of7oL1nKW/jFOe2HQhkZtVBgCNjr6FyKBZoHOFCaFk2Kv8tuRiR56LefJhX
-	m5WAs5QQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=SG6So/JBg3TDLBHEwTKwAjabX9LbfnrKlI2nbqf0u0w=; b=lvIiUp1Ci3dyPutAW34KZaZxFI
+	i8jJExH6bDThzbWgPM9WFT9vFUihZuFSBiEkCTmj1aZyiEAlV2/Mh+i1PfqEkyRnlU8/66N0INGuI
+	XAKhWYcpDdse8HVgfywRt+XVMxsaygfveMhajGI9LaplMa1b/fD4VvCeHy/peo1tTM3+pjbCU4PIz
+	jRhIKYaC514hPW3U41qkgxb6rhvz1jyhRc/ZdpqpExC7d5YQqbHV8/RbM/h5Xvpe80HEKHaG6E4qL
+	/R6xNA6ZzASIXfX10fOcBP8snGyRKZtgOQG3ayarEo+YVo7sMN9JiXnwaWfPvDFonVkSEsIDHYC/b
+	SxNeGPTw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1ptp09-001MhO-2D;
-	Tue, 02 May 2023 12:21:01 +0000
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
-	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1ptp02-001MfC-0K
+	id 1ptpWt-001WLw-2r;
+	Tue, 02 May 2023 12:54:51 +0000
+Received: from m126.mail.126.com ([220.181.12.29])
+	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
+	id 1ptpWp-001WKS-2y
 	for linux-nvme@lists.infradead.org;
-	Tue, 02 May 2023 12:20:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1683030054; x=1714566054;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=Sawx+zcmI/fQ56rGhZzC6YFJdBHb0JqJsYjLvAFsuY0=;
-  b=kYhm5G5i/P/yKAxMFxv7AE+lyZGOj9/X+q6W7pCuoNWnbI08zYplpk6M
-   DMoaYTDDRqrEzoc85/Jv1SGKK1cXCeG+zF+Fu+4qpOSbDSSftYwGi5b9s
-   L62IiyKVNrvzgq8h3iz/Ds0BnMe6f6rstlwcPvNnVBHk/WVdghdqRko2z
-   vuyzLOsIh/HXjn604vIBD8wleQf6LNjOwgtt6SSZDdbe46xrUhkPlnL7h
-   7i4JZViwslRCDhU4yf5iUbXspCEos3brvzfLgZ6FWlcq1CPsxitMd1oCm
-   wao/newPzwdEoi+r0QZ2+qkLTphv0qte9MxBa10+tlnkoynVNW/R8LEFg
-   A==;
-X-IronPort-AV: E=Sophos;i="5.99,244,1677513600"; 
-   d="scan'208";a="234679973"
-Received: from mail-bn8nam11lp2168.outbound.protection.outlook.com (HELO NAM11-BN8-obe.outbound.protection.outlook.com) ([104.47.58.168])
-  by ob1.hgst.iphmx.com with ESMTP; 02 May 2023 20:20:48 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NjrGo0xpw3Vmu1/jcnZKrCKEMC+dA8zzp8Cf+fxlTQGYXvYH+H+KFRbV27TBKSXp+Aye9CjTJOuPYK4mAhgHCSAtRxrnkG8gjhbXb7uUPSpkhI1Rnj4d3WmP5taDTmhHLOwxzHrsBWU69njtURttcP6KQsiUq0yD1JCD/H2hXOAFHUwCZXZMZwUEaYB5sqlYG7uHkOidPP2CdKpnvXUPeUQnHmLi2C5gZafRiwLOo4aRrxStQhu9+Il4p1DmVvwMJVZc50pM2KMLwZQaD0Qh5vZbmAgLOkoLo4LFMsik2kWb5AHggOpEuccX+DFC3+U7tMDA0iTTi4vUlqJ7OwWTfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Sawx+zcmI/fQ56rGhZzC6YFJdBHb0JqJsYjLvAFsuY0=;
- b=gwpxREXdkBLCqJk5FOSkJuhvvevBXbto9tNtR/iaPezNr1pJup/LYVV4dV+U5ljavB5shULrEBytrSrRwIwv+tuUp1AB9Q6TDv284Y1gc8cVe0IuBPRYv+MjGN2S+s7uhIhn9nF6TPMXJFHtd7xLw2qnXHK0GTOgmLSDJesUTfNazafsGQEdyInyDtVMXnTjPaI5HYspft1CLKrlOZb1z3QqAp7Ycs7TWw11Ql+H5mxFd39cj8hncBQ22weKu73i0YkwH7moE9tlCIWuRNKFp2ofizutg/LqIvH4f507DKF/LSeaBuOjwE9z+qmvJ25nyKxPeoQVmgg5AnNwUL68hg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Sawx+zcmI/fQ56rGhZzC6YFJdBHb0JqJsYjLvAFsuY0=;
- b=l51K85VehI/OMJLZVeb3aF0mM7w2coF1SRLPatl8IDq3+ppdSqnTA8FFlijU/6QGCD8lMpxieO6XNAKWtU0a50OwoWZNI1l2/aeqimm+diCvYc6giiW11yeiYrvL137tUunQHQvm/rALtTH2UKrhA0+09tPpsayx3HXkM87Eo8k=
-Received: from PH0PR04MB7416.namprd04.prod.outlook.com (2603:10b6:510:12::17)
- by CH2PR04MB6727.namprd04.prod.outlook.com (2603:10b6:610:a1::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.31; Tue, 2 May
- 2023 12:20:43 +0000
-Received: from PH0PR04MB7416.namprd04.prod.outlook.com
- ([fe80::8c4d:6283:7b41:ed6f]) by PH0PR04MB7416.namprd04.prod.outlook.com
- ([fe80::8c4d:6283:7b41:ed6f%9]) with mapi id 15.20.6340.031; Tue, 2 May 2023
- 12:20:43 +0000
-From: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
-To: Keith Busch <kbusch@meta.com>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, "joshi.k@samsung.com" <joshi.k@samsung.com>,
-	"axboe@kernel.dk" <axboe@kernel.dk>, "hch@lst.de" <hch@lst.de>,
-	"xiaoguang.wang@linux.alibaba.com" <xiaoguang.wang@linux.alibaba.com>
-CC: Keith Busch <kbusch@kernel.org>
-Subject: Re: [RFC 3/3] nvme: create special request queue for cdev
-Thread-Topic: [RFC 3/3] nvme: create special request queue for cdev
-Thread-Index: AQHZfEJM59fc/lIqLEaMBb1fssa+Za9G6IEA
-Date: Tue, 2 May 2023 12:20:43 +0000
-Message-ID: <3feb3fdc-ad67-4a57-fc60-eacde3007db9@wdc.com>
-References: <20230501153306.537124-1-kbusch@meta.com>
- <20230501153306.537124-4-kbusch@meta.com>
-In-Reply-To: <20230501153306.537124-4-kbusch@meta.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR04MB7416:EE_|CH2PR04MB6727:EE_
-x-ms-office365-filtering-correlation-id: b72f1937-2519-4323-7c2b-08db4b07a677
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  fCNoYP2gn0mqjz1e2zlguXKBlTOk+V33h5W72ke7GBhpW8yIUfnmode7Bw4A92GV/Xw7bbw/L1cXVUsxBukKKXQeZvSQfLYPnzcmmeLUe3wZqyDUCgWk8xPVSlxo5sQqwSJDq9X+mK7TMfA4ijSi9oFDS/uZLqk38cbdftBBqLPq+MTzYC5oz12qZGHNwL1dxHnojEC6+kHgs37BsaRdsNu29LHhOz1VY4UT71lmKYnT4tdRNjOwtx7BCSXeqFlOI3B3uimT7VGzrQ7aO4cUPas0zG1Zhkg2SS3BqI5+iCaUPxHsL9sWg8oEZbtItjwkOECU5dU/2h4HWV7bdu4aaVYXmEjF3RjymavSCARfbfL/TLM9avcqxfUYgqOfPOOxBM8LJhHCRJb3QqBda2johEETSlvmhqDXw/h4oklJks4i7RaN7QAzuQtoaYLXrEcCr+u9AtmClnSzjLoDKC1w/NIX5nZcBQcdh5TxsSWpJKLfkqmX8UqKemzl0bFGVlUXc0CdYXC9jZ2IhRaF83ua2SeMjty7w36QjDqt6c4n8+b1lrLB9LPlregDgFbBm6ByTXY0ulvisULIybUlZhPjpDv+bCMydiq5ODhTq7XbxGfqZzElvZFZ79fL5BuZDp6F0RAi1KEDP+AhQpYQgfei/OZwv32RnVAJQ8ECELp18LAauGQ27d+u+CHeGGEF+gyA
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR04MB7416.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(396003)(136003)(39860400002)(366004)(451199021)(186003)(6486002)(71200400001)(31696002)(53546011)(6512007)(6506007)(558084003)(110136005)(2616005)(31686004)(36756003)(478600001)(4326008)(66476007)(66446008)(64756008)(76116006)(66556008)(66946007)(91956017)(82960400001)(316002)(122000001)(38100700002)(8936002)(8676002)(5660300002)(41300700001)(86362001)(2906002)(38070700005)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?Rlp1RENEMFM0NnlSeDkyYUFDODdUMVN1Q3RGWnllK1ErNkwydFhNRXZ1aXhW?=
- =?utf-8?B?eGIxWVd6TzcyZTRwMW1ra0xza3FGS0YyT3FVZG5XVUw3cVNteHpMMm9Oazg5?=
- =?utf-8?B?blF6dGwrUFpaQzc2TFpqSUttdmxCU2NaNkVGSDRiUHgxcmdrdjFCWDdLTVZs?=
- =?utf-8?B?ZzJsUVR4SzcxbHFiRlNXVmN3ekZJcWR5SWE3bzk5OC9pZXl6T2F4dFNXRm14?=
- =?utf-8?B?UkJJWFFWWlF3Zk8xZTVBTUF4ci9BZlltaXh5VjJhTjliSjZQbTVVcUpjbkhm?=
- =?utf-8?B?WkhJNmhIM1VKd0RCUFpoNE5SWmxIZWNHdlNOV1VlRkJEOGs2dnQ4OEtOODE4?=
- =?utf-8?B?eVBUeHEvemVxM1R0VkRuMG1NSzZSdWQ5YVJva3plc0RzNHUwY29oYWJySzA3?=
- =?utf-8?B?bTdOSnVLeGpscGxTT1ZsZWs3TlppY0t0SWtjMS96SmJpMzB4alFWUis2RUVU?=
- =?utf-8?B?WC85NUcvTUtXUHF1d3hrWm9CM29hUGFrRnF1MUY2R2hoU3o4SzlOUi81SWI3?=
- =?utf-8?B?TzFmclhLL29QeTJ6c0llQ2xySHNyWk1UbXlseFh6V0szNFpNUGZJTnhyNGJ4?=
- =?utf-8?B?TDBLNmxVbjlYQzJxWVNhMzZSblZxaTI0MmxBcm83V0xwNnhmUTJNY094MWVj?=
- =?utf-8?B?WkVNYXFDaktEcXFXbDVOM0ZlYWRBVFUrYnU0UFdzRHZmeEQxRHdoYm1vUUV4?=
- =?utf-8?B?ZkFLMTNIQ0tzb1BnQzkzMU56amdrMjk4aG85S3ZsNzdEQ1gyUlpwRFNBMU9B?=
- =?utf-8?B?R25DbUUxU0VhVEQ3Mkc5V0hnQWwzQytqWHhVdWlqZDlIb1pTNnp4ZVpTaS8z?=
- =?utf-8?B?UnhVSVMzOHlCZTY0WUwzMThkM1dXUHJ6R2VETHFGamdxSWlOV1FnQVIrQjdt?=
- =?utf-8?B?Z2p5Ym85a29SOVZ5UnY0U2RLcDA4LzJpSkg4dy9rNkpIUWpFVE5lUitlZ01x?=
- =?utf-8?B?NjhGNlpmcEJNbWJlbXF1dWtuczByODNYd2FWS3cvdTN3U0lZSGlGQmdvM3ZL?=
- =?utf-8?B?VEhCUW1hSFpzQjRSWW51VEsrcXdVbkFjRXFFdm1WSE5ubHUrZTMwaEtqTmJS?=
- =?utf-8?B?S1UxRzROM29UMWZXTVZBU3owek9SbTVBakh0L2ZZZGFKZXR4em9zYXQwRksw?=
- =?utf-8?B?QXNnc2N2UHVGZjlnNnlqQm1tcUpwQlhLRmNRdGlRMFpnYWN1N3l5dGtlMURT?=
- =?utf-8?B?UUZlTHE1Sk1Hb0o1MW5NNTJvTFgvd0J3R0VmOHBzNjBsdWg5cWR1QUdPdzhN?=
- =?utf-8?B?MHVWS3JoSm4vVE8zRlc4TWozWmZDbjJ6WE9YTS9kU3pzS0hud3FhNFl2Kzlv?=
- =?utf-8?B?UFFxQ3A5NnArRnpGSzYvSFdrdTdiTVdoR0xZNlJ3S0N0ZEt2RUZqdHZBdTMw?=
- =?utf-8?B?RStoaEhSQUl5Y2FvYkZhTklpbHJaekVSRFpsWTgwL0tBODZ3RTk2UFkxWGR2?=
- =?utf-8?B?RmcrR2JVYTRldEFneHpTdkcrY2RDdGVEdnNXSi9MMkx1dFdaeW11NnY2MGpl?=
- =?utf-8?B?QXFaLzRid3Jnam5qSCtGM3d4Ukh3Tzk0MXA1YUsyWE1OK0poSzR3NVVHcnJD?=
- =?utf-8?B?TUoxbDhiVzhmT3ZvdDl1RHJ2cFdZTlkxbzIraGdNRlk5N1BWakp0dEszY2hG?=
- =?utf-8?B?a0NVWWRmcWVSVm1aNHRGVVdhZzJuTWRrdDdqRmkwcWlRRTBKQXllS3JrYWZ1?=
- =?utf-8?B?SWNqanFvY0VGVmdqMlV4WDB4Mk9DWjBqSEhvNjhVMk1Dd3NPdEVidzRWRjE0?=
- =?utf-8?B?ekFJa3prRFoxRnhMdno5TXk1SW9EUWp4dE12eEk4OHp3cFYvWitxODVIQ3FL?=
- =?utf-8?B?UGIreCtxOEtDNEgrWmZYTjF2WVBqUy9RRzIwc0NUZytEOEJXbFlsWXhCZlU2?=
- =?utf-8?B?M1MrbVJKZmRKdEhEUTIxU0w1akkwZUgzdGZxRWlwK3AvdGR4ZmlqUTF4ME8w?=
- =?utf-8?B?YTR0TFpKUUFLMDB5UTZxSUNuaWFvZGtTZGVQTWZqd3dLcHJuSHRhSXRsMkts?=
- =?utf-8?B?QUp4WlUwZncyaGxrajlTNHNtNjJGb21Cd2dZVnlDZDBSZG8zaTdJVnlXMnBT?=
- =?utf-8?B?UW50U3dhMUd1QmVqanpSOXl5cnhlTW5nbTlRYjlLSlRJUTJXaVlQN3BueCtS?=
- =?utf-8?B?YTlHN0NRdE9zWHllczdHTlFFNjJlZTEyZStaN1pzQk9kMDc2SVJLK2RGTnVa?=
- =?utf-8?B?YTRvNEs1a0VKbWZZb2xZRjE0aGtCa1pSK2RLK201QjhWYVdMZXlCTCs4TlhG?=
- =?utf-8?Q?aAAvY9uHzwnFMHYCZzu2B+qURzo+otlOoCCW2qQ+CI=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <70D2FCC402F3454C8414308099C340F7@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Tue, 02 May 2023 12:54:50 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=SG6So
+	/JBg3TDLBHEwTKwAjabX9LbfnrKlI2nbqf0u0w=; b=m/3BIvfWsGH+nVxeDbk1g
+	b2q4SmpOHQkpY9H33y2B7X0yP7sk2X1q80qwvZ6cWp7jWdjlRZzzaPzYmPYnlCMH
+	HJrW7bazcSzQ/LdNb+iaXKn3TAeYg8BaiGqOpjX+h9PhgeGrS6Wy/mbVlEyCvZNV
+	AhiMxYFmaGbxFpxkNoj02M=
+Received: from jiwei-VirtualBox.lenovo.com (unknown [120.244.62.151])
+	by zwqz-smtp-mta-g3-1 (Coremail) with SMTP id _____wA3j_j2B1FkHgLfAA--.26065S2;
+	Tue, 02 May 2023 20:54:15 +0800 (CST)
+From: jiweisun126@126.com
+To: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: kbusch@kernel.org,
+	axboe@fb.com,
+	hch@lst.de,
+	sagi@grimberg.me,
+	ahuang12@lenovo.com,
+	sunjw10@lenovo.com,
+	jiweisun126@126.com
+Subject: [PATCH] nvme: add cond_resched() to nvme_complete_batch()
+Date: Tue,  2 May 2023 20:54:12 +0800
+Message-Id: <20230502125412.65633-1-jiweisun126@126.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 	=?utf-8?B?dTJGaVhIK1l4Rkd4YzFNQ2htcDdVVHVOajZ3TCtKVysrTTRaYmxtN0tOVDFN?=
- =?utf-8?B?b2lGeFdXSGhZQVVzZWhYckdobU5FK3Roc2p1T1pjczdQUjJMdFIzMDFkVFVz?=
- =?utf-8?B?WVdCTkQ2Y01RWnRELzdVK1JoWnV4Qmx2M2Nma2hEcVJ5ZnRvQTNHY21ZTWJn?=
- =?utf-8?B?L0JBalVuVXlUQ2Yvdy9pWE9WR0dlMVhjUVhWejRVOS9UbTBiWnB4Q0lUdnN5?=
- =?utf-8?B?d2llRUM4bE5iN05QM1FrTUk1NkxYYkk1aXBvS0FKL2pWNnBJbUcwRUhtR0Nw?=
- =?utf-8?B?SzZVVitIeitDVEpqemlXSDhXdmhHd3NCdm9aVWt5OXNQZms4TXVTMTk4YVRl?=
- =?utf-8?B?ZURwOG9FSkZNcDY2KzBjU2EzbkpxamFISFVubTBxOVdwWDhUUEpLRXN6clBX?=
- =?utf-8?B?T05DL0lkcUtoSnM1eWdlc0F2aDVMYjNOQzl6NFRsdnV1K09mejBVRWxrTWNp?=
- =?utf-8?B?WGVseWx2bS82QmpOS25SRHNWMUh3RTcyQmU0czhSYmtSWm5wVWxQK04wV2gw?=
- =?utf-8?B?ZWNvUWlpSmxtN1ZaM1dKdjJtUFFsS2RhWkxSMWhkREE2cHFjTDl5RlRZSmRL?=
- =?utf-8?B?M0xKSDd0Z2FnbHFpNjV6cmVDbjBVUkVsS0l3d0x6VTdxYVNCZW1DYjA2Z2F5?=
- =?utf-8?B?Yk83b0FnekwrcmhLVG45R2Z3b1VDbEtRbHFvS2w5ZGVLWGtXdCt2Y2JrdDFF?=
- =?utf-8?B?YmV6YzhLQ1IzSUs4ajltaEhqMjEzRk9PS3FjNXpOaDg0YzJGamtQZzQvdXV2?=
- =?utf-8?B?WDlWblkxS0NFb1l6TldraVd4QWszeWMzU3Y1SC9jNlJQdHFSdlhVeFF5UE83?=
- =?utf-8?B?V0c2VUxEMHdiTTJMajA4SlJFOVNrSnJJQXM3Y1piaTg4ZjNzRmlVY25mUEUz?=
- =?utf-8?B?UUhpMU51cDRjUEdxNDFpMUJvZXBLNU9jSGFXS2JwSXZYYS9FbVYyMDU4bTdV?=
- =?utf-8?B?Mi9nMFhVek9mVTVnZHd5MVRSb3pqNEttM0R3bDJrTmFpQkJIRmRZWkJRd0Mz?=
- =?utf-8?B?am1UT2RsTkwwYzB0QkRYWWd3K1NNWDUxVEpJRU1meUNNcUtYRTM4RDlvMVV1?=
- =?utf-8?B?cDRhWWU1ZWJLQU1IcndYNXZPWTltWWNvclBxRThaWm4rOXJJWVErekZPSWxD?=
- =?utf-8?B?ZE5reWJWZkFnQy94VnJuQUhYY2pSTGFHRWptOG1LNUhML2hZUGlzOGlSUUs4?=
- =?utf-8?B?UFVtT3g1R3NiUWFPYk91QkVrUEVzWTNOYlgxNy9IVkJHeURpdG9pTnNteVFT?=
- =?utf-8?B?NVBaaXFIV1VsbSt6V3VPcUtLaWIzTkhJbnVtWDZKWGRDQnd5UjlweUhZZGRr?=
- =?utf-8?Q?WDKk7UHsSH/dLxc+WHkhpbLdEDkmCpcuLJ?=
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR04MB7416.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b72f1937-2519-4323-7c2b-08db4b07a677
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 May 2023 12:20:43.2398
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: a+s90SIHFNFu5a5Jcc7c3EQGhvio7ePWM384exuMZOIw/1Bru6hMATVjHgKvbd41tvaTj+dRbvx5kAtDMN37DsX47IU1oHdiPMoVbwHAzKk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR04MB6727
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wA3j_j2B1FkHgLfAA--.26065S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3XF1fJryxZrWkWw1fWFy8Xwb_yoW3Jr17pr
+	4UX348Cr4xW3W7Zr47JF4UZ3ZrXwnrA3WUXr47Ar93JF18W3s8Xr4UXr4Utr15Gws5Zry3
+	t3Z8Zw1IqryDKaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pEG-niUUUUU=
+X-Originating-IP: [120.244.62.151]
+X-CM-SenderInfo: 5mlzvxpvxqijaw6rjloofrz/1tbiXxpjjWIxn-v56gAAsP
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230502_052054_235597_D5EEBC0B 
-X-CRM114-Status: UNSURE (   9.22  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230502_055448_366416_C7A89296 
+X-CRM114-Status: GOOD (  12.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -197,7 +76,139 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMDEuMDUuMjMgMTc6MzMsIEtlaXRoIEJ1c2NoIHdyb3RlOg0KPiArCWJsa19xdWV1ZV9mbGFn
-X2NsZWFyKFFVRVVFX0ZMQUdfTk9NRVJHRVMsIHEpOw0KDQpTaG91bGRuJ3QgdGhhdCBiZSBibGtf
-cXVldWVfZmxhZ19zZXQoUVVFVUVfRkxBR19OT01FUkdFUywgcSk7DQo=
+From: Jiwei Sun <sunjw10@lenovo.com>
+
+A soft lockup issue will be triggered when do fio test on a 448-core
+server, such as the following warning:
+
+[  519.743511] watchdog: BUG: soft lockup - CPU#305 stuck for 144s! [fio:11226]
+[  519.744834] CPU: 305 PID: 11226 Comm: fio Kdump: loaded Tainted: G             L     6.3.0 #48
+[  519.744850] Hardware name: Lenovo ThinkSystem SR645 V3 MB,Genoa,DDR5,Oahu,1U/SB27B31174, BIOS KAE111F-2.10 04/17/2023
+[  519.744867] RIP: 0010:__do_softirq+0x93/0x2d3
+[  519.744901] Code: c3 c0 5a ff c7 44 24 08 0a 00 00 00 48 c7 c7 45 6b c5 a0 e8 1f ac fe ff 65 66 c7 05 dd 76 a8 5f 00 00 fb 49 c7 c2 c0 60 20 a1 <eb> 70 48 98 48 c7 c7 f8 fc c5 a0 4d 8d 3c c2 4c 89 fd 48 81 ed c0
+[  519.744916] RSP: 0018:ff6e423a8b584fa0 EFLAGS: 00000202
+[  519.744944] RAX: 0000000000000131 RBX: ff3143f856cd3f80 RCX: 0000000000000000
+[  519.744959] RDX: 000000562c5e4652 RSI: ffffffffa0c56b45 RDI: ffffffffa0c35ab3
+[  519.744974] RBP: 0000000000000000 R08: 0000000000000b01 R09: 0000000000031600
+[  519.744988] R10: ffffffffa12060c0 R11: 00000054ea7837c0 R12: 0000000000000080
+[  519.745003] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+[  519.745017] FS:  00007fa41bb9e000(0000) GS:ff3143f7af840000(0000) knlGS:0000000000000000
+[  519.745032] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  519.745046] CR2: 00007fa3fc05b000 CR3: 00000008d6f56004 CR4: 0000000000771ee0
+[  519.745060] PKRU: 55555554
+[  519.745075] Call Trace:
+[  519.745095]  <IRQ>
+[  519.745160]  ? ftrace_regs_caller_end+0x61/0x61
+[  519.745185]  irq_exit_rcu+0xcd/0x100
+[  519.745217]  sysvec_apic_timer_interrupt+0xa2/0xd0
+[  519.745251]  </IRQ>
+[  519.745265]  <TASK>
+[  519.745292]  asm_sysvec_apic_timer_interrupt+0x1a/0x20
+[  519.745318] RIP: 0010:_raw_spin_unlock_irqrestore+0x1d/0x40
+[  519.745339] Code: 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa e8 77 9b 0b 20 c6 07 00 0f 1f 00 f7 c6 00 02 00 00 74 01 fb bf 01 00 00 00 <e8> be 65 58 ff 65 8b 05 9f 81 a8 5f 85 c0 74 05 c3 cc cc cc cc 0f
+[  519.745354] RSP: 0018:ff6e423b244279f0 EFLAGS: 00000206
+[  519.745381] RAX: 000000098b346200 RBX: ff3143f0f0fccc00 RCX: 0000000000000286
+[  519.745396] RDX: 0000000000000700 RSI: 0000000000000286 RDI: 0000000000000001
+[  519.745410] RBP: ff3143f835e5c600 R08: 000000058bb02000 R09: 0000000000000000
+[  519.745424] R10: 00000107d08ab6ea R11: 0000000000000800 R12: 0000000000000820
+[  519.745438] R13: ff3143f835e5c610 R14: ff6e423b24427a50 R15: ff3143f90b346200
+[  519.745576]  dma_pool_alloc+0x184/0x200
+[  519.745647]  nvme_prep_rq.part.58+0x416/0x840 [nvme]
+[  519.745760]  nvme_queue_rq+0x7b/0x210 [nvme]
+[  519.745821]  __blk_mq_try_issue_directly+0x153/0x1c0
+[  519.745906]  blk_mq_try_issue_directly+0x15/0x50
+[  519.745935]  blk_mq_submit_bio+0x4c4/0x510
+[  519.746047]  submit_bio_noacct_nocheck+0x331/0x370
+[  519.746135]  blkdev_direct_IO.part.22+0x138/0x5b0
+[  519.746165]  ? __fsnotify_parent+0x119/0x350
+[  519.746274]  blkdev_read_iter+0xe3/0x170
+[  519.746325]  aio_read+0xf6/0x1b0
+[  519.746423]  ? 0xffffffffc066309b
+[  519.746567]  ? io_submit_one+0x18c/0xd60
+[  519.746587]  ? aio_read+0x5/0x1b0
+[  519.746608]  io_submit_one+0x18c/0xd60
+[  519.746672]  ? __x64_sys_io_submit+0x4/0x180
+[  519.746794]  ? __x64_sys_io_submit+0x93/0x180
+[  519.746815]  __x64_sys_io_submit+0x93/0x180
+[  519.746838]  ? __pfx___x64_sys_io_submit+0x10/0x10
+[  519.746923]  do_syscall_64+0x3b/0x90
+[  519.746958]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
+[  519.746983] RIP: 0033:0x7fa41b83ee5d
+[  519.747009] Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 93 af 1b 00 f7 d8 64 89 01 48
+[  519.747024] RSP: 002b:00007fff698e8cc8 EFLAGS: 00000246 ORIG_RAX: 00000000000000d1
+[  519.747053] RAX: ffffffffffffffda RBX: 00007fa41bb9df70 RCX: 00007fa41b83ee5d
+[  519.747067] RDX: 000055a53098ba68 RSI: 0000000000000001 RDI: 00007fa3fc05b000
+[  519.747082] RBP: 00007fa3fc05b000 R08: 0000000000000000 R09: 0000000000000048
+[  519.747095] R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
+[  519.747110] R13: 0000000000000000 R14: 000055a53098ba68 R15: 000055a530989440
+[  519.747245]  </TASK>
+
+and we have collected the corresponding ftrace log,
+  515.948558 |   305)               |              nvme_irq [nvme]() {
++--1503 lines: 515.948560 |   305)               |                blk_mq_complete_request_remote() {---
+  515.948995 |   305)               |                nvme_pci_complete_batch [nvme]() {
+  515.948996 |   305)               |                  nvme_unmap_data [nvme]() {
++--  3 lines: 515.948996 |   305)               |                    dma_unmap_sg_attrs() {---
+  515.948997 |   305)               |                    dma_pool_free() {
+  515.948997 |   305)               |                      _raw_spin_lock_irqsave() {
+  515.948997 |   305)   0.190 us    |                        preempt_count_add();
+  515.948999 |   305) * 14893.70 us |                        native_queued_spin_lock_slowpath();
+  515.963893 |   305) * 14895.59 us |                      }
+  515.963929 |   305)               |                      _raw_spin_unlock_irqrestore() {
+  515.963930 |   305)   0.160 us    |                        preempt_count_sub();
+  515.963930 |   305)   1.011 us    |                      }
+  515.963931 |   305) * 14933.71 us |                    }
++--  9 lines: 515.963931 |   305)               |                    mempool_free() {---
+  515.963933 |   305) * 14937.45 us |                  }
+  515.963933 |   305)   0.160 us    |                  nvme_complete_batch_req [nvme_core]();
+  515.963934 |   305)               |                  nvme_unmap_data [nvme]() {
++--  3 lines: 515.963934 |   305)               |                    dma_unmap_sg_attrs() {---
+  515.963935 |   305)               |                    dma_pool_free() {
+  515.963935 |   305)               |                      _raw_spin_lock_irqsave() {
+  515.963936 |   305)   0.170 us    |                        preempt_count_add();
+  515.963936 |   305) * 19865.82 us |                        native_queued_spin_lock_slowpath();
+  515.983803 |   305) * 19867.21 us |                      }
+  515.983833 |   305)               |                      _raw_spin_unlock_irqrestore() {
+  515.983833 |   305)   0.200 us    |                        preempt_count_sub();
+  515.983834 |   305)   1.312 us    |                      }
+  515.983834 |   305) * 19898.71 us |                    }
++--- 11 lines: 515.983834 |   305)               |                    mempool_free() {---
+  515.983837 |   305) * 19902.73 us |                  }
+  515.983837 |   305)   0.170 us    |                  nvme_complete_batch_req [nvme_core]();
++--40055 lines: 515.983837 |   305)               |                  nvme_unmap_data [nvme]() {---
+  520.816867 |   305) $ 4867871 us  |                }
+  520.816867 |   305) $ 4868309 us  |              }
+  520.816868 |   305) $ 4868310 us  |            }
+
+According to the above two logs, we can know the nvme_irq() cost too much
+time, in the above case, about 4.8 second. And we can also know that the
+main bottlenecks is in the competition for the spin lock pool->lock.
+
+In order to avoid the lockup log, we can enable the nvme irq threading
+by adding nvme.use_threaded_interrupts=1 in cmdline and with preempt=full,
+but for the kernel with preempt=off, the nvme.use_threaded_interrupts=1
+will fail. So, we can add cond_resched() in the loops of the
+nvme_complete_batch().
+
+Reviewed-by: Adrian Huang <ahuang12@lenovo.com>
+Signed-off-by: Jiwei Sun <sunjw10@lenovo.com>
+---
+ drivers/nvme/host/nvme.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index bf46f122e9e1..e247cb664e9e 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -725,6 +725,7 @@ static __always_inline void nvme_complete_batch(struct io_comp_batch *iob,
+ 	rq_list_for_each(&iob->req_list, req) {
+ 		fn(req);
+ 		nvme_complete_batch_req(req);
++		cond_resched();
+ 	}
+ 	blk_mq_end_request_batch(iob);
+ }
+-- 
+2.27.0
+
 
