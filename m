@@ -4,83 +4,171 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 940ABC77B7E
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 May 2023 06:13:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 037F8C77B73
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 May 2023 06:13:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wfuhAGUHfVo4gsYc8115bqIcUjuAPo0o95qS9PzPfOY=; b=1QwtXXbj8gBRin8zQL7DUGEXs4
-	VVRd9E4wf1O+QbzRolYsXS6tXfow2hww1W/Gi7iv+O+ML6qB5sXyhL0lKgi7RPGSAQB6MwU+qs8Tt
-	/HtAxCTGZTINHald56fwKW4VjCZqjvvO/knkO4bCLGSzUznzqomfwa2WGsvcCQ7mP1SrM/JVU1ixd
-	Qr1uB3bREHqn2mzK/koAfjt/eIkD59JKx2U4qxTwRZlKpm75Ic0v2XqYizNnhTs8+543EasGKsnP6
-	B6USPniEbvJQjz+YpgMdWIIlWUxdtd4UPmf3j/PJCIXGM8iOMxttIDB8KiSvdIStkDwAAQfjRXsv2
-	aQtvaD8Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=F4cHl/WsCvUe+71Itvfib7vfevE8zlD9Fle0fbg+1uI=; b=Uvji+UfWEKdh7ij28SYV1hoqQx
+	fiJmhzuG/OxiIylOx4kNpVEA46uEsxlquESrIP1fc2h7118784BYb0cVlQhcFBChVBsTywR/Ewnba
+	6tB5WkygXMl0FegGqHH2Qfm+Ixqrs1LJLdWSe6ImBnEsQUXV6JeZznfe55DciS6IjtzraXViHte58
+	mtg4Rnpv0a+8ygwyyoD/a7eHK4umBcr6t1Nlq3BS0a4V8XEW59n4f0yNYNHuR/7NwTC128yNrHmeW
+	+F/98HcjE8kwGIw6jevll5K38NqQocuoKYp1skIHhaqxdxXYoIa4HWYaL7aukYf5dD+L5xPL4Avau
+	m9nS1Ihw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1ptjG2-000J3c-2u;
-	Tue, 02 May 2023 06:13:02 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1ptjGa-000JBv-1t;
+	Tue, 02 May 2023 06:13:36 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1ptjFz-000J2R-2L
+	id 1ptjGX-000J9h-2u
 	for linux-nvme@lists.infradead.org;
-	Tue, 02 May 2023 06:13:01 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4346421EA4;
-	Tue,  2 May 2023 06:12:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1683007978; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wfuhAGUHfVo4gsYc8115bqIcUjuAPo0o95qS9PzPfOY=;
-	b=CZn7d9XUlpXt8ipfq30KblCccRGpCvPwzwvLmRsBKf7y4xISeocbpssbM6z1y05JVjIk6l
-	AsZV1ptWJsOmgG+2wcdJ+FbSc1C9NUqkQVCdzBAgKgqdJAeJ/AijWaWwJ83ZD+TNcl7Ise
-	+pRpdhUuq5P3GWR4RR6jMXBa+myn6D4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1683007978;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wfuhAGUHfVo4gsYc8115bqIcUjuAPo0o95qS9PzPfOY=;
-	b=vz8/YKcWBu8yPvZPTF3c7/PlIsthmLvwfzjja/twuCrkxOyjrbzS6fLZCgtTzeBLE8WORl
-	/tQuWY2rLIQEqHBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 23AEF134FB;
-	Tue,  2 May 2023 06:12:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id xX3NB+qpUGR3bAAAMHmgww
-	(envelope-from <hare@suse.de>); Tue, 02 May 2023 06:12:58 +0000
-Message-ID: <2c4334b8-8262-4a31-5cca-e91b119f2357@suse.de>
-Date: Tue, 2 May 2023 08:12:56 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [RFC PATCH 2/2] nvme-core: use macro defination to define dev
- attr
+	Tue, 02 May 2023 06:13:35 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1683008013; x=1714544013;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=XnhhV5iYo9q0m0AZ5eLUYuIwWlD8uvjia9LcRj65nHw=;
+  b=Xq/fxiZn1o0QH2C59FaC6AcYaLnDc525x+vSOTBiAajIq5+ndXBQLAd0
+   oV4cEATYVW6bXCkz2+MquAVvZ3vG4B0q3ikrQ0IEEF6L/Y68kL+z43ptI
+   d2Wg7D+u93/1zKDUklwOe3Y7clPLpWG6EKuAb1nUBaghDKQwhQxDGOVjl
+   lke75ffoMNpqWhDRxJjRb7e3rfNEazR/GoqSYWGNBVX3+FRvhwVCgCjk8
+   BhDTLNdNVovGAyv87QyCRmftSARAiqBdk0/maLjpNekVsM4vg0OceeDFP
+   kBRg30FJslvcUX5ZOzHCNU4B8Xy6T/1YeYWUGfv9GgZ+bsoHzJpd3O1xV
+   A==;
+X-IronPort-AV: E=Sophos;i="5.99,243,1677513600"; 
+   d="scan'208";a="334119926"
+Received: from mail-co1nam11lp2176.outbound.protection.outlook.com (HELO NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.176])
+  by ob1.hgst.iphmx.com with ESMTP; 02 May 2023 14:13:24 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fFVtU3u1KeOX5uLPhnZ0+PPrpjhLm46wNwrl4r3ENN1iGsjSYbOGQ0CFBhnm+0p8M2qppB9HRP5+NvfMil2TqChC3r9CuvvPe4KcdfW75bf0tHoWfmqi0bR5E8xkslYCQl4cLq0o89PX2oP5453alNN78c9yf/kwOQNC3kOqcNbQP1QqSiIA4sNQTdup3o6rHgyOoKSdttTnW6igZ+l/MQOaB9q7V/7ZzoDNBBbQBhwLRQOI01xWy05z0eUdRB09qwlpvZ35xxg8OHKTbKhR9zPlg9TVc/uwmjswswxU7EOq7pB4mBLezsOBL9Sn8ATh6yjXGpQWd5XZdYXtT1ajGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=F4cHl/WsCvUe+71Itvfib7vfevE8zlD9Fle0fbg+1uI=;
+ b=dxQV3ohS+BXMK80Q7gRFbnS23CnIpyQYRZ+HpUOokwYL2C75cmGGKtszKTMF+mprA1f2W5d0fKNzncGyIUr+YcKflA6U1dzxWja9OO2dr89lvR3SwN8FYJPAtg2Vru/COvxhDN7DJmCwy1ZBKHeeH2DhGkDGYsFeu2093BP8jkWVu935Q8KhaqKzoOiMTyzJuZjOhbzJQrHPWb2npPHFeAblr1N7TtIsndWJFO2UzRA/wSnUKDMJ1OfpMo3AIPZFpaNVKFjTw6g6POzBsNYJOTs4VVZyjUupkAkjdb/3cOdEWEWWezj8SwCTn8oxnxC9BCR5d8CoCRxC9Oa5V3iaNg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F4cHl/WsCvUe+71Itvfib7vfevE8zlD9Fle0fbg+1uI=;
+ b=fUVBuhTQQ6+vu4iF1jn5wr/csmY+mr6tesFyssh5CVJFNCGibKLfaIXkvD4O4XY08qxs6spIZ4E5LETEGs78hSCdZuWmqO4ciBqSyrWWu8BbJph+lhM2eSc0N+qT08mBpzrbhspwtzCmVxCVMe1aHR3qCJoBZDiiF2/fgdlp0f0=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ MW6PR04MB8870.namprd04.prod.outlook.com (2603:10b6:303:243::5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6340.30; Tue, 2 May 2023 06:13:22 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::eb0e:1bef:f266:eceb]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::eb0e:1bef:f266:eceb%9]) with mapi id 15.20.6340.030; Tue, 2 May 2023
+ 06:13:22 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+CC: Daniel Wagner <dwagner@suse.de>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, Chaitanya Kulkarni <kch@nvidia.com>,
+	Shin'ichiro Kawasaki <shinichiro@fastmail.com>
+Subject: Re: [PATCH blktests v2 2/2] nvme-rc: Cleanup fc resource before
+ module unloading
+Thread-Topic: [PATCH blktests v2 2/2] nvme-rc: Cleanup fc resource before
+ module unloading
+Thread-Index: AQHZe09FVEwtRfzey0GWUGL193fJOq9FdtgAgAEM6wA=
+Date: Tue, 2 May 2023 06:13:22 +0000
+Message-ID: <73gciykkvntmmmbsbz6yjec66ujhasmzj33zp2sv4qzezmfzyr@3xsdsqatdrv2>
+References: <20230419084757.24846-1-dwagner@suse.de>
+ <20230419084757.24846-3-dwagner@suse.de>
+ <3ec250a9-54c7-3e0d-2463-f8faf15cdb58@grimberg.me>
+ <3euieyvxpsww5p4m457pzupfipbnbv3atxauh2lrp54gqmqcco@hs7ytoop5osf>
+ <1b060988-fc63-4a86-33b8-88ba61c9358f@grimberg.me>
+ <gqeyqpv2idkkkf7jajdxbgj4fi5tnlbt7tmuudwxq3gul3w56y@ijwb4axr52dl>
+ <eb9fec81-0ba6-ce3d-dadd-934250001126@grimberg.me>
+In-Reply-To: <eb9fec81-0ba6-ce3d-dadd-934250001126@grimberg.me>
+Accept-Language: en-US
 Content-Language: en-US
-To: Chaitanya Kulkarni <kch@nvidia.com>
-Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
- linux-nvme@lists.infradead.org
-References: <20230427080207.17249-1-kch@nvidia.com>
- <20230427080207.17249-3-kch@nvidia.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20230427080207.17249-3-kch@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|MW6PR04MB8870:EE_
+x-ms-office365-filtering-correlation-id: dd3b4a78-8d7a-443b-06c9-08db4ad454f9
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  EUQOdol9aneRxbI6/9kkTxFevPqfNEE2YpRedD74UogaGgE5hKsqQ08yGFT8lE6CKqJaAuiP70B73lwsaEcKSz93e+XcYu8sZREUdkTtWTnuDypK9IyrqitAKUbJBlbvGbuzok34n3CaaxFQBaMBjTMXIV7OAztdY8Br15R0SPtYqHkaaNwpwefYRruR5yjtC6lyrmg1KmyfpqiKJfIvithvI0VB4JqAoFuoDyO1okBjB1oCImDUTqqxTD/xn7F8p2WryS9tMdireZn67GHbTpBOA8jKCgOUNrB4iEYGG6SP9d4PSBqewyzLOJ+La6/+t+HPzO/FkFwD2a5JKG9d7xzQKlYEhopsEWMLIWVYKlBeP/CT2p1kaC377LlfSIriGLFWN+AyNSTvt3QkiFfPUZ3oGqRuxaQij8IFyAFYS7iUYL24YBq5As9Jpka8e3s3v7l9kN4ffHGRctStHd06cJZcSBOzYa7QOeAHZeixb07DW1SeboMnLHuwKWn9+IwWDaKiKu1V6l8/jCgR0lUp/qtFM3kN4OPOcv7FcLeaBZXEJD1D/wFiGJsg5tBkMu4bA9Zj0AK+x7bAiHet0dTeypIM397DhA6GXKN/qv49AWF0y9foZDF7N1qo2tN7/P3f
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(4636009)(136003)(376002)(366004)(39860400002)(346002)(396003)(451199021)(86362001)(82960400001)(38100700002)(122000001)(38070700005)(8676002)(66946007)(5660300002)(66476007)(41300700001)(4326008)(76116006)(8936002)(64756008)(91956017)(44832011)(66446008)(6916009)(66556008)(316002)(2906002)(6486002)(71200400001)(54906003)(478600001)(186003)(6506007)(9686003)(6512007)(53546011)(83380400001)(26005)(33716001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?Zxf7/m4KRhrdWx3h7hQyXssi4Vq+6vE4cC2NUmOlukpzvfEs/+vuBccBGzSx?=
+ =?us-ascii?Q?Qssb2LF/qlIrm8iLNEASICQCpTPX8YTKjtnjCe2cdpOoGtL+8eIiQXhFzAKt?=
+ =?us-ascii?Q?k6MpOrGXCLLZi46Phb+hjTL5p5GblXc9qLKxrqqx43n9LUW9Z4tndqqEpOmG?=
+ =?us-ascii?Q?1abuHvjmACkcj8xz4iGVDhk3smdY/x8T4LBiHEJaWHJxo+uIpgKzRvvOn91B?=
+ =?us-ascii?Q?BvFur+oQNIvuvFWSTaAf9k6UDn7By5R2oEL0pRJZkTQrp8sP+FuoGYFM5pV5?=
+ =?us-ascii?Q?6rvYTT+MdaepDywiwIkuCqSWm7YK+mcK+Tf9JYa2xTgEBiBHkvXnwDrF/Bgc?=
+ =?us-ascii?Q?zarot8i5FMmROPL1Z9/DyRUaPZiC3sn6T2hRwaRmNTbQmsZ+wmXSuhcLBZfK?=
+ =?us-ascii?Q?DCUYtF2/jEy1WEB4NB7Hm/B6NHZzpdCm/jVj4VFA7CcH42Uv/+LQnhmEsXsj?=
+ =?us-ascii?Q?IExQLT5q1c8AL+gMzlL+i4xMhcsgGCzEUzGUz0FOeViy9yShEUjGvdCBXld9?=
+ =?us-ascii?Q?66y+2wvqgBZr++6uasDn5TvQ6Y5Wq1ldcyNZOr5muutsKF97dIoDqTQ+nGpT?=
+ =?us-ascii?Q?r5641fBQpZUGPw5yUbbHvW9l3K7MJ5fuCNSkjkOULgok5B+oPRkUJiroDlg4?=
+ =?us-ascii?Q?hsoKtOWzbwVPiVqACOxEbCazmy3CEK8nuEeKKTKvKRcPAmCURvbWNnuvFXz1?=
+ =?us-ascii?Q?aaU1lTG3KnbqXhdp2LsRtFRPxfznswXuTgbP3zdfOTBw0pAuKNL+ZJxw1odX?=
+ =?us-ascii?Q?JjjvRig6fBjGCGmqdHBBL4qQDHKFiu65sFv7ea4BnxOsNRHO/qsaZxNubTKK?=
+ =?us-ascii?Q?/lYCcaZ5XzxshNaTivj6lnGlnbj9/De11hrtceMrLasbAp6aZ9RkypttvU3b?=
+ =?us-ascii?Q?tbnd20ADfrW1qZaapXel9d6M02+97VP/NVqMZJcdi/Kp3nXhXXfuS13ZcNgf?=
+ =?us-ascii?Q?KdrBCbud2WwdCOJgA5NmAAw8Pi1K95vDz8IoyuEtjINsz4FYpOwfbq2+GImH?=
+ =?us-ascii?Q?nji6qsGdUSX6lVcJ2VkYP++Icrs+rfXwVWLf3QK61XsvJo1Fee35aJ1rQmk4?=
+ =?us-ascii?Q?3VqQnT9XI1X+UoSLZclCjd9QZE6VfBdFHBidi8bI8WH2InM7mwYOPkXggaVf?=
+ =?us-ascii?Q?TMnWHZ/SBn+qYoC/X9njW9384/KJtvxiGx9NVePXQm6FOQKB6i51gZNNEuPX?=
+ =?us-ascii?Q?o+qYbMC2xKs+lieqqDk3+cTVCdcEWtgtUyhWFUTQ5xR9P3Zqvcv5Xc6BQrlz?=
+ =?us-ascii?Q?2fYleXs8ZVgc8fQcoE17s5pFRfA4YZaQcU5hVru8uMQ/MZBOkNBH2Mk/5wvR?=
+ =?us-ascii?Q?i+iDjfT2fcsXzwO7IIf3vQeMbWkuIVY7ELCrz+HHTSqDA+GYq0hv1K8t76V5?=
+ =?us-ascii?Q?84eMb5Q1gDkLyIeRgjWcVpuy2jJPzciK1tVN9kwJJqVjTZY1JXLC5LOa9XxJ?=
+ =?us-ascii?Q?Cw/KeQ9En9x1jvtGDJRPKT1qDMJ7aBoq5TI0VV5ojo76022MZcyhLt1g/AMi?=
+ =?us-ascii?Q?OcmQieAcO1zvF+43IVDRziJDD/P/vbneCCmSesApsGKmCgAB3jdE8b8z10HS?=
+ =?us-ascii?Q?MkO50aqebZEIxvw+wVGKv1l86/hBIU4fiNZ1iE+orcMnYZU8rnwo85YkLuV6?=
+ =?us-ascii?Q?9MdmjU4iG4WjVM75b7kGKDE=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <970821485EE7614992CBDFE95DA1335D@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 	=?us-ascii?Q?Nxjeks+IUhi17MQNLGKmkaoz2KEeZU4ngDPN+u+VlYMzNmL8atm/3NiJZQc4?=
+ =?us-ascii?Q?AhI4lryTVlY1B8BWtaz+lw4VYmhz2watF2X7uh8cNtYbEdbzdqXvyCOktniM?=
+ =?us-ascii?Q?OqFMPIM+U9uNHYzqjWmkJUwe9aZ8mnCKRkgmJWmbWF62Kb/Z3cJf2x0X/1fm?=
+ =?us-ascii?Q?GdJNIKJXgz1sJOhnJNFSnEtEz0Ffz+o/yH6pHaAtEkUASNdn0R79DE1BGE+s?=
+ =?us-ascii?Q?rYS0eM7KA88qQ25GposNs8fkTJs963GFOy4kuUjw9iSk/Dth3VpEVosaSW+8?=
+ =?us-ascii?Q?WgkH9GGfM6mn4EwhUzPLxOL2c0WXEGnxX1+quiUOAsspDaHOJIYscZCa83sF?=
+ =?us-ascii?Q?hUC0mTvs5gD66+XQXmBRZixQIICXHVTU2JByfGzaQPvGyNiJUaHCryRRQ/VX?=
+ =?us-ascii?Q?2cED69I7s5pAx1QobC+G1lyX/LfV8/LzhwZl+kmvzI2gu033Zw3+GzG687We?=
+ =?us-ascii?Q?SSM4UBg4rKdd+vib8SFa5/FB7h+IiGQ0qaG1pEqf52s1OV/69+nzLbIIPnMR?=
+ =?us-ascii?Q?QFS8BqT2sdg0a9+DaZOpcyQDDgUPglZFX44BmHHnbswitP8wF9wGBNieBHo2?=
+ =?us-ascii?Q?EVUQoKilvXuzTi084M4XdFB5QHHPs2t2M+TDxWWaai9MF60VnRRnk9GSKeGt?=
+ =?us-ascii?Q?vQ9cZ5ujYH1VPGwaj1B+WlMHouruuT3VVBUp+xkjpwkHHYocZDBmVfegJNv+?=
+ =?us-ascii?Q?2cEKBbnIVaDxrJkiPMlPPdCUf3sSdaeTyTtW94E+GVOAHnloVbvwZuLfo8Td?=
+ =?us-ascii?Q?n8vO6NRuoMqDrT2UCSj51wN6h8TsiZeaO7yKbjBmc1xwDOBwFo8L/cx5Ma31?=
+ =?us-ascii?Q?QJ1HhgkgTf69Q1pzrAimnLcCFy9X8igonYg4MW9K8ej4dPnQZdAFffE+VnZK?=
+ =?us-ascii?Q?KPx9XU0AhiXrAV67tuN62BXIVqOjVDxyl1QHnG0dIZ1BglRjctlhI1vTlr3M?=
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd3b4a78-8d7a-443b-06c9-08db4ad454f9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 May 2023 06:13:22.1768
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: dMs0vyGtHVC5o74uAQU2AE1e5gw7uuGvawezzsr/eMhJMaLij10zlYFsVerhz+XJ9TwBZzHlsuX2KWfsK2IyYQ78OqP90nttCHzSnzIZwcY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR04MB8870
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230501_231259_906853_AE3B20A5 
-X-CRM114-Status: GOOD (  18.70  )
+X-CRM114-CacheID: sfid-20230501_231334_044501_E66CD115 
+X-CRM114-Status: GOOD (  22.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,117 +183,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/27/23 10:02, Chaitanya Kulkarni wrote:
-> Insated of duplicating the code for dhchap_secret & dhchap_ctrl_secret,
-> define a macro to register device attribute to create device attribute
-> that will also define store and show helpers.
-> 
-> Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
-> ---
->   drivers/nvme/host/core.c | 71 +++++++++++++++-------------------------
->   1 file changed, 27 insertions(+), 44 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 171ae1f2197a..f619158ea2fc 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3780,17 +3780,6 @@ static DEVICE_ATTR_RO(dctype);
->   
->   #ifdef CONFIG_NVME_AUTH
->   
-> -static ssize_t nvme_ctrl_dhchap_secret_show(struct device *dev,
-> -		struct device_attribute *attr, char *buf)
-> -{
-> -	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-> -	struct nvmf_ctrl_options *opts = ctrl->opts;
-> -
-> -	if (!opts->dhchap_secret)
-> -		return sysfs_emit(buf, "none\n");
-> -	return sysfs_emit(buf, "%s\n", opts->dhchap_secret);
-> -}
-> -
->   static ssize_t nvme_dhchap_secret_store_common(struct nvme_ctrl *ctrl,
->   		char **dhchap_secret, struct nvme_dhchap_key **orig_key,
->   		const char *buf, size_t count)
-> @@ -3833,40 +3822,34 @@ static ssize_t nvme_dhchap_secret_store_common(struct nvme_ctrl *ctrl,
->   	return count;
->   }
->   
-> -static ssize_t nvme_ctrl_dhchap_secret_store(struct device *dev,
-> -		struct device_attribute *attr, const char *buf, size_t count)
-> -{
-> -	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-> -
-> -	return nvme_dhchap_secret_store_common(ctrl, &ctrl->opts->dhchap_secret,
-> -			&ctrl->host_key, buf, count);
-> -}
-> -
-> -static DEVICE_ATTR(dhchap_secret, S_IRUGO | S_IWUSR,
-> -	nvme_ctrl_dhchap_secret_show, nvme_ctrl_dhchap_secret_store);
-> -
-> -static ssize_t nvme_ctrl_dhchap_ctrl_secret_show(struct device *dev,
-> -		struct device_attribute *attr, char *buf)
-> -{
-> -	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-> -	struct nvmf_ctrl_options *opts = ctrl->opts;
-> -
-> -	if (!opts->dhchap_ctrl_secret)
-> -		return sysfs_emit(buf, "none\n");
-> -	return sysfs_emit(buf, "%s\n", opts->dhchap_ctrl_secret);
-> -}
-> -
-> -static ssize_t nvme_ctrl_dhchap_ctrl_secret_store(struct device *dev,
-> -		struct device_attribute *attr, const char *buf, size_t count)
-> -{
-> -	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-> +#define NVME_AUTH_DEVICE_ATTR(NAME)					\
-> +static ssize_t nvme_ctrl_##NAME##_show(struct device *dev,		\
-> +		struct device_attribute *attr, char *buf)		\
-> +{									\
-> +	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);			\
-> +	struct nvmf_ctrl_options *opts = ctrl->opts;			\
-> +									\
-> +	if (!opts->NAME)						\
-> +		return sysfs_emit(buf, "none\n");			\
-> +	return sysfs_emit(buf, "%s\n", opts->NAME);			\
-> +}									\
-> +									\
-> +static ssize_t nvme_ctrl_##NAME##_store(struct device *dev,		\
-> +		struct device_attribute *attr, const char *buf, 	\
-> +		size_t count)						\
-> +{									\
-> +	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);			\
-> +									\
-> +	return nvme_dhchap_secret_store_common(ctrl,			\
-> +			&ctrl->opts->NAME,				\
-> +			&ctrl->host_key, buf, count);			\
-> +}									\
-> +									\
-> +static DEVICE_ATTR(NAME, S_IRUGO | S_IWUSR,				\
-> +	nvme_ctrl_##NAME##_show, nvme_ctrl_##NAME##_store);		\
->   
-> -	return nvme_dhchap_secret_store_common(ctrl,
-> -			&ctrl->opts->dhchap_ctrl_secret, &ctrl->ctrl_key, buf,
-> -			count);
-> -}
-> -static DEVICE_ATTR(dhchap_ctrl_secret, S_IRUGO | S_IWUSR,
-> -	nvme_ctrl_dhchap_ctrl_secret_show, nvme_ctrl_dhchap_ctrl_secret_store);
-> +NVME_AUTH_DEVICE_ATTR(dhchap_secret);
-> +NVME_AUTH_DEVICE_ATTR(dhchap_ctrl_secret);
->   #endif
->   
->   static struct attribute *nvme_dev_attrs[] = {
+On May 01, 2023 / 17:10, Sagi Grimberg wrote:
+> On 4/30/23 13:34, Shinichiro Kawasaki wrote:
+[...]
+> > Sagi, this comment above was not clear for me. Is Daniel's patch ok for=
+ you?
+> >=20
+> > IMO, it is reasonable to "do clean-up in reverse order as setup" as a g=
+eneral
+> > guide. It will reduce the chance to see module related failures when th=
+e test
+> > cases do not expect such failures. Instead, we can have dedicated test =
+cases for
+> > the module load/unload order related failures. start_soft_rdma and
+> > stop_soft_rdma do module load and unload. So I think the guide is good =
+for those
+> > helper functions also.
+>=20
+> As I mentioned here, this change exercises a code path in the driver
+> that is a surprise unplug of the rdma device. It is equivalent to
+> triggering a surprise removal of the pci device normally during
+> nvme-pci test teardown. While this is worth testing, I'm not sure we
+> want the default behavior to do that, but rather add dedicated tests for
+> it.
+>=20
+> Hence, my suggestion was to leave nvme-rdma as is.
 
-In principle ok, but obviously depends on the discussion on the first patch.
+Thanks for the clarification. I assume that stop_soft_rdma is the "surprise
+unplug of the rdma device". If I understand it correctly, the change for nv=
+me-fc
+will be like this:
 
-Cheers,
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
-
+diff --git a/tests/nvme/rc b/tests/nvme/rc
+index ec0cc2d..24803af 100644
+--- a/tests/nvme/rc
++++ b/tests/nvme/rc
+@@ -260,6 +260,11 @@ _cleanup_nvmet() {
+ 	shopt -u nullglob
+ 	trap SIGINT
+=20
++	if [[ "${nvme_trtype}" =3D=3D "fc" ]]; then
++		_cleanup_fcloop "${def_local_wwnn}" "${def_local_wwpn}" \
++				"${def_remote_wwnn}" "${def_remote_wwpn}"
++		modprobe -rq nvme-fcloop
++	fi
+ 	modprobe -rq nvme-"${nvme_trtype}" 2>/dev/null
+ 	if [[ "${nvme_trtype}" !=3D "loop" ]]; then
+ 		modprobe -rq nvmet-"${nvme_trtype}" 2>/dev/null
+@@ -268,10 +273,6 @@ _cleanup_nvmet() {
+ 	if [[ "${nvme_trtype}" =3D=3D "rdma" ]]; then
+ 		stop_soft_rdma
+ 	fi
+-	if [[ "${nvme_trtype}" =3D=3D "fc" ]]; then
+-		_cleanup_fcloop "${def_local_wwnn}" "${def_local_wwpn}" \
+-			        "${def_remote_wwnn}" "${def_remote_wwpn}"
+-	fi
+ }
+=20
+ _setup_nvmet() {=
 
