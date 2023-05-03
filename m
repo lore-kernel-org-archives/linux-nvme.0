@@ -4,63 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE2A6C7EE22
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0005AC7EE26
 	for <linux-nvme@archiver.kernel.org>; Wed,  3 May 2023 08:38:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1K7B1ulTvYgPG7Sie5nMsi4gf4h2tfGpVQJI7Dvefpg=; b=bBOWpp+3SphTDBIaK8t7Zxl2yJ
-	xcr+/bPWtKWXk/SanCPlR3ayJwMx1RKFEFiQlsDz+vixMONRrWDNp5bzvMZ2+CQZooo6p7TFMKDjc
-	IEfWlmqdy15vcIRQi007KqqdrK6VY1FuaiFoeNiHW/apNCMAufyGwAHHQ0TKn9wpH9P6eBDZXQQ8w
-	jg8MqwJ7nyKf/9GpWF4P0lKVJY27wDYtEqf7ZLvR8rXLebNGIKM2wOf9DCdh3H6BsrLrkvQcEgK/J
-	j2NYyIfCkRTnDAwmkOxH6v8E+QPvzR3vjz/XaAGRX9aHbIIS4igZfCw1dBuRUM0UjBT22KQycMci2
-	8fHZfZXA==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=xSSkXVe1t4+y8aarOchJvEGbB8BgCUoCkb7YG1lURIU=; b=4TSKifSa+q50zT1McKd+HK3+tJ
+	QlTE1sot7Ku4iQaBUtzMQpDD3INrNFuuVbk1TZ8qCRFAuI3AoAU3CucRr6wR2676vwjHAAXKLr4XD
+	Uq9Sc30QuHgc7gn17FmH/dlc83ANqmctB+y6cSbIN5TX6A2+RmCwbb5tJn/1AAAbFObF5Ss6JCuKS
+	PXyxvEEbp/3PmgElMwubc/mYVCc2kOzPQJ5S1t2ppel2s5gJTUTT9AgoMtYjB6onJvrTlHUndf2Os
+	FzQmAxuJmGJKI8wXE8EQpG4jZNnuDww0dPvwBiAbRtVta8q2QxeOwI+qPj1UMh6WEr0MEVHAgV9PW
+	4O9jBCKQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pu80K-003tPB-33;
-	Wed, 03 May 2023 08:38:28 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
-	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pu80H-003tKy-0Q
-	for linux-nvme@lists.infradead.org;
+	id 1pu80I-003tNF-0G;
 	Wed, 03 May 2023 08:38:26 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
+	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
+	id 1pu80E-003tKW-1q
+	for linux-nvme@lists.infradead.org;
+	Wed, 03 May 2023 08:38:24 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 511E02246F;
-	Wed,  3 May 2023 08:38:20 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 118CC21E2D;
+	Wed,  3 May 2023 08:38:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1683103100; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1K7B1ulTvYgPG7Sie5nMsi4gf4h2tfGpVQJI7Dvefpg=;
-	b=XIXDrIli9pt2V82t801AL6ofsvdrmgk5MOQRGziqjipJ6gsLBnzlXuQJ2RQGnFI1whska4
-	dq0VPixIH5VqZY6Q+tnmkSufhSWthnDa9HQLat9Cc+YofgDlO0kF7Y1Wbaph1unYEWa8ds
-	3NqmKYxfCqyzRtBXIf+2NtOqC4GDb6Y=
+	t=1683103099; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=xSSkXVe1t4+y8aarOchJvEGbB8BgCUoCkb7YG1lURIU=;
+	b=VpEQY5CfEMc3+JhWpnWPZ2aUtGmR2UTr2NTOjznUJI1Y2CFed3lXxt2Kt8HMjhdALSDq3t
+	KJ8QJzuWKDzQRgL5gmSH8Tejpapgup+x3nIGUj3AUiWsI829n+NoKtcWErGSiz44E3n0Ve
+	PAKdL5kORLfx+Z2qJXWgSjRlREQvNAQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1683103100;
+	s=susede2_ed25519; t=1683103099;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1K7B1ulTvYgPG7Sie5nMsi4gf4h2tfGpVQJI7Dvefpg=;
-	b=QUr0MSESnCfRUDUbjDlYjtBOkz69rCIadklZK/oE4PQUcF5U2GWnexHAtz54vdgZTP/1ZA
-	OJLkAExOz8XEGUBw==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=xSSkXVe1t4+y8aarOchJvEGbB8BgCUoCkb7YG1lURIU=;
+	b=4I7KDceQZa/IOuVyeAF5u+CTeA4jviHAlt+N8asTEIt9Yg6q7N72JL94neFsFblFNpxglG
+	Vqm/5DEQ+nCIRyAw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 43908139F8;
-	Wed,  3 May 2023 08:38:20 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F2612139F8;
+	Wed,  3 May 2023 08:38:18 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id Uvp7EHwdUmS5dQAAMHmgww
-	(envelope-from <dwagner@suse.de>); Wed, 03 May 2023 08:38:20 +0000
+	id 2mcnO3odUmSudQAAMHmgww
+	(envelope-from <dwagner@suse.de>); Wed, 03 May 2023 08:38:18 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -70,17 +66,15 @@ Cc: linux-kernel@vger.kernel.org,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Hannes Reinecke <hare@suse.de>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH blktests v3 2/2] nvme/rc: Cleanup fc resource before module unloading
-Date: Wed,  3 May 2023 10:38:16 +0200
-Message-Id: <20230503083816.18792-3-dwagner@suse.de>
+Subject: [PATCH blktests v3 0/2] nvme_trtype=fc fixes
+Date: Wed,  3 May 2023 10:38:14 +0200
+Message-Id: <20230503083816.18792-1-dwagner@suse.de>
 X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230503083816.18792-1-dwagner@suse.de>
-References: <20230503083816.18792-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230503_013825_311758_1D055499 
-X-CRM114-Status: GOOD (  10.87  )
+X-CRM114-CacheID: sfid-20230503_013822_757000_CCC0127D 
+X-CRM114-Status: GOOD (  12.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,43 +89,151 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Cleanup all fc resources before unloading the module, so it the
-operations are in reverse order how we setup them.
+I've dropped the unrelated rdma change from v2. With the kernel patches
 
-Also unload the nvme-fcloop after usage.
+  https://lore.kernel.org/linux-nvme/20230418130159.11075-1-dwagner@suse.de/
 
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- tests/nvme/rc | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+I get this here:
 
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index ec0cc2d8d8cc..24803afe8879 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -260,6 +260,11 @@ _cleanup_nvmet() {
- 	shopt -u nullglob
- 	trap SIGINT
- 
-+	if [[ "${nvme_trtype}" == "fc" ]]; then
-+		_cleanup_fcloop "${def_local_wwnn}" "${def_local_wwpn}" \
-+			        "${def_remote_wwnn}" "${def_remote_wwpn}"
-+		modprobe -rq nvme-fcloop
-+	fi
- 	modprobe -rq nvme-"${nvme_trtype}" 2>/dev/null
- 	if [[ "${nvme_trtype}" != "loop" ]]; then
- 		modprobe -rq nvmet-"${nvme_trtype}" 2>/dev/null
-@@ -268,10 +273,6 @@ _cleanup_nvmet() {
- 	if [[ "${nvme_trtype}" == "rdma" ]]; then
- 		stop_soft_rdma
- 	fi
--	if [[ "${nvme_trtype}" == "fc" ]]; then
--		_cleanup_fcloop "${def_local_wwnn}" "${def_local_wwpn}" \
--			        "${def_remote_wwnn}" "${def_remote_wwpn}"
--	fi
- }
- 
- _setup_nvmet() {
+# nvme_img_size=16M nvme_num_iter=10 nvme_trtype=fc ./check nvme
+nvme/002 (create many subsystems and test discovery)         [not run]
+    nvme_trtype=fc is not supported in this test
+nvme/003 (test if we're sending keep-alives to a discovery controller) [passed]
+    runtime  10.252s  ...  10.259s
+nvme/004 (test nvme and nvmet UUID NS descriptors)           [passed]
+    runtime  1.662s  ...  1.810s
+nvme/005 (reset local loopback target)                       [passed]
+    runtime  1.905s  ...  1.925s
+nvme/006 (create an NVMeOF target with a block device-backed ns) [passed]
+    runtime  0.161s  ...  0.149s
+nvme/007 (create an NVMeOF target with a file-backed ns)     [passed]
+    runtime  0.132s  ...  0.098s
+nvme/008 (create an NVMeOF host with a block device-backed ns) [passed]
+    runtime  1.776s  ...  1.760s
+nvme/009 (create an NVMeOF host with a file-backed ns)       [passed]
+    runtime  1.665s  ...  1.738s
+nvme/010 (run data verification fio job on NVMeOF block device-backed ns) [passed]
+    runtime  2.693s  ...  2.744s
+nvme/011 (run data verification fio job on NVMeOF file-backed ns) [passed]
+    runtime  2.981s  ...  3.066s
+nvme/012 (run mkfs and data verification fio job on NVMeOF block device-backed ns) [not run]
+    nvme_img_size must be at least 350m
+nvme/013 (run mkfs and data verification fio job on NVMeOF file-backed ns) [not run]
+    nvme_img_size must be at least 350m
+nvme/014 (flush a NVMeOF block device-backed ns)             [passed]
+    runtime  1.976s  ...  1.963s
+nvme/015 (unit test for NVMe flush for file backed ns)       [passed]
+    runtime  1.945s  ...  1.787s
+nvme/016 (create/delete many NVMeOF block device-backed ns and test discovery) [not run]
+    nvme_trtype=fc is not supported in this test
+nvme/017 (create/delete many file-ns and test discovery)     [not run]
+    nvme_trtype=fc is not supported in this test
+nvme/018 (unit test NVMe-oF out of range access on a file backend) [passed]
+    runtime  1.773s  ...  1.779s
+nvme/019 (test NVMe DSM Discard command on NVMeOF block-device ns) [passed]
+    runtime  1.738s  ...  1.806s
+nvme/020 (test NVMe DSM Discard command on NVMeOF file-backed ns) [passed]
+    runtime  1.600s  ...  1.596s
+nvme/021 (test NVMe list command on NVMeOF file-backed ns)   [passed]
+    runtime  1.698s  ...  1.735s
+nvme/022 (test NVMe reset command on NVMeOF file-backed ns)  [passed]
+    runtime  1.831s  ...  1.853s
+nvme/023 (test NVMe smart-log command on NVMeOF block-device ns) [passed]
+    runtime  1.762s  ...  1.800s
+nvme/024 (test NVMe smart-log command on NVMeOF file-backed ns) [passed]
+    runtime  1.722s  ...  1.747s
+nvme/025 (test NVMe effects-log command on NVMeOF file-backed ns) [passed]
+    runtime  1.713s  ...  1.725s
+nvme/026 (test NVMe ns-descs command on NVMeOF file-backed ns) [passed]
+    runtime  1.672s  ...  1.731s
+nvme/027 (test NVMe ns-rescan command on NVMeOF file-backed ns) [passed]
+    runtime  1.719s  ...  1.764s
+nvme/028 (test NVMe list-subsys command on NVMeOF file-backed ns) [passed]
+    runtime  1.702s  ...  1.701s
+nvme/029 (test userspace IO via nvme-cli read/write interface) [passed]
+    runtime  2.053s  ...  2.180s
+nvme/030 (ensure the discovery generation counter is updated appropriately) [passed]
+    runtime  0.683s  ...  0.631s
+nvme/031 (test deletion of NVMeOF controllers immediately after setup) [passed]
+    runtime  3.438s  ...  3.770s
+nvme/038 (test deletion of NVMeOF subsystem without enabling) [passed]
+    runtime  0.053s  ...  0.057s
+nvme/040 (test nvme fabrics controller reset/disconnect operation during I/O)
+nvme/040 (test nvme fabrics controller reset/disconnect operation during I/O) [passed]
+    runtime  7.737s  ...  7.819srk/blktests/results/tmpdir.nvme.040.5O2': Directory not empty
+nvme/041 (Create authenticated connections)                 
+    runtime  0.275s  ...
+WARNING: Test did not clean up fc device: nvme1
+nvme/041 (Create authenticated connections)                  [failed]
+    runtime  0.275s  ...  0.384s
+    --- tests/nvme/041.out      2023-04-18 17:43:18.167745976 +0200
+    +++ /home/wagi/work/blktests/results/nodev/nvme/041.out.bad 2023-05-03 10:28:09.639741275 +0200
+    @@ -1,6 +1,8 @@
+     Running nvme/041
+     Test unauthenticated connection (should fail)
+    +failed to lookup subsystem for controller nvme1
+     NQN:blktests-subsystem-1 disconnected 0 controller(s)
+     Test authenticated connection
+    -NQN:blktests-subsystem-1 disconnected 1 controller(s)
+    +failed to lookup subsystem for controller nvme1
+    ...
+    (Run 'diff -u tests/nvme/041.out /home/wagi/work/blktests/results/nodev/nvme/041.out.bad' to see the entire diff)
+nvme/042 (Test dhchap key types for authenticated connections) [passed]
+    runtime  4.377s  ...  4.613s
+nvme/043 (Test hash and DH group variations for authenticated connections) [passed]
+    runtime  2.895s  ...  2.736s
+nvme/044 (Test bi-directional authentication)               
+    runtime  1.125s  ...
+WARNING: Test did not clean up fc device: nvme1
+nvme/044 (Test bi-directional authentication)                [failed]
+    runtime  1.125s  ...  1.133s
+    --- tests/nvme/044.out      2023-04-18 17:43:18.167745976 +0200
+    +++ /home/wagi/work/blktests/results/nodev/nvme/044.out.bad 2023-05-03 10:28:20.343798581 +0200
+    @@ -2,9 +2,12 @@
+     Test host authentication
+     NQN:blktests-subsystem-1 disconnected 1 controller(s)
+     Test invalid ctrl authentication (should fail)
+    +failed to lookup subsystem for controller nvme1
+     NQN:blktests-subsystem-1 disconnected 0 controller(s)
+     Test valid ctrl authentication
+    -NQN:blktests-subsystem-1 disconnected 1 controller(s)
+    ...
+    (Run 'diff -u tests/nvme/044.out /home/wagi/work/blktests/results/nodev/nvme/044.out.bad' to see the entire diff)
+nvme/045 (Test re-authentication)                            [passed]
+    runtime  5.689s  ...  5.835s
+nvme/047 (test different queue types for fabric transports)  [not run]
+    nvme_trtype=fc is not supported in this test
+nvme/048 (Test queue count changes on reconnect)             [failed]
+    runtime  16.271s  ...  15.564s
+    --- tests/nvme/048.out      2023-04-18 17:43:18.171745996 +0200
+    +++ /home/wagi/work/blktests/results/nodev/nvme/048.out.bad 2023-05-03 10:28:43.931924866 +0200
+    @@ -1,3 +1,7 @@
+     Running nvme/048
+    +expected state "connecting" not  reached within 5 seconds
+    +FAIL
+    +expected state "connecting" not  reached within 5 seconds
+    +FAIL
+     NQN:blktests-subsystem-1 disconnected 1 controller(s)
+     Test complete
+
+changes:
+v3:
+ - changed subject prefix
+ - drop the rdma cleanup reordering part
+
+v2:
+  - release fc resource in reverse order
+  - https://lore.kernel.org/linux-nvme/20230419084757.24846-1-dwagner@suse.de/
+v1:
+  - https://lore.kernel.org/linux-nvme/20230418123252.3725-1-dwagner@suse.de/
+
+Daniel Wagner (2):
+  nvme/rc: Cleanup fc ports in reverse order
+  nvme/rc: Cleanup fc resource before module unloading
+
+ tests/nvme/rc | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
 -- 
 2.40.0
 
