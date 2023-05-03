@@ -4,153 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56CE5C77B78
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 May 2023 04:05:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D349C77B78
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 May 2023 05:04:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jTrmQoQL4K9XAGZYaQzV5aWM24eksaXQ4Pmg8PZPTD4=; b=4pZHDva9orJmckqYEsP8ediKSK
-	vvb/zNbZTOg4tFDd6zy8umDwCgFW+WbY4MyjZ4Yq1CboF3MRGc/BtImrfT+OHzUMk3jXVrb/scfVi
-	uSNdKsWJLS4tLfyN3DQCr2paGGXe2EIuOACA54TdorBn4O/fNXsHW4fVKVJz9AUcRD727WwPLEz3z
-	KjN6Bln9gzhdky6198gYuvId8JpzHNMZ3eH5fDTkJbGRJou4ECghad6xNjEEq9hJNrIdy0JBFQ+Fa
-	F1DjN91zOu2Rm23g7qeOHjoCc117Wjudw2s//CWMK/7TzanU8f/3KIb48prZkDw7MrZuizgKPK9py
-	+0l9r7fg==;
+	bh=A+qB0Aj3vrEJeIM59+QxnOtZ/5dofK8WhmZC4NhUpnU=; b=OTPT739H+amh89vJPXdsFlUckS
+	VAQ7NGeioLgCB2ZThGDDpAUvdYqkdblIIWRd+KBqauWf9iZq3eF6xORuzcp8Mx1GoMVs+k2R21B+e
+	bqW4Y7WYoipCrd/cmEaTTIyvYV8IvF/PldeWQGbSifam4r1JDet7++raZgc/p6rnSOFiB98VbhUAR
+	E5SfjH6+BOfGa0tT42TRhrmh8P7fmyEo1957Ben8OuYNKtAZkjSHdIffvxU/CZQl1BlaGcElXFh+f
+	myULe3mA/nJoNDWnkrmmxEs6NEFRja2tjJzjTZ54XPxdo5WS/NXT+qVDcf+ZGClX1XdfnFzknExHg
+	GuCTCz4w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pu3jj-003Gxz-1M;
-	Wed, 03 May 2023 04:05:03 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1pu4fF-003M6X-0B;
+	Wed, 03 May 2023 05:04:29 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pu3jf-003Gwi-34
+	id 1pu4fB-003M4m-2I
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 May 2023 04:05:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1683086700; x=1714622700;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=cIOGpPXVw0Z1/kIHe1Z0XRj+4M+Sw264PHQftdNdae0=;
-  b=FbrYWGkoQNa6T2pWu25fCf2mJNfudoAr5EoKAE8oiDj5vaATHnVjOzGV
-   naK1PiGVkfuIDjJytVvb+yy0dtKXZ4A1qw7G6SHe0z9K9rtEMPldlrjmh
-   2sf7wEOp1MUzk0ng9xo8HrCInUkauPQYD7LPj2KCd+a7wZoHWoXSZHRw/
-   FzUlMW63JSNqdUqZ/G/zq18lfd6tIy02ZhQY5Go8O37gM867Faph5eIYi
-   ABv3K84hu7YkZRsZhUlAVro79b6D4sI+hekBo2rP27UJiPZFkvtfKsBY1
-   Ec63NuGPCfQt3RTxAh9oKy9YH9ooR4hcwlKQJVMtnRv8FQNX5DAgniqCL
-   A==;
-X-IronPort-AV: E=Sophos;i="5.99,246,1677513600"; 
-   d="scan'208";a="229660512"
-Received: from mail-bn8nam11lp2168.outbound.protection.outlook.com (HELO NAM11-BN8-obe.outbound.protection.outlook.com) ([104.47.58.168])
-  by ob1.hgst.iphmx.com with ESMTP; 03 May 2023 12:04:54 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FY4uuxxL4d/R4JKuWNCPPOxHjjPmS7fWQJqnkUN/r981SLDQ3fVz5deef5tIUFfUD4unnbikexX7sChZ1NIigWBINzaWaPIL3J0Q+Rex6jWJHyDKosLARYcSlZDlTuPqeJfC/7Q344MGFYwNaZF9sFO9xXPDTOamyhHFbslXRauUpZI8IxJB8NbuZzEhOcxXNaGkdVA1HYa0WYORXqTYtx2VttXj3GIYv7Bp8h3NufmSJjJ8LhpP41RBYiKmgvheByYqpLp+uYhMQeUt0uJs0vLzrmuIlOMxrT6QTbRDExZDVq/jRjUSpairXXNUmpAPrUzuIU4L/TCBGhI+NJDoAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jTrmQoQL4K9XAGZYaQzV5aWM24eksaXQ4Pmg8PZPTD4=;
- b=V1KsBpSKW6ot3wgeGVJklNETcwY3PjL96iPaQAziSounb/gcK251bYdhO63T7GUSqZq8OJOS/BL72V8k7Lxvipo+odNF9DpJgTGIqHyw5AaIui3+18rpvcfYRK+ZRkWJGG8PwKonCLQ1JNKbP8evjraTBYsRoCBk/Jk+lL/M28c24kgwUYFcFJkhS8OalIkeB29W6O4jZgW9QrTOxfpq3KYp0c/QJ6PBMDOuvAbaWcB39bkMPGVwG54HIkYT8rPgNQCjUd09FB8lTBqZZyDIAbXBZgu7Wfl9tmNk0Y1mmb7GwkLpkavjQ2N2AmEqGxU3A+79baBMNRvalpLAJBRSEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jTrmQoQL4K9XAGZYaQzV5aWM24eksaXQ4Pmg8PZPTD4=;
- b=nbka2X8Rki8pBZkpWx2Dxok1lpunL5v9coojt90xWysRXlZ4S7lCmrC9e9q3aN62vs6jyjUR9aVQGqTYWa/KFIQbHXybEI21L1cotnzrBUIlfbs9WN7OQWwY/+rJ+xe4NMCocUrRbyc3q3k7Om1b+/AvOwK2yVT2AGFTqkLJDjs=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- MN2PR04MB6880.namprd04.prod.outlook.com (2603:10b6:208:1e5::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.22; Wed, 3 May
- 2023 04:04:51 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::eb0e:1bef:f266:eceb]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::eb0e:1bef:f266:eceb%9]) with mapi id 15.20.6363.020; Wed, 3 May 2023
- 04:04:50 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Daniel Wagner <dwagner@suse.de>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, Chaitanya
- Kulkarni <kch@nvidia.com>, Shin'ichiro Kawasaki <shinichiro@fastmail.com>
-Subject: Re: [PATCH REPOST blktests v2 3/9] common-xfs: Make size argument
- optional for _xfs_run_fio_verify_io
-Thread-Topic: [PATCH REPOST blktests v2 3/9] common-xfs: Make size argument
- optional for _xfs_run_fio_verify_io
-Thread-Index: AQHZeX1i8rG2HytVkkq4pAqFsLjcxK9G/3mAgAD2XAA=
-Date: Wed, 3 May 2023 04:04:50 +0000
-Message-ID: <i426otrfqbck2q5cwgzre52zsiaqviqz4jchszqmvbvgc64cue@a7d3frn6b64x>
-References: <20230421060505.10132-1-dwagner@suse.de>
- <20230421060505.10132-4-dwagner@suse.de>
- <le6qqxhkbdaacsifz4b3mody53gllg4rzhowm2j62y56y56y6k@pmlukhvwjw24>
- <clh6gmnivvi5e4o7pzr3mxfale3vlymgepdntkjtvub4cazyvk@myovldb6bcnx>
-In-Reply-To: <clh6gmnivvi5e4o7pzr3mxfale3vlymgepdntkjtvub4cazyvk@myovldb6bcnx>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|MN2PR04MB6880:EE_
-x-ms-office365-filtering-correlation-id: 613e3431-8cbf-4aac-93b7-08db4b8b8b13
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  1et4aHqkT4nfhBfrbbLKlOFHbzDTX7KKDHDNZM9FdYd3CO28JXlEqxQXnyB6A8zheNoFVBW8Nrbs3ADDErN2pZDDzyg2md4/qEDIZ36MbXihF/LvUBLtiTutDxSJmxPzlXkB9WKNqZMWpHSSuEykFi2tpH2RJ7o0X5mda25T753bNuZCKmvyXxjhF4V2MWj+VUQ9TZU67ao7nnDqsUEKmywShh3KKP4/zeW9gI9LrOosFgkM5UbyeNbGw9SVzYtnBVUzNNgHysp6doTZpwszaULn6DO2ECqNrqlEC6g0UNnqpvv7XHMJr8LXrxRgV5EJvvc8BOwP9z/1CrODAhR9NIRLCk5PAV8eGdJYO1xYBOrWmOpFTzsw+IhoFLzd8amj2Vw2d5SEs0UKI/J8+kL2PZuQg9qqDxgpb69t41+CboVuNSiGywrablO0crLiGyEDgyfSlwqC0zgTTCUvQGrjpw11NhuV/JYXLAfMN83vGBenjfA9WKUjdHLXQUJFN8hL2uPslQr6KSpf4kR5YTpUZUWE2APjBXePfyeX1ZfmxAsAd2XfzqiF/MkoKn+VW47ajZ7n60ifoGtW333tvvkqYCI89x3QzXdIeMTjxQ+lLDSFInMR0mfL3X54qgdDnzhq
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(4636009)(346002)(376002)(396003)(136003)(39860400002)(366004)(451199021)(83380400001)(54906003)(9686003)(6512007)(6506007)(38100700002)(2906002)(26005)(44832011)(186003)(122000001)(76116006)(91956017)(64756008)(66446008)(66476007)(66556008)(66946007)(82960400001)(478600001)(5660300002)(8936002)(8676002)(41300700001)(38070700005)(33716001)(71200400001)(86362001)(6486002)(316002)(6916009)(4326008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?EOD6OyDL311BZkJ6g25fliG+HiaCTSvGuKydoA6TVnEXPYqvJ4o2TzlYTTWc?=
- =?us-ascii?Q?9Qv6rWsEQn25rhhydhD8RVP3jktaYWU4SXnSYJ8+OQPVnJ7QzJ6e42hINbHm?=
- =?us-ascii?Q?3M3+8ZDu90f3pqZ426H6fVjTtoOpNLpmDCjLqabJFJu260TL+b4ygzaVGoUj?=
- =?us-ascii?Q?N/WNHVI/bjhu0zJ84noPCyjZTw2FW7EV2DgiHgg72P7fVw+SQ0y8NRfrWkzt?=
- =?us-ascii?Q?u8gaqPMHxxjKMFbLuhJDlHQjl/+MKYNqukf/37Fj9ZE8BBo/HUavndk8rkI2?=
- =?us-ascii?Q?hH1o/PhbfSKvPeVtHGP6ix5fSPRS+lxvgdB16yGp4qYqtRi0mrEK0QM5TNdL?=
- =?us-ascii?Q?k0epKJGCTsFybLplo0YrBQCUYB1GmXQJUQcKBQnuavc0+NNtORqB0sv2fwcj?=
- =?us-ascii?Q?e9ZNdJZjsrKbj2MiCthQueYNVxYwHzuvTlJOJQ3WKyHlGZDM0lZGre6tIxZH?=
- =?us-ascii?Q?LLGkufwNvK51qkhyxdzLnXLfeElocq0fyt3CIJ936v6PSzyvP6Q+AiYLChb8?=
- =?us-ascii?Q?BrGlb3JJ2F3+v2WAJN+ixIRZ5pPFbeEYxcakLqlxMjfKJQG4WvndrEahZb72?=
- =?us-ascii?Q?mLT4X0A/L355CHzEqFV8ZRIoC6JpJ3oEsJocr2IV9aybrweTxhFmpMEKlO7f?=
- =?us-ascii?Q?zYuU/wU4yOj9omVilj53/maoZbZ8u3qyVJNHv3Q5ZJKdycdfXAxvQEQ2aHZ4?=
- =?us-ascii?Q?dYU7cZuWPncFBdnimDX3KRIQPw983806DWzsE51dI6VAHU6Faq7DhDIIXses?=
- =?us-ascii?Q?9wVvgy1nrVZwVYkeYZyRAS2ditrdikMcNI3csd0WngSLnZv9ANzuOWhs7cuP?=
- =?us-ascii?Q?Ael10GfYFGan9ymdKZ1dtChYSjS2eGXaFI2G9qHictJyjdj+akSxPjZP1bTa?=
- =?us-ascii?Q?nlMiZiRs7Tlc3gpKlTMhq5gD5vE0yXrR+1SLcM3YZEiHWclIU70VmKZ/ID+Q?=
- =?us-ascii?Q?R91aDaGRoS0BbkGvB9KV502FAxSTBAkfYiP2m0JbIFjaWPSXPZMH0iDWczOT?=
- =?us-ascii?Q?wkd1V2MIUNBa0r+szg6xnJ38UcxE6OyohKSabHq7Z7kN0fpT+POT837H7CJQ?=
- =?us-ascii?Q?7xqRuY7ZqkR9CHH1R2sH27pzw5YoOc+5LQOCAsJlqhmdBtMdXt8UomN3GUF6?=
- =?us-ascii?Q?7Qis2hWAC8Wk8/ZkGkmeEqhVE6mpkRZOx8ksmQdgfCXM7bzxafkz/2Aq/m+L?=
- =?us-ascii?Q?zCwS/Em+P1IACbmfCWyX0miRU7ILdPone0mgWuTSqTXIUwtmzU+9kpnsuIfb?=
- =?us-ascii?Q?5WUBj6vZlhXV0gf29dFr7BwGyYdj7e4MbkrF8jk98f6MWAi/U7xeYr14H3Go?=
- =?us-ascii?Q?X4PMGD5VIIbtE4cWM+D9DqXj0XgflTyGpgghorlXPbUohy5Honfao2So7rFF?=
- =?us-ascii?Q?q58wkpCqW62SRP4mHK2UdHAT1vY1iTe6hqPbxIkFdytSfS7GVUoEAFc3VFPQ?=
- =?us-ascii?Q?YKP38KsRoCsnU/GwM58pjGhrmwjiZfDeZXtD1tuuTYYWGJoS6GofYASngbEH?=
- =?us-ascii?Q?9Hd8oP80QYML20oJGz586164MySMHga1HX8ubEz3akb/FGFR7pKLG4bfwXST?=
- =?us-ascii?Q?amZHxojUapK8ON9zUvgrUgN7XorOFHZgWcW9FO5gM/GCX/orsk6ZI7hGe6Fc?=
- =?us-ascii?Q?Cg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <74ADC7857196C149AECC5FE2E5E8767C@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	Wed, 03 May 2023 05:04:27 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 8D65168AA6; Wed,  3 May 2023 07:04:14 +0200 (CEST)
+Date: Wed, 3 May 2023 07:04:14 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	joshi.k@samsung.com, axboe@kernel.dk, hch@lst.de,
+	xiaoguang.wang@linux.alibaba.com, Keith Busch <kbusch@kernel.org>
+Subject: Re: [RFC 1/3] nvme: skip block cgroups for passthrough commands
+Message-ID: <20230503050414.GA19301@lst.de>
+References: <20230501153306.537124-1-kbusch@meta.com> <20230501153306.537124-2-kbusch@meta.com>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 	TXEVRRNuCkv7LCNCxfzBwYrjjTXnt0sTgqa3f+hzraKl4CISTLoi8aURxqhkx/34L8AQMFRHvDu0RJJX5tXcXU3R6SZhgEYXagd6ZUhe2DYUnrwGdbuJCiHJkDgxePeb4k41YfqYPnmpt0z1FdVWUOVmya9eC9DtMZhLA43v9gYaMdsPsfgd0crmFIgiOmqZgrxNGE9V1lQpfG4NT0zxlESIEt9UmFqTf3nxzu2bB3bfCSAWq0PurUDnn+Lox0Lk+dpjIdZoODGgFFqfI8UVEBLY2zs/YKXO09dWQu8pt34FzX+wuIo3rM8+7Vx6S0y5+F2TxslMH/7mlHAuZeyawwwJFx5bPBl0sZ4Gi2CxVnFaI8tpOyUvuA1/LSRLgIHFGMUXWoW3R4Gi4ennJsSYrx4TkCIS2TYmFHFxSoYs6MdDtZEAquZo0dX/AuQIaWYgt5b7/bw2ST4z8l0RCh+VfD44ye5PfCT/50ZG+4vXWjNeURdx/ZqZ0GdnJJAhBAOFzlH/HiUy4rHCFsQqpo9CgHfyeDunpTY39OqFxzNC0tutmBlJ8hW1YXDVDKFzK3/npNEDNN8n2f2/JHYVvmwor+ZwfV4GZfAQaim9ccFDy3uPm8slCYQLpxpfjclRYtkC+o+Gua8+Dl9xZFTLrn9/YkbnYTtrL+Doiwe3+CCfOuJyBkCI0JbspBt0RPoRaMn7HXsEww3CvcfpPTWBVN71MImvYVZAB/nczUWSvXfil9wSsKYeMtTRBkAiiEs/RK4l9zp+K8Qguz1KfZaNXgrtLQm41eGQRxbwPf6kH+MDnoMJ3gHt78eATjvvWLMNZP8T2fPwtq4VwqccoRGL4WNHEc4ZuZwpAJNIyobiUnU9o5OAAzMIuNjqtjf4I3wqKe6zhRqE238pU5ha7ETvFuwTBwBBwynTmaVV53FzIE8hfAQ=
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 613e3431-8cbf-4aac-93b7-08db4b8b8b13
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 May 2023 04:04:50.8622
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: z5uS/HbTeU39l/91slA8qw7m2mez4tBVEdDVdCemM+XnfRR8JMaCxistmBSnsfX+lW1Kf9DaQTtw6cHzBowhRQ05+SUZz1SGrBKdROO/3W4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB6880
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230501153306.537124-2-kbusch@meta.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230502_210500_089304_7E021C49 
-X-CRM114-Status: GOOD (  15.86  )
+X-CRM114-CacheID: sfid-20230502_220425_900108_DA0F372F 
+X-CRM114-Status: GOOD (  14.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -165,40 +60,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On May 02, 2023 / 15:23, Daniel Wagner wrote:
->  > --- a/tests/nvme/035
-> > > +++ b/tests/nvme/035
-> > > @@ -32,7 +32,7 @@ test_device() {
-> > >  	port=3D$(_nvmet_passthru_target_setup "${subsys}")
-> > >  	nsdev=3D$(_nvmet_passthru_target_connect "${nvme_trtype}" "${subsys=
-}")
-> > > =20
-> > > -	_xfs_run_fio_verify_io "${nsdev}" "900m"
-> > > +	_xfs_run_fio_verify_io "${nsdev}"
-> >=20
-> > On the other hand, this change for nvme/035 does not look good. It runs=
- the
-> > test on TEST_DEV, which may take very long time without TIMEOUT config.
->=20
-> I'll add the nvme_img_size argument here instead (nvme: Make test image s=
-ize
-> configurable)
+On Mon, May 01, 2023 at 08:33:04AM -0700, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
+> 
+> Passthrough requests don't go through the submit_bio() path, so all the
+> overhead of setting up the bio's cgroup is wasted cycles. Provide a path
+> to skip this setup.
 
-If TEST_DEV has the size same as nvme_img_size, xfs log data will consume s=
-ome
-part of the TEST_DEV, then _xfs_run_fio_verify_io with nvme_img_size will f=
-ail.
+These days we should not need to set bi_bdev at all for passthrough,
+so I think we can just drop the assingment.
 
-I think the size argument of _xfs_run_fio_verify_io should be,
-
-   min(size of TEST_DEV, nvm_img_size) - log data size of xfs
-
-But I'm not sure if we can do this calculation correctly.
-
-If the calculation is not possible, it would be the better to leave the har=
-d
-coded constants (1GB for TEST_DEV size and 900mb as fio I/O size) in this t=
-est
-case, because nvme/035 is rather unique in the nvme group, which uses TEST_=
-DEV.=
+But instead of just optimizing for passthrough we really need to optimize
+this assignment and get rid of the cost entirely.  What is so expensive
+about the cgroup lookup?  Is this even for a device that uses cgroups
+at all, or could we come up with a flag to bypass all the lookup unless
+cgroup are anbled?
 
