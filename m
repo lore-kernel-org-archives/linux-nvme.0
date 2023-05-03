@@ -4,67 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 427E2C77B78
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 May 2023 22:46:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1BFBBC77B75
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 May 2023 23:26:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Subject:From:To:MIME-Version:Date:Message-ID:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=dxZ4jXWKdHmkW4HxWXSI1I0mtYzdQWK9aDpo+su/KBU=; b=dTMswabdYCCJJvFmTJdMN4zXoh
-	UzX6hnwefXYJB5ctI0480tePW2lBwxYgRrS7FyqqcH8tNFVSb23R63L8/1Tz7u32IGelBZ8tP3TsV
-	2WUfZ42KDgWTMJH6YbrpajA9kA4Dj3QLWtnvxiqDNR+vuWqj0Lpz4rn5/w82zi0X4OtacFW/rhtQj
-	JUPfFxtDa+JX0MtzJtLfN/FbacCudTTeiklxlsohXllDPpOt+RU1oFCkqUhVCtutMRBka24GlQUOB
-	mzedDz5CpnUm6yakQTMMUEHPi0W+qT5F81ldiGoMYUc8vMbCKCovmrjsq+3xzI/Vbw/5/OXF77azt
-	I76InnPg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=hLF/XohEcFNqvnvCqaB5Hm1eLX3Ize1KonQ+CQXKJVw=; b=jHVnOcE1idX/PXlwhwvaB93ga5
+	B8GIUdcRC096mchGwQFnfoka7k3dq0X7F5FlRif6c8We16rmvXWsVuQ6V4A8gedY8SZ12CrGYQh6M
+	9xX0ay418GIx/Ri9S3Hkh7jhao2RpVJ7eoL8ABKsloLHdoxEy/gpD245Kf6mHp1mvxGoDRQmpFZfM
+	OqXEBAepHpZVkExq6dC15VUOJ4i4bSDD2vN/oW3KRc1oDZweMLR2srjXc3RqOfFlCkVf8vmDDxWX+
+	IK8h/NLjM50fkxbI38maF0vNLxLnWm3TYstiiQT+A+CnlVxegYleXCsCk61owoJJDWE39kWWh5EhQ
+	e8keu+qg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1puLEh-0061tc-0W;
-	Wed, 03 May 2023 22:46:11 +0000
-Received: from mail-pg1-f170.google.com ([209.85.215.170])
+	id 1puLrf-0066GN-1t;
+	Wed, 03 May 2023 23:26:27 +0000
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1puLEc-0061sz-2n
+	id 1puLrc-0066Fj-0R
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 May 2023 22:46:09 +0000
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-528dd896165so3452938a12.2
-        for <linux-nvme@lists.infradead.org>; Wed, 03 May 2023 15:46:05 -0700 (PDT)
+	Wed, 03 May 2023 23:26:25 +0000
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-6434e40394eso819435b3a.1
+        for <linux-nvme@lists.infradead.org>; Wed, 03 May 2023 16:26:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fromorbit-com.20221208.gappssmtp.com; s=20221208; t=1683156382; x=1685748382;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hLF/XohEcFNqvnvCqaB5Hm1eLX3Ize1KonQ+CQXKJVw=;
+        b=v9zPd7ZSzrmH/Z4pdXJn4iiTbRR4V72z8ItrQELaVnaXm47NYtVdQ46I7/Qk5prqEc
+         SvmsN6cg+UQ4XtgAwtt+OiO7S91zyGgFjC/aDEM9LHSH4Q5dQ4Ty4kRvbsb+itqGhm4g
+         1sCraGR1Ddlhtj0eX3OGftB0gMwadfkndLGTxbdhHzCpG6hw8CoiGKrZDqUnixDniOqf
+         z8qUvRiqVU17m8TdkaQsjz8bL5sPpOO3h7xY5NmMWB+aQueIRrI73TJwdgDpDP0RvRuq
+         iwdFlRlW0SegH/SfaNLK/EevvpWaahLVTD7fI90l1hFc7N0r0kfqEOAjRAktTc+MxF2Z
+         L3rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683153964; x=1685745964;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=dxZ4jXWKdHmkW4HxWXSI1I0mtYzdQWK9aDpo+su/KBU=;
-        b=fRrrWL9ao+Q0sxOlTFM6I82W17rCpz0KgHGHx16XKqpuQ6GYDfwEgMs67SNhml4geO
-         5ria35jRQoQbQozKLLNMu3U6z3zkcZ1XoiFt9zZwQ6hhBqD0/l4bxk9wy+FCCzLF8L9y
-         me56pmZEJGJyyHsWTB/99dt9Y8xRSuVXPhwpV/ExzAY1/vqsS4ZOu1sz2Bk/l2wS1juA
-         YzNdGQeRf5kJg2acPUDYyaFr+TjNHGw3a1POZmWPMiJlB/BFsB5m2BcOXsjqWWXCHjG0
-         W3ngEMmb7cIXNcZw/PAeGtxvaWDUWV+1apo4kywfPLfN6mgYeS9VnhmK9Q3M3kYoBcVx
-         fhVw==
-X-Gm-Message-State: AC+VfDz3eBzDAaC5gw4Gs3DaL1G74TNCMVPeZHc8K0knFZhK5IDmf15s
-	Bvj9p/pb84Ez+/gR6Xe4qG/2uOWhyT8=
-X-Google-Smtp-Source: ACHHUZ7FeR5koel+llHKcx4KajVoFE+cd5tAn78wtjaLVWyXBf43h12yKg/Q4TCk7iKHVSXH18efVg==
-X-Received: by 2002:a17:90a:c86:b0:24e:5245:6383 with SMTP id v6-20020a17090a0c8600b0024e52456383mr128266pja.23.1683153964302;
-        Wed, 03 May 2023 15:46:04 -0700 (PDT)
-Received: from ?IPV6:2620:15c:211:201:2c3b:81e:ce21:2437? ([2620:15c:211:201:2c3b:81e:ce21:2437])
-        by smtp.gmail.com with ESMTPSA id e17-20020a17090a4a1100b00247150f2091sm1905869pjh.8.2023.05.03.15.46.03
-        for <linux-nvme@lists.infradead.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 May 2023 15:46:03 -0700 (PDT)
-Message-ID: <d9da387d-b497-5120-5251-0c5d6a4adb71@acm.org>
-Date: Wed, 3 May 2023 15:46:02 -0700
+        d=1e100.net; s=20221208; t=1683156382; x=1685748382;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hLF/XohEcFNqvnvCqaB5Hm1eLX3Ize1KonQ+CQXKJVw=;
+        b=ES706C+PWJo09wd4p6WMJXXI/5b8RAm38JkmS8OEZ+Wz0X48iFFWqjEfHiRpwD/mdp
+         +iU/pTlCqLyh4xGQMGzhix2MiSROa53rM3h8QmxZKCu0OTewMB7Th0I3TNDeUvj4erLf
+         78otKhba1oto7+YCxUyf5YWul8EdsEjzHNvJH8qpNuMZZQNEi8TvYAAIh0SYnITTuBOD
+         J5vvLq0DXYAyHG+DN7U2i8n1UnP2yVgbBUtAko+kJ+tBXXhy+x2Ytj32NO6xElCkPkdu
+         N+b5uap0TsFeSnNyE9kD78Iq9OaShgiYGkEiNsn+UVXRDFe9t/Wcc3Oc/QMy5/3w03yl
+         Eybg==
+X-Gm-Message-State: AC+VfDyXFH1GyZrM6U2SB6ugi5NTvzHf8PB7BuQ01H9Cvs5vEzKqsU03
+	mNFvaDdtoeHgCdwiVZt/TafpbA==
+X-Google-Smtp-Source: ACHHUZ5diKOfcpQ90loaTCwsAsNfI6e6FAnNwsQgCdTnnAlLLXDPm/yrGxfBJffrbIMoxrXjvtw2Gg==
+X-Received: by 2002:a05:6a20:938a:b0:f2:1a72:2a8d with SMTP id x10-20020a056a20938a00b000f21a722a8dmr362232pzh.14.1683156381837;
+        Wed, 03 May 2023 16:26:21 -0700 (PDT)
+Received: from dread.disaster.area (pa49-181-88-204.pa.nsw.optusnet.com.au. [49.181.88.204])
+        by smtp.gmail.com with ESMTPSA id lx11-20020a17090b4b0b00b00246cc751c6bsm1886965pjb.46.2023.05.03.16.26.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 May 2023 16:26:21 -0700 (PDT)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+	(envelope-from <david@fromorbit.com>)
+	id 1puLrU-00B2Ad-T8; Thu, 04 May 2023 09:26:16 +1000
+Date: Thu, 4 May 2023 09:26:16 +1000
+From: Dave Chinner <david@fromorbit.com>
+To: John Garry <john.g.garry@oracle.com>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	martin.petersen@oracle.com, djwong@kernel.org,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+	jejb@linux.ibm.com, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, paul@paul-moore.com,
+	jmorris@namei.org, serge@hallyn.com,
+	Allison Henderson <allison.henderson@oracle.com>,
+	Catherine Hoang <catherine.hoang@oracle.com>
+Subject: Re: [PATCH RFC 12/16] xfs: Add support for fallocate2
+Message-ID: <20230503232616.GG3223426@dread.disaster.area>
+References: <20230503183821.1473305-1-john.g.garry@oracle.com>
+ <20230503183821.1473305-13-john.g.garry@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Content-Language: en-US
-To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-From: Bart Van Assche <bvanassche@acm.org>
-Subject: slab-use-after-free in __ib_process_cq
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230503183821.1473305-13-john.g.garry@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230503_154606_931656_69113480 
-X-CRM114-Status: GOOD (  11.25  )
+X-CRM114-CacheID: sfid-20230503_162624_415423_29F6B293 
+X-CRM114-Status: GOOD (  27.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,128 +103,136 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+On Wed, May 03, 2023 at 06:38:17PM +0000, John Garry wrote:
+> From: Allison Henderson <allison.henderson@oracle.com>
+> 
+> Add support for fallocate2 ioctl, which is xfs' own version of fallocate.
+> Struct xfs_fallocate2 is passed in the ioctl, and xfs_fallocate2.alignment
+> allows the user to specify required extent alignment. This is key for
+> atomic write support, as we expect extents to be aligned on
+> atomic_write_unit_max boundaries.
 
-While testing Jens' for-next branch I encountered a use-after-free
-issue, triggered by test nvmeof-mp/002. This is not the first time I see
-this issue - I had already observed this several weeks ago but I had not
-yet had the time to report this.
+This approach of adding filesystem specific ioctls for minor behavioural
+modifiers to existing syscalls is not a sustainable development
+model.
 
-Thanks,
+If we want fallocate() operations to apply filesystem atomic write
+constraints to operations, then add a new modifier flag to
+fallocate(), say FALLOC_FL_ATOMIC. The filesystem can then
+look up it's atomic write alignment constraints and apply them to
+the operation being performed appropriately.
 
-Bart.
+> The alignment flag is not sticky, so further extent mutation will not
+> obey this original alignment request.
 
-[ 1377.113215] ==================================================================
-[ 1377.119731] BUG: KASAN: slab-use-after-free in __ib_process_cq+0x11c/0x300 [ib_core]
-[ 1377.120242] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: disconnected (10): status 0 id 00000000bcabdd1c
-[ 1377.123791] Read of size 8 at addr ffff88813e60e000 by task ksoftirqd/24/140
-[ 1377.123799]
-[ 1377.123803] CPU: 24 PID: 140 Comm: ksoftirqd/24 Tainted: G        W   E      6.3.0-dbg #36
-[ 1377.123808] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.0-debian-1.16.0-5 04/01/2014
-[ 1377.123812] Call Trace:
-[ 1377.123815]  <TASK>
-[ 1377.123819]  dump_stack_lvl+0x4a/0x80
-[ 1377.123832]  print_address_description.constprop.0+0x33/0x3c0
-[ 1377.123841]  ? preempt_count_sub+0x18/0xc0
-[ 1377.129660] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 64
-[ 1377.132413]  print_report+0xb6/0x260
-[ 1377.133455] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma: cm_id= 00000000bcabdd1c queue->state= 1
-[ 1377.135496]  ? kasan_complete_mode_report_info+0x5c/0x190
-[ 1377.138029] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 65
-[ 1377.138700]  kasan_report+0xc2/0xf0
-[ 1377.139328] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: disconnected (10): status 0 id 000000005baa5f8f
-[ 1377.140304]  ? __ib_process_cq+0x11c/0x300 [ib_core]
-[ 1377.141857] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma: cm_id= 000000005baa5f8f queue->state= 1
-[ 1377.142982]  ? __ib_process_cq+0x11c/0x300 [ib_core]
-[ 1377.144873] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 66
-[ 1377.145854]  __asan_load8+0x69/0x90
-[ 1377.150901] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: disconnected (10): status 0 id 000000007181ad76
-[ 1377.152350]  __ib_process_cq+0x11c/0x300 [ib_core]
-[ 1377.154247] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma: cm_id= 000000007181ad76 queue->state= 1
-[ 1377.155204]  ib_poll_handler+0x46/0x1b0 [ib_core]
-[ 1377.158327] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: disconnected (10): status 0 id 000000005378c1fe
-[ 1377.159140]  irq_poll_softirq+0x1cb/0x2c0
-[ 1377.161765] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 67
-[ 1377.163108]  __do_softirq+0x115/0x645
-[ 1377.163119]  run_ksoftirqd+0x37/0x60
-[ 1377.163305] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma: cm_id= 000000005378c1fe queue->state= 1
-[ 1377.163361] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 68
-[ 1377.163476] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: disconnected (10): status 0 id 00000000a8044607
-[ 1377.163490] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma: cm_id= 00000000a8044607 queue->state= 1
-[ 1377.163527] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 69
-[ 1377.163602] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: disconnected (10): status 0 id 00000000cb366712
-[ 1377.163615] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma: cm_id= 00000000cb366712 queue->state= 1
-[ 1377.163739] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: disconnected (10): status 0 id 00000000f3c4860c
-[ 1377.163752] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma: cm_id= 00000000f3c4860c queue->state= 1
-[ 1377.163818] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: disconnected (10): status 0 id 00000000e4bc69e3
-[ 1377.163829] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma: cm_id= 00000000e4bc69e3 queue->state= 1
-[ 1377.164168] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 70
-[ 1377.164644] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 71
-[ 1377.165068] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 72
-[ 1377.165961]  smpboot_thread_fn+0x2ef/0x400
-[ 1377.165967]  ? _local_bh_enable+0x80/0x80
-[ 1377.339612]  ? sort_range+0x30/0x30
-[ 1377.343292]  kthread+0x185/0x1c0
-[ 1377.347334]  ? kthread_complete_and_exit+0x30/0x30
-[ 1377.351696]  ret_from_fork+0x1f/0x30
-[ 1377.355575]  </TASK>
-[ 1377.359060]
-[ 1377.391814] Allocated by task 15493:
-[ 1377.401149]  kasan_save_stack+0x26/0x50
-[ 1377.408029]  kasan_set_track+0x25/0x30
-[ 1377.412759]  kasan_save_alloc_info+0x1e/0x30
-[ 1377.417555]  __kasan_kmalloc+0x90/0xa0
-[ 1377.421267]  __kmalloc+0x62/0x120
-[ 1377.424637]  nvme_rdma_create_queue_ib+0x1a7/0x710 [nvme_rdma]
-[ 1377.428692]  nvme_rdma_cm_handler+0x4fa/0x6b0 [nvme_rdma]
-[ 1377.432600]  cma_cm_event_handler+0x92/0x290 [rdma_cm]
-[ 1377.436409]  addr_handler+0x16f/0x280 [rdma_cm]
-[ 1377.440030]  process_one_req+0x91/0x290 [ib_core]
-[ 1377.443707]  process_one_work+0x552/0xa30
-[ 1377.447081]  worker_thread+0x90/0x650
-[ 1377.450319]  kthread+0x185/0x1c0
-[ 1377.453412]  ret_from_fork+0x1f/0x30
-[ 1377.456543]
-[ 1377.459034] Freed by task 16086:
-[ 1377.461988]  kasan_save_stack+0x26/0x50
-[ 1377.465075]  kasan_set_track+0x25/0x30
-[ 1377.468085]  kasan_save_free_info+0x2e/0x50
-[ 1377.471143]  ____kasan_slab_free+0x14f/0x1b0
-[ 1377.474226]  __kasan_slab_free+0x12/0x20
-[ 1377.477137]  __kmem_cache_free+0x1b6/0x2d0
-[ 1377.480045]  kfree+0x99/0x160
-[ 1377.482601]  nvme_rdma_destroy_queue_ib+0x1b8/0x250 [nvme_rdma]
-[ 1377.485962]  nvme_rdma_free_queue+0x3e/0x50 [nvme_rdma]
-[ 1377.489117]  nvme_rdma_configure_io_queues+0x138/0x390 [nvme_rdma]
-[ 1377.492549]  nvme_rdma_setup_ctrl+0x137/0x4a0 [nvme_rdma]
-[ 1377.495733]  nvme_rdma_create_ctrl+0x4bd/0x6c0 [nvme_rdma]
-[ 1377.498900]  nvmf_create_ctrl+0x1c8/0x4c0 [nvme_fabrics]
-[ 1377.502024]  nvmf_dev_write+0xb6/0x120 [nvme_fabrics]
-[ 1377.505228]  vfs_write+0x1b7/0x7b0
-[ 1377.507779]  ksys_write+0xbb/0x140
-[ 1377.510274]  __x64_sys_write+0x42/0x50
-[ 1377.512833]  do_syscall_64+0x34/0x80
-[ 1377.515301]  entry_SYSCALL_64_after_hwframe+0x46/0xb0
-[ 1377.518157]
-[ 1377.520010] The buggy address belongs to the object at ffff88813e60e000
-[ 1377.520010]  which belongs to the cache kmalloc-4k of size 4096
-[ 1377.526186] The buggy address is located 0 bytes inside of
-[ 1377.526186]  freed 4096-byte region [ffff88813e60e000, ffff88813e60f000)
-[ 1377.532364]
-[ 1377.534252] The buggy address belongs to the physical page:
-[ 1377.537272] page:0000000098da500d refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x13e608
-[ 1377.541367] head:0000000098da500d order:3 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-[ 1377.545159] flags: 0x4000000000010200(slab|head|zone=2)
-[ 1377.548197] raw: 4000000000010200 ffff88810004d040 dead000000000122 0000000000000000
-[ 1377.551942] raw: 0000000000000000 0000000000040004 00000001ffffffff 0000000000000000
-[ 1377.555683] page dumped because: kasan: bad access detected
-[ 1377.558864]
-[ 1377.560967] Memory state around the buggy address:
-[ 1377.564075]  ffff88813e60df00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-[ 1377.567783]  ffff88813e60df80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-[ 1377.571461] >ffff88813e60e000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[ 1377.575138]                    ^
-[ 1377.577761]  ffff88813e60e080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[ 1377.581487]  ffff88813e60e100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[ 1377.585194] ==================================================================
+IOWs, you want the specific allocation to behave exactly as if an
+extent size hint of the given alignment had been set on that inode.
+Which could be done with:
+
+	ioctl(FS_IOC_FSGETXATTR, &fsx)
+	old_extsize = fsx.fsx_extsize;
+	fsx.fsx_extsize = atomic_align_size;
+	ioctl(FS_IOC_FSSETXATTR, &fsx)
+	fallocate(....)
+	fsx.fsx_extsize = old_extsize;
+	ioctl(FS_IOC_FSSETXATTR, &fsx)
+
+Yeah, messy, but if an application is going to use atomic writes,
+then setting an extent size hint of the atomic write granularity the
+application will use at file create time makes a whole lot of sense.
+This will largely guarantee that any allocation will be aligned to
+atomic IO constraints even when non atomic IO operations are
+performed on that inode. Hence when the application needs to do an
+atomic IO, it's not going to fail because previous allocation was
+not correctly aligned.
+
+All that we'd then need to do for atomic IO is ensure that we fail
+the allocation early if we can't allocate fully sized and aligned
+extents rather than falling back to unaligned extents when there are
+no large enough contiguous free spaces for aligned extents to be
+allocated. i.e. when RWF_ATOMIC or FALLOC_FL_ATOMIC are set by the
+application...
+
+> In addition, extent lengths should
+> always be a multiple of atomic_write_unit_max,
+
+Yup, that's what extent size hint based allocation does - it rounds
+both down and up to hint alignment...
+
+....
+
+> diff --git a/fs/xfs/libxfs/xfs_bmap.c b/fs/xfs/libxfs/xfs_bmap.c
+> index 34de6e6898c4..52a6e2b61228 100644
+> --- a/fs/xfs/libxfs/xfs_bmap.c
+> +++ b/fs/xfs/libxfs/xfs_bmap.c
+> @@ -3275,7 +3275,9 @@ xfs_bmap_compute_alignments(
+>  	struct xfs_alloc_arg	*args)
+>  {
+>  	struct xfs_mount	*mp = args->mp;
+> -	xfs_extlen_t		align = 0; /* minimum allocation alignment */
+> +
+> +	/* minimum allocation alignment */
+> +	xfs_extlen_t		align = args->alignment;
+>  	int			stripe_align = 0;
+
+
+This doesn't do what you think it should. For one, it will get
+overwritten by extent size hints that are set, hence the user will
+not get the alignment they expected in that case.
+
+Secondly, args->alignment is an internal alignment control for
+stripe alignment used later in the allocator when doing file
+extenstion allocations.  Overloading it to pass a user alignment
+here means that initial data allocations will have alignments set
+without actually having set up the allocator parameters for aligned
+allocation correctly.
+
+This will lead to unexpected allocation failure as the filesystem
+fills as the reservations needed for allocation to succeed won't
+match what is actually required for allocation to succeed. It will
+also cause problematic behaviour for fallback allocation algorithms
+that expect only to be called with args->alignment = 1...
+
+>  	/* stripe alignment for allocation is determined by mount parameters */
+> @@ -3652,6 +3654,7 @@ xfs_bmap_btalloc(
+>  		.datatype	= ap->datatype,
+>  		.alignment	= 1,
+>  		.minalignslop	= 0,
+> +		.alignment	= ap->align,
+>  	};
+>  	xfs_fileoff_t		orig_offset;
+>  	xfs_extlen_t		orig_length;
+
+> @@ -4279,12 +4282,14 @@ xfs_bmapi_write(
+>  	uint32_t		flags,		/* XFS_BMAPI_... */
+>  	xfs_extlen_t		total,		/* total blocks needed */
+>  	struct xfs_bmbt_irec	*mval,		/* output: map values */
+> -	int			*nmap)		/* i/o: mval size/count */
+> +	int			*nmap,
+> +	xfs_extlen_t		align)		/* i/o: mval size/count */
+
+
+As per above - IMO this is not the right way to specify aligment for
+atomic IO. A XFS_BMAPI_ATOMIC flag is probably the right thing to
+add from the caller - this also communicates the specific allocation
+failure behaviour required, too.
+
+Then xfs_bmap_compute_alignments() can pull the alignment
+from the relevant buftarg similar to how it already pulls preset
+alignments for extent size hints and/or realtime devices. And then
+the allocator can attempt exact aligned allocation for maxlen, then
+if that fails an exact aligned allocation for minlen, and if both of
+those fail then we return ENOSPC without attempting any unaligned
+allocations...
+
+This also gets rid of the need to pass another parameter to
+xfs_bmapi_write(), and it's trivial to plumb into the XFS iomap and
+fallocate code paths....
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
 
