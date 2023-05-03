@@ -4,106 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 90BEEC77B75
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 May 2023 09:49:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21D7FC77B7F
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 May 2023 11:01:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Type:Content-Transfer-Encoding:Date:Message-ID:To:From:Subject:
-	Mime-Version:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=y34C25Juy+kpYmPl3eAQRnfua1qUExV+Pj6UnTKVf6U=; b=XVLTqzG2/0xsKdWZ/mK1FsJzhT
-	PUF1gaH2TwBK2a7dkT0Z/aFyVE5neqBrLnepdS7aEUiOb5/1zBROVbRwSf06hZ1v3F/P4HnpZ3sOh
-	7x6UIe666ZxD/R3UnGbzQnvvNXpMFCzLq3C3PQFfgmFwTSd/gDdDvWNDmO5GeKBNiXhISZpBu1oFm
-	XaABkwUGf7YvQ/XD81mlEc1u14CS43UK2z6ty2KnHvbWOgi8mcvd0N/D8X9oKq9QHo7wkMBufGNiI
-	duABv7leFujW8beWKGUkbAUbay9MBwiKodivQlIHXavaFmtBqn4JlL4ghQbgRQ9IusEkY74UkwVJX
-	/EA404nA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=giRbGlJ7BtkMEI2nBL5riFwP8VXDM1hYxyICWNGQcyM=; b=IDlLbTG6ugw7DqB0RWGinDhQjH
+	13drn3nHo2glbwe3WDZ+e1q1v+ZFhTQpr5R9yq4EipGJ60oAesHsYgMeHUz8FsUk/zASzBsPbyPdl
+	sAbArpaXp6OzfHQPQC9MYqgSgPCqKCuCkyoxsOIDu4xXQ00erxo7062RixHoKFO238sClcMSxHpRe
+	1iQbmWcBXtyS1vbL/jdtVcoNt/f6cwxN4J/W3ayw/n/Gf4UJ2CDC9pmHmK2iScnNeG6wktcTjOhea
+	/b4JBrvegsqK3UZ1ajSGJXWAX60EbHLv6uGVUzelsFvfH7t1Jv0T2MW93wiV+OIQBGVMkOzQR8QGF
+	mYtgrGcw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pu96w-0044Jw-1q;
-	Wed, 03 May 2023 09:49:22 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1puAEn-004Kcw-0h;
+	Wed, 03 May 2023 11:01:33 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pu96t-0044JE-1j
+	id 1puAEl-004KbT-0r
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 May 2023 09:49:21 +0000
-Received: from epcas2p1.samsung.com (unknown [182.195.41.53])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20230503094914epoutp041338c68617e57c92fee6efa5d559e80a~bmTixs3mb3006930069epoutp04H
-	for <linux-nvme@lists.infradead.org>; Wed,  3 May 2023 09:49:14 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20230503094914epoutp041338c68617e57c92fee6efa5d559e80a~bmTixs3mb3006930069epoutp04H
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1683107354;
-	bh=y34C25Juy+kpYmPl3eAQRnfua1qUExV+Pj6UnTKVf6U=;
-	h=Subject:Reply-To:From:To:Date:References:From;
-	b=p50avasmz+ou4RCNlEWD29CjwXOTzFoMslEiujIjA2roruoDv3LoVCEabxFNkydtV
-	 JjviLDBwbhrYi6e97QqH5aE6aCJkuWuYneUdoMzwfwuqfQGIZfkK6JF7o6sMpyRtme
-	 YzkbOCCLfHq+qGlV/WPEP6JPEpvhgiG3XUvu+eRk=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas2p3.samsung.com (KnoxPortal) with ESMTP id
-	20230503094913epcas2p3d0e602b2ac018dd7b6d06868adaa52d2~bmTiFzuu02311423114epcas2p3I;
-	Wed,  3 May 2023 09:49:13 +0000 (GMT)
-Received: from epsmges2p2.samsung.com (unknown [182.195.36.102]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4QBBx51krZz4x9Pv; Wed,  3 May
-	2023 09:49:13 +0000 (GMT)
-X-AuditID: b6c32a46-b23fd7000001438d-cc-64522e19e3d8
-Received: from epcas2p2.samsung.com ( [182.195.41.54]) by
-	epsmges2p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	26.DA.17293.91E22546; Wed,  3 May 2023 18:49:13 +0900 (KST)
-Mime-Version: 1.0
-Subject: [PATCH 00/15] Change the integrity configuration method in block
-From: Jinyoung CHOI <j-young.choi@samsung.com>
-To: "axboe@kernel.dk" <axboe@kernel.dk>, "kbusch@kernel.org"
-	<kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me"
-	<sagi@grimberg.me>, "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
-	"martin.petersen@oracle.com" <martin.petersen@oracle.com>, "kch@nvidia.com"
-	<kch@nvidia.com>, "johannes.thumshirn@wdc.com" <johannes.thumshirn@wdc.com>,
-	"willy@infradead.org" <willy@infradead.org>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-scsi@vger.kernel.org"
-	<linux-scsi@vger.kernel.org>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-X-CPGS-Detection: blocking_info_exchange
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20230503094912epcms2p4bef206eab1c41a92eba2583a69c74323@epcms2p4>
-Date: Wed, 03 May 2023 18:49:12 +0900
-X-CMS-MailID: 20230503094912epcms2p4bef206eab1c41a92eba2583a69c74323
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-X-CPGSPASS: Y
-X-CPGSPASS: Y
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrBJsWRmVeSWpSXmKPExsWy7bCmma6kXlCKwbzLbBar7/azWbw8pGmx
-	cvVRJove/q1sFotubGOy+Nt1j8li0qFrjBZPr85isth7S9vi8q45bBbzlz1lt+i+voPNYvnx
-	f0wW616/Z7H4/WMOmwO/x/l7G1k8Nq/Q8rh8ttRj06pONo8Jiw4wemxeUu+x+2YDm0dv8zs2
-	j49Pb7F49G1ZxejxeZOcR/uBbqYAnqhsm4zUxJTUIoXUvOT8lMy8dFsl7+B453hTMwNDXUNL
-	C3MlhbzE3FRbJRefAF23zBygZ5QUyhJzSoFCAYnFxUr6djZF+aUlqQoZ+cUltkqpBSk5BeYF
-	esWJucWleel6eaklVoYGBkamQIUJ2Rn/Nu1hLFgmWzFzyk2WBsZO8S5GTg4JAROJT2eesXUx
-	cnEICexglDj0ayKQw8HBKyAo8XeHMEiNsICnxLklN5hAbCEBJYlza2YxgpQICxhI3Oo1Bwmz
-	CehJ/FwyA2yMiEA/q0T3g5usEPN5JWa0P2WBsKUlti/fyghha0j8WNbLDGGLStxc/ZYdxn5/
-	bD5UjYhE672zUDWCEg9+7oaKS0ocOvQV7EwJgXyJDQcCIcI1Em+XH4Aq0Ze41rGRBeITX4kV
-	u9RAwiwCqhJdq1dBXeMisXjDHrCvmAXkJba/ncMMUs4soCmxfpc+xHBliSO3WCAq+CQ6Dv9l
-	h/mpYeNvrOwd854wQbSqSSxqMoIIy0h8PTwfqsRDYvLuFywTGBVnIQJ5FpITZiGcsICReRWj
-	WGpBcW56arFRgRE8XpPzczcxgpO0ltsOxilvP+gdYmTiYDzEKMHBrCTC+6HQL0WINyWxsiq1
-	KD++qDQntfgQoynQ8xOZpUST84F5Iq8k3tDE0sDEzMzQ3MjUwFxJnFfa9mSykEB6Yklqdmpq
-	QWoRTB8TB6dUA1PhW7Xrmul/V0Q/CrpSelmp7iqr3uE8rse/LJsqY9pEhDw0Fczu+hZVcK9P
-	urv08s+KlK8b+FgiLJXk5pXemvn2nozrjlzOJzFL9+RX3c6zbH+RZPDrsdIF1/NCVTzHX50Q
-	VXn88+I26b3LhUyKPsw8uX2tVrt47IWlx3jcNu9qDl20cb9R2z7ty513Cnq69pyfx7oj/vrC
-	8+FPLbKDH7bGPf4WY7ZX4/Dh/9Yn1vCHHH+/f13IpWlL+ZkWTGdZcXRJR5OdgJNTsPDyjRUq
-	LvMq471+le6ryFpbqdzcyRryWvWV3hlH1VYVT/ZX/e9+9+i0Fh9d737l2RkFt48fFv559u0o
-	r33sugQRvY9//yoosRRnJBpqMRcVJwIA53sSilsEAAA=
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230503094912epcms2p4bef206eab1c41a92eba2583a69c74323
-References: <CGME20230503094912epcms2p4bef206eab1c41a92eba2583a69c74323@epcms2p4>
+	Wed, 03 May 2023 11:01:32 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 57D2E2026F;
+	Wed,  3 May 2023 11:01:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1683111685; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=giRbGlJ7BtkMEI2nBL5riFwP8VXDM1hYxyICWNGQcyM=;
+	b=SC5qFogIbsLugdAIrv4hGxyeN3T2YqLS9zASugfAgtpyJ01F/oTNgVLMtcpsHotcQVyxk5
+	x9l95/yUuejIdovQRC0wLRjr1kxdiUE/VGbq8N2wE9xXP0bv1TZSdpg8yS9NfJDyFZ1fIQ
+	ZT4+dRTJx8AJF0FUADr9BaIJp3z1AH8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1683111685;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=giRbGlJ7BtkMEI2nBL5riFwP8VXDM1hYxyICWNGQcyM=;
+	b=joH9aa7l4k8xl5k6sZVzBoaCUNoVdvP2ciAkdZMazpiVVakMp+sWyzJ5HW6JTH3kfEu/Sx
+	W3OuEb/Qft3nOpCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4703B13584;
+	Wed,  3 May 2023 11:01:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id d3ouEQU/UmRCSgAAMHmgww
+	(envelope-from <dwagner@suse.de>); Wed, 03 May 2023 11:01:25 +0000
+Date: Wed, 3 May 2023 13:01:24 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
+	Shin'ichiro Kawasaki <shinichiro@fastmail.com>, Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH blktests v3 09/12] common/fio: Limit number of random jobs
+Message-ID: <2ercejt6r2qjkbpaoueh66nred4ooqb5wskx5m3xn2slb5kasw@zwssje3pm4mu>
+References: <20230503080258.14525-1-dwagner@suse.de>
+ <20230503080258.14525-10-dwagner@suse.de>
+ <99a6cc5f-31b2-787c-f448-53239a351ddd@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <99a6cc5f-31b2-787c-f448-53239a351ddd@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230503_024919_918316_101F7BF2 
-X-CRM114-Status: GOOD (  19.28  )
+X-CRM114-CacheID: sfid-20230503_040131_454157_F02671DB 
+X-CRM114-Status: GOOD (  16.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,95 +88,29 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: j-young.choi@samsung.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In the case of NVMe, it has an integrity payload consisting of one segment.
-So, rather than configuring SG_LIST, it was changed by direct DMA mapping.
+On Wed, May 03, 2023 at 09:41:37AM +0000, Chaitanya Kulkarni wrote:
+> On 5/3/23 01:02, Daniel Wagner wrote:
+> > Limit the number of random threads to 32 for big machines. This still
+> > gives enough randomness but limits the resource usage.
+> >
+> > Signed-off-by: Daniel Wagner <dwagner@suse.de>
+> > ---
+> 
+> I don't think we should change this, the point of all the tests is
+> to not limit the resources but use threads at least equal to
+> $(nproc), see recent patches from lenovo they have 448 cores,
+> limiting 32 is < 10% CPUs and that is really small number for
+> a large machine if we decide to run tests on that machine ...
 
-The page-merge is not performed for the struct bio_vec when creating 
-a integrity payload in block.
-As a result, when creating an integrity paylaod beyond one page, each 
-struct bio_vec is generated, and its bv_len does not exceed the PAGESIZE.
+I just wonder how handle the limits for the job size. Hannes asked to limit it
+to 32 CPUs so that the job size doesn't get small, e.g. nvme_img_size=16M job
+size per job with 448 CPUs is roughly 36kB. Is this good, bad or does it even
+make sense? I don't know.
 
-To solve it, bio_integrity_add_page() should just add to the existing 
-bvec, similar to bio_add_page() and friends. 
-As the bip configuration changed, the code related to sg_list was
-also modified.
-
-(ref: https://lore.kernel.org/linux-nvme/yq18rewbmay.fsf@ca-mkp.ca.oracle.com/T/#t)
-
-
-Tested like this:
-
-- Format (support pi)
-$ sudo nvme format /dev/nvme2n1 --force -n 1 -i 1 -p 0 -m 0 -l 1 -r
-
-- Run FIO
-[global]
-ioengine=libaio
-group_reporting
-
-[job]
-bs=512k
-iodepth=256
-rw=write
-numjobs=8
-direct=1
-runtime=10s
-filename=/dev/nvme2n1
-
-- Result
-...
-[   93.496218] nvme2n1: I/O Cmd(0x1) @ LBA 62464, 1024 blocks, I/O Error (sct 0x2 / sc 0x82) MORE
-[   93.496227] protection error, dev nvme2n1, sector 62464 op 0x1:(WRITE) flags 0x18800 phys_seg 3 prio class 2
-[   93.538788] nvme2n1: I/O Cmd(0x1) @ LBA 6144, 1024 blocks, I/O Error (sct 0x2 / sc 0x82) MORE
-[   93.538798] protection error, dev nvme2n1, sector 6144 op 0x1:(WRITE) flags 0x18800 phys_seg 3 prio class 2
-[   93.566231] nvme2n1: I/O Cmd(0x1) @ LBA 124928, 1024 blocks, I/O Error (sct 0x0 / sc 0x4)
-[   93.566241] I/O error, dev nvme2n1, sector 124928 op 0x1:(WRITE) flags 0x18800 phys_seg 3 prio class 2
-[   93.694147] nvme2n1: I/O Cmd(0x1) @ LBA 64512, 1024 blocks, I/O Error (sct 0x2 / sc 0x82) MORE
-[   93.694155] protection error, dev nvme2n1, sector 64512 op 0x1:(WRITE) flags 0x18800 phys_seg 3 prio class 2
-[   93.694299] nvme2n1: I/O Cmd(0x1) @ LBA 5120, 1024 blocks, I/O Error (sct 0x2 / sc 0x82) MORE
-[   93.694305] protection error, dev nvme2n1, sector 5120 op 0x1:(WRITE) flags 0x18800 phys_seg 3 prio class 2
-...
-
-
-Jinyoung Choi (15):
-  block: bio: rename page_is_mergeable to bio_page_is_mergeable and make
-    non-static
-  block: blk-integiry: add helper functions for bio_integrity_add_page
-  block: bio-integrity: modify bio_integrity_add_page()
-  block: bio-integiry: cleanup bio_integrity_prep
-  block: fix not to apply bip information in blk_rq_bio_prep()
-  block: blk-merge: fix to add the number of integrity segments to the
-    request twice
-  block: blk-merge: fix merging two requests in ll_merge_requests_fn
-  block: add helper function to get the number of integrity segments
-  scsi: add scsi_alloc_integrity_sgtables() for integrity process
-  scsi: change to use blk_rq_nr_integrity_segments() instead of
-    blk_rq_count_integrity_sg()
-  block: blk-integrity: change how to find the number of integrity of
-    bio
-  nvme: rdma: change how to find the number of integrity of request
-  block: add helper function for iteration of bip's bvec
-  block: blk-integrity: change sg-table configuration method for
-    integrity
-  block: blk-integrity: remove blk_rq_count_integrity_sg()
-
- block/bio-integrity.c         | 106 +++++++++++++++++++++------
- block/bio.c                   |   8 +--
- block/blk-integrity.c         | 132 +++++++++-------------------------
- block/blk-merge.c             |  66 +++++++++++++++--
- block/blk.h                   |   7 ++
- drivers/nvme/host/rdma.c      |   2 +-
- drivers/scsi/scsi_lib.c       |  67 ++++++++---------
- include/linux/bio.h           |   7 ++
- include/linux/blk-integrity.h |  10 ++-
- include/linux/blk-mq.h        |   5 ++
- include/linux/bvec.h          |   6 ++
- 11 files changed, 251 insertions(+), 165 deletions(-)
-
--- 
-2.34.1
+My question is what should the policy be? Should we reject configuration which
+try to run too small jobs sizes? Reject anything below 1M for example? Or is
+there a metric which we could as base for a limit calculation (disk geometry)?
 
