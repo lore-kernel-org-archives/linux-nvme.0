@@ -4,67 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B22DC7EE2A
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 May 2023 21:58:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AD7EC77B75
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 May 2023 22:18:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=utvU5QtMOHItQUMD6lrtAs8Wr5pQXqi5OJWCl5bkj/0=; b=Tt5rsKZ4XKJcVgtxR9DjsqYOUl
-	lBx//l2tZX0Kxu97L18J2P2ZkFGI5ErsRmR1S2Sw2NldaSEuGGmNIdf7l+xjV9yyYt8Urb6IARpXT
-	cAZW8CedBtQYMfwSjE2upsyvB75QacV5OU4wou0zU3W2adVCHVEWvHhgcfbd4sXBbQ3I0kX/T8Pu/
-	AEl1U3AFvehKVmezz+ijRjde5YisBmbwVX9kK0BL/XEsrtI1d0QqvIqX5yKf8shr4sbsgklkhMuyz
-	oRHHUEbntfke9D/fhsNYVRuJD1UFBhiszqiiJciftvYzLtittgJLCNWX4b9R6Qq4eF/rFqxmqzIrM
-	Cs9KpdWg==;
+	bh=SZlTdG04TqTF7+/hzp5sSJRuB5EmsmvAFGgc3K+3F0Y=; b=11s2hftxrwvhbfX3GuaqwllXhJ
+	1Ep2KcaX4hi5/smcNBZgMtCy7TfeAuuZ7Bp250urwvsbe9B5OUhB4gY5lCTQkphGxh/ScKqcpvBJ7
+	IhqghIp6CqM6KpFhAYXX6MMtYB8D7BmRfCVa0QyMV9EKb0TDbZ9ihodlZrF4FZ6w2THFDWvMmWwue
+	3djDo+J4WDQSrDt47GBjfz65AMGIm1/skYtLBenOVMErNLtyL7tVpXfUOaCkfc3LBdn888scsuDGC
+	LiZWUE7w/IZFxVKoaL7VC5v2fCN6wBf63qP1avfHguNsCpLguGyCGJobzkR102LtTEBHhxMAx5WEv
+	kCoGdmgg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1puKUx-005vGl-18;
-	Wed, 03 May 2023 21:58:55 +0000
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+	id 1puKnO-005xhy-17;
+	Wed, 03 May 2023 22:17:58 +0000
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1puKUu-005vG5-1M
+	id 1puKnL-005xhD-14
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 May 2023 21:58:53 +0000
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-6436e075166so422366b3a.0
-        for <linux-nvme@lists.infradead.org>; Wed, 03 May 2023 14:58:50 -0700 (PDT)
+	Wed, 03 May 2023 22:17:56 +0000
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1aafa03f541so40955935ad.0
+        for <linux-nvme@lists.infradead.org>; Wed, 03 May 2023 15:17:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20221208.gappssmtp.com; s=20221208; t=1683151130; x=1685743130;
+        d=fromorbit-com.20221208.gappssmtp.com; s=20221208; t=1683152273; x=1685744273;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=utvU5QtMOHItQUMD6lrtAs8Wr5pQXqi5OJWCl5bkj/0=;
-        b=tvIXyHrnLyKA2x1/3ixxeDOmxncJn3NGOI34hCBw6aO0vlBonwcg1VFOG5j3O8dbXI
-         6INVus5KAgUVJq2EsYw5CY9f9Ik16f7QXHgdKbNWrWt5O94CBfM1xEj4/vRg4s+5elHd
-         FSc1O2VPz2/GHRq/pdkaGfYgQ1P1sRS6Bs+ZcHCC9woSFJBCySsUZM4dSURJ+ynG7Xot
-         CHzooPFNGVLm90Gu2WAvozhH/rrV4glEWUZhEstADJ6Jqv1kQEEuy+jJSX9CeWXFshVu
-         SdRH0tPycWs8EbaHXYCPYCihh0qtb5/2zAqhhJ6PbpqHs5YaC8mvf27EKhScsw321GZw
-         6hHg==
+        bh=SZlTdG04TqTF7+/hzp5sSJRuB5EmsmvAFGgc3K+3F0Y=;
+        b=39WVkULqHXRDJ4WUYe73OzFA/R2wak2Byvue6BmOkCk/OUZ7TIFexiujMgqDtXjhoJ
+         vY8UhclcPr7rl4Zv2wbm/zdzS0ni41dpAUltS0ZIuTMSWKNEFldMe8omTChgh7JjGHw9
+         rVsx1Yw28FjKmAmsO5frsdqvSKA4ZJrGU5Gp+Q9w3fCsWnJVySoTDQBrKpXRB+VVwMsd
+         2mP535YsEeeVtqm0f04weAqu0Ix/cKqOgjAhn6wHaEI53Xkx+scS9ruET4oev/lz/RR9
+         HuYeHautziBafZRfpxfmTZFWObUFN65QoOJpAc8Hd0Mv9bIad3zclXTZRNBKp80hSzAf
+         fzBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683151130; x=1685743130;
+        d=1e100.net; s=20221208; t=1683152273; x=1685744273;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=utvU5QtMOHItQUMD6lrtAs8Wr5pQXqi5OJWCl5bkj/0=;
-        b=UU8aNFarEf7cSouhnpyYBX6fAVe04LerQRvAzrZDEABPvX0q20X1AYbaalh+itEFko
-         49ql3vk2XaYIUKaoAK1uv2vADQ5sQRJK4GE+eieUzkBvsrwjctOAJT77fKcWQyP9x6gN
-         9jtVe8BRsl2V2eHj/hOgZrlW8hZZmCLazhWxCusuZwBP0IsglvvpvzvEG3kLQ5cmyluW
-         dYezpgwHgxvuZwuU+JzlO8JXaDrWo3llDgQDcqx/k8k7SFnPj7+DF0XVw3qaZ5YTaN0s
-         d837ePLmwffwoW+OUkMN+JaTS/RRNNYZIkHBATfxzWOm0cyU7+PvEwLA+5M1eJxDYk35
-         4keA==
-X-Gm-Message-State: AC+VfDzdKDUshtu2snUlMrSPOEBii8WxNn0ygIYkT8B2cKlAy8P7NgL4
-	xSjJEc2EnDO3FEkl6nti4jZ4lQ==
-X-Google-Smtp-Source: ACHHUZ6p7TCZTMBYI9apxL3KzrmzkMEgHVXC+J+6oGMOdBUet/QJwy+eVYfp51Of6HElOgcccqSInQ==
-X-Received: by 2002:a05:6a20:1593:b0:f3:3578:6699 with SMTP id h19-20020a056a20159300b000f335786699mr28979966pzj.45.1683151130066;
-        Wed, 03 May 2023 14:58:50 -0700 (PDT)
+        bh=SZlTdG04TqTF7+/hzp5sSJRuB5EmsmvAFGgc3K+3F0Y=;
+        b=XR5oDBvB/gZ98Z6ASNSPvQU0Bs8MwJh1Em+yWTCarBb1OEzbw8Ne3IguLU0n5+1MaF
+         ejPI95LuvVCXeEU04abj+vRPc/Rtrb8umocPaLmYdZgjcQ13nE7TgwkdsAP54/Inf7hl
+         NhZnq1nu/WwMlUWR7B2GfZ2R5v1GFETznQhnmbNXDtuv0sZUfgPy7gchxVTJa0Wnm9OG
+         O7zf5FF9LzenC5o21Nq/ubmJ484MiiZm+z9K0odT8smOCJMctvlJHqWnwt7uyjuJmv3y
+         UJhAMs6CTQ5xcFcx0sQU7Uq5m1jzh30D0IIZbNNKCgxw4sCJxXArV1ti/OLjYUtMP9Ws
+         F/TQ==
+X-Gm-Message-State: AC+VfDygJCjV8aeUqhe7YVk6rZh0cXu7SLgO7gZzrLm/YFZrn7vDg7eJ
+	YWn4FLtABCHlSVzJk0LcH/oqyw==
+X-Google-Smtp-Source: ACHHUZ6w6FNkuZBKWIHG+izk4/mp1lXBQ8ap+jb9gyt4ryTRiawSHwELQjohp4JJfay700Tr/2IfyQ==
+X-Received: by 2002:a17:902:be08:b0:1a6:d8a3:3346 with SMTP id r8-20020a170902be0800b001a6d8a33346mr1422648pls.31.1683152272764;
+        Wed, 03 May 2023 15:17:52 -0700 (PDT)
 Received: from dread.disaster.area (pa49-181-88-204.pa.nsw.optusnet.com.au. [49.181.88.204])
-        by smtp.gmail.com with ESMTPSA id y72-20020a62644b000000b006372791d708sm24025265pfb.104.2023.05.03.14.58.49
+        by smtp.gmail.com with ESMTPSA id q7-20020a170902bd8700b001a6ff7bd4d9sm22112696pls.15.2023.05.03.15.17.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 May 2023 14:58:49 -0700 (PDT)
+        Wed, 03 May 2023 15:17:51 -0700 (PDT)
 Received: from dave by dread.disaster.area with local (Exim 4.92.3)
 	(envelope-from <david@fromorbit.com>)
-	id 1puKUo-00B0iy-Si; Thu, 04 May 2023 07:58:46 +1000
-Date: Thu, 4 May 2023 07:58:46 +1000
+	id 1puKnF-00B0ur-4U; Thu, 04 May 2023 08:17:49 +1000
+Date: Thu, 4 May 2023 08:17:49 +1000
 From: Dave Chinner <david@fromorbit.com>
 To: John Garry <john.g.garry@oracle.com>
 Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
@@ -75,19 +75,18 @@ Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
 	linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-security-module@vger.kernel.org, paul@paul-moore.com,
-	jmorris@namei.org, serge@hallyn.com,
-	Prasad Singamsetty <prasad.singamsetty@oracle.com>
-Subject: Re: [PATCH RFC 02/16] fs/bdev: Add atomic write support info to statx
-Message-ID: <20230503215846.GE3223426@dread.disaster.area>
+	jmorris@namei.org, serge@hallyn.com
+Subject: Re: [PATCH RFC 03/16] xfs: Support atomic write for statx
+Message-ID: <20230503221749.GF3223426@dread.disaster.area>
 References: <20230503183821.1473305-1-john.g.garry@oracle.com>
- <20230503183821.1473305-3-john.g.garry@oracle.com>
+ <20230503183821.1473305-4-john.g.garry@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230503183821.1473305-3-john.g.garry@oracle.com>
+In-Reply-To: <20230503183821.1473305-4-john.g.garry@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230503_145852_482095_0DAFFE3E 
-X-CRM114-Status: GOOD (  29.23  )
+X-CRM114-CacheID: sfid-20230503_151755_373634_11BC8449 
+X-CRM114-Status: GOOD (  23.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,144 +101,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, May 03, 2023 at 06:38:07PM +0000, John Garry wrote:
-> From: Prasad Singamsetty <prasad.singamsetty@oracle.com>
+On Wed, May 03, 2023 at 06:38:08PM +0000, John Garry wrote:
+> Support providing info on atomic write unit min and max.
 > 
-> Extend statx system call to return additional info for atomic write support
-> support if the specified file is a block device.
+> Darrick Wong originally authored this change.
 > 
-> Add initial support for a block device.
-> 
-> Signed-off-by: Prasad Singamsetty <prasad.singamsetty@oracle.com>
 > Signed-off-by: John Garry <john.g.garry@oracle.com>
 > ---
->  block/bdev.c              | 21 +++++++++++++++++++++
->  fs/stat.c                 | 10 ++++++++++
->  include/linux/blkdev.h    |  4 ++++
->  include/linux/stat.h      |  2 ++
->  include/uapi/linux/stat.h |  7 ++++++-
->  5 files changed, 43 insertions(+), 1 deletion(-)
+>  fs/xfs/xfs_iops.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 > 
-> diff --git a/block/bdev.c b/block/bdev.c
-> index 1795c7d4b99e..6a5fd5abaadc 100644
-> --- a/block/bdev.c
-> +++ b/block/bdev.c
-> @@ -1014,3 +1014,24 @@ void bdev_statx_dioalign(struct inode *inode, struct kstat *stat)
->  
->  	blkdev_put_no_open(bdev);
->  }
+> diff --git a/fs/xfs/xfs_iops.c b/fs/xfs/xfs_iops.c
+> index 24718adb3c16..e542077704aa 100644
+> --- a/fs/xfs/xfs_iops.c
+> +++ b/fs/xfs/xfs_iops.c
+> @@ -614,6 +614,16 @@ xfs_vn_getattr(
+>  			stat->dio_mem_align = bdev_dma_alignment(bdev) + 1;
+>  			stat->dio_offset_align = bdev_logical_block_size(bdev);
+>  		}
+> +		if (request_mask & STATX_WRITE_ATOMIC) {
+> +			struct xfs_buftarg	*target = xfs_inode_buftarg(ip);
+> +			struct block_device	*bdev = target->bt_bdev;
 > +
-> +/*
-> + * Handle statx for block devices to get properties of WRITE ATOMIC
-> + * feature support.
-> + */
-> +void bdev_statx_atomic(struct inode *inode, struct kstat *stat)
-> +{
-> +	struct block_device *bdev;
-> +
-> +	bdev = blkdev_get_no_open(inode->i_rdev);
-> +	if (!bdev)
-> +		return;
-> +
-> +	stat->atomic_write_unit_min = queue_atomic_write_unit_min(bdev->bd_queue);
-> +	stat->atomic_write_unit_max = queue_atomic_write_unit_max(bdev->bd_queue);
-> +	stat->attributes |= STATX_ATTR_WRITE_ATOMIC;
-> +	stat->attributes_mask |= STATX_ATTR_WRITE_ATOMIC;
-> +	stat->result_mask |= STATX_WRITE_ATOMIC;
-> +
-> +	blkdev_put_no_open(bdev);
-> +}
-> diff --git a/fs/stat.c b/fs/stat.c
-> index 7c238da22ef0..d20334a0e9ae 100644
-> --- a/fs/stat.c
-> +++ b/fs/stat.c
-> @@ -256,6 +256,14 @@ static int vfs_statx(int dfd, struct filename *filename, int flags,
->  			bdev_statx_dioalign(inode, stat);
->  	}
->  
-> +	/* Handle STATX_WRITE_ATOMIC for block devices */
-> +	if (request_mask & STATX_WRITE_ATOMIC) {
-> +		struct inode *inode = d_backing_inode(path.dentry);
-> +
-> +		if (S_ISBLK(inode->i_mode))
-> +			bdev_statx_atomic(inode, stat);
-> +	}
+> +			stat->atomic_write_unit_min = queue_atomic_write_unit_min(bdev->bd_queue);
+> +			stat->atomic_write_unit_max = queue_atomic_write_unit_max(bdev->bd_queue);
 
-This duplicates STATX_DIOALIGN bdev handling.
+I'm not sure this is right.
 
-Really, the bdev attribute handling should be completely factored
-out of vfs_statx() - blockdevs are not the common fastpath for stat
-operations. Somthing like:
+Given that we may have a 4kB physical sector device, XFS will not
+allow IOs smaller than physical sector size. The initial values of
+queue_atomic_write_unit_min/max() will be (1 << SECTOR_SIZE) which
+is 512 bytes. IOs done with 4kB sector size devices will fail in
+this case.
 
-	/*
-	 * If this is a block device inode, override the filesystem
-	 * attributes with the block device specific parameters
-	 * that need to be obtained from the bdev backing inode.
-	 */
-	if (S_ISBLK(d_backing_inode(path.dentry)->i_mode))
-		bdev_statx(path.dentry, stat);
+Further, XFS has a software sector size - it can define the sector
+size for the filesystem to be 4KB on a 512 byte sector device. And
+in that case, the filesystem will reject 512 byte sized/aligned IOs
+as they are smaller than the filesystem sector size (i.e. a config
+that prevents sub-physical sector IO for 512 logical/4kB physical
+devices).
 
-And then all the overrides can go in the one function that doesn't
-need to repeatedly check S_ISBLK()....
+There may other filesystem constraints - realtime devices have fixed
+minimum allocation sizes which may be larger than atomic write
+limits, which means that IO completion needs to split extents into
+multiple unwritten/written extents, extent size hints might be in
+use meaning we have different allocation alignment constraints to
+atomic write constraints, stripe alignment of extent allocation may
+through out atomic write alignment, etc.
 
+These are all solvable, but we need to make sure here that the
+filesystem constraints are taken into account here, not just the
+block device limits.
 
-> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-> index 6b6f2992338c..19d33b2897b2 100644
-> --- a/include/linux/blkdev.h
-> +++ b/include/linux/blkdev.h
-> @@ -1527,6 +1527,7 @@ int sync_blockdev_range(struct block_device *bdev, loff_t lstart, loff_t lend);
->  int sync_blockdev_nowait(struct block_device *bdev);
->  void sync_bdevs(bool wait);
->  void bdev_statx_dioalign(struct inode *inode, struct kstat *stat);
-> +void bdev_statx_atomic(struct inode *inode, struct kstat *stat);
->  void printk_all_partitions(void);
->  #else
->  static inline void invalidate_bdev(struct block_device *bdev)
-> @@ -1546,6 +1547,9 @@ static inline void sync_bdevs(bool wait)
->  static inline void bdev_statx_dioalign(struct inode *inode, struct kstat *stat)
->  {
->  }
-> +static inline void bdev_statx_atomic(struct inode *inode, struct kstat *stat)
-> +{
-> +}
->  static inline void printk_all_partitions(void)
->  {
->  }
-
-That also gets rid of the need for all these fine grained exports
-out of the bdev code for statx....
-
-> diff --git a/include/linux/stat.h b/include/linux/stat.h
-> index 52150570d37a..dfa69ecfaacf 100644
-> --- a/include/linux/stat.h
-> +++ b/include/linux/stat.h
-> @@ -53,6 +53,8 @@ struct kstat {
->  	u32		dio_mem_align;
->  	u32		dio_offset_align;
->  	u64		change_cookie;
-> +	u32		atomic_write_unit_max;
-> +	u32		atomic_write_unit_min;
->  };
->  
->  /* These definitions are internal to the kernel for now. Mainly used by nfsd. */
-> diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
-> index 7cab2c65d3d7..c99d7cac2aa6 100644
-> --- a/include/uapi/linux/stat.h
-> +++ b/include/uapi/linux/stat.h
-> @@ -127,7 +127,10 @@ struct statx {
->  	__u32	stx_dio_mem_align;	/* Memory buffer alignment for direct I/O */
->  	__u32	stx_dio_offset_align;	/* File offset alignment for direct I/O */
->  	/* 0xa0 */
-> -	__u64	__spare3[12];	/* Spare space for future expansion */
-> +	__u32	stx_atomic_write_unit_max;
-> +	__u32	stx_atomic_write_unit_min;
-> +	/* 0xb0 */
-> +	__u64	__spare3[11];	/* Spare space for future expansion */
->  	/* 0x100 */
->  };
-
-No documentation on what units these are in. Is there a statx() man
-page update for this addition?
+As such, it is probably better to query these limits at filesystem
+mount time and add them to the xfs buftarg (same as we do for
+logical and physical sector sizes) and then use the xfs buftarg
+values rather than having to go all the way to the device queue
+here. That way we can ensure at mount time that atomic write limits
+don't conflict with logical/physical IO limits, and we can further
+constrain atomic limits during mount without always having to
+recalculate those limits from first principles on every stat()
+call...
 
 Cheers,
 
