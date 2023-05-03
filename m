@@ -4,77 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6E84C77B78
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 May 2023 18:50:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC796C7EE2D
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 May 2023 18:53:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5FYuBoy706BNjZQW8G4Brm2K3CMMFujMy+1qdI/x7nE=; b=RvFZLcU8pma40vsexeAU9hMGcF
-	hc1sTkAuZmMImWyQIL/HwPPMDt4imLBqGRrhqxV0kOGne/oeq7udnQ0DLFFA2c3oRVFiWM6W2bOYr
-	kHxqIyN38DEVzl38eWC55jh+RrFPRDEKEWd0lsVpTDiiz7YIKIO+0+o3n0N2wByBS/UAaCKlHG2Fb
-	WUY89yKc5A9G+ItqZ/ka5lTuBA7ricw0Enkb5IJi1vIz/FqB+cB2sTbB49odGoou4OhxpUf6HxfEv
-	IPlvLLQkqe5xlDcO+g7JxcPipaZRjEcvHToJYvn+ONY1NuTGM14xBsiqdPx6hNpBIgizsOoLAYQ3d
-	jlxgxw3A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Z+MqBmgFQT9EAg68aVVWwOGnedZXDbTyS48leNsrMz8=; b=I2ZzA7FDUmi8MzEldPX4NMeS9l
+	thoSjlQ6Ot5JzkAXGn8UIFGme3PyGEHucQ2Vusxr89hYsGVVFHBPKXZXVzRgFWk57nJhnNkhWXWvp
+	IEE77wLB6CjoFNSWyAlpzspWr6QnG7akHR4rCbmz55uY2/PRweNpy6tGgIaZ71xlrmjHCQGGuKxIX
+	HYiqJN245jHHaBaWtd9ckrdHzxWx3mpzTtBCdCy9y24IW4xGuN5vS0zc9OsI6in22j7Gf2beZeDVP
+	rN+ipX+jXKg9uOWA/FnGNXfrlJqGtzhXkdFYm+kdfa1tpnVdIwUK+PUmkHfdKJ05ww/i7LrwUuPGi
+	MrRlvCNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1puHYC-005UG0-1L;
-	Wed, 03 May 2023 18:50:04 +0000
-Received: from mail-pf1-f170.google.com ([209.85.210.170])
+	id 1puHbr-005VCk-2W;
+	Wed, 03 May 2023 18:53:51 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1puHY9-005UEV-0b
+	id 1puHbo-005VC4-2T
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 May 2023 18:50:02 +0000
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-64115e652eeso7200385b3a.0
-        for <linux-nvme@lists.infradead.org>; Wed, 03 May 2023 11:50:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683139800; x=1685731800;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5FYuBoy706BNjZQW8G4Brm2K3CMMFujMy+1qdI/x7nE=;
-        b=XHLExplN52borg7pW6hzx2lrHyM9IMV4WcjMWKKGYqY8PnV26503hYyFm3lPeVzhmB
-         GWkjctHLlkF0rgCwcgBNhKjn6S9qNP/cA9Z2Y+dpXe55qpbr1GxahGwYp/rtyKgkPha7
-         kv9FMAuxWre6Fq4lO39IEt1JDNBPkOf0HKz/dlvrAtkHpI6FcBNw/J7sF9UtnaFmvt45
-         k0wjsPyCrvZe13kkrNh6dUdV6rIfIcEG3QwxB9sT+nbL4bhGwJk2oBjcQ6d2Kr1BbzKa
-         HVIKbYSobAG6iWz0t0m9bajfmrq38SLzZ6ius8ZR6N3MMQUhwAOfSka4wrt623Ev3C7W
-         RCYg==
-X-Gm-Message-State: AC+VfDzbKo0aD/tG58MmC9NiU91jLeMrRGpCsrn40NcuB+gPFEQZS+CU
-	/W39468EBGIKKNnVPHX+HLw=
-X-Google-Smtp-Source: ACHHUZ6klmcPoNpDdFKQ5xArJAJNygpTD6IHFf4dsBUkLvzbtXVUDRVlRebTNnMEFNkXvN71piNtKQ==
-X-Received: by 2002:a05:6a20:12c4:b0:ee:cc76:5023 with SMTP id v4-20020a056a2012c400b000eecc765023mr3789944pzg.22.1683139799941;
-        Wed, 03 May 2023 11:49:59 -0700 (PDT)
-Received: from ?IPV6:2620:15c:211:201:c683:a90b:5f41:5878? ([2620:15c:211:201:c683:a90b:5f41:5878])
-        by smtp.gmail.com with ESMTPSA id t3-20020a056a00138300b006338e0a9728sm23946563pfg.109.2023.05.03.11.49.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 May 2023 11:49:59 -0700 (PDT)
-Message-ID: <ab663865-9099-8f6b-de1e-30c1356d5078@acm.org>
-Date: Wed, 3 May 2023 11:49:56 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH RFC 16/16] nvme: Support atomic writes
-Content-Language: en-US
-To: John Garry <john.g.garry@oracle.com>, axboe@kernel.dk, kbusch@kernel.org,
- hch@lst.de, sagi@grimberg.me, martin.petersen@oracle.com, djwong@kernel.org,
- viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
- jejb@linux.ibm.com
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-security-module@vger.kernel.org, paul@paul-moore.com,
- jmorris@namei.org, serge@hallyn.com, Alan Adamson <alan.adamson@oracle.com>
+	Wed, 03 May 2023 18:53:49 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 10CB5612BB;
+	Wed,  3 May 2023 18:53:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D155C433EF;
+	Wed,  3 May 2023 18:53:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1683140027;
+	bh=Tt1IVHowAm04rV7fMokQMuz8wTkl3aCyv7RhwH49rX8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=C1UFMFDLq86Q5Uu322j2TdntYxiPuJOCbpIS7B6ayxvqLNiMGNapad5nAW/v5P5JW
+	 cBfTMV+BAg84mI/i2e4OKxY8q8XY3QenwEn/MfMlqjEYL3pLMRsJa8q5Vgi3rSNz2u
+	 aAn4CmqwI0ijiIwqpbK1hCzSarSQBXVhC+Bk9ohQ9VpOv53cB6iRHpXQ4+wSwWTjQt
+	 clw5Ti3m5jtb197SbHMoi0iJ1Yap1FVnhYGiKXe0mUkwoLq3pHzbeHTlO/B4tWsro0
+	 h1a4Sl2gjYKiqUnjy42PJgBKq7qxp+SEltgCrHCLKZ/q9814CPM7o6fbNEtXkiIwwx
+	 3DyWjGnKXwMiw==
+Date: Wed, 3 May 2023 12:53:43 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: John Garry <john.g.garry@oracle.com>
+Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	martin.petersen@oracle.com, djwong@kernel.org,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+	jejb@linux.ibm.com, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, paul@paul-moore.com,
+	jmorris@namei.org, serge@hallyn.com
+Subject: Re: [PATCH RFC 06/16] block: Limit atomic writes according to bio
+ and queue limits
+Message-ID: <ZFKtt2Z5BPyV9gHJ@kbusch-mbp.dhcp.thefacebook.com>
 References: <20230503183821.1473305-1-john.g.garry@oracle.com>
- <20230503183821.1473305-17-john.g.garry@oracle.com>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20230503183821.1473305-17-john.g.garry@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <20230503183821.1473305-7-john.g.garry@oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230503183821.1473305-7-john.g.garry@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230503_115001_221588_FC93DDA5 
-X-CRM114-Status: UNSURE (   8.72  )
+X-CRM114-CacheID: sfid-20230503_115348_847329_22433525 
+X-CRM114-Status: UNSURE (   8.41  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -90,12 +83,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/3/23 11:38, John Garry wrote:
-> +			if (!(boundary & (boundary - 1))) {
+On Wed, May 03, 2023 at 06:38:11PM +0000, John Garry wrote:
+> +	unsigned int size = (atomic_write_max_segments - 1) *
+> +				(PAGE_SIZE / SECTOR_SIZE);
 
-Please use is_power_of_2() instead of open-coding it.
-
-Thanks,
-
-Bart.
+Maybe use PAGE_SECTORS instead of recalculating it.
 
