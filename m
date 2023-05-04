@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0781BC7EE21
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 09:13:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 463C1C7EE22
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 09:13:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jKAGQVKaUUQJ0wwOeUiQWcm9V9pH23Rwd+Th8ukWdzU=; b=H0F05RMPEjlUSTMYPf1+0S+Pq1
-	5kvsT7NdPPr2sg8CCcky2/qNOrPygOSEX7iacEzLtmGZIS/PfeDQqN4fXO/Wyh9LM8VOR/q73e5Gw
-	hj1ekV82nXbUmCQLDmyWhi+BOejEl/sH6A2NGJn3eFBJ1WlGd4jCxPTpr424Pt2lKdKQcGT9xWI9r
-	5MScuUuRWvByJWs07+JbMQPHOoRMJPO6s+akI+o14V4qroFWmlegYGWwRYLUZ0AnXTMgHisSqyj67
-	W2vQ+QAHcT+8WQjDWv7QHyjjYjC80+VW1aGtJkOXEaudyLBR0ctcykC4rFKjg5/EHQjFW21f2dlkC
-	kMEj272A==;
+	bh=qGF7UmaBH/FVgI9XfFWCjX+CSRSvTZ2zRs9tkAUw7Fk=; b=3WgSqGwlR4Fa/Ec/Z125dz4oS7
+	FZ+VyEaTpOsRuXyjpd7KCLyBcV6ci2+vABwXi9AUi/y1twJIrNYWb3m9p/k2UWlqCDJ3Ab55mX9Fx
+	zHw+AL76EwxuLoQFwJSJSYHwZ39NaO2R98XaqYuhLOnjG/z4J+lm9iAGp9Fs0o/ONoxDYN0Deh69p
+	dttv3DGzbM1VuwSf1L8lYwaK+Y53qXZX1HorCe1qraCQEsT+38kfAN/KnM5lyFuMolU9VED36xZlp
+	RioeYMNkhAh7SK1sx7O37hjp2vEFSa9FV1kA5PT2BHYIAVkXnsqwNf2QqScFPxWb1pvCB5DzUOsES
+	TxhRXFIw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1puV1a-007Dnl-2z;
-	Thu, 04 May 2023 09:13:18 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1puV1c-007DpX-2h;
+	Thu, 04 May 2023 09:13:20 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1puV1S-007DfX-1o
+	id 1puV1T-007DgV-2M
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 May 2023 09:13:14 +0000
+	Thu, 04 May 2023 09:13:15 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4865E209AD;
-	Thu,  4 May 2023 09:13:06 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B739133935;
+	Thu,  4 May 2023 09:13:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1683191586; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1683191588; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jKAGQVKaUUQJ0wwOeUiQWcm9V9pH23Rwd+Th8ukWdzU=;
-	b=uZ7bOMI9miJeH5qI7b8UnbZiQtsJRiarmxjqlTk8c1zns69jtqB/bv3YPHuV5iirx2CoUY
-	sPkM+Q6HUbKXOjwJCdgsePKr1vlWmSHja70KZTd5IR0xh6fya6s6V1ARydcTqarO4gO0gi
-	r3umVQxI2RJhXaSHceoJAMk09U9O4zg=
+	bh=qGF7UmaBH/FVgI9XfFWCjX+CSRSvTZ2zRs9tkAUw7Fk=;
+	b=GX6GAEn3ppc93iRTLV0kkAvs/dM+3zlwLLqDzuVndhO3wsNo/7a1z1b+cLYtw3OKzYEV1D
+	k7bsp0JadQ1CrZE4pvishN0Ht5V9+gXJ1v3JM7Iy7j1iemS9p68ujlwotdH7KKMvJXBYd3
+	yyvCGqE+Gcm+Pewwp0rkhQsxQ+3tWn8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1683191586;
+	s=susede2_ed25519; t=1683191588;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jKAGQVKaUUQJ0wwOeUiQWcm9V9pH23Rwd+Th8ukWdzU=;
-	b=LH63OfEVGSOWMN6H8Zcd3tK7gqcA43wPFLUvAvrEzLgZDGTBUeq/E+AZPlAZcPyVbxxKLg
-	urTl3ro1kQyBg+CA==
+	bh=qGF7UmaBH/FVgI9XfFWCjX+CSRSvTZ2zRs9tkAUw7Fk=;
+	b=yiSVTOZoew2qpdCKheUmp9Q+RUXV+PRCkg7/E5WpPBbKXmyMWP1ryiLYWEl6yZYMzfXwS4
+	qZWBmXNVGBxBXJBw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3AD6F13444;
-	Thu,  4 May 2023 09:13:06 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A592E13444;
+	Thu,  4 May 2023 09:13:08 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id y4dUDiJ3U2TkTwAAMHmgww
-	(envelope-from <dwagner@suse.de>); Thu, 04 May 2023 09:13:06 +0000
+	id SCqvJyR3U2TwTwAAMHmgww
+	(envelope-from <dwagner@suse.de>); Thu, 04 May 2023 09:13:08 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -69,17 +69,17 @@ Cc: linux-kernel@vger.kernel.org,
 	Hannes Reinecke <hare@suse.de>,
 	James Smart <jsmart2021@gmail.com>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [RFC v3 5/9] nvme-fabrics: add fabric state machine
-Date: Thu,  4 May 2023 11:12:55 +0200
-Message-Id: <20230504091259.29100-6-dwagner@suse.de>
+Subject: [RFC v3 9/9] nvme: introduce setup_transport()
+Date: Thu,  4 May 2023 11:12:59 +0200
+Message-Id: <20230504091259.29100-10-dwagner@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230504091259.29100-1-dwagner@suse.de>
 References: <20230504091259.29100-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230504_021310_892693_6E8D67FC 
-X-CRM114-Status: GOOD (  25.70  )
+X-CRM114-CacheID: sfid-20230504_021311_932177_380BF180 
+X-CRM114-Status: GOOD (  19.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,525 +94,267 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The transports are sharing a lot of common code for the state machine.
-Add a generic static machine based on tcp transport.
+Do the tag allocation in the new setup function.
 
-In this first step additional callbacks such as alloc_admin_tag_set()
-are in the callback API. These will be remove later again. This is just
-a for making the areas where more than moving code around is necessary
-a bit easier to review.
-
-This is approach just for discussion purpose and the proper series
-wont have these intermediate steps. I suppose, the later steps in
-this series would go in before the main state machine.
+Nope, this doesn't work because the tag allocation wants to map
+the but we haven't allocated them yet.
 
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- drivers/nvme/host/fabrics.c | 426 ++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/fabrics.h |  25 +++
- drivers/nvme/host/nvme.h    |   3 +
- 3 files changed, 454 insertions(+)
+ drivers/nvme/host/fabrics.c | 26 ++++------------
+ drivers/nvme/host/fabrics.h |  5 ++--
+ drivers/nvme/host/rdma.c    | 60 +++++++++++++++++++++----------------
+ drivers/nvme/host/tcp.c     | 31 +++++++++++--------
+ 4 files changed, 59 insertions(+), 63 deletions(-)
 
 diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index bbaa04a0c502..3d2cde17338d 100644
+index 5f212cb9421a..06e9cf0c9e84 100644
 --- a/drivers/nvme/host/fabrics.c
 +++ b/drivers/nvme/host/fabrics.c
-@@ -1134,6 +1134,432 @@ nvmf_create_ctrl(struct device *dev, const char *buf)
- 	return ERR_PTR(ret);
- }
+@@ -1325,12 +1325,6 @@ static int nvmf_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+ 	if (ret)
+ 		return ret;
  
-+static int nvmf_start_io_queues(struct nvme_ctrl *ctrl,
-+				    int first, int last)
-+{
-+	int i, ret;
-+
-+	for (i = first; i < last; i++) {
-+		ret = ctrl->fabrics_ops->start_io_queue(ctrl, i);
-+		if (ret)
-+			goto out_stop_queues;
-+	}
-+
-+	return 0;
-+
-+out_stop_queues:
-+	for (i--; i >= first; i--)
-+		ctrl->fabrics_ops->stop_io_queue(ctrl, i);
-+	return ret;
-+}
-+
-+static void nvmf_stop_io_queues(struct nvme_ctrl *ctrl)
-+{
-+	int i;
-+
-+	for (i = 1; i < ctrl->queue_count; i++)
-+		ctrl->fabrics_ops->stop_io_queue(ctrl, i);
-+}
-+
-+static int __nvmf_alloc_io_queues(struct nvme_ctrl *ctrl)
-+{
-+	int i, ret;
-+
-+	for (i = 1; i < ctrl->queue_count; i++) {
-+		ret = ctrl->fabrics_ops->alloc_io_queue(ctrl, i);
-+		if (ret)
-+			goto out_free_queues;
-+	}
-+
-+	return 0;
-+
-+out_free_queues:
-+	for (i--; i >= 1; i--)
-+		ctrl->fabrics_ops->free_io_queue(ctrl, i);
-+
-+	return ret;
-+}
-+
-+static int nvmf_alloc_io_queues(struct nvme_ctrl *ctrl)
-+{
-+	unsigned int nr_io_queues;
-+	int ret;
-+
-+	nr_io_queues = ctrl->fabrics_ops->nr_io_queues(ctrl);
-+	ret = nvme_set_queue_count(ctrl, &nr_io_queues);
-+	if (ret)
-+		return ret;
-+
-+	if (nr_io_queues == 0) {
-+		dev_err(ctrl->device,
-+			"unable to set any I/O queues\n");
-+		return -ENOMEM;
-+	}
-+
-+	ctrl->queue_count = nr_io_queues + 1;
-+	dev_info(ctrl->device,
-+		"creating %d I/O queues.\n", nr_io_queues);
-+
-+	ctrl->fabrics_ops->set_io_queues(ctrl, nr_io_queues);
-+
-+	return __nvmf_alloc_io_queues(ctrl);
-+}
-+
-+static void nvmf_free_io_queues(struct nvme_ctrl *ctrl)
-+{
-+	int i;
-+
-+	for (i = 1; i < ctrl->queue_count; i++)
-+		ctrl->fabrics_ops->free_io_queue(ctrl, i);
-+}
-+
-+static int nvmf_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
-+{
-+	int ret, nr_queues;
-+
-+	ret = nvmf_alloc_io_queues(ctrl);
-+	if (ret)
-+		return ret;
-+
-+	if (new) {
-+		ret = ctrl->fabrics_ops->alloc_tag_set(ctrl);
-+		if (ret)
-+			goto out_free_io_queues;
-+	}
-+
-+	/*
-+	 * Only start IO queues for which we have allocated the tagset
-+	 * and limitted it to the available queues. On reconnects, the
-+	 * queue number might have changed.
-+	 */
-+	nr_queues = min(ctrl->tagset->nr_hw_queues + 1, ctrl->queue_count);
-+	ret = nvmf_start_io_queues(ctrl, 1, nr_queues);
-+	if (ret)
-+		goto out_cleanup_connect_q;
-+
-+	if (!new) {
-+		nvme_unquiesce_io_queues(ctrl);
-+		if (!nvme_wait_freeze_timeout(ctrl, NVME_IO_TIMEOUT)) {
-+			/*
-+			 * If we timed out waiting for freeze we are likely to
-+			 * be stuck.  Fail the controller initialization just
-+			 * to be safe.
-+			 */
-+			ret = -ENODEV;
-+			goto out_wait_freeze_timed_out;
-+		}
-+		blk_mq_update_nr_hw_queues(ctrl->tagset,
-+			ctrl->queue_count - 1);
-+		nvme_unfreeze(ctrl);
-+	}
-+
-+	/*
-+	 * If the number of queues has increased (reconnect case)
-+	 * start all new queues now.
-+	 */
-+	ret = nvmf_start_io_queues(ctrl, nr_queues,
-+				   ctrl->tagset->nr_hw_queues + 1);
-+	if (ret)
-+		goto out_wait_freeze_timed_out;
-+
-+	return 0;
-+
-+out_wait_freeze_timed_out:
-+	nvme_quiesce_io_queues(ctrl);
-+	nvme_sync_io_queues(ctrl);
-+	nvmf_stop_io_queues(ctrl);
-+out_cleanup_connect_q:
-+	nvme_cancel_tagset(ctrl);
+-	if (new) {
+-		ret = ctrl->fabrics_ops->alloc_tag_set(ctrl);
+-		if (ret)
+-			goto out_free_io_queues;
+-	}
+-
+ 	/*
+ 	 * Only start IO queues for which we have allocated the tagset
+ 	 * and limitted it to the available queues. On reconnects, the
+@@ -1374,9 +1368,6 @@ static int nvmf_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+ 	nvmf_stop_io_queues(ctrl);
+ out_cleanup_connect_q:
+ 	nvme_cancel_tagset(ctrl);
+-	if (new)
+-		nvme_remove_io_tag_set(ctrl);
+-out_free_io_queues:
+ 	nvmf_free_io_queues(ctrl);
+ 	return ret;
+ }
+@@ -1389,16 +1380,9 @@ static int nvmf_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
+ 	if (ret)
+ 		return ret;
+ 
+-	if (new) {
+-		ret = ctrl->fabrics_ops->alloc_admin_tag_set(ctrl);
+-		if (ret)
+-			goto out_free_admin_queue;
+-
+-	}
+-
+ 	ret = __nvmf_start_admin_queue(ctrl);
+ 	if (ret)
+-		goto out_remove_admin_tag_set;
++		goto out_remove_admin_queue;
+ 
+ 	ret = nvme_enable_ctrl(ctrl);
+ 	if (ret)
+@@ -1418,10 +1402,7 @@ static int nvmf_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
+ out_stop_queue:
+ 	__nvmf_stop_admin_queue(ctrl);
+ 	nvme_cancel_admin_tagset(ctrl);
+-out_remove_admin_tag_set:
+-	if (new)
+-		nvme_remove_admin_tag_set(ctrl);
+-out_free_admin_queue:
++out_remove_admin_queue:
+ 	__nvmf_free_admin_queue(ctrl);
+ 	return ret;
+ }
+@@ -1489,6 +1470,9 @@ int nvmf_setup_ctrl(struct nvme_ctrl *ctrl, bool new)
+ 	struct nvmf_ctrl_options *opts = ctrl->opts;
+ 	int ret;
+ 
 +	if (new)
-+		nvme_remove_io_tag_set(ctrl);
-+out_free_io_queues:
-+	nvmf_free_io_queues(ctrl);
-+	return ret;
-+}
++		ctrl->fabrics_ops->setup_transport(ctrl);
 +
-+static int nvmf_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
-+{
-+	int error;
-+
-+	error = ctrl->fabrics_ops->alloc_admin_queue(ctrl);
-+	if (error)
-+		return error;
-+
-+	if (new) {
-+		error = ctrl->fabrics_ops->alloc_admin_tag_set(ctrl);
-+		if (error)
-+			goto out_free_admin_queue;
-+
-+	}
-+
-+	error = ctrl->fabrics_ops->start_admin_queue(ctrl);
-+	if (error)
-+		goto out_remove_admin_tag_set;
-+
-+	error = nvme_enable_ctrl(ctrl);
-+	if (error)
-+		goto out_stop_queue;
-+
-+	nvme_unquiesce_admin_queue(ctrl);
-+
-+	error = nvme_init_ctrl_finish(ctrl, false);
-+	if (error)
-+		goto out_quiesce_queue;
-+
-+	return 0;
-+
-+out_quiesce_queue:
-+	nvme_quiesce_admin_queue(ctrl);
-+	blk_sync_queue(ctrl->admin_q);
-+out_stop_queue:
-+	ctrl->fabrics_ops->stop_admin_queue(ctrl);
-+	nvme_cancel_admin_tagset(ctrl);
-+out_remove_admin_tag_set:
-+	if (new)
-+		nvme_remove_admin_tag_set(ctrl);
-+out_free_admin_queue:
-+	ctrl->fabrics_ops->free_admin_queue(ctrl);
-+	return error;
-+}
-+
-+static void nvmf_destroy_io_queues(struct nvme_ctrl *ctrl, bool remove)
-+{
-+	nvmf_stop_io_queues(ctrl);
-+	if (remove)
-+		nvme_remove_io_tag_set(ctrl);
-+	nvmf_free_io_queues(ctrl);
-+}
-+
-+static void nvmf_destroy_admin_queue(struct nvme_ctrl *ctrl, bool remove)
-+{
-+	ctrl->fabrics_ops->stop_admin_queue(ctrl);
-+	if (remove)
-+		nvme_remove_admin_tag_set(ctrl);
-+
-+	ctrl->fabrics_ops->free_admin_queue(ctrl);
-+}
-+
-+static void nvmf_teardown_admin_queue(struct nvme_ctrl *ctrl, bool remove)
-+{
-+	nvme_quiesce_admin_queue(ctrl);
-+	blk_sync_queue(ctrl->admin_q);
-+	ctrl->fabrics_ops->stop_admin_queue(ctrl);
-+	nvme_cancel_admin_tagset(ctrl);
-+	if (remove)
-+		nvme_unquiesce_admin_queue(ctrl);
-+	nvmf_destroy_admin_queue(ctrl, remove);
-+}
-+
-+static void nvmf_teardown_io_queues(struct nvme_ctrl *ctrl, bool remove)
-+{
-+	if (ctrl->queue_count <= 1)
-+		return;
-+	nvme_quiesce_admin_queue(ctrl);
-+	nvme_start_freeze(ctrl);
-+	nvme_quiesce_io_queues(ctrl);
-+	nvme_sync_io_queues(ctrl);
-+	nvmf_stop_io_queues(ctrl);
-+	nvme_cancel_tagset(ctrl);
-+	if (remove)
-+		nvme_unquiesce_io_queues(ctrl);
-+	nvmf_destroy_io_queues(ctrl, remove);
-+}
-+
-+void nvmf_teardown_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
-+{
-+	nvmf_teardown_io_queues(ctrl, shutdown);
-+	nvme_quiesce_admin_queue(ctrl);
-+	nvme_disable_ctrl(ctrl, shutdown);
-+	nvmf_teardown_admin_queue(ctrl, shutdown);
-+}
-+EXPORT_SYMBOL_GPL(nvmf_teardown_ctrl);
-+
-+void nvmf_stop_ctrl(struct nvme_ctrl *ctrl)
-+{
-+	flush_work(&ctrl->err_work);
-+	cancel_delayed_work_sync(&ctrl->connect_work);
-+}
-+EXPORT_SYMBOL_GPL(nvmf_stop_ctrl);
-+
-+int nvmf_setup_ctrl(struct nvme_ctrl *ctrl, bool new)
-+{
-+	struct nvmf_ctrl_options *opts = ctrl->opts;
-+	int ret;
-+
-+	ret = nvmf_configure_admin_queue(ctrl, new);
-+	if (ret)
-+		return ret;
-+
-+	if (ctrl->icdoff) {
-+		ret = -EOPNOTSUPP;
-+		dev_err(ctrl->device, "icdoff is not supported!\n");
-+		goto destroy_admin;
-+	}
-+
-+	if (!nvme_ctrl_sgl_supported(ctrl)) {
-+		ret = -EOPNOTSUPP;
-+		dev_err(ctrl->device, "Mandatory sgls are not supported!\n");
-+		goto destroy_admin;
-+	}
-+
-+	if (opts->queue_size > ctrl->sqsize + 1)
-+		dev_warn(ctrl->device,
-+			"queue_size %zu > ctrl sqsize %u, clamping down\n",
-+			opts->queue_size, ctrl->sqsize + 1);
-+
-+	if (ctrl->sqsize + 1 > ctrl->maxcmd) {
-+		dev_warn(ctrl->device,
-+			"sqsize %u > ctrl maxcmd %u, clamping down\n",
-+			ctrl->sqsize + 1, ctrl->maxcmd);
-+		ctrl->sqsize = ctrl->maxcmd - 1;
-+	}
-+
-+	if (ctrl->queue_count > 1) {
-+		ret = nvmf_configure_io_queues(ctrl, new);
-+		if (ret)
-+			goto destroy_admin;
-+	}
-+
-+	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE)) {
-+		/*
-+		 * state change failure is ok if we started ctrl delete,
-+		 * unless we're during creation of a new controller to
-+		 * avoid races with teardown flow.
-+		 */
-+		WARN_ON_ONCE(ctrl->state != NVME_CTRL_DELETING &&
-+			     ctrl->state != NVME_CTRL_DELETING_NOIO);
-+		WARN_ON_ONCE(new);
-+		ret = -EINVAL;
-+		goto destroy_io;
-+	}
-+
-+	nvme_start_ctrl(ctrl);
-+	return 0;
-+
-+destroy_io:
-+	if (ctrl->queue_count > 1) {
-+		nvme_quiesce_io_queues(ctrl);
-+		nvme_sync_io_queues(ctrl);
-+		nvmf_stop_io_queues(ctrl);
-+		nvme_cancel_tagset(ctrl);
-+		nvmf_destroy_io_queues(ctrl, new);
-+	}
-+destroy_admin:
-+	nvme_quiesce_admin_queue(ctrl);
-+	blk_sync_queue(ctrl->admin_q);
-+	ctrl->fabrics_ops->stop_admin_queue(ctrl);
-+	nvme_cancel_admin_tagset(ctrl);
-+	nvmf_destroy_admin_queue(ctrl, new);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(nvmf_setup_ctrl);
-+
-+void nvmf_reconnect_or_remove(struct nvme_ctrl *ctrl)
-+{
-+	/* If we are resetting/deleting then do nothing */
-+	if (ctrl->state != NVME_CTRL_CONNECTING) {
-+		WARN_ON_ONCE(ctrl->state == NVME_CTRL_NEW ||
-+			ctrl->state == NVME_CTRL_LIVE);
-+		return;
-+	}
-+
-+	if (nvmf_should_reconnect(ctrl)) {
-+		dev_info(ctrl->device, "Reconnecting in %d seconds...\n",
-+			ctrl->opts->reconnect_delay);
-+		queue_delayed_work(nvme_wq, &ctrl->connect_work,
-+				ctrl->opts->reconnect_delay * HZ);
-+	} else {
-+		dev_info(ctrl->device, "Removing controller...\n");
-+		nvme_delete_ctrl(ctrl);
-+	}
-+}
-+EXPORT_SYMBOL_GPL(nvmf_reconnect_or_remove);
-+
-+void nvmf_error_recovery_work(struct work_struct *work)
-+{
-+	struct nvme_ctrl *ctrl = container_of(work,
-+				struct nvme_ctrl, err_work);
-+
-+	nvme_stop_keep_alive(ctrl);
-+	flush_work(&ctrl->async_event_work);
-+	nvmf_teardown_io_queues(ctrl, false);
-+	/* unquiesce to fail fast pending requests */
-+	nvme_unquiesce_io_queues(ctrl);
-+	nvmf_teardown_admin_queue(ctrl, false);
-+	nvme_unquiesce_admin_queue(ctrl);
-+	nvme_auth_stop(ctrl);
-+
-+	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING)) {
-+		/* state change failure is ok if we started ctrl delete */
-+		WARN_ON_ONCE(ctrl->state != NVME_CTRL_DELETING &&
-+			     ctrl->state != NVME_CTRL_DELETING_NOIO);
-+		return;
-+	}
-+
-+	nvmf_reconnect_or_remove(ctrl);
-+}
-+EXPORT_SYMBOL_GPL(nvmf_error_recovery_work);
-+
-+void nvmf_reset_ctrl_work(struct work_struct *work)
-+{
-+	struct nvme_ctrl *ctrl =
-+		container_of(work, struct nvme_ctrl, reset_work);
-+
-+	nvme_stop_ctrl(ctrl);
-+	nvmf_teardown_ctrl(ctrl, false);
-+
-+	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING)) {
-+		/* state change failure is ok if we started ctrl delete */
-+		WARN_ON_ONCE(ctrl->state != NVME_CTRL_DELETING &&
-+			     ctrl->state != NVME_CTRL_DELETING_NOIO);
-+		return;
-+	}
-+
-+	if (nvmf_setup_ctrl(ctrl, false))
-+		goto out_fail;
-+
-+	return;
-+
-+out_fail:
-+	++ctrl->nr_reconnects;
-+	nvmf_reconnect_or_remove(ctrl);
-+}
-+EXPORT_SYMBOL_GPL(nvmf_reset_ctrl_work);
-+
-+void nvmf_reconnect_ctrl_work(struct work_struct *work)
-+{
-+	struct nvme_ctrl *ctrl = container_of(to_delayed_work(work),
-+			struct nvme_ctrl, connect_work);
-+
-+	++ctrl->nr_reconnects;
-+
-+	if (nvmf_setup_ctrl(ctrl, false))
-+		goto requeue;
-+
-+	dev_info(ctrl->device, "Successfully reconnected (%d attempt)\n",
-+			ctrl->nr_reconnects);
-+
-+	ctrl->nr_reconnects = 0;
-+
-+	return;
-+
-+requeue:
-+	dev_info(ctrl->device, "Failed reconnect attempt %d\n",
-+			ctrl->nr_reconnects);
-+	nvmf_reconnect_or_remove(ctrl);
-+}
-+EXPORT_SYMBOL_GPL(nvmf_reconnect_ctrl_work);
-+
-+void nvmf_error_recovery(struct nvme_ctrl *ctrl)
-+{
-+	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-+		return;
-+
-+	dev_warn(ctrl->device, "starting error recovery\n");
-+	queue_work(nvme_reset_wq, &ctrl->err_work);
-+}
-+EXPORT_SYMBOL_GPL(nvmf_error_recovery);
-+
- static struct class *nvmf_class;
- static struct device *nvmf_device;
- static DEFINE_MUTEX(nvmf_dev_mutex);
+ 	ret = nvmf_configure_admin_queue(ctrl, new);
+ 	if (ret)
+ 		return ret;
 diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index dcac3df8a5f7..345d6de6bc86 100644
+index 345d6de6bc86..ad4734df7342 100644
 --- a/drivers/nvme/host/fabrics.h
 +++ b/drivers/nvme/host/fabrics.h
-@@ -172,6 +172,23 @@ struct nvmf_transport_ops {
- 					struct nvmf_ctrl_options *opts);
+@@ -173,6 +173,7 @@ struct nvmf_transport_ops {
  };
  
-+struct nvme_fabrics_ops {
-+	int	(*alloc_admin_queue)(struct nvme_ctrl *ctrl);
-+	int	(*start_admin_queue)(struct nvme_ctrl *ctrl);
-+	void	(*stop_admin_queue)(struct nvme_ctrl *ctrl);
-+	void	(*free_admin_queue)(struct nvme_ctrl *ctrl);
-+	int	(*alloc_io_queue)(struct nvme_ctrl *ctrl, int qid);
-+	int	(*start_io_queue)(struct nvme_ctrl *ctrl, int qid);
-+	void	(*stop_io_queue)(struct nvme_ctrl *ctrl, int qid);
-+	void	(*free_io_queue)(struct nvme_ctrl *ctrl, int qid);
-+
-+	/* these should be replaced with a single one setup_transport() */
-+	int	(*alloc_admin_tag_set)(struct nvme_ctrl *ctrl);
-+	int	(*alloc_tag_set)(struct nvme_ctrl *ctrl);
-+	unsigned int	(*nr_io_queues)(struct nvme_ctrl *ctrl);
-+	void	(*set_io_queues)(struct nvme_ctrl *ctrl, unsigned int nr_io_queues);
-+};
-+
- static inline bool
- nvmf_ctlr_matches_baseopts(struct nvme_ctrl *ctrl,
- 			struct nvmf_ctrl_options *opts)
-@@ -215,5 +232,13 @@ int nvmf_get_address(struct nvme_ctrl *ctrl, char *buf, int size);
- bool nvmf_should_reconnect(struct nvme_ctrl *ctrl);
- bool nvmf_ip_options_match(struct nvme_ctrl *ctrl,
- 		struct nvmf_ctrl_options *opts);
-+int nvmf_setup_ctrl(struct nvme_ctrl *ctrl, bool new);
-+void nvmf_stop_ctrl(struct nvme_ctrl *ctrl);
-+void nvmf_teardown_ctrl(struct nvme_ctrl *ctrl, bool shutdown);
-+void nvmf_reset_ctrl_work(struct work_struct *work);
-+void nvmf_reconnect_or_remove(struct nvme_ctrl *ctrl);
-+void nvmf_error_recovery_work(struct work_struct *work);
-+void nvmf_reconnect_ctrl_work(struct work_struct *work);
-+void nvmf_error_recovery(struct nvme_ctrl *ctrl);
+ struct nvme_fabrics_ops {
++	int	(*setup_transport)(struct nvme_ctrl *ctrl);
+ 	int	(*alloc_admin_queue)(struct nvme_ctrl *ctrl);
+ 	int	(*start_admin_queue)(struct nvme_ctrl *ctrl);
+ 	void	(*stop_admin_queue)(struct nvme_ctrl *ctrl);
+@@ -182,9 +183,7 @@ struct nvme_fabrics_ops {
+ 	void	(*stop_io_queue)(struct nvme_ctrl *ctrl, int qid);
+ 	void	(*free_io_queue)(struct nvme_ctrl *ctrl, int qid);
  
- #endif /* _NVME_FABRICS_H */
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 5aa30b00dd17..fcea2678094c 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -244,6 +244,8 @@ enum nvme_ctrl_flags {
- 	NVME_CTRL_STOPPED		= 3,
+-	/* these should be replaced with a single one setup_transport() */
+-	int	(*alloc_admin_tag_set)(struct nvme_ctrl *ctrl);
+-	int	(*alloc_tag_set)(struct nvme_ctrl *ctrl);
++	/* there should move to setup_transport() as well */
+ 	unsigned int	(*nr_io_queues)(struct nvme_ctrl *ctrl);
+ 	void	(*set_io_queues)(struct nvme_ctrl *ctrl, unsigned int nr_io_queues);
  };
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 023316fdc2c6..015a6bde732a 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -743,6 +743,39 @@ static void nvme_rdma_stop_io_queue(struct nvme_ctrl *nctrl, int qid)
+ 	__nvme_rdma_stop_queue(queue);
+ }
  
-+struct nvme_fabrics_ops;
++static int nvme_rdma_setup_transport(struct nvme_ctrl *ctrl)
++{
++	unsigned int cmd_size;
++	int ret;
 +
- struct nvme_ctrl {
- 	bool comp_seen;
- 	enum nvme_ctrl_state state;
-@@ -251,6 +253,7 @@ struct nvme_ctrl {
- 	spinlock_t lock;
- 	struct mutex scan_lock;
- 	const struct nvme_ctrl_ops *ops;
-+	const struct nvme_fabrics_ops *fabrics_ops;
- 	struct request_queue *admin_q;
- 	struct request_queue *connect_q;
- 	struct request_queue *fabrics_q;
++	ret =  nvme_alloc_admin_tag_set(ctrl, &to_rdma_ctrl(ctrl)->admin_tag_set,
++					&nvme_rdma_admin_mq_ops,
++					sizeof(struct nvme_rdma_request) +
++					NVME_RDMA_DATA_SGL_SIZE);
++	if (ret)
++		return ret;
++
++	cmd_size = sizeof(struct nvme_rdma_request) +
++				NVME_RDMA_DATA_SGL_SIZE;
++
++	if (ctrl->max_integrity_segments)
++		cmd_size += sizeof(struct nvme_rdma_sgl) +
++			    NVME_RDMA_METADATA_SGL_SIZE;
++
++	ret = nvme_alloc_io_tag_set(ctrl, &to_rdma_ctrl(ctrl)->tag_set,
++				    &nvme_rdma_mq_ops,
++				    ctrl->opts->nr_poll_queues ? HCTX_MAX_TYPES : 2,
++				    cmd_size);
++	if (ret)
++		goto out_free_admin_tag_set;
++
++	return 0;
++
++out_free_admin_tag_set:
++	nvme_remove_admin_tag_set(ctrl);
++	return ret;
++}
++
+ static unsigned int nvme_rdma_nr_io_queues(struct nvme_ctrl *ctrl)
+ {
+ 	struct ib_device *ibdev = to_rdma_ctrl(ctrl)->device->dev;
+@@ -802,21 +835,6 @@ static void nvme_rdma_set_io_queues(struct nvme_ctrl *nctrl,
+ 	}
+ }
+ 
+-static int nvme_rdma_alloc_tag_set(struct nvme_ctrl *ctrl)
+-{
+-	unsigned int cmd_size = sizeof(struct nvme_rdma_request) +
+-				NVME_RDMA_DATA_SGL_SIZE;
+-
+-	if (ctrl->max_integrity_segments)
+-		cmd_size += sizeof(struct nvme_rdma_sgl) +
+-			    NVME_RDMA_METADATA_SGL_SIZE;
+-
+-	return nvme_alloc_io_tag_set(ctrl, &to_rdma_ctrl(ctrl)->tag_set,
+-			&nvme_rdma_mq_ops,
+-			ctrl->opts->nr_poll_queues ? HCTX_MAX_TYPES : 2,
+-			cmd_size);
+-}
+-
+ static void nvme_rdma_free_ctrl(struct nvme_ctrl *nctrl)
+ {
+ 	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
+@@ -834,15 +852,6 @@ static void nvme_rdma_free_ctrl(struct nvme_ctrl *nctrl)
+ 	kfree(ctrl);
+ }
+ 
+-static int nvme_rdma_alloc_admin_tag_set(struct nvme_ctrl *ctrl)
+-{
+-
+-	return nvme_alloc_admin_tag_set(ctrl, &to_rdma_ctrl(ctrl)->admin_tag_set,
+-					&nvme_rdma_admin_mq_ops,
+-					sizeof(struct nvme_rdma_request) +
+-					   NVME_RDMA_DATA_SGL_SIZE);
+-}
+-
+ static void nvme_rdma_end_request(struct nvme_rdma_request *req)
+ {
+ 	struct request *rq = blk_mq_rq_from_pdu(req);
+@@ -1915,6 +1924,7 @@ nvme_rdma_existing_controller(struct nvmf_ctrl_options *opts)
+ }
+ 
+ static struct nvme_fabrics_ops nvme_rdma_fabrics_ops = {
++	.setup_transport	= nvme_rdma_setup_transport,
+ 	.alloc_admin_queue	= nvme_rdma_alloc_admin_queue,
+ 	.free_admin_queue	= nvme_rdma_free_admin_queue,
+ 	.start_admin_queue	= nvme_rdma_start_admin_queue,
+@@ -1923,8 +1933,6 @@ static struct nvme_fabrics_ops nvme_rdma_fabrics_ops = {
+ 	.free_io_queue		= nvme_rdma_free_io_queue,
+ 	.start_io_queue		= nvme_rdma_start_io_queue,
+ 	.stop_io_queue		= nvme_rdma_stop_io_queue,
+-	.alloc_admin_tag_set	= nvme_rdma_alloc_admin_tag_set,
+-	.alloc_tag_set		= nvme_rdma_alloc_tag_set,
+ 	.nr_io_queues		= nvme_rdma_nr_io_queues,
+ 	.set_io_queues		= nvme_rdma_set_io_queues,
+ };
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index dfdf35b32adc..f91575b944a2 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1720,20 +1720,26 @@ static void nvme_tcp_stop_io_queue(struct nvme_ctrl *nctrl, int qid)
+ 	__nvme_tcp_stop_queue(queue);
+ }
+ 
+-static int nvme_tcp_alloc_admin_tag_set(struct nvme_ctrl *ctrl)
++static int nvme_tcp_setup_transport(struct nvme_ctrl *ctrl)
+ {
+-	return nvme_alloc_admin_tag_set(ctrl, &to_tcp_ctrl(ctrl)->admin_tag_set,
+-					&nvme_tcp_admin_mq_ops,
+-					sizeof(struct nvme_tcp_request));
+-}
++	int ret;
+ 
+-static int nvme_tcp_alloc_tag_set(struct nvme_ctrl *ctrl)
+-{
+-	return nvme_alloc_io_tag_set(ctrl, &to_tcp_ctrl(ctrl)->tag_set,
+-				     &nvme_tcp_mq_ops,
+-				     ctrl->opts->nr_poll_queues ? HCTX_MAX_TYPES : 2,
+-				     sizeof(struct nvme_tcp_request));
++	ret = nvme_alloc_admin_tag_set(ctrl, &to_tcp_ctrl(ctrl)->admin_tag_set,
++				       &nvme_tcp_admin_mq_ops,
++				       sizeof(struct nvme_tcp_request));
++	if (ret)
++		return ret;
++
++	ret = nvme_alloc_io_tag_set(ctrl, &to_tcp_ctrl(ctrl)->tag_set,
++				    &nvme_tcp_mq_ops,
++				    ctrl->opts->nr_poll_queues ? HCTX_MAX_TYPES : 2,
++				    sizeof(struct nvme_tcp_request));
++	if (ret)
++		goto out_free_admin_tag_set;
+ 
++out_free_admin_tag_set:
++	nvme_remove_admin_tag_set(ctrl);
++	return ret;
+ }
+ 
+ static unsigned int nvme_tcp_nr_io_queues(struct nvme_ctrl *ctrl)
+@@ -2155,6 +2161,7 @@ nvme_tcp_existing_controller(struct nvmf_ctrl_options *opts)
+ }
+ 
+ static struct nvme_fabrics_ops nvme_tcp_fabrics_ops = {
++	.setup_transport	= nvme_tcp_setup_transport,
+ 	.alloc_admin_queue	= nvme_tcp_alloc_admin_queue,
+ 	.free_admin_queue	= nvme_tcp_free_admin_queue,
+ 	.start_admin_queue	= nvme_tcp_start_admin_queue,
+@@ -2163,8 +2170,6 @@ static struct nvme_fabrics_ops nvme_tcp_fabrics_ops = {
+ 	.free_io_queue		= nvme_tcp_free_io_queue,
+ 	.start_io_queue		= nvme_tcp_start_io_queue,
+ 	.stop_io_queue		= nvme_tcp_stop_io_queue,
+-	.alloc_admin_tag_set	= nvme_tcp_alloc_admin_tag_set,
+-	.alloc_tag_set		= nvme_tcp_alloc_tag_set,
+ 	.nr_io_queues		= nvme_tcp_nr_io_queues,
+ 	.set_io_queues		= nvme_tcp_set_io_queues,
+ };
 -- 
 2.40.0
 
