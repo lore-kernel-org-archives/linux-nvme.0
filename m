@@ -4,70 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC1DBC77B7C
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 14:40:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16DA5C77B7C
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 15:06:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uvHjox96ToDS6v8WQFCM85pSp37qrGwYc/dcWxuXOUk=; b=Iauc8PV8qR1Dul81fVB/ESnifO
-	F65SXFs8a8Tgf9udZ3i8XzW17Pnkkc2G+IOyv2vRZXxT3PqkWEYhkAWuf1OpJJo+jouFWUS++rWSf
-	Nk4PT2gjS6UrTxFyAZSIdDR8cv+MNAmy2j3WwUFOrtKrO3s2d2VCOBnQ/3PxKjKHrWOMuQdHJKhlh
-	oKX2wLJOD5c1wUPHXWpew2sr7YdBRRhuvYq9y2pImk+HmKd0ePgNwlygWvDvEF3B+8YLiPGjDQDwp
-	+NeEIcWJCLZJJYB0b5BoF8J0prI0SL8FXaFIzJlGjmI4ZqRhBpl6uVoUl+CGLfoNNqUmRS6s46qFm
-	rKNW9TGw==;
+	bh=0BdZofKxC5K0ZaKK8sseUEGZEbX1caTx+kOYEOTRD1Q=; b=pW6fsf9q7iaSGZyhdXfD6ed0/W
+	9OYpJQK8xSTDojvA/x35s8pU6l78Ur6HKFIxMQMayxbZWUMiJ0w5F6/+MYpgFdtR5+6QWYBGbLcUT
+	qAhZZiKM7i/YO7mCPT3zfsfdw6+XAu1/Ejik6Wcdij2OUwEZw+Wx6f7gq87zhoBG7oMaYXAJqNokj
+	5FzEJAzz57pruE4FJ5ufoJ2kPoQAOr8XmzF1C25oRrq0Pfplj8v8q9eZ9vmREbt2ecrPMVrUnoqaI
+	RUZFL+spHBAiDJJHywCu5q71XTtoXPx9MsRh8Ko9sd5Q4bnTYPOnMkKIw6s7uoMnW0jN1ffPG7f9T
+	EZcxZpXg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pua8N-00878q-06;
-	Thu, 04 May 2023 14:40:39 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1puaXN-008AmQ-2l;
+	Thu, 04 May 2023 15:06:29 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pua8J-00878F-2m
+	id 1puaXK-008Ale-2t
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 May 2023 14:40:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1683211234;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uvHjox96ToDS6v8WQFCM85pSp37qrGwYc/dcWxuXOUk=;
-	b=MeJpYX9M6DsnD3veLfn+MJI/aDm4p2cwdXZVrwEaBbD76hdfm5gmlPM2xCw1JsE7K+qNWj
-	54+NqNvu9WY9bxyoTzwBGZZlW89sXyRRy6dYFbAdq5rZHaavuG/4GeNmw2GTFNcymp2qh3
-	nBid82PIEumprLjrOg6gQqn6xMGMd3M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-673-K-Hn359RNia3YVI7sMxXKg-1; Thu, 04 May 2023 10:40:29 -0400
-X-MC-Unique: K-Hn359RNia3YVI7sMxXKg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	Thu, 04 May 2023 15:06:28 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B42588B7AC;
-	Thu,  4 May 2023 14:40:28 +0000 (UTC)
-Received: from ovpn-8-16.pek2.redhat.com (ovpn-8-16.pek2.redhat.com [10.72.8.16])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 62B0040BC799;
-	Thu,  4 May 2023 14:40:22 +0000 (UTC)
-Date: Thu, 4 May 2023 22:40:17 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Breno Leitao <leitao@debian.org>
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	asml.silence@gmail.com, hch@lst.de, axboe@kernel.dk, leit@fb.com,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	sagi@grimberg.me, joshi.k@samsung.com, kbusch@kernel.org
-Subject: Re: [PATCH v4 3/3] io_uring: Remove unnecessary BUILD_BUG_ON
-Message-ID: <ZFPD0c2dxQT2N9+f@ovpn-8-16.pek2.redhat.com>
-References: <20230504121856.904491-1-leitao@debian.org>
- <20230504121856.904491-4-leitao@debian.org>
+	by dfw.source.kernel.org (Postfix) with ESMTPS id B2079634F4;
+	Thu,  4 May 2023 15:06:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70763C4339B;
+	Thu,  4 May 2023 15:06:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1683212783;
+	bh=DMsgKT7Hobbpb3BzXsLG/oHKtAFZ7Ra+fFw7O52RNaI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qM7HY1iXLzguQbimslGp8ie6mm17bBCpAMNs7DebyuqV0StfXJi+VdYDhzpYm5Vfh
+	 3Ma4D5HvQAB2YoNd7bXQ3kgiR+kxCgOJAsYEwbWso+m3wYY04zlGjF73es/OhdEPBu
+	 /YNMSDfGxxSMilZcVRUUWBMLxQp7PRkgTmHVwKgbE5+/Tt8lgw0ZEb2iCtWSlpjo3b
+	 a4wEnXTM9nDVaGRGqIS3923eAEwYk+Ib6dzbzJXJMafOZpn6ynadERdbDHhyy/eVUv
+	 Clvcl/tKs9X3mZs5bXQV4abkMQFtEATKH+u0S3tt30o6V5453muBBOeIN5MVc3B683
+	 bJVHgfmRqohKg==
+Date: Thu, 4 May 2023 09:06:20 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Niklas Cassel <Niklas.Cassel@wdc.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	"jiweisun126@126.com" <jiweisun126@126.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"axboe@fb.com" <axboe@fb.com>, "hch@lst.de" <hch@lst.de>,
+	"sagi@grimberg.me" <sagi@grimberg.me>,
+	"ahuang12@lenovo.com" <ahuang12@lenovo.com>,
+	"sunjw10@lenovo.com" <sunjw10@lenovo.com>
+Subject: Re: [PATCH] nvme: add cond_resched() to nvme_complete_batch()
+Message-ID: <ZFPJ7CYFEextnOqE@kbusch-mbp.dhcp.thefacebook.com>
+References: <20230502125412.65633-1-jiweisun126@126.com>
+ <ZFKLxfet7qUIwScd@kbusch-mbp.dhcp.thefacebook.com>
+ <ZFLxXjiQUPl+tV8L@kbusch-mbp.dhcp.thefacebook.com>
+ <ZFN9aWYCxJW/HdHi@x1-carbon>
+ <ZFOFHv8Kh/7KLuBa@x1-carbon>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230504121856.904491-4-leitao@debian.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+In-Reply-To: <ZFOFHv8Kh/7KLuBa@x1-carbon>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230504_074035_971031_FD7B29E6 
-X-CRM114-Status: GOOD (  15.81  )
+X-CRM114-CacheID: sfid-20230504_080627_038960_76A16B58 
+X-CRM114-Status: GOOD (  20.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,27 +83,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, May 04, 2023 at 05:18:56AM -0700, Breno Leitao wrote:
-> In the io_uring_cmd_prep_async() there is an unnecessary compilation time
-> check to check if cmd is correctly placed at field 48 of the SQE.
+On Thu, May 04, 2023 at 10:12:46AM +0000, Niklas Cassel wrote:
+> On Thu, May 04, 2023 at 11:39:53AM +0200, Niklas Cassel wrote:
+> > 
+> > Something is fishy here...
+> > 
+> > (Perhaps the maintainer did a git revert instead of applying the fix...
+> > and accidentally squashed the revert with a proper commit...
+> > But even that does not make sense, as there simply seems to be too many
+> > lines changed in 2d55c16c0c54 ("dmapool: create/destroy cleanup") for that
+> > to be the case...)
 > 
-> This is unnecessary, since this check is already in place at
-> io_uring_init():
+> It seems like the additional lines in
+> 2d55c16c0c54 ("dmapool: create/destroy cleanup") is explained by the
+> maintainer (probably accidentally) reverting additional patches in that
+> very same commit.
 > 
->           BUILD_BUG_SQE_ELEM(48, __u64,  addr3);
-> 
-> Remove it and the uring_cmd_pdu_size() function, which is not used
-> anymore.
-> 
-> Keith started a discussion about this topic in the following thread:
-> Link: https://lore.kernel.org/lkml/ZDBmQOhbyU0iLhMw@kbusch-mbp.dhcp.thefacebook.com/
-> 
-> Signed-off-by: Breno Leitao <leitao@debian.org>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> It seems like that commit reverted all changes to mm/dmapool.c since v6.3:
 
-Reviewed-by: Ming Lei <ming.lei@redhat.com>
+Spot on, thanks for confirming! Somehow a series revert was squahed into
+the final patch. :(
 
-Thanks,
-Ming
+We reached the same conclusion pretty late yesterday, so I'll wait for
+Andrew to suggest how to proceed. I think we have to rebase whole series
+with the correct final patch and resend the pull.
+ 
+> $ git log --oneline 2d55c16c0c54325bf15286cfa6ba6c268036b9e4 --not v6.3 mm/dmapool.c 
+> 2d55c16c0c54 dmapool: create/destroy cleanup
+> a4de12a032fa dmapool: link blocks across pages
+> 9d062a8a4c6d dmapool: don't memset on free twice
+> 887aef615818 dmapool: simplify freeing
+> 2591b516533b dmapool: consolidate page initialization
+> 36d1a28921a4 dmapool: rearrange page alloc failure handling
+> 52e7d5653979 dmapool: move debug code to own functions
+> 19f504584038 dmapool: speedup DMAPOOL_DEBUG with init_on_alloc
+> 347e4e44c0a9 dmapool: cleanup integer types
+> 65216545436b dmapool: use sysfs_emit() instead of scnprintf()
+> 7f796d141c07 dmapool: remove checks for dev == NULL
+> 
+> 
+> $ git diff v6.3 2d55c16c0c54325bf15286cfa6ba6c268036b9e4 mm/dmapool.c
+> <nothing>
+> 
+> 
+> Should probably tell Andrew so that he has time to send out a new PR
+> before the merge window closes. (I added him in To: .)
+> 
+> He should probably pick up this fix too:
+> https://patchwork.kernel.org/project/linux-mm/patch/20230221165400.1595247-1-kbusch@meta.com/
 
+Andrew actually squashed that fix into the original patch.
 
