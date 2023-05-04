@@ -4,89 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9CADDC77B7C
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 05:00:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17D3BC77B7C
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 05:09:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IUPJQJMsUAtFNWaWs/k01M+OCvj5uqpKKu6bkw90D5Q=; b=jrTn2IK9y2WskvEwZKPac59oBA
-	3l2B1DliZlnuM7D7dJONoic8+YC6gPnpvm0tac4BwZIaGIEfC43cD6+OiST7uIAsk7zlrb4kVSS6B
-	V6s1+YXase2gaEG2laxuFoOwIfJRz+0UkwkZkuco+dv2XXPRzI1DcrP7FCMYctyfxNOEluvHy4km/
-	MDHPUPQuKAjaGB2RB5DtFaFn+ga9k/SCQEYQOJSjx/Bd/lIfaVzfFsT4wIf0p8n6NK5PBxy+VfcBt
-	ix5xlOHBhFoNE1qIaA/zzlXUh7PlmOIIUJFcY6jUWlKW4mEn7T2mAWgAAdJjO3siZK3NPs7eZW5g6
-	JrHTjsgw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=9gP/wgJ2VJei0N6OlfkbnZ8pyhAJhaLcx9l8pZGE/Io=; b=WeZnfYQzxSfBd9uJkr3BamSfn0
+	iZe8Y4dfodUg+rIUwnxdQRYdGUJR4S8pN60mxm6I8H+iCVe+efDLOO6pbj1e8nMcK1VevBPpAPJuf
+	tYB3p/fFfiyIkzZdB3KKtw6ea+f/HO89R2ZY0fzh0/k0bVl2lozhBWnrTvjeUOXUmA0jXo0QiGhre
+	Xg56PM9AbMU45AjL94KqejWKCwveSCI11kLibErsvEDLoWHsgr8uFl/17nx867oUEMkBiP/VXIa1f
+	LrRPkvzpJ7V5O0APgUKzGgkdIqm6vVi7AI8RvTZP4xKeGyPhEveKwlrT5vlMX6Dg90m5SuZZEyuFK
+	XvT7EAoQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1puR4u-006buB-1b;
-	Thu, 04 May 2023 05:00:28 +0000
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
+	id 1puRD6-006cac-0b;
+	Thu, 04 May 2023 05:08:56 +0000
+Received: from mga14.intel.com ([192.55.52.115])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1puR4r-006brk-0s
+	id 1puRD3-006cZh-2F
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 May 2023 05:00:27 +0000
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-64115e652eeso9872499b3a.0
-        for <linux-nvme@lists.infradead.org>; Wed, 03 May 2023 22:00:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20221208.gappssmtp.com; s=20221208; t=1683176412; x=1685768412;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IUPJQJMsUAtFNWaWs/k01M+OCvj5uqpKKu6bkw90D5Q=;
-        b=ZrMZeHcIP6CgQ0Hg7pIJtgBe4Qnlq5C3+hql2iyKdydhASidvcCM0/yLxygOzXJMk8
-         EfSLHPhn+VcJxCuzH9VGoABjc6VQRclKAf5izVz/ddKoQn/VvqtgU5SqElGwvJz87zn6
-         J30uQKAR+7Wj31k9pTJlVTeISieIG0fHR3bw+CQDZ6+y4MDMXNpF5T9/sJuuqL+aVSeP
-         gh4jKQvgmL0ugkto4lz4K50XEeGBjM/em+OrFhe0ryVuX8aroW4y40WzJK5TUKchTmKQ
-         ZXnUMiSOHMaGw6+9CRzA3A1wXVv2H2yYlevtHnZlvhs5grUG4C//I+vu2VWCFan6caMm
-         mmVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683176412; x=1685768412;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IUPJQJMsUAtFNWaWs/k01M+OCvj5uqpKKu6bkw90D5Q=;
-        b=XcX6evEZLah0DPJ4lVcKtE0zMVqo7te3AOkykJ+lGr2bCe3PMiSYrfpDWbnWMyTE0g
-         WI26fdcYHOaCmNfOh3u72SdBTII9f3v+ij+LkYjlhisLJev/NUoDI/iIDkMyKlFdIpQu
-         exjM2hh+18iysf6X0nUXlI+WdIValmSwU3mn88mL+5bmZbDFcJPxHdV57/rubCHu1u15
-         HWPDlQWVH12+duqrOW/S9oXtpctVOaoFGXM0LxtxezjIvo70vtLquCeAJbdHnE2o+2QQ
-         OERh6Gyp477W6i/f5eiIPhY0168aAqOVO1yqpORh9EjPsJsS8Y225PuoWb4m1wgEb19B
-         hd3A==
-X-Gm-Message-State: AC+VfDwoMJew7F6eKVXsPCrxOWr9Z10g9mUGY02TKmHkYGbQiY8yZmIw
-	RTcHdQ7JFRph1EH6cjb0Bn0ztA==
-X-Google-Smtp-Source: ACHHUZ74fa1Wz2edBfvfZ5Jj9KFI+rRTRpMssYNqBpRgKz9pQfc3B8JSfetyXSVsmrqcJxZLv3W5Fw==
-X-Received: by 2002:a17:902:e54c:b0:1a9:6604:2b1b with SMTP id n12-20020a170902e54c00b001a966042b1bmr2712859plf.20.1683176411757;
-        Wed, 03 May 2023 22:00:11 -0700 (PDT)
-Received: from dread.disaster.area (pa49-181-88-204.pa.nsw.optusnet.com.au. [49.181.88.204])
-        by smtp.gmail.com with ESMTPSA id r21-20020a170902ea5500b001a988a71617sm15709816plg.192.2023.05.03.22.00.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 May 2023 22:00:11 -0700 (PDT)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
-	(envelope-from <david@fromorbit.com>)
-	id 1puR4Y-00B7pz-OY; Thu, 04 May 2023 15:00:06 +1000
-Date: Thu, 4 May 2023 15:00:06 +1000
-From: Dave Chinner <david@fromorbit.com>
-To: John Garry <john.g.garry@oracle.com>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-	martin.petersen@oracle.com, djwong@kernel.org,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
-	jejb@linux.ibm.com, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, paul@paul-moore.com,
-	jmorris@namei.org, serge@hallyn.com
-Subject: Re: [PATCH RFC 11/16] fs: iomap: Atomic write support
-Message-ID: <20230504050006.GH3223426@dread.disaster.area>
-References: <20230503183821.1473305-1-john.g.garry@oracle.com>
- <20230503183821.1473305-12-john.g.garry@oracle.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230503183821.1473305-12-john.g.garry@oracle.com>
+	Thu, 04 May 2023 05:08:55 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683176933; x=1714712933;
+  h=date:from:to:cc:subject:message-id;
+  bh=XdWQQXO9Jx6ku8B50e1et5uNqdLvMl8ESVU2jpxfWW0=;
+  b=hajD0RsybO+Xgf2b6owAdvv8fqpafLDE6DsEh5gafO1EhJHccbiQLXwv
+   FQk2Q4IWygNuqwAvSEmbLyhpSDaWoLzju1jssCkSmrNB7tO0f13eXOmV5
+   sqRE0PlqSxvVmH7qc+o0mfw1cTGc387dszjPW1EUwNzk15x7IpxUSVCCZ
+   +cGtsQ0ALjNt0BjWtdyGAT2x2nxtGf1UJESjbuwgY4g3SB0O7O8UDYcmQ
+   q4qADOtZr8Fi3n42WAGIwdcOzfTQgmar5HbKGyywqEZfgGaStt2Z2HFcu
+   HX2dABALc5he1JqtZHOyRzI0ZQNvw7keXPVxlzRiddeluc0Ahy73+nEBI
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="348878825"
+X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; 
+   d="scan'208";a="348878825"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 22:08:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="696872003"
+X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; 
+   d="scan'208";a="696872003"
+Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 03 May 2023 22:08:49 -0700
+Received: from kbuild by e3434d64424d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1puRCz-0002an-0v;
+	Thu, 04 May 2023 05:08:49 +0000
+Date: Thu, 04 May 2023 13:08:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.4] BUILD SUCCESS
+ 3710e2b056cb92ad816e4d79fa54a6a5b6ad8cbd
+Message-ID: <20230504050800.jo9RD%lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230503_220025_317770_CD27C3C2 
-X-CRM114-Status: GOOD (  50.84  )
+X-CRM114-CacheID: sfid-20230503_220853_769351_0593C165 
+X-CRM114-Status: UNSURE (   7.56  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,235 +80,175 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, May 03, 2023 at 06:38:16PM +0000, John Garry wrote:
-> Add support to create bio's whose bi_sector and bi_size are aligned to and
-> multiple of atomic_write_unit, respectively.
-> 
-> When we call iomap_dio_bio_iter() -> bio_iov_iter_get_pages() ->
-> __bio_iov_iter_get_pages(), we trim the bio to a multiple of
-> atomic_write_unit.
-> 
-> As such, we expect the iomi start and length to have same size and
-> alignment requirements per iomap_dio_bio_iter() call.
-> 
-> In iomap_dio_bio_iter(), ensure that for a non-dsync iocb that the mapping
-> is not dirty nor unmapped.
-> 
-> Signed-off-by: John Garry <john.g.garry@oracle.com>
-> ---
->  fs/iomap/direct-io.c | 72 ++++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 70 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-> index f771001574d0..37c3c926dfd8 100644
-> --- a/fs/iomap/direct-io.c
-> +++ b/fs/iomap/direct-io.c
-> @@ -36,6 +36,8 @@ struct iomap_dio {
->  	size_t			done_before;
->  	bool			wait_for_completion;
->  
-> +	unsigned int atomic_write_unit;
-> +
->  	union {
->  		/* used during submission and for synchronous completion: */
->  		struct {
-> @@ -229,9 +231,21 @@ static inline blk_opf_t iomap_dio_bio_opflags(struct iomap_dio *dio,
->  	return opflags;
->  }
->  
-> +
-> +/*
-> + * Note: For atomic writes, each bio which we create when we iter should have
-> + *	 bi_sector aligned to atomic_write_unit and also its bi_size should be
-> + *	 a multiple of atomic_write_unit.
-> + *	 The call to bio_iov_iter_get_pages() -> __bio_iov_iter_get_pages()
-> + *	 should trim the length to a multiple of atomic_write_unit for us.
-> + *	 This allows us to split each bio later in the block layer to fit
-> + *	 request_queue limit.
-> + */
->  static loff_t iomap_dio_bio_iter(const struct iomap_iter *iter,
->  		struct iomap_dio *dio)
->  {
-> +	bool atomic_write = (dio->iocb->ki_flags & IOCB_ATOMIC) &&
-> +			    (dio->flags & IOMAP_DIO_WRITE);
->  	const struct iomap *iomap = &iter->iomap;
->  	struct inode *inode = iter->inode;
->  	unsigned int fs_block_size = i_blocksize(inode), pad;
-> @@ -249,6 +263,14 @@ static loff_t iomap_dio_bio_iter(const struct iomap_iter *iter,
->  	    !bdev_iter_is_aligned(iomap->bdev, dio->submit.iter))
->  		return -EINVAL;
->  
-> +
-> +	if (atomic_write && !iocb_is_dsync(dio->iocb)) {
-> +		if (iomap->flags & IOMAP_F_DIRTY)
-> +			return -EIO;
-> +		if (iomap->type != IOMAP_MAPPED)
-> +			return -EIO;
-> +	}
+tree/branch: git://git.infradead.org/nvme.git nvme-6.4
+branch HEAD: 3710e2b056cb92ad816e4d79fa54a6a5b6ad8cbd  nvme-pci: clamp max_hw_sectors based on DMA optimized limitation
 
-IDGI. If the iomap had space allocated for this dio iteration,
-then IOMAP_F_DIRTY will be set and it is likely (guaranteed for XFS)
-that the iomap type will be IOMAP_UNWRITTEN. Indeed, if we are doing
-a write into preallocated space (i.e. from fallocate()) then this
-will cause -EIO on all RWF_ATOMIC IO to that file unless RWF_DSYNC
-is also used.
+elapsed time: 722m
 
-"For a power fail, for each individual application block, all or
-none of the data to be written."
+configs tested: 155
+configs skipped: 12
 
-Ok, does this means RWF_ATOMIC still needs fdatasync() to guarantee
-that the data makes it to stable storage? And the result is
-undefined until fdatasync() is run, but the device will guarantee
-that either all or none of the data will be on stable storage
-prior to the next device cache flush completing?
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-i.e. does REQ_ATOMIC imply REQ_FUA, or does it require a separate
-device cache flush to commit the atomic IO to stable storage?
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha        buildonly-randconfig-r001-20230502   gcc  
+alpha        buildonly-randconfig-r006-20230502   gcc  
+alpha                               defconfig   gcc  
+arc                              allyesconfig   gcc  
+arc          buildonly-randconfig-r004-20230430   gcc  
+arc          buildonly-randconfig-r006-20230430   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r004-20230501   gcc  
+arc                  randconfig-r022-20230502   gcc  
+arc                  randconfig-r031-20230501   gcc  
+arc                  randconfig-r043-20230430   gcc  
+arc                  randconfig-r043-20230501   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r011-20230501   gcc  
+arm                  randconfig-r032-20230430   clang
+arm                  randconfig-r046-20230430   gcc  
+arm                  randconfig-r046-20230501   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r005-20230430   gcc  
+arm64                randconfig-r015-20230501   clang
+csky                                defconfig   gcc  
+csky                 randconfig-r003-20230501   gcc  
+csky                 randconfig-r006-20230502   gcc  
+csky                 randconfig-r012-20230502   gcc  
+hexagon              randconfig-r015-20230430   clang
+hexagon              randconfig-r015-20230502   clang
+hexagon              randconfig-r023-20230502   clang
+hexagon              randconfig-r036-20230501   clang
+hexagon              randconfig-r041-20230430   clang
+hexagon              randconfig-r041-20230501   clang
+hexagon              randconfig-r045-20230430   clang
+hexagon              randconfig-r045-20230501   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-a001-20230501   gcc  
+i386                 randconfig-a002-20230501   gcc  
+i386                 randconfig-a003-20230501   gcc  
+i386                 randconfig-a004-20230501   gcc  
+i386                 randconfig-a005-20230501   gcc  
+i386                 randconfig-a006-20230501   gcc  
+i386                 randconfig-a011-20230501   clang
+i386                 randconfig-a012-20230501   clang
+i386                 randconfig-a013-20230501   clang
+i386                 randconfig-a014-20230501   clang
+i386                 randconfig-a015-20230501   clang
+i386                 randconfig-a016-20230501   clang
+i386                 randconfig-r012-20230501   clang
+ia64                             allmodconfig   gcc  
+ia64         buildonly-randconfig-r004-20230501   gcc  
+ia64                                defconfig   gcc  
+ia64                 randconfig-r023-20230430   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch    buildonly-randconfig-r001-20230501   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r024-20230430   gcc  
+loongarch            randconfig-r025-20230430   gcc  
+loongarch            randconfig-r035-20230430   gcc  
+m68k                             allmodconfig   gcc  
+m68k         buildonly-randconfig-r002-20230430   gcc  
+m68k         buildonly-randconfig-r002-20230501   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r001-20230501   gcc  
+m68k                 randconfig-r001-20230502   gcc  
+m68k                 randconfig-r013-20230501   gcc  
+m68k                 randconfig-r016-20230502   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                 randconfig-r006-20230501   clang
+nios2        buildonly-randconfig-r003-20230430   gcc  
+nios2        buildonly-randconfig-r003-20230502   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r022-20230501   gcc  
+openrisc     buildonly-randconfig-r005-20230430   gcc  
+openrisc             randconfig-r004-20230502   gcc  
+openrisc             randconfig-r024-20230502   gcc  
+parisc       buildonly-randconfig-r006-20230501   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r003-20230430   gcc  
+parisc               randconfig-r003-20230502   gcc  
+parisc               randconfig-r013-20230502   gcc  
+parisc               randconfig-r024-20230501   gcc  
+parisc               randconfig-r031-20230430   gcc  
+parisc               randconfig-r032-20230501   gcc  
+parisc               randconfig-r033-20230501   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc      buildonly-randconfig-r005-20230502   gcc  
+powerpc              randconfig-r013-20230430   clang
+powerpc              randconfig-r014-20230430   clang
+powerpc              randconfig-r026-20230501   clang
+powerpc              randconfig-r034-20230501   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv        buildonly-randconfig-r004-20230502   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r002-20230430   gcc  
+riscv                randconfig-r002-20230502   clang
+riscv                randconfig-r004-20230430   gcc  
+riscv                randconfig-r025-20230501   clang
+riscv                randconfig-r042-20230430   clang
+riscv                randconfig-r042-20230501   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390         buildonly-randconfig-r003-20230501   clang
+s390                                defconfig   gcc  
+s390                 randconfig-r011-20230502   gcc  
+s390                 randconfig-r012-20230430   clang
+s390                 randconfig-r014-20230501   clang
+s390                 randconfig-r044-20230430   clang
+s390                 randconfig-r044-20230501   clang
+sh                               allmodconfig   gcc  
+sh                   randconfig-r005-20230502   gcc  
+sh                   randconfig-r011-20230430   gcc  
+sh                   randconfig-r022-20230430   gcc  
+sh                   randconfig-r033-20230430   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r036-20230430   gcc  
+sparc64              randconfig-r001-20230430   gcc  
+sparc64              randconfig-r002-20230501   gcc  
+sparc64              randconfig-r016-20230430   gcc  
+sparc64              randconfig-r016-20230501   gcc  
+sparc64              randconfig-r021-20230430   gcc  
+sparc64              randconfig-r021-20230501   gcc  
+sparc64              randconfig-r034-20230430   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230501   gcc  
+x86_64               randconfig-a002-20230501   gcc  
+x86_64               randconfig-a003-20230501   gcc  
+x86_64               randconfig-a004-20230501   gcc  
+x86_64               randconfig-a005-20230501   gcc  
+x86_64               randconfig-a006-20230501   gcc  
+x86_64               randconfig-a011-20230501   clang
+x86_64               randconfig-a012-20230501   clang
+x86_64               randconfig-a013-20230501   clang
+x86_64               randconfig-a014-20230501   clang
+x86_64               randconfig-a015-20230501   clang
+x86_64               randconfig-a016-20230501   clang
+x86_64                        randconfig-k001   clang
+x86_64               randconfig-r005-20230501   gcc  
+x86_64                               rhel-8.3   gcc  
+xtensa               randconfig-r021-20230502   gcc  
+xtensa               randconfig-r035-20230501   gcc  
 
-What about ordering - do the devices guarantee strict ordering of
-REQ_ATOMIC writes? i.e. if atomic write N is seen on disk, then all
-the previous atomic writes up to N will also be seen on disk? If
-not, how does the application and filesystem guarantee persistence
-of completed atomic writes?
-
-i.e. If we still need a post-IO device cache flush to guarantee
-persistence and/or ordering of RWF_ATOMIC IOs, then the above code
-makes no sense - we'll still need fdatasync() to provide persistence
-checkpoints and that means we ensure metadata is also up to date
-at those checkpoints.
-
-I need someone to put down in writing exactly what the data
-integrity, ordering and persistence semantics of REQ_ATOMIC are
-before I can really comment any further. From my perspective as a
-filesystem developer, this is the single most important set of
-behaviours that need to be documented, as this determines how
-everything else interacts with atomic writes....
-
->  	if (iomap->type == IOMAP_UNWRITTEN) {
->  		dio->flags |= IOMAP_DIO_UNWRITTEN;
->  		need_zeroout = true;
-> @@ -318,6 +340,10 @@ static loff_t iomap_dio_bio_iter(const struct iomap_iter *iter,
->  					  GFP_KERNEL);
->  		bio->bi_iter.bi_sector = iomap_sector(iomap, pos);
->  		bio->bi_ioprio = dio->iocb->ki_ioprio;
-> +		if (atomic_write) {
-> +			bio->bi_opf |= REQ_ATOMIC;
-> +			bio->atomic_write_unit = dio->atomic_write_unit;
-> +		}
->  		bio->bi_private = dio;
->  		bio->bi_end_io = iomap_dio_bio_end_io;
->  
-> @@ -492,6 +518,8 @@ __iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
->  		is_sync_kiocb(iocb) || (dio_flags & IOMAP_DIO_FORCE_WAIT);
->  	struct blk_plug plug;
->  	struct iomap_dio *dio;
-> +	bool is_read = iov_iter_rw(iter) == READ;
-> +	bool atomic_write = (iocb->ki_flags & IOCB_ATOMIC) && !is_read;
->  
->  	if (!iomi.len)
->  		return NULL;
-> @@ -500,6 +528,20 @@ __iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
->  	if (!dio)
->  		return ERR_PTR(-ENOMEM);
->  
-> +	if (atomic_write) {
-> +		/*
-> +		 * Note: This lookup is not proper for a multi-device scenario,
-> +		 *	 however for current iomap users, the bdev per iter
-> +		 *	 will be fixed, so "works" for now.
-> +		 */
-> +		struct super_block *i_sb = inode->i_sb;
-> +		struct block_device *bdev = i_sb->s_bdev;
-> +
-> +		dio->atomic_write_unit =
-> +			bdev_find_max_atomic_write_alignment(bdev,
-> +					iomi.pos, iomi.len);
-> +	}
-
-This will break atomic IO to XFS realtime devices. The device we are
-doing IO to is iomap->bdev, we should never be using sb->s_bdev in
-the iomap code.  Of course, at this point in __iomap_dio_rw() we
-don't have an iomap so this "alignment constraint" can't be done
-correctly at this point in the IO path.
-
-However, even ignoring the bdev source, I think this is completely
-wrong. Passing a *file* offset to the underlying block device so the
-block device can return a device alignment constraint for IO is not
-valid. We don't know how that file offset/length is going to be
-mapped to the underlying block device until we ask the filesystem
-for an iomap covering the file range, so we can't possibly know what
-the device IO alignment of the user request will be until we have an
-iomap for it.
-
-At which point, the "which block device should we ask for alignment
-constraints" question is moot, because we now have an iomap and can
-use iomap->bdev....
-
-> @@ -592,6 +634,32 @@ __iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
->  
->  	blk_start_plug(&plug);
->  	while ((ret = iomap_iter(&iomi, ops)) > 0) {
-> +		if (atomic_write) {
-> +			const struct iomap *_iomap = &iomi.iomap;
-> +			loff_t iomi_length = iomap_length(&iomi);
-> +
-> +			/*
-> +			 * Ensure length and start address is a multiple of
-> +			 * atomic_write_unit - this is critical. If the length
-> +			 * is not a multiple of atomic_write_unit, then we
-> +			 * cannot create a set of bio's in iomap_dio_bio_iter()
-> +			 * who are each a length which is a multiple of
-> +			 * atomic_write_unit.
-> +			 *
-> +			 * Note: It may be more appropiate to have this check
-> +			 *	 in iomap_dio_bio_iter()
-> +			 */
-> +			if ((iomap_sector(_iomap, iomi.pos) << SECTOR_SHIFT) %
-> +			    dio->atomic_write_unit) {
-> +				ret = -EIO;
-> +				break;
-> +			}
-> +
-> +			if (iomi_length % dio->atomic_write_unit) {
-> +				ret = -EIO;
-> +				break;
-> +			}
-
-This looks wrong - the length of the mapped extent could be shorter
-than the max atomic write size returned by
-bdev_find_max_atomic_write_alignment() but the iomap could still be aligned
-to the minimum atomic write unit supported. At this point, we reject
-the IO with -EIO, even though it could have been done as an atomic
-write, just a shorter one than the user requested.
-
-That said, I don't think we can call a user IO that is being
-sliced and diced into multiple individual IOs "atomic". "Atomic"
-implies all-or-none behaviour - slicing up a large DIO into smaller
-individual bios means the bios can be submitted and completed out of
-order. If we then we get a power failure, the application's "atomic"
-IO can appear on disk as only being partially complete - it violates
-the "all or none" semantics of "atomic IO".
-
-Hence I think that we should be rejecting RWF_ATOMIC IOs that are
-larger than the maximum atomic write unit or cannot be dispatched in
-a single IO e.g. filesystem has allocated multiple minimum aligned
-extents and so a max len atomic write IO over that range must be
-broken up into multiple smaller IOs.
-
-We should be doing max atomic write size rejection high up in the IO
-path (e.g. filesystem ->write_iter() method) before we get anywhere
-near the DIO path, and we should be rejecting atomic write IOs in
-the DIO path during the ->iomap_begin() mapping callback if we can't
-map the entire atomic IO to a single aligned filesystem extent.
-
-i.e. the alignment checks and constraints need to be applied by the
-filesystem mapping code, not the layer that packs the pages into the
-bio as directed by the filesystem mapping....
-
-Cheers,
-
-Dave.
 -- 
-Dave Chinner
-david@fromorbit.com
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
 
