@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AEC8DC7EE23
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 09:13:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F364C7EE25
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 09:13:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ouaTATkWNixyD5d3su+1xUw5y9Ym8ke7nX0uHaKZbUg=; b=1IBdEip2fEasBebvQ7K1q1Ke1k
-	0dviHqoB+Y+LhphrofMAjm2eyqfsSgzNk16K6+EvYG1QTTFiJ7mvL0l9p1F6TCTQRH0liF9c+OB4X
-	16F505Jmq+PO6n5hq1wQJxR8LZK0cHCaGCWwFmfYgjXyoqBXy9GT58DGT2f5OWdjiD5Z7e5epq/x9
-	h8icw1BE91WwOTUnMXGfve14M2H9vG551hs7enptl1FXOaFl3iyunmpAyiRLSdS9yS9GXXXtEGgJW
-	WAX83srUnslwyRejXSB1uTA/8J5R4VWPEm6Gc3zNn9VpkaSbW62lpbpExMquajai8pHRLfj9DNxkO
-	fnXuGI1Q==;
+	bh=CJg6fOVMJfQiPdvfQeCkj1a2vcDOvIJAvZO16+3IyrU=; b=qK4xrbJw2bs2i/+NUjsIaxhsSa
+	mA5LuJUwXA/+bBtd2N1UfDNZb9zvO4UMVIC9Z2AGAdgVUS8Um5/g8MmbrmNNsa7gUUQZSsCTgrqs4
+	fGthi2WgsdfsmGcNlEsoQAwoxvTrjvu0jpBMDZXdxCkJCBITlnpKmyiTsLyQdgIHNGbKqQ3p2D241
+	FfVGQEmVoGnO/EF9jzb+fUOgO3Qyy4B1GncLm1Z5TjHk+ktYLmT7oqlLBDQTnxoPHVz4tnnP7YyB9
+	djpnWxJFpc3E6wBsVW2keft73Jq5h8QxyL0UJvHl5YIsbISInDqF+ULtskpMO6qyKkIPCgHP2QuRo
+	vik5hBJA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1puV1Y-007DlJ-0W;
-	Thu, 04 May 2023 09:13:16 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1puV1Z-007DmB-0Z;
+	Thu, 04 May 2023 09:13:17 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1puV1S-007Dey-1n
+	id 1puV1T-007DfC-2N
 	for linux-nvme@lists.infradead.org;
 	Thu, 04 May 2023 09:13:13 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9125E209AC;
-	Thu,  4 May 2023 09:13:04 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2998B33932;
+	Thu,  4 May 2023 09:13:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1683191584; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1683191585; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ouaTATkWNixyD5d3su+1xUw5y9Ym8ke7nX0uHaKZbUg=;
-	b=lfPbEvfUwuVA73OXON1Y3/CaMNOfQEYaN5z9Ofcg0pBr2tCcLTpl5MzIxGuhU12MNFpYzh
-	xL4eudbc8J5zY8e7wm93dJLtdojTazAKTyDf1siXPyf2r2OEYAbIA3uCIVfUvd482/Ys0x
-	r82wRFeaSiaXFwh2agTkJ5RkeaH3df0=
+	bh=CJg6fOVMJfQiPdvfQeCkj1a2vcDOvIJAvZO16+3IyrU=;
+	b=Pr9hQVSZbxMqN2Kj/HQTRlKJ3TopK+kfGC9pt5fNTVIM+yUvM7ZlLRVz78SUbE8QnKM6Oi
+	N5cLwrhWIPR0Bs2XxgIwZheqHiBld+msx3KjgLs2HrGOGvrYq7AIoA6cJ6sVZNlwLDETiO
+	2vpmAylR/hBQ0BmZCnuWIqt/CoAqfDE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1683191584;
+	s=susede2_ed25519; t=1683191585;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ouaTATkWNixyD5d3su+1xUw5y9Ym8ke7nX0uHaKZbUg=;
-	b=Bf3gHwkKJIj1Xi3QkNnUxG7kM+ITdAVO2udEz1R/u5EMBeVCRc0kPXhOyElYn3CHARbBdO
-	O+1XjbxY0cK6qXCQ==
+	bh=CJg6fOVMJfQiPdvfQeCkj1a2vcDOvIJAvZO16+3IyrU=;
+	b=QkTpdXmjR+kILeHfcRC22Wutk/+VTUuDQ0PmFc/leZgtuO7IOqIXuW8E9yEzq1ZayC/zHA
+	WpjCqKNrljDvCHCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 82CAE13444;
-	Thu,  4 May 2023 09:13:04 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1B4C013444;
+	Thu,  4 May 2023 09:13:05 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id AlzpHyB3U2TaTwAAMHmgww
-	(envelope-from <dwagner@suse.de>); Thu, 04 May 2023 09:13:04 +0000
+	id 1UuoBiF3U2TcTwAAMHmgww
+	(envelope-from <dwagner@suse.de>); Thu, 04 May 2023 09:13:05 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -69,17 +69,17 @@ Cc: linux-kernel@vger.kernel.org,
 	Hannes Reinecke <hare@suse.de>,
 	James Smart <jsmart2021@gmail.com>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [RFC v3 2/9] nvme-rdma: factor rdma specific queue init code out
-Date: Thu,  4 May 2023 11:12:52 +0200
-Message-Id: <20230504091259.29100-3-dwagner@suse.de>
+Subject: [RFC v3 3/9] nvme-tcp: move error and connect work to nvme_ctrl
+Date: Thu,  4 May 2023 11:12:53 +0200
+Message-Id: <20230504091259.29100-4-dwagner@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230504091259.29100-1-dwagner@suse.de>
 References: <20230504091259.29100-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230504_021310_739729_7A67BD35 
-X-CRM114-Status: GOOD (  15.42  )
+X-CRM114-CacheID: sfid-20230504_021311_933017_A5C9B60B 
+X-CRM114-Status: GOOD (  14.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,123 +94,107 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In preparation to move common code from the fabrics driver to fabrics.c,
-move the rmda queue specific initialization code into a separate
-function.
+Move common data structures for fabrics to nvme_ctrl so that we are able
+to use them in fabrcis.c later.
 
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- drivers/nvme/host/rdma.c | 65 ++++++++++++++++++++++++++++------------
- 1 file changed, 46 insertions(+), 19 deletions(-)
+ drivers/nvme/host/nvme.h |  3 +++
+ drivers/nvme/host/tcp.c  | 24 ++++++++++--------------
+ 2 files changed, 13 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 92e5d0ccf3a9..a78c66278b19 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -826,15 +826,16 @@ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl)
- 	nvme_rdma_free_queue(&ctrl->ctrl, 0);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index bf46f122e9e1..5aa30b00dd17 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -339,6 +339,9 @@ struct nvme_ctrl {
+ 	struct work_struct ana_work;
+ #endif
+ 
++	struct work_struct	err_work;
++	struct delayed_work	connect_work;
++
+ #ifdef CONFIG_NVME_AUTH
+ 	struct work_struct dhchap_auth_work;
+ 	struct mutex dhchap_auth_mutex;
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 273c1f2760a4..74ccc84d244a 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -166,8 +166,6 @@ struct nvme_tcp_ctrl {
+ 	struct sockaddr_storage src_addr;
+ 	struct nvme_ctrl	ctrl;
+ 
+-	struct work_struct	err_work;
+-	struct delayed_work	connect_work;
+ 	struct nvme_tcp_request async_req;
+ 	u32			io_queues[HCTX_MAX_TYPES];
+ };
+@@ -527,7 +525,7 @@ static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl)
+ 		return;
+ 
+ 	dev_warn(ctrl->device, "starting error recovery\n");
+-	queue_work(nvme_reset_wq, &to_tcp_ctrl(ctrl)->err_work);
++	queue_work(nvme_reset_wq, &ctrl->err_work);
  }
  
--static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
--		bool new)
-+static int nvme_rdma_init_queue(struct nvme_ctrl *nctrl, int qid)
+ static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
+@@ -2025,7 +2023,7 @@ static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl)
+ 	if (nvmf_should_reconnect(ctrl)) {
+ 		dev_info(ctrl->device, "Reconnecting in %d seconds...\n",
+ 			ctrl->opts->reconnect_delay);
+-		queue_delayed_work(nvme_wq, &to_tcp_ctrl(ctrl)->connect_work,
++		queue_delayed_work(nvme_wq, &ctrl->connect_work,
+ 				ctrl->opts->reconnect_delay * HZ);
+ 	} else {
+ 		dev_info(ctrl->device, "Removing controller...\n");
+@@ -2107,9 +2105,8 @@ static int nvme_tcp_setup_ctrl(struct nvme_ctrl *ctrl, bool new)
+ 
+ static void nvme_tcp_reconnect_ctrl_work(struct work_struct *work)
  {
-+	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
- 	bool pi_capable = false;
- 	int error;
+-	struct nvme_tcp_ctrl *tcp_ctrl = container_of(to_delayed_work(work),
+-			struct nvme_tcp_ctrl, connect_work);
+-	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
++	struct nvme_ctrl *ctrl = container_of(to_delayed_work(work),
++			struct nvme_ctrl, connect_work);
  
--	error = nvme_rdma_alloc_queue(&ctrl->ctrl, 0);
--	if (error)
--		return error;
-+	if (qid != 0)
-+		/* only admin queue needs additional work. */
-+		return 0;
-+
+ 	++ctrl->nr_reconnects;
  
- 	ctrl->device = ctrl->queues[0].device;
- 	ctrl->ctrl.numa_node = ibdev_to_node(ctrl->device->dev);
-@@ -854,6 +855,43 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 	 */
- 	error = nvme_rdma_alloc_qe(ctrl->device->dev, &ctrl->async_event_sqe,
- 			sizeof(struct nvme_command), DMA_TO_DEVICE);
-+	if (error)
-+		return error;
-+
-+	ctrl->ctrl.max_segments = ctrl->max_fr_pages;
-+	ctrl->ctrl.max_hw_sectors = ctrl->max_fr_pages << (ilog2(SZ_4K) - 9);
-+	if (pi_capable)
-+		ctrl->ctrl.max_integrity_segments = ctrl->max_fr_pages;
-+	else
-+		ctrl->ctrl.max_integrity_segments = 0;
-+
-+	return 0;
-+}
-+
-+static void nvme_rdma_deinit_queue(struct nvme_ctrl *nctrl, int qid)
-+{
-+	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
-+
-+	if (qid != 0)
-+		return;
-+
-+	if (ctrl->async_event_sqe.data) {
-+		nvme_rdma_free_qe(ctrl->device->dev, &ctrl->async_event_sqe,
-+			sizeof(struct nvme_command), DMA_TO_DEVICE);
-+		ctrl->async_event_sqe.data = NULL;
-+	}
-+}
-+
-+static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
-+		bool new)
-+{
-+	int error;
-+
-+	error = nvme_rdma_alloc_queue(&ctrl->ctrl, 0);
-+	if (error)
-+		return error;
-+
-+	error = nvme_rdma_init_queue(&ctrl->ctrl, 0);
- 	if (error)
- 		goto out_free_queue;
+@@ -2131,9 +2128,8 @@ static void nvme_tcp_reconnect_ctrl_work(struct work_struct *work)
  
-@@ -863,7 +901,7 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 				sizeof(struct nvme_rdma_request) +
- 				NVME_RDMA_DATA_SGL_SIZE);
- 		if (error)
--			goto out_free_async_qe;
-+			goto out_deinit_admin_queue;
+ static void nvme_tcp_error_recovery_work(struct work_struct *work)
+ {
+-	struct nvme_tcp_ctrl *tcp_ctrl = container_of(work,
+-				struct nvme_tcp_ctrl, err_work);
+-	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
++	struct nvme_ctrl *ctrl = container_of(work,
++				struct nvme_ctrl, err_work);
  
- 	}
+ 	nvme_stop_keep_alive(ctrl);
+ 	flush_work(&ctrl->async_event_work);
+@@ -2194,8 +2190,8 @@ static void nvme_reset_ctrl_work(struct work_struct *work)
  
-@@ -875,13 +913,6 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 	if (error)
- 		goto out_stop_queue;
+ static void nvme_tcp_stop_ctrl(struct nvme_ctrl *ctrl)
+ {
+-	flush_work(&to_tcp_ctrl(ctrl)->err_work);
+-	cancel_delayed_work_sync(&to_tcp_ctrl(ctrl)->connect_work);
++	flush_work(&ctrl->err_work);
++	cancel_delayed_work_sync(&ctrl->connect_work);
+ }
  
--	ctrl->ctrl.max_segments = ctrl->max_fr_pages;
--	ctrl->ctrl.max_hw_sectors = ctrl->max_fr_pages << (ilog2(SZ_4K) - 9);
--	if (pi_capable)
--		ctrl->ctrl.max_integrity_segments = ctrl->max_fr_pages;
--	else
--		ctrl->ctrl.max_integrity_segments = 0;
--
- 	nvme_unquiesce_admin_queue(&ctrl->ctrl);
+ static void nvme_tcp_free_ctrl(struct nvme_ctrl *nctrl)
+@@ -2581,9 +2577,9 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
+ 	ctrl->ctrl.sqsize = opts->queue_size - 1;
+ 	ctrl->ctrl.kato = opts->kato;
  
- 	error = nvme_init_ctrl_finish(&ctrl->ctrl, false);
-@@ -899,12 +930,8 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- out_remove_admin_tag_set:
- 	if (new)
- 		nvme_remove_admin_tag_set(&ctrl->ctrl);
--out_free_async_qe:
--	if (ctrl->async_event_sqe.data) {
--		nvme_rdma_free_qe(ctrl->device->dev, &ctrl->async_event_sqe,
--			sizeof(struct nvme_command), DMA_TO_DEVICE);
--		ctrl->async_event_sqe.data = NULL;
--	}
-+out_deinit_admin_queue:
-+	nvme_rdma_deinit_queue(&ctrl->ctrl, 0);
- out_free_queue:
- 	nvme_rdma_free_queue(&ctrl->ctrl, 0);
- 	return error;
+-	INIT_DELAYED_WORK(&ctrl->connect_work,
++	INIT_DELAYED_WORK(&ctrl->ctrl.connect_work,
+ 			nvme_tcp_reconnect_ctrl_work);
+-	INIT_WORK(&ctrl->err_work, nvme_tcp_error_recovery_work);
++	INIT_WORK(&ctrl->ctrl.err_work, nvme_tcp_error_recovery_work);
+ 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_reset_ctrl_work);
+ 
+ 	if (!(opts->mask & NVMF_OPT_TRSVCID)) {
 -- 
 2.40.0
 
