@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98F33C7EE29
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 12:19:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D471BC7EE26
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 12:19:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wSyb6givsMExpGuHktpWfu+gxOuU871A0uj9kukvqHo=; b=rRpb/bdfrU7ZT+55H2Larz26Rw
-	1wXA1C1SWr1C9hZBuJRwVrlpqCP1WxXDqTmso1zy9GJh+76ktDBugxMPr+YLPe5CEzsYGlfImblaz
-	+QiFLnDt0h5AJSq5gJynXYqOkrqHmYwArmd5Jp5c9JZwGOs9Dj3DnE39ncoHHjbQBG9B05sguRc/c
-	ytwaQCm/TIL91YWakLNsAcfF/2R0uoKiViDBE+Da3O/LAVpVNxNiBnLn2QadmEDd9dgLImzG6ba3/
-	exqUKlOIfx2OvkIyMtKD6BSD0e8ZwPz3rnKuUFZySnTmjfHF1KAgoLZq2gHaRQkG1SdEYIFx+/Sm+
-	kjplPlEQ==;
+	bh=9NGNi6mRkVCR2qGgOfiAwQ62RvEBOIDTb5fwVl75RrU=; b=zbsthwyj5fXYToKFV4G6GXMf15
+	jVTkm3XfP/ZL6JjjbPvpov9Ls1aPLj/AlIsUt1aqELwjrSrdcJ0oJOhv1pH+gIZwmx9v6NZCtv2rZ
+	hx4hSydNSuIaLF6iqzWa6gYYr1bPrr2EgWrujTBNNVr4k1V/cbe3cKjlcDyNVH1vXk4CF2qTkfiYl
+	dzveGvBnyyaLk+4b1fW5V9D30ovKj/Sdzb3ddP32nNBUeCUPWhgEgUL2YzHlGLI1zVq1UKIpyXqlj
+	168meu+Kwg5ZXYz6W3xIJ/iMxJyoOsEPdG2S0XdWmk52c5Hq87dIzCuj2sLAy2SFYwdEhU9kG6dDZ
+	XCU2/kWQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1puXvT-007oHw-2K;
-	Thu, 04 May 2023 12:19:11 +0000
-Received: from mail-wm1-f42.google.com ([209.85.128.42])
+	id 1puXvU-007oIe-1R;
+	Thu, 04 May 2023 12:19:12 +0000
+Received: from mail-wm1-f53.google.com ([209.85.128.53])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1puXvQ-007oEF-2l
+	id 1puXvQ-007oEw-1h
 	for linux-nvme@lists.infradead.org;
 	Thu, 04 May 2023 12:19:10 +0000
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3f4000ec74aso3206205e9.3
-        for <linux-nvme@lists.infradead.org>; Thu, 04 May 2023 05:19:06 -0700 (PDT)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3f37a36b713so4305925e9.1
+        for <linux-nvme@lists.infradead.org>; Thu, 04 May 2023 05:19:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683202745; x=1685794745;
+        d=1e100.net; s=20221208; t=1683202746; x=1685794746;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wSyb6givsMExpGuHktpWfu+gxOuU871A0uj9kukvqHo=;
-        b=kZktC0T9HBKn8cxrFIk0clKZ8QKlle3OC9IPPftDPPVuHzRmmp5pDcD/lHucNXfpQV
-         Rt/8Y+i8MVMqQQEC0IGjdEfO1R1LyFfOuqQ13I9D9afhIn+n5FJdPkhevkGxb8AWvXTV
-         DdXFPT4zWuQgbeU42kPBr6Ax9RYdDgDnlkMac/sSK9Mv3Qxps0TNZ4Lm9/ZwJvd8yzYL
-         +faREB1+lDUw5j9UaAmvv2WmpLv4VmNUVoFRTrVgvGPFh2D7mX8zUM2y2aKcZbHgk6P7
-         PlBc2bDZTvOdSAiQopZznpmdHQpiD3OQB9n8oplPEul1A1fqTRgsucfn+kjQglFH7dhG
-         Io1w==
-X-Gm-Message-State: AC+VfDzk2Lt+CCrV7N6l8r2mZ3lKrWjnPhOynPDalGZ3j0OjHGxXrN+x
-	r55hKJNQWer5uqVaoBZGOt0=
-X-Google-Smtp-Source: ACHHUZ6U41Ymc//NQ1NfFRXTc5vZxexdvF5yf/UL7aT819ElkY5jwLddGgqGkL2K4aqY7X/9EkOZQA==
-X-Received: by 2002:a1c:f717:0:b0:3f1:8aaa:c20c with SMTP id v23-20020a1cf717000000b003f18aaac20cmr17008034wmh.7.1683202744867;
-        Thu, 04 May 2023 05:19:04 -0700 (PDT)
-Received: from localhost (fwdproxy-cln-027.fbsv.net. [2a03:2880:31ff:1b::face:b00c])
-        by smtp.gmail.com with ESMTPSA id y4-20020a05600c364400b003f175954e71sm4830463wmq.32.2023.05.04.05.19.04
+        bh=9NGNi6mRkVCR2qGgOfiAwQ62RvEBOIDTb5fwVl75RrU=;
+        b=X9l2QLGvIcoa7ScZ/jNftMzrv+HuDfxJYjf3jwtzs2VGBa8PJR+AfbtfGMzEsdEA00
+         Ip2cBmm5DTvkyH6TkidC4e7pLRrDfTJAwlpxvX8FEAmi/E802Gv4ZK2AH2T6F/u5Y5jL
+         37vwjnyxn7rd1MLrPdP99C6TmlnhwZFpEUiympaLnz5uOTv5U4/KXA8YrO5LYMgOqOhw
+         qjd6yGad/gXHy5JAZsggAqvDyTmei2I54h35ghoqxqcSL53ilspdYJMyCCplfVkIcjtd
+         Ppo5GU5QnXl2MIAvigW0ae8uoufJms/O6ahNBfm8xDdQa92JHfTVFYkFz1CdvUqn2VdQ
+         FbJw==
+X-Gm-Message-State: AC+VfDxPOpMrVomwOd7Pb8DwNpmOl3utBkm9KqxHYqZnwEDJHeLHyvZ/
+	HAMtDn9QFg3EowzDVvrQago=
+X-Google-Smtp-Source: ACHHUZ75FunCVCcbYfiW5LlO1abDrDow/4py6f9oGCuMkvrxTImsMfvbqk9FDNnFommVIcSLCizahw==
+X-Received: by 2002:a7b:cb8f:0:b0:3f1:885f:2e52 with SMTP id m15-20020a7bcb8f000000b003f1885f2e52mr17525032wmi.16.1683202746028;
+        Thu, 04 May 2023 05:19:06 -0700 (PDT)
+Received: from localhost (fwdproxy-cln-016.fbsv.net. [2a03:2880:31ff:10::face:b00c])
+        by smtp.gmail.com with ESMTPSA id c7-20020a05600c0ac700b003f1958eeadcsm4757182wmr.17.2023.05.04.05.19.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 May 2023 05:19:04 -0700 (PDT)
+        Thu, 04 May 2023 05:19:05 -0700 (PDT)
 From: Breno Leitao <leitao@debian.org>
 To: io-uring@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
@@ -63,17 +63,17 @@ Cc: leit@fb.com,
 	sagi@grimberg.me,
 	joshi.k@samsung.com,
 	kbusch@kernel.org
-Subject: [PATCH v4 1/3] io_uring: Create a helper to return the SQE size
-Date: Thu,  4 May 2023 05:18:54 -0700
-Message-Id: <20230504121856.904491-2-leitao@debian.org>
+Subject: [PATCH v4 2/3] io_uring: Pass whole sqe to commands
+Date: Thu,  4 May 2023 05:18:55 -0700
+Message-Id: <20230504121856.904491-3-leitao@debian.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230504121856.904491-1-leitao@debian.org>
 References: <20230504121856.904491-1-leitao@debian.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230504_051908_892657_600A8BA6 
-X-CRM114-Status: GOOD (  11.60  )
+X-CRM114-CacheID: sfid-20230504_051908_563362_5E1F914A 
+X-CRM114-Status: GOOD (  19.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,37 +88,242 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Create a simple helper that returns the size of the SQE. The SQE could
-have two size, depending of the flags.
+Currently uring CMD operation relies on having large SQEs, but future
+operations might want to use normal SQE.
 
-If IO_URING_SETUP_SQE128 flag is set, then return a double SQE,
-otherwise returns the sizeof of io_uring_sqe (64 bytes).
+The io_uring_cmd currently only saves the payload (cmd) part of the SQE,
+but, for commands that use normal SQE size, it might be necessary to
+access the initial SQE fields outside of the payload/cmd block.  So,
+saves the whole SQE other than just the pdu.
 
+This changes slightly how the io_uring_cmd works, since the cmd
+structures and callbacks are not opaque to io_uring anymore. I.e, the
+callbacks can look at the SQE entries, not only, in the cmd structure.
+
+The main advantage is that we don't need to create custom structures for
+simple commands.
+
+Creates io_uring_sqe_cmd() that returns the cmd private data as a null
+pointer and avoids casting in the callee side.
+Also, make most of ublk_drv's sqe->cmd priv structure into const, and use
+io_uring_sqe_cmd() to get the private structure, removing the unwanted
+cast. (There is one case where the cast is still needed since the
+header->{len,addr} is updated in the private structure)
+
+Suggested-by: Pavel Begunkov <asml.silence@gmail.com>
 Signed-off-by: Breno Leitao <leitao@debian.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- io_uring/io_uring.h | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/block/ublk_drv.c  | 26 +++++++++++++-------------
+ drivers/nvme/host/ioctl.c |  2 +-
+ include/linux/io_uring.h  |  7 ++++++-
+ io_uring/opdef.c          |  2 +-
+ io_uring/uring_cmd.c      |  9 +++------
+ 5 files changed, 24 insertions(+), 22 deletions(-)
 
-diff --git a/io_uring/io_uring.h b/io_uring/io_uring.h
-index 25515d69d205..259bf798a390 100644
---- a/io_uring/io_uring.h
-+++ b/io_uring/io_uring.h
-@@ -394,4 +394,14 @@ static inline void io_req_queue_tw_complete(struct io_kiocb *req, s32 res)
- 	io_req_task_work_add(req);
+diff --git a/drivers/block/ublk_drv.c b/drivers/block/ublk_drv.c
+index c73cc57ec547..42f4d7ca962e 100644
+--- a/drivers/block/ublk_drv.c
++++ b/drivers/block/ublk_drv.c
+@@ -1019,7 +1019,7 @@ static int ublk_ch_mmap(struct file *filp, struct vm_area_struct *vma)
  }
  
-+/*
-+ * IORING_SETUP_SQE128 contexts allocate twice the normal SQE size for each
-+ * slot.
-+ */
-+static inline size_t uring_sqe_size(struct io_ring_ctx *ctx)
+ static void ublk_commit_completion(struct ublk_device *ub,
+-		struct ublksrv_io_cmd *ub_cmd)
++		const struct ublksrv_io_cmd *ub_cmd)
+ {
+ 	u32 qid = ub_cmd->q_id, tag = ub_cmd->tag;
+ 	struct ublk_queue *ubq = ublk_get_queue(ub, qid);
+@@ -1263,7 +1263,7 @@ static void ublk_handle_need_get_data(struct ublk_device *ub, int q_id,
+ 
+ static int ublk_ch_uring_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags)
+ {
+-	struct ublksrv_io_cmd *ub_cmd = (struct ublksrv_io_cmd *)cmd->cmd;
++	const struct ublksrv_io_cmd *ub_cmd = io_uring_sqe_cmd(cmd->sqe);
+ 	struct ublk_device *ub = cmd->file->private_data;
+ 	struct ublk_queue *ubq;
+ 	struct ublk_io *io;
+@@ -1567,7 +1567,7 @@ static struct ublk_device *ublk_get_device_from_id(int idx)
+ 
+ static int ublk_ctrl_start_dev(struct ublk_device *ub, struct io_uring_cmd *cmd)
+ {
+-	struct ublksrv_ctrl_cmd *header = (struct ublksrv_ctrl_cmd *)cmd->cmd;
++	const struct ublksrv_ctrl_cmd *header = io_uring_sqe_cmd(cmd->sqe);
+ 	int ublksrv_pid = (int)header->data[0];
+ 	struct gendisk *disk;
+ 	int ret = -EINVAL;
+@@ -1630,7 +1630,7 @@ static int ublk_ctrl_start_dev(struct ublk_device *ub, struct io_uring_cmd *cmd)
+ static int ublk_ctrl_get_queue_affinity(struct ublk_device *ub,
+ 		struct io_uring_cmd *cmd)
+ {
+-	struct ublksrv_ctrl_cmd *header = (struct ublksrv_ctrl_cmd *)cmd->cmd;
++	const struct ublksrv_ctrl_cmd *header = io_uring_sqe_cmd(cmd->sqe);
+ 	void __user *argp = (void __user *)(unsigned long)header->addr;
+ 	cpumask_var_t cpumask;
+ 	unsigned long queue;
+@@ -1681,7 +1681,7 @@ static inline void ublk_dump_dev_info(struct ublksrv_ctrl_dev_info *info)
+ 
+ static int ublk_ctrl_add_dev(struct io_uring_cmd *cmd)
+ {
+-	struct ublksrv_ctrl_cmd *header = (struct ublksrv_ctrl_cmd *)cmd->cmd;
++	const struct ublksrv_ctrl_cmd *header = io_uring_sqe_cmd(cmd->sqe);
+ 	void __user *argp = (void __user *)(unsigned long)header->addr;
+ 	struct ublksrv_ctrl_dev_info info;
+ 	struct ublk_device *ub;
+@@ -1844,7 +1844,7 @@ static int ublk_ctrl_del_dev(struct ublk_device **p_ub)
+ 
+ static inline void ublk_ctrl_cmd_dump(struct io_uring_cmd *cmd)
+ {
+-	struct ublksrv_ctrl_cmd *header = (struct ublksrv_ctrl_cmd *)cmd->cmd;
++	const struct ublksrv_ctrl_cmd *header = io_uring_sqe_cmd(cmd->sqe);
+ 
+ 	pr_devel("%s: cmd_op %x, dev id %d qid %d data %llx buf %llx len %u\n",
+ 			__func__, cmd->cmd_op, header->dev_id, header->queue_id,
+@@ -1863,7 +1863,7 @@ static int ublk_ctrl_stop_dev(struct ublk_device *ub)
+ static int ublk_ctrl_get_dev_info(struct ublk_device *ub,
+ 		struct io_uring_cmd *cmd)
+ {
+-	struct ublksrv_ctrl_cmd *header = (struct ublksrv_ctrl_cmd *)cmd->cmd;
++	const struct ublksrv_ctrl_cmd *header = io_uring_sqe_cmd(cmd->sqe);
+ 	void __user *argp = (void __user *)(unsigned long)header->addr;
+ 
+ 	if (header->len < sizeof(struct ublksrv_ctrl_dev_info) || !header->addr)
+@@ -1894,7 +1894,7 @@ static void ublk_ctrl_fill_params_devt(struct ublk_device *ub)
+ static int ublk_ctrl_get_params(struct ublk_device *ub,
+ 		struct io_uring_cmd *cmd)
+ {
+-	struct ublksrv_ctrl_cmd *header = (struct ublksrv_ctrl_cmd *)cmd->cmd;
++	const struct ublksrv_ctrl_cmd *header = io_uring_sqe_cmd(cmd->sqe);
+ 	void __user *argp = (void __user *)(unsigned long)header->addr;
+ 	struct ublk_params_header ph;
+ 	int ret;
+@@ -1925,7 +1925,7 @@ static int ublk_ctrl_get_params(struct ublk_device *ub,
+ static int ublk_ctrl_set_params(struct ublk_device *ub,
+ 		struct io_uring_cmd *cmd)
+ {
+-	struct ublksrv_ctrl_cmd *header = (struct ublksrv_ctrl_cmd *)cmd->cmd;
++	const struct ublksrv_ctrl_cmd *header = io_uring_sqe_cmd(cmd->sqe);
+ 	void __user *argp = (void __user *)(unsigned long)header->addr;
+ 	struct ublk_params_header ph;
+ 	int ret = -EFAULT;
+@@ -1983,7 +1983,7 @@ static void ublk_queue_reinit(struct ublk_device *ub, struct ublk_queue *ubq)
+ static int ublk_ctrl_start_recovery(struct ublk_device *ub,
+ 		struct io_uring_cmd *cmd)
+ {
+-	struct ublksrv_ctrl_cmd *header = (struct ublksrv_ctrl_cmd *)cmd->cmd;
++	const struct ublksrv_ctrl_cmd *header = io_uring_sqe_cmd(cmd->sqe);
+ 	int ret = -EINVAL;
+ 	int i;
+ 
+@@ -2025,7 +2025,7 @@ static int ublk_ctrl_start_recovery(struct ublk_device *ub,
+ static int ublk_ctrl_end_recovery(struct ublk_device *ub,
+ 		struct io_uring_cmd *cmd)
+ {
+-	struct ublksrv_ctrl_cmd *header = (struct ublksrv_ctrl_cmd *)cmd->cmd;
++	const struct ublksrv_ctrl_cmd *header = io_uring_sqe_cmd(cmd->sqe);
+ 	int ublksrv_pid = (int)header->data[0];
+ 	int ret = -EINVAL;
+ 
+@@ -2092,7 +2092,7 @@ static int ublk_char_dev_permission(struct ublk_device *ub,
+ static int ublk_ctrl_uring_cmd_permission(struct ublk_device *ub,
+ 		struct io_uring_cmd *cmd)
+ {
+-	struct ublksrv_ctrl_cmd *header = (struct ublksrv_ctrl_cmd *)cmd->cmd;
++	struct ublksrv_ctrl_cmd *header = (struct ublksrv_ctrl_cmd *)io_uring_sqe_cmd(cmd->sqe);
+ 	bool unprivileged = ub->dev_info.flags & UBLK_F_UNPRIVILEGED_DEV;
+ 	void __user *argp = (void __user *)(unsigned long)header->addr;
+ 	char *dev_path = NULL;
+@@ -2171,7 +2171,7 @@ static int ublk_ctrl_uring_cmd_permission(struct ublk_device *ub,
+ static int ublk_ctrl_uring_cmd(struct io_uring_cmd *cmd,
+ 		unsigned int issue_flags)
+ {
+-	struct ublksrv_ctrl_cmd *header = (struct ublksrv_ctrl_cmd *)cmd->cmd;
++	const struct ublksrv_ctrl_cmd *header = io_uring_sqe_cmd(cmd->sqe);
+ 	struct ublk_device *ub = NULL;
+ 	int ret = -EINVAL;
+ 
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index d24ea2e05156..81c5c9e38477 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -552,7 +552,7 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 		struct io_uring_cmd *ioucmd, unsigned int issue_flags, bool vec)
+ {
+ 	struct nvme_uring_cmd_pdu *pdu = nvme_uring_cmd_pdu(ioucmd);
+-	const struct nvme_uring_cmd *cmd = ioucmd->cmd;
++	const struct nvme_uring_cmd *cmd = io_uring_sqe_cmd(ioucmd->sqe);
+ 	struct request_queue *q = ns ? ns->queue : ctrl->admin_q;
+ 	struct nvme_uring_data d;
+ 	struct nvme_command c;
+diff --git a/include/linux/io_uring.h b/include/linux/io_uring.h
+index 35b9328ca335..3399d979ee1c 100644
+--- a/include/linux/io_uring.h
++++ b/include/linux/io_uring.h
+@@ -24,7 +24,7 @@ enum io_uring_cmd_flags {
+ 
+ struct io_uring_cmd {
+ 	struct file	*file;
+-	const void	*cmd;
++	const struct io_uring_sqe *sqe;
+ 	union {
+ 		/* callback to defer completions to task context */
+ 		void (*task_work_cb)(struct io_uring_cmd *cmd, unsigned);
+@@ -66,6 +66,11 @@ static inline void io_uring_free(struct task_struct *tsk)
+ 	if (tsk->io_uring)
+ 		__io_uring_free(tsk);
+ }
++
++static inline const void *io_uring_sqe_cmd(const struct io_uring_sqe *sqe)
 +{
-+	if (ctx->flags & IORING_SETUP_SQE128)
-+		return 2 * sizeof(struct io_uring_sqe);
-+	return sizeof(struct io_uring_sqe);
++	return sqe->cmd;
 +}
- #endif
+ #else
+ static inline int io_uring_cmd_import_fixed(u64 ubuf, unsigned long len, int rw,
+ 			      struct iov_iter *iter, void *ioucmd)
+diff --git a/io_uring/opdef.c b/io_uring/opdef.c
+index cca7c5b55208..3b9c6489b8b6 100644
+--- a/io_uring/opdef.c
++++ b/io_uring/opdef.c
+@@ -627,7 +627,7 @@ const struct io_cold_def io_cold_defs[] = {
+ 	},
+ 	[IORING_OP_URING_CMD] = {
+ 		.name			= "URING_CMD",
+-		.async_size		= uring_cmd_pdu_size(1),
++		.async_size		= 2 * sizeof(struct io_uring_sqe),
+ 		.prep_async		= io_uring_cmd_prep_async,
+ 	},
+ 	[IORING_OP_SEND_ZC] = {
+diff --git a/io_uring/uring_cmd.c b/io_uring/uring_cmd.c
+index 5113c9a48583..ed536d7499db 100644
+--- a/io_uring/uring_cmd.c
++++ b/io_uring/uring_cmd.c
+@@ -69,15 +69,12 @@ EXPORT_SYMBOL_GPL(io_uring_cmd_done);
+ int io_uring_cmd_prep_async(struct io_kiocb *req)
+ {
+ 	struct io_uring_cmd *ioucmd = io_kiocb_to_cmd(req, struct io_uring_cmd);
+-	size_t cmd_size;
+ 
+ 	BUILD_BUG_ON(uring_cmd_pdu_size(0) != 16);
+ 	BUILD_BUG_ON(uring_cmd_pdu_size(1) != 80);
+ 
+-	cmd_size = uring_cmd_pdu_size(req->ctx->flags & IORING_SETUP_SQE128);
+-
+-	memcpy(req->async_data, ioucmd->cmd, cmd_size);
+-	ioucmd->cmd = req->async_data;
++	memcpy(req->async_data, ioucmd->sqe, uring_sqe_size(req->ctx));
++	ioucmd->sqe = req->async_data;
+ 	return 0;
+ }
+ 
+@@ -103,7 +100,7 @@ int io_uring_cmd_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
+ 		req->imu = ctx->user_bufs[index];
+ 		io_req_set_rsrc_node(req, ctx, 0);
+ 	}
+-	ioucmd->cmd = sqe->cmd;
++	ioucmd->sqe = sqe;
+ 	ioucmd->cmd_op = READ_ONCE(sqe->cmd_op);
+ 	return 0;
+ }
 -- 
 2.34.1
 
