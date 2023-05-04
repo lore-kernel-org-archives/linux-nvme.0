@@ -4,170 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BF070C77B7C
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 10:13:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 773F5C77B78
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 10:24:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GnMpqvqRImXKjlhB/jQwRfMf65HNJp/uPKHMZhyrctw=; b=CF+cQFdAJVEXO8XEG+8Y6fvAKh
-	WPZmhZcA0Rot7sQ4HuAasi5W9QmHK3wH14WR5GfJekccjznuvzqmctfVDFEBqTNYvAwgCVHCYzdnK
-	qxwCVQ6Zavg77rDdX4EQJ7eU0mjVU0uOUOWajdgRFeNuGVxzk6dHos6YeHfpy6tHB+zOMk9WNWXcr
-	9Ix2FgQVIP7rY0ot9wgc9biVka92A4IKZ3DcZlMM0J4Ujki3/J8TV97EA+rMZZtpAX5Lg6iEHnM60
-	+gEwTbT1rm3rY4pDpVCg0EPhDTGF7t0auA6kIrDPs9eaV+U28X3PccGSAMMHCFcbsT2zvgCr7sPHz
-	OGpvui/g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=yiKXyXVTtPXQ1xjdL6HOrWFym2o+EeKH5BZFS5mnGMo=; b=1apQldzVoasC/vq6/kyJd7tipV
+	ECHD1bd2GQKjmloAR31bYboLFbhTEo5dpc+bz0UBRa8uU6mwGoexxJr9Td35XEALPhKT3PDoay1EQ
+	RLVoTeQ/LrWtRl9skk1daTbrd98xACsDLqgIdcLFoX3Cf1rDsrPMWbxQrglrFHPXje8sdCc5KTfhL
+	VbUVeZpl25nXYelBRpDN7d4bWCJFzHhLq6HlX+ROpMjzBfz8cq+TJGpvBnzQrIqKk5jXtBDwTqRdK
+	ug/KmRyWULhts9V2l7WPZFmPnp3AXj6cZjwyTgfwdSTxBQJyR5XJESiZsy0Fllcng//2/1wQKyCU/
+	zcNwXIsA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1puVxL-007Nvc-0B;
-	Thu, 04 May 2023 10:12:59 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1puW7x-007P3F-1n;
+	Thu, 04 May 2023 10:23:57 +0000
+Received: from mail-lj1-f172.google.com ([209.85.208.172])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1puVxH-007NuQ-2R
+	id 1puW7t-007P2U-2g
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 May 2023 10:12:57 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1683195175; x=1714731175;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=GnMpqvqRImXKjlhB/jQwRfMf65HNJp/uPKHMZhyrctw=;
-  b=BxtpZaCuvUueUObh9pv6BrVfir67pJxs9U2/0N43CbSBn+e3/twX4MIK
-   8UCTpGYswVVoBv2W4B6Fme4qrA3JPm32XkObDtZx6DoUeYPj4E4yBR1Ty
-   Uh2vwZS95VsoDNLgmnA/9uMK2VxKpGX38V8c4INeYf9EdW9udx9vUdGPi
-   d8rFYOk/R0HJIDQ44K1uBe/XilWKTe/BHwvg19V2KI164aSnVtZ+Q/ROB
-   5I7tOukj8VTwVEp2BnZXwYKHVFphS/FAo82R4OZLR4H54QBV+sdpsMGHo
-   q7FrJtUhRQwSHHwQyQNJZzY4BoXgSjzM7CU27vPY5TiiRGMDoXVOgUM3g
-   w==;
-X-IronPort-AV: E=Sophos;i="5.99,249,1677513600"; 
-   d="scan'208";a="334307337"
-Received: from mail-co1nam11lp2172.outbound.protection.outlook.com (HELO NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.172])
-  by ob1.hgst.iphmx.com with ESMTP; 04 May 2023 18:12:51 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lEUAk8m6yawk8IfxdO3y6w281ejuLGzH9DRgiQpblXxAPLFod+Cy9CZkgbf9xsxCUMW22K+H5yUwOF50GzBRfm4+dbfd7IK18LxIFZQ6/BNJkpEEQGFkhv6tYzq5Tubz+yX/zXkBlTFcTovkcfHfVtiV0AeaXF6RmKSYVRa9qTP6jzXojC75Q9xTeNrF5M/QfYsHaxJ0j3E5y6rEAC4YyWCHfiO2QnAMeUrgxtdvIxx0QJjIV0fhlSE14jWDP9yJGJxsEDtl5yR0lmBLlnvk76WoNhxggLoAGn8RSdaGjnKaJNdPAaiw3/tttbg9kuS2/1BEGaxWzK3fygW0GBb0vQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GnMpqvqRImXKjlhB/jQwRfMf65HNJp/uPKHMZhyrctw=;
- b=Q4NcpncBtSuBvXyBMd9pRi0zuU0jJtvMN9KEb/zM+chzrn+kS3kLyVpSQe7RnFOAmQ3L4iuc+DYPF32HcCkeeXnofLqRByzS+d+kmFX4MKfWT9hnTQM25Bh+WYzeVDX3/wt3oOyYn7+5qqsl8BmN1gpps8KFEO4MlVxoKny9Q0ubW2U4JwBdsQ+drLk5UnDwsC9Wg0kWq8CEQU599Ne9REl+S63PAT6zxrc747AAE8YCZp9IlZRVaAcZYnxWG5bMYsT/u942bP0jTiu6BKkjv218IHeE7Gy38u6lOppaiEggX3KlQv2T8XwlD8v/baQGe1semX1os8RPz0O8oW9uYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GnMpqvqRImXKjlhB/jQwRfMf65HNJp/uPKHMZhyrctw=;
- b=c9BKtOU3LXB7KoL93iExBH6mgobC3kZSL9bOwwiGnbG/b6ozq6G94S0ZifX0em9zJNccZhPVOXRlrgZebT7GgsxLv/zelNQHFIfEWBm6wZAFjdqwsll4QJmBapdEG5D3+d0FPUucQkDBb9M5z/rcQfs15kp02cWGP/R2bvzyKoI=
-Received: from MN2PR04MB6272.namprd04.prod.outlook.com (2603:10b6:208:e0::27)
- by SJ0PR04MB7247.namprd04.prod.outlook.com (2603:10b6:a03:29e::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.22; Thu, 4 May
- 2023 10:12:48 +0000
-Received: from MN2PR04MB6272.namprd04.prod.outlook.com
- ([fe80::4fd:6db1:5165:2ade]) by MN2PR04MB6272.namprd04.prod.outlook.com
- ([fe80::4fd:6db1:5165:2ade%7]) with mapi id 15.20.6363.022; Thu, 4 May 2023
- 10:12:47 +0000
-From: Niklas Cassel <Niklas.Cassel@wdc.com>
-To: Keith Busch <kbusch@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
-CC: "jiweisun126@126.com" <jiweisun126@126.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "axboe@fb.com"
-	<axboe@fb.com>, "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me"
-	<sagi@grimberg.me>, "ahuang12@lenovo.com" <ahuang12@lenovo.com>,
-	"sunjw10@lenovo.com" <sunjw10@lenovo.com>
-Subject: Re: [PATCH] nvme: add cond_resched() to nvme_complete_batch()
-Thread-Topic: [PATCH] nvme: add cond_resched() to nvme_complete_batch()
-Thread-Index: AQHZfmxhAnBWBykOJUOdfcgNJU7LAa9J5RgA
-Date: Thu, 4 May 2023 10:12:46 +0000
-Message-ID: <ZFOFHv8Kh/7KLuBa@x1-carbon>
-References: <20230502125412.65633-1-jiweisun126@126.com>
- <ZFKLxfet7qUIwScd@kbusch-mbp.dhcp.thefacebook.com>
- <ZFLxXjiQUPl+tV8L@kbusch-mbp.dhcp.thefacebook.com>
- <ZFN9aWYCxJW/HdHi@x1-carbon>
-In-Reply-To: <ZFN9aWYCxJW/HdHi@x1-carbon>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN2PR04MB6272:EE_|SJ0PR04MB7247:EE_
-x-ms-office365-filtering-correlation-id: 5f8f0247-e43d-450a-6ece-08db4c881bea
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  BZod7mR8UqsMWQv0xdiUDrOYP1kjAIdGiC220foJWN57WzMz4T+fsaSJRM0Qp5VpQlq4v9G13XzMK3pEY+s8lT6S17R1ebM253fInk+UH3L6JXK2BcTvaZgd2i8DWXzuqB50P7usO+V5/dfzHDf4dFMhtyTM0AbJJEJHbDe/ybugJPMG3BXtC6DgV1xL+eYNM8YEacbyFFVXbdI63zDp6bFhLzB3nrjEbkAX99Y0isF3J0sB3TfvgrGavpt2ziQRfDJEkSjK6riOs/8FT9QB8BykfN23Fwv1b3Ouk/CfxGC2NFvednapQvnb5ftkwPVaRDAMDtHB3lT3eP+MOFJhe0Ed3aeAnCAug5zXIAh82feoFqnTvru/nYwGjdiuRLo6TOyS60VsGb5aRr2mBOEJ0RHMEeu+5jjh9+rhLdzyqITlQqnMPq9xTOnHwYzekL4qJmel8Z000A5kfJ5tjVhOuOIxUML0mFYFL0A8GAGf74I4t/0NnMi26df0uIFwMCergOo6e3jb9SJbAIGUgr5YoR94oWRVmh4DqAIjiDNeb0cVydQ+RJDy2bUL8wiaGOyeqfLmTSxo7jTL5kLK7kkCtjj0lNSTDAQTR6QUFNscoTTmq/ifU1Y1PG+wWQ3dcpH0EG+bWox8shTq2igkwl9mLw==
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR04MB6272.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(7916004)(366004)(396003)(346002)(136003)(39860400002)(376002)(451199021)(33716001)(2906002)(66556008)(38100700002)(122000001)(38070700005)(82960400001)(9686003)(6506007)(26005)(6512007)(186003)(83380400001)(8936002)(8676002)(5660300002)(7416002)(966005)(316002)(71200400001)(478600001)(86362001)(110136005)(6486002)(64756008)(4326008)(66446008)(41300700001)(54906003)(66476007)(76116006)(91956017)(66946007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?WWxs8J8MLTsmrPJXa9PrRJIB9TXz/WHka5xgm9jc7KBIntdhs3Y6juLgm/Sk?=
- =?us-ascii?Q?KtaIiA/chYYj+PKFeZys8yUbZpHJoFl9dZbqJIMU9cu9RwlfjGa4mmknKSrp?=
- =?us-ascii?Q?FkyrTv5bfxaUCrkoMa2mPEC8UIrzRf02MC07hhoQws3j5IiM6h7beX5kcs4K?=
- =?us-ascii?Q?O2O5FoEB8OtvSArJcJpErE8u+r4VXkVVD8ocC4gqB+jR72/abIr9NIuWU1q6?=
- =?us-ascii?Q?68onzSHq9hAHZZFFHjwTOpf+EYgogZwXwdYRyTWeI59XDOK/wrCgev7uzC9N?=
- =?us-ascii?Q?5D3yjFarzc90XtXz7gINjRzAbhHJJT6WuKzikZQzAnUQkBxW7egbeuBDgeVV?=
- =?us-ascii?Q?Ao3A4y1S1hWxPNpZRbHUGcpZAlrGrdDBt9SKlNO47VShGhXjxTPRXS1OIrpg?=
- =?us-ascii?Q?1xcq0T6QhFJeXHP8klii/kAPCm/TGRh8RQK1PjT2o0kUIeXwFZEShhtUH+4T?=
- =?us-ascii?Q?yriz2055/c2NBqsVnecPjPTrCX/8EWe1ba9j4navgUfAUfvgjC/CfdTo5nMh?=
- =?us-ascii?Q?lFL9wt4KDeCVI4H8h4MaVsrSG0xhlcJOgaS8Rm9VRMpY187jvE1RGicsW6SH?=
- =?us-ascii?Q?khn74n6DT6LNuCFbYD2L4aKxtgo+mfHKw9PZtpB6MPDQG/eYI2gMNXPA0S+U?=
- =?us-ascii?Q?Y3veZj5LpjLONQ54khPj7NZIJVODThPjtyUqtZioScP7PVxSZV5MIHuWGLo2?=
- =?us-ascii?Q?wpBxMhiF43RkCG3kD3BfyTCY/0Gx/UvcmokbRnUC2aVEZzzkIiNy7gz6VjqW?=
- =?us-ascii?Q?kgUzgW1m53QNNBh03a+dtBjHDSYzcNJyPbzWjNln3HpYxftwPbGYEogvsABC?=
- =?us-ascii?Q?cOmzKqpe5T3Z7/KVdlCohCXVFpC7T+tskHW8uLCk9SEMavIBMV2Rq82U5wyM?=
- =?us-ascii?Q?wlcs9KhYRi+SzK1JNnJHDl0iYnulN1qMQFxZZHezq94SGoim/xBUVmDhl19U?=
- =?us-ascii?Q?Wx48kwHo4BtIlrOq70BB4Vd42/BAi7gt5vIEGu6nmsr4GNJMeywDap0/mU4z?=
- =?us-ascii?Q?X8a1Cqflr/fvvq36udSsKE4I02qTBJyA8LHTqrwlJlIAE/lbZaPXZR/HzWiz?=
- =?us-ascii?Q?jemtkyOfbyEEskUSBvzU5jILFnPMvAOcVxIIGsGwn4Ee/5H0EGtHCdCD8ahV?=
- =?us-ascii?Q?BpO7wTEidTe1stv3Su1kDNtctqs4y0wvWsEHA6NtW/24Q5uV640dOvM1wBri?=
- =?us-ascii?Q?fkYUoAf7O13mF0XIsQe4QT/bpHlgKnlL9OzNC3c3AdDkNoHKDQDAa6cr6TNy?=
- =?us-ascii?Q?GMOFV8aH8lDN7O/a1UNtFo0wTDg3C3EO6HGUUcEGduantZO3Duefvxej/XmZ?=
- =?us-ascii?Q?b+0yvwMnrAl/CbOyhSsoQnZ9QTVnHP3fT4tom581fotkI3LhIgpth3DjFdEm?=
- =?us-ascii?Q?P6COlIVlqY/aSa5yl73ZpMrIFC580izI5kY6b6tK3DD2+ZLqB+VoUifULF3e?=
- =?us-ascii?Q?kk+Hm9S4OeiMfMIZCxoUhXKXaGRDgpSOSx+KVkgLEG8Omb9DFnr9n74Ct8Ox?=
- =?us-ascii?Q?mjQ8hOiMXTm4T5vZw4q6CL1tOlii04JO0jCnLaBUmd4UV+Z7gEL28BWgcV1c?=
- =?us-ascii?Q?rnLjJjn2mldlnvGmPq+QYT8RPQupZZSrTd6Y4vlExW7LS/aP2AGBDLba9gDn?=
- =?us-ascii?Q?zg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <A849DC46C37A3645924C50AEA9550C2C@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	Thu, 04 May 2023 10:23:55 +0000
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2a8a4cbe473so667211fa.1
+        for <linux-nvme@lists.infradead.org>; Thu, 04 May 2023 03:23:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683195830; x=1685787830;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yiKXyXVTtPXQ1xjdL6HOrWFym2o+EeKH5BZFS5mnGMo=;
+        b=dMINrTlXvi78njRHf1rixioZ9Y/q3KXFTn6EEcH/ukqmJiuen0F3Cd2PZyOsD8+EAH
+         ffXg2/Rbpv4G3XZEEmIMuNFyCgKVxzIKTF/wp7U6s0i1QudYEkQeo7Bo1FV+fNeLpbP9
+         Anu1J6gfbq2u4okB7V9IOZ8+9lxX4LTU6xAJxcL+xVpHDUFDYkZaUVj5w8HI1nullVmh
+         EVIVnoa9nNtnrcZ5jqicybtMyXSrk2u89UD7Mfxb1bfN7F6h7ODf2BN70OVosoI8ICkW
+         xp3AuU1IkHUYixMw2lIo9dbYWbpJpOdEhsUsHJ1WbRor6CFNYvoT0c2VGUwErlPxy+F/
+         C2pg==
+X-Gm-Message-State: AC+VfDx5b6q3SjYM63QyJ3VY3LAt1iwGcHYlu9j2B2iMeIaHh/srKX6Z
+	siu4UgJEyi5JAMv8bb0WnQQ=
+X-Google-Smtp-Source: ACHHUZ6eT4z8w0yuyYILD5Z4R4bAwpn8DPIRfn5U6FQu0NEOC4b8mDUl3CnDFuo27k8w3LcI+wE2+w==
+X-Received: by 2002:a2e:2ac1:0:b0:2ac:8220:5c4a with SMTP id q184-20020a2e2ac1000000b002ac82205c4amr16323ljq.5.1683195830070;
+        Thu, 04 May 2023 03:23:50 -0700 (PDT)
+Received: from [10.100.102.14] (85.65.206.11.dynamic.barak-online.net. [85.65.206.11])
+        by smtp.gmail.com with ESMTPSA id w22-20020a2ea3d6000000b002aa39dd9ad3sm6230775lje.125.2023.05.04.03.23.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 May 2023 03:23:49 -0700 (PDT)
+Message-ID: <b2a296ca-1d48-3fa3-fddf-78abb0dbaffd@grimberg.me>
+Date: Thu, 4 May 2023 13:23:47 +0300
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 	=?us-ascii?Q?0oS/9ruimkJYj5MtQorGthY+U40O4qk0ysLU+zTU6ygxJJGjkJCTLuRhn9jP?=
- =?us-ascii?Q?FsXjicppNUO4Xhhi7WEamatmYA27CcOQMKsqCe2C5kAzzPRcX1QfWsDFEtUp?=
- =?us-ascii?Q?3+Van6ampfPScyLgffnRfr8KI720fvRkhDQm9NZwCs+NH+f8jMuAu7ZK2jvC?=
- =?us-ascii?Q?3sWC69MsI0wWehBacDwaAUYk8XAxafmSNUte3lBBZTzs5Y/soPBvai07pNHv?=
- =?us-ascii?Q?b+TwsolTWwYDRbSsiklwyYjjOeKDfzQ2iOPS/vW7ryt8z37xtHwzDoAytFOo?=
- =?us-ascii?Q?oXPkm749WyxCcBL4iyNouAFIAv96I9fC8mrSjxgUvKLUtktW0KyqeX7rWk/f?=
- =?us-ascii?Q?hMBO9frWv2Z/tqdKVct1efasqjpZChImcZ24VASq0M5vs1cz2060zijPFbPY?=
- =?us-ascii?Q?JkmQHSkD1ADWw2gzs9vBTwByu6q+mwbqNBJ9f/oHIeldkZ7WiSTxbAZHNzY2?=
- =?us-ascii?Q?9LKnBK7uhn5L3/+C4+2gp8BpZxM062YveU+7Gd03Wv2HafLTvYQQ2B4Ubpg8?=
- =?us-ascii?Q?sVwEfgM+nD6SHU+UTvSuthFwxxHj7stIp7gcYoYRzZBbI+Qpa5RtF0A+OkcJ?=
- =?us-ascii?Q?3KJpefIUMdHtTadWCBrnm3ylTFlBpX4hskIVKCjEh1gU5peVeapdlorTvr5n?=
- =?us-ascii?Q?NtvmFY3A46rEdIcTCdmDnn4FN1XGToZasbiKGwm1oQrfwj7F2GTQYftivOXn?=
- =?us-ascii?Q?7IJ2ycOw4HGR8YsMXJIyNexpgu/Y7azAcR5qEMrSmvkCCVaoQssj/yiLZJTY?=
- =?us-ascii?Q?Kid0HGD6V6zSgLxq6oTY5liiVP1VoAYcjCCZvverHYUXWMdocG3jfi6cWKYu?=
- =?us-ascii?Q?O572Ap4O9QQU7CdXbeA3fIcgw6/sAT/wxp607cahDC7dwJSolUcki/I5yTfH?=
- =?us-ascii?Q?zQt4MJ4h8R6tPnMPJNX1+/W641zkskuaUlE9IwzJ+fBF0iWtlG+Xs5Lu1rSk?=
- =?us-ascii?Q?5j5Y4RRpyTKRdgLuDsj40mdlOcOo8AqmsiZWs662iRvwhxU6WH9tXbslFBE0?=
- =?us-ascii?Q?8dJ1GUv6VxhTk+FxPn4W8Q2TEEaD7xuofrOG+Fp6N9GjxQg=3D?=
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR04MB6272.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5f8f0247-e43d-450a-6ece-08db4c881bea
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 May 2023 10:12:47.0045
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QvwdVv/6uj8XFnJf58F8Bm7Y92hEz3UYXh4gVU1fx1ZRFFcazVkYvildRCG7elS2soCWOoajrKe6dTKL/st1RQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB7247
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [RFC v3 9/9] nvme: introduce setup_transport()
+Content-Language: en-US
+To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, Chaitanya Kulkarni <kch@nvidia.com>,
+ Hannes Reinecke <hare@suse.de>, James Smart <jsmart2021@gmail.com>
+References: <20230504091259.29100-1-dwagner@suse.de>
+ <20230504091259.29100-10-dwagner@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20230504091259.29100-10-dwagner@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230504_031255_984849_C4C26373 
-X-CRM114-Status: GOOD (  27.61  )
+X-CRM114-CacheID: sfid-20230504_032353_913146_9CD20A1B 
+X-CRM114-Status: GOOD (  27.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -182,106 +83,273 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, May 04, 2023 at 11:39:53AM +0200, Niklas Cassel wrote:
-> On Wed, May 03, 2023 at 05:42:22PM -0600, Keith Busch wrote:
-> > On Wed, May 03, 2023 at 10:28:53AM -0600, Keith Busch wrote:
-> > > On Tue, May 02, 2023 at 08:54:12PM +0800, jiweisun126@126.com wrote:
-> > > > According to the above two logs, we can know the nvme_irq() cost to=
-o much
-> > > > time, in the above case, about 4.8 second. And we can also know tha=
-t the
-> > > > main bottlenecks is in the competition for the spin lock pool->lock=
-.
-> > >=20
-> > > I have a fix that makes pool->lock critical section much shorter and =
-constant
-> > > time. It was staged in mm tree for months, but mysteriously it's miss=
-ing...
-> >=20
-> > Well this is certainly odd: the commit I'm referring to is in Linus' lo=
-g, but
-> > the file it modified is not updated. What kind of 'git' madness is this=
-??
-> >=20
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
-it/?id=3Da4de12a032fa6d0670aa0bb43a2bf9f812680d0f
-> >=20
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/=
-mm/dmapool.c
-> >=20
->=20
-> Hmm, this is very interesting indeed.
->=20
-> It looks like:
-> a4de12a032fa ("dmapool: link blocks across pages") matches
-> https://patchwork.kernel.org/project/linux-mm/patch/20230126215125.406975=
-1-12-kbusch@meta.com/
-> so everything good.
->=20
-> However, the following commit:
-> 2d55c16c0c54 ("dmapool: create/destroy cleanup")
-> does not match what was on the list:
-> https://patchwork.kernel.org/project/linux-mm/patch/20230126215125.406975=
-1-13-kbusch@meta.com/
->=20
->=20
->=20
-> It kind of looks like
-> 2d55c16c0c54 ("dmapool: create/destroy cleanup") is actually
-> a revert of a4de12a032fa ("dmapool: link blocks across pages"),
-> plus some additional changes. Scary.
->=20
->=20
->=20
-> Additionally, it seems like the fix:
-> https://patchwork.kernel.org/project/linux-mm/patch/20230221165400.159524=
-7-1-kbusch@meta.com/
-> was never merged.
->=20
->=20
-> Something is fishy here...
->=20
-> (Perhaps the maintainer did a git revert instead of applying the fix...
-> and accidentally squashed the revert with a proper commit...
-> But even that does not make sense, as there simply seems to be too many
-> lines changed in 2d55c16c0c54 ("dmapool: create/destroy cleanup") for tha=
-t
-> to be the case...)
 
-It seems like the additional lines in
-2d55c16c0c54 ("dmapool: create/destroy cleanup") is explained by the
-maintainer (probably accidentally) reverting additional patches in that
-very same commit.
+> Do the tag allocation in the new setup function.
+> 
+> Nope, this doesn't work because the tag allocation wants to map
+> the but we haven't allocated them yet.
 
-It seems like that commit reverted all changes to mm/dmapool.c since v6.3:
+Don't think that the tag allocation is what something like
+setup_transport should do.
 
-$ git log --oneline 2d55c16c0c54325bf15286cfa6ba6c268036b9e4 --not v6.3 mm/=
-dmapool.c=20
-2d55c16c0c54 dmapool: create/destroy cleanup
-a4de12a032fa dmapool: link blocks across pages
-9d062a8a4c6d dmapool: don't memset on free twice
-887aef615818 dmapool: simplify freeing
-2591b516533b dmapool: consolidate page initialization
-36d1a28921a4 dmapool: rearrange page alloc failure handling
-52e7d5653979 dmapool: move debug code to own functions
-19f504584038 dmapool: speedup DMAPOOL_DEBUG with init_on_alloc
-347e4e44c0a9 dmapool: cleanup integer types
-65216545436b dmapool: use sysfs_emit() instead of scnprintf()
-7f796d141c07 dmapool: remove checks for dev =3D=3D NULL
+This would be something that the driver would need to do in
+the device/platform level perhaps.
 
-
-$ git diff v6.3 2d55c16c0c54325bf15286cfa6ba6c268036b9e4 mm/dmapool.c
-<nothing>
-
-
-Should probably tell Andrew so that he has time to send out a new PR
-before the merge window closes. (I added him in To: .)
-
-He should probably pick up this fix too:
-https://patchwork.kernel.org/project/linux-mm/patch/20230221165400.1595247-=
-1-kbusch@meta.com/
-
-
-Kind regards,
-Niklas
+> 
+> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+> ---
+>   drivers/nvme/host/fabrics.c | 26 ++++------------
+>   drivers/nvme/host/fabrics.h |  5 ++--
+>   drivers/nvme/host/rdma.c    | 60 +++++++++++++++++++++----------------
+>   drivers/nvme/host/tcp.c     | 31 +++++++++++--------
+>   4 files changed, 59 insertions(+), 63 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+> index 5f212cb9421a..06e9cf0c9e84 100644
+> --- a/drivers/nvme/host/fabrics.c
+> +++ b/drivers/nvme/host/fabrics.c
+> @@ -1325,12 +1325,6 @@ static int nvmf_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+>   	if (ret)
+>   		return ret;
+>   
+> -	if (new) {
+> -		ret = ctrl->fabrics_ops->alloc_tag_set(ctrl);
+> -		if (ret)
+> -			goto out_free_io_queues;
+> -	}
+> -
+>   	/*
+>   	 * Only start IO queues for which we have allocated the tagset
+>   	 * and limitted it to the available queues. On reconnects, the
+> @@ -1374,9 +1368,6 @@ static int nvmf_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+>   	nvmf_stop_io_queues(ctrl);
+>   out_cleanup_connect_q:
+>   	nvme_cancel_tagset(ctrl);
+> -	if (new)
+> -		nvme_remove_io_tag_set(ctrl);
+> -out_free_io_queues:
+>   	nvmf_free_io_queues(ctrl);
+>   	return ret;
+>   }
+> @@ -1389,16 +1380,9 @@ static int nvmf_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
+>   	if (ret)
+>   		return ret;
+>   
+> -	if (new) {
+> -		ret = ctrl->fabrics_ops->alloc_admin_tag_set(ctrl);
+> -		if (ret)
+> -			goto out_free_admin_queue;
+> -
+> -	}
+> -
+>   	ret = __nvmf_start_admin_queue(ctrl);
+>   	if (ret)
+> -		goto out_remove_admin_tag_set;
+> +		goto out_remove_admin_queue;
+>   
+>   	ret = nvme_enable_ctrl(ctrl);
+>   	if (ret)
+> @@ -1418,10 +1402,7 @@ static int nvmf_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
+>   out_stop_queue:
+>   	__nvmf_stop_admin_queue(ctrl);
+>   	nvme_cancel_admin_tagset(ctrl);
+> -out_remove_admin_tag_set:
+> -	if (new)
+> -		nvme_remove_admin_tag_set(ctrl);
+> -out_free_admin_queue:
+> +out_remove_admin_queue:
+>   	__nvmf_free_admin_queue(ctrl);
+>   	return ret;
+>   }
+> @@ -1489,6 +1470,9 @@ int nvmf_setup_ctrl(struct nvme_ctrl *ctrl, bool new)
+>   	struct nvmf_ctrl_options *opts = ctrl->opts;
+>   	int ret;
+>   
+> +	if (new)
+> +		ctrl->fabrics_ops->setup_transport(ctrl);
+> +
+>   	ret = nvmf_configure_admin_queue(ctrl, new);
+>   	if (ret)
+>   		return ret;
+> diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+> index 345d6de6bc86..ad4734df7342 100644
+> --- a/drivers/nvme/host/fabrics.h
+> +++ b/drivers/nvme/host/fabrics.h
+> @@ -173,6 +173,7 @@ struct nvmf_transport_ops {
+>   };
+>   
+>   struct nvme_fabrics_ops {
+> +	int	(*setup_transport)(struct nvme_ctrl *ctrl);
+>   	int	(*alloc_admin_queue)(struct nvme_ctrl *ctrl);
+>   	int	(*start_admin_queue)(struct nvme_ctrl *ctrl);
+>   	void	(*stop_admin_queue)(struct nvme_ctrl *ctrl);
+> @@ -182,9 +183,7 @@ struct nvme_fabrics_ops {
+>   	void	(*stop_io_queue)(struct nvme_ctrl *ctrl, int qid);
+>   	void	(*free_io_queue)(struct nvme_ctrl *ctrl, int qid);
+>   
+> -	/* these should be replaced with a single one setup_transport() */
+> -	int	(*alloc_admin_tag_set)(struct nvme_ctrl *ctrl);
+> -	int	(*alloc_tag_set)(struct nvme_ctrl *ctrl);
+> +	/* there should move to setup_transport() as well */
+>   	unsigned int	(*nr_io_queues)(struct nvme_ctrl *ctrl);
+>   	void	(*set_io_queues)(struct nvme_ctrl *ctrl, unsigned int nr_io_queues);
+>   };
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 023316fdc2c6..015a6bde732a 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -743,6 +743,39 @@ static void nvme_rdma_stop_io_queue(struct nvme_ctrl *nctrl, int qid)
+>   	__nvme_rdma_stop_queue(queue);
+>   }
+>   
+> +static int nvme_rdma_setup_transport(struct nvme_ctrl *ctrl)
+> +{
+> +	unsigned int cmd_size;
+> +	int ret;
+> +
+> +	ret =  nvme_alloc_admin_tag_set(ctrl, &to_rdma_ctrl(ctrl)->admin_tag_set,
+> +					&nvme_rdma_admin_mq_ops,
+> +					sizeof(struct nvme_rdma_request) +
+> +					NVME_RDMA_DATA_SGL_SIZE);
+> +	if (ret)
+> +		return ret;
+> +
+> +	cmd_size = sizeof(struct nvme_rdma_request) +
+> +				NVME_RDMA_DATA_SGL_SIZE;
+> +
+> +	if (ctrl->max_integrity_segments)
+> +		cmd_size += sizeof(struct nvme_rdma_sgl) +
+> +			    NVME_RDMA_METADATA_SGL_SIZE;
+> +
+> +	ret = nvme_alloc_io_tag_set(ctrl, &to_rdma_ctrl(ctrl)->tag_set,
+> +				    &nvme_rdma_mq_ops,
+> +				    ctrl->opts->nr_poll_queues ? HCTX_MAX_TYPES : 2,
+> +				    cmd_size);
+> +	if (ret)
+> +		goto out_free_admin_tag_set;
+> +
+> +	return 0;
+> +
+> +out_free_admin_tag_set:
+> +	nvme_remove_admin_tag_set(ctrl);
+> +	return ret;
+> +}
+> +
+>   static unsigned int nvme_rdma_nr_io_queues(struct nvme_ctrl *ctrl)
+>   {
+>   	struct ib_device *ibdev = to_rdma_ctrl(ctrl)->device->dev;
+> @@ -802,21 +835,6 @@ static void nvme_rdma_set_io_queues(struct nvme_ctrl *nctrl,
+>   	}
+>   }
+>   
+> -static int nvme_rdma_alloc_tag_set(struct nvme_ctrl *ctrl)
+> -{
+> -	unsigned int cmd_size = sizeof(struct nvme_rdma_request) +
+> -				NVME_RDMA_DATA_SGL_SIZE;
+> -
+> -	if (ctrl->max_integrity_segments)
+> -		cmd_size += sizeof(struct nvme_rdma_sgl) +
+> -			    NVME_RDMA_METADATA_SGL_SIZE;
+> -
+> -	return nvme_alloc_io_tag_set(ctrl, &to_rdma_ctrl(ctrl)->tag_set,
+> -			&nvme_rdma_mq_ops,
+> -			ctrl->opts->nr_poll_queues ? HCTX_MAX_TYPES : 2,
+> -			cmd_size);
+> -}
+> -
+>   static void nvme_rdma_free_ctrl(struct nvme_ctrl *nctrl)
+>   {
+>   	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
+> @@ -834,15 +852,6 @@ static void nvme_rdma_free_ctrl(struct nvme_ctrl *nctrl)
+>   	kfree(ctrl);
+>   }
+>   
+> -static int nvme_rdma_alloc_admin_tag_set(struct nvme_ctrl *ctrl)
+> -{
+> -
+> -	return nvme_alloc_admin_tag_set(ctrl, &to_rdma_ctrl(ctrl)->admin_tag_set,
+> -					&nvme_rdma_admin_mq_ops,
+> -					sizeof(struct nvme_rdma_request) +
+> -					   NVME_RDMA_DATA_SGL_SIZE);
+> -}
+> -
+>   static void nvme_rdma_end_request(struct nvme_rdma_request *req)
+>   {
+>   	struct request *rq = blk_mq_rq_from_pdu(req);
+> @@ -1915,6 +1924,7 @@ nvme_rdma_existing_controller(struct nvmf_ctrl_options *opts)
+>   }
+>   
+>   static struct nvme_fabrics_ops nvme_rdma_fabrics_ops = {
+> +	.setup_transport	= nvme_rdma_setup_transport,
+>   	.alloc_admin_queue	= nvme_rdma_alloc_admin_queue,
+>   	.free_admin_queue	= nvme_rdma_free_admin_queue,
+>   	.start_admin_queue	= nvme_rdma_start_admin_queue,
+> @@ -1923,8 +1933,6 @@ static struct nvme_fabrics_ops nvme_rdma_fabrics_ops = {
+>   	.free_io_queue		= nvme_rdma_free_io_queue,
+>   	.start_io_queue		= nvme_rdma_start_io_queue,
+>   	.stop_io_queue		= nvme_rdma_stop_io_queue,
+> -	.alloc_admin_tag_set	= nvme_rdma_alloc_admin_tag_set,
+> -	.alloc_tag_set		= nvme_rdma_alloc_tag_set,
+>   	.nr_io_queues		= nvme_rdma_nr_io_queues,
+>   	.set_io_queues		= nvme_rdma_set_io_queues,
+>   };
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index dfdf35b32adc..f91575b944a2 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -1720,20 +1720,26 @@ static void nvme_tcp_stop_io_queue(struct nvme_ctrl *nctrl, int qid)
+>   	__nvme_tcp_stop_queue(queue);
+>   }
+>   
+> -static int nvme_tcp_alloc_admin_tag_set(struct nvme_ctrl *ctrl)
+> +static int nvme_tcp_setup_transport(struct nvme_ctrl *ctrl)
+>   {
+> -	return nvme_alloc_admin_tag_set(ctrl, &to_tcp_ctrl(ctrl)->admin_tag_set,
+> -					&nvme_tcp_admin_mq_ops,
+> -					sizeof(struct nvme_tcp_request));
+> -}
+> +	int ret;
+>   
+> -static int nvme_tcp_alloc_tag_set(struct nvme_ctrl *ctrl)
+> -{
+> -	return nvme_alloc_io_tag_set(ctrl, &to_tcp_ctrl(ctrl)->tag_set,
+> -				     &nvme_tcp_mq_ops,
+> -				     ctrl->opts->nr_poll_queues ? HCTX_MAX_TYPES : 2,
+> -				     sizeof(struct nvme_tcp_request));
+> +	ret = nvme_alloc_admin_tag_set(ctrl, &to_tcp_ctrl(ctrl)->admin_tag_set,
+> +				       &nvme_tcp_admin_mq_ops,
+> +				       sizeof(struct nvme_tcp_request));
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = nvme_alloc_io_tag_set(ctrl, &to_tcp_ctrl(ctrl)->tag_set,
+> +				    &nvme_tcp_mq_ops,
+> +				    ctrl->opts->nr_poll_queues ? HCTX_MAX_TYPES : 2,
+> +				    sizeof(struct nvme_tcp_request));
+> +	if (ret)
+> +		goto out_free_admin_tag_set;
+>   
+> +out_free_admin_tag_set:
+> +	nvme_remove_admin_tag_set(ctrl);
+> +	return ret;
+>   }
+>   
+>   static unsigned int nvme_tcp_nr_io_queues(struct nvme_ctrl *ctrl)
+> @@ -2155,6 +2161,7 @@ nvme_tcp_existing_controller(struct nvmf_ctrl_options *opts)
+>   }
+>   
+>   static struct nvme_fabrics_ops nvme_tcp_fabrics_ops = {
+> +	.setup_transport	= nvme_tcp_setup_transport,
+>   	.alloc_admin_queue	= nvme_tcp_alloc_admin_queue,
+>   	.free_admin_queue	= nvme_tcp_free_admin_queue,
+>   	.start_admin_queue	= nvme_tcp_start_admin_queue,
+> @@ -2163,8 +2170,6 @@ static struct nvme_fabrics_ops nvme_tcp_fabrics_ops = {
+>   	.free_io_queue		= nvme_tcp_free_io_queue,
+>   	.start_io_queue		= nvme_tcp_start_io_queue,
+>   	.stop_io_queue		= nvme_tcp_stop_io_queue,
+> -	.alloc_admin_tag_set	= nvme_tcp_alloc_admin_tag_set,
+> -	.alloc_tag_set		= nvme_tcp_alloc_tag_set,
+>   	.nr_io_queues		= nvme_tcp_nr_io_queues,
+>   	.set_io_queues		= nvme_tcp_set_io_queues,
+>   };
 
