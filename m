@@ -4,81 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 612CDC77B7C
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 06:08:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1ED1CC7EE21
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 07:41:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IUM+ERx3EDZgrOPmitrrEsrUJVeKyyrvviQgqmi2R4g=; b=ox7pg5EZnJXgqN56I4ufN8HCS1
-	38AU+gvFY4A8Q9weka/Oqpo0kJMour2QhSo/TETXzpxryo9s0+oJvEIHrXpcwfxKGs9Tvy2ySTx7e
-	q16mVOWGDYwBMzcI3EI1IbUmB1Hb54ZafUXRtE31Mtx62D4n5Z1wVNPYIalxV6Hm02KFYVcS9gsgu
-	/sYfGDkRxibdticTPtDdCOiQKBvYm9QcNCYC7FORcd43kwzVJ2LsHS4mLVN5KkXPYRru/EefTXQxr
-	4thvPXq9eiT1Qb8lyhGFHKec/4/KGvVRch6cnLSHPTOzPOVejUqQ2G9mLU82+sKwhjS0nOyBxzz2E
-	HEBZi3nA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=5T/I5ALH265FnsfRMA5qkcy2CLiS4J17pa3P6HzpuT0=; b=WFdcvRpj5MiHGwoaG1jiqaMuvy
+	ImTT9ieCEJwZ7uWyQsHKS+giSKkEi3sCLq2PGLs1hDSoD2hLZ2Xv8cfQydw55fu5F8CmUNYZKauxx
+	QmXbSvZa3Ood7EiSIJqGyVGhhthcdpVB2l2O99Dd8cqy1L+yeUwyyk98UU3r8tWlgc0DcrySZDSgz
+	EUmYEKrSgNow6y4fUdDCRySK17R3o0HUWlfaxPA/hdEWdcJ1BmYOibt78QpKfkPaEcUu1lmDIEoO+
+	+dUPuRWhRG7z1ytnsRWFI969w5f7mkJEEkIWBGra6nTnWcMRQYf5JaJHg6Uhg7AGatSg5iyef2RH3
+	WzPxav+w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1puS8J-006hnw-17;
-	Thu, 04 May 2023 06:08:03 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1puTaY-006w0t-1K;
+	Thu, 04 May 2023 07:41:18 +0000
+Received: from mail.neston24.com ([37.187.225.180])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1puS8F-006hkC-2g
+	id 1puTaV-006vzS-2m
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 May 2023 06:08:01 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5748422172;
-	Thu,  4 May 2023 06:07:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1683180474; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IUM+ERx3EDZgrOPmitrrEsrUJVeKyyrvviQgqmi2R4g=;
-	b=1Pq5gZX8lay9YuC+jmoHsx/xW60owt4wdm3IGEuZGMYZROn3+HDKkHgBhAgIpCzriHFSGr
-	yBOs91KTh/HSVEvpFXLkAwFBLBFHuK7qz7wkUabqnVa/KTMfL0vtdCIQ0jyHFlKr/7i+lP
-	FwIbA9p3qulHh7g0krdIksEAeSIYdlU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1683180474;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IUM+ERx3EDZgrOPmitrrEsrUJVeKyyrvviQgqmi2R4g=;
-	b=7l4M7iGr6Mko3IrDhlMWz6ZP/ueaGdrX6XLFDUPNLx0bufCuEJpvZTPpcFn1lGbwFAwQ0Z
-	T/mgujD8GwALJ1DQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 416A1139C3;
-	Thu,  4 May 2023 06:07:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id osFlD7pLU2RiZgAAMHmgww
-	(envelope-from <dwagner@suse.de>); Thu, 04 May 2023 06:07:54 +0000
-Date: Thu, 4 May 2023 08:07:53 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	Shin'ichiro Kawasaki <shinichiro@fastmail.com>, Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH blktests v3 09/12] common/fio: Limit number of random jobs
-Message-ID: <qksy7pmx4n2l2pbpos33x4nnhp5vwjqlnk72lycxk4benjtqfa@vewobmlevbj4>
-References: <20230503080258.14525-1-dwagner@suse.de>
- <20230503080258.14525-10-dwagner@suse.de>
- <99a6cc5f-31b2-787c-f448-53239a351ddd@nvidia.com>
- <2ercejt6r2qjkbpaoueh66nred4ooqb5wskx5m3xn2slb5kasw@zwssje3pm4mu>
- <ec72542d-a554-59ac-8f67-26eeb7f2a5b0@nvidia.com>
+	Thu, 04 May 2023 07:41:17 +0000
+Received: by mail.neston24.com (Postfix, from userid 1002)
+	id 7CB0821FED; Thu,  4 May 2023 07:40:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=neston24.com; s=mail;
+	t=1683186073; bh=5T/I5ALH265FnsfRMA5qkcy2CLiS4J17pa3P6HzpuT0=;
+	h=Date:From:To:Subject:From;
+	b=gp+BU6anUlsvEWjmtI2JSK21zeCdu9gBwc/0PxY9zSmDI+yei2tffXZ9pkFKVmc0w
+	 SyJGqet2jXwQR8ad516Lq3HTXaaU35LLzmfW8pd4dC2kWapNCMJHHGwIp5XHyrT45F
+	 UEkN0c6ftho5Lwhuwno9HSN3oy/eCm3KPMy+z4gjvczX5L9qx8hGqrU/6hPDCwsWnR
+	 XEAiOcYG2YMeNGHpytAdUdIi6rOXjCaK5oMd4CGRuUVPEKmaerfHgf0k/9dHIpCgER
+	 l/7n6StDwq0q8wGuao4cS8JSgWJ4ctsQDnh7azDrbv/X25FVkacvpa8OOZUpEsQThi
+	 jSChTAf8QtIBg==
+Received: by mail.neston24.com for <linux-nvme@lists.infradead.org>; Thu,  4 May 2023 07:40:13 GMT
+Message-ID: <20230504064500-0.1.6m.d0lq.0.l6opm3seq4@neston24.com>
+Date: Thu,  4 May 2023 07:40:13 GMT
+From: =?UTF-8?Q?"Leo=C5=A1_Sl=C3=A1dek"?= <leos.sladek@neston24.com>
+To: <linux-nvme@lists.infradead.org>
+Subject: =?UTF-8?Q?Fotovoltaick=C3=A9_rozvodnice?=
+X-Mailer: mail.neston24.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ec72542d-a554-59ac-8f67-26eeb7f2a5b0@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230503_230800_020711_51C029BF 
-X-CRM114-Status: UNSURE (   9.02  )
+X-CRM114-CacheID: sfid-20230504_004116_041146_D641E4B7 
+X-CRM114-Status: UNSURE (   1.60  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -94,11 +66,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, May 04, 2023 at 05:16:34AM +0000, Chaitanya Kulkarni wrote:
-> For this series to merge let's keep is simple and not worry about erroring
-> out on a particular job size but just keeping the nproc as it is ...
+Dobr=C3=BD den,
 
-Works for me and as you pointed out, it avoids regressions with the default
-values. Anyone who is tinkering with nvme_img_size should be aware of the
-implications. I'll add a note about this to the documentation.
+obrac=C3=ADm se na V=C3=A1s jm=C3=A9nem dlouholet=C3=A9ho v=C3=BDrobce fo=
+tovoltaick=C3=BDch rozvodnic ur=C4=8Den=C3=BDch pro
+soukrom=C3=A9 i pr=C5=AFmyslov=C3=A9 pou=C5=BEit=C3=AD.
+
+Dod=C3=A1v=C3=A1me fotovoltaick=C3=A9 rozvodnice na zak=C3=A1zku a jsme s=
+chopni realizovat i ty nejn=C3=A1ro=C4=8Dn=C4=9Bj=C5=A1=C3=AD
+po=C5=BEadavky instala=C4=8Dn=C3=ADch firem, velkoobchod=C5=AF a distribu=
+tor=C5=AF.
+
+Vyu=C5=BE=C3=ADv=C3=A1me nejkvalitn=C4=9Bj=C5=A1=C3=AD komponenty a mater=
+i=C3=A1ly, =C4=8D=C3=ADm=C5=BE dosahujeme vy=C5=A1=C5=A1=C3=AD odolnost, =
+stabilitu
+provozu a ochranu proti vod=C4=9B, vlku, prachu a n=C3=A1raz=C5=AFm.
+
+V na=C5=A1em sortimentu jsou tak=C3=A9 omezova=C4=8De p=C5=99ep=C4=9Bt=C3=
+=AD AC/DC, kter=C3=A9 zaji=C5=A1=C5=A5uj=C3=AD ochranu
+fotovoltaick=C3=BDch nap=C3=A1jec=C3=ADch instalac=C3=AD p=C5=99ed negati=
+vn=C3=ADmi efekty p=C5=99ep=C4=9Bt=C3=AD a chr=C3=A1n=C3=AD za=C5=99=C3=AD=
+zen=C3=AD p=C5=99ed
+efekty p=C5=AFsoben=C3=AD p=C5=99ep=C4=9Bt=C3=AD a bleskov=C3=BDch proud=C5=
+=AF.
+
+Chcete si vyzkou=C5=A1et na=C5=A1e =C5=99e=C5=A1en=C3=AD?
+
+
+S pozdravem
+Leo=C5=A1 Sl=C3=A1dek
 
