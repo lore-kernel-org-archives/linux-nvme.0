@@ -4,72 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E6A8C77B78
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 15:46:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 89292C77B7C
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 17:51:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uqTWUp53+bRwfsmTGL4xwInFrL3h6w2jQiIVDgqqklA=; b=scDtM8o96ubeVQL7ns8TT0q+SJ
-	twCOo9GCQLiFdukGErp3CUwYfLuolqV9BvlbdzrtyJvMu3btspzTS++7x0rK9M/LkG6tvh9ZWU6bk
-	qfoQ621MN8qMFK6zBlRXXIAFl7F+SprkZUCUwPWO1/iyCdWVdGnE56rfc7hxk4EuPjgwC/9xw0Kuc
-	8GfxPXD3WfRtxgKUruRQFgHXRtUsW1pZhcYmQZijoJYoMIGM+t3h8AXtoprw37Ca+qDHonBETc/qF
-	3f7m6iE42ReWRSH3bDt884gVurnVVOo1Y8w9RMBvMvW3v/IpdBwwerkUNRCnavW6KhLtRDwdIukOl
-	Mh+IYvyg==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=bmsEyvQWQLhz8Wo2w2vPqihJ7gBJNKHrPhp6n9tMN2E=; b=Vul0O0vYbuTIyUgYffbsiuay8m
+	X8zqEepLinsHLKUGmYbfV++dT4SXNKtnRV6OUrqKP2R4Mx1Tj0f1Y5OflX1jco/Gj1uiiPSMZenfh
+	GAzLHXb4Svg2job7/iexBGF0BLAqB/22T2gzNZ8fvJLbRABURk8xkZ3ZsQLR+ErU/8R7RGdaKNxrh
+	wOqnDpE8pg4g3uL/Icuh0d5jmDmso7pS7ZjWeqK51jZtVd6QEEdesSC+u1lIzPf7vbPXxQNrl2kqC
+	BfRHL7Gi5+EI33l5wKawPVzWjW9Z2KPjjaiEt6IT79exgLm4zXG3qHmKqQP5ok3dxYNcxbZAtU1M+
+	ufRjJBNA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pub9g-008FyQ-38;
-	Thu, 04 May 2023 15:46:04 +0000
-Received: from mail-wm1-f46.google.com ([209.85.128.46])
+	id 1pud7S-008Sys-0l;
+	Thu, 04 May 2023 17:51:54 +0000
+Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pub9e-008Fw2-03
+	id 1pud7P-008Sxj-1t
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 May 2023 15:46:03 +0000
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-3f3284dfe34so1172235e9.0
-        for <linux-nvme@lists.infradead.org>; Thu, 04 May 2023 08:45:58 -0700 (PDT)
+	Thu, 04 May 2023 17:51:53 +0000
+Received: by mail-io1-xd2a.google.com with SMTP id ca18e2360f4ac-769a4e76f30so5150339f.1
+        for <linux-nvme@lists.infradead.org>; Thu, 04 May 2023 10:51:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1683222707; x=1685814707;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bmsEyvQWQLhz8Wo2w2vPqihJ7gBJNKHrPhp6n9tMN2E=;
+        b=twe8mnAMI1n1ZENXvEQiP/IWTAqjuK9bihn8ytCraFymd2ek0d/gXO7PK92qlGXZJy
+         K7Q0TjoPjJHO6ynWmw8JqDe1SDr7pwdV5FZgK4E9Vx6r0ad8uWNRoPU4WrHpBDvxP1ev
+         cDhVRBXHZDfxtDyrtiIHlNXfxa2baPuYjTWcQ/ENtccBcuzW0Oq+jSwWU/iyQLqrzwaR
+         2ZsZVKzFnAPiGkOpmvbCjnEOR8RtEAmSoQDGMSrDQgfB+c6kUXF9+Ce3s/Vw1ovmj9Lt
+         CGcKP+fnizUQN1OZFqyz3MwwGGCe72Pwm8tm57h8HK20EMkUefQBHiXyZLIqEabhpBnZ
+         qaug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683215157; x=1685807157;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        d=1e100.net; s=20221208; t=1683222707; x=1685814707;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uqTWUp53+bRwfsmTGL4xwInFrL3h6w2jQiIVDgqqklA=;
-        b=EfNe2L3PDbuG8JuMQ//URE+wj9w0p/+iyaRH9lbJiE6Fbm2rTSNhKUy6Aoqei+nhum
-         Lhqx6VrgqXXlVCMpN1hb0TKbxybM7pWaEuPdup4Fhzu6fI+g5fBnd9lBkvi5d4/EtAsv
-         2s7pmllJjgHwtAa6H/1xB+UMs+muVvoEbors1JJi2/EK/A3H5YSntD95WJmWscqavTPo
-         afc72VrZty82M9LMA8kTu1ooB7vLatgit68pGLhCY8+by4KhJ1O21vgjcALIIwDW8Ul8
-         koGuBR/krw0J7xCA3VDGeAOIUoFfTau6XpDyt32DITWB9Lv1o1i4AU35r7nv6IwwOywF
-         u44A==
-X-Gm-Message-State: AC+VfDw7jqMW5t7oQRVwTkfBcrBsTfQ/oZt2N7crnuJGNxKv8GQOhtey
-	jMvVIKUrsL7rQ63mZZXRDO/6faXjVTE=
-X-Google-Smtp-Source: ACHHUZ5e+6xHqDTlmzpHX/TcLSHUd0LqfFEv/PsmXmD9Rf8Dnjko/R/o+8C7B3leT2+ElWoNDnwFBw==
-X-Received: by 2002:a05:600c:4591:b0:3f1:7490:e58e with SMTP id r17-20020a05600c459100b003f17490e58emr7731122wmo.2.1683215157034;
-        Thu, 04 May 2023 08:45:57 -0700 (PDT)
-Received: from [10.100.102.14] (85.65.206.11.dynamic.barak-online.net. [85.65.206.11])
-        by smtp.gmail.com with ESMTPSA id i1-20020a05600c290100b003edf2dc7ca3sm5267525wmd.34.2023.05.04.08.45.55
+        bh=bmsEyvQWQLhz8Wo2w2vPqihJ7gBJNKHrPhp6n9tMN2E=;
+        b=IJHR151vbhrKIiNUlVgVwrrG4GRaFuiSLnIQKKwRpQUIlSuGzfL+On7B0ENrIzm9Pu
+         +0fiagv3bGBvfvXiJGOSCN6t8Xq7OUllZLk8tKVk8J1HD8+QfXRbzjlKfa0138ECuOWm
+         URAPM04fK7pk/NeXsVlqxzrX8IoEAAlcJqC9JZm/Im+NfFPSVU9+l4jxhMvwTS0pNWb6
+         F0mUvJYgqgkdwxGa1SUjQysSeCiJfKaUfNzJ3AkYHOa+6Bet4MlbtHWgs1At0kNU9eKl
+         2CTAH5Oi0+cvZJbn5K0PNkFuxJ1RctKuLfjA0ZIABq0GIA4Km5XhADDtFdOYI6DHuJaH
+         m40g==
+X-Gm-Message-State: AC+VfDw0H0roG+3X1pJWyuYnisUsfU5+hQxXiV0Kb7H0NdKCKV2rv03M
+	ptN92j+ycIoVmSeHPpG7UwgwKg==
+X-Google-Smtp-Source: ACHHUZ7A56eBv7M/lXClJyQTCjp11K7TI6GQUUHhOUm5qb0Uiv+T2alaqH2egBBXju3lGMhMD2yWBw==
+X-Received: by 2002:a6b:4115:0:b0:769:8d14:7d15 with SMTP id n21-20020a6b4115000000b007698d147d15mr4982579ioa.0.1683222707633;
+        Thu, 04 May 2023 10:51:47 -0700 (PDT)
+Received: from [192.168.1.94] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id x20-20020a6bda14000000b007635e44126bsm9822062iob.53.2023.05.04.10.51.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 May 2023 08:45:56 -0700 (PDT)
-Message-ID: <fb7aa5b2-cfe8-b3c8-fec7-228f0f56cda1@grimberg.me>
-Date: Thu, 4 May 2023 18:45:54 +0300
+        Thu, 04 May 2023 10:51:47 -0700 (PDT)
+Message-ID: <0a50fae3-1cf4-475e-48ae-25f41967842f@kernel.dk>
+Date: Thu, 4 May 2023 11:51:46 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: slab-use-after-free in __ib_process_cq
+Subject: Re: [PATCH v4 0/3] io_uring: Pass the whole sqe to commands
 Content-Language: en-US
-To: Bart Van Assche <bvanassche@acm.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
-References: <d9da387d-b497-5120-5251-0c5d6a4adb71@acm.org>
- <bca0fb81-38ae-f022-1270-70c7e415ac41@grimberg.me>
- <4dad4f76-1270-f45a-882d-3b2ecce817e5@acm.org>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <4dad4f76-1270-f45a-882d-3b2ecce817e5@acm.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Breno Leitao <leitao@debian.org>, io-uring@vger.kernel.org,
+ linux-nvme@lists.infradead.org, asml.silence@gmail.com, hch@lst.de,
+ ming.lei@redhat.com
+Cc: leit@fb.com, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+ sagi@grimberg.me, joshi.k@samsung.com, kbusch@kernel.org
+References: <20230504121856.904491-1-leitao@debian.org>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20230504121856.904491-1-leitao@debian.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230504_084602_053811_12B20517 
-X-CRM114-Status: GOOD (  20.89  )
+X-CRM114-CacheID: sfid-20230504_105151_627262_48806A0E 
+X-CRM114-Status: GOOD (  13.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,74 +96,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 5/4/23 6:18 AM, Breno Leitao wrote:
+> These three patches prepare for the sock support in the io_uring cmd, as
+> described in the following RFC:
+> 
+> Link: https://lore.kernel.org/lkml/20230406144330.1932798-1-leitao@debian.org/
+> 
+> Since the support linked above depends on other refactors, such as the sock
+> ioctl() sock refactor, I would like to start integrating patches that have
+> consensus and can bring value right now.  This will also reduce the
+> patchset size later.
+> 
+> Regarding to these three patches, they are simple changes that turn
+> io_uring cmd subsystem more flexible (by passing the whole SQE to the
+> command), and cleaning up an unnecessary compile check.
+> 
+> These patches were tested by creating a file system and mounting an NVME disk
+> using ubdsrv/ublkb0.
 
->>> Hi,
->>>
->>> While testing Jens' for-next branch I encountered a use-after-free
->>> issue, triggered by test nvmeof-mp/002. This is not the first time I see
->>> this issue - I had already observed this several weeks ago but I had not
->>> yet had the time to report this.
->>
->> That is surprising because this area did not change for quite a while 
->> now.
->>
->> CCing linux-rdma as well, I'm assuming that this is with rxe?
->> Does this happen with siw as well?
-> 
-> Hi Sagi,
-> 
-> This happened with the siw driver. I haven't tried the rxe driver for a 
-> while.
-> 
-> The crash addresses correspond to the following source file and line:
-> 
-> (gdb) list *(__ib_process_cq+0x11c)
-> 0x7f7c is in __ib_process_cq (drivers/infiniband/core/cq.c:110).
-> 105                                             budget - completed), 
-> wcs)) > 0) {
-> 106                     for (i = 0; i < n; i++) {
-> 107                             struct ib_wc *wc = &wcs[i];
-> 108
-> 109                             if (wc->wr_cqe)
-> 110                                     wc->wr_cqe->done(cq, wc);
-> 111                             else
-> 112                                     WARN_ON_ONCE(wc->status == 
-> IB_WC_SUCCESS);
-> 113                     }
-> 114
-> 
-> (gdb) list *(nvme_rdma_create_queue_ib+0x1a7)
-> 0x3d47 is in nvme_rdma_create_queue_ib (drivers/nvme/host/rdma.c:219).
-> 214     {
-> 215             struct nvme_rdma_qe *ring;
-> 216             int i;
-> 217
-> 218             ring = kcalloc(ib_queue_size, sizeof(struct 
-> nvme_rdma_qe), GFP_KERNEL);
-> 219             if (!ring)
-> 220                     return NULL;
-> 221
-> 222             /*
-> 223              * Bind the CQEs (post recv buffers) DMA mapping to the 
-> RDMA queue
-> 
-> (gdb) list *(nvme_rdma_destroy_queue_ib+0x1b8)
-> 0x2388 is in nvme_rdma_destroy_queue_ib (drivers/nvme/host/rdma.c:358).
-> 353             kfree(ndev);
-> 354     }
-> 355
-> 356     static void nvme_rdma_dev_put(struct nvme_rdma_device *dev)
-> 357     {
-> 358             kref_put(&dev->ref, nvme_rdma_free_dev);
-> 359     }
-> 360
-> 361     static int nvme_rdma_dev_get(struct nvme_rdma_device *dev)
-> 362     {
-> 
-> Shouldn't ib_drain_qp() be called before nvme_rdma_destroy_queue_ib() 
-> destroys the QP?
+Thanks Breno, applied!
 
-Yes it absolutely should, and it is according to the code.
-The only way that this can happen is something happens to
-post a wr after the drain started, can't see how this happens though...
+-- 
+Jens Axboe
+
+
 
