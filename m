@@ -4,67 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18F3DC77B7C
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 22:26:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1265FC77B7C
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 22:40:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0PGJtFyK7gJnSiUzHQVMxHgKXd5CmRv3rf91PVJFRAk=; b=gxK8fk32oB+7sorQtNlIfHuhV7
-	aqLyUl8981IMZ/cXYxl8FVaBVe1US3y/cnsZ9kA8UVAmBZ7eAvD22c47oIEGq3QG5/xaRsfglBmOT
-	uhhBEAv8+vpXKjqw44KRWIYLnyg2WzSNZQgFCVCCxKSB0g9+kEeAlEkIoTbKgmsGRr5ZmA9gbUl5K
-	f2PAzm0SEqIVjRwkZM2U9PpfMLJgKTHwaMtE8vWL06KEDlFkMDarr2JRaqZ0BSDhkcSsRoIdoaQPp
-	R3yvvAGNmmaYo84953JgS/TjakaABgJmHiJ1fxTs16KiRRQTaVILerJ9fwugmAp2rffXc/M/PHhIl
-	3QFpu+lg==;
+	bh=bSBn9yOinBU8m0yQLrSvbl7PKYZlBg3YhOgvbxEMud0=; b=i43rIYeC1c4YvBE2RIVzS/gWeI
+	jXaqU9Frj2w1nQvJ7ikaFt73FNTkYPe95loIxSBLf4L7kVsb7S6pFLGAA/jUWGjG0wYWWnSVEBpBQ
+	X4LBxSgA9A51XeRifGumj1GSjFWraFXO4B1q7WwjCDnXREd5j6thHT+jWGU/7xiSrGH10ioewYbWj
+	SCp8UPZaXOzaZ07oDp0JK2TFFHpkPveBuQwx+qX46ONXShZMdbbuCixAcEpFIOG+R/cmtjpTIFAEI
+	dxzvmE/0jP2FZDCVitZHHuCnhSjIbGKuRgNvYWj/NieDx2N4+iCExWi9Ro5mXf1RrD50dnusTuZGc
+	mHdZAgjg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1puhPH-009Cx7-1C;
-	Thu, 04 May 2023 22:26:35 +0000
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
+	id 1puhd2-009EZ7-0o;
+	Thu, 04 May 2023 22:40:48 +0000
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1puhPB-009CvY-1p
+	id 1puhct-009ERs-1H
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 May 2023 22:26:34 +0000
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-64115eef620so15731829b3a.1
-        for <linux-nvme@lists.infradead.org>; Thu, 04 May 2023 15:26:29 -0700 (PDT)
+	Thu, 04 May 2023 22:40:45 +0000
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1aaea43def7so7345285ad.2
+        for <linux-nvme@lists.infradead.org>; Thu, 04 May 2023 15:40:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20221208.gappssmtp.com; s=20221208; t=1683239189; x=1685831189;
+        d=fromorbit-com.20221208.gappssmtp.com; s=20221208; t=1683240038; x=1685832038;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0PGJtFyK7gJnSiUzHQVMxHgKXd5CmRv3rf91PVJFRAk=;
-        b=a/QoUspgk3pMtdlLwgA3lZkGDux8oWXEt9uq8IQfISgAxUpHsprqdSHQxcDnm6fVil
-         Kh7PgEuDzuaRDm/XeU/Q+bZcSAh+aej0wEmKQ0VwK7u5K3uNpIgJotDiE45R4Cx23ua9
-         1e84EquSfJVWSEpqJctew3TYTG3R1Yx0kYVQWzdU+zgClGJy+ZE0gP3z+Q4oCGzKg8vT
-         aJy4qy13IQhkC8sfjD7VFKFshaR9OZoE2S+kiFMkXke76OdI9K9LsTzoAoCtwIy0zHgz
-         6q7Eq+f3DxtVCO10OTb6Vi5Fr2JdEnf/XR0Xi+gas5rlBItOcdvI/u7lKc7y5XdNFpcY
-         YHqw==
+        bh=bSBn9yOinBU8m0yQLrSvbl7PKYZlBg3YhOgvbxEMud0=;
+        b=V2OWoWuBY9/BxFN6ZMrayZSPn34VUIMFwLKD1syjt3URVOHsk6eRCzBjJxyS/sTaxh
+         0ODMUc6Lrrs3v8zH3Sx/5e/PKEpsPzqFVGY4QckBPaQkZZfaM7pnBgEofNkOYx2I3eMh
+         /CUnaPOJFUPSRWZdnUNxTe8x2snVD8PtGIxSGOLogmkrfrhkWite1HB1ZWG+3fFJST9O
+         CMCv7TFFrBn2cKtBOmOLW8XQUBS/fB7r1lrmQ3GM1O5nbWEdOmtFcfUJmeIAnUxIbWpn
+         3ror2ojs9ATMDgL9RR5K3X4TvFjtnscejsS+p0QkHUHUt2WEuhfGkKNuQs/O+d5WTYRo
+         HM2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683239189; x=1685831189;
+        d=1e100.net; s=20221208; t=1683240038; x=1685832038;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0PGJtFyK7gJnSiUzHQVMxHgKXd5CmRv3rf91PVJFRAk=;
-        b=Yi/ydnJMm7c9gCZs5hW73F21fVw2cEWzgQBxBoZYuB1KlchXjPoRjLOer3JowpY3Dc
-         uJ1nzhWSlnP1nLUjhFpTodxrrYxfG/DVuBiOySi2Z2WRFD9WPem5SU+4kzGUIdxi+5cL
-         5AbjcwHXzXFrWWjFKizWXdPUB4ryaz/Am7vPwjwfuWKkmqHMbZHQ0Jdl522Alw8oGXyP
-         kubXI/tPzI1jKgZQPsvtEaOmlHjCtH8jdqdI1tODEvuDbeVuuDD4Rjlan4kxYl8QXV3w
-         AljaNCudM+VEDDA4xMQLhuEFqPDCx7dyVvhtS5vQXXla9cN3R+4BCH6qmXAiZlvHJ3VK
-         9Lzw==
-X-Gm-Message-State: AC+VfDxLedI/FDZ3T/EYCQxy2i+1ipmgH/usDuX33cecS3xchJDVP7b+
-	5KctazUoSB2mwUkEMq5aB1r/PQ==
-X-Google-Smtp-Source: ACHHUZ77jAxUd5xIcycMyzqPrl6iGCXfjAOeoU7zib/iCRNZ8B6RPxY7Gsgjo2XpOhIPp01YO28mEw==
-X-Received: by 2002:a17:902:9342:b0:1ab:fce:7b4d with SMTP id g2-20020a170902934200b001ab0fce7b4dmr4925317plp.27.1683239188721;
-        Thu, 04 May 2023 15:26:28 -0700 (PDT)
+        bh=bSBn9yOinBU8m0yQLrSvbl7PKYZlBg3YhOgvbxEMud0=;
+        b=Ke7iEVESSGrmBz/q3vMYmosYm1YV59zq3DPOmJFpePdt9nvoYoAzEcQG843UGBILt8
+         +v/wY3RFD2UKzst+ibKKd4YscU2DVP/003id3R0D1EJKS3SZBmviMQaSJSsRH/R96SZW
+         RQXOGy22JaEKetC0JIg9ZgiGPNplpum1mMsRXvRosBQIFtYZbx6vtorNIxxAv6y0cC69
+         waTF/tsh4Ktd1R4N6JfPAGyXbsxkMVPLaiXGL30XddkOp79hTqaQVemPWVOyWSH1AwIl
+         z5it/sdDvJj+HmUSM8+VdhBhk1DNpZX36WZPImF7idMWN0bk5jgrMYse1QFxmbVleC7A
+         pCqw==
+X-Gm-Message-State: AC+VfDzK2qsAParGsQvKaSAV4SRX2qkTw6WCibFs5luK7eIZrVbXiDvA
+	EqRi6D5Hbaj+7ekKU3ynp225bg==
+X-Google-Smtp-Source: ACHHUZ4sldKILzM05M5JtvE1zkTm8BdFnY+an0qc3+Zw6AS4jJ2XEp42XVgNkYwu+sP102Df03J4uQ==
+X-Received: by 2002:a17:903:48e:b0:1a6:cb66:681f with SMTP id jj14-20020a170903048e00b001a6cb66681fmr4825434plb.46.1683240037873;
+        Thu, 04 May 2023 15:40:37 -0700 (PDT)
 Received: from dread.disaster.area (pa49-181-88-204.pa.nsw.optusnet.com.au. [49.181.88.204])
-        by smtp.gmail.com with ESMTPSA id f13-20020a170902ab8d00b001aaea39043dsm44505plr.41.2023.05.04.15.26.27
+        by smtp.gmail.com with ESMTPSA id ix10-20020a170902f80a00b001ab0159b9edsm27390plb.250.2023.05.04.15.40.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 May 2023 15:26:27 -0700 (PDT)
+        Thu, 04 May 2023 15:40:36 -0700 (PDT)
 Received: from dave by dread.disaster.area with local (Exim 4.92.3)
 	(envelope-from <david@fromorbit.com>)
-	id 1puhP5-00BPeb-Ee; Fri, 05 May 2023 08:26:23 +1000
-Date: Fri, 5 May 2023 08:26:23 +1000
+	id 1puhcn-00BPr0-UX; Fri, 05 May 2023 08:40:33 +1000
+Date: Fri, 5 May 2023 08:40:33 +1000
 From: Dave Chinner <david@fromorbit.com>
 To: John Garry <john.g.garry@oracle.com>
 Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
@@ -76,21 +76,20 @@ Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
 	linux-fsdevel@vger.kernel.org,
 	linux-security-module@vger.kernel.org, paul@paul-moore.com,
 	jmorris@namei.org, serge@hallyn.com,
-	Himanshu Madhani <himanshu.madhani@oracle.com>
-Subject: Re: [PATCH RFC 01/16] block: Add atomic write operations to
- request_queue limits
-Message-ID: <20230504222623.GI3223426@dread.disaster.area>
+	Prasad Singamsetty <prasad.singamsetty@oracle.com>
+Subject: Re: [PATCH RFC 02/16] fs/bdev: Add atomic write support info to statx
+Message-ID: <20230504224033.GJ3223426@dread.disaster.area>
 References: <20230503183821.1473305-1-john.g.garry@oracle.com>
- <20230503183821.1473305-2-john.g.garry@oracle.com>
- <20230503213925.GD3223426@dread.disaster.area>
- <fc91aa12-1707-9825-a77e-9d5a41d97808@oracle.com>
+ <20230503183821.1473305-3-john.g.garry@oracle.com>
+ <20230503215846.GE3223426@dread.disaster.area>
+ <96a2f875-7f99-cd36-e9c3-abbadeb9833b@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fc91aa12-1707-9825-a77e-9d5a41d97808@oracle.com>
+In-Reply-To: <96a2f875-7f99-cd36-e9c3-abbadeb9833b@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230504_152629_823808_EDF82B0C 
-X-CRM114-Status: GOOD (  59.49  )
+X-CRM114-CacheID: sfid-20230504_154039_444262_C65D890D 
+X-CRM114-Status: GOOD (  14.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,230 +104,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, May 04, 2023 at 07:14:29PM +0100, John Garry wrote:
-> Hi Dave,
+On Thu, May 04, 2023 at 09:45:50AM +0100, John Garry wrote:
+> On 03/05/2023 22:58, Dave Chinner wrote:
+> > Is there a statx() man
+> > page update for this addition?
 > 
-> > > diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/stable/sysfs-block
-> > > index 282de3680367..f3ed9890e03b 100644
-> > > --- a/Documentation/ABI/stable/sysfs-block
-> > > +++ b/Documentation/ABI/stable/sysfs-block
-> > > @@ -21,6 +21,48 @@ Description:
-> > >   		device is offset from the internal allocation unit's
-> > >   		natural alignment.
-> > > +What:		/sys/block/<disk>/atomic_write_max_bytes
-> > > +Date:		May 2023
-> > > +Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
-> > > +Description:
-> > > +		[RO] This parameter specifies the maximum atomic write
-> > > +		size reported by the device. An atomic write operation
-> > > +		must not exceed this number of bytes.
-> > > +
-> > > +
-> > > +What:		/sys/block/<disk>/atomic_write_unit_min
-> > > +Date:		May 2023
-> > > +Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
-> > > +Description:
-> > > +		[RO] This parameter specifies the smallest block which can
-> > > +		be written atomically with an atomic write operation. All
-> > > +		atomic write operations must begin at a
-> > > +		atomic_write_unit_min boundary and must be multiples of
-> > > +		atomic_write_unit_min. This value must be a power-of-two.
-> > 
-> > What units is this defined to use? Bytes?
-> 
-> Bytes
-> 
-> > 
-> > > +
-> > > +
-> > > +What:		/sys/block/<disk>/atomic_write_unit_max
-> > > +Date:		January 2023
-> > > +Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
-> > > +Description:
-> > > +		[RO] This parameter defines the largest block which can be
-> > > +		written atomically with an atomic write operation. This
-> > > +		value must be a multiple of atomic_write_unit_min and must
-> > > +		be a power-of-two.
-> > 
-> > Same question. Also, how is this different to
-> > atomic_write_max_bytes?
-> 
-> Again, this is bytes. We can add "bytes" to the name of these other files if
-> people think it's better. Unfortunately request_queue sysfs file naming
-> isn't consistent here to begin with.
-> 
-> atomic_write_unit_max is largest application block size which we can
-> support, while atomic_write_max_bytes is the max size of an atomic operation
-> which the HW supports.
+> No, not yet. Is it normally expected to provide a proposed man page update
+> in parallel? Or somewhat later, when the kernel API change has some
+> appreciable level of agreement?
 
-Why are these different? If the hardware supports 128kB atomic
-writes, why limit applications to something smaller?
+Normally we ask for man page updates to be presented at the same
+time, as the man page defines the user interface that is being
+implemented. In this case, we need updates for the pwritev2() man
+page to document RWF_ATOMIC semantics, and the statx() man page to
+document what the variables being exposed mean w.r.t. RWF_ATOMIC.
 
-> From your review on the iomap patch, I assume that now you realise that we
-> are proposing a write which may include multiple application data blocks
-> (each limited in size to atomic_write_unit_max), and the limit in total size
-> of that write is atomic_write_max_bytes.
+The pwritev2() man page is probably the most important one right now
+- it needs to explain the guarantees that RWF_ATOMIC is supposed to
+provide w.r.t. data integrity, IO ordering, persistence, etc.
+Indeed, it will need to explain exactly how this "multi-atomic-unit
+mulit-bio non-atomic RWF_ATOMIC" IO thing can be used safely and
+reliably, especially w.r.t. IO ordering and persistence guarantees
+in the face of crashes and power failures. Not to mention
+documenting error conditions specific to RWF_ATOMIC...
 
-I still don't get it - you haven't explained why/what an application
-atomic block write might be, nor why the block device should be
-determining the size of application data blocks, etc.  If the block
-device can do 128kB atomic writes, why wouldn't the device allow the
-application to do 128kB atomic writes if they've aligned the atomic
-write correctly?
-
-What happens we we get hardware that can do atomic writes at any
-alignment, of any size up to atomic_write_max_bytes? Because this
-interface defines atomic writes as "must be a multiple of 2 of
-atomic_write_unit_min" then hardware that can do atomic writes of
-any size can not be effectively utilised by this interface....
-
-> user applications should only pay attention to what we return from statx,
-> that being atomic_write_unit_min and atomic_write_unit_max.
-> 
-> atomic_write_max_bytes and atomic_write_boundary is only relevant to the
-> block layer.
-
-If applications can issue an multi-atomic_write_unit_max-block
-writes as a single, non-atomic, multi-bio RWF_ATOMIC pwritev2() IO
-and such IO is constrainted to atomic_write_max_bytes, then
-atomic_write_max_bytes is most definitely relevant to user
-applications.
-
-
-> > > +What:		/sys/block/<disk>/atomic_write_boundary
-> > > +Date:		May 2023
-> > > +Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
-> > > +Description:
-> > > +		[RO] A device may need to internally split I/Os which
-> > > +		straddle a given logical block address boundary. In that
-> > > +		case a single atomic write operation will be processed as
-> > > +		one of more sub-operations which each complete atomically.
-> > > +		This parameter specifies the size in bytes of the atomic
-> > > +		boundary if one is reported by the device. This value must
-> > > +		be a power-of-two.
-> > 
-> > How are users/filesystems supposed to use this?
-> 
-> As above, this is not relevant to the user.
-
-Applications will greatly care if their atomic IO gets split into
-multiple IOs whose persistence order is undefined. I think it also
-matters for filesystems when it comes to allocation, because we are
-going to have to be very careful not to have extents straddle ranges
-that will cause an atomic write to be split.
-
-e.g. how does this work with striped devices? e.g. we have a stripe
-unit of 16kB, but the devices support atomic_write_unit_max = 32kB.
-Instantly, we have a configuration where atomic writes need to be
-split at 16kB boundaries, and so the maximum atomic write size that
-can be supported is actually 16kB - the stripe unit of RAID device.
-
-This means the filesystem must, at minimum, align all allocations
-for atomic IO to 16kB stripe unit alignment, and must not allow
-atomic IOs that are not stripe unit aligned or sized to proceed
-because they can't be processed as an atomic IO....
-
-
-> > >   /**
-> > > @@ -183,6 +186,59 @@ void blk_queue_max_discard_sectors(struct request_queue *q,
-> > >   }
-> > >   EXPORT_SYMBOL(blk_queue_max_discard_sectors);
-> > > +/**
-> > > + * blk_queue_atomic_write_max_bytes - set max bytes supported by
-> > > + * the device for atomic write operations.
-> > > + * @q:  the request queue for the device
-> > > + * @size: maximum bytes supported
-> > > + */
-> > > +void blk_queue_atomic_write_max_bytes(struct request_queue *q,
-> > > +				      unsigned int size)
-> > > +{
-> > > +	q->limits.atomic_write_max_bytes = size;
-> > > +}
-> > > +EXPORT_SYMBOL(blk_queue_atomic_write_max_bytes);
-> > > +
-> > > +/**
-> > > + * blk_queue_atomic_write_boundary - Device's logical block address space
-> > > + * which an atomic write should not cross.
-> > 
-> > I have no idea what "logical block address space which an atomic
-> > write should not cross" means, especially as the unit is in bytes
-> > and not in sectors (which are the units LBAs are expressed in).
-> 
-> It means that an atomic operation which straddles the atomic boundary is not
-> guaranteed to be atomic by the device, so we should (must) not cross it to
-> maintain atomic behaviour for an application block. That's one reason that
-> we have all these size and alignment rules.
-
-Yes, That much is obvious. What I have no idea diea about is what
-this means in practice. When is this ever going to be non-zero, and
-what should be we doing at the filesystem allocation level when it
-is non-zero to ensure that allocations for atomic writes never cross
-such a boundary. i.e. how do we prevent applications from ever
-needing this functionality to be triggered? i.e. so the filesystem
-can guarantee a single RWF_ATOMIC user IO is actually dispatched
-as a single REQ_ATOMIC IO....
-
-> ...
-> 
-> > > +static inline unsigned int queue_atomic_write_unit_max(const struct request_queue *q)
-> > > +{
-> > > +	return q->limits.atomic_write_unit_max << SECTOR_SHIFT;
-> > > +}
-> > > +
-> > > +static inline unsigned int queue_atomic_write_unit_min(const struct request_queue *q)
-> > > +{
-> > > +	return q->limits.atomic_write_unit_min << SECTOR_SHIFT;
-> > > +}
-> > 
-> > Ah, what? This undocumented interface reports "unit limits" in
-> > bytes, but it's not using the physical device sector size to convert
-> > between sector units and bytes. This really needs some more
-> > documentation and work to make it present all units consistently and
-> > not result in confusion when devices have 4kB sector sizes and not
-> > 512 byte sectors...
-> 
-> ok, we'll look to fix this up to give a coherent and clear interface.
-> 
-> > 
-> > Also, I think all the byte ranges should support full 64 bit values,
-> > otherwise there will be silent overflows in converting 32 bit sector
-> > counts to byte ranges. And, eventually, something will want to do
-> > larger than 4GB atomic IOs
-> > 
-> 
-> ok, we can do that but would also then make statx field 64b. I'm fine with
-> that if it is wise to do so - I don't don't want to wastefully use up an
-> extra 2 x 32b in struct statx.
-
-Why do we need specific varibles for DIO atomic write alignment
-limits? We already have direct IO alignment and size constraints in statx(),
-so why wouldn't we just reuse those variables when the user requests
-atomic limits for DIO?
-
-i.e. if STATX_DIOALIGN is set, we return normal DIO alignment
-constraints. If STATX_DIOALIGN_ATOMIC is set, we return the atomic
-DIO alignment requirements in those variables.....
-
-Yes, we probably need the dio max size to be added to statx for
-this. Historically speaking, I wanted statx to support this in the
-first place because that's what we were already giving userspace
-with XFS_IOC_DIOINFO and we already knew that atomic IO when it came
-along would require a bound maximum IO size much smaller than normal
-DIO limits.  i.e.:
-
-struct dioattr {
-        __u32           d_mem;          /* data buffer memory alignment */
-        __u32           d_miniosz;      /* min xfer size                */
-        __u32           d_maxiosz;      /* max xfer size                */
-};
-
-where d_miniosz defined the alignment and size constraints for DIOs.
-
-If we simply document that STATX_DIOALIGN_ATOMIC returns minimum
-(unit) atomic IO size and alignment in statx->dio_offset_align (as
-per STATX_DIOALIGN) and the maximum atomic IO size in
-statx->dio_max_iosize, then we don't burn up anywhere near as much
-space in the statx structure....
+It's all well and good to have some implementation, but without
+actually defining and documenting the *guarantees* that RWF_ATOMIC
+provides userspace it is completely useless for application
+developers. And from the perspective of a reviewer, without the
+documentation stating what the infrastructure actually guarantees
+applications, we can't determine if the implementation being
+presented is fit for purpose....
 
 Cheers,
 
