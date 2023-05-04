@@ -4,84 +4,202 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9F92BC77B7C
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 17:55:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09F1AC7EE21
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 18:18:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bRSKiMRNzAS8SYsNJtO1x0Je7I8zvfMap7XakQOJ9KM=; b=af4nn/pekFmaTg+AZmjsYGZRy9
-	4h2weD5m5NEqjB50VCxALvHKyhiOGmIL2nA7Cl4oKQnSnjT+X1HDlTkXTGfmNOSi/u23A32Ao00vp
-	/JVghrhB4D5AQY5fxKfZT9mZgQIH3sMZ93CulWSI4Z4/oyXtVk3aNlE3efw93YsR/xv6VGs/uglQc
-	1rh/PwKK3j/3LoYxia5WFNvKY12VooF2+PyIXKE1WHBXdBGU+cIFI8S5bv9VC3ecpVg3PG3MrbHvI
-	xy9QbiQVwscTfCdrveGkPMwB3ijrq965OwVz8tPLzorkpJC88vxlIIHZkbQRL5yH6GWDpj3gpqAsE
-	4DnMjtEQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=WMDHsjcLPe6GWiTmqFYf/ioNx83pizHCO9xh4cYqW6I=; b=LKOCCyF8Urt1syLvKIbSKrt3p+
+	i6pBuusxfNiCk/nqFnlfZgflOMefgzAIea4yLCt2/mFvXtS9YxZrNjDd0HqX3ehaSbhA7iTnUJXW/
+	IWrn5p0Hqh1FIkCAetUbayysvPb5KbU6EzXzFEmEL24IgvFWC+4sFHbguWgiqqlI37G9olz3mpeXx
+	Vu9uoE09VuYqlMNexu7x1RVah0BKzSbF2BjBC5ot900yEG5PoUxgSGejGs406WpTHZ6DrPny2A7kU
+	FqYI1GTeB+Z7aKtYbmuCeB+CNQ+mptYi+MlWNKoFwfK7d42X4G2PS8Ig8Dc1Bagv2XPiZyXhxQkwg
+	szL/j98Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pudBG-008TYM-1p;
-	Thu, 04 May 2023 17:55:50 +0000
-Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b])
+	id 1pudX6-008W8a-1i;
+	Thu, 04 May 2023 18:18:24 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pudBD-008TUi-2S
+	id 1pudX3-008W7i-0g
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 May 2023 17:55:49 +0000
-Received: by mail-il1-x12b.google.com with SMTP id e9e14a558f8ab-32ea67ffec0so77035ab.0
-        for <linux-nvme@lists.infradead.org>; Thu, 04 May 2023 10:55:43 -0700 (PDT)
+	Thu, 04 May 2023 18:18:22 +0000
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 344Fs2ar024876;
+	Thu, 4 May 2023 18:14:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2023-03-30;
+ bh=WMDHsjcLPe6GWiTmqFYf/ioNx83pizHCO9xh4cYqW6I=;
+ b=n0FhvZugokb9aSBctRfgLi/l07ugWZwi95nb0D8SvwMkHMPYqqeSxeJh01rGluTOuaRX
+ mI2ZYUkHe0TDcc14JLLkuhofkTtd8bHrJkGqY5wagAarv5HKNFw5ic0SKZBfYIl+4dtc
+ gEWScZDZLwK1K2nMPYzKNGZP+SIVyVxPa3BbPZ1eltdjOZjb2S9/++PuVJpgJ96S8lkL
+ nKlPGQbtQ7oN2pzQ2qU32apFCu0+8OxjE1uuAYXddOt9oJ+18PizXPKnMpFUU+QKYFV3
+ f5QBzPqlSVwWIwjySjEl70hrUo1VoBCOm9WmZq/NYRXGMvzxgCjmXqkN35ZVEs03P/y9 gQ== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3q8su1tkm5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 04 May 2023 18:14:51 +0000
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 344GxlHL040517;
+	Thu, 4 May 2023 18:14:50 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2168.outbound.protection.outlook.com [104.47.56.168])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3q8sp8w2mp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 04 May 2023 18:14:50 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CuZ1SF9OGtn/wyT3n0yiuZZzRf5Wrw72MkJm+RiIjh1ruqN9TXNi67DoznMnaBG/B5dw7nJi/d9IQHN4aRtTYQ20No7QFbD1vF4ZCg9Jh1KS9y1jtkqWVtDGBeJRqjXmE3vTSZPDzPtWND7wOEDtcTHfrMc1xnGsOdHEb/e5KJ9jiKC+eOt659w04ct/Bz1ZQWpcK+3oVenqA+vBDZEXHo3iVer8241nyxFrypkKgBMLJzrgU2j8GAlVi5D6+CXGSHaYTpfO+PUOMYdkfFS97N01yyI8AHSddD94iwtASQZR5nJQDK636fKBbzaFE3RQP0I6p8tVK1R3LKpWFp6jZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WMDHsjcLPe6GWiTmqFYf/ioNx83pizHCO9xh4cYqW6I=;
+ b=J6XWVLbJbDox5qhPQBgu5m4oqUgzMSDEgTDGmj++CMVm8VmJKvpY9AGoxRVGOM/LBhp/61RW7PBwC/cc3lER9KgcIPEGgsK7JwjFyp6hEQNcGFGNCIubj5F+lBsmnKcy196ZO7qytFsdhb5OmYM5f60RZ+yECKThewgKiNAv7lLEwnpoESjO0Xxg29ozRU5+czzGd0NA3Dkcn9m+n0fh2v+AfoXIrB1CGXHVUPiLyYDjb9JQQmXBTp2jRKICzbr+tD/njtfq6YVoFJ5FRjc8doX1PGYkRDQT7AX25aBUIk8M38M36CvXm3fCBIJzGuuR6irU22/WzNwU3IU2GEFpVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1683222943; x=1685814943;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bRSKiMRNzAS8SYsNJtO1x0Je7I8zvfMap7XakQOJ9KM=;
-        b=I5tzf75lA60MDRwyUhlOPX9dYMnWIOPIXMhDevTbdmNhLwsgB/pTnE4VQEf6hdMg+a
-         QS78de/oAe4v6Pn9xGtaVj3rARlRsrnltV7SIqWs3AwnKKkvdObPun5JTRo4B3kAOW9v
-         ttHdKV6M7qXD1SJfsT3Q+oX1D79rG3w+jNa0Rt54l7LeJHrGEmBZnofZyShOsrqRzY71
-         NFmUJuri1jJ8Xqbs3tM5lcQ/m9FV3RNTzr9UZKXNxQ6szOCVSyyF5dE8WMkMZDP6+n7v
-         XmEgNJElTY5iadU0W0cwruIjGWSIH5NaOMUYMdlakKsRfPTsNmVz30qyP3jW9uYlh7NO
-         QT9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683222943; x=1685814943;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bRSKiMRNzAS8SYsNJtO1x0Je7I8zvfMap7XakQOJ9KM=;
-        b=OBrmHDgSn/KJ8wYI3gWBpnyqsagIxQRsU9eCuEwQ8tkFQN1kRZSFZKc8yzvVG4Tm6C
-         bvB+rQqJxMtLFCv9H9cRDcVKvPpFZyFY6Vg/Ui6SYrToe1FnkeYXV6clMMpA2fY+gjCP
-         5SrCUxLcWkE4kL5qVEMZZ2A+R50MotpR2lT+LU/mC8sBqhLHiY2jBD8AaMONQf67zaTv
-         9Gnx3UqeyYp8Rk6S+bDQhlamObKRFReKpYcRe0vZOu+mi0QkSiJrXeIoVWz1vm+cJWmU
-         gegQBS0ysvsQOQPH5X/MT0g9Zke58Fo683Cn/yscwYBaYELwCOvAaP+LwyjqOixphNko
-         9TIQ==
-X-Gm-Message-State: AC+VfDwSTtYkrPiRAaZfXIkbg+cH+448D+Lb1aW6qZ16kaE7Cgfl3gLN
-	rXlW+ko2KsUI44jXDcnGOvKGBpXqnTPjaDAzGY0=
-X-Google-Smtp-Source: ACHHUZ4CwxguDAnm5mofESc7Ze4qxx1tbr1Q32K2GggqnGP6Rqj5PcO3ovGjM3QdQX4e5v6SnA6n/Q==
-X-Received: by 2002:a05:6e02:20e6:b0:331:1267:31f9 with SMTP id q6-20020a056e0220e600b00331126731f9mr6568960ilv.0.1683222942925;
-        Thu, 04 May 2023 10:55:42 -0700 (PDT)
-Received: from [192.168.1.94] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 10-20020a92c64a000000b0032afe23820bsm3272ill.17.2023.05.04.10.55.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 May 2023 10:55:42 -0700 (PDT)
-Message-ID: <79be970b-16d7-bfb4-ddc1-6705a06e4e34@kernel.dk>
-Date: Thu, 4 May 2023 11:55:41 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WMDHsjcLPe6GWiTmqFYf/ioNx83pizHCO9xh4cYqW6I=;
+ b=JbT7LC4Ve5u/ssClKwb11/zLKxL+b1cFIrbEM3LphSnqHkYSvSVisAbUtSgVGXCg9FMuTr/1pU6dnAAj5FVVx+pN0//6UxyLgHKnha84+pKTaL7LTjuRyL+V5s3djri0Sl4qlHaykAosofl/32k4Fvmv4TE9PSWkXq1fYeXFYc4=
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
+ by PH0PR10MB4758.namprd10.prod.outlook.com (2603:10b6:510:3c::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.26; Thu, 4 May
+ 2023 18:14:47 +0000
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::8456:ba59:80ec:d804]) by DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::8456:ba59:80ec:d804%7]) with mapi id 15.20.6363.026; Thu, 4 May 2023
+ 18:14:47 +0000
+Message-ID: <fc91aa12-1707-9825-a77e-9d5a41d97808@oracle.com>
+Date: Thu, 4 May 2023 19:14:29 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH] nvmet: dynamically allocate nvmet_ns->nguid
+Subject: Re: [PATCH RFC 01/16] block: Add atomic write operations to
+ request_queue limits
+To: Dave Chinner <david@fromorbit.com>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+        martin.petersen@oracle.com, djwong@kernel.org, viro@zeniv.linux.org.uk,
+        brauner@kernel.org, dchinner@redhat.com, jejb@linux.ibm.com,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, paul@paul-moore.com,
+        jmorris@namei.org, serge@hallyn.com,
+        Himanshu Madhani <himanshu.madhani@oracle.com>
+References: <20230503183821.1473305-1-john.g.garry@oracle.com>
+ <20230503183821.1473305-2-john.g.garry@oracle.com>
+ <20230503213925.GD3223426@dread.disaster.area>
 Content-Language: en-US
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Cc: "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>
-References: <20230502053051.14621-1-kch@nvidia.com>
- <b9688be8-fd92-99df-7083-c8a695e77377@kernel.dk>
- <4174843d-18f8-572d-8fff-ab6d9bf42946@nvidia.com>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <4174843d-18f8-572d-8fff-ab6d9bf42946@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
+From: John Garry <john.g.garry@oracle.com>
+Organization: Oracle Corporation
+In-Reply-To: <20230503213925.GD3223426@dread.disaster.area>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI2PR01CA0020.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:192::6) To DM6PR10MB4313.namprd10.prod.outlook.com
+ (2603:10b6:5:212::20)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR10MB4313:EE_|PH0PR10MB4758:EE_
+X-MS-Office365-Filtering-Correlation-Id: f898cc03-bd19-471d-788f-08db4ccb715c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	sgPB1I50u7QGdxg+FAlyX/EaXYsehvUd9kFlyfjb/fS9nAWExYAEvtC8qO00aLSU1QWKXlY61g/Z1jiIobKfv8EEUa711yjpIUKdsaNHkjheccT7/EPjBWryU0Zpi3INB/8eVIDncxFKPq/x9oZwRTA1UcESCCeXYvLskF4y7/il2goACWSL2D6837GlqDES39VshuY8bXVkUuL+RgMKkSBhPrSEbA54gMkUysTsymg8XKqj+SAf/hDxSou7fBkTwYeD9bYsX4VNtCuwNcMi2K/kAvtYXEhgVUXOXhmBY5aeAELY6HVS+hakWj4LtHgEo0ZTfj7KyNCAp2HlwSQ8RFvVKwzpAOOk+fOPpUsMDY5WSOzxysgtUgL1tOrFNnRkXWh/lj1E7n5Pi8UcOFIrd2G/KYJOFRlbdTSh+urBF8SNTLwmrvEOWJjl3YQNlwNxb9K0kBnYz76mGpeKkeE+E5JoqEMZBhWrpVhblo/wZxZ96gIU+5tKPH/KNf1uoctL6fv8UDTmpz2+bgv6nLgLtEZjCX9JnPvxppOtad6b7T+3SnxPSu5MF/DlERtolMrtGnD2gjKPwS+pDKQ2hmG2bKYYxSmtMZoEN8FhYtfaN0eo+jUNAYCBHa+l4VqU+YHt2JTyvktKU/g1h80crVinPA==
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4313.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(396003)(136003)(39860400002)(366004)(346002)(451199021)(478600001)(2616005)(6486002)(86362001)(36916002)(31696002)(6666004)(41300700001)(316002)(5660300002)(7416002)(8676002)(8936002)(38100700002)(107886003)(66946007)(83380400001)(36756003)(4326008)(6916009)(66556008)(66476007)(2906002)(186003)(31686004)(6506007)(6512007)(26005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?QWhjUnpsRWh4czBwMStQT2NkdkR2dlhobkRQZWd2RGpVenI0eDRObUVnWThO?=
+ =?utf-8?B?blZmVUJibmgyMTNhOWpUZi9QZVhxUDFMaXRsdkRRa1dCYW5DRmpLd0xSdzBK?=
+ =?utf-8?B?UzF0Qk1QK29BZTBwMkJCWUhaNG1MYkkxeWhzZGdpRjFyem1HeDU4QUU3YkZC?=
+ =?utf-8?B?U1ExQitOZ05LUmdkRlpUeElnK2RqL0ZJS0hRa1JDbWtUaCtreVJYMmVtK05l?=
+ =?utf-8?B?MXFLZmRNbUUrQXJkK05IajMzZ3JwNzU2MzB6c3J0VDE1bG5YTjhNRWM0RFpY?=
+ =?utf-8?B?QVBJSWU5dWpZRTRUZFVBOW4xcDJCZXJXanJQTmpTeWthZWg3Z0ViTkhoV09z?=
+ =?utf-8?B?ekk0VUQ5dGY4aHZuUnVsMThhRThRL2lmZlVxL25DcG1rWCs2T1NkM3Y4UzVz?=
+ =?utf-8?B?dlZ3V2hnL0JCMXNZbUJ4Y1hJNmE1ZTc5RXVKa09nUGtBU3lkbzNZYU1xMjNq?=
+ =?utf-8?B?NERZbjR0Rjg5QXpXMDd1OEhDcGMyRFlRNHlxazhhNUQ5ajlxdWVQbDV2RWo2?=
+ =?utf-8?B?Nm4rdUxoSlhkd01zVVFsWDFKK0ZsVWJvSGxPQTBSejc2N2E2clhvdDRpc3I0?=
+ =?utf-8?B?UzdxaTZRYk12MkNOcW5Hbm9mdEpBcWE5Y0NGWmNpOUxpc0tkNzkzUEpLamxt?=
+ =?utf-8?B?cjlhNFhYT1NFM1FiMjVCQ29WY0NycDZPUWNIMU1sTFRtbC9POWhHd214bmVs?=
+ =?utf-8?B?eWE4QU9hOXkxZllzSE8rekRGNE9zM0VPb1VOOGE1VHhGd1YxT0tYeEFDWGIr?=
+ =?utf-8?B?UmplMThBc1F5dTE2b3lMYTF3aG85MjVCblVuMXYwTUN1R1IwMDZuQWlmWFdo?=
+ =?utf-8?B?c2ZXYkoySUJhbTN2OUhkVkZURGpvRGdpME5IWDhXek9KWCtZbFhjcE04NHJP?=
+ =?utf-8?B?dStyNUNSamtBaFREeExvaUdWQmpyNFh1QzVabVU2TU1QS2xvL2I0YXd6N3hP?=
+ =?utf-8?B?bWhTcmF4dkhwVVVmejhKUXhBOXA0MUM4dDVFSVNvRGw3cSs1Z1h0RFpzUmRr?=
+ =?utf-8?B?SFpzUzBiRjQ0Y2xuVk12RmNrSk1iTkJ0VUFWdjUwdG1PYlJ6NlZHd2x0UUVu?=
+ =?utf-8?B?ZGFRWUJXVVhjYU1hYlhtZGY5cmZIRTFCdGR4VWJVZ2FTNjc5dlBSY1N4Vmhz?=
+ =?utf-8?B?M3RXY1RkNStpTFJxTElOWFJUc2RHdTJOTlJoVHZ1OGdqMXFoV3kraWF3RzZS?=
+ =?utf-8?B?OHZwa3dtVkZGTk8vYTE4TXpwejI4dmM2U29zejhSREZCM2xsV0FyRFFsRTFQ?=
+ =?utf-8?B?SXJzQkhsSW1uSVlhc0psbGx3YktmZmFtL2NvN2FOdmdlc0JTeWFrTlFDUUNm?=
+ =?utf-8?B?YkY3aU9ZR2xpVHhpODRVV2I5NjNyQmZSV3Fqa0FUSldQbzhUMHRPUE9rM1dH?=
+ =?utf-8?B?cWxLdUZaRklSdXE3b3B6WXozZFVtRzRyT29qZGpGYlk3dG5sM0RJQWF1VTJZ?=
+ =?utf-8?B?dGwyMGlhZit2NWpTcEI2VG5oOHpRSnJ0cm1nYXhCSFZhR3A0YWx6WklqOEdS?=
+ =?utf-8?B?TmRjWmN4UGRyZVhjNlBmeVZuOGtUNU55LzVXM3d0ejZCY29zZTdYMEVVTHZD?=
+ =?utf-8?B?UWdZR3ozQ2g2bmdGUmlOZFNaNW1NRlRjM0JDRDZzTnBGYjExajZKL21idnpM?=
+ =?utf-8?B?Q0tPTEhJSFhWck9qRjB2ZS9QM3BvNmNYdFdxaE5mcFlQS0t5RjB2ODlwV2Jv?=
+ =?utf-8?B?S0phYjdBbG56OTcybkZ4bVhBVHkrM1F0QjlMbUttcyszTzIxNWw2YmxYVGQv?=
+ =?utf-8?B?UkNIejdCUmp4WjJ0c3dXZFoyK3p4QndicWRkSkRFQ0pVU1h3RGJrZHBaTnZ5?=
+ =?utf-8?B?aU9YQnRreHBWWjQxS2U3Qy9NUGM0d2dhQkpOcUpJY1VPVmg1U0dncVMxQ2Z0?=
+ =?utf-8?B?cS9MYjczR3pkTVFXQ3NldHlEdkt6bHdDc2cwOWhEeG5raUhnKzViOU42M1cx?=
+ =?utf-8?B?eUVKTE5VYlgzRU1jTlhUNWZrTyt6VFREMnBVRkhwM0kzY0NaN3NwZDVHbG81?=
+ =?utf-8?B?WjBCdTdjM20zZm80NVl0TTg4NVgwVTFJeEtjTFpFbUE5aHZIOC9tY2dnNnE3?=
+ =?utf-8?B?MnBDM1BlVzQ2anI2cFpLWFBFWjQ2RktGWlRGSXJ0M1dXbGhCOG9ra2JiOUU3?=
+ =?utf-8?B?bGpCMjVOc25JVmd1dkVuUnUyZk9HL2p5MW5FSExHcFhiamY3Y3JNTnZHYnhM?=
+ =?utf-8?B?OXc9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 	=?utf-8?B?SlZwcFhDQmxKUFZhbHBPRzMvRkJWTytFMGlrOGhTL2NzQmVVVGs0RlphUCtw?=
+ =?utf-8?B?WkxPalpkSTlwMzl1Mjh4NStvd2pEdFoxb0QrWDBVR3RMVG4xYjdiUWFHRjQz?=
+ =?utf-8?B?ZjBGOGZtV1pvd3IwZkxydDNMYkF5MHdoOEprOEp4bVczM1dxWTRGVlNlWDdn?=
+ =?utf-8?B?UGlIN3FsS1RkSEY4Zy9Pa0RuUlpnQjdUdVRaTzN4cDZTc3ZySktoaWR4dmE0?=
+ =?utf-8?B?MWJLNHBVeXh6OTg5bnBtelM5L01BK2lramo4cEIvK0FXNHUwY0lVZEQ5Z3Nu?=
+ =?utf-8?B?MS8zdkloNGpmVlRIa201Z21ZM1hrQXRpNFkwRW45VVR4TGZ0MGtlN0hUaklC?=
+ =?utf-8?B?MU94bm9Fa0lIRW8ya1k5alU3cis0SEc1TUtCQ3V3TTdsK3VDNDRDTDVGSnhY?=
+ =?utf-8?B?S0oyRGVtMlVMSXI1ZXNvdm1TNnRTdC9XeWFZQVBGK0wvbkE4bXZ6WHN6SnlY?=
+ =?utf-8?B?VlI5ME4waGFjd0VLOW04UDdxbDh4VmthbGV4bzF3UGY4R3NGVUs4SEdiYWlJ?=
+ =?utf-8?B?TXM3VzVjT1BUZWV3NjhlR2svR2hsZk5DYzBkbFdvZE5FUytjS254MThpU09I?=
+ =?utf-8?B?am9TTUJlRklpdXF1ZGRaWkRDK0dRS29aVGRxODJMc1RiMVZZM3ZvMDFhRWJ4?=
+ =?utf-8?B?TGs2VWdRdVhwamV0R1RVSDBFWHZWT3N5ZUIyaDA1aEw5OWFJeDg1a1p3WnVh?=
+ =?utf-8?B?ZTZ6RWMxNkd5OUZvMGdaVDN0U1l2ckRiNkIzNEtDUmNZMURXbjAzVGdXQXlG?=
+ =?utf-8?B?N3JXMnJzSWdsL3hFT0tySEphZHI5SkhhbWY2c1dBeit6cDFUb1NZY05XbSt3?=
+ =?utf-8?B?S004VEQyY2tXRFVCenlNclNhbHB0R0E4VGpvQU9mczlWZjVaV3RuZEFqZVVi?=
+ =?utf-8?B?cmQvSjRzd0crVGNPb0JIbWNvekRNT0V2aFZnMkF3WkdnSEFBWXVKMDMyMWU1?=
+ =?utf-8?B?YWs2S1orVmFCTlRFODN1WFNHclhTWjM1Mkx1SGhvbjRvdTVDaTdmZ1pEekVu?=
+ =?utf-8?B?QnpWYmdIVEFZb1k0S0RHQjNIcTA0UmNPZk52Uit0N1lnRUNBTlhBcUJoeXBH?=
+ =?utf-8?B?ZmNLK2UwUEhKMnVvMCt6ZGNxaVlpZWI3b3ltaUpDc0RrUlhycXQwdzZNQy9n?=
+ =?utf-8?B?N1hvWXRkVlROeEtpMURCc0NPY0F2Zjh2WTBwSHBiYi9SRVNVaE0wcUwxelNG?=
+ =?utf-8?B?bUp4RzlLa0g5MTd6clVhVXA4NEpzcmlQaUtwT3c4dDk5RHdycnp0S253RjlX?=
+ =?utf-8?B?RG9PbGJJRDBZdU5mbDBsZGsrL0pVRGtWVk1zRGJFR1VwSFc2WldHbmc4NXVs?=
+ =?utf-8?B?YjBGNU9ZYjZJekpWdnlVc3BDU3UxN2tsZzZzaVpoNE8wUXB2NStjazZ2bjhZ?=
+ =?utf-8?B?WkxoZkthN2Nra3BjUFZDMG5vTjNLVkIwREt3RzJCVGFTSGVNQ3g0UFZvV29J?=
+ =?utf-8?B?cVN0YVBzTkVSNEI4TS9QcVZrQ3NPdUg2enFvVXgxYWRXR1VJcXJubVVEc3Zm?=
+ =?utf-8?B?KzFsdlRoY21PSjM4TnZiak1HM1ZrbDFZSzI1UnExdWJHWDNUYXByK1dSQjA0?=
+ =?utf-8?Q?pTkE4kytA8uZMcOSWCc+UPcJc=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f898cc03-bd19-471d-788f-08db4ccb715c
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4313.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2023 18:14:47.0325
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iVujsoujIugVhxemPV6oKemYNszRpSeiKyYNwFfp404EdPkUylWJv7k+CqR+IlugPCndnDYjTC8cQi9f8MtmGA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4758
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-04_12,2023-05-04_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxlogscore=999
+ phishscore=0 bulkscore=0 suspectscore=0 mlxscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305040147
+X-Proofpoint-GUID: SM0gglqFKYuZWXndTMaVj6280GHJEkO5
+X-Proofpoint-ORIG-GUID: SM0gglqFKYuZWXndTMaVj6280GHJEkO5
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230504_105547_795808_F3F85773 
-X-CRM114-Status: GOOD (  16.56  )
+X-CRM114-CacheID: sfid-20230504_111821_256254_A72D9A68 
+X-CRM114-Status: GOOD (  19.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,40 +214,262 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/3/23 4:39?PM, Chaitanya Kulkarni wrote:
-> On 5/3/23 08:45, Jens Axboe wrote:
->> On 5/1/23 11:30?PM, Chaitanya Kulkarni wrote:
->>> The nvmet_ns struct is critical to I/O operations in each backend bdev
->>> and file, but its static nguid array is not accessed in the fast path.
->>> This means that pulling all the memory for the array on each access
->>> is inefficient.
->>>
->>> This patch dynamically allocates the nvmet_ns->nguid array, reducing the
->>> size of the nvmet_ns struct. This optimization should reduce unnecessary
->>> memory access in the fast path that is required for the array vs pointer.
->>> For allocation of nguid with kzalloc() use same policy GFP_KERNEL that is
->>> used to allocate nvmet_ns struct iself.
->> Replacing 16 bytes of embedded memory with 8 bytes and then alloc+free
->> seems like a poor tradeoff.
->>
->> Why not just arrange it a bit more sanely, and also push the config
->> stuff out-of-line as that would not be used in the fast path. The below
->> 30 second job takes it from 456 -> 440 bytes for me, and has a better
->> layout imho.
+Hi Dave,
+
+>> diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/stable/sysfs-block
+>> index 282de3680367..f3ed9890e03b 100644
+>> --- a/Documentation/ABI/stable/sysfs-block
+>> +++ b/Documentation/ABI/stable/sysfs-block
+>> @@ -21,6 +21,48 @@ Description:
+>>   		device is offset from the internal allocation unit's
+>>   		natural alignment.
 >>   
-> Intentionally I didn't touch reordering since I've asked Christoph J
-> look into it so my patch only optimizing the nguid allocation.
-> Just looked into his series your patch is missing from that.
+>> +What:		/sys/block/<disk>/atomic_write_max_bytes
+>> +Date:		May 2023
+>> +Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
+>> +Description:
+>> +		[RO] This parameter specifies the maximum atomic write
+>> +		size reported by the device. An atomic write operation
+>> +		must not exceed this number of bytes.
+>> +
+>> +
+>> +What:		/sys/block/<disk>/atomic_write_unit_min
+>> +Date:		May 2023
+>> +Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
+>> +Description:
+>> +		[RO] This parameter specifies the smallest block which can
+>> +		be written atomically with an atomic write operation. All
+>> +		atomic write operations must begin at a
+>> +		atomic_write_unit_min boundary and must be multiples of
+>> +		atomic_write_unit_min. This value must be a power-of-two.
 > 
-> Moving configfs out of the way and combining bool together is
-> much better layout ...
+> What units is this defined to use? Bytes?
 
-But I think you missed my point, which is that replacing 16 bytes with 8
-bytes, and then adding an alloc+free on top for the latter, doesn't make
-a lot of sense. And some saner reordering gets you a bigger win, without
-needing to resort to any of that.
+Bytes
 
--- 
-Jens Axboe
+> 
+>> +
+>> +
+>> +What:		/sys/block/<disk>/atomic_write_unit_max
+>> +Date:		January 2023
+>> +Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
+>> +Description:
+>> +		[RO] This parameter defines the largest block which can be
+>> +		written atomically with an atomic write operation. This
+>> +		value must be a multiple of atomic_write_unit_min and must
+>> +		be a power-of-two.
+> 
+> Same question. Also, how is this different to
+> atomic_write_max_bytes?
+
+Again, this is bytes. We can add "bytes" to the name of these other 
+files if people think it's better. Unfortunately request_queue sysfs 
+file naming isn't consistent here to begin with.
+
+atomic_write_unit_max is largest application block size which we can 
+support, while atomic_write_max_bytes is the max size of an atomic 
+operation which the HW supports.
+
+ From your review on the iomap patch, I assume that now you realise that 
+we are proposing a write which may include multiple application data 
+blocks (each limited in size to atomic_write_unit_max), and the limit in 
+total size of that write is atomic_write_max_bytes.
+
+user applications should only pay attention to what we return from 
+statx, that being atomic_write_unit_min and atomic_write_unit_max.
+
+atomic_write_max_bytes and atomic_write_boundary is only relevant to the 
+block layer.
+
+> 
+>> +
+>> +
+>> +What:		/sys/block/<disk>/atomic_write_boundary
+>> +Date:		May 2023
+>> +Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
+>> +Description:
+>> +		[RO] A device may need to internally split I/Os which
+>> +		straddle a given logical block address boundary. In that
+>> +		case a single atomic write operation will be processed as
+>> +		one of more sub-operations which each complete atomically.
+>> +		This parameter specifies the size in bytes of the atomic
+>> +		boundary if one is reported by the device. This value must
+>> +		be a power-of-two.
+> 
+> How are users/filesystems supposed to use this?
+
+As above, this is not relevant to the user.
+
+> 
+>> +
+>>   
+>>   What:		/sys/block/<disk>/diskseq
+>>   Date:		February 2021
+>> diff --git a/block/blk-settings.c b/block/blk-settings.c
+>> index 896b4654ab00..e21731715a12 100644
+>> --- a/block/blk-settings.c
+>> +++ b/block/blk-settings.c
+>> @@ -59,6 +59,9 @@ void blk_set_default_limits(struct queue_limits *lim)
+>>   	lim->zoned = BLK_ZONED_NONE;
+>>   	lim->zone_write_granularity = 0;
+>>   	lim->dma_alignment = 511;
+>> +	lim->atomic_write_unit_min = lim->atomic_write_unit_max = 1;
+> 
+> A value of "1" isn't obviously a power of 2, nor does it tell me
+> what units these values use.
+
+I think that we should store these in bytes.
+
+> 
+>> +	lim->atomic_write_max_bytes = 512;
+>> +	lim->atomic_write_boundary = 0;
+> 
+> The behaviour when the value is zero is not defined by the syfs
+> description above.
+
+I'll add it. A value of zero means no atomic boundary.
+
+> 
+>>   }
+>>   
+>>   /**
+>> @@ -183,6 +186,59 @@ void blk_queue_max_discard_sectors(struct request_queue *q,
+>>   }
+>>   EXPORT_SYMBOL(blk_queue_max_discard_sectors);
+>>   
+>> +/**
+>> + * blk_queue_atomic_write_max_bytes - set max bytes supported by
+>> + * the device for atomic write operations.
+>> + * @q:  the request queue for the device
+>> + * @size: maximum bytes supported
+>> + */
+>> +void blk_queue_atomic_write_max_bytes(struct request_queue *q,
+>> +				      unsigned int size)
+>> +{
+>> +	q->limits.atomic_write_max_bytes = size;
+>> +}
+>> +EXPORT_SYMBOL(blk_queue_atomic_write_max_bytes);
+>> +
+>> +/**
+>> + * blk_queue_atomic_write_boundary - Device's logical block address space
+>> + * which an atomic write should not cross.
+> 
+> I have no idea what "logical block address space which an atomic
+> write should not cross" means, especially as the unit is in bytes
+> and not in sectors (which are the units LBAs are expressed in).
+
+It means that an atomic operation which straddles the atomic boundary is 
+not guaranteed to be atomic by the device, so we should (must) not cross 
+it to maintain atomic behaviour for an application block. That's one 
+reason that we have all these size and alignment rules.
+
+> 
+>> + * @q:  the request queue for the device
+>> + * @size: size in bytes. Must be a power-of-two.
+>> + */
+>> +void blk_queue_atomic_write_boundary(struct request_queue *q,
+>> +				     unsigned int size)
+>> +{
+>> +	q->limits.atomic_write_boundary = size;
+>> +}
+>> +EXPORT_SYMBOL(blk_queue_atomic_write_boundary);
+>> +
+>> +/**
+>> + * blk_queue_atomic_write_unit_min - smallest unit that can be written
+>> + *				     atomically to the device.
+>> + * @q:  the request queue for the device
+>> + * @sectors: must be a power-of-two.
+>> + */
+>> +void blk_queue_atomic_write_unit_min(struct request_queue *q,
+>> +				     unsigned int sectors)
+>> +{
+>> +	q->limits.atomic_write_unit_min = sectors;
+>> +}
+>> +EXPORT_SYMBOL(blk_queue_atomic_write_unit_min);
+> 
+> Oh, these are sectors?
+
+Again, we'll change to bytes.
+
+> 
+> What size sector? Are we talking about fixed size 512 byte basic
+> block units,
+
+Normally we would be referring to fixed size 512 byte basic
+block unit
+
+> or are we talking about physical device sector sizes
+> (e.g. 4kB, maybe larger in future?)
+> 
+> These really should be in bytes, as they are directly exposed to
+> userspace applications via statx and applications will have no idea
+> what the sector size actually is without having to query the block
+> device directly...
+
+ok
+
+> 
+>> +
+>> +/*
+>> + * blk_queue_atomic_write_unit_max - largest unit that can be written
+>> + * atomically to the device.
+>> + * @q: the reqeust queue for the device
+>> + * @sectors: must be a power-of-two.
+>> + */
+>> +void blk_queue_atomic_write_unit_max(struct request_queue *q,
+>> +				     unsigned int sectors)
+>> +{
+>> +	struct queue_limits *limits = &q->limits;
+>> +	limits->atomic_write_unit_max = sectors;
+>> +}
+>> +EXPORT_SYMBOL(blk_queue_atomic_write_unit_max);
+>> +
+>>   /**
+>>    * blk_queue_max_secure_erase_sectors - set max sectors for a secure erase
+>>    * @q:  the request queue for the device
+>> diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+>> index f1fce1c7fa44..1025beff2281 100644
+>> --- a/block/blk-sysfs.c
+>> +++ b/block/blk-sysfs.c
+>> @@ -132,6 +132,30 @@ static ssize_t queue_max_discard_segments_show(struct request_queue *q,
+>>   	return queue_var_show(queue_max_discard_segments(q), page);
+>>   }
+>>   
+
+...
+
+>>   
+>> +static inline unsigned int queue_atomic_write_unit_max(const struct request_queue *q)
+>> +{
+>> +	return q->limits.atomic_write_unit_max << SECTOR_SHIFT;
+>> +}
+>> +
+>> +static inline unsigned int queue_atomic_write_unit_min(const struct request_queue *q)
+>> +{
+>> +	return q->limits.atomic_write_unit_min << SECTOR_SHIFT;
+>> +}
+> 
+> Ah, what? This undocumented interface reports "unit limits" in
+> bytes, but it's not using the physical device sector size to convert
+> between sector units and bytes. This really needs some more
+> documentation and work to make it present all units consistently and
+> not result in confusion when devices have 4kB sector sizes and not
+> 512 byte sectors...
+
+ok, we'll look to fix this up to give a coherent and clear interface.
+
+> 
+> Also, I think all the byte ranges should support full 64 bit values,
+> otherwise there will be silent overflows in converting 32 bit sector
+> counts to byte ranges. And, eventually, something will want to do
+> larger than 4GB atomic IOs
+> 
+
+ok, we can do that but would also then make statx field 64b. I'm fine 
+with that if it is wise to do so - I don't don't want to wastefully use 
+up an extra 2 x 32b in struct statx.
+
+Thanks,
+John
 
 
