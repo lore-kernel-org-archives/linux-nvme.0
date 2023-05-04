@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D800EC7EE25
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 09:13:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75C7DC7EE23
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 09:13:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ne5S41rksW/94j/aPAVYR86xIk3eBjYReoVu8x8zS6Y=; b=On7BTXAj8C9XzW6RwIsnUh2PXe
-	4x/LZBFddCEP302+AI4qboKzHQxLVzn0W1AFadwf7H/xUSatiF7l357f1lVNf3gqrzp02yEQDEPij
-	pAFbCKOliflYyftSlgrDIl4i2eoFWgqHcb1ihHhi8FWYGbWztbp+/LhIhi1QKiClFJjqzl1TRwD8X
-	sgj1Kuab+DZK5sAe7uHHvzLTjXXysWStQRwYS1Qh/smdvFRjNvtI6KFCChO91UwO5PjkXZl/tWiN0
-	cC89LeUzhmhtg7TkTxQLE+7D2o0ePkNmNuEsNzK2xC5mCEYGoPXg1KqY3yWDUEEe/yWTduYxCUvrj
-	dQgZfveg==;
+	bh=/MT2eOEXTDtx6TbMI4OROEQ94vFPqSXJcCQGfexDgnU=; b=l9TxsQvgsBwj72kBKsb/a8GFY+
+	LWuBYiBmMdqm7+0BEZ1Wi+qS8eYvPW63/3tyFoNDSnUVY7L1gFTL6zyYcBvm8c36b+XyU8Ju1TY7X
+	4qaYbtdSO9a4FscKThpnqsX9N4tbPgggtf8z9Cjlw1AI/QvI5eagFpkiSWz+NiO2lNVXaoZeCeDh1
+	NVn682Sbqth5xWIH/jeJWhx5fVdfu7q5mz6IcN3DeL9asxjt+qh7/YGuk30h1sD5VdRCYMacPmNfI
+	Oah4sbZw4FW7Rq+Eoo1jEHI97UeuYNS5LS618wlCcDgxnaE0IiyedEtQ9fmutaRyr68Na9hDKWoVT
+	WMOxGm6g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1puV1d-007DqE-1l;
-	Thu, 04 May 2023 09:13:21 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1puV1f-007DsC-0h;
+	Thu, 04 May 2023 09:13:23 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1puV1S-007Dfa-1o
+	id 1puV1T-007DgB-2M
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 May 2023 09:13:15 +0000
+	Thu, 04 May 2023 09:13:17 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D39D6209AE;
-	Thu,  4 May 2023 09:13:06 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 172E133934;
+	Thu,  4 May 2023 09:13:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1683191586; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1683191588; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ne5S41rksW/94j/aPAVYR86xIk3eBjYReoVu8x8zS6Y=;
-	b=QB07Bz7K4iEVfOY+6W98tVaKgnXTKUXPf0+OVvvGWRcKlv98G/thxH8oJ1OP5Dw/s/hV+m
-	dZxxnEK6YP2o+1qTTLRmh4MN29oFBfV4S0t1TdYmW5FR7lYxR3gcGX7NSk/+lBm37PmuQO
-	L/7xnPkt3/+vKKv2sCAUq5uYPQBmuVE=
+	bh=/MT2eOEXTDtx6TbMI4OROEQ94vFPqSXJcCQGfexDgnU=;
+	b=dJeCpK6oMVSvr8smGf+ihxMQdwqUVDqmYUlVJyIus/e84HDjTS8QRQwhOWTAwbH8DtE3MF
+	a7OpBR3Fo+QiZCUcUa3pXSsYjlmNUvQe6f9MYuxl26kdoPhwiWt+bRp6YwM3XwuMse21OQ
+	xq2q99L5AiFr8w6ZhWYbtHC/d40ApgI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1683191586;
+	s=susede2_ed25519; t=1683191588;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ne5S41rksW/94j/aPAVYR86xIk3eBjYReoVu8x8zS6Y=;
-	b=BxUFEGgHb6iGYwXkg7SiwFxOiEkvbImXjlJ1MjD0g4KpuEWmAbGpDH3ceXy/LNZSnrGcsP
-	zHKS1Hyz+9UI4xBQ==
+	bh=/MT2eOEXTDtx6TbMI4OROEQ94vFPqSXJcCQGfexDgnU=;
+	b=lka5R4+8+IgQ341avap5uL4bPGE7krFsKwHiwzAuOhwRIvtGiZdeZsF6lDomI0QJV1q8sn
+	iZL0VWtbTFCBjbDQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C2EDE13444;
-	Thu,  4 May 2023 09:13:06 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0827F13444;
+	Thu,  4 May 2023 09:13:08 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id hm2WLyJ3U2TmTwAAMHmgww
-	(envelope-from <dwagner@suse.de>); Thu, 04 May 2023 09:13:06 +0000
+	id 28f9ASR3U2TrTwAAMHmgww
+	(envelope-from <dwagner@suse.de>); Thu, 04 May 2023 09:13:08 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -69,17 +69,17 @@ Cc: linux-kernel@vger.kernel.org,
 	Hannes Reinecke <hare@suse.de>,
 	James Smart <jsmart2021@gmail.com>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [RFC v3 6/9] nvme-tcp: replace state machine with generic one
-Date: Thu,  4 May 2023 11:12:56 +0200
-Message-Id: <20230504091259.29100-7-dwagner@suse.de>
+Subject: [RFC v3 8/9] nvme: move queue flags to middle layer
+Date: Thu,  4 May 2023 11:12:58 +0200
+Message-Id: <20230504091259.29100-9-dwagner@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230504091259.29100-1-dwagner@suse.de>
 References: <20230504091259.29100-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230504_021310_893757_A1D1B14F 
-X-CRM114-Status: GOOD (  18.79  )
+X-CRM114-CacheID: sfid-20230504_021312_069291_021E1244 
+X-CRM114-Status: GOOD (  20.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,932 +94,708 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+The queue flags are used to track the state of the queue (deleted, live,
+...). Move this generic feature into the fabric middle layer.
+
+Unfortunately, rdma uses an transport flag (TR_READY) which is not used
+in the generic part of the state machine.
+
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- drivers/nvme/host/tcp.c | 698 ++++++++++------------------------------
- 1 file changed, 175 insertions(+), 523 deletions(-)
+ drivers/nvme/host/fabrics.c | 157 +++++++++++++++++++++++++++++-------
+ drivers/nvme/host/nvme.h    |  19 ++++-
+ drivers/nvme/host/rdma.c    |  75 ++++++-----------
+ drivers/nvme/host/tcp.c     |  87 +++++++-------------
+ 4 files changed, 197 insertions(+), 141 deletions(-)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 74ccc84d244a..32c4346b7322 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -519,15 +519,6 @@ static void nvme_tcp_init_recv_ctx(struct nvme_tcp_queue *queue)
- 	queue->ddgst_remaining = 0;
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 3d2cde17338d..5f212cb9421a 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -1134,13 +1134,117 @@ nvmf_create_ctrl(struct device *dev, const char *buf)
+ 	return ERR_PTR(ret);
  }
  
--static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl)
--{
--	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
--		return;
--
--	dev_warn(ctrl->device, "starting error recovery\n");
--	queue_work(nvme_reset_wq, &ctrl->err_work);
--}
--
- static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
- 		struct nvme_completion *cqe)
++static int __nvmf_alloc_admin_queue(struct nvme_ctrl *ctrl)
++{
++	int ret;
++
++	ret = ctrl->fabrics_ops->alloc_admin_queue(ctrl);
++	if (ret)
++		return ret;
++
++	set_bit(NVME_FABRICS_Q_ALLOCATED, ctrl->queues[0].flags);
++
++	return 0;
++}
++
++static void __nvmf_free_admin_queue(struct nvme_ctrl *ctrl)
++{
++	if (!test_and_clear_bit(NVME_FABRICS_Q_ALLOCATED,
++				ctrl->queues[0].flags))
++		return;
++
++	ctrl->fabrics_ops->free_admin_queue(ctrl);
++}
++
++static int __nvmf_start_admin_queue(struct nvme_ctrl *ctrl)
++{
++	int ret;
++
++	if (!test_bit(NVME_FABRICS_Q_ALLOCATED, ctrl->queues[0].flags))
++		return -EINVAL;
++
++	ret = ctrl->fabrics_ops->start_admin_queue(ctrl);
++	if (ret) {
++		dev_err(ctrl->device,
++			"failed to start admin queue: ret=%d\n", ret);
++		return ret;
++	}
++
++	set_bit(NVME_FABRICS_Q_LIVE, ctrl->queues[0].flags);
++
++	return 0;
++}
++
++static void __nvmf_stop_admin_queue(struct nvme_ctrl *ctrl)
++{
++	if (!test_bit(NVME_FABRICS_Q_ALLOCATED, ctrl->queues[0].flags))
++		return;
++
++	mutex_lock(ctrl->queues[0].queue_lock);
++	if (test_and_clear_bit(NVME_FABRICS_Q_LIVE, ctrl->queues[0].flags))
++		ctrl->fabrics_ops->stop_admin_queue(ctrl);
++	mutex_unlock(ctrl->queues[0].queue_lock);
++}
++
++static int __nvmf_alloc_io_queue(struct nvme_ctrl *ctrl, int qid)
++{
++	int ret;
++
++	ret = ctrl->fabrics_ops->alloc_io_queue(ctrl, qid);
++	if (ret) {
++		dev_err(ctrl->device,
++			"failed to start I/O queue: %d ret=%d\n", qid, ret);
++		return ret;
++	}
++
++	set_bit(NVME_FABRICS_Q_ALLOCATED, ctrl->queues[qid].flags);
++
++	return 0;
++}
++
++static void __nvmf_free_io_queue(struct nvme_ctrl *ctrl, int qid)
++{
++	if (!test_and_clear_bit(NVME_FABRICS_Q_ALLOCATED,
++				ctrl->queues[qid].flags))
++		return;
++
++	ctrl->fabrics_ops->free_io_queue(ctrl, qid);
++}
++
++static int __nvmf_start_io_queue(struct nvme_ctrl *ctrl, int qid)
++{
++	int ret;
++
++	if (!test_bit(NVME_FABRICS_Q_ALLOCATED, ctrl->queues[0].flags))
++		return -EINVAL;
++
++	ret = ctrl->fabrics_ops->start_io_queue(ctrl, qid);
++	if (ret)
++		return ret;
++
++	set_bit(NVME_FABRICS_Q_LIVE, ctrl->queues[qid].flags);
++
++	return 0;
++}
++
++static void __nvmf_stop_io_queue(struct nvme_ctrl *ctrl, int qid)
++{
++	if (!test_bit(NVME_FABRICS_Q_ALLOCATED, ctrl->queues[qid].flags))
++		return;
++
++	mutex_lock(ctrl->queues[qid].queue_lock);
++	if (test_and_clear_bit(NVME_FABRICS_Q_LIVE, ctrl->queues[qid].flags))
++		ctrl->fabrics_ops->stop_io_queue(ctrl, qid);
++	mutex_unlock(ctrl->queues[qid].queue_lock);
++}
++
+ static int nvmf_start_io_queues(struct nvme_ctrl *ctrl,
+ 				    int first, int last)
  {
-@@ -539,7 +530,7 @@ static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
- 		dev_err(queue->ctrl->ctrl.device,
- 			"got bad cqe.command_id %#x on queue %d\n",
- 			cqe->command_id, nvme_tcp_queue_id(queue));
--		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-+		nvmf_error_recovery(&queue->ctrl->ctrl);
- 		return -EINVAL;
+ 	int i, ret;
+ 
+ 	for (i = first; i < last; i++) {
+-		ret = ctrl->fabrics_ops->start_io_queue(ctrl, i);
++		ret = __nvmf_start_io_queue(ctrl, i);
+ 		if (ret)
+ 			goto out_stop_queues;
  	}
+@@ -1149,7 +1253,7 @@ static int nvmf_start_io_queues(struct nvme_ctrl *ctrl,
  
-@@ -581,7 +572,7 @@ static int nvme_tcp_handle_c2h_data(struct nvme_tcp_queue *queue,
- 		dev_err(queue->ctrl->ctrl.device,
- 			"queue %d tag %#x SUCCESS set but not last PDU\n",
- 			nvme_tcp_queue_id(queue), rq->tag);
--		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-+		nvmf_error_recovery(&queue->ctrl->ctrl);
- 		return -EPROTO;
- 	}
- 
-@@ -895,7 +886,7 @@ static int nvme_tcp_recv_skb(read_descriptor_t *desc, struct sk_buff *skb,
- 			dev_err(queue->ctrl->ctrl.device,
- 				"receive failed:  %d\n", result);
- 			queue->rd_enabled = false;
--			nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-+			nvmf_error_recovery(&queue->ctrl->ctrl);
- 			return result;
- 		}
- 	}
-@@ -945,7 +936,7 @@ static void nvme_tcp_state_change(struct sock *sk)
- 	case TCP_LAST_ACK:
- 	case TCP_FIN_WAIT1:
- 	case TCP_FIN_WAIT2:
--		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-+		nvmf_error_recovery(&queue->ctrl->ctrl);
- 		break;
- 	default:
- 		dev_info(queue->ctrl->ctrl.device,
-@@ -1299,34 +1290,6 @@ static int nvme_tcp_alloc_async_req(struct nvme_tcp_ctrl *ctrl)
- 	return 0;
- }
- 
--static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
--{
--	struct page *page;
--	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
--	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
--	unsigned int noreclaim_flag;
--
--	if (!test_and_clear_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
--		return;
--
--	if (queue->hdr_digest || queue->data_digest)
--		nvme_tcp_free_crypto(queue);
--
--	if (queue->pf_cache.va) {
--		page = virt_to_head_page(queue->pf_cache.va);
--		__page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
--		queue->pf_cache.va = NULL;
--	}
--
--	noreclaim_flag = memalloc_noreclaim_save();
--	sock_release(queue->sock);
--	memalloc_noreclaim_restore(noreclaim_flag);
--
--	kfree(queue->pdu);
--	mutex_destroy(&queue->send_mutex);
--	mutex_destroy(&queue->queue_lock);
--}
--
- static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
- {
- 	struct nvme_tcp_icreq_pdu *icreq;
-@@ -1488,10 +1451,9 @@ static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
- 	queue->io_cpu = cpumask_next_wrap(n - 1, cpu_online_mask, -1, false);
- }
- 
--static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
-+static int __nvme_tcp_alloc_queue(struct nvme_tcp_ctrl *ctrl,
-+				 struct nvme_tcp_queue *queue)
- {
--	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
--	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
- 	int ret, rcv_pdu_size;
- 
- 	mutex_init(&queue->queue_lock);
-@@ -1501,16 +1463,10 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
- 	mutex_init(&queue->send_mutex);
- 	INIT_WORK(&queue->io_work, nvme_tcp_io_work);
- 
--	if (qid > 0)
--		queue->cmnd_capsule_len = nctrl->ioccsz * 16;
--	else
--		queue->cmnd_capsule_len = sizeof(struct nvme_command) +
--						NVME_TCP_ADMIN_CCSZ;
--
- 	ret = sock_create(ctrl->addr.ss_family, SOCK_STREAM,
- 			IPPROTO_TCP, &queue->sock);
- 	if (ret) {
--		dev_err(nctrl->device,
-+		dev_err(ctrl->ctrl.device,
- 			"failed to create socket: %d\n", ret);
- 		goto err_destroy_mutex;
- 	}
-@@ -1534,8 +1490,8 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
- 		sock_set_priority(queue->sock->sk, so_priority);
- 
- 	/* Set socket type of service */
--	if (nctrl->opts->tos >= 0)
--		ip_sock_set_tos(queue->sock->sk, nctrl->opts->tos);
-+	if (ctrl->ctrl.opts->tos >= 0)
-+		ip_sock_set_tos(queue->sock->sk, ctrl->ctrl.opts->tos);
- 
- 	/* Set 10 seconds timeout for icresp recvmsg */
- 	queue->sock->sk->sk_rcvtimeo = 10 * HZ;
-@@ -1550,38 +1506,39 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
- 	queue->pdu_offset = 0;
- 	sk_set_memalloc(queue->sock->sk);
- 
--	if (nctrl->opts->mask & NVMF_OPT_HOST_TRADDR) {
-+	if (ctrl->ctrl.opts->mask & NVMF_OPT_HOST_TRADDR) {
- 		ret = kernel_bind(queue->sock, (struct sockaddr *)&ctrl->src_addr,
- 			sizeof(ctrl->src_addr));
- 		if (ret) {
--			dev_err(nctrl->device,
-+			dev_err(ctrl->ctrl.device,
- 				"failed to bind queue %d socket %d\n",
--				qid, ret);
-+				nvme_tcp_queue_id(queue), ret);
- 			goto err_sock;
- 		}
- 	}
- 
--	if (nctrl->opts->mask & NVMF_OPT_HOST_IFACE) {
--		char *iface = nctrl->opts->host_iface;
-+	if (ctrl->ctrl.opts->mask & NVMF_OPT_HOST_IFACE) {
-+		char *iface = ctrl->ctrl.opts->host_iface;
- 		sockptr_t optval = KERNEL_SOCKPTR(iface);
- 
- 		ret = sock_setsockopt(queue->sock, SOL_SOCKET, SO_BINDTODEVICE,
- 				      optval, strlen(iface));
- 		if (ret) {
--			dev_err(nctrl->device,
-+			dev_err(ctrl->ctrl.device,
- 			  "failed to bind to interface %s queue %d err %d\n",
--			  iface, qid, ret);
-+			  iface, nvme_tcp_queue_id(queue), ret);
- 			goto err_sock;
- 		}
- 	}
- 
--	queue->hdr_digest = nctrl->opts->hdr_digest;
--	queue->data_digest = nctrl->opts->data_digest;
-+	queue->hdr_digest = ctrl->ctrl.opts->hdr_digest;
-+	queue->data_digest = ctrl->ctrl.opts->data_digest;
- 	if (queue->hdr_digest || queue->data_digest) {
- 		ret = nvme_tcp_alloc_crypto(queue);
- 		if (ret) {
--			dev_err(nctrl->device,
--				"failed to allocate queue %d crypto\n", qid);
-+			dev_err(ctrl->ctrl.device,
-+				"failed to allocate queue %d crypto\n",
-+				nvme_tcp_queue_id(queue));
- 			goto err_sock;
- 		}
- 	}
-@@ -1594,13 +1551,13 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
- 		goto err_crypto;
- 	}
- 
--	dev_dbg(nctrl->device, "connecting queue %d\n",
--			nvme_tcp_queue_id(queue));
-+	dev_dbg(ctrl->ctrl.device, "connecting queue %d\n",
-+		nvme_tcp_queue_id(queue));
- 
- 	ret = kernel_connect(queue->sock, (struct sockaddr *)&ctrl->addr,
--		sizeof(ctrl->addr), 0);
-+			     sizeof(ctrl->addr), 0);
- 	if (ret) {
--		dev_err(nctrl->device,
-+		dev_err(ctrl->ctrl.device,
- 			"failed to connect socket: %d\n", ret);
- 		goto err_rcv_pdu;
- 	}
-@@ -1644,142 +1601,182 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
+ out_stop_queues:
+ 	for (i--; i >= first; i--)
+-		ctrl->fabrics_ops->stop_io_queue(ctrl, i);
++		__nvmf_stop_io_queue(ctrl, i);
  	return ret;
  }
  
--static void nvme_tcp_restore_sock_calls(struct nvme_tcp_queue *queue)
-+static void __nvme_tcp_free_queue(struct nvme_tcp_ctrl *ctrl,
-+				  struct nvme_tcp_queue *queue)
- {
--	struct socket *sock = queue->sock;
-+	struct page *page;
-+	unsigned int noreclaim_flag;
+@@ -1158,7 +1262,7 @@ static void nvmf_stop_io_queues(struct nvme_ctrl *ctrl)
+ 	int i;
  
--	write_lock_bh(&sock->sk->sk_callback_lock);
--	sock->sk->sk_user_data  = NULL;
--	sock->sk->sk_data_ready = queue->data_ready;
--	sock->sk->sk_state_change = queue->state_change;
--	sock->sk->sk_write_space  = queue->write_space;
--	write_unlock_bh(&sock->sk->sk_callback_lock);
-+	if (!test_and_clear_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
-+		return;
-+
-+	if (queue->hdr_digest || queue->data_digest)
-+		nvme_tcp_free_crypto(queue);
-+
-+	if (queue->pf_cache.va) {
-+		page = virt_to_head_page(queue->pf_cache.va);
-+		__page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
-+		queue->pf_cache.va = NULL;
-+	}
-+
-+	noreclaim_flag = memalloc_noreclaim_save();
-+	sock_release(queue->sock);
-+	memalloc_noreclaim_restore(noreclaim_flag);
-+
-+	kfree(queue->pdu);
-+	mutex_destroy(&queue->send_mutex);
-+	mutex_destroy(&queue->queue_lock);
+ 	for (i = 1; i < ctrl->queue_count; i++)
+-		ctrl->fabrics_ops->stop_io_queue(ctrl, i);
++		__nvmf_stop_io_queue(ctrl, i);
  }
  
--static void __nvme_tcp_stop_queue(struct nvme_tcp_queue *queue)
-+
-+static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *nctrl)
- {
--	kernel_sock_shutdown(queue->sock, SHUT_RDWR);
--	nvme_tcp_restore_sock_calls(queue);
--	cancel_work_sync(&queue->io_work);
-+	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
-+	struct nvme_tcp_queue *queue = &ctrl->queues[0];
-+	int err;
-+
-+	queue->cmnd_capsule_len = sizeof(struct nvme_command) +
-+						NVME_TCP_ADMIN_CCSZ;
-+
-+	err = __nvme_tcp_alloc_queue(ctrl, queue);
-+	if (err)
-+		return err;
-+
-+	err = nvme_tcp_alloc_async_req(ctrl);
-+	if (err)
-+		__nvme_tcp_free_queue(ctrl, queue);
-+
-+	return err;
+ static int __nvmf_alloc_io_queues(struct nvme_ctrl *ctrl)
+@@ -1166,7 +1270,7 @@ static int __nvmf_alloc_io_queues(struct nvme_ctrl *ctrl)
+ 	int i, ret;
+ 
+ 	for (i = 1; i < ctrl->queue_count; i++) {
+-		ret = ctrl->fabrics_ops->alloc_io_queue(ctrl, i);
++		ret = __nvmf_alloc_io_queue(ctrl, i);
+ 		if (ret)
+ 			goto out_free_queues;
+ 	}
+@@ -1175,7 +1279,7 @@ static int __nvmf_alloc_io_queues(struct nvme_ctrl *ctrl)
+ 
+ out_free_queues:
+ 	for (i--; i >= 1; i--)
+-		ctrl->fabrics_ops->free_io_queue(ctrl, i);
++		__nvmf_free_io_queue(ctrl, i);
+ 
+ 	return ret;
+ }
+@@ -1198,7 +1302,7 @@ static int nvmf_alloc_io_queues(struct nvme_ctrl *ctrl)
+ 
+ 	ctrl->queue_count = nr_io_queues + 1;
+ 	dev_info(ctrl->device,
+-		"creating %d I/O queues.\n", nr_io_queues);
++		 "creating %d I/O queues.\n", nr_io_queues);
+ 
+ 	ctrl->fabrics_ops->set_io_queues(ctrl, nr_io_queues);
+ 
+@@ -1210,7 +1314,7 @@ static void nvmf_free_io_queues(struct nvme_ctrl *ctrl)
+ 	int i;
+ 
+ 	for (i = 1; i < ctrl->queue_count; i++)
+-		ctrl->fabrics_ops->free_io_queue(ctrl, i);
++		__nvmf_free_io_queue(ctrl, i);
  }
  
--static void nvme_tcp_stop_queue(struct nvme_ctrl *nctrl, int qid)
-+static int nvme_tcp_alloc_io_queue(struct nvme_ctrl *nctrl, int qid)
+ static int nvmf_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+@@ -1279,31 +1383,31 @@ static int nvmf_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+ 
+ static int nvmf_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
  {
+-	int error;
++	int ret;
+ 
+-	error = ctrl->fabrics_ops->alloc_admin_queue(ctrl);
+-	if (error)
+-		return error;
++	ret = __nvmf_alloc_admin_queue(ctrl);
++	if (ret)
++		return ret;
+ 
+ 	if (new) {
+-		error = ctrl->fabrics_ops->alloc_admin_tag_set(ctrl);
+-		if (error)
++		ret = ctrl->fabrics_ops->alloc_admin_tag_set(ctrl);
++		if (ret)
+ 			goto out_free_admin_queue;
+ 
+ 	}
+ 
+-	error = ctrl->fabrics_ops->start_admin_queue(ctrl);
+-	if (error)
++	ret = __nvmf_start_admin_queue(ctrl);
++	if (ret)
+ 		goto out_remove_admin_tag_set;
+ 
+-	error = nvme_enable_ctrl(ctrl);
+-	if (error)
++	ret = nvme_enable_ctrl(ctrl);
++	if (ret)
+ 		goto out_stop_queue;
+ 
+ 	nvme_unquiesce_admin_queue(ctrl);
+ 
+-	error = nvme_init_ctrl_finish(ctrl, false);
+-	if (error)
++	ret = nvme_init_ctrl_finish(ctrl, false);
++	if (ret)
+ 		goto out_quiesce_queue;
+ 
+ 	return 0;
+@@ -1312,14 +1416,14 @@ static int nvmf_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
+ 	nvme_quiesce_admin_queue(ctrl);
+ 	blk_sync_queue(ctrl->admin_q);
+ out_stop_queue:
+-	ctrl->fabrics_ops->stop_admin_queue(ctrl);
++	__nvmf_stop_admin_queue(ctrl);
+ 	nvme_cancel_admin_tagset(ctrl);
+ out_remove_admin_tag_set:
+ 	if (new)
+ 		nvme_remove_admin_tag_set(ctrl);
+ out_free_admin_queue:
+-	ctrl->fabrics_ops->free_admin_queue(ctrl);
+-	return error;
++	__nvmf_free_admin_queue(ctrl);
++	return ret;
+ }
+ 
+ static void nvmf_destroy_io_queues(struct nvme_ctrl *ctrl, bool remove)
+@@ -1332,18 +1436,17 @@ static void nvmf_destroy_io_queues(struct nvme_ctrl *ctrl, bool remove)
+ 
+ static void nvmf_destroy_admin_queue(struct nvme_ctrl *ctrl, bool remove)
+ {
+-	ctrl->fabrics_ops->stop_admin_queue(ctrl);
++	__nvmf_stop_admin_queue(ctrl);
+ 	if (remove)
+ 		nvme_remove_admin_tag_set(ctrl);
+-
+-	ctrl->fabrics_ops->free_admin_queue(ctrl);
++	__nvmf_free_admin_queue(ctrl);
+ }
+ 
+ static void nvmf_teardown_admin_queue(struct nvme_ctrl *ctrl, bool remove)
+ {
+ 	nvme_quiesce_admin_queue(ctrl);
+ 	blk_sync_queue(ctrl->admin_q);
+-	ctrl->fabrics_ops->stop_admin_queue(ctrl);
++	__nvmf_stop_admin_queue(ctrl);
+ 	nvme_cancel_admin_tagset(ctrl);
+ 	if (remove)
+ 		nvme_unquiesce_admin_queue(ctrl);
+@@ -1447,7 +1550,7 @@ int nvmf_setup_ctrl(struct nvme_ctrl *ctrl, bool new)
+ destroy_admin:
+ 	nvme_quiesce_admin_queue(ctrl);
+ 	blk_sync_queue(ctrl->admin_q);
+-	ctrl->fabrics_ops->stop_admin_queue(ctrl);
++	__nvmf_stop_admin_queue(ctrl);
+ 	nvme_cancel_admin_tagset(ctrl);
+ 	nvmf_destroy_admin_queue(ctrl, new);
+ 	return ret;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index fcea2678094c..0810bc2a9e13 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -246,6 +246,18 @@ enum nvme_ctrl_flags {
+ 
+ struct nvme_fabrics_ops;
+ 
++enum nvme_fabrics_queue_flags {
++	NVME_FABRICS_Q_ALLOCATED		= 0,
++	NVME_FABRICS_Q_TR_READY			= 1,
++	NVME_FABRICS_Q_LIVE			= 2,
++	NVME_FABRICS_Q_POLLING			= 3,
++};
++
++struct nvme_fabrics_queue {
++	unsigned long *flags;
++	struct mutex *queue_lock;
++};
++
+ struct nvme_ctrl {
+ 	bool comp_seen;
+ 	enum nvme_ctrl_state state;
+@@ -253,7 +265,6 @@ struct nvme_ctrl {
+ 	spinlock_t lock;
+ 	struct mutex scan_lock;
+ 	const struct nvme_ctrl_ops *ops;
+-	const struct nvme_fabrics_ops *fabrics_ops;
+ 	struct request_queue *admin_q;
+ 	struct request_queue *connect_q;
+ 	struct request_queue *fabrics_q;
+@@ -342,8 +353,10 @@ struct nvme_ctrl {
+ 	struct work_struct ana_work;
+ #endif
+ 
+-	struct work_struct	err_work;
+-	struct delayed_work	connect_work;
++	const struct nvme_fabrics_ops *fabrics_ops;
++	struct nvme_fabrics_queue *queues;
++	struct work_struct err_work;
++	struct delayed_work connect_work;
+ 
+ #ifdef CONFIG_NVME_AUTH
+ 	struct work_struct dhchap_auth_work;
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 1fde65e8c2b5..023316fdc2c6 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -3,6 +3,7 @@
+  * NVMe over Fabrics RDMA host code.
+  * Copyright (c) 2015-2016 HGST, a Western Digital Company.
+  */
++#include "linux/gfp_types.h"
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ #include <linux/module.h>
+ #include <linux/init.h>
+@@ -76,12 +77,6 @@ struct nvme_rdma_request {
+ 	bool			use_sig_mr;
+ };
+ 
+-enum nvme_rdma_queue_flags {
+-	NVME_RDMA_Q_ALLOCATED		= 0,
+-	NVME_RDMA_Q_LIVE		= 1,
+-	NVME_RDMA_Q_TR_READY		= 2,
+-};
+-
+ struct nvme_rdma_queue {
+ 	struct nvme_rdma_qe	*rsp_ring;
+ 	int			queue_size;
+@@ -425,7 +420,7 @@ static void nvme_rdma_destroy_queue_ib(struct nvme_rdma_queue *queue)
+ 	struct nvme_rdma_device *dev;
+ 	struct ib_device *ibdev;
+ 
+-	if (!test_and_clear_bit(NVME_RDMA_Q_TR_READY, &queue->flags))
++	if (!test_and_clear_bit(NVME_FABRICS_Q_TR_READY, &queue->flags))
+ 		return;
+ 
+ 	dev = queue->device;
+@@ -550,7 +545,7 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
+ 		}
+ 	}
+ 
+-	set_bit(NVME_RDMA_Q_TR_READY, &queue->flags);
++	set_bit(NVME_FABRICS_Q_TR_READY, &queue->flags);
+ 
+ 	return 0;
+ 
+@@ -572,12 +567,17 @@ static int __nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
+ 				   struct nvme_rdma_queue *queue)
+ {
+ 	struct sockaddr *src_addr = NULL;
++	struct nvme_fabrics_queue *fqueue;
+ 	int ret;
+ 
+ 	mutex_init(&queue->queue_lock);
+ 	queue->ctrl = ctrl;
+ 	init_completion(&queue->cm_done);
+ 
++	fqueue = &ctrl->ctrl.queues[nvme_rdma_queue_id(queue)];
++	fqueue->flags = &queue->flags;
++	fqueue->queue_lock = &queue->queue_lock;
++
+ 	queue->cm_id = rdma_create_id(&init_net, nvme_rdma_cm_handler, queue,
+ 			RDMA_PS_TCP, IB_QPT_RC);
+ 	if (IS_ERR(queue->cm_id)) {
+@@ -607,8 +607,6 @@ static int __nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
+ 		goto out_destroy_cm_id;
+ 	}
+ 
+-	set_bit(NVME_RDMA_Q_ALLOCATED, &queue->flags);
+-
+ 	return 0;
+ 
+ out_destroy_cm_id:
+@@ -622,9 +620,6 @@ static int __nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
+ static void __nvme_rdma_free_queue(struct nvme_rdma_ctrl *ctrl,
+ 				   struct nvme_rdma_queue *queue)
+ {
+-	if (!test_and_clear_bit(NVME_RDMA_Q_ALLOCATED, &queue->flags))
+-		return;
+-
+ 	rdma_destroy_id(queue->cm_id);
+ 	nvme_rdma_destroy_queue_ib(queue);
+ 	mutex_destroy(&queue->queue_lock);
+@@ -718,49 +713,18 @@ static void nvme_rdma_free_io_queue(struct nvme_ctrl *nctrl, int qid)
+ 
+ static void __nvme_rdma_stop_queue(struct nvme_rdma_queue *queue)
+ {
+-	mutex_lock(&queue->queue_lock);
+-	if (test_and_clear_bit(NVME_RDMA_Q_LIVE, &queue->flags)) {
+-		rdma_disconnect(queue->cm_id);
+-		ib_drain_qp(queue->qp);
+-	}
+-	mutex_unlock(&queue->queue_lock);
++	rdma_disconnect(queue->cm_id);
++	ib_drain_qp(queue->qp);
+ }
+ 
+-static int nvme_rdma_start_admin_queue(struct nvme_ctrl *nctrl)
++static int nvme_rdma_start_admin_queue(struct nvme_ctrl *ctrl)
+ {
+-	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
+-	struct nvme_rdma_queue *queue = &ctrl->queues[0];
+-	int ret;
+-
+-	ret = nvmf_connect_admin_queue(nctrl);
+-
+-	if (!ret) {
+-		set_bit(NVME_RDMA_Q_LIVE, &queue->flags);
+-	} else {
+-		if (test_bit(NVME_RDMA_Q_ALLOCATED, &queue->flags))
+-			__nvme_rdma_stop_queue(queue);
+-		dev_info(ctrl->ctrl.device,
+-			"failed to connect queue: %d ret=%d\n", 0, ret);
+-	}
+-	return ret;
++	return nvmf_connect_admin_queue(ctrl);
+ }
+ 
+-static int nvme_rdma_start_io_queue(struct nvme_ctrl *nctrl, int idx)
++static int nvme_rdma_start_io_queue(struct nvme_ctrl *ctrl, int idx)
+ {
+-	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
+-	struct nvme_rdma_queue *queue = &ctrl->queues[idx];
+-	int ret;
+-
+-	ret = nvmf_connect_io_queue(nctrl, idx);
+-	if (!ret) {
+-		set_bit(NVME_RDMA_Q_LIVE, &queue->flags);
+-	} else {
+-		if (test_bit(NVME_RDMA_Q_ALLOCATED, &queue->flags))
+-			__nvme_rdma_stop_queue(queue);
+-		dev_info(ctrl->ctrl.device,
+-			"failed to connect queue: %d ret=%d\n", idx, ret);
+-	}
+-	return ret;
++	return nvmf_connect_io_queue(ctrl, idx);
+ }
+ 
+ static void nvme_rdma_stop_admin_queue(struct nvme_ctrl *nctrl)
+@@ -1715,7 +1679,7 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	struct nvme_rdma_qe *sqe = &req->sqe;
+ 	struct nvme_command *c = nvme_req(rq)->cmd;
+ 	struct ib_device *dev;
+-	bool queue_ready = test_bit(NVME_RDMA_Q_LIVE, &queue->flags);
++	bool queue_ready = test_bit(NVME_FABRICS_Q_LIVE, &queue->flags);
+ 	blk_status_t ret;
+ 	int err;
+ 
+@@ -2027,6 +1991,12 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 	if (!ctrl->queues)
+ 		goto out_free_ctrl;
+ 
++	ctrl->ctrl.queues = kcalloc(ctrl->ctrl.queue_count,
++				    sizeof(*ctrl->ctrl.queues),
++				    GFP_KERNEL);
++	if (!ctrl->ctrl.queues)
++		goto out_free_ctrl_queues;
++
+ 	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_rdma_ctrl_ops,
+ 				0 /* no quirks, we're perfect! */);
+ 	if (ret)
+@@ -2054,7 +2024,10 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 	if (ret > 0)
+ 		ret = -EIO;
+ 	return ERR_PTR(ret);
++	kfree(ctrl->queues);
+ out_kfree_queues:
++	kfree(ctrl->ctrl.queues);
++out_free_ctrl_queues:
+ 	kfree(ctrl->queues);
+ out_free_ctrl:
+ 	kfree(ctrl);
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 32c4346b7322..dfdf35b32adc 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -100,12 +100,6 @@ struct nvme_tcp_request {
+ 	enum nvme_tcp_send_state state;
+ };
+ 
+-enum nvme_tcp_queue_flags {
+-	NVME_TCP_Q_ALLOCATED	= 0,
+-	NVME_TCP_Q_LIVE		= 1,
+-	NVME_TCP_Q_POLLING	= 2,
+-};
+-
+ enum nvme_tcp_recv_state {
+ 	NVME_TCP_RECV_PDU = 0,
+ 	NVME_TCP_RECV_DATA,
+@@ -903,7 +897,7 @@ static void nvme_tcp_data_ready(struct sock *sk)
+ 	read_lock_bh(&sk->sk_callback_lock);
+ 	queue = sk->sk_user_data;
+ 	if (likely(queue && queue->rd_enabled) &&
+-	    !test_bit(NVME_TCP_Q_POLLING, &queue->flags))
++	    !test_bit(NVME_FABRICS_Q_POLLING, &queue->flags))
+ 		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
+ 	read_unlock_bh(&sk->sk_callback_lock);
+ }
+@@ -1454,6 +1448,7 @@ static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
+ static int __nvme_tcp_alloc_queue(struct nvme_tcp_ctrl *ctrl,
+ 				 struct nvme_tcp_queue *queue)
+ {
++	struct nvme_fabrics_queue *fqueue;
+ 	int ret, rcv_pdu_size;
+ 
+ 	mutex_init(&queue->queue_lock);
+@@ -1463,6 +1458,10 @@ static int __nvme_tcp_alloc_queue(struct nvme_tcp_ctrl *ctrl,
+ 	mutex_init(&queue->send_mutex);
+ 	INIT_WORK(&queue->io_work, nvme_tcp_io_work);
+ 
++	fqueue = &ctrl->ctrl.queues[nvme_tcp_queue_id(queue)];
++	fqueue->flags = &queue->flags;
++	fqueue->queue_lock = &queue->queue_lock;
++
+ 	ret = sock_create(ctrl->addr.ss_family, SOCK_STREAM,
+ 			IPPROTO_TCP, &queue->sock);
+ 	if (ret) {
+@@ -1567,7 +1566,6 @@ static int __nvme_tcp_alloc_queue(struct nvme_tcp_ctrl *ctrl,
+ 		goto err_init_connect;
+ 
+ 	queue->rd_enabled = true;
+-	set_bit(NVME_TCP_Q_ALLOCATED, &queue->flags);
+ 	nvme_tcp_init_recv_ctx(queue);
+ 
+ 	write_lock_bh(&queue->sock->sk->sk_callback_lock);
+@@ -1607,9 +1605,6 @@ static void __nvme_tcp_free_queue(struct nvme_tcp_ctrl *ctrl,
+ 	struct page *page;
+ 	unsigned int noreclaim_flag;
+ 
+-	if (!test_and_clear_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
+-		return;
+-
+ 	if (queue->hdr_digest || queue->data_digest)
+ 		nvme_tcp_free_crypto(queue);
+ 
+@@ -1699,40 +1694,14 @@ static void __nvme_tcp_stop_queue(struct nvme_tcp_queue *queue)
+ 	cancel_work_sync(&queue->io_work);
+ }
+ 
+-static int nvme_tcp_start_admin_queue(struct nvme_ctrl *nctrl)
++static int nvme_tcp_start_admin_queue(struct nvme_ctrl *ctrl)
+ {
+-	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
+-	struct nvme_tcp_queue *queue = &ctrl->queues[0];
+-	int ret;
+-
+-	ret = nvmf_connect_admin_queue(nctrl);
+-	if (!ret) {
+-		set_bit(NVME_TCP_Q_LIVE, &queue->flags);
+-	} else {
+-		if (test_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
+-			__nvme_tcp_stop_queue(queue);
+-		dev_err(nctrl->device,
+-			"failed to connect queue: %d ret=%d\n", 0, ret);
+-	}
+-	return ret;
++	return nvmf_connect_admin_queue(ctrl);
+ }
+ 
+-static int nvme_tcp_start_io_queue(struct nvme_ctrl *nctrl, int qid)
++static int nvme_tcp_start_io_queue(struct nvme_ctrl *ctrl, int qid)
+ {
+-	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
+-	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
+-	int ret;
+-
+-	ret = nvmf_connect_io_queue(nctrl, qid);
+-	if (!ret) {
+-		set_bit(NVME_TCP_Q_LIVE, &queue->flags);
+-	} else {
+-		if (test_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
+-			__nvme_tcp_stop_queue(queue);
+-		dev_err(nctrl->device,
+-			"failed to connect queue: %d ret=%d\n", qid, ret);
+-	}
+-	return ret;
++	return nvmf_connect_io_queue(ctrl, qid);
+ }
+ 
+ static void nvme_tcp_stop_admin_queue(struct nvme_ctrl *nctrl)
+@@ -1740,13 +1709,7 @@ static void nvme_tcp_stop_admin_queue(struct nvme_ctrl *nctrl)
+ 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
+ 	struct nvme_tcp_queue *queue = &ctrl->queues[0];
+ 
+-	if (!test_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
+-		return;
+-
+-	mutex_lock(&queue->queue_lock);
+-	if (test_and_clear_bit(NVME_TCP_Q_LIVE, &queue->flags))
+-		__nvme_tcp_stop_queue(queue);
+-	mutex_unlock(&queue->queue_lock);
++	__nvme_tcp_stop_queue(queue);
+ }
+ 
+ static void nvme_tcp_stop_io_queue(struct nvme_ctrl *nctrl, int qid)
+@@ -1754,13 +1717,7 @@ static void nvme_tcp_stop_io_queue(struct nvme_ctrl *nctrl, int qid)
  	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
  	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
  
 -	if (!test_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
 -		return;
-+	queue->cmnd_capsule_len = nctrl->ioccsz * 16;
- 
+-
 -	mutex_lock(&queue->queue_lock);
 -	if (test_and_clear_bit(NVME_TCP_Q_LIVE, &queue->flags))
 -		__nvme_tcp_stop_queue(queue);
 -	mutex_unlock(&queue->queue_lock);
-+	return __nvme_tcp_alloc_queue(ctrl, queue);
++	__nvme_tcp_stop_queue(queue);
  }
  
--static int nvme_tcp_start_queue(struct nvme_ctrl *nctrl, int idx)
-+static void nvme_tcp_free_admin_queue(struct nvme_ctrl *nctrl)
- {
- 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
--	int ret;
--
--	if (idx)
--		ret = nvmf_connect_io_queue(nctrl, idx);
--	else
--		ret = nvmf_connect_admin_queue(nctrl);
-+	struct nvme_tcp_queue *queue = &ctrl->queues[0];
+ static int nvme_tcp_alloc_admin_tag_set(struct nvme_ctrl *ctrl)
+@@ -1843,6 +1800,7 @@ static void nvme_tcp_free_ctrl(struct nvme_ctrl *nctrl)
  
--	if (!ret) {
--		set_bit(NVME_TCP_Q_LIVE, &ctrl->queues[idx].flags);
--	} else {
--		if (test_bit(NVME_TCP_Q_ALLOCATED, &ctrl->queues[idx].flags))
--			__nvme_tcp_stop_queue(&ctrl->queues[idx]);
--		dev_err(nctrl->device,
--			"failed to connect queue: %d ret=%d\n", idx, ret);
-+	if (ctrl->async_req.pdu) {
-+		cancel_work_sync(&nctrl->async_event_work);
-+		nvme_tcp_free_async_req(ctrl);
-+		ctrl->async_req.pdu = NULL;
- 	}
--	return ret;
-+	__nvme_tcp_free_queue(ctrl, queue);
+ 	nvmf_free_options(nctrl->opts);
+ free_ctrl:
++	kfree(ctrl->ctrl.queues);
+ 	kfree(ctrl->queues);
+ 	kfree(ctrl);
  }
- 
--static void nvme_tcp_free_admin_queue(struct nvme_ctrl *ctrl)
-+static void nvme_tcp_free_io_queue(struct nvme_ctrl *nctrl, int qid)
- {
--	if (to_tcp_ctrl(ctrl)->async_req.pdu) {
--		cancel_work_sync(&ctrl->async_event_work);
--		nvme_tcp_free_async_req(to_tcp_ctrl(ctrl));
--		to_tcp_ctrl(ctrl)->async_req.pdu = NULL;
--	}
-+	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
-+	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
- 
--	nvme_tcp_free_queue(ctrl, 0);
-+	__nvme_tcp_free_queue(ctrl, queue);
- }
- 
--static void nvme_tcp_free_io_queues(struct nvme_ctrl *ctrl)
-+static void nvme_tcp_restore_sock_calls(struct nvme_tcp_queue *queue)
- {
--	int i;
-+	struct socket *sock = queue->sock;
- 
--	for (i = 1; i < ctrl->queue_count; i++)
--		nvme_tcp_free_queue(ctrl, i);
-+	write_lock_bh(&sock->sk->sk_callback_lock);
-+	sock->sk->sk_user_data  = NULL;
-+	sock->sk->sk_data_ready = queue->data_ready;
-+	sock->sk->sk_state_change = queue->state_change;
-+	sock->sk->sk_write_space  = queue->write_space;
-+	write_unlock_bh(&sock->sk->sk_callback_lock);
- }
- 
--static void nvme_tcp_stop_io_queues(struct nvme_ctrl *ctrl)
-+static void __nvme_tcp_stop_queue(struct nvme_tcp_queue *queue)
- {
--	int i;
--
--	for (i = 1; i < ctrl->queue_count; i++)
--		nvme_tcp_stop_queue(ctrl, i);
-+	kernel_sock_shutdown(queue->sock, SHUT_RDWR);
-+	nvme_tcp_restore_sock_calls(queue);
-+	cancel_work_sync(&queue->io_work);
- }
- 
--static int nvme_tcp_start_io_queues(struct nvme_ctrl *ctrl,
--				    int first, int last)
-+static int nvme_tcp_start_admin_queue(struct nvme_ctrl *nctrl)
- {
--	int i, ret;
-+	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
-+	struct nvme_tcp_queue *queue = &ctrl->queues[0];
-+	int ret;
- 
--	for (i = first; i < last; i++) {
--		ret = nvme_tcp_start_queue(ctrl, i);
--		if (ret)
--			goto out_stop_queues;
-+	ret = nvmf_connect_admin_queue(nctrl);
-+	if (!ret) {
-+		set_bit(NVME_TCP_Q_LIVE, &queue->flags);
-+	} else {
-+		if (test_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
-+			__nvme_tcp_stop_queue(queue);
-+		dev_err(nctrl->device,
-+			"failed to connect queue: %d ret=%d\n", 0, ret);
- 	}
--
--	return 0;
--
--out_stop_queues:
--	for (i--; i >= first; i--)
--		nvme_tcp_stop_queue(ctrl, i);
- 	return ret;
- }
- 
--static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
-+static int nvme_tcp_start_io_queue(struct nvme_ctrl *nctrl, int qid)
- {
-+	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
-+	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
- 	int ret;
- 
--	ret = nvme_tcp_alloc_queue(ctrl, 0);
--	if (ret)
--		return ret;
-+	ret = nvmf_connect_io_queue(nctrl, qid);
-+	if (!ret) {
-+		set_bit(NVME_TCP_Q_LIVE, &queue->flags);
-+	} else {
-+		if (test_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
-+			__nvme_tcp_stop_queue(queue);
-+		dev_err(nctrl->device,
-+			"failed to connect queue: %d ret=%d\n", qid, ret);
-+	}
-+	return ret;
-+}
- 
--	ret = nvme_tcp_alloc_async_req(to_tcp_ctrl(ctrl));
--	if (ret)
--		goto out_free_queue;
-+static void nvme_tcp_stop_admin_queue(struct nvme_ctrl *nctrl)
-+{
-+	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
-+	struct nvme_tcp_queue *queue = &ctrl->queues[0];
- 
--	return 0;
-+	if (!test_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
-+		return;
- 
--out_free_queue:
--	nvme_tcp_free_queue(ctrl, 0);
--	return ret;
-+	mutex_lock(&queue->queue_lock);
-+	if (test_and_clear_bit(NVME_TCP_Q_LIVE, &queue->flags))
-+		__nvme_tcp_stop_queue(queue);
-+	mutex_unlock(&queue->queue_lock);
- }
- 
--static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
-+static void nvme_tcp_stop_io_queue(struct nvme_ctrl *nctrl, int qid)
- {
--	int i, ret;
-+	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
-+	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
- 
--	for (i = 1; i < ctrl->queue_count; i++) {
--		ret = nvme_tcp_alloc_queue(ctrl, i);
--		if (ret)
--			goto out_free_queues;
--	}
-+	if (!test_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
-+		return;
- 
--	return 0;
-+	mutex_lock(&queue->queue_lock);
-+	if (test_and_clear_bit(NVME_TCP_Q_LIVE, &queue->flags))
-+		__nvme_tcp_stop_queue(queue);
-+	mutex_unlock(&queue->queue_lock);
-+}
- 
--out_free_queues:
--	for (i--; i >= 1; i--)
--		nvme_tcp_free_queue(ctrl, i);
-+static int nvme_tcp_alloc_admin_tag_set(struct nvme_ctrl *ctrl)
-+{
-+	return nvme_alloc_admin_tag_set(ctrl, &to_tcp_ctrl(ctrl)->admin_tag_set,
-+					&nvme_tcp_admin_mq_ops,
-+					sizeof(struct nvme_tcp_request));
-+}
-+
-+static int nvme_tcp_alloc_tag_set(struct nvme_ctrl *ctrl)
-+{
-+	return nvme_alloc_io_tag_set(ctrl, &to_tcp_ctrl(ctrl)->tag_set,
-+				     &nvme_tcp_mq_ops,
-+				     ctrl->opts->nr_poll_queues ? HCTX_MAX_TYPES : 2,
-+				     sizeof(struct nvme_tcp_request));
- 
--	return ret;
- }
- 
- static unsigned int nvme_tcp_nr_io_queues(struct nvme_ctrl *ctrl)
-@@ -1828,370 +1825,9 @@ static void nvme_tcp_set_io_queues(struct nvme_ctrl *nctrl,
- 	}
- }
- 
--static int nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
--{
--	unsigned int nr_io_queues;
--	int ret;
--
--	nr_io_queues = nvme_tcp_nr_io_queues(ctrl);
--	ret = nvme_set_queue_count(ctrl, &nr_io_queues);
--	if (ret)
--		return ret;
--
--	if (nr_io_queues == 0) {
--		dev_err(ctrl->device,
--			"unable to set any I/O queues\n");
--		return -ENOMEM;
--	}
--
--	ctrl->queue_count = nr_io_queues + 1;
--	dev_info(ctrl->device,
--		"creating %d I/O queues.\n", nr_io_queues);
--
--	nvme_tcp_set_io_queues(ctrl, nr_io_queues);
--
--	return __nvme_tcp_alloc_io_queues(ctrl);
--}
--
--static void nvme_tcp_destroy_io_queues(struct nvme_ctrl *ctrl, bool remove)
--{
--	nvme_tcp_stop_io_queues(ctrl);
--	if (remove)
--		nvme_remove_io_tag_set(ctrl);
--	nvme_tcp_free_io_queues(ctrl);
--}
--
--static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
--{
--	int ret, nr_queues;
--
--	ret = nvme_tcp_alloc_io_queues(ctrl);
--	if (ret)
--		return ret;
--
--	if (new) {
--		ret = nvme_alloc_io_tag_set(ctrl, &to_tcp_ctrl(ctrl)->tag_set,
--				&nvme_tcp_mq_ops,
--				ctrl->opts->nr_poll_queues ? HCTX_MAX_TYPES : 2,
--				sizeof(struct nvme_tcp_request));
--		if (ret)
--			goto out_free_io_queues;
--	}
--
--	/*
--	 * Only start IO queues for which we have allocated the tagset
--	 * and limitted it to the available queues. On reconnects, the
--	 * queue number might have changed.
--	 */
--	nr_queues = min(ctrl->tagset->nr_hw_queues + 1, ctrl->queue_count);
--	ret = nvme_tcp_start_io_queues(ctrl, 1, nr_queues);
--	if (ret)
--		goto out_cleanup_connect_q;
--
--	if (!new) {
--		nvme_unquiesce_io_queues(ctrl);
--		if (!nvme_wait_freeze_timeout(ctrl, NVME_IO_TIMEOUT)) {
--			/*
--			 * If we timed out waiting for freeze we are likely to
--			 * be stuck.  Fail the controller initialization just
--			 * to be safe.
--			 */
--			ret = -ENODEV;
--			goto out_wait_freeze_timed_out;
--		}
--		blk_mq_update_nr_hw_queues(ctrl->tagset,
--			ctrl->queue_count - 1);
--		nvme_unfreeze(ctrl);
--	}
--
--	/*
--	 * If the number of queues has increased (reconnect case)
--	 * start all new queues now.
--	 */
--	ret = nvme_tcp_start_io_queues(ctrl, nr_queues,
--				       ctrl->tagset->nr_hw_queues + 1);
--	if (ret)
--		goto out_wait_freeze_timed_out;
--
--	return 0;
--
--out_wait_freeze_timed_out:
--	nvme_quiesce_io_queues(ctrl);
--	nvme_sync_io_queues(ctrl);
--	nvme_tcp_stop_io_queues(ctrl);
--out_cleanup_connect_q:
--	nvme_cancel_tagset(ctrl);
--	if (new)
--		nvme_remove_io_tag_set(ctrl);
--out_free_io_queues:
--	nvme_tcp_free_io_queues(ctrl);
--	return ret;
--}
--
--static void nvme_tcp_destroy_admin_queue(struct nvme_ctrl *ctrl, bool remove)
--{
--	nvme_tcp_stop_queue(ctrl, 0);
--	if (remove)
--		nvme_remove_admin_tag_set(ctrl);
--	nvme_tcp_free_admin_queue(ctrl);
--}
--
--static int nvme_tcp_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
--{
--	int error;
--
--	error = nvme_tcp_alloc_admin_queue(ctrl);
--	if (error)
--		return error;
--
--	if (new) {
--		error = nvme_alloc_admin_tag_set(ctrl,
--				&to_tcp_ctrl(ctrl)->admin_tag_set,
--				&nvme_tcp_admin_mq_ops,
--				sizeof(struct nvme_tcp_request));
--		if (error)
--			goto out_free_queue;
--	}
--
--	error = nvme_tcp_start_queue(ctrl, 0);
--	if (error)
--		goto out_cleanup_tagset;
--
--	error = nvme_enable_ctrl(ctrl);
--	if (error)
--		goto out_stop_queue;
--
--	nvme_unquiesce_admin_queue(ctrl);
--
--	error = nvme_init_ctrl_finish(ctrl, false);
--	if (error)
--		goto out_quiesce_queue;
--
--	return 0;
--
--out_quiesce_queue:
--	nvme_quiesce_admin_queue(ctrl);
--	blk_sync_queue(ctrl->admin_q);
--out_stop_queue:
--	nvme_tcp_stop_queue(ctrl, 0);
--	nvme_cancel_admin_tagset(ctrl);
--out_cleanup_tagset:
--	if (new)
--		nvme_remove_admin_tag_set(ctrl);
--out_free_queue:
--	nvme_tcp_free_admin_queue(ctrl);
--	return error;
--}
--
--static void nvme_tcp_teardown_admin_queue(struct nvme_ctrl *ctrl,
--		bool remove)
--{
--	nvme_quiesce_admin_queue(ctrl);
--	blk_sync_queue(ctrl->admin_q);
--	nvme_tcp_stop_queue(ctrl, 0);
--	nvme_cancel_admin_tagset(ctrl);
--	if (remove)
--		nvme_unquiesce_admin_queue(ctrl);
--	nvme_tcp_destroy_admin_queue(ctrl, remove);
--}
--
--static void nvme_tcp_teardown_io_queues(struct nvme_ctrl *ctrl,
--		bool remove)
--{
--	if (ctrl->queue_count <= 1)
--		return;
--	nvme_quiesce_admin_queue(ctrl);
--	nvme_start_freeze(ctrl);
--	nvme_quiesce_io_queues(ctrl);
--	nvme_sync_io_queues(ctrl);
--	nvme_tcp_stop_io_queues(ctrl);
--	nvme_cancel_tagset(ctrl);
--	if (remove)
--		nvme_unquiesce_io_queues(ctrl);
--	nvme_tcp_destroy_io_queues(ctrl, remove);
--}
--
--static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl)
--{
--	/* If we are resetting/deleting then do nothing */
--	if (ctrl->state != NVME_CTRL_CONNECTING) {
--		WARN_ON_ONCE(ctrl->state == NVME_CTRL_NEW ||
--			ctrl->state == NVME_CTRL_LIVE);
--		return;
--	}
--
--	if (nvmf_should_reconnect(ctrl)) {
--		dev_info(ctrl->device, "Reconnecting in %d seconds...\n",
--			ctrl->opts->reconnect_delay);
--		queue_delayed_work(nvme_wq, &ctrl->connect_work,
--				ctrl->opts->reconnect_delay * HZ);
--	} else {
--		dev_info(ctrl->device, "Removing controller...\n");
--		nvme_delete_ctrl(ctrl);
--	}
--}
--
--static int nvme_tcp_setup_ctrl(struct nvme_ctrl *ctrl, bool new)
--{
--	struct nvmf_ctrl_options *opts = ctrl->opts;
--	int ret;
--
--	ret = nvme_tcp_configure_admin_queue(ctrl, new);
--	if (ret)
--		return ret;
--
--	if (ctrl->icdoff) {
--		ret = -EOPNOTSUPP;
--		dev_err(ctrl->device, "icdoff is not supported!\n");
--		goto destroy_admin;
--	}
--
--	if (!nvme_ctrl_sgl_supported(ctrl)) {
--		ret = -EOPNOTSUPP;
--		dev_err(ctrl->device, "Mandatory sgls are not supported!\n");
--		goto destroy_admin;
--	}
--
--	if (opts->queue_size > ctrl->sqsize + 1)
--		dev_warn(ctrl->device,
--			"queue_size %zu > ctrl sqsize %u, clamping down\n",
--			opts->queue_size, ctrl->sqsize + 1);
--
--	if (ctrl->sqsize + 1 > ctrl->maxcmd) {
--		dev_warn(ctrl->device,
--			"sqsize %u > ctrl maxcmd %u, clamping down\n",
--			ctrl->sqsize + 1, ctrl->maxcmd);
--		ctrl->sqsize = ctrl->maxcmd - 1;
--	}
--
--	if (ctrl->queue_count > 1) {
--		ret = nvme_tcp_configure_io_queues(ctrl, new);
--		if (ret)
--			goto destroy_admin;
--	}
--
--	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE)) {
--		/*
--		 * state change failure is ok if we started ctrl delete,
--		 * unless we're during creation of a new controller to
--		 * avoid races with teardown flow.
--		 */
--		WARN_ON_ONCE(ctrl->state != NVME_CTRL_DELETING &&
--			     ctrl->state != NVME_CTRL_DELETING_NOIO);
--		WARN_ON_ONCE(new);
--		ret = -EINVAL;
--		goto destroy_io;
--	}
--
--	nvme_start_ctrl(ctrl);
--	return 0;
--
--destroy_io:
--	if (ctrl->queue_count > 1) {
--		nvme_quiesce_io_queues(ctrl);
--		nvme_sync_io_queues(ctrl);
--		nvme_tcp_stop_io_queues(ctrl);
--		nvme_cancel_tagset(ctrl);
--		nvme_tcp_destroy_io_queues(ctrl, new);
--	}
--destroy_admin:
--	nvme_quiesce_admin_queue(ctrl);
--	blk_sync_queue(ctrl->admin_q);
--	nvme_tcp_stop_queue(ctrl, 0);
--	nvme_cancel_admin_tagset(ctrl);
--	nvme_tcp_destroy_admin_queue(ctrl, new);
--	return ret;
--}
--
--static void nvme_tcp_reconnect_ctrl_work(struct work_struct *work)
--{
--	struct nvme_ctrl *ctrl = container_of(to_delayed_work(work),
--			struct nvme_ctrl, connect_work);
--
--	++ctrl->nr_reconnects;
--
--	if (nvme_tcp_setup_ctrl(ctrl, false))
--		goto requeue;
--
--	dev_info(ctrl->device, "Successfully reconnected (%d attempt)\n",
--			ctrl->nr_reconnects);
--
--	ctrl->nr_reconnects = 0;
--
--	return;
--
--requeue:
--	dev_info(ctrl->device, "Failed reconnect attempt %d\n",
--			ctrl->nr_reconnects);
--	nvme_tcp_reconnect_or_remove(ctrl);
--}
--
--static void nvme_tcp_error_recovery_work(struct work_struct *work)
--{
--	struct nvme_ctrl *ctrl = container_of(work,
--				struct nvme_ctrl, err_work);
--
--	nvme_stop_keep_alive(ctrl);
--	flush_work(&ctrl->async_event_work);
--	nvme_tcp_teardown_io_queues(ctrl, false);
--	/* unquiesce to fail fast pending requests */
--	nvme_unquiesce_io_queues(ctrl);
--	nvme_tcp_teardown_admin_queue(ctrl, false);
--	nvme_unquiesce_admin_queue(ctrl);
--	nvme_auth_stop(ctrl);
--
--	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING)) {
--		/* state change failure is ok if we started ctrl delete */
--		WARN_ON_ONCE(ctrl->state != NVME_CTRL_DELETING &&
--			     ctrl->state != NVME_CTRL_DELETING_NOIO);
--		return;
--	}
--
--	nvme_tcp_reconnect_or_remove(ctrl);
--}
--
--static void nvme_tcp_teardown_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
--{
--	nvme_tcp_teardown_io_queues(ctrl, shutdown);
--	nvme_quiesce_admin_queue(ctrl);
--	nvme_disable_ctrl(ctrl, shutdown);
--	nvme_tcp_teardown_admin_queue(ctrl, shutdown);
--}
--
- static void nvme_tcp_delete_ctrl(struct nvme_ctrl *ctrl)
- {
--	nvme_tcp_teardown_ctrl(ctrl, true);
--}
--
--static void nvme_reset_ctrl_work(struct work_struct *work)
--{
--	struct nvme_ctrl *ctrl =
--		container_of(work, struct nvme_ctrl, reset_work);
--
--	nvme_stop_ctrl(ctrl);
--	nvme_tcp_teardown_ctrl(ctrl, false);
--
--	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING)) {
--		/* state change failure is ok if we started ctrl delete */
--		WARN_ON_ONCE(ctrl->state != NVME_CTRL_DELETING &&
--			     ctrl->state != NVME_CTRL_DELETING_NOIO);
--		return;
--	}
--
--	if (nvme_tcp_setup_ctrl(ctrl, false))
--		goto out_fail;
--
--	return;
--
--out_fail:
--	++ctrl->nr_reconnects;
--	nvme_tcp_reconnect_or_remove(ctrl);
--}
--
--static void nvme_tcp_stop_ctrl(struct nvme_ctrl *ctrl)
--{
--	flush_work(&ctrl->err_work);
--	cancel_delayed_work_sync(&ctrl->connect_work);
-+	nvmf_teardown_ctrl(ctrl, true);
- }
- 
- static void nvme_tcp_free_ctrl(struct nvme_ctrl *nctrl)
-@@ -2275,7 +1911,7 @@ static void nvme_tcp_complete_timed_out(struct request *rq)
+@@ -2043,7 +2001,7 @@ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	struct nvme_tcp_queue *queue = hctx->driver_data;
+ 	struct request *rq = bd->rq;
  	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
- 	struct nvme_ctrl *ctrl = &req->queue->ctrl->ctrl;
+-	bool queue_ready = test_bit(NVME_TCP_Q_LIVE, &queue->flags);
++	bool queue_ready = test_bit(NVME_FABRICS_Q_LIVE, &queue->flags);
+ 	blk_status_t ret;
  
--	nvme_tcp_stop_queue(ctrl, nvme_tcp_queue_id(req->queue));
-+	nvme_tcp_stop_io_queue(ctrl, nvme_tcp_queue_id(req->queue));
- 	nvmf_complete_timed_out_request(rq);
+ 	if (!nvme_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
+@@ -2108,14 +2066,14 @@ static int nvme_tcp_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
+ 	struct nvme_tcp_queue *queue = hctx->driver_data;
+ 	struct sock *sk = queue->sock->sk;
+ 
+-	if (!test_bit(NVME_TCP_Q_LIVE, &queue->flags))
++	if (!test_bit(NVME_FABRICS_Q_LIVE, &queue->flags))
+ 		return 0;
+ 
+-	set_bit(NVME_TCP_Q_POLLING, &queue->flags);
++	set_bit(NVME_FABRICS_Q_POLLING, &queue->flags);
+ 	if (sk_can_busy_loop(sk) && skb_queue_empty_lockless(&sk->sk_receive_queue))
+ 		sk_busy_loop(sk, true);
+ 	nvme_tcp_try_recv(queue);
+-	clear_bit(NVME_TCP_Q_POLLING, &queue->flags);
++	clear_bit(NVME_FABRICS_Q_POLLING, &queue->flags);
+ 	return queue->nr_cqe;
  }
  
-@@ -2314,7 +1950,7 @@ static enum blk_eh_timer_return nvme_tcp_timeout(struct request *rq)
- 	 * LIVE state should trigger the normal error recovery which will
- 	 * handle completing this request.
- 	 */
--	nvme_tcp_error_recovery(ctrl);
-+	nvmf_error_recovery(ctrl);
- 	return BLK_EH_RESET_TIMER;
- }
+@@ -2129,7 +2087,7 @@ static int nvme_tcp_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
  
-@@ -2540,7 +2176,7 @@ static const struct nvme_ctrl_ops nvme_tcp_ctrl_ops = {
- 	.submit_async_event	= nvme_tcp_submit_async_event,
- 	.delete_ctrl		= nvme_tcp_delete_ctrl,
- 	.get_address		= nvme_tcp_get_address,
--	.stop_ctrl		= nvme_tcp_stop_ctrl,
-+	.stop_ctrl		= nvmf_stop_ctrl,
- };
+ 	mutex_lock(&queue->queue_lock);
  
- static bool
-@@ -2560,6 +2196,21 @@ nvme_tcp_existing_controller(struct nvmf_ctrl_options *opts)
- 	return found;
- }
- 
-+static struct nvme_fabrics_ops nvme_tcp_fabrics_ops = {
-+	.alloc_admin_queue	= nvme_tcp_alloc_admin_queue,
-+	.free_admin_queue	= nvme_tcp_free_admin_queue,
-+	.start_admin_queue	= nvme_tcp_start_admin_queue,
-+	.stop_admin_queue	= nvme_tcp_stop_admin_queue,
-+	.alloc_io_queue		= nvme_tcp_alloc_io_queue,
-+	.free_io_queue		= nvme_tcp_free_io_queue,
-+	.start_io_queue		= nvme_tcp_start_io_queue,
-+	.stop_io_queue		= nvme_tcp_stop_io_queue,
-+	.alloc_admin_tag_set	= nvme_tcp_alloc_admin_tag_set,
-+	.alloc_tag_set		= nvme_tcp_alloc_tag_set,
-+	.nr_io_queues		= nvme_tcp_nr_io_queues,
-+	.set_io_queues		= nvme_tcp_set_io_queues,
-+};
-+
- static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
- 		struct nvmf_ctrl_options *opts)
- {
-@@ -2572,15 +2223,16 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
- 
- 	INIT_LIST_HEAD(&ctrl->list);
- 	ctrl->ctrl.opts = opts;
-+	ctrl->ctrl.fabrics_ops = &nvme_tcp_fabrics_ops;
- 	ctrl->ctrl.queue_count = opts->nr_io_queues + opts->nr_write_queues +
- 				opts->nr_poll_queues + 1;
- 	ctrl->ctrl.sqsize = opts->queue_size - 1;
- 	ctrl->ctrl.kato = opts->kato;
- 
- 	INIT_DELAYED_WORK(&ctrl->ctrl.connect_work,
--			nvme_tcp_reconnect_ctrl_work);
--	INIT_WORK(&ctrl->ctrl.err_work, nvme_tcp_error_recovery_work);
--	INIT_WORK(&ctrl->ctrl.reset_work, nvme_reset_ctrl_work);
-+			nvmf_reconnect_ctrl_work);
-+	INIT_WORK(&ctrl->ctrl.err_work, nvmf_error_recovery_work);
-+	INIT_WORK(&ctrl->ctrl.reset_work, nvmf_reset_ctrl_work);
- 
- 	if (!(opts->mask & NVMF_OPT_TRSVCID)) {
- 		opts->trsvcid =
-@@ -2641,7 +2293,7 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
- 		goto out_uninit_ctrl;
+-	if (!test_bit(NVME_TCP_Q_LIVE, &queue->flags))
++	if (!test_bit(NVME_CTRL_LIVE, &queue->flags))
+ 		goto done;
+ 	ret = kernel_getsockname(queue->sock, (struct sockaddr *)&src_addr);
+ 	if (ret > 0) {
+@@ -2282,6 +2240,13 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
+ 		ret = -ENOMEM;
+ 		goto out_free_ctrl;
  	}
++	ctrl->ctrl.queues = kcalloc(ctrl->ctrl.queue_count,
++				    sizeof(*ctrl->ctrl.queues),
++				    GFP_KERNEL);
++	if (!ctrl->ctrl.queues) {
++		ret = -ENOMEM;
++		goto out_free_ctrl_queue;
++	}
  
--	ret = nvme_tcp_setup_ctrl(&ctrl->ctrl, true);
-+	ret = nvmf_setup_ctrl(&ctrl->ctrl, true);
+ 	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_tcp_ctrl_ops, 0);
  	if (ret)
- 		goto out_uninit_ctrl;
- 
+@@ -2313,6 +2278,8 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
+ 		ret = -EIO;
+ 	return ERR_PTR(ret);
+ out_kfree_queues:
++	kfree(ctrl->ctrl.queues);
++out_free_ctrl_queue:
+ 	kfree(ctrl->queues);
+ out_free_ctrl:
+ 	kfree(ctrl);
 -- 
 2.40.0
 
