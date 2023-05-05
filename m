@@ -4,166 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91AFEC77B75
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 May 2023 21:59:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A33E6C77B75
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 May 2023 22:01:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Cc:To:From:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PJD5YenvktRx4CMXACWI7vhPdRZqaiwuxcEw/AEHb98=; b=VCCVEx0B9p8BoF/9I9clEOO6Z/
-	7sD/p42mOavBRe19A7uAUGZdVyMokwB0p3gQQjhoiRgnpzaJGshf5D4Dpii1egm/NPQbFVDrWJ76O
-	NlTdbhCIihP3FeqxcQZMMmyeg66x7VTVjT4VCqH8kMIAKdkji3LSl3NL1GJDN+fHklD41ibEcuaiR
-	SqS4jvMm9P5hCfcpMwAKRNJiqm0sEv23LyFvnRiX+uibvmoqavJFGqBvN2so15iaBZHDEabd46/yS
-	t9zo3lXw3I+1qHl8lWbmrlvfgJTj1B7EybG64tJVnu5DZ3v+EGmQTMC4EGJeNY7Ge5Co10kh7/2nV
-	3JrtNHDg==;
+	bh=FVASg+QGr+K4ac8aEqkMUrlrZ/OeVrsU5CtqYKmHV3c=; b=OfBZrJDZB58VqcxriPVPyh2LCK
+	UJER92aoCA3dMGXawFYN4N6bASQJndLtxEgYS3sCxWTFprNSsAVyiA9mh9Xp3CU+OJXdlDWUtOivT
+	wU7uaRyOrKvesSvYWZcijLjUeNoMrsDOnExT1OOxtlmpjSKH6c/n7Mx+1Jr4nKjhriAyrBnM6Wg9I
+	5b/vw/HyVrU5a+YW2IiWMCYSP8vS5RNs9QyoElusMq9wREtwV8cBfnUOISnEl8TUR8gNII4377kfj
+	JPHiJBC2aNDaSSjV3UEb/LQZgd3pAT1cTw47Yj0Vrom9U2w4ShS5ZCg6v27zDLZa7NmHViAu3e2tE
+	TR6VlWpQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pv3Ss-00Bvgs-1e;
-	Fri, 05 May 2023 21:59:46 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1pv3U8-00BvuP-0w;
+	Fri, 05 May 2023 22:01:04 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pv3Sq-00Bvg1-03
+	id 1pv3U2-00Bvt1-18
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 May 2023 21:59:45 +0000
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 345HhWw4006422;
-	Fri, 5 May 2023 21:59:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : from : to : cc : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2023-03-30;
- bh=PJD5YenvktRx4CMXACWI7vhPdRZqaiwuxcEw/AEHb98=;
- b=XVYEURG+vyR8BFThiUMDAwpFoar1Oy6HV97BvOIlRcF2sjg2pjbvDH00AVyfDrZ80yJm
- AzdwUDO22gnhbXiksQWiwzmUyh9Rp4/1YU3OXLEo6T4XgC0dJBXWHt5Wsdn6GQUjK+3r
- 5sI0Tspim1xkMNDGEsCsISVWlu+6qcuJCTn9pAkF195gm0utOQoyBkIstdUqHrZsfn+J
- xdYEqWAo3KlovZQ75nSEj6Tv8Q7/11MlltQZV10bk/gW8g1YtSrBnqAsKoTV4fbCFFSI
- B1wIofUsaKWV7u2XOKqm+ww3dji5pMSO2l72KJvJy77LDf9awidp9hze5nMvH0nJ170k LQ== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3q8u4awp41-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 05 May 2023 21:59:40 +0000
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 345LY01k020732;
-	Fri, 5 May 2023 21:59:39 GMT
-Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2172.outbound.protection.outlook.com [104.47.73.172])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3q8spad015-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 05 May 2023 21:59:39 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OtxZY4IM9VQrB7lYavbgsatBqnd6rdVy8sTEneCUEqnYUg9rUkURRxjr3WB2F1pq7HDJrhu8LXxNKKppQZzC5ZGKKygl4HoStsmEpiaRTupQq+jpBacPvrDb6Fd8t4HCyOojGXQ5IsArBJZf+P77fFTHTm9Mu1F1rB8Bl4KcXJrNyyOxu7G7/FVctRXuJiL1En0w5EzO++rc8PYtpQr5m4JYMxgL6Dsjl1gDftWq9GV+7KIqKYNnQvdmpORx2HjGVJKUdfXrk+LY3fKoaNg3/HbW4Qdxsd2VWENWUAlmCSCa5eNDJTlgdjrIXr92BNGfAoY418trdnQZ3vwKAhVa7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PJD5YenvktRx4CMXACWI7vhPdRZqaiwuxcEw/AEHb98=;
- b=na6qCjz6iAMJ05IVTLbXhLR4GaeqY2Cl6CJVodzeYO+x4P364Je4MN/Im+pA1ZxjGXOySlipC4mwh1GkxsJ33GXHk95C9ms3WwBT0YzFmNlrDeYpg9ggXJWqm30lh90uBUZr5vPOOABzN4+ShOMXB7Fq0LVAVzYncujBByY8Bxr8Bu85t5o8g42eZQugKdAWZjVZvMdjksnVgzQ7oNRqJ4l/0Cz4T8dl3XpWEukWuwqLU4QD2VKEy3tu1W8B1/dv0fHBXPU4xeEeOofvF/vCV0WU7f5J2ezK6kjt3nCBXfasRBOswtNxyZdoPWH+u9ahVlGca5wa4PdVNgt5KXKhMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PJD5YenvktRx4CMXACWI7vhPdRZqaiwuxcEw/AEHb98=;
- b=L5yXse5SqJdzbVRBPuTrxBdNceolaqU6YVwaKgxq0BQ7SXs5vjoFH0aYWzAW8KHbOFfrKxXP7yZzOX0J/JokryN//RVx9NAeyHUKFV4G+E6nU7TYr47X2efTAEkgt0xjWxPo1RD37ZQ99czYPcJNa4I3sC8Oq/T6S1orHIWCeAk=
-Received: from SJ0PR10MB5550.namprd10.prod.outlook.com (2603:10b6:a03:3d3::5)
- by SJ0PR10MB4463.namprd10.prod.outlook.com (2603:10b6:a03:2af::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.27; Fri, 5 May
- 2023 21:59:37 +0000
-Received: from SJ0PR10MB5550.namprd10.prod.outlook.com
- ([fe80::e206:6854:c7ed:225c]) by SJ0PR10MB5550.namprd10.prod.outlook.com
- ([fe80::e206:6854:c7ed:225c%4]) with mapi id 15.20.6363.027; Fri, 5 May 2023
- 21:59:37 +0000
-Message-ID: <c9ed84c9-58fd-37d1-138c-869726ccc7d6@oracle.com>
-Date: Fri, 5 May 2023 14:59:35 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH V5 0/1] nvme: allow passthru cmd error logging
-Content-Language: en-US
-From: alan.adamson@oracle.com
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <20230409212538.18647-1-kch@nvidia.com>
- <0c50fbf6-4bc3-7289-2a39-072191c81dbe@oracle.com>
- <8a811508-f53c-bae5-fe32-da65101bdec2@nvidia.com>
- <551a5499-c4eb-0416-0d2f-9951817346ce@oracle.com>
-In-Reply-To: <551a5499-c4eb-0416-0d2f-9951817346ce@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR03CA0200.namprd03.prod.outlook.com
- (2603:10b6:a03:2ef::25) To SJ0PR10MB5550.namprd10.prod.outlook.com
- (2603:10b6:a03:3d3::5)
+	Fri, 05 May 2023 22:01:00 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 9E0E064133;
+	Fri,  5 May 2023 22:00:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DB7DC4339B;
+	Fri,  5 May 2023 22:00:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1683324057;
+	bh=arsyBM1Ju2+rsxuFa33xD23Tpqvq4c7+KQq0jw1C4Is=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jDSc7DDEeTor4PNGoWVENJxZP8gRPxTfDzAcH+xNKkfEjDe1Jo0A0NLpuM2gHUUxm
+	 /5qPXe5eGWMn3Ami0WD4hVl02MppJvrosBR/7teyFNxvtRoLJygGtDPeHh3mRIzY4r
+	 lwt/uf6iWpMiYjTB1aAjNQavB9ln6LIgi6/HhDgeqK96N5i0R1vhbTL+haxCp360It
+	 BfZ51hvmr6uwLLIaNvZSv5K48YlmOhH30qnZ49tYvY1drPm8Iqhl1LnM/Oqmhu/Gii
+	 H0rsPsWZTt+SRUq8+jZCYGQwO6LGjDnUt9QGkHdEG4ns1XyDgHqI1BAH172pLOo6dg
+	 0bwr0u+LNNEHw==
+Date: Fri, 5 May 2023 15:00:56 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: John Garry <john.g.garry@oracle.com>
+Cc: Dave Chinner <david@fromorbit.com>, axboe@kernel.dk, kbusch@kernel.org,
+	hch@lst.de, sagi@grimberg.me, martin.petersen@oracle.com,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+	jejb@linux.ibm.com, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, paul@paul-moore.com,
+	jmorris@namei.org, serge@hallyn.com,
+	Himanshu Madhani <himanshu.madhani@oracle.com>
+Subject: Re: [PATCH RFC 01/16] block: Add atomic write operations to
+ request_queue limits
+Message-ID: <20230505220056.GJ15394@frogsfrogsfrogs>
+References: <20230503183821.1473305-1-john.g.garry@oracle.com>
+ <20230503183821.1473305-2-john.g.garry@oracle.com>
+ <20230503213925.GD3223426@dread.disaster.area>
+ <fc91aa12-1707-9825-a77e-9d5a41d97808@oracle.com>
+ <20230504222623.GI3223426@dread.disaster.area>
+ <90522281-863f-58bf-9b26-675374c72cc7@oracle.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR10MB5550:EE_|SJ0PR10MB4463:EE_
-X-MS-Office365-Filtering-Correlation-Id: ebc612a0-eaa3-4cd9-62b6-08db4db404b5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	Xnvgar4oDg7wwtbtOuo0SuPgX+DNZnx45TFXLeLcHCUoMIxfS9tE5NYF/I8ZfMJNwh5uNI0BjKuLkpcOpetmQ7PNGBPYh3ILAdvofTbQr9PLzFVJrT4NVP4QIWby8a26ECAWpmVCzUaMZ3h7MtLjGTkfEAtr2CiCQlDVVafWaKGA1Rtxs4bHk+xTxweiqj44NcC4oXk/tGtF2dOdwrcuraDcQI/t6HjhJwGPXV1y00vj98QBfMkjWI6opNhPMqwDNN/PHAdXiXpZ+t9p0f8lezix6z+eeBHUy8moO5moozR6tv3WTS3qxVuZTs2CpJ+t0nHWGtf97qYk0zY4gHL0UIGfKFCZCqO33QydSP99Rqkswx4KnHIRzx6MZjSoaI3/NtZNRbd50ZOr+NwdshcKBQ1oVE06NE1UWLIAGYlIljc11yFCNBUBNB1MkQOf+U/clqWx5peR5DnzkbcIHgJNn0MzovJURcrDFNwTyAfoXAIXTxyI/hb3hXe1eXzqH0xiqjf4dWyNWFt0DPnvAfBfH7fTWRvh/KlNdY3MOijf7rFEmbA7i9VO0RlYU9mzWtMCkhVTK0c5pyr60tDDL3lMFfrih6LyGKDgBCi6gCc7g4o=
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5550.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(39860400002)(346002)(136003)(396003)(376002)(451199021)(31686004)(66946007)(66556008)(66476007)(4326008)(478600001)(6486002)(6916009)(316002)(36756003)(86362001)(31696002)(6512007)(6506007)(2616005)(26005)(9686003)(8936002)(8676002)(5660300002)(4744005)(2906002)(41300700001)(186003)(38100700002)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?dE1OZnlDZEJrZG4rOXJ5VUZOOFpNY0c2UzA1RmFTOThuc3ZQSDlxMFltN25y?=
- =?utf-8?B?bUZTZHNxelR4aG80eGJOU0p0U2dKa2RqYTBvb0dCTEpOeTFCVFBoNFNYbjYv?=
- =?utf-8?B?UjlLUWpZZ2hXWWxEYVNOUmFiNDNSendWVkNybGVtQnVPbXRvSUZGczJaeWp6?=
- =?utf-8?B?d3NJNTNJcEo2Tm03dkNpQkR1WHpuSC9IL0Z6WWdIVGphV0VvR3RIZHJEVmJV?=
- =?utf-8?B?SjZrN2NzOGQzWldmL2wyQTRnR1V0cFVlVW1LeU9qY1pNVGwzS3FGTHliYkhV?=
- =?utf-8?B?U3RoK1BzQkpyYVNsQzhueWNkdWlVRVp4N2dwVUdRakxJTGp3VE1IWnNnZ2pv?=
- =?utf-8?B?L2VYbFcweTM2KzhDZU53Uzk3N0VXZ1VJQldGbllNSEZVTkJOaXF3NzBFeDJt?=
- =?utf-8?B?bTk0SWQ0a2t2WUhEWnZhY25FUmY4S3U2djgxSnNpODBLUzRiTHRETndpUWJT?=
- =?utf-8?B?OVRLRnpmRTFzdUhyL2tpUFF0aEN5VXFEUjI2bnlBMkRkamdORllxQStRUmth?=
- =?utf-8?B?dnJFWWJPODNJR0J0VnIwTkNkUXRLcVI1MGpnYkN2bHk4ci9YQXY3bFR4SFpC?=
- =?utf-8?B?ZmZWZ1VTMFNld0gyS0dnbHA3Y1cwMkxBWDFVRzdla0pEb1lEbHpsL3V3NXpN?=
- =?utf-8?B?RzVtdkFhdzhaZ3pvcTFHNzhGL0ZML25CMXlNQlBabldIb0h5L1lSUGx3OXha?=
- =?utf-8?B?WWdUSEtQa25uekhPa25EaEtyMnZ4bkdrNzNjY2xtK2taaElHTkdXZm1SUisx?=
- =?utf-8?B?eFMwVjFGVUhqc2FFQWVGeWVmMFhKZ1lMc3lucm9TQXJVQU9CcWtaSHZYQnBk?=
- =?utf-8?B?NnZ5SVRvWVEyYWk2RlVpTDFPcmltTWM4dlVxYm5BNDBzMzlZQWJFZ0o1ZWZN?=
- =?utf-8?B?cktsaUZ1K1MvdTFhQXovQWFiOXdJaXBWMzk2Q1lENG5QUjVSK1d0elRRNHo3?=
- =?utf-8?B?RkR2c3JXL1dSTllpZVd5b3hMb3U2Tys2TzNHQlJaVU1Tazh0SjNMMjI3cGIv?=
- =?utf-8?B?QjA3aExENE5MQzNERWpwMndsNlhZdVRiK004VXRMODhXTDFTZGJnWHZ1b3M1?=
- =?utf-8?B?QzBoUGRja2pMU1JEemVEVHJDNWVMVVFVcmY5aERZN1BEaSswYSttZ1dKdHRa?=
- =?utf-8?B?N0V3K1FVSUJ1YTFsSE53K3A5OVJHMktRQUxySWhudTlUUWl4RC85ZHNhYUhu?=
- =?utf-8?B?L3M3UHpEMnpxaGRENkNjT3JpSGFreVphMkNob2lOWlA4c0FzRzlvREdJbGZV?=
- =?utf-8?B?S25UL21kVkVSVXBqbDhsU0ovQXZEbitOejZrTkNha0hWWFBZNmNLNUs4b0xt?=
- =?utf-8?B?Z3RQRkd4dHcxT1pNdS90RlhEdjhkNW9oR3VxcDVIZUFCSFZRM2JVUU1HRy9J?=
- =?utf-8?B?YTJNdlYzTUNYNnQzWG1rWWpkR1d1V1JGWm1ZamJWMmR6a21zYkFvYUYzQ24v?=
- =?utf-8?B?UnBrMFlaT21MWUw2QXh5cU5XNnl3cjNmWDFiMGUyTXFGVUh1NzQ3Q3RtM0dD?=
- =?utf-8?B?eFhVaGRXR3dXTDBBY3VET1E3RVFza3Z0amFWaG5Ub1RRQ2F5ZVBISExzSkE1?=
- =?utf-8?B?dVplMzh2dVdxOEMxcW1ZRlNJeDFoRnNRUXFsYk9sQS9aWXhQamMrTVZaUno5?=
- =?utf-8?B?U1plR0U3VWtEMnJzNGJjTFd6WmRubFBDaW4rVVJhUjBMMko3RDc4YkhESmVm?=
- =?utf-8?B?QlNqWnhwNWNnWURjUnJTR3d6ZHZoWnZGU3p4OWI3NkNTc0NnWWNremRXNlpa?=
- =?utf-8?B?VTAzZ1dybW9ySmxWejZ6WkxMYkxnK2J0UWlaNkJDZk1TVks5VXRZaHNIY0tR?=
- =?utf-8?B?dm5mcGpxUGVxOW05cjF6Q0ZHSHFVN1ZaQnlGd2NwWWZBMzdTUlhZOEEwc1ln?=
- =?utf-8?B?bStLSFRvN21qMjRxN0ZvMWN2VjBRZ1RueVVkamhQUjQ1bjZsUGliM1F4ZGp1?=
- =?utf-8?B?Nkp5c0ovZ1NXSEltbFFrVnQydzIvNEZoUFBzUm9RQ3ZFQm5iRmFSRjNCZCtj?=
- =?utf-8?B?c3Z1WmJRdkFVMWpNZzNWeXlMcXlleFBlZHN3OTgxWXUyTDJvRnMxb0dXVm5u?=
- =?utf-8?B?WWJSOFNaWW96VDdFR0lKaVVDOTVFYVg0Rm9aWGRwUGNIWmVCSDk1S3lySlR2?=
- =?utf-8?Q?tzVgx4u7F+0tGTEIiof56Dq9l?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 	GNTpinFqoOpkmpEK5CQjaurouWfZ7cl9GszhGvd1xbK8ClQINHAihvWBzwq4krGZG/8O9rRHUtSLXkOtHmcyJzeyBgtopYi3ZDzaciQ4vImtVSXxlGWrzvLFnm6Ch/dr4avlIcKZeTsUTq6nWocRBRMA+fxhrh0s5SYnSHb3438/GxWnhv3LwWdCr/CB1qsLszdw0fTtq7I5bGAXCfdXcksXOCqtXTOcjSZKkgn+BZ+aYRuNevy0tcsNPvP7iL62/5Oo2Q4iVqR5oATnlRii6jGdGth0XJCrUrdcyc9pKdn3RlGzPML96M/lhTBmKqhUPiOA2uHzDfTdZrTsEQH0oUA+6YAgDj0/qnKJcGUznS1ED7lwKeshHnC6WJblFDyZvg8HrE6CwVI5B7sR3FCvFhX2HcQf5CYOjy5B+AGAiQnA2GL7K5mpwU5Jk+OrVi236A01cj2ZoiNt2VW2/exoEJcPXXzdWk75aOUAcm02m+jbSryVxgoztQ3afXzFy7vqlt0F50y8ujtG6Xu/e1BzsFW4FiM+GcG5gSODZdtRQIPf3UnlFFEpr+6KH9+hT0roLXv8ixB1dONBEekcZKuU9NmFSO9GcJqinp79ZLCiH6TDpO9c4SGHJz/LqkNqjB6qLKvZLoTxruT+qPxou+/jMq2kYGToHimmXJ4+kLcr8u4pgshgKhpBxkI64uiuiPeoHRDmX5RP5S8b4OeAwK7MOEb71/9++vhV6CtTaKFYadss86AIzoWhaeS/eXDjp0LXtq8/z9RoDuPac33EKQPlgd8/G7ntb0bQ6h5pjWUQDK8=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ebc612a0-eaa3-4cd9-62b6-08db4db404b5
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5550.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2023 21:59:37.4325
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lzgdR+B22/7JULBXiL2T/qtoCoBeUKGuiF/n2cvNFu6CJi3DNumHY4/9qW15X3N8wkUPBV0h9o4QyRMpESmE3A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4463
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-05_27,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0 spamscore=0
- mlxlogscore=864 phishscore=0 malwarescore=0 adultscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2305050178
-X-Proofpoint-GUID: WPxFyOWgLM_BRmK62nD8Vj5wD-cQ-GQP
-X-Proofpoint-ORIG-GUID: WPxFyOWgLM_BRmK62nD8Vj5wD-cQ-GQP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <90522281-863f-58bf-9b26-675374c72cc7@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230505_145944_079810_651425A8 
-X-CRM114-Status: GOOD (  16.18  )
+X-CRM114-CacheID: sfid-20230505_150058_478327_9624C25C 
+X-CRM114-Status: GOOD (  81.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -178,31 +87,345 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Fri, May 05, 2023 at 08:54:12AM +0100, John Garry wrote:
+> On 04/05/2023 23:26, Dave Chinner wrote:
+> 
+> Hi Dave,
+> 
+> > > atomic_write_unit_max is largest application block size which we can
+> > > support, while atomic_write_max_bytes is the max size of an atomic operation
+> > > which the HW supports.
+> > Why are these different? If the hardware supports 128kB atomic
+> > writes, why limit applications to something smaller?
+> 
+> Two reasons:
+> a. If you see patch 6/16, we need to apply a limit on atomic_write_unit_max
+> from what is guaranteed we can fit in a bio without it being required to be
+> split when submitted.
+> 
+> Consider iomap generates an atomic write bio for a single userspace block
+> and submits to the block layer - if the block layer needs to split due to
+> block driver request_queue limits, like max_segments, then we're in trouble.
+> So we need to limit atomic_write_unit_max such that this will not occur.
+> That same limit should not apply to atomic_write_max_bytes.
+> 
+> b. For NVMe, atomic_write_unit_max and atomic_write_max_bytes which the host
+> reports will be the same (ignoring a.).
+> 
+> However for SCSI they may be different. SCSI has its own concept of boundary
+> and it is relevant here. This is confusing as it is very different from NVMe
+> boundary. NVMe is a media boundary really. For SCSI, a boundary is a
+> sub-segment which the device may split an atomic write operation. For a SCSI
+> device which only supports this boundary mode of operation, we limit
+> atomic_write_unit_max to the max boundary segment size (such that we don't
+> get splitting of an atomic write by the device) and then limit
+> atomic_write_max_bytes to what is known in the spec as "maximum atomic
+> transfer length with boundary". So in this device mode of operation,
+> atomic_write_max_bytes and atomic_write_unit_max should be different.
 
->>>> In nvme_end_req()_ we only log errors which are for non-passthru
->>>> commands. Add a helper function nvme_log_err_passthru() which 
->>>> allows us
->>>> to log error for passthru commands by decoding cdw10-cdw15 values of
->>>> nvme command.
->>> CK,
->>>
->>> Thanks for doing this. Looks good.  I've tested it in my environment.
->>>
->>> Alan
->>>
->>>
->> Thanks for having a look, let's wait for others to have comments.
->>
->> -ck
->
-> I'll be on vacation next week so we will move forward with the patch 
-> when I get back on 4/24.
+Hmm, maybe some concrete examples would be useful here?  I find the
+queue limits stuff pretty confusing too.
 
-I'm back from vacation.  We can continue with the review.
+Could a SCSI device could advertise 512b LBAs, 4096b physical blocks, a
+64k atomic_write_unit_max, and a 1MB maximum transfer length
+(atomic_write_max_bytes)?  And does that mean that application software
+can send one 64k-aligned write and expect it either to be persisted
+completely or not at all?
 
+And, does that mean that the application can send up to 16 of these
+64k-aligned blocks as a single 1MB IO and expect that each of those 16
+blocks will either be persisted entirely or not at all?  There doesn't
+seem to be any means for the device to report /which/ of the 16 were
+persisted, which is disappointing.  But maybe the application encodes
+LSNs and can tell after the fact that something went wrong, and recover?
 
-Thanks,
+If the same device reports a 2048b atomic_write_unit_min, does that mean
+that I can send between 2 and 64k of data as a single atomic write and
+that's ok?  I assume that this weird situation (512b LBA, 4k physical,
+2k atomic unit min) requires some fancy RMW but that the device is
+prepared to cr^Wpersist that correctly?
 
-Alan
+What if the device also advertises a 128k atomic_write_boundary?
+That means that a 2k atomic block write will fail if it starts at 127k,
+but if it starts at 126k then thats ok.  Right?
 
+As for avoiding splits in the block layer, I guess that also means that
+someone needs to reduce atomic_write_unit_max and atomic_write_boundary
+if (say) some sysadmin decides to create a raid0 of these devices with a
+32k stripe size?
+
+It sounds like NVME is simpler in that it would report 64k for both the
+max unit and the max transfer length?  And for the 1M write I mentioned
+above, the application must send 16 individual writes?
+
+(Did I get all that correctly?)
+
+> > 
+> > >  From your review on the iomap patch, I assume that now you realise that we
+> > > are proposing a write which may include multiple application data blocks
+> > > (each limited in size to atomic_write_unit_max), and the limit in total size
+> > > of that write is atomic_write_max_bytes.
+> > I still don't get it - you haven't explained why/what an application
+> > atomic block write might be, nor why the block device should be
+> > determining the size of application data blocks, etc.  If the block
+> > device can do 128kB atomic writes, why wouldn't the device allow the
+> > application to do 128kB atomic writes if they've aligned the atomic
+> > write correctly?
+> 
+> An application block needs to be:
+> - sized at a power-of-two
+> - sized between atomic_write_unit_min and atomic_write_unit_max, inclusive
+> - naturally aligned
+> 
+> Please consider that the application does not explicitly tell the kernel the
+> size of its data blocks, it's implied from the size of the write and file
+> offset. So, assuming that userspace follows the rules properly when issuing
+> a write, the kernel may deduce the application block size and ensure only
+> that each individual user data block is not split.
+> 
+> If userspace wants a guarantee of no splitting of all in its write, then it
+> may issue a write for a single userspace data block, e.g. userspace block
+> size is 16KB, then write at a file offset aligned to 16KB and a total write
+> size of 16KB will be guaranteed to be written atomically by the device.
+
+I'm ... not sure what the userspace block size is?
+
+With my app developer hat on, the simplest mental model of this is that
+if I want to persist a blob of data that is larger than one device LBA,
+then atomic_write_unit_min <= blob size <= atomic_write_unit_max must be
+true, and the LBA range for the write cannot cross a atomic_write_boundary.
+
+Does that sound right?
+
+Going back to my sample device above, the XFS buffer cache could write
+individual 4k filesystem metadata blocks using REQ_ATOMIC because 4k is
+between the atomic write unit min/max, 4k metadata blocks will never
+cross a 128k boundary, and we'd never have to worry about torn writes
+in metadata ever again?
+
+Furthermore, if I want to persist a bunch of blobs in a contiguous LBA
+range and atomic_write_max_bytes > atomic_write_unit_max, then I can do
+that with a single direct write?  I'm assuming that the blobs in the
+middle of the range must all be exactly atomic_write_unit_max bytes in
+size?  And I had better be prepared to (I guess) re-read the entire
+range after the system goes down to find out if any of them did or did
+not persist?
+
+(This part sounds like a PITA.)
+
+> > 
+> > What happens we we get hardware that can do atomic writes at any
+> > alignment, of any size up to atomic_write_max_bytes? Because this
+> > interface defines atomic writes as "must be a multiple of 2 of
+> > atomic_write_unit_min" then hardware that can do atomic writes of
+> > any size can not be effectively utilised by this interface....
+> > 
+> > > user applications should only pay attention to what we return from statx,
+> > > that being atomic_write_unit_min and atomic_write_unit_max.
+> > > 
+> > > atomic_write_max_bytes and atomic_write_boundary is only relevant to the
+> > > block layer.
+> > If applications can issue an multi-atomic_write_unit_max-block
+> > writes as a single, non-atomic, multi-bio RWF_ATOMIC pwritev2() IO
+> > and such IO is constrainted to atomic_write_max_bytes, then
+> > atomic_write_max_bytes is most definitely relevant to user
+> > applications.
+> 
+> But we still do not guarantee that multi-atomic_write_unit_max-block writes
+> as a single, non-atomic, multi-bio RWF_ATOMIC pwritev2() IO and such IO is
+> constrained to atomic_write_max_bytes will be written atomically by the
+> device.
+> 
+> Three things may happen in the kernel:
+> - we may need to split due to atomic boundary
+> - we may need to split due to the write spanning discontig extents
+> - atomic_write_max_bytes may be much larger than what we could fit in a bio,
+> so may need multiple bios
+> 
+> And maybe more which does not come to mind.
+> 
+> So I am not sure what value there is in reporting atomic_write_max_bytes to
+> the user. The description would need to be something like "we guarantee that
+> if the total write length is greater than atomic_write_max_bytes, then all
+> data will never be submitted to the device atomically. Otherwise it might
+> be".
+> 
+> > 
+> > 
+> > > > > +What:		/sys/block/<disk>/atomic_write_boundary
+> > > > > +Date:		May 2023
+> > > > > +Contact:	Himanshu Madhani<himanshu.madhani@oracle.com>
+> > > > > +Description:
+> > > > > +		[RO] A device may need to internally split I/Os which
+> > > > > +		straddle a given logical block address boundary. In that
+> > > > > +		case a single atomic write operation will be processed as
+> > > > > +		one of more sub-operations which each complete atomically.
+> > > > > +		This parameter specifies the size in bytes of the atomic
+> > > > > +		boundary if one is reported by the device. This value must
+> > > > > +		be a power-of-two.
+> > > > How are users/filesystems supposed to use this?
+> > > As above, this is not relevant to the user.
+> > Applications will greatly care if their atomic IO gets split into
+> > multiple IOs whose persistence order is undefined.
+> 
+> Sure, so maybe then we need to define and support persistence ordering
+> rules. But still, any atomic_write_boundary is already taken into account
+> when we report atomic_write_unit_min and atomic_write_unit_max to the user.
+> 
+> > I think it also
+> > matters for filesystems when it comes to allocation, because we are
+> > going to have to be very careful not to have extents straddle ranges
+> > that will cause an atomic write to be split.
+> 
+> Note that block drivers need to ensure that they report the following:
+> - atomic_write_unit_max is a power-of-2
+> - atomic_write_boundary is a power-of-2 (and naturally it would need to be
+> greater or equal to atomic_write_unit_max)
+> [sidenote: I actually think that atomic_write_boundary needs to be just a
+> multiple of atomic_write_unit_max, but let's stick with these rules for the
+> moment]
+> 
+> As such, if we split a write due to a boundary, we would still always be
+> able to split such that we don't need to split an individual userspace data
+> block.
+
+...but only if userspace data blocks (whatever those are) don't
+themselves split atomic_write_boundary.
+
+> > 
+> > e.g. how does this work with striped devices? e.g. we have a stripe
+> > unit of 16kB, but the devices support atomic_write_unit_max = 32kB.
+> > Instantly, we have a configuration where atomic writes need to be
+> > split at 16kB boundaries, and so the maximum atomic write size that
+> > can be supported is actually 16kB - the stripe unit of RAID device.
+> 
+> OK, so in that case, I think that we would need to limit the reported
+> atomic_write_unit_max value to the stripe value in a RAID config.
+> 
+> > 
+> > This means the filesystem must, at minimum, align all allocations
+> > for atomic IO to 16kB stripe unit alignment, and must not allow
+> > atomic IOs that are not stripe unit aligned or sized to proceed
+> > because they can't be processed as an atomic IO....
+> 
+> As above. Martin may be able to comment more on this.
+> 
+> > 
+> > 
+> > > > >    /**
+> > > > > @@ -183,6 +186,59 @@ void blk_queue_max_discard_sectors(struct request_queue *q,
+> > > > >    }
+> > > > >    EXPORT_SYMBOL(blk_queue_max_discard_sectors);
+> > > > > +/**
+> > > > > + * blk_queue_atomic_write_max_bytes - set max bytes supported by
+> > > > > + * the device for atomic write operations.
+> > > > > + * @q:  the request queue for the device
+> > > > > + * @size: maximum bytes supported
+> > > > > + */
+> > > > > +void blk_queue_atomic_write_max_bytes(struct request_queue *q,
+> > > > > +				      unsigned int size)
+> > > > > +{
+> > > > > +	q->limits.atomic_write_max_bytes = size;
+> > > > > +}
+> > > > > +EXPORT_SYMBOL(blk_queue_atomic_write_max_bytes);
+> > > > > +
+> > > > > +/**
+> > > > > + * blk_queue_atomic_write_boundary - Device's logical block address space
+> > > > > + * which an atomic write should not cross.
+> > > > I have no idea what "logical block address space which an atomic
+> > > > write should not cross" means, especially as the unit is in bytes
+> > > > and not in sectors (which are the units LBAs are expressed in).
+> > > It means that an atomic operation which straddles the atomic boundary is not
+> > > guaranteed to be atomic by the device, so we should (must) not cross it to
+> > > maintain atomic behaviour for an application block. That's one reason that
+> > > we have all these size and alignment rules.
+> > Yes, That much is obvious. What I have no idea diea about is what
+> > this means in practice. When is this ever going to be non-zero, and
+> > what should be we doing at the filesystem allocation level when it
+> > is non-zero to ensure that allocations for atomic writes never cross
+> > such a boundary. i.e. how do we prevent applications from ever
+> > needing this functionality to be triggered? i.e. so the filesystem
+> > can guarantee a single RWF_ATOMIC user IO is actually dispatched
+> > as a single REQ_ATOMIC IO....
+> 
+> We only guarantee that a single user data block will not be split. So to
+> avoid any splitting at all, all you can do is write a single user data
+> block. That's the best which we can offer.
+> 
+> As mentioned earlier, atomic boundary is only relevant to NVMe. If the
+> device does not support an atomic boundary which is not compliant with the
+> rules, then we cannot support atomic writes for that device.
+
+I guess here that any device advertising a atomic_write_boundary > 0
+internally splits its LBA address space into chunks of that size and can
+only persist full chunks.  The descriptions of how flash storage work
+would seem to fit that description to me.  <shrug>
+
+> > 
+> > > ...
+> > > 
+> > > > > +static inline unsigned int queue_atomic_write_unit_max(const struct request_queue *q)
+> > > > > +{
+> > > > > +	return q->limits.atomic_write_unit_max << SECTOR_SHIFT;
+> > > > > +}
+> > > > > +
+> > > > > +static inline unsigned int queue_atomic_write_unit_min(const struct request_queue *q)
+> > > > > +{
+> > > > > +	return q->limits.atomic_write_unit_min << SECTOR_SHIFT;
+> > > > > +}
+> > > > Ah, what? This undocumented interface reports "unit limits" in
+> > > > bytes, but it's not using the physical device sector size to convert
+> > > > between sector units and bytes. This really needs some more
+> > > > documentation and work to make it present all units consistently and
+> > > > not result in confusion when devices have 4kB sector sizes and not
+> > > > 512 byte sectors...
+> > > ok, we'll look to fix this up to give a coherent and clear interface.
+> > > 
+> > > > Also, I think all the byte ranges should support full 64 bit values,
+> > > > otherwise there will be silent overflows in converting 32 bit sector
+> > > > counts to byte ranges. And, eventually, something will want to do
+> > > > larger than 4GB atomic IOs
+> > > > 
+> > > ok, we can do that but would also then make statx field 64b. I'm fine with
+> > > that if it is wise to do so - I don't don't want to wastefully use up an
+> > > extra 2 x 32b in struct statx.
+> > Why do we need specific varibles for DIO atomic write alignment
+> > limits?
+> 
+> I guess that we don't
+> 
+> > We already have direct IO alignment and size constraints in statx(),
+> > so why wouldn't we just reuse those variables when the user requests
+> > atomic limits for DIO?
+> > 
+> > i.e. if STATX_DIOALIGN is set, we return normal DIO alignment
+> > constraints. If STATX_DIOALIGN_ATOMIC is set, we return the atomic
+> > DIO alignment requirements in those variables.....
+> > 
+> > Yes, we probably need the dio max size to be added to statx for
+> > this. Historically speaking, I wanted statx to support this in the
+> > first place because that's what we were already giving userspace
+> > with XFS_IOC_DIOINFO and we already knew that atomic IO when it came
+> > along would require a bound maximum IO size much smaller than normal
+> > DIO limits.  i.e.:
+> > 
+> > struct dioattr {
+> >          __u32           d_mem;          /* data buffer memory alignment */
+> >          __u32           d_miniosz;      /* min xfer size                */
+> >          __u32           d_maxiosz;      /* max xfer size                */
+> > };
+> > 
+> > where d_miniosz defined the alignment and size constraints for DIOs.
+> > 
+> > If we simply document that STATX_DIOALIGN_ATOMIC returns minimum
+> > (unit) atomic IO size and alignment in statx->dio_offset_align (as
+> > per STATX_DIOALIGN) and the maximum atomic IO size in
+> > statx->dio_max_iosize, then we don't burn up anywhere near as much
+> > space in the statx structure....
+> 
+> ok, so you are saying to unionize them, right? That would seem reasonable to
+> me.
+> Thanks,
+> John
+> 
 
