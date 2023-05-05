@@ -4,92 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1265FC77B7C
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 May 2023 22:40:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07A88C77B7C
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 May 2023 00:28:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bSBn9yOinBU8m0yQLrSvbl7PKYZlBg3YhOgvbxEMud0=; b=i43rIYeC1c4YvBE2RIVzS/gWeI
-	jXaqU9Frj2w1nQvJ7ikaFt73FNTkYPe95loIxSBLf4L7kVsb7S6pFLGAA/jUWGjG0wYWWnSVEBpBQ
-	X4LBxSgA9A51XeRifGumj1GSjFWraFXO4B1q7WwjCDnXREd5j6thHT+jWGU/7xiSrGH10ioewYbWj
-	SCp8UPZaXOzaZ07oDp0JK2TFFHpkPveBuQwx+qX46ONXShZMdbbuCixAcEpFIOG+R/cmtjpTIFAEI
-	dxzvmE/0jP2FZDCVitZHHuCnhSjIbGKuRgNvYWj/NieDx2N4+iCExWi9Ro5mXf1RrD50dnusTuZGc
-	mHdZAgjg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=rnXUOZBUeOcsibg5ij1DHNoW0hCyURQ3wcrfWI4twK8=; b=dZtWL1GCSVrUC6u5xgMNWw5Ovg
+	RCyChxaY1ibyvTri58H9tdMZyuK1pcEP0VKsZG0dPs4sz8fsB2PViEnTDNRhu1P9h8IlQkIGaANB+
+	kR6j9H1rgrP6ir93ykFQcq2nWYhIDoAjFMIBgdn62E2YXhVt/BkHHW3N7pPnMuuvMh2Sn+aZx9w75
+	oKEVp9WT6uBDX6bInsp6jpLbOeaz9lbjmdCW7XeEaODBGywhipd08MLKc/yWgxH1/9mOnAKnlkmWW
+	6GoMlA8Hhmh6BkuAVIXx0nLccsnwHNv1F8JAtY334OiIBSxFpXYTbyGrRfjS2Dc02rfuVBB4XnAqn
+	2J2PNrRA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1puhd2-009EZ7-0o;
-	Thu, 04 May 2023 22:40:48 +0000
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+	id 1pujIv-009OVo-0Q;
+	Fri, 05 May 2023 00:28:09 +0000
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1puhct-009ERs-1H
+	id 1pujIs-009OVJ-1w
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 May 2023 22:40:45 +0000
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1aaea43def7so7345285ad.2
-        for <linux-nvme@lists.infradead.org>; Thu, 04 May 2023 15:40:38 -0700 (PDT)
+	Fri, 05 May 2023 00:28:07 +0000
+Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-50bc570b4a3so2252449a12.1
+        for <linux-nvme@lists.infradead.org>; Thu, 04 May 2023 17:28:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20221208.gappssmtp.com; s=20221208; t=1683240038; x=1685832038;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bSBn9yOinBU8m0yQLrSvbl7PKYZlBg3YhOgvbxEMud0=;
-        b=V2OWoWuBY9/BxFN6ZMrayZSPn34VUIMFwLKD1syjt3URVOHsk6eRCzBjJxyS/sTaxh
-         0ODMUc6Lrrs3v8zH3Sx/5e/PKEpsPzqFVGY4QckBPaQkZZfaM7pnBgEofNkOYx2I3eMh
-         /CUnaPOJFUPSRWZdnUNxTe8x2snVD8PtGIxSGOLogmkrfrhkWite1HB1ZWG+3fFJST9O
-         CMCv7TFFrBn2cKtBOmOLW8XQUBS/fB7r1lrmQ3GM1O5nbWEdOmtFcfUJmeIAnUxIbWpn
-         3ror2ojs9ATMDgL9RR5K3X4TvFjtnscejsS+p0QkHUHUt2WEuhfGkKNuQs/O+d5WTYRo
-         HM2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683240038; x=1685832038;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1683246484; x=1685838484;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bSBn9yOinBU8m0yQLrSvbl7PKYZlBg3YhOgvbxEMud0=;
-        b=Ke7iEVESSGrmBz/q3vMYmosYm1YV59zq3DPOmJFpePdt9nvoYoAzEcQG843UGBILt8
-         +v/wY3RFD2UKzst+ibKKd4YscU2DVP/003id3R0D1EJKS3SZBmviMQaSJSsRH/R96SZW
-         RQXOGy22JaEKetC0JIg9ZgiGPNplpum1mMsRXvRosBQIFtYZbx6vtorNIxxAv6y0cC69
-         waTF/tsh4Ktd1R4N6JfPAGyXbsxkMVPLaiXGL30XddkOp79hTqaQVemPWVOyWSH1AwIl
-         z5it/sdDvJj+HmUSM8+VdhBhk1DNpZX36WZPImF7idMWN0bk5jgrMYse1QFxmbVleC7A
-         pCqw==
-X-Gm-Message-State: AC+VfDzK2qsAParGsQvKaSAV4SRX2qkTw6WCibFs5luK7eIZrVbXiDvA
-	EqRi6D5Hbaj+7ekKU3ynp225bg==
-X-Google-Smtp-Source: ACHHUZ4sldKILzM05M5JtvE1zkTm8BdFnY+an0qc3+Zw6AS4jJ2XEp42XVgNkYwu+sP102Df03J4uQ==
-X-Received: by 2002:a17:903:48e:b0:1a6:cb66:681f with SMTP id jj14-20020a170903048e00b001a6cb66681fmr4825434plb.46.1683240037873;
-        Thu, 04 May 2023 15:40:37 -0700 (PDT)
-Received: from dread.disaster.area (pa49-181-88-204.pa.nsw.optusnet.com.au. [49.181.88.204])
-        by smtp.gmail.com with ESMTPSA id ix10-20020a170902f80a00b001ab0159b9edsm27390plb.250.2023.05.04.15.40.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 May 2023 15:40:36 -0700 (PDT)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
-	(envelope-from <david@fromorbit.com>)
-	id 1puhcn-00BPr0-UX; Fri, 05 May 2023 08:40:33 +1000
-Date: Fri, 5 May 2023 08:40:33 +1000
-From: Dave Chinner <david@fromorbit.com>
-To: John Garry <john.g.garry@oracle.com>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-	martin.petersen@oracle.com, djwong@kernel.org,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
-	jejb@linux.ibm.com, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, paul@paul-moore.com,
-	jmorris@namei.org, serge@hallyn.com,
-	Prasad Singamsetty <prasad.singamsetty@oracle.com>
-Subject: Re: [PATCH RFC 02/16] fs/bdev: Add atomic write support info to statx
-Message-ID: <20230504224033.GJ3223426@dread.disaster.area>
-References: <20230503183821.1473305-1-john.g.garry@oracle.com>
- <20230503183821.1473305-3-john.g.garry@oracle.com>
- <20230503215846.GE3223426@dread.disaster.area>
- <96a2f875-7f99-cd36-e9c3-abbadeb9833b@oracle.com>
+        bh=rnXUOZBUeOcsibg5ij1DHNoW0hCyURQ3wcrfWI4twK8=;
+        b=raKg3g0LRN3EddIR5J4GpocJr51Bz1aZpi+e9rkEU0vnhQfnDiEdfXALM0QLfHjzTC
+         0pHlyIs4FN+H04mnnVQ7CK//qQpP3GP6s6KNQ7jD9MUsBR2Ku1s2s6f6h3SqlAhLqeNf
+         TEfDSeJc7CoF7LnkKs250JkiRWoOn0xmrWxoZZC3NxKM7mkR/+HWok4RUPpeYJivzAyX
+         zjzI4cH7CeSxs41QyYo3CBcJSM/Vzl08z0BMuLPuPm6UsXtBRkQfLWfZyRArwRhwRDrd
+         8/f9JXa7Cyl69aUc3hU4hSuydMOFR+REuD7P9vSrGH8anBeuSPerKp9nAaEpjKuPlpc3
+         iHzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683246484; x=1685838484;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rnXUOZBUeOcsibg5ij1DHNoW0hCyURQ3wcrfWI4twK8=;
+        b=CrXmMFU2/gms9b1hx8JVO5eEE+RCSRo/QzlIcJ/ePALVNFv6bQVfugbhQeyZ3iuo2t
+         nLA4JYcVkjQUnJUy1rkLMfIOBhICAfJigwBTmOThGyLA3Qyfv8akRWnS+B5O1Pi8dOG3
+         CGtPxvRm9JOeCfDH3fr5eqX/U9Wf7ZDEzhqhvNc6OgI9D6IH5E6hBPYrFQ9yuGJbPgQZ
+         dp6ufY/Kf6aczS4EiM1tZmb1GoOVVOdpLOk7wkdBatMLKifIHU67MVMgE6LeoAoDgqyz
+         MgHNoxMcEdJwifBhTWfbDyLo/Vh7/Dd7AiktIatRQyi/FsEmEhhENR+u6kM3bJfuw9V6
+         F8Yw==
+X-Gm-Message-State: AC+VfDxx1SJ8Uk/Vrri/XCMNrwddRfekbkVvGvCFzMMm1iu+1x/XuxKP
+	K4jWZ+XHEobzuz65pthJ8vmrmhWTB+qgsV7OmtY=
+X-Google-Smtp-Source: ACHHUZ7e+uUjoD6owhenQe2fvsB0Mc5BgZgh1b8/bylG12bxgqOoQLxcgqqOoOzIfw5XwsAiQNIQ7caVkIv0EKKoUI4=
+X-Received: by 2002:a17:906:4fc8:b0:94b:958c:8827 with SMTP id
+ i8-20020a1709064fc800b0094b958c8827mr486495ejw.56.1683246483466; Thu, 04 May
+ 2023 17:28:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <96a2f875-7f99-cd36-e9c3-abbadeb9833b@oracle.com>
+References: <CAPiksxOuMyosYh0Ky==jfRcgWpGs5-4SxwfxpaLND5kHsOpq+w@mail.gmail.com>
+ <528f9679-1b07-f3af-c936-06ec1e316720@nvidia.com> <CAPiksxOQsF0-p_pwFQQhG7r5WERrRKv9R_w3Bgxp=qCBcPNc+w@mail.gmail.com>
+ <ZEre23NoKOB56eDj@kbusch-mbp.dhcp.thefacebook.com> <CAPiksxOEFDjHh4OrkcuBCMe59vf8_CE=AHeCN_+yFCe3_ry-2w@mail.gmail.com>
+ <ZErr8OV5JRpUityQ@kbusch-mbp.dhcp.thefacebook.com> <CAPiksxOu2W62bP9fFuHvxjACz+cvxH58fEkoFvALKFdHax3Tcw@mail.gmail.com>
+ <ZEvpoiDVFuOs8wyw@kbusch-mbp.dhcp.thefacebook.com> <CAPiksxMs00uLcOxxxKXUPpJEgCCEHDVx3JVKbe2AivHCJ553wA@mail.gmail.com>
+ <ZEwnL0hSTVJWoMTN@kbusch-mbp.dhcp.thefacebook.com>
+In-Reply-To: <ZEwnL0hSTVJWoMTN@kbusch-mbp.dhcp.thefacebook.com>
+From: Wang Yicheng <wangyicheng1209@gmail.com>
+Date: Thu, 4 May 2023 17:27:51 -0700
+Message-ID: <CAPiksxOvE+jvWJK3Lya=_QgLVZ2nShu81p0cc1PwCHyE6YeaGg@mail.gmail.com>
+Subject: Re: Seeking for help with NVMe arbitration questions
+To: Keith Busch <kbusch@kernel.org>
+Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230504_154039_444262_C65D890D 
-X-CRM114-Status: GOOD (  14.93  )
+X-CRM114-CacheID: sfid-20230504_172806_659611_EF9C3BE9 
+X-CRM114-Status: GOOD (  14.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,42 +93,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, May 04, 2023 at 09:45:50AM +0100, John Garry wrote:
-> On 03/05/2023 22:58, Dave Chinner wrote:
-> > Is there a statx() man
-> > page update for this addition?
-> 
-> No, not yet. Is it normally expected to provide a proposed man page update
-> in parallel? Or somewhat later, when the kernel API change has some
-> appreciable level of agreement?
+Understood, thanks Keith!
 
-Normally we ask for man page updates to be presented at the same
-time, as the man page defines the user interface that is being
-implemented. In this case, we need updates for the pwritev2() man
-page to document RWF_ATOMIC semantics, and the statx() man page to
-document what the variables being exposed mean w.r.t. RWF_ATOMIC.
+Given that the IO queue distribution is not intended for IO
+prioritization, I pivoted my focus to how enabling IO polling can help
+the performance. I repeated a very simple single-process FIO job 4
+times using the following set-ups:
+1. W/o poll queues, "hipri" was set to 0
+2. W/ poll queues, "hipri" was set to 0
+3. W/o poll queues, "hipri" was set to 1
+4. W/ poll queues, "hipri" was set to 1
 
-The pwritev2() man page is probably the most important one right now
-- it needs to explain the guarantees that RWF_ATOMIC is supposed to
-provide w.r.t. data integrity, IO ordering, persistence, etc.
-Indeed, it will need to explain exactly how this "multi-atomic-unit
-mulit-bio non-atomic RWF_ATOMIC" IO thing can be used safely and
-reliably, especially w.r.t. IO ordering and persistence guarantees
-in the face of crashes and power failures. Not to mention
-documenting error conditions specific to RWF_ATOMIC...
+The throughput result was 4>3>1=3D2. It's expected that case 4 has the
+best performance. But what I don't understand is why case 3
+outperformed 1 and 2. I thought the IO polling will only be enabled
+when there're poll queues. Could you please comment on this result as
+well?
 
-It's all well and good to have some implementation, but without
-actually defining and documenting the *guarantees* that RWF_ATOMIC
-provides userspace it is completely useless for application
-developers. And from the perspective of a reviewer, without the
-documentation stating what the infrastructure actually guarantees
-applications, we can't determine if the implementation being
-presented is fit for purpose....
+Best,
+Yicheng
 
-Cheers,
-
-Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+On Fri, Apr 28, 2023 at 1:06=E2=80=AFPM Keith Busch <kbusch@kernel.org> wro=
+te:
+>
+> On Fri, Apr 28, 2023 at 11:18:03AM -0700, Wang Yicheng wrote:
+> >
+> > Then this confuses me with the motivations of introducing different
+> > queue types. Doesn't it aim for providing some sort of prioritization?
+>
+> Having a separate read queue ensures that reads won't get starved for
+> a command resource by a write intensive workload. AFAIK, it's not a very
+> common option to enable.
+>
+> The poll queues are intended for latency senstive applications.  I
+> don't think it will be as reliable if you are running concurrently
+> with interrupt driven workloads: the interrupts will just preempt
+> the polling threads.
 
