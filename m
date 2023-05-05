@@ -4,141 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E8261C77B75
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 May 2023 23:56:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5CC1FC77B75
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 May 2023 23:56:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=naZGpZcRs87QX9jZCRkSmpGRGc6wlqdwLE+X9mvrIdE=; b=4K4H/VRVqYVfnU8A5/w9Un1S0f
-	COsIBIamI+vgLrIXQNiAp/aPlhcc6qNs9gEUBqu5NRHWIc2j1dagSo7o2L32jMqNOaKcSm9tm06WG
-	BIHbfT0m7wGK01FH4bizG8G7+fgXpgGULnCCuVZF+xNJ30KreZTpdsDDajTSeyZc2b8hTyj/osN02
-	5nHXr/42oASal4evOPTf8bRO5OOSg7KYB5b2bAgYam9cCZ7xj5J7ZAZFL5x5y/aIlrTvg0v7fAX8p
-	woTac6IBWTRfbG8oXiiAa7YZb3KZgO7mchbtcOZHIsRleFeQITdQqu+VSGQG90QSp7zf4ucAYCFw7
-	IsoSXbvw==;
+	bh=CemAWNMR8bXthiAKC/+una4gxSePkb3IueLhq9mQmls=; b=1sgXL/OtHnKvtWPalESeVwAwio
+	64cnqwbdYfLD2UBWKRsuve9DlZ8Ylrrr7WX6EMwsh5bIGwHNlU1pInioYXLfKGzJo1SDI1cQc3qXz
+	qjXPcSqsa3/MzPmWCPZMD/oSkq8eCJkODs362MeQAGJQKaoCMw1NA+gecMochIy/ZhXU6NdLkDPnx
+	XvRMeNvK6ZjIh5RinqlUBcwOBYEo/wmHrW3FAQ4rM1SkuTUS685/uvGui5TKT93bJCCzkkOgEWztY
+	vCZueIQQmv06SWDEucVEjt1qTfxksnW54G2JYHUgsaVNrIA2Syxqip/ymXOn69X1e6GIiFxOi01Nr
+	JZBUse2Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pv5HV-00C7iB-15;
-	Fri, 05 May 2023 23:56:09 +0000
-Received: from mail-dm6nam11on20622.outbound.protection.outlook.com ([2a01:111:f400:7eaa::622] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+	id 1pv5Hi-00C7kf-10;
+	Fri, 05 May 2023 23:56:22 +0000
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pv5HS-00C7hN-1h
+	id 1pv5Hf-00C7jg-0h
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 May 2023 23:56:07 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RxIUi1K/5ZPh9+zMBJSRY3+cxaErgwt9GMEu8q0Bd8f9qh29c3zhAZIMOaYG7HFZQaTfL0pehQB+JrTvG9FgyMyHyd6BoOrxMeIvLTUeB/wxKW08W8TB6+dw+Dkkh8PukNR7b+ziVBanGRJm1Zfuq9SQN6AL+taKnMSKTJuldeub06wSUM5cIDnyxmZ9i+J+tnhEtafj7shNABE7dP1tfsSPELn9Zt3xxZGgR17qmbyXDWB4hPucoEd0wRqgno/kPh2gOINU+2Odc/ri7BwsPDgGBew7A59/wukVXgdIT/uCTKy/LSp+Isfndm1TzF31d8MZAL6ldwJPNGj1tvNSqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=naZGpZcRs87QX9jZCRkSmpGRGc6wlqdwLE+X9mvrIdE=;
- b=MK63DYHa8BC+ElncZ0ki/cldobRDNDGv9CIRInIPikmWeR3uQ20Kf6T90UDYapW37qvQwbIJ+MLTj3J3J9nVJQoGnGU4dCNq8B/2/mfqjVnwgukOLlF04NWQSma05uG6XVyTQ2g4L41b1+0r/CnYcn5A8JgLCBG/jkXmtGEtHAPuz1Cps83ZNW9u635buANHsPUz/qdvccHHcNIFaq30uzeH5qUMGKZq+6ewaAWJ8ThynEfjre9Tj6X7eoOMYkL7Im6xNeXtpdDrM1wzJYtj1T7ndzgSaIgQmqVyvPpK9H2GMR4whZUkJR9ntAXSzH/ECZtF4jq3Iou7DiEWST3o1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=naZGpZcRs87QX9jZCRkSmpGRGc6wlqdwLE+X9mvrIdE=;
- b=fEKZLt8skcGkiHRyh1O5kMGhOSOz8Lt3dNpva9DGVQoAQ3UvsOUla7Sf3nYtAu1fttdvnxE6S7ShVrJKJT9InCAb1l2xQ+nfYwHrbLSH+YL2LzY8EaTW4gkiQ3TnWppz7oGTLqkPOzVeg8eoI0Kts3KXqc0ODawebBL5bilnX1dotWKhOO3pR5rHhaxugQCxy1AmBqkdCSAc+hl24armuWmllqOMjcfdumtd7CwsRghsE9bjpJ7ZPWsRpYR7p3ZVydIig2Ie4aO0NsPzyoYKh0yK+9LW4PsFgtcTHWuQrFTBOJ8Z/1Dv1ZxWD7ANmrFgE91jwyRcLyHOrNUAoQYehQ==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by CY8PR12MB7585.namprd12.prod.outlook.com (2603:10b6:930:98::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.27; Fri, 5 May
- 2023 23:56:01 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::7326:8083:5e17:2f90]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::7326:8083:5e17:2f90%4]) with mapi id 15.20.6363.027; Fri, 5 May 2023
- 23:56:01 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: "alan.adamson@oracle.com" <alan.adamson@oracle.com>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	Christoph Hellwig <hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>, Sagi
- Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH V5 0/1] nvme: allow passthru cmd error logging
-Thread-Topic: [PATCH V5 0/1] nvme: allow passthru cmd error logging
-Thread-Index: AQHZaynj0FvmtPMRR0m2hZrgt4zZb68lPEoAgABY3gCABc28gIAhAIqAgAAgiIA=
-Date: Fri, 5 May 2023 23:56:01 +0000
-Message-ID: <6835206b-e28c-8ad8-b468-32b7d7208535@nvidia.com>
-References: <20230409212538.18647-1-kch@nvidia.com>
- <0c50fbf6-4bc3-7289-2a39-072191c81dbe@oracle.com>
- <8a811508-f53c-bae5-fe32-da65101bdec2@nvidia.com>
- <551a5499-c4eb-0416-0d2f-9951817346ce@oracle.com>
- <c9ed84c9-58fd-37d1-138c-869726ccc7d6@oracle.com>
-In-Reply-To: <c9ed84c9-58fd-37d1-138c-869726ccc7d6@oracle.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|CY8PR12MB7585:EE_
-x-ms-office365-filtering-correlation-id: 98c49963-85ca-4ecf-33b0-08db4dc447b2
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  ennzSukSl7FzaCAJ2bBfYccGnrT0nrlb54GAAAxT+zPSDekXCQW9jVyB/kuFBs5Jf/KCINJTLd7AVzRmDLyYFieyVsGiExYw5FUzH0V0FzqBX3ryGPtzEKLLS4VMw62om4TuNf4klfaNSSxYb+A53p2xHH0T2MvDPOtR7UKGY93kqf0POUE8pVjbY7s/d2gxZeHqWO1xhuEl1PXHUnHh14xRLAv77ET1eRUoCS6DPrlE2iXPToezfz86c56iQYY5d14lb/M7oy0yjo17t0qe/6MNdPuhJ+9Bsu99Xqw+piP1qYzSo+jEjTSh1k9cE0zfSVjoHUjiCbLcyxqukKUC1tnnCNWCAComp2M9UvIukPeeAB2FAgRVpTFQjPWJedkN7PVn9ujvrrW+bdzZgXRUa7mVNC2MMZxKLCnka0u+818gt/bawitCQTAoJhjk8NXxxZVeNbTVm6nX+Xlffm80Xiw03CsevxTl0iXJl8wg+Nqre7Luqcnok3XZ548b23LiUAnBmym16ay2f7Lt7E45oW6t7HaZXRz/T7ifJZeePcn6eJTVFQgkLIBo61SPsF2+/+KsLIpT8Fupir/bVDesRcjKwWYCCH+b7JxhNu+UWFiyGY9r8gAGO4EWElUoMxzdjjJ8r+PiPQz+Ts25AmWUtxLCm2AmkWF08PQk4zLYU30=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(366004)(346002)(396003)(376002)(136003)(451199021)(8936002)(6512007)(6506007)(2616005)(53546011)(8676002)(66476007)(5660300002)(66946007)(54906003)(66556008)(41300700001)(64756008)(66446008)(316002)(91956017)(4326008)(76116006)(186003)(6486002)(6916009)(478600001)(71200400001)(122000001)(38100700002)(86362001)(31696002)(36756003)(38070700005)(2906002)(4744005)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?V2VWMFhteGVjemtNU2VPZVRmdUNwUi9mNVo3UWcwWVpmemFGT2xpcWNMYjJs?=
- =?utf-8?B?cVdjR2huK2lacU5QcHNpdXJrM1ZhZStuRlh4RTd4b2dWS0RadUlyRGpjVnRo?=
- =?utf-8?B?Q3kzd0RCVDBwS0RxRzVGc2s1VmVYVFM3SDBzOTJtMWZHaWFSS1AyelBZSUww?=
- =?utf-8?B?QitPLzJmVTZ5WHVLdGh3cEdiZ012Rll2V3EvUkpaVllsR1RuTDM4UDRBNnM2?=
- =?utf-8?B?ZkVlSmFFSDVmVFBVRFVCL1ZjYXpFSGdZQzltclgzUFNBT1Vsb1JxbG44Y29h?=
- =?utf-8?B?ZmxEcHpRbWIvb0ZaV2FtQ3dlZkRyaUJGRkZNUFNIUldZMkhLdndEa1UzRWsv?=
- =?utf-8?B?Zzh3YU5JL3BaOFBvVVY3SGhIU0hpNzhpWU45L1VvZWFQczJUZUcwUXlKM3VE?=
- =?utf-8?B?VlFzYlpUVVRFU0NGWmFnL2tFaVZFVmxqZldheTVsYmNyUEpXczRwWlhIQUFG?=
- =?utf-8?B?RGVoYXgwb1VvK2FIajNDejNSQzRsb1g3aGFTME95T21ZdWtMTGRZQVhxY0h3?=
- =?utf-8?B?U2pHSllWZXBoQkRPazRnNi91UFFZczRSNU9meUdWN1pQNGpNOCtEb3ZNMmx0?=
- =?utf-8?B?TkRSM1ZQNG5OVThLTHZhbVV1bklhNkxGa3VPTUJSL0pvVGIrSlVMdFR6Um1Z?=
- =?utf-8?B?ZVJoYkprdktGM0NkemF3VzNhQ0UyeGIyclU0eUtzaUdyUy9jejlyMFRIc2V2?=
- =?utf-8?B?Snh2cC85RHc4Q0VPV2JPaGRLVDdDek5sZCsxUUtLVVZqZkZDbDNEYllxQzh1?=
- =?utf-8?B?ZzZIbDZrR2RQL0YzNUdTUGRxR0tORjhVYXlSbkJVM01INTVJRUovWUViUUt2?=
- =?utf-8?B?ZXJJeW93WENzSEVQQ2VLWjIrb0w0c1ZuKy9jMmpPNkxyZGhOYWRPWHVpRDNV?=
- =?utf-8?B?VjhUUlZ5cEhxMlVvNXhhUFNKb0R1VzhZK0pYQURiQloxa04rVHVzV1VOYnhq?=
- =?utf-8?B?SHhDYW5WVVFxcGZWMVVkeExjeFZJR1ExaVY1eXc3ZXUxRXZuTVNRZGRjRnhG?=
- =?utf-8?B?UEt0ajRCcVYzYXk5VmZtL0RXQ1VRZjA1N3FLNXE0UFl4MjM2c2VicUllSHRi?=
- =?utf-8?B?V3ppUkNYZjgySEdnZlFXMHh6K2F6bU5VZGhTcy9xTlhNRDZmbk5YbW95dXoy?=
- =?utf-8?B?ajE0V2FzYTBNbEFzQ3FOZXpJcldWQXZhS3FPM3V2cC8wS2g2UEpIb2pJM2gw?=
- =?utf-8?B?Q0NYSlBtUUovWFhHWWZ0RGxaVHN4aTBDS3JVUVhkZWQ5RFBzNkxFSklBWC90?=
- =?utf-8?B?alB0WUJ1L3JGSnRlMGFJcm9LSkhKMmdGUkIrTHdDckh2TmcrWU05Z2ZOOEdr?=
- =?utf-8?B?SC9INkYvcHpRQ0N4MzVIQlJiYkgvWE0rWXRpNnNhQWxaRU0yZjVtUG1OM3lu?=
- =?utf-8?B?NDNOdmVraGhSYkpBRWN4UU5FVjkzMk5kWENYa1hkVHBNd1hoeVlmRHpLc2t2?=
- =?utf-8?B?MkhreXlnejh6YWp0T3pmVG5MWTNQUWVOYzQ1L0F1Vit6WitTQ1cvSUpjcTFT?=
- =?utf-8?B?ME56ZklhNlM2SEM2dnhKaW9VNzlIdWF3U0JXaW5PZGMvcnEzaWJFRjYzNURY?=
- =?utf-8?B?SUF1Z1hBRWs5VURIbE15VG5kNWUrZVV0aXpkSVo4VDcza3ZFZVFmMFRvWTlu?=
- =?utf-8?B?RlQ1TEVXTW5aQy81eFBXTFdjSUVFdW5oQmQ2NVU3SGF4ak05UnVINFlVVkZs?=
- =?utf-8?B?TWxmN1I5bzYvKzRDbVBxNG04TnhJMlc3cDgzZkxnM1dFY1AzS1NUeDRXN1BG?=
- =?utf-8?B?aTNwKzBMUm0reExmQzlVNC9aSmRvMStVeW9DdzR0N2puOER2YXN6TXVmVUpJ?=
- =?utf-8?B?bTFqRlBqR2tFVEMvM0Jxd0U1dVEzODZUN0FEa0d1RFBXY0dIZ2Jzekp4Yk9v?=
- =?utf-8?B?RXExMXpaS2ZhbXFXdC9CVitWeURLenc2YXRSclB2WFJ6V1Q2ejFvbFpIRVFy?=
- =?utf-8?B?SUdSVFdQT3RRUmJXbENnclRlYTJxOVk3SGpBbU00M0NCQ0ZuU2F4SUN2QVFZ?=
- =?utf-8?B?U25rOGkwbU9kYzVwRGFvZ0RubkxyeHJSTFhzdUs1dzNqeGZrcHg1VXlkUm1I?=
- =?utf-8?B?QW9DS25uZFA5RzJOM3Z5YnFnMGlNQnZTa3pxUmhVV285TTdIdHNzSFRhTkow?=
- =?utf-8?B?aENDV28zV3JnNmJRWEZCTDR4eDVnd0VsYURzNjIxT2JhbVFvaXBEN0s2WW9N?=
- =?utf-8?Q?xQodS/PZkcfDO3P2Y5RYSdRqUH0ZydbkDC5fJ/EU0YBq?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B7173F8F702CE84EAAC007FCE79D2D02@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Fri, 05 May 2023 23:56:21 +0000
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1ab1ce53ca6so17233105ad.0
+        for <linux-nvme@lists.infradead.org>; Fri, 05 May 2023 16:56:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fromorbit-com.20221208.gappssmtp.com; s=20221208; t=1683330977; x=1685922977;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CemAWNMR8bXthiAKC/+una4gxSePkb3IueLhq9mQmls=;
+        b=gHPP7rPplI3y0mo0qtJ/LN1w+3i8RZceqZ1LO1ZCKhhMbabBzl7A4lQdBO+JX2jkDm
+         TRPNESDK35rRqscidy9M21sxamJxHrnWASy6zhdPPypqGaBgXaGs59kSsQiHZQA0bbWG
+         8pFp/BgjxSrqt2N/vh9qN4vWLK6GzPe5hr6S/g7TL2BI/WRp8aeNJJt9x4pIk133u0FV
+         NCec18QyfgEGSNrDfb+eJdiTGkv/8LXfoY4UhwIWHYu+I/anHCJijdw0ujXic2KAzVCv
+         DEzxnaLvVhERRUy/ePoGYhd+g/lH45JwcP6N4BypaG2U75P5I+5R1+tYNUfTxcgeXZ4D
+         G7BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683330977; x=1685922977;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CemAWNMR8bXthiAKC/+una4gxSePkb3IueLhq9mQmls=;
+        b=DCAlWmcEmgqVDePmYYdyNUGKAb16fEB54bN38G+bU3OaWtAedlqO61AyUm0ukzmBQN
+         kyZDK07pORKCu37CoOYaGk5LqF7GcgyiN2RL/rGkzZFd+UYyWBlQevkUZXyNTOmSZNiN
+         5GFEo8Hy7NyqKgHmtANXtAiNzos/bAQwmaEZafrIPytLuzsyfenkwq/OOYUKBtkFJwJp
+         yAkwCmOd3VkUPHy8AIZVGM1/w+aclovur+6nV9gqwuf1ZcAm0XlqmLB6/xW1h9J892yZ
+         beddTfCiTAF7cm2Ez/gkM5SARmrVm0Hh9HqH4J0zFQ3GRrBEKaTGCOXnE+xGXBaAdwAI
+         UUZw==
+X-Gm-Message-State: AC+VfDxpm2PhP+YvF0ck1uF96hB+FGOb9LvNRp/7Bh0v41ePtJyAru2v
+	/QcpjpDkW9QP+vgvtsuKFR5KJg==
+X-Google-Smtp-Source: ACHHUZ49/EMlr/fo3TPgAtcAPHwADu83PUd5hP54TSC62hQHziSYPPBDDQ1sfg7GYYfxCeypGD2++Q==
+X-Received: by 2002:a17:903:41c8:b0:1aa:e0c3:1e64 with SMTP id u8-20020a17090341c800b001aae0c31e64mr3356286ple.38.1683330977491;
+        Fri, 05 May 2023 16:56:17 -0700 (PDT)
+Received: from dread.disaster.area (pa49-181-88-204.pa.nsw.optusnet.com.au. [49.181.88.204])
+        by smtp.gmail.com with ESMTPSA id e3-20020a170902744300b001ac4d3d3f72sm451008plt.296.2023.05.05.16.56.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 May 2023 16:56:16 -0700 (PDT)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+	(envelope-from <david@fromorbit.com>)
+	id 1pv5HZ-00BpiL-4I; Sat, 06 May 2023 09:56:13 +1000
+Date: Sat, 6 May 2023 09:56:13 +1000
+From: Dave Chinner <david@fromorbit.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
+	kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	martin.petersen@oracle.com, viro@zeniv.linux.org.uk,
+	brauner@kernel.org, dchinner@redhat.com, jejb@linux.ibm.com,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, paul@paul-moore.com,
+	jmorris@namei.org, serge@hallyn.com
+Subject: Re: [PATCH RFC 11/16] fs: iomap: Atomic write support
+Message-ID: <20230505235613.GP3223426@dread.disaster.area>
+References: <20230503183821.1473305-1-john.g.garry@oracle.com>
+ <20230503183821.1473305-12-john.g.garry@oracle.com>
+ <20230504050006.GH3223426@dread.disaster.area>
+ <20230505211928.GB15376@frogsfrogsfrogs>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 98c49963-85ca-4ecf-33b0-08db4dc447b2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 May 2023 23:56:01.4297
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vgRnaYRng06joVZz/jfX6BhyW0L+Hy2UZ0lzSBNUUCBRodc6tdh+GUwmroj2RNL9y66i9/TdBIvSVrzQmvBBTw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7585
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230505211928.GB15376@frogsfrogsfrogs>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230505_165606_659362_13EBA774 
-X-CRM114-Status: GOOD (  12.93  )
+X-CRM114-CacheID: sfid-20230505_165619_256747_2A1F8C13 
+X-CRM114-Status: GOOD (  64.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -153,20 +103,203 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gNS81LzIzIDE0OjU5LCBhbGFuLmFkYW1zb25Ab3JhY2xlLmNvbSB3cm90ZToNCj4NCj4+Pj4+
-IEluIG52bWVfZW5kX3JlcSgpXyB3ZSBvbmx5IGxvZyBlcnJvcnMgd2hpY2ggYXJlIGZvciBub24t
-cGFzc3RocnUNCj4+Pj4+IGNvbW1hbmRzLiBBZGQgYSBoZWxwZXIgZnVuY3Rpb24gbnZtZV9sb2df
-ZXJyX3Bhc3N0aHJ1KCkgd2hpY2ggDQo+Pj4+PiBhbGxvd3MgdXMNCj4+Pj4+IHRvIGxvZyBlcnJv
-ciBmb3IgcGFzc3RocnUgY29tbWFuZHMgYnkgZGVjb2RpbmcgY2R3MTAtY2R3MTUgdmFsdWVzIG9m
-DQo+Pj4+PiBudm1lIGNvbW1hbmQuDQo+Pj4+IENLLA0KPj4+Pg0KPj4+PiBUaGFua3MgZm9yIGRv
-aW5nIHRoaXMuIExvb2tzIGdvb2QuwqAgSSd2ZSB0ZXN0ZWQgaXQgaW4gbXkgZW52aXJvbm1lbnQu
-DQo+Pj4+DQo+Pj4+IEFsYW4NCj4+Pj4NCj4+Pj4NCj4+PiBUaGFua3MgZm9yIGhhdmluZyBhIGxv
-b2ssIGxldCdzIHdhaXQgZm9yIG90aGVycyB0byBoYXZlIGNvbW1lbnRzLg0KPj4+DQo+Pj4gLWNr
-DQo+Pg0KPj4gSSdsbCBiZSBvbiB2YWNhdGlvbiBuZXh0IHdlZWsgc28gd2Ugd2lsbCBtb3ZlIGZv
-cndhcmQgd2l0aCB0aGUgcGF0Y2ggDQo+PiB3aGVuIEkgZ2V0IGJhY2sgb24gNC8yNC4NCj4NCj4g
-SSdtIGJhY2sgZnJvbSB2YWNhdGlvbi7CoCBXZSBjYW4gY29udGludWUgd2l0aCB0aGUgcmV2aWV3
-Lg0KPg0KPg0KPiBUaGFua3MsDQo+DQo+IEFsYW4NCj4NCg0Kc2luY2UgeW91J3ZlIHRlc3RlZCBW
-NSBpbiB5b3VyIGVudmlyb25tZW50LCBJIHRoaW5rIHdlIGNhbiBwaWNrIHRoaXMgdXAgDQpiZWZv
-cmUNCm5leHQgUFIgaWYgdGhlcmUgaXMgbm8gbWFqb3Igb2JqZWN0aW9uIC4uLg0KDQotY2sNCg0K
-DQo=
+On Fri, May 05, 2023 at 02:19:28PM -0700, Darrick J. Wong wrote:
+> On Thu, May 04, 2023 at 03:00:06PM +1000, Dave Chinner wrote:
+> > On Wed, May 03, 2023 at 06:38:16PM +0000, John Garry wrote:
+> > > Add support to create bio's whose bi_sector and bi_size are aligned to and
+> > > multiple of atomic_write_unit, respectively.
+> > > 
+> > > When we call iomap_dio_bio_iter() -> bio_iov_iter_get_pages() ->
+> > > __bio_iov_iter_get_pages(), we trim the bio to a multiple of
+> > > atomic_write_unit.
+> > > 
+> > > As such, we expect the iomi start and length to have same size and
+> > > alignment requirements per iomap_dio_bio_iter() call.
+> > > 
+> > > In iomap_dio_bio_iter(), ensure that for a non-dsync iocb that the mapping
+> > > is not dirty nor unmapped.
+> > > 
+> > > Signed-off-by: John Garry <john.g.garry@oracle.com>
+> > > ---
+> > >  fs/iomap/direct-io.c | 72 ++++++++++++++++++++++++++++++++++++++++++--
+> > >  1 file changed, 70 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
+> > > index f771001574d0..37c3c926dfd8 100644
+> > > --- a/fs/iomap/direct-io.c
+> > > +++ b/fs/iomap/direct-io.c
+> > > @@ -36,6 +36,8 @@ struct iomap_dio {
+> > >  	size_t			done_before;
+> > >  	bool			wait_for_completion;
+> > >  
+> > > +	unsigned int atomic_write_unit;
+> > > +
+> > >  	union {
+> > >  		/* used during submission and for synchronous completion: */
+> > >  		struct {
+> > > @@ -229,9 +231,21 @@ static inline blk_opf_t iomap_dio_bio_opflags(struct iomap_dio *dio,
+> > >  	return opflags;
+> > >  }
+> > >  
+> > > +
+> > > +/*
+> > > + * Note: For atomic writes, each bio which we create when we iter should have
+> > > + *	 bi_sector aligned to atomic_write_unit and also its bi_size should be
+> > > + *	 a multiple of atomic_write_unit.
+> > > + *	 The call to bio_iov_iter_get_pages() -> __bio_iov_iter_get_pages()
+> > > + *	 should trim the length to a multiple of atomic_write_unit for us.
+> > > + *	 This allows us to split each bio later in the block layer to fit
+> > > + *	 request_queue limit.
+> > > + */
+> > >  static loff_t iomap_dio_bio_iter(const struct iomap_iter *iter,
+> > >  		struct iomap_dio *dio)
+> > >  {
+> > > +	bool atomic_write = (dio->iocb->ki_flags & IOCB_ATOMIC) &&
+> > > +			    (dio->flags & IOMAP_DIO_WRITE);
+> > >  	const struct iomap *iomap = &iter->iomap;
+> > >  	struct inode *inode = iter->inode;
+> > >  	unsigned int fs_block_size = i_blocksize(inode), pad;
+> > > @@ -249,6 +263,14 @@ static loff_t iomap_dio_bio_iter(const struct iomap_iter *iter,
+> > >  	    !bdev_iter_is_aligned(iomap->bdev, dio->submit.iter))
+> > >  		return -EINVAL;
+> > >  
+> > > +
+> > > +	if (atomic_write && !iocb_is_dsync(dio->iocb)) {
+> > > +		if (iomap->flags & IOMAP_F_DIRTY)
+> > > +			return -EIO;
+> > > +		if (iomap->type != IOMAP_MAPPED)
+> > > +			return -EIO;
+> > > +	}
+> > 
+> > IDGI. If the iomap had space allocated for this dio iteration,
+> > then IOMAP_F_DIRTY will be set and it is likely (guaranteed for XFS)
+> > that the iomap type will be IOMAP_UNWRITTEN. Indeed, if we are doing
+> > a write into preallocated space (i.e. from fallocate()) then this
+> > will cause -EIO on all RWF_ATOMIC IO to that file unless RWF_DSYNC
+> > is also used.
+> > 
+> > "For a power fail, for each individual application block, all or
+> > none of the data to be written."
+> > 
+> > Ok, does this means RWF_ATOMIC still needs fdatasync() to guarantee
+> > that the data makes it to stable storage? And the result is
+> > undefined until fdatasync() is run, but the device will guarantee
+> > that either all or none of the data will be on stable storage
+> > prior to the next device cache flush completing?
+> > 
+> > i.e. does REQ_ATOMIC imply REQ_FUA, or does it require a separate
+> > device cache flush to commit the atomic IO to stable storage?
+> 
+> From the SCSI and NVME device information that I've been presented, it
+> sounds like an explicit cache flush or FUA is required to persist the
+> data.
+
+Ok, that makes it sound like RWF_ATOMIC has the same data integrity
+semantics as normal DIO submission. i.e. the application has to
+specify data integrity requirements and/or provide integrity
+checkpoints itself.
+
+> > What about ordering - do the devices guarantee strict ordering of
+> > REQ_ATOMIC writes? i.e. if atomic write N is seen on disk, then all
+> > the previous atomic writes up to N will also be seen on disk? If
+> > not, how does the application and filesystem guarantee persistence
+> > of completed atomic writes?
+> 
+> I /think/ the applications have to ensure ordering themselves.  If Y
+> cannot appear before X is persisted, then the application must wait for
+> the ack for X, flush the cache, and only then send Y.
+
+RIght, I'd expect that completion-to-submission ordering is required
+with RWF_ATOMIC the same way it is required for normal DIO, but I've
+been around long enough to know that we can't make assumptions about
+data integrity semantics...
+
+> > i.e. If we still need a post-IO device cache flush to guarantee
+> > persistence and/or ordering of RWF_ATOMIC IOs, then the above code
+> > makes no sense - we'll still need fdatasync() to provide persistence
+> > checkpoints and that means we ensure metadata is also up to date
+> > at those checkpoints.
+> 
+> I'll let the block layer developers weigh in on this, but I /think/ this
+> means that we require RWF_DSYNC for atomic block writes to written
+> mappings, and RWF_SYNC if iomap_begin gives us an unwritten/hole/dirty
+> mapping.
+
+RWF_DSYNC is functionally the same as RWF_OSYNC. The only difference
+is that RWF_OSYNC considers timestamps as dirty metadata, whilst
+RWF_DSYNC doesn't. Hence I don't think there's any functional
+difference w.r.t. data integrity by using OSYNC vs DSYNC...
+
+> > > @@ -592,6 +634,32 @@ __iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
+> > >  
+> > >  	blk_start_plug(&plug);
+> > >  	while ((ret = iomap_iter(&iomi, ops)) > 0) {
+> > > +		if (atomic_write) {
+> > > +			const struct iomap *_iomap = &iomi.iomap;
+> > > +			loff_t iomi_length = iomap_length(&iomi);
+> > > +
+> > > +			/*
+> > > +			 * Ensure length and start address is a multiple of
+> > > +			 * atomic_write_unit - this is critical. If the length
+> > > +			 * is not a multiple of atomic_write_unit, then we
+> > > +			 * cannot create a set of bio's in iomap_dio_bio_iter()
+> > > +			 * who are each a length which is a multiple of
+> > > +			 * atomic_write_unit.
+> > > +			 *
+> > > +			 * Note: It may be more appropiate to have this check
+> > > +			 *	 in iomap_dio_bio_iter()
+> > > +			 */
+> > > +			if ((iomap_sector(_iomap, iomi.pos) << SECTOR_SHIFT) %
+> 
+> The file offset (and by extension the position) are not important for
+> deciding if we can issue an atomic write.  Only the mapped LBA space on
+> the underlying device is important.
+> 
+> IOWs, if we have a disk that can write a 64k aligned block atomically,
+> iomap only has to check that iomap->addr is aligned to a 64k boundary.
+> If that space happens to be mapped to file offset 57k, then it is indeed
+> possible to perform a 64k atomic write to the file starting at offset
+> 57k and ending at offset 121k, right?
+
+Yup, that was kinda what I was implying in pointing out that file
+offset does not reflect device IO alignment...
+
+> > Hence I think that we should be rejecting RWF_ATOMIC IOs that are
+> > larger than the maximum atomic write unit or cannot be dispatched in
+> > a single IO e.g. filesystem has allocated multiple minimum aligned
+> > extents and so a max len atomic write IO over that range must be
+> > broken up into multiple smaller IOs.
+> > 
+> > We should be doing max atomic write size rejection high up in the IO
+> > path (e.g. filesystem ->write_iter() method) before we get anywhere
+> > near the DIO path, and we should be rejecting atomic write IOs in
+> > the DIO path during the ->iomap_begin() mapping callback if we can't
+> > map the entire atomic IO to a single aligned filesystem extent.
+> > 
+> > i.e. the alignment checks and constraints need to be applied by the
+> > filesystem mapping code, not the layer that packs the pages into the
+> > bio as directed by the filesystem mapping....
+> 
+> Hmm.  I think I see what you're saying here -- iomap should communicate
+> to ->iomap_begin that we want to perform an atomic write, and there had
+> better be either (a) a properly aligned mapping all ready to go; or (b)
+> the fs must perform an aligned allocation and map that in, or return no
+> mapping so the write fails.
+
+Exactly. This is how IOCB_NOWAIT works, too - we can reject it high
+up in the IO path if we can't get locks, and then if we have to do
+allocation in ->iomap_begin because there is no mapping available we
+reject the IO there.
+
+Hence I think we should use the same constraint checking model for
+RWF_ATOMIC - the constraints are slightly different, but the layers
+at which we can first resolve the various constraints are exactly
+the same...
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
 
