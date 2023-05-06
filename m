@@ -4,77 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7941C7EE24
-	for <linux-nvme@archiver.kernel.org>; Sat,  6 May 2023 00:08:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9005AC77B7D
+	for <linux-nvme@archiver.kernel.org>; Sat,  6 May 2023 03:13:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=F8b1QrBm7NAy/H5JZI9VBQ4yDERr4fwkVzpazVyX0h4=; b=Pumy02hpUabLj5VWkC546RDRuw
-	MfKJlKvbDF0zNYrBxlW5TfZQz7laoRYYFfhwZ0Alu2SvvyuvnepNGcA/eQuitAWynm4w8xpAjw6WR
-	u7Rjm6VAHGwuoaZanKTsNXs//kBqG2m0SzP0yIejiFdvc1fXB+j981pwYxIFD8ceIIX8yU1RJEpmT
-	iKy9rpKu/n5QHgdRsWpW1DIPbni7wTNWjOh36jYk+g+Fda1mq3a8AMQi0lyaELkN6h56xuZ5PrGm+
-	vDf3FgZ4WEvNtUkPY7jGR2DHlkq51aBDgcXU5gF7t7hnyn6CCi/fu3aoHCq7g/23dJc1AlnhW3u8w
-	4d40Ntug==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=aV3abeVUSRmmDXTG6ImQV+fsst/FNDQnS6/W2j+aJ/g=; b=A6psKd2+0tpohjtkOEztIZAaeK
+	cVoJHb2QW5dDZx4X/fQottiaj3bY43IarWujqvLh348cG6dGqw+VDk7MYIp9tFlic0P0kPzXV+W9k
+	v5wwiTrS3WO3SrbAF+H0VdBnA+ZAY7gDIAQ8bVcM0BUAiy4ION6W9DyxzZH4k6GAMcXgW/QawxIU6
+	qD7eLwSJkBNuqPT2UAwwI4NYsN+k9wqP9MQduUszYArrH7nFz4rcOwLXXRaxlaaEkxTOruyeFHMhj
+	cI8glaFT/0yWgAxoSUaLihXKd3g02OS93KZ6QbZ8kD0MepbbWPgDc/CipFKQWv+XiY9jW44zQ/RAp
+	6WTVJn3g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pv5TR-00C98I-13;
-	Sat, 06 May 2023 00:08:29 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1pv8Lw-00CQIy-2i;
+	Sat, 06 May 2023 03:12:56 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pv5TN-00C97G-1u
+	id 1pv8Lr-00CQHw-0n
 	for linux-nvme@lists.infradead.org;
-	Sat, 06 May 2023 00:08:27 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id ED0AD61575;
-	Sat,  6 May 2023 00:08:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAD13C433EF;
-	Sat,  6 May 2023 00:08:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1683331704;
-	bh=7+4RZ/Snpwvb0zzhi2RjjXRKKk3ABC6o+jcKXRjDTg4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uJ4CUV1iru3AnzNtA79biymZMjwlHUzSgyfnsWmqGPjDok6TGCQSj9uC7b3O3oPJJ
-	 7hYekNdQmu7P41mSRVxUZKoW7l4b2DBxXauxvQJ5VcutuHeMtpvZQrN2ZvYFBY8C0w
-	 cFwasIhIocEciWso+pgv0fKmhODCmMTdicFt3Zbm+IEEHYWZteSMzg5HUaEWh1wYsS
-	 n6woXHFNKHnn6crfiO3t2IWj/U18s5SnVAkRwJYqfkT4yzROMYiHzuA22rvffXunMJ
-	 gSApl7UVcU5tNNRz9aag+tq4sRGFtmNYW7vA1PrXzNDpkEpBxiGadFRA0LlgL6wbC/
-	 NAGXWNH4WT4Sw==
-Date: Sat, 6 May 2023 00:08:22 +0000
-From: Eric Biggers <ebiggers@kernel.org>
-To: Dave Chinner <david@fromorbit.com>
-Cc: John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
-	kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-	martin.petersen@oracle.com, djwong@kernel.org,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
-	jejb@linux.ibm.com, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, paul@paul-moore.com,
-	jmorris@namei.org, serge@hallyn.com,
-	Himanshu Madhani <himanshu.madhani@oracle.com>
-Subject: Re: [PATCH RFC 01/16] block: Add atomic write operations to
- request_queue limits
-Message-ID: <ZFWadsMT0xck9lYQ@gmail.com>
-References: <20230503183821.1473305-1-john.g.garry@oracle.com>
- <20230503183821.1473305-2-john.g.garry@oracle.com>
- <20230503213925.GD3223426@dread.disaster.area>
- <fc91aa12-1707-9825-a77e-9d5a41d97808@oracle.com>
- <20230504222623.GI3223426@dread.disaster.area>
- <ZFWHdxgWie/C02OA@gmail.com>
- <20230505233152.GN3223426@dread.disaster.area>
+	Sat, 06 May 2023 03:12:55 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1683342769;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aV3abeVUSRmmDXTG6ImQV+fsst/FNDQnS6/W2j+aJ/g=;
+	b=hqByoBEllHL0uoFv+uvL9ImWKOZnLOn4ukoKnkDWEmcnRRIlKbOfdkQIwrtpuLyEbqPmW0
+	gGRcuZhRYvE8Ix1mMsB6YmrpA1HAb6J/k4zUglckzYqNhFOLloXq77RBV3GSroEpKOrOfC
+	cJqiVNOqEopDTlu0+S7FtqbGAGzD368=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-481-SYQmnFFTPKewIMTxWWdFbw-1; Fri, 05 May 2023 23:12:48 -0400
+X-MC-Unique: SYQmnFFTPKewIMTxWWdFbw-1
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-64378a8b2e7so1322026b3a.0
+        for <linux-nvme@lists.infradead.org>; Fri, 05 May 2023 20:12:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683342766; x=1685934766;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aV3abeVUSRmmDXTG6ImQV+fsst/FNDQnS6/W2j+aJ/g=;
+        b=Swn8VgXnrWYEzse9dhjV8FgPDA2EHLp54FjBBg2NPLniLIgefpyPTYeacI8VnurKSK
+         J0XK4CdiLF/ZxKey1IkJkpfbj7CcnIK3LUVEMKU6gEO9C4NDnhPQGZQIy8oFsosdUIBJ
+         WpbKwfdiNh3HxRn1K4weWhfy0c/hT7+RLiVU2CBBjvmpjLCthNTy+K5fL6/CUgFMzEcS
+         uwPUfgFqVU7mfFE2ZChigtcvrq9+fVd9bi+Of3Md4Y1kkS5PfmaTxiJdbUH5JY3CRkvH
+         LcQZNVw3FnAI/z76HdL2p+Reb3PGyQWo2yrndlN04O8nn2EG0IjtzHZ4jnkKShknzC3R
+         50wg==
+X-Gm-Message-State: AC+VfDyK3/LOhAXWXnXpNr8YhCOvZFAoHIWPsjS/yVn5T2U7IaUBDBPw
+	kMbZowLIt01RvqMFLvql/5DqQnXJIA22fzI43bra49UX4Abqk2yfb0ulTCXhGA1ifgwpIhMXZ2z
+	XrmhCp4l5C45BsJwSrHvbxecIFB9/tVqFpM2rOreKa3Arq6JAAfFG4/QF
+X-Received: by 2002:a05:6a21:6d98:b0:ec:c8c2:36b7 with SMTP id wl24-20020a056a216d9800b000ecc8c236b7mr4638199pzb.14.1683342765754;
+        Fri, 05 May 2023 20:12:45 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ48tibvOccjtH/np1+Q8Z/MRKPM2iLDPDkVS1kvL/BNqVvBsjSuV/5APfy+A7+DeCubdqNhLsgURnzDv6UAA00=
+X-Received: by 2002:a05:6a21:6d98:b0:ec:c8c2:36b7 with SMTP id
+ wl24-20020a056a216d9800b000ecc8c236b7mr4638186pzb.14.1683342765450; Fri, 05
+ May 2023 20:12:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230505233152.GN3223426@dread.disaster.area>
+References: <20230503150925.863308-1-sagi@grimberg.me>
+In-Reply-To: <20230503150925.863308-1-sagi@grimberg.me>
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Sat, 6 May 2023 11:12:32 +0800
+Message-ID: <CAHj4cs_J0FF2XNWJtWZY92JC2VxXGfLb8F7kWaXThsoJRhqySA@mail.gmail.com>
+Subject: Re: [PATCH] nvme: Fix memory leak in nvme_init_ctrl error path
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>, 
+	Keith Busch <kbusch@kernel.org>, Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>, 
+	Irvin Cote <irvincoteg@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230505_170825_708872_11343929 
-X-CRM114-Status: GOOD (  34.12  )
+X-CRM114-CacheID: sfid-20230505_201251_402621_090F335C 
+X-CRM114-Status: GOOD (  28.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,76 +97,156 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, May 06, 2023 at 09:31:52AM +1000, Dave Chinner wrote:
-> On Fri, May 05, 2023 at 10:47:19PM +0000, Eric Biggers wrote:
-> > On Fri, May 05, 2023 at 08:26:23AM +1000, Dave Chinner wrote:
-> > > > ok, we can do that but would also then make statx field 64b. I'm fine with
-> > > > that if it is wise to do so - I don't don't want to wastefully use up an
-> > > > extra 2 x 32b in struct statx.
-> > > 
-> > > Why do we need specific varibles for DIO atomic write alignment
-> > > limits? We already have direct IO alignment and size constraints in statx(),
-> > > so why wouldn't we just reuse those variables when the user requests
-> > > atomic limits for DIO?
-> > > 
-> > > i.e. if STATX_DIOALIGN is set, we return normal DIO alignment
-> > > constraints. If STATX_DIOALIGN_ATOMIC is set, we return the atomic
-> > > DIO alignment requirements in those variables.....
-> > > 
-> > > Yes, we probably need the dio max size to be added to statx for
-> > > this. Historically speaking, I wanted statx to support this in the
-> > > first place because that's what we were already giving userspace
-> > > with XFS_IOC_DIOINFO and we already knew that atomic IO when it came
-> > > along would require a bound maximum IO size much smaller than normal
-> > > DIO limits.  i.e.:
-> > > 
-> > > struct dioattr {
-> > >         __u32           d_mem;          /* data buffer memory alignment */
-> > >         __u32           d_miniosz;      /* min xfer size                */
-> > >         __u32           d_maxiosz;      /* max xfer size                */
-> > > };
-> > > 
-> > > where d_miniosz defined the alignment and size constraints for DIOs.
-> > > 
-> > > If we simply document that STATX_DIOALIGN_ATOMIC returns minimum
-> > > (unit) atomic IO size and alignment in statx->dio_offset_align (as
-> > > per STATX_DIOALIGN) and the maximum atomic IO size in
-> > > statx->dio_max_iosize, then we don't burn up anywhere near as much
-> > > space in the statx structure....
-> > 
-> > I don't think that's how statx() is meant to work.  The request mask is a bitmask, and the user can
-> > request an arbitrary combination of different items.  For example, the user could request both
-> > STATX_DIOALIGN and STATX_WRITE_ATOMIC at the same time.  That doesn't work if different items share
-> > the same fields.
-> 
-> Sure it does - what is contained in the field on return is defined
-> by the result mask. In this case, whatever the filesystem puts in
-> the DIO fields will match which flag it asserts in the result mask.
-> 
-> i.e. if the application wants RWF_ATOMIC and so asks for STATX_DIOALIGN |
-> STATX_DIOALIGN_ATOMIC in the request mask then:
-> 
-> - if the filesystem does not support RWF_ATOMIC it fills in the
->   normal DIO alingment values and puts STATX_DIOALIGN in the result
->   mask.
-> 
->   Now the application knows that it can't use RWF_ATOMIC, and it
->   doesn't need to do another statx() call to get the dio alignment
->   values it needs.
-> 
-> - if the filesystem supports RWF_ATOMIC, it fills in the values with
->   the atomic DIO constraints and puts STATX_DIOALIGN_ATOMIC in the
->   result mask.
-> 
->   Now the application knows it can use RWF_ATOMIC and has the atomic
->   DIO constraints in the dio alignment fields returned.
-> 
-> This uses the request/result masks exactly as intended, yes?
-> 
+Verified the kmemleak issue I reported:
+https://lore.kernel.org/linux-nvme/CAHj4cs-nDaKzMx2txO4dbE+Mz9ePwLtU0e3egz+=
+StmzOUgWUrA@mail.gmail.com/
 
-We could certainly implement some scheme like that, but I don't think that was
-how statx() was intended to work.  I think that each bit in the mask was
-intended to correspond to an independent piece of information.
+Tested-by: Yi Zhang <yi.zhang@redhat.com>
 
-- Eric
+On Wed, May 3, 2023 at 11:13=E2=80=AFPM Sagi Grimberg <sagi@grimberg.me> wr=
+ote:
+>
+> nvme_init_ctrl may fail before creating the misc device or after creating
+> the misc device.
+>
+> If we fail before creating the misc device, we just need to deallocate wh=
+at
+> was allocated before and return (as usually done).
+>
+> If we fail after we create the misc device, we must put
+> the final reference on the device in order to make sure that internal
+> device resources are cleaned up.
+>
+> The device release also triggers nvme_free_ctrl method so we need to make
+> sure to identify that we failed during the initialization itself and skip
+> cleaning because nvme_init_ctrl error path cleaned up on its own (we do
+> that by marking the ctrl->instance to UNINITIALIZED).
+>
+> We also drop the explicit dev_name deallocation because it is freed in
+> the device release sequence.
+>
+> This addresses a memory leak triggered by blktests nvme/044 which happens
+> to fail exactly after misc device initialization:
+> --
+> unreferenced object 0xffff95678a54cd00 (size 256):
+>   comm "nvme", pid 1941, jiffies 4294761594 (age 10.010s)
+>   hex dump (first 32 bytes):
+>     00 00 00 00 00 00 00 00 08 cd 54 8a 67 95 ff ff  ..........T.g...
+>     08 cd 54 8a 67 95 ff ff e0 b5 7b 8b ff ff ff ff  ..T.g.....{.....
+>   backtrace:
+>     [<ffffffff8b349205>] kmalloc_trace+0x25/0x90
+>     [<ffffffff8b7c0463>] device_add+0x303/0x690
+>     [<ffffffff8b4103c4>] cdev_device_add+0x44/0x90
+>     [<ffffffffc0de1c42>] 0xffffffffc0de1c42
+>     [<ffffffffc0d788b3>] 0xffffffffc0d788b3
+>     [<ffffffffc0d8c66d>] 0xffffffffc0d8c66d
+>     [<ffffffffc0d8c831>] 0xffffffffc0d8c831
+>     [<ffffffff8b40a8b2>] vfs_write+0xc2/0x3c0
+>     [<ffffffff8b40aeff>] ksys_write+0x5f/0xe0
+>     [<ffffffff8bc0eb58>] do_syscall_64+0x38/0x90
+>     [<ffffffff8be000aa>] entry_SYSCALL_64_after_hwframe+0x72/0xdc
+> --
+>
+> Reported-by: Irvin Cote <irvincoteg@gmail.com>
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+> ---
+>  drivers/nvme/host/core.c | 28 ++++++++++++++++------------
+>  drivers/nvme/host/nvme.h |  1 +
+>  2 files changed, 17 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index ea508e9a1de7..b374e6007553 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -5083,6 +5083,9 @@ static void nvme_free_ctrl(struct device *dev)
+>                 container_of(dev, struct nvme_ctrl, ctrl_device);
+>         struct nvme_subsystem *subsys =3D ctrl->subsys;
+>
+> +       if (ctrl->instance =3D=3D NVME_CTRL_INSTANCE_UNINITIALIZED)
+> +               return;
+> +
+>         if (!subsys || ctrl->instance !=3D subsys->instance)
+>                 ida_free(&nvme_instance_ida, ctrl->instance);
+>
+> @@ -5137,18 +5140,19 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct=
+ device *dev,
+>         INIT_DELAYED_WORK(&ctrl->failfast_work, nvme_failfast_work);
+>         memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
+>         ctrl->ka_cmd.common.opcode =3D nvme_admin_keep_alive;
+> +       ctrl->instance =3D NVME_CTRL_INSTANCE_UNINITIALIZED;
+>
+>         BUILD_BUG_ON(NVME_DSM_MAX_RANGES * sizeof(struct nvme_dsm_range) =
+>
+>                         PAGE_SIZE);
+>         ctrl->discard_page =3D alloc_page(GFP_KERNEL);
+> -       if (!ctrl->discard_page) {
+> -               ret =3D -ENOMEM;
+> -               goto out;
+> -       }
+> +       if (!ctrl->discard_page)
+> +               return -ENOMEM;
+>
+>         ret =3D ida_alloc(&nvme_instance_ida, GFP_KERNEL);
+> -       if (ret < 0)
+> -               goto out;
+> +       if (ret < 0) {
+> +               __free_page(ctrl->discard_page);
+> +               return ret;
+> +       }
+>         ctrl->instance =3D ret;
+>
+>         device_initialize(&ctrl->ctrl_device);
+> @@ -5172,7 +5176,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct d=
+evice *dev,
+>         ctrl->cdev.owner =3D ops->module;
+>         ret =3D cdev_device_add(&ctrl->cdev, ctrl->device);
+>         if (ret)
+> -               goto out_free_name;
+> +               goto out_put_ctrl;
+>
+>         /*
+>          * Initialize latency tolerance controls.  The sysfs files won't
+> @@ -5193,14 +5197,14 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct=
+ device *dev,
+>         nvme_fault_inject_fini(&ctrl->fault_inject);
+>         dev_pm_qos_hide_latency_tolerance(ctrl->device);
+>         cdev_device_del(&ctrl->cdev, ctrl->device);
+> -out_free_name:
+> +out_put_ctrl:
+> +       /* pairs with nvme_get_ctrl */
+>         nvme_put_ctrl(ctrl);
+> -       kfree_const(ctrl->device->kobj.name);
+>  out_release_instance:
+>         ida_free(&nvme_instance_ida, ctrl->instance);
+> -out:
+> -       if (ctrl->discard_page)
+> -               __free_page(ctrl->discard_page);
+> +       ctrl->instance =3D NVME_CTRL_INSTANCE_UNINITIALIZED;
+> +       /* pairs with device_initialize .release method will cleanup */
+> +       nvme_put_ctrl(ctrl);
+>         return ret;
+>  }
+>  EXPORT_SYMBOL_GPL(nvme_init_ctrl);
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index bf46f122e9e1..920403589670 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -255,6 +255,7 @@ struct nvme_ctrl {
+>         struct request_queue *connect_q;
+>         struct request_queue *fabrics_q;
+>         struct device *dev;
+> +#define NVME_CTRL_INSTANCE_UNINITIALIZED (-1)
+>         int instance;
+>         int numa_node;
+>         struct blk_mq_tag_set *tagset;
+> --
+> 2.34.1
+>
+>
+
+
+--=20
+Best Regards,
+  Yi Zhang
+
 
