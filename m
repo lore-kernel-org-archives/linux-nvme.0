@@ -4,134 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B8835C77B75
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 May 2023 10:00:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32CA9C77B7C
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 May 2023 13:56:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tZvXLNudMFjIYpAxAfKFzoB8uTigcLdXXDqZm1Mo3Cg=; b=aNgftTIFQKDna9lXccYEd/eLOn
-	3i5K0FVmlrjZDfzlwHIVcHyD8e1d/S3euh51pWLZuHA2ENg0ZlOdhJj10VoO1ZWrGx2rs+UIjPU+Z
-	2JO62DthmxTFQNtT4lRXaRVpOjaPqf0a7iBE+VwxuL2Pt6pVvvDw8l+kjwfevDdJ4hLnG5uDxedIO
-	LQV6XYOr5RcOX+MbsA3AEkirEKOXqniMw3JWbmKkt72vx1KQfsWgiAIQDUYs/RGZtbkTEY9NOd5F8
-	AsSKdEF4tZnATb3BACJWeBH5SyQFXu9A5im1BvD0A8jZJmwwjYHy4BTpdpXgfAkQfuOlX4Tp2Y7PF
-	tj3Lvt0g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=/ShTJUrwEIN2pIILX+3qHaLCfnGJpOow3NsdyLOj+7U=; b=dW5D3Rgj2w+cP9TpMUeLpViCzy
+	PbcWd0G1xy2Ethe18Kr0VZZkSVe0GpsY8+pnRZS/SLCiZv+rqUUTZrqwPACeImAQsb3GcnOjB20NI
+	D/6EYB9nFiCIP5mv86h6+ESSC/flksIPR20T213i48eC+UNMn24YO8G/L7o4+djD44Z6i5HGg7Xah
+	zLlc7ua9VkJdU7LlOmtmGM+EcPdQ6O0FajW4BkIAAF0FaassdAnD+UMCf+yMDO6ZC6nGVHU9g/nCE
+	eKJLxebrS/FH5amfKUysde11AATNX/vhT8N8VuySeO+yX24nkqaI8oNfnwkUEE5sY1FBJHn77Z70I
+	Or2sCjFw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pwK8y-002oZ2-1t;
-	Tue, 09 May 2023 10:00:28 +0000
-Received: from mail-bn8nam04on20602.outbound.protection.outlook.com ([2a01:111:f400:7e8d::602] helo=NAM04-BN8-obe.outbound.protection.outlook.com)
+	id 1pwNpQ-003Svi-0o;
+	Tue, 09 May 2023 13:56:32 +0000
+Received: from mail-pf1-f178.google.com ([209.85.210.178])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pwK8u-002oXG-1o
+	id 1pwNpN-003Sun-0Z
 	for linux-nvme@lists.infradead.org;
-	Tue, 09 May 2023 10:00:26 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nsmK5lXsR/6uE6nWf5K6U6lWskOAnKB13t6EmlHWAQPn1K3LLWUF2Yo5mF7m+lAAsxLyJ7bx3XoQISgtGJbgmfsCB4u6CtFvLNkDVLSRnKpBQA7r5zyMzE7liYaaIKKTZTtDDeYKexpUnMUHA3jsLtJLh1op29JA/GswZklixgDlSYc4H2ou/tu9wo9cTGo+kUNx+m6HKoHQc5QIV2kvo48ucLo4Q35zJ6o2KBQWto1HxLWs+G1jQ9FcVxhhw01FYwfxIVoNN/Iw6fbs1lAC0uCWDU77IY/C58YlhaCV38C0Deyc4L27zUflYMtxhU0PnUQiFBH5+q8aNzDsZRKoIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tZvXLNudMFjIYpAxAfKFzoB8uTigcLdXXDqZm1Mo3Cg=;
- b=gmI69PzW5ip95jtxxDb7lvNXIGp4aTbcIN+5OKZvf9EEwm+tNZ6xdpi9lmgEiwBaxxk/yxy6ykBN3/DjVVf9O8aHuipDa8koaoN+t01gjxyVBBfroXeas/eMIoXl0CMVU64A11pGtwcDM3ajLgw419D46ULWJFbLr2hjDpOyLhzp219dvtLRtpoXElbn+tBA9y5qoT/3rkpwCzso8Ol9gumfqV7iy7ZEeWa2np98RVAJ5H69csAmgMobQbi5mvga5PmmJXHd0QKNkvbkfkjmMLFV33jEf+r8pi0M9bfcv+XEtb2O3GSTHpa3WnM/mGDXxu2p5jHjgpna9z721rYc3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tZvXLNudMFjIYpAxAfKFzoB8uTigcLdXXDqZm1Mo3Cg=;
- b=ntaeKMo3dl88MXHykeUt8ufkyRl4zOenIhZXJ+mzii1x9k/duXqw5IND146akBctGQiaKQcKb5UEAHXyo5/IJFOhEZHsCYnQdf3ExF6CA1a/pRcKszX10MeivWVw45qtZcA0liJXhNyrDseCTk1xoa5tqKOB2/iJr24zEJmK5F+zSMhhtoEUoYFITKw9wOBe3RszBo0dx5fghZltMweAgEFnlxYQ5uKICiV4JqY5rpc/YITKiTz7MTwKRSgkNgQwbudyoVNcejQBG7uz426X22tCGGasn9JFrdfAcpGTXMPbft5M5TLLIFEhkpAKgvPIgvtkutoXCCPEdDl9YHJpdw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
- by SN7PR12MB7023.namprd12.prod.outlook.com (2603:10b6:806:260::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.32; Tue, 9 May
- 2023 10:00:18 +0000
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::61c3:1cd:90b6:c307]) by DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::61c3:1cd:90b6:c307%4]) with mapi id 15.20.6363.032; Tue, 9 May 2023
- 10:00:18 +0000
-Message-ID: <3acac781-58d2-e0de-6072-b6b9d67550a0@nvidia.com>
-Date: Tue, 9 May 2023 13:00:11 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH 13/17] nvme-fabrics: parse options 'keyring' and 'tls_key'
-Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org, Chuck Lever <chuck.lever@oracle.com>,
- kernel-tls-handshake@lists.linux.dev
-References: <20230419065714.52076-1-hare@suse.de>
- <20230419065714.52076-14-hare@suse.de>
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-In-Reply-To: <20230419065714.52076-14-hare@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0170.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b4::8) To DM4PR12MB5040.namprd12.prod.outlook.com
- (2603:10b6:5:38b::19)
+	Tue, 09 May 2023 13:56:30 +0000
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-64115e652eeso42737555b3a.0
+        for <linux-nvme@lists.infradead.org>; Tue, 09 May 2023 06:56:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683640588; x=1686232588;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/ShTJUrwEIN2pIILX+3qHaLCfnGJpOow3NsdyLOj+7U=;
+        b=enKwOJ3bzbtlmx8ZHYbv9VsBb/48yJ5xVq8eeU7T12MnQhbVUdcOkWduEOY5Q90/2P
+         BCU2FF0i3w7gVN537gQGttvyCTaxEayMZzWfmAw0UzoSZgxmKaUxqVZcQnzcB1aEn2tC
+         AFXY38Naa1kAlC31+pBYPnzRMFPG0c4YRSVgAapRcgEM2BxDsfhpYU2uSsEkif62f3l7
+         4lliKY1oWLk3vY1XPA2kCu2QJTQt7BtX/x7Hv9l4j1h1MgCiSkfQS4HCT8/bQ7KLPQRs
+         Zx8I5lnRhOcL1D6oIvE5J6ZsFxtxeNoIM0RnqejA4Cc1Wm7iLFxMFrrBKEw/P+qiST/4
+         OfXw==
+X-Gm-Message-State: AC+VfDzoavLPQESS6cyUVW3YLRxyWJlsdMD5QfvXUMkafI1TiKN3VbY/
+	qK9DDEyvaLzNu16QNGldWKQ=
+X-Google-Smtp-Source: ACHHUZ5oxDQjw6KkQycS0gAwhd8T2VGhg8/il0pTcZNxKXgBZ49sOkN10xqZFgMS18d+DsJ/Gp5oaA==
+X-Received: by 2002:a05:6a20:441c:b0:101:6908:2b03 with SMTP id ce28-20020a056a20441c00b0010169082b03mr2015382pzb.25.1683640587875;
+        Tue, 09 May 2023 06:56:27 -0700 (PDT)
+Received: from bvanassche-glaptop2.roam.corp.google.com ([173.214.130.133])
+        by smtp.gmail.com with ESMTPSA id 9-20020aa79249000000b0063db25e140bsm1824433pfp.32.2023.05.09.06.56.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 May 2023 06:56:27 -0700 (PDT)
+From: Bart Van Assche <bvanassche@acm.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Bart Van Assche <bvanassche@acm.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Max Gurtovoy <maxg@mellanox.com>,
+	Hannes Reinecke <hare@suse.de>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: [PATCH] nvmet-rdma: Suppress a class of lockdep complaints
+Date: Tue,  9 May 2023 06:56:15 -0700
+Message-ID: <20230509135615.2061227-1-bvanassche@acm.org>
+X-Mailer: git-send-email 2.40.1.521.gf1e218fcd8-goog
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|SN7PR12MB7023:EE_
-X-MS-Office365-Filtering-Correlation-Id: fa80a036-98f7-43f1-f116-08db50743194
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	EUWqWt5Y3ZpmCav/bJS1xJxrUlTQ3OQC83Ka+GbHvYt0DimZhhe2niwAQBWV60g3219W6+yMIivQ0yuMuPbF2V4nqdMZhlFoCrtYLJh/xgjXjZF5AqMo+S1QvmIgu8uDSoYNgggAEPt8SRu827nvPFa2ngheABlNy0F04GMm8G+i/Y9FpxRC97y0GN2368PAOeJ3xSJHpfaJkl5VDn4ifoba6UEuPPFp2q8uU0ovlgB5oklmLJeMUMij6Ts3sorgfFskuGOv0cX4Gn7QneQeNvk064uCoA0NignV7key365S7XPk7Lacfcv3rngmDUpnbRb6WJT5i+p1XGU3lTomJG1qyoe7UugCxPnHnBEuCKZW19tjD+gt3SQdbchKRquzZfwQ4u0cJLuM5zZI6/FYyFqMJASTUyxhKX3mkd81dU+ws1tbE42RsZamUdDT/Ryy3hhu9eINHpQIiD4QfcKuhvZmPOw4nVihspvYcs+LloJ588/oTWbYjjWCDCI2/9bIi2CsVZz8RN7ydE531pO4JnZ6NXXLo/a6BVdloYd8NlZalozRt50tXy719nGf8bhnp/4A3Mbt0ZnKiEANs99uoOvpk4c8IVA93nNR1MtNmLPoL0qBUZvqjlMWOHfaCrRP94EFwrCScv5KntaM91D0+A==
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(396003)(366004)(346002)(39860400002)(376002)(451199021)(186003)(83380400001)(2616005)(2906002)(38100700002)(36756003)(86362001)(31696002)(8936002)(6486002)(6666004)(316002)(8676002)(41300700001)(31686004)(5660300002)(478600001)(110136005)(54906003)(66946007)(66556008)(4326008)(66476007)(53546011)(26005)(6506007)(6512007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?Smo3ajhlY0tlM2FneDdvbVYvM09uWkVmWWFHR3VMWkYvQlZKZS9icFh5MFZ0?=
- =?utf-8?B?blBHMnlHNlp1YXlBYmt0bGozbVNkODdCbVNaME56ekVUc1JUaThtS1pMNWs3?=
- =?utf-8?B?YkRPMWlvUXU1L0FoVHRuSlpxMDVxdnQ5N0hOTXdsZFZzS1lxdGtYR1BHUGpY?=
- =?utf-8?B?RjdiYkNyQjVtdnZrK0VKbDFSMXJBQ0IvWTRMSG54NmdiTk53b3VKY3V2MWNY?=
- =?utf-8?B?UDh0RUFLZTZraVVhVHU3NmVidGlPdEhXdGNDc2pTdlFleWJVNklJWmZCdGQr?=
- =?utf-8?B?Z3ZLY2UrYkZ6dHVWOCsxWWZiMXZ2OEVBV3lKZTloT280MVF0OFZEN1gxRHpv?=
- =?utf-8?B?d0hSajNiYnM4RmJQbERUQzNqRTcrNTZyZ09sa2VDSmduM2JIS3hRQ2x3Z2I0?=
- =?utf-8?B?MGZwTjdpOGRCUnp0VnlrczFRR3lKNFEwNHgvM3VyZStsU2NPdG54UENZcmEy?=
- =?utf-8?B?eG5Ha2E3T2J2RFJ2VTFKL1ZDNC9LRmxGNGJqZ2Z0aVBMNVBkcGxGNjBldTYx?=
- =?utf-8?B?V2t0VHpvSU1KdkVGa2c5UHFpYU5YYmhZS281M2ZIY1NIUlNmUG5nRUhhWnB3?=
- =?utf-8?B?NkxjZGRPNGxhd29wUklyaHVSSFZKaEJTbkgvUzBTZXRaMk03TzZYV0RmK21l?=
- =?utf-8?B?VTVJZ1VaaDlHZFdYZ3dMYWsrOFRpRjlGVXdRVFQ4QTVXcGlLUGx3emRRT0xT?=
- =?utf-8?B?QklwRzBucHRjdGxYK0NOblA3OTQ1MllKZTlmRnVWc3dPb0RwV3Rrbkg5TUdq?=
- =?utf-8?B?SHlhZEpmeEtkMkJOempLMUtkWmxGUGtHYTVYdlI0Q3Q4Y2d3M3phYkJaR0FG?=
- =?utf-8?B?TjFVUytDYWtYOEtPNVpUK1habDZ3UHFyK29hVHVjZHd0dXlYTTY4TElicVBX?=
- =?utf-8?B?MGtHNE9DcVJlc3lDSmNmVFExUXVSdHZXUmcwMStHckpwa1hXcmt0YUN1VHl1?=
- =?utf-8?B?bk5rNk96WTZDbm5PbUo2cXRCdkdBdHBaYnJVL0gyWjljUGwzV0RPZ00wcC9R?=
- =?utf-8?B?TWFUMCtoRTNJcnRCNkJXd1dqVzdEU3BKdGtFc2IxZkVBd3phZXlkMjVzRWdp?=
- =?utf-8?B?NVpNQ25FUUtVbnFIenpDSDFXUDJKN1YzdmNhU09QNEJ1QUhTNjQvYUN2dFBr?=
- =?utf-8?B?cHBrSUtOR1crYWx2dFhaenhmQ2FWUit0c1IrV3VqalRUZGhjNG50Vmo1dnZa?=
- =?utf-8?B?dVdyNlBlTFkrWHlmVjJUemhVb040SGx5TDYzUExLbzh3S0QzUVB1Rmd5dkg4?=
- =?utf-8?B?ZlRqdVd0b0VkVGhkWHBWZTE5UEM2ZUdsbVVnOVR2R0xmMlpDVDd3bmgzK1BC?=
- =?utf-8?B?U2dmN3FlL0xUclpIR0paOC9FdkdlTGxYSkFERTZYeGcrT2E3NUpWa0J2eXM1?=
- =?utf-8?B?dnBFMDN2N0w5NU5ZR09XRHFGYkdab2IxMXpubzluMlJPTHU0UG54SUhCMDIz?=
- =?utf-8?B?SXZDMnVrcFU1MWV2TndVN0xLZy9kNGVZR3pwVWJnSXhJR2tmN2V5bFM2RkdP?=
- =?utf-8?B?QjRHMitLRzlzSVZPM3VTZGpxaHRLZXJ0YmV4SzY4NEYrR0htZGVjaTREbFl6?=
- =?utf-8?B?eTBKUjEvVXJKRm4wYzl1bDh2eXJRbER4dU5nZzJ6bjR0UHU4U24xNTV0R0lI?=
- =?utf-8?B?QzVOSitidnVRM3JGWUY4SkNVZ1RRTVNyQ2hQa1Z4R3Z5bVNDOEllV0E4Szhz?=
- =?utf-8?B?dURCTHU3Q2xxbEd0dFNCUnVXcGpJN0dIWkdSamNHc05DZ1QvU3NsalYyd0pP?=
- =?utf-8?B?M1U2OTNkbDI5bU1ObllSb2dHMUpFUTEvZXU1dnp5OUlKUWpPaEtRYUxwM0FZ?=
- =?utf-8?B?L0lDRHo0d3g4Qk9BL3plM0ZFKzNJa0FMdnJTQ3FGd3JOTlJLbUg3bWU1TVFJ?=
- =?utf-8?B?bHNmTkEzNlYzVDk2dzlQVU5oYURvNFhVU1ZwZXdwMHVuVjdZZ1lYRmV2elo0?=
- =?utf-8?B?R0pFUnlXNXFtT3pWZzk2eW5rQklKaEVjMnhtejR1eTZ6SHUvdHlLWEY3U3Nm?=
- =?utf-8?B?M2RDRk83Z0RpR2ViMUN1YjB5TEhGZ0V6MlBxZE9zNmsxS1h0TTRabGtjajJq?=
- =?utf-8?B?VlNJUGJhVzVwRy9YTlFNcU51MkRNSnRRQ2JIajdRQW5OSXdxKy9hbktmVzhS?=
- =?utf-8?Q?et59H0qPdGd1lH4kUJsbNZHEM?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa80a036-98f7-43f1-f116-08db50743194
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2023 10:00:18.3563
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b1ZmH8oZ5CEvwWN/tPVqp2s0OsfJt1j3O/JxvUyugovk7AnsrKUr04MOUI8NjVG+FUBWElcX5zRe27RT4ZIn/A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7023
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230509_030024_601262_DC855819 
-X-CRM114-Status: GOOD (  24.58  )
+X-CRM114-CacheID: sfid-20230509_065629_212656_74774DA8 
+X-CRM114-Status: GOOD (  15.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -146,194 +82,166 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Waiting in nvmet_rdma_queue_connect() for previous teardowns to complete
+(flush_workqueue(nvmet_wq)) confuses lockdep. Clear up this confusion by
+by using dynamic lockdep keys instead of static lockdep keys for
+queue->release_work.
 
+See also the following report by Shinichiro:
+https://lore.kernel.org/all/rsmmxrchy6voi5qhl4irss5sprna3f5owkqtvybxglcv2pnylm@xmrnpfu3tfpe/
 
-On 19/04/2023 9:57, Hannes Reinecke wrote:
-> Parse the fabrics options 'keyring' and 'tls_key' and store the
-> referenced keys in the options structure.
+This patch avoids that lockdep reports the following:
 
-Please add an example of how the nvme-cli will issue a connect command 
-with these new args.
+======================================================
+WARNING: possible circular locking dependency detected
+4.19.0-dbg+ #1 Not tainted
+------------------------------------------------------
+kworker/u12:0/7 is trying to acquire lock:
+00000000c03a91d1 (&id_priv->handler_mutex){+.+.}, at: rdma_destroy_id+0x6f/0x440 [rdma_cm]
 
-> 
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> ---
->   drivers/nvme/host/fabrics.c | 69 ++++++++++++++++++++++++++++++++++++-
->   drivers/nvme/host/fabrics.h |  6 ++++
->   drivers/nvme/host/tcp.c     | 11 ++++--
->   3 files changed, 82 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index 2aa8fb991455..8fb80ccc38e1 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -605,6 +605,10 @@ static const match_table_t opt_tokens = {
->   	{ NVMF_OPT_NR_WRITE_QUEUES,	"nr_write_queues=%d"	},
->   	{ NVMF_OPT_NR_POLL_QUEUES,	"nr_poll_queues=%d"	},
->   	{ NVMF_OPT_TOS,			"tos=%d"		},
-> +#ifdef CONFIG_NVME_TCP_TLS
-> +	{ NVMF_OPT_KEYRING,		"keyring=%d"		},
-> +	{ NVMF_OPT_TLS_KEY,		"tls_key=%d"		},
-> +#endif
+but task is already holding lock:
+(work_completion)(&queue->release_work)){+.+.}, at: process_one_work+0x3c9/0x9f0
+which lock already depends on the new lock.
 
-redundant ifdef here.
+the existing dependency chain (in reverse order) is:
+-> #3 ((work_completion)(&queue->release_work)){+.+.}:
+       process_one_work+0x447/0x9f0
+       worker_thread+0x63/0x5a0
+       kthread+0x1cf/0x1f0
+       ret_from_fork+0x24/0x30
+-> #2 ((wq_completion)"nvmet-rdma-delete-wq"){+.+.}:
+       flush_workqueue+0xf3/0x970
+       nvmet_rdma_cm_handler+0x1320/0x170f [nvmet_rdma]
+       cma_ib_req_handler+0x72f/0xf90 [rdma_cm]
+       cm_process_work+0x2e/0x110 [ib_cm]
+       cm_work_handler+0x431e/0x50ba [ib_cm]
+       process_one_work+0x481/0x9f0
+       worker_thread+0x63/0x5a0
+       kthread+0x1cf/0x1f0
+       ret_from_fork+0x24/0x30
+-> #1 (&id_priv->handler_mutex/1){+.+.}:
+       __mutex_lock+0xfe/0xbe0
+       mutex_lock_nested+0x1b/0x20
+       cma_ib_req_handler+0x6aa/0xf90 [rdma_cm]
+       cm_process_work+0x2e/0x110 [ib_cm]
+       cm_work_handler+0x431e/0x50ba [ib_cm]
+       process_one_work+0x481/0x9f0
+       worker_thread+0x63/0x5a0
+       kthread+0x1cf/0x1f0
+       ret_from_fork+0x24/0x30
+-> #0 (&id_priv->handler_mutex){+.+.}:
+       lock_acquire+0xc5/0x200
+       __mutex_lock+0xfe/0xbe0
+       mutex_lock_nested+0x1b/0x20
+       rdma_destroy_id+0x6f/0x440 [rdma_cm]
+       nvmet_rdma_release_queue_work+0x8e/0x1b0 [nvmet_rdma]
+       process_one_work+0x481/0x9f0
+       worker_thread+0x63/0x5a0
+       kthread+0x1cf/0x1f0
+       ret_from_fork+0x24/0x30
+other info that might help us debug this:
+Chain exists of:
+  &id_priv->handler_mutex --> (wq_completion)"nvmet-rdma-delete-wq" --> (work_completion)(&queue->release_work)
 
->   	{ NVMF_OPT_FAIL_FAST_TMO,	"fast_io_fail_tmo=%d"	},
->   	{ NVMF_OPT_DISCOVERY,		"discovery"		},
->   	{ NVMF_OPT_DHCHAP_SECRET,	"dhchap_secret=%s"	},
-> @@ -622,8 +626,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->   	char *options, *o, *p;
->   	int token, ret = 0;
->   	size_t nqnlen  = 0;
-> -	int ctrl_loss_tmo = NVMF_DEF_CTRL_LOSS_TMO;
-> +	int ctrl_loss_tmo = NVMF_DEF_CTRL_LOSS_TMO, key_id;
->   	uuid_t hostid;
-> +	struct key *key = NULL;
->   
->   	/* Set defaults */
->   	opts->queue_size = NVMF_DEF_QUEUE_SIZE;
-> @@ -891,6 +896,66 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->   			}
->   			opts->tos = token;
->   			break;
-> +		case NVMF_OPT_KEYRING:
-> +			if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
-> +				pr_err("TLS is not supported\n");
-> +				ret = -EINVAL;
-> +				goto out;
-> +			}
-> +			if (match_int(args, &key_id)) {
-> +				ret = -EINVAL;
-> +				goto out;
-> +			}
-> +			if (key_id < 0) {
-> +				pr_err("Invalid keyring id %d\n", key_id);
-> +				ret = -EINVAL;
-> +				goto out;
-> +			}
-> +			if (!key_id) {
-> +				pr_debug("Using default keyring\n");
-> +				key_put(opts->keyring);
-> +				opts->keyring = NULL;
-> +				break;
-> +			}
-> +			key = key_lookup(key_id);
-> +			if (!key) {
-> +				pr_err("Keyring id %08x not found\n", key_id);
-> +				ret = -ENOKEY;
-> +				goto out;
-> +			}
-> +			key_put(opts->keyring);
-> +			opts->keyring = key;
-> +			break;
-> +		case NVMF_OPT_TLS_KEY:
-> +			if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
-> +				pr_err("TLS is not supported\n");
-> +				ret = -EINVAL;
-> +				goto out;
-> +			}
-> +			if (match_int(args, &key_id)) {
-> +				ret = -EINVAL;
-> +				goto out;
-> +			}
-> +			if (key_id < 0) {
-> +				pr_err("Invalid key id %d\n", key_id);
-> +				ret = -EINVAL;
-> +				goto out;
-> +			}
-> +			if (!key_id) {
-> +				pr_debug("Using 'best' PSK\n");
-> +				key_put(opts->tls_key);
-> +				opts->tls_key = NULL;
-> +				break;
-> +			}
-> +			key = key_lookup(key_id);
-> +			if (!key) {
-> +				pr_err("Key id %08x not found\n", key_id);
-> +				ret = -ENOKEY;
-> +				goto out;
-> +			}
-> +			key_put(opts->tls_key);
-> +			opts->tls_key = key;
-> +			break;
->   		case NVMF_OPT_DISCOVERY:
->   			opts->discovery_nqn = true;
->   			break;
-> @@ -1055,6 +1120,8 @@ static int nvmf_check_allowed_opts(struct nvmf_ctrl_options *opts,
->   void nvmf_free_options(struct nvmf_ctrl_options *opts)
->   {
->   	nvmf_host_put(opts->host);
-> +	key_put(opts->keyring);
-> +	key_put(opts->tls_key);
->   	kfree(opts->transport);
->   	kfree(opts->traddr);
->   	kfree(opts->trsvcid);
-> diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-> index 5db36e250e7a..2ff7b7168a40 100644
-> --- a/drivers/nvme/host/fabrics.h
-> +++ b/drivers/nvme/host/fabrics.h
-> @@ -71,6 +71,8 @@ enum {
->   	NVMF_OPT_DHCHAP_SECRET	= 1 << 23,
->   	NVMF_OPT_DHCHAP_CTRL_SECRET = 1 << 24,
->   	NVMF_OPT_TLS		= 1 << 25,
-> +	NVMF_OPT_KEYRING	= 1 << 26,
-> +	NVMF_OPT_TLS_KEY	= 1 << 27,
->   };
->   
->   /**
-> @@ -103,6 +105,8 @@ enum {
->    * @dhchap_secret: DH-HMAC-CHAP secret
->    * @dhchap_ctrl_secret: DH-HMAC-CHAP controller secret for bi-directional
->    *              authentication
-> + * @keyring:    Keyring to use for key lookups
+Possible unsafe locking scenario:
 
-is it only for TLS ? if it does please reflect in the comment and in the 
-name of the member.
+       CPU0                    CPU1
+       ----                    ----
+  lock((work_completion)(&queue->release_work));
+                               lock((wq_completion)"nvmet-rdma-delete-wq");
+                               lock((work_completion)(&queue->release_work));
+  lock(&id_priv->handler_mutex);
 
-> + * @tls_key:    TLS key for encrypted connections (TCP)
->    * @tls:        Start TLS encrypted connections (TCP)
->    * @disable_sqflow: disable controller sq flow control
->    * @hdr_digest: generate/verify header digest (TCP)
-> @@ -130,6 +134,8 @@ struct nvmf_ctrl_options {
->   	int			max_reconnects;
->   	char			*dhchap_secret;
->   	char			*dhchap_ctrl_secret;
-> +	struct key		*keyring;
-> +	struct key		*tls_key;
->   	bool			tls;
->   	bool			disable_sqflow;
->   	bool			hdr_digest;
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index a3ac512fd1cc..84bf6c80cc7c 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -1582,6 +1582,8 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
->   
->   	dev_dbg(nctrl->device, "queue %d: start TLS with key %x\n",
->   		qid, pskid);
-> +	if (nctrl->opts->keyring)
-> +		keyring = key_serial(nctrl->opts->keyring);
->   	args.ta_sock = queue->sock;
->   	args.ta_done = nvme_tcp_tls_done;
->   	args.ta_data = queue;
-> @@ -1890,9 +1892,12 @@ static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
->   	key_serial_t psk_id = 0;
->   
->   	if (ctrl->opts->tls) {
-> -		psk_id = nvme_tls_psk_default(NULL,
-> -					      ctrl->opts->host->nqn,
-> -					      ctrl->opts->subsysnqn);
-> +		if (ctrl->opts->tls_key)
-> +			psk_id = key_serial(ctrl->opts->tls_key);
-> +		else
-> +			psk_id = nvme_tls_psk_default(ctrl->opts->keyring,
-> +						      ctrl->opts->host->nqn,
-> +						      ctrl->opts->subsysnqn);
+ *** DEADLOCK ***
 
-I don't understand why this patch can't be squashed to patch 11/17 ?
-If possible please do before next version submission.
+2 locks held by kworker/u12:0/7:
+ #0: 00000000272134f2 ((wq_completion)"nvmet-rdma-delete-wq"){+.+.}, at: process_one_work+0x3c9/0x9f0
+ #1: 0000000090531fcd ((work_completion)(&queue->release_work)){+.+.}, at: process_one_work+0x3c9/0x9f0
 
->   		if (!psk_id) {
->   			dev_err(ctrl->device, "no valid PSK found\n");
->   			ret = -ENOKEY;
+               stack backtrace:
+CPU: 1 PID: 7 Comm: kworker/u12:0 Not tainted 4.19.0-dbg+ #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1 04/01/2014
+Workqueue: nvmet-rdma-delete-wq nvmet_rdma_release_queue_work [nvmet_rdma]
+Call Trace:
+ dump_stack+0x86/0xc5
+ print_circular_bug.isra.32+0x20a/0x218
+ __lock_acquire+0x1c68/0x1cf0
+ lock_acquire+0xc5/0x200
+ __mutex_lock+0xfe/0xbe0
+ mutex_lock_nested+0x1b/0x20
+ rdma_destroy_id+0x6f/0x440 [rdma_cm]
+ nvmet_rdma_release_queue_work+0x8e/0x1b0 [nvmet_rdma]
+ process_one_work+0x481/0x9f0
+ worker_thread+0x63/0x5a0
+ kthread+0x1cf/0x1f0
+ ret_from_fork+0x24/0x30
+
+Cc: Sagi Grimberg <sagi@grimberg.me>
+Cc: Max Gurtovoy <maxg@mellanox.com>
+Cc: Hannes Reinecke <hare@suse.de>
+Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Signed-off-by: Bart Van Assche <bvanassche@acm.org>
+---
+ drivers/nvme/target/rdma.c | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 4597bca43a6d..2c85a15cbe8d 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -102,6 +102,9 @@ struct nvmet_rdma_queue {
+ 	struct nvmet_rdma_cmd	*cmds;
+ 
+ 	struct work_struct	release_work;
++#ifdef CONFIG_LOCKDEP
++	struct lock_class_key	key;
++#endif
+ 	struct list_head	rsp_wait_list;
+ 	struct list_head	rsp_wr_wait_list;
+ 	spinlock_t		rsp_wr_wait_lock;
+@@ -1347,6 +1350,10 @@ static void nvmet_rdma_free_queue(struct nvmet_rdma_queue *queue)
+ {
+ 	pr_debug("freeing queue %d\n", queue->idx);
+ 
++#ifdef CONFIG_LOCKDEP
++	lockdep_unregister_key(&queue->key);
++#endif
++
+ 	nvmet_sq_destroy(&queue->nvme_sq);
+ 
+ 	nvmet_rdma_destroy_queue_ib(queue);
+@@ -1446,6 +1453,11 @@ nvmet_rdma_alloc_queue(struct nvmet_rdma_device *ndev,
+ 	 * inside a CM callback would trigger a deadlock. (great API design..)
+ 	 */
+ 	INIT_WORK(&queue->release_work, nvmet_rdma_release_queue_work);
++#ifdef CONFIG_LOCKDEP
++	lockdep_register_key(&queue->key);
++	lockdep_init_map(&queue->release_work.lockdep_map,
++			 "nvmet_rdma_release_work", &queue->key, 0);
++#endif
+ 	queue->dev = ndev;
+ 	queue->cm_id = cm_id;
+ 	queue->port = port->nport;
+@@ -1462,7 +1474,7 @@ nvmet_rdma_alloc_queue(struct nvmet_rdma_device *ndev,
+ 	queue->idx = ida_alloc(&nvmet_rdma_queue_ida, GFP_KERNEL);
+ 	if (queue->idx < 0) {
+ 		ret = NVME_RDMA_CM_NO_RSC;
+-		goto out_destroy_sq;
++		goto out_unreg_key;
+ 	}
+ 
+ 	/*
+@@ -1511,6 +1523,12 @@ nvmet_rdma_alloc_queue(struct nvmet_rdma_device *ndev,
+ 	nvmet_rdma_free_rsps(queue);
+ out_ida_remove:
+ 	ida_free(&nvmet_rdma_queue_ida, queue->idx);
++out_unreg_key:
++#ifdef CONFIG_LOCKDEP
++	lockdep_unregister_key(&queue->key);
++#else
++	;
++#endif
+ out_destroy_sq:
+ 	nvmet_sq_destroy(&queue->nvme_sq);
+ out_free_queue:
 
