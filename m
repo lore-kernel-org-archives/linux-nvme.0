@@ -4,88 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B795C77B75
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 May 2023 23:07:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2F4BFC7EE22
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 May 2023 23:13:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yVC/oDO35Mm9t5u8zdNjROMY0OSbK+vPTRsrVjO4cBQ=; b=qxMUimrrd5b5Zk8SwQRD2RKLT1
-	XwDD4OoArNmzh8RvfzXUVM8KMFZ0BDUUDIA0vYewiz9BnEhb+2hpHeYi7Bq4gUMKYNgcjXCejtrze
-	7u7kGIXu98APjccZKNrrm90cocVf8PUZIixtWwJgd8pKJ2t00/wBgHb8rb24+JhvGxBre722yRvI5
-	ju4P5NpBgGtM27r/NmiJJU32+GwgRbSKRq/XDvPUNxlCxPco2GxCSA2HvZg/uFnBCsS5WRRAz9mfN
-	D5mneozYFZ4F4CNOEUCjFCucUF1F9J0lJEIjYXaf4MVIAqK/79fJUTKLu5aQV6pYzZ9TI/QCXuc2z
-	5xyu1BkQ==;
+	bh=vbFqpGhl407L63WqTAu6YqrbKjBaDfEXdUVn89eSy5M=; b=2RsDHV9i+nRnFU/+gfklbjT3Oz
+	AUeutGUCKmIV36PZrLfP04w/79mGJO+BzViMsktjqs0K5SA/JXvseROV5jCzLN0556BUhUPZz3qQh
+	Tn9VMiE3dTE+SsgNFL9FaxY/wz+cXDn2eLEMaL1BkLvcwzGbGSOQRe2GaizteaqDgzG8D4tIZjyjA
+	wEYtkYJ26UZKO7nCCdonrLs/Mln1ZNon6g35CbWTYq+79rbqY4iIVu08J6O2LO2UxlyeCV7PKmDA8
+	6t2On8XTEojOG/F1Yq+T4MQL6Sm1VfBEMWboEx+d9eUeLv2OGXkJe14Omf3o2JaWPAApIadYc0C9Z
+	IfONJhDw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pwWQQ-004SpH-2b;
-	Tue, 09 May 2023 23:07:18 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1pwWWn-004Tkl-1g;
+	Tue, 09 May 2023 23:13:53 +0000
+Received: from mail-pf1-f180.google.com ([209.85.210.180])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pwWQO-004Snu-0b
+	id 1pwWWl-004Tjz-0A
 	for linux-nvme@lists.infradead.org;
-	Tue, 09 May 2023 23:07:17 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 00AB321BEC;
-	Tue,  9 May 2023 23:07:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1683673630; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yVC/oDO35Mm9t5u8zdNjROMY0OSbK+vPTRsrVjO4cBQ=;
-	b=Vcj9EVcUUodtx10tDUVFAoziNeStynq1hSLAmgo2bUSGE5lLvbtrYpaUybi4dZTAd8uu/4
-	59Iq/bjfsCZtnevkst5zAsqmZBVMlfRPobBXPuwIQPEkgWjVmRyslSHItJke9O8gpvCeSu
-	Pn/xeSoh3EEwu77XzGZH+KyDbGKVVcU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1683673630;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yVC/oDO35Mm9t5u8zdNjROMY0OSbK+vPTRsrVjO4cBQ=;
-	b=UDkwMb5msMERbyeYNHXwc4j/X7NmxzXL2c63q2LULIwu8qH0fCgtFwPw9C8zvs1vv3JrsY
-	wsqNVreeMdIk5hDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 664E4139B3;
-	Tue,  9 May 2023 23:07:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id WnW+DxzSWmQIAwAAMHmgww
-	(envelope-from <hare@suse.de>); Tue, 09 May 2023 23:07:08 +0000
-Message-ID: <0794d1e7-7402-d41b-3d0d-7ff159645bf7@suse.de>
-Date: Wed, 10 May 2023 01:07:06 +0200
+	Tue, 09 May 2023 23:13:52 +0000
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-643a1656b79so4296174b3a.3
+        for <linux-nvme@lists.infradead.org>; Tue, 09 May 2023 16:13:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683674030; x=1686266030;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vbFqpGhl407L63WqTAu6YqrbKjBaDfEXdUVn89eSy5M=;
+        b=f8gKT/K4UOgvA8Ryg6NXaQSC4cwIE5pN9/x6u8zMFFLx+ICmM7Sbh3VsBU11pgQlLg
+         vUP4wWNgFQ5JZZPCvBP+hyGIEr7XQubV6A84HyL7G1lc1UAqNXNUp8u+k+vix/nA16f1
+         YqhknHfyR5+xyirMpvQvY4SvyG+omX70txnxcWnyvCHimViGLsxqwUd9ntUGDHJGsI60
+         EU6jzZM/C4zJAPoVhMagCqcF2+pa7M4GXcmfQCsPjEI9uUUO5qlQ9rIsqEeOSxXd3H35
+         KGSUXAxfqTfUW+8/AzuB51tzoz3XIYvbCDJeUuZ2f4bCzIDAtz51jSgYF5abOkZsoueW
+         sm5A==
+X-Gm-Message-State: AC+VfDzjDW195PGMIGp9h4VrjJHk9txH2PqLomkiDTuJWgCrLhXNFJ6e
+	rK1gu3POVU6Y6Zwf5+KjbJZQJ1KCBMo=
+X-Google-Smtp-Source: ACHHUZ7lfFvulTxxAeYl5Zqtxg4LDqAje2QcFq2VN595n9zpFdzz6wteKuhHk9wm8VL1acEo2+CQ0g==
+X-Received: by 2002:a05:6a00:2e1b:b0:63d:6744:8caf with SMTP id fc27-20020a056a002e1b00b0063d67448cafmr19647960pfb.26.1683674029756;
+        Tue, 09 May 2023 16:13:49 -0700 (PDT)
+Received: from [172.20.11.151] ([173.214.130.133])
+        by smtp.gmail.com with ESMTPSA id s19-20020aa78d53000000b0063b86aff031sm2290407pfe.108.2023.05.09.16.13.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 May 2023 16:13:49 -0700 (PDT)
+Message-ID: <89285655-5c65-12e0-d468-c9483079ac28@acm.org>
+Date: Tue, 9 May 2023 16:13:48 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH 07/17] net/tls: handle MSG_EOR for tls_sw TX flow
+ Thunderbird/102.9.1
+Subject: Re: [PATCH] nvmet-rdma: Suppress a class of lockdep complaints
 Content-Language: en-US
-To: Max Gurtovoy <mgurtovoy@nvidia.com>, Jakub Kicinski <kuba@kernel.org>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Chuck Lever <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-References: <20230419065714.52076-1-hare@suse.de>
- <20230419065714.52076-8-hare@suse.de>
- <fb934ee3-879f-f33f-efeb-945ccc9dc9a3@nvidia.com>
- <f3fe3fc4-b885-d981-9685-4b1a377db639@suse.de>
- <20230509081308.4a531d4e@kernel.org>
- <5e603985-6ef1-879d-cc52-a093a1366795@nvidia.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <5e603985-6ef1-879d-cc52-a093a1366795@nvidia.com>
+To: Max Gurtovoy <mgurtovoy@nvidia.com>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Sagi Grimberg <sagi@grimberg.me>, Max Gurtovoy <maxg@mellanox.com>,
+ Hannes Reinecke <hare@suse.de>,
+ Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+References: <20230509135615.2061227-1-bvanassche@acm.org>
+ <d3c147a8-828e-bf8e-0141-f1d06d6266c3@nvidia.com>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <d3c147a8-828e-bf8e-0141-f1d06d6266c3@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230509_160716_394630_A4875781 
-X-CRM114-Status: GOOD (  14.14  )
+X-CRM114-CacheID: sfid-20230509_161351_087742_ED0BD761 
+X-CRM114-Status: GOOD (  11.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,35 +85,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/10/23 01:02, Max Gurtovoy wrote:
-> 
-> 
-> On 09/05/2023 18:13, Jakub Kicinski wrote:
->> On Tue, 9 May 2023 16:18:30 +0200 Hannes Reinecke wrote:
->>>> This seems like a nice optimization but seems not mandatory for the
->>>> acceptance of TLS support in nvme/tcp.
->>>>
->>>> I wonder if this can go to net/tls as a standalone patch ?
->>>
->>> Errm. Without this NVMe/TLS will not work as sendmsg/sendpage will
->>> bail out.
->>> So yes, surely it can be applied as a standalone patch, but that
->>> only makes sense if it will be applied _before_ the rest of the
->>> nvme/tls patches.
-> 
-> how come it will bail out only for NVMe/TLS and not for Other_user/TLS ?
-> 
-Oh, it will bail for other TLS users as well.
-Point is it will not bail for _non_ TLS connections, causing the issue.
+On 5/9/23 15:55, Max Gurtovoy wrote:
+> Can we fix the lockdep not to get confused
 
-Cheers,
+Lockdep uses static keys by default. Associating a single static key 
+with multiple synchronization object instances can cause false 
+positives. This is why I introduced support for dynamic keys in lockdep 
+about four years ago. I don't think that it is possible to make dynamic 
+keys the default without changing all synchronization primitives.
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
+> or ignore it if its not a real issue ?
 
+Most lockdep reports indicate a real problem so every lockdep report 
+should be reviewed. Having to review false positive complaints every 
+time blocktests is run is tedious. I think it is much better to suppress 
+false positive complaints (in a safe way) rather than asking everyone 
+who runs blktests to review all false positive lockdep complaints every 
+time blktests is run.
+
+Bart.
 
