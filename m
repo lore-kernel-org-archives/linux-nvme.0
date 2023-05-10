@@ -4,86 +4,138 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37AC2C7EE22
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 May 2023 07:38:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73F94C7EE24
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 May 2023 08:16:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GDIMYPwPQt1HYGUjL2W22ftdEC39hQmkO0IG6jQB5dk=; b=B/ibVbZP021DDlIYsNAblReozk
-	ynhGEaa3hEywt9Z7cQx27ShiY5eYVUHniS1NzYMRqLYGeAVy7dm1pZz9L6BSC5eaj9YhsTh/QWLm1
-	3YoH7hBwkpzWU1GEMw00znJ+zNaUYIMrDunpPpyKOATxIUVNZynpj7FaRYD2TejMzx5djjhkjfTUT
-	Cvdt+2r7lyzbX0ZiRyi5eZlS1MANL8Br5w7TZ/dvalu2r5Wy9xJjlR8HhaTWEMlTXUki5i4vyfuTp
-	FJQnnDSRW20Ffu5zx0SqJuIunnctAGx4QEp/Wo61QjQErRrZhn6rWDxTO3cqGQrMH0wZ37E1DHYmM
-	6Mw0zfoQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=MESB3cIKCWTvDf7+v3JqGR3lCmgqNcZyDtuP9oM+jfM=; b=hTqWRpvjQ4k/ru6buSAPm1EmAM
+	v+rKH37qC1izAjQ7pXc8fgNofhgYM82KSlxiA/7RWmBeUTWZGCzIBh6XEz/qw2D4nATnMmWSCgNjw
+	z7uOcoDgCF+aQyjQk9T3h9c8w4vAA1VwzOiW76ZWF/YZXr04hlcctKat2AUIoOlFdIHOVb/u5LkGE
+	R7i0HZ9S9PpfgeDiVeLSnYzMgXeYhK8i959cvOSoGbgCkzZJeEYvs4bzoc6RbLYCLkVOBwiUQZJAB
+	9UXaFmUbOq7r7R/Ykdz3WnwVLSXQvgMfOXNl3YIEWxwzO6oQp2fIUMi3awnVxZIJBoT+XPCTuw6YL
+	GT2CF//g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pweOc-005PKf-13;
-	Wed, 10 May 2023 07:37:58 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1pwf0I-005Usg-0W;
+	Wed, 10 May 2023 08:16:54 +0000
+Received: from mail-mw2nam12on20620.outbound.protection.outlook.com ([2a01:111:f400:fe5a::620] helo=NAM12-MW2-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pweOY-005PJg-0Y
+	id 1pwf0E-005UrJ-1i
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 May 2023 07:37:57 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D1CA521A45;
-	Wed, 10 May 2023 07:37:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1683704271; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GDIMYPwPQt1HYGUjL2W22ftdEC39hQmkO0IG6jQB5dk=;
-	b=oVzguMd0qI/2BZBTdT7uclwsZXxvBZBAOSfZ63BwNqeYgjfABOejZVK/aw285mCdi6Egrb
-	bgJo2tdnBONA6idgtRg/ylVXtTNurKeHPVhTQXFAljKn88QMap5ydZfz3J+6/lHIXfMh4l
-	E8aw+tv58z6GuWKv69xCKjfTvNK2tT0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1683704271;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GDIMYPwPQt1HYGUjL2W22ftdEC39hQmkO0IG6jQB5dk=;
-	b=6fFNeY4QtNeLBajpvFuiK2sfyY8Sxktgb9HOlPt1wpwZWD4mpW+aafH68NqRDDbkFYbfn3
-	lNcSVd8jsMBvPPCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6835E138E5;
-	Wed, 10 May 2023 07:37:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id oxjYD85JW2SWTgAAMHmgww
-	(envelope-from <hare@suse.de>); Wed, 10 May 2023 07:37:50 +0000
-Message-ID: <206d203b-a921-0f69-ea75-fc17dc505e19@suse.de>
-Date: Wed, 10 May 2023 09:37:48 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH 11/17] nvme-tcp: enable TLS handshake upcall
+	Wed, 10 May 2023 08:16:52 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SMKoqME2sLsvnDMWFYUlQ8bfgSQLCz1yZ3YxYYvfGzK3KhnjZBHUmGGMTUfRunxGq7YhEC4x95nEPgNmB4ftWD61JCfrqg0+Qgo6eCO3jrUGKF0MZY9/zu3HWh0ixOtxIXJ9nesQDI46AXGQN51JdbJlwUwtNMkKQF1yLrZcG3deZA9XWe5zU1O4L79/K9bTOZlMuC4DR9qiJ6eCBxdUl/0F7U5rVoCZTwUHoyaiSf5FoS0AdSOMrfH8wPtKnOEef+zLb7lvGVcmJBAFkWPcULUFbQBlVv3jbeDEQ5uTVL1Hl91B3mTsiqcS0AsI+mh1XNH3tvfuVOSG1JUEF3jb8A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MESB3cIKCWTvDf7+v3JqGR3lCmgqNcZyDtuP9oM+jfM=;
+ b=jYwRGWEOC4Dlyrb+Fhcz+9QPz3FNkd+1TbtZpL1XDoEisG+zzd6xCCyAGrtQNn9ktR87PCWRUTg7/P4pYhf2dBhkgQatuHvAhzbOH0y3YJbbX8MLt30gd6/JYXeie2z12u1BStp/hjdqmLqHhyOsvzsmLrFLHkW1Y+zkvlVVwGDLX9cKvTbZ1GMVkzae9JtritWp3y+iqcF8A2YpB4W+tYgFlSH8CI8dMlIicJ/NQue25jtamRBP/93nIqq1mYU2bSOGGPzMmNdl9llVLfoQh9Vsn/HL4VC56P56hqLsDmT6BWhq49zIfb4ZsH5S9QVzOwQxkb9mNcCPNh/P0Pl0dg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MESB3cIKCWTvDf7+v3JqGR3lCmgqNcZyDtuP9oM+jfM=;
+ b=JzegrEvxEfbsQyRkquAG9f7nM2cUrVtcbrNfMNWmW0zb6etdUTZSqBXTqStO0+D7+8qcMMVMWPAUzj+nPHKRquXEqW6Iabh6RA2je3QcTLNoXG5OXyrd+GfmWecNr/8gYsEQP1cu8LM/OJSEmUgssf7R2Xu4vYdvnwcH/GKa8VTDVAdctqida3ppfdxc9yOtTVexCIX3LN8LhnVkefE0OG8jnnSgdcBRJfbJIUCDNH7UMbFizAyk5sjsRtrbrkLLrtlLA184vYUHKwMft51uqwc6TI/dj7O6GNYkoR+CnSk1+78jOZpkDR468npQDFk1fa01db/7ckRPp3ZmfHdjew==
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
+ by SA0PR12MB4526.namprd12.prod.outlook.com (2603:10b6:806:98::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.32; Wed, 10 May
+ 2023 08:16:46 +0000
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::7326:8083:5e17:2f90]) by MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::7326:8083:5e17:2f90%4]) with mapi id 15.20.6363.032; Wed, 10 May 2023
+ 08:16:46 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Bart Van Assche <bvanassche@acm.org>, Christoph Hellwig <hch@lst.de>
+CC: Keith Busch <kbusch@kernel.org>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, Sagi Grimberg <sagi@grimberg.me>, Max
+ Gurtovoy <mgurtovoy@nvidia.com>, Hannes Reinecke <hare@suse.de>, Shin'ichiro
+ Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: Re: [PATCH] nvmet-rdma: Suppress a class of lockdep complaints
+Thread-Topic: [PATCH] nvmet-rdma: Suppress a class of lockdep complaints
+Thread-Index: AQHZgn4uMaBwPKci/EiNCaFkqegDQa9TKoiA
+Date: Wed, 10 May 2023 08:16:46 +0000
+Message-ID: <18498b01-ed2a-33b7-d2b9-5e40cea43520@nvidia.com>
+References: <20230509135615.2061227-1-bvanassche@acm.org>
+In-Reply-To: <20230509135615.2061227-1-bvanassche@acm.org>
+Accept-Language: en-US
 Content-Language: en-US
-To: Max Gurtovoy <mgurtovoy@nvidia.com>, Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org, Chuck Lever <chuck.lever@oracle.com>,
- kernel-tls-handshake@lists.linux.dev
-References: <20230419065714.52076-1-hare@suse.de>
- <20230419065714.52076-12-hare@suse.de>
- <31551564-2fcb-50d2-99c3-3d09473fce06@nvidia.com>
- <55ffd26c-9776-a2c7-99b2-fc45de60c0bd@suse.de>
- <09624f1c-a1e9-ad8b-bccf-c7696c398b4f@nvidia.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <09624f1c-a1e9-ad8b-bccf-c7696c398b4f@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|SA0PR12MB4526:EE_
+x-ms-office365-filtering-correlation-id: 27260fc8-75ea-485b-915f-08db512ee56a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  YBfgel+1W1ptO53ovuAP+kpYMp7cXyklAbx7iIgKQzrIVNXIbweDoJ9WtISac2tHzRUYDHdEE5LuN7gFMZUaPiewwSgZqNr4MoMnT6hZTEkfH1aCwmcW2PMkFNFL5qpPfwU2e8EvF+g4p3lx5NqMftejEKgoluU/kHfUohtn6aav5pPNgGWuKLNySHGShyJ9qNZHJZ9uintlwrQsbD+Olpyl8nczOTxE62mUP06OHsJPVPhs8jZ2onwahpvjDcRPPIYRYF50kyObVBeInyejHAkVcq3jEfhG32zthd/FwTBWJ93Pp1OBM/Dy2x94cTjdklV16jcg/mE7PERwaF6TW5VTS3DQ6NautE1sUcDpZA3cmZ6uRruCG5tSehS8gT/Q0PWpHbpRzi5TB+x7BIXZbaj0xeM4LR/cxo+vXlte2JIeqg9FASfYkd0CU8Qc5vsWddLoqWAj+R/1AZ8yEPOoaN6tjuqx2P3iv74f6q9/qONffxA6OEZTrUgttE2SdipuMKINfe2o1hkqBsj4lbkYOxCHIS7tMECCMmzd4eq2rGSVpmMoFfb83AQRDOfetwz/LCmiLTckwJvDLgQ0iC/Ke17egKZYNW1BOpE6I+Q1hVfJB+DemeyeL/L8F1/oNLImfJFzaCx8Xis9aV1BSx5SXOjt9inVUN7hl0rT9YlyGoWg81HJc7qEHnHjabGSgdunY8MdpZbp1f1a34G7qjaPU/yMCkNnGfzqEkR2AIP9siQ=
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(366004)(376002)(39860400002)(346002)(136003)(451199021)(6506007)(6512007)(53546011)(6486002)(966005)(83380400001)(36756003)(2616005)(38100700002)(122000001)(86362001)(31696002)(38070700005)(186003)(76116006)(54906003)(110136005)(316002)(8676002)(8936002)(41300700001)(71200400001)(478600001)(91956017)(4326008)(5660300002)(66476007)(66446008)(66556008)(66946007)(64756008)(31686004)(2906002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?TUpIR3J2cVVDWnpndGEvem9OTnRGcmdVRWFmUStEVG45OWhhR0E4MjVSaHJ3?=
+ =?utf-8?B?ZU83ZllPOHZwaWhCTWdUQ3hrMWcyMERKK2tiZG9CQzNGZnNxR1U4WTd6UWZZ?=
+ =?utf-8?B?MHZSS1RsVlVjQlE0Z2JoSW9kbzMvZk9wZVliR1pTUTF0NVFpUGU2VmlBRDVp?=
+ =?utf-8?B?QWRlREFVeVF5NzhZeVZpNE9MeTBWUWUwWnExNWV1eW9JSGZLdFYxUmpaNlNu?=
+ =?utf-8?B?amE4RUFRZXk4L0lNbXhlNTFqdDBGSWZLZUhtVkRBeXNiVG4zTnhhT01BMDNE?=
+ =?utf-8?B?b2N0dVNtRCsrU2tjYWc2QjA3OURhUEFoUE10UlRobHIxWjlLRnNTK0dhNk0y?=
+ =?utf-8?B?SzVCcEU4c2daZVNRelI1ZlhKY29SNVZIbVIwWGZUL3Z2bzZnbkJVcy9EMjI3?=
+ =?utf-8?B?cTRESjdIR3lyZjdweGhyZTAzWnNSMXFNdkcvQU9xbHRCZVB4SVZDSGJQeGRK?=
+ =?utf-8?B?enpZbDdlZVZIMzRSQVhrOWNkdkdBNlpQNHlEUjVSVUppbU8reWZlSWtjM1Na?=
+ =?utf-8?B?QjdEOE41TDlvRGM0N1BBaEM5T0FhRnFidDVPamlhUEZaK3NTTTY2RnA4QWto?=
+ =?utf-8?B?bUhBblZMK0Z6akNwM3JyUWduQXVSRGNSSXdyenlQRWQvVytERDUzTzBENHpj?=
+ =?utf-8?B?bHc1c1VFb21TUjBLTEFhY1VxaHJpWU5aaTVDMXlIaHc4czZPT3c3UzVQY053?=
+ =?utf-8?B?TklGK1RyNlRRRTBkQ2QyL2J6YlRxUlZ6RE1IUWpDaHY3L2xoaStnQk1OR3RL?=
+ =?utf-8?B?OE9FV2VvQ3dNTG1BYjRRUlB1eHZ5S01uREpJa0RKUW1OUy9Gb2FSdUJnMlkr?=
+ =?utf-8?B?Sm84U0tWQlpkc29HbkhHZXl0QmRlZFVmNFdDUlN5aGgzcHFHckVsdzlBci83?=
+ =?utf-8?B?NEgya0l3VWJkMlRtOWQ2RDFkRDg1NWZWS0dJZGNJc2FQcHQ0OGpjdWp5S2Zz?=
+ =?utf-8?B?MVQ3UkFrNys1UzNYcUZOL3pvR0hzL2p2K3FwRkE2TFpwUzFYV3RhQVMyTW5C?=
+ =?utf-8?B?MTc3YnZseCttNitrTU9WSGpWQjkxaUs2VGNwVi80NGRJVVlrWlpTa055aDZR?=
+ =?utf-8?B?b1FUSWlicDQzZWRqcjVlK1pjOStqSTdNeXRRZllqeFNtbVQ3ajlZMkQwYXlT?=
+ =?utf-8?B?UnpBT0ZQanloSS91eXVDdnJ2V2ZRTEZKMmk3WXhURVB4OCt3Q1ZEN2tzTjlr?=
+ =?utf-8?B?Y2pQZG1sMzJpVDl1WDlGOWJ4VjUzU3hxOWdjZlZLUGxuZzQxZTREcDhoaFJ3?=
+ =?utf-8?B?NU9oUjUvZXZvQlA4RnFUMnV3Zk5VM242SW0vOFpGNVpOSlVmN05kVU1NQ3Np?=
+ =?utf-8?B?anExb1R2R0ZVWEpqWlM3czBvaUVNSGFrMXkrV3czdEN1OUNpS2x1SWJMbTRi?=
+ =?utf-8?B?c01aNlRHekpIZkgrK0RNdW9ZTG5BT2dDa3lWcE1sS2tqRVQ2SG5DRWVNV1Na?=
+ =?utf-8?B?UTJPRUhlUTAyU3FBSWFyczFrUHdrdVM2K1lySUR3N21oakQxVXBsMHE0VXE4?=
+ =?utf-8?B?Q20xOEllVXF5dzd5Ni9rc2diTHp3MkZrOFkvaXFDdG1qT3c5TDBMTzE1aE13?=
+ =?utf-8?B?ZXNaSnBEZDRYdWFBU01lRUZ4OXpGckUrcHo2RzR4YzR5V0Q5YWo5UWlQcGxC?=
+ =?utf-8?B?blBxdEtUWHAyOUhnTGt2V2lkN21vMzFuaCtaalZKbFF4NUxRbmtQb2FIb3RF?=
+ =?utf-8?B?VUNIbVlBNUV6bTlMTVNOYTYrYUlHSlhicEppVEgveHBnVDd0Y1ZLTytTb3RR?=
+ =?utf-8?B?SFRPYSttQ2Z0YXMvU3VmaXk0RFhpdEZSN0lOM3ZRV3RzNzVhUDVTSnM4SXVN?=
+ =?utf-8?B?eXZZaXRxNnFnbUl1a3VrNUloV2NqK2RDc2d4TlR2N0tBY29kTHc4djRaNDA3?=
+ =?utf-8?B?alRuZFZHanNGZFR3REJqd3lDSGZvMFpHTmYxYVVUNHB4OGQ2YmlqRmF3UUtx?=
+ =?utf-8?B?S3NXVnA3VzZxd0RKVndPdkxraGJhY1k4YndCaW9DRmJCUzJWU2x5RmxnS2RH?=
+ =?utf-8?B?Z2JVQVNud1FlSkQxS29SOUFiZEwvVlJBbWhra2V6MFNnbzd3bWZPbnNUemU4?=
+ =?utf-8?B?ZmF1cFVkbVlqSko1STBvQXNOZDBjc3FOYk15aWUvVmpSdG1rMW0wK3ZJamw0?=
+ =?utf-8?B?QWt6aWVIN1lBa1FOK1NKU3JadHlFT0JMU0R4VlFjN05UUGNINDBiSDJNZVNK?=
+ =?utf-8?Q?imn/jCi1mXuURuejfWLUt5WCJiWc4v+v2wJrnXfYLJ6a?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <56D0407CC4247144A3364A5C865C4FBB@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 27260fc8-75ea-485b-915f-08db512ee56a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 May 2023 08:16:46.1953
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fj9W8U6yXu6nMvvFgX+ez12QMrqAiwhm6MeH4k/fC2YUoeZuoYBoMj43IAtkT3H4iTR9IOrhOTyhbs9ztXlMfQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4526
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230510_003754_502331_B0E799CB 
-X-CRM114-Status: GOOD (  26.39  )
+X-CRM114-CacheID: sfid-20230510_011650_613261_7E4BB999 
+X-CRM114-Status: GOOD (  15.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,441 +150,82 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/10/23 01:16, Max Gurtovoy wrote:
-> 
-> 
-> On 09/05/2023 17:22, Hannes Reinecke wrote:
->> On 5/9/23 11:48, Max Gurtovoy wrote:
->>>
->>>
->>> On 19/04/2023 9:57, Hannes Reinecke wrote:
->>>> Add a fabrics option 'tls' and start the TLS handshake upcall
->>>> with the default PSK. When TLS is started the PSK key serial
->>>> number is displayed in the sysfs attribute 'tls_key'
->>>
->>> Can you please explain the flow for the TLS handshake in the cover 
->>> letter ?
->>
->> Sure. Will do so in the next round.
->>
->>>>
->>>> Signed-off-by: Hannes Reinecke <hare@suse.de>
->>>> ---
->>>>   drivers/nvme/host/Kconfig   |  14 ++++
->>>>   drivers/nvme/host/core.c    |  23 ++++++-
->>>>   drivers/nvme/host/fabrics.c |  12 ++++
->>>>   drivers/nvme/host/fabrics.h |   3 +
->>>>   drivers/nvme/host/nvme.h    |   1 +
->>>>   drivers/nvme/host/tcp.c     | 129 
->>>> ++++++++++++++++++++++++++++++++++--
->>>>   6 files changed, 174 insertions(+), 8 deletions(-)
->>>>
->>>> diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
->>>> index 2f6a7f8c94e8..96a74041bb0a 100644
->>>> --- a/drivers/nvme/host/Kconfig
->>>> +++ b/drivers/nvme/host/Kconfig
->>>> @@ -92,6 +92,20 @@ config NVME_TCP
->>>>         If unsure, say N.
->>>> +config NVME_TCP_TLS
->>>> +    bool "NVMe over Fabrics TCP TLS encryption support"
->>>> +    depends on NVME_TCP
->>>> +    select NVME_COMMON
->>>> +    select NVME_KEYRING
->>>> +    select NET_HANDSHAKE
->>>> +    help
->>>> +      Enables TLS encryption for NVMe TCP using the netlink 
->>>> handshake API.
->>>> +
->>>> +      The TLS handshake daemon is availble at
->>>> +      https://github.com/oracle/ktls-utils.
->>>> +
->>>> +      If unsure, say N.
->>>> +
->>>>   config NVME_AUTH
->>>>       bool "NVM Express over Fabrics In-Band Authentication"
->>>>       depends on NVME_CORE
->>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->>>> index 79aa215aec76..937013127c91 100644
->>>> --- a/drivers/nvme/host/core.c
->>>> +++ b/drivers/nvme/host/core.c
->>>> @@ -3889,6 +3889,19 @@ static DEVICE_ATTR(dhchap_ctrl_secret, 
->>>> S_IRUGO | S_IWUSR,
->>>>       nvme_ctrl_dhchap_ctrl_secret_show, 
->>>> nvme_ctrl_dhchap_ctrl_secret_store);
->>>>   #endif
->>>> +#ifdef CONFIG_NVME_TCP_TLS
->>>> +static ssize_t tls_key_show(struct device *dev,
->>>> +                struct device_attribute *attr, char *buf)
->>>> +{
->>>> +    struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
->>>> +
->>>> +    if (!ctrl->tls_key)
->>>> +        return 0;
->>>> +    return sysfs_emit(buf, "%08x", key_serial(ctrl->tls_key));
->>>> +}
->>>> +static DEVICE_ATTR_RO(tls_key);
->>>> +#endif
->>>> +
->>>>   static struct attribute *nvme_dev_attrs[] = {
->>>>       &dev_attr_reset_controller.attr,
->>>>       &dev_attr_rescan_controller.attr,
->>>> @@ -3915,6 +3928,9 @@ static struct attribute *nvme_dev_attrs[] = {
->>>>   #ifdef CONFIG_NVME_AUTH
->>>>       &dev_attr_dhchap_secret.attr,
->>>>       &dev_attr_dhchap_ctrl_secret.attr,
->>>> +#endif
->>>> +#ifdef CONFIG_NVME_TCP_TLS
->>>> +    &dev_attr_tls_key.attr,
->>>>   #endif
->>>>       NULL
->>>>   };
->>>> @@ -3945,7 +3961,10 @@ static umode_t 
->>>> nvme_dev_attrs_are_visible(struct kobject *kobj,
->>>>       if (a == &dev_attr_dhchap_ctrl_secret.attr && !ctrl->opts)
->>>>           return 0;
->>>>   #endif
->>>> -
->>>> +#ifdef CONFIG_NVME_TCP_TLS
->>>> +    if (a == &dev_attr_tls_key.attr && !ctrl->opts)
->>>> +        return 0;
->>>> +#endif
->>>>       return a->mode;
->>>>   }
->>>> @@ -5080,7 +5099,7 @@ static void nvme_free_ctrl(struct device *dev)
->>>>       if (!subsys || ctrl->instance != subsys->instance)
->>>>           ida_free(&nvme_instance_ida, ctrl->instance);
->>>> -
->>>> +    key_put(ctrl->tls_key);
->>>>       nvme_free_cels(ctrl);
->>>>       nvme_mpath_uninit(ctrl);
->>>>       nvme_auth_stop(ctrl);
->>>> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
->>>> index bbaa04a0c502..2aa8fb991455 100644
->>>> --- a/drivers/nvme/host/fabrics.c
->>>> +++ b/drivers/nvme/host/fabrics.c
->>>> @@ -609,6 +609,9 @@ static const match_table_t opt_tokens = {
->>>>       { NVMF_OPT_DISCOVERY,        "discovery"        },
->>>>       { NVMF_OPT_DHCHAP_SECRET,    "dhchap_secret=%s"    },
->>>>       { NVMF_OPT_DHCHAP_CTRL_SECRET,    "dhchap_ctrl_secret=%s"    },
->>>> +#ifdef CONFIG_NVME_TCP_TLS
->>>
->>> This ifdef is redundant IMO.
->>> We have to many of those already in the code and we should reduce to 
->>> be able to keep the code maintainable.
->>>
->> We have been going back and forth on this, and the consensus was to 
->> _have_ a compilation flag here. This allows the userland utility 
->> nvme-cli to determine whether tls support is available on any given 
->> kernel.
-> 
-> nvme-cli will determine tls support using check for "static const 
-> match_table_t opt_tokens" ?
-> 
-Yes. The table is displayed by doing a 'cat' on /dev/nvme-fabrics, and
-nvme-cli will be parsing that to figure out if a particular option is
-supported.
-
->>
->>>> +    { NVMF_OPT_TLS,            "tls"            },
->>>> +#endif
->>>>       { NVMF_OPT_ERR,            NULL            }
->>>>   };
->>>> @@ -632,6 +635,7 @@ static int nvmf_parse_options(struct 
->>>> nvmf_ctrl_options *opts,
->>>>       opts->hdr_digest = false;
->>>>       opts->data_digest = false;
->>>>       opts->tos = -1; /* < 0 == use transport default */
->>>> +    opts->tls = false;
->>>>       options = o = kstrdup(buf, GFP_KERNEL);
->>>>       if (!options)
->>>> @@ -918,6 +922,14 @@ static int nvmf_parse_options(struct 
->>>> nvmf_ctrl_options *opts,
->>>>               kfree(opts->dhchap_ctrl_secret);
->>>>               opts->dhchap_ctrl_secret = p;
->>>>               break;
->>>> +        case NVMF_OPT_TLS:
->>>> +            if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
->>>> +                pr_err("TLS is not supported\n");
->>>> +                ret = -EINVAL;
->>>> +                goto out;
->>>> +            }
->>>> +            opts->tls = true;
->>>> +            break;
->>>>           default:
->>>>               pr_warn("unknown parameter or missing value '%s' in 
->>>> ctrl creation request\n",
->>>>                   p);
->>>> diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
->>>> index dcac3df8a5f7..5db36e250e7a 100644
->>>> --- a/drivers/nvme/host/fabrics.h
->>>> +++ b/drivers/nvme/host/fabrics.h
->>>> @@ -70,6 +70,7 @@ enum {
->>>>       NVMF_OPT_DISCOVERY    = 1 << 22,
->>>>       NVMF_OPT_DHCHAP_SECRET    = 1 << 23,
->>>>       NVMF_OPT_DHCHAP_CTRL_SECRET = 1 << 24,
->>>> +    NVMF_OPT_TLS        = 1 << 25,
->>>>   };
->>>>   /**
->>>> @@ -102,6 +103,7 @@ enum {
->>>>    * @dhchap_secret: DH-HMAC-CHAP secret
->>>>    * @dhchap_ctrl_secret: DH-HMAC-CHAP controller secret for 
->>>> bi-directional
->>>>    *              authentication
->>>> + * @tls:        Start TLS encrypted connections (TCP)
->>>>    * @disable_sqflow: disable controller sq flow control
->>>>    * @hdr_digest: generate/verify header digest (TCP)
->>>>    * @data_digest: generate/verify data digest (TCP)
->>>> @@ -128,6 +130,7 @@ struct nvmf_ctrl_options {
->>>>       int            max_reconnects;
->>>>       char            *dhchap_secret;
->>>>       char            *dhchap_ctrl_secret;
->>>> +    bool            tls;
->>>>       bool            disable_sqflow;
->>>>       bool            hdr_digest;
->>>>       bool            data_digest;
->>>> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
->>>> index bf46f122e9e1..fbcc0ccf2ef2 100644
->>>> --- a/drivers/nvme/host/nvme.h
->>>> +++ b/drivers/nvme/host/nvme.h
->>>> @@ -347,6 +347,7 @@ struct nvme_ctrl {
->>>>       struct nvme_dhchap_key *ctrl_key;
->>>>       u16 transaction;
->>>>   #endif
->>>> +    struct key *tls_key;
->>>>       /* Power saving configuration */
->>>>       u64 ps_max_latency_us;
->>>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
->>>> index 9deba481ae6a..d25695cf4e03 100644
->>>> --- a/drivers/nvme/host/tcp.c
->>>> +++ b/drivers/nvme/host/tcp.c
->>>> @@ -8,9 +8,13 @@
->>>>   #include <linux/init.h>
->>>>   #include <linux/slab.h>
->>>>   #include <linux/err.h>
->>>> +#include <linux/key.h>
->>>>   #include <linux/nvme-tcp.h>
->>>> +#include <linux/nvme-keyring.h>
->>>>   #include <net/sock.h>
->>>>   #include <net/tcp.h>
->>>> +#include <net/tls.h>
->>>> +#include <net/handshake.h>
->>>>   #include <linux/blk-mq.h>
->>>>   #include <crypto/hash.h>
->>>>   #include <net/busy_poll.h>
->>>> @@ -31,6 +35,16 @@ static int so_priority;
->>>>   module_param(so_priority, int, 0644);
->>>>   MODULE_PARM_DESC(so_priority, "nvme tcp socket optimize priority");
->>>> +#ifdef CONFIG_NVME_TCP_TLS
->>>> +/*
->>>> + * TLS handshake timeout
->>>> + */
->>>> +static int tls_handshake_timeout = 10;
->>>> +module_param(tls_handshake_timeout, int, 0644);
->>>> +MODULE_PARM_DESC(tls_handshake_timeout,
->>>> +         "nvme TLS handshake timeout in seconds (default 10)");
->>>> +#endif
->>>
->>> Module param under ifdef also sounds redundant.
->>>> +
->>>>   #ifdef CONFIG_DEBUG_LOCK_ALLOC
->>>>   /* lockdep can detect a circular dependency of the form
->>>>    *   sk_lock -> mmap_lock (page fault) -> fs locks -> sk_lock
->>>> @@ -146,7 +160,10 @@ struct nvme_tcp_queue {
->>>>       struct ahash_request    *snd_hash;
->>>>       __le32            exp_ddgst;
->>>>       __le32            recv_ddgst;
->>>> -
->>>> +#ifdef CONFIG_NVME_TCP_TLS
->>>> +    struct completion       tls_complete;
->>>> +    int                     tls_err;
->>>> +#endif
->>>>       struct page_frag_cache    pf_cache;
->>>>       void (*state_change)(struct sock *);
->>>> @@ -1502,7 +1519,79 @@ static void nvme_tcp_set_queue_io_cpu(struct 
->>>> nvme_tcp_queue *queue)
->>>>       queue->io_cpu = cpumask_next_wrap(n - 1, cpu_online_mask, -1, 
->>>> false);
->>>>   }
->>>> -static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
->>>> +#ifdef CONFIG_NVME_TCP_TLS
->>>> +static void nvme_tcp_tls_done(void *data, int status, key_serial_t 
->>>> pskid)
->>>> +{
->>>> +    struct nvme_tcp_queue *queue = data;
->>>> +    struct nvme_tcp_ctrl *ctrl = queue->ctrl;
->>>> +    int qid = nvme_tcp_queue_id(queue);
->>>> +    struct key *tls_key;
->>>> +
->>>> +    dev_dbg(ctrl->ctrl.device, "queue %d: TLS handshake done, key 
->>>> %x, status %d\n",
->>>> +        qid, pskid, status);
->>>> +
->>>> +    if (status) {
->>>> +        queue->tls_err = -status;
->>>> +        goto out_complete;
->>>> +    }
->>>> +
->>>> +    tls_key = key_lookup(pskid);
->>>> +    if (IS_ERR(tls_key)) {
->>>> +        dev_warn(ctrl->ctrl.device, "queue %d: Invalid key %x\n",
->>>> +             qid, pskid);
->>>> +        queue->tls_err = -ENOKEY;
->>>> +    } else {
->>>> +        ctrl->ctrl.tls_key = tls_key;
->>>> +        queue->tls_err = 0;
->>>> +    }
->>>> +
->>>> +out_complete:
->>>> +    complete(&queue->tls_complete);
->>>> +}
->>>> +
->>>> +static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
->>>> +                  struct nvme_tcp_queue *queue,
->>>> +                  key_serial_t pskid)
->>>> +{
->>>> +    int qid = nvme_tcp_queue_id(queue);
->>>> +    int ret;
->>>> +    struct tls_handshake_args args;
->>>> +    unsigned long tmo = tls_handshake_timeout * HZ;
->>>> +    key_serial_t keyring = nvme_keyring_id();
->>>> +
->>>> +    dev_dbg(nctrl->device, "queue %d: start TLS with key %x\n",
->>>> +        qid, pskid);
->>>> +    args.ta_sock = queue->sock;
->>>> +    args.ta_done = nvme_tcp_tls_done;
->>>> +    args.ta_data = queue;
->>>> +    args.ta_my_peerids[0] = pskid;
->>>> +    args.ta_num_peerids = 1;
->>>> +    args.ta_keyring = keyring;
->>>> +    args.ta_timeout_ms = tls_handshake_timeout * 1000;
->>>> +    queue->tls_err = -EOPNOTSUPP;
->>>> +    init_completion(&queue->tls_complete);
->>>> +    ret = tls_client_hello_psk(&args, GFP_KERNEL);
->>>> +    if (ret) {
->>>> +        dev_err(nctrl->device, "queue %d: failed to start TLS: %d\n",
->>>> +            qid, ret);
->>>> +        return ret;
->>>> +    }
->>>> +    if (wait_for_completion_timeout(&queue->tls_complete, tmo) == 0) {
->>>> +        dev_err(nctrl->device,
->>>> +            "queue %d: TLS handshake timeout\n", qid);
->>>> +        ret = -ETIMEDOUT;
->>>> +    } else {
->>>> +        dev_dbg(nctrl->device,
->>>> +            "queue %d: TLS handshake complete, error %d\n",
->>>> +            qid, queue->tls_err);
->>>> +        ret = queue->tls_err;
->>>> +    }
->>>> +    return ret;
->>>> +}
->>>> +#endif
->>>> +
->>>> +static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
->>>> +                key_serial_t pskid)
->>>>   {
->>>>       struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
->>>>       struct nvme_tcp_queue *queue = &ctrl->queues[qid];
->>>> @@ -1626,6 +1715,14 @@ static int nvme_tcp_alloc_queue(struct 
->>>> nvme_ctrl *nctrl, int qid)
->>>>           goto err_rcv_pdu;
->>>>       }
->>>> +#ifdef CONFIG_NVME_TCP_TLS
->>>> +    /* If PSKs are configured try to start TLS */
->>>> +    if (pskid) {
->>>> +        ret = nvme_tcp_start_tls(nctrl, queue, pskid);
->>>> +        if (ret)
->>>> +            goto err_init_connect;
->>>> +    }
->>>> +#endif
->>>
->>> Maybe reduce ifdef here and use IS_ENABLED ? (might be done in 
->>> nvme_tcp_start_tls too)
->>>
->> Then I would need to have a dummy definition for 'nvme_tcp_start_tls';
->> but yeah, could do.
->>
->>>>       ret = nvme_tcp_init_connection(queue);
->>>>       if (ret)
->>>>           goto err_init_connect;
->>>> @@ -1769,10 +1866,22 @@ static int nvme_tcp_start_io_queues(struct 
->>>> nvme_ctrl *ctrl,
->>>>   static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
->>>>   {
->>>>       int ret;
->>>> +    key_serial_t psk_id = 0;
->>>> +
->>>> +    if (ctrl->opts->tls) {
->>>> +        psk_id = nvme_tls_psk_default(NULL,
->>>> +                          ctrl->opts->host->nqn,
->>>> +                          ctrl->opts->subsysnqn);
-> 
-> After the patch squash you will not need this defaulk psk and also the 
-> opts->tls.
-> Why not ask the user provide it explicitly always ? why do we need a 
-> default ?
-> I'm not TLS expert, but seem redundant..
-> 
-> 
-No. 'tls' enables a TLS connection with the credential from the keyring
-which matches the host and controller identification.
-We could ask the user, but the information would be the same.
-They only can differ if the user specifies a different keyring, and then
-we might need to specify which key we want to use.
-
->>>> +        if (!psk_id) {
->>>> +            dev_err(ctrl->device, "no valid PSK found\n");
->>>> +            ret = -ENOKEY;
->>>> +            goto out_free_queue;
->>>> +        }
->>>> +    }
->>>> -    ret = nvme_tcp_alloc_queue(ctrl, 0);
->>>> +    ret = nvme_tcp_alloc_queue(ctrl, 0, psk_id);
->>>>       if (ret)
->>>> -        return ret;
->>>> +        goto out_free_queue;
->>>>       ret = nvme_tcp_alloc_async_req(to_tcp_ctrl(ctrl));
->>>>       if (ret)
->>>> @@ -1788,9 +1897,17 @@ static int nvme_tcp_alloc_admin_queue(struct 
->>>> nvme_ctrl *ctrl)
->>>>   static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
->>>>   {
->>>>       int i, ret;
->>>> +    key_serial_t psk_id = 0;
->>>> +    if (ctrl->opts->tls) {
->>>> +        if (!ctrl->tls_key) {
->>>> +            dev_err(ctrl->device, "no PSK negotiated\n");
->>>> +            return -ENOKEY;
->>>> +        }
->>>> +        psk_id = key_serial(ctrl->tls_key);
->>>> +    }
->>>>       for (i = 1; i < ctrl->queue_count; i++) {
->>>> -        ret = nvme_tcp_alloc_queue(ctrl, i);
->>>> +        ret = nvme_tcp_alloc_queue(ctrl, i, psk_id);
->>>>           if (ret)
->>>>               goto out_free_queues;
->>>>       }
->>>> @@ -2699,7 +2816,7 @@ static struct nvmf_transport_ops 
->>>> nvme_tcp_transport = {
->>>>                 NVMF_OPT_HOST_TRADDR | NVMF_OPT_CTRL_LOSS_TMO |
->>>>                 NVMF_OPT_HDR_DIGEST | NVMF_OPT_DATA_DIGEST |
->>>>                 NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_NR_POLL_QUEUES |
->>>> -              NVMF_OPT_TOS | NVMF_OPT_HOST_IFACE,
->>>> +              NVMF_OPT_TOS | NVMF_OPT_HOST_IFACE | NVMF_OPT_TLS,
->>>>       .create_ctrl    = nvme_tcp_create_ctrl,
->>>>   };
->>
->> Cheers,
->>
->> Hannes
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
-
+T24gNS85LzIzIDA2OjU2LCBCYXJ0IFZhbiBBc3NjaGUgd3JvdGU6DQo+IFdhaXRpbmcgaW4gbnZt
+ZXRfcmRtYV9xdWV1ZV9jb25uZWN0KCkgZm9yIHByZXZpb3VzIHRlYXJkb3ducyB0byBjb21wbGV0
+ZQ0KPiAoZmx1c2hfd29ya3F1ZXVlKG52bWV0X3dxKSkgY29uZnVzZXMgbG9ja2RlcC4gQ2xlYXIg
+dXAgdGhpcyBjb25mdXNpb24gYnkNCj4gYnkgdXNpbmcgZHluYW1pYyBsb2NrZGVwIGtleXMgaW5z
+dGVhZCBvZiBzdGF0aWMgbG9ja2RlcCBrZXlzIGZvcg0KPiBxdWV1ZS0+cmVsZWFzZV93b3JrLg0K
+Pg0KPiBTZWUgYWxzbyB0aGUgZm9sbG93aW5nIHJlcG9ydCBieSBTaGluaWNoaXJvOg0KPiBodHRw
+czovL2xvcmUua2VybmVsLm9yZy9hbGwvcnNtbXhyY2h5NnZvaTVxaGw0aXJzczVzcHJuYTNmNW93
+a3F0dnlieGdsY3YycG55bG1AeG1ybnBmdTN0ZnBlLw0KPg0KPiBUaGlzIHBhdGNoIGF2b2lkcyB0
+aGF0IGxvY2tkZXAgcmVwb3J0cyB0aGUgZm9sbG93aW5nOg0KPg0KPiA9PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCj4gV0FSTklORzogcG9zc2li
+bGUgY2lyY3VsYXIgbG9ja2luZyBkZXBlbmRlbmN5IGRldGVjdGVkDQo+IDQuMTkuMC1kYmcrICMx
+IE5vdCB0YWludGVkDQo+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLQ0KPiBrd29ya2VyL3UxMjowLzcgaXMgdHJ5aW5nIHRvIGFjcXVpcmUgbG9j
+azoNCj4gMDAwMDAwMDBjMDNhOTFkMSAoJmlkX3ByaXYtPmhhbmRsZXJfbXV0ZXgpeysuKy59LCBh
+dDogcmRtYV9kZXN0cm95X2lkKzB4NmYvMHg0NDAgW3JkbWFfY21dDQo+DQo+IGJ1dCB0YXNrIGlz
+IGFscmVhZHkgaG9sZGluZyBsb2NrOg0KPiAod29ya19jb21wbGV0aW9uKSgmcXVldWUtPnJlbGVh
+c2Vfd29yaykpeysuKy59LCBhdDogcHJvY2Vzc19vbmVfd29yaysweDNjOS8weDlmMA0KPiB3aGlj
+aCBsb2NrIGFscmVhZHkgZGVwZW5kcyBvbiB0aGUgbmV3IGxvY2suDQo+DQo+IHRoZSBleGlzdGlu
+ZyBkZXBlbmRlbmN5IGNoYWluIChpbiByZXZlcnNlIG9yZGVyKSBpczoNCj4gLT4gIzMgKCh3b3Jr
+X2NvbXBsZXRpb24pKCZxdWV1ZS0+cmVsZWFzZV93b3JrKSl7Ky4rLn06DQo+ICAgICAgICAgcHJv
+Y2Vzc19vbmVfd29yaysweDQ0Ny8weDlmMA0KPiAgICAgICAgIHdvcmtlcl90aHJlYWQrMHg2My8w
+eDVhMA0KPiAgICAgICAgIGt0aHJlYWQrMHgxY2YvMHgxZjANCj4gICAgICAgICByZXRfZnJvbV9m
+b3JrKzB4MjQvMHgzMA0KPiAtPiAjMiAoKHdxX2NvbXBsZXRpb24pIm52bWV0LXJkbWEtZGVsZXRl
+LXdxIil7Ky4rLn06DQo+ICAgICAgICAgZmx1c2hfd29ya3F1ZXVlKzB4ZjMvMHg5NzANCj4gICAg
+ICAgICBudm1ldF9yZG1hX2NtX2hhbmRsZXIrMHgxMzIwLzB4MTcwZiBbbnZtZXRfcmRtYV0NCj4g
+ICAgICAgICBjbWFfaWJfcmVxX2hhbmRsZXIrMHg3MmYvMHhmOTAgW3JkbWFfY21dDQo+ICAgICAg
+ICAgY21fcHJvY2Vzc193b3JrKzB4MmUvMHgxMTAgW2liX2NtXQ0KPiAgICAgICAgIGNtX3dvcmtf
+aGFuZGxlcisweDQzMWUvMHg1MGJhIFtpYl9jbV0NCj4gICAgICAgICBwcm9jZXNzX29uZV93b3Jr
+KzB4NDgxLzB4OWYwDQo+ICAgICAgICAgd29ya2VyX3RocmVhZCsweDYzLzB4NWEwDQo+ICAgICAg
+ICAga3RocmVhZCsweDFjZi8weDFmMA0KPiAgICAgICAgIHJldF9mcm9tX2ZvcmsrMHgyNC8weDMw
+DQo+IC0+ICMxICgmaWRfcHJpdi0+aGFuZGxlcl9tdXRleC8xKXsrLisufToNCj4gICAgICAgICBf
+X211dGV4X2xvY2srMHhmZS8weGJlMA0KPiAgICAgICAgIG11dGV4X2xvY2tfbmVzdGVkKzB4MWIv
+MHgyMA0KPiAgICAgICAgIGNtYV9pYl9yZXFfaGFuZGxlcisweDZhYS8weGY5MCBbcmRtYV9jbV0N
+Cj4gICAgICAgICBjbV9wcm9jZXNzX3dvcmsrMHgyZS8weDExMCBbaWJfY21dDQo+ICAgICAgICAg
+Y21fd29ya19oYW5kbGVyKzB4NDMxZS8weDUwYmEgW2liX2NtXQ0KPiAgICAgICAgIHByb2Nlc3Nf
+b25lX3dvcmsrMHg0ODEvMHg5ZjANCj4gICAgICAgICB3b3JrZXJfdGhyZWFkKzB4NjMvMHg1YTAN
+Cj4gICAgICAgICBrdGhyZWFkKzB4MWNmLzB4MWYwDQo+ICAgICAgICAgcmV0X2Zyb21fZm9yaysw
+eDI0LzB4MzANCj4gLT4gIzAgKCZpZF9wcml2LT5oYW5kbGVyX211dGV4KXsrLisufToNCj4gICAg
+ICAgICBsb2NrX2FjcXVpcmUrMHhjNS8weDIwMA0KPiAgICAgICAgIF9fbXV0ZXhfbG9jaysweGZl
+LzB4YmUwDQo+ICAgICAgICAgbXV0ZXhfbG9ja19uZXN0ZWQrMHgxYi8weDIwDQo+ICAgICAgICAg
+cmRtYV9kZXN0cm95X2lkKzB4NmYvMHg0NDAgW3JkbWFfY21dDQo+ICAgICAgICAgbnZtZXRfcmRt
+YV9yZWxlYXNlX3F1ZXVlX3dvcmsrMHg4ZS8weDFiMCBbbnZtZXRfcmRtYV0NCj4gICAgICAgICBw
+cm9jZXNzX29uZV93b3JrKzB4NDgxLzB4OWYwDQo+ICAgICAgICAgd29ya2VyX3RocmVhZCsweDYz
+LzB4NWEwDQo+ICAgICAgICAga3RocmVhZCsweDFjZi8weDFmMA0KPiAgICAgICAgIHJldF9mcm9t
+X2ZvcmsrMHgyNC8weDMwDQo+IG90aGVyIGluZm8gdGhhdCBtaWdodCBoZWxwIHVzIGRlYnVnIHRo
+aXM6DQo+IENoYWluIGV4aXN0cyBvZjoNCj4gICAgJmlkX3ByaXYtPmhhbmRsZXJfbXV0ZXggLS0+
+ICh3cV9jb21wbGV0aW9uKSJudm1ldC1yZG1hLWRlbGV0ZS13cSIgLS0+ICh3b3JrX2NvbXBsZXRp
+b24pKCZxdWV1ZS0+cmVsZWFzZV93b3JrKQ0KPg0KPiBQb3NzaWJsZSB1bnNhZmUgbG9ja2luZyBz
+Y2VuYXJpbzoNCj4NCj4gICAgICAgICBDUFUwICAgICAgICAgICAgICAgICAgICBDUFUxDQo+ICAg
+ICAgICAgLS0tLSAgICAgICAgICAgICAgICAgICAgLS0tLQ0KPiAgICBsb2NrKCh3b3JrX2NvbXBs
+ZXRpb24pKCZxdWV1ZS0+cmVsZWFzZV93b3JrKSk7DQo+ICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgbG9jaygod3FfY29tcGxldGlvbikibnZtZXQtcmRtYS1kZWxldGUtd3EiKTsNCj4g
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsb2NrKCh3b3JrX2NvbXBsZXRpb24pKCZx
+dWV1ZS0+cmVsZWFzZV93b3JrKSk7DQo+ICAgIGxvY2soJmlkX3ByaXYtPmhhbmRsZXJfbXV0ZXgp
+Ow0KPg0KPiAgICoqKiBERUFETE9DSyAqKioNCj4NCj4gMiBsb2NrcyBoZWxkIGJ5IGt3b3JrZXIv
+dTEyOjAvNzoNCj4gICAjMDogMDAwMDAwMDAyNzIxMzRmMiAoKHdxX2NvbXBsZXRpb24pIm52bWV0
+LXJkbWEtZGVsZXRlLXdxIil7Ky4rLn0sIGF0OiBwcm9jZXNzX29uZV93b3JrKzB4M2M5LzB4OWYw
+DQo+ICAgIzE6IDAwMDAwMDAwOTA1MzFmY2QgKCh3b3JrX2NvbXBsZXRpb24pKCZxdWV1ZS0+cmVs
+ZWFzZV93b3JrKSl7Ky4rLn0sIGF0OiBwcm9jZXNzX29uZV93b3JrKzB4M2M5LzB4OWYwDQo+DQo+
+ICAgICAgICAgICAgICAgICBzdGFjayBiYWNrdHJhY2U6DQo+IENQVTogMSBQSUQ6IDcgQ29tbTog
+a3dvcmtlci91MTI6MCBOb3QgdGFpbnRlZCA0LjE5LjAtZGJnKyAjMQ0KPiBIYXJkd2FyZSBuYW1l
+OiBRRU1VIFN0YW5kYXJkIFBDIChpNDQwRlggKyBQSUlYLCAxOTk2KSwgQklPUyAxLjEwLjItMSAw
+NC8wMS8yMDE0DQo+IFdvcmtxdWV1ZTogbnZtZXQtcmRtYS1kZWxldGUtd3EgbnZtZXRfcmRtYV9y
+ZWxlYXNlX3F1ZXVlX3dvcmsgW252bWV0X3JkbWFdDQo+IENhbGwgVHJhY2U6DQo+ICAgZHVtcF9z
+dGFjaysweDg2LzB4YzUNCj4gICBwcmludF9jaXJjdWxhcl9idWcuaXNyYS4zMisweDIwYS8weDIx
+OA0KPiAgIF9fbG9ja19hY3F1aXJlKzB4MWM2OC8weDFjZjANCj4gICBsb2NrX2FjcXVpcmUrMHhj
+NS8weDIwMA0KPiAgIF9fbXV0ZXhfbG9jaysweGZlLzB4YmUwDQo+ICAgbXV0ZXhfbG9ja19uZXN0
+ZWQrMHgxYi8weDIwDQo+ICAgcmRtYV9kZXN0cm95X2lkKzB4NmYvMHg0NDAgW3JkbWFfY21dDQo+
+ICAgbnZtZXRfcmRtYV9yZWxlYXNlX3F1ZXVlX3dvcmsrMHg4ZS8weDFiMCBbbnZtZXRfcmRtYV0N
+Cj4gICBwcm9jZXNzX29uZV93b3JrKzB4NDgxLzB4OWYwDQo+ICAgd29ya2VyX3RocmVhZCsweDYz
+LzB4NWEwDQo+ICAga3RocmVhZCsweDFjZi8weDFmMA0KPiAgIHJldF9mcm9tX2ZvcmsrMHgyNC8w
+eDMwDQo+DQo+IENjOiBTYWdpIEdyaW1iZXJnIDxzYWdpQGdyaW1iZXJnLm1lPg0KPiBDYzogTWF4
+IEd1cnRvdm95IDxtYXhnQG1lbGxhbm94LmNvbT4NCj4gQ2M6IEhhbm5lcyBSZWluZWNrZSA8aGFy
+ZUBzdXNlLmRlPg0KPiBDYzogU2hpbidpY2hpcm8gS2F3YXNha2kgPHNoaW5pY2hpcm8ua2F3YXNh
+a2lAd2RjLmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogQmFydCBWYW4gQXNzY2hlIDxidmFuYXNzY2hl
+QGFjbS5vcmc+DQo+IC0tLQ0KPiAgIA0KDQptdWNoIG5lZWRlZCBmaXggdG8gc3RvcCB0aGVzZSBy
+ZXBlYXRlZCByZXBvcnRzIHRvIHNhdmUgZXZlcnlvbmUncyB0aW1lIC4uDQoNClJldmlld2VkLWJ5
+OiBDaGFpdGFueWEgS3Vsa2FybmkgPGtjaEBudmlkaWEuY29tPg0KDQotY2sNCg0KDQo=
 
