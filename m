@@ -4,81 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1927DC7EE22
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 May 2023 17:14:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D3DBC7EE22
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 May 2023 17:24:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+2RPcnuD/B5/jpEGRvPjSZU9zdchad+gheYdPhvKsik=; b=XQB0k0LHG28y368JoPmzUmwZ/f
-	58KlQXqMzEDByqDQSDn3MC2RFBxRQ5ZmuunPza54Bufis9foxXjqQ19uy7dCs6zjVCbHVhmob1gTo
-	Mvm/RLwadq6VIlBIpcPvRr8BxIzotaZUooz1boa/ERjjQbHgEEJlOdQnWppaC1Bensa1FD+MNRkS3
-	I8bl3+S/UpkTBM4jQUtdECEPLxvY5cIu+d5+JvoIF64UBT0OcOhl0Qh/0PjjePW4KJ6txMDKWrQWv
-	ESFWAoJLgoEEdT+YjtgIbN5ACr/haf0DQe+3UU3SnK6MGnNXj3fuXenNkE54tf4ie9Y+tnOHVE2cQ
-	yaNpmkuw==;
+	bh=kuetgIzwwu+7VqT/P0y7E9p5TtmeuKVCGagj0//uNXg=; b=0x2rzq1NPSAlaVQaKTB7ULoLIn
+	IgHbHNZJIE4wHD3VwHAgzX3AaFZfH9D0aZjhkevBx4oENl54x95d0vQsZphbVCjHFSMswCldzCjZG
+	bi/7bx5BrR2V3FH02hwtAzEiBdGslu0oSO0FAGigJUjux8tyuNPcncdnpQorrBs/nnNEn0t088E55
+	yWWW6OIqCYTXCVwv4xqAZ2gCAlF/lpnWVfq8h7S3Gq/DlqjTs4rPzXL982DQVRYcE/ejDLL3qZ9Uz
+	AJHMkKwM8YLA/G7sYa8xn8qdVn0guakWl4wnYJIO0vVS0YffD4bBPBcNbr9bFaCbTrd8s615pNM39
+	pzcYRLBg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pwnOY-006e44-1d;
-	Wed, 10 May 2023 17:14:30 +0000
+	id 1pwnY1-006eqU-2V;
+	Wed, 10 May 2023 17:24:17 +0000
 Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pwnOW-006e3P-1n
+	id 1pwnXy-006epu-0s
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 May 2023 17:14:29 +0000
+	Wed, 10 May 2023 17:24:15 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D5A581F747;
-	Wed, 10 May 2023 17:14:24 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8F6DE1F8B4;
+	Wed, 10 May 2023 17:24:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1683738864; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1683739452; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+2RPcnuD/B5/jpEGRvPjSZU9zdchad+gheYdPhvKsik=;
-	b=CDhVusS9912eGykAiQg6jDXMItwGdq4OE7PYs9GVcisKsjLU9Ik0z5HcqXvw98UMJmZNUh
-	RhZ+NcOiLFCSKWbpVFHP1Zwad+oTKc0Oh4kGJY1gEjR5EYnBLS7bsllaSZQ0sF5Z4BKS8v
-	dLXHCyJthyPPYg7i+ssI+LGL80Z109E=
+	bh=kuetgIzwwu+7VqT/P0y7E9p5TtmeuKVCGagj0//uNXg=;
+	b=YWD7wPAXrRp/wAp70Aa1nMiD75z2StfVsG9Y8R+nU0bqMuMoAr5bAEaUSEwT/kKxbx+ESo
+	GNaaPHcFEEAievvqbVFjfWk174vWnNruT9gyxsZgbdyYUyTFKHJ8MEl3fwExMGzVNG5SE9
+	tdntxfynuUo2gNbA/Abvbel7xUJBfmQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1683738864;
+	s=susede2_ed25519; t=1683739452;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+2RPcnuD/B5/jpEGRvPjSZU9zdchad+gheYdPhvKsik=;
-	b=+MV2TCiVhwrQVmQhz0kE4dKRD3/8Sq2ueROZPM78U8lF9yXdmTnCmGdTfBimjYWSFH/H82
-	ckOAlFD5+0bsLJDg==
+	bh=kuetgIzwwu+7VqT/P0y7E9p5TtmeuKVCGagj0//uNXg=;
+	b=VMHcJ3ee1DpYaK0F65tjcDA8Jto+NLO6Hki7H5ikt768MwZWsEh38WEqMcvyEyJDDQlaDd
+	iv7zegohShT4ASDg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 37BE413519;
-	Wed, 10 May 2023 17:14:23 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 00F2213519;
+	Wed, 10 May 2023 17:24:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id eGEpOe/QW2SZCAAAMHmgww
-	(envelope-from <dwagner@suse.de>); Wed, 10 May 2023 17:14:23 +0000
-Date: Wed, 10 May 2023 19:14:21 +0200
+	id hTFHLTvTW2SWDQAAMHmgww
+	(envelope-from <dwagner@suse.de>); Wed, 10 May 2023 17:24:11 +0000
+Date: Wed, 10 May 2023 19:24:09 +0200
 From: Daniel Wagner <dwagner@suse.de>
 To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
 	Chaitanya Kulkarni <kch@nvidia.com>, Shin'ichiro Kawasaki <shinichiro@fastmail.com>, 
 	Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH blktests v3 10/12] nvme/rc: Calculate IO size for random
- fio jobs
-Message-ID: <vlq7hqrweo527daqh7m5iidcvlhujxsc3hwmeqm2oen4dbucsa@3yo2lm3d6aap>
+Subject: Re: [PATCH blktests v3 11/12] nvme/rc: Move discovery generation
+ counter code to rc
+Message-ID: <5mizvgs3mwoxbkgb3axuhgkmjjxa6svi4laksdccg3oue5fwf7@4mqtz2dm6phj>
 References: <20230503080258.14525-1-dwagner@suse.de>
- <20230503080258.14525-11-dwagner@suse.de>
- <xqdnjtl5m6idy7kecwpc6nho74twnvcslkvxnyto6aflz54y5p@6rqao2i3ro2r>
+ <20230503080258.14525-12-dwagner@suse.de>
+ <4zt5oysmqw72l4xzfja2oer72hryisz6zzbboz7dmhhzfypuwx@yrf2utjkv66b>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <xqdnjtl5m6idy7kecwpc6nho74twnvcslkvxnyto6aflz54y5p@6rqao2i3ro2r>
+In-Reply-To: <4zt5oysmqw72l4xzfja2oer72hryisz6zzbboz7dmhhzfypuwx@yrf2utjkv66b>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230510_101428_740044_2AD3C96D 
-X-CRM114-Status: GOOD (  10.30  )
+X-CRM114-CacheID: sfid-20230510_102414_479655_0808236F 
+X-CRM114-Status: GOOD (  14.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,18 +93,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, May 07, 2023 at 11:31:10PM +0000, Shinichiro Kawasaki wrote:
- > -	_xfs_run_fio_verify_io /dev/"${nvmedev}n1" "1m" || echo FAIL
-> > +	rand_io_size="$(_nvme_calc_rand_io_size 4M)"
-> > +	_run_fio_rand_io --filename="/dev/${nvmedev}n1" --size="${rand_io_size}"
+On Sun, May 07, 2023 at 11:34:51PM +0000, Shinichiro Kawasaki wrote:
+> On May 03, 2023 / 10:02, Daniel Wagner wrote:
+> > Move the discovery generation counter code to rc so that we can reuse
+> > it in 002.
 > 
-> Here, _xfs_run_fio_verify_io is replaced with _run_fio_rand_io. May I confirm
-> that this replacement does not affect this test case? Same question for the hunk
-> below.
+> The last #12 patch no longer touches nvme/002, then I'm not so sure this patch
+> is valuable. IMO, the lengthy 002.out has the role to check all of the 1000
+> times discoveries are successful. So it looks the better to keep current
+> nvme/002 as is.
 
-This is on purpose. The test just wants only verify that IO is still working.
-Because _xfs_run_fio_verify_io has the minimum requirement of 350M for
-nvme_img_size. When I wrote the test I didn't know this and thus this change.
-
-I'll update the commit message to include this info.
+While we don't update the counter anymore, I still think it's worthwhile to
+do some cleanup. We have two tests which do the same thing so why not use common
+code?
 
