@@ -4,69 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B06D9C7EE22
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 May 2023 11:10:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01C38C77B7C
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 May 2023 12:06:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=qHrDSUeKJDVZCBua2gHhrubPkS/3tJchVGCda1DQz5U=; b=q5wmhjD6o12AAMgCbyUX3M+SPn
-	IrjqWDHvEcFg6eTPBJ0PKvGz/a8MItOkwHs6wY3Haj8fFPQTwcJZe+jgeNkhRU7cLT8GkHnmae54v
-	M/EO1yfgP2f9Xui0WIFba6l9KcSBWrgQI6dES/Dru6tVWe6yyInRqkSc5wF46L5mLy9rhNxFkkOt+
-	3aAnvGRHjB2IYrAk7CuyEHd6JaqBM+SX72kDIF8WcOVBfTm+tzXmjrYSlt9EwirGIclcI2/B1zUpY
-	nR9n62uIy62eH8Ptvi6zpZCeykYwijvSrMp/D+eEaTiqsLOg97uEtYa/7namq6vEureIECwbxYudR
-	Ephjlymw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2tDfXQ17FO7BOQj7+ESY06ETyUTlemE288YQq2nrYcU=; b=MBQUQL9+KNGlue2mTXeVv5+B98
+	1nwcP7yz2fhR2r7R4T6sjpe4pThG3xv/Qao4OZPBvrRTS+MAIVbMIJzWpVddM4bVBKNmHW5AgUIy+
+	hy4W8R2Wv5QzqnZG8AwhxbOTWllareVvqILbl+IOj6LmJugY+1Ie1Y4FBGoByqOw6W5+7SrvnCY1Q
+	IW5T1D8csiP0/oMBURA1xtiR9XQG/dAcffxXNMIoonxOykgy0LA4WvuPLBPCaqn6WiMzTnB/ArCeQ
+	/Gw9XiiIG1AEk61y9iVsp1Stn7tO1AqHQOAOTVimXvztP027XR2YALEIWIJYPbd60q6q/xqllFsXQ
+	FUwHvfqA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1px4BS-008dJm-2f;
-	Thu, 11 May 2023 11:10:06 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1px54A-008i3M-0d;
+	Thu, 11 May 2023 12:06:38 +0000
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1px4BP-008dJJ-2P
+	id 1px547-008i2N-1n
 	for linux-nvme@lists.infradead.org;
-	Thu, 11 May 2023 11:10:05 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1683803401;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=qHrDSUeKJDVZCBua2gHhrubPkS/3tJchVGCda1DQz5U=;
-	b=KF9zdTWX+t4JW4tFjv/RyhytHFaA9TPgD5/yML9WFMHq8eK8R7Hz+U7ASLO/nPDYqNrukM
-	LOYjhKw4/wVjpCmUa3lCTDplj2mX6NX9hC6hVqNAGgImSWPgVV37wKG8dTE5J7ES5N0EYw
-	MwhAoam9sW5X9MlGjgwI+PnsGZMaf9A=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-176-DaAU1rOgP0aXlnv19A5wTQ-1; Thu, 11 May 2023 07:07:45 -0400
-X-MC-Unique: DaAU1rOgP0aXlnv19A5wTQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A88C585A5A3;
-	Thu, 11 May 2023 11:07:44 +0000 (UTC)
-Received: from kalibr.redhat.com (unknown [10.35.206.135])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id C52AE492C13;
-	Thu, 11 May 2023 11:07:42 +0000 (UTC)
-From: Maurizio Lombardi <mlombard@redhat.com>
-To: linux-nvme@lists.infradead.org
-Cc: axboe@kernel.dk,
-	sagi@grimberg.me,
-	hch@lst.de,
-	kbusch@kernel.org
-Subject: [PATCH] nvme: do not let the user delete a ctrl before a complete initialization
-Date: Thu, 11 May 2023 13:07:41 +0200
-Message-Id: <20230511110741.1883129-1-mlombard@redhat.com>
+	Thu, 11 May 2023 12:06:37 +0000
+Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-9660af2499dso1268061766b.0
+        for <linux-nvme@lists.infradead.org>; Thu, 11 May 2023 05:06:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683806791; x=1686398791;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2tDfXQ17FO7BOQj7+ESY06ETyUTlemE288YQq2nrYcU=;
+        b=jbI88sNpPdUELvvFxsUTjkocAebLsvf95+U/8NHHX/pJvUND+kMggu0ip00C9fLHW3
+         Sr00b7xjjhTkvvT16eK9VLhjAc2/n5gSxn1ZBsc2D9snJt/WMj3vv7/e0h7/7LGTarfq
+         rzKcRql09iF6sqmFS6xDgNR8RclAqTpY7WQdZDQcqBooYjV4ijtzGTvpDcsWbe4/7yeI
+         Ygcbswr7MJAm2agnKxHM3GxOf1IG0++tStjs7U/EHFTQN6nLOIru+hGV/143e4J5a1Kt
+         MUQ+ILA696hZm94i+PaymfHWPSvY0e3Oi1cn9Q4WMlgyTOfbp9D7m5cJjY+7DuquofJW
+         OAIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683806791; x=1686398791;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2tDfXQ17FO7BOQj7+ESY06ETyUTlemE288YQq2nrYcU=;
+        b=e3LF7LmdXifCf0guNAS2Z+uFQ8+rvdlszT8p557x+uNCBvlgJsTzJUwVQrUh0LuDxy
+         RPrZYkilqTnqmXalofMOl/j814dtK5Vncp8oFwmeDt98Q3lqMcI0cIisgKfpjoy+zHbw
+         yIYBL7um9bCDFEo7PJ7pdiES6mSGkiku7n34mmmHM9d+7M1NrsyryA5e3PPa6UdC+IY3
+         ve0YhzMumejJbogPIvkShQxFgVYOIE8XJCaHwb5pGp9xsYbrtnSb0wcpaU8NFPblHFHi
+         IyHAJ5cXEgI0/C8sRMBT5VA/iD1b4hRM42ZjhlpP8roCU9GN8Andg7cD/ereI5rNUBdQ
+         JPVw==
+X-Gm-Message-State: AC+VfDxjEGLSp19oMnqRVlb8/dfbkdJsSYoYP1NmswhYxLggokG/fmMG
+	98X6wBReXkKt4xK12oL4s5mpI+4KYG9Y5lbHCio=
+X-Google-Smtp-Source: ACHHUZ60+xojJ+RF7byu2Sar29A3i4lAnC4JlYOPqe+rUOFHFfM22cKd8y41fY8EeH1nbgJXNHR16+LwNdR9w90VWHw=
+X-Received: by 2002:a17:907:2d09:b0:966:4d75:4a44 with SMTP id
+ gs9-20020a1709072d0900b009664d754a44mr14333819ejc.24.1683806790925; Thu, 11
+ May 2023 05:06:30 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+References: <20230421080800.18837-1-adrianhuang0701@gmail.com>
+ <20230503161759.GA1614@lst.de> <ZFvgz5VgVGEmyAuj@kbusch-mbp.dhcp.thefacebook.com>
+In-Reply-To: <ZFvgz5VgVGEmyAuj@kbusch-mbp.dhcp.thefacebook.com>
+From: Huang Adrian <adrianhuang0701@gmail.com>
+Date: Thu, 11 May 2023 20:06:19 +0800
+Message-ID: <CAHKZfL3Pbv76fqF6Dn8NHbMn7oQ=G02azU-=meLwAKMFPi+jbg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] nvme-pci: clamp max_hw_sectors based on DMA
+ optimized limitation
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>, 
+	Sagi Grimberg <sagi@grimberg.me>, iommu@lists.linux.dev, Jiwei Sun <sunjw10@lenovo.com>, 
+	Adrian Huang <ahuang12@lenovo.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230511_041003_879858_4495189E 
-X-CRM114-Status: GOOD (  15.19  )
+X-CRM114-CacheID: sfid-20230511_050635_617328_54DE6050 
+X-CRM114-Status: GOOD (  16.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,66 +91,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If a userspace application performes a "delete_controller" command
-early during the ctrl initialization, the delete operation
-may race against the init code and the kernel will crash.
+On Thu, May 11, 2023 at 2:22=E2=80=AFAM Keith Busch <kbusch@kernel.org> wro=
+te:
+>
+> On Wed, May 03, 2023 at 06:17:59PM +0200, Christoph Hellwig wrote:
+> > dma_opt_mapping_size falls back to and is bound by dma_max_mapping_size=
+.
+> > So I think we could just do this:
+>
+> Thanks for discoverying this even futher simplifaction. This looks good
+> to me.
+>
+> Adrian, are you okay with the suggestion?
 
-nvme nvme5: Connect command failed: host path error
-nvme nvme5: failed to connect queue: 0 ret=880
-PF: supervisor write access in kernel mode
-PF: error_code(0x0002) - not-present page
- blk_mq_quiesce_queue+0x18/0x90
- nvme_tcp_delete_ctrl+0x24/0x40 [nvme_tcp]
- nvme_do_delete_ctrl+0x7f/0x8b [nvme_core]
- nvme_sysfs_delete.cold+0x8/0xd [nvme_core]
- kernfs_fop_write_iter+0x124/0x1b0
- new_sync_write+0xff/0x190
- vfs_write+0x1ef/0x280
+Yes. This looks good to me. I like this simplicity.
 
-Fix the crash by checking the NVME_CTRL_STARTED_ONCE bit;
-if it's not set it means that the nvme controller is still
-in the process of getting initialized and the kernel
-will return an -EBUSY error to userspace.
-Set the NVME_CTRL_STARTED_ONCE later in the nvme_start_ctrl()
-function, after the controller start operation is completed.
+Thanks for Christoph's changes.
 
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
- drivers/nvme/host/core.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index ccb6eb1282f8..1f0cbb77b249 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3585,6 +3585,9 @@ static ssize_t nvme_sysfs_delete(struct device *dev,
- {
- 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
- 
-+	if (!test_bit(NVME_CTRL_STARTED_ONCE, &ctrl->flags))
-+		return -EBUSY;
-+
- 	if (device_remove_file_self(dev, attr))
- 		nvme_delete_ctrl_sync(ctrl);
- 	return count;
-@@ -5045,7 +5048,7 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl)
- 	 * that were missed. We identify persistent discovery controllers by
- 	 * checking that they started once before, hence are reconnecting back.
- 	 */
--	if (test_and_set_bit(NVME_CTRL_STARTED_ONCE, &ctrl->flags) &&
-+	if (test_bit(NVME_CTRL_STARTED_ONCE, &ctrl->flags) &&
- 	    nvme_discovery_ctrl(ctrl))
- 		nvme_change_uevent(ctrl, "NVME_EVENT=rediscover");
- 
-@@ -5056,6 +5059,7 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl)
- 	}
- 
- 	nvme_change_uevent(ctrl, "NVME_EVENT=connected");
-+	set_bit(NVME_CTRL_STARTED_ONCE, &ctrl->flags);
- }
- EXPORT_SYMBOL_GPL(nvme_start_ctrl);
- 
--- 
-2.31.1
-
+> > @@ -2956,7 +2956,7 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct=
+ pci_dev *pdev,
+> >        * over a single page.
+> >        */
+> >       dev->ctrl.max_hw_sectors =3D min_t(u32,
+> > -             NVME_MAX_KB_SZ << 1, dma_max_mapping_size(&pdev->dev) >> =
+9);
+> > +             NVME_MAX_KB_SZ << 1, dma_opt_mapping_size(&pdev->dev) >> =
+9);
+> >       dev->ctrl.max_segments =3D NVME_MAX_SEGS;
+> >
+> >       /*
 
