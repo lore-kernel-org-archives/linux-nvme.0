@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4BC17C7EE22
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0163DC77B7C
 	for <linux-nvme@archiver.kernel.org>; Thu, 11 May 2023 16:55:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,28 +12,28 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	References:In-Reply-To:Message-ID:Date:Subject:CC:To:From:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NVL5U3qoQ5AM3O6rfdgSj4W/rIXynQonScOvH4jffFc=; b=RwCs23ygOEn2guwIbOZGG56T6y
-	/FXPtqm/aca8Ljd3al+SDPZWIHmFRINbIbqqfrBbDxwLIsEvxA/GQBtzEVKH4/enwiQTZHObetxZQ
-	VrINmSZDgctLgUOGT78B4fYAskYPbyRnv1uUra29y/BvbjFPs2zo6VmtvARBZbyFTcSidalyAIp4M
-	FBnh5DPp3h6d76YZ0PZVAQylXiICCRyhOqQXhN5jG8TY7KImKI08RTB2vdcrj8KJKfeeRBnd/nOzs
-	Oe27b3YoUSM7gGvOnvZNYJ7SAFHLbssjnr571Ai/tev9scphO1YQdCHDqoG3z/o5yC7q3zLBwZocQ
-	m2jAp+3g==;
+	bh=6SLdZM9mSaYb+wijnynz/vGsxonMwcMbMdZGetCEbE8=; b=QO/qXzuVEFV88ScLFdJZmuCyOK
+	c9ol6dCvZz9X9gMCdENQNW7ag4Epv/4B5vrjzbQyhcl1FxMDUj0vkAdxqpNZx0RdBd/FvI1pfo3Sb
+	yd4Kp9ct8nKDZDlDKYnSZrPX4UWrKnecDg6mMhHVpjULHjeycqCl9iQ+PrQRkuqFe/s+QQCNDrGIo
+	hUsp0xBkeVyjTo4TvtrosdOmBahxyeabcFohbKentUvdvqUYoPxOrBF3itkbEo94gXZBbwTop2eLz
+	EmGFCxbXIG5PMaTWskwULmjBZzrI/Oo2Ibvc1NySAAnpKgeHpvtTc452LBFH61c5Jn0asIHmdQgrn
+	AeeOGUAw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1px9ZW-009Quv-0l;
-	Thu, 11 May 2023 16:55:18 +0000
-Received: from mail-dm6nam12on2061f.outbound.protection.outlook.com ([2a01:111:f400:fe59::61f] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+	id 1px9ZX-009QvR-01;
+	Thu, 11 May 2023 16:55:19 +0000
+Received: from mail-bn8nam11on20600.outbound.protection.outlook.com ([2a01:111:f400:7eae::600] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1px9ZT-009QtC-0e
+	id 1px9ZT-009QtB-2y
 	for linux-nvme@lists.infradead.org;
-	Thu, 11 May 2023 16:55:16 +0000
+	Thu, 11 May 2023 16:55:17 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P07NUfcawOhts+0TjprUq3bSvpBTVGzXWd/wrSND07SpMwlCIotUibXIVw0gA0cmFn7YuCwqXtL0+DjKKx0/JHtyJLR7u+0gU8QVppmzFW9a+q36tK+i+0Of28YtVi91JtBU/mCIQFwDXwxxdrr96ZDv12ZankOe2QUd0GupBTcfdBtLG8tYeQEF/3wuxufaUO0qRfZADrz5mVtCVTvE/PBtAdqDMNRnKEyNxOogNz0m/07M0gp0z0oRYXatn1oi2pmfKjNZl8H6nKc/mD42aiHPFY8ATnvGz9vKVI6CJlCbfxQUKgMxps+HM4ru2M3rvRy9hMqeNcctGW6DU/mYcQ==
+ b=kk9jljpXVUjR82nVOwh2oPLt+no94Mjr3SxPiwILueCViUZPUDnm96vW7sCEjD/2POORQMLGQO7ZewUuuqFbusBjMA0Qr9KXfSI+nHo25AEFW0m3B/d9kJGMKWflWLAqMJlYMql8+RE++HNxVUUcJ/KtvNANtYG40JNH1YCDo6VwqqEy1ZE49bp4fV25ddHJOTsupkwPAyOmsgZkSyE/cS1QuWTZPCmgHTRifSLSAlyhe9NUVvMqxyqzBIMFxxmB6tRduoH8g+t+lYlFpOJmXRq9byqZ1YljEvPoscK8iuHQw4NHIYgX2uGh8zJUSADGxDGipWl3PnF/HA4V3Oq86w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NVL5U3qoQ5AM3O6rfdgSj4W/rIXynQonScOvH4jffFc=;
- b=Cw4xL9TyScICz0N9gFfh66QSHcyBpTHIAi0Vn1EPFr85YRg/nZYXdZ63OONKpMDJWt9b9mcOmas0pDHgxLhCHvnZY9C6OhRP+mOJ47yOI5xzDSPjSIcFt6VdV5fRToUkAZE6hPLO3yQ41KfbP8jLvGNHRrGMXQskSQydiGlco9/hL39WhVfn1KTvx+w5eDIegXwaki86OPHz7Nsk7r+DIMLSwGHFl+ZDfWwMizH0P3bSNvKXcmU5Z3WSruIaKduGZJkU4fDZx1Yjt17yV5s3oynWUGeaLcmpG9OE1T4o0BAvnmGUHrHHunNLpG8F0uP49EnlmGvcK2PClAGSQhqxOQ==
+ bh=6SLdZM9mSaYb+wijnynz/vGsxonMwcMbMdZGetCEbE8=;
+ b=PJo4K5LcdEG6eCFDxbUVdI9aHJKRjfGENZ53YI1BeqS0rguUNgwqONOBngzo/SajcEj91ifLe8KAcodnD7x/cOxIzBX5AYQlGh2honbskLsAOdwVMjIy7iQakkn0lPziw7SGIxWof9u1oYIyNQcN9iSNHn6yn5kboI/zNG1AeCEipviDRA0EyWcI+wHXE+H7LNIDrxq94XYfXM89s/dETwPCeMCjDsjdXNtGdZQHQMYWBBzuzGDFxGgmBQprr7CSK2TSvFmVm/ZGbnZLYjgGNoWcJOyWQXCbRWp0/nmwqFnxGNnceeqTWQSHv2uMioyBqDLZZ5Tx9mBATWt5B5RRjw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.117.160) smtp.rcpttodomain=lst.de smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
@@ -41,18 +41,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NVL5U3qoQ5AM3O6rfdgSj4W/rIXynQonScOvH4jffFc=;
- b=FzWW/m3efMA4DijpBSFfNHWW4DHcRedDuoAfol6BYwS6qbs5StVE0ra5AKXo370BfmxyKExsNh5jJ3ycX/W42IrRH+EBCqAwGlq3bCTzcDvuDIltStVtNmmI0Jctz27iCZqgQ90/8bqZcXQ2e1m60hGRuX5sQ/xeHVxxLMOmRZgcNWPMzR+J4DIhbvVqF42y2+mcoGPFAt1d9mi3I9vuwd7f4/v5BZnyVLdad+hP/mA0BNLPmzaX0NYW3VN/vuIr4YauDTfuTAtYxtaH8lE1HiZZr15gvD9S9fWxFRnM1h9HxuxLcCXN/TMaONFciUoYi6+0KBoZ4Qmt3FuezBlJOw==
-Received: from BN8PR04CA0012.namprd04.prod.outlook.com (2603:10b6:408:70::25)
- by CH3PR12MB8933.namprd12.prod.outlook.com (2603:10b6:610:17a::22) with
+ bh=6SLdZM9mSaYb+wijnynz/vGsxonMwcMbMdZGetCEbE8=;
+ b=A2/ZtKYZARGmjnCpO9bkhZdyRFWYikh4kgQE9eAP4+YoxybMocbNq/2G000f8hLK05bFD8JTArIh4itctCmJq73/mhI/BE/35mws0iySyz61DQcH0sKJNOrmZqdui39hEvWvpVU4okvgpbSFcLrnCtu2ANm2pCYnSBJMc674DiCea4hyQ4/ly4nO5EnkYXGhbZG4HvCPNVtt21QFzjbFid3k2fmXKQVJksHix55EupZUb7hmtMxc50eZ1g/q1+Lglgik3qYy0eP1kBjJVeTPtghbSg+06DHguJBDPfLkiI+wBNPq3E/3Be5+kRL9CFlC9SldaiqeQyYr9ZnajGulvA==
+Received: from BN8PR04CA0033.namprd04.prod.outlook.com (2603:10b6:408:70::46)
+ by PH7PR12MB6694.namprd12.prod.outlook.com (2603:10b6:510:1b1::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.33; Thu, 11 May
- 2023 16:55:06 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.19; Thu, 11 May
+ 2023 16:55:02 +0000
 Received: from BN8NAM11FT004.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:70:cafe::70) by BN8PR04CA0012.outlook.office365.com
- (2603:10b6:408:70::25) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:408:70:cafe::35) by BN8PR04CA0033.outlook.office365.com
+ (2603:10b6:408:70::46) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.22 via Frontend
- Transport; Thu, 11 May 2023 16:55:06 +0000
+ Transport; Thu, 11 May 2023 16:55:02 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
  smtp.mailfrom=nvidia.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
@@ -62,27 +62,27 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
 Received: from mail.nvidia.com (216.228.117.160) by
  BN8NAM11FT004.mail.protection.outlook.com (10.13.176.164) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6387.23 via Frontend Transport; Thu, 11 May 2023 16:55:06 +0000
+ 15.20.6387.23 via Frontend Transport; Thu, 11 May 2023 16:55:01 +0000
 Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
  (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Thu, 11 May 2023
- 09:54:54 -0700
+ 09:54:48 -0700
 Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail205.nvidia.com
  (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Thu, 11 May
- 2023 09:54:54 -0700
+ 2023 09:54:47 -0700
 Received: from r-arch-stor03.mtr.labs.mlnx (10.127.8.14) by mail.nvidia.com
  (10.129.68.8) with Microsoft SMTP Server id 15.2.986.37 via Frontend
- Transport; Thu, 11 May 2023 09:54:51 -0700
+ Transport; Thu, 11 May 2023 09:54:45 -0700
 From: Max Gurtovoy <mgurtovoy@nvidia.com>
 To: <hch@lst.de>, <sagi@grimberg.me>, <kbusch@kernel.org>,
 	<linux-nvme@lists.infradead.org>
 CC: <hare@suse.de>, <axboe@kernel.dk>, <oren@nvidia.com>,
 	<ngottlieb@nvidia.com>, <israelr@nvidia.com>, Max Gurtovoy
 	<mgurtovoy@nvidia.com>
-Subject: [PATCH v2 3/3] nvme-fabrics: prevent overriding of existing host
-Date: Thu, 11 May 2023 19:54:41 +0300
-Message-ID: <20230511165441.30005-4-mgurtovoy@nvidia.com>
+Subject: [PATCH v2 1/3] nvme-fabrics: unify common code in admin and io queue connect
+Date: Thu, 11 May 2023 19:54:39 +0300
+Message-ID: <20230511165441.30005-2-mgurtovoy@nvidia.com>
 X-Mailer: git-send-email 2.18.1
 In-Reply-To: <20230511165441.30005-1-mgurtovoy@nvidia.com>
 References: <20230511165441.30005-1-mgurtovoy@nvidia.com>
@@ -90,26 +90,26 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT004:EE_|CH3PR12MB8933:EE_
-X-MS-Office365-Filtering-Correlation-Id: f91420a5-3e60-4856-a225-08db524078e4
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT004:EE_|PH7PR12MB6694:EE_
+X-MS-Office365-Filtering-Correlation-Id: f886802c-4613-4c39-5532-08db52407663
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	gLvEm7RCsCE1Z73xROsfyGsVdgX+eqPBqY70pkVQ0KxvZbeYOv+mqdBJnCrzzPTv6aaJIDd7+AFWnRpmsUv4WJHwLVPSB/DGfAfqfPp32OAgsTRXU2zPNm5G/EDgiRjCvxh898LihIbA+3G+O9R3Ws34ZxwErEIDXVrgW4fMknlq5TBrHawrtMTfDR9Mz9xf6VY8v17PimalCePGuho4Csh3oSV/Ryl9tpdn+RC97ZSCIfCJTdoNvMMertWIrD4unqSzkEsHXF49G95NNVu6mYgg6DKvTyOCjfDac049Pbo+9T8vth/ZVCfnVq2o4FeTJAPtKczmeKR4cmDrgm8b4FtWXOlxt2ra4iQLqVDP4H5R0ljAE4F7lw/l0COr42v9OHZQO72jgi8KP8aiV9fXeCFbNyrrPiDwW2Zgq8AJPGWmyw6oAa5NvpjpRz2mOJ5nnTrW5jH2Lv59XxvM83HVgiYg+tP5Y2jMbPsETfuLxph9If1M1FhSNwzDJDDZJId3AVDFREMxK5LBbrHUflmnfQymJQU20xv+gy0XS7YfHTGC2gENuu5mSYc/Qd115eDak/EwdMzOozf1Diil9uYvjexEp9SFhwSEnAAGDYAgo4fT+wqy0qjl1LcT7N29TKSl8xMGyzfPGoerSTZhUbMxks/S1H7wo41eZNy5Y410zcEtILE6YyvvYUFltcH0x4Hu6VYx+yO2zKGi/md1dm6Nmw==
-X-Forefront-Antispam-Report: 	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(376002)(396003)(39860400002)(136003)(346002)(451199021)(46966006)(36840700001)(40470700004)(36860700001)(83380400001)(478600001)(26005)(70586007)(70206006)(47076005)(6666004)(2616005)(316002)(426003)(110136005)(186003)(1076003)(107886003)(4326008)(54906003)(2906002)(86362001)(40460700003)(8676002)(82310400005)(36756003)(336012)(41300700001)(356005)(7636003)(40480700001)(82740400003)(5660300002)(8936002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 	4ECYgYlbibg90Ak7OnAsKalucO3N5BPMufQOfUkgAQwB15jqCjB/zlxgoIUvbfY0OMYujvmcQ0vlFkI6RcjtZz85gJjpoYCDl2Ou0zDOKn87XO+n++fz6q2s8URkMNnNn9wCpfZ7DfeoP0+4k/IOB1AzRm2GgHOKnnJ0ombE3IZ/H7yr4Uy0AGwiYaY4etWEqyikJM+U596ygWaziUqqcULpTjmqTYoeuseOGAc5jRYNo8oOSOp98vwNQoY7fha/YnSclgsj1BlGRFwpgc9/5lLbFTPDQ8oukWXhV6MzlLoYy0eYkNb8YykG4QQKUlNRHto9uBFppUQw+V12YxRLF/tGvFou5KzigeMjwzfxpaDJiraaycOlblILwoGViyvbMvFKgjX7rgvVguohWctr5yAng20lbODTEckkivZCeFqa6ISIIbuGbMT321wR6BQoMrOEUBns3zbpBLKwgmRK/5VpFbJxMB3oBu1cU/wrYwkraaPlpht6UHqDOWZSNriGXG5gxqTdruNVOu/K6Jgz5AxxlzsOoeEEZcKtkIIC2cKVFRH8wT+AdgK18ayLI5MTcAtdAGMXUrvTcQKDv8X3Pr0K9Vvb5LFIwjxjmfQhTYEJ5wAYdzMlfZDPE8y+dCyc4gAVUnSgvOPWLO32hHqc7bFg68W9pIf3UhT4BHM1PSVSta8d/yRX07fb3Cyr624MWoVb4SQd9ACylHB+yDzm9EMUr8O6O0nmxmA1/Z2YkEKsoBTzZ+GpllrvdX8YDJWM
+X-Forefront-Antispam-Report: 	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(136003)(39860400002)(396003)(451199021)(36840700001)(40470700004)(46966006)(2616005)(107886003)(47076005)(83380400001)(336012)(426003)(36860700001)(40460700003)(40480700001)(186003)(7636003)(41300700001)(70586007)(70206006)(8676002)(5660300002)(8936002)(356005)(82740400003)(2906002)(316002)(4326008)(54906003)(1076003)(478600001)(86362001)(110136005)(26005)(36756003)(82310400005)(6666004);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2023 16:55:06.0816
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2023 16:55:01.8788
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f91420a5-3e60-4856-a225-08db524078e4
+X-MS-Exchange-CrossTenant-Network-Message-Id: f886802c-4613-4c39-5532-08db52407663
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
 X-MS-Exchange-CrossTenant-AuthSource: 	BN8NAM11FT004.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8933
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6694
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230511_095515_246956_F9C3B7A9 
-X-CRM114-Status: GOOD (  21.39  )
+X-CRM114-CacheID: sfid-20230511_095515_965283_B2042257 
+X-CRM114-Status: GOOD (  12.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,16 +124,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When first connecting a target using the "default" host parameters,
-setting the hostid from the command line during a subsequent connection
-establishment would override the "default" hostid parameter. This would
-cause an existing connection that is already using the host definitions
-to lose its hostid.
-
-To address this issue, the code has been modified to allow only 1:1
-mapping between hostnqn and hostid. This will maintain unambiguous host
-identification. Any non 1:1 mapping will be rejected during connection
-establishment.
+To simplify code maintenance, it is recommended to avoid duplicating
+code.
 
 Tested-by: Noam Gottlieb <ngottlieb@nvidia.com>
 Reviewed-by: Israel Rukshin <israelr@nvidia.com>
@@ -142,183 +134,118 @@ Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
 
 changes from v1:
 - address comments from Christoph
-- allow only 1:1 mapping between hostnqn and hostid
-- add error prints in case we fail a connection for user to understand
-  the reason of the failure
 
 ---
- drivers/nvme/host/fabrics.c | 98 ++++++++++++++++++++++++++-----------
- 1 file changed, 70 insertions(+), 28 deletions(-)
+ drivers/nvme/host/fabrics.c | 74 +++++++++++++++++++++----------------
+ 1 file changed, 43 insertions(+), 31 deletions(-)
 
 diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 0c0172bdc4dc..f8e47c7d6188 100644
+index 0069ebff85df..0c0172bdc4dc 100644
 --- a/drivers/nvme/host/fabrics.c
 +++ b/drivers/nvme/host/fabrics.c
-@@ -21,35 +21,77 @@ static DEFINE_MUTEX(nvmf_hosts_mutex);
- 
- static struct nvmf_host *nvmf_default_host;
- 
--static struct nvmf_host *__nvmf_host_find(const char *hostnqn)
-+/**
-+ * __nvmf_host_find() - Find a matching to a previously created host
-+ * @hostnqn: Host NQN to match
-+ * @id: Host ID to match
-+ *
-+ * We have defined a host as how it is perceived by the target.
-+ * Therefore, we don't allow different Host NQNs with the same Host ID.
-+ * Similarly, we do not allow the usage of the same Host NQN with different
-+ * Host IDs. This will maintain unambiguous host identification.
-+ *
-+ * Return: Returns host pointer on success, NULL in case of no match or
-+ *         ERR_PTR(-EINVAL) in case of error match.
-+ */
-+static struct nvmf_host *__nvmf_host_find(const char *hostnqn, uuid_t *id)
- {
- 	struct nvmf_host *host;
- 
-+	lockdep_assert_held(&nvmf_hosts_mutex);
-+
- 	list_for_each_entry(host, &nvmf_hosts, list) {
--		if (!strcmp(host->nqn, hostnqn))
--			return host;
-+		if (!strcmp(host->nqn, hostnqn)) {
-+			if (uuid_equal(&host->id, id)) {
-+				// same hostnqn and hostid
-+				return host;
-+			} else {
-+				pr_err("found same hostnqn %s but different hostid %pUb\n",
-+				       hostnqn, id);
-+				return ERR_PTR(-EINVAL);
-+			}
-+		} else if (uuid_equal(&host->id, id)) {
-+			// same hostid but different hostnqn
-+			pr_err("found same hostid %pUb but different hostnqn %s\n",
-+			        id, hostnqn);
-+			return ERR_PTR(-EINVAL);
-+		}
+@@ -349,6 +349,45 @@ static void nvmf_log_connect_error(struct nvme_ctrl *ctrl,
  	}
- 
- 	return NULL;
  }
  
--static struct nvmf_host *nvmf_host_add(const char *hostnqn)
-+static struct nvmf_host *nvmf_host_alloc(const char *hostnqn, uuid_t *id)
++static struct nvmf_connect_data *nvmf_connect_data_prep(struct nvme_ctrl *ctrl,
++		u16 cntlid)
 +{
-+	struct nvmf_host *host;
++	struct nvmf_connect_data *data;
 +
-+	host = kmalloc(sizeof(*host), GFP_KERNEL);
-+	if (!host)
++	data = kzalloc(sizeof(*data), GFP_KERNEL);
++	if (!data)
 +		return NULL;
 +
-+	kref_init(&host->ref);
-+	uuid_copy(&host->id, id);
-+	strscpy(host->nqn, hostnqn, NVMF_NQN_SIZE);
++	uuid_copy(&data->hostid, &ctrl->opts->host->id);
++	data->cntlid = cpu_to_le16(cntlid);
++	strncpy(data->subsysnqn, ctrl->opts->subsysnqn, NVMF_NQN_SIZE);
++	strncpy(data->hostnqn, ctrl->opts->host->nqn, NVMF_NQN_SIZE);
 +
-+	return host;
++	return data;
 +}
 +
-+static struct nvmf_host *nvmf_host_add(const char *hostnqn, uuid_t *id)
- {
- 	struct nvmf_host *host;
- 
- 	mutex_lock(&nvmf_hosts_mutex);
--	host = __nvmf_host_find(hostnqn);
--	if (host) {
-+	host = __nvmf_host_find(hostnqn, id);
-+	if (IS_ERR(host)) {
-+		goto out_unlock;
-+	} else if (host) {
- 		kref_get(&host->ref);
- 		goto out_unlock;
- 	}
- 
--	host = kmalloc(sizeof(*host), GFP_KERNEL);
-+	host = nvmf_host_alloc(hostnqn, id);
- 	if (!host)
--		goto out_unlock;
--
--	kref_init(&host->ref);
--	strscpy(host->nqn, hostnqn, NVMF_NQN_SIZE);
-+		return ERR_PTR(-ENOMEM);
- 
- 	list_add_tail(&host->list, &nvmf_hosts);
- out_unlock:
-@@ -60,16 +102,17 @@ static struct nvmf_host *nvmf_host_add(const char *hostnqn)
- static struct nvmf_host *nvmf_host_default(void)
- {
- 	struct nvmf_host *host;
-+	char nqn[NVMF_NQN_SIZE];
-+	uuid_t id;
- 
--	host = kmalloc(sizeof(*host), GFP_KERNEL);
-+	uuid_gen(&id);
-+	snprintf(nqn, NVMF_NQN_SIZE,
-+		"nqn.2014-08.org.nvmexpress:uuid:%pUb", &id);
++static void nvmf_connect_cmd_prep(struct nvme_ctrl *ctrl, u16 qid,
++		struct nvme_command *cmd)
++{
++	cmd->connect.opcode = nvme_fabrics_command;
++	cmd->connect.fctype = nvme_fabrics_type_connect;
++	cmd->connect.qid = cpu_to_le16(qid);
 +
-+	host = nvmf_host_alloc(nqn, &id);
- 	if (!host)
- 		return NULL;
++	if (qid) {
++		cmd->connect.sqsize = cpu_to_le16(ctrl->sqsize);
++	} else {
++		cmd->connect.sqsize = cpu_to_le16(NVME_AQ_DEPTH - 1);
++
++		/*
++		 * set keep-alive timeout in seconds granularity (ms * 1000)
++		 */
++		cmd->connect.kato = cpu_to_le32(ctrl->kato * 1000);
++	}
++
++	if (ctrl->opts->disable_sqflow)
++		cmd->connect.cattr |= NVME_CONNECT_DISABLE_SQFLOW;
++}
++
+ /**
+  * nvmf_connect_admin_queue() - NVMe Fabrics Admin Queue "Connect"
+  *				API function.
+@@ -377,28 +416,12 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
+ 	int ret;
+ 	u32 result;
  
--	kref_init(&host->ref);
--	uuid_gen(&host->id);
--	snprintf(host->nqn, NVMF_NQN_SIZE,
--		"nqn.2014-08.org.nvmexpress:uuid:%pUb", &host->id);
+-	cmd.connect.opcode = nvme_fabrics_command;
+-	cmd.connect.fctype = nvme_fabrics_type_connect;
+-	cmd.connect.qid = 0;
+-	cmd.connect.sqsize = cpu_to_le16(NVME_AQ_DEPTH - 1);
 -
- 	mutex_lock(&nvmf_hosts_mutex);
- 	list_add_tail(&host->list, &nvmf_hosts);
- 	mutex_unlock(&nvmf_hosts_mutex);
-@@ -633,6 +676,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 	size_t nqnlen  = 0;
- 	int ctrl_loss_tmo = NVMF_DEF_CTRL_LOSS_TMO;
- 	uuid_t hostid;
-+	char hostnqn[NVMF_NQN_SIZE];
+-	/*
+-	 * Set keep-alive timeout in seconds granularity (ms * 1000)
+-	 */
+-	cmd.connect.kato = cpu_to_le32(ctrl->kato * 1000);
+-
+-	if (ctrl->opts->disable_sqflow)
+-		cmd.connect.cattr |= NVME_CONNECT_DISABLE_SQFLOW;
++	nvmf_connect_cmd_prep(ctrl, 0, &cmd);
  
- 	/* Set defaults */
- 	opts->queue_size = NVMF_DEF_QUEUE_SIZE;
-@@ -649,7 +693,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 	if (!options)
+-	data = kzalloc(sizeof(*data), GFP_KERNEL);
++	data = nvmf_connect_data_prep(ctrl, 0xffff);
+ 	if (!data)
  		return -ENOMEM;
  
--	uuid_gen(&hostid);
-+	/* use default host if not given by user space */
-+	uuid_copy(&hostid, &nvmf_default_host->id);
-+	strscpy(hostnqn, nvmf_default_host->nqn, NVMF_NQN_SIZE);
- 
- 	while ((p = strsep(&o, ",\n")) != NULL) {
- 		if (!*p)
-@@ -795,12 +841,8 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				ret = -EINVAL;
- 				goto out;
- 			}
--			opts->host = nvmf_host_add(p);
-+			strscpy(hostnqn, p, NVMF_NQN_SIZE);
- 			kfree(p);
--			if (!opts->host) {
--				ret = -ENOMEM;
--				goto out;
--			}
- 			break;
- 		case NVMF_OPT_RECONNECT_DELAY:
- 			if (match_int(args, &token)) {
-@@ -957,13 +999,13 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				opts->fast_io_fail_tmo, ctrl_loss_tmo);
- 	}
- 
--	if (!opts->host) {
--		kref_get(&nvmf_default_host->ref);
--		opts->host = nvmf_default_host;
-+	opts->host = nvmf_host_add(hostnqn, &hostid);
-+	if (IS_ERR(opts->host)) {
-+		ret = PTR_ERR(opts->host);
-+		opts->host = NULL;
-+		goto out;
- 	}
- 
--	uuid_copy(&opts->host->id, &hostid);
+-	uuid_copy(&data->hostid, &ctrl->opts->host->id);
+-	data->cntlid = cpu_to_le16(0xffff);
+-	strncpy(data->subsysnqn, ctrl->opts->subsysnqn, NVMF_NQN_SIZE);
+-	strncpy(data->hostnqn, ctrl->opts->host->nqn, NVMF_NQN_SIZE);
 -
- out:
- 	kfree(options);
- 	return ret;
+ 	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, &res,
+ 			data, sizeof(*data), NVME_QID_ANY, 1,
+ 			BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT);
+@@ -468,23 +491,12 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
+ 	int ret;
+ 	u32 result;
+ 
+-	cmd.connect.opcode = nvme_fabrics_command;
+-	cmd.connect.fctype = nvme_fabrics_type_connect;
+-	cmd.connect.qid = cpu_to_le16(qid);
+-	cmd.connect.sqsize = cpu_to_le16(ctrl->sqsize);
++	nvmf_connect_cmd_prep(ctrl, qid, &cmd);
+ 
+-	if (ctrl->opts->disable_sqflow)
+-		cmd.connect.cattr |= NVME_CONNECT_DISABLE_SQFLOW;
+-
+-	data = kzalloc(sizeof(*data), GFP_KERNEL);
++	data = nvmf_connect_data_prep(ctrl, ctrl->cntlid);
+ 	if (!data)
+ 		return -ENOMEM;
+ 
+-	uuid_copy(&data->hostid, &ctrl->opts->host->id);
+-	data->cntlid = cpu_to_le16(ctrl->cntlid);
+-	strncpy(data->subsysnqn, ctrl->opts->subsysnqn, NVMF_NQN_SIZE);
+-	strncpy(data->hostnqn, ctrl->opts->host->nqn, NVMF_NQN_SIZE);
+-
+ 	ret = __nvme_submit_sync_cmd(ctrl->connect_q, &cmd, &res,
+ 			data, sizeof(*data), qid, 1,
+ 			BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT);
 -- 
 2.18.1
 
