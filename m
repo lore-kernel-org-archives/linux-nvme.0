@@ -4,69 +4,154 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11FF0C77B7C
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 May 2023 15:03:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC2D1C77B7C
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 May 2023 16:45:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=TdIn9zcwd8t6CE22w3nfmars1aOp84NLlDuMkhfT7FE=; b=3NtXwcuWhxgIzcVnGztlPwAj7u
-	eqjgWJgfXKJ1v8Hrk9VO2n4lA+KzHF/qUqX0mQlcbCYvOYGTB/vNsNSyG8yXRXEFkrjugqh3enOxn
-	TgMceEyYlqYxIEeyL7pMs1HkAaUSnQDKCUkr004RoWybFRTJAXPAH20wTId8T5G4zSpj+09hPC+/4
-	+tay2fQC5FuF910aFjqNS6Q6UQiTNYox2DsjXRgAeGq1KPrHfxyid3J0ucr+7qBAfc6g8h98FmC/R
-	wV5LTw1FI3gHntn4zjbDqjUr6CnCasBzxSThZFcZlZ167WQTiNFQ7IC7ctU5pOBvBNowba8F4a1tp
-	0YqWnYWQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=g8r+hTcovRfJm/i1BNZu236sHD7ToPnkoVRO/23pV6g=; b=Z/gdouzwFF/UdG13RFLWcFmQ0P
+	T9whH3nk47SRqW0awTuMbhPuBBWDCAgrNkT7GcyWKhouhPJDuxuikWEY8oUX6mQxGb51wzWh4Kr/h
+	KAyKY0uA5FWyCQJT9V/udq6xI/gr3Z3dlTTOFDNMR0BtySKehfHfYEmIUq1kb5pH7eOIkf82pydad
+	lhCYKOLHzCNHtJr2Dxm6svmAD+kNlEnmnOS7E7xFLB5akbUN1pcmt8BPNvpXsqrOxraLtVOYJLsWW
+	36al5kg+Twmwi0umthm0TYfxv2ER9etPooWNchgavd46zp3L4SNrydinuPQiVOqb/rDBmoMfUIpvO
+	+ILWpqcA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1px7pO-0099QC-2C;
-	Thu, 11 May 2023 15:03:34 +0000
-Received: from mail-pf1-f177.google.com ([209.85.210.177])
+	id 1px9Pb-009P3I-2O;
+	Thu, 11 May 2023 16:45:03 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1px7pL-0099PU-2s
+	id 1px9PW-009P2S-1N
 	for linux-nvme@lists.infradead.org;
-	Thu, 11 May 2023 15:03:34 +0000
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-643990c5373so8811358b3a.1
-        for <linux-nvme@lists.infradead.org>; Thu, 11 May 2023 08:03:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683817409; x=1686409409;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TdIn9zcwd8t6CE22w3nfmars1aOp84NLlDuMkhfT7FE=;
-        b=EkxfhCK9jXJXq/AQ8R3tDt/zER6+CdbyM1SXZqeI8+TUd/KTYOZqm5S8jse5J35B5X
-         i3EUPQmAvxT2BYpqDPoOvwg53250jhAod3Y/ZdbLjP/e5/lXpVnM3JrKvWZ0+jdN5NXd
-         5mD3XpNutA918wiYrmmUr2+aF2rofzdXhriTQN7E4UAKkOTmV0OSh9Hkcv58Kk+6RUz0
-         XpTdsFSCruDDkpU3h2DpiWN9eWmCNuAM0W/m7sWgN6NQ9X0XJ/WZOM9LpBAtAhZT9359
-         05BLRN6CkS6/rJDfpurVqR2Gt7ZHdGer3T0Y8KEGDBWbtUnJL9XGlQdEYEQLfsjHgsrd
-         1yjw==
-X-Gm-Message-State: AC+VfDyIQLJTSTFqckxY9FbWdQWQ4d4zT2y4hYkEDKfj8iQZ9ISPSbFK
-	9Z0TmkBN51mW+4K4VY86npA=
-X-Google-Smtp-Source: ACHHUZ7HMUlU823w+mBXhuhRA3k43WzzWumyUwDh/HMSB2T95qwE3LeqIUqK14oBbiDSehm29IJKvw==
-X-Received: by 2002:a05:6a20:9389:b0:f2:e399:b114 with SMTP id x9-20020a056a20938900b000f2e399b114mr15317483pzh.1.1683817408656;
-        Thu, 11 May 2023 08:03:28 -0700 (PDT)
-Received: from bvanassche-glaptop2.roam.corp.google.com ([173.214.130.133])
-        by smtp.gmail.com with ESMTPSA id g8-20020aa78188000000b005a8bf239f5csm5398519pfi.193.2023.05.11.08.03.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 08:03:28 -0700 (PDT)
-From: Bart Van Assche <bvanassche@acm.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	Bart Van Assche <bvanassche@acm.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Hannes Reinecke <hare@suse.de>,
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: [PATCH] nvmet-rdma: Release connections synchronously
-Date: Thu, 11 May 2023 08:03:20 -0700
-Message-ID: <20230511150321.103172-1-bvanassche@acm.org>
-X-Mailer: git-send-email 2.40.1.606.ga4b1b128d6-goog
+	Thu, 11 May 2023 16:44:59 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1683823498; x=1715359498;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=g8r+hTcovRfJm/i1BNZu236sHD7ToPnkoVRO/23pV6g=;
+  b=UN9ZKaXF4mE7GSG0ea9apeVSZMUl/bYOBSBtMoFPUhCQ7m2o2832cq5Q
+   JhrwEk5UERkmBsuFMEhscXMS/TgTgU5+VSV4Sexb/u1bDEGcmTVErHkXo
+   s7GvKxbpitNFSUnO8suF2aT6kj6+RZGuc7cS+IRxoI/x4/mfaZlEnqmWM
+   yFjXPOloV0gQuGeeoffFULNuFNMeNeIupwNneAcTd0t/maFoMCGV2cRjN
+   8IhLiOGAfAEQmLu0Rq5m9D2GL5jIAfy8GSTcRgoK7JvUdi5tVq9O5JwVG
+   cTGNnwJGB9f18/97aezlgZ2YXxzn4I5tYuy/o8/VnyXiJ1oysyDErwF1j
+   g==;
+X-IronPort-AV: E=Sophos;i="5.99,268,1677513600"; 
+   d="scan'208";a="235442698"
+Received: from mail-dm3nam02lp2041.outbound.protection.outlook.com (HELO NAM02-DM3-obe.outbound.protection.outlook.com) ([104.47.56.41])
+  by ob1.hgst.iphmx.com with ESMTP; 12 May 2023 00:44:54 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RaWGDrpL4kNEXsUr0e4IcjLhLeZCWwMAeS46zwSLR/y+XDZfeagRfNNWBAyBq0boxGm3mHYkfVWQtwIp1fNwksBXoW/oKItGLdefxWXznaSNWqrkNfo83+T6Ii4ZpVvNCTgxmqeT5B3CIn24rt0rUiAXvek0ARznwFya81EAmMXI0UL1uO1A6n49FY7qFE//dq+g//A4jEE8hLWSxqqfrCwMfd+ewlGL56HJ33whgd+wgIFbeX7nBmpJCEVwJkgVUYDDy9IwHHfmKbu0D9TfIqd/cW4f12CfasRW6l27Vv2oNUmwocjfkRALmme1c62ocHfnkcYsvJrFNBHwegwjWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=g8r+hTcovRfJm/i1BNZu236sHD7ToPnkoVRO/23pV6g=;
+ b=lA8c/4R7coP8GboEf0DdJP2+v/0GEmiLiuQQUpIAurVSXO6+UCUiZei868ssMw2mdqVLZNjAu4Fnr3PubhX7CuU0YBBxcsv3G3DVxhVI1Dg6ihgS0CsQLN45ShHHDF3diGkQ/gvqgEWZ/3pf5Hmy9KXEfsQ/2r1vH24lS1mMGbsaFPORJtZY4jyCceX/+k1NbhodSbYa/UijNQdlrHP2Mp0nxIJLz5PkOp2RLCWIeHn14yMek4eduERIcBQEfMO0FMLgYSYzkL85vN1eOgrbPJUzGcfsZcaTgLqccJ0Dsdy+nSWrfjvYqLrYnZ6AvLDnhwYTJ7iDPoFEsGZHZygEqA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=g8r+hTcovRfJm/i1BNZu236sHD7ToPnkoVRO/23pV6g=;
+ b=JPTMa6yuvYKiKclKoIdomtSd3vfto3+EcnhTbs7uTNqDS+2ojajM1QMynwHBtBZOQZdc7helgFkS2NDlCdgo0bq8emOYLW1YlSM4mp75lH9Skpd/t+M9Vsv9vz7H/ElFC6k2HDzpr9kdS0wS6QPTyR5SFIg8HPKwP3hhD7seTJY=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ MN2PR04MB7118.namprd04.prod.outlook.com (2603:10b6:208:1ed::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.22; Thu, 11 May
+ 2023 16:44:52 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::eb0e:1bef:f266:eceb]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::eb0e:1bef:f266:eceb%6]) with mapi id 15.20.6387.020; Thu, 11 May 2023
+ 16:44:52 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Daniel Wagner <dwagner@suse.de>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, Chaitanya
+ Kulkarni <kch@nvidia.com>, Shin'ichiro Kawasaki <shinichiro@fastmail.com>,
+	Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH blktests v3 11/12] nvme/rc: Move discovery generation
+ counter code to rc
+Thread-Topic: [PATCH blktests v3 11/12] nvme/rc: Move discovery generation
+ counter code to rc
+Thread-Index: AQHZgTyFD/YYYRDKLEuLLtG7PZkYY69TxfyAgAGHWQA=
+Date: Thu, 11 May 2023 16:44:52 +0000
+Message-ID: <74gmncf3mmoymdj2ranyzgzohv4m3osnnyckiwj55a6j7pi2lg@524euomat43i>
+References: <20230503080258.14525-1-dwagner@suse.de>
+ <20230503080258.14525-12-dwagner@suse.de>
+ <4zt5oysmqw72l4xzfja2oer72hryisz6zzbboz7dmhhzfypuwx@yrf2utjkv66b>
+ <5mizvgs3mwoxbkgb3axuhgkmjjxa6svi4laksdccg3oue5fwf7@4mqtz2dm6phj>
+In-Reply-To: <5mizvgs3mwoxbkgb3axuhgkmjjxa6svi4laksdccg3oue5fwf7@4mqtz2dm6phj>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|MN2PR04MB7118:EE_
+x-ms-office365-filtering-correlation-id: 9384eeeb-ea1e-41de-09e7-08db523f0b28
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  LZVzuTTk3flcF1OEFvpCNGpRCcBoVYrTKO4tJ8NPf3g6NPEQ1uxwf3FB8qjUq6u5ttXaiN39cUH9Sn3adniN9tDjYYKu60TXp/NNcw7RLUB3sgMT+Kf/AVP/7LhBwqy2vy6bS1atlCMcRFQ9O0tgoBCZdnB0hfl42QdiL2Ck2LfV4XZL1k2fBP4OAHrwHqVSO7n7Hh1D47mbMh0o0rwp9pA3AryupzE63dnAWTrBr3gmmlMskDAvi3DNXb0oqqXl7nYvAy/QImo04UonZdvqNKwgHbLy4Hk6saKXucReeHziSwc0qdxZsJfeGb9/QxGJUANkqzEkpS6Pud9k6+Csls+LU8fzFUgzc00wUREHnOW2+ltZIXVOuhP3BaNVUVKoJD1aOq3XA+XI41+mK1T0yNdsK2a5QPEfeQkittoBV0tx04Y+6tl5p/V0HaRiS3DEsx1PapIoWbAY2NjjdOmxn9EGnjy3ERbZtuBQqGuLKua0MfN2bIaG6NeMXF2p2pv4G79XjgnvLmPAorfFz0e4RfnVgbIXvUQYTN4xhedS2vU8RX6ujmVOxeZm+myciYgr06SNnmyuBmUj3rc50DDlEIRP64c2Zc4eSgdhcnvPK54FjqIB1j5KTyXed7iWabE7
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(4636009)(366004)(39860400002)(136003)(396003)(346002)(376002)(451199021)(186003)(6512007)(6506007)(26005)(82960400001)(71200400001)(9686003)(6486002)(316002)(478600001)(54906003)(122000001)(33716001)(6916009)(4326008)(76116006)(66946007)(66446008)(66476007)(64756008)(66556008)(91956017)(41300700001)(38100700002)(83380400001)(38070700005)(5660300002)(44832011)(8936002)(8676002)(4744005)(86362001)(2906002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?28e6ZiZuo4PEGJzXtGX5+qjN4LZ961LTXuY1xksvlcMUFgADT2u0MTv6gQeo?=
+ =?us-ascii?Q?S8loD0SnJ7c6n129rYueg59Vn+FoIZ2NvwP4dTXycQybIQu0lLRaKduWUdjL?=
+ =?us-ascii?Q?c6IaQmm83ProFfh4AFfB5+r3a3kYDgZJREZDFXcj2jxpCJZcYtp/jykMjjVr?=
+ =?us-ascii?Q?DrKjx80UtLIgA6GMvp2GfWQ0lZf7kPDItJWuNFJfyhWao5Otkg7uVuqKmtck?=
+ =?us-ascii?Q?7xIgPGZiNI71Ube8oStlgVyIlcQqsFmZERM9SWe7n+ni8wYMRAzAWu3H2XZs?=
+ =?us-ascii?Q?OtVFu2sanWVREP4YAO9/bylw9Law8ozPP9vviMHByp4XapmtlRSZj1GvrI3F?=
+ =?us-ascii?Q?yfQbiMex3AhFuDzILcdQlzDptl1P+hd5DlzdLo66SXldUrH7gbH3dYqiNEKA?=
+ =?us-ascii?Q?Xv1jqKUg+rkO1JnXga2xuM3izc5vHwJp5SRSL7fsa8J8DCoNivNkOePoCFpN?=
+ =?us-ascii?Q?5f8tcXJPHa6OAZOmsSZqvqA8l5K6qkZAwWRfn/gkPR3ujus1mkprsp4etVoq?=
+ =?us-ascii?Q?mmaGoBWf7PFdKV6RURVTcdWmxH8Qs1UpEMm2Yr6PjhsbZvSRY9fqdicC0Q8j?=
+ =?us-ascii?Q?DFfawGU2N72b01LiQI5ejXNfqFO7PGSzvAubJBDNl3pO/A9q4Vgm5rv8wfnM?=
+ =?us-ascii?Q?ssGDEUjZYl9PbJooiPcziCBzin8AuSfdVSUvAgE7x/7o4jkEsgHVJJ4u6pbX?=
+ =?us-ascii?Q?XJZjlUIJG55Ke1zyoClyJLH7HVaNCYufH2p1O17OXGZ7CKTCSarNam0IgbaW?=
+ =?us-ascii?Q?wuK50b1L0k/3OWflOcav8jop1+EjHe3lvHv4UJ3ytmpIBvykUUIlLPFBfai8?=
+ =?us-ascii?Q?7t57kLu7ZGrPFy9aETMkCprRwk82ib/+aBojQLLro9Wu4+ITgvY4HUnb32+R?=
+ =?us-ascii?Q?jrcUOFI//y98ub66pYCthDJv4EXu6nyLEkMvuBTkuRSVlBd4AO9fS+/nED6u?=
+ =?us-ascii?Q?GNZjen1o680To2oxw5mD5QRJz2zGp/tW3tQAEHnpMBQIoo+VNfRjZFZj5z/q?=
+ =?us-ascii?Q?Uv9CLlY0Ip1XCR7dk3pDboAtrk2u5pX+CZZTZ9A9xdrErskGbAC2InKuePAi?=
+ =?us-ascii?Q?TTehTgUfSWpLXFc5H+VjYMuTFjY+wHZF/aBjfEifUOD9AvehR3UfsEYdrjwU?=
+ =?us-ascii?Q?6f75J6c/4MkZliCRmIqfGVe33UxR6Vya79azOHTAcpOilwcd5c3EyHB8URnk?=
+ =?us-ascii?Q?cNhSQJfAXqZNh4nAVeSPu3624eB6pWbXjSAgFfvmRqUocVRGIN1R6kDlOPHs?=
+ =?us-ascii?Q?89zYqTJBMc+IubHo5UTUgbR5tupDTnicA1DDp66HAZbK7fvHLT/hWTb39Iay?=
+ =?us-ascii?Q?0dun2H6f1nlV4dT60aQYaaDPh80wrlYDFHMv1AZxZevZ7eX7riciYjFydowe?=
+ =?us-ascii?Q?pFqEdfCGg7RpPlF5loeLyMEoe124wwe18lwdIqD1pszGkBKwXiQVvNkaG8jx?=
+ =?us-ascii?Q?8dQyE6GxkwMA5lC/DeG7n8rvn7gucR9IPlm7dAKfZNMaAdzPy0MWt7Z3FUef?=
+ =?us-ascii?Q?KygJFLxR6EZy7hAOcC8MV7AcesHclFPFiVhRZKXUv03kd2TOyvM1SCKdboV/?=
+ =?us-ascii?Q?OuJEQNYVA9JXaypAUA0QYqxlHwjOlrnC2nKktQu0u65jZ1lWCkr+Mg7GkRKH?=
+ =?us-ascii?Q?PrNFsDYRiTklhybVbG/pFts=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <9BC9B46033DEAF4B9F5713C0115112D7@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 	s8mhuDEhURXz/oOntCZnYg3rdYsTOg2fKRzHAUdkZPbuyRObQSt0QCfWF+3LuAOJHOM5qf25Gqfg369POxTt3hPIplz4XHqQBhKCkEdguQy4dyBim3uzAkltonCQS1MBPMOqgLIlZA4Qq6XLITRF9d03vgfxq1PNftQeArg2afyr4lo+T2x2d299K1f+pESYmf6RcjfM2GObPV4FtyQIxpcZbIYV5km8K+VTZ5MEy+JL+/p+Fx1KlF18yTxGJjY7/yEO/hXlrqkAflr6OWfJMm5JKrClzNosxhKSACC/I4wUYhQeqyxyryDdIvplIY/M3uMxHWc2bvgdhx+w0npZHFfSwRBTFMRzIyfD8bqBtrHNgZsce9qD6M28O8ZdPX3uxH0rd0NjHzZ5cwR6NPgjw2eufBASDRlfbtqpKQ2kpvaRGDjZepSJS+Zv5ss/dQuFSaRAlXqWsiMSwaSfEoYLc+PrqqCbaAoPSY+UOwE4g35e9nueVEnS+JheV2Sp3gzzjbhoiSn8CIT/tKY2lVK6oBfLQlJgibHpPo90PZsGbiebMQWkr619SMuIMEDJedPCHyc8qMVwUakspxCP2Yi9tAoyAyaM9DVKwIQqMrvxnLfAOX6+osnn8fR4UXHeB0poNfWbZBjBVX8RylcF2tlhK5LuLNx6A7Gi4ju3/xd701Guyi7xuZ/BAZ8XXHhf9YjXSBSsbmHyMnIOnLdef2waQs5GWtwdStcwL7m55kWhcS3KgPgJLi0X4AJEiczFHMvCpMLYE6gX4pojkVYQ0ioM56FtMd7RcjHEGjxwNdcSYA2dFK3ts+X9YjES0+KlaLL4k4TFW9+0GTb++6jicHzCbvrA4cbZqDFk5fAtIc/khqvZWq18TwxVFzLWwCuZg52t7sg+uHkX8sHvp9MwvIrXL/vJhG8wrpVu+sS7yOCf608=
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9384eeeb-ea1e-41de-09e7-08db523f0b28
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 May 2023 16:44:52.6242
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ycGWChTYSh41soWyIsF3NMv3u7R6WwG1cVvz31HaTtkYztD+LDlgt6c5ZETr4sHpKFz2862pt7SQrioJpSKQ7Pb2d6WvBHhspQj0IKrui20=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB7118
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230511_080331_953164_5CA5A8FF 
-X-CRM114-Status: GOOD (  24.77  )
+X-CRM114-CacheID: sfid-20230511_094458_523465_97E932B6 
+X-CRM114-Status: GOOD (  20.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,328 +166,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Lockdep complains about flushing queue->release_work in the NVMe RDMA target
-driver because all instances of queue->release_work have the same lock class
-key. Assigning a different lock class key to each release_work instance is
-difficult because dynamically registered lock class keys must be unregistered
-and the last use of the work_struct lock class key happens after the work
-callback has returned. Hence rework the code for releasing connections as
-follows:
-* Add an argument to __nvmet_rdma_queue_disconnect() and also to
-  nvmet_rdma_queue_disconnect() that indicates whether or not these functions
-  are called from inside a CM handler callback.
-* Do not call rdma_destroy_id() if called from inside a CM handler callback.
-* Let these functions return a negative value if the caller should free the
-  CM ID.
-* Let the CM handler return a negative value if its caller should free the
-  CM ID.
-* Remove queue->release_work since releasing connections now happens
-  synchronously.
+On May 10, 2023 / 19:24, Daniel Wagner wrote:
+> On Sun, May 07, 2023 at 11:34:51PM +0000, Shinichiro Kawasaki wrote:
+> > On May 03, 2023 / 10:02, Daniel Wagner wrote:
+> > > Move the discovery generation counter code to rc so that we can reuse
+> > > it in 002.
+> >=20
+> > The last #12 patch no longer touches nvme/002, then I'm not so sure thi=
+s patch
+> > is valuable. IMO, the lengthy 002.out has the role to check all of the =
+1000
+> > times discoveries are successful. So it looks the better to keep curren=
+t
+> > nvme/002 as is.
+>=20
+> While we don't update the counter anymore, I still think it's worthwhile =
+to
+> do some cleanup. We have two tests which do the same thing so why not use=
+ common
+> code?
 
-This patch suppresses the following lockdep complaint:
-
-======================================================
-WARNING: possible circular locking dependency detected
-6.3.0 #62 Not tainted
-------------------------------------------------------
-kworker/1:3/455 is trying to acquire lock:
-ffff88813bfd9420 (&id_priv->handler_mutex){+.+.}-{3:3}, at: rdma_destroy_id+0x17/0x20 [rdma_cm]
-
-but task is already holding lock:
-ffff888131327db0 ((work_completion)(&queue->release_work)){+.+.}-{0:0}, at: process_one_work+0x793/0x1350
-
-which lock already depends on the new lock.
-
-the existing dependency chain (in reverse order) is:
-
--> #3 ((work_completion)(&queue->release_work)){+.+.}-{0:0}:
-       process_one_work+0x7dc/0x1350
-       worker_thread+0xfc/0x1260
-       kthread+0x29e/0x340
-       ret_from_fork+0x2c/0x50
-
--> #2 ((wq_completion)nvmet-wq){+.+.}-{0:0}:
-       __flush_workqueue+0x130/0x12f0
-       nvmet_rdma_cm_handler+0x961/0x39c0 [nvmet_rdma]
-       cma_cm_event_handler+0xb2/0x2f0 [rdma_cm]
-       cma_ib_req_handler+0x1096/0x4a50 [rdma_cm]
-       cm_process_work+0x46/0x3b0 [ib_cm]
-       cm_req_handler+0x20e2/0x61d0 [ib_cm]
-       cm_work_handler+0xc15/0x6ce0 [ib_cm]
-       process_one_work+0x843/0x1350
-       worker_thread+0xfc/0x1260
-       kthread+0x29e/0x340
-       ret_from_fork+0x2c/0x50
-
--> #1 (&id_priv->handler_mutex/1){+.+.}-{3:3}:
-       __mutex_lock+0x186/0x18f0
-       cma_ib_req_handler+0xc3c/0x4a50 [rdma_cm]
-       cm_process_work+0x46/0x3b0 [ib_cm]
-       cm_req_handler+0x20e2/0x61d0 [ib_cm]
-       cm_work_handler+0xc15/0x6ce0 [ib_cm]
-       process_one_work+0x843/0x1350
-       worker_thread+0xfc/0x1260
-       kthread+0x29e/0x340
-       ret_from_fork+0x2c/0x50
-
--> #0 (&id_priv->handler_mutex){+.+.}-{3:3}:
-       __lock_acquire+0x2fc0/0x60f0
-       lock_acquire+0x1a7/0x4e0
-       __mutex_lock+0x186/0x18f0
-       rdma_destroy_id+0x17/0x20 [rdma_cm]
-       nvmet_rdma_free_queue+0x7a/0x380 [nvmet_rdma]
-       nvmet_rdma_release_queue_work+0x3e/0x90 [nvmet_rdma]
-       process_one_work+0x843/0x1350
-       worker_thread+0xfc/0x1260
-       kthread+0x29e/0x340
-       ret_from_fork+0x2c/0x50
-
-other info that might help us debug this:
-
-Chain exists of:
-  &id_priv->handler_mutex --> (wq_completion)nvmet-wq --> (work_completion)(&queue->release_work)
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock((work_completion)(&queue->release_work));
-                               lock((wq_completion)nvmet-wq);
-                               lock((work_completion)(&queue->release_work));
-  lock(&id_priv->handler_mutex);
-
- *** DEADLOCK ***
-
-2 locks held by kworker/1:3/455:
- #0: ffff888127b28538 ((wq_completion)nvmet-wq){+.+.}-{0:0}, at: process_one_work+0x766/0x1350
- #1: ffff888131327db0 ((work_completion)(&queue->release_work)){+.+.}-{0:0}, at: process_one_work+0x793/0x1350
-
-stack backtrace:
-CPU: 1 PID: 455 Comm: kworker/1:3 Not tainted 6.3.0 #62
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-1.fc38 04/01/2014
-Workqueue: nvmet-wq nvmet_rdma_release_queue_work [nvmet_rdma]
-Call Trace:
- <TASK>
- dump_stack_lvl+0x57/0x90
- check_noncircular+0x27b/0x310
- __lock_acquire+0x2fc0/0x60f0
- lock_acquire+0x1a7/0x4e0
- __mutex_lock+0x186/0x18f0
- rdma_destroy_id+0x17/0x20 [rdma_cm]
- nvmet_rdma_free_queue+0x7a/0x380 [nvmet_rdma]
- nvmet_rdma_release_queue_work+0x3e/0x90 [nvmet_rdma]
- process_one_work+0x843/0x1350
- worker_thread+0xfc/0x1260
- kthread+0x29e/0x340
- ret_from_fork+0x2c/0x50
- </TASK>
-
-See also https://lore.kernel.org/all/rsmmxrchy6voi5qhl4irss5sprna3f5owkqtvybxglcv2pnylm@xmrnpfu3tfpe/
-
-Cc: Sagi Grimberg <sagi@grimberg.me>
-Cc: Hannes Reinecke <hare@suse.de>
-Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Signed-off-by: Bart Van Assche <bvanassche@acm.org>
----
- drivers/nvme/target/rdma.c | 70 ++++++++++++++++++++------------------
- 1 file changed, 37 insertions(+), 33 deletions(-)
-
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 4597bca43a6d..cfd9d4368248 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -101,7 +101,6 @@ struct nvmet_rdma_queue {
- 	spinlock_t		rsps_lock;
- 	struct nvmet_rdma_cmd	*cmds;
- 
--	struct work_struct	release_work;
- 	struct list_head	rsp_wait_list;
- 	struct list_head	rsp_wr_wait_list;
- 	spinlock_t		rsp_wr_wait_lock;
-@@ -167,7 +166,8 @@ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc);
- static void nvmet_rdma_read_data_done(struct ib_cq *cq, struct ib_wc *wc);
- static void nvmet_rdma_write_data_done(struct ib_cq *cq, struct ib_wc *wc);
- static void nvmet_rdma_qp_event(struct ib_event *event, void *priv);
--static void nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue);
-+static int nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue,
-+				       bool from_cm_handler);
- static void nvmet_rdma_free_rsp(struct nvmet_rdma_device *ndev,
- 				struct nvmet_rdma_rsp *r);
- static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
-@@ -693,7 +693,7 @@ static void nvmet_rdma_error_comp(struct nvmet_rdma_queue *queue)
- 		 * of admin connect error, just disconnect and
- 		 * cleanup the queue
- 		 */
--		nvmet_rdma_queue_disconnect(queue);
-+		nvmet_rdma_queue_disconnect(queue, false);
- 	}
- }
- 
-@@ -1360,17 +1360,6 @@ static void nvmet_rdma_free_queue(struct nvmet_rdma_queue *queue)
- 	kfree(queue);
- }
- 
--static void nvmet_rdma_release_queue_work(struct work_struct *w)
--{
--	struct nvmet_rdma_queue *queue =
--		container_of(w, struct nvmet_rdma_queue, release_work);
--	struct nvmet_rdma_device *dev = queue->dev;
--
--	nvmet_rdma_free_queue(queue);
--
--	kref_put(&dev->ref, nvmet_rdma_free_dev);
--}
--
- static int
- nvmet_rdma_parse_cm_connect_req(struct rdma_conn_param *conn,
- 				struct nvmet_rdma_queue *queue)
-@@ -1441,11 +1430,6 @@ nvmet_rdma_alloc_queue(struct nvmet_rdma_device *ndev,
- 	if (ret)
- 		goto out_destroy_sq;
- 
--	/*
--	 * Schedules the actual release because calling rdma_destroy_id from
--	 * inside a CM callback would trigger a deadlock. (great API design..)
--	 */
--	INIT_WORK(&queue->release_work, nvmet_rdma_release_queue_work);
- 	queue->dev = ndev;
- 	queue->cm_id = cm_id;
- 	queue->port = port->nport;
-@@ -1582,11 +1566,6 @@ static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
- 		goto put_device;
- 	}
- 
--	if (queue->host_qid == 0) {
--		/* Let inflight controller teardown complete */
--		flush_workqueue(nvmet_wq);
--	}
--
- 	ret = nvmet_rdma_cm_accept(cm_id, queue, &event->param.conn);
- 	if (ret) {
- 		/*
-@@ -1638,10 +1617,17 @@ static void nvmet_rdma_queue_established(struct nvmet_rdma_queue *queue)
- 	spin_unlock_irqrestore(&queue->state_lock, flags);
- }
- 
--static void __nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue)
-+/*
-+ * If called from inside a CM handler callback, the CM ID must not be
-+ * destroyed. Instead, a negative value is returned if the caller should
-+ * destroy the CM ID.
-+ */
-+static int __nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue,
-+					 bool from_cm_handler)
- {
- 	bool disconnect = false;
- 	unsigned long flags;
-+	int ret = 0;
- 
- 	pr_debug("cm_id= %p queue->state= %d\n", queue->cm_id, queue->state);
- 
-@@ -1668,12 +1654,22 @@ static void __nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue)
- 	spin_unlock_irqrestore(&queue->state_lock, flags);
- 
- 	if (disconnect) {
-+		struct nvmet_rdma_device *dev = queue->dev;
-+
- 		rdma_disconnect(queue->cm_id);
--		queue_work(nvmet_wq, &queue->release_work);
-+		if (from_cm_handler)
-+			ret = -ENODEV;
-+		else
-+			rdma_destroy_id(queue->cm_id);
-+		nvmet_rdma_free_queue(queue);
-+		kref_put(&dev->ref, nvmet_rdma_free_dev);
- 	}
-+
-+	return ret;
- }
- 
--static void nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue)
-+static int nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue,
-+				       bool from_cm_handler)
- {
- 	bool disconnect = false;
- 
-@@ -1685,12 +1681,16 @@ static void nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue)
- 	mutex_unlock(&nvmet_rdma_queue_mutex);
- 
- 	if (disconnect)
--		__nvmet_rdma_queue_disconnect(queue);
-+		return __nvmet_rdma_queue_disconnect(queue, from_cm_handler);
-+
-+	return 0;
- }
- 
- static void nvmet_rdma_queue_connect_fail(struct rdma_cm_id *cm_id,
- 		struct nvmet_rdma_queue *queue)
- {
-+	struct nvmet_rdma_device *dev = queue->dev;
-+
- 	WARN_ON_ONCE(queue->state != NVMET_RDMA_Q_CONNECTING);
- 
- 	mutex_lock(&nvmet_rdma_queue_mutex);
-@@ -1699,7 +1699,9 @@ static void nvmet_rdma_queue_connect_fail(struct rdma_cm_id *cm_id,
- 	mutex_unlock(&nvmet_rdma_queue_mutex);
- 
- 	pr_err("failed to connect queue %d\n", queue->idx);
--	queue_work(nvmet_wq, &queue->release_work);
-+
-+	nvmet_rdma_free_queue(queue);
-+	kref_put(&dev->ref, nvmet_rdma_free_dev);
- }
- 
- /**
-@@ -1749,6 +1751,7 @@ static int nvmet_rdma_device_removal(struct rdma_cm_id *cm_id,
- 	return 1;
- }
- 
-+/* The caller destroys @cm_id if this function does not return zero. */
- static int nvmet_rdma_cm_handler(struct rdma_cm_id *cm_id,
- 		struct rdma_cm_event *event)
- {
-@@ -1779,7 +1782,7 @@ static int nvmet_rdma_cm_handler(struct rdma_cm_id *cm_id,
- 		fallthrough;
- 	case RDMA_CM_EVENT_DISCONNECTED:
- 	case RDMA_CM_EVENT_TIMEWAIT_EXIT:
--		nvmet_rdma_queue_disconnect(queue);
-+		ret = nvmet_rdma_queue_disconnect(queue, true);
- 		break;
- 	case RDMA_CM_EVENT_DEVICE_REMOVAL:
- 		ret = nvmet_rdma_device_removal(cm_id, queue);
-@@ -1791,6 +1794,7 @@ static int nvmet_rdma_cm_handler(struct rdma_cm_id *cm_id,
- 	case RDMA_CM_EVENT_UNREACHABLE:
- 	case RDMA_CM_EVENT_CONNECT_ERROR:
- 		nvmet_rdma_queue_connect_fail(cm_id, queue);
-+		ret = -ENODEV;
- 		break;
- 	default:
- 		pr_err("received unrecognized RDMA CM event %d\n",
-@@ -1812,7 +1816,7 @@ static void nvmet_rdma_delete_ctrl(struct nvmet_ctrl *ctrl)
- 			list_del_init(&queue->queue_list);
- 			mutex_unlock(&nvmet_rdma_queue_mutex);
- 
--			__nvmet_rdma_queue_disconnect(queue);
-+			__nvmet_rdma_queue_disconnect(queue, false);
- 			goto restart;
- 		}
- 	}
-@@ -1831,7 +1835,7 @@ static void nvmet_rdma_destroy_port_queues(struct nvmet_rdma_port *port)
- 			continue;
- 
- 		list_del_init(&queue->queue_list);
--		__nvmet_rdma_queue_disconnect(queue);
-+		__nvmet_rdma_queue_disconnect(queue, false);
- 	}
- 	mutex_unlock(&nvmet_rdma_queue_mutex);
- }
-@@ -2049,7 +2053,7 @@ static void nvmet_rdma_remove_one(struct ib_device *ib_device, void *client_data
- 
- 		pr_info("Removing queue %d\n", queue->idx);
- 		list_del_init(&queue->queue_list);
--		__nvmet_rdma_queue_disconnect(queue);
-+		__nvmet_rdma_queue_disconnect(queue, false);
- 	}
- 	mutex_unlock(&nvmet_rdma_queue_mutex);
- 
+Now nvme/002 checks 1000 discovery logs, and nvme/030 doesn't. For the comm=
+on
+code clean up, this patch removes the 1000 logs check from nvme/002. It loo=
+ks
+for me the check to remove has some value. Do you think the check is
+meaningless?
 
