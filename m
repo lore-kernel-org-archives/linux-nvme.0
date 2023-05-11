@@ -4,81 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70799C7EE22
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 May 2023 20:44:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AAC81C77B7F
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 May 2023 23:13:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4hjCuhDdEpisTNEgIUNHt8mdh/WtukpJUPhW4o+llao=; b=DKLW6dFy8ocUf0gCyZ30N+cpte
-	DMI8gMWgaXieHr5xmjXnq/HUKJ2uhrvIJ2iWqj8N5Ib2sQsJjW0sOuOJyX9ytIYgN5JAaePp67NvQ
-	tJqj+A3SWyTlOsL5IsLBaDWSyiLn4Sase6KSlhMiktolT2M0ZQ/TSu1dZgpiKY+ZLIJk1IxdVkqJc
-	Zmh9MhSE6sKQ0kYNIqTi+g1AZ4Ayd+SSSir40Ba+/jTWZBdbs0R7RNeRIVDzruJWrwvgO3EoxA1es
-	r938ewwlCeAzGTTMDrWg6YZJvaanqsNSsUl9MA3oA4Dv2CS8+45AgZWVYcxI0PKmOG5P7NSi1uMzW
-	PbS3PWUw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=yYcDpFiaPsLBdZEkAYPI2+PgspTNh7Jf+dmCdIA+z6k=; b=J+Parwas5FoIvmewqt9KMdcZKr
+	Rrq2iLS99XwxdrwzPzKuIfssHuTPhZwiXe3TAKgfJmlmThVT96YSnmH3lXubcf6NrpXoFBTjuXVcG
+	H8erToIfTN4Zfth1SjtXlYkzqxd51HhrODeaA6yfDohGdTLf+MUTNmP1+cggW7RPYRRudVfV/hxxo
+	wjMfKmxzL40dgsprFfguaUDhVl3FpsbIPesaJ27Khg6ctMnkWwIfj5JsIXj97V/CEtbyAKh4TtNDC
+	m0njpxl1okmNZRFRchXj8bP6F8eY5mA20ZZWj2OIpaSmYi9rKXs8QO22eJsKuLyZkh6FFuvobFGy/
+	5cG00GTg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pxD9B-009wWn-1r;
-	Thu, 11 May 2023 20:44:21 +0000
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+	id 1pxFTp-00AIwA-1s;
+	Thu, 11 May 2023 23:13:49 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pxD98-009wWJ-2A
+	id 1pxFTm-00AIv7-1j
 	for linux-nvme@lists.infradead.org;
-	Thu, 11 May 2023 20:44:19 +0000
-Received: by mail-pj1-x1030.google.com with SMTP id 98e67ed59e1d1-24e5c1f6461so6264889a91.0
-        for <linux-nvme@lists.infradead.org>; Thu, 11 May 2023 13:44:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683837857; x=1686429857;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4hjCuhDdEpisTNEgIUNHt8mdh/WtukpJUPhW4o+llao=;
-        b=DzptXMJESoyD2cU6GH7BV0t5a3uv+1D7VfT2KoLoczknojYd0DwBwVxS/eWthAieQQ
-         hV1IvRE2P4Fo+45Tc06HCzsKRKcBdBRbE9sDTxNaVwX+sHDzhbrX2ZsEP+59QYUraARQ
-         Z98FmW9d2rssrFBBPfl2ZwTGpqjUzEtzVky1JG8FP0C4B7rYWWjr9ZfoFhX/8WV7mMdU
-         PWMN18rWFyfJlRhZUKGMf9JG0UHkX6nLqhJAtF24wd1F/pnpvAYsoHa/RlGBVfwMs9Ui
-         ZdCgj69aBqIPQtNzj6lG5OJRQYs5I3N+NuDeukeFspYIRrC8kGuRZeedGFwD0KiZzEK7
-         Avbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683837857; x=1686429857;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4hjCuhDdEpisTNEgIUNHt8mdh/WtukpJUPhW4o+llao=;
-        b=DOE7YDS0+GIFOosFo15OEtZ+lALDDUGPRdwDgSmYIv9CjEZgjBpWLjfVWAqdDDpwe2
-         zy2KUB05ykNnQd0NcwqsmFnETjDvRocaSoX416AibtSMDToPBJ3Px0hQoAikb6mmer2A
-         8twC5WfjhWbiWo5DRAHcZxqNykxQBlC2e/NuhQCtFNC6kUEVdOOrOoekJuouyDrw//Sd
-         dGPXSEgGVwF0jMA7ov/cTs0kCYjRECCkzqkf+9XFoJLFmZzH8qAh+oHVGgHl+rZrIwA/
-         u87k5xMZb6AP91EA8ikYPru0sIT/giLSPij5OnpKh6sBh0ouAH8/OmOLh6CeVC1BsPUR
-         IDlg==
-X-Gm-Message-State: AC+VfDzCb7UOnPhiH0Af9e+6aIdwwm9+JlFabxfMdz4a/kV4AFJe1S1u
-	7ZQYU3rHO6MIsWYK87cEf48=
-X-Google-Smtp-Source: ACHHUZ5hQnUC2s8ywUsFomsmvpvRU6S4XCPDUAhd7Tb1dugMgzmlRcrqmf/Hr3jtex/qu9nuGVhixA==
-X-Received: by 2002:a17:90a:db07:b0:250:a4f5:fb34 with SMTP id g7-20020a17090adb0700b00250a4f5fb34mr11969525pjv.2.1683837857291;
-        Thu, 11 May 2023 13:44:17 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id s14-20020a17090a760e00b0024e134a2408sm18906917pjk.14.2023.05.11.13.44.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 13:44:16 -0700 (PDT)
-Date: Thu, 11 May 2023 13:44:15 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] nvme: host: hwmon: constify pointers to
- hwmon_channel_info
-Message-ID: <38162cf3-44e8-4774-b60b-539075369699@roeck-us.net>
-References: <20230511174650.279452-1-krzysztof.kozlowski@linaro.org>
+	Thu, 11 May 2023 23:13:48 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 08286221E0;
+	Thu, 11 May 2023 23:13:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1683846823; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yYcDpFiaPsLBdZEkAYPI2+PgspTNh7Jf+dmCdIA+z6k=;
+	b=CubZJQ4RvG42jgsK6vsqYnwzhBBWnnUbKSs9FxluH8udWwJNyCKRnaMsgMydYJz/1rqftp
+	NSGJSAanXQYyaUye8bU0a9QrkMf65CrHJzoTpWStj0hVfPvWutxC7lPmi5BHmEZMfJpjbc
+	9E6o4BWcDt6ygj1F+I2gnrLvFN0KAN8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1683846823;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yYcDpFiaPsLBdZEkAYPI2+PgspTNh7Jf+dmCdIA+z6k=;
+	b=aUqPYxeG3PAOYTpJF+zma6LsGtRe0SJTQXAHGe/HZhE7YOqMxj9qLtNBU9kDXj91eGkdGx
+	w3rpTQAf6l+A6tBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9D5D8134B2;
+	Thu, 11 May 2023 23:13:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id iesiGqR2XWRZQAAAMHmgww
+	(envelope-from <hare@suse.de>); Thu, 11 May 2023 23:13:40 +0000
+Message-ID: <95e9f93b-4545-871e-bf69-8c1a2f8ffe5c@suse.de>
+Date: Fri, 12 May 2023 01:13:38 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230511174650.279452-1-krzysztof.kozlowski@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v2 3/3] nvme-fabrics: prevent overriding of existing host
+Content-Language: en-US
+To: Max Gurtovoy <mgurtovoy@nvidia.com>, hch@lst.de, sagi@grimberg.me,
+ kbusch@kernel.org, linux-nvme@lists.infradead.org
+Cc: axboe@kernel.dk, oren@nvidia.com, ngottlieb@nvidia.com, israelr@nvidia.com
+References: <20230511165441.30005-1-mgurtovoy@nvidia.com>
+ <20230511165441.30005-4-mgurtovoy@nvidia.com>
+ <583bbc61-58d8-d950-a179-16c6807f38bd@suse.de>
+ <025ae696-38cd-edc1-edf4-3cc05b4e9a9f@nvidia.com>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <025ae696-38cd-edc1-edf4-3cc05b4e9a9f@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230511_134418_729599_885158B8 
-X-CRM114-Status: GOOD (  17.63  )
+X-CRM114-CacheID: sfid-20230511_161346_744862_C529C463 
+X-CRM114-Status: GOOD (  42.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,39 +96,255 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, May 11, 2023 at 07:46:50PM +0200, Krzysztof Kozlowski wrote:
-> Statically allocated array of pointed to hwmon_channel_info can be made
-> const for safety.
+On 5/11/23 21:35, Max Gurtovoy wrote:
 > 
-> Acked-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> On 11/05/2023 21:50, Hannes Reinecke wrote:
+>> On 5/11/23 18:54, Max Gurtovoy wrote:
+>>> When first connecting a target using the "default" host parameters,
+>>> setting the hostid from the command line during a subsequent connection
+>>> establishment would override the "default" hostid parameter. This would
+>>> cause an existing connection that is already using the host definitions
+>>> to lose its hostid.
+>>>
+>>> To address this issue, the code has been modified to allow only 1:1
+>>> mapping between hostnqn and hostid. This will maintain unambiguous host
+>>> identification. Any non 1:1 mapping will be rejected during connection
+>>> establishment.
+>>>
+>>> Tested-by: Noam Gottlieb <ngottlieb@nvidia.com>
+>>> Reviewed-by: Israel Rukshin <israelr@nvidia.com>
+>>> Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+>>> ---
+>>>
+>>> changes from v1:
+>>> - address comments from Christoph
+>>> - allow only 1:1 mapping between hostnqn and hostid
+>>> - add error prints in case we fail a connection for user to understand
+>>>    the reason of the failure
+>>>
+>>> ---
+>>>   drivers/nvme/host/fabrics.c | 98 ++++++++++++++++++++++++++-----------
+>>>   1 file changed, 70 insertions(+), 28 deletions(-)
+>>>
+>>> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+>>> index 0c0172bdc4dc..f8e47c7d6188 100644
+>>> --- a/drivers/nvme/host/fabrics.c
+>>> +++ b/drivers/nvme/host/fabrics.c
+>>> @@ -21,35 +21,77 @@ static DEFINE_MUTEX(nvmf_hosts_mutex);
+>>>   static struct nvmf_host *nvmf_default_host;
+>>> -static struct nvmf_host *__nvmf_host_find(const char *hostnqn)
+>>> +/**
+>>> + * __nvmf_host_find() - Find a matching to a previously created host
+>>> + * @hostnqn: Host NQN to match
+>>> + * @id: Host ID to match
+>>> + *
+>>> + * We have defined a host as how it is perceived by the target.
+>>> + * Therefore, we don't allow different Host NQNs with the same Host ID.
+>>> + * Similarly, we do not allow the usage of the same Host NQN with 
+>>> different
+>>> + * Host IDs. This will maintain unambiguous host identification.
+>>> + *
+>>> + * Return: Returns host pointer on success, NULL in case of no match or
+>>> + *         ERR_PTR(-EINVAL) in case of error match.
+>>> + */
+>>> +static struct nvmf_host *__nvmf_host_find(const char *hostnqn, 
+>>> uuid_t *id)
+>>>   {
+>>>       struct nvmf_host *host;
+>>> +    lockdep_assert_held(&nvmf_hosts_mutex);
+>>> +
+>>>       list_for_each_entry(host, &nvmf_hosts, list) {
+>>> -        if (!strcmp(host->nqn, hostnqn))
+>>> -            return host;
+>>> +        if (!strcmp(host->nqn, hostnqn)) {
+>>> +            if (uuid_equal(&host->id, id)) {
+>>> +                // same hostnqn and hostid
+>>> +                return host;
+>>> +            } else {
+>>> +                pr_err("found same hostnqn %s but different hostid 
+>>> %pUb\n",
+>>> +                       hostnqn, id);
+>>> +                return ERR_PTR(-EINVAL);
+>>> +            }
+>>> +        } else if (uuid_equal(&host->id, id)) {
+>>> +            // same hostid but different hostnqn
+>>> +            pr_err("found same hostid %pUb but different hostnqn %s\n",
+>>> +                    id, hostnqn);
+>>> +            return ERR_PTR(-EINVAL);
+>>> +        }
+>>>       }
+>>>       return NULL;
+>>>   }
+>>> -static struct nvmf_host *nvmf_host_add(const char *hostnqn)
+>>> +static struct nvmf_host *nvmf_host_alloc(const char *hostnqn, uuid_t 
+>>> *id)
+>>> +{
+>>> +    struct nvmf_host *host;
+>>> +
+>>> +    host = kmalloc(sizeof(*host), GFP_KERNEL);
+>>> +    if (!host)
+>>> +        return NULL;
+>>> +
+>>> +    kref_init(&host->ref);
+>>> +    uuid_copy(&host->id, id);
+>>> +    strscpy(host->nqn, hostnqn, NVMF_NQN_SIZE);
+>>> +
+>>> +    return host;
+>>> +}
+>>> +
+>>> +static struct nvmf_host *nvmf_host_add(const char *hostnqn, uuid_t *id)
+>>>   {
+>>>       struct nvmf_host *host;
+>>>       mutex_lock(&nvmf_hosts_mutex);
+>>> -    host = __nvmf_host_find(hostnqn);
+>>> -    if (host) {
+>>> +    host = __nvmf_host_find(hostnqn, id);
+>>> +    if (IS_ERR(host)) {
+>>> +        goto out_unlock;
+>>> +    } else if (host) {
+>>>           kref_get(&host->ref);
+>>>           goto out_unlock;
+>>>       }
+>>> -    host = kmalloc(sizeof(*host), GFP_KERNEL);
+>>> +    host = nvmf_host_alloc(hostnqn, id);
+>>>       if (!host)
+>>> -        goto out_unlock;
+>>> -
+>>> -    kref_init(&host->ref);
+>>> -    strscpy(host->nqn, hostnqn, NVMF_NQN_SIZE);
+>>> +        return ERR_PTR(-ENOMEM);
+>>>       list_add_tail(&host->list, &nvmf_hosts);
+>>>   out_unlock:
+>>> @@ -60,16 +102,17 @@ static struct nvmf_host *nvmf_host_add(const 
+>>> char *hostnqn)
+>>>   static struct nvmf_host *nvmf_host_default(void)
+>>>   {
+>>>       struct nvmf_host *host;
+>>> +    char nqn[NVMF_NQN_SIZE];
+>>> +    uuid_t id;
+>>> -    host = kmalloc(sizeof(*host), GFP_KERNEL);
+>>> +    uuid_gen(&id);
+>>> +    snprintf(nqn, NVMF_NQN_SIZE,
+>>> +        "nqn.2014-08.org.nvmexpress:uuid:%pUb", &id);
+>>> +
+>>> +    host = nvmf_host_alloc(nqn, &id);
+>>>       if (!host)
+>>>           return NULL;
+>>> -    kref_init(&host->ref);
+>>> -    uuid_gen(&host->id);
+>>> -    snprintf(host->nqn, NVMF_NQN_SIZE,
+>>> -        "nqn.2014-08.org.nvmexpress:uuid:%pUb", &host->id);
+>>> -
+>>>       mutex_lock(&nvmf_hosts_mutex);
+>>>       list_add_tail(&host->list, &nvmf_hosts);
+>>>       mutex_unlock(&nvmf_hosts_mutex);
+>>> @@ -633,6 +676,7 @@ static int nvmf_parse_options(struct 
+>>> nvmf_ctrl_options *opts,
+>>>       size_t nqnlen  = 0;
+>>>       int ctrl_loss_tmo = NVMF_DEF_CTRL_LOSS_TMO;
+>>>       uuid_t hostid;
+>>> +    char hostnqn[NVMF_NQN_SIZE];
+>>>       /* Set defaults */
+>>>       opts->queue_size = NVMF_DEF_QUEUE_SIZE;
+>>> @@ -649,7 +693,9 @@ static int nvmf_parse_options(struct 
+>>> nvmf_ctrl_options *opts,
+>>>       if (!options)
+>>>           return -ENOMEM;
+>>> -    uuid_gen(&hostid);
+>>> +    /* use default host if not given by user space */
+>>> +    uuid_copy(&hostid, &nvmf_default_host->id);
+>>> +    strscpy(hostnqn, nvmf_default_host->nqn, NVMF_NQN_SIZE);
+>>>       while ((p = strsep(&o, ",\n")) != NULL) {
+>>>           if (!*p)
+>>> @@ -795,12 +841,8 @@ static int nvmf_parse_options(struct 
+>>> nvmf_ctrl_options *opts,
+>>>                   ret = -EINVAL;
+>>>                   goto out;
+>>>               }
+>>> -            opts->host = nvmf_host_add(p);
+>>> +            strscpy(hostnqn, p, NVMF_NQN_SIZE);
+>>>               kfree(p);
+>>> -            if (!opts->host) {
+>>> -                ret = -ENOMEM;
+>>> -                goto out;
+>>> -            }
+>>>               break;
+>>>           case NVMF_OPT_RECONNECT_DELAY:
+>>>               if (match_int(args, &token)) {
+>>> @@ -957,13 +999,13 @@ static int nvmf_parse_options(struct 
+>>> nvmf_ctrl_options *opts,
+>>>                   opts->fast_io_fail_tmo, ctrl_loss_tmo);
+>>>       }
+>>> -    if (!opts->host) {
+>>> -        kref_get(&nvmf_default_host->ref);
+>>> -        opts->host = nvmf_default_host;
+>>> +    opts->host = nvmf_host_add(hostnqn, &hostid);
+>>> +    if (IS_ERR(opts->host)) {
+>>> +        ret = PTR_ERR(opts->host);
+>>> +        opts->host = NULL;
+>>> +        goto out;
+>>>       }
+>>> -    uuid_copy(&opts->host->id, &hostid);
+>>> -
+>>>   out:
+>>>       kfree(options);
+>>>       return ret;
+>>
+>> Hmm. Remind me again: what's the supposed behaviour if I do _not_ set 
+>> the hostid from userspace and try another connection with the same 
+>> hostnqn?
+>> If I read the code correctly I will be getting a new 'host' structure 
+>> (as the hostid is not identical).
+>> Is this the behaviour we're aiming at?
+>> I would have thought that I would be getting the same host structure ..
+> 
+> Unfortunately, the nvme-cli is not handling the hostnqn and hostid well 
+> IMO.
+> It should have enforce getting these 2 together or non of them. The 
+> current code in cli allows the user to provide one of them in cmdline.
+> 
+> We also might have hostid and hostnqn files under /etc/nvme.
+> 
+> So what we have is:
+> 1. if files under /etc/nvme exist:
+>   - use values from files if the user didn't set explicitly from command 
+> line during the connect command (for each missing argument).
+> 2. if files under /etc/nvme don't exist:
+>   - use in kernel default hostnqn/hostid (that is created during module 
+> loading) values as it uses for the /etc/nvme files.
+> 
+> The code today will override the hostid for the host that it matches 
+> hostnqn. In case we'll have a reconnection, we'll reconnect with hostid 
+> that was mistakenly overridden.
+> 
+> In v1, I've fixed that and allowed having hostNQN with multiple ids but 
+> Christoph suggested blocking it in linux and maintain unambiguous host 
+> identification (1:1 mapping between hostnqn and hostid).
+> 
+> In v2, I've enforced the 1:1 mapping and fail connection establishment 
+> in any other case.
+> 
+> I've added error prints to dmesg to help the users to understand the 
+> reason of the connection failure.
+> It is better to fail the connection establishment than overriding the 
+> hostid under the hood.
+> 
+> 
+Oh, I fully get that an I'm on board with that.
+Issue is that you are generating a random ID if none is specified on the 
+commandline, so the second call (with the same parameters) will fail as 
+we're just checking if the hostid is identical.
+Guess we'll need to skip the check of hostid if none is specified.
 
-Acked-by: Guenter Roeck <linux@roeck-us.net>
+Cheers,
 
-> 
-> ---
-> 
-> Changes since v1:
-> 1. Correct whitespace (Christoph)
-> 2. Add tag
-> ---
->  drivers/nvme/host/hwmon.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/hwmon.c b/drivers/nvme/host/hwmon.c
-> index 9e6e56c20ec9..6aa153f3178a 100644
-> --- a/drivers/nvme/host/hwmon.c
-> +++ b/drivers/nvme/host/hwmon.c
-> @@ -185,7 +185,7 @@ static umode_t nvme_hwmon_is_visible(const void *_data,
->  	return 0;
->  }
->  
-> -static const struct hwmon_channel_info *nvme_hwmon_info[] = {
-> +static const struct hwmon_channel_info *const nvme_hwmon_info[] = {
->  	HWMON_CHANNEL_INFO(chip, HWMON_C_REGISTER_TZ),
->  	HWMON_CHANNEL_INFO(temp,
->  			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
-> -- 
-> 2.34.1
-> 
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
+Myers, Andrew McDonald, Martje Boudien Moerman
+
 
