@@ -4,143 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A154C77B7C
-	for <linux-nvme@archiver.kernel.org>; Sat, 13 May 2023 10:27:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70652C77B7A
+	for <linux-nvme@archiver.kernel.org>; Sat, 13 May 2023 16:15:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eJnrdhMxKqyLuxRcLrXAxzpbSeL3hOmdj2AKDL65fwE=; b=ORSy5mQ+AbgYsbWH6HOzsS222y
-	rygSpG3TK7BEZ+/3AkLqbRFgxsVxXUcCy121/KLOKRMKRz9foap8D8ZPef0Am5NVr5reo5qxhz3kx
-	3AMy4yrs1jguM9Dan7cakF6+EOWZ+t9Ioqck7YmVsJo/acj2561hPnQ0vciTNMV9XVLG8sIsUDjla
-	Nr+/9zbtI+6juuuYvgPwkj3lxGn7pxrfxC7WakbKBV90fFixUDSlHy1R8VdwgttMzTsHygBqjARqD
-	FfNBeQuj+3OirFNf/EsKmYUtGeMiUrpPHHeUWtfpxmjt0iJH1wiWmQw0OGSQjmGAKBbXGzFVSX9t7
-	6c4g9+LA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=OIARmc/3jMT7VMszHPbPt+ELYJo3JIIVzFYjHzZqyr0=; b=LMNoWpDIPnQJy/d1tIwuEI1FwH
+	wlvQWBsaYcYtRAf7Vjn28+DAmRhJJWyfmzae2tHAU1XRJF+PABxefoxJxddsBvnF6VfrckV9S9uZD
+	nixXUhGuUEe8xxRvAPvT4eOhnkYHju4qDWn+5L2YhUsoITcVnyLUexFJq6tgZOljj3hlxy9kfi8E1
+	LHZJKpgIshy395fNZfiSQsAdAk9rKP+k67OECSrioAvEF89pa/LvU6olvTU7LYlT7nm1oMNz5rWJA
+	X6EC7/O9IblgkzNtQ401NwzXk8jqUB+GoDuU2912M1UKIazaFaSXR0IYz30p56ojehXBtm0haa5Ik
+	KghaD8mg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pxmTC-00EH9g-0b;
-	Sat, 13 May 2023 10:27:22 +0000
-Received: from mail-bn8nam12on20606.outbound.protection.outlook.com ([2a01:111:f400:fe5b::606] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+	id 1pxrtv-00FNcL-0m;
+	Sat, 13 May 2023 16:15:19 +0000
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pxmT9-00EH8x-0D
+	id 1pxrtr-00FNbi-1D
 	for linux-nvme@lists.infradead.org;
-	Sat, 13 May 2023 10:27:20 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TTC6npGeGTg8J8WPRv4dXs2xrPYWsh8rCiqMOBEQWRNy8DtLwCFD5VSxflswhxI8HEqKy1ewuw3LHGfqwPLVYTVWwtnn+Toy02QsTHsY9F3LcSsog/SVv6OZHIqP1TVkcIsM1C0aF8W9+kg7IOCcBJFQIDpORm6BcMUU4efuyGbL8nrHxSCOujb4IFdz+5QHiSMgPA2OBmfOpm8SYAU61YzqtfoJc0Hnj18qhzU2gtNo3yFjAQs+YzKrfBeeBT+90o+9TAUDiarQ0YjjEFj9uzSePSPWGuUbMt3ZmYcSOjaTOkICCk+o+aBXZ72V9fyC3ZnZ11MFGresjocSdc2ROg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eJnrdhMxKqyLuxRcLrXAxzpbSeL3hOmdj2AKDL65fwE=;
- b=fnpzQ6m6Qdn7GDv4Qoxb76RviKQSvoBHRX6vy3nFi0/wLLjZuNjcg9tChvaaIw4IY35Giyv7lO8I2hccVfCouehgbO0OIx0BGL0OLWTUCtWniA2fjJnWVX76oz2VpAckQKEcNuKO4zeo2eycOtNvzIfv9NeMJRWP83Nu7b5VO8IlnLd+HWuVYYNNxXB1NGtsRy507tEY7hXw6O907I2UqixSId3VTIlHeetWKaWoRTMXcfiufXMAIbLrZYbV3+uw2v2gxjsR39IsWRha4Ot7JME/YmasR595IkF4sazyoshCTJ8uZrzTvGp/2Ad85IzyZua/49kJtwHNaOq9dLVMmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eJnrdhMxKqyLuxRcLrXAxzpbSeL3hOmdj2AKDL65fwE=;
- b=kPG/4+ghiSZGvsUFn5Lpica4Ytsb3ABL4MA5c+5eC1/dw2W+bDP63qivmbUM+7odJPf57FLRbQ08vqexG+V0w6V6cuQaWu0nBwZI0wRi8oYi7otW3VgIwh/WUVU5tYeqtoSW0oAi+9rLUHMTpBvOVFWEpYPRpl0Ky7DjwwiBaJAkHD1pHL+FVfPxmTxKqmiW8ARa/bS1MBugdYNxFN14zG/pX6h2vdU8w9dMkC1Y4PTMVl18QZuFqvrqFzdDOwdUwEV983eY8lf3OU7TsY+usprLREjuHWRFAQUh6hBSOppmW8cCM7Ktjbil7a8y1U3nLh3ZGY5CbpnJIskztWI2ug==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by SJ0PR12MB5502.namprd12.prod.outlook.com (2603:10b6:a03:300::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.24; Sat, 13 May
- 2023 10:27:12 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::92c6:4b21:586d:dabc]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::92c6:4b21:586d:dabc%4]) with mapi id 15.20.6387.021; Sat, 13 May 2023
- 10:27:12 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Daniel Wagner <dwagner@suse.de>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, Chaitanya
- Kulkarni <chaitanyak@nvidia.com>, Shin'ichiro Kawasaki
-	<shinichiro@fastmail.com>, Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH blktests v4 10/11] nvme{002,030}: Move discovery
- generation counter code to rc
-Thread-Topic: [PATCH blktests v4 10/11] nvme{002,030}: Move discovery
- generation counter code to rc
-Thread-Index: AQHZhBJVmrYCeJQRJUGAPqu3bNa3C69YAsiA
-Date: Sat, 13 May 2023 10:27:11 +0000
-Message-ID: <5c8dbd74-4bd0-a864-98eb-8866bb11fbcb@nvidia.com>
-References: <20230511140953.17609-1-dwagner@suse.de>
- <20230511140953.17609-11-dwagner@suse.de>
-In-Reply-To: <20230511140953.17609-11-dwagner@suse.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|SJ0PR12MB5502:EE_
-x-ms-office365-filtering-correlation-id: 30979252-8efc-4ab3-d852-08db539c9d24
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  /BXP8F5SxzIFB4MbVIvlAJL/4xNpbJ3ylLihVYV410yh2N9/61AXqDH44OHYUZsqMlRxl7Y+b2ANcEAjuc4LahLyY89kqyJp1K+NJXS+ihmGmt34h3JjOqx6OXt7d9CzzGbmikVtWPhISETgOrivH/8T5frAOqWJQw51jzQdVtliawItWsR4TAH7ueILOa3VJMOyaAQ5PWsZ1AMTk8/I1W6Yve1fh8FhXhXPt0yghrs6UG+NBnmTvM42EVhCsbicU0u+cb9EInSCHtWlJICoz1kg+90D00agBnlzu9MTReLn5VUDC3Ls4DOjzosaAkO5+eKZPuaiRI6iwtbe19ouDd3L3A03xNYvjbMqy228YcgvHzD5uQ3eKgCWbYgaxBaJsD7F088IXNowARxPirpW0wDN3+7rKP4vCPFywBW56Tga4emMzrB6mnr7pH1xh0NcSoZwVQvcSet9xsCKYIMOhXNjo30oOHKpil6roDZ90DYBcXnR16YASA6gH3oXcc8/dDPY2A6F/i7w1u92wFv+w/PwPGDiFG1Hf4FK1OKub/mcUrosh6zgBCFvAd1k4nO6y9TrGHBryXoa4h3PzJWiqma6EYhKI6GQXqXr4cD5Fy6DsFLnFH4B/ckNI1+k3FvdJlO9rssn8T9dDheRfdDqKXDII8le7ooNfrqy/Uvzrlv3d0+cztE0EMheDuYJy0JU
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(366004)(39860400002)(376002)(136003)(396003)(451199021)(2616005)(186003)(2906002)(36756003)(38100700002)(31696002)(558084003)(86362001)(38070700005)(122000001)(316002)(66946007)(76116006)(64756008)(66476007)(66446008)(66556008)(4326008)(91956017)(54906003)(6486002)(71200400001)(41300700001)(5660300002)(8936002)(8676002)(53546011)(6506007)(6512007)(110136005)(478600001)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?cjFHUzNtZWNrcTQ3b0l4RDl1d0pldjNtdHBya0FoQitBaitwZDNjQ3k5Q3pt?=
- =?utf-8?B?STdvS0tvcGg2SnB5dGFrNmtSOHBTRHR0VjJBVXN5bUxNRHdoUHJ4eCsxL09v?=
- =?utf-8?B?Z1V4Lysva2xGUWcrQlVVZm1zOUx2TEQ2VVFvYmM2TXpNQm9JT3l6OEZlWisv?=
- =?utf-8?B?RFpBc0VMY0xGMy9pamRMemx5OUhua2RhaXRiU2ZaZ1VrS004TzJiSjN5b3NP?=
- =?utf-8?B?QzBDRTNlSUZuVDRBekRNWWVOQk01em1BMlBqa1g4N29CbThQclU3SldxWXpR?=
- =?utf-8?B?RERieHEzclg4dU10WXFOU0doRlJlMmNUNXdHRGdKV0FISWozNysvZ2s0aUp3?=
- =?utf-8?B?TTlxNnFBL25FQTRjMFlaN3QrcGdnUlV3T0ZnaTMzS0Zha280L28xN0s1ZEpR?=
- =?utf-8?B?YXhqaTA1di90ajFQeWJJM1h2a1BzeUNPK2RpM3B0M1JLck1DVnRJbEd1MmFF?=
- =?utf-8?B?Y3pOZ1BqSS82OG9tMml0RnJ0bEtiUDk2d1d6U1NJME8zVkZ1V0VWaWdIN3lh?=
- =?utf-8?B?UjVQYi9NaHNpZzdQM3A1c3ZycCtZbmtQWDMvZy9MWXE0Uk5yTlpKL0NIRnNE?=
- =?utf-8?B?bThNQTk4cldlZzhxRXB2aFJZa1NJY3RkVFQ5LzczWUJ5QUxIV1JGVnduR0Jq?=
- =?utf-8?B?NzFZblRkTG1MZjlqZC8ybXltTmtjQjlNMDlqeWZlaGk4RWI3WnF0T3BoNUxQ?=
- =?utf-8?B?V2pxRWJPY3NMZTc0REJiTjFuYmd3V1BLUWlDYm1sRWtrcUJENmRrL1lRakQx?=
- =?utf-8?B?L2hmUnB6NGF3RmVjSlkyZmxaNmF3TVA2L3VqZUswc0FqcDRzUXFiQUFXR2FE?=
- =?utf-8?B?eU4wQW1FZ3Z6ZGY3OUI3a0I3Slc2WGY4algwd2xac3draEdYV2VpUUQvei9N?=
- =?utf-8?B?MXVHY1d6d1BCalZ2Y2dDUndta0FTM2ZnU1lsSHpmWVFvbXpSMUJnNGJxNTdU?=
- =?utf-8?B?bmFiT0hQVUx2eE5GRnUxeTJ2dEtadzcrT0IzdGFlN1k2bXdJQ3ZhTkpJSExS?=
- =?utf-8?B?TEpSeG9WRjBuVWVsUFdjRUVlemtqU2tSZGpGV0JFZE14b3F2Q2loNGt2eE12?=
- =?utf-8?B?QWhlUk8xT3R3Sm1xaVc0TXZwWXM3WGRlRHhqNVBRellRdDc5TVM0b3pNVlNa?=
- =?utf-8?B?U3lrRUxYejNrMlI0UDY0OWxqOWlxVW5nZlBEOUIzL2JKd0dDdmlVYVJld0c2?=
- =?utf-8?B?ajBaejZ4ZUt1bE1uczVqMVhxemt3UERHbUJMbkM4NldndTBhR0F3TVdJem1P?=
- =?utf-8?B?WmN4cHJvZDZ6TnRJTERqKzJBUjM1cW44MVVDR3BoYmNVR2dSRkxsS28wZTY2?=
- =?utf-8?B?eUwrUHdxZFBnd2x5SkYzNk9ybUtuOEVyUU9qNVJtMVRwd0Nrc01JTlRjK2cv?=
- =?utf-8?B?UTFxT3FXMlNubHhDc1gyS2x3OVNQMlp3QzM2dGNlQ0lwRDhpdnltZW1aRlBS?=
- =?utf-8?B?WERzZnRqTTM5TDVES3NtMGxiL0NsYmVBcEhLZUIwOENHRVlad1pvM3NBVFJm?=
- =?utf-8?B?cjFlSVVUcXc4QVRBUWEzNVlwZVQvQnExTnlWTUV6WGk1N2RiYTZMQW0zK2Vp?=
- =?utf-8?B?bmlGVUk5VHBUVTVyM3Z4b09nSGFzY1NuWUIwdUd1TCtRV3RJWXhWbU1ycGp0?=
- =?utf-8?B?Rm5ZbHNGRlZOZ0dnMmlKN1k5azJjdWxJSUZtZDhCd2ZjcTV5cnU0cGRRL21T?=
- =?utf-8?B?V3puTUx2Sk5LVjdZVHdFL1hqRlJWa2JGMUV0dUQyQ09UUG5zTGNEeUUyQWJW?=
- =?utf-8?B?djE1a3FMUFJFRVRPNnVnbXArSHhrdGFpRU1KSjc4bE9VbC90Y21qczAxdytR?=
- =?utf-8?B?NjRsanZib3VtRnU1UWV3SkFmbmhnSVdZOENuM2V5RThZMVdyUnBraXpiYy8v?=
- =?utf-8?B?em1pb0ZPRHZRV285SnFsZ0hxRTg5anh4dHBtRVpoZ0RlWkVtZnhwT3dwN2VI?=
- =?utf-8?B?dFlpVEI5OE9VSVFuU05Vdm5VQzl3b3JxVUhWSXNoRFJiaHoxZlhTeE1GcmZM?=
- =?utf-8?B?VGhRQUo4b21INEtrMEd6MjZ4MlJDY0YzQ1VsQVg5VGc1UEtCaDFZYVJQSXYv?=
- =?utf-8?B?a2xmejA1S3NvTldMRC9PREFsMWpvMTQ5RlN3RnY3ZC9Ra1JZVWg5R2NrNXM1?=
- =?utf-8?B?NWJ0enJtZkg2Y1RhdjBhNVNIb3RiSUs5WUpWcUdKRTBUWHBWNGE2cElycnZ5?=
- =?utf-8?Q?fJpBKxEsw5dCU25sr47HDvAF3vrO//4Aw9neI7rxFNRN?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7CABD7FC21C46D4E8CBAC3FD1A6A7BD3@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Sat, 13 May 2023 16:15:16 +0000
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1aaf7067647so76188805ad.0
+        for <linux-nvme@lists.infradead.org>; Sat, 13 May 2023 09:15:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683994512; x=1686586512;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OIARmc/3jMT7VMszHPbPt+ELYJo3JIIVzFYjHzZqyr0=;
+        b=TDt3Qs033CyzG8GpZk6Tc3alYkd9YpQe+b5zT9FcUxq7d7V8FgUoTK4TwZfgpXJH27
+         MDTsq9dXPSPVl4DS0PqXPOSKsmcAzaRSkT87VFoenJSQ2jI9cDTrpFBezl1Y9XAcCJlY
+         MSKBm+7tFfyO0aKG8oieYaUJXeleKmeEJ9h4hdUTZe7EBpXlhOJ/jAnSDyilU5PG30CU
+         BOK6/0++LHDZi5R2m8HETUk6zKxm5fGOYdtGPTztMAlZGjTgiv9ZnzIJLSvHMOJlaKX6
+         gg4VXpLgO8bYhp/QbRA8WAr66g/fUjYh0DkR60UPqBMyWRLOspzxbgS0QdhDrV1VFP9f
+         mUVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683994512; x=1686586512;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=OIARmc/3jMT7VMszHPbPt+ELYJo3JIIVzFYjHzZqyr0=;
+        b=krdAjI2s2YccN9CGaWlIhrL990+noLXQ9nV0p+NaS+LmAn+hktflgsNleraVz3FmFs
+         94hbMhYCZK2dXiadfAfxut+fly6VgsRfRIFM+qRCrlRW3sOGPEVASYiTZXcd3kRR6p6v
+         wjsDCzhHSYTbjF3WMigt6CGN50Nwt2IbHz04mCAbDsCidL3g1qQ1N9DW1J/+1dQqGOO9
+         7BnXYzZ+zD/qPnMDa7JPoma+R9KJtu9pqsmZnubSWn0gv21tpI8DWdi9ScoFxkTZc4Ob
+         zf2lw1aTK1PP27w2rYlxu5zeOdQfcw1tWRo3Cz9GHEknFS2oBVMu8ODa6g8s8HkwJ0ae
+         TX8Q==
+X-Gm-Message-State: AC+VfDyNEfaWssG2yfIqEkWuuRQl4lsxGdDgQ/eXFoRv1LeoiSTu+K4q
+	bM41kTrt8z+he+KxTFA5wTs=
+X-Google-Smtp-Source: ACHHUZ5RRW0MyrtGqW9Nl8ZfKssw4taQ4qQ2UI6PXnONSjbEuq+j3+CYMIkore48gBQn2ncnLgSwUQ==
+X-Received: by 2002:a17:903:264b:b0:1ad:dd1a:6415 with SMTP id je11-20020a170903264b00b001addd1a6415mr6264714plb.11.1683994511936;
+        Sat, 13 May 2023 09:15:11 -0700 (PDT)
+Received: from [10.12.176.11] ([143.92.127.236])
+        by smtp.gmail.com with ESMTPSA id x21-20020a17090300d500b001a687c505e6sm10058905plc.232.2023.05.13.09.15.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 13 May 2023 09:15:11 -0700 (PDT)
+Message-ID: <2e4eb5c2-5fa5-a3c3-8933-c4fa5ae440e0@gmail.com>
+Date: Sun, 14 May 2023 00:15:07 +0800
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30979252-8efc-4ab3-d852-08db539c9d24
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2023 10:27:11.9299
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KaQxo8Ue+HYVTdClQYyKksSQ7z74l4pkScP0KNa6vnuF4tW0bcC+HRtuptMLUlZAHhmJlFoQ5VepPv1oAuX/Fg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5502
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.0
+Subject: Re: [PATCH] nvme: donot try to resubmit a canceled IO
+From: brookxu <brookxu.cn@gmail.com>
+To: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20230511102003.398070-1-chunguang.xu@shopee.com>
+In-Reply-To: <20230511102003.398070-1-chunguang.xu@shopee.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230513_032719_108907_CEEA66D8 
-X-CRM114-Status: UNSURE (   8.28  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230513_091515_458865_E3C0FB0A 
+X-CRM114-Status: GOOD (  20.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -155,10 +92,95 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gNS8xMS8yMyAwNzowOSwgRGFuaWVsIFdhZ25lciB3cm90ZToNCj4gTW92ZSB0aGUgZGlzY292
-ZXJ5IGdlbmVyYXRpb24gY291bnRlciBjb2RlIHRvIHJjIHNvIHRoYXQgd2UgY2FuIHJldXNlDQo+
-IGl0IGluIDAwMi4NCj4NCj4gUmV2aWV3ZWQtYnk6IEhhbm5lcyBSZWluZWNrZSA8aGFyZUBzdXNl
-LmRlPg0KPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgV2FnbmVyIDxkd2FnbmVyQHN1c2UuZGU+DQo+
-IC0tLQ0KPg0KDQpMb29rcyBnb29kLg0KDQpSZXZpZXdlZC1ieTogQ2hhaXRhbnlhIEt1bGthcm5p
-IDxrY2hAbnZpZGlhLmNvbT4NCg0KLWNrDQoNCg0K
+Hi all:
+
+Sorry to make noise, please ignore this patch.
+
+Thanks.
+
+在 2023/5/11 18:20, Chunguang Xu 写道:
+> From: "chunguang.xu" <chunguang.xu@shopee.com>
+>
+> Now if NVMe over rdma and NVMe over TCP module detected
+> controller is INACTIVE on the IO timeout path, it will
+> try to call nvmf_complete_timed_out_request() to
+> terminated this IO. But nvme_complete_rq() will continue
+> to retry this IO, as the request_queue is quiescing at
+> this time, if the target cannot connected or the host
+> actively executes disconnect, it will cause this IO hang
+> in the hctx dispatch queue and cannot be processed,
+> resulting in hung task, the calltrace as followed:
+>
+> [ 1575.570245] INFO: task kworker/u129:6:758 blocked for more than 966 seconds.
+> [ 1575.577829]       Tainted: G           OE     5.4.0-77-shopee-generic #86+5
+> [ 1575.585323] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+> [ 1575.593670] kworker/u129:6  D    0   758      2 0x80004000
+> [ 1575.593681] Workqueue: nvme-wq nvme_scan_work [nvme_core]
+> [ 1575.593683] Call Trace:
+> [ 1575.593689]  __schedule+0x2ee/0x750
+> [ 1575.593691]  schedule+0x42/0xb0
+> [ 1575.593693]  io_schedule+0x16/0x40
+> [ 1575.593696]  do_read_cache_page+0x438/0x840
+> [ 1575.593698]  ? __switch_to_asm+0x40/0x70
+> [ 1575.593700]  ? file_fdatawait_range+0x30/0x30
+> [ 1575.593702]  read_cache_page+0x12/0x20
+> [ 1575.593704]  read_dev_sector+0x27/0xd0
+> [ 1575.593705]  read_lba+0xbd/0x220
+> [ 1575.593707]  ? kmem_cache_alloc_trace+0x1b0/0x240
+> [ 1575.593708]  efi_partition+0x1e0/0x700
+> [ 1575.593710]  ? vsnprintf+0x39e/0x4e0
+> [ 1575.593712]  ? snprintf+0x49/0x60
+> [ 1575.593714]  check_partition+0x154/0x250
+> [ 1575.593715]  rescan_partitions+0xae/0x280
+> [ 1575.593718]  bdev_disk_changed+0x5f/0x70
+> [ 1575.593719]  __blkdev_get+0x3e3/0x550
+> [ 1575.593720]  blkdev_get+0x3d/0x150
+> [ 1575.593722]  __device_add_disk+0x329/0x480
+> [ 1575.593723]  device_add_disk+0x13/0x20
+> [ 1575.593727]  nvme_mpath_set_live+0x125/0x130 [nvme_core]
+> [ 1575.593731]  nvme_mpath_add_disk+0x11e/0x130 [nvme_core]
+> [ 1575.593734]  nvme_validate_ns+0x6a8/0x9d0 [nvme_core]
+> [ 1575.593736]  ? __switch_to_asm+0x40/0x70
+> [ 1575.593739]  nvme_scan_work+0x1e0/0x350 [nvme_core]
+> [ 1575.593743]  process_one_work+0x1eb/0x3b0
+> [ 1575.593745]  worker_thread+0x4d/0x400
+> [ 1575.593747]  kthread+0x104/0x140
+> [ 1575.593748]  ? process_one_work+0x3b0/0x3b0
+> [ 1575.593750]  ? kthread_park+0x90/0x90
+> [ 1575.593751]  ret_from_fork+0x1f/0x40
+>
+> This issue seems not fixed on lastes kernel, try to fix it here.
+>
+> Signed-off-by: chunguang.xu <chunguang.xu@shopee.com>
+> ---
+>   drivers/nvme/host/core.c    | 3 +++
+>   drivers/nvme/host/fabrics.h | 1 +
+>   2 files changed, 4 insertions(+)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index ccb6eb1282f8..bf9273081595 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -349,6 +349,9 @@ static inline enum nvme_disposition nvme_decide_disposition(struct request *req)
+>   	if (likely(nvme_req(req)->status == 0))
+>   		return COMPLETE;
+>   
+> +	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
+> +		return COMPLETE;
+> +
+>   	if ((nvme_req(req)->status & 0x7ff) == NVME_SC_AUTH_REQUIRED)
+>   		return AUTHENTICATE;
+>   
+> diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+> index dcac3df8a5f7..40a5d6659af0 100644
+> --- a/drivers/nvme/host/fabrics.h
+> +++ b/drivers/nvme/host/fabrics.h
+> @@ -199,6 +199,7 @@ static inline void nvmf_complete_timed_out_request(struct request *rq)
+>   {
+>   	if (blk_mq_request_started(rq) && !blk_mq_request_completed(rq)) {
+>   		nvme_req(rq)->status = NVME_SC_HOST_ABORTED_CMD;
+> +		nvme_req(rq)->flags |= NVME_REQ_CANCELLED;
+>   		blk_mq_complete_request(rq);
+>   	}
+>   }
 
