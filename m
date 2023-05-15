@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9AB7C7EE23
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 May 2023 17:13:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E18DEC7EE23
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 May 2023 17:14:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7IzVs9eNHBWQypJIF5R5BhxI53mh373cFgKokzrC5tY=; b=GaWOjowHuCQufcRvNt9T/wOroW
-	sKr7oalXmxCOoCsqTe4F/RQWdU2j0UcbM0RGqz1ummnbEqpuqlCc5xcvb8TQ5xRw5t6/wT2RrX6ST
-	D+FeVP99utlpnpJDFsDEmEhfWfKHH/Dsw8ejjCujAen5oWNeqJTkBp6b/czq0OrDcWiosx+/poH8s
-	CWubi1xnh+KM+0GzR530WrXjr03UiZ1EdTylQX7piGIyr/58MDbIHeYjYbXPeAfmZkombkBIDlRAp
-	t+bc8ciZCd+hpm1Z+8r+ufkPoFSWvH0G9HJeTxn31c9Pyu+T5/NM7ZUV2BckzQK7HHWDgrj1JuUGo
-	kbJWoV+A==;
+	bh=7IzVs9eNHBWQypJIF5R5BhxI53mh373cFgKokzrC5tY=; b=Ev5FhKPmXJCgci11GIabRBazvL
+	jERZBAUQE4LHZ78EnTnfs8dRtBhwub1yxbQ1q0TJivlKOOcFplkGrpZWOLXIfSBZzY8AFh2GVjugt
+	9vXtie96nLDzKh2I+zUr5MsoMszcXm2aHzSvigaxme6f9+pX2D2t4OxQ5cTOTButVKbVF50rUFXQm
+	CmkkX91uGwEy5XGADgCXdaP448rhwa/Z/2xTM2rI95Lfb6simXOc9IWm0nauN0T2BwUvrdENoFECy
+	4/b9G14JZODhj0E3LCo8HfLVbL1ZJgN4HdHMT6MT/xwKWJqLUpQvJTdfYlUrpt5EFSeNuCqO5ItW2
+	decUWC7Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pyblY-002tIc-22;
-	Mon, 15 May 2023 17:13:44 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1pyblt-002tNn-2m;
+	Mon, 15 May 2023 17:14:05 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pyblW-002tHj-1j
+	id 1pyblr-002tMz-0Y
 	for linux-nvme@lists.infradead.org;
-	Mon, 15 May 2023 17:13:43 +0000
+	Mon, 15 May 2023 17:14:04 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 8438A62B5C;
-	Mon, 15 May 2023 17:13:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A25AC433D2;
-	Mon, 15 May 2023 17:13:40 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id A7DB362B9F;
+	Mon, 15 May 2023 17:14:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E501AC4339C;
+	Mon, 15 May 2023 17:14:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1684170821;
+	s=k20201202; t=1684170842;
 	bh=7IzVs9eNHBWQypJIF5R5BhxI53mh373cFgKokzrC5tY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QiFUPjwCsrBq5EsXTIkDjjbfZKAu20PJh9ZsTAmkAjSLmgJH45TUPkpH7EwJqKQgu
-	 Mzx5H4Pk/uDnLtrcqgJcmA8VMZgsbU8Wl4ZNw770hasEBisiNrElMF4oiRbJx3/cZF
-	 Y6qCt8GeyCPqpgtYUPaPsO7iz0IVf3pEgFZe1drQbvEFo40MttvDV72KXlanOieKTI
-	 sr5rNqsHKQldG5KnUK3Yx+cz/Qj64iyWZzOjk7wYSovamhNH+bjE1CtVVYKQPlQ2oV
-	 zegXcPayxNXJEVgcc2BnnnYytgYaJvN6sXx2vEWPyi5VdfhbZSIEPGHT1eNsuhfwwm
-	 F7GMxnj1Hm9JA==
-Date: Mon, 15 May 2023 11:13:38 -0600
+	b=mdl4s9MS6OZCQWiV2xOq1OIAM985+U7Af9mS5B40LPACapJMRW7GQuxAWuwojz4C3
+	 dY3msFvcRZxbVXiiRIEE8uW2NCAhlqNQuqGeoL/tJpPg/feG8IZrBhr9zThRACkWf+
+	 df8FWhEL5pLLmNmy27HQUBS7cmFxqpCTVZK2IIVTc/fpwzn9oP0Ddr/BGQOQKhzTeq
+	 oNlW8bjXYbbPjCFKlHAqyMxiOf5vr4weCeTsah3PwwkKW/uLC7miT/CmCLKrRE3rWN
+	 auF/IYsgjkiZtYATRnIaPgsbKGqScr2Eh14sZ25QT154gTrRkEVWP8U6UwHVYgVKMg
+	 wGLKsCJs9nxnQ==
+Date: Mon, 15 May 2023 11:13:58 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linux-nvme@lists.infradead.org, hare@suse.de, hch@lst.de,
-	sagi@grimberg.me
-Subject: Re: [PATCH V2 0/4] nvme: init ctrl memleak and debugfs fix
-Message-ID: <ZGJoQmHNXmXwAqHN@kbusch-mbp>
-References: <20230428073115.22987-1-kch@nvidia.com>
+To: Irvin Cote <irvincoteg@gmail.com>
+Cc: hch@lst.de, axboe@kernel.dk, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme-pci: cleaning up nvme_pci_init_request
+Message-ID: <ZGJoVjWehzDjbhfY@kbusch-mbp>
+References: <20230512060537.70097-1-irvincoteg@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230428073115.22987-1-kch@nvidia.com>
+In-Reply-To: <20230512060537.70097-1-irvincoteg@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230515_101342_608402_9B7FBBB9 
-X-CRM114-Status: UNSURE (   6.67  )
+X-CRM114-CacheID: sfid-20230515_101403_255084_872C86D2 
+X-CRM114-Status: UNSURE (   7.09  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
