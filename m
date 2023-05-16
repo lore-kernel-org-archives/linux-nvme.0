@@ -4,77 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C59CC77B75
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 May 2023 11:43:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E512C7EE25
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 May 2023 14:02:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KVawbQRzJyzIOZpz7W6tsAHPXn8J+K2I2Vy2kuKD+TY=; b=QPRzAwL2vwA4QQSVQGJW4BUxzC
-	g2/75i87FapBNZWA/xddYiJLpQh9luOyrrZ2+iK6Jf7t3X/5x93lrbJWOFtppfbaZVyDIN1NYvd66
-	s9nlNXWtAwOceuSYKJOP8MVFeZtHmyDue1hq0g2HXsobqqtzBJ2nzLwi4Bulpjt/lo710bXGc/6l4
-	E4z1gvpyLyqmKdn1eqr7haOukP3ILPQDsbVMdkNzp6CoIjQt8oa0d/NntPPWq/FHErYHT0Yow5hlb
-	uCjAoWhp68s/AYu9jVqW7G26AGP1WO/vl56A6S9TC3SpEUet2IKifiWIx0pshu/Wk0jCvEoLEk45d
-	mOrKfsqA==;
+	bh=mckk/1eSa92UDNT9PM1pbNYpthKB9JMGKfwOo4DD6nA=; b=SFDzucwm3oHnRRPLabg2DGgXFd
+	oBhh8lsdCYvbD1J9VvCaIaeHkhHu7mplRmBFdYkzVmHFGs3p5SCuFdjRmqoXwVoFtdJknkr2beHcW
+	Pds5tDlcjQWhG38OgKWXJ4VB5B79R2VwUlCLAZPvaMjM26hAqjpTn6aI96TEYBOmjusU5s27pXCnV
+	So11hCJY3+mTQ2GJgqO/JKZ6OnZr/fiRba9sa103WUXCWQuWlrcNuGHlrbOtLeKCZoSzgY7A8tXfy
+	q3Y5ILDX07WtRSfrDFNVG03PkHFBV4ZVBiOPPC60KtG6LhwCED35bwS7EORKCUlZeIlJMRrhVkzFG
+	jVhlTITQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pyt5B-005c8N-36;
-	Tue, 16 May 2023 11:43:09 +0000
-Received: from mail-vk1-xa2c.google.com ([2607:f8b0:4864:20::a2c])
-	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pyt59-005c4a-22
+	id 1pyvGM-0061B9-1l;
+	Tue, 16 May 2023 14:02:50 +0000
+Received: from m126.mail.126.com ([220.181.12.36])
+	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
+	id 1pyvGH-00619o-0v
 	for linux-nvme@lists.infradead.org;
-	Tue, 16 May 2023 11:43:09 +0000
-Received: by mail-vk1-xa2c.google.com with SMTP id 71dfb90a1353d-4501ca552a3so7462993e0c.2
-        for <linux-nvme@lists.infradead.org>; Tue, 16 May 2023 04:42:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684237366; x=1686829366;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KVawbQRzJyzIOZpz7W6tsAHPXn8J+K2I2Vy2kuKD+TY=;
-        b=GE+1XfGpRhmsxgdP9CBWijSHCOfxDy+doCCPTlEKkqVSE4W7e7ym5oHwAm0T6+TULn
-         K5jRZLV7LOArn+gRtVVmdJWK2YL9k3XEclQRTezVCI2efKXmF9NIWdXTjgKW8x7hXwBq
-         DQHUPDq+dqRMMhc7WzHqV9kr4RNzn0b8YHcnUceeaN6XLg+O/q8/1kTKfh7SKjFzJV0l
-         lsp0QrhezU1FNPHoCydO8vrKir1LbISk2SGyZ59fNUNtAySYrM3NCqKIvwv+z6bYO59U
-         1THPcm9pMKgjzcJadSpbFwR55/xvACyfVS874ZtDShqA3avbmusDCGaV5U/CDzUglI8i
-         1zKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684237366; x=1686829366;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KVawbQRzJyzIOZpz7W6tsAHPXn8J+K2I2Vy2kuKD+TY=;
-        b=CssjW90NbZMU5aqvK1GVEgOeORornCaTn+gub6DzAr0W2+ZYM/7l3ZBzFIgvw8KLYt
-         L1NJwGDAy30MLw/NkNOZw0XEsVJwVQJqCJ44EYCQ0OpqgqPzABWxNM/0TOwnaO4TK/jf
-         48U7ZMSuGbIWy2wvbQwxfWD8yy7TKp4jBb7pPhP6VJrMVVHHUasxbFajo6/TiQXfMtr/
-         Jk9dZ9/6k+mZikqB9ENlu3B4hsL4PODD83FV+pByfwC8Q/ikG1JgePhs9C1Fatm686Wd
-         liSk7sF3ILO8weDOENxhw/f3iRcYXPWf2cVd77CNpV75iTZiS0Uc2exJY/Q16ihBeULy
-         c9Bg==
-X-Gm-Message-State: AC+VfDzFZZXBG+JY77gs7+aTNH6eKnVEvBjc2wlz2NHJBtC09Ke4o7bU
-	mmQrLKfrJ0ynxvjNWy+ysxfq0HGoAMoAMXWDAuzKAbSaG7OR
-X-Google-Smtp-Source: ACHHUZ5kGng/vXSFDLNoSG/RfpGoOQuOl75CpGICyD3XF5aV6Lo94+7eB9YCkzKQYcog+GOpakZ5PSHUdlxMbtIng6Y=
-X-Received: by 2002:a1f:54c1:0:b0:456:5823:92c1 with SMTP id
- i184-20020a1f54c1000000b00456582392c1mr3304272vkb.9.1684237365669; Tue, 16
- May 2023 04:42:45 -0700 (PDT)
+	Tue, 16 May 2023 14:02:47 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:From:
+	Content-Type; bh=mckk/1eSa92UDNT9PM1pbNYpthKB9JMGKfwOo4DD6nA=;
+	b=UVuTAVN8EAlFqT7Bsk6o0klJkk5GSdb8SseTtPe8g5EmM9GqqjePTszp8Mc4D7
+	y29fIxvBC96iSThlG2MzwysikA9BzPhvWEnnGHnWwDZvLoCspWpCHXc2kTrgHJ9H
+	nBvfMgXptKKmxKmMal7iBuwPeNYW6nufre0YQbboGvuzo=
+Received: from [10.0.2.15] (unknown [120.244.62.38])
+	by zwqz-smtp-mta-g5-1 (Coremail) with SMTP id _____wDn7AQhjGNke7aJAw--.14124S2;
+	Tue, 16 May 2023 21:58:58 +0800 (CST)
+Message-ID: <1d32a220-d941-6e67-58db-3e949d599812@126.com>
+Date: Tue, 16 May 2023 21:58:57 +0800
 MIME-Version: 1.0
-References: <cover.1684154817.git.asml.silence@gmail.com>
-In-Reply-To: <cover.1684154817.git.asml.silence@gmail.com>
-From: Anuj gupta <anuj1072538@gmail.com>
-Date: Tue, 16 May 2023 17:12:08 +0530
-Message-ID: <CACzX3Av9yOkAK16QRJ7npQUVAiTjA-nqLR2Doob9p6nYYYkyOg@mail.gmail.com>
-Subject: Re: [PATCH for-next 0/2] Enable IOU_F_TWQ_LAZY_WAKE for passthrough
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
-	io-uring@vger.kernel.org, axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, 
-	sagi@grimberg.me, joshi.k@samsung.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] nvme: add cond_resched() to nvme_complete_batch()
+Content-Language: en-US
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ axboe@fb.com, hch@lst.de, sagi@grimberg.me, ahuang12@lenovo.com,
+ sunjw10@lenovo.com
+References: <20230502125412.65633-1-jiweisun126@126.com>
+ <ZGKY1A1q5Px64v9h@kbusch-mbp>
+From: Jiwei Sun <jiweisun126@126.com>
+In-Reply-To: <ZGKY1A1q5Px64v9h@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wDn7AQhjGNke7aJAw--.14124S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7KrWDAryxuryrJw1rWFyrtFb_yoW8CFy3pF
+	Z7Jr9IkF1qvryftrZ7Cw4FgF1DZw4kKw43Grn7GryxAw1rW3sIqr4I9ws5uFyjvrZagryv
+	yw1jq3s3Zr1DCaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UWc_fUUUUU=
+X-Originating-IP: [120.244.62.38]
+X-CM-SenderInfo: 5mlzvxpvxqijaw6rjloofrz/1tbijh1xjVpEI4KeTAAAsC
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230516_044307_674105_62845EB0 
-X-CRM114-Status: GOOD (  15.64  )
+X-CRM114-CacheID: sfid-20230516_070245_751828_1DC09F97 
+X-CRM114-Status: GOOD (  16.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,89 +77,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 15, 2023 at 6:29=E2=80=AFPM Pavel Begunkov <asml.silence@gmail.=
-com> wrote:
->
-> Let cmds to use IOU_F_TWQ_LAZY_WAKE and enable it for nvme passthrough.
->
-> The result should be same as in test to the original IOU_F_TWQ_LAZY_WAKE =
-[1]
-> patchset, but for a quick test I took fio/t/io_uring with 4 threads each
-> reading their own drive and all pinned to the same CPU to make it CPU
-> bound and got +10% throughput improvement.
->
-> [1] https://lore.kernel.org/all/cover.1680782016.git.asml.silence@gmail.c=
-om/
->
-> Pavel Begunkov (2):
->   io_uring/cmd: add cmd lazy tw wake helper
->   nvme: optimise io_uring passthrough completion
->
->  drivers/nvme/host/ioctl.c |  4 ++--
->  include/linux/io_uring.h  | 18 ++++++++++++++++--
->  io_uring/uring_cmd.c      | 16 ++++++++++++----
->  3 files changed, 30 insertions(+), 8 deletions(-)
->
->
-> base-commit: 9a48d604672220545d209e9996c2a1edbb5637f6
-> --
-> 2.40.0
->
+Hi Keith,
 
-I tried to run a few workloads on my setup with your patches applied. Howev=
-er, I
-couldn't see any difference in io passthrough performance. I might have mis=
-sed
-something. Can you share the workload that you ran which gave you the perf
-improvement. Here is the workload that I ran -
+On 2023/5/16 04:40, Keith Busch wrote:
+> On Tue, May 02, 2023 at 08:54:12PM +0800, jiweisun126@126.com wrote:
+>> From: Jiwei Sun <sunjw10@lenovo.com>
+>>
+>> A soft lockup issue will be triggered when do fio test on a 448-core
+>> server, such as the following warning:
+> ...
+>
+>> According to the above two logs, we can know the nvme_irq() cost too much
+>> time, in the above case, about 4.8 second. And we can also know that the
+>> main bottlenecks is in the competition for the spin lock pool->lock.
+> The most recent 6.4-rc has included a significant changeset to the pool
+> allocator that may show a considerable difference in pool->lock timing.
+> It would be interesting to hear if it changes your observation with your
+> 448-core setup. Would you be able to re-run your experiements that
+> produced the soft lockup with this kernel on that machine?
+We have done some testes with the latest kernel, the issue can not be 
+reproduced,
+and we have analyzed the ftrace log of nvme_irq, we did NOT find any 
+competition for
+the spin lock pool->lock, and all the dma_pool_free function completed 
+within 2us.
 
-Without your patches applied -
+  287)               |        dma_pool_free() {
+  287)   0.150 us    |          _raw_spin_lock_irqsave();
+  287)   0.421 us    |          _raw_spin_unlock_irqrestore();
+  287)   1.472 us    |        }
++-- 63 lines: 287)               |        mempool_free() {-----------
+  435)               |        dma_pool_free() {
+  435)   0.170 us    |          _raw_spin_lock_irqsave();
+  435)   0.210 us    |          _raw_spin_unlock_irqrestore();
+  435)   1.172 us    |        }
++--145 lines: 435)               |        mempool_free() {---------
+  317)               |        dma_pool_free() {
+  317)   0.160 us    |          _raw_spin_lock_irqsave();
+  317)   0.401 us    |          _raw_spin_unlock_irqrestore();
+  317)   1.252 us    |        }
 
-# taskset -c 0 t/io_uring -r4 -b512 -d64 -c16 -s16 -p0 -F1 -B1 -P0 -O0
--u1 -n1 /dev/ng0n1
-submitter=3D0, tid=3D2049, file=3D/dev/ng0n1, node=3D-1
-polled=3D0, fixedbufs=3D1/0, register_files=3D1, buffered=3D1, QD=3D64
-Engine=3Dio_uring, sq_ring=3D64, cq_ring=3D64
-IOPS=3D2.83M, BW=3D1382MiB/s, IOS/call=3D16/15
-IOPS=3D2.82M, BW=3D1379MiB/s, IOS/call=3D16/16
-IOPS=3D2.84M, BW=3D1388MiB/s, IOS/call=3D16/15
-Exiting on timeout
-Maximum IOPS=3D2.84M
+Based on the test results and analysis of the code principles, your 
+patch has fixed this performance issue.
 
-# taskset -c 0,3 t/io_uring -r4 -b512 -d64 -c16 -s16 -p0 -F1 -B1 -P0
--O0 -u1 -n2 /dev/ng0n1 /dev/ng1n1
-submitter=3D0, tid=3D2046, file=3D/dev/ng0n1, node=3D-1
-submitter=3D1, tid=3D2047, file=3D/dev/ng1n1, node=3D-1
-polled=3D0, fixedbufs=3D1/0, register_files=3D1, buffered=3D1, QD=3D64
-Engine=3Dio_uring, sq_ring=3D64, cq_ring=3D64
-IOPS=3D5.72M, BW=3D2.79GiB/s, IOS/call=3D16/15
-IOPS=3D5.71M, BW=3D2.79GiB/s, IOS/call=3D16/16
-IOPS=3D5.70M, BW=3D2.78GiB/s, IOS/call=3D16/15
-Exiting on timeout Maximum IOPS=3D5.72M
+By the way, another task hung issue was triggered in the test. We are 
+analyzing it, but this is another story,
+we can discuss it in other thread.
 
-With your patches applied -
+Thanks,
+Regards,
+Jiwei
 
-# taskset -c 0 t/io_uring -r4 -b512 -d64 -c16 -s16 -p0 -F1 -B1 -P0 -O0
--u1 -n1 /dev/ng0n1
-submitter=3D0, tid=3D2032, file=3D/dev/ng0n1, node=3D-1
-polled=3D0, fixedbufs=3D1/0, register_files=3D1, buffered=3D1, QD=3D64
-Engine=3Dio_uring, sq_ring=3D64, cq_ring=3D64
-IOPS=3D2.83M, BW=3D1381MiB/s, IOS/call=3D16/15
-IOPS=3D2.83M, BW=3D1379MiB/s, IOS/call=3D16/15
-IOPS=3D2.83M, BW=3D1383MiB/s, IOS/call=3D15/15
-Exiting on timeout Maximum IOPS=3D2.83M
-
-# taskset -c 0,3 t/io_uring -r4 -b512 -d64 -c16 -s16 -p0 -F1 -B1 -P0
--O0 -u1 -n2 /dev/ng0n1 /dev/ng1n1
-submitter=3D1, tid=3D2037, file=3D/dev/ng1n1, node=3D-1
-submitter=3D0, tid=3D2036, file=3D/dev/ng0n1, node=3D-1
-polled=3D0, fixedbufs=3D1/0, register_files=3D1, buffered=3D1, QD=3D64
-Engine=3Dio_uring, sq_ring=3D64, cq_ring=3D64
-IOPS=3D5.64M, BW=3D2.75GiB/s, IOS/call=3D15/15
-IOPS=3D5.62M, BW=3D2.75GiB/s, IOS/call=3D16/16
-IOPS=3D5.62M, BW=3D2.74GiB/s, IOS/call=3D16/16
-Exiting on timeout Maximum IOPS=3D5.64M
-
---
-Anuj Gupta
 
