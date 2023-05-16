@@ -4,68 +4,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FF32C77B7A
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 May 2023 09:43:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3013CC77B7F
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 May 2023 10:03:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=G1A6RNPMIsyjy/iEPQI+TRPkDa8jGz9XShnsFqZXS8c=; b=nGPNz+DH3iQ3ITHAYnoTEU0rt0
-	heYIvUXZ61teb/5hNaD7JQX2jvuoUtv9OgoESRRj0E/8iVzrAw5SX4BvDZiWJDZ1cXtO7NUB0QIr7
-	6JhcYhGy9l0GqOKHM1IsAk2+FiCVf8xfsApuhMq5knx30HWlQtAG9QhN6iZan361mba5gedF3hIRt
-	HJjoFhK2JK6w4JeUuMgWcXbP/xMoJG+HytPlejz3cnRBxf4dL7xLUG15auJWhkmz/mWM1r+zg4Wcu
-	FM1jS04lnBbXD6HDGI10cZ/WcSlTUCkcaAVxxGHkk4wE8buS5XJQ1Bc70HG0DXm+Xgv+GczcfV8rL
-	EjOqrchg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=OKhd9yhd0Kzyd/2edlBmu79oNc0LJJaxjWsUcWASZWQ=; b=roYWwCbX/phNwuQU0bXxJDdBcb
+	8FP+A1rVnp+z3V9GgoSHFCBqH0vMKzMZKmA3S3pRnbAeLc4Sdb7hqB/HOQj6nubHEI5R2pHpChcOW
+	1tw4mi+FN6oKf+fqCdYau8RZCwWPpM1/8Rt2Q8jWMMSmjayL5zqx1AJ3bi2yfl99rhobiwPEdlFl6
+	WqsJQC6+XYiAoVU2geuv4/ujx+ygsO1dGeouiltcTlyYSPYHUhQyuJ5PMEg+HzNhpkos9wN3coTl4
+	MGjg0/osviDc8QX5nYPPegSIhUj4/zbJwZAsxmg0QUEvtPLxGeZnma/uPosUWnBFgVfQBYjHOYN7Z
+	APk3Ajcw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pyrD9-0057BK-0e;
-	Tue, 16 May 2023 09:43:15 +0000
-Received: from mga04.intel.com ([192.55.52.120])
+	id 1pyrWm-005BGY-0Z;
+	Tue, 16 May 2023 10:03:32 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pyrD7-0057AD-0t
+	id 1pyrWg-005BE8-02
 	for linux-nvme@lists.infradead.org;
-	Tue, 16 May 2023 09:43:14 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684230193; x=1715766193;
-  h=date:from:to:cc:subject:message-id;
-  bh=1BVcAVX+iMOU4VHc397H9iSEDFlRMCT5D5u5WqK8dv8=;
-  b=GX/BJjvDSBtABgYfl8O441vsDDbe4E6OAV8EKc+kUvVTKxKBBCAJklhr
-   d2BwjW4oDE6OSMfJhqd8/JuXao6pQ5JReaZ7CI6XtOYY5BESdj8i48FkA
-   47kGlGH+WwBH8N15NDJRG75IE7a2sFIVCGHh7BLjPkFKeTaDF6195K37T
-   e8119hKePYeNsYcypiR8gI66/MLQ8IVlUmGMxRgDEizL3IW6RrHFk821W
-   0AJOHQrFVL3EkWjUHQA4Nd0W+LqXl2lK7zlFd8eaKBQTy1OMoMdAJ6mF1
-   9k2Aa6RxSoDsocTifT3z4yoH15bqDGUdG3F89KjkP8Txj3ZBHxVXNv4N9
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="350269697"
-X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; 
-   d="scan'208";a="350269697"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2023 02:43:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="766311437"
-X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; 
-   d="scan'208";a="766311437"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 16 May 2023 02:43:09 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pyrD2-0007Iw-35;
-	Tue, 16 May 2023 09:43:08 +0000
-Date: Tue, 16 May 2023 17:42:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.5] BUILD SUCCESS
- 851c23be6fc95a48dbdac864f18be63f9a41e8a8
-Message-ID: <20230516094250.KcpG6%lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Tue, 16 May 2023 10:03:30 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20230516100316epoutp03cbb92824408dc1d68c679bfd19dfa1a2~fl4g4q8oI0547105471epoutp03V
+	for <linux-nvme@lists.infradead.org>; Tue, 16 May 2023 10:03:16 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20230516100316epoutp03cbb92824408dc1d68c679bfd19dfa1a2~fl4g4q8oI0547105471epoutp03V
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1684231397;
+	bh=OKhd9yhd0Kzyd/2edlBmu79oNc0LJJaxjWsUcWASZWQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=fDGu8NqRoW3JEaP9XBCtEWzO+us4zwPo4gl+CtcLjDnFPVuR7k8jJ3imxuKbniDKS
+	 LCBw1oCgY+++kLqvzsJLglrI5AII3FjrgWq3EInkOt0trvFS+jwmZmIoDceTXN+Dqn
+	 ruWKmF6Zc2UxV0wxLRU+TDo31LLlH88OhaHg7Zc8=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20230516100315epcas5p40cffefaf5d5210380d7553ddffb6a46f~fl4f9gLQ10916609166epcas5p4-;
+	Tue, 16 May 2023 10:03:15 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.177]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4QLBdG5RX2z4x9Pt; Tue, 16 May
+	2023 10:03:14 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	1F.18.57769.1E453646; Tue, 16 May 2023 19:03:13 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20230516100312epcas5p15a8ff75ad757f14f327efb816e92adb4~fl4cpkpYZ1510915109epcas5p1x;
+	Tue, 16 May 2023 10:03:12 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20230516100312epsmtrp2d9382f57c861cf88d3af9ce6e402a2aa~fl4co2wwt0326403264epsmtrp2Y;
+	Tue, 16 May 2023 10:03:12 +0000 (GMT)
+X-AuditID: b6c32a4a-f3bfd7000001e1a9-a1-646354e15cd5
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	AE.80.27706.0E453646; Tue, 16 May 2023 19:03:12 +0900 (KST)
+Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20230516100311epsmtip28c9dca6cafca342d700265ce9b52b519~fl4bYJKao3194931949epsmtip2d;
+	Tue, 16 May 2023 10:03:10 +0000 (GMT)
+Date: Tue, 16 May 2023 15:30:11 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	io-uring@vger.kernel.org, axboe@kernel.dk, kbusch@kernel.org, hch@lst.de,
+	sagi@grimberg.me
+Subject: Re: [PATCH for-next 1/2] io_uring/cmd: add cmd lazy tw wake helper
+Message-ID: <20230516100000.GA26860@green245>
+MIME-Version: 1.0
+In-Reply-To: <5b9f6716006df7e817f18bd555aee2f8f9c8b0c3.1684154817.git.asml.silence@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBJsWRmVeSWpSXmKPExsWy7bCmlu7DkOQUg9PfNC3mrNrGaLH6bj+b
+	xcrVR5ks3rWeY7GYdOgao8XeW9oW85c9ZbdY9/o9iwOHx85Zd9k9zt/byOJx+Wypx6ZVnWwe
+	m5fUe+y+2cDm8XmTXAB7VLZNRmpiSmqRQmpecn5KZl66rZJ3cLxzvKmZgaGuoaWFuZJCXmJu
+	qq2Si0+ArltmDtBJSgpliTmlQKGAxOJiJX07m6L80pJUhYz84hJbpdSClJwCkwK94sTc4tK8
+	dL281BIrQwMDI1OgwoTsjAtHHzIWPFGqeLL5JWMDY6NcFyMnh4SAicSB2zdYQGwhgd2MEo8a
+	/LoYuYDsT4wSLVvWMkE43xglpt6fwQrT8bZlKRtEYi+jxKIHE6HanzFKnH5VCWKzCKhKXJn3
+	AqiIg4NNQFPiwuRSkLCIgLbE6+uH2EFsZoH5QOWPuUFsYQFviUeXXzCD2LwCuhL792xihLAF
+	JU7OfAI2nlMgVuLatx9gvaICyhIHth0HO05CYCqHxO4129ggjnORWDh7BTuELSzx6vgWKFtK
+	4vO7vVA1yRKXZp5jgrBLJB7vOQhl20u0nupnhjguQ2LbjT2MEDafRO/vJ0wgv0gI8Ep0tAlB
+	lCtK3Jv0FBom4hIPZyxhhSjxkNi1kg8SPA8YJVov3GGfwCg3C8k7s5BsgLCtJDo/NLHOAmpn
+	FpCWWP6PA8LUlFi/S38BI+sqRsnUguLc9NRi0wKjvNRyeAwn5+duYgQnUS2vHYwPH3zQO8TI
+	xMF4iFGCg1lJhLd9ZnyKEG9KYmVValF+fFFpTmrxIUZTYOxMZJYSTc4HpvG8knhDE0sDEzMz
+	MxNLYzNDJXFedduTyUIC6YklqdmpqQWpRTB9TBycUg1MsRe62z/8qwpX17JPlfQ5psrW8HFG
+	7gIugxjT85tNQydvnld0S908yHitvph2xuQfq2LWbhNyOHTZ7+SCMBNbkdu1hjt37bh13bhF
+	73yPtZ212vKvMfVJjwSU1h02WdwpL1ObIKPwMLlsTaH8ZzPLU4ps3zslcqyUkzj2JIR55Kt5
+	h5tuS9ljdyUt0Dq9NP7UBXb+9u+LzDlzr5w+pukS1PrQKEFoi++Snyk9LHGlxoHxKtlNvpcd
+	v2m462ZdVgm5vfjn8nWNR4/Fvo3ybM1dKrn61sLeE6XnrTZsstu3fWaG/U7l9WcmruIJmKPf
+	cXDutHiXJPcPutZTXuZ01letdbgezbvm3Mn0mWc+XVJiKc5INNRiLipOBAC8r5w3KwQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJLMWRmVeSWpSXmKPExsWy7bCSvO6DkOQUg5OfxCzmrNrGaLH6bj+b
+	xcrVR5ks3rWeY7GYdOgao8XeW9oW85c9ZbdY9/o9iwOHx85Zd9k9zt/byOJx+Wypx6ZVnWwe
+	m5fUe+y+2cDm8XmTXAB7FJdNSmpOZllqkb5dAlfGxRuLWAqmKVRM6HnA3sB4VrqLkZNDQsBE
+	4m3LUrYuRi4OIYHdjBLXWjcyQyTEJZqv/WCHsIUlVv57zg5R9IRRYsb9f4wgCRYBVYkr814A
+	dXNwsAloSlyYXAoSFhHQlnh9/RBYPbPAfEaJl19us4IkhAW8JR5dfgG2gFdAV2L/nk1gc4QE
+	HjBKnPkgDREXlDg58wkLiM0sYCYxb/NDZpD5zALSEsv/cYCEOQViJa59g7hNVEBZ4sC240wT
+	GAVnIemehaR7FkL3AkbmVYySqQXFuem5xYYFhnmp5XrFibnFpXnpesn5uZsYwbGhpbmDcfuq
+	D3qHGJk4GA8xSnAwK4nwts+MTxHiTUmsrEotyo8vKs1JLT7EKM3BoiTOe6HrZLyQQHpiSWp2
+	ampBahFMlomDU6qBKalu7q1tvFKHn384IHPaKud4nUvE+3OmPTIBD7d2X838FjBz+cZlc2ob
+	Vv++FOrb/su0Ian0rfBh5qaNTf+3CXY9X8U992zmv4D79mZ6+dZMIbkRb9quffL//uJByelX
+	hWETt1XeMBNe6nEsr3zR84cqzFnMW6OC7/v9eJSZuXmF8ILkHf90pPhTZV4/Wy/rr2a1qq76
+	568LH5k+J0dkXDBbcWjznP9Tf/xq2vn8+ZbUj4ZTagMyUrzeV4ZvrKjk/F/uqrds380pptsW
+	/TC3e3bugMLpKy5zty+6H/SnxzuNQ5lLlH/dJtWu43PONRSycMUlvKy7FKmzIPxbAZdylPZH
+	oS8fj5v8Y9pr/bRTvUGJpTgj0VCLuag4EQAb3Iu7/AIAAA==
+X-CMS-MailID: 20230516100312epcas5p15a8ff75ad757f14f327efb816e92adb4
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----w2jaHPLYrpKrCfQkcJ8LedpAWTKxgBVMFdZj2Hgt3-WHfK.r=_96701_"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230515125841epcas5p3e3cba6545755e95739e1561222b00b4a
+References: <cover.1684154817.git.asml.silence@gmail.com>
+	<CGME20230515125841epcas5p3e3cba6545755e95739e1561222b00b4a@epcas5p3.samsung.com>
+	<5b9f6716006df7e817f18bd555aee2f8f9c8b0c3.1684154817.git.asml.silence@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230516_024313_326382_6D95EEC7 
-X-CRM114-Status: UNSURE (   5.91  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230516_030326_708232_ACF591E3 
+X-CRM114-Status: GOOD (  17.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,144 +135,109 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: INFO setup_repo_specs: /db/releases/20230516171133/lkp-src/repo/*/linux-nvme
-git://git.infradead.org/nvme.git nvme-6.5
-branch HEAD: 851c23be6fc95a48dbdac864f18be63f9a41e8a8  nvme: move sysfs code to a dedicated sysfs.c file
+------w2jaHPLYrpKrCfQkcJ8LedpAWTKxgBVMFdZj2Hgt3-WHfK.r=_96701_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-elapsed time: 966m
+On Mon, May 15, 2023 at 01:54:42PM +0100, Pavel Begunkov wrote:
+>We want to use IOU_F_TWQ_LAZY_WAKE in commands. First, introduce a new
+>cmd tw helper accepting TWQ flags, and then add
+>io_uring_cmd_do_in_task_laz() that will pass IOU_F_TWQ_LAZY_WAKE and
+>imply the "lazy" semantics, i.e. it posts no more than 1 CQE and
+>delaying execution of this tw should not prevent forward progress.
+>
+>Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+>---
+> include/linux/io_uring.h | 18 ++++++++++++++++--
+> io_uring/uring_cmd.c     | 16 ++++++++++++----
+> 2 files changed, 28 insertions(+), 6 deletions(-)
+>
+>diff --git a/include/linux/io_uring.h b/include/linux/io_uring.h
+>index 7fe31b2cd02f..bb9c666bd584 100644
+>--- a/include/linux/io_uring.h
+>+++ b/include/linux/io_uring.h
+>@@ -46,13 +46,23 @@ int io_uring_cmd_import_fixed(u64 ubuf, unsigned long len, int rw,
+> 			      struct iov_iter *iter, void *ioucmd);
+> void io_uring_cmd_done(struct io_uring_cmd *cmd, ssize_t ret, ssize_t res2,
+> 			unsigned issue_flags);
+>-void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
+>-			void (*task_work_cb)(struct io_uring_cmd *, unsigned));
+> struct sock *io_uring_get_socket(struct file *file);
+> void __io_uring_cancel(bool cancel_all);
+> void __io_uring_free(struct task_struct *tsk);
+> void io_uring_unreg_ringfd(void);
+> const char *io_uring_get_opcode(u8 opcode);
+>+void __io_uring_cmd_do_in_task(struct io_uring_cmd *ioucmd,
+>+			    void (*task_work_cb)(struct io_uring_cmd *, unsigned),
+>+			    unsigned flags);
+>+/* users should follow semantics of IOU_F_TWQ_LAZY_WAKE */
 
-configs tested: 123
-configs skipped: 6
+Should this also translate to some warn_on anywhere?
+>+void io_uring_cmd_do_in_task_lazy(struct io_uring_cmd *ioucmd,
+>+			void (*task_work_cb)(struct io_uring_cmd *, unsigned));
+>+
+>+static inline void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
+>+			void (*task_work_cb)(struct io_uring_cmd *, unsigned))
+>+{
+>+	__io_uring_cmd_do_in_task(ioucmd, task_work_cb, 0);
+>+}
+>
+> static inline void io_uring_files_cancel(void)
+> {
+>@@ -85,6 +95,10 @@ static inline void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
+> 			void (*task_work_cb)(struct io_uring_cmd *, unsigned))
+> {
+> }
+>+static inline void io_uring_cmd_do_in_task_lazy(struct io_uring_cmd *ioucmd,
+>+			void (*task_work_cb)(struct io_uring_cmd *, unsigned))
+>+{
+>+}
+> static inline struct sock *io_uring_get_socket(struct file *file)
+> {
+> 	return NULL;
+>diff --git a/io_uring/uring_cmd.c b/io_uring/uring_cmd.c
+>index 5e32db48696d..476c7877ce58 100644
+>--- a/io_uring/uring_cmd.c
+>+++ b/io_uring/uring_cmd.c
+>@@ -20,16 +20,24 @@ static void io_uring_cmd_work(struct io_kiocb *req, struct io_tw_state *ts)
+> 	ioucmd->task_work_cb(ioucmd, issue_flags);
+> }
+>
+>-void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
+>-			void (*task_work_cb)(struct io_uring_cmd *, unsigned))
+>+void __io_uring_cmd_do_in_task(struct io_uring_cmd *ioucmd,
+>+			void (*task_work_cb)(struct io_uring_cmd *, unsigned),
+>+			unsigned flags)
+> {
+> 	struct io_kiocb *req = cmd_to_io_kiocb(ioucmd);
+>
+> 	ioucmd->task_work_cb = task_work_cb;
+> 	req->io_task_work.func = io_uring_cmd_work;
+>-	io_req_task_work_add(req);
+>+	__io_req_task_work_add(req, flags);
+>+}
+>+EXPORT_SYMBOL_GPL(__io_uring_cmd_do_in_task);
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Any reason to export this? No one is using this at the moment.
+>+void io_uring_cmd_do_in_task_lazy(struct io_uring_cmd *ioucmd,
+>+			void (*task_work_cb)(struct io_uring_cmd *, unsigned))
+>+{
+>+	__io_uring_cmd_do_in_task(ioucmd, task_work_cb, IOU_F_TWQ_LAZY_WAKE);
+> }
+>-EXPORT_SYMBOL_GPL(io_uring_cmd_complete_in_task);
+>+EXPORT_SYMBOL_GPL(io_uring_cmd_do_in_task_lazy);
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha        buildonly-randconfig-r005-20230515   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r012-20230515   gcc  
-alpha                randconfig-r034-20230515   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r022-20230515   gcc  
-arc                  randconfig-r043-20230515   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                  randconfig-r046-20230515   clang
-arm64                            allyesconfig   gcc  
-arm64        buildonly-randconfig-r003-20230515   clang
-arm64                               defconfig   gcc  
-arm64                randconfig-r006-20230516   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r001-20230516   gcc  
-csky                 randconfig-r014-20230515   gcc  
-csky                 randconfig-r036-20230515   gcc  
-hexagon              randconfig-r041-20230515   clang
-hexagon              randconfig-r045-20230515   clang
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-a001-20230515   clang
-i386                 randconfig-a002-20230515   clang
-i386                 randconfig-a003-20230515   clang
-i386                 randconfig-a004-20230515   clang
-i386                 randconfig-a005-20230515   clang
-i386                 randconfig-a006-20230515   clang
-i386                 randconfig-a011-20230515   gcc  
-i386                 randconfig-a012-20230515   gcc  
-i386                 randconfig-a013-20230515   gcc  
-i386                 randconfig-a014-20230515   gcc  
-i386                 randconfig-a015-20230515   gcc  
-i386                 randconfig-a016-20230515   gcc  
-i386                 randconfig-i071-20230515   gcc  
-i386                 randconfig-i072-20230515   gcc  
-i386                 randconfig-i073-20230515   gcc  
-i386                 randconfig-i074-20230515   gcc  
-i386                 randconfig-i075-20230515   gcc  
-i386                 randconfig-i076-20230515   gcc  
-i386                 randconfig-i081-20230515   gcc  
-i386                 randconfig-i082-20230515   gcc  
-i386                 randconfig-i083-20230515   gcc  
-i386                 randconfig-i084-20230515   gcc  
-i386                 randconfig-i085-20230515   gcc  
-i386                 randconfig-i086-20230515   gcc  
-i386                 randconfig-i091-20230515   clang
-i386                 randconfig-i092-20230515   clang
-i386                 randconfig-i093-20230515   clang
-i386                 randconfig-i094-20230515   clang
-i386                 randconfig-i095-20230515   clang
-i386                 randconfig-i096-20230515   clang
-i386                 randconfig-r031-20230515   clang
-ia64                             allmodconfig   gcc  
-ia64         buildonly-randconfig-r004-20230515   gcc  
-ia64                                defconfig   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch    buildonly-randconfig-r002-20230515   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r016-20230515   gcc  
-loongarch            randconfig-r024-20230515   gcc  
-loongarch            randconfig-r035-20230515   gcc  
-m68k                             allmodconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r023-20230515   gcc  
-microblaze           randconfig-r011-20230515   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                 randconfig-r004-20230516   clang
-mips                 randconfig-r025-20230515   clang
-nios2                               defconfig   gcc  
-openrisc             randconfig-r005-20230516   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r002-20230516   gcc  
-parisc               randconfig-r003-20230516   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc              randconfig-r032-20230515   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r042-20230515   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r044-20230515   gcc  
-sh                               allmodconfig   gcc  
-sh                   randconfig-r033-20230515   gcc  
-sparc                               defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-r026-20230515   gcc  
-x86_64               randconfig-x051-20230515   gcc  
-x86_64               randconfig-x052-20230515   gcc  
-x86_64               randconfig-x053-20230515   gcc  
-x86_64               randconfig-x054-20230515   gcc  
-x86_64               randconfig-x055-20230515   gcc  
-x86_64               randconfig-x056-20230515   gcc  
-x86_64               randconfig-x061-20230515   gcc  
-x86_64               randconfig-x062-20230515   gcc  
-x86_64               randconfig-x063-20230515   gcc  
-x86_64               randconfig-x064-20230515   gcc  
-x86_64               randconfig-x065-20230515   gcc  
-x86_64               randconfig-x066-20230515   gcc  
-x86_64               randconfig-x071-20230515   clang
-x86_64               randconfig-x072-20230515   clang
-x86_64               randconfig-x073-20230515   clang
-x86_64               randconfig-x074-20230515   clang
-x86_64               randconfig-x075-20230515   clang
-x86_64               randconfig-x076-20230515   clang
-x86_64                               rhel-8.3   gcc  
-xtensa       buildonly-randconfig-r001-20230515   gcc  
+Seems you did not want callers to pass the the new flag (LAZY_WAKE) and
+therefore this helper.
+And if you did not want callers to know about this flag (internal
+details of io_uring), it would be better to have two exported helpers
+io_uring_cmd_do_in_task_lazy() and io_uring_cmd_complete_in_task().
+Both will use the internal helper __io_uring_cmd_do_in_task with
+different flag.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+------w2jaHPLYrpKrCfQkcJ8LedpAWTKxgBVMFdZj2Hgt3-WHfK.r=_96701_
+Content-Type: text/plain; charset="utf-8"
+
+
+------w2jaHPLYrpKrCfQkcJ8LedpAWTKxgBVMFdZj2Hgt3-WHfK.r=_96701_--
 
